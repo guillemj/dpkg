@@ -520,7 +520,7 @@ struct fileiterator {
   int nbinn;
 };
 
-#define BINS (1 << 13)
+#define BINS (1 << 17)
  /* This must always be a power of two.  If you change it
   * consider changing the per-character hashing factor (currently
   * 1785 = 137*13) too.
@@ -566,7 +566,7 @@ void filesdbinit(void) {
 
 static int hash(const char *name) {
   int v= 0;
-  while (*name) { v *= 1785; v += *name; name++; }
+  while (*name) { v *= 1787; v += *name; name++; }
   return v;
 }
 
