@@ -1,8 +1,9 @@
 /*
- * dselect - Debian GNU/Linux package maintenance user interface
+ * dselect - Debian package maintenance user interface
  * main.cc - main program
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -60,6 +61,7 @@ int expertmode = 0;
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
 
 struct menuentry {
+  const char *command;
   const char *key;
   const char *option;
   const char *menuent;
@@ -67,24 +69,27 @@ struct menuentry {
 };
 
 static const menuentry menuentries[]= {
-  { N_("a"), N_("[A]ccess"),  N_("Choose the access method to use."),                &urq_setup   },
-  { N_("u"), N_("[U]pdate"),  N_("Update list of available packages, if possible."), &urq_update  },
-  { N_("s"), N_("[S]elect"),  N_("Request which packages you want on your system."), &urq_list    },
-  { N_("i"), N_("[I]nstall"), N_("Install and upgrade wanted packages."),            &urq_install },
-  { N_("c"), N_("[C]onfig"),  N_("Configure any packages that are unconfigured."),   &urq_config  },
-  { N_("r"), N_("[R]emove"),  N_("Remove unwanted software."),                       &urq_remove  },
-  { N_("q"), N_("[Q]uit"),    N_("Quit dselect."),                                   &urq_quit    },
-  { 0,       N_("menu"),      0,                                                     &urq_menu    },
-  { 0                                                                              }
+  { "access",	N_("a"),	N_("[A]ccess"),	N_("Choose the access method to use."),			&urq_setup   },
+  { "update",	N_("u"),	N_("[U]pdate"),	N_("Update list of available packages, if possible."),	&urq_update  },
+  { "select",	N_("s"),	N_("[S]elect"),	N_("Request which packages you want on your system."),	&urq_list    },
+  { "install",	N_("i"),	N_("[I]nstall"),N_("Install and upgrade wanted packages."),		&urq_install },
+  { "config",	N_("c"),	N_("[C]onfig"),	N_("Configure any packages that are unconfigured."),	&urq_config  },
+  { "remove",	N_("r"),	N_("[R]emove"),	N_("Remove unwanted software."),			&urq_remove  },
+  { "quit",	N_("q"),	N_("[Q]uit"),	N_("Quit dselect."),					&urq_quit    },
+  { 0,		0,  		N_("menu"),	0,							&urq_menu    },
+  { 0 }
 };
 
 static const char programdesc[]=
-      N_("Debian GNU/Linux `%s' package handling frontend.");
+      N_("Debian `%s' package handling frontend.");
 
 static const char copyrightstring[]= N_(
-      "Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
-      "free software; see the GNU General Public Licence version 2 or later for\n"
-      "copying conditions.  There is NO warranty.  See dselect --licence for details.\n");
+      "Version %s.\n"
+      "Copyright (C) 1994-1996 Ian Jackson.\n"
+      "Copyright (C) 2000 Wichert Akkerman.\n"
+      "This is free software; see the GNU General Public Licence version 2\n"
+      "or later for copying conditions.  There is NO warranty.  See\n"
+      "dselect --licence for details.\n");
 
 static void printversion(void) {
   if (fprintf(stdout,gettext(programdesc),DSELECT) == EOF) werr("stdout");
@@ -323,8 +328,8 @@ int main(int, const char *const *argv) {
     const char *a;
     while ((a= *argv++) != 0) {
       const menuentry *me;
-      for (me= menuentries; me->option && strcmp(me->option,a); me++);
-      if (!me->option) badusage(_("unknown action string `%.50s'"),a);
+      for (me= menuentries; me->command && strcmp(me->command,a); me++);
+      if (!me->command) badusage(_("unknown action string `%.50s'"),a);
       me->fn();
     }
   } else {
