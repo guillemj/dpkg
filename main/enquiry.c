@@ -496,7 +496,7 @@ void assertversion(const char *const *argv,
 void assertpredep(const char *const *argv) {
   static struct versionrevision predepversion = {~0UL,0,0};
   assertversion(argv,&predepversion,"1.1.0");
-  }
+}
 
 void assertepoch(const char *const *argv) {
   static struct versionrevision epochversion = {~0UL,0,0};

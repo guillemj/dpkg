@@ -463,7 +463,7 @@ int chmodsafe_unlink(const char *pathname) {
   struct stat stab;
 
   if (lstat(pathname,&stab)) return -1;
-  if (S_ISREG(stab.st_mode) ? (stab.st_mode | 07000) :
+  if (S_ISREG(stab.st_mode) ? (stab.st_mode & 07000) :
       !(S_ISLNK(stab.st_mode) || S_ISDIR(stab.st_mode) ||
    S_ISFIFO(stab.st_mode) || S_ISSOCK(stab.st_mode))) {
     /* We chmod it if it is 1. a sticky or set-id file, or 2. an unrecognised
