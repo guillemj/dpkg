@@ -19,13 +19,13 @@
  * License along with this file; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+#include <config.h>
 
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
 #include <stdlib.h>
 
-#include <config.h>
 #include <myopt.h>
 #include <dpkg.h>
 

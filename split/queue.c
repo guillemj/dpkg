@@ -27,6 +27,7 @@
  *  <md5sum>.<maxpartlen>.<thispartn>.<maxpartn>
  * all numbers in hex
  */
+#include <config.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +39,6 @@
 #include <dirent.h>
 #include <string.h>
 
-#include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include "dpkg-split.h"

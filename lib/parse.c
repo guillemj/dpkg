@@ -18,6 +18,7 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+#include <config.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -30,7 +31,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include "parsedump.h"

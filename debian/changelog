@@ -1,5 +1,8 @@
 dpkg (1.10.16) unstable; urgency=low
 
+  * Almost *EVERY* damn file was including config.h in the wrong spot.
+    After making it the first include, then off_t/size_t/etc could actually
+    be redefined to be 64-bit compatible.
   * Jordi Mallach <jordi@debian.org>:
     Fix configure to set HAVE_SETLOCALE.  Closes: #211816
   * "Loïc Le Loarer" <lll_deb@m4x.org>:

@@ -21,6 +21,7 @@
  */
 
 /* fixme: don't write uninteresting packages */
+#include <config.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -31,7 +32,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include "parsedump.h"

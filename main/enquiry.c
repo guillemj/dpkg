@@ -20,6 +20,7 @@
  */
 
 /* fixme: per-package audit */
+#include <config.h>
 
 #include <stdio.h>
 #include <string.h>
@@ -33,7 +34,6 @@
 #include <sys/termios.h>
 #include <fcntl.h>
 
-#include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include <myopt.h>
