@@ -120,8 +120,8 @@ sub check_line {
 	my $line=shift;
 	my %version=%{shift()};
 	my %providers=%{shift()};
-	my $build_arch=shift || `dpkg --print-architecture`;
-	chomp $build_arch;
+	my $host_arch=shift || `dpkg-architecture -qDEB_HOST_ARCH`;
+	chomp $host_arch;
 
 	my @unmet=();
 	foreach my $dep (split(/,\s*/, $line)) {
@@ -136,11 +136,11 @@ ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
 				my $arches=lc($1);
 				my $seen_arch='';
 				foreach my $arch (split(' ', $arches)) {
-					if ($arch eq $build_arch) {
+					if ($arch eq $host_arch) {
 						$seen_arch=1;
 						next;
 					}
-					elsif ($arch eq "!$build_arch") {
+					elsif ($arch eq "!$host_arch") {
 						next ALTERNATE;
 					}
 					elsif ($arch =~ /!/) {
