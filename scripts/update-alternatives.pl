@@ -511,7 +511,7 @@ sub config_alternatives {
 	rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
 	    &quit("unable to install $altdir/$name.dpkg-tmp as $altdir/$name: $!");
 	# Link slaves...
-	for( my $slnum = 0; $slnum &lt; @slavenames; $slnum++ ) {
+	for( my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
 	    my $slave = $slavenames[$slnum];
 	    if ($slavepath{$preferred,$slnum} ne '') {
 		checked_symlink($slavepath{$preferred,$slnum},
@@ -519,7 +519,7 @@ sub config_alternatives {
 		checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
 	    } else {
 		&&pr("Removing $slave ($slavelinks[$slnum]), not appropriate with $versions[$preferred].")
-		    if $verbosemode &gt; 0;
+		    if $verbosemode > 0;
 		unlink("$altdir/$slave") || $! == &ENOENT ||
 		    &quit("unable to remove $altdir/$slave: $!");
 	    }
