@@ -54,7 +54,8 @@ enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
               act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
               act_printinstarch, act_compareversions, act_printavail, act_avclear,
               act_forgetold, act_getselections, act_setselections, act_printgnuarch,
-              act_assertepoch, act_assertlongfilenames, act_assertmulticonrep };
+              act_assertepoch, act_assertlongfilenames, act_assertmulticonrep,
+              act_assertverprov };
 
 enum conffopt {
   cfof_prompt        =     001,
@@ -118,6 +119,7 @@ void assertepoch(const char *const *argv);
 void assertpredep(const char *const *argv);
 void assertlongfilenames(const char *const *argv);
 void assertmulticonrep(const char *const *argv);
+void assertverprov(const char *const *argv);
 void predeppackage(const char *const *argv);
 void printarch(const char *const *argv);
 void printinstarch(const char *const *argv);
