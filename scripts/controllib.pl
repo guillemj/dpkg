@@ -14,7 +14,7 @@
 $parsechangelog= 'dpkg-parsechangelog';
 
 grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size
-			  Build-Depends Build-Depends-Indep
+			  Build-Depends Build-Depends-Indep Origin
 			  Build-Conflicts Build-Conflicts-Indep));
 
 

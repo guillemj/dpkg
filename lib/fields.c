@@ -335,7 +335,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           dop->verrel= dvr_exact;
         }
 	if ((dop->verrel!=dvr_exact) && (fip->integer==dep_provides))
-	  parseerr(0,filename,lno,warnto,warncount,pigp,0,
+	  parseerr(0,filename,lno,warnto,warncount,pigp,1,
 		  _("Only exact versions may be used for Provides"));
 
         if (!isspace(*p) && !isalnum(*p)) {

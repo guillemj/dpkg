@@ -17,9 +17,11 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-gencontrol $version.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+"Debian GNU/Linux dpkg-gencontrol $version. 
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2000 Wichert Akkerman.
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions.  There is NO warranty.
 
 Usage: dpkg-gencontrol [options ...]
 
@@ -43,11 +45,11 @@ Options:  -p<package>            print control file for package
 }
 
 $i=100;grep($fieldimps{$_}=$i--,
-          qw(Package Version Section Priority Architecture Essential
+          qw(Package Version Origin Section Priority Architecture Essential
              Pre-Depends Depends Recommends Suggests Enhances Optional 
 	     Conflicts Replaces Provides Installed-Size Maintainer Source
 	     Description Build-Depends Build-Depends-Indep Build-Conflicts
-	     Build-Conflicts-Indep Source));
+	     Build-Conflicts-Indep Source Bugs-Submit-To Bugs-Submit-Style ));
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -109,7 +111,7 @@ for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
-        if (m/^Maintainer$/) { $f{$_}=$v; }
+        if (m/^Origin|Bugs-(Submit-To|Submit-Style)|Maintainer)$/) { $f{$_}=$v; }
         elsif (m/^Source$/) { &setsourcepackage; }
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
 	elsif (m/^X[CS]+-|^Standards-Version$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
