@@ -22,7 +22,7 @@ Options: -r<gain-root-command>
          -m<maint>     maintainer for release is <maint>    } only passed
          -C<descfile>  changes are described in <descfile>  }  to dpkg-
          -si (default) src includes orig for rev. 0 or 1    } genchanges
-         -sa           uploaded src includes orig (default) }
+         -sa           uploaded src always includes orig    }
          -sd           uploaded src is diff and .dsc only   }
          -h            print this message
 END

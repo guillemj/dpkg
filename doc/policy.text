@@ -2,7 +2,7 @@
                            Debian policy manual
                            --------------------
                    Ian Jackson <ijackson@gnu.ai.mit.edu>
-              version 0.2.1.1 (dpkg 1.3.10), 25 August 1996 
+              version 2.0.0.0 (dpkg 1.3.12), 31 August 1996 
 
 0.1 Abstract
 ------------
@@ -27,29 +27,34 @@
      3.4.      Configuration files
      3.5.      Maintainer scripts
      3.6.      Scripts in general
-     3.7.      Compilation options
-     3.8.      Shared library packages
-     3.9.      Application configuration files, dotfiles and `/etc/skel'
-     3.10.     Mail processing on Debian systems
-     3.11.     Packages which can use the X shared libraries
-     3.12.     Games
-     3.13.     Allocating package-specific users and groups
+     3.7.      Shared library packages
+     3.8.      Application configuration files, dotfiles and `/etc/skel'
+     3.9.      Games
+     3.10.     Allocating package-specific users and groups
+     3.11.     Installation of Emacs-lisp files
 
-     4.        Source package 
-     4.1.      Releases of packages by other than the usual Debian
+     4.        Configuring and building the programs in the package 
+     4.1.      Compilation options
+     4.2.      Packages which can use the X shared libraries
+     4.3.      Mail processing on Debian systems
+     4.4.      Obsolete constructs and libraries: varargs and libtermcap
+
+     5.        Source packaging, changelogs, etc. 
+     5.1.      Releases of packages by other than the usual Debian
                maintainer
-     4.2.      Standards conformance and `Standards-Version'
-     4.3.      Documentation and the `changelog'
-     4.4.      Changes to the upstream sources
-     4.5.      Error trapping in makefiles
+     5.2.      Standards conformance and `Standards-Version'
+     5.3.      Documentation and the `changelog'
+     5.4.      Changes to the upstream sources
+     5.5.      Error trapping in makefiles
 
-     5.        Procedure - how to participate in the Debian project 
-     5.1.      Before you start work on a package
-     5.2.      When you have a package to upload
-     5.3.      Upload handling - `.changes' files
-     5.4.      The Debian mailing lists
+     6.        Procedure - how to participate in the Debian project 
+     6.1.      Before you start work on a package
+     6.2.      When you have a package to upload
+     6.3.      Upload handling - `.changes' files
+     6.4.      Upload handling - announcements
+     6.5.      The Debian mailing lists
 
-     6.        Conversion procedure from old source packages
+     7.        Conversion procedure from old source packages
 
      0.3.      Copyright Notice
 
@@ -101,8 +106,8 @@
      All packages in the Debian distribution proper must be freely useable,
      modifiable and redistributable in both source and binary form.[1] It
      must be possible for anyone to distribute and use modified source code
-     and their own own compiled binaries, at least when they do so as part
-     of a Debian distribution.
+     and their own compiled binaries, at least when they do so as part of a
+     Debian distribution.
 
      [1]  It is OK for there to be a requirement that modified versions
           carry a warning, or that they be released with a different name
@@ -414,8 +419,8 @@
 
      It is a good idea to specify a section for the location of your
      program; this is done with the `--section' switch. To determine which
-     section to use, you should use look at `/usr/info/dir' on your system
-     and choose the most relevant (or create a new section if none of the
+     section to use, you should look at `/usr/info/dir' on your system and
+     choose the most relevant (or create a new section if none of the
      current sections are relevant). Note that the `--section' flag takes
      two arguments; the first is a regular expression to match
      (case-insensitively) against an existing section, the second is used
@@ -543,9 +548,9 @@
      (`/var/log' is writeable only by `root'), you should usually create a
      directory named `/var/log/<package>'.
 
-     Make sure that any logfiles are rotated occasionally using so that
-     they don't grow indefinitely; the best way to do this is to use
-     savelog program in an `/etc/cron.daily', `/etc/cron.weekly' or
+     Make sure that any logfiles are rotated occasionally so that they
+     don't grow indefinitely; the best way to do this is to use savelog
+     program in an `/etc/cron.daily', `/etc/cron.weekly' or
      `/etc/cron.monthly' script.
 
      Make sure that any logfiles are removed when the package is purged
@@ -701,7 +706,174 @@
 
 
 
-3.7. Compilation options
+3.7. Shared library packages
+----------------------------
+
+     Packages involving shared libraries should be split up into several
+     binary packages.
+
+     For a straightforward library which has a development environment and
+     a runtime kit including just shared libraries you need to create two
+     packages: `<libraryname><soname>'[1] and `<libraryname><soname>-dev'.
+
+     [1]  <soname> is the shared object name of the shared library - it's
+          the thing that has to match exactly between building an
+          executable and running it for the dynamic linker to be able run
+          the program. Usually the <soname> is the major number of the
+          library.
+
+     If you prefer only to support one development version at a time you
+     may name the development package `<libraryname>-dev'; otherwise you
+     may wish to use dpkg's conflicts mechanism to ensure that the user
+     only installs one development version at a time (after all, different
+     development versions are likely to have the same header files in them,
+     causing a filename clash if both are installed). Typically the
+     development version will also need an exact version dependency on the
+     runtime library, to make sure that compilation and linking happens
+     correctly.
+
+     Packages which use the shared library should have a dependency on the
+     name of the shared library package, `<libraryname><soname>'. When the
+     <soname> changes you can have both versions of the library installed
+     while moving from the old library to the new.
+
+     If your package has some run-time support programs which use the
+     shared library you must *not* put them in the shared library package.
+     If you do that then you won't be able to install several versions of
+     the shared library without getting filename clashes. Instead, either
+     create a third package for the runtime binaries (this package might
+     typically be named `<libraryname>-runtime' - note the absence of the
+     <soname> in the package name) or if the development package is small
+     include them in there.
+
+     If you have several shared libraries built from the same source tree
+     you can lump them all togther into a single shared library package,
+     provided that you change all their <soname>s at once (so that you
+     don't get filename clashes if you try to install different versions of
+     the combined shared libraries package).
+
+     Follow the directions in the dpkg programmers' manual for putting the
+     shared library in its package, and make sure you include a `shlibs'
+     control area file with details of the dependencies for packages which
+     use the library. 
+
+
+3.8. Application configuration files, dotfiles and `/etc/skel'
+--------------------------------------------------------------
+
+     Files in `/etc/skel' will automatically be copied into new user
+     accounts by adduser. They should not be referenced there by any
+     program.
+
+     Therefore, if a program needs a dotfile to exist in advance in `$HOME'
+     to work sensibly that dotfile should be installed in `/etc/skel' (and
+     listed in conffiles, if it is not generated and modified dynamically
+     by the package's installation scripts).
+
+     However, programs that require dotfiles in order to operate sensibly
+     (dotfiles that they do not create themselves automatically, that is)
+     are a bad thing, and programs should be configured by the Debian
+     default installation as close to normal as possible.
+
+     Therefore, if a program in a Debian package needs to be configured in
+     some way in order to operate sensibly that configuration should be
+     done in a site-wide global configuration file elsewhere in `/etc'.
+     Only if the program doesn't support a site-wide default configuration
+     and the package maintainer doesn't have time to add it should a
+     default per-user file be placed in `/etc/skel'.
+
+     `/etc/skel' should be as empty as we can make it. This is particularly
+     true because there is no easy mechanism for ensuring that the
+     appropriate dotfiles are copied into the accounts of existing users
+     when a package is installed.
+
+     Ideally the sysadmin should ideally not have to do any configuration
+     other than that done (semi-)automatically by the postinst script. 
+
+
+3.9. Games
+----------
+
+     The permissions on /var/lib/games are 755 `root.root'.
+
+     Each game decides on its own security policy.
+
+     Games which require protected, privileged access to high-score files,
+     savegames, &c, must be made set-*group*-id (mode 2755) and owned by
+     `root.games', and use files and directories with appropriate
+     permissions (770 `root.games', for example). They must *not* be made
+     set-*user*-id, as this causes security problems.[1]
+
+     [1]  If an attacker can subvert any set-user-id game they can
+          overwrite the executable of any other, causing other players of
+          these cames to run a trojan. With a set-group-id game the
+          attacker only gets access to less important game data, and if
+          they can get at the other players' accounts at all it will take
+          considerably more effort.
+
+     Some packages, for example some fortune cookie programs, are
+     configured by the upstream authors to install with their data files or
+     other static information made unreadable so that they can only be
+     accessed through set-id programs provided. Do not do this in a Debian
+     package: anyone can download the `.deb' file and read the data from
+     it, so there is no point making the files unreadable. Not making the
+     files unreadable also means that you don't have to make so many
+     programs set-id, which reduces the risk of a security hole. 
+
+
+3.10. Allocating package-specific users and groups
+--------------------------------------------------
+
+     If you need to create a new user or group for your package there are
+     two possibilities. Firstly, you may need to make some files in the
+     binary package be owned by this user or group, or you may need to
+     compile the user or group id (rather than just the name) into the
+     binary (though this latter should be avoided if possible). In this
+     case you need a statically allocated id.
+
+     You must ask for a user or group id from the base system maintainer,
+     and must not release the package until you have been allocated one.
+     Once you have been allocated one you must make the package depend on a
+     version of the base system with the id present in `/etc/passwd' or
+     `/etc/group', or alternatively arrange for your package to create the
+     user or group itself with the correct id (using `adduser') in its pre-
+     or post-installation script (the latter is to be preferred if it is
+     possible).
+
+     On the other hand, the program may able to determine the uid or gid
+     from the group name at runtime, so that a dynamic id can be used. In
+     this case you must choose an appropriate user or group name,
+     discussing this on debian-devel and checking with the base system
+     maintainer that it is unique and that they do not wish you to use a
+     statically allocated id instead. When this has been checked you must
+     arrange for your package to create the user or group if necessary
+     using adduser in the pre- or post-installation script (again, the
+     latter is to be preferred if it is possible).
+
+     Note that changing the numeric value of an id associated with a name
+     is very difficult, and involves searching the filesystem for all
+     appropriate files. You need to think carefully whether a static or
+     dynamic id is required, since changing your mind later will cause
+     problems. 
+
+
+3.11. Installation of Emacs-lisp files
+--------------------------------------
+
+     Generally, if a package includes an elisp helper file, it probably
+     doesn't need to be byte-compiled. If the package is *written*
+     primarily in emacs, it is probably complex enough that speed is an
+     issue and should be byte compiled. 
+
+
+-------------------------------------------------------------------------------
+
+
+4. Configuring and building the programs in the package 
+--------------------------------------------------------
+
+
+4.1. Compilation options
 ------------------------
 
      Generally the following compilation parameters should be used: 
@@ -740,93 +912,24 @@
      depend on unreleased compilers is also usually a bad idea. 
 
 
-3.8. Shared library packages
-----------------------------
+4.2. Packages which can use the X shared libraries
+--------------------------------------------------
 
-     Packages involving shared libraries should be split up into several
-     binary packages.
+     Some programs can be configured with or without support for X Windows.
+     Typically these binaries produced when configured for X will need the
+     X shared libraries to run.
 
-     For a straightforward library which has a development environment and
-     a runtime kit including just shared libraries you need to create two
-     packages: `<libraryname><soname>'[1] and `<libraryname><soname>-dev'.
+     Such programs should be configured *with* X support, and should
+     declare a dependency on `elf-x11r6lib' (for the X11R6 libraries).
+     Users who wish to use the program can install just the relatively
+     small `xlib' package, and do not need to install the whole of X.
 
-     [1]  <soname> is the shared object name of the shared library - it's
-          the thing that has to match exactly between building an
-          executable and running it for the dynamic linker to be able run
-          the program. Usually the <soname> is the major number of the
-          library.
-
-     If you prefer only to support one development version time you may
-     name the development package `<libraryname>-dev'; otherwise you may
-     wish to use dpkg's conflicts mechanism to ensure that the user only
-     installs one development version at a time (after all, different
-     development versions are likely to have the same header files in them,
-     causing a filename clash if both are installed). Typically the
-     development version will also need an exact version dependency on the
-     runtime library, to make sure that compilation and linking happens
-     correctly.
-
-     Packages which use the shared library should have a dependency on the
-     name of the shared library package, `<libraryname><soname>'. When the
-     <soname> changes you can have both versions of the library installed
-     while moving from the old library to the new.
-
-     If your package has some run-time support programs which use the
-     shared library you must *not* put them in the shared library package.
-     If you do that then you won't be able to install several versions of
-     the shared library without getting filename clashes. Instead, either
-     create a third package for the runtime binaries (this package might
-     typically be named `<libraryname>-runtime' - note the absence of the
-     <soname> in the package name) or if the development package is small
-     include them in there.
-
-     If you have several shared libraries built from the same source tree
-     you can lump them all togther into a single shared library package,
-     provided that you change all their <soname>s at once (so that you
-     don't get filename clashes if you try to install different versions of
-     the combined shared libraries package).
-
-     Follow the directions in the dpkg programmers' manual for putting the
-     shared library in its package, and make sure you include a `shlibs'
-     control area file with details of the dependencies for packages which
-     use the library. 
+     Do not create two versions (one with X support and one without) of
+     your package. 
 
 
-3.9. Application configuration files, dotfiles and `/etc/skel'
---------------------------------------------------------------
-
-     Files in `/etc/skel' will automatically be copied into new user
-     accounts by adduser. They should not be referenced there by any
-     program.
-
-     Therefore, if a program needs a dotfile to exist in advance in `$HOME'
-     to work sensibly that dotfile should be installed in `/etc/skel' (and
-     listed in conffiles, if it is not generated and modified dynamically
-     by the package's installation scripts).
-
-     However, programs that require dotfiles in order to operate sensibly
-     (dotfiles that they do not create themselves automatically, that is)
-     are a bad thing, and programs should be configured by the Debian
-     default installation as close to normal as possible.
-
-     Therefore, if a program in a Debian package needs to be configured in
-     some way in order to operate sensibly that configuration should be
-     done in a site-wide global configuration file elsewhere in `/etc'.
-     Only if the program doesn't support a site-wide default configuration
-     and the package maintainer doesn't have time to add it should a
-     default per-user file be placed in `/etc/skel'.
-
-     `/etc/skel' should be as empty as we can make it. This is particularly
-     true because there is no easy mechanism for ensuring that the
-     appropriate dotfiles are copied into the accounts of existing users
-     when a package is installed.
-
-     Ideally the sysadmin should ideally not have to do any configuration
-     other than that done (semi-)automatically by the postinst script. 
-
-
-3.10. Mail processing on Debian systems
----------------------------------------
+4.3. Mail processing on Debian systems
+--------------------------------------
 
      Debian packages which process electronic mail, whether
      mail-user-agents (MUAs) or mail-transport-agents (MTAs), *must* make
@@ -887,96 +990,26 @@ Mail name [`<syshostname>']:
           user even if it finds this file exists.
 
 
-3.11. Packages which can use the X shared libraries
----------------------------------------------------
+4.4. Obsolete constructs and libraries: varargs and libtermcap
+--------------------------------------------------------------
 
-     Some programs can be configured with or without support for X Windows.
-     Typically these binaries produced when configured for X will need the
-     X shared libraries to run.
+     <varargs.h> is provided to support end-users compiling very old
+     software; libtermcap is provided to support the execution of software
+     which has been linked against it (either old programs or those such as
+     Netscape which are only available in binary form).
 
-     Such programs should be configured *with* X support, and should
-     declare a dependency on `elf-x11r6lib' (for the X11R6 libraries).
-     Users who wish to use the program can install just the relatively
-     small `xlib' package, and do not need to install the whole of X.
-
-     Do not create two versions (one with X support and one without) of
-     your package. 
-
-
-3.12. Games
------------
-
-     The permissions on /var/lib/games are 755 `root.root'.
-
-     Each game decides on its own security policy.
-
-     Games which require protected, privileged access to high-score files,
-     savegames, &c, must be made set-*group*-id (mode 2755) and owned by
-     `root.games', and use files and directories with appropriate
-     permissions (770 `root.games', for example). They must *not* be made
-     set-*user*-id, as this causes security problems.[1]
-
-     [1]  If an attacker can subvert any set-user-id game they can
-          overwrite the executable of any other, causing other players of
-          these cames to run a trojan. With a set-group-id game the
-          attacker only gets access to less important game data, and if
-          they can get at the other players' accounts at all it will take
-          considerably more effort.
-
-     Some packages, for example some fortune cookie programs, are
-     configured by the upstream authors to install with their data files or
-     other static information made unreadable so that they can only be
-     accessed through set-id programs provided. Do not do this in a Debian
-     package: anyone can download the `.deb' file and read the data from
-     it, so there is no point making the files unreadable. Not making the
-     files unreadable also means that you don't have to make so many
-     programs set-id, which reduces the risk of a security hole. 
-
-
-3.13. Allocating package-specific users and groups
---------------------------------------------------
-
-     If you need to create a new user or group for your package there are
-     two possibilities. Firstly, you may need to make some files in the
-     binary package be owned by this user or group, or you may need to
-     compile the user or group id (rather than just the name) into the
-     binary (though this latter should be avoided if possible). In this
-     case you need a statically allocated id.
-
-     You must ask for a user or group id from the base system maintainer,
-     and must not release the package until you have been allocated one.
-     Once you have been allocated one you must make the package depend on a
-     version of the base system with the id present in `/etc/passwd' or
-     `/etc/group', or alternatively arrange for your package to create the
-     user or group itself with the correct id (using `adduser') in its pre-
-     or post-installation script (the latter is to be preferred if it is
-     possible).
-
-     On the other hand, the program may able to determine the uid or gid
-     from the group name at runtime, so that a dynamic id can be used. In
-     this case you must choose an appropriate user or group name,
-     discussing this on debian-devel and checking with the base system
-     maintainer that it is unique and that they do not wish you to use a
-     statically allocated id instead. When this has been checked you must
-     arrange for your package to create the user or group if necessary
-     using adduser in the pre- or post-installation script (again, the
-     latter is to be preferred if it is possible).
-
-     Note that changing the numeric value of an id associated with a name
-     is very difficult, and involves searching the filesystem for all
-     appropriate files. You need to think carefully whether a static or
-     dynamic id is required, since changing your mind later will cause
-     problems. 
+     Debian packages should be ported to <stdarg.h> and ncurses when they
+     are built. 
 
 
 -------------------------------------------------------------------------------
 
 
-4. Source package 
-------------------
+5. Source packaging, changelogs, etc. 
+--------------------------------------
 
 
-4.1. Releases of packages by other than the usual Debian maintainer
+5.1. Releases of packages by other than the usual Debian maintainer
 -------------------------------------------------------------------
 
      Under certain circumstances it is necessary for someone other than the
@@ -1008,7 +1041,7 @@ Mail name [`<syshostname>']:
      <debian-revision> numbering at `1'. 
 
 
-4.2. Standards conformance and `Standards-Version'
+5.2. Standards conformance and `Standards-Version'
 --------------------------------------------------
 
      You should specify the most recent version of the packaging standards
@@ -1021,7 +1054,7 @@ Mail name [`<syshostname>']:
      The value corresponds to a version of the Debian manuals, as can be
      found on the title page or page headers and footers (depending on the
      format). The value for this version of the manuals and packaging
-     standards is `0.2.1.1'.
+     standards is `2.0.0.0'.
 
      The version number has four components - major and minor number and
      major and minor patchlevel. When the standards change in a way that
@@ -1042,7 +1075,7 @@ Mail name [`<syshostname>']:
      `Standards-Version' source package field and release it. 
 
 
-4.3. Documentation and the `changelog'
+5.3. Documentation and the `changelog'
 --------------------------------------
 
      Document your changes and updates to the source package properly in
@@ -1061,7 +1094,7 @@ Mail name [`<syshostname>']:
           distributed under the GNU GPL, just as the rest of dpkg is.
 
 
-4.4. Changes to the upstream sources
+5.4. Changes to the upstream sources
 ------------------------------------
 
      If you need to edit a Makefile where GNU-style configure scripts are
@@ -1085,7 +1118,7 @@ Mail name [`<syshostname>']:
      wherever is appropriate. 
 
 
-4.5. Error trapping in makefiles
+5.5. Error trapping in makefiles
 --------------------------------
 
      When make invokes a command in a makefile (including your package's
@@ -1108,11 +1141,11 @@ Mail name [`<syshostname>']:
 -------------------------------------------------------------------------------
 
 
-5. Procedure - how to participate in the Debian project 
+6. Procedure - how to participate in the Debian project 
 --------------------------------------------------------
 
 
-5.1. Before you start work on a package
+6.1. Before you start work on a package
 ---------------------------------------
 
      So, you've read all the documentation, you understand what everything
@@ -1140,7 +1173,7 @@ Mail name [`<syshostname>']:
      signing is forbidden. 
 
 
-5.2. When you have a package to upload
+6.2. When you have a package to upload
 --------------------------------------
 
      When you have your package ready to be uploaded you must send a
@@ -1164,7 +1197,7 @@ Mail name [`<syshostname>']:
      /pub/debian/private/project/README.how-to-upload. 
 
 
-5.3. Upload handling - `.changes' files
+6.3. Upload handling - `.changes' files
 ---------------------------------------
 
      When a package is uploaded to the Debian FTP archive, it must be
@@ -1209,7 +1242,21 @@ Mail name [`<syshostname>']:
      possibly by using the `-sa' flag. 
 
 
-5.4. The Debian mailing lists
+6.4. Upload handling - announcements
+------------------------------------
+
+     When a package is uploaded an announcement should be posted to
+     `debian-changes'. The announcement should give the (source) package
+     name and version number, and a very short summary of the changes, in
+     the Subject field, and should contain the PGP-signed `.changes' file.
+     Some additional explanatory text may be added before the start of the
+     `.changes' file.
+
+     If a package is released with `Distribution: experimental' the
+     announcement should be posted to `debian-devel' instead. 
+
+
+6.5. The Debian mailing lists
 -----------------------------
 
      The mailing list server is at `lists.debian.org'. Mail
@@ -1231,7 +1278,7 @@ Mail name [`<syshostname>']:
 -------------------------------------------------------------------------------
 
 
-6. Conversion procedure from old source packages
+7. Conversion procedure from old source packages
 ------------------------------------------------
 
      This is a brief summary of the procedure for converting a
@@ -1270,7 +1317,7 @@ Mail name [`<syshostname>']:
                package fields. 
              * Add the `Source' field. 
              * Add the `Standards-Version' field. The current value is
-               `0.2.1.1'. 
+               `2.0.0.0'. 
              * Change the `Architecture' field for each package to `any',
                `all' or whatever. If there isn't an `Architecture' field
                add one. 
@@ -1371,6 +1418,6 @@ Mail name [`<syshostname>']:
 
 
      Debian policy manual
-     Ian Jackson <ijackson@gnu.ai.mit.edu> - version 0.2.1.1 (dpkg 1.3.10),
-     25 August 1996 
+     Ian Jackson <ijackson@gnu.ai.mit.edu> - version 2.0.0.0 (dpkg 1.3.12),
+     31 August 1996 
 

@@ -1177,6 +1177,8 @@ anyway are:
 file is not treated specially - it is seen as the removal of the old
 file (which generates a warning, but is otherwise ignored), and the
 creation of the new one.</footnote>
+<item>Changed text files which are missing the usual final newline
+(either in the original or the modified source tree).
 </list>
 Changes which are not represented, but which are not detected by
 <prgn/dpkg-source/, are:
@@ -2975,16 +2977,20 @@ likely to lead to problems.
 <p>
 
 Secondly, your package should include the symlink that <prgn/ldconfig/
-would create for the shared libraries.  For example, the <prgn/libgdbm1/
-package should include a symlink from <tt>/usr/lib/libgdbm.so.1</tt>
-to <tt/libgdbm.so.1.7.3/.  This is needed so that <prgn/ld.so/ can find
-the library in between the time <prgn/dpkg/ installs it and
-<prgn/ldconfig/ is run in the <prgn/postinst/ script.  Futhermore, and <em/this
-is very important/, the symlink must be placed before the library it
-points to in the <tt/.deb/ file.  Currently the way to ensure the
-ordering is done properly is to create the symlink in the appropriate
-<tt>debian/tmp/.../lib</tt> directory before installing the library
-when you build the package.
+would create for the shared libraries.  For example, the
+<prgn/libgdbm1/ package should include a symlink from
+<tt>/usr/lib/libgdbm.so.1</tt> to <tt/libgdbm.so.1.7.3/.  This is
+needed so that <prgn/ld.so/ can find the library in between the time
+<prgn/dpkg/ installs it and <prgn/ldconfig/ is run in the
+<prgn/postinst/ script.  Futhermore, and <em/this is very important/,
+the library must be placed before the symlink pointing to it in the
+<tt/.deb/ file.  This is so that by the time <prgn/dpkg/ comes to
+install the symlink (overwriting the previous symlink pointing at an
+older version of the library) the new shared library is already in
+place.  Currently the way to ensure the ordering is done properly is
+to install the library in the appropriate <tt>debian/tmp/.../lib</>
+directory before creating the symlink, by putting the commands in the
+<tt>debian/rules</> in the appropriate order.
 <p>
 
 If you do the above your package does not need to call <prgn/ldconfig/

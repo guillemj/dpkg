@@ -456,12 +456,12 @@ install-info --quiet --section Development Development \
 
 It is a good idea to specify a section for the location of your
 program; this is done with the <tt/--section/ switch.  To determine
-which section to use, you should use look at <tt>/usr/info/dir</> on
-your system and choose the most relevant (or create a new section if
-none of the current sections are relevant).  Note that the
-<tt/--section/ flag takes two arguments; the first is a regular
-expression to match (case-insensitively) against an existing section,
-the second is used when creating a new one.
+which section to use, you should look at <tt>/usr/info/dir</> on your
+system and choose the most relevant (or create a new section if none
+of the current sections are relevant).  Note that the <tt/--section/
+flag takes two arguments; the first is a regular expression to match
+(case-insensitively) against an existing section, the second is used
+when creating a new one.
 <p>
 
 You must remove the entries in the pre-removal script:
@@ -611,8 +611,8 @@ or need a separate directory for permissions reasons
 create a directory named <tt>/var/log/<var/package/</tt>.
 <p>
 
-Make sure that any logfiles are rotated occasionally using so that
-they don't grow indefinitely; the best way to do this is to use
+Make sure that any logfiles are rotated occasionally so that they
+don't grow indefinitely; the best way to do this is to use
 <prgn/savelog/ program in an <tt>/etc/cron.daily</>,
 <tt>/etc/cron.weekly</> or <tt>/etc/cron.monthly</> script.
 <p>
@@ -792,51 +792,6 @@ sure that they start with <tt>#!/bin/csh</tt> and make your package
 depend on <prgn/csh/.
 <p>
 
-<sect>Compilation options
-<p>
-
-Generally the following compilation parameters should be used:
-<example>
-CC = gcc
-CFLAGS = -O2 -g -Wall # sane warning options vary between programs
-LDFLAGS = # none
-install -s # (or use strip on the files in debian/tmp)
-</example>
-<p>
-
-Note that all installed binaries should be stripped, either by using
-the <tt/-s/ flag to <prgn/install/, or by calling <prgn/strip/ on the
-binaries after they have been copied into <tt>debian/tmp</> but
-before the tree is made into a package.
-<p>
-
-Make sure that you do not link with <tt/-g/, as this makes a.out
-compilers produce huge statically linked binaries.  The <tt/-g/ flag
-is useful on compilation so that you have available a full set of
-debugging symbols in your built source tree, in case anyone should
-file a bug report involving (for example) a core dump.
-<p>
-
-The <tt/-N/ flag should not be used.  On a.out systems it may have
-been useful for some very small binaries, but for ELF it has no good
-effect.
-<p>
-
-It is up to the package maintainer to decide what compilation options
-are best for the package.  Certain binaries (such as
-computationally-intensive programs) may function better with certain
-flags (<tt/-O3/, for example); feel free to use them.  Please use good
-judgment here.  Don't use flags for the sake of it; only use them if
-there is good reason to do so.  Feel free to override the upstream
-author's ideas about which compilation options are best - they are
-often inappropriate for our environment.
-<p>
-
-Please make sure that you use only released versions of shared
-libraries to build your packages; otherwise other users will not be
-able to run your binaries properly.  Producing source packages that
-depend on unreleased compilers is also usually a bad idea.
-
 <sect>Shared library packages
 <p>
 
@@ -854,10 +809,10 @@ is the major number of the library.</footnote> and
 <tt/<var/libraryname/<var/soname/-dev/.
 <p>
 
-If you prefer only to support one development version time you may
-name the development package <tt/<var/libraryname/-dev/; otherwise you
-may wish to use <prgn/dpkg/'s conflicts mechanism to ensure that the
-user only installs one development version at a time (after all,
+If you prefer only to support one development version at a time you
+may name the development package <tt/<var/libraryname/-dev/; otherwise
+you may wish to use <prgn/dpkg/'s conflicts mechanism to ensure that
+the user only installs one development version at a time (after all,
 different development versions are likely to have the same header
 files in them, causing a filename clash if both are installed).
 Typically the development version will also need an exact version
@@ -930,6 +885,152 @@ users when a package is installed.
 
 Ideally the sysadmin should ideally not have to do any configuration
 other than that done (semi-)automatically by the postinst script.
+
+
+<sect>Games
+<p>
+
+The permissions on /var/lib/games are 755 <tt/root.root/.
+<p>
+
+Each game decides on its own security policy.
+<p>
+
+Games which require protected, privileged access to high-score files,
+savegames, &amp;c, must be made set-<em/group/-id (mode 2755) and
+owned by <tt/root.games/, and use files and directories with
+appropriate permissions (770 <tt/root.games/, for example).  They must
+<em/not/ be made set-<em/user/-id, as this causes security
+problems.<footnote>If an attacker can subvert any set-user-id game
+they can overwrite the executable of any other, causing other players
+of these cames to run a trojan.  With a set-group-id game the attacker
+only gets access to less important game data, and if they can get at
+the other players' accounts at all it will take considerably more
+effort.</footnote>
+<p>
+
+Some packages, for example some fortune cookie programs, are
+configured by the upstream authors to install with their data files or
+other static information made unreadable so that they can only be
+accessed through set-id programs provided.  Do not do this in a Debian
+package: anyone can download the <tt/.deb/ file and read the data from
+it, so there is no point making the files unreadable.  Not making the
+files unreadable also means that you don't have to make so many
+programs set-id, which reduces the risk of a security hole.
+
+<sect>Allocating package-specific users and groups
+<p>
+
+If you need to create a new user or group for your package there are
+two possibilities.  Firstly, you may need to make some files in the
+binary package be owned by this user or group, or you may need to
+compile the user or group id (rather than just the name) into the
+binary (though this latter should be avoided if possible).  In this
+case you need a statically allocated id.
+<p>
+
+You must ask for a user or group id from the base system maintainer,
+and must not release the package until you have been allocated one.
+Once you have been allocated one you must make the package depend
+on a version of the base system with the id present in
+<tt>/etc/passwd</tt> or <tt>/etc/group</tt>, or alternatively arrange
+for your package to create the user or group itself with the correct
+id (using <tt/adduser/) in its pre- or post-installation script (the
+latter is to be preferred if it is possible).
+<p>
+
+On the other hand, the program may able to determine the uid or gid
+from the group name at runtime, so that a dynamic id can be used.  In
+this case you must choose an appropriate user or group name,
+discussing this on <prgn/debian-devel/ and checking with the base system
+maintainer that it is unique and that they do not wish you to use a
+statically allocated id instead.  When this has been checked you must
+arrange for your package to create the user or group if necessary
+using <prgn/adduser/ in the pre- or post-installation script (again, the
+latter is to be preferred if it is possible).
+<p>
+
+Note that changing the numeric value of an id associated with a name
+is very difficult, and involves searching the filesystem for all
+appropriate files.  You need to think carefully whether a static or
+dynamic id is required, since changing your mind later will cause
+problems.
+
+
+<sect>Installation of Emacs-lisp files
+<p>
+
+Generally, if a package includes an elisp helper file, it probably
+doesn't need to be byte-compiled. If the package is <em/written/
+primarily in emacs, it is probably complex enough that speed is an
+issue and should be byte compiled.
+
+
+<chapt>Configuring and building the programs in the package
+
+<sect>Compilation options
+<p>
+
+Generally the following compilation parameters should be used:
+<example>
+CC = gcc
+CFLAGS = -O2 -g -Wall # sane warning options vary between programs
+LDFLAGS = # none
+install -s # (or use strip on the files in debian/tmp)
+</example>
+<p>
+
+Note that all installed binaries should be stripped, either by using
+the <tt/-s/ flag to <prgn/install/, or by calling <prgn/strip/ on the
+binaries after they have been copied into <tt>debian/tmp</> but
+before the tree is made into a package.
+<p>
+
+Make sure that you do not link with <tt/-g/, as this makes a.out
+compilers produce huge statically linked binaries.  The <tt/-g/ flag
+is useful on compilation so that you have available a full set of
+debugging symbols in your built source tree, in case anyone should
+file a bug report involving (for example) a core dump.
+<p>
+
+The <tt/-N/ flag should not be used.  On a.out systems it may have
+been useful for some very small binaries, but for ELF it has no good
+effect.
+<p>
+
+It is up to the package maintainer to decide what compilation options
+are best for the package.  Certain binaries (such as
+computationally-intensive programs) may function better with certain
+flags (<tt/-O3/, for example); feel free to use them.  Please use good
+judgment here.  Don't use flags for the sake of it; only use them if
+there is good reason to do so.  Feel free to override the upstream
+author's ideas about which compilation options are best - they are
+often inappropriate for our environment.
+<p>
+
+Please make sure that you use only released versions of shared
+libraries to build your packages; otherwise other users will not be
+able to run your binaries properly.  Producing source packages that
+depend on unreleased compilers is also usually a bad idea.
+
+
+<sect>Packages which can use the X shared libraries
+<p>
+
+Some programs can be configured with or without support for X Windows.
+Typically these binaries produced when configured for X will need the
+X shared libraries to run.
+<p>
+
+Such programs should be configured <em/with/ X support, and should
+declare a dependency on <tt/elf-x11r6lib/ (for the X11R6 libraries).
+Users who wish to use the program can install just the relatively
+small <tt/xlib/ package, and do not need to install the whole of X.
+<p>
+
+Do not create two versions (one with X support and one without) of
+your package.
+
 
 <sect id="mail">Mail processing on Debian systems
 <p>
@@ -1004,94 +1105,20 @@ Mail name [`<var/syshostname/']:
 where <var/syshostname/ is the output of <tt/hostname -fqdn/.
 
 
-<sect>Packages which can use the X shared libraries
+<sect>Obsolete constructs and libraries: varargs and libtermcap
 <p>
 
-Some programs can be configured with or without support for X Windows.
-Typically these binaries produced when configured for X will need the
-X shared libraries to run.
+<prgn/&lt;varargs.h&gt;/ is provided to support end-users compiling
+very old software; libtermcap is provided to support the execution of
+software which has been linked against it (either old programs or
+those such as Netscape which are only available in binary form).
 <p>
 
-Such programs should be configured <em/with/ X support, and should
-declare a dependency on <tt/elf-x11r6lib/ (for the X11R6 libraries).
-Users who wish to use the program can install just the relatively
-small <tt/xlib/ package, and do not need to install the whole of X.
-<p>
-
-Do not create two versions (one with X support and one without) of
-your package.
+Debian packages should be ported to <prgn/&lt;stdarg.h&gt;/ and
+ncurses when they are built.
 
 
-<sect>Games
-<p>
-
-The permissions on /var/lib/games are 755 <tt/root.root/.
-<p>
-
-Each game decides on its own security policy.
-<p>
-
-Games which require protected, privileged access to high-score files,
-savegames, &amp;c, must be made set-<em/group/-id (mode 2755) and
-owned by <tt/root.games/, and use files and directories with
-appropriate permissions (770 <tt/root.games/, for example).  They must
-<em/not/ be made set-<em/user/-id, as this causes security
-problems.<footnote>If an attacker can subvert any set-user-id game
-they can overwrite the executable of any other, causing other players
-of these cames to run a trojan.  With a set-group-id game the attacker
-only gets access to less important game data, and if they can get at
-the other players' accounts at all it will take considerably more
-effort.</footnote>
-<p>
-
-Some packages, for example some fortune cookie programs, are
-configured by the upstream authors to install with their data files or
-other static information made unreadable so that they can only be
-accessed through set-id programs provided.  Do not do this in a Debian
-package: anyone can download the <tt/.deb/ file and read the data from
-it, so there is no point making the files unreadable.  Not making the
-files unreadable also means that you don't have to make so many
-programs set-id, which reduces the risk of a security hole.
-
-<sect>Allocating package-specific users and groups
-<p>
-
-If you need to create a new user or group for your package there are
-two possibilities.  Firstly, you may need to make some files in the
-binary package be owned by this user or group, or you may need to
-compile the user or group id (rather than just the name) into the
-binary (though this latter should be avoided if possible).  In this
-case you need a statically allocated id.
-<p>
-
-You must ask for a user or group id from the base system maintainer,
-and must not release the package until you have been allocated one.
-Once you have been allocated one you must make the package depend
-on a version of the base system with the id present in
-<tt>/etc/passwd</tt> or <tt>/etc/group</tt>, or alternatively arrange
-for your package to create the user or group itself with the correct
-id (using <tt/adduser/) in its pre- or post-installation script (the
-latter is to be preferred if it is possible).
-<p>
-
-On the other hand, the program may able to determine the uid or gid
-from the group name at runtime, so that a dynamic id can be used.  In
-this case you must choose an appropriate user or group name,
-discussing this on <prgn/debian-devel/ and checking with the base system
-maintainer that it is unique and that they do not wish you to use a
-statically allocated id instead.  When this has been checked you must
-arrange for your package to create the user or group if necessary
-using <prgn/adduser/ in the pre- or post-installation script (again, the
-latter is to be preferred if it is possible).
-<p>
-
-Note that changing the numeric value of an id associated with a name
-is very difficult, and involves searching the filesystem for all
-appropriate files.  You need to think carefully whether a static or
-dynamic id is required, since changing your mind later will cause
-problems.
-
-<chapt id="sourcepkg">Source package
+<chapt id="sourcepkg">Source packaging, changelogs, etc.
 
 <sect>Releases of packages by other than the usual Debian maintainer
 <p>
@@ -1266,6 +1293,7 @@ forbidden then please contact us so we can make special arrangements.
 This does not apply in France, where I believe only encryption and not
 signing is forbidden.
 
+
 <sect>When you have a package to upload
 <p>
 
@@ -1293,6 +1321,7 @@ You can also upload files to <prgn/Incoming/ via a <prgn/cron/-driven
 upload queue in Europe on <ftpsite/chiark.chu.cam.ac.uk/.  For details
 connect to <prgn/chiark/ using anonymous FTP and read
 <ftppath>/pub/debian/private/project/README.how-to-upload</ftppath>.
+
 
 <sect id="changesfiles">Upload handling - <tt/.changes/ files
 <p>
@@ -1344,6 +1373,22 @@ source tarfile used by <prgn/dpkg-source/ when constructing the
 identical with the one already in the archive.  If there is some
 reason why this is not the case then the new version of the original
 source should be uploaded, possibly by using the <tt/-sa/ flag.
+
+
+<sect>Upload handling - announcements
+<p>
+
+When a package is uploaded an announcement should be posted to
+<tt/debian-changes/.  The announcement should give the (source)
+package name and version number, and a very short summary of the
+changes, in the <prgn/Subject/ field, and should contain the
+PGP-signed <tt/.changes/ file.  Some additional explanatory text may
+be added before the start of the <tt/.changes/ file.
+<p>
+
+If a package is released with <tt/Distribution: experimental/ the
+announcement should be posted to <tt/debian-devel/ instead.
+
 
 <sect id="mailinglists">The Debian mailing lists
 <p>

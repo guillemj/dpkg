@@ -242,7 +242,7 @@ if ($opmode eq 'build') {
 
         $tarname= $origtargz;
         $tarname eq "$basename.orig.tar.gz" ||
-            &warn(".orig.tar.gz name $tarname is not <package>-<upstreamversion>".
+            &warn(".orig.tar.gz name $tarname is not <package>_<upstreamversion>".
                   ".orig.tar.gz (wanted $basename.orig.tar.gz)");
     } else {
         $tardirbase= $dirbase; $tardirname= $dirname;
@@ -272,7 +272,7 @@ if ($opmode eq 'build') {
 #system('pwd && ls');
             open(STDOUT,">&GZIP") || &syserr("reopen gzip for tar");
             # FIXME: put `--' argument back when tar is fixed
-            exec('tar','-cO',$tardirname); &syserr("exec tar");
+            exec('tar','-cf','-',$tardirname); &syserr("exec tar");
         }
         close(GZIP);
         &reapgzip;
@@ -366,9 +366,12 @@ if ($opmode eq 'build') {
                         next file;
                     } elsif (m/^[-+\@ ]/) {
                         $difflinefound=1;
+                    } elsif (m/^\\ No newline at end of file/) {
+                        &warn("file $fn has no final newline ".
+                              "(either original or modified version)");
                     } else {
                         s/\n$//;
-                        &internerr("unknown line from diff -u on $dir/$fn: \`$_'");
+                        &internerr("unknown line from diff -u on $fn: \`$_'");
                     }
                     print(GZIP $_) || &syserr("failed to write to gzip");
                 }
