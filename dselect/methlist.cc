@@ -3,6 +3,7 @@
  * methlist.cc - list of access methods and options
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -46,6 +47,12 @@ void methodlist::kd_quit() {
   if (debug) fprintf(debug,"methodlist[%p]::kd_quit() setting coption=%p\n",
                      this, table[cursorline]);
   coption= table[cursorline];
+}
+
+void methodlist::setheights() {
+  if (debug) fprintf(debug,"methodlist[%p]::setheights()\n",this);
+  baselist::setheights();
+  list_height++;
 }
 
 void methodlist::setwidths() {
