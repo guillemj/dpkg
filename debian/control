@@ -11,7 +11,7 @@ Package: dpkg
 Architecture: any
 Essential: yes
 Pre-Depends: dselect, ${shlibs:Pre-Depends}
-Conflicts: sysvinit (<< 2.80)
+Conflicts: sysvinit (<< 2.82-1)
 Replaces: dpkg-doc-ja, dpkg-static
 Conflicts: dpkg-static
 Description: Package maintenance system for Debian
@@ -28,12 +28,12 @@ Description: Package maintenance system for Debian
 Package: dpkg-static
 Architecture: any
 Priority: optional
-Pre-Depends: ${shlibs:Pre-Depends}
-Depends: sysvinit (>= 2.80)
+Pre-Depends: dselect, ${shlibs:Pre-Depends}
+Depends: sysvinit (>= 2.82-1)
 Replaces: dpkg-doc-ja, dpkg
 Conflicts: dpkg
 Provides: dpkg
-Description: Package maintenance system for Debian
+Description: Package maintenance system for Debian (static compile)
  This package contains the programs which handle the installation and
  removal of packages on your system.
  .
@@ -43,6 +43,8 @@ Description: Package maintenance system for Debian
  .
  In order to unpack and build Debian source packages you will need to
  install the developers' package `dpkg-dev' as well as this one.
+ .
+ This version has a dpkg binary that is linked statically.
 
 Package: dpkg-dev
 Section: utils
