@@ -169,9 +169,15 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
   return 0;
 }
 
-struct pkginfo *findpackage(const char *name) {
+struct pkginfo *findpackage(const char *inname) {
   struct pkginfo **pointerp, *newpkg;
+  char *name = strdup(inname), *p;
 
+  if (name == NULL)
+    ohshite(_("couldn't allocate memory for strdup in findpackage(%s)"),inname);
+  p= name;
+  while(*p) *p++= tolower(*p);
+  
   pointerp= bins + (hash(name) & (BINS-1));
   while (*pointerp && strcasecmp((*pointerp)->name,name))
     pointerp= &(*pointerp)->next;
@@ -184,6 +190,7 @@ struct pkginfo *findpackage(const char *name) {
   *pointerp= newpkg;
   npackages++;
 
+  free(name);
   return newpkg;
 }
 

@@ -71,12 +71,10 @@ void f_name(struct pkginfo *pigp, struct pkginfoperfile *pifp, enum parsedbflags
   const char *e;
   if ((e= illegal_packagename(value,NULL)) != NULL)
     parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("invalid package name (%.250s)"),e);
-  pigp->name= nfstrsave(value);
-  findpackage(value); /* We discard the value from findpackage, but calling it
-                       * forces an entry in the hash table to be made if it isn't
-                       * already.  This is so that we don't reorder the file
-                       * unnecessarily (doing so is bad for debugging).
-                       */
+  pigp->name= findpackage(value)->name;
+  /* We use the new name, as findpackage() may have
+     done a tolower for us.
+   */
 }
 
 void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
