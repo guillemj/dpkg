@@ -294,10 +294,10 @@ ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t l
   writebuf= buf= malloc(bufsize);
   if(buf== NULL) ohshite(_("failed to allocate buffer in buffer_copy (%s)"), desc);
 
-  while(bytesread >= 0 && byteswritten >= 0) {
+  while(bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
     bytesread= read_data->proc(read_data, buf, bufsize, desc);
     if (bytesread<0) {
-      if (errno==EINTR) continue;
+      if (errno==EINTR || errno==EAGAIN) continue;
       break;
     }
     if (bytesread==0)
@@ -313,7 +313,7 @@ ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t l
     while(bytesread) {
       byteswritten= write_data->proc(write_data, writebuf, bytesread, desc);
       if(byteswritten == -1) {
-	if(errno == EINTR) continue;
+	if(errno == EINTR || errno==EAGAIN) continue;
 	break;
       }
       if(byteswritten==0)
