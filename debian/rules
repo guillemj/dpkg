@@ -98,7 +98,7 @@ binary-trees: build
 	chmod -x debian/tmp-main/usr/lib/libdpkg.*
 	ln -s dpkg debian/tmp-dev/usr/share/doc/dpkg-dev
 	set -e; for f in \
- usr/share/doc/dpkg/{internals.html,changelog.manuals.gz} \
+ usr/share/doc/dpkg/{changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
  usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages,dpkg-scansources,dpkg-name,dpkg-architecture} \
  usr/share/man/{ja,.}/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,architecture}.1.gz \
@@ -112,28 +112,28 @@ binary-trees: build
 binary-indep: binary-trees
 	$(checkdir)
 	dpkg-gencontrol -pdpkg-dev -Pdebian/tmp-dev
+	install -d -m755 $(DIR)/debian/tmp-doc/DEBIAN
+	install -m755 $(DIR)/debian/dpkg-doc-postinst \
+		$(DIR)/debian/tmp-doc/DEBIAN/postinst
+	install -m755 $(DIR)/debian/dpkg-doc-prerm \
+		$(DIR)/debian/tmp-doc/DEBIAN/prerm
+	dpkg-gencontrol -pdpkg-doc -Pdebian/tmp-doc
 	chown -R root.root debian/tmp-dev
 	chmod -R g-ws,a+r,u+w debian/tmp-dev
 	dpkg-deb --build debian/tmp-dev ..
-	set -e -x; for f in internals; do \
-		if test -f $(BUILD)/doc/$$f.ps; then \
-			cp -p $(BUILD)/doc/$$f.ps $(DIR)/..; \
-		elif test -f $(DIR)/doc/$$f.ps; then \
-			cp -p $(DIR)/doc/$$f.ps $(DIR)/..; \
-		else \
-			echo "unable to locate $$f.ps"; false; \
-		fi; \
-		gzip -9vf $(DIR)/../$$f.ps; \
-		dpkg-distaddfile -f$(DIR)/debian/files $$f.ps.gz byhand -; \
-		if test -d $(BUILD)/doc/$$f.html; then \
-			GZIP=-9vf tar -C $(BUILD)/doc -zcf $(DIR)/../$$f.html.tar.gz $$f.html; \
-		elif test -d $(DIR)/doc/$$f.html; then \
-			GZIP=-9vf tar -C $(DIR)/doc -zcf $(DIR)/../$$f.html.tar.gz $$f.html; \
-		else \
-			echo "unable to locate $$f.html"; false; \
-		fi; \
-		dpkg-distaddfile -f$(DIR)/debian/files $$f.html.tar.gz byhand -; \
-	done
+	install -d -m755 $(DIR)/debian/tmp-doc/usr/share/{doc/dpkg,doc-base}
+	ln -s dpkg $(DIR)/debian/tmp-doc/usr/share/doc/dpkg-doc
+	$(MAKE) -C $(BUILD)/doc internals
+	$(MAKE) -C $(BUILD)/doc internals-install \
+		prefix=$(DIR)/debian/tmp-doc/usr \
+		sysconfdir=$(DIR)/debian/tmp-doc/etc \
+		sharedstatedir=$(DIR)/debian/tmp-doc/var/lib \
+		localstatedir=$(DIR)/debian/tmp-doc/var/lib \
+		datadir=$(DIR)/debian/tmp-doc/usr/share \
+		mandir=$(DIR)/debian/tmp-doc/usr/share/man \
+		infodir=$(DIR)/debian/tmp-doc/usr/share/info
+	install -m644 $(DIR)/debian/dpkg-internals $(DIR)/debian/tmp-doc/usr/share/doc-base
+	dpkg-deb --build debian/tmp-doc ..
 	set -e;\
 		version=`sed -n 's/^Version: //p' $(DIR)/debian/tmp-dev/DEBIAN/control`; \
 		file=dpkg-$${version}.tar.gz; \

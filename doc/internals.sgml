@@ -1,131 +1,131 @@
-<!doctype texinfo system "texinfo.dtd" [
+<!doctype debiandoc system [
 <!entity % manuals-version-def system "manuals-version">
 %manuals-version-def;
 ]>
+<debiandoc><book>
 
-<texinfo>
-
-<setfilename>internals.info</>
-
-<titlepage>
+<titlepag>
 <title>dpkg Internals Manual</title>
-<author>Klee Dienes</author>
-<date>Version &manuals-version; (dpkg &dpkg-version;)</date>
+<author>
+  <name>Klee Dienes</name>
+  <email>klee@mit.edu</email>
+</author>
+<version>Version &manuals-version; (dpkg &dpkg-version;)</version>
 <abstract>
-This manual describes the internal structure of the <code/dpkg/ package
+This manual describes the internal structure of the <prgn>dpkg</prgn> package
 management system.
 </abstract>
-</titlepage>
 
-<chapter>Copyright
-
-<p>
-Copyright &copy;1997 Klee Dienes <samp/&lt;klee@@mit.edu&gt;/.
-
+<copyright>
+<copyrightsummary>
+Copyright &copy;1997 Klee Dienes &lt;klee@mit.edu&gt;
+</copyrightsummary>
 <p>
 This manual is free software; you may redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
 Free Software Foundation; either version 2, or (at your option) any
 later version.
-
 <p>
 This is distributed in the hope that it will be useful, but
 <em>without any warranty</em>; without even the implied warranty of
 merchantability or fitness for a particular purpose.  See the GNU
 General Public License for more details.
-
+<p>
 You should have received a copy of the GNU General Public License with
-your Debian GNU/Linux system, in <file>/usr/share/common-licenses/GPL</>, or
-with the <code/dpkg/ source package as the file <file>COPYING</>.  If
+your Debian GNU/Linux system, in <file>/usr/share/common-licenses/GPL</file>, or
+with the <prgn>dpkg</prgn> source package as the file <file>COPYING</file>.  If
 not, write to the Free Software Foundation, Inc., 675 Mass Ave,
 Cambridge, MA 02139, USA.
+</copyright>
+</titlepag>
 
-</chapter>
+<toc detail="sect">
 
-<chapter>Build Notes
-
-<section>Automake
-
+<chapt id=build>
+<heading>Build Notes</heading>
+  <sect id=automake>
+  <heading>Automake</heading>
 <p>
-This chapter by Tom Lees &lt;tom&at;lpsg.demon.co.uk&gt on Tue, 4 Mar 1997
-21:34:57 +0000, with subsequent modifications by Klee Dienes &lt;klee&at;debian.org&gt;
+This section by Tom Lees &lt;tom@lpsg.demon.co.uk&gt; on Tue, 4 Mar 1997
+21:34:57 +0000, with subsequent modifications by Klee Dienes &lt;klee@debian.org&gt;
 
 <p>
 This chapter contains general notes about the conversion to
-<code/automake/.  If you plan on doing anything with <code/dpkg/, you
+<prgn>automake</prgn>.  If you plan on doing anything with <prgn>dpkg</prgn>, you
 should probably read all of this file first.  You have been warned.
 
 <p>
 Automake has several significant advantages, including:
 
-<itemize>
+<list>
 <item>it supports emacs lisp properly
 <item>It supports libtool properly
 <item>it includes the aclocal utility
-</itemize>
+</list>
 
 <p>
-The <code/aclocal/ utility is a very useful program which will automatically
-build an <file/aclocal.m4/ file from the <file/configure.in/ file to include the
+The <prgn>aclocal</prgn> utility is a very useful program which will automatically
+build an <file>aclocal.m4</file> file from the <file>configure.in</file> file to include the
 appropriate macros.
 
 <p>
-This doesn't affect anything other than rebuilding the <file/Makefile.in/ files
+This doesn't affect anything other than rebuilding the <file>Makefile.in</file> files
 from the sources.
 
 <p>
 Probably the main difference which is noticable is that instead of
-using proprietary directory names, it now supports <code/configure
---sharedstatedir/, and <code/configure --localstatedir/. To set these
-to the Debian defaults, you should use <code>./configure
---localstatedir=/etc --sharedstatedir=/var/lib</>.
+using proprietary directory names, it now supports <em>configure
+--sharedstatedir</em>, and <em>configure --localstatedir</em>. To set these
+to the Debian defaults, you should use <em>./configure
+--localstatedir=/etc --sharedstatedir=/var/lib</em>.
 
 <p>
 I have also customized the canonicalizing macros found in
-<code/autoconf/ to include the old way of finding the <code/dpkg/
+<em>autoconf</em> to include the old way of finding the <prgn>dpkg</prgn>
 ``architecture'', i.e. to be a bit more smart. Instead of it trying to
 determine the architecture only, I changed it to use the `host',
 `build', and `target' system types. The target CPU type is checked
 against the archtable to find the architecture on which dpkg will run.
 
 <p>
-It uses <code/gcc --print-libgcc-file-name/ to find out the build
-architecture if possible (used later to determine ELF or <code/a.out/
-format), and also uses <code/dpkg --print-architecture/ if possible to
-modify the <samp/cpu/ field before it passes on the target alias to
+It uses <em>gcc --print-libgcc-file-name</em> to find out the build
+architecture if possible (used later to determine ELF or <em>a.out</em>
+format), and also uses <em>dpkg --print-architecture</em> if possible to
+modify the <em>cpu</em> field before it passes on the target alias to
 config.sub. If you want to specify the architecture, you should now
-use "--target=", rather than <code/--with-arch/, which was essentially
-a hack anyway.  The old <code/--with-arch/ is still there, but it is
-somewhat less functional. I have also moved the <code/DPKG_CACHED_/
-macros into dpkg.m4 to make configure.in a bit more readable.
+use "--target=", rather than <em>--with-arch</em>, which was essentially
+a hack anyway.  The old <em/--with-arch/ is still there, but it is
+somewhat less functional. I have also moved the
+<em/DPKG_CACHED_/ macros into dpkg.m4 to make configure.in a bit
+more readable.
 
 <p>
 I also converted to libtool (which can be found in the Debian
 distribution now). Essentially, this means that all the dpkg tools can
-be compiled against a shared <samp/libdpkg/ without much hassle (in
+be compiled against a shared <em>libdpkg</em> without much hassle (in
 fact, it is the default). You do not need to install libtool to use
 this feature (it works like autoconf), and generally, it should not be
 needed much at all.
 
 <p>
-The new <samp/dist/ targets will build a distribution including all
-files built by the <code/debiandoc2html/, <code/debiandoc2ps/, etc.,
-which are included in the distribution so that people may build <code/dpkg/
+The new <em>dist</em> targets will build a distribution including all
+files built by the <prgn>debiandoc2html</prgn>, <prgn>debiandoc2ps</prgn>, etc.,
+which are included in the distribution so that people may build <prgn>dpkg</prgn>
 without these (especially useful to porters).
 
 <p>
-A target <samp/make debian/ has been added, which will build the
-Debian files from a working directory (does a <samp/make dist/
+A target <em/make debian/ has been added, which will build the
+Debian files from a working directory (does a <em/make dist/
 first). Now all we need is a modified dpkg-source so that the
 <file/dpkg-1.4.0.8.tar.gz/ GNU-distribution file can be used as part
 of the Debian distribution.  I'm working on this, but it doesn't work
 too well at the moment (find it in examples).
 
 <p>
-I removed the <samp/make portable/ target - it doesn't do anything useful.
+I removed the <em/make portable/ target - it doesn't do anything useful.
 
 <p>
-I have added <samp/make uninstall/ targets to aid non-Debian users who simply
+I have added <em/make uninstall/ targets to aid non-Debian users who simply
 want to try out certain Debian packages, and the "dist" targets are also
 useful to build a "distribution" of the dpkg tool. Note that since automake
 automatically includes dependencies into the Makefiles in a distribution,
@@ -135,20 +135,20 @@ automatic dependency generation will be switched back on, and any
 dependencies which change will be taken account of. The "make maintainer-clean"
 targets will remove all files which any of the following utilities create:
 
-<itemize>
+<list>
 <item>automake
 <item>autoconf
 <item>aclocal
 <item>autoheader
 <item>gettextize
 <item>libtoolize
-</itemize>
+</list>
 
 <p>
 If you want to modify any of the sources, I recommend that you do the following
 first (after having installed the appropriate utilities, of course):-
 
-<itemize>
+<list>
 <item>
 make maintainer-clean
 <item>
@@ -166,7 +166,7 @@ include the libtool files in the dist targets)
 for i in COPYING INSTALL; do ln -s /usr/share/automake/$i .; done
 <item>
 automake
-</itemize>
+</list>
 
 <p>
 I have also incorporated the patches originally made by Galen
@@ -176,7 +176,7 @@ Hazelwood to internationalize dpkg using GNU gettext - see the file
 <p>
 Other minor changes are:
 
-<itemize>
+<list>
 <item>
 The version number is now determined from debian/changelog, not from
 the directory name.
@@ -193,19 +193,20 @@ distributed with automake-1.1l
 Since the shared libdpkg is now installed, I also made
 include/Makefile install dpkg.h and dpkg-db.h into /usr/include by
 default
-</itemize>
+</list>
 
 Questions:
 
-<itemize>
+<list>
 <item>
-Should I use <samp/localstatedir/ and <samp/sharedstatedir/ instead of
-<samp/sysconfdir/ and <samp/datadir/?
-</itemize>
+Should I use <em/localstatedir/ and <em/sharedstatedir/ instead of
+<em/sysconfdir/ and <em/datadir/?
+</list>
 
-</section>
+</sect>
 
-<section>Internationalization
+<sect id=i18n>
+<heading>Internationalization</heading>
 
 <p>
 This section by Galen Hazelwood. 
@@ -238,7 +239,7 @@ unchanged.
 <p>
 Changes:
 
-<itemize>
+<list>
 <item>
 The files in intl and po were taken from gettext 0.10.26, by way of
 the gettextize program.  I altered the makefiles to remove the VERSION
@@ -269,35 +270,40 @@ this, I have changed this usage in all cases to something like:
 ohshite(_("error reading from dpkg-deb pipe");
 </example>
 This isn't very kind to Ian, I know.  But what can I do?
-</itemize>
+</list>
 
-</section>
+</sect>
 
-</chapter>
+</chapt>
 
-<chapter>Code Internals
+<chapt id=code>
+<heading>Code Internals</heading>
 
-<section>Structure Definitons
+<sect id=defs>
+<heading>Structure Definitons</heading>
 
-<subsection>versionrevision
+<sect1 id=versionrevision>
+<heading>versionrevision</heading>
 <p>
 <example>
-struct versionrevision @{
+struct versionrevision {
   unsigned long epoch;
   char *version;
   char *revision;
-@};  
+};  
 </example>
 
 <p>
 The <tt/versionrevision/ structure is used to store a Debian version specification
-</subsection>
+</sect1>
 
-</section>
+</sect>
 
-<section>Functions
+<sect id=functions>
+<heading>Functions</heading>
 
-<subsection>Parsing translation tables
+<sect1 id=parsing>
+<heading>Parsing translation tables</heading>
 <p>
 Each of these tables is used to associate a set of strings with a
 corresponding set of integers.
@@ -310,9 +316,10 @@ const struct namevalue booleaninfos[];
 </example>
 
 <p>
-Maps boolean strings (<code/"yes"/,<code/"no"/) to their binary values.
+Maps boolean strings (<em/"yes"/,<em/"no"/) to their binary values.
 
-<subsubsection><code/priorityinfos[]/
+<sect2>
+<heading>priorityinfos[]</heading>
 
 <p>
 <example>
@@ -321,65 +328,61 @@ const struct namevalue priorityinfos[];
 
 <p>
 Maps priority strings to and from values of
-type <code/enum pkgpriority/.  
+type <em/enum pkgpriority/.  
 Current priority values are:
 
-<table>
-<item><code/required/</item>
-required
-<item><code/important/</item>
-important
-<item><code/standard/</item>
-standard
-<item><code/recommended/</item>
-recommended
-<item><code/optional/</item>
-optional
-<item><code/extra/</item>
-extra
-<item><code/contrib/</item>
-contrib
-<item><code/other/</item>
-other
-<item><code/unknown/</item>
-unknown
-<item><code/base/</item>
-This is obsolete, but is accepted as an alias for <code/required/.
-</table>
-</subsubsection>
+<list>
+<item><em/required/ - required
+<item><em/important/ - important
+<item><em/standard/ - standard
+<item><em/recommended/ - recommended
+<item><em/optional/ - optional
+<item><em/extra/ - extra
+<item><em/contrib/ - contrib
+<item><em/other/ - other
+<item><em/unknown/ - unknown
+<item><em/base/ -
+This is obsolete, but is accepted as an alias for <em/required/.
+</item>
+</list>
+</sect2>
 
-<subsubsection><code/statusinfos[]/
+<sect2>
+<heading>statusinfos[]</heading>
 
 <p>
 <example>
 const struct namevalue statusinfos[];
 </example>
 
-Maps package status strings to values of type <code/enum ???/.
+Maps package status strings to values of type <em/enum ???/.
 
 Package status strings are:
 
 "not-installed" "unpacked" "half-configured" "installed"
 "half-installed" "config-files" "postinst-failed" "removal-failed"
-</subsubsection>
+</sect2>
 
-<subsubsection><code/eflaginfos[]/
+<sect2>
+<heading>eflaginfos[]</heading>
 
 <p>
 <example>
 const struct namevalue eflaginfos[];
 </example>
-</subsubsection>
+</sect2>
 
-<subsubsection><code/wantinfos[]/
+<sect2>
+<heading>wantinfos[]</heading>
 
 <p>
 <example>
 const struct namevalue wantinfos[];
 </example>
-</subsubsection>
+</sect2>
 
-<subsubsection><code/nicknames[]/
+<sect2>
+<heading>nicknames[]</heading>
 
 <p>
 <example>
@@ -388,14 +391,15 @@ const struct nickname nicknames[];
 
 Maps obsolete control fields to their current versions.
 
-</subsubsection>
+</sect2>
 
-</subsection>
+</sect1>
 
-<subsection>Parsing functions
+<sect1 id=parsef>
+<heading>Parsing functions</heading>
 
-<subsubsection><code/parseerr/
-<findex/parseerr()/
+<sect2>
+<heading>parseerr()</heading>
 
 <p>
 <example>
@@ -408,44 +412,44 @@ void parseerr
 Report an error parsing a control data stream.  Checks <var/file/ for
 error status on <var/file/, printing an error message to stderr and
 exiting with error status if an error is present on the stream.
-Formats the variable arguments according to the <code/printf/-style
+Formats the variable arguments according to the <em/printf/-style
 string in <var/fmt/, preceding the result with <var/filename/,
 <var/lno/, and <var/pigp/ (if not NULL).  If <var/warnonly/ is 0,
 writes the result to stderr and exits with error status.  Otherwise,
 increments <var/warncount/ and returns normally.
-</subsubsection>
+</sect2>
 
-<subsubsection><code/illegal_packagename/
-<findex/illegal_packagename()/
+<sect2>
+<heading>illegal_packagename()</heading>
 
 <p>
-<example>
+<em>
 const char *illegal_packagename
 (const char *p, const char **ep) 
-</example>
+</em>
 
 Checks the package name at <var/p/ for proper syntax.  Returns NULL in
 case of success, setting <var/*ep/ to point after the last character
 in the package name, including any trailing whitespace (as defined by
 isspace()).  In case of error, returns the error message as a pointer
 to a static buffer.
-</subsubsection>
+</sect2>
 
-<subsubsection><code/informativeversion/
-<findex/informativeversion()/
+<sect2>
+<heading>informativeversion()</heading>
 
 <p>
-<example>
+<em>
 int informativeversion(const struct versionrevision *version)
-</example>
+</em>
 
 <p>
-Returns true if and only if the <code/versionrevision/ is non-empty;
+Returns true if and only if the <em/versionrevision/ is non-empty;
 otherwise returns false.
-</subsubsection>
+</sect2>
 
-<subsubsection><code/varbufversion/
-<findex/varbufversion()/
+<sect2>
+<heading>varbufversion()</heading>
 
 <p>
 <example>
@@ -458,18 +462,15 @@ void varbufversion
 Writes a human-readable representation of <var/version/ to <var/vb/.
 Possible values of <var/vdew/:
 
-<table>
-<item><tt/vdew_never/</item>
-never include epoch
-<item><tt/vdew_nonambig/</item>
-include epoch string if non-zero
-<item><tt/vdew_always/</item>
-always include epoch string
-</table>
-</subsubsection>
+<list>
+<item><tt/vdew_never/ - never include epoch
+<item><tt/vdew_nonambig/ - include epoch string if non-zero
+<item><tt/vdew_always/ - always include epoch string
+</list>
+</sect2>
 
-<subsubsection><code/versiondescribe/
-<findex/versiondescribe()/
+<sect2>
+<heading>versiondescribe()</heading>
 
 <p>
 <example>
@@ -481,13 +482,13 @@ const char *versiondescribe
 <p>
 Return a human-readable representation of <var/version/ as a pointer
 to a static buffer.  If the version structure is empty, return
-<code/"&lt;none&gt;"/.  Static buffers are allocated from a set of 10
+<em/"&lt;none&gt;"/.  Static buffers are allocated from a set of 10
 in round-robin fashion (they will be re-used after 10 successive calls
-to <code/versiondescribe/).
-</subsubsection>
+to <em/versiondescribe/).
+</sect2>
 
-<subsubsection><code/parseversion/
-<findex/parseversion()/
+<sect2>
+<heading>parseversion()</heading>
 
 <p>
 <example>
@@ -499,10 +500,10 @@ const char *parseversion
 Parse the contents of <var/string/ into <var/rversion/.  If
 successful, returns NULL, otherwise returns a pointer to a static
 error string.
-</subsubsection>
+</sect2>
 
-<subsubsection><code/parsemustfield/
-<findex/parsemustfield()/
+<sect2>
+<heading>parsemustfield()</heading>
 
 <p>
 <example>
@@ -512,19 +513,19 @@ void parsemustfield
  const struct pkginfo *pigp, int warnonly,
  char **value, const char *what);
 </example>
-</subsubsection>
+</sect2>
 
-<subsubsection><code/skip_slash_dotslash/
-<findex/skip_slash_dotslash()/
+<sect2>
+<heading>skip_slash_dotslash()</heading>
 
 <p>
 <example>
 const char *skip_slash_dotslash (const char *p);
 </example>
-</subsubsection>
+</sect2>
 
-<subsubsection><code/convert_string/
-<findex/convert_string()/
+<sect2>
+<heading>convert_string()</heading>
 
 <p>
 <example>
@@ -534,13 +535,10 @@ static int convert_string
  const char *startp, const struct namevalue *nvip,
  const char **endpp) 
 </example>
-</subsubsection>
+</sect2>
 
-</subsection>
+</sect1>
 
-</section>
-
-<contents>
-<printindex name="fn">
-
-</texinfo>
+</sect>
+</chapt>
+</book></debiandoc>

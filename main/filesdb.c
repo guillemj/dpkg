@@ -59,7 +59,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
   const char *filelistfile;
   struct fileinlist **lendp, *newent, *current;
   struct filepackages *packageslump;
-  int search, findlast, putat, l;
+  int search, findlast, putat= 0, l;
   char *thefilename;
   char linebuf[1024];
 

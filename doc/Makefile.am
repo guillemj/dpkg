@@ -15,28 +15,29 @@ SUBDIRS			= ja
 
 man_MANS		= deb.5 deb-old.5 deb-control.5
 pkgdoc_DATA		= 
-EXTRA_DIST		= database-structure.fig changelog \
-			  manuals-version \
-			  $(SGMLFILES) $(man_MANS) \
-			  texinfo.dtd \
-			  texinfo.texi_mapping texinfo.debian_mapping
+EXTRA_DIST		= database-structure.fig ChangeLog \
+			  $(SGMLFILES) $(man_MANS)
 
-HTMLDOCSTAMPS		= internals.html-stamp
 HTMLDIRS		= internals.html 
 SGMLFILES		= internals.sgml
-HARDCOPY		= internals.ps internals.dvi
+HARDCOPY		= internals.ps internals.html internals.info
 
 CLEANFILES		= $(srcdir)/manuals-version.new
-DISTCLEANFILES		= 
+DISTCLEANFILES		= manuals-version
 INFOFILES		= internals.info
 
 ## Rules
 
-SUFFIXES		= .html-stamp .sgml .ps .fig .monops
+#SUFFIXES		= .html .sgml .ps .fig .monops
 
 .PHONY: all install-data-local uninstall-local dist-hook clean-local
 
-all: $(HTMLDOCSTAMPS) $(HARDCOPY) $(INFOFILES)
+all:
+	@echo Nothing built by default, use \`make internals\' to build docs
+
+internals.sgml: $(srcdir)/manuals-version
+
+internals: $(HARDCOPY)
 
 $(srcdir)/manuals-version: $(top_srcdir)/debian/changelog
 	v=`dpkg-parsechangelog -l$< | sed -n 's/^Version: //p'` && \
@@ -44,32 +45,20 @@ $(srcdir)/manuals-version: $(top_srcdir)/debian/changelog
 	echo "<!entity dpkg-version \"$(VERSION)\">" >>$@.new
 	(cmp -s $@.new $@ || mv -f $@.new $@) && rm -f $@.new
 
-internals.sgmls: internals.sgml texinfo.dtd manuals-version
-	nsgmls $< > $@ || ($(RM) $@ && false)
+internals.texinfo: internals.sgml
+	debiandoc2texinfo $<
 
-internals.texi: internals.sgmls texinfo.texi_mapping
-	sgmlsasp $(srcdir)/texinfo.texi_mapping < $< > $@ || ($(RM) $@ && false)
-	perl -pi -e 's/printindex FN/printindex fn/' $@ || ($(RM) $@ && false)
+internals.ps: internals.sgml
+	debiandoc2ps -1 $<
 
-internals.ps: internals.dvi
-	dvips -t letter -o $@ $^
+internals.dvi: internals.sgml
+	debiandoc2dvi $<
 
-internals.dvi: internals.texi
-	texi2dvi $^
+internals.info: internals.sgml
+	debiandoc2info $<
 
-internals.info: internals.texi
-	# WTA: We force makeinfo and ignore errors, since we use a broken method
-	# to generate the texi-file anyway. Since we are supposed to switch to the
-	# dpkg-iwj branch soon anyway fixing this correctly is more trouble then
- 	# it's worth
-	-makeinfo --force $^
-
-internals.html-stamp: internals.texi
-	-$(RM) -r $*.html*
-	mkdir $*.html
-	(cd $*.html && texi2html -monolithic ../$<)
-	ln -s internals.html $*.html/index.html
-	touch $@
+internals.html: $(srcdir)/internals.sgml
+	debiandoc2html $<
 
 database-structure.ps: database-structure.fig
 	fig2dev -L ps -c -l _ -P <$< >ps
@@ -80,40 +69,22 @@ database-structure.monops: database-structure.ps
  bind def$$::/$$1 {} bind def:' $< >ps
 	mv -f ps $@
 
-install-data-local: $(HTMLDOCSTAMPS)
+install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(pkgdocdir)
 	$(INSTALL_DATA) $(top_srcdir)/debian/changelog $(DESTDIR)$(pkgdocdir)/changelog
-	$(INSTALL_DATA) $(srcdir)/changelog $(DESTDIR)$(pkgdocdir)/changelog.manuals
-	set -e; for f in $^; do \
-		g=`echo $$f | sed -e 's/-stamp$$//'`; \
-		cp -r $$g $(DESTDIR)$(pkgdocdir)/`basename $$g`; \
+	$(INSTALL_DATA) $(srcdir)/ChangeLog $(DESTDIR)$(pkgdocdir)/changelog.manuals
+
+internals-install: $(HARDCOPY)
+	$(mkinstalldirs) $(DESTDIR)$(pkgdocdir)
+	set -e; for f in internals.ps internals.html; do \
+		cp -r $$f $(DESTDIR)$(pkgdocdir)/`basename $$f`; \
 	done
-
-uninstall-local:
-	-$(RM) $(DESTDIR)$(pkgdocdir)/changelog.manuals \
-		$(DESTDIR)$(pkgdocdir)/changelog
-	-cd $(DESTDIR)$(pkgdocdir) && rm -rf $(HTMLDIRS)
-
-dist-hook: $(HTMLDOCSTAMPS) $(HARDCOPY) internals.sgmls internals.texi internals.info
-	cp -p $^ $(distdir)
-	for f in `echo $^ | tr ' \t' '\n\n' | sed -ne 's:.html-stamp::gp'`; do set -e; \
-		$(RM) -r $(distdir)/`basename $$f.html`; \
-		mkdir $(distdir)/`basename $$f.html`; \
-		cp -p $$f.html/* $(distdir)/`basename $$f.html`; \
-	done
-	$(RM) -r $(distdir)/obsolete
-	cp -rp $(srcdir)/obsolete $(distdir)/
-	cp -p $(HARDCOPY) $(distdir)/
-
-maintainer-clean-local: doc-clean
-	$(RM) manuals-version
-	-$(RM) $(srcdir)/Makefile.in 
+	$(mkinstalldirs) $(DESTDIR)$(infodir)
+	$(INSTALL_DATA) internals.info $(DESTDIR)$(infodir)
 
 doc-clean:
 	-$(RM) *.{aux,cp,dvi,fn,ky,log,pg,toc,tp,vr,bak}
-	-$(RM) internals.{FN,fns,sgmls,texi,info*}
-	-$(RM) -r {packaging,internals}.{texi,html-stamp,text,ps,lout}
-	-$(RM) -r {packaging,internals}.html
+	-$(RM) internals.{FN,fns,sgmls,texi*,info*}
 	-$(RM) manuals-version*
 
 ## End of file.

@@ -1,3 +1,21 @@
+Sun Oct 24 11:39:21 EDT 1999 Ben Collins <bcollins.debian.org>
+
+  * debian/control: added dpkg-doc
+  * debian/dpkg-doc-{postinst,prerm}: new files for dpkg-doc package
+  * debian/dpkg-internals: doc-base support for dpkg-doc
+  * debian/rules: added build rules for dpkg-doc to binary-indep target
+  * doc/Makefile.am: changed build setup for internals.sgml to use the
+    debiandoc tools, and removed internals.* stuff from being built by
+    default. Two new targets, internals and internals-install, now handle
+    this
+  * doc/changelog: removed, duplicate of ChangeLog
+  * doc/internals.sgml: converted to debiandoc format, now builds correctly
+    and without errors
+  * doc/manuals-version: removed since it is generated at build time
+  * doc/texinfo.*: moved to doc/obsolete/ since the debiandoc format doesn't
+    need them
+  * main/filesdb.c: fixed compiler warning
+
 Sat Oct 23 21:23:08 EDT 1999 Ben Collins <bcollins.debian.org>
 
   * Added 'D' to the list of choices for conffile handling
