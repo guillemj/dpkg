@@ -1,20 +1,23 @@
 .TH START\-STOP\-DAEMON 8 "15th March 1997" "Debian Project" "Debian GNU/Linux"
+.\" traduction de la version cvs 1.15
 .SH NOM
 start\-stop\-daemon \- lance ou arrête des démons-systèmes
 .SH SYNOPSIS
 .B start-stop-daemon
-.BR -S|--start
-.IR "options ... -- arguments ..."
+.BR -S |--start
+.IR options
+.RB [ \-\- ]
+.IR arguments
 .HP
 .B start-stop-daemon
-.BR -K|--stop
-.IR "options ..."
+.BR -K | --stop
+.IR options
 .HP
 .B start-stop-daemon
-.BR -H|--help
+.BR -H | --help
 .HP
 .B start-stop-daemon
-.BR -V|--version
+.BR -V | --version
 .SH DESCRIPTION
 On se sert de
 .B start\-stop\-daemon
@@ -22,11 +25,7 @@ pour contrôler la création ou l'arrêt de processus-systèmes.
 On peut configurer
 .B start\-stop\-daemon
 avec les options
-.BR --exec,
-.BR --pidfile,
-.BR --user,
-et
-.BR --name
+.BR --exec ", " --pidfile ", " --user ", et " --name ",
 pour trouver les exemplaires présents d'un processus en fonctionnement.
 
 Avec l'action
@@ -40,13 +39,17 @@ ne fait rien et se termine avec un code d'erreur égal à 1 (0 si
 est précisé).  
 Quand un tel processus n'existe pas, un exemplaire de l'exécutable est lancé 
 avec
-.BR --exec
-, (ou, si c'est précisé, avec
-.BR --startas
-).
+.BR --exec,
+(ou, si c'est précisé, avec
+.BR --startas).
 Tout argument donné après
 .BR --
 sur la ligne de commande est passé tel quel au programme qui doit être lancé.
+Si
+.B --retry
+est indiqué,
+.B start\-stop\-daemon
+vérifie que le (ou les) processus s'est terminé.
 
 Avec l'action
 .BR --stop,
@@ -67,39 +70,76 @@ est précisé).
 .SH OPTIONS
 
 .TP
-.I -x|--exec exécutable
+\fB-x\fP|\fB--exec\fP \fIexecutable\fP
 Cherche les processus qui sont des exemplaires de cet exécutable (selon
-.B /proc/
-.I pid
-.B /exe 
-).
+.B /proc/\fIpid\fB/exe\fP).
 .TP
-.I -p|--pidfile pid-file
+\fB-p\fP|\fB--pidfile\fP \fIpid-file\fP
 Cherche les processus dont les identifiants sont précisés dans
-.I pid-file.
+.IR pid-file.
 .TP
-.I -u|--user nom-d-utilisateur|uid
+\fB-u\fP|\fB--user\fP \fInom-d-utilisateur\fP|\fIuid\fP
 Cherche les processus qui appartiennent à l'utilisateur défini par
 .I nom-d-utilisateur 
 ou
-.I uid.
+.IR uid.
 .TP
-.I -n|--name nom-de-processus
+\fB-n\fP|\fB--name\fP \fInom-de-processus\fP
 Cherche les processus dont le nom est
 .I nom-de-processus
 (selon
-.B /proc/
-.I pid
-.B /stat 
-).
+.B /proc/\fIpid\fB/stat\fP).
 .TP
-.I -s|--signal signal
+\fB-s\fP|\fB--signal\fP \fIsignal\fP
 Avec l'action
-.BR --stop
-, définit le signal à envoyer au processus qui doit être arrêté 
+.BR --stop,
+on définit le signal à envoyer au processus qui doit être arrêté 
 (par défaut : signal 15).
 .TP
-.I -a|--startas chemin/nom
+\fB-R\fP|\fB--retry\fP \fIdurée\fP|\fIaction-prévue\fP
+Avec l'action
+.BR --stop,
+.B start-stop-daemon
+doit vérifier que les processus se sont terminés. Il le fait pour tous les
+processus correspondants qui tournent, jusqu'à ce qu'il n'y en ait plus.
+Quand le processus ne se termine pas, il prend d'autres mesures déterminées
+par l'action-prévue.
+
+Si
+.I durée
+est indiqué plutôt que
+.I action-prévue,
+l'action-prévue
+.IB signal / durée /KILL/ durée
+est utilisé, où
+.I signal
+est le signal indiqué par
+.BR --signal.
+
+.I action-prévue
+est une liste d'au moins deux items séparés par des barres obliques
+.RB ( / )\ ;
+Chaque item peut être de la forme
+.BI - signal-number
+ou de la forme [\fB\-\fP]\fIsignal-name\fP,
+ce qui demande d'envoyer ce signal\ ;
+ou bien de la forme
+.IR durée,
+ce qui demande d'attendre tant de secondes avant de terminer les processus,
+ou bien de la forme
+.BR forever ,
+ce qui demande de répéter constamment le reste de action-prévue, si nécessaire.
+
+Quand la fin de l'action-prévue est atteinte et que
+.BR forever
+n'a pa été précisé,
+.B start-stop-daemon
+se termine avec un code d'erreur égal à 2.
+Quand une action-prévue est indiquée, tout signal donné par
+.B --signal
+est ignoré.
+.TP
+.I -a | --startas chemin/nom
 Avec l'action
 .B --start
 , lance le processus spécifié par
@@ -107,18 +147,18 @@ Avec l'action
 Si rien n'est précisé, c'est par défaut l'argument donné à
 .B --exec.
 .TP
-.I -t|--test
+.I -t | --test
 Affiche les actions qui seraient entreprises et détermine la bonne valeur de 
 retour, mais ne fait rien.
 .TP
-.I -o|--oknodo
+.I -o | --oknodo
 Retourne un code de sortie égal à 0 au lieu de 1 si rien n'est ou ne sera fait.
 .TP
-.I -q|--quiet
+.I -q | --quiet
 N'affiche pas de messages d'information ; affiche seulement les messages
 d'erreur.
 .TP
-.I -c|--chuid
+.I -c | --chuid
 Change l'utilisateur ou l'identifiant avant de lancer le processus.
 On peut aussi préciser un groupe an ajoutant un « : », puis le groupe ou un 
 identifiant de la même façon qu'avec la commande « chown » 
@@ -129,13 +169,13 @@ sert seulement pour les groupes dont l'utilisateur n'est pas un membre régulier
 (c'est comme rendre membres d'un groupe-processus des utilisateurs 
 génériques comme « nobody »).
 .TP
-.I -r|--chroot root
+.I -r | --chroot root
 Change de répertoire racine pour
 .B root
 avant de lancer le processus. Remarquez que le « pidfile » est aussi écrit
 après le changement de racine.
 .TP
-.I -b|--background
+.I -b | --background
 est utilisé de manière classique pour les programmes qui ne « se détachent » 
 pas d'eux-mêmes. Cette option oblige
 .B start-stop-daemon
@@ -150,7 +190,10 @@ C'est un expédient dont on se servira seulement pour des programmes dont la
 duplication n'a pas de sens ou bien des programmes dont le code 
 n'est pas transformable pour leur ajouter cette fonctionnalité.
 .TP
-.I -m|--make-pidfile
+.BR -N | --nicelevel
+Cela modifie la priorité du processus avant qu'il ne soit lancé.
+.TP
+.I -m | --make-pidfile
 Est utilisé lors du lancement d'un programme qui ne crée pas son propre 
 fichier identificateur. Cette option dit à
 .B start-stop-daemon
@@ -165,13 +208,13 @@ notamment quand le programme qui est exécuté se duplique. À cause de cela,
 cette option n'est habituellement utile que combinée avec l'option
 .B --background.
 .TP
-.I -v|--verbose
+.I -v | --verbose
 Affiche des messages prolixes de renseignements.
 .TP
-.I -H|--help
+.I -H | --help
 Affiche une aide et se termine.
 .TP
-.I -V|--version
+.I -V | --version
 Affiche le numéro de version et se termine.
 
 .SH AUTEURS
@@ -181,4 +224,4 @@ Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
 
 Page de manuel par Klee Dienes <klee@mit.edu>.
 .SH TRADUCTION
-Philippe Batailler, Dec 2000.
+Philippe Batailler <pbatailler@teaser.fr>, Mai 2002.

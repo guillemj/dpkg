@@ -1,6 +1,6 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Authors: Ian Jackson
-.\" traduction de la version cvs 1.15
+.\" traduction de la version cvs 1.19
 .TH DPKG\-SOURCE 1 "Januari 2000" "Debian Project" "Utilitaires de Dpkg"
 .SH NOM 
 dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges,
@@ -107,8 +107,7 @@ Avec
 cette option force l'utilisation des informations contenues dans le fichier
 «\ changelog\ » et qui concernent toutes les versions strictement plus 
 récentes que
-.I version
-(qui doit apparaître dans le fichier «\ changelog\ »).
+.I version.
 
 Avec
 .BR dpkg-gencontrol,
@@ -328,6 +327,12 @@ dates qui diffèrent de celles du répertoire de travail ; cela provoque indûment
 leur inclusion dans chaque .diff.gz crée, à moins d'utiliser l'option
 \fB-i\fR.
 .TP
+.B -I<fichier>
+Avec cette option, le fichier est passé à l'option --exclude  de tar quand on
+veut créer un fichier .orig.tar.gz ou .tar.gz. Par exemple, -ICVS fera que
+tar sautera les répertoires du CVS quand il doit créer un fichier .tar.gz. On
+peut répéter cette option pour exclure plusieurs fichiers.
+.TP
 .BR -sa , -sp , -su , -sk , -sA , -sP , -sU , -sK , -ss " avec " -b
 Quand on spécifie
 .BR -sk " ou " -sp,
@@ -525,7 +530,7 @@ représente les dépendances les plus importantes.
 Les variables de substitution commenceront par
 .IB préfixe-pour-le-nom-des-variables :
 au lieu de
-.BR shlib: .
+.BR shlibs: .
 De même, toute variable de substitution commençant par
 .IB préfixe-pour-le-nom-des-variables :
 (au lieu de
@@ -641,6 +646,9 @@ l'architecture par défaut de la machine hôte.
 chaîne passée telle quelle à
 .BR dpkg-source.
 .TP
+.B -I<fichier>
+fichier passé tel quel à
+.BR dpkg-source. Peut être répétée.
 .B -D
 Vérifier les dépendances de constructions et les conflits ; se termine en cas
 de problèmes.

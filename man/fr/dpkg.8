@@ -1,4 +1,4 @@
-.\" traduction de la révision CVS 1.31
+.\" traduction de la révision CVS 1.32
 .TH DPKG 8 "April 12, 1998" "Debian Project" "dpkg suite"
 .SH NOM
 dpkg \- un gestionnaire de paquet de niveau intermédiaire pour Debian
@@ -311,7 +311,7 @@ actions suivantes.
 On peut spécifier une option à la fois sur la ligne de commande et dans le
 fichier de configuration de dpkg, \fI/etc/dpkg/dpkg.cfg\fP. Chaque ligne de
 ce fichier est soit une option (identique à une option en ligne de commande
-mais sans tiret), soit un commentaire, commencant par \fB#\fR.
+mais sans tiret), soit un commentaire, commençant par \fB#\fR.
 .br
 .TP
 \fB--abort-after=\fP\fInombre\fP
@@ -392,13 +392,20 @@ Installer un paquet, même s'il est en conflit avec un autre paquet. C'est
 dangereux car habituellement cela produit le remplacement de certains
 fichiers.
 
+\fBconfmiss\fP:
+Toujours installer un fichier de configuration manquant. C'est dangereux,
+puisque cela signifie que les changements apportés au fichier ne seront pas
+préservés.
+
 \fBconfnew\fP:
 Quand un « conffile » a été modifié, toujours utiliser la nouvelle version
-et ne rien demander.
+et ne rien demander, sauf si l'option \fB--force-confdef\fP est aussi
+présente, auquel cas l'action par défaut est choisie.
 
 \fBconfold\fP:
 Quand un « conffile » a été modifié, garder l'ancienne version et ne rien 
-demander.
+demander, sauf si l'option \fB--force-confdef\fP est aussi présente, auquel 
+cas l'action par défaut est choisie.
 
 \fBconfdef\fP:
 Utiliser toujours l'action par défaut quand un « conffile » a été modifié.
@@ -522,7 +529,7 @@ pour des informations supplémentaires :
 .SH VARIABLES D'ENVIRONNEMENT
 .TP
 .B DPKG_NO_TSTP
-Donnez lui une valeur si vous préférez que \fBdpkg\fP lance un nouveau
+Donnez-lui une valeur si vous préférez que \fBdpkg\fP lance un nouveau
 shell plutôt que de s'interrompre, pour faire un appel au shell.
 .TP
 .B SHELL
@@ -608,4 +615,4 @@ Voyez le fichier \fB/usr/share/doc/dpkg/THANKS\fP pour la liste des
 personnes qui ont contribué à \fBdpkg\fP.
 .fi
 .SH "TRADUCTION"
-Philippe Batailler. Déc 200O.
+Philippe Batailler <pbatailler@teaser.fr> 2002.
