@@ -1,5 +1,5 @@
 .\" Hey Emacs! This file is -*- nroff -*- source.
-.\" Translation of CVS revision 1.13
+.\" Translation of CVS revision 1.21
 .TH DPKG 8 "12 april 1998" "Debianprojektet" "Debian GNU/Linux"
 .SH NAMN
 dpkg \- en mellannivåpakethanterare för Debian GNU/Linux
@@ -265,6 +265,12 @@ versioner: \fBlt-nl le-nl ge-nl gt-nl\fP.
 Dessa tillhandahålls endast för kompatibilitet med kontrollfilssyntaxen:
 \fB< << <= = >= >> >\fP.
 .TP
+.B dpkg --command-fd <n>
+Läser en följd av kommandon från indatafildeskriptor \fB<n>\fP.
+Observera: Flaggor som sätts på kommandoraden, och genom denna
+fildeskriptor, återställs inte för kommandon som körs i en följd under
+samma körning.
+.TP
 .B dpkg --help
 Visar en kortfattat hjälptext.
 .TP
@@ -347,6 +353,9 @@ experter.
 Om du använder dem utan att fullt ut förstå vad de går ut på kan du förstöra
 din systeminstallation.\fP
 
+\fBall\fP:
+Slår på (eller av) alla tvingande parameterar.
+
 \fBauto-select\fP(*):
 Markerar paket för att installera, och avmarkerar paket för att ta bort.
 
@@ -420,10 +429,6 @@ Försök (av)installera saker även utan att vara root.
 Ignorera beroendekontroll för angivna paket (i verkligheten utförs
 kontrollen, men det ges endast varningar, ingenting annat).
 .TP
-\fB--largemem\fP | \fB--smallmem\fP
-Anger om \fBdpkg\fP skall använda lite (dvs. för mindre än 4 Mbyte RAM)
-eller så mycket minne som behövs.
-.TP
 \fB--new\fP | \fB--old\fP
 Välj det nya eller gamla binärpaketformatet.
 Detta är en flagga till \fBdpkg-deb\fP(1).
@@ -471,6 +476,11 @@ Till exempel kommer paket som tas bort att markeras för installation.
 .TP
 .BR -E " | " --skip-same-version
 Installera inte paketet om samma version av paketet redan är installerat.
+.TP
+.\fB--status-fd \fP\fI<n>\fP
+Sänder paketstatusinformation till fildeskriptor \fI<n>\fP.
+Denna flagga kan ges flera gånger.
+Statusuppdateringar ges på formen "status: <paket>: <paket qstatus>".
 
 .SH FILER
 Filerna som listas här finns i sina förvalda kataloger, se flaggan
@@ -505,11 +515,15 @@ Se \fBdeb\fP(5) för ytterligare information om dem:
 .TP
 .B DPKG_NO_TSTP
 Definiera detta till någonting om du vill att \fBdpkg\fP skall starta ett
-nytt skal istället för att lägga \fBdpkg\fP i bakgrunden när ett skal
+nytt skal istället för att lägga sig i bakgrunden när ett skal
 startas.
 .TP
 .B SHELL
 Programmet \fBdpkg\fP kommer att exekvera när ett nytt skal startas.
+.TP
+.B COLUMNS
+Sätter antalet kolumner \fBdpkg\fP skall använda när formaterad text visas.
+Används för närvarande enbart av -l.
 
 .SH EXEMPEL
 För att lista paket relaterade till textredigeringsprogrammet vi:
@@ -550,6 +564,10 @@ att skriva:
 .br
 \fB     dpkg --set-selections <minamarkeringar\fP
 .br
+Observera att detta faktiskt inte kommer installera eller ta bort något,
+utan bara sätta valstatus på de efterfrågade paketen.
+Du måste använda något annat program för att faktiskt hämta och installera
+de efterfrågade paketen.
 
 För normalt bruk kommer du att upptäcka att \fBdselect\fP(8) tillhandahåller
 ett bekvämare sätt att ändra paketmarkeringarna.
