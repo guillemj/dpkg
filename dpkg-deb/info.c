@@ -3,6 +3,7 @@
  * info.c - providing information
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -64,9 +65,9 @@ static void info_prepare(const char *const **argvp,
   
   *debarp= *(*argvp)++;
   if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
-  /* This created a temporary directory, so ignore the warning. */
+  /* This creates a temporary directory, so ignore the warning. */
   if ((dbuf= tempnam(NULL,"dpkg")) == NULL)
-    ohshite(_("failed to make temporary filename"));
+    ohshite(_("failed to make temporary directoryname"));
   *directoryp= dbuf;
 
   if (!(c1= m_fork())) {
@@ -94,13 +95,16 @@ static void info_spew(const char *debar, const char *directory,
     } else if (errno == ENOENT) {
       if (fprintf(stderr, _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
                   debar, component) == EOF) werr("stderr");
-      re= 1;
+      re++;
     } else {
       ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
               component, directory);
     }
   }
-  if (re) ohshit(_("at least one requested control component missing"));
+  if (re==1)
+    ohshit(_("One requested control component is missing"));
+  else if (re>1)
+    ohshit(_("%d requested control components are missing"), re);
 }
 
 static void info_list(const char *debar, const char *directory) {
