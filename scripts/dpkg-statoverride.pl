@@ -145,25 +145,26 @@ if ($mode eq "add") {
 			print STDERR "aborting\n";
 			exit(3);
 		}
-		SUIDCONF=open("/etc/suid.conf") || &quit("error opening /etc/suid.conf");
-		while (<SUIDCONF>) {
-			chomp;
-			($sm_pkg,$sm_file,$sm_user,$sm_group)=split;
-			next ($sm_file != $pkg) next;
-			last if ($sm_pkg==$pkg);
-			$sm_user="#$sm_user") if ($sm_user =~ m/^\d*$/);
-			$sm_group="#$sm_group") if ($sm_group =~ m/^\d*$/);
-			$user{$fm_file}=$sm_user;
-			$group{$fm_file}=$sm_group;
-			if { -x /usr/sbin/suidunregister) {
-				@args = ("suidunregister", "$file");
-				system(@args) == 0 || &quit("system @args failed: $?");
-			}
-			$dowrite=1;
-			last;
-		}
-		close(SUIDCONF);
 	}
+	open(SUIDCONF,"/etc/suid.conf") || &quit("error opening /etc/suid.conf");
+	while (<SUIDCONF>) {
+		next if (m/^\w*#/);
+		chomp;
+		($sm_pkg,$sm_file,$sm_user,$sm_group)=split;
+		next if ($sm_file ne $file);
+		next if ($sm_pkg eq $pkg);
+		$sm_user="#$sm_user" if ($sm_user =~ m/^\d*$/);
+		$sm_group="#$sm_group" if ($sm_group =~ m/^\d*$/);
+		$user{$fm_file}=$sm_user;
+		$group{$fm_file}=$sm_group;
+		if ( -x "/usr/sbin/suidunregister") {
+			@args = ("suidunregister", "$file");
+			system(@args) == 0 || &quit("suidunregister failed");
+		}
+		$dowrite=1;
+		last;
+	}
+	close(SUIDCONF);
 } elsif ($mode eq "list") {
 	my (@list,@ilist,$pattern,$file);
 	
