@@ -172,7 +172,7 @@ then
 			read response
 			response="`echo \"$response\" | sed -e 's/[ 	]*$//'`"
 			if expr "$response" : '[0-9][0-9]*$' >/dev/null && \
-			   [ $response -ge 1 -a $response -le $ncdroms ]
+			   [ $response -ge 1 ] && [ $response -le $ncdroms ]
 			then
 				mountpoint="`sed -n $response'p' <$tp.l`"
 				echo
@@ -229,7 +229,7 @@ then
 		echo -n \
 "What is the name of the NFS server ? [$defaultnfsserver]  "
 		read response
-		if [ -z "$response" -a -n "$defaultnfsserver" ]
+		if [ -z "$response" ] && [ -n "$defaultnfsserver" ]
 		then
 			response="$defaultnfsserver"
 		fi
@@ -262,7 +262,7 @@ then
 What is the pathname on the NFS server of the filesystem with
 the Debian files? [$defaultnfsrempath]  "
 		read response
-		if [ -z "$response" -a -n "$defaultnfsrempath" ]
+		if [ -z "$response" ] && [ -n "$defaultnfsrempath" ]
 		then
 			response="$defaultnfsrempath"
 		else
@@ -444,7 +444,7 @@ find_area () {
 		check_binary $1 "$hierbase/$3/binary-$iarch"
 	fi
 
-	if [ $option = cdrom -a $2 = nf -a -z "$this_binary" ]
+	if [ $option = cdrom ] && [ $2 = nf ] && [ -z "$this_binary" ]
 	then
 		echo '
 Note: most CD-ROM distributions of Debian do not include programs
@@ -453,7 +453,7 @@ This is because these programs have copyrights that prevent
 distribution for profit on a CD-ROM - ie they are not free software.
 If you wish to install these programs you'\''ll have to get them from an
 alternative source.'
-	elif [ $2 = lcl -a -z "$this_binary" ]
+	elif [ $2 = lcl ] && [ -z "$this_binary" ]
 	then
 		echo '
 Note: By default there is no `local'\'' directory. It is intended for 
@@ -466,7 +466,7 @@ packages you made yourself.'
 Which directory contains the *.deb packages from the $1 distribution
 area (this directory is named \`$3/binary-$iarch' on the distribution site) ?
 Say \`none' if this area is not available."
-		if [ $2 != main -a -z "$defaultbinary" ]
+		if [ $2 != main ] && [ -z "$defaultbinary" ]
 		then
 			defaultbinary=none
 		fi
@@ -474,7 +474,7 @@ Say \`none' if this area is not available."
 "Enter _$1_ binary dir. [$4]
  ?  "
 		read response
-		if [ -z "$response" -a -n "$defaultbinary" ]
+		if [ -z "$response" ] && [ -n "$defaultbinary" ]
 		then
 			response="$defaultbinary"
 		fi
@@ -519,7 +519,7 @@ Where is the _$1_ \`Packages' file (if none is available, say \`none')
 [$5]
  ?  "
 			read response
-			if [ -z "$response" -a -n "$5" ]
+			if [ -z "$response" ] && [ -n "$5" ]
 			then
 				response="$5"
 			fi

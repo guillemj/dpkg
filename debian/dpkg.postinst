@@ -19,7 +19,7 @@ EOF
 }
 
 if [ "x$1" = xconfigure ]; then
-	if [ -z "$2" -a ! -f /etc/dpkg/dpkg.cfg ] ; then
+	if [ -z "$2" ] && [ ! -f /etc/dpkg/dpkg.cfg ] ; then
 		cp /usr/share/doc/dpkg/dpkg.cfg /etc/dpkg
 	fi
 
@@ -35,7 +35,7 @@ if [ "x$1" = xconfigure ]; then
 					continue
 				fi
 				h="`echo $g | sed -e 's/^K/S/'`"
-				if ! [ -L $h -a -L $g ] \
+				if ! [ -L $h ] && [ -L $g ] \
 				  || [ "`ls -Li $g 2>/dev/null | awk '{print $1}'`" != \
 				       "`ls -Li $h 2>/dev/null | awk '{print $1}'`" ]
 				then
@@ -114,8 +114,8 @@ OK.
 	esac
 fi
 
-if [ -d /usr/info -a ! -L /usr/info -a ! -L /usr/info/dir \
-		-a -f /usr/info/dir ]; then              
+if [ -d /usr/info ] && [ ! -L /usr/info ] && [ ! -L /usr/info/dir ] \
+		&& [ -f /usr/info/dir ]; then              
 	echo Moving /usr/info/dir to /usr/share/info/dir.
 	mv /usr/info/dir /usr/share/info/dir
 	if [ -f /usr/info/dir.old ]; then

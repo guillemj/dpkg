@@ -70,7 +70,7 @@ getname () {
 
 		a=`dpkg-deb -f -- "$1" architecture`;
 		a=`echo $a|sed -e 's/ *//g'`;
-		if [ -z "$a" -a -n "$noarchitecture" ]; # arch field empty, or ignored
+		if [ -z "$a" ] && [ -n "$noarchitecture" ]; # arch field empty, or ignored
 		then
 			a=`dpkg --print-installation-architecture`;
 			stderr "assuming architecture \`"$a"' for \`"$1"'";
@@ -103,7 +103,7 @@ getdir () {
 				s="no-section";
 				stderr "assuming section \`"no-section"' for \`"$1"'";
 			fi
-			if [ "$s" != "non-free" -a "$s" != "contrib" -a "$s" != "no-section" ];
+			if [ "$s" != "non-free" ] && [ "$s" != "contrib" ] && [ "$s" != "no-section" ];
 			then
 				dir=`echo unstable/binary-$a/$s`;
 			else
@@ -147,7 +147,7 @@ move () {
 		if [ $newname -ef "$1" ]; # same device and inode numbers
 		then
 			stderr "skipping \`"$1"'";
-		elif [ -f $newname -a -z "$overwrite" ];
+		elif [ -f $newname ] && [ -z "$overwrite" ];
 		then
 			stderr "can't move \`"$1"' to existing file";
 		elif `$command "$1" $newname`;

@@ -48,7 +48,7 @@ END
 
 rootcommand=''
 signcommand=""
-if [ -e $GNUPGHOME/secring.gpg -o -e $HOME/.gnupg/secring.gpg ] && \
+if ( [ -e $GNUPGHOME/secring.gpg ] || [ -e $HOME/.gnupg/secring.gpg ] ) && \
 		command -v gpg > /dev/null 2>&1; then
 	signcommand=gpg
 elif command -v pgp > /dev/null 2>&1 ; then
@@ -120,7 +120,7 @@ fi
 
 if test -n "$forcesigninterface" ; then
   signinterface=$forcesigninterface
-if [ "$signinterface" != "gpg" -a "$signinterface" != "pgp" ] ; then
+if [ "$signinterface" != "gpg" ] && [ "$signinterface" != "pgp" ] ; then
 	echo >&2 "$progname: invalid sign interface specified"
 	exit 1
 fi
@@ -200,7 +200,7 @@ if [ x$sourceonly = x ]; then
 	withecho $rootcommand debian/rules $binarytarget
 fi
 if [ "$usepause" = "true" ] && \
-   [  "$signchanges" != ":" -o \( -z "$binaryonly"  -a "$signsource" != ":" \) ] ; then
+   ( [ "$signchanges" != ":" ] || ( [ -z "$binaryonly" ] && [ "$signsource" != ":" ] ) ) ; then
     echo Press the return key to start signing process
     read dummy_stuff
 fi
