@@ -68,6 +68,7 @@ int mdfile(int fd, unsigned char **digest);
 int do_check(FILE *chkf);
 int hex_digit(int c);
 int get_md5_line(FILE *fp, unsigned char *digest, char *file);
+int process_arg(const char* arg, int bin_mode, unsigned char **digest);
 
 char *progname;
 int verbose = 0;
@@ -79,7 +80,7 @@ print_md5sum_error(const char* emsg, const char* arg) {
 	fprintf(stderr, _("error processing %s: %s\n"), arg, emsg);
 }
 
-void cu_closefile(int argc, void** argv) {
+static void cu_closefile(int argc, void** argv) {
 	FILE *f = (FILE*)(argv[0]);
 	fclose(f);
 }
@@ -134,38 +135,55 @@ main(int argc, char **argv)
 		exit(0);
 	}
 	for ( ; argc > 0; --argc, ++argv) {
-		if (setjmp(ejbuf)) {
-			error_unwind(ehflag_bombout);
-			rc++;
-			continue;
+		switch (process_arg(*argv, bin_mode, &digest)) {
+			case 1:
+				rc++;
+				break;
+			case 2:
+				perror(*argv);
+				rc++;
+				break;
+			case 3:
+				perror(*argv);
+				rc++;
+				break;
 		}
-		push_error_handler(&ejbuf, print_md5sum_error, *argv);
-		if (bin_mode)
-			fp = fopen(*argv, FOPRBIN);
-		else
-			fp = fopen(*argv, FOPRTXT);
-		if (fp == NULL) {
-			perror(*argv);
-			rc++;
-			continue;
-		}
-		push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)fp);
-		
-		mdfile(fileno(fp), &digest);
 		printf("%s %c%s\n", digest, bin_mode ? '*' : ' ', *argv);
-		pop_cleanup(ehflag_normaltidy); /* fd= fopen() */
-		fclose(fp);
-		fp= NULL;
-		set_error_display(0, 0);
-		error_unwind(ehflag_normaltidy);
 	}
-
 	return rc;
 }
 
-void usage() NONRETURNING;
+int process_arg(const char* arg, int bin_mode, unsigned char **digest)
+{
+	jmp_buf ejbuf;
+	FILE *fp = NULL;
+
+	if (setjmp(ejbuf)) {
+		error_unwind(ehflag_bombout);
+		return 1;
+	}
+	push_error_handler(&ejbuf, print_md5sum_error, arg);
+	if (bin_mode)
+		fp = fopen(arg, FOPRBIN);
+	else
+		fp = fopen(arg, FOPRTXT);
+	if (fp == NULL)
+		return 2;
+	push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)fp);
+	if (mdfile(fileno(fp), digest)) {
+		fclose(fp);
+		return 3;
+	}
+	pop_cleanup(ehflag_normaltidy); /* fd= fopen() */
+	fclose(fp);
+	set_error_display(0, 0);
+	error_unwind(ehflag_normaltidy);
+	return 0;
+}
+
+void usage(void) NONRETURNING;
 void
-usage()
+usage(void)
 {
         fputs(_("usage: md5sum [-bv] [-c [file]] | [file...]\n\
 Generates or checks MD5 Message Digests\n\
@@ -238,9 +256,7 @@ do_check(FILE *chkf)
 	int rc, ex = 0, failed = 0, checked = 0;
 	unsigned char chk_digest[32], *file_digest = NULL;
 	char filename[256];
-	FILE *fp;
 	size_t flen = 14;
-	jmp_buf ejbuf;
 
 	while ((rc = get_md5_line(chkf, chk_digest, filename)) >= 0) {
 		if (rc == 0)	/* not an md5 line */
@@ -250,32 +266,16 @@ do_check(FILE *chkf)
 				flen = strlen(filename);
 			fprintf(stderr, "%-*s ", (int)flen, filename);
 		}
-		if (setjmp(ejbuf)) {
-			error_unwind(ehflag_bombout);
-			ex = 2;
-			continue;
+		switch (process_arg(filename, bin_mode || rc == 2, &file_digest)) {
+			case 2:
+				fprintf(stderr, _("%s: can't open %s\n"), progname, filename);
+				ex = 2;
+				break;
+			case 3:
+				fprintf(stderr, _("%s: error reading %s\n"), progname, filename);
+				ex = 2;
+				break;
 		}
-		push_error_handler(&ejbuf, print_md5sum_error, filename);
-		if (bin_mode || rc == 2)
-			fp = fopen(filename, FOPRBIN);
-		else
-			fp = fopen(filename, FOPRTXT);
-		if (fp == NULL) {
-			fprintf(stderr, _("%s: can't open %s\n"), progname, filename);
-			ex = 2;
-			continue;
-		}
-		push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)fp);
-		if (mdfile(fileno(fp), &file_digest)) {
-			fprintf(stderr, _("%s: error reading %s\n"), progname, filename);
-			ex = 2;
-			fclose(fp);
-			continue;
-		}
-		pop_cleanup(ehflag_normaltidy); /* fd= fopen() */
-		fclose(fp);
-		set_error_display(0, 0);
-		error_unwind(ehflag_normaltidy);
 		if (memcmp(chk_digest, file_digest, 32) != 0) {
 			if (verbose)
 				fprintf(stderr, _("FAILED\n"));
