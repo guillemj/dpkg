@@ -107,8 +107,8 @@ Options:\n\
   --abort-after <n>              Abort after encountering <n> errors\n\
 \n\
 Comparison operators for --compare-versions are:\n\
- lt le eq ne ge gt       (treat no version as earlier than any version);\n\
- lt-nl le-nl ge-nl gt-nl (treat no version as later than any version);\n\
+ lt le eq ne ge gt       (treat empty version as earlier than any version);\n\
+ lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n\
  < << <= = >= >> >       (only for compatibility with control file syntax).\n\
 \n\
 Use `dselect' for user-friendly package management.\n"),

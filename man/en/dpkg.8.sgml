@@ -10,7 +10,7 @@
 
   <refnamediv>
     <refname>dpkg</refname>
-    <refpurpose>medium-level package manager for Debian</refpurpose>
+    <refpurpose>a medium-level package manager for Debian</refpurpose>
   </refnamediv>
 
 
@@ -37,11 +37,6 @@
       packages. The descriptions of what <command>dpkg</command> does when
       installing and removing packages are particularly inadequate.
     </para>
-
-    <para>
-      For information about this, please refer to sections regarding the
-      Debian packaging system in the Debian FAQ or in the Debian Reference.
-    </para>
   </refsect1>
 
 
@@ -50,7 +45,10 @@
 
     <para>
       <command>dpkg</command> is a medium-level tool to install, build, remove
-      and manage Debian packages. <command>dpkg</command>
+      and manage Debian packages. The primary and more user-friendly front-end
+      for <command>dpkg</command> is <command>dselect</command> (see
+      <citerefentry><refentrytitle>dselect</refentrytitle>
+      <manvolnum>8</manvolnum></citerefentry>). <command>dpkg</command> itself
       is controlled entirely via command line parameters, which consist of
       exactly one action and zero or more options. The action-parameter tells
       <command>dpkg</command> what to do and options control the behavior of
@@ -82,17 +80,6 @@
       <manvolnum>1</manvolnum> </citerefentry> for information about these
       actions.
     </para>
-
-    <note>
-      <para>
-	The primary and more user-friendly front-end for
-	<command>dpkg</command> is <command>dselect</command> (see
-	<citerefentry><refentrytitle>dselect</refentrytitle>
-	<manvolnum>8</manvolnum></citerefentry>). There are other front-ends
-	such as those based on <citerefentry><refentrytitle>apt</refentrytitle>
-	<manvolnum>8</manvolnum></citerefentry>.
-      </para>
-    </note>
   </refsect1>
 
   <refsect1>
@@ -699,10 +686,11 @@
 	  operator. <command>dpkg</command> returns success (zero result) if
 	  the specified condition is satisfied, and failure (nonzero result)
 	  otherwise.  There are two groups of operators, which differ in how
-	  they treat a missing <option>ver1</option> or <option>ver2</option>.
-	  These treat no version as earlier than any version:
-	  <emphasis>lt le eq ne ge gt</emphasis>. These treat no version as
-	  later than any version: <emphasis>lt-nl le-nl ge-nl gt-nl</emphasis>.
+	  they treat an empty <option>ver1</option> or <option>ver2</option>.
+	  These treat an empty version as earlier than any version:
+	  <emphasis>lt le eq ne ge gt</emphasis>. These treat an empty version
+	  as later than any version:
+	  <emphasis>lt-nl le-nl ge-nl gt-nl</emphasis>.
 	  These are provided only for compatibility with
 	  <filename>control</filename> file syntax: <emphasis>&lt; &lt;&lt;
 	  &lt;= = &gt;= &gt;&gt; &gt;</emphasis>.
@@ -734,7 +722,7 @@
 	</term>
 
 	<listitem><para>
-	  Display the usage instructions.
+	  Display a brief help message.
 	</para></listitem>
       </varlistentry>
 
@@ -777,14 +765,14 @@
 	    <arg choice="plain">
 	      <group choice="req">
 		<arg>--licence</arg>
-		<arg>--license</arg>
+		<arg>--license </arg>
 	      </group>
 	    </arg>
 	  </cmdsynopsis>
 	</term>
 
 	<listitem><para>
-	  Display <command>dpkg</command> copyright and licence information.
+	  Display <command>dpkg</command> licence.
 	</para></listitem>
       </varlistentry>
 
@@ -956,13 +944,13 @@
 	    <screen>(*)</screen> are forced by default.
 	  </para>
 
-	  <warning>
+	  <note>
 	    <para>
-	      These options are mostly intended to be used by experts only.
-	      Using them without fully understanding their effects may break
-	      your whole system.
+	      <emphasis>Warning: These options are mostly intended to be used
+	      by experts only. Using them without fully understanding their
+	      effects may break your whole system.</emphasis>
 	    </para>
-	  </warning>
+	  </note>
 
 	  <variablelist>
 	    <varlistentry>
@@ -1228,7 +1216,7 @@
 	    (e.g.  <screen>dpkg --purge foo --no-act</screen> will first
 	    purge package foo and then try to <command>purge</command>
 	    package --no-act, even though you probably expected it to
-	    actually do nothing!)
+	    actually do nothing)
 	  </para>
 	</listitem>
       </varlistentry>
@@ -1445,20 +1433,26 @@
     <title>Examples</title>
 
     <para>
-      To list packages containing the string `vi' in their name:
+      To list packages related to the editor vi:
 
       <Screen><command>dpkg</command> <option>-l</option> '*vi*'</Screen>
     </para>
 
     <para>
-      To see the entries in <filename>/var/lib/dpkg/available</filename> on
-      several packages:
+      To see the entries in <filename>/var/lib/dpkg/available</filename> on two
+      packages
 
-      <Screen><command>dpkg</command> <option>--print-avail</option> base-files login xfree86-common | pager</Screen>
+      <Screen><command>dpkg</command> <option>--print-avail</option> elvis vim</Screen>
     </para>
 
     <para>
-      To remove an installed package named "emacs":
+      To search the listing of packages yourself:
+
+      <Screen><command>less</command> <filename>/var/lib/dpkg/available</filename></Screen>
+    </para>
+
+    <para>
+      To remove an installed emacs package:
 
       <Screen><command>dpkg</command> <option>-r</option> emacs</Screen>
     </para>
@@ -1494,6 +1488,11 @@
 
     <para>
       <citerefentry>
+        <refentrytitle>dselect</refentrytitle>
+	<manvolnum>8</manvolnum>
+      </citerefentry>,
+
+      <citerefentry>
         <refentrytitle>dpkg-deb</refentrytitle>
 	<manvolnum>1</manvolnum>
       </citerefentry>,
@@ -1506,17 +1505,12 @@
       <citerefentry>
 	<refentrytitle>deb-control</refentrytitle>
 	<manvolnum>5</manvolnum>
-      </citerefentry>,
+      </citerefentry>
 
       <citerefentry>
-        <refentrytitle>dselect</refentrytitle>
+	<refentrytitle>dpkg-reconfigure</refentrytitle>
 	<manvolnum>8</manvolnum>
-      </citerefentry>,
-
-      <citerefentry>
-        <refentrytitle>apt</refentrytitle>
-	<manvolnum>8</manvolnum>
-      </citerefentry>.
+      </citerefentry>
     </para>
   </refsect1>
 </refentry>
