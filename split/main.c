@@ -67,11 +67,11 @@ Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"),
 const char thisname[]= SPLITTER;
 const char printforhelp[]= N_("Type dpkg-split --help for help.");
 
-dofunction *action=0;
-const struct cmdinfo *cipaction=0;
+dofunction *action=NULL;
+const struct cmdinfo *cipaction=NULL;
 long maxpartsize= SPLITPARTDEFMAX;
-const char *depotdir= ADMINDIR "/" PARTSDIR, *outputfile= 0;
-struct partqueue *queue= 0;
+const char *depotdir= ADMINDIR "/" PARTSDIR, *outputfile= NULL;
+struct partqueue *queue= NULL;
 int npquiet= 0, msdos= 0;
 
 void rerr(const char *fn) {
@@ -121,22 +121,22 @@ static dofunction *const dofunctions[]= {
  * same order as dofunctions:
  */
 static const struct cmdinfo cmdinfos[]= {
-  { "split",        's',  0,  0, 0,             setaction           },
-  { "join",         'j',  0,  0, 0,             setaction           },
-  { "info",         'I',  0,  0, 0,             setaction           },
-  { "auto",         'a',  0,  0, 0,             setaction           },
-  { "listq",        'l',  0,  0, 0,             setaction           },
-  { "discard",      'd',  0,  0, 0,             setaction           },
-  { "help",         'h',  0,  0, 0,             helponly            },
-  { "version",       0,   0,  0, 0,             versiononly         },
-  { "licence",       0,   0,  0, 0,             showcopyright       }, /* UK spelling */
-  { "license",       0,   0,  0, 0,             showcopyright       }, /* US spelling */
-  { "depotdir",      0,   1,  0, &depotdir,     0                   },
-  { "partsize",     'S',  1,  0, 0,             setpartsize         },
-  { "output",       'o',  1,  0, &outputfile,   0                   },
-  { "npquiet",      'Q',  0,  &npquiet, 0,      0,              1   },
-  { "msdos",         0,   0,  &msdos, 0,        0,              1   },
-  {  0,              0                                              }
+  { "split",        's',  0,  NULL, NULL,             setaction           },
+  { "join",         'j',  0,  NULL, NULL,             setaction           },
+  { "info",         'I',  0,  NULL, NULL,             setaction           },
+  { "auto",         'a',  0,  NULL, NULL,             setaction           },
+  { "listq",        'l',  0,  NULL, NULL,             setaction           },
+  { "discard",      'd',  0,  NULL, NULL,             setaction           },
+  { "help",         'h',  0,  NULL, NULL,             helponly            },
+  { "version",       0,   0,  NULL, NULL,             versiononly         },
+  { "licence",       0,   0,  NULL, NULL,             showcopyright       }, /* UK spelling */
+  { "license",       0,   0,  NULL, NULL,             showcopyright       }, /* US spelling */
+  { "depotdir",      0,   1,  NULL, &depotdir,     NULL                   },
+  { "partsize",     'S',  1,  NULL, NULL,             setpartsize         },
+  { "output",       'o',  1,  NULL, &outputfile,   NULL                   },
+  { "npquiet",      'Q',  0,  &npquiet, NULL,      NULL,              1   },
+  { "msdos",         0,   0,  &msdos, NULL,        NULL,              1   },
+  {  NULL,              0                                              }
 };
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
@@ -160,7 +160,7 @@ int main(int argc, const char *const *argv) {
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
   }
-  push_error_handler(&ejbuf,print_error_fatal,0);
+  push_error_handler(&ejbuf,print_error_fatal,NULL);
 
   myopt(&argv,cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
@@ -173,12 +173,12 @@ int main(int argc, const char *const *argv) {
     depotdir= p;
   }
 
-  setvbuf(stdout,0,_IONBF,0);
+  setvbuf(stdout,NULL,_IONBF,0);
   action(argv);
 
   if (ferror(stderr)) werr("stderr");
   
-  set_error_display(0,0);
+  set_error_display(NULL,NULL);
   error_unwind(ehflag_normaltidy);
   exit(0);
 }

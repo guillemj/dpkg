@@ -67,6 +67,6 @@ void do_split(const char *const *argv) {
   m_dup2(fd,0);
   execl(MKSPLITSCRIPT,MKSPLITSCRIPT,
         sourcefile,partsizebuf,prefix,lengthbuf,partsizeallowbuf,msdos?"yes":"no",
-        (char*)0);
+        NULL);
   ohshite(_("unable to exec mksplit"));
 }

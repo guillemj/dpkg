@@ -109,7 +109,7 @@ void do_join(const char *const *argv) {
     pq->nextinqueue= queue;
     queue= pq;
   }
-  refi= 0;
+  refi= NULL;
   for (pq= queue; pq; pq= pq->nextinqueue)
     if (!refi || pq->info.thispartn < refi->thispartn) refi= &pq->info;
   assert(refi);

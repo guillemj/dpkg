@@ -70,7 +70,7 @@ void scandepot(void) {
   while ((de= readdir(depot))) {
     if (de->d_name[0] == '.') continue;
     pq= nfmalloc(sizeof(struct partqueue));
-    pq->info.fmtversion= pq->info.package= pq->info.version= 0;
+    pq->info.fmtversion= pq->info.package= pq->info.version= NULL;
     pq->info.orglength= pq->info.thispartoffset= pq->info.thispartlen= 0;
     pq->info.headerlen= 0;
     p= nfmalloc(strlen(depotdir)+strlen(de->d_name)+1);
@@ -78,7 +78,7 @@ void scandepot(void) {
     strcat(p,de->d_name);
     pq->info.filename= p;
     if (!decompose_filename(de->d_name,pq)) {
-      pq->info.md5sum= 0;
+      pq->info.md5sum= NULL;
       pq->info.maxpartlen= pq->info.thispartn= pq->info.maxpartn= 0;
     }
     pq->nextinqueue= queue;
@@ -227,7 +227,7 @@ void do_queue(const char *const *argv) {
         if (!S_ISREG(stab.st_mode))
           ohshit(_("part file `%.250s' is not a plain file"),qq->info.filename);
         bytes+= stab.st_size;
-        qq->info.md5sum= 0; /* don't find this package again */
+        qq->info.md5sum= NULL; /* don't find this package again */
       }
     }
     printf(_("(total %lu bytes)\n"),bytes);
@@ -267,9 +267,9 @@ void do_discard(const char *const *argv) {
     for (pq= queue; pq; pq= pq->nextinqueue)
       if (pq->info.md5sum)
         mustgetpartinfo(pq->info.filename,&pq->info);
-    discardsome(ds_junk,0);
+    discardsome(ds_junk,NULL);
     while ((thisarg= *argv++)) discardsome(ds_package,thisarg);
   } else {
-    discardsome(ds_all,0);
+    discardsome(ds_all,NULL);
   }
 }

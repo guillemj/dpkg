@@ -73,7 +73,7 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
 
 struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) {
   /* returns info (nfmalloc'd) if was an archive part and we read it, 0 if it wasn't */
-  static char *readinfobuf= 0;
+  static char *readinfobuf= NULL;
   static size_t readinfobuflen= 0;
 
   size_t thisilen;
@@ -84,9 +84,9 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   struct stat stab;
   
   if (fread(magicbuf,1,sizeof(PARTMAGIC)-1,partfile) != sizeof(PARTMAGIC)-1) {
-    if (ferror(partfile)) rerr(fn); else return 0;
+    if (ferror(partfile)) rerr(fn); else return NULL;
   }
-  if (memcmp(magicbuf,PARTMAGIC,sizeof(magicbuf))) return 0;
+  if (memcmp(magicbuf,PARTMAGIC,sizeof(magicbuf))) return NULL;
   if (fseek(partfile,-sizeof(arh.ar_name),SEEK_CUR))
     ohshite(_("unable to seek back"));
   
