@@ -64,7 +64,10 @@ static int getttywidth() {
   int fd;
   int res;
   struct winsize ws;
+  char *columns;
 
+  if ((columns=getenv("COLUMNS")) && ((res=atoi(columns))>0))
+    return res;
   if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
     if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
       ws.ws_col=80;

@@ -51,15 +51,6 @@ if(!defined($getlogin)) {
 }
 
 if (defined ($ENV{'LOGNAME'})) {
-    if (!defined ($getlogin)) {
-        # Hmmm, do we really need this?
-	# warn (sprintf ('no utmp entry available, using value of LOGNAME ("%s")', $ENV{'LOGNAME'})); 
-    } else {
-	if ($getlogin ne $ENV{'LOGNAME'}) { 
-	    warn (sprintf ('utmp entry ("%s") does not match value of LOGNAME ("%s"); using "%s"',
-			   $getlogin, $ENV{'LOGNAME'}, $ENV{'LOGNAME'}));
-	}
-    }
     @fowner = getpwnam ($ENV{'LOGNAME'});
     if (! @fowner) { die (sprintf ('unable to get login information for username "%s"', $ENV{'LOGNAME'})); }
 } elsif (defined ($getlogin)) {
