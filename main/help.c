@@ -38,7 +38,8 @@
 #include "main.h"
 
 const char *const statusstrings[]= {
-  N_("not installed"), N_("unpacked but not configured"),
+  N_("not installed"),
+  N_("unpacked but not configured"),
   N_("broken due to postinst failure"),
   N_("installed"),
   N_("broken due to failed removal"),
@@ -172,7 +173,7 @@ static const char* preexecscript(const char *path, char *const *argv) {
   int instdirl;
 
   if (*instdir) {
-    if (chroot(instdir)) ohshite("failed to chroot to `%.250s'",instdir);
+    if (chroot(instdir)) ohshite(_("failed to chroot to `%.250s'"),instdir);
   }
   if (f_debug & dbg_scripts) {
     fprintf(stderr,"D0%05o: fork/exec %s (",dbg_scripts,path);
@@ -340,7 +341,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                         ifok,versiondescribe(&pkg->available.version,
                                              vdew_nonambig),
                         (char*)0);
-  sprintf(buf,"old %s script",description);
+  sprintf(buf,_("old %s script"),description);
   if (stat(oldscriptpath,&stab)) {
     if (errno == ENOENT) {
       debug(dbg_scripts,"maintainer_script_alternative nonexistent %s `%s'",

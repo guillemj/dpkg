@@ -159,7 +159,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
   case msdbrw_readonly:
     cstatus= msdbrw_readonly; break;
   default:
-    internerr("unknown readwritereq");
+    internerr(_("unknown readwritereq"));
   }
 
   updatefnbuf= m_malloc(strlen(adir)+sizeof(UPDATESDIR)+IMPORTANTMAXLEN+5);

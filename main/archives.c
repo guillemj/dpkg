@@ -94,7 +94,7 @@ int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
 
       if (!thirdpkg->clientdata->fileslistvalid) {
         debug(dbg_eachfiledetail,
-              "process_archive ...  already disappeared !");
+              _("process_archive ...  already disappeared !"));
         continue;
       }
       /* We've found a package that can take this file. */
@@ -232,8 +232,8 @@ int tarobject(struct TarInfo *ti) {
   nifd->namenode->flags |= fnnf_new_inarchive;
 
   debug(dbg_eachfile,
-        "tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c)"
-        " ti->LinkName=`%s' namenode=`%s' flags=%o instead=`%s'",
+        _("tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c)"
+        " ti->LinkName=`%s' namenode=`%s' flags=%o instead=`%s'"),
         ti->Name, (long)ti->Mode, (unsigned)ti->UserID, (unsigned)ti->GroupID, ti->Type,
         ti->Type == '\0' ? '_' :
         ti->Type >= '0' && ti->Type <= '6' ? "-hlcbdp"[ti->Type - '0'] : '?',
@@ -249,7 +249,7 @@ int tarobject(struct TarInfo *ti) {
                 "diverted version of `%.250s'%.10s%.100s%.10s"),
                 nifd->namenode->name,
                 nifd->namenode->divert->camefrom->name,
-                divpkg ? " (package: " : "",
+                divpkg ? _(" (package: ") : "",
                 divpkg ? divpkg->name : "",
                 divpkg ? ")" : "");
   }
@@ -348,7 +348,7 @@ int tarobject(struct TarInfo *ti) {
         /* Perhaps we're removing a conflicting package ? */
         if (otherpkg->clientdata->istobe == itb_remove) continue;
         if (does_replace(tc->pkg,&tc->pkg->available,otherpkg)) {
-          printf("Replacing files in old package %s ...\n",otherpkg->name);
+          printf(_("Replacing files in old package %s ...\n"),otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 1;
         } else {
           if (S_ISDIR(stab.st_mode)) {
@@ -845,12 +845,12 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
   if (pkg->want != want_install) {
     if (f_alsoselect) {
       if (saywhy) {
-   printf("Selecting previously deselected package %s.\n",pkg->name);
+   printf(_("Selecting previously deselected package %s.\n"),pkg->name);
    pkg->want= want_install;
       }
       return 1;
     } else {
-      if (saywhy) printf("Skipping deselected package %s.\n",pkg->name);
+      if (saywhy) printf(_("Skipping deselected package %s.\n"),pkg->name);
       return 0;
     }
   }
@@ -864,8 +864,8 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
   } else if (r == 0) {
     if (f_skipsame && /* same version fully installed ? */
    pkg->status == stat_installed && !(pkg->eflag &= eflagf_reinstreq)) {
-      if (saywhy) fprintf(stderr, "Version %.250s of %.250s already installed, "
-             "skipping.\n",
+      if (saywhy) fprintf(stderr, _("Version %.250s of %.250s already installed, "
+             "skipping.\n"),
              versiondescribe(&pkg->installed.version,vdew_never),
              pkg->name);
       return 0;
@@ -876,14 +876,14 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
     needepochs= epochsdiffer(&pkg->available.version,&pkg->installed.version) ?
       vdew_always : vdew_never;
     if (fc_downgrade) {
-      if (saywhy) fprintf(stderr, DPKG " - warning: downgrading %.250s "
-             "from %.250s to %.250s.\n", pkg->name,
+      if (saywhy) fprintf(stderr, _("%s - warning: downgrading %.250s "
+             "from %.250s to %.250s.\n"), DPK, pkg->name,
              versiondescribe(&pkg->installed.version,needepochs),
              versiondescribe(&pkg->available.version,needepochs));
       return 1;
     } else {
-      if (saywhy) fprintf(stderr, "Will not downgrade %.250s from version %.250s "
-             "to %.250s, skipping.\n", pkg->name,
+      if (saywhy) fprintf(stderr, _("Will not downgrade %.250s from version %.250s "
+             "to %.250s, skipping.\n"), pkg->name,
              versiondescribe(&pkg->installed.version,needepochs),
              versiondescribe(&pkg->available.version,needepochs));
       return 0;

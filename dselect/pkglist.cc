@@ -116,7 +116,7 @@ void packagelist::addheading(enum ssavailval ssavail,
     table= newtable;
   }
   
-  if (debug) fprintf(debug,_("packagelist[%p]::addheading(%d,%d,%d,%s,%s)\n"),
+  if (debug) fprintf(debug,"packagelist[%p]::addheading(%d,%d,%d,%s,%s)\n",
                      this,ssavail,ssstate,priority,
                      otherpriority ? otherpriority : _("<null>"),
                      section ? section : _("<null>"));
@@ -148,7 +148,7 @@ int qsort_compareentries(const void *a, const void *b) {
 void packagelist::sortinplace() {
   sortpackagelist= this;
 
-  if (debug) fprintf(debug,_("packagelist[%p]::sortinplace()\n"),this);
+  if (debug) fprintf(debug,"packagelist[%p]::sortinplace()\n",this);
   qsort(table,nitems,sizeof(struct pkginfoperfile*),qsort_compareentries);
 }
 
@@ -158,20 +158,20 @@ void packagelist::ensurestatsortinfo() {
   struct pkginfo *pkg;
   int index;
   
-  if (debug) fprintf(debug,_("packagelist[%p]::ensurestatsortinfos() "
-                     "sortorder=%d nitems=%d\n"),this,statsortorder,nitems);
+  if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() "
+                     "sortorder=%d nitems=%d\n",this,statsortorder,nitems);
   
   switch (statsortorder) {
   case sso_unsorted:
-    if (debug) fprintf(debug,_("packagelist[%p]::ensurestatsortinfos() unsorted\n"),this);
+    if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() unsorted\n",this);
     return;
   case sso_avail:
-    if (debug) fprintf(debug,_("packagelist[%p]::ensurestatsortinfos() calcssadone=%d\n"),
+    if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() calcssadone=%d\n",
                        this,calcssadone);
     if (calcssadone) return;
     for (index=0; index < nitems; index++) {
       if (debug)
-        fprintf(debug,_("packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n"),
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n",
                 this,index,table[index]->pkg->name);
       pkg= table[index]->pkg;
       if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
@@ -207,19 +207,19 @@ void packagelist::ensurestatsortinfo() {
         internerr(_("unknown stat in ensurestatsortinfo sso_avail"));
       }
       if (debug)
-        fprintf(debug,_("packagelist[%p]::ensurestatsortinfos() i=%d ssavail=%d\n"),
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssavail=%d\n",
                 this,index,table[index]->ssavail);
   
     }
     calcssadone= 1;
     break;
   case sso_state:
-    if (debug) fprintf(debug,_(_("packagelist[%p]::ensurestatsortinfos() calcsssdone=%d\n")),
+    if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() calcsssdone=%d\n",
                        this,calcsssdone);
     if (calcsssdone) return;
     for (index=0; index < nitems; index++) {
       if (debug)
-        fprintf(debug,_("packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n"),
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n",
                 this,index,table[index]->pkg->name);
       switch (table[index]->pkg->status) {
       case pkginfo::stat_unpacked:
@@ -240,7 +240,7 @@ void packagelist::ensurestatsortinfo() {
         internerr(_("unknown stat in ensurestatsortinfo sso_state"));
       }
       if (debug)
-        fprintf(debug,_("packagelist[%p]::ensurestatsortinfos() i=%d ssstate=%d\n"),
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssstate=%d\n",
                 this,index,table[index]->ssstate);
   
     }

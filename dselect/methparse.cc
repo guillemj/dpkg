@@ -86,11 +86,11 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
     ohshite(_("unable to read `%.250s' directory for reading methods"),pathbuf);
   }
 
-  if (debug) fprintf(debug,_("readmethods(`%s',...) directory open\n"), pathbase);
+  if (debug) fprintf(debug,"readmethods(`%s',...) directory open\n", pathbase);
   
   while ((dent= readdir(dir)) != 0) {
     c= dent->d_name[0];
-    if (debug) fprintf(debug,_("readmethods(`%s',...) considering `%s' ...\n"),
+    if (debug) fprintf(debug,"readmethods(`%s',...) considering `%s' ...\n",
                        pathbase,dent->d_name);
     if (c != '_' && !isalpha(c)) continue;
     for (p= dent->d_name+1; (c= *p) != 0 && isalnum(c) && c != '_'; p++);
@@ -110,7 +110,7 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
       if (access(pathbuf,R_OK|X_OK))
         ohshite(_("unable to access method script `%.250s'"),pathbuf);
     }
-    if (debug) fprintf(debug,_(" readmethods(`%s',...) scripts ok\n"), pathbase);
+    if (debug) fprintf(debug," readmethods(`%s',...) scripts ok\n", pathbase);
 
     strcpy(pathinmeth,METHODOPTIONSFILE);
     names= fopen(pathbuf,"r");
@@ -127,8 +127,8 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
     meth->back= 0;
     if (methods) methods->back= meth;
     methods= meth;
-    if (debug) fprintf(debug,_(" readmethods(`%s',...) new method"
-                       " name=`%s' path=`%s' pathinmeth=`%s'\n"),
+    if (debug) fprintf(debug," readmethods(`%s',...) new method"
+                       " name=`%s' path=`%s' pathinmeth=`%s'\n",
                        pathbase, meth->name, meth->path, meth->pathinmeth);
     
     while ((c= fgetc(names)) != EOF) {
@@ -196,10 +196,10 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
       }
       strcpy(pathinmeth,METHODOPTIONSFILE);
       
-      if (debug) fprintf(debug,_(" readmethods(`%s',...) new option"
+      if (debug) fprintf(debug," readmethods(`%s',...) new option"
                          " index=`%s' name=`%s' summary=`%.20s'"
                          " strlen(description=%s)=%ld"
-                         " method name=`%s' path=`%s' pathinmeth=`%s'\n"),
+                         " method name=`%s' path=`%s' pathinmeth=`%s'\n",
                          pathbase,
                          opt->index, opt->name, opt->summary,
                          opt->description ? "`...'" : "null",
@@ -217,7 +217,7 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
     fclose(names);
   }
   closedir(dir);
-  if (debug) fprintf(debug,_("readmethods(`%s',...) done\n"), pathbase);
+  if (debug) fprintf(debug,"readmethods(`%s',...) done\n", pathbase);
   delete[] pathbuf;
 }
 
@@ -245,26 +245,26 @@ void getcurrentopt() {
     if (errno == ENOENT) return;
     ohshite(_("unable to open current option file `%.250s'"),methoptfile);
   }
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt open\n"));
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt open\n");
   if (!fgets(methoptbuf,sizeof(methoptbuf),cmo)) { fclose(cmo); return; }
   if (fgetc(cmo) != EOF) { fclose(cmo); return; }
   if (!feof(cmo)) { fclose(cmo); return; }
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt eof\n"));
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt eof\n");
   fclose(cmo);
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt read\n"));
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt read\n");
   l= strlen(methoptbuf);  if (!l || methoptbuf[l-1] != '\n') return;
   methoptbuf[--l]= 0;
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt len and newline\n"));
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt len and newline\n");
   p= strchr(methoptbuf,' ');  if (!p) return;
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt space\n"));
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt space\n");
   *p++= 0;
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt meth name `%s'\n"), methoptbuf);
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt meth name `%s'\n", methoptbuf);
   for (meth= methods; meth && strcmp(methoptbuf,meth->name); meth= meth->next);
   if (!meth) return;
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt meth found; opt `%s'\n"),p);
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt meth found; opt `%s'\n",p);
   for (opt= options; opt && (opt->meth != meth || strcmp(p,opt->name)); opt= opt->next);
   if (!opt) return;
-  if (debug) fprintf(debug,_("getcurrentopt() cmethopt opt found\n"));
+  if (debug) fprintf(debug,"getcurrentopt() cmethopt opt found\n");
   coption= opt;
 }
 

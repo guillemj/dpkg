@@ -183,8 +183,8 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
 
   if (*value == 'h') {
-    if (fputs(
-DPKG " debugging option, --debug=<octal> or -D<octal>:\n\n\
+    if (printf(
+_("%s debugging option, --debug=<octal> or -D<octal>:\n\n\
  number  ref. in source   description\n\
       1   general           Generally helpful progress information\n\
       2   scripts           Invocation and status of maintainer scripts\n\
@@ -197,13 +197,13 @@ DPKG " debugging option, --debug=<octal> or -D<octal>:\n\n\
    1000   veryverbose       Lots of drivel about eg the dpkg/info directory\n\
    2000   stupidlyverbose   Insane amounts of drivel\n\n\
 Debugging options are be mixed using bitwise-or.\n\
-Note that the meanings and values are subject to change.\n",
-             stdout) < 0) werr("stdout");
+Note that the meanings and values are subject to change.\n"),
+             DPKG) < 0) werr("stdout");
     exit(0);
   }
   
   f_debug= strtoul(value,&endp,8);
-  if (*endp) badusage("--debug requires an octal argument");
+  if (*endp) badusage(_("--debug requires an octal argument"));
 }
 
 static void setroot(const struct cmdinfo *cip, const char *value) {
@@ -249,7 +249,7 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
 
   v= strtoul(value,&ep,0);
   if (*ep || v > INT_MAX)
-    badusage("invalid integer for --%s: `%.250s'",cip->olong,value);
+    badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
   *cip->iassignto= v;
 }
 
@@ -259,7 +259,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   const struct forceinfo *fip;
 
   if (!strcmp(value,"help")) {
-    if (fputs(_("dpkg forcing options - control behaviour when problems found:\n\
+    if (printf(_("%s forcing options - control behaviour when problems found:\n\
   warn but continue:  --force-<thing>,<thing>,...\n\
   stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n\
  Forcing things:\n\
@@ -288,7 +288,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 \n\
 WARNING - use of options marked [!] can seriously damage your installation.\n\
 Forcing options marked [*] are enabled by default.\n"),
-               stdout) < 0) werr("stdout");
+               DPKG) < 0) werr("stdout");
     exit(0);
   }
 

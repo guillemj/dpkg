@@ -192,7 +192,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   va_end(al);
   cep->next= econtext->cleanups;
   econtext->cleanups= cep;
-  if (cep == &emergency.ce) { e= errno; ohshite("out of memory for new cleanup entry"); }
+  if (cep == &emergency.ce) { e= errno; ohshite(_("out of memory for new cleanup entry")); }
 
   onerr_abort--;
 }

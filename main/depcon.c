@@ -133,7 +133,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   case dep_predepends:  varbufaddstr(addto, _(" pre-depends on ")); break;
   case dep_recommends:  varbufaddstr(addto, _(" recommends "));     break;
   case dep_conflicts:   varbufaddstr(addto, _(" conflicts with ")); break;
-  default:              internerr("unknown deptype");
+  default:              internerr(_("unknown deptype"));
   }
   varbufdependency(addto, dep);
 }
@@ -179,13 +179,13 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
     case stat_halfconfigured: case stat_unpacked:
       return 1;
     default:
-      internerr("unknown status depending");
+      internerr(_("unknown status depending"));
     }
     break;
   case itb_installnew: case itb_preinstall:
     break;
   default:
-    internerr("unknown istobe depending");
+    internerr(_("unknown istobe depending"));
   }
 
   /* Describe the dependency, in case we have to moan about it. */
@@ -261,7 +261,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         }
         break;
       default:
-        internerr("unknown istobe depended");
+        internerr(_("unknown istobe depended"));
       }
       varbufaddstr(whynot, linebuf);
 
@@ -305,7 +305,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                     gettext(statusstrings[provider->up->up->status]));
             break;
           default:
-            internerr("unknown istobe provider");
+            internerr(_("unknown istobe provider"));
           }
           varbufaddstr(whynot, linebuf);
         }
@@ -314,7 +314,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           /* If the package wasn't installed at all, and we haven't said
            * yet why this isn't satisfied, we should say so now.
            */
-          sprintf(linebuf, "  %.250s is not installed.\n", possi->ed->name);
+          sprintf(linebuf, _("  %.250s is not installed.\n"), possi->ed->name);
           varbufaddstr(whynot, linebuf);
         }
       }
@@ -370,7 +370,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         }
         break;
       default:
-        internerr("unknown istobe conflict");
+        internerr(_("unknown istobe conflict"));
       }
     }
 
@@ -426,7 +426,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           }
           break;
         default:
-          internerr("unknown istobe conflict provider");
+          internerr(_("unknown istobe conflict provider"));
         }
       }
     }

@@ -159,7 +159,7 @@ void varbufversion
     varbufprintf(vb,"%lu:",version->epoch);
     break;
   default:
-    internerr("bad versiondisplayepochwhen in varbufversion");
+    internerr(_("bad versiondisplayepochwhen in varbufversion"));
   }
   if (version->version) varbufaddstr(vb,version->version);
   if (version->revision && *version->revision) {
@@ -177,7 +177,7 @@ const char *versiondescribe
 
   struct varbuf *vb;
   
-  if (!informativeversion(version)) return "<none>";
+  if (!informativeversion(version)) return _("<none>");
 
   vb= &bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
   varbufreset(vb);

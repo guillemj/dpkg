@@ -38,7 +38,7 @@ static int convert_string
   int c, l;
 
   ep= startp;
-  if (!*ep) parseerr(0,filename,lno, warnto,warncount,pigp,0, "%s is missing",what);
+  if (!*ep) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("%s is missing"),what);
   while ((c= *ep) && !isspace(c)) ep++;
   l= (int)(ep-startp);
   while (nvip->name && (strncasecmp(nvip->name,startp,l) || nvip->name[l])) nvip++;
@@ -120,7 +120,7 @@ void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                const char *filename, int lno, FILE *warnto, int *warncount,
                const char *value, const struct fieldinfo *fip) {
   pifp->essential=
-    *value ? convert_string(filename,lno,"yes/no in `essential' field", -1,
+    *value ? convert_string(filename,lno,_("yes/no in `essential' field"), -1,
                             warnto,warncount,pigp,
                             value,booleaninfos,0)
            : 0;
@@ -164,7 +164,7 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     pigp->want= want_hold;
     pigp->eflag &= ~eflagf_obsoletehold;
   }
-  pigp->status= convert_string(filename,lno,"third (status) word in `status' field", -1,
+  pigp->status= convert_string(filename,lno,_("third (status) word in `status' field"), -1,
                                warnto,warncount,pigp, ep,statusinfos,0);
 }
 

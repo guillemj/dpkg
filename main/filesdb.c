@@ -460,7 +460,7 @@ struct fileiterator *iterfilestart(void) {
     i->u.low.current= allfiles;
     break;
   default:
-    internerr("iterfilestart no f_largemem");
+    internerr(_("iterfilestart no f_largemem"));
   }
   return i;
 }
@@ -482,7 +482,7 @@ struct filenamenode *iterfilenext(struct fileiterator *i) {
     i->u.low.current= i->u.low.current->next;
     break;
   default:
-    internerr("iterfilenext no f_largemem");
+    internerr(_("iterfilenext no f_largemem"));
   }
   return r;
 }
@@ -528,7 +528,7 @@ void filesdbinit(void) {
     }
     break;
   default:
-    internerr("filesdbinit no f_largemem");
+    internerr(_("filesdbinit no f_largemem"));
   }    
 }
 
@@ -542,7 +542,7 @@ struct filenamenode *findnamenode(const char *name) {
   case -1:
     return findnamenode_low(name);
   default:
-    internerr("findnamenode no f_largemem");
+    internerr(_("findnamenode no f_largemem"));
   }
 }
 

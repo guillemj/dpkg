@@ -48,7 +48,7 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   int l;
   
   pdesc= pkg->installed.valid ? pkg->installed.description : 0;
-  if (!pdesc) pdesc= "(no description available)";
+  if (!pdesc) pdesc= _("(no description available)");
   p= strchr(pdesc,'\n');
   if (!p) p= pdesc+strlen(pdesc);
   l= (p - pdesc > maxl) ? maxl : (int)(p - pdesc);
@@ -218,10 +218,10 @@ static int yettobeunpacked(struct pkginfo *pkg, const char **thissect) {
     return 0;
   case stat_notinstalled: case stat_halfinstalled: case stat_configfiles:
     if (thissect)
-      *thissect= pkg->section && *pkg->section ? pkg->section : "<unknown>";
+      *thissect= pkg->section && *pkg->section ? pkg->section : _("<unknown>");
     return 1;
   default:
-    internerr("unknown status checking for unpackedness");
+    internerr(_("unknown status checking for unpackedness"));
   }
 }
 
@@ -272,7 +272,7 @@ void unpackchk(const char *const *argv) {
   } else if (sects <= 12) {
     for (se= sectionentries; se; se= se->next) {
       sprintf(buf,"%d",se->count);
-      printf(" %d in %s: ",se->count,se->name);
+      printf(_(" %d in %s: "),se->count,se->name);
       width= 70-strlen(se->name)-strlen(buf);
       while (width > 59) { putchar(' '); width--; }
       it= iterpkgstart(); 
@@ -453,7 +453,7 @@ void enqperpackage(const char *const *argv) {
       break;
 
     default:
-      internerr("unknown action");
+      internerr(_("unknown action"));
     }
         
     putchar('\n');
@@ -472,7 +472,7 @@ static void assertversion(const char *const *argv,
 			const char *reqversion) {
   struct pkginfo *pkg;
 
-  if (*argv) badusage("--assert-* does not take any arguments");
+  if (*argv) badusage(_("--assert-* does not take any arguments"));
 
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
   if (verrev_buf->epoch == ~0UL) {
@@ -487,11 +487,11 @@ static void assertversion(const char *const *argv,
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
     if (versionsatisfied3(&pkg->configversion,verrev_buf,dvr_laterequal))
       break;
-    printf("Version of dpkg with working epoch support not yet configured.\n"
-           " Please use `dpkg --configure dpkg', and then try again.\n");
+    printf(_("Version of dpkg with working epoch support not yet configured.\n"
+           " Please use `dpkg --configure dpkg', and then try again.\n"));
     exit(1);
   default:
-    printf("dpkg not recorded as installed, cannot check for epoch support !\n");
+    printf(_("dpkg not recorded as installed, cannot check for epoch support !\n"));
     exit(1);
   }
 }
@@ -676,7 +676,7 @@ void printarch(const char *const *argv) {
   switch (cipaction->arg) {
   case act_printarch:    arch= archp->to;  break;
   case act_printgnuarch: arch= archp->gnu; break;
-  default: internerr("unknown action in printarch");
+  default: internerr(_("unknown action in printarch"));
   }
   if (!arch) {
     *q= 0; arch= p;

@@ -44,13 +44,13 @@ const char *methodlist::itemname(int index) {
 void methodlist::kd_abort() { }
 
 void methodlist::kd_quit() {
-  if (debug) fprintf(debug,_("methodlist[%p]::kd_quit() setting coption=%p\n"),
+  if (debug) fprintf(debug,"methodlist[%p]::kd_quit() setting coption=%p\n",
                      this, table[cursorline]);
   coption= table[cursorline];
 }
 
 void methodlist::setwidths() {
-  if (debug) fprintf(debug,_("methodlist[%p]::setwidths()\n"),this);
+  if (debug) fprintf(debug,"methodlist[%p]::setwidths()\n",this);
 
   status_width= 1;
   gap_width= 1;
@@ -118,7 +118,7 @@ methodlist::methodlist() : baselist(&methodlistbindings) {
   int newcursor= -1;
   
   if (debug)
-    fprintf(debug,_("methodlist[%p]::methodlist()\n"),this);
+    fprintf(debug,"methodlist[%p]::methodlist()\n",this);
 
   table= new struct option*[noptions];
 
@@ -133,11 +133,11 @@ methodlist::methodlist() : baselist(&methodlistbindings) {
   setcursor(newcursor);
 
   if (debug)
-    fprintf(debug,_("methodlist[%p]::methodlist done; noptions=%d\n"), this, noptions);
+    fprintf(debug,"methodlist[%p]::methodlist done; noptions=%d\n", this, noptions);
 }
 
 methodlist::~methodlist() {
-  if (debug) fprintf(debug,_("methodlist[%p]::~methodlist()\n"),this);
+  if (debug) fprintf(debug,"methodlist[%p]::~methodlist()\n",this);
   delete[] table;
 }
 
@@ -145,12 +145,12 @@ quitaction methodlist::display() {
   int response;
   const keybindings::interpretation *interp;
 
-  if (debug) fprintf(debug,_("methodlist[%p]::display()\n"),this);
+  if (debug) fprintf(debug,"methodlist[%p]::display()\n",this);
 
   setupsigwinch();
   startdisplay();
   
-  if (debug) fprintf(debug,_("methodlist[%p]::display() entering loop\n"),this);
+  if (debug) fprintf(debug,"methodlist[%p]::display() entering loop\n",this);
   for (;;) {
     if (whatinfo_height) wcursyncup(whatinfowin);
     if (doupdate() == ERR) ohshite(_("doupdate failed"));
@@ -161,7 +161,7 @@ quitaction methodlist::display() {
     if (response == ERR) ohshite(_("getch failed"));
     interp= (*bindings)(response);
     if (debug)
-      fprintf(debug,_("methodlist[%p]::display() response=%d interp=%s\n"),
+      fprintf(debug,"methodlist[%p]::display() response=%d interp=%s\n",
               this,response, interp ? interp->action : _("[none]"));
     if (!interp) { beep(); continue; }
     (this->*(interp->mfn))();
@@ -170,7 +170,7 @@ quitaction methodlist::display() {
   pop_cleanup(ehflag_normaltidy); // unset the SIGWINCH handler
   enddisplay();
   
-  if (debug) fprintf(debug,_("methodlist[%p]::display() done\n"),this);
+  if (debug) fprintf(debug,"methodlist[%p]::display() done\n",this);
 
   return interp->qa;
 }
@@ -196,7 +196,7 @@ void methodlist::redrawinfo() {
   whatinfovb.reset();
   werase(infopad); wmove(infopad,0,0);
   
-  if (debug) fprintf(debug,_("methodlist[%p]::redrawinfo()\n"), this);
+  if (debug) fprintf(debug,"methodlist[%p]::redrawinfo()\n", this);
 
   itd_description();
 

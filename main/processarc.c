@@ -124,7 +124,7 @@ void process_archive(const char *filename) {
       /* It was a part - is it complete ? */
       if (!stat(reasmbuf,&stab)) { /* Yes. */
         filename= reasmbuf;
-        pfilename= "reassembled package file";
+        pfilename= _("reassembled package file");
         break;
       } else if (errno == ENOENT) { /* No.  That's it, we skip it. */
         return;

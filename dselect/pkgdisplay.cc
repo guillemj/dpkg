@@ -128,7 +128,7 @@ static int maximumstring(const char *const *array) {
 }
 
 void packagelist::setwidths() {
-  if (debug) fprintf(debug,_("packagelist[%p]::setwidths()\n"),this);
+  if (debug) fprintf(debug,"packagelist[%p]::setwidths()\n",this);
 
   if (verbose) {
     status_hold_width= 9;

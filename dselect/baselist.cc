@@ -105,7 +105,7 @@ void baselist::setheights() {
 }
 
 void baselist::startdisplay() {
-  if (debug) fprintf(debug,_("baselist[%p]::startdisplay()\n"),this);
+  if (debug) fprintf(debug,"baselist[%p]::startdisplay()\n",this);
   cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
   clear(); wnoutrefresh(stdscr);
 
@@ -220,7 +220,7 @@ void baselist::redraw1item(int index) {
 
 baselist::baselist(keybindings *kb) {
   if (debug)
-    fprintf(debug,_("baselist[%p]::baselist()\n"),this);
+    fprintf(debug,"baselist[%p]::baselist()\n",this);
 
   bindings= kb;
   nitems= 0;
@@ -258,7 +258,7 @@ void baselist::itd_keys() {
 void baselist::dosearch() {
   int offset, index, searchlen;
   searchlen= strlen(searchstring);
-  if (debug) fprintf(debug,_("packagelist[%p]::dosearch(); searchstring=`%s' len=%d\n"),
+  if (debug) fprintf(debug,"packagelist[%p]::dosearch(); searchstring=`%s' len=%d\n",
                      this,searchstring,searchlen);
   for (offset=1, index=greaterint(topofscreen,cursorline+1);
        offset<nitems;
@@ -306,7 +306,7 @@ void baselist::refreshinfo() {
 
 void baselist::wordwrapinfo(int offset, const char *m) {
   int usemax= xmax-5;
-  if (debug) fprintf(debug,_("baselist[%p]::wordwrapinfo(%d, `%s')\n"),this,offset,m);
+  if (debug) fprintf(debug,"baselist[%p]::wordwrapinfo(%d, `%s')\n",this,offset,m);
   int wrapping=0;
   for (;;) {
     int offleft=offset; while (*m == ' ' && offleft>0) { m++; offleft--; }
@@ -352,7 +352,7 @@ void baselist::wordwrapinfo(int offset, const char *m) {
     if (!p) break;
     m= ++p;
   }
-  if (debug) fprintf(debug,_("baselist[%p]::wordwrapinfo() done\n"),this);
+  if (debug) fprintf(debug,"baselist[%p]::wordwrapinfo() done\n",this);
 }
 
 baselist::~baselist() { }

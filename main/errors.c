@@ -53,8 +53,8 @@ static struct error_report emergency;
 void print_error_perpackage(const char *emsg, const char *arg) {
   struct error_report *nr;
   
-  fprintf(stderr, DPKG ": error processing %s (--%s):\n %s\n",
-          arg, cipaction->olong, emsg);
+  fprintf(stderr, _("%s: error processing %s (--%s):\n %s\n"),
+          DPKG, arg, cipaction->olong, emsg);
   nr= malloc(sizeof(struct error_report));
   if (!nr) {
     perror(_("dpkg: failed to allocate memory for new entry in list of failed packages."));
@@ -92,7 +92,7 @@ int skip_due_to_hold(struct pkginfo *pkg) {
             pkg->name);
     return 0;
   }
-  printf("Package %s is on hold, not touching it.  Use --force-hold to override.\n",
+  printf(_("Package %s is on hold, not touching it.  Use --force-hold to override.\n"),
          pkg->name);
   return 1;
 }
