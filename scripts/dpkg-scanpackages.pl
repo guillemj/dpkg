@@ -31,8 +31,32 @@ $version= '1.2.6'; # This line modified by Makefile
 $written=0;
 $i=100; grep($pri{$_}=$i--,@fieldpri);
 
+$udeb = 0;
+$arch = '';
+while ($ARGV[1] =~ m/^-.*/) {
+    my $opt = shift @ARGV;
+    if ($opt eq '-u') {
+        $udeb = 1;
+    } elsif ($opt =~ m/-a(.*)/) {
+        if ($1) {
+            $arch = $1;
+        } else {
+            $arch = shift @ARGV;
+        }
+    } else {
+        print STDERR "Unknown option($opt)!\n";
+        exit(1);
+    }
+}
+$ext = $udeb ? 'udeb' : 'deb';
+$pattern = $arch ? "-name '*_all.$ext' -o -name '*_$arch.$ext'" : "-name '*.$ext'";
+if ($ARGV[1] eq '-u') {
+    $udeb = 1;
+    shift @ARGV;
+}
+
 $#ARGV == 1 || $#ARGV == 2
-    or die "Usage: dpkg-scanpackages binarypath overridefile [pathprefix] > Packages\n";
+    or die "Usage: dpkg-scanpackages [-u] [-a<arch>] binarypath overridefile [pathprefix] > Packages\n";
 ($binarydir, $override, $pathprefix) = @ARGV;
 -d $binarydir or die "Binary dir $binarydir not found\n";
 -e $override or die "Override file $override not found\n";
@@ -46,7 +70,7 @@ sub vercmp {
 }
 
 # The extra slash causes symlinks to be followed.
-open(F,"find $binarydir/ -follow -name '*.deb' -print |")
+open(F,"find $binarydir/ -follow $pattern -print |")
     or die "Couldn't open pipe to find: $!\n";
 while (<F>) {
     chomp($fn=$_);

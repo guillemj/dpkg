@@ -19,6 +19,8 @@ dpkg-scanpackages \- create Packages files
 .
 .SH SYNOPSIS
 .B dpkg-scanpackages
+.RI [ -u ]
+.RI [ -a<arch> ]
 .I binarydir
 .I overridefile
 .RI [ pathprefix ]
@@ -50,6 +52,13 @@ package fits into the distribution; see below.
 .PP
 .I pathprefix
 is an optional string to be prepended to the Filename fields.
+.PP
+If
+.I -u
+is specified, then scan for *.udeb, instead of *.deb.
+.PP
+When -a\fI<arch>\fP is specified, then instead of scanning for all debs,
+a pattern consisting of *_all.deb and *_arch.deb is used.
 .
 .SH THE OVERRIDE FILE
 While most information about a package can be found in the control file,
