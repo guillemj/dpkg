@@ -446,7 +446,7 @@ void enqperpackage(const char *const *argv) {
           !pkg->files &&
           pkg->want == want_unknown &&
           !informative(pkg,&pkg->installed)) {
-        printf(_("Package `%s' is not installed and no info is available.\n"),pkg->name);
+        fprintf(stderr,_("Package `%s' is not installed and no info is available.\n"),pkg->name);
         failures++;
       } else {
         writerecord(stdout, "<stdout>", pkg, &pkg->installed);
@@ -455,7 +455,7 @@ void enqperpackage(const char *const *argv) {
 
     case act_printavail:
       if (!informative(pkg,&pkg->available)) {
-        printf(_("Package `%s' is not available.\n"),pkg->name);
+        fprintf(stderr,_("Package `%s' is not available.\n"),pkg->name);
         failures++;
       } else {
         writerecord(stdout, "<stdout>", pkg, &pkg->available);
@@ -465,7 +465,7 @@ void enqperpackage(const char *const *argv) {
     case act_listfiles:
       switch (pkg->status) {
       case stat_notinstalled: 
-        printf(_("Package `%s' is not installed.\n"),pkg->name);
+        fprintf(stderr,_("Package `%s' is not installed.\n"),pkg->name);
         failures++;
         break;
         
@@ -501,8 +501,8 @@ void enqperpackage(const char *const *argv) {
   }
 
   if (failures) {
-    puts(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-         "and dpkg --contents (= dpkg-deb --contents) to list their contents."));
+    fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+         "and dpkg --contents (= dpkg-deb --contents) to list their contents."),stderr);
     if (ferror(stdout)) werr("stdout");
   }
 }
