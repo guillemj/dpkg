@@ -133,15 +133,15 @@ int waitsubproc(pid_t pid, const char *description, int sigpipeok, int warn) {
   return checksubprocerr(status,description,sigpipeok, warn);
 }
 
-ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) {
+ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *desc) {
   ssize_t ret= length;
   if(data->type & BUFFER_WRITE_SETUP) {
     switch(data->type ^ BUFFER_WRITE_SETUP) {
       case BUFFER_WRITE_MD5:
 	{
-	  unsigned char *hash= data->data;
+	  unsigned char *hash= data->data.ptr;
 	  void ** array= malloc(sizeof(void *) * 2);
-	  data->data= array;
+	  data->data.ptr= array;
 	  array[0]= hash;
 	  array[1]= malloc(sizeof(struct MD5Context));
 	  MD5Init((struct MD5Context *)array[1]);
@@ -156,8 +156,8 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) 
 	{
 	  int i;
 	  unsigned char digest[16], *p = digest;
-	  unsigned char *hash= (unsigned char *)((void **)data->data)[0];
-	  MD5Final(digest, (struct MD5Context *)((void **)data->data)[1]);
+	  unsigned char *hash= (unsigned char *)((void **)data->data.ptr)[0];
+	  MD5Final(digest, (struct MD5Context *)((void **)data->data.ptr)[1]);
 	  for (i = 0; i < 16; ++i) {
 	    sprintf(hash, "%02x", *p++);
 	    hash += 2;
@@ -169,27 +169,27 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) 
   }
   switch(data->type) {
     case BUFFER_WRITE_BUF:
-      memcpy(data->data, buf, length);
-      (char*)data->data += length;
+      memcpy(data->data.ptr, buf, length);
+      (char*)data->data.ptr += length;
       break;
     case BUFFER_WRITE_VBUF:
-      varbufaddbuf((struct varbuf *)data->data, buf, length);
+      varbufaddbuf((struct varbuf *)data->data.ptr, buf, length);
       break;
     case BUFFER_WRITE_FD:
-      if((ret= write((int)data->data, buf, length)) < 0 && errno != EINTR)
-	ohshite(_("failed in buffer_write(fd) (%i, ret=%i, %s)"), (int)data->data, ret, desc);
+      if((ret= write(data->data.i, buf, length)) < 0 && errno != EINTR)
+	ohshite(_("failed in buffer_write(fd) (%i, ret=%zi %s)"), data->data.i, ret, desc);
       break;
     case BUFFER_WRITE_NULL:
       break;
     case BUFFER_WRITE_STREAM:
-      ret= fwrite(buf, 1, length, (FILE *)data->data);
-      if(feof((FILE *)data->data))
+      ret= fwrite(buf, 1, length, (FILE *)data->data.ptr);
+      if(feof((FILE *)data->data.ptr))
 	ohshite(_("eof in buffer_write(stream): %s"), desc);
-      if(ferror((FILE *)data->data))
+      if(ferror((FILE *)data->data.ptr))
 	ohshite(_("error in buffer_write(stream): %s"), desc);
       break;
     case BUFFER_WRITE_MD5:
-      MD5Update((struct MD5Context *)((void **)data->data)[1], buf, length);
+      MD5Update((struct MD5Context *)((void **)data->data.ptr)[1], buf, length);
       break;
     default:
       fprintf(stderr, _("unknown data type `%i' in buffer_write\n"), data->type);
@@ -197,7 +197,7 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) 
    return ret;
 }
 
-ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, char *desc) {
+ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, const char *desc) {
   ssize_t ret= length;
   if(data->type & BUFFER_READ_SETUP) {
     return 0;
@@ -207,14 +207,14 @@ ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, char *desc) {
   }
   switch(data->type) {
     case BUFFER_READ_FD:
-      if((ret= read((int)data->data, buf, length)) < 0 && errno != EINTR)
+      if((ret= read(data->data.i, buf, length)) < 0 && errno != EINTR)
 	ohshite(_("failed in buffer_read(fd): %s"), desc);
       break;
     case BUFFER_READ_STREAM:
-      ret= fread(buf, 1, length, (FILE *)data->data);
-      if(feof((FILE *)data->data))
+      ret= fread(buf, 1, length, (FILE *)data->data.ptr);
+      if(feof((FILE *)data->data.ptr))
 	return ret;
-      if(ferror((FILE *)data->data))
+      if(ferror((FILE *)data->data.ptr))
 	ohshite(_("error in buffer_read(stream): %s"), desc);
       break;
     default:
@@ -223,42 +223,59 @@ ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, char *desc) {
    return ret;
 }
 
-ssize_t buffer_copy_setup(void *argIn, int typeIn, void *procIn,
-		       void *argOut, int typeOut, void *procOut,
-		       ssize_t limit, const char *desc, ...)
+#define buffer_copy_setup_dual(name, type1, name1, type2, name2) \
+inline ssize_t buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn,\
+					type2 n2, int typeOut, void *procOut,\
+					ssize_t limit, const char *desc, ...)\
+{\
+  va_list al;\
+  buffer_arg a1, a2;\
+  struct varbuf v;\
+  ssize_t ret;\
+  a1.name1 = n1; a2.name2 = n2;\
+  varbufinit(&v);\
+  va_start(al,desc);\
+  varbufvprintf(&v, desc, al);\
+  va_end(al);\
+  ret = buffer_copy_setup(a1, typeIn, procIn,\
+			   a2, typeOut, procOut,\
+			   limit, v.buf);\
+  varbuffree(&v);\
+  return ret;\
+}
+
+buffer_copy_setup_dual(IntInt, int, i, int, i);
+buffer_copy_setup_dual(IntPtr, int, i, void *, ptr);
+buffer_copy_setup_dual(PtrInt, void *, ptr, int, i);
+buffer_copy_setup_dual(PtrPtr, void *, ptr, void *, ptr);
+
+ssize_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
+		       buffer_arg argOut, int typeOut, void *procOut,
+		       ssize_t limit, const char *desc)
 {
   struct buffer_data read_data = { procIn, argIn, typeIn },
 		     write_data = { procOut, argOut, typeOut };
-  va_list al;
-  struct varbuf v;
   ssize_t ret;
-
-  varbufinit(&v);
-
-  va_start(al,desc);
-  varbufvprintf(&v, desc, al);
-  va_end(al);
 
   if ( procIn == NULL )
     read_data.proc = buffer_read;
   if ( procOut == NULL )
     write_data.proc = buffer_write;
   read_data.type |= BUFFER_READ_SETUP;
-  read_data.proc(&read_data, NULL, 0, v.buf);
+  read_data.proc(&read_data, NULL, 0, desc);
   read_data.type = typeIn;
   write_data.type |= BUFFER_WRITE_SETUP;
-  write_data.proc(&write_data, NULL, 0, v.buf);
+  write_data.proc(&write_data, NULL, 0, desc);
   write_data.type = typeOut;
-  ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+  ret = buffer_copy(&read_data, &write_data, limit, desc);
   write_data.type |= BUFFER_WRITE_SHUTDOWN;
-  write_data.proc(&write_data, NULL, 0, v.buf);
+  write_data.proc(&write_data, NULL, 0, desc);
   read_data.type |= BUFFER_READ_SHUTDOWN;
-  read_data.proc(&read_data, NULL, 0, v.buf);
-  varbuffree(&v);
+  read_data.proc(&read_data, NULL, 0, desc);
   return ret;
 }
 
-ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, char *desc) {
+ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, const char *desc) {
   char *buf, *writebuf;
   long bytesread= 0, byteswritten= 0;
   int bufsize= 32768;

@@ -539,7 +539,7 @@ static void md5hash(struct pkginfo *pkg, char hashbuf[33], const char *fn) {
   
   fd= open(fn,O_RDONLY);
   if (fd >= 0) {
-    push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,(void*)&fd);
+    push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,&fd);
     fd_md5(fd, hashbuf, -1, _("md5hash"));
     pop_cleanup(ehflag_normaltidy); /* fd= open(cdr.buf) */
     close(fd);

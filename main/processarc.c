@@ -539,7 +539,7 @@ void process_archive(const char *filename) {
   push_cleanup(cu_fileslist,~0, 0, 0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
-  push_cleanup(cu_closefd,~ehflag_bombout, 0,0, 1,(void*)&tc.backendpipe);
+  push_cleanup(cu_closefd,~ehflag_bombout, 0,0, 1,&tc.backendpipe);
 
   r= TarExtractor((void*)&tc, &tf);
   if (r) {

@@ -213,56 +213,72 @@ int waitsubproc(pid_t pid, const char *description, int sigpipeok, int warn);
 #define BUFFER_READ_SHUTDOWN 1 << 19
 
 typedef struct buffer_data *buffer_data_t;
-typedef ssize_t (*buffer_proc_t)(buffer_data_t data, void *buf, ssize_t size, char *desc);
+typedef ssize_t (*buffer_proc_t)(buffer_data_t data, void *buf, ssize_t size, const char *desc);
+typedef union buffer_arg {
+  void *ptr;
+  int i;
+} buffer_arg;
+
 struct buffer_data {
   buffer_proc_t proc;
-  void *data;
+  buffer_arg data;
   int type;
 };
 
 #define fd_md5(fd, hash, limit, desc...)\
-	buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
-			   hash, BUFFER_WRITE_MD5, NULL, \
-			   limit, desc)
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
+			 	 hash, BUFFER_WRITE_MD5, NULL, \
+				 limit, desc)
 #define stream_md5(file, hash, limit, desc...)\
-	buffer_copy_setup((void *)file, BUFFER_READ_STREAM, NULL, \
-			   hash, BUFFER_WRITE_MD5, NULL, \
-			   limit, desc)
-
+	buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
+				 hash, BUFFER_WRITE_MD5, NULL, \
+				 limit, desc)
 #define fd_fd_copy(fd1, fd2, limit, desc...)\
-	buffer_copy_setup((void *)fd1, BUFFER_READ_FD, NULL, \
-			  (void *)fd2, BUFFER_WRITE_FD, NULL, \
-			  limit, desc)
+	buffer_copy_setup_IntInt(fd1, BUFFER_READ_FD, NULL, \
+				 fd2, BUFFER_WRITE_FD, NULL, \
+				 limit, desc)
 #define fd_buf_copy(fd, buf, limit, desc...)\
-	buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
-			  buf, BUFFER_WRITE_BUF, NULL, \
-			  limit, desc)
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
+				 buf, BUFFER_WRITE_BUF, NULL, \
+				 limit, desc)
 #define fd_vbuf_copy(fd, buf, limit, desc...)\
-	buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
-			  buf, BUFFER_WRITE_VBUF, NULL, \
-			  limit, desc)
+	buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
+				 buf, BUFFER_WRITE_VBUF, NULL, \
+				 limit, desc)
 #define fd_null_copy(fd, limit, desc...) \
 	if (lseek(fd, limit, SEEK_CUR) == -1) { \
 	    if(errno != ESPIPE) ohshite(desc); \
-	    buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
-			      0, BUFFER_WRITE_NULL, NULL, \
-			      limit, desc);\
+	    buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
+				     0, BUFFER_WRITE_NULL, NULL, \
+				     limit, desc);\
 	}
 #define stream_null_copy(file, limit, desc...) \
 	if (fseek(file, limit, SEEK_CUR) == -1) { \
 	    if(errno != EBADF) ohshite(desc); \
-	    buffer_copy_setup((void *)file, BUFFER_READ_STREAM, NULL, \
-			      0, BUFFER_WRITE_NULL, NULL, \
-			      limit, desc);\
+	    buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
+				     0, BUFFER_WRITE_NULL, NULL, \
+				     limit, desc);\
 	}
 #define stream_fd_copy(file, fd, limit, desc...)\
-	buffer_copy_setup((void *)file, BUFFER_READ_STREAM, NULL, \
-			  (void *)fd, BUFFER_WRITE_FD, NULL, \
-			  limit, desc)
-ssize_t buffer_copy_setup(void *argIn, int typeIn, void *procIn,
-		       void *argOut, int typeOut, void *procOut,
-		       ssize_t limit, const char *desc, ...);
-ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, char *desc);
+	buffer_copy_setup_PtrInt(file, BUFFER_READ_STREAM, NULL, \
+				 fd, BUFFER_WRITE_FD, NULL, \
+				 limit, desc)
+inline ssize_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
+					int i, int typeOut, void *procOut,
+					ssize_t limit, const char *desc, ...);
+inline ssize_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
+					void *p2, int typeOut, void *procOut,
+					ssize_t limit, const char *desc, ...);
+inline ssize_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
+					void *p, int typeOut, void *procOut,
+					ssize_t limit, const char *desc, ...);
+inline ssize_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
+					int i2, int typeOut, void *procOut,
+					ssize_t limit, const char *desc, ...);
+ssize_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
+		       buffer_arg argOut, int typeOut, void *procOut,
+		       ssize_t limit, const char *desc);
+ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, const char *desc);
 
 extern volatile int onerr_abort;
 

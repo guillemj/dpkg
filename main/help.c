@@ -135,8 +135,8 @@ void cu_closedir(int argc, void **argv) {
 }
 
 void cu_closefd(int argc, void **argv) {
-  int *ip= (int*)(argv[0]);
-  close(*ip);
+  int ip= *(int*)argv;
+  close(ip);
 }
 
 int ignore_depends(struct pkginfo *pkg) {

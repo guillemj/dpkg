@@ -461,7 +461,7 @@ int tarobject(struct TarInfo *ti) {
      */
     fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
     if (fd < 0) ohshite(_("unable to create `%.255s'"),ti->Name);
-    push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,(void*)fd);
+    push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,&fd);
     debug(dbg_eachfiledetail,"tarobject NormalFile[01] open size=%lu",
           (unsigned long)ti->Size);
     { char fnamebuf[256];
