@@ -6,101 +6,138 @@
 deb\-control \- Debian GNU/Linux packages' master control file format
 .SH SYNOPSIS
 control
-.SH WARNING
-.I This manual page is very out of date.
 .SH DESCRIPTION
 Master control file format:
 .LP
 The `control' file contains a number of fields.  Each field begins
-with a tag, such as `PACKAGE' or `VERSION' (case insensitive),
+with a tag, such as
+.B Package
+or
+.B Version
+(case insensitive),
 followed by a colon, and the body of the field. Fields are delimited
 only by field tags.  In other words, field text may be multiple lines
 in length, but the installation tools will generally join lines when
-processing the body of the field.
+processing the body of the field (except in the case of the
+.B Description
+field, see below).
 .SH REQUIRED FIELDS
 .TP
-.BR PACKAGE: \ <Short\ name\ of\ package>
+.BR Package: \ <Short\ name\ of\ package>
 The value of this field is used to generate file names by some
 installation tools.
 .TP
-.BR VERSION: \ <Original\ version\ number>
-typically, this is the original portable package's version
-number in whatever form the program's author uses.
+.BR Version: \ <Original\ Version\ and\ Debian\ Package\ Revision>
+Typically, this is the original portable package's version
+number in whatever form the program's author uses. It may also include
+a Debian revision number (for non-native packages). If both version and
+revision are supplied, they are seperated by a '-'. For this reason,
+the original version cannot have a '-' in its version number.
 .TP
-.BR PACKAGE_REVISION: \ <Debian\ package\ revision\ number>
-this should usually be a plain number, or perhaps two numbers
-separated by a full stop.
-.TP
-.BR MAINTAINER: \ <Name\ and\ e-mail\ address\ of\ package\ maintainer>
+.BR Maintainer: \ <Name\ and\ e-mail\ address\ of\ package\ maintainer>
 should be in the format  Joe Bloggs <jbloggs@foo.com>.
 .TP
-.BR DESCRIPTION: \ <Description\ of\ package> 
+.BR Description: \ <Description\ of\ package>
+The format for the package description is a short brief summary on the
+first line (after the "Description" field). The following lines can be
+used as a longer, more detailed description. Each line of the long description
+must be preceded by a space, and blank lines in the long desription must
+contain a single '.' following the preceding space.
 .SH OPTIONAL FIELDS
 .TP
-.BR DEPENDS: \ <Short\ names\ of\ prerequisite\ packages>
-list of packages that are required for this package to provide a
+.BR Depends: \ <Short\ names\ of\ requisite\ packages>
+List of packages that are required for this package to provide a
 non-trivial amount of functionality.  The package maintenance software
 will not allow a package to be installed without also installing
 packages listed in its 
-.B DEPENDS
-field, and will rin the postinst scripts of packages listed in DEPENDS
+.B Depends
+field, and will run the postinst scripts of packages listed in DEPENDS
 fields before those of the packages which depend on them, and run
 prerm scripts before.
 .TP
-.BR RECOMMENDED: \ <Short\ names\ of\ related,\ recommended\ packages>
-lists packages that would be found together with
+.BR Pre-Depends: \ <Short\ names\ of\ prerequisite\ packages>
+List of packages that must be installed
+.B and
+configured before this one can be installed. This is usually used in the
+case where this package requires the pre depend for running its preinst
+script.
+.TP
+.BR Recommends: \ <Short\ names\ of\ related,\ recommended\ packages>
+Lists packages that would be found together with
 this one in all but unusual installations.  The package maintenance
 software will warn the user if they install a package without those
 listed in its
-.B RECOMMENDED
+.B Recommends
 field.
+.TP
+.BR Suggests: \ <Short\ names\ of\ related,\ optional\ packages>
+lists packages that are related to this one and can perhaps enhance
+its usefulness, but without which installing this package is perfectly
+reasonable.  The package maintenance software will not moan at the
+user for not selecting suggested packages, but may use the information
+in the
+.B Suggests
+field to assist the user during package selection.
 .LP
 The syntax of
-.B DEPENDS
+.B Depends ,
+.B Pre-Depends ,
+.B Recommends
 and
-.B RECOMMENDED
+.B Suggests
 is a list of groups of alternative packages.  Each group is a list of
 packages separated by vertical bar (or `pipe') symbols, `|'.  The
 groups are separated by commas.  Each package is a package name
 optionally followed by a version number specification in parentheses.
-A version number may start with a `>', in which case any later version
+A version number may start with a `>>', in which case any later version
 will match, and may specify or omit the Debian packaging revision
 (separated by a hyphen).  Commas are to be read as `AND', and pipes as
 `OR', with pipes binding more tightly.
+.LP
+Accepted version relationships are ">>" for greater than, "<<" for less than,
+">=" for greater than or equal to, "<=" for less than or equal to, and "="
+for equal to.
 .TP
-.BR OPTIONAL: \ <Short\ names\ of\ related,\ optional\ packages>
-lists packages that are related to this one and can perhaps enhance
-its usefulness, but without which installing this package is perfectly
-reasonable.  The package maintenance software will not moan at the
-user for not selecting
-.B OPTIONAL
-related packages, but may use the information in the
-.B OPTIONAL
-field to assist the user during package selection.
-.TP
-.BR CONFLICTS: \ <Short\ names\ of\ packages\ which\ conflict\ with\ this\ one>
-lists packages that conflict with this one, for example by containing
+.BR Conflicts: \ <Short\ names\ of\ packages\ which\ conflict\ with\ this\ one>
+Lists packages that conflict with this one, for example by containing
 files with the same names (an example would be Smail vs. Sendmail).
 The package maintenance software will not allow conflicting packages
-to be installed.  Two conflicting packages should each include a
-.B CONFLICTS
+to be installed at the same time. Two conflicting packages should each include a
+.B Conflicts
 line mentioning the other.
+.TP
+.BR Replaces: \ <Short\ names\ of\ packages\ which\ this\ one\ replaces>
+List of packages that this one replaces. This is used for allowing this package
+to overwrite the files of another package and is usually used with the
+.B Conflicts
+field to force removal of the other package, if this one also has the same files
+as the conflicted package.
+.TP
+.BR Provides: \ <Short\ names\ of\ packages\ this\ one\ provides>
+This is a list of virtual packages that this one provides. Usuaully this is used
+in the case of several packages all providing the same service. For example,
+sendmail and smail both can serve as a mail server, so they provide a common package
+on which other packages can depend. This will allow sendmail or smail to serve
+as a valid option to satisy the one dependency. This prevents the packages that
+depend on a mail server from having to know the package names for all of them,
+and using `|' to seperate the list.
 .LP
 The syntax of
-.B OPTIONAL
+.B Conflicts ,
+.B Replaces
 and
-.B CONFLICTS
+.B Provides
 is a list of package names, separated by commas (and optional
-whitespace).  In the
-.B CONFLICTS
-field, the comma should be read as `OR'.
-
-.SH BUGS
-This manpage is seriously out of date.
-
+whitespace). In the
+.B Conflicts
+field, the comma should be read as `OR'. An optional version can also be given
+with the same syntax as above for the
+.B Conflicts
+and
+.B Replaces
+fields.
 .SH SEE ALSO
 .BR deb (5),
-.BR dpkg (5),
 .BR dpkg (8),
-.BR dpkg-dep (8),
+.BR dpkg-deb (1),
 .BR dselect (8).
