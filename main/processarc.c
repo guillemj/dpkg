@@ -101,7 +101,7 @@ void process_archive(const char *filename) {
     pfilename= filename;
   }
 
-  if (stat(filename,&stab)) ohshite("existence check failed");
+  if (stat(filename,&stab)) ohshite("cannot access archive");
 
   if (!f_noact) {
     /* We can't `tentatively-reassemble' packages. */

@@ -167,20 +167,18 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
   strcat(updatefnbuf,"/" UPDATESDIR);
   updatefnrest= updatefnbuf+strlen(updatefnbuf);
 
-  cleanupdates();
+  if (cstatus != msdbrw_needsuperuserlockonly) {
+    cleanupdates();
+    parsedb(availablefile,
+            pdb_recordavailable|pdb_rejectstatus,
+            0,0,0);
+  }
 
   if (cstatus >= msdbrw_write) {
     createimptmp();
     uvb.used= 0;
     uvb.size= 10240;
     uvb.buf= m_malloc(uvb.size);
-  }
-
-  if (cstatus != msdbrw_needsuperuserlockonly) {
-    parsedb(statusfile, pdb_weakclassification, 0,0,0);
-    parsedb(availablefile,
-            pdb_recordavailable|pdb_rejectstatus,
-            0,0,0);
   }
 
   return cstatus;

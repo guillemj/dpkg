@@ -113,7 +113,8 @@ void deferred_configure(struct pkginfo *pkg) {
                 "Package is in a very bad inconsistent state - you should\n"
                 " reinstall it before attempting configuration.");
 
-  printf("Setting up %s ...\n",pkg->name);
+  printf("Setting up %s (%s) ...\n",pkg->name,
+         versiondescribe(&pkg->installed.version,vdew_never));
 
   if (f_noact) {
     pkg->status= stat_installed;

@@ -455,7 +455,7 @@ void assertpredep(const char *const *argv) {
   switch (pkg->status) {
   case stat_installed:
     break;
-  case stat_unpacked: case stat_halfconfigured:
+  case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
     if (versionsatisfied3(&pkg->configversion,&predepversion,dvr_laterequal))
       break;
     printf("Version of dpkg with Pre-Depends support not yet configured.\n"
