@@ -314,8 +314,6 @@ Forcing options marked [*] are enabled by default.\n"),
     if (!comma) break;
     value= ++comma;
   }
-  for (fip=forceinfos; fip->name; fip++)
-    fprintf(stderr, "%s=%c\n", fip->name, *fip->opt);
 }
 
 static const char *const passlongopts[]= {
