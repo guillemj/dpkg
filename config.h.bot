@@ -112,14 +112,6 @@ void unsetenv(const char *x);
 #define strtoul strtol
 #endif
 
-/* Sort out sysinfo */
-#if !defined(HAVE_SYSINFO) && defined(HAVE_NRSYSINFO)
-#include <linux/sys.h>
-#include <linux/kernel.h>
-#include <linux/unistd.h>
-static inline _syscall1(int,sysinfo,struct sysinfo*,info)
-#endif
-
 /* Define WCOREDUMP if we don't have it already - coredumps won't be
  * detected, though.
  */

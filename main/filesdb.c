@@ -38,10 +38,6 @@
 #include "filesdb.h"
 #include "main.h"
 
-#ifdef HAVE_SYS_SYSINFO_H
-#include <sys/sysinfo.h>
-#endif
-
 /*** Generic data structures and routines ***/
 
 static int allpackagesdone= 0;

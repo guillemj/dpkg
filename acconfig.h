@@ -9,12 +9,6 @@
 /* Define if inline functions a la GCC are available.  */
 #undef HAVE_INLINE
 
-/* Define if sysinfo is available.  */
-#undef HAVE_SYSINFO
-
-/* Define if __NR_sysinfo is available.  */
-#undef HAVE_NRSYSINFO
-
 /* Define if inline functions a la GCC are available.  */
 #undef HAVE_ALPHASORT_DECLARATION
 
@@ -62,12 +56,6 @@
 
 /* Defined to the $(libdir) location */
 #undef LLIBDIR
-
-/* Is sysinfo() persent */
-#undef HAVE_SYSINFO
-
-/* Do we have proper memory information in struct sysinfo */
-#undef MEMINFO_IN_SYSINFO
 
 /* Define the ptrdiff_t type if your system doesn't have it */
 #undef ptrdiff_t
