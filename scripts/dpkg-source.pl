@@ -122,7 +122,7 @@ if ($opmode eq 'build') {
 #print STDERR "G key >$_< value >$v<\n";
             if (m/^Source$/) { &setsourcepackage; }
             elsif (m/^Standards-Version$|^Maintainer$/) { $f{$_}= $v; }
-	    elsif (m/^Build-(Indep-)?(Depends|Conflicts)$/i) { $f{$_}= $v; }
+	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= $v; }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
             elsif (m/^(Section|Priority|Files)$/ || m/^X[BC]+-/i) { }
             else { &unknown('general section of control info file'); }
