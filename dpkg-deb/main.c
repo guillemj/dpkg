@@ -65,7 +65,7 @@ Usage: dpkg-deb -b|--build <directory> [<deb>]    Build an archive.\n\
 <cfile> is the name of an administrative file component.\n\
 <cfield> is the name of a field in the main `control' file.\n\
 Options:  -D for debugging output; --old or --new controls archive format;\n\
-          --no-check to suppress control file check (build bad package).\n\
+          --nocheck to suppress control file check (build bad package).\n\
 \n\
 Use `dpkg' to install and remove packages from your system, or\n\
 `dselect' for user-friendly package management.  Packages unpacked\n\
