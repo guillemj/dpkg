@@ -363,19 +363,8 @@ int maintainer_script_alternative(struct pkginfo *pkg,
       ohshite(_("unable to execute %s"),buf);
     }
     script_catchsignals(); /* This does a push_cleanup() */
-    while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
-    if (r != c1) ohshite(_("wait for %s failed"),buf);
+    waitsubproc(c1,buf,0);
     pop_cleanup(ehflag_normaltidy);
-    if (WIFEXITED(status)) {
-      n= WEXITSTATUS(status); if (!n) return 1;
-      fprintf(stderr, _("dpkg: warning - %s returned error exit status %d\n"),buf,n);
-    } else if (WIFSIGNALED(status)) {
-      n= WTERMSIG(status);
-      fprintf(stderr, _("dpkg: warning - %s killed by signal (%s)%s\n"),
-              buf, strsignal(n), WCOREDUMP(status) ? ", core dumped" : "");
-    } else {
-      ohshit(_("%s failed with unknown wait status code %d"),buf,status);
-    }
     ensure_diversions();
   }
   fprintf(stderr, _("dpkg - trying script from the new package instead ...\n"));
