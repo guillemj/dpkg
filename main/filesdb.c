@@ -3,7 +3,7 @@
  * filesdb.c - management of database of files installed on system
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
- * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright (C) 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -335,6 +335,7 @@ void ensure_statoverrides(void) {
   }
   if (statoverridefile) fclose(statoverridefile);
   statoverridefile= file;
+  setcloexec(fileno(statoverridefile), vb.buf);
 
   /* If the statoverride list is empty we don't need to bother reading it. */
   if (!stab2.st_size) {
@@ -454,10 +455,9 @@ void ensure_diversions(void) {
       fclose(file); onerr_abort--; return;
     }
   }
-  l= fcntl(fileno(file), F_GETFD);
-  if (l >= 0) fcntl(fileno(file), F_SETFD, l | FD_CLOEXEC);
   if (diversionsfile) fclose(diversionsfile);
   diversionsfile= file;
+  setcloexec(fileno(diversionsfile), vb.buf);
 
   for (ov= diversions; ov; ov= ov->next) {
     ov->useinstead->divert->camefrom->divert= 0;

@@ -3,6 +3,7 @@
  * dbmodify.c - routines for managing dpkg database updates
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman <wichert@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -100,12 +101,13 @@ static void cleanupdates(void) {
 }
 
 static void createimptmp(void) {
-  int i;
+  int i, f;
   
   onerr_abort++;
   
   importanttmp= fopen(importanttmpfile,"w");
   if (!importanttmp) ohshite(_("unable to create %.250s"),importanttmpfile);
+  setcloexec(fileno(importanttmp),importanttmpfile);
   for (i=0; i<512; i++) fputs("#padding\n",importanttmp);
   if (ferror(importanttmp))
     ohshite(_("unable to fill %.250s with padding"),importanttmpfile);

@@ -25,6 +25,8 @@
 #include <string.h>
 #include <signal.h>
 #include <errno.h>
+#include <fcntl.h>
+#include <unistd.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 
@@ -134,6 +136,15 @@ int waitsubproc(pid_t pid, const char *description, int flags) {
   while ((r= waitpid(pid,&status,0)) == -1 && errno == EINTR);
   if (r != pid) { onerr_abort++; ohshite(_("wait for %s failed"),description); }
   return checksubprocerr(status,description,flags);
+}
+
+void setcloexec(int fd, const char* fn) {
+  int f;
+
+  if ((f=fcntl(fd, F_GETFD))==-1)
+    ohshite(_("unable to read filedescriptor flags for %.250s"),fn);
+  if (fcntl(fd, F_SETFD, (f|FD_CLOEXEC))==-1)
+    ohshite(_("unable to set close-on-exec flag for %.250s"),fn);
 }
 
 struct buffer_write_md5ctx {
