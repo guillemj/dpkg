@@ -27,11 +27,11 @@ distclean: clean distclean-recursive
 version.h: version-nr
 	echo "#define DPKG_VERSION \"$(VERSION)\" /* This line modified by Makefile */" > version.h
 
-all-recursive install-recursive clean-recursive distclean-recursive:
-	set -e ; target=`echo $@ | sed s/-recursive//`; \
-	    for d in $(SUBDIRS) ; do \
-	    $(MAKE) $(MFLAGS) -C $$d $$target ; \
-	done;
+all-recursive install-recursive clean-recursive distclean-recursive: %-recursive:
+	$(MAKE) $(MFLAGS) $(patsubst %,$*-%,$(SUBDIRS))
+
+$(foreach target,all install clean distclean,$(patsubst %,$(target)-%,$(SUBDIRS))):
+	$(MAKE) $(MFLAGS) -C `echo $@ | sed s/[^-]*-//` `echo $@ | sed s/-.*//`
 
 .PHONY: all install clean distclean 
 .PHONY: all-recursive install-recursive clean-recursive distclean-recursive
