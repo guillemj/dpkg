@@ -15,7 +15,7 @@ cd utils
 aclocal -I ../automake
 autoheader
 automake --foreign
-autoconf
+autoconf -l ../
 
 # Return to the previous directory
 cd ..

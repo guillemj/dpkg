@@ -45,7 +45,7 @@ MAINTAINERCLEANFILES	= libtool
 
 DISTDEBFILES		= 50dpkg-dev.el changelog control copyright \
 			  dev-README postinst preinst prerm rules \
-			  shlibs shlibs.default.i386 shlibs.local
+			  shlibs shlibs.default.templates shlibs.local
 
 MAINTCLEANFILES		= Makefile.in aclocal.m4 config.guess \
 			  config.h.in config.sub configure install-sh \
