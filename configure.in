@@ -178,6 +178,15 @@ DPKG_CACHED_TRY_COMPILE(__attribute__((,,)),dpkg_cv_c_attribute_supported,,
    AC_MSG_RESULT(no)),
  AC_MSG_RESULT(no))
 
+AC_MSG_CHECKING(whether to use -Werror)
+AC_ARG_WITH(Werror,
+[  --with-Werror           use -Werror when compiling],
+	[warn=-Werror]
+	AC_MSG_RESULT(yes)
+	DPKG_C_GCC_TRY_WARNS(-Werror, dpkg_cv_c_gcc_warn_error),
+	[warn=all]
+	AC_MSG_RESULT(no))
+
 DPKG_C_GCC_TRY_WARNS(-Wall -Wno-implicit, dpkg_cv_c_gcc_warn_all)
 DPKG_C_GCC_TRY_WARNS(-Wwrite-strings, dpkg_cv_c_gcc_warn_writestrings)
 DPKG_C_GCC_TRY_WARNS(-Wpointer-arith, dpkg_cv_c_gcc_warn_pointerarith)
