@@ -1071,7 +1071,7 @@ sub addfile {
     $size= (stat _)[7];
     my $md5sum= `md5sum <$filename`;
     $? && &subprocerr("md5sum $filename");
-    $md5sum =~ s/^([0-9a-f]{32})\n$/$1/ || &failure("md5sum gave bogus output \`$_'");
+    $md5sum =~ s/^([0-9a-f]{32})\s*-?\s*\n$/$1/ || &failure("md5sum gave bogus output \`$_'");
     $f{'Files'}.= "\n $md5sum $size $filename";
 }
 
