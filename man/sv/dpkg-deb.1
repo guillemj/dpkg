@@ -1,35 +1,35 @@
-.\" Translation of CVS revision 1.11
+.\" Translation of CVS revision 1.11.2.1
 .TH DPKG\-DEB 1 "1 juni 1996" "Debianprojektet" "Dpkg-sviten"
 .SH NAMN 
 dpkg\-deb \- Debians manipuleringsverktyg för paketarkiv (.deb)
 .SH SYNOPS
-.B dpkg-deb
-.BR -b | --build
+.B dpkg\-deb
+.BR \-b | \-\-build
 .IR katalog " [" arkiv | katalog ]
 .br
-.B dpkg-deb
-.BR -I | --info
-.IR arkiv " [" control\-filnamn " ..]"
+.B dpkg\-deb
+.BR \-I | \-\-info
+.IR arkiv " [" control-filnamn " ..]"
 .br
-.B dpkg-deb
-.BR -f | --field
-.IR arkiv " [" control\-fältnamn " ...]"
+.B dpkg\-deb
+.BR \-f | \-\-field
+.IR arkiv " [" control-fältnamn " ...]"
 .br
-.B dpkg-deb
-.BR -c | --contents
+.B dpkg\-deb
+.BR \-c | \-\-contents
 .I arkiv
 .br
-.B dpkg-deb
-.BR -x | --extract | -X | --vextract
+.B dpkg\-deb
+.BR \-x | \-\-extract | \-X | \-\-vextract
 .I arkiv katalog
 .br
-.B dpkg-deb --fsys-tarfile
+.B dpkg\-deb \-\-fsys\-tarfile
 .I arkiv
 .br
-.B dpkg-deb --control
+.B dpkg\-deb \-\-control
 .I arkiv katalog
 .SH BESKRIVNING
-.B dpkg-deb
+.B dpkg\-deb
 packar, packar upp och tillhandahåller information om Debianarkiv.
 
 Använd
@@ -47,7 +47,7 @@ kommer upptäcka att du ville nå
 och kör det åt dig.
 .SH ÅTGÄRDSFLAGGOR
 .TP
-.BR --build ", " -b
+.BR \-\-build ", " \-b
 Skapar ett Debianarkiv från filsystemsträdet som lagras i
 .IR katalog ".  " katalog
 måste innehålla underkatalogen
@@ -61,7 +61,7 @@ filerna läggas i binärpaketets styrinformationsområde.
 
 Du kan ange komprimeringsnivån genom att lägga till flaggan
 .BR \-z# .
-.B dpkg-deb
+.B dpkg\-deb
 kommer sända vidare den flaggan till gzip.
 
 Såvida du inte anger
@@ -101,23 +101,23 @@ användas (eftersom
 måste läsa och tolka paketets styrfil control för att ta reda på vilket
 filnamn som skall användas).
 .TP
-.BR \-\-info ", " -I
+.BR \-\-info ", " \-I
 Tillhandahåller information om ett binärt parketarkiv.
 
 Om inga
-.I control\-filnamn
+.I control-filnamn
 anges kommer det att visa en sammanfattning av innehållet i paketet
 tillsammans med dess styrfil.
 
 Om ett eller flera
-.R control\-filnamn
+.R control-filnamn
 anges kommer
 .B dpkg\-deb
 att skriva ut dem i den ordning de anges.
 Om några av komponenterna inte fanns kommer ett felmeddelande skrivas ut
 på stderr om var och ett, och programmet avslutas med felstatus 2.
 .TP
-.BR \-\-field ", " -f
+.BR \-\-field ", " \-f
 Extraherar styrfilsinformation från ett binärt paketarkiv.
 
 Om inga
@@ -135,18 +135,18 @@ visa varje med ett inledande fältnamn (och ett kolon och mellanrum).
 
 Inga felmeddelande rapporteras för fält som efterfrågas men inte hittas.
 .TP
-.BR --contents ", " -c
+.BR \-\-contents ", " \-c
 Visar innehåller i filsystemsträdsarkivsdelen av paketarkivet.
 Det visas för närvarande i det format som genereras av
 .BR tar s
 pratsamma visning.
 .TP
-.BR --extract ", " -x ", " \-\-vextract ", " -X
+.BR \-\-extract ", " \-x ", " \-\-vextract ", " \-X
 Extraherar filsystemsträdet från ett paketarkiv till den angivna katalogen.
 
-.BR \-\-vextract " (" -X ")"
+.BR \-\-vextract " (" \-X ")"
 visar en lista över filer som extraheras under tiden, medan
-.BR \-\-extract " (" -x ")"
+.BR \-\-extract " (" \-x ")"
 är tyst såvida inte ett fel uppstår.
 
 Observera att en extrahering av ett paket till rotkatalogen
@@ -159,15 +159,15 @@ för att installera paket.
 .I katalog
 (men inte dess föräldrar) kommer skapas om nödvändigt.
 .TP
-.BR --fsys-tarfile
+.BR \-\-fsys\-tarfile
 Extraherar filsystemsträdsdata från ett binärt paket och sänder det
 till standard ut i
 .BR tar -format.
 Tillsammans med
-.B tar
+.BR tar (1)
 kan detta användas för att hämta ut en enskild fil från ett paketarkiv.
 .TP
-.BR --control ", " -e
+.BR \-\-control ", " \-e
 Extraherar styrinformationsfilerna från paketarkivet till den angivna
 katalogen.
 
@@ -177,18 +177,18 @@ i den aktuella katalogen att användas.
 
 Målkatalogen (men inte dess föräldrar) kommer att skapas om nödvändigt.
 .TP
-.BR --help ", " -h
+.BR \-\-help ", " \-h
 Visar
 .BR dpkg\-deb s
 användningsmeddelande, vilket sammanfattar dess flaggor och deras
 användning.
 .TP
-.BR --version
+.BR \-\-version
 Visar
 .BR dpkg\-deb s
 versionnummer.
 .TP
-.BR --licence
+.BR \-\-licence
 Visar information om
 .BR dpkg\-deb s
 upphovsrätt, licensinformation och avsaknad av garanti.
@@ -197,13 +197,13 @@ upphovsrätt, licensinformation och avsaknad av garanti.
 stöds också.)
 .SH ANDRA FLAGGOR
 .TP
-.BR --new
+.BR \-\-new
 Försäkrar att
 .B dpkg\-deb
 bygger ett arkiv i "nytt" format.
 Detta är förval.
 .TP
-.BR --old
+.BR \-\-old
 Tvingar
 .B dpkg\-deb
 att bygga ett arkiv i "gammalt" format.
@@ -212,17 +212,17 @@ Det gamla arkivformatet är mer svårtolkat av icke-Debianverktyg och
 skall tolkas av versioner av dpkg äldre än 0.93.76 (september 1995),
 vilka endast släpptes som i386-a.out.
 .TP
-.BR --nocheck
+.BR \-\-nocheck
 Förhindrar
 .B "dpkg\-deb \-\-build" s
 normala kontroller på det föreslagna innehållet i arkivet.
 Du kan bygga vilket arkiv du än vill, oavsett hur trasigt, på detta sätt.
 .TP
-.BR --debug ", " -D
+.BR \-\-debug ", " \-D
 Aktiverar felsökningsutdata.
 Denna är inte speciellt intressant.
 .SH PROGRAMFEL
-.B dpkg-deb -I 
+.B dpkg\-deb \-I 
 .IB paket1 .deb
 .IB paket2 .deb
 gör fel.
@@ -240,7 +240,7 @@ för att se till att alla filer läggs på korrekt plats och att
 paketets skript körs och dess status och innehåll sparas.
 .SH SE ÄVEN
 .BR deb (5),
-.BR deb-control (5),
+.BR deb\-control (5),
 .BR dpkg (8),
 .BR dselect (8).
 .SH FÖRFATTARE
@@ -251,5 +251,5 @@ GNU General Public Licence; det finns INGEN garanti.
 Se
 .B /usr/share/doc/dpkg/copyright
 och
-.B /usr/share/common-licenses/GPL
+.B /usr/share/common\-licenses/GPL
 för detaljer.

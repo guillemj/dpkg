@@ -1,54 +1,54 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Authors: Ian Jackson
-.\" Translation of CVS revision 1.5
-.TH dpkg-split 1 "23 juni 1996" "Debianprojektet" "dpkg-verktygen"
+.\" Translation of CVS revision 1.5.2.1
+.TH dpkg\-split 1 "23 juni 1996" "Debianprojektet" "dpkg-verktygen"
 .SH NAMN
 dpkg\-split \- Verktyg för att dela/slå ihop Debianpaket
 .SH SYNOPS
-.B dpkg-split
-.BR -s | --split
-.IR helt\-arkiv " [" prefix ]
+.B dpkg\-split
+.BR \-s | \-\-split
+.IR helt-arkiv " [" prefix ]
 .br
-.B dpkg-split
-.BR -j | --join
+.B dpkg\-split
+.BR \-j | \-\-join
 .IR "del del " ...
 .br
-.B dpkg-split
-.BR -I | --info
+.B dpkg\-split
+.BR \-I | \-\-info
 .IR "del del " ...
 .br
-.B dpkg-split
-.BR -a | --auto
-.BI -o " fullständig\-utdata del"
+.B dpkg\-split
+.BR \-a | \-\-auto
+.BI \-o " fullständig-utdata del"
 .br
-.B dpkg-split
-.BR -l | --listq
+.B dpkg\-split
+.BR \-l | \-\-listq
 .br
-.B dpkg-split
-.BR -d | --discard
+.B dpkg\-split
+.BR \-d | \-\-discard
 .RI [ "paket paket " ...]
 .SH BESKRIVNING
-.B dpkg-split
+.B dpkg\-split
 delar upp binära Debianpaketfiler i mindre delar och slår samman dem igen,
 för att göra det möjligt att lagra stora paketfiler på små media, såsom
 disketter.
 
 Programmet kan köras manuellt med flaggorna
-.BR --split ", " --join " och " --info .
+.BR \-\-split ", " \-\-join " och " \-\-info .
 
 Det har även ett automatiskt läge, vilket aktiveras med flaggan
-.BR --auto .
+.BR \-\-auto .
 I det läget hanterar det en kö av delar som setts men ännu inte återställts,
 och återställer en paketfil när den sett alla dess delar.
 Flaggorna
-.BR --listq " and " --discard
+.BR \-\-listq " and " \-\-discard
 gör det möjligt att hantera kön.
 
 Alla funktioner för uppdelning, sammanslagning och köande visar informativa
 meddelanden på standard ut; dessa kan ignoreras.
 .SH HANDLINGSFLAGGOR
 .TP
-.BR --split ", " -s
+.BR \-\-split ", " \-s
 Delar ett ensamt binärt Debianpaket i flera delar.
 
 Delarna namnges som
@@ -62,12 +62,12 @@ där
 Om inget
 .I prefix
 ges tas filnamnet för
-.IR helt\-arkiv ,
+.IR helt-arkiv ,
 inklusive katalognamn, med den avslutande
 .B .deb
 borttagen.
 .TP
-.BR --join ", " -j
+.BR \-\-join ", " \-j
 Slår samman de olika paketdelarna, och återskapar den ursprungliga filen som
 den såg ut innan den delades.
 
@@ -79,21 +79,21 @@ listas i ordning.
 Delarna måste naturligtvis alla ha genererats med samma delstorlek när
 uppdelningen skedde, vilket betyder att de vanligtvis måste ha genererats
 vid samma körning av
-.BR "dpkg-split --split" .
+.BR "dpkg\-split \-\-split" .
 
 Delarnas filnamn är inte signifikanta för sammanslagningsproceduren.
 
 Förvalt namn på utdatafilen är
-.IB paket - version .deb\fR.
+.IB paket \- version .deb\fR.
 
 .TP
-.BR --info ", " -I
+.BR \-\-info ", " \-I
 Skriver ut information, i människoläsbar form, om de(n) delfil(er) som
 anges.
 Parametrar som inte är delar av binärpaket resulterar i ett meddelande som
 talar om detta (men fortfarande på standard ut).
 .TP
-.BR --auto ", " -a
+.BR \-\-auto ", " \-a
 Köa automatiskt delarna och återskapa paketet om möjligt.
 
 Den
@@ -104,14 +104,14 @@ existerar) i kön av delar av paket.
 Om alla delar av ett paket av vilket
 .I del
 är en del av är tillgängliga kommer paketet att återskapas och skrivas till
-.I fullständig\-utdata
+.I fullständig-utdata
 (vilken vanligtvis inte redan bör existera, även om det inte vore ett fel om
 det gjorde det).
 
 Om inte kommer
 .I del
 att kopieras till kön och
-.I fullständig\-utdata
+.I fullständig-utdata
 skapas inte.
 
 Om
@@ -122,21 +122,21 @@ att avsluta med returvärde 1; om något annat fel uppstår avslutar det med
 returvärde 2.
 
 Flaggan
-.BR --output " eller " -o
+.BR \-\-output " eller " \-o
 måste ges då
-.B --auto
+.B \-\-auto
 används.
 (Om detta inte vore ett krav skulle det anropande programmet inte veta
 vilken utdatafil som förväntades.)
 .TP
-.BR --listq ", " -l
+.BR \-\-listq ", " \-l
 Listar innehållet i kön över paket att återställa.
 
 För varje paketfil för vilken delar finns i kön visas i utdata namnet på
 paketet, antal delar i kön, och det totala antalet byte som är lagrade i
 kön.
 .TP
-.BR --discard ", " -d
+.BR \-\-discard ", " \-d
 Detta kastar bort delar från kön över de som väntar på återstående delar av
 paket.
 
@@ -145,18 +145,18 @@ Om inget
 anges töms kön helt; om paket anges kastas bara delar för de(t) paket som
 anges.
 .TP
-.BR --help ", " -h
+.BR \-\-help ", " \-h
 Visar
 .BR dpkg\-split s
 hjälpskärm, vilken ger en sammanfattning av kommandoradsflaggorna och deras
 användningsområden.
 .TP
-.BR --version
+.BR \-\-version
 Visar
 .BR dpkg\-split s
 versionsnummer.
 .TP
-.BR --licence
+.BR \-\-licence
 Visar information om
 .BR dpkg\-split s
 upphovsrättsliga licensiering och avsaknad av garanti.
@@ -165,17 +165,17 @@ upphovsrättsliga licensiering och avsaknad av garanti.
 stöds också.)
 .SH ANDRA FLAGGOR
 .TP
-.BI --depotdir " katalog"
+.BI \-\-depotdir " katalog"
 Anger en alternativ katalog för kön av delar som väntar på automatisk
 sammanslagning.
 Förvalet är
 .BR /var/lib/dpkg .
 .TP
-.BI --partsize\fR|\fB-S " kbyte"
+.BI \-\-partsize\fR|\fB\-S " kbyte"
 Anger maximal storlek vid delning, i kilobyte (1024 byte).
 Förval är 450 Kbyte.
 .TP
-.BI --output\fR|\fB-O " fullständig\-utdata"
+.BI \-\-output\fR|\fB\-O " fullständig-utdata"
 Anger filnamnet för utdata vid sammanslagning.
 
 Detta används istället för förvalet vid manuell sammanslagning
@@ -183,7 +183,7 @@ Detta används istället för förvalet vid manuell sammanslagning
 och krävs för automatisk köa-eller-sammanslå
 .RB ( \-\-auto ).
 .TP
-.BR --npquiet ", " -Q
+.BR \-\-npquiet ", " \-Q
 Vid automatisk köa-eller-sammanslå skriver
 .B dpkg\-split
 normalt ett meddelande om den matas med en
@@ -195,7 +195,7 @@ program såsom
 att hantera både delade och odelade paket utan att producera felaktiga
 meddelanden.
 .TP
-.BR --msdos
+.BR \-\-msdos
 Tvingar utdatafilnamn skapade av
 .B \-\-split
 att vara msdos-kompatibla.
@@ -259,7 +259,7 @@ General Public Licence; det finns INGEN GARANTI.
 Se
 .B /usr/share/dpkg/copyright
 och
-.B /usr/share/common-licenses/GPL
+.B /usr/share/common\-licenses/GPL
 för ytterligare detaljer.
 
 Denna manualsida översattes av Peter Karlsson.

@@ -1,12 +1,12 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.\" Translation of CVS revision 1.2
+.\" Translation of CVS revision 1.2.18.3
 .TH MD5SUM 1 "29 november 1995" "Lankester m fl" "Debian GNU/Linux"
 .SH NAMN
 md5sum \- genererar eller kontrollerar MD5-meddelandesamlingar
 
 .SH SYNOPS
 .B md5sum
-[-bv] [-c [fil]] | [fil...]
+[\-bv] [\-c [fil]] | [fil...]
 
 .SH BESKRIVNING
 .B md5sum
@@ -21,23 +21,23 @@ Normalt genererar
 kontrollsummor för samtliga filer som anges som flaggor och skriver
 kontrollsummorna följt av filnamnen.
 Om däremot flaggan
-.B -c
+.B \-c
 anges tillåts endast en filnamnsparameter.
 Denna fil innehåller kontrollsummor och tillhörande filnamn, och filerna som
 listas i den filen kommer att kontrolleras gentemot kontrollsumman som står
 där.
 Se flaggan
-.B -c
+.B \-c
 för ytterligare information.
 
 .SS FLAGGOR
 .TP
-.B -b
+.B \-b
 Använd binärt läge.
 I en unixmiljö är den enda skillnaden mellan detta och det normala läget en
 asterisk framför filnamnet i utdata.
 .TP
-.B -c
+.B \-c
 Kontrollera md5-summan för samtliga filer som listas i
 .I fil
 mot kontrollsummorna som står i filen.
@@ -50,18 +50,18 @@ Det betyder att varje rad i filen beskriver en fil, på formen:
 Så, till exempel, om en fil skapats och dess meddelandesamlingar (message
 digest) beräknats enligt
 
-.B echo foo > md5-testfil; md5sum md5-testfil
+.B echo foo > md5\-testfil; md5sum md5\-testfil
 
 kommer
 .B md5sum
 rapportera:
 
-.B d3b07384d113edec49eaa6238ad5ff00\  md5-testfil
+.B d3b07384d113edec49eaa6238ad5ff00\  md5\-testfil
 
 .TP
 .B -v
 Var mer pratsam.
-Skriv ut filnamn när de kontrolleras (med -c).
+Skriv ut filnamn när de kontrolleras (med \-c).
 
 .SH PROGRAMFEL
 Den relaterade meddelandesamlingsalgoritmen MD4 knäcktes i oktober 1995.
@@ -72,7 +72,7 @@ konsistent med andra manualsidor.
 
 .B md5sum
 tillåter inte standardflaggor såsom
-.BR --help .
+.BR \-\-help .
 
 .SH FÖRFATTARE
 
