@@ -1,0 +1,42 @@
+
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+include ../Makefile.conf
+
+SOURCES		= build.c extract.c info.c main.c
+
+OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
+GENFILES	= $(OBJECTS) dpkg-deb
+
+.PHONY: all
+all:: dpkg-deb
+
+.PHONY: install
+install:: all
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+.PHONY: cvsclean
+cvslean:: clean
+	$(RM) Makefile
+
+.PHONY: install
+install:: install-program install-doc
+
+.PHONY: install-program
+install-program:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
+	$(INSTALL) dpkg-deb $(DESTDIR)$(bindir)
+
+.PHONY: install-doc
+install-doc:
+	$(mkinstalldirs) $(DESTDIR)$(man1dir)
+	$(INSTALL_DATA) $(srcdir)/dpkg-deb.1 $(DESTDIR)$(man1dir)
+
+dpkg-deb: $(OBJECTS) ../lib/libdpkg.a
+	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg
+

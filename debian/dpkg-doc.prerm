@@ -12,13 +12,9 @@ case "$1" in
     remove|deconfigure|upgrade)
 	if command -v install-docs >/dev/null 2>&1; then
 	    echo -n "Unregistering DPKG documentation..."
-	    install-docs -r dpkg-internals || true
+	    install-docs -r dpkg-doc || true
 	    echo "done."
 	fi
 	;;
 esac
 
-install-info \
-	--quiet \
-	--remove \
-	/usr/share/info/internals.info.gz

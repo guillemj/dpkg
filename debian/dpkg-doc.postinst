@@ -6,13 +6,8 @@ if [ "$1" = configure ]; then
     fi
     if command -v install-docs >/dev/null 2>&1; then
 	echo -n "Registering DPKG documentation..."
-	install-docs -i /usr/share/doc-base/dpkg-internals
+	install-docs -i /usr/share/doc-base/dpkg-doc
 	echo "done."
     fi
 fi
 
-install-info \
-	--quiet \
-	--description="dpkg Internals Guide." \
-	--section "Miscellaneous" "Miscellaneous" \
-	/usr/share/info/internals.info.gz

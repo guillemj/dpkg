@@ -1,0 +1,86 @@
+#!/bin/sh -
+
+if [ "$1" != "upgrade" ]; then exit 0; fi
+
+set -e
+# i386elf: [ "$2" = "1.4.0.6" ] || dpkg --assert-support-predepends
+
+oldver="$2"
+
+case "$oldver" in
+	0.93.[01234]* | - )	;;
+	* )			exit 0 ;;
+esac
+
+echo '
+contemplating upgrade of dpkg from pre-0.93.50 version ...'
+
+trap 'es=$?; rm -f /var/lib/dpkg/bp.$$; exit $es' 0
+
+perl -000 -ne 'print $x if m/^Package:\s+(\S+\n)/im &&
+			  ($x=$1) ne "dpkg\n" &&
+			  m/^Status:.*(unpacked|postinst)/im' \
+	/var/lib/dpkg/status >/var/lib/dpkg/bp.$$
+
+if test -s /var/lib/dpkg/bp.$$
+then
+	echo '
+
+WARNING - have you read the release notes for this upgrade ?
+
+The following packages have been unpacked but not yet configured:'
+	echo '' `cat /var/lib/dpkg/bp.$$`
+	echo -n '
+If you proceed with the dpkg upgrade with these packages in this state
+you will LOSE ANY CONFIGURATION CHANGES that have been made to their
+configuration files.  I recommend that you back out of the upgrade
+now (see below) and then configure each of these packages using:
+ dpkg --configure --force-hold <package>
+
+If you do this and it fails for some packages they are broken anyway, in
+which case you probably don'"'"'t have that much to lose by going ahead
+with the upgrade.
+
+Type "yes" to confirm that you really want to do the upgrade in
+spite of my warning above; if you give any other response we'"'"'ll back
+off the upgrade to give you a chance to fix things.
+
+Continue with upgrade despite probable loss of config data ? '
+	read response
+	case "$response" in
+	[Yy][Ye][Ss] )	echo OK ... ;;
+	* )		echo 'Aborting dpkg upgrade.'; exit 1 ;;
+	esac
+fi
+
+echo -n '
+IMPORTANT - you must install this upgrade on its own, not together in
+the same dpkg run as any other packages.  Otherwise you risk losing
+configuration information.
+
+If you say "no" to the question below we'"'"'ll back off the upgrade now,
+and you can then do it later using:
+ dpkg --install dpkg-0.93.51.deb
+If you'"'"'re not sure what to do, say "no", and then run that command
+(with the appropriate dpkg-*.deb filename) from a root shell prompt.
+
+Are you installing only the dpkg upgrade in this dpkg run ? [y/n] '
+read response
+case "$response" in
+[yY]* | '' )
+	echo 'OK, going ahead.'
+	;;
+* )
+	echo '
+Aborting dpkg upgrade (you will see error messages from dpkg about this).'
+	exit 1
+	;;
+esac
+
+if [ -d /usr/lib/dpkg/methods/hd ]
+then
+	echo 'Removing obsolete /usr/lib/dpkg/methods/hd ...'
+	rm -r /usr/lib/dpkg/methods/hd
+fi
+
+exit 0

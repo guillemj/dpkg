@@ -1,0 +1,52 @@
+
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@/..
+
+include ../Makefile.conf
+
+SSD_SOURCES		= start-stop-daemon.c
+SSD_OBJECTS		= $(patsubst %.c, %.o, $(SSD_SOURCES))
+SSD_MANPAGES		= start-stop-daemon.8
+
+MD5_SOURCES		= md5sum.c md5.c
+MD5_OBJECTS		= $(patsubst %.c, %.o, $(MD5_SOURCES))
+MD5_MANPAGES		= md5sum.1
+
+GENFILES		= $(SSD_OBJECTS) start-stop-daemon
+
+.PHONY: all
+all:: start-stop-daemon md5sum
+
+.PHONY: install
+install:: all
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+.PHONY: cvsclean
+cvslean:: clean
+	$(RM) Makefile confdefs.h config.log
+
+.PHONY: install
+install:: install-program install-doc
+
+.PHONY: install-program
+install-program:
+	$(mkinstalldirs) $(DESTDIR)/$(sbindir)
+	$(INSTALL) start-stop-daemon $(DESTDIR)/$(sbindir)
+	$(mkinstalldirs) $(DESTDIR)/$(bindir)
+	$(INSTALL) md5sum $(DESTDIR)/$(bindir)
+
+.PHONY: install-doc
+install-doc:
+	$(mkinstalldirs) $(DESTDIR)/$(man8dir)
+	$(INSTALL_DATA) $(srcdir)/$(SSD_MANPAGES) $(DESTDIR)/$(man8dir)
+	$(mkinstalldirs) $(DESTDIR)/$(man1dir)
+	$(INSTALL_DATA) $(srcdir)/$(MD5_MANPAGES) $(DESTDIR)/$(man1dir)
+
+start-stop-daemon: $(SSD_OBJECTS)
+
+md5sum: $(MD5_OBJECTS)
+

@@ -1,0 +1,107 @@
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+include ../Makefile.conf
+
+BIN_SCRIPTS		= dpkg-name dpkg-source dpkg-genchanges \
+			  dpkg-gencontrol dpkg-shlibdeps dpkg-buildpackage \
+			  dpkg-parsechangelog dpkg-distaddfile 822-date \
+			  dpkg-scanpackages dpkg-scansources dpkg-architecture
+
+SBIN_SCRIPTS		= update-rc.d update-alternatives install-info \
+			  dpkg-divert cleanup-info
+
+MAN1PAGES		= dpkg-name.1 dpkg-source.1 822-date.1 dpkg-architecture.1
+MAN8PAGES		= update-rc.d.8 update-alternatives.8 install-info.8  \
+			  dpkg-scanpackages.8 dpkg-scansources.8
+
+CHANGELOG_PARSERS	= cl-debian
+
+SCRIPTLIBS		= controllib.pl
+
+LISPFILES		= debian-changelog-mode.el
+
+GEN_MAN8PAGES		= dpkg-scansources.8
+
+MAN_SOURCE_ALIASES	= dpkg-gencontrol.1 dpkg-genchanges.1 dpkg-buildpackage.1 \
+			  dpkg-distaddfile.1 dpkg-parsechangelog.1 dpkg-shlibdeps.1
+
+GENFILES		= $(CHANGELOG_PARSERS) $(BIN_SCRIPTS) $(SBIN_SCRIPTS) $(GEN_MAN8PAGES)
+
+.PHONY: all
+all:: $(GENFILES)
+
+.PHONY: install
+install:: all install-program install-doc
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+.PHONY: cvsclean
+cvslean:: clean
+	$(RM) Makefile
+
+.PHONY: install-program
+install-program:
+	$(mkinstalldirs) $(DESTDIR)/$(bindir)
+	set -e ; for i in $(BIN_SCRIPTS) ; do \
+		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+		$(INSTALL_SCRIPT) $$d$$i $(DESTDIR)/$(bindir) ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)/$(sbindir)
+	set -e ; for i in $(SBIN_SCRIPTS) ; do \
+		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+		$(INSTALL_SCRIPT) $$d$$i $(DESTDIR)/$(sbindir) ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)/$(alternativesdir)
+	$(INSTALL_DATA) $(srcdir)/README.alternatives \
+		$(DESTDIR)/$(alternativesdir)/README
+	$(mkinstalldirs) $(DESTDIR)/$(parsechangelogdir)
+	set -e ; for i in $(CHANGELOG_PARSERS) ; do \
+		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+		rn=`echo $$i | sed -e 's/^cl-//'` ; \
+		$(INSTALL_SCRIPT) $$d$$i $(DESTDIR)/$(parsechangelogdir)/$$rn ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)/$(dpkglibdir)
+	set -e ; for i in $(SCRIPTLIBS) ; do \
+		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+		$(INSTALL_DATA) $$d$$i $(DESTDIR)/$(dpkglibdir) ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)/$(elispdir)
+	set -e ; for i in $(LISPFILES) ; do \
+		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+		$(INSTALL_DATA) $$d$$i $(DESTDIR)/$(elispdir) ; \
+	done
+
+.PHONY: install-doc
+install-doc:
+	$(mkinstalldirs) $(DESTDIR)/$(man1dir)
+	set -e ; for i in $(MAN1PAGES) ; do \
+		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+		$(INSTALL_DATA) $$d$$i $(DESTDIR)/$(man1dir) ; \
+	done
+	set -e ; for i in $(MAN_SOURCE_ALIASES) ; do \
+		echo ".so dpkg-source.1" > $(DESTDIR)$(man1dir)/$$i ; \
+		chmod 644 $(DESTDIR)$(man1dir)/$$i ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)/$(man8dir)
+	set -e ; for i in $(MAN8PAGES) $(GEN_MAN8PAGES) ; do \
+		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+		$(INSTALL_DATA) $$d$$i $(DESTDIR)/$(man8dir) ; \
+	done
+
+
+%.8: %.pl
+	pod2man --section=8 $^ > $@
+
+%: %.pl
+	$(SED) -e "s:^#![:space:]*/usr/bin/perl:#! $(perlpath):; \
+		s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(dpkglibdir)\":; \
+		s:\$$version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$version=\"$(VERSION)\":" \
+		< $< > $@
+
+%: %.sh 
+	$(SED) -e "s:version=\"[^\"]*\":version=\"$(VERSION)\":" \
+		< $< > $@

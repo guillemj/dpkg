@@ -1,0 +1,58 @@
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+include ../Makefile.conf
+
+SOURCES		= main.c enquiry.c filesdb.c archives.c processarc.c \
+		  cleanup.c select.c packages.c configure.c remove.c \
+		  help.c depcon.c errors.c update.c 
+
+MAN8PAGES	= dpkg.8
+
+OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
+GENFILES	= $(OBJECTS) archtable.h dpkg
+
+.PHONY: all
+all:: dpkg
+
+.PHONY: install
+install:: all
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+.PHONY: cvsclean
+cvslean:: clean
+	$(RM) Makefile
+
+.PHONY: install
+install:: install-program install-doc
+
+.PHONY: install-program
+install-program:
+	$(mkinstalldirs) $(DESTDIR)/$(bindir)
+	$(INSTALL) dpkg $(DESTDIR)/$(bindir)
+	$(mkinstalldirs) $(DESTDIR)/$(admindir)/alternatives
+	$(mkinstalldirs) $(DESTDIR)/$(admindir)/info
+	$(mkinstalldirs) $(DESTDIR)/$(admindir)/updates
+
+.PHONY: install-doc
+install-doc:
+	$(mkinstalldirs) $(DESTDIR)/$(man8dir)
+	set -e ; for i in $(MAN8PAGES) ; do \
+	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+	    $(INSTALL_DATA) $$d$$i $(DESTDIR)/$(man8dir) ; \
+	done
+
+dpkg: $(OBJECTS) ../lib/libdpkg.a
+	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg
+
+enquiry.o: archtable.h
+
+archtable.h: $(top_srcdir)/archtable
+	expand $< | \
+	 perl -ne 'print "  { \"$$1\",$$2\"$$3\",$$4\"$$5\" },\n" \
+		   if m/^\s*(\w+)(\s+)(\w+)(\s+)(\w+)\s*$$/' \
+		>$@

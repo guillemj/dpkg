@@ -1,0 +1,34 @@
+
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+
+VERSION		= $(shell cat verion-nr)
+
+GENFILES	= version.h
+
+include Makefile.conf
+
+SUBDIRS		= include lib dpkg-deb split scripts utils main \
+		  utils doc dselect po methods
+
+all: version.h all-recursive
+
+install: all install-recursive
+
+clean: clean-recursive
+	rm -f $(GENFILES)
+
+cvsclean: clean cvsclean-recursive
+	rm -f Makefile.conf Makefile config.cache config.h config.log config.status
+
+version.h: version-nr
+	echo "#define DPKG_VERSION \"$(VERSION)\" /* This line modified by Makefile */" > version.h
+
+all-recursive install-recursive clean-recursive cvsclean-recursive:
+	set -e ; target=`echo $@ | sed s/-recursive//`; \
+	    for d in $(SUBDIRS) ; do \
+	    $(MAKE) $(MFLAGS) -C $$d $$target ; \
+	done;
+
+.PHONY: all install clean cvsclean 
+.PHONY: all-recursve install-recursive clean-recursive cvsclean-recursive

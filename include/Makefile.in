@@ -1,0 +1,22 @@
+
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+
+GENFILES	= dpkg.h
+
+include ../Makefile.conf
+
+all:: $(GENFILES)
+	
+install:: all
+
+clean::
+	rm -f $(GENFILES) 
+
+cvslean:: clean
+	rm -f Makefile
+
+dpkg.h: dpkg.h.in
+	sed 's,#ADMINDIR#,$(admindir),; s,#LIBDIR#,$(dpkglibdir),;' $< > $@
+
+.PHONY: all install clean cvsclean

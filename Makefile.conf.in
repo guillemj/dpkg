@@ -1,0 +1,71 @@
+
+# What are we building anyway?
+PACKAGE			= @PACKAGE@
+VERSION			= @VERSION@
+
+# Directory settings
+prefix			= @prefix@
+exec_prefix		= $(prefix)
+sharedir		= $(prefix)/share
+
+docdir			= $(sharedir)/doc/$(PACKAGE)
+copyingfile		= $(docdir)/copyright
+infodir			= @infodir@
+
+datadir			= @datadir@
+localedir		= $(datadir)/locale
+bindir			= @bindir@
+sbindir			= @sbindir@
+
+libdir			= $(prefix)/lib
+dpkglibdir		= $(libdir)/$(PACKAGE)
+
+methodsdir		= $(dpkglibdir)/methods
+parsechangelogdir	= $(dpkglibdir)/parsechangelog
+elispdir		= @lispdir@
+
+admindir		= /var/lib/$(PACKAGE)
+
+mandir			= @mandir@
+man1dir			= $(mandir)/man1
+man5dir			= $(mandir)/man5
+man8dir			= $(mandir)/man8
+
+sysconfdir		= @sysconfdir@
+alternativesdir		= $(sysconfdir)/alternatives
+
+perlpath		= @perlpath@
+mkinstalldirs		= $(SHELL) $(top_srcdir)/mkinstalldirs
+LN			= @LN_S@
+
+CC			= @CC@
+CFLAGS			= @CFLAGS@
+INSTALL			= @INSTALL@
+INSTALL_PROGRAM		= @INSTALL_PROGRAM@
+INSTALL_DATA		= @INSTALL_DATA@
+INSTALL_SCRIPT		= @INSTALL_SCRIPT@
+SED			= @SED@
+RM			= @RM@
+
+CXX			= @CXX@
+CXXFLAGS		= @CXXFLAGS@
+
+LD			= @LD@
+LDFLAGS			= @LDFLAGS@
+LIBS			= @LIBS@
+
+DEFS			= @DEFS@
+INCLUDE_CFLAGS		= -I$(top_srcdir)/include -I$(top_srcdir) -I$(srcdir) -I../include -I.. -I.
+
+NLS_CFLAGS		= -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl -I../intl
+NLS_LIBS		= @INTLLIBS@ 
+
+ALL_CFLAGS		= $(CFLAGS) $(DEFS) $(NLS_CFLAGS) $(INCLUDE_CFLAGS)
+ALL_CXXFLAGS		= $(ALL_CFLAGS) $(CXXFLAGS)
+
+.c.o:
+	$(CC) $(ALL_CFLAGS) -c $<
+
+.cc.o:
+	$(CXX) $(ALL_CXXFLAGS) -c $<
+

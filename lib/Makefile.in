@@ -1,0 +1,34 @@
+
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+include ../Makefile.conf
+
+SOURCES		= compat.c database.c dbmodify.c dump.c ehandle.c fields.c \
+		    lock.c mlib.c myopt.c nfmalloc.c parse.c parsehelp.c \
+		    showcright.c tarfn.c varbuf.c vercmp.c
+
+OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
+GENFILES	= $(OBJECTS) libdpkg.a
+
+ALL_CFLAGS	+= -DCOPYINGFILE=\"$(copyingfile)\"
+
+.PHONY: all
+all:: libdpkg.a
+	
+libdpkg.a: $(OBJECTS)
+	$(AR) r $@ $^
+
+.PHONY: install
+install:: all
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+
+.PHONY: cvsclean
+cvslean:: clean
+	$(RM) Makefile
+
