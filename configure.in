@@ -60,7 +60,7 @@ AC_ARG_WITH(admindir,
     admindir="$withval"
     ;;
  esac])
-AC_SUBST(admindir)
+
 
 AC_CHECK_TOOL_PREFIX
 AC_CANONICAL_SYSTEM
@@ -232,14 +232,33 @@ DPKG_C_GCC_TRY_WARNS(-Wsign-compare, dpkg_cv_c_gcc_comp_conv)
 DPKG_C_GCC_TRY_WARNS(-ffunction-sections -fdata-sections, dpkg_cv_func_data_sections)
 AC_SUBST(CWARNS)
 
-dnl Force this here so we can do the next step
+dnl fix up patchs. We can not use variable references paths since 
+dnl that breaks DocBook
+expandvar() { echo $(eval echo $1) ; }
+
 test "x$prefix" = xNONE && prefix="$ac_default_prefix"
-test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
 LLIBDIR=`eval echo $libdir`
 LLIBDIR=`eval echo $LLIBDIR`
-LOCALSTATEDIR=`eval echo $localstatedir`
+LOCALSTATEDIR="$(expandvar $localstatedir)"
 AC_DEFINE_UNQUOTED(LLIBDIR, "$LLIBDIR")
 AC_DEFINE_UNQUOTED(LOCALSTATEDIR, "$LOCALSTATEDIR")
+
+admindir=$(expandvar "$admindir")
+bindir=$(expandvar "$bindir")
+datadir=$(expandvar "$datadir")
+includedirdir=$(expandvar "$includedirdir")
+libdir=$(expandvar "$libdir")
+libexecdir=$(expandvar "$libexecdir")
+localstatedir=$(expandvar "$localstatedir")
+mandir=$(expandvar "$mandir")
+sbindir=$(expandvar "$sbindir")
+sharedstatedir=$(expandvar "$sharedstatedir")
+sysconfdir=$(expandvar "$sysconfdir")
+infodir=$(expandvar "$infodir")
+
+AC_SUBST(admindir)
+
 
 AC_OUTPUT(
 Makefile.conf
