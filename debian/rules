@@ -107,13 +107,14 @@ binary-trees: build
 	set -e; for f in \
  usr/share/doc/dpkg/{internals.html,changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
- usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages,dpkg-name,dpkg-architecture} \
- usr/share/man{/ja,}/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,architecture}.1.gz \
- usr/share/man{/ja,}/man1/{dpkg-parsechangelog,dpkg-distaddfile,822-date,dpkg-name}.1.gz \
- usr/share/man{/ja,}/man5 usr/share/man{/ja,}/man8/dpkg-scanpackages.8.gz \
+ usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages,dpkg-scansources,dpkg-name,dpkg-architecture} \
+ usr/share/man/{ja,.}/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,architecture}.1.gz \
+ usr/share/man/{ja,.}/man1/{dpkg-parsechangelog,dpkg-distaddfile,822-date,dpkg-name}.1.gz \
+ usr/share/man/{ja,.}/man5 usr/share/man/{ja,.}/man8/dpkg-{scanpackages,scansources}.8.gz \
  usr/lib/dpkg/parsechangelog usr/lib/dpkg/controllib.pl \
-		; do if [ -e debian/tmp-main/$$f ]; then mv debian/tmp-main/$$f debian/tmp-dev/$$f; fi \
-			done
+		; do if [ -e debian/tmp-main/$$f -o -L debian/tmp-main/$$f ] ; \
+			then mv -v debian/tmp-main/$$f debian/tmp-dev/$$f; \
+		fi done
 
 binary-indep: binary-trees
 	$(checkdir)

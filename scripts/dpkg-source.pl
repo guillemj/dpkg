@@ -453,7 +453,7 @@ if ($opmode eq 'build') {
 
     $sourcestyle =~ y/X/p/;
     $sourcestyle =~ m/[pun]/ ||
-        &usageerr("source handling style -s$sourcestyle not allowed with -b");
+        &usageerr("source handling style -s$sourcestyle not allowed with -x");
 
     @ARGV==1 || &usageerr("-x needs exactly one argument, the .dsc");
     $dsc= shift(@ARGV);
@@ -509,9 +509,11 @@ if ($opmode eq 'build') {
             
         &forkgzipread("$dscdir/$difffile");
         $/="\n";
-        while (<GZIP>) {
-            s/\n$// || &error("diff is missing trailing newline");
-            if (/^--- /) {
+	$_ = <GZIP>;
+	do {
+	    # read file header (---/+++ pair)
+	    s/\n$// or &error("diff is missing trailing newline");
+	    /^--- / or &error("expected ^--- in line $. of diff");
                 $fn= $';
                 substr($fn,0,length($expectprefix)+1) eq "$expectprefix/" ||
                     &error("diff patches file ($fn) not in expected subdirectory");
@@ -528,12 +530,27 @@ if ($opmode eq 'build') {
                 $_ eq '+++ '.$newdirectory.substr($fn,length($expectprefix)) ||
                     &error("line after --- for file $fn isn't as expected");
                 $filepatched{$fn}++ && &error("diff patches file $fn twice");
-            } elsif (/^\\ No newline at end of file$/) {
-            } elsif (/^[-+ \@]/) {
-	    } else {
-                &error ("diff contains unknown line \`$_'");
+	    # read hunks
+	    my $hunk = 0;
+	    while (($_ = <GZIP>) && !/^--- /) {
+		# read hunk header (@@)
+		s/\n$// or &error("diff is missing trailing newline");
+		/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@$/ or
+		    &error("Expected ^@@ in line $. of diff");
+		my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
+		++$hunk;
+		# read hunk
+		while ($olines || $nlines) {
+		    $_ = <GZIP> or &error("unexpected end of diff");
+		    s/\n$// or &error("diff is missing trailing newline");
+		    if (/^ /) { --$olines; --$nlines; }
+		    elsif (/^-/) { --$olines; }
+		    elsif (/^\+/) { --$nlines; }
+		    else { &error("expected [ +-] at start of line $. of diff"); }
             }
         }
+	    $hunk or &error("expected ^\@\@ at line $. of diff");
+        } while ($_ || !eof(GZIP));
         close(GZIP);
         
         &reapgzip;
@@ -610,7 +627,7 @@ if ($opmode eq 'build') {
             open(STDIN,"<&GZIP") || &syserr("reopen gzip for patch");
             chdir($newdirectory) || &syserr("chdir to $newdirectory for patch");
             exec('patch','-s','-t','-F','0','-N','-p1','-u',
-                 '-V','never','-b','-z','.dpkg-orig');
+                 '-V','never','-g0','-b','-z','.dpkg-orig');
             &syserr("exec patch");
         }
         close(GZIP);

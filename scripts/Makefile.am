@@ -36,7 +36,7 @@ ELCFILES		= debian-changelog-mode.elc
 man_MANS		= dpkg-name.1 dpkg-source.1 822-date.1 update-rc.d.8 \
 			  start-stop-daemon.8 update-alternatives.8 \
 			  install-info.8 dpkg-scanpackages.8 \
-			  dpkg-scansources.1 dpkg-architecture.1
+			  dpkg-scansources.8 dpkg-architecture.1
 
 EXTRA_DIST		= update-rc.d.pl \
 			  dpkg-name.sh dpkg-source.pl dpkg-genchanges.pl \

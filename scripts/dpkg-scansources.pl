@@ -232,7 +232,7 @@ sub load_src_override {
 
 sub de_pgp {
     my ($file, $s) = @_;
-    if ($s =~ s/^-----BEGIN PGP SIGNED MESSAGE-----\n(?:[^:]+: [^\n]+\n)*\n//) {
+    if ($s =~ s/^-----BEGIN PGP SIGNED MESSAGE-----.*?\n\n//s) {
 	unless ($s =~ s/\n
 			-----BEGIN\040PGP\040SIGNATURE-----\n
 			.*?\n
