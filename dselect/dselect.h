@@ -142,6 +142,9 @@ extern const char *admindir;
 extern FILE *debug;
 extern int expertmode;
 
+/* Evil recommends flag variable. */
+extern int manual_install;
+
 enum urqresult { urqr_normal, urqr_fail, urqr_quitmenu };
 enum quitaction { qa_noquit, qa_quitchecksave, qa_quitnochecksave };
 
