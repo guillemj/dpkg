@@ -82,8 +82,9 @@ struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) 
   int c;
   struct stat stab;
   
-  if (fread(magicbuf,1,sizeof(PARTMAGIC)-1,partfile) != sizeof(PARTMAGIC)-1)
+  if (fread(magicbuf,1,sizeof(PARTMAGIC)-1,partfile) != sizeof(PARTMAGIC)-1) {
     if (ferror(partfile)) rerr(fn); else return 0;
+  }
   if (memcmp(magicbuf,PARTMAGIC,sizeof(magicbuf))) return 0;
   if (fseek(partfile,-sizeof(arh.ar_name),SEEK_CUR))
     ohshite(_("unable to seek back"));

@@ -236,6 +236,7 @@ void deferred_configure(struct pkginfo *pkg) {
                   _("   What would you like to do about it ?  Your options are:\n"
                   "    Y or I  : install the package maintainer's version\n"
                   "    N or O  : keep your currently-installed version\n"
+                  "      D     : show the differences between the versions\n"
                   "      Z     : background this process to examine the situation\n"));
 
           if (what & cfof_keep)
@@ -268,6 +269,20 @@ void deferred_configure(struct pkginfo *pkg) {
           }
           
           /* fixme: say something if silently not install */
+
+          if (cc == 'd') {
+	    if (!(c1= m_fork())) {
+	      const char* p;
+	      char cmdbuf[1024];
+	      p= getenv(PAGERENV);
+	      if (!p || !*p) p= DEFAULTPAGER;
+	      sprintf(cmdbuf, "diff -u %.250s %.250s | %.250s", cdr.buf, cdr2.buf, p);
+	      execlp(s,s,"-c", cmdbuf);
+              ohshite(_("failed to run diff (%.250s)"), cmdbuf);
+	    }
+            while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
+            if (r != c1) { onerr_abort++; ohshite(_("wait for shell failed")); }
+	  }
 
           if (cc == 'z') {
 
