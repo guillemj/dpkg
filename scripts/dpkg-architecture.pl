@@ -41,6 +41,7 @@ Usage:
 Options:
        -a<debian-arch>    set Debian architecture
        -t<gnu-system>     set GNU system type 
+       -L                 list valid architectures
        -f                 force flag (override variables set in environment)
 Actions:
        -l                 list variables (default)
@@ -58,6 +59,7 @@ sub read_cputable {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
 	    $cputable_re{$1} = $3;
+	    push @cpu, $1;
 	}
     }
     close CPUTABLE;
@@ -70,6 +72,7 @@ sub read_ostable {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
 	    $ostable_re{$1} = $3;
+	    push @os, $1;
 	}
     }
     close OSTABLE;
@@ -96,13 +99,8 @@ sub debian_to_gnu {
 sub split_gnu {
     local ($_) = @_;
 
-    # Nuke the vendor bit
-    if (/^([^-]*)-([^-]*)-([^-]*-.*)/) {
-	return ($1, $3);
-    } else {
-	/^([^-]*)-(.*)/;
-	return ($1, $2);
-    }
+    /^([^-]*)-(.*)/;
+    return ($1, $2);
 }
 
 sub gnu_to_debian {
@@ -119,7 +117,7 @@ sub gnu_to_debian {
     }
 
     foreach $a (keys %ostable_re) {
-	if ($gnu_os =~ /^$ostable_re{$a}$/) {
+	if ($gnu_os =~ /^(.*-)?$ostable_re{$a}$/) {
 	    $os = $a;
 	    last;
 	}
@@ -135,6 +133,20 @@ sub gnu_to_debian {
 
 &read_cputable;
 &read_ostable;
+
+# Check for -L
+if (grep { m/^-L$/ } @ARGV) {
+    foreach $os (@os) {
+	foreach $cpu (@cpu) {
+	    if ($os eq "linux") {
+		print "$cpu\n"
+	    } else {
+		print "$os-$cpu\n";
+	    }
+	}
+    }
+    exit unless $#ARGV;
+}
 
 # Set default values:
 
@@ -190,6 +202,8 @@ while (@ARGV) {
     } elsif (m/^-c$/) {
        $action = 'c';
        last;
+    } elsif (m/^-L$/) {
+       # Handled already
     } else {
 	usageerr("unknown option \`$_'");
     }

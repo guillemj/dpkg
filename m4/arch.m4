@@ -22,7 +22,7 @@ AC_DEFINE_UNQUOTED(ARCHITECTURE_CPU, "${cpu_type}",
 # special cases to determine what type it is.  Sets ARCHITECTURE_OS.
 AC_DEFUN([DPKG_OS_TYPE],
 [AC_MSG_CHECKING([dpkg operating system type])
-[os_type="`awk \"! /^(#.*)?\\$/ { if (match(\\\"$target_os\\\", \\\"^\\\"\\$][3\\\"\\$\\\")) { print \\$][1; exit; } }\" $srcdir/ostable`"]
+[os_type="`awk \"! /^(#.*)?\\$/ { if (match(\\\"$target_os\\\", \\\"^(.*-)?\\\"\\$][3\\\"\\$\\\")) { print \\$][1; exit; } }\" $srcdir/ostable`"]
 if test "x$os_type" = "x"; then
 	os_type=$target_os
 	AC_MSG_RESULT([$os_type])
