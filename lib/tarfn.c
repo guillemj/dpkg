@@ -97,6 +97,11 @@ DecodeTarHeader(char * block, TarInfo * d)
 	return ( sum == checksum );
 }
 
+typedef struct symlinkList {
+	TarInfo h;
+	struct symlinkList *next;
+} symlinkList;
+
 extern int
 TarExtractor(
  void *			userData
@@ -110,10 +115,13 @@ TarExtractor(
        char    *bp;
        char    **longp;
        int     long_read;
+	symlinkList *symListTop, *symListBottom, *symListPointer;
 
        next_long_name = NULL;
        next_long_link = NULL;
        long_read = 0;
+	symListBottom = symListPointer = symListTop = malloc(sizeof(symlinkList));
+	symListTop->next = NULL;
 
 	h.UserData = userData;
 
@@ -122,11 +130,12 @@ TarExtractor(
 
 		if ( !DecodeTarHeader(buffer, &h) ) {
 			if ( h.Name[0] == '\0' ) {
-				return 0;	/* End of tape */
+				status = 0;	/* End of tape */
 			} else {
 				errno = 0;	/* Indicates broken tarfile */
-				return -1;	/* Header checksum error */
+				status = -1;	/* Header checksum error */
 			}
+			break;
 		}
                if (next_long_name) {
                  h.Name = next_long_name;
@@ -141,7 +150,8 @@ TarExtractor(
 
 		if ( h.Name[0] == '\0' ) {
 			errno = 0;	/* Indicates broken tarfile */
-			return -1;	/* Bad header data */
+			status = -1;	/* Bad header data */
+			break;
 		}
 
 		nameLength = strlen(h.Name);
@@ -163,7 +173,28 @@ TarExtractor(
 			status = (*functions->MakeHardLink)(&h);
 			break;
 		case SymbolicLink:
-			status = (*functions->MakeSymbolicLink)(&h);
+			memcpy(&symListBottom->h, &h, sizeof(TarInfo));
+			if ((symListBottom->h.Name = strdup(h.Name)) == NULL) {
+				status = -1;
+				errno = 0;
+				break;
+			}
+			if ((symListBottom->h.LinkName = strdup(h.LinkName)) == NULL) {
+				free(symListBottom->h.Name);
+				status = -1;
+				errno = 0;
+				break;
+			}
+			if ((symListBottom->next = malloc(sizeof(symlinkList))) == NULL) {
+				free(symListBottom->h.LinkName);
+				free(symListBottom->h.Name);
+				status = -1;
+				errno = 0;
+				break;
+			}
+			symListBottom = symListBottom->next;
+			symListBottom->next = NULL;
+			status = 0;
 			break;
 		case CharacterDevice:
 		case BlockDevice:
@@ -184,7 +215,8 @@ TarExtractor(
                  if (NULL == (*longp = (char *)malloc(h.Size))) {
                    /* malloc failed, so bail */
                    errno = 0;
-                   return -1;
+		   status = -1;
+		   break;
                  }
                  bp = *longp;
 
@@ -203,10 +235,9 @@ TarExtractor(
                    if (512 != status) {
 		     if ( status > 0 ) { /* Read partial header record */
 		       errno = 0;
-		       return -1;
-		     } else {
-                       return status;
+		       status = -1;
                      }
+                     break;
 		   }
 
                    copysize = long_read > 512 ? 512 : long_read;
@@ -221,10 +252,19 @@ TarExtractor(
                  break;
 		default:
 			errno = 0;	/* Indicates broken tarfile */
-			return -1;	/* Bad header field */
+			status = -1;	/* Bad header field */
 		}
 		if ( status != 0 )
-			return status;	/* Pass on status from coroutine */
+			break;	/* Pass on status from coroutine */
+	}
+	while(symListPointer->next) {
+		if ( status == 0 )
+			status = (*functions->MakeSymbolicLink)(&symListPointer->h);
+		symListBottom = symListPointer->next;
+		free(symListPointer->h.Name);
+		free(symListPointer->h.LinkName);
+		free(symListPointer);
+		symListPointer = symListBottom;
 	}
 	if ( status > 0 ) {	/* Read partial header record */
 		errno = 0;	/* Indicates broken tarfile */
@@ -233,3 +273,4 @@ TarExtractor(
 		return status;	/* Whatever I/O function returned */
 	}
 }
+
