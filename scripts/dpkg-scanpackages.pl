@@ -30,7 +30,7 @@ $written=0;
 $i=100; grep($pri{$_}=$i--,@fieldpri);
 
 $#ARGV == 1 || $#ARGV == 2
-    or die "Usage: dpkg-scanpackages binarypath overridefile pathprefix > Packages\n";
+    or die "Usage: dpkg-scanpackages binarypath overridefile [pathprefix] > Packages\n";
 ($binarydir, $override, $pathprefix) = @ARGV;
 -d $binarydir or die "Binary dir $binarydir not found\n";
 -e $override or die "Override file $override not found\n";

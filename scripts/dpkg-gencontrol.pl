@@ -17,7 +17,7 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-gencontrol $version. 
+"Debian dpkg-gencontrol $version. 
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2000 Wichert Akkerman.
 This is free software; see the GNU General Public Licence version 2 or later
@@ -32,6 +32,7 @@ Options:  -p<package>            print control file for package
           -v<forceversion>       set version of binary package
           -f<fileslistfile>      write files here instead of debian/files
           -P<packagebuilddir>    temporary build dir instead of debian/tmp
+	  -n<filename>           assume the package filename will be <filename>
           -O                     write to stdout, not .../DEBIAN/control
           -is                    include section field
           -ip                    include priority field
@@ -84,6 +85,8 @@ while (@ARGV) {
         $substvar{$1}= $';
     } elsif (m/^-T/) {
         $varlistfile= $';
+    } elsif (m/^-n/) {
+        $forcefilename= $';
     } elsif (m/^-h$/) {
         &usageversion; exit(0);
     } else {
@@ -220,8 +223,9 @@ if (open(X,"< $fileslistfile")) {
 }
 $sversion=$f{'Version'};
 $sversion =~ s/^\d+://;
-print(Y &substvars(sprintf("%s_%s_%s.deb %s %s\n",
-                           $oppackage,$sversion,$f{'Architecture'},
+$forcefilename=sprintf("%s_%s_%s.deb", $oppackage,$sversion,$f{'Architecture'})
+	   unless ($forcefilename);
+print(Y &substvars(sprintf("%s %s %s\n", $forcefilename, 
                            &spfileslistvalue('Section'), &spfileslistvalue('Priority'))))
     || &syserr("write new entry to new files list file");
 close(Y) || &syserr("close new files list file");

@@ -119,9 +119,9 @@ methodlist::methodlist() : baselist(&methodlistbindings) {
   if (debug)
     fprintf(debug,"methodlist[%p]::methodlist()\n",this);
 
-  table= new struct option*[noptions];
+  table= new struct dselect_option*[noptions];
 
-  struct option *opt, **ip;
+  struct dselect_option *opt, **ip;
   for (opt=options, ip=table, nitems=0; opt; opt=opt->next, nitems++) {
     if (opt == coption) { assert(newcursor==-1); newcursor= nitems; }
     *ip++= opt;

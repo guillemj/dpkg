@@ -273,12 +273,7 @@ struct varbuf {
 #endif
 };
 
-#if HAVE_INLINE
-inline extern void varbufaddc(struct varbuf *v, int c) {
-  if (v->used >= v->size) varbufextend(v);
-  v->buf[v->used++]= c;
-}
-#endif
+inline extern void varbufaddc(struct varbuf *v, int c);
 
 #ifdef __cplusplus
 inline void varbuf::operator()(int c) { varbufaddc(this,c); }
@@ -308,11 +303,7 @@ int epochsdiffer(const struct versionrevision *a,
                  const struct versionrevision *b);
 
 /*** from nfmalloc.c ***/
-#ifdef HAVE_INLINE
 extern inline void *nfmalloc(size_t);
-#else
-extern void *nfmalloc(size_t);
-#endif
 char *nfstrsave(const char*);
 char *nfstrnsave(const char*, int);
 void nffreeall(void);

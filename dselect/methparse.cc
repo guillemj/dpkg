@@ -42,7 +42,7 @@ extern "C" {
 #include "bindings.h"
 
 int noptions=0;
-struct option *options=0, *coption=0;
+struct dselect_option *options=0, *coption=0;
 struct method *methods=0;
 
 static void badmethod(const char *pathname, const char *why) NONRETURNING;
@@ -57,7 +57,7 @@ static void eofmethod(const char *pathname, FILE *f, const char *why) {
   badmethod(pathname,why);
 }
 
-void readmethods(const char *pathbase, option **optionspp, int *nread) {
+void readmethods(const char *pathbase, dselect_option **optionspp, int *nread) {
   static const char *const methodprograms[]= {
     METHODSETUPSCRIPT, METHODUPDATESCRIPT, METHODINSTALLSCRIPT, 0
   };
@@ -69,7 +69,7 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
   struct dirent *dent;
   struct varbuf vb;
   method *meth;
-  option *opt, **optinsert;
+  dselect_option *opt, **optinsert;
   struct stat stab;
 
   baselen= strlen(pathbase);
@@ -131,7 +131,7 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
     
     while ((c= fgetc(names)) != EOF) {
       if (isspace(c)) continue;
-      opt= new option;
+      opt= new dselect_option;
       opt->meth= meth;
       vb.reset();
       do {
@@ -228,7 +228,7 @@ void getcurrentopt() {
   int admindirlen;
   char *p;
   method *meth;
-  option *opt;
+  dselect_option *opt;
   
   if (!methoptfile) {
     admindirlen= strlen(admindir);

@@ -70,6 +70,7 @@ while (@ARGV) {
 }
 
 $dowrite=0;
+$exitcode=0;
 
 &badusage("no mode specified") unless $mode;
 &ReadOverrides;
@@ -125,7 +126,8 @@ if ($mode eq "add") {
 	$file=$ARGV[0];
 	if (not defined $owner{$file}) {
 		print STDERR "No override present.\n";
-		exit(0);
+		exit(0) if ($doforce); 
+		exit(2);
 	}
 	delete $owner{$file};
 	delete $group{$file};
@@ -143,15 +145,17 @@ if ($mode eq "add") {
 		push(@list,"^$_\$");
 	}
 	$pat= join('|',@list);
+	$exitcode=1;
 	for $file (keys %owner) {
 		next unless ($file =~ m/$pat/o);
+		$exitcode=0;
 		print "$owner{$file} $group{$file} $mode{$file} $file\n";
 	}
 }
 
 &WriteOverrides if ($dowrite);
 
-exit(0);
+exit($exitcode);
 
 sub ReadOverrides {
 	open(SO,"$admindir/statoverride") || &quit("cannot open statoverride: $!");

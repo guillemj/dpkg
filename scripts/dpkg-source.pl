@@ -26,7 +26,7 @@ delete $ENV{'POSIXLY_CORRECT'};
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-source $version.  Copyright (C) 1996
+"Debian dpkg-source $version.  Copyright (C) 1996
 Ian Jackson and Klee Dienes.  This is free software; see the GNU
 General Public Licence version 2 or later for copying conditions.
 There is NO warranty.

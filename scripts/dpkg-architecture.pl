@@ -122,10 +122,20 @@ $deb_build_gnu_system =~ s/^.*-//;
 
 # Default host: Current gcc.
 $gcc = `\${CC:-gcc} --print-libgcc-file-name`;
-$gcc =~ s!^.*gcc-lib/(.*)/(?:egcs-)?\d+(?:.\d+)*/libgcc.*$!$1!s;
-if ($gcc eq '') {
-    &warn ("Couldn't determine gcc system type, falling back to default (native compilation)");
+if {$?>>8) {
+    &warn("Couldn't determine gcc system type, falling back to default (native compilation)");
+    $gcc = '';
 } else {
+    $gcc =~ s!^.*gcc-lib/([^/]*)/(?:egcs-)?\d+(?:[.\da-z]*)/libgcc.*$!$1!s;
+    if (defined $1 and $! ne '') {
+	$gcc = $1;
+    } else {
+	&warn("Couldn't determine gcc system type, falling back to default (native compilation)");
+	$gcc = '';
+    }
+}
+
+if ($gcc ne '') {
     @list = &gnu_to_debian($gcc);
     if (!defined(@list)) {
 	&warn ("Unknown gcc system type $gcc, falling back to default (native compilation)"),
@@ -135,10 +145,8 @@ if ($gcc eq '') {
 	$gcc=$archtable{$list[0]};
 	$deb_host_arch = $list[0];
 	$deb_host_gnu_type = $gcc;
-        $deb_host_gnu_cpu = $gcc;
-        $deb_host_gnu_system = $gcc;
-        $deb_host_gnu_cpu =~ s/-.*$//;
-        $deb_host_gnu_system =~ s/^.*-//;
+        ($deb_host_gnu_system = $gcc) =~ s/^.*-//;
+        ($deb_host_gnu_cpu = $gcc ) =~ s/-.*$//;
     }
 }
 if (!defined($deb_host_arch)) {
@@ -206,7 +214,7 @@ if ($req_host_gnu_type ne '') {
 #$gcc =~ s!^.*gcc-lib/(.*)/\d+(?:.\d+)*/libgcc.*$!$1!s;
 &warn("Specified GNU system type $deb_host_gnu_type does not match gcc system type $gcc.") if ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
 
-undef @env;
+%env = ();
 if (!$force) {
     $deb_build_arch = $ENV{DEB_BUILD_ARCH} if (exists $ENV{DEB_BUILD_ARCH});
     $deb_build_gnu_cpu = $ENV{DEB_BUILD_GNU_CPU} if (exists $ENV{DEB_BUILD_GNU_CPU});
@@ -218,36 +226,38 @@ if (!$force) {
     $deb_host_gnu_type = $ENV{DEB_HOST_GNU_TYPE} if (exists $ENV{DEB_HOST_GNU_TYPE});
 }
 
-push @env, "DEB_BUILD_ARCH=$deb_build_arch";
-push @env, "DEB_BUILD_GNU_CPU=$deb_build_gnu_cpu";
-push @env, "DEB_BUILD_GNU_SYSTEM=$deb_build_gnu_system";
-push @env, "DEB_BUILD_GNU_TYPE=$deb_build_gnu_type";
-push @env, "DEB_HOST_ARCH=$deb_host_arch";
-push @env, "DEB_HOST_GNU_CPU=$deb_host_gnu_cpu";
-push @env, "DEB_HOST_GNU_SYSTEM=$deb_host_gnu_system";
-push @env, "DEB_HOST_GNU_TYPE=$deb_host_gnu_type";
+@ordered = qw(DEB_BUILD_ARCH DEB_BUILD_GNU_CPU
+	      DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
+	      DEB_HOST_ARCH DEB_HOST_GNU_CPU
+	      DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
+
+$env{'DEB_BUILD_ARCH'}=$deb_build_arch;
+$env{'DEB_BUILD_GNU_CPU'}=$deb_build_gnu_cpu;
+$env{'DEB_BUILD_GNU_SYSTEM'}=$deb_build_gnu_system;
+$env{'DEB_BUILD_GNU_TYPE'}=$deb_build_gnu_type;
+$env{'DEB_HOST_ARCH'}=$deb_host_arch;
+$env{'DEB_HOST_GNU_CPU'}=$deb_host_gnu_cpu;
+$env{'DEB_HOST_GNU_SYSTEM'}=$deb_host_gnu_system;
+$env{'DEB_HOST_GNU_TYPE'}=$deb_host_gnu_type;
 
 if ($action eq 'l') {
-    print join("\n",@env)."\n";
-} elsif ($action eq 's') {
-    print "export ".join("\n",@env)."\n" if ($#env != 0);
-    print "export ".join("\nexport ",@env)."\n" if ($#enf != 0);
-} elsif ($action eq 'u') {
-    print "unset DEB_BUILD_ARCH DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE DEB_HOST_ARCH DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE\n";
-} elsif ($action eq 'c') {
-    foreach $_ (@env) {
-       m/^(.*)=(.*)$/;
-       $ENV{$1}=$2;
+    foreach $k (@ordered) {
+	print "$k=$env{$k}\n";
     }
+} elsif ($action eq 's') {
+    foreach $k (@ordered) {
+	print "$k=$env{$k}; ";
+    }
+    print "export ".join(" ",@ordered)."\n";
+} elsif ($action eq 'u') {
+    print "unset ".join(" ",@ordered)."\n";
+} elsif ($action eq 'c') {
+    @ENV{keys %env} = values %env;
     exec @ARGV;
 } elsif ($action eq 'q') {
-    undef %env;
-    foreach $_ (@env) {
-       m/^(.*)=(.*)$/;
-       $env{$1}=$2;
-    }
     if (exists $env{$req_variable_to_print}) {
         print "$env{$req_variable_to_print}\n";     # works because -q implies -f !
+        print "$env{$req_variable_to_print}\n";
     } else {
         die "$req_variable_to_print is not a supported variable name";
     }
@@ -465,4 +475,4 @@ dpkg-cross
 
 If you have questions about the usage of the make variables in your rules
 files, or about cross compilation support in your packages, please email me.
-The addresse is Marcus Brinkmann <brinkmd@debian.org>.
+The address is Marcus Brinkmann <brinkmd@debian.org>.

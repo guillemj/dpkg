@@ -7,7 +7,7 @@ version="1.3.0"; # This line modified by Makefile
 progname="`basename \"$0\"`"
 usageversion () {
 	cat >&2 <<END
-Debian GNU/Linux dpkg-buildpackage $version.  
+Debian dpkg-buildpackage $version.  
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2000 Wichert Akkerman
 This is free software; see the GNU General Public Licence version 2
@@ -16,10 +16,11 @@ or later for copying conditions.  There is NO warranty.
 Usage: dpkg-buildpackage [options]
 Options: -r<gain-root-command>
          -p<sign-command>
+	 -d            do not check build dependencies and conflicts
+	 -D            check build dependencies and conflicts
 	 -k<keyid>     the key to use for signing
          -sgpg         the sign-command is called like GPG
          -spgp         the sign-command is called like PGP 
-         -sdebsign     the sign-command works like debsign
          -us           unsigned source
          -uc           unsigned changes
          -a<arch>      Debian architecture we build for
@@ -55,6 +56,8 @@ fi
 signsource='withecho signfile'
 signchanges='withecho signfile'
 cleansource=false
+checkbuilddep=true
+checkbuilddep_args=''
 binarytarget=binary
 sourcestyle=''
 version=''
@@ -72,9 +75,10 @@ do
 	-r*)	rootcommand="$value" ;;
 	-p*)	signcommand="$value" ;;
 	-k*)	signkey="$value" ;;
+	-d)	checkbuilddep=false ;;
+	-D)	checkbuilddep=true ;;
 	-sgpg)  forcesigninterface=gpg ;;
 	-spgp)  forcesigninterface=pgp ;;
-	-sdebsign)  forcesigninterface=debsign ;;
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
 	-ap)	usepause="true";;
@@ -88,9 +92,9 @@ do
 	-nc)	noclean=true; if [ -z "$binaryonly" ]; then binaryonly=-b; fi ;;
 	-b)	binaryonly=-b; [ "$sourceonly" ] && \
 			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
-	-B)	binaryonly=-B; binarytarget=binary-arch; [ "$sourceonly" ] && \
+	-B)	binaryonly=-B; checkbuilddep_args=-B; binarytarget=binary-arch; [ "$sourceonly" ] && \
 			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
-	-S)	sourceonly=-S; [ "$binaryonly" ] && \
+	-S)	sourceonly=-S; checkbuilddep=false; [ "$binaryonly" ] && \
 			{ echo >&2 "$progname: cannot combine $binaryonly and $1" ; exit 2 ; } ;;
 	-v*)	since="$value" ;;
 	-m*)	maint="$value" ;;
@@ -113,14 +117,9 @@ else
   signinterface=$signcommand
 fi
 
-if [ "$signinterface" != "gpg" -a "$signinterface" != "pgp" -a \
-	"$signitnerface" != "debsign" ] ; \
+if [ "$signinterface" != "gpg" -a "$signinterface" != "pgp" ] ; then
 	echo >&2 "$progname: invalid sign interface specified"
 	exit 1
-fi
-
-if test "$signinterface" = "debsign"; then
-	signsource=:
 fi
 
 mustsetvar () {
@@ -139,10 +138,11 @@ mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source pac
 mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version"
 if [ -n "$maint" ]; then maintainer="$maint"; 
 else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
-eval `dpkg-architecture -a${arch} -t${targetgnusystem} -s`
-archlist=`dpkg-architecture -a${targetarch} -t${targetgnusystem} -f 2> /dev/null`
+eval `dpkg-architecture -a${arch} -t${targetgnusystem} -s -f`
+env
+exit 0
 if [ x$sourceonly = x ]; then
-	mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_HOST_ARCH`" "build architecture"
+	mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_BUILD_ARCH`" "build architecture"
 else
 	arch=source
 fi
@@ -155,13 +155,6 @@ signfile () {
 		(cat "../$1" ; echo "") | \
 		$signcommand --local-user "${signkey:-$maintainer}" --clearsign --armor \
 			--textmode  > "../$1.asc" 
-	elif test "$signinterface" = "debsign"; then
-		if test x$signkey != x; then
-			$signcommand -k"$signkey" ../$1
-		else
-			$signcommand ../$1
-		fi
-		return
 	else
 		$signcommand -u "${signkey:-$maintainer}" +clearsig=on -fast <"../$1" \
 			>"../$1.asc"
@@ -175,6 +168,14 @@ withecho () {
 	"$@"
 }
 
+if [ "$checkbuilddep" = "true" ]; then
+	if ! dpkg-checkbuilddeps $checkbuilddep_args; then
+		echo >&2 "$progname: Build dependancies/conflicts unsatisfied; aborting."
+		echo >&2 "$progname: (Use -d flag to override.)"
+		exit 3
+	fi
+fi
+
 set -- $binaryonly $sourceonly $sourcestyle
 if [ -n "$maint"	]; then set -- "$@" "-m$maint"		; fi
 if [ -n "$changedby"	]; then set -- "$@" "-e$changedby"	; fi
@@ -182,14 +183,14 @@ if [ -n "$since"	]; then set -- "$@" "-v$since"		; fi
 if [ -n "$desc"		]; then set -- "$@" "-C$desc"		; fi
 
 if [ x$noclean != xtrue ]; then
-	withecho $rootcommand debian/rules clean $archlist
+	withecho $rootcommand debian/rules clean
 fi
 if [ x$binaryonly = x ]; then
 	cd ..; withecho dpkg-source $diffignore -b "$dirn"; cd "$dirn"
 fi
 if [ x$sourceonly = x ]; then
-	withecho debian/rules build $archlist
-	withecho $rootcommand debian/rules $binarytarget $archlist
+	withecho debian/rules build 
+	withecho $rootcommand debian/rules $binarytarget
 fi
 if [ "$usepause" = "true" -a "signchanges" != ":" ] && [ "x$binaryonly" = x -o "x$signchanges" != x ] ; then
     echo Press the return key to start signing process
@@ -236,7 +237,7 @@ fi
 $signchanges "$pva.changes"
 
 if $cleansource; then
-	withecho $rootcommand debian/rules clean $archlist
+	withecho $rootcommand debian/rules clean
 fi
 
 echo "dpkg-buildpackage: $srcmsg"

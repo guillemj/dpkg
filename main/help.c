@@ -259,8 +259,13 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
 
   c1= m_fork();
   if (!c1) {
+    char **narglist;
+    for (r=0; arglist[r]; r++) ;
+    narglist=nfmalloc(r*sizeof(char*));
+    for (r=1; arglist[r]; r++)
+      narglist[r]= arglist[r];
     scriptexec= preexecscript(scriptpath,arglist);
-    arglist[0]=scriptexec;
+    narglist[0]= (char*)scriptexec;
     execv(scriptexec,arglist);
     ohshite(desc,name);
   }

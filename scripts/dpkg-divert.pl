@@ -8,7 +8,7 @@ $version= '1.0.11'; # This line modified by Makefile
 $admindir= "/var/lib/dpkg"; # This line modified by Makefile
 
 sub showversion {
-    print("Debian GNU/Linux dpkg-divert $version.\n") || &quit("failed to write version: $!");
+    print("Debian dpkg-divert $version.\n") || &quit("failed to write version: $!");
 }
 
 sub usage {

@@ -27,8 +27,8 @@ struct method {
   char *name, *path, *pathinmeth;
 };
 
-struct option {
-  option *next;
+struct dselect_option {
+  dselect_option *next;
   method *meth;
   char index[OPTIONINDEXMAXLEN];
   char *name, *summary;
@@ -40,7 +40,7 @@ class methodlist : public baselist {
   int name_column, description_column;
 
   // Table of methods
-  struct option **table;
+  struct dselect_option **table;
 
   // Misc.
   char searchstring[50];
@@ -69,10 +69,10 @@ class methodlist : public baselist {
 };
 
 extern int noptions;
-extern struct option *options, *coption;
+extern struct dselect_option *options, *coption;
 extern struct method *methods;
 
-extern void readmethods(const char *pathbase, option **optionspp, int *nread);
+extern void readmethods(const char *pathbase, dselect_option **optionspp, int *nread);
 extern void getcurrentopt();
 extern void writecurrentopt();
 

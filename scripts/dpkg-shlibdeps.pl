@@ -25,7 +25,7 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-shlibdeps $version.
+"Debian dpkg-shlibdeps $version.
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2000 Wichert Akkerman.
 This is free software; see the GNU General Public Licence version 2 or

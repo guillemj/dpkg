@@ -80,7 +80,7 @@ static void cu_unlockmethod(int, void**) {
 
 static enum urqresult ensureoptions(void) {
   const char *const *ccpp;
-  option *newoptions;
+  dselect_option *newoptions;
   int nread;
 
   if (!options) {

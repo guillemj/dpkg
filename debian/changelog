@@ -1,10 +1,12 @@
 dpkg (1.9.0) unstable; urgency=low
 
+  * The Copenhagen release
+  * Things should mostly work OpenBSD 2.8 as well now
   * Removed all --smallmem code, as smallmem and largemem now actually
     use about the same amount of memory, and largemem is faster.  Both
     --largemem and --smallmem are now obselete options, and will print
-    a warning if used.
-  * Update German translation, Closes: Bug#80529
+    a warning if used. Closes: Bug#84905
+  * Update German translation, Closes: Bug#80529,#87581
   * Update French translation, Closes: Bug#65284,#87238
   * Add French manpages, courtesy of Philippe Batailler
   * Ingore vim swapfiles in dpkg-source, Closes: Bug#81630
@@ -26,15 +28,31 @@ dpkg (1.9.0) unstable; urgency=low
   * Minor script changes, Closes: Bug#87485
   * Stop dpkg-genchanges from complaining about missing packages
     when doing a source-only build. Closes: Bug#87571
-  * Make dpkg-architecture -s export all variables instead of only
-    the first
+  * Various dpkg-architecture cleanups. Closes: Bug#87505
+  * Modify dpkg-architecture to handle gcc versions containing letters.
+    Closes: Bug#83083
   * dpkg-buildpackage updates: Closes: Bug#87572
     + make -C work properly
     + fix test for gpg secret keyring
     + improve source messages
     + skip signing pause when building unsigned packages
     + test for invalid signinterface. Closes: Bug#87579
+    + remove debsign support, it's useless and doesn't work
+    + Use correct architecture when naming .changes file. Closes: Bug#88015
   * Fix wording in dpkg-statoverride manpage for --add. Closes: Bug#85080
+  * Fix typo in start-stop-daemon manpage. Closes: Bug#88225
+  * Add dpkg-checkbuilddeps to check if build dependencies are satisfied
+    and modify dpkg-buildpackage to call it if wanted. Closes: Bug#86453
+  * dpkg-parsechangelog can read a changelog from stdin now. Closes: Bug#80142
+  * Fix confusing wording for dpkg-buildpackage -uc option in manpage.
+    Closes: Bug#83468
+  * dpkg-statoverride now exits with exitcode 1 if we do a --list but don't
+    output anything. Closes: Bug#84328
+  * Remove Linux reference from all scripts, they should run fine on
+    other OSes as well.
+  * Mark last argument in dpkg-scanpackages usage info as optional.
+    Closes: Bug#86658
+  * Fix formatting error in dpkg-source.1. Closes: Bug#82723
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
@@ -617,7 +635,7 @@ dpkg (1.4.1.7) unstable; urgency=low
     + varbufprintf (used for some error messages) vsnprintf return value
       assumption changed to correspond to reality rather than glibc-doc.
     + Don't read available-info when not needed (slightly improved from 
-	  dpkg-iwj: don't read for listfiles either :)
+      dpkg-iwj: don't read for listfiles either :)
     + Cleanup --assert-* code
     + Assume largemem on systems without sysinfo(2).
     + modify preexec-script for easier script execution

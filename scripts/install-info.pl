@@ -7,7 +7,7 @@
 $version= '0.93.42.2'; # This line modified by Makefile
 sub version {
         print STDERR <<END;
-Debian GNU/Linux install-info $version.  Copyright (C) 1994,1995
+Debian install-info $version.  Copyright (C) 1994,1995
 Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 END

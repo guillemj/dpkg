@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-$dpkglibdir= ".";
+$dpkglibdir= "/usr/lib/dpkg";
 $version= '1.3.0'; # This line modified by Makefile
 
 $format='debian';
@@ -16,8 +16,10 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-source $version.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
+"Debian dpkg-source $version.
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2001 Wichert Akkerman
+This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
 Usage: dpkg-parsechangelog [<option> ...]
@@ -46,7 +48,7 @@ while (@ARGV) {
 @ARGV && &usageerr("$progname takes no non-option arguments");
 $changelogfile= "./$changelogfile" if $changelogfile =~ m/^\s/;
 
-if (!$force) {
+if (not $force and $changelogfile ne "-") {
     open(STDIN,"< $changelogfile") ||
         &error("cannot open $changelogfile to find format: $!");
     open(P,"tail -40 |") || die "cannot fork: $!\n";
@@ -56,6 +58,7 @@ if (!$force) {
     }
     close(P); $? && &subprocerr("tail of $changelogfile");
 }
+
 
 for $pd (@parserpath) {
     $pa= "$pd/$format";
@@ -71,5 +74,8 @@ for $pd (@parserpath) {
         
 defined($pf) || &error("format $pa unknown");
 
-open(STDIN,"< $changelogfile") || die "cannot open $changelogfile: $!\n";
+if ($changelogfile ne "-") {
+    open(STDIN,"< $changelogfile") || die "cannot open $changelogfile: $!\n";
+}
 exec($pf,@ap); die "cannot exec format parser: $!\n";
+

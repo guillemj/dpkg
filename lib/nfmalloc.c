@@ -45,11 +45,7 @@ static void nfobstack_init(void) {
   obstack_chunk_size(&db_obs) = CHUNK_SIZE;
 }
   
-#ifdef HAVE_INLINE
 inline void *nfmalloc(size_t size)
-#else
-void *nfmalloc(size_t size)
-#endif
 {
   OBSTACK_INIT;
   return obstack_alloc(&db_obs, size);

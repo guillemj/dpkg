@@ -1,3 +1,60 @@
+Fri Mar  2 17:29:02 CET 2001 Wichert Akkerman <wakkerma@debian.org>
+
+  * The Copenhagen Commit
+  * ChangeLog: undo file corruption (ugh)
+  * utils/start-stop-daemon.8: fix typo
+  * configure.in: use AC_C_INLINE instead of our own test
+  * lib/nfmalloc, include/dpkg-db.h: remove HAVE_INLINE tests, use extern
+    inline directly
+  * lib/varbuf.c: add inline keyowrd to varbufaddc
+  * optlib/Makefile.in: undo earlier patch and build libopt.a again
+  * lib/Makefile.in: use libopt.a again, and a rule to build it
+  * Makefile.in: build optlib before lib
+  * Makefile.conf.in: add RANLIB
+  * dselect/method.h, dselect/methlist.cc, dselect/method.cc,
+    dselect/methparse.cc: rename struct option to dselect_option to prevent
+    conflict with getopt.h
+  * main/help.c: rework do_script a bit to compile without errors
+  * scripts/dpkg-gencontrol.1: add -n option to specify filename
+  * scripts/dpkg-source.1:
+    + document -n option for dpkg-gencontrol
+    + fix confusing wording for dpkg-buildpackage -uc option
+    + fix layout error for dpkg-distaddfile section
+    + it's DEADJOE, not DEAD_JOEY
+  * scripts/dpkg-architecture.pl:
+    + apply cleanup patch from Julian Gilbey
+    + modify gcc regexp to recognize gcc versions like 2.96-ia64-000717
+  * scripts/dpkg-checkbuilddeps.pl, scripts/dpkg-checkbuilddeps.1: new
+    script from Joey Hess to check build dependencies
+  * THANKS: Add Joey Hess
+  * scripts/dpkg-parsechangelog.pl:
+    + support reading changelog from stdin
+    + remove Linux reference
+  * scripts/dpkg-statoverride.pl: exit with exitcode 1 if we do --list but
+    don't output anything, and use exitcode 2 if we try to remove a
+    non-exiting override (unless --force is given).
+  * scripts/dpkg-statoverride.8: document new exitcode for --list
+  * main/main.c, main/dpkg.8: remove --smallmem and --largemem references
+  * scripts/dpkg-buildpackage.sh: 
+    + don't bother to specify architecture settings on commandlines since
+      we put them in the environment already
+    + remove debsign support, it's useless and debsign can't handle it
+    + use DEB_BUILD_ARCH to get build architecture, not DEB_HOST_ARCH
+    + remove Linux reference
+  * scripts/dpkg-scanpackages.pl: mark last argument as optional in
+    usage info
+  * scripts/dpkg-scanpackages.8, scripts/dpkg-name.1, 
+    scripts/dpkg-shlibdeps.pl, scripts/dpkg-source.pl, scripts/822-date.1,
+    scripts/cl-debian.pl, scripts/cleanup-info.pl, scripts/dpkg-genchanges.pl,
+    scripts/dpkg-distaddfile.pl, scripts/dpkg-source.1,
+    scripts/dpkg-divert.pl, scripts/install-info.pl, scripts/install-info.8,
+    scripts/dpkg-gencontrol.pl, scripts/update-alternatives.pl,
+    scripts/update-rc.d.8: remove Linux references
+
+Sun Feb 25 20:26:03 CET 2001 Wichert Akkerman <wakkerma@debian.org>
+
+  * version-nr: update to 1.9.0
+
 Sun Feb 25 19:17:53 CET 2001 Wichert Akkerman <wakkerma@debian.org>
 
   * debian/changelog: merged additions from v1.8 branch
@@ -1189,7 +1246,105 @@ Tue Jan 11 03:34:22 CET 2000 Wichert Akkerman <wakkerma@debian.org>
   * scripts/dpkg-genchanges.pl: also upload full source if version is *-0.1
   * doc/ja/dpkg.8: updated with patch from Hiroshi KISE <fuyuneko@ryukyu.ne.jp>
 
-Tue Jan 11 18:32:52 CET 2000 Wichert Akkerman <wakkerma@dÞ ‚Þ ƒÞ „Þ …Þ †Þ ‡Þ ˆÞ ‰Þ ŠÞ ‹Þ ŒÞ Þ ŽÞ Þ Þ ‘Þ ’Þ “Þ ”Þ •Þ –Þ —Þ ˜Þ ™Þ šÞ ›Þ œÞ Þ žÞ ŸÞ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     of manpages
+Tue Jan 11 18:32:52 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * configure.in: Fix include in test for alphasort 
+  * Makefile.in: add intl to subdirectory-list
+  * dpkg-deb/Makefile.in: set top_builddir
+  * dselect/Makefile.in: set top_builddir
+  * main/Makefile.in: set top_builddir
+  * lib/compat.c: add really simple snprintf (doesn't do range-checking)
+  * lib/compat.c: add sys_siglist
+  * configure.in: add tests for snprintf and sys_siglist
+  * include/dpkg.h.in: don't include sys/sysinfo.h, filesdb.c is the only
+    thing that needs it and it has its own include.
+
+Tue Jan 11 02:02:00 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * dselect/baselist.cc: don't specify SA_INTERRUPT, since it's
+    not portable and the default behaviour
+  * main/enquiry.c: include sys/termios.h (needed on Solaris)
+  * lib/lock.c: use EACCESS instead of EWOULDBLOCK
+  * dselect/main.cc: fix help for -D
+  * dselect/main.cc: try to lock admindir instead of using readwrite
+  * dselect/method.cc: switch to using fcntl for lock since that is more
+    portable, and revamp lockingcode to reduce code duplication
+
+Mon Jan 10 20:55:45 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * Update Swedish and Russian translation
+
+Sun Jan  9 16:11:39 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * Merge patches from Josip Rodin:
+    + various text and manpage updates
+    + dselect/method.cc: don't abort if locking fails but give a
+      warning
+    + THANKS: fix various small errors 
+
+Sun Jan  9 01:40:23 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * scripts/cl-debian.pl: Allow space between `#' and the bugnumber in the
+    changelog scripts
+  * scripts/start-stop-daemon.c: test for __sparc__ instead
+  * scripts/Makefile.in: add optlib to CFLAGS
+  * utils/start-stop-daemon.c: add option to chroot first, patch from Marco d'Itri
+  * utils/start-stop-daemon.8: document chroot option
+  * dselect/pkgtop.cc: use waddnstr to print package description instead of waddch
+
+Fri Jan  7 18:24:45 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * dselect/method.cc: pass admindir to dpkg
+  * dselect/Makefile.in: fix rule to build helpmessages
+  * dselect/curkeys.h: use curses.h instead of ncurses.h, since someone
+    decided to play nasty and just remove that
+  * scripts/: remove dpkg-safelist
+  * dpkg-deb/build.c: remove dpkg-safelist calls
+  * main/enquiry.c: redo formula to get fieldwidths for packages
+
+Wed Jan  5 17:09:45 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * Merge patch from Tom Lees <tom@lpsg.demon.co.uk>:
+    + scripts/dpkg-buildpackage.sh: support debsign
+  * scripts/update-alternatives.8: fix wrong order of parameters
+    in ACTION section
+  * Updated Polish translation
+
+Sun Dec 26 01:31:08 CET 1999 Wichert Akkerman <wakkerma@debian.org>
+
+  * Update copyright for Swedish translation to SPI instead of Debian
+
+Sat Dec 25 04:04:48 CET 1999 Wichert Akkerman <wakkerma@debian.org>
+
+  * dselect/pkgtop.cc: use waddnstr instead of waddch so we don't strip
+    the 8th bit of characters
+  * Replace `Debian Linux' with `Debian GNU/Linux' in some more places
+  * Update Spanish translation
+  * main/enquire.c: always use a minimum width of 80 in list1package
+  * debian/rules: install dpkg-safefilelist
+
+Sat Dec 25 02:50:31 CET 1999 Wichert Akkerman <wakkerma@debian.org>
+
+  * Oops, forgot to add scripts/dpkg-safefilelist.{1,pl}
+  * debian/control: remove double empty line
+  * dpkg-deb/main.c: Fix help-message
+
+Fri Dec 24 17:34:30 CET 1999 Wichert Akkerman <wakkerma@debian.org>
+
+  * version-nr: update to 1.6.5
+  * doc/Makefile.in: install THANKS
+  * TODO: remove items that have been done
+  * lib/showcright.c: exit(0) after showing the copyright since
+    we don't exec cat anymore
+  * Patch from David Huggins-Daines <dhd@eradicator.org>:
+    + main/configure.c: add NULL to execlp() parameters; this fixes the random
+      segfaults when showing the conffile-diff
+
+Fri Dec 24 15:35:29 CET 1999 Wichert Akkerman <wakkerma@debian.org>
+
+  * debian/control: add Build-Depends
+  * THANKS: new file which lists everyone who contributed to the code
+  * Change `Debian Linux' to `Debian GNU/Linux' in a couple of manpages
   * main/enquiry.c: modify list1package to use the full width of the tty
   * main/main.c: fix wrong call to fputs
   * Merge patches from Adam Heath:
@@ -4245,6 +4400,3 @@ Thu Aug 25 11:46:27 1994  Ian Murdock  (imurdock@debra.debian.org)
 
 ChangeLog begins Thu Aug 25 11:46:27 1994 for dpkg 0.93.5.
 
-Local variables:
-mode: debian-changelog
-End:

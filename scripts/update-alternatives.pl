@@ -28,8 +28,10 @@ sub ENOENT { 2; }
 $version= '0.93.80'; # This line modified by Makefile
 sub usageversion {
     print(STDERR <<END)
-Debian GNU/Linux update-alternatives $version.  Copyright (C) 1995
-Ian Jackson.  This is free software; see the GNU General Public Licence
+Debian update-alternatives $version.
+Copyright (C) 1995 Ian Jackson.
+Copyright (C) 2000 Wichert Akkerman
+This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
 Usage: update-alternatives --install <link> <name> <path> <priority>

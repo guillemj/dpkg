@@ -30,9 +30,9 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-genchanges $version. 
+"Debian dpkg-genchanges $version. 
 Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2000 Wichert Akkerman.
+Copyright (C) 2000,2001 Wichert Akkerman.
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions.  There is NO warranty.
 

@@ -13,7 +13,7 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-distaddfile $version.  Copyright (C) 1996
+"Debian dpkg-distaddfile $version.  Copyright (C) 1996
 Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
