@@ -413,7 +413,7 @@ int main(int argc, const char *const *argv) {
     }
   }
 
-  myfileopt(CONFIGDIR "/" DPKG, cmdinfos);
+  myfileopt(CONFIGDIR "/" DPKG ".cfg", cmdinfos);
   myopt(&argv,cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
