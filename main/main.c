@@ -415,6 +415,7 @@ int main(int argc, const char *const *argv) {
     }
   }
 
+  myfileopt(CONFIGDIR "/" DPKG, cmdinfos);
   myopt(&argv,cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
