@@ -14,7 +14,9 @@ MAN8PAGES	= dpkg.8
 OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
 GENFILES	= $(OBJECTS) archtable.h dpkg dpkg-static
 
-dpkg-query:	SOURCES = query.c filesdb.c errors.c
+QUERY_SOURCES	= query.c showpkg.c filesdb.c errors.c 
+QUERY_OBJECTS	= $(patsubst %.c, %.o, $(QUERY_SOURCES))
+QUERY_GENFILES	= $(QUERY_OBJECTS) dpkg-query
 
 .PHONY: all
 all:: dpkg dpkg-query
@@ -28,7 +30,7 @@ install:: all
 
 .PHONY: clean
 clean::
-	$(RM) $(GENFILES)
+	$(RM) $(GENFILES) $(QUERY_GENFILES)
 
 .PHONY: distclean
 cvslean:: clean
@@ -59,9 +61,11 @@ install-doc:
 
 dpkg-static: LDFLAGS += -static
 dpkg dpkg-static: $(OBJECTS) ../lib/libdpkg.a
-dpkg-query: $(OBJECTS) query.o ../lib/libdpkg.a
 dpkg dpkg-static dpkg-query:
-	$(CC) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(LIBS) $(NLS_LIBS)
+
+dpkg-query: $(OQUERY_BJECTS) ../lib/libdpkg.a
+	$(CC) $(LDFLAGS) -o $@ $(QUERY_OBJECTS) $(LIBS) $(NLS_LIBS)
 
 enquiry.o: archtable.h
 
