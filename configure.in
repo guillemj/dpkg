@@ -189,31 +189,11 @@ va_list v1,v2;
 v1 = v2;
 ], AC_MSG_RESULT(yes),AC_MSG_ERROR(no))])
 
-DPKG_CACHED_TRY_COMPILE(__attribute__((,,)),dpkg_cv_c_attribute_supported,,
- [extern int testfunction(int x) __attribute__((,,))],
- AC_MSG_RESULT(yes)
- AC_DEFINE(HAVE_GNUC25_ATTRIB,,[Define if function attributes a la GCC 2.5 and higher are available.])
-  DPKG_CACHED_TRY_COMPILE(__attribute__((noreturn)),dpkg_cv_c_attribute_noreturn,,
-   [extern int testfunction(int x) __attribute__((noreturn))],
-   AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_NORETURN,,[Define if nonreturning functions a la GCC 2.5 and higher are available.]),
-   AC_MSG_RESULT(no))
-  DPKG_CACHED_TRY_COMPILE(__attribute__((const)),dpkg_cv_c_attribute_const,,
-   [extern int testfunction(int x) __attribute__((const))],
-   AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_CONST,,[Define if constant functions a la GCC 2.5 and higher are available.]),
-   AC_MSG_RESULT(no))
-  DPKG_CACHED_TRY_COMPILE(__attribute__((unused)),dpkg_cv_c_attribute_unused,,
-   [extern int testfunction(int x) __attribute__((unused))],
-   AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_UNUSED,,[Define if unused variables la GCC 2.5 and higher are available.]),
-   AC_MSG_RESULT(no))
-  DPKG_CACHED_TRY_COMPILE(__attribute__((format...)),dpkg_cv_attribute_format,,
-   [extern int testfunction(char *y, ...) __attribute__((format(printf,1,2)))],
-   AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_PRINTFFORMAT,,[Define if printf-format argument lists a la GCC are available.]),
-   AC_MSG_RESULT(no)),
- AC_MSG_RESULT(no))
+DPKG_C_GCC_ATTRIBUTE([,,],supported,[int x],[,,],ATTRIB,[Define if function attributes a la GCC 2.5 and higher are available.],
+  DPKG_C_GCC_ATTRIBUTE(noreturn,noreturn,[int x],noreturn,NORETURN,[Define if nonreturning functions a la GCC 2.5 and higher are available.])
+  DPKG_C_GCC_ATTRIBUTE(const,const,[int x],const,CONST,[Define if constant functions a la GCC 2.5 and higher are available.])
+  DPKG_C_GCC_ATTRIBUTE(unused,unused,[int x],unused,UNUSED,[Define if unused variables la GCC 2.5 and higher are available.])
+  DPKG_C_GCC_ATTRIBUTE(format...,format,[char *y, ...],[format(printf,1,2)],PRINTFFORMAT,[Define if printf-format argument lists a la GCC are available.]))
 
 AC_MSG_CHECKING(whether to use -Werror)
 AC_ARG_WITH(Werror,

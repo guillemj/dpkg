@@ -13,6 +13,17 @@ AC_DEFUN(DPKG_CACHED_TRY_COMPILE,[
  fi
 ])
 
+dnl DPKG_C_GCC_ATTRIBUTE(<short-label>,<cachevar>,<func-params>,<attribute>,<HAVE>,<desc>,[<true-cmds>],[<false-cmds>])
+AC_DEFUN(DPKG_C_GCC_ATTRIBUTE,[
+  DPKG_CACHED_TRY_COMPILE(__attribute__(($1)),dpkg_cv_c_attribute_$2,,
+   [extern int testfunction($3) __attribute__(($4))],
+   AC_MSG_RESULT(yes)
+   AC_DEFINE(HAVE_GNUC25_$5,,$6)
+   $7,
+   AC_MSG_RESULT(no)
+   $8)
+])
+
 dnl DPKG_C_GCC_TRY_WARNS(<warnings>,<cachevar>)
 AC_DEFUN(DPKG_C_GCC_TRY_WARNS,[
  AC_MSG_CHECKING([GCC warning flag(s) $1])
