@@ -26,7 +26,9 @@ $version= '1.2.6'; # This line modified by Makefile
             'Size',
 	    'Installed-Size',
             'MD5sum',
-            'Description');
+            'Description',
+            'Origin',
+            'Bugs');
 
 $written=0;
 $i=100; grep($pri{$_}=$i--,@fieldpri);
