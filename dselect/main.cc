@@ -262,7 +262,10 @@ urqresult urq_menu(void) {
   dme(0,1);
   for (;;) {
     refresh();
-    c= getch();  if (c==ERR) ohshite(_("failed to getch in main menu"));
+    do
+      c= getch();
+    while (c == ERR && errno == EINTR);
+    if (c==ERR) ohshite(_("failed to getch in main menu"));
     if (c==C('n') || c==KEY_DOWN || c==' ') {
       dme(cursor,0); cursor++; cursor %= entries; dme(cursor,1);
     } else if (c==C('p') || c==KEY_UP || c==C('h') ||
