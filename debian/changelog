@@ -1,4 +1,4 @@
-dpkg (1.4.1.18) unstable; urgency=low
+dpkg (1.4.1.19) unstable; urgency=low
 
   * Fixed incorrect patch for --print-architecture (oops, oh well
     it was already broken when there was no gcc anyway :)
@@ -20,8 +20,17 @@ dpkg (1.4.1.18) unstable; urgency=low
   * minor script corrections
   * dpkg-dev control: Change gcc to c-compiler in the recommends field, and
     move cpio, patch and make to the depends line
+  * Leave file info intact in available when installing packages. MD5sum,
+    Filename, and MSDOS-Filename used to get lost when installing a
+    package.
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
+
+dpkg (1.4.1.18) unstable; urgency=low
+
+  * Backout dep check patch
+
+ -- Ben Collins <bcollins@debian.org>  Sat, 23 Oct 1999 00:39:24 -0400
 
 dpkg (1.4.1.17) unstable; urgency=low
 

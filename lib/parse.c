@@ -271,7 +271,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       pigp->status= newpig.status;
       pigp->configversion= newpig.configversion;
       pigp->files= 0;
-    } else {
+    } else if (!(flags & pdb_ignorefiles)) {
       pigp->files= newpig.files;
     }
 
