@@ -199,7 +199,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
            fip++, ip++);
       if (fip->name) {
 	value= realloc(value,valuelen+1);
-	strncpy(value,valuestart,valuelen);
+	memcpy(value,valuestart,valuelen);
 	*(value+valuelen)= 0;
         if (*ip++)
           parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
