@@ -48,10 +48,10 @@ Much on-line help is available, please make use of it - press `?' at\n\
 any time for help.\n\n\
 \
 When you have finished selecting packages, press <enter> to confirm changes,\n\
-or `Q' to quit without saving changes. A final check on conflicts and\n\
+or `X' to quit without saving changes. A final check on conflicts and\n\
 dependencies will be done - here too you may see a sublist.\n\n\
 \
-Press <enter> to leave help and enter the list now.\n")
+Press <space> to leave help and enter the list now.\n")
 };
 const struct helpmessage hlp_readonlyintro = {
   N_("Introduction to read-only package list browser"), N_("\
@@ -69,7 +69,7 @@ any time for help.\n\n\
 \
 When you have finished browsing, press `Q' or <enter> to quit.\n\n\
 \
-Press <enter> to leave help and enter the list now.\n")
+Press <space> to leave help and enter the list now.\n")
 };
 const struct helpmessage hlp_recurintro = {
   N_("Introduction to conflict/dependency resolution sub-list"), N_("\
@@ -94,7 +94,7 @@ like what you want, and you can `reject' my suggestions by using the capital\n\
 force me to accept the situation currently displayed, in case you want to\n\
 override a recommendation or think that the program is mistaken.\n\n\
 \
-Press <enter> to leave help and enter the sub-list; remember: press `?' for help.\n")
+Press <space> to leave help and enter the sub-list; remember: press `?' for help.\n")
 };
 const struct helpmessage hlp_displayexplain1 = {
   N_("Display, part 1: package listing and status chars"), N_("\
