@@ -491,6 +491,8 @@ pkginfo **packagelist::display() {
 
   setupsigwinch();
   startdisplay();
+
+  if (!expertmode)
   displayhelp(helpmenulist(),'i');
 
   if (debug) fprintf(debug,"packagelist[%p]::display() entering loop\n",this);

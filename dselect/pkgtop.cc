@@ -235,9 +235,9 @@ void packagelist::redraw1itemsel(int index, int selected) {
     indent= describemany(buf,priority,section,pkg->clientdata);
 
     mvwaddstr(listpad,index,0, "    ");
-    i= total_width-6;
+    i= total_width-7;
     j= (indent<<1) + 1;
-    while (j-- >0) { waddch(listpad,'-'); i--; }
+    while (j-- >0) { waddch(listpad,ACS_HLINE); i--; }
     waddch(listpad,' ');
 
     wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
@@ -247,7 +247,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
     waddch(listpad,' ');
     j= (indent<<1) + 1;
-    while (j-- >0) { waddch(listpad,'-'); i--; }
+    while (j-- >0) { waddch(listpad,ACS_HLINE); i--; }
 
     delete[] buf;
 

@@ -121,6 +121,7 @@ void baselist::startdisplay() {
     thisstate_attr= COLOR_PAIR(3);
     selstate_attr= list_attr|A_BOLD;
     selstatesel_attr= listsel_attr|A_BOLD;
+    colheads_attr= COLOR_PAIR(3);
   } else {
     title_attr= A_REVERSE;
     thisstate_attr= A_STANDOUT;
@@ -128,10 +129,11 @@ void baselist::startdisplay() {
     listsel_attr= A_STANDOUT;
     selstate_attr= A_BOLD;
     selstatesel_attr= A_STANDOUT;
+    colheads_attr= A_BOLD;
   }
   query_attr= title_attr;
   info_attr= list_attr;
-  colheads_attr= info_headattr= A_BOLD;
+  info_headattr= A_BOLD;
   whatinfo_attr= thisstate_attr;
 
   // set up windows and pads, based on screen size

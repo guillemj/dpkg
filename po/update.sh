@@ -1,9 +1,16 @@
 #!/bin/sh
 
+# We need to generate helpmsgs.cc so we can translate the
+# strings in it
+
+( cd ../dselect ;  perl mkhelpmsgs.pl helpmsgs.src )
+
 xgettext --default-domain=dpkg --directory=.. \
 	 --add-comments --keyword=_ --keyword=N_ \
 	 --files-from=POTFILES.in && test ! -f dpkg.po \
 	 || ( rm -f dpkg.pot && mv dpkg.po dpkg.pot )
+
+# Moving along..
 
 catalogs=`ls *.po`
 for cat in $catalogs; do

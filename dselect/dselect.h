@@ -149,6 +149,7 @@ void cursesoff();
 
 extern const char *admindir;
 extern FILE *debug;
+extern int expertmode;
 
 enum urqresult { urqr_normal, urqr_fail, urqr_quitmenu };
 enum quitaction { qa_noquit, qa_quitchecksave, qa_quitnochecksave };

@@ -53,6 +53,7 @@ const char printforhelp[]= N_("Type dselect --help for help.");
 modstatdb_rw readwrite;
 const char *admindir= ADMINDIR;
 FILE *debug;
+int expertmode = 0;
 
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
 
@@ -93,7 +94,7 @@ static void usage(void) {
      _("Usage: dselect [options]\n"
        "       dselect [options] action ...\n"
        "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
-       "          --help  --version  --licence   --debug <file> | -D<file> | -D\n"
+       "          --help  --version  --licence  --expert  --debug <file> | -D<file> | -D\n"
        "Actions:  access update select install config remove quit menu\n"),
        stdout)) werr("stdout");
 }
@@ -140,11 +141,16 @@ extern "C" {
     setvbuf(debug,0,_IONBF,0);
   }
 
+  static void setexpert() {
+    expertmode = 1;
+  }
+
 } /* End of extern "C" */
 
 static const struct cmdinfo cmdinfos[]= {
   { "admindir",   0,   1,  0,  &admindir,  0                      },
   { "debug",     'D',  1,  0,  0,          setdebug               },
+  { "expert",    'E',  0,  0,  0,          setexpert              },
   { "help",      'h',  0,  0,  0,          helponly               },
   { "version",    0,   0,  0,  0,          versiononly            },
   { "licence",    0,   0,  0,  0,          showcopyright          }, /* UK spelling */
