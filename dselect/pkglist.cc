@@ -3,6 +3,7 @@
  * pkglist.cc - package list administration
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -367,6 +368,7 @@ void packagelist::initialsetup() {
   headings= 0;
   verbose= 0;
   calcssadone= calcsssdone= 0;
+  searchdescr= 0;
 }
 
 void packagelist::finalsetup() {
@@ -461,6 +463,9 @@ void perpackagestate::free(int recursive) {
 packagelist::~packagelist() {
   if (debug) fprintf(debug,"packagelist[%p]::~packagelist()\n",this);
 
+  if (searchstring[0])
+    regfree(&searchfsm);
+
   discardheadings();
   
   int index;
@@ -476,6 +481,66 @@ packagelist::~packagelist() {
   }
   
   if (debug) fprintf(debug,"packagelist[%p]::~packagelist() done\n",this);
+}
+
+int packagelist::checksearch(char* rx) {
+  int r,opt = REG_NOSUB;
+
+  if (!rx || !*rx) return 0;
+
+  searchdescr=0;
+  if (searchstring[0]) {
+    regfree(&searchfsm);
+    searchstring[0]=0;
+  }
+
+  /* look for search options */
+  for (r=strlen(rx)-1; r>=0; r--)
+    if ((rx[r]=='/') && ((r==0) || (rx[r-1]!='\\')))
+      break;
+
+  if (r>=0) {
+    rx[r++]='\0';
+    if (strcspn(rx+r, "di")!=0) {
+      displayerror(_("invalid search option given"));
+      return 0;
+    }
+
+   while (rx[r]) {
+     if (rx[r]=='i')
+       opt|=REG_ICASE;
+     else if (rx[r]=='d')
+       searchdescr=1;
+     r++;
+   }
+  }
+
+  if ((r=regcomp(&searchfsm, rx, opt))!=0) {
+    displayerror(_("error in regular expression"));
+    return 0;
+  }
+  
+  return 1;
+}
+
+int packagelist::matchsearch(int index) {
+  const char* thisname;
+
+  thisname=itemname(index);
+  if (!thisname) return 0;	/* Skip things without a name (seperators) */
+
+  if (regexec(&searchfsm, thisname, 0, NULL, 0)==0)
+    return 1;
+
+  if (searchdescr) {
+    const char* descr = table[index]->pkg->available.description;
+    if (!descr || !*descr) return 0;
+
+    if (regexec(&searchfsm, descr, 0, NULL, 0)==0)
+      return 1;
+  }
+
+  return 0;
 }
 
 pkginfo **packagelist::display() {
@@ -538,3 +603,6 @@ pkginfo **packagelist::display() {
     return 0;
   }
 }
+
+/* vi: sw=2 ts=8
+ */

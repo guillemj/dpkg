@@ -3,6 +3,7 @@
  * pkglist.h - external definitions for package list handling
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -21,6 +22,8 @@
 
 #ifndef PKGLIST_H
 #define PKGLIST_H
+
+#include <regex.h>
 
 enum showpriority {
   dp_none,      // has not been involved in any unsatisfied things
@@ -83,6 +86,7 @@ struct perpackagestate {
 };
 
 class packagelist : public baselist {
+protected:
   int status_width, gap_width, section_width, priority_width;
   int package_width, versioninstalled_width, versionavailable_width, description_width;
   int section_column, priority_column, versioninstalled_column;
@@ -102,6 +106,10 @@ class packagelist : public baselist {
   enum { vdo_none, vdo_available, vdo_both } versiondisplayopt;
   int calcssadone, calcsssdone;
   struct perpackagestate *headings;
+
+  // Package searching flags
+  int searchdescr;
+  regex_t searchfsm;
 
   // Information displays
   struct infotype {
@@ -130,6 +138,8 @@ class packagelist : public baselist {
   int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *display);
   
   // Define these virtuals
+  int checksearch(char* str);
+  int matchsearch(int index);
   void redraw1itemsel(int index, int selected);
   void redrawcolheads();
   void redrawthisstate();
