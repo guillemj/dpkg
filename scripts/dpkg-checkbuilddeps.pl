@@ -41,16 +41,16 @@ local $/='';
 
 my $dep_regex=qr/[ \t]*(([^\n]+|\n[ \t])*)\s/; # allow multi-line
 if (defined($fi{"C Build-Depends"})) {
-	push @unmet, build_depends(parsedep($fi{"C Build-Depends"}, 1), @status);
+	push @unmet, build_depends(parsedep($fi{"C Build-Depends"}, 1, 1), @status);
 }
 if (defined($fi{"C Build-Conflicts"})) {
-	push @unmet, build_conflicts(parsedep($fi{"C Build-Conflicts"}, 1), @status);
+	push @unmet, build_conflicts(parsedep($fi{"C Build-Conflicts"}, 1, 1), @status);
 }
 if (! $binary_only && defined($fi{"C Build-Depends-Indep"})) {
-	push @unmet, build_depends(parsedep($fi{"C Build-Depends-Indep"}, 1), @status);
+	push @unmet, build_depends(parsedep($fi{"C Build-Depends-Indep"}, 1, 1), @status);
 }
 if (! $binary_only && defined($fi{"C Build-Conflicts-Indep"})) {
-	push @unmet, build_conflicts(parsedep($fi{"C Build-Conflicts-Indep"}, 1), @status);
+	push @unmet, build_conflicts(parsedep($fi{"C Build-Conflicts-Indep"}, 1, 1), @status);
 }
 
 if (@unmet) {
