@@ -45,7 +45,7 @@ $i=100;grep($fieldimps{$_}=$i--,
           qw(Source Version Distribution Urgency Maintainer Date Closes
 	     Changes));
 $i=1;grep($urgencies{$_}=$i++,
-          qw(low medium high critical));
+          qw(low medium high critical emergency));
 
 $expect='first heading';
 
