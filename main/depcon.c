@@ -133,6 +133,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   case dep_predepends:  varbufaddstr(addto, _(" pre-depends on ")); break;
   case dep_recommends:  varbufaddstr(addto, _(" recommends "));     break;
   case dep_conflicts:   varbufaddstr(addto, _(" conflicts with ")); break;
+  case dep_enhances:    varbufaddstr(addto, _(" enhances "));       break;
   default:              internerr("unknown deptype");
   }
   varbufdependency(addto, dep);
@@ -162,7 +163,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
   char linebuf[1024];
 
   assert(dep->type == dep_depends || dep->type == dep_predepends ||
-         dep->type == dep_conflicts || dep->type == dep_recommends);
+         dep->type == dep_conflicts || dep->type == dep_recommends ||
+		 dep->type == dep_suggests );
   
   /* The dependency is always OK if we're trying to remove the depend*ing*
    * package.

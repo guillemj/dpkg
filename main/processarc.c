@@ -227,7 +227,11 @@ void process_archive(const char *filename) {
         }
       }
       break;
-    case dep_suggests: case dep_recommends: case dep_depends: case dep_replaces:
+    case dep_suggests:
+    case dep_recommends:
+    case dep_depends:
+    case dep_replaces:
+    case dep_enhances:
       /* Ignore these here. */
       break;
     case dep_predepends:

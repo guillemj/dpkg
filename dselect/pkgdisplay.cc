@@ -72,6 +72,7 @@ const char
 			    N_("conflicts with"),
 			    N_("provides"),
 			    N_("replaces"),
+			    N_("enhances"),
 			    0 },
 
   *const priorityabbrevs[]=  { N_("Req"),
