@@ -75,7 +75,7 @@ static enum urqresult ensureoptions(void) {
     if (!newoptions) {
       curseson();
       addstr(_("No access methods are available.\n\n"
-             "Press RETURN to continue."));
+             "Press <enter> to continue."));
       refresh(); getch();
       return urqr_fail;
     }
@@ -85,7 +85,20 @@ static enum urqresult ensureoptions(void) {
   return urqr_normal;
 }
 
-static void lockmethod(void) {
+static void lockfailed(const char * reasoning) {
+  char buf[2048];
+
+  curseson();
+  clear();
+  sprintf(buf,_("\n\n%s: %s\n"),DSELECT,reasoning);
+  addstr(buf);
+  attrset(A_BOLD);
+  addstr(_("\nPress <enter> to continue."));
+  attrset(A_NORMAL);
+  refresh(); getch();
+}
+
+static enum urqresult lockmethod(void) {
   if (!methodlockfile) {
     int l;
     l= strlen(admindir);
@@ -96,17 +109,24 @@ static void lockmethod(void) {
   if (methlockfd == -1) {
     methlockfd= open(methodlockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
     if (methlockfd == -1) {
-      if (errno == EPERM)
-        ohshit(_("you do not have permission to change the access method"));
-      ohshite(_("unable to open/create access method lockfile"));
+      if ((errno == EPERM) || (errno == EACCES)) {
+        lockfailed("requested operation requires superuser privilege");
+        return urqr_fail;
+      }
+      lockfailed("unable to open/create access method lockfile");
+      return urqr_fail;
     }
   }
   if (flock(methlockfd,LOCK_EX|LOCK_NB)) {
-    if (errno == EWOULDBLOCK || errno == EAGAIN)
-      ohshit(_("the access method area is already locked"));
-    ohshite(_("unable to lock access method area"));
+    if (errno == EWOULDBLOCK || errno == EAGAIN) {
+      lockfailed("the access method area is already locked");
+      return urqr_fail;
+      }
+    lockfailed("unable to lock access method area");
+    return urqr_fail;
   }
   push_cleanup(cu_unlockmethod,~0, 0,0, 0);
+  return urqr_normal;
 }
 
 static int catchsignals[]= { SIGQUIT, SIGINT, 0 };
@@ -172,7 +192,7 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
   } else {
     fprintf(stderr,_("failed with an unknown wait return code %d.\n"),status);
   }
-  fprintf(stderr,_("Press RETURN to continue.\n"));
+  fprintf(stderr,_("Press <enter> to continue.\n"));
   if (ferror(stderr))
     ohshite(_("write error on standard error"));
   do { c= fgetc(stdin); } while (c != EOF && c != '\n');
@@ -182,10 +202,10 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
 }
 
 static urqresult runscript(const char *exepath, const char *name) {
-  urqresult ur;  
+  urqresult ur;
 
   ur= ensureoptions();  if (ur != urqr_normal) return ur;
-  lockmethod();
+  ur=lockmethod();  if (ur != urqr_normal) return ur;
   getcurrentopt();
 
   if (coption) {
@@ -201,7 +221,7 @@ static urqresult runscript(const char *exepath, const char *name) {
   } else {
     curseson();
     addstr(_("No access method is selected/configured.\n\n"
-           "Press RETURN to continue."));
+           "Press <enter> to continue."));
     refresh(); getch();
     ur= urqr_fail;
   }
@@ -246,7 +266,7 @@ urqresult urq_setup(void) {
   urqresult ur;
 
   ur= ensureoptions();  if (ur != urqr_normal) return ur;
-  lockmethod();  
+  ur=lockmethod();  if (ur != urqr_normal) return ur;
   getcurrentopt();
 
   curseson();

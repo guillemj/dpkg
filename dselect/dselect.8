@@ -1,15 +1,11 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.TH DSELECT 8 "29th November 1995" "Debian Project" "Debian GNU/Linux"
+.TH DSELECT 8 "January 2000" "Debian Project" "Debian GNU/Linux"
 .SH NAME
-dselect \- a user tool to manage Debian GNU/Linux packages
-
+dselect \- console Debian package handling frontend
 .SH SYNOPSIS
 .B dselect
-[options]
-.br
-.B dselect
-[options] action ...
-
+[--admindir <directory>] [--help] [--version] [--licence | --license]
+[--expert] [--debug <file> | -D <file>] [\fI<action>\fP]
 .SH DESCRIPTION
 .B dselect
 is the primary user interface for installing, removing and managing
@@ -19,71 +15,79 @@ Normally
 .B dselect
 is invoked without parameters, but some commandline parameters are still
 available.
-
+.PP
 The usage of
 .B dselect
-is pretty self-explanatory, and also an internal help-system is
-included, which describes the keystrokes and some general concepts.
+is pretty self-explanatory, and an internal help-system is included,
+which describes the keystrokes and some general concepts.
 .I Read the help.
-
 .SS ACTIONS
 .TP
-.B access, update, select, install, config, remove
-These actions automatically selects corresponding commands from the main
-menu, without even showing the main menu to you.
+.B Access
+Chooses an access `method' to use to find package repository. By default,
+there exist several methods such as "floppy", "harddisk", "cdrom", but
+other packages you install can provide additional methods, e.g. "apt"
+or "multi_cd" etc.
 .TP
-.B quit
-Do nothing but quit.
+.B Update
+Updates list of packages available to dpkg/dselect with data from the
+chosen repository Packages file(s).
 .TP
-.B menu
-Displays the default menu. This is equivalent to starting
-.B dselect
-with no parameters.
-
-.SS OPTIONS
+.B Select
+Selects individual packages to install.
+.TP
+.B Install
+Installs selected packages.
+.TP
+.B Config
+Configures any previously not configured packages.
+.TP
+.B Remove
+Removes or purges deselected packages.
+.TP
+.B Quit
+Exit dselect (successfully).
+.SH OPTIONS
 .TP
 .B --admindir <directory>
-Changes the directory where datafiles are located. This defaults to
-.I /var/lib/dpkg.
-Note, that these files are just some internal datafiles, actual Debian
-packages doesn't have to be located here.
+Changes the directory where the dpkg `status', `available' and similar
+files are located. This defaults to
+.I /var/lib/dpkg
+and normally there shouldn't be any need to change it.
 .TP
 .B --debug <file> | -D<file>
 Turn on debugging. Debugging information is sent to
 .I <file>.
 .TP
-.B --help
-Print a brief help text.
+.B --expert
+Turns on expert mode, i.e. doesn't display possibly annoying help messages.
 .TP
-.B --licence
-Print the licence of
-.B dselect.
+.B --help
+Print a brief help text and exit successfully.
+.TP
+.B --licence | --license
+Displays the dselect copyright and license information and exits successfully.
 .TP
 .B --version
-Print version information.
-
+Print version information and exit successfully.
 .SH BUGS
-This manpage doesn't document the options quite correctly, and has
-formatting inconsistent with other manpages.
-
 The
 .B dselect
-package selection interface is confusing or even alarming to the new
-user.
-
-There is no easy way automatically to download and install packages
-via anonymous FTP.
-
-.SH SEE ALSO
-.B deb(5)
-,
-.B dpkg-deb(8)
-,
-.B dpkg(8)
-and
-.B deb-control(5)
-
-.SH AUTHOR
+package selection interface is confusing or even alarming to a new user.
+.sp
 .B dselect
-was written by Ian Jackson (ijackson@gnu.ai.mit.edu).
-This manual page is by Juho Vuori (javuori@cc.helsinki.fi).
+doesn't handle Recommends: field very well, and doesn't understand
+Replaces: at all.
+.sp
+There is no easy way to automatically download and install packages
+via anonymous FTP with default access methods (APT does this).
+.SH SEE ALSO
+.BR dpkg (8),
+.BR deb (5).
+.SH AUTHORS
+.B dselect
+was written by Ian Jackson (ijackson@gnu.ai.mit.edu). Full list of
+contributors may be found in `dselect --license'.
+.br
+This manual page was written by Juho Vuori <javuori@cc.helsinki.fi>
+and updated by Josip Rodin.

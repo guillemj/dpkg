@@ -250,12 +250,17 @@ int refreshmenu(void) {
 
   attrset(A_BOLD);
   addstr(_("\n\n"
-         "Use ^P and ^N, cursor keys, initial letters, or digits to select;\n"
-         "Press ENTER to confirm selection.   ^L to redraw screen.\n\n"));
+         "Move around with ^P and ^N, cursor keys, initial letters, or digits;\n"
+         "Press <enter> to confirm selection.   ^L redraws screen.\n\n"));
 
   attrset(A_NORMAL);
   sprintf(buf,gettext(copyrightstring),DPKG_VERSION_ARCH);
   addstr(buf);
+
+  if (!readwrite) { 
+  addstr(_("\n\n"
+         "Read-only access: only preview of selections is available!"));
+  }
 
   return i;
 }
