@@ -37,6 +37,7 @@ ifeq (@USE_SGML_DOC@, true)
 		$(INSTALL_DATA) $$i $(DESTDIR)$(docdir)/internals/$$bn ; \
 	done
 endif
+	$(mkinstalldirs) $(DESTDIR)$(docdir)/
 	$(INSTALL_DATA) $(srcdir)/ChangeLog $(DESTDIR)$(docdir)/ChangeLog.manuals
 	set -e ; for i in ChangeLog THANKS TODO ; do \
 		$(INSTALL_DATA) $(top_srcdir)/$$i $(DESTDIR)$(docdir) ; \
