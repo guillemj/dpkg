@@ -269,8 +269,10 @@ sub scanshlibsfile {
 if (!$stdout) {
     open(Y,"> $varlistfile.new") ||
         syserr("open new substvars file \`$varlistfile.new'");
-    chown(@fowner, "$varlistfile.new") ||
-	syserr("chown of \`$varlistfile.new'");
+    unless ($<) {
+	chown(@fowner, "$varlistfile.new") ||
+	    syserr("chown of \`$varlistfile.new'");
+    }
     if (open(X,"< $varlistfile")) {
         while (<X>) {
             s/\n$//;

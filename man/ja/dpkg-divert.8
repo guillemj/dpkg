@@ -1,4 +1,4 @@
-.\" original cvs revision: 1.4
+.\" original cvs revision: 1.4.2.1
 .TH DPKG-DIVERT 8 "December 1999" "Debian Project" "dpkg utilities"
 .SH 名前
 dpkg-divert -- パッケージのファイルのオーバーライド
@@ -69,8 +69,15 @@ dpkg データディレクトリを <directory> に設定する。(デフォルト: /var/lib/dpkg)
 追加する時は、デフォルトは --local と --divert <original>.distrib である。
 削除する問は、--package もしくは --local と --divert は指定されていれば
 追加した時と一致していなければいけない。
-.br
+
 dpkg-divert ではディレクトリは退避できない。
+
+共有ライブラリを退避する場合、注意すべきである。ldconfig(8)は
+ライブラリに埋め込まれている DT_SONAME フィールドに基づいて、
+シンボリックリンクを作成する。ldconfig は退避させることができないため
+である(dpkg だけができる)。もし退避したライブラリと退避していない
+ライブラリが同じ SONAME であれば、最終的にシンボリックリンクは退避した
+ライブラリを指す。
 .SH ファイル
 .TP
 .I /var/lib/dpkg/diversions

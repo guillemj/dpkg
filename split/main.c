@@ -25,6 +25,8 @@
 #include <stdlib.h>
 #include <limits.h>
 #include <assert.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>

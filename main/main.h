@@ -217,7 +217,7 @@ void check_libver(void);
 int depisok(struct dependency *dep, struct varbuf *whynot,
             struct pkginfo **fixbyrm, int allowunconfigd);
 struct cyclesofarlink;
-int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar);
+int findbreakcycle(struct pkginfo *pkg);
 void describedepcon(struct varbuf *addto, struct dependency *dep);
 
 #endif /* MAIN_H */

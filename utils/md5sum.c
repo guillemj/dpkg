@@ -256,14 +256,15 @@ get_md5_line(FILE *fp, unsigned char *digest, char *file)
 		return 0;
 
         /* Strip the trailing newline, if present */
-        if (p[i-1] == '\n')
-		if (p[i-2] == '\r')
+        if (p[i-1] == '\n') {
+		if (p[i-2] == '\r') {
 			if (i < 3)
 				return 0;
 
 			p[i-2] = '\0';
-		else
+		} else {
 			p[i-1] = '\0';
+		}
  	}
 
 	strcpy(file, p);

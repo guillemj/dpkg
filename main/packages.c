@@ -191,8 +191,11 @@ void process_queue(void) {
       assert(dependtry <= 4);
     }
     switch (cipaction->arg) {
-    case act_configure:
     case act_install:
+      /* Don't try to configure pkgs that we've just disappeared. */
+      if (pkg->status == stat_notinstalled)
+        break;
+    case act_configure:
       deferred_configure(pkg);
       break;
     case act_remove: case act_purge:

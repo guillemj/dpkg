@@ -1,61 +1,90 @@
 dpkg (1.10.22) unstable; urgency=low
 
-  * Add amd64 support. Closes: #238483, #241938.
-  * Add i?86-gnu support.  Closes: #216695, #236331.
-  * Fix dpkg-source (actually controllib.pl) to output the field name
-    properly again.  Closes: #246595.
-  * Make dpkg-scanpackages output Origin and Bugs fields with proper
-    casing.  Closes: #154422.
+  The DebConf4 Release.
+
+  This release is mostly intended to mop up the minor and trivial bug
+  fixes in the list and clear out the documentation changes.  As such,
+  it should be treated with even more suspicion than is normal.
+
+  * Use colouring to break cycles earlier to avoid long loops whilst
+    installing or configuring packages.  Closes: #232445, #246857.
+  * Don't try to configure packages that disappeared in the same
+    run.  Closes: #202997.
   * Fix segfault when "gcc -dumpmachine" returns a non-matching triplet.
     Closes: #211850.
-  * Add support for DOS line-endings to md5sum.  Closes: #246103.
   * Remove restriction that package names be at least two characters long.
     Closes: #237734.
-  * Create $(docdir) even when --without-sgml-doc is passed so the
-    ChangeLog can be installed.  Closes: #137719.
-  * Correct 'n' and 'p' key descriptions in dselect help message.
-    Closes: #120562.
-  * Stop hardcoding the list of manual page languages in debian/rules,
-    so we include Spanish, Russian and Brazilian Portugese.  Closes: #245994.
-  * Correct dpkg manpage to refer to --force-remove-reinstreq instead of
-    non-existant --force-reinstreq option.  Closes: #232831.
-  * Correct usage of "et al" to "et al.".  Closes: #230751.
-  * Correct documentation of --compare-versions arguments.  Closes: #232317.
-  * Correct documentation of start-stop-daemon manpage to refer to --retry
-    alongside --stop.  Closes: #204691.
-  * Correct documentation of dpkg-query --list.  Closes: #232639.
-  * Correct invalid use of &quot; within update-alternatives(8) with .BR.
-    Closes: #244624.
-  * Correct documentation of start-stop-daemon.  Closes: #41554, #211856.
-  * Correct documentation of dpkg-statoverride --update.  Closes: #85079.
-  * Correct documentation of update-alternatives --install.  Closes: #179648.
-  * Correct various typos.  Closes: #219623, #221235.
-  * Correct hyphen characters in manpages.  Closes: #212284, #247086, #226800.
-  * Add dpkg-reconfigure(8) to SEE ALSO section of dpkg(8).  Closes: #233282.
-  * Add --force-bad-verify to dpkg manpage.  Closes: #192812.
-  * Add note that start-stop-daemon will chdir("/") unless -d is specified.
-    Closes: #217823, #218060.
-  * Suggest aptitude as well as dselect.  Closes: #217042.
-  * Suggest fakeroot for dpkg-source -r.  Closes: #175897.
-  * Suggest dselect update in description of dpkg --update-avail.
-    Closes: #206163.
-  * Suggest packages that provide additional functionality in the dpkg
-    manpage.  Closes: #81355.
-  * Remove obsolete references to the Debian Packaging Manual.
-    Closes: #122910, #140695.
-  * Replace "&c." with the slightly clearer "etc.".  Closes: #235773.
-  * Rewrite description of dpkg-source -i to indicate the intent of the
-    default setting rather than the exact exclusions.  Closes: #227169.
+  * Fix dpkg-source (actually controllib.pl) to output the field name
+    properly again.  Closes: #226931, #246595.
+  * Make dpkg-scanpackages output Origin and Bugs fields with proper
+    casing.  Closes: #154422.
+  * Add support for DOS line-endings to md5sum.  Closes: #246103.
+  * Fix start-stop-daemon segfault on Hurd.  Closes: #133640.
+  * Allow dpkg-shlibdeps to run as non-root users.  Closes: #96881.
+  * Correct various compiler warnings.  Closes: #229766.
+
+  * Architecture Support:
+    - Added x86-64 (x86_64 / amd64).  Closes: #238483, #241938.
+    - Added i?86-gnu (Hurd).  Closes: #216695, #236331.
+    - Added i386-kfreebsd-gnu and i386-knetbsd-gnu.  Closes: #250176.
+  * Packaging:
+    - Create $(docdir) even when --without-sgml-doc is passed so the
+      ChangeLog can be installed.  Closes: #137719.
+    - Stop hardcoding the list of manual page languages in debian/rules,
+      so we include Spanish, Russian and Brazilian Portugese.  Closes: #245994.
+    - Quote LDFLAGS in debian/rules to allow multiple options.
+      Closes: #230242.
+  * Documentation:
+    - Move dpkg-scanpackages and dpkg-scansources to section 1 as they
+      are user tools.  Closes: #114946.
+    - Correct hyphen characters in manpages.  Closes: #212284, #247086, #226800.
+    - Remove obsolete references to the Debian Packaging Manual.
+      Closes: #122910, #140695.
+    - Correct 'n' and 'p' key descriptions in dselect help message.
+      Closes: #120562.
+    - Add --force-bad-verify to dpkg manpage.  Closes: #192812.
+    - Correct dpkg manpage to refer to --force-remove-reinstreq instead of
+      -non-existant --force-reinstreq option.  Closes: #232831.
+    - Correct documentation of --compare-versions arguments.  Closes: #232317.
+    - Correct usage of "et al" to "et al.".  Closes: #230751.
+    - Add dpkg-reconfigure(8) to SEE ALSO section of dpkg(8).  Closes: #233282.
+    - Suggest packages that provide additional functionality in the dpkg
+      manpage.  Closes: #81355.
+    - Suggest dselect update in description of dpkg --update-avail.
+      Closes: #206163.
+    - Suggest aptitude as well as dselect.  Closes: #217042.
+    - Suggest fakeroot for dpkg-source -r.  Closes: #175897.
+    - Correct documentation of start-stop-daemon.  Closes: #41554, #211856.
+    - Correct documentation of start-stop-daemon manpage to refer to --retry
+      alongside --stop.  Closes: #204691.
+    - Add note that start-stop-daemon will chdir("/") unless -d is specified.
+      Closes: #217823, #218060.
+    - Correct documentation of dpkg-query --list.  Closes: #232639.
+    - Correct invalid use of &quot; within update-alternatives(8) with .BR.
+      Closes: #244624.
+    - Rewrite description of dpkg-source -i to indicate the intent of the
+      default setting rather than the exact exclusions.  Closes: #227169.
+    - Correct documentation of dpkg-statoverride --update.  Closes: #85079.
+    - Correct documentation of update-alternatives --install.  Closes: #179648.
+    - Documented dpkg:Version and dpkg:UpstreamVersion substvars.
+      Closes: #85815, #85818.
+    - Fix spelling error in utils/md5sum.1.  Closes: #250281.
+    - Replace "&c." with the slightly clearer "etc.".  Closes: #235773.
+    - Correct various typos.  Closes: #219623, #221235.
   * Updated Translations:
     - Catalan (Jordi Mallach).
     - French (Christian Perrier).  Closes: #246359.
+    - Italian (Lele Gaifax).
+    - Japanese manpages (KISE Hiroshi).  Closes: #248483.
+    - Russian (Nikolai Prokoschenko).  Closes: #249254.
     - Spanish manpages (Ruben Porras).  Closes: #246158, #246159, #246160,
-      #246161, #246162, #246163.
+      #246161, #246162, #246163, #251830.
   * New Translations:
-    - German update-alternatives manpage (Helge Kreutzmann).  Closes: #247116.
+    - German start-stop-daemon and update-alternatives manpages
+      (Helge Kreutzmann).  Closes: #247116, #249454.
     - Spanish dpkg-scansources manpage (Ruben Porras).  Closes: #246164.
 
- -- Scott James Remnant <scott@netsplit.com>  UNRELEASED
+ -- Scott James Remnant <scott@netsplit.com>  Tue,  1 Jun 2004 18:21:40 -0300
 
 dpkg (1.10.21) unstable; urgency=low
 

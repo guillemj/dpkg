@@ -65,10 +65,12 @@ require 'controllib.pl';
 	    's390',		's390-linux',
 	    's390x',		's390x-linux',
 	    'ia64',		'ia64-linux',
-	    'amd64',            'x86_64-linux',
+	    'x86-64',           'x86_64-linux',
 	    'openbsd-i386',	'i386-openbsd',
-	    'freebsd-i386',	'i386-kfreebsd-gnu',
+	    'freebsd-i386',	'i386-freebsd',
+	    'kfreebsd-i386',	'i386-kfreebsd-gnu',
 	    'netbsd-i386',	'i386-netbsdelf-gnu',
+	    'knetbsd-i386',	'i386-knetbsd-gnu',
 	    'darwin-powerpc',	'powerpc-darwin',
 	    'darwin-i386',	'i386-darwin');
 

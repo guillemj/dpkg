@@ -93,7 +93,7 @@ void deferred_configure(struct pkginfo *pkg) {
 				pkg->name, statusinfos[pkg->status].name);
 
 	if (dependtry > 1)
-		if (findbreakcycle(pkg,0))
+		if (findbreakcycle(pkg))
 			sincenothing= 0; 
 
 	varbufinit(&aemsgs);

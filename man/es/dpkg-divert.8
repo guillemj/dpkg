@@ -1,5 +1,5 @@
 .\" Esta traducción ha sido realizada Rudy Godoy 
-.\" Basado en la versión 1.1 del CVS de
+.\" Basado en la versión 1.2 del CVS de
 .\" /cvs/debian-doc/manpages/english/dpkg/dpkg-divert.8
 
 .TH DPKG-DIVERT 8 "Diciembre de 1999" "Proyecto Debian" "herramientas dpkg"
@@ -71,8 +71,15 @@ Imprime el nombre del programa y su versión, y finaliza correctamente.
 Cuando se añade, por omisión se usa --local y --divert <original>.distrib.
 Cuando se elimina, --package o --local y --divert deben coincidir si se
 especifican.
-.br
+
 Los directorios no pueden ser redirigidos con dpkg-divert.
+
+Debe de tenerse cuidado cuando se redireccionen bibliotecas compartidas,
+ldconfig (8) crea un enlace simbólico basado en el campo DT_SONAME empotrado en
+la biblioteca. Ya que ldconfig no hace caso de las redirecciones (sólo dpkg lo
+hace), si una biblioteca redirigida tiene el mismo SONAME que la que no está
+redirigida, es posible que el enlace simbólico acabe apuntando a la biblioteca
+redirigida.
 .SH ARCHIVOS
 .TP
 .I /var/lib/dpkg/diversions

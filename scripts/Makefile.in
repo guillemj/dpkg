@@ -15,23 +15,21 @@ SBIN_SCRIPTS		= update-alternatives install-info \
 			  dpkg-divert dpkg-statoverride cleanup-info
 
 MAN1PAGES		= dpkg-name.1 dpkg-source.1 822-date.1 \
-			  dpkg-checkbuilddeps.1
+			  dpkg-checkbuilddeps.1 dpkg-scanpackages.1 \
+			  dpkg-scansources.1
 MAN8PAGES		= update-alternatives.8 install-info.8  \
-			  cleanup-info.8 dpkg-scanpackages.8 dpkg-scansources.8 \
-			  dpkg-divert.8 dpkg-statoverride.8
+			  cleanup-info.8 dpkg-divert.8 dpkg-statoverride.8
 
 CHANGELOG_PARSERS	= cl-debian
 
 SCRIPTLIBS		= controllib.pl
 
-GEN_MAN8PAGES		= dpkg-scansources.8
-
-GEN_MAN1PAGES		= dpkg-architecture.1
+GEN_MAN1PAGES		= dpkg-architecture.1 dpkg-scansources.1
 
 MAN_SOURCE_ALIASES	= dpkg-gencontrol.1 dpkg-genchanges.1 dpkg-buildpackage.1 \
 			  dpkg-distaddfile.1 dpkg-parsechangelog.1 dpkg-shlibdeps.1
 
-GENFILES		= $(CHANGELOG_PARSERS) $(BIN_SCRIPTS) $(SBIN_SCRIPTS) $(GEN_MAN1PAGES) $(GEN_MAN8PAGES)
+GENFILES		= $(CHANGELOG_PARSERS) $(BIN_SCRIPTS) $(SBIN_SCRIPTS) $(GEN_MAN1PAGES)
 
 .PHONY: all
 all:: $(GENFILES)
@@ -91,9 +89,6 @@ install-doc:
 		$(INSTALL_DATA) $$d$$i $(DESTDIR)/$(man8dir) ; \
 	done
 
-
-%.8: $(srcdir)/%.pl
-	pod2man --section=8 $^ > $@
 
 %.1: $(srcdir)/%.pl
 	pod2man --section=1 $^ > $@

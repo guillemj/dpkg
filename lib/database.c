@@ -71,6 +71,7 @@ void blankpackage(struct pkginfo *pigp) {
   pigp->installed.valid= 0;
   pigp->available.valid= 0;
   pigp->clientdata= NULL;
+  pigp->color= white;
   blankpackageperfile(&pigp->installed);
   blankpackageperfile(&pigp->available);
 }

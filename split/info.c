@@ -193,9 +193,9 @@ void print_info(const struct partinfo *pi) {
          "        ... length:                 %lu bytes\n"
          "        ... split every:            %lu bytes\n"
          "    Part number:                    %d/%d\n"
-         "    Part length:                    %lu bytes\n"
+         "    Part length:                    %zi bytes\n"
          "    Part offset:                    %lu bytes\n"
-         "    Part file size (used portion):  %zi bytes\n\n"),
+         "    Part file size (used portion):  %lu bytes\n\n"),
          pi->filename,
          pi->fmtversion,
          pi->package,
@@ -207,7 +207,7 @@ void print_info(const struct partinfo *pi) {
          pi->maxpartn,
          pi->thispartlen,
          pi->thispartoffset,
-         pi->filesize);
+         (unsigned long)pi->filesize);
 }
 
 void do_info(const char *const *argv) {

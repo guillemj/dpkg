@@ -139,6 +139,7 @@ struct pkginfo { /* pig */
   struct pkginfoperfile installed;
   struct pkginfoperfile available;
   struct perpackagestate *clientdata;
+  enum { white, gray, black } color;  /* used during cycle detection */
 };
 
 /*** from lock.c ***/

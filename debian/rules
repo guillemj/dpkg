@@ -50,7 +50,7 @@ config.guess config.sub: %: /usr/share/misc/%
 $(BUILD)/configure-stamp: configure config.h.in config.guess config.sub
 	$(checkdir)
 	install -d $(@D)
-	cd $(@D) && LDFLAGS=$(LDFLAGS) $(shell echo "$(patsubst $(CURDIR)/%,%,$(@D))" | sed -e 's,^[^/][^/]*$$,..,;s,/[^/][^/]*,/..,g' )/configure \
+	cd $(@D) && LDFLAGS="$(LDFLAGS)" $(shell echo "$(patsubst $(CURDIR)/%,%,$(@D))" | sed -e 's,^[^/][^/]*$$,..,;s,/[^/][^/]*,/..,g' )/configure \
 		--prefix=/usr \
 		--datadir=/usr/share \
 		--mandir=/usr/share/man \
@@ -209,7 +209,7 @@ binary-dpkg-dev: stamp-binary
 		for m in dpkg-name.1 dpkg-source.1 822-date.1 dpkg-architecture.1 \
 			dpkg-buildpackage.1 dpkg-distaddfile.1 dpkg-genchanges.1 \
 			dpkg-gencontrol.1 dpkg-parsechangelog.1 dpkg-shlibdeps.1 \
-			dpkg-checkbuilddeps.1 ; do \
+			dpkg-checkbuilddeps.1 dpkg-scanpackages.1 dpkg-scansources.1; do \
 			if [ -e $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m ] ; then \
 				mv $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man1/$$m ; \
 			fi ; \
@@ -218,12 +218,6 @@ binary-dpkg-dev: stamp-binary
 		for m in deb.5 deb-control.5 deb-old.5 ; do \
 			if [ -e $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m ] ; then \
 				mv $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man5/$$m ; \
-			fi ; \
-		done ; \
-		install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/man/$$i/man8 ; \
-		for m in dpkg-scanpackages.8 dpkg-scansources.8 ; do \
-			if [ -e $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m ] ; then \
-				mv $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man8/$$m ; \
 			fi ; \
 		done ; \
 	done

@@ -1,3 +1,112 @@
+Tue Jun 1 17:42:58 BRT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * scripts/Makefile.in: Move dpkg-scanpackages and dpkg-scansources
+  manpages to section 1.
+  * scripts/dpkg-scanpackages.8: Renamed to dpkg-scanpackages.1, adjusted
+  reference to dpkg-scansources.
+  * scripts/dpkg-scansources.pl: Adjusted reference to dpkg-scanpackages.
+  * dselect/dselect.8: Adjusted reference to dpkg-scanpackages.
+
+  * man/es/Makefile.in: Move dpkg-scanpackages and dpkg-scansources
+  manpages to section 1.
+  * man/es/dpkg-scanpackages.8: Renamed to dpkg-scanpackages.1, adjusted
+  reference to dpkg-scansources.
+  * man/es/dpkg-scansources.8: Renamed to dpkg-scansources.1,
+
+  * man/fr/Makefile.in: Move dpkg-scanpackages and dpkg-scansources
+  manpages to section 1.
+  * man/fr/dpkg-scanpackages.8: Renamed to dpkg-scanpackages.1, adjusted
+  reference to dpkg-scansources.
+  * man/fr/dpkg-scansources.8: Renamed to dpkg-scansources.1
+
+  * man/ja/Makefile.in: Move dpkg-scanpackages and dpkg-scansources
+  manpages to section 1.
+  * man/ja/dpkg-scanpackages.8: Renamed to dpkg-scanpackages.1, adjusted
+  refence to dpkg-scansources.
+  * man/ja/dpkg-scansources.8: Renamed to dpkg-scansources.1, adjusted
+  reference to dpkg-scanpackages.
+  * man/ja/dselect.8: Adjusted references to dpkg-scanpackages.
+
+  * man/pt_BR/dselect.8: Adjusted reference to dpkg-scanpackages.
+  * man/sv/.check.pl: Adjusted reference to dpkg-scanpackages.
+  * man/sv/dselect.8: Adjusted reference to dpkg-scanpackages.
+
+Tue Jun 1 17:27:50 BRT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * scripts/dpkg-shlibdeps.pl: Guard chown call with a check that we're
+  running as root, if we're not, it's not necessary.
+
+Tue Jun 1 17:23:30 BRT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * script/dpkg-source.1: Documented dpkg:Version and dpkg:UpstreamVersion
+  substvars.
+
+Tue Jun 1 14:52:27 BRT 2004 KISE Hiroshi <kise@fuyuneko.jp>
+
+  * man/ja/dpkg-checkbuilddeps.1: Updated.
+  * man/ja/dpkg-divert.8: Updated.
+
+Tue Jun 1 14:45:47 BRT 2004 Nikolai Prokoschenko <nikolai@prokoschenko.de>
+
+  * po/ru.po: Updated.
+
+Tue Jun 1 14:41:30 BRT 2004 Helge Kreutzmann <kreutzm@itp.uni-hannover.de>
+
+  * man/de/start-stop-daemon.8: New translation.
+  * man/de/Makefile.in: Added new manpage.
+
+Tue Jun 1 14:37:52 BRT 2004 Ruben Porras <nahoo82@telefonica.net>
+
+  * man/es/dpkg-divert.8: Updated.
+
+Tue Jun 1 13:53:29 BRT 2004 Lele Gaifax <lele@nautilus.homeip.net>
+
+  * po/it.po: Updated.
+
+Mon May 31 20:44:21 BRT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * archtable: Change amd64 to x86-64 or x86_64 to match the GNU strings
+  until someone better than me makes a real decision about this.
+  * scripts/dpkg-architecture.pl: Likewise.
+
+Mon May 31 12:48:35 BRT 2004 Michal Cihar <michal@cihar.com>
+
+  * dpkg-deb/extract.c: Swap %zi and %ld in printf expression.
+  * split/info.c: Correct %zi and %lu in printf expression.
+  * split/main.c: Include missing sys/types.h and sys/stat.h headers.
+
+Sun May 30 19:51:52 BRT 2004 Robert Millan <zeratul2@wanadoo.es>
+
+  * archtable: Change i386-kfreebsd-gnu to kfreebsd-i386 and add
+  i386-knetbsd-gnu.
+  * scripts/dpkg-archtable.pl: Return i386-freebsd for freebsd-i386 and
+  i386-kfreebsd-gnu for kfreebsd-i386 instead.  Add knetbsd-i386.
+  * configure.in: Identify knetbsd-gnu.
+
+Fri May 28 18:45:26 BRT 2004 Steinar H. Gunderson <sesse@dessverre.samfundet.no>
+
+  * main/depcon.c: Colour packages as we check them for break cycles to
+  reduce the amount of recursion required to break a cycle.
+  * include/dpkg-deb.h, lib/database.c: Add colour to the package structure.
+  * main/main.h, main/configure.c, main/remove.c: Remove second
+  argument from findbreakcycle() function.
+
+Wed May 26 23:05:01 BRT 2004 Ognyan Kulev <ogi@fmi.uni-sofia.bg>
+
+  * utils/start-stop-daemon.c: On hurd, proc_stat_set_flags may return
+  NULL as Hurd can have processes with no uid, replace ihash_iterate
+  with HURD_IHASH_ITERATE.
+
+Sat May 22 15:28:33 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * utils/md5sum.1: s/asterix/asterisk/.  Thanks to Matt Zimmermann for
+  noticing this.
+
+Wed May 12 23:25:16 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * main/packages.c: Apply patch from Daniel Kobras to disappear empty
+  packages that are replaced in the same run.
+
 Fri May 7 04:46:01 BST 2004 Scott James Remnant <scott@netsplit.com>
 
   * doc/Makefile.in: Ensure that $(docdir) exists before attempting

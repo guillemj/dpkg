@@ -37,6 +37,8 @@ struct cyclesofarlink {
   struct deppossi *possi;
 };
 
+static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar);
+
 static int foundcyclebroken(struct cyclesofarlink *thislink,
                             struct cyclesofarlink *sofar,
                             struct pkginfo *dependedon,
@@ -54,7 +56,7 @@ static int foundcyclebroken(struct cyclesofarlink *thislink,
   for (sol=sofar; sol && sol->pkg != dependedon; sol=sol->back);
 
   /* If not, we do a recursive search on it to see what we find. */
-  if (!sol) return findbreakcycle(possi->ed,thislink);
+  if (!sol) return findbreakcyclerecursive(possi->ed,thislink);
   
   debug(dbg_depcon,"found cycle");
   /* Right, we now break one of the links.  We prefer to break
@@ -83,7 +85,7 @@ static int foundcyclebroken(struct cyclesofarlink *thislink,
   return 1;
 }
 
-int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
+static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
   /* Cycle breaking works recursively down the package dependency
    * tree.  `sofar' is the list of packages we've descended down
    * already - if we encounter any of its packages again in a
@@ -94,8 +96,12 @@ int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
   struct deppossi *possi, *providelink;
   struct pkginfo *provider;
 
+  if (pkg->color == black)
+    return 0;
+  pkg->color = gray;
+  
   if (f_debug & dbg_depcondetail) {
-    fprintf(stderr,"D0%05o: findbreakcycle %s ",dbg_depcondetail,pkg->name);
+    fprintf(stderr,"D0%05o: findbreakcyclerecursive %s ",dbg_depcondetail,pkg->name);
     for (sol=sofar; sol; sol=sol->back) fprintf(stderr," <- %s",sol->pkg->name);
     fprintf(stderr,"\n");
   }
@@ -125,7 +131,20 @@ int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
     }
   }
   /* Nope, we didn't find a cycle to break. */
+  pkg->color = black;
   return 0;
+}
+
+int findbreakcycle(struct pkginfo *pkg) {
+  struct pkgiterator *iter;
+  struct pkginfo *tpkg;
+	
+  /* Clear the visited flag of all packages before we traverse them. */
+  for (iter = iterpkgstart(); (tpkg=iterpkgnext(iter)); ) {
+    tpkg->color = white;
+  }
+
+  return findbreakcyclerecursive(pkg, 0);
 }
 
 void describedepcon(struct varbuf *addto, struct dependency *dep) {

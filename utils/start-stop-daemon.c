@@ -650,9 +650,10 @@ pid_is_user(pid_t pid, uid_t uid)
 		return 0;
 	return (sb.st_uid == uid);
 	pstat = proc_stat_list_pid_proc_stat (procset, pid);
-	if (pstat == NULL)
-		fatal ("Error getting process information: NULL proc_stat struct");
-	proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_OWNER_UID);
+	if (pstat)
+		proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_OWNER_UID);
+	else
+		return 1;
 	return (pstat->owner_uid == uid);
 }
 
@@ -661,9 +662,10 @@ pid_is_cmd(pid_t pid, const char *name)
 {
 	struct proc_stat *pstat;
 	pstat = proc_stat_list_pid_proc_stat (procset, pid);
-	if (pstat == NULL)
-		fatal ("Error getting process information: NULL proc_stat struct");
-	proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_ARGS);
+	if (pstat)
+		proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_ARGS);
+	else
+		return 1;
 	return (!strcmp (name, pstat->args));
 }
 #endif /* OSHURD */
@@ -751,15 +753,6 @@ do_procinit(void)
 
 
 #if defined(OSHURD)
-error_t
-check_all(void *ptr)
-{
-	struct proc_stat *pstat = ptr;
-
-	check(pstat->pid);
-	return 0;
-}
-
 static void
 do_procinit(void)
 {
@@ -779,7 +772,10 @@ do_procinit(void)
 		error(1, err, "proc_stat_list_add_all");
 
 	/* Check all pids */
-	ihash_iterate(context->procs, check_all);
+	HURD_IHASH_ITERATE (&context->procs, ptr) {
+		struct proc_stat *pstat = ptr;
+		check(pstat->pid);
+	}
 }
 #endif /* OSHURD */
 

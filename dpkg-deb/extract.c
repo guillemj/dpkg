@@ -191,7 +191,7 @@ void extracthalf(const char *debar, const char *directory,
 
     if (admininfo >= 2)
       if (printf(_(" old debian package, version %s.\n"
-                 " size %ld bytes: control archive= %ld, main archive= %zi.\n"),
+                 " size %ld bytes: control archive= %zi, main archive= %ld.\n"),
                  versionbuf, (long)stab.st_size, ctrllennum,
                  (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l)) == EOF ||
           fflush(stdout)) werr("stdout");

@@ -590,7 +590,7 @@ Print the version number and exit.
 
 =head1 SEE ALSO
 
-dpkg-scanpackages(8)
+dpkg-scanpackages(1)
 
 =head1 AUTHOR
 
