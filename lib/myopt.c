@@ -42,7 +42,8 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
     char* opt;
     const struct cmdinfo *cip;
 
-    if ((linebuf[0]=='#') || (linebuf[0]=='\n')) continue;
+    if ((linebuf[0]=='#') || (linebuf[0]=='\n') || (linebuf[0]==0)) continue;
+    linebuf[strlen(linebuf)-1]=0;
     for (opt=linebuf;isalnum(*opt)||*opt=='-';opt++) ;
     if (*opt==0)
       opt=NULL;

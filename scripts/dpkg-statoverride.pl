@@ -170,7 +170,7 @@ sub ReadOverrides {
 sub WriteOverrides {
 	my ($file);
 
-	open(SO,"$admindir/statoverride-new") || &quit("cannot open new statoverride file: $!");
+	open(SO,">$admindir/statoverride-new") || &quit("cannot open new statoverride file: $!");
 	foreach $file (keys %owner) {
 		print SO "$owner{$file} $group{$file} $mode{$file} $file\n";
 	}
