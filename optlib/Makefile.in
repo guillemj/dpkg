@@ -7,14 +7,11 @@ include ../Makefile.conf
 SOURCES		= getopt.c getopt1.c long-options.c closeout.c obstack.c
 
 OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
-GENFILES	= $(OBJECTS) libopt.a
+GENFILES	= $(OBJECTS)
 
 .PHONY: all
-all:: libopt.a
+all:: $(OBJECTS)
 	
-libopt.a: $(OBJECTS)
-	$(AR) r $@ $^
-
 .PHONY: install
 install:: all
 

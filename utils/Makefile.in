@@ -60,8 +60,8 @@ endif
 	$(mkinstalldirs) $(DESTDIR)/$(man1dir)
 	$(INSTALL_DATA) $(srcdir)/$(MD5_MANPAGES) $(DESTDIR)/$(man1dir)
 
-start-stop-daemon: $(SSD_OBJECTS) ../optlib/libopt.a
+start-stop-daemon: $(SSD_OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $^ $(SSD_LIBS)
 
-md5sum: $(MD5_OBJECTS) ../optlib/libopt.a ../lib/libdpkg.a
+md5sum: $(MD5_OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $^ $(NLS_LIBS)
