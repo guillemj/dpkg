@@ -317,7 +317,7 @@ sub process_dsc {
 
     # Allow blank lines at the end of a file, because the other programs
     # do.
-    $contents =~ s/\n\n+\z/\n/;
+    $contents =~ s/\n\n+\Z/\n/;
 
     if ($contents =~ /^\n/ || $contents =~ /\n\n/) {
     	xwarn_noerror "$file invalid (contains blank line)\n";
