@@ -46,6 +46,12 @@
 
 struct pkginfo;
 
+/* flags to findnamenode() */
+
+enum fnnflags {
+    fnn_nocopy=                 000001, /* do not need to copy filename */
+};
+
 struct filenamenode {
   struct filenamenode *next;
   char *name;
@@ -116,7 +122,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg);
 void ensure_allinstfiles_available(void);
 void ensure_allinstfiles_available_quiet(void);
 void note_must_reread_files_inpackage(struct pkginfo *pkg);
-struct filenamenode *findnamenode(const char *filename);
+struct filenamenode *findnamenode(const char *filename, enum fnnflags flags);
 void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list, int leaveout);
 
 struct reversefilelistiter { struct fileinlist *todo; };

@@ -455,7 +455,7 @@ void oldconffsetflags(struct conffile *searchconff) {
   struct filenamenode *namenode;
   
   while (searchconff) {
-    namenode= findnamenode(searchconff->name);
+    namenode= findnamenode(searchconff->name, 0); /* XXX */
     namenode->flags |= fnnf_old_conff;
     debug(dbg_conffdetail, "oldconffsetflags `%s' namenode %p flags %o",
           searchconff->name, namenode, namenode->flags);

@@ -48,7 +48,7 @@ extern "C" {
 #include "pkglist.h"
 
 const char thisname[]= DSELECT;
-const char printforhelp[]= N_("Type %s --help for help.", DSELECT);
+const char printforhelp[]= N_("Type dselect --help for help.");
 
 modstatdb_rw readwrite;
 const char *admindir= ADMINDIR;
@@ -75,16 +75,17 @@ static const menuentry menuentries[]= {
 };
 
 static const char programdesc[]=
-      N_("Debian Linux `%s' package handling frontend.", DSELECT);
+      N_("Debian Linux `%s' package handling frontend.");
 
 static const char copyrightstring[]= N_(
       "Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
       "free software; see the GNU General Public Licence version 2 or later for\n"
-      "copying conditions.  There is NO warranty.  See dselect --licence for details.\n",
-      DPKG_VERSION_ARCH);
+      "copying conditions.  There is NO warranty.  See dselect --licence for details.\n");
 
 static void printversion(void) {
-  if (fprintf(stdout,"%s\n%s",gettext(programdesc),gettext(copyrightstring)) == EOF) werr("stdout");
+  if (fprintf(stdout,gettext(programdesc),DSELECT) == EOF) werr("stdout");
+  if (fprintf(stdout,"\n") == EOF) werr("stdout");
+  if (fprintf(stdout,gettext(copyrightstring), DPKG_VERSION_ARCH) == EOF) werr("stdout");
 }
 
 static void usage(void) {

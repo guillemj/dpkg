@@ -287,7 +287,7 @@ void process_archive(const char *filename) {
       *p= 0;
       newconff= m_malloc(sizeof(struct fileinlist));
       newconff->next= 0;
-      newconff->namenode= findnamenode(conffilenamebuf);
+      newconff->namenode= findnamenode(conffilenamebuf, 0);
       *newconffileslastp= newconff;
       newconffileslastp= &newconff->next;
       newconff->namenode->oldhash= NEWCONFFILEFLAG;

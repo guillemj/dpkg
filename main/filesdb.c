@@ -51,17 +51,20 @@ void note_must_reread_files_inpackage(struct pkginfo *pkg) {
 
 static int saidread=0;
 
+ /* load the list of files in this package into memory, or update the
+  * list if it is there but stale
+  */
 void ensure_packagefiles_available(struct pkginfo *pkg) {
   static struct varbuf fnvb;
-  static char stdiobuf[8192];
   
   FILE *file;
   const char *filelistfile;
   struct fileinlist **lendp, *newent, *current;
   struct filepackages *packageslump;
-  int search, findlast, putat= 0, l;
-  char *thefilename;
-  char linebuf[1024];
+  int search, findlast, putat;
+  struct stat stat_buf;
+  char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
+  ssize_t bytes, readden;
 
   if (pkg->clientdata && pkg->clientdata->fileslistvalid) return;
   ensure_package_clientdata(pkg);
@@ -132,44 +135,44 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
 
   push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)file);
   
-  if (setvbuf(file,stdiobuf,_IOFBF,sizeof(stdiobuf)))
-    ohshite(_("unable to set buffering on `%.250s'"),filelistfile);
+   if(fstat(fileno(file), &stat_buf))
+     ohshite("unable to stat files list file for package `%.250s'",pkg->name);
+   loaded_list = nfmalloc(stat_buf.st_size);
+   loaded_list_end = loaded_list + stat_buf.st_size;
+   /* stdio is an extra copy, hence we use read() */
+   readden = 0;			/* write->written, read->readden */
+   while (readden < stat_buf.st_size) {
+     bytes = read(fileno(file),
+ 		 loaded_list + readden, stat_buf.st_size - readden);
+     if (bytes < 0) {
+       if (errno == EINTR) continue;
+       ohshite("unable to read files list for package `%.250s'",pkg->name);
+     }
+     if (!bytes)
+       ohshit("unexpected end of file in files list for package `%.250s'",pkg->name);
+     readden += bytes;
+   }
   
   lendp= &pkg->clientdata->files;
-  varbufreset(&fnvb);
-  while (fgets(linebuf,sizeof(linebuf),file)) {
-    /* This is a very important loop, and it is therefore rather messy.
-     * We break the varbuf abstraction even more than usual, and we
-     * avoid copying where possible.
-     */
-    l= strlen(linebuf);
-    if (l == 0) ohshit(_("fgets gave an empty null-terminated string from `%.250s'"),
-                       filelistfile);
-    l--;
-    if (linebuf[l] != '\n') {
-      varbufaddstr(&fnvb,linebuf);
-      continue;
-    } else if (!fnvb.used && l>0 && linebuf[l-1] != '/') { /* fast path */
-      linebuf[l]= 0;
-      thefilename= linebuf;
-    } else {
-      if (l>0 && linebuf[l-1] == '/') l--; /* strip trailing slashes */
-      linebuf[l]= 0;
-      varbufaddstr(&fnvb,linebuf);
-      varbufaddc(&fnvb,0);
-      fnvb.used= 0;
-      thefilename= fnvb.buf;
-    }
-    if (!*thefilename)
+  thisline = loaded_list;
+  while (thisline < loaded_list_end) {
+    if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
+      ohshit("files list file for package `%.250s' is missing final newline",pkg->name);
+    /* where to start next time around */
+    nextline = ptr + 1;
+    /* strip trailing "/" */
+    if (ptr > thisline && ptr[-1] == '/') ptr--;
+    /* add the file to the list */
+    if (ptr == thisline)
       ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
+    *ptr = 0;
     newent= nfmalloc(sizeof(struct fileinlist));
-    newent->namenode= findnamenode(thefilename);
+    newent->namenode= findnamenode(thisline, fnn_nocopy);
     newent->next= 0;
     *lendp= newent;
     lendp= &newent->next;
+    thisline = nextline;
   }
-  if (ferror(file))
-    ohshite(_("error reading files list file for package `%.250s'"),pkg->name);
   pop_cleanup(ehflag_normaltidy); /* file= fopen() */
   if (fclose(file))
     ohshite(_("error closing files list file for package `%.250s'"),pkg->name);
@@ -356,7 +359,7 @@ void ensure_diversions(void) {
     if (l == 0) ohshit(_("fgets gave an empty string from diversions [i]"));
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [i]"));
     linebuf[l]= 0;
-    oialtname->camefrom= findnamenode(linebuf);
+    oialtname->camefrom= findnamenode(linebuf, 0);
     oialtname->useinstead= 0;    
 
     if (!fgets(linebuf,sizeof(linebuf),file)) {
@@ -367,7 +370,7 @@ void ensure_diversions(void) {
     if (l == 0) ohshit(_("fgets gave an empty string from diversions [ii]"));
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
     linebuf[l]= 0;
-    oicontest->useinstead= findnamenode(linebuf);
+    oicontest->useinstead= findnamenode(linebuf, 0);
     oicontest->camefrom= 0;
     
     if (!fgets(linebuf,sizeof(linebuf),file)) {
@@ -423,6 +426,26 @@ struct fileiterator {
 static struct filenamenode *bins[BINS];
 
 /*** Data structures for low-memory-footprint in-core files database ***/
+
+/* the idea is that you have a tree structure in memory which has the
+   same structure as the names themselves.
+
+   Each node in the tree gets an fdirnode.  This may have a
+   filenamenode attached to it (if there is really a filename
+   corresponding to the path down the tree to get here) and an
+   fdirents (if there is anything below this point.)
+
+   The fdirents structure lists the entries in a directory.  If there
+   is only 1 node below us then there's just one fdirents with a
+   single entry; if there are more then then next one (as defined by
+   the 'more' field) contains two entries; the next four; etc.
+
+   This doubling effect is enforced by findnamenow_low() rather than
+   by a count field in the structure.
+
+   1999-07-26 RJK
+   
+*/
 
 struct fdirents {
   struct fdirents *more;
@@ -532,15 +555,17 @@ void filesdbinit(void) {
   }    
 }
 
-static struct filenamenode *findnamenode_high(const char *name);
-static struct filenamenode *findnamenode_low(const char *name);
+static struct filenamenode *findnamenode_high(const char *name,
+					      enum fnnflags flags);
+static struct filenamenode *findnamenode_low(const char *name,
+					     enum fnnflags flags);
   
-struct filenamenode *findnamenode(const char *name) {
+struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   switch (f_largemem) {
   case 1:
-    return findnamenode_high(name);
+    return findnamenode_high(name, flags);
   case -1:
-    return findnamenode_low(name);
+    return findnamenode_low(name, flags);
   default:
     internerr("findnamenode no f_largemem");
   }
@@ -548,14 +573,16 @@ struct filenamenode *findnamenode(const char *name) {
 
 /*** Code for low-memory-footprint in-core files database ***/
   
-static struct filenamenode *findnamenode_low(const char *name) {
+static struct filenamenode *findnamenode_low(const char *name,
+					     enum fnnflags flags) {
   struct fdirnode *traverse;
   struct fdirents *ents, **addto;
   const char *nameleft, *slash;
   char *p;
   struct filenamesblock *newblock;
   int n, i, nentrieshere, alloc;
-
+  const char *orig_name = name;
+  
   /* We skip initial slashes and ./ pairs, and add our own single leading slash. */
   name= skip_slash_dotslash(name);
 
@@ -612,19 +639,23 @@ static struct filenamenode *findnamenode_low(const char *name) {
   traverse->here->divert= 0;
   traverse->here->filestat= 0;
 
-  n= strlen(name)+2;
-  if (namesarealeft < n) {
-    newblock= m_malloc(sizeof(struct filenamesblock));
-    alloc= 256*1024;
-    if (alloc<n) alloc= n;
-    newblock->data= m_malloc(alloc);
-    newblock->next= namesarea;
-    namesarea= newblock;
-    namesarealeft= alloc;
+  if((flags & fnn_nocopy) && name > orig_name && name[-1] == '/') {
+    traverse->here->name = (char *)name - 1;
+  } else {
+    n= strlen(name)+2;
+    if (namesarealeft < n) {
+      newblock= m_malloc(sizeof(struct filenamesblock));
+      alloc= 256*1024;
+      if (alloc<n) alloc= n;
+      newblock->data= m_malloc(alloc);
+      newblock->next= namesarea;
+      namesarea= newblock;
+      namesarealeft= alloc;
+    }
+    namesarealeft-= n;
+    p= namesarea->data+namesarealeft;
+    traverse->here->name= p; *p++= '/'; strcpy(p,name);
   }
-  namesarealeft-= n;
-  p= namesarea->data+namesarealeft;
-  traverse->here->name= p; *p++= '/'; strcpy(p,name);
 
   traverse->here->next= allfiles;
   allfiles= traverse->here;
@@ -640,8 +671,10 @@ static int hash(const char *name) {
   return v;
 }
 
-struct filenamenode *findnamenode_high(const char *name) {
+struct filenamenode *findnamenode_high(const char *name,
+					     enum fnnflags flags) {
   struct filenamenode **pointerp, *newnode;
+  const char *orig_name = name;
 
   /* We skip initial slashes and ./ pairs, and add our own single leading slash. */
   name= skip_slash_dotslash(name);
@@ -656,8 +689,12 @@ struct filenamenode *findnamenode_high(const char *name) {
 
   newnode= nfmalloc(sizeof(struct filenamenode));
   newnode->packages= 0;
-  newnode->name= nfmalloc(strlen(name)+2);
-  newnode->name[0]= '/'; strcpy(newnode->name+1,name);
+  if((flags & fnn_nocopy) && name > orig_name && name[-1] == '/')
+    newnode->name = (char *)name - 1;
+  else {
+    newnode->name= nfmalloc(strlen(name)+2);
+    newnode->name[0]= '/'; strcpy(newnode->name+1,name);
+  }
   newnode->flags= 0;
   newnode->next= 0;
   newnode->divert= 0;

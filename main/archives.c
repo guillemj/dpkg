@@ -227,7 +227,7 @@ int tarobject(struct TarInfo *ti) {
    * been stripped by TarExtractor (lib/tarfn.c).
    */
   nifd= m_malloc(sizeof(struct fileinlist));
-  nifd->namenode= findnamenode(ti->Name);
+  nifd->namenode= findnamenode(ti->Name, 0);
   nifd->next= 0; *tc->newfilesp= nifd; tc->newfilesp= &nifd->next;
   nifd->namenode->flags |= fnnf_new_inarchive;
 

@@ -359,7 +359,7 @@ void searchfiles(const char *const *argv) {
       thisarg= vb.buf;
     }
     if (strcspn(thisarg,"*[?\\") == strlen(thisarg)) {
-      namenode= findnamenode(thisarg);
+      namenode= findnamenode(thisarg, 0);
       found += searchoutput(namenode);
     } else {
       it= iterfilestart();
