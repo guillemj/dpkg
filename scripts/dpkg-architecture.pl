@@ -122,7 +122,7 @@ $deb_build_gnu_system =~ s/^.*-//;
 
 # Default host: Current gcc.
 $gcc = `\${CC:-gcc} --print-libgcc-file-name`;
-if {$?>>8) {
+if ($?>>8) {
     &warn("Couldn't determine gcc system type, falling back to default (native compilation)");
     $gcc = '';
 } else {
