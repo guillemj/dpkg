@@ -1,0 +1,83 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Translation of CVS revision 1.2
+.TH MD5SUM 1 "29 november 1995" "Lankester m fl" "Debian GNU/Linux"
+.SH NAMN
+md5sum \- genererar eller kontrollerar MD5-meddelandesamlingar
+
+.SH SYNOPS
+.B md5sum
+[-bv] [-c [fil]] | [fil...]
+
+.SH BESKRIVNING
+.B md5sum
+genererar eller kontrollerar MD5-kontrollsummor.
+Algoritmen som genererar kontrollsumman är hyfsat snabb och tillräckligt
+stark för de flesta fallen.
+En exakt specifikation av algoritmen finns i
+.I RFC 1321.
+
+Normalt genererar
+.B md5sum
+kontrollsummor för samtliga filer som anges som flaggor och skriver
+kontrollsummorna följt av filnamnen.
+Om däremot flaggan
+.B -c
+anges tillåts endast en filnamnsparameter.
+Denna fil innehåller kontrollsummor och tillhörande filnamn, och filerna som
+listas i den filen kommer att kontrolleras gentemot kontrollsumman som står
+där.
+Se flaggan
+.B -c
+för ytterligare information.
+
+.SS FLAGGOR
+.TP
+.B -b
+Använd binärt läge.
+I en unixmiljö är den enda skillnaden mellan detta och det normala läget en
+asterisk framför filnamnet i utdata.
+.TP
+.B -c
+Kontrollera md5-summan för samtliga filer som listas i
+.I fil
+mot kontrollsummorna som står i filen.
+Formatet som används för denna fil är detsamma som utdata för
+.B md5sum.
+Det betyder att varje rad i filen beskriver en fil, på formen:
+
+.B <MD5-kontrollsumma>  <filnamn>
+
+Så, till exempel, om en fil skapats och dess meddelandesamlingar (message
+digest) beräknats enligt
+
+.B echo foo > md5-testfil; md5sum md5-testfil
+
+kommer
+.B md5sum
+rapportera:
+
+.B d3b07384d113edec49eaa6238ad5ff00\  md5-testfil
+
+.TP
+.B -v
+Var mer pratsam.
+Skriv ut filnamn när de kontrolleras (med -c).
+
+.SH PROGRAMFEL
+Den relaterade meddelandesamlingsalgoritmen MD4 knäcktes i oktober 1995.
+MD5 verkar inte vara lika säker som den en gång var.
+
+Denna manualsida är inte helt korrekt och har formatering som inte är
+konsistent med andra manualsidor.
+
+.B md5sum
+tillåter inte standardflaggor såsom
+.BR --help .
+
+.SH FÖRFATTARE
+
+.B md5sum
+skrevs ursprungligen av Branko Lankester och modifierades sedan av
+Colin Plumb och Ian Jackson (ijackson@gnu.ai.mit.edu).
+Manualsidan lades till av Juho Vuori (javuori@cc.helsinki.fi)
+och översattes av Peter Karlsson.
