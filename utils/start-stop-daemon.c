@@ -30,6 +30,8 @@
 #  define OSsunos
 #elif defined(OPENBSD)
 #  define OSOpenBSD
+#elif defined(hpux)
+#  define OShpux
 #else
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
@@ -52,6 +54,11 @@
 #include <err.h>
 #include <kvm.h>
 #include <limits.h>
+#endif
+
+#if defined(OShpux)
+#include <sys/param.h>
+#include <sys/pstat.h>
 #endif
 
 #include <errno.h>
@@ -140,7 +147,7 @@ static void check(pid_t pid);
 static void do_pidfile(const char *name);
 static void do_stop(int signal_nr, int quietmode,
 		    int *n_killed, int *n_notkilled, int retry_nr);
-#if defined(OSLinux)
+#if defined(OSLinux) || defined(OShpux)
 static int pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
@@ -666,7 +673,7 @@ pid_is_running(pid_t pid)
 static void
 check(pid_t pid)
 {
-#if defined(OSLinux)
+#if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
 #elif defined(OSHURD)
     /* I will try this to see if it works */
@@ -853,6 +860,54 @@ do_procinit(void)
 }
 
 #endif /* OSOpenBSD */
+
+
+#if defined(OShpux)
+static int
+pid_is_user(pid_t pid, uid_t uid)
+{
+	struct pst_status pst;
+
+	if (pstat_getproc(&pst, sizeof(pst), (size_t) 0, (int) pid) < 0)
+		return 0;
+	return ((uid_t) pst.pst_uid == uid);
+}
+
+static int
+pid_is_cmd(pid_t pid, const char *name)
+{
+	struct pst_status pst;
+
+	if (pstat_getproc(&pst, sizeof(pst), (size_t) 0, (int) pid) < 0)
+		return 0;
+	return (strcmp(pst.pst_ucomm, name) == 0);
+}
+
+static int
+pid_is_exec(pid_t pid, const struct stat *esb)
+{
+	struct pst_status pst;
+
+	if (pstat_getproc(&pst, sizeof(pst), (size_t) 0, (int) pid) < 0)
+		return 0;
+	return ((dev_t) pst.pst_text.psf_fsid.psfs_id == esb->st_dev
+		&& (ino_t) pst.pst_text.psf_fileid == esb->st_ino);
+}
+
+static void
+do_procinit(void)
+{
+	struct pst_status pst[10];
+	int i, count;
+	int idx = 0;
+
+	while ((count = pstat_getproc(pst, sizeof(pst[0]), 10, idx)) > 0) {
+                for (i = 0; i < count; i++)
+			check(pst[i].pst_pid);
+                idx = pst[count - 1].pst_idx + 1;
+	}
+}
+#endif /* OShpux */
 
 
 static void
@@ -1154,12 +1209,19 @@ main(int argc, char **argv)
 			exit(0);
 		}
 		 /* child continues here */
+#if defined(OShpux)
+		/* create a new session */
+		setsid();
+		 /* now close all extra fds */
+		for (i=sysconf(_SC_OPEN_MAX)-1; i>=0; --i) close(i);
+#else
 		 /* now close all extra fds */
 		for (i=getdtablesize()-1; i>=0; --i) close(i);
 		 /* change tty */
 		fd = open("/dev/tty", O_RDWR);
 		ioctl(fd, TIOCNOTTY, 0);
 		close(fd);
+#endif
 		chdir("/");
 		umask(022); /* set a default for dumb programs */
 		setpgid(0,0);  /* set the process group */
