@@ -189,6 +189,7 @@ void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   if (pifp->version.revision && *pifp->version.revision) {
     newversion= nfmalloc(strlen(pifp->version.version)+strlen(pifp->version.revision)+2);
     sprintf(newversion,"%s-%s",pifp->version.version,pifp->version.revision);
+    pifp->version.version= newversion;
   }
   pifp->version.revision= nfstrsave(value);
 }  
