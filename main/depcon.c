@@ -118,7 +118,7 @@ int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
         /* We don't break things at `provides' links, so `possi' is
          * still the one we use.
          */
-        if (foundcyclebroken(&thislink,sofar,provider,possi)) return 1;
+        if (foundcyclebroken(&thislink,sofar,possi->ed,provider->installed.depended)) return 1;
       }
     }
   }

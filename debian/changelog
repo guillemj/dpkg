@@ -14,6 +14,12 @@ dpkg (1.9.0) unstable; urgency=low
     use about the same amount of memory, and largemem is faster.  Both
     --largemem and --smallmem are now obselete options, and will print
     a warning if used. Closes: Bug#84905
+  * Initialize unitialized variables.  This should solve several
+    segfaults. Closes: Bug#25317(plus 8 others, thru the beauty of
+    merges)
+  * Found that when working with dependency cycles, and part of the cycle
+    was a provide, the provider was not being considered, so the cycle
+    could not be broken. Closes: Bug#87985(and 3 others)
   * Update German translation, Closes: Bug#80529,#80532,#87581
   * Update French translation, Closes: Bug#65284,#85035,#87238
   * Update Japanese translation, Closes: Bug#93873
