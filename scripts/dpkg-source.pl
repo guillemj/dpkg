@@ -1005,7 +1005,7 @@ sub extracttar {
 }
 
 sub cpiostderr {
-    open(STDERR,"| egrep -v '^[0-9]+ blocks\$' >&2") ||
+    open(STDERR,"| grep -E -v '^[0-9]+ blocks\$' >&2") ||
         &syserr("reopen stderr for tar to grep out blocks message");
 }
 

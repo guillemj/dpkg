@@ -18,13 +18,13 @@ AC_BEFORE([AC_CANONICAL_HOST])
 AC_BEFORE([AC_CANONICAL_BUILD])
 dnl Quick check
 if test "$host_alias" = ""; then
-  if test $host = NONE -a $build != NONE; then
+  if test $host = NONE && test $build != NONE; then
     thost=$nonopt
   else
     thost=$host
   fi
 
-  if test $thost != $build -a $thost != NONE; then
+  if test $thost != $build && test $thost != NONE; then
     ac_tool_prefix=${thost}-
     ac_tool_dir=${thost}
   else
@@ -54,8 +54,8 @@ AC_DEFUN(tl_CHECK_TOOL,
 AC_CHECK_PROG($1, ${ac_tool_prefix}$2, ${ac_tool_prefix}$2,
 	      ifelse([$3], , [$2], ), $4, $5)
 if test "$ac_tool_dir" != ""; then
-  if test -z "$ac_cv_prog_$1" -a "$5" != "/usr/${ac_tool_dir}/bin/$2" -a \
-	"$5" != "/usr/local/${ac_tool_dir}/bin/$2"; then
+  if test -z "$ac_cv_prog_$1" && test "$5" != "/usr/${ac_tool_dir}/bin/$2" &&
+	test "$5" != "/usr/local/${ac_tool_dir}/bin/$2"; then
     if test -f /usr/${ac_tool_dir}/bin/$2; then $1="/usr/${ac_tool_dir}/bin/$2"
     elif test -f /usr/local/${ac_tool_dir}/bin/$2; then $1="/usr/local/${ac_tool_dir}/bin/$2"
     fi
@@ -100,8 +100,9 @@ if test -z "$CC"; then
   AC_CHECK_TOOL(CC, cc, cc, , , /usr/ucb/cc)
   test -z "$CC" && AC_MSG_ERROR([no acceptable cc found in \$PATH])
 fi
-if test -n "$ac_tool_prefix" -a "`echo $CC | grep '$ac_tool_prefix'`" = "" \
-	-a "`echo $CC | grep -- '-b'`" = ""; then
+if test -n "$ac_tool_prefix" &&
+   test "`echo $CC | grep '$ac_tool_prefix'`" = "" &&
+   test "`echo $CC | grep -- '-b'`" = ""; then
   if $CC -v 2>&1 | grep -q gcc; then
     AC_CACHE_CHECK([if $CC -b${ac_tool_dir} works], tl_cv_prog_cc_bhost,[
     old_cc="${CC}"
@@ -151,8 +152,9 @@ AC_DEFUN(tl_PROG_CXX,
 AC_PROVIDE([AC_PROG_CXX])dnl
 tl_CHECK_TOOLS(CXX, $CCC c++ g++ gcc CC cxx cc++, gcc)
 if test -n "$CXX"; then
-  if test -n "$ac_tool_prefix" -a "`echo $CXX | grep '$ac_tool_prefix'`" = "" \
-	-a "`echo $CXX | grep -- '-b'`" = ""; then
+  if test -n "$ac_tool_prefix" &&
+     test "`echo $CXX | grep '$ac_tool_prefix'`" = "" &&
+     test "`echo $CXX | grep -- '-b'`" = ""; then
     if $CXX -v 2>&1 | grep -q gcc; then
       AC_CACHE_CHECK([if $CXX -b${ac_tool_dir} works], tl_cv_prog_cxx_bhost,[
       old_cxx="${CXX}"

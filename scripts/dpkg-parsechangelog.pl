@@ -51,7 +51,7 @@ $changelogfile= "./$changelogfile" if $changelogfile =~ m/^\s/;
 if (not $force and $changelogfile ne "-") {
     open(STDIN,"< $changelogfile") ||
         &error("cannot open $changelogfile to find format: $!");
-    open(P,"tail -40 |") || die "cannot fork: $!\n";
+    open(P,"tail -n 40 |") || die "cannot fork: $!\n";
     while(<P>) {
         next unless m/\schangelog-format:\s+([0-9a-z]+)\W/;
         $format=$1;

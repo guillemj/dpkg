@@ -166,7 +166,7 @@ then
 		do
 			echo \
 	'Several CD-ROMs (or other ISO9660 filesystems) are mounted:'
-			egrep 'type iso9660 \([^)]*\)$' <$tp.m | nl
+			grep 'type iso9660 ([^)]*)$' <$tp.m | nl
 			echo -n \
 	'Is it any of these ?  Type a number, or `n'\'' for none.  '
 			read response
@@ -422,7 +422,7 @@ check_binary () {
 	fi
 
 	if ! ( find "$mountpoint$2/" -follow -name '*.deb' -print \
-	        | head -1 ) 2>/dev/null  | grep . >/dev/null
+	        | head -n 1 ) 2>/dev/null  | grep . >/dev/null
 	then
 		echo "\`$2' does not contain any *.deb packages.  Hmmpf."
 		return
