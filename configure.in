@@ -36,7 +36,7 @@ AC_ARG_WITH(start-stop-daemon,
  esac])
 AC_SUBST(USE_START_STOP_DAEMON)
 if test "$USE_START_STOP_DAEMON" != ""; then
-    AC_DEFINE(USE_START_STOP_DAEMON)
+    AC_DEFINE(USE_START_STOP_DAEMON,,[Define if start-stop-daemon is compiled.])
 fi
 
 USE_SGML_DOC="true"
@@ -103,7 +103,7 @@ if test "x$dpkg_archset" = "x"; then
  else
  AC_MSG_RESULT($dpkg_archset)
 fi
-AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}")
+AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}", [Set this to the canonical Debian architecture string for this CPU type.])
 
 dnl gettext
 
@@ -168,10 +168,10 @@ AC_SUBST(ZLIB_LIBS_ALSO_STATIC)
 AC_TRY_COMPILE([
 #include <sys/types.h>
 #include <dirent.h>
-], alphasort, AC_DEFINE(HAVE_ALPHASORT_DECLARATION))
+], alphasort, AC_DEFINE(HAVE_ALPHASORT_DECLARATION,,[Define if alphasort is declared.]))
 
 AC_TRY_COMPILE(,[
-} inline int foo (int x) {], AC_DEFINE(HAVE_INLINE))
+} inline int foo (int x) {], AC_DEFINE(HAVE_INLINE,,[Define if inline functions a la GCC are available.]))
 
 AC_MSG_CHECKING([for __va_copy])
 AC_TRY_COMPILE([
@@ -180,7 +180,7 @@ AC_TRY_COMPILE([
 va_list v1,v2;
 __va_copy(v1, v2);
 ], [AC_MSG_RESULT(yes)
-AC_DEFINE(HAVE_VA_COPY)],[AC_MSG_RESULT(no)
+AC_DEFINE(HAVE_VA_COPY,,[Define if you have the __va_copy macro])],[AC_MSG_RESULT(no)
 AC_MSG_CHECKING([for va_list assignment copy])
 AC_TRY_COMPILE([
 #include <stdarg.h>
@@ -192,26 +192,26 @@ v1 = v2;
 DPKG_CACHED_TRY_COMPILE(__attribute__((,,)),dpkg_cv_c_attribute_supported,,
  [extern int testfunction(int x) __attribute__((,,))],
  AC_MSG_RESULT(yes)
- AC_DEFINE(HAVE_GNUC25_ATTRIB)
+ AC_DEFINE(HAVE_GNUC25_ATTRIB,,[Define if function attributes a la GCC 2.5 and higher are available.])
   DPKG_CACHED_TRY_COMPILE(__attribute__((noreturn)),dpkg_cv_c_attribute_noreturn,,
    [extern int testfunction(int x) __attribute__((noreturn))],
    AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_NORETURN),
+   AC_DEFINE(HAVE_GNUC25_NORETURN,,[Define if nonreturning functions a la GCC 2.5 and higher are available.]),
    AC_MSG_RESULT(no))
   DPKG_CACHED_TRY_COMPILE(__attribute__((const)),dpkg_cv_c_attribute_const,,
    [extern int testfunction(int x) __attribute__((const))],
    AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_CONST),
+   AC_DEFINE(HAVE_GNUC25_CONST,,[Define if constant functions a la GCC 2.5 and higher are available.]),
    AC_MSG_RESULT(no))
   DPKG_CACHED_TRY_COMPILE(__attribute__((unused)),dpkg_cv_c_attribute_unused,,
    [extern int testfunction(int x) __attribute__((unused))],
    AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_UNUSED),
+   AC_DEFINE(HAVE_GNUC25_UNUSED,,[Define if unused variables la GCC 2.5 and higher are available.]),
    AC_MSG_RESULT(no))
   DPKG_CACHED_TRY_COMPILE(__attribute__((format...)),dpkg_cv_attribute_format,,
    [extern int testfunction(char *y, ...) __attribute__((format(printf,1,2)))],
    AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_PRINTFFORMAT),
+   AC_DEFINE(HAVE_GNUC25_PRINTFFORMAT,,[Define if printf-format argument lists a la GCC are available.]),
    AC_MSG_RESULT(no)),
  AC_MSG_RESULT(no))
 
@@ -246,8 +246,8 @@ test "x$exec_prefix" = xNONE && exec_prefix="${prefix}"
 LLIBDIR=`eval echo $libdir`
 LLIBDIR=`eval echo $LLIBDIR`
 LOCALSTATEDIR="$(expandvar $localstatedir)"
-AC_DEFINE_UNQUOTED(LLIBDIR, "$LLIBDIR")
-AC_DEFINE_UNQUOTED(LOCALSTATEDIR, "$LOCALSTATEDIR")
+AC_DEFINE_UNQUOTED(LLIBDIR, "$LLIBDIR", [Defined to the $(libdir) location])
+AC_DEFINE_UNQUOTED(LOCALSTATEDIR, "$LOCALSTATEDIR", [Defined to $(localstatedir) dir location])
 
 admindir=$(expandvar "$admindir")
 bindir=$(expandvar "$bindir")
@@ -264,6 +264,146 @@ infodir=$(expandvar "$infodir")
 
 AC_SUBST(admindir)
 
+AH_BOTTOM([#ifdef HAVE_SYS_CDEFS_H
+#include <sys/cdefs.h>
+#endif
+
+#ifdef HAVE_STDDEF_H
+#include <stddef.h>
+#endif
+
+/* Use the definitions: */
+
+/* Give us an unsigned 32-bit data type. */
+#if SIZEOF_UNSIGNED_LONG==4
+#define UWORD32 unsigned long
+#elif SIZEOF_UNSIGNED_INT==4
+#define UWORD32 unsigned int
+#else
+#error I do not know what to use for a UWORD32.
+#endif
+
+/* The maximum length of a #! interpreter displayed by dpkg-deb. */
+#ifdef PATH_MAX
+#define INTERPRETER_MAX PATH_MAX
+#else
+#define INTERPRETER_MAX 1024
+#endif
+
+/* GNU C attributes. */
+#ifndef FUNCATTR
+#ifdef HAVE_GNUC25_ATTRIB
+#define FUNCATTR(x) __attribute__(x)
+#else
+#define FUNCATTR(x)
+#endif
+#endif
+
+/* GNU C printf formats, or null. */
+#ifndef ATTRPRINTF
+#ifdef HAVE_GNUC25_PRINTFFORMAT
+#define ATTRPRINTF(si,tc) format(printf,si,tc)
+#else
+#define ATTRPRINTF(si,tc)
+#endif
+#endif
+#ifndef PRINTFFORMAT
+#define PRINTFFORMAT(si,tc) FUNCATTR((ATTRPRINTF(si,tc)))
+#endif
+
+/* GNU C nonreturning functions, or null. */
+#ifndef ATTRNORETURN
+#ifdef HAVE_GNUC25_NORETURN
+#define ATTRNORETURN noreturn
+#else /* ! HAVE_GNUC25_NORETURN */
+#define ATTRNORETURN
+#endif /* HAVE_GNUC25_NORETURN */
+#endif /* ATTRNORETURN */
+
+#ifndef NONRETURNING
+#define NONRETURNING FUNCATTR((ATTRNORETURN))
+#endif /* NONRETURNING */
+
+/* Combination of both the above. */
+#ifndef NONRETURNPRINTFFORMAT
+#define NONRETURNPRINTFFORMAT(si,tc) FUNCATTR((ATTRPRINTF(si,tc),ATTRNORETURN))
+#endif
+
+/* GNU C constant functions, or null. */
+#ifndef ATTRCONST
+#ifdef HAVE_GNUC25_CONST
+#define ATTRCONST const
+#else
+#define ATTRCONST
+#endif
+#endif
+#ifndef CONSTANT
+#define CONSTANT FUNCATTR((ATTRCONST))
+#endif
+
+/* GNU C unused functions, or null. */
+#ifndef ATTRUNUSED
+#ifdef HAVE_GNUC25_UNUSED
+#define ATTRUNUSED
+#else
+#define ATTRUNUSED
+#endif
+#endif
+#ifndef UNUSED
+#define UNUSED FUNCATTR((ATTRUNUSED))
+#endif
+
+/* Declare strerror if we don't have it already. */
+#ifndef HAVE_STRERROR
+const char *strerror(int);
+#endif
+
+/* Declare strsignal if we don't have it already. */
+#ifndef HAVE_STRSIGNAL
+const char *strsignal(int);
+#endif
+
+/* Declare scandir if we don't have it already. */
+#ifndef HAVE_SCANDIR
+struct dirent;
+int scandir(const char *dir, struct dirent ***namelist,
+            int (*select)(const struct dirent *),
+            int (*compar)(const void*, const void*));
+#endif
+
+/* Declare alphasort if we don't have it already. */
+#if !defined(HAVE_ALPHASORT) || !defined(HAVE_ALPHASORT_DECLARATION)
+struct dirent;
+int alphasort(const struct dirent *a, const struct dirent *b);
+#endif
+
+/* Declare unsetenv if we don't have it already. */
+#ifndef HAVE_UNSETENV
+void unsetenv(const char *x);
+#endif
+
+/* Define strtoul if we don't have it already. */
+#ifndef HAVE_STRTOUL
+#define strtoul strtol
+#endif
+
+#ifndef HAVE_VA_COPY
+#define __va_copy(dest,src)	(dest) = (src)
+#endif
+
+/* Define WCOREDUMP if we don't have it already - coredumps won't be
+ * detected, though.
+ */
+#ifndef WCOREDUMP
+#define WCOREDUMP(x) 0
+#endif
+
+/* Set BUILDOLDPKGFORMAT to 1 to build old-format archives by default.
+ */
+#ifndef BUILDOLDPKGFORMAT
+#define BUILDOLDPKGFORMAT 0
+#endif
+])
 
 AC_OUTPUT(
 Makefile.conf
