@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.9.0\n"
-"POT-Creation-Date: 2001-03-04 21:34+0100\n"
+"POT-Creation-Date: 2001-03-09 21:27+0100\n"
 "PO-Revision-Date: 2001-03-04 07:25+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -2330,17 +2330,17 @@ msgstr ""
 "Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller "
 "\"more\"!"
 
-#: dpkg-deb/main.c:135 main/main.c:180 split/main.c:142
+#: dpkg-deb/main.c:135 main/main.c:182 split/main.c:142
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "motstridiga val --%s och --%s"
 
-#: main/main.c:185
+#: main/main.c:187
 #, c-format
 msgid "Warning: obselete option `--%s'\n"
 msgstr "Varning: föråldrad flagga \"--%s\"\n"
 
-#: main/main.c:193
+#: main/main.c:195
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2377,28 +2377,28 @@ msgstr ""
 "Felsökningsflaggor kombineras med bitvis eller.\n"
 "Notera att betydelser och värden kan komma att ändras.\n"
 
-#: main/main.c:212
+#: main/main.c:214
 msgid "--debug requires an octal argument"
 msgstr "--debug behöver ett oktalt argument"
 
-#: main/main.c:236
+#: main/main.c:238
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr "tomt paketnamn i --ignore-depends kommaseparerade lista \"%.250s\""
 
-#: main/main.c:242
+#: main/main.c:244
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends behöver ett giltigt paketnamn. \"%.250s\" är inte det; %s"
 
-#: main/main.c:258 main/main.c:276
+#: main/main.c:260 main/main.c:278
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "ogiltigt heltal för --%s: \"%.250s\""
 
-#: main/main.c:286
-#, c-format
+#: main/main.c:288
+#, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2415,6 +2415,8 @@ msgid ""
 "  overwrite              Overwrite a file from one package with another\n"
 "  overwrite-diverted     Overwrite a diverted file with an undiverted "
 "version\n"
+"  bad-verify             Install a package even if it fails authenticity "
+"check\n"
 "  depends-version [!]    Turn dependency version problems into warnings\n"
 "  depends [!]            Turn all dependency problems into warnings\n"
 "  confnew [!]            Always use the new config files, don't prompt\n"
@@ -2470,38 +2472,38 @@ msgstr ""
 "installation\n"
 "om de används. Flaggor markerade [*] är förvalda.\n"
 
-#: main/main.c:330
+#: main/main.c:333
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "okänd flagga för force/refuse: \"%.*s\""
 
-#: main/main.c:416
+#: main/main.c:419
 msgid "failed to exec dpkg-deb"
 msgstr "kunde inte exekvera dpkg-deb"
 
-#: main/main.c:428
+#: main/main.c:431
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd tar exakt ett argument"
 
-#: main/main.c:429
+#: main/main.c:432
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd tar bara ett argument"
 
-#: main/main.c:431
+#: main/main.c:434
 msgid "invalid number for --command-fd"
 msgstr "ogiltigt tal för --command-fd"
 
-#: main/main.c:433
+#: main/main.c:436
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "kunde inte öppna \"%i\" för ström"
 
-#: main/main.c:458
+#: main/main.c:461
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "oväntat filslut före slut på rad %d"
 
-#: dpkg-deb/main.c:155 main/main.c:497 main/main.c:541 split/main.c:163
+#: dpkg-deb/main.c:155 main/main.c:500 main/main.c:544 split/main.c:163
 msgid "need an action option"
 msgstr "du har inte talat om vad som skall utföras"
 
@@ -2595,25 +2597,53 @@ msgstr "kunde inte vänta på dpkg-split"
 msgid "reassembled package file"
 msgstr "återskapade paketfil"
 
-#: main/processarc.c:141
+#. Verify the package.
+#. We have verifier
+#: main/processarc.c:142
+#, fuzzy, c-format
+msgid "Authenticating %s ...\n"
+msgstr "Tar bort %s ...\n"
+
+#: main/processarc.c:147
+#, fuzzy
+msgid "failed to execl debsig-verify"
+msgstr "kunde inte exekvera dpkg-deb"
+
+#: main/processarc.c:153
+#, c-format
+msgid "Verification on package %s failed!"
+msgstr ""
+
+#: main/processarc.c:155
+#, fuzzy, c-format
+msgid ""
+"Verification on package %s failed,\n"
+"but installing anyway as you request.\n"
+msgstr "Paketet %s skulle kvarhållas, men hanteras ändå enligt önskemål\n"
+
+#: main/processarc.c:158
+msgid "passed\n"
+msgstr ""
+
+#: main/processarc.c:166
 msgid "unable to get unique filename for control info"
 msgstr "kunde inte få ett unikt filnamn för kontrollinformationen"
 
-#: main/processarc.c:163
+#: main/processarc.c:188
 msgid "failed to exec dpkg-deb to extract control information"
 msgstr "kunde inte exekvera dpkg-deb för att extrahera kontrollinformationen"
 
-#: main/processarc.c:179
+#: main/processarc.c:204
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "Lagrade information om %s från %s.\n"
 
-#: main/processarc.c:188
+#: main/processarc.c:213
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "paketarkitekturen (%s) matchar inte systemets (%s)"
 
-#: main/processarc.c:239
+#: main/processarc.c:264
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
@@ -2622,139 +2652,139 @@ msgstr ""
 "dpkg: angående %s innehållandes %s, problem med för-beroenden:\n"
 "%s"
 
-#: main/processarc.c:242
+#: main/processarc.c:267
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "för-beroendeproblem - installerar inte %.250s"
 
-#: main/processarc.c:243
+#: main/processarc.c:268
 msgid "dpkg: warning - ignoring pre-dependency problem !\n"
 msgstr "dpkg: varning - ignorerar för-beroendeproblem!\n"
 
-#: main/processarc.c:257
+#: main/processarc.c:282
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Förbereder att ersätta %s %s (med %s) ...\n"
 
-#: main/processarc.c:262
+#: main/processarc.c:287
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Packar upp %s (från %s) ...\n"
 
-#: main/processarc.c:282
+#: main/processarc.c:307
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "namn på konfigurationsfil (som börjar på \"%.250s\") är för lång (>%d tecken)"
 
-#: main/processarc.c:336
+#: main/processarc.c:361
 #, c-format
 msgid "read error in %.250s"
 msgstr "läsfel i %.250s"
 
 #. conff= fopen()
-#: main/processarc.c:338
+#: main/processarc.c:363
 #, c-format
 msgid "error closing %.250s"
 msgstr "fel vid stängning av %.250s"
 
-#: main/processarc.c:340
+#: main/processarc.c:365
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "fel vid öppning av %.250s"
 
-#: main/processarc.c:373
+#: main/processarc.c:398
 #, c-format
 msgid "De-configuring %s, so that we can remove %s ...\n"
 msgstr "Avkonfigurerar %s så att vi kan ta bort %s ...\n"
 
-#: main/processarc.c:431
+#: main/processarc.c:456
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Packar upp ersättande %.250s ...\n"
 
-#: main/processarc.c:510
+#: main/processarc.c:535
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr "kunde inte exekvera dpkg-deb för att få filsystemsarkiv"
 
-#: main/processarc.c:523
+#: main/processarc.c:548
 msgid "error reading dpkg-deb tar output"
 msgstr "kunde inte läsa dpkg-debs tar-utdata"
 
-#: main/processarc.c:525
+#: main/processarc.c:550
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "korrupt filsystemstarfil - korrupt paketarkiv"
 
-#: main/processarc.c:528
+#: main/processarc.c:553
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: dödar möjliga avslutande nollor"
 
-#: main/processarc.c:620
+#: main/processarc.c:645
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr "dpkg: varning - kan inte ta bort gammal fil \"%.250s\": %s\n"
 
-#: main/processarc.c:642 main/processarc.c:877 main/remove.c:287
+#: main/processarc.c:667 main/processarc.c:902 main/remove.c:287
 msgid "cannot read info directory"
 msgstr "kan inte läsa infokatalog"
 
-#: main/processarc.c:655
+#: main/processarc.c:680
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "gammal version av paketet har för lång informationsfilnamn som börjar på "
 "\"%.250s\""
 
-#: main/processarc.c:667
+#: main/processarc.c:692
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "kunde inte ta bort gammal informationsfil \"%.250\""
 
-#: main/processarc.c:670
+#: main/processarc.c:695
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 "kunde inte installera (vad som antas vara) ny informationsfil \"%.250s\""
 
-#: main/processarc.c:677
+#: main/processarc.c:702
 msgid "unable to open temp control directory"
 msgstr "kunde inte öppna temporär kontrollkatalog"
 
-#: main/processarc.c:686
+#: main/processarc.c:711
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "paketet innehåller för långt kontrollinformationsfilnamn (börjar på "
 "\"%.50s\")"
 
-#: main/processarc.c:691
+#: main/processarc.c:716
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "paketets kontrollinformation innehåller katalogen \"%.250s\""
 
-#: main/processarc.c:693
+#: main/processarc.c:718
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "\"rmdir\" på paketets kontrollinformation \"%.250\" svarade inte \"ej "
 "katalog\""
 
-#: main/processarc.c:699
+#: main/processarc.c:724
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr "dpkg: varning - paketet %s innehåller list som informationsfil"
 
-#: main/processarc.c:706
+#: main/processarc.c:731
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "kunde inte installera ny informationsfil \"%.250s\" som \"%.250s\""
 
-#: main/processarc.c:857
+#: main/processarc.c:882
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Noterar att %s försvunnit, vilken helt har ersatts.)\n"
 
-#: main/processarc.c:893
+#: main/processarc.c:918
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "kunde inte ta bort försvinnande kontrollfil \"%.250s\""

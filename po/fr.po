@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.6.13\n"
-"POT-Creation-Date: 2001-02-23 14:46+0100\n"
+"POT-Creation-Date: 2001-03-09 21:27+0100\n"
 "PO-Revision-Date: 2001-01-08 16:19+01:00\n"
 "Last-Translator: Martin Quinson <mquinson@ens-lyon.fr>\n"
 "Language-Team: French\n"
@@ -2222,66 +2222,66 @@ msgstr "impossible d'ignorer le signal %s avant le lancement du script"
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "impossible de paramétrer les permissions en exécution sur `%.250s'"
 
-#: main/help.c:293
+#: main/help.c:298
 #, c-format
 msgid "unable to stat installed %s script `%.250s'"
 msgstr "impossible d'analyser le script installé %s `%.250s'"
 
-#: main/help.c:295 main/help.c:351 main/help.c:371
+#: main/help.c:300 main/help.c:356 main/help.c:376
 #, c-format
 msgid "unable to execute %s"
 msgstr "impossible d'exécuter %s"
 
-#: main/help.c:319
+#: main/help.c:324
 #, c-format
 msgid "unable to stat new %s script `%.250s'"
 msgstr "impossible d'analyser le nouveau script %s `%.250s'"
 
-#: main/help.c:321
+#: main/help.c:326
 #, c-format
 msgid "unable to execute new %s"
 msgstr "impossible d'exécuter le nouveau %s"
 
-#: main/help.c:340
+#: main/help.c:345
 #, c-format
 msgid "old %s script"
 msgstr "ancien script %s"
 
-#: main/help.c:348
+#: main/help.c:353
 #, c-format
 msgid "dpkg: warning - unable to stat %s `%.250s': %s\n"
 msgstr "dpkg: avertissement - impossible d'analyser %s `%.250s': %s\n"
 
-#: main/help.c:355
+#: main/help.c:360
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr ""
 "dpkg - tentative d'exécution du script du nouveau paquet à la place ...\n"
 
-#: main/help.c:362
+#: main/help.c:367
 #, c-format
 msgid "new %s script"
 msgstr "nouveau script %s"
 
-#: main/help.c:366
+#: main/help.c:371
 msgid "there is no script in the new version of the package - giving up"
 msgstr "il n'y a pas de script dans cette nouvelle version du paquet - abandon"
 
-#: main/help.c:368
+#: main/help.c:373
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "impossible d'analyser %s `%.250s'"
 
-#: main/help.c:372
+#: main/help.c:377
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... on dirait que tout a fonctionné correctement.\n"
 
 #. Huh ?
-#: main/help.c:467
+#: main/help.c:472
 #, c-format
 msgid "failed to rmdir/unlink `%.255s'"
 msgstr "échec de l'exécution de \"rmdir/unlink\" `%.255s'"
 
-#: dpkg-deb/info.c:52 main/help.c:471
+#: dpkg-deb/info.c:52 main/help.c:476
 msgid "failed to exec rm for cleanup"
 msgstr "échec de l'exécution de \"rm\" pour nettoyage"
 
@@ -2306,7 +2306,7 @@ msgstr ""
 "connaissance des détails ayant trait à la licence.  \n"
 
 #: main/main.c:58
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2358,8 +2358,6 @@ msgid ""
 "installed\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "
 "package\n"
-"  --largemem | --smallmem    Optimise for large (>4Mb) or small (<4Mb) RAM "
-"use\n"
 "  --no-act                   Just say what we would do - don't do it\n"
 "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
@@ -2382,58 +2380,92 @@ msgstr ""
 "  dpkg -A|--record-avail <nom fichier .deb> ... | -R|--recursive <rép> ...\n"
 "  dpkg --configure           <nom paquet> ... | -a|--pending\n"
 "  dpkg -r|--remove | --purge <nom paquet> ... | -a|--pending\n"
-"  dpkg --get-selections [<motif> ...]     affiche la liste des sélections sur la sortie standard\n"
-"  dpkg --set-selections                   paramètre la liste des sélections à partir de l'entrée standard\n"
-"  dpkg --update-avail <fichier paquets>   remplace les informations sur les paquets disponibles\n"
-"  dpkg --merge-avail <fichier paquets>    fusionne les informations avec celles issues du fichier\n"
-"  dpkg --clear-avail                      efface les informations sur les paquets\n"
-"  dpkg --command-fd <n>                   passer des commandes en entrée sur ce descripteur de fichier\n"
-"  dpkg --forget-old-unavail               oublie les paquets non installés et non-disponibles\n"
-"  dpkg -s|--status <nom paquet> ...       affiche les détails de l'état du paquet\n"
-"  dpkg -p|--print-avail <nom paquet> ...     affiche les détails de la version disponible\n"
-"  dpkg -L|--listfiles <nom paquet> ...    liste les fichiers appartenant au(x) paquet(s)\n"
+"  dpkg --get-selections [<motif> ...]     affiche la liste des sélections "
+"sur la sortie standard\n"
+"  dpkg --set-selections                   paramètre la liste des sélections "
+"à partir de l'entrée standard\n"
+"  dpkg --update-avail <fichier paquets>   remplace les informations sur les "
+"paquets disponibles\n"
+"  dpkg --merge-avail <fichier paquets>    fusionne les informations avec "
+"celles issues du fichier\n"
+"  dpkg --clear-avail                      efface les informations sur les "
+"paquets\n"
+"  dpkg --command-fd <n>                   passer des commandes en entrée sur "
+"ce descripteur de fichier\n"
+"  dpkg --forget-old-unavail               oublie les paquets non installés "
+"et non-disponibles\n"
+"  dpkg -s|--status <nom paquet> ...       affiche les détails de l'état du "
+"paquet\n"
+"  dpkg -p|--print-avail <nom paquet> ...     affiche les détails de la "
+"version disponible\n"
+"  dpkg -L|--listfiles <nom paquet> ...    liste les fichiers appartenant "
+"au(x) paquet(s)\n"
 "  dpkg -l|--list [<motif> ...]            liste les paquets en condensé\n"
-"  dpkg -S|--search <motif> ...            trouve le(s) paquet(s) contenant le(s) fichier(s)\n"
-"  dpkg -C|--audit                         cherche la présence de paquet(s) abîmé(s)\n"
-"  dpkg --print-architecture               affiche l'architecture cible (utilise GCC)\n"
-"  dpkg --print-gnu-build-architecture     affiche la version GNU de l'architecture cible\n"
-"  dpkg --print-installation-architecture  affiche l'architecture de la machine (pour l'installation)\n"
-"  dpkg --compare-versions <a> <rel> <b>   compare les numéros de version - voir ci-dessous\n"
-"  dpkg --help | --version                 affiche cette aide/le numéro de version\n"
-"  dpkg --force-help | -Dh|--debug=help    aide sur respectivement le forçage/débogage\n"
-"  dpkg --licence                          affiche les termes de la licence copyright\n"
+"  dpkg -S|--search <motif> ...            trouve le(s) paquet(s) contenant "
+"le(s) fichier(s)\n"
+"  dpkg -C|--audit                         cherche la présence de paquet(s) "
+"abîmé(s)\n"
+"  dpkg --print-architecture               affiche l'architecture cible "
+"(utilise GCC)\n"
+"  dpkg --print-gnu-build-architecture     affiche la version GNU de "
+"l'architecture cible\n"
+"  dpkg --print-installation-architecture  affiche l'architecture de la "
+"machine (pour l'installation)\n"
+"  dpkg --compare-versions <a> <rel> <b>   compare les numéros de version - "
+"voir ci-dessous\n"
+"  dpkg --help | --version                 affiche cette aide/le numéro de "
+"version\n"
+"  dpkg --force-help | -Dh|--debug=help    aide sur respectivement le "
+"forçage/débogage\n"
+"  dpkg --licence                          affiche les termes de la licence "
+"copyright\n"
 "\n"
 "Utiliser dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-" -x|--extract|-X|--vextract|--fsys-tarfile sur les archives (taper %s --help.)\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile sur les archives (taper %s "
+"--help.)\n"
 "\n"
 "À usage interne : dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 "\n"
 "Options :\n"
 "  --admindir=<rep>           Utilise le répertoire <rep> au lieu de %s\n"
-"  --root=<rep>               Installe sur un système alternatif dont la racine est située à un autre endroit\n"
-"  --instdir=<directory>      Change la racine d'installation sans changer le réperoire d'administration\n"
-"  -O|--selected-only         Ignore les paquets non sélectionnées pour être installés/mis à niveau\n"
-"  -E|--skip-same-version     Ignore les paquets dont la version est la même que celle installée\n"
-"  -G|--refuse-downgrade      Ignore les paquets dont la version est moins récente que celle installée\n"
-"  -B|--auto-deconfigure      Installe même si cela entraîne la rupture d'autres paquets\n"
-"  --largemem | --smallmem    Optimise pour l'utilisation avec une RAM conséquente (>4Mb) ou réduite (<4Mb)\n"
-"  --no-act                   Seulement exprimer ce que l'on voudrait faire sans rien faire\n"
-"  -D|--debug=<octal>         Activer le débogage - voir -Dhelp ou --debug=help\n"
-"  --status-fd <n>            Envoyer les mises à jour d'état au descripteur de fichier <n>\n"
+"  --root=<rep>               Installe sur un système alternatif dont la "
+"racine est située à un autre endroit\n"
+"  --instdir=<directory>      Change la racine d'installation sans changer le "
+"réperoire d'administration\n"
+"  -O|--selected-only         Ignore les paquets non sélectionnées pour être "
+"installés/mis à niveau\n"
+"  -E|--skip-same-version     Ignore les paquets dont la version est la même "
+"que celle installée\n"
+"  -G|--refuse-downgrade      Ignore les paquets dont la version est moins "
+"récente que celle installée\n"
+"  -B|--auto-deconfigure      Installe même si cela entraîne la rupture "
+"d'autres paquets\n"
+"  --largemem | --smallmem    Optimise pour l'utilisation avec une RAM "
+"conséquente (>4Mb) ou réduite (<4Mb)\n"
+"  --no-act                   Seulement exprimer ce que l'on voudrait faire "
+"sans rien faire\n"
+"  -D|--debug=<octal>         Activer le débogage - voir -Dhelp ou "
+"--debug=help\n"
+"  --status-fd <n>            Envoyer les mises à jour d'état au descripteur "
+"de fichier <n>\n"
 "  --ignore-depends=<paquet>,... Ignore les dépendances impliquant <paquet>\n"
-"  --force-...                    Outrepasser les problèmes - voir --force-help\n"
+"  --force-...                    Outrepasser les problèmes - voir "
+"--force-help\n"
 "  --no-force-...|--refuse-...    Arrêter en cas de problèmes\n"
 "  --abort-after <n>              Arrêt après avoir rencontré <n> erreurs\n"
 "\n"
 "Les opérateurs de comparaison pour --compare-versions sont les suivants :\n"
-" lt le eq ne ge gt       (ne considérer aucune version comme plus tardive que n'importe quelle version);\n"
-" lt-nl le-nl ge-nl gt-nl (ne considérer aucune version comme plus récente que n'importe quelle version);\n"
-" < << <= = >= >> >       (uniquement pour des raison de compatibilité avec la syntaxe du fichier control).\n"
+" lt le eq ne ge gt       (ne considérer aucune version comme plus tardive "
+"que n'importe quelle version);\n"
+" lt-nl le-nl ge-nl gt-nl (ne considérer aucune version comme plus récente "
+"que n'importe quelle version);\n"
+" < << <= = >= >> >       (uniquement pour des raison de compatibilité avec "
+"la syntaxe du fichier control).\n"
 "\n"
 "Utiliser `dselect' pour gérer les paquets de manière plus conviviale.\n"
 
-#: main/main.c:120
+#: main/main.c:119
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use dselect for user-friendly package management;\n"
@@ -2460,17 +2492,17 @@ msgstr ""
 "Les options marquées de [*] affichent beaucoup d'informations - tubez - les "
 "à travers `less' ou `more' !"
 
-#: dpkg-deb/main.c:135 main/main.c:181 split/main.c:142
+#: dpkg-deb/main.c:135 main/main.c:182 split/main.c:142
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "actions conflictuelles --%s et --%s"
 
-#: main/main.c:186
+#: main/main.c:187
 #, c-format
 msgid "Warning: obselete option `--%s'\n"
 msgstr "Attention : option obsolète `--%s'\n"
 
-#: main/main.c:194
+#: main/main.c:195
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2512,30 +2544,30 @@ msgstr ""
 "Les options de débogage peuvent être groupées avec un \"ou\" logique.\n"
 "Notez que la signification et les valeurs sont sujettes à changements.\n"
 
-#: main/main.c:213
+#: main/main.c:214
 msgid "--debug requires an octal argument"
 msgstr "--debug requiert un argument octal"
 
-#: main/main.c:237
+#: main/main.c:238
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "nom de paquet vide dans la liste `%.250s' d'éléments séparés par des "
 "virgules de --ignore-depends"
 
-#: main/main.c:243
+#: main/main.c:244
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends requiert un nom de paquet légal. `%.250s' ne l'est pas; %s"
 
-#: main/main.c:259 main/main.c:277
+#: main/main.c:260 main/main.c:278
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "entier incorrect pour --%s `%.250s'"
 
-#: main/main.c:287
-#, c-format
+#: main/main.c:288
+#, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2552,6 +2584,8 @@ msgid ""
 "  overwrite              Overwrite a file from one package with another\n"
 "  overwrite-diverted     Overwrite a diverted file with an undiverted "
 "version\n"
+"  bad-verify             Install a package even if it fails authenticity "
+"check\n"
 "  depends-version [!]    Turn dependency version problems into warnings\n"
 "  depends [!]            Turn all dependency problems into warnings\n"
 "  confnew [!]            Always use the new config files, don't prompt\n"
@@ -2623,38 +2657,38 @@ msgstr ""
 "votre installation.\n"
 "Les options de forçage marquées [*] sont activées par défaut.\n"
 
-#: main/main.c:331
+#: main/main.c:333
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "option de forçage/refus `%.*s' inconnue"
 
-#: main/main.c:417
+#: main/main.c:419
 msgid "failed to exec dpkg-deb"
 msgstr "échec de l'exécution de dpkg-deb"
 
-#: main/main.c:429
+#: main/main.c:431
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd prend 1 argument, pas 0"
 
-#: main/main.c:430
+#: main/main.c:432
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd ne prend qu'un argument"
 
-#: main/main.c:432
+#: main/main.c:434
 msgid "invalid number for --command-fd"
 msgstr "nombre invalide pour --command-fd"
 
-#: main/main.c:434
+#: main/main.c:436
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "impossible d'ouvrir le flux d'entrée `%i'"
 
-#: main/main.c:459
+#: main/main.c:461
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "EOF inattendu avant la fin de la ligne %d"
 
-#: dpkg-deb/main.c:155 main/main.c:498 main/main.c:542 split/main.c:163
+#: dpkg-deb/main.c:155 main/main.c:500 main/main.c:544 split/main.c:163
 msgid "need an action option"
 msgstr "requiert une option d'action"
 
@@ -2748,30 +2782,60 @@ msgstr "l'attente de dpkg-split a échoué"
 msgid "reassembled package file"
 msgstr "fichier du paquet rassemblé"
 
-#: main/processarc.c:141
+#. Verify the package.
+#. We have verifier
+#: main/processarc.c:142
+#, fuzzy, c-format
+msgid "Authenticating %s ...\n"
+msgstr "Suppression de %s ...\n"
+
+#: main/processarc.c:147
+#, fuzzy
+msgid "failed to execl debsig-verify"
+msgstr "échec de l'exécution de dpkg-deb"
+
+#: main/processarc.c:153
+#, c-format
+msgid "Verification on package %s failed!"
+msgstr ""
+
+#: main/processarc.c:155
+#, fuzzy, c-format
+msgid ""
+"Verification on package %s failed,\n"
+"but installing anyway as you request.\n"
+msgstr ""
+"Le paquet %s était à garder (on hold), traitement en cours malgré tout comme "
+"demandé\n"
+
+#: main/processarc.c:158
+msgid "passed\n"
+msgstr ""
+
+#: main/processarc.c:166
 msgid "unable to get unique filename for control info"
 msgstr ""
 "impossible d'obtenir un nom de fichier unique pour les informations de "
 "contrôle"
 
-#: main/processarc.c:163
+#: main/processarc.c:188
 msgid "failed to exec dpkg-deb to extract control information"
 msgstr ""
 "échec de l'exécution de dpkg-deb pour l'extraction des informations de "
 "contrôle"
 
-#: main/processarc.c:179
+#: main/processarc.c:204
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr "Enregistrement de l'information sur %s de %s.\n"
 
-#: main/processarc.c:188
+#: main/processarc.c:213
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr ""
 "l'architecture du paquet (%s) ne correspond pas à celle du système (%s)"
 
-#: main/processarc.c:239
+#: main/processarc.c:264
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
@@ -2780,145 +2844,145 @@ msgstr ""
 "dpkg: relativement à %s contenant %s, problème de pré-dépendance :\n"
 "%s"
 
-#: main/processarc.c:242
+#: main/processarc.c:267
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "problème de pré-dépendance - %.250s non installé"
 
-#: main/processarc.c:243
+#: main/processarc.c:268
 msgid "dpkg: warning - ignoring pre-dependency problem !\n"
 msgstr "dpkg: avertissement - problème de pré-dépendance ignoré !\n"
 
-#: main/processarc.c:257
+#: main/processarc.c:282
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Préparation du remplacement de %s %s (en utilisant %s) ...\n"
 
-#: main/processarc.c:262
+#: main/processarc.c:287
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Dépaquetage de %s (à partir de %s) ...\n"
 
-#: main/processarc.c:282
+#: main/processarc.c:307
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 "le nom du conffile (commençant par `%.250s') est trop long (>%d caractères)"
 
-#: main/processarc.c:336
+#: main/processarc.c:361
 #, c-format
 msgid "read error in %.250s"
 msgstr "erreur de lecture dans %.250s"
 
 #. conff= fopen()
-#: main/processarc.c:338
+#: main/processarc.c:363
 #, c-format
 msgid "error closing %.250s"
 msgstr "erreur de fermeture de %.250s"
 
-#: main/processarc.c:340
+#: main/processarc.c:365
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "erreur survenue en essayant d'ouvrir %.250s"
 
-#: main/processarc.c:373
+#: main/processarc.c:398
 #, c-format
 msgid "De-configuring %s, so that we can remove %s ...\n"
 msgstr "Déconfiguration de %s, pour pouvoir supprimer %s ...\n"
 
-#: main/processarc.c:431
+#: main/processarc.c:456
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Dépaquetage de la mise à jour de %.250s ...\n"
 
-#: main/processarc.c:510
+#: main/processarc.c:535
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr ""
 "impossible d'exécuter dpkg-deb pour obtenir l'archive du système de fichiers"
 
-#: main/processarc.c:523
+#: main/processarc.c:548
 msgid "error reading dpkg-deb tar output"
 msgstr "erreur de lecture sur la sortie du \"tar\" de dpkg-deb"
 
-#: main/processarc.c:525
+#: main/processarc.c:550
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "archive du système de fichiers corrompue - archive du paquet corrompue"
 
-#: main/processarc.c:528
+#: main/processarc.c:553
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: zap de possibles zéros finaux (ie, de `trailing')"
 
-#: main/processarc.c:620
+#: main/processarc.c:645
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr ""
 "dpkg: avertissement - impossible de supprimer l'ancien fichier `%.250s': %s\n"
 
-#: main/processarc.c:642 main/processarc.c:877 main/remove.c:287
+#: main/processarc.c:667 main/processarc.c:902 main/remove.c:287
 msgid "cannot read info directory"
 msgstr "ne peut pas lire le répertoire d'informations"
 
-#: main/processarc.c:655
+#: main/processarc.c:680
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "l'ancienne version du paquet a un nom de fichier d'information commençant "
 "par `%.250s' trop long"
 
-#: main/processarc.c:667
+#: main/processarc.c:692
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "impossible de supprimer le fichier d'information obsolète `%.250s'"
 
-#: main/processarc.c:670
+#: main/processarc.c:695
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 "impossible d'installer le (supposé) nouveau fichier d'information `%.250s'"
 
-#: main/processarc.c:677
+#: main/processarc.c:702
 msgid "unable to open temp control directory"
 msgstr "impossible d'ouvrir le répertoire de contrôle temporaire"
 
-#: main/processarc.c:686
+#: main/processarc.c:711
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "le paquet contient un nom de fichier de contrôle trop long (commençant par "
 "`%.50s')"
 
-#: main/processarc.c:691
+#: main/processarc.c:716
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "l'information de contrôle du paquet contient le répertoire `%.250s'"
 
-#: main/processarc.c:693
+#: main/processarc.c:718
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "l'information de contrôle du paquet \"rmdir\" de `%.250s' ne dit pas que ce "
 "n'est pas un répertoire"
 
-#: main/processarc.c:699
+#: main/processarc.c:724
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr ""
 "dpkg: avertissement - le paquet %s contient une liste comme fichier "
 "d'information"
 
-#: main/processarc.c:706
+#: main/processarc.c:731
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 "impossible d'installer le nouveau fichier d'information `%.250s' comme "
 "`%.250s'"
 
-#: main/processarc.c:857
+#: main/processarc.c:882
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(À noter la disparition de %s, qui a été complètement remplacé.)\n"
 
-#: main/processarc.c:893
+#: main/processarc.c:918
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
@@ -4184,21 +4248,21 @@ msgstr "le fichier source `%.250s' n'est pas un simple fichier"
 msgid "unable to exec mksplit"
 msgstr "impossible d'exécuter mksplit"
 
-#: utils/md5sum.c:59
+#: utils/md5sum.c:60
 msgid "Type md5sum --help for help."
 msgstr "Taper md5sum --help pour obtenir une aide."
 
-#: utils/md5sum.c:110
+#: utils/md5sum.c:111
 #, c-format
 msgid "%s: read error on stdin\n"
 msgstr "%s: erreur de lecture sur l'entrée standard\n"
 
-#: utils/md5sum.c:127 utils/md5sum.c:237
+#: utils/md5sum.c:128 utils/md5sum.c:238
 #, c-format
 msgid "%s: error reading %s\n"
 msgstr "%s: erreur de lecture sur %s\n"
 
-#: utils/md5sum.c:140
+#: utils/md5sum.c:141
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -4218,39 +4282,39 @@ msgstr ""
 "telle qu'elle est affichée sur la sortie standard par le programme lors de "
 "la production des codes de contrôle.\n"
 
-#: utils/md5sum.c:153
+#: utils/md5sum.c:154
 msgid "mdfile"
 msgstr "mdfile"
 
-#: utils/md5sum.c:198
+#: utils/md5sum.c:199
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr "%s: ligne non reconnue: %s"
 
-#: utils/md5sum.c:232
+#: utils/md5sum.c:233
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr "%s: ne peut pas ouvrir %s\n"
 
-#: utils/md5sum.c:245
+#: utils/md5sum.c:246
 msgid "FAILED\n"
 msgstr "ÉCHEC\n"
 
-#: utils/md5sum.c:247
+#: utils/md5sum.c:248
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: échec de la vérification MD5 pour '%s'\n"
 
-#: utils/md5sum.c:250
+#: utils/md5sum.c:251
 msgid "OK\n"
 msgstr "OK\n"
 
-#: utils/md5sum.c:254
+#: utils/md5sum.c:255
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr "%s: échec de la vérification MD5 pour %d sur %d fichier(s)\n"
 
-#: utils/md5sum.c:256
+#: utils/md5sum.c:257
 #, c-format
 msgid "%s: no files checked\n"
 msgstr "%s: aucun fichier vérifié\n"

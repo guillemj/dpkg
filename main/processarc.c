@@ -136,6 +136,31 @@ void process_archive(const char *filename) {
     }
   }
   
+  /* Verify the package. */
+
+  if (stat(DEBSIGVERIFY, &stab) == 0) { /* We have verifier */
+    printf(_("Authenticating %s ...\n"), filename);
+    fflush(stdout);
+    c1 = m_fork();
+    if (!c1) {
+      execl(DEBSIGVERIFY, DEBSIGVERIFY, "-q", filename, NULL);
+      ohshite(_("failed to execl debsig-verify"));
+    } else {
+      int status;
+      waitpid(c1, &status, 0);
+      if (!(WIFEXITED(status) && WEXITSTATUS(status) == 0)) {
+	if (! fc_badverify) {
+	  ohshit(_("Verification on package %s failed!"), filename);
+	} else {
+	  fprintf(stderr, _("Verification on package %s failed,\nbut installing anyway as you request.\n"), filename);
+	}
+      } else {
+	printf(_("passed\n"));
+      }
+    }
+  }
+    
+
   if (f_noact) {
     cidir= cidirtmpnambuf;
     if (!tmpnam(cidir)) ohshite(_("unable to get unique filename for control info"));
