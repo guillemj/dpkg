@@ -7,7 +7,7 @@ $admindir= "/var/lib/dpkg"; # This line modified by Makefile
 $version= '1.3.0'; # This line modified by Makefile
 
 $verbose= 1;
-$force= 0;
+$doforce= 0;
 $doupdate= 0;
 $mode= "";
 
@@ -50,9 +50,9 @@ while (@ARGV) {
 	} elsif (m/^--update$/) {
 		$doupdate=1;
 	} elsif (m/^--quiet$/) {
-		$verbose=1;
+		$verbose=0;
 	} elsif (m/^--force$/) {
-		$force=1;
+		$doforce=1;
 	} elsif (m/^--admindir$/) {
 		@ARGV || &badusage("--admindir needs a directory argument");
 		$admindir= shift(@ARGV);
