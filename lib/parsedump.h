@@ -25,15 +25,6 @@
 
 struct fieldinfo;
 
-struct nickname {
-  const char *nick;
-  const char *canon;
-};
-
-extern const struct fieldinfo fieldinfos[];
-extern const struct nickname nicknames[];
-extern const int nfields; /* = elements in fieldinfos, including the sentinels */
-
 #define PKGIFPOFF(f) ((char*)(&(((struct pkginfoperfile *)0x1000)->f)) - \
                       (char*)(struct pkginfoperfile *)0x1000)
 #define PKGPFIELD(pifp,of,type) (*(type*)((char*)(pifp)+(of)))
@@ -77,5 +68,14 @@ void parsemustfield(FILE *file, const char *filename, int lno,
                     const char **value, const char *what);
 
 #define MSDOS_EOF_CHAR '\032' /* ^Z */
+
+struct nickname {
+  const char *nick;
+  const char *canon;
+};
+
+extern const struct fieldinfo fieldinfos[];
+extern const struct nickname nicknames[];
+extern const int nfields; /* = elements in fieldinfos, including the sentinels */
 
 #endif /* DPKG_PARSEDUMP_H */

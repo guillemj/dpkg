@@ -74,6 +74,25 @@ a symbolic link based on the DT_SONAME field embedded in the library.
 Because ldconfig doesn't honour diverts (only dpkg does), if a diverted
 library has the same SONAME as the undiverted one the symlink may end up
 pointing at the diverted library.
+.SH EXAMPLES
+To divert all copies of a \fI/usr/bin/example.foo\fR to \fI/usr/bin/example\fR,
+performing the rename if required:
+.HP
+dpkg-divert --divert /usr/bin/example --rename /usr/bin/example.foo
+.PP
+To remove that diversion:
+.HP
+dpkg-divert --rename --remove /usr/bin/example.foo
+
+.PP
+To divert any package trying to install \fI/usr/bin/example\fR to
+\fI/usr/bin/example.foo\fR, except your own \fIwibble\fR package:
+.HP
+dpkg-divert --package wibble --divert /usr/bin/example.foo --rename /usr/bin/example
+.PP
+To remove that diversion:
+.HP
+dpkg-divert --package wibble --rename --remove /usr/bin/example
 .SH FILES
 .TP
 .I /var/lib/dpkg/diversions

@@ -7,14 +7,6 @@ INCLUDES = \
 	-I$(top_srcdir)/lib
 
 
-bin_PROGRAMS = md5sum
-
-md5sum_SOURCES = \
-	md5sum.c
-
-md5sum_LDADD = $(LIBINTL) ../getopt/libopt.a ../lib/libdpkg.a $(ZLIB_LIBS)
-
-
 if WITH_START_STOP_DAEMON
   sbin_PROGRAMS = start-stop-daemon
 

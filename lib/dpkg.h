@@ -132,7 +132,6 @@
 #define BACKEND		"dpkg-deb"
 #define DPKGQUERY	"dpkg-query"
 #define SPLITTER	"dpkg-split"
-#define MD5SUM		"md5sum"
 #define DSELECT		"dselect"
 #define DPKG		"dpkg"
 #define DEBSIGVERIFY	"/usr/bin/debsig-verify"

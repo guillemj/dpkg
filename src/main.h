@@ -211,6 +211,7 @@ enum debugflags {
   
 void debug(int which, const char *fmt, ...) PRINTFFORMAT(2,3);
 void check_libver(void);
+void log_action(const char *action, struct pkginfo *pkg);
 
 /* from depcon.c */
 

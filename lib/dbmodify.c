@@ -33,6 +33,7 @@
 #include <dirent.h>
 #include <limits.h>
 #include <ctype.h>
+#include <time.h>
 #include <assert.h>
 
 #include <dpkg.h>
@@ -229,6 +230,7 @@ void modstatdb_shutdown(void) {
 }
 
 struct pipef *status_pipes= NULL;
+struct pipef *log_pipes= NULL;
 
 void modstatdb_note(struct pkginfo *pkg) {
   assert(cstatus >= msdbrw_write);
@@ -247,6 +249,26 @@ void modstatdb_note(struct pkginfo *pkg) {
     r= varbufprintf(status, "status: %s: %s\n", pkg->name, statusinfos[pkg->status].name);
     while (pipef) {
       write(pipef->fd, status->buf, r);
+      pipef= pipef->next;
+    }
+  }
+  if (log_pipes) {
+    static struct varbuf *log= NULL;
+    struct pipef *pipef= log_pipes;
+    char time_str[20];
+    time_t now;
+    int r;
+    if (log == NULL) {
+      log = nfmalloc(sizeof(struct varbuf));
+      varbufinit(log);
+    } else
+      varbufreset(log);
+    time(&now);
+    strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", gmtime(&now));
+    r= varbufprintf(log, "%s status %s %s %s\n", time_str, statusinfos[pkg->status].name,
+		    pkg->name, versiondescribe(&pkg->installed.version, vdew_nonambig));
+    while (pipef) {
+      write(pipef->fd, log->buf, r);
       pipef= pipef->next;
     }
   }

@@ -29,6 +29,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include <time.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>
@@ -179,7 +180,7 @@ static const char* preexecscript(const char *path, char *const *argv) {
   }
   if (f_debug & dbg_scripts) {
     fprintf(stderr,"D0%05o: fork/exec %s (",dbg_scripts,path);
-    while (*argv) fprintf(stderr," %s",*argv++);
+    while (*++argv) fprintf(stderr," %s",*argv);
     fputs(" )\n",stderr);
   }
   instdirl= strlen(instdir);
@@ -477,4 +478,28 @@ void ensure_pathname_nonexisting(const char *pathname) {
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
   waitsubproc(c1,"rm cleanup",0);
+}
+
+void log_action(const char *action, struct pkginfo *pkg) {
+  if (log_pipes) {
+    static struct varbuf *log= NULL;
+    struct pipef *pipef= log_pipes;
+    char time_str[20];
+    time_t now;
+    int r;
+    if (log == NULL) {
+      log = nfmalloc(sizeof(struct varbuf));
+      varbufinit(log);
+    } else
+      varbufreset(log);
+    time(&now);
+    strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", gmtime(&now));
+    r= varbufprintf(log, "%s %s %s %s %s\n", time_str, action,
+		    pkg->name, versiondescribe(&pkg->installed.version, vdew_nonambig),
+		    versiondescribe(&pkg->available.version, vdew_nonambig));
+    while (pipef) {
+      write(pipef->fd, log->buf, r);
+      pipef= pipef->next;
+    }
+  }
 }

@@ -473,6 +473,14 @@ multiple times.  Status updates are of the form `status: <pkg>: <pkg qstate>'.
 Errors are reported as `status: <pkg>: error: extend-error-message'.
 Configuration file conflicts are reported as 
 `status: conffile-prompt: conffile : 'current-conffile' 'new-conffile' useredited distedited'
+.TP
+\fB\-\-log=\fP\fIfilename\fP
+Log status change updates and actions to \fIfilename\fP.  This can be given
+multiple times.  Log messages are of the form `YYYY-MM-DD HH:MM:SS status
+<state> <pkg> <installed-version>' for status change updates and
+`YYYY-MM-DD HH:MM:SS <action> <pkg> <installed-version>
+<available-version>' for actions where \fI<action>\fP is one of install,
+upgrade, remove, purge.
 .SH FILES
 .TP
 .I /etc/dpkg/dpkg.cfg

@@ -107,32 +107,52 @@ static int getwidth(void) {
   const char* columns;
 
   if ((columns=getenv("COLUMNS")) && ((res=atoi(columns))>0))
-    ws.ws_col=res;
+    return res;
   else if (!isatty(1))
-    ws.ws_col=80;
+    return -1;
   else {
     if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
       if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
-        ws.ws_col=80;
+	ws.ws_col=80;
       close(fd);
     }
+    return ws.ws_col;
   }
-  return ws.ws_col;
 }
 
-static void list1package(struct pkginfo *pkg, int *head) {
-  int l,w;
+static void list1package(struct pkginfo *pkg, int *head,
+			 struct pkginfo **pkgl, int np) {
+  int i,l,w;
   static int nw,vw,dw;
   const char *pdesc;
   static char format[80]   = "";
     
   if (format[0]==0) {
-    w=getwidth()-80;	/* get spare width */
-    if (w<0) w=0;		/* lets not try to deal with terminals that are too small */
-    w>>=2;		/* halve that so we can add that to the both the name and description */
-    nw=(14+w);		/* name width */
-    vw=(14+w);		/* version width */
-    dw=(44+(2*w));	/* description width */
+    w=getwidth();
+    if (w == -1) {
+      nw=14, vw=14, dw=44;
+      for (i=0; i<np; i++) {
+	const char *pdesc;
+	int plen, vlen, dlen;
+
+	pdesc= pkg->installed.valid ? pkg->installed.description : 0;
+	if (!pdesc) pdesc= _("(no description available)");
+
+	plen= strlen(pkgl[i]->name);
+	vlen= strlen(versiondescribe(&pkgl[i]->installed.version,vdew_never));
+	dlen= strcspn(pdesc, "\n");
+	if (plen > nw) nw = plen;
+	if (vlen > vw) vw = vlen;
+	if (dlen > dw) dw = dlen;
+      }
+    } else {
+      w-=80;
+      if (w<0) w=0;		/* lets not try to deal with terminals that are too small */
+      w>>=2;		/* halve that so we can add that to the both the name and description */
+      nw=(14+w);		/* name width */
+      vw=(14+w);		/* version width */
+      dw=(44+(2*w));	/* description width */
+    }
     sprintf(format,"%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n", nw, nw, vw, vw);
   }
 
@@ -181,12 +201,12 @@ void listpackages(const char *const *argv) {
 
   qsort(pkgl,np,sizeof(struct pkginfo*),pkglistqsortcmp);
   head=0;
-  
+
   if (!*argv) {
     for (i=0; i<np; i++) {
       pkg= pkgl[i];
       if (pkg->status == stat_notinstalled) continue;
-      list1package(pkg,&head);
+      list1package(pkg,&head,pkgl,np);
     }
   } else {
     while ((thisarg= *argv++)) {
@@ -194,7 +214,7 @@ void listpackages(const char *const *argv) {
       for (i=0; i<np; i++) {
         pkg= pkgl[i];
         if (fnmatch(thisarg,pkg->name,0)) continue;
-        list1package(pkg,&head); found++;
+        list1package(pkg,&head,pkgl,np); found++;
       }
       if (!found) {
         fprintf(stderr,_("No packages found matching %s.\n"),thisarg);

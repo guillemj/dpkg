@@ -19,6 +19,5 @@ dist_man_MANS = \
 	dpkg-statoverride.8 \
 	dpkg.1 \
 	dselect.1 \
-	md5sum.1 \
 	start-stop-daemon.8 \
 	update-alternatives.8

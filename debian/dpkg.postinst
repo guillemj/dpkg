@@ -137,6 +137,19 @@ Shall I remove these links ? [y/n] "
 }
 
 
+# Divert textutils/coreutils md5sum now that we no longer provide it
+divert_md5sum() {
+    if [ -f /usr/bin/md5sum.textutils ] && [ ! -f /usr/bin/md5sum ]; then
+	dpkg-divert --divert /usr/bin/md5sum --rename /usr/bin/md5sum.textutils
+    fi 
+    if [ -f /usr/share/man/man1/md5sum.textutils.1.gz ] \
+       && [ ! -f /usr/share/man/man1/md5sum.1.gz ]; then
+	dpkg-divert --divert /usr/share/man/man1/md5sum.1.gz --rename \
+	    /usr/share/man/man1/md5sum.textutils.1.gz
+    fi
+}
+
+
 case "$1" in
     configure)
 	case "$2" in
@@ -151,6 +164,7 @@ case "$1" in
 	create_database
 	move_info_directory
 	remove_info_symlink
+	divert_md5sum
 	;;
 
     abort-upgrade|abort-deconfigure|abort-remove)

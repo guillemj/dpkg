@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-SOURCES = $(enoent_SOURCES) $(md5sum_SOURCES) $(start_stop_daemon_SOURCES)
+SOURCES = $(enoent_SOURCES) $(start_stop_daemon_SOURCES)
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
@@ -39,7 +39,6 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = md5sum$(EXEEXT)
 @WITH_START_STOP_DAEMON_TRUE@sbin_PROGRAMS =  \
 @WITH_START_STOP_DAEMON_TRUE@	start-stop-daemon$(EXEEXT)
 pkglib_PROGRAMS = enoent$(EXEEXT)
@@ -69,39 +68,32 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkglibdir)" "$(DESTDIR)$(sbindir)"
-binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
+am__installdirs = "$(DESTDIR)$(pkglibdir)" "$(DESTDIR)$(sbindir)"
 pkglibPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 sbinPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
-PROGRAMS = $(bin_PROGRAMS) $(pkglib_PROGRAMS) $(sbin_PROGRAMS)
+PROGRAMS = $(pkglib_PROGRAMS) $(sbin_PROGRAMS)
 am_enoent_OBJECTS = enoent.$(OBJEXT)
 enoent_OBJECTS = $(am_enoent_OBJECTS)
 enoent_LDADD = $(LDADD)
-am_md5sum_OBJECTS = md5sum.$(OBJEXT)
-md5sum_OBJECTS = $(am_md5sum_OBJECTS)
-am__DEPENDENCIES_1 =
-md5sum_DEPENDENCIES = $(am__DEPENDENCIES_1) ../getopt/libopt.a \
-	../lib/libdpkg.a $(am__DEPENDENCIES_1)
 am__start_stop_daemon_SOURCES_DIST = start-stop-daemon.c
 @WITH_START_STOP_DAEMON_TRUE@am_start_stop_daemon_OBJECTS =  \
 @WITH_START_STOP_DAEMON_TRUE@	start-stop-daemon.$(OBJEXT)
 start_stop_daemon_OBJECTS = $(am_start_stop_daemon_OBJECTS)
+am__DEPENDENCIES_1 =
 @WITH_START_STOP_DAEMON_TRUE@start_stop_daemon_DEPENDENCIES =  \
 @WITH_START_STOP_DAEMON_TRUE@	../getopt/libopt.a \
 @WITH_START_STOP_DAEMON_TRUE@	$(am__DEPENDENCIES_1)
 DEFAULT_INCLUDES = -I. -I$(srcdir) -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
-@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/enoent.Po ./$(DEPDIR)/md5sum.Po \
+@AMDEP_TRUE@DEP_FILES = ./$(DEPDIR)/enoent.Po \
 @AMDEP_TRUE@	./$(DEPDIR)/start-stop-daemon.Po
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(enoent_SOURCES) $(md5sum_SOURCES) \
-	$(start_stop_daemon_SOURCES)
-DIST_SOURCES = $(enoent_SOURCES) $(md5sum_SOURCES) \
-	$(am__start_stop_daemon_SOURCES_DIST)
+SOURCES = $(enoent_SOURCES) $(start_stop_daemon_SOURCES)
+DIST_SOURCES = $(enoent_SOURCES) $(am__start_stop_daemon_SOURCES_DIST)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -239,10 +231,6 @@ INCLUDES = \
 	-I$(top_srcdir)/getopt \
 	-I$(top_srcdir)/lib
 
-md5sum_SOURCES = \
-	md5sum.c
-
-md5sum_LDADD = $(LIBINTL) ../getopt/libopt.a ../lib/libdpkg.a $(ZLIB_LIBS)
 @WITH_START_STOP_DAEMON_TRUE@start_stop_daemon_SOURCES = \
 @WITH_START_STOP_DAEMON_TRUE@	start-stop-daemon.c
 
@@ -283,29 +271,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-install-binPROGRAMS: $(bin_PROGRAMS)
-	@$(NORMAL_INSTALL)
-	test -z "$(bindir)" || $(mkdir_p) "$(DESTDIR)$(bindir)"
-	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  if test -f $$p \
-	  ; then \
-	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
-	   echo " $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) '$$p' '$(DESTDIR)$(bindir)/$$f'"; \
-	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) "$$p" "$(DESTDIR)$(bindir)/$$f" || exit 1; \
-	  else :; fi; \
-	done
-
-uninstall-binPROGRAMS:
-	@$(NORMAL_UNINSTALL)
-	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
-	  echo " rm -f '$(DESTDIR)$(bindir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(bindir)/$$f"; \
-	done
-
-clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 install-pkglibPROGRAMS: $(pkglib_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	test -z "$(pkglibdir)" || $(mkdir_p) "$(DESTDIR)$(pkglibdir)"
@@ -355,9 +320,6 @@ clean-sbinPROGRAMS:
 enoent$(EXEEXT): $(enoent_OBJECTS) $(enoent_DEPENDENCIES) 
 	@rm -f enoent$(EXEEXT)
 	$(LINK) $(enoent_LDFLAGS) $(enoent_OBJECTS) $(enoent_LDADD) $(LIBS)
-md5sum$(EXEEXT): $(md5sum_OBJECTS) $(md5sum_DEPENDENCIES) 
-	@rm -f md5sum$(EXEEXT)
-	$(LINK) $(md5sum_LDFLAGS) $(md5sum_OBJECTS) $(md5sum_LDADD) $(LIBS)
 start-stop-daemon$(EXEEXT): $(start_stop_daemon_OBJECTS) $(start_stop_daemon_DEPENDENCIES) 
 	@rm -f start-stop-daemon$(EXEEXT)
 	$(LINK) $(start_stop_daemon_LDFLAGS) $(start_stop_daemon_OBJECTS) $(start_stop_daemon_LDADD) $(LIBS)
@@ -369,7 +331,6 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/enoent.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/md5sum.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/start-stop-daemon.Po@am__quote@
 
 .c.o:
@@ -468,7 +429,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(PROGRAMS)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pkglibdir)" "$(DESTDIR)$(sbindir)"; do \
+	for dir in "$(DESTDIR)$(pkglibdir)" "$(DESTDIR)$(sbindir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
 	done
 install: install-am
@@ -497,8 +458,8 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-pkglibPROGRAMS \
-	clean-sbinPROGRAMS mostlyclean-am
+clean-am: clean-generic clean-pkglibPROGRAMS clean-sbinPROGRAMS \
+	mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -518,8 +479,7 @@ info-am:
 
 install-data-am:
 
-install-exec-am: install-binPROGRAMS install-pkglibPROGRAMS \
-	install-sbinPROGRAMS
+install-exec-am: install-pkglibPROGRAMS install-sbinPROGRAMS
 
 install-info: install-info-am
 
@@ -544,21 +504,20 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS uninstall-info-am \
-	uninstall-pkglibPROGRAMS uninstall-sbinPROGRAMS
+uninstall-am: uninstall-info-am uninstall-pkglibPROGRAMS \
+	uninstall-sbinPROGRAMS
 
-.PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
-	clean-generic clean-pkglibPROGRAMS clean-sbinPROGRAMS ctags \
-	distclean distclean-compile distclean-generic distclean-tags \
-	distdir dvi dvi-am html html-am info info-am install \
-	install-am install-binPROGRAMS install-data install-data-am \
-	install-exec install-exec-am install-info install-info-am \
-	install-man install-pkglibPROGRAMS install-sbinPROGRAMS \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
-	tags uninstall uninstall-am uninstall-binPROGRAMS \
-	uninstall-info-am uninstall-pkglibPROGRAMS \
+.PHONY: CTAGS GTAGS all all-am check check-am clean clean-generic \
+	clean-pkglibPROGRAMS clean-sbinPROGRAMS ctags distclean \
+	distclean-compile distclean-generic distclean-tags distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man \
+	install-pkglibPROGRAMS install-sbinPROGRAMS install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-info-am uninstall-pkglibPROGRAMS \
 	uninstall-sbinPROGRAMS
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -314,11 +314,11 @@ int tarobject(struct TarInfo *ti) {
   const char *usename;
     
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
-  int statr, fd, i, existingdirectory;
+  int statr, fd, i, existingdirectory, keepexisting;
   size_t r;
   struct stat stab, stabd;
   char databuf[TARBLKSZ];
-  struct fileinlist *nifd;
+  struct fileinlist *nifd, **oldnifd;
   struct pkginfo *divpkg, *otherpkg;
   struct filepackages *packageslump;
   mode_t am;
@@ -329,6 +329,7 @@ int tarobject(struct TarInfo *ti) {
    * The trailing / put on the end of names in tarfiles has already
    * been stripped by TarExtractor (lib/tarfn.c).
    */
+  oldnifd= tc->newfilesp;
   nifd= obstack_alloc(&tar_obs, sizeof(struct fileinlist));
   nifd->namenode= findnamenode(ti->Name, 0);
   nifd->next= 0; *tc->newfilesp= nifd; tc->newfilesp= &nifd->next;
@@ -423,6 +424,7 @@ int tarobject(struct TarInfo *ti) {
     ohshit(_("archive contained object `%.255s' of unknown type 0x%x"),ti->Name,ti->Type);
   }
 
+  keepexisting= 0;
   if (!existingdirectory) {
     for (packageslump= nifd->namenode->packages;
          packageslump;
@@ -442,7 +444,12 @@ int tarobject(struct TarInfo *ti) {
           if (otherpkg == divpkg || tc->pkg == divpkg) continue;
         }
         /* Nope ?  Hmm, file conflict, perhaps.  Check Replaces. */
-        if (otherpkg->clientdata->replacingfilesandsaid) continue;
+	switch (otherpkg->clientdata->replacingfilesandsaid) {
+	case 2:
+	  keepexisting= 1;
+	case 1:
+	  continue;
+	}
         /* Is the package with the conflicting file in the `config files
          * only' state ?  If so it must be a config file and we can
          * silenty take it over.
@@ -453,6 +460,11 @@ int tarobject(struct TarInfo *ti) {
         if (does_replace(tc->pkg,&tc->pkg->available,otherpkg)) {
           printf(_("Replacing files in old package %s ...\n"),otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 1;
+	} else if (does_replace(otherpkg,&otherpkg->installed,tc->pkg)) {
+	  printf(_("Replaced by files in installed package %s ...\n"),
+		 otherpkg->name);
+          otherpkg->clientdata->replacingfilesandsaid= 2;
+	  keepexisting = 1;
         } else {
           if (!statr && S_ISDIR(stab.st_mode)) {
             forcibleerr(fc_overwritedir, _("trying to overwrite directory `%.250s' "
@@ -480,6 +492,23 @@ int tarobject(struct TarInfo *ti) {
   ensure_pathname_nonexisting(fnametmpvb.buf);
 
   if (existingdirectory) return 0;
+  if (keepexisting) {
+    obstack_free(&tar_obs, nifd);
+    tc->newfilesp= oldnifd;
+    *oldnifd = 0;
+
+    /* We need to advance the tar file to the next object, so read the
+     * file data and set it to oblivion.
+     */
+    if ((ti->Type == NormalFile0) || (ti->Type == NormalFile1)) {
+      char fnamebuf[256];
+      fd_null_copy(tc->backendpipe, ti->Size, _("gobble replaced file `%.255s'"),quote_filename(fnamebuf,256,ti->Name));
+      r= ti->Size % TARBLKSZ;
+      if (r > 0) r= safe_read(tc->backendpipe,databuf,TARBLKSZ - r);
+    }
+
+    return 0;
+  }
 
   /* Now we start to do things that we need to be able to undo
    * if something goes wrong.

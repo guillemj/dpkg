@@ -162,6 +162,7 @@ void deferred_remove(struct pkginfo *pkg) {
   oldconffsetflags(pkg->installed.conffiles);
     
   printf(_("Removing %s ...\n"),pkg->name);
+  log_action("remove", pkg);
   if (pkg->status == stat_halfconfigured || pkg->status == stat_installed) {
 
     if (pkg->status == stat_installed || pkg->status == stat_halfconfigured) {
@@ -391,6 +392,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
   const char *const *ext;
 
     printf(_("Purging configuration files for %s ...\n"),pkg->name);
+    log_action("purge", pkg);
     ensure_packagefiles_available(pkg); /* We may have modified this above. */
 
     /* We're about to remove the configuration, so remove the note

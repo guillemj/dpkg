@@ -1,4 +1,159 @@
+2005-03-18  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Release 1.13.2.
+
+	* src/query.c (getwidth): Return -1 if we're not on a tty.
+	(list1package): Take a package list as well, and if getwidth()
+	returns -1 determine the longest name, version and description
+	and use those for output.
+	(listpackages): Pass the package list and length to both
+	calls to list1package to allow them to go wide.
+
+	* lib/dbmodify.c (modstatdb_note): Every time we'd output a
+	status change to the status-fd, also output a log message to
+	the log-fd if we have one.
+	* lib/dpkg-db.h: Add definition of log_pipes.
+	* src/help.c (log_action): Write an action line to the log-fd.
+	* src/processarc.c (process_archive): Log installation and
+	upgrade actions.
+	* src/remove.c (removal_bulk_remove_configfiles): Log purge
+	action.
+	(deferred_remove) Log remove action.
+	* src/main.c (setfile): Take a filename, open it and add the
+	file descriptor to a list of pipes.
+	(cmdinfos): Add log command-line option that takes a filename
+	and adds it to log_pipes.
+	(usage): Add --log=<filename> usage.
+	* man/C/dpkg.1: Document --log=filename.
+	* debian/dpkg.cfg: Include a commented-out log option.
+
+2005-03-18  Peter van Dijk  <peter@dataloss.nl>
+
+	* lib/tarfn.c (TarExtractor): Only remove the last character
+	from directory names if it's a trailing slash.
+
+2005-03-18  Scott James Remnant  <scott@netsplit.com>
+
+	* man/C/dpkg-divert.8: Add an EXAMPLES section giving the two
+	most common uses of dpkg-divert, for both add and remove.
+
+	* man/C/dpkg-architecture.1: Update (should have done this with
+	the changes below, really).
+
+	* src/help.c (preexecscript): The first member of argv is always
+	NULL because it's filled in by the return value of this function,
+	so increment argv first when debug-outputting maintainer script
+	arguments.
+
+	* utils/md5sum.c: Remove file.
+	* lib/dpkg.h (MD5SUM): Remove definition of md5sum program name.
+	* utils/Makefile.am (bin_PROGRAMS): Remove md5sum.
+	* man/C/md5sum.1: Remove manual page.
+	* man/C/Makefile.am (dist_man_MANS): Remove md5sum.1.
+	* man/de/md5sum.1: Remove manual page.
+	* man/de/Makefile.am (dist_man_MANS): Remove md5sum.1.
+	* man/es/md5sum.1: Remove manual page.
+	* man/es/Makefile.am (dist_man_MANS): Remove md5sum.1.
+	* man/ja/md5sum.1: Remove manual page.
+	* man/ja/Makefile.am (dist_man_MANS): Remove md5sum.1.
+	* man/sv/md5sum.1: Remove manual page.
+	* man/sv/Makefile.am (dist_man_MANS): Remove md5sum.1.
+	* debian/dpkg.postinst (divert_md5sum): Divert the version of
+	md5sum installed by textutils or coreutils to the place where we
+	used to put our copy, include its manual page.
+	* debian/control ([dpkg]Depends): Depend on coreutils, which has
+	always included md5sum, or the version of textutils that has.
+	* debian/dpkg.install: Remove md5sum-related files.
+	* debian/copyright: Remove mentions of utils/md5sum.c.
+	* debian/pseudo-tags: Remove md5sum tag; no point filing bugs on
+	a non-existant program.
+
+	* ostable (netbsd): Restore missing "*" on the end of the regex.
+
+	Take a further step towards having separate CPU and system names
+	instead of just a joined architecture name; in particular add
+	support to dpkg-architecture.
+
+	* cputable: Create new table of cpu names with canonical GNU
+	names and a regex to match against config.guess output.
+	* ostable: Create new table of operating system names with
+	canonical GNU names and a regex to match against config.guess
+	output.
+	* archtable: Move to debian directory.
+	* debian/archtable: Reduce to a simple set of architecture names
+	in Debian's sid distribution.
+	* scripts/dpkg-architecture.pl: Add support for split cputable
+	and ostable, including new DEB_*_ARCH_OS and DEB_*_ARCH_CPU
+	variables containing the Debian system and cpu names appropriately.
+	(usageversion): Remove list of known architectures, as we can't
+	easily compute this anymore (cputable * ostable).
+	(read_archtable): Removed function, we no longer touch archtable.
+	(read_cputable): Add function to parse cputable.
+	(read_ostable): Add function to parse ostable.
+	(split_debian): Add function to split a Debian "os-cpu" name.
+	(debian_to_gnu): Add function to split and look up the GNU names
+	for the Debian os and cpu, and return the joined GNU name.
+	(split_gnu): Add function to split a GNU triplet/quartet.
+	(gnu_to_debian): Add function to split and look up the Debian
+	names for the GNU os and cpu (by regex), and return the joined
+	Debian name.
+	(rewrite_gnu): Removed, replaced by regexes in the tables.
+	* m4/arch.m4 (DPKG_CPU_TYPE): Use awk to parse the new cputable
+	and define an ARCHITECTURE_CPU macro with the result.
+	(DPKG_OS_TYPE): Use awk to parse the new ostable and define an
+	ARCHITECTURE_OS macro with the result.
+	(DPKG_ARCHITECTURE): Simply join the os and cpu names together,
+	or omit the os name if "linux".
+	* Makefile.am (dist_pkgdata_DATA): Remove archtable, add
+	cputable and ostable instead.
+	(EXTRA_DIST): Add debian/archtable.
+	* debian/dpkg.install: Install debian/archtable in /usr/share/dpkg
+	for packages that still want it.
+	* debian/pseudo-tags: Replace mention of archtable.
+
+	* archtable: Add ppc64 for powerpc-linux.
+	* scripts/dpkg-architecture.pl (rewrite_gnu): Rewrite powerpc64
+	and ppc64 into powerpc64 for archtable.
+
+2005-03-17  Scott James Remnant  <scott@netsplit.com>
+
+	* debian/dpkg.preinst (confirm_dselect_split): Check that dselect
+	is running before bitching; it's easy to do and will stop this
+	question more often than not.
+
+2005-03-17  Scott James Remnant  <scott@ubuntu.com>,
+	    Anthony Towns  <aj@azure.humbug.org.au>
+
+	* src/archives.c (tarobject): Detect when installing a file that
+	exists in a package that replaces the one being installed.  Leave
+	that on the disk and remove the file from the list for the package
+	being installed.
+
+2005-03-16  Scott James Remnant  <scott@netsplit.com>
+
+	* lib/parsedump.h: Move definitions of fieldinfos and nicknames
+	arrays to the bottom of the file, to ensure we know the size of
+	the arrays we're declaring.
+	* lib/mlib.c (buffer_write): Cast unsigned char * to plain old
+	char * when calling sprintf.
+
+2005-03-12  Frank S. Thomas  <frank@thomas-alfeld.de>
+
+	* man/C/dpkg-architecture.1: Correct typo (variales -> variables).
+
+2005-03-08  Scott James Remnant  <scott@netsplit.com>
+
+	* Makefile.am (package): Remove rule, as it is only really
+	required outside of arch (otherwise you have a tarball).
+	* Makefile.maint: New file holding the package rule.
+
 2005-03-03  Scott James Remnant  <scott@netsplit.com>
+
+	* archtable: Describe column 2 as the value returned by
+	dpkg --print-architecture not --print-installation-architecture
+	which we deprecated in the last release.
+
+	* configure.ac: Bump version to 1.13.2~.
 
 	* configure.ac: Release 1.13.1.
 

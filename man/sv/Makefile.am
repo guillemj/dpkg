@@ -14,5 +14,4 @@ dist_man_MANS = \
 	dpkg.cfg.5 \
 	dselect.1 \
 	dselect.cfg.5 \
-	md5sum.1 \
 	start-stop-daemon.8

@@ -1,9 +1,40 @@
-dpkg (1.13.1.0.1) experimental; urgency=low
+dpkg (1.13.2) experimental; urgency=low
 
-  * Bin-MU; recompile against Debian unstable, to make dselect actually
-    installable.
+  * md5sum has been removed, the coreutils or textutils version will be
+    diverted to /usr/bin/md5sum.  Closes: #6633, #136110.
+    The following bugs are filed against the dpkg md5sum, so no longer apply.
+    Closes: #95755, #193877, #223381, #264195, #270241, #286632,
+  * Take Replaces into account when installing packages; don't issue a
+    "trying to overwrite" error if the file that already exists is in
+    a package that Replaces the one being installed.
+    Closes: #164595, #184635, #277890.
+  * Allow actions and status changes to be logged to a file.  Disabled by
+    default, uncomment line in /etc/dpkg/dpkg.cfg to enable.
+    Closes: #957, #53376, #77109, #143882, #284499.
+  * Don't truncate output of 'dpkg -l' when stdout is not a tty.
+    Closes: #92263, #253860, #258608, #261822, #282790.
+  * Fix further compilation problems with gcc 4.0.  Closes: #299699
+  * Handle tar files without trailing slash in directory names.
+    Closes: #287152.
+  * Output arguments to maintainer scripts with -D2.  Closes: #237684,
+    #296030.
+  
+  * Architecture Support:
+    - Added ppc64.  Closes: #263743.
+    - Split archtable into cputable and ostable, archtable is retained
+      for compatibility with other packages that might use it only.
+    - dpkg-architecture no longer canonises -t argument.  Closes: #173205.
+    - dpkg-architecture output includes new DEB_*_ARCH_OS and
+      DEB_*_ARCH_CPU variables that contain the Debian system and CPU
+      names respectively.
+    - dpkg-architecture outputs (mostly) correct GNU system names now,
+      in particular this means that it will output "linux-gnu" instead
+      of "linux".  You should use the new _ARCH_OS variables instead.
+  * Documentation:
+    - Add examples to dpkg-divert(8).  Closes: #291816.
+    - Correct typo in dpkg-architecture(1).  Closes: #299090.
 
- -- Scott James Remnant <scott@netsplit.com>  Fri, 11 Mar 2005 09:00:14 +0000
+ -- Scott James Remnant <scott@netsplit.com>  Fri, 18 Mar 2005 16:21:32 +0000
 
 dpkg (1.13.1) experimental; urgency=low
   
@@ -13,6 +44,7 @@ dpkg (1.13.1) experimental; urgency=low
     defined by dpkg-architecture instead.
   * Soft-deprecated dpkg --print-installation-architecture.  Use
     dpkg --print-architecture instead, which now does the same thing.
+  * dpkg --print-architecture no longer calls c-compiler.  Closes: #164863.
   * Removed third field from /usr/share/dpkg/archtable.
 
   * Now we no-longer pre-depend on dselect, check the upgrade will work
@@ -31,7 +63,7 @@ dpkg (1.13.1) experimental; urgency=low
   * Fix start-stop-daemon's support for GNU/kFreeBSD.  Closes: #258051.
 
   * Architecture Support:
-    - Added kfreebsd-amd64.  Closes: #280693.
+    - Added kfreebsd-amd64.  Closes: #280963.
     - Added m32r.  Closes: #280710.
     - Clean up of archtable.  Closes: #118910, #286898.
     - Clean up of dpkg-architecture.  Closes: #256323.
@@ -52,8 +84,8 @@ dpkg (1.13.0) experimental; urgency=low
   * Correct bashism in disk method update script.  Closes: #260568.
 
   * Scorched-earth reimplementation of the build process and control files
-    with debhelper and automake.  Closes: #217946, #229629, #260568, #266995,
-    #283640, #292973, #293041.
+    with debhelper and automake.  Closes: #217946, #229629, #256589, #260568,
+    #266995, #283640, #292973, #293041.
   * Remove SGML and POD documentation formats due to both licensing and
     sanity issues.  Closes: #285086.
   * The dpkg-doc and dpkg-static packages are no more.

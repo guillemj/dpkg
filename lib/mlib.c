@@ -176,7 +176,7 @@ off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc
 	  unsigned char *hash = *ctx->hash = malloc(33);
 	  MD5Final(digest, &ctx->ctx);
 	  for (i = 0; i < 16; ++i) {
-	    sprintf(hash, "%02x", *p++);
+	    sprintf((char *)hash, "%02x", *p++);
 	    hash += 2;
 	  }
 	  *hash = 0;

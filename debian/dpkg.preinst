@@ -95,6 +95,8 @@ Are you installing only the dpkg upgrade in this dpkg run ? [y/n] "
 
 # Confirm that dselect got split into it's own package
 confirm_dselect_split() {
+    ps -C dselect >/dev/null || return
+
     if ! grep "^Package: *dselect$" /var/lib/dpkg/status >/dev/null; then
 	echo -n "
 IMPORTANT - if you are upgrading this package from within dselect you

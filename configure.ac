@@ -1,12 +1,13 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([dpkg], [1.13.1], [debian-dpkg@lists.debian.org])
+AC_INIT([dpkg], [1.13.2], [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 
 AC_CANONICAL_SYSTEM
 AC_GNU_SOURCE
+DPKG_ARCHITECTURE
 
 AM_INIT_AUTOMAKE([1.8 gnu])
 
@@ -56,7 +57,6 @@ DPKG_PROG_PERL
 
 # Checks for operating system services and capabilities.
 AC_SYS_LARGEFILE
-DPKG_ARCHITECTURE
 
 # Checks for libraries.
 DPKG_LIB_ZLIB

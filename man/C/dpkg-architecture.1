@@ -28,7 +28,7 @@ is sufficient, the value of the other will be set to a usable default.
 Indeed, it is often better to only specify one, because dpkg-architecture
 will warn you if your choice doesn't match the default.
 .PP
-The default action is \fB\-l\fR, which prints the environment variales, one each line,
+The default action is \fB\-l\fR, which prints the environment variables, one each line,
 in the format VARIABLE=value. If you are only interested in the value of a
 single variable, you can use \fB\-q\fR. If you specify \fB\-s\fR, it will output an export
 command. This can be used to set the environment variables using eval. \fB\-u\fR
@@ -54,8 +54,9 @@ The Debian archietcture string, which specifies the binary tree in the \s-1FTP\s
 archive. Examples: i386, sparc, hurd\-i386.
 .IP "\s-1GNU\s0 System Type" 4
 .IX Item "GNU System Type"
-An architecture specification string consisting of two or three parts,
-cpu-system or cpu\-vendor\-system. Examples: i386\-linux, sparc\-linux, i386\-gnu.
+An architecture specification string consisting of two parts,
+cpu-system.  Examples: i386\-linux-gnu, sparc\-linux-gnu, i386\-gnu,
+x86_64-netbsd.
 .SH "EXAMPLES"
 .IX Header "EXAMPLES"
 dpkg-buildpackage accepts the \fB\-a\fR option and passes it to dpkg\-architecture.
@@ -70,6 +71,12 @@ The following variables are set by dpkg\-architecture:
 .IP "\s-1DEB_BUILD_ARCH\s0" 4
 .IX Item "DEB_BUILD_ARCH"
 The Debian architecture of the build machine.
+.IP "\s-1DEB_BUILD_ARCH_OS\s0" 4
+.IX Item "DEB_BUILD_ARCH_OS"
+The Debian system name of the build machine.
+.IP "\s-1DEB_BUILD_ARCH_CPU\s0" 4
+.IX Item "DEB_BUILD_ARCH_CPU"
+The Debian cpu name of the build machine.
 .IP "\s-1DEB_BUILD_GNU_TYPE\s0" 4
 .IX Item "DEB_BUILD_GNU_TYPE"
 The \s-1GNU\s0 system type of the build machine.
@@ -82,6 +89,12 @@ The System part of \s-1DEB_BUILD_GNU_TYPE\s0
 .IP "\s-1DEB_HOST_ARCH\s0" 4
 .IX Item "DEB_HOST_ARCH"
 The Debian architecture of the host machine.
+.IP "\s-1DEB_HOST_ARCH_OS\s0" 4
+.IX Item "DEB_HOST_ARCH_OS"
+The Debian system name of the host machine.
+.IP "\s-1DEB_HOST_ARCH_CPU\s0" 4
+.IX Item "DEB_HOST_ARCH_CPU"
+The Debian cpu name of the host machine.
 .IP "\s-1DEB_HOST_GNU_TYPE\s0" 4
 .IX Item "DEB_HOST_GNU_TYPE"
 The \s-1GNU\s0 system type of the host machine.
@@ -145,7 +158,7 @@ debian/rules files.  The following does the job:
 ifeq ($(filter\-out hurd\-%,$(\s-1DEB_BUILD_ARCH\s0)),)
   \s-1DEB_BUILD_GNU_SYSTEM\s0 := gnu
 else
-  \s-1DEB_BUILD_GNU_SYSTEM\s0 := linux
+  \s-1DEB_BUILD_GNU_SYSTEM\s0 := linux-gnu
 endif
 DEB_BUILD_GNU_TYPE=$(\s-1DEB_BUILD_GNU_CPU\s0)\-$(\s-1DEB_BUILD_GNU_SYSTEM\s0)
 .PP
