@@ -46,6 +46,7 @@ enum ssavailval {        // Availability sorting order, first to last:
   ssa_installed_gone,    //   Installed but no longer available
   ssa_installed_sameold, //   Same or older version available as installed
   ssa_notinst_seen,      //   Available but not installed
+  ssa_notinst_gone,      //   Not available, and only config files left
   ssa_none=-1
 };
 

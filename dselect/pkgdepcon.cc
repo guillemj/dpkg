@@ -35,8 +35,9 @@ extern "C" {
 static const int depdebug= 1;
 
 int packagelist::useavailable(pkginfo *pkg) {
-  if (informative(pkg,&pkg->available) &&
+  if (pkg->clientdata &&
       pkg->clientdata->selected == pkginfo::want_install &&
+      informative(pkg,&pkg->available) &&
       (pkg->status != pkginfo::stat_installed ||
        versioncompare(&pkg->available.version,&pkg->installed.version) > 1))
     return 1;

@@ -153,6 +153,7 @@ void packagelist::sortinplace() {
 void packagelist::ensurestatsortinfo() {
   const struct versionrevision *veri;
   const struct versionrevision *vera;
+  struct pkginfo *pkg;
   int index;
   
   if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() "
@@ -170,7 +171,10 @@ void packagelist::ensurestatsortinfo() {
       if (debug)
         fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n",
                 this,index,table[index]->pkg->name);
-      switch (table[index]->pkg->status) {
+      pkg= table[index]->pkg;
+      if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
+      if (!pkg->available.valid) blankpackageperfile(&pkg->available);
+      switch (pkg->status) {
       case pkginfo::stat_unpacked:
       case pkginfo::stat_halfconfigured:
       case pkginfo::stat_halfinstalled:
@@ -178,9 +182,13 @@ void packagelist::ensurestatsortinfo() {
         break;
       case pkginfo::stat_notinstalled:
       case pkginfo::stat_configfiles:
-        table[index]->ssavail=
-          table[index]->original == pkginfo::want_unknown
-            ? ssa_notinst_unseen : ssa_notinst_seen;
+        if (!informativeversion(&pkg->available.version)) {
+          table[index]->ssavail= ssa_notinst_gone;
+        } else if (table[index]->original == pkginfo::want_unknown) {
+          table[index]->ssavail= ssa_notinst_unseen;
+        } else {
+          table[index]->ssavail= ssa_notinst_seen;
+        }
         break;
       case pkginfo::stat_installed:
         veri= &table[index]->pkg->installed.version;

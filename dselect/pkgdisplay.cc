@@ -59,13 +59,15 @@ const char
                          "Updated",
                          "Obsolete/local",
                          "Up-to-date",
-                         "Available" },
+                         "Available",
+                         "Removed" },
   *const ssastrings[]= { "Brokenly installed packages",
                          "Newly available packages",
                          "Updated packages (newer version is available)",
                          "Obsolete and local packages present on system",
                          "Up to date installed packages",
-                         "Available packages (not currently installed)" };
+                         "Available packages (not currently installed)",
+                         "Removed and no longer available packages" };
 
 const char
   *const sssstrings[]= { "Brokenly installed packages",
