@@ -71,6 +71,11 @@ struct deppossi {
   int cyclebreak;
 };
 
+struct conflict {
+  struct pkginfo *cflict;
+  struct conflict *next;
+};
+
 struct arbitraryfield {
   struct arbitraryfield *next;
   char *name;

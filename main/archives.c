@@ -569,7 +569,7 @@ static int try_remove_can(struct deppossi *pdep,
 }
 
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
-                    const char *pfilename, struct pkginfo **conflictorp) {
+                    const char *pfilename, struct conflict **conflictorp) {
   struct pkginfo *fixbyrm;
   struct deppossi *pdep, flagdeppossi;
   struct varbuf conflictwhy, removalwhy;
@@ -578,8 +578,10 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   varbufinit(&conflictwhy);
   varbufinit(&removalwhy);
 
+  for ( ; *conflictorp && (*conflictorp)->next ; *conflictorp= (*conflictorp)->next );
+
   fixbyrm= 0;
-  if (depisok(dep, &conflictwhy, *conflictorp ? 0 : &fixbyrm, 0)) {
+  if (depisok(dep, &conflictwhy, &fixbyrm, 0)) {
     varbuffree(&conflictwhy);
     varbuffree(&removalwhy);
     return;
@@ -652,7 +654,15 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       }
       if (!pdep) {
         /* This conflict is OK - we'll remove the conflictor. */
-        *conflictorp= fixbyrm;
+	if (*conflictorp) {
+	  (*conflictorp)->next= nfmalloc(sizeof(struct conflict));
+	  (*conflictorp)->next->cflict= fixbyrm;
+	  (*conflictorp)->next->next= 0;
+	} else {
+	  *conflictorp= nfmalloc(sizeof(struct conflict));
+	  (*conflictorp)->next= 0;
+	  (*conflictorp)->cflict= fixbyrm;
+	}
         varbuffree(&conflictwhy); varbuffree(&removalwhy);
         fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
                 fixbyrm->name, pkg->name);

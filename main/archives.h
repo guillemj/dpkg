@@ -61,7 +61,7 @@ int filesavespackage(struct fileinlist*, struct pkginfo*,
                      struct pkginfo *pkgbeinginstalled);
 
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
-                    const char *pfilename, struct pkginfo **conflictorp);
+                    const char *pfilename, struct conflict **conflictorp);
 
 extern int cleanup_pkg_failed, cleanup_conflictor_failed;
 

@@ -86,7 +86,7 @@ Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
  -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n\
 \n\
 For internal use: dpkg --assert-support-predepends | --predep-package |\n\
-  --assert-working-epoch | --assert-longfilenames\n\
+  --assert-working-epoch | --assert-longfilenames | --assert-multi-conrep\n\
 \n\
 Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
@@ -344,6 +344,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "assert-support-predepends",       0,  act_assertpredep,         assertpredep    ),
   ACTION( "assert-working-epoch",            0,  act_assertepoch,          assertepoch     ),
   ACTION( "assert-long-filenames",           0,  act_assertlongfilenames,  assertlongfilenames ),
+  ACTION( "assert-multi-conrep",             0,  act_assertmulticonrep,    assertmulticonrep ),
   ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch   ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),

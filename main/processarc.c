@@ -65,7 +65,8 @@ void process_archive(const char *filename) {
   
   int c1, r, admindirlen, i, infodirlen, infodirbaseused, status;
   struct pkgiterator *it;
-  struct pkginfo *pkg, *conflictor, *otherpkg, *divpkg;
+  struct pkginfo *pkg, *otherpkg, *divpkg;
+  struct conflict *conflictor, *cflict;
   char *cidir, *cidirrest, *p;
   char pfilenamebuf[35], conffilenamebuf[MAXCONFFILENAME];
   const char *pfilename, *newinfofilename;
@@ -207,6 +208,8 @@ void process_archive(const char *filename) {
       return;
   }
 
+  /* Check if anything is installed that we conflict with, or not installed
+   * that we need */
   pkg->clientdata->istobe= itb_installnew;
   conflictor= 0;
   for (dsearch= pkg->available.depends; dsearch; dsearch= dsearch->next) {
@@ -340,13 +343,15 @@ void process_archive(const char *filename) {
    * them if they seem to disappear completely.
    */
   oldconffsetflags(pkg->installed.conffiles);
-  if (conflictor) oldconffsetflags(conflictor->installed.conffiles);
+  for (cflict= conflictor ; cflict ; cflict= cflict->next) {
+    oldconffsetflags(cflict->cflict->installed.conffiles);
+  }
   
   oldversionstatus= pkg->status;
 
   assert(oldversionstatus <= stat_configfiles);
-  debug(dbg_general,"process_archive oldversionstatus=%s conflictor=%s",
-        statusstrings[oldversionstatus], conflictor ? conflictor->name : "<none>");
+  debug(dbg_general,"process_archive oldversionstatus=%s",
+        statusstrings[oldversionstatus]);
   
   if (oldversionstatus == stat_halfconfigured || oldversionstatus == stat_installed) {
     pkg->eflag |= eflagf_reinstreq;
@@ -360,13 +365,12 @@ void process_archive(const char *filename) {
     modstatdb_note(pkg);
   }
 
-  if (conflictor &&
-      (conflictor->status == stat_halfconfigured ||
-       conflictor->status == stat_installed)) {
-
+  for (cflict= conflictor ; cflict ; cflict= cflict->next) {
+    if (!(cflict->cflict->status == stat_halfconfigured ||
+	  cflict->cflict->status == stat_installed)) continue;
     for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
       printf(_("De-configuring %s, so that we can remove %s ...\n"),
-             deconpil->pkg->name, conflictor->name);
+             deconpil->pkg->name, cflict->cflict->name);
       deconpil->pkg->status= stat_halfconfigured;
       modstatdb_note(deconpil->pkg);
       /* This means that we *either* go and run postinst abort-deconfigure,
@@ -375,27 +379,27 @@ void process_archive(const char *filename) {
        */
       push_cleanup(cu_prermdeconfigure,~ehflag_normaltidy,
                    ok_prermdeconfigure,ehflag_normaltidy,
-                   3,(void*)deconpil->pkg,(void*)conflictor,(void*)pkg);
+                   3,(void*)deconpil->pkg,(void*)cflict->cflict,(void*)pkg);
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
                                   "deconfigure", "in-favour", pkg->name,
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
-                                  "removing", conflictor->name,
-                                  versiondescribe(&conflictor->installed.version,
+                                  "removing", cflict->cflict->name,
+                                  versiondescribe(&cflict->cflict->installed.version,
                                                   vdew_nonambig),
                                   (char*)0);
     }
-    conflictor->status= stat_halfconfigured;
-    modstatdb_note(conflictor);
+    cflict->cflict->status= stat_halfconfigured;
+    modstatdb_note(cflict->cflict);
     push_cleanup(cu_prerminfavour,~ehflag_normaltidy, 0,0,
-                 2,(void*)conflictor,(void*)pkg);
-    maintainer_script_installed(conflictor, PRERMFILE, "pre-removal",
+                 2,(void*)cflict->cflict,(void*)pkg);
+    maintainer_script_installed(cflict->cflict, PRERMFILE, "pre-removal",
                                 "remove", "in-favour", pkg->name,
                                 versiondescribe(&pkg->available.version,
                                                 vdew_nonambig),
                                 (char*)0);
-    conflictor->status= stat_halfinstalled;
-    modstatdb_note(conflictor);
+    cflict->cflict->status= stat_halfinstalled;
+    modstatdb_note(cflict->cflict);
   }
 
   pkg->eflag |= eflagf_reinstreq;
@@ -797,10 +801,12 @@ void process_archive(const char *filename) {
   while ((otherpkg= iterpkgnext(it)) != 0) {
     ensure_package_clientdata(otherpkg);
     if (otherpkg == pkg ||
-        otherpkg == conflictor ||
         otherpkg->status == stat_notinstalled ||
         otherpkg->status == stat_configfiles ||
         !otherpkg->clientdata->files) continue;
+    for (cflict= conflictor ; cflict && cflict->cflict != otherpkg ;
+	cflict= cflict->next);
+    if (cflict) continue;
     debug(dbg_veryverbose, "process_archive checking disappearance %s",otherpkg->name);
     assert(otherpkg->clientdata->istobe == itb_normal ||
            otherpkg->clientdata->istobe == itb_deconfigure);
@@ -1002,10 +1008,10 @@ void process_archive(const char *filename) {
    * as we have not yet updated the filename->packages mappings; however,
    * the package->filenames mapping is 
    */
-  if (conflictor) {
+  for (cflict= conflictor ; cflict ; cflict= cflict->next) {
     /* We need to have the most up-to-date info about which files are what ... */
     ensure_allinstfiles_available();
-    removal_bulk(conflictor);
+    removal_bulk(cflict->cflict);
   }
 
   if (cipaction->arg == act_install) add_to_queue(pkg);
