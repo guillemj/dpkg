@@ -27,7 +27,7 @@ BUILD-DIRS	:= $(BUILD) $(BUILD)-static
 $(BUILD)/config.status:
 	$(checkdir)
 	install -d $(@D)
-	cd $(@D) && LDFLAGS=$(LDFLAGS) CFLAGS="$(CFLAGS) -g" $(DIR)/configure \
+	cd $(@D) && LDFLAGS=$(LDFLAGS) $(DIR)/configure \
 		--prefix=/usr \
 		--datadir=/usr/share \
 		--mandir=/usr/share/man \
