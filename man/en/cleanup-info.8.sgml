@@ -1,0 +1,147 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+
+<refentry id='cleanup-info.8'>
+  <refmeta>
+    <refentrytitle>cleanup-info</refentrytitle>
+    <manvolnum>8</manvolnum>
+    <refmiscinfo class='source'>Debian Project</refmiscinfo>
+    <refmiscinfo class='manual'>dpkg suite</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>cleanup-info</refname>
+    <refpurpose>clean up the mess that install-info may have done</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>cleanup-info</command>
+      <arg choice="opt">--help</arg>
+      <arg choice="opt">--unsafe</arg>
+      <arg choice="opt">--version</arg>
+      <arg choice="opt">--</arg>
+      <arg choice="opt"><replaceable>dirname</replaceable></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+
+    <para>
+      <command>cleanup-info</command> is Perl script that tries to clean up the
+      mess that bogus install-info may have created. It gathers all sections
+      with the same heading into a single one. It tries to be smart about
+      cases and trailing colon/spaces.
+    </para>
+
+    <para>
+      Other clean-ups include removing of empty sections, and squeezing the
+      blank lines (in entries part only).
+    </para>
+
+    <para>
+      Order of sections is preserved (the first encountered section counts).
+      Order of entries within a section is preserved.
+    </para>
+
+    <warning>
+      <para>
+	Please be <emphasis>extremely careful</emphasis> when using this
+	utility - it might not be 100% safe. <command>cleanup-info</command>
+	tries to be careful with your info <filename>dir</filename> file, but
+	only until it writes it. You should back the file up prior to using
+	this.
+      </para>
+    </warning>
+  </refsect1>
+
+  <refsect1>
+    <title>Options</title>
+
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">--help</arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Output the help screen and exit successfully.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">--unsafe</arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Set some additional possibly useful options.
+	  </para>
+
+	  <warning>
+	    <para>
+	      the <option>--unsafe</option> option may garble an otherwise
+	      correct file!
+	    </para>
+	  </warning>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">--version</arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Output version and exit successfully.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>Files</title>
+
+    <variablelist>
+      <varlistentry>
+	<term><filename>/usr/info/dir</filename></term>
+	<term><filename>&lt;dirname&gt;/dir</filename></term>
+
+	<listitem>
+	  <para>
+	    The info directory file. The lock file is named the same, with
+	    "<filename>.lock</filename>" suffix.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>See Also</title>
+
+    <para>
+      <citerefentry>
+        <refentrytitle>install-info</refentrytitle>
+	<manvolnum>8</manvolnum>
+      </citerefentry>,
+
+      <citerefentry>
+        <refentrytitle>info</refentrytitle>
+	<manvolnum>1</manvolnum>
+      </citerefentry>
+    </para>
+  </refsect1>
+</refentry>
+
