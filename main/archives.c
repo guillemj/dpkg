@@ -821,7 +821,7 @@ void archivefiles(const char *const *argv) {
     if (fclose(pf)) ohshite(_("error closing find's pipe"));
     r= waitsubproc(fc,"find",PROCNOERR);
     if(!(r==0 || r==1))
-      ohshit(_("find for --recurisve returned unhandled error %i"),r);
+      ohshit(_("find for --recursive returned unhandled error %i"),r);
 
     if (!nfiles)
       ohshit(_("searched, but found no packages (files matching *.deb)"));
