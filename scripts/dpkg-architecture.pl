@@ -390,9 +390,12 @@ The System part of DEB_HOST_GNU_TYPE
 =head1 DEBIAN/RULES
 
 The environment variables set by dpkg-architecture are passed to
-debian/rules as make variables (see make documentation). You can and should
-use them in the build process as needed. Here are some examples, which also
-show how you can improve the cross compilation support in your package:
+debian/rules as make variables (see make documentation).  However, you
+should not rely on them, as this breaks manual invocation of the
+script.  Instead, you should always initialize them using
+dpkg-architecture with the -q option.  Here are some examples, which
+also show how you can improve the cross compilation support in your
+package:
 
 Instead:
 
@@ -401,9 +404,10 @@ configure $(ARCH)-linux
 
 please use the following:
 
-B_ARCH=$(DEB_BUILD_GNU_TYPE)
-H_ARCH=$(DEB_HOST_GNU_TYPE)
-configure --build=$(B_ARCH) --host=$(H_ARCH)
+DEB_BUILD_GNU_TYPE := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+DEB_HOST_GNU_TYPE := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+
+configure --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_BUILD_GNU_SYSTEM)
 
 Instead:
 
@@ -414,8 +418,9 @@ endif
 
 please use:
 
-ARCH=$(DEB_HOST_ARCH)
-ifeq ($(ARCH),alpha)
+DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
+
+ifeq ($(DEB_HOST_ARCH),alpha)
   ...
 endif
 
@@ -426,10 +431,11 @@ Debian architectures which don't equal a processor name.
 
 =head1 BACKWARD COMPATIBILITY
 
-When providing a new facility, it is always a good idea to stay compatible with old
-versions of the programs. Note that dpkg-architecture does not affect old
-debian/rules files, so the only thing to consider is using old building
-scripts with new debian/rules files. The following does the job:
+When providing a new facility, it is always a good idea to stay
+compatible with old versions of the programs.  Note that
+dpkg-architecture does not affect old debian/rules files, so the only
+thing to consider is using old versions of dpkg-dev with new
+debian/rules files.  The following does the job:
 
 DEB_BUILD_ARCH := $(shell dpkg --print-installation-architecture)
 DEB_BUILD_GNU_CPU := $(patsubst hurd-%,%,$(DEB_BUILD_ARCH))
@@ -440,10 +446,10 @@ else
 endif
 DEB_BUILD_GNU_TYPE=$(DEB_BUILD_GNU_CPU)-$(DEB_BUILD_GNU_SYSTEM)
 
-DEB_HOST_ARCH=$(DEB_BUILD_ARCH)
-DEB_HOST_GNU_CPU=$(DEB_BUILD_GNU_CPU)
-DEB_HOST_GNU_SYSTEM=$(DEB_BUILD_GNU_SYSTEM)
-DEB_HOST_GNU_TYPE=$(DEB_BUILD_GNU_TYPE)
+DEB_HOST_ARCH := $(DEB_BUILD_ARCH)
+DEB_HOST_GNU_CPU := $(DEB_BUILD_GNU_CPU)
+DEB_HOST_GNU_SYSTEM := $(DEB_BUILD_GNU_SYSTEM)
+DEB_HOST_GNU_TYPE := $(DEB_BUILD_GNU_TYPE)
 
 Put a subset of these lines at the top of your debian/rules file; these
 default values will be overwritten if dpkg-architecture is used.
@@ -454,20 +460,6 @@ Debian architecture, `DEB_HOST_ARCH=`dpkg --print-installation-architecture`
 is sufficient (this is indeed the Debian architecture of the build machine,
 but remember that we are only trying to be backward compatible with native
 compilation).
-
-You may not want to care about old build packages (for example, if you have
-sufficient source dependencies declared anyway). But you should at least
-support the traditional way to build packages by calling `debian/rules
-build' directly, without setting environment variables. To do this, use the
-B<-q> option to query suitable default values:
-
-DEB_BUILD_ARCH=`dpkg-architecture -qDEB_BUILD_ARCH`
-DEB_BUILD_GNU=`dpkg-architecture -qDEB_BUILD_GNU`
-
-etc. You get the idea. This way, you can ensure that the variables are never
-undeclared. Note that this breaks backwards compatibility with old build
-scripts, and you should only do that if source dependencies are implemented
-and declared accordingly.
 
 =head1 SEE ALSO
 
