@@ -35,6 +35,14 @@ $#ARGV == 1 || $#ARGV == 2
 -d $binarydir or die "Binary dir $binarydir not found\n";
 -e $override or die "Override file $override not found\n";
 
+sub vercmp {
+	($a,$b)=@_;
+	return $vercache{$a,$b} if defined($varcache{$a,$b});
+	system("dpkg --compare-versions $a le $b");
+	$varcache{$a,$a}=$?;
+	return $?;
+}
+
 # The extra slash causes symlinks to be followed.
 open(F,"find $binarydir/ -follow -name '*.deb' -print |")
     or die "Couldn't open pipe to find: $!\n";
@@ -72,10 +80,20 @@ while (<F>) {
     $p= $tv{'Package'}; delete $tv{'Package'};
 
     if (defined($p1{$p})) {
-        print(STDERR " ! Package $p (filename $fn) is repeat;\n".
-                     "   ignored that one and using data from $pfilename{$p} !\n")
-            || die $!;
-        next;
+	if (&vercmp($tv{'Version'}, $pv{$p,'Version'})) {
+	    print(STDERR " ! Package $p (filename $fn) is repeat but newer version;\n".
+		    "   used that one and ignored data from $pfilename{$p} !\n")
+		    || die $!;
+	    delete $p1{$p};
+	    for $k (keys %k1) {
+		delete $pv{$p,$k};
+	    }
+	} else {
+	    print(STDERR " ! Package $p (filename $fn) is repeat;\n".
+			 "   ignored that one and using data from $pfilename{$p} !\n")
+		|| die $!;
+	    next;
+	}
     }
     print(STDERR " ! Package $p (filename $fn) has Filename field!\n") || die $!
         if defined($tv{'Filename'});
