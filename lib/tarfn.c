@@ -51,6 +51,21 @@ OtoL(const char * s, int size)
 	return n;
 }
 
+/* String block to C null-terminated string */
+char *
+StoC(const char *s, int size)
+{
+	int	len;
+	char *	str;
+
+	len = strnlen(s, size);
+	str = malloc(len + 1);
+	memcpy(str, s, len);
+	str[len] = 0;
+
+	return str;
+}
+
 static int
 DecodeTarHeader(char * block, TarInfo * d)
 {
@@ -67,8 +82,8 @@ DecodeTarHeader(char * block, TarInfo * d)
 	if ( *h->GroupName )
 		group = getgrnam(h->GroupName);
 
-	d->Name = h->Name;
-	d->LinkName = h->LinkName;
+	d->Name = StoC(h->Name, sizeof(h->Name));
+	d->LinkName = StoC(h->LinkName, sizeof(h->LinkName));
 	d->Mode = (mode_t)OtoL(h->Mode, sizeof(h->Mode));
 	d->Size = (size_t)OtoL(h->Size, sizeof(h->Size));
 	d->ModTime = (time_t)OtoL(h->ModificationTime
@@ -267,6 +282,8 @@ TarExtractor(
 		symListPointer = symListBottom;
 	}
 	free(symListPointer);
+	free(h.Name);
+	free(h.LinkName);
 	if ( status > 0 ) {	/* Read partial header record */
 		errno = 0;	/* Indicates broken tarfile */
 		return -1;

@@ -1,3 +1,10 @@
+Thu Mar  4 13:28:11 GMT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * lib/tarfn.c: Copy the Name and LinkName elements and ensure they
+  are NULL-terminated, freeing these copies before returning.  The
+  tar spec doesn't require a NULL byte if the filename is exactly
+  100 characters long.
+
 Sun Feb 29 21:56:25 GMT 2004 Scott James Remnant <scott@netsplit.com>
 
   * scripts/dpkg-checkbuilddeps.pl: Push build-conflicts errors into
