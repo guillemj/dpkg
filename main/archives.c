@@ -109,6 +109,24 @@ quote_filename(char *buf, int size, char *s)
 
 }
 
+/* special routine to handle partial reads from the tarfile */
+static int safe_read(int fd, void *buf, int len)
+{
+  int r, have= 0;
+  char *p = (char *)buf;
+  while (have < len) {
+    if ((r= read(fd,p,len-have))==-1) {
+      if (errno==EINTR || errno==EAGAIN) continue;
+      return r;
+    }
+    if (r==0)
+      break;
+    have+= r;
+    p+= r;
+  }
+  return have;
+}
+
 int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
                      struct pkginfo *pkgbeinginstalled) {
   struct pkginfo *divpkg, *thirdpkg;
@@ -180,7 +198,7 @@ void cu_pathname(int argc, void **argv) {
 int tarfileread(void *ud, char *buf, int len) {
   struct tarcontext *tc= (struct tarcontext*)ud;
   int r;
-  if ((r= read(tc->backendpipe,buf,len)) == -1)
+  if ((r= safe_read(tc->backendpipe,buf,len)) == -1)
     ohshite(_("error reading from dpkg-deb pipe"));
   return r;
 }
@@ -469,7 +487,7 @@ int tarobject(struct TarInfo *ti) {
     fd_fd_copy(tc->backendpipe, fd, ti->Size, _("backend dpkg-deb during `%.255s'"),quote_filename(fnamebuf,256,ti->Name));
     }
     r= ti->Size % TARBLKSZ;
-    if (r > 0) r= read(tc->backendpipe,databuf,TARBLKSZ - r);
+    if (r > 0) r= safe_read(tc->backendpipe,databuf,TARBLKSZ - r);
     if (nifd->namenode->statoverride) 
       debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
 			  nifd->namenode->statoverride->uid,
