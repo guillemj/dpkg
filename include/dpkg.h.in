@@ -67,7 +67,7 @@
 #define POSTRMFILE         "postrm"
 #define LISTFILE           "list"
 
-#define ADMINDIR        "/var/lib/dpkg"
+#define ADMINDIR        "#ADMINDIR#"
 #define STATUSFILE      "status"
 #define AVAILFILE       "available"
 #define LOCKFILE        "lock"
@@ -84,7 +84,7 @@
 #define IMPORTANTFMT    "%04d" /* change => also change lib/database.c:cleanup_updates */
 #define MAXUPDATES       50
 
-#define LIBDIR              "/usr/lib/dpkg"
+#define LIBDIR              "#LIBDIR#"
 #define LOCALLIBDIR         "/usr/local/lib/dpkg"
 #define METHODSDIR          "methods"
 
@@ -153,6 +153,7 @@
 # define textdomain(Domain) /* empty */
 # define _(Text) Text
 # define N_(Text) Text
+# define gettext(Text) Text
 #endif
 
 extern const char thisname[]; /* defined separately in each program */

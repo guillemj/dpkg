@@ -3,7 +3,8 @@ dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.12])
 
 AC_INIT(include/dpkg.h.in)
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADER(config.h)
+
 
 AC_CHECK_TOOL_PREFIX
 
@@ -12,82 +13,45 @@ AC_PROG_CC
 AC_CANONICAL_SYSTEM
 AC_CHECK_TOOL_PREFIX
 
-dnl tl_PROG_CXX
 AC_PROG_CXX
 AM_CONDITIONAL(HAVE_CPLUSPLUS, [test "$CXX" != ""])
 
 AC_CHECK_TOOL(LD, ld, ld)
 
-AM_INIT_AUTOMAKE(dpkg,[`sed -n '1s/dpkg (\([0-9.]\+\)).*/\1/p' ${srcdir}/debian/changelog`])
-ACLOCAL="$ACLOCAL -I automake"
+PACKAGE=dpkg
+AC_SUBST(PACKAGE)
+VERSION=`cat $srcdir/version-nr`
+AC_SUBST(VERSION)
+
+dnl test to see if srcdir already configured
+if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
+  AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
+fi
+AC_DEFINE_UNQUOTED(PACKAGE, "$PACKAGE", [Name of package])
+AC_DEFINE_UNQUOTED(VERSION, "$VERSION", [Version number of package])
+AC_REQUIRE([AC_ARG_PROGRAM])
+AC_REQUIRE([AC_PROG_MAKE_SET])
+
 AC_MSG_CHECKING(dpkg version)
 AC_MSG_RESULT($VERSION)
 
 AC_PREFIX_DEFAULT(/usr)
 
 dpkg_archset=''
-AC_ARG_WITH(arch,
-[  --with-arch=value	  set/override (Debian) architecture value (deprecated)],
-[
- if test "x$with_arch" = x; then
-  AC_MSG_ERROR(--with-arch requires an architecture name)
- fi
- dpkg_archset="${with_arch}"
- dpkg_tmp="`awk '$1 == "'$target_cpu'" { print $2 }' $srcdir/archtable`"
- if test "x$dpkg_tmp" = "x"; then
-  AC_MSG_WARN([unable to find specified architecture $dpkg_archset in archtable])
- elif test "x$dpkg_tmp" != "x$dpkg_archset"; then
-  AC_MSG_WARN([canonical architecture is $dpkg_tmp (from archtable)])
- fi
-],[
- AC_MSG_CHECKING(system architecture)
- dpkg_archset="`awk '$1 == "'$target_cpu'" { print $2 }' $srcdir/archtable`"
- # Finish off
- if test "x$dpkg_archset" = "x"; then
-  AC_MSG_ERROR(failed: use --with-arch= or --target=)
- fi
+AC_MSG_CHECKING(system architecture)
+dpkg_archset="`awk '$1 == "'$target_cpu'" { print $2 }' $srcdir/archtable`"
+# Finish off
+if test "x$dpkg_archset" = "x"; then
+ AC_MSG_RESULT($target_cpu, but not found in archtable)
+ dpkg_archset=$target_cpu
+else
  AC_MSG_RESULT($dpkg_archset)
-])
+fi
 
 if test "x$dpkg_archset" != x
 then
  AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}")
 fi
-
-if test "x${dpkg_archset}" = xi386; then
- AC_MSG_CHECKING(target i386 system/binary format)
- case "${target_os}" in
-  linuxaout|linux-gnuaout)
-   AC_MSG_RESULT(Linux a.out)
-   dpkg_cc_binfmt=a.out
-   ;;
-  
-  linuxcoff|linux-gnucoff)
-   AC_MSG_RESULT(Linux COFF)
-   dpkg_cc_binfmt=coff
-   ;;
-  
-  linux|linuxelf|linux-gnu*)
-   AC_MSG_RESULT(Linux ELF)
-   dpkg_cc_binfmt=elf
-   ;;
-  
-  *)
-   AC_MSG_RESULT([other (${target_os})])
-   dpkg_cc_binfmt=""
-   ;;
- esac
- if test "x$dpkg_cc_binfmt" != "x"; then
-  AC_DEFINE_UNQUOTED(ARCHBINFMT," $dpkg_cc_binfmt")
- fi
-fi
-
-AC_ARG_WITH(newdeb,
-[  --with-newdeb           make dpkg-deb default to new archives],
-[AC_DEFINE(BUILDOLDPKGFORMAT, 0)])
-AC_ARG_WITH(olddeb,
-[  --with-olddeb           make dpkg-deb default to old archives],
-[AC_DEFINE(BUILDOLDPKGFORMAT, 1)])
 
 dnl gettext
 
@@ -108,10 +72,12 @@ else
 fi
 
 AC_STDC_HEADERS
+AC_PROG_LN_S
+AC_CHECK_PROG(RM,rm,rm -f)
+AC_CHECK_PROG(SED,sed,sed)
 AC_PROG_INSTALL
-AM_PROG_LIBTOOL
 dnl Default in case EMACS == no
-lispdir="\$(datadir)/emacs/site-lisp"
+lispdir="\$(datadir)/emacs/site-lisp/$PACKAGE"
 AM_PATH_LISPDIR
 AC_MODE_T
 AC_PID_T
@@ -122,7 +88,11 @@ AC_C_BIGENDIAN
 AC_CHECK_SIZEOF(unsigned long)
 AC_CHECK_SIZEOF(unsigned int)
 AC_CHECK_FUNCS(unsetenv alphasort scandir strerror strsignal strtoul vsnprintf lchown)
-AC_CHECK_HEADERS(sys/cdefs.h sys/sysinfo.h)
+AC_CHECK_HEADERS(sys/cdefs.h sys/sysinfo.h syslog.h)
+AC_CHECK_HEADERS(error.h hurd.h ps.h hurd/ihash.h)
+
+AC_CHECK_LIB(shouldbeinlibc, fmt_past_time)
+AC_CHECK_LIB(ps, proc_stat_list_pid_proc_stat)
 
 AC_CHECK_FUNC(sysinfo,
   AC_DEFINE(HAVE_SYSINFO),
@@ -150,64 +120,56 @@ else
  CXXFLAGS="-D_REENTRANT -D_GNU_SOURCE -O"
 fi
 
-DPKG_CACHED_TRY_COMPILE(your C compiler,dpkg_cv_c_works,
- [#include <string.h>], [strcmp("a","b")],
- AC_MSG_RESULT(works),
- AC_MSG_RESULT(broken)
- AC_MSG_ERROR(C compiler is broken))
-
-DPKG_CACHED_TRY_COMPILE(alphasort declaration,dpkg_cv_header_alphasort,[
+AC_TRY_COMPILE([
 #include <sys/types.h>
 #include <sys/dir.h>
-], alphasort,
- AC_MSG_RESULT(yes)
- AC_DEFINE(HAVE_ALPHASORT_DECLARATION),
- AC_MSG_RESULT(no))
+], alphasort, AC_DEFINE(HAVE_ALPHASORT_DECLARATION))
 
-DPKG_CACHED_TRY_COMPILE(inlines,dpkg_cv_c_inline,,
- [} inline int foo (int x) {],
- AC_MSG_RESULT(yes)
- AC_DEFINE(HAVE_INLINE),
- AC_MSG_RESULT(no))
+AC_TRY_COMPILE(,[
+} inline int foo (int x) {], AC_DEFINE(HAVE_INLINE))
 
-DPKG_CACHED_TRY_COMPILE(__attribute__((,,)),dpkg_cv_c_attribute_supported,,
+AC_TRY_COMPILE(,
  [extern int testfunction(int x) __attribute__((,,))],
- AC_MSG_RESULT(yes)
  AC_DEFINE(HAVE_GNUC25_ATTRIB)
-  DPKG_CACHED_TRY_COMPILE(__attribute__((noreturn)),dpkg_cv_c_attribute_noreturn,,
+  AC_TRY_COMPILE(,
    [extern int testfunction(int x) __attribute__((noreturn))],
-   AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_NORETURN),
-   AC_MSG_RESULT(no))
-  DPKG_CACHED_TRY_COMPILE(__attribute__((const)),dpkg_cv_c_attribute_const,,
+   AC_DEFINE(HAVE_GNUC25_NORETURN))
+  AC_TRY_COMPILE(,
    [extern int testfunction(int x) __attribute__((const))],
-   AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_CONST),
-   AC_MSG_RESULT(no))
-  DPKG_CACHED_TRY_COMPILE(__attribute__((format...)),dpkg_cv_attribute_format,,
+   AC_DEFINE(HAVE_GNUC25_CONST))
+  AC_TRY_COMPILE(,
    [extern int testfunction(char *y, ...) __attribute__((format(printf,1,2)))],
-   AC_MSG_RESULT(yes)
-   AC_DEFINE(HAVE_GNUC25_PRINTFFORMAT),
-   AC_MSG_RESULT(no)),
- AC_MSG_RESULT(no))
-
-AC_SUBST(CWARNS)
-CWARNS=""
+   AC_DEFINE(HAVE_GNUC25_PRINTFFORMAT))
+ )
 
 DPKG_C_GCC_TRY_WARNS(-Wall -Wno-implicit, dpkg_cv_c_gcc_warn_all)
 DPKG_C_GCC_TRY_WARNS(-Wwrite-strings, dpkg_cv_c_gcc_warn_writestrings)
 DPKG_C_GCC_TRY_WARNS(-Wpointer-arith, dpkg_cv_c_gcc_warn_pointerarith)
 DPKG_C_GCC_TRY_WARNS(-Wimplicit -Wnested-externs, dpkg_cv_c_gcc_warn_implicit)
 
-if test "${GCC-no}" = yes; then
- CWARNS="${CWARNS} -Wmissing-prototypes -Wstrict-prototypes"
-fi
-
-echo "#define DPKG_VERSION \"$VERSION\" /* This line modified by configure */" > version.h.new
-cmp -s version.h.new version.h || mv version.h.new version.h
+dnl Force this here so we can do the next step
+test "x$prefix" = xNONE && prefix="$ac_default_prefix"
+test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
+LLIBDIR=`eval echo $libdir`
+LLIBDIR=`eval echo $LLIBDIR`
+LOCALSTATEDIR=`eval echo $localstatedir`
+AC_DEFINE_UNQUOTED(LLIBDIR, "$LLIBDIR")
+AC_DEFINE_UNQUOTED(LOCALSTATEDIR, "$LOCALSTATEDIR")
 
 AC_CONFIG_SUBDIRS(utils)
-AC_OUTPUT([Makefile intl/Makefile dpkg-deb/Makefile lib/Makefile
-          include/Makefile dselect/Makefile split/Makefile methods/Makefile
-          md5sum/Makefile main/Makefile doc/Makefile doc/ja/Makefile scripts/Makefile
-          utils/Makefile po/Makefile.in])
+
+AC_OUTPUT(
+Makefile.conf
+Makefile
+intl/Makefile
+include/Makefile
+dpkg-deb/Makefile
+split/Makefile
+lib/Makefile
+doc/Makefile
+doc/ja/Makefile
+scripts/Makefile
+main/Makefile
+dselect/Makefile
+methods/Makefile
+po/Makefile.in)

@@ -56,3 +56,10 @@
 
 /* Define as 1 if you have the stpcpy function.  */
 #undef HAVE_STPCPY
+
+/* Defined to $(localstatedir) dir location */
+#undef LOCALSTATEDIR
+
+/* Defined to the $(libdir) location */
+#undef LLIBDIR
+
