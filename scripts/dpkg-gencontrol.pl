@@ -46,7 +46,7 @@ $i=100;grep($fieldimps{$_}=$i--,
           qw(Package Version Section Priority Architecture Essential
              Pre-Depends Depends Recommends Suggests Enhances Optional 
 	     Conflicts Replaces Provides Installed-Size Maintainer Source
-	     Description Build-Depends Build-DependsIndep  Build-Conflicts
+	     Description Build-Depends Build-Depends-Indep  Build-Conflicts
 	     Build-Conflicts-Indep Source));
 
 while (@ARGV) {
@@ -121,7 +121,7 @@ for $_ (keys %fi) {
         if (m/^Maintainer$/) { $f{$_}=$v; }
         elsif (m/^Source$/) { &setsourcepackage; }
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
-	elsif (m/^X[CS]+-|^Standards-Version$|^Build-(Indep-)?(Depends|Conflicts)$/i) { }
+	elsif (m/^X[CS]+-|^Standards-Version$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
 	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
         else { &unknown('general section of control info file'); }
     } elsif (s/^C$myindex //) {
