@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.9.0\n"
 "POT-Creation-Date: 2001-07-16 02:32+0200\n"
-"PO-Revision-Date: 2001-04-25 02:13+0200\n"
+"PO-Revision-Date: 2002-05-28 02:13+0200\n"
 "Last-Translator: Alberto García <berto@gpul.org>\n"
 "Language-Team: Galician <gpul-traduccion@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -56,11 +56,9 @@ msgid "Signal no.%d"
 msgstr "Sinal no.%d"
 
 #: lib/database.c:177
-#, fuzzy, c-format
+#, c-format
 msgid "couldn't allocate memory for strdup in findpackage(%s)"
-msgstr ""
-"dpkg: erro ó asignar memoria para unha nova entrada na lista dos paquetes\n"
-"que fallaron."
+msgstr "non se puido reservar memoria para strdup en findpackage(%s)"
 
 #: lib/database.c:247
 #, c-format
@@ -235,9 +233,9 @@ msgid "out of memory for new cleanup entry"
 msgstr "memoria esgotada para a nova entrada de reorganización"
 
 #: lib/ehandle.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "error writing `%s'"
-msgstr "erro escribindo `%.250s'"
+msgstr "erro escribindo `%s'"
 
 #: lib/ehandle.c:275
 #, c-format
@@ -502,19 +500,19 @@ msgid "wait for %s failed"
 msgstr "o `wait' para %s fallou"
 
 #: lib/mlib.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read filedescriptor flags for %.250s"
-msgstr "non se puido abrir o ficheiro de descripción de opcións `%.250s'"
+msgstr ""
+"non se puideron ler as bandeiras do descriptor de ficheiros de `%.250s'"
 
 #: lib/mlib.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set close-on-exec flag for %.250s"
-msgstr "non se puido pechar o novo ficheiro de opcións `%.250s'"
+msgstr "non se puido establecer a bandeira de close-on-exec para `%.250s'"
 
 #: lib/mlib.c:199
-#, fuzzy
 msgid "failed in buffer_write(fd) (%i, ret=%zi %s)"
-msgstr "fallo en buffer_write(fd) (%i, ret=%i, %s)"
+msgstr "fallo en buffer_write(fd) (%i, ret=%zi %s)"
 
 #: lib/mlib.c:206
 #, c-format
@@ -761,7 +759,7 @@ msgid "character `%c' not allowed - only letters, digits and %s allowed"
 msgstr ""
 "o caracter `%c' non está permitido - só se permiten letras, díxitos e %s"
 
-#  Esto sae cando non hai versións disponibles, por tanto é feminino
+#  Esto sae cando non hai versións dispoñibles, por tanto é feminino
 #: lib/parsehelp.c:179
 msgid "<none>"
 msgstr "<ningunha>"
@@ -771,9 +769,8 @@ msgid "version string is empty"
 msgstr "a cadea de versión está baleira"
 
 #: lib/parsehelp.c:205
-#, fuzzy
 msgid "version string has embedded spaces"
-msgstr "a cadea de versión está baleira"
+msgstr "a cadea de versión ten espacios insertados"
 
 #: lib/parsehelp.c:210
 msgid "epoch in version is not number"
@@ -1081,7 +1078,7 @@ msgstr "erro pechando a tubería do find"
 #: main/archives.c:854
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
-msgstr ""
+msgstr "a busca para --recursive atopou un erro inesperado %i"
 
 #: main/archives.c:857
 msgid "searched, but found no packages (files matching *.deb)"
@@ -1589,7 +1586,7 @@ msgstr "  %.250s proporciona %.250s e é %s.\n"
 
 #: main/enquiry.c:56
 msgid "(no description available)"
-msgstr "(non hai ningunha descripción disponible)"
+msgstr "(non hai ningunha descripción dispoñible)"
 
 #: main/enquiry.c:81
 msgid ""
@@ -2105,7 +2102,7 @@ msgstr ""
 "Vexa dpkg --licence para o copyright e os detalles da licencia.\n"
 
 #: main/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2194,7 +2191,7 @@ msgstr ""
 "                                           de ficheiro\n"
 "  dpkg --forget-old-unavail                esquece a información de "
 "paquetes\n"
-"                                           non instalados nin disponibles\n"
+"                                           non instalados nin dispoñibles\n"
 "  dpkg -s|--status <nome-paquete> ...      amosa detalles sobre o estado\n"
 "                                           do paquete\n"
 "  dpkg -p|--print-avail <nome-paquete> ... amosa detalles sobre a versión\n"
@@ -2237,7 +2234,7 @@ msgstr ""
 "                             que a instalada\n"
 "  -B|--auto-deconfigure      Instala ainda que se poida romper outro "
 "paquete\n"
-"  --no-debsign               Non intenta verificar as firmas dos paquetes\n"
+"  --no-debsig                Non intenta verificar as firmas dos paquetes\n"
 "  --no-act                   Amosa o que se faría, pero non o fai realmente\n"
 "  -D|--debug=<octal>         Habilita o depurado - vexa -Dhelp ou --"
 "debug=help\n"
@@ -2290,7 +2287,7 @@ msgid "conflicting actions --%s and --%s"
 msgstr "as accións --%s e --%s están en conflicto"
 
 #: main/main.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "Aviso: a opción `--%s' está obsoleta\n"
 
@@ -2417,7 +2414,7 @@ msgstr ""
 "  confnew [!]            Usa sempre os conffiles novos, sen preguntar\n"
 "  confold [!]            Usa sempre os conffiles antigos, sen preguntar\n"
 "  confdef [!]            Usa a opción por defecto para os novos conffiles\n"
-"                         se hai algún disponible, sen preguntar. Se non se\n"
+"                         se hai algún dispoñible, sen preguntar. Se non se\n"
 "                         atopa ningún predeterminado preguntarase, a non\n"
 "                         ser que se dea tamén a opción confold ou confnew\n"
 "  confmiss [!]           Instalar sempre os ficheiros de config. que falten\n"
@@ -2439,16 +2436,16 @@ msgstr "opción force/refuse descoñecida `%.*s'"
 
 #: main/main.c:437 main/main.c:441
 msgid "couldn't malloc in execbackend"
-msgstr ""
+msgstr "non se puido facer malloc en execbackend"
 
 #: main/main.c:439 main/main.c:446
 msgid "couldn't strdup in execbackend"
-msgstr ""
+msgstr "non se puido facer strdup en execbackend"
 
 #: main/main.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "failed to exec %s"
-msgstr "erro ó executar tar"
+msgstr "erro ó executar %s"
 
 #: main/main.c:462
 msgid "--command-fd takes 1 argument, not 0"
@@ -2961,23 +2958,23 @@ msgstr "--%s precisa exactamente un ficheiro de Paquetes como argumento"
 msgid "unable to access dpkg status area for bulk available update"
 msgstr ""
 "non se puido acceder á área de estado do dpkg para unha actualización\n"
-"dos paquetes disponibles"
+"dos paquetes dispoñibles"
 
 #: main/update.c:59
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
-"a actualización dos ficheiros disponibles precisa acceso de escritura\n"
+"a actualización dos ficheiros dispoñibles precisa acceso de escritura\n"
 "na área de estado do dpkg"
 
 #: main/update.c:66
 #, c-format
 msgid "Replacing available packages info, using %s.\n"
-msgstr "Reemplazando a información dos paquetes disponibles, usando %s.\n"
+msgstr "Reemplazando a información dos paquetes dispoñibles, usando %s.\n"
 
 #: main/update.c:69
 #, c-format
 msgid "Updating available packages info, using %s.\n"
-msgstr "Actualizando a información dos paquetes disponibles, usando %s.\n"
+msgstr "Actualizando a información dos paquetes dispoñibles, usando %s.\n"
 
 #: main/update.c:93
 #, c-format
@@ -3270,9 +3267,9 @@ msgstr ""
 "cabeceira"
 
 #: dpkg-deb/extract.c:125
-#, fuzzy
 msgid "file `%.250s' is corrupt - negative member length %zi"
-msgstr "o ficheiro `%.250s' está corrompido - lonxitude %ld negativa"
+msgstr ""
+"o ficheiro `%.250s' está corrompido - lonxitude do membro negativa %zi"
 
 #: dpkg-deb/extract.c:129
 #, c-format
@@ -3317,13 +3314,12 @@ msgid "file `%.250s' contains two control members, giving up"
 msgstr "o ficheiro `%.250s' contén dous membros de control, abandoando"
 
 #: dpkg-deb/extract.c:176
-#, fuzzy
 msgid ""
 " new debian package, version %s.\n"
 " size %ld bytes: control archive= %zi bytes.\n"
 msgstr ""
 " novo paquete de debian, versión %s.\n"
-" tamaño %ld bytes: arquivo de control= %ld bytes.\n"
+" tamaño %ld bytes: arquivo de control= %zi bytes.\n"
 
 #: dpkg-deb/extract.c:188
 msgid "ctrl information length"
@@ -3335,13 +3331,12 @@ msgid "archive has malformatted ctrl len `%s'"
 msgstr "o arquivo ten unha lonxitude de control mal formateada `%s'"
 
 #: dpkg-deb/extract.c:193
-#, fuzzy
 msgid ""
 " old debian package, version %s.\n"
 " size %ld bytes: control archive= %ld, main archive= %zi.\n"
 msgstr ""
 " paquete de debian antigo, versión %s.\n"
-" tamaño %ld bytes: arquivo de control= %ld, arquivo principal= %ld.\n"
+" tamaño %ld bytes: arquivo de control= %ld, arquivo principal= %zi.\n"
 
 #: dpkg-deb/extract.c:202
 msgid "ctrlarea"
@@ -3712,7 +3707,6 @@ msgid "file `%.250s' is not an archive part"
 msgstr "o ficheiro `%.250s' non é unha parte de arquivo"
 
 #: split/info.c:188
-#, fuzzy
 msgid ""
 "%s:\n"
 "    Part format version:            %s\n"
@@ -3738,7 +3732,7 @@ msgstr ""
 "    Lonxitude de parte:             %lu bytes\n"
 "    Desprazamento de parte:         %lu bytes\n"
 "    Tamaño de ficheiro de parte\n"
-"                (porción usada):    %lu bytes\n"
+"                (porción usada):    %zi bytes\n"
 "\n"
 
 #: split/info.c:218
@@ -4010,11 +4004,9 @@ msgid "Type md5sum --help for help."
 msgstr "Escriba md5sum --help para obter axuda."
 
 #: utils/md5sum.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "error processing %s: %s\n"
-msgstr ""
-"%s: erro procesando %s (--%s):\n"
-" %s\n"
+msgstr "erro procesando %s: %s\n"
 
 #: utils/md5sum.c:169
 msgid ""
@@ -4094,7 +4086,7 @@ msgstr ""
 
 #: dselect/basecmds.cc:145
 msgid "Help information is available under the following topics:"
-msgstr "A información de axuda está disponible baixo os seguintes temas:"
+msgstr "A información de axuda está dispoñible baixo os seguintes temas:"
 
 #: dselect/basecmds.cc:153
 msgid ""
@@ -4142,9 +4134,8 @@ msgid "failed to set new SIGWINCH sigact"
 msgstr "erro ó establecer a nova sinal SIGWINCH"
 
 #: dselect/baselist.cc:123
-#, fuzzy
 msgid "failed to allocate colour pair"
-msgstr "erro ó asignar pares de cores"
+msgstr "erro ó asignar par de cores"
 
 #: dselect/baselist.cc:163
 msgid "failed to create title window"
@@ -4385,7 +4376,7 @@ msgstr "a[C]tualizar"
 
 #: dselect/main.cc:138
 msgid "Update list of available packages, if possible."
-msgstr "Actualiza a lista dos paquetes disponibles, se é posible."
+msgstr "Actualiza a lista dos paquetes dispoñibles, se é posible."
 
 #: dselect/main.cc:139
 msgid "s"
@@ -4457,7 +4448,7 @@ msgid "Debian `%s' package handling frontend."
 msgstr "Interface de manexo de paquetes `%s' de Debian."
 
 #: dselect/main.cc:152
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
@@ -4468,14 +4459,13 @@ msgid ""
 msgstr ""
 "Versión %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "\n"
 "Isto é software libre; vexa a Licencia Pública Xeral GNU versión 2 ou\n"
 "posterior para as condicións de copia. NON hai garantía. Vexa\n"
 "dselect --licence para máis detalles.\n"
 
 #: dselect/main.cc:168
-#, fuzzy
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -4488,19 +4478,20 @@ msgstr ""
 "                dselect [opcións] acción ...\n"
 "Opcións:  --admindir <directorio>  (por defecto é /var/lib/dpkg)\n"
 "          --help  --version  --licence  --expert  --debug <fich> | -D<fich>\n"
-"Accións:  access update select install config remove quit menu\n"
+"          --colour pantalla:[primeiro plano],[fondo][:attr[+attr+..]]\n"
+"Accións:  access update select install config remove quit\n"
 
 #: dselect/main.cc:176
 msgid "Screenparts:\n"
-msgstr ""
+msgstr "Partes da pantalla:\n"
 
 #: dselect/main.cc:181
 msgid "Colours:\n"
-msgstr ""
+msgstr "Cores:\n"
 
 #: dselect/main.cc:186
 msgid "Attributes:\n"
-msgstr ""
+msgstr "Atributos:\n"
 
 #: dselect/main.cc:206
 #, c-format
@@ -4510,24 +4501,24 @@ msgstr "non se puido abrir o ficheiro de depurado `%.255s'\n"
 #: dselect/main.cc:221
 #, c-format
 msgid "Invalid %s `%s'\n"
-msgstr ""
+msgstr "Incorrecto %s `%s'\n"
 
 #. strtok modifies strings, keep string const
 #: dselect/main.cc:238
 msgid "screen part"
-msgstr ""
+msgstr "parte da pantalla"
 
 #: dselect/main.cc:244
 msgid "Null color specificaton\n"
-msgstr ""
+msgstr "Especificación de cor nula\n"
 
 #: dselect/main.cc:252 dselect/main.cc:257
 msgid "color"
-msgstr ""
+msgstr "cor"
 
 #: dselect/main.cc:265
 msgid "color attribute"
-msgstr ""
+msgstr "atributo de cor"
 
 #: dselect/main.cc:299
 msgid "Terminal does not appear to support cursor addressing.\n"
@@ -4625,7 +4616,7 @@ msgstr "explicación de "
 
 #: dselect/methlist.cc:190
 msgid "No explanation available."
-msgstr "Ningunha explicación disponible."
+msgstr "Ningunha explicación dispoñible."
 
 #: dselect/method.cc:62
 #, c-format
@@ -5022,7 +5013,7 @@ msgstr "Actualizados"
 
 #: dselect/pkgdisplay.cc:100
 msgid "Available"
-msgstr "Disponibles"
+msgstr "dispoñibles"
 
 #: dselect/pkgdisplay.cc:101 dselect/pkgdisplay.cc:117
 msgid "Removed"
@@ -5034,11 +5025,11 @@ msgstr "Paquetes mal instalados"
 
 #: dselect/pkgdisplay.cc:103
 msgid "Newly available packages"
-msgstr "Paquetes novos disponibles"
+msgstr "Paquetes novos dispoñibles"
 
 #: dselect/pkgdisplay.cc:104
 msgid "Updated packages (newer version is available)"
-msgstr "Paquetes actualizados (hai unha nova versión disponible)"
+msgstr "Paquetes actualizados (hai unha nova versión dispoñible)"
 
 #: dselect/pkgdisplay.cc:105
 msgid "Obsolete and local packages present on system"
@@ -5050,11 +5041,11 @@ msgstr "Paquetes instalados actualizados"
 
 #: dselect/pkgdisplay.cc:107
 msgid "Available packages (not currently installed)"
-msgstr "Paquetes disponibles (non instalados actualmente)"
+msgstr "Paquetes dispoñibles (non instalados actualmente)"
 
 #: dselect/pkgdisplay.cc:108
 msgid "Removed and no longer available packages"
-msgstr "Paquetes desintalados e xa non disponibles"
+msgstr "Paquetes desintalados e xa non dispoñibles"
 
 #: dselect/pkgdisplay.cc:112
 msgid "Installed packages"
@@ -5177,7 +5168,7 @@ msgstr "descripción de "
 
 #: dselect/pkginfo.cc:110
 msgid "no description available."
-msgstr "non hai descripción disponible."
+msgstr "non hai descripción dispoñible."
 
 #: dselect/pkginfo.cc:123
 msgid "description"
@@ -5193,11 +5184,11 @@ msgstr "información de control instalada para "
 
 #: dselect/pkginfo.cc:146
 msgid "available version of control file info"
-msgstr "versión disponible da información do ficheiro de control"
+msgstr "versión dispoñible da información do ficheiro de control"
 
 #: dselect/pkginfo.cc:148
 msgid "available version of control info for "
-msgstr "versión disponible da información do ficheiro de control de "
+msgstr "versión dispoñible da información do ficheiro de control de "
 
 #: dselect/pkglist.cc:120 dselect/pkglist.cc:121
 msgid "<null>"
@@ -5205,7 +5196,7 @@ msgstr "<nula>"
 
 #: dselect/pkgsublist.cc:103
 msgid " does not appear to be available\n"
-msgstr " non semella estar disponible\n"
+msgstr " non semella estar dispoñible\n"
 
 #: dselect/pkgsublist.cc:120
 msgid " or "
@@ -5267,7 +5258,7 @@ msgstr "Marcado para"
 
 #: dselect/pkgtop.cc:282
 msgid "EIOM"
-msgstr ""
+msgstr "EIOM"
 
 #: dselect/pkgtop.cc:284
 msgid "Section"
@@ -5398,9 +5389,9 @@ msgid ""
 "Press Space to leave help and enter the list; press `?' at any time for "
 "help.\n"
 msgstr ""
-"Benvido ó listado principal de paquetes. Por favor, lea a axuda disponible\n"
+"Benvido ó listado principal de paquetes. Por favor, lea a axuda dispoñible\n"
 "\n"
-"Presentaráselle unha lista de paquetes que están instaldos ou disponibles\n"
+"Presentaráselle unha lista de paquetes que están instaldos ou dispoñibles\n"
 "para a instalación. Pode navegar ó longo da lista usando as teclas do "
 "cursor,\n"
 "marcar paquetes para a instalación (usando `+') ou desinstalación (usando "
@@ -5461,11 +5452,11 @@ msgstr ""
 "de\n"
 "só lectura.\n"
 "\n"
-"Hai moita axuda en liña disponible, ¡por favor úsea! Pulse `?' para a "
+"Hai moita axuda en liña dispoñible, ¡por favor úsea! Pulse `?' para a "
 "axuda.\n"
 "Debería ler a lista das teclas e as explicacións sobre a visualización.\n"
 "\n"
-"Amosaráselle unha lista de paquetes que están instalados ou disponibles\n"
+"Amosaráselle unha lista de paquetes que están instalados ou dispoñibles\n"
 "para a instalación. Pode navegar pola lista usando as teclas do cursor (tal\n"
 "e como o faría se tivese acceso de lectura/escritura - vexa a pantalla de\n"
 "axuda das pulsacións das teclas), observar o estado dos paquetes e obter\n"
@@ -5610,7 +5601,7 @@ msgstr ""
 "etc.\n"
 "\n"
 "Tamén se amosa a prioridade, sección, nome, números de versión instalada\n"
-"e disponible de cada paquete (Maiusc-V para amosar/ocultar) e a descripción\n"
+"e dispoñible de cada paquete (Maiusc-V para amosar/ocultar) e a descripción\n"
 "resumida.\n"
 
 #: dselect/helpmsgs.cc:125
@@ -5618,7 +5609,6 @@ msgid "Display, part 2: list highlight; information display"
 msgstr "Mostra, parte 2: resaltado da lista; mostra de información"
 
 #: dselect/helpmsgs.cc:125
-#, fuzzy
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
@@ -5659,7 +5649,7 @@ msgstr ""
 "  actualmente resaltado (se só hai un).\n"
 "\n"
 "  Pode amosar unha descripción extendida do paquete, os detalles de control\n"
-"  internos do paquete (ben para a versión instalada ou disponible do "
+"  internos do paquete (ben para a versión instalada ou dispoñible do "
 "paquete),\n"
 "  ou información sobre conflictos e dependencias relacionadas co paquete\n"
 "  actual (en sub-listas de resolución de conflicto/dependencia).\n"
@@ -5703,7 +5693,7 @@ msgstr ""
 "Preguntaráselle\n"
 "entón a información requerida para facer a instalación.\n"
 "\n"
-"A medida que mova o resaltado amosarase, se está disponible, unha "
+"A medida que mova o resaltado amosarase, se está dispoñible, unha "
 "descripción\n"
 "de cada método na metade inferior da pantalla.\n"
 "\n"
@@ -5711,7 +5701,7 @@ msgstr ""
 "lista\n"
 "de métodos de instalación.\n"
 "\n"
-"Unha lista completa de teclas está disponible pulsando `k' agora, ou desde\n"
+"Unha lista completa de teclas está dispoñible pulsando `k' agora, ou desde\n"
 "o menú de axuda ó que se accede pulsando `?'.\n"
 
 #: dselect/helpmsgs.cc:167
@@ -5812,10 +5802,10 @@ msgstr ""
 
 #~ msgid "Package `%s' is not installed and no info is available.\n"
 #~ msgstr ""
-#~ "O paquete `%s' non está instalado e non hai información disponible.\n"
+#~ "O paquete `%s' non está instalado e non hai información dispoñible.\n"
 
 #~ msgid "Package `%s' is not available.\n"
-#~ msgstr "O paquete `%s' non está disponible.\n"
+#~ msgstr "O paquete `%s' non está dispoñible.\n"
 
 #~ msgid "Package `%s' is not installed.\n"
 #~ msgstr "O paquete `%s' non está instalado.\n"
