@@ -121,6 +121,11 @@ sub outputclose {
         $v =~ m/\n\S/ && &internerr("field $f has newline then non whitespace >$v<");
         $v =~ m/\n[ \t]*\n/ && &internerr("field $f has blank lines >$v<");
         $v =~ m/\n$/ && &internerr("field $f has trailing newline >$v<");
+	if ($dosubstvars) {
+	   $v =~ s/,[\s,]*,/,/g;
+	   $v =~ s/^\s*,\s*//;
+	   $v =~ s/\s*,\s*$//;
+	}
         $v =~ s/\$\{\}/\$/g;
         print("$f: $v\n") || &syserr("write error on control data");
     }
