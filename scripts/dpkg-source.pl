@@ -511,7 +511,7 @@ if ($opmode eq 'build') {
         &forkgzipread("$dscdir/$difffile");
         $/="\n";
 	$_ = <GZIP>;
-	do {
+        while ($_ || !eof(GZIP)) {
 	    # read file header (---/+++ pair)
 	    s/\n$// or &error("diff is missing trailing newline");
 	    /^--- / or &error("expected ^--- in line $. of diff");
@@ -550,10 +550,10 @@ if ($opmode eq 'build') {
 		    elsif (/^-/) { --$olines; }
 		    elsif (/^\+/) { --$nlines; }
 		    else { &error("expected [ +-] at start of line $. of diff"); }
-            }
-        }
+		}
+	    }
 	    $hunk or &error("expected ^\@\@ at line $. of diff");
-        } while ($_ || !eof(GZIP));
+        }
         close(GZIP);
         
         &reapgzip;
