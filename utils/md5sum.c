@@ -236,7 +236,10 @@ get_md5_line(FILE *fp, unsigned char *digest, char *file)
 	else if (*p == '*')
 		rc = 2;
 	else {
-		fprintf(stderr, _("%s: unrecognized line: %s"), progname, buf);
+		/* Don't print the buffer; we might be dealing with a
+		 * non-text file.
+		 */
+		fprintf(stderr, _("%s: unrecognized line\n"), progname);
 		return 0;
 	}
 	++p;
