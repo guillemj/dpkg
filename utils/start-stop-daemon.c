@@ -56,7 +56,9 @@ static int stop = 0;
 static int signal_nr = 15;
 static const char *signal_str = NULL;
 static int user_id = -1;
+static int runas_id = -1;
 static const char *userspec = NULL;
+static const char *changeuser = NULL;
 static const char *cmdname = NULL;
 static char *execname = NULL;
 static char *startas = NULL;
@@ -158,6 +160,7 @@ Usage:
 Options (at least one of --exec|--pidfile|--user is required):
   -x|--exec <executable>        program to start/check if it is running\n\
   -p|--pidfile <pid-file>       pid file to check\n\
+  -c|--chuid <username>|<uid>   change to this user before starting process\n\
   -u|--user <username>|<uid>    stop processes owned by this user\n\
   -n|--name <process-name>      stop processes with this name\n\
   -s|--signal <signal>          signal to send (default TERM)\n\
@@ -237,12 +240,13 @@ parse_options(int argc, char * const *argv)
 		{ "user",	1, NULL, 'u'},
 		{ "verbose",	0, NULL, 'v'},
 		{ "exec",	1, NULL, 'x'},
+		{ "chuid",	1, NULL, 'c'},
 		{ NULL,		0, NULL, 0}
 	};
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qs:tu:vx:",
+		c = getopt_long(argc, argv, "HKSVa:n:op:qs:tu:vx:c:",
 				longopts, (int *) 0);
 		if (c == -1)
 			break;
@@ -288,6 +292,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'x':  /* --exec <executable> */
 			execname = optarg;
+			break;
+		case 'c':  /* --chuid <username>|<uid> */
+			changeuser = optarg;
 			break;
 		default:
 			badusage(NULL);  /* message printed by getopt */
@@ -554,6 +561,16 @@ main(int argc, char **argv)
 		user_id = pw->pw_uid;
 	}
 
+	if (changeuser && sscanf(changeuser, "%d", &runas_id) != 1) {
+		struct passwd *pw;
+
+		pw = getpwnam(changeuser);
+		if (!pw)
+			fatal("user `%s' not found\n", changeuser);
+
+		runas_id = pw->pw_uid;
+	}
+
 	if (pidfile)
 		do_pidfile(pidfile);
 	else
@@ -579,6 +596,8 @@ main(int argc, char **argv)
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
+	if (changeuser != NULL && seteuid(runas_id))
+		fatal("Unable to set effective uid to %s", changeuser);
 	execv(startas, argv);
 	fatal("Unable to start %s: %s", startas, strerror(errno));
 }
