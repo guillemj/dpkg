@@ -81,6 +81,10 @@ sub substvars {
     my ($lhs,$vn,$rhs,$count);
     $count=0;
     while ($v =~ m/\$\{([-:0-9a-z]+)\}/i) {
+        # If we have consumed more from the leftover data, then
+        # reset the recursive counter.
+        $count= 0 if (length($') < length($rhs));
+
         $count < $maxsubsts ||
             &error("too many substitutions - recursive ? - in \`$v'");
         $lhs=$`; $vn=$1; $rhs=$';
