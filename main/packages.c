@@ -282,7 +282,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
     if (checkversion) {
       if (!provider) {
 	debug(dbg_depcondetail,"      checking non-provided pkg %s",possdependee->name);
-	if (versionsatisfied(&possdependee->installed,checkversion)) {
+	if (!versionsatisfied(&possdependee->installed,checkversion)) {
           varbufaddstr(oemsgs,_("  Version of "));
           varbufaddstr(oemsgs,possdependee->name);
           varbufaddstr(oemsgs,_(" on system is "));
@@ -378,7 +378,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     for (possi= dep->list; found != 3 && possi; possi= possi->next) {
       debug(dbg_depcondetail,"    checking possibility  -> %s",possi->ed->name);
       if (possi->cyclebreak) {
-        debug(dbg_depcondetail,"      break cycle so ok and found");
+        debug(dbg_depcondetail,"      break cycle, so ok and found");
         found= 3; break;
       }
       thisf= deppossi_ok_found(possi->ed,pkg,removing,0,
