@@ -117,7 +117,7 @@ extern "C" {
     setvbuf(debug,0,_IONBF,0);
   }
 
-  static void setexpert() {
+  static void setexpert(const struct cmdinfo*, const char *v) {
     expertmode = 1;
   }
 
@@ -131,7 +131,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "version",    0,   0,  0,  0,          versiononly            },
   { "licence",    0,   0,  0,  0,          showcopyright          }, /* UK spelling */
   { "license",    0,   0,  0,  0,          showcopyright          }, /* US spelling */
-  {  0,           0                                               }
+  {  0,           0,   0,  0,  0,          0                      }
 };
 
 static int cursesareon= 0;
