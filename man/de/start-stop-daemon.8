@@ -1,0 +1,255 @@
+.TH START\-STOP\-DAEMON 8 "14. Mai 2004" "Debian-Projekt" "dpkg Werkzeuge"
+.\"
+.\" Translated into german by Helge Kreutzmann <kreutzm@itp.uni-hannover.de>
+.hw wei-tere
+.SH NAME
+start\-stop\-daemon \- startet und stoppt System-Daemon-Programme
+.SH "ÜBERSICHT"
+.B start-stop-daemon
+.BR -S | --start
+.IR Optionen
+.RB [ \-\- ]
+.IR Argumente
+.HP
+.B start-stop-daemon
+.BR -K | --stop
+.IR Optionen
+.HP
+.B start-stop-daemon
+.BR -H | --help
+.HP
+.B start-stop-daemon
+.BR -V | --version
+.SH BESCHREIBUNG
+.B start\-stop\-daemon
+wird zur Kontrolle der Erzeugung und Beendigung von Prozessen auf
+Systemebene verwendet. Durch die Verwendung der
+.BR --exec ", " --pidfile ", " --user ", und " --name " Optionen"
+kann 
+.B start\-stop\-daemon
+so konfiguriert werden, daß er bereits existierende Instanzen von
+einem laufenden Prozess finden kann.
+
+Mittels
+.BR --start 
+überprüft
+.B start\-stop\-daemon
+auf die Existenz von speziellen Prozessen. 
+Falls ein solcher Prozess existiert, dann macht
+.B start\-stop\-daemon
+nichts, und beendet sich mit Fehlerstatus 1
+(0, falls
+.BR --oknodo
+angegeben wurde).
+Falls ein solcher Prozess nicht existiert, dann 
+startet es eine Instanz, entweder unter Verwendung
+des ausführbaren Programms, das mittels
+.BR --exec 
+spezifiziert wurde (oder, falls angegeben, mittels
+.BR --startas ).
+Jedes weitere auf der Kommandozeile angegebene Argument nach
+.BR --
+wird unverändert an das zu startende Programm weitergegeben. Falls
+.B --retry
+spezifiziert wurde, dann überprüft
+.B start-stop-daemon
+ob der Prozess (die Prozesse) beendet wurden.
+
+Mit 
+.BR --stop 
+überprüft
+.B start\-stop\-daemon
+auf auf die Existenz eines speziellen Prozesses. Falls ein
+solcher Prozess existiert, dann sendet
+.B start\-stop\-daemon
+das durch
+.BR --signal
+spezifizierte Signal
+und beendet sich mit Fehlerstatus 0.
+Falls kein solcher Prozess existiert, dann
+beendet sich
+.B start\-stop\-daemon
+mit Fehlerstatus 1
+(0 falls
+.BR --oknodo
+spezifiziert ist).
+
+.SH OPTIONEN
+
+.TP
+\fB-x\fP|\fB--exec\fP \fIProgramm\fP
+Überprüfe auf Prozesse die (laut
+.BR /proc/\fIpid\fB/exe\fP )
+Instanzen von diesem Programm sind.
+.TP
+\fB-p\fP|\fB--pidfile\fP \fIpid-Datei\fP
+Überprüfe auf Prozesse deren Prozess-ID in
+.IR pid-Datei
+angegeben ist.
+.TP
+\fB-u\fP|\fB--user\fP \fIBenutzername\fP|\fIuid\fP
+Überprüfe auf Prozesse die dem mit
+.I Benutzername 
+oder
+.IR uid 
+spezifizierten Benutzer gehören.
+.TP
+\fB-g\fP|\fB--group\fP \fIGruppe\fP|\fIgid\fP
+Wechsle zum Starten des Prozesses zur \fIGruppe\fP oder \fIgid\fP.
+.TP
+\fB-n\fP|\fB--name\fP \fIProzessname\fP
+Überprüfe 
+(laut 
+.BR /proc/\fIpid\fB/stat\fP )
+auf Prozesse mit dem Namen
+.IR Prozessname .
+.TP
+\fB-s\fP|\fB--signal\fP \fISignal\fP
+Mit
+.BR --stop 
+wird das an den zu beendenden Prozess zu sendende Signal spezifiziert
+(standardmäßig 15).
+.TP
+\fB-R\fP|\fB--retry\fP \fItimeout\fP|\fIPlan\fP
+Mit
+.BR --stop 
+spezifiziert, das
+.B start-stop-daemon
+überprüfen soll, ob der Prozess (die Prozesse) sich beenden. Es
+überprüft regelmäßig, ob ein passender Prozess läuft, bis dies
+nicht mehr der Fall ist. Falls sich die Prozesse nicht
+beenden werden weitere im »Plan« angegebene Aktionen durchgeführt.
+
+Falls
+.I timeout 
+anstelle von 
+.I Plan
+spezifiziert wird, dann wird der Plan
+.IB signal / timeout /KILL/ timeout
+verwendet, wobei 
+.I signal
+das mit
+.BR --signal 
+spezifizierte Signal ist.
+
+.I Plan
+ist eine Liste von mindestens zwei durch Schrägstriche
+.RB ( / )
+getrennten Punkten; jeder Punkt kann aus
+.BI - Signalnummer
+oder [\fB\-\fP]\fISignalname\fP bestehen,
+was bedeutet, daß dieses Signal gesendet werden soll, oder
+aus
+.IR timeout 
+was bedeutet das soviele Sekunden auf das Beenden des
+Prozesses gewartet werden soll, oder
+.BR forever 
+was bedeutet, den Rest des Plans falls notwendig für immer
+zu wiederholen.
+
+Falls das Ende des Plans erreicht wird und
+.BR forever
+nicht spezifiziert wurde, dann beendet sich der
+.B start-stop-daemon
+mit dem Fehlerstatus 2.
+Falls ein Plan spezifiziert wurde dann wird jedes
+mit
+.B --signal
+spezifizierte Signal ignoriert.
+.TP
+\fB-a\fP|\fB--startas\fP \fIPfadname\fP
+Mit
+.BR --start 
+wir der über 
+.IR Pfadname
+spezifizierte Prozess gestartet. Falls nicht angegeben,
+werden standardmäßig die an 
+.B --exec 
+übergebenen Argumente verwendet.
+.TP
+.BR -t | --test
+Gibt die zu erledigenden Aktionen aus und setzt die entsprechenden
+Rückgabewerte, führt aber keine Aktionen durch.
+.TP
+.BR -o | --oknodo
+Liefert den Rückgabewert 0 anstatt 1 falls keine Aktionen ausgeführt wurden (würden).
+.TP
+.BR -q | --quiet
+Gibt keine informationelle Meldungen aus, nur Fehlermeldungen werden angezeigt.
+.TP
+\fB-c\fP|\fB--chuid\fP \fIBenutzername\fR|\fIuid\fP
+Wechselt vor dem Start des Prozesses zu diesem Benutzername/uid. Sie
+können durch Anhängen von
+.BR : 
+auch die Gruppe spezifizieren, in diesem Fall wird die Gruppe oder gid
+wie bei dem »chown«-Befehl (\fIBenutzer\fP\fB:\fP\fIGruppe\fP) angegeben.
+Wenn Sie diese Option verwenden, müssen Sie daran denken, daß die primäre
+und zusätzlichen Gruppe auch gesetzt werden, selbst wenn die
+.B --group
+Option nicht spezifiziert wird. Die
+.B --group
+ist nur für Gruppen in denen der Benutzer normalerweise kein Mitglied
+ist (wie das Hinzufügen von pro-Prozess Gruppenmitgliedschaften für
+generische Nutzer wie
+.BR nobody ).
+.TP
+\fB-r\fP|\fB--chroot\fP \fIWurzel\fP
+Chdir und chroot vor dem Start des Prozesse zu
+.IR Wurzel .#
+Bitte beachten Sie das die PID-Datei auch nach dem chroot geschrieben
+wird.
+.TP
+\fB-d\fP|\fB--chdir\fP \fIPfad\fP
+Chdir vor dem Starten des Prozesses zu
+.IR Pfad .
+Dies wird, falls die \fB-r\fP|\fB--chroot\fP Option gesetzt ist,
+nach dem chroot durchgeführt.
+.TP
+.BR -b | --background
+Typischerweise verwendet für Programme die sich nicht selbständig
+ablösen. Diese Option zwingt
+.B start-stop-daemon
+vor dem Start des Prozesses einen Fork durchzuführen, und ihn in
+den Hintergrund zu zwingen.
+.B WARNUNG: start-stop-daemon
+kann nicht den Rückgabewert überprüfen, falls der Prozess aus
+.B irgendeinem
+Grund nicht startet. Dies ist ein letztes Mittel und ist nur für Programme
+gedacht, bei denen das selbstständige Forken keinen Sinn macht oder wo es
+nicht sinnvoll ist, den Code hierfür hinzuzufügen.
+.TP
+\fB-N\fP|\fB--nicelevel\fP \fIGanzzahl\fP 
+Dies ändert die Priorität des Prozesses bevor er gestartet wird.
+.TP
+.BR -m | --make-pidfile
+Verwendet wenn ein Programm gestartet wird, dass keine eigene PID-Datei
+erstellt. Diese Option sorgt dafür, dass
+.B start-stop-daemon
+die mit 
+.B --pidfile
+referenzierte Datei anlegt und die PID kurz vor der Ausführung des Prozesse
+hineinlegt. Beachten Sie, dass sie nicht entfernt wird wenn das Programm
+beendet wird.
+.B HINWEIS:
+Diese Funktion könnte nicht in allen Fällen funktionieren. Insbesondere wenn
+das auszuführende Programm sich vom Hauptprozess forkt. Deshalb ist diese
+Option normalerweise nur in Kombination mit der
+.B --background
+Option sinnvoll.
+.TP
+.BR -v | --verbose
+Gibt ausführliche informative Meldungen aus.
+.TP
+.BR -H | --help
+Gibt Hilfeinformationen aus und beendet sich dann.
+.TP
+.BR -V | --version
+Gibt Versionsinformationen aus und beendet sich dann.
+
+.SH AUTOREN
+Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl> basierend
+auf einer vorherigen Version von 
+Ian Jackson <ian@chiark.greenend.org.uk>.
+
+Handbuchseite von Klee Dienes <klee@mit.edu>, teilweise von Ian
+Jackson umformatiert.
