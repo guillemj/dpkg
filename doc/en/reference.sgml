@@ -4,10 +4,11 @@
   <!ENTITY dselect "<command>dselect</command>">
   <!ENTITY deb "<filename>.deb</filename>">
 ]>
-<book id="packaging-manual">
+<book id="reference">
 <bookinfo>
   <title>dpkg reference Manual</title>
   <edition>draft</edition>
+
   <authorgroup>
     <author>
       <firstname>Wichert</firstname>
@@ -19,6 +20,7 @@
       </affiliation>
     </author>
   </authorgroup>
+
   <copyright>
     <year>2001</year>
     <year>2002</year>
@@ -61,6 +63,43 @@
   <para>
     This document describes all the tools that used to handle and produce
     them as well as the file formats used.
+  </para>
+</chapter>
+
+
+<chapter id="versions">
+  <title>Version numbers</title>
+
+  <para>
+    It is essential for a packaging system to have a documented method to
+    compare version numbers. Unfortunately there are different ways of
+    dealing with them, each with their own good and bad sides. This chapter
+    describes how &dpkg; compares version numbers.
+  </para>
+
+  <para>
+    Version numbers are ASCII strings made up from alphanumeric characters
+    (letters and digits) and the hyphen (<keycap>-</keycap>), dot
+    (<keycap>.</keycap>), plus (<keycap>+</keycap>), minus
+    (<keycap>-</keycap>) and colon (<keycap>:</keycap>) characters.
+  </para>
+
+  <para>
+    A version number consists of two parts: the upstream version, and
+    optionally the package revision, which are seperated by a hyphen.
+    If there is no seperate package revision then the upstream version is
+    not allowed to contain a hyphen.
+  </para>
+
+  <para>
+    Comparing version numbers is done by breaking them into pieces and
+    comparing those from left to right. Pieces are seperated by a
+    transition from numbers to letters and by non-alphanumeric
+    characters. Starting from &dpkg; 1.10 numbers of unlimited length may
+    be used. Olders versions converted numbers to integers before comparing
+    them and as a result can not handle numbers that do not fit into the C
+    type int (2^31-1 on 32bit architectures and 2^63-1 on 64bit
+    architectures).
   </para>
 </chapter>
 
@@ -322,9 +361,9 @@ root root 0755 /bin/mount
       <programlisting>
 [fog;~/sources/play/pkg-manual]-1# dpkg-statoverride --add root root 0755 /bin/mount
 An override for "/bin/mount" already exists, aborting
-[fog;~/sources/play/pkg-manual]-2# dpkg-statoverride --force --add root root 0755 /bin/mount
+[fog;~]-2# dpkg-statoverride --force --add root root 0755 /bin/mount
 An override for "/bin/mount" already exists, but --force specified so lets ignore it.
-[fog;~/sources/play/pkg-manual]-3# dpkg-statoverride --list /bin/mount
+[fog;~]-3# dpkg-statoverride --list /bin/mount
 root root 0755 /bin/mount
 </programlisting>
     </example>
@@ -381,6 +420,15 @@ root root 0755 /bin/mount
     as the format used in e-mail headers.
   </para>
 
+  <para>
+    Each format has a version number which indicates the revision of the
+    format being used. This version is always of the form "X.Y". The
+    first number (X) is the major version. Within a major version the only
+    allowed changes in format are the addition of new fields. This guarantees
+    that tools will always be fully backwards and upwards compatible within
+    a major version.
+  </para>
+
   <section>
     <title>RFC822</title>
     <para>
@@ -391,7 +439,7 @@ root root 0755 /bin/mount
     </para>
 
     <para>
-      Each fiels s a single line consisting of a field-name and a
+      Each fiels is a single line consisting of a field-name and a
       field-body, seperated by a colon (:). The field-name is made up
       from printable ASCII characters minus the colon. The field-body
       may be composed of all ASCII characters except CR or LF (they
@@ -420,8 +468,135 @@ X-Fortune:
     <title>changes file</title>
 
     <para>
-      Bla
+      The <filename>.changse</filename> file is used to describe a set of
+      files that is going to be installed in an archive. All files have to
+      belong to the same source package. The data in a
+      <filename>changes</filename> include  the changes made since the
+      previous revision, version and architecture information and the list
+      of files that form the change set along with a checksum
     </para>
+
+    <para>
+      Just like other dpkg datafiles this file is formated using RFC822
+      syntax. In addition the file can signed as an OpenPGP ASCII armored
+      message (see RFC2440). The table below lists the allowed fields
+      in a <filename>.dsc</filename> file. The order used is not important,
+      although <command>dpkg-genchanges</command> will output the fields using
+      the ordering used in the table.
+    </para>
+
+    <table>
+      <title>Fields in a <filename>.changes</filename> file</title>
+      <tgroup cols="2">
+        <thead>
+	  <row>
+	    <entry>Field</entry>
+	    <entry>Description</entry>
+	  </row>
+	</thead>
+
+	<tbody>
+	  <row>
+	    <entry>Format</entry>
+	    <entry>
+	      Version of the file format used. Currently 1.7.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Date</entry>
+	    <entry>
+	      The date (in RFC822 format) when the change set was build.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Source</entry>
+	    <entry>
+	      The name of the source package from which the changes were
+	      build.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Binary</entry>
+	    <entry>
+	      The binary packages (ie &deb; files) that are part of the
+	      change set.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Architecture</entry>
+	    <entry>
+	      A space seperate list of architectures for which files are
+	      included in the set.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Version</entry>
+	    <entry>
+	      Version number of the source from which the files were built.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Distribution</entry>
+	    <entry>
+	      Distribution in which the changes should be installed, as taken from
+	      <filename>debian/changelog</filename>.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Urgency</entry>
+	    <entry>
+	      Urgency of the changes, as taken from
+	      <filename>debian/changelog</filename>.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Maintainer</entry>
+	    <entry>
+	      The maintainer of the package, as listed in
+	      <filename>debian/control</filename>.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Changed-By</entry>
+	    <entry>
+	      The person who made the last changes to the sources, as
+	      listed in <filename>debian/changelog</filename>.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Description</entry>
+	    <entry>
+	      Multi-line field describing the &deb; files in the package.
+	      Each line describes a single package in the format
+	      "packagename - short description".
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Closes</entry>
+	    <entry>
+	      Space seperate list of bugreports which are closed by this
+	      change set. (Optional)
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Changes</entry>
+	    <entry>
+	      Multi-line field with the changes made since the previous
+	      version, as taken from <filename>debian/changelog</filename>.
+	      Can possibly mention changes for multiple versions.
+	    </entry>
+	  </row>
+	  <row>
+	    <entry>Files</entry>
+	    <entry>
+	      Multi-line field with the list of files in the change set.
+	      Each line describes a single file in the format "MD5 filesize
+	      filename".
+	    </entry>
+	  </row>
+        </tbody>
+      </tgroup>
+    </table>
   </section>
 
   <section>
@@ -451,8 +626,8 @@ X-Fortune:
 	</thead>
 	<tbody>
 	  <row><entry>Format</entry>
-	       <entry>Version of the <filename>.dsc</filename> file format used
-		      </entry></row>
+	       <entry>Version of the file format used. Currently 1.0.
+	       </entry></row>
 	  <row><entry>Source</entry>
 	       <entry>Name of the source package</entry></row>
 	  <row><entry>Version</entry>
@@ -461,7 +636,7 @@ X-Fortune:
 	       <entry>comma seperated list of binary packages build from this
 		  source</entry></row>
 	  <row><entry>Origin</entry>
-	       <entry>Name of the organization that procudes this package
+	       <entry>Name of the organization that procuded this package
 		      </entry></row>
 	  <row><entry>Maintainer</entry>
 	       <entry>Maintainer of this package</entry></row>
@@ -480,14 +655,6 @@ X-Fortune:
 	</tbody>
       </tgroup>
     </table>
-
-    <para>
-      The current version of the <filename>.dsc</filename> is 1.0 . The first
-      digit in the version number is the major version. Within a major version
-      the only allowed changes in format are additiong of new fields. This
-      guarantees that tools like <command>dpkg-source</command> will be
-      fully backwards and upwards compatible within  a major version.
-    </para>
 
     <para>
       The Files field contains one line for each file that is
@@ -730,12 +897,80 @@ root adm 0750 /var/log/apache
     <title>alternatives</title>
 
     <para>
-      Bla
+      The configuration for alternatives is spread over two places: the
+      symlink to the selected alternative is stored in /etc/alternatives
+      and the list of available alternatives is kept in a series of files
+      in <filename>/var/lib/dpkg/alternatives/</filename>.
     </para>
+
+    <para>
+      For each alternative there is a single file in
+      <filename>/var/lib/dpkg/alternatives/</filename> named after the
+      the alternative it describes. The file is a normal text file:
+    </para>
+
+    <itemizedlist>
+      <listitem>
+	<para>
+	  The first line lists the state of the alternative, either
+	  `manual' or `auto'. 
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  The second line is the filename that the alternative will
+	  provide.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  A list of zero or more slave links. For each slave there are
+	  two lines: the first contains the name of the slave and the
+	  second contains the filename.
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  An empty line
+	</para>
+      </listitem>
+
+      <listitem>
+	<para>
+	  A list of one or more alternatives. Each alternative is made up
+	  as follows:
+	</para>
+
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      The filename of the file providing the alternative.
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      The priority
+	    </para>
+	  </listitem>
+
+	  <listitem>
+	    <para>
+	      For each slave link a single line with the file providing
+	      the link. An empty line can be used to indicate an
+	      alternative does not provide a slave.
+	    </para>
+	  </listitem>
+	</itemizedlist>
+      </listitem>
+    </itemizedlist>
   </section>
 </chapter>
 
 </book>
 
-<!-- vim: sw=2
+<!-- vi: sw=2 tw=75
 -->
