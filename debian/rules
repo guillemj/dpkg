@@ -24,8 +24,17 @@ endif
 
 BUILD-DIRS	:= $(BUILD) $(BUILD)-static
 
+aclocal.m4: $(wildcard automake/*.m4)
+	aclocal.m4 -I automake
+
+configure: configure.in aclocal.m4
+	autoconf
+
+config.h.in: configure.in
+	autoheader
+
 # Setup the buildlocation
-$(BUILD)/configure-stamp:
+$(BUILD)/configure-stamp: configure config.h.in
 	$(checkdir)
 	install -d $(@D)
 	cd $(@D) && LDFLAGS=$(LDFLAGS) $(DIR)/configure \
