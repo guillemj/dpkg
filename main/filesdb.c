@@ -515,7 +515,6 @@ void filesdbinit(void) {
       for (fnn= bins[i]; fnn; fnn= fnn->next) {
         fnn->flags= 0;
         fnn->oldhash= 0;
-	fnn->stat= 0;
       }
     break;
   case -1:
@@ -524,7 +523,6 @@ void filesdbinit(void) {
          fnn= fnn->next) {
       fnn->flags= 0;
       fnn->oldhash= 0;
-      fnn->stat= 0;
     }
     break;
   default:

@@ -83,7 +83,6 @@ void process_archive(const char *filename) {
   struct dirent *de;
   struct stat stab;
   struct packageinlist *deconpil, *deconpiltemp;
-  enum versiondisplayepochwhen needepochs;
   
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
   admindirlen= strlen(admindir);
@@ -600,7 +599,7 @@ void process_archive(const char *filename) {
        * the process a little leaner. We are only worried about new ones
        * since ones that stayed the same don't really apply here.
        */
-      struct stat oldfs, *newfs;
+      struct stat oldfs, newfs;
       int donotrm = 0;
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code
