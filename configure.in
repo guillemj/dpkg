@@ -4,15 +4,21 @@ AC_PREREQ([2.12])
 
 AC_INIT(include/dpkg.h.in)
 AC_CONFIG_HEADER(config.h)
-
+DSELECTDIR="dselect"
+AC_ARG_WITH(dselect,
+[  --with-dselect          the dselect package-management frontend],
+[case "$withval" in
+  "false" | "no" )
+    DSELECTDIR=""
+    ;;
+ esac])
+AC_SUBST(DSELECTDIR)
 
 AC_CHECK_TOOL_PREFIX
+AC_CANONICAL_SYSTEM
 
 AC_CHECK_TOOL(CC, gcc)
 AC_PROG_CC
-AC_CANONICAL_SYSTEM
-AC_CHECK_TOOL_PREFIX
-
 AC_PROG_CXX
 AM_CONDITIONAL(HAVE_CPLUSPLUS, [test "$CXX" != ""])
 
