@@ -3,6 +3,7 @@
  * fields.c - parsing of all the different fields, when reading in
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright 2001 Wichert Akkerman
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -129,7 +130,7 @@ void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                const char *filename, int lno, FILE *warnto, int *warncount,
                const char *value, const struct fieldinfo *fip) {
   pifp->essential=
-    *value ? convert_string(filename,lno,_("yes/no in `essential' field"), -1,
+    *value ? convert_string(filename,lno,_("yes/no in boolean field"), -1,
                             warnto,warncount,pigp,
                             value,booleaninfos,NULL)
            : 0;
