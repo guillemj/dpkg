@@ -17,6 +17,7 @@ Options: -r<gain-root-command>
 	 -k<keyid>     the key to use for signing
          -sgpg         the sign-command is called like GPG
          -spgp         the sign-command is called like PGP 
+         -sdebsign     the sign-command works like debsign
          -us           unsigned source
          -uc           unsigned changes
          -a<arch>      Debian architecture we build for
@@ -65,6 +66,7 @@ do
 	-k*)	signkey="$value" ;;
 	-sgpg)  forcesigninterface=gpg ;;
 	-spgp)  forcesigninterface=pgp ;;
+	-sdebsign)  forcesigninterface=debsign ;;
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
 	-ap)	usepause="true";;
@@ -91,6 +93,9 @@ if test -n "$forcesigninterface" ; then
   signinterface=$forcesigninterface
 else
   signinterface=$signcommand
+fi
+if test "$signinterface" = "debsign"; then
+	signsource=:
 fi
 
 mustsetvar () {
@@ -124,6 +129,13 @@ signfile () {
 		(cat "../$1" ; echo "") | \
 		$signcommand --local-user "${signkey:-$maintainer}" --clearsign --armor \
 			--textmode  > "../$1.asc" 
+	elif test "$signinterface" = "debsign"; then
+		if test x$signkey != x; then
+			$signcommand -k"$signkey" ../$1
+		else
+			$signcommand ../$1
+		fi
+		return
 	else
 		$signcommand -u "${signkey:-$maintainer}" +clearsig=on -fast <"../$1" \
 			>"../$1.asc"
