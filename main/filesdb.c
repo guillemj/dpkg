@@ -139,30 +139,33 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
   
    if(fstat(fd, &stat_buf))
      ohshite("unable to stat files list file for package `%.250s'",pkg->name);
-   loaded_list = nfmalloc(stat_buf.st_size);
-   loaded_list_end = loaded_list + stat_buf.st_size;
 
-  fd_buf_copy(fd, loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
-
-  lendp= &pkg->clientdata->files;
-  thisline = loaded_list;
-  while (thisline < loaded_list_end) {
-    if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
-      ohshit("files list file for package `%.250s' is missing final newline",pkg->name);
-    /* where to start next time around */
-    nextline = ptr + 1;
-    /* strip trailing "/" */
-    if (ptr > thisline && ptr[-1] == '/') ptr--;
-    /* add the file to the list */
-    if (ptr == thisline)
-      ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
-    *ptr = 0;
-    newent= nfmalloc(sizeof(struct fileinlist));
-    newent->namenode= findnamenode(thisline, fnn_nocopy);
-    newent->next= 0;
-    *lendp= newent;
-    lendp= &newent->next;
-    thisline = nextline;
+   if (stat_buf.st_size) {
+     loaded_list = nfmalloc(stat_buf.st_size);
+     loaded_list_end = loaded_list + stat_buf.st_size;
+  
+    fd_buf_copy(fd, loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
+  
+    lendp= &pkg->clientdata->files;
+    thisline = loaded_list;
+    while (thisline < loaded_list_end) {
+      if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
+        ohshit("files list file for package `%.250s' is missing final newline",pkg->name);
+      /* where to start next time around */
+      nextline = ptr + 1;
+      /* strip trailing "/" */
+      if (ptr > thisline && ptr[-1] == '/') ptr--;
+      /* add the file to the list */
+      if (ptr == thisline)
+        ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
+      *ptr = 0;
+      newent= nfmalloc(sizeof(struct fileinlist));
+      newent->namenode= findnamenode(thisline, fnn_nocopy);
+      newent->next= 0;
+      *lendp= newent;
+      lendp= &newent->next;
+      thisline = nextline;
+    }
   }
   pop_cleanup(ehflag_normaltidy); /* fd= open() */
   if (close(fd))
@@ -335,6 +338,12 @@ void ensure_statoverrides(void) {
   }
   if (statoverridefile) fclose(statoverridefile);
   statoverridefile= file;
+
+  /* If the statoverride list is empty we don't need to bother reading it. */
+  if (!stab2.st_size) {
+    onerr_abort--;
+    return;
+  }
 
   loaded_list = nfmalloc(stab2.st_size);
   loaded_list_end = loaded_list + stab2.st_size;
