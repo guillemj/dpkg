@@ -165,7 +165,7 @@ if ($#libfiles >= 0) {
            &warn("diversions involved - output may be incorrect");
            print(STDERR " $_\n") || syserr("write diversion info to stderr");
        } elsif (m=^(\S+(, \S+)*): /.+/([^/]+)$=) {
-           $pathpackages{$+}= $1;
+           push @{$pathpackages{$+}}, split(/, /, $1);
        } else {
            &warn("unknown output from dpkg --search: \`$_'");
        }
@@ -178,8 +178,7 @@ LIB: for ($i=0;$i<=$#libname;$i++) {
         &warn("could not find any packages for $libfiles[$i]".
               " ($libname[$i].so.$libsoname[$i])");
     } else {
-        @packages= split(/, /,$pathpackages{$libfiles[$i]});
-        for $p (@packages) {
+        for $p (@{$pathpackages{$libfiles[$i]}}) {
             scanshlibsfile("$shlibsppdir/$p$shlibsppext",
                            $libname[$i],$libsoname[$i],$libf[$i])
                 && next LIB;

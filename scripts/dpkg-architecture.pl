@@ -37,6 +37,8 @@
 #  1.0.5  Update default for rules files (i386->i486).
 #         Print out overridden values, so make gets them, too.
 #  1.0.6  Revert to i386 to comply with policy § 5.1.
+#  1.0.7  -q should not imply -f, because this prevents setting
+#         make variables with non-standard names correctly.
 
 $version="1.0.0";
 $0 = `basename $0`; chomp $0;
@@ -160,7 +162,6 @@ while (@ARGV) {
     } elsif (m/^-q/) {
         $req_variable_to_print = $';
         $action = 'q';
-        $force=1;
     } elsif (m/^-c$/) {
        $action = 'c';
        last;
@@ -290,8 +291,7 @@ value.
 Existing environment variables with the same name as used by the scripts are
 not overwritten, except if the B<-f> force flag is present. This allows the user
 to override a value even when the call to dpkg-architecture is buried in
-some other script (for example dpkg-buildpackage). The B<-q> query option
-implies B<-f>, and is therefore not affected by existing environment settings.
+some other script (for example dpkg-buildpackage).
 
 =head1 TERMS
 

@@ -27,10 +27,8 @@
 #error Unknown architecture - cannot build start-stop-daemon
 #endif
 
-#ifdef HAVE_HURH_H
+#ifdef OSHURD
 #include <hurd.h>
-#endif
-#ifdef HAVE_PS_H
 #include <ps.h>
 #endif
 
@@ -82,7 +80,6 @@ static const char *progname = "";
 
 static struct stat exec_stat;
 #if defined(OSHURD)
-static struct ps_context *context;
 static struct proc_stat_list *procset;
 #endif
 
@@ -107,7 +104,6 @@ static int do_stop(void);
 #if defined(OSLinux)
 static int pid_is_exec(int pid, const struct stat *esb);
 #endif
-static void do_psinit(void);
 
 
 #ifdef __GNUC__
@@ -519,7 +515,9 @@ check_all (void *ptr)
 }
 
 static void
-do_psinit(void)
+do_procinit(void)
+{
+   struct ps_context *context;
    error_t err;
 
    err = ps_context_create (getproc (), &context);
