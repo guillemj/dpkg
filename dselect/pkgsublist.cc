@@ -119,7 +119,7 @@ int packagelist::add(dependency *depends, showpriority displayimportance) {
   deppossi *possi;
   for (possi=depends->list;
        possi;
-       possi=possi->next, comma=(possi && possi->next ? ", " : " or ")) {
+       possi=possi->next, comma=(possi && possi->next ? ", " : _(" or "))) {
     info(comma);
     info(possi->ed->name);
     if (possi->verrel != dvr_none) {
