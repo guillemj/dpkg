@@ -163,8 +163,7 @@ signfile () {
 		$signcommand --local-user "${signkey:-$maintainer}" --clearsign --armor \
 			--textmode  > "../$1.asc" 
 	else
-		(cat "../$1" ; echo "") | \
-		$signcommand -u "${signkey:-$maintainer}" +clearsig=on -fast  \
+		$signcommand -u "${signkey:-$maintainer}" +clearsig=on -fast <"../$1" \
 			>"../$1.asc"
 	fi
 	echo
