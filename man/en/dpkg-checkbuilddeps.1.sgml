@@ -1,0 +1,61 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN">
+
+<refentry id="dpkg-checkbuilddeps.1">
+  <refmeta>
+    <refentrytitle>dpkg-checkbuilddeps</refentrytitle>
+    <manvolnum>1</manvolnum>
+    <refmiscinfo class='source'>Debian project</refmiscinfo>
+    <refmiscinfo class='manual'>dpkg suite</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>dpkg-checkbuilddeps </refname>
+    <refpurpose>check build dependencies and conflicts</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>dpkg-checkbuilddeps</command>
+      <arg choice="opt">-B</arg>
+      <arg choice="opt"><replaceable>control-file</replaceable></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+
+    <para>
+      This program checks the installed packages in the system against the
+      build dependencies and build conflicts listed in the control file. It
+      also checks for build-essential. If any are not met, it displays them and
+      exits with a nonzero return code.
+    </para>
+
+    <para>
+      By default, <filename>debian/control</filename> is read, but an alternate
+      control filename may be specified on the command line.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>Options</title>
+
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">-B</arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Ignore Build-Depends-Indep lines. Use when no arch-indep packages
+	    will be built.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+</refentry>
+
