@@ -196,7 +196,7 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *
       break;
     case BUFFER_WRITE_FD:
       if((ret= write(data->data.i, buf, length)) < 0 && errno != EINTR)
-	ohshite(_("failed in buffer_write(fd) (%i, ret=%zi %s)"), data->data.i, ret, desc);
+	ohshite(_("failed in buffer_write(fd) (%i, ret=%zi %s): %s"), data->data.i, ret, desc);
       break;
     case BUFFER_WRITE_NULL:
       break;
