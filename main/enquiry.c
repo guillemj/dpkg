@@ -60,36 +60,46 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   *pdesc_r=pdesc; *l_r=l;
 }
 
-static int getttywidth() {
+static const char* listformatstring() {
   int fd;
   int res;
   struct winsize ws;
   char *columns;
+  int w, nw, vw, dw;
+  static char format[80]	= "";
+
+  if (format[0])
+    return format;
 
   if ((columns=getenv("COLUMNS")) && ((res=atoi(columns))>0))
-    return res;
-  if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
-    if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
+    ws.ws_col=res;
+  else {
+    if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
+      if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
+        ws.ws_col=80;
+      close(fd);
+    } else
       ws.ws_col=80;
-    close(fd);
-  return ws.ws_col;
-  } else
-    return 80;
-}
+  }
 
-static void list1package(struct pkginfo *pkg, int *head) {
-  int l,w;
-  int nw,vw,dw;
-  const char *pdesc;
-  char format[80];
-    
-  w=getttywidth()-80;	/* get spare width */
+  w=ws.ws_col-80;	/* get spare width */
   if (w<0) w=0;		/* lets not try to deal with terminals that are too small */
   w>>=2;		/* halve that so we can add that to the both the name and description */
   nw=(14+w);		/* name width */
   vw=(14+w);		/* version width */
   dw=(44+(2*w));	/* description width */
   sprintf(format,"%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n", nw, nw, vw, vw);
+
+  return format;
+}
+
+static void list1package(struct pkginfo *pkg, int *head) {
+  int l,w;
+  int nw,vw,dw;
+  const char *pdesc;
+  const char* format[80];
+    
+  format=listformatstring();
 
   if (!*head) {
     fputs(_("\
