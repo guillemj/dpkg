@@ -166,12 +166,6 @@ binary-dpkg-dev: stamp-binary
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/etc/emacs/site-start.d
 	install -p -m 644 -o root -g root debian/50dpkg-dev.el \
 		$(TMP_DPKG_DEV)/etc/emacs/site-start.d
-	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/lib/emacsen-common/packages/install
-	install -p -m 755 -o root -g root debian/emacsen-common-install \
-		$(TMP_DPKG_DEV)/usr/lib/emacsen-common/packages/install
-	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/lib/emacsen-common/packages/remove
-	install -p -m 755 -o root -g root debian/emacsen-common-remove \
-		$(TMP_DPKG_DEV)/usr/lib/emacsen-common/packages/remove
 
 # Final package creation
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/DEBIAN
