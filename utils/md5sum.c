@@ -223,6 +223,14 @@ get_md5_line(FILE *fp, unsigned char *digest, char *file)
 	if (fgets(buf, sizeof(buf), fp) == NULL)
 		return -1;
 
+        /* A line must have: a digest (32), a separator (2), and a
+         * filename (at least 1)
+         *
+         * That means it must be at least 35 characters long.
+         */
+	if (strlen(buf) < 35)
+		return 0;
+
 	memcpy(digest, p, 32);
 	p += 32;
 	if (*p++ != ' ')
@@ -246,7 +254,11 @@ get_md5_line(FILE *fp, unsigned char *digest, char *file)
 	i = strlen(p);
 	if (i < 2 || i > 255)
 		return 0;
-	p[i-1] = '\0';
+
+        /* Strip the trailing newline, if present */
+        if (p[i-1] == '\n')
+          p[i-1] = '\0';
+
 	strcpy(file, p);
 	return rc;
 }
