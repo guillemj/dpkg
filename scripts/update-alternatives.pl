@@ -166,6 +166,7 @@ if (open(AF,"$admindir/$name")) {
 if ($mode eq 'display') {
     if (!$dataread) {
         &pr("No alternatives for $name.");
+	exit 1;
     } else {
         &pr("$name - status is $manual.");
         if (defined($linkname= readlink("$altdir/$name"))) {
