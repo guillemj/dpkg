@@ -95,10 +95,10 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/bin
 	install -d -m 755 -o root -g root $(TMP_DPKG)/sbin
-	install -d -m 755 -o root -g root $(TMP_DPKG)/var
+	install -d -m 755 -o root -g root $(TMP_DPKG)/var/lib/dpkg
 	-test -d $(INSTALL_TMP)/etc && cp -a $(INSTALL_TMP)/etc $(TMP_DPKG)/
 	set -e ; for i in info alternatives parts updates ; do \
-		mv $(INSTALL_TMP)/var/dpkg/$$i $(TMP_DPKG)/var ; \
+		mv $(INSTALL_TMP)/var/lib/dpkg/$$i $(TMP_DPKG)/var/lib/dpkg/ ; \
 	done
 	cp -a $(INSTALL_TMP)/usr/sbin/start-stop-daemon $(TMP_DPKG)/sbin/
 	cp -a $(INSTALL_TMP)/usr/sbin $(TMP_DPKG)/usr/
