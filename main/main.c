@@ -97,7 +97,7 @@ Options:\n\
   -E|--skip-same-version     Skip packages whose same version is installed\n\
   -G|--refuse-downgrade      Skip packages with earlier version than installed\n\
   -B|--auto-deconfigure      Install even if it would break some other package\n\
-  --no-debsign               Do no try to verify package signatures\n\
+  --no-debsig                Do no try to verify package signatures\n\
   --no-act                   Just say what we would do - don't do it\n\
   -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
   --status-fd <n>            Send status change updates to file descriptor <n>\n\
