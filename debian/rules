@@ -103,6 +103,7 @@ binary-dpkg: stamp-binary
 
 	install -p -m 644 -o root -g root debian/changelog \
 		$(TMP_DPKG)/usr/share/doc/dpkg/changelog.Debian
+	rm -f $(TMP_DPKG)/usr/share/doc/dpkg/copyright
 	gzip -9 $(TMP_DPKG)/usr/share/doc/dpkg/*
 	install -p -m 644 -o root -g root debian/copyright \
 		$(TMP_DPKG)/usr/share/doc/dpkg/

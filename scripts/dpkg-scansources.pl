@@ -315,6 +315,10 @@ sub process_dsc {
 
     my ($size, $md5, $contents) = read_dsc $file or return;
 
+    # Allow blank lines at the end of a file, because the other programs
+    # do.
+    $contents =~ s/\n\n+\z/\n/;
+
     if ($contents =~ /^\n/ || $contents =~ /\n\n/) {
     	xwarn_noerror "$file invalid (contains blank line)\n";
 	return;

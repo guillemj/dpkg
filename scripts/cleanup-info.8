@@ -1,0 +1,48 @@
+.TH CLEANUP-INFO 8 "November 1999" "Debian Project" "dpkg utilities"
+.SH NAME
+cleanup-info \- clean up the mess that bogus install-info may have done
+.SH SYNOPSIS
+.B cleanup-info
+[--help] [--unsafe] [--version] [--] [\fI<dirname>\fP]
+.SH DESCRIPTION
+.B cleanup-info
+is a Perl script that tries to clean up the mess that bogus install-info may
+have done. It gathers all sections with the same heading into a single one.
+It tries to be smart about cases and trailing colon/spaces.
+.br
+Other clean-ups include removing of empty sections, and squeezing the blank
+lines (in entries part only).
+.sp
+Order of sections is preserved (the first encountered section counts).
+Order of entries within a section is preserved.
+.sp
+Please be \fBextremely careful\fP when using this utility - it might
+not be 100% safe. cleanup-info tries to be careful with your info dir
+file, but only until it writes it. You should back the file up prior
+to using this.
+.SH OPTIONS
+.TP
+.I --help
+Output the help screen and exit successfully.
+.TP
+.I --unsafe
+Set some additional possibly useful options.
+.br
+.B "Warning: the `--unsafe' option may garble an otherwise correct file!"
+.TP
+.I --version
+Output version and exit successfully.
+.SH FILES
+.TP
+.I "/usr/info/dir or <dirname>/dir"
+The info directory file. The lock file is named the same, with ".lock" suffix.
+.SH BUGS
+Probably many.
+.SH SEE ALSO
+.BR install-info (8),
+.BR info (1).
+.SH AUTHOR
+Copyright (C) 1996 Kim-Minh Kaplan.
+.sp
+This is free software; see the GNU General Public Licence
+version 2 or later for copying conditions.  There is NO warranty.

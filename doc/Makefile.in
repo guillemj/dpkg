@@ -20,8 +20,8 @@ cvsclean: clean cvsclean-recursive
 install: install-doc
 
 manuals-version: $(top_srcdir)/version-nr
-	v=`sed -ne 1s/.*(\(.*\)).*/\1/ $(srcdir)/ChangeLog` ; \
-	echo "<!entity manuals-version \"$$v)\">" > $@
+	set -e ; v=`sed -ne '1s/.*(\(.*\)).*/\1/' $(srcdir)/ChangeLog` ; \
+	echo "<!entity manuals-version \"$$v\">" > $@
 	echo "<!entity dpkg-version \"$(VERSION)\">" >> $@
 
 internals.html: internals.sgml manuals-version
