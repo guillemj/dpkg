@@ -68,7 +68,7 @@ void process_archive(const char *filename) {
   struct pkginfo *pkg, *otherpkg, *divpkg;
   struct conflict *conflictor, *cflict;
   char *cidir, *cidirrest, *p;
-  char pfilenamebuf[35], conffilenamebuf[MAXCONFFILENAME];
+  char *pfilenamebuf, conffilenamebuf[MAXCONFFILENAME];
   const char *pfilename, *newinfofilename;
   struct fileinlist *newconff, **newconffileslastp;
   struct fileinlist *cfile;
@@ -88,13 +88,11 @@ void process_archive(const char *filename) {
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
   admindirlen= strlen(admindir);
 
-  pfilename= filename;
-  while (strlen(pfilename) > sizeof(pfilenamebuf)-5) {
+  for (pfilename= filename ; pfilename && strlen(pfilename) > 30 &&
+      strchr(pfilename,'/') != NULL ; pfilename++ )
     pfilename= strchr(pfilename,'/');
-    if (!pfilename) break;
-    pfilename++;
-  }
   if (pfilename && pfilename != filename) {
+    pfilenamebuf= (char *)nfmalloc(strlen(pfilename)+5);
     strcpy(pfilenamebuf,".../");
     strcat(pfilenamebuf,pfilename);
     pfilename= pfilenamebuf;
