@@ -125,7 +125,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 			fi ; \
 		done ; \
 		install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/man/$$i/man5 ; \
-		for m in dpkg.cfg.5  dselect.cfg.5 ; do \
+		for m in dpkg.cfg.5 ; do \
 			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m ] ; then \
 				cp -a $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m $(TMP_DPKG)/usr/share/man/$$i/man5/$$m ; \
 			fi ; \
@@ -247,6 +247,12 @@ binary-dselect: stamp-binary
 	mv $(INSTALL_TMP)/var/lib/dpkg/methods $(TMP_DSELECT)/var/lib/dpkg/
 
 	set -e ; for i in "" de fr ja sv ; do \
+		install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/share/man/$$i/man5 ; \
+		for m in dpkg.cfg.5  dselect.cfg.5 ; do \
+			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m ] ; then \
+				cp -a $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m $(TMP_DSELECT)/usr/share/man/$$i/man5/$$m ; \
+			fi ; \
+		done ; \
 		install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/share/man/$$i/man8 ; \
 		for m in dselect.8 ; do \
 			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m ] ; then \
