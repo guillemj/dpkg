@@ -221,9 +221,6 @@ int packagelist::resolvedepcon(dependency *depends) {
   case dep_replaces:
     return 0;
 
-//  case dep_enhances:
-//   return 0;
-
   case dep_enhances:
   case dep_suggests:
   case dep_recommends:
