@@ -57,8 +57,9 @@ void standard_startup(jmp_buf *ejbuf, int argc, const char *const **argv, const 
   myopt(argv,cmdinfos);
 }
 
-void standard_shutdown(void) {
+void standard_shutdown(int freemem) {
   set_error_display(0,0);
   error_unwind(ehflag_normaltidy);
-  nffreeall();
+  if (freemem)
+    nffreeall();
 }

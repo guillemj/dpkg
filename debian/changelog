@@ -1,5 +1,9 @@
 dpkg (1.10.6) unstable; urgency=low
 
+  * Don't call nffreeall, in any of the c/c++ programs.  It appears dselect
+    slightly corrupts it's memory enough that it can't be freed without
+    segfaulting.  Closes: #159023.
+
  -- Adam Heath <doogie@debian.org>  UNRELEASED
 
 dpkg (1.10.5) unstable; urgency=low

@@ -1,3 +1,10 @@
+Sat Aug 31 23:46:04 CDT 2002 Adam Heath <doogie@debian.org>
+
+  * dpkg-deb/main.c, dselect/main.cc, include/dpkg.h.in, lib/startup.c
+    main/main.c, main/query.c, split/main.c:  Don't call nffreeall, in any
+    of the c/c++ programs.  It appears dselect slightly corrupts it's
+    memory enough that it can't be freed without segfaulting.
+
 Sat Aug 31 23:42:08 CDT 2002 Adam Heath <doogie@debian.org>
 
   * version-nr, debian/changelog: Modified for version 1.10.6.

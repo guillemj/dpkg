@@ -547,7 +547,7 @@ int main(int argc, const char *const *argv) {
 
   actionfunction(argv);
 
-  standard_shutdown();
+  standard_shutdown(0);
 
   return reportbroken_retexitstatus();
 }
