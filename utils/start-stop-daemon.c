@@ -1223,6 +1223,9 @@ main(int argc, char **argv)
 #else
 		 /* now close all extra fds */
 		for (i=getdtablesize()-1; i>=0; --i) close(i);
+#endif
+
+#ifdef HAVE_TIOCNOTTY
 		 /* change tty */
 		fd = open("/dev/tty", O_RDWR);
 		ioctl(fd, TIOCNOTTY, 0);
