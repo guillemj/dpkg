@@ -23,7 +23,7 @@
 #define DPKG_DEB_H
 
 typedef void dofunction(const char *const *argv);
-dofunction do_build, do_contents, do_control;
+dofunction do_build, do_contents, do_control, do_showinfo;
 dofunction do_info, do_field, do_extract, do_vextract, do_fsystarfile;
 
 extern int debugflag, nocheckflag, oldformatflag;
@@ -34,6 +34,7 @@ void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo);
 
 extern const char *compression;
+extern const char* showformat;
 
 #define DEBMAGIC     "!<arch>\ndebian-binary   "
 #define ADMINMEMBER		"control.tar.gz  "
