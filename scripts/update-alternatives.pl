@@ -518,7 +518,7 @@ sub config_alternatives {
 			"$altdir/$slave.dpkg-tmp");
 		checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
 	    } else {
-		&&pr("Removing $slave ($slavelinks[$slnum]), not appropriate with $versions[$preferred].")
+		&pr("Removing $slave ($slavelinks[$slnum]), not appropriate with $versions[$preferred].")
 		    if $verbosemode > 0;
 		unlink("$altdir/$slave") || $! == &ENOENT ||
 		    &quit("unable to remove $altdir/$slave: $!");
