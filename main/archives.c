@@ -41,6 +41,70 @@
 #include "main.h"
 #include "archives.h"
 
+int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
+                     struct pkginfo *pkgbeinginstalled) {
+  struct pkginfo *divpkg, *thirdpkg;
+  struct filepackages *packageslump;
+  int i;
+  
+  debug(dbg_eachfiledetail,"filesavespackage file `%s' package %s",
+        file->namenode->name,pkgtobesaved->name);
+  /* A package can only be saved by a file or directory which is part
+   * only of itself - it must be neither part of the new package being
+   * installed nor part of any 3rd package (this is important so that
+   * shared directories don't stop packages from disappearing).
+   */
+  /* Is the file in the package being installed ?  If so then it can't save.
+   */
+  if (file->namenode->flags & fnnf_new_inarchive) {
+    debug(dbg_eachfiledetail,"filesavespackage ... in new archive -- no save");
+    return 0;
+  }
+  /* If the file is a contended one and it's overridden by either
+   * the package we're considering disappearing or the package
+   * we're installing then they're not actually the same file, so
+   * we can't disappear the package - it is saved by this file.
+   */
+  if (file->namenode->divert && file->namenode->divert->useinstead) {
+    divpkg= file->namenode->divert->pkg;
+    if (divpkg == pkgtobesaved || divpkg == pkgbeinginstalled) {
+      debug(dbg_eachfiledetail,"filesavespackage ... diverted -- save!");
+      return 1;
+    }
+  }
+  /* Look for a 3rd package which can take over the file (in case
+   * it's a directory which is shared by many packages.
+   */
+  for (packageslump= file->namenode->packages;
+       packageslump;
+       packageslump= packageslump->more) {
+    for (i=0; i < PERFILEPACKAGESLUMP && packageslump->pkgs[i]; i++) {
+      thirdpkg= packageslump->pkgs[i];
+      debug(dbg_eachfiledetail, "filesavespackage ... also in %s",
+            thirdpkg->name);
+      /* Is this not the package being installed or the one being
+       * checked for disappearance ?
+       */
+      if (thirdpkg == pkgbeinginstalled || thirdpkg == pkgtobesaved) continue;
+      /* If !fileslistvalid then we've already disappeared this one, so
+       * we shouldn't try to make it take over this shared directory.
+       */
+      debug(dbg_eachfiledetail,"filesavespackage ...  is 3rd package");
+
+      if (!thirdpkg->clientdata->fileslistvalid) {
+        debug(dbg_eachfiledetail,
+              "process_archive ...  already disappeared !");
+        continue;
+      }
+      /* We've found a package that can take this file. */
+      debug(dbg_eachfiledetail, "filesavespackage ...  taken -- no save");
+      return 0;
+    }
+  }
+  debug(dbg_eachfiledetail, "filesavespackage ... not taken -- save !");
+  return 1;
+}
+
 void cu_pathname(int argc, void **argv) {
   ensure_pathname_nonexisting((char*)(argv[0]));
 } 
@@ -269,7 +333,8 @@ int tarobject(struct TarInfo *ti) {
            * check for both being the diverting package, obviously).
            */
           divpkg= nifd->namenode->divert->pkg;
-          debug(dbg_eachfile, "tarobject ... diverted, divpkg=%s\n",divpkg->name);
+          debug(dbg_eachfile, "tarobject ... diverted, divpkg=%s",
+                divpkg ? divpkg->name : "<none>");
           if (otherpkg == divpkg || tc->pkg == divpkg) continue;
         }
         /* Nope ?  Hmm, file conflict, perhaps.  Check Replaces. */

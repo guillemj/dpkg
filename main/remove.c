@@ -40,11 +40,35 @@
 #include "filesdb.h"
 #include "main.h"
 
+static void checkforremoval(struct pkginfo *pkgtoremove,
+                            struct pkginfo *pkgdepcheck, /* may be virtual pkg */
+                            int *rokp, struct varbuf *raemsgs) {
+  struct deppossi *possi;
+  struct pkginfo *depender;
+  int before, ok;
+  
+  for (possi= pkgdepcheck->installed.depended; possi; possi= possi->nextrev) {
+    if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
+    depender= possi->up->up;
+    debug(dbg_depcon,"checking depending package `%s'",depender->name);
+    if (depender->status != stat_installed) continue;
+    if (ignore_depends(depender)) {
+      debug(dbg_depcon,"ignoring depending package `%s'\n",depender->name);
+      continue;
+    }
+    if (dependtry > 1) { if (findbreakcycle(pkgdepcheck,0)) sincenothing= 0; }
+    before= raemsgs->used;
+    ok= dependencies_ok(depender,pkgtoremove,raemsgs);
+    if (ok == 0 && depender->clientdata->istobe == itb_remove) ok= 1;
+    if (ok == 1) raemsgs->used= before; /* Don't burble about reasons for deferral */
+    if (ok < *rokp) *rokp= ok;
+  }
+}
+
 void deferred_remove(struct pkginfo *pkg) {
   struct varbuf raemsgs;
-  int rok, before, ok;
-  struct deppossi *dep;
-  struct pkginfo *depender;
+  int rok;
+  struct dependency *dep;
 
   debug(dbg_general,"deferred_remove package %s",pkg->name);
   
@@ -77,22 +101,13 @@ void deferred_remove(struct pkginfo *pkg) {
   debug(dbg_general,"checking dependencies for remove `%s'",pkg->name);
   varbufinit(&raemsgs);
   rok= 2;
-  for (dep= pkg->installed.depended; dep; dep= dep->nextrev) {
-    if (dep->up->type != dep_depends && dep->up->type != dep_predepends) continue;
-    depender= dep->up->up;
-    debug(dbg_depcon,"checking depending package `%s'",depender->name);
-    if (depender->status != stat_installed) continue;
-    if (ignore_depends(depender)) {
-      debug(dbg_depcon,"ignoring depending package `%s'\n",depender->name);
-      continue;
-    }
-    if (dependtry > 1) { if (findbreakcycle(pkg,0)) sincenothing= 0; }
-    before= raemsgs.used;
-    ok= dependencies_ok(depender,pkg,&raemsgs);
-    if (ok == 0 && depender->clientdata->istobe == itb_remove) ok= 1;
-    if (ok == 1) raemsgs.used= before; /* Don't burble about reasons for deferral */
-    if (ok < rok) rok= ok;
+  checkforremoval(pkg,pkg,&rok,&raemsgs);
+  for (dep= pkg->installed.depends; dep; dep= dep->next) {
+    if (dep->type != dep_provides) continue;
+    debug(dbg_depcon,"checking virtual package `%s'",dep->list->ed->name);
+    checkforremoval(pkg,dep->list->ed,&rok,&raemsgs);
   }
+
   if (rok == 1) {
     varbuffree(&raemsgs);
     pkg->clientdata->istobe= itb_remove;

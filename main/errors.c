@@ -101,7 +101,7 @@ void forcibleerr(int forceflag, const char *fmt, ...) {
   va_list al;
   va_start(al,fmt);
   if (forceflag) {
-    fputs(DPKG " - warning, overriding problem because you used --force:\n ",stderr);
+    fputs(DPKG " - warning, overriding problem because --force enabled:\n ",stderr);
     vfprintf(stderr,fmt,al);
     fputc('\n',stderr);
   } else {

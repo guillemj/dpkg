@@ -234,8 +234,9 @@ owned by the appropriate group.
 
 @item
 Library files should generally be mode 644 and owned by
-@code{root.root}.  If the package requires different permissions
-or ownerships to function correctly, they should be used instead.
+@code{root.root}; shared libraries should be mode 755.  If the package
+requires different permissions or ownerships to function correctly, they
+should be used instead.
 
 @item
 Manual pages should be mode 644 and owned by @code{root.root}.  The
@@ -529,9 +530,9 @@ but the tarfile should unpack into a directory named
 below on version numbering).
 
 @item
-Create the context diff against the original package using @file{diff
--cNr}, and use @file{gzip -9} to compress it.  Context diffs should be
-named in the form <@i{package}>-<@i{version}>.diff.gz---for example,
+Create the unified context diff against the original package using
+@file{diff -uNr}, and use @file{gzip -9} to compress it.  Diffs should
+be named in the form <@i{package}>-<@i{version}>.diff.gz---for example,
 @file{fileutils-3.9-3.diff.gz}.
 @end itemize
 
@@ -684,11 +685,14 @@ The version number in the format
    Each field has a particular format and meaning for the package
 installation tools.
 
-The value of @file{Package} should be the name of the package.
-Package names must start with an alphanumeric, must be at least two
-characters, and may contain only alphanumerics and the characters
-- + . @@ : = % _ (that is, hyphen, plus, stop, at, colon, equals,
-percent and underscore).  They are not case sensitive.
+The value of @file{Package} should be the name of the package.  Package
+names must start with an alphanumeric, must be at least two characters,
+and may contain only alphanumerics and the characters - + . (that is,
+hyphen, plus, stop) @footnote{The characters @@ : = % _ (at, colon,
+equals, percent and underscore) used to be legal and are still accepted
+when found in a package file, but may not be used in new packages}.
+They are sort of case sensitive - please try to get the case right first
+time.
 
    The @code{Maintainer} field should be in the form
 
@@ -752,7 +756,7 @@ used as a location for the package in the distribution.
 A boolean field used by the base packages.
 @item Pre-Depends
 Used by base packages to ensure that (for example) shared libraries are
-present befoore they are upgraded.
+present before they are upgraded.  This feature is for expert use only.
 @item Source
 Gives the name of the source package when several binary packages are
 generated from a single source tree.

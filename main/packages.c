@@ -246,6 +246,7 @@ void process_queue(void) {
 static int deppossi_ok_found(struct pkginfo *possdependee,
                              struct pkginfo *requiredby,
                              struct pkginfo *removing,
+                             struct pkginfo *providing,
                              int *matched,
                              struct deppossi *checkversion,
                              int *interestingwarnings,
@@ -260,6 +261,10 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   if (possdependee == removing) {
     varbufaddstr(oemsgs,"  Package ");
     varbufaddstr(oemsgs,possdependee->name);
+    if (providing) {
+      varbufaddstr(oemsgs," which provides ");
+      varbufaddstr(oemsgs,providing->name);
+    }
     varbufaddstr(oemsgs," is to be removed.\n");
     *matched= 1;
     if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
@@ -300,6 +305,10 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
     } else {
       varbufaddstr(oemsgs,"  Package ");
       varbufaddstr(oemsgs,possdependee->name);
+      if (providing) {
+        varbufaddstr(oemsgs," which provides ");
+        varbufaddstr(oemsgs,providing->name);
+      }
       varbufaddstr(oemsgs," is not configured yet.\n");
       if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
       debug(dbg_depcondetail,"      not configured/able - returning %d",thisf);
@@ -309,6 +318,10 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   default:
     varbufaddstr(oemsgs,"  Package ");
     varbufaddstr(oemsgs,possdependee->name);
+    if (providing) {
+      varbufaddstr(oemsgs," which provides ");
+      varbufaddstr(oemsgs,providing->name);
+    }
     varbufaddstr(oemsgs," is not installed.\n");
     if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
     debug(dbg_depcondetail,"      not installed - returning %d",thisf);
@@ -341,7 +354,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
         debug(dbg_depcondetail,"      break cycle so ok and found");
         found= 3; break;
       }
-      thisf= deppossi_ok_found(possi->ed,pkg,removing,
+      thisf= deppossi_ok_found(possi->ed,pkg,removing,0,
                                &matched,possi,&interestingwarnings,&oemsgs);
       if (thisf > found) found= thisf;
       if (found != 3 && possi->verrel == dvr_none) {
@@ -351,7 +364,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                provider= provider->nextrev) {
             if (provider->up->type != dep_provides) continue;
             debug(dbg_depcondetail,"     checking provider %s",provider->up->up->name);
-            thisf= deppossi_ok_found(provider->up->up,pkg,removing,
+            thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
                                      &matched,0,&interestingwarnings,&oemsgs);
             if (thisf > found) found= thisf;
           }

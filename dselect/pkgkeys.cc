@@ -75,8 +75,10 @@ const keybindings::interpretation packagelist_kinterps[] = {
 #define C(x) ((x)-'a'+1)
 
 const keybindings::orgbinding packagelist_korgbindings[]= {
+  { 'j',            "down"           }, // vi style
   { 'n',            "down"           },
   { KEY_DOWN,       "down"           },
+  { 'k',            "up"             }, // vi style
   { 'p',            "up"             },
   { KEY_UP,         "up"             },
   
@@ -86,7 +88,7 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'P',            "scrollback"     },
   { KEY_PPAGE,      "scrollback"     },
   { KEY_BACKSPACE,  "scrollback"     },
-  { 0177,/*DEL*/    "scrollback"     },
+  { 0177,           "scrollback"     }, // ASCII DEL
   { C('h'),         "scrollback"     },
   { C('n'),         "scrollon1"      },
   { C('p'),         "scrollback1"    },
@@ -130,6 +132,8 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { KEY_ENTER,      "quitcheck"      },
   { '\r',           "quitcheck"      },
   { 'Q',            "quitnocheck"    },
+  { 27,             "abortnocheck"   }, // esc
+  { 'x',            "abortnocheck"   },
   { 'X',            "abortnocheck"   },
   { 'R',            "revert"         },
   { 'U',            "revertsuggest"  },

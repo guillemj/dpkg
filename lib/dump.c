@@ -238,6 +238,7 @@ void writedb(const char *filename, int available, int mustsync) {
   
   struct pkgiterator *it;
   struct pkginfo *pigp;
+  struct pkginfoperfile *pifp;
   char *oldfn, *newfn;
   const char *which;
   FILE *file;
@@ -258,12 +259,11 @@ void writedb(const char *filename, int available, int mustsync) {
 
   it= iterpkgstart();
   while ((pigp= iterpkgnext(it)) != 0) {
-    if (!(informative(pigp) ||
-          informativeperfile(&pigp->available) ||
-          informativeperfile(&pigp->installed)))
-      /* Don't dump records which have no useful content. */
-      continue;
-    varbufrecord(&vb, pigp, available ? &pigp->available : &pigp->installed);
+    pifp= available ? &pigp->available : &pigp->installed;
+    /* Don't dump records which have no useful content. */
+    if (!informative(pigp,pifp)) continue;
+    if (!pifp->valid) blankpackageperfile(pifp);
+    varbufrecord(&vb,pigp,pifp);
     varbufaddc(&vb,'\n'); varbufaddc(&vb,0);
     if (!fputs(vb.buf,file))
       ohshite("failed to write %s record about `%.50s' to `%.250s'",

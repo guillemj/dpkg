@@ -385,7 +385,7 @@ void enqperpackage(const char *const *argv) {
           !(pkg->section && *pkg->section) &&
           !pkg->files &&
           pkg->want == want_unknown &&
-          !informativeperfile(&pkg->installed)) {
+          !informative(pkg,&pkg->installed)) {
         printf("Package `%s' is not installed and no info is available.\n",pkg->name);
         failures++;
       } else {

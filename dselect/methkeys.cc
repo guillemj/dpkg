@@ -62,14 +62,18 @@ const keybindings::interpretation methodlist_kinterps[] = {
 #define C(x) ((x)-'a'+1)
 
 const keybindings::orgbinding methodlist_korgbindings[]= {
+  { 'j',            "down"           }, // vi style
   { 'n',            "down"           },
   { KEY_DOWN,       "down"           },
+  { 'k',            "up"             }, // vi style
   { 'p',            "up"             },
   { KEY_UP,         "up"             },
   
+  { C('f'),         "scrollon"       }, // vi style
   { 'N',            "scrollon"       },
   { KEY_NPAGE,      "scrollon"       },
   { ' ',            "scrollon"       },
+  { C('b'),         "scrollback"     }, // vi style
   { 'P',            "scrollback"     },
   { KEY_PPAGE,      "scrollback"     },
   { KEY_BACKSPACE,  "scrollback"     },
@@ -105,6 +109,7 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
 
   { KEY_ENTER,      "select-and-quit"  },
   { '\r',           "select-and-quit"  },
+  { 27,             "abort"            }, // esc
   { 'x',            "abort"            },
   { 'X',            "abort"            },
   

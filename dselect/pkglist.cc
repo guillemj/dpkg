@@ -43,7 +43,7 @@ int packagelist::compareentries(struct perpackagestate *a,
     !asection || !bsection ?
       (!bsection) - (!asection) :
     !*asection || !*bsection ?
-      (!asection) - (!bsection) :
+      (!*asection) - (!*bsection) :
     strcasecmp(asection,bsection);
   int c_priority=
     a->pkg->priority - b->pkg->priority;
@@ -95,6 +95,7 @@ void packagelist::addheading(pkginfo::pkgpriority priority,
     nallocated += nallocated+50;
     struct perpackagestate **newtable= new struct perpackagestate*[nallocated];
     memcpy(newtable,table,nallocated*sizeof(struct perpackagestate*));
+    delete[] table;
     table= newtable;
   }
   
@@ -233,10 +234,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
        ) {
     struct perpackagestate *state= &datatable[nitems];
     state->pkg= pkg;
-    if (!informativeperfile(&pkg->available) &&
-        pkg->status == pkginfo::stat_notinstalled &&
-        pkg->priority == pkginfo::pri_unknown &&
-        !(pkg->section && *pkg->section) &&
+    if (pkg->status == pkginfo::stat_notinstalled &&
         !pkg->files &&
         pkg->want != pkginfo::want_install) {
       pkg->clientdata= 0; continue;

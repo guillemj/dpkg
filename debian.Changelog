@@ -1,8 +1,37 @@
+dpkg (1.1.6); priority=MEDIUM
+
+  * Check virtual dependencies when removing (ouch! - thanks SDE.)
+  * Fixed bug in internal database validity management that could
+    make dselect and dpkg dump core.  (Bug#2613.)
+  * Fixed two coredumping bugs when using local diversions.  (Bug#2804.)
+  * Fixed disappearance of overwritten packages.  (Bug#2696.)
+  * install-info won't modify dir file before start of menu.
+  * install-info will create Miscellaneous heading if no sections yet.
+
+  * Only alphanums and +-. allowed in package names - enforced by
+    dpkg-deb --build and documented in Guidelines.
+  * dselect doesn't display packages unless they are installed, selected
+    or available.
+  * dselect doesn't show spurious section and priority headings.
+  * dselect has a few extra keybindings (from Lee Olds).
+  * --force message changed to `--force enabled' so that default is OK.
+
+  * dpkg-name now includes architecture component in .deb filename,
+    and translates - in package name to _.
+  * .deb file has architecture component in filename.
+
+  * Guidelines changed to say Pre-Depends is for experts only.
+  * Guidelines say to provide a unidiff (-u) rather than an old context diff.
+  * Guidelines say 755 root.root for shared libraries.
+
+ -- Ian Jackson <ian@chiark.chu.cam.ac.uk>  Wed, 1 May 1996 00:47:22 +0100
+
 dpkg (1.1.5); priority=MEDIUM (HIGH for diversions users)
 
   * Fixed coredump when using diversions.  (Bug#2603.)
   * Fixed typo in dpkg-divert which could lose diversions.  (Bug#2662.)
 
+  * --force-overwrite is the default.
   * diversions.text provides better examples.
 
  -- Ian Jackson <ian@chiark.chu.cam.ac.uk>  Wed, 10 Apr 1996 13:59:30 +0100

@@ -793,22 +793,9 @@ void process_archive(const char *filename) {
       continue;
     }
     for (cfile= otherpkg->clientdata->files;
-         cfile;
-         cfile= cfile->next) {
-      if (!(cfile->namenode->flags & fnnf_new_inarchive)) break;
-      if (cfile->namenode->divert && cfile->namenode->divert->useinstead) {
-        /* If the file is a contended one and it's overridden by either the package
-         * we're considering disappearing or the package we're installing then
-         * they're not actually the same file, so we can't disappear the package.
-         */
-        divpkg= cfile->namenode->divert->pkg;
-        if (divpkg == pkg || divpkg == otherpkg) break;
-      }
-    }
-    if (cfile) {
-      debug(dbg_stupidlyverbose, "process_archive saved by `%s'",cfile->namenode->name);
-      continue;
-    }
+         cfile && !filesavespackage(cfile,otherpkg,pkg);
+         cfile= cfile->next);
+    if (cfile) continue;
 
     /* So dependency things will give right answers ... */
     otherpkg->clientdata->istobe= itb_remove; 
@@ -924,7 +911,7 @@ void process_archive(const char *filename) {
       } else {
         debug(dbg_eachfile,
               "process_archive looking for overwriting `%s' (overridden by %s)",
-              cfile->namenode->name, divpkg->name);
+              cfile->namenode->name, divpkg ? divpkg->name : "<local>");
       }        
     } else {
       divpkg= 0;

@@ -150,8 +150,7 @@ extern char *statusfile, *availablefile; /* initialised by modstatdb_init */
 struct pkginfo *findpackage(const char *name);
 void blankpackage(struct pkginfo *pp);
 void blankpackageperfile(struct pkginfoperfile *pifp);
-int informative(struct pkginfo *info);
-int informativeperfile(struct pkginfoperfile *info);
+int informative(struct pkginfo *pkg, struct pkginfoperfile *info);
 int countpackages(void);
 void resetpackages(void);
 

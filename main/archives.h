@@ -57,6 +57,9 @@ int unlinkorrmdir(const char *filename);
 int tarobject(struct TarInfo *ti);
 int tarfileread(void *ud, char *buf, int len);
 
+int filesavespackage(struct fileinlist*, struct pkginfo*,
+                     struct pkginfo *pkgbeinginstalled);
+
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename, struct pkginfo **conflictorp);
 

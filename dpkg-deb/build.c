@@ -93,6 +93,10 @@ void do_build(const char *const *argv) {
     parsedb(controlfile, pdb_recordavailable|pdb_rejectstatus,
             &checkedinfo, stderr, &warns);
     assert(checkedinfo->available.valid);
+    if (strspn(checkedinfo->name,
+               "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-.")
+        != strlen(checkedinfo->name))
+      ohshit("package name has characters that aren't alphanums or `-+.'");
     if (checkedinfo->priority == pri_other) {
       fprintf(stderr, "warning, `%s' contains user-defined Priority value `%s'\n",
               controlfile, checkedinfo->otherpriority);

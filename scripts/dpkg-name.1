@@ -3,11 +3,11 @@
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
-.TH dpkg-name 1 "January 1996" "Debian Project" "Debian GNU/Linux"
+.TH dpkg-name 1 "April 1996" "Debian Project" "Debian Linux"
 .SH NAME
 dpkg\-name \- rename Debian packages to full package names
 .SH SYNOPSIS
-.B dpkg\-name [\-h|\-\-help] [\-V|\-\-version] [\-L|\-\-license] [--] [files]
+.B dpkg\-name [\-h|\-\-help] [\-v|\-\-version] [\-l|\-\-license] [--] [files]
 .SH DESCRIPTION
 .PP
 This manual page documents the
@@ -15,12 +15,13 @@ This manual page documents the
 sh script which provides an easy way to rename
 .B Debian
 packages into their full package names. A full package name consists
-of <package>-<version>[-<revision>].deb as specified in the control
-file of the package.
+of <package>-<version>.<architecture>.deb as specified in the control
+file of the package (<version> is
+<mainstream-version>-<debian-revision>).
 .SH EXAMPLES
 .TP
 .B dpkg-name toedeledokie
-The file `toedeledokie' will be renamed to emacs-19.29-4.deb or
+The file `toedeledokie' will be renamed to emacs-19.29-4.i386.deb or
 something similar (depending on whatever information is in the control
 part of `toedeledokie').
 .TP
@@ -40,9 +41,9 @@ Print copyright information and (a reference to GNU) license
 information and exit successfully.
 .SH BUGS?
 Successfully tested on
-.B Debian GNU/Linux 
+.B Debian Linux 
 systems only. Some packages don't follow the name structure
-<package>-<version>[-<revision>].deb. Packages renamed by dpkg-name
+<package>-<version>.<architecture>.deb. Packages renamed by dpkg-name
 will follow this structure. Generally this will have no impact on how
 packages are installed by dselect/dpkg.
 .SH SEE ALSO

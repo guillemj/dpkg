@@ -132,8 +132,20 @@ void blankpackageperfile(struct pkginfoperfile *pifp) {
 
 static int nes(const char *s) { return s && *s; }
 
-int informativeperfile(struct pkginfoperfile *info) {
-  /* Used by dselect as an aid to decide whether to display things. */
+int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
+  /* Used by dselect and dpkg query options as an aid to decide
+   * whether to display things, and by dump to decide whether to write them
+   * out.
+   */
+  if (info == &pkg->installed ?
+      ((pkg->want != want_unknown && pkg->want != want_purge) ||
+       pkg->eflag != eflagv_ok ||
+       pkg->status != stat_notinstalled ||
+       pkg->files)
+      :
+      (nes(pkg->section) ||
+       pkg->priority != pri_unknown))
+    return 1;
   if (!info->valid) return 0;
   if (info->depends ||
       nes(info->description) ||
@@ -145,15 +157,6 @@ int informativeperfile(struct pkginfoperfile *info) {
       info->conffiles ||
       info->arbs) return 1;
   return 0;
-}
-
-int informative(struct pkginfo *pkg) {
-  return ((pkg->want != want_unknown && pkg->want != want_purge) ||
-          pkg->eflag != eflagv_ok ||
-          pkg->status != stat_notinstalled ||
-          nes(pkg->section) ||
-          pkg->files ||
-          pkg->priority != pri_unknown);
 }
 
 struct pkginfo *findpackage(const char *name) {

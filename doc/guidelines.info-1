@@ -218,8 +218,9 @@ the guidelines below.
      course, owned by the appropriate group.
 
    * Library files should generally be mode 644 and owned by
-     `root.root'.  If the package requires different permissions or
-     ownerships to function correctly, they should be used instead.
+     `root.root'; shared libraries should be mode 755.  If the package
+     requires different permissions or ownerships to function
+     correctly, they should be used instead.
 
    * Manual pages should be mode 644 and owned by `root.root'.  The
      `nroff' source must be installed.  You should *not* install a
@@ -471,8 +472,8 @@ for the existence of a file in the source directory.
      `<package>-<original_version>' (again, see the section below on
      version numbering).
 
-   * Create the context diff against the original package using `diff
-     -cNr', and use `gzip -9' to compress it.  Context diffs should be
+   * Create the unified context diff against the original package using
+     `diff -uNr', and use `gzip -9' to compress it.  Diffs should be
      named in the form <package>-<version>.diff.gz--for example,
      `fileutils-3.9-3.diff.gz'.
 
@@ -628,9 +629,9 @@ installation tools.
 
    The value of `Package' should be the name of the package.  Package
 names must start with an alphanumeric, must be at least two characters,
-and may contain only alphanumerics and the characters - + . @ : = % _
-(that is, hyphen, plus, stop, at, colon, equals, percent and
-underscore).  They are not case sensitive.
+and may contain only alphanumerics and the characters - + . (that is,
+hyphen, plus, stop) (1).  They are sort of case sensitive - please try
+to get the case right first time.
 
    The `Maintainer' field should be in the form
 
@@ -694,7 +695,8 @@ reluctant to downgrade packages.
 
 `Pre-Depends'
      Used by base packages to ensure that (for example) shared
-     libraries are present befoore they are upgraded.
+     libraries are present before they are upgraded.  This feature is
+     for expert use only.
 
 `Source'
      Gives the name of the source package when several binary packages
@@ -731,6 +733,12 @@ any user mailer program; the actual package names `pine' is quoted for
 the reasons described in `dependency-ordering.txt', and the others
 because older versions of those packages do not have the appropriate
 `Provides' field.
+
+   ---------- Footnotes ----------
+
+   (1)  The characters @ : = % _ (at, colon, equals, percent and
+underscore) used to be legal and are still accepted when found in a
+package file, but may not be used in new packages
 
 
 File: guidelines.info,  Node: conffiles,  Next: Installation and Removal Scripts,  Prev: control,  Up: Control Files

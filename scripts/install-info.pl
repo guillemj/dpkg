@@ -216,6 +216,12 @@ eof(OLD) || &ulquit("$name: read $infodir/dir: $!\n");
 close(OLD) || &ulquit("$name: close $infodir/dir after read: $!\n");
 while ($work[$#work] !~ m/\S/) { $#work--; }
 
+do {
+    last if !@work;
+    $_= shift(@work);
+    push(@head,$_);
+} until (m/^\*\s*Menu:/i);
+
 if (!$remove) {
 
     for ($i=0; $i<=$#work; $i++) {
@@ -249,9 +255,15 @@ if (!$remove) {
         if ($mss < 0) {
             print "$name: creating new section \`$sectiontitle'\n" unless $quiet;
             for ($i= $#work; $i>=0 && $work[$i] =~ m/\S/; $i--) { }
-            $i >= 0 || &ulquit("$name: nowhere to create new section - giving up\n");
-            @work= (@work[0..$i], "$sectiontitle\n", "\n", @work[$i+1..$#work]);
-            $mss= $i+1;
+            if ($i <= 0) { # We ran off the top, make this section and Misc.
+                print "$name: no sections yet, creating Miscellaneous section too.\n"
+                    unless $quiet;
+                @work= ("\n", "$sectiontitle\n", "\n", "Miscellaneous:", @work);
+                $mss= 1;
+            } else {
+                @work= (@work[0..$i], "$sectiontitle\n", "\n", @work[$i+1..$#work]);
+                $mss= $i+1;
+            }
         }
         while ($mss <= $#work) {
             $work[$mss] =~ m/\S/ || last;
@@ -316,7 +328,7 @@ END
 
 if (!$nowrite) {
     open(NEW,"> $infodir/dir.new") || &ulquit("$name: create $infodir/dir.new: $!\n");
-    print(NEW @work) || &ulquit("$name: write $infodir/dir.new: $!\n");
+    print(NEW @head,@work) || &ulquit("$name: write $infodir/dir.new: $!\n");
     close(NEW) || &ulquit("$name: close $infodir/dir.new: $!\n");
 
     unlink("$infodir/dir.old");

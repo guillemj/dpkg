@@ -3,12 +3,12 @@
 set -e
 
 prog="`basename \"${0}\"`"
-version="0.11"; # This line modified by Makefile
+version="1.1.5"; # This line modified by Makefile
 purpose="rename Debian packages to full package names"
 
 license () {
 echo "# ${prog} ${version} -- ${purpose}
-# Copyright (C) 1995,1996 Erick Branderhorst <branderhorst@heel.fgg.eur.nl>.
+# Copyright (C) 1995,1996 Erick Branderhorst <branderh@debian.org>.
 
 # This is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -32,7 +32,7 @@ show_version () {
 usage () {
 	echo "Usage: ${prog} file[s]
   ${purpose}
-  file.deb changes to <package>-<version>[-<revision>].deb
+  file.deb changes to <package>-<version>.<architecture>.deb
   -h|--help|-v|--version|-l|--license  Show help/version/license"
 }
 
@@ -51,8 +51,14 @@ rename () {
 			then
 				p=$p-$r;
 			fi
-			p=`echo $p|sed 's/ //g'`
-			p=`dirname "$1"`"/"$p.deb	
+			a=`dpkg-deb -f -- "$1" architecture`;
+			if [ -z "$a" ];
+			then
+				a=`dpkg --print-architecture`;
+				stderr "assuming "$a" architecture for \`"$1"'";
+			fi				
+			p=`echo \"$p\"|tr -ds -- '- ' _`
+			p=`dirname "$1"`"/"$p.$a.deb
 			if [ $p -ef "$1" ];									# same device and inode numbers
 			then
 				stderr "skipping \`"$1"'";
@@ -91,4 +97,3 @@ exit 0;
 # Local variables:
 # tab-width: 2
 # End:
-
