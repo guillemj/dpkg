@@ -18,7 +18,9 @@ sub usage {
 usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
              [--section regexp title] [--infodir=xxx] [--align=nnn]
              [--calign=nnn] [--quiet] [--menuentry=xxx] [--info-dir=xxx]
-             [--keep-old] [--description=xxx] [--test] [--remove] [--]
+             [--keep-old] [--description=xxx] [--test]
+             [--remove | --remove-exactly ]
+             [--]
              filename
 END
 }
@@ -39,6 +41,8 @@ $keepold=0;
 $debug=0;
 $remove=0;
 
+my $remove_exactly;
+
 $0 =~ m|[^/]+$|; $name= $&;
 
 while ($ARGV[0] =~ m/^--/) {
@@ -54,6 +58,9 @@ while ($ARGV[0] =~ m/^--/) {
         $keepold=1;
     } elsif ($_ eq '--remove') {
         $remove=1;
+    } elsif ($_ eq '--remove-exactly') {
+        $remove=1;
+        $remove_exactly=1;
     } elsif ($_ eq '--help') {
         &usage; exit 0;
     } elsif ($_ eq '--debug') {
@@ -100,7 +107,15 @@ print STDERR "$name: test mode - dir file will not be updated\n"
 
 umask(umask(0777) & ~0444);
 
+if($remove_exactly) {
+    $remove_exactly = $filename;
+}
+
 $filename =~ m|[^/]+$|; $basename= $&; $basename =~ s/(\.info)?(\.gz)?$//;
+
+# The location of the info files from the dir entry, i.e. (emacs-20/emacs).
+my $fileinentry;
+
 &dprint("infodir='$infodir'  filename='$filename'  maxwidth='$maxwidth'\nmenuentry='$menuentry'  basename='$basename'\ndescription='$description'  remove=$remove");
 
 if (!$remove) {
@@ -124,11 +139,15 @@ if (!$remove) {
 	}
         while(<IF>) { last if m/^END-INFO-DIR-ENTRY$/; $asread.= $_; }
         close(IF); &checkpipe;
-        if ($asread =~ m/(\* *[^:]+: *\([^\)]+\).*\. *.*\n){2,}/) {
-            $infoentry= $asread; $multiline= 1;
+        if ($asread =~ m/(\*\s*[^:]+:\s*\(([^\)]+)\).*\. *.*\n){2,}/) {
+            $infoentry= $asread;
+            $multiline= 1;
+            $fileinentry = $2;
             &dprint("multiline '$asread'");
-        } elsif ($asread =~ m/^\* *([^:]+):( *\([^\)]+\)\.|:)\s*/) {
-            $menuentry= $1; $description= $';
+        } elsif ($asread =~ m/^\*\s*([^:]+):(\s*\(([^\)]+)\)\.|:)\s*/) {
+            $menuentry= $1;
+            $description= $';
+            $fileinentry = $3;
             &dprint("infile menuentry '$menuentry' description '$description'");
         } elsif (length($asread)) {
             print STDERR <<END;
@@ -141,9 +160,11 @@ END
 
         $infoentry =~ m/\n/;
         print "$`\n" unless $quiet;
-        $infoentry =~ m/^\* *([^:]+): *\(([^\)]+)\)/ || die "$name: Invalid info entry\n"; # internal error
-        $sortby= $1;  $fileinentry= $2;
-        
+        $infoentry =~ m/^\*\s*([^:]+):\s*\(([^\)]+)\)/ || 
+            die "$name: Invalid info entry\n"; # internal error
+        $sortby= $1;
+        $fileinentry= $2;
+
     } else {
         
         if (!length($description)) {
@@ -163,10 +184,10 @@ END
         }
 
         if (!length($description)) {
-            print STDERR <<END;
+            print STDERR "
 No \`START-INFO-DIR-ENTRY' and no \`This file documents'.
 $name: unable to determine description for \`dir' entry - giving up
-END
+";
             exit 1;
         }
 
@@ -181,7 +202,12 @@ END
 
         &dprint("menuentry='$menuentry'  description='$description'");
 
-        $cprefix= sprintf("* %s: (%s).", $menuentry, $basename);
+        if($fileinentry) {
+            $cprefix= sprintf("* %s: (%s).", $menuentry, $fileinentry);
+        } else {
+            $cprefix= sprintf("* %s: (%s).", $menuentry, $basename);
+        }
+
         $align--; $calign--;
         $lprefix= length($cprefix);
         if ($lprefix < $align) {
@@ -228,22 +254,30 @@ while (@work) {
 
 if (!$remove) {
 
+    my $target_entry;
+
+    if($fileinentry) {
+        $target_entry = $fileinentry;
+    } else {
+        $target_entry = $basename;
+    }
+
     for ($i=0; $i<=$#work; $i++) {
-        next unless $work[$i] =~ m/^\* *[^:]+: *\(([^\)]+)\).*\.\s/;
-        last if $1 eq $basename || $1 eq "$basename.info";
+        next unless $work[$i] =~ m/^\*\s*[^:]+:\s*\(([^\)]+)\).*\.\s/;
+        last if $1 eq $target_entry || $1 eq "$target_entry.info";
     }
     for ($j=$i; $j<=$#work+1; $j++) {
         next if $work[$j] =~ m/^\s+\S/;
         last unless $work[$j] =~ m/^\* *[^:]+: *\(([^\)]+)\).*\.\s/;
-        last unless $1 eq $basename || $1 eq "$basename.info";
+        last unless $1 eq $target_entry || $1 eq "$target_entry.info";
     }
 
     if ($i < $j) {
         if ($keepold) {
-            print "$name: existing entry for \`$basename' not replaced\n" unless $quiet;
+            print "$name: existing entry for \`$target_entry' not replaced\n" unless $quiet;
             $nowrite=1;
         } else {
-            print "$name: replacing existing dir entry for \`$basename'\n" unless $quiet;
+            print "$name: replacing existing dir entry for \`$target_entry'\n" unless $quiet;
         }
         $mss= $i;
         @work= (@work[0..$i-1], @work[$j..$#work]);
@@ -286,10 +320,18 @@ if (!$remove) {
     
 } else {
 
+    my $target_entry;
+
+    if($remove_exactly) {
+        $target_entry = $remove_exactly;
+    } else {
+        $target_entry = $basename;
+    }
+
     for ($i=0; $i<=$#work; $i++) {
         next unless $work[$i] =~ m/^\* *([^:]+): *\((\w[^\)]*)\)/;
         $tme= $1; $tfile= $2; $match= $&;
-        next unless $tfile eq $basename;
+        next unless $tfile eq $target_entry;
         last if !length($menuentry);
         $tme =~ y/A-Z/a-z/;
         last if $tme eq $menuentry;
@@ -298,7 +340,7 @@ if (!$remove) {
         next if $work[$j] =~ m/^\s+\S/;
         last unless $work[$j] =~ m/^\* *([^:]+): *\((\w[^\)]*)\)/;
         $tme= $1; $tfile= $2;
-        last unless $tfile eq $basename;
+        last unless $tfile eq $target_entry;
         next if !length($menuentry);
         $tme =~ y/A-Z/a-z/;
         last unless $tme eq $menuentry;
@@ -320,7 +362,7 @@ if (!$remove) {
         }
         @work= (@work[0..$i-1], @work[$j..$#work]);
     } else {
-        print "$name: no entry for file \`$basename'".
+        print "$name: no entry for file \`$target_entry'".
               (length($menuentry) ? " and menu entry \`$menuentry'": '').
               ".\n"
             unless $quiet;

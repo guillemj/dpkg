@@ -10,7 +10,8 @@ install\-info \- create or update entry in Info directory
 .B install\-info
 [\-\-version] [\-\-help] [\-\-debug] [\-\-maxwidth=nnn]
 [\-\-section regexp title] [\-\-infodir=xxx] [\-\-align=nnn]
-[\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx] [\-\-remove]
+[\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx]
+[\-\-remove | \-\-remove-exactly ]
 [\-\-] filename
 .SH DESCRIPTION
 .PP
@@ -31,10 +32,16 @@ file.
 .TP
 .BI "[\-\-] " filename
 Gives the filename of the Info file whose menu entry is to be created,
-updated or removed.  The basename of this filename is used as the
-referent of the menu entry which is created.  This file must therefore
-exist (or be about to be installed, or have previously existed when
-removing an entry) in the same directory as the
+updated or removed.  If
+.B \-\-remove-exactly
+is specified, then
+.I filename
+should be the exact entry name to be removed (i.e. "emacs-20/emacs" or
+"gcc"), otherwise the basename of this filename is used as the
+referent of the menu entry which is created, unless there's an
+overriding START-INFO-DIR entry inside the given file.  This file must
+therefore exist (or be about to be installed, or have previously
+existed when removing an entry) in the same directory as the
 .B dir
 file (see the
 .B \-\-infodir
@@ -85,6 +92,24 @@ When
 is specified the
 .BR \-\-maxwidth ", " \-\-align " and " \-\-calign
 formatting options are silently ignored.
+.TP
+.B \-\-remove-exactly
+This option is essentially the same as
+.B \-\-remove
+except that
+.I filename
+is taken as the exact entry to be removed, rather than as the name
+of an existing file.  This can be important when trying to remove
+entries that refer to info files in subdirectories
+(i.e. "emacs-20/emacs") because
+.B \-\-remove
+will operate on the basename of the given
+.I filename
+rather than the exact name given.  (i.e.
+.B \-\-remove
+"emacs-20/emacs" would cause
+.B install-info
+to look for "emacs", not "emacs-20/emacs").
 .TP
 .BI "\-\-section " "regexp title"
 Specifies that, if a new entry is to be made, it should be placed in a
