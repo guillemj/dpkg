@@ -82,8 +82,8 @@ int m_fork(void) {
   r= fork();
   if (r == -1) { onerr_abort++; ohshite(_("fork failed")); }
   if (r > 0) return r;
-  push_cleanup(cu_m_fork,~0, 0,0, 0);
-  set_error_display(print_error_forked,0);
+  push_cleanup(cu_m_fork,~0, NULL,0, 0);
+  set_error_display(print_error_forked,NULL);
   return r;
 }
 

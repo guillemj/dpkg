@@ -36,11 +36,11 @@ static int convert_string
 {
   const char *ep;
   int c, l = 0;
-  struct namevalue *nvip= 0;
+  struct namevalue *nvip= NULL;
   memcpy(&nvip,&ivip,sizeof(struct namevalue *));
 
   ep= startp;
-  if (!*ep) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("%s is missing"),what);
+  if (!*ep) parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("%s is missing"),what);
   while (nvip->name) {
     if ((l= nvip->length) == 0) {
       l= strlen(nvip->name);
@@ -53,14 +53,14 @@ static int convert_string
   }
   if (!nvip->name) {
     if (otherwise != -1) return otherwise;
-    parseerr(0,filename,lno, warnto,warncount,pigp,0, _("`%.*s' is not allowed for %s"),
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("`%.*s' is not allowed for %s"),
              l > 50 ? 50 : l, startp, what);
   }
   ep = startp + l;
   c = *ep;
   while (isspace(c)) c= *++ep;
   if (c && !endpp)
-    parseerr(0,filename,lno, warnto,warncount,pigp,0, _("junk after %s"),what);
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("junk after %s"),what);
   if (endpp) *endpp= ep;
   return nvip->value;
 }
@@ -69,8 +69,8 @@ void f_name(struct pkginfo *pigp, struct pkginfoperfile *pifp, enum parsedbflags
             const char *filename, int lno, FILE *warnto, int *warncount,
             const char *value, const struct fieldinfo *fip) {
   const char *e;
-  if ((e= illegal_packagename(value,0)) != 0)
-    parseerr(0,filename,lno, warnto,warncount,pigp,0, _("invalid package name (%.250s)"),e);
+  if ((e= illegal_packagename(value,NULL)) != NULL)
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("invalid package name (%.250s)"),e);
   pigp->name= nfstrsave(value);
   findpackage(value); /* We discard the value from findpackage, but calling it
                        * forces an entry in the hash table to be made if it isn't
@@ -88,10 +88,10 @@ void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   int allowextend;
 
   if (!*value)
-    parseerr(0,filename,lno, warnto,warncount,pigp,0,
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
              _("empty file details field `%s'"),fip->name);
   if (!(flags & pdb_recordavailable))
-    parseerr(0,filename,lno, warnto,warncount,pigp,0,
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
              _("file details field `%s' not allowed in status file"),fip->name);
   allowextend= !pigp->files;
   fdpp= &pigp->files;
@@ -102,11 +102,11 @@ void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     fdp= *fdpp;
     if (!fdp) {
       if (!allowextend)
-        parseerr(0,filename,lno, warnto,warncount,pigp,0, _("too many values "
+        parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("too many values "
                  "in file details field `%s' (compared to others)"),fip->name);
       fdp= nfmalloc(sizeof(struct filedetails));
-      fdp->next= 0;
-      fdp->name= fdp->msdosname= fdp->size= fdp->md5sum= 0;
+      fdp->next= NULL;
+      fdp->name= fdp->msdosname= fdp->size= fdp->md5sum= NULL;
       *fdpp= fdp;
     }
     FILEFFIELD(fdp,fip->integer,const char*)= cpos;
@@ -115,7 +115,7 @@ void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     cpos= space;
   }
   if (*fdpp)
-    parseerr(0,filename,lno, warnto,warncount,pigp,0, _("too few values "
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("too few values "
              "in file details field `%s' (compared to others)"),fip->name);
 }
 
@@ -133,7 +133,7 @@ void f_boolean(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   pifp->essential=
     *value ? convert_string(filename,lno,_("yes/no in `essential' field"), -1,
                             warnto,warncount,pigp,
-                            value,booleaninfos,0)
+                            value,booleaninfos,NULL)
            : 0;
 }
 
@@ -152,7 +152,7 @@ void f_priority(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   if (!*value) return;
   pigp->priority= convert_string(filename,lno,"word in `priority' field", pri_other,
                              warnto,warncount,pigp,
-                             value,priorityinfos,0);
+                             value,priorityinfos,NULL);
   if (pigp->priority == pri_other) pigp->otherpriority= nfstrsave(value);
 }
 
@@ -163,7 +163,7 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   const char *ep;
 
   if (flags & pdb_rejectstatus)
-    parseerr(0,filename,lno, warnto,warncount,pigp,0,
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
              _("value for `status' field not allowed in this context"));
   if (flags & pdb_recordavailable) return;
   
@@ -176,7 +176,7 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     pigp->eflag &= ~eflagf_obsoletehold;
   }
   pigp->status= convert_string(filename,lno,_("third (status) word in `status' field"), -1,
-                               warnto,warncount,pigp, ep,statusinfos,0);
+                               warnto,warncount,pigp, ep,statusinfos,NULL);
 }
 
 void f_version(struct pkginfo *pigp, struct pkginfoperfile *pifp,
@@ -186,7 +186,7 @@ void f_version(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   const char *emsg;
   
   emsg= parseversion(&pifp->version,value);
-  if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("error "
+  if (emsg) parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("error "
                      "in Version string `%.250s': %.250s"),value,emsg);
 }  
 
@@ -196,7 +196,7 @@ void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                 const char *value, const struct fieldinfo *fip) {
   char *newversion;
 
-  parseerr(0,filename,lno, warnto,warncount,pigp,1,
+  parseerr(NULL,filename,lno, warnto,warncount,pigp,1,
            _("obsolete `Revision' or `Package-Revision' field used"));
   if (!*value) return;
   if (pifp->version.revision && *pifp->version.revision) {
@@ -214,12 +214,12 @@ void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   const char *emsg;
   
   if (flags & pdb_rejectstatus)
-    parseerr(0,filename,lno, warnto,warncount,pigp,0,
+    parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
              _("value for `config-version' field not allowed in this context"));
   if (flags & pdb_recordavailable) return;
 
   emsg= parseversion(&pigp->configversion,value);
-  if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("error "
+  if (emsg) parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("error "
                      "in Config-Version string `%.250s': %.250s"),value,emsg);
 }
 
@@ -236,18 +236,18 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   while (*value) {
     c= *value++;
     if (c == '\n') continue;
-    if (c != ' ') parseerr(0,filename,lno, warnto,warncount,pigp,0, _("value for"
+    if (c != ' ') parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("value for"
                            " `conffiles' has line starting with non-space `%c'"), c);
     for (endent= value; (c= *endent)!=0 && c != '\n'; endent++);
     for (endfn= endent; *endfn != ' '; endfn--);
     if (endfn <= value+1 || endfn >= endent-1)
-      parseerr(0,filename,lno, warnto,warncount,pigp,0,
+      parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                _("value for `conffiles' has malformatted line `%.*s'"),
                (int)(endent-value > 250 ? 250 : endent-value), value);
     newlink= nfmalloc(sizeof(struct conffile));
     value= skip_slash_dotslash(value);
     namelen= (int)(endfn-value);
-    if (namelen <= 0) parseerr(0,filename,lno, warnto,warncount,pigp,0,
+    if (namelen <= 0) parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                _("root or null directory is listed as a conffile"));
     newptr = nfmalloc(namelen+2);
     newptr[0]= '/';
@@ -257,7 +257,7 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     hashlen= (int)(endent-endfn)-1; newptr= nfmalloc(hashlen+1);
     memcpy(newptr,endfn+1,hashlen); newptr[hashlen]= 0;
     newlink->hash= newptr;
-    newlink->next =0;
+    newlink->next =NULL;
     *lastp= newlink;
     lastp= &newlink->next;
     value= endent;
@@ -283,11 +283,11 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   ldypp= &pifp->depends; while (*ldypp) ldypp= &(*ldypp)->next;
   for (;;) { /* loop creating new struct dependency's */
     dyp= nfmalloc(sizeof(struct dependency));
-    dyp->up= 0; /* Set this to zero for now, as we don't know what our real
+    dyp->up= NULL; /* Set this to zero for now, as we don't know what our real
                  * struct pkginfo address (in the database) is going to be yet.
                  */
-    dyp->next= 0; *ldypp= dyp; ldypp= &dyp->next;
-    dyp->list= 0; ldopp= &dyp->list;
+    dyp->next= NULL; *ldypp= dyp; ldypp= &dyp->next;
+    dyp->list= NULL; ldopp= &dyp->list;
     dyp->type= fip->integer;
     for (;;) { /* loop creating new struct deppossi's */
       depnamestart= p;
@@ -303,18 +303,18 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       strncpy(depname, depnamestart, depnamelength);
       *(depname + depnamelength)= 0;
       if (!*depname)
-        parseerr(0,filename,lno, warnto,warncount,pigp,0, _("`%s' field, missing"
+        parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("`%s' field, missing"
                  " package name, or garbage where package name expected"), fip->name);
-      emsg= illegal_packagename(depname,0);
-      if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("`%s' field,"
+      emsg= illegal_packagename(depname,NULL);
+      if (emsg) parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("`%s' field,"
                          " invalid package name `%.255s': %s"),
                          fip->name,depname,emsg);
       dop= nfmalloc(sizeof(struct deppossi));
       dop->up= dyp;
       dop->ed= findpackage(depname);
-      dop->next= 0; *ldopp= dop; ldopp= &dop->next;
-      dop->nextrev= 0; /* Don't link this (which is after all only `newpig' from */
-      dop->backrev= 0; /* the main parsing loop in parsedb) into the depended on
+      dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
+      dop->nextrev= NULL; /* Don't link this (which is after all only `newpig' from */
+      dop->backrev= NULL; /* the main parsing loop in parsedb) into the depended on
                         * packages' lists yet.  This will be done later when we
                         * install this (in parse.c).  For the moment we do the
                         * `forward' links in deppossi (`ed') only, and the backward
@@ -336,13 +336,13 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
             dop->verrel |= (dvrf_strict | dvrf_builtup);
             p++;
           } else if (c2 == '<' || c2 == '>') {
-            parseerr(0,filename,lno, warnto,warncount,pigp,0,
+            parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                     _("`%s' field, reference to `%.255s':\n"
                     " bad version relationship %c%c"),
                     fip->name,depname,c1,c2);
             dop->verrel= dvr_none;
           } else {
-            parseerr(0,filename,lno, warnto,warncount,pigp,1,
+            parseerr(NULL,filename,lno, warnto,warncount,pigp,1,
                      _("`%s' field, reference to `%.255s':\n"
                      " `%c' is obsolete, use `%c=' or `%c%c' instead"),
                      fip->name,depname,c1,c1,c1,c1);
@@ -352,18 +352,18 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           dop->verrel= dvr_exact;
           p++;
         } else {
-          parseerr(0,filename,lno, warnto,warncount,pigp,1,
+          parseerr(NULL,filename,lno, warnto,warncount,pigp,1,
                    _("`%s' field, reference to `%.255s':\n"
                    " implicit exact match on version number, suggest using `=' instead"),
                    fip->name,depname);
           dop->verrel= dvr_exact;
         }
 	if ((dop->verrel!=dvr_exact) && (fip->integer==dep_provides))
-	  parseerr(0,filename,lno,warnto,warncount,pigp,1,
+	  parseerr(NULL,filename,lno,warnto,warncount,pigp,1,
 		  _("Only exact versions may be used for Provides"));
 
         if (!isspace(*p) && !isalnum(*p)) {
-          parseerr(0,filename,lno, warnto,warncount,pigp,1,
+          parseerr(NULL,filename,lno, warnto,warncount,pigp,1,
                    _("`%s' field, reference to `%.255s':\n"
                    " version value starts with non-alphanumeric, suggest adding a space"),
                    fip->name,depname);
@@ -377,13 +377,13 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           p++;
         }
         while (isspace(*p)) p++;
-        if (*p == '(') parseerr(0,filename,lno, warnto,warncount,pigp,0,
+        if (*p == '(') parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
                                 "version contains `('"),fip->name,depname);
-	else if (*p != ')') parseerr(0,filename,lno, warnto,warncount,pigp,0,
+	else if (*p != ')') parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
                                 "version contains ` '"),fip->name,depname);
-        else if (*p == 0) parseerr(0,filename,lno, warnto,warncount,pigp,0,
+        else if (*p == 0) parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                    _("`%s' field, reference to `%.255s': "
                                    "version unterminated"),fip->name,depname);
 	versionlength= p - versionstart;
@@ -394,7 +394,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
 	strncpy(version,  versionstart, versionlength);
 	*(version + versionlength)= 0;
         emsg= parseversion(&dop->version,version);
-        if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0,
+        if (emsg) parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                            _("`%s' field, reference to `%.255s': "
                            "error in version: %.255s"),fip->name,depname,emsg);
         p++; while (isspace(*p)) p++;
@@ -404,13 +404,13 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       }
       if (!*p || *p == ',') break;
       if (*p != '|')
-        parseerr(0,filename,lno, warnto,warncount,pigp,0, _("`%s' field, syntax"
+        parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("`%s' field, syntax"
                  " error after reference to package `%.255s'"),
                  fip->name, dop->ed->name);
       if (fip->integer == dep_conflicts ||
           fip->integer == dep_provides ||
           fip->integer == dep_replaces)
-        parseerr(0,filename,lno, warnto,warncount,pigp,0,
+        parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                  _("alternatives (`|') not allowed in %s field"),
                  fip->name);
       p++; while (isspace(*p)) p++;

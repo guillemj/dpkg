@@ -70,7 +70,7 @@ const struct fieldinfo fieldinfos[]= {
   { "MSDOS-Filename",   f_filecharf,       w_filecharf,      FILEFOFF(msdosname)      },
   { "Description",      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
   /* Note that aliases are added to the nicknames table in parsehelp.c. */
-  {  0   /* sentinel - tells code that list is ended */                               }
+  {  NULL   /* sentinel - tells code that list is ended */                               }
 };
 #define NFIELDS (sizeof(fieldinfos)/sizeof(struct fieldinfo))
 const int nfields= NFIELDS;
@@ -104,7 +104,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   fd= open(filename, O_RDONLY);
   if (fd == -1) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
 
-  push_cleanup(cu_parsedb,~0, 0,0, 1,&fd);
+  push_cleanup(cu_parsedb,~0, NULL,0, 1,&fd);
 
   if (fstat(fd, &stat) == -1)
     ohshite(_("can't stat package info file `%.255s'"),filename);
@@ -144,16 +144,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
       fieldlen= dataptr - fieldstart - 1;
       while (EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
-        parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("EOF after field name `%.*s'"),fieldlen,fieldstart);
       if (c == '\n')
-        parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("newline in field name `%.*s'"),fieldlen,fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("MSDOS EOF (^Z) in field name `%.*s'"),fieldlen,fieldstart);
       if (c != ':')
-        parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("field name `%.*s' must be followed by colon"),fieldlen,fieldstart);
 /* Skip space after ':' but before value and eol */
       for (;;) {
@@ -161,11 +161,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
         if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
       }
       if (EOF_mmap(dataptr, endptr))
-        parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("EOF before value of field `%.*s' (missing final newline)"),
                  fieldlen,fieldstart);
       if (c == MSDOS_EOF_CHAR)
-        parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+        parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
                  fieldlen,fieldstart);
       valuestart= dataptr - 1;
@@ -179,7 +179,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
           ungetc_mmap(c,dataptr, data);
           c= '\n';
         } else if (EOF_mmap(dataptr, endptr)) {
-          parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                    _("EOF during value of field `%.*s' (missing final newline)"),
                    fieldlen,fieldstart);
         }
@@ -202,47 +202,47 @@ int parsedb(const char *filename, enum parsedbflags flags,
 	strncpy(value,valuestart,valuelen);
 	*(value+valuelen)= 0;
         if (*ip++)
-          parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                    _("duplicate value for `%s' field"), fip->name);
         fip->rcall(&newpig,newpifp,flags,filename,lno-1,warnto,warncount,value,fip);
       } else {
         if (fieldlen<2)
-          parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                    _("user-defined field name `%.*s' too short"), fieldlen,fieldstart);
         larpp= &newpifp->arbs;
-        while ((arp= *larpp) != 0) {
+        while ((arp= *larpp) != NULL) {
           if (!strncasecmp(arp->name,fieldstart,fieldlen))
-            parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+            parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                      _("duplicate value for user-defined field `%.*s'"), fieldlen,fieldstart);
           larpp= &arp->next;
         }
         arp= nfmalloc(sizeof(struct arbitraryfield));
         arp->name= nfstrnsave(fieldstart,fieldlen);
         arp->value= nfstrnsave(valuestart,valuelen);
-        arp->next= 0;
+        arp->next= NULL;
         *larpp= arp;
       }
       if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
     } /* loop per field */
     if (pdone && donep)
-      parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+      parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                _("several package info entries found, only one allowed"));
-    parsemustfield(0,filename,lno, warnto,warncount,&newpig,0,
+    parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,0,
                    &newpig.name, "package name");
     if ((flags & pdb_recordavailable) || newpig.status != stat_notinstalled) {
-      parsemustfield(0,filename,lno, warnto,warncount,&newpig,1,
+      parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,1,
                      (const char **)&newpifp->description, "description");
-      parsemustfield(0,filename,lno, warnto,warncount,&newpig,1,
+      parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,1,
                      (const char **)&newpifp->maintainer, "maintainer");
       if (newpig.status != stat_halfinstalled)
-        parsemustfield(0,filename,lno, warnto,warncount,&newpig,0,
+        parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,0,
                        &newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
-      parsemustfield(0,filename,lno, warnto,warncount,&newpig,1,
+      parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,1,
                      (const char **)&newpifp->architecture, "architecture");
     else if (newpifp->architecture && *newpifp->architecture)
-      newpifp->architecture= 0;
+      newpifp->architecture= NULL;
 
     /* Check the Config-Version information:
      * If there is a Config-Version it is definitely to be used, but
@@ -253,7 +253,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (!(flags & pdb_recordavailable)) {
       if (newpig.configversion.version) {
         if (newpig.status == stat_installed || newpig.status == stat_notinstalled)
-          parseerr(0,filename,lno, warnto,warncount,&newpig,0,
+          parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                    _("Configured-Version for package with inappropriate Status"));
       } else {
         if (newpig.status == stat_installed) newpig.configversion= newpifp->version;
@@ -267,9 +267,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (!(flags & pdb_recordavailable) &&
         newpig.status == stat_notinstalled &&
         newpifp->conffiles) {
-      parseerr(0,filename,lno, warnto,warncount,&newpig,1,
+      parseerr(NULL,filename,lno, warnto,warncount,&newpig,1,
                _("Package which in state not-installed has conffiles, forgetting them"));
-      newpifp->conffiles= 0;
+      newpifp->conffiles= NULL;
     }
 
     pigp= findpackage(newpig.name);
@@ -306,7 +306,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       pigp->eflag= newpig.eflag;
       pigp->status= newpig.status;
       pigp->configversion= newpig.configversion;
-      pigp->files= 0;
+      pigp->files= NULL;
     } else if (!(flags & pdb_ignorefiles)) {
       pigp->files= newpig.files;
     }
@@ -388,7 +388,7 @@ void copy_dependency_links(struct pkginfo *pkg,
       addtopifp= available ? &dop->ed->available : &dop->ed->installed;
       if (!addtopifp->valid) blankpackageperfile(addtopifp);
       dop->nextrev= addtopifp->depended;
-      dop->backrev= 0;
+      dop->backrev= NULL;
       if (addtopifp->depended)
         addtopifp->depended->backrev= dop;
       addtopifp->depended= dop;

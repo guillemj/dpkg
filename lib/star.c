@@ -153,7 +153,7 @@ static const TarFunctions	functions = {
 int
 main(int argc, char * * argv)
 {
-	int	status = TarExtractor((void *)0, &functions);
+	int	status = TarExtractor(NULL, &functions);
 
 	if ( status == -1 ) {
 		fflush(stdout);

@@ -58,7 +58,7 @@ void parseerr
 const struct namevalue booleaninfos[]= {  /* Note !  These must be in order ! */
   { "no",                             0,                 2 },
   { "yes",                            1,                 3 },
-  {  0                                                   }
+  {  NULL                                                  }
 };
 
 const struct namevalue priorityinfos[]= {  /* Note !  These must be in order ! */
@@ -72,7 +72,7 @@ const struct namevalue priorityinfos[]= {  /* Note !  These must be in order ! *
   { "this is a bug - please report",  pri_other,        28 },
   { "unknown",                        pri_unknown,      7 },
   { "base",                           pri_required,     4 }, /* fixme: alias, remove */
-  {  0                                                 }
+  {  NULL                                                 }
 };
 
 const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
@@ -85,7 +85,7 @@ const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
   /* These are additional entries for reading only, in any order ... */
   { "postinst-failed", stat_halfconfigured,  15 }, /* fixme: backwards compat., remove */
   { "removal-failed",  stat_halfinstalled,   14 }, /* fixme: backwards compat., remove */
-  {  0                                      }
+  {  NULL                                       }
 };
 
 const struct namevalue eflaginfos[]= {  /* Note !  These must be in order ! */
@@ -93,7 +93,7 @@ const struct namevalue eflaginfos[]= {  /* Note !  These must be in order ! */
   { "reinstreq",               eflagv_reinstreq,         9 },
   { "hold",                    eflagv_obsoletehold,      4 },
   { "hold-reinstreq",          eflagv_obsoleteboth,      14 },
-  {  0                                                   }
+  {  NULL                                                   }
 };
 
 const struct namevalue wantinfos[]= {  /* Note !  These must be in order ! */
@@ -102,7 +102,7 @@ const struct namevalue wantinfos[]= {  /* Note !  These must be in order ! */
   { "hold",      want_hold,       4 },
   { "deinstall", want_deinstall,  9 },
   { "purge",     want_purge,      5 },
-  {  0                           }
+  {  NULL                           }
 };
 
 const char *illegal_packagename(const char *p, const char **ep) {
@@ -115,10 +115,10 @@ const char *illegal_packagename(const char *p, const char **ep) {
   if (!*++p) return _("must be at least two characters");
   while ((c= *p++)!=0)
     if (!isalnum(c) && !strchr(alsoallowed,c)) break;
-  if (!c) return 0;
+  if (!c) return NULL;
   if (isspace(c) && ep) {
     while (isspace(*p)) p++;
-    *ep= p; return 0;
+    *ep= p; return NULL;
   }
   snprintf(buf, sizeof(buf),
           _("character `%c' not allowed - only letters, digits and %s allowed"),
@@ -133,7 +133,7 @@ const struct nickname nicknames[]= {
   { "Class",             "Priority"    },
   { "Package-Revision",  "Revision"    },
   { "Package_Revision",  "Revision"    },
-  {  0                                 }
+  {  NULL                              }
 };
 
 int informativeversion(const struct versionrevision *version) {
@@ -207,7 +207,7 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   if (hyphen) *hyphen++= 0;
   rversion->revision= hyphen ? hyphen : "";
   
-  return 0;
+  return NULL;
 }
 
 void parsemustfield

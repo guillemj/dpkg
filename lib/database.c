@@ -108,35 +108,35 @@ static int hash(const char *name) {
 
 void blankversion(struct versionrevision *version) {
   version->epoch= 0;
-  version->version= version->revision= 0;
+  version->version= version->revision= NULL;
 }
 
 void blankpackage(struct pkginfo *pigp) {
-  pigp->name= 0;
+  pigp->name= NULL;
   pigp->status= stat_notinstalled;
   pigp->eflag= eflagv_ok;
   pigp->want= want_unknown;
   pigp->priority= pri_unknown;
-  pigp->otherpriority = 0;
-  pigp->section= 0;
+  pigp->otherpriority = NULL;
+  pigp->section= NULL;
   blankversion(&pigp->configversion);
-  pigp->files= 0;
+  pigp->files= NULL;
   pigp->installed.valid= 0;
   pigp->available.valid= 0;
-  pigp->clientdata= 0;
+  pigp->clientdata= NULL;
   blankpackageperfile(&pigp->installed);
   blankpackageperfile(&pigp->available);
 }
 
 void blankpackageperfile(struct pkginfoperfile *pifp) {
   pifp->essential= 0;
-  pifp->depends= 0;
-  pifp->depended= 0;
-  pifp->description= pifp->maintainer= pifp->source= pifp->installedsize= pifp->bugs= pifp->origin= 0;
-  pifp->architecture= 0;
+  pifp->depends= NULL;
+  pifp->depended= NULL;
+  pifp->description= pifp->maintainer= pifp->source= pifp->installedsize= pifp->bugs= pifp->origin= NULL;
+  pifp->architecture= NULL;
   blankversion(&pifp->version);
-  pifp->conffiles= 0;
-  pifp->arbs= 0;
+  pifp->conffiles= NULL;
+  pifp->arbs= NULL;
   pifp->valid= 1;
 }
 
@@ -180,7 +180,7 @@ struct pkginfo *findpackage(const char *name) {
   newpkg= nfmalloc(sizeof(struct pkginfo));
   blankpackage(newpkg);
   newpkg->name= nfstrsave(name);
-  newpkg->next= 0;
+  newpkg->next= NULL;
   *pointerp= newpkg;
   npackages++;
 
@@ -199,7 +199,7 @@ struct pkgiterator {
 struct pkgiterator *iterpkgstart(void) {
   struct pkgiterator *i;
   i= m_malloc(sizeof(struct pkgiterator));
-  i->pigp= 0;
+  i->pigp= NULL;
   i->nbinn= 0;
   return i;
 }
@@ -207,7 +207,7 @@ struct pkgiterator *iterpkgstart(void) {
 struct pkginfo *iterpkgnext(struct pkgiterator *i) {
   struct pkginfo *r;
   while (!i->pigp) {
-    if (i->nbinn >= BINS) return 0;
+    if (i->nbinn >= BINS) return NULL;
     i->pigp= bins[i->nbinn++];
   }
   r= i->pigp; i->pigp= r->next; return r;
@@ -221,7 +221,7 @@ void resetpackages(void) {
   int i;
   nffreeall();
   npackages= 0;
-  for (i=0; i<BINS; i++) bins[i]= 0;
+  for (i=0; i<BINS; i++) bins[i]= NULL;
 }
 
 void hashreport(FILE *file) {

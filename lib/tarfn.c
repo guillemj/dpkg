@@ -32,7 +32,7 @@ struct TarHeader {
 typedef struct TarHeader	TarHeader;
 
 static const unsigned int	TarChecksumOffset
-	= (unsigned int)&(((TarHeader *)0)->Checksum);
+	= (unsigned int)&(((TarHeader *)NULL)->Checksum);
 
 /* Octal-ASCII-to-long */
 static long
@@ -56,8 +56,8 @@ DecodeTarHeader(char * block, TarInfo * d)
 {
 	TarHeader *		h = (TarHeader *)block;
 	unsigned char *		s = (unsigned char *)block;
-	struct passwd *		passwd = 0;
-	struct group *		group = 0;
+	struct passwd *		passwd = NULL;
+	struct group *		group = NULL;
 	unsigned int		i;
 	long			sum;
 	long			checksum;
@@ -111,8 +111,8 @@ TarExtractor(
        char    **longp;
        int     long_read;
 
-       next_long_name = 0;
-       next_long_link = 0;
+       next_long_name = NULL;
+       next_long_link = NULL;
        long_read = 0;
 
 	h.UserData = userData;
@@ -136,8 +136,8 @@ TarExtractor(
                  h.LinkName = next_long_link;
                }
 
-               next_long_name = 0;
-               next_long_link = 0;
+               next_long_name = NULL;
+               next_long_link = NULL;
 
 		if ( h.Name[0] == '\0' ) {
 			errno = 0;	/* Indicates broken tarfile */

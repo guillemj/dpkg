@@ -37,10 +37,10 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-char *statusfile=0, *availablefile=0;
+char *statusfile=NULL, *availablefile=NULL;
 
 static enum modstatdb_rw cstatus=-1, cflags=0;
-static char *importanttmpfile=0;
+static char *importanttmpfile=NULL;
 static FILE *importanttmp;
 static int nextupdate;
 static int updateslength;
@@ -67,7 +67,7 @@ static void cleanupdates(void) {
   struct dirent **cdlist;
   int cdn, i;
 
-  parsedb(statusfile, pdb_weakclassification, 0,0,0);
+  parsedb(statusfile, pdb_weakclassification, NULL,NULL,NULL);
 
   *updatefnrest= 0;
   updateslength= -1;
@@ -78,7 +78,7 @@ static void cleanupdates(void) {
     
     for (i=0; i<cdn; i++) {
       strcpy(updatefnrest, cdlist[i]->d_name);
-      parsedb(updatefnbuf, pdb_weakclassification, 0,0,0);
+      parsedb(updatefnbuf, pdb_weakclassification, NULL,NULL,NULL);
       if (cstatus < msdbrw_write) free(cdlist[i]);
     }
 
@@ -122,7 +122,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     {   STATUSFILE,                 &statusfile         },
     {   AVAILFILE,                  &availablefile      },
     {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
-    {   0, 0                                            }
+    {   NULL, NULL                                      }
   }, *fnip;
   
   admindir= adir;
@@ -172,7 +172,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     if(!(cflags & msdbrw_noavail))
     parsedb(availablefile,
             pdb_recordavailable|pdb_rejectstatus,
-            0,0,0);
+            NULL,NULL,NULL);
   }
 
   if (cstatus >= msdbrw_write) {

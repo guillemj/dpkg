@@ -82,7 +82,7 @@ void w_section(struct varbuf *vb,
 void w_charfield(struct varbuf *vb,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                  const struct fieldinfo *fip) {
-  const char *value= pifp->valid ? PKGPFIELD(pifp,fip->integer,const char*) : 0;
+  const char *value= pifp->valid ? PKGPFIELD(pifp,fip->integer,const char*) : NULL;
   if (!value || !*value) return;
   varbufaddstr(vb,fip->name); varbufaddstr(vb, ": "); varbufaddstr(vb,value);
   varbufaddc(vb,'\n');
@@ -253,7 +253,7 @@ void writedb(const char *filename, int available, int mustsync) {
     ohshite(_("unable to set buffering on status file"));
 
   it= iterpkgstart();
-  while ((pigp= iterpkgnext(it)) != 0) {
+  while ((pigp= iterpkgnext(it)) != NULL) {
     pifp= available ? &pigp->available : &pigp->installed;
     /* Don't dump records which have no useful content. */
     if (!informative(pigp,pifp)) continue;

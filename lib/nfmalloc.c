@@ -62,6 +62,6 @@ char *nfstrnsave(const char *string, int l) {
 }
 
 void nffreeall(void) {
-  obstack_free(&db_obs, 0);
+  obstack_free(&db_obs, NULL);
   dbobs_init = 0;
 }

@@ -89,7 +89,7 @@ void varbufaddbuf(struct varbuf *v, const void *s, const int l) {
 void varbufinit(struct varbuf *v) {
   /* NB: dbmodify.c does its own init to get a big buffer */
   v->size= v->used= 0;
-  v->buf= 0;
+  v->buf= NULL;
 }
 
 void varbufreset(struct varbuf *v) {
@@ -108,5 +108,5 @@ void varbufextend(struct varbuf *v) {
 }
 
 void varbuffree(struct varbuf *v) {
-  free(v->buf); v->buf=0; v->size=0; v->used=0;
+  free(v->buf); v->buf=NULL; v->size=0; v->used=0;
 }

@@ -60,7 +60,7 @@ struct errorcontext {
   const char *contextstring;
 };
 
-static struct errorcontext *volatile econtext= 0;
+static struct errorcontext *volatile econtext= NULL;
 static struct { struct cleanupentry ce; void *args[20]; } emergency;
 
 void set_error_display(void (*printerror)(const char *, const char *),
@@ -85,7 +85,7 @@ void push_error_handler(jmp_buf *jbufp,
   }
   necp->next= econtext;
   necp->jbufp= jbufp;
-  necp->cleanups= 0;
+  necp->cleanups= NULL;
   necp->printerror= printerror;
   necp->contextstring= contextstring;
   econtext= necp;
@@ -122,10 +122,10 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
           run_cleanups(&recurserr, ehflag_bombout | ehflag_recursiveerror);
         } else {
           recurserr.jbufp= &recurejbuf;
-          recurserr.cleanups= 0;
-          recurserr.next= 0;
+          recurserr.cleanups= NULL;
+          recurserr.next= NULL;
           recurserr.printerror= print_error_cleanup;
-          recurserr.contextstring= 0;
+          recurserr.contextstring= NULL;
           econtext= &recurserr;
           cep->calls[i].call(cep->argc,cep->argv);
         }
@@ -161,9 +161,9 @@ void push_checkpoint(int mask, int value) {
   int i;
   
   cep= m_malloc(sizeof(struct cleanupentry) + sizeof(char*));
-  for (i=0; i<NCALLS; i++) { cep->calls[i].call=0; cep->calls[i].mask=0; }
+  for (i=0; i<NCALLS; i++) { cep->calls[i].call=NULL; cep->calls[i].mask=0; }
   cep->cpmask= mask; cep->cpvalue= value;
-  cep->argc= 0; cep->argv[0]= 0;
+  cep->argc= 0; cep->argv[0]= NULL;
   cep->next= econtext->cleanups;
   econtext->cleanups= cep;
 }
@@ -189,7 +189,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   cep->cpmask=~0; cep->cpvalue=0; cep->argc= nargs;
   va_start(al,nargs);
   args= cep->argv; while (nargs-- >0) *args++= va_arg(al,void*);
-  *args++= 0;
+  *args++= NULL;
   va_end(al);
   cep->next= econtext->cleanups;
   econtext->cleanups= cep;

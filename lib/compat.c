@@ -35,7 +35,7 @@
 
 #ifndef HAVE_VSNPRINTF
 int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {
-  static FILE *file= 0;
+  static FILE *file= NULL;
 
   struct stat stab;
   unsigned long want, nr;
@@ -60,7 +60,7 @@ int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {
   }
   nr= fread(buf,1,want-1,file);
   if (nr != want-1) ohshite(_("read error in vsnprintf truncated"));
-  buf[want]= 0;
+  buf[want]= NULL;
 
   return retval;
 }
@@ -155,7 +155,7 @@ int scandir(const char *dir, struct dirent ***namelist,
   used=0; avail=20;
   *namelist= malloc(avail*sizeof(struct dirent*));
   if (!*namelist) return -1;
-  while ((e= readdir(d)) != 0) {
+  while ((e= readdir(d)) != NULL) {
     if (!select(e)) continue;
     m= malloc(sizeof(struct dirent) + strlen(e->d_name));
     if (!m) return -1;
@@ -169,7 +169,7 @@ int scandir(const char *dir, struct dirent ***namelist,
     (*namelist)[used]= m;
     used++;
   }
-  (*namelist)[used]= 0;
+  (*namelist)[used]= NULL;
   scandir_comparfn= compar;
   qsort(*namelist, used, sizeof(struct dirent*), scandir_compar);
   return used;

@@ -32,7 +32,7 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-static char *dblockfile= 0;
+static char *dblockfile= NULL;
 static int dblockfd= -1;
 
 static void cu_unlockdb(int argc, void **argv) {
@@ -80,5 +80,5 @@ void lockdatabase(const char *admindir) {
   }
   n= fcntl(dblockfd, F_GETFD);
   if (n >= 0) fcntl(dblockfd, F_SETFD, n | FD_CLOEXEC);
-  push_cleanup(cu_unlockdb,~0, 0,0, 0);
+  push_cleanup(cu_unlockdb,~0, NULL,0, 0);
 }
