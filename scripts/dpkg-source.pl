@@ -494,8 +494,9 @@ if ($opmode eq 'build') {
 
     if (defined $fi{'S Format'}) {
         $dscformat=$fi{'S Format'};
-	$dscformat != "1.0" &&
+	if (not $dscformat =~ /^1\./) {
 	    &error("Unsupported format of .dsc file ($dscformat)");
+	}
     }
     $sourcepackage =~ m/[^.0-9]/ &&
         &error("dsc format contains illegal character \`$&'");
@@ -935,7 +936,7 @@ sub extracttar {
     defined($c2= fork) || &syserr("fork for tar -xkf -");
     if (!$c2) {
         chdir("$dirchdir") || &syserr("cannot chdir to \`$dirchdir' for tar extract");
-        open(STDIN,"<&GZIP") || &syserr("reopen gzip for cpio -i");
+        open(STDIN,"<&GZIP") || &syserr("reopen gzip for tar -xkf -");
         &cpiostderr;
         exec('tar','-xkf','-'); &syserr("exec tar -xkf -");
     }
@@ -966,7 +967,7 @@ sub extracttar {
 
 sub cpiostderr {
     open(STDERR,"| egrep -v '^[0-9]+ blocks\$' >&2") ||
-        &syserr("reopen stderr for cpio to grep out blocks message");
+        &syserr("reopen stderr for tar to grep out blocks message");
 }
 
 sub setfile {
