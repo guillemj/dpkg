@@ -21,8 +21,14 @@ clean:
 
 binary:		binary-arch binary-indep
 
-binary-indep:
+binary-indep:	build
 	$(checkdir)
+	set -e -x; cd doc; for f in policy programmer; do \
+		debiandoc2ps -pa4 -O $$f.sgml | gzip -9v >../../$$f.ps.gz; \
+		dpkg-distaddfile -f../debian/files $$f.ps.gz byhand -; \
+		GZIP=-9v tar zcf ../../$$f.html.tar.gz $$f.html; \
+		dpkg-distaddfile -f../debian/files $$f.html.tar.gz byhand -; \
+	done
 
 binary-arch:	checkroot build
 	$(checkdir)

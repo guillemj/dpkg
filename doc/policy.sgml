@@ -141,7 +141,10 @@ distributed is not the complete source code required to compile the
 program (ie, the program cannot be compiled using only packages in the
 main Debian distribution), or
 <item>
-which depend for their use on non-free or contrib packages, or
+which depend for their use on non-free or contrib
+packages<footnote>This includes all packages which declare a
+dependency on a non-free or contrib package, and almost all packages
+which declare a recommendation.</footnote>, or
 <item>
 allow free use only for a trial period (shareware), or
 <item>
@@ -150,6 +153,9 @@ or
 <item>
 are only installer-packages which require the user to supply a
 separate file to be installed, or
+<item>
+which are buggy and no longer maintained, but are preserved for
+backward compatibility, or
 <item>
 which fail to meet some other policy requirements,
 </list>
@@ -520,21 +526,27 @@ These files should not be referenced by any program - they're there
 for the benefit of the system administrator and users, as
 documentation only.
 
-<sect1 id="instchangelog"><tt>/usr/doc/<var/package//changelog.Debian.gz</tt>
+<sect1 id="instchangelog"><tt>/usr/doc/<var/package//changelog.Debian.gz</>
+and <tt>/usr/doc/<var/package//changelog.upstream.gz</>.
 <p>
 
 This installed file must contain a copy of the <tt>debian/changelog</>
-file from your Debian source tree.
+file from your Debian source tree, and a copy of the upstream
+changelog file if there is one.  They should usually be installed in
+<tt>/usr/doc/<var/package/</> as <tt/changelog.Debian.gz/ and
+<tt/changelog.gz/ respectively.
 <p>
 
-It should be installed compressed using <tt/gzip -9/, as it will
-become large with time even if it starts out small.
+Both should be installed compressed using <tt/gzip -9/, as they will
+become large with time even if they start out small.
 <p>
 
 If the package has only one changelog which is used both as the Debian
 changelog and the upstream one because there is no separate upstream
-maintainer then the changelog should usually be installed as
-<tt>/usr/doc/<var/package//changelog.gz</> instead.
+maintainer then that changelog should usually be installed as
+<tt>/usr/doc/<var/package//changelog.gz</>; if there is a separate
+upstream maintainer, but no upstream changelog, then the Debian
+changelog should still be called <tt/changelog.Debian.gz/.
 
 <sect1 id="copyrightfile"><tt>/usr/doc/<var/package//copyright</tt>
 <p>
@@ -1511,6 +1523,11 @@ Remove the version number setting at the top, if there is one.
 Ensure that the package's Debian-specific and upstream changelogs are
 installed.
 </list>
+
+<item>
+Change the package to use <prgn/dpkg-shlibdeps/ to determine its
+shared library dependencies and substitute them in.  Shared library
+dependencies should no longer be hardwired in the source package.
 
 <item>
 Check that the <tt>debian/README</> is really the copyright file, and

@@ -24,6 +24,7 @@ Options: -r<gain-root-command>
          -si (default) src includes orig for rev. 0 or 1    } genchanges
          -sa           uploaded src always includes orig    }
          -sd           uploaded src is diff and .dsc only   }
+         -tc           clean source tree when finished
          -h            print this message
 END
 }
@@ -32,6 +33,7 @@ rootcommand=''
 pgpcommand=pgp
 signsource='withecho signfile'
 signchanges='withecho signfile'
+cleansource=false
 binarytarget=binary
 sourcestyle=''
 version=''
@@ -50,6 +52,7 @@ do
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
+	-tc)	cleansource=true ;;
 	-b)	binaryonly=-b ;;
 	-B)	binaryonly=-b; binarytarget=binary-arch ;;
 	-v*)	version="$value" ;;
@@ -124,4 +127,9 @@ else
 fi
 
 $signchanges "$pva.changes"
+
+if $cleansource; then
+	withecho $rootcommand debian/rules clean
+fi
+
 echo "dpkg-buildpackage: $srcmsg"
