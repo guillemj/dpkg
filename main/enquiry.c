@@ -718,10 +718,10 @@ void printarch(const char *const *argv) {
   p= strstr(vb.buf,"/gcc-lib/");
   if (!p) badlgccfn(ccompiler,vb.buf,_("no gcc-lib component"));
   p+= 9;
-  q= strchr(p,'-'); if (!q) badlgccfn(ccompiler,vb.buf,_("no hyphen after gcc-lib"));
+  q= strchr(p,'/'); if (!q) badlgccfn(ccompiler,vb.buf,_("no slash after gcc-lib"));
   ll= q-p;
   for (archp=archtable;
-       archp->from && !(strlen(archp->from) == ll && !strncmp(archp->from,p,ll));
+       archp->from && strncmp(archp->from,p,ll);
        archp++);
   switch (cipaction->arg) {
   case act_printarch:    arch= archp->to;  break;

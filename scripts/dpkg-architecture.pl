@@ -58,6 +58,7 @@ require 'controllib.pl';
 	    'mipsel',    'mipsel-linux',
 	    'sh',        'sh-linux',
 	    'shed',      'shed-linux',
+	    'hppa',      'hppa-linux',
 	    'hurd-i386', 'i386-gnu');
 
 sub usageversion {

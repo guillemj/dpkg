@@ -55,5 +55,5 @@ enquiry.o: archtable.h
 archtable.h: $(top_srcdir)/archtable
 	expand $< | \
 	 perl -ne 'print "  { \"$$1\",$$2\"$$3\",$$4\"$$5\" },\n" \
-		   if m/^\s*(\w+)(\s+)(\w+)(\s+)(\w+)\s*$$/' \
+		   if m/^(?!\s*#)\s*(\S+)(\s+)(\S+)(\s+)(\S+)\s*$$/' \
 		>$@
