@@ -42,7 +42,8 @@ while (@ARGV) {
 
 %mapkv=(); # for future use
 $i=100;grep($fieldimps{$_}=$i--,
-          qw(Source Version Distribution Urgency Maintainer Date Changes));
+          qw(Source Version Distribution Urgency Maintainer Date Closes
+	     Changes));
 $i=1;grep($urgencies{$_}=$i++,
           qw(low medium routine high urgent emergency));
 
@@ -136,6 +137,11 @@ $expect eq 'next heading or eof' || die "found eof where expected $expect";
 
 $f{'Changes'} =~ s/\n$//;
 $f{'Changes'} =~ s/^/\n/;
+
+while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#\d+(?:,\s*(?:bug)?\#\d+)*/ig) {
+  push(@closes, $& =~ /\#(\d+)/g);
+}
+$f{'Closes'} = join(' ',sort { $a <=> $b} @closes);
 
 &outputclose(0);
 

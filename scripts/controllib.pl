@@ -3,7 +3,7 @@ $parsechangelog= 'dpkg-parsechangelog';
 
 grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size));
 
-$substvar{'Format'}= 1.5;
+$substvar{'Format'}= 1.6;
 $substvar{'Newline'}= "\n";
 $substvar{'Space'}= " ";
 $substvar{'Tab'}= "\t";

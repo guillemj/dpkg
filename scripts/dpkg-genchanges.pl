@@ -49,7 +49,8 @@ Options:  -b                     binary-only build - no source files
 
 $i=100;grep($fieldimps{$_}=$i--,
           qw(Format Date Source Binary Architecture Version
-             Distribution Urgency Maintainer Description Changes Files));
+             Distribution Urgency Maintainer Description Closes Changes
+	     Files));
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -172,7 +173,7 @@ for $_ (keys %fi) {
 #print STDERR "L key >$_< value >$v<\n";
         if (m/^Source$/) {
             &setsourcepackage;
-        } elsif (m/^(Version|Maintainer|Changes|Urgency|Distribution|Date)$/) {
+        } elsif (m/^(Version|Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
             $f{$_}= $v;
         } elsif (s/^X[BS]*C[BS]*-//i) {
             $f{$_}= $v;
