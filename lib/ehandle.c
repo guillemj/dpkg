@@ -77,8 +77,9 @@ void push_error_handler(jmp_buf *jbufp,
   necp= malloc(sizeof(struct errorcontext));
   if (!necp) {
     int e= errno;
-    strcpy(errmsgbuf, (_("out of memory pushing error handler: ")));
-    strcat(errmsgbuf, strerror(e));  errmsg= errmsgbuf;
+    snprintf(errmsgbuf, sizeof(errmsgbuf), "%s%s", 
+	    _("out of memory pushing error handler: "), strerror(e));
+    errmsg= errmsgbuf;
     if (econtext) longjmp(*econtext->jbufp,1);
     fprintf(stderr, "%s: %s\n", thisname, errmsgbuf); exit(2);
   }
@@ -215,7 +216,7 @@ void pop_cleanup(int flagset) {
 void ohshit(const char *fmt, ...) {
   va_list al;
   va_start(al,fmt);
-  vsprintf(errmsgbuf,fmt,al);
+  vsnprintf(errmsgbuf,sizeof(errmsgbuf),fmt,al);
   va_end(al);
   errmsg= errmsgbuf;
   longjmp(*econtext->jbufp,1);
@@ -235,7 +236,7 @@ void ohshitvb(struct varbuf *vb) {
 }
 
 void ohshitv(const char *fmt, va_list al) {
-  vsprintf(errmsgbuf,fmt,al);
+  vsnprintf(errmsgbuf,sizeof(errmsgbuf),fmt,al);
   errmsg= errmsgbuf;
   longjmp(*econtext->jbufp,1);
 }
@@ -243,31 +244,31 @@ void ohshitv(const char *fmt, va_list al) {
 void ohshite(const char *fmt, ...) {
   int e;
   va_list al;
+  char buf[1024];
 
   e=errno;
   va_start(al,fmt);
-  vsprintf(errmsgbuf,fmt,al);
+  vsnprintf(buf,sizeof(buf),fmt,al);
   va_end(al);
 
-  strcat(errmsgbuf,": ");
-  strcat(errmsgbuf,strerror(e));
+  snprintf(errmsgbuf,sizeof(errmsgbuf),"%s: %s",buf,strerror(e));
   errmsg= errmsgbuf; 
   longjmp(*econtext->jbufp,1);
 }
 
 void badusage(const char *fmt, ...) {
+  char buf[1024];
   va_list al;
   va_start(al,fmt);
-  vsprintf(errmsgbuf,fmt,al);
+  vsnprintf(buf,sizeof(buf), fmt,al);
   va_end(al);
-  strcat(errmsgbuf,"\n\n");
-  strcat(errmsgbuf,gettext(printforhelp));
+  snprintf(errmsgbuf,sizeof(errmsgbuf),"%s\n\n%s", buf, gettext(printforhelp));
   errmsg= errmsgbuf; 
   longjmp(*econtext->jbufp,1);
 }
 
 void werr(const char *fn) {
-  ohshite(_("error writing `%.250s'"),fn);
+  ohshite(_("error writing `%s'"),fn);
 }
 
 void do_internerr(const char *string, int line, const char *file) {
