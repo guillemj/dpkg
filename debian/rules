@@ -15,6 +15,8 @@ DEB_BUILD_GNU_TYPE	:= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE 2> /dev/nul
 DEB_HOST_GNU_TYPE	:= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE 2> /dev/null || true)
 arch			:= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
+GENCONTROL	:= perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp
+
 ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
   config_arg	:= --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
 else
@@ -157,8 +159,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 		`test -z "$(static)" && echo $(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/md5sum $(TMP_DPKG)/usr/bin/dpkg-deb`
 
 binary-dpkg binary-dpkg-static: %: %-most
-	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
-		-Tdebian/dpkg$(static).substvars -pdpkg$(static) -P$(TMP_DPKG)
+	$(GENCONTROL) -Tdebian/dpkg$(static).substvars -pdpkg$(static) -P$(TMP_DPKG)
 	dpkg --build $(TMP_DPKG) ..
 
 binary-dpkg-dev: stamp-binary
@@ -216,8 +217,7 @@ binary-dpkg-dev: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg-dev.prerm $(TMP_DPKG_DEV)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg-dev.postinst $(TMP_DPKG_DEV)/DEBIAN/postinst
 
-	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
-		-Tdebian/dpkg-dev.substvars -pdpkg-dev -P$(TMP_DPKG_DEV)
+	$(GENCONTROL) -Tdebian/dpkg-dev.substvars -pdpkg-dev -P$(TMP_DPKG_DEV)
 	dpkg --build $(TMP_DPKG_DEV) ..
 
 binary-dselect: stamp-binary
@@ -256,8 +256,7 @@ binary-dselect: stamp-binary
 
 	dpkg-shlibdeps -Tdebian/dselect.substvars \
 		$(TMP_DSELECT)/usr/bin/dselect 
-	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
-		-Tdebian/dselect.substvars -pdselect -P$(TMP_DSELECT)
+	$(GENCONTROL) -Tdebian/dselect.substvars -pdselect -P$(TMP_DSELECT)
 	dpkg --build $(TMP_DSELECT) ..
 
 binary-dpkg-doc: stamp-binary
@@ -284,8 +283,7 @@ binary-dpkg-doc: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg-doc.prerm $(TMP_DPKG_DOC)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg-doc.postinst $(TMP_DPKG_DOC)/DEBIAN/postinst
 
-	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
-		-Tdebian/dpkg-doc.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
+	$(GENCONTROL) -Tdebian/dpkg-doc.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
 	dpkg --build $(TMP_DPKG_DOC) ..
 
 binary-arch-static: binary-dpkg-static
