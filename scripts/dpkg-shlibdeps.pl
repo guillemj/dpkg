@@ -22,9 +22,11 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-shlibdeps $version.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+"Debian GNU/Linux dpkg-shlibdeps $version.
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2000 Wichert Akkerman.
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions.  There is NO warranty.
 
 Usage:
   dpkg-shlibdeps [<option> ...] <executable>|-e<executable> [<option>] ...
@@ -104,6 +106,7 @@ for ($i=0;$i<=$#exec;$i++) {
 # Now: See if it is in this package.  See if it is in any other package.
 sub searchdir {
     my $dir = shift;
+print STDERR "DEBUG: searching in $dir\n";
     if(opendir(DIR, $dir)) {
 	my @dirents = readdir(DIR);
 	closedir(DIR);
@@ -127,9 +130,9 @@ if ($searchdir =~ m,/,) {
     &searchdir($searchdir);
 }
 
-if ($#curshlibs >= 0) {
+if (1 || $#curshlibs >= 0) {
     PRELIB: for ($i=0;$i<=$#libname;$i++) {
-	if(scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i])
+	if(scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i])
 	    || scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i])) {
 	    splice(@libname, $i, 1);
 	    splice(@libsoname, $i, 1);
@@ -184,7 +187,7 @@ LIB: for ($i=0;$i<=$#libname;$i++) {
                 && next LIB;
         }
     }
-    scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i]) && next;
+    scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i]) && next;
     &warn("unable to find dependency information for ".
           "shared library $libname[$i] (soname $libsoname[$i], path $libfiles[$i], ".
           "dependency field $libf[$i])");
@@ -206,7 +209,7 @@ sub scanshlibsfile {
             next;
         }
         next if $1 ne $ln || $2 ne $lsn;
-        return 1 if $fn eq "debian/$curpackdir/DEBIAN/shlibs";
+        return 1 if $fn eq "$curpackdir/DEBIAN/shlibs";
         $da= $';
         for $dv (split(/,/,$da)) {
             $dv =~ s/^\s+//; $dv =~ s/\s+$//;
