@@ -196,7 +196,7 @@ off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc
       break;
     case BUFFER_WRITE_FD:
       if((ret= write(data->data.i, buf, length)) < 0 && errno != EINTR)
-	ohshite(_("failed in buffer_write(fd) (%i, ret=%li %s): %s"), data->data.i, (long)ret, desc);
+	ohshite(_("failed in buffer_write(fd) (%i, ret=%li): %s"), data->data.i, (long)ret, desc);
       break;
     case BUFFER_WRITE_NULL:
       break;
