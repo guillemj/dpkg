@@ -139,14 +139,14 @@ AC_CHECK_LIB(shouldbeinlibc, fmt_past_time, SSD_LIBS="-lshouldbeinlibc $SSD_LIBS
 AC_CHECK_LIB(kvm, kvm_openfiles, SSD_LIBS="-lkvm $SSD_LIBS")
 AC_SUBST(SSD_LIBS)
 
+ZLIB_CFLAGS=
+ZLIB_LIBS=
+ZLIB_LIBS_ALSO_STATIC=
 AC_ARG_WITH(zlib,
 [  --with-zlib             use zlib for decompression of some gzip files],
 	[use_zlib=$withval],
 	[uze_zlib=no])
-if test "$use_zlib" = "no" ; then
-	ZLIB_CFLAGS=
-	ZLIB_LIBS=
-else
+if test "$use_zlib" != "no" ; then
 	ZLIB_CFLAGS=-DUSE_ZLIB
 	if test "$use_zlib" = "static"  ; then
 		ZLIB_LIBS="-Wl,-Bstatic -lz -Wl,-Bdynamic"
@@ -155,6 +155,7 @@ else
 		fi
 	else
 		ZLIB_LIBS=-lz
+		ZLIB_LIBS_ALSO_STATIC="-lz"
 	fi
 fi
 AC_SUBST(ZLIB_CFLAGS)
@@ -215,11 +216,17 @@ AC_ARG_WITH(Werror,
 	[warn=all]
 	AC_MSG_RESULT(no))
 
-DPKG_C_GCC_TRY_WARNS(-Wall -Wno-implicit, dpkg_cv_c_gcc_warn_all)
+DPKG_C_GCC_TRY_WARNS(-Wall , dpkg_cv_c_gcc_warn_all)
 DPKG_C_GCC_TRY_WARNS(-Wwrite-strings, dpkg_cv_c_gcc_warn_writestrings)
 DPKG_C_GCC_TRY_WARNS(-Wpointer-arith, dpkg_cv_c_gcc_warn_pointerarith)
 DPKG_C_GCC_TRY_WARNS(-Wimplicit -Wnested-externs, dpkg_cv_c_gcc_warn_implicit)
 DPKG_C_GCC_TRY_WARNS(-Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations, dpkg_cv_c_gcc_prototypes)
+DPKG_C_GCC_TRY_WARNS(-Wbad-function-cast, dpkg_cv_c_gcc_func_cast)
+DPKG_C_GCC_TRY_WARNS(-Wcast-qual -Wcast-align, dpkg_cv_c_gcc_cast_qual)
+DPKG_C_GCC_TRY_WARNS(-Winline, dpkg_cv_c_gcc_inline)
+DPKG_C_GCC_TRY_WARNS(-Wmissing-noreturn, dpkg_cv_c_gcc_noreturn)
+DPKG_C_GCC_TRY_WARNS(-Wsign-compare, dpkg_cv_c_gcc_comp_conv)
+DPKG_C_GCC_TRY_WARNS(-ffunction-sections -fdata-sections, dpkg_cv_func_data_sections)
 AC_SUBST(CWARNS)
 
 dnl Force this here so we can do the next step
