@@ -39,12 +39,19 @@ $#ARGV == 1 || $#ARGV == 2
 open(F,"find $binarydir/ -follow -name '*.deb' -print |")
     or die "Couldn't open pipe to find: $!\n";
 while (<F>) {
-    chop($fn=$_);
+    chomp($fn=$_);
     substr($fn,0,length($binarydir)) eq $binarydir
 	or die "$fn not in binary dir $binarydir\n";
-    $t= `dpkg-deb -I $fn control`
-	or die "Couldn't call dpkg-deb on $fn: $!\n";
-    $? and die "\`dpkg-deb -I $fn control' exited with $?\n";
+    $t= `dpkg-deb -I $fn control`;
+    if ($t eq "") {
+	warn "Couldn't call dpkg-deb on $fn: $!, skipping package\n";
+	next;
+    }
+    if ($?) {
+    	warn "\`dpkg-deb -I $fn control' exited with $?, skipping package\n";
+	next;
+    }
+
     undef %tv;
     $o= $t;
     while ($t =~ s/^\n*(\S+):[ \t]*(.*(\n[ \t].*)*)\n//) {
