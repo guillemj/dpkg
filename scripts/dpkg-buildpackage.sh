@@ -82,7 +82,7 @@ do
 done
 
 if test -n "$forcesigninterface" ; then
-  signinterface=$forcesigninterace
+  signinterface=$forcesigninterface
 else
   signinterface=$signcommand
 fi
@@ -114,7 +114,7 @@ pv="${package}_${sversion}"
 pva="${package}_${sversion}${arch:+_${arch}}"
 
 signfile () {
-	if test $signinterface = gpg ; then
+	if test "$signinterface" = "gpg" ; then
 		(cat "../$1" ; echo "") | \
 		$signcommand --local-user "${signkey:-$maintainer}" --clearsign --armor \
 			--textmode  > "../$1.asc" 
