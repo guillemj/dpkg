@@ -7,9 +7,11 @@ version="1.3.0"; # This line modified by Makefile
 progname="`basename \"$0\"`"
 usageversion () {
 	cat >&2 <<END
-Debian GNU/Linux dpkg-buildpackage $version.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+Debian GNU/Linux dpkg-buildpackage $version.  
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2000 Wichert Akkerman
+This is free software; see the GNU General Public Licence version 2
+or later for copying conditions.  There is NO warranty.
 
 Usage: dpkg-buildpackage [options]
 Options: -r<gain-root-command>
@@ -131,8 +133,11 @@ if [ -n "$maint" ]; then maintainer="$maint";
 else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
 eval `dpkg-architecture -a${arch} -t${targetgnusystem} -s`
 archlist=`dpkg-architecture -a${targetarch} -t${targetgnusystem} -f 2> /dev/null`
-mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_HOST_ARCH`" "build architecture"
-
+if [ x$sourceonly = x ]; then
+	mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_HOST_ARCH`" "build architecture"
+else
+	arch=source
+fi
 sversion=`echo "$version" | perl -pe 's/^\d+://'`
 pv="${package}_${sversion}"
 pva="${package}_${sversion}${arch:+_${arch}}"
