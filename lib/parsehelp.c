@@ -23,21 +23,23 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "parsedump.h"
 
-void parseerr(FILE *file, const char *filename, int lno, FILE *warnto, int *warncount,
-              const struct pkginfo *pigp, int warnonly,
-              const char *fmt, ...) {
+void parseerr
+(FILE *file, const char *filename, int lno, FILE *warnto, int *warncount,
+ const struct pkginfo *pigp, int warnonly,
+ const char *fmt, ...) 
+{
   va_list al;
   char buf1[768], buf2[1000], *p, *q;
-  if (file && ferror(file)) ohshite("failed to read `%s' at line %d",filename,lno);
-  sprintf(buf1, "%s, in file `%.255s' near line %d",
-          warnonly ? "warning" : "parse error", filename, lno);
+  if (file && ferror(file)) ohshite(_("failed to read `%s' at line %d"),filename,lno);
+  sprintf(buf1, _("%s, in file `%.255s' near line %d"),
+          warnonly ? _("warning") : _("parse error"), filename, lno);
   if (pigp && pigp->name) {
-    sprintf(buf2, " package `%.255s'", pigp->name);
+    sprintf(buf2, _(" package `%.255s'"), pigp->name);
     strcat(buf1,buf2);
   }
   for (p=buf1, q=buf2; *p; *q++= *p++) if (*p == '%') *q++= '%';
@@ -48,7 +50,7 @@ void parseerr(FILE *file, const char *filename, int lno, FILE *warnto, int *warn
   if (warnto) {
     strcat(q,"\n");
     if (vfprintf(warnto,buf2,al) == EOF)
-      ohshite("failed to write parsing warning");
+      ohshite(_("failed to write parsing warning"));
   }
   va_end(al);
 }
@@ -109,9 +111,9 @@ const char *illegal_packagename(const char *p, const char **ep) {
   static char buf[150];
   int c;
   
-  if (!*p) return "may not be empty string";
-  if (!isalnum(*p)) return "must start with an alphanumeric";
-  if (!*++p) return "must be at least two characters";
+  if (!*p) return _("may not be empty string");
+  if (!isalnum(*p)) return _("must start with an alphanumeric");
+  if (!*++p) return _("must be at least two characters");
   while ((c= *p++)!=0)
     if (!isalnum(c) && !strchr(alsoallowed,c)) break;
   if (!c) return 0;
@@ -119,8 +121,8 @@ const char *illegal_packagename(const char *p, const char **ep) {
     while (isspace(*p)) p++;
     *ep= p; return 0;
   }
-  sprintf(buf,
-          "character `%c' not allowed - only letters, digits and %s allowed",
+  snprintf(buf, sizeof(buf),
+          _("character `%c' not allowed - only letters, digits and %s allowed"),
           c, alsoallowed);
   return buf;
 }
@@ -141,9 +143,11 @@ int informativeversion(const struct versionrevision *version) {
           (version->revision && *version->revision));
 }
 
-void varbufversion(struct varbuf *vb,
-                   const struct versionrevision *version,
-                   enum versiondisplayepochwhen vdew) {
+void varbufversion
+(struct varbuf *vb,
+ const struct versionrevision *version,
+ enum versiondisplayepochwhen vdew) 
+{
   switch (vdew) {
   case vdew_never:
     break;
@@ -164,8 +168,10 @@ void varbufversion(struct varbuf *vb,
   }
 }
 
-const char *versiondescribe(const struct versionrevision *version,
-                            enum versiondisplayepochwhen vdew) {
+const char *versiondescribe
+(const struct versionrevision *version,
+ enum versiondisplayepochwhen vdew)
+{
   static struct varbuf bufs[10];
   static int bufnum=0;
 
@@ -185,14 +191,14 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   char *hyphen, *colon, *eepochcolon;
   unsigned long epoch;
 
-  if (!*string) return "version string is empty";
+  if (!*string) return _("version string is empty");
   
   colon= strchr(string,':');
   if (colon) {
     epoch= strtoul(string,&eepochcolon,10);
-    if (colon != eepochcolon) return "epoch in version is not number";
-    if (!*++colon) return "nothing after colon in version number";
-    string= colon+1;
+    if (colon != eepochcolon) return _("epoch in version is not number");
+    if (!*++colon) return _("nothing after colon in version number");
+    string= colon;
     rversion->epoch= epoch;
   } else {
     rversion->epoch= 0;
@@ -205,16 +211,18 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   return 0;
 }
 
-void parsemustfield(FILE *file, const char *filename, int lno,
-                    FILE *warnto, int *warncount,
-                    const struct pkginfo *pigp, int warnonly,
-                    char **value, const char *what) {
+void parsemustfield
+(FILE *file, const char *filename, int lno,
+ FILE *warnto, int *warncount,
+ const struct pkginfo *pigp, int warnonly,
+ char **value, const char *what) 
+{
   if (!*value) {
-    parseerr(file,filename,lno, warnto,warncount,pigp,warnonly, "missing %s",what);
+    parseerr(file,filename,lno, warnto,warncount,pigp,warnonly, _("missing %s"),what);
     *value= nfstrsave("");
   } else if (!**value) {
     parseerr(file,filename,lno, warnto,warncount,pigp,warnonly,
-             "empty value for %s",what);
+             _("empty value for %s"),what);
   }
 }
 

@@ -129,11 +129,12 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 "
 
 # State variables, `best first'
-#  {main,ctb,nf,lcl}_{packages,binary}
+#  {main,ctb,nf,nus,lcl}_{packages,binary}
 #   Empty before we've found them or if they're not available,
 #   set to the relevant bit under mountpoint otherwise.
 #  hierbase
-#   A directory containing a Debian FTP site mirror tree.
+#   A directory containing a Debian FTP site mirror tree for ONE distribution.
+#	eg /pub/debian/dists/stable
 #  mountpoint
 #   The mountpoint for the filesystem containing the stuff
 #   empty or unset if we don't know yet, or if we haven't mounted anything;
@@ -145,14 +146,12 @@ If you make a mistake, use the interrupt key ($intrkey) to abort.
 #  defaultdevice
 #   The default block device to mount.
 
-p_usedevel=no
 if [ -f shvar.$option ]
 then
 	. ./shvar.$option
 	defaultdevice="$p_blockdev"
 	defaultnfsserver="$p_nfsserver"
 	defaultnfsrempath="$p_nfsrempath"
-	usedevel="$p_usedevel"
 fi
 
 if [ $option = cdrom ]
@@ -261,7 +260,7 @@ then
 	do
 		echo -n "
 What is the pathname on the NFS server of the filesystem with
-the Debian files ? [$defaultnfsrempath]  "
+the Debian files? [$defaultnfsrempath]  "
 		read response
 		if [ -z "$response" -a -n "$defaultnfsrempath" ]
 		then
@@ -337,7 +336,8 @@ do
 	then
 		echo \
 "I would like to know where on the CD-ROM the top level of the Debian
-distribution is - this will usually contain the Packages-Master file.
+distribution is (eg. 'dists/stable') - this directory usually contains the 
+Packages-Master file.
 
 If the CD-ROM is badly organised and doesn't have a straightforward copy of
 the distribution you may answer \`none' and we'll go through the parts
@@ -347,15 +347,18 @@ I need individually."
 "In order to make it easy for me to find the relevant files I'd ideally
 like to install from a straightforward copy of the Debian distribution.
 To use this I'll need to know where the top level of that copy of the
-distribution is - this directory usually contains the Packages-Master file.
+distribution is (eg. 'debian/dists/stable') - this directory usually 
+contains the Packages-Master file.
 
 If you do not have a straightforward copy of the distribution available
 just answer \`none' and we'll go through the parts I need individually."
 	fi
 	defhierbase=none
+# maybe ask for debian/dists and then show and ask for available dists 
+# eg. {stable,frozen,unstable,bo,hamm,slink}
 	if [ -n "$p_hierbase" ]
 	then
-		if [ -d "$mountpoint/$p_hierbase/stable/binary-i386" ]
+		if [ -d "$mountpoint/$p_hierbase/main/binary-$iarch" ]
 		then
 			echo "
 Last time you said \`$p_hierbase', and that looks plausible."
@@ -363,14 +366,22 @@ Last time you said \`$p_hierbase', and that looks plausible."
 		else
 			echo "
 Last time you said \`$p_hierbase', but that doesn't look plausible,
-since \`$p_hierbase/stable/binary' doesn't seem to exist."
+since \`$p_hierbase/main/binary-$iarch' doesn't seem to exist."
 		fi
 	fi
-	if [ none = "$defhierbase" -a -d "$mountpoint/debian/stable/binary-i386" ]
+	if [ none = "$defhierbase" ]
 	then
-		echo "
-\`/debian' exists and looks plausible, so that's the default."
-		defhierbase=/debian
+		if [ -d "$mountpoint/debian/dists/stable/main/binary-$iarch" ]
+		then
+			echo "
+\`/debian/dists/stable' exists and looks plausible, so that's the default."
+			defhierbase=/debian/dists/stable
+		elif [ -d "$mountpoint/dists/stable/main/binary-$iarch" ]
+		then
+			echo "
+\`/dists/stable' exists and looks plausible, so that's the default."
+			defhierbase=/dists/stable
+		fi
 	fi
 	echo -n \
 "Distribution top level ? [$defhierbase]  "
@@ -383,38 +394,16 @@ since \`$p_hierbase/stable/binary' doesn't seem to exist."
 	then
 		hierbase=""
 		break
-	elif [ -d "$mountpoint/$response/stable/binary-i386" ]
+	elif [ -d "$mountpoint/$response/main/binary-$iarch" ]
 	then
-		hierbase="`echo \"$response\" | sed -e 's:/$::; s:^/*:/:'`"
+		hierbase="`echo \"$response\" | sed -e 's:/*$::; s:^/*:/:'`"
 		break
 	fi
 	echo \
-"$response/stable/binary-i386 does not exist.
+"$response/main/binary-$iarch does not exist.
 "
 done
 
-whichmain=stable
-if [ -n "$hierbase" ]
-then
-	if [ -d "$mountpoint/$hierbase/unstable/binary-$iarch" ]
-	then
-		echo \
-'
-Both a stable released distribution and a work-in-progress
-development tree are available for installation.  Would you like to
-use the unreleased development tree (this is only recommended for
-experts who like to live dangerously and want to help with testing) ?'
-		yesno "$p_usedevel" 'Use unreleased development distribution ?'
-		usedevel="$yesno"
-		if [ "$usedevel" = yes ]
-		then
-			whichmain=development
-		fi
-	else
-		usedevel=no
-	fi
-	echo
-fi
 
 case "$hierbase" in
 /* )	;;
@@ -424,13 +413,16 @@ esac
 
 check_binary () {
 	# args: area-in-messages directory
-	if ! [ -d "$mountpoint$2" ]
+	# eg:   main             "$hierbase/main/binary-$iarch"
+	# checks wether $2 contains *.deb
+	if ! [ -d "$mountpoint$2/" ]
 	then
 		echo "\`$2' does not exist."
 		return
 	fi
-	if ! find "$mountpoint$2" -follow -name '*.deb' -print \
-		2>/dev/null | head -1 | grep . >/dev/null
+
+	if ! ( find "$mountpoint$2/" -follow -name '*.deb' -print \
+	        | head -1 ) 2>/dev/null  | grep . >/dev/null
 	then
 		echo "\`$2' does not contain any *.deb packages.  Hmmpf."
 		return
@@ -442,12 +434,16 @@ check_binary () {
 find_area () {
 	# args: area-in-messages area-in-vars subdirectory-in-hier
 	#       last-time-binary last-time-packages
+	# eg:   main             main         main
+	#       "$p_main_binary" "$p_main_packages"
+
 	this_binary=''
 	this_packages=''
 	if [ -n "$hierbase" ]
 	then
 		check_binary $1 "$hierbase/$3/binary-$iarch"
 	fi
+
 	if [ $option = cdrom -a $2 = nf -a -z "$this_binary" ]
 	then
 		echo '
@@ -457,13 +453,18 @@ This is because these programs have copyrights that prevent
 distribution for profit on a CD-ROM - ie they are not free software.
 If you wish to install these programs you'\''ll have to get them from an
 alternative source.'
+	elif [ $2 = lcl -a -z "$this_binary" ]
+	then
+		echo '
+Note: By default there is no `local'\'' directory. It is intended for 
+packages you made yourself.'
 	fi
 	while [ -z "$this_binary" ]
 	do
 		defaultbinary="$4"
 		echo "
 Which directory contains the *.deb packages from the $1 distribution
-area (this directory is named \`$3/binary' on the distribution site) ?
+area (this directory is named \`$3/binary-$iarch' on the distribution site) ?
 Say \`none' if this area is not available."
 		if [ $2 != main -a -z "$defaultbinary" ]
 		then
@@ -507,7 +508,7 @@ installations, and is very useful for upgrades.
 If you overlooked it when downloading you should do get it now and
 return to this installation procedure when you have done so: you will
 find one Packages file and one Packages.gz file -- either will do --
-in the \`binary' subdirectory of each area on the FTP sites and
+in the \`binary-$iarch' subdirectory of each area on the FTP sites and
 CD-ROMs.  Alternatively (and this will be rather slow) I can scan the
 packages in the distribution area - say \`scan' if you want me to do so.
 
@@ -535,9 +536,10 @@ Where is the _$1_ \`Packages' file (if none is available, say \`none')
 	eval $2'_packages="$this_packages"'
 }
 
-find_area main main "$whichmain" "$p_main_binary" "$p_main_packages"
+find_area main main main "$p_main_binary" "$p_main_packages"
 find_area contrib ctb contrib "$p_ctb_binary" "$p_ctb_packages"
 find_area non-free nf non-free "$p_nf_binary" "$p_nf_packages"
+find_area non-US nus non-US "$p_nus_binary" "$p_nus_packages"
 find_area local lcl local "$p_lcl_binary" "$p_lcl_packages"
 
 echo -n '
@@ -553,16 +555,20 @@ outputparam p_nfsserver "$nfsserver"
 outputparam p_nfsrempath "$nfsrempath"
 outputparam p_nfs "$nfs"
 outputparam p_hierbase "$hierbase"
-outputparam p_usedevel "$usedevel"
+
 outputparam p_main_packages "$main_packages"
 outputparam p_main_binary "$main_binary"
 outputparam p_ctb_packages "$ctb_packages"
 outputparam p_ctb_binary "$ctb_binary"
 outputparam p_nf_packages "$nf_packages"
 outputparam p_nf_binary "$nf_binary"
+outputparam p_nus_packages "$nus_packages"
+outputparam p_nus_binary "$nus_binary"
 outputparam p_lcl_packages "$lcl_packages"
 outputparam p_lcl_binary "$lcl_binary"
 
 mv shvar.$option.new shvar.$option
 
 xit=0
+
+

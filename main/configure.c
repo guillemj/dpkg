@@ -19,6 +19,8 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
+#include <signal.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -33,10 +35,9 @@
 #include <assert.h>
 #include <sys/wait.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -76,10 +77,10 @@ void deferred_configure(struct pkginfo *pkg) {
   const char *s;
   
   if (pkg->status == stat_notinstalled)
-    ohshit("no package named `%s' is installed, cannot configure",pkg->name);
+    ohshit(_("no package named `%s' is installed, cannot configure"),pkg->name);
   if (pkg->status != stat_unpacked && pkg->status != stat_halfconfigured)
-    ohshit("package %.250s is not ready for configuration\n"
-           " cannot configure (current status `%.250s')",
+    ohshit(_("package %.250s is not ready for configuration\n"
+           " cannot configure (current status `%.250s')"),
            pkg->name, statusinfos[pkg->status].name);
   
   if (dependtry > 1) { if (findbreakcycle(pkg,0)) sincenothing= 0; }
@@ -95,14 +96,14 @@ void deferred_configure(struct pkginfo *pkg) {
     sincenothing= 0;
     varbufaddc(&aemsgs,0);
     fprintf(stderr,
-            DPKG ": dependency problems prevent configuration of %s:\n%s",
+            _("dpkg: dependency problems prevent configuration of %s:\n%s"),
             pkg->name, aemsgs.buf);
     varbuffree(&aemsgs);
-    ohshit("dependency problems - leaving unconfigured");
+    ohshit(_("dependency problems - leaving unconfigured"));
   } else if (aemsgs.used) {
     varbufaddc(&aemsgs,0);
     fprintf(stderr,
-            DPKG ": %s: dependency problems, but configuring anyway as you request:\n%s",
+            _("dpkg: %s: dependency problems, but configuring anyway as you request:\n%s"),
             pkg->name, aemsgs.buf);
   }
   varbuffree(&aemsgs);
@@ -110,10 +111,10 @@ void deferred_configure(struct pkginfo *pkg) {
 
   if (pkg->eflag & eflagf_reinstreq)
     forcibleerr(fc_removereinstreq,
-                "Package is in a very bad inconsistent state - you should\n"
-                " reinstall it before attempting configuration.");
+                _("Package is in a very bad inconsistent state - you should\n"
+                " reinstall it before attempting configuration."));
 
-  printf("Setting up %s (%s) ...\n",pkg->name,
+  printf(_("Setting up %s (%s) ...\n"),pkg->name,
          versiondescribe(&pkg->installed.version,vdew_never));
 
   if (f_noact) {
@@ -161,7 +162,7 @@ void deferred_configure(struct pkginfo *pkg) {
       /* If the .dpkg-new file is no longer there, ignore this one. */
       if (lstat(cdr2.buf,&stab)) {
         if (errno == ENOENT) continue;
-        ohshite("unable to stat new dist conffile `%.250s'",cdr2.buf);
+        ohshite(_("unable to stat new dist conffile `%.250s'"),cdr2.buf);
       }
       md5hash(pkg,newdisthash,cdr2.buf);
 
@@ -170,13 +171,13 @@ void deferred_configure(struct pkginfo *pkg) {
        */
       if (!stat(cdr.buf,&stab)) {
         if (chown(cdr2.buf,stab.st_uid,stab.st_gid))
-          ohshite("unable to change ownership of new dist conffile `%.250s'",cdr2.buf);
+          ohshite(_("unable to change ownership of new dist conffile `%.250s'"),cdr2.buf);
         if (chmod(cdr2.buf,stab.st_mode & 07777))
           if (errno != ENOENT)
-            ohshite("unable to set mode of new dist conffile `%.250s'",cdr2.buf);
+            ohshite(_("unable to set mode of new dist conffile `%.250s'"),cdr2.buf);
       } else {
         if (errno != ENOENT)
-          ohshite("unable to stat current installed conffile `%.250s'",cdr.buf);
+          ohshite(_("unable to stat current installed conffile `%.250s'"),cdr.buf);
       }
 
       if (!strcmp(currenthash,newdisthash)) {
@@ -208,57 +209,57 @@ void deferred_configure(struct pkginfo *pkg) {
 
         do {
           
-          fprintf(stderr, "\nConfiguration file `%s'", conff->name);
+          fprintf(stderr, _("\nConfiguration file `%s'"), conff->name);
           if (strcmp(conff->name,cdr.buf))
-            fprintf(stderr," (actually `%s')",cdr.buf);
+            fprintf(stderr,_(" (actually `%s')"),cdr.buf);
 
           if (cfof_isnew) {
 
             fprintf(stderr,
-                    "\n"
+                    _("\n"
                     " ==> File on system created by you or by a script.\n"
-                    " ==> File also in package provided by package maintainer.\n");
+                    " ==> File also in package provided by package maintainer.\n"));
 
           } else {
             
             fprintf(stderr, useredited ?
-                    "\n ==> Modified (by you or by a script) since installation.\n" :
-                    "\n     Not modified since installation.\n");
+                    _("\n ==> Modified (by you or by a script) since installation.\n") :
+                    _("\n     Not modified since installation.\n"));
 
             fprintf(stderr, distedited ?
-                    " ==> Package distributor has shipped an updated version.\n" :
-                    "     Version in package is the same as at last installation.\n");
+                    _(" ==> Package distributor has shipped an updated version.\n") :
+                    _("     Version in package is the same as at last installation.\n"));
 
           }
           
           fprintf(stderr,
-                  "   What would you like to do about it ?  Your options are:\n"
+                  _("   What would you like to do about it ?  Your options are:\n"
                   "    Y or I  : install the package maintainer's version\n"
                   "    N or O  : keep your currently-installed version\n"
-                  "      Z     : background this process to examine the situation\n");
+                  "      Z     : background this process to examine the situation\n"));
 
           if (what & cfof_keep)
-            fprintf(stderr, " The default action is to keep your current version.\n");
+            fprintf(stderr, _(" The default action is to keep your current version.\n"));
           else if (what & cfof_install)
-            fprintf(stderr, " The default action is to install the new version.\n");
+            fprintf(stderr, _(" The default action is to install the new version.\n"));
 
           s= strrchr(conff->name,'/');
           if (!s || !*++s) s= conff->name;
           fprintf(stderr, "*** %s (Y/I/N/O/Z) %s ? ",
                   s,
-                  (what & cfof_keep) ? "[default=N]" :
-                  (what & cfof_install) ? "[default=Y]" : "[no default]");
+                  (what & cfof_keep) ? _("[default=N]") :
+                  (what & cfof_install) ? _("[default=Y]") : _("[no default]"));
 
           if (ferror(stderr))
-            ohshite("error writing to stderr, discovered before conffile prompt");
+            ohshite(_("error writing to stderr, discovered before conffile prompt"));
 
           cc= 0;
           while ((c= getchar()) != EOF && c != '\n')
             if (!isspace(c) && !cc) cc= tolower(c);
 
           if (c == EOF) {
-            if (ferror(stdin)) ohshite("read error on stdin at conffile prompt");
-            ohshit("EOF on stdin at conffile prompt");
+            if (ferror(stdin)) ohshite(_("read error on stdin at conffile prompt"));
+            ohshit(_("EOF on stdin at conffile prompt"));
           }
 
           if (!cc) {
@@ -273,29 +274,29 @@ void deferred_configure(struct pkginfo *pkg) {
             strcpy(cdr2rest, DPKGNEWEXT);
             
             fprintf(stderr,
-          "Your currently installed version of the file is in:\n"
+          _("Your currently installed version of the file is in:\n"
           " %s\n"
           "The version contained in the new version of the package is in:\n"
           " %s\n"
           "If you decide to take care of the update yourself, perhaps by editing\n"
           " the installed version, you should choose `N' when you return, so that\n"
-          " I do not mess up your careful work.\n",
+          " I do not mess up your careful work.\n"),
                     cdr.buf, cdr2.buf);
 
             s= getenv(NOJOBCTRLSTOPENV);
             if (s && *s) {
-              fputs("Type `exit' when you're done.\n",stderr);
+              fputs(_("Type `exit' when you're done.\n"),stderr);
               if (!(c1= m_fork())) {
                 s= getenv(SHELLENV);
                 if (!s || !*s) s= DEFAULTSHELL;
                 execlp(s,s,"-i",(char*)0);
-                ohshite("failed to exec shell (%.250s)",s);
+                ohshite(_("failed to exec shell (%.250s)"),s);
               }
               while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
-              if (r != c1) { onerr_abort++; ohshite("wait for shell failed"); }
+              if (r != c1) { onerr_abort++; ohshite(_("wait for shell failed")); }
             } else {
-              fputs("Don't forget to foreground (`fg') this "
-                    "process when you're done !\n",stderr);
+              fputs(_("Don't forget to foreground (`fg') this "
+                    "process when you're done !\n"),stderr);
               kill(-getpgid(0),SIGTSTP);
             }
           }
@@ -315,7 +316,7 @@ void deferred_configure(struct pkginfo *pkg) {
         strcpy(cdr2rest,DPKGOLDEXT);
         if (unlink(cdr2.buf) && errno != ENOENT)
           fprintf(stderr,
-                  DPKG ": %s: warning - failed to remove old backup `%.250s': %s\n",
+                  _("dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"),
                   pkg->name, cdr2.buf, strerror(errno));
         cdr.used--;
         varbufaddstr(&cdr,DPKGDISTEXT);
@@ -323,7 +324,7 @@ void deferred_configure(struct pkginfo *pkg) {
         strcpy(cdr2rest,DPKGNEWEXT);
         if (rename(cdr2.buf,cdr.buf))
           fprintf(stderr,
-                  DPKG ": %s: warning - failed to rename `%.250s' to `%.250s': %s\n",
+                  _("dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"),
                   pkg->name, cdr2.buf, cdr.buf, strerror(errno));
         break;
 
@@ -331,32 +332,32 @@ void deferred_configure(struct pkginfo *pkg) {
         strcpy(cdr2rest,DPKGNEWEXT);
         if (unlink(cdr2.buf))
           fprintf(stderr,
-                  DPKG ": %s: warning - failed to remove `%.250s': %s\n",
+                  _("dpkg: %s: warning - failed to remove `%.250s': %s\n"),
                   pkg->name, cdr2.buf, strerror(errno));
         break;
 
       case cfo_install | cfof_backup:
         strcpy(cdr2rest,DPKGDISTEXT);
         if (unlink(cdr2.buf) && errno != ENOENT)
-          fprintf(stderr, DPKG
-                  ": %s: warning - failed to remove old distrib version `%.250s': %s\n",
+          fprintf(stderr,
+                  _("dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"),
                   pkg->name, cdr2.buf, strerror(errno));
         strcpy(cdr2rest,DPKGOLDEXT);
         if (unlink(cdr2.buf) && errno != ENOENT)
-          fprintf(stderr, DPKG
-                  ": %s: warning - failed to remove `%.250s' (before overwrite): %s\n",
+          fprintf(stderr,
+                  _("dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"),
                   pkg->name, cdr2.buf, strerror(errno));
         if (link(cdr.buf,cdr2.buf))
-          fprintf(stderr, DPKG
-                  ": %s: warning - failed to link `%.250s' to `%.250s': %s\n",
+          fprintf(stderr,
+                  _("dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"),
                   pkg->name, cdr.buf, cdr2.buf, strerror(errno));
         /* fall through */
       case cfo_install:
-        printf("Installing new version of config file %s ...\n",conff->name);
+        printf(_("Installing new version of config file %s ...\n"),conff->name);
       case cfo_newconff:
         strcpy(cdr2rest,DPKGNEWEXT);
         if (rename(cdr2.buf,cdr.buf))
-          ohshite("unable to install `%.250s' as `%.250s'",cdr2.buf,cdr.buf);
+          ohshite(_("unable to install `%.250s' as `%.250s'"),cdr2.buf,cdr.buf);
         break;
 
       default:
@@ -412,8 +413,8 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
     debug(dbg_conffdetail,"conffderef in=`%s' current working=`%s'", in, result->buf);
     if (lstat(result->buf,&stab)) {
       if (errno != ENOENT)
-        fprintf(stderr, DPKG ": %s: warning - unable to stat config file `%s'\n"
-                " (= `%s'): %s\n",
+        fprintf(stderr, _("dpkg: %s: warning - unable to stat config file `%s'\n"
+                " (= `%s'): %s\n"),
                 pkg->name, in, result->buf, strerror(errno));
       debug(dbg_conffdetail,"conffderef nonexistent");
       return 0;
@@ -423,8 +424,8 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
     } else if (S_ISLNK(stab.st_mode)) {
       debug(dbg_conffdetail,"conffderef symlink loopprotect=%d",loopprotect);
       if (loopprotect++ >= 25) {
-        fprintf(stderr, DPKG ": %s: warning - config file `%s' is a circular link\n"
-                " (= `%s')\n", pkg->name, in, result->buf);
+        fprintf(stderr, _("dpkg: %s: warning - config file `%s' is a circular link\n"
+                " (= `%s')\n"), pkg->name, in, result->buf);
         return -1;
       }
       need= 255;
@@ -436,8 +437,8 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
         }
         r= readlink(result->buf,linkreadbuf,linkreadbufsize-1);
         if (r < 0) {
-          fprintf(stderr, DPKG ": %s: warning - unable to readlink conffile `%s'\n"
-                  " (= `%s'): %s\n",
+          fprintf(stderr, _("dpkg: %s: warning - unable to readlink conffile `%s'\n"
+                  " (= `%s'): %s\n"),
                   pkg->name, in, result->buf, strerror(errno));
           return -1;
         }
@@ -454,9 +455,9 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
       } else {
         for (r=result->used-2; r>0 && result->buf[r] != '/'; r--);
         if (r < 0) {
-          fprintf(stderr, DPKG
-                  ": %s: warning - conffile `%.250s' resolves to degenerate filename\n"
-                  " (`%s' is a symlink to `%s')\n",
+          fprintf(stderr,
+                  _("dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
+                  " (`%s' is a symlink to `%s')\n"),
                   pkg->name, in, result->buf, linkreadbuf);
           return -1;
         }
@@ -468,8 +469,8 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
       varbufaddstr(result,linkreadbuf);
       varbufaddc(result,0);
     } else {
-      fprintf(stderr, DPKG ": %s: warning - conffile `%.250s' is not a plain"
-              " file or symlink (= `%s')\n",
+      fprintf(stderr, _("dpkg: %s: warning - conffile `%.250s' is not a plain"
+              " file or symlink (= `%s')\n"),
               pkg->name, in, result->buf);
       return -1;
     }
@@ -490,12 +491,12 @@ static void md5hash(struct pkginfo *pkg, char hashbuf[33], const char *fn) {
     if (!(c1= m_fork())) {
       m_dup2(fd,0); m_dup2(p1[1],1); close(p1[0]);
       execlp(MD5SUM,MD5SUM,(char*)0);
-      ohshite("failed to exec md5sum");
+      ohshite(_("failed to exec md5sum"));
     }
     close(p1[1]); close(fd);
     file= fdopen(p1[0],"r");
     push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)file);
-    if (!file) ohshite("unable to fdopen for md5sum of `%.250s'",fn);
+    if (!file) ohshite(_("unable to fdopen for md5sum of `%.250s'"),fn);
     ok= 1;
     memset(hashbuf,0,33);
     if (fread(hashbuf,1,32,file) != 32) ok=0;
@@ -503,16 +504,16 @@ static void md5hash(struct pkginfo *pkg, char hashbuf[33], const char *fn) {
     if (getc(file) != EOF) ok=0;
     waitsubproc(c1,"md5sum",0);
     if (strspn(hashbuf,"0123456789abcdef") != 32) ok=0;
-    if (ferror(file)) ohshite("error reading pipe from md5sum");
-    if (fclose(file)) ohshite("error closing pipe from md5sum");
+    if (ferror(file)) ohshite(_("error reading pipe from md5sum"));
+    if (fclose(file)) ohshite(_("error closing pipe from md5sum"));
     pop_cleanup(ehflag_normaltidy); /* file= fdopen(p1[0]) */
     pop_cleanup(ehflag_normaltidy); /* m_pipe() */
     pop_cleanup(ehflag_normaltidy); /* fd= open(cdr.buf) */
-    if (!ok) ohshit("md5sum gave malformatted output `%.250s'",hashbuf);
+    if (!ok) ohshit(_("md5sum gave malformatted output `%.250s'"),hashbuf);
   } else if (errno == ENOENT) {
     strcpy(hashbuf,NONEXISTENTFLAG);
   } else {
-    fprintf(stderr, DPKG ": %s: warning - unable to open conffile %s for hash: %s\n",
+    fprintf(stderr, _("dpkg: %s: warning - unable to open conffile %s for hash: %s\n"),
             pkg->name, fn, strerror(errno));
     strcpy(hashbuf,"-");
   }

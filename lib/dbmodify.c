@@ -33,9 +33,9 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 char *statusfile=0, *availablefile=0;
 
@@ -54,12 +54,12 @@ static int ulist_select(const struct dirent *de) {
   for (p= de->d_name, l=0; *p; p++, l++)
     if (!isdigit(*p)) return 0;
   if (l > IMPORTANTMAXLEN)
-    ohshit("updates directory contains file `%.250s' whose name is too long "
-           "(length=%d, max=%d)", de->d_name, l, IMPORTANTMAXLEN);
+    ohshit(_("updates directory contains file `%.250s' whose name is too long "
+           "(length=%d, max=%d)"), de->d_name, l, IMPORTANTMAXLEN);
   if (updateslength == -1) updateslength= l;
   else if (l != updateslength)
-    ohshit("updates directory contains files with different length names "
-           "(both %d and %d)", l, updateslength);
+    ohshit(_("updates directory contains files with different length names "
+           "(both %d and %d)"), l, updateslength);
   return 1;
 }
 
@@ -72,7 +72,7 @@ static void cleanupdates(void) {
   *updatefnrest= 0;
   updateslength= -1;
   cdn= scandir(updatefnbuf, &cdlist, &ulist_select, alphasort);
-  if (cdn == -1) ohshite("cannot scan updates directory `%.255s'",updatefnbuf);
+  if (cdn == -1) ohshite(_("cannot scan updates directory `%.255s'"),updatefnbuf);
 
   if (cdn) {
     
@@ -88,7 +88,7 @@ static void cleanupdates(void) {
       for (i=0; i<cdn; i++) {
         strcpy(updatefnrest, cdlist[i]->d_name);
         if (unlink(updatefnbuf))
-          ohshite("failed to remove incorporated update file %.255s",updatefnbuf);
+          ohshite(_("failed to remove incorporated update file %.255s"),updatefnbuf);
         free(cdlist[i]);
       }
     }
@@ -105,14 +105,14 @@ static void createimptmp(void) {
   onerr_abort++;
   
   importanttmp= fopen(importanttmpfile,"w");
-  if (!importanttmp) ohshite("unable to create %.250s",importanttmpfile);
+  if (!importanttmp) ohshite(_("unable to create %.250s"),importanttmpfile);
   for (i=0; i<512; i++) fputs("#padding\n",importanttmp);
   if (ferror(importanttmp))
-    ohshite("unable to fill %.250s with padding",importanttmpfile);
+    ohshite(_("unable to fill %.250s with padding"),importanttmpfile);
   if (fflush(importanttmp))
-    ohshite("unable flush %.250s after padding",importanttmpfile);
+    ohshite(_("unable flush %.250s after padding"),importanttmpfile);
   if (fseek(importanttmp,0,SEEK_SET))
-    ohshite("unable seek to start of %.250s after padding",importanttmpfile);
+    ohshite(_("unable seek to start of %.250s after padding"),importanttmpfile);
 
   onerr_abort--;
 }
@@ -140,14 +140,14 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
   case msdbrw_needsuperuser:
   case msdbrw_needsuperuserlockonly:
     if (getuid() || geteuid())
-      ohshit("requested operation requires superuser privilege");
+      ohshit(_("requested operation requires superuser privilege"));
     /* fall through */
   case msdbrw_write: case msdbrw_writeifposs:
     if (access(adir,W_OK)) {
       if (errno != EACCES)
-        ohshite("unable to access dpkg status area");
+        ohshite(_("unable to access dpkg status area"));
       else if (readwritereq == msdbrw_write)
-        ohshit("operation requires read/write access to dpkg status area");
+        ohshit(_("operation requires read/write access to dpkg status area"));
       cstatus= msdbrw_readonly;
     } else {
       lockdatabase(adir);
@@ -194,7 +194,7 @@ static void checkpoint(void) {
     sprintf(updatefnrest, IMPORTANTFMT, i);
     assert(strlen(updatefnrest)<=IMPORTANTMAXLEN); /* or we've made a real mess */
     if (unlink(updatefnbuf))
-      ohshite("failed to remove my own update file %.255s",updatefnbuf);
+      ohshite(_("failed to remove my own update file %.255s"),updatefnbuf);
   }
   nextupdate= 0;
 }
@@ -226,18 +226,18 @@ void modstatdb_note(struct pkginfo *pkg) {
   varbufreset(&uvb);
   varbufrecord(&uvb, pkg, &pkg->installed);
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
-    ohshite("unable to write updated status of `%.250s'", pkg->name);
+    ohshite(_("unable to write updated status of `%.250s'"), pkg->name);
   if (fflush(importanttmp))
-    ohshite("unable to flush updated status of `%.250s'", pkg->name);
+    ohshite(_("unable to flush updated status of `%.250s'"), pkg->name);
   if (ftruncate(fileno(importanttmp), uvb.used))
-    ohshite("unable to truncate for updated status of `%.250s'", pkg->name);
+    ohshite(_("unable to truncate for updated status of `%.250s'"), pkg->name);
   if (fsync(fileno(importanttmp)))
-    ohshite("unable to fsync updated status of `%.250s'", pkg->name);
+    ohshite(_("unable to fsync updated status of `%.250s'"), pkg->name);
   if (fclose(importanttmp))
-    ohshite("unable to close updated status of `%.250s'", pkg->name);
+    ohshite(_("unable to close updated status of `%.250s'"), pkg->name);
   sprintf(updatefnrest, IMPORTANTFMT, nextupdate);
   if (rename(importanttmpfile, updatefnbuf))
-    ohshite("unable to install updated status of `%.250s'", pkg->name);
+    ohshite(_("unable to install updated status of `%.250s'"), pkg->name);
   assert(strlen(updatefnrest)<=IMPORTANTMAXLEN); /* or we've made a real mess */
 
   nextupdate++;  

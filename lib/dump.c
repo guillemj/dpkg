@@ -28,9 +28,9 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "parsedump.h"
 
 void w_name(struct varbuf *vb,
@@ -218,7 +218,7 @@ void writerecord(FILE *file, const char *filename,
   varbufinit(&vb);
   varbufrecord(&vb,pigp,pifp);
   varbufaddc(&vb,'\0');
-  if (!fputs(vb.buf,file))
+  if (fputs(vb.buf,file) < 0)
     ohshite("failed to write details of `%.50s' to `%.250s'", pigp->name, filename);
 }
 
@@ -232,6 +232,7 @@ void writedb(const char *filename, int available, int mustsync) {
   const char *which;
   FILE *file;
   struct varbuf vb;
+  int old_umask;
 
   which= available ? "available" : "status";
   oldfn= m_malloc(strlen(filename)+sizeof(OLDDBEXT));
@@ -240,11 +241,13 @@ void writedb(const char *filename, int available, int mustsync) {
   strcpy(newfn,filename); strcat(newfn,NEWDBEXT);
   varbufinit(&vb);
 
+  old_umask = umask(022);
   file= fopen(newfn,"w");
-  if (!file) ohshite("failed to open `%s' for writing %s information",filename,which);
+  umask(old_umask);
+  if (!file) ohshite(_("failed to open `%s' for writing %s information"),filename,which);
   
   if (setvbuf(file,writebuf,_IOFBF,sizeof(writebuf)))
-    ohshite("unable to set buffering on status file");
+    ohshite(_("unable to set buffering on status file"));
 
   it= iterpkgstart();
   while ((pigp= iterpkgnext(it)) != 0) {
@@ -254,25 +257,25 @@ void writedb(const char *filename, int available, int mustsync) {
     if (!pifp->valid) blankpackageperfile(pifp);
     varbufrecord(&vb,pigp,pifp);
     varbufaddc(&vb,'\n'); varbufaddc(&vb,0);
-    if (!fputs(vb.buf,file))
-      ohshite("failed to write %s record about `%.50s' to `%.250s'",
+    if (fputs(vb.buf,file) < 0)
+      ohshite(_("failed to write %s record about `%.50s' to `%.250s'"),
               which, pigp->name, filename);
     varbufreset(&vb);      
   }
   varbuffree(&vb);
   if (mustsync) {
     if (fflush(file))
-      ohshite("failed to flush %s information to `%.250s'", which, filename);
+      ohshite(_("failed to flush %s information to `%.250s'"), which, filename);
     if (fsync(fileno(file)))
-      ohshite("failed to fsync %s information to `%.250s'", which, filename);
+      ohshite(_("failed to fsync %s information to `%.250s'"), which, filename);
   }
-  if (fclose(file)) ohshite("failed to close `%.250s' after writing %s information",
+  if (fclose(file)) ohshite(_("failed to close `%.250s' after writing %s information"),
                             filename, which);
   unlink(oldfn);
   if (link(filename,oldfn) && errno != ENOENT)
-    ohshite("failed to link `%.250s' to `%.250s' for backup of %s info",
+    ohshite(_("failed to link `%.250s' to `%.250s' for backup of %s info"),
             filename, oldfn, which);
   if (rename(newfn,filename))
-    ohshite("failed to install `%.250s' as `%.250s' containing %s info",
+    ohshite(_("failed to install `%.250s' as `%.250s' containing %s info"),
             newfn, filename, which);
 }

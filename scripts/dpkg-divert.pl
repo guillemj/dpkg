@@ -188,6 +188,7 @@ sub checkrename {
 
 sub dorename {
     return unless $dorename;
+    return if $testmode;
     if (@ssrc) {
         if (@sdest) {
             unlink($rsrc) || &quit("rename: remove duplicate old link \`$rsrc': $!");
@@ -200,6 +201,7 @@ sub dorename {
 sub save {
     return if $testmode;
     open(N,"> $admindir/diversions-new") || &quit("create diversions-new: $!");
+    chmod 0644, "$admindir/diversions-new";
     for ($i=0; $i<=$#contest; $i++) {
         print(N "$contest[$i]\n$altname[$i]\n$package[$i]\n")
             || &quit("write diversions-new: $!");

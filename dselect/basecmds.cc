@@ -21,14 +21,14 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <assert.h>
 #include <signal.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 #include "helpmsgs.h"
@@ -97,11 +97,12 @@ void baselist::kd_searchagain() {
 void baselist::kd_search() {
   werase(querywin);
   mvwaddstr(querywin,0,0, "Search for ? ");
-  echo();
+  echo(); /* fixme: ncurses documentation or implementation */
   /* fixme: make / RET do `search again' and / DEL to abort */
   if (wgetnstr(querywin,searchstring,sizeof(searchstring)-1) == ERR)
     searchstring[0]= 0;
-  noecho();
+  raise(SIGWINCH); /* fixme: ncurses and xterm arrow keys */
+  noecho(); /* fixme: ncurses */
   if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
   else if (info_height) { touchwin(infopad); refreshinfo(); }
   else if (thisstate_height) redrawthisstate();

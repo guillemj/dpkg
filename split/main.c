@@ -19,52 +19,53 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "version.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <version.h>
+#include <myopt.h>
 
 #include "dpkg-split.h"
 
 static void printversion(void) {
-  if (!fputs
-      ("Debian Linux `" SPLITTER "' package split/join tool; "
-       "version " DPKG_VERSION_ARCH ".\n"
-       "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
+  if (fputs
+      (_("Debian Linux `dpkg-split' package split/join tool; version "), stdout) < 0) werr ("stdout");
+  if (fputs (DPKG_VERSION_ARCH ".\n", stdout) < 0) werr ("stdout");
+  if (fputs (_("Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
        "GNU General Public Licence version 2 or later for copying conditions.\n"
-       "There is NO warranty.  See dpkg-split --licence for details.\n",
-       stdout)) werr("stdout");
+       "There is NO warranty.  See dpkg-split --licence for details.\n"),
+       stdout) < 0) werr("stdout");
 }
 
 static void usage(void) {
-  if (!fputs("\
-Usage: " SPLITTER " -s|--split <file> [<prefix>]     Split an archive.\n\
-       " SPLITTER " -j|--join <part> <part> ...      Join parts together.\n\
-       " SPLITTER " -I|--info <part> ...             Display info about a part.\n\
-       " SPLITTER " -h|--help|--version|--licence    Show help/version/licence.\n\
+  if (fputs(_("\
+Usage: dpkg-split -s|--split <file> [<prefix>]     Split an archive.\n\
+       dpkg-split -j|--join <part> <part> ...      Join parts together.\n\
+       dpkg-split -I|--info <part> ...             Display info about a part.\n\
+       dpkg-split -h|--help|--version|--licence    Show help/version/licence.\n\
 \n\
-       " SPLITTER " -a|--auto -o <complete> <part>   Auto-accumulate parts.\n\
-       " SPLITTER " -l|--listq                       List unmatched pieces.\n\
-       " SPLITTER " -d|--discard [<filename> ...]    Discard unmatched pieces.\n\
+       dpkg-split -a|--auto -o <complete> <part>   Auto-accumulate parts.\n\
+       dpkg-split -l|--listq                       List unmatched pieces.\n\
+       dpkg-split -d|--discard [<filename> ...]    Discard unmatched pieces.\n\
 \n\
-Options:  --depotdir <directory>  (default is /var/lib/dpkg/parts)\n\
+Options:  --depotdir <directory>  (default is " ADMINDIR "/" PARTSDIR ")\n\
           -S|--partsize <size>    (in Kb, for -s, default is 450)\n\
           -o|--output <file>      (for -j, default is <package>-<version>.deb)\n\
           -Q|--npquiet            (be quiet when -a is not a part)\n\
           --msdos                 (generate 8.3 filenames)\n\
 \n\
-Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n",
-             stdout)) werr("stdout");
+Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"),
+             stdout) < 0) werr("stdout");
 }
 
 const char thisname[]= SPLITTER;
-const char printforhelp[]= "Type " SPLITTER " --help for help.";
+const char printforhelp[]= N_("Type dpkg-split --help for help.");
 
 dofunction *action=0;
 const struct cmdinfo *cipaction=0;
@@ -74,12 +75,12 @@ struct partqueue *queue= 0;
 int npquiet= 0, msdos= 0;
 
 void rerr(const char *fn) {
-  ohshite("error reading %s",fn);
+  ohshite(_("error reading %s"),fn);
 }
 
 void rerreof(FILE *f, const char *fn) {
-  if (ferror(f)) ohshite("error reading %.250s",fn);
-  ohshit("unexpected end of file in %.250s",fn);
+  if (ferror(f)) ohshite(_("error reading %.250s"),fn);
+  ohshit(_("unexpected end of file in %.250s"),fn);
 }
 
 static void helponly(const struct cmdinfo *cip, const char *value) {
@@ -97,11 +98,11 @@ static void setpartsize(const struct cmdinfo *cip, const char *value) {
 
   newpartsize= strtol(value,&endp,10);
   if (newpartsize <= 0 || newpartsize > (INT_MAX >> 10))
-    badusage("part size is far too large or is not positive");
+    badusage(_("part size is far too large or is not positive"));
 
   maxpartsize= newpartsize << 10;
   if (maxpartsize <= HEADERALLOWANCE)
-    badusage("part size must be at least %dk (to allow for header)",
+    badusage(_("part size must be at least %dk (to allow for header)"),
              (HEADERALLOWANCE >> 10) + 1);
 }
 
@@ -138,7 +139,7 @@ static const struct cmdinfo cmdinfos[]= {
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
-    badusage("conflicting actions --%s and --%s",cip->olong,cipaction->olong);
+    badusage(_("conflicting actions --%s and --%s"),cip->olong,cipaction->olong);
   cipaction= cip;
   assert(cip-cmdinfos < sizeof(dofunctions)*sizeof(dofunction*));
   action= dofunctions[cip-cmdinfos];
@@ -149,13 +150,17 @@ int main(int argc, const char *const *argv) {
   int l;
   char *p;
 
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
+
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
   }
   push_error_handler(&ejbuf,print_error_fatal,0);
 
   myopt(&argv,cmdinfos);
-  if (!cipaction) badusage("need an action option");
+  if (!cipaction) badusage(_("need an action option"));
 
   l= strlen(depotdir);
   if (l && depotdir[l-1] != '/') {

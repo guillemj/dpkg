@@ -1,83 +1,84 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_INIT(include/dpkg.h)
-AC_CONFIG_HEADER(config.h)
+AC_PREREQ([2.12])
+
+AC_INIT(include/dpkg.h.in)
+AM_CONFIG_HEADER(config.h)
+
+tl_CHECK_TOOL_PREFIX
+
+tl_PROG_CC
+tl_CANONICAL_SYSTEM
+tl_CHECK_TOOL_PREFIX
+
+tl_PROG_CXX
+AC_PROG_CXX
+AM_CONDITIONAL(HAVE_CPLUSPLUS, [test "$CXX" != ""])
+
+tl_CHECK_TOOL(LD, ld, ld)
+
+AM_INIT_AUTOMAKE(dpkg,[`sed -n '1s/dpkg (\([0-9.]\+\)).*/\1/p' ${srcdir}/debian/changelog`])
+ACLOCAL="$ACLOCAL -I automake"
+AC_MSG_CHECKING(dpkg version)
+AC_MSG_RESULT($VERSION)
 
 AC_PREFIX_DEFAULT(/usr)
 
-AC_PROG_CC
-AC_PROG_CXX
-
 dpkg_archset=''
 AC_ARG_WITH(arch,
-[  --with-arch=value       set/override (Debian) architecture value],
+[  --with-arch=value	  set/override (Debian) architecture value (deprecated)],
 [
  if test "x$with_arch" = x; then
   AC_MSG_ERROR(--with-arch requires an architecture name)
  fi
  dpkg_archset="${with_arch}"
+ dpkg_tmp="`awk '$1 == "'$target_cpu'" { print $2 }' $srcdir/archtable`"
+ if test "x$dpkg_tmp" = "x"; then
+  AC_MSG_WARN([unable to find specified architecture $dpkg_archset in archtable])
+ elif test "x$dpkg_tmp" != "x$dpkg_archset"; then
+  AC_MSG_WARN([canonical architecture is $dpkg_tmp (from archtable)])
+ fi
 ],[
  AC_MSG_CHECKING(system architecture)
- dpkg_archwhy=''
- AC_CACHE_VAL(dpkg_cv_arch,[
-  dpkg_arch="`dpkg --print-architecture 2>/dev/null`"
-  if test "x$dpkg_arch" != x; then
-   dpkg_archwhy="  (obtained from dpkg)"
-  elif test "${GCC-no}" = yes; then
-changequote(, )dnl
-   dpkg_arch="`${CC} --print-libgcc-file-name |
-	sed -e 's,^.*/gcc-lib/,,; s,/libgcc\.a$,,; s,/[0-9.][0-9.]*$,,; s/-.*$//'`"
-changequote([, ])dnl
-   if test "x`echo \"$dpkg_arch\" | tr -d a-z0-9-`" != x -o "x$dpkg_arch" = x
-   then
-    dpkg_arch=""
-    dpkg_archwhy=" (bad output from --print-libgcc-file-name)"
-   else
-    dpkg_arch2="`awk '$1 == "'$dpkg_arch'" { print $2 }' $srcdir/archtable`"
-    if test "x$dpkg_arch2" = "x$dpkg_arch"; then
-     dpkg_archwhy=" (obtained from gcc)"
-    elif test "x$dpkg_arch2" != x; then
-     dpkg_archwhy=" (from gcc, canonical form of $dpkg_arch)"
-     dpkg_arch="$dpkg_arch2"
-    else
-     dpkg_archwhy=" (from gcc, but not in archtable)"
-    fi
-   fi
-  else
-   dpkg_archwhy=''
-  fi
-  dpkg_cv_arch="$dpkg_arch"
- ])
- if test "x$dpkg_cv_arch" != x; then
-  AC_MSG_RESULT("$dpkg_cv_arch$dpkg_archwhy")
-  dpkg_archset="${dpkg_cv_arch}"
- else
-  AC_MSG_RESULT("failed$dpkg_archwhy")
+ dpkg_archset="`awk '$1 == "'$target_cpu'" { print $2 }' $srcdir/archtable`"
+ # Finish off
+ if test "x$dpkg_archset" = "x"; then
+  AC_MSG_ERROR(failed: use --with-arch= or --target=)
  fi
+ AC_MSG_RESULT($dpkg_archset)
 ])
+
 if test "x$dpkg_archset" != x
 then
- AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_cv_arch}")
+ AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}")
 fi
 
 if test "x${dpkg_archset}" = xi386; then
- AC_MSG_CHECKING(for i386 system/binary format)
- dpkg_libgcc="`$CC --print-libgcc-file-name 2>/dev/null`"
- case "$dpkg_libgcc" in
-  *-linux*)
-   if ar p "$dpkg_libgcc" __main.o 2>/dev/null | file - 2>/dev/null | grep ELF >/dev/null; then
-    AC_MSG_RESULT(Linux ELF)
-    dpkg_cc_binfmt=elf
-   else
-    AC_MSG_RESULT(Linux a.out)
-    dpkg_cc_binfmt=a.out
-   fi
-   AC_DEFINE_UNQUOTED(ARCHBINFMT, " $dpkg_cc_binfmt")
-  ;;
+ AC_MSG_CHECKING(target i386 system/binary format)
+ case "${target_os}" in
+  linuxaout|linux-gnuaout)
+   AC_MSG_RESULT(Linux a.out)
+   dpkg_cc_binfmt=a.out
+   ;;
+  
+  linuxcoff|linux-gnucoff)
+   AC_MSG_RESULT(Linux COFF)
+   dpkg_cc_binfmt=coff
+   ;;
+  
+  linux|linuxelf|linux-gnu*)
+   AC_MSG_RESULT(Linux ELF)
+   dpkg_cc_binfmt=elf
+   ;;
+  
   *)
-   AC_MSG_RESULT(non-Linux)
-  ;;
+   AC_MSG_RESULT([other (${target_os})])
+   dpkg_cc_binfmt=""
+   ;;
  esac
+ if test "x$dpkg_cc_binfmt" != "x"; then
+  AC_DEFINE_UNQUOTED(ARCHBINFMT," $dpkg_cc_binfmt")
+ fi
 fi
 
 AC_ARG_WITH(newdeb,
@@ -86,6 +87,15 @@ AC_ARG_WITH(newdeb,
 AC_ARG_WITH(olddeb,
 [  --with-olddeb           make dpkg-deb default to old archives],
 [AC_DEFINE(BUILDOLDPKGFORMAT, 1)])
+
+dnl gettext
+
+ALL_LINGUAS="en fr"
+AM_GNU_GETTEXT
+AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
+AC_OUTPUT_COMMANDS([sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
+
+dnl Other stuff
 
 AC_MSG_CHECKING(for /usr/bin/perl)
 if test -f /usr/bin/perl
@@ -100,9 +110,10 @@ fi
 
 AC_STDC_HEADERS
 AC_PROG_INSTALL
-dnl AC_PROGRAM_PATH(GZIP, gzip, )   use these from $PATH
-dnl AC_PROGRAM_PATH(TAR, tar, )     use these from $PATH
-AC_PROG_RANLIB
+AM_PROG_LIBTOOL
+dnl Default in case EMACS == no
+lispdir="\$(datadir)/emacs/site-lisp"
+AM_PATH_LISPDIR
 AC_MODE_T
 AC_PID_T
 AC_SIZE_T
@@ -111,7 +122,7 @@ AC_C_CONST
 AC_C_BIGENDIAN
 AC_CHECK_SIZEOF(unsigned long)
 AC_CHECK_SIZEOF(unsigned int)
-AC_CHECK_FUNCS(unsetenv alphasort scandir strerror strsignal strtoul vsnprintf)
+AC_CHECK_FUNCS(unsetenv alphasort scandir strerror strsignal strtoul vsnprintf lchown)
 AC_CHECK_HEADERS(sys/cdefs.h)
 
 AC_CHECK_FUNC(sysinfo,
@@ -132,25 +143,13 @@ AC_CHECK_FUNC(sysinfo,
 
 AC_SUBST(OPTCFLAGS)
 if test "${GCC-no}" = yes; then
- CFLAGS=-O2; OPTCFLAGS=-O3
+ CFLAGS="-D_REENTRANT -D_GNU_SOURCE -O2"
+ CXXFLAGS="-D_REENTRANT -D_GNU_SOURCE -O2"
+ OPTCFLAGS="-O3"
 else
- CFLAGS=-O
+ CFLAGS="-D_REENTRANT -D_GNU_SOURCE -O"
+ CXXFLAGS="-D_REENTRANT -D_GNU_SOURCE -O"
 fi
-
-dnl DPKG_CACHED_TRY_COMPILE(<description>,<cachevar>,<include>,<program>,<ifyes>,<ifno>)
-define(DPKG_CACHED_TRY_COMPILE,[
- AC_MSG_CHECKING($1)
- AC_CACHE_VAL($2,[
-  AC_TRY_COMPILE([$3],[$4],[$2=yes],[$2=no])
- ])
- if test "x$$2" = xyes; then
-  true
-  $5
- else
-  true
-  $6
- fi
-])
 
 DPKG_CACHED_TRY_COMPILE(your C compiler,dpkg_cv_c_works,
  [#include <string.h>], [strcmp("a","b")],
@@ -196,33 +195,6 @@ DPKG_CACHED_TRY_COMPILE(__attribute__((,,)),dpkg_cv_c_attribute_supported,,
 AC_SUBST(CWARNS)
 CWARNS=""
 
-dnl DPKG_C_GCC_TRY_WARNS(<warnings>,<cachevar>)
-define(DPKG_C_GCC_TRY_WARNS,[
- AC_MSG_CHECKING([GCC warning flag(s) $1])
- if test "${GCC-no}" = yes
- then
-  AC_CACHE_VAL($2,[
-   oldcflags="${CFLAGS-}"
-   CFLAGS="${CFLAGS-} ${CWARNS} $1 -Werror"
-   AC_TRY_COMPILE([
-#include <string.h>
-#include <stdio.h>
-],[
-    strcmp("a","b"); fprintf(stdout,"test ok\n");
-], [$2=yes], [$2=no])
-   CFLAGS="${oldcflags}"])
-  if test "x$$2" = xyes; then
-   CWARNS="${CWARNS} $1"
-   AC_MSG_RESULT(ok)
-  else
-   $2=''
-   AC_MSG_RESULT(no)
-  fi
- else
-  AC_MSG_RESULT(no, not using GCC)
- fi
-])
-
 DPKG_C_GCC_TRY_WARNS(-Wall -Wno-implicit, dpkg_cv_c_gcc_warn_all)
 DPKG_C_GCC_TRY_WARNS(-Wwrite-strings, dpkg_cv_c_gcc_warn_writestrings)
 DPKG_C_GCC_TRY_WARNS(-Wpointer-arith, dpkg_cv_c_gcc_warn_pointerarith)
@@ -232,6 +204,10 @@ if test "${GCC-no}" = yes; then
  CWARNS="${CWARNS} -Wmissing-prototypes -Wstrict-prototypes"
 fi
 
-AC_OUTPUT(Makefile dpkg-deb/Makefile lib/Makefile include/Makefile
-          dselect/Makefile split/Makefile methods/Makefile
-          md5sum/Makefile main/Makefile doc/Makefile scripts/Makefile)
+echo "#define DPKG_VERSION \"$VERSION\" /* This line modified by configure */" > version.h.new
+cmp -s version.h.new version.h || mv version.h.new version.h
+
+AC_OUTPUT([Makefile intl/Makefile dpkg-deb/Makefile lib/Makefile
+          include/Makefile dselect/Makefile split/Makefile methods/Makefile
+          md5sum/Makefile main/Makefile doc/Makefile scripts/Makefile
+          po/Makefile.in])

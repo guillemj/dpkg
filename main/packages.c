@@ -32,10 +32,10 @@
 #include <string.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <myopt.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -76,7 +76,7 @@ void packages(const char *const *argv) {
   if (f_pending) {
 
     if (*argv)
-      badusage("--%s --pending does not take any non-option arguments",cipaction->olong);
+      badusage(_("--%s --pending does not take any non-option arguments"),cipaction->olong);
 
     it= iterpkgstart();
     while ((pkg= iterpkgnext(it)) != 0) {
@@ -106,15 +106,15 @@ void packages(const char *const *argv) {
   } else {
         
     if (!*argv)
-      badusage("--%s needs at least one package name argument", cipaction->olong);
+      badusage(_("--%s needs at least one package name argument"), cipaction->olong);
     
     while ((thisarg= *argv++) != 0) {
       pkg= findpackage(thisarg);
       if (pkg->status == stat_notinstalled) {
         l= strlen(pkg->name);
         if (l >= sizeof(DEBEXT) && !strcmp(pkg->name+l-sizeof(DEBEXT)+1,DEBEXT))
-          badusage("you must specify packages by their own names,"
-                   " not by quoting the names of the files they come in");
+          badusage(_("you must specify packages by their own names,"
+                   " not by quoting the names of the files they come in"));
       }
       add_to_queue(pkg);
     }
@@ -147,12 +147,12 @@ void process_queue(void) {
       /* Remove it from the queue - this is a second copy ! */
       switch (cipaction->arg) {
       case act_configure: case act_remove: case act_purge:
-        printf("Package %s listed more than once, only processing once.\n",
+        printf(_("Package %s listed more than once, only processing once.\n"),
                rundown->pkg->name);
         break;
       case act_install:
-        printf("More than one copy of package %s has been unpacked\n"
-               " in this run !  Only configuring it once.\n",
+        printf(_("More than one copy of package %s has been unpacked\n"
+               " in this run !  Only configuring it once.\n"),
                rundown->pkg->name);
         break;
       default:
@@ -261,13 +261,13 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   }
   thisf= 0;
   if (possdependee == removing) {
-    varbufaddstr(oemsgs,"  Package ");
+    varbufaddstr(oemsgs,_("  Package "));
     varbufaddstr(oemsgs,possdependee->name);
     if (providing) {
-      varbufaddstr(oemsgs," which provides ");
+      varbufaddstr(oemsgs,_(" which provides "));
       varbufaddstr(oemsgs,providing->name);
     }
-    varbufaddstr(oemsgs," is to be removed.\n");
+    varbufaddstr(oemsgs,_(" is to be removed.\n"));
     *matched= 1;
     if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
     debug(dbg_depcondetail,"      removing possdependee, returning %d",thisf);
@@ -279,9 +279,9 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   case stat_halfconfigured:
     assert(possdependee->installed.valid);
     if (checkversion && !versionsatisfied(&possdependee->installed,checkversion)) {
-      varbufaddstr(oemsgs,"  Version of ");
+      varbufaddstr(oemsgs,_("  Version of "));
       varbufaddstr(oemsgs,possdependee->name);
-      varbufaddstr(oemsgs," on system is ");
+      varbufaddstr(oemsgs,_(" on system is "));
       varbufaddstr(oemsgs,versiondescribe(&possdependee->installed.version,
                                           vdew_nonambig));
       varbufaddstr(oemsgs,".\n");
@@ -300,31 +300,31 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
       debug(dbg_depcondetail,"      unpacked/halfconfigured, defer");
       return 1;
     } else if (!removing && fc_configureany && !skip_due_to_hold(possdependee)) {
-      fprintf(stderr, DPKG
-              ": also configuring `%s' (required by `%s')\n",
+      fprintf(stderr,
+              _("dpkg: also configuring `%s' (required by `%s')\n"),
               possdependee->name, requiredby->name);
       add_to_queue(possdependee); sincenothing=0; return 1;
     } else {
-      varbufaddstr(oemsgs,"  Package ");
+      varbufaddstr(oemsgs,_("  Package "));
       varbufaddstr(oemsgs,possdependee->name);
       if (providing) {
-        varbufaddstr(oemsgs," which provides ");
+        varbufaddstr(oemsgs,_(" which provides "));
         varbufaddstr(oemsgs,providing->name);
       }
-      varbufaddstr(oemsgs," is not configured yet.\n");
+      varbufaddstr(oemsgs,_(" is not configured yet.\n"));
       if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
       debug(dbg_depcondetail,"      not configured/able - returning %d",thisf);
       (*interestingwarnings)++;
       return thisf;
     }
   default:
-    varbufaddstr(oemsgs,"  Package ");
+    varbufaddstr(oemsgs,_("  Package "));
     varbufaddstr(oemsgs,possdependee->name);
     if (providing) {
-      varbufaddstr(oemsgs," which provides ");
+      varbufaddstr(oemsgs,_(" which provides "));
       varbufaddstr(oemsgs,providing->name);
     }
-    varbufaddstr(oemsgs," is not installed.\n");
+    varbufaddstr(oemsgs,_(" is not installed.\n"));
     if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
     debug(dbg_depcondetail,"      not installed - returning %d",thisf);
     (*interestingwarnings)++;
@@ -383,13 +383,13 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     case 2:
       varbufaddstr(aemsgs, " ");
       varbufaddstr(aemsgs, pkg->name);
-      varbufaddstr(aemsgs, " depends on ");
+      varbufaddstr(aemsgs, _(" depends on "));
       varbufdependency(aemsgs, dep);
       if (interestingwarnings) {
         /* Don't print the line about the package to be removed if
          * that's the only line.
          */
-        varbufaddstr(aemsgs, "; however:\n");
+        varbufaddstr(aemsgs, _("; however:\n"));
         varbufaddc(&oemsgs, 0);
         varbufaddstr(aemsgs, oemsgs.buf);
       } else {

@@ -1,31 +1,84 @@
 #!/usr/bin/make -f
 
-DIR:=$(shell pwd)
+SHELL=bash
+
+.PHONY: clean build binary binary-trees binary-arch binary-indep
+
+BUILD := $(shell pwd)/debian/build
+DIR := $(shell pwd)
 
 arch=$(shell dpkg --print-architecture)
 mcidir=debian/tmp-main/DEBIAN
 
-build:
-	$(checkdir)
-	./configure --prefix=/usr
-	$(MAKE)
-	touch build
 
-clean:
+Makefile.in: Makefile.am
 	$(checkdir)
-	-rm -f build
-	-$(MAKE) -i distclean || $(MAKE) -f Makefile.in -i distclean
-	-rm -rf debian/tmp* *~ *.orig ./#*# tmp.* debian/files*
-	-rm -f config.cache config.status config.h install config.log
-	find -name '*~' -print0 | xargs -r0 rm --
+	$(RM) config.status
+	mkdir -p automake
+	aclocal -I ./automake
+	autoheader
+	autoconf
+	gettextize --force
+	libtoolize --automake --copy --force
+	$(RM) config.sub config.guess 
+	ln -s /usr/share/automake/config.sub .
+	automake --add-missing
 
-binary:		binary-arch binary-indep
-
-binary-trees:	checkroot build
+$(BUILD)/Makefile: Makefile.in
 	$(checkdir)
-	-rm -rf debian/tmp-{main,dev}
+	$(RM) -r debian/build
+	install -d debian/build
+	cd $(BUILD) && ../../configure \
+		--enable-shared --with-included-gettext \
+		--prefix=/usr \
+		--datadir=/usr/share \
+		--sysconfdir=/etc \
+		--sharedstatedir=/var/lib \
+		--localstatedir=/var/lib
+# libtool -rpath workaround based on a suggestion by Yann Dirson
+# <dirson@debian.org>
+#
+# It is supposed to be inserted in configure.in, but I didn't want
+# to re-run autoconf (since that bloats the Debian diff unnecessarily),
+# so I just patch libtool after running configure.  -- Richard Braakman
+# <dark@xs4all.nl>
+#
+# The version of libtool included with LessTif unfortunately insists on
+# linking with -rpath, i.e. hardwiring locations. This is not desirable.
+#
+# The dummy define is improbable enough not to conflict with anything; it is
+# just here to fool libtool by making it believe it gave some useful info to
+# gcc.
+	sed < $(BUILD)/libtool > $(BUILD)/libtool.foo \
+		's/^hardcode_libdir_flag_spec.*$$/hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/'
+	mv $(BUILD)/libtool.foo $(BUILD)/libtool
+# More hackery: this will also patch the generated libtool to explicitly
+# link libraries against the libraries they depend on.  (particularly libc)
+	sed < $(BUILD)/libtool > $(BUILD)/libtool.foo '/^archive_cmds="/s/"$$/ \\$$deplibs"/'
+	mv $(BUILD)/libtool.foo $(BUILD)/libtool
+	chmod 755 $(BUILD)/libtool
+
+clean: $(BUILD)/Makefile
+	$(checkdir)
+	$(MAKE) -C $(BUILD) -i maintainer-clean
+	$(RM) -r debian/{build,files,substvars,tmp*}
+	$(RM) $(BUILD)/dpkg-*.tar.gz
+	$(RM) po/*.gmo
+	$(RM) config.log
+	find . \( -name '*~' -o -name '#*#' \) -print0 | xargs -r0 $(RM) --
+
+build: $(BUILD)/Makefile
+	$(checkdir)
+	$(MAKE) -C $(BUILD)
+
+binary: binary-arch binary-indep
+
+binary-trees: build
+	$(checkdir)
+	-$(RM) -r debian/tmp-{main,dev}
 	install -d debian/tmp-{main,dev}/{DEBIAN,etc/dpkg,usr/doc/dpkg}
 	install -d debian/tmp-dev/usr/{lib/dpkg,doc/dpkg-dev,man/man1,man/man8,sbin,bin}
+	install -d debian/tmp-main/sbin
 	set -e; if [ $(arch) = i386 ]; then \
 		sed -e 's/^# i386elf: //' <debian/preinst >$(mcidir)/preinst ; \
 	else \
@@ -37,65 +90,89 @@ binary-trees:	checkroot build
 			debian/tmp-dev/etc/dpkg/shlibs.default ; \
 	fi
 	cp debian/{prerm,postinst} $(mcidir)/.
+	install -d debian/tmp-dev/etc/emacs/site-start.d
+	install -c debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/
+	install -d debian/tmp-dev/etc/xemacs/site-start-19.d
+	install -c debian/50dpkg-dev.el debian/tmp-dev/etc/xemacs/site-start-19.d/
 	chmod +x $(mcidir)/{postinst,prerm,preinst}
-	$(MAKE) prefix=$(DIR)/debian/tmp-main/usr \
-		datadir=$(DIR)/debian/tmp-main/var/lib/dpkg \
-		etcdir=$(DIR)/debian/tmp-main/etc \
+	$(MAKE) -C $(BUILD) top_distdir=. dist 
+	$(MAKE) -C $(BUILD) \
+		prefix=$(DIR)/debian/tmp-main/usr \
+		sysconfdir=$(DIR)/debian/tmp-main/etc \
+		datadir=$(DIR)/debian/tmp-main/usr/share \
+		sharedstatedir=$(DIR)/debian/tmp-main/var/lib \
+		localstatedir=$(DIR)/debian/tmp-main/var/lib \
 		install
-	find debian/tmp-main/usr/man -type f | xargs gzip -9v
+	find debian/tmp-main/usr/man -type f | xargs gzip -9vf
 	set -e; for f in dpkg-buildpackage dpkg-gencontrol dpkg-distaddfile \
 		  dpkg-parsechangelog dpkg-genchanges dpkg-shlibdeps; do \
 		rm debian/tmp-main/usr/man/man1/$$f.1; \
 		ln -s dpkg-source.1.gz debian/tmp-main/usr/man/man1/$$f.1.gz ; \
 	done
-	gzip -9v debian/tmp-main/usr/doc/dpkg/changelog.*
+	ln -s ../man7/undocumented.7.gz debian/tmp-main/usr/man/man1/dpkg-divert.1.gz
+	gzip -9vf debian/tmp-main/usr/doc/dpkg/changelog*
 	cp debian/copyright debian/tmp-main/usr/doc/dpkg/copyright
 	cp debian/copyright debian/tmp-dev/usr/doc/dpkg-dev/copyright
 	cp debian/dev-README debian/tmp-dev/usr/doc/dpkg-dev/README
-	cp TODO debian/tmp-dev/usr/doc/dpkg/WISHLIST
 	set -e; for f in \
- usr/doc/dpkg/{programmer.html,policy.html,developer-keys.pgp,changelog.manuals.gz} \
+ usr/doc/dpkg/{internals.html,changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
- usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages} \
+ usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages,dpkg-name} \
  usr/man/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage}.1.gz \
- usr/man/man1/{dpkg-parsechangelog,dpkg-distaddfile,822-date}.1.gz \
- usr/man/man5 usr/man/man8/dpkg-scanpackages.8.gz usr/lib/emacs \
+ usr/man/man1/{dpkg-parsechangelog,dpkg-distaddfile,822-date,dpkg-name}.1.gz \
+ usr/man/man5 usr/man/man8/dpkg-scanpackages.8.gz \
  usr/lib/dpkg/parsechangelog usr/lib/dpkg/controllib.pl \
 		; do mv debian/tmp-main/$$f debian/tmp-dev/$$f; done
 
-binary-indep:	checkroot build binary-trees
+binary-indep: binary-trees
 	$(checkdir)
 	dpkg-gencontrol -pdpkg-dev -Pdebian/tmp-dev
 	chown -R root.root debian/tmp-dev
 	chmod -R g-ws,a+r,u+w debian/tmp-dev
 	dpkg-deb --build debian/tmp-dev ..
-	set -e -x; cd doc; for f in policy programmer; do \
-		debiandoc2ps -pa4 -O $$f.sgml | gzip -9v >../../$$f.ps.gz; \
-		dpkg-distaddfile -f../debian/files $$f.ps.gz byhand -; \
-		GZIP=-9v tar zcf ../../$$f.html.tar.gz $$f.html; \
-		dpkg-distaddfile -f../debian/files $$f.html.tar.gz byhand -; \
+	set -e -x; for f in internals; do \
+		if test -f $(BUILD)/doc/$$f.ps; then \
+			cp -p $(BUILD)/doc/$$f.ps $(DIR)/..; \
+		elif test -f $(DIR)/doc/$$f.ps; then \
+			cp -p $(DIR)/doc/$$f.ps $(DIR)/..; \
+		else \
+			echo "unable to locate $$f.ps"; false; \
+		fi; \
+		gzip -9vf $(DIR)/../$$f.ps; \
+		dpkg-distaddfile -f$(DIR)/debian/files $$f.ps.gz byhand -; \
+		if test -d $(BUILD)/doc/$$f.html; then \
+			GZIP=-9vf tar -C $(BUILD)/doc -zcf $(DIR)/../$$f.html.tar.gz $$f.html; \
+		elif test -d $(DIR)/doc/$$f.html; then \
+			GZIP=-9vf tar -C $(DIR)/doc -zcf $(DIR)/../$$f.html.tar.gz $$f.html; \
+		else \
+			echo "unable to locate $$f.html"; false; \
+		fi; \
+		dpkg-distaddfile -f$(DIR)/debian/files $$f.html.tar.gz byhand -; \
 	done
+	set -e; \
+		version=`sed -n 's/^Version: //p' $(DIR)/debian/tmp-dev/DEBIAN/control`; \
+		file=dpkg-$${version}.tar.gz; \
+		cp $(BUILD)/$${file} $(DIR)/..; \
+		dpkg-distaddfile -f$(DIR)/debian/files $${file} byhand -;
 
-binary-arch:	checkroot build binary-trees
-	touch debian/tmp-main/var/lib/dpkg/{status,available}
-	dpkg-shlibdeps -dPre-Depends main/dpkg dselect/dselect
+binary-arch: binary-trees
+	$(checkdir)
+	mv debian/tmp-main/usr/sbin/start-stop-daemon debian/tmp-main/sbin/start-stop-daemon
+	-strip debian/tmp-main/usr/{bin,sbin}/*	debian/tmp-main/sbin/*
+	-strip --strip-unneeded debian/tmp-main/usr/lib/libdpkg.so.*
+	-strip --strip-debug debian/tmp-main/usr/lib/libdpkg.a
+	dpkg-shlibdeps -dPre-Depends debian/tmp-main/usr/{bin,sbin}/*
 	dpkg-gencontrol -pdpkg -Pdebian/tmp-main
 	chown -R root.root debian/tmp-main
 	chmod -R g-ws,a+r,u+w debian/tmp-main
-	set -e; cd debian/tmp-main; \
-	 version=`sed -n 's/^Version: //p' DEBIAN/control`; \
-	 file=dpkg_$${version}_$(arch).nondebbin.tar; \
-	 tar cf ../../../$${file} usr var && gzip -9vf ../../../$${file}; \
-	 cd ../..; dpkg-distaddfile $${file}.gz byhand -
-	rm debian/tmp-main/var/lib/dpkg/{status,available}
+	set -e; \
+		version=`sed -n 's/^Version: //p' $(DIR)/debian/tmp-main/DEBIAN/control`; \
+		file=dpkg_$${version}_$(arch).nondebbin.tar; \
+		tar -C $(DIR)/debian/tmp-main -cf $(DIR)/../$${file} usr var; \
+		gzip -9vf $(DIR)/../$${file}; \
+		dpkg-distaddfile -f$(DIR)/debian/files $${file}.gz byhand -
 	dpkg-deb --build debian/tmp-main ..
 
 define checkdir
-	test -f include/dpkg.h
+	test -f include/dpkg.h.in
 endef
-
-checkroot:
-	$(checkdir)
-	test root = "`whoami`"
-
-.PHONY: binary source diff clean checkroot

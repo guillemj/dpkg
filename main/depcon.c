@@ -19,14 +19,15 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 #include "main.h"
 
@@ -69,7 +70,7 @@ static int foundcyclebroken(struct cyclesofarlink *thislink,
     postinstfilename= pkgadminfile(sol->pkg,POSTINSTFILE);
     if (lstat(postinstfilename,&stab)) {
       if (errno == ENOENT) break;
-      ohshite("unable to check for existence of `%.250s'",postinstfilename);
+      ohshite(_("unable to check for existence of `%.250s'"),postinstfilename);
     }
   }
   /* Now we have either a package with no postinst, or the other
@@ -132,10 +133,10 @@ int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
 void describedepcon(struct varbuf *addto, struct dependency *dep) {
   varbufaddstr(addto,dep->up->name);
   switch (dep->type) {
-  case dep_depends:     varbufaddstr(addto, " depends on ");     break;
-  case dep_predepends:  varbufaddstr(addto, " pre-depends on "); break;
-  case dep_recommends:  varbufaddstr(addto, " recommends ");     break;
-  case dep_conflicts:   varbufaddstr(addto, " conflicts with "); break;
+  case dep_depends:     varbufaddstr(addto, _(" depends on "));     break;
+  case dep_predepends:  varbufaddstr(addto, _(" pre-depends on ")); break;
+  case dep_recommends:  varbufaddstr(addto, _(" recommends "));     break;
+  case dep_conflicts:   varbufaddstr(addto, _(" conflicts with ")); break;
   default:              internerr("unknown deptype");
   }
   varbufdependency(addto, dep);
@@ -209,14 +210,14 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
     for (possi= dep->list; possi; possi= possi->next) {
       switch (possi->ed->clientdata->istobe) {
       case itb_remove:
-        sprintf(linebuf,"  %.250s is to be removed.\n",possi->ed->name);
+        sprintf(linebuf,_("  %.250s is to be removed.\n"),possi->ed->name);
         break;
       case itb_deconfigure:
-        sprintf(linebuf,"  %.250s is to be deconfigured.\n",possi->ed->name);
+        sprintf(linebuf,_("  %.250s is to be deconfigured.\n"),possi->ed->name);
         break;
       case itb_installnew:
         if (versionsatisfied(&possi->ed->available,possi)) return 1;
-        sprintf(linebuf,"  %.250s is to be installed, but is version %.250s.\n",
+        sprintf(linebuf,_("  %.250s is to be installed, but is version %.250s.\n"),
                 possi->ed->name,
                 versiondescribe(&possi->ed->available.version,vdew_nonambig));
         break;
@@ -224,7 +225,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         switch (possi->ed->status) {
         case stat_installed:
           if (versionsatisfied(&possi->ed->installed,possi)) return 1;
-          sprintf(linebuf,"  %.250s is installed, but is version %.250s.\n",
+          sprintf(linebuf,_("  %.250s is installed, but is version %.250s.\n"),
                   possi->ed->name,
                   versiondescribe(&possi->ed->installed.version,vdew_nonambig));
           break;
@@ -239,17 +240,17 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         case stat_halfconfigured:
           if (allowunconfigd) {
             if (!informativeversion(&possi->ed->configversion)) {
-              sprintf(linebuf, "  %.250s is unpacked, but has never been configured.\n",
+              sprintf(linebuf, _("  %.250s is unpacked, but has never been configured.\n"),
                       possi->ed->name);
               break;
             } else if (!versionsatisfied(&possi->ed->installed, possi)) {
-              sprintf(linebuf, "  %.250s is unpacked, but is version %.250s.\n",
+              sprintf(linebuf, _("  %.250s is unpacked, but is version %.250s.\n"),
                       possi->ed->name,
                       versiondescribe(&possi->ed->available.version,vdew_nonambig));
               break;
             } else if (!versionsatisfied3(&possi->ed->configversion,
                                           &possi->version,possi->verrel)) {
-              sprintf(linebuf, "  %.250s latest configured version is %.250s.\n",
+              sprintf(linebuf, _("  %.250s latest configured version is %.250s.\n"),
                       possi->ed->name,
                       versiondescribe(&possi->ed->configversion,vdew_nonambig));
               break;
@@ -258,8 +259,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
             }
           }
         default:
-          sprintf(linebuf, "  %.250s is %s.\n",
-                  possi->ed->name, statusstrings[possi->ed->status]);
+          sprintf(linebuf, _("  %.250s is %s.\n"),
+                  possi->ed->name, gettext(statusstrings[possi->ed->status]));
           break;
         }
         break;
@@ -294,18 +295,18 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
              */
             continue; 
           case itb_remove:
-            sprintf(linebuf, "  %.250s provides %.250s but is to be removed.\n",
+            sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
                     provider->up->up->name, possi->ed->name);
             break;
           case itb_deconfigure:
-            sprintf(linebuf, "  %.250s provides %.250s but is to be deconfigured.\n",
+            sprintf(linebuf, _("  %.250s provides %.250s but is to be deconfigured.\n"),
                     provider->up->up->name, possi->ed->name);
             break;
           case itb_normal: case itb_preinstall:
             if (provider->up->up->status == stat_installed) return 1;
-            sprintf(linebuf, "  %.250s provides %.250s but is %s.\n",
+            sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
                     provider->up->up->name, possi->ed->name,
-                    statusstrings[provider->up->up->status]);
+                    gettext(statusstrings[provider->up->up->status]));
             break;
           default:
             internerr("unknown istobe provider");
@@ -348,7 +349,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         break;
       case itb_installnew:
         if (!versionsatisfied(&possi->ed->available, possi)) break;
-        sprintf(linebuf, "  %.250s (version %.250s) is to be installed.\n",
+        sprintf(linebuf, _("  %.250s (version %.250s) is to be installed.\n"),
                 possi->ed->name,
                 versiondescribe(&possi->ed->available.version,vdew_nonambig));
         varbufaddstr(whynot, linebuf);
@@ -362,10 +363,10 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           break;
         default:
           if (!versionsatisfied(&possi->ed->installed, possi)) break;
-          sprintf(linebuf, "  %.250s (version %.250s) is %s.\n",
+          sprintf(linebuf, _("  %.250s (version %.250s) is %s.\n"),
                   possi->ed->name,
                   versiondescribe(&possi->ed->installed.version,vdew_nonambig),
-                  statusstrings[possi->ed->status]);
+                  gettext(statusstrings[possi->ed->status]));
           varbufaddstr(whynot, linebuf);
           if (!canfixbyremove) return 0;
           nconflicts++;
@@ -387,7 +388,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         if (provider->up->type != dep_provides) continue;
         if (provider->up->up->clientdata->istobe != itb_installnew) continue;
         if (provider->up->up == dep->up) continue; /* conflicts and provides the same */
-        sprintf(linebuf, "  %.250s provides %.250s and is to be installed.\n",
+        sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
                 provider->up->up->name, possi->ed->name);
         varbufaddstr(whynot, linebuf);
         /* We can't remove the one we're about to install: */
@@ -418,9 +419,9 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           case stat_notinstalled: case stat_configfiles:
             continue;
           default:
-            sprintf(linebuf, "  %.250s provides %.250s and is %s.\n",
+            sprintf(linebuf, _("  %.250s provides %.250s and is %s.\n"),
                     provider->up->up->name, possi->ed->name,
-                    statusstrings[provider->up->up->status]);
+                    gettext(statusstrings[provider->up->up->status]));
             varbufaddstr(whynot, linebuf);
             if (!canfixbyremove) return 0;
             nconflicts++;

@@ -1,17 +1,23 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Authors: Ian Jackson
-.TH UPDATE\-RC.D 8 "23rd August 1996" "Debian Project" "Debian/GNU Linux"
+.TH UPDATE\-RC.D 8 "2 March 1998" "Debian Project" "Debian/GNU Linux"
 .SH NAME
 update\-rc.d \- install and remove System-V style init script links
 .SH SYNOPSIS
 .B update\-rc.d
+.RI [ -n ]
+.RI [ -f ]
 .IB name " remove"
 .HP
 .B update-rc.d
+.RI [ -n ]
+.RI [ -f ]
 .IB name " defaults"
 .RI [ NN " | " NN-start " " NN-stop ]
 .HP
 .B update-rc.d
+.RI [ -n ]
+.RI [ -f ]
 .I name
 .BR start | stop
 .IR "NN runlevel runlevel " ...
@@ -31,7 +37,7 @@ when changing runlevels and are generally used to start and stop
 system services such as daemons.
 .I runlevel
 is one of the runlevels supported by
-.BR init ", " 0123456 ,
+.BR init ", " 0123456789S ,
 and
 .I NN
 is the two-digit sequence code used by
@@ -53,8 +59,8 @@ options, update-rc.d makes links
 pointing to the script
 .BI /etc/init.d/ name\fR,
 
-If any links
-.BI /etc/rc runlevel .d/?? name
+If any files
+.BI /etc/rc runlevel .d/[SK]?? name
 already exist then
 .B update-rc.d
 does nothing.  This is so that the system administrator can rearrange
@@ -69,7 +75,7 @@ will make links to start the service in runlevels
 .B 2345
 and stop the service in runlevels
 .BR 016 .
-By default all the links will have sequence code, but
+By default all the links will have sequence code 20, but
 this can be overridden by supplying one or two
 .I NN
 arguments; one argument overrides the sequence code for both start and
@@ -120,17 +126,27 @@ directories to the script
 The script must have been deleted already -
 .B update-rc.d
 checks for this.
-
 .B update-rc.d
 is usually called from a package's post-removal script when that
 script detects that its first argument is
 .BR purge ,
 indicating that the user has requested the configuration for the
 package to be removed.
+Any files in the
+.BI /etc/rc runlevel .d
+directories that are not symbolic links to the script
+.BI /etc/init.d/ name
+will be left untouched.
+.SH EXAMPLES
+Insert links using the defaults:
+.nf
+.B "   update-rc.d foobar defaults"
+.fi
+Equivalent command using explicit argument sets:
+.nf
+.B "   update-rc.d foobar start 20 2 3 4 5 . stop 20 0 1 6 ."
+.fi
 .SH BUGS
-This script is written in
-.B sh
-and is therefore far too slow.
 
 There should be a way for the system administrator to specify at least
 the default start and stop runlevels to be used by
@@ -143,14 +159,14 @@ The directory containing the actual init scripts.
 .TP
 .B /etc/rc?.d/
 The directories containing the links used by
+.BR init
+and managed by
+.BR update-rc.d .
 .TP
 .B /etc/init.d/skeleton
 Model for use by writers of
 .B init.d
 scripts.
-.BR init
-and managed by
-.BR update-rc.d .
 .SH SEE ALSO
 .IR "dpkg programmers manual" ,
 .br

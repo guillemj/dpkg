@@ -25,7 +25,8 @@ version 2 or later for copying conditions.  There is NO warranty.
 
 Usage: dpkg-genchanges [options ...]
 
-Options:  -b or -B (identical)   binary-only build - no source files
+Options:  -b                     binary-only build - no source files
+          -B                     arch-specific - no source or arch-indep files
           -c<controlfile>        get control info from this file
           -l<changelogfile>      get per-version info from this file
           -f<fileslistfile>      get .deb files list from this file
@@ -52,8 +53,12 @@ $i=100;grep($fieldimps{$_}=$i--,
 
 while (@ARGV) {
     $_=shift(@ARGV);
-    if (m/^-b$|^-B$/) {
+    if (m/^-b$/) {
         $binaryonly= 1;
+    } elsif (m/^-B$/) {
+	$archspecific=1;
+	$binaryonly= 1;
+	print STDERR "$progname: arch-specific upload - not including arch-independent packages\n";
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
@@ -76,6 +81,8 @@ while (@ARGV) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/) {
         $override{$1}= $';
+    } elsif (m/^-u/) {
+        $uploadfilesdir= $';
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
@@ -95,8 +102,10 @@ $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(FL,"< $fileslistfile") || &syserr("cannot read files list file");
 while(<FL>) {
     if (m/^(([-+.0-9a-z]+)_([^_]+)_(\w+)\.deb) (\S+) (\S+)$/) {
-        defined($p2f{$2}) &&
+        defined($p2f{"$2 $4"}) &&
             &warn("duplicate files list entry for package $2 (line $.)");
+	$f2p{$1}= $2;
+        $p2f{"$2 $4"}= $1;
         $p2f{$2}= $1;
         $p2ver{$2}= $3;
         defined($f2sec{$1}) &&
@@ -105,7 +114,7 @@ while(<FL>) {
         $f2pri{$1}= $6;
         push(@fileslistfiles,$1);
     } elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
-        defined($f2sec{$1}) &&
+	defined($f2sec{$1}) &&
             &warn("duplicate files list entry for file $1 (line $.)");
         $f2sec{$1}= $2;
         $f2pri{$1}= $3;
@@ -116,39 +125,49 @@ while(<FL>) {
 }
 close(FL);
 
-$archspecific=0;
 for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
-        if (m/^Source$/) { &setsourcepackage; }
-        elsif (m/^Section$|^Priority$/) { $sourcedefault{$_}= $v; }
-        elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
-        elsif (m/|^X[BS]+-|^Standards-Version$|^Maintainer$/i) { }
-        else { &unknown('general section of control info file'); }
+	if (m/^Source$/) { &setsourcepackage; }
+	elsif (m/^Section$|^Priority$/) { $sourcedefault{$_}= $v; }
+	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
+	elsif (m/|^X[BS]+-|^Standards-Version$|^Maintainer$/i) { }
+	else { &unknown('general section of control info file'); }
     } elsif (s/^C(\d+) //) {
 #print STDERR "P key >$_< value >$v<\n";
-        $i=$1; $p=$fi{"C$i Package"};
-        defined($p2f{$p}) || &error("package $p in control file but not in files list");
-        $f= $p2f{$p};
-        if (m/^Description$/) {
-            $v=$` if $v =~ m/\n/;
-            push(@descriptions,sprintf("%-10s - %-.65s",$p,$v));
-        } elsif (m/^Section$/) {
-            $f2seccf{$f}= $v;
-        } elsif (m/^Priority$/) {
-            $f2pricf{$f}= $v;
-        } elsif (s/^X[BS]*C[BS]*-//i) {
-            $f{$_}= $v;
-        } elsif (m/^Architecture$/) {
-            $v= $arch if $v eq 'any';
-            push(@archvalues,$v) unless $archadded{$v}++;
-        } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
-                 m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/ ||
-                 m/^X[CS]+-/i) {
-        } else {
-            &unknown("package's section of control info file");
-        }
+	$i=$1; $p=$fi{"C$i Package"}; $a=$fi{"C$i Architecture"};
+	if (!defined($p2f{$p})) {
+	    if ($a eq 'any' || ($a eq 'all' && !$archspecific) ||
+		grep($_ eq $substvar{'Arch'}, split(/\s+/, $a))) {
+		&error("package $p in control file but not in files list");
+	    }
+	} else {
+	    $p2arch{$p}=$a;
+	    $f=$p2f{$p};
+	    if (m/^Description$/) {
+		$v=$` if $v =~ m/\n/;
+		push(@descriptions,sprintf("%-10s - %-.65s",$p,$v));
+	    } elsif (m/^Section$/) {
+		$f2seccf{$f}= $v;
+	    } elsif (m/^Priority$/) {
+		$f2pricf{$f}= $v;
+	    } elsif (s/^X[BS]*C[BS]*-//i) {
+		$f{$_}= $v;
+	    } elsif (m/^Architecture$/) {
+		if ($v eq 'any' || grep($_ eq $arch, split(/\s+/, $v))) {
+		    $v= $arch;
+		} elsif ($v ne 'all') {
+		    $v= '';
+		}
+		push(@archvalues,$v) unless !$v || $archadded{$v}++;
+	    } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
+		     m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/ ||
+		     m/^X[CS]+-/i) {
+	    } else {
+		&unknown("package's section of control info file");
+	    }
+	}
     } elsif (s/^L //) {
 #print STDERR "L key >$_< value >$v<\n";
         if (m/^Source$/) {
@@ -177,18 +196,19 @@ if ($changesdescription) {
 }
 
 for $p (keys %p2f) {
-    defined($p2i{"C $p"}) ||
-        &warn("package $p listed in files list but not in control info");
+    my ($pp, $aa) = (split / /, $p);
+    defined($p2i{"C $pp"}) ||
+        &warn("package $pp listed in files list but not in control info");
 }
 
 for $p (keys %p2f) {
     $f= $p2f{$p};
     $sec= $f2seccf{$f}; $sec= $sourcedefault{'Section'} if !length($sec);
-    if (!length($sec)) { $sec='-'; &warn("missing Section for binary package $p"); }
+    if (!length($sec)) { $sec='-'; &warn("missing Section for binary package $p; using '-'"); }
     $sec eq $f2sec{$f} || &error("package $p has section $sec in control file".
                                  " but $f2sec{$f} in files list");
     $pri= $f2pricf{$f}; $pri= $sourcedefault{'Priority'} if !length($pri);
-    if (!length($pri)) { $pri='-'; &warn("missing Priority for binary package $p"); }
+    if (!length($pri)) { $pri='-'; &warn("missing Priority for binary package $p; using '-'"); }
     $pri eq $f2pri{$f} || &error("package $p has priority $pri in control".
                                  " file but $f2pri{$f} in files list");
 }
@@ -201,9 +221,10 @@ if (!$binaryonly) {
     $pri= $sourcedefault{'Priority'};
     if (!length($pri)) { $pri='-'; &warn("missing Priority for source files"); }
 
-    $dsc= "$uploadfilesdir/${sourcepackage}_${version}.dsc";
+    ($sversion = $version) =~ s/^\d+://;
+    $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
     open(CDATA,"< $dsc") || &error("cannot open .dsc file $dsc: $!");
-    push(@sourcefiles,"${sourcepackage}_${version}.dsc");
+    push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
     
     &parsecdata('S',-1,"source control file $dsc");
     $files= $fi{'S Files'};
@@ -247,6 +268,7 @@ $f{'Description'}= "\n ".join("\n ",sort @descriptions);
 
 $f{'Files'}= '';
 for $f (@sourcefiles,@fileslistfiles) {
+    next if ($archspecific && ($p2arch{$f2p{$f}} eq 'all'));
     next if $filedone{$f}++;
     $uf= "$uploadfilesdir/$f";
     open(STDIN,"< $uf") || &syserr("cannot open upload file $uf for reading");
@@ -277,4 +299,4 @@ for $f (qw(Urgency)) {
 for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
 for $f (keys %remove) { delete $f{&capit($f)}; }
 
-&outputclose;
+&outputclose(0);

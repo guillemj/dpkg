@@ -13,9 +13,12 @@ version 2 or later for copying conditions.  There is NO warranty.
 
 Usage: dpkg-buildpackage [options]
 Options: -r<gain-root-command>
-         -p<pgp-command>
+         -p<sign-command>
+         -sgpg         the sign-command is called like GPG
+         -spgp         the sign-command is called like PGP 
          -us           unsigned source
          -uc           unsigned changes
+         -a<arch>      architecture field of the changes _file_name_
          -b            binary-only, do not build source } also passed to
          -B            binary-only, no arch-indep files } dpkg-genchanges
          -v<version>   changes since version <version>      }
@@ -24,21 +27,35 @@ Options: -r<gain-root-command>
          -si (default) src includes orig for rev. 0 or 1    } genchanges
          -sa           uploaded src always includes orig    }
          -sd           uploaded src is diff and .dsc only   }
+         -nc           do not clean source tree (implies -b)
          -tc           clean source tree when finished
          -h            print this message
 END
 }
 
 rootcommand=''
-pgpcommand=pgp
+signcommand=pgp # Default command for signing
+warnpgp='no'	# Display a warning to encourage switching to gpg?
+if [ ! -e $HOME/.gnupg/secring.gpg ] ; then
+	warnpgp=yes
+fi
+if [ -e $HOME/.gnupg/secring.gpg -a ! -e $HOME/.pgp/secring.pgp ] ; then
+	signcommand=gpg
+fi
+if [ -e $HOME/.pgp/secring.pgp -a ! -e $HOME/.gnupg/secring.gpg ] ; then
+	signcommand=pgp
+fi
+signinterface=$signcommand
 signsource='withecho signfile'
 signchanges='withecho signfile'
 cleansource=false
 binarytarget=binary
 sourcestyle=''
 version=''
+since=''
 maint=''
 desc=''
+noclean=false
 
 while [ $# != 0 ]
 do
@@ -46,16 +63,20 @@ do
 	case "$1" in
 	-h)	usageversion; exit 0 ;;
 	-r*)	rootcommand="$value" ;;
-	-p*)	pgpcommand="$value" ;;
-	-us)	signsource=: ;;
-	-uc)	signchanges=: ;;
+	-p*)	signcommand="$value"; warnpgp='' ;;
+	-sgpg)  signinterface=gpg ;;
+	-spgp)  signinterface=pgp ;;
+	-us)	signsource=: ; warnpgp='' ;;
+	-uc)	signchanges=: ; warnpgp='' ;;
+	-a*)    opt_a=1; arch="$value" ;;
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
 	-tc)	cleansource=true ;;
+	-nc)	noclean=true; binaryonly=-b ;;
 	-b)	binaryonly=-b ;;
-	-B)	binaryonly=-b; binarytarget=binary-arch ;;
-	-v*)	version="$value" ;;
+	-B)	binaryonly=-B; binarytarget=binary-arch ;;
+	-v*)	since="$value" ;;
 	-m*)	maint="$value" ;;
 	-C*)	descfile="$value" ;;
 	*)	echo >&2 "$progname: unknown option or argument $1"
@@ -64,12 +85,20 @@ do
 	shift
 done
 
+if test "X$warnpgp" = "Xyes" ; then
+  echo >&2 <<EOWARN
+The Debian project will switch to using GPG (the GNU Privacy Guard) instead
+of PGP for signing packages. You might want to make preparations. Check out
+the gnupg and debian-keyring packages.
+EOWARN
+fi
+
 mustsetvar () {
 	if [ "x$2" = x ]; then
-		echo >&2 "$progname: unable to determine $3"
+		echo >&2 "$progname: unable to determine $3" ; \
 		exit 1
 	else
-		echo "$progname: $3 is $2"
+		echo "$progname: $3 is $2" ; \
 		eval "$1=\"\$2\""
 	fi
 }
@@ -78,12 +107,27 @@ curd="`pwd`"
 dirn="`basename \"$curd\"`"
 mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source package"
 mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version"
-mustsetvar arch "`dpkg --print-architecture`" "build architecture"
-pv="${package}_${version}"
-pva="${package}_${version}_${arch}"
+if [ -n "$maint" ]; then maintainer="$maint"; 
+else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
+test "${opt_a}" \
+	|| mustsetvar arch "`dpkg --print-architecture`" "build architecture"
+
+sversion=`echo "$version" | perl -pe 's/^\d+://'`
+pv="${package}_${sversion}"
+pva="${package}_${sversion}${arch:+_${arch}}"
 
 signfile () {
-	$pgpcommand +clearsig=on -fast <"../$1" >"../$1.asc"
+	if test $signinterface = gpg ; then
+		# --textmode doesn't seem to work; we use perl to filter ^M;
+		# this doesn't affect the actual signature.
+		(cat "../$1" ; echo "") | \
+		$signcommand --local-user "$maintainer" --clearsign --armor \
+			--textmode --output - - | \
+			perl -n -p -e 's/\r$//' > "../$1.asc" 
+	else
+		$signcommand -u "$maintainer" +clearsig=on -fast <"../$1" \
+			>"../$1.asc"
+	fi
 	echo
 	mv -- "../$1.asc" "../$1"
 }
@@ -93,20 +137,24 @@ withecho () {
 	"$@"
 }
 
-set -- $binaryonly
+set -- $binaryonly $sourcestyle
 if [ -n "$maint"	]; then set -- "$@" "-m$maint"		; fi
-if [ -n "$version"	]; then set -- "$@" "-v$version"	; fi
+if [ -n "$since"	]; then set -- "$@" "-v$since"		; fi
 if [ -n "$desc"		]; then set -- "$@" "-C$desc"		; fi
 
-withecho $rootcommand debian/rules clean
+if [ x$noclean != xtrue ]; then
+	withecho $rootcommand debian/rules clean
+fi
 if [ x$binaryonly = x ]; then
 	cd ..; withecho dpkg-source -b "$dirn"; cd "$dirn"
 fi
 withecho debian/rules build
 withecho $rootcommand debian/rules $binarytarget
-$signsource "$pv.dsc"
+if [ x$binaryonly = x ]; then
+        $signsource "$pv.dsc"
+fi
 chg=../"$pva.changes"
-withecho dpkg-genchanges $binaryonly $sourcestyle >"$chg"
+withecho dpkg-genchanges "$@" >"$chg"
 
 fileomitted () {
 	set +e

@@ -22,9 +22,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 #define ABLOCKSIZE 65536
 #define UNIQUE      4096

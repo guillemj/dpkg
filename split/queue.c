@@ -38,9 +38,9 @@
 #include <dirent.h>
 #include <string.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "dpkg-split.h"
 
 static int decompose_filename(const char *filename, struct partqueue *pq) {
@@ -66,7 +66,7 @@ void scandepot(void) {
 
   assert(!queue);
   depot= opendir(depotdir);
-  if (!depot) ohshite("unable to read depot directory `%.250s'",depotdir);
+  if (!depot) ohshite(_("unable to read depot directory `%.250s'"),depotdir);
   while ((de= readdir(depot))) {
     if (de->d_name[0] == '.') continue;
     pq= nfmalloc(sizeof(struct partqueue));
@@ -102,16 +102,16 @@ void do_auto(const char *const *argv) {
   void *buffer;
   char *p, *q;
 
-  if (!outputfile) badusage("--auto requires the use of the --output option");
+  if (!outputfile) badusage(_("--auto requires the use of the --output option"));
   if (!(partfile= *argv++) || *argv)
-    badusage("--auto requires exactly one part file argument");
+    badusage(_("--auto requires exactly one part file argument"));
 
   refi= nfmalloc(sizeof(struct partqueue));
   part= fopen(partfile,"r");
-  if (!part) ohshite("unable to read part file `%.250s'",partfile);
+  if (!part) ohshite(_("unable to read part file `%.250s'"),partfile);
   if (!read_info(part,partfile,refi)) {
     if (!npquiet)
-      printf("File `%.250s' is not part of a multipart archive.\n",partfile);
+      printf(_("File `%.250s' is not part of a multipart archive.\n"),partfile);
     if (fclose(stdout)) werr("stdout");
     exit(1);
   }
@@ -138,11 +138,11 @@ void do_auto(const char *const *argv) {
   if (j>=0) {
 
     part= fopen(partfile,"r");
-    if (!part) ohshite("unable to reopen part file `%.250s'",partfile);
+    if (!part) ohshite(_("unable to reopen part file `%.250s'"),partfile);
     buffer= nfmalloc(refi->filesize);
     nr= fread(buffer,1,refi->filesize,part);
     if (nr != refi->filesize) rerreof(part,partfile);
-    if (getc(part) != EOF) ohshit("part file `%.250s' has trailing garbage",partfile);
+    if (getc(part) != EOF) ohshit(_("part file `%.250s' has trailing garbage"),partfile);
     if (ferror(part)) rerr(partfile);
     fclose(part);
     p= nfmalloc(strlen(depotdir)+50);
@@ -151,17 +151,17 @@ void do_auto(const char *const *argv) {
     sprintf(q,"%s%s.%lx.%x.%x",depotdir,refi->md5sum,
             refi->maxpartlen,refi->thispartn,refi->maxpartn);
     part= fopen(p,"w");
-    if (!part) ohshite("unable to open new depot file `%.250s'",p);
+    if (!part) ohshite(_("unable to open new depot file `%.250s'"),p);
     nr= fwrite(buffer,1,refi->filesize,part);
     if (nr != refi->filesize) werr(p);
     if (fclose(part)) werr(p);
-    if (rename(p,q)) ohshite("unable to rename new depot file `%.250s' to `%.250s'",p,q);
+    if (rename(p,q)) ohshite(_("unable to rename new depot file `%.250s' to `%.250s'"),p,q);
 
-    printf("Part %d of package %s filed (still want ",refi->thispartn,refi->package);
+    printf(_("Part %d of package %s filed (still want "),refi->thispartn,refi->package);
     /* There are still some parts missing. */
     for (i=0, ap=0; i<refi->maxpartn; i++)
       if (!partlist[i])
-        printf("%s%d", !ap++ ? "" : i==j ? " and " : ", ", i+1);
+        printf("%s%d", !ap++ ? "" : i==j ? _(" and ") : ", ", i+1);
     printf(").\n");
 
   } else {
@@ -174,7 +174,7 @@ void do_auto(const char *const *argv) {
     for (i=0; i<refi->maxpartn; i++)
       if (partlist[i])
         if (unlink(partlist[i]->filename))
-          ohshite("unable to delete used-up depot file `%.250s'",partlist[i]->filename);
+          ohshite(_("unable to delete used-up depot file `%.250s'"),partlist[i]->filename);
 
   }
 
@@ -189,29 +189,29 @@ void do_queue(const char *const *argv) {
   unsigned long bytes;
   int i;
 
-  if (*argv) badusage("--listq does not take any arguments");
+  if (*argv) badusage(_("--listq does not take any arguments"));
   scandepot();
 
-  head= "Junk files left around in the depot directory:\n";
+  head= N_("Junk files left around in the depot directory:\n");
   for (pq= queue; pq; pq= pq->nextinqueue) {
     if (pq->info.md5sum) continue;
-    fputs(head,stdout); head= "";
+    fputs(gettext(head),stdout); head= "";
     if (lstat(pq->info.filename,&stab))
-      ohshit("unable to stat `%.250s'",pq->info.filename);
+      ohshit(_("unable to stat `%.250s'"),pq->info.filename);
     if (S_ISREG(stab.st_mode)) {
       bytes= stab.st_size;
-      printf(" %s (%lu bytes)\n",pq->info.filename,bytes);
+      printf(_(" %s (%lu bytes)\n"),pq->info.filename,bytes);
     } else {
-      printf(" %s (not a plain file)\n",pq->info.filename);
+      printf(_(" %s (not a plain file)\n"),pq->info.filename);
     }
   }
   if (!*head) putchar('\n');
   
-  head= "Packages not yet reassembled:\n";
+  head= N_("Packages not yet reassembled:\n");
   for (pq= queue; pq; pq= pq->nextinqueue) {
     if (!pq->info.md5sum) continue;
     mustgetpartinfo(pq->info.filename,&ti);
-    fputs(head,stdout); head= "";
+    fputs(gettext(head),stdout); head= "";
     printf(" Package %s: part(s) ",ti.package);
     bytes= 0;
     for (i=0; i<ti.maxpartn; i++) {
@@ -221,14 +221,14 @@ void do_queue(const char *const *argv) {
       if (qq) {
         printf("%d ",i+1);
         if (lstat(qq->info.filename,&stab))
-          ohshite("unable to stat `%.250s'",qq->info.filename);
+          ohshite(_("unable to stat `%.250s'"),qq->info.filename);
         if (!S_ISREG(stab.st_mode))
-          ohshit("part file `%.250s' is not a plain file",qq->info.filename);
+          ohshit(_("part file `%.250s' is not a plain file"),qq->info.filename);
         bytes+= stab.st_size;
         qq->info.md5sum= 0; /* don't find this package again */
       }
     }
-    printf("(total %lu bytes)\n",bytes);
+    printf(_("(total %lu bytes)\n"),bytes);
   }
   if (fclose(stdout)) werr("stdout");
 }
@@ -251,8 +251,8 @@ static void discardsome(enum discardwhich which, const char *package) {
     default: internerr("bad discardsome which");
     }
     if (unlink(pq->info.filename))
-      ohshite("unable to discard `%.250s'",pq->info.filename);
-    printf("Deleted %s.\n",pq->info.filename);
+      ohshite(_("unable to discard `%.250s'"),pq->info.filename);
+    printf(_("Deleted %s.\n"),pq->info.filename);
   }
 }
 

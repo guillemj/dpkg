@@ -25,9 +25,9 @@
 #include <assert.h>
 #include <string.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "dpkg-split.h"
 
 void reassemble(struct partinfo **partlist, const char *outputfile) {
@@ -45,11 +45,11 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
     if (partlist[0]->headerlen > buffersize) buffersize= partlist[0]->headerlen;
   buffer= m_malloc(partlist[0]->maxpartlen);
   output= fopen(outputfile,"w");
-  if (!output) ohshite("unable to open output file `%.250s'",outputfile);
+  if (!output) ohshite(_("unable to open output file `%.250s'"),outputfile);
   for (i=0; i<partlist[0]->maxpartn; i++) {
     pi= partlist[i];
     input= fopen(pi->filename,"r");
-    if (!input) ohshite("unable to (re)open input part file `%.250s'",pi->filename);
+    if (!input) ohshite(_("unable to (re)open input part file `%.250s'"),pi->filename);
     assert(pi->headerlen <= buffersize);
     nr= fread(buffer,1,pi->headerlen,input);
     if (nr != pi->headerlen) rerreof(input,pi->filename);
@@ -65,7 +65,7 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
     if (nr != pi->thispartlen) werr(outputfile);
   }
   if (fclose(output)) werr(outputfile);
-  printf("done\n");
+  printf(_("done\n"));
 }
 
 
@@ -81,12 +81,12 @@ void addtopartlist(struct partinfo **partlist,
       pi->maxpartlen != refi->maxpartlen) {
     print_info(pi);
     print_info(refi);
-    ohshit("files `%.250s' and `%.250s' are not parts of the same file",
+    ohshit(_("files `%.250s' and `%.250s' are not parts of the same file"),
            pi->filename,refi->filename);
   }
   i= pi->thispartn-1;
   if (partlist[i])
-    ohshit("there are several versions of part %d - at least `%.250s' and `%.250s'",
+    ohshit(_("there are several versions of part %d - at least `%.250s' and `%.250s'"),
            pi->thispartn, pi->filename, partlist[i]->filename);
   partlist[i]= pi;
 }
@@ -99,7 +99,7 @@ void do_join(const char *const *argv) {
   int i;
   
   assert(!queue);
-  if (!*argv) badusage("--join requires one or more part file arguments");
+  if (!*argv) badusage(_("--join requires one or more part file arguments"));
   while ((thisarg= *argv++)) {
     pq= nfmalloc(sizeof(struct partqueue));
 
@@ -120,7 +120,7 @@ void do_join(const char *const *argv) {
     addtopartlist(partlist,pi,refi);
   }
   for (i=0; i<refi->maxpartn; i++) {
-    if (!partlist[i]) ohshit("part %d is missing",i+1);
+    if (!partlist[i]) ohshit(_("part %d is missing"),i+1);
   }
   if (!outputfile) {
     p= nfmalloc(strlen(refi->package)+1+strlen(refi->version)+sizeof(DEBEXT));

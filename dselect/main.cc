@@ -33,15 +33,15 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include <ncurses.h>
+#include <curses.h>
 #include <term.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "version.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <version.h>
+#include <myopt.h>
 }
 #include "dselect.h"
 #include "bindings.h"

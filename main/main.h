@@ -53,7 +53,8 @@ enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
               act_unpackchk, act_status, act_searchfiles, act_audit, act_listfiles,
               act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
               act_printinstarch, act_compareversions, act_printavail, act_avclear,
-              act_forgetold, act_getselections, act_setselections, act_printgnuarch };
+              act_forgetold, act_getselections, act_setselections, act_printgnuarch,
+              act_assertepoch };
 
 enum conffopt {
   cfof_prompt        =     001,
@@ -110,6 +111,7 @@ void audit(const char *const *argv);
 void unpackchk(const char *const *argv);
 void searchfiles(const char *const *argv);
 void enqperpackage(const char *const *argv);
+void assertepoch(const char *const *argv);
 void assertpredep(const char *const *argv);
 void predeppackage(const char *const *argv);
 void printarch(const char *const *argv);

@@ -25,7 +25,7 @@ sub usageversion {
 Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
-Usage: parsechangelog/dpkg [-v<versionsince] | -h
+Usage: parsechangelog/dpkg [-v<versionsince>] | -h
 ";
 }
 
@@ -107,11 +107,11 @@ while (<STDIN>) {
         $f{'Changes'}.= " $_\n .\n";
     } elsif (m/^\S/) {
         &clerror("badly formatted heading line");
-    } elsif (m/^ \-\- (\S.*\S)  ((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)$/) {
+    } elsif (m/^ \-\- (.*) <(.*)>  ((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)$/) {
         $expect eq 'more change data or trailer' ||
             &clerror("found trailer where expected $expect");
-        $f{'Maintainer'}= $1 unless defined($f{'Maintainer'});
-        $f{'Date'}= $2 unless defined($f{'Date'});
+        $f{'Maintainer'}= "$1 <$2>" unless defined($f{'Maintainer'});
+        $f{'Date'}= $3 unless defined($f{'Date'});
 #        $f{'Changes'}.= " .\n $_\n";
         $expect= 'next heading or eof';
         last if $since eq '';
@@ -137,7 +137,7 @@ $expect eq 'next heading or eof' || die "found eof where expected $expect";
 $f{'Changes'} =~ s/\n$//;
 $f{'Changes'} =~ s/^/\n/;
 
-&outputclose;
+&outputclose(0);
 
 sub clerror { &error("$_[0], at changelog line $."); }
 sub clwarn { &warn("$_[0], at changelog line $."); }

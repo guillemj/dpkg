@@ -32,61 +32,63 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "version.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <version.h>
+#include <myopt.h>
 
 #include "main.h"
 
 static void printversion(void) {
-  if (!fputs("Debian Linux `" DPKG "' package management program version "
-              DPKG_VERSION_ARCH ".\n"
-             "Copyright 1994-1996 Ian Jackson, Bruce Perens.  This is free software;\n"
+  if (fputs(_("Debian Linux `dpkg' package management program version "), stdout) < 0)
+      werr("stdout");
+  if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
+  if (fputs(_("Copyright 1994-1996 Ian Jackson, Bruce Perens.  This is free software;\n"
              "see the GNU General Public Licence version 2 or later for copying\n"
-             "conditions.  There is NO warranty.  See dpkg --licence for details.\n",
-             stdout)) werr("stdout");
+             "conditions.  There is NO warranty.  See dpkg --licence for details.\n"),
+             stdout) < 0) werr("stdout");
 }
 /*
    options that need fixing:
-  " DPKG " --yet-to-unpack                 \n\
+  dpkg --yet-to-unpack                 \n\
   */
 static void usage(void) {
-  if (!fputs("\
+  if (fprintf (stdout, _("\
 Usage: \n\
-  " DPKG " -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n\
-  " DPKG " --unpack          <.deb file name> ... | -R|--recursive <dir> ...\n\
-  " DPKG " -A|--record-avail <.deb file name> ... | -R|--recursive <dir> ...\n\
-  " DPKG " --configure           <package name> ... | -a|--pending\n\
-  " DPKG " -r|--remove | --purge <package name> ... | -a|--pending\n\
-  " DPKG " --get-selections [<pattern> ...]   get list of selections to stdout\n\
-  " DPKG " --set-selections                   set package selections from stdin\n\
-  " DPKG " --update-avail <Packages-file>     replace available packages info\n\
-  " DPKG " --merge-avail <Packages-file>      merge with info from file\n\
-  " DPKG " --clear-avail                      erase existing available info\n\
-  " DPKG " --forget-old-unavail               forget uninstalled unavailable pkgs\n\
-  " DPKG " -s|--status <package-name> ...     display package status details\n\
-  " DPKG " --print-avail <package-name> ...   display available version details\n\
-  " DPKG " -L|--listfiles <package-name> ...  list files `owned' by package(s)\n\
-  " DPKG " -l|--list [<pattern> ...]          list packages concisely\n\
-  " DPKG " -S|--search <pattern> ...          find package(s) owning file(s)\n\
-  " DPKG " -C|--audit                         check for broken package(s)\n\
-  " DPKG " --print-architecture               print target architecture (uses GCC)\n\
-  " DPKG " --print-gnu-build-architecture     print GNU version of target arch\n\
-  " DPKG " --print-installation-architecture  print host architecture (for inst'n)\n\
-  " DPKG " --compare-versions <a> <rel> <b>   compare version numbers - see below\n\
-  " DPKG " --help | --version                 show this help / version number\n\
-  " DPKG " --force-help | -Dh|--debug=help    help on forcing resp. debugging\n\
-  " DPKG " --licence                          print copyright licencing terms\n\
+  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n\
+  dpkg --unpack          <.deb file name> ... | -R|--recursive <dir> ...\n\
+  dpkg -A|--record-avail <.deb file name> ... | -R|--recursive <dir> ...\n\
+  dpkg --configure           <package name> ... | -a|--pending\n\
+  dpkg -r|--remove | --purge <package name> ... | -a|--pending\n\
+  dpkg --get-selections [<pattern> ...]   get list of selections to stdout\n\
+  dpkg --set-selections                   set package selections from stdin\n\
+  dpkg --update-avail <Packages-file>     replace available packages info\n\
+  dpkg --merge-avail <Packages-file>      merge with info from file\n\
+  dpkg --clear-avail                      erase existing available info\n\
+  dpkg --forget-old-unavail               forget uninstalled unavailable pkgs\n\
+  dpkg -s|--status <package-name> ...     display package status details\n\
+  dpkg --print-avail <package-name> ...   display available version details\n\
+  dpkg -L|--listfiles <package-name> ...  list files `owned' by package(s)\n\
+  dpkg -l|--list [<pattern> ...]          list packages concisely\n\
+  dpkg -S|--search <pattern> ...          find package(s) owning file(s)\n\
+  dpkg -C|--audit                         check for broken package(s)\n\
+  dpkg --print-architecture               print target architecture (uses GCC)\n\
+  dpkg --print-gnu-build-architecture     print GNU version of target arch\n\
+  dpkg --print-installation-architecture  print host architecture (for inst'n)\n\
+  dpkg --compare-versions <a> <rel> <b>   compare version numbers - see below\n\
+  dpkg --help | --version                 show this help / version number\n\
+  dpkg --force-help | -Dh|--debug=help    help on forcing resp. debugging\n\
+  dpkg --licence                          print copyright licencing terms\n\
 \n\
-Use " DPKG " -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
- -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type " BACKEND " --help.)\n\
+Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
+ -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n\
 \n\
-For internal use: " DPKG " --assert-support-predepends | --predep-package\n\
+For internal use: dpkg --assert-support-predepends | --predep-package |\n\
+  --assert-working-epoch\n\
 \n\
 Options:
-  --admindir=<directory>     Use <directory> instead of " ADMINDIR "\n\
+  --admindir=<directory>     Use <directory> instead of %s\n\
   --root=<directory>         Install on alternative system rooted elsewhere\n\
   --instdir=<directory>      Change inst'n root without changing admin dir\n\
   -O|--selected-only         Skip packages not selected for install/upgrade\n\
@@ -95,36 +97,37 @@ Options:
   -B|--auto-deconfigure      Install even if it would break some other package\n\
   --largemem | --smallmem    Optimise for large (>4Mb) or small (<4Mb) RAM use\n\
   --no-act                   Just say what we would do - don't do it\n\
-  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help
+  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
   --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
   --force-...                    Override problems - see --force-help\n\
   --no-force-...|--refuse-...    Stop when problems encountered\n\
 \n\
 Comparison operators for --compare-versions are:\n\
  lt le eq ne ge gt       (treat no version as earlier than any version);\n\
- lt-nl le-nl ge-nl gt-nl (tread no version as later than any version);\n\
+ lt-nl le-nl ge-nl gt-nl (treat no version as later than any version);\n\
  < << <= = >= >> >       (only for compatibility with control file syntax).\n\
 \n\
-Use `" DSELECT "' for user-friendly package management.\n",
-             stdout)) werr("stdout");
+Use `dselect' for user-friendly package management.\n"),
+	    BACKEND, ADMINDIR) < 0) werr ("stdout");
 }
 
-const char thisname[]= DPKG;
+const char thisname[]= "dpkg";
 const char architecture[]= ARCHITECTURE;
-const char printforhelp[]= "\
-Type " DPKG " --help for help about installing and deinstalling packages [*];\n\
-Use " DSELECT " for user-friendly package management;\n\
-Type " DPKG " -Dhelp for a list of " DPKG " debug flag values;\n\
-Type " DPKG " --force-help for a list of forcing options;\n\
-Type " BACKEND " --help for help about manipulating *.deb files;\n\
-Type " DPKG " --licence for copyright licence and lack of warranty (GNU GPL) [*].\n\
+const char printforhelp[]= N_("\
+Type dpkg --help for help about installing and deinstalling packages [*];\n\
+Use dselect for user-friendly package management;\n\
+Type dpkg -Dhelp for a list of dpkg debug flag values;\n\
+Type dpkg --force-help for a list of forcing options;\n\
+Type dpkg-deb --help for help about manipulating *.deb files;\n\
+Type dpkg --licence for copyright licence and lack of warranty (GNU GPL) [*].\n\
 \n\
-Options marked [*] produce a lot of output - pipe it through `less' or `more' !";
+Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
 
 const struct cmdinfo *cipaction= 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_largemem=0;
 unsigned long f_debug=0;
+/* Change fc_overwrite to 1 to enable force-overwrite by default */
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=1;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_autoselect=1, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
@@ -165,7 +168,7 @@ static void versiononly(const struct cmdinfo *cip, const char *value) {
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
-    badusage("conflicting actions --%s and --%s",cip->olong,cipaction->olong);
+    badusage(_("conflicting actions --%s and --%s"),cip->olong,cipaction->olong);
   cipaction= cip;
 }
 
@@ -173,7 +176,7 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
 
   if (*value == 'h') {
-    if (!fputs(
+    if (fputs(
 DPKG " debugging option, --debug=<octal> or -D<octal>:\n\n\
  number  ref. in source   description\n\
       1   general           Generally helpful progress information\n\
@@ -188,7 +191,7 @@ DPKG " debugging option, --debug=<octal> or -D<octal>:\n\n\
    2000   stupidlyverbose   Insane amounts of drivel\n\n\
 Debugging options are be mixed using bitwise-or.\n\
 Note that the meanings and values are subject to change.\n",
-             stderr)) werr("stderr");
+             stdout) < 0) werr("stdout");
     exit(0);
   }
   
@@ -217,14 +220,14 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
     if (*p != ',') continue;
     *p++= 0;
     if (!*p || *p==',' || p==copy+1)
-      badusage("null package name in --ignore-depends comma-separated list `%.250s'",
+      badusage(_("null package name in --ignore-depends comma-separated list `%.250s'"),
                value);
   }
   p= copy;
   while (*p) {
     pnerr= illegal_packagename(value,0);
-    if (pnerr) ohshite("--ignore-depends requires a legal package name. "
-                       "`%.250s' is not; %s", value, pnerr);
+    if (pnerr) ohshite(_("--ignore-depends requires a legal package name. "
+                       "`%.250s' is not; %s"), value, pnerr);
     ni= m_malloc(sizeof(struct packageinlist));
     ni->pkg= findpackage(value);
     ni->next= ignoredependss;
@@ -239,8 +242,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   const struct forceinfo *fip;
 
   if (!strcmp(value,"help")) {
-    if (!fputs(
-DPKG " forcing options - control behaviour when problems found:\n\
+    if (fputs(_("dpkg forcing options - control behaviour when problems found:\n\
   warn but continue:  --force-<thing>,<thing>,...\n\
   stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n\
  Forcing things:\n\
@@ -250,7 +252,7 @@ DPKG " forcing options - control behaviour when problems found:\n\
   hold                   Process incidental packages even when on hold\n\
   bad-path               PATH is missing important programs, problems likely\n\
   not-root               Try to (de)install things even when not root\n\
-  overwrite [*]          Overwrite a file from one package with another\n\
+  overwrite              Overwrite a file from one package with another\n\
   overwrite-diverted     Overwrite a diverted file with an undiverted version\n\
   depends-version [!]    Turn dependency version problems into warnings\n\
   depends [!]            Turn all dependency problems into warnings\n\
@@ -261,8 +263,8 @@ DPKG " forcing options - control behaviour when problems found:\n\
   remove-essential [!]   Remove an essential package\n\
 \n\
 WARNING - use of options marked [!] can seriously damage your installation.\n\
-Forcing options marked [*] are enabled by default.\n",
-               stderr)) werr("stderr");
+Forcing options marked [*] are enabled by default.\n"),
+               stdout) < 0) werr("stdout");
     exit(0);
   }
 
@@ -272,7 +274,7 @@ Forcing options marked [*] are enabled by default.\n",
     for (fip=forceinfos; fip->name; fip++)
       if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
     if (!fip->name)
-      badusage("unknown force/refuse option `%.*s'", l<250 ? l : 250, value);
+      badusage(_("unknown force/refuse option `%.*s'"), l<250 ? l : 250, value);
     *fip->opt= cip->arg;
     if (!comma) break;
     value= ++comma;
@@ -316,6 +318,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "print-architecture",              0,  act_printarch,     printarch       ),
   ACTION( "print-gnu-build-architecture",    0,  act_printgnuarch,  printarch       ),
   ACTION( "assert-support-predepends",       0,  act_assertpredep,  assertpredep    ),
+  ACTION( "assert-working-epoch",            0,  act_assertepoch,   assertepoch     ),
   ACTION( "print-installation-architecture", 0,  act_printinstarch, printinstarch   ),
   ACTION( "predep-package",                  0,  act_predeppackage, predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,   cmpversions     ),
@@ -347,7 +350,7 @@ static const struct cmdinfo cmdinfos[]= {
 
 static void execbackend(int argc, const char *const *argv) {
   execvp(BACKEND, (char* const*) argv);
-  ohshite("failed to exec " BACKEND);
+  ohshite(_("failed to exec dpkg-deb"));
 }
 
 int main(int argc, const char *const *argv) {
@@ -355,6 +358,10 @@ int main(int argc, const char *const *argv) {
   int c;
   const char *argp, *const *blongopts, *const *argvs;
   static void (*actionfunction)(const char *const *argv);
+
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
 
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
@@ -379,7 +386,7 @@ int main(int argc, const char *const *argv) {
   }
 
   myopt(&argv,cmdinfos);
-  if (!cipaction) badusage("need an action option");
+  if (!cipaction) badusage(_("need an action option"));
 
   setvbuf(stdout,0,_IONBF,0);
   filesdbinit();

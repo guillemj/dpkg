@@ -21,14 +21,14 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <assert.h>
 #include <signal.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 #include "bindings.h"
@@ -72,7 +72,7 @@ const keybindings::interpretation packagelist_kinterps[] = {
   { "revert",           0,  packagelist::kd_revert_abort,     qa_noquit           },
   { "revertsuggest",    0,  packagelist::kd_revertsuggest,    qa_noquit           },
   { "revertdirect",     0,  packagelist::kd_revertdirect,     qa_noquit           },
-  {  0,                 0,                                    qa_noquit           }
+  {  0,                 0,  0,                                qa_noquit           }
 };
 
 #define C(x) ((x)-'a'+1)

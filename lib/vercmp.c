@@ -22,9 +22,9 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "parsedump.h"
 
 int epochsdiffer(const struct versionrevision *a,
@@ -66,7 +66,7 @@ int versioncompare(const struct versionrevision *version,
   int r;
 
   if (version->epoch > refversion->epoch) return 1;
-  if (version->epoch < refversion->epoch) return 1;
+  if (version->epoch < refversion->epoch) return -1;
   r= verrevcmp(version->version,refversion->version);  if (r) return r;
   return verrevcmp(version->revision,refversion->revision);
 }

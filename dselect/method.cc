@@ -36,12 +36,12 @@
 #include <fcntl.h>
 #include <sys/file.h>
 
-#include <ncurses.h>
+#include <curses.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 #include "method.h"

@@ -2,7 +2,7 @@
 
 $maxnlines= 22;
 
-open(SRC,"helpmsgs.src") || die $!;
+open(SRC,$ARGV[0]) || die $!;
 open(NC,">helpmsgs.cc.new") || die $!;
 open(NH,">helpmsgs.h.new") || die $!;
 

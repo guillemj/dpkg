@@ -25,10 +25,9 @@
 #include <fnmatch.h>
 #include <ctype.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -78,7 +77,7 @@ void getselections(const char *const *argv) {
         getsel1package(pkg); found++;
       }
       if (!found)
-        fprintf(stderr,"No packages found matching %s.\n",thisarg);
+        fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
     }
   }
   if (ferror(stdout)) werr("stdout");
@@ -93,7 +92,7 @@ void setselections(const char *const *argv) {
   struct varbuf namevb;
   struct varbuf selvb;
 
-  if (*argv) badusage("--set-selections does not take any argument");
+  if (*argv) badusage(_("--set-selections does not take any argument"));
 
   modstatdb_init(admindir,msdbrw_write);
 
@@ -112,13 +111,13 @@ void setselections(const char *const *argv) {
     while (!isspace(c)) {
       varbufaddc(&namevb,c);
       c= getchar();
-      if (c == EOF) ohshit("unexpected eof in package name at line %d",lno);
-      if (c == '\n') ohshit("unexpected end of line in package name at line %d",lno);
+      if (c == EOF) ohshit(_("unexpected eof in package name at line %d"),lno);
+      if (c == '\n') ohshit(_("unexpected end of line in package name at line %d"),lno);
     }
     while (c != EOF && isspace(c)) {
       c= getchar();
-      if (c == EOF) ohshit("unexpected eof after package name at line %d",lno);
-      if (c == '\n') ohshit("unexpected end of line after package name at line %d",lno);
+      if (c == EOF) ohshit(_("unexpected eof after package name at line %d"),lno);
+      if (c == '\n') ohshit(_("unexpected end of line after package name at line %d"),lno);
     }
     while (c != EOF && !isspace(c)) {
       varbufaddc(&selvb,c);
@@ -127,20 +126,20 @@ void setselections(const char *const *argv) {
     while (c != EOF && c != '\n') {
       c= getchar();
       if (!isspace(c))
-        ohshit("unexpected data after package and selection at line %d",lno);
+        ohshit(_("unexpected data after package and selection at line %d"),lno);
     }
     varbufaddc(&namevb,0);
     varbufaddc(&selvb,0);
     e= illegal_packagename(namevb.buf,0);
-    if (e) ohshit("illegal package name at line %d: %.250s",lno,e);
+    if (e) ohshit(_("illegal package name at line %d: %.250s"),lno,e);
     for (nvp=wantinfos; nvp->name && strcmp(nvp->name,selvb.buf); nvp++);
-    if (!nvp->name) ohshit("unknown wanted status at line %d: %.250s",lno,selvb.buf);
+    if (!nvp->name) ohshit(_("unknown wanted status at line %d: %.250s"),lno,selvb.buf);
     pkg= findpackage(namevb.buf);
     pkg->want= nvp->value;
     if (c == EOF) break;
     lno++;
   }
-  if (ferror(stdin)) ohshite("read error on standard input");
+  if (ferror(stdin)) ohshite(_("read error on standard input"));
   modstatdb_shutdown();
   varbufreset(&namevb);
   varbufreset(&selvb);

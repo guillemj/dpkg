@@ -1,5 +1,11 @@
 /* Additional tests: */
 
+/* The name of the package being compiled */
+#define PACKAGE ""
+
+/* The version of the package */
+#define VERSION ""
+
 /* Define if inline functions a la GCC are available.  */
 #undef HAVE_INLINE
 
@@ -32,3 +38,21 @@
 
 /* Set this string to append something to the version number. */
 #define ARCHBINFMT ""
+
+/* Define to the name of the distribution.  */
+#undef PACKAGE
+
+/* Define to 1 if NLS is requested.  */
+#undef ENABLE_NLS
+
+/* Define as 1 if you have catgets and don't want to use GNU gettext.  */
+#undef HAVE_CATGETS
+
+/* Define as 1 if you have gettext and don't want to use GNU gettext.  */
+#undef HAVE_GETTEXT
+
+/* Define if your locale.h file contains LC_MESSAGES.  */
+#undef HAVE_LC_MESSAGES
+
+/* Define as 1 if you have the stpcpy function.  */
+#undef HAVE_STPCPY

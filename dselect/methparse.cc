@@ -33,12 +33,12 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include <ncurses.h>
+#include <curses.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 #include "bindings.h"
@@ -47,12 +47,13 @@ int noptions=0;
 struct option *options=0, *coption=0;
 struct method *methods=0;
 
-static void badmethod(const char *pathname, const char *why) __NORETURN;
-static void badmethod(const char *pathname, const char *why) {
+static void badmethod(const char *pathname, const char *why) NONRETURNING;
+static void badmethod(const char *pathname, const char *why)
+{
   ohshit("syntax error in method options file `%.250s' -- %s", pathname, why);
 }
 
-static void eofmethod(const char *pathname, FILE *f, const char *why) __NORETURN;
+static void eofmethod(const char *pathname, FILE *f, const char *why) NONRETURNING;
 static void eofmethod(const char *pathname, FILE *f, const char *why) {
   if (ferror(f)) ohshite("error reading options file `%.250s'",pathname);
   badmethod(pathname,why);
@@ -98,6 +99,8 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
     if (methodlen > IMETHODMAXLEN)
       ohshit("method `%.250s' has name that is too long (%d > %d characters)",
              dent->d_name, methodlen, IMETHODMAXLEN);
+    /* Check if there is a localized version of this method */
+    
     strcpy(pathmeth, dent->d_name);
     strcpy(pathmeth+methodlen, "/");
     pathinmeth= pathmeth+methodlen+1;
@@ -195,12 +198,12 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
       
       if (debug) fprintf(debug," readmethods(`%s',...) new option"
                          " index=`%s' name=`%s' summary=`%.20s'"
-                         " strlen(description=%s)=%d"
+                         " strlen(description=%s)=%ld"
                          " method name=`%s' path=`%s' pathinmeth=`%s'\n",
                          pathbase,
                          opt->index, opt->name, opt->summary,
                          opt->description ? "`...'" : "null",
-                         opt->description ? strlen(opt->description) : -1,
+                         opt->description ? (long) strlen(opt->description) : -1,
                          opt->meth->name, opt->meth->path, opt->meth->pathinmeth);
       for (optinsert= optionspp;
            *optinsert && strcmp(opt->index,(*optinsert)->index) > 0;

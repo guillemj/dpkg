@@ -28,10 +28,10 @@
 #include <assert.h>
 #include <unistd.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <myopt.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -60,12 +60,12 @@ static void list1package(struct pkginfo *pkg, int *head) {
   const char *pdesc;
     
   if (!*head) {
-    fputs("\
+    fputs(_("\
 Desired=Unknown/Install/Remove/Purge\n\
 | Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n\
 |/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)\n\
 ||/ Name            Version        Description\n\
-+++-===============-==============-============================================\n",
++++-===============-==============-============================================\n"),
           stdout);
     *head= 1;
   }
@@ -118,7 +118,7 @@ void listpackages(const char *const *argv) {
         list1package(pkg,&head); found++;
       }
       if (!found)
-        fprintf(stderr,"No packages found matching %s.\n",thisarg);
+        fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
     }
   }
   if (ferror(stdout)) werr("stdout");
@@ -143,24 +143,24 @@ static int bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi) {
 static const struct badstatinfo badstatinfos[]= {
   {
     bsyn_reinstreq, 0,
-    "The following packages are in a mess due to serious problems during\n"
+    N_("The following packages are in a mess due to serious problems during\n"
     "installation.  They must be reinstalled for them (and any packages\n"
-    "that depend on them) to function properly:\n"
+    "that depend on them) to function properly:\n")
   }, {
     bsyn_status, stat_unpacked,
-    "The following packages have been unpacked but not yet configured.\n"
-    "They must be configured using " DPKG " --configure or the configure\n"
-    "menu option in " DSELECT " for them to work:\n"
+    N_("The following packages have been unpacked but not yet configured.\n"
+    "They must be configured using dpkg --configure or the configure\n"
+    "menu option in dselect for them to work:\n")
   }, {
     bsyn_status, stat_halfconfigured,
-    "The following packages are only half configured, probably due to problems\n"
+    N_("The following packages are only half configured, probably due to problems\n"
     "configuring them the first time.  The configuration should be retried using\n"
-    DPKG " --configure <package> or the configure menu option in " DSELECT ":\n"
+    "dpkg --configure <package> or the configure menu option in " DSELECT ":\n")
   }, {
     bsyn_status, stat_halfinstalled,
-    "The following packages are only half installed, due to problems during\n"
+    N_("The following packages are only half installed, due to problems during\n"
     "installation.  The installation can probably be completed by retrying it;\n"
-    "the packages can be removed using " DSELECT " or " DPKG " --remove:\n"
+    "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
     0
   }
@@ -183,7 +183,7 @@ void audit(const char *const *argv) {
   const struct badstatinfo *bsi;
   int head;
 
-  if (*argv) badusage("--audit does not take any arguments");
+  if (*argv) badusage(_("--audit does not take any arguments"));
 
   modstatdb_init(admindir,msdbrw_readonly);
 
@@ -193,7 +193,7 @@ void audit(const char *const *argv) {
     while ((pkg= iterpkgnext(it))) {
       if (!bsi->yesno(pkg,bsi)) continue;
       if (!head) {
-        fputs(bsi->explanation,stdout);
+        fputs(gettext(bsi->explanation),stdout);
         head= 1;
       }
       describebriefly(pkg);
@@ -234,7 +234,7 @@ void unpackchk(const char *const *argv) {
   char buf[20];
   int width;
   
-  if (*argv) badusage("--yet-to-unpack does not take any arguments");
+  if (*argv) badusage(_("--yet-to-unpack does not take any arguments"));
 
   modstatdb_init(admindir,msdbrw_readonly);
 
@@ -287,7 +287,7 @@ void unpackchk(const char *const *argv) {
       putchar('\n');
     }
   } else {
-    printf(" %d packages, from the following sections:",totalcount);
+    printf(_(" %d packages, from the following sections:"),totalcount);
     width= 0;
     for (se= sectionentries; se; se= se->next) {
       sprintf(buf,"%d",se->count);
@@ -307,9 +307,9 @@ static int searchoutput(struct filenamenode *namenode) {
 
   if (namenode->divert) {
     for (i=0; i<2; i++) {
-      if (namenode->divert->pkg) printf("diversion by %s",namenode->divert->pkg->name);
-      else printf("local diversion");
-      printf(" %s: %s\n", i ? "to" : "from",
+      if (namenode->divert->pkg) printf(_("diversion by %s"),namenode->divert->pkg->name);
+      else printf(_("local diversion"));
+      printf(" %s: %s\n", i ? _("to") : _("from"),
              i ?
              (namenode->divert->useinstead
               ? namenode->divert->useinstead->name
@@ -342,7 +342,7 @@ void searchfiles(const char *const *argv) {
   static struct varbuf vb;
   
   if (!*argv)
-    badusage("--search needs at least one file name pattern argument");
+    badusage(_("--search needs at least one file name pattern argument"));
 
   modstatdb_init(admindir,msdbrw_readonly);
   ensure_allinstfiles_available_quiet();
@@ -370,7 +370,7 @@ void searchfiles(const char *const *argv) {
       iterfileend(it);
     }
     if (!found) {
-      fprintf(stderr,DPKG ": %s not found.\n",thisarg);
+      fprintf(stderr,_("dpkg: %s not found.\n"),thisarg);
       if (ferror(stderr)) werr("stderr");
     } else {
       if (ferror(stdout)) werr("stdout");
@@ -386,7 +386,7 @@ void enqperpackage(const char *const *argv) {
   struct filenamenode *namenode;
   
   if (!*argv)
-    badusage("--%s needs at least one package name argument", cipaction->olong);
+    badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
   failures= 0;
   modstatdb_init(admindir,msdbrw_readonly);
@@ -403,7 +403,7 @@ void enqperpackage(const char *const *argv) {
           !pkg->files &&
           pkg->want == want_unknown &&
           !informative(pkg,&pkg->installed)) {
-        printf("Package `%s' is not installed and no info is available.\n",pkg->name);
+        printf(_("Package `%s' is not installed and no info is available.\n"),pkg->name);
         failures++;
       } else {
         writerecord(stdout, "<stdout>", pkg, &pkg->installed);
@@ -412,7 +412,7 @@ void enqperpackage(const char *const *argv) {
 
     case act_printavail:
       if (!informative(pkg,&pkg->available)) {
-        printf("Package `%s' is not available.\n",pkg->name);
+        printf(_("Package `%s' is not available.\n"),pkg->name);
         failures++;
       } else {
         writerecord(stdout, "<stdout>", pkg, &pkg->available);
@@ -422,7 +422,7 @@ void enqperpackage(const char *const *argv) {
     case act_listfiles:
       switch (pkg->status) {
       case stat_notinstalled: 
-        printf("Package `%s' is not installed.\n",pkg->name);
+        printf(_("Package `%s' is not installed.\n"),pkg->name);
         failures++;
         break;
         
@@ -431,15 +431,15 @@ void enqperpackage(const char *const *argv) {
         ensure_diversions();
         file= pkg->clientdata->files;
         if (!file) {
-          printf("Package `%s' does not contain any files (!)\n",pkg->name);
+          printf(_("Package `%s' does not contain any files (!)\n"),pkg->name);
         } else {
           while (file) {
             namenode= file->namenode;
             puts(namenode->name);
             if (namenode->divert && !namenode->divert->camefrom) {
-              if (!namenode->divert->pkg) printf("locally diverted");
-              else if (pkg == namenode->divert->pkg) printf("package diverts others");
-              else printf("diverted by %s",namenode->divert->pkg->name);
+              if (!namenode->divert->pkg) printf(_("locally diverted"));
+              else if (pkg == namenode->divert->pkg) printf(_("package diverts others"));
+              else printf(_("diverted by %s"),namenode->divert->pkg->name);
               printf(" to: %s\n",namenode->divert->useinstead->name);
             }
             file= file->next;
@@ -458,9 +458,37 @@ void enqperpackage(const char *const *argv) {
   }
 
   if (failures) {
-    puts("Use " DPKG " --info (= " BACKEND " --info) to examine archive files,\n"
-         "and " DPKG " --contents (= " BACKEND " --contents) to list their contents.");
+    puts(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+         "and dpkg --contents (= dpkg-deb --contents) to list their contents."));
     if (ferror(stdout)) werr("stdout");
+  }
+}
+
+void assertepoch(const char *const *argv) {
+  static struct versionrevision epochversion = {~0UL,0,0};
+  struct pkginfo *pkg;
+
+  if (*argv) badusage("--assert-working-epoch does not take any arguments");
+
+  modstatdb_init(admindir,msdbrw_readonly);
+  pkg= findpackage("dpkg");
+  if (epochversion.epoch == ~0UL) {
+    epochversion.epoch= 0;
+    epochversion.version= nfstrsave("1.4.0.7");
+    epochversion.revision= 0;
+  }
+  switch (pkg->status) {
+  case stat_installed:
+    break;
+  case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
+    if (versionsatisfied3(&pkg->configversion,&epochversion,dvr_laterequal))
+      break;
+    printf("Version of dpkg with working epoch support not yet configured.\n"
+           " Please use `dpkg --configure dpkg', and then try again.\n");
+    exit(1);
+  default:
+    printf("dpkg not recorded as installed, cannot check for epoch support !\n");
+    exit(1);
   }
 }
 
@@ -468,11 +496,11 @@ void assertpredep(const char *const *argv) {
   static struct versionrevision predepversion = {~0UL,0,0};
   struct pkginfo *pkg;
   
-  if (*argv) badusage("--assert-support-predepends does not take any arguments");
+  if (*argv) badusage(_("--assert-support-predepends does not take any arguments"));
 
   modstatdb_init(admindir,msdbrw_readonly);
   pkg= findpackage("dpkg");
-  if (!predepversion.epoch == ~0UL) {
+  if (predepversion.epoch == ~0UL) {
     predepversion.epoch= 0;
     predepversion.version= nfstrsave("1.1.0");
     predepversion.revision= 0;
@@ -483,11 +511,11 @@ void assertpredep(const char *const *argv) {
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
     if (versionsatisfied3(&pkg->configversion,&predepversion,dvr_laterequal))
       break;
-    printf("Version of dpkg with Pre-Depends support not yet configured.\n"
-           " Please use `dpkg --configure dpkg', and then try again.\n");
+    printf(_("Version of dpkg with Pre-Depends support not yet configured.\n"
+           " Please use `dpkg --configure dpkg', and then try again.\n"));
     exit(1);
   default:
-    printf("dpkg not recorded as installed, cannot check for Pre-Depends support !\n");
+    printf(_("dpkg not recorded as installed, cannot check for Pre-Depends support !\n"));
     exit(1);
   }
 }
@@ -510,7 +538,7 @@ void predeppackage(const char *const *argv) {
   struct dependency *dep;
   struct deppossi *possi, *provider;
 
-  if (*argv) badusage("--predep-package does not take any argument");
+  if (*argv) badusage(_("--predep-package does not take any argument"));
 
   modstatdb_init(admindir,msdbrw_readonly);
   clear_istobes(); /* We use clientdata->istobe to detect loops */
@@ -562,8 +590,8 @@ void predeppackage(const char *const *argv) {
       varbufreset(&vb);
       describedepcon(&vb,dep);
       varbufaddc(&vb,0);
-      fprintf(stderr, DPKG ": cannot see how to satisfy pre-dependency:\n %s\n",vb.buf);
-      ohshit("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)",
+      fprintf(stderr, _("dpkg: cannot see how to satisfy pre-dependency:\n %s\n"),vb.buf);
+      ohshit(_("cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"),
              dep->up->name,startpkg->name);
     }
     pkg->clientdata->istobe= itb_preinstall;
@@ -583,14 +611,14 @@ static void badlgccfn(const char *compiler, const char *output, const char *why)
      NONRETURNING;
 static void badlgccfn(const char *compiler, const char *output, const char *why) {
   fprintf(stderr,
-          DPKG ": unexpected output from `%s --print-libgcc-file-name':\n"
-          " `%s'\n",
+          _("dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
+          " `%s'\n"),
           compiler,output);
-  ohshit("compiler libgcc filename not understood: %.250s",why);
+  ohshit(_("compiler libgcc filename not understood: %.250s"),why);
 }
 
 void printinstarch(const char *const *argv) {
-  if (*argv) badusage("--print-installation-architecture does not take any argument");
+  if (*argv) badusage(_("--print-installation-architecture does not take any argument"));
 
   if (printf("%s\n",architecture) == EOF) werr("stdout");
   if (fflush(stdout)) werr("stdout");
@@ -598,7 +626,7 @@ void printinstarch(const char *const *argv) {
 
 void printarch(const char *const *argv) {
   static const struct { const char *from, *to, *gnu; } archtable[]= {
-#include "archtable.inc"
+#include "archtable.h"
     { 0,0,0 }
   }, *archp;
                   
@@ -610,30 +638,30 @@ void printarch(const char *const *argv) {
   ptrdiff_t ll;
   char *p, *q;
 
-  if (*argv) badusage("--print-architecture does not take any argument");
+  if (*argv) badusage(_("--print-architecture does not take any argument"));
 
   ccompiler= getenv("CC");
   if (!ccompiler) ccompiler= "gcc";
   varbufinit(&vb);
   m_pipe(p1);
-  ccpipe= fdopen(p1[0],"r"); if (!ccpipe) ohshite("failed to fdopen CC pipe");
+  ccpipe= fdopen(p1[0],"r"); if (!ccpipe) ohshite(_("failed to fdopen CC pipe"));
   if (!(c1= m_fork())) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     execlp(ccompiler,ccompiler,"--print-libgcc-file-name",(char*)0);
-    ohshite("failed to exec C compiler `%.250s'",ccompiler);
+    ohshite(_("failed to exec C compiler `%.250s'"),ccompiler);
   }
   close(p1[1]);
   while ((c= getc(ccpipe)) != EOF) varbufaddc(&vb,c);
-  if (ferror(ccpipe)) ohshite("error reading from CC pipe");
+  if (ferror(ccpipe)) ohshite(_("error reading from CC pipe"));
   waitsubproc(c1,"gcc --print-libgcc-file-name",0);
-  if (!vb.used) badlgccfn(ccompiler,"","empty output");
+  if (!vb.used) badlgccfn(ccompiler,"",_("empty output"));
   varbufaddc(&vb,0);
-  if (vb.buf[vb.used-2] != '\n') badlgccfn(ccompiler,vb.buf,"no newline");
+  if (vb.buf[vb.used-2] != '\n') badlgccfn(ccompiler,vb.buf,_("no newline"));
   vb.used-= 2; varbufaddc(&vb,0);
   p= strstr(vb.buf,"/gcc-lib/");
-  if (!p) badlgccfn(ccompiler,vb.buf,"no gcc-lib component");
+  if (!p) badlgccfn(ccompiler,vb.buf,_("no gcc-lib component"));
   p+= 9;
-  q= strchr(p,'-'); if (!q) badlgccfn(ccompiler,vb.buf,"no hyphen after gcc-lib");
+  q= strchr(p,'-'); if (!q) badlgccfn(ccompiler,vb.buf,_("no hyphen after gcc-lib"));
   ll= q-p;
   for (archp=archtable;
        archp->from && !(strlen(archp->from) == ll && !strncmp(archp->from,p,ll));
@@ -645,7 +673,7 @@ void printarch(const char *const *argv) {
   }
   if (!arch) {
     *q= 0; arch= p;
-    fprintf(stderr,DPKG ": warning, architecture `%s' not in remapping table\n",arch);
+    fprintf(stderr, _("dpkg: warning, architecture `%s' not in remapping table\n"),arch);
   }
   if (printf("%s\n",arch) == EOF) werr("stdout");
   if (fflush(stdout)) werr("stdout");
@@ -656,7 +684,7 @@ void cmpversions(const char *const *argv) {
     const char *string;
     /* These values are exit status codes, so 0=true, 1=false */
     int if_lesser, if_equal, if_greater;
-    int if_none_a, if_none_b, if_none_both;
+    int if_none_a, if_none_both, if_none_b;
   };
 
   static const struct relationinfo relationinfos[]= {
@@ -667,15 +695,15 @@ void cmpversions(const char *const *argv) {
     { "ne",        0,1,0, 0,1,0  },
     { "ge",        1,0,0, 1,0,0  },
     { "gt",        1,1,0, 1,1,0  },
-    { "le-nl",     0,0,1, 1,0,0  }, /* Here none
-    { "lt-nl",     0,1,1, 1,1,0  },  * is counted
-    { "ge-nl",     1,0,0, 0,0,1  },  * than any version.
-    { "gt-nl",     1,1,0, 0,1,1  },  */
-    { "<",         0,0,1, 0,0,1  }, /* For compatibility
-    { "<=",        0,0,1, 0,0,1  },  * with dpkg
-    { "<<",        0,1,1, 0,1,1  },  * control file
-    { "=",         1,0,1, 1,0,1  },  * syntax
-    { ">",         1,0,0, 1,0,0  },  */
+    { "le-nl",     0,0,1, 1,0,0  }, /* Here none        */
+    { "lt-nl",     0,1,1, 1,1,0  }, /* is counted       */
+    { "ge-nl",     1,0,0, 0,0,1  }, /* than any version.*/
+    { "gt-nl",     1,1,0, 0,1,1  }, /*                  */
+    { "<",         0,0,1, 0,0,1  }, /* For compatibility*/
+    { "<=",        0,0,1, 0,0,1  }, /* with dpkg        */
+    { "<<",        0,1,1, 0,1,1  }, /* control file     */
+    { "=",         1,0,1, 1,0,1  }, /* syntax           */
+    { ">",         1,0,0, 1,0,0  }, /*                  */
     { ">=",        1,0,0, 1,0,0  },
     { ">>",        1,1,0, 1,1,0  },
     {  0                         }
@@ -687,17 +715,17 @@ void cmpversions(const char *const *argv) {
   int r;
   
   if (!argv[0] || !argv[1] || !argv[2] || argv[3])
-    badusage("--cmpversions takes three arguments:"
-             " <version> <relation> <version>");
+    badusage(_("--cmpversions takes three arguments:"
+             " <version> <relation> <version>"));
 
   for (rip=relationinfos; rip->string && strcmp(rip->string,argv[1]); rip++);
 
-  if (!rip->string) badusage("--cmpversions bad relation");
+  if (!rip->string) badusage(_("--cmpversions bad relation"));
 
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
     emsg= parseversion(&a,argv[0]);
     if (emsg) {
-      if (printf("version a has bad syntax: %s\n",emsg) == EOF) werr("stdout");
+      if (printf(_("version a has bad syntax: %s\n"),emsg) == EOF) werr("stdout");
       if (fflush(stdout)) werr("stdout");
       exit(1);
     }
@@ -707,7 +735,7 @@ void cmpversions(const char *const *argv) {
   if (*argv[2] && strcmp(argv[2],"<unknown>")) {
     emsg= parseversion(&b,argv[2]);
     if (emsg) {
-      if (printf("version b has bad syntax: %s\n",emsg) == EOF) werr("stdout");
+      if (printf(_("version b has bad syntax: %s\n"),emsg) == EOF) werr("stdout");
       if (fflush(stdout)) werr("stdout");
       exit(1);
     }

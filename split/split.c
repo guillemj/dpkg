@@ -28,9 +28,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "dpkg-split.h"
 
 void do_split(const char *const *argv) {
@@ -42,10 +42,10 @@ void do_split(const char *const *argv) {
 
   sourcefile= *argv++;
   if (!sourcefile)
-    badusage("--split needs a source filename argument");
+    badusage(_("--split needs a source filename argument"));
   prefix= *argv++;
   if (prefix && *argv)
-    badusage("--split takes at most a source filename and destination prefix");
+    badusage(_("--split takes at most a source filename and destination prefix"));
   if (!prefix) {
     l= strlen(sourcefile);
     palloc= nfmalloc(l+1);
@@ -59,13 +59,16 @@ void do_split(const char *const *argv) {
   sprintf(partsizebuf,"%ld",maxpartsize-HEADERALLOWANCE);
   sprintf(partsizeallowbuf,"%ld",maxpartsize);
   fd= open(sourcefile,O_RDONLY);
-  if (!fd) ohshite("unable to open source file `%.250s'",sourcefile);
-  if (fstat(fd,&stab)) ohshite("unable to fstat source file");
-  if (!S_ISREG(stab.st_mode)) ohshit("source file `%.250s' not a plain file",sourcefile);
+  if (!fd) ohshite(_("unable to open source file `%.250s'"),sourcefile);
+  if (fstat(fd,&stab)) ohshite(_("unable to fstat source file"));
+  if (!S_ISREG(stab.st_mode)) ohshit(_("source file `%.250s' not a plain file"),sourcefile);
   sprintf(lengthbuf,"%lu",(unsigned long)stab.st_size);
   m_dup2(fd,0);
   execl(MKSPLITSCRIPT,MKSPLITSCRIPT,
         sourcefile,partsizebuf,prefix,lengthbuf,partsizeallowbuf,msdos?"yes":"no",
         (char*)0);
-  ohshite("unable to exec " MKSPLITSCRIPT);
+  ohshite(_("unable to exec mksplit"));
 }
+
+
+

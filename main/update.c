@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -26,10 +27,10 @@
 #include <assert.h>
 #include <unistd.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <myopt.h>
 
 #include "main.h"
 
@@ -40,11 +41,11 @@ void updateavailable(const char *const *argv) {
 
   switch (cipaction->arg) {
   case act_avclear:
-    if (sourcefile) badusage("--%s takes no arguments",cipaction->olong);
+    if (sourcefile) badusage(_("--%s takes no arguments"),cipaction->olong);
     break;
   case act_avreplace: case act_avmerge:
     if (!sourcefile || argv[1])
-      badusage("--%s needs exactly one Packages file argument",cipaction->olong);
+      badusage(_("--%s needs exactly one Packages file argument"),cipaction->olong);
     break;
   default:
     internerr("bad cipaction->arg in updateavailable");
@@ -53,19 +54,19 @@ void updateavailable(const char *const *argv) {
   if (!f_noact) {
     if (access(admindir,W_OK)) {
       if (errno != EACCES)
-        ohshite("unable to access dpkg status area for bulk available update");
+        ohshite(_("unable to access dpkg status area for bulk available update"));
       else
-        ohshit("bulk available update requires write access to dpkg status area");
+        ohshit(_("bulk available update requires write access to dpkg status area"));
     }
     lockdatabase(admindir);
   }
   
   switch (cipaction->arg) {
   case act_avreplace:
-    printf("Replacing available packages info, using %s.\n",sourcefile);
+    printf(_("Replacing available packages info, using %s.\n"),sourcefile);
     break;
   case act_avmerge:
-    printf("Updating available packages info, using %s.\n",sourcefile);
+    printf(_("Updating available packages info, using %s.\n"),sourcefile);
     break;
   case act_avclear:
     break;
@@ -89,7 +90,7 @@ void updateavailable(const char *const *argv) {
   }
 
   if (cipaction->arg != act_avclear)
-    printf("Information about %d package(s) was updated.\n",count);
+    printf(_("Information about %d package(s) was updated.\n"),count);
 }
 
 void forgetold(const char *const *argv) {
@@ -97,7 +98,7 @@ void forgetold(const char *const *argv) {
   struct pkginfo *pkg;
   enum pkgwant oldwant;
 
-  if (*argv) badusage("--forget-old-unavail takes no arguments");
+  if (*argv) badusage(_("--forget-old-unavail takes no arguments"));
 
   modstatdb_init(admindir, f_noact ? msdbrw_readonly : msdbrw_write);
 

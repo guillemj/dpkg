@@ -21,14 +21,14 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <assert.h>
 #include <signal.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 #include "bindings.h"
@@ -122,13 +122,13 @@ int packagelist::add(dependency *depends, showpriority displayimportance) {
        possi=possi->next, comma=(possi && possi->next ? ", " : " or ")) {
     info(comma);
     info(possi->ed->name);
-    if (possi->verrel != deppossi::dvr_none) {
+    if (possi->verrel != dvr_none) {
       switch (possi->verrel) {
-      case deppossi::dvr_earlierequal:  info(" (<= "); break;
-      case deppossi::dvr_laterequal:    info(" (>= "); break;
-      case deppossi::dvr_earlierstrict: info(" (<< "); break;
-      case deppossi::dvr_laterstrict:   info(" (>> "); break;
-      case deppossi::dvr_exact:         info(" (= "); break;
+      case dvr_earlierequal:  info(" (<= "); break;
+      case dvr_laterequal:    info(" (>= "); break;
+      case dvr_earlierstrict: info(" (<< "); break;
+      case dvr_laterstrict:   info(" (>> "); break;
+      case dvr_exact:         info(" (= "); break;
       default: internerr("unknown verrel");
       }
       info(versiondescribe(&possi->version,vdew_never));
@@ -139,7 +139,7 @@ int packagelist::add(dependency *depends, showpriority displayimportance) {
   add(depends->up,info.string(),displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
     add(possi->ed,info.string(),displayimportance);
-    if (possi->verrel == deppossi::dvr_none && depends->type != dep_provides) {
+    if (possi->verrel == dvr_none && depends->type != dep_provides) {
       // providers aren't relevant if a version was specified, or
       // if we're looking at a provider relationship already
       deppossi *provider;

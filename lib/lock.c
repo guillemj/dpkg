@@ -28,9 +28,9 @@
 #include <fcntl.h>
 #include <sys/file.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 static char *dblockfile= 0;
 static int dblockfd= -1;
@@ -44,7 +44,7 @@ static void cu_unlockdb(int argc, void **argv) {
   fl.l_start= 0;
   fl.l_len= 1;
   if (fcntl(dblockfd,F_SETLK,&fl) == -1)
-    ohshite("unable to unlock dpkg status database");
+    ohshite(_("unable to unlock dpkg status database"));
 }
 
 void unlockdatabase(const char *admindir) {
@@ -65,8 +65,8 @@ void lockdatabase(const char *admindir) {
     dblockfd= open(dblockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
     if (dblockfd == -1) {
       if (errno == EPERM)
-        ohshit("you do not have permission to lock the dpkg status database");
-      ohshite("unable to open/create status database lockfile");
+        ohshit(_("you do not have permission to lock the dpkg status database"));
+      ohshite(_("unable to open/create status database lockfile"));
     }
   }
   fl.l_type= F_WRLCK;
@@ -75,8 +75,8 @@ void lockdatabase(const char *admindir) {
   fl.l_len= 1;
   if (fcntl(dblockfd,F_SETLK,&fl) == -1) {
     if (errno == EWOULDBLOCK || errno == EAGAIN)
-      ohshit("status database area is locked - another dpkg/dselect is running");
-    ohshite("unable to lock dpkg status database");
+      ohshit(_("status database area is locked - another dpkg/dselect is running"));
+    ohshite(_("unable to lock dpkg status database"));
   }
   push_cleanup(cu_unlockdb,~0, 0,0, 0);
 }

@@ -21,9 +21,9 @@
 
 #include <string.h>
 
-#include "config.h"
-#include "myopt.h"
-#include "dpkg.h"
+#include <config.h>
+#include <myopt.h>
+#include <dpkg.h>
 
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {
   const struct cmdinfo *cip;
@@ -45,28 +45,28 @@ void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {
         if (!strncmp(p,cip->olong,l) &&
             (p[l]== ((cip->takesvalue==2) ? '-' : '='))) { value=p+l+1; break; }
       }
-      if (!cip->olong) badusage("unknown option --%s",p);
+      if (!cip->olong) badusage(_("unknown option --%s"),p);
       if (cip->takesvalue) {
         if (!value) {
           value= *(*argvp)++;
-          if (!value) badusage("--%s option takes a value",cip->olong);
+          if (!value) badusage(_("--%s option takes a value"),cip->olong);
         }
         if (cip->call) cip->call(cip,value);
         else *cip->sassignto= value;
       } else {
-        if (value) badusage("--%s option does not take a value",cip->olong);
+        if (value) badusage(_("--%s option does not take a value"),cip->olong);
         if (cip->call) cip->call(cip,0);
         else *cip->iassignto= cip->arg;
       }
     } else {
       while (*p) {
         for (cip= cmdinfos; (cip->olong || cip->oshort) && *p != cip->oshort; cip++);
-        if (!cip->oshort) badusage("unknown option -%c",*p);
+        if (!cip->oshort) badusage(_("unknown option -%c"),*p);
         p++;
         if (cip->takesvalue) {
           if (!*p) {
             value= *(*argvp)++;
-            if (!value) badusage("-%c option takes a value",cip->oshort);
+            if (!value) badusage(_("-%c option takes a value"),cip->oshort);
           } else {
             value= p; p="";
             if (*value == '=') value++;
@@ -74,7 +74,7 @@ void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {
           if (cip->call) cip->call(cip,value);
           else *cip->sassignto= value;
         } else {
-          if (*p == '=') badusage("-%c option does not take a value",cip->oshort);
+          if (*p == '=') badusage(_("-%c option does not take a value"),cip->oshort);
           if (cip->call) cip->call(cip,0);
           else *cip->iassignto= cip->arg;
         }

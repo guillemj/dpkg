@@ -32,10 +32,10 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <myopt.h>
 
 #include "main.h"
 
@@ -57,7 +57,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
           arg, cipaction->olong, emsg);
   nr= malloc(sizeof(struct error_report));
   if (!nr) {
-    perror(DPKG ": failed to allocate memory for new entry in list of failed packages.");
+    perror(_("dpkg: failed to allocate memory for new entry in list of failed packages."));
     onerr_abort++;
     nr= &emergency;
   }
@@ -67,20 +67,20 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   lastreport= &nr->next;
     
   if (nerrs++ < 20) return;
-  fprintf(stderr, DPKG ": too many errors, stopping\n");
+  fprintf(stderr, _("dpkg: too many errors, stopping\n"));
   onerr_abort++;
 }
 
 int reportbroken_retexitstatus(void) {
   if (reports) {
-    fputs("Errors were encountered while processing:\n",stderr);
+    fputs(_("Errors were encountered while processing:\n"),stderr);
     while (reports) {
       fprintf(stderr," %s\n",reports->what);
       reports= reports->next;
     }
   }
   if (onerr_abort) {
-    fputs("Processing was halted because there were too many errors.\n",stderr);
+    fputs(_("Processing was halted because there were too many errors.\n"),stderr);
   }
   return nerrs || onerr_abort ? 1 : 0;
 }
@@ -88,7 +88,7 @@ int reportbroken_retexitstatus(void) {
 int skip_due_to_hold(struct pkginfo *pkg) {
   if (pkg->want != want_hold) return 0;
   if (fc_hold) {
-    fprintf(stderr, "Package %s was on hold, processing it anyway as you request\n",
+    fprintf(stderr, _("Package %s was on hold, processing it anyway as you request\n"),
             pkg->name);
     return 0;
   }
@@ -101,7 +101,7 @@ void forcibleerr(int forceflag, const char *fmt, ...) {
   va_list al;
   va_start(al,fmt);
   if (forceflag) {
-    fputs(DPKG " - warning, overriding problem because --force enabled:\n ",stderr);
+    fputs(_("dpkg - warning, overriding problem because --force enabled:\n "),stderr);
     vfprintf(stderr,fmt,al);
     fputc('\n',stderr);
   } else {

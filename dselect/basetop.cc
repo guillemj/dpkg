@@ -21,15 +21,15 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <assert.h>
 #include <signal.h>
 #include <ctype.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 

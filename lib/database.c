@@ -22,9 +22,9 @@
 #include <ctype.h>
 #include <string.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 #define BINS (1 << 7)
  /* This must always be a power of two.  If you change it
@@ -233,7 +233,7 @@ void hashreport(FILE *file) {
   }
   for (i=npackages; i>0 && freq[i]==0; i--);
   while (i>=0) { fprintf(file,"size %7d occurs %5d times\n",i,freq[i]); i--; }
-  if (ferror(file)) ohshite("failed write during hashreport");
+  if (ferror(file)) ohshite(_("failed write during hashreport"));
 }
 
 /*
@@ -255,3 +255,10 @@ void hashreport(FILE *file) {
  * xgames xherc xmach32 xmach8 xmono xnet xs3 xsvga xtexstuff xv
  * xvga16 xxgdb zip
  */
+
+
+
+
+
+
+

@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <assert.h>
@@ -26,21 +27,21 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <signal.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 #include "filesdb.h"
 #include "main.h"
 
 const char *const statusstrings[]= {
-  "not installed", "unpacked but not configured",
-  "broken due to postinst failure",
-  "installed",
-  "broken due to failed removal",
-  "not installed but configs remain"
+  N_("not installed"), N_("unpacked but not configured"),
+  N_("broken due to postinst failure"),
+  N_("installed"),
+  N_("broken due to failed removal"),
+  N_("not installed but configs remain")
 };
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg) {
@@ -77,7 +78,7 @@ void checkpath(void) {
   long l;
 
   path= getenv("PATH");
-  if (!path) fputs(DPKG " - warning: PATH is not set.\n", stderr);
+  if (!path) fputs(_("dpkg - warning: PATH is not set.\n"), stderr);
   
   for (clp=checklist; *clp; clp++) {
     s= path;
@@ -92,14 +93,14 @@ void checkpath(void) {
       s= p; if (s) s++;
     }
     if (!s) {
-      fprintf(stderr,DPKG ": `%s' not found on PATH.\n",*clp);
+      fprintf(stderr,_("dpkg: `%s' not found on PATH.\n"),*clp);
       warned++;
     }
   }
 
   if (warned)
-    forcibleerr(fc_badpath,"%d expected program(s) not found on PATH.\nNB: root's "
-                "PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin.",
+    forcibleerr(fc_badpath,_("%d expected program(s) not found on PATH.\nNB: root's "
+                "PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."),
                 warned);
 }
 
@@ -163,7 +164,7 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
 static void preexecscript(const char *path, char *const *argv) {
   if (*instdir) {
     /* fixme: won't work right when instdir != admindir */
-    if (chroot(instdir)) ohshite("failed to chroot to `%.250s'",instdir);
+    if (chdir(instdir) || chroot(instdir)) ohshite("failed to chroot to `%.250s'",instdir);
   }
   if (f_debug & dbg_scripts) {
     fprintf(stderr,"D0%05o: fork/exec %s (",dbg_scripts,path);
@@ -178,7 +179,7 @@ static char *const *vbuildarglist(const char *scriptname, va_list ap) {
   int i;
 
   i=0;
-  bufs[i++]= (char*)scriptname; /* yes, cast away cost because exec wants it that way */
+  bufs[i++]= (char*)scriptname; /* yes, cast away const because exec wants it that way */
   for (;;) {
     assert(i < PKGSCRIPTMAXARGS);
     nextarg= va_arg(ap,char*);
@@ -206,7 +207,7 @@ static void cu_restorescriptsignals(int argc, void **argv) {
   int i;
   for (i=0; i<NSCRIPTCATCHSIGNALS; i++) {
     if (sigaction(script_catchsignallist[i],&script_uncatchsignal[i],0)) {
-      fprintf(stderr,"error un-catching signal %s: %s\n",
+      fprintf(stderr,_("error un-catching signal %s: %s\n"),
               strsignal(script_catchsignallist[i]),strerror(errno));
       onerr_abort++;
     }
@@ -224,7 +225,7 @@ static void script_catchsignals(void) {
   catchsig.sa_flags= 0;
   for (i=0; i<NSCRIPTCATCHSIGNALS; i++)
     if (sigaction(script_catchsignallist[i],&catchsig,&script_uncatchsignal[i]))
-      ohshite("unable to ignore signal %s before running script",
+      ohshite(_("unable to ignore signal %s before running script"),
               strsignal(script_catchsignallist[i]));
   push_cleanup(cu_restorescriptsignals,~0, 0,0, 0);
   onerr_abort--;
@@ -233,7 +234,7 @@ static void script_catchsignals(void) {
 static void setexecute(const char *path, struct stat *stab) {
   if ((stab->st_mode & 0555) == 0555) return;
   if (!chmod(path,0755)) return;
-  ohshite("unable to set execute permissions on `%.250s'",path);
+  ohshite(_("unable to set execute permissions on `%.250s'"),path);
 }
 
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
@@ -257,14 +258,14 @@ int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
       debug(dbg_scripts,"maintainer_script_installed nonexistent %s",scriptname);
       return 0;
     }
-    ohshite("unable to stat installed %s script `%.250s'",description,scriptpath);
+    ohshite(_("unable to stat installed %s script `%.250s'"),description,scriptpath);
   }
   setexecute(scriptpath,&stab);
   c1= m_fork();
   if (!c1) {
     preexecscript(scriptpath,arglist);
-    execv(scriptpath,arglist);
-    ohshite("unable to execute %s",buf);
+    execv(scriptpath+strlen(instdir),arglist);
+    ohshite(_("unable to execute %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
   waitsubproc(c1,buf,0);
@@ -293,14 +294,14 @@ int maintainer_script_new(const char *scriptname, const char *description,
       debug(dbg_scripts,"maintainer_script_new nonexistent %s `%s'",scriptname,cidir);
       return 0;
     }
-    ohshite("unable to stat new %s script `%.250s'",description,cidir);
+    ohshite(_("unable to stat new %s script `%.250s'"),description,cidir);
   }
   setexecute(cidir,&stab);
   c1= m_fork();
   if (!c1) {
     preexecscript(cidir,arglist);
-    execv(cidir,arglist);
-    ohshite("unable to execute new %s",buf);
+    execv(cidir+strlen(instdir),arglist);
+    ohshite(_("unable to execute new %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
   waitsubproc(c1,buf,0);
@@ -334,59 +335,59 @@ int maintainer_script_alternative(struct pkginfo *pkg,
       return 0;
     }
     fprintf(stderr,
-            DPKG ": warning - unable to stat %s `%.250s': %s\n",
+            _("dpkg: warning - unable to stat %s `%.250s': %s\n"),
             buf,oldscriptpath,strerror(errno));
   } else {
     setexecute(oldscriptpath,&stab);
     c1= m_fork();
     if (!c1) {
       preexecscript(oldscriptpath,arglist);
-      execv(oldscriptpath,arglist);
-      ohshite("unable to execute %s",buf);
+      execv(oldscriptpath+strlen(instdir),arglist);
+      ohshite(_("unable to execute %s"),buf);
     }
     script_catchsignals(); /* This does a push_cleanup() */
     while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
-    if (r != c1) ohshite("wait for %s failed",buf);
+    if (r != c1) ohshite(_("wait for %s failed"),buf);
     pop_cleanup(ehflag_normaltidy);
     if (WIFEXITED(status)) {
       n= WEXITSTATUS(status); if (!n) return 1;
-      fprintf(stderr, DPKG ": warning - %s returned error exit status %d\n",buf,n);
+      fprintf(stderr, _("dpkg: warning - %s returned error exit status %d\n"),buf,n);
     } else if (WIFSIGNALED(status)) {
       n= WTERMSIG(status);
-      fprintf(stderr, DPKG ": warning - %s killed by signal (%s)%s\n",
+      fprintf(stderr, _("dpkg: warning - %s killed by signal (%s)%s\n"),
               buf, strsignal(n), WCOREDUMP(status) ? ", core dumped" : "");
     } else {
-      ohshit("%s failed with unknown wait status code %d",buf,status);
+      ohshit(_("%s failed with unknown wait status code %d"),buf,status);
     }
     ensure_diversions();
   }
-  fprintf(stderr, DPKG " - trying script from the new package instead ...\n");
+  fprintf(stderr, _("dpkg - trying script from the new package instead ...\n"));
 
   arglist= buildarglist(scriptname,
                         iffallback,versiondescribe(&pkg->installed.version,
                                                    vdew_nonambig),
                         (char*)0);
   strcpy(cidirrest,scriptname);
-  sprintf(buf,"new %s script",description);
+  sprintf(buf,_("new %s script"),description);
 
   if (stat(cidir,&stab))
     if (errno == ENOENT)
-      ohshit("there is no script in the new version of the package - giving up");
+      ohshit(_("there is no script in the new version of the package - giving up"));
     else
-      ohshite("unable to stat %s `%.250s'",buf,cidir);
+      ohshite(_("unable to stat %s `%.250s'"),buf,cidir);
 
   setexecute(cidir,&stab);
 
   c1= m_fork();
   if (!c1) {
     preexecscript(cidir,arglist);
-    execv(cidir,arglist);
-    ohshite("unable to execute %s",buf);
+    execv(cidir+strlen(instdir),arglist);
+    ohshite(_("unable to execute %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
   waitsubproc(c1,buf,0);
   pop_cleanup(ehflag_normaltidy);
-  fprintf(stderr, DPKG ": ... it looks like that went OK.\n");
+  fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
 
   ensure_diversions();
   return 1;
@@ -465,11 +466,11 @@ void ensure_pathname_nonexisting(const char *pathname) {
     if (errno == ENOTDIR) return;
   }
   if (errno != ENOTEMPTY) /* Huh ? */
-    ohshite("failed to rmdir/unlink `%.255s'",pathname);
+    ohshite(_("failed to rmdir/unlink `%.255s'"),pathname);
   c1= m_fork();
   if (!c1) {
     execlp(RM,"rm","-rf","--",pathname,(char*)0);
-    ohshite("failed to exec " RM " for cleanup");
+    ohshite(_("failed to exec rm for cleanup"));
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
   waitsubproc(c1,"rm cleanup",0);

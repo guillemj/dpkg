@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -31,11 +32,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
-#include "tarfn.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <tarfn.h>
+#include <myopt.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -119,7 +120,7 @@ int tarfileread(void *ud, char *buf, int len) {
   int r;
   r= fread(buf,1,len,tc->backendpipe);
   if (r != len && ferror(tc->backendpipe))
-    ohshite("error reading from " BACKEND " pipe");
+    ohshite(_("error reading from dpkg-deb pipe"));
   return r;
 }
 
@@ -156,14 +157,14 @@ static void newtarobject_utime(const char *path, struct TarInfo *ti) {
   utb.actime= currenttime;
   utb.modtime= ti->ModTime;
   if (utime(path,&utb))
-    ohshite("error setting timestamps of `%.255s'",ti->Name);
+    ohshite(_("error setting timestamps of `%.255s'"),ti->Name);
 }
 
 static void newtarobject_allmodes(const char *path, struct TarInfo *ti) {
   if (chown(path,ti->UserID,ti->GroupID))
-    ohshite("error setting ownership of `%.255s'",ti->Name);
+    ohshite(_("error setting ownership of `%.255s'"),ti->Name);
   if (chmod(path,ti->Mode & ~S_IFMT))
-    ohshite("error setting permissions of `%.255s'",ti->Name);
+    ohshite(_("error setting permissions of `%.255s'"),ti->Name);
   newtarobject_utime(path,ti);
 }
 
@@ -244,8 +245,8 @@ int tarobject(struct TarInfo *ti) {
   if (nifd->namenode->divert && nifd->namenode->divert->camefrom) {
     divpkg= nifd->namenode->divert->pkg;
     forcibleerr(fc_overwritediverted,
-                "trying to overwrite `%.250s', which is the "
-                "diverted version of `%.250s'%.10s%.100s%.10s",
+                _("trying to overwrite `%.250s', which is the "
+                "diverted version of `%.250s'%.10s%.100s%.10s"),
                 nifd->namenode->name,
                 nifd->namenode->divert->camefrom->name,
                 divpkg ? " (package: " : "",
@@ -270,7 +271,7 @@ int tarobject(struct TarInfo *ti) {
   if (statr) {
     /* The lstat failed. */
     if (errno != ENOENT && errno != ENOTDIR)
-      ohshite("unable to stat `%.255s' (which I was about to install)",ti->Name);
+      ohshite(_("unable to stat `%.255s' (which I was about to install)"),ti->Name);
     /* OK, so it doesn't exist.
      * However, it's possible that we were in the middle of some other
      * backup/restore operation and were rudely interrupted.
@@ -278,14 +279,14 @@ int tarobject(struct TarInfo *ti) {
      */
     if (rename(fnametmpvb.buf,fnamevb.buf)) {
       if (errno != ENOENT && errno != ENOTDIR)
-        ohshite("unable to clean up mess surrounding `%.255s' before "
-                "installing another version",ti->Name);
+        ohshite(_("unable to clean up mess surrounding `%.255s' before "
+                "installing another version"),ti->Name);
       debug(dbg_eachfiledetail,"tarobject nonexistent");
     } else {
       debug(dbg_eachfiledetail,"tarobject restored tmp to main");
       statr= lstat(fnamevb.buf,&stab);
-      if (statr) ohshite("unable to stat restored `%.255s' before installing"
-                         " another version", ti->Name);
+      if (statr) ohshite(_("unable to stat restored `%.255s' before installing"
+                         " another version"), ti->Name);
     }
   } else {
     debug(dbg_eachfiledetail,"tarobject already exists");
@@ -316,7 +317,7 @@ int tarobject(struct TarInfo *ti) {
   case HardLink:
     break;
   default:
-    ohshit("archive contained object `%.255s' of unknown type 0x%x",ti->Name,ti->Type);
+    ohshit(_("archive contained object `%.255s' of unknown type 0x%x"),ti->Name,ti->Type);
   }
 
   if (!existingdirectory) {
@@ -351,12 +352,12 @@ int tarobject(struct TarInfo *ti) {
           otherpkg->clientdata->replacingfilesandsaid= 1;
         } else {
           if (S_ISDIR(stab.st_mode)) {
-            forcibleerr(fc_overwritedir, "trying to overwrite directory `%.250s' "
-                        "in package %.250s with nondirectory",
+            forcibleerr(fc_overwritedir, _("trying to overwrite directory `%.250s' "
+                        "in package %.250s with nondirectory"),
                         nifd->namenode->name,otherpkg->name);
           } else {
             forcibleerr(fc_overwrite,
-                        "trying to overwrite `%.250s', which is also in package %.250s",
+                        _("trying to overwrite `%.250s', which is also in package %.250s"),
                         nifd->namenode->name,otherpkg->name);
           }
         }
@@ -384,7 +385,7 @@ int tarobject(struct TarInfo *ti) {
              ti->Mode & (S_IRUSR|S_IRGRP|S_IROTH));
     if (fd < 0) ohshite("unable to create `%.255s'",ti->Name);
     thefile= fdopen(fd,"w");
-    if (!thefile) { close(fd); ohshite("unable to fdopen for `%.255s'",ti->Name); }
+    if (!thefile) { close(fd); ohshite(_("unable to fdopen for `%.255s'"),ti->Name); }
     push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)thefile);
     debug(dbg_eachfiledetail,"tarobject NormalFile[01] open size=%lu",
           (unsigned long)ti->Size);
@@ -393,33 +394,39 @@ int tarobject(struct TarInfo *ti) {
       r= fread(databuf,1,TARBLKSZ,tc->backendpipe);
       if (r<TARBLKSZ) {
         if (ferror(tc->backendpipe)) {
-          ohshite("error reading " BACKEND " during `%.255s'",ti->Name);
+          ohshite(_("error reading dpkg-deb during `%.255s'"),ti->Name);
         } else {
           errno= 0;
           return -1;
         }
       }
       if (fwrite(databuf,1,wsz,thefile) != wsz)
-        ohshite("error writing to `%.255s'",ti->Name);
+        ohshite(_("error writing to `%.255s'"),ti->Name);
     }
     if (fchown(fd,ti->UserID,ti->GroupID))
-      ohshite("error setting ownership of `%.255s'",ti->Name);
+      ohshite(_("error setting ownership of `%.255s'"),ti->Name);
+    /* We flush the stream here to avoid any future
+     * writes, which will mask any setuid or setgid
+     * attemps by fchmod below.
+     */
+    if (fflush(thefile) == EOF)
+      ohshite(_("error flushing `%.255s'"),ti->Name);
     if (fchmod(fd,ti->Mode & ~S_IFMT))
-      ohshite("error setting permissions of `%.255s'",ti->Name);
+      ohshite(_("error setting permissions of `%.255s'"),ti->Name);
     pop_cleanup(ehflag_normaltidy); /* thefile= fdopen(fd) */
     if (fclose(thefile))
-      ohshite("error closing/writing `%.255s'",ti->Name);
+      ohshite(_("error closing/writing `%.255s'"),ti->Name);
     newtarobject_utime(fnamenewvb.buf,ti);
     break;
   case FIFO:
     if (mkfifo(fnamenewvb.buf,ti->Mode & S_IFMT))
-      ohshite("error creating pipe `%.255s'",ti->Name);
+      ohshite(_("error creating pipe `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject FIFO");
     newtarobject_allmodes(fnamenewvb.buf,ti);
     break;
   case CharacterDevice: case BlockDevice:
     if (mknod(fnamenewvb.buf,ti->Mode & S_IFMT,ti->Device))
-      ohshite("error creating device `%.255s'",ti->Name);
+      ohshite(_("error creating device `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject CharacterDevice|BlockDevice");
     newtarobject_allmodes(fnamenewvb.buf,ti);
     break;
@@ -428,28 +435,32 @@ int tarobject(struct TarInfo *ti) {
     varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
     varbufaddstr(&hardlinkfn,ti->LinkName); varbufaddc(&hardlinkfn,0);
     if (link(hardlinkfn.buf,fnamenewvb.buf))
-      ohshite("error creating hard link `%.255s'",ti->Name);
+      ohshite(_("error creating hard link `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject HardLink");
     newtarobject_allmodes(fnamenewvb.buf,ti);
     break;
   case SymbolicLink:
     /* We've already cheched for an existing directory. */
     if (symlink(ti->LinkName,fnamenewvb.buf))
-      ohshite("error creating symbolic link `%.255s'",ti->Name);
+      ohshite(_("error creating symbolic link `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject SymbolicLink creating");
+#ifdef HAVE_LCHOWN
+    if (lchown(fnamenewvb.buf,ti->UserID,ti->GroupID))
+#else
     if (chown(fnamenewvb.buf,ti->UserID,ti->GroupID))
-      ohshite("error setting ownership of symlink `%.255s'",ti->Name);
+#endif
+      ohshite(_("error setting ownership of symlink `%.255s'"),ti->Name);
     break;
   case Directory:
     /* We've already checked for an existing directory. */
     if (mkdir(fnamenewvb.buf,
               ti->Mode & (S_IRUSR|S_IRGRP|S_IROTH | S_IXUSR|S_IXGRP|S_IXOTH)))
-      ohshite("error creating directory `%.255s'",ti->Name);
+      ohshite(_("error creating directory `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject Directory creating");
     newtarobject_allmodes(fnamenewvb.buf,ti);
     break;
   default:
-    internerr("bad tar type, but already checked");
+    internerr(_("bad tar type, but already checked"));
   }
   /*
    * Now we have extracted the new object in .dpkg-new (or, if the
@@ -479,7 +490,7 @@ int tarobject(struct TarInfo *ti) {
       debug(dbg_eachfiledetail,"tarobject directory, nonatomic");
       nifd->namenode->flags |= fnnf_no_atomic_overwrite;
       if (rename(fnamevb.buf,fnametmpvb.buf))
-        ohshite("unable to move aside `%.255s' to install new version",ti->Name);
+        ohshite(_("unable to move aside `%.255s' to install new version"),ti->Name);
     } else if (S_ISLNK(stab.st_mode)) {
       /* We can't make a symlink with two hardlinks, so we'll have to copy it.
        * (Pretend that making a copy of a symlink is the same as linking to it.)
@@ -492,19 +503,23 @@ int tarobject(struct TarInfo *ti) {
       } while (r == symlinkfn.size);
       symlinkfn.used= r; varbufaddc(&symlinkfn,0);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
-        ohshite("unable to make backup symlink for `%.255s'",ti->Name);
+        ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);
+#ifdef HAVE_LCHOWN
+      if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
+#else
       if (chown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
-        ohshite("unable to chown backup symlink for `%.255s'",ti->Name);
+#endif
+        ohshite(_("unable to chown backup symlink for `%.255s'"),ti->Name);
     } else {
       debug(dbg_eachfiledetail,"tarobject nondirectory, `link' backup");
       if (link(fnamevb.buf,fnametmpvb.buf))
-        ohshite("unable to make backup link of `%.255s' before installing new version",
+        ohshite(_("unable to make backup link of `%.255s' before installing new version"),
                 ti->Name);
     }
   }
 
   if (rename(fnamenewvb.buf,fnamevb.buf))
-    ohshite("unable to install new version of `%.255s'",ti->Name);
+    ohshite(_("unable to install new version of `%.255s'"),ti->Name);
 
   nifd->namenode->flags |= fnnf_elide_other_lists;
 
@@ -518,19 +533,19 @@ static int try_remove_can(struct deppossi *pdep,
   struct packageinlist *newdeconf;
   
   if (force_depends(pdep)) {
-    fprintf(stderr, DPKG ": warning - "
-            "ignoring dependency problem with removal of %s:\n%s",
+    fprintf(stderr, _("dpkg: warning - "
+            "ignoring dependency problem with removal of %s:\n%s"),
             fixbyrm->name, why);
     return 1;
   } else if (f_autodeconf) {
     if (pdep->up->up->installed.essential) {
       if (fc_removeessential) {
-        fprintf(stderr, DPKG ": warning - considering deconfiguration of essential\n"
-                " package %s, to enable removal of %s.\n",
+        fprintf(stderr, _("dpkg: warning - considering deconfiguration of essential\n"
+                " package %s, to enable removal of %s.\n"),
                 pdep->up->up->name,fixbyrm->name);
       } else {
-        fprintf(stderr, DPKG ": no, %s is essential, will not deconfigure\n"
-                " it in order to enable removal of %s.\n",
+        fprintf(stderr, _("dpkg: no, %s is essential, will not deconfigure\n"
+                " it in order to enable removal of %s.\n"),
                 pdep->up->up->name,fixbyrm->name);
         return 0;
       }
@@ -542,7 +557,7 @@ static int try_remove_can(struct deppossi *pdep,
     deconfigure= newdeconf;
     return 1;
   } else {
-    fprintf(stderr, DPKG ": no, cannot remove %s (--auto-deconfigure will help):\n%s",
+    fprintf(stderr, _("dpkg: no, cannot remove %s (--auto-deconfigure will help):\n%s"),
             fixbyrm->name, why);
     return 0;
   }
@@ -576,11 +591,11 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
           (!fixbyrm->installed.essential || fc_removeessential)))) {
       assert(fixbyrm->clientdata->istobe == itb_normal);
       fixbyrm->clientdata->istobe= itb_remove;
-      fprintf(stderr, DPKG ": considering removing %s in favour of %s ...\n",
+      fprintf(stderr, _("dpkg: considering removing %s in favour of %s ...\n"),
               fixbyrm->name, pkg->name);
       if (fixbyrm->status != stat_installed) {
         fprintf(stderr,
-                "%s is not properly installed - ignoring any dependencies on it.\n",
+                _("%s is not properly installed - ignoring any dependencies on it.\n"),
                 fixbyrm->name);
         pdep= 0;
       } else {
@@ -607,8 +622,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                 continue;
               if (depisok(pdep->up, &removalwhy, 0,0)) continue;
               varbufaddc(&removalwhy,0);
-              fprintf(stderr, DPKG
-                      ": may have trouble removing %s, as it provides %s ...\n",
+              fprintf(stderr, _("dpkg"
+                      ": may have trouble removing %s, as it provides %s ...\n"),
                       fixbyrm->name, providecheck->list->ed->name);
               if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
                 goto break_from_both_loops_at_once;
@@ -622,11 +637,11 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       }
       if (!pdep && (fixbyrm->eflag & eflagf_reinstreq)) {
         if (fc_removereinstreq) {
-          fprintf(stderr, DPKG ": package %s requires reinstallation, but will"
-                  " remove anyway as you request.\n", fixbyrm->name);
+          fprintf(stderr, _("dpkg: package %s requires reinstallation, but will"
+                  " remove anyway as you request.\n"), fixbyrm->name);
         } else {
-          fprintf(stderr, DPKG ": package %s requires reinstallation, "
-                  "will not remove.\n", fixbyrm->name);
+          fprintf(stderr, _("dpkg: package %s requires reinstallation, "
+                  "will not remove.\n"), fixbyrm->name);
           pdep= &flagdeppossi;
         }
       }
@@ -634,7 +649,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         /* This conflict is OK - we'll remove the conflictor. */
         *conflictorp= fixbyrm;
         varbuffree(&conflictwhy); varbuffree(&removalwhy);
-        fprintf(stderr, DPKG ": yes, will remove %s in favour of %s.\n",
+        fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
                 fixbyrm->name, pkg->name);
         return;
       }
@@ -642,11 +657,11 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
     }
   }
   varbufaddc(&conflictwhy,0);
-  fprintf(stderr, DPKG ": regarding %s containing %s:\n%s",
+  fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
           pfilename, pkg->name, conflictwhy.buf);
   if (!force_conflicts(dep->list))
-    ohshit("conflicting packages - not installing %.250s",pkg->name);
-  fprintf(stderr, DPKG ": warning - ignoring conflict, may proceed anyway !\n");
+    ohshit(_("conflicting packages - not installing %.250s"),pkg->name);
+  fprintf(stderr, _("dpkg: warning - ignoring conflict, may proceed anyway !\n"));
   varbuffree(&conflictwhy);
   
   return;
@@ -683,7 +698,7 @@ void archivefiles(const char *const *argv) {
   if (f_recursive) {
     
     if (!*argv)
-      badusage("--%s --recursive needs at least one path argument",cipaction->olong);
+      badusage(_("--%s --recursive needs at least one path argument"),cipaction->olong);
     
     m_pipe(pi);
     if (!(fc= m_fork())) {
@@ -712,23 +727,23 @@ void archivefiles(const char *const *argv) {
       arglist[i++]= "-print0";
       arglist[i++]= 0;
       execvp(FIND, (char* const*)arglist);
-      ohshite("failed to exec " FIND " for --recursive");
+      ohshite(_("failed to exec find for --recursive"));
     }
 
     nfiles= 0;
-    pf= fdopen(pi[0],"r");  if (!pf) ohshite("failed to fdopen find's pipe");
+    pf= fdopen(pi[0],"r");  if (!pf) ohshite(_("failed to fdopen find's pipe"));
     close(pi[1]);
     varbufreset(&findoutput);
     while ((c= fgetc(pf)) != EOF) {
       varbufaddc(&findoutput,c);
       if (!c) nfiles++;
     }
-    if (ferror(pf)) ohshite("error reading find's pipe");
-    if (fclose(pf)) ohshite("error closing find's pipe");
+    if (ferror(pf)) ohshite(_("error reading find's pipe"));
+    if (fclose(pf)) ohshite(_("error closing find's pipe"));
     waitsubproc(fc,"find",0);
 
-    if (!nfiles) ohshit("searched, but found no packages (files matching "
-                        ARCHIVE_FILENAME_PATTERN ")");
+    if (!nfiles) ohshit(_("searched, but found no packages (files matching "
+                        "*.deb"));
 
     varbufaddc(&findoutput,0);
     varbufaddc(&findoutput,0);
@@ -744,7 +759,7 @@ void archivefiles(const char *const *argv) {
 
   } else {
 
-    if (!*argv) badusage("--%s needs at least one package archive file argument",
+    if (!*argv) badusage(_("--%s needs at least one package archive file argument"),
                          cipaction->olong);
     argp= argv;
     
@@ -791,7 +806,7 @@ void archivefiles(const char *const *argv) {
   case act_avail:
     break;
   default:
-    internerr("unknown action");
+    internerr(_("unknown action"));
   }
 
   modstatdb_shutdown();

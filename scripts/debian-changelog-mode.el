@@ -3,6 +3,7 @@
 ;; Keywords: maint
 
 ;; Copyright (C) 1996 Ian Jackson
+;; Copyright (C) 1997 Klee Dienes
 ;; This file is part of dpkg.
 ;;
 ;; It is free software; you can redistribute it and/or modify
@@ -22,13 +23,24 @@
 
 (require 'add-log)
 
-(defvar debian-changelog-urgencies
-  '((?l."low") (?m."medium") (?h."HIGH"))
-  "alist of keystrokes vs. urgency values for debian-changelog-urgency \\[debian-changelog-urgency].")
+(defun debian-changelog-setheadervalue (re str)
+  (let (a b v k
+	  (lineend (save-excursion (end-of-line) (point))))
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward re lineend)
+      (setq a (match-beginning 1)
+            b (match-end 1))
+      (goto-char a)
+      (delete-region a b)
+      (insert str))))
 
-(defvar debian-changelog-distributions
-  '((?s."stable") (?u."unstable") (?c."contrib") (?n."non-free") (?e."experimental"))
-  "alist of keystrokes vs. distribution values for debian-changelog-distribution \\[debian-changelog-distribution].")
+(defun debian-changelog-getheadervalue (re)
+  (let ((lineend (save-excursion (end-of-line) (point))))
+    (save-excursion
+      (goto-char (point-min))
+      (re-search-forward re lineend)
+      (buffer-substring-no-properties (match-beginning 1) (match-end 1)))))
 
 (defvar debian-changelog-mode-map nil
   "Keymap for Debian changelog major mode.")
@@ -59,45 +71,44 @@
   (insert "  * ")
   (save-excursion (insert "\n")))
 
-(defun debian-changelog-headervalue (arg re alist)
-  (let (a b v k
-        (lineend (save-excursion (end-of-line) (point))))
-    (save-excursion
-      (goto-char (point-min))
-      (re-search-forward re lineend)
-      (setq a (match-beginning 1)
-            b (match-end 1))
-      (goto-char a)
-      (if arg nil
-        (message (mapconcat
-                  (function (lambda (x) (format "%c:%s" (car x) (cdr x))))
-                  alist " "))
-        (while (not v)
-          (setq k (read-char))
-          (setq v (assoc k alist))))
-      (delete-region a b)
-      (if arg nil (insert (cdr v))))
-    (if arg (goto-char a))))
+(defun debian-changelog-distribution (arg)
+  "Delete the current distribution and prompt for a new one."
+  (interactive "P")
+  (let* ((curstr
+	  (debian-changelog-getheadervalue ") \\(.*\\)\\;"))
+	 (str (completing-read 
+	       "Select distribution: "
+	       '(("stable" 1)
+		 ("frozen" 2)
+		 ("unstable" 3) 
+		 ("stable frozen unstable" 4)
+		 ("stable unstable frozen" 4)
+		 ("unstable stable frozen" 4)
+		 ("unstable frozen stable" 4)
+		 ("frozen unstable stable" 4)
+		 ("frozen stable unstable" 4)
+		 ("frozen unstable" 5)
+		 ("unstable frozen" 5)
+		 ("stable frozen" 6)
+		 ("frozen stable" 6)
+		 ("stable unstable" 7)
+		 ("unstable stable" 7))
+	       nil t nil)))
+    (if (not (equal str ""))
+	(debian-changelog-setheadervalue ") \\(.*\\)\\;" str))))
 
 (defun debian-changelog-urgency (arg)
-  "Without argument, prompt for a key for a new urgency value (using
-debian-changelog-urgencies).  With argument, delete the current urgency
-and position the cursor to type a new one."
+  "Delete the current urgency and prompt for a new one."
   (interactive "P")
-  (debian-changelog-headervalue
-   arg
-   "\\;[^\n]* urgency=\\(\\sw+\\)"
-   debian-changelog-urgencies))
-
-(defun debian-changelog-distribution (arg)
-  "Without argument, prompt for a key for a new distribution value (using
-debian-changelog-distributions).  With argument, delete the current distribution
-and position the cursor to type a new one."
-  (interactive "P")
-  (debian-changelog-headervalue
-   arg
-   ") \\(.*\\)\\;"
-   debian-changelog-distributions))
+  (let* ((urgency-regex "\\;[^\n]* urgency=\\(\\sw+\\)")
+	 (curstr
+	  (debian-changelog-getheadervalue urgency-regex))
+	 (str (completing-read 
+	       "Select urgency: "
+	       '(("low" 1) ("medium" 2) ("high" 3))
+	       nil t nil)))
+    (if (not (equal str ""))
+	(debian-changelog-setheadervalue urgency-regex str))))
 
 (defun debian-changelog-finalised-p ()
   "Check whether the most recent debian-style changelog entry is
@@ -135,14 +146,16 @@ release date."
                      (match-string 3))
            (let ((pkg (read-string "Package name: "))
                  (ver (read-string "New version (including any revision): ")))
-             (concat pkg " (" ver ") unstable; urgency="
-                     (cdr (car debian-changelog-urgencies)))))))
+             (concat pkg " (" ver ") unstable; urgency=low")))))
     (insert headstring "\n\n  * ")
     (save-excursion
-      (if (re-search-backward "\;[^\n]* urgency=\\(\\sw+\\)" (point-min) t)
-          (progn (goto-char (match-beginning 1))
-                 (delete-region (point) (match-end 1))
-                 (insert (cdr (car debian-changelog-urgencies))))))
+      (if (re-search-backward ") \\([^\n]*\\);[^\n]* urgency=\\(\\sw+\\)" (point-min) t)
+          (progn (goto-char (match-beginning 2))
+                 (delete-region (point) (match-end 2))
+                 (insert "low")
+		 (goto-char (match-beginning 1))
+		 (delete-region (point) (match-end 1))
+                 (insert "unstable"))))
     (save-excursion (insert "\n\n --\n\n"))))
 
 (defun debian-changelog-finalise-and-save ()
@@ -152,6 +165,25 @@ release date."
     (and (stringp f) (error f))
     (or f (debian-changelog-finalise-last-version)))
   (save-buffer))
+
+(defun debian-changelog-date-string ()
+  "Return RFC-822 format date string"
+  (let* ((dp "822-date")
+	 (cp (point))
+	 (ret (call-process "822-date" nil t))
+	 (np (point))
+	 (out nil))
+    (cond ((not (or (eq ret nil) (eq ret 0)))
+	   (setq out (buffer-substring-no-properties cp np))
+	   (delete-region cp np)
+	   (error (concat "error from " dp ": " out)))
+	  (t
+	   (backward-char)
+	   (or (looking-at "\n")
+	       (error (concat "error from " dp ": expected newline after date string")))
+	   (setq out (buffer-substring-no-properties cp (- np 1)))
+	   (delete-region cp np)
+	   out))))
 
 (defun debian-changelog-finalise-last-version ()
   "Remove the `finalisation' information (maintainer's name and email
@@ -164,14 +196,8 @@ address and release date) so that new entries can be made."
     (goto-char (point-min))
     (re-search-forward "\n --\\([ \t]*\\)")
     (delete-region (match-beginning 1) (match-end 1))
-    (insert " " add-log-full-name " <" add-log-mailing-address ">  ")
-    (let* ((dp "822-date")
-           (r (call-process dp nil t)))
-      (or (= r 0) (error (concat dp " returned error status " (prin1-to-string r)))))
-    (backward-char)
-    (or (looking-at "\n")
-        (error (concat "expected newline after date from " dp)))
-    (delete-char 1)))
+    (insert " " add-log-full-name " <" add-log-mailing-address ">  " 
+	    (debian-changelog-date-string))))
 
 (defun debian-changelog-unfinalise-last-version ()
   "Remove the `finalisation' information (maintainer's name and email

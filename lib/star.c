@@ -1,4 +1,7 @@
-#include "tarfn.h"
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+#include <tarfn.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -76,7 +79,11 @@ static int
 SetModes(TarInfo * i)
 {
 	struct utimbuf t;
+#ifdef HAVE_LCHOWN
+	lchown(i->Name, i->UserID, i->GroupID);
+#else
 	chown(i->Name, i->UserID, i->GroupID);
+#endif
 	chmod(i->Name, i->Mode & ~S_IFMT);
 	t.actime = time(0);
 	t.modtime = i->ModTime;

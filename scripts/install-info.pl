@@ -17,8 +17,9 @@ sub usage {
     print STDERR <<END;
 usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
              [--section regexp title] [--infodir=xxx] [--align=nnn]
-             [--calign=nnn] [--quiet] [--menuentry=xxx] [--keep-old]
-             [--description=xxx] [--test] [--remove] [--] filename
+             [--calign=nnn] [--quiet] [--menuentry=xxx] [--info-dir=xxx]
+             [--keep-old] [--description=xxx] [--test] [--remove] [--]
+             filename
 END
 }
 
@@ -38,7 +39,7 @@ $0 =~ m|[^/]+$|; $name= $&;
 
 while ($ARGV[0] =~ m/^--/) {
     $_= shift(@ARGV);
-    last if $eq eq '--';
+    last if $_ eq '--';
     if ($_ eq '--version') {
         &version; exit 0;
     } elsif ($_ eq '--quiet') {
@@ -70,6 +71,8 @@ while ($ARGV[0] =~ m/^--/) {
         $infodir=$';
     } elsif (m/^--menuentry=/) {
         $menuentry=$';
+    } elsif (m/^--info-dir=/) {
+        $infodir=$';
     } elsif (m/^--description=/) {
         $description=$';
     } else {

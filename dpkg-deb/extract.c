@@ -34,10 +34,10 @@
 #include <assert.h>
 #include <ar.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-deb.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-deb.h>
+#include <myopt.h>
 
 static void movecontrolfiles(const char *thing) {
   char buf[200];
@@ -45,16 +45,16 @@ static void movecontrolfiles(const char *thing) {
   
   sprintf(buf, "mv %s/* . && rmdir %s", thing, thing);
   if (!(c1= m_fork())) {
-    execlp("sh","sh","-c",buf,(char*)0); ohshite("failed to exec sh -c mv foo/* &c");
+    execlp("sh","sh","-c",buf,(char*)0); ohshite(_("failed to exec sh -c mv foo/* &c"));
   }
   waitsubproc(c1,"sh -c mv foo/* &c",0);
 }
 
 static void readfail(FILE *a, const char *filename, const char *what) {
   if (ferror(a)) {
-    ohshite("error reading %s from %.255s",what,filename);
+    ohshite(_("error reading %s from %.255s"),what,filename);
   } else {
-    ohshit("unexpected end of file in %s in %.255s",what,filename);
+    ohshit(_("unexpected end of file in %s in %.255s"),what,filename);
   }
 }
 
@@ -65,14 +65,14 @@ static unsigned long parseheaderlength(const char *inh, size_t len,
   char *endp;
 
   if (memchr(inh,0,len))
-    ohshit("file `%.250s' is corrupt - %.250s length contains nulls",fn,what);
+    ohshit(_("file `%.250s' is corrupt - %.250s length contains nulls"),fn,what);
   assert(sizeof(lintbuf) > len);
   memcpy(lintbuf,inh,len);
   lintbuf[len]= ' ';
   *strchr(lintbuf,' ')= 0;
   r= strtoul(lintbuf,&endp,10);
   if (*endp)
-    ohshit("file `%.250s' is corrupt - bad digit (code %d) in %s",fn,*endp,what);
+    ohshit(_("file `%.250s' is corrupt - bad digit (code %d) in %s"),fn,*endp,what);
   return r;
 }
 
@@ -102,9 +102,12 @@ void extracthalf(const char *debar, const char *directory,
   char *cur;
   struct ar_hdr arh;
   int readfromfd, oldformat, header_done, adminmember, c;
+#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
+  fpos_t fpos;
+#endif
   
-  ar= fopen(debar,"r"); if (!ar) ohshite("failed to read archive `%.255s'",debar);
-  if (fstat(fileno(ar),&stab)) ohshite("failed to fstat archive");
+  ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
+  if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
   if (!fgets(versionbuf,sizeof(versionbuf),ar)) readfail(ar,debar,"version number");
 
   if (!strcmp(versionbuf,"!<arch>\n")) {
@@ -116,26 +119,26 @@ void extracthalf(const char *debar, const char *directory,
       if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
         readfail(ar,debar,"between members");
       if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
-        ohshit("file `%.250s' is corrupt - bad magic at end of first header",debar);
+        ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),debar);
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
                                    debar,"member length");
       if (memberlen<0)
-        ohshit("file `%.250s' is corrupt - negative member length %ld",debar,memberlen);
+        ohshit(_("file `%.250s' is corrupt - negative member length %ld"),debar,memberlen);
       if (!header_done) {
         if (memcmp(arh.ar_name,"debian-binary   ",sizeof(arh.ar_name)))
-          ohshit("file `%.250s' is not a debian binary archive (try dpkg-split?)",debar);
+          ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
         if (fread(infobuf,1, memberlen + (memberlen&1), ar) != memberlen + (memberlen&1))
           readfail(ar,debar,"header info member");
         infobuf[memberlen]= 0;
         cur= strchr(infobuf,'\n');
-        if (!cur) ohshit("archive has no newlines in header");
+        if (!cur) ohshit(_("archive has no newlines in header"));
         *cur= 0;
         cur= strchr(infobuf,'.');
-        if (!cur) ohshit("archive has no dot in version number");
+        if (!cur) ohshit(_("archive has no dot in version number"));
         *cur= 0;
         if (strcmp(infobuf,"2"))
-          ohshit("archive version %.250s not understood, get newer " BACKEND, infobuf);
+          ohshit(_("archive version %.250s not understood, get newer dpkg-deb"), infobuf);
         *cur= '.';
         strncpy(versionbuf,infobuf,sizeof(versionbuf));
         versionbuf[sizeof(versionbuf)-1]= 0;
@@ -151,12 +154,12 @@ void extracthalf(const char *debar, const char *directory,
           !memcmp(arh.ar_name,DATAMEMBER,sizeof(arh.ar_name)) ? 0 :
           -1;
         if (adminmember == -1) {
-          ohshit("file `%.250s' contains ununderstood data member %.*s, giving up",
+          ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
                  debar, (int)sizeof(arh.ar_name), arh.ar_name);
         }
         if (adminmember == 1) {
           if (ctrllennum != 0)
-            ohshit("file `%.250s' contains two control members, giving up", debar);
+            ohshit(_("file `%.250s' contains two control members, giving up"), debar);
           ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
@@ -168,8 +171,8 @@ void extracthalf(const char *debar, const char *directory,
     }
 
     if (admininfo >= 2)
-      if (printf(" new debian package, version %s.\n"
-                 " size %ld bytes: control archive= %ld bytes.\n",
+      if (printf(_(" new debian package, version %s.\n"
+                 " size %ld bytes: control archive= %ld bytes.\n"),
                  versionbuf, (long)stab.st_size, ctrllennum) == EOF ||
           fflush(stdout)) werr("stdout");
     
@@ -182,11 +185,11 @@ void extracthalf(const char *debar, const char *directory,
     if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
       readfail(ar,debar,"ctrl information length");
     if (sscanf(ctrllenbuf,"%ld%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
-      ohshit("archive has malformatted ctrl len `%s'",ctrllenbuf);
+      ohshit(_("archive has malformatted ctrl len `%s'"),ctrllenbuf);
 
     if (admininfo >= 2)
-      if (printf(" old debian package, version %s.\n"
-                 " size %ld bytes: control archive= %ld, main archive= %ld.\n",
+      if (printf(_(" old debian package, version %s.\n"
+                 " size %ld bytes: control archive= %ld, main archive= %ld.\n"),
                  versionbuf, (long)stab.st_size, ctrllennum,
                  (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l)) == EOF ||
           fflush(stdout)) werr("stdout");
@@ -199,33 +202,39 @@ void extracthalf(const char *debar, const char *directory,
   } else {
     
     if (!strncmp(versionbuf,"!<arch>",7)) {
-      if (fprintf(stderr, BACKEND
-                  ": file looks like it might be an archive which has been\n"
-                  BACKEND ":    corrupted by being downloaded in ASCII mode\n")
+      if (fprintf(stderr,
+                  _("dpkg-deb: file looks like it might be an archive which has been\n"
+                  "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"))
           == EOF) werr("stderr");
     }
 
-    ohshit("`%.255s' is not a debian format archive",debar);
+    ohshit(_("`%.255s' is not a debian format archive"),debar);
 
   }
 
+#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
+  if(fgetpos(ar, &fpos)) ohshit(_("fgetpos failed"));
+#endif
   fflush(ar);
+#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
+  if(fsetpos(ar, &fpos)) ohshit(_("fsetpos failed"));
+#endif
   if (oldformat) {
     if (admininfo) {
       m_pipe(p1);
       if (!(c1= m_fork())) {
         close(p1[0]);
-        if (!(pi= fdopen(p1[1],"w"))) ohshite("failed to fdopen p1 in paste");
+        if (!(pi= fdopen(p1[1],"w"))) ohshite(_("failed to fdopen p1 in paste"));
         errno=0; if (fwrite(ctrlarea,1,ctrllennum,pi) != ctrllennum)
-          ohshit("failed to write to gzip -dc");
-        if (fclose(pi)) ohshit("failed to close gzip -dc");
+          ohshit(_("failed to write to gzip -dc"));
+        if (fclose(pi)) ohshit(_("failed to close gzip -dc"));
         exit(0);
       }
       close(p1[1]);
       readfromfd= p1[0];
     } else {
       if (lseek(fileno(ar),l+strlen(ctrllenbuf)+ctrllennum,SEEK_SET) == -1)
-        ohshite("failed to syscall lseek to files archive portion");
+        ohshite(_("failed to syscall lseek to files archive portion"));
       c1= -1;
       readfromfd= fileno(ar);
     }
@@ -233,13 +242,13 @@ void extracthalf(const char *debar, const char *directory,
     m_pipe(p1);
     if (!(c1= m_fork())) {
       close(p1[0]);
-      if (!(pi= fdopen(p1[1],"w"))) ohshite("failed to fdopen p1 in copy");
+      if (!(pi= fdopen(p1[1],"w"))) ohshite(_("failed to fdopen p1 in copy"));
       while (memberlen > 0) {
         if ((c= getc(ar)) == EOF) readfail(ar,debar,"member data");
-        if (putc(c,pi) == EOF) ohshite("failed to write to pipe in copy");
+        if (putc(c,pi) == EOF) ohshite(_("failed to write to pipe in copy"));
         memberlen--;
       }
-      if (fclose(pi) == EOF) ohshite("failed to close pipe in copy");
+      if (fclose(pi) == EOF) ohshite(_("failed to close pipe in copy"));
       exit(0);
     }
     close(p1[1]);
@@ -252,7 +261,7 @@ void extracthalf(const char *debar, const char *directory,
     m_dup2(readfromfd,0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
-    execlp(GZIP,"gzip","-dc",(char*)0); ohshite("failed to exec gzip -dc");
+    execlp(GZIP,"gzip","-dc",(char*)0); ohshite(_("failed to exec gzip -dc"));
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
   close(p2[1]);
@@ -260,10 +269,10 @@ void extracthalf(const char *debar, const char *directory,
   if (taroption && directory) {
     if (chdir(directory)) {
       if (errno == ENOENT) {
-        if (mkdir(directory,0777)) ohshite("failed to create directory");
-        if (chdir(directory)) ohshite("failed to chdir to directory after creating it");
+        if (mkdir(directory,0777)) ohshite(_("failed to create directory"));
+        if (chdir(directory)) ohshite(_("failed to chdir to directory after creating it"));
       } else {
-        ohshite("failed to chdir to directory");
+        ohshite(_("failed to chdir to directory"));
       }
     }
   }
@@ -276,7 +285,7 @@ void extracthalf(const char *debar, const char *directory,
       strcat(buffer, "f");
       m_dup2(p2[0],0);
       execlp(TAR,"tar",buffer,"-",(char*)0);
-      ohshite("failed to exec tar");
+      ohshite(_("failed to exec tar"));
     }
     close(p2[0]);
     waitsubproc(c3,"tar",0);
@@ -299,13 +308,13 @@ static void controlextractvextract(int admin,
   const char *debar, *directory;
   
   if (!(debar= *argv++))
-    badusage("--%s needs a .deb filename argument",cipaction->olong);
+    badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   if (!(directory= *argv++)) {
     if (admin) directory= EXTRACTCONTROLDIR;
-    else ohshit("--%s needs a target directory.\n"
-                "Perhaps you should be using " DPKG " --install ?",cipaction->olong);
+    else ohshit(_("--%s needs a target directory.\n"
+                "Perhaps you should be using dpkg --install ?"),cipaction->olong);
   } else if (*argv) {
-    badusage("--%s takes at most two arguments (.deb and directory",cipaction->olong);
+    badusage(_("--%s takes at most two arguments (.deb and directory"),cipaction->olong);
   }
   extracthalf(debar, directory, taroptions, admin);
 }
@@ -314,12 +323,15 @@ void do_fsystarfile(const char *const *argv) {
   const char *debar;
   
   if (!(debar= *argv++))
-    badusage("--%s needs a .deb filename argument",cipaction->olong);
+    badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   if (*argv)
-    badusage("--%s takes only one argument (.deb filename)",cipaction->olong);
+    badusage(_("--%s takes only one argument (.deb filename)"),cipaction->olong);
   extracthalf(debar,0,0,0);
 }
    
 void do_control(const char *const *argv) { controlextractvextract(1, "x", argv); }
 void do_extract(const char *const *argv) { controlextractvextract(0, "xp", argv); }
 void do_vextract(const char *const *argv) { controlextractvextract(0, "xpv", argv); }
+
+
+

@@ -142,13 +142,13 @@ if [ ! -f status ]
 then
 	echo 'Adding "status" file to dpkg system database ...'
 
-	rm -f /tmp/dpp.$$ || true
+	rm -f dpp.$$ || true
 
-	ls -1 deb/*.control >/tmp/dpp.$$
+	ls -1 deb/*.control >dpp.$$
 	sed -e 's:^deb/::; s:\.control$: Install OK Installed:;' \
-		</tmp/dpp.$$ >status.new
+		<dpp.$$ >status.new
 
-	rm /tmp/dpp.$$
+	rm dpp.$$
 	mv status.new status
 fi
 

@@ -25,9 +25,9 @@
 #include <errno.h>
 #include <sys/stat.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -113,13 +113,13 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
 
   if (!file) {
     if (errno != ENOENT)
-      ohshite("unable to open files list file for package `%.250s'",pkg->name);
+      ohshite(_("unable to open files list file for package `%.250s'"),pkg->name);
     onerr_abort--;
     if (pkg->status != stat_configfiles) {
       if (saidread == 1) putc('\n',stderr);
       fprintf(stderr,
-              DPKG ": serious warning: files list file for package `%.250s' missing,"
-              " assuming package has no files currently installed.\n", pkg->name);
+              _("dpkg: serious warning: files list file for package `%.250s' missing,"
+              " assuming package has no files currently installed.\n"), pkg->name);
     }
     pkg->clientdata->files= 0;
     pkg->clientdata->fileslistvalid= 1;
@@ -129,7 +129,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
   push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)file);
   
   if (setvbuf(file,stdiobuf,_IOFBF,sizeof(stdiobuf)))
-    ohshite("unable to set buffering on `%.250s'",filelistfile);
+    ohshite(_("unable to set buffering on `%.250s'"),filelistfile);
   
   lendp= &pkg->clientdata->files;
   varbufreset(&fnvb);
@@ -139,7 +139,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
      * avoid copying where possible.
      */
     l= strlen(linebuf);
-    if (l == 0) ohshit("fgets gave an empty null-terminated string from `%.250s'",
+    if (l == 0) ohshit(_("fgets gave an empty null-terminated string from `%.250s'"),
                        filelistfile);
     l--;
     if (linebuf[l] != '\n') {
@@ -157,7 +157,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
       thefilename= fnvb.buf;
     }
     if (!*thefilename)
-      ohshit("files list file for package `%.250s' contains empty filename",pkg->name);
+      ohshit(_("files list file for package `%.250s' contains empty filename"),pkg->name);
     newent= nfmalloc(sizeof(struct fileinlist));
     newent->namenode= findnamenode(thefilename);
     newent->next= 0;
@@ -165,12 +165,12 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
     lendp= &newent->next;
   }
   if (ferror(file))
-    ohshite("error reading files list file for package `%.250s'",pkg->name);
+    ohshite(_("error reading files list file for package `%.250s'"),pkg->name);
   pop_cleanup(ehflag_normaltidy); /* file= fopen() */
   if (fclose(file))
-    ohshite("error closing files list file for package `%.250s'",pkg->name);
+    ohshite(_("error closing files list file for package `%.250s'"),pkg->name);
   if (fnvb.used)
-    ohshit("files list file for package `%.250s' is truncated",pkg->name);
+    ohshit(_("files list file for package `%.250s' is truncated"),pkg->name);
 
   onerr_abort--;
 
@@ -201,7 +201,7 @@ void ensure_allinstfiles_available(void) {
   if (allpackagesdone) return;
   if (saidread<2) {
     saidread=1;
-    printf(f_largemem>0 ? "(Reading database ... " : "(Scanning database ... ");
+    printf(f_largemem>0 ? _("(Reading database ... ") : _("(Scanning database ... "));
   }
   it= iterpkgstart();
   while ((pkg= iterpkgnext(it)) != 0) ensure_packagefiles_available(pkg);
@@ -209,7 +209,7 @@ void ensure_allinstfiles_available(void) {
   allpackagesdone= 1;
 
   if (saidread==1) {
-    printf("%d files and directories currently installed.)\n",nfiles);
+    printf(_("%d files and directories currently installed.)\n"),nfiles);
     saidread=2;
   }
 }
@@ -240,7 +240,7 @@ void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list, int lea
   
   file= fopen(newvb.buf,"w+");
   if (!file)
-    ohshite("unable to create updated files list file for package %s",pkg->name);
+    ohshite(_("unable to create updated files list file for package %s"),pkg->name);
   push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)file);
   while (list) {
     if (!(leaveout && (list->namenode->flags & fnnf_elide_other_lists))) {
@@ -250,16 +250,16 @@ void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list, int lea
     list= list->next;
   }
   if (ferror(file))
-    ohshite("failed to write to updated files list file for package %s",pkg->name);
+    ohshite(_("failed to write to updated files list file for package %s"),pkg->name);
   if (fflush(file))
-    ohshite("failed to flush updated files list file for package %s",pkg->name);
+    ohshite(_("failed to flush updated files list file for package %s"),pkg->name);
   if (fsync(fileno(file)))
-    ohshite("failed to sync updated files list file for package %s",pkg->name);
+    ohshite(_("failed to sync updated files list file for package %s"),pkg->name);
   pop_cleanup(ehflag_normaltidy); /* file= fopen() */
   if (fclose(file))
-    ohshite("failed to close updated files list file for package %s",pkg->name);
+    ohshite(_("failed to close updated files list file for package %s"),pkg->name);
   if (rename(newvb.buf,vb.buf))
-    ohshite("failed to install updated files list file for package %s",pkg->name);
+    ohshite(_("failed to install updated files list file for package %s"),pkg->name);
 
   note_must_reread_files_inpackage(pkg);
 }
@@ -323,13 +323,13 @@ void ensure_diversions(void) {
   
   file= fopen(vb.buf,"r");
   if (!file) {
-    if (errno != ENOENT) ohshite("failed to open diversions file");
+    if (errno != ENOENT) ohshite(_("failed to open diversions file"));
     if (!diversionsfile) { onerr_abort--; return; }
   } else if (diversionsfile) {
     if (fstat(fileno(diversionsfile),&stab1))
-      ohshite("failed to fstat previous diversions file");
+      ohshite(_("failed to fstat previous diversions file"));
     if (fstat(fileno(file),&stab2))
-      ohshite("failed to fstat diversions file");
+      ohshite(_("failed to fstat diversions file"));
     if (stab1.st_dev == stab2.st_dev && stab1.st_ino == stab2.st_ino) {
       fclose(file); onerr_abort--; return;
     }
@@ -349,33 +349,33 @@ void ensure_diversions(void) {
     oialtname= nfmalloc(sizeof(struct diversion));
 
     l= strlen(linebuf);
-    if (l == 0) ohshit("fgets gave an empty string from diversions [i]");
-    if (linebuf[--l] != '\n') ohshit("diversions file has too-long line or EOF [i]");
+    if (l == 0) ohshit(_("fgets gave an empty string from diversions [i]"));
+    if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [i]"));
     linebuf[l]= 0;
     oialtname->camefrom= findnamenode(linebuf);
     
     if (!fgets(linebuf,sizeof(linebuf),file))
-      if (ferror(file)) ohshite("read error in diversions [ii]");
-      else ohshit("unexpected EOF in diversions [ii]");
+      if (ferror(file)) ohshite(_("read error in diversions [ii]"));
+      else ohshit(_("unexpected EOF in diversions [ii]"));
     l= strlen(linebuf);
-    if (l == 0) ohshit("fgets gave an empty string from diversions [ii]");
-    if (linebuf[--l] != '\n') ohshit("diversions file has too-long line or EOF [ii]");
+    if (l == 0) ohshit(_("fgets gave an empty string from diversions [ii]"));
+    if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
     linebuf[l]= 0;
     oicontest->useinstead= findnamenode(linebuf);
     
     if (!fgets(linebuf,sizeof(linebuf),file))
-      if (ferror(file)) ohshite("read error in diversions [iii]");
-      else ohshit("unexpected EOF in diversions [iii]");
+      if (ferror(file)) ohshite(_("read error in diversions [iii]"));
+      else ohshit(_("unexpected EOF in diversions [iii]"));
     l= strlen(linebuf);
-    if (l == 0) ohshit("fgets gave an empty string from diversions [iii]");
-    if (linebuf[--l] != '\n') ohshit("diversions file has too-long line or EOF [ii]");
+    if (l == 0) ohshit(_("fgets gave an empty string from diversions [iii]"));
+    if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
     linebuf[l]= 0;
 
     oicontest->pkg= oialtname->pkg=
       strcmp(linebuf,":") ? findpackage(linebuf) : 0;
 
     if (oialtname->camefrom->divert || oicontest->useinstead->divert)
-      ohshit("conflicting diversions involving `%.250s' or `%.250s'",
+      ohshit(_("conflicting diversions involving `%.250s' or `%.250s'"),
              oialtname->camefrom->name, oicontest->useinstead->name);
 
     oialtname->camefrom->divert= oicontest;
@@ -384,7 +384,7 @@ void ensure_diversions(void) {
     oicontest->next= diversions;
     diversions= oicontest;
   }
-  if (ferror(file)) ohshite("read error in diversions [i]");
+  if (ferror(file)) ohshite(_("read error in diversions [i]"));
 
   diversionsfile= file;
   onerr_abort--;

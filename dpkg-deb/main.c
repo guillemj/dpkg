@@ -33,49 +33,50 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "version.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <version.h>
+#include <myopt.h>
+
 #include "dpkg-deb.h"
 
 static void printversion(void) {
-  if (!fputs("Debian Linux `" BACKEND "' package archive backend "
-             "version " DPKG_VERSION_ARCH ".\n"
-             "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
-             "GNU General Public Licence version 2 or later for copying conditions.\n"
-             "There is NO warranty.  See dpkg-deb --licence for details.\n",
-             stdout)) werr("stdout");
+  if (fputs(_("Debian Linux `" BACKEND "' package archive backend version "), stdout) < 0) werr("stdout");
+  if (fputs(DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
+  if (fputs(_("Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
+	      "GNU General Public Licence version 2 or later for copying conditions.\n"
+	      "There is NO warranty.  See dpkg-deb --licence for details.\n"),
+	    stdout) < 0) werr("stdout");
 }
 
 static void usage(void) {
-  if (!fputs("\
-Usage: " BACKEND " -b|--build <directory> [<deb>]    Build an archive.\n\
-       " BACKEND " -c|--contents <deb>               List contents.\n\
-       " BACKEND " -I|--info <deb> [<cfile>...]      Show info to stdout.\n\
-       " BACKEND " -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n\
-       " BACKEND " -e|--control <deb> [<directory>]  Extract control info.\n\
-       " BACKEND " -x|--extract <deb> <directory>    Extract files.\n\
-       " BACKEND " -X|--vextract <deb> <directory>   Extract & list files.\n\
-       " BACKEND " --fsys-tarfile <deb>              Output filesystem tarfile.\n\
-       " BACKEND " -h|--help                         Display this message.\n\
-       " BACKEND " --version | --licence             Show version/licence.\n\
+  if (fputs(_("\
+Usage: dpkg-deb -b|--build <directory> [<deb>]    Build an archive.\n\
+       dpkg-deb -c|--contents <deb>               List contents.\n\
+       dpkg-deb -I|--info <deb> [<cfile>...]      Show info to stdout.\n\
+       dpkg-deb -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n\
+       dpkg-deb -e|--control <deb> [<directory>]  Extract control info.\n\
+       dpkg-deb -x|--extract <deb> <directory>    Extract files.\n\
+       dpkg-deb -X|--vextract <deb> <directory>   Extract & list files.\n\
+       dpkg-deb --fsys-tarfile <deb>              Output filesystem tarfile.\n\
+       dpkg-deb -h|--help                         Display this message.\n\
+       dpkg-deb --version | --licence             Show version/licence.\n\
 <deb> is the filename of a Debian format archive.\n\
 <cfile> is the name of an administrative file component.\n\
 <cfield> is the name of a field in the main `control' file.\n\
 Options:  -D for debugging output; --old or --new controls archive format;\n\
           --no-check to suppress control file check (build bad package).\n\
 \n\
-Use `" DPKG "' to install and remove packages from your system, or\n\
-`" DSELECT "' for user-friendly package management.  Packages unpacked\n\
-using `" BACKEND " --extract' will be incorrectly installed !\n",
-             stdout)) werr("stdout");
+Use `dpkg' to install and remove packages from your system, or\n\
+`dselect' for user-friendly package management.  Packages unpacked\n\
+using `dpkg-deb --extract' will be incorrectly installed !\n"),
+	    stdout) < 0) werr("stdout");
 }
 
 const char thisname[]= BACKEND;
 const char printforhelp[]=
- "Type " BACKEND " --help for help about manipulating *.deb files;\n"
- "Type " DPKG " --help for help about installing and deinstalling packages.";
+  N_("Type dpkg-deb --help for help about manipulating *.deb files;\n"
+     "Type dpkg --help for help about installing and deinstalling packages.");
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
 const struct cmdinfo *cipaction=0;
@@ -126,7 +127,7 @@ static const struct cmdinfo cmdinfos[]= {
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
-    badusage("conflicting actions --%s and --%s",cip->olong,cipaction->olong);
+    badusage(_("conflicting actions --%s and --%s"),cip->olong,cipaction->olong);
   cipaction= cip;
   assert(cip-cmdinfos < sizeof(dofunctions)*sizeof(dofunction*));
   action= dofunctions[cip-cmdinfos];
@@ -135,13 +136,18 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
 
+  setlocale(LC_ALL, "");
+  setlocale(LC_NUMERIC, "POSIX");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
+
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
   }
   push_error_handler(&ejbuf,print_error_fatal,0);
 
   myopt(&argv,cmdinfos);
-  if (!cipaction) badusage("need an action option");
+  if (!cipaction) badusage(_("need an action option"));
 
   unsetenv("GZIP");
   action(argv);

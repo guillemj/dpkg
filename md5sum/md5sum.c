@@ -9,12 +9,35 @@
  * Written March 1993 by Branko Lankester
  * Modified June 1993 by Colin Plumb for altered md5.c.
  * Modified Feburary 1995 by Ian Jackson for use with Colin Plumb's md5.c.
+ * Hacked (modified is too nice a word) January 1997 by Galen Hazelwood
+ *   to support GNU gettext.
  * This file is in the public domain.
  */
 #include <stdio.h>
 #include <string.h>
+#include <getopt.h>
 #include "config.h"
 #include "md5.h"
+
+/* Take care of NLS matters.  */
+
+#if HAVE_LOCALE_H
+# include <locale.h>
+#endif
+#if !HAVE_SETLOCALE
+# define setlocale(Category, Locale) /* empty */
+#endif
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+#else
+# undef bindtextdomain
+# define bindtextdomain(Domain, Directory) /* empty */
+# undef textdomain
+# define textdomain(Domain) /* empty */
+# define _(Text) Text
+#endif
 
 #ifdef UNIX
 #define	FOPRTXT	"r"
@@ -32,10 +55,12 @@
 extern char *optarg;
 extern int optind;
 
-void usage();
-void print_digest();
+void usage(void);
+void print_digest(unsigned char *p);
 int mdfile(FILE *fp, unsigned char *digest);
 int do_check(FILE *chkf);
+int hex_digit(int c);
+int get_md5_line(FILE *fp, unsigned char *digest, char *file);
 
 char *progname;
 int verbose = 0;
@@ -46,8 +71,12 @@ main(int argc, char **argv)
 {
 	int opt, rc = 0;
 	int check = 0;
-	FILE *fp;
+	FILE *fp = NULL;
 	unsigned char digest[16];
+
+	setlocale(LC_ALL, "");
+	bindtextdomain(PACKAGE, LOCALEDIR);
+	textdomain(PACKAGE);
 
 	progname = *argv;
 	while ((opt = getopt(argc, argv, "cbvp:h")) != EOF) {
@@ -74,7 +103,7 @@ main(int argc, char **argv)
 	}
 	if (argc == 0) {
 		if (mdfile(stdin, digest)) {
-			fprintf(stderr, "%s: read error on stdin\n", progname);
+			fprintf(stderr, _("%s: read error on stdin\n"), progname);
 			exit(2);
 		}
 		print_digest(digest);
@@ -92,7 +121,7 @@ main(int argc, char **argv)
 			continue;
 		}
 		if (mdfile(fp, digest)) {
-			fprintf(stderr, "%s: error reading %s\n", progname, *argv);
+			fprintf(stderr, _("%s: error reading %s\n"), progname, *argv);
 			rc = 2;
 		} else {
 			print_digest(digest);
@@ -106,13 +135,13 @@ main(int argc, char **argv)
 void
 usage()
 {
-	fprintf(stderr, "usage: md5sum [-bv] [-c [file]] | [file...]\n");
-	fprintf(stderr, "Generates or checks MD5 Message Digests\n");
-	fprintf(stderr, "    -c  check message digests (default is generate)\n");
-	fprintf(stderr, "    -v  verbose, print file names when checking\n");
-	fprintf(stderr, "    -b  read files in binary mode\n");
-	fprintf(stderr, "The input for -c should be the list of message digests and file names\n");
-	fprintf(stderr, "that is printed on stdout by this program when it generates digests.\n");
+        fputs(_("usage: md5sum [-bv] [-c [file]] | [file...]\n\
+Generates or checks MD5 Message Digests\n\
+    -c  check message digests (default is generate)\n\
+    -v  verbose, print file names when checking\n\
+    -b  read files in binary mode\n\
+The input for -c should be the list of message digests and file names\n\
+that is printed on stdout by this program when it generates digests.\n"), stderr);
 	exit(2);
 }
 
@@ -179,7 +208,7 @@ get_md5_line(FILE *fp, unsigned char *digest, char *file)
 	else if (*p == '*')
 		rc = 2;
 	else {
-		fprintf(stderr, "%s: unrecognized line: %s", progname, buf);
+		fprintf(stderr, _("%s: unrecognized line: %s"), progname, buf);
 		return 0;
 	}
 	++p;
@@ -213,12 +242,12 @@ do_check(FILE *chkf)
 		else
 			fp = fopen(filename, FOPRTXT);
 		if (fp == NULL) {
-			fprintf(stderr, "%s: can't open %s\n", progname, filename);
+			fprintf(stderr, _("%s: can't open %s\n"), progname, filename);
 			ex = 2;
 			continue;
 		}
 		if (mdfile(fp, file_digest)) {
-			fprintf(stderr, "%s: error reading %s\n", progname, filename);
+			fprintf(stderr, _("%s: error reading %s\n"), progname, filename);
 			ex = 2;
 			fclose(fp);
 			continue;
@@ -226,21 +255,22 @@ do_check(FILE *chkf)
 		fclose(fp);
 		if (memcmp(chk_digest, file_digest, 16) != 0) {
 			if (verbose)
-				fprintf(stderr, "FAILED\n");
+				fprintf(stderr, _("FAILED\n"));
 			else
-				fprintf(stderr, "%s: MD5 check failed for '%s'\n", progname, filename);
+				fprintf(stderr, _("%s: MD5 check failed for '%s'\n"), progname, filename);
 			++failed;
 		} else if (verbose)
-			fprintf(stderr, "OK\n");
+			fprintf(stderr, _("OK\n"));
 		++checked;
 	}
 	if (verbose && failed)
-		fprintf(stderr, "%s: %d of %d file(s) failed MD5 check\n", progname, failed, checked);
+		fprintf(stderr, _("%s: %d of %d file(s) failed MD5 check\n"), progname, failed, checked);
 	if (!checked) {
-		fprintf(stderr, "%s: no files checked\n", progname);
+		fprintf(stderr, _("%s: no files checked\n"), progname);
 		return 3;
 	}
 	if (!ex && failed)
 		ex = 1;
 	return ex;
 }
+

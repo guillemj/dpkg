@@ -62,7 +62,7 @@ control area file of the package containing the file which
 reports as satisfying the library dependency, or
 .BR /etc/dpkg/shlibs.default .
 The first match will be used.  See the
-.I dpkg programmers' manual
+.I Debian packaging manual
 for details of the format of shared library dependency files.
 
 .B dpkg-genchanges
@@ -218,10 +218,10 @@ This option is understood by
 .BI -F changelogformat
 Specifies the format of the changelog.  By default the format is read
 from a special line near the bottom of the changelog (see the
-programmers' manual) or failing that defaults to
+Debian packaging manual) or failing that defaults to
 .BR debian ,
 the standard format described in the
-.IR "dpkg programmers' manual" .
+.IR "Debian packaging manual" .
 This option is understood by
 .BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
 .SH DPKG-SOURCE OPTIONS
@@ -371,7 +371,7 @@ does not take any non-option arguments.
 .BI -p package
 Generate information for the binary package
 .IR package .
-If the source control file lists several binary packages then this
+If the source control file lists only one binary package then this
 option may be omitted; otherwise it is essential to select which
 binary package's information to generate.
 .TP
@@ -507,6 +507,7 @@ and will get as arguments the name of the real command to run and the
 arguments it should take.
 .I gain-root-command
 should not contain spaces or any other shell metacharacters.
+.\" what happens, if it contains spaces? (hs)
 .I gain-root-command
 might typically be
 .BR sudo ", " super " or " really .
@@ -518,24 +519,29 @@ shell with
 .B -c
 instead of passing arguments individually to the command to be run.
 .TP
-.BI -p pgp-command
+.BI -p sign-command
 When
 .B dpkg-buildpackage
-needs to execute PGP to sign a source control
+needs to execute GPG or PGP to sign a source control
 .RB ( .dsc )
 file or a
 .B .changes
 file it will run
-.I pgp-command
+.I sign-command
 (searching the
 .B PATH
 if necessary) instead of
 .BR pgp .
-.I pgp-command
+.I sign-command
 will get all the arguments that
 .B pgp
-would have done.
-.I pgp-command
+would have gotten. If
+.I sign-command
+takes its arguments in GPG rather than PGP style, you should give
+the
+.B -sgpg
+option.
+.I sign-command
 should not contain spaces or any other shell metacharacters.
 .TP
 .B -tc
@@ -545,7 +551,7 @@ Clean the source tree (using
 after the package has been built.
 .TP
 .BR -us ", " -uc
-Do not PGP-sign the source package or the changelog, respectively.
+Do not sign the source package or the changelog, respectively.
 .SH DPKG-DISTADDFILE ARGUMENTS
 .B dpkg-distaddfile
 does not take any non-common options.  It takes three non-option
@@ -705,15 +711,17 @@ are not legal in package names or version numbers.
 
 It should be possible to specify spaces and shell metacharacters in
 and initial arguments for
-.IR gain-root-command " and " pgp-command .
+.IR gain-root-command " and " sign-command .
 .SH SEE ALSO
-.IR "dpkg programmers' manual" ,
+.IR "Debian packaging manual" ,
 .br
 .IR "Debian policy manual" ,
 .br
 .BR dpkg\-deb (1),
 .BR dpkg (8),
-.BR dselect (8).
+.BR dselect (8),
+.BR gpg (1),
+.BR pgp (1).
 .SH AUTHOR
 The utilities and this manpage were written by Ian Jackson.  They are
 Copyright (C)1995-1996 by him and released under the GNU General

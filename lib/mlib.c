@@ -28,8 +28,8 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 
-#include "config.h"
-#include "dpkg.h"
+#include <config.h>
+#include <dpkg.h>
 
 /* Incremented when we do some kind of generally necessary operation, so that
  * loops &c know to quit if we take an error exit.  Decremented again afterwards.
@@ -44,7 +44,7 @@ void *m_malloc(size_t amount) {
   
   onerr_abort++;
   r= malloc(amount);
-  if (!r) ohshite("malloc failed (%ld bytes)",(long)amount);
+  if (!r) ohshite(_("malloc failed (%ld bytes)"),(long)amount);
   onerr_abort--;
   
 #ifdef MDEBUG
@@ -57,14 +57,14 @@ void *m_malloc(size_t amount) {
 void *m_realloc(void *r, size_t amount) {
   onerr_abort++;
   r= realloc(r,amount);
-  if (!r) ohshite("realloc failed (%ld bytes)",(long)amount);
+  if (!r) ohshite(_("realloc failed (%ld bytes)"),(long)amount);
   onerr_abort--;
 
   return r;
 }
 
 static void print_error_forked(const char *emsg, const char *contextstring) {
-  fprintf(stderr, "%s (subprocess): %s\n", thisname, emsg);
+  fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }
 
 static void cu_m_fork(int argc, void **argv) {
@@ -77,7 +77,7 @@ static void cu_m_fork(int argc, void **argv) {
 int m_fork(void) {
   pid_t r;
   r= fork();
-  if (r == -1) { onerr_abort++; ohshite("fork failed"); }
+  if (r == -1) { onerr_abort++; ohshite(_("fork failed")); }
   if (r > 0) return r;
   push_cleanup(cu_m_fork,~0, 0,0, 0);
   set_error_display(print_error_forked,0);
@@ -90,27 +90,27 @@ void m_dup2(int oldfd, int newfd) {
   if (dup2(oldfd,newfd) == newfd) return;
 
   onerr_abort++;
-  if (newfd < 3) ohshite("failed to dup for std%s",stdstrings[newfd]);
-  ohshite("failed to dup for fd %d",newfd);
+  if (newfd < 3) ohshite(_("failed to dup for std%s"),stdstrings[newfd]);
+  ohshite(_("failed to dup for fd %d"),newfd);
 }
 
 void m_pipe(int *fds) {
   if (!pipe(fds)) return;
   onerr_abort++;
-  ohshite("failed to create pipe");
+  ohshite(_("failed to create pipe"));
 }
 
 void checksubprocerr(int status, const char *description, int sigpipeok) {
   int n;
   if (WIFEXITED(status)) {
     n= WEXITSTATUS(status); if (!n) return;
-    ohshit("subprocess %s returned error exit status %d",description,n);
+    ohshit(_("subprocess %s returned error exit status %d"),description,n);
   } else if (WIFSIGNALED(status)) {
     n= WTERMSIG(status); if (!n || (sigpipeok && n==SIGPIPE)) return;
-    ohshit("subprocess %s killed by signal (%s)%s",
+    ohshit(_("subprocess %s killed by signal (%s)%s"),
            description, strsignal(n), WCOREDUMP(status) ? ", core dumped" : "");
   } else {
-    ohshit("subprocess %s failed with wait status code %d",description,status);
+    ohshit(_("subprocess %s failed with wait status code %d"),description,status);
   }
 }
 
@@ -119,6 +119,6 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   int status;
 
   while ((r= waitpid(pid,&status,0)) == -1 && errno == EINTR);
-  if (r != pid) { onerr_abort++; ohshite("wait for %s failed",description); }
+  if (r != pid) { onerr_abort++; ohshite(_("wait for %s failed"),description); }
   checksubprocerr(status,description,sigpipeok);
 }

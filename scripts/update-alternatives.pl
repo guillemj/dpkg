@@ -79,10 +79,10 @@ while (@ARGV) {
         $aslavelink{$sname}= $slink;
         $aslavepath{$sname}= $spath;
     } elsif (m/^--altdir$/) {
-        @ARGV && &badusage("--altdir needs a <directory> argument");
+        @ARGV || &badusage("--altdir needs a <directory> argument");
         $altdir= shift(@ARGV);
     } elsif (m/^--admindir$/) {
-        @ARGV && &badusage("--admindir needs a <directory> argument");
+        @ARGV || &badusage("--admindir needs a <directory> argument");
         $admindir= shift(@ARGV);
     } else {
         &badusage("unknown option \`$_'");

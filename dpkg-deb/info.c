@@ -32,10 +32,10 @@
 #include <limits.h>
 #include <ctype.h>
 
-#include "config.h"
-#include "dpkg.h"
+#include <config.h>
+#include <dpkg.h>
+#include <myopt.h>
 #include "dpkg-deb.h"
-#include "myopt.h"
 
 static void cu_info_prepare(int argc, void **argv) {
   pid_t c1;
@@ -44,15 +44,15 @@ static void cu_info_prepare(int argc, void **argv) {
   struct stat stab;
 
   directory= (char*)(argv[0]);
-  if (chdir("/")) { perror("failed to chdir to `/' for cleanup"); return; }
+  if (chdir("/")) { perror(_("failed to chdir to `/' for cleanup")); return; }
   if (lstat(directory,&stab) && errno==ENOENT) return;
-  if ((c1= fork()) == -1) { perror("failed to fork for cleanup"); return; }
+  if ((c1= fork()) == -1) { perror(_("failed to fork for cleanup")); return; }
   if (!c1) {
     execlp(RM,"rm","-rf",directory,(char*)0);
-    perror("failed to exec " RM " for cleanup"); _exit(1);
+    perror(_("failed to exec rm for cleanup")); _exit(1);
   }
-  if (waitpid(c1,&status,0) != c1) { perror("failed to wait for rm cleanup"); return; }
-  if (status) { fprintf(stderr,"rm cleanup failed, code %d\n",status); }
+  if (waitpid(c1,&status,0) != c1) { perror(_("failed to wait for rm cleanup")); return; }
+  if (status) { fprintf(stderr,_("rm cleanup failed, code %d\n"),status); }
 } 
 
 static void info_prepare(const char *const **argvp,
@@ -63,12 +63,12 @@ static void info_prepare(const char *const **argvp,
   pid_t c1;
   
   *debarp= *(*argvp)++;
-  if (!*debarp) badusage("--%s needs a .deb filename argument",cipaction->olong);
-  if (!tmpnam(dbuf)) ohshite("failed to make temporary filename");
+  if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
+  if (!tmpnam(dbuf)) ohshite(_("failed to make temporary filename"));
   *directoryp= dbuf;
 
   if (!(c1= m_fork())) {
-    execlp(RM,"rm","-rf",dbuf,(char*)0); ohshite("failed to exec rm -rf");
+    execlp(RM,"rm","-rf",dbuf,(char*)0); ohshite(_("failed to exec rm -rf"));
   }
   waitsubproc(c1,"rm -rf",0);
   push_cleanup(cu_info_prepare,-1, 0,0, 1, (void*)dbuf);
@@ -91,19 +91,19 @@ static void info_spew(const char *debar, const char *directory,
     if (co) {
       if (!(c1= m_fork())) {
         m_dup2(fileno(co),0);
-        execlp(CAT,"cat",(char*)0); ohshite("failed to exec cat component");
+        execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat component"));
       }
       waitsubproc(c1,"cat component",0);
     } else if (errno == ENOENT) {
-      if (fprintf(stderr, BACKEND ": `%.255s' contains no control component `%.255s'\n",
+      if (fprintf(stderr, _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
                   debar, component) == EOF) werr("stderr");
       re= 1;
     } else {
-      ohshite("open component `%.255s' (in %.255s) failed in an unexpected way",
+      ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
               component, directory);
     }
   }
-  if (re) ohshit("at least one requested control component missing");
+  if (re) ohshit(_("at least one requested control component missing"));
 }
 
 static void info_list(const char *debar, const char *directory) {
@@ -116,15 +116,15 @@ static void info_list(const char *debar, const char *directory) {
   int c;
 
   cdn= scandir(".", &cdlist, &ilist_select, alphasort);
-  if (cdn == -1) ohshite("cannot scan directory `%.255s'",directory);
+  if (cdn == -1) ohshite(_("cannot scan directory `%.255s'"),directory);
 
   while (cdn-- >0) {
     cdep= *cdlist++;
     if (stat(cdep->d_name,&stab))
-      ohshite("cannot stat `%.255s' (in `%.255s')",cdep->d_name,directory);
+      ohshite(_("cannot stat `%.255s' (in `%.255s')"),cdep->d_name,directory);
     if (S_ISREG(stab.st_mode)) {
       if (!(cc= fopen(cdep->d_name,"r")))
-        ohshite("cannot open `%.255s' (in `%.255s')",cdep->d_name,directory);
+        ohshite(_("cannot open `%.255s' (in `%.255s')"),cdep->d_name,directory);
       lines= 0; interpreter[0]= 0;
       if ((c= getc(cc))== '#') {
         if ((c= getc(cc))== '!') {
@@ -138,22 +138,22 @@ static void info_list(const char *debar, const char *directory) {
         }
       }
       while ((c= getc(cc))!= EOF) { if (c == '\n') lines++; }
-      if (ferror(cc)) ohshite("failed to read `%.255s' (in `%.255s')",
+      if (ferror(cc)) ohshite(_("failed to read `%.255s' (in `%.255s')"),
                               cdep->d_name,directory);
       fclose(cc);
-      if (printf(" %7ld bytes, %5d lines   %c  %-20.127s %.127s\n",
+      if (printf(_(" %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"),
                  (long)stab.st_size, lines,
                  S_IXUSR & stab.st_mode ? '*' : ' ',
                  cdep->d_name, interpreter) == EOF)
         werr("stdout");
     } else {
-      if (printf("     not a plain file          %.255s\n",cdep->d_name) == EOF)
+      if (printf(_("     not a plain file          %.255s\n"),cdep->d_name) == EOF)
         werr("stdout");
     }
   }
   if (!(cc= fopen("control","r"))) {
-    if (errno != ENOENT) ohshite("failed to read `control' (in `%.255s')",directory);
-    if (!fputs("(no `control' file in control archive!)\n",stdout)) werr("stdout");
+    if (errno != ENOENT) ohshite(_("failed to read `control' (in `%.255s')"),directory);
+    if (fputs(_("(no `control' file in control archive!)\n"),stdout) < 0) werr("stdout");
   } else {
     lines= 1;
     while ((c= getc(cc))!= EOF) {
@@ -173,7 +173,7 @@ static void info_field(const char *debar, const char *directory,
   const char *const *fp;
   int doing, c, lno, fnl;
 
-  if (!(cc= fopen("control","r"))) ohshite("could not open the `control' component");
+  if (!(cc= fopen("control","r"))) ohshite(_("could not open the `control' component"));
   doing= 1; lno= 1;
   for (;;) {
     c= getc(cc);  if (c==EOF) { doing=0; break; }
@@ -203,7 +203,7 @@ static void info_field(const char *debar, const char *directory,
     }
     if (c == EOF) break;
   }
-  if (ferror(cc)) ohshite("failed during read of `control' component");
+  if (ferror(cc)) ohshite(_("failed during read of `control' component"));
   if (doing) putc('\n',stdout);
   if (ferror(stdout)) werr("stdout");
 }
@@ -235,6 +235,6 @@ void do_field(const char *const *argv) {
 void do_contents(const char *const *argv) {
   const char *debar;
   
-  if (!(debar= *argv++) || *argv) badusage("--contents takes exactly one argument");
+  if (!(debar= *argv++) || *argv) badusage(_("--contents takes exactly one argument"));
   extracthalf(debar, 0, "tv", 0);
 }

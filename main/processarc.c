@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -33,11 +34,11 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
-#include "tarfn.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <tarfn.h>
+#include <myopt.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -57,7 +58,7 @@ void process_archive(const char *filename) {
   static int p1[2];
   static char cidirtmpnambuf[L_tmpnam+100];
   static char *cidirbuf=0, *reasmbuf=0;
-  static struct fileinlist *newconffiles;
+  static struct fileinlist *newconffiles, *newfileslist;
   static enum pkgstatus oldversionstatus;
   static struct varbuf infofnvb, fnvb, depprobwhy;
   static struct tarcontext tc;
@@ -68,7 +69,7 @@ void process_archive(const char *filename) {
   char *cidir, *cidirrest, *p;
   char pfilenamebuf[35], conffilenamebuf[MAXCONFFILENAME];
   const char *pfilename, *newinfofilename;
-  struct fileinlist *newconff, **newconffileslastp, *newfileslist;
+  struct fileinlist *newconff, **newconffileslastp;
   struct fileinlist *cfile;
   struct reversefilelistiter rlistit;
   struct conffile *searchconff, **iconffileslastp, *newiconff;
@@ -101,7 +102,7 @@ void process_archive(const char *filename) {
     pfilename= filename;
   }
 
-  if (stat(filename,&stab)) ohshite("cannot access archive");
+  if (stat(filename,&stab)) ohshite(_("cannot access archive"));
 
   if (!f_noact) {
     /* We can't `tentatively-reassemble' packages. */
@@ -111,15 +112,15 @@ void process_archive(const char *filename) {
       strcat(reasmbuf,"/" REASSEMBLETMP);
     }
     if (unlink(reasmbuf) && errno != ENOENT)
-      ohshite("error ensuring `%.250s' doesn't exist",reasmbuf);
+      ohshite(_("error ensuring `%.250s' doesn't exist"),reasmbuf);
     push_cleanup(cu_pathname,~0, 0,0, 1,(void*)reasmbuf);
     c1= m_fork();
     if (!c1) {
       execlp(SPLITTER, SPLITTER,"-Qao",reasmbuf,filename,(char*)0);
-      ohshite("failed to exec " SPLITTER " to see if it's part of a multiparter");
+      ohshite(_("failed to exec dpkg-split to see if it's part of a multiparter"));
     }
     while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
-    if (r != c1) { onerr_abort++; ohshite("wait for " SPLITTER " failed"); }
+    if (r != c1) { onerr_abort++; ohshite(_("wait for dpkg-split failed")); }
     switch (WIFEXITED(status) ? WEXITSTATUS(status) : -1) {
     case 0:
       /* It was a part - is it complete ? */
@@ -140,7 +141,7 @@ void process_archive(const char *filename) {
   
   if (f_noact) {
     cidir= cidirtmpnambuf;
-    if (!tmpnam(cidir)) ohshite("unable to get unique filename for control info");
+    if (!tmpnam(cidir)) ohshite(_("unable to get unique filename for control info"));
     strcat(cidir,"/");
   } else {
     /* We want it to be on the same filesystem so that we can
@@ -162,7 +163,7 @@ void process_archive(const char *filename) {
   if (!c1) {
     cidirrest[-1]= 0;
     execlp(BACKEND, BACKEND,"--control",filename,cidir,(char*)0);
-    ohshite("failed to exec " BACKEND " to extract control information");
+    ohshite(_("failed to exec dpkg-deb to extract control information"));
   }
   waitsubproc(c1,BACKEND " --control",0);
   strcpy(cidirrest,CONTROLFILE);
@@ -176,7 +177,7 @@ void process_archive(const char *filename) {
   sprintf(pkg->files->size,"%lu",(unsigned long)stab.st_size);
 
   if (cipaction->arg == act_avail) {
-    printf("Recorded info about %s from %s.\n",pkg->name,pfilename);
+    printf(_("Recorded info about %s from %s.\n"),pkg->name,pfilename);
     pop_cleanup(ehflag_normaltidy);
     return;
   }
@@ -185,7 +186,7 @@ void process_archive(const char *filename) {
       strcmp(pkg->available.architecture,"all") &&
       strcmp(pkg->available.architecture,architecture))
     forcibleerr(fc_architecture,
-                "package architecture (%s) does not match system (%s)",
+                _("package architecture (%s) does not match system (%s)"),
                 pkg->available.architecture,architecture);
     
   if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
@@ -202,10 +203,10 @@ void process_archive(const char *filename) {
 
   if (pkg->want != want_install) {
     if (f_alsoselect) {
-      printf("Selecting previously deselected package %s.\n",pkg->name);
+      printf(_("Selecting previously deselected package %s.\n"),pkg->name);
       pkg->want= want_install;
     } else {
-      printf("Skipping deselected package %s.\n",pkg->name);
+      printf(_("Skipping deselected package %s.\n"),pkg->name);
       return;
     }
   }
@@ -216,13 +217,13 @@ void process_archive(const char *filename) {
       needepochs= epochsdiffer(&pkg->available.version,&pkg->installed.version) ?
         vdew_always : vdew_never;
       if (fc_downgrade) {
-        fprintf(stderr, DPKG " - warning: downgrading %.250s from %.250s to %.250s.\n",
+        fprintf(stderr, _("dpkg - warning: downgrading %.250s from %.250s to %.250s.\n"),
                 pkg->name,
                 versiondescribe(&pkg->installed.version,needepochs),
                 versiondescribe(&pkg->available.version,needepochs));
       } else {
-        fprintf(stderr, "Will not downgrade"
-                " %.250s from version %.250s to %.250s, skipping.\n",
+        fprintf(stderr, _("Will not downgrade"
+                " %.250s from version %.250s to %.250s, skipping.\n"),
                 pkg->name,
                 versiondescribe(&pkg->installed.version,needepochs),
                 versiondescribe(&pkg->available.version,needepochs));
@@ -231,7 +232,7 @@ void process_archive(const char *filename) {
       }
     } else if (r == 0 && f_skipsame && /* same version fully installed ? */
                pkg->status == stat_installed && !(pkg->eflag &= eflagf_reinstreq)) {
-      fprintf(stderr, "Version %.250s of %.250s already installed, skipping.\n",
+      fprintf(stderr, _("Version %.250s of %.250s already installed, skipping.\n"),
               versiondescribe(&pkg->installed.version,vdew_never),
               pkg->name);
       pop_cleanup(ehflag_normaltidy);
@@ -264,11 +265,11 @@ void process_archive(const char *filename) {
     case dep_predepends:
       if (!depisok(dsearch,&depprobwhy,0,1)) {
         varbufaddc(&depprobwhy,0);
-        fprintf(stderr, DPKG ": regarding %s containing %s, pre-dependency problem:\n%s",
+        fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
                 pfilename, pkg->name, depprobwhy.buf);
         if (!force_depends(dsearch->list))
-          ohshit("pre-dependency problem - not installing %.250s",pkg->name);
-        fprintf(stderr, DPKG ": warning - ignoring pre-dependency problem !\n");
+          ohshit(_("pre-dependency problem - not installing %.250s"),pkg->name);
+        fprintf(stderr, _("dpkg: warning - ignoring pre-dependency problem !\n"));
       }
     }
   }
@@ -282,12 +283,12 @@ void process_archive(const char *filename) {
   filesdbinit();
   
   if (pkg->status != stat_notinstalled && pkg->status != stat_configfiles)
-    printf("Preparing to replace %s %s (using %s) ...\n",
+    printf(_("Preparing to replace %s %s (using %s) ...\n"),
            pkg->name,
            versiondescribe(&pkg->installed.version,vdew_nonambig),
            pfilename);
   else
-    printf("Unpacking %s (from %s) ...\n",pkg->name,pfilename);
+    printf(_("Unpacking %s (from %s) ...\n"),pkg->name,pfilename);
 
   if (f_noact) {
     pop_cleanup(ehflag_normaltidy);
@@ -307,7 +308,7 @@ void process_archive(const char *filename) {
       p= conffilenamebuf + strlen(conffilenamebuf);
       assert(p != conffilenamebuf);
       if (p[-1] != '\n')
-        ohshit("name of conffile (starting `%.250s') is too long (>%d characters)",
+        ohshit(_("name of conffile (starting `%.250s') is too long (>%d characters)"),
                conffilenamebuf, MAXCONFFILENAME);
       while (p > conffilenamebuf && isspace(p[-1])) --p;
       if (p == conffilenamebuf) continue;
@@ -361,11 +362,11 @@ void process_archive(const char *filename) {
       }
       newconff->namenode->flags |= fnnf_new_conff;
     }
-    if (ferror(conff)) ohshite("read error in %.250s",cidir);
+    if (ferror(conff)) ohshite(_("read error in %.250s"),cidir);
     pop_cleanup(ehflag_normaltidy); /* conff= fopen() */
-    if (fclose(conff)) ohshite("error closing %.250s",cidir);
+    if (fclose(conff)) ohshite(_("error closing %.250s"),cidir);
   } else {
-    if (errno != ENOENT) ohshite("error trying to open %.250s",cidir);
+    if (errno != ENOENT) ohshite(_("error trying to open %.250s"),cidir);
   }
 
   /* All the old conffiles are marked with a flag, so that we don't delete
@@ -397,7 +398,7 @@ void process_archive(const char *filename) {
        conflictor->status == stat_installed)) {
 
     for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
-      printf("De-configuring %s, so that we can remove %s ...\n",
+      printf(_("De-configuring %s, so that we can remove %s ...\n"),
              deconpil->pkg->name, conflictor->name);
       deconpil->pkg->status= stat_halfconfigured;
       modstatdb_note(deconpil->pkg);
@@ -454,7 +455,7 @@ void process_archive(const char *filename) {
                           "upgrade", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
                           (char*)0);
-    printf("Unpacking replacement %.250s ...\n",pkg->name);
+    printf(_("Unpacking replacement %.250s ...\n"),pkg->name);
   }
   
   /*
@@ -530,7 +531,7 @@ void process_archive(const char *filename) {
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     execlp(BACKEND, BACKEND, "--fsys-tarfile", filename, (char*)0);
-    ohshite("unable to exec " BACKEND " to get filesystem archive");
+    ohshite(_("unable to exec dpkg-deb to get filesystem archive"));
   }
   close(p1[1]);
 
@@ -538,18 +539,18 @@ void process_archive(const char *filename) {
   push_cleanup(cu_fileslist,~0, 0,0, 1,(void*)&newfileslist);
   tc.pkg= pkg;
   tc.backendpipe= fdopen(p1[0],"r");
-  if (!tc.backendpipe) ohshite("unable to fdopen " BACKEND " extract pipe");
+  if (!tc.backendpipe) ohshite(_("unable to fdopen dpkg-deb extract pipe"));
   push_cleanup(cu_backendpipe,~ehflag_bombout, 0,0, 1,(void*)&tc.backendpipe);
 
   r= TarExtractor((void*)&tc, &tf);
   if (r) {
     if (errno) {
-      ohshite("error reading " BACKEND " tar output");
+      ohshite(_("error reading dpkg-deb tar output"));
     } else if (feof(tc.backendpipe)) {
       waitsubproc(c1,BACKEND " --fsys-tarfile (EOF)",1);
-      ohshit("unexpected EOF in filesystem tarfile - corrupted package archive");
+      ohshit(_("unexpected EOF in filesystem tarfile - corrupted package archive"));
     } else {
-      ohshit("corrupted filesystem tarfile - corrupted package archive");
+      ohshit(_("corrupted filesystem tarfile - corrupted package archive"));
     }
   }
   tmpf= tc.backendpipe;
@@ -606,7 +607,7 @@ void process_archive(const char *filename) {
       if (errno == ENOTDIR) continue;
     }
     fprintf(stderr,
-            DPKG ": warning - unable to delete old file `%.250s': %s\n",
+            _("dpkg: warning - unable to delete old file `%.250s': %s\n"),
             namenode->name, strerror(errno));
   }
 
@@ -628,7 +629,7 @@ void process_archive(const char *filename) {
   infodirlen= infofnvb.used;
   varbufaddc(&infofnvb,0);
   dsd= opendir(infofnvb.buf);
-  if (!dsd) ohshite("cannot read info directory");
+  if (!dsd) ohshite(_("cannot read info directory"));
   push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
   while ((de= readdir(dsd)) != 0) {
     debug(dbg_veryverbose, "process_archive info file `%s'", de->d_name);
@@ -641,7 +642,7 @@ void process_archive(const char *filename) {
     p++; /* skip past the full stop */
     if (!strcmp(p,LISTFILE)) continue; /* We do the list separately */
     if (strlen(p) > MAXCONTROLFILENAME)
-      ohshit("old version of package has overly-long info file name starting `%.250s'",
+      ohshit(_("old version of package has overly-long info file name starting `%.250s'"),
              de->d_name);
     infofnvb.used= infodirlen;
     varbufaddstr(&infofnvb,de->d_name);
@@ -653,17 +654,17 @@ void process_archive(const char *filename) {
     } else if (errno == ENOENT) {
       /* Right, no new version. */
       if (unlink(infofnvb.buf))
-        ohshite("unable to remove obsolete info file `%.250s'",infofnvb.buf);
+        ohshite(_("unable to remove obsolete info file `%.250s'"),infofnvb.buf);
       debug(dbg_scripts, "process_archive info unlinked %s",infofnvb.buf);
     } else {
-      ohshite("unable to install (supposed) new info file `%.250s'",cidir);
+      ohshite(_("unable to install (supposed) new info file `%.250s'"),cidir);
     }
   }
   pop_cleanup(ehflag_normaltidy); /* closedir */
   
   *cidirrest= 0; /* the directory itself */
   dsd= opendir(cidir);
-  if (!dsd) ohshite("unable to open temp control directory");
+  if (!dsd) ohshite(_("unable to open temp control directory"));
   push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
   while ((de= readdir(dsd))) {
     if (strchr(de->d_name,'.')) {
@@ -672,27 +673,27 @@ void process_archive(const char *filename) {
       continue;
     }
     if (strlen(de->d_name) > MAXCONTROLFILENAME)
-      ohshit("package contains overly-long control info file name (starting `%.50s')",
+      ohshit(_("package contains overly-long control info file name (starting `%.50s')"),
              de->d_name);
     strcpy(cidirrest,de->d_name);
     /* First we check it's not a directory. */
     if (!rmdir(cidir))
-      ohshit("package control info contained directory `%.250s'",cidir);
+      ohshit(_("package control info contained directory `%.250s'"),cidir);
     else if (errno != ENOTDIR)
-      ohshite("package control info rmdir of `%.250s' didn't say not a dir",de->d_name);
+      ohshite(_("package control info rmdir of `%.250s' didn't say not a dir"),de->d_name);
     if (!strcmp(de->d_name,CONTROLFILE)) {
       debug(dbg_scripts,"process_archive tmp.ci script/file `%s' is control",cidir);
       continue; /* ignore the control file */
     }
     if (!strcmp(de->d_name,LISTFILE)) {
-      fprintf(stderr, DPKG ": warning - package %s"
-              " contained list as info file", pkg->name);
+      fprintf(stderr, _("dpkg: warning - package %s"
+              " contained list as info file"), pkg->name);
       continue;
     }
     /* Right, install it */
     newinfofilename= pkgadminfile(pkg,de->d_name);
     if (rename(cidir,newinfofilename))
-      ohshite("unable to install new info file `%.250s' as `%.250s'",
+      ohshite(_("unable to install new info file `%.250s' as `%.250s'"),
               cidir,newinfofilename);
     debug(dbg_scripts,"process_archive tmp.ci script/file `%s' installed as `%s'",
           cidir, newinfofilename);
@@ -843,7 +844,7 @@ void process_archive(const char *filename) {
     otherpkg->clientdata->istobe= itb_normal;
     if (pdep) continue;
 
-    printf("(Noting disappearance of %s, which has been completely replaced.)\n",
+    printf(_("(Noting disappearance of %s, which has been completely replaced.)\n"),
            otherpkg->name);
     debug(dbg_general, "process_archive disappearing %s",otherpkg->name);
     /* No, we're disappearing it.  This is the wrong time to go and
@@ -863,7 +864,7 @@ void process_archive(const char *filename) {
     varbufaddstr(&fnvb,"/" INFODIR);
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);
-    dsd= opendir(fnvb.buf); if (!dsd) ohshite("cannot read info directory");
+    dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
     push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
 
     debug(dbg_general, "process_archive disappear cleaning info directory");
@@ -879,7 +880,7 @@ void process_archive(const char *filename) {
       varbufaddstr(&fnvb,de->d_name);
       varbufaddc(&fnvb,0);
       if (unlink(fnvb.buf))
-        ohshite("unable to delete disappearing control info file `%.250s'",fnvb.buf);
+        ohshite(_("unable to delete disappearing control info file `%.250s'"),fnvb.buf);
       debug(dbg_scripts, "process_archive info unlinked %s",fnvb.buf);
     }
     pop_cleanup(ehflag_normaltidy); /* closedir */

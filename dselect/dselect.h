@@ -25,6 +25,8 @@
 #define TOTAL_LIST_WIDTH 180
 #define MAX_DISPLAY_INFO 120
 
+#include <signal.h>
+
 struct helpmenuentry {
   char key;
   const struct helpmessage *msg;

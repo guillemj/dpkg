@@ -70,40 +70,65 @@ while (@ARGV) {
 
 @exec || usageerr("need at least one executable");
 
+sub isbin {
+    open (F, $_[0]) || die("unable to open '$_[0]' for test");
+    if (read (F, $d, 4) != 4) {
+       die ("unable to read first four bytes of '$_[0]' as magic number");
+    }
+    if ($d =~ /^\177ELF$/) { # ELF binary
+       return 1;
+    } elsif ($d =~ /^\#\!..$/) { # shell script
+       return 0;
+    } elsif (unpack ('N', $d) == 0xcafebabe) { # JAVA binary
+       return 0;
+    } else {
+       die("unrecognized file type for '$_[0]'");
+    }
+}
+
 for ($i=0;$i<=$#exec;$i++) {
+    if (!isbin ($exec[$i])) { next; }
     defined($c= open(P,"-|")) || syserr("cannot fork for ldd");
     if (!$c) { exec("ldd","--",$exec[$i]); syserr("cannot exec ldd"); }
     $nthisldd=0;
     while (<P>) {
-        s/\n$//;
-        if (m,^\t(\S+)\.so\.(\S+) \=\> (/\S+)$,) {
-            push(@libname,$1); push(@libsoname,$2); push(@libpath,$3);
-            push(@libf,$execf[$i]);
-            push(@libpaths,$3) if !$libpathadded{$3}++;
-            $nthisldd++;
-        } else {
-            &warn("unknown output from ldd on \`$exec[$i]': \`$_'");
-        }
+    	chomp;
+	if (m,^\s+(\S+)\s+\=\>\s+\1$,) {
+	    # shared libraries depend on themselves (unsure why)
+	    # Only under old ld.so
+	    $nthisldd++;
+	} elsif (m,\s+statically linked(\s+\(ELF\))?$,) {
+	    $nthisldd++;
+	} elsif (m,^\s+(\S+)\.so\.(\S+)\s+=>\s+(/\S+)(\s+\(0x.+\))?$,) {
+	    push(@libname,$1); push(@libsoname,$2); push(@libpath,$3);
+	    push(@libf,$execf[$i]);
+	    push(@libpaths,$3) if !$libpathadded{$3}++;
+	    $nthisldd++;
+	} else {
+	    &warn("unknown output from ldd on \`$exec[$i]': \`$_'");
+	}
     }
     close(P); $? && subprocerr("ldd on \`$exec[$i]'");
     $nthisldd || &warn("ldd on \`$exec[$i]' gave nothing on standard output");
 }
 
-grep(s/\[\?\*/\\$&/g, @libpaths);
-defined($c= open(P,"-|")) || syserr("cannot fork for dpkg --search");
-if (!$c) { exec("dpkg","--search","--",@libpaths); syserr("cannot exec dpkg"); }
-while (<P>) {
-    s/\n$//;
-    if (m/^local diversion |^diversion by/) {
-        &warn("diversions involved - output may be incorrect");
-        print(STDERR " $_\n") || syserr("write diversion info to stderr");
-    } elsif (m=^(\S+(, \S+)*): (/.+)$=) {
-        $pathpackages{$+}= $1;
-    } else {
-        &warn("unknown output from dpkg --search: \`$_'");
+if ($#libpaths >= 0) {
+    grep(s/\[\?\*/\\$&/g, @libpaths);
+    defined($c= open(P,"-|")) || syserr("cannot fork for dpkg --search");
+    if (!$c) { exec("dpkg","--search","--",@libpaths); syserr("cannot exec dpkg"); }
+    while (<P>) {
+       s/\n$//;
+       if (m/^local diversion |^diversion by/) {
+           &warn("diversions involved - output may be incorrect");
+           print(STDERR " $_\n") || syserr("write diversion info to stderr");
+       } elsif (m=^(\S+(, \S+)*): (/.+)$=) {
+           $pathpackages{$+}= $1;
+       } else {
+           &warn("unknown output from dpkg --search: \`$_'");
+       }
     }
+    close(P); $? && subprocerr("dpkg --search");
 }
-close(P); $? && subprocerr("dpkg --search");
 
 LIB: for ($i=0;$i<=$#libname;$i++) {
     scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i]) && next;
@@ -169,6 +194,8 @@ if (!$stdout) {
     $varlistfile="./$varlistfile" if $fileslistfile =~ m/^\s/;
     open(Y,"> $varlistfile.new") ||
         syserr("open new substvars file \`$varlistfile.new'");
+    chown(@fowner, "$varlistfile.new") ||
+	syserr("chown of \`$varlistfile.new'");
     if (open(X,"< $varlistfile")) {
         while (<X>) {
             s/\n$//;

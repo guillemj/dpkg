@@ -87,8 +87,10 @@ while (@ARGV) {
     }
 }
 
-$arch=`dpkg --print-architecture`;
-$? && &subprocerr("dpkg --print-architecture");
+$arch = $override{Architecture} or do {
+       $arch=`dpkg --print-architecture`;
+       $? && &subprocerr("dpkg --print-architecture");
+};
 $arch =~ s/\n$//;
 
 &parsechangelog;
@@ -201,17 +203,22 @@ if (length($substvar{'Installed-Size'})) {
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr("open new files list file");
+chown(@fowner, "$fileslistfile.new") 
+		|| &syserr("chown new files list file");
 if (open(X,"< $fileslistfile")) {
     while (<X>) {
         s/\n$//;
-        next if m/^([-+0-9a-z.]+)_[^_]+_\w+\.deb / && $1 eq $oppackage;
+        next if m/^([-+0-9a-z.]+)_[^_]+_(\w+)\.deb /
+                && ($1 eq $oppackage) && ($2 eq $arch);
         print(Y "$_\n") || &syserr("copy old entry to new files list file");
     }
 } elsif ($! != ENOENT) {
     &syserr("read old files list file");
 }
+$sversion=$f{'Version'};
+$sversion =~ s/^\d+://;
 print(Y &substvars(sprintf("%s_%s_%s.deb %s %s\n",
-                           $oppackage,$f{'Version'},$f{'Architecture'},
+                           $oppackage,$sversion,$f{'Architecture'},
                            &spfileslistvalue('Section'), &spfileslistvalue('Priority'))))
     || &syserr("write new entry to new files list file");
 close(Y) || &syserr("close new files list file");
@@ -226,7 +233,7 @@ if (!$stdout) {
     open(STDOUT,"> $cf.new") ||
         &syserr("cannot open new output control file \`$cf.new'");
 }
-&outputclose;
+&outputclose(1);
 if (!$stdout) {
     rename("$cf.new","$cf") || &syserr("cannot install output control file \`$cf'");
 }

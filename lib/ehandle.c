@@ -27,9 +27,9 @@
 #include <stdarg.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 static const char *errmsg; /* points to errmsgbuf or malloc'd */
 static char errmsgbuf[4096];
@@ -77,7 +77,7 @@ void push_error_handler(jmp_buf *jbufp,
   necp= malloc(sizeof(struct errorcontext));
   if (!necp) {
     int e= errno;
-    strcpy(errmsgbuf, "out of memory pushing error handler: ");
+    strcpy(errmsgbuf, (_("out of memory pushing error handler: ")));
     strcat(errmsgbuf, strerror(e));  errmsg= errmsgbuf;
     if (econtext) longjmp(*econtext->jbufp,1);
     fprintf(stderr, "%s: %s\n", thisname, errmsgbuf); exit(2);
@@ -92,7 +92,7 @@ void push_error_handler(jmp_buf *jbufp,
 }
 
 static void print_error_cleanup(const char *emsg, const char *contextstring) {
-  fprintf(stderr, "%s: error while cleaning up:\n %s\n",thisname,emsg);
+  fprintf(stderr, _("%s: error while cleaning up:\n %s\n"),thisname,emsg);
 }
 
 static void run_cleanups(struct errorcontext *econ, int flagsetin) {
@@ -107,7 +107,7 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
      
   if (++preventrecurse > 3) {
     onerr_abort++;
-    fprintf(stderr, DPKG ": too many nested errors during error recovery !!\n");
+    fprintf(stderr, _("dpkg: too many nested errors during error recovery !!\n"));
     flagset= 0;
   } else {
     flagset= flagsetin;
@@ -180,7 +180,7 @@ void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
   cep= malloc(sizeof(struct cleanupentry) + sizeof(char*)*(nargs+1));
   if (!cep) {
     if (nargs > sizeof(emergency.args)/sizeof(void*))
-      ohshite("out of memory for new cleanup entry with many arguments");
+      ohshite(_("out of memory for new cleanup entry with many arguments"));
     e= errno; cep= &emergency.ce;
   }
   cep->calls[0].call= call1; cep->calls[0].mask= mask1;
@@ -261,16 +261,18 @@ void badusage(const char *fmt, ...) {
   vsprintf(errmsgbuf,fmt,al);
   va_end(al);
   strcat(errmsgbuf,"\n\n");
-  strcat(errmsgbuf,printforhelp);
+  strcat(errmsgbuf,gettext(printforhelp));
   errmsg= errmsgbuf; 
   longjmp(*econtext->jbufp,1);
 }
 
 void werr(const char *fn) {
-  ohshite("error writing `%.250s'",fn);
+  ohshite(_("error writing `%.250s'"),fn);
 }
 
 void do_internerr(const char *string, int line, const char *file) {
-  fprintf(stderr,"%s:%d: internal error `%s'\n",file,line,string);
+  fprintf(stderr,_("%s:%d: internal error `%s'\n"),file,line,string);
   abort();
 }
+
+

@@ -1,19 +1,344 @@
-.\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.TH UPDATE\-ALTERNATIVES 8 "29th November 1995" "Debian Project" "Debian GNU/Linux"
+.\" update-alternatives.8
+.\" This man page is copyright 1997 Charles Briscoe-Smith
+.\" This is free documentation; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published
+.\" by the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.  There is NO WARRANTY.  You can
+.\" find the GNU GPL in /usr/doc/copyright/GPL on any Debian system.
+.TH UPDATE-ALTERNATIVES 8 "19 January 1998" "DEBIAN" "Debian GNU/Linux"
 .SH NAME
-update\-alternatives \- Debian package installation tool
+update-alternatives \- maintain symbolic links determining default commands
+.SH SYNOPSIS
+.B update-alternatives
+.RI [ options ]
+.B --install
+.I link name path priority
+.RB [ --slave
+.I link name
+.IR path ]...
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --remove
+.I name path
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --auto
+.I name
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --display
+.I name
 .SH DESCRIPTION
-.B update\-alternatives
-does not have a useful man page.  Please do not report this as a bug,
-as this has already been done many times.
-
-Instead, if you are a competent and accurate writer and are willing to
-spend the time reading the source code and writing good manpages
-please write a better man page than this one.
-
-Type
-.B update\-alternatives \-\-help
-for a brief summary of how to use dpkg.
-
+.B update-alternatives
+creates, removes, maintains and displays information about the symbolic
+links comprising the Debian alternatives system.
+.PP
+It is possible for several programs fulfilling the same or similar
+functions to be installed on a single system at the same time.
+For example, many systems have several text editors installed at once.
+This gives choice to the users of a system, allowing each to use a
+different editor, if desired, but makes it difficult for a program
+to make a good choice of editor to invoke if the
+user has not specified a particular preference.
+.PP
+Debian's alternatives system aims to solve this problem.
+A generic name in the filesystem is
+shared by all files providing interchangable functionality.
+The alternatives system and the system administrator
+together determine which actual file is referenced by this generic name.
+For example, if the text editors
+.BR ed (1)
+and
+.BR nvi (1)
+are both installed on the system, the alternatives system will cause
+the generic name
+.I /usr/bin/editor
+to refer to
+.I /usr/bin/nvi
+by default.  The system administrator can override this and cause
+it
+to refer to
+.I /usr/bin/ed
+instead,
+and the alternatives system will not alter this setting until explicitly
+requested to do so.
+.PP
+The generic name is not a direct symbolic link to the selected alternative.
+Instead, it is a symbolic link to a name in the
+.I alternatives
+.IR directory ,
+which in turn is a symbolic link to the actual file referenced.
+This is done so that the system administrator's changes can be confined
+within the
+.I /etc
+directory: the FSSTND (q.v.) gives reasons why this is a Good Thing.
+.PP
+When each package
+providing a file with a particular functionality is
+installed, changed or removed,
+.B update-alternatives
+is called to update information about that file in the alternatives system.
+.B update-alternatives
+is usually called from the
+.B postinst
+or
+.B prerm
+scripts in Debian packages.
+.PP
+It is often useful for a number of alternatives to be synchronised,
+so that they are changed as a group; for example, when several versions
+of the
+.BR vi (1)
+editor are installed, the man page referenced by
+.I /usr/man/man1/vi.1
+should correspond to the executable referenced by
+.IR /usr/bin/vi .
+.B update-alternatives
+handles this by means of
+.I master
+and
+.I slave
+links; when the master is changed, any associated slaves are changed
+too.
+A master link and its associated slaves make up a
+.I link
+.IR group .
+.PP
+Each link group is, at any given time,
+in one of two modes: automatic or manual.
+When a group is in automatic mode, the alternatives system will
+automatically decide, as packages are installed and removed,
+whether and how to update the links.
+In manual mode, the alternatives system will not change the links;
+it will leave all the decisions to the system administrator.
+.PP
+Link groups are in automatic mode when they are first introduced to
+the system.
+If the system administrator makes changes to the system's
+automatic settings,
+this will be noticed the next time
+.B update-alternatives
+is run on the changed link's group,
+and the group will automatically be switched to manual mode.
+.PP
+Each alternative has a
+.I priority
+associated with it.
+When a link group is in automatic mode,
+the alternatives pointed to by members of the group
+will be those which have the highest priority.
+.SH TERMINOLOGY
+Since the activities of
+.B update-alternatives
+are quite involved, some specific terms will help to explain its
+operation.
+.TP
+generic name
+A name, like
+.IR /usr/bin/editor ,
+which refers, via the alternatives system, to one of a number of
+files of similar function.
+.TP
+symlink
+Without any further qualification, this means a symbolic link in the
+alternatives directory: one which the system administrator is expected
+to adjust.
+.TP
+alternative
+The name of a specific file in the filesystem, which may be made
+accessible via a generic name using the alternatives system.
+.TP
+alternatives directory
+A directory, by default
+.IR /etc/alternatives ,
+containing the symlinks.
+.TP
+administrative directory
+A directory, by default
+.IR /var/lib/dpkg/alternatives ,
+containing
+.BR update-alternatives '
+state information.
+.TP
+link group
+A set of related symlinks, intended to be updated as a group.
+.TP
+master link
+The link in a link group which determines how the other links in the
+group are configured.
+.TP
+slave link
+A link in a link group which is controlled by the setting of
+the master link.
+.TP
+automatic mode
+When a link group is in automatic mode,
+the alternatives system ensures that the links in the group
+point to the highest priority alternatives
+appropriate for the group.
+.TP
+manual mode
+When a link group is in manual mode,
+the alternatives system will not make any changes
+to the system administrator's settings.
+.SH OPTIONS
+Exactly one action must be specified if
+.B update-alternatives
+is to perform any meaningful task.
+Any number of the common options may be specified together with any action.
+.SS "COMMON OPTIONS"
+.TP
+.B --verbose
+Generate more comments about what
+.B update-alternatives
+is doing.
+This option is not yet implemented.
+.TP
+.B --quiet
+Don't generate any comments unless errors occur.
+This option is not yet implemented.
+.TP
+.B --test
+Don't actually do anything, just say what would be done.
+This option is not yet implemented.
+.TP
+.B --help
+Give some usage information (and say which version of
+.B update-alternatives
+this is).
+.TP
+.B --version
+Tell which version of
+.B update-alternatives
+this is (and give some usage information).
+.TP
+\fB--altdir\fR \fIdirectory\fR
+Specifies the alternatives directory, when this is to be
+different from the default.
+.TP
+\fB--admindir\fR \fIdirectory\fR
+Specifies the administrative directory, when this is to be
+different from the default.
+.SS ACTIONS
+.TP
+\fB--install\fR \fIgen link path pri\fR [\fB--slave\fR \fIsgen slink spath\fR] ...
+Add a group of alternatives to the system.
+.I gen
+is the generic name for the master link,
+.I link
+is the name of its symlink, and
+.I path
+is the alternative being introduced for the master link.
+.IR sgen ,
+.I slink
+and
+.I spath
+are the generic name, symlink name and alternative
+for a slave link.
+Zero or more
+.B --slave
+options, each followed by three arguments,
+may be specified.
+.IP
+If the master symlink specified exists already
+in the alternatives system's records,
+the information supplied will be added as a new
+set of alternatives for the group.
+Otherwise, a new group, set to automatic mode,
+will be added with this information.
+If the group is in automatic mode,
+and the newly added alternatives' priority is higher than
+any other installed alternatives for this group,
+the symlinks will be updated to point to the newly added alternatives.
+.TP
+\fB--remove\fR \fIlink path\fR
+Remove an alternative and all of its associated slave links.
+.I link
+is a name in the alternatives directory, and
+.I path
+is an absolute filename to which
+.I name
+could be linked.  If
+.I link
+is indeed linked to
+.IR path ,
+.I link
+will be updated to point to another appropriate alternative, or
+removed if there is no such alternative left.
+Associated slave links will be updated or removed, correspondingly.
+If the link is not currently pointing to
+.IR path ,
+no links are changed;
+only the information about the alternative is removed.
+.TP
+\fB--auto\fR \fIlink\fR
+Switch the master symlink
+.I link
+to automatic mode.
+In the process, this symlink and its slaves are updated
+to point to the highest priority installed alternatives.
+.TP
+\fB--display\fR \fIlink\fR
+Display information about the link group of which
+.I link
+is the master link.
+Information displayed includes the group's mode
+(auto or manual),
+which alternative the symlink currently points to,
+what other alternatives are available
+(and their corresponding slave alternatives),
+and the highest priority alternative currently installed.
+.SH FILES
+.TP
+.I /etc/alternatives/
+The default alternatives directory.
+Can be overridden by the
+.B --altdir
+option.
+.TP
+.I /var/lib/dpkg/alternatives/
+The default administration directory.
+Can be overridden by the
+.B --admindir
+option.
+.SH "EXIT STATUS"
+.IP 0
+The requested action was successfully performed.
+.IP 2
+Problems were encountered whilst parsing the command line
+or performing the action.
+.SH DIAGNOSTICS
+.B update-alternatives
+chatters incessantly about its activities on its standard output channel.
+If problems occur,
+.B update-alternatives
+outputs error messages on its standard error channel and
+returns an exit status of 2.
+These diagnostics should be self-explanatory;
+if you do not find them so, please report this as a bug.
+.SH BUGS
+If you find a bug, please report it using the Debian bug-tracking system,
+or, if that is not possible, email the author directly.
+.PP
+If you find any discrepancy between the operation of
+.B update-alternatives
+and this manual page, it is a bug,
+either in the implementation or the documentation;
+please report it.
 .SH AUTHOR
-Ian Jackson <ijackson@gnu.ai.mit.edu>.
+Debian GNU/Linux update-alternatives is copyright 1995
+Ian Jackson.  It is free software; see the GNU General Public Licence
+version 2 or later for copying conditions.  There is NO warranty.
+.PP
+This manual page is copyright 1997/98 Charles Briscoe-Smith.
+This is free documentation; see the GNU General Public Licence
+version 2 or later for copying conditions.  There is NO WARRANTY.
+.PP
+You can find the GNU GPL in /usr/doc/copyright/GPL on any Debian system.
+.\" .SH ACKNOWLEDGEMENTS
+.SH "SEE ALSO"
+.BR ln (1),
+FSSTND, the linux Filesystem Standard.

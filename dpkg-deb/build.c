@@ -34,9 +34,9 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "dpkg-deb.h"
 
 #ifndef S_ISLNK
@@ -47,7 +47,7 @@ static void checkversion(const char *vstring, const char *valuename, int *errs) 
   const char *p;
   if (!vstring || !*vstring) return;
   for (p=vstring; *p; p++) if (isdigit(*p)) return;
-  fprintf(stderr, BACKEND " - error: %s (`%s') doesn't contain any digits\n",
+  fprintf(stderr, _("dpkg-deb - error: %s (`%s') doesn't contain any digits\n"),
           valuename, vstring);
   (*errs)++;
 }
@@ -69,14 +69,14 @@ void do_build(const char *const *argv) {
   char conffilename[MAXCONFFILENAME+1];
   time_t thetime= 0;
   
-  directory= *argv++; if (!directory) badusage("--build needs a directory argument");
+  directory= *argv++; if (!directory) badusage(_("--build needs a directory argument"));
   subdir= 0;
   if ((debar= *argv++) !=0) {
-    if (*argv) badusage("--build takes at most two arguments");
+    if (*argv) badusage(_("--build takes at most two arguments"));
     if (debar) {
       if (stat(debar,&debarstab)) {
         if (errno != ENOENT)
-          ohshite("unable to check for existence of archive `%.250s'",debar);
+          ohshite(_("unable to check for existence of archive `%.250s'"),debar);
       } else if (S_ISDIR(debarstab.st_mode)) {
         subdir= 1;
       }
@@ -89,9 +89,9 @@ void do_build(const char *const *argv) {
     
   if (nocheckflag) {
     if (subdir)
-      ohshit("target is directory - cannot skip control file check");
-    printf(BACKEND ": warning, not checking contents of control area.\n"
-           BACKEND ": building an unknown package in `%s'.\n", debar);
+      ohshit(_("target is directory - cannot skip control file check"));
+    printf(_("dpkg-deb: warning, not checking contents of control area.\n"
+           "dpkg-deb: building an unknown package in `%s'.\n"), debar);
   } else {
     controlfile= m_malloc(strlen(directory) + sizeof(BUILDCONTROLDIR) +
                           sizeof(CONTROLFILE) + sizeof(CONFFILESFILE) +
@@ -107,20 +107,20 @@ void do_build(const char *const *argv) {
     if (strspn(checkedinfo->name,
                "abcdefghijklmnopqrstuvwxyz0123456789+-.")
         != strlen(checkedinfo->name))
-      ohshit("package name has characters that aren't lowercase alphanums or `-+.'");
+      ohshit(_("package name has characters that aren't lowercase alphanums or `-+.'"));
     if (checkedinfo->priority == pri_other) {
-      fprintf(stderr, "warning, `%s' contains user-defined Priority value `%s'\n",
+      fprintf(stderr, _("warning, `%s' contains user-defined Priority value `%s'\n"),
               controlfile, checkedinfo->otherpriority);
       warns++;
     }
     for (field= checkedinfo->available.arbs; field; field= field->next) {
-      fprintf(stderr, "warning, `%s' contains user-defined field `%s'\n",
+      fprintf(stderr, _("warning, `%s' contains user-defined field `%s'\n"),
               controlfile, field->name);
       warns++;
     }
     checkversion(checkedinfo->available.version.version,"(upstream) version",&errs);
     checkversion(checkedinfo->available.version.revision,"Debian revision",&errs);
-    if (errs) ohshit("%d errors in control file",errs);
+    if (errs) ohshit(_("%d errors in control file"),errs);
 
     if (subdir) {
       versionstring= versiondescribe(&checkedinfo->available.version,vdew_never);
@@ -131,15 +131,15 @@ void do_build(const char *const *argv) {
               arch[0] ? "_" : "", arch);
       debar= m;
     }
-    printf(BACKEND ": building package `%s' in `%s'.\n", checkedinfo->name, debar);
+    printf(_("dpkg-deb: building package `%s' in `%s'.\n"), checkedinfo->name, debar);
 
     strcpy(controlfile, directory);
     strcat(controlfile, "/" BUILDCONTROLDIR "/");
     if (lstat(controlfile,&mscriptstab)) ohshite("unable to stat control directory");
     if (!S_ISDIR(mscriptstab.st_mode)) ohshit("control directory is not a directory");
     if ((mscriptstab.st_mode & 07757) != 0755)
-      ohshit("control directory has bad permissions %03lo (must be >=0755 "
-             "and <=0775)", (unsigned long)(mscriptstab.st_mode & 07777));
+      ohshit(_("control directory has bad permissions %03lo (must be >=0755 "
+             "and <=0775)"), (unsigned long)(mscriptstab.st_mode & 07777));
 
     for (mscriptp= maintainerscripts; *mscriptp; mscriptp++) {
       strcpy(controlfile, directory);
@@ -149,13 +149,13 @@ void do_build(const char *const *argv) {
       if (!lstat(controlfile,&mscriptstab)) {
         if (S_ISLNK(mscriptstab.st_mode)) continue;
         if (!S_ISREG(mscriptstab.st_mode))
-          ohshit("maintainer script `%.50s' is not a plain file or symlink",*mscriptp);
+          ohshit(_("maintainer script `%.50s' is not a plain file or symlink"),*mscriptp);
         if ((mscriptstab.st_mode & 07557) != 0555)
-          ohshit("maintainer script `%.50s' has bad permissions %03lo "
-                 "(must be >=0555 and <=0775)",
+          ohshit(_("maintainer script `%.50s' has bad permissions %03lo "
+                 "(must be >=0555 and <=0775)"),
                  *mscriptp, (unsigned long)(mscriptstab.st_mode & 07777));
       } else if (errno != ENOENT) {
-        ohshite("maintainer script `%.50s' is not stattable",*mscriptp);
+        ohshite(_("maintainer script `%.50s' is not stattable"),*mscriptp);
       }
     }
 
@@ -164,9 +164,10 @@ void do_build(const char *const *argv) {
     if ((cf= fopen(controlfile,"r"))) {
       while (fgets(conffilename,MAXCONFFILENAME+1,cf)) {
         n= strlen(conffilename);
-        if (!n) ohshite("empty string from fgets reading conffiles");
+        if (!n) ohshite(_("empty string from fgets reading conffiles"));
         if (conffilename[n-1] != '\n') {
-          fprintf(stderr, "warning, conffile name `%.50s...' is too long", conffilename);
+          fprintf(stderr, _("warning, conffile name `%.50s...' is too long, or missing final newline\n"), 
+		  conffilename);
           warns++;
           while ((c= getc(cf)) != EOF && c != '\n');
           continue;
@@ -177,46 +178,46 @@ void do_build(const char *const *argv) {
         strcat(controlfile, conffilename);
         if (lstat(controlfile,&controlstab)) {
           if (errno == ENOENT)
-            ohshit("conffile `%.250s' does not appear in package",conffilename);
+            ohshit(_("conffile `%.250s' does not appear in package"),conffilename);
           else
-            ohshite("conffile `%.250s' is not stattable",conffilename);
+            ohshite(_("conffile `%.250s' is not stattable"),conffilename);
         } else if (!S_ISREG(controlstab.st_mode)) {
-          fprintf(stderr, "warning, conffile `%s'"
-                  " is not a plain file\n", conffilename);
+          fprintf(stderr, _("warning, conffile `%s'"
+                  " is not a plain file\n"), conffilename);
           warns++;
         }
       }
-      if (ferror(cf)) ohshite("error reading conffiles file");
+      if (ferror(cf)) ohshite(_("error reading conffiles file"));
       fclose(cf);
     } else if (errno != ENOENT) {
-      ohshite("error opening conffiles file");
+      ohshite(_("error opening conffiles file"));
     }
     if (warns) {
-      if (fprintf(stderr, BACKEND ": ignoring %d warnings about the control"
-                  " file(s)\n", warns) == EOF) werr("stderr");
+      if (fprintf(stderr, _("dpkg-deb: ignoring %d warnings about the control"
+                  " file(s)\n"), warns) == EOF) werr("stderr");
     }
   }
   if (ferror(stdout)) werr("stdout");
   
-  if (!(ar=fopen(debar,"wb"))) ohshite("unable to create `%.255s'",debar);
-  if (setvbuf(ar, 0, _IONBF, 0)) ohshite("unable to unbuffer `%.255s'",debar);
+  if (!(ar=fopen(debar,"wb"))) ohshite(_("unable to create `%.255s'"),debar);
+  if (setvbuf(ar, 0, _IONBF, 0)) ohshite(_("unable to unbuffer `%.255s'"),debar);
   m_pipe(p1);
   if (!(c1= m_fork())) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-    if (chdir(directory)) ohshite("failed to chdir to `%.255s'",directory);
-    if (chdir(BUILDCONTROLDIR)) ohshite("failed to chdir to .../" BUILDCONTROLDIR);
-    execlp(TAR,"tar","-cf","-",".",(char*)0); ohshite("failed to exec tar -cf");
+    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
+    if (chdir(BUILDCONTROLDIR)) ohshite(_("failed to chdir to .../DEBIAN"));
+    execlp(TAR,"tar","-cf","-",".",(char*)0); ohshite(_("failed to exec tar -cf"));
   }
   close(p1[1]);
-  if (!(gz= tmpfile())) ohshite("failed to make tmpfile (control)");
+  if (!(gz= tmpfile())) ohshite(_("failed to make tmpfile (control)"));
   if (!(c2= m_fork())) {
     m_dup2(p1[0],0); m_dup2(fileno(gz),1); close(p1[0]);
-    execlp(GZIP,"gzip","-9c",(char*)0); ohshite("failed to exec gzip -9c");
+    execlp(GZIP,"gzip","-9c",(char*)0); ohshite(_("failed to exec gzip -9c"));
   }
   close(p1[0]);
   waitsubproc(c2,"gzip -9c",0);
   waitsubproc(c1,"tar -cf",0);
-  if (fstat(fileno(gz),&controlstab)) ohshite("failed to fstat tmpfile (control)");
+  if (fstat(fileno(gz),&controlstab)) ohshite(_("failed to fstat tmpfile (control)"));
   if (oldformatflag) {
     if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
       werr(debar);
@@ -236,36 +237,36 @@ void do_build(const char *const *argv) {
       werr(debar);
   }                
                 
-  if (lseek(fileno(gz),0,SEEK_SET)) ohshite("failed to rewind tmpfile (control)");
+  if (lseek(fileno(gz),0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (control)"));
   if (!(c3= m_fork())) {
     m_dup2(fileno(gz),0); m_dup2(fileno(ar),1);
-    execlp(CAT,"cat",(char*)0); ohshite("failed to exec cat (control)");
+    execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat (control)"));
   }
   waitsubproc(c3,"cat (control)",0);
   
   if (!oldformatflag) {
     fclose(gz);
-    if (!(gz= tmpfile())) ohshite("failed to make tmpfile (data)");
+    if (!(gz= tmpfile())) ohshite(_("failed to make tmpfile (data)"));
   }
   m_pipe(p2);
   if (!(c4= m_fork())) {
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
-    if (chdir(directory)) ohshite("failed to chdir to `%.255s'",directory);
+    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     execlp(TAR,"tar","--exclude",BUILDCONTROLDIR,"-cf","-",".",(char*)0);
-    ohshite("failed to exec tar --exclude");
+    ohshite(_("failed to exec tar --exclude"));
   }
   close(p2[1]);
   if (!(c5= m_fork())) {
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : fileno(gz),1);
     execlp(GZIP,"gzip","-9c",(char*)0);
-    ohshite("failed to exec gzip -9c from tar --exclude");
+    ohshite(_("failed to exec gzip -9c from tar --exclude"));
   }
   close(p2[0]);
   waitsubproc(c5,"gzip -9c from tar --exclude",0);
   waitsubproc(c4,"tar --exclude",0);
   if (!oldformatflag) {
-    if (fstat(fileno(gz),&datastab)) ohshite("failed to fstat tmpfile (data)");
+    if (fstat(fileno(gz),&datastab)) ohshite("_(failed to fstat tmpfile (data))");
     if (fprintf(ar,
                 "%s"
                 DATAMEMBER "%-12lu0     0     100644  %-10ld`\n",
@@ -274,10 +275,10 @@ void do_build(const char *const *argv) {
                 (long)datastab.st_size) == EOF)
       werr(debar);
 
-    if (lseek(fileno(gz),0,SEEK_SET)) ohshite("failed to rewind tmpfile (data)");
+    if (lseek(fileno(gz),0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
     if (!(c3= m_fork())) {
       m_dup2(fileno(gz),0); m_dup2(fileno(ar),1);
-      execlp(CAT,"cat",(char*)0); ohshite("failed to exec cat (data)");
+      execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat (data)"));
     }
     waitsubproc(c3,"cat (data)",0);
 

@@ -1,3 +1,4 @@
+
 $parsechangelog= 'dpkg-parsechangelog';
 
 grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size));
@@ -10,6 +11,51 @@ $maxsubsts=50;
 
 $progname= $0; $progname= $& if $progname =~ m,[^/]+$,;
 
+$getlogin = getlogin();
+if(!defined($getlogin)) {
+	open(SAVEIN, "<&STDIN");
+	close(STDIN);
+	open(STDIN, "<&STDERR");
+
+	$getlogin = getlogin();
+
+	close(STDIN);
+	open(STDIN, "<&SAVEIN");
+	close(SAVEIN);
+}
+if(!defined($getlogin)) {
+	open(SAVEIN, "<&STDIN");
+	close(STDIN);
+	open(STDIN, "<&STDOUT");
+
+	$getlogin = getlogin();
+
+	close(STDIN);
+	open(STDIN, "<&SAVEIN");
+	close(SAVEIN);
+}
+
+if (defined ($ENV{'LOGNAME'})) {
+    if (!defined ($getlogin)) { 
+	warn (sprintf ('no utmp entry available, using value of LOGNAME ("%s")', $ENV{'LOGNAME'})); 
+    } else {
+	if ($getlogin ne $ENV{'LOGNAME'}) { 
+	    warn (sprintf ('utmp entry ("%s") does not match value of LOGNAME ("%s"); using "%s"',
+			   $getlogin, $ENV{'LOGNAME'}, $ENV{'LOGNAME'}));
+	}
+    }
+    @fowner = getpwnam ($ENV{'LOGNAME'});
+    if (! @fowner) { die (sprintf ('unable to get login information for username "%s"', $ENV{'LOGNAME'})); }
+} elsif (defined ($getlogin)) {
+    @fowner = getpwnam ($getlogin);
+    if (! @fowner) { die (sprintf ('unable to get login information for username "%s"', $getlogin)); }
+} else {
+    warn (sprintf ('no utmp entry available and LOGNAME not defined; using uid of process (%d)', $<));
+    @fowner = getpwuid ($<);
+    if (! @fowner) { die (sprintf ('unable to get login information for uid %d', $<)); }
+}
+@fowner = @fowner[2,3];
+
 sub capit {
     return defined($capit{lc $_[0]}) ? $capit{lc $_[0]} :
         (uc substr($_[0],0,1)).(lc substr($_[0],1));
@@ -17,14 +63,14 @@ sub capit {
 
 sub findarch {
     $arch=`dpkg --print-architecture`;
-    $? && &subprocerr("dpkg --print-archictecture");
+    $? && &subprocerr("dpkg --print-architecture");
     $arch =~ s/\n$//;
     $substvar{'Arch'}= $arch;
 }
 
 sub substvars {
     my ($v) = @_;
-    my $lhs,$vn,$rhs,$count;
+    my ($lhs,$vn,$rhs,$count);
     $count=0;
     while ($v =~ m/\$\{([-:0-9a-z]+)\}/i) {
         $count < $maxsubsts ||
@@ -42,6 +88,7 @@ sub substvars {
 }
 
 sub outputclose {
+    my ($dosubstvars) = @_;
     for $f (keys %f) { $substvar{"F:$f"}= $f{$f}; }
     if (length($varlistfile)) {
         $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
@@ -55,12 +102,14 @@ sub outputclose {
             }
             close(SV);
         } elsif ($! !~ m/no such file or directory/i) {
-            &error("unable to open substvars file $varlistvile: $!");
+            &error("unable to open substvars file $varlistfile: $!");
         }
     }
     for $f (sort { $fieldimps{$b} <=> $fieldimps{$a} } keys %f) {
         $v= $f{$f};
-        $v= &substvars($v);
+        if ($dosubstvars) {
+	    $v= &substvars($v);
+	}
         $v =~ m/\S/ || next; # delete whitespace-only fields
         $v =~ m/\n\S/ && &internerr("field $f has newline then non whitespace >$v<");
         $v =~ m/\n[ \t]*\n/ && &internerr("field $f has blank lines >$v<");

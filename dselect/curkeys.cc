@@ -21,13 +21,13 @@
 
 extern "C" {
 #include <ncurses/curses.h>
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 #include "bindings.h"
 
 const keybindings::keyname keybindings::keynames[] = {
-#include "curkeys.inc"
+#include "curkeys.h"
 };

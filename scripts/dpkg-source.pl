@@ -1,21 +1,29 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
 
-$dpkglibdir= ".";
-$version= '1.3.0'; # This line modified by Makefile
+my $dpkglibdir = ".";
+my $version = "1.3.0"; # This line modified by Makefile
 
-$sourcestyle= 'X';
+my @filesinarchive;
+my %dirincluded;
+my %notfileobject;
+my $fn;
+
+$sourcestyle = 'X';
 
 use POSIX;
-use POSIX qw(:errno_h :signal_h);
+use POSIX qw (:errno_h :signal_h);
 
-push(@INC,$dpkglibdir);
+use strict 'refs';
+
+push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
 sub usageversion {
     print STDERR
 "Debian GNU/Linux dpkg-source $version.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+Ian Jackson and Klee Dienes.  This is free software; see the GNU
+General Public Licence version 2 or later for copying conditions.
+There is NO warranty.
 
 Usage:  dpkg-source -x <filename>.dsc
         dpkg-source -b <directory> [<orig-directory>|<orig-targz>|\'\']
@@ -41,8 +49,9 @@ General options: -h                  print this message
 ";
 }
 
-$i=100;grep($fieldimps{$_}=$i--,
-          qw(Source Version Binary Maintainer Architecture Standards-Version));
+$i = 100;
+grep ($fieldimps {$_} = $i--,
+      qw (Source Version Binary Maintainer Architecture Standards-Version));
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
@@ -246,7 +255,7 @@ if ($opmode eq 'build') {
                   ".orig.tar.gz (wanted $basename.orig.tar.gz)");
     } else {
         $tardirbase= $dirbase; $tardirname= $dirname;
-        $tarname= "$basename.tar.gz";
+        $tarname= "$basenamerev.tar.gz";
     }
 
 #print STDERR ">$dir|$origdir|$origtargz|$sourcestyle<\n";
@@ -304,13 +313,13 @@ if ($opmode eq 'build') {
         $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
         checktarsane($origtargz,$expectprefix);
         mkdir("$origtargz.tmp-nest",0755) ||
-            &syserr("unable to create \`$origdirtargz.tmp-nest'");
-        extracttar($origtargz,"$origtargz.tmp-nest");
+            &syserr("unable to create \`$origtargz.tmp-nest'");
+        extracttar($origtargz,"$origtargz.tmp-nest",$expectprefix);
         rename("$origtargz.tmp-nest/$expectprefix",$expectprefix) ||
             &syserr("unable to rename \`$origtargz.tmp-nest/$expectprefix' to ".
                     "\`$expectprefix'");
         rmdir("$origtargz.tmp-nest") ||
-            &syserr("unable to remove \`$origdirtargz.tmp-nest'");
+            &syserr("unable to remove \`$origtargz.tmp-nest'");
 
     }
         
@@ -366,7 +375,7 @@ if ($opmode eq 'build') {
                         next file;
                     } elsif (m/^[-+\@ ]/) {
                         $difflinefound=1;
-                    } elsif (m/^\\ No newline at end of file/) {
+                    } elsif (m/^\\ No newline at end of file$/) {
                         &warn("file $fn has no final newline ".
                               "(either original or modified version)");
                     } else {
@@ -431,7 +440,7 @@ if ($opmode eq 'build') {
     print("$progname: building $sourcepackage in $basenamerev.dsc\n")
         || &syserr("write building message");
     open(STDOUT,"> $basenamerev.dsc") || &syserr("create $basenamerev.dsc");
-    &outputclose;
+    &outputclose(1);
 
     if ($ur) {
         print(STDERR "$progname: unrepresentable changes to source\n")
@@ -454,6 +463,7 @@ if ($opmode eq 'build') {
 
     open(CDATA,"< $dsc") || &error("cannot open .dsc file $dsc: $!");
     &parsecdata('S',-1,"source control file $dsc");
+    close(CDATA);
 
     for $f (qw(Source Version Files)) {
         defined($fi{"S $f"}) ||
@@ -496,24 +506,21 @@ if ($opmode eq 'build') {
     checktarsane("$dscdir/$tarfile",$expectprefix);
 
     if (length($difffile)) {
-        if (!$dirincluded{"$expectprefix/debian"}) {
-            $mkdebian=1; $dirincluded{"$expectprefix/debian"}= 1;
-        }
             
         &forkgzipread("$dscdir/$difffile");
         $/="\n";
-        while (length($_=<GZIP>)) {
+        while (<GZIP>) {
             s/\n$// || &error("diff is missing trailing newline");
-            if (m/^--- /) {
+            if (/^--- /) {
                 $fn= $';
                 substr($fn,0,length($expectprefix)+1) eq "$expectprefix/" ||
                     &error("diff patches file ($fn) not in expected subdirectory");
                 $fn =~ m/\.dpkg-orig$/ &&
                     &error("diff patches file with name ending .dpkg-orig");
                 $dirname= $fn;
-                $dirname =~ s,/[^/]+$,, && defined($dirincluded{$dirname}) ||
-                    &error("diff patches file ($fn) whose directory does not appear".
-                           " in tarfile");
+                if ($dirname =~ s,/[^/]+$,, && !defined($dirincluded{$dirname})) {
+		    $dirtocreate{$dirname} = 1;
+		}
                 defined($notfileobject{$fn}) &&
                     &error("diff patches something which is not a plain file");
                 $_= <GZIP>; s/\n$// ||
@@ -521,8 +528,10 @@ if ($opmode eq 'build') {
                 $_ eq '+++ '.$newdirectory.substr($fn,length($expectprefix)) ||
                     &error("line after --- for file $fn isn't as expected");
                 $filepatched{$fn}++ && &error("diff patches file $fn twice");
-            } elsif (!m/^[-+ \@]/) {
-                &error("diff contains unknown line \`$_'");
+            } elsif (/^\\ No newline at end of file$/) {
+            } elsif (/^[-+ \@]/) {
+	    } else {
+                &error ("diff contains unknown line \`$_'");
             }
         }
         close(GZIP);
@@ -536,15 +545,46 @@ if ($opmode eq 'build') {
     &erasedir($newdirectory);
     &erasedir("$newdirectory.orig");
 
-    extracttar("$dscdir/$tarfile",'.');
+    mkdir("$expectprefix.tmp-nest",0755)
+	|| &syserr("unable to create \`$expectprefix.tmp-nest'");
+    extracttar("$dscdir/$tarfile","$expectprefix.tmp-nest","$expectprefix");
+    rename("$expectprefix.tmp-nest/$expectprefix","$expectprefix")
+	|| &syserr("unable to rename \`$expectprefix.tmp-nest/$expectprefix' "
+		   ."to \`$expectprefix'");
+    rmdir("$expectprefix.tmp-nest")
+	|| &syserr("unable to remove \`$expectprefix.tmp-nest'");
+
+    for $dircreate (keys %dirtocreate) {
+	$dircreatem= "";
+	for $dircreatep (split("/",$dirc)) {
+	    $dircreatem.= $dircreatep;
+	    if (!lstat($dircreatem)) {
+		$! == ENOENT || &syserr("cannot stat $dircreatem");
+		mkdir($dircreatem,0777)
+		    || &syserr("failed to create $dircreatem subdirectory");
+	    }
+	    else {
+		-d _ || &error("diff patches file in directory \`$dircreate',"
+			       ." but $dircreatem isn't a directory !");
+	    }
+	}
+    }
     
     if (length($difffile)) {
         rename($expectprefix,$newdirectory) ||
             &syserr("failed to rename newly-extracted $expectprefix to $newdirectory");
 
         if ($sourcestyle =~ m/u/) {
-            extracttar("$dscdir/$tarfile",'.');
-        } elsif ($sourcestyle =~ m/p/) {
+	    mkdir("$expectprefix.tmp-nest",0755)
+		|| &syserr("unable to create \`$expectprefix.tmp-nest'");
+	    extracttar("$dscdir/$tarfile","$expectprefix.tmp-nest",
+		       "$expectprefix");
+	    rename("$expectprefix.tmp-nest/$expectprefix","$expectprefix")
+		|| &syserr("unable to rename \`$expectprefix.tmp-nest/"
+			   ."$expectprefix' to \`$expectprefix'");
+	    rmdir("$expectprefix.tmp-nest")
+		|| &syserr("unable to remove \`$expectprefix.tmp-nest'");
+         } elsif ($sourcestyle =~ m/p/) {
             stat("$dscdir/$tarfile") ||
                 &syserr("failed to stat \`$dscdir/$tarfile' to see if need to copy");
             ($dsctardev,$dsctarino) = stat _;
@@ -564,17 +604,13 @@ if ($opmode eq 'build') {
             }
         }                
 
-        if ($mkdebian) {
-            mkdir("$newdirectory/debian",0777) ||
-                &syserr("failed to create $newdirectory/debian subdirectory");
-        }
         &forkgzipread("$dscdir/$difffile");
         defined($c2= fork) || &syserr("fork for patch");
         if (!$c2) {
             open(STDIN,"<&GZIP") || &syserr("reopen gzip for patch");
             chdir($newdirectory) || &syserr("chdir to $newdirectory for patch");
             exec('patch','-s','-t','-F','0','-N','-p1','-u',
-                 '-V','never','-b','.dpkg-orig');
+                 '-V','never','-b','-z','.dpkg-orig');
             &syserr("exec patch");
         }
         close(GZIP);
@@ -617,7 +653,7 @@ if ($opmode eq 'build') {
         } elsif (!-l _) {
             &internerr("unknown object \`$fn' after extract (mode ".
                        sprintf("0%o",$mode).")");
-        }
+        } else { next; }
         next if ($mode & 07777) == $newmode;
         chmod($newmode,$fn) ||
             &syserr(sprintf("cannot change mode of \`%s' to 0%o from 0%o",
@@ -627,8 +663,9 @@ if ($opmode eq 'build') {
 }
 
 sub checkstats {
-    my ($f)= @_;
-    my @s,$m;
+    my ($f) = @_;
+    my @s;
+    my $m;
     open(STDIN,"< $dscdir/$f") || &syserr("cannot read $dscdir/$f");
     (@s= stat(STDIN)) || &syserr("cannot fstat $dscdir/$f");
     $s[7] == $size{$f} || &error("file $f has size $s[7] instead of expected $size{$f}");
@@ -653,104 +690,216 @@ sub erasedir {
     &failure("rm -rf failed to remove \`$dir'");
 }
 
-sub checktarsane {
-    my ($tarfileread,$epfx) = @_;
-    my $c2,$fn,$pname,$slash,$mode,$dirname,$type;
+use strict 'vars';
 
-    &forkgzipread("$tarfileread");
-    defined($c2= open(CPIO,"-|")) || &syserr("fork for cpio");
+sub checktarcpio {
+
+    my ($tarfileread, $wpfx) = @_;
+    my ($tarprefix, $c2);
+
+    @filesinarchive = ();
+
+    # make <CPIO> read from the uncompressed archive file
+    &forkgzipread ("$tarfileread");
+    if (! defined ($c2 = open (CPIO,"-|"))) { &syserr ("fork for cpio"); }
     if (!$c2) {
-        open(STDIN,"<&GZIP") || &syserr("reopen gzip for cpio");
+        open (STDIN,"<&GZIP") || &syserr ("reopen gzip for cpio");
         &cpiostderr;
-        exec('cpio','-0t'); &syserr("exec cpio");
+        exec ('cpio','-0t');
+	&syserr ("exec cpio");
     }
-    $/= "\0";
-    close(GZIP);
-  file:
-    while (defined($fn= <CPIO>)) {
-        $fn =~ s/\0$//; $pname= $fn; $pname =~ y/ -~/?/c;
-        if ($fn =~ m/\n/) {
-            if (!@filesinarchive) {
+    close (GZIP);
+
+    $/ = "\0";
+    open (CPIO, "<cpiolog");
+    while (defined ($fn = <CPIO>)) {
+
+        $fn =~ s/\0$//;
+
+	# store printable name of file for error messages
+	my $pname = $fn;
+	$pname =~ y/ -~/?/c;
+
+	if (! $tarprefix) {
+	    if ($fn =~ m/\n/) {
                 &error("first output from cpio -0t (from \`$tarfileread') ".
                        "contains newline - you probably have an out of ".
-                       "date version of cpio.  2.4.2-2 is known to work");
-            } else {
-                &error("tarfile \`$tarfileread' contains object with".
-                       " newline in its name ($pname)");
-            }
-        }
-        $slash= substr($fn,length($epfx),1);
-        (($slash eq '/' || $slash eq '') &&
-         substr($fn,0,length($epfx)) eq $epfx) ||
-             &error("tarfile \`$tarfileread' contains object ($pname) ".
-                    "not in expected directory ($epfx)");
-        $fn =~ m,/\.\./, &&
-            &error("tarfile \`$tarfilread' contains object with".
-                   " /../ in its name ($pname)");
-        push(@filesinarchive,$fn);
+                       "date version of cpio.  GNU cpio 2.4.2-2 is known to work");
+	    }
+	    $tarprefix = ($fn =~ m,([^/]*)[/],)[0];
+	    # need to check for multiple dots on some operating systems
+	    # empty tarprefix (due to regex failer) will match emptry string
+	    if ($tarprefix =~ /^[.]*$/) {
+		&error("tarfile \`$tarfileread' does not extract into a ".
+		       "directory off the current directory ($tarprefix from $pname)");
+	    }
+	}
+
+        if ($fn =~ m/\n/) {
+	    &error ("tarfile \`$tarfileread' contains object with".
+		    " newline in its name ($pname)");
+	}
+
+	next if ($fn eq '././@LongLink');
+
+	my $fprefix = substr ($fn, 0, length ($tarprefix));
+        my $slash = substr ($fn, length ($tarprefix), 1);
+        if ((($slash ne '/') && ($slash ne '')) || ($fprefix ne $tarprefix)) {
+	    &error ("tarfile \`$tarfileread' contains object ($pname) ".
+		    "not in expected directory ($tarprefix)");
+	}
+
+	# need to check for multiple dots on some operating systems
+        if ($fn =~ m/[.]{2,}/) {
+            &error ("tarfile \`$tarfileread' contains object with".
+		    " /../ in its name ($pname)");
+	}
+        push (@filesinarchive, $fn);
     }
-    close(CPIO); $? && subprocerr("cpio");
-    
-    $/= "\n";
+    close (CPIO);
+    $? && subprocerr ("cpio");
     &reapgzip;
-    &forkgzipread("$tarfileread");
-    defined($c2= open(TAR,"-|")) || &syserr("fork for tar -t");
-    if (!$c2) {
+    $/= "\n";
+
+    my $tarsubst = quotemeta ($tarprefix);
+    @filesinarchive = map { s/^$tarsubst/$wpfx/; $_ } @filesinarchive;
+
+    return $tarprefix;
+}
+
+sub checktarsane {
+
+    my ($tarfileread, $wpfx) = @_;
+    my ($c2);
+
+    %dirincluded = ();
+    %notfileobject = ();
+
+    my $tarprefix = &checktarcpio ($tarfileread, $wpfx);
+
+    # make <TAR> read from the uncompressed archive file
+    &forkgzipread ("$tarfileread");
+    if (! defined ($c2 = open (TAR,"-|"))) { &syserr ("fork for tar -t"); }
+    if (! $c2) {
         $ENV{'LANG'}= 'C';
-        open(STDIN,"<&GZIP") || &syserr("reopen gzip for tar -t");
-        exec('tar','-vvtf','-'); &syserr("exec tar -vvtf -");
+        open (STDIN, "<&GZIP") || &syserr ("reopen gzip for tar -t");
+        exec ('tar', '-vvtf', '-'); &syserr ("exec tar -vvtf -");
     }
-    close(GZIP);
-    $efix= 0;
-  file:
-    while (length($_= <TAR>)) {
-        s/\n$//;
-        m,^(\S{10})\s, ||
+    close (GZIP);
+
+    my $efix= 0;
+    open (TAR, "<tarlog");
+    while (<TAR>) {
+
+        chomp;
+
+        if (! m,^(\S{10})\s,) {
             &error("tarfile \`$tarfileread' contains unknown object ".
                    "listed by tar as \`$_'");
-        $fn= $filesinarchive[$efix++]; $mode= $1;
-        if ($mode =~ m/^l/) { $_ =~ s/ -\> .*//; }
-        substr($_,length($_)-length($fn)-1) eq " $fn" ||
-            &error("tarfile \`$tarfileread' contains unexpected object".
-                   " listed by tar as \`$_', expected \`$fn'");
+	}
+	my $mode = $1;
+
         $mode =~ s/^([-dpsl])// ||
             &error("tarfile \`$tarfileread' contains object \`$fn' with ".
                    "unknown or forbidden type \`".substr($_,0,1)."'");
-        $fn =~ m/\.dpkg-orig$/ &&
-            &error("tarfile \`$tarfileread' contains file with name ending .dpkg-orig");
-        $type= $&;
-        $mode =~ m/[sStT]/ && $type ne 'd' &&
-            &error("tarfile \`$tarfileread' contains setuid, setgid".
-                   " or sticky object \`$fn'");
-        $fn eq "$epfx/debian" && $type ne 'd' &&
-            &error("tarfile \`$tarfileread' contains object \`debian'".
+        my $type = $&;
+
+        if ($mode =~ /^l/) { $_ =~ s/ -\> .*//; }
+        s/ link to .+//;
+
+	if (length ($_) <= 48) { 
+	    &error ("tarfile \`$tarfileread' contains incomplete entry \`$_'\n");
+	}
+
+	my $tarfn = substr ($_, 48, length ($_) - 48);
+	$tarfn = deoctify ($tarfn);
+
+	# store printable name of file for error messages
+	my $pname = $tarfn;
+	$pname =~ y/ -~/?/c;
+
+	# fetch name of file as given by cpio
+        $fn = $filesinarchive[$efix++];
+
+	if ($tarfn ne $fn) {
+	    if ((length ($fn) == 99) && (length ($tarfn) >= 99)
+		&& (substr ($fn, 0, 99) eq substr ($tarfn, 0, 99))) {
+		# this file doesn't match because cpio truncated the name
+		# to the first 100 characters.  let it slide for now.
+		&warn ("filename \`$pname' was truncated by cpio;" .
+		       " unable to check full pathname");
+	    } else {
+		&error ("tarfile \`$tarfileread' contains unexpected object".
+			" listed by tar as \`$_'; expected \`$pname'");
+	    }
+	}
+
+	# if cpio truncated the name above, 
+	# we still can't allow files to expand into /../
+	# need to check for multiple dots on some operating systems
+        if ($tarfn =~ m/[.]{2,}/) {
+            &error ("tarfile \`$tarfileread' contains object with".
+		    "/../ in its name ($pname)");
+	}
+
+        if ($tarfn =~ /\.dpkg-orig$/) {
+            &error ("tarfile \`$tarfileread' contains file with name ending in .dpkg-orig");
+	}
+
+        if ($mode =~ /[sStT]/ && $type ne 'd') {
+            &error ("tarfile \`$tarfileread' contains setuid, setgid".
+		    " or sticky object \`$pname'");
+	}
+
+        if ($tarfn eq "$tarprefix/debian" && $type ne 'd') {
+            &error ("tarfile \`$tarfileread' contains object \`debian'".
                    " that isn't a directory");
-        $fn =~ s,/$,, if $type eq 'd';
-        $dirname= $fn;
-        $dirname =~ s,/[^/]+$,, && !defined($dirincluded{$dirname}) &&
-            &error("tarfile \`$tarfileread' contains object \`$fn' but its containing ".
-                   "directory \`$dirname' does not precede it");
-        $dirincluded{$fn}= 1 if $type eq 'd';
-        $notfileobject{$fn}= 1 if $type ne '-';
+	}
+
+        if ($type eq 'd') { $tarfn =~ s,/$,,; }
+        my $dirname = $tarfn;
+
+        if (($dirname =~ s,/[^/]+$,,) && (! defined ($dirincluded{$dirname}))) {
+            &error ("tarfile \`$tarfileread' contains object \`$pname' but its containing ".
+		    "directory \`$dirname' does not precede it");
+	}
+	if ($type eq 'd') { $dirincluded{$tarfn} = 1; }
+        if ($type ne '-') { $notfileobject{$tarfn} = 1; }
     }
-    close(TAR); $? && subprocerr("tar -t");
+    close (TAR);
+    #$? && subprocerr ("tar -vvtf");
     &reapgzip;
+
+    my $tarsubst = quotemeta ($tarprefix);
+    %dirincluded = map { s/^$tarsubst/$wpfx/; $_=>1 } (keys %dirincluded);
+    %notfileobject = map { s/^$tarsubst/$wpfx/; $_=>1 } (keys %notfileobject);
 }
 
+no strict 'vars';
+
 sub extracttar {
-    my ($tarfileread,$dirchdir) = @_;
+    my ($tarfileread,$dirchdir,$newtopdir) = @_;
     &forkgzipread("$tarfileread");
-    defined($c2= fork) || &syserr("fork for cpio -i");
+    defined($c2= fork) || &syserr("fork for tar -xkf -");
     if (!$c2) {
         chdir("$dirchdir") || &syserr("cannot chdir to \`$dirchdir' for tar extract");
         open(STDIN,"<&GZIP") || &syserr("reopen gzip for cpio -i");
         &cpiostderr;
-        exec('cpio','-Hustar','-im','--no-preserve-owner'); &syserr("exec cpio -i");
+        exec('tar','-xkf','-'); &syserr("exec tar -xkf -");
     }
     close(GZIP);
-    $c2 == waitpid($c2,0) || &syserr("wait for cpio -i");
-    $? && subprocerr("cpio -i");
+    $c2 == waitpid($c2,0) || &syserr("wait for tar -xkf -");
+    $? && subprocerr("tar -xkf -");
     &reapgzip;
+
+    opendir(D,"$dirchdir") || &syserr("Unable to open dir $dirchdir");
+    @dirchdirfiles = grep($_ ne "." && $_ ne "..",readdir(D));
+    closedir(D) || &syserr("Unable to close dir $dirchdir");
+    (@dirchdirfiles==1 && -d "$dirchdir/$dirchdirfiles[0]") ||
+	&error("$tarfileread extracted into >1 directory");
+    rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
+	&syserr("Unable to rename $dirchdir/$dirchdirfiles[0] to ".
+		"$dirchdir/$newtopdir");
 }
 
 sub cpiostderr {
@@ -759,9 +908,11 @@ sub cpiostderr {
 }
 
 sub setfile {
-    my ($varref)= @_;
-    &error("repeated file type - files ".$$varref." and $file") if length($$varref);
-    $$varref= $file;
+    my ($varref) = @_;
+    if (defined ($$varref)) { 
+	&error ("repeated file type - files " . $$varref . " and $file"); 
+    }
+    $$varref = $file;
 }
 
 sub checktype {
@@ -839,3 +990,23 @@ sub addfile {
     $md5sum =~ s/^([0-9a-f]{32})\n$/$1/ || &failure("md5sum gave bogus output \`$_'");
     $f{'Files'}.= "\n $md5sum $size $filename";
 }
+
+# replace \ddd with their corresponding character, refuse \ddd > \377
+# modifies $_ (hs)
+{
+    my $backslash;
+sub deoctify {
+    my $fn= $_[0];
+    $backslash= sprintf("\\%03o", unpack("C", "\\")) if !$backslash;
+
+    s/\\{2}/$backslash/g;
+    @_= split(/\\/, $fn);
+
+    foreach (@_) {
+        /^(\d{3})/ or next;
+        &failure("bogus character `\\$1' in `$fn'\n") if oct($1) > 255;
+        $_= pack("c", oct($1)) . $';
+    }
+    return join("", @_);
+} }
+

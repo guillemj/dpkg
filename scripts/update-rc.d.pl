@@ -1,165 +1,207 @@
 #! /usr/bin/perl
 #
-# update-rc.d	Perl script to update links in /etc/rc?.d
+# update-rc.d	Update the links in /etc/rc[0-9S].d/
 #
-# Usage:
-#		update-rc.d [-f] <basename> remove
-#		update-rc.d <basename> [options]
-#
-# Options are:
-#		start <codenumber> <runlevel> <runlevel> <runlevel> .
-#		stop  <codenumber> <runlevel> <runlevel> <runlevel> .
-#
-#		defaults [<codenumber> | <startcode> <stopcode>]
-#		(means       start <startcode> 2 3 4 5
-#		 as well as  stop  <stopcode>  0 1 2 3 4 5 6
-#		<codenumber> defaults to 20)
-#
-# Version:	@(#)update-rc.d  1.02  11-Jul-1996  miquels@cistron.nl
-#
-# Changes:      1.00 Wrote perl version directly derived from shell version.
-#		1.01 Fixed problem when dangling symlinks are found in
-#		     /etc/rc?.d/. The shell version just exits silently!
-#		1.02 More misc bugs fixed caused by sh -> perl translation
+# Version:	@(#)update-rc.d.pl  2.02  05-Mar-1998  miquels@cistron.nl
 #
 
-$version= '1.3.2'; # This line modified by Makefile
+$initd = "/etc/init.d";
+$etcd  = "/etc/rc";
+$notreally = 0;
 
-chdir('/etc') || die "chdir /etc: $!\n";
-
-$initd='init.d';
+# Print usage message and die.
 
 sub usage {
-  print STDERR <<EOF;
-Debian GNU/Linux update-rc.d $version.  Copyright (C) 1996 Miquel van
-Smoorenburg.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
-
-update-rc.d: error: @_
-usage: update-rc.d [-f] <basename> remove
-       update-rc.d <basename> defaults [<cn> | <scn> <kcn>]
-       update-rc.d <basename> start|stop <cn> <r> <r> .  ...
+	print STDERR "update-rc.d: error: @_\n" if ($#_ >= 0);
+	print STDERR <<EOF;
+usage: update-rc.d [-n] [-f] <basename> remove
+       update-rc.d [-n] [-f] <basename> defaults [NN | sNN kNN]
+       update-rc.d [-n] [-f] <basename> start|stop NN runlvl runlvl .  ...
+		-n: not really
+		-f: force
 EOF
-  &leave(1);
+	exit (1);
 }
 
+# Check out options.
 
-sub getinode {
-	local @tmp;
-
-	unless (@tmp = stat($_[0])) {
-		print STDERR "stat($_[0]): $!\n";
-		$tmp[1] = 0;
-	}
-	$tmp[1];
-}
-
-sub leave {
-	eval $atexit if ($atexit ne '');
-	exit($_[0]);
-}
-
-$force = 0;
-if ($ARGV[0] eq '-f') {
+while($#ARGV >= 0 && ($_ = $ARGV[0]) =~ /^-/) {
 	shift @ARGV;
-	$force = 1;
+	if (/^-n$/) { $notreally++; next }
+	if (/^-f$/) { $force++; next }
+	if (/^-h|--help$/) { &usage; }
+	&usage("unknown option");
 }
 
-&usage("too few arguments") if ($#ARGV < 1);
+# Action.
 
+&usage() if ($#ARGV < 1);
 $bn = shift @ARGV;
-$action = shift @ARGV;
-
-if ($action eq 'remove') {
-	&usage("remove must be only action") if ($#ARGV > 0);
-	if (-f "$initd/$bn") {
-		unless ($force) {
-			print STDERR "update-rc.d: error: /etc/$initd/$bn exists during rc.d purge (use -f to force).\n";
-			&leave(1);
-		}
-	} else {
-		$atexit = "unlink('$initd/$bn');";
-	}
-	print  " Removing any system startup links to /etc/$initd/$bn ...\n";
-	open(FD, ">>$initd/$bn");
-	close FD;
-	$own = &getinode("$initd/$bn");
-	@files = split(/\s+/, `echo rc?.d/[SK]*`);
-	foreach $f (@files) {
-		$inode = &getinode($f);
-		if ($inode == $own) {
-			unless (unlink($f))  {
-				print STDERR "unlink($f): $!\n";
-				&leave(1);
-			}
-			print "   $f\n";
-		}
-	}
-	&leave(0);
-} elsif ($action eq 'defaults') {
-	if ($#ARGV < 0) {
-		$sn = $kn = 20;
-	} elsif ($#ARGV == 0) {
-		$sn = $kn = $ARGV[0];
-	} elsif ($#ARGV == 1) {
-		$sn = $ARGV[0];
-		$kn = $ARGV[1];
-	} else {
-		&usage("defaults takes only one or two codenumbers");
-	}
-	@ARGV = ('start', "$sn", '2', '3', '4', '5', 'stop',
-			  "$kn", '0', '1', '6');
-} elsif ($action ne 'start' && $action ne 'stop') {
-	&usage("unknown mode or add action $action");
+if ($ARGV[0] ne 'remove') {
+    if (! -f "$initd/$bn") {
+	print STDERR "update-rc.d: $initd/$bn: file does not exist\n";
+	exit (1);
+    }
+} elsif (-f "$initd/$bn") {
+    if (!$force) {
+	printf STDERR "update-rc.d: $initd/$bn exists during rc.d purge (use -f to force)\n";
+	exit (1);
+    } else {
+	printf STDERR "update-rc.d: $initd/$bn exists during rc.d purge (continuing)\n";
+    }
 }
 
-unless (-f "$initd/$bn") {
-	print STDERR "update-rc.d: warning /etc/$initd/$bn doesn't exist during rc.d setup.\n";
-	exit(0);
-}
+$_ = $ARGV[0];
+if    (/^remove$/)     { &checklinks ("remove"); }
+elsif (/^defaults$/)   { &defaults; &makelinks }
+elsif (/^start|stop$/) { &startstop; &makelinks; }
+else                   { &usage; }
 
-$own = &getinode("$initd/$bn");
+exit (0);
 
-@files = split(/\s+/, `echo rc?.d/[SK]*`);
-foreach $f (@files) {
-	$inode = &getinode($f);
-	if ($inode == $own) {
-		print STDERR " System startup links pointing to /etc/$initd/$bn already exist.\n";
-		exit(0);
+# Check if there are links in /etc/rc[0-9S].d/ 
+# Remove if the first argument is "remove" and the links 
+# point to $bn.
+
+sub is_link () {
+    my ($op, $fn, $bn) = @_;
+    if (! -l $fn) {
+	print STDERR "update-rc.d: warning: $fn is not a symbolic link\n";
+	return 0;
+    } else {
+	$linkdst = readlink ($fn);
+	if (! defined $linkdst) {
+	    die ("update-rc.d: error reading symbolic link: $!\n");
 	}
-}
-
-print " Adding system startup links pointing to /etc/$initd/$bn ...\n";
-while ($#ARGV >= 1) {
-	if ($ARGV[0] eq 'start') {
-		$ks = 'S';
-	} elsif ($ARGV[0] eq 'stop') {
-		$ks = 'K';
-	} else {
-		&usage("unknown action $1");
+	if (($linkdst ne "../init.d/$bn") && ($linkdst ne "../init.d/$bn")) {
+	    print STDERR "update-rc.d: warning: $fn is not a link to ../init.d/$bn\n";
+	    return 0;
 	}
-	shift @ARGV;
-	$number = shift @ARGV;
-	while ($#ARGV >= 0) {
-		$_ = $ARGV[0];
-		if (/^\.$/) {
-			shift @ARGV;
-			last;
-		} elsif (/^.$/) {
-			symlink("../$initd/$bn", "rc$_.d/$ks$number$bn") ||
-				die "symlink: $!\n";
-			print "   rc$_.d/$ks$number$bn -> ../$initd/$bn\n";
-			shift @ARGV;
-			next;
-		} elsif (/^(start|stop)$/) {
-			last;
-		}
-		&usage('runlevel is more than one character\n');
+    }
+    return 1;
+}
+
+sub checklinks {
+    my ($i, $found, $fn, $islnk);
+
+    print " Removing any system startup links for $initd/$bn ...\n"
+	if ($_[0] eq 'remove');
+
+    $found = 0;
+
+    foreach $i (0..9, 'S') {
+	unless (chdir ("$etcd$i.d")) {
+	    next if ($i =~ m/^[789S]$/);
+	    die("update-rc.d: chdir $etcd$i.d: $!\n");
 	}
+	opendir(DIR, ".");
+	foreach $_ (readdir(DIR)) {
+	    next unless (/^[S|K][0-9]*$bn$/);
+	    $fn = "$etcd$i.d/$_";
+	    $found = 1;
+	    $islnk = &is_link ($_[0], $fn, $bn);
+	    next if ($_[0] ne 'remove');
+	    if (! $islnk) {
+		print "   $fn is not a link to ../init.d/$bn; not removing\n"; 
+		next;
+	    }
+	    print "   $etcd$i.d/$_\n";
+	    next if ($notreally);
+	    unlink ("$etcd$i.d/$_") ||
+		die("update-rc.d: unlink: $!\n");
+	}
+	closedir(DIR);
+    }
+    $found;
 }
 
-if ($#ARGV >= 0) {
-	&usage("surplus arguments, but not enough for an add action: @ARGV\n");
+# Process the arguments after the "defaults" keyword.
+
+sub defaults {
+    my ($start, $stop) = (20, 20);
+
+    &usage ("defaults takes only one or two codenumbers") if ($#ARGV > 2);
+    $start = $stop = $ARGV[1] if ($#ARGV >= 1);
+    $stop  =         $ARGV[2] if ($#ARGV >= 2);
+    &usage ("codenumber must be a number")
+	if ($start !~ /^[0-9]+$/ || $stop  !~ /^[0-9]+$/);
+
+    $start = sprintf("%02d", $start);
+    $stop  = sprintf("%02d", $stop);
+
+    $stoplinks[0] = $stoplinks[1] = $stoplinks[6] = "K$stop";
+    $startlinks[2] = $startlinks[3] =
+	$startlinks[4] = $startlinks[5] = "S$start";
+
+    1;
 }
 
-0;
+# Process the arguments after the start or stop keyword.
+
+sub startstop {
+
+    my($letter, $NN, $level);
+
+    while ($#ARGV >= 0) {
+	if    ($ARGV[0] eq 'start') { $letter = 'S'; }
+	elsif ($ARGV[0] eq 'stop')  { $letter = 'K' }
+	else {
+	    &usage("expected start|stop");
+	}
+
+	if ($ARGV[1] !~ /^[0-9]+$/) {
+	    &usage("expected NN after $ARGV[0]");
+	}
+	$NN = sprintf("%02d", $ARGV[1]);
+
+	shift @ARGV; shift @ARGV;
+	$level = shift @ARGV;
+	do {
+	    if ($level !~ m/^[0-9S]$/) {
+		&usage(
+		       "expected runlevel [0-9S] (did you forget \".\" ?)");
+	    }
+	    if (! -d "$etcd$level.d") {
+		print STDERR
+		    "update-rc.d: $etcd$level.d: no such directory\n";
+		exit(1);
+	    }
+	    $level = 99 if ($level eq 'S');
+	    $startlinks[$level] = "$letter$NN" if ($letter eq 'S');
+	    $stoplinks[$level]  = "$letter$NN" if ($letter eq 'K');
+	} while (($level = shift @ARGV) ne '.');
+	&usage("action with list of runlevels not terminated by \`.'")
+	    if ($level ne '.');
+    }
+    1;
+}
+
+# Create the links.
+
+sub makelinks {
+    my($t, $i);
+    my @links;
+
+    if (&checklinks) {
+	print " System startup links for $initd/$bn already exist.\n";
+	exit (0);
+    }
+    print " Adding system startup for $initd/$bn ...\n";
+
+    # nice unreadable perl mess :)
+
+    for($t = 0; $t < 2; $t++) {
+	@links = $t ? @startlinks : @stoplinks;
+	for($i = 0; $i <= $#links; $i++) {
+	    $lvl = $i;
+	    $lvl = 'S' if ($i == 99);
+	    next if ($links[$i] eq '');
+	    print "   $etcd$lvl.d/$links[$i]$bn -> ../init.d/$bn\n";
+	    next if ($notreally);
+	    symlink("../init.d/$bn", "$etcd$lvl.d/$links[$i]$bn")
+		|| die("update-rc.d: symlink: $!\n");
+	}
+    }
+
+    1;
+}

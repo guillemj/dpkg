@@ -5,12 +5,13 @@
  * This is free software under the GNU General Public License.
  */
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <pwd.h>
 #include <grp.h>
 #include <errno.h>
-#include "tarfn.h"
+#include <tarfn.h>
 
 struct TarHeader {
 	char Name[100];

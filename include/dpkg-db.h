@@ -25,6 +25,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+struct versionrevision {
+  unsigned long epoch;
+  const char *version;
+  const char *revision;
+};  
+
 enum deptype {
   dep_suggests,
   dep_recommends,
@@ -35,36 +41,33 @@ enum deptype {
   dep_replaces
 };
 
-struct dependency { /* dy */
+enum depverrel {
+  dvrf_earlier=      0001,
+  dvrf_later=        0002,
+  dvrf_strict=       0010,
+  dvrf_orequal=      0020,
+  dvrf_builtup=      0100,
+  dvr_none=          0200,
+  dvr_earlierequal=  dvrf_builtup | dvrf_earlier | dvrf_orequal,
+  dvr_earlierstrict= dvrf_builtup | dvrf_earlier | dvrf_strict,
+  dvr_laterequal=    dvrf_builtup | dvrf_later   | dvrf_orequal,
+  dvr_laterstrict=   dvrf_builtup | dvrf_later   | dvrf_strict,
+  dvr_exact=         0400
+};
+
+struct dependency {
   struct pkginfo *up;
   struct dependency *next;
   struct deppossi *list;
   enum deptype type;
 };
 
-struct versionrevision {
-  unsigned long epoch;
-  char *version, *revision;
-};  
-
-struct deppossi { /* do */
+struct deppossi {
   struct dependency *up;
   struct pkginfo *ed;
   struct deppossi *next, *nextrev, *backrev;
-  enum depverrel {
-    dvrf_earlier=      0001,
-    dvrf_later=        0002,
-    dvrf_strict=       0010,
-    dvrf_orequal=      0020,
-    dvrf_builtup=      0100,
-    dvr_none=          0200,
-    dvr_earlierequal=  dvrf_builtup | dvrf_earlier | dvrf_orequal,
-    dvr_earlierstrict= dvrf_builtup | dvrf_earlier | dvrf_strict,
-    dvr_laterequal=    dvrf_builtup | dvrf_later   | dvrf_orequal,
-    dvr_laterstrict=   dvrf_builtup | dvrf_later   | dvrf_strict,
-    dvr_exact=         0400
-  } verrel;
   struct versionrevision version;
+  enum depverrel verrel;
   int cyclebreak;
 };
 
@@ -82,7 +85,10 @@ struct conffile {
 
 struct filedetails {
   struct filedetails *next;
-  char *name, *msdosname, *size, *md5sum;
+  char *name;
+  char *msdosname;
+  char *size;
+  char *md5sum;
 };
 
 struct pkginfoperfile { /* pif */

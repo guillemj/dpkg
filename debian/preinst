@@ -3,7 +3,7 @@
 if [ "$1" != "upgrade" ]; then exit 0; fi
 
 set -e
-# i386elf: dpkg --assert-support-predepends
+# i386elf: [ "$2" = "1.4.0.6" ] || dpkg --assert-support-predepends
 
 oldver="$2"
 
@@ -15,21 +15,21 @@ esac
 echo '
 contemplating upgrade of dpkg from pre-0.93.50 version ...'
 
-trap 'es=$?; rm -f /tmp/bp.$$; exit $es' 0
+trap 'es=$?; rm -f /var/lib/dpkg/bp.$$; exit $es' 0
 
 perl -000 -ne 'print $x if m/^Package:\s+(\S+\n)/im &&
 			  ($x=$1) ne "dpkg\n" &&
 			  m/^Status:.*(unpacked|postinst)/im' \
-	/var/lib/dpkg/status >/tmp/bp.$$
+	/var/lib/dpkg/status >/var/lib/dpkg/bp.$$
 
-if test -s /tmp/bp.$$
+if test -s /var/lib/dpkg/bp.$$
 then
 	echo '
 
 WARNING - have you read the release notes for this upgrade ?
 
 The following packages have been unpacked but not yet configured:'
-	echo '' `cat /tmp/bp.$$`
+	echo '' `cat /var/lib/dpkg/bp.$$`
 	echo -n '
 If you proceed with the dpkg upgrade with these packages in this state
 you will LOSE ANY CONFIGURATION CHANGES that have been made to their

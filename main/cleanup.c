@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -31,11 +32,11 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
-#include "tarfn.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <tarfn.h>
+#include <myopt.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -80,20 +81,20 @@ void cu_installnew(int argc, void **argv) {
        */
       debug(dbg_eachfiledetail,"cu_installnew restoring nonatomic");
       if (unlinkorrmdir(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
-        ohshite("unable to remove newly-installed version of `%.250s' to allow"
-                " reinstallation of backup copy",namenode->name);
+        ohshite(_("unable to remove newly-installed version of `%.250s' to allow"
+                " reinstallation of backup copy"),namenode->name);
     } else {
       debug(dbg_eachfiledetail,"cu_installnew restoring atomic");
     }
     /* Either we can do an atomic restore, or we've made room: */
     if (rename(fnametmpvb.buf,fnamevb.buf))
-      ohshite("unable to restore backup version of `%.250s'",namenode->name);
+      ohshite(_("unable to restore backup version of `%.250s'"),namenode->name);
   } else {
     debug(dbg_eachfiledetail,"cu_installnew not restoring");
   }
   /* Whatever, we delete <foo>.dpkg-new now, if it still exists. */
   if (unlinkorrmdir(fnamenewvb.buf) && errno != ENOENT && errno != ENOTDIR)
-    ohshite("unable to remove newly-extracted version of `%.250s'",namenode->name);
+    ohshite(_("unable to remove newly-extracted version of `%.250s'"),namenode->name);
 
   cleanup_pkg_failed--; cleanup_conflictor_failed--;
 }

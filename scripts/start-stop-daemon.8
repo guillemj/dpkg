@@ -1,19 +1,138 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.TH START\-STOP\-DAEMON 8 "29th November 1995" "Debian Project" "Debian GNU/Linux"
+.TH START\-STOP\-DAEMON 8 "15th March 1997" "Debian Project" "Debian GNU/Linux"
 .SH NAME
-start\-stop\-daemon \- Debian package installation tool
+start\-stop\-daemon \- start and stop system daemon programs
+.SH SYNOPSIS
+.B start-stop-daemon
+.BR -S|--start
+.IR "options ... -- arguments ..."
+.HP
+.B start-stop-daemon
+.BR -K|--stop
+.IR "options ..."
+.HP
+.B start-stop-daemon
+.BR -H|--help
+.HP
+.B start-stop-daemon
+.BR -V|--version
 .SH DESCRIPTION
 .B start\-stop\-daemon
-does not have a useful man page.  Please do not report this as a bug,
-as this has already been done many times.
+is used to control the creation and termination of system-level processes.
+Using the
+.BR --exec
+,
+.BR --pidfile
+,
+.BR --user
+, and
+.BR --name
+options, 
+.B start\-stop\-daemon
+can be configured to find existing instances of a running process.
 
-Instead, if you are a competent and accurate writer and are willing to
-spend the time reading the source code and writing good manpages
-please write a better man page than this one.
+With
+.BR --start
+,
+.B start\-stop\-daemon
+checks for the existence of a specified process.
+If such a process exists,
+.B start\-stop\-daemon
+does nothing, and exits with error status 1 (0 if
+.BR --oknodo
+is specified).  
+If such a process does not exist, it starts an
+instance, using either the executable specified by
+.BR --exec
+, (or, if specified, by
+.BR --startas
+).
+Any arguments given after
+.BR --
+on the command line are passed unmodified to the program being
+started.
 
-Type
-.B start\-stop\-daemon \-\-help
-for a brief summary of how to use dpkg.
+With 
+.BR --stop
+,
+.B start\-stop\-daemon
+also checks for the existence of a specified process.
+If such a process exists,
+.B start\-stop\-daemon
+sends it the signal specified by
+.BR --signal
+, and exits with error status 0.
+If such a process does not exist,
+.B start\-stop\-daemon
+exits with error status 1
+(0 if 
+.BR --oknodo
+is specified).  
 
-.SH AUTHOR
-Ian Jackson <ijackson@gnu.ai.mit.edu>.
+.SH OPTIONS
+
+.TP
+.I -x|--exec executable
+Check for processes that are instances of this executable (according to 
+.B /proc/
+.I pid
+.B /exe 
+).
+.TP
+.I -p|--pidfile pid-file
+Check for processes whose process-id is specified in 
+.I pid-file.
+.TP
+.I -u|--user username|uid
+Check for processes owned by the user specified by
+.I username 
+or
+.I uid.
+.TP
+.I -n|--name process-name
+Check for processes with the name
+.I process-name
+(according to
+.B /proc/
+.I pid
+.B /stat 
+).
+.TP
+.I -s|--signal signal
+With
+.BR --stop
+, specifies the signal to send to processes being stopped (default 15).
+.TP
+.I -a|--startas pathname
+With 
+.B --start
+, start the process specified by 
+.I pathname.
+If not specified, defaults to the argument given to
+.B --exec.
+.TP
+.I -t|--test
+Print actions that would be taken and set appropriate return value,
+but take no action.
+.TP
+.I -o|--oknodo
+Return exit status 0 instead of 1 if no actions are (would be) taken.
+.TP
+.I -q|--quiet
+Do not print informational messages; only display error messages.
+.TP
+.I -v|--verbose
+Print verbose informational messages.
+.TP
+.I -H|--help
+Print help information; then exit.
+.TP
+.I -V|--version
+Print version information; then exit.
+
+.SH AUTHORS
+Ian Jackson <ijackson@gnu.ai.mit.edu>
+
+Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
+
+Manual page by Klee Dienes <klee@mit.edu>.

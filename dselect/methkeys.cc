@@ -21,14 +21,14 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <ncurses.h>
+#include <curses.h>
 #include <assert.h>
 #include <signal.h>
 
 extern "C" {
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 }
 #include "dselect.h"
 #include "bindings.h"
@@ -56,7 +56,7 @@ const keybindings::interpretation methodlist_kinterps[] = {
   { "redraw",          methodlist::kd_redraw,         0,    qa_noquit           },
   { "select-and-quit", methodlist::kd_quit,           0,    qa_quitchecksave    },
   { "abort",           methodlist::kd_abort,          0,    qa_quitnochecksave  },
-  {  0,                0,                                   qa_noquit           }
+  {  0,                0,                             0,    qa_noquit           }
 };
 
 #define C(x) ((x)-'a'+1)

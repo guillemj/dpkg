@@ -22,14 +22,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 
-#include "config.h"
-#include "dpkg.h"
+#include <config.h>
+#include <dpkg.h>
 
 void showcopyright(const struct cmdinfo *c, const char *v) {
   int fd;
   fd= open(COPYINGFILE,O_RDONLY);
-  if (fd < 0) ohshite("cannot open GPL file " COPYINGFILE);
+  if (fd < 0) ohshite(_("cannot open GPL file /usr/doc/dpkg/copyright"));
   m_dup2(fd,0);
   execlp(CAT,CAT,"-",(char*)0);
-  ohshite("unable to exec cat for displaying GPL file");
+  ohshite(_("unable to exec cat for displaying GPL file"));
 }

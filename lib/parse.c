@@ -24,9 +24,9 @@
 #include <ctype.h>
 #include <stdarg.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 #include "parsedump.h"
 
 const struct fieldinfo fieldinfos[]= {
@@ -87,11 +87,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
   if (warncount) *warncount= 0;
   newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;
   file= fopen(filename,"r");
-  if (!file) ohshite("failed to open package info file `%.255s' for reading",filename);
+  if (!file) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
 
   if (!donep) /* Reading many packages, use a nice big buffer. */
     if (setvbuf(file,readbuf,_IOFBF,sizeof(readbuf)))
-      ohshite("unable to set buffering on status file");
+      ohshite(_("unable to set buffering on status file"));
 
   push_cleanup(cu_parsedb,~0, 0,0, 1,(void*)file);
   varbufinit(&field); varbufinit(&value);
@@ -118,16 +118,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
       while (c != EOF && c != '\n' && isspace(c)) c= getc(file);
       if (c == EOF)
         parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                 "EOF after field name `%.50s'",field.buf);
+                 _("EOF after field name `%.50s'"),field.buf);
       if (c == '\n')
         parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                 "newline in field name `%.50s'",field.buf);
+                 _("newline in field name `%.50s'"),field.buf);
       if (c == MSDOS_EOF_CHAR)
         parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                 "MSDOS EOF (^Z) in field name `%.50s'", field.buf);
+                 _("MSDOS EOF (^Z) in field name `%.50s'"), field.buf);
       if (c != ':')
         parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                 "field name `%.50s' must be followed by colon", field.buf);
+                 _("field name `%.50s' must be followed by colon"), field.buf);
       varbufreset(&value);
       for (;;) {
         c= getc(file);
@@ -135,11 +135,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
       }
       if (c == EOF)
         parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                 "EOF before value of field `%.50s' (missing final newline)",
+                 _("EOF before value of field `%.50s' (missing final newline)"),
                  field.buf);
       if (c == MSDOS_EOF_CHAR)
         parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                 "MSDOS EOF char in value of field `%.50s' (missing newline?)",
+                 _("MSDOS EOF char in value of field `%.50s' (missing newline?)"),
                  field.buf);
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
@@ -150,7 +150,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
           c= '\n';
         } else if (c == EOF) {
           parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                   "EOF during value of field `%.50s' (missing final newline)",
+                   _("EOF during value of field `%.50s' (missing final newline)"),
                    field.buf);
         }
         varbufaddc(&value,c);
@@ -167,17 +167,17 @@ int parsedb(const char *filename, enum parsedbflags flags,
       if (fip->name) {
         if (*ip++)
           parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                   "duplicate value for `%s' field", fip->name);
+                   _("duplicate value for `%s' field"), fip->name);
         fip->rcall(&newpig,newpifp,flags,filename,lno-1,warnto,warncount,value.buf,fip);
       } else {
         if (strlen(fieldname)<2)
           parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                   "user-defined field name `%s' too short", fieldname);
+                   _("user-defined field name `%s' too short"), fieldname);
         larpp= &newpifp->arbs;
         while ((arp= *larpp) != 0) {
           if (!strcasecmp(arp->name,fieldname))
             parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                     "duplicate value for user-defined field `%.50s'", fieldname);
+                     _("duplicate value for user-defined field `%.50s'"), fieldname);
           larpp= &arp->next;
         }
         arp= nfmalloc(sizeof(struct arbitraryfield));
@@ -190,7 +190,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     } /* loop per field */
     if (pdone && donep)
       parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-               "several package info entries found, only one allowed");
+               _("several package info entries found, only one allowed"));
     parsemustfield(file,filename,lno, warnto,warncount,&newpig,0,
                    &newpig.name, "package name");
     if ((flags & pdb_recordavailable) || newpig.status != stat_notinstalled) {
@@ -218,7 +218,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       if (newpig.configversion.version) {
         if (newpig.status == stat_installed || newpig.status == stat_notinstalled)
           parseerr(file,filename,lno, warnto,warncount,&newpig,0,
-                   "Configured-Version for package with inappropriate Status");
+                   _("Configured-Version for package with inappropriate Status"));
       } else {
         if (newpig.status == stat_installed) newpig.configversion= newpifp->version;
       }
@@ -232,7 +232,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         newpig.status == stat_notinstalled &&
         newpifp->conffiles) {
       parseerr(file,filename,lno, warnto,warncount,&newpig,1,
-               "Package which in state not-installed has conffiles, forgetting them");
+               _("Package which in state not-installed has conffiles, forgetting them"));
       newpifp->conffiles= 0;
     }
 
@@ -280,10 +280,10 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (c == EOF) break;
     if (c == '\n') lno++;
   }
-  if (ferror(file)) ohshite("failed to read from `%.255s'",filename);
+  if (ferror(file)) ohshite(_("failed to read from `%.255s'"),filename);
   pop_cleanup(0);
-  if (fclose(file)) ohshite("failed to close after read: `%.255s'",filename);
-  if (donep && !pdone) ohshit("no package information in `%.255s'",filename);
+  if (fclose(file)) ohshite(_("failed to close after read: `%.255s'"),filename);
+  if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
 
   varbuffree(&field); varbuffree(&value);
   return pdone;

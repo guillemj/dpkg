@@ -20,10 +20,12 @@
  */
 
 #include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
 
 void varbufaddc(struct varbuf *v, int c) {
   if (v->used >= v->size) varbufextend(v);
@@ -71,7 +73,7 @@ void varbufextend(struct varbuf *v) {
 
   newsize= v->size + 80 + v->used;
   newbuf= realloc(v->buf,newsize);
-  if (!newbuf) ohshite("failed to realloc for variable buffer");
+  if (!newbuf) ohshite(_("failed to realloc for variable buffer"));
   v->size= newsize;
   v->buf= newbuf;
 }

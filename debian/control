@@ -1,13 +1,14 @@
 Source: dpkg
 Section: base
 Priority: required
-Maintainer: Ian Jackson <ian@chiark.greenend.org.uk>
+Maintainer: Ian Jackson and others <dpkg-maint@chiark.greenend.org.uk>
 Standards-Version: 2.1.0.0
 
 Package: dpkg
 Architecture: any
 Essential: yes
 Pre-Depends: ${shlibs:Pre-Depends}
+Suggests: developer-keyring
 Description: Package maintenance system for Debian Linux
  This package contains the programs which handle the installation and
  removal of packages on your system.
@@ -23,7 +24,9 @@ Package: dpkg-dev
 Section: devel
 Priority: important
 Architecture: all
-Recommends: cpio (>= 2.4.2-2), patch
+Depends: perl
+Recommends: cpio (>= 2.4.2-2), patch (>= 2.2-1), gcc, make
+Suggests: gnupg, developer-keyring
 Conflicts: dpkgname
 Replaces: dpkgname, dpkg (<< 1.4.0)
 Description: Package building tools for Debian Linux

@@ -48,13 +48,14 @@
 #ifndef ATTRNORETURN
 #ifdef HAVE_GNUC25_NORETURN
 #define ATTRNORETURN noreturn
-#else
+#else /* ! HAVE_GNUC25_NORETURN */
 #define ATTRNORETURN
-#endif
-#endif
+#endif /* HAVE_GNUC25_NORETURN */
+#endif /* ATTRNORETURN */
+
 #ifndef NONRETURNING
 #define NONRETURNING FUNCATTR((ATTRNORETURN))
-#endif
+#endif /* NONRETURNING */
 
 /* Combination of both the above. */
 #ifndef NONRETURNPRINTFFORMAT

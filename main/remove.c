@@ -19,6 +19,7 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -32,10 +33,10 @@
 #include <string.h>
 #include <assert.h>
 
-#include "config.h"
-#include "dpkg.h"
-#include "dpkg-db.h"
-#include "myopt.h"
+#include <config.h>
+#include <dpkg.h>
+#include <dpkg-db.h>
+#include <myopt.h>
 
 #include "filesdb.h"
 #include "main.h"
@@ -73,17 +74,17 @@ void deferred_remove(struct pkginfo *pkg) {
   debug(dbg_general,"deferred_remove package %s",pkg->name);
   
   if (pkg->status == stat_notinstalled) {
-    fprintf(stderr, DPKG
-            " - warning: ignoring request to remove %.250s which isn't installed.\n",
+    fprintf(stderr,
+            _("dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"),
             pkg->name);
     pkg->clientdata->istobe= itb_normal;
     return;
   } else if (!f_pending &&
              pkg->status == stat_configfiles &&
              cipaction->arg != act_purge) {
-    fprintf(stderr, DPKG
-            " - warning: ignoring request to remove %.250s, only the config\n"
-            " files of which are on the system.  Use --purge to remove them too.\n",
+    fprintf(stderr,
+            _("dpkg - warning: ignoring request to remove %.250s, only the config\n"
+            " files of which are on the system.  Use --purge to remove them too.\n"),
             pkg->name);
     pkg->clientdata->istobe= itb_normal;
     return;
@@ -91,8 +92,8 @@ void deferred_remove(struct pkginfo *pkg) {
 
   assert(pkg->installed.valid);
   if (pkg->installed.essential && pkg->status != stat_configfiles)
-    forcibleerr(fc_removeessential, "This is an essential package -"
-                " it should not be removed.");
+    forcibleerr(fc_removeessential, _("This is an essential package -"
+                " it should not be removed."));
 
   if (!f_pending)
     pkg->want= (cipaction->arg == act_purge) ? want_purge : want_deinstall;
@@ -117,13 +118,13 @@ void deferred_remove(struct pkginfo *pkg) {
     sincenothing= 0;
     varbufaddc(&raemsgs,0);
     fprintf(stderr,
-            DPKG ": dependency problems prevent removal of %s:\n%s",
+            _("dpkg: dependency problems prevent removal of %s:\n%s"),
             pkg->name, raemsgs.buf);
-    ohshit("dependency problems - not removing");
+    ohshit(_("dependency problems - not removing"));
   } else if (raemsgs.used) {
     varbufaddc(&raemsgs,0);
     fprintf(stderr,
-            DPKG ": %s: dependency problems, but removing anyway as you request:\n%s",
+            _("dpkg: %s: dependency problems, but removing anyway as you request:\n%s"),
             pkg->name, raemsgs.buf);
   }
   varbuffree(&raemsgs);
@@ -131,14 +132,14 @@ void deferred_remove(struct pkginfo *pkg) {
 
   if (pkg->eflag & eflagf_reinstreq)
     forcibleerr(fc_removereinstreq,
-                "Package is in a very bad inconsistent state - you should\n"
-                " reinstall it before attempting a removal.");
+                _("Package is in a very bad inconsistent state - you should\n"
+                " reinstall it before attempting a removal."));
 
   ensure_allinstfiles_available();
   filesdbinit();
 
   if (f_noact) {
-    printf("Would remove or purge %s ...\n",pkg->name);
+    printf(_("Would remove or purge %s ...\n"),pkg->name);
     pkg->status= stat_notinstalled;
     pkg->clientdata->istobe= itb_normal;
     return;
@@ -146,7 +147,7 @@ void deferred_remove(struct pkginfo *pkg) {
 
   oldconffsetflags(pkg->installed.conffiles);
     
-  printf("Removing %s ...\n",pkg->name);
+  printf(_("Removing %s ...\n"),pkg->name);
   if (pkg->status == stat_halfconfigured || pkg->status == stat_installed) {
 
     if (pkg->status == stat_installed || pkg->status == stat_halfconfigured) {
@@ -241,23 +242,39 @@ void removal_bulk(struct pkginfo *pkg) {
       debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
       if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
       if (errno == ENOTEMPTY) {
-        fprintf(stderr, DPKG
-                " - warning: while removing %.250s, directory `%.250s' not empty "
-                "so not removed.\n",
+        fprintf(stderr,
+                _("dpkg - warning: while removing %.250s, directory `%.250s' not empty "
+                "so not removed.\n"),
                 pkg->name, namenode->name);
         push_leftover(&leftover,namenode);
         continue;
       } else if (errno == EBUSY || errno == EPERM) {
-        fprintf(stderr, DPKG " - warning: while removing %.250s,"
+        fprintf(stderr, _("dpkg - warning: while removing %.250s,"
                 " unable to remove directory `%.250s':"
-                " %s - directory may be a mount point ?\n",
+                " %s - directory may be a mount point ?\n"),
                 pkg->name, namenode->name, strerror(errno));
         push_leftover(&leftover,namenode);
         continue;
       }
-      if (errno != ENOTDIR) ohshite("cannot remove `%.250s'",fnvb.buf);
+      if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
       debug(dbg_eachfiledetail, "removal_bulk unlinking `%s'", fnvb.buf);
-      if (unlink(fnvb.buf)) ohshite("cannot remove file `%.250s'",fnvb.buf);
+      {
+        /*
+         * If file to remove is a device or s[gu]id, change its mode
+         * so that a malicious user cannot use it even if it's linked
+         * to another file
+         */
+        struct stat stat_buf;
+        if (stat(fnvb.buf,&stat_buf)==0) {
+          if (S_ISCHR(stat_buf.st_mode) || S_ISBLK(stat_buf.st_mode)) {
+            chmod(fnvb.buf,0);
+          }
+          if (stat_buf.st_mode & (S_ISUID|S_ISGID)) {
+            chmod(fnvb.buf,stat_buf.st_mode & ~(S_ISUID|S_ISGID));
+          }
+        }
+      }
+      if (unlink(fnvb.buf)) ohshite(_("cannot remove file `%.250s'"),fnvb.buf);
     }
     write_filelist_except(pkg,leftover,0);
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
@@ -267,7 +284,7 @@ void removal_bulk(struct pkginfo *pkg) {
     varbufaddstr(&fnvb,"/" INFODIR);
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);
-    dsd= opendir(fnvb.buf); if (!dsd) ohshite("cannot read info directory");
+    dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
     push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
     foundpostrm= 0;
 
@@ -288,7 +305,7 @@ void removal_bulk(struct pkginfo *pkg) {
       varbufaddstr(&fnvb,de->d_name);
       varbufaddc(&fnvb,0);
       if (unlink(fnvb.buf))
-        ohshite("unable to delete control info file `%.250s'",fnvb.buf);
+        ohshite(_("unable to delete control info file `%.250s'"),fnvb.buf);
       debug(dbg_scripts, "removal_bulk info unlinked %s",fnvb.buf);
     }
     pop_cleanup(ehflag_normaltidy); /* closedir */
@@ -303,7 +320,7 @@ void removal_bulk(struct pkginfo *pkg) {
     postrmfilename= pkgadminfile(pkg,POSTRMFILE);
     if (!lstat(postrmfilename,&stab)) foundpostrm= 1;
     else if (errno == ENOENT) foundpostrm= 0;
-    else ohshite("unable to check existence of `%.250s'",postrmfilename);
+    else ohshite(_("unable to check existence of `%.250s'"),postrmfilename);
 
   }
   
@@ -318,7 +335,7 @@ void removal_bulk(struct pkginfo *pkg) {
 
   } else if (pkg->want == want_purge) {
 
-    printf("Purging configuration files for %s ...\n",pkg->name);
+    printf(_("Purging configuration files for %s ...\n"),pkg->name);
     ensure_packagefiles_available(pkg); /* We may have modified this above. */
 
     /* We're about to remove the configuration, so remove the note
@@ -362,7 +379,7 @@ void removal_bulk(struct pkginfo *pkg) {
       if (r == -1) continue;
       conffnameused= fnvb.used-1;
       if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
-        ohshite("cannot remove old config file `%.250s' (= `%.250s')",
+        ohshite(_("cannot remove old config file `%.250s' (= `%.250s')"),
                 conff->name, fnvb.buf);
       p= strrchr(fnvb.buf,'/'); if (!p) continue;
       *p= 0;
@@ -377,7 +394,7 @@ void removal_bulk(struct pkginfo *pkg) {
         debug(dbg_conffdetail, "removal_bulk conffile no dsd %s %s",
               fnvb.buf, strerror(e)); errno= e;
         if (errno == ENOENT || errno == ENOTDIR) continue;
-        ohshite("cannot read config file dir `%.250s' (from `%.250s')",
+        ohshite(_("cannot read config file dir `%.250s' (from `%.250s')"),
                 fnvb.buf, conff->name);
       }
       debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);
@@ -412,7 +429,7 @@ void removal_bulk(struct pkginfo *pkg) {
         debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing `%s'",
               removevb.buf);
         if (unlink(removevb.buf) && errno != ENOENT && errno != ENOTDIR)
-          ohshite("cannot remove old backup config file `%.250s' (of `%.250s')",
+          ohshite(_("cannot remove old backup config file `%.250s' (of `%.250s')"),
                   removevb.buf, conff->name);
       }
       pop_cleanup(ehflag_normaltidy); /* closedir */
@@ -441,13 +458,13 @@ void removal_bulk(struct pkginfo *pkg) {
     varbufaddstr(&fnvb,"." LISTFILE);
     varbufaddc(&fnvb,0);
     debug(dbg_general, "removal_bulk purge done, removing list `%s'",fnvb.buf);
-    if (unlink(fnvb.buf) && errno != ENOENT) ohshite("cannot remove old files list");
+    if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("cannot remove old files list"));
     
     fnvb.used= pkgnameused;
     varbufaddstr(&fnvb,"." POSTRMFILE);
     varbufaddc(&fnvb,0);
     debug(dbg_general, "removal_bulk purge done, removing postrm `%s'",fnvb.buf);
-    if (unlink(fnvb.buf) && errno != ENOENT) ohshite("can't remove old postrm script");
+    if (unlink(fnvb.buf) && errno != ENOENT) ohshite(_("can't remove old postrm script"));
 
     pkg->status= stat_notinstalled;
 
