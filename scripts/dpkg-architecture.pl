@@ -129,18 +129,12 @@ $deb_build_gnu_cpu = $deb_build_gnu_triple[0];
 $deb_build_gnu_system = $deb_build_gnu_triple[1];
 
 # Default host: Current gcc.
-$gcc = `\${CC:-gcc} --print-libgcc-file-name`;
+$gcc = `\${CC:-gcc} -dumpmachine`;
 if ($?>>8) {
     &warn("Couldn't determine gcc system type, falling back to default (native compilation)");
     $gcc = '';
 } else {
-    $gcc =~ s!^.*gcc-lib/([^/]*)/(?:egcs-)?\d+(?:[.\da-z]*)/(|.*/)libgcc.*$!$1!s;
-    if (defined $1 and $1 ne '') {
-	$gcc = $1;
-    } else {
-	&warn("Couldn't determine gcc system type, falling back to default (native compilation)");
-	$gcc = '';
-    }
+    chomp $gcc;
 }
 
 if ($gcc ne '') {

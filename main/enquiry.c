@@ -413,7 +413,7 @@ void printarch(const char *const *argv) {
   ccpipe= fdopen(p1[0],"r"); if (!ccpipe) ohshite(_("failed to fdopen CC pipe"));
   if (!(c1= m_fork())) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-    execlp(ccompiler,ccompiler,"--print-libgcc-file-name",(char*)0);
+    execlp(ccompiler,ccompiler,"-dumpmachine",(char*)0);
     /* if we have a problem excuting the C compiler, we don't
      * want to fail. If there is a problem with the compiler,
      * like not being installed, or CC being set incorrectly,
@@ -422,23 +422,20 @@ void printarch(const char *const *argv) {
      * are being called, then we should just give them the built
      * in arch.
      */
-    if (printf("/usr/lib/gcc-lib/%s-none/0.0.0/libgcc.a\n",architecture) == EOF)
+    if (printf("%s\n",architecture) == EOF)
       werr("stdout");
     if (fflush(stdout)) werr("stdout");
     exit(0);
   }
   close(p1[1]);
   fd_vbuf_copy(fileno(ccpipe), &vb, -1, _("error reading from CC pipe"));
-  waitsubproc(c1,"gcc --print-libgcc-file-name",0);
+  waitsubproc(c1,"gcc -dumpmachine",0);
   if (!vb.used) badlgccfn(ccompiler,"",_("empty output"));
   varbufaddc(&vb,0);
   if (vb.buf[vb.used-2] != '\n') badlgccfn(ccompiler,vb.buf,_("no newline"));
   vb.used-= 2; varbufaddc(&vb,0);
-  p= strstr(vb.buf,"/gcc-lib/");
-  if (!p) badlgccfn(ccompiler,vb.buf,_("no gcc-lib component"));
-  p+= 9;
-  q= strchr(p,'/'); if (!q) badlgccfn(ccompiler,vb.buf,_("no slash after gcc-lib"));
-  ll= q-p;
+  p=vb.buf;
+  ll= strlen (p);
   for (archp=archtable;
        archp->from && strncmp(archp->from,p,ll);
        archp++);
