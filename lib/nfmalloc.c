@@ -89,3 +89,11 @@ char *nfstrsave(const char *string) {
   strcpy(r,string);
   return r;
 }
+
+char *nfstrnsave(const char *string, int l) {
+  char *r;
+  
+  r= nfmalloc(l+1);
+  strncpy(r,string,l);
+  return r;
+}
