@@ -73,7 +73,7 @@ binary-dpkg: stamp-binary
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/bin
 	install -d -m 755 -o root -g root $(TMP_DPKG)/sbin
-	mv $(TMP)/etc $(TMP_DPKG)/
+	-test -d $(TMP)/etc && mv $(TMP)/etc $(TMP_DPKG)/
 	mv $(TMP)/var $(TMP_DPKG)/
 	mv $(TMP)/usr/sbin/start-stop-daemon $(TMP_DPKG)/sbin/
 	mv $(TMP)/usr/sbin $(TMP_DPKG)/usr/

@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-$dpkglibdir= ".";
+$dpkglibdir= "."; # This line modified by Makefile
 $version= '1.3.0'; # This line modified by Makefile
 
 $controlfile= 'debian/control';
@@ -63,8 +63,8 @@ Options:  -b                     binary-only build - no source files
 
 $i=100;grep($fieldimps{$_}=$i--,
           qw(Format Date Source Binary Architecture Version
-             Distribution Urgency Maintainer Description Closes Changes
-	     Files));
+             Distribution Urgency Maintainer Changed-By Description 
+	     Closes Changes Files));
 
 while (@ARGV) {
     $_=shift(@ARGV);
