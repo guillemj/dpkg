@@ -35,6 +35,7 @@ typedef enum { invalid, string, field } itemtype_t;
 struct lstitem {
 	itemtype_t type;
 	size_t width;
+	int pad;
 	char* data;
 	struct lstitem* next;
 };
@@ -48,22 +49,48 @@ static struct lstitem* alloclstitem() {
 	buf->next=NULL;
 	buf->data=NULL;
 	buf->width=0;
+	buf->pad=0;
 
 	return buf;
 }
 
-static void parsefield(struct lstitem* cur, const char* fmt, const char* fmtend) {
+
+static int parsefield(struct lstitem* cur, const char* fmt, const char* fmtend) {
 	int len;
+	const char* ws;
 
 	len=fmtend-fmt+1;
+
+	ws=(const char*)memchr(fmt, ';', len);
+	if (ws) {
+		char* endptr;
+		long w;
+
+		w=strtol(ws+1,&endptr,0);
+		if (endptr[0]!='}') {
+			fprintf(stderr, _("invalid character `%c' in field width\n"), *endptr);
+			return 0;
+		}
+
+		if (w<0) {
+			cur->pad=1;
+			cur->width=(size_t)-w;
+		} else
+			cur->width=(size_t)w;
+
+		len=ws-fmt;
+	}
 
 	cur->type=field;
 	cur->data=(char*)malloc(len+1);
 	memcpy(cur->data, fmt, len);
 	cur->data[len]='\0';
+
+	return 1;
 }
 
-static void parsestring(struct lstitem* cur, const char* fmt, const char* fmtend) {
+
+static int parsestring(struct lstitem* cur, const char* fmt, const char* fmtend) {
 	int len;
 	char* write;
 
@@ -95,6 +122,8 @@ static void parsestring(struct lstitem* cur, const char* fmt, const char* fmtend
 		fmt++;
 	}
 	*write='\0';
+
+	return 1;
 }
 
 
@@ -108,6 +137,7 @@ void freeformat(struct lstitem* head) {
 		head=next;
 	}
 }
+
 
 struct lstitem* parseformat(const char* fmt) {
 	struct lstitem* head;
@@ -123,14 +153,17 @@ struct lstitem* parseformat(const char* fmt) {
 			head=cur=alloclstitem();
 
 		if (fmt[0]=='$' && fmt[1]=='{') {
-			fmtend=strchr(fmt, '}');  // TODO: check for not-found
+			fmtend=strchr(fmt, '}');
 			if (!fmtend) {
 				fprintf(stderr, _("Closing brace missing in format\n"));
 				freeformat(head);
 				return NULL;
 			}
 			cur->type=field;
-			parsefield(cur, fmt+2, fmtend-1);
+			if (!parsefield(cur, fmt+2, fmtend-1)) {
+				freeformat(head);
+				return NULL;
+			}
 			fmt=fmtend+1;
 		} else {
 			fmtend=fmt;
@@ -142,7 +175,10 @@ struct lstitem* parseformat(const char* fmt) {
 			if (!fmtend)
 				fmtend=fmt+strlen(fmt);
 
-			parsestring(cur, fmt, fmtend-1);
+			if (!parsestring(cur, fmt, fmtend-1)) {
+				freeformat(head);
+				return NULL;
+			}
 			fmt=fmtend;
 		}
 	}
@@ -163,7 +199,7 @@ static void dumpchain(struct lstitem* head) {
 
 
 void show1package(const struct lstitem* head, struct pkginfo *pkg) {
-	struct varbuf vb, fb;
+	struct varbuf vb, fb, wb;
 
 	/* Make sure we have package info available, even if it's all empty. */
 	if (!pkg->installed.valid)
@@ -171,14 +207,22 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 
 	varbufinit(&vb);
 	varbufinit(&fb);
+	varbufinit(&wb);
 
 	while (head) {
 		int ok;
+		char fmt[16];
 
 		ok=0;
 
+		if (head->width>0)
+			snprintf(fmt,16,"%%%s%ds",
+				((head->pad) ? "-" : ""), head->width);
+		else
+			strcpy(fmt, "%s");
+
 		if (head->type==string) {
-			varbufprintf(&fb, "%s", head->data);
+			varbufprintf(&fb, fmt, head->data);
 			ok=1;
 		} else if (head->type==field) {
 			const struct fieldinfo* fip;
@@ -188,18 +232,20 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 					size_t len;
 					char* i;
 
-					fip->wcall(&fb,pkg,&pkg->installed,fip);
-					if (!fb.used)
+					fip->wcall(&wb,pkg,&pkg->installed,fip);
+					if (!wb.used)
 						break;
 					/* Bugger, wcall adds the fieldname and a trailing newline we
 					 * do not need. We should probably improve wcall to only do that
 					 * optionally, but this will do for now (ie this is a TODO)
 					 */
-					fb.buf[fb.used-1]='\0';
-					i=strchr(fb.buf, ':')+2;
+					wb.buf[wb.used-1]='\0';
+					i=strchr(wb.buf, ':')+2;
 					len=strlen(i)+1;
-					memmove(fb.buf, i, len);
+					memmove(wb.buf, i, len);
 
+					varbufprintf(&fb, fmt, wb.buf);
+					varbufreset(&wb);
 					ok=1;
 					break;
 				}
@@ -209,7 +255,7 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 
 				for (afp=pkg->installed.arbs; afp; afp=afp->next)
 					if (strcasecmp(head->data, afp->name)==0) {
-						varbufprintf(&fb, "%s", afp->value);
+						varbufprintf(&fb, fmt, afp->value);
 						ok=1;
 						break;
 					}
@@ -232,6 +278,7 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 		fputs(vb.buf,stdout);
 	}
 
+	varbuffree(&wb);
 	varbuffree(&fb);
 	varbuffree(&vb);
 }
