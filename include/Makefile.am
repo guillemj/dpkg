@@ -29,12 +29,12 @@ MAINTAINERCLEANFILES	= $(srcdir)/Makefile.in
 .PHONY: install-data-local uninstall-local
 
 install-data-local:
-	$(mkinstalldirs) $(pkglocalstatedir)/{$(pinfo_suffix),$(pupdates_suffix)}
+	$(mkinstalldirs) $(DESTDIR)$(pkglocalstatedir)/{$(pinfo_suffix),$(pupdates_suffix)}
 
 uninstall-local:
 	-for d in $(pkglocalstatedir)/{$(pinfo_suffix),$(pupdates_suffix)} \
 		$(pkgincludedir) $(pkglocalstatedir) $(pkglocalstatedir); do \
-		[ -e $$d ] && rmdir $$d; \
+		[ -e $$d ] && rmdir $(DESTDIR)$$d; \
 	done
 
 dpkg.h: stamp-dpkg.h

@@ -59,17 +59,23 @@ void do_build(const char *const *argv) {
   
   char *m;
   const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
-  char *controlfile;
+  char *controlfile, *tfbuf, *envbuf;
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *gz, *cf;
-  int p1[2],p2[2], warns, errs, n, c, subdir;
+  int p1[2],p2[2], warns, errs, n, c, subdir, gzfd;
   pid_t c1,c2,c3,c4,c5;
   struct stat controlstab, datastab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
   time_t thetime= 0;
   
   directory= *argv++; if (!directory) badusage(_("--build needs a directory argument"));
+  /* template for our tempfiles */
+  if ((envbuf= getenv("TMPDIR")) == NULL)
+    envbuf= P_tmpdir;
+  tfbuf = (char *)malloc(strlen(envbuf)+13);
+  strcpy(tfbuf,envbuf);
+  strcat(tfbuf,"/dpkg.XXXXXX");
   subdir= 0;
   if ((debar= *argv++) !=0) {
     if (*argv) badusage(_("--build takes at most two arguments"));
@@ -209,15 +215,23 @@ void do_build(const char *const *argv) {
     execlp(TAR,"tar","-cf","-",".",(char*)0); ohshite(_("failed to exec tar -cf"));
   }
   close(p1[1]);
-  if (!(gz= tmpfile())) ohshite(_("failed to make tmpfile (control)"));
+  if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (control)"));
+  if ((gz= fdopen(gzfd,"a")) == NULL) ohshite(_("failed to open tmpfile "
+      "(control), %s"), tfbuf);
+  /* make sure it's gone, the fd will remain until we close it */
+  if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (control), %s"),
+      tfbuf);
+  /* reset this, so we can use it elsewhere */
+  strcpy(tfbuf,envbuf);
+  strcat(tfbuf,"/dpkg.XXXXXX");
   if (!(c2= m_fork())) {
-    m_dup2(p1[0],0); m_dup2(fileno(gz),1); close(p1[0]);
+    m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]);
     execlp(GZIP,"gzip","-9c",(char*)0); ohshite(_("failed to exec gzip -9c"));
   }
   close(p1[0]);
   waitsubproc(c2,"gzip -9c",0);
   waitsubproc(c1,"tar -cf",0);
-  if (fstat(fileno(gz),&controlstab)) ohshite(_("failed to fstat tmpfile (control)"));
+  if (fstat(gzfd,&controlstab)) ohshite(_("failed to fstat tmpfile (control)"));
   if (oldformatflag) {
     if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
       werr(debar);
@@ -237,16 +251,24 @@ void do_build(const char *const *argv) {
       werr(debar);
   }                
                 
-  if (lseek(fileno(gz),0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (control)"));
+  if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (control)"));
   if (!(c3= m_fork())) {
-    m_dup2(fileno(gz),0); m_dup2(fileno(ar),1);
+    m_dup2(gzfd,0); m_dup2(fileno(ar),1);
     execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat (control)"));
   }
   waitsubproc(c3,"cat (control)",0);
   
   if (!oldformatflag) {
     fclose(gz);
-    if (!(gz= tmpfile())) ohshite(_("failed to make tmpfile (data)"));
+    if ((gzfd= mkstemp(tfbuf)) == -1) ohshite(_("failed to make tmpfile (data)"));
+    if ((gz= fdopen(gzfd,"a")) == NULL) ohshite(_("failed to open tmpfile "
+        "(data), %s"), tfbuf);
+    /* make sure it's gone, the fd will remain until we close it */
+    if (unlink(tfbuf)) ohshit(_("failed to unlink tmpfile (data), %s"),
+        tfbuf);
+    /* reset these, in case we want to use the later */
+    strcpy(tfbuf,envbuf);
+    strcat(tfbuf,"/dpkg.XXXXXX");
   }
   m_pipe(p2);
   if (!(c4= m_fork())) {
@@ -258,7 +280,7 @@ void do_build(const char *const *argv) {
   close(p2[1]);
   if (!(c5= m_fork())) {
     m_dup2(p2[0],0); close(p2[0]);
-    m_dup2(oldformatflag ? fileno(ar) : fileno(gz),1);
+    m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
     execlp(GZIP,"gzip","-9c",(char*)0);
     ohshite(_("failed to exec gzip -9c from tar --exclude"));
   }
@@ -266,7 +288,7 @@ void do_build(const char *const *argv) {
   waitsubproc(c5,"gzip -9c from tar --exclude",0);
   waitsubproc(c4,"tar --exclude",0);
   if (!oldformatflag) {
-    if (fstat(fileno(gz),&datastab)) ohshite("_(failed to fstat tmpfile (data))");
+    if (fstat(gzfd,&datastab)) ohshite("_(failed to fstat tmpfile (data))");
     if (fprintf(ar,
                 "%s"
                 DATAMEMBER "%-12lu0     0     100644  %-10ld`\n",
@@ -275,9 +297,9 @@ void do_build(const char *const *argv) {
                 (long)datastab.st_size) == EOF)
       werr(debar);
 
-    if (lseek(fileno(gz),0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
+    if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
     if (!(c3= m_fork())) {
-      m_dup2(fileno(gz),0); m_dup2(fileno(ar),1);
+      m_dup2(gzfd,0); m_dup2(fileno(ar),1);
       execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat (data)"));
     }
     waitsubproc(c3,"cat (data)",0);

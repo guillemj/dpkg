@@ -32,11 +32,8 @@ $(BUILD)/config.status:
 
 clean:
 	$(checkdir)
-	-$(MAKE) -C $(BUILD) -i distclean
-	$(RM) -r debian/{build,files,substvars,tmp*}
-	$(RM) $(BUILD)/dpkg-*.tar.gz
-	$(RM) po/*.gmo
-	$(RM) config.log
+	$(RM) -r debian/{files,substvars,tmp*}
+	$(RM) -r $(BUILD)
 	find . \( -name '*~' -o -name '#*#' \) -print0 | xargs -r0 $(RM) --
 
 build: $(BUILD)/config.status
@@ -65,16 +62,7 @@ binary-trees: build
 		debian/tmp-dev/etc/dpkg/shlibs.default ; \
 	fi
 	cp debian/{prerm,postinst} $(mcidir)/.
-	$(MAKE) -C $(BUILD) top_distdir=. dist 
-	$(MAKE) -C $(BUILD) \
-		prefix=$(DIR)/debian/tmp-main/usr \
-		sysconfdir=$(DIR)/debian/tmp-main/etc \
-		datadir=$(DIR)/debian/tmp-main/usr/share \
-		mandir=$(DIR)/debian/tmp-main/usr/share/man \
-		infodir=$(DIR)/debian/tmp-main/usr/share/info \
-		sharedstatedir=$(DIR)/debian/tmp-main/var/lib \
-		localstatedir=$(DIR)/debian/tmp-main/var/lib \
-		install
+	$(MAKE) -C $(BUILD) DESTDIR=$(DIR)/debian/tmp-main install
 	install -m 755 debian/dev-postinst debian/tmp-dev/DEBIAN/postinst
 	install -m 755 debian/dev-prerm debian/tmp-dev/DEBIAN/prerm
 	install -d debian/tmp-dev/etc/emacs/site-start.d
@@ -97,6 +85,7 @@ binary-trees: build
 	ln -s ../man7/undocumented.7.gz debian/tmp-main/usr/share/man/man1/dpkg-divert.1.gz
 	gzip -9vf debian/tmp-main/usr/share/doc/dpkg/changelog*
 	cp debian/copyright debian/tmp-main/usr/share/doc/dpkg/copyright
+	chmod -x `find debian/tmp-{main,dev}/usr/lib -type f`
 	ln -s dpkg debian/tmp-dev/usr/share/doc/dpkg-dev
 	set -e; for f in \
  usr/share/doc/dpkg/{internals.html,changelog.manuals.gz} \
@@ -138,7 +127,7 @@ binary-indep: binary-trees
 	set -e; \
 		version=`sed -n 's/^Version: //p' $(DIR)/debian/tmp-dev/DEBIAN/control`; \
 		file=dpkg-$${version}.tar.gz; \
-		cp $(BUILD)/$${file} $(DIR)/..; \
+		cp $(DIR)/../dpkg_$${version}.tar.gz $(DIR)/../$${file}; \
 		dpkg-distaddfile -f$(DIR)/debian/files $${file} byhand -;
 
 binary-arch: binary-trees

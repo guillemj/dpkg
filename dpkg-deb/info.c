@@ -59,12 +59,13 @@ static void info_prepare(const char *const **argvp,
                          const char **debarp,
                          const char **directoryp,
                          int admininfo) {
-  static char dbuf[L_tmpnam];
+  static char *dbuf;
   pid_t c1;
   
   *debarp= *(*argvp)++;
   if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
-  if (!tmpnam(dbuf)) ohshite(_("failed to make temporary filename"));
+  if ((dbuf= tempnam(NULL,"dpkg")) == NULL)
+    ohshite(_("failed to make temporary filename"));
   *directoryp= dbuf;
 
   if (!(c1= m_fork())) {

@@ -26,62 +26,73 @@ MAINTAINERCLEANFILES	= $(srcdir)/Makefile.in
 	install-exec-local dist-hook uninstall-local
 
 install-data-local: install-methods-data install-descs-data
-	$(mkinstalldirs) $(methodsmnt)
+	$(mkinstalldirs) $(DESTDIR)$(methodsmnt)
 
 install-methods-data:
 	set -e; for m in $(METHODS); do \
-		$(mkinstalldirs) $(methodsdir)/$$m $(methodsdatadir)/$$m; \
-		$(INSTALL_DATA) $(srcdir)/$$m.names $(methodsdir)/$$m/names; \
+		$(mkinstalldirs) $(DESTDIR)$(methodsdir)/$$m \
+			$(DESTDIR)$(methodsdatadir)/$$m; \
+		$(INSTALL_DATA) $(srcdir)/$$m.names \
+			$(DESTDIR)$(methodsdir)/$$m/names; \
 	done
 
 install-descs-data:
 	set -e; for x in $(DESCS); do \
 		d=`echo $$x | sed 's:.*/\([^/]*\)$$:\1:; s:\.:/:'`; \
-		$(INSTALL_DATA) $(srcdir)/$$x $(methodsdir)/$$d; \
+		$(INSTALL_DATA) $(srcdir)/$$x $(DESTDIR)$(methodsdir)/$$d; \
 	done
 
 install-exec-local:
 	set -e; for m in $(METHODS); do \
-		$(mkinstalldirs) $(methodsdir)/$$m $(methodsdatadir)/$$m; \
+		$(mkinstalldirs) $(DESTDIR)$(methodsdir)/$$m \
+			$(DESTDIR)$(methodsdatadir)/$$m; \
 	done
 	set -e; for m in $(METHODS); do \
 		for s in $(MSCRIPTS); do \
-			$(INSTALL_PROGRAM) $(srcdir)/$$m.$$s $(methodsdir)/$$m/$$s; \
+			$(INSTALL_PROGRAM) $(srcdir)/$$m.$$s \
+				$(DESTDIR)$(methodsdir)/$$m/$$s; \
 		done; \
 	done
 
 uninstall-local:
 	-for m in $(METHODS); do \
-		rm -f $(methodsdir)/$$m/names; \
-		[ -e $(methodsdir)/$$m ] && rmdir $(methodsdir)/$$m; \
+		rm -f $(DESTDIR)$(methodsdir)/$$m/names; \
+		[ -e $(DESTDIR)$(methodsdir)/$$m ] && rmdir \
+			$(DESTDIR)$(methodsdir)/$$m; \
 	done
 	-for x in $(DESCS); do \
 		d=`echo $$x | sed 's:\.:/:'`; \
 		dir=`echo $$d | sed 's:\(.*\)/[^/]*$$:\1:'`; \
-		rm -f $(methodsdir)/$$d; \
-		[ -e $$dir ] && rmdir $$dir; \
+		rm -f $(DESTDIR)$(methodsdir)/$$d; \
+		[ -e $(DESTDIR)$$dir ] && rmdir $(DESTDIR)$$dir; \
 	done
 	-for m in $(METHODS); do \
 		for s in $(MSCRIPTS); do \
-			rm -f $(methodsdir)/$$m/$$s; \
+			rm -f $(DESTDIR)$(methodsdir)/$$m/$$s; \
 		done; \
-		[ -e $(methodsdir)/$$m ] && rmdir $(methodsdir)/$$m; \
-		[ -e $(methodsdatadir)/$$m ] && rmdir $(methodsdatadir)/$$m; \
-		[ -e $(methodsmnt)/$$m ] && rmdir $(methodsmnt)/$$m; \
+		[ -e $(DESTDIR)$(methodsdir)/$$m ] && rmdir \
+			$(DESTDIR)$(methodsdir)/$$m; \
+		[ -e $(DESTDIR)$(methodsdatadir)/$$m ] && rmdir \
+			$(DESTDIR)$(methodsdatadir)/$$m; \
+		[ -e $(DESTDIR)$(methodsmnt)/$$m ] && rmdir \
+			$(DESTDIR)$(methodsmnt)/$$m; \
 	done
-	-[ -e $(methodsmnt) ] && rmdir $(methodsmnt)
-	-[ -e $(methodsdir) ] && rmdir $(methodsdir)
-	-[ -e $(methodsdatadir) ] && rmdir $(methodsdatadir)
+	-[ -e $(DESTDIR)$(methodsmnt) ] && rmdir \
+		$(DESTDIR)$(methodsmnt)
+	-[ -e $(DESTDIR)$(methodsdir) ] && rmdir \
+		$(DESTDIR)$(methodsdir)
+	-[ -e $(DESTDIR)$(methodsdatadir) ] && rmdir \
+		$(DESTDIR)$(methodsdatadir)
 
 dist-hook:
 	set -e; for m in $(METHODS); do \
-		cp -p $(srcdir)/$$m.names $(distdir)/; \
+		cp -p $(srcdir)/$$m.names $(DESTDIR)$(distdir)/; \
 		for s in $(MSCRIPTS); do \
-			cp -p $(srcdir)/$$m.$$s $(distdir)/; \
+			cp -p $(srcdir)/$$m.$$s $(DESTDIR)$(distdir)/; \
 		done; \
 	done
 	for d in $(DESCS); do \
-		cp -p $(srcdir)/$$d $(distdir)/; \
+		cp -p $(srcdir)/$$d $(DESTDIR)$(distdir)/; \
 	done
 
 ## End of file.

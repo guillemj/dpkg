@@ -1,3 +1,14 @@
+Tue Oct 19 18:07:28 EDT 1999 Ben Collins <bcollins.debian.org>
+
+  * Ok, TMPDIR usage is back in dpkg-deb and working
+  * {include,scripts}/Makefile.am: Fix for using DESTDIR
+  * debian/rules: really convert to DESTDIR on install target this
+    time. chmod -x everything in /usr/lib to make lintian happy.
+    in the clean phase just rm -rf $(BUILD), we don't need to run
+    distclean and all that other stuff. Don't run "make dist", we
+    simply copy the .tar.gz that dpkg-source creates for the byhand
+    source.
+
 Tue Oct 19 09:59:22 EDT 1999 Ben Collins <bcollins.debian.org>
 
   * Reverted the new tmpfile stuff in dpkg-deb. For some reason it's

@@ -43,6 +43,11 @@ dpkg (1.4.1.17) unstable; urgency=low
   * Increased largemem auto detection to >= 24megs, since it's not uncommon
     for dpkg to actually use 16megs of ram all on its own when using the
     largemem setting (old minimum was 16megs)
+  * debian/rules: chmod -x everything in /usr/lib to make lintian happy.
+    in the clean phase just rm -rf $(BUILD), we don't need to run
+    distclean and all that other stuff. Don't run "make dist", we
+    simply copy the .tar.gz that dpkg-source creates for the byhand
+    source.
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
