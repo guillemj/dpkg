@@ -389,6 +389,7 @@ if ($opmode eq 'build') {
                 if (!$c3) {
 		    $ENV{'LC_ALL'}= 'C';
 		    $ENV{'LANG'}= 'C';
+		    $ENV{'TZ'}= 'UTC0';
                     exec('diff','-u',
                          '-L',"$basedirname.orig/$fn",
                          '-L',"$basedirname/$fn",
@@ -675,7 +676,7 @@ if ($opmode eq 'build') {
 	    $ENV{'LC_ALL'}= 'C';
 	    $ENV{'LANG'}= 'C';
             exec('patch','-s','-t','-F','0','-N','-p1','-u',
-                 '-V','never','-g0','-b','-z','.dpkg-orig');
+                 '-V','never','-g0','-b','-Z','-z','.dpkg-orig');
             &syserr("exec patch");
         }
         close(GZIP);
