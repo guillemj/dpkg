@@ -1,8 +1,8 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" (c) 2003 Software in the Public Interest
-.\" Traductor: Rubén Porras Campo <nahoo@inicia.es> y revisada
+.\" Traductor: Rubn Porras Campo <nahoo@inicia.es> y revisada
 .\" por Santiago Vila <sanvila@unex.es>
-.\" Basado en la versión 1.2 de 
+.\" Basado en la versin 1.3 de 
 .\" /cvs/debian-doc/manpages/english/dpkg/start-stop-daemon.8
 
 .TH START\-STOP\-DAEMON 8 "15 de marzo de 1997" "Proyecto Debian" "Debian GNU/Linux"
@@ -24,9 +24,9 @@ start\-stop\-daemon \- para y arranca demonios del sistema
 .HP
 .B start-stop-daemon
 .BR -V | --version
-.SH DESCRIPCIÓN
+.SH DESCRIPCIN
 .B start\-stop\-daemon
-se usa para controlar la creación y terminación de los procesos del sistema.
+se usa para controlar la creacin y terminacin de los procesos del sistema.
 Usando las opciones
 .BR --exec ", " --pidfile ", " --user ", y " --name " opciones,"
 .B start\-stop\-daemon
@@ -47,27 +47,27 @@ usando el ejecutable especificado por
 (o, si se especifica, por
 .BR --startas
 ).
-Cualquier argumento dado en la línea de ordenes después de
+Cualquier argumento dado en la lnea de ordenes despus de
 .BR --
-se pasa sin modificación alguna al programa que se va a ejecutar. Si se
-especifica la opción
+se pasa sin modificacin alguna al programa que se va a ejecutar. Si se
+especifica la opcin
 .B --retry
 entonces 
 .B start-stop-daemon
-comprobará que el proceso o los procesos han terminado.
+comprobar que el proceso o los procesos han terminado.
 
 Con 
 .BR --stop ,
 .B start\-stop\-daemon
-comprueba además la existencia del proceso especificado.
+comprueba adems la existencia del proceso especificado.
 Si este proceso existe,
 .B start\-stop\-daemon
-envía la señal especificada por
+enva la seal especificada por
 .BR --signal ,
 y termina con un estado de error 0.
 Si este proceso no existe,
 .B start\-stop\-daemon
-termina con un estado de error 1 (0 si se ha especificado la opción
+termina con un estado de error 1 (0 si se ha especificado la opcin
 .BR --oknodo
 ).
 
@@ -75,7 +75,7 @@ termina con un estado de error 1 (0 si se ha especificado la opción
 
 .TP
 \fB-x\fP|\fB--exec\fP \fIejecutable\fP
-Busca distintos procesos de este ejecutable (según 
+Busca distintos procesos de este ejecutable (segn 
 .B /proc/\fIpid\fB/exe\fP
 ).
 .TP
@@ -96,126 +96,133 @@ Cambia a \fIgrupo\fP o \fIgid\fP cuando comienza el proceso.
 \fB-n\fP|\fB--name\fP \fInombre-proceso\fP
 Comprueba los procesos con el nombre
 .I nombre-proceso
-(según
+(segn
 .BR /proc/\fIpid\fB/stat\fP ).
 .TP
-\fB-s\fP|\fB--signal\fP \fIseñal\fP
+\fB-s\fP|\fB--signal\fP \fIseal\fP
 Junto con
 .BR --stop ,
-especifica la señal enviada al proceso que se desea parar (15 por omisión).
+especifica la seal enviada al proceso que se desea parar (15 por omisin).
 .TP
-\fB-R\fP|\fB--retry\fP \fItiempo-de-espera\fP|\fIacción-programada\fP
+\fB-R\fP|\fB--retry\fP \fItiempo-de-espera\fP|\fIaccin-programada\fP
 Junto con
 .BR --stop ,
 especifica que
 .B start-stop-daemon
-compruebe que el proceso o los procesos han terminado.  Lo comprobará 
-repetidas veces hasta que no haya ningún proceso que coincida. Si el proceso 
-no termina tomará una decisión determinada por 
-.I acción-programada .
+compruebe que el proceso o los procesos han terminado.  Lo comprobar 
+repetidas veces hasta que no haya ningn proceso que coincida. Si el proceso 
+no termina tomar una decisin determinada por 
+.I accin-programada .
 
 Si se especifica
 .I tiempo-de-espera
 en vez de
-.I acción-programada
+.I accin-programada
 entonces se usa la secuencia
-.IB señal / tiempo-de-espera /KILL/ tiempo-de-espera
+.IB seal / tiempo-de-espera /KILL/ tiempo-de-espera
 , donde
-.I señal
-es la señal especificada por
+.I seal
+es la seal especificada por
 .BR --signal .
 
-.I acción-programada
-es una lista de al menos dos artículos separados por barras
+.I accin-programada
+es una lista de al menos dos artculos separados por barras
 .RB ( / );
-cada artículo puede ser un
-.BI - número de señal
-o [\fB\-\fP]\fInombre de señal\fP,
-que significa que se debe mandar esa señal, o
+cada artculo puede ser un
+.BI - nmero de seal
+o [\fB\-\fP]\fInombre de seal\fP,
+que significa que se debe mandar esa seal, o
 .IR tiempo-de-espera,
 que significa que se debe esperar esos segundos para que el programa
 termine, o
 .BR forever ,
-que significa que se repite el resto de acción-programada para siempre 
+que significa que se repite el resto de accin-programada para siempre 
 si es necesario.
 
-Si se alcanza el final de la acción-programada y no se ha especificado
+Si se alcanza el final de la accin-programada y no se ha especificado
 .BR forever
 , entonces
 .B start-stop-daemon
 termina con un estado de error 2.
-Si se especifica una secuencia, entonces cualquier señal especificada
+Si se especifica una secuencia, entonces cualquier seal especificada
 con
 .B --signal
-no se tendrá en cuenta.
+no se tendr en cuenta.
 .TP
 \fB-a\fP|\fB--startas\fP \fIpathname\fP
 Con 
 .BR --start ,
 comienza el proceso especificado por
 .IR pathname .
-Si no se especifica, se usarán los argumentos dados con
+Si no se especifica, se usarn los argumentos dados con
 .BR --exec .
 .TP
 .BR -t | --test
-Muestra las acciones que se realizarían y devuelve el valor
+Muestra las acciones que se realizaran y devuelve el valor
 apropiado, pero no hace nada.
 .TP
 .BR -o | --oknodo
 Devuelve un estado 0 en vez de 1 si no se realiza (realizasen)
-ninguna acción.
+ninguna accin.
 .TP
 .BR -q | --quiet
-No muestra mensajes informativos, sólo muestra mensajes de error.
+No muestra mensajes informativos, slo muestra mensajes de error.
 .TP
 \fB-c\fP|\fB--chuid\fP \fInombre-usuario\fR|\fIuid\fP
-Cambia a este usuario/uid antes de empezar el proceso. Además puede
-especificar el grupo añadiendo
+Cambia a este usuario/uid antes de empezar el proceso. Adems puede
+especificar el grupo aadiendo
 .BR : ,
-luego el grupo o el gid del mismo modo que haría con la orden
+luego el grupo o el gid del mismo modo que hara con la orden
 `chown' (\fIusuario\fP\fB:\fP\fIgrupo\fP).
-Debe de darse cuenta que cuando se usa esta opción el grupo primario
-y complementario se cambian también, incluso si no se especifica
+Debe de darse cuenta que cuando se usa esta opcin el grupo primario
+y complementario se cambian tambin, incluso si no se especifica
 .B --group .
-La opción 
+La opcin 
 .B --group
-es sólo para grupos de los que el usuario no es miembro (como el grupo
+es slo para grupos de los que el usuario no es miembro (como el grupo
 nobody ).
 .TP
-\fB-r\fP|\fB--chroot\fP \fIdirectorio-raíz
-Efectuar chdir y chroot a
-.I directorio-raíz
+\fB-r\fP|\fB--chroot\fP \fIdirectorio-raz
+Efectua chdir y chroot a
+.I directorio-raz
 antes de empezar el proceso. Dese cuenta que el fichero del pid
-también es escrito después de hacer el chroot.
+tambin es escrito despus de hacer el chroot.
+.TP
+\fB-d\fP|\fB--chdir\fP \fIdirectorio\fP
+Efectua chdir a
+.I directorio
+antes de empezar el proceso. Esto se hace despus de efectuar chroot, si es que
+la opcin
+\fB-r\fP|\fB--chroot\fP est establecida.
 .TP
 .BR -b | --background
-Usado típicamente con programas que no se separan por sí mismos. Esta
-opción forzará
+Usado tpicamente con programas que no se separan por s mismos. Esta
+opcin forzar
 .B start-stop-daemon
 a hacer fork antes de empezar el proceso, y luego dejarlo en segundo plano.
-.B ATENCIÓN: start-stop-daemon
+.B ATENCIN: start-stop-daemon
 no puede comprobar el estado de salida si el proceso no puede ejecutarse
 por 
 .B cualquier
-razón. Esto se hace como último recurso, y sólo tiene sentido usarla en 
-programas donde no tiene sentido que hagan fork por sí mismos, o no es
-factible añadir el código para que lo hagan por sí mismos.
+razn. Esto se hace como ltimo recurso, y slo tiene sentido usarla en 
+programas donde no tiene sentido que hagan fork por s mismos, o no es
+factible aadir el cdigo para que lo hagan por s mismos.
 .TP
 \fB-N\fP|\fB--nicelevel\fP \fIentero\fP
 Altera la prioridad del proceso antes de empezarlo.
 .TP
 .BR -m | --make-pidfile
 Se usa cuando se quiere comenzar un programa que no crea su propio
-fichero de pid. Esta opción hace que
+fichero de pid. Esta opcin hace que
 .B start-stop-daemon
 cree el fichero referido con
 .B --pidfile
-y coloque el pid dentro de él justo antes de ejecutar el
-proceso. Dese cuenta que no se borrará cuando termine el programa.
+y coloque el pid dentro de l justo antes de ejecutar el
+proceso. Dese cuenta que no se borrar cuando termine el programa.
 .B NOTA:
-Esta característica no funciona en todos los casos. Más notablemente
+Esta caracterstica no funciona en todos los casos. Ms notablemente
 cuando el programa que se ejecuta hace fork en su proceso principal.
-Por esto solamente es útil cuando se combina con la opción
+Por esto solamente es til cuando se combina con la opcin
 .B --background .
 .TP
 .BR -v | --verbose
@@ -225,14 +232,14 @@ Muestra mensajes informativos detallados.
 Muestra la ayuda y luego termina.
 .TP
 .BR -V | --version
-Muestra la versión y luego termina.
+Muestra la versin y luego termina.
 
 .SH AUTORES
 Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl> basada en una
-versión previa de Ian Jackson <ian@chiark.greenend.org.uk>.
+versin previa de Ian Jackson <ian@chiark.greenend.org.uk>.
 
-Página del manual de Klee Dienes <klee@mit.edu>, reformada
+Pgina del manual de Klee Dienes <klee@mit.edu>, reformada
 parcialmente por Ian Jackson.
 
-Traducida por Rubén Porras <nahoo@inicia.es>
+Traducida por Rubn Porras <nahoo@inicia.es>
 Revisada por Santiago Vila <sanvila@unex.es>

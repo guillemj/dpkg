@@ -1,6 +1,11 @@
+.\" Esta traduccin ha sido realizada por Bruno Barrera
+.\" C. <bruno.barrera@igloo.cl>  y revisada por Javier Fernndez-Sanguino
+.\" Est basada en la pgina de manual original:
+.\" versin 1.1 del CVS de /cvs/debian-doc/manpages/english/dpkg/dpkg-deb.1
+
 .TH "DPKG\-DEB" "1" "1st June 1996" "Proyecto Debian" "herramientas dpkg"
 .SH "NOMBRE"
-dpkg\-deb \- Herramienta de manipulación de archivos de Debian (.deb)
+dpkg\-deb \- Herramienta de manipulacin de archivos de Debian (.deb)
 
 .SH "SINOPSIS"
 .B dpkg\-deb
@@ -30,21 +35,21 @@ dpkg\-deb \- Herramienta de manipulación de archivos de Debian (.deb)
 .I archivo directorio
 .SH "DESCRIPCION"
 .B dpkg\-deb
-empaqueta, desempaqueta, y provee información sobre los archivos de Debian.
+empaqueta, desempaqueta, y provee informacin sobre los archivos de Debian.
 
 Use
 .B dpkg
 para instalar y eliminar paquetes de su sistema.
 
-También puede usar
+Tambin puede usar
 .B dpkg\-deb
 llamando a
 .B dpkg
 con cualquiera de las opciones que desee darle
 .BR dpkg\-deb ".  " dpkg
-le mostrará lo que necesite y
+le mostrar lo que necesite y
 .B dpkg\-deb
-lo ejecutará por usted.
+lo ejecutar por usted.
 .SH "OPCIONES DE USO"
 .TP 
 .BR \-\-build ", " \-b
@@ -52,86 +57,86 @@ Crea un archivo de Debian desde el sistema de archivos localizado en el
 .IR directorio ".  " El directorio
 debe tener un subdirectorio
 .B DEBIAN
-el cual contiene los archivos de información de control.
+el cual contiene los archivos de informacin de control.
 Este directorio
 .I no
-aparecerá en el paquete binario, pero, en lugar de esto, los archivos
-que tenga serán puestos en el área de información del paquete binario.
-Usted puede especificar el nivel de compresión usado con la opción 
+aparecer en el paquete binario, pero, en lugar de esto, los archivos
+que tenga sern puestos en el rea de informacin del paquete binario.
+Usted puede especificar el nivel de compresin usado con la opcin 
 .B \-z#
 .B dpkg-deb
-pasará ésta a gzip.
+pasar sta a gzip.
 
 A menos que usted especifique
 .BR \-\-nocheck ", " dpkg\-deb 
-leerá
+leer
 .B DEBIAN/control
-y lo revisará. Comprobará posibles errores de sintaxis y otros problemas,
-y mostrará el nombre del paquete binario que se está creando.
+y lo revisar. Comprobar posibles errores de sintaxis y otros problemas,
+y mostrar el nombre del paquete binario que se est creando.
 .B dpkg\-deb
-también comprobará los permisos de los programas del desarrollador así
+tambin comprobar los permisos de los programas del desarrollador as
 como de los otros archivos que se encuentren en el directorio
 .B DEBIAN
  .
-Si no se especifica algún
+Si no se especifica algn
 .I archivo
 , entonces
 .B dpkg\-deb
-creará el paquete en el fichero
+crear el paquete en el fichero
 .IR directorio \fB.deb\fR.
 
-Si el archivo a ser creado ya existe entonces será sobreescrito.
+Si el archivo a ser creado ya existe entonces ser sobreescrito.
 
 Si el segundo argumento es un directorio entonces
 .B dpkg\-deb
-escribirá al archivo
-.IB paquete _ versión _ arquitectura .deb\fR,
+escribir al archivo
+.IB paquete _ versin _ arquitectura .deb\fR,
 o
-.IB paquete _ versión .deb
+.IB paquete _ versin .deb
 si el campo
 .B Arquitecture
-no está presente en el fichero de control del paquete. 
+no est presente en el fichero de control del paquete. 
 Cuando se especifica un directorio de destino
-en lugar de un fichero, la opción
+en lugar de un fichero, la opcin
 .B \-\-nocheck
-no debería utilizarse (dado que
+no debera utilizarse (dado que
 .B dpkg\-deb
 necesita leer y analizar el archivo de control del paquete para determinar 
-qué nombre de archivo usar).
+qu nombre de archivo usar).
 .TP 
 .BR \-\-info ", " \-I
-Ofrece información acerca del paquete binario.
+Ofrece informacin acerca del paquete binario.
 
 Si se especifica
 .I archivo(s)\-de\-control
-entonces imprimirá un resumen de los contenidos del paquete 
-así como del archivo de control.
+entonces imprimir un resumen de los contenidos del paquete 
+as como del archivo de control.
 
-Si se especifica algún
+Si se especifica algn
 .IR archivo\-de\-control
 .B dpkg\-deb
-imprimirá éstos en el orden que fueron especificados.
+imprimir stos en el orden que fueron especificados.
 Si cualquiera de los componentes no estuviesen presentes, 
-mostrará un mensaje de error a la salida de error estándar 
-sobre cada uno de ellos y abortará con estado 2.
+mostrar un mensaje de error a la salida de error estndar 
+sobre cada uno de ellos y abortar con estado 2.
 .TP 
 .BR \-\-field ", " \-f
-Extrae información del fichero de control del fichero de un paquete binario.
+Extrae informacin del fichero de control del fichero de un paquete binario.
 
-Si no se especifica ningún
+Si no se especifica ningn
 .BR control\-file\-field s
-entonces mostrará todo el fichero de control.
+entonces mostrar todo el fichero de control.
 
-Si se especifica algún 
+Si se especifica algn 
 .B dpkg\-deb
-mostrará sus contenidos, en el orden en el cual aparecen en el 
-fichero de control. Si se especifica más de un
+mostrar sus contenidos, en el orden en el cual aparecen en el 
+fichero de control. Si se especifica ms de un
 .BR campo\-del\-fichero\-de\-control
 , entonces
 .B dpkg\-deb
-precederá cada uno con el nombre del campo (más dos puntos y espacio).
+preceder cada uno con el nombre del campo (ms dos puntos y espacio).
 
-No se informa de ningún error para los campos que se hayan solicitados
+No se informa de ningn error para los campos que se hayan solicitados
 pero que no se encuentren.
 .TP 
 .BR \-\-contents ", " \-c
@@ -142,55 +147,55 @@ cuando se selecciona listado extendido.
 
 .TP 
 .BR \-\-extract ", " \-x ", " \-\-vextract ", " \-X
-Descomprime el árbol del sistema de ficheros desde el archivo del 
+Descomprime el rbol del sistema de ficheros desde el archivo del 
 paquete en del directorio especificado.
 
 .BR \-\-vextract " (" \-X ")"
-Muestra una lista de los archivos extraídos mientras que con la opción
+Muestra una lista de los archivos extrados mientras que con la opcin
 .BR \-\-extract " (" \-x ")"
-no mostrará nada a menos que ocurra un error.
+no mostrar nada a menos que ocurra un error.
 
-Nota, ¡
+Nota, 
 .I no
-obtendrá una instalación correcta si extrae un paquete en el directorio raíz!
+obtendr una instalacin correcta si extrae un paquete en el directorio raz!
 Use 
 .B dpkg
 para instalar paquetes.
 
 El 
 .I directorio
-(pero no los directorios previos) será creado si fuera necesario.
+(pero no los directorios previos) ser creado si fuera necesario.
 .TP 
 .BR \-\-fsys\-archivotar
-Descomprime el árbol del sistema de archivos de un paquete binarios y lo 
-envía hacia la salida estándar en formato
+Descomprime el rbol del sistema de archivos de un paquete binarios y lo 
+enva hacia la salida estndar en formato
 .B tar
 \. Si se utiliza junto con
 .B tar
 se puede utilizar para descomprimir un fichero concreto de un paquete.
 .TP 
 .BR \-\-control ", " \-e
-Descomprime los ficheros de información de control de un paquete dentro del
+Descomprime los ficheros de informacin de control de un paquete dentro del
 directorio especificado.
 
-Si no se especifica ningún directorio se usará el subdirectorio
+Si no se especifica ningn directorio se usar el subdirectorio
 .B DEBIAN
 en el directorio actual.
 
-El directorio de destino (pero no los directorios previos) será creado 
+El directorio de destino (pero no los directorios previos) ser creado 
 si fuera necesario.
 .TP 
 .BR \-\-help ", " \-h
-Muestra la información de cómo usar
+Muestra la informacin de cmo usar
 .BR dpkg\-deb 's
 , con un resumen de sus opciones y usos.
 .TP 
 .BR \-\-version
-Muestra el numero de versión de
+Muestra el numero de versin de
 .BR dpkg\-deb 's
 .TP 
 .BR \-\-licence
-Muestra la información de licencia y garantía de
+Muestra la informacin de licencia y garanta de
 .BR dpkg\-deb 's
 (El uso de la palabra americana
 .B \-\-license
@@ -200,61 +205,61 @@ produce el mismo mensaje)
 .BR \-\-new
 Asegura que
 .B dpkg\-deb
-construye un `nuevo' formato de archivo. Éste es el comportamiento por defecto.
+construye un `nuevo' formato de archivo. ste es el comportamiento por defecto.
 .TP 
 .BR \-\-old
 Fuerza 
 .B dpkg\-deb
 a construir un `antiguo' formato de archivo.  Este formato antiguo 
-de archivo es más dificil de analizar por herramientas que no 
-formen parte de Debian, por lo que ahora es obsoleto. Sólo se usa
-cuando se construyen paquetes que serán analizados por versiones de 
+de archivo es ms dificil de analizar por herramientas que no 
+formen parte de Debian, por lo que ahora es obsoleto. Slo se usa
+cuando se construyen paquetes que sern analizados por versiones de 
 dpkg previas a la version
-0.93.76 (septiembre 1995), la cual se distribuyó sólo para i386 en
+0.93.76 (septiembre 1995), la cual se distribuy slo para i386 en
 formato a.out
 .TP 
 .BR \-\-nocheck
 Impide las comprobaciones habituales de 
 .BR "dpkg\-deb \-\-build" 's
 sobre los contenidos del archivo. Puede construir
-cualquier archivo que desee, no importa lo mal que esté.
+cualquier archivo que desee, no importa lo mal que est.
 .TP 
 .BR \-\-debug ", " \-D
-Habilita los mensajes de depuración. No son muy interesantes.
+Habilita los mensajes de depuracin. No son muy interesantes.
 .SH "BUGS"
 .B dpkg\-deb \-I 
 .I B package1 .deb
 .I B package2 .deb
 no hace lo que debe hacer.
 
-No existe ningún tipo de autentificación en los arhivos
+No existe ningn tipo de autentificacin en los arhivos
 .B .deb
-de hecho, no hay ni siquiera una código de comprobación directo.
+de hecho, no hay ni siquiera una cdigo de comprobacin directo.
 
-¡No use 
+No use 
 .B dpkg\-deb
 para instalar software! Debe usar
 .B dpkg
 para asegurarse de que todos los archivos se instalan en el sitio
 correcto, que los guiones del paquete se ejecutan y que los 
-contenidos de éste se registran.
-.SH "VÉASE TAMBIÉN"
+contenidos de ste se registran.
+.SH "VASE TAMBIN"
 .BR deb (5),
 .BR deb-control (5),
 .BR dpkg (8),
 .BR dselect (8).
 .SH "AUTOR"
 .B dpkg\-deb
-y esta página de manual, fué escrita por Ian Jackson. Son
+y esta pgina de manual, fu escrita por Ian Jackson. Son
 Copyright (c) 1995\-1996
 suyos, y se distribuyen bajo la Licencia Publica de GNU.
-No se ofrece NINGUNA garantía. 
+No se ofrece NINGUNA garanta. 
 Consulte
 .B /usr/share/doc/dpkg/copyright
 y
 .B /usr/share/common-licenses/GPL
-para más información
+para ms informacin
 
-Está pagina fue traducida por Bruno Barrera C. <bruno.barrera@igloo.cl>
-y posteriormente revisada por Javier Fernández-Sanguino.
+Est pagina fue traducida por Bruno Barrera C. <bruno.barrera@igloo.cl>
+y posteriormente revisada por Javier Fernndez-Sanguino.
 
