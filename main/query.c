@@ -427,13 +427,13 @@ void showpackages(const char *const *argv) {
 }
 
 static void printversion(void) {
-  if (fputs(_("Debian"), stdout) < 0) werr("stdout");
-  if (fputs(DPKG, stdout) < 0) werr("stdout");
-  if (fputs(_("' package management program version "), stdout) < 0) werr("stdout");
-//  if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
+  if (fputs(_("Debian `"), stdout) < 0) werr("stdout");
+  if (fputs(DPKGQUERY, stdout) < 0) werr("stdout");
+  if (fputs(_("' package management program query tool\n"), stdout) < 0)
+    werr("stdout");
   if (fputs(_( "This is free software; see the GNU General Public Licence version 2 or\n"
 		"later for copying conditions.  There is NO warranty.\n"
-		"See dpkg --licence for copyright and license details.\n"),
+		"See " DPKGQUERY " --licence for copyright and license details.\n"),
 		 stdout) < 0) werr("stdout");
 }
 /*
@@ -442,7 +442,7 @@ static void printversion(void) {
   */
 static void usage(void) {
   if (fprintf (stdout, _("\
-Usage: dpkg-query [<option>] <command>\n\
+Usage: " DPKGQUERY " [<option>] <command>\n\
 Commands:\n\
   -s|--status <package-name> ...      display package status details\n\
   -p|--print-avail <package-name> ... display available version details\n\
@@ -455,7 +455,16 @@ Commands:\n\
 \n\
 Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
-  --showformat=<format>      Use alternative format for --show\n"),
+  --showformat=<format>      Use alternative format for --show\n\
+\n\
+Format syntax:\n\
+  A format is a string that will be output for each package. The format
+  can include the standard escape sequences \\n (newline), \\r (carriage
+  return) or \\\\ (plain backslash). Package information can be included
+  by inserting variable references to package fields using the ${var[;width]}
+  syntax. Fields will be right-aligned unless the width is negative in which
+   case left aligenment will be used. \n\
+"),
 	    ADMINDIR) < 0) werr ("stdout");
 }
 
