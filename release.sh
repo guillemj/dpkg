@@ -22,5 +22,8 @@ for cat in $catalogs; do
 done
 cd ..
 
+# Kill some obsolete directories found in CVS
+rm -rf attic/ doc/obsolete
+
 # Now remove the CVS scripts
 rm -f autogen.sh release.sh po/update.sh

@@ -46,7 +46,8 @@ $i=100;grep($fieldimps{$_}=$i--,
           qw(Package Version Section Priority Architecture Essential
              Pre-Depends Depends Recommends Suggests Optional Conflicts Replaces
              Provides Installed-Size Maintainer Source Description Build-Depends
-             Build-DependsIndep  Build-Conflicts Build-Conflicts-Indep));
+             Build-DependsIndep  Build-Conflicts Build-Conflicts-Indep
+	     Source));
 
 while (@ARGV) {
     $_=shift(@ARGV);
