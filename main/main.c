@@ -187,7 +187,7 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setobsolete(const struct cmdinfo *cip, const char *value) {
-  fprintf(stderr, _("Warning: obselete option `--%s'\n"),cip->olong);
+  fprintf(stderr, _("Warning: obsolete option `--%s'\n"),cip->olong);
 }
 
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
