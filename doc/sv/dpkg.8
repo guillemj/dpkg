@@ -1,5 +1,5 @@
 .\" Hey Emacs! This file is -*- nroff -*- source.
-.\" Translation of CVS revision 1.23
+.\" Translation of CVS revision 1.25
 .TH DPKG 8 "12 april 1998" "Debianprojektet" "Dpkg-sviten"
 .SH NAMN
 dpkg \- en mellannivåpakethanterare för Debian
@@ -309,6 +309,11 @@ Se \fBdpkg-deb\fP(1) för ytterligare information om följande åtgärder:
 .fi
 
 .SH FLAGGOR
+Alla flaggorna kan ges både på kommandoraden och i \fBdpkg\fPs
+konfigurationsfil \fI/etc/dpkg/dpkg.cfg\fP.
+En rad i konfigurationsfilen är antingen en flagga (precis samma som på
+kommandoraden, men utan inledande bindestreck) eller en kommentar (om den
+börjar med ett \fB#\fR).
 .br
 .TP
 \fB--abort-after=\fP\fIantal\fP
@@ -483,7 +488,11 @@ Denna flagga kan ges flera gånger.
 Statusuppdateringar ges på formen "status: <paket>: <paket qstatus>".
 
 .SH FILER
-Filerna som listas här finns i sina förvalda kataloger, se flaggan
+.TP
+.I /etc/dpkg.cfg
+Konfigurationsfil med förvalda inställningar.
+.P
+Övriga filer som listas här finns i sina förvalda kataloger, se flaggan
 \fB--admindir\fP för information om hur du ändrar placeringen av dessa
 filer.
 .TP
