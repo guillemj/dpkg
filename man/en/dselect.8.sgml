@@ -1,0 +1,1097 @@
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook V4.1//EN" [
+  <!ENTITY % ISOdia PUBLIC "ISO 8879:1986//ENTITIES Diacritical Marks//EN">
+  %ISOdia;
+]>
+
+<refentry id="dselect.8">
+  <refmeta>
+    <refentrytitle>dselect</refentrytitle>
+    <manvolnum>8</manvolnum>
+    <refmiscinfo class='source'>Debian Project</refmiscinfo>
+    <refmiscinfo class='manual'>dpkg suite</refmiscinfo>
+  </refmeta>
+
+  <refnamediv>
+    <refname>dselect</refname>
+    <refpurpose>Debian package management frontend</refpurpose>
+  </refnamediv>
+
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>dselect</command>
+      <arg choice="opt">--admindir <replaceable>directory</replaceable></arg>
+      <arg choice="opt">--help</arg>
+      <arg choice="opt">--version</arg>
+      <group choice="opt">
+	<arg choice="plain">--licence</arg>
+	<arg choice='plain'>--license</arg>
+      </group>
+      <arg choice="opt">--expert</arg>
+      <arg choice="opt">
+	<group choice="plain">
+	  <arg choice="plain">--debug</arg>
+	  <arg choice="plain">-D</arg>
+	</group>
+	<replaceable>file</replaceable>
+      </arg>
+
+      <arg choice="opt">
+        <group choice="plain">
+	  <arg choice="plain">--colour</arg>
+	  <arg choice="plain">--color</arg>
+	</group>
+	<replaceable>screenpart</replaceable>:<replaceable><optional>foreground</optional></replaceable>,<replaceable><optional>background</optional></replaceable>:<replaceable><optional>attr<replaceable><optional>+attr+..</optional></replaceable></optional></replaceable>
+      </arg>
+      <arg choice="opt"><replaceable>action</replaceable></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1>
+    <title>Description</title>
+
+    <para>
+      <command>dselect</command> is the primary user interface for managing
+      packages on a Debian system. At the <command>dselect</command> main menu,
+      the system administrator can:
+    </para>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+	  Update the list of available package versions
+	</para>
+      </listitem>
+
+      <listitem>
+        <para>
+	  View the status of installed and available packages,
+	</para>
+      </listitem>
+
+      <listitem>
+        <para>
+	  Alter package selections and manage dependencies,
+	</para>
+      </listitem>
+
+      <listitem>
+        <para>
+	  Install new packages or upgrade to newer versions.
+	</para>
+      </listitem>
+    </itemizedlist>
+
+
+    <para>
+      <command>dselect</command> operates as a front-end to
+      <command>>dpkg</command>, the medium-level debian package handling tool.
+      It features a full-screen package selections manager with package depends
+      and conflicts resolver. When run with adminitrator priviledges, packages
+      can be installed, upgraded and removed. Various access methods can be
+      configured to retrieve available package version information and
+      installable packages from package repositories.  Depending on the used
+      access method, these repositories can be public archive servers on the
+      internet, local archive servers or cdroms.  The recommended access method
+      is <emphasis>apt</emphasis>, which is provided by the package
+      <productname>apt</productname>.
+    </para>
+
+    <para>
+      Normally <command>dselect</command> is invoked without parameters.  An
+      interactive menu is presented, offering the user a list of actions.  If
+      an action is given as argument, then that action is started immediately.
+      Several commandline parameters are still available to modify the running
+      behaviour of <command>dselect</command> or show additional information
+      about the program.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>Options</title>
+
+    <para>
+      All options can be specified both on the commandline and in the
+      <command>dselect</command> configuration file
+      <filename>/etc/dpkg/dselect.cfg</filename>. Each line in the
+      configuration file is either an option (exactly the same as the
+      commandline option but without leading dashes) or a comment (if it starts
+      with a hash `#' sign).
+    </para>
+
+    <variablelist>
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">--admindir <replaceable>directory</replaceable></arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Changes the directory where the dpkg <filename>status</filename>,
+	    <filename>available</filename> and similar files are located. This
+	    defaults to <filename>/var/lib/dpkg</filename> and normally there
+	    should not be any need to change it.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <group choice="plain">
+	      <arg choice="plain">--debug <replaceable>file</replaceable></arg>
+	      <arg choice="plain">-D <replaceable>file</replaceable></arg>
+	    </group>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Turn on debugging. Debugging information is sent to
+	    <option>file</option>.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">--expert</arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Turns on expert mode, i.e. does not display possibly annoying
+	    help messages.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">
+	      <group choice="plain">
+		<arg choice="plain">--colour</arg>
+		<arg choice="plain">--color</arg>
+	      </group>
+	      <replaceable>screenpart</replaceable>:<replaceable><optional>foreground</optional></replaceable>,<replaceable><optional>background</optional></replaceable>:<replaceable><optional>attr<replaceable><optional>+attr+..</optional></replaceable></optional></replaceable>
+	    </arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Configures screen colours. This works only if your display
+	    supports colours. This option may be used multiple times (and is
+	    best used in <filename>dselect.cfg</filename>). Each use changes
+	    the colour (and optionally, other attributes) of one part of the
+	    screen. The parts of the screen (from top to bottom) are:
+	  </para>
+
+	  <variablelist>
+	    <varlistentry>
+	      <term>title</term>
+
+	      <listitem>
+		<para>
+		  The screen title.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>listhead</term>
+
+	      <listitem>
+		<para>
+		  The header line above the list of packages.
+		</para>
+		</listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>list</term>
+
+	      <listitem>
+		<para>
+		  The scrolling list of packages (and also some help text).
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>listsel</term>
+
+	      <listitem>
+		<para>
+		  The selected item in the list.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>pkgstate</term>
+
+	      <listitem>
+		<para>
+		  In the list of packages, the text indicating the current
+		  state of each package.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>pkgstatesel</term>
+
+	      <listitem>
+		<para>
+		  In the list of packages, the text indicating the current
+		  state of the currently selected package.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>infohead</term>
+
+	      <listitem>
+		<para>
+		  The header line that displays the state of the currently
+		  selected package.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>infodesc</term>
+
+	      <listitem>
+		<para>
+		  The package's short description.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>info</term>
+
+	      <listitem>
+		<para>
+		  Used to display package info such as the package's description.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>infofoot</term>
+
+	      <listitem>
+		<para>
+		  The last line of the screen when selecting packages.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>query</term>
+
+	      <listitem>
+		<para>
+		  Used to display query lines.
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>helpscreen</term>
+
+	      <listitem>
+		<para>
+		  Colour of help screens.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+
+	  <para>
+	    After the part of the screen comes a colon and the color
+	    specification. You can specify either the foreground color, the
+	    background color, or both, overriding the compiled-in colors. Use
+	    standard curses color names.
+	  </para>
+
+	  <para>
+	    Optionally, after the color specification is another colon, and
+	    an attribute specification. This is a list of one or more
+	    attributes, separated by plus ("+") characters. Available
+	    attributes include (not all of these will work on all terminals):
+	    normal, standout, underline, reverse, blink, bright, dim,
+	    bold.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">--help</arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Print a brief help text and exit successfully.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <group choice="plain">
+	      <arg choice="plain">--licence</arg>
+	      <arg choice="plain">--license</arg>
+	    </group>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Displays the <command>dselect</command> copyright and license
+	    information and exits successfully.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>
+	  <cmdsynopsis>
+	    <arg choice="plain">--version</arg>
+	  </cmdsynopsis>
+	</term>
+
+	<listitem>
+	  <para>
+	    Print version information and exit successfully.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>Usage</title>
+
+    <para>
+      When <command>dselect</command> is started interactively, it prompts the
+      user with a menu of available actions:
+    </para>
+
+    <variablelist>
+      <varlistentry>
+	<term>Access</term>
+
+	<listitem>
+	  <para>
+	    Choose and configure an access method to access package repositories.
+	  </para>
+
+	  <para>
+	    By default, <command>dselect</command> provides several methods such
+	    as <emphasis>floppy</emphasis>, <emphasis>harddisk</emphasis> or
+	    <emphasis>cdrom</emphasis>, but other packages may provide additional
+	    methods, eg. the <emphasis>apt</emphasis> access method provided by
+	    the <productname>apt</productname> package or
+	    <emphasis>multi_cd</emphasis> by the
+	    <productname>dpkg-multicd</productname> package.
+	  </para>
+
+	  <note>
+	    <para>
+	      The use of the <emphasis>apt</emphasis> access method is strongly
+	      recommended.
+	    </para>
+	  </note>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Update</term>
+
+	<listitem>
+	  <para>
+	    Refresh the available packages database.
+	  </para>
+
+	  <para>
+	    Retrieves a list of available package versions from the package
+	    repository, configured for the current access method, and update
+	    the dpkg database. The package lists are commonly provided by the
+	    repository as files named <filename>Packages</filename> or
+	    <filename>Packages.gz</filename>. These files can be generated by
+	    repository maintainers, using the program
+	    <command>dpkg-scanpackages</command>.  
+	  </para>
+
+	  <para>
+	    Details of the update action depend on the access method's
+	    implementation. Normally the process is straightforward and
+	    requires no user interaction.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Select</term>
+
+	<listitem>
+	  <para>
+	    View or manage package selections and dependencies.
+	  </para>
+
+	  <para>
+	    This is the main function of <command>dselect</command>. In the
+	    select screen, the user can review a list of all available and
+	    installed packages. When run with administrator privileges, it is
+	    also possible to interactively change packages selection state.
+	    <command>dselect</command> tracks the implications of these changes
+	    to other depending or conflicting packages.
+	  </para>
+
+	  <para>
+	    When a conflict or failed depends is detected, a dependency
+	    resolution subscreen is prompted to the user. In this screen, a
+	    list of conflicting or depending packages is shown, and for each
+	    package listed, the reason for its listing is shown. The user may
+	    apply the suggestions proposed by <command>dselect</command>,
+	    override them, or back out all the changes, including the ones that
+	    created the unresolved depends or conflicts.
+	  </para>
+
+	  <para>
+	    The use of the interactive package selections management screen is
+	    explained in more detail below.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>Install</term>
+
+	<listitem>
+	  <para>
+	    Installs selected packages.
+	  </para>
+
+	  <para>
+	    The configured access method will fetch installable or upgradable
+	    packages from the relevant repositories and install these using
+	    <command>dpkg</command>.  Depending on the implementation of the
+	    access method, all packages can be prefetched before installation,
+	    or fetched when needed.  Some access methods may also remove
+	    packages that were marked for removal.
+	  <para>
+
+	  <para>
+	    If an error occurred during install, it is usually advisable to run
+	    install again.  In most cases, the problems will disappear or be
+	    solved.  If problems persist or the installation performed was
+	    incorrect, please investigate into the causes and circumstances,
+	    and file a bug in the Debian bug tracking system.  Instructions on
+	    how to do this can be found at <ulink
+	    url='http://bugs.debian.org/'>http://bugs.debian.org/</ulink> or by
+	    reading the documentation for <command>bug</command> or
+	    <command>reportbug</command>, if these are installed.
+	  <para>
+
+	  <para>
+	    Details of the install action depend on the access method's
+	    implementation.  The user's attention and input may be required
+	    during installation, configuration or removal of packages.  This
+	    depends on the maintainer scripts in the package.  Some packages
+	    make use of the <productname>>debconf</productname> library,
+	    allowing for more flexible or even automated installation setups.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Config</term>
+
+	<listitem>
+	  <para>
+	    Configures any previously installed, but not fully configured packages.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Remove</term>
+
+	<listitem>
+	  <para>
+	    Removes or purges installed packages, that are marked for removal.
+	  </para>
+	</listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term>Quit</term>
+
+	<listitem>
+	  <para>
+	    Quit <command>dselect</command>.
+	  </para>
+	  
+	  <para>
+	    Exits the program with zero (succesful) errorcode.
+	  </para>
+	</listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1>
+    <title>Package Selections Management</title>
+
+    <refsect2>
+      <title>Introduction</title>
+
+      <para>
+	<command>dselect</command> directly exposes
+	the administrator to some of the complexities involved with managing
+	large sets of packages with many interdependencies.  For a user who is
+	unfamiliar with the concepts and the ways of the debian package
+	management system, it can be quite overwhelming.  Although <emphasis
+	remap='B'>dselect</emphasis> is aimed at easing package management and
+	administration, it is only instrumental in doing so and can not be
+	assumed to be a sufficient substitute for administrator skill and
+	understanding.  The user is required to be familiar with the concepts
+	underlying the Debian packaging system.  In case of doubt, consult the
+	<citerefentry><refentrytitle>dpkg</refentrytitle><manvolnum>8</manvolnum></citerefentry>
+	manpage and the Debian policy manual.
+      </para>
+
+      <para>
+	Unless <command>dselect</command> is run in expert or immediate mode, a
+	help screen is first displayed when choosing this action from the menu.
+	The user is <emphasis>strongly</emphasis> advised to study all of the
+	information presented in the online help screens, when one pops up.
+	The online help screens can at any time be invoked with the
+	<keycap>?</keycap> key.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>Screen Layout</title>
+
+      <para>
+	The select screen is by default split in a top and a bottom half.  The
+	top half shows a list of packages.  A cursor bar can select an
+	individual package, or a group of packages, if applicable, by selecting
+	the group header.  The bottom half of the screen shows some details
+	about the package currently selected in the top half of the screen.
+	The type of detail that is displayed can be varied.
+      </para>
+
+      <para>
+	Pressing the <keycap>I</keycap> key toggles a full-screen display of
+	the packages list, an enlarged view of the package details, or the
+	equally split screen.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>Package Details View</title>
+
+      <para>
+	The package details view by default shows the extended package
+	description for the package that is currently selected in the packages
+	status list.  The type of detail can be toggled by pressing the
+	<keycap>i</keycap> key. This alternates between:
+      </para>
+
+      <itemizedlist>
+        <listitem>
+	  <para>
+	    the extended description
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    the control information for the installed version
+	  </para>
+	</listitem>
+
+	<listitem>
+	  <para>
+	    the control information for the available version
+	  </para>
+	</listitem>
+      </itemizedlist>
+
+      <para>
+	In a dependency resolution screen, there is also the possibility of
+	viewing the specific unresolved depends or conflicts related to the
+	package and causing it to be listed.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>Packages Status List</title>
+
+      <para>
+	The main select screen displays a list of all packages known to the
+	debian package management system.  This includes packages installed on
+	the system and packages known from the available packages database.  
+      </para>
+
+      <para>
+	For every package, the list shows the package's status, priority,
+	section, installed and available versions, the package name and its
+	short description, all in one line.  By pressing the <keycap>V</keycap>
+	key, the display of the installed and available version can be toggled
+	between on an off. By pressing the <keycap>v</keycap> key, the package
+	status display is toggled between verbose and shorthand. Shorthand
+	display is the default.
+      </para>
+
+      <para>
+	The shorthand status indication consists of four parts:  an error flag,
+	which should normally be clear, the current status, the last selection
+	state and the current selection state.  The first two relate to the
+	actual state of the package, the second pair are about the selections
+	set by the user.
+      </para>
+
+      <para>
+        These are the meanings of the shorthand package status indicator codes:
+      </para>
+
+      <table>
+        <title>Error flags</title>
+	<tgroup cols=2>
+	  <thead>
+	    <row>
+	      <entry>Flag</entry>
+	      <entry>Description</entry>
+	    </row>
+	  </thead>
+
+	  <tbody>
+	    <row>
+	      <entry>empty</entry>
+	      <entry>no error</entry>
+	    </row>
+	    <row>
+	      <entry>R</entry>
+	      <entry>serious error, needs reinstallation</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </table>
+
+      <table>
+        <title>Installed state</title>
+	<tgroup cols=2>
+	  <thead>
+	    <row>
+	      <entry>Flag</entry>
+	      <entry>Description</entry>
+	    </row>
+	  </thead>
+
+	  <tbody>
+	    <row>
+	      <entry>empty</entry>
+	      <entry>not installed</entry>
+	    </row>
+	    <row>
+	      <entry>*</entry>
+	      <entry>fully installed and configured</entry>
+	    </row>
+	    <row>
+	      <entry>-</entry>
+	      <entry>not installed but some config files may remain</entry>
+	    </row>
+	    <row>
+	      <entry>U</entry>
+	      <entry>unpacked but not yet configured</entry>
+	    </row>
+	    <row>
+	      <entry>C</entry>
+	      <entry>half-configured (an error happened)</entry>
+	    </row>
+	    <row>
+	      <entry>I</entry>
+	      <entry>half-installed (an error happened)</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </table>
+
+      <table>
+        <title>Current and requested selsections</title>
+	<tgroup cols=2>
+	  <thead>
+	    <row>
+	      <entry>Flag</entry>
+	      <entry>Description</entry>
+	    </row>
+	  </thead>
+
+	  <tbody>
+	    <row>
+	      <entry>*</entry>
+	      <entry>marked for installation or upgrade</entry>
+	    </row>
+	    <row>
+	      <entry>-</entry>
+	      <entry>marked for removal, configuration files remain</entry>
+	    </row>
+	    <row>
+	      <entry>=</entry>
+	      <entry>on hold: package will not be processed at all</entry>
+	    </row>
+	    <row>
+	      <entry>_</entry>
+	      <entry>marked for purge, also remove configuration and data</entry>
+	    </row>
+	    <row>
+	      <entry>n</entry>
+	      <entry>package is new and has yet to be marked</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </table>
+    </refsect2>
+
+    <refsect2>
+      <title>Cursor And Screen Movement</title>
+
+      <para>
+	The package selection list and the dependency conflict resolution
+	screens can be navigated using motion commands mapped to the following
+	keys:
+      </para>
+
+      <table>
+        <title>movement keybindings</title>
+
+	<tgroup cols=2>
+	  <thead>
+	    <row>
+	      <entry>Key(s)</entry>
+	      <entry>Action</entry>
+	    </row>
+	  </thead>
+
+	  <tbody>
+	    <row>
+	      <entry><keycap>p</keycap>, <keycap>Up</keycap>, <keycap>k</keycap></entry>
+	      <entry>move cursor bar up</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>n</keycap>, <keycap>Down</keycap>, <keycap>j</keycap></entry>
+	      <entry>move cursor bar down</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>P</keycap>, <keycap>PgUp</keycap>, <keycap>BackSpace</keycap></entry>
+	      <entry>scroll list 1 page up</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>N</keycap>, <keycap>PgDn</keycap>, <keycap>Space</keycap></entry>
+	      <entry>scroll list 1 page down</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>Ctrl</keycap>-<keycap>p</keycap></entry>
+	      <entry>scroll list 1 line up</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>Ctrl</keycap>-<keycap>n</keycap></entry>
+	      <entry>scroll list 1 line down</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>t</keycap>, <keycap>Home</keycap></entry>
+	      <entry>jump to top of list</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>e</keycap>, <keycap>End</keycap></entry>
+	      <entry>jump to end of list</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>u</keycap></entry>
+	      <entry>scroll info 1 page up</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>d</keycap></entry>
+	      <entry>scroll info 1 page down</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>Ctrl</keycap>-<keycap>u</keycap></entry>
+	      <entry>scroll info 1 line up</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>Ctrl</keycap>-<keycap>d</keycap></entry>
+	      <entry>scroll info 1 line down</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>B</keycap>, <keycap>Left</keycap></entry>
+	      <entry>pan display 1/3 screen left</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>F</keycap>, <keycap>Right</keycap></entry>
+	      <entry>pan display 1/3 screen right</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>Ctrl</keycap>-<keycap>b</keycap></entry>
+	      <entry>pan display 1 character left</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>Ctrl</keycap>-<keycap>f</keycap></entry>
+	      <entry>pan display 1 character right</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </table>
+    </refsect2>
+
+    <refsect2>
+      <title>Searching And Sorting</title>
+
+      <para>
+	The list of packages can be searched by package name. This is done by
+	pressing <keycap>/</keycap>, and typing a simple search string. The
+	string is interpreted as a
+	<citerefentry><refentrytitle>regex</refentrytitle><manvolnum>7</manvolnum></citerefentry>
+	regular expression. If you add `<emphasis>/d</emphasis>' to the search
+	expression, dselect will also search in descriptions. If you add
+	`<emphasis>/i</emphasis>' the search will be case insensitive. You may
+	combine these two suffixes like this: `<emphasis>'/id'</emphasis>.
+	Repeated searching is accomplished by repeatedly pressing the
+	<keycap>n</keycap> or <keycap>\</keycap> keys, until the wanted package
+	is found. If the search reaches the bottom of the list, it wraps to
+	the top and continues searching from there.
+      </para>
+
+      <para>
+	The list sort order can be varied by pressing the <keycap>o</keycap>
+	and <keycap>O</keycap> keys repeatedly. The following nine sort
+	orderings can be selected:
+      </para>
+
+      <para>
+ alphabet          available           status
+ priority+section  available+priority  status+priority
+ section+priority  available+section   status+section
+      </para>
+
+      <para>
+	Where not listed above explicitly, alphabetic order is used as the
+	final subordering sort key.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>Altering Selections</title>
+
+      <para>
+	The requested selection state of individual packages may be altered
+	with the following commands:
+      </para>
+
+      <table>
+        <title>action keybindings</title>
+
+        <tgroup cols=2>
+	  <thead>
+	    <row>
+	      <entry>Key(s)</entry>
+	      <entry>Action</entry>
+	    </row>
+	  </thead>
+
+	  <tbody>
+	    <row>
+	      <entry><keycap>+</keycap>, <keycap>Insert</keycap></entry>
+	      <entry>install or upgrade</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>=</keycap>, <keycap>H</keycap></entry>
+	      <entry>hold in present state and version</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>:</keycap>, <keycap>G</keycap></entry>
+	      <entry>unhold: upgrade or leave uninstalled</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>-</keycap>, <keycap>Delete</keycap></entry>
+	      <entry>remove, but leave configuration and data</entry>
+	    </row>
+	    <row>
+	      <entry><keycap>_</keycap></entry>
+	      <entry>remove &amp; purge configuration and data</entry>
+	    </row>
+	  </tbody>
+	</tgroup>
+      </table>
+
+      <para>
+	When the change request results in one or more unsatisfied depends or
+	conflicts, <command>dselect</command> prompts the user with a
+	dependency resolution screen. This will be further explained below.
+      </para>
+
+      <para>
+	It is also possible to apply these commands to groups of package
+	selections, by pointing the cursor bar onto a group header.  The exact
+	grouping of packages is dependent on the current
+	list ordering settings.  
+      </para>
+
+      <para>
+	Proper care should be taken when altering large groups of selections,
+	because this can instantaneously create large numbers of unresolved
+	depends or conflicts, all of which will be listed in one dependency
+	resolution screen, making them very hard to handle. In practice, only
+	hold and unhold operations are useful when applied to groups.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>Resolving Depends And Conflicts</title>
+
+      <para>
+	When the change request results in one or more unsatisfied depends or
+	conflicts, <command>dselect</command> prompts the user with a
+	dependency resolution screen. First however, an informative help
+	screen is displayed. 
+      </para>
+
+      <para>
+	The top half of this screen lists all the packages that will have
+	unresolved depends or conflicts, as a result of the requested change,
+	and all the packages whose installation can resolve any of these
+	depends or whose removal can resolve any of the conflicts.  The bottom
+	half defaults to show the depends or conflicts that cause the currently
+	selected package to be listed.
+      </para>
+
+      <para>
+	When the sublist of packages is displayed initially,
+	<command>dselect</command> may have already set the requested selection
+	status of some of the listed packages, in order to resolve the depends
+	of conflicts that caused the dependency resolution screen to be
+	displayed.  Usually, it is best to follow up the suggestions made by
+	<command>dselect</command>.
+      </para>
+
+      <para>
+	The listed packages' selection state may be reverted to the original
+	settings, as they were before the unresolved depends or conflicts were
+	created, by pressing the <keycap>R</keycap> key. By pressing the
+	<keycap>D</keycap> key, the automatic suggestions are reset, but the
+	change that caused the dependency resolution screen to be prompted is
+	kept as requested.  Finally, by pressing <keycap>U</keycap>, the
+	selections are again set to the automatic suggestion values.
+      </para>
+    </refsect2>
+
+    <refsect2>
+      <title>Establishing The Requested Selections</title>
+
+      <para>
+	By pressing <keycap>Enter</keycap>, the currently displayed set of
+	selections is accepted. If <command>dselect</command> detects no
+	unresolved depends as a result of the requested selections, the new
+	selections will be set. However, if there are any unresolveded
+	depends, <command>dselect</command> will again prompt the user with a
+	dependency resolution screen.  
+      </para>
+
+      <para>
+	To alter a set of selections that creates unresolved depends or
+	conflicts and forcing <command>dselect</command> to accept it, press
+	the <keycap>Q</keycap> key. This sets the selections as specified by
+	the user, unconditionally. Generally, don't do this unless you've read
+	the fine print.
+      </para>
+
+      <para>
+	The opposite effect, to back out any selections change requests and go
+	back to the previous list of selections, is attained by pressing the
+	<keycap>X</keycap> or <keycap>Escape</keycap> keys. By repeatedly
+	pressing these keys, any possibly detrimental changes to the requested
+	package selections can be backed out completely to the last established
+	settings.
+      </para>
+    </refsect2>
+  </refsect1>
+
+  <refsect1>
+    <title>Bugs</title>
+
+    <para>
+      The <command>dselect</command> package selection interface is confusing
+      to some new users. Reportedly, it even makes seasoned kernel developers
+      cry.
+    </para>
+
+    <para>
+      The documentation is lacking.
+    </para>
+
+    <para>
+      There is no help option in the main menu.
+    </para>
+
+    <para>
+      The visible list of available packages cannot be reduced.
+    </para>
+
+    <para>
+      The built in access methods can no longer stand up to current quality
+      standards. Use the access method provided by
+      <productname>apt</productname>, it is not only not broken, it is also
+      much more flexible than the built in access methods.
+    </para>
+  </refsect1>
+
+  <refsect1>
+    <title>See Also</title>
+
+    <para>
+      <citerefentry>
+        <refentrytitle>dselect.cfg</refentrytitle>
+	<manvolnum>5</manvolnum>
+      </citerefentry>,
+
+      <citerefentry>
+        <refentrytitle>dpkg</refentrytitle>
+	<manvolnum>8</manvolnum>
+      </citerefentry>,
+
+      <citerefentry>
+	<refentrytitle>apt-get</refentrytitle>
+	<manvolnum>8</manvolnum>
+      </citerefentry>,
+
+      <citerefentry>
+        <refentrytitle>sources.list</refentrytitle>
+	<manvolnum>5</manvolnum>
+      </citerefentry>,
+
+      <citerefentry>
+        <refentrytitle>deb</refentrytitle>
+	<manvolnum>5</manvolnum>
+      </citerefentry>,
+
+      the Debian policy manual.
+    </para>
+  </refsect1>
+</refentry>
+
