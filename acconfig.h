@@ -62,3 +62,6 @@
 
 /* Define if start-stop-daemon is compiled */
 #undef USE_START_STOP_DAEMON
+
+/* Define if you have the __va_copy macro */
+#undef HAVE_VA_COPY

@@ -70,7 +70,7 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
 
   do {
     varbufextend(v);
-    al= va;
+    __va_copy(al, va);
     r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
     if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;

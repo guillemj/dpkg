@@ -112,6 +112,10 @@ void unsetenv(const char *x);
 #define strtoul strtol
 #endif
 
+#ifndef HAVE_VA_COPY
+#define __va_copy(dest,src)	(dest) = (src)
+#endif
+
 /* Define WCOREDUMP if we don't have it already - coredumps won't be
  * detected, though.
  */
