@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.7\n"
-"POT-Creation-Date: 2001-04-24 12:07+0200\n"
+"POT-Creation-Date: 2001-07-16 02:32+0200\n"
 "PO-Revision-Date: 2000-03-04 14:39+09:00\n"
 "Last-Translator: Keita Maehara <maehara@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
@@ -67,16 +67,23 @@ msgstr "%d番のシステムエラーが発生しました。"
 msgid "Signal no.%d"
 msgstr "%d番のシグナルが発生しました。"
 
-#: lib/database.c:240
+#: lib/database.c:177
+#, fuzzy, c-format
+msgid "couldn't allocate memory for strdup in findpackage(%s)"
+msgstr ""
+"dpkg: 失敗したパッケージ一覧に新しいエントリを追加するためのメモリを割り当て"
+"ることができませんでした。"
+
+#: lib/database.c:247
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "%7d サイズが %5d 回発生しました\n"
 
-#: lib/database.c:241
+#: lib/database.c:248
 msgid "failed write during hashreport"
 msgstr "ハッシュレポート中に書き込みに失敗しました。"
 
-#: lib/dbmodify.c:57
+#: lib/dbmodify.c:58
 #, c-format
 msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
@@ -85,85 +92,85 @@ msgstr ""
 "updates ディレクトリにあるファイル`%.250s'は名前が長すぎます(長さ=%d, 最大=%"
 "d)。"
 
-#: lib/dbmodify.c:61
+#: lib/dbmodify.c:62
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
 msgstr "updates ディレクトリにあるファイルの名前の長さが異なります(%dと%d)。"
 
-#: lib/dbmodify.c:75
+#: lib/dbmodify.c:76
 #, c-format
 msgid "cannot scan updates directory `%.255s'"
 msgstr "updates ディレクトリ`%.255s'をスキャンできません。"
 
-#: lib/dbmodify.c:91
+#: lib/dbmodify.c:92
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr "統合した更新用ファイル %.255s の削除に失敗しました。"
 
-#: lib/dbmodify.c:108
+#: lib/dbmodify.c:109
 #, c-format
 msgid "unable to create %.250s"
 msgstr "%.250s を作成できません。"
 
-#: lib/dbmodify.c:111
+#: lib/dbmodify.c:113
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "%.250s に文字を補充(padding)できません。"
 
-#: lib/dbmodify.c:113
+#: lib/dbmodify.c:115
 #, c-format
 msgid "unable flush %.250s after padding"
 msgstr "文字の補充(padding)後に %.250s をフラッシュできません。"
 
-#: lib/dbmodify.c:115
+#: lib/dbmodify.c:117
 #, c-format
 msgid "unable seek to start of %.250s after padding"
 msgstr "文字の補充(padding)後に %.250s の最初に戻れません。"
 
-#: lib/dbmodify.c:143
+#: lib/dbmodify.c:145
 msgid "requested operation requires superuser privilege"
 msgstr "要求した操作はスーパーユーザの権限が必要です。"
 
-#: lib/dbmodify.c:148
+#: lib/dbmodify.c:150
 msgid "unable to access dpkg status area"
 msgstr "dpkg ステータスエリアにアクセスできません。"
 
-#: lib/dbmodify.c:150
+#: lib/dbmodify.c:152
 msgid "operation requires read/write access to dpkg status area"
 msgstr "操作は dpkg ステータスエリアへの読み書きの権限が必要です。"
 
-#: lib/dbmodify.c:198
+#: lib/dbmodify.c:200
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "一時的な更新用ファイル %.255s の削除に失敗しました。"
 
-#: lib/dbmodify.c:247
+#: lib/dbmodify.c:249
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "更新した`%.250s'のステータスを書き込めません。"
 
-#: lib/dbmodify.c:249
+#: lib/dbmodify.c:251
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "更新した`%.250s'のステータスをフラッシュできません。"
 
-#: lib/dbmodify.c:251
+#: lib/dbmodify.c:253
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "更新した`%.250s'のステータスを切り詰められません。"
 
-#: lib/dbmodify.c:253
+#: lib/dbmodify.c:255
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "更新した`%.250s'のステータスを fsync できません。"
 
-#: lib/dbmodify.c:255
+#: lib/dbmodify.c:257
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "更新した`%.250s'のステータスをクローズできません。"
 
-#: lib/dbmodify.c:258
+#: lib/dbmodify.c:260
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "更新した`%.250s'のステータスをインストールできません。"
@@ -200,7 +207,9 @@ msgstr "%2$s 情報を書き込んだ後に`%1$.250s'のクローズに失敗しました。"
 #: lib/dump.c:279
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
-msgstr "`%1$.250s'を`%2$.250s'へリンクできないため、%3$s 情報をバックアップできません。"
+msgstr ""
+"`%1$.250s'を`%2$.250s'へリンクできないため、%3$s 情報をバックアップできませ"
+"ん。"
 
 #: lib/dump.c:282
 #, c-format
@@ -263,82 +272,85 @@ msgstr "%s後のゴミ"
 msgid "invalid package name (%.250s)"
 msgstr "無効なパッケージ名 (%.250s) です。"
 
-#: lib/fields.c:92
+#: lib/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "ファイル記述フィールド`%s'が空です。"
 
-#: lib/fields.c:95
+#: lib/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "ファイル記述フィールド`%s'はステータスファイルに許されていません。"
 
-#: lib/fields.c:105
+#: lib/fields.c:103
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr "ファイル記述フィールド`%s'の値が(他のフィールドに比べて)多すぎます。"
 
-#: lib/fields.c:118
+#: lib/fields.c:116
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr "ファイル記述フィールド`%s'に(他のフィールドに比べて)値が少なすぎます。"
 
-#: lib/fields.c:134
+#: lib/fields.c:132
 msgid "yes/no in `essential' field"
 msgstr "「必須(essential)」フィールドにおける yes/no"
 
-#: lib/fields.c:167
+#: lib/fields.c:165
 msgid "value for `status' field not allowed in this context"
 msgstr "`status'フィールドの値はこのコンテキストに許されていません。"
 
-#: lib/fields.c:178
+#: lib/fields.c:176
 msgid "third (status) word in `status' field"
 msgstr "`status'フィールドの第 3 ワード(ステータス)"
 
-#: lib/fields.c:189
+#: lib/fields.c:187
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "Version 文字`%.250s'のエラー: %.250s"
 
-#: lib/fields.c:200
+#: lib/fields.c:198
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "古い `Revision' か `Package-Revision' フィールドが使われています。"
 
-#: lib/fields.c:218
+#: lib/fields.c:216
 msgid "value for `config-version' field not allowed in this context"
 msgstr "`config-version'フィールドの値はこのコンテキストに許されていません。"
 
-#: lib/fields.c:222
+#: lib/fields.c:220
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "Config-Version文字`%.250s'のエラー: %.250s"
 
-#: lib/fields.c:239
+#: lib/fields.c:237
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "`conffiles'の値に空白以外の文字`%c'で始まる行があります。"
 
-#: lib/fields.c:245
+#: lib/fields.c:243
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "`conffiles'の値に不正な形式を持つ行`%.*s'があります。"
 
-#: lib/fields.c:251
+#: lib/fields.c:249
 msgid "root or null directory is listed as a conffile"
-msgstr "ルートディレクトリか空のディレクトリが設定ファイルとして指定されています。"
+msgstr ""
+"ルートディレクトリか空のディレクトリが設定ファイルとして指定されています。"
 
-#: lib/fields.c:306
+#: lib/fields.c:304
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
-msgstr "`%s'フィールド、パッケージ名が存在しないか、パッケージ名が入ると期待される場所にゴミがあります"
+msgstr ""
+"`%s'フィールド、パッケージ名が存在しないか、パッケージ名が入ると期待される場"
+"所にゴミがあります"
 
-#: lib/fields.c:309
+#: lib/fields.c:307
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "`%s'フィールド、無効なパッケージ名 `%.255s': %s"
 
-#: lib/fields.c:340
+#: lib/fields.c:338
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -347,7 +359,7 @@ msgstr ""
 "`%2$.255s'の`%1$s'フィールド:\n"
 " バージョン関係 %3$c%4$c は不正です。"
 
-#: lib/fields.c:346
+#: lib/fields.c:344
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -357,7 +369,7 @@ msgstr ""
 " `%3$c'は現在使われていません。かわりに `%4$c=' か `%5$c%6$c' を使用してくだ"
 "さい。"
 
-#: lib/fields.c:356
+#: lib/fields.c:354
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -367,11 +379,11 @@ msgstr ""
 " バージョン番号が厳密に一致することが明示されていません。かわりに`='を使用す"
 "ることを提案します。"
 
-#: lib/fields.c:363
+#: lib/fields.c:361
 msgid "Only exact versions may be used for Provides"
 msgstr "Provides には正確なバージョンのみが使用できます。"
 
-#: lib/fields.c:367
+#: lib/fields.c:365
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -380,32 +392,32 @@ msgstr ""
 "`%2$.255s'の`%1$s'フィールド:\n"
 " バージョン値が非英数字で始まっています。空白を加えることを提案します。"
 
-#: lib/fields.c:381
+#: lib/fields.c:379
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "`%2$.255s'の`%1$s'フィールド: バージョンが `(' を含んでいます。"
 
-#: lib/fields.c:384
+#: lib/fields.c:382
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "`%2$.255s'の`%1$s'フィールド: バージョンが ` ' を含んでいます。"
 
-#: lib/fields.c:387
+#: lib/fields.c:385
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "`%2$.255s'の`%1$s'フィールド: バージョンが完結していません。"
 
-#: lib/fields.c:398
+#: lib/fields.c:396
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "`%2$.255s'の`%1$s'フィールド: バージョンエラー: %3$.255s"
 
-#: lib/fields.c:407
+#: lib/fields.c:405
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "`%s'フィールド、パッケージ`%.255s'参照後の構文エラー"
 
-#: lib/fields.c:414
+#: lib/fields.c:412
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "選択記号(`|')は %s フィールド内では許されません。"
@@ -430,109 +442,119 @@ msgstr "ステータスデータベースエリアが別のプロセスによってロックされています。"
 msgid "unable to lock dpkg status database"
 msgstr "dpkg ステータスデータベースをロックできません。"
 
-#: lib/mlib.c:49
+#: lib/mlib.c:51
 #, c-format
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc 失敗(%ld バイト)"
 
-#: lib/mlib.c:62
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc 失敗(%ld バイト)"
 
-#: lib/mlib.c:69
+#: lib/mlib.c:71
 #, c-format
 msgid "%s (subprocess): %s\n"
 msgstr "%s (サブプロセス): %s\n"
 
-#: lib/mlib.c:83
+#: lib/mlib.c:85
 msgid "fork failed"
 msgstr "fork 失敗"
 
-#: lib/mlib.c:96
+#: lib/mlib.c:98
 #, c-format
 msgid "failed to dup for std%s"
 msgstr "std%s の複製に失敗しました。"
 
-#: lib/mlib.c:97
+#: lib/mlib.c:99
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "ファイルディスクリプタ %d の複製に失敗しました。"
 
-#: lib/mlib.c:103
+#: lib/mlib.c:105
 msgid "failed to create pipe"
 msgstr "パイプの作成に失敗しました。"
 
-#: lib/mlib.c:112
+#: lib/mlib.c:114
 #, c-format
 msgid "dpkg: warning - %s returned error exit status %d\n"
 msgstr "dpkg: 警告 - %s がエラーステータス %d を返しました。\n"
 
-#: lib/mlib.c:114
+#: lib/mlib.c:116
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "サブプロセス %s はエラー終了ステータス %d を返しました。"
 
-#: lib/mlib.c:119
+#: lib/mlib.c:121
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: 警告 - %s がシグナル(%s) %s によって強制終了しました。\n"
 
-#: lib/mlib.c:122
+#: lib/mlib.c:124
 #, c-format
 msgid "subprocess %s killed by signal (%s)%s"
 msgstr "サブプロセス %s がシグナル (%s)%s によって強制終了しました。"
 
-#: lib/mlib.c:125
+#: lib/mlib.c:127
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr "サブプロセス %s が wait ステータスコード %d を返して失敗しました。"
 
-#: lib/mlib.c:135
+#: lib/mlib.c:137
 #, c-format
 msgid "wait for %s failed"
 msgstr "%s の終了まで待機できませんでした(wait 失敗)"
 
-#: lib/mlib.c:183
+#: lib/mlib.c:145
+#, fuzzy, c-format
+msgid "unable to read filedescriptor flags for %.250s"
+msgstr "説明ファイル `%.250s' をオープンできません。"
+
+#: lib/mlib.c:147
+#, fuzzy, c-format
+msgid "unable to set close-on-exec flag for %.250s"
+msgstr "`%.250s' のバッファを確保できません。"
+
+#: lib/mlib.c:199
 msgid "failed in buffer_write(fd) (%i, ret=%zi %s)"
 msgstr "buffer_write(fd) で失敗しました(%i, ret=%zi %s)"
 
-#: lib/mlib.c:190
+#: lib/mlib.c:206
 #, c-format
 msgid "eof in buffer_write(stream): %s"
 msgstr "buffer_write(stream)での eof: %s"
 
-#: lib/mlib.c:192
+#: lib/mlib.c:208
 #, c-format
 msgid "error in buffer_write(stream): %s"
 msgstr "buffer_write(stream)でのエラー: %s"
 
-#: lib/mlib.c:198
+#: lib/mlib.c:214
 #, c-format
 msgid "unknown data type `%i' in buffer_write\n"
 msgstr "buffer_write 内での未知のデータ型 `%i'\n"
 
-#: lib/mlib.c:214
+#: lib/mlib.c:230
 #, c-format
 msgid "failed in buffer_read(fd): %s"
 msgstr "buffer_read(fd)内で失敗しました: %s"
 
-#: lib/mlib.c:221
+#: lib/mlib.c:237
 #, c-format
 msgid "error in buffer_read(stream): %s"
 msgstr "buffer_read(stream): %s 内でのエラー"
 
-#: lib/mlib.c:224
+#: lib/mlib.c:240
 #, c-format
 msgid "unknown data type `%i' in buffer_read\n"
 msgstr "buffer_read 内での未知のデータ型 `%i'\n"
 
-#: lib/mlib.c:290
+#: lib/mlib.c:306
 #, c-format
 msgid "failed to allocate buffer in buffer_copy (%s)"
 msgstr "buffer_copy 内でのバッファの割り当てに失敗しました(%s)"
 
-#: lib/mlib.c:321
+#: lib/mlib.c:337
 #, c-format
 msgid "failed in buffer_copy (%s)"
 msgstr "buffer_copy 内で失敗しました(%s)"
@@ -652,44 +674,46 @@ msgstr "フィールド`%.*s'の値の前で EOF (最後の改行がない)"
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "フィールド`%.*s'の値に MSDOS EOF 文字 (改行がない?)"
 
-#: lib/parse.c:183
+#: lib/parse.c:182
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "フィールド`%.*s'の値の間に EOF (最後の改行がない)"
 
-#: lib/parse.c:206
+#: lib/parse.c:205
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "`%s'フィールドの値が重複しています。"
 
-#: lib/parse.c:211
+#: lib/parse.c:210
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "ユーザ定義フィールド名`%.*s'が短かすぎます。"
 
-#: lib/parse.c:216
+#: lib/parse.c:215
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "ユーザ定義フィールド`%.*s'の値が重複しています。"
 
-#: lib/parse.c:229
+#: lib/parse.c:228
 msgid "several package info entries found, only one allowed"
 msgstr "パッケージ情報エントリが複数見付かりました。許されるのは1つのみです。"
 
-#: lib/parse.c:257
+#: lib/parse.c:256
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "不適切なステータスを持つパッケージの Configured-Version"
 
-#: lib/parse.c:271
+#: lib/parse.c:270
 msgid "Package which in state not-installed has conffiles, forgetting them"
-msgstr "現在インストールされていないパッケージ(ステータス not-installed)が conffiles を持っていますので、それらの情報を無視します。"
+msgstr ""
+"現在インストールされていないパッケージ(ステータス not-installed)が conffiles "
+"を持っていますので、それらの情報を無視します。"
 
-#: lib/parse.c:326
+#: lib/parse.c:325
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "読み込み後のファイルのクローズに失敗しました: `%.255s'"
 
-#: lib/parse.c:327
+#: lib/parse.c:326
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "`%.255s'にパッケージ情報がありません。"
@@ -742,24 +766,29 @@ msgstr "文字`%c'は許されません - 文字、数値と %s のみ使用可能です。"
 msgid "<none>"
 msgstr "<なし>"
 
-#: lib/parsehelp.c:193
+#: lib/parsehelp.c:194
 msgid "version string is empty"
 msgstr "バージョン文字が空です。"
 
-#: lib/parsehelp.c:198
+#: lib/parsehelp.c:205
+#, fuzzy
+msgid "version string has embedded spaces"
+msgstr "バージョン文字が空です。"
+
+#: lib/parsehelp.c:210
 msgid "epoch in version is not number"
 msgstr "バージョン中の epoch が数値でありません。"
 
-#: lib/parsehelp.c:199
+#: lib/parsehelp.c:211
 msgid "nothing after colon in version number"
 msgstr "バージョン番号のコロンの後に何もありません。"
 
-#: lib/parsehelp.c:223
+#: lib/parsehelp.c:235
 #, c-format
 msgid "missing %s"
 msgstr "%s が見付かりません"
 
-#: lib/parsehelp.c:227
+#: lib/parsehelp.c:239
 #, c-format
 msgid "empty value for %s"
 msgstr "%s の空の値"
@@ -772,68 +801,70 @@ msgstr "GPL ファイルをオープンできません。"
 msgid "failed to realloc for variable buffer"
 msgstr "可変長バッファの再割り当てに失敗しました。"
 
-#: main/archives.c:164
+#: main/archives.c:202
 msgid "process_archive ...  already disappeared !"
 msgstr "process_archive ... すでに消滅しています!"
 
-#: main/archives.c:184
+#: main/archives.c:222
 msgid "error reading from dpkg-deb pipe"
 msgstr "dpkg-deb パイプからの読み込みエラーです。"
 
-#: main/archives.c:221
+#: main/archives.c:259
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "`%.255s'のタイムスタンプ設定エラーです。"
 
-#: main/archives.c:228 main/archives.c:481
+#: main/archives.c:266 main/archives.c:513
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "`%.255s'の所有者設定エラーです。"
 
-#: main/archives.c:230 main/archives.c:484
+#: main/archives.c:268 main/archives.c:516
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "`%.255s'の許可属性設定エラーです。"
 
-#: main/archives.c:319
+#: main/archives.c:351
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
 "%.100s%.10s"
-msgstr "`%.250s'を上書きしようとしています。これは `%.250s'%.10s%.100s%.10s の退避バージョンです。"
+msgstr ""
+"`%.250s'を上書きしようとしています。これは `%.250s'%.10s%.100s%.10s の退避"
+"バージョンです。"
 
-#: main/archives.c:323
+#: main/archives.c:355
 msgid " (package: "
 msgstr " (パッケージ: "
 
-#: main/archives.c:345
+#: main/archives.c:377
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "(今インストールしようとしている)`%.255s'のステータスを得られません。"
 
-#: main/archives.c:353
+#: main/archives.c:385
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
 "version"
 msgstr "別バージョンのインストール前の`%.255s'まわりのごみ掃除に失敗しました。"
 
-#: main/archives.c:359
+#: main/archives.c:391
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr "別バージョンのインストール前の復元された`%.255s'の状態を得られません。"
 
-#: main/archives.c:391
+#: main/archives.c:423
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "アーカイブに含まれるオブジェクト`%.255s'が不明な型 0x%x です"
 
-#: main/archives.c:422
+#: main/archives.c:454
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "古いパッケージ %s 中のファイルを置換しています...\n"
 
-#: main/archives.c:426
+#: main/archives.c:458
 #, c-format
 msgid ""
 "trying to overwrite directory `%.250s' in package %.250s with nondirectory"
@@ -841,90 +872,95 @@ msgstr ""
 "パッケージ %2$.250s に含まれるディレクトリ`%1$.250s'をディレクトリ以外のもの"
 "で上書きしようとしています。"
 
-#: main/archives.c:436
+#: main/archives.c:468
 #, c-format
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
-msgstr "`%.250s'を上書きしようとしています。これはパッケージ %.250s にも含まれています。"
+msgstr ""
+"`%.250s'を上書きしようとしています。これはパッケージ %.250s にも含まれていま"
+"す。"
 
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:368 main/archives.c:464
+#: dpkg-deb/build.c:368 main/archives.c:496
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "`%.255s' を作成できません。"
 
-#: main/archives.c:469
+#: main/archives.c:501
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "`%.255s'間の dpkg-deb バックエンド"
 
-#: main/archives.c:487
+#: main/archives.c:519
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "`%.255s'の書き込み/クローズエラーです。"
 
-#: main/archives.c:492
+#: main/archives.c:524
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "パイプ`%.255s'の作成エラーです。"
 
-#: main/archives.c:498
+#: main/archives.c:530
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "デバイス`%.255s'の作成エラーです。"
 
-#: main/archives.c:507
+#: main/archives.c:539
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "ハードリンク`%.255s'の作成エラーです。"
 
-#: main/archives.c:514
+#: main/archives.c:546
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "シンボリックリンク`%.255s'の作成エラーです。"
 
-#: main/archives.c:523
+#: main/archives.c:555
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "シンボリックリンク`%.255s'の所有者設定エラーです。"
 
-#: main/archives.c:528
+#: main/archives.c:560
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "ディレクトリ`%.255s'の作成エラーです。"
 
-#: main/archives.c:563
+#: main/archives.c:595
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
-msgstr "新バージョンをインストールするために`%.255s'を退避しようとしましたが、失敗しました。"
+msgstr ""
+"新バージョンをインストールするために`%.255s'を退避しようとしましたが、失敗し"
+"ました。"
 
-#: main/archives.c:572
+#: main/archives.c:604
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "リンク `%.255s' を読むことができません。"
 
-#: main/archives.c:576
+#: main/archives.c:608
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "`%.255s'のバックアップ用シンボリックリンクを作成できません。"
 
-#: main/archives.c:582
+#: main/archives.c:614
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "`%.255s'のバックアップ用シンボリックリンクを chown できません。"
 
-#: main/archives.c:586
+#: main/archives.c:618
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
-msgstr "新バージョンのインストール前の`%.255s'のバックアップ用リンクを作成できません"
+msgstr ""
+"新バージョンのインストール前の`%.255s'のバックアップ用リンクを作成できません"
 
-#: main/archives.c:592
+#: main/archives.c:624
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "`%.255s'の新バージョンをインストールできません。"
 
-#: main/archives.c:606
+#: main/archives.c:638
 #, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with removal of %s:\n"
@@ -933,7 +969,7 @@ msgstr ""
 "dpkg: 警告 - %s の削除において依存関係の問題を無視しています:\n"
 "%s"
 
-#: main/archives.c:613
+#: main/archives.c:645
 #, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
@@ -942,7 +978,7 @@ msgstr ""
 "dpkg: 警告 - %2$s を削除可能にするため、必須(essential)パッケージ\n"
 " %1$s の設定削除(deconfigure)を考慮しています。\n"
 
-#: main/archives.c:617
+#: main/archives.c:649
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -951,7 +987,7 @@ msgstr ""
 "dpkg: 失敗。%s は必須(essential)パッケージです。%s を削除可能に\n"
 " するために、その設定削除(deconfigure)を行ないません。\n"
 
-#: main/archives.c:630
+#: main/archives.c:663
 #, c-format
 msgid ""
 "dpkg: no, cannot remove %s (--auto-deconfigure will help):\n"
@@ -960,22 +996,23 @@ msgstr ""
 "dpkg: 失敗、%s を削除できません(--auto-deconfigure を使いましょう):\n"
 "%s"
 
-#: main/archives.c:664
+#: main/archives.c:697
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: %2$s を選択するために %1$s の削除を考えています...\n"
 
-#: main/archives.c:668
+#: main/archives.c:701
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
-msgstr "%s は正しくインストールされていないため、すべての依存関係を無視します。\n"
+msgstr ""
+"%s は正しくインストールされていないため、すべての依存関係を無視します。\n"
 
-#: main/archives.c:695
+#: main/archives.c:728
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr "dpkg: %s は %s を提供するため、削除すると問題があるかもしれません...\n"
 
-#: main/archives.c:710
+#: main/archives.c:743
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -984,17 +1021,17 @@ msgstr ""
 "dpkg: パッケージ %s は再インストールが必要ですが、要求に従い削除することにし"
 "ます。\n"
 
-#: main/archives.c:713
+#: main/archives.c:746
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: パッケージ %s は再インストールが必要です。削除しません。\n"
 
-#: main/archives.c:726
+#: main/archives.c:759
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: 問題ありません。%2$s を選択するために %1$s を削除します。\n"
 
-#: main/archives.c:734
+#: main/archives.c:767
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1003,74 +1040,82 @@ msgstr ""
 "dpkg: %s が %s を提供することを考慮すると:\n"
 "%s"
 
-#: main/archives.c:737
+#: main/archives.c:770
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "パッケージの競合 - %.250s のインストールは行いません。"
 
-#: main/archives.c:738
+#: main/archives.c:771
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
 msgstr "dpkg: 警告 - 競合を無視しています。続行します!\n"
 
-#: main/archives.c:779
+#: main/archives.c:809
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive は引数として最低一つのパスが必要です。"
 
-#: main/archives.c:809
+#: main/archives.c:839
 msgid "failed to exec find for --recursive"
 msgstr "--recursive のための find の実行に失敗しました。"
 
-#: main/archives.c:814
+#: main/archives.c:844
 msgid "failed to fdopen find's pipe"
 msgstr "find のパイプの fdopen に失敗しました。"
 
-#: main/archives.c:820
+#: main/archives.c:850
 msgid "error reading find's pipe"
 msgstr "find のパイプの読み込みエラーです。"
 
-#: main/archives.c:821
+#: main/archives.c:851
 msgid "error closing find's pipe"
 msgstr "find のパイプのクローズエラーです。"
 
-#: main/archives.c:824
+#: main/archives.c:854
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "--recursive のための find が、処理できないエラー  %i を返しました"
 
-#: main/archives.c:827
+#: main/archives.c:857
 msgid "searched, but found no packages (files matching *.deb)"
-msgstr "検索しましたが、パッケージ(*.deb にマッチするファイル)が見付かりませんでした。"
+msgstr ""
+"検索しましたが、パッケージ(*.deb にマッチするファイル)が見付かりませんでし"
+"た。"
 
-#: main/archives.c:843
+#: main/archives.c:873
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s は引数として最低1つのパッケージアーカイブファイルが必要です。"
 
-#: main/archives.c:913
+#: main/archives.c:943
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "未選択パッケージ %s を選択しています。\n"
 
-#: main/archives.c:918
+#: main/archives.c:948
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "未選択パッケージ %s をスキップします。\n"
 
-#: main/archives.c:932
+#: main/archives.c:962
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
-msgstr "%2$.250s は既にバージョン %1$.250s がインストールされています。スキップします。\n"
+msgstr ""
+"%2$.250s は既にバージョン %1$.250s がインストールされています。スキップしま"
+"す。\n"
 
-#: main/archives.c:944
+#: main/archives.c:974
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
-msgstr "%s - 警告: %.250s のバージョンを %.250s から %.250s にダウングレードしています。\n"
+msgstr ""
+"%s - 警告: %.250s のバージョンを %.250s から %.250s にダウングレードしていま"
+"す。\n"
 
-#: main/archives.c:950
+#: main/archives.c:980
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
-msgstr "%.250s のバージョン %.250s から %.250s へのダウングレードはしません。スキップします。\n"
+msgstr ""
+"%.250s のバージョン %.250s から %.250s へのダウングレードはしません。スキップ"
+"します。\n"
 
 #: main/cleanup.c:84
 #, c-format
@@ -1205,7 +1250,10 @@ msgstr ""
 msgid ""
 "\n"
 " ==> Modified (by you or by a script) since installation.\n"
-msgstr "\n ==> これはインストールしてから(あなたかスクリプトによって)変更されています。\n"
+msgstr ""
+"\n"
+" ==> これはインストールしてから(あなたかスクリプトによって)変更されていま"
+"す。\n"
 
 #: main/configure.c:245
 msgid ""
@@ -1324,7 +1372,9 @@ msgstr "シェルの呼び出しに失敗しました(%.250s)"
 
 #: main/configure.c:355
 msgid "Don't forget to foreground (`fg') this process when you're done !\n"
-msgstr "確認したらこのプロセスをフォアグランド(`fg')にするのを忘れないようにしましょう!\n"
+msgstr ""
+"確認したらこのプロセスをフォアグランド(`fg')にするのを忘れないようにしましょ"
+"う!\n"
 
 #: main/configure.c:376
 #, c-format
@@ -1366,7 +1416,7 @@ msgstr "設定ファイル %s を新規にインストールしています ...\n"
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "`%.250s'を`%.250s'としてインストールできません。"
 
-#: main/configure.c:473
+#: main/configure.c:475
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to stat config file `%s'\n"
@@ -1375,7 +1425,7 @@ msgstr ""
 "dpkg: %s: 警告 - 設定ファイル`%s'のステータスを得られません\n"
 " (= `%s'): %s\n"
 
-#: main/configure.c:484
+#: main/configure.c:486
 #, c-format
 msgid ""
 "dpkg: %s: warning - config file `%s' is a circular link\n"
@@ -1384,7 +1434,7 @@ msgstr ""
 "dpkg: %s: 警告 - 設定ファイル`%s'が自分自身へのリンク(= `%s')\n"
 "になっています。\n"
 
-#: main/configure.c:497
+#: main/configure.c:499
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to readlink conffile `%s'\n"
@@ -1393,7 +1443,7 @@ msgstr ""
 "dpkg: %s: 警告 - 設定ファイル`%s'(= `%s')のリンク読み込み(readlink)\n"
 "ができません: %s\n"
 
-#: main/configure.c:516
+#: main/configure.c:518
 #, c-format
 msgid ""
 "dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
@@ -1402,7 +1452,7 @@ msgstr ""
 "dpkg: %s: 警告 - 設定ファイル`%.250s'がファイル名の重複を解決します。\n"
 "(`%s'は`%s'へのシンボリックリンク)\n"
 
-#: main/configure.c:529
+#: main/configure.c:531
 #, c-format
 msgid ""
 "dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
@@ -1411,95 +1461,97 @@ msgstr ""
 "dpkg: %s: 警告 - 設定ファイル`%.250s'がプレインファイルかシンボリックリンク"
 "(= `%s')でありません。\n"
 
-#: main/configure.c:543
+#: main/configure.c:545
 msgid "md5hash"
 msgstr "md5 ハッシュ"
 
-#: main/configure.c:549
+#: main/configure.c:551
 #, c-format
 msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
 msgstr "dpkg: %s: 警告 - ハッシュ用に conffile %s をオープンできません: %s\n"
 
-#: main/depcon.c:73
+#: main/depcon.c:74
 #, c-format
 msgid "unable to check for existence of `%.250s'"
 msgstr "`%.250s'の存在をチェックできません。"
 
-#: main/depcon.c:132 main/packages.c:386
+#: main/depcon.c:134 main/packages.c:386
 msgid " depends on "
 msgstr " は以下に依存(depends)します: "
 
-#: main/depcon.c:133
+#: main/depcon.c:135
 msgid " pre-depends on "
 msgstr " は以下に先行依存(pre-depends)します: "
 
-#: main/depcon.c:134
+#: main/depcon.c:136
 msgid " recommends "
 msgstr " は以下を推奨(recommends)します: "
 
-#: main/depcon.c:135
+#: main/depcon.c:137
 msgid " conflicts with "
 msgstr " は以下と衝突(conflicts)します: "
 
-#: main/depcon.c:136
+#: main/depcon.c:138
 msgid " suggests "
 msgstr "は以下のパッケージを提案しています"
 
-#: main/depcon.c:137
+#: main/depcon.c:139
 msgid " enhances "
 msgstr " は以下を強化(enhances)します: "
 
-#: main/depcon.c:213
+#: main/depcon.c:215
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s は削除されようとしています。\n"
 
-#: main/depcon.c:216
+#: main/depcon.c:218
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s は設定が消されようとしています。\n"
 
-#: main/depcon.c:220
+#: main/depcon.c:222
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
-msgstr "  %.250s がインストールされようとしていますが、バージョンが %.250s です。\n"
+msgstr ""
+"  %.250s がインストールされようとしていますが、バージョンが %.250s です。\n"
 
-#: main/depcon.c:228
+#: main/depcon.c:230
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s がインストールされていますが、バージョンが %.250s です。\n"
 
-#: main/depcon.c:243
+#: main/depcon.c:245
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s は展開されていますが、設定されていません。\n"
 
-#: main/depcon.c:247
+#: main/depcon.c:249
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s は展開されていますが、バージョンが %.250s です。\n"
 
-#: main/depcon.c:253
+#: main/depcon.c:255
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s の最新設定済バージョンは %.250s です。\n"
 
-#: main/depcon.c:262
+#: main/depcon.c:264
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s は %s です。\n"
 
-#: main/depcon.c:298
+#: main/depcon.c:300
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s は %.250s を提供していますが削除されようとしています。\n"
 
-#: main/depcon.c:302
+#: main/depcon.c:304
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
-msgstr "  %.250s は %.250s を提供していますが設定が削除されようとしています。\n"
+msgstr ""
+"  %.250s は %.250s を提供していますが設定が削除されようとしています。\n"
 
-#: main/depcon.c:307
+#: main/depcon.c:309
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %2$.250s を提供(provides)する %1$.250s が %3$s です。\n"
@@ -1507,28 +1559,28 @@ msgstr "  %2$.250s を提供(provides)する %1$.250s が %3$s です。\n"
 #. If the package wasn't installed at all, and we haven't said
 #. * yet why this isn't satisfied, we should say so now.
 #.
-#: main/depcon.c:321
+#: main/depcon.c:323
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s はインストールされていません。\n"
 
-#: main/depcon.c:352
+#: main/depcon.c:354
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (バージョン %.250s)がインストールされようとしています。\n"
 
-#: main/depcon.c:366
+#: main/depcon.c:368
 #, c-format
 msgid "  %.250s (version %.250s) is %s.\n"
 msgstr "  %.250s (バージョン %.250s)が %s です。\n"
 
 #. conflicts and provides the same
-#: main/depcon.c:391
+#: main/depcon.c:393
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %2$.250s を提供する %1$.250s がインストールされようとしています。\n"
 
-#: main/depcon.c:422
+#: main/depcon.c:424
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %2$.250s を提供する %1$.250s が %3$s です。\n"
@@ -1537,35 +1589,7 @@ msgstr "  %2$.250s を提供する %1$.250s が %3$s です。\n"
 msgid "(no description available)"
 msgstr "(説明(description)がありません)"
 
-#: main/enquiry.c:100
-msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-"uppercase=bad)\n"
-msgstr ""
-"要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)維持\n"
-"| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストール\n"
-"|/ エラー=(空欄)無/(H)維持/(R)要再インストール/X=両方(状態,エラーの大文字=異常)\n"
-
-#: main/enquiry.c:104
-msgid "Name"
-msgstr "名前"
-
-#: main/enquiry.c:104
-msgid "Version"
-msgstr "バージョン"
-
-#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:104
-msgid "Description"
-msgstr "説明"
-
-#: main/enquiry.c:160 main/select.c:80
-#, c-format
-msgid "No packages found matching %s.\n"
-msgstr "%s に一致するパッケージが見つかりません。\n"
-
-#: main/enquiry.c:187
+#: main/enquiry.c:81
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -1575,7 +1599,7 @@ msgstr ""
 "これらのパッケージ(とこれらに依存するパッケージ)が正しく動作するためには、\n"
 "以下のパッケージを再インストールしなければなりません:\n"
 
-#: main/enquiry.c:192
+#: main/enquiry.c:86
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -1586,17 +1610,19 @@ msgstr ""
 "dselect の設定(configure)メニューオプションを使って設定を完了さ\n"
 "せなければなりません:\n"
 
-#: main/enquiry.c:197
+#: main/enquiry.c:91
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
 "dpkg --configure <package> or the configure menu option in dselect:\n"
 msgstr ""
-"以下のパッケージは最初の設定中に問題が発生したため、設定が終了していません。\n"
-"dpkg --configure <パッケージ> か dselect で設定(configure)メニューオプションを\n"
+"以下のパッケージは最初の設定中に問題が発生したため、設定が終了していませ"
+"ん。\n"
+"dpkg --configure <パッケージ> か dselect で設定(configure)メニューオプション"
+"を\n"
 "使って設定作業を再試行しなければなりません:\n"
 
-#: main/enquiry.c:202
+#: main/enquiry.c:96
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -1608,110 +1634,33 @@ msgstr ""
 "これらのパッケージは dselect か dpkg --remove を使用して削除することが可能で"
 "す:\n"
 
-#: main/enquiry.c:227
+#: main/enquiry.c:121
 msgid "--audit does not take any arguments"
 msgstr "--audit は引数を取りません。"
 
-#: main/enquiry.c:262
+#: main/enquiry.c:156
 msgid "<unknown>"
 msgstr "<不明>"
 
-#: main/enquiry.c:279
+#: main/enquiry.c:173
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "--yet-to-unpack は引数を取りません。"
 
-#: main/enquiry.c:317
+#: main/enquiry.c:211
 #, c-format
 msgid " %d in %s: "
 msgstr " %2$s 中の %1$d "
 
-#: main/enquiry.c:332
+#: main/enquiry.c:226
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d パッケージは、(以下のセクションから):"
 
-#: main/enquiry.c:352
-#, c-format
-msgid "diversion by %s"
-msgstr "%s による退避(diversion)"
-
-#: main/enquiry.c:353
-msgid "local diversion"
-msgstr "ローカルな退避(diversion)"
-
-#: main/enquiry.c:354
-msgid "to"
-msgstr "次へ"
-
-#: main/enquiry.c:354
-msgid "from"
-msgstr "次から"
-
-#: main/enquiry.c:387
-msgid "--search needs at least one file name pattern argument"
-msgstr "--search は引数に少なくとも 1 つのファイル名パターンが必要です。"
-
-#: main/enquiry.c:415
-#, c-format
-msgid "dpkg: %s not found.\n"
-msgstr "dpkg: %s が見つかりません。\n"
-
-#: main/enquiry.c:432 main/packages.c:109
-#, c-format
-msgid "--%s needs at least one package name argument"
-msgstr "--%s は引数に少なくとも 1 つのパッケージ名が必要です。"
-
-#: main/enquiry.c:452
-#, c-format
-msgid "Package `%s' is not installed and no info is available.\n"
-msgstr "パッケージ `%s' はまだインストールされておらず情報が利用不可能です。\n"
-
-#: main/enquiry.c:461
-#, c-format
-msgid "Package `%s' is not available.\n"
-msgstr "パッケージ `%s' はまだ利用可能でありません。\n"
-
-#: main/enquiry.c:471
-#, c-format
-msgid "Package `%s' is not installed.\n"
-msgstr "パッケージ `%s' はまだインストールされていません。\n"
-
-#: main/enquiry.c:480
-#, c-format
-msgid "Package `%s' does not contain any files (!)\n"
-msgstr "パッケージ `%s' はファイルを含んでいません。(!)\n"
-
-#: main/enquiry.c:486
-msgid "locally diverted"
-msgstr "ローカルに退避(divert)された"
-
-#: main/enquiry.c:487
-msgid "package diverts others"
-msgstr "他パッケージの同名ファイルは次の名に退避した"
-
-#: main/enquiry.c:488
-#, c-format
-msgid "diverted by %s"
-msgstr "%s により退避(divert)された"
-
-#: main/enquiry.c:489
-#, c-format
-msgid " to: %s\n"
-msgstr " %s へ\n"
-
-#: main/enquiry.c:508
-msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
-msgstr ""
-"アーカイブファイルを調べるためには dpkg --info (= dpkg-deb --info)を、\n"
-"その内容一覧を表示するには dpkg --contents (= dpkg-deb --contents)を使います。\n"
-
-#: main/enquiry.c:519
+#: main/enquiry.c:245
 msgid "--assert-* does not take any arguments"
 msgstr "--assert-* は引数を取りません。"
 
-#: main/enquiry.c:534
+#: main/enquiry.c:260
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
@@ -1719,17 +1668,17 @@ msgstr ""
 "エポック(epoch)をサポートしている dpkg がまだ設定されていません。\n"
 "`dpkg --configure dpkg' を行なった後にもう 1 度行なってください。\n"
 
-#: main/enquiry.c:538
+#: main/enquiry.c:264
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
 msgstr ""
 "dpkg がインストール済として登録されていないため、エポック(epoch)をサポートし"
 "ているかチェックできません!\n"
 
-#: main/enquiry.c:581
+#: main/enquiry.c:307
 msgid "--predep-package does not take any argument"
 msgstr "--predep-package は引数を取りません。"
 
-#: main/enquiry.c:633
+#: main/enquiry.c:359
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -1738,13 +1687,13 @@ msgstr ""
 "dpkg: 先行依存を解決する方法がわかりません:\n"
 " %s\n"
 
-#: main/enquiry.c:634
+#: main/enquiry.c:360
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "(%2$.250s が要求する) %1$.250s の先行依存(pre-dependencies)を解決できません。"
 
-#: main/enquiry.c:654
+#: main/enquiry.c:380
 #, c-format
 msgid ""
 "dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
@@ -1753,63 +1702,65 @@ msgstr ""
 "dpkg: `%s --print-libgcc-file-name' からの予期しない出力です:\n"
 " `%s'\n"
 
-#: main/enquiry.c:657
+#: main/enquiry.c:383
 #, c-format
 msgid "compiler libgcc filename not understood: %.250s"
 msgstr "コンパイラ libgcc ファイル名が理解できません: %.250s"
 
-#: main/enquiry.c:661
+#: main/enquiry.c:387
 msgid "--print-installation-architecture does not take any argument"
 msgstr "--print-installation-architecture は引数を取りません。"
 
-#: main/enquiry.c:681
+#: main/enquiry.c:407
 msgid "--print-architecture does not take any argument"
 msgstr "--print-architecture は引数を取りません。"
 
-#: main/enquiry.c:687
+#: main/enquiry.c:413
 msgid "failed to fdopen CC pipe"
 msgstr "CC パイプのオープン(fdopen)に失敗しました。"
 
-#: main/enquiry.c:705
+#: main/enquiry.c:431
 msgid "error reading from CC pipe"
 msgstr "CC パイプからの読み込みエラーです"
 
-#: main/enquiry.c:707
+#: main/enquiry.c:433
 msgid "empty output"
 msgstr "空の出力"
 
-#: main/enquiry.c:709
+#: main/enquiry.c:435
 msgid "no newline"
 msgstr "改行がありません"
 
-#: main/enquiry.c:712
+#: main/enquiry.c:438
 msgid "no gcc-lib component"
 msgstr "gcc-lib コンポーネントがありません"
 
-#: main/enquiry.c:714
+#: main/enquiry.c:440
 msgid "no slash after gcc-lib"
 msgstr "gcc-lib の後にスラッシュがありません"
 
-#: main/enquiry.c:726
+#: main/enquiry.c:452
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr "dpkg: 警告、リマッピング表にアーキテクチャ `%s' がありません。\n"
 
-#: main/enquiry.c:769
+#: main/enquiry.c:495
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
-msgstr "--compare-versions は 3 つの引数(<バージョン> <関係> <バージョン>)を取ります。"
+msgstr ""
+"--compare-versions は 3 つの引数(<バージョン> <関係> <バージョン>)を取りま"
+"す。"
 
-#: main/enquiry.c:774
+#: main/enquiry.c:500
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions 不正な比較"
 
-#: main/enquiry.c:779
+#: main/enquiry.c:505
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "バージョン a は不正な構文です: %s\n"
 
-#: main/enquiry.c:789
+#: main/enquiry.c:515
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "バージョン b は不正な構文です: %s\n"
@@ -1885,7 +1836,8 @@ msgstr "パッケージ `%.250s' のファイル一覧"
 #: main/filesdb.c:158
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
-msgstr "パッケージ `%.250s' のファイル一覧ファイルが空のファイル名を含んでいます。"
+msgstr ""
+"パッケージ `%.250s' のファイル一覧ファイルが空のファイル名を含んでいます。"
 
 #: main/filesdb.c:170
 #, c-format
@@ -1929,7 +1881,8 @@ msgstr "パッケージ %s 用の更新ファイル一覧ファイルのクローズに失敗しました。"
 #: main/filesdb.c:259
 #, c-format
 msgid "failed to install updated files list file for package %s"
-msgstr "パッケージ %s 用の更新ファイル一覧ファイルのインストールに失敗しました。"
+msgstr ""
+"パッケージ %s 用の更新ファイル一覧ファイルのインストールに失敗しました。"
 
 #: main/filesdb.c:323
 msgid "failed to open statoverride file"
@@ -1943,24 +1896,24 @@ msgstr "statoverride ファイルの状態を得られませんでした(fstat に失敗)"
 msgid "failed to fstat previous statoverride file"
 msgstr "前回の statoverride ファイルの状態を得られませんでした(fstatに失敗)"
 
-#: main/filesdb.c:348
+#: main/filesdb.c:349
 #, c-format
 msgid "statoverride file `%.250s'"
 msgstr "statoverride ファイル`%.250s'"
 
-#: main/filesdb.c:361
+#: main/filesdb.c:362
 msgid "statoverride file contains empty line"
 msgstr "statoverride ファイルが空行を含んでいます。"
 
-#: main/filesdb.c:446
+#: main/filesdb.c:447
 msgid "failed to open diversions file"
 msgstr "diversions ファイルのオープンに失敗しました。"
 
-#: main/filesdb.c:450
+#: main/filesdb.c:451
 msgid "failed to fstat previous diversions file"
 msgstr "前回の diversions ファイルの状態を得られませんでした(fstatに失敗)。"
 
-#: main/filesdb.c:452
+#: main/filesdb.c:453
 msgid "failed to fstat diversions file"
 msgstr "diversions ファイルの状態を得られませんでした(fstat に失敗)。"
 
@@ -2224,34 +2177,47 @@ msgid ""
 "Use `dselect' for user-friendly package management.\n"
 msgstr ""
 "使用方法: \n"
-"  dpkg -i|--install      <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
-"  dpkg --unpack          <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
-"  dpkg -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
+"  dpkg -i|--install      <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
+"> ...\n"
+"  dpkg --unpack          <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
+"> ...\n"
+"  dpkg -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
+"> ...\n"
 "  dpkg --configure              <パッケージ名> ... | -a|--pending\n"
 "  dpkg -r|--remove | -P|--purge <パッケージ名> ... | -a|--pending\n"
-"  dpkg --get-selections [<パターン> ...]  標準出力にパッケージ選択一覧を表示\n"
-"  dpkg --set-selections                   標準入力からパッケージ選択一覧を設定\n"
+"  dpkg --get-selections [<パターン> ...]  標準出力にパッケージ選択一覧を表"
+"示\n"
+"  dpkg --set-selections                   標準入力からパッケージ選択一覧を設"
+"定\n"
 "  dpkg --update-avail <Packages ファイル> 取得可能なパッケージ情報を更新\n"
 "  dpkg --merge-avail <Packages ファイル>  ファイルからパッケージ情報を合成\n"
-"  dpkg --clear-avail                      既存の取得可能パッケージ情報を消去\n"
-"  dpkg --command-fd <n>                   指定したファイル記述子nでコマンドを渡す\n"
-"  dpkg --forget-old-unavail               未インストールの利用不可能パッケージ情報の破棄\n"
+"  dpkg --clear-avail                      既存の取得可能パッケージ情報を消"
+"去\n"
+"  dpkg --command-fd <n>                   指定したファイル記述子nでコマンドを"
+"渡す\n"
+"  dpkg --forget-old-unavail               未インストールの利用不可能パッケー"
+"ジ情報の破棄\n"
 "  dpkg -s|--status <パッケージ名> ...     パッケージ状態の詳細を表示\n"
 "  dpkg --print-avail <パッケージ名> ...   取得可能なバージョンの詳細を表示\n"
-"  dpkg -L|--listfiles <パッケージ名> ...  パッケージが「所有する」ファイル一覧を表示\n"
+"  dpkg -L|--listfiles <パッケージ名> ...  パッケージが「所有する」ファイル一"
+"覧を表示\n"
 "  dpkg -l|--list [<パターン> ...]         パッケージの一覧を簡潔に表示\n"
-"  dpkg -S|--search <パターン> ...         ファイルを所有するパッケージを検索\n"
+"  dpkg -S|--search <パターン> ...         ファイルを所有するパッケージを検"
+"索\n"
 "  dpkg -C|--audit                         壊れているパッケージのチェック\n"
-"  dpkg --print-architecture               対象アーキテクチャを表示(GCC を使用)\n"
+"  dpkg --print-architecture               対象アーキテクチャを表示(GCC を使"
+"用)\n"
 "  dpkg --print-gnu-build-architecture     GNU版の対象アーキテクチャを表示\n"
-"  dpkg --print-installation-architecture  ホストのアーキテクチャを表示(インストール用)\n"
+"  dpkg --print-installation-architecture  ホストのアーキテクチャを表示(インス"
+"トール用)\n"
 "  dpkg --compare-versions <a> <rel> <b>   バージョン番号を比較 - 下記参照\n"
 "  dpkg --help | --version                 このヘルプ/バージョン番号を表示\n"
 "  dpkg --force-help | -Dh|--debug=help    強制/デバッグオプションのヘルプ\n"
 "  dpkg --licence                          ライセンス条項を表示\n"
 "\n"
 "アーカイブの操作には dpkg -b|--build|-c|--contents|-e|--control|-I|--info|\n"
-"-f|--field|-x|--extract|-X|--vextract|--fsys-tarfile を使用すること(%s --help を参照)\n"
+"-f|--field|-x|--extract|-X|--vextract|--fsys-tarfile を使用すること(%s --"
+"help を参照)\n"
 "\n"
 "内部使用法: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
@@ -2259,10 +2225,14 @@ msgstr ""
 "オプション:\n"
 "  --admindir=<ディレクトリ>  %s のかわりに指定したディレクトリを使用\n"
 "  --root=<ディレクトリ>      ルートディレクトリを別の場所にしてインストール\n"
-"  --instdir=<ディレクトリ>   インストール先のディレクトリを変更(admindir は除く)\n"
-"  -O|--selected-only         インストール/アップグレードに選択されていないパッケージをスキップ\n"
-"  -E|--skip-same-version     同バージョンがインストール済のパッケージをスキップ\n"
-"  -G|--refuse-downgrade      インストール済パッケージより古いバージョンのパッケージをスキップ\n"
+"  --instdir=<ディレクトリ>   インストール先のディレクトリを変更(admindir は除"
+"く)\n"
+"  -O|--selected-only         インストール/アップグレードに選択されていない"
+"パッケージをスキップ\n"
+"  -E|--skip-same-version     同バージョンがインストール済のパッケージをスキッ"
+"プ\n"
+"  -G|--refuse-downgrade      インストール済パッケージより古いバージョンのパッ"
+"ケージをスキップ\n"
 "  -B|--auto-deconfigure      他のパッケージを壊してでもインストールする\n"
 "  --no-debsig                パッケージの署名の検証をしない\n"
 "  --no-act                   何をするか表示して、実際には何もしない\n"
@@ -2275,7 +2245,8 @@ msgstr ""
 "\n"
 "--compare-versions 用比較演算子:\n"
 " lt le eq ne ge gt       (バージョンなしはどのバージョンよりも古いとみなす)\n"
-" lt-nl le-nl ge-nl gt-nl (バージョンなしはどのバージョンよりも新しいとみなす)\n"
+" lt-nl le-nl ge-nl gt-nl (バージョンなしはどのバージョンよりも新しいとみな"
+"す)\n"
 " < << <= = >= >> >       (コントロールファイルの構文の互換性のみ)\n"
 "\n"
 "ユーザ向けパッケージ管理ツールである`dselect'を使いましょう。\n"
@@ -2420,7 +2391,8 @@ msgstr ""
 "  dowgrade [*]         古いバージョンでパッケージを置換\n"
 "  configure-any        このパッケージに必要なパッケージの設定を行う\n"
 "  hold                 維持(hold)されていてもパッケージを処理する\n"
-"  bad-path             重要なプログラムがPATHに見つからない, 問題の可能性あり\n"
+"  bad-path             重要なプログラムがPATHに見つからない, 問題の可能性あ"
+"り\n"
 "  not-root             rootでなくても(アン)インストールを試みる\n"
 "  overwrite            あるパッケージのファイルを別のパッケージで上書き\n"
 "  overwrite-diverted   退避されているファイルを非退避バージョンで上書き\n"
@@ -2430,7 +2402,8 @@ msgstr ""
 "  confnew [!]          常に新しい設定ファイルを利用する\n"
 "  confold [!]          常に古い設定ファイルを利用する\n"
 "  confdef [!]          新しい設定ファイルに対してデフォルトの振舞いをする。\n"
-"                       それがあれば問いあせない。 もしデフォルトがなければ、\n"
+"                       それがあれば問いあせない。 もしデフォルトがなけれ"
+"ば、\n"
 "                       confoldかconfnewオプションが指定されていないと\n"
 "                       問いあわせてくる。\n"
 "  confmiss [!]         存在しない設定ファイルを常にインストールする\n"
@@ -2448,37 +2421,43 @@ msgstr ""
 msgid "unknown force/refuse option `%.*s'"
 msgstr "不明な強制・拒否(force/refuse)オプション `%.*s'"
 
-#: main/main.c:427
+#: main/main.c:437 main/main.c:441
 msgid "couldn't malloc in execbackend"
 msgstr "バックエンドの実行で malloc に失敗しました。"
 
-#: main/main.c:432
-msgid "failed to exec dpkg-deb"
-msgstr "dpkg-deb の実行に失敗しました。"
+#: main/main.c:439 main/main.c:446
+#, fuzzy
+msgid "couldn't strdup in execbackend"
+msgstr "バックエンドの実行で malloc に失敗しました。"
 
-#: main/main.c:444
+#: main/main.c:450
+#, fuzzy, c-format
+msgid "failed to exec %s"
+msgstr "tar の実行に失敗しました。"
+
+#: main/main.c:462
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd は 1 つの引数を取ります。"
 
-#: main/main.c:445
+#: main/main.c:463
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd は引数を 1 つだけ引数を取ります。"
 
-#: main/main.c:447
+#: main/main.c:465
 msgid "invalid number for --command-fd"
 msgstr "--command-fd への値が不正です"
 
-#: main/main.c:449
+#: main/main.c:467
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "`%i' をストリームとしてオープンできませんでした"
 
-#: main/main.c:474
+#: main/main.c:492
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "%d 行目の行末までに予期しない eof があります。"
 
-#: dpkg-deb/main.c:158 main/main.c:518 main/main.c:562 split/main.c:166
+#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:570 split/main.c:166
 msgid "need an action option"
 msgstr "アクションを指定するオプションが必要です。"
 
@@ -2486,6 +2465,11 @@ msgstr "アクションを指定するオプションが必要です。"
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending はオプション以外の引数を取りません。"
+
+#: main/packages.c:109
+#, c-format
+msgid "--%s needs at least one package name argument"
+msgstr "--%s は引数に少なくとも 1 つのパッケージ名が必要です。"
 
 #: main/packages.c:116
 msgid ""
@@ -2897,6 +2881,11 @@ msgstr "古いファイルリストを削除できません。"
 #: main/remove.c:467
 msgid "can't remove old postrm script"
 msgstr "古い postrm スクリプトを削除できません。"
+
+#: main/select.c:80
+#, c-format
+msgid "No packages found matching %s.\n"
+msgstr "%s に一致するパッケージが見つかりません。\n"
 
 #: main/select.c:95
 msgid "--set-selections does not take any argument"
@@ -3989,17 +3978,14 @@ msgstr "mksplit を実行できません。"
 msgid "Type md5sum --help for help."
 msgstr "ヘルプは md5sum --help で参照できます。"
 
-#: utils/md5sum.c:113
-#, c-format
-msgid "%s: read error on stdin\n"
-msgstr "%s: 標準入力の読み込みエラーです。\n"
+#: utils/md5sum.c:78
+#, fuzzy, c-format
+msgid "error processing %s: %s\n"
+msgstr ""
+"%s: %s の読み込みエラーです(--%s):\n"
+" %s。\n"
 
-#: utils/md5sum.c:130 utils/md5sum.c:241
-#, c-format
-msgid "%s: error reading %s\n"
-msgstr "%s: %s の読み込みエラーです。\n"
-
-#: utils/md5sum.c:144
+#: utils/md5sum.c:169
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -4017,39 +4003,44 @@ msgstr ""
 "-c の入力はメッセージダイジェストとファイル名の一覧である。一覧には、この\n"
 "プログラムのダイジェスト作成時に標準出力に出力されるものが使用される。\n"
 
-#: utils/md5sum.c:157
+#: utils/md5sum.c:182
 msgid "mdfile"
 msgstr "mdfile"
 
-#: utils/md5sum.c:202
+#: utils/md5sum.c:222
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr "%s: 認識できない行: %s"
 
-#: utils/md5sum.c:236
+#: utils/md5sum.c:256
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr "%s: %s をオープンできません。\n"
 
-#: utils/md5sum.c:249
+#: utils/md5sum.c:261
+#, c-format
+msgid "%s: error reading %s\n"
+msgstr "%s: %s の読み込みエラーです。\n"
+
+#: utils/md5sum.c:269
 msgid "FAILED\n"
 msgstr "失敗\n"
 
-#: utils/md5sum.c:251
+#: utils/md5sum.c:271
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: '%s'に対する MD5 チェックに失敗しました\n"
 
-#: utils/md5sum.c:254
+#: utils/md5sum.c:274
 msgid "OK\n"
 msgstr "OK\n"
 
-#: utils/md5sum.c:258
+#: utils/md5sum.c:278
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr "%s: %3$d ファイル中 %2$d ファイルが MD5 チェックに失敗しました。\n"
 
-#: utils/md5sum.c:260
+#: utils/md5sum.c:280
 #, c-format
 msgid "%s: no files checked\n"
 msgstr "%s: ファイルがチェックされませんでした。\n"
@@ -4058,21 +4049,21 @@ msgstr "%s: ファイルがチェックされませんでした。\n"
 msgid "Search for ? "
 msgstr "検索項目?"
 
-#: dselect/basecmds.cc:130
+#: dselect/basecmds.cc:131
 msgid "Help: "
 msgstr "ヘルプ: "
 
-#: dselect/basecmds.cc:136
+#: dselect/basecmds.cc:137
 msgid ""
 "? = help menu    Space = exit help    . = next help    or a help page key "
 msgstr ""
 "? =ヘルプメニュー  Space =ヘルプの終了  . =次のヘルプ、またはヘルプ操作キー "
 
-#: dselect/basecmds.cc:144
+#: dselect/basecmds.cc:145
 msgid "Help information is available under the following topics:"
 msgstr "以下のトピックスからヘルプ情報が利用できます:"
 
-#: dselect/basecmds.cc:152
+#: dselect/basecmds.cc:153
 msgid ""
 "Press a key from the list above, Space to exit help,\n"
 "  or `.' (full stop) to read each help page in turn. "
@@ -4080,76 +4071,77 @@ msgstr ""
 "上のリストからキーを入力してください。スペースキーでヘルプを終了します。\n"
 " '.'(ピリオド)キーでヘルプページを順次見ていくことができます。"
 
-#: dselect/basecmds.cc:158
+#: dselect/basecmds.cc:159
 msgid "error reading keyboard in help"
 msgstr "ヘルプのキーボード読み込みエラーです。"
 
-#: dselect/baselist.cc:53
+#: dselect/baselist.cc:54
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr "ioctl(TIOCGWINSZ)に失敗しました"
 
-#: dselect/baselist.cc:56
+#: dselect/baselist.cc:57
 msgid "doupdate in SIGWINCH handler failed"
 msgstr "SIGWINCH ハンドラ内の doupdate に失敗しました。"
 
-#: dselect/baselist.cc:63
+#: dselect/baselist.cc:64
 msgid "failed to restore old SIGWINCH sigact"
 msgstr "古い SIGWINCH sigact の復帰に失敗しました。"
 
-#: dselect/baselist.cc:65
+#: dselect/baselist.cc:66
 msgid "failed to restore old signal mask"
 msgstr "ペースト中に p1 のオープン(fdopen)に失敗しました。"
 
-#: dselect/baselist.cc:75
+#: dselect/baselist.cc:76
 msgid "failed to get old signal mask"
 msgstr "ペースト中に p1 のオープン(fdopen)に失敗しました。"
 
-#: dselect/baselist.cc:76
+#: dselect/baselist.cc:77
 msgid "failed to get old SIGWINCH sigact"
 msgstr "古い SIGWINCH sigact の取得に失敗しました。"
 
-#: dselect/baselist.cc:80
+#: dselect/baselist.cc:81
 msgid "failed to block SIGWINCH"
 msgstr "SIGWINCH のブロックに失敗しました。"
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:85
+#: dselect/baselist.cc:86
 msgid "failed to set new SIGWINCH sigact"
 msgstr "新しい SIGWINCH sigact のセットに失敗しました。"
 
-#: dselect/baselist.cc:121
-msgid "failed to allocate colour pairs"
+#: dselect/baselist.cc:123
+#, fuzzy
+msgid "failed to allocate colour pair"
 msgstr "カラーペアの割り当てに失敗しました。"
 
-#: dselect/baselist.cc:153
+#: dselect/baselist.cc:163
 msgid "failed to create title window"
 msgstr "タイトルウィンドウの作成に失敗しました。"
 
-#: dselect/baselist.cc:157
+#: dselect/baselist.cc:167
 msgid "failed to create whatinfo window"
 msgstr "情報ウィンドウの作成に失敗しました。"
 
-#: dselect/baselist.cc:161
+#: dselect/baselist.cc:171
 msgid "failed to create baselist pad"
 msgstr "基本リストパッドの作成に失敗しました。"
 
-#: dselect/baselist.cc:164
+#: dselect/baselist.cc:174
 msgid "failed to create heading pad"
 msgstr "ヘディングパッドの作成に失敗しました。"
 
-#: dselect/baselist.cc:168
+#: dselect/baselist.cc:178
 msgid "failed to create thisstate pad"
 msgstr "ディスステートパッドの作成に失敗しました。"
 
-#: dselect/baselist.cc:172
+#: dselect/baselist.cc:182
 msgid "failed to create info pad"
 msgstr "情報パッドの作成に失敗しました。"
 
-#: dselect/baselist.cc:176
+#: dselect/baselist.cc:187
 msgid "failed to create query window"
 msgstr "ディレクトリの作成に失敗しました。"
 
-#: dselect/baselist.cc:188
+#: dselect/baselist.cc:200
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -4174,21 +4166,21 @@ msgstr ""
 " whatinfo_row=%d, list_row=%d;\n"
 "\n"
 
-#: dselect/baselist.cc:244
+#: dselect/baselist.cc:256
 msgid "keybindings"
 msgstr "キー設定"
 
-#: dselect/baselist.cc:299
+#: dselect/baselist.cc:311
 #, c-format
 msgid "  -- %d%%, press "
 msgstr " -- %d%%、"
 
-#: dselect/baselist.cc:302
+#: dselect/baselist.cc:314
 #, c-format
 msgid "%s for more"
 msgstr "%s でスクロール"
 
-#: dselect/baselist.cc:306
+#: dselect/baselist.cc:318
 #, c-format
 msgid "%s to go back"
 msgstr "%s キーで戻る"
@@ -4337,105 +4329,105 @@ msgstr "選択されたアクセス方法を変更せずに終了する"
 msgid "Type dselect --help for help."
 msgstr "ヘルプは dselect --help で参照できます。"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "a"
 msgstr "a"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "[A]ccess"
 msgstr "アクセス(a)"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "Choose the access method to use."
 msgstr "使用するアクセス方法を選択する。"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "u"
 msgstr "u"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "[U]pdate"
 msgstr "更新(u)"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "Update list of available packages, if possible."
 msgstr "可能なら取得可能パッケージ一覧を更新する。"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "s"
 msgstr "s"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "[S]elect"
 msgstr "選択(s)"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "Request which packages you want on your system."
 msgstr "システムにインストールしたいパッケージを選択する。"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "i"
 msgstr "i"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "[I]nstall"
 msgstr "導入(i)"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "Install and upgrade wanted packages."
 msgstr "要求したパッケージのインストール・更新を行う。"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "c"
 msgstr "c"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "[C]onfig"
 msgstr "設定(c)"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "Configure any packages that are unconfigured."
 msgstr "未設定のパッケージを設定する。"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "r"
 msgstr "r"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "[R]emove"
 msgstr "削除(r)"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "Remove unwanted software."
 msgstr "不必要なソフトを削除する。"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "q"
 msgstr "q"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "[Q]uit"
 msgstr "終了(q)"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "Quit dselect."
 msgstr "dselect を終了する。"
 
-#: dselect/main.cc:79
+#: dselect/main.cc:144
 msgid "menu"
 msgstr "メニュー"
 
-#: dselect/main.cc:84
+#: dselect/main.cc:149
 #, c-format
 msgid "Debian `%s' package handling frontend."
 msgstr "Debian `%s' パッケージ管理フロントエンド"
 
-#: dselect/main.cc:87
-#, c-format
+#: dselect/main.cc:152
+#, fuzzy, c-format
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "This is free software; see the GNU General Public Licence version 2\n"
 "or later for copying conditions.  There is NO warranty.  See\n"
 "dselect --licence for details.\n"
@@ -4447,34 +4439,71 @@ msgstr ""
 "またはそれ以降を参照してください。このソフトウェアは無保証です。\n"
 "詳細は dselect --licence を参照してください。\n"
 
-#: dselect/main.cc:102
+#: dselect/main.cc:168
+#, fuzzy
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
 "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
 "          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-"Actions:  access update select install config remove quit menu\n"
+"          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"Actions:  access update select install config remove quit\n"
 msgstr ""
 "用法: dselect [オプション]\n"
 "      dselect [オプション] アクション ...\n"
 "オプション: --admindir <ディレクトリ> (デフォルトは /var/lib/dpkg)\n"
-"          --help --version --licence --expert --debug <ファイル> | -D<ファイル>\n"
+"          --help --version --licence --expert --debug <ファイル> | -D<ファイ"
+"ル>\n"
 "アクション: access update select install config remove quit menu\n"
 
-#: dselect/main.cc:122
+#: dselect/main.cc:176
+msgid "Screenparts:\n"
+msgstr ""
+
+#: dselect/main.cc:181
+msgid "Colours:\n"
+msgstr ""
+
+#: dselect/main.cc:186
+msgid "Attributes:\n"
+msgstr ""
+
+#: dselect/main.cc:206
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "デバッグファイル `%.250s' をオープンできませんでした\n"
 
-#: dselect/main.cc:153
+#: dselect/main.cc:221
+#, c-format
+msgid "Invalid %s `%s'\n"
+msgstr ""
+
+#. strtok modifies strings, keep string const
+#: dselect/main.cc:238
+msgid "screen part"
+msgstr ""
+
+#: dselect/main.cc:244
+msgid "Null color specificaton\n"
+msgstr ""
+
+#: dselect/main.cc:252 dselect/main.cc:257
+msgid "color"
+msgstr ""
+
+#: dselect/main.cc:265
+msgid "color attribute"
+msgstr ""
+
+#: dselect/main.cc:299
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "端末がカーソル割り付けをサポートしていません。\n"
 
-#: dselect/main.cc:155
+#: dselect/main.cc:301
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "端末がハイライトをサポートしていません。\n"
 
-#: dselect/main.cc:156
+#: dselect/main.cc:302
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
@@ -4482,11 +4511,11 @@ msgstr ""
 "TERM 環境変数を正しく設定してください。高機能な端末を使用するか、\n"
 "もしくはパッケージ毎の管理ツールを使用しましょう "
 
-#: dselect/main.cc:159
+#: dselect/main.cc:305
 msgid "terminal lacks necessary features, giving up"
 msgstr "必要とする機能がこの端末にはありません。終了します。"
 
-#: dselect/main.cc:237
+#: dselect/main.cc:383
 msgid ""
 "\n"
 "\n"
@@ -4500,7 +4529,7 @@ msgstr ""
 "リターンキーで選択項目を決定します。^L で画面を再描画します。\n"
 "\n"
 
-#: dselect/main.cc:251
+#: dselect/main.cc:397
 msgid ""
 "\n"
 "\n"
@@ -4510,11 +4539,11 @@ msgstr ""
 "\n"
 "リードオンリーアクセス: 選択プレビューのみ利用できます!"
 
-#: dselect/main.cc:268
+#: dselect/main.cc:416
 msgid "failed to getch in main menu"
 msgstr "メインメニューでの getch に失敗しました。"
 
-#: dselect/main.cc:336
+#: dselect/main.cc:496
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "不明なアクション文字列 `%.50s' です。"
@@ -4532,6 +4561,10 @@ msgstr "アクセス方法 `%s'。"
 msgid "Abbrev."
 msgstr "頭文字"
 
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295
+msgid "Description"
+msgstr "説明"
+
 #: dselect/methlist.cc:155
 msgid "doupdate failed"
 msgstr "doupdate 失敗"
@@ -4548,7 +4581,7 @@ msgstr "SIGWINCH のリブロックに失敗しました"
 msgid "getch failed"
 msgstr "getch 失敗"
 
-#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:241 dselect/pkgdepcon.cc:280
+#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:242
 msgid "[none]"
 msgstr "[なし]"
 
@@ -4560,7 +4593,7 @@ msgstr "説明: "
 msgid "No explanation available."
 msgstr "説明がありません。"
 
-#: dselect/method.cc:63
+#: dselect/method.cc:62
 #, c-format
 msgid ""
 "\n"
@@ -4571,7 +4604,7 @@ msgstr ""
 "\n"
 "%s: %s\n"
 
-#: dselect/method.cc:66
+#: dselect/method.cc:65
 msgid ""
 "\n"
 "Press <enter> to continue."
@@ -4579,75 +4612,75 @@ msgstr ""
 "\n"
 "<Enter> を押すと続行します。"
 
-#: dselect/method.cc:143
+#: dselect/method.cc:142
 #, c-format
 msgid "error un-catching signal %d: %s\n"
 msgstr "エラー: 獲得できないシグナル %d : %s\n"
 
-#: dselect/method.cc:161
+#: dselect/method.cc:160
 #, c-format
 msgid "unable to ignore signal %d before running %.250s"
 msgstr "%2$.250s 実行前にシグナル %1$d を無視できません。"
 
-#: dselect/method.cc:168
+#: dselect/method.cc:167
 #, c-format
 msgid "unable to run %.250s process `%.250s'"
 msgstr "%.250s プロセス `%.250s' を実行できません"
 
-#: dselect/method.cc:172
+#: dselect/method.cc:171
 #, c-format
 msgid "unable to wait for %.250s"
 msgstr "%.250s を待つことができません"
 
-#: dselect/method.cc:174
+#: dselect/method.cc:173
 #, c-format
 msgid "got wrong child's status - asked for %ld, got %ld"
 msgstr "不正な子プロセスの状態です - %ld を要求しましたが %ld を得ました"
 
-#: dselect/method.cc:185
+#: dselect/method.cc:184
 #, c-format
 msgid "returned error exit status %d.\n"
 msgstr "エラー終了ステータス %d を返しました。\n"
 
-#: dselect/method.cc:189
+#: dselect/method.cc:188
 msgid "was interrupted.\n"
 msgstr "が割り込まれました。\n"
 
-#: dselect/method.cc:191
+#: dselect/method.cc:190
 #, c-format
 msgid "was terminated by a signal: %s.\n"
 msgstr "はシグナル %s で終了しました。\n"
 
-#: dselect/method.cc:194
+#: dselect/method.cc:193
 msgid "(It left a coredump.)\n"
 msgstr "(core を残します。)\n"
 
-#: dselect/method.cc:196
+#: dselect/method.cc:195
 #, c-format
 msgid "failed with an unknown wait return code %d.\n"
 msgstr "不明な wait リターンコード %d で失敗しました。\n"
 
-#: dselect/method.cc:198
+#: dselect/method.cc:197
 msgid "Press <enter> to continue.\n"
 msgstr "<Enter> を押すと続行します。\n"
 
-#: dselect/method.cc:200
+#: dselect/method.cc:199
 msgid "write error on standard error"
 msgstr "標準エラー上の書き込みエラーです。"
 
-#: dselect/method.cc:203
+#: dselect/method.cc:202
 msgid "error reading acknowledgement of program failure message"
 msgstr "プログラムの失敗メッセージの受け取りに失敗しました"
 
-#: dselect/method.cc:234
+#: dselect/method.cc:233
 msgid "update available list script"
 msgstr "入手可能一覧スクリプトの更新"
 
-#: dselect/method.cc:238
+#: dselect/method.cc:237
 msgid "installation script"
 msgstr "インストールスクリプト"
 
-#: dselect/method.cc:286
+#: dselect/method.cc:285
 msgid "query/setup script"
 msgstr "質問/設定スクリプト"
 
@@ -5193,6 +5226,10 @@ msgstr "前回"
 msgid "Marked for"
 msgstr "今回"
 
+#: dselect/pkgtop.cc:282
+msgid "EIOM"
+msgstr ""
+
 #: dselect/pkgtop.cc:284
 msgid "Section"
 msgstr "分類"
@@ -5518,10 +5555,11 @@ msgid "Display, part 2: list highlight; information display"
 msgstr "表示(その2): パッケージ一覧のハイライト。情報画面"
 
 #: dselect/helpmsgs.cc:125
+#, fuzzy
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
-"  which package(s) will be affected by presses of `+', '-' and `_'.\n"
+"  which package(s) will be affected by presses of `+', `-' and `_'.\n"
 "\n"
 "* The dividing line in the middle of the screen shows a brief explanation "
 "of\n"
@@ -5661,6 +5699,82 @@ msgstr ""
 "  /                検索 (リターンキーでキャンセル)\n"
 "  \\                検索次候補\n"
 
+#~ msgid ""
+#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#~ "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
+#~ "installed\n"
+#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+#~ "uppercase=bad)\n"
+#~ msgstr ""
+#~ "要望=(U)不明/(I)インストール/(R)削除/(P)完全削除/(H)維持\n"
+#~ "| 状態=(N)無/(I)インストール済/(C)設定/(U)展開/(F)設定失敗/(H)半インストー"
+#~ "ル\n"
+#~ "|/ エラー=(空欄)無/(H)維持/(R)要再インストール/X=両方(状態,エラーの大文字="
+#~ "異常)\n"
+
+#~ msgid "Name"
+#~ msgstr "名前"
+
+#~ msgid "Version"
+#~ msgstr "バージョン"
+
+#~ msgid "diversion by %s"
+#~ msgstr "%s による退避(diversion)"
+
+#~ msgid "local diversion"
+#~ msgstr "ローカルな退避(diversion)"
+
+#~ msgid "to"
+#~ msgstr "次へ"
+
+#~ msgid "from"
+#~ msgstr "次から"
+
+#~ msgid "--search needs at least one file name pattern argument"
+#~ msgstr "--search は引数に少なくとも 1 つのファイル名パターンが必要です。"
+
+#~ msgid "dpkg: %s not found.\n"
+#~ msgstr "dpkg: %s が見つかりません。\n"
+
+#~ msgid "Package `%s' is not installed and no info is available.\n"
+#~ msgstr ""
+#~ "パッケージ `%s' はまだインストールされておらず情報が利用不可能です。\n"
+
+#~ msgid "Package `%s' is not available.\n"
+#~ msgstr "パッケージ `%s' はまだ利用可能でありません。\n"
+
+#~ msgid "Package `%s' is not installed.\n"
+#~ msgstr "パッケージ `%s' はまだインストールされていません。\n"
+
+#~ msgid "Package `%s' does not contain any files (!)\n"
+#~ msgstr "パッケージ `%s' はファイルを含んでいません。(!)\n"
+
+#~ msgid "locally diverted"
+#~ msgstr "ローカルに退避(divert)された"
+
+#~ msgid "package diverts others"
+#~ msgstr "他パッケージの同名ファイルは次の名に退避した"
+
+#~ msgid "diverted by %s"
+#~ msgstr "%s により退避(divert)された"
+
+#~ msgid " to: %s\n"
+#~ msgstr " %s へ\n"
+
+#~ msgid ""
+#~ "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#~ "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+#~ msgstr ""
+#~ "アーカイブファイルを調べるためには dpkg --info (= dpkg-deb --info)を、\n"
+#~ "その内容一覧を表示するには dpkg --contents (= dpkg-deb --contents)を使いま"
+#~ "す。\n"
+
+#~ msgid "failed to exec dpkg-deb"
+#~ msgstr "dpkg-deb の実行に失敗しました。"
+
+#~ msgid "%s: read error on stdin\n"
+#~ msgstr "%s: 標準入力の読み込みエラーです。\n"
+
 #~ msgid "files list file for package `%.250s' is truncated"
 #~ msgstr ""
 #~ "パッケージ `%.250s' の一覧用ファイルは、長すぎるので切り詰められています。"
@@ -5734,9 +5848,6 @@ msgstr ""
 
 #~ msgid "unable to exec cat for displaying GPL file"
 #~ msgstr "GPL ファイルを表示しようとしましたが、cat の実行に失敗しました。"
-
-#~ msgid "unable to set buffering on `%.250s'"
-#~ msgstr "`%.250s' のバッファを確保できません。"
 
 #~ msgid "fgets gave an empty null-terminated string from `%.250s'"
 #~ msgstr "fgets が `%.250s' から NULL で終わる空の文字列を得ました。"

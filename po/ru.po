@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.6.5\n"
-"POT-Creation-Date: 2001-04-25 00:45+0400\n"
+"POT-Creation-Date: 2001-07-16 02:32+0200\n"
 "PO-Revision-Date: $Date$\n"
 "Last-Translator: Alexey Mahotkin <alexm@hsys.msk.ru>\n"
 "Language-Team: ru <debian-russian@lists.debian.org>\n"
@@ -55,16 +55,21 @@ msgstr "Системная ошибка номер %d"
 msgid "Signal no.%d"
 msgstr "Сигнал номер %d"
 
-#: lib/database.c:240
+#: lib/database.c:177
+#, c-format
+msgid "couldn't allocate memory for strdup in findpackage(%s)"
+msgstr ""
+
+#: lib/database.c:247
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "размер %7d появился %5d раз\n"
 
-#: lib/database.c:241
+#: lib/database.c:248
 msgid "failed write during hashreport"
 msgstr "hashreport: ошибка записи"
 
-#: lib/dbmodify.c:57
+#: lib/dbmodify.c:58
 #, c-format
 msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
@@ -73,86 +78,86 @@ msgstr ""
 "каталог обновлений содержит файл `%.250s', у которого слишком длинное имя "
 "(длина=%d, максимум=%d)"
 
-#: lib/dbmodify.c:61
+#: lib/dbmodify.c:62
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
 msgstr ""
 "каталог обновлений содержит файлы с разными длинами имен (как %d так и %d)"
 
-#: lib/dbmodify.c:75
+#: lib/dbmodify.c:76
 #, c-format
 msgid "cannot scan updates directory `%.255s'"
 msgstr "не удалось просмотреть каталог обновлений `%.255s'"
 
-#: lib/dbmodify.c:91
+#: lib/dbmodify.c:92
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
 msgstr "не удалось удалить встроенный файл обновлений %.255s"
 
-#: lib/dbmodify.c:108
+#: lib/dbmodify.c:109
 #, c-format
 msgid "unable to create %.250s"
 msgstr "не удалось создать %.250s"
 
-#: lib/dbmodify.c:111
+#: lib/dbmodify.c:113
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "не удалось заполнить %.250s символами заполнения"
 
-#: lib/dbmodify.c:113
+#: lib/dbmodify.c:115
 #, c-format
 msgid "unable flush %.250s after padding"
 msgstr "не удалось сбросить буфер для %.250s после заполнения"
 
-#: lib/dbmodify.c:115
+#: lib/dbmodify.c:117
 #, c-format
 msgid "unable seek to start of %.250s after padding"
 msgstr "не удалось перейти к началу %.250s после выравнивания"
 
-#: lib/dbmodify.c:143
+#: lib/dbmodify.c:145
 msgid "requested operation requires superuser privilege"
 msgstr "запрошенная операция требует привилегий суперпользователя"
 
-#: lib/dbmodify.c:148
+#: lib/dbmodify.c:150
 msgid "unable to access dpkg status area"
 msgstr "не удалось доступиться к области состояния dpkg"
 
-#: lib/dbmodify.c:150
+#: lib/dbmodify.c:152
 msgid "operation requires read/write access to dpkg status area"
 msgstr "операция требует доступа на чтение/запись к области состояния dpkg"
 
-#: lib/dbmodify.c:198
+#: lib/dbmodify.c:200
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "не удалось удалить собственный файл обновлений %.255s"
 
-#: lib/dbmodify.c:247
+#: lib/dbmodify.c:249
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "не удалось записать файл состояния для пакета `%.250s'"
 
-#: lib/dbmodify.c:249
+#: lib/dbmodify.c:251
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "не удалось сбросить на диск файл состояния для пакета `%.250s'"
 
-#: lib/dbmodify.c:251
+#: lib/dbmodify.c:253
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "не удалось усечь файл состояния для пакета `%.250s'"
 
-#: lib/dbmodify.c:253
+#: lib/dbmodify.c:255
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "не удалось синхронизировать файл состояния для пакета `%.250s'"
 
-#: lib/dbmodify.c:255
+#: lib/dbmodify.c:257
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "не удалось закрыть файл состояния для пакета `%.250s'"
 
-#: lib/dbmodify.c:258
+#: lib/dbmodify.c:260
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "не удалось установить новый файл состояния для пакета `%.250s'"
@@ -252,139 +257,139 @@ msgstr "мусор после %s"
 msgid "invalid package name (%.250s)"
 msgstr "недопустимое название пакета (%.250s)"
 
-#: lib/fields.c:92
+#: lib/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr ""
 
-#: lib/fields.c:95
+#: lib/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "информационное поле `%s' недопустимо в файле состояний"
 
-#: lib/fields.c:105
+#: lib/fields.c:103
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 
-#: lib/fields.c:118
+#: lib/fields.c:116
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 
-#: lib/fields.c:134
+#: lib/fields.c:132
 msgid "yes/no in `essential' field"
 msgstr ""
 
-#: lib/fields.c:167
+#: lib/fields.c:165
 msgid "value for `status' field not allowed in this context"
 msgstr "значение для поля `status' недопустимо в этом контексте"
 
-#: lib/fields.c:178
+#: lib/fields.c:176
 msgid "third (status) word in `status' field"
 msgstr ""
 
-#: lib/fields.c:189
+#: lib/fields.c:187
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "ошибка в поле Version `%.250s': %.250s"
 
-#: lib/fields.c:200
+#: lib/fields.c:198
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "использованы устаревшие поля Revision или Package-Revision"
 
-#: lib/fields.c:218
+#: lib/fields.c:216
 msgid "value for `config-version' field not allowed in this context"
 msgstr "значение для поля `config-version' недопустимо в этом контексте"
 
-#: lib/fields.c:222
+#: lib/fields.c:220
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "ошибка в поле Config-Version `%.250s': %.250s"
 
-#: lib/fields.c:239
+#: lib/fields.c:237
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "значение поля `conffiles' начинается с не-пробела `%c'"
 
-#: lib/fields.c:245
+#: lib/fields.c:243
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr ""
 
-#: lib/fields.c:251
+#: lib/fields.c:249
 msgid "root or null directory is listed as a conffile"
 msgstr "корневой или пустой каталог указаны в качестве конфигурационного файла"
 
-#: lib/fields.c:306
+#: lib/fields.c:304
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr ""
 
-#: lib/fields.c:309
+#: lib/fields.c:307
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr ""
 
-#: lib/fields.c:340
+#: lib/fields.c:338
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " bad version relationship %c%c"
 msgstr ""
 
-#: lib/fields.c:346
+#: lib/fields.c:344
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " `%c' is obsolete, use `%c=' or `%c%c' instead"
 msgstr ""
 
-#: lib/fields.c:356
+#: lib/fields.c:354
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " implicit exact match on version number, suggest using `=' instead"
 msgstr ""
 
-#: lib/fields.c:363
+#: lib/fields.c:361
 msgid "Only exact versions may be used for Provides"
 msgstr ""
 
-#: lib/fields.c:367
+#: lib/fields.c:365
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
 " version value starts with non-alphanumeric, suggest adding a space"
 msgstr ""
 
-#: lib/fields.c:381
+#: lib/fields.c:379
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr ""
 
-#: lib/fields.c:384
+#: lib/fields.c:382
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr ""
 
-#: lib/fields.c:387
+#: lib/fields.c:385
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr ""
 
-#: lib/fields.c:398
+#: lib/fields.c:396
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr ""
 
-#: lib/fields.c:407
+#: lib/fields.c:405
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr ""
 
-#: lib/fields.c:414
+#: lib/fields.c:412
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "альтернативы (`|') недопустимы в поле %s"
@@ -409,109 +414,119 @@ msgstr "база данных состояний заблокирована другим процессом"
 msgid "unable to lock dpkg status database"
 msgstr "не удалось блокировать базу данных состояний dpkg"
 
-#: lib/mlib.c:49
+#: lib/mlib.c:51
 #, c-format
 msgid "malloc failed (%ld bytes)"
 msgstr "ошибка malloc (%ld байт(а))"
 
-#: lib/mlib.c:62
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "ошибка realloc (%ld байт(а))"
 
-#: lib/mlib.c:69
+#: lib/mlib.c:71
 #, c-format
 msgid "%s (subprocess): %s\n"
 msgstr "%s (под-процесс): %s\n"
 
-#: lib/mlib.c:83
+#: lib/mlib.c:85
 msgid "fork failed"
 msgstr "ошибка fork"
 
-#: lib/mlib.c:96
+#: lib/mlib.c:98
 #, c-format
 msgid "failed to dup for std%s"
 msgstr ""
 
-#: lib/mlib.c:97
+#: lib/mlib.c:99
 #, c-format
 msgid "failed to dup for fd %d"
 msgstr "не удалось скопировать дескриптор файла %d"
 
-#: lib/mlib.c:103
+#: lib/mlib.c:105
 msgid "failed to create pipe"
 msgstr "не удалось создать канал ввода-вывода"
 
-#: lib/mlib.c:112
+#: lib/mlib.c:114
 #, c-format
 msgid "dpkg: warning - %s returned error exit status %d\n"
 msgstr "dpkg: предупреждение - %s возвратил код ошибки %d\n"
 
-#: lib/mlib.c:114
+#: lib/mlib.c:116
 #, c-format
 msgid "subprocess %s returned error exit status %d"
 msgstr "под-процесс %s возвратил код ошибки %d"
 
-#: lib/mlib.c:119
+#: lib/mlib.c:121
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: предупреждение - %s убит сигналом (%s)%s\n"
 
-#: lib/mlib.c:122
+#: lib/mlib.c:124
 #, c-format
 msgid "subprocess %s killed by signal (%s)%s"
 msgstr "под-процесс %s убит сигналом (%s)%s"
 
-#: lib/mlib.c:125
+#: lib/mlib.c:127
 #, c-format
 msgid "subprocess %s failed with wait status code %d"
 msgstr ""
 
-#: lib/mlib.c:135
+#: lib/mlib.c:137
 #, c-format
 msgid "wait for %s failed"
 msgstr ""
 
-#: lib/mlib.c:183
+#: lib/mlib.c:145
+#, fuzzy, c-format
+msgid "unable to read filedescriptor flags for %.250s"
+msgstr "не удалось открыть файл описания метода доступа `%.250s'"
+
+#: lib/mlib.c:147
+#, fuzzy, c-format
+msgid "unable to set close-on-exec flag for %.250s"
+msgstr "не удалось закрыть новый файл параметров `%.250s'"
+
+#: lib/mlib.c:199
 msgid "failed in buffer_write(fd) (%i, ret=%zi %s)"
 msgstr "ошибка в buffer_write(fd) (%i, ret=%zi %s)"
 
-#: lib/mlib.c:190
+#: lib/mlib.c:206
 #, c-format
 msgid "eof in buffer_write(stream): %s"
 msgstr ""
 
-#: lib/mlib.c:192
+#: lib/mlib.c:208
 #, c-format
 msgid "error in buffer_write(stream): %s"
 msgstr ""
 
-#: lib/mlib.c:198
+#: lib/mlib.c:214
 #, c-format
 msgid "unknown data type `%i' in buffer_write\n"
 msgstr ""
 
-#: lib/mlib.c:214
+#: lib/mlib.c:230
 #, c-format
 msgid "failed in buffer_read(fd): %s"
 msgstr "ошибка в buffer_read(fd): %s"
 
-#: lib/mlib.c:221
+#: lib/mlib.c:237
 #, c-format
 msgid "error in buffer_read(stream): %s"
 msgstr ""
 
-#: lib/mlib.c:224
+#: lib/mlib.c:240
 #, c-format
 msgid "unknown data type `%i' in buffer_read\n"
 msgstr ""
 
-#: lib/mlib.c:290
+#: lib/mlib.c:306
 #, c-format
 msgid "failed to allocate buffer in buffer_copy (%s)"
 msgstr "не удалось выделить буфер в buffer_copy (%s)"
 
-#: lib/mlib.c:321
+#: lib/mlib.c:337
 #, c-format
 msgid "failed in buffer_copy (%s)"
 msgstr "ошибка в buffer_copy (%s)"
@@ -629,46 +644,47 @@ msgstr "EOF перед значением поля `%.*s' (отсутствует символ конца строки)"
 #: lib/parse.c:169
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgstr "символ MSDOS EOF в значении поля `%.*s' (отсутствует символ конца строки?)"
+msgstr ""
+"символ MSDOS EOF в значении поля `%.*s' (отсутствует символ конца строки?)"
 
-#: lib/parse.c:183
+#: lib/parse.c:182
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "EOF в середине значении поля `%.*s' (отсутствует символ конца строки)"
 
-#: lib/parse.c:206
+#: lib/parse.c:205
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "повторное значение для поля `%s'"
 
-#: lib/parse.c:211
+#: lib/parse.c:210
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "название пользовательского поля `%.*s' слишком коротко"
 
-#: lib/parse.c:216
+#: lib/parse.c:215
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "дублирующееся значение для пользовательского поля `%.*s'"
 
-#: lib/parse.c:229
+#: lib/parse.c:228
 msgid "several package info entries found, only one allowed"
 msgstr ""
 
-#: lib/parse.c:257
+#: lib/parse.c:256
 msgid "Configured-Version for package with inappropriate Status"
 msgstr ""
 
-#: lib/parse.c:271
+#: lib/parse.c:270
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
 
-#: lib/parse.c:326
+#: lib/parse.c:325
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "не удалось закрыть файл после чтения: `%.255s'"
 
-#: lib/parse.c:327
+#: lib/parse.c:326
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "в `%.255s' нет информации о пакете"
@@ -721,24 +737,29 @@ msgstr "символ `%c' недопустим -- допустимы только буквы, цифры и %s"
 msgid "<none>"
 msgstr ""
 
-#: lib/parsehelp.c:193
+#: lib/parsehelp.c:194
 msgid "version string is empty"
 msgstr "строка версии пуста"
 
-#: lib/parsehelp.c:198
+#: lib/parsehelp.c:205
+#, fuzzy
+msgid "version string has embedded spaces"
+msgstr "строка версии пуста"
+
+#: lib/parsehelp.c:210
 msgid "epoch in version is not number"
 msgstr "эпоха в версии не является числом"
 
-#: lib/parsehelp.c:199
+#: lib/parsehelp.c:211
 msgid "nothing after colon in version number"
 msgstr "нет ничего после двоеточия в номере версии"
 
-#: lib/parsehelp.c:223
+#: lib/parsehelp.c:235
 #, c-format
 msgid "missing %s"
 msgstr "пропущен %s"
 
-#: lib/parsehelp.c:227
+#: lib/parsehelp.c:239
 #, c-format
 msgid "empty value for %s"
 msgstr "пустое значение для %s"
@@ -751,47 +772,47 @@ msgstr "не удалось открыть файл GPL "
 msgid "failed to realloc for variable buffer"
 msgstr ""
 
-#: main/archives.c:164
+#: main/archives.c:202
 msgid "process_archive ...  already disappeared !"
 msgstr ""
 
-#: main/archives.c:184
+#: main/archives.c:222
 msgid "error reading from dpkg-deb pipe"
 msgstr ""
 
-#: main/archives.c:221
+#: main/archives.c:259
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr ""
 
-#: main/archives.c:228 main/archives.c:481
+#: main/archives.c:266 main/archives.c:513
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "ошибка установки владельца для `%.255s'"
 
-#: main/archives.c:230 main/archives.c:484
+#: main/archives.c:268 main/archives.c:516
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "ошибка установки прав доступа для `%.255s'"
 
-#: main/archives.c:319
+#: main/archives.c:351
 #, c-format
 msgid ""
-"trying to overwrite `%.250s', which is the diverted version of "
-"`%.250s'%.10s%.100s%.10s"
+"trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
+"%.100s%.10s"
 msgstr ""
 
-#: main/archives.c:323
+#: main/archives.c:355
 msgid " (package: "
 msgstr " (пакет: "
 
-#: main/archives.c:345
+#: main/archives.c:377
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 "не удалось получить информацию о `%.255s' (который должен быть установлен)"
 
-#: main/archives.c:353
+#: main/archives.c:385
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -799,28 +820,28 @@ msgid ""
 msgstr ""
 "не удалось разобраться с мешаниной в `%.255s' перед установкой другой версии"
 
-#: main/archives.c:359
+#: main/archives.c:391
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 
-#: main/archives.c:391
+#: main/archives.c:423
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "архив содержит объект `%.255s' неизвестного типа 0x%x"
 
-#: main/archives.c:422
+#: main/archives.c:454
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Заменяются файлы в старом пакете %s ...\n"
 
-#: main/archives.c:426
+#: main/archives.c:458
 #, c-format
 msgid ""
 "trying to overwrite directory `%.250s' in package %.250s with nondirectory"
 msgstr "попытка переписать каталог `%.250s' в пакете %.250s не-каталогом"
 
-#: main/archives.c:436
+#: main/archives.c:468
 #, c-format
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr ""
@@ -829,125 +850,125 @@ msgstr ""
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:368 main/archives.c:464
+#: dpkg-deb/build.c:368 main/archives.c:496
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "не удалось создать `%.255s'"
 
-#: main/archives.c:469
+#: main/archives.c:501
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr ""
 
-#: main/archives.c:487
+#: main/archives.c:519
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "ошибка закрытия/записи `%.255s'"
 
-#: main/archives.c:492
+#: main/archives.c:524
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "ошибка создания трубы `%.255s'"
 
-#: main/archives.c:498
+#: main/archives.c:530
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "ошибка создания устройства `%.255s'"
 
-#: main/archives.c:507
+#: main/archives.c:539
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "ошибка создания непосредственной ссылки `%.255s'"
 
-#: main/archives.c:514
+#: main/archives.c:546
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "ошибка создания символической ссылки `%.255s'"
 
-#: main/archives.c:523
+#: main/archives.c:555
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "ошибка установки владельца для символической ссылки `%.255s'"
 
-#: main/archives.c:528
+#: main/archives.c:560
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "ошибка создания каталога `%.255s'"
 
-#: main/archives.c:563
+#: main/archives.c:595
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr ""
 
-#: main/archives.c:572
+#: main/archives.c:604
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "не удается прочитать символьную ссылку `%.255s'"
 
-#: main/archives.c:576
+#: main/archives.c:608
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
 
-#: main/archives.c:582
+#: main/archives.c:614
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 
-#: main/archives.c:586
+#: main/archives.c:618
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 
-#: main/archives.c:592
+#: main/archives.c:624
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "не удалось установить новую версию `%.255s'"
 
-#: main/archives.c:606
+#: main/archives.c:638
 #, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with removal of %s:\n"
 "%s"
 msgstr ""
 
-#: main/archives.c:613
+#: main/archives.c:645
 #, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
 " package %s, to enable removal of %s.\n"
 msgstr ""
 
-#: main/archives.c:617
+#: main/archives.c:649
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
 " it in order to enable removal of %s.\n"
 msgstr ""
 
-#: main/archives.c:630
+#: main/archives.c:663
 #, c-format
 msgid ""
 "dpkg: no, cannot remove %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 
-#: main/archives.c:664
+#: main/archives.c:697
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr ""
 
-#: main/archives.c:668
+#: main/archives.c:701
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr ""
 
-#: main/archives.c:695
+#: main/archives.c:728
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr ""
 
-#: main/archives.c:710
+#: main/archives.c:743
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -956,88 +977,88 @@ msgstr ""
 "dpkg: пакет %s требует переустановки, но все равно будет удален раз вы "
 "требуете.\n"
 
-#: main/archives.c:713
+#: main/archives.c:746
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: пакет %s требует переустановки; не будет удален.\n"
 
-#: main/archives.c:726
+#: main/archives.c:759
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr ""
 
-#: main/archives.c:734
+#: main/archives.c:767
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
 "%s"
 msgstr ""
 
-#: main/archives.c:737
+#: main/archives.c:770
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "конфликтующие пакеты - %.250s не будет установлен"
 
-#: main/archives.c:738
+#: main/archives.c:771
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
 msgstr ""
 
-#: main/archives.c:779
+#: main/archives.c:809
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr ""
 
-#: main/archives.c:809
+#: main/archives.c:839
 msgid "failed to exec find for --recursive"
 msgstr ""
 
-#: main/archives.c:814
+#: main/archives.c:844
 msgid "failed to fdopen find's pipe"
 msgstr ""
 
-#: main/archives.c:820
+#: main/archives.c:850
 msgid "error reading find's pipe"
 msgstr ""
 
-#: main/archives.c:821
+#: main/archives.c:851
 msgid "error closing find's pipe"
 msgstr ""
 
-#: main/archives.c:824
+#: main/archives.c:854
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr ""
 
-#: main/archives.c:827
+#: main/archives.c:857
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 
-#: main/archives.c:843
+#: main/archives.c:873
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s needs at least one package archive file argument"
 
-#: main/archives.c:913
+#: main/archives.c:943
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr ""
 
-#: main/archives.c:918
+#: main/archives.c:948
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr ""
 
-#: main/archives.c:932
+#: main/archives.c:962
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Версия %.250s пакета %.250s уже установлена; пакет пропущен.\n"
 
-#: main/archives.c:944
+#: main/archives.c:974
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr ""
 
-#: main/archives.c:950
+#: main/archives.c:980
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1339,14 +1360,14 @@ msgstr "Устанавливается новая версия конфигурационного файла %s ...\n"
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "не удалось установить `%.250s' как `%.250s'"
 
-#: main/configure.c:473
+#: main/configure.c:475
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to stat config file `%s'\n"
 " (= `%s'): %s\n"
 msgstr ""
 
-#: main/configure.c:484
+#: main/configure.c:486
 #, c-format
 msgid ""
 "dpkg: %s: warning - config file `%s' is a circular link\n"
@@ -1355,116 +1376,116 @@ msgstr ""
 "dpkg: %s: предупреждение - конфигурационный файл `%s' -- циклическая ссылка\n"
 " (= `%s')\n"
 
-#: main/configure.c:497
+#: main/configure.c:499
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to readlink conffile `%s'\n"
 " (= `%s'): %s\n"
 msgstr ""
 
-#: main/configure.c:516
+#: main/configure.c:518
 #, c-format
 msgid ""
 "dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
 " (`%s' is a symlink to `%s')\n"
 msgstr ""
 
-#: main/configure.c:529
+#: main/configure.c:531
 #, c-format
 msgid ""
-"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= "
-"`%s')\n"
+"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
+"s')\n"
 msgstr ""
 
-#: main/configure.c:543
+#: main/configure.c:545
 msgid "md5hash"
 msgstr ""
 
-#: main/configure.c:549
+#: main/configure.c:551
 #, c-format
 msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
 msgstr ""
 
-#: main/depcon.c:73
+#: main/depcon.c:74
 #, c-format
 msgid "unable to check for existence of `%.250s'"
 msgstr "не удалось проверить существование `%.250s'"
 
-#: main/depcon.c:132 main/packages.c:386
+#: main/depcon.c:134 main/packages.c:386
 msgid " depends on "
 msgstr " зависит от "
 
-#: main/depcon.c:133
+#: main/depcon.c:135
 msgid " pre-depends on "
 msgstr " pre-depends on "
 
-#: main/depcon.c:134
+#: main/depcon.c:136
 msgid " recommends "
 msgstr " рекомендует "
 
-#: main/depcon.c:135
+#: main/depcon.c:137
 msgid " conflicts with "
 msgstr " конфликтует с "
 
-#: main/depcon.c:136
+#: main/depcon.c:138
 msgid " suggests "
 msgstr " предлагает "
 
-#: main/depcon.c:137
+#: main/depcon.c:139
 msgid " enhances "
 msgstr ""
 
-#: main/depcon.c:213
+#: main/depcon.c:215
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  пакет %.250s должен быть удален.\n"
 
-#: main/depcon.c:216
+#: main/depcon.c:218
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  пакет %.250s должен быть деконфигурирован.\n"
 
-#: main/depcon.c:220
+#: main/depcon.c:222
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr ""
 
-#: main/depcon.c:228
+#: main/depcon.c:230
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  пакет %.250s установлен, но версии %.250s.\n"
 
-#: main/depcon.c:243
+#: main/depcon.c:245
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s распакован, но никогда не был настроен.\n"
 
-#: main/depcon.c:247
+#: main/depcon.c:249
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  пакет %.250s распакован, но версии %.250s.\n"
 
-#: main/depcon.c:253
+#: main/depcon.c:255
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s последняя настроенная версия %.250s.\n"
 
-#: main/depcon.c:262
+#: main/depcon.c:264
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  пакет %.250s %s.\n"
 
-#: main/depcon.c:298
+#: main/depcon.c:300
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr ""
 
-#: main/depcon.c:302
+#: main/depcon.c:304
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr ""
 
-#: main/depcon.c:307
+#: main/depcon.c:309
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr ""
@@ -1472,28 +1493,28 @@ msgstr ""
 #. If the package wasn't installed at all, and we haven't said
 #. * yet why this isn't satisfied, we should say so now.
 #.
-#: main/depcon.c:321
+#: main/depcon.c:323
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr " пакет %.250s не установлен.\n"
 
-#: main/depcon.c:352
+#: main/depcon.c:354
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (версии %.250s) должен быть установлен.\n"
 
-#: main/depcon.c:366
+#: main/depcon.c:368
 #, c-format
 msgid "  %.250s (version %.250s) is %s.\n"
 msgstr "  %.250s (версии %.250s) %s.\n"
 
 #. conflicts and provides the same
-#: main/depcon.c:391
+#: main/depcon.c:393
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr ""
 
-#: main/depcon.c:422
+#: main/depcon.c:424
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %.250s предоставляет %.250s и %s.\n"
@@ -1502,43 +1523,14 @@ msgstr "  %.250s предоставляет %.250s и %s.\n"
 msgid "(no description available)"
 msgstr ""
 
-#: main/enquiry.c:100
-#, fuzzy
-msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-"uppercase=bad)\n"
-msgstr ""
-"Желаем.=Неизв./Уст./Удал./Выч./Придержать\n"
-"| Сост.=Not/Уст./Config-files/Unpacked/Failed-config/Half-installed\n"
-"|/ Ошб?=(нет)/Hold/Reinst-required/X=both-problems (Сост.,Ошб: загл.бкв.=хуже)\n"
-
-#: main/enquiry.c:104
-msgid "Name"
-msgstr "Название"
-
-#: main/enquiry.c:104
-msgid "Version"
-msgstr "Версия"
-
-#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:104
-msgid "Description"
-msgstr "Описание"
-
-#: main/enquiry.c:160 main/select.c:80
-#, c-format
-msgid "No packages found matching %s.\n"
-msgstr "Ни один пакет не соответствует образцу %s.\n"
-
-#: main/enquiry.c:187
+#: main/enquiry.c:81
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
 "that depend on them) to function properly:\n"
 msgstr ""
 
-#: main/enquiry.c:192
+#: main/enquiry.c:86
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -1549,7 +1541,7 @@ msgstr ""
 "помощи команды dpkg --configure или выбрав пункт Configure в программе "
 "dselect:\n"
 
-#: main/enquiry.c:197
+#: main/enquiry.c:91
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -1560,7 +1552,7 @@ msgstr ""
 "с помощью dpkg --configure <package> или пункта меню \"Конфигурировать\"\n"
 "в программе dselect:\n"
 
-#: main/enquiry.c:202
+#: main/enquiry.c:96
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -1571,199 +1563,123 @@ msgstr ""
 "попробовав повторить ее; пакеты могут быть удалены с помощью dselect или\n"
 "dpkg --remove:\n"
 
-#: main/enquiry.c:227
+#: main/enquiry.c:121
 msgid "--audit does not take any arguments"
 msgstr "параметр --audit не имеет аргументов"
 
-#: main/enquiry.c:262
+#: main/enquiry.c:156
 msgid "<unknown>"
 msgstr "<неизвестен>"
 
-#: main/enquiry.c:279
+#: main/enquiry.c:173
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "параметр --yet-to-unpack не имеет аргументов"
 
-#: main/enquiry.c:317
+#: main/enquiry.c:211
 #, c-format
 msgid " %d in %s: "
 msgstr ""
 
-#: main/enquiry.c:332
+#: main/enquiry.c:226
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d пакетов, из следующих разделов:"
 
-#: main/enquiry.c:352
-#, c-format
-msgid "diversion by %s"
-msgstr ""
-
-#: main/enquiry.c:353
-msgid "local diversion"
-msgstr ""
-
-#: main/enquiry.c:354
-msgid "to"
-msgstr ""
-
-#: main/enquiry.c:354
-msgid "from"
-msgstr ""
-
-#: main/enquiry.c:387
-msgid "--search needs at least one file name pattern argument"
-msgstr ""
-
-#: main/enquiry.c:415
-#, c-format
-msgid "dpkg: %s not found.\n"
-msgstr "dpkg: %s не найден.\n"
-
-#: main/enquiry.c:432 main/packages.c:109
-#, c-format
-msgid "--%s needs at least one package name argument"
-msgstr ""
-
-#: main/enquiry.c:452
-#, c-format
-msgid "Package `%s' is not installed and no info is available.\n"
-msgstr "Пакет `%s' не установлен; информация недоступна.\n"
-
-#: main/enquiry.c:461
-#, c-format
-msgid "Package `%s' is not available.\n"
-msgstr "Пакет `%s' недоступен.\n"
-
-#: main/enquiry.c:471
-#, c-format
-msgid "Package `%s' is not installed.\n"
-msgstr "Пакет `%s' не установлен.\n"
-
-#: main/enquiry.c:480
-#, c-format
-msgid "Package `%s' does not contain any files (!)\n"
-msgstr "Пакет `%s' не содержит никаких файлов (!)\n"
-
-#: main/enquiry.c:486
-msgid "locally diverted"
-msgstr ""
-
-#: main/enquiry.c:487
-msgid "package diverts others"
-msgstr ""
-
-#: main/enquiry.c:488
-#, c-format
-msgid "diverted by %s"
-msgstr ""
-
-#: main/enquiry.c:489
-#, c-format
-msgid " to: %s\n"
-msgstr ""
-
-#: main/enquiry.c:508
-msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
-msgstr ""
-"Воспользуйтесь dpkg --info (= dpkg-deb --info) для получения информации о файле\n"
-"архива, или dpkg --contents (= dpkg-deb --contents) для получения его содержимого.\n"
-
-#: main/enquiry.c:519
+#: main/enquiry.c:245
 msgid "--assert-* does not take any arguments"
 msgstr "параметры --audit-* не имеют аргументов"
 
-#: main/enquiry.c:534
+#: main/enquiry.c:260
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
 msgstr ""
 
-#: main/enquiry.c:538
+#: main/enquiry.c:264
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
 msgstr ""
 
-#: main/enquiry.c:581
+#: main/enquiry.c:307
 msgid "--predep-package does not take any argument"
 msgstr "параметр --predep-package не имеет аргументов"
 
-#: main/enquiry.c:633
+#: main/enquiry.c:359
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
 " %s\n"
 msgstr ""
 
-#: main/enquiry.c:634
+#: main/enquiry.c:360
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 
-#: main/enquiry.c:654
+#: main/enquiry.c:380
 #, c-format
 msgid ""
 "dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
 " `%s'\n"
 msgstr ""
 
-#: main/enquiry.c:657
+#: main/enquiry.c:383
 #, c-format
 msgid "compiler libgcc filename not understood: %.250s"
 msgstr ""
 
-#: main/enquiry.c:661
+#: main/enquiry.c:387
 msgid "--print-installation-architecture does not take any argument"
 msgstr ""
 
-#: main/enquiry.c:681
+#: main/enquiry.c:407
 msgid "--print-architecture does not take any argument"
 msgstr ""
 
-#: main/enquiry.c:687
+#: main/enquiry.c:413
 msgid "failed to fdopen CC pipe"
 msgstr ""
 
-#: main/enquiry.c:705
+#: main/enquiry.c:431
 msgid "error reading from CC pipe"
 msgstr ""
 
-#: main/enquiry.c:707
+#: main/enquiry.c:433
 msgid "empty output"
 msgstr "пустой результат"
 
-#: main/enquiry.c:709
+#: main/enquiry.c:435
 msgid "no newline"
 msgstr "нет символа конца строки"
 
-#: main/enquiry.c:712
+#: main/enquiry.c:438
 msgid "no gcc-lib component"
 msgstr ""
 
-#: main/enquiry.c:714
+#: main/enquiry.c:440
 msgid "no slash after gcc-lib"
 msgstr ""
 
-#: main/enquiry.c:726
+#: main/enquiry.c:452
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr ""
 
-#: main/enquiry.c:769
+#: main/enquiry.c:495
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
-msgstr "--compare-versions требует трех аргументов: <версия> <отношение> <версия>"
+msgstr ""
+"--compare-versions требует трех аргументов: <версия> <отношение> <версия>"
 
-#: main/enquiry.c:774
+#: main/enquiry.c:500
 msgid "--compare-versions bad relation"
 msgstr "недопустимое отношение для --compare-versions"
 
-#: main/enquiry.c:779
+#: main/enquiry.c:505
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "неверный формат версии 1: %s\n"
 
-#: main/enquiry.c:789
+#: main/enquiry.c:515
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "неверный формат версии 2: %s\n"
@@ -1889,24 +1805,24 @@ msgstr "не удалось выполнить fstat на файле statoverride"
 msgid "failed to fstat previous statoverride file"
 msgstr "не удалось выполнить fstat на предыдущем файле statoverride"
 
-#: main/filesdb.c:348
+#: main/filesdb.c:349
 #, c-format
 msgid "statoverride file `%.250s'"
 msgstr "файл statoverride `%.250s'"
 
-#: main/filesdb.c:361
+#: main/filesdb.c:362
 msgid "statoverride file contains empty line"
 msgstr ""
 
-#: main/filesdb.c:446
+#: main/filesdb.c:447
 msgid "failed to open diversions file"
 msgstr ""
 
-#: main/filesdb.c:450
+#: main/filesdb.c:451
 msgid "failed to fstat previous diversions file"
 msgstr ""
 
-#: main/filesdb.c:452
+#: main/filesdb.c:453
 msgid "failed to fstat diversions file"
 msgstr ""
 
@@ -1994,8 +1910,8 @@ msgid ""
 "%d expected program(s) not found on PATH.\n"
 "NB: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."
 msgstr ""
-"NB: PATH суперпользователя обычно содержит /usr/local/sbin, /usr/sbin и "
-"/sbin."
+"NB: PATH суперпользователя обычно содержит /usr/local/sbin, /usr/sbin и /"
+"sbin."
 
 #: main/help.c:179
 #, c-format
@@ -2282,43 +2198,53 @@ msgstr ""
 msgid "unknown force/refuse option `%.*s'"
 msgstr ""
 
-#: main/main.c:427
+#: main/main.c:437 main/main.c:441
 msgid "couldn't malloc in execbackend"
 msgstr ""
 
-#: main/main.c:432
-msgid "failed to exec dpkg-deb"
-msgstr "ошибка исполнения dpkg-deb"
+#: main/main.c:439 main/main.c:446
+msgid "couldn't strdup in execbackend"
+msgstr ""
 
-#: main/main.c:444
+#: main/main.c:450
+#, fuzzy, c-format
+msgid "failed to exec %s"
+msgstr "ошибка запуска tar-а"
+
+#: main/main.c:462
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd принимает один аргумент, а не нуль аргументов"
 
-#: main/main.c:445
+#: main/main.c:463
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd принимает только один аргумент"
 
-#: main/main.c:447
+#: main/main.c:465
 msgid "invalid number for --command-fd"
 msgstr ""
 
-#: main/main.c:449
+#: main/main.c:467
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr ""
 
-#: main/main.c:474
+#: main/main.c:492
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "неожиданный конец файла, еще не кончилась строка %d"
 
-#: dpkg-deb/main.c:158 main/main.c:518 main/main.c:562 split/main.c:166
+#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:570 split/main.c:166
 msgid "need an action option"
 msgstr "требуется параметр действия"
 
 #: main/packages.c:79
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
+msgstr ""
+
+#: main/packages.c:109
+#, c-format
+msgid "--%s needs at least one package name argument"
 msgstr ""
 
 #: main/packages.c:116
@@ -2653,11 +2579,11 @@ msgstr ""
 #: main/remove.c:252
 #, c-format
 msgid ""
-"dpkg - warning: while removing %.250s, unable to remove directory `%.250s': "
-"%s - directory may be a mount point ?\n"
+"dpkg - warning: while removing %.250s, unable to remove directory `%.250s': %"
+"s - directory may be a mount point ?\n"
 msgstr ""
-"dpkg - предупреждение: при удалении %.250s, не удалось удалить каталог "
-"`%.250s': %s может быть точкой монтирования файловой системы\n"
+"dpkg - предупреждение: при удалении %.250s, не удалось удалить каталог `"
+"%.250s': %s может быть точкой монтирования файловой системы\n"
 
 #: main/remove.c:259
 #, c-format
@@ -2706,6 +2632,11 @@ msgstr "не удалось удалить старый список файлов"
 #: main/remove.c:467
 msgid "can't remove old postrm script"
 msgstr "не удалось удалить старый postrm-сценарий"
+
+#: main/select.c:80
+#, c-format
+msgid "No packages found matching %s.\n"
+msgstr "Ни один пакет не соответствует образцу %s.\n"
 
 #: main/select.c:95
 msgid "--set-selections does not take any argument"
@@ -3213,7 +3144,8 @@ msgstr ""
 #: dpkg-deb/extract.c:332
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
-msgstr "параметр --%s требует максимум два аргумента (имя .deb-файла и каталог)"
+msgstr ""
+"параметр --%s требует максимум два аргумента (имя .deb-файла и каталог)"
 
 #: dpkg-deb/extract.c:343
 #, c-format
@@ -3358,22 +3290,29 @@ msgstr ""
 "        dpkg-deb -c|--contents <архив>             Напечатать содержимое.\n"
 "        dpkg-deb -I|--info <архив> [<cfile>...]    Show info to stdout.\n"
 "        dpkg-deb -f|--field <архив> [<cfield>...]  Show field(s) to stdout.\n"
-"        dpkg-deb -e|--control <архив> [<каталог>]  Извлечь управляющую информацию.\n"
+"        dpkg-deb -e|--control <архив> [<каталог>]  Извлечь управляющую "
+"информацию.\n"
 "        dpkg-deb -x|--extract <архив> <каталог>    Извлечь файлы.\n"
-"        dpkg-deb -X|--vextract <архив> <каталог>   Извлечь файлы и показать их список.\n"
-"        dpkg-deb --fsys-tarfile <архив>            Извлечь tar-файл с файловой системой.\n"
+"        dpkg-deb -X|--vextract <архив> <каталог>   Извлечь файлы и показать "
+"их список.\n"
+"        dpkg-deb --fsys-tarfile <архив>            Извлечь tar-файл с "
+"файловой системой.\n"
 "        dpkg-deb -h|--help                         Выдать это сообщение.\n"
-"        dpkg-deb --version | --licence             Выдать номер версии и лицензию.\n"
+"        dpkg-deb --version | --licence             Выдать номер версии и "
+"лицензию.\n"
 "<архив> имя файла в формате Debian-архива.\n"
 "<уфайл> имя файла, содержащего административную часть.\n"
 "<уполе> название поля в основном управляющем файле (`control').\n"
-"Параметры: -D, для отладочной выдачи; --old или --new управляет форматом архива;\n"
+"Параметры: -D, для отладочной выдачи; --old или --new управляет форматом "
+"архива;\n"
 "           --nocheck подавляет проверку правильности управляющего файла\n"
 "             (создает неправильный пакет).\n"
 "           -z#, задать режим компрессирования при создании пакета\n"
 "\n"
-"Для установки или удаления пакетов из вашей системы используйте программу `dpkg',\n"
-"или же `dselect', если хотите более дружелюбную систему.  Пакеты, распакованные\n"
+"Для установки или удаления пакетов из вашей системы используйте программу "
+"`dpkg',\n"
+"или же `dselect', если хотите более дружелюбную систему.  Пакеты, "
+"распакованные\n"
 "с помощью `dpkg-deb --extract', будут установлены неправильно!\n"
 
 #: dpkg-deb/main.c:81
@@ -3566,8 +3505,8 @@ msgid ""
 "       dpkg-split -j|--join <part> <part> ...      Join parts together.\n"
 "       dpkg-split -I|--info <part> ...             Display info about a "
 "part.\n"
-"       dpkg-split -h|--help|--version|--licence    Show "
-"help/version/licence.\n"
+"       dpkg-split -h|--help|--version|--licence    Show help/version/"
+"licence.\n"
 "\n"
 "       dpkg-split -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
 "       dpkg-split -l|--listq                       List unmatched pieces.\n"
@@ -3576,8 +3515,8 @@ msgid ""
 "\n"
 "Options:  --depotdir <directory>  (default is %s/%s)\n"
 "          -S|--partsize <size>    (in Kb, for -s, default is 450)\n"
-"          -o|--output <file>      (for -j, default is "
-"<package>-<version>.deb)\n"
+"          -o|--output <file>      (for -j, default is <package>-<version>."
+"deb)\n"
 "          -Q|--npquiet            (be quiet when -a is not a part)\n"
 "          --msdos                 (generate 8.3 filenames)\n"
 "\n"
@@ -3585,16 +3524,23 @@ msgid ""
 msgstr ""
 "Запуск: dpkg-split -s|--split <файл> [<префикс>]   Разбить архив на части.\n"
 "        dpkg-split -j|--join <part> <part> ...     Объединить части вместе.\n"
-"        dpkg-split -I|--info <part> ...            Вывести информацию о части.\n"
-"        dpkg-split -h|--help|--version|--licence   Вывести подсказку/версию/лицензию.\n"
+"        dpkg-split -I|--info <part> ...            Вывести информацию о "
+"части.\n"
+"        dpkg-split -h|--help|--version|--licence   Вывести подсказку/версию/"
+"лицензию.\n"
 "\n"
-"        dpkg-split -a|--auto -o <complete> <part>  Автоматически собирать части.\n"
-"        dpkg-split -l|--listq                      Показать несовпавшие части.\n"
-"        dpkg-split -d|--discard [<filename> ...]   Отбросить несовпавшие части.\n"
+"        dpkg-split -a|--auto -o <complete> <part>  Автоматически собирать "
+"части.\n"
+"        dpkg-split -l|--listq                      Показать несовпавшие "
+"части.\n"
+"        dpkg-split -d|--discard [<filename> ...]   Отбросить несовпавшие "
+"части.\n"
 "\n"
 "Параметры: --depotdir <каталог>   (по умолчанию %s/%s)\n"
-"           -S|--partsize <размер> (размер для команды -s, в Кб, по умолчанию 450)\n"
-"           -o|--output <file>     (для -j, по умолчанию <package>-<version>.deb)\n"
+"           -S|--partsize <размер> (размер для команды -s, в Кб, по умолчанию "
+"450)\n"
+"           -o|--output <file>     (для -j, по умолчанию <package>-<version>."
+"deb)\n"
 "           -Q|--npquiet           (не предупреждать, если в -a указан файл,\n"
 "                                   не являющийся частью)\n"
 "           --msdos                (использовать имена вида 8.3)\n"
@@ -3765,17 +3711,14 @@ msgstr "не удалось исполнить mksplit"
 msgid "Type md5sum --help for help."
 msgstr "Наберите md5sum --help для получения помощи."
 
-#: utils/md5sum.c:113
-#, c-format
-msgid "%s: read error on stdin\n"
-msgstr "%s: ошибка чтения со стандартного ввода\n"
+#: utils/md5sum.c:78
+#, fuzzy, c-format
+msgid "error processing %s: %s\n"
+msgstr ""
+"%s: не удалось обработать параметр %s (--%s):\n"
+" %s\n"
 
-#: utils/md5sum.c:130 utils/md5sum.c:241
-#, c-format
-msgid "%s: error reading %s\n"
-msgstr "%s: ошибка чтения %s\n"
-
-#: utils/md5sum.c:144
+#: utils/md5sum.c:169
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -3793,39 +3736,44 @@ msgstr ""
 "Входом для команды -c должен быть список контрольных сумм и имен файлов\n"
 "в том виде, в котором он печатается при подсчете контрольных сумм.\n"
 
-#: utils/md5sum.c:157
+#: utils/md5sum.c:182
 msgid "mdfile"
 msgstr ""
 
-#: utils/md5sum.c:202
+#: utils/md5sum.c:222
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr "%s: нераспознанная строка: %s"
 
-#: utils/md5sum.c:236
+#: utils/md5sum.c:256
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr "%s: не удалось открыть %s\n"
 
-#: utils/md5sum.c:249
+#: utils/md5sum.c:261
+#, c-format
+msgid "%s: error reading %s\n"
+msgstr "%s: ошибка чтения %s\n"
+
+#: utils/md5sum.c:269
 msgid "FAILED\n"
 msgstr "ОШИБКА\n"
 
-#: utils/md5sum.c:251
+#: utils/md5sum.c:271
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: проверка MD5 суммы не удалась для '%s'\n"
 
-#: utils/md5sum.c:254
+#: utils/md5sum.c:274
 msgid "OK\n"
 msgstr "OK\n"
 
-#: utils/md5sum.c:258
+#: utils/md5sum.c:278
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr "%s: %d из %d файлов не прошли MD5 проверку\n"
 
-#: utils/md5sum.c:260
+#: utils/md5sum.c:280
 #, c-format
 msgid "%s: no files checked\n"
 msgstr "%s: ни одного файла не было проверено\n"
@@ -3834,21 +3782,21 @@ msgstr "%s: ни одного файла не было проверено\n"
 msgid "Search for ? "
 msgstr ""
 
-#: dselect/basecmds.cc:130
+#: dselect/basecmds.cc:131
 msgid "Help: "
 msgstr "Подсказка: "
 
-#: dselect/basecmds.cc:136
+#: dselect/basecmds.cc:137
 msgid ""
 "? = help menu    Space = exit help    . = next help    or a help page key "
 msgstr ""
 "? = подсказка    Space = выход  . = следующая страница или help page key "
 
-#: dselect/basecmds.cc:144
+#: dselect/basecmds.cc:145
 msgid "Help information is available under the following topics:"
 msgstr "Для следующих разделов доступна дополнительная информация:"
 
-#: dselect/basecmds.cc:152
+#: dselect/basecmds.cc:153
 msgid ""
 "Press a key from the list above, Space to exit help,\n"
 "  or `.' (full stop) to read each help page in turn. "
@@ -3856,76 +3804,77 @@ msgstr ""
 "Нажмите одну из вышеуказанных клавиш, Пробел для выхода\n"
 "или `.' (точка) для последовательного просмотра страниц."
 
-#: dselect/basecmds.cc:158
+#: dselect/basecmds.cc:159
 msgid "error reading keyboard in help"
 msgstr ""
 
-#: dselect/baselist.cc:53
+#: dselect/baselist.cc:54
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr ""
 
-#: dselect/baselist.cc:56
+#: dselect/baselist.cc:57
 msgid "doupdate in SIGWINCH handler failed"
 msgstr ""
 
-#: dselect/baselist.cc:63
+#: dselect/baselist.cc:64
 msgid "failed to restore old SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:65
+#: dselect/baselist.cc:66
 msgid "failed to restore old signal mask"
 msgstr "не удалось восстановить старую маску обработчика сигналов"
 
-#: dselect/baselist.cc:75
+#: dselect/baselist.cc:76
 msgid "failed to get old signal mask"
 msgstr "не удалось получить старую маску обработчика сигналов"
 
-#: dselect/baselist.cc:76
+#: dselect/baselist.cc:77
 msgid "failed to get old SIGWINCH sigact"
 msgstr "не удалось получить обработчика сигнала SIGWINCH"
 
-#: dselect/baselist.cc:80
+#: dselect/baselist.cc:81
 msgid "failed to block SIGWINCH"
 msgstr "не удалось блокировать сигнал SIGWINCH"
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:85
+#: dselect/baselist.cc:86
 msgid "failed to set new SIGWINCH sigact"
 msgstr "не удалось установить обработчика сигнала SIGWINCH"
 
-#: dselect/baselist.cc:121
-msgid "failed to allocate colour pairs"
+#: dselect/baselist.cc:123
+#, fuzzy
+msgid "failed to allocate colour pair"
 msgstr "не удалось зарезервировать цветовую пару"
 
-#: dselect/baselist.cc:153
+#: dselect/baselist.cc:163
 msgid "failed to create title window"
 msgstr "не удалось создать окно заголовка"
 
-#: dselect/baselist.cc:157
+#: dselect/baselist.cc:167
 msgid "failed to create whatinfo window"
 msgstr ""
 
-#: dselect/baselist.cc:161
+#: dselect/baselist.cc:171
 msgid "failed to create baselist pad"
 msgstr ""
 
-#: dselect/baselist.cc:164
+#: dselect/baselist.cc:174
 msgid "failed to create heading pad"
 msgstr ""
 
-#: dselect/baselist.cc:168
+#: dselect/baselist.cc:178
 msgid "failed to create thisstate pad"
 msgstr ""
 
-#: dselect/baselist.cc:172
+#: dselect/baselist.cc:182
 msgid "failed to create info pad"
 msgstr ""
 
-#: dselect/baselist.cc:176
+#: dselect/baselist.cc:187
 msgid "failed to create query window"
 msgstr ""
 
-#: dselect/baselist.cc:188
+#: dselect/baselist.cc:200
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -3940,20 +3889,21 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dselect/baselist.cc:244
+#: dselect/baselist.cc:256
 msgid "keybindings"
 msgstr ""
 
-#: dselect/baselist.cc:299
+#: dselect/baselist.cc:311
+#, c-format
 msgid "  -- %d%%, press "
 msgstr ""
 
-#: dselect/baselist.cc:302
+#: dselect/baselist.cc:314
 #, c-format
 msgid "%s for more"
 msgstr ""
 
-#: dselect/baselist.cc:306
+#: dselect/baselist.cc:318
 #, c-format
 msgid "%s to go back"
 msgstr ""
@@ -4102,105 +4052,105 @@ msgstr ""
 msgid "Type dselect --help for help."
 msgstr "Воспользуйтесь dselect --help для получения дополнительной информации."
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "a"
 msgstr ""
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "[A]ccess"
 msgstr "[A] Метод доступа"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "Choose the access method to use."
 msgstr "Выбор метода установки."
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "u"
 msgstr ""
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "[U]pdate"
 msgstr "[U] Обновить"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "Update list of available packages, if possible."
 msgstr "Обновление списка доступных пакетов."
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "s"
 msgstr ""
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "[S]elect"
 msgstr "[S] Выбрать"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "Request which packages you want on your system."
 msgstr "Выбор набора пакетов для установки, обновления и удаления."
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "i"
 msgstr ""
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "[I]nstall"
 msgstr "[I] Установить"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "Install and upgrade wanted packages."
 msgstr "Установка и обновление пакетов."
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "c"
 msgstr ""
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "[C]onfig"
 msgstr "[C] Конфигурировать"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "Configure any packages that are unconfigured."
 msgstr "Настройка ненастроенных пакетов."
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "r"
 msgstr ""
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "[R]emove"
 msgstr "[R] Удалить"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "Remove unwanted software."
 msgstr "Удаление ненужных пакетов."
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "q"
 msgstr ""
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "[Q]uit"
 msgstr "[Q] Выход"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "Quit dselect."
 msgstr "Выход."
 
-#: dselect/main.cc:79
+#: dselect/main.cc:144
 msgid "menu"
 msgstr "меню"
 
-#: dselect/main.cc:84
+#: dselect/main.cc:149
 #, c-format
 msgid "Debian `%s' package handling frontend."
 msgstr "Пользовательский интерфейс управления пакетами Debian GNU/Linux `%s'."
 
-#: dselect/main.cc:87
-#, c-format
+#: dselect/main.cc:152
+#, fuzzy, c-format
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "This is free software; see the GNU General Public Licence version 2\n"
 "or later for copying conditions.  There is NO warranty.  See\n"
 "dselect --licence for details.\n"
@@ -4212,39 +4162,74 @@ msgstr ""
 "позднее), там описаны условия копирования.  Гарантии ОТСУТСТВУЮТ.\n"
 "Для подробной информации см. dselect --licence.\n"
 
-#: dselect/main.cc:102
+#: dselect/main.cc:168
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
 "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
 "          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-"Actions:  access update select install config remove quit menu\n"
+"          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"Actions:  access update select install config remove quit\n"
 msgstr ""
 
-#: dselect/main.cc:122
+#: dselect/main.cc:176
+msgid "Screenparts:\n"
+msgstr ""
+
+#: dselect/main.cc:181
+msgid "Colours:\n"
+msgstr ""
+
+#: dselect/main.cc:186
+msgid "Attributes:\n"
+msgstr ""
+
+#: dselect/main.cc:206
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "не удалось открыть отладочный файл `%.250s'\n"
 
-#: dselect/main.cc:153
+#: dselect/main.cc:221
+#, c-format
+msgid "Invalid %s `%s'\n"
+msgstr ""
+
+#. strtok modifies strings, keep string const
+#: dselect/main.cc:238
+msgid "screen part"
+msgstr ""
+
+#: dselect/main.cc:244
+msgid "Null color specificaton\n"
+msgstr ""
+
+#: dselect/main.cc:252 dselect/main.cc:257
+msgid "color"
+msgstr ""
+
+#: dselect/main.cc:265
+msgid "color attribute"
+msgstr ""
+
+#: dselect/main.cc:299
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Терминал не поддерживает позиционирование курсора.\n"
 
-#: dselect/main.cc:155
+#: dselect/main.cc:301
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr ""
 
-#: dselect/main.cc:156
+#: dselect/main.cc:302
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
 msgstr ""
 
-#: dselect/main.cc:159
+#: dselect/main.cc:305
 msgid "terminal lacks necessary features, giving up"
 msgstr "у терминала отсутствуют необходимые свойства, завершение работы"
 
-#: dselect/main.cc:237
+#: dselect/main.cc:383
 msgid ""
 "\n"
 "\n"
@@ -4254,22 +4239,23 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Используйте комбинации клавиш ^P и ^N, стрелки, первые буквы команд или цифры;\n"
+"Используйте комбинации клавиш ^P и ^N, стрелки, первые буквы команд или "
+"цифры;\n"
 "Нажмите <enter> для выбора действия.  ^L -- перерисовать экран.\n"
 "\n"
 
-#: dselect/main.cc:251
+#: dselect/main.cc:397
 msgid ""
 "\n"
 "\n"
 "Read-only access: only preview of selections is available!"
 msgstr ""
 
-#: dselect/main.cc:268
+#: dselect/main.cc:416
 msgid "failed to getch in main menu"
 msgstr ""
 
-#: dselect/main.cc:336
+#: dselect/main.cc:496
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "неизвестное действие `%.50s'"
@@ -4287,6 +4273,10 @@ msgstr "Метод доступа `%s'."
 msgid "Abbrev."
 msgstr "Сокр."
 
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295
+msgid "Description"
+msgstr "Описание"
+
 #: dselect/methlist.cc:155
 msgid "doupdate failed"
 msgstr "ошибка doupdate"
@@ -4303,7 +4293,7 @@ msgstr "не удалось блокировать сигнал SIGWINCH"
 msgid "getch failed"
 msgstr "ошибка getch"
 
-#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:241 dselect/pkgdepcon.cc:280
+#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:242
 msgid "[none]"
 msgstr ""
 
@@ -4315,7 +4305,7 @@ msgstr ""
 msgid "No explanation available."
 msgstr ""
 
-#: dselect/method.cc:63
+#: dselect/method.cc:62
 #, c-format
 msgid ""
 "\n"
@@ -4323,81 +4313,83 @@ msgid ""
 "%s: %s\n"
 msgstr ""
 
-#: dselect/method.cc:66
+#: dselect/method.cc:65
 msgid ""
 "\n"
 "Press <enter> to continue."
-msgstr "\nДля продолжения нажмите <enter>."
+msgstr ""
+"\n"
+"Для продолжения нажмите <enter>."
 
-#: dselect/method.cc:143
+#: dselect/method.cc:142
 #, c-format
 msgid "error un-catching signal %d: %s\n"
 msgstr ""
 
-#: dselect/method.cc:161
+#: dselect/method.cc:160
 #, c-format
 msgid "unable to ignore signal %d before running %.250s"
 msgstr "не удалось игнорировать сигнал %s перед запуском %.250s"
 
-#: dselect/method.cc:168
+#: dselect/method.cc:167
 #, c-format
 msgid "unable to run %.250s process `%.250s'"
 msgstr "не удалось запустить %.250s-процесс `%.250s'"
 
-#: dselect/method.cc:172
+#: dselect/method.cc:171
 #, c-format
 msgid "unable to wait for %.250s"
 msgstr "ошибка вызова wait для %.250s"
 
-#: dselect/method.cc:174
+#: dselect/method.cc:173
 #, c-format
 msgid "got wrong child's status - asked for %ld, got %ld"
 msgstr "неожиданное состояние процесса-потомка: ожидалось %ld, получено %ld"
 
-#: dselect/method.cc:185
+#: dselect/method.cc:184
 #, c-format
 msgid "returned error exit status %d.\n"
 msgstr "возвращенный код ошибки %d.\n"
 
-#: dselect/method.cc:189
+#: dselect/method.cc:188
 msgid "was interrupted.\n"
 msgstr "был прерван.\n"
 
-#: dselect/method.cc:191
+#: dselect/method.cc:190
 #, c-format
 msgid "was terminated by a signal: %s.\n"
 msgstr "был завершен сигналом: %s.\n"
 
-#: dselect/method.cc:194
+#: dselect/method.cc:193
 msgid "(It left a coredump.)\n"
 msgstr ""
 
-#: dselect/method.cc:196
+#: dselect/method.cc:195
 #, c-format
 msgid "failed with an unknown wait return code %d.\n"
 msgstr ""
 
-#: dselect/method.cc:198
+#: dselect/method.cc:197
 msgid "Press <enter> to continue.\n"
 msgstr "Для продолжения нажмите <enter>.\n"
 
-#: dselect/method.cc:200
+#: dselect/method.cc:199
 msgid "write error on standard error"
 msgstr "ошибка записи на стандартный поток ошибок"
 
-#: dselect/method.cc:203
+#: dselect/method.cc:202
 msgid "error reading acknowledgement of program failure message"
 msgstr ""
 
-#: dselect/method.cc:234
+#: dselect/method.cc:233
 msgid "update available list script"
 msgstr "сценарий обновления списка доступных пакетов"
 
-#: dselect/method.cc:238
+#: dselect/method.cc:237
 msgid "installation script"
 msgstr "сценарий установки"
 
-#: dselect/method.cc:286
+#: dselect/method.cc:285
 msgid "query/setup script"
 msgstr "сценарий настройки"
 
@@ -4945,6 +4937,10 @@ msgstr "Был помечен для"
 msgid "Marked for"
 msgstr "Помечен для"
 
+#: dselect/pkgtop.cc:282
+msgid "EIOM"
+msgstr ""
+
 #: dselect/pkgtop.cc:284
 msgid "Section"
 msgstr "Раздел"
@@ -5148,8 +5144,8 @@ msgstr ""
 "переключает между режимами) это четыре символа, обозначающие (слева "
 "направо):\n"
 "\n"
-" Флаг ошибки: Пробел - нет ошибки (но пакет может быть испорченным -- "
-"см.ниже)\n"
+" Флаг ошибки: Пробел - нет ошибки (но пакет может быть испорченным -- см."
+"ниже)\n"
 "              `R'    - серьезная ошибка при установке, требует "
 "переустановки;\n"
 " Флаг установки:    Пробел - не установлен;\n"
@@ -5179,7 +5175,7 @@ msgstr "Просмотр, часть 2: подсветка списков; вывод информации"
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
-"  which package(s) will be affected by presses of `+', '-' and `_'.\n"
+"  which package(s) will be affected by presses of `+', `-' and `_'.\n"
 "\n"
 "* The dividing line in the middle of the screen shows a brief explanation "
 "of\n"
@@ -5280,6 +5276,55 @@ msgstr ""
 " ^l               перерисовать экран\n"
 "  /               поиск (просто Enter -- отказ от поиска)\n"
 "  \\               искать следующее вхождение\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#~ "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
+#~ "installed\n"
+#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+#~ "uppercase=bad)\n"
+#~ msgstr ""
+#~ "Желаем.=Неизв./Уст./Удал./Выч./Придержать\n"
+#~ "| Сост.=Not/Уст./Config-files/Unpacked/Failed-config/Half-installed\n"
+#~ "|/ Ошб?=(нет)/Hold/Reinst-required/X=both-problems (Сост.,Ошб: загл.бкв."
+#~ "=хуже)\n"
+
+#~ msgid "Name"
+#~ msgstr "Название"
+
+#~ msgid "Version"
+#~ msgstr "Версия"
+
+#~ msgid "dpkg: %s not found.\n"
+#~ msgstr "dpkg: %s не найден.\n"
+
+#~ msgid "Package `%s' is not installed and no info is available.\n"
+#~ msgstr "Пакет `%s' не установлен; информация недоступна.\n"
+
+#~ msgid "Package `%s' is not available.\n"
+#~ msgstr "Пакет `%s' недоступен.\n"
+
+#~ msgid "Package `%s' is not installed.\n"
+#~ msgstr "Пакет `%s' не установлен.\n"
+
+#~ msgid "Package `%s' does not contain any files (!)\n"
+#~ msgstr "Пакет `%s' не содержит никаких файлов (!)\n"
+
+#~ msgid ""
+#~ "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#~ "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+#~ msgstr ""
+#~ "Воспользуйтесь dpkg --info (= dpkg-deb --info) для получения информации о "
+#~ "файле\n"
+#~ "архива, или dpkg --contents (= dpkg-deb --contents) для получения его "
+#~ "содержимого.\n"
+
+#~ msgid "failed to exec dpkg-deb"
+#~ msgstr "ошибка исполнения dpkg-deb"
+
+#~ msgid "%s: read error on stdin\n"
+#~ msgstr "%s: ошибка чтения со стандартного ввода\n"
 
 #~ msgid "files list file for package `%.250s' is truncated"
 #~ msgstr "файл списка файлов `%.250s' усечен"

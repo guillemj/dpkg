@@ -9,7 +9,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.9.9\n"
-"POT-Creation-Date: 2001-06-06 22:35-0500\n"
+"POT-Creation-Date: 2001-07-16 02:32+0200\n"
 "PO-Revision-Date: 2001-06-10 21:10+0200\n"
 "Last-Translator: Santiago Vila <sanvila@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
@@ -60,19 +60,29 @@ msgstr "Error del sistema nº%d"
 msgid "Signal no.%d"
 msgstr "Señal nº%d"
 
-#: lib/database.c:240
+#: lib/database.c:177
+#, fuzzy, c-format
+msgid "couldn't allocate memory for strdup in findpackage(%s)"
+msgstr ""
+"dpkg: fallo al asignar memoria para la nueva entrada en la lista de "
+"paquetes\n"
+"que han fallado"
+
+#: lib/database.c:247
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "el tamaño %7d aparece %5d veces\n"
 
-#: lib/database.c:241
+#: lib/database.c:248
 msgid "failed write during hashreport"
 msgstr "escritura fallida en informe de tipo `hash'"
 
 # FIXME: Tell author to put `%.250s' on a separate line, since it's too long. sv
 #: lib/dbmodify.c:58
 #, c-format
-msgid "updates directory contains file `%.250s' whose name is too long (length=%d, max=%d)"
+msgid ""
+"updates directory contains file `%.250s' whose name is too long (length=%d, "
+"max=%d)"
 msgstr ""
 "el directorio de actualizaciones contiene el fichero\n"
 "`%.250s',\n"
@@ -80,9 +90,11 @@ msgstr ""
 
 #: lib/dbmodify.c:62
 #, c-format
-msgid "updates directory contains files with different length names (both %d and %d)"
+msgid ""
+"updates directory contains files with different length names (both %d and %d)"
 msgstr ""
-"el directorio de actualizaciones contiene ficheros con nombres de longitudes\n"
+"el directorio de actualizaciones contiene ficheros con nombres de "
+"longitudes\n"
 "diferentes (%d y %d)"
 
 #: lib/dbmodify.c:76
@@ -126,7 +138,8 @@ msgstr "no se puede acceder al área de estado de dpkg"
 
 #: lib/dbmodify.c:152
 msgid "operation requires read/write access to dpkg status area"
-msgstr "la operación precisa acceso de lectura y escritura al área de estado de dpkg"
+msgstr ""
+"la operación precisa acceso de lectura y escritura al área de estado de dpkg"
 
 #: lib/dbmodify.c:200
 #, c-format
@@ -170,7 +183,8 @@ msgstr "fallo al abrir `%s' para escribir la información de %s"
 
 #: lib/dump.c:253
 msgid "unable to set buffering on status file"
-msgstr "no se puede establecer almacenamiento intermedio en el fichero de estado"
+msgstr ""
+"no se puede establecer almacenamiento intermedio en el fichero de estado"
 
 #: lib/dump.c:264
 #, c-format
@@ -217,7 +231,8 @@ msgstr ""
 
 #: lib/ehandle.c:111
 msgid "dpkg: too many nested errors during error recovery !!\n"
-msgstr "dpkg: ¡¡demasiados errores anidados durante la recuperación de error!!\n"
+msgstr ""
+"dpkg: ¡¡demasiados errores anidados durante la recuperación de error!!\n"
 
 #: lib/ehandle.c:184
 msgid "out of memory for new cleanup entry with many arguments"
@@ -259,89 +274,90 @@ msgstr "basura después de %s"
 msgid "invalid package name (%.250s)"
 msgstr "nombre de paquete inválido (%.250s)"
 
-#: lib/fields.c:92
+#: lib/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "campo de detalles `%s' de fichero vacío"
 
-#: lib/fields.c:95
+#: lib/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "campo de detalles de fichero `%s' no permitido en el fichero de estado"
 
-#: lib/fields.c:105
+#: lib/fields.c:103
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 "demasiados valores en el campo de detalles de fichero `%s'\n"
 "(comparado con otros)"
 
-#: lib/fields.c:118
+#: lib/fields.c:116
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 "insuficiente número de valores en el campo de detalles de fichero `%s'\n"
 "(comparado con otros)"
 
-#: lib/fields.c:134
+#: lib/fields.c:132
 msgid "yes/no in `essential' field"
 msgstr "yes/no en campo `essential'"
 
-#: lib/fields.c:167
+#: lib/fields.c:165
 msgid "value for `status' field not allowed in this context"
 msgstr "el valor para el campo `status' no está permitido en este contexto"
 
-#: lib/fields.c:178
+#: lib/fields.c:176
 msgid "third (status) word in `status' field"
 msgstr "tercera palabra de estado en el campo `status'"
 
-#: lib/fields.c:189
+#: lib/fields.c:187
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "error en la cadena `Version' `%.250s': %.250s"
 
-#: lib/fields.c:200
+#: lib/fields.c:198
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "Se ha utilizado un campo `Revision' o `Package-Revision' obsoleto"
 
-#: lib/fields.c:218
+#: lib/fields.c:216
 msgid "value for `config-version' field not allowed in this context"
 msgstr "no se permite un valor para el campo `config-version' en este contexto"
 
-#: lib/fields.c:222
+#: lib/fields.c:220
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "error en la cadena Config-Version `%.250s': %.250s"
 
-#: lib/fields.c:239
+#: lib/fields.c:237
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "el valor de `conffiles' contiene una línea que comienza con un\n"
 " carácter `%c' que no es un espacio"
 
-#: lib/fields.c:245
+#: lib/fields.c:243
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "el valor de `conffiles' tiene una línea mal formateada `%.*s'"
 
-#: lib/fields.c:251
+#: lib/fields.c:249
 msgid "root or null directory is listed as a conffile"
 msgstr "se ha indicado como conffile el directorio raíz o un directorio vacío"
 
-#: lib/fields.c:306
+#: lib/fields.c:304
 #, c-format
-msgid "`%s' field, missing package name, or garbage where package name expected"
+msgid ""
+"`%s' field, missing package name, or garbage where package name expected"
 msgstr ""
 "En el campo `%s', falta un nombre de paquete, o se encontró basura\n"
 "donde se esperaba un nombre de paquete"
 
-#: lib/fields.c:309
+#: lib/fields.c:307
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "campo `%s', nombre de paquete inválido `%.255s': %s"
 
-#: lib/fields.c:340
+#: lib/fields.c:338
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -350,7 +366,7 @@ msgstr ""
 "campo `%s', referencia a `%.255s':\n"
 " relación de versión errónea %c%c"
 
-#: lib/fields.c:346
+#: lib/fields.c:344
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -359,7 +375,7 @@ msgstr ""
 "campo `%s', referencia a `%.255s':\n"
 " `%c' está obsoleto. Utilice en su lugar `%c=' o `%c%c'"
 
-#: lib/fields.c:356
+#: lib/fields.c:354
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -369,11 +385,11 @@ msgstr ""
 " coincidencia implícita en el número exacto de versión,\n"
 " se sugiere usar `=' en su lugar"
 
-#: lib/fields.c:363
+#: lib/fields.c:361
 msgid "Only exact versions may be used for Provides"
 msgstr "Solamente se pueden usar versiones exactas para Provides"
 
-#: lib/fields.c:367
+#: lib/fields.c:365
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -383,32 +399,32 @@ msgstr ""
 " el valor de versión comienza con un carácter no alfanumérico,\n"
 " se sugiere añadir un espacio"
 
-#: lib/fields.c:381
+#: lib/fields.c:379
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "campo `%s', referencia a `%.255s': la versión contiene un `('"
 
-#: lib/fields.c:384
+#: lib/fields.c:382
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "campo `%s', referencia a `%.255s': la versión contiene un ` '"
 
-#: lib/fields.c:387
+#: lib/fields.c:385
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "campo `%s', referencia a `%.255s': versión incompleta"
 
-#: lib/fields.c:398
+#: lib/fields.c:396
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "campo `%s', referencia a `%.255s': error en la versión: %.255s"
 
-#: lib/fields.c:407
+#: lib/fields.c:405
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "campo `%s', error de sintaxis tras la referencia al paquete `%.255s'"
 
-#: lib/fields.c:414
+#: lib/fields.c:412
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "no se admiten alternativas (`|') en el campo %s"
@@ -423,7 +439,8 @@ msgstr "no tiene permiso para bloquear la base de datos de estado de dpkg"
 
 #: lib/lock.c:69
 msgid "unable to open/create status database lockfile"
-msgstr "no se puede abrir/crear el fichero de bloqueo de la base de datos de estado"
+msgstr ""
+"no se puede abrir/crear el fichero de bloqueo de la base de datos de estado"
 
 #: lib/lock.c:78
 msgid "status database area is locked by another process"
@@ -500,7 +517,8 @@ msgstr "el `wait' de %s falló"
 #: lib/mlib.c:145
 #, c-format
 msgid "unable to read filedescriptor flags for %.250s"
-msgstr "no se pueden leer las propiedades del descriptor de ficheros para `%.250s'"
+msgstr ""
+"no se pueden leer las propiedades del descriptor de ficheros para `%.250s'"
 
 #: lib/mlib.c:147
 #, c-format
@@ -614,7 +632,8 @@ msgstr "la opción -%c no lleva parámetros"
 #: lib/parse.c:105
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
-msgstr "fallo al abrir el fichero de información del paquete `%.255s' para leer"
+msgstr ""
+"fallo al abrir el fichero de información del paquete `%.255s' para leer"
 
 #: lib/parse.c:110
 #, c-format
@@ -673,7 +692,8 @@ msgstr "EOF antes del valor del campo `%.*s' (falta nueva línea final)"
 #: lib/parse.c:169
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
-msgstr "carácter EOF de MSDOS dentro del valor del campo `%.*s' (¿falta nueva línea?)"
+msgstr ""
+"carácter EOF de MSDOS dentro del valor del campo `%.*s' (¿falta nueva línea?)"
 
 #: lib/parse.c:182
 #, c-format
@@ -707,7 +727,8 @@ msgstr "Campo `Configured-Version' para un paquete con Status no apropiado"
 
 #: lib/parse.c:270
 msgid "Package which in state not-installed has conffiles, forgetting them"
-msgstr "Paquete que no estando instalado tiene conffiles, nos olvidamos de ellos"
+msgstr ""
+"Paquete que no estando instalado tiene conffiles, nos olvidamos de ellos"
 
 #: lib/parse.c:325
 #, c-format
@@ -762,7 +783,9 @@ msgstr "debe tener al menos dos caracteres"
 #: lib/parsehelp.c:124
 #, c-format
 msgid "character `%c' not allowed - only letters, digits and %s allowed"
-msgstr "el carácter `%c' no está permitido - solamente se permiten letras, dígitos y %s"
+msgstr ""
+"el carácter `%c' no está permitido - solamente se permiten letras, dígitos y "
+"%s"
 
 # FIXME: A translator comment should clarify about none's sex here. sv
 # Esto sale cuando no hay ninguna versión disponible.
@@ -830,8 +853,12 @@ msgstr "error al establecer los permisos de `%.255s'"
 
 #: main/archives.c:351
 #, c-format
-msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s%.100s%.10s"
-msgstr "intentando sobreescribir `%.250s', que es la versión desviada de `%.250s'%.10s%.100s%.10s"
+msgid ""
+"trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
+"%.100s%.10s"
+msgstr ""
+"intentando sobreescribir `%.250s', que es la versión desviada de `"
+"%.250s'%.10s%.100s%.10s"
 
 #: main/archives.c:355
 msgid " (package: "
@@ -840,13 +867,18 @@ msgstr " (paquete: "
 #: main/archives.c:377
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
-msgstr "no se puede efectuar `stat' sobre `%.255s' (que es lo que se iba a instalar)"
+msgstr ""
+"no se puede efectuar `stat' sobre `%.255s' (que es lo que se iba a instalar)"
 
 # Tinguaro puso "deshacer el lío". Se admiten ideas. sv
 #: main/archives.c:385
 #, c-format
-msgid "unable to clean up mess surrounding `%.255s' before installing another version"
-msgstr "no se puede arreglar el desaguisado de `%.255s' antes de instalar otra versión"
+msgid ""
+"unable to clean up mess surrounding `%.255s' before installing another "
+"version"
+msgstr ""
+"no se puede arreglar el desaguisado de `%.255s' antes de instalar otra "
+"versión"
 
 #: main/archives.c:391
 #, c-format
@@ -867,7 +899,8 @@ msgstr "Reemplazando ficheros del paquete antiguo %s ...\n"
 
 #: main/archives.c:458
 #, c-format
-msgid "trying to overwrite directory `%.250s' in package %.250s with nondirectory"
+msgid ""
+"trying to overwrite directory `%.250s' in package %.250s with nondirectory"
 msgstr ""
 "intentando sobreescribir el directorio `%.250s' del paquete %.250s con un\n"
 "no directorio"
@@ -875,7 +908,8 @@ msgstr ""
 #: main/archives.c:468
 #, c-format
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
-msgstr "intentando sobreescribir `%.250s', que está también en el paquete %.250s"
+msgstr ""
+"intentando sobreescribir `%.250s', que está también en el paquete %.250s"
 
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
@@ -944,7 +978,9 @@ msgstr "no se puede respaldar enlace simbólico para `%.255s'"
 #: main/archives.c:614
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
-msgstr "no se puede efectuar `chown' sobre el enlace simbólico de respaldo de `%.255s'"
+msgstr ""
+"no se puede efectuar `chown' sobre el enlace simbólico de respaldo de `"
+"%.255s'"
 
 #: main/archives.c:618
 #, c-format
@@ -1015,7 +1051,9 @@ msgstr "dpkg: puede haber problemas al desinstalar %s, ya que provee %s ...\n"
 
 #: main/archives.c:743
 #, c-format
-msgid "dpkg: package %s requires reinstallation, but will remove anyway as you request.\n"
+msgid ""
+"dpkg: package %s requires reinstallation, but will remove anyway as you "
+"request.\n"
 msgstr ""
 "dpkg: el paquete %s requiere ser reinstalado, pero se desinstalará de todas\n"
 " formas tal como se solicita.\n"
@@ -1078,7 +1116,8 @@ msgstr "La búsqueda usando --recursive devolvió el error no manejado %i"
 
 #: main/archives.c:857
 msgid "searched, but found no packages (files matching *.deb)"
-msgstr "se buscó, pero no se encontraron paquetes (ficheros que encajen con *.deb)"
+msgstr ""
+"se buscó, pero no se encontraron paquetes (ficheros que encajen con *.deb)"
 
 #: main/archives.c:873
 #, c-format
@@ -1115,12 +1154,15 @@ msgstr "%s - atención: desactualizando %.250s de %.250s a %.250s.\n"
 #: main/archives.c:980
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
-msgstr "No se desactualizará %.250s de la versión %.250s a la %.250s, omitiendo.\n"
+msgstr ""
+"No se desactualizará %.250s de la versión %.250s a la %.250s, omitiendo.\n"
 
 # En este caso, no parece que se refiere a un paquete. sv
 #: main/cleanup.c:84
 #, c-format
-msgid "unable to remove newly-installed version of `%.250s' to allow reinstallation of backup copy"
+msgid ""
+"unable to remove newly-installed version of `%.250s' to allow reinstallation "
+"of backup copy"
 msgstr ""
 "no se puede borrar la versión recién instalada de `%.250s' para permitir\n"
 "la reinstalación de la copia de seguridad"
@@ -1208,7 +1250,8 @@ msgstr "no se puede establecer el modo del nuevo conffile `%.250s'"
 #: main/configure.c:182
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
-msgstr "no se puede efectuar `stat' sobre el conffile `%.250s' actualmente instalado"
+msgstr ""
+"no se puede efectuar `stat' sobre el conffile `%.250s' actualmente instalado"
 
 #: main/configure.c:191
 #, c-format
@@ -1223,8 +1266,12 @@ msgstr ""
 
 #: main/configure.c:230
 #, c-format
-msgid "\nConfiguration file `%s'"
-msgstr "\nFichero de configuración `%s'"
+msgid ""
+"\n"
+"Configuration file `%s'"
+msgstr ""
+"\n"
+"Fichero de configuración `%s'"
 
 #: main/configure.c:232
 #, c-format
@@ -1242,22 +1289,32 @@ msgstr ""
 " ==> Fichero también en el paquete.\n"
 
 #: main/configure.c:244
-msgid "\n ==> Modified (by you or by a script) since installation.\n"
-msgstr "\n ==> Modificado (por usted o por un script) desde la instalación.\n"
+msgid ""
+"\n"
+" ==> Modified (by you or by a script) since installation.\n"
+msgstr ""
+"\n"
+" ==> Modificado (por usted o por un script) desde la instalación.\n"
 
 #: main/configure.c:245
-msgid "\n     Not modified since installation.\n"
-msgstr "\n     No modificado desde la instalación.\n"
+msgid ""
+"\n"
+"     Not modified since installation.\n"
+msgstr ""
+"\n"
+"     No modificado desde la instalación.\n"
 
 # Traducción de Tinguaro: El paquete posee una versión actualizada.
 # Pensarlo seriamente. sv
 #: main/configure.c:248
 msgid " ==> Package distributor has shipped an updated version.\n"
-msgstr " ==> El distribuidor del paquete ha publicado una versión actualizada.\n"
+msgstr ""
+" ==> El distribuidor del paquete ha publicado una versión actualizada.\n"
 
 #: main/configure.c:249
 msgid "     Version in package is the same as at last installation.\n"
-msgstr "     La versión del paquete es la misma que la de la última instalación.\n"
+msgstr ""
+"     La versión del paquete es la misma que la de la última instalación.\n"
 
 #: main/configure.c:255
 msgid " ==> Using new file as you requested.\n"
@@ -1269,7 +1326,8 @@ msgstr " ==> Se usará el fichero actual (antiguo) como se pidió.\n"
 
 #: main/configure.c:266
 msgid " ==> Keeping old config file as default.\n"
-msgstr " ==> Se conserva el fichero de configuración antiguo como predeterminado.\n"
+msgstr ""
+" ==> Se conserva el fichero de configuración antiguo como predeterminado.\n"
 
 #: main/configure.c:270
 msgid " ==> Using new config file as default.\n"
@@ -1369,7 +1427,8 @@ msgstr "¡No se olvide de continuar este proceso con `fg' cuando termine!\n"
 #: main/configure.c:376
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
-msgstr "dpkg: %s: atención - fallo al borrar el respaldo antiguo `%.250s': %s\n"
+msgstr ""
+"dpkg: %s: atención - fallo al borrar el respaldo antiguo `%.250s': %s\n"
 
 #: main/configure.c:384
 #, c-format
@@ -1384,12 +1443,15 @@ msgstr "dpkg: %s: atención - fallo al borrar `%.250s': %s\n"
 #: main/configure.c:400
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"
-msgstr "dpkg: %s: atención - fallo al borrar la versión de la distribución antigua `%.250s': %s\n"
+msgstr ""
+"dpkg: %s: atención - fallo al borrar la versión de la distribución antigua `"
+"%.250s': %s\n"
 
 #: main/configure.c:405
 #, c-format
 msgid "dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"
-msgstr "dpkg: %s: atención - fallo al borrar `%.250s' (antes de sobreescribir): %s\n"
+msgstr ""
+"dpkg: %s: atención - fallo al borrar `%.250s' (antes de sobreescribir): %s\n"
 
 #: main/configure.c:409
 #, c-format
@@ -1412,7 +1474,8 @@ msgid ""
 "dpkg: %s: warning - unable to stat config file `%s'\n"
 " (= `%s'): %s\n"
 msgstr ""
-"dpkg: %s: atención - no se puede efectuar `stat' sobre el fichero de configuración `%s'\n"
+"dpkg: %s: atención - no se puede efectuar `stat' sobre el fichero de "
+"configuración `%s'\n"
 " (= `%s'): %s\n"
 
 #: main/configure.c:486
@@ -1445,9 +1508,12 @@ msgstr ""
 
 #: main/configure.c:531
 #, c-format
-msgid "dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%s')\n"
+msgid ""
+"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
+"s')\n"
 msgstr ""
-"dpkg: %s: atención - el conffile `%.250s' no es un fichero normal o un enlace\n"
+"dpkg: %s: atención - el conffile `%.250s' no es un fichero normal o un "
+"enlace\n"
 "simbólico (= `%s')\n"
 
 #: main/configure.c:545
@@ -1457,7 +1523,8 @@ msgstr "hash md5"
 #: main/configure.c:551
 #, c-format
 msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
-msgstr "dpkg: %s: atención - no se puede abrir el conffile %s para el `hash': %s\n"
+msgstr ""
+"dpkg: %s: atención - no se puede abrir el conffile %s para el `hash': %s\n"
 
 #: main/depcon.c:74
 #, c-format
@@ -1576,34 +1643,7 @@ msgstr "  %.250s proporciona %.250s y es %s.\n"
 msgid "(no description available)"
 msgstr "(no hay ninguna descripción disponible)"
 
-#: main/enquiry.c:100
-msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)\n"
-msgstr ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Estado=No/Instalado/Config-files/Unpacked/Failed-config/Half-installed\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: mayúsc.=malo)\n"
-
-#: main/enquiry.c:104
-msgid "Name"
-msgstr "Nombre"
-
-#: main/enquiry.c:104
-msgid "Version"
-msgstr "Versión"
-
-#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:104
-msgid "Description"
-msgstr "Descripción"
-
-#: main/enquiry.c:160 main/select.c:80
-#, c-format
-msgid "No packages found matching %s.\n"
-msgstr "No se ha encontrado ningún paquete que corresponda con %s.\n"
-
-#: main/enquiry.c:187
+#: main/enquiry.c:81
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -1613,7 +1653,7 @@ msgstr ""
 "problemas durante la instalación. Deben ser reinstalados para que ellos\n"
 "(y los paquetes que dependen de ellos) funcionen correctamente:\n"
 
-#: main/enquiry.c:192
+#: main/enquiry.c:86
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -1623,7 +1663,7 @@ msgstr ""
 "Deben ser configurados mediante dpkg --configure o la opción `configure'\n"
 "en dselect para que funcionen:\n"
 
-#: main/enquiry.c:197
+#: main/enquiry.c:91
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -1634,7 +1674,7 @@ msgstr ""
 "configuración con dpkg --configure <paquete> o la opción Configurar en\n"
 "dselect:\n"
 
-#: main/enquiry.c:202
+#: main/enquiry.c:96
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -1642,114 +1682,37 @@ msgid ""
 msgstr ""
 "Los siguientes paquetes están sólo instalados a medias, debido a problemas\n"
 "durante la instalación. La instalación puede completarse probablemente\n"
-"reintentando; los paquetes se pueden desinstalar con dselect o dpkg --remove:\n"
+"reintentando; los paquetes se pueden desinstalar con dselect o dpkg --"
+"remove:\n"
 
-#: main/enquiry.c:227
+#: main/enquiry.c:121
 msgid "--audit does not take any arguments"
 msgstr "--audit no lleva parámetros"
 
 # Se refiere a la sección.
-#: main/enquiry.c:262
+#: main/enquiry.c:156
 msgid "<unknown>"
 msgstr "<desconocida>"
 
-#: main/enquiry.c:279
+#: main/enquiry.c:173
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "--yet-to-unpack no lleva parámetros"
 
-#: main/enquiry.c:317
+#: main/enquiry.c:211
 #, c-format
 msgid " %d in %s: "
 msgstr " %d en %s: "
 
-#: main/enquiry.c:332
+#: main/enquiry.c:226
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d paquetes, de las siguientes secciones:"
 
-#: main/enquiry.c:352
-#, c-format
-msgid "diversion by %s"
-msgstr "desviación por %s"
-
-#: main/enquiry.c:353
-msgid "local diversion"
-msgstr "desviación local"
-
-#: main/enquiry.c:354
-msgid "to"
-msgstr "a"
-
-#: main/enquiry.c:354
-msgid "from"
-msgstr "desde"
-
-#: main/enquiry.c:387
-msgid "--search needs at least one file name pattern argument"
-msgstr "--search necesita al menos un patrón de nombre de fichero como argumento"
-
-#: main/enquiry.c:415
-#, c-format
-msgid "dpkg: %s not found.\n"
-msgstr "dpkg: no se encontró %s.\n"
-
-#: main/enquiry.c:432 main/packages.c:109
-#, c-format
-msgid "--%s needs at least one package name argument"
-msgstr "--%s necesita al menos un nombre de paquete como argumento"
-
-#: main/enquiry.c:452
-#, c-format
-msgid "Package `%s' is not installed and no info is available.\n"
-msgstr "El paquete `%s' no está instalado y no hay ninguna información disponible.\n"
-
-#: main/enquiry.c:461
-#, c-format
-msgid "Package `%s' is not available.\n"
-msgstr "El paquete `%s' no está disponible.\n"
-
-#: main/enquiry.c:471
-#, c-format
-msgid "Package `%s' is not installed.\n"
-msgstr "El paquete `%s' no está instalado.\n"
-
-#: main/enquiry.c:480
-#, c-format
-msgid "Package `%s' does not contain any files (!)\n"
-msgstr "El paquete `%s' no contiene ningún fichero (¡!)\n"
-
-#: main/enquiry.c:486
-msgid "locally diverted"
-msgstr "desviado localmente"
-
-#: main/enquiry.c:487
-msgid "package diverts others"
-msgstr "el paquete desvía otros"
-
-#: main/enquiry.c:488
-#, c-format
-msgid "diverted by %s"
-msgstr "desviado por %s"
-
-# Intraducible sin contexto, posiblemente es un "divert". sv
-#: main/enquiry.c:489
-#, c-format
-msgid " to: %s\n"
-msgstr " a: %s\n"
-
-#: main/enquiry.c:508
-msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
-msgstr ""
-"Utilice dpkg --info (= dpkg-deb --info) para examinar archivos,\n"
-"y dpkg --contents (= dpkg-deb --contents) para listar su contenido.\n"
-
-#: main/enquiry.c:519
+#: main/enquiry.c:245
 msgid "--assert-* does not take any arguments"
 msgstr "--assert-* no lleva parámetros"
 
-#: main/enquiry.c:534
+#: main/enquiry.c:260
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
@@ -1757,15 +1720,17 @@ msgstr ""
 "No se ha configurado una versión de dpkg que admita épocas.\n"
 " Por favor use `dpkg --configure dpkg', e inténtelo de nuevo.\n"
 
-#: main/enquiry.c:538
+#: main/enquiry.c:264
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
-msgstr "dpkg no registrado como instalado, ¡no se puede comprobar el soporte de épocas!\n"
+msgstr ""
+"dpkg no registrado como instalado, ¡no se puede comprobar el soporte de "
+"épocas!\n"
 
-#: main/enquiry.c:581
+#: main/enquiry.c:307
 msgid "--predep-package does not take any argument"
 msgstr "--predep-package no toma ningún argumento"
 
-#: main/enquiry.c:633
+#: main/enquiry.c:359
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -1774,12 +1739,13 @@ msgstr ""
 "dpkg: no se puede ver cómo satisfacer la predependencia:\n"
 " %s\n"
 
-#: main/enquiry.c:634
+#: main/enquiry.c:360
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
-msgstr "no se puede satisfacer la predependencia para %.250s (necesaria por %.250s)"
+msgstr ""
+"no se puede satisfacer la predependencia para %.250s (necesaria por %.250s)"
 
-#: main/enquiry.c:654
+#: main/enquiry.c:380
 #, c-format
 msgid ""
 "dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
@@ -1788,62 +1754,65 @@ msgstr ""
 "dpkg: resultado inesperado de `%s --print-libgcc-file-name':\n"
 " `%s'\n"
 
-#: main/enquiry.c:657
+#: main/enquiry.c:383
 #, c-format
 msgid "compiler libgcc filename not understood: %.250s"
 msgstr "no se entendió el nombre de fichero libgcc: %.250s"
 
-#: main/enquiry.c:661
+#: main/enquiry.c:387
 msgid "--print-installation-architecture does not take any argument"
 msgstr "--print-installation-architecture no toma ningún argumento"
 
-#: main/enquiry.c:681
+#: main/enquiry.c:407
 msgid "--print-architecture does not take any argument"
 msgstr "--print-architecture no toma ningún argumento"
 
-#: main/enquiry.c:687
+#: main/enquiry.c:413
 msgid "failed to fdopen CC pipe"
 msgstr "fallo al efectuar `fdopen' con la tubería de CC"
 
-#: main/enquiry.c:705
+#: main/enquiry.c:431
 msgid "error reading from CC pipe"
 msgstr "error al leer de la tubería de CC"
 
-#: main/enquiry.c:707
+#: main/enquiry.c:433
 msgid "empty output"
 msgstr "salida vacía"
 
-#: main/enquiry.c:709
+#: main/enquiry.c:435
 msgid "no newline"
 msgstr "no hay nueva línea"
 
-#: main/enquiry.c:712
+#: main/enquiry.c:438
 msgid "no gcc-lib component"
 msgstr "no hay componente gcc-lib"
 
-#: main/enquiry.c:714
+#: main/enquiry.c:440
 msgid "no slash after gcc-lib"
 msgstr "no hay ninguna barra después de gcc-lib"
 
-#: main/enquiry.c:726
+#: main/enquiry.c:452
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
-msgstr "dpkg: atención, la arquitectura `%s' no está en la tabla de reasignación\n"
+msgstr ""
+"dpkg: atención, la arquitectura `%s' no está en la tabla de reasignación\n"
 
-#: main/enquiry.c:769
-msgid "--compare-versions takes three arguments: <version> <relation> <version>"
-msgstr "--compare-versions toma tres argumentos: <versión> <relación> <versión>"
+#: main/enquiry.c:495
+msgid ""
+"--compare-versions takes three arguments: <version> <relation> <version>"
+msgstr ""
+"--compare-versions toma tres argumentos: <versión> <relación> <versión>"
 
-#: main/enquiry.c:774
+#: main/enquiry.c:500
 msgid "--compare-versions bad relation"
 msgstr "relación --compare-versions errónea"
 
-#: main/enquiry.c:779
+#: main/enquiry.c:505
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "la versión `a' tiene una sintaxis errónea: %s\n"
 
-#: main/enquiry.c:789
+#: main/enquiry.c:515
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "la versión `b' tiene una sintaxis errónea: %s\n"
@@ -1858,9 +1827,11 @@ msgstr ""
 " %s\n"
 
 #: main/errors.c:60
-msgid "dpkg: failed to allocate memory for new entry in list of failed packages."
+msgid ""
+"dpkg: failed to allocate memory for new entry in list of failed packages."
 msgstr ""
-"dpkg: fallo al asignar memoria para la nueva entrada en la lista de paquetes\n"
+"dpkg: fallo al asignar memoria para la nueva entrada en la lista de "
+"paquetes\n"
 "que han fallado"
 
 #: main/errors.c:70
@@ -1884,7 +1855,8 @@ msgstr ""
 
 #: main/errors.c:95
 #, c-format
-msgid "Package %s is on hold, not touching it.  Use --force-hold to override.\n"
+msgid ""
+"Package %s is on hold, not touching it.  Use --force-hold to override.\n"
 msgstr ""
 "El paquete %s está mantenido, no se toca. Utilice --force-hold para cambiar\n"
 "el comportamiento predeterminado\n"
@@ -1905,7 +1877,9 @@ msgstr "no se puede abrir el fichero de lista de ficheros del paquete `%.250s'"
 
 #: main/filesdb.c:128
 #, c-format
-msgid "dpkg: serious warning: files list file for package `%.250s' missing, assuming package has no files currently installed.\n"
+msgid ""
+"dpkg: serious warning: files list file for package `%.250s' missing, "
+"assuming package has no files currently installed.\n"
 msgstr ""
 "dpkg: aviso importante: falta el fichero de lista de ficheros del paquete\n"
 "`%.250s', se supondrá que el paquete no tiene ningún fichero\n"
@@ -1957,14 +1931,16 @@ msgstr ""
 #, c-format
 msgid "failed to flush updated files list file for package %s"
 msgstr ""
-"no se puede efectuar `flush' sobre el fichero de lista de ficheros actualizado\n"
+"no se puede efectuar `flush' sobre el fichero de lista de ficheros "
+"actualizado\n"
 "del paquete %s"
 
 #: main/filesdb.c:254
 #, c-format
 msgid "failed to sync updated files list file for package %s"
 msgstr ""
-"no se puede efectuar `sync' sobre el fichero actualizado de lista de ficheros\n"
+"no se puede efectuar `sync' sobre el fichero actualizado de lista de "
+"ficheros\n"
 "del paquete %s"
 
 #: main/filesdb.c:257
@@ -2219,22 +2195,29 @@ msgid ""
 "  dpkg --configure              <package name> ... | -a|--pending\n"
 "  dpkg -r|--remove | -P|--purge <package name> ... | -a|--pending\n"
 "  dpkg --get-selections [<pattern> ...]    get list of selections to stdout\n"
-"  dpkg --set-selections                    set package selections from stdin\n"
+"  dpkg --set-selections                    set package selections from "
+"stdin\n"
 "  dpkg --update-avail <Packages-file>      replace available packages info\n"
 "  dpkg --merge-avail <Packages-file>       merge with info from file\n"
 "  dpkg --clear-avail                       erase existing available info\n"
-"  dpkg --command-fd <n>                    pass commands in on this file descriptor\n"
-"  dpkg --forget-old-unavail                forget uninstalled unavailable pkgs\n"
+"  dpkg --command-fd <n>                    pass commands in on this file "
+"descriptor\n"
+"  dpkg --forget-old-unavail                forget uninstalled unavailable "
+"pkgs\n"
 "  dpkg -s|--status <package-name> ...      display package status details\n"
-"  dpkg -p|--print-avail <package-name> ... display available version details\n"
+"  dpkg -p|--print-avail <package-name> ... display available version "
+"details\n"
 "  dpkg -L|--listfiles <package-name> ...   list files `owned' by package(s)\n"
 "  dpkg -l|--list [<pattern> ...]           list packages concisely\n"
 "  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n"
 "  dpkg -C|--audit                          check for broken package(s)\n"
-"  dpkg --print-architecture                print target architecture (uses GCC)\n"
+"  dpkg --print-architecture                print target architecture (uses "
+"GCC)\n"
 "  dpkg --print-gnu-build-architecture      print GNU version of target arch\n"
-"  dpkg --print-installation-architecture   print host architecture (for inst'n)\n"
-"  dpkg --compare-versions <a> <rel> <b>    compare version numbers - see below\n"
+"  dpkg --print-installation-architecture   print host architecture (for "
+"inst'n)\n"
+"  dpkg --compare-versions <a> <rel> <b>    compare version numbers - see "
+"below\n"
 "  dpkg --help | --version                  show this help / version number\n"
 "  dpkg --force-help | -Dh|--debug=help     help on forcing resp. debugging\n"
 "  dpkg --licence                           print copyright licensing terms\n"
@@ -2251,12 +2234,15 @@ msgid ""
 "  --instdir=<directory>      Change inst'n root without changing admin dir\n"
 "  -O|--selected-only         Skip packages not selected for install/upgrade\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed\n"
-"  -G|--refuse-downgrade      Skip packages with earlier version than installed\n"
-"  -B|--auto-deconfigure      Install even if it would break some other package\n"
+"  -G|--refuse-downgrade      Skip packages with earlier version than "
+"installed\n"
+"  -B|--auto-deconfigure      Install even if it would break some other "
+"package\n"
 "  --no-debsig                Do no try to verify package signatures\n"
 "  --no-act                   Just say what we would do - don't do it\n"
 "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n"
-"  --status-fd <n>            Send status change updates to file descriptor <n>\n"
+"  --status-fd <n>            Send status change updates to file descriptor "
+"<n>\n"
 "  --ignore-depends=<package>,... Ignore dependencies involving <package>\n"
 "  --force-...                    Override problems - see --force-help\n"
 "  --no-force-...|--refuse-...    Stop when problems encountered\n"
@@ -2278,20 +2264,24 @@ msgstr ""
 "  dpkg --get-selections [<patrón> ...]   muestra la lista de selecciones\n"
 "  dpkg --set-selections                  lee la lista de selecciones de la\n"
 "                                         entrada estándar\n"
-"  dpkg --update-avail <arch-Packages>    reemplaza la información de paquetes\n"
+"  dpkg --update-avail <arch-Packages>    reemplaza la información de "
+"paquetes\n"
 "                                         disponibles\n"
 "  dpkg --merge-avail <arch-Packages>     añade información del fichero\n"
 "  dpkg --clear-avail                     borra la información actual sobre\n"
 "                                         paquetes disponibles\n"
 "  dpkg --command-fd <n>                  pasa órdenes sobre este descriptor\n"
 "                                         de fichero\n"
-"  dpkg --forget-old-unavail              olvida la información sobre paquetes\n"
+"  dpkg --forget-old-unavail              olvida la información sobre "
+"paquetes\n"
 "                                         no instalados y no disponibles\n"
-"  dpkg -s|--status <paquete> ...         muestra detalles sobre el estado del\n"
+"  dpkg -s|--status <paquete> ...         muestra detalles sobre el estado "
+"del\n"
 "                                         paquete\n"
 "  dpkg --print-avail <paquete> ...       muestra detalles sobre la versión\n"
 "                                         disponible\n"
-"  dpkg -L|--listfiles <paquete> ...      lista ficheros del(de los) paquete(s)\n"
+"  dpkg -L|--listfiles <paquete> ...      lista ficheros del(de los) paquete"
+"(s)\n"
 "  dpkg -l|--list [<patrón> ...]          lista paquetes brevemente\n"
 "  dpkg -S|--search <patrón> ...          busca los paquetes que contienen\n"
 "                                         esos ficheros\n"
@@ -2300,12 +2290,14 @@ msgstr ""
 "                                         (utiliza GCC)\n"
 "  dpkg --print-gnu-build-architecture    muestra la versión de GNU de la\n"
 "                                         arquitectura de destino\n"
-"  dpkg --print-installation-architecture muestra la arquitectura de la máquina\n"
+"  dpkg --print-installation-architecture muestra la arquitectura de la "
+"máquina\n"
 "                                         (para instalación)\n"
 "  dpkg --compare-versions <a> <rel> <b>  compara los números de versión\n"
 "                                         véase más adelante\n"
 "  dpkg --help | --version                muestra esta ayuda / la versión\n"
-"  dpkg --force-help | -Dh|--debug=help   muestra ayuda sobre forzar o depurar\n"
+"  dpkg --force-help | -Dh|--debug=help   muestra ayuda sobre forzar o "
+"depurar\n"
 "  dpkg --licence                         muestra la licencia y el copyright\n"
 "\n"
 "Utilice dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2317,21 +2309,27 @@ msgstr ""
 "\n"
 "Opciones:\n"
 "  --admindir=<directorio>    Utiliza <directorio> en vez de %s\n"
-"  --root=<directorio>        Instala en un sistema alternativo con directorio\n"
+"  --root=<directorio>        Instala en un sistema alternativo con "
+"directorio\n"
 "                             raíz en otro sitio\n"
-"  --instdir=<directorio>     Cambia la raíz de la instalación sin alterar el\n"
+"  --instdir=<directorio>     Cambia la raíz de la instalación sin alterar "
+"el\n"
 "                             directorio de administración\n"
 "  -O|--selected-only         Omite los paquetes no seleccionados para\n"
 "                             instalación o actualización\n"
-"  -E|--skip-same-version     Omite los paquetes cuya versión es la misma que\n"
+"  -E|--skip-same-version     Omite los paquetes cuya versión es la misma "
+"que\n"
 "                             la de los instalados\n"
-"  -G=--refuse-downgrade      Omite los paquetes con versión anterior que la de\n"
+"  -G=--refuse-downgrade      Omite los paquetes con versión anterior que la "
+"de\n"
 "                             los instalados\n"
 "  -B|--auto-deconfigure      Instala aún cuando se pueda romper algún otro\n"
 "                             paquete\n"
 "  --no-debsig                No verifica las firmas de los paquetes\n"
-"  --no-act                   Indica solamente lo que haría, pero no hace nada\n"
-"  -D|--debug=<octal>         Habilita el depurado, véase -Dhelp ó --debug=help\n"
+"  --no-act                   Indica solamente lo que haría, pero no hace "
+"nada\n"
+"  -D|--debug=<octal>         Habilita el depurado, véase -Dhelp ó --"
+"debug=help\n"
 "  --status-fd <n>            Envía actualizaciones de cambios de status al\n"
 "                             descriptor de fichero <n>\n"
 "  --ignore-depends=<paquete>,... No tiene en cuenta las dependencias que\n"
@@ -2357,15 +2355,18 @@ msgid ""
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
 "Type dpkg --force-help for a list of forcing options;\n"
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
-"Type dpkg --licence for copyright licence and lack of warranty (GNU GPL) [*].\n"
+"Type dpkg --licence for copyright licence and lack of warranty (GNU GPL) "
+"[*].\n"
 "\n"
-"Options marked [*] produce a lot of output - pipe it through `less' or `more' !"
+"Options marked [*] produce a lot of output - pipe it through `less' or "
+"`more' !"
 msgstr ""
 "Escriba dpkg --help para ayuda sobre instalar y desinstalar paquetes [*];\n"
 "Use dselect para administrar los paquetes más cómodamente;\n"
 "Escriba dpkg -Dhelp para una lista de los valores de depuración de dpkg;\n"
 "Escriba dpkg --force-help para una lista de opciones para forzar cosas;\n"
-"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos .deb;\n"
+"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos ."
+"deb;\n"
 "Escriba dpkg --license para ver la licencia (GPL de GNU), el copyright y la\n"
 "ausencia de garantía [*].\n"
 "\n"
@@ -2406,7 +2407,8 @@ msgstr ""
 "\n"
 " número  referencia en fuente  descripción\n"
 "      1  general               Información de progreso generalmente útil\n"
-"      2  scripts               Invocación y estado de los scripts del paquete\n"
+"      2  scripts               Invocación y estado de los scripts del "
+"paquete\n"
 "     10  eachfile              Salida por cada fichero procesado\n"
 "    100  eachfiledetail        Mucha salida por cada fichero procesado\n"
 "     20  conff                 Salida por cada conffile\n"
@@ -2426,7 +2428,9 @@ msgstr "--debug necesita un número octal como parámetro"
 #: main/main.c:241
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
-msgstr "nombre de paquete vacío en la lista de --ignore-depends separados por coma `%.250s'"
+msgstr ""
+"nombre de paquete vacío en la lista de --ignore-depends separados por coma `"
+"%.250s'"
 
 #: main/main.c:247
 #, c-format
@@ -2452,40 +2456,48 @@ msgid ""
 "  downgrade [*]          Replace a package with a lower version\n"
 "  configure-any          Configure any package which may help this one\n"
 "  hold                   Process incidental packages even when on hold\n"
-"  bad-path               PATH is missing important programs, problems likely\n"
+"  bad-path               PATH is missing important programs, problems "
+"likely\n"
 "  not-root               Try to (de)install things even when not root\n"
 "  overwrite              Overwrite a file from one package with another\n"
-"  overwrite-diverted     Overwrite a diverted file with an undiverted version\n"
-"  bad-verify             Install a package even if it fails authenticity check\n"
+"  overwrite-diverted     Overwrite a diverted file with an undiverted "
+"version\n"
+"  bad-verify             Install a package even if it fails authenticity "
+"check\n"
 "  depends-version [!]    Turn dependency version problems into warnings\n"
 "  depends [!]            Turn all dependency problems into warnings\n"
 "  confnew [!]            Always use the new config files, don't prompt\n"
 "  confold [!]            Always use the old config files, don't prompt\n"
 "  confdef [!]            Use the default option for new config files if one\n"
-"                         is available, don't prompt. If no default can be found,\n"
+"                         is available, don't prompt. If no default can be "
+"found,\n"
 "                         you will be prompted unless one of the confold or\n"
 "                         confnew options is also given\n"
 "  confmiss [!]           Always install missing config files\n"
 "  conflicts [!]          Allow installation of conflicting packages\n"
 "  architecture [!]       Process even packages with wrong architecture\n"
-"  overwrite-dir [!]      Overwrite one package's directory with another's file\n"
+"  overwrite-dir [!]      Overwrite one package's directory with another's "
+"file\n"
 "  remove-reinstreq [!]   Remove packages which require installation\n"
 "  remove-essential [!]   Remove an essential package\n"
 "\n"
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
-"opciones de forzado de %s - controlan el comportamiento cuando hay problemas:\n"
+"opciones de forzado de %s - controlan el comportamiento cuando hay "
+"problemas:\n"
 "\n"
 " avisa pero continúa:      --force-<cosa>,<cosa>,...\n"
-" se detiene si hay error:  --refuse-<cosa>,<cosa>,... | --no-force-<cosa>,...\n"
+" se detiene si hay error:  --refuse-<cosa>,<cosa>,... | --no-force-"
+"<cosa>,...\n"
 "\n"
 " Cosas que se pueden forzar:\n"
 "  all                    Activa todas las opciones de forzado\n"
 "  auto-select [*]        (De)selecciona paquetes para instalarlos (o para\n"
 "                         desinstalarlos)\n"
 "  downgrade [*]          Reemplaza un paquete con una versión menor\n"
-"  configure-any          Configura cualquier paquete que pueda ayudar a este\n"
+"  configure-any          Configura cualquier paquete que pueda ayudar a "
+"este\n"
 "  hold                   Procesa paquetes accesorios cuando se mantienen\n"
 "  bad-path               Faltan programas importantes en el PATH,\n"
 "                         puede haber problemas\n"
@@ -2493,22 +2505,29 @@ msgstr ""
 "  overwrite              Sobreescribe un fichero de un paquete con otro\n"
 "  overwrite-diverted     Sobreescribe un fichero desviado con una versión\n"
 "                         no desviada\n"
-"  bad-verify             Instala un paquete incluso si falla la comprobación\n"
+"  bad-verify             Instala un paquete incluso si falla la "
+"comprobación\n"
 "                         de autenticidad\n"
 "  depends-version [!]    Convierte en avisos los problemas de dependencia\n"
 "                         de versión\n"
 "  depends [!]            Convierte en avisos todos los problemas de\n"
 "                         dependencias\n"
-"  confnew [!]            Utiliza siempre los nuevos conffiles, sin preguntar\n"
-"  confold [!]            Utiliza siempre los conffiles antiguos, sin preguntar\n"
-"  confdef [!]            Utiliza la opción predeterminada para los conffiles\n"
-"                         nuevos si están disponibles, sin preguntar. Si no se\n"
-"                         encuentra ninguno predeterminado preguntará, a menos\n"
+"  confnew [!]            Utiliza siempre los nuevos conffiles, sin "
+"preguntar\n"
+"  confold [!]            Utiliza siempre los conffiles antiguos, sin "
+"preguntar\n"
+"  confdef [!]            Utiliza la opción predeterminada para los "
+"conffiles\n"
+"                         nuevos si están disponibles, sin preguntar. Si no "
+"se\n"
+"                         encuentra ninguno predeterminado preguntará, a "
+"menos\n"
 "                         que se de también alguna de las opciones confold\n"
 "                         o confnew\n"
 "  confmiss [!]           instala siempre los conffiles que faltan\n"
 "  conflicts [!]          Permite la instalación de paquetes en conflicto\n"
-"  architecture [!]       Procesa incluso los paquetes con arquitectura errónea\n"
+"  architecture [!]       Procesa incluso los paquetes con arquitectura "
+"errónea\n"
 "  overwrite-dir [!]      Sobreescribe el directorio de un paquete con el\n"
 "                         fichero de otro\n"
 "  remove-reinstreq [!]   Desinstala los paquetes que precisan instalación\n"
@@ -2523,37 +2542,43 @@ msgstr ""
 msgid "unknown force/refuse option `%.*s'"
 msgstr "opción force/refuse desconocida `%.*s'"
 
-#: main/main.c:427
+#: main/main.c:437 main/main.c:441
 msgid "couldn't malloc in execbackend"
 msgstr "no se pudo ejecutar malloc en execbackend"
 
-#: main/main.c:432
-msgid "failed to exec dpkg-deb"
-msgstr "fallo al ejecutar dpkg-deb"
+#: main/main.c:439 main/main.c:446
+#, fuzzy
+msgid "couldn't strdup in execbackend"
+msgstr "no se pudo ejecutar malloc en execbackend"
 
-#: main/main.c:444
+#: main/main.c:450
+#, fuzzy, c-format
+msgid "failed to exec %s"
+msgstr "fallo al ejecutar tar"
+
+#: main/main.c:462
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd toma 1 argumento, no 0"
 
-#: main/main.c:445
+#: main/main.c:463
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd sólo toma 1 argumento"
 
-#: main/main.c:447
+#: main/main.c:465
 msgid "invalid number for --command-fd"
 msgstr "número inválido para --command-fd"
 
-#: main/main.c:449
+#: main/main.c:467
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "no se pudo abrir `%i' para un flujo"
 
-#: main/main.c:474
+#: main/main.c:492
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "eof inesperado antes del fin de la línea %d"
 
-#: dpkg-deb/main.c:158 main/main.c:518 main/main.c:562 split/main.c:166
+#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:570 split/main.c:166
 msgid "need an action option"
 msgstr "se necesita una opción de acción"
 
@@ -2562,10 +2587,18 @@ msgstr "se necesita una opción de acción"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending no toma ningún argumento que no sea una opción"
 
+#: main/packages.c:109
+#, c-format
+msgid "--%s needs at least one package name argument"
+msgstr "--%s necesita al menos un nombre de paquete como argumento"
+
 #: main/packages.c:116
-msgid "you must specify packages by their own names, not by quoting the names of the files they come in"
+msgid ""
+"you must specify packages by their own names, not by quoting the names of "
+"the files they come in"
 msgstr ""
-"debe especificar los paquetes por sus propios nombres, no citando los nombres\n"
+"debe especificar los paquetes por sus propios nombres, no citando los "
+"nombres\n"
 "de los ficheros en los que vienen"
 
 #: main/packages.c:150
@@ -2673,7 +2706,8 @@ msgstr "correcto\n"
 #. We use tmpnam here, not to get a unique filename, but to get a unique directory.
 #: main/processarc.c:166
 msgid "unable to get unique filename for control info"
-msgstr "no se puede obtener un nombre de fichero único para la información de control"
+msgstr ""
+"no se puede obtener un nombre de fichero único para la información de control"
 
 #: main/processarc.c:188
 msgid "failed to exec dpkg-deb to extract control information"
@@ -2687,7 +2721,8 @@ msgstr "Registrada la información sobre %s a partir de %s.\n"
 #: main/processarc.c:213
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
-msgstr "la arquitectura del paquete (%s) no corresponde con la del sistema (%s)"
+msgstr ""
+"la arquitectura del paquete (%s) no corresponde con la del sistema (%s)"
 
 #: main/processarc.c:264
 #, c-format
@@ -2760,7 +2795,9 @@ msgstr "error al leer la salida de tar de dpkg-deb"
 
 #: main/processarc.c:550
 msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "sistema de ficheros del archivo tar corrompido - archivo de paquete corrompido"
+msgstr ""
+"sistema de ficheros del archivo tar corrompido - archivo de paquete "
+"corrompido"
 
 # Please, que alguien me diga qué es eso de zap. sv
 #: main/processarc.c:553
@@ -2791,7 +2828,8 @@ msgstr "no se puede borrar el fichero de información obsoleto `%.250s'"
 #: main/processarc.c:695
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
-msgstr "no se puede instalar el (supuestamente) nuevo fichero de información `%.250s'"
+msgstr ""
+"no se puede instalar el (supuestamente) nuevo fichero de información `%.250s'"
 
 #: main/processarc.c:702
 msgid "unable to open temp control directory"
@@ -2820,12 +2858,14 @@ msgstr ""
 #: main/processarc.c:724
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
-msgstr "dpkg: atención - el paquete %s contiene `list' como fichero de información"
+msgstr ""
+"dpkg: atención - el paquete %s contiene `list' como fichero de información"
 
 #: main/processarc.c:731
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
-msgstr "no se puede instalar el nuevo fichero de información `%.250s' como `%.250s'"
+msgstr ""
+"no se puede instalar el nuevo fichero de información `%.250s' como `%.250s'"
 
 #: main/processarc.c:882
 #, c-format
@@ -2835,11 +2875,14 @@ msgstr "(Note la desaparición de %s, que ha sido completamente reemplazado.)\n"
 #: main/processarc.c:918
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
-msgstr "no se puede borrar el fichero de información de control `%.250s' que ha desaparecido"
+msgstr ""
+"no se puede borrar el fichero de información de control `%.250s' que ha "
+"desaparecido"
 
 #: main/remove.c:78
 #, c-format
-msgid "dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"
+msgid ""
+"dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"
 msgstr ""
 "dpkg - atención: el paquete %.250s no está instalado.\n"
 " no se tendrá en cuenta la petición de desinstalarlo\n"
@@ -2850,7 +2893,8 @@ msgid ""
 "dpkg - warning: ignoring request to remove %.250s, only the config\n"
 " files of which are on the system.  Use --purge to remove them too.\n"
 msgstr ""
-"dpkg - aviso: se descarta la petición de desinstalar %.250s, del cual sólo los\n"
+"dpkg - aviso: se descarta la petición de desinstalar %.250s, del cual sólo "
+"los\n"
 " ficheros de configuración quedan en el sistema. Use --purge para\n"
 " borrar estos ficheros también.\n"
 
@@ -2901,16 +2945,21 @@ msgstr "Desinstalando %s ...\n"
 
 #: main/remove.c:246
 #, c-format
-msgid "dpkg - warning: while removing %.250s, directory `%.250s' not empty so not removed.\n"
+msgid ""
+"dpkg - warning: while removing %.250s, directory `%.250s' not empty so not "
+"removed.\n"
 msgstr ""
 "dpkg - atención: al desinstalar %.250s, el directorio %.250s'\n"
 "no está vacío, no se borra.\n"
 
 #: main/remove.c:252
 #, c-format
-msgid "dpkg - warning: while removing %.250s, unable to remove directory `%.250s': %s - directory may be a mount point ?\n"
+msgid ""
+"dpkg - warning: while removing %.250s, unable to remove directory `%.250s': %"
+"s - directory may be a mount point ?\n"
 msgstr ""
-"dpkg - atención: al desinstalar %.250s, no se puede borrar el directorio `%.250s':\n"
+"dpkg - atención: al desinstalar %.250s, no se puede borrar el directorio `"
+"%.250s':\n"
 "%s - ¿el directorio puede ser un punto de montaje?\n"
 
 #: main/remove.c:259
@@ -2941,7 +2990,8 @@ msgstr "Purgando ficheros de configuración de %s ...\n"
 #: main/remove.c:382
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
-msgstr "no se puede borrar el fichero de configuración antiguo `%.250s' (= `%.250s')"
+msgstr ""
+"no se puede borrar el fichero de configuración antiguo `%.250s' (= `%.250s')"
 
 #: main/remove.c:397
 #, c-format
@@ -2964,6 +3014,11 @@ msgstr "no se puede borrar la lista de ficheros antigua"
 #: main/remove.c:467
 msgid "can't remove old postrm script"
 msgstr "no se puede borrar el script postrm antiguo"
+
+#: main/select.c:80
+#, c-format
+msgid "No packages found matching %s.\n"
+msgstr "No se ha encontrado ningún paquete que corresponda con %s.\n"
 
 #: main/select.c:95
 msgid "--set-selections does not take any argument"
@@ -3027,7 +3082,8 @@ msgstr ""
 #: main/update.c:59
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
-"la actualización de `available' requiere acceso de escritura al área de estado\n"
+"la actualización de `available' requiere acceso de escritura al área de "
+"estado\n"
 "de dpkg"
 
 #: main/update.c:66
@@ -3096,7 +3152,8 @@ msgstr "no se puede comprobar la existencia del archivo `%.250s'"
 #: dpkg-deb/build.c:252
 msgid "target is directory - cannot skip control file check"
 msgstr ""
-"el objetivo es un directorio - no se puede omitir la comprobación del fichero\n"
+"el objetivo es un directorio - no se puede omitir la comprobación del "
+"fichero\n"
 "de control"
 
 #: dpkg-deb/build.c:253
@@ -3117,7 +3174,8 @@ msgstr ""
 #: dpkg-deb/build.c:273
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
-msgstr "atención, `%s' contiene un valor Priority `%s' definido por el usuario\n"
+msgstr ""
+"atención, `%s' contiene un valor Priority `%s' definido por el usuario\n"
 
 #: dpkg-deb/build.c:278
 #, c-format
@@ -3148,7 +3206,9 @@ msgstr "el script `%.50s' no es un fichero normal o un enlace simbólico"
 
 #: dpkg-deb/build.c:316
 #, c-format
-msgid "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and <=0775)"
+msgid ""
+"maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
+"<=0775)"
 msgstr ""
 "el script `%.50s' tiene permisos erróneos %03lo\n"
 "(debe ser >=0555 y <=0775)"
@@ -3164,7 +3224,8 @@ msgstr "cadena vacía de fgets al leer conffiles"
 
 #: dpkg-deb/build.c:332
 #, c-format
-msgid "warning, conffile name `%.50s...' is too long, or missing final newline\n"
+msgid ""
+"warning, conffile name `%.50s...' is too long, or missing final newline\n"
 msgstr ""
 "atención, el nombre de conffile `%.50s...' es demasiado largo, o le falta\n"
 "el carácter de nueva línea final\n"
@@ -3195,7 +3256,8 @@ msgstr "error al abrir el fichero de conffiles"
 #: dpkg-deb/build.c:359
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
-msgstr "dpkg-deb: no se tendrán en cuenta %d avisos sobre los ficheros de control\n"
+msgstr ""
+"dpkg-deb: no se tendrán en cuenta %d avisos sobre los ficheros de control\n"
 
 #: dpkg-deb/build.c:369
 #, c-format
@@ -3293,7 +3355,8 @@ msgstr "fin de fichero inesperado en %s en %.255s"
 #: dpkg-deb/extract.c:72 split/info.c:52
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
-msgstr "el fichero `%.250s' está corrompido - la longitud %.250s contiene nulos"
+msgstr ""
+"el fichero `%.250s' está corrompido - la longitud %.250s contiene nulos"
 
 #: dpkg-deb/extract.c:79 split/info.c:43
 #, c-format
@@ -3436,7 +3499,8 @@ msgstr "fallo al cerrar gzip -dc"
 
 #: dpkg-deb/extract.c:239
 msgid "failed to syscall lseek to files archive portion"
-msgstr "fallo en la llamada al sistema lseek en los ficheros porción de archivo"
+msgstr ""
+"fallo en la llamada al sistema lseek en los ficheros porción de archivo"
 
 #: dpkg-deb/extract.c:247
 msgid "failed to write to pipe in copy"
@@ -3604,7 +3668,8 @@ msgid ""
 msgstr ""
 "Copyright (C) 1994-1996 Ian Jackson. Esto es software libre; vea la\n"
 "Licencia Pública General de GNU versión 2 o posterior para las condiciones\n"
-"de copia. No hay NINGUNA garantía. Vea dpkg-deb --licence para más detalles.\n"
+"de copia. No hay NINGUNA garantía. Vea dpkg-deb --licence para más "
+"detalles.\n"
 
 #: dpkg-deb/main.c:55
 msgid ""
@@ -3615,7 +3680,8 @@ msgid ""
 "       dpkg-deb -e|--control <deb> [<directory>]  Extract control info.\n"
 "       dpkg-deb -x|--extract <deb> <directory>    Extract files.\n"
 "       dpkg-deb -X|--vextract <deb> <directory>   Extract & list files.\n"
-"       dpkg-deb --fsys-tarfile <deb>              Output filesystem tarfile.\n"
+"       dpkg-deb --fsys-tarfile <deb>              Output filesystem "
+"tarfile.\n"
 "       dpkg-deb -h|--help                         Display this message.\n"
 "       dpkg-deb --version | --licence             Show version/licence.\n"
 "<deb> is the filename of a Debian format archive.\n"
@@ -3636,10 +3702,12 @@ msgstr ""
 "                                               salida estándar.\n"
 "   dpkg-deb -f|--field <deb> [<ccampo>...]     Muestra el/los campo/s en la\n"
 "                                               salida estándar.\n"
-"   dpkg-deb -e|--control <deb> [<directorio>]  Extrae la información de control\n"
+"   dpkg-deb -e|--control <deb> [<directorio>]  Extrae la información de "
+"control\n"
 "   dpkg-deb -x|--extract <deb> <directorio>    Extrae los ficheros.\n"
 "   dpkg-deb -X|--vextract <deb> <directorio>   Extrae y lista los ficheros.\n"
-"   dpkg-deb --fsys-tarfile <deb>               Produce un archivo tar a partir\n"
+"   dpkg-deb --fsys-tarfile <deb>               Produce un archivo tar a "
+"partir\n"
 "                                               del sistema de ficheros.\n"
 "   dpkg-deb -h|--help                          Muestra este mensaje.\n"
 "   dpkg-deb --version | --licence              Muestra la versión/licencia.\n"
@@ -3652,7 +3720,8 @@ msgstr ""
 "           --no-check suprime la verificación del fichero de control\n"
 "           (construye paquetes erróneos)\n"
 "\n"
-"Utilice `dpkg' para instalar y desinstalar paquetes del sistema, o `dselect'\n"
+"Utilice `dpkg' para instalar y desinstalar paquetes del sistema, o "
+"`dselect'\n"
 "para una gestión cómoda de paquetes. ¡Los paquetes desempaquetados usando\n"
 "`dpkg-deb --extract' se instalarán incorrectamente!\n"
 
@@ -3661,7 +3730,8 @@ msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
-"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos .deb;\n"
+"Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos ."
+"deb;\n"
 "Escriba dpkg --help para obtener ayuda sobre instalar y desinstalar paquetes."
 
 #: split/info.c:64
@@ -3672,7 +3742,8 @@ msgstr "el fichero `%.250s' está corrompido - falta %.250s\""
 #: split/info.c:67
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
-msgstr "el fichero `%.250s' está corrompido - falta una nueva línea después de %.250s"
+msgstr ""
+"el fichero `%.250s' está corrompido - falta una nueva línea después de %.250s"
 
 #: split/info.c:91
 msgid "unable to seek back"
@@ -3681,12 +3752,14 @@ msgstr "no se puede efectuar `seek' hacia atrás"
 #: split/info.c:105
 #, c-format
 msgid "file `%.250s' is corrupt - bad padding character (code %d)"
-msgstr "el fichero `%.250s' está corrompido - carácter de relleno erróneo (código %d)"
+msgstr ""
+"el fichero `%.250s' está corrompido - carácter de relleno erróneo (código %d)"
 
 #: split/info.c:109
 #, c-format
 msgid "file `%.250s' is corrupt - nulls in info section"
-msgstr "el fichero `%.250s' está corrompido - hay nulos en la sección de información"
+msgstr ""
+"el fichero `%.250s' está corrompido - hay nulos en la sección de información"
 
 #: split/info.c:116
 #, c-format
@@ -3833,7 +3906,8 @@ msgstr "falta la parte %d"
 
 #: split/main.c:38
 msgid "Debian GNU/Linux `dpkg-split' package split/join tool; version "
-msgstr "herramienta de división/unión `dpkg-split' de Debian GNU/Linux; versión "
+msgstr ""
+"herramienta de división/unión `dpkg-split' de Debian GNU/Linux; versión "
 
 #: split/main.c:40
 msgid ""
@@ -3843,23 +3917,28 @@ msgid ""
 msgstr ""
 "Copyright (C) 1994-1996 Ian Jackson. Esto es software libre; vea la\n"
 "Licencia Pública General de GNU versión 2 o posterior para las condiciones\n"
-"de copia. No hay NINGUNA garantía. Vea dpkg-split --licence para más detalles.\n"
+"de copia. No hay NINGUNA garantía. Vea dpkg-split --licence para más "
+"detalles.\n"
 
 #: split/main.c:47
 #, c-format
 msgid ""
 "Usage: dpkg-split -s|--split <file> [<prefix>]     Split an archive.\n"
 "       dpkg-split -j|--join <part> <part> ...      Join parts together.\n"
-"       dpkg-split -I|--info <part> ...             Display info about a part.\n"
-"       dpkg-split -h|--help|--version|--licence    Show help/version/licence.\n"
+"       dpkg-split -I|--info <part> ...             Display info about a "
+"part.\n"
+"       dpkg-split -h|--help|--version|--licence    Show help/version/"
+"licence.\n"
 "\n"
 "       dpkg-split -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
 "       dpkg-split -l|--listq                       List unmatched pieces.\n"
-"       dpkg-split -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
+"       dpkg-split -d|--discard [<filename> ...]    Discard unmatched "
+"pieces.\n"
 "\n"
 "Options:  --depotdir <directory>  (default is %s/%s)\n"
 "          -S|--partsize <size>    (in Kb, for -s, default is 450)\n"
-"          -o|--output <file>      (for -j, default is <package>-<version>.deb)\n"
+"          -o|--output <file>      (for -j, default is <package>-<version>."
+"deb)\n"
 "          -Q|--npquiet            (be quiet when -a is not a part)\n"
 "          --msdos                 (generate 8.3 filenames)\n"
 "\n"
@@ -3868,10 +3947,13 @@ msgstr ""
 "Modo de empleo:\n"
 "  dpkg-split -s|--split <fichero> [<prefijo>] Trocea un archivo.\n"
 "  dpkg-split -j|--join <parte> <parte> ...    Une partes.\n"
-"  dpkg-split -I|--info <parte> ...            Muestra información sobre parte.\n"
-"  dpkg-split -h|--help|--version|--licence    Muestra ayuda/versión/licencia.\n"
+"  dpkg-split -I|--info <parte> ...            Muestra información sobre "
+"parte.\n"
+"  dpkg-split -h|--help|--version|--licence    Muestra ayuda/versión/"
+"licencia.\n"
 "  dpkg-split -a|--auto -o <completa> <parte>  Auto-acumula partes.\n"
-"  dpkg-split -l|--listq                       Lista trozos sin correspondencia.\n"
+"  dpkg-split -l|--listq                       Lista trozos sin "
+"correspondencia.\n"
 "  dpkg-split -d|--discard [<fichero> ...]     Descarta trozos sin\n"
 "                                              correspondencia.\n"
 "\n"
@@ -3880,7 +3962,8 @@ msgstr ""
 "          -o|--output <fichero>   (para -j, por omisión es\n"
 "                                    <paquete>-<versión>.deb)\n"
 "          -Q|--npquiet            (en silencio cuando -a no es una parte)\n"
-"          --msdos                 (genera nombres de ficheros en formato 8.3)\n"
+"          --msdos                 (genera nombres de ficheros en formato "
+"8.3)\n"
 "\n"
 "Estado de salida: 0 = OK;  1 = -a no es una parte;  2 = ¡problemas!\n"
 
@@ -3910,7 +3993,8 @@ msgstr "el tamaño de la parte es demasiado grande o no es positivo"
 #: split/main.c:107
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
-msgstr "el tamaño de la parte debe ser al menos %dk (para admitir una cabecera)"
+msgstr ""
+"el tamaño de la parte debe ser al menos %dk (para admitir una cabecera)"
 
 #: split/queue.c:69
 #, c-format
@@ -4022,7 +4106,8 @@ msgstr "--split necesita un nombre de fichero fuente como argumento"
 
 #: split/split.c:49
 msgid "--split takes at most a source filename and destination prefix"
-msgstr "--split toma como mucho un nombre de fichero fuente y un prefijo de destino"
+msgstr ""
+"--split toma como mucho un nombre de fichero fuente y un prefijo de destino"
 
 #: split/split.c:63
 #, c-format
@@ -4115,21 +4200,22 @@ msgstr "%s: no se ha comprobado ningún fichero\n"
 msgid "Search for ? "
 msgstr "Buscar "
 
-#: dselect/basecmds.cc:130
+#: dselect/basecmds.cc:131
 msgid "Help: "
 msgstr "Ayuda: "
 
-#: dselect/basecmds.cc:136
-msgid "? = help menu    Space = exit help    . = next help    or a help page key "
+#: dselect/basecmds.cc:137
+msgid ""
+"? = help menu    Space = exit help    . = next help    or a help page key "
 msgstr ""
 "? = menú de ayuda  Espacio = salir de la ayuda  . = ayuda siguiente\n"
 "o una tecla de una página de ayuda"
 
-#: dselect/basecmds.cc:144
+#: dselect/basecmds.cc:145
 msgid "Help information is available under the following topics:"
 msgstr "La información de ayuda está disponible bajo los siguientes temas:"
 
-#: dselect/basecmds.cc:152
+#: dselect/basecmds.cc:153
 msgid ""
 "Press a key from the list above, Space to exit help,\n"
 "  or `.' (full stop) to read each help page in turn. "
@@ -4137,77 +4223,78 @@ msgstr ""
 "Pulse una tecla de la lista anterior, Espacio para salir de la ayuda,\n"
 " o `.' (punto) para leer cada una de las páginas de ayuda. "
 
-#: dselect/basecmds.cc:158
+#: dselect/basecmds.cc:159
 msgid "error reading keyboard in help"
 msgstr "error al leer del teclado en la ayuda"
 
-#: dselect/baselist.cc:53
+#: dselect/baselist.cc:54
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr "falló ioctl(TIOCGWINSZ)"
 
-#: dselect/baselist.cc:56
+#: dselect/baselist.cc:57
 msgid "doupdate in SIGWINCH handler failed"
 msgstr "falló el `doupdate' en el manejador de SIGWINCH"
 
-#: dselect/baselist.cc:63
+#: dselect/baselist.cc:64
 msgid "failed to restore old SIGWINCH sigact"
 msgstr "fallo al restablecer la señal antigua SIGWINCH"
 
-#: dselect/baselist.cc:65
+#: dselect/baselist.cc:66
 msgid "failed to restore old signal mask"
 msgstr "fallo al restablecer la máscara de señal antigua"
 
-#: dselect/baselist.cc:75
+#: dselect/baselist.cc:76
 msgid "failed to get old signal mask"
 msgstr "fallo al obtener la máscara de señal antigua"
 
-#: dselect/baselist.cc:76
+#: dselect/baselist.cc:77
 msgid "failed to get old SIGWINCH sigact"
 msgstr "fallo al obtener la señal SIGWINCH antigua"
 
-#: dselect/baselist.cc:80
+#: dselect/baselist.cc:81
 msgid "failed to block SIGWINCH"
 msgstr "fallo al bloquear SIGWINCH"
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:85
+#: dselect/baselist.cc:86
 msgid "failed to set new SIGWINCH sigact"
 msgstr "fallo al establecer la nueva señal SIGWINCH"
 
-#: dselect/baselist.cc:121
-msgid "failed to allocate colour pairs"
+#: dselect/baselist.cc:123
+#, fuzzy
+msgid "failed to allocate colour pair"
 msgstr "fallo al asignar los pares de colores"
 
-#: dselect/baselist.cc:153
+#: dselect/baselist.cc:163
 msgid "failed to create title window"
 msgstr "fallo al crear ventana de título"
 
-#: dselect/baselist.cc:157
+#: dselect/baselist.cc:167
 msgid "failed to create whatinfo window"
 msgstr "fallo al crear ventana de `whatinfo'"
 
-#: dselect/baselist.cc:161
+#: dselect/baselist.cc:171
 msgid "failed to create baselist pad"
 msgstr "fallo al crear `baselist pad'"
 
-#: dselect/baselist.cc:164
+#: dselect/baselist.cc:174
 msgid "failed to create heading pad"
 msgstr "fallo al crear `heading pad'"
 
-#: dselect/baselist.cc:168
+#: dselect/baselist.cc:178
 msgid "failed to create thisstate pad"
 msgstr "fallo al crear `thisstate pad'"
 
-#: dselect/baselist.cc:172
+#: dselect/baselist.cc:182
 msgid "failed to create info pad"
 msgstr "fallo al crear `info pad'"
 
-#: dselect/baselist.cc:176
+#: dselect/baselist.cc:187
 msgid "failed to create query window"
 msgstr "fallo al crear ventana de pregunta"
 
 # FIXME: This is for debugging purposes. Should not be translated. sv
-#: dselect/baselist.cc:188
+#: dselect/baselist.cc:200
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -4231,21 +4318,21 @@ msgstr ""
 " colheads_row=%d, thisstate_row=%d, info_row=%d;\n"
 " whatinfo_row=%d, list_row=%d;\n"
 
-#: dselect/baselist.cc:244
+#: dselect/baselist.cc:256
 msgid "keybindings"
 msgstr "asociaciones de teclas"
 
-#: dselect/baselist.cc:299
+#: dselect/baselist.cc:311
 #, c-format
 msgid "  -- %d%%, press "
 msgstr "  -- %d%%, pulse "
 
-#: dselect/baselist.cc:302
+#: dselect/baselist.cc:314
 #, c-format
 msgid "%s for more"
 msgstr "%s para seguir"
 
-#: dselect/baselist.cc:306
+#: dselect/baselist.cc:318
 #, c-format
 msgid "%s to go back"
 msgstr "%s para volver"
@@ -4394,106 +4481,106 @@ msgstr "Salir sin cambiar el método de acceso seleccionado"
 msgid "Type dselect --help for help."
 msgstr "Escriba dselect --help para obtener ayuda."
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "a"
 msgstr "m"
 
 # Pongo método y no acceso porque la "A" está ya cogida para Actualizar. sv
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "[A]ccess"
 msgstr "[M]étodo"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "Choose the access method to use."
 msgstr "Escoger el método de acceso que se usará."
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "u"
 msgstr "a"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "[U]pdate"
 msgstr "[A]ctualizar"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "Update list of available packages, if possible."
 msgstr "Actualizar la lista de paquetes disponibles, si se puede."
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "s"
 msgstr "s"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "[S]elect"
 msgstr "[S]eleccionar"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "Request which packages you want on your system."
 msgstr "Solicitar qué paquetes desea en el sistema."
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "i"
 msgstr "i"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "[I]nstall"
 msgstr "[I]nstalar"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "Install and upgrade wanted packages."
 msgstr "Instalar y actualizar los paquetes deseados."
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "c"
 msgstr "c"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "[C]onfig"
 msgstr "[C]onfigurar"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "Configure any packages that are unconfigured."
 msgstr "Configurar los paquetes que no estén configurados."
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "r"
 msgstr "d"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "[R]emove"
 msgstr "[D]esinstalar"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "Remove unwanted software."
 msgstr "Desinstalar los paquetes no deseados."
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "q"
 msgstr "l"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "[Q]uit"
 msgstr "sa[L]ir"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "Quit dselect."
 msgstr "Salir de dselect."
 
-#: dselect/main.cc:79
+#: dselect/main.cc:144
 msgid "menu"
 msgstr "menú"
 
-#: dselect/main.cc:84
+#: dselect/main.cc:149
 #, c-format
 msgid "Debian `%s' package handling frontend."
 msgstr "Interfaz de manejo de paquetes `%s' de Debian."
 
-#: dselect/main.cc:87
-#, c-format
+#: dselect/main.cc:152
+#, fuzzy, c-format
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "This is free software; see the GNU General Public Licence version 2\n"
 "or later for copying conditions.  There is NO warranty.  See\n"
 "dselect --licence for details.\n"
@@ -4505,34 +4592,71 @@ msgstr ""
 "posterior para las condiciones de copia. No hay NINGUNA garantía.\n"
 "Vea dselect --license para más detalles.\n"
 
-#: dselect/main.cc:102
+#: dselect/main.cc:168
+#, fuzzy
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
 "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
 "          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-"Actions:  access update select install config remove quit menu\n"
+"          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"Actions:  access update select install config remove quit\n"
 msgstr ""
 "Modo de empleo: dselect [opciones]\n"
 "                dselect [opciones] acción ...\n"
 "Opciones: --admindir <directorio>  (por omisión es /var/lib/dpkg)\n"
-"          --help --version --licence --expert --debug <fichero> | -D<fichero>\n"
+"          --help --version --licence --expert --debug <fichero> | -"
+"D<fichero>\n"
 "Acciones:  access update select install config remove quit menu\n"
 
-#: dselect/main.cc:122
+#: dselect/main.cc:176
+msgid "Screenparts:\n"
+msgstr ""
+
+#: dselect/main.cc:181
+msgid "Colours:\n"
+msgstr ""
+
+#: dselect/main.cc:186
+msgid "Attributes:\n"
+msgstr ""
+
+#: dselect/main.cc:206
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "no se puede abrir el fichero de depuración `%.255s'\n"
 
-#: dselect/main.cc:153
+#: dselect/main.cc:221
+#, c-format
+msgid "Invalid %s `%s'\n"
+msgstr ""
+
+#. strtok modifies strings, keep string const
+#: dselect/main.cc:238
+msgid "screen part"
+msgstr ""
+
+#: dselect/main.cc:244
+msgid "Null color specificaton\n"
+msgstr ""
+
+#: dselect/main.cc:252 dselect/main.cc:257
+msgid "color"
+msgstr ""
+
+#: dselect/main.cc:265
+msgid "color attribute"
+msgstr ""
+
+#: dselect/main.cc:299
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "El terminal no parece dar soporte al direccionamiento por cursor.\n"
 
-#: dselect/main.cc:155
+#: dselect/main.cc:301
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "El terminal parece no dar soporte al destacado.\n"
 
-#: dselect/main.cc:156
+#: dselect/main.cc:302
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
@@ -4540,11 +4664,11 @@ msgstr ""
 "Establezca la variable TERM correctamente, utilice un terminal mejor,\n"
 "o realice la construcción con la herramienta de gestión por paquete "
 
-#: dselect/main.cc:159
+#: dselect/main.cc:305
 msgid "terminal lacks necessary features, giving up"
 msgstr "el terminal carece de propiedades necesarias: abandonando"
 
-#: dselect/main.cc:237
+#: dselect/main.cc:383
 msgid ""
 "\n"
 "\n"
@@ -4558,15 +4682,21 @@ msgstr ""
 "Pulse <intro> para confirmar la selección.  ^L redibuja la pantalla.\n"
 "\n"
 
-#: dselect/main.cc:251
-msgid "\n\nRead-only access: only preview of selections is available!"
-msgstr "\n\nAcceso de sólo lectura: ¡solamente se pueden ver las selecciones!"
+#: dselect/main.cc:397
+msgid ""
+"\n"
+"\n"
+"Read-only access: only preview of selections is available!"
+msgstr ""
+"\n"
+"\n"
+"Acceso de sólo lectura: ¡solamente se pueden ver las selecciones!"
 
-#: dselect/main.cc:268
+#: dselect/main.cc:416
 msgid "failed to getch in main menu"
 msgstr "fallo en getch en el menú principal"
 
-#: dselect/main.cc:336
+#: dselect/main.cc:496
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "cadena de acción desconocida `%.50s'"
@@ -4583,6 +4713,10 @@ msgstr "Método de acceso `%s'."
 #: dselect/methlist.cc:110
 msgid "Abbrev."
 msgstr "Abrev."
+
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295
+msgid "Description"
+msgstr "Descripción"
 
 #: dselect/methlist.cc:155
 msgid "doupdate failed"
@@ -4601,7 +4735,7 @@ msgid "getch failed"
 msgstr "getch falló"
 
 # FIXME: A translator comment should clarify about none's sex here. sv
-#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:241 dselect/pkgdepcon.cc:280
+#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:242
 msgid "[none]"
 msgstr "[ninguno/a]"
 
@@ -4618,12 +4752,22 @@ msgstr "No hay explicación disponible."
 # It seems first %s is "dselect", second %s is an error message. sv
 #: dselect/method.cc:62
 #, c-format
-msgid "\n\n%s: %s\n"
-msgstr "\n\n%s: %s\n"
+msgid ""
+"\n"
+"\n"
+"%s: %s\n"
+msgstr ""
+"\n"
+"\n"
+"%s: %s\n"
 
 #: dselect/method.cc:65
-msgid "\nPress <enter> to continue."
-msgstr "\nPulse <intro> para continuar."
+msgid ""
+"\n"
+"Press <enter> to continue."
+msgstr ""
+"\n"
+"Pulse <intro> para continuar."
 
 #: dselect/method.cc:142
 #, c-format
@@ -4648,7 +4792,8 @@ msgstr "no se puede efectuar `wait' en %.250s"
 #: dselect/method.cc:173
 #, c-format
 msgid "got wrong child's status - asked for %ld, got %ld"
-msgstr "se obtuvo un código de estado equivocado - se esperaba %ld, se obtuvo %ld"
+msgstr ""
+"se obtuvo un código de estado equivocado - se esperaba %ld, se obtuvo %ld"
 
 #: dselect/method.cc:184
 #, c-format
@@ -4753,7 +4898,9 @@ msgstr "EOF antes de que comience el nombre de la opción"
 
 #: dselect/methparse.cc:153
 msgid "nonalpha where option name start wanted"
-msgstr "carácter no alfanumérico donde se esperaba el comienzo del nombre de una opción"
+msgstr ""
+"carácter no alfanumérico donde se esperaba el comienzo del nombre de una "
+"opción"
 
 #: dselect/methparse.cc:155
 msgid "non-alphanum in option name"
@@ -4783,7 +4930,9 @@ msgstr "no se puede abrir el fichero de descripciones de opciones `%.250s'"
 #: dselect/methparse.cc:185
 #, c-format
 msgid "unable to stat option description file `%.250s'"
-msgstr "no se puede efectuar `stat' sobre el fichero de descripciones de opciones `%.250s'"
+msgstr ""
+"no se puede efectuar `stat' sobre el fichero de descripciones de opciones `"
+"%.250s'"
 
 #: dselect/methparse.cc:189
 #, c-format
@@ -5126,14 +5275,21 @@ msgstr " literal:v ayuda:?"
 
 #: dselect/pkginfo.cc:80
 msgid ""
-"The line you have highlighted represents many packages; if you ask to install, remove, hold, &c it you will affect all the packages which match the criterion shown.\n"
+"The line you have highlighted represents many packages; if you ask to "
+"install, remove, hold, &c it you will affect all the packages which match "
+"the criterion shown.\n"
 "\n"
-"If you move the highlight to a line for a particular package you will see information about that package displayed here.\n"
-"You can use `o' and `O' to change the sort order and give yourself the opportunity to mark packages in different kinds of groups."
+"If you move the highlight to a line for a particular package you will see "
+"information about that package displayed here.\n"
+"You can use `o' and `O' to change the sort order and give yourself the "
+"opportunity to mark packages in different kinds of groups."
 msgstr ""
-"La línea que ha iluminado representa muchos paquetes, si pide que se instalen, borren, mantengan, etc, afectará a todos los paquetes que cumplan el criterio mostrado.\n"
+"La línea que ha iluminado representa muchos paquetes, si pide que se "
+"instalen, borren, mantengan, etc, afectará a todos los paquetes que cumplan "
+"el criterio mostrado.\n"
 "\n"
-"Si desplaza la línea iluminada a una línea de un paquete determinado se mostrará aquí la información sobre ese paquete.\n"
+"Si desplaza la línea iluminada a una línea de un paquete determinado se "
+"mostrará aquí la información sobre ese paquete.\n"
 "Se puede usar `o' y `O' para cambiar el tipo de ordenación, esto permite\n"
 "marcar paquetes en distintos tipos de grupos."
 
@@ -5242,6 +5398,10 @@ msgstr "Marca antigua"
 msgid "Marked for"
 msgstr "Marcado para"
 
+#: dselect/pkgtop.cc:282
+msgid "EIOM"
+msgstr ""
+
 #: dselect/pkgtop.cc:284
 msgid "Section"
 msgstr "Sección"
@@ -5280,15 +5440,21 @@ msgid ""
 "\n"
 "Mark packages for later processing:\n"
 " +, Insert  install or upgrade      =, H  hold in present state\n"
-" -, Delete  remove                  :, G  unhold: upgrade or leave uninstalled\n"
+" -, Delete  remove                  :, G  unhold: upgrade or leave "
+"uninstalled\n"
 " _          remove & purge config\n"
 "                                             Miscellaneous:\n"
-"Quit, exit, overwrite (note capitals!):       ?, F1 request help (also Help)\n"
-" Return  Confirm, quit (check dependencies)   i, I  toggle/cycle info displays\n"
-"   Q     Confirm, quit (override dep.s)       o, O  cycle through sort options\n"
-" X, Esc  eXit, abandoning any changes made    v, V  change status display opts\n"
+"Quit, exit, overwrite (note capitals!):       ?, F1 request help (also "
+"Help)\n"
+" Return  Confirm, quit (check dependencies)   i, I  toggle/cycle info "
+"displays\n"
+"   Q     Confirm, quit (override dep.s)       o, O  cycle through sort "
+"options\n"
+" X, Esc  eXit, abandoning any changes made    v, V  change status display "
+"opts\n"
 "   R     Revert to state before this list      ^l   redraw display\n"
-"   U     set all to sUggested state             /   search (Return to cancel)\n"
+"   U     set all to sUggested state             /   search (Return to "
+"cancel)\n"
 "   D     set all to Directly requested state    \\   repeat last search\n"
 msgstr ""
 "Teclas de movimiento: Re Pág/Av Pág, Inicio/Fin,\n"
@@ -5297,9 +5463,12 @@ msgstr ""
 " N, Página abajo, Espacio \n"
 "               P, página arriba, retroceder   desplaza la lista 1 página\n"
 " ^n                    ^p                     desplaza la lista 1 línea\n"
-" t, Inicio              e, Fin                salta al inicio/fin de la lista\n"
-" u                      d                     desplaza la información 1 página\n"
-" ^u                     ^d                    desplaza la información 1 línea\n"
+" t, Inicio              e, Fin                salta al inicio/fin de la "
+"lista\n"
+" u                      d                     desplaza la información 1 "
+"página\n"
+" ^u                     ^d                    desplaza la información 1 "
+"línea\n"
 " B, flecha izquierda    F, flecha derecha     desplaza la visualización 1/3\n"
 "                                                de la pantalla\n"
 " ^b                     ^f                    desplaza la visualización 1\n"
@@ -5312,13 +5481,17 @@ msgstr ""
 " _           Purgar (desinstalar y eliminar la configuración)\n"
 "                                          Varias:\n"
 "Dejar, salir, sobreescribir (¡observe las mayúsculas!)\n"
-"                                          ?, F1 solicita ayuda (también Ayuda)\n"
+"                                          ?, F1 solicita ayuda (también "
+"Ayuda)\n"
 " Intro    Confirma, deja (se verifican dependencias)\n"
-"                                          i, I  se muestra/no se muestra información\n"
+"                                          i, I  se muestra/no se muestra "
+"información\n"
 "   Q      Confirma, deja (no se verifican dependencias)\n"
-"                                          o, O  circula por la opciones de ordenación\n"
+"                                          o, O  circula por la opciones de "
+"ordenación\n"
 " X, Esc  sale, (eXit), abandonando cualquier cambio realizado\n"
-"                                          v, V  cambia las opciones de la muestra de estado\n"
+"                                          v, V  cambia las opciones de la "
+"muestra de estado\n"
 "  R      Establece el estado antes de esta lista\n"
 "                                          ^l    refresca la visualización\n"
 "  U      lo pone todo al estado sUgerido   /   busca  (Intro para cancelar)\n"
@@ -5331,38 +5504,53 @@ msgstr "Introducción a la lista de paquetes"
 
 #: dselect/helpmsgs.cc:33
 msgid ""
-"Welcome to the main package listing.  Please read the help that is available!\n"
+"Welcome to the main package listing.  Please read the help that is "
+"available!\n"
 "\n"
-"You will be presented with a list of packages which are installed or available\n"
+"You will be presented with a list of packages which are installed or "
+"available\n"
 "for installation.  You can navigate around the list using the cursor keys,\n"
 "mark packages for installation (using `+') or deinstallation (using `-').\n"
 "\n"
-"Packages can be marked either singly or in groups; initially you will see that\n"
-"the line `All packages' is selected.  `+', `-' and so on will affect all the\n"
-"packages described by the highlighted line.  Use `o' to change the order of the\n"
+"Packages can be marked either singly or in groups; initially you will see "
+"that\n"
+"the line `All packages' is selected.  `+', `-' and so on will affect all "
+"the\n"
+"packages described by the highlighted line.  Use `o' to change the order of "
+"the\n"
 "list (this also changes which kinds of group selections are possible).\n"
 "\n"
-"(Mainly for new installations:) Standard packages will be requested by default.\n"
-"Use capital `D' or `R' key to override this - see the keybindings help screen.\n"
+"(Mainly for new installations:) Standard packages will be requested by "
+"default.\n"
+"Use capital `D' or `R' key to override this - see the keybindings help "
+"screen.\n"
 "\n"
-"Some of your choices will cause conflicts or dependency problems; you will be\n"
-"given a sub-list of the relevant packages, so that you can solve the problems.\n"
+"Some of your choices will cause conflicts or dependency problems; you will "
+"be\n"
+"given a sub-list of the relevant packages, so that you can solve the "
+"problems.\n"
 "\n"
 "When you are satisfied with your choices you should press Return to confirm\n"
 "your changes and leave the package listing.  A final check on conflicts and\n"
 "dependencies will be done - here too you may see a sublist.\n"
 "\n"
-"Press Space to leave help and enter the list; press `?' at any time for help.\n"
+"Press Space to leave help and enter the list; press `?' at any time for "
+"help.\n"
 msgstr ""
-"Bienvenido al listado de paquetes principal. Por favor, lea la ayuda disponible\n"
+"Bienvenido al listado de paquetes principal. Por favor, lea la ayuda "
+"disponible\n"
 "\n"
-"Se le presentará una lista de paquetes que están instalados o disponibles para\n"
-"instalarlos. Puede navegar por la lista usando las teclas del cursor, marcar\n"
+"Se le presentará una lista de paquetes que están instalados o disponibles "
+"para\n"
+"instalarlos. Puede navegar por la lista usando las teclas del cursor, "
+"marcar\n"
 "los paquetes para instalarlos (utilizando `+') o desinstalarlos\n"
 "(utilizando `-').\n"
 "\n"
-"Los paquetes se pueden marcar por separado o por grupos: inicialmente verá que\n"
-"la línea `Todos los paquetes' está seleccionada. `+', `-' y demás afectará a\n"
+"Los paquetes se pueden marcar por separado o por grupos: inicialmente verá "
+"que\n"
+"la línea `Todos los paquetes' está seleccionada. `+', `-' y demás afectará "
+"a\n"
 "todos los paquetes descritos con la línea de destacado. Utilice `o' para\n"
 "cambiar el orden de la lista (esto también cambia las clases de selecciones\n"
 "por grupo posibles).\n"
@@ -5376,9 +5564,11 @@ msgstr ""
 "en tal caso se le dará una sub-lista de los paquetes relevantes para que\n"
 "pueda solucionar los problemas.\n"
 "\n"
-"Cuando esté satisfecho con sus elecciones deberá pulsar Intro para confirmar\n"
+"Cuando esté satisfecho con sus elecciones deberá pulsar Intro para "
+"confirmar\n"
 "los cambios y abandonar el listado de paquetes. Entonces se realizará una\n"
-"verificación final en los conflictos y dependencias. Aquí también podría entrar\n"
+"verificación final en los conflictos y dependencias. Aquí también podría "
+"entrar\n"
 "en una sublista.\n"
 "\n"
 "Pulse Espacio para abandonar la ayuda y entrar en la lista; pulse `?' en\n"
@@ -5396,24 +5586,31 @@ msgid ""
 "Much on-line help is available, please make use of it!  Press `?' for help.\n"
 "You should read the list of keys and the explanations of the display.\n"
 "\n"
-"You will be presented with a list of packages which are installed or available\n"
-"for installation.  You can navigate around the list using the cursor keys (just\n"
-"as you would be able to do if you had read/write access - see the keystrokes\n"
-"help screen) and observe the status of the packages and read information about\n"
+"You will be presented with a list of packages which are installed or "
+"available\n"
+"for installation.  You can navigate around the list using the cursor keys "
+"(just\n"
+"as you would be able to do if you had read/write access - see the "
+"keystrokes\n"
+"help screen) and observe the status of the packages and read information "
+"about\n"
 "them.\n"
 "\n"
-"Press Space to leave help and enter the list; press `?' at any time for help.\n"
+"Press Space to leave help and enter the list; press `?' at any time for "
+"help.\n"
 "When you have finished browsing, press `Q' or <enter> to quit.\n"
 msgstr ""
 "Bienvenido al listado de paquetes principal de dselect. Ya que no tiene los\n"
 "privilegios necesarios para actualizar los estados de los paquetes nos\n"
 "encontramos en modo de sólo lectura.\n"
 "\n"
-"Hay disponible mucha ayuda en línea, ¡por favor utilícela! Pulse `?' para la\n"
+"Hay disponible mucha ayuda en línea, ¡por favor utilícela! Pulse `?' para "
+"la\n"
 "ayuda. Debería leer la lista de las teclas y las explicaciones sobre la\n"
 "visualización.\n"
 "\n"
-"Se le mostrará una lista de paquetes que están instalados o disponibles para\n"
+"Se le mostrará una lista de paquetes que están instalados o disponibles "
+"para\n"
 "instalarlos. Puede navegar a través de esta lista utilizando las teclas del\n"
 "cursor (tal como podría si tuviera acceso de lectura y escritura -- vea la\n"
 "pantalla de ayuda de las pulsaciones de teclas), observe el estado de los\n"
@@ -5432,46 +5629,64 @@ msgid ""
 "Dependency/conflict resolution - introduction.\n"
 "\n"
 "One or more of your choices have raised a conflict or dependency problem -\n"
-"some packages should only be installed in conjunction with certain others, and\n"
+"some packages should only be installed in conjunction with certain others, "
+"and\n"
 "some combinations of packages may not be installed together.\n"
 "\n"
-"You will see a sub-list containing the packages involved.  The bottom half of\n"
-"the display shows relevant conflicts and dependencies; use `i' to cycle between\n"
+"You will see a sub-list containing the packages involved.  The bottom half "
+"of\n"
+"the display shows relevant conflicts and dependencies; use `i' to cycle "
+"between\n"
 "that, the package descriptions and the internal control information.\n"
 "\n"
-"A set of `suggested' packages has been calculated, and the initial markings in\n"
+"A set of `suggested' packages has been calculated, and the initial markings "
+"in\n"
 "this sub-list have been set to match those, so you can just hit Return to\n"
-"accept the suggestions if you wish.  You may abort the change(s) which caused\n"
+"accept the suggestions if you wish.  You may abort the change(s) which "
+"caused\n"
 "the problem(s), and go back to the main list, by pressing capital `X'.\n"
 "\n"
-"You can also move around the list and change the markings so that they are more\n"
-"like what you want, and you can `reject' my suggestions by using the capital\n"
-"`D' or `R' keys (see the keybindings help screen).  You can use capital `Q' to\n"
+"You can also move around the list and change the markings so that they are "
+"more\n"
+"like what you want, and you can `reject' my suggestions by using the "
+"capital\n"
+"`D' or `R' keys (see the keybindings help screen).  You can use capital `Q' "
+"to\n"
 "force me to accept the situation currently displayed, in case you want to\n"
 "override a recommendation or think that the program is mistaken.\n"
 "\n"
-"Press Space to leave help and enter the sub-list; remember: press `?' for help.\n"
+"Press Space to leave help and enter the sub-list; remember: press `?' for "
+"help.\n"
 msgstr ""
 "Resolución de dependencia/conflicto -- Introducción.\n"
 "\n"
 "Una o más elecciones han ocasionado un problema de conflicto o dependencia,\n"
-"algunos paquetes sólo se deberían instalar conjuntamente con ciertos otros, y\n"
+"algunos paquetes sólo se deberían instalar conjuntamente con ciertos otros, "
+"y\n"
 "algunas combinaciones de paquetes no se pueden instalar conjuntamente.\n"
 "\n"
-"Verá una sub-lista que contiene los paquetes involucrados. La mitad inferior de\n"
-"la pantalla muestra las dependencias y conflictos relevantes; utilice `i' para\n"
-"circular en ella las descripciones de los paquetes y la información de control\n"
+"Verá una sub-lista que contiene los paquetes involucrados. La mitad inferior "
+"de\n"
+"la pantalla muestra las dependencias y conflictos relevantes; utilice `i' "
+"para\n"
+"circular en ella las descripciones de los paquetes y la información de "
+"control\n"
 "interna.\n"
 "\n"
-"Se ha calculado un repertorio de paquetes `sugeridos', y las marcas iniciales\n"
+"Se ha calculado un repertorio de paquetes `sugeridos', y las marcas "
+"iniciales\n"
 "en esta sub-lista se han puesto para casar con aquellas, por lo que podrá\n"
 "simplemente pulsar Intro para aceptar las sugerencias si lo desea. Puede\n"
-"abortar el/los cambio(s) que causaron el problema y volver a la lista principal\n"
+"abortar el/los cambio(s) que causaron el problema y volver a la lista "
+"principal\n"
 "pulsando la letra mayúscula `X'.\n"
 "\n"
-"También puede moverse por la lista y cambiar los marcados para que se asemeje\n"
-"más a lo que desea, y pueda `rechazar' las sugerencias utilizando las teclas\n"
-"mayúsculas `D' y `R' (véase la pantalla de ayuda de combinaciones de teclas).\n"
+"También puede moverse por la lista y cambiar los marcados para que se "
+"asemeje\n"
+"más a lo que desea, y pueda `rechazar' las sugerencias utilizando las "
+"teclas\n"
+"mayúsculas `D' y `R' (véase la pantalla de ayuda de combinaciones de "
+"teclas).\n"
 "Utilice la `Q' mayúscula para forzarme a aceptar la situación actualmente\n"
 "mostrada en caso de que desee descartar una recomendación o piense que el\n"
 "programa se ha equivocado.\n"
@@ -5485,12 +5700,17 @@ msgstr "Muestra, parte 1: listado de paquete y caracteres de estado"
 
 #: dselect/helpmsgs.cc:100
 msgid ""
-"The top half of the screen shows a list of packages.  For each package you see\n"
-"four columns for its current status on the system and mark.  In terse mode (use\n"
-"`v' to toggle verbose display) these are single characters, from left to right:\n"
+"The top half of the screen shows a list of packages.  For each package you "
+"see\n"
+"four columns for its current status on the system and mark.  In terse mode "
+"(use\n"
+"`v' to toggle verbose display) these are single characters, from left to "
+"right:\n"
 "\n"
-" Error flag: Space - no error (but package may be in broken state - see below)\n"
-"              `R'  - serious error during installation, needs reinstallation;\n"
+" Error flag: Space - no error (but package may be in broken state - see "
+"below)\n"
+"              `R'  - serious error during installation, needs "
+"reinstallation;\n"
 " Installed state:   Space - not installed;\n"
 "                     `*'  - installed;\n"
 "                     `-'  - not installed but config files remain;\n"
@@ -5506,7 +5726,8 @@ msgid ""
 "  `n': package is new and has yet to be marked for install/remove/&c.\n"
 "\n"
 "Also displayed are each package's Priority, Section, name, installed and\n"
-"available version numbers (shift-V to display/hide) and summary description.\n"
+"available version numbers (shift-V to display/hide) and summary "
+"description.\n"
 msgstr ""
 "La mitad superior de la pantalla muestra una lista de paquetes. Para cada\n"
 "paquete verá cuatro columnas con su estado actual en el sistema y marca. De\n"
@@ -5523,7 +5744,8 @@ msgstr ""
 "    los paquetes en { `U'   - desempaquetado pero aún sin configurar;\n"
 "      estos estados { `C'   - semi-configurado (ocurrió un error);\n"
 "        están rotos { `I'   - semi-instalado (ocurrió un error).\n"
-" Marca antigua: lo solicitado para este paquete antes de presentar esta lista;\n"
+" Marca antigua: lo solicitado para este paquete antes de presentar esta "
+"lista;\n"
 " Marca: lo que se solicita para este paquete;\n"
 "   `*': marcado para instalación o actualización;\n"
 "   `-': marcado para desinstalación, pero los ficheros de configuración\n"
@@ -5531,9 +5753,11 @@ msgstr ""
 "   `=': en retención: el paquete no se procesará en absoluto;\n"
 "   `_': marcado para desaparición completa - incluso se eliminará la\n"
 "          configuración\n"
-"   `n': el paquete es nuevo y aún debe marcarse para instalar/desinstalar/etc.\n"
+"   `n': el paquete es nuevo y aún debe marcarse para instalar/desinstalar/"
+"etc.\n"
 "\n"
-"También se muestra la prioridad, sección, nombre, números de versión disponible\n"
+"También se muestra la prioridad, sección, nombre, números de versión "
+"disponible\n"
 "e instalada de cada paquete (Mayús-V para mostrar/esconder) y descripción\n"
 "resumida.\n"
 
@@ -5542,12 +5766,16 @@ msgid "Display, part 2: list highlight; information display"
 msgstr "Muestra, parte 2: destacado de la lista; muestra de información"
 
 #: dselect/helpmsgs.cc:125
+#, fuzzy
 msgid ""
-"* Highlight: One line in the package list will be highlighted.  It indicates\n"
-"  which package(s) will be affected by presses of `+', '-' and `_'.\n"
+"* Highlight: One line in the package list will be highlighted.  It "
+"indicates\n"
+"  which package(s) will be affected by presses of `+', `-' and `_'.\n"
 "\n"
-"* The dividing line in the middle of the screen shows a brief explanation of\n"
-"  the status of the currently-highlighted package, or a description of which\n"
+"* The dividing line in the middle of the screen shows a brief explanation "
+"of\n"
+"  the status of the currently-highlighted package, or a description of "
+"which\n"
 "  group is highlighted if a group line is.  If you don't understand the\n"
 "  meaning of some of the status characters displayed, go to the relevant\n"
 "  package and look at this divider line, or use the `v' key for a verbose\n"
@@ -5571,15 +5799,18 @@ msgstr ""
 "  breve del estado del paquete actualmente destacado, o una descripción del\n"
 "  grupo destacado si se trata de una línea de grupo. Si no entiende el\n"
 "  significado de algunos de los caracteres de estado mostrados, vaya al\n"
-"  paquete relevante y mire en esta línea de división, o utilice la tecla `v'\n"
+"  paquete relevante y mire en esta línea de división, o utilice la tecla "
+"`v'\n"
 "  para una muestra completa (pulse nuevamente `v' para volver a la muestra\n"
 "  concisa).\n"
 "\n"
 "* El final de la pantalla muestra alguna información sobre el paquete\n"
 "  actualmente destacado (si sólo hay uno).\n"
 "\n"
-"  Se puede mostrar una descripción extendida del paquete, detalles de control\n"
-"  internos del paquete (tanto para la versión instalada como para la disponible\n"
+"  Se puede mostrar una descripción extendida del paquete, detalles de "
+"control\n"
+"  internos del paquete (tanto para la versión instalada como para la "
+"disponible\n"
 "  del paquete), o información sobre los conflictos y las dependencias que\n"
 "  conciernen al paquete actual (en sub-listas de resolución de\n"
 "  conflicto/dependencia).\n"
@@ -5594,25 +5825,31 @@ msgstr "Introducción a la muestra de selección de método"
 
 #: dselect/helpmsgs.cc:148
 msgid ""
-"dselect and dpkg can do automatic installation, loading the package files to be\n"
+"dselect and dpkg can do automatic installation, loading the package files to "
+"be\n"
 "installed from one of a number of different possible places.\n"
 "\n"
 "This list allows you to select one of these installation methods.\n"
 "\n"
-"Move the highlight to the method you wish to use, and hit Enter.  You will then\n"
+"Move the highlight to the method you wish to use, and hit Enter.  You will "
+"then\n"
 "be prompted for the information required to do the installation.\n"
 "\n"
 "As you move the highlight a description of each method, where available, is\n"
 "displayed in the bottom half of the screen.\n"
 "\n"
-"If you wish to quit without changing anything use the `x' key while in the list\n"
+"If you wish to quit without changing anything use the `x' key while in the "
+"list\n"
 "of installation methods.\n"
 "\n"
-"A full list of keystrokes is available by pressing `k' now, or from the help\n"
+"A full list of keystrokes is available by pressing `k' now, or from the "
+"help\n"
 "menu reachable by pressing `?'.\n"
 msgstr ""
-"dselect y dpkg pueden realizar instalación automática, cargando los ficheros\n"
-"de paquetes que se van a instalar desde una diversidad de lugares diferentes.\n"
+"dselect y dpkg pueden realizar instalación automática, cargando los "
+"ficheros\n"
+"de paquetes que se van a instalar desde una diversidad de lugares "
+"diferentes.\n"
 "\n"
 "Esta lista le permite seleccionar uno de estos métodos de instalación.\n"
 "\n"
@@ -5622,10 +5859,12 @@ msgstr ""
 "Mientras desplace el realce iluminado se mostrará, cuando esté disponible,\n"
 "una descripción de cada método en la mitad inferior de la pantalla.\n"
 "\n"
-"Si desea abandonar sin cambiar nada utilice la tecla `x' mientras se encuentre\n"
+"Si desea abandonar sin cambiar nada utilice la tecla `x' mientras se "
+"encuentre\n"
 "en la lista de métodos de instalación.\n"
 "\n"
-"Una lista completa de las combinaciones de teclas se encuentra disponible al\n"
+"Una lista completa de las combinaciones de teclas se encuentra disponible "
+"al\n"
 "pulsar `k', o desde el menú de ayuda al que se accede pulsando `?'.\n"
 
 #: dselect/helpmsgs.cc:167
@@ -5647,7 +5886,8 @@ msgid ""
 "\n"
 "Quit:\n"
 " Return, Enter    select this method and go to its configuration dialogue\n"
-" x, X             exit without changing or setting up the installation method\n"
+" x, X             exit without changing or setting up the installation "
+"method\n"
 "\n"
 "Miscellaneous:\n"
 "  ?, Help, F1      request help\n"
@@ -5655,10 +5895,13 @@ msgid ""
 "  /                search (just return to cancel)\n"
 "  \\                repeat last search\n"
 msgstr ""
-"Teclas de movimiento: Re Pág/Av Pág, Inicio/Fin, Arriba/Abajo, Adelante/Atrás\n"
+"Teclas de movimiento: Re Pág/Av Pág, Inicio/Fin, Arriba/Abajo, Adelante/"
+"Atrás\n"
 "  n, Flecha-abajo       p, Flecha-arriba       mover el realce iluminado\n"
-"  N, Re Pág, Espacio    P, Av Pág, Retroceso   desplazar la lista en 1 página\n"
-"  ^n                    ^p                     desplazar la lista en 1 línea\n"
+"  N, Re Pág, Espacio    P, Av Pág, Retroceso   desplazar la lista en 1 "
+"página\n"
+"  ^n                    ^p                     desplazar la lista en 1 "
+"línea\n"
 "  t, Inicio             b, Fin                 saltar al inicio/fin de\n"
 "                                                la lista\n"
 "  u                     d                      desplazar la información\n"
@@ -5667,7 +5910,8 @@ msgstr ""
 "                                                en 1 línea\n"
 "  B, Flecha-izquierda   F, Flecha-derecha      desplazar la muestra 1/3 de\n"
 "                                                la pantalla\n"
-"  ^b                    ^f                     desplazar la muestra 1 carácter\n"
+"  ^b                    ^f                     desplazar la muestra 1 "
+"carácter\n"
 "(Éstas son las mismas teclas de movimiento que en la muestra de lista\n"
 "de paquete.)\n"
 "\n"
@@ -5681,11 +5925,85 @@ msgstr ""
 "  /              buscar (simplemente pulse Intro para cancelar)\n"
 "  \\              repetir la última búsqueda\n"
 
+#~ msgid ""
+#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#~ "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
+#~ "installed\n"
+#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+#~ "uppercase=bad)\n"
+#~ msgstr ""
+#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#~ "| Estado=No/Instalado/Config-files/Unpacked/Failed-config/Half-installed\n"
+#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: mayúsc."
+#~ "=malo)\n"
+
+#~ msgid "Name"
+#~ msgstr "Nombre"
+
+#~ msgid "Version"
+#~ msgstr "Versión"
+
+#~ msgid "diversion by %s"
+#~ msgstr "desviación por %s"
+
+#~ msgid "local diversion"
+#~ msgstr "desviación local"
+
+#~ msgid "to"
+#~ msgstr "a"
+
+#~ msgid "from"
+#~ msgstr "desde"
+
+#~ msgid "--search needs at least one file name pattern argument"
+#~ msgstr ""
+#~ "--search necesita al menos un patrón de nombre de fichero como argumento"
+
+#~ msgid "dpkg: %s not found.\n"
+#~ msgstr "dpkg: no se encontró %s.\n"
+
+#~ msgid "Package `%s' is not installed and no info is available.\n"
+#~ msgstr ""
+#~ "El paquete `%s' no está instalado y no hay ninguna información "
+#~ "disponible.\n"
+
+#~ msgid "Package `%s' is not available.\n"
+#~ msgstr "El paquete `%s' no está disponible.\n"
+
+#~ msgid "Package `%s' is not installed.\n"
+#~ msgstr "El paquete `%s' no está instalado.\n"
+
+#~ msgid "Package `%s' does not contain any files (!)\n"
+#~ msgstr "El paquete `%s' no contiene ningún fichero (¡!)\n"
+
+#~ msgid "locally diverted"
+#~ msgstr "desviado localmente"
+
+#~ msgid "package diverts others"
+#~ msgstr "el paquete desvía otros"
+
+#~ msgid "diverted by %s"
+#~ msgstr "desviado por %s"
+
+# Intraducible sin contexto, posiblemente es un "divert". sv
+#~ msgid " to: %s\n"
+#~ msgstr " a: %s\n"
+
+#~ msgid ""
+#~ "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#~ "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+#~ msgstr ""
+#~ "Utilice dpkg --info (= dpkg-deb --info) para examinar archivos,\n"
+#~ "y dpkg --contents (= dpkg-deb --contents) para listar su contenido.\n"
+
+#~ msgid "failed to exec dpkg-deb"
+#~ msgstr "fallo al ejecutar dpkg-deb"
+
 #~ msgid "%s: read error on stdin\n"
 #~ msgstr "%s: error de lectura en la entrada estándar\n"
 
-#~ # no es una buena traducción de copy-on-write. jfs
-#~ # ¿Cómo lo traducirías? sv
+# no es una buena traducción de copy-on-write. jfs
+# ¿Cómo lo traducirías? sv
 #~ msgid "failed in copy on write (%s)"
 #~ msgstr "fallo en la copia al escribir (%s)"
 
@@ -5729,7 +6047,8 @@ msgstr ""
 #~ msgstr "%s falló con un código de estado de espera %d desconocido"
 
 #~ msgid "unable to fdopen dpkg-deb extract pipe"
-#~ msgstr "no se puede efectuar `fdopen' sobre la tubería de extracción de dpkg-deb"
+#~ msgstr ""
+#~ "no se puede efectuar `fdopen' sobre la tubería de extracción de dpkg-deb"
 
 #~ msgid "unexpected EOF in filesystem tarfile - corrupted package archive"
 #~ msgstr "EOF inesperado en el archivo tar - paquete corrompido"

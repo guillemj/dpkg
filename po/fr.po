@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.6.13\n"
-"POT-Creation-Date: 2001-05-28 19:14-0500\n"
+"POT-Creation-Date: 2001-07-16 02:32+0200\n"
 "PO-Revision-Date: 2001-06-01 11:20+0200\n"
 "Last-Translator: Martin Quinson <mquinson@ens-lyon.fr>\n"
 "Language-Team: French\n"
@@ -117,12 +117,19 @@ msgstr "Erreur système n°.%d"
 msgid "Signal no.%d"
 msgstr "Signal n°.%d"
 
-#: lib/database.c:240
+#: lib/database.c:177
+#, fuzzy, c-format
+msgid "couldn't allocate memory for strdup in findpackage(%s)"
+msgstr ""
+"dpkg: impossible d'allouer de la mémoire pour une nouvelle entrée dans la "
+"liste des paquets en échec."
+
+#: lib/database.c:247
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "la taille %7d apparaît %5d fois\n"
 
-#: lib/database.c:241
+#: lib/database.c:248
 msgid "failed write during hashreport"
 msgstr "échec de l'écriture durant \"hashreport\""
 
@@ -317,76 +324,76 @@ msgstr "ce qui suit %s est inutile"
 msgid "invalid package name (%.250s)"
 msgstr "nom de paquet incorrect (%.250s)"
 
-#: lib/fields.c:92
+#: lib/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "champ détail de fichier '%s' vide"
 
-#: lib/fields.c:95
+#: lib/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "champ détail de fichier `%s' non autorisé dans le fichier d'états"
 
-#: lib/fields.c:105
+#: lib/fields.c:103
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 "trop de valeurs dans le champ détail du fichier `%s' (par rapport aux autres)"
 
-#: lib/fields.c:118
+#: lib/fields.c:116
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 "trop peu de valeurs dans le champ détail du fichier `%s' (par rapport aux "
 "autres)"
 
-#: lib/fields.c:134
+#: lib/fields.c:132
 msgid "yes/no in `essential' field"
 msgstr "yes/no dans le champ `essentiel'"
 
-#: lib/fields.c:167
+#: lib/fields.c:165
 msgid "value for `status' field not allowed in this context"
 msgstr "valeur du champ `status' non autorisée dans ce contexte"
 
-#: lib/fields.c:178
+#: lib/fields.c:176
 msgid "third (status) word in `status' field"
 msgstr "troisième mot (d'état) dans le champ `status'"
 
-#: lib/fields.c:189
+#: lib/fields.c:187
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "erreur dans la chaîne Version `%.250s': %.250s"
 
-#: lib/fields.c:200
+#: lib/fields.c:198
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "utilisation d'un champ obsolète `Revision' ou `Package-Revision'"
 
-#: lib/fields.c:218
+#: lib/fields.c:216
 msgid "value for `config-version' field not allowed in this context"
 msgstr "valeur du champ `config-version' interdite dans ce contexte"
 
-#: lib/fields.c:222
+#: lib/fields.c:220
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "erreur dans la chaîne Config-Version `%.250s': %.250s"
 
-#: lib/fields.c:239
+#: lib/fields.c:237
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "la ligne contenant la valeur de `conffiles' commençe par le caractère `%"
 "c' (qui n'est pas blanc)"
 
-#: lib/fields.c:245
+#: lib/fields.c:243
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "la ligne contenant la valeur de `conffiles' est mal formée `%.*s'"
 
-#: lib/fields.c:251
+#: lib/fields.c:249
 msgid "root or null directory is listed as a conffile"
 msgstr "répertoire racine ou nul déclaré comme un \"conffile\""
 
-#: lib/fields.c:306
+#: lib/fields.c:304
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -394,12 +401,12 @@ msgstr ""
 "champ `%s', nom de paquet manquant, ou absurdités à la place d'un nom de "
 "paquet"
 
-#: lib/fields.c:309
+#: lib/fields.c:307
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "champ `%s', nom de paquet incorrect `%.255s': %s"
 
-#: lib/fields.c:340
+#: lib/fields.c:338
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -408,7 +415,7 @@ msgstr ""
 "champ `%s', référence à `%.255s':\n"
 " mauvaise relation entre versions %c%c"
 
-#: lib/fields.c:346
+#: lib/fields.c:344
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -417,7 +424,7 @@ msgstr ""
 "champ `%s', référence à `%.255s':\n"
 " `%c' est obsolète, utiliser `%c=' ou `%c%c' à la place"
 
-#: lib/fields.c:356
+#: lib/fields.c:354
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -427,11 +434,11 @@ msgstr ""
 " correspondance exacte implicite pour le numéro de version, utiliser plutôt "
 "`=' à la place"
 
-#: lib/fields.c:363
+#: lib/fields.c:361
 msgid "Only exact versions may be used for Provides"
 msgstr "on ne peut utiliser que des versions exactes dans le champ Provides"
 
-#: lib/fields.c:367
+#: lib/fields.c:365
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -441,32 +448,32 @@ msgstr ""
 " valeur de version commençant avec un caractère non-alphanumérique, ajouter "
 "plutôt un espace"
 
-#: lib/fields.c:381
+#: lib/fields.c:379
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "champ `%s', référence à `%.255s': version contenant `('"
 
-#: lib/fields.c:384
+#: lib/fields.c:382
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "champ `%s', référence à `%.255s': version contenant ` '"
 
-#: lib/fields.c:387
+#: lib/fields.c:385
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "champ `%s', référence à `%.255s': version non terminée"
 
-#: lib/fields.c:398
+#: lib/fields.c:396
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "champ `%s', référence à `%.255s': erreur dans la version: %.255s"
 
-#: lib/fields.c:407
+#: lib/fields.c:405
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "champ `%s', erreur de syntaxe après la référence au paquet `%.255s'"
 
-#: lib/fields.c:414
+#: lib/fields.c:412
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternatives (`|') non autorisées dans le champ %s"
@@ -822,24 +829,29 @@ msgstr ""
 msgid "<none>"
 msgstr "<néant>"
 
-#: lib/parsehelp.c:193
+#: lib/parsehelp.c:194
 msgid "version string is empty"
 msgstr "la chaîne version est vide"
 
-#: lib/parsehelp.c:198
+#: lib/parsehelp.c:205
+#, fuzzy
+msgid "version string has embedded spaces"
+msgstr "la chaîne version est vide"
+
+#: lib/parsehelp.c:210
 msgid "epoch in version is not number"
 msgstr "l'époque (epoch) dans la version n'est pas un nombre"
 
-#: lib/parsehelp.c:199
+#: lib/parsehelp.c:211
 msgid "nothing after colon in version number"
 msgstr "rien après les deux points (:) dans le numéro de la version"
 
-#: lib/parsehelp.c:223
+#: lib/parsehelp.c:235
 #, c-format
 msgid "missing %s"
 msgstr " %s manque"
 
-#: lib/parsehelp.c:227
+#: lib/parsehelp.c:239
 #, c-format
 msgid "empty value for %s"
 msgstr " %s de valeur nulle"
@@ -1668,36 +1680,7 @@ msgstr "  %.250s fournit %.250s et est %s.\n"
 msgid "(no description available)"
 msgstr "(aucune description n'est disponible)"
 
-#: main/enquiry.c:100
-msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-"uppercase=bad)\n"
-msgstr ""
-"Souhait=inconnU/Installé/suppRimé/Purgé/H=à garder\n"
-"| État=Non/Installé/fichier-Config/dépaqUeté/échec-conFig/H=semi-installé\n"
-"|/ Err?=(aucune)/H=à garder/besoin Réinstallation/X=les deux (Etat,Err: "
-"majuscule=mauvais)\n"
-
-#: main/enquiry.c:104
-msgid "Name"
-msgstr "Nom"
-
-#: main/enquiry.c:104
-msgid "Version"
-msgstr "Version"
-
-#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:104
-msgid "Description"
-msgstr "Description"
-
-#: main/enquiry.c:160 main/select.c:80
-#, c-format
-msgid "No packages found matching %s.\n"
-msgstr "Aucun paquet ne correspond à %s.\n"
-
-#: main/enquiry.c:187
+#: main/enquiry.c:81
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -1708,7 +1691,7 @@ msgstr ""
 "(ainsi que tous les paquets qui en dépendent) pour pouvoir fonctionner\n"
 "correctement:\n"
 
-#: main/enquiry.c:192
+#: main/enquiry.c:86
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -1718,7 +1701,7 @@ msgstr ""
 "doivent être configurés en utilisant dpkg --configure ou l'option configure\n"
 "du menu de dselect pour pouvoir fonctionner : \n"
 
-#: main/enquiry.c:197
+#: main/enquiry.c:91
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -1729,7 +1712,7 @@ msgstr ""
 "de les configurer en utilisant dpkg --configure <paquet> ou l'option\n"
 "configure du menu de dselect: \n"
 
-#: main/enquiry.c:202
+#: main/enquiry.c:96
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -1740,112 +1723,33 @@ msgstr ""
 "réessayant; les paquets peuvent être supprimés en utilisant dselect ou \n"
 "dpkg --remove: \n"
 
-#: main/enquiry.c:227
+#: main/enquiry.c:121
 msgid "--audit does not take any arguments"
 msgstr "--audit ne prend aucun argument"
 
-#: main/enquiry.c:262
+#: main/enquiry.c:156
 msgid "<unknown>"
 msgstr "<inconnu>"
 
-#: main/enquiry.c:279
+#: main/enquiry.c:173
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "--yet-to-unpack ne prend aucun argument"
 
-#: main/enquiry.c:317
+#: main/enquiry.c:211
 #, c-format
 msgid " %d in %s: "
 msgstr " %d dans %s : "
 
-#: main/enquiry.c:332
+#: main/enquiry.c:226
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d paquets, appartenant aux sections suivantes :"
 
-#: main/enquiry.c:352
-#, c-format
-msgid "diversion by %s"
-msgstr "détourné par %s"
-
-#: main/enquiry.c:353
-msgid "local diversion"
-msgstr "détournement local"
-
-#: main/enquiry.c:354
-msgid "to"
-msgstr "à"
-
-#: main/enquiry.c:354
-msgid "from"
-msgstr "de"
-
-#: main/enquiry.c:387
-msgid "--search needs at least one file name pattern argument"
-msgstr "--search a besoin d'au moins un motif de nom de fichier comme argument"
-
-#: main/enquiry.c:415
-#, c-format
-msgid "dpkg: %s not found.\n"
-msgstr "dpkg: %s introuvable.\n"
-
-#: main/enquiry.c:432 main/packages.c:109
-#, c-format
-msgid "--%s needs at least one package name argument"
-msgstr "--%s a besoin d'au moins un nom de paquet comme argument"
-
-#: main/enquiry.c:452
-#, c-format
-msgid "Package `%s' is not installed and no info is available.\n"
-msgstr ""
-"Le paquet `%s' n'est pas installé et aucune information n'est disponible.\n"
-
-#: main/enquiry.c:461
-#, c-format
-msgid "Package `%s' is not available.\n"
-msgstr "Le paquet `%s' n'est pas disponible.\n"
-
-#: main/enquiry.c:471
-#, c-format
-msgid "Package `%s' is not installed.\n"
-msgstr "Le paquet `%s' n'est pas installé.\n"
-
-#: main/enquiry.c:480
-#, c-format
-msgid "Package `%s' does not contain any files (!)\n"
-msgstr "Le paquet `%s' ne contient aucun fichier (!)\n"
-
-#: main/enquiry.c:486
-msgid "locally diverted"
-msgstr "détourné localement"
-
-#: main/enquiry.c:487
-msgid "package diverts others"
-msgstr "paquet détournant d'autres"
-
-#: main/enquiry.c:488
-#, c-format
-msgid "diverted by %s"
-msgstr "détourné par %s"
-
-#: main/enquiry.c:489
-#, c-format
-msgid " to: %s\n"
-msgstr "vers : %s\n"
-
-#: main/enquiry.c:508
-msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
-msgstr ""
-"Utilisez dpkg --info (= dpkg-deb --info) pour examiner les fichiers\n"
-"archives, et dpkg --contents (= dpkg-deb --contents) pour afficher leur\n"
-"contenu.\n"
-
-#: main/enquiry.c:519
+#: main/enquiry.c:245
 msgid "--assert-* does not take any arguments"
 msgstr "--assert-* ne prend aucun argument"
 
-#: main/enquiry.c:534
+#: main/enquiry.c:260
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
@@ -1854,17 +1758,17 @@ msgstr ""
 "configurée.\n"
 " Utilisez s'il vous plaît `dpkg --configure dpkg' et essayez à nouveau.\n"
 
-#: main/enquiry.c:538
+#: main/enquiry.c:264
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
 msgstr ""
 "dpkg non enregistré comme installé, impossible de vérifier s'il supporte la\n"
 "notion d'époque !\n"
 
-#: main/enquiry.c:581
+#: main/enquiry.c:307
 msgid "--predep-package does not take any argument"
 msgstr "--predep-package ne prend aucun argument"
 
-#: main/enquiry.c:633
+#: main/enquiry.c:359
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -1873,13 +1777,13 @@ msgstr ""
 "dpkg: ne sait pas comment satisfaire les pré-dépendances:\n"
 " %s\n"
 
-#: main/enquiry.c:634
+#: main/enquiry.c:360
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "ne peut satisfaire les pré-dépendances pour %.250s (réclamé par %.250s)"
 
-#: main/enquiry.c:654
+#: main/enquiry.c:380
 #, c-format
 msgid ""
 "dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
@@ -1888,66 +1792,66 @@ msgstr ""
 "dpkg: sortie inattendue de `%s --print-libgcc-file-name' :\n"
 " `%s'\n"
 
-#: main/enquiry.c:657
+#: main/enquiry.c:383
 #, c-format
 msgid "compiler libgcc filename not understood: %.250s"
 msgstr "fichier libgcc du compilateur non compris: %.250s"
 
-#: main/enquiry.c:661
+#: main/enquiry.c:387
 msgid "--print-installation-architecture does not take any argument"
 msgstr "--print-installation-architecture ne prend aucun argument"
 
-#: main/enquiry.c:681
+#: main/enquiry.c:407
 msgid "--print-architecture does not take any argument"
 msgstr "--print-architecture ne prend aucun argument"
 
-#: main/enquiry.c:687
+#: main/enquiry.c:413
 msgid "failed to fdopen CC pipe"
 msgstr "échec de \"fdopen\" sur le tube de CC"
 
-#: main/enquiry.c:705
+#: main/enquiry.c:431
 msgid "error reading from CC pipe"
 msgstr "erreur de lecture sur le tube de CC"
 
-#: main/enquiry.c:707
+#: main/enquiry.c:433
 msgid "empty output"
 msgstr "sortie vide"
 
-#: main/enquiry.c:709
+#: main/enquiry.c:435
 msgid "no newline"
 msgstr "pas de saut de ligne"
 
-#: main/enquiry.c:712
+#: main/enquiry.c:438
 msgid "no gcc-lib component"
 msgstr "pas de composant gcc-lib"
 
-#: main/enquiry.c:714
+#: main/enquiry.c:440
 msgid "no slash after gcc-lib"
 msgstr "pas de slash après gcc-lib"
 
-#: main/enquiry.c:726
+#: main/enquiry.c:452
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr ""
 "dpkg: avertissement, architecture `%s' inexistante dans la table des "
 "correspondances\n"
 
-#: main/enquiry.c:769
+#: main/enquiry.c:495
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "--compare-versions prend trois arguments: <version> <relation> <version>"
 
-#: main/enquiry.c:774
+#: main/enquiry.c:500
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions mauvaise relation"
 
-#: main/enquiry.c:779
+#: main/enquiry.c:505
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "mauvaise syntaxe de la version `a' : %s\n"
 
-#: main/enquiry.c:789
+#: main/enquiry.c:515
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "mauvaise syntaxe de la version `b' : %s\n"
@@ -2389,23 +2293,29 @@ msgstr ""
 "  dpkg -A|--record-avail <nom fichier .deb> ... | -R|--recursive <rép> ...\n"
 "  dpkg --configure           <nom paquet> ... | -a|--pending\n"
 "  dpkg -r|--remove | --purge <nom paquet> ... | -a|--pending\n"
-"  dpkg --get-selections [<motif> ...]     Afficher la liste des sélections sur\n"
+"  dpkg --get-selections [<motif> ...]     Afficher la liste des sélections "
+"sur\n"
 "                                            la sortie standard\n"
-"  dpkg --set-selections                   Paramètrer la liste des sélections à \n"
+"  dpkg --set-selections                   Paramètrer la liste des sélections "
+"à \n"
 "                                            partir de l'entrée standard\n"
-"  dpkg --update-avail <fichier paquets>   Remplacer les informations sur les\n"
+"  dpkg --update-avail <fichier paquets>   Remplacer les informations sur "
+"les\n"
 "                                             paquets disponibles\n"
 "  dpkg --merge-avail <fichier paquets>    Fusionner les informations avec\n"
 "                                             celles issues du fichier\n"
 "  dpkg --clear-avail                      Effacer les informations sur les\n"
 "                                             paquets\n"
-"  dpkg --command-fd <n>                   Passer des commandes en entrée sur ce\n"
+"  dpkg --command-fd <n>                   Passer des commandes en entrée sur "
+"ce\n"
 "                                             descripteur de fichier\n"
-"  dpkg --forget-old-unavail               Oublier les paquets non installés et\n"
+"  dpkg --forget-old-unavail               Oublier les paquets non installés "
+"et\n"
 "                                             non-disponibles\n"
 "  dpkg -s|--status <nom paquet> ...       Afficher les détails de l'état du\n"
 "                                             paquet\n"
-"  dpkg -p|--print-avail <nom paquet> ...  Afficher les détails de la version\n"
+"  dpkg -p|--print-avail <nom paquet> ...  Afficher les détails de la "
+"version\n"
 "                                             disponible\n"
 "  dpkg -L|--listfiles <nom paquet> ...    Lister les fichiers appartenant \n"
 "                                             au(x) paquet(s)\n"
@@ -2422,23 +2332,28 @@ msgstr ""
 "                                             machine (pour l'installation)\n"
 "  dpkg --compare-versions <a> <rel> <b>   Comparer les numéros de version \n"
 "                                             (voir ci-dessous)\n"
-"  dpkg --help | --version                 Afficher cette aide et le numéro de \n"
+"  dpkg --help | --version                 Afficher cette aide et le numéro "
+"de \n"
 "                                             version\n"
-"  dpkg --force-help | -Dh|--debug=help    Afficher l'aide sur respectivement \n"
+"  dpkg --force-help | -Dh|--debug=help    Afficher l'aide sur "
+"respectivement \n"
 "                                             le forçage/débogage\n"
 "  dpkg --licence                          Afficher les termes de la licence\n"
 "\n"
 "Utiliser dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-" -x|--extract|-X|--vextract|--fsys-tarfile sur les archives (taper %s --help.)\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile sur les archives (taper %s --"
+"help.)\n"
 "\n"
 "À usage interne : dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 "\n"
 "Options :\n"
 "  --admindir=<rep>           Utilise le répertoire <rep> au lieu de %s\n"
-"  --root=<rep>               Installe sur un système alternatif dont la racine\n"
+"  --root=<rep>               Installe sur un système alternatif dont la "
+"racine\n"
 "                                 est située à un autre endroit\n"
-"  --instdir=<directory>      Change la racine d'installation sans changer le\n"
+"  --instdir=<directory>      Change la racine d'installation sans changer "
+"le\n"
 "                                 réperoire d'administration\n"
 "  -O|--selected-only         Ignore les paquets non sélectionnées pour être\n"
 "                                 installés/mis à niveau\n"
@@ -2448,24 +2363,31 @@ msgstr ""
 "                                 récente que celle installée\n"
 "  -B|--auto-deconfigure      Installe même si cela entraîne la rupture \n"
 "                                 d'autres paquets\n"
-"  --no-debsig                Ne pas tenter d'authentifier les signatures des\n"
+"  --no-debsig                Ne pas tenter d'authentifier les signatures "
+"des\n"
 "                                 paquets\n"
 "  --no-act                   Seulement exprimer ce que l'on voudrait faire\n"
 "                                 sans rien faire\n"
-"  -D|--debug=<octal>         Activer le débogage - voir -Dhelp ou --debug=help\n"
-"  --status-fd <n>            Envoyer les mises à jour d'état au descripteur de\n"
+"  -D|--debug=<octal>         Activer le débogage - voir -Dhelp ou --"
+"debug=help\n"
+"  --status-fd <n>            Envoyer les mises à jour d'état au descripteur "
+"de\n"
 "                                 fichier <n>\n"
 "  --ignore-depends=<paquet>,... Ignorer les dépendances impliquant <paquet>\n"
-"  --force-...                   Outrepasser les problèmes - voir --force-help\n"
+"  --force-...                   Outrepasser les problèmes - voir --force-"
+"help\n"
 "  --no-force-...|--refuse-...   Arrêter en cas de problèmes\n"
 "  --abort-after <n>             Arrêter après avoir rencontré <n> erreurs\n"
 "\n"
 "Les opérateurs de comparaison pour --compare-versions sont les suivants :\n"
-" lt le eq ne ge gt       (ne considérer aucune version comme plus tardive que\n"
+" lt le eq ne ge gt       (ne considérer aucune version comme plus tardive "
+"que\n"
 "                          n'importe quelle version);\n"
-" lt-nl le-nl ge-nl gt-nl (ne considérer aucune version comme plus récente que\n"
+" lt-nl le-nl ge-nl gt-nl (ne considérer aucune version comme plus récente "
+"que\n"
 "                          n'importe quelle version);\n"
-" < << <= = >= >> >       (uniquement pour des raison de compatibilité avec la\n"
+" < << <= = >= >> >       (uniquement pour des raison de compatibilité avec "
+"la\n"
 "                          syntaxe du fichier control).\n"
 "\n"
 "Utiliser `dselect' pour gérer les paquets de manière plus conviviale.\n"
@@ -2613,20 +2535,24 @@ msgid ""
 msgstr ""
 "Options de forçage de %s - contrôler le comportement en cas de problèmes :\n"
 "  avertir mais continuer: --force-<option>,<option>,...\n"
-"  sortir en erreur :      --refuse-<option>,<option>,... | --no-force-<option>,...\n"
+"  sortir en erreur :      --refuse-<option>,<option>,... | --no-force-"
+"<option>,...\n"
 " Forcer des choses :\n"
 "  all                    Sélectionner toutes les options de forçage\n"
-"  auto-select [*]        (Dé)sélectionner les paquets à installer (supprimer)\n"
+"  auto-select [*]        (Dé)sélectionner les paquets à installer "
+"(supprimer)\n"
 "  downgrade [*]          Remplacer un paquet avec une version inférieure\n"
 "  configure-any          Configurer tous les paquets en rapport\n"
 "  hold                   Traiter même les paquets à garder (on hold)\n"
 "  bad-path               Programmes non visibles par la variable PATH et \n"
 "                            problèmes similaires\n"
 "  not-root               Tenter de (dé)installer même sans être root\n"
-"  overwrite              Remplacer un fichier d'un paquet par celui d'un autre\n"
+"  overwrite              Remplacer un fichier d'un paquet par celui d'un "
+"autre\n"
 "  overwrite-diverted     Remplacer un fichier détourné avec une version\n"
 "                            non-détournée\n"
-"  bad-verify             Installer un paquet même si son autenticité ne peut \n"
+"  bad-verify             Installer un paquet même si son autenticité ne "
+"peut \n"
 "                            être vérifiée\n"
 "  depends-version [!]    Changer les problèmes de dépendance versionné en \n"
 "                            avertissements\n"
@@ -2637,10 +2563,13 @@ msgstr ""
 "  confold [!]            Toujours utiliser les anciens fichiers de \n"
 "                            configuration et ne rien demander\n"
 "  confdef [!]            Utiliser l'option par défaut des nouveaux fichiers\n"
-"                            de configuration si celle-ci est disponible et ne\n"
+"                            de configuration si celle-ci est disponible et "
+"ne\n"
 "                            rien demander.\n"
-"                         Si aucune option par défaut n'est trouvée, vous serez\n"
-"                           invité à en saisir une à moins que l'une des options\n"
+"                         Si aucune option par défaut n'est trouvée, vous "
+"serez\n"
+"                           invité à en saisir une à moins que l'une des "
+"options\n"
 "                           confold ou confnew soit aussi choisie\n"
 "  confmiss [!]           Toujours installer les fichiers de configuration \n"
 "                           manquants\n"
@@ -2648,10 +2577,12 @@ msgstr ""
 "  architecture [!]       Traiter même les paquets d'une autre architecture\n"
 "  overwrite-dir [!]      Remplacer le répertoire d'un paquet par le fichier\n"
 "                           d'un autre\n"
-"  remove-reinstreq [!]   Supprimer les paquets requérant une ré-installation\n"
+"  remove-reinstreq [!]   Supprimer les paquets requérant une ré-"
+"installation\n"
 "  remove-essential [!]   Supprimer un paquet essentiel\n"
 "\n"
-"ATENTION : utiliser une option marquée [!] peut sérieusement endommager votre\n"
+"ATENTION : utiliser une option marquée [!] peut sérieusement endommager "
+"votre\n"
 "           installation.\n"
 "Les options de forçage marquées [*] sont activées par défaut.\n"
 
@@ -2660,37 +2591,43 @@ msgstr ""
 msgid "unknown force/refuse option `%.*s'"
 msgstr "option de forçage/refus `%.*s' inconnue"
 
-#: main/main.c:427
+#: main/main.c:437 main/main.c:441
 msgid "couldn't malloc in execbackend"
 msgstr "Impossible de faire un malloc dans execbackend"
 
-#: main/main.c:432
-msgid "failed to exec dpkg-deb"
-msgstr "échec de l'exécution de dpkg-deb"
+#: main/main.c:439 main/main.c:446
+#, fuzzy
+msgid "couldn't strdup in execbackend"
+msgstr "Impossible de faire un malloc dans execbackend"
 
-#: main/main.c:444
+#: main/main.c:450
+#, fuzzy, c-format
+msgid "failed to exec %s"
+msgstr "échec de l'exécution de \"tar\""
+
+#: main/main.c:462
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd prend 1 argument, pas 0"
 
-#: main/main.c:445
+#: main/main.c:463
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd ne prend qu'un argument"
 
-#: main/main.c:447
+#: main/main.c:465
 msgid "invalid number for --command-fd"
 msgstr "nombre invalide pour --command-fd"
 
-#: main/main.c:449
+#: main/main.c:467
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "impossible d'ouvrir le flux d'entrée `%i'"
 
-#: main/main.c:474
+#: main/main.c:492
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "EOF inattendu avant la fin de la ligne %d"
 
-#: dpkg-deb/main.c:158 main/main.c:518 main/main.c:562 split/main.c:166
+#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:570 split/main.c:166
 msgid "need an action option"
 msgstr "requiert une option d'action"
 
@@ -2698,6 +2635,11 @@ msgstr "requiert une option d'action"
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending ne prend pas d'argument non optionnel"
+
+#: main/packages.c:109
+#, c-format
+msgid "--%s needs at least one package name argument"
+msgstr "--%s a besoin d'au moins un nom de paquet comme argument"
 
 #: main/packages.c:116
 msgid ""
@@ -3120,6 +3062,11 @@ msgstr "ne peut pas supprimer la liste des anciens fichiers"
 #: main/remove.c:467
 msgid "can't remove old postrm script"
 msgstr "ne peut pas supprimer l'ancien script \"postrm\""
+
+#: main/select.c:80
+#, c-format
+msgid "No packages found matching %s.\n"
+msgstr "Aucun paquet ne correspond à %s.\n"
 
 #: main/select.c:95
 msgid "--set-selections does not take any argument"
@@ -4319,21 +4266,21 @@ msgstr "%s: aucun fichier vérifié\n"
 msgid "Search for ? "
 msgstr "Rechercher ?"
 
-#: dselect/basecmds.cc:130
+#: dselect/basecmds.cc:131
 msgid "Help: "
 msgstr "Aide : "
 
-#: dselect/basecmds.cc:136
+#: dselect/basecmds.cc:137
 msgid ""
 "? = help menu    Space = exit help    . = next help    or a help page key "
 msgstr ""
 "? = menu d'aide  Espace = sortir de l'aide  . = aide suivante ou page d'aide"
 
-#: dselect/basecmds.cc:144
+#: dselect/basecmds.cc:145
 msgid "Help information is available under the following topics:"
 msgstr "L'information d'aide est accessible au travers des thèmes suivants :"
 
-#: dselect/basecmds.cc:152
+#: dselect/basecmds.cc:153
 msgid ""
 "Press a key from the list above, Space to exit help,\n"
 "  or `.' (full stop) to read each help page in turn. "
@@ -4342,76 +4289,77 @@ msgstr ""
 "  Espace pour sortir de l'aide, ou `.' (point) pour \n"
 "  lire chaque page tour à tour. "
 
-#: dselect/basecmds.cc:158
+#: dselect/basecmds.cc:159
 msgid "error reading keyboard in help"
 msgstr "erreur de lecture du clavier dans l'aide"
 
-#: dselect/baselist.cc:53
+#: dselect/baselist.cc:54
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr "échec de \"ioctl(TIOCGWINSZ)\""
 
-#: dselect/baselist.cc:56
+#: dselect/baselist.cc:57
 msgid "doupdate in SIGWINCH handler failed"
 msgstr "échec de doupdate dans le gestionnaire de SIGWINCH"
 
-#: dselect/baselist.cc:63
+#: dselect/baselist.cc:64
 msgid "failed to restore old SIGWINCH sigact"
 msgstr "échec de la restauration de l'ancien sigact de SIGWINCH"
 
-#: dselect/baselist.cc:65
+#: dselect/baselist.cc:66
 msgid "failed to restore old signal mask"
 msgstr "échec de la restauration de l'ancien masque de signal"
 
-#: dselect/baselist.cc:75
+#: dselect/baselist.cc:76
 msgid "failed to get old signal mask"
 msgstr "échec de la récupération de l'ancien masque de signal"
 
-#: dselect/baselist.cc:76
+#: dselect/baselist.cc:77
 msgid "failed to get old SIGWINCH sigact"
 msgstr "échec de la récupération de l'ancien sigact de SIGWINCH"
 
-#: dselect/baselist.cc:80
+#: dselect/baselist.cc:81
 msgid "failed to block SIGWINCH"
 msgstr "échec du bloquage de SIGWINCH"
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:85
+#: dselect/baselist.cc:86
 msgid "failed to set new SIGWINCH sigact"
 msgstr "échec du positionnement du nouveau sigact de SIGWINCH"
 
-#: dselect/baselist.cc:121
-msgid "failed to allocate colour pairs"
+#: dselect/baselist.cc:123
+#, fuzzy
+msgid "failed to allocate colour pair"
 msgstr "échec de l'allocation des paires de couleurs"
 
-#: dselect/baselist.cc:153
+#: dselect/baselist.cc:163
 msgid "failed to create title window"
 msgstr "échec de la création de la fenêtre de titre"
 
-#: dselect/baselist.cc:157
+#: dselect/baselist.cc:167
 msgid "failed to create whatinfo window"
 msgstr "échec de la création de la fenêtre d'à propos"
 
-#: dselect/baselist.cc:161
+#: dselect/baselist.cc:171
 msgid "failed to create baselist pad"
 msgstr "échec de la création de la zone de liste de base"
 
-#: dselect/baselist.cc:164
+#: dselect/baselist.cc:174
 msgid "failed to create heading pad"
 msgstr "échec de la création de la zone d'entête"
 
-#: dselect/baselist.cc:168
+#: dselect/baselist.cc:178
 msgid "failed to create thisstate pad"
 msgstr "échec de la création de la zone d'état"
 
-#: dselect/baselist.cc:172
+#: dselect/baselist.cc:182
 msgid "failed to create info pad"
 msgstr "échec de la création de la zone d'info"
 
-#: dselect/baselist.cc:176
+#: dselect/baselist.cc:187
 msgid "failed to create query window"
 msgstr "échec de la création de la fenêtre de requête"
 
-#: dselect/baselist.cc:188
+#: dselect/baselist.cc:200
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -4436,21 +4384,21 @@ msgstr ""
 " whatinfo_row=%d, list_row=%d;\n"
 "\n"
 
-#: dselect/baselist.cc:244
+#: dselect/baselist.cc:256
 msgid "keybindings"
 msgstr "combinaisons de touches"
 
-#: dselect/baselist.cc:299
+#: dselect/baselist.cc:311
 #, c-format
 msgid "  -- %d%%, press "
 msgstr "  -- %d%%, appuyez sur "
 
-#: dselect/baselist.cc:302
+#: dselect/baselist.cc:314
 #, c-format
 msgid "%s for more"
 msgstr "%s pour plus d'informations"
 
-#: dselect/baselist.cc:306
+#: dselect/baselist.cc:318
 #, c-format
 msgid "%s to go back"
 msgstr "%s pour revenir en arrière"
@@ -4599,105 +4547,105 @@ msgstr "Quitter sans changer la méthode d'accès précédemment sélectionnée"
 msgid "Type dselect --help for help."
 msgstr "Taper dselect --help pour obtenir une aide."
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "a"
 msgstr "a"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "[A]ccess"
 msgstr "[A]ccéder"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:137
 msgid "Choose the access method to use."
 msgstr "Choisir la méthode d'accès à utiliser"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "u"
 msgstr "m"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "[U]pdate"
 msgstr "[M]mis à jour"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:138
 msgid "Update list of available packages, if possible."
 msgstr "Mise à jour de l'information sur les paquets disponibles, si possible."
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "s"
 msgstr "s"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "[S]elect"
 msgstr "[S]électionner"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:139
 msgid "Request which packages you want on your system."
 msgstr "Sélection des paquets que vous désirez avoir sur votre système."
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "i"
 msgstr "i"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "[I]nstall"
 msgstr "[I]nstaller"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:140
 msgid "Install and upgrade wanted packages."
 msgstr "Installation et mise à niveau des paquets désirés."
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "c"
 msgstr "c"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "[C]onfig"
 msgstr "[C]onfigurer"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:141
 msgid "Configure any packages that are unconfigured."
 msgstr "Configuration de tout paquet non configuré."
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "r"
 msgstr "r"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "[R]emove"
 msgstr "[R]etirer"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:142
 msgid "Remove unwanted software."
 msgstr "Suppression des applications non désirées."
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "q"
 msgstr "q"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "[Q]uit"
 msgstr "[Q]uitter"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:143
 msgid "Quit dselect."
 msgstr "Quitter dselect."
 
-#: dselect/main.cc:79
+#: dselect/main.cc:144
 msgid "menu"
 msgstr "menu"
 
-#: dselect/main.cc:84
+#: dselect/main.cc:149
 #, c-format
 msgid "Debian `%s' package handling frontend."
 msgstr "Debian `%s' frontal de gestion de paquets."
 
-#: dselect/main.cc:87
-#, c-format
+#: dselect/main.cc:152
+#, fuzzy, c-format
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "This is free software; see the GNU General Public Licence version 2\n"
 "or later for copying conditions.  There is NO warranty.  See\n"
 "dselect --licence for details.\n"
@@ -4711,13 +4659,15 @@ msgstr ""
 "utilisation.  Vous êtes invités à consulter dselect --licence pour prendre\n"
 "connaissance des détails ayant trait à la licence.\n"
 
-#: dselect/main.cc:102
+#: dselect/main.cc:168
+#, fuzzy
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
 "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
 "          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-"Actions:  access update select install config remove quit menu\n"
+"          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"Actions:  access update select install config remove quit\n"
 msgstr ""
 "Utilisation: dselect [options]\n"
 "             dselect [options] action ...\n"
@@ -4729,20 +4679,54 @@ msgstr ""
 "(Traduction: accéder mettre à jour sélectionner installer configurer "
 "supprimer quitter menu)\n"
 
-#: dselect/main.cc:122
+#: dselect/main.cc:176
+msgid "Screenparts:\n"
+msgstr ""
+
+#: dselect/main.cc:181
+msgid "Colours:\n"
+msgstr ""
+
+#: dselect/main.cc:186
+msgid "Attributes:\n"
+msgstr ""
+
+#: dselect/main.cc:206
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "impossible d'ouvrir le fichier de débogage `%.255s'\n"
 
-#: dselect/main.cc:153
+#: dselect/main.cc:221
+#, c-format
+msgid "Invalid %s `%s'\n"
+msgstr ""
+
+#. strtok modifies strings, keep string const
+#: dselect/main.cc:238
+msgid "screen part"
+msgstr ""
+
+#: dselect/main.cc:244
+msgid "Null color specificaton\n"
+msgstr ""
+
+#: dselect/main.cc:252 dselect/main.cc:257
+msgid "color"
+msgstr ""
+
+#: dselect/main.cc:265
+msgid "color attribute"
+msgstr ""
+
+#: dselect/main.cc:299
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Il semble que votre terminal ne supporte pas la gestion du curseur\n"
 
-#: dselect/main.cc:155
+#: dselect/main.cc:301
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Il semble que votre terminal ne supporte pas le surlignage\n"
 
-#: dselect/main.cc:156
+#: dselect/main.cc:302
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
@@ -4751,11 +4735,11 @@ msgstr ""
 "un meilleur terminal ou contentez-vous d'une installation \n"
 "paquet par paquet avec l'outil de gestion de paquet "
 
-#: dselect/main.cc:159
+#: dselect/main.cc:305
 msgid "terminal lacks necessary features, giving up"
 msgstr "Il manque d'importantes fonctionnalités au terminal, abandon"
 
-#: dselect/main.cc:237
+#: dselect/main.cc:383
 msgid ""
 "\n"
 "\n"
@@ -4770,7 +4754,7 @@ msgstr ""
 "Appuyez sur <Entrée> pour confirmer la sélection. ^L pour redessiner "
 "l'écran.\n"
 
-#: dselect/main.cc:251
+#: dselect/main.cc:397
 msgid ""
 "\n"
 "\n"
@@ -4780,11 +4764,11 @@ msgstr ""
 "\n"
 "Accès en lecture seule : seul un aperçu des sélections est disponible !"
 
-#: dselect/main.cc:268
+#: dselect/main.cc:416
 msgid "failed to getch in main menu"
 msgstr "échec de \"getch\" dans le menu principal"
 
-#: dselect/main.cc:336
+#: dselect/main.cc:496
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "chaîne d'action inconnue `%.50s'"
@@ -4802,6 +4786,10 @@ msgstr "Méthode d'accès `%s'."
 msgid "Abbrev."
 msgstr "Abrév."
 
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295
+msgid "Description"
+msgstr "Description"
+
 #: dselect/methlist.cc:155
 msgid "doupdate failed"
 msgstr "échec de doupdate"
@@ -4818,7 +4806,7 @@ msgstr "échec du rebloquage de SIGWINCH"
 msgid "getch failed"
 msgstr "échec de \"getch\""
 
-#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:241 dselect/pkgdepcon.cc:280
+#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:242
 msgid "[none]"
 msgstr "[néant]"
 
@@ -5473,6 +5461,10 @@ msgstr "Ancienne marque"
 msgid "Marked for"
 msgstr "Marqué pour"
 
+#: dselect/pkgtop.cc:282
+msgid "EIOM"
+msgstr ""
+
 #: dselect/pkgtop.cc:284
 msgid "Section"
 msgstr "Section"
@@ -5820,10 +5812,11 @@ msgstr ""
 "Affichage, 2me partie : surlignage de la liste; affichage d'informations"
 
 #: dselect/helpmsgs.cc:125
+#, fuzzy
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
-"  which package(s) will be affected by presses of `+', '-' and `_'.\n"
+"  which package(s) will be affected by presses of `+', `-' and `_'.\n"
 "\n"
 "* The dividing line in the middle of the screen shows a brief explanation "
 "of\n"
@@ -5967,6 +5960,81 @@ msgstr ""
 " ^l               redessiner l'affichage\n"
 "  /               rechercher (appuyer sur entrée pour annuler)\n"
 "  \\               répéter la dernière recherche\n"
+
+#~ msgid ""
+#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#~ "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
+#~ "installed\n"
+#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+#~ "uppercase=bad)\n"
+#~ msgstr ""
+#~ "Souhait=inconnU/Installé/suppRimé/Purgé/H=à garder\n"
+#~ "| État=Non/Installé/fichier-Config/dépaqUeté/échec-conFig/H=semi-"
+#~ "installé\n"
+#~ "|/ Err?=(aucune)/H=à garder/besoin Réinstallation/X=les deux (Etat,Err: "
+#~ "majuscule=mauvais)\n"
+
+#~ msgid "Name"
+#~ msgstr "Nom"
+
+#~ msgid "Version"
+#~ msgstr "Version"
+
+#~ msgid "diversion by %s"
+#~ msgstr "détourné par %s"
+
+#~ msgid "local diversion"
+#~ msgstr "détournement local"
+
+#~ msgid "to"
+#~ msgstr "à"
+
+#~ msgid "from"
+#~ msgstr "de"
+
+#~ msgid "--search needs at least one file name pattern argument"
+#~ msgstr ""
+#~ "--search a besoin d'au moins un motif de nom de fichier comme argument"
+
+#~ msgid "dpkg: %s not found.\n"
+#~ msgstr "dpkg: %s introuvable.\n"
+
+#~ msgid "Package `%s' is not installed and no info is available.\n"
+#~ msgstr ""
+#~ "Le paquet `%s' n'est pas installé et aucune information n'est "
+#~ "disponible.\n"
+
+#~ msgid "Package `%s' is not available.\n"
+#~ msgstr "Le paquet `%s' n'est pas disponible.\n"
+
+#~ msgid "Package `%s' is not installed.\n"
+#~ msgstr "Le paquet `%s' n'est pas installé.\n"
+
+#~ msgid "Package `%s' does not contain any files (!)\n"
+#~ msgstr "Le paquet `%s' ne contient aucun fichier (!)\n"
+
+#~ msgid "locally diverted"
+#~ msgstr "détourné localement"
+
+#~ msgid "package diverts others"
+#~ msgstr "paquet détournant d'autres"
+
+#~ msgid "diverted by %s"
+#~ msgstr "détourné par %s"
+
+#~ msgid " to: %s\n"
+#~ msgstr "vers : %s\n"
+
+#~ msgid ""
+#~ "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#~ "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+#~ msgstr ""
+#~ "Utilisez dpkg --info (= dpkg-deb --info) pour examiner les fichiers\n"
+#~ "archives, et dpkg --contents (= dpkg-deb --contents) pour afficher leur\n"
+#~ "contenu.\n"
+
+#~ msgid "failed to exec dpkg-deb"
+#~ msgstr "échec de l'exécution de dpkg-deb"
 
 #~ msgid "%s: read error on stdin\n"
 #~ msgstr "%s: erreur de lecture sur l'entrée standard\n"
