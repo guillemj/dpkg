@@ -1,9 +1,6 @@
 #!/usr/bin/make -f
 # vim: nowrap ts=8
 
-# Set shell to bash to we can use bashisms without having to worry
-SHELL		= bash
-
 # Build locations
 BUILD		:= $(shell pwd)/build
 TMP		:= $(shell pwd)/debian/tmp
@@ -30,7 +27,7 @@ $(BUILD)/config.status:
 
 clean:
 	$(checkdir)
-	rm -f debian/{files,substvars}
+	rm -f debian/files debian/substvars
 	rm -f debian/dpkg,substvars
 	rm -fr $(BUILD) $(TMP) $(TMP_DPKG) $(TMP_DPKG_DEV) $(TMP_DPKG_DOC)
 	rm -f stamp-build stamp-binary
