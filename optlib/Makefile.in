@@ -1,0 +1,29 @@
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+include ../Makefile.conf
+
+SOURCES		= getopt.c getopt1.c long-options.c closeout.c
+
+OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
+GENFILES	= $(OBJECTS) libopt.a
+
+.PHONY: all
+all:: libopt.a
+	
+libopt.a: $(OBJECTS)
+	$(AR) r $@ $^
+
+.PHONY: install
+install:: all
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+
+.PHONY: distclean
+cvslean:: clean
+	$(RM) Makefile
+
