@@ -1,5 +1,5 @@
 /*
- * dselect - Debian GNU/Linux package maintenance user interface
+ * dselect - Debian package maintenance user interface
  * pkginfo.cc - handles (re)draw of package list window infopad
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>

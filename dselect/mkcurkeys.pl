@@ -1,6 +1,6 @@
 #!/usr/bin/perl --
 #
-# dselect - Debian GNU/Linux package maintenance user interface
+# dselect - Debian package maintenance user interface
 # mkcurkeys.pl - generate strings mapping key names to ncurses numbers
 #
 # Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>

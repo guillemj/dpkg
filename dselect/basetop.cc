@@ -1,5 +1,5 @@
 /*
- * dselect - Debian GNU/Linux package maintenance user interface
+ * dselect - Debian package maintenance user interface
  * bdrawtop.cc - base list class redraw of top
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>

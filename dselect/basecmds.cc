@@ -1,8 +1,9 @@
 /*
- * dselect - Debian GNU/Linux package maintenance user interface
+ * dselect - Debian package maintenance user interface
  * bcommands.cc - base list keyboard commands display
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -98,7 +99,6 @@ void baselist::kd_search() {
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
   echo(); /* fixme: ncurses documentation or implementation */
-  /* fixme: make / RET do `search again' and / DEL to abort */
   if (wgetnstr(querywin,newsearchstring,sizeof(newsearchstring)-1) == ERR)
     searchstring[0]= 0;
   raise(SIGWINCH); /* fixme: ncurses and xterm arrow keys */

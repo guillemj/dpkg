@@ -1,5 +1,5 @@
 /*
- * dselect - Debian GNU/Linux package maintenance user interface
+ * dselect - Debian package maintenance user interface
  * method.cc - access method handling
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
