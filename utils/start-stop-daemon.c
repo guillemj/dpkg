@@ -1209,9 +1209,10 @@ main(int argc, char **argv)
 			exit(0);
 		}
 		 /* child continues here */
-#if defined(OShpux)
+
 		/* create a new session */
 		setsid();
+#if defined(OShpux)
 		 /* now close all extra fds */
 		for (i=sysconf(_SC_OPEN_MAX)-1; i>=0; --i) close(i);
 #else
