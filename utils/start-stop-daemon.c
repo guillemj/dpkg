@@ -28,7 +28,7 @@
 #  define OSHURD
 #elif defined(__sparc__)
 #  define OSsunos
-#elif defined(OPENBSD)
+#elif defined(OPENBSD) || defined(__OpenBSD__)
 #  define OSOpenBSD
 #elif defined(hpux)
 #  define OShpux

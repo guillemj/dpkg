@@ -82,6 +82,10 @@ sub isbin {
     }
     if ($d =~ /^\177ELF$/) { # ELF binary
        return 1;
+    } elsif (unpack ('N', $d) == 2156265739) { # obsd dyn bin
+       return 1;
+    } elsif (unpack ('N', $d) == 8782091) { # obsd stat bin
+       return 1;
     } elsif ($d =~ /^\#\!..$/) { # shell script
        return 0;
     } elsif (unpack ('N', $d) == 0xcafebabe) { # JAVA binary

@@ -95,11 +95,13 @@ Known GNU System Types are ".join(", ",map ($archtable{$_},keys %archtable))."
 ";
 }
 
-sub rewrite_gnu_cpu {
+sub rewrite_gnu {
 	local ($_) = @_;
 
 	s/(?:i386|i486|i586|i686|pentium)(.*linux)/i386$1/;
 	s/ppc/powerpc/;
+	s/openbsd([\d\.]+$)/openbsd/;
+	s/-unknown-/-/;
 	return $_;
 }
 
@@ -108,7 +110,7 @@ sub gnu_to_debian {
 	local (@list);
 	local ($a);
 
-	$gnu = &rewrite_gnu_cpu($gnu);
+	$gnu = &rewrite_gnu($gnu);
 
 	foreach $a (keys %archtable) {
 		push @list, $a if $archtable{$a} eq $gnu;
@@ -171,7 +173,7 @@ while (@ARGV) {
     if (m/^-a/) {
 	$req_host_arch = $';
     } elsif (m/^-t/) {
-	$req_host_gnu_type = &rewrite_gnu_cpu($');
+	$req_host_gnu_type = &rewrite_gnu($');
     } elsif (m/^-[lsu]$/) {
 	$action = $_;
 	$action =~ s/^-//;

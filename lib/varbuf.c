@@ -27,6 +27,10 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
+#ifndef HAVE_VA_COPY
+#define __va_copy(dest,src)     (dest) = (src)
+#endif
+
 inline void varbufaddc(struct varbuf *v, int c) {
   if (v->used >= v->size) varbufextend(v);
   v->buf[v->used++]= c;

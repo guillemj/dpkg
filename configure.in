@@ -93,13 +93,36 @@ AC_MSG_RESULT($VERSION)
 
 AC_PREFIX_DEFAULT(/usr)
 
+# OpenBSD has decided to be odd and includ a version number
+# in the final field of the GNU system type.
+# This code strips it out in a generic way.
+os_type=''
+AC_MSG_CHECKING(Operating system type)
+case $target_os in 
+        *linux* )
+          os_type="linux";;
+        *openbsd* )
+          os_type="openbsd";;
+        *netbsd* )
+          os_type="netbsd";;
+        *freebsd* )
+          os_type="freebsd";;
+        gnu )
+          os_type="hurd";;
+esac
+if test "x$os_type" = "x"; then
+ os_type=$target_os 
+fi
+AC_MSG_RESULT([$os_type])
+AC_SUBST(os_type)
+
 dpkg_archset=''
 AC_MSG_CHECKING(Debian architecture)
-dpkg_archset="`awk '$1 == "'$target_cpu-$target_os'" { print $2 }' $srcdir/archtable`"
+dpkg_archset="`awk '$1 == "'$target_cpu-$os_type'" { print $2 }' $srcdir/archtable`"
 # Finish off
 if test "x$dpkg_archset" = "x"; then
- AC_MSG_RESULT([$target_cpu-$target_os, but not found in archtable])
- dpkg_archset=$target_cpu-$target_os
+ AC_MSG_RESULT([$target_cpu-$os_type, but not found in archtable])
+ dpkg_archset=$target_cpu-$os_type
  else
  AC_MSG_RESULT($dpkg_archset)
 fi
@@ -141,6 +164,14 @@ AC_CHECK_LIB(shouldbeinlibc, fmt_past_time, SSD_LIBS="-lshouldbeinlibc $SSD_LIBS
 AC_CHECK_LIB(kvm, kvm_openfiles, SSD_LIBS="-lkvm $SSD_LIBS")
 AC_SUBST(SSD_LIBS)
 
+# check for the proper curses library. This can be either
+# -lcurses or -lncurses, we need to check for either one.
+AC_CHECK_LIB(ncurses,initscr, CURSES_LIBS="-lncurses $CURSES_LIBS", AC_CHECK_LIB(curses,initscr, CURSES_LIBS="-lcurses $CURSES_LIBS"))
+if test "x$CURSES_LIBS" = "x"; then
+ AC_MSG_WARN(no curses library found)
+fi
+AC_SUBST(CURSES_LIBS)
+
 DPKG_CHECK_DEFINE(TIOCNOTTY,sys/ioctl.h)
 
 ZLIB_CFLAGS=
@@ -175,13 +206,17 @@ AC_TRY_COMPILE(,[
 } inline int foo (int x) {], AC_DEFINE(HAVE_INLINE,,[Define if inline functions a la GCC are available.]))
 
 AC_MSG_CHECKING([for __va_copy])
-AC_TRY_COMPILE([
+# OpenBSD passes AC_TRY_COMPILE for __va_copy even though 
+# it doesn't seem to exist, which is odd. We need to use
+# AC_TRY_RUN.
+AC_TRY_RUN([
 #include <stdarg.h>
-],[
+main(){
 va_list v1,v2;
 __va_copy(v1, v2);
+exit(0);}
 ], [AC_MSG_RESULT(yes)
-AC_DEFINE(HAVE_VA_COPY,,[Define if you have the __va_copy macro])],[AC_MSG_RESULT(no)
+AC_DEFINE(HAVE_VA_COPY)],[AC_MSG_RESULT(no)
 AC_MSG_CHECKING([for va_list assignment copy])
 AC_TRY_COMPILE([
 #include <stdarg.h>
