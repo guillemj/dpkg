@@ -26,6 +26,9 @@ endif
 
 BUILD-DIRS	:= $(BUILD) $(BUILD)-static
 
+# Hacky, but effective
+MANDIRS := $(shell sed -n -e '/^SUBDIRS/{s/.*= *//;s/ en / /;p}' $(CURDIR)/man/Makefile.in)
+
 aclocal.m4: $(wildcard automake/*.m4)
 	aclocal -I automake
 
@@ -124,7 +127,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 		cp -a $(INSTALL_TMP)/usr/share/doc/dpkg/$$i $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ ; \
 	done
 	cp -a debian/pseudo-tags $(TMP_DPKG)/usr/share/doc/dpkg$(static)/
-	set -e ; for i in "" de fr ja sv ; do \
+	set -e ; for i in "" $(MANDIRS) ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/man/$$i/man1 ; \
 		for m in md5sum.1 dpkg-deb.1 ; do \
 			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m ] ; then \
@@ -201,7 +204,7 @@ binary-dpkg-dev: stamp-binary
 		dpkg-parsechangelog dpkg-checkbuilddeps ; do \
 		mv $(INSTALL_TMP)/usr/bin/$$i $(TMP_DPKG_DEV)/usr/bin/ ; \
 	done
-	set -e ; for i in "" de fr ja sv ; do \
+	set -e ; for i in "" $(MANDIRS) ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/man/$$i/man1 ; \
 		for m in dpkg-name.1 dpkg-source.1 822-date.1 dpkg-architecture.1 \
 			dpkg-buildpackage.1 dpkg-distaddfile.1 dpkg-genchanges.1 \
@@ -251,7 +254,7 @@ binary-dselect: stamp-binary
 	install -d -m 755 -o root -g root $(TMP_DSELECT)/var/lib/dpkg
 	mv $(INSTALL_TMP)/var/lib/dpkg/methods $(TMP_DSELECT)/var/lib/dpkg/
 
-	set -e ; for i in "" de fr ja sv ; do \
+	set -e ; for i in "" $(MANDIRS) ; do \
 		install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/share/man/$$i/man5 ; \
 		for m in dselect.cfg.5 ; do \
 			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m ] ; then \
