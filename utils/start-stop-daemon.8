@@ -43,7 +43,10 @@ instance, using either the executable specified by
 Any arguments given after
 .BR --
 on the command line are passed unmodified to the program being
-started.
+started.  If
+.B --retry
+is specified then start-stop-daemon will check that the process(es)
+have terminated.
 
 With 
 .BR --stop ,
@@ -94,6 +97,53 @@ Check for processes with the name
 With
 .BR --stop
 , specifies the signal to send to processes being stopped (default 15).
+.TP
+\fB-R\fP|\fB--retry\fP \fItimeout\fP|\fIschedule\fP
+With
+.BR --stop ,
+specifies that
+.B start-stop-daemon
+is to check whether the process(es)
+do finish.  It will check repeatedly whether any matching processes
+are running, until none are.  If the processes do not exit it will
+then take further action as determined by the schedule.
+
+If
+.I timeout
+is specified instead of
+.I schedule
+then the schedule
+.IB signal / timeout /KILL/ timeout
+is used, where
+.I signal
+is the signal specified with
+.BR --signal .
+
+.I schedule
+is a list of at least two items separated by slashes
+.RB ( / );
+each item may be
+.BI - signal-number
+or [\fB\-\fP]\fIsignal-name\fP,
+which means to send that signal,
+or
+.IR timeout ,
+which means to wait that many seconds for processes to
+exit,
+or
+.BR forever ,
+which means to repeat the rest of the schedule forever if
+necessary.
+
+If the end of the schedule is reached and
+.BR forever
+is not specified, then
+.B start-stop-daemon
+exits with error status 2.
+If a schedule is specified, then any signal specified
+with
+.B --signal
+is ignored.
 .TP
 \fB-a\fP|\fB--startas\fP \fIpathname\fP
 With 
