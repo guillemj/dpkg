@@ -54,6 +54,7 @@ Build options:   -c<controlfile>     get control info from this file
                  -sa                 auto select orig source (-sA is default)
                  -i[<regexp>]        filter out files to ignore diffs of.
                                      Defaults to: '$diff_ignore_default_regexp'
+                 -I<filename>        filter out files when building tarballs.
                  -sk                 use packed orig source (unpack & keep)
                  -sp                 use packed orig source (unpack & remove)
                  -su                 use unpacked orig source (pack & keep)
@@ -105,6 +106,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $remove{$1}= 1;
     } elsif (m/^-i(.*)$/) {
         $diff_ignore_regexp = $1 ? $1 : $diff_ignore_default_regexp;
+    } elsif (m/^-I(.+)$/) {
+        push @tar_ignore, "--exclude=$1";
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= $';
     } elsif (m/^-T/) {
@@ -312,7 +315,7 @@ if ($opmode eq 'build') {
             chdir($tardirbase) || &syserr("chdir to above (orig) source $tardirbase");
             open(STDOUT,">&GZIP") || &syserr("reopen gzip for tar");
             # FIXME: put `--' argument back when tar is fixed
-            exec('tar','-cf','-',$tardirname); &syserr("exec tar");
+            exec('tar',@tar_ignore,'-cf','-',$tardirname); &syserr("exec tar");
         }
         close(GZIP);
         &reapgzip;

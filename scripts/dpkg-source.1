@@ -309,6 +309,13 @@ from the ones in your working directory, thus causing them to be
 unnecessarily included in every .diff.gz, unless you use the \fB-i\fR
 switch.
 .TP
+.B -I<filename>
+If this option is specified, the filename will be passed to tar's --exclude
+option when it is called to generate a .orig.tar.gz or .tar.gz file. For
+example, -ICVS will make tar skip over CVS directories when generating 
+a .tar.gz file. The option may be repeated multiple times to list multiple
+filenames to exclude.
+.TP
 .BR -sa , -sp , -su , -sk , -sA , -sP , -sU , -sK , -ss " with " -b
 If
 .BR -sk " or " -sp
@@ -613,6 +620,10 @@ for the host machine.
 .B -i[<regexp>]
 Passed unchanged to
 .BR dpkg-source .
+.TP
+.B -I<filename>
+Passed unchanged to
+.BR dpkg-source . May be repeated multiple times.
 .TP
 .B -D
 Check build dependencies and conflicts; abort if unsatisfied.

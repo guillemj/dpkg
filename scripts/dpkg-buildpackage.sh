@@ -41,8 +41,8 @@ Options: -r<gain-root-command>
          -h            print this message
          -W            Turn certain errors into warnings.      } passed to
          -E            When -W is turned on, -E turned it off. } dpkg-source
-         -i[<regex>]   ignore diffs of files matching regex } only passed
-                                                             to dpkg-source
+         -i[<regex>]   ignore diffs of files matching regex    } only passed
+         -I<filename>  filter out files when building tarballs } to dpkg-source
 END
 }
 
@@ -91,6 +91,7 @@ do
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
         -i*)    diffignore=$1;;
+	-I*)	tarignore="$tarignore $1";;
 	-tc)	cleansource=true ;;
 	-t*)    targetgnusystem="$value" ;;          # Order DOES matter!
 	-nc)	noclean=true; if [ -z "$binaryonly" ]; then binaryonly=-b; fi ;;
@@ -192,7 +193,7 @@ if [ x$noclean != xtrue ]; then
 	withecho $rootcommand debian/rules clean
 fi
 if [ x$binaryonly = x ]; then
-	cd ..; withecho dpkg-source $passopts $diffignore -b "$dirn"; cd "$dirn"
+	cd ..; withecho dpkg-source $passopts $diffignore $tarignore -b "$dirn"; cd "$dirn"
 fi
 if [ x$sourceonly = x ]; then
 	withecho debian/rules build 
