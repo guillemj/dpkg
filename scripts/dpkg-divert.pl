@@ -117,9 +117,11 @@ close(O);
 if ($mode eq 'add') {
     @ARGV == 1 || &badusage("--add needs a single argument");
     $file= $ARGV[0];
+    $file =~ m#^/# || &badusage("filename \"$file\" is not absolute");
     $file =~ m/\n/ && &badusage("file may not contain newlines");
 	-d $file && &badusage("Cannot divert directories");
     $divertto= "$file.distrib" unless defined($divertto);
+    $divertto =~ m#^/# || &badusage("filename \"$divertto\" is not absolute");
     $package= ':' unless defined($package);
     for ($i=0; $i<=$#contest; $i++) {
         if ($contest[$i] eq $file || $altname[$i] eq $file ||

@@ -316,7 +316,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	      char cmdbuf[1024];
 	      p= getenv(PAGERENV);
 	      if (!p || !*p) p= DEFAULTPAGER;
-	      sprintf(cmdbuf, "diff -u %.250s %.250s | %.250s", cdr.buf, cdr2.buf, p);
+	      sprintf(cmdbuf, "diff -Nu %.250s %.250s | %.250s", cdr.buf, cdr2.buf, p);
               s= getenv(SHELLENV);
               if (!s || !*s) s= DEFAULTSHELL;
 	      execlp(s,s,"-c", cmdbuf, NULL);
