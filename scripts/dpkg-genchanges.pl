@@ -125,7 +125,7 @@ if (not $sourceonly) {
     $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
     open(FL,"< $fileslistfile") || &syserr("cannot read files list file");
     while(<FL>) {
-	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.deb) (\S+) (\S+)$/) {
+	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
 		&warn("duplicate files list entry for package $2 (line $.)");
 	    $f2p{$1}= $2;
@@ -178,7 +178,11 @@ for $_ (keys %fi) {
 	    $f=$p2f{$p};
 	    if (m/^Description$/) {
 		$v=$` if $v =~ m/\n/;
-		push(@descriptions,sprintf("%-10s - %-.65s",$p,$v));
+		if ($f =~ m/\.udeb$/) {
+			push(@descriptions,sprintf("%-10s - %-.65s (udeb)",$p,$v));
+		} else {
+			push(@descriptions,sprintf("%-10s - %-.65s",$p,$v));
+		}
 	    } elsif (m/^Section$/) {
 		$f2seccf{$f}= $v;
 	    } elsif (m/^Priority$/) {
