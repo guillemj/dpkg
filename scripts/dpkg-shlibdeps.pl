@@ -105,7 +105,7 @@ while (<P>) {
 }
 close(P); $? && subprocerr("dpkg --search");
 
-for ($i=0;$i<=$#libname;$i++) {
+LIB: for ($i=0;$i<=$#libname;$i++) {
     scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i]) && next;
     scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i]) && next;
     if (!defined($pathpackages{$libpath[$i]})) {
@@ -115,7 +115,8 @@ for ($i=0;$i<=$#libname;$i++) {
         @packages= split(/, /,$pathpackages{$libpath[$i]});
         for $p (@packages) {
             scanshlibsfile("$shlibsppdir/$p$shlibsppext",
-                           $libname[$i],$libsoname[$i],$libf[$i]) && next;
+                           $libname[$i],$libsoname[$i],$libf[$i])
+                && next LIB;
         }
     }
     scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i]) && next;

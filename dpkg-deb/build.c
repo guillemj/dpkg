@@ -124,9 +124,9 @@ void do_build(const char *const *argv) {
 
     if (subdir) {
       versionstring= versiondescribe(&checkedinfo->available.version,vdew_never);
-      m= m_malloc(strlen(debar)+1+strlen(checkedinfo->name)+1+
-                  strlen(versionstring)+sizeof(DEBEXT));
       arch= checkedinfo->available.architecture; if (!arch) arch= "";
+      m= m_malloc(sizeof(DEBEXT)+1+strlen(debar)+1+strlen(checkedinfo->name)+
+                  strlen(versionstring)+1+strlen(arch));
       sprintf(m,"%s/%s_%s%s%s" DEBEXT,debar,checkedinfo->name,versionstring,
               arch[0] ? "_" : "", arch);
       debar= m;

@@ -241,6 +241,14 @@ will read the names of the other file(s) making up the source package
 from the control file; they are assumed to be in the same directory as
 the
 .BR .dsc .
+
+The files in the extracted package will have their permissions and
+ownerships set to those which would have been expected if the files
+and directories had simply been created - directories and executable
+files will be 0777 and plain files will be 0666, both modified by the
+extractors' umask; if the parent directory is setgid then the
+extracted directories will be too, and all the files and directories
+will inherit its group ownership.
 .TP
 .B -b
 Build: pack up a source tree.  One or two non-option arguments should

@@ -24,11 +24,11 @@
 
 (defvar debian-changelog-urgencies
   '((?l."low") (?m."medium") (?h."HIGH"))
-  "alist of keystrokes vs. urgency values debian-changelog-urgency ^c^u.")
+  "alist of keystrokes vs. urgency values for debian-changelog-urgency \\[debian-changelog-urgency].")
 
 (defvar debian-changelog-distributions
   '((?s."stable") (?u."unstable") (?c."contrib") (?n."non-free") (?e."experimental"))
-  "alist of keystrokes vs. distribution values for debian-changelog-distribution ^c^d.")
+  "alist of keystrokes vs. distribution values for debian-changelog-distribution \\[debian-changelog-distribution].")
 
 (defvar debian-changelog-mode-map nil
   "Keymap for Debian changelog major mode.")
@@ -49,7 +49,7 @@
   "Add a new change entry to a debian-style changelog."
   (interactive)
   (if (eq (debian-changelog-finalised-p) t)
-      (error "most recent version has been finalised - use ^c^e or ^c^v"))
+      (error (substitute-command-keys "most recent version has been finalised - use \\[debian-changelog-unfinalise-last-version] or \\[debian-changelog-add-version]")))
   (goto-char (point-min))
   (re-search-forward "\n --")
   (backward-char 5)

@@ -224,11 +224,8 @@ having different forms of their name and address in different
 <p>
 
 Add a dependency for any shared libraries required by
-dynamically-linked executable binaries in your package.  Almost every
-package containing compiled C code should therefore include a
-<tt/Depends/ field which mentions the shared C library required for
-the program to run.  For ELF binaries linked against <tt/libc.so.5/
-the relevant package name is <tt/libc5/.
+dynamically-linked executable binaries in your package, by using
+<prgn/dpkg-shlibdeps/.
 <p>
 
 All packages must use virtual package names where appropriate, and
@@ -333,16 +330,30 @@ installing new packages (perhaps via a network).
 <p>
 
 Most of these packages should have <tt/Priority: required/ or at least
-<tt/Priority: important/.
+<tt/Priority: important/, and many will be essential (see below).
 
-<sect1>The <tt/Essential/ flag
+<sect1><tt/Pre-Depends/ and the <tt/Essential/ flag
 <p>
 
-The <tt/Essential: yes/ control file field should not be used unless
-removing a package really will completely hose the system; nor should
-it be used for a shared library package - the dependencies will
-prevent its premature removal, and we need to be able to remove it
-when it has been superseded.
+Do not use <tt/Pre-Depends/ or <tt/Essential: yes/ unless your package
+is absolutely vital to the functioning of the system and the
+installation of other packages.  Do not do either of these things
+without consultation with the distribution maintainers or on
+<prgn/debian-devel/.
+<p>
+
+Usually, neither of these fields should not be used unless removing a
+package really will completely hose the system, making it impossible
+to recover by (re)installing packages with <prgn/dpkg/.
+<p>
+
+<tt/Essential/ should not be used for a shared library package - the
+dependencies will prevent its premature removal, and we need to be
+able to remove it when it has been superseded.
+<p>
+
+It is not necessary for other packages to declare any dependencies
+they have on other packages which are marked <tt/Essential/.
 
 <sect1>Including <tt/Priority/ and <tt/Section/ in the <tt/.deb/
 control file
@@ -978,6 +989,22 @@ primarily in emacs, it is probably complex enough that speed is an
 issue and should be byte compiled.
 
 
+<sect>Use of <prgn/dpkg-divert/ and <prgn/update-alternatives/
+<p>
+
+Do not use <prgn/dpkg-divert/ on a file belonging to another package
+without consulting the maintainer of that package first.
+<p>
+
+In order for <prgn/update-alternatives/ to work correctly all the
+packages which supply an instance of the `shared' command name (or,
+in general, filename) must use it.  You can use <tt/Conflicts/ to
+force the deinstallation of other packages supplying it which do not
+(yet) use <prgn/update-alternatives/.  It may in this case be
+appropriate to specify a conflict on earlier versions on something -
+this is an exception to the usual rule that this is not allowed.
+
+
 <chapt>Configuring and building the programs in the package
 
 <sect>Compilation options
@@ -992,10 +1019,15 @@ install -s # (or use strip on the files in debian/tmp)
 </example>
 <p>
 
-Note that all installed binaries should be stripped, either by using
-the <tt/-s/ flag to <prgn/install/, or by calling <prgn/strip/ on the
-binaries after they have been copied into <tt>debian/tmp</> but
-before the tree is made into a package.
+Note that all installed binaries and shared libraries should be
+stripped<footnote>Shared libraries can function perfectly well when
+stripped, since the symbols for dynamic linking are in a separate part
+of the ELF object file.</footnote><footnote>Under some circumstances
+it may be useful to install a shared library unstripped, for example
+when building a separate package to support debugging.</footnote>,
+either by using the <tt/-s/ flag to <prgn/install/, or by calling
+<prgn/strip/ on the binaries after they have been copied into
+<tt>debian/tmp</> but before the tree is made into a package.
 <p>
 
 Make sure that you do not link with <tt/-g/, as this makes a.out

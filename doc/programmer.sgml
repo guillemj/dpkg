@@ -1002,10 +1002,12 @@ using the <tt/-V/ option to the source packaging commands, and certain
 predefined variables are available.
 <p>
 
-The file may be a static part of the source archive, or generated and
-modified dynamically by <tt>debian/rules</> targets.  In the latter
-case it must be removed by the <prgn/clean/ target.
+The is usually generated and modified dynamically by
+<tt>debian/rules</> targets; in this case it must be removed by the
+<prgn/clean/ target.
 <p>
+
+
 
 See <manref name=dpkg-source section=1> for full details about source
 variable substitutions, including the format of
@@ -1158,9 +1160,12 @@ using <prgn/dpkg-source/.  In particular, attempting to use
 <sect1>Restrictions on objects in source packages
 <p>
 
-The source package may not contain any device special files, sockets
-or setuid or setgid files.<footnote>Setgid directories are
-allowed.</footnote>
+The source package may not contain any hard links<footnote>This is not
+currently detected when building source packages, but only when
+extracting them.</footnote><footnote>Hard links may be permitted at
+some point in the future, but would require a fair amount of
+work.</footnote>, device special files, sockets or setuid or setgid
+files.<footnote>Setgid directories are allowed.</footnote>
 <p>
 
 The source packaging tools manage the changes between the original and
@@ -2517,6 +2522,15 @@ and currently unpacked or half-configured versions must satisfy any
 version clause in the <tt/Pre-Depends/ field.
 
 </taglist>
+
+When selecting which level of dependency to use you should consider
+how important the depended-on package is to the functionality of the
+one declaring the dependency.  Some packages are composed of
+components of varying degrees of importance.  Such a package should
+list using <tt/Depends/ the package(s) which are required by the more
+important components.  The other components' requirements may be
+mentioned as Suggestions or Recommendations, as appropriate to the
+components' relative importance.
 
 <sect1>Dependencies on shared libraries
 <p>

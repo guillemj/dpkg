@@ -3,7 +3,7 @@
 DIR:=$(shell pwd)
 
 arch=$(shell dpkg --print-architecture)
-cidir=debian/tmp/DEBIAN
+mcidir=debian/tmp-main/DEBIAN
 
 build:
 	$(checkdir)
@@ -21,8 +21,54 @@ clean:
 
 binary:		binary-arch binary-indep
 
-binary-indep:	build
+binary-trees:	checkroot build
 	$(checkdir)
+	-rm -rf debian/tmp-{main,dev}
+	install -d debian/tmp-{main,dev}/{DEBIAN,etc/dpkg,usr/doc/dpkg}
+	install -d debian/tmp-dev/usr/{lib/dpkg,doc/dpkg-dev,man/man1,man/man8,sbin,bin}
+	set -e; if [ $(arch) = i386 ]; then \
+		sed -e 's/^# i386elf: //' <debian/preinst >$(mcidir)/preinst ; \
+	else \
+		sed -e '/^# i386elf: /d' debian/preinst >$(mcidir)/preinst ; \
+	fi
+	set -e; if [ -f debian/shlibs.default.$(arch) ]; then \
+		echo /etc/dpkg/shlibs.default >debian/tmp-dev/DEBIAN/conffiles ; \
+		cp debian/shlibs.default.$(arch) \
+			debian/tmp-dev/etc/dpkg/shlibs.default ; \
+	fi
+	cp debian/{prerm,postinst} $(mcidir)/.
+	chmod +x $(mcidir)/{postinst,prerm,preinst}
+	$(MAKE) prefix=$(DIR)/debian/tmp-main/usr \
+		datadir=$(DIR)/debian/tmp-main/var/lib/dpkg \
+		etcdir=$(DIR)/debian/tmp-main/etc \
+		install
+	find debian/tmp-main/usr/man -type f | xargs gzip -9v
+	set -e; for f in dpkg-buildpackage dpkg-gencontrol dpkg-distaddfile \
+		  dpkg-parsechangelog dpkg-genchanges dpkg-shlibdeps; do \
+		rm debian/tmp-main/usr/man/man1/$$f.1; \
+		ln -s dpkg-source.1.gz debian/tmp-main/usr/man/man1/$$f.1.gz ; \
+	done
+	gzip -9v debian/tmp-main/usr/doc/dpkg/changelog.*
+	cp debian/copyright debian/tmp-main/usr/doc/dpkg/copyright
+	cp debian/copyright debian/tmp-dev/usr/doc/dpkg-dev/copyright
+	cp debian/dev-README debian/tmp-dev/usr/doc/dpkg-dev/README
+	cp TODO debian/tmp-dev/usr/doc/dpkg/WISHLIST
+	set -e; for f in \
+ usr/doc/dpkg/{programmer.html,policy.html,developer-keys.pgp,changelog.manuals.gz} \
+ usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
+ usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages} \
+ usr/man/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage}.1.gz \
+ usr/man/man1/{dpkg-parsechangelog,dpkg-distaddfile,822-date}.1.gz \
+ usr/man/man5 usr/man/man8/dpkg-scanpackages.8.gz usr/lib/emacs \
+ usr/lib/dpkg/parsechangelog usr/lib/dpkg/controllib.pl \
+		; do mv debian/tmp-main/$$f debian/tmp-dev/$$f; done
+
+binary-indep:	checkroot build binary-trees
+	$(checkdir)
+	dpkg-gencontrol -pdpkg-dev -Pdebian/tmp-dev
+	chown -R root.root debian/tmp-dev
+	chmod -R g-ws,a+r,u+w debian/tmp-dev
+	dpkg-deb --build debian/tmp-dev ..
 	set -e -x; cd doc; for f in policy programmer; do \
 		debiandoc2ps -pa4 -O $$f.sgml | gzip -9v >../../$$f.ps.gz; \
 		dpkg-distaddfile -f../debian/files $$f.ps.gz byhand -; \
@@ -30,48 +76,19 @@ binary-indep:	build
 		dpkg-distaddfile -f../debian/files $$f.html.tar.gz byhand -; \
 	done
 
-binary-arch:	checkroot build
-	$(checkdir)
-	-rm -rf debian/tmp
-	install -d debian/tmp debian/tmp/DEBIAN debian/tmp/etc/dpkg
-	install -d debian/tmp/usr/doc/{copyright,dpkg}
-	set -e; if [ $(arch) = i386 ]; then \
-		sed -e 's/^# i386elf: //' <debian/preinst >$(cidir)/preinst ; \
-	else \
-		sed -e '/^# i386elf: /d' debian/preinst >$(cidir)/preinst ; \
-	fi
-	set -e; if [ -f debian/shlibs.default.$(arch) ]; then \
-		echo /etc/dpkg/shlibs.default >$(cidir)/conffiles ; \
-		cp debian/shlibs.default.$(arch) debian/tmp/etc/dpkg/shlibs.default ; \
-	fi
-	cp debian/{prerm,postinst} $(cidir)/.
-	chmod +x $(cidir)/{postinst,prerm,preinst}
-	$(MAKE) prefix=$(DIR)/debian/tmp/usr \
-		datadir=$(DIR)/debian/tmp/var/lib/dpkg \
-		etcdir=$(DIR)/debian/tmp/etc \
-		install
-	find debian/tmp/usr/man -type f | xargs gzip -9v
-	set -e; for f in dpkg-buildpackage dpkg-gencontrol dpkg-distaddfile \
-		  dpkg-parsechangelog dpkg-genchanges dpkg-shlibdeps; do \
-		rm debian/tmp/usr/man/man1/$$f.1; \
-		ln -s dpkg-source.1.gz debian/tmp/usr/man/man1/$$f.1.gz ; \
-	done
-	gzip -9v debian/tmp/usr/doc/dpkg/changelog.*
-	cp debian/copyright debian/tmp/usr/doc/dpkg/copyright
-	cp TODO debian/tmp/usr/doc/dpkg/WISHLIST
-	touch debian/tmp/var/lib/dpkg/{status,available}
+binary-arch:	checkroot build binary-trees
+	touch debian/tmp-main/var/lib/dpkg/{status,available}
 	dpkg-shlibdeps -dPre-Depends main/dpkg dselect/dselect
-	dpkg-gencontrol
-	chown -R root.root debian/tmp
-	chmod -R g-ws,a+r,u+w debian/tmp
-	set -e; cd debian/tmp; \
+	dpkg-gencontrol -pdpkg -Pdebian/tmp-main
+	chown -R root.root debian/tmp-main
+	chmod -R g-ws,a+r,u+w debian/tmp-main
+	set -e; cd debian/tmp-main; \
 	 version=`sed -n 's/^Version: //p' DEBIAN/control`; \
 	 file=dpkg_$${version}_$(arch).nondebbin.tar; \
 	 tar cf ../../../$${file} usr var && gzip -9vf ../../../$${file}; \
 	 cd ../..; dpkg-distaddfile $${file}.gz byhand -
-	mv debian/tmp/usr/bin/dpkg-deb{,.dist}
-	rm debian/tmp/var/lib/dpkg/{status,available}
-	dpkg-deb --build debian/tmp ..
+	rm debian/tmp-main/var/lib/dpkg/{status,available}
+	dpkg-deb --build debian/tmp-main ..
 
 define checkdir
 	test -f include/dpkg.h
