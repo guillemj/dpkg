@@ -2,14 +2,13 @@
 # vim: nowrap ts=8
 
 # Build locations
-BUILD		:= $(shell pwd)/build
-TMP		:= $(shell pwd)/debian/tmp
+BUILD		:= $(CURDIR)/build
+TMP		:= $(CURDIR)/debian/tmp
 INSTALL_TMP	:= $(TMP)/install
 TMP_DPKG	:= $(TMP)/dpkg
 TMP_DPKG_DEV	:= $(TMP)/dpkg-dev
 TMP_DPKG_DOC	:= $(TMP)/dpkg-doc
 TMP_DSELECT 	:= $(TMP)/dselect
-DIR		:= $(shell pwd)
 
 # We should really get this in a different way...
 DEB_BUILD_GNU_TYPE	:= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE 2> /dev/null || true)
@@ -37,7 +36,7 @@ config.h.in: configure.in
 $(BUILD)/configure-stamp: configure config.h.in
 	$(checkdir)
 	install -d $(@D)
-	cd $(@D) && LDFLAGS=$(LDFLAGS) $(DIR)/configure \
+	cd $(@D) && LDFLAGS=$(LDFLAGS) $(CURDIR)/configure \
 		--prefix=/usr \
 		--datadir=/usr/share \
 		--mandir=/usr/share/man \
@@ -158,7 +157,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 		`test -z "$(static)" && echo $(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/md5sum $(TMP_DPKG)/usr/bin/dpkg-deb`
 
 binary-dpkg binary-dpkg-static: %: %-most
-	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
 		-Tdebian/dpkg$(static).substvars -pdpkg$(static) -P$(TMP_DPKG)
 	dpkg --build $(TMP_DPKG) ..
 
@@ -217,7 +216,7 @@ binary-dpkg-dev: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg-dev.prerm $(TMP_DPKG_DEV)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg-dev.postinst $(TMP_DPKG_DEV)/DEBIAN/postinst
 
-	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
 		-Tdebian/dpkg-dev.substvars -pdpkg-dev -P$(TMP_DPKG_DEV)
 	dpkg --build $(TMP_DPKG_DEV) ..
 
@@ -257,7 +256,7 @@ binary-dselect: stamp-binary
 
 	dpkg-shlibdeps -Tdebian/dselect.substvars \
 		$(TMP_DSELECT)/usr/bin/dselect 
-	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
 		-Tdebian/dselect.substvars -pdselect -P$(TMP_DSELECT)
 	dpkg --build $(TMP_DSELECT) ..
 
@@ -285,7 +284,7 @@ binary-dpkg-doc: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg-doc.prerm $(TMP_DPKG_DOC)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg-doc.postinst $(TMP_DPKG_DOC)/DEBIAN/postinst
 
-	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+	perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp \
 		-Tdebian/dpkg-doc.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
 	dpkg --build $(TMP_DPKG_DOC) ..
 
@@ -296,7 +295,7 @@ binary-arch: binary-dpkg binary-dpkg-static-most binary-dselect
 	for type in "" -static; do\
 		if [ -d $(TMP_DPKG)$$type ]; then\
 			f=dpkg-$${v}_$(arch)$$type.nondebbin.tar ; \
-			tar -C $(TMP_DPKG)$$type -cf $(DIR)/../$$f usr var ; \
+			tar -C $(TMP_DPKG)$$type -cf $(CURDIR)/../$$f usr var ; \
 			gzip -9f ../$$f ; \
 			dpkg-distaddfile -fdebian/files $$f.gz byhand -; \
 		fi;\
