@@ -139,7 +139,7 @@ $f{'Changes'} =~ s/\n$//;
 $f{'Changes'} =~ s/^/\n/;
 
 while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig) {
-  push(@closes, $& =~ /\#\s?(\d+)/g);
+  push(@closes, $& =~ /\#?\s?(\d+)/g);
 }
 $f{'Closes'} = join(' ',sort { $a <=> $b} @closes);
 
