@@ -2,21 +2,19 @@ VPATH		= @srcdir@
 srcdir		= @srcdir@
 top_srcdir	= @top_srcdir@
 
-SUBDIRS		= 
-
 include ../Makefile.conf
 
 ifeq (@USE_SGML_DOC@, true)
-all: internals.html/index.html all-recursive
+all: internals.html/index.html
 else
-all: all-recursive
+all: 
 endif
 
-clean: clean-recursive
+clean: 
 	$(RM) $(srcdir)/manuals-version
 	$(RM) -rf internals.html/
 
-distclean: clean distclean-recursive
+distclean: clean 
 	$(RM) Makefile
 
 install: install-doc
@@ -29,7 +27,7 @@ manuals-version: $(top_srcdir)/version-nr
 internals.html/index.html: internals.sgml manuals-version
 	debiandoc2html -n -D. $<
 
-install-doc: install-doc-recursive
+install-doc: 
 ifeq (@USE_SGML_DOC@, true)
 	$(mkinstalldirs) $(DESTDIR)$(docdir)/internals/
 	set -e ; for i in internals.html/* ; do \
@@ -43,12 +41,6 @@ endif
 	done
 	$(INSTALL_DATA) $(top_srcdir)/COPYING $(DESTDIR)$(copyingfile)
 
-all-recursive install-recursive install-doc-recursive clean-recursive distclean-recursive:
-	set -e ; target=`echo $@ | $(SED) s/-recursive//`; \
-		for s in $(SUBDIRS) ; do \
-		$(MAKE) $(MFLAGS) -C $$s $$target ; \
-	done;
 
 .PHONY: all clean distclean install install-doc
-.PHONY: all-recursive clean-recursive distclean-recursive install-recursive
 .PHONY: install-doc-recursive
