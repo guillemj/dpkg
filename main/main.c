@@ -80,7 +80,7 @@ Usage: \n\
   dpkg --compare-versions <a> <rel> <b>    compare version numbers - see below\n\
   dpkg --help | --version                  show this help / version number\n\
   dpkg --force-help | -Dh|--debug=help     help on forcing resp. debugging\n\
-  dpkg --licence                           print copyright licencing terms\n\
+  dpkg --licence                           print copyright licensing terms\n\
 \n\
 Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
  -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n\

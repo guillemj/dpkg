@@ -1,7 +1,7 @@
 #! /usr/bin/perl
 
 $dpkglibdir="/usr/lib/dpkg";
-$version="1.4.1.18"; # This line modified by Makefile
+$version="1.4.1.19"; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
@@ -115,7 +115,15 @@ for ($i=0;$i<=$#exec;$i++) {
 if ($#libpaths >= 0) {
     grep(s/\[\?\*/\\$&/g, @libpaths);
     defined($c= open(P,"-|")) || syserr("cannot fork for dpkg --search");
+<<<<<<< dpkg-shlibdeps.pl
+    if (!$c) {
+        close STDERR; # we don't need to see dpkg's errors
+	open STDERR, "> /dev/null";
+        exec("dpkg","--search","--",@libpaths); syserr("cannot exec dpkg");
+    }
+=======
     if (!$c) { exec("dpkg","--search","--",@libpaths); syserr("cannot exec dpkg"); }
+>>>>>>> 1.5
     while (<P>) {
        s/\n$//;
        if (m/^local diversion |^diversion by/) {
