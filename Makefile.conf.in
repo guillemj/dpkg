@@ -34,6 +34,13 @@ sysconfdir		= @sysconfdir@
 dpkgconfdir		= $(sysconfdir)/$(PACKAGE)
 alternativesdir		= $(sysconfdir)/alternatives
 
+abs_builddir		= @abs_builddir@
+top_srcdir		= @top_srcdir@
+ifeq ($(strip $(srcdir)),$(strip $(top_srcdir)))
+subdir =
+else
+subdir = $(patsubst $(top_srcdir)/%,%,$(srcdir))/
+endif
 PERL			= @PERL@
 mkinstalldirs		= $(SHELL) $(top_srcdir)/mkinstalldirs
 LN			= @LN_S@
@@ -78,3 +85,10 @@ ALSO_STATIC		= @ALSO_STATIC@
 
 .cc.o:
 	$(CXX) $(ALL_CXXFLAGS) -c $<
+
+Makefile: $(srcdir)/Makefile.in
+	(cd $(abs_builddir);CONFIG_FILES=$(subdir)$@ $(abs_builddir)/config.status)
+
+foobar:
+	@echo "srcdir='$(srcdir)'"
+	@echo "subdir='$(subdir)'"
