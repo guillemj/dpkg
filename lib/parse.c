@@ -40,11 +40,11 @@
 
 const struct fieldinfo fieldinfos[]= {
   /* NB: capitalisation of these strings is important. */
-  { "Package",          f_name,            w_name,           PKGIOFF(name)            },
+  { "Package",          f_name,            w_name                                     },
   { "Essential",        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)     },
   { "Status",           f_status,          w_status                                   },
   { "Priority",         f_priority,        w_priority                                 },
-  { "Section",          f_section,         w_section,        PKGIOFF(section)         },
+  { "Section",          f_section,         w_section                                  },
   { "Installed-Size",   f_charfield,       w_charfield,      PKGIFPOFF(installedsize) },
   { "Origin",           f_charfield,       w_charfield,      PKGIFPOFF(origin)        },
   { "Maintainer",       f_charfield,       w_charfield,      PKGIFPOFF(maintainer)    },
@@ -53,7 +53,7 @@ const struct fieldinfo fieldinfos[]= {
   { "Source",           f_charfield,       w_charfield,      PKGIFPOFF(source)        },
   { "Version",          f_version,         w_version,        PKGIFPOFF(version)       },
   { "Revision",         f_revision,        w_null                                     },
-  { "Config-Version",   f_configversion,   w_configversion,  PKGIOFF(configversion)   },
+  { "Config-Version",   f_configversion,   w_configversion                            },
   { "Replaces",         f_dependency,      w_dependency,     dep_replaces             },
   { "Provides",         f_dependency,      w_dependency,     dep_provides             },
   { "Depends",          f_dependency,      w_dependency,     dep_depends              },
