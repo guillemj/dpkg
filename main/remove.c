@@ -57,7 +57,7 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
       debug(dbg_depcon,"ignoring depending package `%s'\n",depender->name);
       continue;
     }
-    if (dependtry > 1) { if (findbreakcycle(pkgdepcheck,0)) sincenothing= 0; }
+    if (dependtry > 1) { if (findbreakcycle(pkgtoremove,0)) sincenothing= 0; }
     before= raemsgs->used;
     ok= dependencies_ok(depender,pkgtoremove,raemsgs);
     if (ok == 0 && depender->clientdata->istobe == itb_remove) ok= 1;

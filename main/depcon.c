@@ -104,10 +104,6 @@ int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar) {
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_depends && dep->type != dep_predepends) continue;
     for (possi= dep->list; possi; possi= possi->next) {
-      /* We can't have any cycles involving packages we're not trying
-       * to do anything with.
-       */
-      if (possi->ed->clientdata->istobe == itb_normal) continue;
       /* Don't find the same cycles again. */
       if (possi->cyclebreak) continue;
       thislink.possi= possi;
