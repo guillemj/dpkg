@@ -1,12 +1,12 @@
 /*
- * dpkg-query - program to query the package database
+ * libdpkg - Debian packaging suite library routines
  * showpkg.c - customizable package listing
  *
  * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2
- * as published by the Free Software Foundation.
+ * it under the terms of version 2 of the GNU General Public
+ * License version 2 as published by the Free Software Foundation.
  *
  * This is distributed in the hope that it will be useful, but
  * WITHOUT ANY WARRANTY; without even the implied warranty of
