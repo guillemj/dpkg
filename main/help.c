@@ -271,7 +271,7 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
     ohshite(desc,name);
   }
   script_catchsignals(); /* This does a push_cleanup() */
-  r= waitsubproc(c1,name,PROCWARN);
+  r= waitsubproc(c1,name,warn);
   pop_cleanup(ehflag_normaltidy);
   return r;
 }
@@ -354,7 +354,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
             _("dpkg: warning - unable to stat %s `%.250s': %s\n"),
             buf,oldscriptpath,strerror(errno));
   } else {
-    if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist, _("unable to execute %s"), buf, 1))
+    if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist, _("unable to execute %s"), buf, PROCWARN))
       return 1;
     ensure_diversions();
   }
