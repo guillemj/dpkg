@@ -127,7 +127,7 @@ main(int argc, char **argv)
 		push_error_handler(&ejbuf, print_md5sum_error, "stdin");
 
 		mdfile(fileno(stdin), &digest);
-		printf("%s\n", digest);
+		printf("%s %c-\n", digest, bin_mode ? '*' : ' ');
 		set_error_display(0, 0);
 		error_unwind(ehflag_normaltidy);
 		exit(0);
