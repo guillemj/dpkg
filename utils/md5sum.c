@@ -267,11 +267,11 @@ do_check(FILE *chkf)
 			case 2:
 				fprintf(stderr, _("%s: can't open %s\n"), progname, filename);
 				ex = 2;
-				break;
+				continue;
 			case 3:
 				fprintf(stderr, _("%s: error reading %s\n"), progname, filename);
 				ex = 2;
-				break;
+				continue;
 		}
 		if (memcmp(chk_digest, file_digest, 32) != 0) {
 			if (verbose)
