@@ -5,17 +5,17 @@ AC_PREREQ([2.12])
 AC_INIT(include/dpkg.h.in)
 AM_CONFIG_HEADER(config.h)
 
-tl_CHECK_TOOL_PREFIX
+AC_CHECK_TOOL_PREFIX
 
-tl_PROG_CC
-tl_CANONICAL_SYSTEM
-tl_CHECK_TOOL_PREFIX
+AC_PROG_CC
+AC_CANONICAL_SYSTEM
+AC_CHECK_TOOL_PREFIX
 
-tl_PROG_CXX
+dnl tl_PROG_CXX
 AC_PROG_CXX
 AM_CONDITIONAL(HAVE_CPLUSPLUS, [test "$CXX" != ""])
 
-tl_CHECK_TOOL(LD, ld, ld)
+AC_CHECK_TOOL(LD, ld, ld)
 
 AM_INIT_AUTOMAKE(dpkg,[`sed -n '1s/dpkg (\([0-9.]\+\)).*/\1/p' ${srcdir}/debian/changelog`])
 ACLOCAL="$ACLOCAL -I automake"
@@ -92,8 +92,6 @@ dnl gettext
 
 ALL_LINGUAS="en fr es"
 AM_GNU_GETTEXT
-AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
-AC_OUTPUT_COMMANDS([sed -e "/POTFILES =/r po/POTFILES" po/Makefile.in > po/Makefile])
 
 dnl Other stuff
 

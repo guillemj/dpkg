@@ -19,7 +19,8 @@ altssysconfdir		= $(sysconfdir)/alternatives
 
 bin_SCRIPTS		= dpkg-name dpkg-source dpkg-genchanges dpkg-gencontrol \
 			  dpkg-shlibdeps dpkg-buildpackage dpkg-parsechangelog \
-			  dpkg-distaddfile 822-date dpkg-scanpackages
+			  dpkg-distaddfile 822-date dpkg-scanpackages \
+			  dpkg-scansources dpkg-architecture
 
 sbin_PROGRAMS		= start-stop-daemon
 start_stop_daemon_SOURCES	= start-stop-daemon.c
@@ -34,7 +35,8 @@ ELCFILES		= debian-changelog-mode.elc
 
 man_MANS		= dpkg-name.1 dpkg-source.1 822-date.1 update-rc.d.8 \
 			  start-stop-daemon.8 update-alternatives.8 \
-			  install-info.8 dpkg-scanpackages.8
+			  install-info.8 dpkg-scanpackages.8 \
+			  dpkg-scansources.1 dpkg-architecture.1
 
 EXTRA_DIST		= update-rc.d.pl \
 			  dpkg-name.sh dpkg-source.pl dpkg-genchanges.pl \
@@ -43,7 +45,7 @@ EXTRA_DIST		= update-rc.d.pl \
 			  dpkg-distaddfile.pl 822-date.pl dpkg-scanpackages.pl \
 			  update-alternatives.pl install-info.pl dpkg-divert.pl \
 			  cleanup-info.pl controllib.pl debian-changelog-mode.el \
-			  cl-debian.pl \
+			  cl-debian.pl dpkg-architecture.pl dpkg-scansources.pl \
 			  $(man_MANS)
 
 noinst_DATA		= cl-debian

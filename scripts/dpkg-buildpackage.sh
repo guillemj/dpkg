@@ -14,11 +14,12 @@ version 2 or later for copying conditions.  There is NO warranty.
 Usage: dpkg-buildpackage [options]
 Options: -r<gain-root-command>
          -p<sign-command>
+	 -k<keyid>     the key to use for signing
          -sgpg         the sign-command is called like GPG
          -spgp         the sign-command is called like PGP 
          -us           unsigned source
          -uc           unsigned changes
-         -a<arch>      architecture field of the changes _file_name_
+         -a<arch>      Debian architecture we build for
          -b            binary-only, do not build source } also passed to
          -B            binary-only, no arch-indep files } dpkg-genchanges
          -v<version>   changes since version <version>      }
@@ -64,6 +65,7 @@ do
 	-h)	usageversion; exit 0 ;;
 	-r*)	rootcommand="$value" ;;
 	-p*)	signcommand="$value"; warnpgp='' ;;
+	-k*)	signkey="$value" ;;
 	-sgpg)  signinterface=gpg ;;
 	-spgp)  signinterface=pgp ;;
 	-us)	signsource=: ; warnpgp='' ;;
@@ -73,6 +75,7 @@ do
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
 	-tc)	cleansource=true ;;
+	-t*)    targetgnusystem="$value" ;;          # Order DOES matter!
 	-nc)	noclean=true; binaryonly=-b ;;
 	-b)	binaryonly=-b ;;
 	-B)	binaryonly=-B; binarytarget=binary-arch ;;
@@ -109,7 +112,10 @@ mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source pac
 mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version"
 if [ -n "$maint" ]; then maintainer="$maint"; 
 else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
+command -v dpkg-architecture > /dev/null 2>&1 && eval `dpkg-architecture -a${arch} -t${targetgnusystem} -s`
+archlist=`dpkg-architecture -a${arch} -t${targetgnusystem} -f 2> /dev/null`
 test "${opt_a}" \
+	|| arch=`dpkg-architecture -a${arch} -t${targetgnusystem} -qDEB_HOST_ARCH 2> /dev/null` && test "${arch}" \
 	|| mustsetvar arch "`dpkg --print-architecture`" "build architecture"
 
 sversion=`echo "$version" | perl -pe 's/^\d+://'`
@@ -118,14 +124,11 @@ pva="${package}_${sversion}${arch:+_${arch}}"
 
 signfile () {
 	if test $signinterface = gpg ; then
-		# --textmode doesn't seem to work; we use perl to filter ^M;
-		# this doesn't affect the actual signature.
 		(cat "../$1" ; echo "") | \
-		$signcommand --local-user "$maintainer" --clearsign --armor \
-			--textmode --output - - | \
-			perl -n -p -e 's/\r$//' > "../$1.asc" 
+		$signcommand --local-user "${signkey:-$maintainer}" --clearsign --armor \
+			--textmode  > "../$1.asc" 
 	else
-		$signcommand -u "$maintainer" +clearsig=on -fast <"../$1" \
+		$signcommand -u "${signkey:-$maintainer}" +clearsig=on -fast <"../$1" \
 			>"../$1.asc"
 	fi
 	echo
@@ -143,13 +146,13 @@ if [ -n "$since"	]; then set -- "$@" "-v$since"		; fi
 if [ -n "$desc"		]; then set -- "$@" "-C$desc"		; fi
 
 if [ x$noclean != xtrue ]; then
-	withecho $rootcommand debian/rules clean
+	withecho $rootcommand debian/rules clean $archlist
 fi
 if [ x$binaryonly = x ]; then
 	cd ..; withecho dpkg-source -b "$dirn"; cd "$dirn"
 fi
-withecho debian/rules build
-withecho $rootcommand debian/rules $binarytarget
+withecho debian/rules build $archlist
+withecho $rootcommand debian/rules $binarytarget $archlist
 if [ x$binaryonly = x ]; then
         $signsource "$pv.dsc"
 fi
@@ -177,7 +180,7 @@ fi
 $signchanges "$pva.changes"
 
 if $cleansource; then
-	withecho $rootcommand debian/rules clean
+	withecho $rootcommand debian/rules clean $archlist
 fi
 
 echo "dpkg-buildpackage: $srcmsg"

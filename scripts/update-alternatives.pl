@@ -111,14 +111,14 @@ if (open(AF,"$admindir/$name")) {
     while (($version= &gl("version")) ne '') {
         defined($versionnum{$version}) && &badfmt("duplicate path $tver");
        if ( -r $version ) {
-        push(@versions,$version);
-        $versionnum{$version}= $i= $#versions;
-        $priority= &gl("priority");
-        $priority =~ m/^[-+]?\d+$/ || &badfmt("priority $version $priority");
-        $priorities[$i]= $priority;
-        for ($j=0; $j<=$#slavenames; $j++) {
-            $slavepath{$i,$j}= &gl("spath");
-        }
+           push(@versions,$version);
+           $versionnum{$version}= $i= $#versions;
+           $priority= &gl("priority");
+           $priority =~ m/^[-+]?\d+$/ || &badfmt("priority $version $priority");
+           $priorities[$i]= $priority;
+           for ($j=0; $j<=$#slavenames; $j++) {
+               $slavepath{$i,$j}= &gl("spath");
+           }
        } else {
            # File not found - remove
             &pr("Alternative for $name points to $version - which wasn't found.  Removing from list of alternatives.");

@@ -114,7 +114,13 @@ if (!$remove) {
         
         open(IF,"$filename") || die "$name: read $filename: $!\n";
         $asread='';
-        while(<IF>) { last if m/^START-INFO-DIR-ENTRY$/; }
+        while(<IF>) {
+	    m/^START-INFO-DIR-ENTRY$/ && last;
+	    m/^INFO-DIR-SECTION (.+)$/ && do {
+		$sectiontitle = $1		unless defined($sectiontitle);
+		$sectionre = '^'.quotemeta($1)	unless defined($sectionre);
+	    }
+	}
         while(<IF>) { last if m/^END-INFO-DIR-ENTRY$/; $asread.= $_; }
         close(IF); &checkpipe;
         if ($asread =~ m/(\* *[^:]+: *\([^\)]+\).*\. *.*\n){2,}/) {
@@ -348,7 +354,7 @@ sub ulquit {
 }
 
 sub checkpipe {
-    return if !$pipeit || !$? || $?==0x8D00;
+    return if !$pipeit || !$? || $?==0x8D00 || $?==0x0D;
     die "$name: read $filename: $?\n";
 }
 

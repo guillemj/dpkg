@@ -88,10 +88,14 @@ while (@ARGV) {
 }
 
 $arch = $override{Architecture} or do {
+    if (exists $ENV{DEB_HOST_ARCH}) {
+      $arch=$ENV{DEB_HOST_ARCH};
+    } else {
        $arch=`dpkg --print-architecture`;
        $? && &subprocerr("dpkg --print-architecture");
+    }
 };
-$arch =~ s/\n$//;
+chomp $arch;
 
 &parsechangelog;
 &parsecontrolfile;
