@@ -197,8 +197,8 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
   fprintf(stderr,_("Press <enter> to continue.\n"));
   if (ferror(stderr))
     ohshite(_("write error on standard error"));
-  do { c= fgetc(stdin); } while (c != EOF && c != '\n');
-  if (c == EOF)
+  do { c= fgetc(stdin); } while ((c == ERR && errno==EINTR) || (c != '\n'));
+  if (c == ERR)
     ohshite(_("error reading acknowledgement of program failure message"));
   return urqr_fail;
 }
