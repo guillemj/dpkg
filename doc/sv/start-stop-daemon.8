@@ -1,5 +1,5 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.\" Translation of CVS revision 1.10
+.\" Translation of CVS revision 1.11
 .TH START\-STOP\-DAEMON 8 "15 mars 1997" "Debianprojektet" "Debian GNU/Linux"
 .SH NAMN
 start\-stop\-daemon \- startar och stoppar bakgrundsprocesser
@@ -46,6 +46,9 @@ programfilen som anges med
 Eventuella parametrar som ges efter
 .BR --
 på kommandoraden skickas omodiferade till programmet som startas.
+Om
+.B --retry
+anges kommer start-stopd-daemon kontrollera att processen har avslutats.
 
 Med 
 .B --stop
@@ -92,6 +95,50 @@ Tillsammans med
 .B --stop
 anger detta den signal som skall sändas till processen som stoppas (förval
 är 15).
+.TP
+\fB-R\fP|\fB--retry\fP \fItimeout\fP|\fIschema\fP
+Tillsammans med
+.B --stop
+anger detta att
+.B start-stop-daemon
+skall kontrollera att processen avslutas.
+Den testar flera gånger efter matchande processer som körs, tills ingen
+längrefinns kvar.
+Om processerna inte avslutar kommer programmet utföra ytterligare
+kommandon enligt schemat.
+
+Om
+.I timeout
+anges istället för
+.I schema
+kommer schemat
+.IB signal / timeout /KILL/ timeout
+att användas, där
+.I signal
+är den signal som anges med
+.BR --signal .
+
+.I schema
+är den lista med åtminstone två poster avdelade med snedstreck
+.RB ( / );
+varje post är antingen
+.BI - signalnummer
+eller [\fB\-\fP]\fIsignalnamn\fP,
+vilket betyder att singalen skall sändas, eller
+.IR timeout ,
+vilket anger det antal sekunder programmet skall vänta på att processen
+avslutar, eller
+.BR forever ,
+vilket betyder att resten av schemat skall repetera för evigt om så behövs.
+
+Om slutet på schemat nås och
+.BR forever
+inte anges kommer
+.B start-stop-daemon
+avslutas med felkod 2.
+Om ett schema anges kommer eventuell signal angiven med
+.B --signal
+att ignoreras.
 .TP
 \fB-a\fP|\fB--startas\fP \fIsökväg\fP
 Tillsammans med
