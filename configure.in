@@ -25,7 +25,7 @@ AC_ARG_WITH(arch,
    dpkg_archwhy="  (obtained from dpkg)"
   elif test "${GCC-no}" = yes; then
 changequote(, )dnl
-   dpkg_arch="`$(CC) --print-libgcc-file-name |
+   dpkg_arch="`${CC} --print-libgcc-file-name |
 	sed -e 's,^.*/gcc-lib/,,; s,/libgcc\.a$,,; s,/[0-9.][0-9.]*$,,; s/-.*$//'`"
 changequote([, ])dnl
    if test "x`echo \"$dpkg_arch\" | tr -d a-z0-9-`" != x -o "x$dpkg_arch" = x

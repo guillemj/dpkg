@@ -69,7 +69,7 @@ getname () {
 
 		a=`dpkg-deb -f -- "$1" architecture`;
 		a=`echo $a|sed -e 's/ *//g'`;
-		if [ -z "$a" ]; # architecture field empty
+		if [ -z "$a" -a -n "$noarchitecture" ]; # arch field empty, or ignored
 		then
 			a=`dpkg --print-architecture`;
 			stderr "assuming architecture \`"$a"' for \`"$1"'";

@@ -439,7 +439,7 @@ void enqperpackage(const char *const *argv) {
             if (namenode->divert && !namenode->divert->camefrom) {
               if (!namenode->divert->pkg) printf("locally diverted");
               else if (pkg == namenode->divert->pkg) printf("package diverts others");
-              else printf("diverted by %s",pkg->name);
+              else printf("diverted by %s",namenode->divert->pkg->name);
               printf(" to: %s\n",namenode->divert->useinstead->name);
             }
             file= file->next;

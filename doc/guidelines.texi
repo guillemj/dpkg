@@ -360,12 +360,7 @@ All command scripts should have a @code{#!} line naming the shell to be
 used to interpret them.
 
 @item
-In the case of Perl scripts this should be @code{#!/usr/bin/perl} or
-sometimes @code{#!/bin/perl}, as follows: if the script is a critical
-one that may be called when the @file{/usr} partition is unmounted or
-broken it should use @file{/bin/perl}.  Otherwise (especially if the
-script is not specifically targetted at Debian) it should use Perl's
-standard location, @file{/usr/bin/perl}.
+In the case of Perl scripts this should be @code{#!/usr/bin/perl}.
 
 @item
 Generally the following compilation parameters should be used:
@@ -973,9 +968,8 @@ errors when making calls such as @code{open}, @code{print},
 
    If these scripts exist they should be left in the @file{DEBIAN}
 directory with execute permission enabled and should contain an
-appropriate @code{#!} line, such as @code{#!/bin/bash} for a
-@code{bash} script or @code{#!/bin/perl} for a Perl script (see
-above).
+appropriate @code{#!} line, such as @code{#!/bin/bash} for a @code{bash}
+script or @code{#!/usr/bin/perl} for a Perl script (see above).
 
 @node Dependencies and Conflicts, Package Classification Fields, Installation and Removal Scripts, Control Files
 @unnumberedsec Conflicts, Depends, Suggests, Recommends and Provides
