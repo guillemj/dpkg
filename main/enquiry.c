@@ -78,6 +78,7 @@ static void list1package(struct pkginfo *pkg, int *head) {
   char format[80];
     
   w=getttywidth()-(3+1+15+1+14+1+44); /* get spare width */
+  if (w<80) w=80; /* lets not try to deal with terminals that are too small */
   w>>=1; /* halve that so we can add that to the both the name and description */
   sprintf(format,"%%c%%c%%c %%-%d.%ds %%-14.14s %%.*s\n", (14+w), (14+w));
 
