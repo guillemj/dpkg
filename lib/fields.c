@@ -358,9 +358,13 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           if (!isspace(*p)) varbufaddc(&version,*p);
           p++;
         }
+        while (isspace(*p)) p++;
         if (*p == '(') parseerr(0,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
                                 "version contains `('"),fip->name,depname.buf);
+	else if (*p != ')') parseerr(0,filename,lno, warnto,warncount,pigp,0,
+                                _("`%s' field, reference to `%.255s': "
+                                "version contains ` '"),fip->name,depname.buf);
         else if (*p == 0) parseerr(0,filename,lno, warnto,warncount,pigp,0,
                                    _("`%s' field, reference to `%.255s': "
                                    "version unterminated"),fip->name,depname.buf);
