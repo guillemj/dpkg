@@ -5,9 +5,9 @@
 #: dselect/pkgdisplay.cc:45
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.4.1.19\n"
-"POT-Creation-Date: 1999-10-30 15:10+0200\n"
-"PO-Revision-Date: 1999-10-25 20:01+02:00\n"
+"Project-Id-Version: dpkg 1.6.2\n"
+"POT-Creation-Date: 1999-12-05 18:52+0100\n"
+"PO-Revision-Date: 1999-12-06 10:45+01:00\n"
 "Last-Translator: Petr Cech <cech@debian.org>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -230,9 +230,9 @@ msgid "%s:%d: internal error `%s'\n"
 msgstr "%s:%d: vnitøní chyba `%s'\n"
 
 #: lib/fields.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "%s is missing"
-msgstr "%d. èást chybí"
+msgstr "%s chybí"
 
 #: lib/fields.c:47
 #, c-format
@@ -609,7 +609,7 @@ msgstr "znak `%c' není povolen - povolena jsou pouze písmena, èísla a %s"
 
 #: lib/parsehelp.c:180
 msgid "<none>"
-msgstr ""
+msgstr "<¾ádná>"
 
 #: lib/parsehelp.c:194
 msgid "version string is empty"
@@ -684,9 +684,8 @@ msgstr ""
 "zkou¹ím pøepsat `%.250s', co¾ je odsunutá verse `%.250s'%.10s%.100s%.10s"
 
 #: main/archives.c:252
-#, fuzzy
 msgid " (package: "
-msgstr "  Balík "
+msgstr " (balík: "
 
 #: main/archives.c:274
 #, c-format
@@ -711,9 +710,9 @@ msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr ""
 
 #: main/archives.c:351
-#, fuzzy, c-format
+#, c-format
 msgid "Replacing files in old package %s ...\n"
-msgstr "Pøeskakuji nevybraný balík %s.\n"
+msgstr "Nahrazuji soubory ve starém balíku %s ...\n"
 
 #: main/archives.c:355
 #, c-format
@@ -928,9 +927,9 @@ msgid "--%s needs at least one package archive file argument"
 msgstr "--%s potøebyje jako argument alespoò jeden soubor s balíkem"
 
 #: main/archives.c:848
-#, fuzzy, c-format
+#, c-format
 msgid "Selecting previously deselected package %s.\n"
-msgstr "Pøeskakuji nevybraný balík %s.\n"
+msgstr "Instaluji døíve nevybraný balík %s.\n"
 
 #: main/archives.c:853
 #, c-format
@@ -951,6 +950,8 @@ msgstr ""
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
+"Nenainstaluji star¹í versi balíku %.250s z verse %.250s na %.250s, "
+"pøeskakuji.\n"
 
 #: main/cleanup.c:84
 #, c-format
@@ -1322,57 +1323,61 @@ msgstr " doporuèuje "
 msgid " conflicts with "
 msgstr " má konflikt s "
 
-#: main/depcon.c:209
+#: main/depcon.c:136
+msgid " enhances "
+msgstr ""
+
+#: main/depcon.c:211
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s bude odstraòen.\n"
 
-#: main/depcon.c:212
+#: main/depcon.c:214
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s bude dekonfigurován.\n"
 
-#: main/depcon.c:216
+#: main/depcon.c:218
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr ""
 
-#: main/depcon.c:224
+#: main/depcon.c:226
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr ""
 
-#: main/depcon.c:239
+#: main/depcon.c:241
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr ""
 
-#: main/depcon.c:243
+#: main/depcon.c:245
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr ""
 
-#: main/depcon.c:249
+#: main/depcon.c:251
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr ""
 
-#: main/depcon.c:258
+#: main/depcon.c:260
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr ""
 
-#: main/depcon.c:294
+#: main/depcon.c:296
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr ""
 
-#: main/depcon.c:298
+#: main/depcon.c:300
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr ""
 
-#: main/depcon.c:303
+#: main/depcon.c:305
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr ""
@@ -1380,28 +1385,28 @@ msgstr ""
 #. If the package wasn't installed at all, and we haven't said
 #. * yet why this isn't satisfied, we should say so now.
 #.
-#: main/depcon.c:317
-#, fuzzy, c-format
+#: main/depcon.c:319
+#, c-format
 msgid "  %.250s is not installed.\n"
-msgstr " není nainstalován.\n"
+msgstr " %250s není nainstalován.\n"
 
-#: main/depcon.c:348
+#: main/depcon.c:350
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr ""
 
-#: main/depcon.c:362
+#: main/depcon.c:364
 #, c-format
 msgid "  %.250s (version %.250s) is %s.\n"
 msgstr ""
 
 #. conflicts and provides the same
-#: main/depcon.c:387
+#: main/depcon.c:389
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr ""
 
-#: main/depcon.c:418
+#: main/depcon.c:420
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr ""
@@ -1466,9 +1471,8 @@ msgid "--audit does not take any arguments"
 msgstr "--audit nemá ¾ádný parametr"
 
 #: main/enquiry.c:221
-#, fuzzy
 msgid "<unknown>"
-msgstr "neznámá akce"
+msgstr "<neznámo>"
 
 #: main/enquiry.c:237
 msgid "--yet-to-unpack does not take any arguments"
@@ -1557,17 +1561,15 @@ msgstr ""
 "a dpkg --contents (= dpkg-deb --contents) k vypsání obsahu."
 
 #: main/enquiry.c:475
-#, fuzzy
 msgid "--assert-* does not take any arguments"
-msgstr "--audit nemá ¾ádný parametr"
+msgstr "--assert-* nepotøebuje ¾ádný parametr"
 
 #: main/enquiry.c:490
-#, fuzzy
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
 msgstr ""
-"Verse dpkg s podporou Pre-Depends není je¹tì zkonfigurován.\n"
+"Verse dpkg s podporou epoch je¹tì není zkonfigurován.\n"
 " Pou¾ijte prosím `dpkg --configure dpkg' a potom zopakujte\n"
 " tento pøíkaz.\n"
 
@@ -1659,11 +1661,13 @@ msgid "version b has bad syntax: %s\n"
 msgstr "verse b má ¹patnou syntax: %s\n"
 
 #: main/errors.c:56
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s: error processing %s (--%s):\n"
 " %s\n"
-msgstr "%s: chyba pøi ètení %s\n"
+msgstr ""
+"%s: chyba pøi zpracovávání %s (--%s):\n"
+" %s\n"
 
 #: main/errors.c:60
 msgid ""
@@ -1702,145 +1706,130 @@ msgstr ""
 "dpkg - varování, potlaèuji problém, proto¾e je nastaveno --force:\n"
 " "
 
-#: main/filesdb.c:120
+#: main/filesdb.c:123
 #, c-format
 msgid "unable to open files list file for package `%.250s'"
 msgstr ""
 
-#: main/filesdb.c:125
+#: main/filesdb.c:128
 #, c-format
 msgid ""
 "dpkg: serious warning: files list file for package `%.250s' missing, "
 "assuming package has no files currently installed.\n"
 msgstr ""
 
-#: main/filesdb.c:136
-#, c-format
-msgid "unable to set buffering on `%.250s'"
-msgstr ""
-
-#: main/filesdb.c:146
-#, c-format
-msgid "fgets gave an empty null-terminated string from `%.250s'"
-msgstr ""
-
-#: main/filesdb.c:164
+#: main/filesdb.c:167
 #, c-format
 msgid "files list file for package `%.250s' contains empty filename"
 msgstr ""
 
-#: main/filesdb.c:172
-#, c-format
-msgid "error reading files list file for package `%.250s'"
-msgstr ""
-
-#: main/filesdb.c:175
+#: main/filesdb.c:178
 #, c-format
 msgid "error closing files list file for package `%.250s'"
 msgstr ""
 
-#: main/filesdb.c:177
+#: main/filesdb.c:180
 #, c-format
 msgid "files list file for package `%.250s' is truncated"
 msgstr ""
 
-#: main/filesdb.c:208
+#: main/filesdb.c:211
 msgid "(Reading database ... "
 msgstr "(Ètu databázi ... "
 
-#: main/filesdb.c:208
+#: main/filesdb.c:211
 msgid "(Scanning database ... "
 msgstr "(Prohledávám databázi ... "
 
-#: main/filesdb.c:216
+#: main/filesdb.c:219
 #, c-format
 msgid "%d files and directories currently installed.)\n"
 msgstr "nyní je nainstalováno %d souborù a adresáøù.)\n"
 
-#: main/filesdb.c:247
+#: main/filesdb.c:250
 #, c-format
 msgid "unable to create updated files list file for package %s"
 msgstr ""
 
-#: main/filesdb.c:257
+#: main/filesdb.c:260
 #, c-format
 msgid "failed to write to updated files list file for package %s"
 msgstr ""
 
-#: main/filesdb.c:259
+#: main/filesdb.c:262
 #, c-format
 msgid "failed to flush updated files list file for package %s"
 msgstr ""
 
-#: main/filesdb.c:261
+#: main/filesdb.c:264
 #, c-format
 msgid "failed to sync updated files list file for package %s"
 msgstr ""
 
-#: main/filesdb.c:264
+#: main/filesdb.c:267
 #, c-format
 msgid "failed to close updated files list file for package %s"
 msgstr ""
 
-#: main/filesdb.c:266
+#: main/filesdb.c:269
 #, c-format
 msgid "failed to install updated files list file for package %s"
 msgstr ""
 
-#: main/filesdb.c:330
+#: main/filesdb.c:333
 msgid "failed to open diversions file"
 msgstr ""
 
-#: main/filesdb.c:334
+#: main/filesdb.c:337
 msgid "failed to fstat previous diversions file"
 msgstr ""
 
-#: main/filesdb.c:336
+#: main/filesdb.c:339
 msgid "failed to fstat diversions file"
 msgstr ""
 
-#: main/filesdb.c:356
+#: main/filesdb.c:359
 msgid "fgets gave an empty string from diversions [i]"
 msgstr ""
 
-#: main/filesdb.c:357
+#: main/filesdb.c:360
 msgid "diversions file has too-long line or EOF [i]"
 msgstr ""
 
-#: main/filesdb.c:363
+#: main/filesdb.c:366
 msgid "read error in diversions [ii]"
 msgstr ""
 
-#: main/filesdb.c:364
+#: main/filesdb.c:367
 msgid "unexpected EOF in diversions [ii]"
 msgstr ""
 
-#: main/filesdb.c:367
+#: main/filesdb.c:370
 msgid "fgets gave an empty string from diversions [ii]"
 msgstr ""
 
-#: main/filesdb.c:368 main/filesdb.c:379
+#: main/filesdb.c:371 main/filesdb.c:382
 msgid "diversions file has too-long line or EOF [ii]"
 msgstr ""
 
-#: main/filesdb.c:374
+#: main/filesdb.c:377
 msgid "read error in diversions [iii]"
 msgstr ""
 
-#: main/filesdb.c:375
+#: main/filesdb.c:378
 msgid "unexpected EOF in diversions [iii]"
 msgstr ""
 
-#: main/filesdb.c:378
+#: main/filesdb.c:381
 msgid "fgets gave an empty string from diversions [iii]"
 msgstr ""
 
-#: main/filesdb.c:386
+#: main/filesdb.c:389
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr ""
 
-#: main/filesdb.c:395
+#: main/filesdb.c:398
 msgid "read error in diversions [i]"
 msgstr ""
 
@@ -1888,9 +1877,9 @@ msgstr ""
 "/sbin."
 
 #: main/help.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "failed to chroot to `%.250s'"
-msgstr "nelze zmìnit adresáø na `%.255s'"
+msgstr ""
 
 #: main/help.c:223
 #, c-format
@@ -1928,9 +1917,9 @@ msgid "unable to execute new %s"
 msgstr "nelze spustit nový %s"
 
 #: main/help.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "old %s script"
-msgstr "nový %s skript"
+msgstr "starý %s skript"
 
 #: main/help.c:352
 #, c-format
@@ -1999,7 +1988,7 @@ msgstr ""
 "podmínky ¹íøení. Bez jakýchkoli záruk. Více dpkg --licence.\n"
 
 #: main/main.c:57
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2033,7 +2022,7 @@ msgid ""
 "below\n"
 "  dpkg --help | --version                  show this help / version number\n"
 "  dpkg --force-help | -Dh|--debug=help     help on forcing resp. debugging\n"
-"  dpkg --licence                           print copyright licencing terms\n"
+"  dpkg --licence                           print copyright licensing terms\n"
 "\n"
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n"
@@ -2107,7 +2096,7 @@ msgstr ""
 " -x|--extract|-X|--vextract|--fsys-tarfile na archivy (napi¹te %s --help.)\n"
 "\n"
 "Pro vnitøní potøebu: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-longfilenames | --assert-multi-conrep\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 "\n"
 "Pøepínaèe:\n"
 "  --admindir=<adresáø>       Pou¾ij <adresáø> místo %s\n"
@@ -2124,7 +2113,7 @@ msgstr ""
 "RAM\n"
 "  --no-act                   Pouze vypisuj, co by se stalo, ale neprovádìj\n"
 "  -D|--debug=<octal>         Povol ladìní - viz. -Dhelp nebo --debug==help\n"
-"  --ignore-depends=<balík>, ...  Ignoruj závistlosti s <balíkem>\n"
+"  --ignore-depends=<balík>,...   Ignoruj závistlosti s <balíkem>\n"
 "  --force-...                    Ignoruj problémy - viz. --force-help\n"
 "  --no-force-...|--refuse-...    Zastav se pøi problémech\n"
 "\n"
@@ -2177,9 +2166,8 @@ msgid ""
 msgstr ""
 
 #: main/main.c:206
-#, fuzzy
 msgid "--debug requires an octal argument"
-msgstr "--auto potøebuje jméno právì jednoho souboru"
+msgstr ""
 
 #: main/main.c:230
 #, c-format
@@ -2351,142 +2339,142 @@ msgstr ""
 msgid "package architecture (%s) does not match system (%s)"
 msgstr ""
 
-#: main/processarc.c:236
+#: main/processarc.c:240
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
 "%s"
 msgstr ""
 
-#: main/processarc.c:239
+#: main/processarc.c:243
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr ""
 
-#: main/processarc.c:240
+#: main/processarc.c:244
 msgid "dpkg: warning - ignoring pre-dependency problem !\n"
 msgstr ""
 
-#: main/processarc.c:254
+#: main/processarc.c:258
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "Pøipravuji nahrazení %s %s (pomocí %s) ...\n"
 
-#: main/processarc.c:259
+#: main/processarc.c:263
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Rozbaluji %s (z %s) ...\n"
 
-#: main/processarc.c:279
+#: main/processarc.c:283
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 
-#: main/processarc.c:333
+#: main/processarc.c:337
 #, c-format
 msgid "read error in %.250s"
 msgstr ""
 
 #. conff= fopen()
-#: main/processarc.c:335
+#: main/processarc.c:339
 #, c-format
 msgid "error closing %.250s"
 msgstr ""
 
-#: main/processarc.c:337
+#: main/processarc.c:341
 #, c-format
 msgid "error trying to open %.250s"
 msgstr ""
 
-#: main/processarc.c:370
+#: main/processarc.c:374
 #, c-format
 msgid "De-configuring %s, so that we can remove %s ...\n"
 msgstr "Dekonfiguruji %s, aby mohl být odstranìn %s ...\n"
 
-#: main/processarc.c:427
+#: main/processarc.c:431
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Rozbaluji náhradu %.250s ...\n"
 
-#: main/processarc.c:506
+#: main/processarc.c:510
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr ""
 
-#: main/processarc.c:514
+#: main/processarc.c:518
 msgid "unable to fdopen dpkg-deb extract pipe"
 msgstr ""
 
-#: main/processarc.c:520
+#: main/processarc.c:524
 msgid "error reading dpkg-deb tar output"
 msgstr ""
 
-#: main/processarc.c:523
+#: main/processarc.c:527
 msgid "unexpected EOF in filesystem tarfile - corrupted package archive"
 msgstr ""
 
-#: main/processarc.c:525
+#: main/processarc.c:529
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr ""
 
-#: main/processarc.c:621
+#: main/processarc.c:625
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr ""
 
-#: main/processarc.c:643 main/processarc.c:880 main/remove.c:396
+#: main/processarc.c:647 main/processarc.c:884 main/remove.c:396
 msgid "cannot read info directory"
 msgstr "nelze pøeèíst adresáø info"
 
-#: main/processarc.c:656
+#: main/processarc.c:660
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 
-#: main/processarc.c:668
+#: main/processarc.c:672
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr ""
 
-#: main/processarc.c:671
+#: main/processarc.c:675
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 
-#: main/processarc.c:678
+#: main/processarc.c:682
 msgid "unable to open temp control directory"
 msgstr ""
 
-#: main/processarc.c:687
+#: main/processarc.c:691
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 
-#: main/processarc.c:692
+#: main/processarc.c:696
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr ""
 
-#: main/processarc.c:694
+#: main/processarc.c:698
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 
-#: main/processarc.c:700
+#: main/processarc.c:704
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr ""
 
-#: main/processarc.c:707
+#: main/processarc.c:711
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 
-#: main/processarc.c:860
+#: main/processarc.c:864
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Zji¹»uji zmizení balíku %s, který byl úplnì nahrazen.)\n"
 
-#: main/processarc.c:896
+#: main/processarc.c:900
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
@@ -3172,7 +3160,7 @@ msgstr ""
 msgid "--contents takes exactly one argument"
 msgstr "--contents vy¾aduje právì jeden parametr"
 
-#: dpkg-deb/main.c:44 dselect/main.cc:78
+#: dpkg-deb/main.c:44
 msgid "Debian Linux `"
 msgstr "Debian Linux `"
 
@@ -3389,7 +3377,7 @@ msgstr ""
 "Absolutnì bez záruky. Detaily naleznete v dpkg-split --licence.\n"
 
 #: split/main.c:47
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: dpkg-split -s|--split <file> [<prefix>]     Split an archive.\n"
 "       dpkg-split -j|--join <part> <part> ...      Join parts together.\n"
@@ -3424,7 +3412,14 @@ msgstr ""
 "         dpkg-split -d|--discard [<soubor> ...]     Ignoruj nehodící se "
 "èásti.\n"
 "\n"
-"Pøepínaèe:  --depotdir <adresáø>      (standardní je "
+"Pøepínaèe:  --depotdir <adresáø>      (standardní je %s/%s)\n"
+"            -S|--partsize <velikost>  (v kB pro -s, implicitní je 450)\n"
+"            -o|--output <soubor>      (pro -j, implicitní je "
+"<balík>-<verse>.deb\n"
+"            -Q|--npquiet              (bez chyby, kdy¾ -a není èástí)\n"
+"            --msdos                   (generuj jména konvence 8.3)\n"
+"\n"
+"Výstupní stavy: 0 = OK;  1 = -a a není èástí;  2 = problémy!\n"
 
 #: split/main.c:68
 msgid "Type dpkg-split --help for help."
@@ -3584,17 +3579,17 @@ msgstr "zdojový soubor `%.250s' není obyèejným souborem"
 msgid "unable to exec mksplit"
 msgstr "nelze spustit mksplit"
 
-#: md5sum/md5sum.c:106
+#: utils/md5sum.c:106
 #, c-format
 msgid "%s: read error on stdin\n"
 msgstr "%s: chyba pøi ètení ze stdin\n"
 
-#: md5sum/md5sum.c:124 md5sum/md5sum.c:250
+#: utils/md5sum.c:124 utils/md5sum.c:250
 #, c-format
 msgid "%s: error reading %s\n"
 msgstr "%s: chyba pøi ètení %s\n"
 
-#: md5sum/md5sum.c:138
+#: utils/md5sum.c:138
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -3612,63 +3607,63 @@ msgstr ""
 "Vstupem pro -c by mìl být seznam jmen souborù a message digests,\n"
 "ty jsou vypisovány na stdout tímto programem, pøi výpoètu digests.\n"
 
-#: md5sum/md5sum.c:211
+#: utils/md5sum.c:211
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr "%s: nerozpoznaný øádek: %s"
 
-#: md5sum/md5sum.c:245
+#: utils/md5sum.c:245
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr "%s: nelze otevøít %s\n"
 
-#: md5sum/md5sum.c:258
+#: utils/md5sum.c:258
 msgid "FAILED\n"
 msgstr "FAILED\n"
 
-#: md5sum/md5sum.c:260
+#: utils/md5sum.c:260
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: MD5 test nevyhovìl soubor `%s'\n"
 
-#: md5sum/md5sum.c:263
+#: utils/md5sum.c:263
 msgid "OK\n"
 msgstr "OK\n"
 
-#: md5sum/md5sum.c:267
+#: utils/md5sum.c:267
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr "%s: %d z %d souborù nevyhovìlo MD5 testu\n"
 
-#: md5sum/md5sum.c:269
+#: utils/md5sum.c:269
 #, c-format
 msgid "%s: no files checked\n"
 msgstr "%s: ¾ádné soubory zkontrolovány\n"
 
-#: dselect/basecmds.cc:99
+#: dselect/basecmds.cc:101
 msgid "Search for ? "
 msgstr ""
 
-#: dselect/basecmds.cc:126
+#: dselect/basecmds.cc:132
 msgid "Help: "
 msgstr ""
 
-#: dselect/basecmds.cc:132
+#: dselect/basecmds.cc:138
 msgid ""
 "? = help menu    Space = exit help    . = next help    or a help page key "
 msgstr ""
 
-#: dselect/basecmds.cc:140
+#: dselect/basecmds.cc:146
 msgid "Help information is available under the following topics:"
 msgstr ""
 
-#: dselect/basecmds.cc:148
+#: dselect/basecmds.cc:154
 msgid ""
 "Press a key from the list above, Space to exit help,\n"
 "  or `.' (full stop) to read each help page in turn. "
 msgstr ""
 
-#: dselect/basecmds.cc:154
+#: dselect/basecmds.cc:160
 msgid "error reading keyboard in help"
 msgstr ""
 
@@ -3906,8 +3901,8 @@ msgid "Quit without changing selected access method"
 msgstr ""
 
 #: dselect/main.cc:51
-msgid "Type "
-msgstr ""
+msgid "Type dselect --help for help."
+msgstr "Napi¹te dselect --help pro nápovìdu."
 
 #: dselect/main.cc:66
 msgid "access"
@@ -3969,11 +3964,26 @@ msgstr "Zkonèit dselect."
 msgid "menu"
 msgstr "menu"
 
-#: dselect/main.cc:81
-msgid "Version "
-msgstr "Verse "
+#: dselect/main.cc:78
+#, c-format
+msgid "Debian Linux `%s' package handling frontend."
+msgstr "Debian Linux `%s' - rozhraní pro správu balíkù."
 
-#: dselect/main.cc:91
+#: dselect/main.cc:81
+#, c-format
+msgid ""
+"Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
+"free software; see the GNU General Public Licence version 2 or later for\n"
+"copying conditions.  There is NO warranty.  See dselect --licence for "
+"details.\n"
+msgstr ""
+"Verse %s. Copyright (C) 1994-1996 Ian Jackson. Toto je volný software; "
+"bli¾¹í\n"
+"informace o pravidlech kopírování totoho programu naleznete v\n"
+"GNU General Public Licence verse 2 nebo pozdìj¹í.\n"
+"Absolutnì bez záruky. Detaily naleznete v dselect --licence.\n"
+
+#: dselect/main.cc:93
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -3982,30 +3992,30 @@ msgid ""
 "Actions:  access update select install config remove quit menu\n"
 msgstr ""
 
-#: dselect/main.cc:137
+#: dselect/main.cc:139
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr ""
 
-#: dselect/main.cc:163
+#: dselect/main.cc:165
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr ""
 
-#: dselect/main.cc:165
+#: dselect/main.cc:167
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr ""
 
-#: dselect/main.cc:166
+#: dselect/main.cc:168
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
 msgstr ""
 
-#: dselect/main.cc:168
+#: dselect/main.cc:170
 msgid "terminal lacks necessary features, giving up"
 msgstr ""
 
-#: dselect/main.cc:242
+#: dselect/main.cc:244
 msgid ""
 "\n"
 "\n"
@@ -4014,11 +4024,11 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dselect/main.cc:260
+#: dselect/main.cc:262
 msgid "failed to getch in main menu"
 msgstr ""
 
-#: dselect/main.cc:331
+#: dselect/main.cc:333
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr ""
@@ -4056,7 +4066,7 @@ msgstr ""
 msgid "getch failed"
 msgstr "getch selhal"
 
-#: dselect/methlist.cc:165 dselect/pkgdepcon.cc:243
+#: dselect/methlist.cc:165 dselect/pkgdepcon.cc:239 dselect/pkgdepcon.cc:278
 msgid "[none]"
 msgstr ""
 
@@ -4398,179 +4408,183 @@ msgstr ", který poskytuje"
 msgid "replaces"
 msgstr "nahrazuje"
 
-#: dselect/pkgdisplay.cc:77
-msgid "Req"
+#: dselect/pkgdisplay.cc:75
+msgid "enhances"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:78
-msgid "Imp"
+msgid "Req"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:79
-msgid "Std"
+msgid "Imp"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:80
-msgid "Rec"
+msgid "Std"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:81
-msgid "Opt"
+msgid "Rec"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:82
-msgid "Xtr"
+msgid "Opt"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:83
-msgid "Ctb"
+msgid "Xtr"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:84
-msgid "bUG"
+msgid "Ctb"
 msgstr ""
 
 #: dselect/pkgdisplay.cc:85
+msgid "bUG"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:86
 msgid "?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:93 dselect/pkgdisplay.cc:113
+#: dselect/pkgdisplay.cc:94 dselect/pkgdisplay.cc:114
 msgid "Broken"
 msgstr "Po¹kozený"
 
-#: dselect/pkgdisplay.cc:94
+#: dselect/pkgdisplay.cc:95
 msgid "New"
 msgstr "Nový"
 
-#: dselect/pkgdisplay.cc:95
+#: dselect/pkgdisplay.cc:96
 msgid "Updated"
 msgstr "Inovovaný"
 
-#: dselect/pkgdisplay.cc:96
+#: dselect/pkgdisplay.cc:97
 msgid "Obsolete/local"
 msgstr "Zastaralý/místní"
 
-#: dselect/pkgdisplay.cc:97
+#: dselect/pkgdisplay.cc:98
 msgid "Up-to-date"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:98
+#: dselect/pkgdisplay.cc:99
 msgid "Available"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:99 dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:100 dselect/pkgdisplay.cc:116
 msgid "Removed"
 msgstr "Odstranìný"
 
-#: dselect/pkgdisplay.cc:100 dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:101 dselect/pkgdisplay.cc:110
 msgid "Brokenly installed packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:102
 msgid "Newly available packages"
 msgstr "Novì pøístupné balíky"
 
-#: dselect/pkgdisplay.cc:102
+#: dselect/pkgdisplay.cc:103
 msgid "Updated packages (newer version is available)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:104
 msgid "Obsolete and local packages present on system"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:104
+#: dselect/pkgdisplay.cc:105
 msgid "Up to date installed packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:105
+#: dselect/pkgdisplay.cc:106
 msgid "Available packages (not currently installed)"
 msgstr "Pøístupné balíky (nenainstalované)"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:107
 msgid "Removed and no longer available packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:110
+#: dselect/pkgdisplay.cc:111
 msgid "Installed packages"
 msgstr "Nainstalované balíky"
 
-#: dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:112
 msgid "Removed packages (configuration still present)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:112
+#: dselect/pkgdisplay.cc:113
 msgid "Purged packages and those never installed"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:115
 msgid "Installed"
 msgstr "Nainstalovaný"
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:117
 msgid "Purged"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:194
+#: dselect/pkgdisplay.cc:195
 msgid "dselect - recursive package listing"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:195
+#: dselect/pkgdisplay.cc:196
 msgid "dselect - inspection of package states"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:196
+#: dselect/pkgdisplay.cc:197
 msgid "dselect - main package listing"
 msgstr "dselect - hlavní seznam balíkù"
 
-#: dselect/pkgdisplay.cc:204
+#: dselect/pkgdisplay.cc:205
 msgid " (by section)"
 msgstr " (podle sekce)"
 
-#: dselect/pkgdisplay.cc:207
+#: dselect/pkgdisplay.cc:208
 msgid " (avail., section)"
 msgstr " (pøíst., sekce)"
 
-#: dselect/pkgdisplay.cc:210
+#: dselect/pkgdisplay.cc:211
 msgid " (status, section)"
 msgstr " (stav, sekce)"
 
-#: dselect/pkgdisplay.cc:219
+#: dselect/pkgdisplay.cc:220
 msgid " (by priority)"
 msgstr " (priorita)"
 
-#: dselect/pkgdisplay.cc:222
+#: dselect/pkgdisplay.cc:223
 msgid " (avail., priority)"
 msgstr " (pøíst., priorita)"
 
-#: dselect/pkgdisplay.cc:225
+#: dselect/pkgdisplay.cc:226
 msgid " (status, priority)"
 msgstr " (stav, priorita)"
 
-#: dselect/pkgdisplay.cc:234 dselect/pkgdisplay.cc:246
+#: dselect/pkgdisplay.cc:235 dselect/pkgdisplay.cc:247
 msgid " (alphabetically)"
 msgstr " (abecednì)"
 
-#: dselect/pkgdisplay.cc:237
+#: dselect/pkgdisplay.cc:238
 msgid " (by availability)"
 msgstr " (pøístupnosti)"
 
-#: dselect/pkgdisplay.cc:240
+#: dselect/pkgdisplay.cc:241
 msgid " (by status)"
 msgstr " (stavu)"
 
-#: dselect/pkgdisplay.cc:254
+#: dselect/pkgdisplay.cc:255
 msgid " mark:+/=/- terse:v help:?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:255
+#: dselect/pkgdisplay.cc:256
 msgid " mark:+/=/- verbose:v help:?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:256
+#: dselect/pkgdisplay.cc:257
 msgid " terse:v help:?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:257
+#: dselect/pkgdisplay.cc:258
 msgid " verbose:v help:?"
 msgstr ""
 
@@ -4691,6 +4705,9 @@ msgstr "Priorita"
 #: dselect/pkgtop.cc:287
 msgid "Package"
 msgstr "Balík"
+
+#~ msgid "Version "
+#~ msgstr "Verse "
 
 #~ msgid "bad tar type, but already checked"
 #~ msgstr "¹patný typ taru, ale ji¾ testováno"
