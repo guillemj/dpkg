@@ -84,7 +84,7 @@ void checkpath(void) {
   long l;
 
   path= getenv("PATH");
-  if (!path) fputs(_("dpkg - warning: PATH is not set.\n"), stderr);
+  if (!path) ohshit(_("dpkg - error: PATH is not set.\n"));
   buf=(char*)m_malloc(strlen(path)+2+strlen("start-stop-daemon"));
   
   for (clp=checklist; *clp; clp++) {
