@@ -1151,7 +1151,8 @@ main(int argc, char **argv)
 		dup(fd); /* stderr */
 	}
 	if (nicelevel) {
-		if (nice(nicelevel)==-1)
+		errno=0;
+		if ((nice(nicelevel)==-1) && (errno!=0))
 			fatal("Unable to alter nice level by %i: %s", nicelevel,
 				strerror(errno));
 	}
