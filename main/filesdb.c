@@ -203,7 +203,7 @@ void ensure_allinstfiles_available(void) {
   if (allpackagesdone) return;
   if (saidread<2) {
     saidread=1;
-    printf(f_largemem>0 ? _("(Reading database ... ") : _("(Scanning database ... "));
+    printf(_("(Reading database ... "));
   }
   it= iterpkgstart();
   while ((pkg= iterpkgnext(it)) != 0) ensure_packagefiles_available(pkg);
@@ -514,21 +514,10 @@ void ensure_diversions(void) {
   onerr_abort--;
 }
 
-/*** Data structures common to both in-core databases ***/
-
 struct fileiterator {
-  union {
-    struct {
-      struct filenamenode *current;
-    } low;
-    struct {
-      struct filenamenode *namenode;
-      int nbinn;
-    } high;
-  } u;
+  struct filenamenode *namenode;
+  int nbinn;
 };
-
-/*** Data structures for fast, large memory usage database ***/
 
 #define BINS (1 << 13)
  /* This must always be a power of two.  If you change it
@@ -538,88 +527,23 @@ struct fileiterator {
 
 static struct filenamenode *bins[BINS];
 
-/*** Data structures for low-memory-footprint in-core files database ***/
-
-/* the idea is that you have a tree structure in memory which has the
-   same structure as the names themselves.
-
-   Each node in the tree gets an fdirnode.  This may have a
-   filenamenode attached to it (if there is really a filename
-   corresponding to the path down the tree to get here) and an
-   fdirents (if there is anything below this point.)
-
-   The fdirents structure lists the entries in a directory.  If there
-   is only 1 node below us then there's just one fdirents with a
-   single entry; if there are more then then next one (as defined by
-   the 'more' field) contains two entries; the next four; etc.
-
-   This doubling effect is enforced by findnamenow_low() rather than
-   by a count field in the structure.
-
-   1999-07-26 RJK
-   
-*/
-
-struct fdirents {
-  struct fdirents *more;
-  struct { const char *component; struct fdirnode *go; } entries[1];
-  /* first one has one entry, then two, then four, &c */
-};
-
-struct fdirnode {
-  struct filenamenode *here;
-  struct fdirents *contents;
-};
-
-static struct fdirnode fdirroot;
-static struct filenamenode *allfiles;
-
-struct filenamesblock {
-  struct filenamesblock *next;
-  char *data;
-};
-
-static struct filenamesblock *namesarea= 0;
-static int namesarealeft= 0;
-
-/*** Code for both.  This is rather hacky, sorry ... ***/
-
 struct fileiterator *iterfilestart(void) {
   struct fileiterator *i;
   i= m_malloc(sizeof(struct fileiterator));
-  switch (f_largemem) {
-  case 1:
-    i->u.high.namenode= 0;
-    i->u.high.nbinn= 0;
-    break;
-  case -1:
-    i->u.low.current= allfiles;
-    break;
-  default:
-    internerr("iterfilestart no f_largemem");
-  }
+  i->namenode= 0;
+  i->nbinn= 0;
   return i;
 }
 
 struct filenamenode *iterfilenext(struct fileiterator *i) {
   struct filenamenode *r= NULL;
-  switch (f_largemem) {
-  case 1:
-    while (!i->u.high.namenode) {
-      if (i->u.high.nbinn >= BINS) return 0;
-      i->u.high.namenode= bins[i->u.high.nbinn++];
-    }
-    r= i->u.high.namenode;
-    i->u.high.namenode= r->next;
-    break;
-  case -1:
-    if (!i->u.low.current) return 0;
-    r= i->u.low.current;
-    i->u.low.current= i->u.low.current->next;
-    break;
-  default:
-    internerr("iterfilenext no f_largemem");
+
+  while (!i->namenode) {
+    if (i->nbinn >= BINS) return 0;
+    i->namenode= bins[i->nbinn++];
   }
+  r= i->namenode;
+  i->namenode= r->next;
   return r;
 }
 
@@ -627,158 +551,17 @@ void iterfileend(struct fileiterator *i) {
   free(i);
 }
 
-static int autodetect_largemem(void) {
-#if defined(HAVE_SYSINFO) && defined (MEMINFO_IN_SYSINFO)
-  struct sysinfo info;
-  if (sysinfo(&info)) return 0;
-  if (info.freeram + (info.sharedram>>2) + (info.bufferram>>2) < 24576*1024 &&
-      info.totalram < 24576*1024)
-    return 0;
-#endif
-  return 1;
-}
-
 void filesdbinit(void) {
   struct filenamenode *fnn;
   int i;
 
-  if (!f_largemem)
-    f_largemem= autodetect_largemem() ? 1 : -1;
-
-  switch (f_largemem) {
-  case 1:
-    for (i=0; i<BINS; i++)
-      for (fnn= bins[i]; fnn; fnn= fnn->next) {
-        fnn->flags= 0;
-        fnn->oldhash= 0;
-        fnn->filestat= 0;
-      }
-    break;
-  case -1:
-    for (fnn= allfiles;
-         fnn;
-         fnn= fnn->next) {
+  for (i=0; i<BINS; i++)
+    for (fnn= bins[i]; fnn; fnn= fnn->next) {
       fnn->flags= 0;
       fnn->oldhash= 0;
       fnn->filestat= 0;
     }
-    break;
-  default:
-    internerr("filesdbinit no f_largemem");
-  }    
 }
-
-static struct filenamenode *findnamenode_high(const char *name,
-					      enum fnnflags flags);
-static struct filenamenode *findnamenode_low(const char *name,
-					     enum fnnflags flags);
-  
-struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
-  switch (f_largemem) {
-  case 1:
-    return findnamenode_high(name, flags);
-  case -1:
-    return findnamenode_low(name, flags);
-  default:
-    internerr("findnamenode no f_largemem");
-  }
-  return NULL;
-}
-
-/*** Code for low-memory-footprint in-core files database ***/
-  
-static struct filenamenode *findnamenode_low(const char *name,
-					     enum fnnflags flags) {
-  struct fdirnode *traverse;
-  struct fdirents *ents, **addto;
-  const char *nameleft, *slash;
-  char *p;
-  struct filenamesblock *newblock;
-  int n, i, nentrieshere, alloc;
-  const char *orig_name = name;
-  
-  /* We skip initial slashes and ./ pairs, and add our own single leading slash. */
-  name= skip_slash_dotslash(name);
-
-  nameleft= name;
-  traverse= &fdirroot;
-  while (nameleft) {
-    slash= strchr(nameleft,'/');
-    if (slash) {
-      n= (int)(slash-nameleft); slash++;
-    } else {
-      n= strlen(nameleft);
-    }
-    ents= traverse->contents; addto= &traverse->contents; i= 0; nentrieshere= 1;
-    for (;;) {
-      if (!ents) break;
-      if (!ents->entries[i].component) break;
-      if (!strncmp(ents->entries[i].component,nameleft,n) &&
-          !ents->entries[i].component[n]) {
-        break;
-      }
-      i++;
-      if (i < nentrieshere) continue;
-      addto= &ents->more;
-      ents= ents->more;
-      nentrieshere += nentrieshere;
-      i=0;
-    }
-    if (!ents) {
-      ents= nfmalloc(sizeof(struct fdirents) +
-                     sizeof(ents->entries[0])*(nentrieshere-1));
-      i=0;
-      ents->entries[i].component= 0;
-      ents->more= 0;
-      *addto= ents;
-    }
-    if (!ents->entries[i].component) {
-      p= nfmalloc(n+1);
-      memcpy(p,nameleft,n); p[n]= 0;
-      ents->entries[i].component= p;
-      ents->entries[i].go= nfmalloc(sizeof(struct fdirnode));
-      ents->entries[i].go->here= 0;
-      ents->entries[i].go->contents= 0;
-      if (i+1 < nentrieshere)
-        ents->entries[i+1].component= 0;
-    }
-    traverse= ents->entries[i].go;
-    nameleft= slash;
-  }
-  if (traverse->here) return traverse->here;
-
-  traverse->here= nfmalloc(sizeof(struct filenamenode));
-  traverse->here->packages= 0;
-  traverse->here->flags= 0;
-  traverse->here->divert= 0;
-  traverse->here->statoverride= 0;
-  traverse->here->filestat= 0;
-
-  if((flags & fnn_nocopy) && name > orig_name && name[-1] == '/') {
-    traverse->here->name = (char *)name - 1;
-  } else {
-    n= strlen(name)+2;
-    if (namesarealeft < n) {
-      newblock= m_malloc(sizeof(struct filenamesblock));
-      alloc= 256*1024;
-      if (alloc<n) alloc= n;
-      newblock->data= m_malloc(alloc);
-      newblock->next= namesarea;
-      namesarea= newblock;
-      namesarealeft= alloc;
-    }
-    namesarealeft-= n;
-    p= namesarea->data+namesarealeft;
-    traverse->here->name= p; *p++= '/'; strcpy(p,name);
-  }
-
-  traverse->here->next= allfiles;
-  allfiles= traverse->here;
-  nfiles++;
-  return traverse->here;  
-}
-
-/*** Code for high memory usage fast database ***/
 
 static int hash(const char *name) {
   int v= 0;
@@ -786,8 +569,7 @@ static int hash(const char *name) {
   return v;
 }
 
-struct filenamenode *findnamenode_high(const char *name,
-					     enum fnnflags flags) {
+struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   struct filenamenode **pointerp, *newnode;
   const char *orig_name = name;
 
@@ -796,6 +578,7 @@ struct filenamenode *findnamenode_high(const char *name,
 
   pointerp= bins + (hash(name) & (BINS-1));
   while (*pointerp) {
+/* Why is this assert nescessary?  It is checking already added entries. */
     assert((*pointerp)->name[0] == '/');
     if (!strcmp((*pointerp)->name+1,name)) break;
     pointerp= &(*pointerp)->next;

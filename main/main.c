@@ -127,7 +127,7 @@ Options marked [*] produce a lot of output - pipe it through `less' or `more' !"
 
 const struct cmdinfo *cipaction= 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
-int f_autodeconf=0, f_largemem=0;
+int f_autodeconf=0;
 unsigned long f_debug=0;
 /* Change fc_overwrite to 1 to enable force-overwrite by default */
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
@@ -178,6 +178,10 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
     badusage(_("conflicting actions --%s and --%s"),cip->olong,cipaction->olong);
   cipaction= cip;
+}
+
+static void setobsolete(const struct cmdinfo *cip, const char *value) {
+  fprintf(stderr, _("Warning: obselete option `--%s'\n"),cip->olong);
 }
 
 static void setdebug(const struct cmdinfo *cpi, const char *value) {
@@ -329,6 +333,9 @@ static const struct cmdinfo cmdinfos[]= {
    */
 #define ACTION(longopt,shortopt,code,function) \
  { longopt, shortopt, 0,0,0, setaction, code, 0, (voidfnp)function }
+#define OBSOLETE(longopt,shortopt) \
+ { longopt, shortopt, 0,0,0, setobsolete, 0, 0, 0 }
+
   ACTION( "install",                        'i', act_install,              archivefiles    ),
   ACTION( "unpack",                          0,  act_unpack,               archivefiles    ),
   ACTION( "record-avail",                   'A', act_avail,                archivefiles    ),
@@ -366,8 +373,8 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-also-select",    'N',  0,  &f_alsoselect,  0,0,0 /* fixme: remove sometime */ },
   { "skip-same-version", 'E',  0,  &f_skipsame,    0,  0,             1              },
   { "auto-deconfigure",  'B',  0,  &f_autodeconf,  0,  0,             1              },
-  { "largemem",           0,   0,  &f_largemem,    0,  0,             1              },
-  { "smallmem",           0,   0,  &f_largemem,    0,  0,            -1              },
+  OBSOLETE( "largemem", 0 ),
+  OBSOLETE( "smallmem", 0 ),
   { "root",               0,   1,  0, 0,               setroot                       },
   { "abort-after",        0,   1,  &errabort,      0,  setinteger,    0              },
   { "admindir",           0,   1,  0, &admindir,       0                             },
