@@ -11,7 +11,7 @@ my $fn;
 $diff_ignore_default_regexp = '^.*~$|^\..*\.swp|DEADJOE|(?:/CVS|/RCS|/.deps)(?:$|/.*$)';
 
 $sourcestyle = 'X';
-$dscformat = "1.0";
+$dscformat = "1.1";
 
 use POSIX;
 use POSIX qw (:errno_h :signal_h);
@@ -40,6 +40,8 @@ Build options:   -c<controlfile>     get control info from this file
                  -T<varlistfile>     read variables here, not debian/substvars
                  -D<field>=<value>   override or add a .dsc field and value
                  -U<field>           remove a field
+                 -W                  Turn certain errors into warnings. 
+                 -E                  When -W is enabled, -E disables it.
                  -sa                 auto select orig source (-sA is default)
                  -i[<regexp>]        filter out files to ignore diffs of.
                                      Defaults to: '$diff_ignore_default_regexp'
@@ -89,6 +91,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $varlistfile= $';
     } elsif (m/^-h$/) {
         &usageversion; exit(0);
+    } elsif (m/^-W$/) {
+        $warnable_error= 1;
+    } elsif (m/^-E$/) {
+        $warnable_error= 0;
     } elsif (m/^--$/) {
         last;
     } else {
@@ -126,7 +132,7 @@ if ($opmode eq 'build') {
         if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
             if (m/^Source$/) { &setsourcepackage; }
-            elsif (m/^(Standards-Version|Origin|Maintainer)$/) { $f{$_}= $v; }
+            elsif (m/^(Standards-Version|Origin|Maintainer|Uploaders)$/) { $f{$_}= $v; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= $v; }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
             elsif (m/^(Section|Priority|Files|Bugs)$/ || m/^X[BC]+-/i) { }
@@ -323,7 +329,7 @@ if ($opmode eq 'build') {
         }
 
         $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
-        checktarsane($origtargz,$expectprefix);
+#        checktarsane($origtargz,$expectprefix);
         mkdir("$origtargz.tmp-nest",0755) ||
             &syserr("unable to create \`$origtargz.tmp-nest'");
         extracttar($origtargz,"$origtargz.tmp-nest",$expectprefix);
@@ -375,8 +381,8 @@ if ($opmode eq 'build') {
                 }
                 defined($c3= open(DIFFGEN,"-|")) || &syserr("fork for diff");
                 if (!$c3) {
-		    $ENV{'LANG'}= 'C';
 		    $ENV{'LC_ALL'}= 'C';
+		    $ENV{'LANG'}= 'C';
                     exec('diff','-u',
                          '-L',"$basedirname.orig/$fn",
                          '-L',"$basedirname/$fn",
@@ -530,7 +536,7 @@ if ($opmode eq 'build') {
     checkstats($tarfile);
     checkstats($difffile) if length($difffile);
 
-    checktarsane("$dscdir/$tarfile",$expectprefix);
+#    checktarsane("$dscdir/$tarfile",$expectprefix);
 
     if (length($difffile)) {
             
@@ -657,6 +663,7 @@ if ($opmode eq 'build') {
         if (!$c2) {
             open(STDIN,"<&GZIP") || &syserr("reopen gzip for patch");
             chdir($newdirectory) || &syserr("chdir to $newdirectory for patch");
+	    $ENV{'LC_ALL'}= 'C';
 	    $ENV{'LANG'}= 'C';
             exec('patch','-s','-t','-F','0','-N','-p1','-u',
                  '-V','never','-g0','-b','-z','.dpkg-orig');
@@ -689,8 +696,7 @@ if ($opmode eq 'build') {
     $plainmode= $execmode & ~0111;
     $fifomode= ($plainmode & 0222) | (($plainmode & 0222) << 1);
     for $fn (@filesinarchive) {
-        $fn= substr($fn,length($expectprefix)+1);
-        $fn= "$newdirectory/$fn";
+	$fn=~ s,^$expectprefix,$newdirectory,;
         (@s= lstat($fn)) || &syserr("cannot stat extracted object \`$fn'");
         $mode= $s[2];
         if (-d _) {
@@ -753,7 +759,8 @@ sub checktarcpio {
     &forkgzipread ("$tarfileread");
     if (! defined ($c2 = open (CPIO,"-|"))) { &syserr ("fork for cpio"); }
     if (!$c2) {
-	$ENV{'LANG'} = 'C';
+	$ENV{'LC_ALL'}= 'C';
+	$ENV{'LANG'}= 'C';
         open (STDIN,"<&GZIP") || &syserr ("reopen gzip for cpio");
         &cpiostderr;
         exec ('cpio','-0t');
@@ -770,13 +777,20 @@ sub checktarcpio {
 	my $pname = $fn;
 	$pname =~ y/ -~/?/c;
 
+        if ($fn =~ m/\n/) {
+	    &error ("tarfile \`$tarfileread' contains object with".
+		    " newline in its name ($pname)");
+	}
+
+	next if ($fn eq '././@LongLink');
+
 	if (! $tarprefix) {
 	    if ($fn =~ m/\n/) {
                 &error("first output from cpio -0t (from \`$tarfileread') ".
                        "contains newline - you probably have an out of ".
                        "date version of cpio.  GNU cpio 2.4.2-2 is known to work");
 	    }
-	    $tarprefix = ($fn =~ m,([^/]*)[/],)[0];
+	    $tarprefix = ($fn =~ m,((\./)*[^/]*)[/],)[0];
 	    # need to check for multiple dots on some operating systems
 	    # empty tarprefix (due to regex failer) will match emptry string
 	    if ($tarprefix =~ /^[.]*$/) {
@@ -784,13 +798,6 @@ sub checktarcpio {
 		       "directory off the current directory ($tarprefix from $pname)");
 	    }
 	}
-
-        if ($fn =~ m/\n/) {
-	    &error ("tarfile \`$tarfileread' contains object with".
-		    " newline in its name ($pname)");
-	}
-
-	next if ($fn eq '././@LongLink');
 
 	my $fprefix = substr ($fn, 0, length ($tarprefix));
         my $slash = substr ($fn, length ($tarprefix), 1);
@@ -812,7 +819,6 @@ sub checktarcpio {
     $/= "\n";
 
     my $tarsubst = quotemeta ($tarprefix);
-    @filesinarchive = map { s/^$tarsubst/$wpfx/; $_ } @filesinarchive;
 
     return $tarprefix;
 }
@@ -831,6 +837,7 @@ sub checktarsane {
     &forkgzipread ("$tarfileread");
     if (! defined ($c2 = open (TAR,"-|"))) { &syserr ("fork for tar -t"); }
     if (! $c2) {
+	$ENV{'LC_ALL'}= 'C';
         $ENV{'LANG'}= 'C';
         open (STDIN, "<&GZIP") || &syserr ("reopen gzip for tar -t");
         exec ('tar', '-vvtf', '-'); &syserr ("exec tar -vvtf -");
@@ -870,6 +877,12 @@ sub checktarsane {
 	# fetch name of file as given by cpio
         $fn = $filesinarchive[$efix++];
 
+	my $l = length($fn);
+	if (substr ($tarfn, 0, $l + 4) eq "$fn -> ") {
+		# This is a symlink, as listed by tar.  cpio doesn't
+		# give us the targets of the symlinks, so we ignore this.
+		$tarfn = substr($tarfn, 0, $l);
+	}
 	if ($tarfn ne $fn) {
 	    if ((length ($fn) == 99) && (length ($tarfn) >= 99)
 		&& (substr ($fn, 0, 99) eq substr ($tarfn, 0, 99))) {
@@ -877,6 +890,10 @@ sub checktarsane {
 		# to the first 100 characters.  let it slide for now.
 		&warn ("filename \`$pname' was truncated by cpio;" .
 		       " unable to check full pathname");
+		# Since it didn't match, later checks will not be able
+		# to stat this file, so we replace it with the filename
+		# fetched from tar.
+		$filesinarchive[$efix-1] = $tarfn;
 	    } else {
 		&error ("tarfile \`$tarfileread' contains unexpected object".
 			" listed by tar as \`$_'; expected \`$pname'");
@@ -906,11 +923,13 @@ sub checktarsane {
 	}
 
         if ($type eq 'd') { $tarfn =~ s,/$,,; }
+        $tarfn =~ s,(\./)*,,;
         my $dirname = $tarfn;
 
         if (($dirname =~ s,/[^/]+$,,) && (! defined ($dirincluded{$dirname}))) {
-            &error ("tarfile \`$tarfileread' contains object \`$pname' but its containing ".
+            &warnerror ("tarfile \`$tarfileread' contains object \`$pname' but its containing ".
 		    "directory \`$dirname' does not precede it");
+	    $dirincluded{$dirname} = 1;
 	}
 	if ($type eq 'd') { $dirincluded{$tarfn} = 1; }
         if ($type ne '-') { $notfileobject{$tarfn} = 1; }
@@ -920,6 +939,7 @@ sub checktarsane {
     &reapgzip;
 
     my $tarsubst = quotemeta ($tarprefix);
+    @filesinarchive = map { s/^$tarsubst/$wpfx/; $_ } @filesinarchive;
     %dirincluded = map { s/^$tarsubst/$wpfx/; $_=>1 } (keys %dirincluded);
     %notfileobject = map { s/^$tarsubst/$wpfx/; $_=>1 } (keys %notfileobject);
 }

@@ -236,6 +236,19 @@ the standard format described in the
 .IR "Debian packaging manual" .
 This option is understood by
 .BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.TP
+.BI -W
+This option turns certain errors into warnings.  Only dpkg-source uses
+this, but 
+.BR dpkg-buildpackage
+recognizes it, and passes it thru to
+.BR dpkg-source "."
+.TP
+.BI -E
+This option negates a previously set
+.BR -W "."
+It is currently only understood by
+.BR dpkg-buildpackage " and " dpkg-source "."
 .SH DPKG-SOURCE OPTIONS
 When the common options
 .BR -c " and " -l

@@ -39,6 +39,8 @@ Options: -r<gain-root-command>
          -tc           clean source tree when finished
          -ap           add pause before starting signature process
          -h            print this message
+         -W            Turn certain errors into warnings.      } passed to
+         -E            When -W is turned on, -E turned it off. } dpkg-source
          -i[<regex>]   ignore diffs of files matching regex } only passed
                                                              to dpkg-source
 END
@@ -66,6 +68,8 @@ maint=''
 desc=''
 noclean=false
 usepause=false
+warnable_error=0
+passopts=''
 
 while [ $# != 0 ]
 do
@@ -100,6 +104,8 @@ do
 	-m*)	maint="$value" ;;
 	-e*)	changedby="$value" ;;
 	-C*)	desc="$value" ;;
+	-W)	warnable_error=1; passopts="$passopts -W";;
+	-E)	warnable_error=0; passopts="$passopts -E";;	
 	*)	echo >&2 "$progname: unknown option or argument $1"
 		usageversion; exit 2 ;;
 	esac
@@ -186,7 +192,7 @@ if [ x$noclean != xtrue ]; then
 	withecho $rootcommand debian/rules clean
 fi
 if [ x$binaryonly = x ]; then
-	cd ..; withecho dpkg-source $diffignore -b "$dirn"; cd "$dirn"
+	cd ..; withecho dpkg-source $passopts $diffignore -b "$dirn"; cd "$dirn"
 fi
 if [ x$sourceonly = x ]; then
 	withecho debian/rules build 

@@ -5,6 +5,47 @@ dpkg (1.10) unstable; urgency=low
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
+dpkg (1.9.14) unstable; urgency=low
+
+  * Make the Uploaders field in a .dsc file optional.
+  * Disabled sanity checking of source packages.  
+ 
+ -- Adam Heath <doogie@debian.org>  Mon, 25 Jun 2001 02:22:40 -0500
+
+dpkg (1.9.13) unstable; urgency=medium
+
+  * Add a -W option to dpkg-source(and the other utils, where it is just
+    passed thru), to turn certain errors into warnings(of which, only
+    one is changed, namely, the 'tar doesn't contain preceeding directory'
+    error).  Closes: #101813, and partially 101845.
+  * Don't error out if the files in the tar have leading './', for
+    dpkg-source.  (another partial close of 101845).
+  * Handle the case where a single directory exists in the orig.tar.gz, but
+    it is NOT of the form <pkg>-<ver>.  Closes: #101845.
+  * Set LC_ALL in dpkg-source when we call external programs when we are
+    going to parse their output.  Another bug from 101845.
+  * Handle stating of truncated cpio filenames(100 char limit, bah), in
+    dpkg-source.  Another bug from 101845.
+  * Add support for an Uploaders field, which is read from the first
+    paragraph of debian/control, and propagated to the .dsc.  This lists
+    the people allowed to upload a package.  If it is not set, then the
+    value of the Maintainer is placed into this field of the .dsc.  This
+    bumps the .dsc format to 1.1.  Closes: #101815.
+  * Handle symlinks in the tarball, and don't error out if found.
+  * in controllib, make warnerrors default to warnings.  Affects
+    dpkg-source.  This will be changed to be errors in the future.
+
+ -- Adam Heath <doogie@debian.org>  Sun, 24 Jun 2001 13:48:52 -0500
+
+dpkg (1.9.12) unstable; urgency=medium
+
+  * Fix do_script() bug. Closes: Bug#101552
+  * Fix building and extracting of certain kinds of source packages.
+    Closes: #101684.
+  * Added Colin Watson to THANKS.
+
+ -- Adam Heath <doogie@debian.org>  Wed, 20 Jun 2001 18:27:03 -0500
+
 dpkg (1.9.11) unstable; urgency=low
 
   * The "Hang on to your hats, it gets bumpy from here." release.

@@ -1,3 +1,44 @@
+Mon Jun 25 03:31:55 CDT 2001 Adam Heath <doogie@debian.org>
+
+  * Merged in changes from 1.9.11 to 1.9.14 branches.
+
+    + scripts/dpkg-source.pl: Disable source package sanity checking.
+    + scripts/dpkg-source.pl: make Uploaders optional.
+    + scripts/controllib.pl: Set the default to convert warnerrors
+      into warnings.
+    + scripts/dpkg-source.pl: Remove a warnable error if the orig.tar.gz
+      contains './'.
+    + scripts/dpkg-source.pl: Handle symlinks in the tarball, and don't
+      error out if found.
+    + scripts/dpkg-source.pl: Add support for an Uploaders field, which is
+      read from the first paragraph of debian/control, and propagated to
+      the .dsc.  This lists the people allowed to upload a package.  If it
+      is not set, then the value of the Maintainer is placed into this
+      field of the .dsc.  This bumps the .dsc format to 1.1.
+    + scripts/dpkg-source.pl: Handle stating of truncated cpio filenames
+      (100 char limit, bah)
+    + scripts/dpkg-source.pl: Set LC_ALL before calling external programs,
+      when we are going to parse their output.
+    + scripts/dpkg-source.pl: Move the check for '\n' and '././@LongLink'
+      before the check for leading './'.
+    + dselect/main.cc: Handle window resize in main menu
+    + scripts/dpkg-source.pl: Add a warnable error if the orig.tar.gz
+      contains './'.
+    + scripts/dpkg-source.pl: Handle the case where a single directory
+      exists in the orig.tar.gz, but it is NOT of the form <pkg>-<ver>.
+    + scripts/dpkg-source.pl: Don't error out if the files in the tar
+      have leading './'.
+    + scripts/dpkg-source.pl, scripts/controllib.pl, scripts/dpkg-source.1,
+      scripts/dpkg-buildpackage.sh: Add support for -W, which turns certain
+      errors into warnings, and -E, which turns them back into errors again.
+    + scripts/dpkg-source.pl: When the tarball doesn't contain directories,
+      only display the warning once for each directory.
+    + THANKS: Added Colin Watson.  Also put in an email address for Colin
+      Plumb.
+    + scripts/dpkg-source.pl: Grumble.  Fix case where top-dir in
+      orig.tar.gz was renamed to .orig.
+    + main/help.c: actually use narglist in do_script()
+
 Fri Jun 22 19:26:41 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
 
   * dselect/main.cc: Handle window resize in main menu

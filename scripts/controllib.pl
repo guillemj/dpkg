@@ -23,6 +23,7 @@ $substvar{'Newline'}= "\n";
 $substvar{'Space'}= " ";
 $substvar{'Tab'}= "\t";
 $maxsubsts=50;
+$warnable_error= 1;
 
 $progname= $0; $progname= $& if $progname =~ m,[^/]+$,;
 
@@ -230,6 +231,7 @@ sub error { die "$progname: error: $_[0]\n"; }
 sub internerr { die "$progname: internal error: $_[0]\n"; }
 sub warn { warn "$progname: warning: $_[0]\n"; }
 sub usageerr { print(STDERR "$progname: @_\n\n"); &usageversion; exit(2); }
+sub warnerror { if ($warnable_error) { &warn( @_ ); } else { &error( @_ ); } }
 
 sub subprocerr {
     local ($p) = @_;
