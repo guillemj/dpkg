@@ -58,6 +58,12 @@ binary-trees: build
 	else \
 		sed -e '/^# i386elf: /d' debian/preinst >$(mcidir)/preinst ; \
 	fi
+	set -e; if [ -f debian/shlibs.default.$(arch) ]; then \
+		echo /etc/dpkg/shlibs.default >debian/tmp-dev/DEBIAN/conffiles ; \
+		install -d debian/tmp-main/etc/dpkg; \
+		install -m644 debian/shlibs.default.$(arch) \
+		debian/tmp-dev/etc/dpkg/shlibs.default ; \
+	fi
 	cp debian/{prerm,postinst} $(mcidir)/.
 	$(MAKE) -C $(BUILD) top_distdir=. dist 
 	$(MAKE) -C $(BUILD) \
