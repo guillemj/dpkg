@@ -49,5 +49,5 @@ install-doc:
 dpkg-deb-static: LDFLAGS += -static
 dpkg-deb-static: ZLIB_LIBS = $(ZLIB_LIBS_ALSO_STATIC)
 dpkg-deb dpkg-deb-static: $(OBJECTS) ../lib/libdpkg.a
-	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg $(ZLIB_LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS)
 

@@ -72,8 +72,8 @@ endif
 	$(INSTALL_DATA) $(srcdir)/$(MD5_MANPAGES) $(DESTDIR)/$(man1dir)
 
 start-stop-daemon: $(SSD_OBJECTS) ../lib/libdpkg.a
-	$(CC) $(LDFLAGS) -o $@ $^ $(SSD_LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(SSD_OBJECTS) $(LIBS) $(SSD_LIBS)
 
 md5sum-static: LDFLAGS += -static
 md5sum md5sum-static: $(MD5_OBJECTS) ../lib/libdpkg.a
-	$(CC) $(LDFLAGS) -o $@ $^ $(NLS_LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(MD5_OBJECTS) $(LIBS) $(NLS_LIBS)

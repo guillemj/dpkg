@@ -17,10 +17,7 @@ ALL_CFLAGS	+= -DCOPYINGFILE=\"$(copyingfile)\"
 .PHONY: all
 all:: libdpkg.a
 
-../optlib/libopt.a:
-	set -e ; cd ../optlib ; $(MAKE) libopt.a
-
-libdpkg.a: $(OBJECTS) ../optlib/libopt.a
+libdpkg.a: $(OBJECTS) 
 	$(AR) r $@ $^
 	$(RANLIB) $@
 

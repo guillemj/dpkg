@@ -41,7 +41,7 @@ install-doc:
 	$(INSTALL_DATA) $(srcdir)/dpkg-split.8 $(DESTDIR)/$(man8dir)
 
 dpkg-split: $(SPLIT_OBJECTS) 
-	$(CC) $(LDFLAGS) -L../lib -o $@ $(SPLIT_OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg
+	$(CC) $(LDFLAGS) -o $@ $(SPLIT_OBJECTS) $(LIBS) $(NLS_LIBS)
 
 split.o: split.c
 	$(CC) $(ALL_CFLAGS) -DMKSPLITSCRIPT=\"$(dpkglibdir)/mksplit\" -c $<
