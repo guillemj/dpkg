@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-$dpkglibdir= ".";
+$dpkglibdir= "."; # This line modified by Makefile
 $version= '1.3.0'; # This line modified by Makefile
 
 $controlfile= 'debian/control';
