@@ -1,3 +1,11 @@
+Sun May 19 05:57:24 CDT 2002 Adam Heath <doogie@debian.org>
+
+  * automake/dpkg.m4.  Gah, I hate gcc.  AC_TRY_COMPILE() produces code
+    of the form 'int main() { ... }'.  When -Werror -Wstrict-prototypes is
+    given to gcc, it thinks the above code snippet is an error, and aborts.
+    This was making DPKG_C_GCC_TRY_WARNS disable some -W options.  So, I
+    no longer use AC_TRY_COMPILE.
+
 Sun May 19 04:56:51 CDT 2002 Adam Heath <doogie@debian.org>
 
   * debian/rules:  Oops.  The command to run is aclocal, not aclocal.m4.
