@@ -8,7 +8,7 @@ my %dirincluded;
 my %notfileobject;
 my $fn;
 
-$diff_ignore_default_regexp = '(?:^|/).*~$|(?:^|/)\..*\.swp|DEADJOE|\.cvsignore|(?:/CVS|/RCS|/\.deps)(?:$|/.*$)';
+$diff_ignore_default_regexp = '(?:^|/).*~$|(?:^|/)\..*\.swp|DEADJOE|\.cvsignore|(?:/(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn))(?:$|/.*$)';
 
 $sourcestyle = 'X';
 $dscformat = "1.0";
