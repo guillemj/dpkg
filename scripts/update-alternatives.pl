@@ -15,7 +15,7 @@ sub ENOENT { 2; }
 #                       expected: alternative with highest priority is the active alternative
 #                       expected-inprogress: busy selecting alternative with highest priority
 #                       unexpected: alternative another alternative is active / error during readlink
-#                       nonexistant: alternative-symlink does not exist
+#                       nonexistent: alternative-symlink does not exist
 #  $link             Link we are working with
 #  @slavenames       List with names of slavelinks
 #  %slavenum         Map from name of slavelink to slave-index (into @slavelinks)
@@ -201,7 +201,6 @@ if ($mode eq 'config') {
 	&pr("No alternatives for $name.");
     } else {
 	&config_alternatives($name);
-	exit 0;
     }
 }
 
@@ -301,7 +300,7 @@ if ($mode eq 'install') {
 }
 
 if ($mode eq 'remove') {
-    if ($manual eq "manual" and $state = "expected") {
+    if ($manual eq "manual" and $state eq "expected") {
     	&pr("Removing manually selected alternative - switching to auto mode");
 	$manual= "auto";
     }
@@ -503,6 +502,7 @@ sub config_alternatives {
     } until $preferred eq '' || $preferred>=1 && $preferred<=$#versions+1 &&
 	($preferred =~ m/[0-9]*/);
     if ($preferred ne '') {
+    	$manual = "manual";
 	$preferred--;
 	print STDOUT "Using \`$versions[$preferred]' to provide \`$name'.\n";
 	my $spath = $versions[$preferred];
@@ -510,6 +510,21 @@ sub config_alternatives {
 	    &quit("unable to make $altdir/$name.dpkg-tmp a symlink to $spath: $!");
 	rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
 	    &quit("unable to install $altdir/$name.dpkg-tmp as $altdir/$name: $!");
+	# Link slaves...
+	for( my $slnum = 0; $slnum &lt; @slavenames; $slnum++ ) {
+	    my $slave = $slavenames[$slnum];
+	    if ($slavepath{$preferred,$slnum} ne '') {
+		checked_symlink($slavepath{$preferred,$slnum},
+			"$altdir/$slave.dpkg-tmp");
+		checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
+	    } else {
+		&amp;pr("Removing $slave ($slavelinks[$slnum]), not appropriate with $versions[$preferred].")
+		    if $verbosemode &gt; 0;
+		unlink("$altdir/$slave") || $! == &amp;ENOENT ||
+		    &amp;quit("unable to remove $altdir/$slave: $!");
+	    }
+	}
+
     }
 }
 
@@ -528,8 +543,19 @@ sub badfmt {
     &quit("internal error: $admindir/$name corrupt: $_[0]");
 }
 sub rename_mv {
-	return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
+    return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
 }
+sub checked_symlink {
+    my ($filename, $linkname) = @_;
+    symlink($filename, $linkname) ||
+	&amp;quit("unable to make $linkname a symlink to $filename: $!");
+}
+sub checked_mv {
+    my ($source, $dest) = @_;
+    rename_mv($source, $dest) ||
+	&amp;quit("unable to install $source as $dest: $!");
+}
+
 exit(0);
 
 # vim: nowrap ts=8 sw=4
