@@ -56,9 +56,74 @@ const char printforhelp[]= N_("Type dselect --help for help.");
 modstatdb_rw readwrite;
 const char *admindir= ADMINDIR;
 FILE *debug;
-int expertmode = 0;
+int expertmode= 0;
 
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
+
+struct table_t {
+  const char *name;
+  const int num;
+};
+
+static const struct table_t colourtable[]= {
+  {"black",	COLOR_BLACK	},
+  {"red",	COLOR_RED	},
+  {"green",	COLOR_GREEN	},
+  {"yellow",	COLOR_YELLOW	},
+  {"blue",	COLOR_BLUE	},
+  {"magenta",	COLOR_MAGENTA	},
+  {"cyan",	COLOR_CYAN	},
+  {"white",	COLOR_WHITE	},
+  {NULL, 0},
+};
+
+static const struct table_t attrtable[]= {
+  {"normal",	A_NORMAL	},
+  {"standout",	A_STANDOUT	},
+  {"underline",	A_UNDERLINE	},
+  {"reverse",	A_REVERSE	},
+  {"blink",	A_BLINK		},
+  {"bright",	A_BLINK		}, // on some terminals
+  {"dim",	A_DIM		},
+  {"bold",	A_BOLD		},
+  {NULL, 0},
+};
+
+/* A slightly confusing mapping from dselect's internal names to
+ * the user-visible names.*/
+static const struct table_t screenparttable[]= {
+  {"list",		list		},
+  {"listsel",		listsel		},
+  {"title",		title		},
+  {"infohead",		thisstate	},
+  {"pkgstate",		selstate	},
+  {"pkgstatesel",	selstatesel	},
+  {"listhead",		colheads	},
+  {"query",		query		},
+  {"info",		info		},
+  {"infodesc",		info_head	},
+  {"infofoot",		whatinfo	},
+  {"helpscreen",	helpscreen	},
+  {NULL, 0},
+};
+
+/* Historical (patriotic?) colours. */
+struct colordata color[]= {
+  /* fore      back            attr */
+  {COLOR_WHITE,        COLOR_BLACK,    0			}, // default, not used
+  {COLOR_WHITE,        COLOR_BLACK,    0			}, // list
+  {COLOR_WHITE,        COLOR_BLACK,    A_REVERSE		}, // listsel
+  {COLOR_WHITE,        COLOR_RED,      0			}, // title
+  {COLOR_WHITE,        COLOR_BLUE,     0			}, // thisstate
+  {COLOR_WHITE,        COLOR_BLACK,    A_BOLD			}, // selstate
+  {COLOR_WHITE,        COLOR_BLACK,    A_REVERSE | A_BOLD	}, // selstatesel
+  {COLOR_WHITE,        COLOR_BLUE,     0			}, // colheads
+  {COLOR_WHITE,        COLOR_RED,      0			}, // query
+  {COLOR_WHITE,        COLOR_BLACK,    0			}, // info
+  {COLOR_WHITE,        COLOR_BLACK,    A_BOLD			}, // info_head
+  {COLOR_WHITE,        COLOR_BLUE,     0			}, // whatinfo
+  {COLOR_WHITE,        COLOR_BLACK,    0			}, // help
+};
 
 struct menuentry {
   const char *command;
@@ -98,13 +163,30 @@ static void printversion(void) {
 }
 
 static void usage(void) {
+  int i;
   if (!fputs(
      _("Usage: dselect [options]\n"
        "       dselect [options] action ...\n"
        "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
        "          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-       "Actions:  access update select install config remove quit menu\n"),
+       "          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
+       "Actions:  access update select install config remove quit\n"),
        stdout)) werr("stdout");
+
+  printf(_("Screenparts:\n"));
+  for (i=0; screenparttable[i].name; i++)
+    printf("  %s", screenparttable[i].name);
+  if (!fputs("\n", stdout)) werr("stdout");
+
+  printf(_("Colours:\n"));
+  for (i=0; colourtable[i].name; i++)
+    printf("  %s", colourtable[i].name);
+  if (!fputs("\n", stdout)) werr("stdout");
+
+  printf(_("Attributes:\n"));
+  for (i=0; attrtable[i].name; i++)
+    printf("  %s", attrtable[i].name);
+  if (!fputs("\n", stdout)) werr("stdout");
 }
 
 /* These are called by C code, so need to have C calling convention */
@@ -126,20 +208,82 @@ extern "C" {
   }
 
   static void setexpert(const struct cmdinfo*, const char *v) {
-    expertmode = 1;
+    expertmode= 1;
+  }
+
+  int findintable(const struct table_t *table, const char *item, const char *tablename) {
+    int i;
+
+    for (i= 0;  item && (table[i].name!=NULL); i++)
+      if (strcasecmp(item, table[i].name) == 0)
+        return table[i].num;
+
+    ohshit(_("Invalid %s `%s'\n"), tablename, item);
+  }
+
+  /*
+   *  The string's format is:
+   *    screenpart:[forecolor][,backcolor][:[<attr>, ...]
+   *  Examples: --color title:black,cyan:bright+underline
+   *            --color list:red,yellow
+   *            --color colheads:,green:bright
+   *            --color selstate::reverse  // doesn't work FIXME
+   */
+  static void setcolor(const struct cmdinfo*, const char *string) {
+    char *s= (char *) malloc((strlen(string) + 1) * sizeof(char));
+    char *colours, *attributes, *attrib, *colourname;
+    int screenpart, aval;
+
+    strcpy(s, string); // strtok modifies strings, keep string const
+    screenpart= findintable(screenparttable, strtok(s, ":"), _("screen part"));
+    colours= strtok(NULL, ":");
+    attributes= strtok(NULL, ":");
+
+    if ((colours == NULL || ! strlen(colours)) &&
+        (attributes == NULL || ! strlen(attributes))) {
+       ohshit(_("Null color specificaton\n"));
+    }
+
+    if (colours != NULL && strlen(colours)) {
+      colourname= strtok(colours, ",");
+      if (colourname != NULL && strlen(colourname)) {
+        // normalize attributes to prevent confusion
+        color[screenpart].attr= A_NORMAL;
+       color[screenpart].fore=findintable(colourtable, colourname, _("color"));
+      }
+      colourname= strtok(NULL, ",");
+      if (colourname != NULL && strlen(colourname)) {
+        color[screenpart].attr= A_NORMAL;
+        color[screenpart].back=findintable(colourtable, colourname, _("color"));
+      }
+    }
+
+    if (attributes != NULL && strlen(attributes)) {
+      for (attrib= strtok(attributes, "+");
+           attrib != NULL && strlen(attrib);
+          attrib= strtok(NULL, "+")) {
+               aval=findintable(attrtable, attrib, _("color attribute"));
+               if (aval == A_NORMAL) // set to normal
+                       color[screenpart].attr= aval;
+               else // add to existing attribs
+                       color[screenpart].attr= color[screenpart].attr | aval;
+      }
+    }
   }
 
 } /* End of extern "C" */
 
 static const struct cmdinfo cmdinfos[]= {
-  { "admindir",   0,   1,  0,  &admindir,  0                      },
-  { "debug",     'D',  1,  0,  0,          setdebug               },
-  { "expert",    'E',  0,  0,  0,          setexpert              },
-  { "help",      'h',  0,  0,  0,          helponly               },
-  { "version",    0,   0,  0,  0,          versiononly            },
-  { "licence",    0,   0,  0,  0,          showcopyright          }, /* UK spelling */
-  { "license",    0,   0,  0,  0,          showcopyright          }, /* US spelling */
-  {  0,           0,   0,  0,  0,          0                      }
+  { "admindir",     0,   1,  0,  &admindir,  0               },
+  { "debug",       'D',  1,  0,  0,          setdebug        },
+  { "expert",      'E',  0,  0,  0,          setexpert       },
+  { "help",        'h',  0,  0,  0,          helponly        },
+  { "version",      0,   0,  0,  0,          versiononly     },
+  { "licence",      0,   0,  0,  0,          showcopyright   }, /* UK spelling */
+  { "license",      0,   0,  0,  0,          showcopyright   }, /* US spelling */
+  { "color",        0,   1,  0,  0,          setcolor        }, /* US spelling */
+  { "colour",       0,   1,  0,  0,          setcolor        }, /* UK spelling */
+  { 0,              0,   0,  0,  0,          0               }
 };
 
 static int cursesareon= 0;
@@ -244,11 +388,11 @@ int refreshmenu(void) {
   sprintf(buf,gettext(copyrightstring),DPKG_VERSION_ARCH);
   addstr(buf);
 
-  l = strlen(admindir);
-  lockfile = new char[l+sizeof(LOCKFILE)+2];
+  l= strlen(admindir);
+  lockfile= new char[l+sizeof(LOCKFILE)+2];
   strcpy(lockfile,admindir);
   strcpy(lockfile+l, "/" LOCKFILE);
-  lockfd = open(lockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
+  lockfd= open(lockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
   if (errno == EACCES || errno == EPERM)
     addstr(_("\n\n"
              "Read-only access: only preview of selections is available!"));

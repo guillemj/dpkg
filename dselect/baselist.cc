@@ -115,19 +115,28 @@ void baselist::startdisplay() {
   clear(); wnoutrefresh(stdscr);
 
   // find attributes
-  if (has_colors() && start_color()==OK && COLOR_PAIRS >= 3) {
-    if (init_pair(1,COLOR_WHITE,COLOR_BLACK) != OK ||
-        init_pair(2,COLOR_WHITE,COLOR_RED) != OK ||
-        init_pair(3,COLOR_WHITE,COLOR_BLUE) != OK)
-      ohshite(_("failed to allocate colour pairs"));
-    list_attr= COLOR_PAIR(1);
-    listsel_attr= list_attr|A_REVERSE;
-    title_attr= COLOR_PAIR(2);
-    thisstate_attr= COLOR_PAIR(3);
-    selstate_attr= list_attr|A_BOLD;
-    selstatesel_attr= listsel_attr|A_BOLD;
-    colheads_attr= COLOR_PAIR(3);
+  if (has_colors() && start_color()==OK && COLOR_PAIRS >= numscreenparts) {
+    int i;
+    printf("allocing\n");
+    for (i = 1; i < numscreenparts; i++) {
+       if (init_pair(i, color[i].fore, color[i].back) != OK)
+         ohshite(_("failed to allocate colour pair"));
+    }
+    /* TODO: should use an array of attr's, indexed by attr name. Oh well. */
+    list_attr=		COLOR_PAIR(list)	| color[list].attr;
+    listsel_attr= 	COLOR_PAIR(listsel)	| color[listsel].attr;
+    title_attr=		COLOR_PAIR(title)	| color[title].attr;
+    thisstate_attr=	COLOR_PAIR(thisstate)	| color[thisstate].attr;
+    selstate_attr=	COLOR_PAIR(selstate)	| color[selstate].attr;
+    selstatesel_attr= 	COLOR_PAIR(selstatesel)	| color[selstatesel].attr;
+    colheads_attr=	COLOR_PAIR(colheads)	| color[colheads].attr;
+    query_attr=		COLOR_PAIR(query)	| color[query].attr;
+    info_attr=		COLOR_PAIR(info)	| color[info].attr;
+    info_headattr=	COLOR_PAIR(info_head)	| color[info_head].attr;
+    whatinfo_attr=	COLOR_PAIR(whatinfo)	| color[whatinfo].attr;
+    helpscreen_attr=	COLOR_PAIR(helpscreen)	| color[helpscreen].attr;
   } else {
+    /* User defined attributes for B&W mode are not currently supported. */
     title_attr= A_REVERSE;
     thisstate_attr= A_STANDOUT;
     list_attr= 0;
@@ -135,11 +144,11 @@ void baselist::startdisplay() {
     selstate_attr= A_BOLD;
     selstatesel_attr= A_STANDOUT;
     colheads_attr= A_BOLD;
+    query_attr= title_attr;
+    info_attr= list_attr;
+    info_headattr= A_BOLD;
+    whatinfo_attr= thisstate_attr;
   }
-  query_attr= title_attr;
-  info_attr= list_attr;
-  info_headattr= A_BOLD;
-  whatinfo_attr= thisstate_attr;
 
   // set up windows and pads, based on screen size
   getmaxyx(stdscr,ymax,xmax);
@@ -172,9 +181,11 @@ void baselist::startdisplay() {
   infopad= newpad(MAX_DISPLAY_INFO, total_width);
   if (!infopad) ohshite(_("failed to create info pad"));
   wattrset(infopad,info_attr);
+  wbkgdset(infopad, ' ' | info_attr);
 
   querywin= newwin(1,xmax,ymax-1,0);
   if (!querywin) ohshite(_("failed to create query window"));
+  wbkgdset(querywin, ' ' | query_attr);
 
   if (cursorline >= topofscreen + list_height) topofscreen= cursorline;
   if (topofscreen > nitems - list_height) topofscreen= nitems - list_height;

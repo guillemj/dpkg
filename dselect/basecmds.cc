@@ -119,12 +119,13 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
   int maxx, maxy, i, y, x, nextkey;
   
   getmaxyx(stdscr,maxy,maxx);
+  wbkgdset(stdscr, ' ' | helpscreen_attr);
   clearok(stdscr,TRUE);
   for (;;) {
     werase(stdscr);
     for (hme= helpmenu; hme->key && hme->key != key; hme++);
     if (hme->key) {
-      attrset(list_attr);
+      attrset(helpscreen_attr);
       mvaddstr(1,0, gettext(hme->msg->text));
       attrset(title_attr);
       mvaddstr(0,0, _("Help: "));

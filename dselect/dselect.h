@@ -47,7 +47,8 @@ protected:
   int info_headattr, whatinfo_attr;
   int thisstate_attr, query_attr;
   int selstate_attr, selstatesel_attr;
-  
+  int helpscreen_attr;
+
   int total_width;
   
   // (n)curses stuff
@@ -141,6 +142,30 @@ void cursesoff();
 extern const char *admindir;
 extern FILE *debug;
 extern int expertmode;
+
+enum screenparts {
+       background,
+       list,
+       listsel,
+       title,
+       thisstate,
+       selstate,
+       selstatesel,
+       colheads,
+       query,
+       info,
+       info_head,
+       whatinfo,
+       helpscreen,
+       numscreenparts,
+};
+
+struct colordata {
+       int fore;
+       int back;
+       int attr;
+};
+extern colordata color[];
 
 /* Evil recommends flag variable. */
 extern int manual_install;

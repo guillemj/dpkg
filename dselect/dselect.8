@@ -5,6 +5,7 @@ dselect \- Debian package management frontend
 .B dselect
 [\-\-admindir <directory>] [\-\-help] [\-\-version] [\-\-licence | \-\-license]
 [\-\-expert] [\-\-debug | \-D <file>] [\fI<action>\fP]
+[\-\-colour | \-\-color screenpart:[foreground],[background][:attr[+attr+..]]]
 .SH DESCRIPTION
 .B dselect
 is the primary user interface for managing packages on a Debian system.
@@ -51,6 +52,64 @@ Turn on debugging. Debugging information is sent to \fI<file>\fP.
 Turns on expert mode, i.e. doesn't display possibly annoying help 
 messages.
 .TP
+.TP
+.B --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]
+Configures screen colors. This works only if your display supports colors.
+This option may be used multiple times (and is best used in
+\fIdselect.cfg\fP). Each use changes the color (and optionally, other
+attributes) of one part of the screen.
+The parts of the screen (from top to bottom) are:
+.RS
+.TP
+.B title
+The screen title.
+.TP
+.B listhead
+The header line above the list of packages.
+.TP
+.B list
+The scrolling list of packages (and also some help text).
+.TP
+.B listsel
+The selected item in the list.
+.TP
+.B pkgstate
+In the list of packages, the text indicating the current state of each
+package.
+.TP
+.B pkgstatesel
+In the list of packages, the text indicating the current state of the
+currently selected package.
+.TP
+.B infohead
+The header line that displays the state of the currently selected package.
+.TP
+.B infodesc
+The package's short description.
+.TP
+.B info
+Used to display package info such as the package's description.
+.TP
+.B infofoot
+The last line of the screen when selecting packages.
+.TP
+.B query
+Used to display query lines
+.TP
+.B helpscreen
+Color of help screens.
+.RE
+.P
+After the part of the screen comes a colon and the color specification. You
+can specify either the foreground color, the background color, or both,
+overriding the compiled-in colors. Use standard curses color names.
+.P
+Optionally, after the color specification is another colon, and an
+attribute specification. This is a list of one or more attributes,
+separated by plus ("+") characters. Available attributes include (not all
+of these will work on all terminals): normal, standout, underline, reverse,
+blink, bright, dim, bold
+.P
 .B --help
 Print a brief help text and exit successfully.
 .TP
