@@ -40,20 +40,20 @@
 
 const struct fieldinfo fieldinfos[]= {
   /* NB: capitalisation of these strings is important. */
-  { "Package",          f_name,            w_name                                     },
+  { "Package",          f_name,            w_name,           PKGIOFF(name)            },
   { "Essential",        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)     },
   { "Status",           f_status,          w_status                                   },
   { "Priority",         f_priority,        w_priority                                 },
-  { "Section",          f_section,         w_section                                  },
+  { "Section",          f_section,         w_section,        PKGIOFF(section)         },
   { "Installed-Size",   f_charfield,       w_charfield,      PKGIFPOFF(installedsize) },
   { "Origin",           f_charfield,       w_charfield,      PKGIFPOFF(origin)        },
   { "Maintainer",       f_charfield,       w_charfield,      PKGIFPOFF(maintainer)    },
   { "Bugs",             f_charfield,       w_charfield,      PKGIFPOFF(bugs)          },
   { "Architecture",     f_charfield,       w_charfield,      PKGIFPOFF(architecture)  },
   { "Source",           f_charfield,       w_charfield,      PKGIFPOFF(source)        },
-  { "Version",          f_version,         w_version                                  },
+  { "Version",          f_version,         w_version,        PKGIFPOFF(version)       },
   { "Revision",         f_revision,        w_null                                     },
-  { "Config-Version",   f_configversion,   w_configversion                            },
+  { "Config-Version",   f_configversion,   w_configversion,  PKGIOFF(configversion)   },
   { "Replaces",         f_dependency,      w_dependency,     dep_replaces             },
   { "Provides",         f_dependency,      w_dependency,     dep_provides             },
   { "Depends",          f_dependency,      w_dependency,     dep_depends              },
@@ -124,7 +124,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   lno= 1;
   pdone= 0;
-#define EOF_mmap(dataptr, endptr)	(dataptr == endptr)
+#define EOF_mmap(dataptr, endptr)	(dataptr >= endptr)
 #define getc_mmap(dataptr)		*dataptr++;
 #define ungetc_mmap(c, dataptr, data)	dataptr--;
 
@@ -137,14 +137,14 @@ int parsedb(const char *filename, enum parsedbflags flags,
       c= getc_mmap(dataptr); if (c!='\n' && c!=MSDOS_EOF_CHAR ) break;
       lno++;
     }
-    if (c == EOF_mmap(dataptr, endptr)) break;
+    if (EOF_mmap(dataptr, endptr)) break;
     for (;;) { /* loop per field */
       fieldstart= dataptr - 1;
-      while (c!=EOF_mmap(dataptr, endptr) && !isspace(c) && c!=':' && c!=MSDOS_EOF_CHAR)
+      while (!EOF_mmap(dataptr, endptr) && !isspace(c) && c!=':' && c!=MSDOS_EOF_CHAR)
         c= getc_mmap(dataptr);
       fieldlen= dataptr - fieldstart - 1;
-      while (c != EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
-      if (c == EOF_mmap(dataptr, endptr))
+      while (EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
+      if (EOF_mmap(dataptr, endptr))
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
                  _("EOF after field name `%.*s'"),fieldstart,fieldlen);
       if (c == '\n')
@@ -159,9 +159,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
 /* Skip space after ':' but before value and eol */
       for (;;) {
         c= getc_mmap(dataptr);
-        if (c == EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
+        if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
       }
-      if (c == EOF_mmap(dataptr, endptr))
+      if (EOF_mmap(dataptr, endptr))
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
                  _("EOF before value of field `%.*s' (missing final newline)"),
                  fieldstart,fieldlen);
@@ -175,10 +175,10 @@ int parsedb(const char *filename, enum parsedbflags flags,
           lno++;
           c= getc_mmap(dataptr);
 /* Found double eol, or start of new field */
-          if (c == EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
+          if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
           ungetc_mmap(c,dataptr, data);
           c= '\n';
-        } else if (c == EOF_mmap(dataptr, endptr)) {
+        } else if (EOF_mmap(dataptr, endptr)) {
           parseerr(0,filename,lno, warnto,warncount,&newpig,0,
                    _("EOF during value of field `%.*s' (missing final newline)"),
                    fieldstart,fieldlen);
@@ -222,7 +222,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         arp->next= 0;
         *larpp= arp;
       }
-      if (c == EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
+      if (EOF_mmap(dataptr, endptr) || c == '\n' || c == MSDOS_EOF_CHAR) break;
     } /* loop per field */
     if (pdone && donep)
       parseerr(0,filename,lno, warnto,warncount,&newpig,0,
@@ -313,7 +313,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
     if (donep) *donep= pigp;
     pdone++;
-    if (c == EOF_mmap(dataptr, endptr)) break;
+    if (EOF_mmap(dataptr, endptr)) break;
     if (c == '\n') lno++;
   }
   pop_cleanup(0);
