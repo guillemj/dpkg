@@ -144,16 +144,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
       while (EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
-                 _("EOF after field name `%.*s'"),fieldstart,fieldlen);
+                 _("EOF after field name `%.*s'"),fieldlen,fieldstart);
       if (c == '\n')
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
-                 _("newline in field name `%.*s'"),fieldstart,fieldlen);
+                 _("newline in field name `%.*s'"),fieldlen,fieldstart);
       if (c == MSDOS_EOF_CHAR)
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
-                 _("MSDOS EOF (^Z) in field name `%.*s'"), fieldstart,fieldlen);
+                 _("MSDOS EOF (^Z) in field name `%.*s'"),fieldlen,fieldstart);
       if (c != ':')
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
-                 _("field name `%.*s' must be followed by colon"), fieldstart,fieldlen);
+                 _("field name `%.*s' must be followed by colon"),fieldlen,fieldstart);
 /* Skip space after ':' but before value and eol */
       for (;;) {
         c= getc_mmap(dataptr);
@@ -162,11 +162,11 @@ int parsedb(const char *filename, enum parsedbflags flags,
       if (EOF_mmap(dataptr, endptr))
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
                  _("EOF before value of field `%.*s' (missing final newline)"),
-                 fieldstart,fieldlen);
+                 fieldlen,fieldstart);
       if (c == MSDOS_EOF_CHAR)
         parseerr(0,filename,lno, warnto,warncount,&newpig,0,
                  _("MSDOS EOF char in value of field `%.*s' (missing newline?)"),
-                 fieldstart,fieldlen);
+                 fieldlen,fieldstart);
       valuestart= dataptr - 1;
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
@@ -179,7 +179,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         } else if (EOF_mmap(dataptr, endptr)) {
           parseerr(0,filename,lno, warnto,warncount,&newpig,0,
                    _("EOF during value of field `%.*s' (missing final newline)"),
-                   fieldstart,fieldlen);
+                   fieldlen,fieldstart);
         }
         c= getc_mmap(dataptr);
       }
@@ -206,12 +206,12 @@ int parsedb(const char *filename, enum parsedbflags flags,
       } else {
         if (fieldlen<2)
           parseerr(0,filename,lno, warnto,warncount,&newpig,0,
-                   _("user-defined field name `%.*s' too short"), fieldstart,fieldlen);
+                   _("user-defined field name `%.*s' too short"), fieldlen,fieldstart);
         larpp= &newpifp->arbs;
         while ((arp= *larpp) != 0) {
           if (!strncasecmp(arp->name,fieldstart,fieldlen))
             parseerr(0,filename,lno, warnto,warncount,&newpig,0,
-                     _("duplicate value for user-defined field `%.*s'"), fieldstart,fieldlen);
+                     _("duplicate value for user-defined field `%.*s'"), fieldlen,fieldstart);
           larpp= &arp->next;
         }
         arp= nfmalloc(sizeof(struct arbitraryfield));
