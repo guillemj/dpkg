@@ -1,0 +1,744 @@
+This is Info file guidelines.info, produced by Makeinfo-1.63 from the
+input file ./guidelines.texi.
+
+START-INFO-DIR-ENTRY
+* Guidelines: (guidelines).       How to make Debian packages.
+END-INFO-DIR-ENTRY
+
+
+File: guidelines.info,  Node: configuration files - /etc/skel vs /usr/doc/examples,  Next: How to write the Description control file field,  Prev: Appendix,  Up: Appendix
+
+configuration files - /etc/skel vs /usr/doc/examples
+====================================================
+
+   There seems to be a certain amount of confusion about `/etc/skel'
+and `/usr/doc/examples'. The most important thing to remember is the
+following:
+
+   Files in `/etc/skel' will *automatically* be copied into *new* user
+accounts by `adduser'.  They should not be referenced there by any
+program. Files in `/usr/doc/examples' should not be installed
+automatically.
+
+   Therefore, if the program in question need a dotfile to exist in
+advance in `$HOME' to work *sensibly* that dotfile should be installed
+in `/etc/skel' (and listed in conffiles; *note conffiles::.).
+
+   However, programs that require dotfiles in order to operate sensibly
+(dotfiles that they do not create themselves automatically, that is) are
+a bad thing, and that programs should be configured by the Debian
+default installation as close to normal as possible.
+
+   Therefore, if a program in a Debian package needs to be configured in
+some way in order to operate sensibly that configuration should be done
+in a site-wide global configuration file elsewhere in `/etc' (and that
+file should be listed in conffiles).  Only if the program doesn't
+support a site-wide default configuration should a default per-user file
+be placed in `/etc/skel' (and listed in conffiles; *note conffiles::.).
+
+   The idea is as follows:
+
+   The sysadmin should ideally not have to do any configuration other
+than that done (semi-)automatically by the postinst script.
+
+   However, if they wish to change their configuration themselves
+(because the configuration they want is beyond the scope of the
+autoconfiguration, or because the autoconfiguration doesn't exist yet,
+or because they just want to do it themselves for any reason) then
+`/usr/doc/examples' exists as *documentation* for their benefit.
+
+   The only time these files should be read are by the sysadmin using
+their favourite editor or pager, or *perhaps* (in very complex packages)
+by the postinst as a template to build on or modify.
+
+   `/etc/skel' is part of the *implementation* of this configuration.
+It contains the files that are copied into new user accounts.  It
+should probably be as empty as we can make it.
+
+   Examples:
+`.profile'
+     `/etc/skel' should not contain a `.profile' file.  Anything that
+     needs to be done there should be done in `/etc/profile'.  Anything
+     that should not go in `/etc/profile' (users can't avoid running
+     `/etc/profile') probably should not be in the default
+     configuration.  bash has generally good default behaviour.
+
+`.bash_logout'
+     Likewise, bash functions perfectly happily without a
+     `.bash_logout', so none should be provided, since anything in it is
+     a deviation from the sensible default behaviour.
+
+`.xsession'
+     `/etc/skel' should not contain a `.xsession'.  `xdm''s system-wide
+     startup file `/usr/lib/X11/xdm/Xsession' supports a system-wide
+     default user configuration (which should probably be
+     `/etc/X11/Xsession' or some such) which may be overridden by
+     `.xsession' in the user's home directory.  Therefore there is no
+     need for a `.xsession' to be installed by default and none should
+     be provided.
+
+     Instead, a sensible `/etc/X11/Xsession' should be provided, and if
+     desired this can be used as a template by users who wish to install
+     their own configuration, or alternatively a more comprehensive
+     example with much commented-out interesting stuff could be put in
+     `/usr/doc/examples'.
+
+     If the sysadmin wishes to change the system-wide default they
+     should probably do this by editing `/etc/X11/Xsession' rather than
+     creating the file in `/etc/skel', because the former will affect
+     all user accounts that haven't explicitly overridden things by
+     creating their own file while the latter will only affect new
+     accounts.
+
+     All the configuration necessary for a program to function should be
+     provided.  Therefore sysadmins will not need to go through
+     `/usr/doc/examples' while editing configuration files in `/etc'
+     except in extreme cases (like INN) where the configuration was too
+     difficult to do automatically.
+
+`site-wide defaults'
+     Site-wide defaults should not go in `/etc/skel'.  In the case of
+     twm, for example, the system-wide default should be in
+     `/etc/X11/system.twmrc'.  (The default location for this in X11R5,
+     btw, is in `/usr/lib/X11' somewhere, but we can't put it on `/usr'
+     because of CDROM distributions, etc - hence the FSSTND's mandate
+     to put configuration files in `/etc'.)
+
+`.twmrc'
+     There should be no `.twmrc' file in `/etc/skel'.  You can have one
+     in `/usr/doc/examples' if you *like*, but why bother if
+     `system.twmrc' is a good example (and indeed is the one the user is
+     using before they create their own)?
+
+`m4'
+     `/usr/doc/examples' isn't mainly for example *configuration
+     files*.  It's for any kind of example file distributed with a
+     package.  For example, GNU m4 comes with a whole pile of example
+     m4 macro scripts, which is exactly what `/usr/doc/examples' is for.
+
+   Summary
+
+   Files that should be installed in new user accounts should be in
+`/etc/skel', as that will ensure that they *are* installed in new user
+accounts!  However, we should try to avoid the need for this.
+
+   `/usr/doc/examples' is just what it says: documentation in the form
+of examples.  If a sysadmin is required to go and read these files for
+their system to work they should be told about it.  For example, here
+is what the Smail postinst script says right at the start:
+
+     I can do certain kinds of automatic configuration of your
+     mail system, by asking you a number of questions.  Later you
+     may to confirm and/or correct your answers.  In any case,
+     comprehensive information on configuring Smail is in
+     smail(5) and in /usr/doc/examples/smail and
+     /usr/doc/smail-admin-guide.
+
+
+File: guidelines.info,  Node: How to write the Description control file field,  Next: Configuration of init,  Prev: configuration files - /etc/skel vs /usr/doc/examples,  Up: Appendix
+
+How to write the Description control file field
+===============================================
+
+   The format of the `Description' field is as follows:
+
+     Description: <single line synopsis>
+      <extended description over several lines>
+
+   The extended description has several kinds of line:
+
+   * Those starting with a single space are part of a paragraph.
+     Successive lines of this form will be word-wrapped when displayed.
+     The leading space will usually be stripped off.
+
+   * Those starting with two or more spaces.  These will be displayed
+     verbatim.  If the display cannot be panned horizontally the
+     displaying program will linewrap them `hard' (ie, without taking
+     account of word breaks).  If it can they will be allowed to trail
+     off to the right.  None, one or two initial spaces may be deleted,
+     but the number of spaces deleted from each line will be the same
+     (so that you can have indenting work correctly, for example).
+
+   * Those containing a single space followed by a single full stop
+     character.  These are rendered as blank lines.  This is the *only*
+     way to get a blank line - see below.
+
+   * Those containing a space, a full stop and some more characters.
+     These are for future expansion.  *Do not* use them.
+
+   IMPORTANT and not so important TIPS:
+
+   * *Always* start extended description lines with at least *one*
+     whitespace character.  Fields in the control file and in the
+     Packages file are separated by field names starting in the first
+     column, just as in RFC822.  Forgetting the whitespace will cause
+     `dpkg-deb' (>=0.93.23) to produce a syntax error when trying to
+     build the package.  If you force it to build anyway `dpkg' will
+     refuse to install the resulting mess.
+
+   * *Do not* include any completely *empty* lines. These separate
+     different records in the Packages file, and are forbidden in
+     control files.  See the previous paragraph for what happens if you
+     get this wrong.
+
+   * The single line synopsis should be kept brief - certainly under 80
+     characters.  `dselect' displays the *first 49* characters if
+     you're using an 80-column terminal.
+
+   * Do not include the package name in the synopsis line.  The display
+     software knows how to display this already, and you do not need to
+     state it.  Remember that in many situations the user may only see
+     the synopsis line - make it as informative as you can.
+
+   * The extended description should describe what the package does and
+     how it relates to the rest of the system (in terms of, for
+     example, which subsystem it is which part of).
+
+   * Put important information first, both in the synopis and extended
+     description.  Sometimes only the first part of the synopsis or of
+     the description will be displayed.  You can assume that there will
+     usually be a way to see the whole extended description.
+
+   * You may include information about dependencies and so forth in the
+     extended description, if you wish.
+
+   * Do not use tab characters.  Their effect is not predictable.
+
+   Example control file for Smail:
+
+     Package: smail
+     Version: 3.1.29.1-13
+     Maintainer: Ian Jackson <iwj10@cus.cam.ac.uk>
+     Recommends: pine | mailx | elm | emacs | mail-user-agent
+     Suggests: metamail
+     Depends: cron, libc5
+     Conflicts: sendmail
+     Provides: mail-transport-agent
+     Description: Electronic mail transport system.
+      Smail is the recommended mail transport agent (MTA) for Debian.
+      .
+      An MTA is the innards of the mail system - it takes messages from
+      user-friendly mailer programs and arranges for them to be delivered
+      locally or passed on to other systems as required.
+      .
+      In order to make use of it you must have one or more user level
+      mailreader programs such as elm, pine, mailx or Emacs (which has Rmail
+      and VM as mailreaders) installed.  If you wish to send messages other
+      than just to other users of your system you must also have appropriate
+      networking support, in the form of IP or UUCP.
+
+
+File: guidelines.info,  Node: Configuration of init,  Next: Maintainer script arguments and how `dpkg' does things,  Prev: How to write the Description control file field,  Up: Appendix
+
+Configuration of init
+=====================
+
+   The `/etc/init.d' directory contains the scripts executed by init(8)
+when init state (or "runlevel") is changed.  This includes the boot
+process, when the multi-user state begins.  Several of these scripts
+are included with init and are intended to be executed *once*, usually
+at boot time.  An example is `/etc/init.d/boot', which is executed at
+boot time to check and mount file systems, activate swap, load kernel
+modules, etc.-everything that needs to be done before the multi-user
+state begins.  `/etc/init.d' also contains the scripts that are
+executed when entering runlevel 0 (halt), runlevel 1 (single-user) and
+runlevel 6 (reboot).
+
+   Packages can (and should) place scripts in `/etc/init.d' to start or
+stop services at boot time or during a change of runlevel.  These
+scripts should be named `/etc/init.d/'<package>, and they should accept
+one of two arguments: "start", which starts the services, or "stop",
+which stops the services.  These scripts should ensure that they will
+behave sensibly if invoked with "start" when the service is already
+running, or with "stop2 when it isn't--the best way to achieve this is
+often to use `start-stop-daemon'.
+
+   This script should not fail obscurely when the configuration files
+remain but the package has been removed, as the default in dpkg is to
+leave configuration files on the system after the package has been
+removed.  Only when it is executed with the `-purge' option will dpkg
+remove configuration files.  Therefore, you should include a `test'
+statement at the top of the script, like this:
+
+     test -f <program-executed-later-in-script> || exit 0
+
+   These scripts should be referenced, when appropriate, by symbolic
+links in the `/etc/rc?.d' directories, as below.
+
+   When changing runlevels, init looks in the directory `/etc/rc<n>.d'
+for the scripts it should execute, where <n> is the runlevel that is
+being changed to.  Please note that the "scripts" in `/etc/rc?.d' are
+not actually scripts; they are symbolic links, referencing actual
+scripts in `/etc/init.d'.  For simplicity, we refer to them as
+"scripts".
+
+   First, the scripts prefixed with a "K" are executed, followed by the
+scripts prefixed with an "S".  The "K" scripts are responsible for
+killing certain services and the "S" scripts for starting certain
+services upon *entering* the runlevel.  For example, if we are changing
+from runlevel 2 to runlevel 3, init will first execute all of the "K"
+prefixed scripts it finds in `/etc/rc3.d' (to kill services), and then
+all of the "S" prefixed scripts it finds in `/etc/rc3.d' (to start
+services).  The "K" scripts will execute the file it references with an
+argument of "stop", and the "S" scripts will execute this file with an
+argument of "start".
+
+   After the "K" or "S" prefix, there should be a number specified, and
+this number should be between 00 and 99.  The number determines the
+order in which the scripts are run.  For example, the "K20" scripts will
+be executed before the "K30" scripts.  You can use this number to make
+sure that a certain service is started before another.  For example, on
+some machines, the program `setserial' may need to properly set an IRQ
+before the `ppp' program uses a modem to connect to a network.  In this
+case, the script that runs `setserial' should have a lower number than
+the script that starts `ppp' so that it runs first:
+
+     `/etc/rc2.d/S10setserial'
+     `/etc/rc2.d/S20ppp'
+
+   If it does not matter when or in which order the script is run, use
+the number "20".  If it does, then you should talk to the maintainer of
+the `sysvinit' package or post to `debian-devel', and they will help
+you choose a number.
+
+   In Debian GNU/Linux, we try to ship our software in as much of a
+"default" state as possible.  Therefore, unless there is a good reason
+for doing differently, we ask that you start and stop the services in
+each of the multi-user state runlevels (2, 3, 4, and 5).  If a service
+needs to be stopped before a file system can be unmounted (an example is
+process accounting or quota services), then be sure to stop them in the
+halt runlevel (0), the single-user runlevel (1) and the reboot runlevel
+(6).
+
+   The system administrator will have the opportunity to customize
+runlevels by simply adding, moving, or removing the symbolic links in
+`/etc/rc?.d'.  This is why we default to running everything in the
+multi-user state-a reasonable default-and the administrator can easily
+customize init to be as complex and sophisticated as he or she wants it
+to be beyond this.
+
+   We provide a script, `update-rc.d', to make it easier for package
+maintainers to arrange for the proper creation and removal of
+`/etc/rc?.d' symbolic links from their postinst and postrm scripts.
+You should use this script to make changes to `/etc/rc?.d' and *never*
+include any `/etc/rc.?.d' symbolic links in the actual archive.
+
+   * In the postinst script, you need only do the following to setup
+     `/etc/rc?.d'.  You should redirect standard output to `/dev/null',
+     as `update-rc.d' produces insignificant output:
+
+          update-rc.d <package> default >/dev/null
+
+     where <package> is the name of the file as it appears in
+     `/etc/init.d'.  It will use the default number of "20", as
+     mentioned above.  If you need to use a different number, you can
+     specify it after "default":
+
+          update-rc.d <package> default 30 >/dev/null
+
+   * In the postrm script, you need only do the following *if and only
+     if* it is called with the `purge' argument:
+
+          if [ purge = "$1" ]
+          then
+            update-rc.d <package> remove >/dev/null
+          fi
+
+Important Note:
+---------------
+
+   *Do not* include the `/etc/rc?.d/*' symbolic links in the archive!
+*This will cause problems!*  You should create them with update-rc.d,
+as above.
+
+   *Do not* include the `/etc/rc?.d/*' symbolic links in conffiles!
+*This will cause problems!*  *Do*, however, include the `/etc/init.d'
+scripts in conffiles.
+
+Example:
+--------
+
+   The process accounting package wants to make sure that process
+accounting is started at boot time and that it is stopped before the
+system is halted, enters the single-user state, or is rebooted (so that
+the `/var' file system can be properly unmounted).  It puts a script
+that does this in `/etc/init.d', naming the script appropriately
+"acct".  This script accepts one of two arguments: either "start",
+which starts process accounting, or "stop", which stops it.  To ensure
+that it does not fail obscurely when the configuration files remain but
+the package has been removed, we include a `test' statement at the top
+of the script:
+
+     #! /bin/sh
+     #
+     # Start process accounting.
+     . /etc/init.d/functions
+     test -f /usr/sbin/accton || exit 0
+     case "$1" in
+       start)
+         echo "Starting process accounting"
+         /usr/sbin/accton /var/account/pacct
+         ;;
+       stop)
+         echo "Stopping process accounting"
+         /usr/sbin/accton
+         ;;
+       *)
+         echo "Usage: /etc/init.d/acct {start|stop}"
+         exit 1
+     esac
+     exit 0
+
+   You may find a skeletal script from which to base your `/etc/init.d'
+scripts in `/etc/init.d/skeleton'.
+
+   We want to stop then (re)start process accounting when entering a
+multi-user state-runlevels 2, 3, 4, and 5-and we want to stop it when
+leaving such a state-runlevels 0 (halt), 1 (single) and 6 (reboot).
+These are good defaults, and we accomplish this by including the
+following in the postinst:
+
+     update-rc.d acct default >/dev/null
+
+   When the user removes the acct packages with the `-purge' option, we
+want to make sure the `/etc/rc?.d' symbolic links are properly removed,
+so we include the following in the postrm:
+
+     update-rc.d acct remove >/dev/null
+
+   Otherwise, the `/etc/rc?.d' symbolic links will remain on the system
+along with `/etc/init.d/acct' script.
+
+
+File: guidelines.info,  Node: Maintainer script arguments and how `dpkg' does things,  Next: Mail processing packages,  Prev: Configuration of init,  Up: Appendix
+
+Maintainer script arguments and how `dpkg' does things
+======================================================
+
+   This appendix describes exactly how maintainer scripts are called,
+with what arguments, in what order, and what `dpkg' does in between.
+
+   In all cases version numbers are <version>-<revision>, if the package
+has both, or just <version>.  `upgrade' is used even when the new
+version number looks lower than the old.
+
+Summary
+-------
+
+     <new preinst> install
+     <new preinst> install <old-version>
+     <new preinst> upgrade <old-version>
+     <old preinst> abort-upgrade <new-version>
+     
+     <postinst> configure
+     <old postinst> abort-upgrade <new version>
+     <conflictor's postinst> abort-remove in-favour <package> <new version>
+     <deconfigured's postinst> abort-deconfigure \
+                   in-favour <package-being-installed-but-failed> <version>
+                   removing <conflicting-package> <version>
+     
+     <prerm> remove
+     <old prerm> upgrade <new version>
+     <new prerm> failed-upgrade <old-vppersion>
+     <conflictor's prerm> remove in-favour <package> <new version>
+     <deconfigured's prerm> deconfigure \
+                   in-favour <package-being-installed> <version> \
+                   removing <conflicting-package> <version>
+     
+     <postrm> remove
+     <postrm> purge
+     <old postrm> upgrade <new-version>
+     <new postrm> failed-upgrade <old-version>
+     <new postrm> abort-install
+     <new postrm> abort-install <old-version>
+     <new postrm> abort-upgrade <old-version>
+     <disappearer's postrm> disappear <overwriter> <new version>
+
+Details of unpack phase of installation or upgrade
+--------------------------------------------------
+
+   The procedure on installation/upgrade/overwrite/disappear (ie, when
+running `dpkg --unpack', or the unpack stage of `dpkg --install') is as
+follows.  In each case if an error occurs the actions in are general
+run backwards - this means that the maintainer scripts are run with
+different arguments in reverse order.  These are the `error unwind'
+calls listed below.
+
+  1.
+       a. If a version the package is already installed, call
+               <old prerm> upgrade <new version>
+
+       b. If this gives an error (ie, a non-zero exit status), dpkg will
+          attempt instead:
+               <new prerm> failed-upgrade <old-version>
+           error unwind, for both the above cases:
+               <old postinst> abort-upgrade <new version>
+
+  2. If a `conflicting' package is being removed at the same time:
+       a. If any packages depended on that conflicting package and
+          `--auto-deconfigure' is specified, call, for each such
+          package:
+               <deconfigured's prerm> deconfigure \
+                in-favour <package-being-installed> <version> \
+                removing <conflicting-package> <version>
+           error unwind:
+               <deconfigured's postinst> abort-deconfigure \
+                in-favour <package-being-installed-but-failed> <version>
+                removing <conflicting-package> <version>
+          The deconfigured packages are marked as requiring
+          configuration, so that if -install is used they will be
+          configured again if possible.
+
+       b. To prepare for removal of the conflicting package, call:
+               <conflictor's prerm> remove in-favour <package> <new version>
+           error unwind:
+               <conflictor's postinst> abort-remove in-favour <package> <new version>
+
+  3.
+       a. If the package is being upgraded, call
+               <new preinst> upgrade <old-version>
+
+       b. otherwise, if the package had some configuration files from a
+          previous version installed (ie, it is in the conffiles-only
+          state):
+               <new preinst> install <old-version>
+
+       c. otherwise (ie, the package was completely purged):
+               <new preinst> install
+           error unwind versions, respectively:
+               <new postrm> abort-upgrade <old-version>
+               <new postrm> abort-install <old-version>
+               <new postrm> abort-install
+
+  4. The new package's files are unpacked, overwriting any that may be
+     on the system already, for example any from the old package or
+     from another package (backups of the old files are left around,
+     and if anything goes wrong dpkg will attempt to put them back as
+     part of the error unwind).
+
+  5.
+       a. If the package is being upgraded, call
+               <old postrm> upgrade <new-version>
+
+       b. If this fails, dpkg will attempt:
+               <new postrm> failed-upgrade <old-version>
+           error unwind, for both cases:
+               <old preinst> abort-upgrade <new-version>
+          This is the point of no return - if dpkg gets this far, it
+     won't back off past this point if an error occurs.  This will
+     leave the package in a fairly bad state, which will require a
+     successful reinstallation to clear up, but it's when dpkg starts
+     doing things that are irreversible.
+
+  6. Any files which were in the old version of the package but not in
+     the new are removed.
+
+  7. The new file list replaces the old.
+
+  8. The new maintainer scripts replace the old.
+
+  9. Any packages all of whose files have been overwritten during the
+     installation, and which aren't required for dependencies, are
+     considered to have been removed.  For each such package,
+       a. dpkg calls:
+               <disappearer's postrm> disappear <overwriter> <new version>
+
+       b. The package's maintainer scripts are removed.
+
+       c. It is noted in the status database as being in a sane state,
+          namely not installed (any conffiles it may have are ignored).
+          Note that disappearing packages do not have their prerm
+          called, because dpkg doesn't know in advance that the package
+          is going to vanish.
+
+ 10. Any files in the package we're unpacking that are also listed in
+     the file lists of other packages are removed from those lists.
+     (This will lobotomise the file list of the `conflicting' package
+     if there is one.)
+
+ 11. The backup files made at 4. are deleted.
+
+ 12. The new package's status is now sane, and recorded as `unpacked'.
+     Here is another point of no return - if the conflicting package's
+     removal fails we do not unwind the rest of the installation; the
+     conflicting package is left in a half-removed limbo.
+
+ 13. If there was a conflicting package we go and do the removal
+     actions, starting from point 2. of the removal, below.
+
+Details of configuration
+------------------------
+
+   When we configure a package (this happens with `dpkg --install', or
+with `--configure'), we first update the conffiles and then call:
+     <postinst> configure <most-recently-configured-version>
+
+   No attempt is made to unwind after errors during configuration.
+
+Details of removal and/or configration purging
+----------------------------------------------
+
+  1.      <prerm> remove
+
+  2. The package's files are removed (except conffiles).
+
+  3.      <postrm> remove
+
+  4. All the maintainer scripts except the postrm are removed.
+
+     If we aren't purging the package we stop here.  Note that packages
+     which have no postrm and no conffiles are automatically purged
+     when removed, as there is no difference except for the dpkg status.
+
+  5. The conffiles and any backup files (`~'-files, `#*#' files,
+     `%'-files, .dpkg-{old,new,tmp}, etc.) are removed.
+
+  6.      <postrm> purge
+
+  7. The package's file list is removed.
+        No attempt is made to unwind after errors during removal.
+
+
+File: guidelines.info,  Node: Mail processing packages,  Next: Virtual dependencies,  Prev: Maintainer script arguments and how `dpkg' does things,  Up: Appendix
+
+Mail processing packages
+========================
+
+   Debian packages which process electronic mail (whether
+mail-user-agents (MUA) or alternative mail-transport-agents (MTA))
+*must* make sure that they are compatible with the configuration
+decisions below.  Failure to do this may result in lost mail, broken
+`From:' lines, and other serious brain damage!
+
+   * The mail spool is `/var/spool/mail' and the interface to send a
+     mail message is `/usr/sbin/sendmail' (as per the FSSTND).  The mail
+     spool is part of the base and not part of the MTA package.
+
+   * Mailboxes are locked using the `.lock' lockfile convention, rather
+     than fcntl, flock or lockf.
+
+   * Mailboxes are generally 660 `<user>.mail' unless the user has
+     chosen otherwise.  A MUA may remove a mailbox (unless it has
+     nonstandard permissions) in which case the MTA or another MUA must
+     recreate it if needed.  Mailboxes must be writeable by group mail.
+
+   * The mail spool is 2775 mail.mail, and MUA's need to be setgid mail
+     to do the locking mentioned above (and obviously need to avoid
+     accessing other users' mailboxes using this privilege).
+
+   * `/etc/aliases' is the source file for the system mail aliases (e.g.
+     postmaster, usenet, etc.) - it is the one which the sysadmin and
+     postinst scripts may edit.
+
+   * The convention of writing `forward to <address>' in the mailbox
+     itself is not supported.  Use a `.forward' file instead.
+
+   * The location for the `rmail' program used by UUCP for incoming mail
+     is `/usr/sbin/rmail', as per the FSSTND.  Likewise, `rsmtp', for
+     receiving batch-SMTP-over-UUCP, is in `/usr/sbin/rsmtp' if it is
+     supported.
+
+   * Smail is not using HoneyDanBer UUCP, whose uux apparently accepts
+     -a and -g options.
+
+   * If you need to know what name to use (for example) on outgoing
+     news and mail messages which are generated locally, you should use
+     the file `/etc/mailname'.  It will contain the portion after the
+     username and `@' sign for email addresses of users on the machine
+     (followed by a newline).
+
+   A package should check for the existence of this file.  If it exists
+it should use it without comment (1).  If it does not exist it should
+prompt the user for the value and store it in `/etc/mailname' as well
+as using it in the package's configuration.  The prompt should make it
+clear that the name will not just be used by that package.  E.g., in
+the same situation the INN package says:
+
+     Please enter the `mail name' of your system.  This is the hostname
+     portion of the address to be shown on outgoing news and mail messages.
+     The default is `$syshostname', your system's host name.
+     Mail name [`$syshostname']:
+   ($syshostname is the output of `hostname -fqdn').
+
+   ---------- Footnotes ----------
+
+   (1)  An MTA's prompting configuration script may wish to prompt the
+user even if it finds this file exists.
+
+
+File: guidelines.info,  Node: Virtual dependencies,  Prev: Mail processing packages,  Up: Appendix
+
+Virtual dependencies
+====================
+
+   Virtual packages are in the same namespace as real packages, and may
+have the same name.  The meaning of a virtual package in a
+dependency/conflicts list is exactly that of listing all the real
+packages which state that they are an instantiation of that virtual
+package.
+
+   This is done with a new Provides field in the control file, with a
+syntax much like the Conflicts field.
+
+   The idea is that we can have something like:
+     Package: elm
+     Depends: mta
+     
+     Package: smail
+     Provides: mta
+     Conflicts: mta
+     
+     Package: sendmail
+     Provides: mta
+     Conflicts: mta
+    The result is equivalent to elm having said
+     Package: elm
+     Depends: smail | sendmail
+
+   (There'll be a special case to say that a package may conflict with a
+virtual package which it provides - clearly ...)
+
+   If there are both a real and a virtual package of the same name then
+the dependency may be satisfied (or the conflict caused) by either the
+real package or any of the virtual packages which provide it.  This is
+so that, for example, supposing we have
+     Package: lout
+     Optional: ghostview
+   (this is a fictional example - the Lout package should not mention
+ghostview), and someone else comes up with a nice PostScript previewer,
+then they can just say
+     Package: marvelpostview
+     Provides: ghostview
+   and all will work in the interim (until, say, the Lout maintainer
+changes things).
+
+   If a dependency or a conflict has a version number attached then only
+real packages will be considered to see whether the relationship is
+satisfied (or prohibited, for a conflict) - it is assumed that a real
+package which provides virtual package is not of the `right' version.
+If there is demand it can be arranged that a package which provides a
+virtual package may mention a version number, though this is unlikely to
+be helpful:
+     Provides: mta (2.0)
+
+   If you want to specify which of a set of real packages should be the
+default to satisfy a particular dependency on a virtual package, you can
+simply list the real package as alternative before the virtual one:
+     Package: xbaseR6
+     Recommended: xsvga | x-server
+     Provides: x-base, xr6shlib
+     
+     Package: xsvga
+     Recommended: x-base
+     Provides: x-server
+     
+     Package: x8514
+     Recommended: x-base
+     Provides: x-server
+
+   Virtual package names should generally not be used in the names of
+`/etc/init.d' scripts, configuration files, logfiles, and so on, so
+that several programs providing the same virtual package name can be
+installed.
+
+

@@ -1,0 +1,1056 @@
+\input texinfo @c -*-texinfo-*-
+@setfilename guidelines.info
+
+@set DATE 26th January 1996
+
+@setchapternewpage off
+
+@iftex
+@center @titlefont{Debian GNU/Linux Packaging Guidelines}
+@tex
+\vskip2pt \hrule height 2pt width \hsize \vskip2pt
+@end tex
+@sp 0.5
+@center @value{DATE}
+@end iftex
+
+@ifinfo
+@format
+START-INFO-DIR-ENTRY
+* debian-guidelines: (debian-guidelines).       How to make Debian packages.
+END-INFO-DIR-ENTRY
+@end format
+@end ifinfo
+
+@node Top, Additional Information, (dir), (dir)
+
+@ifinfo
+@top Debian GNU/Linux Packaging Guidelines
+@end ifinfo
+
+   This file documents the steps that must be taken in the preparation
+of a Debian GNU/Linux package.  All submissions to be included in the
+distribution proper and all packages to be considered for @file{contrib}
+or @file{non-free} availability @emph{must} conform to the guidelines
+and standards described in this document or they cannot be included or
+made available at the archive with the distribution.
+
+   Please read the Guidelines carefully.  If you have comments or
+questions, please contact @code{debian-devel@@pixar.com}.  If you are
+planning on going further than just contributing a package (i.e., if
+you plan to maintain it for an extended period of time or if you are
+generally interested in becoming more involved in the Project), you
+should join the @code{debian-devel} mailing list.  For more details,
+read @file{info/mailing-lists.txt}, available at any Debian GNU/Linux
+archive.
+
+   (This file was last updated on @value{DATE}.  Please check the most
+recent @file{dpkg} package at any Debian GNU/Linux archive for a
+potentially more up to date copy.)
+
+@menu
+* Additional Information::
+* Package Copyright::           A few words about the importance of
+                                understanding the package copyright.
+* Package Content::             Requirements for the package content.
+* Source Package::              Creating the source package.
+* Binary Package::              Creating the binary package.
+* Control Files::               The binary package control files.
+@end menu
+
+
+
+@node Additional Information, Package Copyright, Top, Top
+@unnumbered Additional Information
+
+   These Guidelines are intended to be fairly general.  More specific
+information is available about certain aspects of building packages,
+such as how to use the features of Init under Debian GNU/Linux.  This
+information can be found in the directory @file{project/standards}
+at any Debian GNU/Linux archive.   At the time of this writing, the
+following documents are available:
+
+@table @file
+@item README.etc-skel
+A description of @file{/etc/skel} and @file{/usr/doc/examples}.
+@item descriptions.txt
+How to write an extended (and more useful) @file{DESCRIPTION} field.
+@item README.init
+How to use the features of Init under Debian GNU/Linux in packages.
+@item mailers.txt
+How to properly configure packages to use the Debian GNU/Linux mail
+system.
+@item maintainer-script-args.txt
+All the ways that the package maintainer scripts inside a package can
+be called by dpkg.
+@item dpkg-upgrades+errors.txt
+What order things happen in during a package upgrade.
+@item virtual-dependencies.txt
+How to use ``virtual dependencies'' in packages.
+@item virtual-package-names-list.text
+The list of virtual package names currently in use, together with the
+procedure for getting new virtual package names allocated.
+@item dependency-ordering.txt
+How to properly order package names in the @file{DEPENDS} field.
+@end table
+
+   There are a number of documents that describe more technical
+details of dpkg's operation, that will probably only be of minority
+interest.  Please read them if you're doing anything complicated.
+
+@table @file
+@item auto-deconfiguration.txt
+How dpkg can sometimes automatically deconfigure packages in order to
+do bulk installations smoothly.
+@item dpkg-essential-flag.txt
+How to tell dpkg a package is essential and should not be removed.
+(This is for the use of base system packages only.)
+@item dpkg-disappear-replace.txt
+What happens when a package appears to have been completely replaced.
+@end table
+
+   In the future, we hope also to make available:
+
+@table @file
+@item copyright.txt
+How to choose a good copyright notice to attach to new programs.
+@item version-ordering.txt
+The algorithm with which packages' version numbers are compared.
+@end table
+
+   Also, you should download the sample files and the sample package
+(GNU Hello) available in @file{standards/samples}.  You may use any
+of this material as a starting point for new packages.  The following
+sample files, incidentally, are available:
+
+@itemize @bullet
+@item debian.README
+@item debian.control
+@item debian.postinst
+@item debian.postrm
+@item debian.rules
+@end itemize
+
+
+
+@node Package Copyright, Package Content, Additional Information, Top
+@unnumbered Package Copyright
+
+   Please study the copyright of your submission @emph{carefully}
+and @emph{understand it} before proceeding!  If you have doubts or
+questions, please ask!
+
+   In order to understand how we classify and distribute certain
+packages, it is important to understand the distinction between being
+freely available and being freely redistributable.
+
+   Being @dfn{freely available}, quite simply, means that the software
+can be made available freely, at least for non-commercial purposes and
+in its original, unmodified form.  This includes packages made available
+freely that have restrictions on non-commercial use, redistribution of
+modifications, etc.  Being freely available, therefore, has nothing to
+do with being able to modify and redistribute the software.  It only
+means that you can get a copy of the software without having to pay
+(and it does not necessarily mean that you can @emph{use} the software
+without having to pay---shareware is an example of freely available
+software).
+
+   @dfn{freely redistributable}, while generally being freely available,
+goes beyond just being freely available.  Freely redistributable means
+that that the software, in addition to being able to be made available
+freely, must be able to be freely modified and redistributed without
+restriction.
+
+   All submissions to be included in the distribution proper @emph{must}
+be freely redistributable.
+
+   In addition to the distribution, the Project maintains two separate
+archives of software packages with the distribution: the @file{contrib}
+archive and the @file{non-free} archive.
+
+   @file{contrib} is an archive of user-contributed packages that are
+not maintained by the Project, packages that were once maintained by the
+Project but that are no longer actively maintained, and packages that
+are maintained by the Project but that are not yet considered ready for
+inclusion in the distribution proper (i.e., ALPHA and BETA packages).
+As above, all submissions for inclusion in the @file{contrib} archive
+@emph{must} be freely redistributable.
+
+   @file{non-free} is an archive of packages with either restrictive or
+unclear terms of copying or modification.  If a package has @emph{any}
+restrictions on modification or redistribution, it can not be included
+in the distribution or @file{contrib} archive.  It can only be included
+in the @file{non-free} archive, and then only if it is freely available.
+
+   In summary, in order to be included in the distribution proper or the
+@file{contrib} archive, a package must be @emph{freely redistributable}.
+Anyone must be able to make copies of it, modify it, redistribute it with
+their modifications in place, include it on a CD-ROM, or generally sell
+it.  To be included in the @file{non-free} archive, a package may have
+restrictions, as long as the package remains @emph{freely available}.  We
+must be available to make it available freely at the archive, and anyone
+must be able to make copies of it and use it for at least non-commercial,
+personal purposes.  Software that will typically be included in
+@file{non-free} are software that does not allow commercial distribution,
+software that does not allow modification or redistribution of
+modifications, commercial ``demos'', and ``shareware''.
+
+   When in doubt, send mail to @file{iwj10@@cus.cam.ac.uk} and
+@file{imurdock@@debian.org}.  Be prepared to provide us with the
+copyright statement.  Software covered by the GPL, public domain
+software and BSD-like copyrights are safe; be wary of the phrases
+``commercial use prohibited'' and ``distribution restricted''.
+
+   Every package submission @emph{must} be accompanied by verbatim copy
+of its copyright (with the exceptions of public domain packages and
+those covered by the UCB BSD licence or the GNU GPL or LGPL; in these
+cases simply indicate which is appropriate).  This information must be
+included in a file installed to the directory @file{/usr/doc/copyright}.
+See below for details.
+
+
+
+@node Package Content, Source Package, Package Copyright, Top
+@unnumbered Package Content
+
+   The following requirements apply equally to both the binary and
+source packages.  In either case, when files have been installed,
+they must conform to the requirements described in this section.
+
+   The primary rule in Debian GNU/Linux is to follow the Linux @dfn{File
+System Standard} (@dfn{FSSTND}).  The location of installed files
+@emph{must} comply @emph{fully} with the FSSTND.  The latest version of
+this document can be found alongside the Guidelines or at
+@file{tsx-11.mit.edu} in @file{/pub/linux/docs/linux-standards/fsstnd}.
+Specific questions about following the standard should be addressed to
+Daniel Quinlan, the FSSTND coordinator, at @code{quinlan@@yggdrasil.com}.
+
+   In addition to the FSSTND, all Debian GNU/Linux packages must follow
+the guidelines below.
+
+@itemize @bullet
+@item
+Directories should be mode 755 or (for group-writability) mode 2775,
+with the exception of special ``system'' directories that need to be
+another mode.  The ownership of the directory should be consistent with
+its mode---if a directory is mode 2775, it should be owned by the group
+that needs write access to it, of course.  Use common sense in assigning
+permissions and ownerships to directories, and make sure that what is
+done is secure if it is ``non-standard''.
+
+@item
+Normal binaries should be mode 755 and owned by @code{root.root}.  If
+there is a good reason to use a different mode or ownership, you may do
+so, but you must try to be as consistent as possible with the rest of
+the system.  If you need to use a different mode or ownership, please
+discuss it with @code{imurdock@@debian.org}.
+
+@item
+Setuid binaries should normally be mode 4755 (not 4711!) and, of course,
+owned by the appropriate user.
+
+@item
+Setgid binaries should normally be mode 2755 (not 2711!) and, of course,
+owned by the appropriate group.
+
+@item
+Library files should generally be mode 644 and owned by
+@code{root.root}.  If the package requires different permissions
+or ownerships to function correctly, they should be used instead.
+
+@item
+Manual pages should be mode 644 and owned by @code{root.root}.  The
+@file{nroff} source must be installed.  You should @emph{not} install
+a preformatted ``cat page'', and you should only use sections 1 to
+9---see the FSSTND for more details.
+
+@item
+Info documents should be mode 644, owned by @code{root.root}, and
+compressed with @file{gzip -9} when installed.  The package must call
+@file{install-info} to update the Info @file{dir} file.  This should
+be done in the post-installation script (@file{postinst}), like this:
+
+@smallexample
+        install-info --quiet /usr/info/foobar.info
+@end smallexample
+
+The entries should be removed by the pre-removal script (@file{prerm}),
+like this:
+
+@example
+        install-info --quiet --remove /usr/info/foobar.info
+@end example
+
+It is also a good idea to specify a section for the Info @file{dir}
+entry.  This is done with the @file{--section} switch.  To determine
+which section to use, you should use look at @file{/usr/info/dir} on
+your system and choose the most relevant (or create a new section if
+none of the current sections are relevant).
+
+If @file{install-info} cannot find a description entry in the Info file
+you will have to supply one.  See @file{install-info}(8) for details.
+
+@item
+If a package contains any shared libraries you will have to invoke
+@file{ldconfig} in both the @file{postinst} and @file{prerm} scripts
+to correctly update the library links.  See @file{ldconfig}(8) for
+details.
+
+@item
+Any additional documentation that comes with the package can be
+installed at the discretion of the package maintainer.  Text
+documentation should be mode 644, owned by @code{root.root}, installed
+to @file{/usr/doc}, and compressed with @file{gzip -9} unless it is small.
+
+If a subdirectory of @file{/usr/doc} is warranted, please do create one.
+Please do not install DVI, PostScript, or large textual documentation to
+@file{/usr/doc}.  However, please do upload such documentation as a
+separate package so that it can be made available with the distribution.
+If a user has the need for the documentation, they can easily get it
+from the archive, CD-ROM, etc., but it should not take up disk space
+on the machines of the user who do not need or want it installed.
+
+@item
+Create a file named @file{/usr/doc/copyright/<@i{package}>} which gives
+details of the authorship and copyright of the package.  If the package
+is distributed under the GNU General Public Licence, the GNU Library
+General Public Licence or the Regents of the University of California at
+Berkeley (BSD) licence, please say so instead of including a copy of the
+licence.  The files @file{BSD}, @file{GPL}, and @file{LGPL} will be
+available in the @file{/usr/doc/copyright} directory for you to refer
+to.  @file{/usr/doc/copyright/<@i{package}>} should not be compressed.
+
+@emph{All} authorship and copyright information from the original source
+package must be included in the @file{/usr/doc/copyright/<@i{package}>}
+file.
+
+@item
+Any example files (for example, sample configuration files) should
+be placed in the directory @file{/usr/doc/examples}.  If the file is
+normally a hidden file, such as @file{.emacs}, then please call it
+@file{dot.emacs}, to avoid confusion.  Again, you may create a
+subdirectory if it is needed.
+
+@item
+All symbolic links should be relative, not absolute.  Absolute links,
+in general, cause problems when a file system is not mounted where it
+``normally'' resides (for example, when mounted via NFS).  In certain
+cases, however, relative links may also cause similar problems.  I
+have generally made links into @file{/etc} and @file{/var} absolute
+and all other links relative.  There may be other cases in which
+absolute links are necessary.
+
+Therefore, in the Makefile, do not do (even though it is easier):
+@smallexample
+        install: all
+                [...]
+                ln -fs /usr/bin/gcc /usr/bin/cc
+                [...]
+@end smallexample
+Instead, do:
+@smallexample
+                ln -fs gcc /usr/bin/cc
+@end smallexample
+        or
+@smallexample
+                ( cd /usr/bin ; ln -fs gcc cc )
+@end smallexample
+
+Please do not create hard links in the manual page directories.  In
+these cases, you should use relative symbolic links or files that
+@file{.so} (roff for `source') others instead.
+
+@item
+All command scripts should have a @code{#!} line naming the shell to be
+used to interpret them.
+
+@item
+In the case of Perl scripts this should be @code{#!/usr/bin/perl} or
+sometimes @code{#!/bin/perl}, as follows: if the script is a critical
+one that may be called when the @file{/usr} partition is unmounted or
+broken it should use @file{/bin/perl}.  Otherwise (especially if the
+script is not specifically targetted at Debian) it should use Perl's
+standard location, @file{/usr/bin/perl}.
+
+@item
+Generally the following compilation parameters should be used:
+
+@display
+   CC = gcc
+   CFLAGS = -O2 -g -Wall # sane warning options vary between programs
+   LDFLAGS = # none (or -N, if appropriate; see below)
+   install -s (or strip)
+@end display
+
+Note that all installed binaries should be stripped, either by using the
+@code{-s} flag to @file{install}, or by calling @file{strip} on the
+binaries after they have been copied into the @file{debian-tmp} but
+before the tree is made into a package.
+
+Make sure that you do not link with @code{-g}, as this makes a.out
+compilers produce huge statically linked binaries.  The @code{-g} flag
+is useful on compilation so that you have available a full set of
+debugging symbols in your built source tree, in case anyone should file
+a bug report involving (for example) a core dump.
+
+@code{-N} should only be used on binaries that are very small (less than
+8K with the @code{-N} option, roughly) and are not likely to have
+multiple instances in memory.  Do not use @code{-N} on daemons, no
+matter how small they are.
+
+It is up to the package maintainer to decide what compilation options
+are best for the package.  Certain binaries (such as
+computationally-intensive programs) may function better with certain
+flags (@code{-O3}, for example); feel free to use them.  Please use good
+judgment here.  Don't add flags for the sake of adding flags; only add
+flags if there is good reason to do so.
+
+@item
+Please check with the base system maintainer (Ian Murdock) before using
+users or groups other than @code{root} and others specified in this
+document.
+@end itemize
+
+
+
+@node Source Package, Binary Package, Package Content, Top
+@unnumbered Source Package
+
+   The source package should contain a file called @file{debian.rules}
+which contains at least the following targets, to be invoked in the top
+level directory:
+
+@smallexample
+build
+binary
+clean
+@end smallexample
+
+@file{debian.rules} should start with
+
+@example
+   #!/usr/bin/make -f
+@end example
+
+@noindent and be executable.  It is a good idea to arrange for it not
+to fail obscurely when invoked in the wrong directory, for example by
+testing for the existence of a file in the source directory.
+
+@itemize @bullet
+@item
+The @file{build} target should perform all non-interactive configuration
+and compilation of the package.  If a package has an interactive
+pre-build configuration routine, the source package should be built
+@emph{after} this has taken place.
+
+   For some packages, notably ones where the same source tree is
+compiled in different ways to produce two binary packages, the
+@file{build} target does not make much sense.  For these packages it is
+good enough to provide two (or more) targets (@file{build-a} and
+@file{build-b} or whatever) for each of the ways of building the
+package, and a @file{build} target that does nothing.  The @file{binary}
+target will have to build the package in each of the possible ways and
+make the binary package out of each.
+
+@item
+The @file{binary} target of @file{debian.rules} should be all that is
+necessary for the user to build the binary package.  The binary package
+should be created using @file{dpkg} and placed in the parent of the top
+level directory.  The next section describes how to construct binary
+packages from the @file{binary} target.
+
+@item
+The @file{clean} target should undo the effects of the @file{build}
+target and the @file{binary} target, except that it should leave alone
+any @file{../<@i{package}>-<@i{version}>.deb} file created by a run of
+@file{binary}.
+
+@item
+Additional targets may exist in @file{debian.rules}.  We recommend using
+@file{source} and @file{diff} targets to build the Debianised source
+package and the Debianisation context diff, respectively.  These files
+should be placed in @file{../foo-<@i{version}>.tar.gz} and
+@file{../foo-<@i{version}>.diff.gz}.  The @file{install} target, for
+installing into a running system direct from the Debianised source
+tree, is no longer required.  The sample @file{debian.rules} provides
+@file{source} and @file{diff} targets that should work with little or
+no alteration, providing that the package-specific variables at the top
+of the script have been properly defined.
+
+@item
+If you need to edit a @file{Makefile} where @file{configure} scripts
+are used, you should edit the @file{.in} files rather than editing
+the @file{Makefile} directly.  This allows the user to reconfigure
+the package if necessary.  You should @emph{not} configure the package
+and edit the generated @file{Makefile}!  This makes it impossible for
+someone else to later reconfigure the package.
+
+@item
+Please document your changes to the source package so that future
+package maintainers know what has been changed.  To do this, include
+a description of your changes in the @file{debian.README} (which, as
+described above, should already contain authorship and copyright
+information!) and include relevant information such as your name,
+electronic mail address, date, etc.
+
+@item
+If changes to the source code are made, please use a @file{define}.  If
+they are changes required to compile or function under Linux in general,
+use @file{LINUX}.  If it is a cosmetic or functional change, use
+@file{DEBIAN}.
+
+@item
+Create the source package using @file{tar}, and use @file{gzip -9} to
+compress it.  Source packages should be named in the form
+<@i{package}>-<@i{version}>.tar.gz---for example,
+@file{fileutils-3.9-3.tar.gz}.
+
+NB, here @code{<@i{version}>} is the full Debian version number, in the
+form @code{<@i{original_version}>-<@i{debian_revision}>} (see below),
+but the tarfile should unpack into a directory named
+@code{<@i{package}>-<@i{original_version}>} (again, see the section
+below on version numbering).
+
+@item
+Create the context diff against the original package using @file{diff
+-cNr}, and use @file{gzip -9} to compress it.  Context diffs should be
+named in the form <@i{package}>-<@i{version}>.diff.gz---for example,
+@file{fileutils-3.9-3.diff.gz}.
+@end itemize
+
+   Please note that the package and patch filenames do @emph{not} need
+to fit in MS-DOS 8+3.  They will be made available under an alternative
+8+3 name in the archive by the archive maintainer, using a symlink.
+
+
+
+@node Binary Package, Control Files, Source Package, Top
+@unnumbered Binary Package
+
+   The @file{binary} target of the source package @file{debian.rules}
+file should do the following (see the sample @file{debian.rules}
+for an implementation that you are free to modify and use in your own
+packages, of course):
+
+@itemize @bullet
+@item
+Create an empty directory in the top-level directory of the source
+package (deleting it first, if necessary), and install the files
+belonging to this package in that directory.  For example, the directory
+could be called @file{debian-tmp} and would probably contain directories
+@file{debian-tmp/usr/bin}, @file{debian-tmp/usr/lib}, etc.
+(@file{debian-tmp} is the name traditionally used, and it is used in
+the sample @file{debian.rules} file, so we will use that name in the
+Guidelines.)
+
+@item
+Make sure that all the files under @file{debian-tmp} have the correct
+ownerships and permissions (@pxref{Package Content}, for more information
+about file locations, ownerships, and permissions.)
+
+@item
+Create a subdirectory of @file{debian-tmp} called @file{DEBIAN}.  This
+directory contains the package control information, including at the
+very least the master information file named @file{control}.  The next
+section describes the semantics and syntax of the files required and
+allowed here.
+
+@item
+Run @file{dpkg} to create the binary package, using something like
+
+@smallexample
+    dpkg --build debian-tmp
+@end smallexample
+
+This will create a file called @file{debian-tmp.deb}, from the
+@file{debian-tmp} directory.  You should rename this file to
+@file{../<@i{package}>-<@i{version}>.deb} after it is built.
+
+After the @file{binary} target has done all this, the
+@file{<@i{package}>-<@i{version}>.deb} file in the parent directory is
+the binary distribution.  This file may be distributed and installed on
+any Debian GNU/Linux system with @file{dpkg} in the same manner and
+using the same methods as all packages are installed to the system.
+
+@item
+If a single source package corresponds to several binary packages, there
+should usually be a @file{debian.rules} file with a single @file{binary}
+target that builds all the binary packages involved and move all packages
+to the parent directory of that containing the source package.
+
+In this case, you should choose binary package names which are meant to
+make clear the close relationship between the binary packages and which
+source package the binary packages came from (for example, the
+@file{texinfo} source package build two binary packages: @file{texidoc}
+and @file{texinfo}).  You should place the appropriate binary package
+name in the @file{Package} field of the control file (not the source
+package name), and you should consider whether the other binary packages
+that come from the same source tree should be mentioned in the
+@file{Depends}, @file{Recommends} or @file{Suggests} fields.  You
+should put the source package name in the @file{Source} field.
+
+You should retain the source package version numbering in the
+@file{Version} field---the version number should be the same for the
+Debianised source tree and all the binary packages generated from it.
+See below for details of version numbers.
+@end itemize
+
+
+
+@node Control Files,  , Binary Package, Top
+@unnumbered Control Files
+
+   Each binary package contains, in addition to the files that comprise
+the actual package, a set of text files that control how @file{dpkg}
+installs, configures, upgrades, removes, etc. the package.  These files
+are called @dfn{control files}.  When creating the package, the control
+files should placed in a directory called @file{DEBIAN}, as described
+earlier (@pxref{Binary Package}, for further information).
+
+The control information files are:
+
+@table @code
+@item control
+The master package control information file.
+@item conffiles
+A list of package configuration files.
+@item preinst
+The package pre-installation script.
+@item postinst
+The package post-installation script.
+@item prerm
+The package pre-removal script.
+@item postrm
+The package post-removal script.
+@end table
+
+   Of these, only @file{control} is required.  The various installation
+scripts, and the configuration files list, will only be used if they are
+present.
+
+@menu
+* control::
+* conffiles::
+* Installation and Removal Scripts::
+* Dependencies and Conflicts::
+* Package Classification Fields::
+@end menu
+
+@node control, conffiles, Control Files, Control Files
+@unnumberedsec control
+
+   The @file{control} file contains a number of fields.  Each field
+begins with a field name, such as @file{Package} or @file{Version}
+(case insensitive), followed by a colon and optionally some spaces or
+tabs (a single space is conventional).  Then comes the body of the
+field, which may be several lines long; each continuation line must
+start with at least one space or tab.  (These are the same rules as
+apply to RFC822 mail headers.)  Blank lines are not permitted in the
+control file.
+
+   The required fields in the control file are the following:
+
+@table @code
+@item Package
+The name of the package.
+@item Description
+The description of the package.
+@item Maintainer
+The name and e-mail address of the maintainer of the package.
+@item Version
+The version number in the format
+@code{<@i{original_version}>-<@i{debian_revision}>}.
+@end table
+
+   Each field has a particular format and meaning for the package
+installation tools.
+
+The value of @file{Package} should be the name of the package.
+Package names must start with an alphanumeric, must be at least two
+characters, and may contain only alphanumerics and the characters
+- + . @@ : = % _ (that is, hyphen, plus, stop, at, colon, equals,
+percent and underscore).  They are not case sensitive.
+
+   The @code{Maintainer} field should be in the form
+
+@smallexample
+Joe J. Bloggs <jbloggs@@foo.com>
+@end smallexample
+
+@noindent Note that this will not be useable as an email address if
+the name given contains full stop characters, because of a silly
+restriction in the Internet mail standards.  If you want to use this
+as an email address in a program you should check for full stops and
+change the string to the form @code{jbloggs@@foo.com (Joe J. Bloggs)}
+if you find any.
+
+   The @code{Version} field should be the version number of the
+package.  For most packages which are not written specifically for
+Debian, this should be in the form
+
+@smallexample
+Version: <@i{original_version}>-<@i{debian_revision}>
+@end smallexample
+
+@noindent where @file{<@i{original_version}>} is the original package
+version number in whatever form the original package uses and
+@file{<@i{debian_revision}>} indicates which ``debianisation'' this is
+(this should usually be a plain number or perhaps a two numbers
+separated by a full stop, and should be incremented each time the
+package is changed or updated).
+
+    Packages which are written specifically for Debian do not have a
+@i{debian_revision}, and their version number should simply be
+@i{version} (which should not contain any hyphens, to avoid
+confusion).
+
+    There is an ordering imposed on version numbers, described in
+@file{version-ordering.txt}.  This ordering is designed to `do the right
+thing' in most circumstances; if your package has an version number in
+an unusual format you may need to reformat it somewhat to get the
+ordering right.  This is important because @file{dpkg} is (for example)
+reluctant to downgrade packages.
+
+   The optional fields in the control file are the following:
+
+@table @code
+@item Depends
+The names of prerequisite packages.
+@item Recommends
+The names of related, recommended packages.
+@item Suggests
+The names of related, optional packages.
+@item Conflicts
+The names of packages which conflict with this package.
+@item Provides
+The names of virtual packages which this package provides.
+@item Priority
+The `priority' of the package, as shown and used by @file{dselect}.
+@item Section
+The `section' of the package, as shown and used by @file{dselect}, and
+used as a location for the package in the distribution.
+@item Essential
+A boolean field used by the base packages.
+@end table
+
+@noindent See below for details of the semantics and syntax of these
+fields.  Most packages will need at least a @code{Depends} field.
+
+   An example of a @file{control} file would be:
+
+@example
+  Package: smail
+  Version: 3.1.29.1-13
+  Maintainer: Ian Jackson <iwj10@@cus.cam.ac.uk>
+  Recommends: pine | mailx | elm | emacs | mail-user-agent
+  Suggests: metamail
+  Depends: cron, libc5
+  Conflicts: sendmail
+  Provides: mail-transport-agent
+  Description: Electronic mail transport system.
+   Smail is the recommended mail transport agent (MTA) for Debian.
+   .
+   An MTA is the innards of the mail system - it takes messages from
+   user-friendly mailer programs and arranges for them to be delivered
+   locally or passed on to other systems as required.
+   .
+   In order to make use of it you must have one or more user level
+   mailreader programs such as elm, pine, mailx or Emacs (which has Rmail
+   and VM as mailreaders) installed.  If you wish to send messages other
+   than just to other users of your system you must also have appropriate
+   networking support, in the form of IP or UUCP.
+@end example
+
+   In this case, @file{mail-user-agent} is a virtual package
+representing any user mailer program; the actual package names
+@file{pine} is quoted for the reasons described in
+@file{dependency-ordering.txt}, and the others because older versions
+of those packages do not have the appropriate @file{Provides} field.
+
+@node conffiles, Installation and Removal Scripts, control, Control Files
+@unnumberedsec conffiles
+
+   The contents of @file{conffiles} is simply a list of configuration
+files in the package.  When installing the package, @file{dpkg} uses
+an intelligent method to update these files.  This will ensure that
+package-specific configuration files are not overwritten when a package
+is upgraded, unless the user wishes the installation tools to do so.
+
+   Typically, files listed in conffiles are package-specific
+configuration files, which (according to the Linux Filesystem Standard)
+are stored in @file{/etc}.  For example, the @code{sendmail} package may
+contain the file @file{/etc/sendmail.cf}, which we do not wish to
+overwrite automatically when the user upgrades the sendmail package.
+Only those files listed in @file{DEBIAN/conffiles} will be updated
+intelligently when a package is upgraded; all other files in the package
+will be overwritten by the upgrade process.
+
+   Configuration files which will be functional as shipped and will
+probably need little or no local editing should simply be listed the
+@file{conffiles} file; in this case you need read no further.
+
+   For packages whose configuration files will need modification on
+most systems there are two sensible approaches.  Which one is chosen
+depends on how hard the configuration problem is and how much time the
+package maintainer has available.
+
+   One option is for you to ship a minimal `best-effort' file in
+@file{/etc}, and list the file in @file{conffiles}.  This will mean that
+the user will have to go and edit the file themselves to get the package
+to work properly, of course.  The next time they upgrade the package, if
+you haven't changed the file version, their old file will be left in
+place.  If you have modified your version then the user will get a
+prompt asking them which version of the file they want, theirs or yours.
+They will then usually have to resolve the discrepancies manually.
+
+   The other option is to be preferred, if you can do it: don't put a
+copy of the configuration file in the package at all.  Instead, you
+check in the postinst whether the file exists, and if it doesn't you
+prompt the user for the information you need to create a good one.  This
+is obviously harder work.
+
+  You also have to remember that you will have to keep up with your
+package's changes: if you discover a bug in the program which generates
+the configuration file, or if the format of the file changes from one
+version to the next, you will have to arrange for the postinst script to
+do something sensible---usually this will mean editing the installed
+configuration file to remove the problem or change the syntax.  You will
+have to do this very carefully, since the user may have changed the
+file, perhaps to fix the very problem that your script is trying to deal
+with---you will have to detect these situations and deal with them
+correctly.
+
+  If you do go down this route it's probably a good idea to make the
+program that generates the configuration file(s) a separate program in
+@file{/usr/sbin}, by convention called @i{package}@code{config}, and
+then run that if appropriate from the post-installation script.  The
+@i{package}@code{config} program should not unquestioningly overwrite an
+existing configuration---if its mode of operation is geared towards
+setting up a package for the first time (rather than any arbitrary
+reconfiguration later) you should have it check whether the
+configuration already exists, and require a @code{--force} flag to
+overwrite it.
+
+   @file{conffiles} should almost certainly list all the files contained
+in your package in the @file{/etc} directory.  There may also be other
+files somewhere that the user is expected to edit, which should also be
+included.  Note, however, that the FSSTND specifies that configuration
+files must be in @file{/etc}.  No Debian package should contain
+configuration files in @file{/usr/etc}, and all programs should refer to
+configuration files in @file{/etc}.
+
+@noindent For example, the TCP/IP package might use a conffiles which contains
+
+@example
+  /etc/init.d/netbase
+  /etc/gateways
+  /etc/protocols
+  /etc/services
+  /etc/hosts.allow
+  /etc/hosts.deny
+  /etc/rpc
+@end example
+
+@noindent and so on; the files
+
+@example
+  /etc/hosts
+  /etc/inetd.conf
+  /etc/host.conf
+  /etc/networks
+  /etc/resolv.conf
+@end example
+
+@noindent might be generated by an interactive configuration program,
+and would then not be included in the package or listed in the
+@file{conffiles}.
+
+@node Installation and Removal Scripts, Dependencies and Conflicts, conffiles, Control Files
+@unnumberedsec Installation and Removal Scripts
+
+   The scripts @file{preinst}, @file{postinst}, @file{prerm}, and
+@file{postrm} are optional (Bash or Perl) scripts.  As the names
+would indicate, if these scripts exist, they will be executed before
+installing the package, after installation, before package removal,
+and after removal, respectively.
+
+   They are given arguments which indicate the precise situation and
+action being performed---see @file{maintainer-script-args.txt} for
+details of exactly when each of the scripts is invoked and what its
+arguments are.  Extra arguments and situations may be added later, so
+you should not test the number of arguments to your script to determine
+the situation, and you should choose the sense of your `if it is this
+then do this otherwise do that' tests carefully.
+
+   These scripts can be used to perform any site-specific package
+configuration.
+
+   Because the scripts will be exectued by the dpkg front-end, it is
+guaranteed that the scripts will be executed interactively.  User input
+from the scripts should be read from standard input, not the user's
+terminal.  Similarly, output should be sent to standard output.
+
+   If your maintainer scripts need to prompt for passwords and/or do
+@i{full-screen} interaction should do these things to and from
+@file{/dev/tty}, since @file{dpkg} will at some point redirect scripts'
+standard input and output so that it can log the installation process.
+Likewise, because these scripts may be executed with standard output
+redirected into a pipe for logging purposes, Perl scripts should set
+unbuffered output by setting @code{$|=1} so that the output is printed
+immediately rather than being buffered.
+
+   The scripts must be idempotent, and they must clean up after
+themselves properly.  Ie, they must do the right thing if run multiple
+times, even if previous runs failed halfway through.  This is so that if
+any errors occur, or if the @file{dpkg} run is interrupted, the user can
+recover by rerunning @file{dpkg}, and/or by upgrading to a new version
+and then rerunning the failed operation.
+
+   These scripts should avoid producing output which it is unnecessary
+for the user to see and should rely on @file{dpkg} to stave off boredom
+on the part of a user installing many packages.  This means, amongst
+other things, using the @file{--quiet} option on @file{install-info}.
+
+   Packages should try to minimise the amount of prompting they need to
+do, and they should ensure that the user will only every be asked each
+question once.  This means that packages should try to use appropriate
+shared configuration files (such as @file{/etc/papersize} and
+@file{/etc/news/server}), rather than each prompting for their own list
+of required pieces of information.
+
+   It also means that an upgrade should not ask the same questions
+again, unless the user has used @code{dpkg --purge} to remove the
+package's configuration.  The answers to configuration questions should
+be stored in an appropriate place in @file{/etc} so that the user can
+modify them, and how this has been done should be documented.
+
+   If a package has a vitally important piece of information to pass to
+the user (such as "don't run me as I am, you must edit the following
+configuration files first or you risk your system emitting
+badly-formatted messages"), it should display this in the
+@file{postinst} script and prompt the user to hit Return to acknowledge
+the message.  Copyright messages do not count as vitally important (they
+belong in @file{/usr/doc/copyright}; neither do instructions on how to
+use a program (these should be in on line documentation, where all the
+users can see them).
+
+   They should return a zero exit status for success, or a nonzero one
+for failure.  Note that if a script is a @code{#!/bin/sh} script it
+should probably start with @code{set -e}, to avoid continuing after
+errors---see @file{bash}(1) for details.  Perl scripts should check for
+errors when making calls such as @code{open}, @code{print},
+@code{close}, @code{rename} and @code{system}.
+
+   If these scripts exist they should be left in the @file{DEBIAN}
+directory with execute permission enabled and should contain an
+appropriate @code{#!} line, such as @code{#!/bin/bash} for a
+@code{bash} script or @code{#!/bin/perl} for a Perl script (see
+above).
+
+@node Dependencies and Conflicts, Package Classification Fields, Installation and Removal Scripts, Control Files
+@unnumberedsec Conflicts, Depends, Suggests, Recommends and Provides
+
+   The @file{Depends} field lists packages that are required for this
+package to provide a significant amount of functionality.  The package
+maintenance software will not allow a package to be installed without
+also installing packages listed in its @code{Depends} field, and will
+run the @code{postinst} scripts of packages listed in @code{Depends}
+fields before those of the packages which depend on them, and run the
+@code{prerm} scripts before.
+
+   Packages containing dynamically-linked executable binaries (this
+includes almost all C programs) should include a @file{Depends} field
+which mentions the shared C library required for the program to run.
+For a.out binaries linked against @file{libc.so.4} the relevant package
+name is @file{libc}; for ELF binaries linked against @file{libc.so.5}
+the relevant package name is @file{libc5}.
+
+   The @code{Recommends} field lists packages that would be found
+together with this one in all but unusual installations.  The user-level
+package maintenance program @file{dselect} will warn the user if they
+select a package without those listed in its @code{Recommends} field.
+Note that @code{Recommends} fields don't currently have any implications
+for the order in which the maintainer scripts are run.
+
+   The @code{Suggests} field lists packages that are related to this one
+and can perhaps enhance its usefulness, but without which installing
+this package is perfectly reasonable.  The package maintenance software
+will not moan at the user for not selecting @code{Suggests} related
+packages, but may use the information in the @code{Suggests} field to
+assist the user during package selection.
+
+   The syntax of @code{Depends}, @code{Recommends} and @code{Suggests}
+is a list of groups of alternative packages.  Each group is a list of
+packages separated by vertical bar (or `pipe') symbols, @code{|}.  The
+groups are separated by commas.  Each package is a package name
+optionally followed by a version number specification in parentheses.  A
+version number may start with a @code{>=}, in which case that version or
+any later will match, or @code{<=} for that version or any earlier
+version. A version number starting with a @code{>>} or @code{<<} will
+respectively match any later or earlier version. If a version number or
+a version number starting with @code{=} is specified an exact match is
+required. Commas are to be read as `AND', and pipes as `OR', with pipes
+binding more tightly.
+
+   Versions of dpkg before 1.0.9 used @code{<} and @code{>} for
+@code{<=} and @code{>=} (these are still supported for backward
+compatibility), and did not support @code{<<} and @code{>>}.
+
+   The @code{Conflicts} field lists packages that conflict with this
+one, for example by containing files with the same names (an example
+would be Smail vs. Sendmail).  The package maintenance software will not
+allow conflicting packages to be installed.  Two conflicting packages
+should each include a @code{Conflicts} line mentioning the other.
+
+   The syntax of @code{Conflicts} is a list of package names (with
+optional version numbers), separated by commas (and optional
+whitespace).  In the @code{Conflicts} field the comma should be read as
+`OR'.
+
+   The @code{Provides} field lists the names of any `virtual packages'
+of which this packages is to be considered an instantiation.  Virtual
+packages are used to allow packages to refer to a service they require
+(such as the availability of @file{/usr/sbin/sendmail}) without having
+to know the names of all the relevant packages.  The virtual package
+names defined in @code{Provides} fields may be used in other packages'
+@code{Depends}, @code{Recommends}, @code{Suggests} and @code{Conflicts}
+fields.  For more information about how to use virtual packages and
+which virtual package names to use read @file{virtual-dependencies.txt}
+and @file{virtual-package-names-list.text}.
+
+   The syntax of @code{Provides} is a list of package names separated by
+commas (and optional whitespace).
+
+@node Package Classification Fields,  , Dependencies and Conflicts, Control Files
+@unnumberedsec Priority, Section and Essential
+
+   The @code{Priority} and @code{Section} fields are used by
+@file{dselect} when displaying the list of packages to the user.  There
+is no need to put them into a package, since these are usually set by
+the distribution maintainers in the @file{Packages} file.
+
+   However, if a user installs a package which is not part of the
+standard distribution, or without downloading and updating from a new
+@file{Packages} file, the information about the priority and section of
+a package will be absent, and the @file{dselect} package listing will
+have the package listed under `unclassified'.  It is permissible for a
+package to include @code{Section} or @code{Priority} fields to improve
+this; however, if you do this you should make sure you keep the
+information up to date so that users are not shown conflicting
+information.  The @code{Section} field can also be used by the
+distribution maintainers as a suggestion about which section you think
+is most appropriate for your package.
+
+  The @code{Essential} field should only appear in packages in the
+installation's base system.  If it is set to @code{yes} then @file{dpkg}
+will not remove the package even if asked to, and will make certain
+minor modifications to its installation procedures.  The only other
+legal value is @code{no}, which is equivalent to the absence of the
+field.
+
+@bye
+
+@c local variables:
+@c kept-new-versions: 100
+@c version-control:   t
+@c end:

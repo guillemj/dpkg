@@ -1,0 +1,36 @@
+  struct partqueue *backinpackage; /* circular doubly linked list of     */
+  struct partqueue *nextinpackage; /*  parts of a particular split file  */
+                                   /*  in ascending order of part number */
+ /* singly linked list of all files in depot */
+    pq->nextinpackage= pq->backinpackage= 0;
+
+    for (search= queue;
+         search && !(!strcmp(pq->info.md5sum,search->info.md5sum) &&
+                     pq->info.maxpartlen == search->info.maxpartlen);
+         search= search->next);
+    if (search) {
+      /* insert after search */
+      while (!(search == search->nextinpackage ||
+               (search->info.thispartn < search->nextinpackage->info.thispartn ?
+                (search->info.thispartn <= pq->info.thispartn &&
+                 pq->info.thispartn < search->nextinpackage->info.thispartn) :
+                (search->info.thispartn <= pq->info.thispartn ||
+                 search->nextinpackage->info.thispartn > pq->info.thispartn))))
+        search= search->nextinpackage;
+      if (search->info.maxpartn != pq->info.maxpartn)
+        ohshit("inconsistency in parts depot - "
+               "md5sum `%s' part length %lu has both %d and %d parts",
+               pq->info.md5sum, pq->info.maxpartlen, pq->info.maxpartn,
+               search->info.maxpartn);
+      if (search->info.thispartn == pq->info.thispartn)
+        ohshit("inconsistency in parts depot - two instances of "
+               "md5sum `%s' part length %ld part %d/%d",
+               pq->info.md5sum, pq->info.maxpartlen, pq->info.thispartn,
+               pq->info.maxpartn);
+      pq->nextinpackage= search->nextinpackage;
+      pq->backinpackage= search;
+      pq->nextinpackage->backinpackage= pq;
+      pq->backinpackage->nextinpackage= pq;
+    } else {
+      pq->nextinpackage= pq->backinpackage= pq;
+    }

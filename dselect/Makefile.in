@@ -1,0 +1,119 @@
+# Copyright (C) 1994 Ian Murdock <imurdock@debian.org>
+# Copyright (C) 1994,1995 Ian Jackson <ijackson@nyx.cs.du.edu>
+#
+#   This is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as
+#   published by the Free Software Foundation; either version 2,
+#   or (at your option) any later version.
+#
+#   This is distributed in the hope that it will be useful, but
+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public
+#   License along with dpkg; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+prefix = @prefix@
+exec_prefix = $(prefix)
+bindir = $(exec_prefix)/bin
+libdir = $(prefix)/lib
+mandir = $(prefix)/man
+man8dir = $(mandir)/man8
+man8 = 8
+
+SRC =                                                                       \
+ main.cc        bindings.cc    curkeys.cc     helpmsgs.cc                   \
+ basecmds.cc    baselist.cc    basetop.cc                                   \
+ pkgcmds.cc     pkgdepcon.cc   pkgdisplay.cc  pkginfo.cc     pkgkeys.cc     \
+ pkglist.cc     pkgsublist.cc  pkgtop.cc                                    \
+ methkeys.cc    method.cc      methparse.cc   methlist.cc
+
+OBJ =                                                                       \
+ main.o         bindings.o     curkeys.o      helpmsgs.o                    \
+ basecmds.o     baselist.o     basetop.o                                    \
+ pkgcmds.o      pkgdepcon.o    pkgdisplay.o   pkginfo.o      pkgkeys.o      \
+ pkglist.o      pkgsublist.o   pkgtop.o                                     \
+ methkeys.o     method.o       methparse.o    methlist.o
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+CC = @CC@
+CPLUSPLUS = @CXX@
+
+CFLAGS = @CFLAGS@ @CWARNS@ -g $(XCFLAGS)
+OPTCFLAGS = @OPTCFLAGS@
+LDFLAGS = $(XLDFLAGS)
+
+EXTERNLIBS = -lncurses
+LIBS = -L../lib -ldpkg $(EXTERNLIBS) $(XLIBS)
+ALL_CFLAGS = -I../include -I.. @DEFS@ $(CFLAGS)
+ALL_CFLAGS_OPT = $(ALL_CFLAGS) $(OPTCFLAGS)
+
+.SUFFIXES:	.cc .o .c
+
+.cc.o:
+		$(CPLUSPLUS) $(ALL_CFLAGS) -c $<
+
+.c.o:
+		$(CC) $(ALL_CFLAGS) -c $<
+
+all:		dselect
+
+dselect:	$(OBJ) ../lib/libdpkg.a
+		$(CC) $(LDFLAGS) -o dselect $(OBJ) $(LIBS)
+
+# These next few files are very heavily used, and should be optimised
+# for speed rather than space.  (ALL_CFLAGS_OPT usually means -O3.)
+pkgdepcon.o:	pkgdepcon.cc
+		$(CPLUSPLUS) $(ALL_CFLAGS_OPT) -c $<
+
+pkgdisplay.o:	pkgdisplay.cc
+		$(CPLUSPLUS) $(ALL_CFLAGS_OPT) -c $<
+
+curkeys.o:	curkeys.cc curkeys.inc
+		$(CPLUSPLUS) $(ALL_CFLAGS) -c curkeys.cc
+
+helpmsgs.h helpmsgs.cc:	helpmsgs.src mkhelpmsgs.pl
+		perl mkhelpmsgs.pl
+
+curkeys.inc:	keyoverride mkcurkeys.pl
+		perl mkcurkeys.pl keyoverride \
+			`echo '#include <ncurses/curses.h>' | \
+			 $(CC) -E - | grep ncurses | head -1 | \
+			 sed -e 's/^[^"]*"//; s/".*$$//'` > curkeys.inc.new
+		mv curkeys.inc.new curkeys.inc
+
+kt:		kt.o
+		$(CC) $(LDFLAGS) -o kt kt.o $(LIBS)
+
+kt.o:		kt.c curkeys.inc
+
+clean:
+		rm -f curkeys.inc curkeys.inc.new
+		rm -f helpmsgs.h helpmsgs.cc helpmsgs.h.new helpmsgs.cc.new
+		rm -f *.o core dselect kt
+
+distclean:	clean
+		rm -f Makefile *.orig *~ *.~* ./#*#
+		rm -rf t updates status available *.old
+
+install:	all
+		$(INSTALL_PROGRAM) -s dselect $(bindir)/dselect
+
+# $(INSTALL_DATA) dselect.8 $(man8dir)/dselect.$(man8)
+
+$(OBJ):			dselect.h ../config.h ../include/dpkg.h ../include/dpkg-db.h
+main.o:						../version.h ../include/myopt.h
+method.o:					method.h
+pkgcmds.o pkgdepcon.o pkgdisplay.o pkgtop.o:	pkglist.h
+baselist.o bindings.o curkeys.o main.o:		bindings.h method.h pkglist.h
+methlist.o methkeys.o pkginfo.o pkgkeys.o:	bindings.h method.h pkglist.h
+pkglist.o pkgsublist.o methparse.o:		bindings.h method.h pkglist.h
+helpmsgs.o methlist.o pkginfo.o basecmds.o:	helpmsgs.h helpmsgs.cc

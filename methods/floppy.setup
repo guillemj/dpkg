@@ -1,0 +1,76 @@
+#!/bin/sh
+
+set -e
+vardir="$1"
+method=$2
+option=$3
+
+cd "$vardir/methods/floppy"
+
+defaultfloppy=fd0
+defaultfstype=msdos
+if [ -f shvar.$option ]
+then
+	. ./shvar.$option
+	defaultfloppy="`echo \"$defaultfloppy\" | sed -e 's,^/dev/,,'`"
+fi
+
+while [ -z "$floppy" ]
+do
+	echo -n '
+Which floppy disk drive do you wish to use ?  Give the name in
+/dev (eg fd0) or the MSDOS drive letter (eg A).  ['$defaultfloppy']  '
+	read floppy
+	if [ -z "$floppy" ]
+	then
+		floppy="$defaultfloppy"
+	fi
+	case "$floppy" in
+	[ABab] | [ABab]: )
+		floppy="`echo $floppy | \
+			sed -e 's/:$//; s,^[Aa],/dev/fd0,; s,^[Bb],/dev/fd1,'`"
+		;;
+	/* )
+		;;
+	* )
+		floppy="/dev/$floppy"
+		;;
+	esac
+	if ! [ -b "$floppy" ]
+	then
+		echo "$floppy is not a block device."
+		floppy=""
+	fi
+done
+
+while [ -z "$fstype" ]
+do
+	echo -n '
+What kind of filesystem is on the floppies ?  ['$defaultfstype']  '
+	read fstype
+	if [ -z "$fstype" ]
+	then
+		fstype="$defaultfstype"
+	fi
+	if ! grep "	$fstype$" /proc/filesystems >/dev/null
+	then
+		echo \
+	"Your kernel does not appear to support that filesystem type."
+		fstype=""
+	fi
+done
+
+echo
+
+outputparam () {
+	echo "$2" | sed -e "s/'/'\\\\''/; s/^/$1='/; s/$/'/" >&3
+}
+
+exec 3>shvar.$option.new
+
+outputparam defaultfloppy "$floppy"
+outputparam defaultfstype "$fstype"
+
+mv shvar.$option.new shvar.$option
+
+exit 0

@@ -1,0 +1,79 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.TH UPDATE\-RC.D 8 "29th November 1995" "Debian Project" "Debian/GNU Linux"
+.SH NAME
+update\-rc.d \- install and remove System-V style init script links
+.SH SYNOPSIS
+.B update\-rc.d
+.I <basename>
+\&remove
+.LP
+.B update-rc.d
+.I <basename>
+\&defaults
+.RI [ " <codenumber> " | " <startcodenumber>" " " "<stopcodenumber> " ]
+.LP
+.B update-rc.d
+.I <basename>
+\&start | stop
+.I <codenumber> <runlevel>
+.RI [ " <runlevel> " [ " <runlevel> " [ ... ]]]
+\&.
+.SH DESCRIPTION
+This manual page explains the Debian
+.B "update-rc.d"
+System-V init script link utility.  It should be used when installing and
+removing init scripts on a Debian system.
+
+.SH REMOVING SCRIPTS
+When invoked with the
+.I remove
+option, update-rc.d removes the script and links to the script for the package
+.RI "" <basename> .
+It first finds and removes the script in
+.B /etc/init.d/
+and then removes all links to the script in
+.RB "" /etc/rc[0123456].d/ .
+
+.SH INSTALLING SCRIPTS
+When run with either the
+.RI "" defaults ", " start ", or " stop
+options, update-rc.d makes links pointing to the script in
+.RB "" /etc/init.d/ .
+The script must be installed before update-rc.d is run.
+The
+.I <codenumber>
+arguments specify the order in which the script will be executed.
+When
+.B init
+changes runlevels it executes the scripts in the order of their
+.I codenumber
+from lowest to highest.
+
+The
+.I <runlevel>
+arguments specify the runlevels that the script will be run in.
+As many as seven runlevels (0-6) may be specified.
+The last runlevel must be followed by a period.
+
+When invoked with the
+.I defaults
+option the start runlevels are 
+.B 2 3 4 5
+and the stop runlevels are
+.RB "" "0 1 2 3 4 5 6" .
+If neither
+.I <codenumber>
+or
+.I <startcodenumber>
+and
+.I <stopcodenumber>
+are specified, then the stop and start codenumbers default to 20.
+
+.SH FILES
+.B /etc/init.d/
+.bl
+.B /etc/rc[0123456].d/
+
+.SH "SEE ALSO"
+.BR init (1),
+.BR inittab (1),

@@ -1,0 +1,69 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Author: Raul Miller
+.TH DEB 8 "29th November 1995" "Debian Project" "Debian GNU/Linux"
+.SH NAME 
+deb - Debian GNU/Linux package format
+.SH SYNOPSIS
+.IB <packagename>.deb
+.SH DESCRIPTION
+Debian archive file format.
+Version 0.93 is implemented as follows:
+.TP
+line 1:
+version number 
+.RB ( 0.93 ...),
+followed by
+.BR newline .
+.TP
+line 2:
+number of characters occupied by control area expressed in decimal,
+followed by 
+.BR newline .
+.TP 
+control area:
+compressed gzipped ustar formatted archive.  Must contain file named
+.BR control .
+May optionally contain files named:
+.BR conffiles ,
+.BR preinst ,
+.BR prerm ,
+.BR postint ,
+.BR postrm .
+.TP 
+files archive area:
+compressed gzipped ustar formatted archive.  [with file structures
+designed to be unpacked in the root directory].
+.SH FILES
+The files represented in the control area have special significance:
+.TP
+.B control
+see 
+.BR deb-control (5).
+.TP
+.B conffiles
+a line delimited list of "configuration files" which have special
+significance to 
+.BR dpkg (8).
+.TP
+.B preinst
+an executable to be run before unpacking the archived files.
+.TP
+.B prerm
+an executable to be run before removing files from a prior installation.
+.TP
+.B postinst
+an executable to be run after unpacking the archived files.
+.TP
+.B postrm
+an executable to be run after removing files from a prior
+installation.
+
+.BUGS
+There is a new package format, which is not documented here.
+
+.SH SEE ALSO
+.BR deb-control (5),
+.BR dpkg (5),
+.BR dpkg (8),
+.BR dpkg-dep (8),
+.BR dselect (8).

@@ -1,0 +1,179 @@
+@@@ listkeys Keystrokes
+
+Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:
+  n, Down-arrow         p, Up-arrow             move highlight
+  N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page
+  ^n                    ^p                      scroll list by 1 line
+  t, Home               e, End                  jump to top/end of list
+  u                     d                       scroll info by 1 page
+  ^u                    ^d                      scroll info by 1 line
+  B, Left-arrow         F, Right-arrow          pan display by 1/3 screen
+  ^b                    ^f                      pan display by 1 character
+
+Package states - selection:                    Package states - hold flag:
+  +, Insert   select package(s)                  H  put package(s) `on hold'
+  -, Delete   deselect package(s)                G  `go' - take off hold
+  _           deselect, purge configuration
+                                             Miscellaneous:
+Quit, exit, overwrite (note capitals!):         ? request help (also Help, F1)
+ Return  Confirm and quit (check dependencies)  i toggle/cycle info displays      
+   Q     Confirm and quit (override dep.s)      o cycle through sort orders       
+   X     eXit, abandoning any changes made      v toggle verbose status display   
+   R     Revert to state before this list      ^l redraw display                  
+   U     set all to sUggested state             / search (hit Return to cancel)
+   D     set all to Directly selected state     \\ repeat last search             
+
+@@@ mainintro Introduction to package list
+
+Welcome to the main package listing.  Please read the help that is available !
+
+You will be presented with a list of packages which are installed or available
+for installation.  You can navigate around the list using the cursor keys,
+selecting packages for installation (using `+') or deinstallation (using `-').
+
+Packages can be selected either singly or in groups; initially you will see
+that the line `All packages' is highlighted.  (De)selecting will affect all the
+packages described by the highlighted line.  Use `o' to change the order of the
+list (this also changes which kinds of group selections are possible).
+
+(Mainly for new installations:) Standard packages will be selected by default.
+Use capital `D' or `R' key to override this - see the keybindings help screen.
+
+Some of your choices will cause conflicts or dependency problems; you will be
+given a sub-list of the relevant packages, so that you can solve the problems.
+
+When you are satisfied with your choices you should press Return to confirm
+your changes and leave the package listing.  A final check on conflicts and
+dependencies will be done - here too you may see a sublist.
+
+Press Space to leave help and enter the list; press `?' at any time for help.
+
+@@@ readonlyintro Introduction to package list browser (read-only)
+
+Welcome to dselect's main package listing.  Since you do not have the
+privilege necessary to update package selections you are in read-only mode.
+
+Much on-line help is available, please make use of it !  Press `?' for help.
+You should read the list of keys and the explanations of the display.
+
+You will be presented with a list of packages which are installed or available
+for installation.  You can navigate around the list using the cursor keys (just
+as you would be able to do if you had read/write access - see the keystrokes
+help screen) and observe the status of the packages and read information about
+them.
+
+Press Space to leave help and enter the list; press `?' at any time for help.
+When you have finished browsing, press `q' or Return to quit.
+
+@@@ recurintro Introduction to conflict/dependency resolution sub-list
+
+Dependency/conflict resolution - introduction.
+
+One or more of your choices have raised a conflict or dependency problem -
+some packages should only be installed in conjunction with certain others, and
+some combinations of packages may not be installed together.
+
+You will see a sub-list containing the packages involved.  The bottom half of
+the display shows relevant conflicts and dependencies; use `i' to cycle between
+that, the package descriptions and the internal control information.
+
+A set of `suggested' selections has been calculated, and the initial selections
+in this sub-list have been set to match those, so you can just hit Return to
+accept the suggestions if you wish.  You may abort the change(s) which caused
+the problem(s), and go back to the main list, by pressing capital `X'.
+
+You can also move around the list and change the selections so that they are
+more like what you want, and you can `reject' my suggestions by using the
+capital `D' or `R' keys (see the keybindings help screen).  You can use capital
+`Q' to force me to accept the current selections, in case you want to override
+a recommendation or think that the program is mistaken.
+
+Press Space to leave help and enter the sub-list; remember: press `?' for help.
+
+@@@ displayexplain1 Display, part 1: package listing and status chars
+
+The top half of the screen shows a list of packages.  For each package you see
+four columns for its current status and selected-ness.  In terse mode (use `v'
+to toggle verbose display) these are single characters, from left to right:
+
+ Hold/error flag: h - you have put the package on Hold - it won't be processed
+                  R - serious error during installation, needs reinstallation;
+                  X - serious error, needs reinstallation, package also on hold
+ Installed state: Space - not installed;
+                   `*'  - installed;
+                   `-'  - not installed but config files remain;
+                   `u'  - unpacked but not yet configured;
+                   `C'  - half-configured (an error happened);
+                   `I'  - half-installed (an error happened).
+ Old selection: whether this package was selected before presenting this list;
+ Selection: whether this package is selected for installation:
+  `*': selected for installation;
+  `-': deselected (selected for removal, but configuration files will remain);
+  `_': deselected (purge completely, even remove configuration);
+  `n': package is new to this system (appears under `Old selection').
+
+Following those four columns are the Priority and Section of the package,
+its name (possibly truncated to fit) and the summary description.
+
+@@@ displayexplain2 Display, part 2: list highlight; information display
+
+* Highlight: One line in the package list will be highlighted.  It indicates
+  which package(s) will be selected/deselected by presses of `+', '-' and `_'.
+
+* The dividing line in the middle of the screen shows a brief explanation of
+  the status of the currently-highlighted package, or a description of which
+  group is highlighted if a group line is.  If you don't understand the
+  meaning of some of the status characters displayed, go to the relevant
+  package and look at this divider line, or use the `v' key for a verbose
+  display (press `v' again to go back to the terse display).
+
+* The bottom of the screen shows more information about the
+  currently-highlighted package (if there is only one).
+
+  It can show an extended description of the package, the internal package
+  control details, or information about conflicts and dependencies involving
+  the current package (in conflict/dependency resolution sublists).
+
+  Use the `i' key to cycle through the displays.
+
+@@@ methintro Introduction to method selection display
+
+dselect and dpkg can do automatic installation, loading the package files to be
+installed from one of a number of different possible places.
+
+This list allows you to select one of these installation methods.
+
+Move the highlight to the method you wish to use, and hit Enter.  You will then
+be prompted for the information required to do the installation.
+
+As you move the highlight a description of each method, where available, is
+displayed in the bottom half of the screen.
+
+If you wish to quit without changing anything use the `x' key while in the list
+of installation methods.
+
+A full list of keystrokes is available by pressing `k' now, or from the help
+menu reachable by pressing `?'.
+
+@@@ methkeys Keystrokes for method selection
+
+Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:
+  n, Down-arrow         p, Up-arrow             move highlight
+  N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page
+  ^n                    ^p                      scroll list by 1 line
+  t, Home               e, End                  jump to top/end of list
+  u                     d                       scroll info by 1 page
+  ^u                    ^d                      scroll info by 1 line
+  B, Left-arrow         F, Right-arrow          pan display by 1/3 screen
+  ^b                    ^f                      pan display by 1 character
+(These are the same motion keys as in the package list display.)
+
+Quit:
+ Return, Enter    select this method and go to its configuration dialogue
+ x, X             exit without changing or setting up the installation method
+
+Miscellaneous:
+  ?, Help, F1      request help
+ ^l                redraw display                  
+  /                search (just return to cancel)  
+  \\                repeat last search             

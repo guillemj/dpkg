@@ -1,0 +1,130 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Authors: Raul Miller and Ian Jackson
+.TH DPKG\-DEB 8 "29 Nov 1995" "Debian Project" "Debian GNU/Linux"
+.SH NAME 
+dpkg\-deb \- Debian GNU/Linux package archive backend
+.SH SYNOPSIS
+.B dpkg-deb --version
+.LP
+.B dpkg-deb
+.BR -X | --vextract
+.I <deb>
+.RI [ <directory> ]
+.LP
+.B dpkg-deb
+.BR -b | --build
+.RB [ --nocheck ]
+.I <directory>
+.RI [ <deb> ]
+.LP
+.B dpkg-deb
+.BR -c | --contents
+.I <deb>
+.LP
+.B dpkg-deb
+.BR -e | --control
+.I <deb>
+.RI [ <directory> ]
+.LP
+.B dpkg-deb
+.BR -f | --field
+.I <deb>
+.RI [ <cfield> ]...
+.LP
+.B dpkg-deb
+.BR -h | --help
+.LP
+.B dpkg-deb
+.BR -I | --info
+.I <deb>
+.RI [ <cfile> ]
+.LP
+.B dpkg-deb
+.BR -x | --extract 
+.I <deb> <directory>
+.LP
+.B dpkg-deb
+.BR -D | --debug
+.I <invocation-options>
+.SH DESCRIPTION
+.B dpkg-deb
+packs and unpacks debian archives.  It tracks file permissions, and
+includes support for the staged unpacking mechanism required by debian.
+.SH OPTIONS
+.I <deb>
+is the filename of a Debian format archive.
+.I <cfile>
+is the name of an administrative file component.
+.I <cfield>
+is the name of a field in the main `control' file.
+.LP
+.B --version
+displays the version number.
+.LP
+.BR -X | --vextract
+extracts files from archive and lists archive's contents.
+.LP
+.BR -b | --build
+makes a debian archive from the image of
+.IR <directory> .
+.I <directory>
+must have a
+.B DEBIAN
+subdirectory, which is treated specially for the debian-specific
+control file and any pre- or post-install scripts.
+
+The
+.B DEBIAN
+directory must contain a file called
+.B control
+whose contents is a valid control file for the Debian package
+management system.  Errors in this file will abort the processing of
+the package.  This check can be bypassed by the use of the
+.B --nocheck
+option.
+.LP
+.BR -c | --contents
+lists the contents of the archive on stdout.
+.LP
+.BR -e | --control
+extracts the control file from the archive.
+If no target directory is specified, the control files are extracted
+into
+.BR ./DEBIAN .
+.LP
+.BR -f | --field
+displays [named field(s) from] the control file.
+.LP
+.BR -h | --help
+displays summary of usage.
+.LP
+.BR -I | --info
+describes the archive, on stdout.
+.LP
+.BR -x | --extract
+extracts files from archive.
+.LP
+.BR -D | --debug
+would enable debugging.
+.SH NOTES
+.B dpkg-deb
+packs and unpacks *.deb files, but does not deal with any of the
+larger administrative issues of installing/de-installing packages.
+.SH SEE ALSO
+.BR deb (5),
+.BR deb-control (5),
+.BR dpkg (5),
+.BR dpkg (8),
+.BR dselect (8).
+.SH BUGS
+.B dpkg-deb -I 
+.IB package1 .deb
+.IB package2 .deb
+does the wrong thing.
+
+This manpage is too terse and fails to document all the options.  If
+you are a competent and accurate writer and are willing to spend the
+time reading the source and writing good manpages please
+please write a better man page than this one.
+.LP
+Still being developed, as of 29th November 1995.

@@ -1,0 +1,70 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.TH MD5SUM 1 "29th November 1995" "Lankester et al" "Debian GNU/Linux"
+.SH NAME
+md5sum \- generates or checks MD5 message digests
+
+.SH SYNOPSIS
+.B md5sum
+[-bv] [-c [file]] | [file...]
+
+.SH DESCRIPTION
+.B md5sum
+generates or checks MD5 checksums. The algorithm to generate the
+checksum is reasonably fast and strong enough for most cases. Exact
+specification of the algorithm is in
+.I RFC 1321.
+
+Normally
+.B md5sum
+generates checksums of all files given to it as a parameter and prints
+the checksums followed by the filenames. If, however,
+.B -c
+is specified, only one filename parameter is allowed. This file should
+contain checksums and filenames to which these checksums refer to, and
+the files listed in that file are checked against the checksums listed
+there. See option
+.B -c
+for more information.
+
+.SS OPTIONS
+.TP
+.B -b
+Use binary mode. In unix environment, only difference between this and
+the normal mode is an asterix preceding the filename in the output.
+.TP
+.B -c
+Check md5sum of all files listed in
+.I file
+against the checksum listed in the same file. The actual format of that
+file is the same as output of
+.B md5sum.
+That is, each line in the file describes a file. A line looks like:
+
+.B <MD5 checksum>  <filename>
+
+So, for example, a file containing checksum for this manpage would look
+like(don't worry, if the checkusum doesn't match, there is a minor
+problem in keeping it up to date):
+
+.B c6514f34ffe6e1ce146e1f17db2c0f90  md5sum.1
+.TP
+.B -v
+Be more verbose. Print filenames when checking (with -c).
+
+.SH BUGS
+The related MD4 message digest algorithm was broken in October 1995.
+MD5 isn't looking as secure as it used to.
+
+This manpage is not quite accurate and has formatting inconsistent
+with other manpages.
+
+.B md5sum
+does not accept standard options like
+.BR -\-\help .
+
+.SH AUTHOR
+
+.B md5sum
+was originally written by Branko Lankester, and modified afterwards by
+Colin Plumb and Ian Jackson (ijackson@gnu.ai.mit.edu). Manual page was
+added by Juho Vuori (javuori@cc.helsinki.fi)

@@ -1,0 +1,100 @@
+#!/bin/sh
+
+set -e
+vardir="$1"
+method=$2
+option=$3
+
+cd "$vardir/methods/floppy"
+
+mountpoint="$vardir/methods/mnt"
+
+. ./shvar.$option
+
+help () {
+	echo '
+Now I need the disks containing the packages to be installed.
+I shall keep telling you what is left to be done, in case that
+is helpful deciding which floppy to use.'
+}
+
+help
+
+xit=1
+trap '
+	if [ -n "$umount" ]
+	then
+		umount "$umount"
+	fi
+	exit $xit
+' 0
+
+while [ -z "$goconfigure" ]
+do
+	yet="`dpkg --yet-to-unpack`"
+	if [ -z "$yet" ]
+	then
+		echo '
+All packages unpacked, going on to configure them.
+'
+		goconfigure=1
+		continue
+	fi
+	echo '
+Packages yet to be unpacked:'
+	echo "$yet"
+	dpkg-split -l
+		
+	echo -n '
+Insert a disk containing *.deb files, or type q to quit.  '
+	read response
+	case "$response" in
+	[Qq] | [Qq][Uu][Ii][Tt] )
+		goconfigure=1
+		;;
+	* )
+		umount="$defaultfloppy"
+		if mount -rt "$defaultfstype" "$defaultfloppy" "$mountpoint"
+		then
+			echo
+			dpkg --unpack -GROEB "$mountpoint" || true
+			umount "$defaultfloppy"
+		fi
+		umount=""
+		;;
+	esac
+done
+
+if ! [ -z "$yet" ]
+then
+	response=""
+	while [ -z "$response" ]
+	do
+		echo -n '
+Not all the packages have yet been unpacked.  Shall I try to
+proceed with configuration anyay ?  If any of the packages which
+have been unpacked so far depend on any that haven'\''t then you'\''ll
+see error messages; on the other hand if you say no those packages that
+could have been configured will not be.   (y/n)  '
+		read response
+		case "$response" in
+		[Nn]* )
+			echo '
+OK.  Be sure to come back to this, because unpacked-but-not-configured
+packages are not in general useable.  Alternatively, use the Configure
+option on the dselect menu.
+'
+			exit 1
+			;;
+		[Yy]* )
+			;;
+		* )
+			response=""
+			;;
+		esac
+	done
+fi
+
+dpkg --configure --pending
+
+xit=0

@@ -1,0 +1,60 @@
+.\" This is an -*- nroff -*- source file.
+.\" dpkg-name and this manpage are Copyright 1995,1996 by Erick Branderhorst.
+.\"
+.\" This is free software; see the GNU General Public Licence version 2
+.\" or later for copying conditions.  There is NO warranty.
+.TH dpkg-name 1 "January 1996" "Debian Project" "Debian GNU/Linux"
+.SH NAME
+dpkg\-name \- rename Debian packages to full package names
+.SH SYNOPSIS
+.B dpkg\-name [\-h|\-\-help] [\-V|\-\-version] [\-L|\-\-license] [--] [files]
+.SH DESCRIPTION
+.PP
+This manual page documents the
+.B dpkg\-name 
+sh script which provides an easy way to rename
+.B Debian
+packages into their full package names. A full package name consists
+of <package>-<version>[-<revision>].deb as specified in the control
+file of the package.
+.SH EXAMPLES
+.TP
+.B dpkg-name toedeledokie
+The file `toedeledokie' will be renamed to emacs-19.29-4.deb or
+something similar (depending on whatever information is in the control
+part of `toedeledokie').
+.TP
+.B find /root/debian/ \-name '*.deb' | xargs dpkg\-name
+All files with the extension `deb' in the directory /root/debian and
+its subdirectory's will be renamed by dpkg\-name if required.
+.SS OPTIONS
+.TP
+.B "\-h, \-\-help"
+Print a usage message and exit successfully.
+.TP
+.B "\-v, \-\-version"
+Print version information and exit successfully.
+.TP
+.B "\-l, \-\-license"
+Print copyright information and (a reference to GNU) license
+information and exit successfully.
+.SH BUGS?
+Successfully tested on
+.B Debian GNU/Linux 
+systems only. Some packages don't follow the name structure
+<package>-<version>[-<revision>].deb. Packages renamed by dpkg-name
+will follow this structure. Generally this will have no impact on how
+packages are installed by dselect/dpkg.
+.SH SEE ALSO
+.BR deb (5),
+.BR deb-control (5),
+.BR dpkg (5),
+.BR dpkg (8),
+.BR dpkg-deb (8).
+.SH COPYRIGHT
+Copyright 1995,1996 Erick Branderhorst.
+.B dpkg-name
+is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is
+.B no
+warranty.

@@ -1,0 +1,44 @@
+# (-*- Fundamental -*-)
+
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+prefix = @prefix@
+exec_prefix = $(prefix)
+bindir = $(exec_prefix)/bin
+mandir = $(prefix)/man/man1
+
+SRC = md5.c md5sum.c
+OBJ = md5.o md5sum.o
+HDR = md5.h
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+CC = @CC@
+
+CFLAGS = @CFLAGS@ $(XCFLAGS)
+LDFLAGS = $(XLDFLAGS)
+LIBS = -L../lib $(XLIBS)
+ALL_CFLAGS = -I../lib -I.. @DEFS@ $(CFLAGS)
+
+.SUFFIXES:	.c .o
+
+.c.o:
+		$(CC) $(ALL_CFLAGS) -c $<
+
+all:		md5sum
+
+md5sum:		md5.o md5sum.o
+		$(CC) $(LDFLAGS) -o md5sum md5.o md5sum.o
+
+clean:
+		rm -f *.o core md5sum
+
+distclean:	clean
+		rm -f Makefile *.orig *~ *.~* ./#*#
+
+install:	all
+		$(INSTALL_PROGRAM) -s md5sum $(bindir)/md5sum
+		$(INSTALL_DATA) md5sum.1 $(mandir)/md5sum.1

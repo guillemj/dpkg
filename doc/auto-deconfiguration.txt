@@ -1,0 +1,62 @@
+To: Debian developers list <debian-devel@pixar.com>
+Subject: Re: dpkg maintainer script calls and arguments
+In-Reply-To: <1506077@toto.iv>
+FCC: ~/mail/Outbound
+--text follows this line--
+In order to support easier upgrades where important packages get split
+into several pieces, I have implemented the following scheme, which I
+described on debian-private a while ago.  It is enabled by the use of
+`--auto-deconfigure', or `-B', and the dselect method scripts in
+0.93.76 have been changed to supply this option.
+
+] I plan to make it possible to `deconfigure' packages at installation
+] time, in order to keep dependency invariants satisfied.  In a sane
+] installation this will mean that everything will work right, even when
+] (for example) an important package is split into two pieces or
+] packages.
+] 
+] Basically, suppose that package A is being split into A1 and A2, and B
+] and C depend on A1 and A2 respectively.  If you try to install A1 dpkg
+] will consider removing A (because of the conflict between A and each
+] of A1 and A2), but then C's dependency is not satisifed, and if you
+] try to install A2 B's dependency wouldn't be satisfied.
+] 
+] At the moment dpkg will simply refuse to do it.  You have to say
+] --force-depends, or remove either B or C.
+] 
+] I'm going to arrange that dpkg will automatically deconfigure B or C,
+] as appropriate, and try to reconfigure it later.
+] 
+] So, if you do `dpkg -i A1.deb A2.deb' all will be well; if you do
+] `dpkg -i A1.deb' you'll get A1 installed and configured correctly, but
+] error messages about C being broken, and in order to fix C you'll have
+] to install A2 as well, or return to A (dpkg will remove A1).
+] 
+] All of this will appear very automatic to people who use dselect.
+] People who do things manually will have a slightly more complicated
+] task, as dpkg won't remove A (in the scenario above) unless it has
+] been selected for deinstallation using dselect or dpkg --remove (which
+] would fail because of the dependencies from B and C).
+
+This means that maintainer scripts can get called in two new ways:
+  <prerm(C)> deconfigure in-favour <A1> <version> removing <A> <v.>
+  <postinst(C)> abort-deconfigure in-favour <A1> <version> removing <A> <v.>
+using the example package names above.
+
+The first call happens before the prerm script of the package which is
+being removed (A) is called; the second happens if an error occurs and
+dpkg wants to back out of the installation.
+
+If the installation of both A1 and A2 is successful dpkg will then
+call both
+  <postinst(B)> configure
+  <postinst(C)> configure
+as usual.
+
+Some time ago I posted a message documenting all the maintainer script
+calls and their arguments.  Below is a revised version of that
+message.  I shall upload it as maintainer-script-args.txt, and it
+should go in project/standards.  The top half of this message will go
+in auto-deconfiguration.txt.
+
+Ian.

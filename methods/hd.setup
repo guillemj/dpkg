@@ -1,0 +1,90 @@
+#!/bin/perl
+#
+#	Copyright (C) 1994 Carl Streeter <streeter@cae.wisc.edu>
+#
+#   this script is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as
+#   published by the Free Software Foundation; either version 2,
+#   or (at your option) any later version.
+#
+#   this script is distributed in the hope that it will be useful, but
+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public
+#   License along with this script; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+print "Is the partition to install from mounted? [Y] ";
+$ans = <STDIN>;
+if ($ans =~ /^[Nn]/) {
+	do {
+		do {
+			print "Which device should I mount?  /dev/";
+			$drive = <STDIN>;
+			chop $drive;
+			$drive =~ tr/[A-Z]/[a-z]/;
+		} while (! -b "/dev/$drive");
+	
+		$mpoint = "/mnt";
+		do {
+			print "Where should I mount it? (Please use full path) [$mpoint] ";
+			$newmp = <STDIN>;
+			chop $newmp;
+			$mpoint = $newmp if ($newmp !~ /^$/);
+		} while (($mpoint !~ ?^/?) || (! -d $mpoint)); 
+	
+		print "These filesystems are available:";
+		open(FILESYS, "</proc/filesystems");
+		$systems = " ";
+		while (<FILESYS>) {
+			next if /^nodev/;
+			chop;
+			/(\w+)/;
+			$systems .= "$1 ";
+		}
+		print "$systems\n";
+		do {
+			print "What filesystem is the partition to mount? [ext2] ";
+			$filesys = <STDIN>;
+			chop $filesys;
+			$filesys = "ext2" if ($filesys =~ /^$/);
+			$filesys =~ tr/[A-Z]/[a-z]/;
+		} while ($systems !~ /\s$filesys\s/);
+
+		do {
+			print "Any other options for mount? ";
+			print "(eg. '-o ro' for cdrom, must start with '-') [] ";
+			$opts = <STDIN>;
+			chop $opts;
+		} while ($opts !~ /^$/ && $opts !~ /^\-/);
+	
+		$command = "/bin/mount -t $filesys $opts /dev/$drive $mpoint";
+		print "I will now run \"$command\"\n";
+	#	system("$command");
+	} while ($?);
+} 				# I never knew how hard I could make it to mount a drive. 
+
+# Assumedly, the drive is now mounted
+
+open (STATUS, ">/var/lib/dpkg/methods/hd/hd.status") || die "Can't open hd.status";
+do {
+	print "What is the full path to the 'available' file?\n";
+	print "This file is found as Packages on the ftp site and CDROM";
+	print "Use 'none' if you don't have one.";
+	$avail = <STDIN>;
+	chop $avail;
+} while (! -f $avail || $avail !~ ?^/? || $avail !~ /none/);
+
+do{
+	print "What is the full path to the base directory ";
+	print "containing the .deb packages?\n";
+	$debpath = <STDIN>;
+	chop $debpath;
+} while(! -d $debpath || $debpath !~ ?^/?);
+
+print STATUS "AVAIL:   $avail\n";
+print STATUS "DEBDIR:  $debpath\n";
+close (STATUS);
+exit (0);

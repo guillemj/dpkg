@@ -1,0 +1,1253 @@
+dpkg (1.1.4); priority=MEDIUM
+
+  * Allow overwriting of conflicting packages being removed.  (Bug#2614.)
+
+  * a.out control file says Pre-Depends: libc4 | libc.  (Bug#2640.)
+  * ELF control file and libc dependencies changed to use finalised scheme.
+  * ELF control file and libc dependencies for i386 only.  (Bug#2617.)
+
+  * Guidelines say use only released libraries and compilers.
+  * Install wishlist as /usr/doc/dpkg/WISHLIST.
+  * Remove spurious entries for Guidelines in info dir file.
+
+  * dpkg-deb --build checks permissions on control (DEBIAN) directory.
+
+  * Spaces in control file fields not copied by dpkg-split.  (Bug#2633.)
+  * Spaces in split file part control data ignore.  (Bug#2633.)
+
+  * Portability fixes, including patch from Richard Kettlewell.
+  * Fixed minor configure.in bug causing mangled GCC -W options.
+
+ -- Ian Jackson <ian@chiark.chu.cam.ac.uk>  Thu, 4 Apr 1996 01:58:40 +0100
+
+dpkg (1.1.3); priority=LOW
+
+  * dselect disk methods support Pre-Depends installation ordering.
+  * When dpkg fails and --auto-deconfigure would help it says so.
+  * dpkg --search output lists several packages with same file on one line.
+  * Improved dpkg usage message somewhat.
+
+  * dpkg-deb --build checks permissions and types of maintainer scripts.
+  * dpkg-deb --build treats misspecified conffiles as error, not warning.
+  * dpkg --print-architecture prints compiler's architecture while
+    dpkg --version (&c) print system's arch (this to help cross-compiling).
+  * More minor guidelines changes, including dir entry fixup.
+
+  * configure script caches more values.
+  * Changed maintainer email address to ian@chiark.chu.cam.ac.uk.
+
+ -- Ian Jackson <ian@chiark.chu.cam.ac.uk>  Sat, 16 Mar 1996 19:18:08 +0000
+
+dpkg (1.1.2); priority=LOW
+
+  * Packaging guidelines installed properly (and as guidelines
+    rather than debian-guidelines).
+  * ELF version has more checks to stop you wrecking your dpkg installation.
+  * dselect disk methods now look for a `local' tree as well, for
+    people who want locally-available software of various kinds.
+  * dpkg-divert has debugging message removed.
+  * Minor guidelines changes.
+
+  * Various makefile cleanups, mainly to do with ELF vs. a.out support.
+  * debian.rules cleans out ~ files itself, as well as calling make clean.
+  * debian.rules names .nondebbin.tar.gz file ELF too, if appropriate.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 14 Mar 1996 03:38:29 +0000
+
+dpkg (1.1.1elf); priority=LOW
+
+  * Added /usr/lib/dpkg/elf-executables-ok and elf-in-kernel.
+  * Replaces field now allows automatic removal of conflicting packages.
+  * Replaces field now required to overwrite other packages' files.
+  * Architecture field, and dpkg --print-architecture, supported.
+  * build new format archives by default when compiled with ELF compiler.
+
+  * symlinks are now installed atomically (good for shared libraries).
+  * create /var/lib/dpkg/diversions in postinst if necessary (Bug#2465.)
+  * Pre-Depends now correctly fails if package never configured.
+  * dselect disk methods mount with -o nosuid,nodev.
+  * update-rc.d defaults doesn't add both K and S in any one runlevel;
+    dpkg postinst fixes up this situation if it sees it.
+
+  * Assorted fixups to the Guidelines, which are now in one piece.
+  * dpkg --list prints version string in one piece.
+  * dpkg-scanpackages doesn't produce notice on output with list of
+    packages with Section and/or Priority control file fields.
+
+  * control file and debian.rules work both for ELF and non-ELF compiles.
+  * most files compiled with -O2 (-O3 only for some critical files) -
+    this fixes ELF build.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Mon, 11 Mar 1996 04:25:28 +0000
+
+dpkg (1.1.0); priority=LOW
+
+  * dpkg supports Pre-Depends.
+  * postinst script gets most-recently-configured version as $2.
+
+  * lib/tarfn.c #includes <errno.h> (portability fix).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 11 Feb 1996 21:07:03 +0000
+
+dpkg (1.0.17); priority=LOW
+
+  * dpkg --recursive follows symlinks (useful for devel tree).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sat, 10 Feb 1996 15:58:46 +0000
+
+dpkg (1.0.16); priority=LOW
+
+  * dpkg-deb much faster reading new format archives.  (Bug#2256.)
+  * Developers' documentation in /usr/doc/dpkg/, /usr/info/.
+
+  * Fixed typo in control file Description.
+
+  * configure script tries to improve matters wrt sysinfo.
+  * any debian-tmp.deb is deleted by `./debian.rules clean'.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 4 Feb 1996 15:51:59 +0000
+
+dpkg (1.0.15); priority=LOW
+
+  * dselect disk methods should never unmount things they didn't mount.
+  * debian.README aka /usr/doc/copyright updated.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 30 Jan 1996 15:05:39 +0000
+
+dpkg (1.0.14); priority=MEDIUM
+
+  * fixed file descriptor leak in dpkg introduced in 1.0.11.
+  * included dpkg-name in this package (conflicts with dpkg-name).
+
+  * redraw in dselect main menu changed to use clearok (like in lists).
+  * sa_restorer in struct sigaction no longer used (portability fix).
+  * removed Guidelines from source package.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 30 Jan 1996 02:52:29 +0000
+
+dpkg (1.0.13); priority=MEDIUM
+
+  * dselect partition and mounted methods work again.
+  * dpkg-deb --no-act in usage message.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 26 Jan 1996 18:37:03 +0000
+
+dpkg (1.0.12); priority=MEDIUM (HIGH for users of 1.0.11)
+
+  * Fixed frequent dpkg coredump introduced in 1.0.11.  (Bug#2219.)
+  * dpkg-deb ensures version numbers start with alphanumerics.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Wed, 24 Jan 1996 00:42:31 +0000
+
+dpkg (1.0.11); priority=MEDIUM
+
+  * corrected potentially serious problem with dpkg low-memory in-core
+    files database.
+  * dpkg-split --msdos puts output files in right directory.  (Bug#2165.)
+
+  * diversions implemented - see `dpkg-divert --help'.
+
+  * dselect shows and uses (for dependencies) currently installed
+    version of a package if that is more recent.
+  * dpkg --force-... options are in separate help screen.
+  * better error messages for corrupted .deb archives.  (Bug#2178.)
+  * dselect NFS method will unmount correct copy of NFS area if mounted
+    twice.
+
+  * removes some ELF compilation warnings.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 19 Jan 1996 02:41:46 +0000
+
+dpkg (1.0.10); priority=MEDIUM
+
+  * dpkg-deb option parsing unmuddled (-I option was removed
+    in 1.0.9 and broke dpkg-deb).  (Bug#2124.)
+
+  * dpkg-split will work when ELF `ar' is installed, and is faster.
+
+  * nfs dselect method now available.
+  * disk methods don't prompt spuriously for Packages files.
+  * cdrom+harddisk methods can find Packages files.
+
+  * dpkg-scanpackages (creates Packages files) now in /usr/sbin.
+
+  * various changes to help compilation of dpkg-deb, dpkg-split
+    and md5sum on non-Debian systems.
+  * <sys/fcntl.h> replaced by <fcntl.h> throughout.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 14 Jan 1996 02:55:19 +0000
+
+dpkg (1.0.9); priority=MEDIUM
+
+  * dselect uninitialised variable coredump fixed (thanks Carl).
+
+  * version numbers printed by --version fixed.  (Bug#2115.)
+  * disk method problem with missing Packages files fixed.  (Bug#2114.)
+  * dependency version relationships now <= >= << >> =.  (Bug#2060.)
+
+  * install-info is in /usr/sbin, not /usr/bin.  (Bug#1924.)
+  * dpkg regards Revision field as obsolete.
+
+  * <asm/unistd.h> changed to <linux/unistd.h> (for m68k port).
+  * scripts/Makefile.in `clean' target deletes scripts.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 11 Jan 1996 20:51:20 +0000
+
+dpkg (1.0.8); priority=LOW
+
+  * update-alternatives slightly more helpful message.  (Bug#1975.)
+  * cosmetic improvements to disk installation method.  (Bug#1970,1956.)
+  * mounted filesystem and unmounted partition separate methods.  (Bug#1957.)
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 12 Dec 1995 04:07:47 +0000
+
+dpkg (1.0.7); priority=MEDIUM (HIGH to upgrade syslogd)
+
+  * dselect harddisk/CDROM method script handles multiple package
+    areas.
+  * Everything has a manpage, though many are very unhelpful indeed.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 30 Nov 1995 03:59:14 +0000
+
+dpkg (1.0.6); priority=MEDIUM (HIGH to upgrade syslogd)
+
+  * conffiles can now be taken over properly from one package by
+    another which replaces it.  (Bug#1482.)
+  * dpkg will not deconfigure essential packages when --auto-deconfigure
+    is set (this bug was fairly unlikely ever to be exercised).
+
+  * dpkg checks for the presence of certain important programs on the PATH.
+  * dselect is now more informative when a dependency is missing, saying
+    "<package> does not appear to be available".  (Bug#1642, 1705).
+
+  * `make distclean' fixed; config.* &c removed from source archive.
+  * lib/lock.c now uses fcntl rather than flock, for better portability.
+
+  * `Package_Revision: 0' removed from control file.
+  * Some inaccuracies and bad formatting in various messages corrected.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 21 Nov 1995 20:15:18 +0000
+
+dpkg (1.0.5); priority=LOW
+
+  * dpkg-split allows some space for the header.  (Bug#1649.)
+  * dpkg-split now has --msdos option for 8.3 filenames.
+  * dpkg-split --join &c will not complain about trailing garbage.
+
+  * dselect & dpkg will no longer ignore SIGHUP will running subprocesses.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 13 Oct 1995 13:59:51 +0100
+
+dpkg (1.0.4); priority=MEDIUM (HIGH for dselect users with 1.0.3)
+
+  * fixed bug which prevented dselect from displaying the bottom line of
+    any listing screen.  This was introduced in 1.0.3, sorry !
+
+  * a conffile will never cause a prompt if the package maintainer
+    distributes a file identical to the user's, even if the file has
+    been edited by both the user and the maintainer or is a
+    newly-registered conffile.  (Bug#1639.)
+
+  * dselect disk/cdrom method script says where to get Packages file.
+  * dselect help has better descriptions of the functions of Return and Q.
+
+  * postinst now warns about some problems with /usr/lib/dpkg/methods/hd.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 12 Oct 1995 01:45:38 +0100
+
+dpkg (1.0.3); priority=MEDIUM
+
+  * dselect: fixed segfault when doing some multiple (de)selections.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 10 Oct 1995 03:21:12 +0100
+
+dpkg (1.0.2); priority=MEDIUM
+
+  * problem with screen refresh after `o' (change order) corrected.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Mon, 9 Oct 1995 13:11:04 +0100
+
+dpkg (1.0.1); priority=LOW
+
+  * much better dpkg performance on low-memory systems.
+  * start-stop-daemon --name should now work. (oops!)
+  * fixed typo which could turn into memory overwriting bug sometime.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 8 Oct 1995 20:12:29 +0100
+
+dpkg (1.0.0); priority=LOW
+
+  * Version 1.0.0: dpkg is no longer beta.
+
+  * tar extractor no longer looks up an empty string using getgrnam
+    (this causes the libc to coredump when using NIS).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 1 Oct 1995 13:07:36 +0100
+
+dpkg (0.93.80); priority=LOW
+
+  * dselect help screen intro changed to remove `much' before `help'.
+
+  * update-alternatives.pl contains hardcoded ENOENT value, instead
+    of requiring POSIX.pm to be present.
+
+  * Makefiles changed to strip when installing instead of when building.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sat, 30 Sep 1995 01:44:12 +0100
+
+dpkg (0.93.79) BETA; priority=LOW
+
+  * DPKG_NO_TSTP environment variable which stops dpkg sending the
+    process group a SIGTSTP (Bug#1496).
+  * End key should work in dselect lists (Bug#1501).
+  * various message typos (missing \n's) fixed (Bug#1504).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 29 Sep 1995 03:27:01 +0100
+
+dpkg (0.93.78) BETA; priority=LOW
+
+  * dselect keystrokes help file typo fix.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 28 Sep 1995 20:31:02 +0100
+
+dpkg (0.93.77) BETA; priority=MEDIUM
+
+  * dpkg --remove --pending will purge things when appropriate.
+
+  * fixed failure to null-terminate dpkg conflict problem messages.
+  * fixed bug in formatting of dependency version problem messages.
+
+  * Conffiles resolution prompt for new conffile: typo fixed.
+  * Changed dpkg usage error to suggest `-Dhelp' instead of `--Dhelp'.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Wed, 20 Sep 1995 23:44:35 +0100
+
+dpkg (0.93.76) BETA; priority=MEDIUM
+
+  * dpkg --auto-deconfigure option (used automatically by dselect) allows
+    `important' packages which many others depend on to be split.
+  * dpkg should no longer fail an assertion during complicated
+    multiple configurations involving packages which are on hold.
+
+  * update-alternatives supports negative priorities.
+  * /etc/alternatives is included in the .deb archive.
+
+  * Package priorities changed: Required (Req), Important (Imp), Standard (Std),
+    Optional (Opt) and Extra (Xtr).  For backward compatibility Base is an
+    alias for Required, and Recommended is kept as a level just below Standard.
+
+  * dselect shows introductory help screen when entering package lists (both
+    main and recursive).
+  * dselect help messages made more friendly.
+  * dselect package list `quit, confirm, and check dependencies' key is
+    now Return rather than lowercase `q'; likewise method list `select this
+    one and configure it' key.
+  * dselect selects packages with priority `standard' or better by default.
+  * dselect `v=verbose' becomes `v=terse' when in verbose mode.
+
+  * hard disk method unmounts /var/lib/dpkg/methods/mnt on failure.
+  * disk methods' install message uses `stty' to find out what the
+    interrupt character is, and uses that in the prompt (rather than ^C).
+  * dpkg now tolerates ^Z characters in Packages files.
+  * harddisk method doesn't display extra slash when updating packages file.
+  * harddisk method burbles less if it doesn't have a good default.
+
+  * dpkg-deb now supports new flexible format, but old format still default.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Wed, 20 Sep 1995 02:49:41 +0100
+
+dpkg (0.93.75) BETA; priority=MEDIUM
+
+  * dselect no longer segfaults when you try to modify the last item.
+
+  * dselect Makefile compiles with -g, and links without -s, but installs
+    with -s, so that built source directory has debugabble binary.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 12 Sep 1995 02:59:29 +0100
+
+dpkg (0.93.74) BETA; priority=LOW
+
+  * dpkg-split implemented and installed in /usr/bin/dpkg-split.
+    (NB this is not compatible with Carl Streeter's old dpkg-split script.)
+  * dpkg uses dpkg-split.
+  * floppy disk method available - NB this is a first attempt only.
+
+  * hard disk method uses --merge-avail rather than --update-avail.
+  * installation by default of `standard' packages removed again.
+    (I don't think this is the right place to do this.)
+  * update-alternatives --remove correctly deletes all slave links;
+    minor cosmetic improvements.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Mon, 11 Sep 1995 02:06:05 +0100
+
+dpkg (0.93.73) BETA; priority=LOW
+
+  * dselect multi-package selection now done by `divider' lines
+    actually in the package list, rather than horizontal highlight
+    movement.
+  * dselect help available, and keybindings rationalised.
+
+  * postinst removes /usr/lib/dpkg/methods/hd if upgrading from
+    0.93.42.3 or earlier.
+  * `hold' flag changed to be settable by the user only, and
+    made orthogonal to the `reinstallation required' flag.
+  * dpkg will install by default any packages with priority of
+    `standard' or better unless they're explictly deselected.
+
+  * dselect dependency/conflict resolution will suggest marking absent
+    packages for `purge' rather than `deinstall'.
+  * disk method script produces message about invoking dpkg.
+  * dpkg produces warning, not error, when it gets EPERM trying to
+    remove a directory belonging to a package being removed.
+  * dpkg, dpkg-deb usage error reporting improved.
+  * dselect detects too-dumb terminals and stops.
+  * dpkg-deb(8) updated a little (thanks to Bill Mitchell).
+
+  * dselect debugmake script uses -O0.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 10 Sep 1995 12:23:05 +0100
+
+dpkg (0.93.72) BETA; priority=MEDIUM
+
+  * /usr/sbin/update-alternatives added.
+
+  * New names for certain control file fields (old names work
+    as aliases): Optional -> Suggests, Recommended -> Recommends,
+    Class -> Priority.
+     
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 3 Sep 1995 16:37:41 +0100
+
+dpkg (0.93.71) BETA; priority=LOW
+
+  * dpkg doesn't silently overwrite `new' conffiles (Bug#1283).
+  * case now not significant in Essential, Status and Class (Bug#1280).
+  * dselect checks method scripts for execute, not for write.
+
+  * spelling fixes in lib/dbmodify.c and dselect/helpmsgs.src.
+
+  * dselect `clean' target deletes helpmsgs.cc and helpmsgs.cc.new.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 31 Aug 1995 13:56:08 +0100
+
+dpkg (0.93.70) BETA; priority=MEDIUM
+
+  * dselect unmounted harddisk method has many silly bugs fixed.
+
+  * dpkg --root option restored (was removed by mistake in 0.93.68).
+  * minor cosmetic change to dselect subprocess failure message.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Wed, 9 Aug 1995 22:18:55 +0100
+
+dpkg (0.93.69) BETA; priority=MEDIUM
+
+  * dpkg --configure and --remove should work properly when
+    they have to defer processing (this tends to happen when many
+    packages are processed at once).  (Bug#1209.)
+
+  * dpkg --configure and --remove work better when `processing'
+    several related packages with --no-act.
+
+  * dpkg --auto is now two options, --pending or -a (for configure,
+    remove, &c) and --recursive or -R (for install, unpack, &c).
+
+  * dpkg debug options in usage message, and values available (-Dh).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Wed, 9 Aug 1995 22:18:55 +0100
+
+dpkg (0.93.68) BETA; priority=MEDIUM
+
+  * dpkg won't get an internal error if you try to use the default
+    conffiles response (ie, if you just hit return).  (Bug#1208.)
+
+  * dselect hard disk and CD-ROM methods - the real thing, but ALPHA.
+
+  * dselect allows you to go straight to `update' or `install' if
+    you have already set up an access method.
+  * new dpkg options --yet-to-unpack, --merge-avail and --update-avail.
+  * dpkg -G is an abbreviation for dpkg --refuse-downgrade.
+  * dpkg -R alias for --root withdrawn, pending reuse with different meaning.
+  * dpkg --help message rationalised somewhat.
+
+  * Obsolete `examples' and `dpkg-split' directories removed from
+    source tree.  The `hello' package is a better example.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Mon, 7 Aug 1995 02:16:25 +0100
+
+dpkg (0.93.67) BETA; priority=LOW for C dpkg alpha testers, HIGH for others
+
+  * dpkg no longer statically linked and -g.
+  * calls to abort() changed to print string, file and line number first.
+  * removed unused variable from dpkg source.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 4 Aug 1995 01:39:52 +0100
+
+dpkg (0.93.66) ALPHA; priority=MEDIUM
+
+  * dpkg will correctly remove overwritten files from the lists of
+    the package(s) that used to contain them.
+
+  * dpkg --purge is now an action, rather than a modifier for --remove,
+    and the -P alias for it is withdrawn.
+
+  * dpkg --unpack/--install filenames in messages are now more sensible
+    about when to use .../ (show as many trailing components as possible
+    in 40 characters, or the whole path if that the last component is
+    longer than that).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 3 Aug 1995 02:11:03 +0100
+
+dpkg (0.93.65) ALPHA; priority=MEDIUM
+
+  * dpkg --remove should, when a package being removed is depended-on
+    by another that is also queued for removal, defer the depended-on
+    package rather than aborting it.  (Bug#1188.)
+
+  * dpkg will not attempt to configure or remove a package more than
+    once in the same run.  (Bug#1169.)
+
+  * dpkg cosmetic fix to dependency problems message (this bug
+    hasn't been triggered to my knowledge).
+
+  * perl-dpkg no longer installed in /usr/bin.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Wed, 2 Aug 1995 13:02:58 +0100
+
+dpkg (0.93.64) ALPHA; priority=MEDIUM
+
+  * dpkg marks a package as no longer `to be configured in this run'
+    when an error occurs, so that other packages which depend on it
+    will fail (rather than causing a loop and an assertion failure,
+     packages.c:166: failed assertion `dependtry <= 4').
+
+  * dselect initial selection granularity is single-package.
+  * dpkg --no-also-select option renamed to --selected-only (old option
+    still accepted, but no longer in --help).  Changed -N to -O.
+
+  * dselect `update' option changed to `install' (and other options
+    renamed too).  NB: old access methods will not work, because
+    the `update' script should now be an `install' script.
+
+  * dselect `installation methods' renamed to `access methods'.
+  * dpkg --skip-same-version and --refuse-downgrade produce friendlier
+    messages when they skip packages.
+  * --licence option now properly mentioned in all programs' --version
+    messages.
+
+  * bad fix for ELF compile problem involving myopt.h removed (compile
+    problem turned out to be a GCC bug.)
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 1 Aug 1995 03:03:58 +0100
+
+dpkg (0.93.63) ALPHA; priority=LOW
+
+  * preinst works around shell bug/misfeature involving `trap'.
+
+  * dpkg --skip-same-version doesn't skip packages which have
+    an error flag set or which aren't in a standard `installed' state.
+
+  * dpkg --search now does a substring search if the string doesn't
+    start with a wildcard character (*, [ or ?) or slash.
+
+  * problem with C/C++ linkage of stuff in "myopt.h" fixed, to help
+    with compiling with GCC 2.7.0.
+
+  * dselect Makefile.in `clean' deletes curkeys.inc &c, so that they are
+    not shipped in the distribution source and will be rebuilt on the
+    target system.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 27 Jul 1995 13:38:47 +0100
+
+dpkg (0.93.62) ALPHA; priority=HIGH
+
+  * dpkg purges leftover control scripts from /var/lib/dpkg/tmp.ci,
+    rather than associating them with the wrong package.  (Bug#1101.)
+
+  * dpkg won't `disappear' packages containing no files or directories,
+    nor a package required for depends/recommended.  (Bug#1128.)
+
+  * dpkg follows directory symlinks.  (Bug#1125.)
+
+  * dselect fixups for ELF/GCC2.7.0 compilation.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 21 Jul 1995 21:43:41 +0100
+
+dpkg (0.93.61) ALPHA; priority=LOW
+
+  * dselect keybindings and status characters and descriptions changed
+    (in pursuance of Bug#1037, user interface problems, still open.)
+
+  * Some cleanups to fix mistakes discovered by ELF-GCC 2.7.0, and fixup
+    for newer C++ draft standard (`for' variable declaration scope change).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 18 Jul 1995 01:42:51 +0100
+
+dpkg (0.93.60) ALPHA; priority=HIGH
+
+  * dpkg doesn't think packages have `disappeared' if you install
+    several packages at once.  (later reported as Bug#1132.)
+
+  * usage error messages tidied up.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 16 Jul 1995 17:56:56 +0100
+
+dpkg (0.93.59) ALPHA; priority=HIGH
+
+  * dpkg doesn't break maintainer scripts &c if package `foo' exists
+    when processing package `foobar'.  (Related to Bug#1101.)
+
+  * dpkg implements `disappear' functionality.
+  * dpkg/dselect remove dead entries from /var/lib/dpkg/status.
+
+  * dpkg --list now sorted correctly and output somewhat improved.
+  * some debugging messages moved from dbg_stupidlyverbose to dbg_scripts.
+  * dpkg prints `Removing foo' message even if foo is not configured.
+  * dpkg only prints `serious warning: files list file ... missing'
+    once for each package.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 16 Jul 1995 02:32:11 +0100
+
+dpkg (0.93.58) ALPHA; priority=HIGH
+
+  * dpkg should write out status even for packages which it has only
+    encountered in the `available' file so far.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 14 Jul 1995 20:19:21 +0100
+
+dpkg (0.93.57) ALPHA; priority=LOW
+
+  * dpkg does chroot when running maintainer scripts (--instdir
+    should work right now, though I haven't been able to test it).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 14 Jul 1995 01:32:30 +0100
+
+dpkg (0.93.56) ALPHA; priority=HIGH
+
+  * dpkg can now overwrite symlinks to directories, and will
+    do correct handling of symlinks to plain files.
+  * dpkg should not replace any directory with a symlink.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 13 Jul 1995 02:43:36 +0100
+
+dpkg (0.93.55) ALPHA; priority=MEDIUM
+
+  * dpkg can now extract hardlinks.
+  * dpkg configuration/removal works in the presence of dependency cycles.
+  * dpkg should no longer fail an assertion at processarc.c:193.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Wed, 12 Jul 1995 01:34:44 +0100
+
+dpkg (0.93.54) ALPHA; priority=MEDIUM
+
+  * dpkg and dselect no longer throw away all Class and Section
+    information in /var/lib/dpkg/available.  (Oops.)
+  * dpkg --refuse-<something> now works (this broke some dselect
+    method scripts' attempts to use --refuse-downgrade).
+  * dpkg --audit and --list implemented.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Mon, 10 Jul 1995 00:35:13 +0100
+
+dpkg (0.93.53) ALPHA; priority=LOW
+
+  * dpkg --install/--unpack only skips on-hold packages with --auto.
+  * dpkg doesn't fclose() the --fsys-tarfile pipe twice.
+  * dpkg error handling and reporting cleaned up.
+  * dpkg now lists any failed packages/files just before exiting.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 9 Jul 1995 16:31:36 +0100
+
+dpkg (0.93.52) ALPHA; priority=MEDIUM
+
+  * dpkg won't segfault due to missing (Package_)Revision fields.
+  * dpkg --search works.
+  * dpkg will set execute permissions on scripts if necessary.
+  * dpkg prints filenames in --unpack and --install.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sat, 8 Jul 1995 12:41:39 +0100
+
+dpkg (0.93.51) ALPHA; priority=HIGH
+
+  * dpkg --status and --listfiles now work.
+
+  * dpkg --remove --auto won't try to remove everything (!)
+  * dpkg --unpack doesn't coredump after unpacking the first package.
+  * dpkg won't fail an assertion if it bombs out of --configure
+    or --remove because of too many errors.
+
+  * Support for `Essential' in dpkg (not yet in dselect).
+  * `available' (Packages) file class and section override those
+    from package control files.
+  * `Essential: yes' added to control file.
+
+  * Locking strategy changed, now uses flock (no more stale locks).
+  * preinst now more helpful about conffiles upgrade problem.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sat, 8 Jul 1995 01:15:26 +0100
+
+dpkg (0.93.50) ALPHA
+
+  * C dpkg now in service.
+
+  * dselect now installs in /usr/bin instead of /usr/sbin.
+  * Improved `explanation of display' help and changed HSOC to EIOW.
+  * dselect goes back to top of info display when you move the
+    highlight.
+
+  * Added <sys/types.h> to md5sum/md5.c, for the benefit of FreeBSD.
+  * --admindir doesn't append `var/lib/dpkg' to its argument.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 19 May 1995 21:03:08 +0100
+
+dpkg (0.93.42.3) BETA; priority=LOW
+
+  * Rebuilt using ncurses 1.9.2c-0.
+  * Silenced `subcritical error' message if errno == ENOENT.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Mon, 12 Jun 1995 13:09:24 +0100
+
+dpkg (0.93.42.2) BETA; priority=HIGH
+
+  * install-info --remove properly removes multi-line entries.
+  * Slightly changed ^L redraw code in dselect package list.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sat, 10 Jun 1995 14:06:01 +0100
+
+dpkg (0.93.42.1) BETA; priority=HIGH esp. for new installations
+
+  * update-rc.d default no longer adds K entries in runlevels 2345.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 6 Jun 1995 18:56:23 +0100
+
+dpkg (0.93.42) BETA; priority=LOW; HIGH for dselect users
+
+  * Fix unitialised variable reference bug in dselect (#890).
+  * Fix problem with wordwrapping package and method descriptions.
+  * Create /var/lib/dpkg/methods/mnt.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 19 May 1995 21:03:08 +0100
+
+dpkg (0.93.41) BETA; priority=LOW
+
+  * Create /var/lib/dpkg/methods.
+  * dpkg.pl noisily ignores --skip-same-version rather than barfing.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 16 May 1995 13:28:27 +0100
+
+dpkg (0.93.40) BETA; priority=LOW
+
+  * dselect's subprogram failure message made to stand out more.
+
+  * When switching out of curses, always move the cursor to the
+    bottom right corner of the screen.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Tue, 16 May 1995 01:03:38 +0100
+
+dpkg (0.93.39) BETA; priority=LOW
+
+  * dselect can now:
+    - allow you to select and configure an installation method;
+    - invoke installation method scripts to update the available file
+      and unpack packages;
+    - invoke dpkg to configure and remove packages.
+    There are no installation methods available yet.
+
+  * Search feature in dselect works (it was purely an ncurses bug).
+
+  * dpkg-*.nondebbin.tar.gz now available (built by debian.rules).
+
+  * The target directory for dpkg-deb --extract (also available as
+    dpkg --extract) is no longer optional.  dpkg-deb suggests the use
+    of dpkg --install if you omit it.
+
+  * Added <errno.h> to lib/lock.c and fixed ref. to `byte' in
+    md5sum/md5.c, for portability to Solaris 2.
+
+  * Rebuilt `configure' and `config.h.in' using autoconf 2.3.
+  * Revised function attribute support checking in configure script.
+  * Removed obsolete `dselect.pl' from scripts directory.
+  * New option --licence on all the C programs.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Sun, 14 May 1995 18:05:38 +0100
+
+dpkg (0.93.38) BETA; priority=MEDIUM
+
+  * Version number comparisons (in dpkg and dselect) now >= <=
+    as documented (Bug#831; thanks to Christian Linhart).
+
+  * dselect now has a non-superuser readonly mode.
+  * dselect doesn't pop up unsatisfied `Optional's when quitting.
+  * `unable to delete saved old file' message fixed dpkg_tmp to dpkg-tmp.
+
+  * Made dpkg convert `revision' to `package_revision' when reading
+    (eg) the `status' file.  libdpkg.a has `revision' as a synonym
+    for `package_revision' and writes the former.
+
+  * Major improvements and many changes to C option parsing, database
+    management, error handling, Makefiles &c to support dpkg.
+  * dpkg-deb should now work if sizeof(void*) < sizeof(void(*)()).
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Mon, 24 Apr 1995 12:34:39 +0100
+
+dpkg (0.93.37) BETA; priority=LOW (MEDIUM for dselect users)
+
+  * Fixed segfault if no description available (Bug#735);
+    thanks to Peter Tobias for the bug report.
+  * Fixed other assorted minor bugs in description displays.
+
+  * Changed dpkg-deb --info short option from -i to -I, to make
+    it unique across dpkg and dpkg-deb (-i still works with
+    dpkg-deb for backwards compatibility).
+
+  * Produce more sensible error when main package list is empty.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Fri, 7 Apr 1995 02:24:55 +0100
+
+dpkg (0.93.36) BETA; priority=LOW (MEDIUM for dselect users)
+
+  * All the C code (including dselect) updated to support `provides'
+    (virtual packages).
+  * Revamped dselect's related package selection/deselection
+    algorithms.
+  * Everything can now handle arbitrary `class' values (as well
+    as the predefined ones which we understand and can interpret).
+  * Fixed bug that prevented display update when moving down a small
+    recursive package list in dselect.
+  * Column heading characters corrected from `SHOC' to `HSOC'.
+
+ -- Ian Jackson <iwj10@cus.cam.ac.uk>  Thu, 6 Apr 1995 12:48:13 +0100
+
+dpkg (0.93.35) BETA; priority=MEDIUM
+
+ * Preserve ownerships and permissions on configuration files.
+ * Fix bug in conffile updating that could leave a hardlink
+   <foo>.dpkg-new to the conffile <foo>.
+
+ * Improved dselect's package list help messages.
+ * Highlight now moves on after (de)selecting just one package.
+ * Better algorithm for scrolling up/down when moving highlight.
+ * Fixed bug in display of `preformatted' extended Description lines.
+   (dselect is still ALPHA, but is fairly stable.)
+
+ * Improved dpkg's message when configuring a package that doesn't
+   exist, and when selecting or skipping a package that isn't
+   currently selected (during unpack processing).
+
+ * Description in control file expanded.
+
+ * Scroll back to top when changing what is in the `info' area.
+
+dpkg (0.93.34) BETA; priority=LOW (HIGH for dselect users)
+
+ * dselect: Fixed bug which caused a coredump if you exited the
+   package list if you'd made any changes.  Ouch !
+
+ * dselect: Improved selection algorithm to show fewer extraneous
+   packages; improved display for unavailable packages.
+
+ * dpkg: Improved progress messages during unpacking somewhat.
+
+dpkg (0.93.33) BETA; priority=LOW (HIGH for dselect users)
+
+ * dselect now has a main menu.
+
+ * Fixed nasty uninitialised data bug in dselect.
+
+ * dselect now locks and unlocks the packages database.
+
+Mon, 27 Mar 1995 03:30:51 BST  Ian Jackson <iwj10@cus.cam.ac.uk>
+
+	* dpkg (0.93.32): Alpha dselect released and installed in
+	                  /usr/sbin/dselect.
+	* dpkg (0.93.32): Many portability enhancements: should now
+	                  compile using GCC 2.6.3, and dpkg-deb should
+	                  compile better on non-Linux systems.
+	* dpkg (0.93.32): dpkg will not loop if its stdin disappears
+	                  and it needs to prompt.
+	* dpkg (0.93.32): Fixed removal dependency error to show
+	                  correct package (Bug #648).
+	* dpkg (0.93.32): Tidied up copyright notices.
+	* dpkg (0.93.32): First draft of update-rc.d manpage, not yet
+	                  installed in /usr/man.
+	* dpkg (0.93.32): Changes to top-level Makefile.in to improve
+	                  error trapping.
+	* dpkg (0.93.32): Improved Makefile `clean' and `distclean'
+	                  targets.
+	* dpkg (0.93.32): Deleted irrelevant `t.c' from lib and
+	                  dselect directories.
+	* dpkg (0.93.32): Added vercmp.c with version comparison code.
+	* dpkg (0.93.32): varbufextend message changed - varbufs not
+	                  just for input buffers.
+	* dpkg (0.93.32): varbuf has C++ member functions in header
+	                  #ifdef __cplusplus.
+
+Changes in dpkg 0.93.31:
+
+* start-stop-daemon --pidfile now works (Bug#571).
+* Fixed dependency processing bugs which could require a rerun of
+  dpkg --configure (Bug#566).
+* Fixed garbage output for `language' of control file in dpkg-deb --info.
+
+Changes in dpkg 0.93.30:
+
+* Added /usr/sbin/start-stop-daemon.
+
+Changes in dpkg 0.93.29:
+
+* Made postinst scripts really be run when dpkg --purge used.
+* Added new --force-extractfail option - VERY DANGEROUS.
+
+Changes in dpkg 0.93.28:
+
+* Removed undef of %xx_p21 in read_database_file, which caused the
+  the whole status database to become trashed when any update files
+  were read.
+* Make infinite-loop prevention and cycle detection work.
+* Made findbreakcycle work (ie, break properly when cycle detected).
+* New script, update-rc.d, to update links /etc/rc?.d/[KS]??*.
+* dpkg.pl now sets the umask to 022.
+* Cosmetic error message fix to dpkg-deb.
+* Deleted OLD directory altogether.
+* Improved error-trapping in top-level Makefile loops.
+
+Changes in dpkg 0.93.27:
+
+* Make version number specifications in Depends &c work.
+* Added AC_PROG_CXX to autoconf.in for dselect.
+* Changed myopt.h not to have cipaction field in cmdinfo (this was
+  specially for dpkg-deb) - now we have a generic void*.
+* Renamed `class' member of `pkginfoperfile' to `clas' [sic].
+* Much work in `dselect' subdirectory.
+* Deleted executables, objects and libraries from OLD tree !
+* Minor changes to various copyright notices and top-of-file comments.
+* Don't install nasty Perl dselectish thing as /usr/bin/dselect.
+
+Changes in dpkg 0.93.26:
+
+* Added --no-also-select instead of not auto-selecting on --unpack
+  but doing so on --install; removed --force-unpack-any.
+
+Changes in dpkg 0.93.25:
+
+* Fixed duplicate output (failure to flush before fork) bug.
+* More clarification of md5sum.c copyright.
+* Corrected typo in ChangeLog in 0.93.24 source package.
+
+Changes in dpkg 0.93.24:
+
+* dpkg could copy conffiles info from one package to another.  Aargh.
+  Bug #426.
+* dpkg failed to initialise status if you tried to remove or
+  configure a nonexistent package.  Bug #419.
+* install-info now handles START-INFO-DIR-ENTRY entries like:
+   * Gdb::                         The GNU debugger.
+  Previously it would only accept (Bug #407):
+   * Gdb: (gdb).                   The GNU debugger.
+* When installing a new foo.info[.gz], install-info now replaces
+   * Foo: (foo.info).              The Gnoo Foo.
+  as well as just * Foo: (foo). ...
+* Moved option parsing out of dpkg-deb into libdpkg.
+* Assorted minor source code rearrangements.
+* Fixed assorted copyright notices, clarified md5sum copyright.
+* Corrected typo in 0.93.23 source package's ChangeLog.
+
+Changes in dpkg 0.93.23:
+
+* `dpkg-deb' --build now does a syntax check on the control file.
+* `dselect' is now no longer called `debian', spurious copy removed
+  from package top-level source directory.
+* C control information parsing complete and somewhat tested.
+* Moved `global' include files into $(srcdir)/include from ../lib,
+  added some files to the lib Makefile, and arranged for pop_cleanup().
+
+Changes in dpkg 0.93.22:
+
+* Fixed bug which caused dpkg to see failures of md5sum where there
+  were none (would also have caused dpkg to miss a real failure).
+* Fixed failure to update some `status' database fields.
+
+Changes in dpkg 0.93.21:
+
+* Fixed error-handling bug which could corrupt database.
+
+Changes in dpkg 0.93.20:
+
+* Fixed bug which ran old (/var/adm/dpkg) postinst scripts.
+* Fixed dpkg usage message which claimed -i => both --install & --info.
+* Use Colin Plumb's MD5 code - faster, and better copyright.
+* Manpages: dpkg-deb(8), deb-control(5), deb(5) - thanks to Raul
+  Deluth Miller.  Also, an xfig picture of some C program innards.
+
+Changes in dpkg 0.93.19:
+
+* Don't delete the `list' file from the dpkg database.
+* Fixed various bugs in the conffile handling.
+* Conffiles that are symlinks will now be treated as if the
+  `dereferenced' name of the file was listed in conffiles.  This means
+  that /etc/foo -> /usr/etc/foo will cause all conffile updates of
+  /etc/foo to create /usr/etc/foo.dpkg-tmp &c instead.  However, the
+  link will be removed if --purge is used to delete all the conffiles.
+* When doing a new installation, or when updating a conffile that
+  wasn't listed as a conffile in the old version of the package, don't
+  do any prompting but just install the version from the archive.
+* Corrected error message if exec of dpkg --vextract failed
+  and --instroot or --root specified.
+* Added new --force-unpack-any option.
+* Extra newline after --status output.
+* Added -W options to CFLAGS.
+* Fixed mistake in previous ChangeLog entry.
+
+Changes in dpkg 0.93.18:
+
+* Fixed invocation of dpkg-deb --vextract if --root or --instdir
+  not specified.
+* Create /var/lib/dpkg/updates.
+
+Changes in dpkg 0.93.17:
+
+* install-info --remove exits with status 0 if it doesn't find the
+  thing to remove, instead of status 1.
+* Error handling functions have __attribute__((format...)) if GCC.
+* push_cleanup its arg takes void **argv instead of char **argv.
+* Top-level Makefile.in has set -e before `for' loops.
+* dpkg-deb --info not-an-existing-file produces fewer error messages.
+
+Changes in dpkg 0.93.16:
+
+* Made --root= option really extract to $instroot instead of `/'.
+* install-info clears the 0444 bits in its umask.
+* Fixed a few database handling bugs which cause dpkg always to fail,
+  and usually to corrupt the status database in various ways.
+* dpkg-deb completely rewritten, now doesn't tinker with
+  /var/{adm,lib}/dpkg.  Should be faster.
+* Directory structure and Makefiles in source package reorganised.
+
+Changes in dpkg 0.93.15:
+
+* Added `debian' (dselect), still very primitive.
+* Database format changed, and moved from /var/adm to /var/lib.
+* Added dpkg --avail mode, --list, --status and --search.
+* Set of dpkg => dpkg-deb pass-through operations changed (but
+  dpkg-deb not yet updated).
+* Added --root, --admindir and --instdir, as well as --isok &c.
+* Moved much stuff into /usr/lib/dpkg-lib.pl, rewritten status
+  database handling.
+* Put packages in `purge' state even if `deinstall' requested if
+  they have no postrm and no conffiles.
+* Version number comparisons fixed.
+* insert-version.pl now installes lib.pl filename too.
+* Strip trailing slashes when reading files from file lists.
+
+Changes in dpkg 0.93.14:
+
+* Fixed parsing of DEPENDS &c fields with trailing whitespace.
+* postinst now fixes up broken ispell.control file.
+* Cyclic dependency/multiple package removal processing: don't consider
+  packages we've just removed when looking for a reason not to go ahead.
+* Added call to postinst with `purge' argument for expunging old
+  configuration etc. that aren't listed in conffiles.
+
+Changes in dpkg 0.93.13:
+
+* sub S_ISREG defined in dpkg.pl.
+* Checking of DEPENDS &c fields was too lax, causing an internal error
+  if you fed it certain kinds of broken control file.
+* Fixed misleading message from bogus installationstatus call.
+* New -u and -U options to dpkg-deb which don't unpack the /DEBIAN
+  directory, and use these in dpkg.pl; clean up /DEBIAN in postinst.
+
+Changes in dpkg 0.93.12:
+
+* No longer needs *.ph files, since these appear to be broken.
+* Postinst fixes up *.control files with curly brackets.
+* embryo of dselect.
+
+Changes in dpkg 0.93.11:
+
+* New --ignore-depends option.
+* This ChangeLog changed format here.
+
+Wed Nov 30 15:38:21 GMT 1994  Ian Jackson  <iwj10@cus.cam.ac.uk>
+
+	* dpkg 0.93.11 released.
+
+	* conffile updating fixed.
+
+	* Message `updgrade' in dpkg changed to `replace'.
+
+	* install-info now copes with multi-line entries.
+
+	* version numbers now done automatically in dpkg and install-info.
+
+	* more debugging around conffiles updates.
+
+	* *.hash files not deleted so soon.
+
+	* adds brand new packages to status array so we can install them.
+
+	* postinst does h2ph for {sys,linux}/{stat,types}.ph if required.
+
+Mon Nov 28 02:00:13 GMT 1994  Ian Jackson  <iwj10@cus.cam.ac.uk>
+
+        * dpkg 0.93.10 released.
+
+        * dpkg.pl completely rewritten.
+
+        * dpkg-deb: removed dabase-processing and --install option.
+
+        * Makefiles reworked, debian.rules added.
+
+        * Don't install anything in /usr/doc/examples.
+
+        * dpkg-*.deb contains /usr/bin/dpkg-deb.dist, fixed up by postinst.
+
+Thu Oct 20 13:22:20 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * dpkg 0.93.9 released.
+
+        * dpkg.pl: Use $argument, not $package, with `--build'.
+        Make sure that saved postinst scripts are executable.
+
+Tue Oct 18 09:40:57 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * dpkg 0.93.8 released.
+
+        * deb/remove.c (pkg_remove): Do not report an error from rmdir ()
+        when `errno' is ENOTEMPTY (Directory not empty), because in this
+        case we have found the highest-level directory in the package and
+        are ready to exit the loop (i.e., it is a normal occurrence).
+
+Mon Oct 17 10:44:32 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * Makefile.in: Adapted all Makefiles to the GNU Coding Standards.
+
+        * deb/remove.c (pkg_remove): Make sure that parent directories are
+        removed LAST!  This will result in complete removal of packages
+        when --remove is called.  dpkg 0.93.7 (and earlier) had problems
+        with this because it tried to remove directories in order, which
+        will work most of the time, but not necessarily all of the time.
+
+        * deb/list.c (pkg_list): Output is sorted by package name.
+
+Tue Oct  4 12:27:10 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * deb/contents.c (pkg_contents): When a list file cannot be
+        opened, silently fail and let the front-end explain the problem.
+
+        * deb/util.c (return_info): When a control file cannot be opened,
+        silently fail and let the front-end explain the problem.
+
+        * deb/search.c (pkg_search): Exit 0 if the regular expression is
+        matched and 1 if it is not.
+
+Mon Oct  3 18:38:53 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * dpkg.pl: New file.  Replaces dpkg.sh.
+
+        * deb/Makefile.in: Renamed `dpkg-util.deb' to `dpkg-deb'.
+
+        * deb/build.c (pkg_build): `--build' is less verbose, instead
+        letting the front-end add verbosity where appropriate.
+
+        * deb/install.c (pkg_install): Ditto.
+
+        * deb/remove.c (pkg_remove): Ditto.
+
+        * deb/search.c (pkg_search): Ditto.
+
+        * deb/describe.c (pkg_describe): `--describe' is less verbose,
+        instead letting the front-end add verbosity where appropriate.
+        The ``Description:'' label has been removed.
+
+        * deb/version.c (pkg_version): `--version' is less verbose,
+        instead letting the front-end add verbosity where appropriate.
+        The ``Version:'' label has been removed, as has the maintainer
+        information.
+
+Mon Sep 12 14:22:04 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * deb/version.c (pkg_version): `--version' now reports the
+        version number of dpkg if no argument is specified.
+
+Thu Sep  1 13:31:37 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * dpkg 0.93.7 released.
+
+        * deb/build.c (pkg_build): check status and exit if non-zero.
+
+        * deb/contents.c (pkg_contents): ditto.
+
+        * deb/install.c (archive_extract): ditto.
+
+Thu Sep  1 13:20:08 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * deb/version.c (pkg_version): indent to the same point as
+        pkg_describe.
+
+Thu Sep  1 12:21:11 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * Makefile.in (dist): added debian.rules binary, source and
+        dist targets to make final distribution easier to make.
+        (install): install programs to /usr/bin.
+
+        * deb/Makefile.in (install): install programs to /usr/bin.
+
+        * deb/list.c (pkg_list): enforce a maximum limit of ten characters
+        for the package name in the output.
+        (pkg_list): left-justify the version number to make it easier for
+        the front-end to parse the output.
+        (pkg_list): replace first '\n' character in packages[n].description
+        with '\0'.
+
+        * deb/install.c (archive_extract): use the `p' option to `tar' to
+        ensure that permissions are preserved.
+
+Sat Aug 27 09:53:37 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * dpkg 0.93.6 released.
+
+        * deb/util.c (return_info): only unlink CONTROL if ARCHIVE_FLAG is
+        true!
+
+Fri Aug 26 15:38:22 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * dpkg 0.93.5 released.
+
+        * deb/contents.c (pkg_contents): merged function archive_contents
+        into function pkg_contents.
+
+        * deb/contents.c (pkg_contents): use lstat (rather than stat) so
+        that symbolic links are recognized.
+        (pkg_contents): print the usual `<path> -> <link_to>' now that we
+        recognize symbolic links.
+
+        * deb/util.c (return_info): create a FIFO to pipe the needed
+        information to the ``formatter'' rather than creating a directory
+        in /tmp for the package information, which is what we used to do.
+
+Thu Aug 25 11:46:27 1994  Ian Murdock  (imurdock@debra.debian.org)
+
+        * lib/fake-ls.c (mk_date_string): return a pointer to malloc'ed
+        area.
+        (mk_mode_string): ditto.
+
+        * dpkg.sh: make sure the control information is extracted to a
+        uniquely-named temporary directory during package installation.
+
+        * dpkg.sh: execute the pre- and post-removal scripts during
+        package removal.
+
+        * dpkg.sh: exit immediately if dpkg-util.deb reports failure.
+
+        * deb/install.c (pkg_control): make sure that `package' exists and
+        is a Debian archive before doing anything.
+
+        * deb/install.c (pkg_extract): make sure that `package' exists and
+        is a Debian archive before doing anything.
+
+        * deb/install.c (pkg_install): unlink `extract_output' when done.
+
+        * deb/remove.c (pkg_remove): use lstat (rather than stat) so that
+        --remove does not get confused and think that a symbolic link to a
+        directory is actually a directory, which results in the symbolic
+        link never being removed at all.
+
+ChangeLog begins Thu Aug 25 11:46:27 1994 for dpkg 0.93.5.

@@ -1,0 +1,44 @@
+From ian Tue Apr 18 23:30:04 1995 
+X-VM-v5-Data: ([nil nil nil nil nil nil nil nil nil]
+	[nil nil nil nil nil nil nil nil nil nil nil nil "^To:" nil nil nil nil nil nil nil]
+	nil)
+X-VM-Summary-Format: "%3n %a %2d %3m  %-19.19F  %s\n"
+X-VM-Labels: nil
+X-VM-VHeader: ("Resent-" "From:" "Sender:" "To:" "Apparently-To:" "Cc:" "Subject:" "Date:") nil
+X-VM-Bookmark: 5
+To: Debian developers list <debian-devel@pixar.com>
+Subject: Handling of base packages
+
+I propose to implement the following scheme to enable obsolete base
+packages to disappear, and to allow files in the base packages to move
+between one package and another.
+
+1. When a package is installed, and contains files that are already
+marked as belonging to some other package, the older package will have
+the files that have been overwritten removed from its file list.
+
+2. When a package ceases to contain any files due to the action of
+point 1 above, its postrm script is run with the argument `disappear'
+(in place of `remove', `purge' or whatever).  It will then be moved
+into the `purge ok not-installed' state, so that it will cease to
+appear in dpkg and dselect lists.  Its conffiles will be ignored,
+*not* purged.  The prerm will *not* be run as the packaging system
+doesn't know what files are in a package until it unpacks it.
+
+This will all happen during the `unpack' phase of the replacing
+package.
+
+3. If a base system package which is being installed conflicts with
+another base system package which is currently installed on the
+system, the currently installed one will be removed first (the prerm
+will be run with `replace <package> <version>' as arguments, then the
+package will be removed, then the postrm will be run, likewise with
+`replace').  If the replacement fails the removal will be aborted,
+involving running the old packages' scripts with `abort-replace'.
+
+4. Base system packages may not be removed except under 2. or 3.
+above.  (There will be a --force-remove-base flag to allow foolhardy
+users to go ahead anyway.)
+
+Ian.
+

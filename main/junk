@@ -1,0 +1,398 @@
+if (!strcmp(newpig.name,"dpkg"))
+fprintf(stderr,"flags %o recordavailable %o config %s|%s ver %s|%s stat %d\n",
+        flags,pdb_recordavailable,newpig.configversion,newpig.configrevision,
+        newpifp->version,newpifp->revision,newpig.status);
+
+
+  if (pkg->want != want_install && f_alsoselect) {
+    printf("Selecting previously deselected package %s.\n",pkg->name);
+    pkg->want= want_install;
+  } else if (pkg->want == want_unknown && pkg->priority <= pri_standard &&
+             fc_autoselect) {
+    printf("Package %s is %s, selecting it by default.\n",pkg->name,
+           priorityinfos[pkg->priority].name);
+    pkg->want= want_install;
+  } else if (pkg->want != want_install) {
+    printf("Skipping deselected package %s.\n",pkg->name);
+    pop_cleanup(ehflag_normaltidy);
+    return;
+  }
+  
+
+
+int terminate_catchsignallist[]= { SIGINT, SIGTERM, 0 };
+int noterminal_catchsignallist[]= { SIGHUP, SIGPIPE, 0 };
+
+volatile int quitting= 0;
+
+static void terminate_sighandler(void) {
+  
+
+void terminate_catchsignals(void) {
+  int i;
+  struct sigaction catchsig;
+  
+  catchsig.sa_handler= terminate_signalhandler;
+  sigemptyset(&catchsig.sa_mask);
+  for (i=0; terminate_catchsignallist[i]; i++)
+    sigaddset(&catchsig.sa_mask,terminate_catchsignallist[i]);
+  for (i=0; noterminal_catchsignallist[i]; i++)
+    sigaddset(&catchsig.sa_mask,noterminal_catchsignallist[i]);
+  catchsig.sa_flags= 0;
+  
+  for (i=0; terminate_catchsignallist[i]; i++)
+    if (sigaction(terminate_catchsignallist[i],&catchsig,0))
+      ohshite("unable to set up signal handler for %s",
+              strsignal(terminate_catchsignallist[i]));
+  
+  catchsig.sa_handler= noterminal_signalhandler;
+  
+  for (i=0; noterminal_catchsignallist[i]; i++)
+    if (sigaction(noterminal_catchsignallist[i],&catchsig,0))
+      ohshite("unable to set up signal handler for %s",
+              strsignal(noterminal_catchsignallist[i]));
+}
+
+
+
+#!/bin/sh -
+
+set -e
+
+cd /var/lib/dpkg
+
+# This won't check for unpacked packages if we're upgrading
+# from a *really* old dpkg, but they probably didn't do
+# conffiles right anyway.
+perl -000 -ne 'print $1 if m/^Package:\s+(\S+\n)/im &&
+			   $1 ne "dpkg\n" &&
+			   m/^Status:.*unpacked/im' \
+	/var/lib/dpkg/status >/tmp/bp.$$
+if test -s /tmp/bp.$$
+then
+	echo '
+WARNING -- SOME PACKAGES IN "UNPACKED" STATE
+
+Due to a change in the filenames used for installed vs. newly-distributed
+configuration files it is NOT SAFE to upgrade to this version of dpkg
+from 
+
+
+    undef %hash; @configfr= @configf= ();
+    for $_ (split(/\n/,$st_pk2v{$package,'conffiles'})) {
+        s/^ //; next unless length($_);
+        if (!m/^(\S+) (-|newconffile|nonexistent|[0-9a-f]{32})$/) {
+            &warn("$arg: ignoring bad stuff in old conffiles field \`$_'");
+            next;
+        }
+        unshift(@configfr,$1); push(@configf,$1);
+        $hash{$1}= $2;
+    }
+    
+
+
+        undef %oldhash; @configf=();
+        for $_ (split(/\n/,$st_pk2v{$package,'conffiles'})) {
+            s/^ //; next unless length($_);
+            if (!m/^(\S+) (-|newconffile|nonexistent|[0-9a-f]{32})$/) {
+                &warn("$arg: ignoring bad stuff in old conffiles field \`$_'");
+                next;
+            }
+            $oldhash{$1}= $2; push(@configf,$1);
+            &debug("old hash of $1 is $2");
+        }
+        undef %newhash;
+
+
+
+  fextract= fdopen(p1[0],"r");
+
+  varbufinit(&thisname);
+  while ((c= fgetc(fextract)) != EOF) {
+    if (c != '\n') {
+      varbufaddc(&thisdirname,c);
+      continue;
+    }
+    varbufaddc(&thisdirname,0);
+    /* Right, this next part gets done for each file (or directory) in the
+     * archive of the new version of the package:
+     */
+    thisfile= filedatarecord(&filedata,thisname.buf);
+    thisfile->nstat= ifdnew_inarchive;
+    varbufreset(&thisname);
+  }
+  if (ferror(fextract)) ohshite("failed read from " BACKEND " extract pipe");
+  if (thisname.used) ohshit("partial filename in output from " BACKEND " extract");
+  if (fclose(fextract)) ohshite("failed to close" BACKEND " extract pipe");
+  waitsubproc(c1,BACKEND " extract archive",0);
+  
+  /* Save new file list, new conffiles &c */
+           
+    if (chdir(instdir)) ohshite("unable to change to installation root directory"
+                                " for archive extract `%.250s'",instdir);
+    execlp(BACKEND, BACKEND,"--control",filename,cidir,(char*)0);
+    ohshite("failed to exec " BACKEND " to extract control information");
+
+  /*** continue here ***/
+  
+void remove_with_backup(pkginfo *pkg, struct installingfiledata **ifdlisthead) {
+  if (f_noact) {
+    printf("(would back up files in `%s', renaming each * to *" DPKGTEMPEXT ")\n",
+           pkg->name);
+    return;
+  }
+  filesinpackagerev(pkg, &filelist);
+  for (barefile= filelist; barefile; barefile= barefile->next) {
+    thisfile= filedatarecord(ifdlisthead,barefile->name);
+    initostat(thisfile);
+    if (thisfile->ncoff) continue;
+    
+    switch (thisfile->ostat) {
+    case ifdold_directory:
+      push_cleanup(, co_olddirectory, ...);
+      break;
+      
+    case ifdold_none:
+      break;
+
+    case ifdold_file:
+      l= strlen(barefile->name);
+      toremove= m_malloc(instdirlen + l + 1);
+      strcpy(toremove,instdir); strcpy(toremove+instdirlen,barefile->name);
+      tempname= m_malloc(instdirlen + l + sizeof(DPKGTEMPEXT) + 1);
+      strcpy(tempname,toremove); strcpy(tempname+instdirlen+l,DPKGTEMPEXT);
+      ename= toremove + instdirlen;
+      tename= tempname + instdirlen;
+    
+      if (rename(toremove.buf, tempname.buf))
+        ohshite("unable to back up file-to-be-removed `%.250s'", tename);
+      push_cleanup(cu_backupfile, co_backupfile,
+                   ..., toremove,tempname);
+      break;
+      
+    default:
+      abort();
+    }
+  }
+}
+
+    case ifdold_directory:
+      for (inwhich= findfile(toremove); inwhich; inwhich= inwhich->more)
+        for (pkgsp= inwhich->pkgs; *pkgsp; pkgsp++)
+          switch ((*pkgsp)->clientdata->istobe) {
+          case itb_normal:
+            goto exit_both_loops_and_the_switch_at_once;
+          case itb_remove:
+          case itb_installnew:
+            /* We're removing or replacing this package, so that doesn't count.
+             * For packages that we replace the caller will remove the directories
+             * in the new version from the list of those to delete.
+             */
+            break;
+          default:
+            abort();
+          }
+    exit_both_loops_and_the_switch_at_once:
+
+      if (!inwhich) { /* Find it anywhere else ? */
+        struct fileinlist newdir;
+        newdir= m_malloc(sizeof(struct fileinlist));
+        newdir->name= m_malloc(strlen(ename));
+        strcpy((*addirs)->name,ename);
+        newdir->next= 0;
+        *adddirs= newdir;
+        adddirs= &newdir->next;
+      }
+      free(tempname); free(toremove);
+      continue;
+    }
+
+
+
+  l= strlen(pkg->name);
+  infdir= m_malloc(admindirlen + sizeof(INFODIR) + l + 50);
+  strcpy(infdir,admindir);
+  strcpy(infdir+admindirlen,"/" INFODIR);
+  strcpy(infdir+admindirlen+sizeof(INFODIR), pkg->name);
+  infdir[admindirlen+sizeof(INFODIR)+l-1]= '.';
+  infdirrest= infdir + admindirlen+sizeof(INFODIR)+l;
+  strcpy(infdirrest, LISTFILE);
+  strcpy(infdirrest+sizeof(LISTFILE)-1,".new");
+
+      for (thisfile= filelist; thisfile; thisfile= thisfile->next) {
+        for (thisconff= conflictor->installed.conffiles;
+             thisconff && strcmp(thisconff->name,thisfile->name);
+             thisconff= thisconff->next);
+        if (thisconff) continue;
+        varbufreset(&toremove);
+        varbufaddstr(&toremove, instdir);
+        varbufaddstr(&toremove, "/");
+        ename= toremove.buf + toremove.used;
+        varbufaddstr(&toremove, thisfile->name);
+        varbufaddc(&toremove, 0);
+        if (unlink(toremove.buf)) {
+          if (errno == EISDIR) {
+            if (rmdir(toremove.buf) && errno != ENOTEMPTY)
+              ohshite("%.250s: cannot remove directory `%.250s'",
+                      conflictor->name, ename);
+          } else if (errno != ENOENT) {
+            ohshite("%.250s: cannot remove `%.250s'", conflictor->name, ename);
+          }
+        }
+        varbufaddstr(&toremove, DPKGTEMPEXT);
+        varbufaddc(&toremove, 0);
+        if (unlink(toremove.buf) && errno != ENOENT)
+          ohshite("%.250s: cannot remove old backup file `%.250s'",
+                  conflictor->name, ename);
+      }
+ 
+                     
+        if (versionsatisfied(possi, &possi->ed.installed, &whynot)) present=1;
+  *const relatestrings[]= { "may be more useful with", "recommends",
+                            "requires", "conflicts with", "provides"                 },
+
+
+  if (possi
+
+  
+      varbufaddstr(&why, dep->up->name);
+      return 1;
+    }
+  }
+    varbufaddstr(&why, dep->up->name);
+    return 1;
+  }
+  
+      ||
+        dep->up
+    questionstatus=
+      questionstatus= dep->up->clientdata->istobe == 
+  if (up->
+      
+,
+                          if (questionstatus->status == stat_notinstalled ||
+      questionstatus->status == stat_configfiles) return 0;
+  switch (dep->type) {
+  case dep_conflicts:  reln= " conflicts with ";  break;
+  case dep_depends:    reln= " depends on ";      break;
+  default: return 1;
+  }
+  
+  varbufaddstr(whynot, dep->up->name);
+  varbufaddstr(whynot, reln);
+  reln= " ";
+
+  for (possi= dep->list; possi; possi= possi->next) {
+    varbufaddstr(whynot, reln);
+    varbufaddstr(whynot, possi->ed->name);
+    switch (possi->verrel) {
+    case dvr_none:     reln= 0;      break;
+    case dvr_later:    reln= " (>";  break;
+    case dvr_earlier:  reln= " (<";  break;
+    case dvr_exact:    reln= " (=";  break;
+    default: abort();
+    }
+    if (reln) {
+      varbufaddstr(whynot, reln);
+      varbufaddstr(whynot, possi->version);
+      if (possi->revision && *possi->revision) {
+        varbufaddc(whynot,'-');
+        varbufaddstr(whynot,possi->revision);
+      }
+      varbufaddc(whynot,')');
+    }
+    reln= " or ";
+  }    }
+        }
+        
+        if (!*linebuf) {
+          /* If the package wasn't installed at all, and we haven't said
+           * yet why this isn't satisfied, we should say so now.
+           */
+          sprintf(linebuf, "  %.250s is not installed.\n", possi->ed->name);
+          varbufaddstr(whynot, linebuf);
+        }
+      }
+    }
+    /* OK so far - now check for Providers. */
+    
+          /* Don't say anything about this yet - it might be a virtual package.
+           * Later on, if nothing has put anything in linebuf, we know that it
+           * isn't and issue a diagnostic then.
+           */
+          *linebuf= 0;
+          break;
+        default:
+          sprintf(linebuf, "  %.250s is %s.\n",
+                  possi->ed->name, );
+          break;
+        }
+        break;
+      default:
+        abort();
+      }
+  
+      
+          
+          if (possi->ed->clientdata->istobe == itb_install) continue;
+        default:
+          break;
+          
+           
+             /* fixme: what about things provided by the package(s)
+              * which we are about to install ?  For these we
+              * have to use ->available.depended.
+              */
+          varbufaddc(whynot, ' ');
+          varbufaddstr(whynot, provider->up->up->name);
+          varbufaddstr(whynot, " provides ");
+          varbufaddstr(whynot, possi->ed->name);
+      }  
+    }
+      
+          sprintf(linebuf, "  No package %.250s
+                  
+                provider->up->up->status == stat_configfiles) {
+              varbufaddstr(whynot, " but is not present.\n");
+            } else {
+              varbufaddstr(whynot, " and is present.\n");
+              present=1;
+            }
+            break;
+          case itb_install:
+            varbufaddstr(whynot, " and is to be installed.\n");
+            present=1;
+            break;
+        var
+        
+      varbufaddc(whynot, ' ');
+        
+        varbufaddstr(whynot, possi->ed->name);
+        varbufaddstr(whynot, " is to be removed.\n");
+        break;
+      case itb_normal:
+        varbufaddstr(whynot, possi->ed->name);
+        varbufaddstr(whynot, " is ");
+        if (dep->up->status == stat_installed) {
+          if (versionsatisfied(possi, &possi->ed.installed, whynot)) return 1;
+          varbufaddstr(&why, " version");
+          
+          varbufaddstr(&why, "
+          varbufaddstr(&why, " is not present.\n");
+        } else {
+        varbufaddstr(whynot, statusstrings[dep->ed->status]);
+          varbufaddstr(whynot, possi->ed->name);
+          varbufaddstr(whynot, " is present");
+        }
+        break;
+      case itb_installnew:
+        varbufaddstr(whynot, possi->ed->name);
+        varbufaddstr(whynot, " is to be installed");
+        if (versionsatisfied(possi, &possi->ed.available, whynot)) present=1;
+      default:
+        abort();
+      }
+  }
+  if (dep->type == dep_conflicts ? present : !present) return 0;
+  varbufreset(whynot); return 1;
+}

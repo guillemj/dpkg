@@ -1,0 +1,59 @@
+(This has been edited to conform to the intent in dpkg 1.0.16.
+ When recent versions of dpkg compare versions they break the Version
+ into an upstream version and debian revision first, by splitting the
+ Version at the last hyphen.  The revisions are only considered if the
+ upstream versions compare equal.)
+
+To: debian-devel@pixar.com
+Subject: Re: dpkg 0.93.8 released
+
+[...]
+Well, here is what I came up with after a bit of thought and testing.
+I propose the following algorithm for comparing version numbers:
+
+   forever {
+     remove initial non-digit substring from string a
+     remove initial non-digit substring from string b
+     compare initial non-digit substrings lexically,
+       counting letters as coming before punctuation
+     if (they differ) return the answer
+     remove initial digit substring from string a
+     remove initial digit substring from string b
+     compare initial digit substrings numerically
+     if (they differ) return the answer
+     if (both strings are now empty)
+       the version numbers are the same, stop
+     if (one string is now empty)
+       it is the `lesser', return the answer
+   }
+
+This will have the desired results:
+   2.1 < 2.7 < 2.7a < 2.7a-2 < 2.15
+
+An implementation in Perl is attached below.
+
+Ian.
+
+#!/usr/bin/perl --
+
+if (@ARGV) {
+    print &compare(@ARGV),"\n";
+} else {
+    while(<>) { chop; chop($x=<>); print &compare($_,$x),"\n"; }
+}                
+
+sub compare {
+    local ($a,$b) = @_;
+    do {
+        $a =~ s/^\D*//; $ad= $&; $ad =~ s/\W/ /g;
+        $b =~ s/^\D*//; $bd= $&; $bd =~ s/\W/ /g;
+print "\t[$ad|$a] [$bd|$b]\n";
+        $cm = $ad cmp $bd;  return $cm if $cm;
+        $a =~ s/^\d*//; $ad= $&;
+        $b =~ s/^\d*//; $bd= $&;
+print "\t<$ad|$a> <$bd|$b>\n";
+        $cm = $ad <=> $bd;  return $cm if $cm;
+    } while (length($a) && length($b));
+print "\t{$a} {$b}\n";
+    return length($a) cmp length($b);
+}

@@ -1,0 +1,60 @@
+# Copyright (C) 1994 Ian Murdock <imurdock@debian.org>
+# Copyright (C) 1994,1995 Ian Jackson <ijackson@nyx.cs.du.edu>
+#
+#   This is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as
+#   published by the Free Software Foundation; either version 2,
+#   or (at your option) any later version.
+#
+#   This is distributed in the hope that it will be useful, but
+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public
+#   License along with dpkg; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+prefix = @prefix@
+libdir = $(prefix)/lib
+dpkglibdir = $(libdir)/dpkg
+methodsdir = $(dpkglibdir)/methods
+datadir = /var/lib/dpkg
+methodsdatadir = $(datadir)/methods
+methodsmnt = $(datadir)/methods/mnt
+
+SCRIPTS = setup update install
+METHODS = disk floppy
+DESCS =	disk.desc.harddisk disk.desc.mounted disk.desc.cdrom \
+	disk.desc.nfs floppy.desc.floppy
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+all:
+
+install:
+		set -e; for m in $(METHODS) ; do \
+			d=$(methodsdir)/$$m ; \
+			test -d $$d || mkdir $$d ; \
+			e=$(methodsdatadir)/$$m ; \
+			test -d $$e || mkdir $$e ; \
+			$(INSTALL_DATA) $$m.names $$d/names ; \
+			for s in $(SCRIPTS) ; do \
+				$(INSTALL_PROGRAM) $$m.$$s $$d/$$s ; \
+			done ; \
+		done
+		set -e; for x in $(DESCS) ; do \
+			d=`echo $$x | sed -e 's:\.:/:'` ; \
+			$(INSTALL_DATA) $$x $(methodsdir)/$$d ; \
+		done
+
+clean:
+		rm -f core
+
+distclean:	clean
+		rm -f Makefile *.orig *~ *.~* ./#*#

@@ -1,0 +1,80 @@
+# Copyright (C) 1994 Ian Murdock <imurdock@debian.org>
+# Copyright (C) 1994,1995 Ian Jackson <ijackson@nyx.cs.du.edu>
+#
+#   This is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as
+#   published by the Free Software Foundation; either version 2,
+#   or (at your option) any later version.
+#
+#   This is distributed in the hope that it will be useful, but
+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public
+#   License along with dpkg; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+prefix = @prefix@
+exec_prefix = $(prefix)
+bindir = $(exec_prefix)/bin
+libdir = $(prefix)/lib
+dpkglibdir = $(libdir)/dpkg
+datadir = /var/lib/dpkg
+partsdir = $(datadir)/parts
+mandir = $(prefix)/man
+man8dir = $(mandir)/man8
+man8 = 8
+perlpath = @perlpath@
+
+SRC = main.c split.c info.c queue.c join.c
+OBJ = main.o split.o info.o queue.o join.o
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+CC = @CC@
+
+CFLAGS = @CFLAGS@ @CWARNS@ -g $(XCFLAGS)
+LDFLAGS = $(XLDFLAGS)
+LIBS = -L../lib -ldpkg $(XLIBS)
+ALL_CFLAGS = -I../include -I.. @DEFS@ $(CFLAGS)
+
+.SUFFIXES:	.c .o .pl
+
+.c.o:
+		$(CC) $(ALL_CFLAGS) -c $<
+
+.pl:
+		sed <$@.pl 's:^#!/usr/bin/perl:#!$(perlpath):' \
+		  | ../insert-version.pl >$@.new
+		chmod +x $@.new
+		mv $@.new $@
+
+all:		dpkg-split mksplit
+
+dpkg-split:	$(OBJ) ../lib/libdpkg.a
+		$(CC) $(LDFLAGS) -o dpkg-split $(OBJ) $(LIBS)
+
+split.o:	split.c
+		$(CC) -DMKSPLITSCRIPT=\"$(dpkglibdir)/mksplit\" $(ALL_CFLAGS) -c $<
+
+$(OBJ):					dpkg-split.h ../config.h ../include/dpkg.h
+build.o split.o queue.o join.o main.o:	../include/dpkg-db.h
+info.o extract.o main.o:		../include/myopt.h
+main.o:					../version.h
+
+clean:
+		rm -f *.o core dpkg-split
+
+distclean:	clean
+		rm -f Makefile *.orig *~ *.~* ./#*#
+
+install:	all
+		$(INSTALL_PROGRAM) -s dpkg-split $(bindir)/dpkg-split
+		$(INSTALL_PROGRAM) mksplit $(dpkglibdir)/mksplit
+#		$(INSTALL_DATA) dpkg-split.8 $(man8dir)/dpkg-split.$(man8)

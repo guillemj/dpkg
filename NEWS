@@ -1,0 +1,72 @@
+(-*- indented-text -*-)
+
+
+CHANGES SINCE dpkg 0.93.7:
+
+ * a Perl-based front-end with many new features has replaced dpkg.sh.
+   The new features are detailed below.  dpkg.pl is not finished,
+   however, as it does not yet support CONFLICTS, DEPENDS, OPTIONAL,
+   or RECOMMENDED.  All of the above will be supported in Debian 0.93.
+
+   In addition, it does not yet support PARTS, but that may wait until
+   Debian 0.94.  (In the meantime, we can create disk-sized packages by
+   hand.)
+
+   dpkg.pl has been constructed from code originally by Matt Welsh,
+   with additions by Carl Streeter, Ian Murdock, and Ian Jackson.
+
+New features in dpkg.pl:
+
+ * dpkg.pl can now manipulate many packages at a time; dpkg.sh could
+   only manipulate one package at a time.
+
+ * dpkg.pl supports pre-installation, post-installation, pre-removal,
+   and post-removal scripts.  During batch installation,
+   post-installation scripts are executed after all packages have
+   been installed.  (dpkg.sh supported all of the above except the
+   batch installation feature, because dpkg.sh did not itself support
+   batch installation.)
+
+ * dpkg.pl now supports the upgrading of packages.  A newer version of
+   a package, when released, can be obtained and installed normally on
+   the system to replace an older, previously installed version of it,
+   all with a minimum of manuals steps.
+
+   During the installation process, dpkg.pl determines whether or not
+   a version of the package is currently installed on the system.  If
+   it is, it determines whether it is an older version than the
+   package being installed (in which case we are ``upgrading'', and
+   the installation proceeds after saving the configuration files and
+   removing the older version), or whether it is the same or a newer
+   version than the package being installed (in which case we are, for
+   whatever reason, attempting to install a package twice or
+   ``downgrading'', and dpkg.pl asks for confirmation).
+
+ * dpkg.pl now supports automatic and intelligent configuration file
+   updates during the upgrade process.  During a package upgrade, it
+   determines when a configuration file has changed since the last
+   installation and, for those that have, prompts the user whether to
+   keep the older or newer configuration file, providing them with
+   default responses.
+
+New features in dpkg-deb:
+
+ * dpkg-util.deb has been renamed to dpkg-deb, for brevity.
+
+ * dpkg-deb is much less verbose, and in most cases it says nothing
+   unless an error has occurred.  The front-end is expected to provide
+   the necessary verbosity when appropriate.
+
+ * `dpkg-deb --describe' now outputs the description only, without the
+   ``Description:'' label.
+
+ * `dpkg-deb --list' output is now sorted by package name.
+
+ * `dpkg-deb --remove' bug fix: in dpkg 0.93.7 (or earlier), some
+   directories did not get properly removed.  This has been fixed.
+
+ * `dpkg-deb --version' now outputs the version information only,
+   without the `Version:'' label, and without maintainer information.
+
+ * `dpkg-deb --version' now provides the version of dpkg if no
+   argument is specified.

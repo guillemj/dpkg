@@ -1,0 +1,87 @@
+# Copyright (C) 1994 Ian Murdock <imurdock@debian.org>
+# Copyright (C) 1994,1995 Ian Jackson <ijackson@nyx.cs.du.edu>
+#
+#   This is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as
+#   published by the Free Software Foundation; either version 2,
+#   or (at your option) any later version.
+#
+#   This is distributed in the hope that it will be useful, but
+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public
+#   License along with dpkg; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+prefix = @prefix@
+exec_prefix = $(prefix)
+bindir = $(exec_prefix)/bin
+libdir = $(prefix)/lib
+mandir = $(prefix)/man
+man8dir = $(mandir)/man8
+man8 = 8
+
+SRC = main.c enquiry.c filesdb.c archives.c processarc.c cleanup.c \
+      packages.c configure.c remove.c help.c depcon.c errors.c update.c
+
+OBJ = main.o enquiry.o filesdb.o archives.o processarc.o cleanup.o \
+      packages.o configure.o remove.o help.o depcon.o errors.o update.o
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+CC = @CC@
+
+CFLAGS = @CFLAGS@ @CWARNS@ -g $(XCFLAGS)
+OPTCFLAGS = @OPTCFLAGS@
+LDFLAGS = $(XLDFLAGS)
+LIBS = -L../lib -ldpkg $(XLIBS)
+ALL_CFLAGS = -I../include -I.. @DEFS@ $(CFLAGS)
+ALL_CFLAGS_OPT = $(ALL_CFLAGS) $(OPTCFLAGS)
+
+.SUFFIXES:	.c .o
+
+.c.o:
+		$(CC) $(ALL_CFLAGS) -c $<
+
+all:		dpkg
+
+dpkg:		$(OBJ) ../lib/libdpkg.a
+		$(CC) $(LDFLAGS) -o dpkg $(OBJ) $(LIBS)
+
+# This next file is very heavily used, and should be optimised
+# for speed rather than space.  (ALL_CFLAGS_OPT usually means -O3.)
+filesdb.o:	filesdb.c
+		$(CC) $(ALL_CFLAGS_OPT) -c $<
+
+archtable.inc:	../archtable
+		perl -ne 'print "  { \"$$1\",$$2\"$$3\" },\n" \
+			   if m/^\s*(\w+)(\s+)(\w+)\s*$$/' \
+			../archtable >archtable.inc.new
+		mv archtable.inc.new archtable.inc
+
+clean:
+		rm -f *.o core dpkg *.new
+
+distclean:	clean
+		rm -f Makefile *.orig *~ *.~* ./#*#
+		rm -rf t updates status available *.old
+
+install:	all
+		$(INSTALL_PROGRAM) -s dpkg $(bindir)/dpkg
+		$(INSTALL_DATA) dpkg.8 $(man8dir)/dpkg.$(man8)
+
+$(OBJ):			main.h ../config.h ../include/dpkg.h ../include/dpkg-db.h
+main.o:						../version.h
+main.o enquiry.o errors.o update.o:		../include/myopt.h
+enquiry.o:					filesdb.h archtable.inc
+filesdb.o:					filesdb.h
+packages.o remove.o configure.o:		filesdb.h ../include/myopt.h
+archives.o processarc.o help.o:			filesdb.h ../include/myopt.h
+archives.o processarc.o:			archives.h ../include/tarfn.h

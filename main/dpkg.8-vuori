@@ -1,0 +1,588 @@
+.TH dpkg 8
+.SH NAME
+dpkg - a low-level package manager for Debian GNU/Linux
+
+.SH SYNOPSIS
+
+.B dpkb
+[options] action
+
+.SH DESCRIPTION
+
+.B dpkg
+is a medium-level tool to install, build, remove and manage Debian
+GNU/Linux packages. The primary and more user-friendly front-end
+for
+.B dpkg
+is
+.B dselect(8).
+.B dpkg
+itself is totally controlled via command line parameters, whose include
+one or more options and exactly one action. The action-parameter tells
+dpkg what to do and options control the behaviour of the action in some
+way.
+
+.B dpkg
+can be also be used as a front-end to
+.B dpkg-deb.
+Actions
+.B -b
+,
+.B --build
+,
+.B -c
+,
+.B --contents
+,
+.B -I
+,
+.B --info
+,
+.B -f
+,
+.B --field
+,
+.B -e
+,
+.B --control
+,
+.B -x
+,
+.B --extract
+,
+.B -X
+,
+.B --vextract
+and
+.B --fsys-tarfile
+are
+.B dpkg-deb
+actions and if they are encountered,
+.B dpkg
+just runs
+.B dpkg-deb
+with the parameters given to it. Please refer to
+.B dpkg-deb(8)
+for information about these actions.
+
+.SS ACTIONS
+
+.TP
+.B dpkg -i | --install <package file name> ...
+Install specified packages. If
+.B --recursive
+or
+.B -R
+option is specified,
+.I <package file name>
+must refer to a directory instead.
+
+Installation consists of the following steps:
+.br
+.B 1.
+Extract the controlfiles of the new package.
+.br
+.B 2.
+If another version of the same package was installed before the
+new installation, execute
+.I prerm
+script of the old package.
+.br
+.B 3.
+Run
+.I preinst
+script, if provided by the package.
+.br
+.B 4.
+Unpack the files and at the same time, backup the old files
+so that if something goes wrong, we can restore them.
+.br
+.B 5.
+If another version of the same package was installed before
+the new installation, execute the
+.I postrm
+script of the old package. Note that this script is executed after the
+.I preinst
+script of the new package, because new files are written at the same
+time, old files are removed.
+.br
+.B 6.
+eonfigure the package. See
+.B --configure
+for detailed information about how this is done.
+.TP
+.B dpkg --unpack <package file name> ...
+Unpack package, but don't configure it. If
+.B --recursive
+or
+.B -R
+option is specified,
+.I <package file name>
+must refer to a directory instead.
+.TP
+.B dpkg --configure     <package name> ... | -a|--pending
+Reconfigure an unpacked package.
+If
+.B -a
+or
+.B --pending
+is given instead of package name, all unpacked, but unconfigured
+packages are configured.
+
+Configuring consists of the following steps:
+.br
+.B 1.
+Unpack the configuration files and at the same time, backup the old
+configuration files, so that we can restore them, if
+something goes
+wrong.
+.br
+.B 2.
+Run
+.I postinst
+script, if provided by the package.
+.TP
+.B dpkg -r|--remove | --purge <package name> ... | -a|--pending
+Remove an installed package.
+.B --purge
+removes everything, including configuration files,
+.B --remove
+removes everything, but not configuration files. (configuration files are
+the files listed in
+.I conffiles
+-control file). If
+.B -a
+or
+.B --pending
+is given instead of package name all packages unpacked, but marked to be
+removed or purged are removed or purged (in file
+.I /var/lib/dpkg/status
+).
+
+Removing of a package consists of the following steps:
+.br
+.B 1.
+Run prerm script
+.br
+.B 2.
+Remove the installed files
+.br
+.B 3.
+Run postrm script
+.br
+.TP
+.B dpkg -A | --avail <package file name> ...
+Update 
+.B dpkg
+and
+.B dselect's
+idea of which packages are available with information about the package
+.I <package file name>.
+If
+.B --recursive
+or
+.B -R
+option is specified,
+.I <package file name>
+must refer to a directory instead.
+.TP
+.B dpkg --update-avail | --merge-avail <Packages-file>
+Update
+.B dpkg's
+and
+.B dselect's
+idea of which packages are available. With action 
+.B --merge-avail,
+information is combined from the old information and from the
+.I <Packages-file>.
+With action
+.B --update-avail,
+old information is replaced with the information in the
+.I <Packages-file>.
+The
+.I <Packages-file>
+distributed with Debian GNU/Linux is simply named
+.I Packages.
+.TP
+.B dpkg --yet-to-unpack
+Searches for packages selected for installation, but which for some
+reason still haven't been installed.
+.TP
+.B dpkg -l|--list [<package-name-pattern> ...]
+List packages matching given pattern. If no
+.B <package-name-pattern>
+is given, list all packages in
+.I /var/lib/dpkg/available.
+Normal shell wildchars are allowed in
+.B <package-name-pattern>.
+.TP
+.B dpkg -L|--listfiles <package-name> ...
+List files installed to your system from a package
+.B <package-name>.
+However, note that files created by package-specific
+installation-scripts are not listed.
+.TP
+.B dpkg -C|--audit
+Searches for packages that have been installed only partially on your
+system.
+.B dpkg
+will suggest what to do with them to get them working.
+.TP
+.B dpkg -S|--search <filename-search-pattern> ...
+Search for a filename from installed packages. All standard shell
+wildchars can be used in the pattern.
+.TP
+.B dpkg -s|--status <package-name> ...
+Report status of specified package. This just displays the entry in from
+the installed package status database.
+.TP
+.B dpkg --help
+Display a brief help.
+.TP
+.B dpkg --licence
+Display licence of
+.B dpkg.
+.TP
+.B dpkg --version
+Display version information.
+.TP
+.B dpkg-deb-actions
+See
+.B dpkg-deb(8)
+for more information about these actions.
+
+.B dpkg -b|--build <directory> [<filename>]
+- Build a Debian GNU/Linux package.
+.br
+.B dpkg -c|--contents <filename>
+- List contents of Debian GNU/Linux package.
+.br
+.B dpkg -e|--control <filename> [<directory>]
+- Extract control-information from a package.
+.br
+.B dpkg -x|--extract <filename> <directory>
+- Extract the files contained by package.
+.br
+.B dpkg -f|--field <filename> [<control-field>...]
+- Display control field(s) of a package.
+.br
+.B dpkg --fsys-tarfile <filename>
+- Display the filesystem tar-file contained by a Debian package.
+.br
+.B dpkg -I|--info <filename> [<control-file>]
+- Show information about a package.
+.br
+.B dpkg -X|--vextract <filename> <directory>
+- Extract and display the filenames contained by a package.
+
+.SS OPTIONS
+
+.TP
+.B -B | --auto-deconfigure
+While a package is removed, there is a possibility that another
+installed package depended on the removed package. Specifying this
+option will cause automatical deconfiguration of the package which
+depended on the removed package.
+.TP
+.B -Dh | --debug=help
+Give help about debugging options.
+.TP
+.B -D<octal> | --debug=<octal>
+Set debugging on.
+.B <octal>
+is a octal number formed by bitwise-orring desired values together from
+the list below (note that these values may change in future releases).
+
+ number  description
+    1   Generally helpful progress information
+    2   Invocation and status of maintainer scripts
+   10   Output for each file processed
+  100   Lots of output for each file processed
+   20   Output for each configuration file
+  200   Lots of output for each configuration file
+   40   Dependencies and conflicts
+  400   Lots of dependencies/conflicts output
+ 1000   Lots of drivel about eg the dpkg/info dir
+ 2000   Insane amounts of drivel
+.TP
+.B --force-<things> | --no-force-<things> | --refuse-<things>
+Force or refuse (no-force and refuse stands for the same thing) to do
+some things.
+.B <things>
+is a comma separated list of things specified below:
+
+.I downgrade(*):
+Install a package, even if newer version of it is already installed.
+
+.I configure-any:
+Configure also unpacked, but unconfigured packages on whose current
+package depends on.
+
+.I remove-reinstreq:
+Remove a package, even if it's broken and marked to require
+reinstallation. This may, for example, cause parts of the package to
+remain on the system, which will then be forgotten by
+.B dpkg.
+
+.I hold:
+Don't care, wheter a package is on hold or not.
+
+.I remove-essential:
+Remove, even if the package is considered essential. Essential packages
+contains mostly very basic unix commands and such. Removing them might
+cause the whole system to stop working, so use with caution.
+
+.I conflicts:
+Install, even if it conflicts with another package. This is dangerous,
+for it will usually cause overwriting of some files.
+
+.I depends:
+Remove, even if another package depends on this one. This will usually
+break the other package.
+
+.I depends-version:
+Don't care about versions when checking depencies. This will usually
+break the other package.
+
+Things marked with (*) are forced by default.
+.I Warning:
+These options are mostly intended to be used by experts only. Using them
+without fully understanding their effects may break your whole system.
+
+.TP
+.B --ignore-depends=<package>,...
+Ignore depency-checking for specified packages (actually, checking is
+performed, but only warnings about conflicts are given, nothing else).
+.TP
+.B --largemem | --smallmem
+Tells
+.B dpkg
+wheter to preserve memory or consume it as much as needed.
+.TP
+.B --new | --old
+Select new or old package format. This is a
+.B dpkg-deb(8)
+option.
+.TP
+.B --nocheck
+Don't read or check contents of control file while building a package.
+This is a
+.B dpkg-deb(8)
+option.
+.TP
+.B --no-act
+Do everything, which is supposed to be done, but don't write any
+changes. This is used to see, what would happen with specified action,
+without actually modifying anything.
+
+Be sure to give
+.B --no-act
+before action-parameter, or you might end up with undesirable results.
+(e.g.
+.B dpkg --purge foo --no-act
+will first purge package foo and then try to purge package --no-act,
+even though you propably expected it to actually do nothing)
+.TP
+.B -R | --recursive
+Recursively handle all regular files matching pattern
+.I *.deb
+found at specified directories and all of its subdirectories. This
+can be used with 
+.B -i
+,
+.B -A
+,
+.B --install
+,
+.B --unpack
+and
+.B --avail
+actions.
+.TP
+.B -G
+Don't install package, if newer version of the same package is already
+installed. This is an alias to 
+.B--refuse-downgrade.
+.TP
+.B -R|--root=<dir> | --admindir=<dir> | --instdir=<dir>
+Change default directories.
+.B admindir
+defaults to
+.I /var/lib/dpkg
+and contains many files that give information about status of installed
+or uninstalled packages, etc.
+.B instdir
+defaults to
+.I /
+and refers to the directory where packages are to be installed.
+.B instdir
+is also the directory passed to
+.B chroot(2)
+before running package's installation scripts, which means that the
+scripts see
+.B instdir
+as a root directory.
+Changing
+.B root
+changes
+.B instdir
+to
+.I <dir>
+and
+.B admindir
+to
+.I <dir>/var/lib/dpkg.
+.TP
+.B -O | --selected-only
+Only process the packages that are selected for installation. The actual
+marking is done with
+.B dselect
+or by
+.B dpkg,
+when it handles packages. i.e. When, for example a package is removed,
+it will be marked selected for installation, etc.
+.TP
+.B -E | --skip-same-version
+Don't install the package, if the same version of the package is already
+installed.
+
+.SH INFORMATION ABOUT PACKAGES
+.B dpkg
+maintains some usable information about available packages. The
+information is divided in three classes:
+.B states
+,
+.B selection states
+and
+.B flags.
+These values are intended to be changed mainly with
+.B dselect.
+.SS PACKAGE STATES
+.TP
+.B installed
+The package is unpacked and configured ok.
+.TP
+.B half-installed
+The installation of the package has been started, but not completed for
+some reason.
+.TP
+.B not-installed
+The package is not installed on your system.
+.TP
+.B unpacked
+The package is unpacked, but not configured.
+.TP
+.B half-configured
+The package is unpacked and configuration has been started, but not yet
+completed for some reason.
+.TP
+.B config-files
+Only the configuration files of the package exist on the system.
+.SS PACKAGE SELECTION STATES
+.TP
+.B install
+The package is selected for installation.
+.TP
+.B deinstall
+The package is selected for deinstallation (i.e. we want to remove all
+files, except configuration files).
+.TP
+.B purge
+The package is selected to be purged (i.e. we want to remove everything,
+even configuration files).
+.SS PACKAGE FLAGS
+.TP
+.B hold
+A package marked to be on
+.B hold
+is not handled by
+.B dpkg,
+unless forced to do that with option
+.B --force-hold.
+.TP
+.B reinst-required
+A package marked
+.B reinst-required
+is broken and requires reinstallation. These packages cannot be removed,
+unless forced with option
+.B --force-reinstreq.
+
+.SH FILES
+The files listed here are in their default directories, see option
+.B --admindir
+to see how to change locations of these files.
+.TP
+.I /var/lib/dpkg/available
+List of available packages.
+.TP
+.I /var/lib/dpkg/status
+Statuses of available packages. This file contains information about
+wheter a package is marked for removing or not, wheter it is installed
+or not, etc. See section
+.B INFORMATION ABOUT PACKAGES
+for more info.
+.TP
+.I control
+See
+.B deb(5)
+for more information about this file.
+.TP
+.I conffiles
+.B dpkg.
+See
+.B deb(5)
+for more information about this file.
+.TP
+.I preinst
+See
+.B deb(5)
+for more information about this file.
+.TP
+.I postinst
+See
+.B deb(5)
+for more information about this file.
+.TP
+.I prerm
+See
+.B deb(5)
+for more information about this file.
+.TP
+.I postrm
+See
+.B deb(5)
+for more information about this file.
+
+.SH ENVIRONMENT VARIABLES
+.TP
+.B DPKG_NO_TSTP
+Define this to something, if you prefer
+.B dpkg
+starting a new shell rather than suspending
+.B dpkg,
+while doing a shell escape.
+.TP
+.B SHELL
+The program
+.B dpkg
+will execute while starting a new shell.
+
+.SH SEE ALSO
+.B deb(5)
+,
+.B dpkg-deb(8)
+,
+.B dselect(8)
+and
+.B deb-control(5)
+
+.SH BUGS
+
+.B --no-act
+usually gives less information that might be helpful.
+.SH AUTHOR
+.B dpkg
+is written by Ian Jackson (ian@chiark.chu.cam.ac.uk). Manual page added
+by Juho Vuori (javuori@cc.helsinki.fi).
+
+

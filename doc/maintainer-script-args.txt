@@ -1,0 +1,173 @@
+Richard Kettlewell has asked me to document this, so here is a brief
+summary.  More documentation will probably have to wait until someone
+has time ...
+
+... hmm, it has turned out not to be so brief, and I've spent the last
+hour or so writing it.  Perhaps someone can use it as the basis for a
+spec or a manpage or something.
+
+In all cases version numbers are <version>-<revision>, if the package
+has both, or just <version>.  `upgrade' is used even when the new
+version number looks lower than the old.
+
+*** SUMMARY - listing of possible scripts with arguments:
+
+ <new preinst> install
+ <new preinst> install <old-version>
+ <new preinst> upgrade <old-version>
+ <old preinst> abort-upgrade <new-version>
+
+ <postinst> configure
+ <old postinst> abort-upgrade <new version>
+ <conflictor's postinst> abort-remove in-favour <package> <new version>
+ <deconfigured's postinst> abort-deconfigure \
+               in-favour <package-being-installed-but-failed> <version>
+               removing <conflicting-package> <version>
+
+ <prerm> remove
+ <old prerm> upgrade <new version>
+ <new prerm> failed-upgrade <old-vppersion>
+ <conflictor's prerm> remove in-favour <package> <new version>
+ <deconfigured's prerm> deconfigure \
+               in-favour <package-being-installed> <version> \
+               removing <conflicting-package> <version>
+
+ <postrm> remove
+ <postrm> purge
+ <old postrm> upgrade <new-version>
+ <new postrm> failed-upgrade <old-version>
+ <new postrm> abort-install
+ <new postrm> abort-install <old-version>
+ <new postrm> abort-upgrade <old-version>
+ <disappearer's postrm> disappear <overwriter> <new version>
+
+*** INSTALLATION (unpack):
+
+The procedure on installation/upgrade/overwrite/disappear (ie, when
+running dpkg --unpack, or the unpack stage of dpkg --install) is as
+follows.  In each case if an error occurs the actions in are general
+run backwards - this means that the maintainer scripts are run with
+different arguments in reverse order.  These are the `error unwind'
+calls listed below.
+
+1a. If a version the package is already installed, call
+       <old prerm> upgrade <new version>
+1b. If this gives an error (ie, a non-zero exit status), dpkg will
+attempt instead:
+       <new prerm> failed-upgrade <old-version>
+   ... error unwind, for both the above cases:
+       <old postinst> abort-upgrade <new version>
+
+2. If a `conflicting' package is being removed at the same time:
+2a. If any packages depended on that conflicting package and
+--auto-deconfigure is specified, call, for each such package:
+       <deconfigured's prerm> deconfigure \
+               in-favour <package-being-installed> <version> \
+               removing <conflicting-package> <version>
+   ... error unwind:
+       <deconfigured's postinst> abort-deconfigure \
+               in-favour <package-being-installed-but-failed> <version>
+               removing <conflicting-package> <version>
+The deconfigured packages are marked as requiring configuration, so
+that if --install is used they will be configured again if possible.
+2b. To prepare for removal of the conflicting package, call:
+       <conflictor's prerm> remove in-favour <package> <new version>
+   ... error unwind:
+       <conflictor's postinst> abort-remove in-favour <package> <new version>
+
+3a. If the package is being upgraded, call
+       <new preinst> upgrade <old-version>
+3b. otherwise, if the package had some configuration files from a
+previous version installed (ie, it is in the conffiles-only state):
+       <new preinst> install <old-version>
+3c. otherwise (ie, the package was completely purged):
+       <new preinst> install
+   ... error unwind versions, respectively:
+       <new postrm> abort-upgrade <old-version>
+       <new postrm> abort-install <old-version>
+       <new postrm> abort-install
+
+4. The new package's files are unpacked, overwriting any that may be
+on the system already, for example any from the old package or from
+another package (backups of the old files are left around, and if
+anything goes wrong dpkg will attempt to put them back as part of the
+error unwind).
+
+5a. If the package is being upgraded, call
+       <old postrm> upgrade <new-version>
+5b. If this fails, dpkg will attempt:
+       <new postrm> failed-upgrade <old-version>
+   ... error unwind, for both cases:
+       <old preinst> abort-upgrade <new-version>
+
+This is the point of no return - if dpkg gets this far, it won't back
+off past this point if an error occurs.  This will leave the package
+in a fairly bad state, which will require a successful reinstallation
+to clear up, but it's when dpkg starts doing things that are
+irreversible.
+
+6. Any files which were in the old version of the package but not in
+   the new are removed.
+7. The new file list replaces the old.
+8. The new maintainer scripts replace the old.
+
+9. Any packages all of whose files have been overwritten during the
+installation, and which aren't required for dependencies, are
+considered to have been removed.  For each such package, 
+9a. dpkg calls:
+       <disappearer's postrm> disappear <overwriter> <new version>
+9b. The package's maintainer scripts are removed.
+9c. It is noted in the status database as being in a sane state,
+namely not installed (any conffiles it may have are ignored).
+Note that disappearing packages don't have their prerm called, because
+dpkg doesn't know in advance that the package is going to vanish.
+
+10. Any files in the package we're unpacking that are also listed in
+the file lists of other packages are removed from those lists.  (This
+will lobotomise the file list of the `conflicting' package if there is
+one.)
+
+11. The backup files made at 4. are deleted.
+12. The new package's status is now sane, and recorded as `unpacked'.
+
+Here is another point of no return - if the conflicting package's
+removal fails we don't unwind the rest of the installation; the
+conflicting package is left in a half-removed limbo.
+
+13. If there was a conflicting package we go and do the removal
+actions, starting from point 2. of the removal, below.
+
+
+*** CONFIGURATION:
+
+When we configure a package (this happens with dpkg --install, or with
+--configure), we first update the conffiles and then call:
+       <postinst> configure
+(I'm planning to make available as an argument the version of the most
+recent successfully-configured version of the package.)
+
+No attempt is made to unwind after errors during configuration.
+
+
+*** REMOVAL:
+
+1.     <prerm> remove
+
+2. The package's files are removed (except conffiles).
+
+3.     <postrm> remove
+
+4. All the maintainer scripts except the postrm are removed.
+
+If we aren't purging the package we stop here.  Note that packages
+which have no postrm and no conffiles are automatically purged when
+removed, as there is no difference except for the dpkg status.
+
+5. The conffiles and any backup files (~-files, #*# files, %-files,
+.dpkg-{old,new,tmp}, &c &c &c) are removed.
+
+6.     <postrm> purge
+
+7. The package's file list is removed.
+
+No attempt is made to unwind after errors during removal.

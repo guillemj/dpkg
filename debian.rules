@@ -1,0 +1,85 @@
+#!/usr/bin/make -f
+
+package=dpkg
+version=1.1.4
+
+archi=$(shell dpkg --print-architecture)
+DIR:=$(shell pwd)
+
+build:
+	$(checkdir)
+	./configure --prefix=/usr
+	$(MAKE)
+	touch build
+
+clean:
+	$(checkdir)
+	-rm -f build
+	-$(MAKE) -i distclean
+	-rm -rf debian-tmp* *~ *.orig ./#*# tmp.*
+	-rm -f config.cache config.status config.h install config.log
+	find -name '*~' -print0 | xargs -r0 rm --
+
+binary:
+#checkroot build
+	-rm -rf debian-tmp
+	mkdir debian-tmp debian-tmp/DEBIAN
+	install -d debian-tmp/usr/doc/{copyright,dpkg}
+	cp debian.preinst debian-tmp/DEBIAN/preinst
+	if file main/dpkg | grep -q ELF; then \
+		if [ $(archi) = i386 ]; then \
+			sed -e '5s/=/ (>= 5.2.18-2)/' <debian.control >tmp.control ; \
+			sed -e 's/^# i386elf: //' <debian.preinst \
+				>debian-tmp/DEBIAN/preinst ; \
+		else \
+			sed -e '5s/=//' <debian.control >tmp.control ; \
+		fi ; \
+	else \
+		cp debian.controlaout tmp.control ; \
+	fi
+	sed -e '2s/=/$(version)/; 3s/=/$(archi)/' tmp.control >debian-tmp/DEBIAN/control
+	cp debian.prerm debian-tmp/DEBIAN/prerm
+	cp debian.postinst debian-tmp/DEBIAN/postinst
+	chmod +x debian-tmp/DEBIAN/{postinst,prerm,preinst}
+	$(MAKE) prefix=$(DIR)/debian-tmp/usr \
+		datadir=$(DIR)/debian-tmp/var/lib/dpkg \
+		etcdir=$(DIR)/debian-tmp/etc \
+		install
+	gzip -9 debian-tmp/usr/info/guidelines.info*
+	cp debian.README debian-tmp/usr/doc/copyright/dpkg
+	cp TODO debian-tmp/usr/doc/dpkg/WISHLIST
+	touch debian-tmp/var/lib/dpkg/{status,available}
+	chown -R root.root debian-tmp
+	chmod -R g-ws debian-tmp
+	cd debian-tmp && \
+	tar cf ../../$(package)-$(version).nondebbin.tar usr var && \
+	gzip -9vf ../../$(package)-$(version).nondebbin.tar
+	mv debian-tmp/usr/bin/dpkg-deb{,.dist}
+	rm debian-tmp/var/lib/dpkg/{status,available}
+	dpkg --build debian-tmp
+	if file main/dpkg | grep -q ELF; then \
+		mv debian-tmp.deb ../dpkg-$(version)elf.deb ; \
+		mv ../dpkg-$(version).nondebbin.tar.gz \
+		   ../dpkg-$(version)elf.nondebbin.tar.gz ; \
+	else \
+		mv debian-tmp.deb ../dpkg-$(version).deb ; \
+	fi
+
+define checkdir
+	test -f include/dpkg.h
+endef
+
+source:		clean
+	chmod +x debian.rules
+	cd .. && \
+	tar cf $(package)-$(version).tar $(package)-$(version) && \
+	gzip -9vf $(package)-$(version).tar
+ 
+diff:
+	@echo '((( no diff - this package is a Debian special )))'
+
+checkroot:
+	$(checkdir)
+	test root = "`whoami`"
+
+.PHONY: binary source diff clean checkroot

@@ -1,0 +1,81 @@
+# Copyright (C) 1994 Ian Murdock <imurdock@debian.org>
+# Copyright (C) 1994,1995 Ian Jackson <ijackson@nyx.cs.du.edu>
+#
+#   This is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as
+#   published by the Free Software Foundation; either version 2,
+#   or (at your option) any later version.
+#
+#   This is distributed in the hope that it will be useful, but
+#   WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public
+#   License along with dpkg; if not, write to the Free Software
+#   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+srcdir = @srcdir@
+VPATH = @srcdir@
+
+prefix = @prefix@
+infodir = $(prefix)/info
+mandir = $(prefix)/man
+man5dir = $(mandir)/man5
+man5 = 5
+docdir = $(prefix)/doc
+devdocdir = $(docdir)/dpkg
+
+DIST = Makefile.in $(SRC) $(MAN)
+
+INSTALL = @INSTALL@
+INSTALL_PROGRAM = @INSTALL_PROGRAM@
+INSTALL_DATA = @INSTALL_DATA@
+
+MAKEINFO = makeinfo
+TEXI2DVI = texi2dvi
+
+DEVDOCS= auto-deconfiguration.txt dependency-ordering.txt \
+ disappear-replace.txt diversions.text \
+ essential-flag.txt version-ordering.txt
+
+# Files folded into main guidelines document
+OBSOLETEDOCS= descriptions.txt upgrades+errors.txt \
+ maintainer-script-args.txt virtual-dependencies.txt
+
+all:		$(DEVDOCS) guidelines.info
+
+guidelines.info: guidelines.texi
+		$(MAKEINFO) $(srcdir)/guidelines.texi
+
+database-structure.ps:	database-structure.fig
+		fig2dev -L ps -c -l _ -P <database-structure.fig >ps
+		mv ps database-structure.ps
+
+database-structure.monops: database-structure.ps
+		perl -pe 's:^/(col[0-7]) \{[01 ]*1[01 ]* setrgbcolor\}\
+ bind def$$:/$$1 {} bind def:' database-structure.ps >ps
+		mv ps database-structure.monops
+
+#dpkg.dvi:
+#		$(TEXI2DVI) $(srcdir)/dpkg.texi
+#
+#dpkg.info:
+#		$(MAKEINFO) $(srcdir)/dpkg.texi
+
+clean:
+		rm -f database-structure.ps database-structure.monops ps
+		rm -f *.{aux,cp,dvi,fn,ky,log,pg,toc,tp,vr}
+		rm -f guidelines.info
+
+distclean:
+		rm -f Makefile *.orig *~ *.~* ./#*#
+
+install:	all
+		$(INSTALL_DATA) deb.5 $(man5dir)/deb.$(man5)
+		$(INSTALL_DATA) deb-control.5 $(man5dir)/deb-control.$(man5)
+		$(INSTALL_DATA) guidelines.info guidelines.info-*[0-9] \
+			$(infodir)/.
+		set -e; for d in $(DEVDOCS) ; do \
+			$(INSTALL_DATA) $$d $(devdocdir)/$$d ; \
+		done

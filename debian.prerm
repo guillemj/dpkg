@@ -1,0 +1,12 @@
+#!/bin/sh -
+
+set -e
+
+cd /usr/bin
+test -f dpkg-deb.dist || ln dpkg-deb dpkg-deb.dist
+
+install-info --quiet --remove /usr/info/Guidelines
+install-info --quiet --remove /usr/info/debian-guidelines
+install-info --quiet --remove /usr/info/guidelines
+install-info --quiet --remove /usr/info/debian-guidelines.info.gz
+install-info --quiet --remove /usr/info/guidelines.info.gz

@@ -1,0 +1,71 @@
+#!/bin/sh
+
+set -e
+vardir="$1"
+method=$2
+option=$3
+
+cd "$vardir/methods/disk"
+
+. ./shvar.$option
+
+if [ -z "$p_main_packages" -a -z "$p_ctb_packages" -a \
+     -z "$p_nf_packages" -a -z "$p_lcl_packages " ]
+then
+	echo '
+No Packages files available, cannot update available packages list.
+Hit RETURN to continue.  '
+	read response
+	exit 0
+fi
+
+xit=1
+trap '
+	rm -f packages-{main,ctb,nf,lcl}
+	if [ -n "$umount" ]
+	then
+		umount "$umount" >/dev/null 2>&1
+	fi
+	exit $xit
+' 0
+
+if [ -n "$p_blockdev" ]
+then
+	umount="$p_mountpoint"
+	mount -rt "$p_fstype" -o nosuid,nodev "$p_blockdev" "$p_mountpoint"
+fi
+
+if [ -n "$p_nfs" ]
+then
+	umount="$p_mountpoint"
+	mount -rt nfs "$p_nfs" -o nosuid,nodev "$p_mountpoint"
+fi
+
+for f in main ctb nf lcl
+do
+	eval 'this_packages=$p_'$f'_packages'
+	if [ -z "$this_packages" ]; then continue; fi
+	case "$p_mountpoint" in
+	*/ )	packagesfile="$p_mountpoint$this_packages" ;;
+	'' )	packagesfile="$this_packages" ;;
+	* )	packagesfile="$p_mountpoint/$this_packages" ;;
+	esac
+	case "$packagesfile" in
+	*.gz | *.Z | *.GZ | *.z)
+		echo -n "Uncompressing $packagesfile ... "
+		zcat <"$packagesfile" >packages-$f
+		echo done.
+		dpkg --merge-avail packages-$f
+		;;
+	'')
+		;;
+	*)
+		dpkg --merge-avail "$packagesfile"
+		;;
+	esac
+done
+
+echo -n 'Update OK.  Hit RETURN.  '
+read response
+
+xit=0
