@@ -223,9 +223,44 @@ int packagelist::resolvedepcon(dependency *depends) {
     return 0;
     
   case dep_suggests:
-    if (0) return 0; /* fixme: configurable */
-    // fall through ...
   case dep_recommends:
+
+    if (would_like_to_install(depends->up->clientdata->selected,depends->up) <= 0)
+      return 0;
+
+    fixbyupgrade= 0;
+    
+    for (possi= depends->list;
+         possi && !deppossatisfied(possi,&fixbyupgrade);
+         possi= possi->next);
+    if (depdebug && debug)
+      fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): depends found %s\n",
+              this,depends,
+              possi ? possi->ed->name : _("[none]"));
+    if (possi) return 0;
+
+    // For a recommends we default to selecting the package
+    if (depends->type==dep_recommends)  {
+      for (possi=depends->list; possi; possi= possi->next) {
+        pkginfo::pkgwant nw;
+	if (!possi->ed->clientdata) continue;
+	nw= reallywant(pkginfo::want_install, possi->ed->clientdata);
+	if (possi->ed->clientdata->selected == nw ||
+		(possi->ed->clientdata->selected == pkginfo::want_purge &&
+		 nw==pkginfo::want_deinstall))
+	    ; // already in the state we want it, so do nothing
+	else {
+	  possi->ed->clientdata->suggested = possi->ed->clientdata->selected = nw;
+	  possi->ed->clientdata->spriority= sp_selecting;
+	}
+      }
+    }
+    
+    // Ensures all in the recursive list; adds info strings; ups priorities
+    r= add(depends, depends->type == dep_suggests ? dp_may : dp_must);
+
+    return r;
+
   case dep_depends:
   case dep_predepends:
 
