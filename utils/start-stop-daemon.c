@@ -686,7 +686,7 @@ check(pid_t pid)
 		return;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
 		return;
-	if (start && pid_is_running(pid))
+	if (start && !pid_is_running(pid))
 		return;
 	push(&found, pid);
 }
