@@ -96,6 +96,32 @@ static void usage(void) {
        stdout)) werr("stdout");
 }
 
+#if CAN_RESIZE
+/*
+ * This uses functions that are "unsafe", but it seems to work on SunOS and
+ * Linux.  The 'wrefresh(curscr)' is needed to force the refresh to start from
+ * the top of the screen -- some xterms mangle the bitmap while resizing.
+ *
+ * Borrowed from the ncurses example view.c
+ */
+static RETSIGTYPE adjust(int sig)
+{
+  if (waiting || sig == 0) {
+    struct winsize size;
+
+    if (ioctl(fileno(stdout), TIOCGWINSZ, &size) == 0) {
+      resizeterm(size.ws_row, size.ws_col);
+      wrefresh(curscr);       /* Linux needs this */
+      show_all();
+    }
+    interrupted = FALSE;
+  } else {
+    interrupted = TRUE;
+  }
+  (void) signal(SIGWINCH, adjust);        /* some systems need this */
+}
+#endif  /* CAN_RESIZE */
+
 /* These are called by C code, so need to have C calling convention */
 extern "C" {
 
@@ -279,6 +305,10 @@ urqresult urq_quit(void) {
 
 int main(int, const char *const *argv) {
   jmp_buf ejbuf;
+
+#if CAN_RESIZE
+  (void) signal(SIGWINCH, adjust); /* arrange interrupts to resize */
+#endif
 
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     cursesoff();

@@ -493,6 +493,10 @@ pkginfo **packagelist::display() {
 
   if (debug) fprintf(debug,"packagelist[%p]::display() entering loop\n",this);
   for (;;) {
+#if CAN_RESIZE
+    if (interrupted)
+      adjust(0);
+#endif
     if (whatinfo_height) wcursyncup(whatinfowin);
     if (doupdate() == ERR) ohshite("doupdate failed");
     signallist= this;

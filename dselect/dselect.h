@@ -27,6 +27,17 @@
 
 #include <signal.h>
 
+#if defined(SIGWINCH) && defined(TIOCGWINSZ) && defined(NCURSES_VERSION)
+#define CAN_RESIZE 1
+#else
+#define CAN_RESIZE 0
+#endif
+
+#if CAN_RESIZE
+static RETSIGTYPE adjust(int sig);
+static int          interrupted;
+#endif
+
 struct helpmenuentry {
   char key;
   const struct helpmessage *msg;
