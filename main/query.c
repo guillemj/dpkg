@@ -1,4 +1,7 @@
 /*
+ * dpkg-query - program for query the dpkg database
+ * query.c - status enquiry and listing options
+ *
  * dpkg - main program for package management
  * enquiry.c - status enquiry and listing options
  *
@@ -20,8 +23,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-/* fixme: per-package audit */
-
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -41,7 +42,6 @@
 
 #include "filesdb.h"
 #include "main.h"
-#include "query.h"
 
 static const char* showformat		= "${pkg:Package}\t${pkg:Version}\n";
 
