@@ -221,10 +221,13 @@ int packagelist::resolvedepcon(dependency *depends) {
   case dep_provides:
   case dep_replaces:
     return 0;
-    
+
+  case dep_enhances:
+    return 0;
+
   case dep_suggests:
   case dep_recommends:
-
+#if 0
     if (would_like_to_install(depends->up->clientdata->selected,depends->up) <= 0)
       return 0;
 
@@ -260,7 +263,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     r= add(depends, depends->type == dep_suggests ? dp_may : dp_must);
 
     return r;
-
+#endif
   case dep_depends:
   case dep_predepends:
 
