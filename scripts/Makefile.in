@@ -101,6 +101,7 @@ install-doc:
 %: %.pl
 	$(SED) -e "s:^#![:space:]*/usr/bin/perl:#! $(PERL):; \
 		s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(dpkglibdir)\":; \
+		s:\$$admindir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$admindir=\"$(admindir)\":; \
 		s:\$$version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$version=\"$(VERSION)\":" \
 		< $< > $@
 
