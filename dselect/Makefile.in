@@ -14,8 +14,7 @@ CXX_SOURCES	= basecmds.cc baselist.cc basetop.cc bindings.cc curkeys.cc \
 MAN8PAGES	= dselect.8
 
 OBJECTS		= $(patsubst %.cc, %.o, $(CXX_SOURCES))
-GENFILES	= $(OBJECTS) dselect helpmsgs.h curkeys.h \
-		  $(srcdir)/helpmsgs.h $(srcdir)/helpmsgs.cc
+GENFILES	= $(OBJECTS) dselect helpmsgs.h curkeys.h
 
 .PHONY: all
 all:: dselect
@@ -52,9 +51,6 @@ dselect: $(OBJECTS) ../lib/libdpkg.a
 
 basecmds.o: helpmsgs.h
 curkeys.o: curkeys.h
-
-$(srcdir)/helpmsgs.h $(srcdir)/helpmsgs.cc: helpmsgs.src $(srcdir)/mkhelpmsgs.pl
-	cd $(srcdir) ; perl mkhelpmsgs.pl helpmsgs.src
 
 curkeys.h: keyoverride $(srcdir)/mkcurkeys.pl
 	cursesfile=`echo '#include <curses.h>' | \
