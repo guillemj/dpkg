@@ -73,6 +73,8 @@ static const char* listformatstring() {
 
   if ((columns=getenv("COLUMNS")) && ((res=atoi(columns))>0))
     ws.ws_col=res;
+  else if (!isatty(fd))
+    ws.ws_col=80;
   else {
     if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
       if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
