@@ -39,7 +39,7 @@ enum deptype {
   dep_conflicts,
   dep_provides,
   dep_replaces,
-  deb_enhances
+  dep_enhances
 };
 
 enum depverrel {
