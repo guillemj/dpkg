@@ -27,8 +27,6 @@ dpkg (1.4.1.19) unstable; urgency=low
     Filename, and MSDOS-Filename used to get lost when installing a
     package.
   * Added armv4l to archtable
-  * Implemented a nice fix for multiple conflicts and replaces. Also added
-    --assert-multi-conrep.
   * Added 'D' to the list of choices for conffile handling, closes: #48137
   * Converted internals.sgml to debiandoc format. Also added a dpkg-doc
     package that contains the generated output from this file (.ps, .html
@@ -40,6 +38,12 @@ dpkg (1.4.1.19) unstable; urgency=low
     really being parsed, it now works as advertised.
   * dpkg-gencontrol: add "Source" to the fields placed in the control file
   * dpkg-parsechangelog: fixed loop for parsepath (#48526)
+  * main/{processarc.c,depcon.c}: added new structure for conflictors,
+    which contains a struct for conflicts. This is used to create an array
+    of conflicting packages, which are going to be replaced. Allows for
+    multiple conflicts and replaces. All conflictor handlers were
+    converted to loops to handle each one (processarc.c).
+  * dpkg-divert: Fix check for writable filesystem, closes: #48646
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

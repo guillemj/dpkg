@@ -176,23 +176,21 @@ sub infol {
 sub checkrename {
     return unless $dorename;
     ($rsrc,$rdest) = @_;
-    my %exist;
     (@ssrc= lstat($rsrc)) || $! == &ENOENT ||
         &quit("cannot stat old name \`$rsrc': $!");
-    $exist{$rsrc} = 1 unless $! != &ENOENT;
     (@sdest= lstat($rdest)) || $! == &ENOENT ||
         &quit("cannot stat new name \`$rdest': $!");
-    $exist{$rdest} = 1 unless $! != &ENOENT;
     # Unfortunately we have to check for write access in both
     # places, just having +w is not enough, since people do
     # mount things RO, and we need to fail before we start
-    # mucking around with things
+    # mucking around with things. So we open a file with the
+    # same name as the diversions but with an extension that
+    # (hopefully) wont overwrite anything. If it succeeds, we
+    # assume a writable filesystem.
     foreach $file ($rsrc,$rdest) {
-	open (TMP, ">> $file") || &quit("error checking \`$file': $!");
+	open (TMP, ">> ${file}.dpkg-devert.tmp") || &quit("error checking \`$file': $!");
 	close TMP;
-	if ($exist{$file} == 1) {
-	    unlink ("$file");
-	}
+	unlink ("${file}.dpkg-devert.tmp");
     }
     if (@ssrc && @sdest &&
         !($ssrc[0] == $sdest[0] && $ssrc[1] == $sdest[1])) {
