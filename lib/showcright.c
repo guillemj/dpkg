@@ -29,7 +29,5 @@ void showcopyright(const struct cmdinfo *c, const char *v) {
   int fd;
   fd= open(COPYINGFILE,O_RDONLY);
   if (fd < 0) ohshite(_("cannot open GPL file " COPYINGFILE));
-  m_dup2(fd,0);
-  execlp(CAT,CAT,"-",(char*)0);
-  ohshite(_("unable to exec cat for displaying GPL file"));
+  do_fd_copy(fd, 1, _("showcopyright"));
 }

@@ -41,13 +41,14 @@
 #include "main.h"
 
 static void printversion(void) {
-  if (fputs(_("Debian Linux `dpkg' package management program version "), stdout) < 0)
-      werr("stdout");
+  if (fputs(_("Debian Linux `"), stdout) < 0) werr("stdout");
+  if (fputs(DPKG, stdout) < 0) werr("stdout");
+  if (fputs(_("' package management program version "), stdout) < 0) werr("stdout");
   if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
-  if (fputs(_("Copyright 1994-1996 Ian Jackson, Bruce Perens.  This is free software;\n"
-             "see the GNU General Public Licence version 2 or later for copying\n"
-             "conditions.  There is NO warranty.  See dpkg --licence for details.\n"),
-             stdout) < 0) werr("stdout");
+  if (fputs(_( "This is free software; see the GNU General Public Licence version 2 or\n"
+		"later for copying conditions.  There is NO warranty.\n"
+		"See dpkg --licence for copyright and license details.\n"),
+		 stdout) < 0) werr("stdout");
 }
 /*
    options that need fixing:

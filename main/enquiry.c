@@ -27,6 +27,10 @@
 #include <fnmatch.h>
 #include <assert.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/ioctl.h>
+#include <fcntl.h>
 
 #include <config.h>
 #include <dpkg.h>
@@ -55,24 +59,44 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   *pdesc_r=pdesc; *l_r=l;
 }
 
+static int getttywidth() {
+  int fd;
+  int res;
+  struct winsize ws;
+
+  if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
+    if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
+      ws.ws_col=80;
+    close(fd);
+  }
+  return ws.ws_col;
+}
+
 static void list1package(struct pkginfo *pkg, int *head) {
-  int l;
+  int l,w;
   const char *pdesc;
+  char format[80];
     
+  w=getttywidth()-(3+1+15+1+14+1+44); /* get spare width */
+  w>>=1; /* halve that so we can add that to the both the name and description */
+  sprintf(format,"%%c%%c%%c %%-%d.%ds %%-14.14s %%.*s\n", (14+w), (14+w));
+
   if (!*head) {
     fputs(_("\
 Desired=Unknown/Install/Remove/Purge\n\
 | Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n\
-|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)\n\
-||/ Name            Version        Description\n\
-+++-===============-==============-============================================\n"),
-          stdout);
+|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)\n"), stdout);
+    printf(format,'|','|','/', _("Name"), _("Version"), 40, _("Description"));
+    printf("+++-");
+    for (l=0;l<(14+w);l++) printf("="); printf("-");
+    printf("==============-");
+    for (l=0;l<(44+w);l++) printf("="); 
+    printf("\n");
     *head= 1;
   }
-  
   if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
-  limiteddescription(pkg,44,&pdesc,&l);
-  printf("%c%c%c %-15.15s %-14.14s %.*s\n",
+  limiteddescription(pkg,(44+w),&pdesc,&l);
+  printf(format,
          "uihrp"[pkg->want],
          "nUFiHc"[pkg->status],
          " R?#"[pkg->eflag],

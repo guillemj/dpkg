@@ -90,11 +90,7 @@ static void info_spew(const char *debar, const char *directory,
   while ((component= *argv++) != 0) {
     co= fopen(component,"r");
     if (co) {
-      if (!(c1= m_fork())) {
-        m_dup2(fileno(co),0);
-        execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat component"));
-      }
-      waitsubproc(c1,"cat component",0);
+      do_fd_copy(fileno(co), 1, _("info_spew"));
     } else if (errno == ENOENT) {
       if (fprintf(stderr, _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
                   debar, component) == EOF) werr("stderr");

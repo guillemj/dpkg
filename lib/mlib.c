@@ -122,3 +122,47 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   if (r != pid) { onerr_abort++; ohshite(_("wait for %s failed"),description); }
   checksubprocerr(status,description,sigpipeok);
 }
+
+int do_fd_copy(int fd1, int fd2, char *desc) {
+    char *buf, *sbuf;
+    int count;
+    char *er_msg_1 = _("failed to allocate buffer for copy (%s)");
+    char *er_msg_2 = _("failed in copy on write (%s)");
+    char *er_msg_3 = _("failed in copy on read (%s)");
+
+    count = strlen(er_msg_1) + strlen(desc) + 1;
+    sbuf = malloc(count);
+    if(sbuf == NULL)
+	ohshite(_("failed to allocate buffer for snprintf 1"));
+    snprintf(sbuf, count, er_msg_1, desc);
+    sbuf[count-1] = 0;
+
+    buf = malloc(32768);
+    if(buf == NULL)
+	ohshite(sbuf);
+    free(sbuf);
+
+    count = strlen(er_msg_2) + strlen(desc) + 1;
+    sbuf = malloc(count);
+    if(sbuf == NULL)
+	ohshite(_("failed to allocate buffer for snprintf 2"));
+    snprintf(sbuf, count, er_msg_2, desc);
+    sbuf[count-1] = 0;
+
+    while((count = read(fd1, buf, 32768)) > 0)
+	if(write(fd2, buf, count) < count)
+		ohshite(sbuf);
+
+    free(sbuf);
+    count = strlen(er_msg_3) + strlen(desc) + 1;
+    sbuf = malloc(count);
+    if(sbuf == NULL)
+	ohshite(_("failed to allocate buffer for snprintf 2"));
+    snprintf(sbuf, count, er_msg_3, desc);
+    sbuf[count-1] = 0;
+
+    if(count < 0)
+	ohshite(_("failed in copy on read (control)"));
+    free(sbuf);
+    free(buf);
+}

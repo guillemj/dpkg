@@ -66,6 +66,7 @@ Usage: dpkg-deb -b|--build <directory> [<deb>]    Build an archive.\n\
 <cfield> is the name of a field in the main `control' file.\n\
 Options:  -D for debugging output; --old or --new controls archive format;\n\
           --nocheck to suppress control file check (build bad package).\n\
+          -z# to set the compression when building
 \n\
 Use `dpkg' to install and remove packages from your system, or\n\
 `dselect' for user-friendly package management.  Packages unpacked\n\
@@ -79,6 +80,7 @@ const char printforhelp[]=
      "Type dpkg --help for help about installing and deinstalling packages.");
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
+const char* compression=NULL;
 const struct cmdinfo *cipaction=0;
 dofunction *action=0;
 
@@ -118,6 +120,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "old",           0,   0,  &oldformatflag, 0,  0,            1  },
   { "debug",        'D',  0,  &debugflag,     0,  0,            1  },
   { "nocheck",       0,   0,  &nocheckflag,   0,  0,            1  },
+  { "compression",  'z',  1,  0,   &compression,  0,            1  },
   { "help",         'h',  0,  0, 0,               helponly         },
   { "version",       0,   0,  0, 0,               versiononly      },
   { "licence",       0,   0,  0, 0,               showcopyright    }, /* UK spelling */

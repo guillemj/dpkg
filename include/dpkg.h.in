@@ -120,6 +120,7 @@
 #define DSELECT      "dselect"
 #define DPKG         "dpkg"
 
+#define SAFEFILELIST "dpkg-safefilelist"
 #define TAR          "tar"
 #define GZIP         "gzip"
 #define CAT          "cat"
@@ -196,6 +197,8 @@ void m_pipe(int fds[2]);
 
 void checksubprocerr(int status, const char *description, int sigpipeok);
 void waitsubproc(pid_t pid, const char *description, int sigpipeok);
+
+int do_fd_copy(int fd1, int fd2, char *desc);
 
 extern volatile int onerr_abort;
 
