@@ -271,7 +271,7 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
     ohshite(desc,name);
   }
   script_catchsignals(); /* This does a push_cleanup() */
-  r= waitsubproc(c1,name,0,warn);
+  r= waitsubproc(c1,name,PROCWARN);
   pop_cleanup(ehflag_normaltidy);
   return r;
 }
@@ -477,5 +477,5 @@ void ensure_pathname_nonexisting(const char *pathname) {
     ohshite(_("failed to exec rm for cleanup"));
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
-  waitsubproc(c1,"rm cleanup",0,0);
+  waitsubproc(c1,"rm cleanup",0);
 }

@@ -103,17 +103,17 @@ void m_pipe(int *fds) {
   ohshite(_("failed to create pipe"));
 }
 
-int checksubprocerr(int status, const char *description, int sigpipeok, int warn) {
+int checksubprocerr(int status, const char *description, int flags) {
   int n;
   if (WIFEXITED(status)) {
     n= WEXITSTATUS(status); if (!n) return n;
-    if(warn)
+    if(flags & PROCWARN)
       fprintf(stderr, _("dpkg: warning - %s returned error exit status %d\n"),description,n);
     else
       ohshit(_("subprocess %s returned error exit status %d"),description,n);
   } else if (WIFSIGNALED(status)) {
-    n= WTERMSIG(status); if (!n || (sigpipeok && n==SIGPIPE)) return 0;
-    if (warn)
+    n= WTERMSIG(status); if (!n || ((flags & PROCPIPE) && n==SIGPIPE)) return 0;
+    if (flags & PROCWARN)
       ohshit(_("dpkg: warning - %s killed by signal (%s)%s\n"),
            description, strsignal(n), WCOREDUMP(status) ? ", core dumped" : "");
     else
@@ -125,13 +125,13 @@ int checksubprocerr(int status, const char *description, int sigpipeok, int warn
   return -1;
 }
 
-int waitsubproc(pid_t pid, const char *description, int sigpipeok, int warn) {
+int waitsubproc(pid_t pid, const char *description, int flags) {
   pid_t r;
   int status;
 
   while ((r= waitpid(pid,&status,0)) == -1 && errno == EINTR);
   if (r != pid) { onerr_abort++; ohshite(_("wait for %s failed"),description); }
-  return checksubprocerr(status,description,sigpipeok, warn);
+  return checksubprocerr(status,description,flags);
 }
 
 ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *desc) {
