@@ -31,27 +31,26 @@ my $control=shift || "debian/control";
 open (CONTROL, $control) || die "$control: $!\n";
 my @status=parse_status();
 my (@unmet, @conflicts);
-while (<CONTROL>) {
-	chomp;
-	last if $_ eq ''; # end of first stanza
-
-	if (/^Build-Depends:\s+(.*)/i) {
-		push @unmet, build_depends($1, @status);
-	}
-	elsif (/^Build-Conflicts:\s+(.*)/i) {
-		push @conflicts, build_conflicts($1, @status);
-	}
-	elsif (! $binary_only && /^Build-Depends-Indep:\s+(.*)/i) {
-		push @unmet, build_depends($1, @status);
-	}
-	elsif (! $binary_only && /^Build-Conflicts-Indep:\s+(.*)/i) {
-		push @conflicts, build_conflicts($1, @status);
-	}
-}
+local $/='';
+my $cdata=<CONTROL>;
 close CONTROL;
 
+my $dep_regex=qr/\s*((.|\n\s+)*)\s/; # allow multi-line
+if ($cdata =~ /^Build-Depends:$dep_regex/mi) {
+		push @unmet, build_depends($1, @status);
+	}
+elsif ($cdata =~ /^Build-Conflicts:$dep_regex/mi) {
+		push @conflicts, build_conflicts($1, @status);
+	}
+elsif (! $binary_only && $cdata =~ /^Build-Depends-Indep:$dep_regex/mi) {
+		push @unmet, build_depends($1, @status);
+	}
+elsif (! $binary_only && $cdata =~ /^Build-Conflicts-Indep:$dep_regex/mi) {
+		push @conflicts, build_conflicts($1, @status);
+	}
+
 if (@unmet) {
-	print STDERR "$me: Unmet build dependancies: ";
+	print STDERR "$me: Unmet build dependencies: ";
 	print STDERR join(", ", @unmet), "\n";
 }
 if (@conflicts) {
@@ -78,7 +77,7 @@ sub parse_status {
 		($version{$package}) = /^Version: (.*)$/m;
 	
 		if (/^Provides: (.*)$/m) {
-			foreach (split(/,\s+/, $1)) {
+			foreach (split(/,\s*/, $1)) {
 				push @{$providers{$_}}, $package;
 			}
 		}
@@ -88,7 +87,7 @@ sub parse_status {
 	return \%version, \%providers;
 }
 
-# This function checks the build dependancies passed in as the first
+# This function checks the build dependencies passed in as the first
 # parameter. If they are satisfied, returns false. If they are unsatisfied,
 # an list of the unsatisfied depends is returned.
 #
@@ -125,7 +124,7 @@ sub check_line {
 	chomp $build_arch;
 
 	my @unmet=();
-	foreach my $dep (split(/,\s+/, $line)) {
+	foreach my $dep (split(/,\s*/, $line)) {
 		my $ok=0;
 		my @possibles=();
 ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
@@ -156,7 +155,7 @@ ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
 				}
 			}
 			
-			# This is a possibile way to meet the dependancy.
+			# This is a possibile way to meet the dependency.
 			# Remove the arch stuff from $alternate.
 			$alternate=~s/\s+\[.*?\]//;
 			push @possibles, $alternate;
@@ -182,12 +181,12 @@ ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
 				}
 			}
 			elsif (! defined $providers{$package}) {
-				# It's not a versioned dependancy, and
+				# It's not a versioned dependency, and
 				# nothing provides it, so fail.
 				next;
 			}
 	
-			# If we get to here, the dependancy was met.
+			# If we get to here, the dependency was met.
 			$ok=1;
 		}
 	
