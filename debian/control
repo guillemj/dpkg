@@ -13,8 +13,8 @@ Package: dpkg
 Architecture: any
 Essential: yes
 Pre-Depends: dselect, ${shlibs:Pre-Depends}
-Conflicts: sysvinit (<< 2.82-1)
-Replaces: dpkg-doc-ja, dpkg-static
+Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch
+Replaces: dpkg-doc-ja, dpkg-static, manpages-de (<= 0.4-3)
 Conflicts: dpkg-static
 Description: Package maintenance system for Debian
  This package contains the programs which handle the installation and
@@ -58,13 +58,11 @@ Suggests: gnupg, debian-keyring
 Conflicts: dpkgname
 Replaces: dpkgname, dpkg (<< 1.4.1.8), dpkg-doc-ja
 Description: Package building tools for Debian
- This package contains the necessary tools required to unpack
- (dpkg-source), build (dpkg-buildpackage, dpkg-architecture,
- dpkg-gencontrol, dpkg-shlibdeps) and prepare Debian source packages
- for upload (dpkg-distaddfile, dpkg-genchanges, dpkg-parsechangelog).
+ This package contains the tools (including dpkg-source) required to
+ unpack, build and upload Debian source packages.
  .
- Also included are the basic .deb package format documentation and
- utilities for building Packages and Sources files.
+ Most Debian source packages will require additional tools to build -
+ for example, most packages need the `make' and the C compiler `gcc'.
 
 Package: dpkg-doc
 Section: doc
