@@ -19,10 +19,6 @@ EOF
 }
 
 if [ "x$1" = xconfigure ]; then
-	if [ -d /usr/doc -a ! -e /usr/doc/dpkg -a -d /usr/share/doc/dpkg ] ; then
-		ln -s ../share/doc/dpkg /usr/doc/dpkg
-	fi
-
 	if [ -z "$2" -a ! -f /etc/dpkg/dpkg.cfg ] ; then
 		cp /usr/share/doc/dpkg/dpkg.cfg /etc/dpkg
 	fi
@@ -117,11 +113,6 @@ OK.
 		;;
 	esac
 fi
-
-if [ -d /usr/doc -a ! -e /usr/doc/dpkg -a -d /usr/share/doc/dpkg ] ; then
-	ln -s ../share/doc/dpkg /usr/doc/dpkg
-fi
-
 
 if [ -d /usr/info -a ! -L /usr/info -a ! -L /usr/info/dir ]; then              
 	echo Moving /usr/info/dir to /usr/share/info/dir.

@@ -1,9 +1,6 @@
 #! /bin/sh
 
 if [ "$1" = configure ]; then
-    if [ -d /usr/doc -a ! -e /usr/doc/dpkg-doc -a -d /usr/share/doc/dpkg-doc ] ; then
-        ln -s ../share/doc/dpkg-doc /usr/doc/dpkg-doc
-    fi
     if command -v install-docs >/dev/null 2>&1; then
 	echo -n "Registering DPKG documentation..."
 	install-docs -i /usr/share/doc-base/dpkg-doc

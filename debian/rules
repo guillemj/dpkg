@@ -231,8 +231,6 @@ binary-dpkg-dev: stamp-binary
 # Final package creation
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/DEBIAN
 	install -p -m 644 -o root -g root debian/dpkg-dev.conffiles $(TMP_DPKG_DEV)/DEBIAN/conffiles
-	install -p -m 755 -o root -g root debian/dpkg-dev.prerm $(TMP_DPKG_DEV)/DEBIAN/prerm
-	install -p -m 755 -o root -g root debian/dpkg-dev.postinst $(TMP_DPKG_DEV)/DEBIAN/postinst
 
 	$(GENCONTROL) -Tdebian/dpkg-dev.substvars -pdpkg-dev -P$(TMP_DPKG_DEV)
 	dpkg --build $(TMP_DPKG_DEV) ..
@@ -280,9 +278,6 @@ binary-dselect: stamp-binary
 # Final package creation
 	install -d -m 755 -o root -g root $(TMP_DSELECT)/DEBIAN
 	install -p -m 644 -o root -g root debian/dselect.conffiles $(TMP_DSELECT)/DEBIAN/conffiles
-	install -p -m 644 -o root -g root debian/dselect.conffiles $(TMP_DSELECT)/DEBIAN/prerm
-	install -p -m 755 -o root -g root debian/dselect.prerm $(TMP_DSELECT)/DEBIAN/prerm
-	install -p -m 755 -o root -g root debian/dselect.postinst $(TMP_DSELECT)/DEBIAN/postinst
 
 	dpkg-shlibdeps -Tdebian/dselect.substvars \
 		$(TMP_DSELECT)/usr/bin/dselect 

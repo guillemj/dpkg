@@ -2,12 +2,6 @@
 
 set -e
 
-if [ "$1" = remove -o "$1" = "upgrade" ]; then
-    if [ -L /usr/doc/dpkg-doc ]; then
-        rm -f /usr/doc/dpkg-doc
-    fi
-fi
-
 case "$1" in
     remove|deconfigure|upgrade)
 	if command -v install-docs >/dev/null 2>&1; then
