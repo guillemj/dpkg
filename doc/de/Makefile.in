@@ -9,8 +9,6 @@ deman5dir	= $(subst $(mandir),$(mandir)/de,$(man5dir))
 deman8dir	= $(subst $(mandir),$(mandir)/de,$(man8dir))
 
 MAN1PAGES	= md5sum.1 
-MAN5PAGES	= 
-MAN8PAGES	= 
 
 all: 
 
@@ -28,16 +26,6 @@ install-doc:
 	set -e ; for i in $(MAN1PAGES) ; do \
 	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
 	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(deman1dir) ; \
-	done
-	$(mkinstalldirs) $(DESTDIR)$(deman5dir) 
-	set -e ; for i in $(MAN5PAGES) ; do \
-	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
-	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(deman5dir) ; \
-	done
-	$(mkinstalldirs) $(DESTDIR)$(deman8dir) 
-	set -e ; for i in $(MAN8PAGES) ; do \
-	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
-	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(deman8dir) ; \
 	done
 
 .PHONY: all clean distclean install install-doc install-program
