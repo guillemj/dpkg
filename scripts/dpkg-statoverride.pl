@@ -98,6 +98,7 @@ if ($mode eq "add") {
 	(($mode<0) or (oct($mode)>07777)) && &badusage("illegal mode $mode");
 	$file= $ARGV[3];
 	$file =~ m/\n/ && &badusage("file may not contain newlines");
+	$file =~ s,/*$,, && print STDERR "stripping trailing /\n";
 
 	if (defined $owner{$file}) {
 		print STDERR "An override for \"$file\" already exists, ";
@@ -124,6 +125,7 @@ if ($mode eq "add") {
 } elsif ($mode eq "remove") {
 	@ARGV==1 || &badusage("--remove needs one arguments");
 	$file=$ARGV[0];
+	$file =~ s,/*$,, && print STDERR "stripping trailing /\n";
 	if (not defined $owner{$file}) {
 		print STDERR "No override present.\n";
 		exit(0) if ($doforce); 
@@ -142,6 +144,7 @@ if ($mode eq "add") {
 		s/\W/\\$&/g;
 		s/\\\?/./g;
 		s/\\\*/.*/g;
+		s,/*$,, && print STDERR "stripping trailing /\n";
 		push(@list,"^$_\$");
 	}
 	$pat= join('|',@list);
