@@ -413,7 +413,8 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
 	       *    and (>= 0.5), IOW, inclusive of only those versions.
 	       *    This would require backchecking the other provided
 	       *    versions in the possi, which would make things sickly
-	       *    complex and overly time consuming.
+	       *    complex and overly time consuming. Should fail (very
+	       *    hard to implement).
 	       *
 	       *  There's probably some miracle formula to do this, but I
 	       *  don't see it, and there's little to gain, IMNHO. Also,
