@@ -155,7 +155,7 @@ if ($opmode eq 'build') {
         if (s/^C //) {
             if (m/^Source$/i) { &setsourcepackage; }
             elsif (m/^(Standards-Version|Origin|Maintainer|Uploaders)$/i) { $f{$_}= $v; }
-	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= showdep($v, 0); }
+	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= $v; }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
             elsif (m/^(Section|Priority|Files|Bugs)$/i || m/^X[BC]+-/i) { }
             else { &unknown('general section of control info file'); }

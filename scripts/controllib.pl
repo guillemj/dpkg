@@ -105,22 +105,7 @@ sub substvars {
 sub outputclose {
     my ($dosubstvars) = @_;
     for $f (keys %f) { $substvar{"F:$f"}= $f{$f}; }
-    if (length($varlistfile) and $dosubstvars) {
-        $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
-        if (open(SV,"< $varlistfile")) {
-            binmode(SV);
-            while (<SV>) {
-                next if m/^\#/ || !m/\S/;
-                s/\s*\n$//;
-                m/^(\w[-:0-9A-Za-z]*)\=/ ||
-                    &error("bad line in substvars file $varlistfile at line $.");
-                $substvar{$1}= $';
-            }
-            close(SV);
-        } elsif ($! != ENOENT ) {
-            &error("unable to open substvars file $varlistfile: $!");
-        }
-    }
+    &parsesubstvars if ($dosubstvars);
     for $f (sort { $fieldimps{$b} <=> $fieldimps{$a} } keys %f) {
         $v= $f{$f};
         if ($dosubstvars) {
@@ -154,20 +139,31 @@ sub parsecontrolfile {
         defined($fi{"C$i Package"}) ||
             &error("per-package paragraph $i in control info file is ".
                    "missing Package line");
-        foreach my $dep_field (@pkg_dep_fields) {
-            if (defined($fi{"C$i $dep_field"})) {
-                ($fi{"C$i $dep_field"} = parsedep($fi{"C$i $dep_field"}, 1, 1)) ||
-                    &error("per-package paragraph $i in control info file ".
-                           "invalid dependency field \`$dep_field'");
-            }
-        }
     }
-    foreach my $dep_field (@src_dep_fields) {
-        if (defined($fi{"C $dep_field"})) {
-            ($fi{"C $dep_field"} = parsedep($fi{"C $dep_field"}, 1, 1)) ||
-                &error("source paragraph in control info file ".
-                       "invalid dependency field \`$dep_field'");
+    defined($fi{"C Source"}) ||
+        &error("source paragraph in control info file is ".
+               "missing Source line");
+
+}
+
+my $substvarsparsed = 0;
+sub parsesubstvars {
+    if (length($varlistfile) && !$substvarsparsed) {
+        $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
+        if (open(SV,"< $varlistfile")) {
+            binmode(SV);
+            while (<SV>) {
+                next if m/^\#/ || !m/\S/;
+                s/\s*\n$//;
+                m/^(\w[-:0-9A-Za-z]*)\=/ ||
+                    &error("bad line in substvars file $varlistfile at line $.");
+                $substvar{$1}= $';
+            }
+            close(SV);
+        } elsif ($! != ENOENT ) {
+            &error("unable to open substvars file $varlistfile: $!");
         }
+        $substvarsparsed = 1;
     }
 }
 
@@ -183,7 +179,7 @@ sub parsedep {
 ALTERNATE:
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
             my ($package, $relation, $version);
-            $package = $1 if ($dep_or =~ s/^(\S+)\s*//m);
+            $package = $1 if ($dep_or =~ s/^([a-zA-Z0-9][a-zA-Z0-9+._-]*)\s*//m);
             ($relation, $version) = ($1, $2) if ($dep_or =~ s/^\((=|<=|>=|<<?|>>?)\s*([^)]+).*\)\s*//m);
             my @arches = split(/\s+/m, $1) if ($use_arch && $dep_or =~ s/^\[([^]]+)\]\s*//m);
             if ($reduce_arch && @arches) {

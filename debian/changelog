@@ -1,3 +1,28 @@
+dpkg (1.10.14) unstable; urgency=low
+
+  * controllib.pl:
+    * Rewrote the parsedep stuff, so that it wasn't done during control
+      file parsing.  Scripts that need the internal parsed format should
+      call parsedep on the field's value.
+    * Split the substvars parsing into a separate function.
+    * No longer validate dependency fields when reading the control file.
+      Some fields may have vars in them, which breaks the validation.
+    * dpkg-gencontrol calls substvars after parsing the control file, and
+      then validates the substituted depends lines.  Originally,
+      substitution occured only during writing of the final output file.
+    * Andreas Barth <aba@not.so.argh.org>:
+      Fix bad regex that didn't allow spaces in dependency field parsing.
+      It now directly matches what the c code expects.  It previously was
+      allowing all of \S, which matched on '('.
+      Closes: #211660.
+  * Remove stale debug in debian/control that would have broken
+    installation on s390.
+  * We were calling our own local copy of dpkg-gencontrol, but the
+    system-installed copy of dpkg-shlibdeps.  Now, both are called from
+    the build directory.
+
+ -- Adam Heath <doogie@debian.org>  UNRELEASED
+
 dpkg (1.10.13) unstable; urgency=low
 
   * Fix parsing of deps when both () and [] are specified.

@@ -1,3 +1,26 @@
+Fri Sep 19 12:26:54 CDT 2003 Adam Heath <doogie@debian.org>
+
+  * scripts/{controllib,dpkg-{source,checkbuilddeps,control}}.pl:
+    * Rewrote the parsedep stuff, so that it wasn't done during control 
+      file parsing.  Scripts that need the internal parsed format should 
+      call parsedep on the field's value.
+    * Split the substvars parsing into a separate function.
+    * No longer validate dependency fields when reading the control file.
+      Some fields may have vars in them, which breaks the validation.
+    * dpkg-gencontrol calls substvars after parsing the control file, and
+      then validates the substituted depends lines.  Originally,
+      substitution occured only during writing of the final output file.
+    * Andreas Barth <aba@not.so.argh.org>:
+      Fix bad regex that didn't allow spaces in dependency field parsing.
+      It now directly matches what the c code expects.  It previously was
+      allowing all of \S, which matched on '('.
+      Closes: #211660.
+  * debian/control: Remove stale debug that would have broken installation
+    on s390.
+  * debian/rules: We were calling our own local copy of dpkg-gencontrol,
+    but the system-installed copy of dpkg-shlibdeps.  Now, both are called
+    from the build directory.
+
 Wed Sep 17 13:26:14 CDT 2003 Adam Heath <doogie@debian.org>
 
   * debian/changelog, version-nr: Updated to 1.10.13.

@@ -15,7 +15,8 @@ DEB_BUILD_GNU_TYPE	:= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE 2> /dev/nul
 DEB_HOST_GNU_TYPE	:= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE 2> /dev/null || true)
 arch			:= $(shell dpkg-architecture -qDEB_HOST_ARCH)
 
-GENCONTROL	:= perl -I $(CURDIR)/scripts scripts/dpkg-gencontrol.pl -isp
+GENCONTROL	:= perl -I $(CURDIR)/scripts $(BUILD)/scripts/dpkg-gencontrol -isp
+SHLIBDEPS	:= perl -I $(CURDIR)/scripts $(BUILD)/scripts/dpkg-shlibdeps
 
 ifneq ($(DEB_BUILD_GNU_TYPE),$(DEB_HOST_GNU_TYPE))
   config_arg	:= --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
@@ -172,7 +173,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	install -p -m 755 -o root -g root debian/dpkg.postinst $(TMP_DPKG)/DEBIAN/postinst
 	install -p -m 755 -o root -g root debian/dpkg.postrm $(TMP_DPKG)/DEBIAN/postrm
 
-	dpkg-shlibdeps -dPre-Depends -Tdebian/dpkg$(static).substvars \
+	$(SHLIBDEPS) -dPre-Depends -Tdebian/dpkg$(static).substvars \
 		$(TMP_DPKG)/sbin/start-stop-daemon \
 		`test -z "$(static)" && echo $(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/md5sum $(TMP_DPKG)/usr/bin/dpkg-deb`
 
@@ -280,7 +281,7 @@ binary-dselect: stamp-binary
 	install -d -m 755 -o root -g root $(TMP_DSELECT)/DEBIAN
 	install -p -m 644 -o root -g root debian/dselect.conffiles $(TMP_DSELECT)/DEBIAN/conffiles
 
-	dpkg-shlibdeps -Tdebian/dselect.substvars \
+	$(SHLIBDEPS) -Tdebian/dselect.substvars \
 		$(TMP_DSELECT)/usr/bin/dselect 
 	$(GENCONTROL) -Tdebian/dselect.substvars -pdselect -P$(TMP_DSELECT)
 	dpkg --build $(TMP_DSELECT) ..

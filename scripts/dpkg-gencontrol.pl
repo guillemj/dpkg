@@ -98,6 +98,7 @@ while (@ARGV) {
 
 &findarch;
 &parsechangelog;
+&parsesubstvars;
 &parsecontrolfile;
             
 if (length($oppackage)) {
@@ -129,7 +130,7 @@ for $_ (keys %fi) {
         if (m/^(Package|Description|Essential|Optional)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
-            $f{$_}= showdep($v, 0);
+            $f{$_}= showdep(parsedep(substvars($v)), 0);
         } elsif (m/^Section$|^Priority$/) {
             $spvalue{$_}= $v;
         } elsif (m/^Architecture$/) {
