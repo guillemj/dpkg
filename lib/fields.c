@@ -265,12 +265,15 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                   const char *value, const struct fieldinfo *fip) {
   char c1, c2;
   const char *p, *emsg;
-  struct varbuf depname, version;
+  const char *depnamestart, *versionstart;
+  int depnamelength, versionlength;
+  static int depnameused= 0, versionused= 0;
+  static char *depname= NULL, *version= NULL;
+
   struct dependency *dyp, **ldypp;
   struct deppossi *dop, **ldopp;
 
   if (!*value) return; /* empty fields are ignored */
-  varbufinit(&depname); varbufinit(&version);
   p= value;
   ldypp= &pifp->depends; while (*ldypp) ldypp= &(*ldypp)->next;
   for (;;) { /* loop creating new struct dependency's */
@@ -282,21 +285,28 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     dyp->list= 0; ldopp= &dyp->list;
     dyp->type= fip->integer;
     for (;;) { /* loop creating new struct deppossi's */
-      varbufreset(&depname);
+      depnamestart= p;
+/* skip over package name characters */
       while (*p && !isspace(*p) && *p != '(' && *p != ',' && *p != '|') {
-        varbufaddc(&depname,*p); p++;
+	p++;
       }
-      varbufaddc(&depname,0);
-      if (!*depname.buf)
+      depnamelength= p - depnamestart ;
+      if (depnamelength >= depnameused) {
+	depnameused= depnamelength;
+	depname= realloc(depname,depnamelength+1);
+      }
+      strncpy(depname, depnamestart, depnamelength);
+      *(depname + depnamelength)= 0;
+      if (!*depname)
         parseerr(0,filename,lno, warnto,warncount,pigp,0, _("`%s' field, missing"
                  " package name, or garbage where package name expected"), fip->name);
-      emsg= illegal_packagename(depname.buf,0);
+      emsg= illegal_packagename(depname,0);
       if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("`%s' field,"
                          " invalid package name `%.255s': %s"),
-                         fip->name,depname.buf,emsg);
+                         fip->name,depname,emsg);
       dop= nfmalloc(sizeof(struct deppossi));
       dop->up= dyp;
-      dop->ed= findpackage(depname.buf);
+      dop->ed= findpackage(depname);
       dop->next= 0; *ldopp= dop; ldopp= &dop->next;
       dop->nextrev= 0; /* Don't link this (which is after all only `newpig' from */
       dop->backrev= 0; /* the main parsing loop in parsedb) into the depended on
@@ -306,9 +316,9 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                         * links from the depended on packages to dop are left undone.
                         */
       dop->cyclebreak= 0;
+/* skip whitespace after packagename */
       while (isspace(*p)) p++;
-      if (*p == '(') {
-        varbufreset(&version);
+      if (*p == '(') {			/* if we have a versioned relation */
         p++; while (isspace(*p)) p++;
         c1= *p;
         if (c1 == '<' || c1 == '>') {
@@ -324,13 +334,13 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
             parseerr(0,filename,lno, warnto,warncount,pigp,0,
                     _("`%s' field, reference to `%.255s':\n"
                     " bad version relationship %c%c"),
-                    fip->name,depname.buf,c1,c2);
+                    fip->name,depname,c1,c2);
             dop->verrel= dvr_none;
           } else {
             parseerr(0,filename,lno, warnto,warncount,pigp,1,
                      _("`%s' field, reference to `%.255s':\n"
                      " `%c' is obsolete, use `%c=' or `%c%c' instead"),
-                     fip->name,depname.buf,c1,c1,c1,c1);
+                     fip->name,depname,c1,c1,c1,c1);
             dop->verrel |= (dvrf_orequal | dvrf_builtup);
           }
         } else if (c1 == '=') {
@@ -340,7 +350,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           parseerr(0,filename,lno, warnto,warncount,pigp,1,
                    _("`%s' field, reference to `%.255s':\n"
                    " implicit exact match on version number, suggest using `=' instead"),
-                   fip->name,depname.buf);
+                   fip->name,depname);
           dop->verrel= dvr_exact;
         }
 	if ((dop->verrel!=dvr_exact) && (fip->integer==dep_provides))
@@ -351,28 +361,37 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           parseerr(0,filename,lno, warnto,warncount,pigp,1,
                    _("`%s' field, reference to `%.255s':\n"
                    " version value starts with non-alphanumeric, suggest adding a space"),
-                   fip->name,depname.buf);
+                   fip->name,depname);
         }
+/* skip spaces between the relation and the version */
         while (isspace(*p)) p++;
+
+	versionstart= p;
         while (*p && *p != ')' && *p != '(') {
-          if (!isspace(*p)) varbufaddc(&version,*p);
+          if (isspace(*p)) break;
           p++;
         }
         while (isspace(*p)) p++;
         if (*p == '(') parseerr(0,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
-                                "version contains `('"),fip->name,depname.buf);
+                                "version contains `('"),fip->name,depname);
 	else if (*p != ')') parseerr(0,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
-                                "version contains ` '"),fip->name,depname.buf);
+                                "version contains ` '"),fip->name,depname);
         else if (*p == 0) parseerr(0,filename,lno, warnto,warncount,pigp,0,
                                    _("`%s' field, reference to `%.255s': "
-                                   "version unterminated"),fip->name,depname.buf);
-        varbufaddc(&version,0);
-        emsg= parseversion(&dop->version,version.buf);
+                                   "version unterminated"),fip->name,depname);
+	versionlength= p - versionstart;
+	if (versionlength >=  versionused) {
+	  versionused= versionlength;
+	  version= realloc(version,versionlength+1);
+	}
+	strncpy(version,  versionstart, versionlength);
+	*(version + versionlength)= 0;
+        emsg= parseversion(&dop->version,version);
         if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0,
                            _("`%s' field, reference to `%.255s': "
-                           "error in version: %.255s"),fip->name,depname.buf,emsg);
+                           "error in version: %.255s"),fip->name,depname,emsg);
         p++; while (isspace(*p)) p++;
       } else {
         dop->verrel= dvr_none;
@@ -394,6 +413,5 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     if (!*p) break;
     p++; while (isspace(*p)) p++;
   }
-  varbuffree(&depname); varbuffree(&version);
 }
 
