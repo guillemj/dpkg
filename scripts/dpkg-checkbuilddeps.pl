@@ -136,7 +136,7 @@ ALTERNATE:	foreach my $alternate (@$dep_and) {
 
 			# This is a possibile way to meet the dependency.
 			# Remove the arch stuff from $alternate.
-			push @possibles, $package . ($relation && $version ? " ($relation $version)" : '') . (@$arch_list ? " [@$arch_list]" : '');
+			push @possibles, $package . ($relation && $version ? " ($relation $version)" : '');
 	
 			if ($relation && $version) {
 				if (! exists $version{$package}) {

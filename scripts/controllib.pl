@@ -174,14 +174,18 @@ sub parsecontrolfile {
 sub parsedep {
     my ($dep_line, $use_arch, $reduce_arch) = @_;
     my @dep_list;
+    if (!$host_arch) {
+        $host_arch = `dpkg-architecture -qDEB_HOST_ARCH`;
+        chomp $host_arch;
+    }
     foreach my $dep_and (split(/,\s*/m, $dep_line)) {
         my @or_list = ();
 ALTERNATE:
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
             my ($package, $relation, $version);
             $package = $1 if ($dep_or =~ s/^(\S+)\s*//m);
-            ($relation, $version) = ($1, $2) if ($dep_or =~ s/^\((=|<=|>=|<<?|>>?)\s*([^)]+).*\)//m);
-            my @arches = split(/\s+/m, $1) if ($use_arch && $dep_or =~ s/^\[([^]]+)\]//m);
+            ($relation, $version) = ($1, $2) if ($dep_or =~ s/^\((=|<=|>=|<<?|>>?)\s*([^)]+).*\)\s*//m);
+            my @arches = split(/\s+/m, $1) if ($use_arch && $dep_or =~ s/^\[([^]]+)\]\s*//m);
             if ($reduce_arch && @arches) {
 
                 my $seen_arch='';
