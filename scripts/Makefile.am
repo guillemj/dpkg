@@ -62,6 +62,9 @@ MAINTAINERCLEANFILES	= $(srcdir)/Makefile.in $(srcdir)/elisp-comp
 
 SUFFIXES		= .pl .sh
 
+dpkg-scansources.8: dpkg-scansources.pl
+	pod2man --section=8 $^ > $@
+
 %: %.pl
 	sed -e "s:^#![:space:]*/usr/bin/perl:#! $(perlpath):; \
 		s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(pkglibdir)\":; \

@@ -35,18 +35,11 @@ END
 }
 
 rootcommand=''
-signcommand=pgp # Default command for signing
-warnpgp='no'	# Display a warning to encourage switching to gpg?
-if [ ! -e $HOME/.gnupg/secring.gpg ] ; then
-	warnpgp=yes
-fi
-if [ -e $HOME/.gnupg/secring.gpg -a ! -e $HOME/.pgp/secring.pgp ] ; then
+if [ -e $HOME/.gnupg/secring.gpg ] ; then
 	signcommand=gpg
-fi
-if [ -e $HOME/.pgp/secring.pgp -a ! -e $HOME/.gnupg/secring.gpg ] ; then
+else
 	signcommand=pgp
 fi
-signinterface=$signcommand
 signsource='withecho signfile'
 signchanges='withecho signfile'
 cleansource=false
@@ -64,12 +57,12 @@ do
 	case "$1" in
 	-h)	usageversion; exit 0 ;;
 	-r*)	rootcommand="$value" ;;
-	-p*)	signcommand="$value"; warnpgp='' ;;
+	-p*)	signcommand="$value" ;;
 	-k*)	signkey="$value" ;;
-	-sgpg)  signinterface=gpg ;;
-	-spgp)  signinterface=pgp ;;
-	-us)	signsource=: ; warnpgp='' ;;
-	-uc)	signchanges=: ; warnpgp='' ;;
+	-sgpg)  forcesigninterface=gpg ;;
+	-spgp)  forcesigninterface=pgp ;;
+	-us)	signsource=: ;;
+	-uc)	signchanges=: ;;
 	-a*)    opt_a=1; arch="$value" ;;
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
@@ -88,12 +81,10 @@ do
 	shift
 done
 
-if test "X$warnpgp" = "Xyes" ; then
-  echo >&2 <<EOWARN
-The Debian project will switch to using GPG (the GNU Privacy Guard) instead
-of PGP for signing packages. You might want to make preparations. Check out
-the gnupg and debian-keyring packages.
-EOWARN
+if test -n "$forcesigninterface" ; then
+  signinterface=$forcesigninterace
+else
+  signinterface=$signcommand
 fi
 
 mustsetvar () {
