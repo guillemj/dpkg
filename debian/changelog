@@ -31,9 +31,6 @@ dpkg (1.4.1.17) unstable; urgency=low
     already generated anyway
   * Removed the ltconfig patch, and resort to a debian/rules fix
     to libtool itself after running configure
-  * Use DESTDIR when installing instead of specifying all our
-    dest dirs seperately in the make line. Also fix some of the
-    make files to use DESTDIR when installing files
   * Removed shlibs.default.i386. It's now a template for arch porting to
     Debian/dpkg, we install it still, if there exists a file matching the
     arch
@@ -48,6 +45,28 @@ dpkg (1.4.1.17) unstable; urgency=low
     distclean and all that other stuff. Don't run "make dist", we
     simply copy the .tar.gz that dpkg-source creates for the byhand
     source.
+  * Make start-stop-daemon exit(1) when we don't find one of the
+    pid's we are trying to kill, in accordance with the man page.
+  * When running --configure on an already installed package, just
+    say it's installed, and not that it is in an unconfigurable
+    state
+  * Fixed some compiler warnings
+  * Add function to libdpkg that dpkg can call to make sure it's
+    compiled version matches that of the library. If it fails,
+    complain loudly, but allow to proceed
+  * Make dpkg check for uid 0 requirement, before checking the path
+    since not being root, is probably the reason that the PATH is
+    borked in the first place
+  * Make -p short for --print-avail, and -P short for --purge
+  * Fix typo in md5sum(1) man page
+  * start-stop-daemon: Add --background and --make-pidfile options
+  * update-alternatives: make sure we remove "old" symlinks when they
+    are no longer pertinent. Add /etc/alternatives/README that refers
+    to the update-alternatives(8) man page.
+  * dpkg-divert: Add check for being able to write to the old/new
+    destination before doing a rename. We fail on this, without
+    changing the diversion registry
+  * Fix bad regex in update-rc.d
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

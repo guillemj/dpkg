@@ -66,7 +66,7 @@ char *progname;
 int verbose = 0;
 int bin_mode = 0;
 
-void
+int
 main(int argc, char **argv)
 {
 	int opt, rc = 0;

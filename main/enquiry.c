@@ -467,7 +467,7 @@ void enqperpackage(const char *const *argv) {
   }
 }
 
-void assertversion(const char *const *argv,
+static void assertversion(const char *const *argv,
 			struct versionrevision *verrev_buf,
 			const char *reqversion) {
   struct pkginfo *pkg;
@@ -520,7 +520,7 @@ void predeppackage(const char *const *argv) {
   static struct varbuf vb;
   
   struct pkgiterator *it;
-  struct pkginfo *pkg, *startpkg, *trypkg;
+  struct pkginfo *pkg= 0, *startpkg, *trypkg;
   struct dependency *dep;
   struct deppossi *possi, *provider;
 

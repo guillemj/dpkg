@@ -24,6 +24,7 @@
 
 #include <config.h>
 #include <dpkg.h>
+#include <version.h>
 
 void showcopyright(const struct cmdinfo *c, const char *v) {
   int fd;
@@ -32,4 +33,8 @@ void showcopyright(const struct cmdinfo *c, const char *v) {
   m_dup2(fd,0);
   execlp(CAT,CAT,"-",(char*)0);
   ohshite(_("unable to exec cat for displaying GPL file"));
+}
+
+char *libdpkgver(void) {
+  return DPKG_VERSION;
 }

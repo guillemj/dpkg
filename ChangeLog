@@ -1,3 +1,30 @@
+Thu Oct 21 06:37:24 EDT 1999 Ben Collins <bcollins.debian.org>
+
+  * Fixed some compiler warnings
+  * Make start-stop-daemon exit(1) when we don't find one of the
+    pid's we are trying to kill, in accordance with the man page.
+  * When running --configure on an already installed package, just
+    say it's installed, and not that it is in an unconfigurable
+    state
+  * Bah, add all the prefix/datadir... stuff back to the install
+    target in debian/rules (po/ doesn't use it)
+  * Add function to libdpkg that dpkg can call to make sure it's
+    compiled version matches that of the library. If it fails,
+    complain loudly, but allow to proceed
+  * Make dpkg check for uid 0 requirement, before checking the path
+    since not being root, is probably the reason that the PATH is
+    borked in the first place
+  * Make -p short for --print-avail, and -P short for --purge
+  * Fix typo in md5sum(1) man page
+  * start-stop-daemon: Add --background and --make-pidfile options
+  * update-alternatives: make sure we remove "old" symlinks when they
+    are no longer pertinent. Add /etc/alternatives/README that refers
+    to the update-alternatives(8) man page.
+  * dpkg-divert: Add check for being able to write to the old/new
+    destination before doing a rename. We fail on this, without
+    changing the diversion registry
+  * Fix bad regex in update-rc.d
+
 Tue Oct 19 18:07:28 EDT 1999 Ben Collins <bcollins.debian.org>
 
   * Ok, TMPDIR usage is back in dpkg-deb and working

@@ -27,6 +27,8 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <assert.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 #include <config.h>
 #include <dpkg.h>

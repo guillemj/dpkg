@@ -124,6 +124,28 @@ Do not print informational messages; only display error messages.
 .I -c|--chuid
 Change to this username/uid before starting the process
 .TP
+.I -b|--background
+Typically used with programs that don't detach on their own. This option
+will force
+.B start-stop-daemon
+to fork before starting the process, and force it into the background.
+.B WARNING:
+start-stop-daemon
+cannot check the exit status if the process fails to execute for
+.B any
+reason. This is a last resort, and is only meant for programs that either
+make no sense forking on their own, or where it's not feasible to add the
+code for it to do this itself.
+.TP
+.I -m|--make-pidfile
+Used when starting a program that does not create its own pid file. This
+option will make
+.B start-stop-daemon
+create the file referenced with
+.B --pidfile
+and place the pid into it just before executing the process. Note, it will
+not be removed when stopping the program.
+.TP
 .I -v|--verbose
 Print verbose informational messages.
 .TP

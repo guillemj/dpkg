@@ -698,6 +698,12 @@ void archivefiles(const char *const *argv) {
   const char **arglist;
   char *p;
 
+  modstatdb_init(admindir,
+                 f_noact ?                     msdbrw_readonly
+               : cipaction->arg == act_avail ? msdbrw_write
+               : fc_nonroot ?                  msdbrw_write
+               :                               msdbrw_needsuperuser);
+
   checkpath();
   
   if (f_recursive) {
@@ -769,12 +775,6 @@ void archivefiles(const char *const *argv) {
     argp= argv;
     
   }
-
-  modstatdb_init(admindir,
-                 f_noact ?                     msdbrw_readonly
-               : cipaction->arg == act_avail ? msdbrw_write
-               : fc_nonroot ?                  msdbrw_write
-               :                               msdbrw_needsuperuser);
 
   currenttime= time(0);
 

@@ -72,7 +72,7 @@ void do_build(const char *const *argv) {
   directory= *argv++; if (!directory) badusage(_("--build needs a directory argument"));
   /* template for our tempfiles */
   if ((envbuf= getenv("TMPDIR")) == NULL)
-    envbuf= P_tmpdir;
+    envbuf= (char *)P_tmpdir;
   tfbuf = (char *)malloc(strlen(envbuf)+13);
   strcpy(tfbuf,envbuf);
   strcat(tfbuf,"/dpkg.XXXXXX");

@@ -333,6 +333,8 @@ int packagelist::resolvedepcon(dependency *depends) {
   default:
     internerr("unknown deptype");
   }
+  /* never reached, make gcc happy */
+  return 1;
 }
 
 int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade) {

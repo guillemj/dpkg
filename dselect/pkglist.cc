@@ -78,6 +78,8 @@ int packagelist::compareentries(struct perpackagestate *a,
   default:
     internerr("unsorted or unknown in compareentries");
   }
+  /* never reached, make gcc happy */
+  return 1;
 }
 
 void packagelist::discardheadings() {

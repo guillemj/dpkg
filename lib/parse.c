@@ -200,7 +200,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
                      &newpifp->maintainer, "maintainer");
       if (newpig.status != stat_halfinstalled)
         parsemustfield(file,filename,lno, warnto,warncount,&newpig,0,
-                       &newpifp->version.version, "version");
+                       (char **)&newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
       parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,

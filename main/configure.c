@@ -78,6 +78,8 @@ void deferred_configure(struct pkginfo *pkg) {
   
   if (pkg->status == stat_notinstalled)
     ohshit(_("no package named `%s' is installed, cannot configure"),pkg->name);
+  if (pkg->status == stat_installed)
+    ohshit(_("package %.250s is already installed and configured"), pkg->name);
   if (pkg->status != stat_unpacked && pkg->status != stat_halfconfigured)
     ohshit(_("package %.250s is not ready for configuration\n"
            " cannot configure (current status `%.250s')"),

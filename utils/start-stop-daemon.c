@@ -9,7 +9,11 @@
  * <schwarz@monet.m.isar.de>, to make output conform to the Debian
  * Console Message Standard, also placed in public domain.  Minor
  * changes by Klee Dienes <klee@debian.org>, also placed in the Public
- * Domain. */
+ * Domain.
+ *
+ * Changes by Ben Collins <bcollins@debian.org>, added --chuid, --background
+ * and --make-pidfile options, placed in public domain aswell.
+ */
 
 #include "config.h"
 #define _GNU_SOURCE
@@ -40,6 +44,9 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <pwd.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <fcntl.h>
 
 #ifdef HAVE_ERROR_H
 #include <error.h>
@@ -53,6 +60,8 @@ static int quietmode = 0;
 static int exitnodo = 1;
 static int start = 0;
 static int stop = 0;
+static int background = 0;
+static int mpidfile = 0;
 static int signal_nr = 15;
 static const char *signal_str = NULL;
 static int user_id = -1;
@@ -88,7 +97,7 @@ static int pid_is_user(int pid, int uid);
 static int pid_is_cmd(int pid, const char *name);
 static void check(int pid);
 static void do_pidfile(const char *name);
-static void do_stop(void);
+static int do_stop(void);
 #if defined(OSLinux)
 static int pid_is_exec(int pid, const struct stat *esb);
 #endif
@@ -165,6 +174,8 @@ Options (at least one of --exec|--pidfile|--user is required):
   -n|--name <process-name>      stop processes with this name\n\
   -s|--signal <signal>          signal to send (default TERM)\n\
   -a|--startas <pathname>       program to start (default is <executable>)\n\
+  -b|--background               force the process to detach\n\
+  -m|--make-pidfile             create the pidfile before starting\n\
   -t|--test                     test mode, don't do anything\n\
   -o|--oknodo                   exit status 0 (not 1) if nothing done\n\
   -q|--quiet                    be more quiet\n\
@@ -226,27 +237,29 @@ static void
 parse_options(int argc, char * const *argv)
 {
 	static struct option longopts[] = {
-		{ "help",	0, NULL, 'H'},
-		{ "stop",	0, NULL, 'K'},
-		{ "start",	0, NULL, 'S'},
-		{ "version",	0, NULL, 'V'},
-		{ "startas",	1, NULL, 'a'},
-		{ "name",	1, NULL, 'n'},
-		{ "oknodo",	0, NULL, 'o'},
-		{ "pidfile",	1, NULL, 'p'},
-		{ "quiet",	0, NULL, 'q'},
-		{ "signal",	1, NULL, 's'},
-		{ "test",	0, NULL, 't'},
-		{ "user",	1, NULL, 'u'},
-		{ "verbose",	0, NULL, 'v'},
-		{ "exec",	1, NULL, 'x'},
-		{ "chuid",	1, NULL, 'c'},
+		{ "help",	  0, NULL, 'H'},
+		{ "stop",	  0, NULL, 'K'},
+		{ "start",	  0, NULL, 'S'},
+		{ "version",	  0, NULL, 'V'},
+		{ "startas",	  1, NULL, 'a'},
+		{ "name",	  1, NULL, 'n'},
+		{ "oknodo",	  0, NULL, 'o'},
+		{ "pidfile",	  1, NULL, 'p'},
+		{ "quiet",	  0, NULL, 'q'},
+		{ "signal",	  1, NULL, 's'},
+		{ "test",	  0, NULL, 't'},
+		{ "user",	  1, NULL, 'u'},
+		{ "verbose",	  0, NULL, 'v'},
+		{ "exec",	  1, NULL, 'x'},
+		{ "chuid",	  1, NULL, 'c'},
+		{ "background",   0, NULL, 'b'},
+		{ "make-pidfile", 0, NULL, 'm'},
 		{ NULL,		0, NULL, 0}
 	};
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qs:tu:vx:c:",
+		c = getopt_long(argc, argv, "HKSVa:n:op:qs:tu:vx:c:bm",
 				longopts, (int *) 0);
 		if (c == -1)
 			break;
@@ -296,6 +309,12 @@ parse_options(int argc, char * const *argv)
 		case 'c':  /* --chuid <username>|<uid> */
 			changeuser = optarg;
 			break;
+		case 'b':  /* --background */
+			background = 1;
+			break;
+		case 'm':  /* --make-pidfile */
+			mpidfile = 1;
+			break;
 		default:
 			badusage(NULL);  /* message printed by getopt */
 		}
@@ -320,6 +339,13 @@ parse_options(int argc, char * const *argv)
 
 	if (start && !startas)
 		badusage("--start needs --exec or --startas");
+
+	if (mpidfile && pidfile == NULL)
+		badusage("--make-pidfile is only relevant with --pidfile");
+
+	if (background && !start)
+		badusage("--background is only relevant with --start");
+
 }
 
 #if defined(OSLinux)
@@ -497,12 +523,13 @@ do_psinit(void)
 }
 #endif /* OSHURD */
 
-
-static void
+/* return 1 on failure */
+static int
 do_stop(void)
 {
 	char what[1024];
 	struct pid_list *p;
+	int retval = 0;
 
 	if (cmdname)
 		strcpy(what, cmdname);
@@ -526,9 +553,11 @@ do_stop(void)
 			       signal_nr, p->pid);
 		else if (kill(p->pid, signal_nr) == 0)
 			push(&killed, p->pid);
-		else
+		else {
 			printf("%s: warning: failed to kill %d: %s\n",
 			       progname, p->pid, strerror(errno));
+			retval += 1;
+		}
 	}
 	if (quietmode < 0 && killed) {
 		printf("Stopped %s (pid", what);
@@ -536,6 +565,7 @@ do_stop(void)
 			printf(" %d", p->pid);
 		printf(").\n");
 	}
+	return retval;
 }
 
 
@@ -577,7 +607,12 @@ main(int argc, char **argv)
 		do_procinit();
 
 	if (stop) {
-		do_stop();
+		int i = do_stop();
+		if (i) {
+			if (quietmode <= 0)
+				printf("%d pids were not killed\n", i);
+			exit(1);
+		}
 		exit(0);
 	}
 
@@ -590,6 +625,8 @@ main(int argc, char **argv)
 		printf("Would start %s ", startas);
 		while (argc-- > 0)
 			printf("%s ", *argv++);
+		if (changeuser != NULL)
+			printf(" (as user %s[%d])", changeuser, runas_id);
 		printf(".\n");
 		exit(0);
 	}
@@ -598,6 +635,42 @@ main(int argc, char **argv)
 	*--argv = startas;
 	if (changeuser != NULL && seteuid(runas_id))
 		fatal("Unable to set effective uid to %s", changeuser);
+	if (background) { /* ok, we need to detach this process */
+		int i, fd;
+		if (quietmode < 0)
+			printf("Detatching to start %s...", startas);
+		i = fork();
+		if (i<0) {
+			fatal("Unable to fork.\n");
+		}
+		if (i) { /* parent */
+			if (quietmode < 0)
+				printf("done.\n");
+			exit(0);
+		}
+		 /* child continues here */
+		 /* now close all extra fds */
+		for (i=getdtablesize()-1; i>=0; --i) close(i);
+		 /* change tty */
+		fd = open("/dev/tty", O_RDWR);
+		ioctl(fd, TIOCNOTTY, 0);
+		close(fd);
+		chdir("/");
+		umask(022); /* set a default for dumb programs */
+		setpgrp();  /* set the process group */
+		fd=open("/dev/null", O_RDWR); /* stdin */
+		dup(fd); /* stdout */
+		dup(fd); /* stderr */
+	}
+	if (mpidfile && pidfile != NULL) { /* user wants _us_ to make the pidfile :) */
+		FILE *pidf = fopen(pidfile, "w");
+		pid_t pidt = getpid();
+		if (pidf == NULL)
+			fatal("Unable to open pidfile `%s' for writing: %s", pidfile,
+				strerror(errno));
+		fprintf(pidf, "%d\n", pidt);
+		fclose(pidf);
+	}
 	execv(startas, argv);
 	fatal("Unable to start %s: %s", startas, strerror(errno));
 }

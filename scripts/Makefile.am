@@ -43,7 +43,7 @@ EXTRA_DIST		= update-rc.d.pl \
 			  update-alternatives.pl install-info.pl dpkg-divert.pl \
 			  cleanup-info.pl controllib.pl debian-changelog-mode.el \
 			  cl-debian.pl dpkg-architecture.pl dpkg-scansources.pl \
-			  $(man_MANS)
+			  $(man_MANS) README.alternatives
 
 noinst_DATA		= cl-debian
 
@@ -78,6 +78,7 @@ dpkg-scansources.8: dpkg-scansources.pl
 
 install-data-local: cl-debian
 	$(mkinstalldirs) $(DESTDIR)$(altslocalstatedir) $(DESTDIR)$(altssysconfdir)
+	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(altssysconfdir)/README
 	set -e; for f in $(LSMANL); do ln -sf $(mandir)/man1/dpkg-source.1 $(DESTDIR)$(mandir)/man1/$$f.1; done
 	$(mkinstalldirs) $(DESTDIR)$(parsechangelogdir)
 	$(INSTALL_PROGRAM) cl-debian $(DESTDIR)$(parsechangelogdir)/debian

@@ -31,6 +31,7 @@
 
 #include <config.h>
 #include <dpkg.h>
+#include <version.h>
 #include <dpkg-db.h>
 
 #include "filesdb.h"
@@ -503,4 +504,25 @@ void ensure_pathname_nonexisting(const char *pathname) {
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
   waitsubproc(c1,"rm cleanup",0);
+}
+
+void check_libver (void) {
+  int c;
+  if (!strcmp(DPKG_VERSION, libdpkgver())) return;
+  /* ooh, we have a version mismatch with the library,
+   * continue, but warn LOUDLY about possible problems.
+   */
+  fprintf(stderr, _("\
+WARNING: A mismatch between dpkg and libdpkg.so has\n\
+been detected. Somehow, your system has a different\n\
+version of dpkg than the library that is uses. This\n\
+may not cause any problems, but it does reflect a\n\
+serious condition. You should really reinstall the dpkg\n\
+package before continuing.\n\
+\n\
+Press 'Q' to exit, any other key to continue: "));
+  c= getc(stdin);
+  if (c == 'q' || c == 'Q')
+    ohshite(_("Quitting at user request"));
+  return;
 }

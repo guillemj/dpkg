@@ -62,7 +62,16 @@ binary-trees: build
 		debian/tmp-dev/etc/dpkg/shlibs.default ; \
 	fi
 	cp debian/{prerm,postinst} $(mcidir)/.
-	$(MAKE) -C $(BUILD) DESTDIR=$(DIR)/debian/tmp-main install
+	
+	$(MAKE) -C $(BUILD) install \
+		prefix=$(DIR)/debian/tmp-main/usr \
+		sysconfdir=$(DIR)/debian/tmp-main/etc \
+		sharedstatedir=$(DIR)/debian/tmp-main/var/lib \
+		localstatedir=$(DIR)/debian/tmp-main/var/lib \
+		datadir=$(DIR)/debian/tmp-main/usr/share \
+		mandir=$(DIR)/debian/tmp-main/usr/share/man \
+		infodir=$(DIR)/debian/tmp-main/usr/share/info
+	
 	install -m 755 debian/dev-postinst debian/tmp-dev/DEBIAN/postinst
 	install -m 755 debian/dev-prerm debian/tmp-dev/DEBIAN/prerm
 	install -d debian/tmp-dev/etc/emacs/site-start.d

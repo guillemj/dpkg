@@ -52,10 +52,10 @@ if ($ARGV[0] ne 'remove') {
 }
 
 $_ = $ARGV[0];
-if    (/^remove$/)     { &checklinks ("remove"); }
-elsif (/^defaults$/)   { &defaults; &makelinks }
-elsif (/^start|stop$/) { &startstop; &makelinks; }
-else                   { &usage; }
+if    (/^remove$/)       { &checklinks ("remove"); }
+elsif (/^defaults$/)     { &defaults; &makelinks }
+elsif (/^(start|stop)$/) { &startstop; &makelinks; }
+else                     { &usage; }
 
 exit (0);
 

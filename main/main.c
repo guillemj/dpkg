@@ -59,28 +59,28 @@ Usage: \n\
   dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n\
   dpkg --unpack          <.deb file name> ... | -R|--recursive <dir> ...\n\
   dpkg -A|--record-avail <.deb file name> ... | -R|--recursive <dir> ...\n\
-  dpkg --configure           <package name> ... | -a|--pending\n\
-  dpkg -r|--remove | --purge <package name> ... | -a|--pending\n\
-  dpkg --get-selections [<pattern> ...]   get list of selections to stdout\n\
-  dpkg --set-selections                   set package selections from stdin\n\
-  dpkg --update-avail <Packages-file>     replace available packages info\n\
-  dpkg --merge-avail <Packages-file>      merge with info from file\n\
-  dpkg --clear-avail                      erase existing available info\n\
-  dpkg --forget-old-unavail               forget uninstalled unavailable pkgs\n\
-  dpkg -s|--status <package-name> ...     display package status details\n\
-  dpkg --print-avail <package-name> ...   display available version details\n\
-  dpkg -L|--listfiles <package-name> ...  list files `owned' by package(s)\n\
-  dpkg -l|--list [<pattern> ...]          list packages concisely\n\
-  dpkg -S|--search <pattern> ...          find package(s) owning file(s)\n\
-  dpkg -C|--audit                         check for broken package(s)\n\
-  dpkg --abort-after <n>                  abort after encountering <n> errors\n\
-  dpkg --print-architecture               print target architecture (uses GCC)\n\
-  dpkg --print-gnu-build-architecture     print GNU version of target arch\n\
-  dpkg --print-installation-architecture  print host architecture (for inst'n)\n\
-  dpkg --compare-versions <a> <rel> <b>   compare version numbers - see below\n\
-  dpkg --help | --version                 show this help / version number\n\
-  dpkg --force-help | -Dh|--debug=help    help on forcing resp. debugging\n\
-  dpkg --licence                          print copyright licencing terms\n\
+  dpkg --configure              <package name> ... | -a|--pending\n\
+  dpkg -r|--remove | -P|--purge <package name> ... | -a|--pending\n\
+  dpkg --get-selections [<pattern> ...]    get list of selections to stdout\n\
+  dpkg --set-selections                    set package selections from stdin\n\
+  dpkg --update-avail <Packages-file>      replace available packages info\n\
+  dpkg --merge-avail <Packages-file>       merge with info from file\n\
+  dpkg --clear-avail                       erase existing available info\n\
+  dpkg --forget-old-unavail                forget uninstalled unavailable pkgs\n\
+  dpkg -s|--status <package-name> ...      display package status details\n\
+  dpkg -p|--print-avail <package-name> ... display available version details\n\
+  dpkg -L|--listfiles <package-name> ...   list files `owned' by package(s)\n\
+  dpkg -l|--list [<pattern> ...]           list packages concisely\n\
+  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n\
+  dpkg -C|--audit                          check for broken package(s)\n\
+  dpkg --abort-after <n>                   abort after encountering <n> errors\n\
+  dpkg --print-architecture                print target architecture (uses GCC)\n\
+  dpkg --print-gnu-build-architecture      print GNU version of target arch\n\
+  dpkg --print-installation-architecture   print host architecture (for inst'n)\n\
+  dpkg --compare-versions <a> <rel> <b>    compare version numbers - see below\n\
+  dpkg --help | --version                  show this help / version number\n\
+  dpkg --force-help | -Dh|--debug=help     help on forcing resp. debugging\n\
+  dpkg --licence                           print copyright licencing terms\n\
 \n\
 Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
  -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n\
@@ -325,12 +325,12 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "record-avail",                   'A', act_avail,         archivefiles    ),
   ACTION( "configure",                       0,  act_configure,     packages        ),
   ACTION( "remove",                         'r', act_remove,        packages        ),
-  ACTION( "purge",                           0,  act_purge,         packages        ),
+  ACTION( "purge",                          'P', act_purge,         packages        ),
   ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
   ACTION( "status",                         's', act_status,        enqperpackage   ),
   ACTION( "get-selections",                  0,  act_getselections, getselections   ),
   ACTION( "set-selections",                  0,  act_setselections, setselections   ),
-  ACTION( "print-avail",                     0,  act_printavail,    enqperpackage   ),
+  ACTION( "print-avail",                    'p', act_printavail,    enqperpackage   ),
   ACTION( "update-avail",                    0,  act_avreplace,     updateavailable ),
   ACTION( "merge-avail",                     0,  act_avmerge,       updateavailable ),
   ACTION( "clear-avail",                     0,  act_avclear,       updateavailable ),
@@ -394,7 +394,9 @@ int main(int argc, const char *const *argv) {
   push_error_handler(&ejbuf,print_error_fatal,0);
 
   umask(022); /* Make sure all our status databases are readable. */
-  
+ 
+  check_libver();
+
   for (argvs=argv+1; (argp= *argvs) && *argp++=='-'; argvs++) {
     if (*argp++=='-') {
       if (!strcmp(argp,"-")) break;

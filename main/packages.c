@@ -67,11 +67,11 @@ void packages(const char *const *argv) {
   const char *thisarg;
   int l;
   
-  checkpath();
   modstatdb_init(admindir,
                  f_noact ?    msdbrw_readonly
                : fc_nonroot ? msdbrw_write
                :              msdbrw_needsuperuser);
+  checkpath();
 
   if (f_pending) {
 

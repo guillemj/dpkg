@@ -176,10 +176,20 @@ sub infol {
 sub checkrename {
     return unless $dorename;
     ($rsrc,$rdest) = @_;
+    my %exist;
     (@ssrc= lstat($rsrc)) || $! == &ENOENT ||
         &quit("cannot stat old name \`$rsrc': $!");
+    $exist{$rsrc} = 1 unless $! != &ENOENT;
     (@sdest= lstat($rdest)) || $! == &ENOENT ||
         &quit("cannot stat new name \`$rdest': $!");
+    $exist{$rdest} = 1 unless $! != &ENOENT;
+    foreach $file ($rsrc,$rdest) {
+	open (TMP, "a $file") || &quit("error checking \`$file': $!");
+	close TMP;
+	if ($exist{$file} == 1) {
+	    unlink ("$file");
+	}
+    }
     if (@ssrc && @sdest &&
         !($ssrc[0] == $sdest[0] && $ssrc[1] == $sdest[1])) {
         &quit("rename involves overwriting \`$rdest' with\n".

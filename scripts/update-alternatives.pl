@@ -406,6 +406,8 @@ if ($manual eq 'auto') {
             &pr("Removing $sname ($slink), not appropriate with $best.");
             unlink("$altdir/$sname") || $! == &ENOENT ||
                 &quit("unable to remove $altdir/$sname: $!");
+	    unlink("$slink") || $! == &ENOENT ||
+	        &quit("unable to remove $slink: $!");
         } else {
             if (defined($linkname= readlink("$altdir/$sname")) && $linkname eq $spath) {
                 &pr("Leaving $sname ($slink) pointing to $spath.");
