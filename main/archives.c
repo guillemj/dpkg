@@ -735,7 +735,7 @@ void archivefiles(const char *const *argv) {
     if (!(fc= m_fork())) {
       const char *const *ap;
       int i;
-      m_dup2(pi[1],1); close(pi[0]);
+      m_dup2(pi[1],1); close(pi[0]); close(pi[1]);
       for (i=0, ap=argv; *ap; ap++, i++);
       arglist= m_malloc(sizeof(char*)*(i+15));
       arglist[0]= FIND;
@@ -760,10 +760,10 @@ void archivefiles(const char *const *argv) {
       execvp(FIND, (char* const*)arglist);
       ohshite(_("failed to exec find for --recursive"));
     }
+    close(pi[1]);
 
     nfiles= 0;
     pf= fdopen(pi[0],"r");  if (!pf) ohshite(_("failed to fdopen find's pipe"));
-    close(pi[1]);
     varbufreset(&findoutput);
     while ((c= fgetc(pf)) != EOF) {
       varbufaddc(&findoutput,c);

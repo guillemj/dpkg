@@ -22,6 +22,7 @@
 
 #include <assert.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -479,6 +480,8 @@ void ensure_diversions(void) {
       fclose(file); onerr_abort--; return;
     }
   }
+  l= fcntl(fileno(file), F_GETFD);
+  if (l >= 0) fcntl(fileno(file), F_SETFD, l | FD_CLOEXEC);
   if (diversionsfile) fclose(diversionsfile);
   diversionsfile= file;
 

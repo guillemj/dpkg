@@ -78,5 +78,7 @@ void lockdatabase(const char *admindir) {
       ohshit(_("status database area is locked by another process"));
     ohshite(_("unable to lock dpkg status database"));
   }
+  n= fcntl(dblockfd, F_GETFD);
+  if (n >= 0) fcntl(dblockfd, F_SETFD, n | FD_CLOEXEC);
   push_cleanup(cu_unlockdb,~0, 0,0, 0);
 }

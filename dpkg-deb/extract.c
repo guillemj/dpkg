@@ -267,7 +267,7 @@ void extracthalf(const char *debar, const char *directory,
     execlp(GZIP,"gzip","-dc",(char*)0); ohshite(_("failed to exec gzip -dc"));
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
-  close(p2[1]);
+  if (taroption) close(p2[1]);
 
   if (taroption && directory) {
     if (chdir(directory)) {
@@ -287,6 +287,7 @@ void extracthalf(const char *debar, const char *directory,
       strcpy(buffer, taroption);
       strcat(buffer, "f");
       m_dup2(p2[0],0);
+      close(p2[0]);
       execlp(TAR,"tar",buffer,"-",(char*)0);
       ohshite(_("failed to exec tar"));
     }

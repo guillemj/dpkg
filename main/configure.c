@@ -546,7 +546,7 @@ static void md5hash(struct pkginfo *pkg, char hashbuf[33], const char *fn) {
     m_pipe(p1);
     push_cleanup(cu_closepipe,ehflag_bombout, 0,0, 1,(void*)&p1[0]);
     if (!(c1= m_fork())) {
-      m_dup2(fd,0); m_dup2(p1[1],1); close(p1[0]);
+      m_dup2(fd,0); m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
       execlp(MD5SUM,MD5SUM,(char*)0);
       ohshite(_("failed to exec md5sum"));
     }

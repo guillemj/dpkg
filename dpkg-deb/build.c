@@ -334,7 +334,7 @@ void do_build(const char *const *argv) {
   strcat(tfbuf,"/dpkg.XXXXXX");
   /* And run gzip to compress our control archive */
   if (!(c2= m_fork())) {
-    m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]);
+    m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
     execlp(GZIP,"gzip","-9c",(char*)0); ohshite(_("failed to exec gzip -9c"));
   }
   close(p1[0]);
