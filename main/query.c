@@ -458,11 +458,11 @@ Options:\n\
   --showformat=<format>      Use alternative format for --show\n\
 \n\
 Format syntax:\n\
-  A format is a string that will be output for each package. The format
-  can include the standard escape sequences \\n (newline), \\r (carriage
-  return) or \\\\ (plain backslash). Package information can be included
-  by inserting variable references to package fields using the ${var[;width]}
-  syntax. Fields will be right-aligned unless the width is negative in which
+  A format is a string that will be output for each package. The format\n\
+  can include the standard escape sequences \\n (newline), \\r (carriage\n\
+  return) or \\\\ (plain backslash). Package information can be included\n\
+  by inserting variable references to package fields using the ${var[;width]}\n\
+  syntax. Fields will be right-aligned unless the width is negative in which\n\
    case left aligenment will be used. \n\
 "),
 	    ADMINDIR) < 0) werr ("stdout");
