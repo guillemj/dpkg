@@ -202,7 +202,7 @@ void dme(int i, int so) {
   const menuentry *me= &menuentries[i];
   sprintf(buf," %c %d. %-11.11s %-80.80s ",
           so ? '*' : ' ', i,
-          me->option,
+          gettext(me->option),
           gettext(me->menuent));
   
   int y,x;
