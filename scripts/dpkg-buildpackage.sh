@@ -30,7 +30,10 @@ Options: -r<gain-root-command>
          -sd           uploaded src is diff and .dsc only   }
          -nc           do not clean source tree (implies -b)
          -tc           clean source tree when finished
+         -ap           add pause before starting signature process
          -h            print this message
+         -i[<regex>]   ignore diffs of files matching regex } only passed
+                                                             to dpkg-source
 END
 }
 
@@ -50,6 +53,7 @@ since=''
 maint=''
 desc=''
 noclean=false
+usepause=false
 
 while [ $# != 0 ]
 do
@@ -63,10 +67,12 @@ do
 	-spgp)  forcesigninterface=pgp ;;
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
+	-ap)	usepause="true";;
 	-a*)    opt_a=1; arch="$value" ;;
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
+        -i*)    diffignore=$1;;
 	-tc)	cleansource=true ;;
 	-t*)    targetgnusystem="$value" ;;          # Order DOES matter!
 	-nc)	noclean=true; binaryonly=-b ;;
@@ -140,10 +146,16 @@ if [ x$noclean != xtrue ]; then
 	withecho $rootcommand debian/rules clean $archlist
 fi
 if [ x$binaryonly = x ]; then
-	cd ..; withecho dpkg-source -b "$dirn"; cd "$dirn"
+	cd ..; withecho dpkg-source $diffignore -b "$dirn"; cd "$dirn"
 fi
 withecho debian/rules build $archlist
 withecho $rootcommand debian/rules $binarytarget $archlist
+
+if [ "$usepause" = "true" ] && [ x$binaryonly = x -o x$signchanges != x ] ; then
+    echo Press the return key to start signing process
+    read dummy_stuff
+fi
+
 if [ x$binaryonly = x ]; then
         $signsource "$pv.dsc"
 fi

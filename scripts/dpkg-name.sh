@@ -55,7 +55,7 @@ fileexists () {
 getname () {
 	if p=`dpkg-deb -f -- "$1" package`;
 	then
-		v=`dpkg-deb -f -- "$1" version`;
+		v=`dpkg-deb -f -- "$1" version | sed s,.*:,,`;
 		r=`dpkg-deb -f -- "$1" revision`;
 		if [ -z "$r" ];
 		then

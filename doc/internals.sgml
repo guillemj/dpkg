@@ -56,9 +56,7 @@ This chapter contains general notes about the conversion to
 should probably read all of this file first.  You have been warned.
 
 <p>
-The current version of automake used is version <code/automake-1.1n/,
-which is currently a beta version.  It has several significant
-advantages over the released version, including:
+Automake has several significant advantages, including:
 
 <itemize>
 <item>it supports emacs lisp properly
@@ -70,10 +68,6 @@ advantages over the released version, including:
 The <code/aclocal/ utility is a very useful program which will automatically
 build an <file/aclocal.m4/ file from the <file/configure.in/ file to include the
 appropriate macros.
-
-<p>
-<code/automake-1.1n/ can be retreived from
-<file>ftp://ftp.cygnus.com/pub/tromey</file>
 
 <p>
 This doesn't affect anything other than rebuilding the <file/Makefile.in/ files
@@ -88,7 +82,7 @@ to the Debian defaults, you should use <code>./configure
 
 <p>
 I have also customized the canonicalizing macros found in
-<code/autoconf-2.12/ to include the old way of finding the <code/dpkg/
+<code/autoconf/ to include the old way of finding the <code/dpkg/
 ``architecture'', i.e. to be a bit more smart. Instead of it trying to
 determine the architecture only, I changed it to use the `host',
 `build', and `target' system types. The target CPU type is checked
@@ -106,7 +100,7 @@ somewhat less functional. I have also moved the <code/DPKG_CACHED_/
 macros into dpkg.m4 to make configure.in a bit more readable.
 
 <p>
-I also converted to libtool 0.7 (which can be found in the Debian
+I also converted to libtool (which can be found in the Debian
 distribution now). Essentially, this means that all the dpkg tools can
 be compiled against a shared <samp/libdpkg/ without much hassle (in
 fact, it is the default). You do not need to install libtool to use
@@ -124,7 +118,7 @@ A target <samp/make debian/ has been added, which will build the
 Debian files from a working directory (does a <samp/make dist/
 first). Now all we need is a modified dpkg-source so that the
 <file/dpkg-1.4.0.8.tar.gz/ GNU-distribution file can be used as part
-of the Debian dsitribution.  I'm working on this, but it doesn't work
+of the Debian distribution.  I'm working on this, but it doesn't work
 too well at the moment (find it in examples).
 
 <p>

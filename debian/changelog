@@ -2,7 +2,24 @@ dpkg (1.4.1.18) unstable; urgency=low
 
   * Fixed incorrect patch for --print-architecture (oops, oh well
     it was already broken when there was no gcc anyway :)
-
+  * Fixed missing mipseb that was supposed to be in the archtable
+  * Better output in update-alternatives --config, now shows the
+    current, and the prefered choices.
+  * dpkg-name: ignore epoch when getting version
+  * 50dpkg-dev.el: add it as a conffile for dpkg-dev
+  * dpkg-shlibdeps: redirect STDERR to /dev/null for the dpkg fork so we
+    don't see dpkg's errors
+  * internals.sgml: Removed references to the versions of build tools,
+    they date the document.
+  * debian-changelog-mode.el: added hint for better log-email handling
+  * Added recognition for new source-depends fields for policy
+    referenced in bug #41232
+  * dpkg-buildpackage: add -ap option to force a pause prior to starting
+    the sign process. This helps for people who don't keep their signatures
+    on the filesystem (on a floppy perhaps, then mount as needed).
+  * minor script corrections
+  * dpkg-dev control: Change gcc to c-compiler in the recommends field, and
+    move cpio, patch and make to the depends line
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

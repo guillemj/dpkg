@@ -39,6 +39,7 @@ while (@ARGV) {
     push(@ap,$_);
     m/^--$/ && last;
     m/^-v/ && next;
+    if (m/^-h$/) { &usageversion; exit(0); }
     &usageerr("unknown option \`$_'");
 }
 

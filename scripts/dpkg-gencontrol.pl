@@ -45,7 +45,8 @@ Options:  -p<package>            print control file for package
 $i=100;grep($fieldimps{$_}=$i--,
           qw(Package Version Section Priority Architecture Essential
              Pre-Depends Depends Recommends Suggests Optional Conflicts Replaces
-             Provides Installed-Size Maintainer Source Description));
+             Provides Installed-Size Maintainer Source Description Build-Depends
+             Build-Indep-Depends  Build-Conflicts Build-Indep-Conflicts));
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -119,8 +120,8 @@ for $_ (keys %fi) {
         if (m/^Maintainer$/) { $f{$_}=$v; }
         elsif (m/^Source$/) { &setsourcepackage; }
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
-        elsif (m/^X[CS]+-|^Standards-Version$/i) { }
-        elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
+	elsif (m/^X[CS]+-|^Standards-Version$|^Build-(Indep-)?(Depends|Conflicts)$/i) { }
+	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
         else { &unknown('general section of control info file'); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
@@ -211,9 +212,9 @@ chown(@fowner, "$fileslistfile.new")
 		|| &syserr("chown new files list file");
 if (open(X,"< $fileslistfile")) {
     while (<X>) {
-        s/\n$//;
+        chomp;
         next if m/^([-+0-9a-z.]+)_[^_]+_(\w+)\.deb /
-                && ($1 eq $oppackage) && ($2 eq $arch);
+                && ($1 eq $oppackage) && ($2 eq $arch || $2 eq 'all');
         print(Y "$_\n") || &syserr("copy old entry to new files list file");
     }
 } elsif ($! != ENOENT) {

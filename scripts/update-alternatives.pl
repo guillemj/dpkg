@@ -442,11 +442,10 @@ sub config_message {
     printf(STDOUT "  Selection    Command\n");
     printf(STDOUT "-----------------------------------------------\n");
     for ($i=0; $i<=$#versions; $i++) {
-	if ($best eq $versions[$i]) {
-	    printf(STDOUT "*     %s        %s\n", $i+1, $versions[$i]);
-	} else {
-	    printf(STDOUT "      %s        %s\n", $i+1, $versions[$i]);
-	}
+	printf(STDOUT "%s%s    %s        %s\n", 
+	    (readlink("$altdir/$name") eq $versions[$i]) ? '*' : ' ',
+	    ($best eq $versions[$i]) ? '+' : ' ',
+	    $i+1, $versions[$i]);
     }
     printf(STDOUT "\nEnter to keep the default[*], or type selection number: ");
 }
@@ -461,6 +460,7 @@ sub config_alternatives {
 	($preferred =~ m/[0-9]*/);
     if ($preferred ne '') {
 	$preferred--;
+	print STDOUT "Using \`$versions[$preferred]' to provide \`$name'.\n";
 	my $spath = $versions[$preferred];
 	symlink("$spath","$altdir/$name.dpkg-tmp") ||
 	    &quit("unable to make $altdir/$name.dpkg-tmp a symlink to $spath: $!");

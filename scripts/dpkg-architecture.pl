@@ -54,7 +54,6 @@ require 'controllib.pl';
             'powerpc',   'powerpc-linux',
 	    'mips',      'mips-linux',
 	    'mipsel',    'mipsel-linux',
-	    'mipseb',    'mipseb-linux',
 	    'hurd-i386', 'i386-gnu');
 
 sub usageversion {

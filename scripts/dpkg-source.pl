@@ -8,6 +8,8 @@ my %dirincluded;
 my %notfileobject;
 my $fn;
 
+$diff_ignore_default_regexp = '^.*~$|DEAD_JOE|(?:/CVS|/RCS|/.deps)(?:$|/.*$)';
+
 $sourcestyle = 'X';
 
 use POSIX;
@@ -17,6 +19,9 @@ use strict 'refs';
 
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
+
+# Make sure patch doesn't get any funny ideas
+undef $ENV{'POSIXLY_CORRECT'};
 
 sub usageversion {
     print STDERR
@@ -35,6 +40,8 @@ Build options:   -c<controlfile>     get control info from this file
                  -D<field>=<value>   override or add a .dsc field and value
                  -U<field>           remove a field
                  -sa                 auto select orig source (-sA is default)
+                 -i[<regexp>]        filter out files to ignore diffs of.
+                                     Defaults to: '$diff_ignore_default_regexp'
                  -sk                 use packed orig source (unpack & keep)
                  -sp                 use packed orig source (unpack & remove)
                  -su                 use unpacked orig source (pack & keep)
@@ -51,7 +58,8 @@ General options: -h                  print this message
 
 $i = 100;
 grep ($fieldimps {$_} = $i--,
-      qw (Source Version Binary Maintainer Architecture Standards-Version));
+      qw (Source Version Binary Maintainer Architecture Standards-Version
+          Build-Depends Build-Indep-Depends Build-Conflicts Build-Indep-Conflicts));
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
@@ -71,6 +79,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $override{$1}= $';
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
+    } elsif (m/^-i(.*)$/) {
+        $diff_ignore_regexp = $1 ? $1 : $diff_ignore_default_regexp;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= $';
     } elsif (m/^-T/) {
@@ -112,6 +122,7 @@ if ($opmode eq 'build') {
 #print STDERR "G key >$_< value >$v<\n";
             if (m/^Source$/) { &setsourcepackage; }
             elsif (m/^Standards-Version$|^Maintainer$/) { $f{$_}= $v; }
+	    elsif (m/^Build-(Indep-)?(Depends|Conflicts)$/i) { $f{$_}= $v; }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
             elsif (m/^(Section|Priority|Files)$/ || m/^X[BC]+-/i) { }
             else { &unknown('general section of control info file'); }
@@ -338,7 +349,9 @@ if ($opmode eq 'build') {
 
       file:
         while (defined($fn= <FIND>)) {
-            $fn =~ s/\0$//; $fn =~ s,^\./,,;
+            $fn =~ s/\0$//;
+            next file if $fn =~ m/$diff_ignore_regexp/o;
+            $fn =~ s,^\./,,;
             lstat("$dir/$fn") || &syserr("cannot stat file $dir/$fn");
             if (-l _) {
                 $type{$fn}= 'symlink';
@@ -415,7 +428,9 @@ if ($opmode eq 'build') {
         }
         $/= "\0";
         while (defined($fn= <FIND>)) {
-            $fn =~ s/\0$//; $fn =~ s,^\./,,;
+            $fn =~ s/\0$//;
+            next if $fn =~ m/$diff_ignore_regexp/o;
+            $fn =~ s,^\./,,;
             next if defined($type{$fn});
             lstat("$origdir/$fn") || &syserr("cannot check orig file $origdir/$fn");
             if (-f _) {
@@ -916,11 +931,19 @@ sub extracttar {
     opendir(D,"$dirchdir") || &syserr("Unable to open dir $dirchdir");
     @dirchdirfiles = grep($_ ne "." && $_ ne "..",readdir(D));
     closedir(D) || &syserr("Unable to close dir $dirchdir");
-    (@dirchdirfiles==1 && -d "$dirchdir/$dirchdirfiles[0]") ||
-	&error("$tarfileread extracted into >1 directory");
-    rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
-	&syserr("Unable to rename $dirchdir/$dirchdirfiles[0] to ".
-		"$dirchdir/$newtopdir");
+    if (@dirchdirfiles==1 && -d "$dirchdir/$dirchdirfiles[0]") {
+	rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
+	    &syserr("Unable to rename $dirchdir/$dirchdirfiles[0] to ".
+	    "$dirchdir/$newtopdir");
+    } else {
+	mkdir("$dirchdir/$newtopdir", 0777) ||
+	    &syserr("Unable to mkdir $dirchdir/$newtopdir");
+	for (@dirchdirfiles) {
+	    rename("$dirchdir/$_", "$dirchdir/$newtopdir/$_") ||
+		&syserr("Unable to rename $dirchdir/$_ to ".
+		"$dirchdir/$newtopdir/$_");
+	}
+    }
 }
 
 sub cpiostderr {

@@ -218,7 +218,20 @@ Runs `debian-changelog-mode-hook' if it exists.
 
 Key bindings:
 
-\\{debian-changelog-mode-map}"
+\\{debian-changelog-mode-map}
+Hint:  If you want to use your debian.org email address for debian/changelog
+entries without using it for the rest of your email, put
+
+    (add-hook 'debian-changelog-mode-hook 'my-debian-changelog-mode-hook)
+    (defun my-debian-changelog-mode-hook ()
+      (make-local-variable 'add-log-mailing-address)
+      (setq add-log-mailing-address \"myname@debian.org\"))
+
+in your ~/.emacs file.  This is better than including a local setting
+for add-log-mailing-address in the changelog itself both because you
+only have to set it up once and because it works in the presense of
+NMUs."
+
   (interactive)
   (kill-all-local-variables)
   (text-mode)

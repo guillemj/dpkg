@@ -56,7 +56,7 @@ binary-trees: build
 		sed -e '/^# i386elf: /d' debian/preinst >$(mcidir)/preinst ; \
 	fi
 	set -e; if [ -f debian/shlibs.default.$(arch) ]; then \
-		echo /etc/dpkg/shlibs.default >debian/tmp-dev/DEBIAN/conffiles ; \
+		echo /etc/dpkg/shlibs.default >> debian/tmp-dev/DEBIAN/conffiles ; \
 		install -d debian/tmp-main/etc/dpkg; \
 		install -m644 debian/shlibs.default.$(arch) \
 		debian/tmp-dev/etc/dpkg/shlibs.default ; \
@@ -76,6 +76,7 @@ binary-trees: build
 	install -m 755 debian/dev-prerm debian/tmp-dev/DEBIAN/prerm
 	install -d debian/tmp-dev/etc/emacs/site-start.d
 	install -m 644 debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/.
+	echo '/etc/emacs/site-start.d/50dpkg-dev.el' >> debian/tmp-dev/DEBIAN/conffiles
 	install -d debian/tmp-dev/usr/lib/emacsen-common/packages/{install,remove}
 	install -m 755 debian/emacsen-common-remove \
 	debian/tmp-dev/usr/lib/emacsen-common/packages/remove/dpkg-dev

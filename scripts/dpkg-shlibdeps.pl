@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 $dpkglibdir= ".";
-$version= '1.3.6'; # This line modified by Makefile
+$version= '1.3.7'; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
@@ -115,9 +115,13 @@ for ($i=0;$i<=$#exec;$i++) {
 if ($#libpaths >= 0) {
     grep(s/\[\?\*/\\$&/g, @libpaths);
     defined($c= open(P,"-|")) || syserr("cannot fork for dpkg --search");
-    if (!$c) { exec("dpkg","--search","--",@libpaths); syserr("cannot exec dpkg"); }
+    if (!$c) {
+        close STDERR; # we don't need to see dpkg's errors
+	open STDERR, "> /dev/null";
+        exec("dpkg","--search","--",@libpaths); syserr("cannot exec dpkg");
+    }
     while (<P>) {
-       s/\n$//;
+       chomp;
        if (m/^local diversion |^diversion by/) {
            &warn("diversions involved - output may be incorrect");
            print(STDERR " $_\n") || syserr("write diversion info to stderr");
