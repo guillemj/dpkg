@@ -21,11 +21,11 @@ $since='';
 
 sub usageversion {
     print STDERR
-"Debian parsechangelog/dpkg $version.  Copyright (C) 1996
+"Debian $progname $version.  Copyright (C) 1996
 Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
-Usage: parsechangelog/dpkg [-v<versionsince>] | -h
+Usage: $progname [-v<versionsince>] | -h
 ";
 }
 

@@ -21,8 +21,9 @@ dpkg (1.9.0) unstable; urgency=low
   * Fix dpkg-statoverride --update for things other then plain files.
     Closes: Bug#84449
   * Fix race with source directory disappearing in dpkg-source.
-    Closes: Bug#82797
+    Closes: Bug#45511
   * Fix manpage for dpkg-gencontrol. Closes: Bug#84625
+  * Add -n option for dpkg-gencontrol to specify a filename. Closes: Bug#75796
   * Use POSIX glob instead of regexp in debian/rules. Closes: Bug#83042,
     #84582
   * fix typo in usage message for dpkg-divert, Closes: Bug#85977
@@ -30,11 +31,11 @@ dpkg (1.9.0) unstable; urgency=low
   * Add ia64 support to dpkg-architecture.
   * Minor script changes, Closes: Bug#87485
   * Stop dpkg-genchanges from complaining about missing packages
-    when doing a source-only build. Closes: Bug#87571
+    when doing a source-only build. Closes: Bug#87571,#15644,#25496
   * Various dpkg-architecture cleanups. Closes: Bug#87505
   * Modify dpkg-architecture to handle gcc versions containing letters.
     Closes: Bug#83083
-  * dpkg-buildpackage updates: Closes: Bug#87572
+  * dpkg-buildpackage updates: Closes: Bug#87572,#85847
     + make -C work properly
     + fix test for gpg secret keyring
     + improve source messages
@@ -45,7 +46,8 @@ dpkg (1.9.0) unstable; urgency=low
   * Fix wording in dpkg-statoverride manpage for --add. Closes: Bug#85080
   * Fix typo in start-stop-daemon manpage. Closes: Bug#88225
   * Add dpkg-checkbuilddeps to check if build dependencies are satisfied
-    and modify dpkg-buildpackage to call it if wanted. Closes: Bug#86453
+    and modify dpkg-buildpackage to call it if wanted.
+    Closes: Bug#86453,#83812,#60717,74372,67896,60717
   * dpkg-parsechangelog can read a changelog from stdin now. Closes: Bug#80142
   * Fix confusing wording for dpkg-buildpackage -uc option in manpage.
     Closes: Bug#83468
@@ -55,9 +57,10 @@ dpkg (1.9.0) unstable; urgency=low
     other OSes as well.
   * Mark last argument in dpkg-scanpackages usage info as optional.
     Closes: Bug#86658
+  * Fix cache in dpkg-scanpackages version comparison. Closes: Bug#90722
   * Fix formatting error in dpkg-source.1. Closes: Bug#82723
   * Change dpkg-gencontrol to fix comma-related syntax errors after
-    processing substvars
+    processing substvars. Closes: Bug#92908
   * Verify package signatures if debsig-verify is installed
   * Handle window resize in dselect main menu. Closes: Bug#93559
   * Initialize all parts of the package record.  This should fix several
@@ -69,6 +72,11 @@ dpkg (1.9.0) unstable; urgency=low
   * Add a --retry option to start-stop-daemon. Closes: Bug#75139
   * Fix regeps to extract Closes magic from a changelog so the #
     is really optional. Closes: Bug#94474
+  * Remove useless statement from dpkg-shlibdeps. Closes: Bug#90516
+  * Make the debian changelog parser identify itself with $progname.
+    Closes: Bug#89409
+  * Give a syntax error when we get an unexpected PGP signature in control
+    files. Closes: Bug#75562
 
  -- Wichert Akkerman <wakkerma@debian.org>  Sat, 13 Jan 2001 08:52:11 -0500
 
@@ -207,7 +215,7 @@ dpkg (1.7.0) unstable; urgency=low
   * HURD updates, Closes: Bug#57753,#57754,#57755
   * dpkg-architecture: -q should not imply -f, Closes: Bug#57761
   * add dpkg:UpstreamVersion and dpkg:Version substvars in dpkg-genchanges
-    and dpkg-gencontrol.  Closes: Bug#62069
+    and dpkg-gencontrol.  Closes: Bug#62069,#64774
   * dpkg-genchanges: add new Changed-By field to .changes with the last
     person who made a change, and modify the Maintainer-field to be the
     actual maintainer. Update the format-version to 1.7 to reflect this.

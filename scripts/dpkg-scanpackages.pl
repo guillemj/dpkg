@@ -37,9 +37,9 @@ $#ARGV == 1 || $#ARGV == 2
 
 sub vercmp {
 	($a,$b)=@_;
-	return $vercache{$a,$b} if defined($varcache{$a,$b});
+	return $vercache{$a,$b} if defined($vercache{$a,$b});
 	system("dpkg --compare-versions $a le $b");
-	$varcache{$a,$a}=$?;
+	$vercache{$a,$a}=$?;
 	return $?;
 }
 

@@ -262,7 +262,6 @@ sub scanshlibsfile {
 }
 
 if (!$stdout) {
-    $varlistfile="./$varlistfile" if $fileslistfile =~ m/^\s/;
     open(Y,"> $varlistfile.new") ||
         syserr("open new substvars file \`$varlistfile.new'");
     chown(@fowner, "$varlistfile.new") ||

@@ -189,6 +189,7 @@ sub parsecdata {
             length($cf) || &syntax("continued value line not in field");
             $fi{"$source$index $cf"}.= "\n$_";
         } elsif (m/^-----BEGIN PGP/ && $many<0) {
+            $many == -2 && syntax("expected blank line before PGP signature");
             while (<CDATA>) { last if m/^$/; }
             $many= -2;
         } elsif (m/^$/) {
