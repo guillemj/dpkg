@@ -221,9 +221,10 @@ int packagelist::resolvedepcon(dependency *depends) {
   case dep_replaces:
     return 0;
 
-  case dep_enhances:
-    return 0;
+//  case dep_enhances:
+//   return 0;
 
+  case dep_enhances:
   case dep_suggests:
   case dep_recommends:
   case dep_depends:
@@ -244,6 +245,7 @@ int packagelist::resolvedepcon(dependency *depends) {
 
     // Ensures all in the recursive list; adds info strings; ups priorities
     switch (depends->type) {
+    case dep_enhances:
     case dep_suggests:
     	r= add(depends, dp_may);
 	return r;
