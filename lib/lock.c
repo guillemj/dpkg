@@ -32,12 +32,10 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-static char *dblockfile= NULL;
 static int dblockfd= -1;
 
 static void cu_unlockdb(int argc, void **argv) {
   struct flock fl;
-  assert(dblockfile);
   assert(dblockfd >= 0);
   fl.l_type= F_UNLCK;
   fl.l_whence= SEEK_SET;
@@ -54,13 +52,12 @@ void unlockdatabase(const char *admindir) {
 void lockdatabase(const char *admindir) {
   int n;
   struct flock fl;
+  char *dblockfile= NULL;
   
-  if (!dblockfile) {
     n= strlen(admindir);
     dblockfile= m_malloc(n+sizeof(LOCKFILE)+2);
     strcpy(dblockfile,admindir);
     strcpy(dblockfile+n, "/" LOCKFILE);
-  }
   if (dblockfd == -1) {
     dblockfd= open(dblockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
     if (dblockfd == -1) {
@@ -79,5 +76,6 @@ void lockdatabase(const char *admindir) {
     ohshite(_("unable to lock dpkg status database"));
   }
   setcloexec(dblockfd, dblockfile);
+  free(dblockfile);
   push_cleanup(cu_unlockdb,~0, NULL,0, 0);
 }

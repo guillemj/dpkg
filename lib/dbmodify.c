@@ -218,6 +218,9 @@ void modstatdb_shutdown(void) {
     break;
   }
 
+  free(statusfile);
+  free(availablefile);
+  free(importanttmpfile);
   free(updatefnbuf);
 }
 

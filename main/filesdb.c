@@ -511,6 +511,7 @@ void ensure_diversions(void) {
     diversions= oicontest;
   }
   if (ferror(file)) ohshite(_("read error in diversions [i]"));
+  fclose(file);
 
   onerr_abort--;
 }

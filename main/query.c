@@ -204,6 +204,7 @@ void listpackages(const char *const *argv) {
   }
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");  
+  modstatdb_shutdown();
 }
 
 static int searchoutput(struct filenamenode *namenode) {
@@ -282,6 +283,7 @@ void searchfiles(const char *const *argv) {
       if (ferror(stdout)) werr("stdout");
     }
   }
+  modstatdb_shutdown();
 }
 
 void enqperpackage(const char *const *argv) {
@@ -372,6 +374,7 @@ void enqperpackage(const char *const *argv) {
          "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"),stderr);
     if (ferror(stdout)) werr("stdout");
   }
+  modstatdb_shutdown();
 }
 
 void showpackages(const char *const *argv) {
@@ -424,6 +427,7 @@ void showpackages(const char *const *argv) {
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");  
   freeformat(fmt);
+  modstatdb_shutdown();
 }
 
 static void printversion(void) {

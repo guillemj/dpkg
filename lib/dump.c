@@ -304,6 +304,7 @@ void writedb(const char *filename, int available, int mustsync) {
               which, pigp->name, filename);
     varbufreset(&vb);      
   }
+  iterpkgend(it);
   varbuffree(&vb);
   if (mustsync) {
     if (fflush(file))

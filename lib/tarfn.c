@@ -266,6 +266,7 @@ TarExtractor(
 		free(symListPointer);
 		symListPointer = symListBottom;
 	}
+	free(symListPointer);
 	if ( status > 0 ) {	/* Read partial header record */
 		errno = 0;	/* Indicates broken tarfile */
 		return -1;

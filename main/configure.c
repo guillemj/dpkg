@@ -81,6 +81,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	char *currenthash= 0, *newdisthash= 0;
 	struct stat stab;
 	enum conffopt what;
+	static const char *EMPTY_HASH = "-";
 
 	if (pkg->status == stat_notinstalled)
 		ohshit(_("no package named `%s' is installed, cannot configure"),pkg->name);
@@ -157,7 +158,7 @@ void deferred_configure(struct pkginfo *pkg) {
 		for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
 			r= conffderef(pkg, &cdr, conff->name);
 			if (r == -1) {
-				conff->hash= nfstrsave("-");
+				conff->hash= EMPTY_HASH;
 				continue;
 			}
 			md5hash(pkg,&currenthash,cdr.buf);
