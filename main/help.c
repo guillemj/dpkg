@@ -254,18 +254,20 @@ static void setexecute(const char *path, struct stat *stab) {
   ohshite(_("unable to set execute permissions on `%.250s'"),path);
 }
 static int do_script(const char *pkg, const char *scriptname, const char *scriptpath, struct stat *stab, char *const arglist[], const char *desc, const char *name, int warn) {
+  const char *scriptexec;
   int c1, r;
   setexecute(scriptpath,stab);
 
   c1= m_fork();
   if (!c1) {
-    char **narglist;
+    const char **narglist;
     for (r=0; arglist[r]; r++) ;
     narglist=nfmalloc(r*sizeof(char*));
     for (r=1; arglist[r]; r++)
       narglist[r]= arglist[r];
-    narglist[0]= strdup(preexecscript(scriptpath,arglist));
-    execv(narglist[0],narglist);
+    scriptexec= preexecscript(scriptpath,arglist);
+    narglist[0]= scriptexec;
+    execv(scriptexec,arglist);
     ohshite(desc,name);
   }
   script_catchsignals(); /* This does a push_cleanup() */
