@@ -132,7 +132,8 @@ unsigned long f_debug=0;
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_autoselect=1, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
-int fc_nonroot=0, fc_overwritedir=0;
+int fc_nonroot=0, fc_overwritedir=0, fc_conff_new=0, fc_conff_miss=0;
+int fc_conff_old=0, fc_conff_def=0;
 
 int errabort = 50;
 const char *admindir= ADMINDIR;
@@ -149,6 +150,10 @@ static const struct forceinfo {
   { "remove-reinstreq",    &fc_removereinstreq          },
   { "remove-essential",    &fc_removeessential          },
   { "conflicts",           &fc_conflicts                },
+  { "confnew",             &fc_conff_new                },
+  { "confold",             &fc_conff_old                },
+  { "confdef",             &fc_conff_def                },
+  { "confmiss",            &fc_conff_miss               },
   { "depends",             &fc_depends                  },
   { "depends-version",     &fc_dependsversion           },
   { "auto-select",         &fc_autoselect               },
@@ -268,6 +273,13 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   overwrite-diverted     Overwrite a diverted file with an undiverted version\n\
   depends-version [!]    Turn dependency version problems into warnings\n\
   depends [!]            Turn all dependency problems into warnings\n\
+  confnew [!]            Always use the new config files, don't prompt\n\
+  confold [!]            Always use the old config files, don't prompt\n\
+  confdef [!]            Use the default option for new config files if one\n\
+                         is available, don't prompt. If no default can be found,\n\
+                         you will be prompted unless one of the confold or\n\
+                         confnew options is also given\n\
+  confmiss [!]           Always install missing config files\n\
   conflicts [!]          Allow installation of conflicting packages\n\
   architecture [!]       Process even packages with wrong architecture\n\
   overwrite-dir [!]      Overwrite one package's directory with another's file\n\

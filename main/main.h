@@ -83,7 +83,8 @@ extern unsigned long f_debug;
 extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
 extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
 extern int fc_autoselect, fc_badpath, fc_overwritediverted, fc_architecture;
-extern int fc_nonroot, fc_overwritedir;
+extern int fc_nonroot, fc_overwritedir, fc_conff_new, fc_conff_miss;
+extern int fc_conff_old, fc_conff_def;
 
 extern int errabort;
 extern const char *admindir;
@@ -165,6 +166,8 @@ void cu_closefd(int argc, void **argv);
 
 int ignore_depends(struct pkginfo *pkg);
 int force_depends(struct deppossi *possi);
+int force_conff_new(struct deppossi *possi);
+int force_conff_miss(struct deppossi *possi);
 int force_conflicts(struct deppossi *possi);
 void ensure_package_clientdata(struct pkginfo *pkg);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);

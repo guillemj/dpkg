@@ -185,6 +185,12 @@ void deferred_configure(struct pkginfo *pkg) {
         useredited= -1;
         distedited= -1;
         what= cfo_identical;
+      } else if (!strcmp(currenthash,NONEXISTENTFLAG) && fc_conff_miss) {
+	fprintf(stderr, _("\nConfiguration file `%s', does not exist on system.\n"
+	    "Installing new config file as you request.\n"), conff->name);
+	what= cfo_newconff;
+	useredited= -1;
+	distedited= -1;
       } else if (!strcmp(conff->hash,NEWCONFFILEFLAG)) {
         if (!strcmp(currenthash,NONEXISTENTFLAG)) {
           what= cfo_newconff;
@@ -205,6 +211,16 @@ void deferred_configure(struct pkginfo *pkg) {
             "deferred_configure `%s' (= `%s') useredited=%d distedited=%d what=%o",
             conff->name, cdr.buf, useredited, distedited, what);
       
+      /* When prompting we check for some of the force options. There are
+       * several cases in which these occur.
+       *  - We have --force-confnew, in which we always use the new config file
+       *  - We have --force-confold, in which we always use the old config file
+       *  - We have --force-confdef, in which we always use the default action
+       *    if there is one. Note, there are cases where we will still prompt
+       *  - If we have --force-confdef and one of the others (new/old) then we
+       *    always use the default where we can. If there is no default, then we
+       *    use the new or old, depending on which --force-conf{old,new} was used.
+       */
       if (what & cfof_prompt) {
 
         do {
@@ -232,6 +248,28 @@ void deferred_configure(struct pkginfo *pkg) {
 
           }
           
+	  if (!(fc_conff_def && (what & (cfof_install|cfof_keep)))) {
+	    if (fc_conff_new) {
+	      fprintf(stderr, _(" ==> Using new file as you requested.\n"));
+	      cc = 'y';
+	      break;
+	    } else if (fc_conff_old) {
+	      fprintf(stderr, _(" ==> Using current old file as you requested.\n"));
+	      cc = 'n';
+	      break;
+	    }
+	  }
+
+          if (what & cfof_keep && fc_conff_def) {
+            fprintf(stderr, _(" ==> Keeping old config file as default.\n"));
+	    cc = 'n';
+	    break;
+	  } else if (what & cfof_install && fc_conff_def) {
+	    fprintf(stderr, _(" ==> Using new config file as default.\n"));
+	    cc = 'y';
+	    break;
+	  }
+
           fprintf(stderr,
                   _("   What would you like to do about it ?  Your options are:\n"
                   "    Y or I  : install the package maintainer's version\n"
