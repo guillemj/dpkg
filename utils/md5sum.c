@@ -72,10 +72,21 @@ char *progname;
 int verbose = 0;
 int bin_mode = 0;
 
-int main(int argc, char **argv) NONRETURNING;
+static
+void
+print_md5sum_error(const char* emsg, const char* arg) {
+	fprintf(stderr, _("error processing %s: %s\n"), arg, emsg);
+}
+
+void cu_closefile(int argc, void** argv) {
+	FILE *f = (FILE*)(argv[0]);
+	fclose(f);
+}
+
 int
 main(int argc, char **argv)
 {
+	jmp_buf ejbuf;
 	int opt, rc = 0;
 	int check = 0;
 	FILE *fp = NULL;
@@ -109,32 +120,46 @@ main(int argc, char **argv)
 		exit(do_check(fp));
 	}
 	if (argc == 0) {
-		if (mdfile(fileno(stdin), &digest)) {
-			fprintf(stderr, _("%s: read error on stdin\n"), progname);
-			exit(2);
+		if (setjmp(ejbuf)) {
+			error_unwind(ehflag_bombout);
+			exit(1);
 		}
+		push_error_handler(&ejbuf, print_md5sum_error, "stdin");
+
+		mdfile(fileno(stdin), &digest);
 		printf("%s\n", digest);
+		set_error_display(0, 0);
+		error_unwind(ehflag_normaltidy);
 		exit(0);
 	}
 	for ( ; argc > 0; --argc, ++argv) {
+		if (setjmp(ejbuf)) {
+			error_unwind(ehflag_bombout);
+			rc++;
+			continue;
+		}
+		push_error_handler(&ejbuf, print_md5sum_error, *argv);
 		if (bin_mode)
 			fp = fopen(*argv, FOPRBIN);
 		else
 			fp = fopen(*argv, FOPRTXT);
 		if (fp == NULL) {
 			perror(*argv);
-			rc = 2;
+			rc++;
 			continue;
 		}
-		if (mdfile(fileno(fp), &digest)) {
-			fprintf(stderr, _("%s: error reading %s\n"), progname, *argv);
-			rc = 2;
-		} else {
-			printf("%s %c%s\n", digest, bin_mode ? '*' : ' ', *argv);
-		}
+		push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)fp);
+		
+		mdfile(fileno(fp), &digest);
+		printf("%s %c%s\n", digest, bin_mode ? '*' : ' ', *argv);
+		pop_cleanup(ehflag_normaltidy); /* fd= fopen() */
 		fclose(fp);
+		fp= NULL;
+		set_error_display(0, 0);
+		error_unwind(ehflag_normaltidy);
 	}
-	exit(rc);
+
+	return rc;
 }
 
 void usage() NONRETURNING;
