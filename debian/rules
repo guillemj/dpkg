@@ -25,7 +25,7 @@ endif
 BUILD-DIRS	:= $(BUILD) $(BUILD)-static
 
 # Setup the buildlocation
-$(BUILD)/config.status:
+$(BUILD)/configure-stamp:
 	$(checkdir)
 	install -d $(@D)
 	cd $(@D) && LDFLAGS=$(LDFLAGS) $(DIR)/configure \
@@ -40,6 +40,7 @@ $(BUILD)/config.status:
 		--with-zlib=static \
 		--with-static-progs \
 		$(config_arg)
+	touch $@
 
 clean:
 	$(checkdir)
@@ -51,7 +52,7 @@ clean:
 
 build: stamp-build
 
-stamp-build: $(BUILD)/config.status
+stamp-build: $(BUILD)/configure-stamp
 	$(MAKE) $(MFLAGS) -C $(BUILD)
 #	touch $@
 
