@@ -697,8 +697,7 @@ void printarch(const char *const *argv) {
     exit(0);
   }
   close(p1[1]);
-  while ((c= getc(ccpipe)) != EOF) varbufaddc(&vb,c);
-  if (ferror(ccpipe)) ohshite(_("error reading from CC pipe"));
+  read_fd_vbuf(fileno(ccpipe), &vb, -1, _("error reading from CC pipe"));
   waitsubproc(c1,"gcc --print-libgcc-file-name",0);
   if (!vb.used) badlgccfn(ccompiler,"",_("empty output"));
   varbufaddc(&vb,0);

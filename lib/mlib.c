@@ -124,9 +124,6 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   checksubprocerr(status,description,sigpipeok);
 }
 
-typedef struct do_fd_copy_data {
-  int fd;
-} do_fd_copy_data_t;
 typedef struct do_fd_buf_data {
   void *buf;
   int type;
@@ -156,6 +153,7 @@ int read_fd_combined(int fd, void *buf, int type, int limit, char *desc, ...) {
   do_fd_buf_data_t data = { buf, type };
   va_list al;
   struct varbuf v;
+  int ret;
 
   varbufinit(&v);
 
@@ -163,8 +161,9 @@ int read_fd_combined(int fd, void *buf, int type, int limit, char *desc, ...) {
   varbufvprintf(&v, desc, al);
   va_end(al);
 
-  do_fd_read(fd, limit, do_fd_write_combined, &data, v.buf);
+  ret = do_fd_read(fd, limit, do_fd_write_combined, &data, v.buf);
   varbuffree(&v);
+  return ret;
 }
 
 
@@ -196,4 +195,5 @@ int do_fd_read(int fd1, int limit, do_fd_write_t write_proc, void *proc_data, ch
   if (count<0) ohshite(_("failed in do_fd_read on read (%s)"), desc);
 
   free(buf);
+  return bytesread;
 }
