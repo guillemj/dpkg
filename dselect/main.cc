@@ -3,7 +3,7 @@
  * main.cc - main program
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
- * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright (C) 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -86,7 +86,7 @@ static const char programdesc[]=
 static const char copyrightstring[]= N_(
       "Version %s.\n"
       "Copyright (C) 1994-1996 Ian Jackson.\n"
-      "Copyright (C) 2000 Wichert Akkerman.\n"
+      "Copyright (C) 2000,2001 Wichert Akkerman.\n"
       "This is free software; see the GNU General Public Licence version 2\n"
       "or later for copying conditions.  There is NO warranty.  See\n"
       "dselect --licence for details.\n");

@@ -279,7 +279,7 @@ void packagelist::redrawcolheads() {
                  _("Marked for"),
                  status_want_width);
     } else {
-      mvwaddstr(colheadspad,0,0, "EIOM");
+      mvwaddstr(colheadspad,0,0, _("EIOM"));
     }
     mvwaddnstr(colheadspad,0,section_column, _("Section"), section_width);
     mvwaddnstr(colheadspad,0,priority_column, _("Priority"), priority_width);
