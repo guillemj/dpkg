@@ -244,9 +244,8 @@ if (!$remove) {
         $mss= $i;
         @work= (@work[0..$i-1], @work[$j..$#work]);
     } elsif (length($sectionre)) {
-        for ($i=0; $i<=$#work && $work[$i] !~ m/^\* *menu/i; $i++) { }
         $mss= -1;
-        for (; $i<=$#work; $i++) {
+        for ($i=0; $i<=$#work; $i++) {
             $_= $work[$i];
             next if m/^\*/;
             next unless m/$sectionre/io;

@@ -48,7 +48,7 @@ const char
   *const priorityabbrevs[]=  { "Req", "Imp", "Std", "Rec",
                                "Opt", "Xtr", "Ctb",
                                "bUG", "?"                  };
-const char statuschars[]=   " UF*H-";
+const char statuschars[]=   " UC*I-";
 const char eflagchars[]=     " R?#";
 const char wantchars[]=     "n*=-_";
 

@@ -265,7 +265,7 @@ void packagelist::redrawcolheads() {
       for (int i=0; i<status_width-status_want_width; i++) waddch(colheadspad,'.');
       mvwaddnstr(colheadspad,0,
                  0,
-                 "Hold/Err.",
+                 "Error",
                  status_hold_width);
       mvwaddnstr(colheadspad,0,
                  status_hold_width+1,
@@ -280,7 +280,7 @@ void packagelist::redrawcolheads() {
                  "Marked for",
                  status_want_width);
     } else {
-      mvwaddstr(colheadspad,0,0, "HIOM");
+      mvwaddstr(colheadspad,0,0, "EIOM");
     }
     mvwaddnstr(colheadspad,0,section_column, "Section", section_width);
     mvwaddnstr(colheadspad,0,priority_column, "Priority", priority_width);

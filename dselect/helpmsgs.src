@@ -96,24 +96,24 @@ The top half of the screen shows a list of packages.  For each package you see
 four columns for its current status on the system and mark.  In terse mode (use
 `v' to toggle verbose display) these are single characters, from left to right:
 
- Hold/error flag: h - you have put the package on Hold - it won't be processed
-                  R - serious error during installation, needs reinstallation;
-                  X - serious error, needs reinstallation, package also on hold
- Installed state: Space - not installed;
-                   `*'  - installed;
-                   `-'  - not installed but config files remain;
-                   `u'  - unpacked but not yet configured;
-                   `C'  - half-configured (an error happened);
-                   `I'  - half-installed (an error happened).
+ Error flag: Space - no error (but package may be in broken state - see below)
+              `R'  - serious error during installation, needs reinstallation;
+ Installed state:   Space - not installed;
+                     `*'  - installed;
+                     `-'  - not installed but config files remain;
+       packages in { `U'  - unpacked but not yet configured;
+      these states { `C'  - half-configured (an error happened);
+        are broken { `I'  - half-installed (an error happened).
  Old mark: what was requested for this package before presenting this list;
  Mark: what is requested for this package:
-  `*': marked for installation;
-  `-': marked for removal, but configuration files will remain;
+  `*': marked for installation or upgrade;
+  `-': marked for removal, but any configuration files will remain;
+  `=': on hold: package will not be processed at all;
   `_': marked for purge completely - even remove configuration;
-  `n': package is new to this system (appears under `Old mark').
+  `n': package is new and has yet to be marked for install/remove/&c.
 
-Following those four columns are the Priority and Section of the package,
-its name (possibly truncated to fit) and the summary description.
+Also displayed are each package's Priority, Section, name, installed and
+available version numbers (shift-V to display/hide) and summary description.
 
 @@@ displayexplain2 Display, part 2: list highlight; information display
 
@@ -131,10 +131,12 @@ its name (possibly truncated to fit) and the summary description.
   currently-highlighted package (if there is only one).
 
   It can show an extended description of the package, the internal package
-  control details, or information about conflicts and dependencies involving
-  the current package (in conflict/dependency resolution sublists).
+  control details (either for the installed or available version of the
+  package), or information about conflicts and dependencies involving the
+  current package (in conflict/dependency resolution sublists).
 
-  Use the `i' key to cycle through the displays.
+  Use the `i' key to cycle through the displays, and `I' to hide the
+  information display or expand it to use almost all of the screen.
 
 @@@ methintro Introduction to method selection display
 

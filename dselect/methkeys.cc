@@ -109,7 +109,6 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
 
   { KEY_ENTER,      "select-and-quit"  },
   { '\r',           "select-and-quit"  },
-  { 27,             "abort"            }, // esc
   { 'x',            "abort"            },
   { 'X',            "abort"            },
   

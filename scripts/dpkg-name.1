@@ -3,11 +3,15 @@
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
+.\" Time-stamp: <96/05/03 14:00:06 root>
 .TH dpkg-name 1 "April 1996" "Debian Project" "Debian Linux"
 .SH NAME
 dpkg\-name \- rename Debian packages to full package names
 .SH SYNOPSIS
-.B dpkg\-name [\-h|\-\-help] [\-v|\-\-version] [\-l|\-\-license] [--] [files]
+.B dpkg\-name 
+[\-a|\-\-no\-architecture] [\-o|\-\-overwrite] [\-s|\-\-subdir [dir]]
+[\-c|\-\-create\-dir] [\-h|\-\-help] [\-v|\-\-version]
+[\-l|\-\-license] [\-[--] [files]
 .SH DESCRIPTION
 .PP
 This manual page documents the
@@ -16,19 +20,55 @@ sh script which provides an easy way to rename
 .B Debian
 packages into their full package names. A full package name consists
 of <package>-<version>.<architecture>.deb as specified in the control
-file of the package (<version> is
-<mainstream-version>-<debian-revision>).
+file of the package. The <package> part of the filename will have
+hyphens "-" replaced by underscores "_". The <version> part of the
+filename consists of the mainstream version information optionally
+followed by a hyphen and the revision information.
 .SH EXAMPLES
 .TP
-.B dpkg-name toedeledokie
-The file `toedeledokie' will be renamed to emacs-19.29-4.i386.deb or
+.B dpkg-name bar-foo.deb
+The file `bar-foo.deb' will be renamed to bar_foo-1.0-2.i386.deb or
 something similar (depending on whatever information is in the control
-part of `toedeledokie').
+part of `bar-foo.deb').
 .TP
-.B find /root/debian/ \-name '*.deb' | xargs dpkg\-name
-All files with the extension `deb' in the directory /root/debian and
-its subdirectory's will be renamed by dpkg\-name if required.
+.B find /root/debian/ \-name '*.deb' | xargs \-n 1 dpkg\-name -a
+All files with the extension `deb' in the directory /root/debian and its
+subdirectory's will be renamed by dpkg\-name if required into names with no
+architecture information.
+.TP
+.B find -name '*.deb' | xargs \-n 1 dpkg-name -a -o -s -c
+.B Don't do this.
+Your archive will be messed up completely because a lot of packages
+don't come with section information.
+.B Don't do this.
+.TP
+.B dpkg --build debian-tmp && dpkg-name -s .. debian-tmp.deb
+This can be used when building new packages.
 .SS OPTIONS
+.TP
+.B "\-a, \-\-no\-architecture"
+The destination filename will not have the architecture information. 
+.TP 
+.B "\-o, \-\-overwrite"
+Existing files will be overwritten if they have the same name as the
+destination filename.
+.TP 
+.B "\-s, \-\-subdir [dir]"
+Files will be moved into subdir. If directory given as argument exists
+the files will be moved into that direcotory otherswise the name of
+the target directory is extracted from the section field in the
+control part of the package. The target directory will be
+`unstable/binary-<architecture>/<section>'. If the section is
+`non-free', `contrib' or no section information is found in the
+control file the target directory is
+`<section>/binary-<architecture>'. The section field isn't required so
+a lot of packages will find their way to the `no-section' area. Use
+this option with care, it's messy.
+.TP
+.B "\-c, \-\-create\-dir"
+This option can used together with the \-s option. If a target
+directory isn't found it will be created automatically. 
+.B Use this option with care.
 .TP
 .B "\-h, \-\-help"
 Print a usage message and exit successfully.

@@ -139,7 +139,6 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { KEY_ENTER,      "quitcheck"        },
   { '\r',           "quitcheck"        },
   { 'Q',            "quitnocheck"      },
-  { 27,             "abortnocheck"     }, // esc
   { 'x',            "abortnocheck"     },
   { 'X',            "abortnocheck"     },
   { 'R',            "revert"           },
