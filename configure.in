@@ -108,7 +108,7 @@ AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}", [Set this to the canonical D
 dnl gettext
 
 ALL_LINGUAS="ca cs da de en es fr gl it nl ja pl pt_BR ru sv"
-AM_GNU_GETTEXT
+AM_GNU_GETTEXT([external])
 AM_PO_SUBDIRS
 
 dnl Other stuff
@@ -133,8 +133,8 @@ AC_CHECK_TYPE(ptrdiff_t,int)
 AC_CHECK_FUNCS(unsetenv alphasort scandir strerror strsignal strtoul setsid)
 AC_CHECK_FUNCS(vsnprintf lchown snprintf)
 AC_CHECK_HEADERS(sys/cdefs.h syslog.h stddef.h)
-AC_CHECK_HEADERS(error.h)
-AC_SYS_SIGLIST_DECLARED
+AC_CHECK_HEADERS(error.h locale.h)
+AC_DECL_SYS_SIGLIST
 AC_CHECK_LIB(ihash, ihash_create, SSD_LIBS="-lihash $SSD_LIBS")
 AC_CHECK_LIB(ps, proc_stat_list_create, SSD_LIBS="-lps $SSD_LIBS")
 AC_CHECK_LIB(shouldbeinlibc, fmt_past_time, SSD_LIBS="-lshouldbeinlibc $SSD_LIBS")
