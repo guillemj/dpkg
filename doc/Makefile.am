@@ -4,7 +4,7 @@ AUTOMAKE_OPTIONS	= 1.1 foreign
 
 ## Directory definitions
 
-docdir			= $(prefix)/doc
+docdir			= $(datadir)/doc
 pkgdocdir		= $(docdir)/@PACKAGE@
 
 ## Subdirectories with translations

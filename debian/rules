@@ -28,10 +28,10 @@ $(BUILD)/config.status:
 	install -d debian/build
 	cd $(BUILD) && ../../configure \
 		--enable-shared \
-		--prefix=/usr/share \
-		--exec-prefix=/usr \
+		--prefix=/usr \
 		--datadir=/usr/share \
 		--mandir=/usr/share/man \
+		--infodir=/usr/share/info \
 		--sysconfdir=/etc \
 		--sharedstatedir=/var/lib \
 		--localstatedir=/var/lib
@@ -72,18 +72,18 @@ binary-trees: build
 	cp debian/{prerm,postinst} $(mcidir)/.
 	$(MAKE) -C $(BUILD) top_distdir=. dist 
 	$(MAKE) -C $(BUILD) \
-		prefix=$(DIR)/debian/tmp-main/usr/share \
-		exec_prefix=$(DIR)/debian/tmp-main/usr \
+		prefix=$(DIR)/debian/tmp-main/usr \
 		sysconfdir=$(DIR)/debian/tmp-main/etc \
 		datadir=$(DIR)/debian/tmp-main/usr/share \
 		mandir=$(DIR)/debian/tmp-main/usr/share/man \
+		infodir=$(DIR)/debian/tmp-main/usr/share/info \
 		sharedstatedir=$(DIR)/debian/tmp-main/var/lib \
 		localstatedir=$(DIR)/debian/tmp-main/var/lib \
 		install
 	install -m 755 debian/dev-postinst debian/tmp-dev/DEBIAN/postinst
 	install -m 755 debian/dev-prerm debian/tmp-dev/DEBIAN/prerm
 	install -d debian/tmp-dev/etc/emacs/site-start.d
-	install -c debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/.
+	install -m 644 debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/.
 	install -d debian/tmp-dev/usr/lib/emacsen-common/packages/{install,remove}
 	install -m 755 debian/emacsen-common-remove \
 	    debian/tmp-dev/usr/lib/emacsen-common/packages/remove/dpkg-dev
