@@ -3,6 +3,7 @@
  * method.cc - access method handling
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -35,8 +36,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/file.h>
-
-#include <curses.h>
 
 extern "C" {
 #include <config.h>
