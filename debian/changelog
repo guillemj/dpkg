@@ -1,5 +1,9 @@
 dpkg (1.10.8) unstable; urgency=low
 
+  * Make the multiline regex have an upper bound, instead of being
+    unbounded, as newer perls have a larger stack frame, which cause them
+    to segfault quicker with larger inputs.  Closes: #159756.
+
  -- Adam Heath <doogie@debian.org>  UNRELEASED
 
 dpkg (1.10.7) unstable; urgency=low

@@ -146,7 +146,7 @@ if (!$remove) {
 	}
 
         close(IF); &checkpipe;
-        if ($asread =~ m/(\*\s*[^:]+:\s*\(([^\)]+)\).*\. *.*\n){2,}/) {
+        if ($asread =~ m/(\*\s*[^:]+:\s*\(([^\)]+)\).*\. *.*\n){2}/) {
             $infoentry= $asread;
             $multiline= 1;
             $fileinentry = $2;
