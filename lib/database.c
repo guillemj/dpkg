@@ -117,6 +117,7 @@ void blankpackage(struct pkginfo *pigp) {
   pigp->eflag= eflagv_ok;
   pigp->want= want_unknown;
   pigp->priority= pri_unknown;
+  pigp->otherpriority = pri_unknown;
   pigp->section= 0;
   blankversion(&pigp->configversion);
   pigp->files= 0;
