@@ -2,7 +2,9 @@ dpkg (1.4.1.17) unstable; urgency=low
 
   * Added --chuid option to start-stop-daemon to allow switching to
     a different uid when starting a process
-  * Added mipsel to the archtable for completeness
+  * Add mipseb and mipsel to the archtable too, since mips and mipseb are
+    both viable names for the mips big endian arch, and mipsel is also needed
+  * Update dpkg-architecure's archtable
   * Added --config option to update-alternatives to allow easy changing
     of the registered alternatives for a specific name
   * Updated the deb-control(5) man page with all the current fields
@@ -24,6 +26,16 @@ dpkg (1.4.1.17) unstable; urgency=low
   * Make dpkg give the builtin arch if there was an error while exec()'ing
     the C compiler with --print-architecture. We still fail if the
     output from gcc was bad in some way, since they may be of importance.
+  * Removed the maintainer-configure portion in debian/rules, since
+    we should be shipping the source with all the auto* stuff
+    already generated anyway
+  * Removed the ltconfig patch, and resort to a debian/rules fix
+    to libtool itself after running configure
+  * Use DESTDIR when installing instead of specifying all our
+    dest dirs seperately in the make line. Also fix some of the
+    make files to use DESTDIR when installing files
+  * Removed shlibs.default.i386. This is an obsolete file. We also no
+    longer use /etc/dpkg/ directory.
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

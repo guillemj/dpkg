@@ -604,8 +604,8 @@ void process_archive(const char *filename) {
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code
        */
-      debug(dbg_eachfile, "process_archive: checking %s for same files on
-	  upgrade/downgrade", fnamevb.buf);
+      debug(dbg_eachfile, "process_archive: checking %s for same files on "
+	  "upgrade/downgrade", fnamevb.buf);
       if (!lstat(fnamevb.buf, &oldfs) && !S_ISDIR(oldfs.st_mode)) {
 	for (cfile = newfileslist; cfile; cfile = cfile->next) {
           if (lstat(cfile->namenode->name, &newfs) || S_ISDIR(newfs.st_mode))

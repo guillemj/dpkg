@@ -47,10 +47,14 @@ require 'controllib.pl';
 
 %archtable=('i386',      'i386-linux',
 	    'sparc',     'sparc-linux',
+	    'sparc64',   'sparc64-linux',
 	    'alpha',     'alpha-linux',
 	    'm68k',      'm68k-linux',
             'arm',       'arm-linux',
             'powerpc',   'powerpc-linux',
+	    'mips',      'mips-linux',
+	    'mipsel',    'mipsel-linux',
+	    'mipseb',    'mipseb-linux',
 	    'hurd-i386', 'i386-gnu');
 
 sub usageversion {

@@ -81,17 +81,18 @@ database-structure.monops: database-structure.ps
 	mv -f ps $@
 
 install-data-local: $(HTMLDOCSTAMPS)
-	$(mkinstalldirs) $(pkgdocdir)
-	$(INSTALL_DATA) $(top_srcdir)/debian/changelog $(pkgdocdir)/changelog
-	$(INSTALL_DATA) $(srcdir)/changelog $(pkgdocdir)/changelog.manuals
+	$(mkinstalldirs) $(DESTDIR)$(pkgdocdir)
+	$(INSTALL_DATA) $(top_srcdir)/debian/changelog $(DESTDIR)$(pkgdocdir)/changelog
+	$(INSTALL_DATA) $(srcdir)/changelog $(DESTDIR)$(pkgdocdir)/changelog.manuals
 	set -e; for f in $^; do \
 		g=`echo $$f | sed -e 's/-stamp$$//'`; \
-		cp -r $$g $(pkgdocdir)/`basename $$g`; \
+		cp -r $$g $(DESTDIR)$(pkgdocdir)/`basename $$g`; \
 	done
 
 uninstall-local:
-	-$(RM) $(pkgdocdir)/changelog.manuals $(pkgdocdir)/changelog
-	-cd $(pkgdocdir) && rm -rf $(HTMLDIRS)
+	-$(RM) $(DESTDIR)$(pkgdocdir)/changelog.manuals \
+		$(DESTDIR)$(pkgdocdir)/changelog
+	-cd $(DESTDIR)$(pkgdocdir) && rm -rf $(HTMLDIRS)
 
 dist-hook: $(HTMLDOCSTAMPS) $(HARDCOPY) internals.sgmls internals.texi internals.info
 	cp -p $^ $(distdir)

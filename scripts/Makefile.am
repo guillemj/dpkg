@@ -77,16 +77,16 @@ dpkg-scansources.8: dpkg-scansources.pl
 	mv $@.new $@
 
 install-data-local: cl-debian
-	$(mkinstalldirs) $(altslocalstatedir) $(altssysconfdir)
-	set -e; for f in $(LSMANL); do ln -sf $(mandir)/man1/dpkg-source.1 $(mandir)/man1/$$f.1; done
-	$(mkinstalldirs) $(parsechangelogdir)
-	$(INSTALL_PROGRAM) cl-debian $(parsechangelogdir)/debian
+	$(mkinstalldirs) $(DESTDIR)$(altslocalstatedir) $(DESTDIR)$(altssysconfdir)
+	set -e; for f in $(LSMANL); do ln -sf $(mandir)/man1/dpkg-source.1 $(DESTDIR)$(mandir)/man1/$$f.1; done
+	$(mkinstalldirs) $(DESTDIR)$(parsechangelogdir)
+	$(INSTALL_PROGRAM) cl-debian $(DESTDIR)$(parsechangelogdir)/debian
 
 uninstall-local:
-	$(RM) $(parsechangelogdir)/debian
-	-[ -e $(parsechangelogdir) ] && rmdir $(parsechangelogdir)
-	set -e; for f in $(LSMANL); do $(RM) $(mandir)/man1/$$f.1; done
-	-[ -e $(altssysconfdir) ] && rmdir $(altssysconfdir)
-	-[ -e $(altslocalstatedir) ] && rmdir $(altslocalstatedir)
+	$(RM) $(DESTDIR)$(parsechangelogdir)/debian
+	-[ -e $(DESTDIR)$(parsechangelogdir) ] && rmdir $(DESTDIR)$(parsechangelogdir)
+	set -e; for f in $(LSMANL); do $(RM) $(DESTDIR)$(mandir)/man1/$$f.1; done
+	-[ -e $(DESTDIR)$(altssysconfdir) ] && rmdir $(DESTDIR)$(altssysconfdir)
+	-[ -e $(DESTDIR)$(altslocalstatedir) ] && rmdir $(DESTDIR)$(altslocalstatedir)
 
 ## End of file.

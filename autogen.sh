@@ -4,9 +4,9 @@ copy=$1
 
 # Start by setting up everything for main tree
 aclocal -I ./automake
-autoheader
 gettextize $copy
 libtoolize --force $copy
+autoheader
 automake --add-missing --foreign $copy
 autoconf
 
@@ -14,7 +14,7 @@ autoconf
 cd utils
 aclocal -I ../automake
 autoheader
-automake --foreign $copy
+automake --foreign
 autoconf
 
 # Return to the previous directory

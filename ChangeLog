@@ -1,3 +1,23 @@
+Mon Oct 18 09:25:30 EDT 1999 Ben Collins <bcollins.debian.org>
+
+  * Add mipseb to the archtable too, since mips and mipseb are
+    both viable names for the mips big endian arch
+  * Update dpkg-architecure's archtable
+  * Removed the maintainer-configure portion in debian/rules, since
+    we should be shipping the source with all the auto* stuff
+    already generated anyway
+  * Removed the ltconfig patch, and resort to a debian/rules fix
+    to libtool itself after running configure, much cleaner, and
+    reversible since libtool is a generated file
+  * Use DESTDIR when installing instead of specifying all our
+    dest dirs seperately in the make line. Also fix some of the
+    make files to use DESTDIR when installing files
+  * Regenerated .po files and dpkg.pot. Also added update.sh to the po/
+    subdir for easier regenerating for cvs only
+  * Make release.sh generate .gmo files
+  * Removed shlibs.default.i386. This is an obsolete file. We also no
+    longer use /etc/dpkg/ directory.
+
 Sun Oct 17 13:40:46 EDT 1999 Ben Collins <bcollins.debian.org>
 
   * Removed references to dpkg(5) which seems to not exist anymore
