@@ -126,7 +126,6 @@ static void add_to_filist(struct _finfo* fi, struct _finfo** start, struct _finf
     *start=*end=fi;
   else 
     *end=(*end)->next=fi;
-  }
 }
 
 /* Free the memory for all entries in a list of _finfo structs

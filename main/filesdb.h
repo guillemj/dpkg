@@ -57,6 +57,7 @@ struct filenamenode {
   char *name;
   struct filepackages *packages;
   struct diversion *divert;
+  struct filestatoverride *statoverride;
   /* Fields from here on are used by archives.c &c, and cleared by
    * filesdbinit.
    */
@@ -74,6 +75,18 @@ struct filenamenode {
 struct fileinlist {
   struct fileinlist *next;
   struct filenamenode *namenode;
+};
+
+struct filestatoverride {
+  /* We allow the administrator to override the owner, group and mode of
+   * a file. If such an override is present we use that instead of the
+   * stat information stored in the archive.
+   *
+   * This functionality used to be in the suidmanager package.
+   */
+  uid_t uid;
+  gid_t gid;
+  mode_t mode;
 };
 
 struct diversion {
@@ -117,6 +130,7 @@ struct filenamenode *iterfilenext(struct fileiterator *i);
 void iterfileend(struct fileiterator *i);
 
 void ensure_diversions(void);
+void ensure_statoverrides(void);
 
 void ensure_packagefiles_available(struct pkginfo *pkg);
 void ensure_allinstfiles_available(void);

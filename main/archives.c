@@ -225,6 +225,7 @@ int tarobject(struct TarInfo *ti) {
   struct fileinlist *nifd;
   struct pkginfo *divpkg, *otherpkg;
   struct filepackages *packageslump;
+  mode_t am;
 
   /* Append to list of files.
    * The trailing / put on the end of names in tarfiles has already
@@ -412,7 +413,14 @@ int tarobject(struct TarInfo *ti) {
       if (fwrite(databuf,1,wsz,thefile) != wsz)
         ohshite(_("error writing to `%.255s'"),ti->Name);
     }
-    if (fchown(fd,ti->UserID,ti->GroupID))
+    if (nifd->namenode->statoverride) 
+      debug(dbg_eachfile, _("tarobject ... stat override, uid=%d, gid=%d, mode=%04o"),
+			  nifd->namenode->statoverride->uid,
+			  nifd->namenode->statoverride->gid,
+			  nifd->namenode->statoverride->mode);
+    if (fchown(fd,
+	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
+	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
       ohshite(_("error setting ownership of `%.255s'"),ti->Name);
     /* We flush the stream here to avoid any future
      * writes, which will mask any setuid or setgid
@@ -420,7 +428,8 @@ int tarobject(struct TarInfo *ti) {
      */
     if (fflush(thefile) == EOF)
       ohshite(_("error flushing `%.255s'"),ti->Name);
-    if (fchmod(fd,ti->Mode & ~S_IFMT))
+    am=(nifd->namenode->statoverride ? nifd->namenode->statoverride->mode : ti->Mode) & ~S_IFMT;
+    if (fchmod(fd,am))
       ohshite(_("error setting permissions of `%.255s'"),ti->Name);
     pop_cleanup(ehflag_normaltidy); /* thefile= fdopen(fd) */
     if (fclose(thefile))
@@ -428,13 +437,13 @@ int tarobject(struct TarInfo *ti) {
     newtarobject_utime(fnamenewvb.buf,ti);
     break;
   case FIFO:
-    if (mkfifo(fnamenewvb.buf,ti->Mode & S_IFMT))
+    if (mkfifo(fnamenewvb.buf,am))
       ohshite(_("error creating pipe `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject FIFO");
     newtarobject_allmodes(fnamenewvb.buf,ti);
     break;
   case CharacterDevice: case BlockDevice:
-    if (mknod(fnamenewvb.buf,ti->Mode & S_IFMT,ti->Device))
+    if (mknod(fnamenewvb.buf,am,ti->Device))
       ohshite(_("error creating device `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject CharacterDevice|BlockDevice");
     newtarobject_allmodes(fnamenewvb.buf,ti);
@@ -454,16 +463,18 @@ int tarobject(struct TarInfo *ti) {
       ohshite(_("error creating symbolic link `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject SymbolicLink creating");
 #ifdef HAVE_LCHOWN
-    if (lchown(fnamenewvb.buf,ti->UserID,ti->GroupID))
+    if (lchown(fnamenewvb.buf,
 #else
-    if (chown(fnamenewvb.buf,ti->UserID,ti->GroupID))
+    if (chown(fnamenewvb.buf,
 #endif
+	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
+	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
       ohshite(_("error setting ownership of symlink `%.255s'"),ti->Name);
     break;
   case Directory:
     /* We've already checked for an existing directory. */
     if (mkdir(fnamenewvb.buf,
-              ti->Mode & (S_IRUSR|S_IRGRP|S_IROTH | S_IXUSR|S_IXGRP|S_IXOTH)))
+              am & (S_IRUSR|S_IRGRP|S_IROTH | S_IXUSR|S_IXGRP|S_IXOTH)))
       ohshite(_("error creating directory `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject Directory creating");
     newtarobject_allmodes(fnamenewvb.buf,ti);
@@ -792,6 +803,7 @@ void archivefiles(const char *const *argv) {
   fnameidlu= fnamevb.used;
 
   ensure_diversions();
+  ensure_statoverrides();
   
   while ((thisarg= *argp++) != 0) {
     if (setjmp(ejbuf)) {
@@ -889,3 +901,5 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
   }
 }
 
+/* vi: ts=8 sw=2
+ */

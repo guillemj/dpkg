@@ -25,6 +25,10 @@
 #include <errno.h>
 #include <sys/stat.h>
 
+#include <pwd.h>
+#include <grp.h>
+#include <sys/types.h>
+
 #include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
@@ -42,6 +46,7 @@ static int allpackagesdone= 0;
 static int nfiles= 0;
 static struct diversion *diversions= 0;
 static FILE *diversionsfile= 0;
+static FILE *statoverridefile= 0;
 
 void note_must_reread_files_inpackage(struct pkginfo *pkg) {
   allpackagesdone= 0;
@@ -312,6 +317,136 @@ void reversefilelist_abort(struct reversefilelistiter *iterptr) {
   while (reversefilelist_next(iterptr));
 }
 
+void ensure_statoverrides(void) {
+  static struct varbuf vb;
+
+  struct stat stab1, stab2;
+  FILE *file;
+  char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
+  ssize_t bytes, readden;
+  struct filestatoverride *fso;
+  struct filenamenode *fnn;
+
+  varbufreset(&vb);
+  varbufaddstr(&vb,admindir);
+  varbufaddstr(&vb,"/" STATOVERRIDEFILE);
+  varbufaddc(&vb,0);
+
+  onerr_abort++;
+
+  file= fopen(vb.buf,"r");
+  if (!file) {
+    if (errno != ENOENT) ohshite(_("failed to open statoverride file"));
+    if (!statoverridefile) { onerr_abort--; return; }
+  } else if (statoverridefile) {
+    if (fstat(fileno(statoverridefile),&stab1))
+      ohshite(_("failed to fstat previous statoverride file"));
+    if (fstat(fileno(file),&stab2))
+      ohshite(_("failed to fstat statoverride file"));
+    if (stab1.st_dev == stab2.st_dev && stab1.st_ino == stab2.st_ino) {
+      fclose(file); onerr_abort--; return;
+    }
+  }
+  if (statoverridefile) fclose(statoverridefile);
+  statoverridefile= file;
+
+  push_cleanup(cu_closefile,ehflag_bombout, 0,0,1,(void*)file);
+
+  loaded_list = nfmalloc(stab1.st_size);
+  loaded_list_end = loaded_list + stab1.st_size;
+  readden=0;
+  while (readden<stab1.st_size) {
+    bytes = read(fileno(file),
+	loaded_list + readden, stab1.st_size - readden);
+    if (bytes < 0) {
+      if (errno == EINTR) continue;
+      ohshite("unable to read statoverride file `%.250s'",vb.buf);
+    }
+    if (!bytes)
+      ohshit("unexpected end of file in statoverride file `%.250s'",vb.buf);
+    readden += bytes;
+  }
+
+  thisline = loaded_list;
+  while (thisline<loaded_list_end) {
+    char* endptr;
+
+    fso= nfmalloc(sizeof(struct filestatoverride));
+
+    if (!(ptr = memchr(thisline, '\n', loaded_list_end - thisline))) 
+      ohshit("statoverride file is missing final newline");
+    /* where to start next time around */
+    nextline = ptr + 1;
+    if (ptr == thisline)
+      ohshit(_("statoverride file contains empty line"));
+    *ptr = 0;
+
+    /* Extract the uid */
+    if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
+      ohshit("syntax error in statusoverride file ");
+    *ptr=0;
+    if (thisline[0]=='#') {
+      fso->uid=strtol(thisline, &endptr, 10);
+      if (*endptr!=0)
+	ohshit("syntax error: invalid uid in statusoverride file ");
+    } else {
+      struct passwd* pw = getpwnam(thisline);
+      if (pw==NULL)
+	ohshit("syntax error: unknown user `%s' in statusoverride file ", thisline);
+      fso->uid=pw->pw_uid;
+    }
+
+    /* Move to the next bit */
+    thisline=ptr+1;
+    if (thisline>=loaded_list_end)
+      ohshit("unexecpted end of line in statusoverride file");
+
+    /* Extract the gid */
+    if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
+      ohshit("syntax error in statusoverride file ");
+    *ptr=0;
+    if (thisline[0]=='#') {
+      fso->gid=strtol(thisline, &endptr, 10);
+      if (*endptr!=0)
+	ohshit("syntax error: invalid gid in statusoverride file ");
+    } else {
+      struct group* gr = getgrnam(thisline);
+      if (gr==NULL)
+	ohshit("syntax error: unknown group `%s' in statusoverride file ", thisline);
+      fso->gid=gr->gr_gid;
+    }
+
+    /* Move to the next bit */
+    thisline=ptr+1;
+    if (thisline>=loaded_list_end)
+      ohshit("unexecpted end of line in statusoverride file");
+
+    /* Extract the mode */
+    if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
+      ohshit("syntax error in statusoverride file ");
+    *ptr=0;
+    fso->mode=strtol(thisline, &endptr, 8);
+    if (*endptr!=0)
+      ohshit("syntax error: invalid mode in statusoverride file ");
+
+    /* Move to the next bit */
+    thisline=ptr+1;
+    if (thisline>=loaded_list_end)
+      ohshit("unexecpted end of line in statusoverride file");
+
+    fnn= findnamenode(thisline, 0);
+    if (fnn->statoverride)
+      ohshit("multiple statusoverides present for file `%.250s'", thisline);
+    fnn->statoverride=fso;
+    /* Moving on.. */
+    thisline=nextline;
+  }
+
+  pop_cleanup(ehflag_normaltidy); /* file= fopen() */
+
+  onerr_abort--;
+}
+
 void ensure_diversions(void) {
   static struct varbuf vb;
 
@@ -397,7 +532,6 @@ void ensure_diversions(void) {
   }
   if (ferror(file)) ohshite(_("read error in diversions [i]"));
 
-  diversionsfile= file;
   onerr_abort--;
 }
 
@@ -637,6 +771,7 @@ static struct filenamenode *findnamenode_low(const char *name,
   traverse->here->packages= 0;
   traverse->here->flags= 0;
   traverse->here->divert= 0;
+  traverse->here->statoverride= 0;
   traverse->here->filestat= 0;
 
   if((flags & fnn_nocopy) && name > orig_name && name[-1] == '/') {
@@ -698,9 +833,13 @@ struct filenamenode *findnamenode_high(const char *name,
   newnode->flags= 0;
   newnode->next= 0;
   newnode->divert= 0;
+  newnode->statoverride= 0;
   newnode->filestat= 0;
   *pointerp= newnode;
   nfiles++;
 
   return newnode;
 }
+
+/* vi: ts=8 sw=2
+ */
