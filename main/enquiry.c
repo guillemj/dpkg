@@ -389,8 +389,11 @@ void enqperpackage(const char *const *argv) {
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
   failures= 0;
-  modstatdb_init(admindir,msdbrw_readonly);
-  
+  if (cipaction->arg==act_listfiles)
+    modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
+  else 
+    modstatdb_init(admindir,msdbrw_readonly);
+
   while ((thisarg= *argv++) != 0) {
     pkg= findpackage(thisarg);
 

@@ -2,15 +2,22 @@ dpkg (1.4.1.15) unstable; urgency=low
 
   * non-maintainer release.
   * Move dselect into its own package
-  * Changes to support HURD
   * Remove conffiles before directories when purging
   * Check if integrity from other packages will broken when processing
     an archive
   * dpkg-deb can handle package made with Linux ar.
   * Add check to update-alternatives to see if the sequencecode is between
     0 and 99
+  * Fix failed assertion, which was actually two bugs: a logic error in
+    checkforremoval and a wrong assumption in findbreakcycle
+  * dselect doesn't die when you resize the terminal
+  * check if a file is also in a new package before removing it when upgrading
+  * offer to show a diff between the old and new conffile
+  * dpkg-scanpackages: don't abort but only skip a package if we can't
+    open it
+  * Add HURD-support to  start-stop-daemon
 
- -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
+ -- Wichert Akkerman <wakkerma@debian.org>  Wed, 13 Oct 1999 21:52:17 +0200
 
 dpkg (1.4.1.14) unstable; urgency=low
 
