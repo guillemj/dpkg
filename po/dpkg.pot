@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-09-12 17:28+0200\n"
+"POT-Creation-Date: 2002-05-27 19:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -526,62 +526,67 @@ msgstr ""
 msgid "failed in buffer_copy (%s)"
 msgstr ""
 
-#: lib/myopt.c:39
+#: lib/mlib.c:338
+#, c-format
+msgid "short read in buffer_copy (%s)"
+msgstr ""
+
+#: lib/myopt.c:40
 #, c-format
 msgid "failed to open configuration file `%.255s' for reading"
 msgstr ""
 
-#: lib/myopt.c:71
+#: lib/myopt.c:72
 #, c-format
 msgid "configuration error: unknown option %s"
 msgstr ""
 
-#: lib/myopt.c:74
+#: lib/myopt.c:75
 #, c-format
 msgid "configuration error: %s needs a value"
 msgstr ""
 
-#: lib/myopt.c:78
+#: lib/myopt.c:79
 #, c-format
 msgid "configuration error: %s does not take a value"
 msgstr ""
 
-#: lib/myopt.c:83
+#: lib/myopt.c:84
 #, c-format
 msgid "read error in configuration file `%.255s'"
 msgstr ""
 
-#: lib/myopt.c:84
+#: lib/myopt.c:85
 #, c-format
 msgid "error closing configuration file `%.255s'"
 msgstr ""
 
-#: lib/myopt.c:107
+#: lib/myopt.c:127
 #, c-format
 msgid "unknown option --%s"
 msgstr ""
 
-#: lib/myopt.c:111
+#: lib/myopt.c:131
 #, c-format
 msgid "--%s option takes a value"
 msgstr ""
 
-#: lib/myopt.c:116
+#: lib/myopt.c:136
 #, c-format
 msgid "--%s option does not take a value"
 msgstr ""
 
-#: lib/myopt.c:123
+#: lib/myopt.c:143
 #, c-format
 msgid "unknown option -%c"
 msgstr ""
 
-#: lib/myopt.c:128
+#: lib/myopt.c:148
 #, c-format
 msgid "-%c option takes a value"
 msgstr ""
 
-#: lib/myopt.c:136
+#: lib/myopt.c:156
 #, c-format
 msgid "-%c option does not take a value"
 msgstr ""
@@ -761,12 +766,12 @@ msgstr ""
 msgid "cannot open GPL file "
 msgstr ""
 
-#: lib/showpkg.c:70
+#: lib/showpkg.c:69
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr ""
 
-#: lib/showpkg.c:157
+#: lib/showpkg.c:156
 msgid "Closing brace missing in format\n"
 msgstr ""
 
@@ -849,7 +854,7 @@ msgstr ""
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:368 main/archives.c:496
+#: dpkg-deb/build.c:367 main/archives.c:496
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr ""
@@ -1077,73 +1082,63 @@ msgstr ""
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr ""
 
-#: main/configure.c:80
+#: main/configure.c:86
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr ""
 
-#: main/configure.c:82
+#: main/configure.c:88
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr ""
 
-#: main/configure.c:84
+#: main/configure.c:90
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
 " cannot configure (current status `%.250s')"
 msgstr ""
 
-#: main/configure.c:101
+#: main/configure.c:109
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
 "%s"
 msgstr ""
 
-#: main/configure.c:104
+#: main/configure.c:112
 msgid "dependency problems - leaving unconfigured"
 msgstr ""
 
-#: main/configure.c:108
+#: main/configure.c:116
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you request:\n"
 "%s"
 msgstr ""
 
-#: main/configure.c:116
+#: main/configure.c:124
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
 msgstr ""
 
-#: main/configure.c:119
+#: main/configure.c:127
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr ""
 
-#: main/configure.c:167
+#: main/configure.c:174
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr ""
 
-#: main/configure.c:176
-#, c-format
-msgid "unable to change ownership of new dist conffile `%.250s'"
-msgstr ""
-
-#: main/configure.c:179
-#, c-format
-msgid "unable to set mode of new dist conffile `%.250s'"
-msgstr ""
-
-#: main/configure.c:182
+#: main/configure.c:184 main/configure.c:422
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr ""
 
-#: main/configure.c:191
+#: main/configure.c:193
 #, c-format
 msgid ""
 "\n"
@@ -1151,62 +1146,183 @@ msgid ""
 "Installing new config file as you request.\n"
 msgstr ""
 
-#: main/configure.c:230
+#: main/configure.c:225
+#, c-format
+msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
+msgstr ""
+
+#: main/configure.c:233
+#, c-format
+msgid "dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"
+msgstr ""
+
+#: main/configure.c:241
+#, c-format
+msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
+msgstr ""
+
+#: main/configure.c:249
+#, c-format
+msgid "dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"
+msgstr ""
+
+#: main/configure.c:254
+#, c-format
+msgid "dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"
+msgstr ""
+
+#: main/configure.c:258
+#, c-format
+msgid "dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"
+msgstr ""
+
+#: main/configure.c:262
+#, c-format
+msgid "Installing new version of config file %s ...\n"
+msgstr ""
+
+#: main/configure.c:266
+#, c-format
+msgid "unable to install `%.250s' as `%.250s'"
+msgstr ""
+
+#: main/configure.c:327
+#, c-format
+msgid ""
+"dpkg: %s: warning - unable to stat config file `%s'\n"
+" (= `%s'): %s\n"
+msgstr ""
+
+#: main/configure.c:338
+#, c-format
+msgid ""
+"dpkg: %s: warning - config file `%s' is a circular link\n"
+" (= `%s')\n"
+msgstr ""
+
+#: main/configure.c:351
+#, c-format
+msgid ""
+"dpkg: %s: warning - unable to readlink conffile `%s'\n"
+" (= `%s'): %s\n"
+msgstr ""
+
+#: main/configure.c:371
+#, c-format
+msgid ""
+"dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
+" (`%s' is a symlink to `%s')\n"
+msgstr ""
+
+#: main/configure.c:384
+#, c-format
+msgid ""
+"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
+"s')\n"
+msgstr ""
+
+#: main/configure.c:402
+msgid "md5hash"
+msgstr ""
+
+#: main/configure.c:408
+#, c-format
+msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
+msgstr ""
+
+#: main/configure.c:426
+#, c-format
+msgid "unable to change ownership of new dist conffile `%.250s'"
+msgstr ""
+
+#: main/configure.c:429
+#, c-format
+msgid "unable to set mode of new dist conffile `%.250s'"
+msgstr ""
+
+#: main/configure.c:459
+#, c-format
+msgid "failed to run %s (%.250s)"
+msgstr ""
+
+#: main/configure.c:468 main/configure.c:506
+msgid "wait for shell failed"
+msgstr ""
+
+#. Do not job control to suspend but fork and start a new shell
+#. * instead.
+#.
+#. waitpid status
+#. waitpid result
+#: main/configure.c:488
+msgid "Type `exit' when you're done.\n"
+msgstr ""
+
+#: main/configure.c:497
+#, c-format
+msgid "failed to exec shell (%.250s)"
+msgstr ""
+
+#: main/configure.c:509
+msgid "Don't forget to foreground (`fg') this process when you're done !\n"
+msgstr ""
+
+#: main/configure.c:528
 #, c-format
 msgid ""
 "\n"
 "Configuration file `%s'"
 msgstr ""
 
-#: main/configure.c:232
+#: main/configure.c:530
 #, c-format
 msgid " (actually `%s')"
 msgstr ""
 
-#: main/configure.c:237
+#: main/configure.c:534
 msgid ""
 "\n"
 " ==> File on system created by you or by a script.\n"
 " ==> File also in package provided by package maintainer.\n"
 msgstr ""
 
-#: main/configure.c:244
+#: main/configure.c:539
 msgid ""
 "\n"
 " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 
-#: main/configure.c:245
+#: main/configure.c:540
 msgid ""
 "\n"
 "     Not modified since installation.\n"
 msgstr ""
 
-#: main/configure.c:248
+#: main/configure.c:543
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr ""
 
-#: main/configure.c:249
+#: main/configure.c:544
 msgid "     Version in package is the same as at last installation.\n"
 msgstr ""
 
-#: main/configure.c:255
+#: main/configure.c:551
 msgid " ==> Using new file as you requested.\n"
 msgstr ""
 
-#: main/configure.c:259
+#: main/configure.c:555
 msgid " ==> Using current old file as you requested.\n"
 msgstr ""
 
-#: main/configure.c:266
+#: main/configure.c:565
 msgid " ==> Keeping old config file as default.\n"
 msgstr ""
 
-#: main/configure.c:270
+#: main/configure.c:569
 msgid " ==> Using new config file as default.\n"
 msgstr ""
 
-#: main/configure.c:276
+#: main/configure.c:577
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
 "    Y or I  : install the package maintainer's version\n"
@@ -1215,154 +1331,36 @@ msgid ""
 "      Z     : background this process to examine the situation\n"
 msgstr ""
 
-#: main/configure.c:283
+#: main/configure.c:584
 msgid " The default action is to keep your current version.\n"
 msgstr ""
 
-#: main/configure.c:285
+#: main/configure.c:586
 msgid " The default action is to install the new version.\n"
 msgstr ""
 
-#: main/configure.c:291
+#: main/configure.c:592
 msgid "[default=N]"
 msgstr ""
 
-#: main/configure.c:292
+#: main/configure.c:593
 msgid "[default=Y]"
 msgstr ""
 
-#: main/configure.c:292
+#: main/configure.c:593
 msgid "[no default]"
 msgstr ""
 
-#: main/configure.c:295
+#: main/configure.c:596
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 
-#: main/configure.c:302
+#: main/configure.c:603
 msgid "read error on stdin at conffile prompt"
 msgstr ""
 
-#: main/configure.c:303
+#: main/configure.c:604
 msgid "EOF on stdin at conffile prompt"
-msgstr ""
-
-#: main/configure.c:323
-#, c-format
-msgid "failed to run diff (%.250s)"
-msgstr ""
-
-#: main/configure.c:326 main/configure.c:353
-msgid "wait for shell failed"
-msgstr ""
-
-#: main/configure.c:334
-#, c-format
-msgid ""
-"Your currently installed version of the file is in:\n"
-" %s\n"
-"The version contained in the new version of the package is in:\n"
-" %s\n"
-"If you decide to take care of the update yourself, perhaps by editing\n"
-" the installed version, you should choose `N' when you return, so that\n"
-" I do not mess up your careful work.\n"
-msgstr ""
-
-#: main/configure.c:345
-msgid "Type `exit' when you're done.\n"
-msgstr ""
-
-#: main/configure.c:350
-#, c-format
-msgid "failed to exec shell (%.250s)"
-msgstr ""
-
-#: main/configure.c:355
-msgid "Don't forget to foreground (`fg') this process when you're done !\n"
-msgstr ""
-
-#: main/configure.c:376
-#, c-format
-msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
-msgstr ""
-
-#: main/configure.c:384
-#, c-format
-msgid "dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"
-msgstr ""
-
-#: main/configure.c:392
-#, c-format
-msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
-msgstr ""
-
-#: main/configure.c:400
-#, c-format
-msgid "dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"
-msgstr ""
-
-#: main/configure.c:405
-#, c-format
-msgid "dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"
-msgstr ""
-
-#: main/configure.c:409
-#, c-format
-msgid "dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"
-msgstr ""
-
-#: main/configure.c:413
-#, c-format
-msgid "Installing new version of config file %s ...\n"
-msgstr ""
-
-#: main/configure.c:417
-#, c-format
-msgid "unable to install `%.250s' as `%.250s'"
-msgstr ""
-
-#: main/configure.c:475
-#, c-format
-msgid ""
-"dpkg: %s: warning - unable to stat config file `%s'\n"
-" (= `%s'): %s\n"
-msgstr ""
-
-#: main/configure.c:486
-#, c-format
-msgid ""
-"dpkg: %s: warning - config file `%s' is a circular link\n"
-" (= `%s')\n"
-msgstr ""
-
-#: main/configure.c:499
-#, c-format
-msgid ""
-"dpkg: %s: warning - unable to readlink conffile `%s'\n"
-" (= `%s'): %s\n"
-msgstr ""
-
-#: main/configure.c:518
-#, c-format
-msgid ""
-"dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
-" (`%s' is a symlink to `%s')\n"
-msgstr ""
-
-#: main/configure.c:531
-#, c-format
-msgid ""
-"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
-"s')\n"
-msgstr ""
-
-#: main/configure.c:545
-msgid "md5hash"
-msgstr ""
-
-#: main/configure.c:551
-#, c-format
-msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
 msgstr ""
 
 #: main/depcon.c:74
@@ -1611,21 +1609,21 @@ msgstr ""
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr ""
 
-#: main/enquiry.c:495
+#: main/enquiry.c:494
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 
-#: main/enquiry.c:500
+#: main/enquiry.c:499
 msgid "--compare-versions bad relation"
 msgstr ""
 
-#: main/enquiry.c:505
+#: main/enquiry.c:504
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr ""
 
-#: main/enquiry.c:515
+#: main/enquiry.c:514
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr ""
@@ -1840,7 +1838,7 @@ msgid "not installed but configs remain"
 msgstr ""
 
 #: main/help.c:87
-msgid "dpkg - warning: PATH is not set.\n"
+msgid "dpkg - error: PATH is not set.\n"
 msgstr ""
 
 #: main/help.c:102
@@ -2086,12 +2084,12 @@ msgstr ""
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 
-#: main/main.c:263 main/main.c:281
+#: main/main.c:263 main/main.c:274
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr ""
 
-#: main/main.c:291
+#: main/main.c:292
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2132,48 +2130,48 @@ msgid ""
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
 
-#: main/main.c:336
+#: main/main.c:337
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr ""
 
-#: main/main.c:437 main/main.c:441
+#: main/main.c:438 main/main.c:442
 msgid "couldn't malloc in execbackend"
 msgstr ""
 
-#: main/main.c:439 main/main.c:446
+#: main/main.c:440 main/main.c:447
 msgid "couldn't strdup in execbackend"
 msgstr ""
 
-#: main/main.c:450
+#: main/main.c:451
 #, c-format
 msgid "failed to exec %s"
 msgstr ""
 
-#: main/main.c:462
+#: main/main.c:463
 msgid "--command-fd takes 1 argument, not 0"
 msgstr ""
 
-#: main/main.c:463
+#: main/main.c:464
 msgid "--command-fd only takes 1 argument"
 msgstr ""
 
-#: main/main.c:465
+#: main/main.c:466
 msgid "invalid number for --command-fd"
 msgstr ""
 
-#: main/main.c:467
+#: main/main.c:468
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr ""
 
-#: main/main.c:492
+#: main/main.c:493
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr ""
 
-#: dpkg-deb/main.c:178 main/main.c:536 main/main.c:571 main/query.c:549
-#: split/main.c:166
+#: dpkg-deb/main.c:169 main/main.c:537 main/main.c:552 main/query.c:537
+#: split/main.c:157
 msgid "need an action option"
 msgstr ""
 
@@ -2300,148 +2298,148 @@ msgstr ""
 msgid "failed to exec dpkg-deb to extract control information"
 msgstr ""
 
-#: main/processarc.c:204
+#: main/processarc.c:205
 #, c-format
 msgid "Recorded info about %s from %s.\n"
 msgstr ""
 
-#: main/processarc.c:213
+#: main/processarc.c:214
 #, c-format
 msgid "package architecture (%s) does not match system (%s)"
 msgstr ""
 
-#: main/processarc.c:264
+#: main/processarc.c:265
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
 "%s"
 msgstr ""
 
-#: main/processarc.c:267
+#: main/processarc.c:268
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr ""
 
-#: main/processarc.c:268
+#: main/processarc.c:269
 msgid "dpkg: warning - ignoring pre-dependency problem !\n"
 msgstr ""
 
-#: main/processarc.c:282
+#: main/processarc.c:283
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr ""
 
-#: main/processarc.c:287
+#: main/processarc.c:288
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr ""
 
-#: main/processarc.c:307
+#: main/processarc.c:308
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr ""
 
-#: main/processarc.c:361
+#: main/processarc.c:362
 #, c-format
 msgid "read error in %.250s"
 msgstr ""
 
 #. conff= fopen()
-#: main/processarc.c:363
+#: main/processarc.c:364
 #, c-format
 msgid "error closing %.250s"
 msgstr ""
 
-#: main/processarc.c:365
+#: main/processarc.c:366
 #, c-format
 msgid "error trying to open %.250s"
 msgstr ""
 
-#: main/processarc.c:398
+#: main/processarc.c:399
 #, c-format
 msgid "De-configuring %s, so that we can remove %s ...\n"
 msgstr ""
 
-#: main/processarc.c:456
+#: main/processarc.c:457
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr ""
 
-#: main/processarc.c:535
+#: main/processarc.c:536
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr ""
 
-#: main/processarc.c:548
+#: main/processarc.c:549
 msgid "error reading dpkg-deb tar output"
 msgstr ""
 
-#: main/processarc.c:550
+#: main/processarc.c:551
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr ""
 
-#: main/processarc.c:553
+#: main/processarc.c:554
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr ""
 
-#: main/processarc.c:645
+#: main/processarc.c:646
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr ""
 
-#: main/processarc.c:667 main/processarc.c:902 main/remove.c:287
+#: main/processarc.c:668 main/processarc.c:905 main/remove.c:287
 msgid "cannot read info directory"
 msgstr ""
 
-#: main/processarc.c:680
+#: main/processarc.c:681
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 
-#: main/processarc.c:692
+#: main/processarc.c:693
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr ""
 
-#: main/processarc.c:695
+#: main/processarc.c:696
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 
-#: main/processarc.c:702
+#: main/processarc.c:703
 msgid "unable to open temp control directory"
 msgstr ""
 
-#: main/processarc.c:711
+#: main/processarc.c:712
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 
-#: main/processarc.c:716
+#: main/processarc.c:717
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr ""
 
-#: main/processarc.c:718
+#: main/processarc.c:719
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 
-#: main/processarc.c:724
+#: main/processarc.c:725
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr ""
 
-#: main/processarc.c:731
+#: main/processarc.c:732
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 
-#: main/processarc.c:882
+#: main/processarc.c:885
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr ""
 
-#: main/processarc.c:918
+#: main/processarc.c:921
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
@@ -2813,190 +2811,190 @@ msgid "%s: failed to exec gzip %s"
 msgstr ""
 
 #. Decode our arguments
-#: dpkg-deb/build.c:224
+#: dpkg-deb/build.c:223
 msgid "--build needs a directory argument"
 msgstr ""
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:232
 msgid "--build takes at most two arguments"
 msgstr ""
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:236
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr ""
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:251
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 
-#: dpkg-deb/build.c:253
+#: dpkg-deb/build.c:252
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
 "dpkg-deb: building an unknown package in `%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:271
+#: dpkg-deb/build.c:270
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:272
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr ""
 
-#: dpkg-deb/build.c:278
+#: dpkg-deb/build.c:277
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr ""
 
-#: dpkg-deb/build.c:284
+#: dpkg-deb/build.c:283
 #, c-format
 msgid "%d errors in control file"
 msgstr ""
 
-#: dpkg-deb/build.c:295
+#: dpkg-deb/build.c:294
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:302
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:313
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 
-#: dpkg-deb/build.c:316
+#: dpkg-deb/build.c:315
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
 "<=0775)"
 msgstr ""
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:319
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr ""
 
-#: dpkg-deb/build.c:330
+#: dpkg-deb/build.c:329
 msgid "empty string from fgets reading conffiles"
 msgstr ""
 
-#: dpkg-deb/build.c:332
+#: dpkg-deb/build.c:331
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
 msgstr ""
 
-#: dpkg-deb/build.c:344
+#: dpkg-deb/build.c:343
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr ""
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:345
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr ""
 
-#: dpkg-deb/build.c:348
+#: dpkg-deb/build.c:347
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr ""
 
-#: dpkg-deb/build.c:353
+#: dpkg-deb/build.c:352
 msgid "error reading conffiles file"
 msgstr ""
 
-#: dpkg-deb/build.c:356
+#: dpkg-deb/build.c:355
 msgid "error opening conffiles file"
 msgstr ""
 
-#: dpkg-deb/build.c:359
+#: dpkg-deb/build.c:358
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr ""
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:368
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
+#: dpkg-deb/build.c:373 dpkg-deb/build.c:446 dpkg-deb/build.c:467
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:374
 msgid "failed to chdir to .../DEBIAN"
 msgstr ""
 
-#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
+#: dpkg-deb/build.c:375 dpkg-deb/build.c:448
 msgid "failed to exec tar -cf"
 msgstr ""
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:381
 msgid "failed to make tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:383
+#: dpkg-deb/build.c:382
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr ""
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:385
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr ""
 
-#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
+#: dpkg-deb/build.c:393 dpkg-deb/build.c:422 dpkg-deb/build.c:457
 msgid "control"
 msgstr ""
 
-#: dpkg-deb/build.c:399
+#: dpkg-deb/build.c:398
 msgid "failed to fstat tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:422
+#: dpkg-deb/build.c:421
 msgid "failed to rewind tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:429
 msgid "failed to make tmpfile (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:430
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr ""
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:433
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr ""
 
-#: dpkg-deb/build.c:470
+#: dpkg-deb/build.c:469
 msgid "failed to exec find"
 msgstr ""
 
-#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
+#: dpkg-deb/build.c:480 dpkg-deb/build.c:487
 msgid "failed to write filename to tar pipe (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:504
 msgid "failed to rewind tmpfile (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:506
+#: dpkg-deb/build.c:505
 msgid "cat (data)"
 msgstr ""
 
@@ -3677,33 +3675,33 @@ msgstr ""
 msgid "Deleted %s.\n"
 msgstr ""
 
-#: split/split.c:46
+#: split/split.c:45
 msgid "--split needs a source filename argument"
 msgstr ""
 
-#: split/split.c:49
+#: split/split.c:48
 msgid "--split takes at most a source filename and destination prefix"
 msgstr ""
 
-#: split/split.c:63
+#: split/split.c:62
 #, c-format
 msgid "unable to open source file `%.250s'"
 msgstr ""
 
-#: split/split.c:64
+#: split/split.c:63
 msgid "unable to fstat source file"
 msgstr ""
 
-#: split/split.c:65
+#: split/split.c:64
 #, c-format
 msgid "source file `%.250s' not a plain file"
 msgstr ""
 
-#: split/split.c:71
+#: split/split.c:70
 msgid "unable to exec mksplit"
 msgstr ""
 
-#: utils/md5sum.c:61
+#: utils/md5sum.c:60
 msgid "Type md5sum --help for help."
 msgstr ""
 
@@ -3712,7 +3710,7 @@ msgstr ""
 msgid "error processing %s: %s\n"
 msgstr ""
 
-#: utils/md5sum.c:169
+#: utils/md5sum.c:185
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -3723,44 +3721,44 @@ msgid ""
 "that is printed on stdout by this program when it generates digests.\n"
 msgstr ""
 
-#: utils/md5sum.c:182
+#: utils/md5sum.c:198
 msgid "mdfile"
 msgstr ""
 
-#: utils/md5sum.c:222
+#: utils/md5sum.c:238
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr ""
 
-#: utils/md5sum.c:256
+#: utils/md5sum.c:268
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr ""
 
-#: utils/md5sum.c:261
+#: utils/md5sum.c:272
 #, c-format
 msgid "%s: error reading %s\n"
 msgstr ""
 
-#: utils/md5sum.c:269
+#: utils/md5sum.c:278
 msgid "FAILED\n"
 msgstr ""
 
-#: utils/md5sum.c:271
+#: utils/md5sum.c:280
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr ""
 
-#: utils/md5sum.c:274
+#: utils/md5sum.c:283
 msgid "OK\n"
 msgstr ""
 
-#: utils/md5sum.c:278
+#: utils/md5sum.c:287
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr ""
 
-#: utils/md5sum.c:280
+#: utils/md5sum.c:289
 #, c-format
 msgid "%s: no files checked\n"
 msgstr ""
@@ -4229,7 +4227,7 @@ msgstr ""
 msgid "failed to getch in main menu"
 msgstr ""
 
-#: dselect/main.cc:497
+#: dselect/main.cc:489
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr ""
@@ -4263,7 +4261,7 @@ msgstr ""
 msgid "getch failed"
 msgstr ""
 
-#: dselect/methlist.cc:173 dselect/pkgdepcon.cc:242
+#: dselect/methlist.cc:173 dselect/pkgdepcon.cc:240
 msgid "[none]"
 msgstr ""
 
