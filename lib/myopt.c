@@ -21,6 +21,7 @@
  */
 
 #include <string.h>
+#include <errno.h>
 
 #include <config.h>
 #include <myopt.h>
@@ -31,7 +32,11 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   char linebuf[MAXDIVERTFILENAME];
 
   file= fopen(fn, "r");
-  if (!file) ohshite(_("failed to open configuration file `%.255s' for reading"), fn);
+  if (!file) {
+    if (errno==ENOENT)
+      return;
+    ohshite(_("failed to open configuration file `%.255s' for reading"), fn);
+  }
 
   while (fgets(linebuf, sizeof(linebuf), file)) {
     char* opt;
