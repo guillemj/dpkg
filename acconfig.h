@@ -69,3 +69,6 @@
 /* Do we have proper memory information in struct sysinfo */
 #undef MEMINFO_IN_SYSINFO
 
+/* Define the ptrdiff_t type if your system doesn't have it */
+#undef ptrdiff_t
+
