@@ -61,10 +61,9 @@ install-doc:
 
 dpkg-static: LDFLAGS += -static
 dpkg dpkg-static: $(OBJECTS) ../lib/libdpkg.a
-dpkg dpkg-static dpkg-query:
-	$(CC) $(LDFLAGS) -o $@ $(LIBS) $(NLS_LIBS)
+	$(CC) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS)
 
-dpkg-query: $(OQUERY_BJECTS) ../lib/libdpkg.a
+dpkg-query: $(QUERY_BJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $(QUERY_OBJECTS) $(LIBS) $(NLS_LIBS)
 
 enquiry.o: archtable.h
