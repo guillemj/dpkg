@@ -24,8 +24,9 @@
 
 enum showpriority {
   dp_none,      // has not been involved in any unsatisfied things
-  dp_may,       // has been involved in an unsatisfied Optional
-  dp_must       // has been involved in an unsatisfied Recommended/Depends/Conflicts
+  dp_may,       // has been involved in an unsatisfied Suggests
+  dp_should,	// has been involved in an unsatisfied Recommends
+  dp_must       // has been involved in an unsatisfied Depends/Conflicts
 };
 
 enum selpriority {
