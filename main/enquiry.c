@@ -30,6 +30,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
+#include <sys/termios.h>
 #include <fcntl.h>
 
 #include <config.h>

@@ -77,7 +77,7 @@ void baselist::setupsigwinch() {
   memset(&nsigact,0,sizeof(nsigact));
   nsigact.sa_handler= sigwinchhandler;
   sigemptyset(&nsigact.sa_mask);
-  nsigact.sa_flags= SA_INTERRUPT;
+//nsigact.sa_flags= SA_INTERRUPT;
   if (sigaction(SIGWINCH,&nsigact,0)) ohshite(_("failed to set new SIGWINCH sigact"));
 }
 

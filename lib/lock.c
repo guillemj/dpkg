@@ -74,8 +74,8 @@ void lockdatabase(const char *admindir) {
   fl.l_start= 0;
   fl.l_len= 0;
   if (fcntl(dblockfd,F_SETLK,&fl) == -1) {
-    if (errno == EWOULDBLOCK || errno == EAGAIN)
-      ohshit(_("status database area is locked - another dpkg/dselect is running"));
+    if (errno == EACCES || errno == EAGAIN)
+      ohshit(_("status database area is locked by another process"));
     ohshite(_("unable to lock dpkg status database"));
   }
   push_cleanup(cu_unlockdb,~0, 0,0, 0);

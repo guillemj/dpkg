@@ -47,6 +47,10 @@ extern "C" {
 #include "bindings.h"
 #include "pkglist.h"
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+
 const char thisname[]= DSELECT;
 const char printforhelp[]= N_("Type dselect --help for help.");
 
@@ -94,7 +98,7 @@ static void usage(void) {
      _("Usage: dselect [options]\n"
        "       dselect [options] action ...\n"
        "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
-       "          --help  --version  --licence  --expert  --debug <file> | -D<file> | -D\n"
+       "          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
        "Actions:  access update select install config remove quit menu\n"),
        stdout)) werr("stdout");
 }
@@ -233,6 +237,9 @@ void dme(int i, int so) {
 
 int refreshmenu(void) {
   char buf[2048];
+  static int l,lockfd;
+  static char *lockfile;
+
   curseson(); cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
 
   int y,x;
@@ -257,10 +264,14 @@ int refreshmenu(void) {
   sprintf(buf,gettext(copyrightstring),DPKG_VERSION_ARCH);
   addstr(buf);
 
-  if (!readwrite) { 
-  addstr(_("\n\n"
-         "Read-only access: only preview of selections is available!"));
-  }
+  l = strlen(admindir);
+  lockfile = new char[l+sizeof(LOCKFILE)+2];
+  strcpy(lockfile,admindir);
+  strcpy(lockfile+l, "/" LOCKFILE);
+  lockfd = open(lockfile, O_RDWR|O_CREAT|O_TRUNC, 0660);
+  if (errno == EACCES || errno == EPERM)
+    addstr(_("\n\n"
+             "Read-only access: only preview of selections is available!"));
 
   return i;
 }
