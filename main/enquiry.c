@@ -60,48 +60,41 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   *pdesc_r=pdesc; *l_r=l;
 }
 
-static const char* listformatstring() {
+static int getwidth() {
   int fd;
   int res;
   struct winsize ws;
-  char *columns;
-  int w, nw, vw, dw;
-  static char format[80]	= "";
-
-  if (format[0])
-    return format;
+  const char* columns;
 
   if ((columns=getenv("COLUMNS")) && ((res=atoi(columns))>0))
     ws.ws_col=res;
-  else if (!isatty(fd))
+  else if (!isatty(1))
     ws.ws_col=80;
   else {
     if ((fd=open("/dev/tty",O_RDONLY))!=-1) {
       if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
         ws.ws_col=80;
       close(fd);
-    } else
-      ws.ws_col=80;
+    }
   }
-
-  w=ws.ws_col-80;	/* get spare width */
-  if (w<0) w=0;		/* lets not try to deal with terminals that are too small */
-  w>>=2;		/* halve that so we can add that to the both the name and description */
-  nw=(14+w);		/* name width */
-  vw=(14+w);		/* version width */
-  dw=(44+(2*w));	/* description width */
-  sprintf(format,"%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n", nw, nw, vw, vw);
-
-  return format;
+  return ws.ws_col;
 }
 
 static void list1package(struct pkginfo *pkg, int *head) {
   int l,w;
-  int nw,vw,dw;
+  static int nw,vw,dw;
   const char *pdesc;
-  const char* format;
+  static char format[80]   = "";
     
-  format=listformatstring();
+  if (format[0]==0) {
+    w=getwidth()-80;	/* get spare width */
+    if (w<0) w=0;		/* lets not try to deal with terminals that are too small */
+    w>>=2;		/* halve that so we can add that to the both the name and description */
+    nw=(14+w);		/* name width */
+    vw=(14+w);		/* version width */
+    dw=(44+(2*w));	/* description width */
+    sprintf(format,"%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n", nw, nw, vw, vw);
+  }
 
   if (!*head) {
     fputs(_("\

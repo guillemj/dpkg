@@ -3,6 +3,7 @@
  * myopt.c - my very own option parsing
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -24,6 +25,45 @@
 #include <config.h>
 #include <myopt.h>
 #include <dpkg.h>
+
+void myoptfile(const char* fn, const struct cmdinfo* cmdinfos) {
+  FILE* file;
+  char linebuf[MAXDIVERTFILENAME];
+
+  file= fopen(fn, "r");
+  if (!file) ohshite(_("failed to open configuration file `%.255s' for reading"), fn);
+
+  while (fgets(linebuf, sizeof(linebuf), file)) {
+    char* opt;
+    const struct cmdinfo *cip;
+
+    if ((linebuf[0]=='#') || (linebuf[0]=='\n')) continue;
+    for (opt=linebuf;isalnum(*opt)||*opt=='-';opt++) ;
+    if (*opt==0)
+      opt=NULL;
+    else {
+      *opt++=0;
+      if (*opt=='=') opt++;
+      while (isspace(*opt)) opt++;
+    }
+
+    for (cip=cmdinfos; cip->olong || cip->oshort; cip++)
+      if (!strcmp(cip->olong,linebuf)) {
+        if (cip->takesvalue) {
+	  if (!opt) ohshite(_("configuration error: %s needs a value"), linebuf);
+	  if (cip->call) cip->call(cip,opt);
+	  else *cip->sassignto= opt;
+	} else {
+	  if (opt) ohshite(_("configuration error: %s does not take a value"), linebuf);
+	  if (cip->call) cip->call(cip,0);
+	  else *cip->iassignto= cip->arg;
+	}
+      }
+    if (!cip->olong) ohshite(_("configuration error: unknown option %s"), linebuf);
+  }
+  if (ferror(file)) ohshite(_("read error in configuration file `%.255s'"), fn);
+  if (fclose(file)) ohshite(_("error closing configuration file `%.255s'"), fn);
+}
 
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {
   const struct cmdinfo *cip;

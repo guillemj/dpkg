@@ -354,8 +354,6 @@ void ensure_statoverrides(void) {
   if (statoverridefile) fclose(statoverridefile);
   statoverridefile= file;
 
-  push_cleanup(cu_closefile,ehflag_bombout, 0,0,1,(void*)file);
-
   loaded_list = nfmalloc(stab2.st_size);
   loaded_list_end = loaded_list + stab2.st_size;
   readden=0;
@@ -445,8 +443,6 @@ void ensure_statoverrides(void) {
     /* Moving on.. */
     thisline=nextline;
   }
-
-  pop_cleanup(ehflag_normaltidy); /* file= fopen() */
 
   onerr_abort--;
 }
