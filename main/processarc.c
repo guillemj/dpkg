@@ -525,6 +525,7 @@ void process_archive(const char *filename) {
       ohshite(_("corrupted filesystem tarfile - corrupted package archive"));
     }
   }
+  fd_null_copy(tc.backendpipe,-1,_("dpkg-deb: zap possible trailing zeros"));
   close(tc.backendpipe);
   waitsubproc(c1,BACKEND " --fsys-tarfile",1);
 
