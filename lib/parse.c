@@ -197,8 +197,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
                      &newpifp->description, "description");
       parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,
                      &newpifp->maintainer, "maintainer");
-      parsemustfield(file,filename,lno, warnto,warncount,&newpig,0,
-                     &newpifp->version.version, "version");
+      if (newpig.status != stat_halfinstalled)
+        parsemustfield(file,filename,lno, warnto,warncount,&newpig,0,
+                       &newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
       parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,

@@ -421,6 +421,8 @@ void process_archive(const char *filename) {
   }
 
   pkg->eflag |= eflagf_reinstreq;
+  if (pkg->status == stat_notinstalled)
+    pkg->installed.version= pkg->available.version;
   pkg->status= stat_halfinstalled;
   modstatdb_note(pkg);
   if (oldversionstatus == stat_notinstalled) {
