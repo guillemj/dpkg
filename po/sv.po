@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10\n"
-"POT-Creation-Date: 2003-09-18 20:04+0100\n"
-"PO-Revision-Date: 2003-09-18 20:16+0100\n"
+"POT-Creation-Date: 2004-03-13 18:36+0100\n"
+"PO-Revision-Date: 2004-03-13 18:37+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Peter Karlsson <peterk@debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -502,8 +502,9 @@ msgid "unable to set close-on-exec flag for %.250s"
 msgstr "kunde inte sätta \"close-on-exec\"-flaggan på \"%.250s\""
 
 #: lib/mlib.c:199
-msgid "failed in buffer_write(fd) (%i, ret=%zi %s): %s"
-msgstr "misslyckades i buffer_write(handtag) (%i, ret=%zi %s): %s"
+#, c-format
+msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
+msgstr "misslyckades i buffer_write(handtag) (%i, ret=%li): %s"
 
 #: lib/mlib.c:206
 #, c-format
@@ -693,20 +694,20 @@ msgstr "dubblerat värde för användardefinierat fält \"%.*s\""
 msgid "several package info entries found, only one allowed"
 msgstr "flera paketinformationsposter funna, bara en tillåts"
 
-#: lib/parse.c:257
+#: lib/parse.c:255
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "Configured-Version för paket med opassande Status"
 
-#: lib/parse.c:271
+#: lib/parse.c:269
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr "Paket med status non-installed har konfigurationsfiler, glömmer dem"
 
-#: lib/parse.c:326
+#: lib/parse.c:324
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "kunde inte stänga efter läsning: \"%.255s\""
 
-#: lib/parse.c:327
+#: lib/parse.c:325
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "ingen paketinformation i \"%.255s\""
@@ -789,16 +790,16 @@ msgstr "tomt värde för %s"
 msgid "cannot open GPL file "
 msgstr "kan inte öppna GPL-fil "
 
-#: lib/showpkg.c:69
+#: lib/showpkg.c:70
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr "ogiltigt tecken \"%c\" i fältbredd\n"
 
-#: lib/showpkg.c:156
+#: lib/showpkg.c:157
 msgid "Closing brace missing in format\n"
 msgstr "Avslutande klammerparentes i format\n"
 
-#: lib/varbuf.c:109
+#: lib/varbuf.c:105
 msgid "failed to realloc for variable buffer"
 msgstr "misslyckades att återallokera variabelbuffert"
 
@@ -885,7 +886,7 @@ msgstr "försöker skriva över \"%.250s\" som också finns i paketet %.250s"
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:367 main/archives.c:496
+#: dpkg-deb/build.c:368 main/archives.c:496
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "kunde inte skapa \"%.255s\""
@@ -1933,7 +1934,7 @@ msgstr "motsägande omdirigeringar av \"%.250s\" eller \"%.250s\""
 msgid "read error in diversions [i]"
 msgstr "läsfel i omdirigeringsfil [i]"
 
-#: dselect/pkgdisplay.cc:50 main/help.c:41
+#: dselect/pkgdisplay.cc:52 main/help.c:41
 msgid "not installed"
 msgstr "ej installerat"
 
@@ -1945,7 +1946,7 @@ msgstr "uppackat, men okonfigurerat"
 msgid "broken due to postinst failure"
 msgstr "trasigt p.g.a fel i postinst"
 
-#: dselect/pkgdisplay.cc:53 main/help.c:44
+#: dselect/pkgdisplay.cc:55 main/help.c:44
 msgid "installed"
 msgstr "installerat"
 
@@ -2648,72 +2649,72 @@ msgstr "trasig filsystemstarfil - trasigt paketarkiv"
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: dödar möjliga avslutande nollor"
 
-#: main/processarc.c:646
+#: main/processarc.c:660
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr "dpkg: varning - kan inte ta bort gammal fil \"%.250s\": %s\n"
 
-#: main/processarc.c:668 main/processarc.c:905 main/remove.c:285
+#: main/processarc.c:682 main/processarc.c:919 main/remove.c:285
 msgid "cannot read info directory"
 msgstr "kan inte läsa infokatalog"
 
-#: main/processarc.c:681
+#: main/processarc.c:695
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "gammal version av paketet har för lång informationsfilnamn som börjar på "
 "\"%.250s\""
 
-#: main/processarc.c:693
+#: main/processarc.c:707
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "kunde inte ta bort gammal informationsfil \"%.250s\""
 
-#: main/processarc.c:696
+#: main/processarc.c:710
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 "kunde inte installera (vad som antas vara) ny informationsfil \"%.250s\""
 
-#: main/processarc.c:703
+#: main/processarc.c:717
 msgid "unable to open temp control directory"
 msgstr "kunde inte öppna temporär kontrollkatalog"
 
-#: main/processarc.c:712
+#: main/processarc.c:726
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "paketet innehåller för långt kontrollinformationsfilnamn (börjar på \"%.50s"
 "\")"
 
-#: main/processarc.c:717
+#: main/processarc.c:731
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "paketets kontrollinformation innehåller katalogen \"%.250s\""
 
-#: main/processarc.c:719
+#: main/processarc.c:733
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "\"rmdir\" på paketets kontrollinformation \"%.250s\" svarade inte \"ej "
 "katalog\""
 
-#: main/processarc.c:725
+#: main/processarc.c:739
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr "dpkg: varning - paketet %s innehåller list som informationsfil"
 
-#: main/processarc.c:732
+#: main/processarc.c:746
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "kunde inte installera ny informationsfil \"%.250s\" som \"%.250s\""
 
-#: main/processarc.c:885
+#: main/processarc.c:899
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Noterar att %s försvunnit, vilken helt har ersatts.)\n"
 
-#: main/processarc.c:921
+#: main/processarc.c:935
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "kunde inte ta bort försvinnande kontrollfil \"%.250s\""
@@ -2779,7 +2780,7 @@ msgstr "Skulle ta bort eller helt radera %s ...\n"
 msgid "Removing %s ...\n"
 msgstr "Tar bort %s ...\n"
 
-#: main/remove.c:250 main/remove.c:362
+#: main/remove.c:250 main/remove.c:363
 #, c-format
 msgid ""
 "dpkg - warning: while removing %.250s, unable to remove directory `%.250s': %"
@@ -2788,7 +2789,7 @@ msgstr ""
 "dpkg - varning: när %.250s togs bort kunde inte katalogen \"%.250s\" tas "
 "bort: %s - katalogen kan vara en monteringspunkt?\n"
 
-#: main/remove.c:257 main/remove.c:369
+#: main/remove.c:257 main/remove.c:370
 #, c-format
 msgid "cannot remove `%.250s'"
 msgstr "kan inte ta bort \"%.250s\""
@@ -2803,7 +2804,7 @@ msgstr "kan inte ta bort filen \"%.250s\""
 msgid "unable to delete control info file `%.250s'"
 msgstr "kunde inte ta bort kontrollinformationsfil \"%.250s\""
 
-#: main/remove.c:356
+#: main/remove.c:357
 #, c-format
 msgid ""
 "dpkg - warning: while removing %.250s, directory `%.250s' not empty so not "
@@ -2812,7 +2813,7 @@ msgstr ""
 "dpkg - varning: när %.250s togs bort var inte katalogen \"%.250s\" tom, så "
 "den togs inte bort.\n"
 
-#: main/remove.c:392
+#: main/remove.c:393
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr "Raderar konfigurationsfiler för %s ...\n"
@@ -2954,7 +2955,7 @@ msgstr "Namn"
 msgid "Version"
 msgstr "Version"
 
-#: dselect/methlist.cc:118 dselect/pkgtop.cc:295 main/query.c:144
+#: dselect/methlist.cc:122 dselect/pkgtop.cc:297 main/query.c:144
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -3104,56 +3105,56 @@ msgstr ""
 "Använd --license för upphovsrättslig licens och avsaknad av garanti (GNU "
 "GPL).\n"
 
-#: dpkg-deb/build.c:66
+#: dpkg-deb/build.c:67
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - fel: %s (\"%s\") innehåller inga siffror\n"
 
-#: dpkg-deb/build.c:165
+#: dpkg-deb/build.c:166
 #, c-format
 msgid "%s: no compression copy loop"
 msgstr "%s: ingen komprimeringskopieslinga"
 
-#: dpkg-deb/build.c:175
+#: dpkg-deb/build.c:176
 #, c-format
 msgid "%s: internal gzip error: read: `%s'"
 msgstr "%s: internt gzip-fel: läsning: \"%s\""
 
-#: dpkg-deb/build.c:185
+#: dpkg-deb/build.c:186
 #, c-format
 msgid "%s: internal gzip error: write: `%s'"
 msgstr "%s: internt gzip-fel: skrivning: \"%s\""
 
-#: dpkg-deb/build.c:188
+#: dpkg-deb/build.c:189
 #, c-format
 msgid "%s: internal gzip error: read(%i) != write(%i)"
 msgstr "%s: internt gzip-fel: läs(%i) != skriv(%i)"
 
-#: dpkg-deb/build.c:195
+#: dpkg-deb/build.c:196
 #, c-format
 msgid "%s: failed to exec gzip %s"
 msgstr "%s: kunde inte exekvera gzip %s"
 
 #. Decode our arguments
-#: dpkg-deb/build.c:223
+#: dpkg-deb/build.c:224
 msgid "--build needs a directory argument"
 msgstr "--build behöver ett katalogargument"
 
-#: dpkg-deb/build.c:232
+#: dpkg-deb/build.c:233
 msgid "--build takes at most two arguments"
 msgstr "--build tar högst två argument"
 
-#: dpkg-deb/build.c:236
+#: dpkg-deb/build.c:237
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "kunde inte kontrollera om arkivet \"%.250s\" existerar"
 
-#: dpkg-deb/build.c:251
+#: dpkg-deb/build.c:252
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "målet är en katalog - kan inte hoppa över kontroll av konfigurationsfiler"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:253
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -3162,44 +3163,44 @@ msgstr ""
 "dpkg-deb: varning, kontrollerar inte innehållet i kontrollområdet.\n"
 "dpkg-deb: bygger ett okänt paket i \"%s\".\n"
 
-#: dpkg-deb/build.c:270
+#: dpkg-deb/build.c:271
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "paketnamnet har tecken som inte är gemena alfanumeriska eller \"-+.\""
 
-#: dpkg-deb/build.c:272
+#: dpkg-deb/build.c:273
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr ""
 "varning, \"%s\" innehåller användardefinierat värde för Priority \"%s\"\n"
 
-#: dpkg-deb/build.c:277
+#: dpkg-deb/build.c:278
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "varning, \"%s\" innehåller användardefinierat fält \"%s\"\n"
 
-#: dpkg-deb/build.c:283
+#: dpkg-deb/build.c:284
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d fel i kontrollfilen"
 
-#: dpkg-deb/build.c:294
+#: dpkg-deb/build.c:295
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: bygger paketet \"%s\" i \"%s\".\n"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:303
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "kontrollkatalogen har felaktig behörighet %03lo (måste vara >=0755 och "
 "<=0775)"
 
-#: dpkg-deb/build.c:313
+#: dpkg-deb/build.c:314
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "utvecklarskript \"%.50s\" är inte en vanlig fil eller symbolisk länk"
 
-#: dpkg-deb/build.c:315
+#: dpkg-deb/build.c:316
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3208,16 +3209,16 @@ msgstr ""
 "utvecklarskript \"%.50s\" har felaktig behörighet %03lo (måste vara >=0555 "
 "och <=0775)"
 
-#: dpkg-deb/build.c:319
+#: dpkg-deb/build.c:320
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "kunde inte ta status på utvecklarskript \"%.50s\""
 
-#: dpkg-deb/build.c:329
+#: dpkg-deb/build.c:330
 msgid "empty string from fgets reading conffiles"
 msgstr "tom sträng från fgets när conffiles lästes"
 
-#: dpkg-deb/build.c:331
+#: dpkg-deb/build.c:332
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3225,110 +3226,110 @@ msgstr ""
 "varning, konfigurationsfilnamnet \"%.50s...\" är för långt eller saknar "
 "nyradstecken på slutet\n"
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:344
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "konfigurationsfilen \"%.250s\" finns inte i paketet"
 
-#: dpkg-deb/build.c:345
+#: dpkg-deb/build.c:346
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "kunde inte ta status på konfigurationsfilen \"%.50s\""
 
-#: dpkg-deb/build.c:347
+#: dpkg-deb/build.c:348
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "varning, konfigurationsfieln \"%s\" är inte en vanlig fil\n"
 
-#: dpkg-deb/build.c:352
+#: dpkg-deb/build.c:353
 msgid "error reading conffiles file"
 msgstr "fel vid läsning av filen conffiles"
 
-#: dpkg-deb/build.c:355
+#: dpkg-deb/build.c:356
 msgid "error opening conffiles file"
 msgstr "fel vid öppning av filen conffiles"
 
-#: dpkg-deb/build.c:358
+#: dpkg-deb/build.c:359
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: ignorerar %d varningar om kontrollfilerna\n"
 
-#: dpkg-deb/build.c:368
+#: dpkg-deb/build.c:369
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "kunde inte stänga av buffert för \"%.255s\""
 
-#: dpkg-deb/build.c:373 dpkg-deb/build.c:446 dpkg-deb/build.c:467
+#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "kunde inte byta katalog till \"%.255s\""
 
-#: dpkg-deb/build.c:374
+#: dpkg-deb/build.c:375
 msgid "failed to chdir to .../DEBIAN"
 msgstr "kunde inte byta katalog till .../DEBIAN"
 
-#: dpkg-deb/build.c:375 dpkg-deb/build.c:448
+#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
 msgid "failed to exec tar -cf"
 msgstr "kunde inte exekvera tar -cf"
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:381
+#: dpkg-deb/build.c:382
 msgid "failed to make tmpfile (control)"
 msgstr "kunde inte skapa temporärfil (kontrolldel)"
 
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:383
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "kunde inte öppna temporärfil (kontrolldel), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:385
+#: dpkg-deb/build.c:386
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "kunde inte ta bort temporärfil (kontrolldel), %s"
 
-#: dpkg-deb/build.c:393 dpkg-deb/build.c:422 dpkg-deb/build.c:457
+#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
 msgid "control"
 msgstr "kontrolldel"
 
-#: dpkg-deb/build.c:398
+#: dpkg-deb/build.c:399
 msgid "failed to fstat tmpfile (control)"
 msgstr "kunde inte ta status på temporär fil (kontrolldel)"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:422
 msgid "failed to rewind tmpfile (control)"
 msgstr "kunde inte gå till början av temporär fil (kontrolldel)"
 
-#: dpkg-deb/build.c:429
+#: dpkg-deb/build.c:430
 msgid "failed to make tmpfile (data)"
 msgstr "kunde inte skapa temporärfil (datadel)"
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:431
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "kunde inte öppna temporärfil (datadel), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:433
+#: dpkg-deb/build.c:434
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "kunde inte ta bort temporärfil (datadel), %s"
 
-#: dpkg-deb/build.c:469
+#: dpkg-deb/build.c:470
 msgid "failed to exec find"
 msgstr "kunde inte exekvera find"
 
-#: dpkg-deb/build.c:480 dpkg-deb/build.c:487
+#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
 msgid "failed to write filename to tar pipe (data)"
 msgstr "kunde inte skriva filnamn till tar-rör (datadel)"
 
-#: dpkg-deb/build.c:504
+#: dpkg-deb/build.c:505
 msgid "failed to rewind tmpfile (data)"
 msgstr "kunde inte gå till början av temporär fil (datadel)"
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:506
 msgid "cat (data)"
 msgstr "cat (data)"
 
@@ -3665,7 +3666,7 @@ msgstr ""
 "eller senare för kopieringsvillkor. Det finns INGEN garanti.\n"
 "Se dpkg-deb --licence för detaljer.\n"
 
-#: dpkg-deb/main.c:57
+#: dpkg-deb/main.c:58
 msgid ""
 "Command:\n"
 "  -b|--build <directory> [<deb>]    build an archive.\n"
@@ -4161,66 +4162,69 @@ msgstr ""
 msgid "mdfile"
 msgstr "mdfile"
 
-#: utils/md5sum.c:239
+#. Don't print the buffer; we might be dealing with a
+#. * non-text file.
+#.
+#: utils/md5sum.c:250
 #, c-format
-msgid "%s: unrecognized line: %s"
-msgstr "%s: oväntad rad: %s"
+msgid "%s: unrecognized line\n"
+msgstr "%s: raden känns inte igen\n"
 
-#: utils/md5sum.c:269
+#: utils/md5sum.c:284
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr "%s: kunde inte öppna %s\n"
 
-#: utils/md5sum.c:273
+#: utils/md5sum.c:288
 #, c-format
 msgid "%s: error reading %s\n"
 msgstr "%s: fel vid läsning av %s\n"
 
-#: utils/md5sum.c:279
+#: utils/md5sum.c:294
 msgid "FAILED\n"
 msgstr "MISSLYCKADES\n"
 
-#: utils/md5sum.c:281
+#: utils/md5sum.c:296
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: MD5-kontroll misslyckades för \"%s\"\n"
 
-#: utils/md5sum.c:284
+#: utils/md5sum.c:299
 msgid "OK\n"
 msgstr "OK\n"
 
-#: utils/md5sum.c:288
+#: utils/md5sum.c:303
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr "%s: %d av %d fil(er) misslyckades MD5-kontroll\n"
 
-#: utils/md5sum.c:290
+#: utils/md5sum.c:305
 #, c-format
 msgid "%s: no files checked\n"
 msgstr "%s: inga filer kontrollerade\n"
 
-#: dselect/basecmds.cc:120
+#: dselect/basecmds.cc:121
 msgid "Search for ? "
 msgstr "Sök efter? "
 
-#: dselect/basecmds.cc:142
+#: dselect/basecmds.cc:143
 msgid "Error: "
 msgstr "Fel: "
 
-#: dselect/basecmds.cc:170
+#: dselect/basecmds.cc:171
 msgid "Help: "
 msgstr "Hjälp: "
 
-#: dselect/basecmds.cc:176
+#: dselect/basecmds.cc:177
 msgid "Press ? for help menu, <space> for next topic, <enter> to exit help."
 msgstr ""
 "Tryck ? för hjälpmenyn, <mellanslag> för nästa ämne, <Enter> lämnar hjälpen."
 
-#: dselect/basecmds.cc:183
+#: dselect/basecmds.cc:184
 msgid "Help information is available under the following topics:"
 msgstr "Hjälpinformation finns för följande ämnen:"
 
-#: dselect/basecmds.cc:191
+#: dselect/basecmds.cc:192
 msgid ""
 "Press a key from the list above, <enter>, `q' or `Q' to exit help,\n"
 "  or <space> to read each help page in turn. "
@@ -4229,76 +4233,76 @@ msgstr ""
 "hjälpen,\n"
 "  eller <mellanslag> för att läsa hjälpsidorna i sekvens. "
 
-#: dselect/basecmds.cc:197
+#: dselect/basecmds.cc:198
 msgid "error reading keyboard in help"
 msgstr "fel vid läsning av tangentbordet i hjälpfunktionen"
 
-#: dselect/baselist.cc:55
+#: dselect/baselist.cc:57
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr "ioctl(TIOCGWINSZ) misslyckades"
 
-#: dselect/baselist.cc:58
+#: dselect/baselist.cc:60
 msgid "doupdate in SIGWINCH handler failed"
 msgstr "doupdate misslyckades i hanterare för fönsterändring"
 
-#: dselect/baselist.cc:65
+#: dselect/baselist.cc:67
 msgid "failed to restore old SIGWINCH sigact"
 msgstr "kunde inte återställa tidigare fönsteruppdateringshanterare"
 
-#: dselect/baselist.cc:67
+#: dselect/baselist.cc:69
 msgid "failed to restore old signal mask"
 msgstr "kunde inte återställa gammal signalmask"
 
-#: dselect/baselist.cc:77
+#: dselect/baselist.cc:79
 msgid "failed to get old signal mask"
 msgstr "kunde inte hämta gammal signalmask"
 
-#: dselect/baselist.cc:78
+#: dselect/baselist.cc:80
 msgid "failed to get old SIGWINCH sigact"
 msgstr "kunde inte hämta tidigare fönsteruppdateringshanterare"
 
-#: dselect/baselist.cc:82
+#: dselect/baselist.cc:84
 msgid "failed to block SIGWINCH"
 msgstr "kunde inte blockera fönsterändring"
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:87
+#: dselect/baselist.cc:89
 msgid "failed to set new SIGWINCH sigact"
 msgstr "kunde inte sätta ny fönsteruppdateringshanterare"
 
-#: dselect/baselist.cc:124
+#: dselect/baselist.cc:126
 msgid "failed to allocate colour pair"
 msgstr "kunde allokera färgpar"
 
-#: dselect/baselist.cc:164
+#: dselect/baselist.cc:166
 msgid "failed to create title window"
 msgstr "kunde inte skapa titelfönster"
 
-#: dselect/baselist.cc:168
+#: dselect/baselist.cc:170
 msgid "failed to create whatinfo window"
 msgstr "kunde inte skapa informationfönster"
 
-#: dselect/baselist.cc:172
+#: dselect/baselist.cc:174
 msgid "failed to create baselist pad"
 msgstr "kunde inte skapa baslisteflik"
 
-#: dselect/baselist.cc:175
+#: dselect/baselist.cc:177
 msgid "failed to create heading pad"
 msgstr "kunde inte skapa rubrikflik"
 
-#: dselect/baselist.cc:179
+#: dselect/baselist.cc:181
 msgid "failed to create thisstate pad"
 msgstr "kunde inte skapa \"detta tillstånd\"-flik"
 
-#: dselect/baselist.cc:183
+#: dselect/baselist.cc:185
 msgid "failed to create info pad"
 msgstr "kunde inte skapa informationsflik"
 
-#: dselect/baselist.cc:188
+#: dselect/baselist.cc:190
 msgid "failed to create query window"
 msgstr "kunde inte skapa frågefönster"
 
-#: dselect/baselist.cc:201
+#: dselect/baselist.cc:203
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -4324,263 +4328,263 @@ msgstr ""
 "\n"
 
 # ??
-#: dselect/baselist.cc:257
+#: dselect/baselist.cc:259
 msgid "keybindings"
 msgstr "tangentbordsbindningar"
 
-#: dselect/baselist.cc:305
+#: dselect/baselist.cc:307
 #, c-format
 msgid "  -- %d%%, press "
 msgstr "  -- %d%%, tryck "
 
-#: dselect/baselist.cc:308
+#: dselect/baselist.cc:310
 #, c-format
 msgid "%s for more"
 msgstr "%s för mer"
 
-#: dselect/baselist.cc:312
+#: dselect/baselist.cc:314
 #, c-format
 msgid "%s to go back"
 msgstr "%s återgår"
 
-#: dselect/bindings.cc:69
+#: dselect/bindings.cc:71
 msgid "[not bound]"
 msgstr "[ej funnet]"
 
-#: dselect/bindings.cc:73
+#: dselect/bindings.cc:75
 #, c-format
 msgid "[unk: %d]"
 msgstr "[okänd: %d]"
 
 #. Actions which apply to both types of list.
-#: dselect/bindings.cc:127
+#: dselect/bindings.cc:129
 msgid "Scroll onwards through help/information"
 msgstr "Rulla framåt genom hjälp/information"
 
-#: dselect/bindings.cc:128
+#: dselect/bindings.cc:130
 msgid "Scroll backwards through help/information"
 msgstr "Rulla bakåt genom hjälp/information"
 
-#: dselect/bindings.cc:129
+#: dselect/bindings.cc:131
 msgid "Move up"
 msgstr "Gå upp"
 
-#: dselect/bindings.cc:130
+#: dselect/bindings.cc:132
 msgid "Move down"
 msgstr "Gå ner"
 
-#: dselect/bindings.cc:131
+#: dselect/bindings.cc:133
 msgid "Go to top of list"
 msgstr "Gå till listans början"
 
-#: dselect/bindings.cc:132
+#: dselect/bindings.cc:134
 msgid "Go to end of list"
 msgstr "Gå till listans slut"
 
-#: dselect/bindings.cc:133
+#: dselect/bindings.cc:135
 msgid "Request help (cycle through help screens)"
 msgstr "Be om hjälp (gå genom hjälpskärmarna)"
 
-#: dselect/bindings.cc:134
+#: dselect/bindings.cc:136
 msgid "Cycle through information displays"
 msgstr "Gå genom informationsvisningarna"
 
-#: dselect/bindings.cc:135
+#: dselect/bindings.cc:137
 msgid "Redraw display"
 msgstr "Rita om bilden"
 
-#: dselect/bindings.cc:136
+#: dselect/bindings.cc:138
 msgid "Scroll onwards through list by 1 line"
 msgstr "Rulla fram listan en rad"
 
-#: dselect/bindings.cc:137
+#: dselect/bindings.cc:139
 msgid "Scroll backwards through list by 1 line"
 msgstr "Rulla tillbaka listan en rad"
 
-#: dselect/bindings.cc:138
+#: dselect/bindings.cc:140
 msgid "Scroll onwards through help/information by 1 line"
 msgstr "Rullafram hjälpen/informationen en rad"
 
-#: dselect/bindings.cc:139
+#: dselect/bindings.cc:141
 msgid "Scroll backwards through help/information by 1 line"
 msgstr "Rulla tillbaka hjälpen/informationen en rad"
 
-#: dselect/bindings.cc:140
+#: dselect/bindings.cc:142
 msgid "Scroll onwards through list"
 msgstr "Rulla framåt genom listan"
 
-#: dselect/bindings.cc:141
+#: dselect/bindings.cc:143
 msgid "Scroll backwards through list"
 msgstr "Rulla bakåt genom listan"
 
 #. Actions which apply only to lists of packages.
-#: dselect/bindings.cc:144
+#: dselect/bindings.cc:146
 msgid "Mark package(s) for installation"
 msgstr "Markera paket för installation"
 
-#: dselect/bindings.cc:145
+#: dselect/bindings.cc:147
 msgid "Mark package(s) for deinstallation"
 msgstr "Markera paket för avinstallation"
 
-#: dselect/bindings.cc:146
+#: dselect/bindings.cc:148
 msgid "Mark package(s) for deinstall and purge"
 msgstr "Markera paket för avinstallation och radering"
 
-#: dselect/bindings.cc:147
+#: dselect/bindings.cc:149
 msgid "Make highlight more specific"
 msgstr "Gör markering mer specifik"
 
-#: dselect/bindings.cc:148
+#: dselect/bindings.cc:150
 msgid "Make highlight less specific"
 msgstr "Gör markering mindre specifik"
 
-#: dselect/bindings.cc:149
+#: dselect/bindings.cc:151
 msgid "Search for a package whose name contains a string"
 msgstr "Sök efter paket vars namn innehåller en sträng"
 
-#: dselect/bindings.cc:150
+#: dselect/bindings.cc:152
 msgid "Repeat last search."
 msgstr "Repetera senaste sökning."
 
-#: dselect/bindings.cc:151
+#: dselect/bindings.cc:153
 msgid "Swap sort order priority/section"
 msgstr "Byt sorteringsordning prioritet/sektion"
 
-#: dselect/bindings.cc:152
+#: dselect/bindings.cc:154
 msgid "Quit, confirming, and checking dependencies"
 msgstr "Avsluta bekräftande och kontrollera beroenden"
 
-#: dselect/bindings.cc:153
+#: dselect/bindings.cc:155
 msgid "Quit, confirming without check"
 msgstr "Avsluta bekräftande utan kontroll"
 
-#: dselect/bindings.cc:154
+#: dselect/bindings.cc:156
 msgid "Quit, rejecting conflict/dependency suggestions"
 msgstr "Avsluta och strunta i förslagen"
 
-#: dselect/bindings.cc:155
+#: dselect/bindings.cc:157
 msgid "Abort - quit without making changes"
 msgstr "Avbryt - sluta utan att ändra"
 
-#: dselect/bindings.cc:156
+#: dselect/bindings.cc:158
 msgid "Revert to old state for all packages"
 msgstr "Återgå till tidigare tillstånd för alla paket"
 
-#: dselect/bindings.cc:157
+#: dselect/bindings.cc:159
 msgid "Revert to suggested state for all packages"
 msgstr "Återgå till föreslagna tillstånd för alla paket"
 
-#: dselect/bindings.cc:158
+#: dselect/bindings.cc:160
 msgid "Revert to directly requested state for all packages"
 msgstr "Återgå till direkt föreslagna tillstånd för alla paket"
 
 #. Actions which apply only to lists of methods.
-#: dselect/bindings.cc:161
+#: dselect/bindings.cc:163
 msgid "Select currently-highlighted access method"
 msgstr "Välj nu markerad åtkomstmetod"
 
-#: dselect/bindings.cc:162
+#: dselect/bindings.cc:164
 msgid "Quit without changing selected access method"
 msgstr "Avsluta utan att ändra vald åtkomstmetod"
 
-#: dselect/main.cc:54
+#: dselect/main.cc:56
 msgid "Type dselect --help for help."
 msgstr "Skriv dselect --help för hjälp."
 
-#: dselect/main.cc:137
+#: dselect/main.cc:139
 msgid "a"
 msgstr "k"
 
-#: dselect/main.cc:137
+#: dselect/main.cc:139
 msgid "[A]ccess"
 msgstr "Åt[k]omst"
 
-#: dselect/main.cc:137
+#: dselect/main.cc:139
 msgid "Choose the access method to use."
 msgstr "Välj använd åtkomstmetod."
 
-#: dselect/main.cc:138
+#: dselect/main.cc:140
 msgid "u"
 msgstr "u"
 
-#: dselect/main.cc:138
+#: dselect/main.cc:140
 msgid "[U]pdate"
 msgstr "[U]ppdatera"
 
-#: dselect/main.cc:138
+#: dselect/main.cc:140
 msgid "Update list of available packages, if possible."
 msgstr "Uppdatera listan över tillgängliga paket, om möjligt."
 
-#: dselect/main.cc:139
+#: dselect/main.cc:141
 msgid "s"
 msgstr "v"
 
-#: dselect/main.cc:139
+#: dselect/main.cc:141
 msgid "[S]elect"
 msgstr "[V]älj"
 
-#: dselect/main.cc:139
+#: dselect/main.cc:141
 msgid "Request which packages you want on your system."
 msgstr "Välj paket du vill ha på ditt system."
 
-#: dselect/main.cc:140
+#: dselect/main.cc:142
 msgid "i"
 msgstr "i"
 
-#: dselect/main.cc:140
+#: dselect/main.cc:142
 msgid "[I]nstall"
 msgstr "[I]nstallera"
 
-#: dselect/main.cc:140
+#: dselect/main.cc:142
 msgid "Install and upgrade wanted packages."
 msgstr "Installera och uppgradera önskade paket."
 
-#: dselect/main.cc:141
+#: dselect/main.cc:143
 msgid "c"
 msgstr "k"
 
-#: dselect/main.cc:141
+#: dselect/main.cc:143
 msgid "[C]onfig"
 msgstr "[K]onfigurera"
 
-#: dselect/main.cc:141
+#: dselect/main.cc:143
 msgid "Configure any packages that are unconfigured."
 msgstr "Konfigurera paket som ännu ej konfigurerats."
 
-#: dselect/main.cc:142
+#: dselect/main.cc:144
 msgid "r"
 msgstr "r"
 
-#: dselect/main.cc:142
+#: dselect/main.cc:144
 msgid "[R]emove"
 msgstr "[R]adera"
 
-#: dselect/main.cc:142
+#: dselect/main.cc:144
 msgid "Remove unwanted software."
 msgstr "Ta bort oönskad programvara."
 
-#: dselect/main.cc:143
+#: dselect/main.cc:145
 msgid "q"
 msgstr "a"
 
-#: dselect/main.cc:143
+#: dselect/main.cc:145
 msgid "[Q]uit"
 msgstr "[A]vsluta"
 
-#: dselect/main.cc:143
+#: dselect/main.cc:145
 msgid "Quit dselect."
 msgstr "Lämnar dselect."
 
-#: dselect/main.cc:144
+#: dselect/main.cc:146
 msgid "menu"
 msgstr "meny"
 
-#: dselect/main.cc:149
+#: dselect/main.cc:151
 #, c-format
 msgid "Debian `%s' package handling frontend."
 msgstr "Debian \"%s\" pakethanteringsskal."
 
-#: dselect/main.cc:152
+#: dselect/main.cc:154
 #, c-format
 msgid ""
 "Version %s.\n"
@@ -4597,7 +4601,7 @@ msgstr ""
 "eller senare för kopieringsvillkor. Det finns INGEN garanti. Se\n"
 "dselect --license för detaljer.\n"
 
-#: dselect/main.cc:168
+#: dselect/main.cc:170
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -4613,54 +4617,54 @@ msgstr ""
 "         --colour skärmdel:[förgrund],[bakgrund][:attr[+attr+..]]\n"
 "Handlingar: access update select install config remove quit\n"
 
-#: dselect/main.cc:176
+#: dselect/main.cc:178
 msgid "Screenparts:\n"
 msgstr "Skärmdelar:\n"
 
-#: dselect/main.cc:181
+#: dselect/main.cc:183
 msgid "Colours:\n"
 msgstr "Färger:\n"
 
-#: dselect/main.cc:186
+#: dselect/main.cc:188
 msgid "Attributes:\n"
 msgstr "Attribut:\n"
 
-#: dselect/main.cc:206
+#: dselect/main.cc:208
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "kunde inte öppna felsökningsfil \"%.255s\"\n"
 
-#: dselect/main.cc:221
+#: dselect/main.cc:223
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr "Ogiltig %s \"%s\"\n"
 
 #. strtok modifies strings, keep string const
-#: dselect/main.cc:238
+#: dselect/main.cc:240
 msgid "screen part"
 msgstr "skärmdel"
 
-#: dselect/main.cc:244
+#: dselect/main.cc:246
 msgid "Null colour specification\n"
 msgstr "Tom färgangivelse\n"
 
-#: dselect/main.cc:252 dselect/main.cc:257
+#: dselect/main.cc:254 dselect/main.cc:259
 msgid "colour"
 msgstr "färg"
 
-#: dselect/main.cc:265
+#: dselect/main.cc:267
 msgid "colour attribute"
 msgstr "färgattribut"
 
-#: dselect/main.cc:299
+#: dselect/main.cc:301
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Terminalen verkar inte tillåta marköradressering.\n"
 
-#: dselect/main.cc:301
+#: dselect/main.cc:303
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Terminalen verkar inte tillåta ljusmarkering.\n"
 
-#: dselect/main.cc:302
+#: dselect/main.cc:304
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
@@ -4668,11 +4672,11 @@ msgstr ""
 "Korrigera din TERM-variabel, använd en bättre terminal eller\n"
 "lev med det per-pakethanterande verktyget "
 
-#: dselect/main.cc:305
+#: dselect/main.cc:307
 msgid "terminal lacks necessary features, giving up"
 msgstr "terminalen saknar funktioner som behövs, ger upp"
 
-#: dselect/main.cc:383
+#: dselect/main.cc:385
 msgid ""
 "\n"
 "\n"
@@ -4685,7 +4689,7 @@ msgstr ""
 "Använd ^P och ^N, piltangenter, första bokstäver eller siffror.\n"
 "Tryck <Enter> för att bekräfta val. ^L ritar om skärmen.\n"
 
-#: dselect/main.cc:397
+#: dselect/main.cc:399
 msgid ""
 "\n"
 "\n"
@@ -4695,57 +4699,57 @@ msgstr ""
 "\n"
 "Skrivskyddat läge: du kan bara titta på innehållet!"
 
-#: dselect/main.cc:416
+#: dselect/main.cc:418
 msgid "failed to getch in main menu"
 msgstr "kunde inte läsa tecken i huvudmenyn"
 
-#: dselect/main.cc:489
+#: dselect/main.cc:491
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "okänd handling \"%.50s\""
 
-#: dselect/methlist.cc:74
+#: dselect/methlist.cc:78
 msgid "dselect - list of access methods"
 msgstr "dselect - lista över åtkomstmetoder"
 
-#: dselect/methlist.cc:83
+#: dselect/methlist.cc:87
 #, c-format
 msgid "Access method `%s'."
 msgstr "Åtkomstmetod \"%s\"."
 
-#: dselect/methlist.cc:117
+#: dselect/methlist.cc:121
 msgid "Abbrev."
 msgstr "Förk."
 
-#: dselect/methlist.cc:162
+#: dselect/methlist.cc:166
 msgid "doupdate failed"
 msgstr "doupdate misslyckades"
 
-#: dselect/methlist.cc:164
+#: dselect/methlist.cc:168
 msgid "failed to unblock SIGWINCH"
 msgstr "kunde inte avblockera fönsteruppdatering"
 
-#: dselect/methlist.cc:168
+#: dselect/methlist.cc:172
 msgid "failed to re-block SIGWINCH"
 msgstr "kunde inte åter blockera fönsteruppdatering"
 
-#: dselect/methlist.cc:169
+#: dselect/methlist.cc:173
 msgid "getch failed"
 msgstr "getch misslyckades"
 
-#: dselect/methlist.cc:173 dselect/pkgdepcon.cc:240
+#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:242
 msgid "[none]"
 msgstr "[ingen]"
 
-#: dselect/methlist.cc:187
+#: dselect/methlist.cc:191
 msgid "explanation of "
 msgstr "förklaring av "
 
-#: dselect/methlist.cc:197
+#: dselect/methlist.cc:201
 msgid "No explanation available."
 msgstr "Ingen förklaring finns."
 
-#: dselect/method.cc:62
+#: dselect/method.cc:64
 #, c-format
 msgid ""
 "\n"
@@ -4756,7 +4760,7 @@ msgstr ""
 "\n"
 "%s: %s\n"
 
-#: dselect/method.cc:65
+#: dselect/method.cc:67
 msgid ""
 "\n"
 "Press <enter> to continue."
@@ -4764,223 +4768,223 @@ msgstr ""
 "\n"
 "Tryck <Enter> för att fortsätta."
 
-#: dselect/method.cc:142
+#: dselect/method.cc:144
 #, c-format
 msgid "error un-catching signal %d: %s\n"
 msgstr "kunde inte stänga av hantering av signal %d: %s\n"
 
-#: dselect/method.cc:160
+#: dselect/method.cc:162
 #, c-format
 msgid "unable to ignore signal %d before running %.250s"
 msgstr "kunde inte ignorera signal %d innan %.250s startas"
 
-#: dselect/method.cc:167
+#: dselect/method.cc:169
 #, c-format
 msgid "unable to run %.250s process `%.250s'"
 msgstr "kunde inte köra %.250s process \"%.250s\""
 
-#: dselect/method.cc:171
+#: dselect/method.cc:173
 #, c-format
 msgid "unable to wait for %.250s"
 msgstr "kunde inte vänta på %.250s"
 
-#: dselect/method.cc:173
+#: dselect/method.cc:175
 #, c-format
 msgid "got wrong child's status - asked for %ld, got %ld"
 msgstr "fick fel barns status - frågade efter %ld, fick %ld"
 
-#: dselect/method.cc:184
+#: dselect/method.cc:186
 #, c-format
 msgid "returned error exit status %d.\n"
 msgstr "returnerade felkod %d.\n"
 
-#: dselect/method.cc:188
+#: dselect/method.cc:190
 msgid "was interrupted.\n"
 msgstr "avbröts.\n"
 
-#: dselect/method.cc:190
+#: dselect/method.cc:192
 #, c-format
 msgid "was terminated by a signal: %s.\n"
 msgstr "avbröts av signal: %s.\n"
 
-#: dselect/method.cc:193
+#: dselect/method.cc:195
 msgid "(It left a coredump.)\n"
 msgstr "(Lämnade minnesutskrift.)\n"
 
-#: dselect/method.cc:195
+#: dselect/method.cc:197
 #, c-format
 msgid "failed with an unknown wait return code %d.\n"
 msgstr "misslyckades med okänt väntekod %d.\n"
 
-#: dselect/method.cc:197
+#: dselect/method.cc:199
 msgid "Press <enter> to continue.\n"
 msgstr "Tryck <Enter> för att fortsätta.\n"
 
-#: dselect/method.cc:199
+#: dselect/method.cc:201
 msgid "write error on standard error"
 msgstr "skrivfel på standard fel"
 
-#: dselect/method.cc:202
+#: dselect/method.cc:204
 msgid "error reading acknowledgement of program failure message"
 msgstr "kunde inte läsa bekräftelse av meddelande om programs misslyckande"
 
-#: dselect/method.cc:233
+#: dselect/method.cc:235
 msgid "update available list script"
 msgstr "skript för att uppdatera lista över tillgängliga paket"
 
-#: dselect/method.cc:237
+#: dselect/method.cc:239
 msgid "installation script"
 msgstr "installationsskript"
 
-#: dselect/method.cc:285
+#: dselect/method.cc:287
 msgid "query/setup script"
 msgstr "fråge-/inställningsskript"
 
-#: dselect/methparse.cc:51
+#: dselect/methparse.cc:53
 #, c-format
 msgid "syntax error in method options file `%.250s' -- %s"
 msgstr "syntaxfel i metodflaggfil \"%.250s\" -- %s"
 
-#: dselect/methparse.cc:56
+#: dselect/methparse.cc:58
 #, c-format
 msgid "error reading options file `%.250s'"
 msgstr "fel vid läsning av flaggfil \"%.250s\""
 
-#: dselect/methparse.cc:84
+#: dselect/methparse.cc:86
 #, c-format
 msgid "unable to read `%.250s' directory for reading methods"
 msgstr "kunde inte läsa katalogen \"%.250s\" för läsning av metoder"
 
-#: dselect/methparse.cc:98
+#: dselect/methparse.cc:100
 #, c-format
 msgid "method `%.250s' has name that is too long (%d > %d characters)"
 msgstr "metoden \"%.250s\" har ett namn som är för långt (%d > %d tecken)"
 
-#: dselect/methparse.cc:109
+#: dselect/methparse.cc:111
 #, c-format
 msgid "unable to access method script `%.250s'"
 msgstr "kunde inte komma åt metodskript \"%.250s\""
 
-#: dselect/methparse.cc:115
+#: dselect/methparse.cc:117
 #, c-format
 msgid "unable to read method options file `%.250s'"
 msgstr "kunde inte läsa metodflaggfilen \"%.250s\""
 
-#: dselect/methparse.cc:138
+#: dselect/methparse.cc:140
 msgid "non-digit where digit wanted"
 msgstr "icke-siffra där siffra önskades"
 
-#: dselect/methparse.cc:141
+#: dselect/methparse.cc:143
 msgid "EOF in index string"
 msgstr "filslut i indexsträng"
 
-#: dselect/methparse.cc:144
+#: dselect/methparse.cc:146
 msgid "index string too long"
 msgstr "indexsträng för lång"
 
-#: dselect/methparse.cc:147
+#: dselect/methparse.cc:149
 msgid "newline before option name start"
 msgstr "nyrad före valnamns början"
 
-#: dselect/methparse.cc:149
+#: dselect/methparse.cc:151
 msgid "EOF before option name start"
 msgstr "filslut för valnamnets början"
 
-#: dselect/methparse.cc:153
+#: dselect/methparse.cc:155
 msgid "nonalpha where option name start wanted"
 msgstr "icke-bokstav där valnamnets början önskades"
 
-#: dselect/methparse.cc:155
+#: dselect/methparse.cc:157
 msgid "non-alphanum in option name"
 msgstr "icke-alfanumeriska tecken i valnamn"
 
-#: dselect/methparse.cc:158
+#: dselect/methparse.cc:160
 msgid "EOF in option name"
 msgstr "filslut i valnamn"
 
-#: dselect/methparse.cc:163
+#: dselect/methparse.cc:165
 msgid "newline before summary"
 msgstr "radslut före sammanfattning"
 
-#: dselect/methparse.cc:165
+#: dselect/methparse.cc:167
 msgid "EOF before summary"
 msgstr "filslut före sammanfattning"
 
-#: dselect/methparse.cc:171
+#: dselect/methparse.cc:173
 msgid "EOF in summary - missing newline"
 msgstr "filslut i sammanfattning - radslut saknas"
 
-#: dselect/methparse.cc:181
+#: dselect/methparse.cc:183
 #, c-format
 msgid "unable to open option description file `%.250s'"
 msgstr "kunde inte öppna beskrivningsfil \"%.250s\""
 
-#: dselect/methparse.cc:185
+#: dselect/methparse.cc:187
 #, c-format
 msgid "unable to stat option description file `%.250s'"
 msgstr "kunde inte ta status på beskrivningsfil \"%.250s\""
 
-#: dselect/methparse.cc:189
+#: dselect/methparse.cc:191
 #, c-format
 msgid "failed to read option description file `%.250s'"
 msgstr "kunde inte läsa beskrivningsfil \"%.250s\""
 
-#: dselect/methparse.cc:192
+#: dselect/methparse.cc:194
 #, c-format
 msgid "error during read of option description file `%.250s'"
 msgstr "fel vid läsning av beskrivningsfil \"%.250s\""
 
-#: dselect/methparse.cc:214
+#: dselect/methparse.cc:216
 #, c-format
 msgid "error during read of method options file `%.250s'"
 msgstr "fel vid läsning av metodvalfil \"%.250s\""
 
-#: dselect/methparse.cc:244
+#: dselect/methparse.cc:246
 #, c-format
 msgid "unable to open current option file `%.250s'"
 msgstr "kunde inte öppna aktuell valfil \"%.250s\""
 
-#: dselect/methparse.cc:282
+#: dselect/methparse.cc:284
 #, c-format
 msgid "unable to open new option file `%.250s'"
 msgstr "kunde inte öppna ny valfil \"%.250s\""
 
-#: dselect/methparse.cc:285
+#: dselect/methparse.cc:287
 #, c-format
 msgid "unable to write new option to `%.250s'"
 msgstr "kunde inte skriva ny valfil \"%.250s\""
 
-#: dselect/methparse.cc:288
+#: dselect/methparse.cc:290
 #, c-format
 msgid "unable to close new option file `%.250s'"
 msgstr "kunde inte stänga ny valfil \"%.250s\""
 
-#: dselect/methparse.cc:290
+#: dselect/methparse.cc:292
 #, c-format
 msgid "unable to install new option as `%.250s'"
 msgstr "kunde inte installera nytt val som \"%.250s\""
 
-#: dselect/pkgdepcon.cc:213
+#: dselect/pkgdepcon.cc:215
 msgid "(no clientdata)"
 msgstr "(ingen klientdata)"
 
-#: dselect/pkgdisplay.cc:36
+#: dselect/pkgdisplay.cc:38
 msgid "new package"
 msgstr "nytt paket"
 
-#: dselect/pkgdisplay.cc:37
+#: dselect/pkgdisplay.cc:39
 msgid "install"
 msgstr "installera"
 
-#: dselect/pkgdisplay.cc:38
+#: dselect/pkgdisplay.cc:40
 msgid "hold"
 msgstr "håll"
 
-#: dselect/pkgdisplay.cc:39
+#: dselect/pkgdisplay.cc:41
 msgid "remove"
 msgstr "radera"
 
-#: dselect/pkgdisplay.cc:40
+#: dselect/pkgdisplay.cc:42
 msgid "purge"
 msgstr "radera"
 
@@ -4988,275 +4992,275 @@ msgstr "radera"
 #. * string to store information about the translation. DO NOT CHANGE
 #. * THAT IN A TRANSLATION! The code really relies on that being a single space.
 #.
-#: dselect/pkgdisplay.cc:46
+#: dselect/pkgdisplay.cc:48
 msgid " "
 msgstr " "
 
-#: dselect/pkgdisplay.cc:47
+#: dselect/pkgdisplay.cc:49
 msgid "REINSTALL"
 msgstr "OMINSTALLERA"
 
-#: dselect/pkgdisplay.cc:51
+#: dselect/pkgdisplay.cc:53
 msgid "unpacked (not set up)"
 msgstr "uppackat (ej konf.)"
 
-#: dselect/pkgdisplay.cc:52
+#: dselect/pkgdisplay.cc:54
 msgid "failed config"
 msgstr "misslyckad konfig."
 
-#: dselect/pkgdisplay.cc:54
+#: dselect/pkgdisplay.cc:56
 msgid "half installed"
 msgstr "halvinstallerat"
 
-#: dselect/pkgdisplay.cc:55
+#: dselect/pkgdisplay.cc:57
 msgid "removed (configs remain)"
 msgstr "borttaget (konfig. kvar)"
 
-#: dselect/pkgdisplay.cc:58
+#: dselect/pkgdisplay.cc:60
 msgid "Required"
 msgstr "krävda"
 
-#: dselect/pkgdisplay.cc:59
+#: dselect/pkgdisplay.cc:61
 msgid "Important"
 msgstr "viktiga"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:62
 msgid "Standard"
 msgstr "normala"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:63
 msgid "Recommended"
 msgstr "rekommenderade"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:64
 msgid "Optional"
 msgstr "valbara"
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:65
 msgid "Extra"
 msgstr "extra"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:66
 msgid "Contrib"
 msgstr "contrib"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:67
 msgid "!Bug!"
 msgstr "!Fel!"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:68
 msgid "Unclassified"
 msgstr "oklassificerade"
 
-#: dselect/pkgdisplay.cc:69
+#: dselect/pkgdisplay.cc:71
 msgid "suggests"
 msgstr "föreslår"
 
-#: dselect/pkgdisplay.cc:70
+#: dselect/pkgdisplay.cc:72
 msgid "recommends"
 msgstr "rekommenderar"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:73
 msgid "depends on"
 msgstr "beror på"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:74
 msgid "pre-depends on"
 msgstr "beror i förväg på"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:75
 msgid "conflicts with"
 msgstr "krockar med"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:76
 msgid "provides"
 msgstr "tillhandahåller"
 
-#: dselect/pkgdisplay.cc:75
+#: dselect/pkgdisplay.cc:77
 msgid "replaces"
 msgstr "ersätter"
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:78
 msgid "enhances"
 msgstr "utökar"
 
-#: dselect/pkgdisplay.cc:79
+#: dselect/pkgdisplay.cc:81
 msgid "Req"
 msgstr "Krv"
 
-#: dselect/pkgdisplay.cc:80
+#: dselect/pkgdisplay.cc:82
 msgid "Imp"
 msgstr "Vik"
 
-#: dselect/pkgdisplay.cc:81
+#: dselect/pkgdisplay.cc:83
 msgid "Std"
 msgstr "Std"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:84
 msgid "Rec"
 msgstr "Rek"
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:85
 msgid "Opt"
 msgstr "Val"
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:86
 msgid "Xtr"
 msgstr "Xtr"
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:87
 msgid "Ctb"
 msgstr "Ctb"
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:88
 msgid "bUG"
 msgstr "FEL"
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:89
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:95 dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:97 dselect/pkgdisplay.cc:117
 msgid "Broken"
 msgstr "Trasiga"
 
-#: dselect/pkgdisplay.cc:96
+#: dselect/pkgdisplay.cc:98
 msgid "New"
 msgstr "Nya"
 
-#: dselect/pkgdisplay.cc:97
+#: dselect/pkgdisplay.cc:99
 msgid "Updated"
 msgstr "Uppdaterade"
 
-#: dselect/pkgdisplay.cc:98
+#: dselect/pkgdisplay.cc:100
 msgid "Obsolete/local"
 msgstr "Gamla/lokala"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:101
 msgid "Up-to-date"
 msgstr "Aktuella"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:102
 msgid "Available"
 msgstr "Tillgängliga"
 
-#: dselect/pkgdisplay.cc:101 dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:103 dselect/pkgdisplay.cc:119
 msgid "Removed"
 msgstr "Borttagna"
 
-#: dselect/pkgdisplay.cc:102 dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:104 dselect/pkgdisplay.cc:113
 msgid "Brokenly installed packages"
 msgstr "Trasiga installerade paket"
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:105
 msgid "Newly available packages"
 msgstr "Nya tillgängliga paket"
 
-#: dselect/pkgdisplay.cc:104
+#: dselect/pkgdisplay.cc:106
 msgid "Updated packages (newer version is available)"
 msgstr "Uppdaterade paket (nyare version finns)"
 
-#: dselect/pkgdisplay.cc:105
+#: dselect/pkgdisplay.cc:107
 msgid "Obsolete and local packages present on system"
 msgstr "Gamla och lokala paket som finns på systemet"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:108
 msgid "Up to date installed packages"
 msgstr "Paket som är à jour"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:109
 msgid "Available packages (not currently installed)"
 msgstr "Tillgängliga paket (ej installerade just nu)"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:110
 msgid "Removed and no longer available packages"
 msgstr "Borttagna och ej längre tillgängliga paket"
 
-#: dselect/pkgdisplay.cc:112
+#: dselect/pkgdisplay.cc:114
 msgid "Installed packages"
 msgstr "Installerade paket"
 
-#: dselect/pkgdisplay.cc:113
+#: dselect/pkgdisplay.cc:115
 msgid "Removed packages (configuration still present)"
 msgstr "Borttagna paket (konfiguration kvar)"
 
-#: dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:116
 msgid "Purged packages and those never installed"
 msgstr "Raderade paket och de som aldrig installerats"
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:118
 msgid "Installed"
 msgstr "Installerade"
 
-#: dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:120
 msgid "Purged"
 msgstr "Raderade"
 
-#: dselect/pkgdisplay.cc:196
+#: dselect/pkgdisplay.cc:200
 msgid "dselect - recursive package listing"
 msgstr "dselect - rekursiv paketlistning"
 
-#: dselect/pkgdisplay.cc:197
+#: dselect/pkgdisplay.cc:201
 msgid "dselect - inspection of package states"
 msgstr "dselect - inspektion av paketstatus"
 
-#: dselect/pkgdisplay.cc:198
+#: dselect/pkgdisplay.cc:202
 msgid "dselect - main package listing"
 msgstr "dselect - huvudpaketlista"
 
-#: dselect/pkgdisplay.cc:206
+#: dselect/pkgdisplay.cc:210
 msgid " (by section)"
 msgstr " (per avdelning)"
 
-#: dselect/pkgdisplay.cc:209
+#: dselect/pkgdisplay.cc:213
 msgid " (avail., section)"
 msgstr " (tillg., avdelning)"
 
-#: dselect/pkgdisplay.cc:212
+#: dselect/pkgdisplay.cc:216
 msgid " (status, section)"
 msgstr " (status, avdelning)"
 
-#: dselect/pkgdisplay.cc:221
+#: dselect/pkgdisplay.cc:225
 msgid " (by priority)"
 msgstr " (efter prioritet)"
 
-#: dselect/pkgdisplay.cc:224
+#: dselect/pkgdisplay.cc:228
 msgid " (avail., priority)"
 msgstr " (tillg., prioritet)"
 
-#: dselect/pkgdisplay.cc:227
+#: dselect/pkgdisplay.cc:231
 msgid " (status, priority)"
 msgstr " (status, prioritet)"
 
-#: dselect/pkgdisplay.cc:236 dselect/pkgdisplay.cc:248
+#: dselect/pkgdisplay.cc:240 dselect/pkgdisplay.cc:252
 msgid " (alphabetically)"
 msgstr " (alfabetiskt)"
 
-#: dselect/pkgdisplay.cc:239
+#: dselect/pkgdisplay.cc:243
 msgid " (by availability)"
 msgstr " (efter tillgänglighet)"
 
-#: dselect/pkgdisplay.cc:242
+#: dselect/pkgdisplay.cc:246
 msgid " (by status)"
 msgstr " (efter status)"
 
-#: dselect/pkgdisplay.cc:256
+#: dselect/pkgdisplay.cc:260
 msgid " mark:+/=/- terse:v help:?"
 msgstr " markera:+/=/- koncis:v hjälp:?"
 
-#: dselect/pkgdisplay.cc:257
+#: dselect/pkgdisplay.cc:261
 msgid " mark:+/=/- verbose:v help:?"
 msgstr " markera:+/=/- pratsam:v hjälp:?"
 
-#: dselect/pkgdisplay.cc:258
+#: dselect/pkgdisplay.cc:262
 msgid " terse:v help:?"
 msgstr " koncis:v hjälp:?"
 
-#: dselect/pkgdisplay.cc:259
+#: dselect/pkgdisplay.cc:263
 msgid " verbose:v help:?"
 msgstr " pratsam:v hjälp:?"
 
-#: dselect/pkginfo.cc:80
+#: dselect/pkginfo.cc:82
 msgid ""
 "The line you have highlighted represents many packages; if you ask to "
 "install, remove, hold, &c it you will affect all the packages which match "
@@ -5276,137 +5280,137 @@ msgstr ""
 "Du kan använda \"o\" och \"O\" för att välja sorteringsordningen och ge dig "
 "själv möjligheten att markera paket i olika sorters grupper."
 
-#: dselect/pkginfo.cc:94
+#: dselect/pkginfo.cc:96
 msgid "interrelationships affecting "
 msgstr "beroenden som påverkar "
 
-#: dselect/pkginfo.cc:100
+#: dselect/pkginfo.cc:102
 msgid "interrelationships"
 msgstr "beroenden"
 
-#: dselect/pkginfo.cc:106
+#: dselect/pkginfo.cc:108
 msgid "description of "
 msgstr "beskrivning av "
 
-#: dselect/pkginfo.cc:110
+#: dselect/pkginfo.cc:112
 msgid "no description available."
 msgstr "ingen beskrivning finns."
 
-#: dselect/pkginfo.cc:123
+#: dselect/pkginfo.cc:125
 msgid "description"
 msgstr "beskrivning"
 
-#: dselect/pkginfo.cc:130
+#: dselect/pkginfo.cc:132
 msgid "currently installed control info"
 msgstr "nu installerad kontrollinfo"
 
-#: dselect/pkginfo.cc:132
+#: dselect/pkginfo.cc:134
 msgid "installed control info for "
 msgstr "installerad kontrollinfo för "
 
-#: dselect/pkginfo.cc:146
+#: dselect/pkginfo.cc:148
 msgid "available version of control file info"
 msgstr "tillgänglig version av kontrollinfo för"
 
-#: dselect/pkginfo.cc:148
+#: dselect/pkginfo.cc:150
 msgid "available version of control info for "
 msgstr "tillgänglig version av kontrollinfo för "
 
-#: dselect/pkglist.cc:121 dselect/pkglist.cc:122
+#: dselect/pkglist.cc:123 dselect/pkglist.cc:124
 msgid "<null>"
 msgstr "<tom>"
 
-#: dselect/pkglist.cc:505
+#: dselect/pkglist.cc:507
 msgid "invalid search option given"
 msgstr "ogiltigt sökflagga given"
 
-#: dselect/pkglist.cc:519
+#: dselect/pkglist.cc:521
 msgid "error in regular expression"
 msgstr "fel i reguljärt uttryck"
 
-#: dselect/pkgsublist.cc:103
+#: dselect/pkgsublist.cc:105
 msgid " does not appear to be available\n"
 msgstr " verkar inte vara tillgänglig\n"
 
-#: dselect/pkgsublist.cc:120
+#: dselect/pkgsublist.cc:122
 msgid " or "
 msgstr " eller "
 
-#: dselect/pkgtop.cc:54
+#: dselect/pkgtop.cc:56
 msgid "All"
 msgstr "Alla"
 
-#: dselect/pkgtop.cc:76
+#: dselect/pkgtop.cc:78
 msgid "All packages"
 msgstr "Alla paket"
 
-#: dselect/pkgtop.cc:80
+#: dselect/pkgtop.cc:82
 #, c-format
 msgid "%s packages without a section"
 msgstr "%s paket utan avdelning"
 
-#: dselect/pkgtop.cc:82
+#: dselect/pkgtop.cc:84
 #, c-format
 msgid "%s packages in section %s"
 msgstr "%s i avdelning %s"
 
-#: dselect/pkgtop.cc:88
+#: dselect/pkgtop.cc:90
 #, c-format
 msgid "%s %s packages"
 msgstr "%s %s paket"
 
-#: dselect/pkgtop.cc:92
+#: dselect/pkgtop.cc:94
 #, c-format
 msgid "%s %s packages without a section"
 msgstr "%s %s paket utan avdelning"
 
-#: dselect/pkgtop.cc:94
+#: dselect/pkgtop.cc:96
 #, c-format
 msgid "%s %s packages in section %s"
 msgstr "%s %s paket i avdelning %s"
 
-#: dselect/pkgtop.cc:115
+#: dselect/pkgtop.cc:117
 #, c-format
 msgid "%-*s %s%s%s;  %s (was: %s).  %s"
 msgstr "%-*s %s%s%s;  %s (var: %s).  %s"
 
-#: dselect/pkgtop.cc:267
+#: dselect/pkgtop.cc:269
 msgid "Error"
 msgstr "Fel"
 
-#: dselect/pkgtop.cc:271
+#: dselect/pkgtop.cc:273
 msgid "Installed?"
 msgstr "Installerad?"
 
-#: dselect/pkgtop.cc:275
+#: dselect/pkgtop.cc:277
 msgid "Old mark"
 msgstr "Gammal markering"
 
-#: dselect/pkgtop.cc:279
+#: dselect/pkgtop.cc:281
 msgid "Marked for"
 msgstr "Markerad för"
 
-#: dselect/pkgtop.cc:282
+#: dselect/pkgtop.cc:284
 msgid "EIOM"
 msgstr "FIGM"
 
-#: dselect/pkgtop.cc:284
+#: dselect/pkgtop.cc:286
 msgid "Section"
 msgstr "Avdeln."
 
-#: dselect/pkgtop.cc:285
+#: dselect/pkgtop.cc:287
 msgid "Priority"
 msgstr "Prioritet"
 
-#: dselect/pkgtop.cc:286
+#: dselect/pkgtop.cc:288
 msgid "Package"
 msgstr "Paket"
 
-#: dselect/pkgtop.cc:290
+#: dselect/pkgtop.cc:292
 msgid "Inst.ver"
 msgstr "Inst.ver"
 
-#: dselect/pkgtop.cc:293
+#: dselect/pkgtop.cc:295
 msgid "Avail.ver"
 msgstr "Tillg.ver"
 
