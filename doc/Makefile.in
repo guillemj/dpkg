@@ -6,8 +6,6 @@ SUBDIRS		= de fr ja ru sv
 
 include ../Makefile.conf
 
-MAN5PAGES	= deb-control.5 deb-old.5 deb.5
-
 ifeq (@USE_SGML_DOC@, true)
 all: internals.html/index.html all-recursive
 else
@@ -32,11 +30,6 @@ internals.html/index.html: internals.sgml manuals-version
 	debiandoc2html -n -D. $<
 
 install-doc: install-doc-recursive
-	$(mkinstalldirs) $(DESTDIR)$(man5dir) 
-	set -e ; for i in $(MAN5PAGES) ; do \
-		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
-		$(INSTALL_DATA) $$d$$i $(DESTDIR)$(man5dir) ; \
-	done
 ifeq (@USE_SGML_DOC@, true)
 	$(mkinstalldirs) $(DESTDIR)$(docdir)/internals/
 	set -e ; for i in internals.html/* ; do \
