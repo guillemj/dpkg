@@ -65,6 +65,7 @@ for $pd (@parserpath) {
         &warn("format parser $pa not executable");
     } else {
         $pf= $pa;
+	last;
     }
 }
         
