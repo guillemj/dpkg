@@ -75,7 +75,7 @@ do
         -i*)    diffignore=$1;;
 	-tc)	cleansource=true ;;
 	-t*)    targetgnusystem="$value" ;;          # Order DOES matter!
-	-nc)	noclean=true; binaryonly=-b ;;
+	-nc)	noclean=true; if [ -z "$binaryonly" ]; then binaryonly=-b; fi ;;
 	-b)	binaryonly=-b ;;
 	-B)	binaryonly=-B; binarytarget=binary-arch ;;
 	-v*)	since="$value" ;;
