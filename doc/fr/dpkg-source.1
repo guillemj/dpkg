@@ -1,6 +1,6 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Authors: Ian Jackson
-.\" traduction de la version cvs 1.12
+.\" traduction de la version cvs 1.15
 .TH DPKG\-SOURCE 1 "Januari 2000" "Debian Project" "Utilitaires de Dpkg"
 .SH NOM 
 dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges,
@@ -117,7 +117,7 @@ cette option donne le numéro de version du paquet binaire qui sera crée.
 .BI -C description-des-changements
 Lit la description des changements dans le fichier
 .I description-des-changements
-plutôt que les informations contenues dans le fichier
+plutôt que dans le fichier
 «\ changelog\ » de l'arborescence source.
 .BR dpkg-buildpackage " et " dpkg-genchanges
 acceptent cette option.
@@ -170,7 +170,7 @@ acceptent cette option.
 Voyez ci-dessous pour une discussion sur la valeur de substitution.
 .TP
 .BI -T fichier/substvars
-Lit (ou, écrit pour
+Lit (ou, écrit, pour
 .BR dpkg-shlibdeps),
 les variables de substitution dans le fichier
 .IR fichier/substvars ;
@@ -204,7 +204,7 @@ indique en plus qu'aucun fichier, appartenant à un paquet binaire ne dépendant
 pas d'une architecture, n'est à distribuer.
 L'option
 .B -S
-indique que seul le source doit être mise en place et qu'on a pas besoin de
+indique que seul le source doit être installé et qu'on a pas besoin de
 construire un paquet binaire. Seul
 .BR dpkg-buildpackage
 se sert des options
@@ -255,6 +255,19 @@ décrit dans le
 .IR "Debian packaging manual".
 .BR dpkg-source ", " dpkg-gencontrol " et " dpkg-genchanges
 acceptent cette option.
+.TP
+.BI -W
+Cette option transforme certaines erreurs en avertissements. Seul dpkg-source 
+l'utilise, mais
+.BR dpkg-buildpackage
+la reconnait et la transmet à
+.BR dpkg-source "."
+.TP
+.BI -E
+Cette option annule une précédente option
+.BR -W "."
+Elle n'est actuellement comprise que par
+.BR dpkg-buildpackage " et " dpkg-source "."
 .SH LES OPTIONS DE DPKG-SOURCE
 Quand on fournit les options communes
 .BR -c " et " -l
@@ -285,10 +298,10 @@ et répertoires hériteront du système de propriété de ce groupe.
 Construire : empaqueter une arborescence. Un ou deux arguments, sans options,
 seront fournis. Le premier représente le nom du répertoire qui contient 
 l'arborescence non empaquetée. Si l'on donne un second argument, ce sera le 
-nom du répertoire source original ou bien le nom du fichier « tar » ou bien
-une chaîne vide si le paquet est « debian pure souche » et n'a donc pas de
-fichiers « diffs » concernant sa « debianisation ». S'il n'y a pas de second
-argument, et selon les autres arguments donnés,
+nom du répertoire source original ou bien le nom du fichier «\ tar\ » ou bien
+une chaîne vide si le paquet est «\ debian pure souche\ » et n'a donc pas de
+fichiers «\ diffs\ » concernant sa «\ debianisation\ ». S'il n'y a pas de 
+second argument, et selon les autres arguments donnés,
 .B dpkg-source
 cherche le fichier « tar »  des sources originelles
 .IB paquet _ version-originelle .orig.tar.gz
@@ -305,24 +318,24 @@ fichiers qu'ils contiennent, aussi bien les fichiers de sauvegarde
 terminés par un « ~ » que ceux crées par une interruption de l'éditeur JOE.
 
 C'est très utile pour supprimer les fichiers superflus qui sont inclus dans 
-le .diff.gz (p.ex., « debian/BUGS_TODO/* » ou « debian/RCS/*,v »). Quand on 
-suit avec un CVS distant un paquet que l'on maintient, et qu'on a pas la
+le .diff.gz (p.ex., «\ debian/BUGS_TODO/*\ » ou «\ debian/RCS/*,v\ »). Quand 
+on suit avec un CVS distant un paquet que l'on maintient, et qu'on a pas la
 possibilité d'enregistrer les fichiers debian de contrôle ou d'étiqueter
-\fIcvs-buildpackage(1)\fR, il faut faire un « checkout/update » supplémentaire
-dans un répertoire tenu vierge pour créer le fichier .orig.tar.gz. Les 
-fichiers « CVS/Entries » de ce répertoire contiennent des dates qui 
-diffèrent de celles du répertoire de travail ; cela provoque indûment
+\fIcvs-buildpackage(1)\fR, il faut faire un «\ checkout/update\ » 
+supplémentaire dans un répertoire tenu vierge pour créer le fichier 
+.orig.tar.gz. Les fichiers «\ CVS/Entries\ » de ce répertoire contiennent des 
+dates qui diffèrent de celles du répertoire de travail ; cela provoque indûment
 leur inclusion dans chaque .diff.gz crée, à moins d'utiliser l'option
 \fB-i\fR.
 .TP
-.BR -sa , -sp , -su , -sk , -sA , -sP , -sU , -sK , -ss " with " -b
+.BR -sa , -sp , -su , -sk , -sA , -sP , -sU , -sK , -ss " avec " -b
 Quand on spécifie
-.BR -sk " or " -sp,
+.BR -sk " ou " -sp,
 .B dpkg-source
-s'attend à ce que le source originel soit un fichier « tar » ; par défaut 
+s'attend à ce que le source originel soit un fichier «\ tar\ » ; par défaut 
 c'est le fichier
 .IB paquet _ version-originelle .orig.tar.gz\fR.
-Il le laisse en place en tant que fichier « tar »  ou le copie dans le
+Il le laisse en place en tant que fichier «\ tar\ »  ou le copie dans le
 répertoire en cours s'il n'y est pas déjà.
 Quand on utilise
 .B -sp
@@ -331,7 +344,7 @@ au lieu de
 il le supprime ensuite.
 
 Quand on spécifie
-.BR -su " or " -sr,
+.BR -su " ou " -sr,
 le source originel est attendu comme un répertoire ; par défaut c'est le 
 répertoire
 .IB paquet - version-originelle .orig
@@ -347,31 +360,31 @@ Quand on utilise
 .B -ss,
 .B dpkg-source
 s'attend à ce que le source originel soit disponible à la fois comme un
-répertoire et comme un fichier « tar ». Il se sert du répertoire pour créer
-le « diff », mais se sert du fichier « tar » pour créer le fichier
+répertoire et comme un fichier «\ tar\ ». Il se sert du répertoire pour créer
+le «\ diff\ », mais se sert du fichier «\ tar\ » pour créer le fichier
 .BR .dsc.
 On doit faire attention avec cette option  -- Si le répertoire et le
-fichier « tar » ne correspondent pas, une mauvaise archive source en
+fichier «\ tar\ » ne correspondent pas, une mauvaise archive source en
 résulte.
 
 Quand on utilise
 .B -sn,
 .B dpkg-source
-ne cherche pas de source originel, et ne crée pas de  « diff ».
+ne cherche pas de source originel, et ne crée pas de «\ diff\ ».
 Le second argument, s'il existe, doit être une chaîne vide. Cela sert pour
 les paquets Debian pure souche qui n'ont pas un source originel distinct et 
-donc, pas de fichier « diff » de debianisation.
+donc, pas de fichier «\ diff\ » de debianisation.
 
 Quand on utilise
 .BR -sa " ou " -sA,
 .B dpkg-source
-cherche un source originel soit sous forme de fichier « tar », soit sous forme
-de répertoire -- le deuxième argument, s'il existe, ou bien une chaîne vide
-(cela revient à utiliser l'option
+cherche un source originel soit sous forme de fichier «\ tar\ », soit sous 
+forme de répertoire -- le deuxième argument, s'il existe, ou bien une chaîne 
+vide (cela revient à utiliser l'option
 .BR -sn).
-Quand un fichier « tar » existe, il est dépaqueté et
+Quand un fichier «\ tar\ » existe, il est dépaqueté et
 .B dpkg-source
-crée un fichier « diff » ; ensuite il supprime le fichier « tar » (cela 
+crée un fichier «\ diff\ » ; ensuite il supprime le fichier «\ tar\ » (cela 
 revient à utiliser l'option
 .BR -sp) ;
 quand un répertoire est trouvé, il est dépaqueté et
@@ -381,7 +394,7 @@ crée le source originel et supprime ensuite ce répertoire (cela revient
 .BR -sr) ;
 Quand ni l'un ni l'autre n'est trouvé,
 .B dpkg-source
-suppose que le paquet ne possède pas de fichier « diff » de debianisation,
+suppose que le paquet ne possède pas de fichier «\ diff\ » de debianisation,
 mais seulement une simple archive source (cela revient à utiliser l'option
 .BR -sn).
 Quand les deux sont trouvés,
@@ -398,9 +411,9 @@ L'option par défaut est
 
 Les options
 .BR -sa ", " -sp ", " -sk ", " -su " et "  -sr
-ne remplacent pas les fichiers « tar » ou les répertoires existants. Pour 
+ne remplacent pas les fichiers «\ tar\ » ou les répertoires existants. Pour 
 cela, il faut utiliser les options
-.BR -sA ", " -sP ", " -sK ", " -su " et "  -sR.
+.BR -sA ", " -sP ", " -sK ", " -sU " et "  -sR.
 .TP
 .BR -sp , -su , -sn " avec " -x
 Dans tous ces cas, l'arborescence existante d'un source originel est supprimée.
@@ -408,8 +421,8 @@ Dans tous ces cas, l'arborescence existante d'un source originel est supprimée.
 Quand on utilise l'option
 .B -sp
 lors d'une extraction, le source originel (s'il existe) est laissé en tant
-que fichier « tar ». S'il n'est pas déjà dans le répertoire en cours ou
-si ce répertoire contient un fichier différent, le fichier « tar » est
+que fichier «\ tar\ ». S'il n'est pas déjà dans le répertoire en cours ou
+si ce répertoire contient un fichier différent, le fichier «\ tar\ » est
 copié dans ce répertoire. C'est le comportement par défaut.
 
 L'option
@@ -629,12 +642,14 @@ chaîne passée telle quelle à
 .BR dpkg-source.
 .TP
 .B -D
-Vérifie les dépendances de constructions et les conflits ; se termine en cas
+Vérifier les dépendances de constructions et les conflits ; se termine en cas
 de problèmes.
 .TP
 .B -d
-Ne vérifie pas les dépendances de constructions et les conflits.
-
+Ne pas vérifier les dépendances de constructions et les conflits.
+.TP
+.B -nc
+Ne pas nettoyer l'arborescence source (imlies -b)
 .TP
 .SH LES ARGUMENTS DE DPKG-DISTADDFILE
 .B dpkg-distaddfile
@@ -666,7 +681,7 @@ sortie.
 Une substitution de variable est de la forme :
 .BI ${ variable-name }\fR.
 Les noms de variable consistent en caractères alphanumériques, traits d'union 
-et « deux points » ; ils commencent par une lettre ou un chiffre.
+et «\ deux points\ » ; ils commencent par une lettre ou un chiffre.
 La substitution se fait répétitivement jusqu'à ce qu'il n'en reste aucune à
 faire ; le texte entier du champ après la substitution est réexaminé pour
 chercher d'autres substitutions.
@@ -749,7 +764,7 @@ un avertissement et une valeur nulle est assumée.
 .B debian/control
 Le principal fichier d'information sur les sources ; il donne des 
 renseignements qui ne dépendent pas d'une version concernant le paquet
-source et les paquets binaires qui peuvent être crées.
+source et les paquets binaires qui peuvent être créés.
 .TP
 .B debian/changelog
 Le fichier d'enregistrement des modifications ; on s'en sert pour connaître
@@ -759,7 +774,7 @@ modifications faites depuis telle édition et le numéro de la version source
 lui-même.
 .TP
 .B debian/files
-la liste des fichiers crées qui seront installés sur le serveur.
+la liste des fichiers créés qui seront installés sur le serveur.
 .B dpkg-gencontrol
 ajoute les noms présumés des fichiers des paquets binaires à partir des
 fichiers « control » qu'il crée ; pour ajouter d'autres fichiers on peut se

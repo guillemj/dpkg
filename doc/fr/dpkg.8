@@ -1,9 +1,8 @@
 .\" Hey Emacs! This file is -*- nroff -*- source.
-.\" traduction de la révision CVS 1.21
-.TH DPKG 8 "April 12, 1998" "Debian Project" "Debian GNU/Linux"
+.\" traduction de la révision CVS 1.31
+.TH DPKG 8 "April 12, 1998" "Debian Project" "dpkg suite"
 .SH NOM
-dpkg \- un gestionnaire de paquet de niveau intermédiaire pour Debian GNU-Linux
-
+dpkg \- un gestionnaire de paquet de niveau intermédiaire pour Debian
 .SH SYNOPSIS
 .B dpkg
 [\fIoptions\fP] \fIaction\fP
@@ -24,7 +23,7 @@ création de paquets Debian.
 
 .SH DESCRIPTION
 \fBdpkg\fP est un outil de niveau intermédiaire pour l'installation, la 
-création, la suppression et la gestion des paquets Debian GNU-Linux. 
+création, la suppression et la gestion des paquets Debian. 
 \fBDselect\fP(8) est la principale interface à \fBdpkg\fP et la plus
 agréable pour l'utilisateur. \fBdpkg\fP lui-même est entièrement contrôlé par
 des paramètres sur la ligne de commande, laquelle comprend exactement une
@@ -189,7 +188,7 @@ disponibles. L'action \fB--merge-avail\fP combine les informations
 anciennes avec celles qui proviennent de \fIfichier-paquet\fP. L'action
 \fB--update-avail\fP remplace les informations anciennes par celles qui
 proviennent de \fIfichier-paquet\fP. Le \fIfichier-paquet\fP
-distribué avec Debian GNU-Linux est appelé simplement \fIpaquet\fP.
+distribué avec Debian est appelé simplement \fIpaquet\fP.
 \fBdpkg\fP garde son propre enregistrement des paquets disponibles dans
 \fI/var/lib/dpkg/available\fP.
 .TP
@@ -234,12 +233,12 @@ fixe les sélections des paquets en lisant un fichier sur l'entrée standard.
 Recherche les paquets qui ont été sélectionnés pour l'installation, mais qui
 pour une raison quelconque, ne sont pas encore installés.
 .TP
-\fBdpkg -L\fP | \fB--listfichiers\fP \fIpaquet\fP ...
+\fBdpkg -L\fP | \fB--listfiles\fP \fIpaquet\fP ...
 Affiche la liste des fichiers de \fIpaquet\fP installés sur le système.
 Il faut remarquer cependant que les fichiers créés par les scripts d'
 installation particuliers au paquet ne sont pas affichés.
 .TP
-\fBdpkg -S\fP | \fB--search\fP \fIfichier-rechercher-motif\fP ...
+\fBdpkg -S\fP | \fB--search\fP \fImotif-de-recherche\fP ...
 Recherche un nom de fichier dans les paquets installés. On peut utiliser
 dans le motif tous les métacaractères du shell.
 .TP
@@ -292,9 +291,9 @@ actions suivantes.
 
 .nf
 \fBdpkg -b\fP | \fB--build\fP \fIrépertoire\fP [\fInom-de-fichier\fP]
-    Construit un paquet Debian GNU-Linux.
+    Construit un paquet deb.
 \fBdpkg -c\fP | \fB--contents\fP \fInom-de-fichier\fP
-    liste le contenu d'un paquet Debian GNU-Linux.
+    liste le contenu d'un paquet deb.
 \fBdpkg -e\fP | \fB--control\fP \fInom-de-fichier\fP [\fIrépertoire\fP]
     Extrait les informations de contrôle d'un paquet.
 \fBdpkg -x\fP | \fB--extract\fP \fInom-de-fichier répertoire\fP
@@ -310,6 +309,10 @@ actions suivantes.
 .fi
 
 .SH OPTIONS
+On peut spécifier une option à la fois sur la ligne de commande et dans le
+fichier de configuration de dpkg, \fI/etc/dpkg/dpkg.cfg\fP. Chaque ligne de
+ce fichier est soit une option (identique à une option en ligne de commande
+mais sans tiret), soit un commentaire, commencant par \fB#\fR.
 .br
 .TP
 \fB--abort-after=\fP\fInombre\fP
@@ -400,11 +403,12 @@ demander.
 
 \fBconfdef\fP:
 Utiliser toujours l'action par défaut quand un « conffile » a été modifié.
-Si l'une des options \fB--force-confnew\fP ou \fB--force-confold\fP a  aussi
-été donnée, choisir l'action par défaut ; quand il n'y a pas d'action par
-défaut, utiliser l'ancienne ou la nouvelle version selon l'option donnée.
+Quand il n'y a pas d'action par défaut, la commande s'arrête et interroge
+l'utilisateur, à moins que l'option \fB--force-confnew\fP ou l'option 
+\fB--force-confold\fP n'ait été donnée, auquel cas  elle se sert de ces 
+pour déterminer l'action finale.
 
-\fBoverwrite\fP(*):
+\fBoverwrite\fP:
 Remplacer un fichier d'un paquet par celui d'un autre.
 
 \fBoverwrite-dir\fP:
@@ -485,7 +489,11 @@ de fichier \fI<n>\fP.  On peut répéter l'opération plusieurs fois.
 La mise à jour d'un état est de la forme : «\ status: <pkg>: <pkg qstate> ».
 
 .SH FICHIERS
-Les fichiers répertoriés ici sont dans leur répertoire par défaut, voyez
+.TP
+.I /etc/dpkg/dpkg.cfg
+Fichier de configuration contenant les options par défaut.
+.P
+Les autres fichiers répertoriés ici sont dans leur répertoire par défaut, voyez
 l'option \fB--admindir\fP pour savoir changer l'emplacement de ces fichiers.
 .TP
 .I /var/lib/dpkg/available
@@ -520,9 +528,20 @@ shell plutôt que de s'interrompre, pour faire un appel au shell.
 .TP
 .B SHELL
 Le programme qu'exécute \fBdpkg\fP quand il lance un nouveau shell.
+.TP
 .B COLUMNS
 Fixe le nombre de colonnes utilisés par \fBdpkg\fP lorsqu'il affiche un texte
 formaté. Seule l'action \fB-l\fP se sert actuellement de cette variable.
+.TP
+.B DPKG_OLD_CONFFILE
+C'est le nom de l'ancien fichier de configuration quand on 
+démarre un shell pour examiner un fichier de configuration modifié ; elle est 
+fixée par \fBdpkg\fP.
+.TP
+.B DPKG_NEW_CONFFILE
+C'est le nom de la nouvelle version du fichier de configuration quand on
+démarre un shell pour examiner un fichier de configuration modifié ; elle est
+fixée par \fBdpkg\fP.
 
 .SH EXEMPLES
 Pour afficher les paquets liés à l'éditeur vi :

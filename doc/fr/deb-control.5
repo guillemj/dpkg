@@ -37,7 +37,7 @@ version et de révision sont présents, on les sépare par un trait d'union
 « - ». C'est pour cette raison qu'il ne peut y avoir de trait d'union dans le 
 numéro de la version originale.
 .TP
-.BR "Maintainer: " "<nom mél>"
+.BR "Maintainer: " "<nom adresse>"
 Le format de ce champ sera « Jean Dupont <jdupont@foo.com> » ; et c'est bien 
 sûr le créateur du paquet, par opposition à l'auteur du programme mis en 
 paquet.
@@ -46,7 +46,7 @@ paquet.
 .BR " " "<description longue>"
 .br
 Le format de la description du paquet est un résumé bref sur la 
-première ligne (après le champ « Description »).
+première ligne (après le champ «\ Description\ »).
 Les lignes suivantes peuvent servir à une description plus longue et plus
 détaillée. Chaque ligne de cette description longue doit être précédée
 d'un espace ; quand c'est une ligne blanche elle doit contenir un seul 
@@ -61,14 +61,15 @@ catégories habituelles.
 .TP
 .BR "Priority: " "<priorité>"
 Définit l'importance du paquet à l'intérieur du système général.
-« Required », « standard », « optional », « extra » etc. représentent
+«\ Required\ », «\ standard\ », «\ optional\ », «\ extra\ » etc. représentent
 des priorités habituelles.
 .LP
 Les champs 
 .B Section
 and
 .B Priority
-possèdent un ensemble défini de valeurs acceptées, tiré de la Charte Debian (« Policy manual »). Ces valeurs permettent la répartition des paquets dans 
+possèdent un ensemble défini de valeurs acceptées, tiré de la Charte Debian 
+(« Policy manual »). Ces valeurs permettent la répartition des paquets dans 
 l'archive. On peut en trouver une liste dans la version la plus récente du 
 paquet 
 .B debian-policy.
@@ -83,8 +84,8 @@ d'un paquet
 .TP
 .BR "Architecture: " "<arch|all>"
 L'architecture précise pour quel type de matériel le paquet a été compilé.
-Voici quelques architectures habituelles : « i386 », « m68k », « sparc », 
-« alpha », « powerpc » etc. Remarquez que l'option
+Voici quelques architectures habituelles : «\ i386\ », «\ m68k\ », 
+«\ sparc\ », «\ alpha\ », «\ powerpc\ » etc. Remarquez que l'option
 .B all
 signifie que le paquet est indépendant de toute architecture. Les scripts
 shell ou Perl, ainsi que la documentation sont dans ce cas.
@@ -99,16 +100,16 @@ manière non-triviale. Le programme de maintenance des paquets interdit
 l'installation d'un paquet quand les paquets répertoriés dans le champ
 .B Depends
 ne sont pas installés (du moins tant qu'une option de forçage n'est pas 
-utilisée) ; il lance les scripts « postinst » des paquets répertoriés dans les
-champs « Depends: » avant les scripts « postinst » des paquets qui dépendent 
-d'eux, et lance avant les scripts « prerm ».
+utilisée) ; il lance les scripts «\ postinst\ » des paquets répertoriés dans 
+les champs «\ Depends:\ » avant les scripts «\ postinst\ » des paquets qui 
+dépendent d'eux, et lance avant les scripts «\ prerm\ ».
 .TP
 .BR "Pre-Depends: " "<liste de paquet>"
 C'est la liste des paquets qui doivent être installés
 .B et
 configurés avant que ce paquet puisse être installé. Habituellement, on 
 utilise ce champ quand un paquet a besoin d'un autre paquet pour lancer son
-script « preinst ».
+script «\ preinst\ ».
 .TP
 .BR "Recommends: " "<liste de paquet>"
 C'est la liste des paquets qu'on trouverait avec ce paquet dans toute 
@@ -132,7 +133,7 @@ est une liste de groupes contenant des paquets successifs.  Chaque groupe
 est une liste de paquets séparés par une barre verticale (le symbole du
 tube) « | ». Les groupes sont séparés par des virgules. Une virgule
 représente un « ET » logique et une barre verticale représente un « OU »
-logique ; et les liens sont plus serrés avec les tubes. Chaque élément
+logique ; (le tube représente un lien plus fort). Chaque élément
 est le nom d'un paquet suivi de façon optionnelle par un numéro de version
 entre parenthèses.
 .LP
