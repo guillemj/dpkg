@@ -179,15 +179,19 @@ Remove an output control file field.
 This option is understood by
 .BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
 .TP
-.BR -b | -B
+.BR -b | -B | -S
 For
 .BR dpkg-genchanges " and " dpkg-buildpackage
-this specifies that a binary-only build is taking place.
+.BR -b " and " -B
+specify that a binary-only build is taking place.
 .B -b
 indicates that no source files are to be built and/or distributed, and
 .B -B
 that no architecture-independent binary package files are to be
-distributed either.  The distinction between
+distributed either.
+.B -S
+specifies that only the source should be uploaded and no binary packages
+need to be made. The distinction between
 .BR -b " and " -B
 is only used by
 .BR dpkg-buildpackage ;

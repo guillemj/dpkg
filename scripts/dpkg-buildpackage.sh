@@ -23,6 +23,7 @@ Options: -r<gain-root-command>
          -a<arch>      Debian architecture we build for
          -b            binary-only, do not build source } also passed to
          -B            binary-only, no arch-indep files } dpkg-genchanges
+         -S            source only, no binary files     } 
          -v<version>   changes since version <version>      }
          -m<maint>     maintainer for package is <maint>    } 
          -e<maint>     maintainer for release is <maint>    } only passed
@@ -82,8 +83,12 @@ do
 	-tc)	cleansource=true ;;
 	-t*)    targetgnusystem="$value" ;;          # Order DOES matter!
 	-nc)	noclean=true; if [ -z "$binaryonly" ]; then binaryonly=-b; fi ;;
-	-b)	binaryonly=-b ;;
-	-B)	binaryonly=-B; binarytarget=binary-arch ;;
+	-b)	binaryonly=-b; [ "$sourceonly" ] && \
+			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
+	-B)	binaryonly=-B; binarytarget=binary-arch; [ "$sourceonly" ] && \
+			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
+	-S)	sourceonly=-S; [ "$binaryonly" ] && \
+			{ echo >&2 "$progname: cannot combine $binaryonly and $1" ; exit 2 ; } ;;
 	-v*)	since="$value" ;;
 	-m*)	maint="$value" ;;
 	-e*)	changedby="$value" ;;
@@ -157,7 +162,7 @@ withecho () {
 	"$@"
 }
 
-set -- $binaryonly $sourcestyle
+set -- $binaryonly $sourceonly $sourcestyle
 if [ -n "$maint"	]; then set -- "$@" "-m$maint"		; fi
 if [ -n "$changedby"	]; then set -- "$@" "-e$changedby"	; fi
 if [ -n "$since"	]; then set -- "$@" "-v$since"		; fi
@@ -169,9 +174,10 @@ fi
 if [ x$binaryonly = x ]; then
 	cd ..; withecho dpkg-source $diffignore -b "$dirn"; cd "$dirn"
 fi
-withecho debian/rules build $archlist
-withecho $rootcommand debian/rules $binarytarget $archlist
-
+if [ x$sourceonly != x ]; then
+	withecho debian/rules build $archlist
+	withecho $rootcommand debian/rules $binarytarget $archlist
+fi
 if [ "$usepause" = "true" ] && [ x$binaryonly = x -o x$signchanges != x ] ; then
     echo Press the return key to start signing process
     read dummy_stuff
@@ -197,6 +203,8 @@ elif fileomitted '\.diff\.gz'; then
 	srcmsg='Debian-specific package; upload is full source'
 elif fileomitted '\.orig\.tar\.gz'; then
 	srcmsg='diff-only upload (original source NOT included)'
+elif fileomitted '\.deb'; then
+	srcmsg='source-only upload'
 else
 	srcmsg='full upload (original source is included)'
 fi

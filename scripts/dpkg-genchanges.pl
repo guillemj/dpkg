@@ -40,6 +40,7 @@ Usage: dpkg-genchanges [options ...]
 
 Options:  -b                     binary-only build - no source files
           -B                     arch-specific - no source or arch-indep files
+          -S                     source-only upload
           -c<controlfile>        get control info from this file
           -l<changelogfile>      get per-version info from this file
           -f<fileslistfile>      get .deb files list from this file
@@ -69,11 +70,16 @@ $i=100;grep($fieldimps{$_}=$i--,
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
+    	$sourceonly && &usageerr("cannot combine -b or -B and -S");
         $binaryonly= 1;
     } elsif (m/^-B$/) {
+    	$sourceonly && &usageerr("cannot combine -b or -B and -S");
 	$archspecific=1;
 	$binaryonly= 1;
 	print STDERR "$progname: arch-specific upload - not including arch-independent packages\n";
+    } elsif (m/^-S$/) {
+    	$binaryonly && &usageerr("cannot combine -b or -B and -S");
+	$sourceonly= 1;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
@@ -115,38 +121,40 @@ while (@ARGV) {
 &parsechangelog;
 &parsecontrolfile;
 
-$fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(FL,"< $fileslistfile") || &syserr("cannot read files list file");
-while(<FL>) {
-    if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.deb) (\S+) (\S+)$/) {
-        defined($p2f{"$2 $4"}) &&
-            &warn("duplicate files list entry for package $2 (line $.)");
-	$f2p{$1}= $2;
-        $p2f{"$2 $4"}= $1;
-        $p2f{$2}= $1;
-        $p2ver{$2}= $3;
-        defined($f2sec{$1}) &&
-            &warn("duplicate files list entry for file $1 (line $.)");
-        $f2sec{$1}= $5;
-        $f2pri{$1}= $6;
-        push(@fileslistfiles,$1);
-    } elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
-	# A non-deb package
-	$f2sec{$1}= $3;
-	$f2pri{$1}= $4;
-	push(@archvalues,$2) unless !$2 || $archadded{$2}++;
-	push(@fileslistfiles,$1);
-    } elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
-	defined($f2sec{$1}) &&
-            &warn("duplicate files list entry for file $1 (line $.)");
-        $f2sec{$1}= $2;
-        $f2pri{$1}= $3;
-        push(@fileslistfiles,$1);
-    } else {
-        &error("badly formed line in files list file, line $.");
+if (not $sourceonly) {
+    $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
+    open(FL,"< $fileslistfile") || &syserr("cannot read files list file");
+    while(<FL>) {
+	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.deb) (\S+) (\S+)$/) {
+	    defined($p2f{"$2 $4"}) &&
+		&warn("duplicate files list entry for package $2 (line $.)");
+	    $f2p{$1}= $2;
+	    $p2f{"$2 $4"}= $1;
+	    $p2f{$2}= $1;
+	    $p2ver{$2}= $3;
+	    defined($f2sec{$1}) &&
+		&warn("duplicate files list entry for file $1 (line $.)");
+	    $f2sec{$1}= $5;
+	    $f2pri{$1}= $6;
+	    push(@fileslistfiles,$1);
+	} elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
+	    # A non-deb package
+	    $f2sec{$1}= $3;
+	    $f2pri{$1}= $4;
+	    push(@archvalues,$2) unless !$2 || $archadded{$2}++;
+	    push(@fileslistfiles,$1);
+	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
+	    defined($f2sec{$1}) &&
+		&warn("duplicate files list entry for file $1 (line $.)");
+	    $f2sec{$1}= $2;
+	    $f2pri{$1}= $3;
+	    push(@fileslistfiles,$1);
+	} else {
+	    &error("badly formed line in files list file, line $.");
+	}
     }
+    close(FL);
 }
-close(FL);
 
 for $_ (keys %fi) {
     $v= $fi{$_};
