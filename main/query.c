@@ -454,8 +454,7 @@ Usage: \n\
 \n\
 Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
-  --showformat=<format>      Use alternative format for --show\n\
-  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n"),
+  --showformat=<format>      Use alternative format for --show\n"),
 	    ADMINDIR) < 0) werr ("stdout");
 }
 
