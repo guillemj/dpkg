@@ -148,10 +148,11 @@ while (<O>) {
     ($sectioncut = $section) =~ s:^[^/]*/::;
     if (length($psubdir{$p}) && $section ne $psubdir{$p} &&
 	$sectioncut ne $psubdir{$p}) {
-    if (length($psubdir{$p}) && $section ne $psubdir{$p}) {
+      if (length($psubdir{$p}) && $section ne $psubdir{$p}) {
         print(STDERR " !! Package $p has \`Section: $section',".
-                     " but file is in \`$psubdir{$p}' !!\n") || die $!;
+	      " but file is in \`$psubdir{$p}' !!\n") || die $!;
         $ouches++;
+      }
     }
     $o1{$p}= 1;
 }
