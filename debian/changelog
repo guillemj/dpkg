@@ -10,8 +10,6 @@ dpkg (1.4.1.19) unstable; urgency=low
     current, and the prefered choices.
   * dpkg-name: ignore epoch when getting version
   * 50dpkg-dev.el: add it as a conffile for dpkg-dev
-  * dpkg-shlibdeps: redirect STDERR to /dev/null for the dpkg fork so we
-    don't see dpkg's errors
   * internals.sgml: Removed references to the versions of build tools,
     they date the document.
   * debian-changelog-mode.el: added hint for better log-email handling
@@ -32,10 +30,6 @@ dpkg (1.4.1.19) unstable; urgency=low
     package that contains the generated output from this file (.ps, .html
     and .info), includes doc-base support. Internals.sgml is also not
     generated on the binary-arch target, and is no longer "byhand"
-  * scripts/dpkg-shlibdeps: start using objdump as opposed to ldd, this
-    works much more cleanly, works with libc5, and allows from better
-    error reporting. Also corrected checks on shlibs.local, which wasn't
-    really being parsed, it now works as advertised.
   * dpkg-gencontrol: add "Source" to the fields placed in the control file
   * dpkg-parsechangelog: fixed loop for parsepath (#48526)
   * main/{processarc.c,depcon.c}: added new structure for conflictors,
@@ -45,7 +39,7 @@ dpkg (1.4.1.19) unstable; urgency=low
     converted to loops to handle each one (processarc.c).
   * dpkg-divert: Fix check for writable filesystem, closes: #48646
 
- -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
+ -- Wichert Akkerman <wakkerma@debian.org>  Sat, 30 Oct 1999 15:14:40 +0200
 
 dpkg (1.4.1.18) unstable; urgency=low
 

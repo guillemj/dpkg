@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.4.1.19\n"
-"POT-Creation-Date: 1999-10-25 19:24+0200\n"
+"POT-Creation-Date: 1999-10-30 15:10+0200\n"
 "PO-Revision-Date: 1999-10-25 20:01+02:00\n"
 "Last-Translator: Petr Cech <cech@debian.org>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -55,6 +55,11 @@ msgstr "Systémová chyba èíslo %d"
 #, c-format
 msgid "Signal no.%d"
 msgstr "Signál èíslo %d"
+
+#: lib/database.c:235
+#, c-format
+msgid "size %7d occurs %5d times\n"
+msgstr ""
 
 #: lib/database.c:236
 msgid "failed write during hashreport"
@@ -210,6 +215,10 @@ msgstr "dpkg: pøíli¹ mnoho vnoøených chyb bìhem opravování chyb!!\n"
 msgid "out of memory for new cleanup entry with many arguments"
 msgstr ""
 
+#: lib/ehandle.c:195
+msgid "out of memory for new cleanup entry"
+msgstr ""
+
 #: lib/ehandle.c:270
 #, c-format
 msgid "error writing `%.250s'"
@@ -219,6 +228,11 @@ msgstr "chyba pøi zápisu `%s.250s'"
 #, c-format
 msgid "%s:%d: internal error `%s'\n"
 msgstr "%s:%d: vnitøní chyba `%s'\n"
+
+#: lib/fields.c:41
+#, fuzzy, c-format
+msgid "%s is missing"
+msgstr "%d. èást chybí"
 
 #: lib/fields.c:47
 #, c-format
@@ -255,9 +269,17 @@ msgstr ""
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 
+#: lib/fields.c:123
+msgid "yes/no in `essential' field"
+msgstr ""
+
 #: lib/fields.c:156
 msgid "value for `status' field not allowed in this context"
 msgstr "hodnota polo¾ky `status' není v tomto místì pøípustná"
+
+#: lib/fields.c:167
+msgid "third (status) word in `status' field"
+msgstr ""
 
 #: lib/fields.c:178
 #, c-format
@@ -423,7 +445,7 @@ msgstr "podproces %s byl zabit signálem (%s)%s"
 msgid "subprocess %s failed with wait status code %d"
 msgstr ""
 
-#: lib/mlib.c:122 main/help.c:363
+#: lib/mlib.c:122 main/help.c:364
 #, c-format
 msgid "wait for %s failed"
 msgstr ""
@@ -585,6 +607,10 @@ msgstr "musí mít alespoò dva znaky"
 msgid "character `%c' not allowed - only letters, digits and %s allowed"
 msgstr "znak `%c' není povolen - povolena jsou pouze písmena, èísla a %s"
 
+#: lib/parsehelp.c:180
+msgid "<none>"
+msgstr ""
+
 #: lib/parsehelp.c:194
 msgid "version string is empty"
 msgstr "prázdná verse"
@@ -619,6 +645,10 @@ msgstr "nelze spustit cat pro zobrazení GPL"
 msgid "failed to realloc for variable buffer"
 msgstr ""
 
+#: main/archives.c:97
+msgid "process_archive ...  already disappeared !"
+msgstr ""
+
 #: main/archives.c:123
 msgid "error reading from dpkg-deb pipe"
 msgstr "chyba pøi ètení z trubky od dpkg-deb"
@@ -638,12 +668,25 @@ msgstr "chyba pøi nastavování vlastníka `%.255s'"
 msgid "error setting permissions of `%.255s'"
 msgstr "chyba pøi nastavování práv `%.255s'"
 
+#: main/archives.c:235
+#, c-format
+msgid ""
+"tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c) ti->LinkName=`%s' "
+"namenode=`%s' flags=%o instead=`%s'"
+msgstr ""
+
 #: main/archives.c:248
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of "
 "`%.250s'%.10s%.100s%.10s"
-msgstr "zkou¹ím pøepsat `%.250s', co¾ je odsunutá verse `%.250s'%.10s%.100s%.10s"
+msgstr ""
+"zkou¹ím pøepsat `%.250s', co¾ je odsunutá verse `%.250s'%.10s%.100s%.10s"
+
+#: main/archives.c:252
+#, fuzzy
+msgid " (package: "
+msgstr "  Balík "
 
 #: main/archives.c:274
 #, c-format
@@ -666,6 +709,11 @@ msgstr ""
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr ""
+
+#: main/archives.c:351
+#, fuzzy, c-format
+msgid "Replacing files in old package %s ...\n"
+msgstr "Pøeskakuji nevybraný balík %s.\n"
 
 #: main/archives.c:355
 #, c-format
@@ -732,10 +780,6 @@ msgstr "chyba pøi nastavování vlastníka symbolického odkazu `%.255s'"
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "chyba pøi vytváøení adresáøe `%.255s'"
-
-#: main/archives.c:468
-msgid "bad tar type, but already checked"
-msgstr "¹patný typ taru, ale ji¾ testováno"
 
 #: main/archives.c:498
 #, c-format
@@ -883,9 +927,30 @@ msgstr "prohledáno, ale nebyl nalezen ¾ádný balík (soubory vyhovující *.deb"
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s potøebyje jako argument alespoò jeden soubor s balíkem"
 
-#: main/archives.c:824
-msgid "unknown action"
-msgstr "neznámá akce"
+#: main/archives.c:848
+#, fuzzy, c-format
+msgid "Selecting previously deselected package %s.\n"
+msgstr "Pøeskakuji nevybraný balík %s.\n"
+
+#: main/archives.c:853
+#, c-format
+msgid "Skipping deselected package %s.\n"
+msgstr "Pøeskakuji nevybraný balík %s.\n"
+
+#: main/archives.c:867
+#, c-format
+msgid "Version %.250s of %.250s already installed, skipping.\n"
+msgstr "Verse %.250s balíku %.250s je ji¾ nainstalována, pøeskakuji.\n"
+
+#: main/archives.c:879
+#, c-format
+msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
+msgstr ""
+
+#: main/archives.c:885
+#, c-format
+msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
+msgstr ""
 
 #: main/cleanup.c:84
 #, c-format
@@ -1312,6 +1377,14 @@ msgstr ""
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr ""
 
+#. If the package wasn't installed at all, and we haven't said
+#. * yet why this isn't satisfied, we should say so now.
+#.
+#: main/depcon.c:317
+#, fuzzy, c-format
+msgid "  %.250s is not installed.\n"
+msgstr " není nainstalován.\n"
+
 #: main/depcon.c:348
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
@@ -1331,6 +1404,10 @@ msgstr ""
 #: main/depcon.c:418
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
+msgstr ""
+
+#: main/enquiry.c:51
+msgid "(no description available)"
 msgstr ""
 
 #: main/enquiry.c:63
@@ -1388,9 +1465,19 @@ msgstr ""
 msgid "--audit does not take any arguments"
 msgstr "--audit nemá ¾ádný parametr"
 
+#: main/enquiry.c:221
+#, fuzzy
+msgid "<unknown>"
+msgstr "neznámá akce"
+
 #: main/enquiry.c:237
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "--yet-to-unpack nemá ¾ádný parametr"
+
+#: main/enquiry.c:275
+#, c-format
+msgid " %d in %s: "
+msgstr ""
 
 #: main/enquiry.c:290
 #, c-format
@@ -1468,6 +1555,25 @@ msgid ""
 msgstr ""
 "Pou¾ijte dpkg --info (= dpkg-deb --info) k prozkoumání archivu,\n"
 "a dpkg --contents (= dpkg-deb --contents) k vypsání obsahu."
+
+#: main/enquiry.c:475
+#, fuzzy
+msgid "--assert-* does not take any arguments"
+msgstr "--audit nemá ¾ádný parametr"
+
+#: main/enquiry.c:490
+#, fuzzy
+msgid ""
+"Version of dpkg with working epoch support not yet configured.\n"
+" Please use `dpkg --configure dpkg', and then try again.\n"
+msgstr ""
+"Verse dpkg s podporou Pre-Depends není je¹tì zkonfigurován.\n"
+" Pou¾ijte prosím `dpkg --configure dpkg' a potom zopakujte\n"
+" tento pøíkaz.\n"
+
+#: main/enquiry.c:494
+msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
+msgstr ""
 
 #: main/enquiry.c:537
 msgid "--predep-package does not take any argument"
@@ -1552,6 +1658,13 @@ msgstr "verse a má ¹patnou syntax: %s\n"
 msgid "version b has bad syntax: %s\n"
 msgstr "verse b má ¹patnou syntax: %s\n"
 
+#: main/errors.c:56
+#, fuzzy, c-format
+msgid ""
+"%s: error processing %s (--%s):\n"
+" %s\n"
+msgstr "%s: chyba pøi ètení %s\n"
+
 #: main/errors.c:60
 msgid ""
 "dpkg: failed to allocate memory for new entry in list of failed packages."
@@ -1574,6 +1687,12 @@ msgstr "Zpracování zastaveno, proto¾e do¹lo k pøíli¹ mnoha chybám.\n"
 msgid "Package %s was on hold, processing it anyway as you request\n"
 msgstr ""
 "Balík %s byl ve stavu hold, ale pøesto bude provedena po¾adovaná akce\n"
+
+#: main/errors.c:95
+#, c-format
+msgid ""
+"Package %s is on hold, not touching it.  Use --force-hold to override.\n"
+msgstr ""
 
 #: main/errors.c:104
 msgid ""
@@ -1729,36 +1848,36 @@ msgstr ""
 msgid "not installed"
 msgstr "nenainstalován"
 
-#: main/help.c:41
+#: main/help.c:42
 msgid "unpacked but not configured"
 msgstr "rozbalen, ale nezkonfigurován"
 
-#: main/help.c:42
+#: main/help.c:43
 msgid "broken due to postinst failure"
 msgstr "poka¾ený kvùli chybì v postinst"
 
-#: dselect/pkgdisplay.cc:52 main/help.c:43
+#: dselect/pkgdisplay.cc:52 main/help.c:44
 msgid "installed"
 msgstr "nainstalovaný"
 
-#: main/help.c:44
+#: main/help.c:45
 msgid "broken due to failed removal"
 msgstr "poka¾ený kvùli chybì pøi odstaòování"
 
-#: main/help.c:45
+#: main/help.c:46
 msgid "not installed but configs remain"
 msgstr "nanainstalovaný, ale configuraèní soubory zachovány"
 
-#: main/help.c:83
+#: main/help.c:84
 msgid "dpkg - warning: PATH is not set.\n"
 msgstr "dpkg - varování: PATH není nastaven.\n"
 
-#: main/help.c:98
+#: main/help.c:99
 #, c-format
 msgid "dpkg: `%s' not found on PATH.\n"
 msgstr "dpkg: `%s' nenalezen v PATH.\n"
 
-#: main/help.c:105
+#: main/help.c:106
 #, c-format
 msgid ""
 "%d expected program(s) not found on PATH.\n"
@@ -1768,90 +1887,100 @@ msgstr ""
 "NB: cesta pro u¾ivatele root by mìla obsahovat /usr/local/sbin, /usr/sbin a "
 "/sbin."
 
-#: main/help.c:222
+#: main/help.c:176
+#, fuzzy, c-format
+msgid "failed to chroot to `%.250s'"
+msgstr "nelze zmìnit adresáø na `%.255s'"
+
+#: main/help.c:223
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr ""
 
-#: main/help.c:240
+#: main/help.c:241
 #, c-format
 msgid "unable to ignore signal %s before running script"
 msgstr ""
 
-#: main/help.c:249
+#: main/help.c:250
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr ""
 
-#: main/help.c:273
+#: main/help.c:274
 #, c-format
 msgid "unable to stat installed %s script `%.250s'"
 msgstr ""
 
-#: main/help.c:280 main/help.c:359 main/help.c:399
+#: main/help.c:281 main/help.c:360 main/help.c:400
 #, c-format
 msgid "unable to execute %s"
 msgstr "nelze spustit %s"
 
-#: main/help.c:310
+#: main/help.c:311
 #, c-format
 msgid "unable to stat new %s script `%.250s'"
 msgstr ""
 
-#: main/help.c:317
+#: main/help.c:318
 #, c-format
 msgid "unable to execute new %s"
 msgstr "nelze spustit nový %s"
 
-#: main/help.c:351
+#: main/help.c:344
+#, fuzzy, c-format
+msgid "old %s script"
+msgstr "nový %s skript"
+
+#: main/help.c:352
 #, c-format
 msgid "dpkg: warning - unable to stat %s `%.250s': %s\n"
 msgstr ""
 
-#: main/help.c:367
+#: main/help.c:368
 #, c-format
 msgid "dpkg: warning - %s returned error exit status %d\n"
 msgstr ""
 
-#: main/help.c:370
+#: main/help.c:371
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr ""
 
-#: main/help.c:373
+#: main/help.c:374
 #, c-format
 msgid "%s failed with unknown wait status code %d"
 msgstr ""
 
-#: main/help.c:377
+#: main/help.c:378
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - zkou¹ím radìji skript z novì nainstalovaného balíku ...\n"
 
-#: main/help.c:384
+#: main/help.c:385
 #, c-format
 msgid "new %s script"
 msgstr "nový %s skript"
 
-#: main/help.c:388
+#: main/help.c:389
 msgid "there is no script in the new version of the package - giving up"
 msgstr ""
 
-#: main/help.c:390
+#: main/help.c:391
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr ""
 
-#: main/help.c:404
+#: main/help.c:405
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... vypadáto, ¾e se v¹e povedlo.\n"
 
 #. Huh ?
-#: main/help.c:499
+#: main/help.c:500
 #, c-format
 msgid "failed to rmdir/unlink `%.255s'"
 msgstr ""
 
-#: dpkg-deb/info.c:52 main/help.c:503
+#: dpkg-deb/info.c:52 main/help.c:504
 msgid "failed to exec rm for cleanup"
 msgstr ""
 
@@ -1870,7 +1999,7 @@ msgstr ""
 "podmínky ¹íøení. Bez jakýchkoli záruk. Více dpkg --licence.\n"
 
 #: main/main.c:57
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -1910,7 +2039,7 @@ msgid ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n"
 "\n"
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-longfilenames | --assert-multi-conrep\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 "\n"
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s\n"
@@ -1918,7 +2047,7 @@ msgid ""
 "  --instdir=<directory>      Change inst'n root without changing admin dir\n"
 "  -O|--selected-only         Skip packages not selected for install/upgrade\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed\n"
-"  -G=--refuse-downgrade      Skip packages with earlier version than "
+"  -G|--refuse-downgrade      Skip packages with earlier version than "
 "installed\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "
 "package\n"
@@ -1945,22 +2074,32 @@ msgstr ""
 "  dpkg -r|--remove | -P|--purge <jméno balíku> ... | -a|--pending\n"
 "  dpkg --get-selections [<vzorek> ...]    vypí¹e výbìr na stdout\n"
 "  dpkg --set-selections                   nastaví výbìr ze stdin\n"
-"  dpkg --update-avail <Packages>          nahradí informace o dostupných balících\n"
-"  dpkg --merge-avail <Packages>           slouèí informace o dostupnýh balících\n"
+"  dpkg --update-avail <Packages>          nahradí informace o dostupných "
+"balících\n"
+"  dpkg --merge-avail <Packages>           slouèí informace o dostupnýh "
+"balících\n"
 "  dpkg --clear-avail                      zru¹í informace o balících\n"
-"  dpkg --forget-old-unavail               zapomene nenainstalované nedostupné balíky\n"
+"  dpkg --forget-old-unavail               zapomene nenainstalované "
+"nedostupné balíky\n"
 "  dpkg -s|--status <balík> ...            zobrazí detailní stav balíku\n"
-"  dpkg -p|--print-avail <balík> ...       zobrazí informaci o dostupné versi balíku\n"
-"  dpkg -L|--listfiles <balík> ...         vypí¹e soubory `vlastnìné' balíkem\n"
+"  dpkg -p|--print-avail <balík> ...       zobrazí informaci o dostupné versi "
+"balíku\n"
+"  dpkg -L|--listfiles <balík> ...         vypí¹e soubory `vlastnìné' "
+"balíkem\n"
 "  dpkg -l|--list [<vzorek> ...]           struèný seznam balíkù\n"
-"  dpkg -S|--search <vzorek> ...           nalezne balík, který vlastní soubor(y)\n"
+"  dpkg -S|--search <vzorek> ...           nalezne balík, který vlastní "
+"soubor(y)\n"
 "  dpkg -C|--audit                         vyhledá poka¾ené balíky\n"
 "  dpkg --abort-after <n>                  skonèi po <n> chybách\n"
-"  dpkg --print-architecture               vypí¹e cílovou architekturu (pomocí GCC)\n"
-"  dpkg --print-gnu-build-architecture     vypí¹e GNU versi cílové architektury\n"
-"  dpkg --print-installation-architecture  vypí¹e architekturu poèítaèe (pro inst)\n"
+"  dpkg --print-architecture               vypí¹e cílovou architekturu "
+"(pomocí GCC)\n"
+"  dpkg --print-gnu-build-architecture     vypí¹e GNU versi cílové "
+"architektury\n"
+"  dpkg --print-installation-architecture  vypí¹e architekturu poèítaèe (pro "
+"inst)\n"
 "  dpkg --compare-versions <a> <rel> <b>   porovná èísla versí - viz. dole\n"
-"  dpkg --help | --version                 vypí¹e tuto nápovìdu / èíslo verse\n"
+"  dpkg --help | --version                 vypí¹e tuto nápovìdu / èíslo "
+"verse\n"
 "  dpkg --force-help | -Dh|--debug=help    nápovìda pro force resp. ladìní\n"
 "  dpkg --licence                          vypí¹e licenèní podmínky\n"
 "\n"
@@ -1972,13 +2111,17 @@ msgstr ""
 "\n"
 "Pøepínaèe:\n"
 "  --admindir=<adresáø>       Pou¾ij <adresáø> místo %s\n"
-"  --root=<adresáø>           Nainstaluj do systému s jiným koøenovým adresáøem\n"
+"  --root=<adresáø>           Nainstaluj do systému s jiným koøenovým "
+"adresáøem\n"
 "  --instdir=<adresáø>        Zmìn instalaèní koøen bez zmìny admindir\n"
-"  -O|--selected-only         Pøeskoè balíky, které nejsou vybrány pro instalaci/upgrade\n"
+"  -O|--selected-only         Pøeskoè balíky, které nejsou vybrány pro "
+"instalaci/upgrade\n"
 "  -E|--skip-same-version     Neinstaluj znovu stejnou versi balíku\n"
 "  -G|--refuse-downgrade      Neinstaluj star¹í verse balíku\n"
-"  -B|--auto-deconfigure      Nainstaluj balík, i kdy¾ se poru¹í závislosti jiného\n"
-"  --largemem | --smallmem    Optimalizuj pro hodnì (>4MB) nebo málo (<4MB) RAM\n"
+"  -B|--auto-deconfigure      Nainstaluj balík, i kdy¾ se poru¹í závislosti "
+"jiného\n"
+"  --largemem | --smallmem    Optimalizuj pro hodnì (>4MB) nebo málo (<4MB) "
+"RAM\n"
 "  --no-act                   Pouze vypisuj, co by se stalo, ale neprovádìj\n"
 "  -D|--debug=<octal>         Povol ladìní - viz. -Dhelp nebo --debug==help\n"
 "  --ignore-depends=<balík>, ...  Ignoruj závistlosti s <balíkem>\n"
@@ -1987,7 +2130,8 @@ msgstr ""
 "\n"
 "Operátory porovnání pro --compare-versions jsou:\n"
 " lt le eq ne ge gt        (neexistenci verse pova¾uj za star¹í ne¾ cokoli);\n"
-" lt-nl le-nl ge-nl gt-nl  (neexistenci verse pova¾uj za novìj¹í ne¾ cokoli);\n"
+" lt-nl le-nl ge-nl gt-nl  (neexistenci verse pova¾uj za novìj¹í ne¾ "
+"cokoli);\n"
 " < << <= = >= >> >        (pro kompatibilitu se syntaxí souboru control).\n"
 "\n"
 "Pou¾ijte `dselect' pro u¾ivatelsky pøívìtivé rozhraní ke správì balíkù.\n"
@@ -2011,6 +2155,32 @@ msgstr ""
 msgid "conflicting actions --%s and --%s"
 msgstr "odporující si akce --%s a --%s"
 
+#: main/main.c:187
+#, c-format
+msgid ""
+"%s debugging option, --debug=<octal> or -D<octal>:\n"
+"\n"
+" number  ref. in source   description\n"
+"      1   general           Generally helpful progress information\n"
+"      2   scripts           Invocation and status of maintainer scripts\n"
+"     10   eachfile          Output for each file processed\n"
+"    100   eachfiledetail    Lots of output for each file processed\n"
+"     20   conff             Output for each configuration file\n"
+"    200   conffdetail       Lots of output for each configuration file\n"
+"     40   depcon            Dependencies and conflicts\n"
+"    400   depcondetail      Lots of dependencies/conflicts output\n"
+"   1000   veryverbose       Lots of drivel about eg the dpkg/info directory\n"
+"   2000   stupidlyverbose   Insane amounts of drivel\n"
+"\n"
+"Debugging options are be mixed using bitwise-or.\n"
+"Note that the meanings and values are subject to change.\n"
+msgstr ""
+
+#: main/main.c:206
+#, fuzzy
+msgid "--debug requires an octal argument"
+msgstr "--auto potøebuje jméno právì jednoho souboru"
+
 #: main/main.c:230
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
@@ -2021,9 +2191,15 @@ msgstr ""
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 
+#: main/main.c:252
+#, c-format
+msgid "invalid integer for --%s: `%.250s'"
+msgstr ""
+
 #: main/main.c:262
+#, c-format
 msgid ""
-"dpkg forcing options - control behaviour when problems found:\n"
+"%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
@@ -2151,6 +2327,10 @@ msgstr ""
 
 #: main/processarc.c:121
 msgid "wait for dpkg-split failed"
+msgstr ""
+
+#: main/processarc.c:127
+msgid "reassembled package file"
 msgstr ""
 
 #: main/processarc.c:142
@@ -3209,6 +3389,7 @@ msgstr ""
 "Absolutnì bez záruky. Detaily naleznete v dpkg-split --licence.\n"
 
 #: split/main.c:47
+#, fuzzy, c-format
 msgid ""
 "Usage: dpkg-split -s|--split <file> [<prefix>]     Split an archive.\n"
 "       dpkg-split -j|--join <part> <part> ...      Join parts together.\n"
@@ -3222,7 +3403,14 @@ msgid ""
 "       dpkg-split -d|--discard [<filename> ...]    Discard unmatched "
 "pieces.\n"
 "\n"
-"Options:  --depotdir <directory>  (default is "
+"Options:  --depotdir <directory>  (default is %s/%s)\n"
+"          -S|--partsize <size>    (in Kb, for -s, default is 450)\n"
+"          -o|--output <file>      (for -j, default is "
+"<package>-<version>.deb)\n"
+"          -Q|--npquiet            (be quiet when -a is not a part)\n"
+"          --msdos                 (generate 8.3 filenames)\n"
+"\n"
+"Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
 "Pou¾ití: dpkg-split -s|--split <soubor> [<prefix>]  Rozdìl archiv.\n"
 "         dpkg-split -j|--join <èást> <èást> ...     Spoj èásti dohromady.\n"
@@ -3457,11 +3645,6 @@ msgstr "%s: %d z %d souborù nevyhovìlo MD5 testu\n"
 msgid "%s: no files checked\n"
 msgstr "%s: ¾ádné soubory zkontrolovány\n"
 
-#: dselect/basecmds.cc:89
-#, c-format
-msgid "baselist[%p]::kd_redraw() done\n"
-msgstr ""
-
 #: dselect/basecmds.cc:99
 msgid "Search for ? "
 msgstr ""
@@ -3517,11 +3700,6 @@ msgstr ""
 msgid "failed to set new SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:108
-#, c-format
-msgid "baselist[%p]::startdisplay()\n"
-msgstr ""
-
 #: dselect/baselist.cc:117
 msgid "failed to allocate colour pairs"
 msgstr ""
@@ -3569,18 +3747,8 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dselect/baselist.cc:223
-#, c-format
-msgid "baselist[%p]::baselist()\n"
-msgstr ""
-
 #: dselect/baselist.cc:238
 msgid "keybindings"
-msgstr ""
-
-#: dselect/baselist.cc:261
-#, c-format
-msgid "packagelist[%p]::dosearch(); searchstring=`%s' len=%d\n"
 msgstr ""
 
 #: dselect/baselist.cc:293
@@ -3595,16 +3763,6 @@ msgstr ""
 #: dselect/baselist.cc:300
 #, c-format
 msgid "%s to go back"
-msgstr ""
-
-#: dselect/baselist.cc:309
-#, c-format
-msgid "baselist[%p]::wordwrapinfo(%d, `%s')\n"
-msgstr ""
-
-#: dselect/baselist.cc:355
-#, c-format
-msgid "baselist[%p]::wordwrapinfo() done\n"
 msgstr ""
 
 #: dselect/bindings.cc:71
@@ -3860,23 +4018,9 @@ msgstr ""
 msgid "failed to getch in main menu"
 msgstr ""
 
-#: dselect/main.cc:276
-msgid "unknown menufn"
-msgstr ""
-
 #: dselect/main.cc:331
 #, c-format
 msgid "unknown action string `%.50s'"
-msgstr ""
-
-#: dselect/methlist.cc:47
-#, c-format
-msgid "methodlist[%p]::kd_quit() setting coption=%p\n"
-msgstr ""
-
-#: dselect/methlist.cc:53
-#, c-format
-msgid "methodlist[%p]::setwidths()\n"
 msgstr ""
 
 #: dselect/methlist.cc:68
@@ -3896,31 +4040,6 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: dselect/methlist.cc:121
-#, c-format
-msgid "methodlist[%p]::methodlist()\n"
-msgstr ""
-
-#: dselect/methlist.cc:136
-#, c-format
-msgid "methodlist[%p]::methodlist done; noptions=%d\n"
-msgstr ""
-
-#: dselect/methlist.cc:140
-#, c-format
-msgid "methodlist[%p]::~methodlist()\n"
-msgstr ""
-
-#: dselect/methlist.cc:148
-#, c-format
-msgid "methodlist[%p]::display()\n"
-msgstr ""
-
-#: dselect/methlist.cc:153
-#, c-format
-msgid "methodlist[%p]::display() entering loop\n"
-msgstr ""
-
 #: dselect/methlist.cc:156
 msgid "doupdate failed"
 msgstr ""
@@ -3937,18 +4056,8 @@ msgstr ""
 msgid "getch failed"
 msgstr "getch selhal"
 
-#: dselect/methlist.cc:164
-#, c-format
-msgid "methodlist[%p]::display() response=%d interp=%s\n"
-msgstr ""
-
 #: dselect/methlist.cc:165 dselect/pkgdepcon.cc:243
 msgid "[none]"
-msgstr ""
-
-#: dselect/methlist.cc:173
-#, c-format
-msgid "methodlist[%p]::display() done\n"
 msgstr ""
 
 #: dselect/methlist.cc:179
@@ -3957,11 +4066,6 @@ msgstr ""
 
 #: dselect/methlist.cc:189
 msgid "No explanation available."
-msgstr ""
-
-#: dselect/methlist.cc:199
-#, c-format
-msgid "methodlist[%p]::redrawinfo()\n"
 msgstr ""
 
 #: dselect/method.cc:62
@@ -4085,16 +4189,6 @@ msgstr ""
 msgid "unable to read `%.250s' directory for reading methods"
 msgstr ""
 
-#: dselect/methparse.cc:89
-#, c-format
-msgid "readmethods(`%s',...) directory open\n"
-msgstr ""
-
-#: dselect/methparse.cc:93
-#, c-format
-msgid "readmethods(`%s',...) considering `%s' ...\n"
-msgstr ""
-
 #: dselect/methparse.cc:100
 #, c-format
 msgid "method `%.250s' has name that is too long (%d > %d characters)"
@@ -4105,19 +4199,9 @@ msgstr ""
 msgid "unable to access method script `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:113
-#, c-format
-msgid " readmethods(`%s',...) scripts ok\n"
-msgstr ""
-
 #: dselect/methparse.cc:117
 #, c-format
 msgid "unable to read method options file `%.250s'"
-msgstr ""
-
-#: dselect/methparse.cc:130
-#, c-format
-msgid " readmethods(`%s',...) new method name=`%s' path=`%s' pathinmeth=`%s'\n"
 msgstr ""
 
 #: dselect/methparse.cc:140
@@ -4184,60 +4268,14 @@ msgstr ""
 msgid "error during read of option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:199
-#, c-format
-msgid ""
-" readmethods(`%s',...) new option index=`%s' name=`%s' summary=`%.20s' "
-"strlen(description=%s)=%ld method name=`%s' path=`%s' pathinmeth=`%s'\n"
-msgstr ""
-
 #: dselect/methparse.cc:216
 #, c-format
 msgid "error during read of method options file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:220
-#, c-format
-msgid "readmethods(`%s',...) done\n"
-msgstr ""
-
 #: dselect/methparse.cc:246
 #, c-format
 msgid "unable to open current option file `%.250s'"
-msgstr ""
-
-#: dselect/methparse.cc:248
-msgid "getcurrentopt() cmethopt open\n"
-msgstr ""
-
-#: dselect/methparse.cc:252
-msgid "getcurrentopt() cmethopt eof\n"
-msgstr ""
-
-#: dselect/methparse.cc:254
-msgid "getcurrentopt() cmethopt read\n"
-msgstr ""
-
-#: dselect/methparse.cc:257
-msgid "getcurrentopt() cmethopt len and newline\n"
-msgstr ""
-
-#: dselect/methparse.cc:259
-msgid "getcurrentopt() cmethopt space\n"
-msgstr ""
-
-#: dselect/methparse.cc:261
-#, c-format
-msgid "getcurrentopt() cmethopt meth name `%s'\n"
-msgstr ""
-
-#: dselect/methparse.cc:264
-#, c-format
-msgid "getcurrentopt() cmethopt meth found; opt `%s'\n"
-msgstr ""
-
-#: dselect/methparse.cc:267
-msgid "getcurrentopt() cmethopt opt found\n"
 msgstr ""
 
 #: dselect/methparse.cc:284
@@ -4260,129 +4298,9 @@ msgstr ""
 msgid "unable to install new option as `%.250s'"
 msgstr ""
 
-#: dselect/pkgcmds.cc:47
-msgid "unknown statsortorder in affectedmatches"
-msgstr ""
-
-#. Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition.
-#: dselect/pkgcmds.cc:139
-#, c-format
-msgid "would_like_to_install(%d, %s) status %d\n"
-msgstr ""
-
-#: dselect/pkgcmds.cc:160
-msgid "unknown statsort in kd_swapstatorder"
-msgstr ""
-
-#: dselect/pkgcmds.cc:171
-msgid "unknown sort in kd_swaporder"
-msgstr ""
-
-#: dselect/pkgcmds.cc:207
-msgid "unknown versiondisplayopt in kd_versiondisplay"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:52
-#, c-format
-msgid "packagelist[%p]::findinfo(%s) useavailable=%d\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:81
-#, c-format
-msgid "packagelist[%p]::resolvesuggest()\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:90
-#, c-format
-msgid "packagelist[%p]::resolvesuggest() loop[%i] %s / %d\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:106
-#, c-format
-msgid "packagelist[%p]::resolvesuggest() loop[%i] %s / -> %d\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:113
-#, c-format
-msgid "packagelist[%p]::resolvesuggest() done; maxchangemade=%d\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:123
-#, c-format
-msgid "update_best_to_change(best=%s{%d}, test=%s{%d});\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:153
-msgid "update_best_to_change(); yes\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:171
-#, c-format
-msgid "packagelist[%p]::deselect_one_of(): er %s{%d} ed %s{%d} [%p]\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:188
-#, c-format
-msgid "packagelist[%p]::deselect_one_of(): best %s{%d}\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:207
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p] %s --%s-->"
-msgstr ""
-
 #: dselect/pkgdepcon.cc:214
 msgid "(no clientdata)"
 msgstr ""
-
-#: dselect/pkgdepcon.cc:241
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): depends found %s\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:252
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): fixbyupgrade %s\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:273
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): mustdeselect nobest\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:279
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): select best=%s{%d}\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:289
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): mustdeselect best=%s{%d}\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:302
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): conflict\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:309
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): conflict installing 1\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:315
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): conflict satisfied - ouch\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:330
-#, c-format
-msgid "packagelist[%p]::resolvedepcon([%p]): no desel\n"
-msgstr ""
-
-#: dselect/pkgdepcon.cc:334
-msgid "unknown deptype"
-msgstr "neznámý typ závistlosti"
 
 #: dselect/pkgdisplay.cc:38
 msgid "new package"
@@ -4592,15 +4510,6 @@ msgstr "Nainstalovaný"
 msgid "Purged"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:131
-#, c-format
-msgid "packagelist[%p]::setwidths()\n"
-msgstr ""
-
-#: dselect/pkgdisplay.cc:181
-msgid "unknown versiondisplayopt in setwidths"
-msgstr ""
-
 #: dselect/pkgdisplay.cc:194
 msgid "dselect - recursive package listing"
 msgstr ""
@@ -4625,10 +4534,6 @@ msgstr " (pøíst., sekce)"
 msgid " (status, section)"
 msgstr " (stav, sekce)"
 
-#: dselect/pkgdisplay.cc:213
-msgid "bad statsort in redrawtitle/so_section"
-msgstr ""
-
 #: dselect/pkgdisplay.cc:219
 msgid " (by priority)"
 msgstr " (priorita)"
@@ -4641,10 +4546,6 @@ msgstr " (pøíst., priorita)"
 msgid " (status, priority)"
 msgstr " (stav, priorita)"
 
-#: dselect/pkgdisplay.cc:228 dselect/pkgdisplay.cc:243
-msgid "bad statsort in redrawtitle/so_priority"
-msgstr ""
-
 #: dselect/pkgdisplay.cc:234 dselect/pkgdisplay.cc:246
 msgid " (alphabetically)"
 msgstr " (abecednì)"
@@ -4656,10 +4557,6 @@ msgstr " (pøístupnosti)"
 #: dselect/pkgdisplay.cc:240
 msgid " (by status)"
 msgstr " (stavu)"
-
-#: dselect/pkgdisplay.cc:251
-msgid "bad sort in redrawtitle"
-msgstr ""
 
 #: dselect/pkgdisplay.cc:254
 msgid " mark:+/=/- terse:v help:?"
@@ -4693,11 +4590,6 @@ msgstr ""
 msgid "interrelationships affecting "
 msgstr ""
 
-#: dselect/pkginfo.cc:97
-#, c-format
-msgid "packagelist[%p]::idt_relations(); `%s'\n"
-msgstr ""
-
 #: dselect/pkginfo.cc:101
 msgid "interrelationships"
 msgstr ""
@@ -4722,11 +4614,6 @@ msgstr ""
 msgid "installed control info for "
 msgstr ""
 
-#: dselect/pkginfo.cc:139
-#, c-format
-msgid "packagelist[%p]::idt_statuscontrol(); `%s'\n"
-msgstr ""
-
 #: dselect/pkginfo.cc:147
 msgid "available version of control file info"
 msgstr ""
@@ -4735,170 +4622,12 @@ msgstr ""
 msgid "available version of control info for "
 msgstr ""
 
-#: dselect/pkginfo.cc:155
-#, c-format
-msgid "packagelist[%p]::idt_availablecontrol(); `%s'\n"
-msgstr ""
-
-#: dselect/pkginfo.cc:172
-#, c-format
-msgid "packagelist[%p]::redrawinfo(); #=%d\n"
-msgstr ""
-
-#: dselect/pkglist.cc:48
-msgid "unknown statsortorder in compareentries"
-msgstr ""
-
-#: dselect/pkglist.cc:79
-msgid "unsorted or unknown in compareentries"
-msgstr ""
-
-#: dselect/pkglist.cc:119
-#, c-format
-msgid "packagelist[%p]::addheading(%d,%d,%d,%s,%s)\n"
-msgstr ""
-
 #: dselect/pkglist.cc:121 dselect/pkglist.cc:122
 msgid "<null>"
 msgstr ""
 
-#: dselect/pkglist.cc:151
-#, c-format
-msgid "packagelist[%p]::sortinplace()\n"
-msgstr ""
-
-#: dselect/pkglist.cc:161
-#, c-format
-msgid "packagelist[%p]::ensurestatsortinfos() sortorder=%d nitems=%d\n"
-msgstr ""
-
-#: dselect/pkglist.cc:166
-#, c-format
-msgid "packagelist[%p]::ensurestatsortinfos() unsorted\n"
-msgstr ""
-
-#: dselect/pkglist.cc:169
-#, c-format
-msgid "packagelist[%p]::ensurestatsortinfos() calcssadone=%d\n"
-msgstr ""
-
-#: dselect/pkglist.cc:174 dselect/pkglist.cc:222
-#, c-format
-msgid "packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n"
-msgstr ""
-
-#: dselect/pkglist.cc:207
-msgid "unknown stat in ensurestatsortinfo sso_avail"
-msgstr ""
-
-#: dselect/pkglist.cc:210
-#, c-format
-msgid "packagelist[%p]::ensurestatsortinfos() i=%d ssavail=%d\n"
-msgstr ""
-
-#: dselect/pkglist.cc:217
-#, c-format
-msgid "packagelist[%p]::ensurestatsortinfos() calcsssdone=%d\n"
-msgstr ""
-
-#: dselect/pkglist.cc:240
-msgid "unknown stat in ensurestatsortinfo sso_state"
-msgstr ""
-
-#: dselect/pkglist.cc:243
-#, c-format
-msgid "packagelist[%p]::ensurestatsortinfos() i=%d ssstate=%d\n"
-msgstr ""
-
-#: dselect/pkglist.cc:250
-msgid "unknown statsortorder in ensurestatsortinfo"
-msgstr ""
-
-#: dselect/pkgsublist.cc:37
-#, c-format
-msgid "packagelist[%p]::add(pkginfo %s)\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:42
-#, c-format
-msgid "packagelist[%p]::add(pkginfo %s) adding\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:56
-#, c-format
-msgid "packagelist[%p]::add(pkginfo %s, %s)\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:63
-#, c-format
-msgid "packagelist[%p]::add(pkginfo %s, %s) setting\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:72
-#, c-format
-msgid "packagelist[%p]::add(pkginfo %s, \"...\", showpriority %d)\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:85
-#, c-format
-msgid "packagelist[%p]::alreadydone(%p,%p) new\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:95
-#, c-format
-msgid "packagelist[%p]::addunavail(%p)\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:109
-#, c-format
-msgid "packagelist[%p]::add(dependency[%p])\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:132
-msgid "unknown verrel"
-msgstr ""
-
-#: dselect/pkgsublist.cc:164
-#, c-format
-msgid "repeatedlydisplay(packagelist[%p])\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:166
-#, c-format
-msgid "repeatedlydisplay(packagelist[%p]) once\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:171
-#, c-format
-msgid "repeatedlydisplay(packagelist[%p]) newl\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:176
-#, c-format
-msgid "repeatedlydisplay(packagelist[%p]) again\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:181
-#, c-format
-msgid "repeatedlydisplay(packagelist[%p]) done\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:186
-#, c-format
-msgid "packagelist[%p]::dli_al(%d): nitems=%d\n"
-msgstr ""
-
-#: dselect/pkgsublist.cc:199
-#, c-format
-msgid "packagelist[%p]::dli_al(%d) done; nitems=%d\n"
-msgstr ""
-
 #: dselect/pkgtop.cc:56
 msgid "All"
-msgstr ""
-
-#: dselect/pkgtop.cc:73
-msgid "unknown statsortrder in describemany all"
 msgstr ""
 
 #: dselect/pkgtop.cc:78
@@ -4963,19 +4692,11 @@ msgstr "Priorita"
 msgid "Package"
 msgstr "Balík"
 
+#~ msgid "bad tar type, but already checked"
+#~ msgstr "¹patný typ taru, ale ji¾ testováno"
+
+#~ msgid "unknown deptype"
+#~ msgstr "neznámý typ závistlosti"
+
 #~ msgid "--assert-support-predepends does not take any arguments"
 #~ msgstr "--assert-support-predepends nemá ¾ádný parametr"
-
-#~ msgid ""
-#~ "Version of dpkg with Pre-Depends support not yet configured.\n"
-#~ " Please use `dpkg --configure dpkg', and then try again.\n"
-#~ msgstr ""
-#~ "Verse dpkg s podporou Pre-Depends není je¹tì zkonfigurován.\n"
-#~ " Pou¾ijte prosím `dpkg --configure dpkg' a potom zopakujte\n"
-#~ " tento pøíkaz.\n"
-
-#~ msgid "Skipping deselected package %s.\n"
-#~ msgstr "Pøeskakuji nevybraný balík %s.\n"
-
-#~ msgid "Version %.250s of %.250s already installed, skipping.\n"
-#~ msgstr "Verse %.250s balíku %.250s je ji¾ nainstalována, pøeskakuji.\n"
