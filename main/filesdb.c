@@ -353,6 +353,7 @@ void ensure_diversions(void) {
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [i]"));
     linebuf[l]= 0;
     oialtname->camefrom= findnamenode(linebuf);
+    oialtname->useinstead= 0;    
     
     if (!fgets(linebuf,sizeof(linebuf),file))
       if (ferror(file)) ohshite(_("read error in diversions [ii]"));
@@ -362,6 +363,7 @@ void ensure_diversions(void) {
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
     linebuf[l]= 0;
     oicontest->useinstead= findnamenode(linebuf);
+    oicontest->camefrom= 0;
     
     if (!fgets(linebuf,sizeof(linebuf),file))
       if (ferror(file)) ohshite(_("read error in diversions [iii]"));

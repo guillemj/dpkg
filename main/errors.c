@@ -66,7 +66,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   *lastreport= nr;
   lastreport= &nr->next;
     
-  if (nerrs++ < 20) return;
+  if (nerrs++ < errabort) return;
   fprintf(stderr, _("dpkg: too many errors, stopping\n"));
   onerr_abort++;
 }

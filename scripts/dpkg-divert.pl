@@ -99,6 +99,7 @@ if ($mode eq 'add') {
     @ARGV == 1 || &badusage("--add needs a single argument");
     $file= $ARGV[0];
     $file =~ m/\n/ && &badusage("file may not contain newlines");
+	-d $file && &badusage("Cannot divert directories");
     $divertto= "$file.distrib" unless defined($divertto);
     $package= ':' unless defined($package);
     for ($i=0; $i<=$#contest; $i++) {

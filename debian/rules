@@ -91,9 +91,11 @@ binary-trees: build
 	fi
 	cp debian/{prerm,postinst} $(mcidir)/.
 	install -d debian/tmp-dev/etc/emacs/site-start.d
-	install -c debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/
+	install -p -m 644 debian/50dpkg-dev.el \
+		debian/tmp-dev/etc/emacs/site-start.d/
 	install -d debian/tmp-dev/etc/xemacs/site-start-19.d
-	install -c debian/50dpkg-dev.el debian/tmp-dev/etc/xemacs/site-start-19.d/
+	install -p -m 644 debian/50dpkg-dev.el \
+		debian/tmp-dev/etc/xemacs/site-start-19.d/
 	chmod +x $(mcidir)/{postinst,prerm,preinst}
 	$(MAKE) -C $(BUILD) top_distdir=. dist 
 	$(MAKE) -C $(BUILD) \

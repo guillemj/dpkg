@@ -73,6 +73,7 @@ Usage: \n\
   dpkg -l|--list [<pattern> ...]          list packages concisely\n\
   dpkg -S|--search <pattern> ...          find package(s) owning file(s)\n\
   dpkg -C|--audit                         check for broken package(s)\n\
+  dpkg --abort-after <n>                  abort after encountering <n> errors\n
   dpkg --print-architecture               print target architecture (uses GCC)\n\
   dpkg --print-gnu-build-architecture     print GNU version of target arch\n\
   dpkg --print-installation-architecture  print host architecture (for inst'n)\n\
@@ -133,6 +134,7 @@ int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_autoselect=1, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
 int fc_nonroot=0, fc_overwritedir=0;
 
+int errabort = 50;
 const char *admindir= ADMINDIR;
 const char *instdir= "";
 struct packageinlist *ignoredependss=0;
@@ -236,6 +238,10 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   }
 }
 
+static void setinteger(const struct cmdinfo *cip, const char *value) {
+	*cip->iassignto=atoi(value);
+}
+
 static void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   int l;
@@ -247,7 +253,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n\
  Forcing things:\n\
   auto-select [*]        (De)select packages to install (remove) them\n\
-  dowgrade [*]           Replace a package with a lower version\n\
+  downgrade [*]          Replace a package with a lower version\n\
   configure-any          Configure any package which may help this one\n\
   hold                   Process incidental packages even when on hold\n\
   bad-path               PATH is missing important programs, problems likely\n\
@@ -334,6 +340,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "largemem",           0,   0,  &f_largemem,    0,  0,             1              },
   { "smallmem",           0,   0,  &f_largemem,    0,  0,            -1              },
   { "root",               0,   1,  0, 0,               setroot                       },
+  { "abort-after",        0,   1,  &errabort,      0,  setinteger,    0              },
   { "admindir",           0,   1,  0, &admindir,       0                             },
   { "instdir",            0,   1,  0, &instdir,        0                             },
   { "ignore-depends",     0,   1,  0, 0,               ignoredepends                 },

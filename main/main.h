@@ -85,6 +85,7 @@ extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
 extern int fc_autoselect, fc_badpath, fc_overwritediverted, fc_architecture;
 extern int fc_nonroot, fc_overwritedir;
 
+extern int errabort;
 extern const char *admindir;
 extern const char *instdir;
 extern struct packageinlist *ignoredependss;

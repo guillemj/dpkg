@@ -90,7 +90,7 @@ sub substvars {
 sub outputclose {
     my ($dosubstvars) = @_;
     for $f (keys %f) { $substvar{"F:$f"}= $f{$f}; }
-    if (length($varlistfile)) {
+    if (length($varlistfile) and $dosubstvars) {
         $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
         if (open(SV,"< $varlistfile")) {
             while (<SV>) {
@@ -101,7 +101,7 @@ sub outputclose {
                 $substvar{$1}= $';
             }
             close(SV);
-        } elsif ($! !~ m/no such file or directory/i) {
+        } elsif ($! != ENOENT ) {
             &error("unable to open substvars file $varlistfile: $!");
         }
     }

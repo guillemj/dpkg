@@ -1,3 +1,33 @@
+dpkg (1.4.1.1) unstable; urgency=low
+
+  * Non-maintainer upload
+  * Install emacs-startup scripts with mode 0644 (lintian)
+  * Incorporate changes in NMU 1.4.0.32 made by Vincent Renardias
+    <vincent@waw.com> for slink:
+    + Apply patch from Jim Pick for update-alternatives.pl to
+      fix 'Important' bugs #30891 in dpkg and (#27382, #27383, #27696,
+      #27703, #27736, #27097(merged bugs)) in jdk1.1.
+  * Incorporate changes in NMU 1.4.0.33 made by me for slink:
+    + Fix illegal perl construct (Bug# 30985)
+    + Initialize oialtname->useinstead and oicontest->camefrom to 0 (Bug# 30397)
+    + Update shlibs.default for libncurses 4 (Bug# 30332)
+    + Suggest debian-keyring instead of developer-keyring (Bug# 27376, 30248)
+    + Abort dpkg-divert when attempting to divert a directory (Bug# 30126)
+    + Make dpkg-deb.1 aware that it is in section 1, not 8
+    + Fix section in reference to dpkg-deb in dpkg.8 (Bug# 29740)
+    + Fix typo in --force-help (Bug# 26193)
+    + Correct path for debian-changelog-mode.el (Bug# 24606)
+    + Make disk-method for dpkg use /var/run instead of /tmp to fix
+      symlink-attacks (Bug# 21399)
+    + Document -n and -f options for update-rc.d in manpage (Bug# 15913)
+    + Add --abort-after option to change after how many errors we abort and
+      change the default to 50 (Bug# 22940)
+    + Fix controllib.pl: don't check debian/substvars unless needed, and
+      don't depend on language settings (Bug# 31508)
+    + Allow a - in the architecture-field (Bug# 25537)
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Mon,  1 Feb 1999 00:44:01 +0100
+
 dpkg (1.4.1) unstable; urgency=low
 
   * Maintainer release by IWJ.
