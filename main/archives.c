@@ -440,7 +440,7 @@ int tarobject(struct TarInfo *ti) {
           printf(_("Replacing files in old package %s ...\n"),otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 1;
         } else {
-          if (S_ISDIR(stab.st_mode)) {
+          if (!statr && S_ISDIR(stab.st_mode)) {
             forcibleerr(fc_overwritedir, _("trying to overwrite directory `%.250s' "
                         "in package %.250s with nondirectory"),
                         nifd->namenode->name,otherpkg->name);
