@@ -19,7 +19,7 @@ echo "# ${prog} ${version} -- ${purpose}
 # This is distributed in the hope that it will be useful, but
 # WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the file
-# /usr/doc/copyright/GPL for more details."
+# /usr/share/common-licenses/GPL for more details."
 }
 
 stderr () {

@@ -15,6 +15,19 @@ AC_ARG_WITH(dselect,
  esac])
 AC_SUBST(DSELECTDIR)
 
+admindir="$libdir/db"
+AC_ARG_WITH(admindir,
+[  --with-admindir=DIR     store dpkg database in DIR [LIBDIR/db]],
+[case "$withval" in
+  "" )
+    AC_MSG_ERROR(invalid admindir specified)
+    ;;
+  * )
+    admindir="$withval"
+    ;;
+ esac])
+AC_SUBST(admindir)
+
 AC_CHECK_TOOL_PREFIX
 AC_CANONICAL_SYSTEM
 
