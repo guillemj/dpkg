@@ -174,9 +174,9 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
 
   for (newent= pkg->clientdata->files; newent; newent= newent->next) {
     packageslump= newent->namenode->packages;
+    putat= 0;
     if (packageslump) {
-      for (putat= 0;
-           putat < PERFILEPACKAGESLUMP && packageslump->pkgs[putat];
+      for (; putat < PERFILEPACKAGESLUMP && packageslump->pkgs[putat];
            putat++);
       if (putat >= PERFILEPACKAGESLUMP) packageslump= 0;
     }
@@ -184,7 +184,6 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
       packageslump= nfmalloc(sizeof(struct filepackages));
       packageslump->more= newent->namenode->packages;
       newent->namenode->packages= packageslump;
-      putat= 0;
     }
     packageslump->pkgs[putat]= pkg;
     if (++putat < PERFILEPACKAGESLUMP) packageslump->pkgs[putat]= 0;
