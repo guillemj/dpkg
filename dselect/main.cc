@@ -241,7 +241,7 @@ extern "C" {
 
     if ((colours == NULL || ! strlen(colours)) &&
         (attributes == NULL || ! strlen(attributes))) {
-       ohshit(_("Null color specification\n"));
+       ohshit(_("Null colour specification\n"));
     }
 
     if (colours != NULL && strlen(colours)) {
@@ -249,12 +249,12 @@ extern "C" {
       if (colourname != NULL && strlen(colourname)) {
         // normalize attributes to prevent confusion
         color[screenpart].attr= A_NORMAL;
-       color[screenpart].fore=findintable(colourtable, colourname, _("color"));
+       color[screenpart].fore=findintable(colourtable, colourname, _("colour"));
       }
       colourname= strtok(NULL, ",");
       if (colourname != NULL && strlen(colourname)) {
         color[screenpart].attr= A_NORMAL;
-        color[screenpart].back=findintable(colourtable, colourname, _("color"));
+        color[screenpart].back=findintable(colourtable, colourname, _("colour"));
       }
     }
 
@@ -262,7 +262,7 @@ extern "C" {
       for (attrib= strtok(attributes, "+");
            attrib != NULL && strlen(attrib);
           attrib= strtok(NULL, "+")) {
-               aval=findintable(attrtable, attrib, _("color attribute"));
+               aval=findintable(attrtable, attrib, _("colour attribute"));
                if (aval == A_NORMAL) // set to normal
                        color[screenpart].attr= aval;
                else // add to existing attribs
