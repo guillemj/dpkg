@@ -99,7 +99,7 @@ static void list1package(struct pkginfo *pkg, int *head) {
   int l,w;
   int nw,vw,dw;
   const char *pdesc;
-  const char* format[80];
+  const char* format;
     
   format=listformatstring();
 
