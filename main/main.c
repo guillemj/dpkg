@@ -281,6 +281,7 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
     *lastpipe= nfmalloc(sizeof(struct pipef));
   }
   (*lastpipe)->fd= v;
+  (*lastpipe)->next= NULL;
 }
 
 static void setforce(const struct cmdinfo *cip, const char *value) {
