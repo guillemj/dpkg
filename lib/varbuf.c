@@ -32,6 +32,17 @@ void varbufaddc(struct varbuf *v, int c) {
   v->buf[v->used++]= c;
 }
 
+void varbufdupc(struct varbuf *v, int c, ssize_t n) {
+  char *b = v->buf + v->used;
+  v->used += n;
+  if (v->used >= v->size) varbufextend(v);
+ 
+  while(n) {
+    *b= c;
+    b++; n--;
+  }
+}
+
 void varbufprintf(struct varbuf *v, const char *fmt, ...) {
   int ou, r;
   va_list al;

@@ -225,6 +225,7 @@ const char *versiondescribe(const struct versionrevision*,
 struct varbuf;
 
 extern void varbufaddc(struct varbuf *v, int c);
+extern void varbufdupc(struct varbuf *v, int c, ssize_t s);
 void varbufinit(struct varbuf *v);
 void varbufreset(struct varbuf *v);
 void varbufextend(struct varbuf *v);
