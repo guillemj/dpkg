@@ -104,6 +104,7 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
   { KEY_HELP,       "help"             },
   { KEY_F(1),       "help"             },
   { '/',            "search"           },
+  { 'n',            "searchagain"      },
   { '\\',           "searchagain"      },
   { C('l'),         "redraw"           },
 

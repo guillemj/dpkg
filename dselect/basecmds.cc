@@ -95,11 +95,13 @@ void baselist::kd_searchagain() {
 }
 
 void baselist::kd_search() {
+  char newsearchstring[50]
+  strcpy(newsearchstring,searchstring);
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
   echo(); /* fixme: ncurses documentation or implementation */
   /* fixme: make / RET do `search again' and / DEL to abort */
-  if (wgetnstr(querywin,searchstring,sizeof(searchstring)-1) == ERR)
+  if (wgetnstr(querywin,newsearchstring,sizeof(newsearchstring)-1) == ERR)
     searchstring[0]= 0;
   raise(SIGWINCH); /* fixme: ncurses and xterm arrow keys */
   noecho(); /* fixme: ncurses */
@@ -107,7 +109,11 @@ void baselist::kd_search() {
   else if (info_height) { touchwin(infopad); refreshinfo(); }
   else if (thisstate_height) redrawthisstate();
   else { touchwin(listpad); refreshlist(); }
-  if (searchstring[0]) dosearch();
+  if (newsearchstring[0]) {
+    strcpy(searchstring,newsearchstring);
+	dosearch()
+  } else
+    kd_searchagain();
 }
 
 void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
