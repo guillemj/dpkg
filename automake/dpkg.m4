@@ -43,16 +43,3 @@ AC_DEFUN(DPKG_C_GCC_TRY_WARNS,[
  fi
 ])
 dnl DPKG_CACHED_TRY_COMPILE(<description>,<cachevar>,<include>,<program>,<ifyes>,<ifno>)
-define(DPKG_CACHED_TRY_COMPILE,[
- AC_MSG_CHECKING($1)
- AC_CACHE_VAL($2,[
-  AC_TRY_COMPILE([$3],[$4],[$2=yes],[$2=no])
- ])
- if test "x$$2" = xyes; then
-  true
-  $5
- else
-  true
-  $6
- fi
-])
