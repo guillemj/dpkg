@@ -3,7 +3,7 @@
  * myopt.c - my very own option parsing
  *
  * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
- * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright (C) 2000,2002 Wichert Akkerman <wichert@deephackmode.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -90,15 +90,17 @@ void loadcfgfile(const char *prog, const struct cmdinfo* cmdinfos) {
   int l1, l2;
   l1 = strlen(CONFIGDIR "/.cfg") + strlen(prog);
   file = malloc(l1 + 1);
+  if (file==NULL) ohshite(_("Error allocating memory for cfgfilename"));
   sprintf(file, CONFIGDIR "/%s.cfg", prog);
   myfileopt(file, cmdinfos);
   if ((home = getenv("HOME")) != NULL) {
-    l2 = strlen(home) + strlen("/.cfg") + strlen(prog);
+    l2 = strlen(home) + 1 + strlen("/.cfg") + strlen(prog);
     if (l2 > l1) {
       free(file);
       file = malloc(l2 + 1);
-      l1 = l2;
+      if (file==NULL) ohshite(_("Error allocating memory for cfgfilename"));
     }
+    sprintf(file, "%s/.%s.cfg", home, prog);
     myfileopt(file, cmdinfos);
   }
   free(file);
