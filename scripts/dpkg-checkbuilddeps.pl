@@ -11,7 +11,7 @@ require 'controllib.pl';
 
 sub usage {
 	print STDERR <<EOF;
-Usage: dpkg-checkbuild [-B] [control-file]
+Usage: dpkg-checkbuilddeps [-B] [control-file]
 	-B		binary-only, ignore -Indep
 	control-file	control file to process [Default: debian/control]
 EOF
