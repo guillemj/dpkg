@@ -251,6 +251,11 @@ than any version: \fBlt-nl le-nl ge-nl gt-nl\fP.  These are provided
 only for compatibility with control file syntax: \fB< << <= = >= >>
 >\fP.
 .TP
+.B dpkg --command-fd <n>
+Accept a series of commands on input file descriptor \fB<n>\fP.  Note:
+additional options set on the command line, and thru this file descriptor,
+are not reset for subsequent commands executed during the same run.
+.TP
 .B dpkg --help
 Display a brief help message.
 .TP
@@ -456,9 +461,9 @@ be marked selected for installation.
 Don't install the package if the same version of the package is already
 installed.
 .TP
-\fB--status-pipe\fP\fI<n>\fP
+\fB--status-fd \fP\fI<n>\fP
 Send package status info to file descriptor \fI<n>\fP.  This can be given
-multiple times.
+multiple times.  Status updates are of the form `status: <pkg>: <pkg qstate>'.
 .SH FILES
 The files listed here are in their default directories, see option
 \fB--admindir\fP to see how to change locations of these files.
