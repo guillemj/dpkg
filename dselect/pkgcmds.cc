@@ -126,7 +126,13 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
   movecursorafter(bot);
 }
 
-void packagelist::kd_select()   { setwant(pkginfo::want_install);   }
+int manual_install = 0;
+
+void packagelist::kd_select()   {
+	manual_install = 1;
+	setwant(pkginfo::want_install);
+	manual_install = 0;
+}
 void packagelist::kd_hold()     { setwant(pkginfo::want_hold);      }
 void packagelist::kd_deselect() { setwant(pkginfo::want_deinstall); }
 void packagelist::kd_unhold()   { setwant(pkginfo::want_sentinel);  }
