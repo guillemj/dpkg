@@ -140,8 +140,8 @@ void packagelist::addheading(enum ssavailval ssavail,
 static packagelist *sortpackagelist;
 
 int qsort_compareentries(const void *a, const void *b) {
-  return sortpackagelist->compareentries((const struct perpackagestate*)&a,
-                                         (const struct perpackagestate*)&b);
+  return sortpackagelist->compareentries(*(const struct perpackagestate**)a,
+                                         *(const struct perpackagestate**)b);
 }
 
 void packagelist::sortinplace() {
