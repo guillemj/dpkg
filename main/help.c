@@ -66,6 +66,7 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
 }
 
 void checkpath(void) {
+/* Verify that some programs can be found in the PATH. */
   static const char *const checklist[]= {
     "ldconfig", "start-stop-daemon", "install-info", "update-rc.d", 0
   };
@@ -73,12 +74,13 @@ void checkpath(void) {
   struct stat stab;
   const char *const *clp;
   const char *path, *s, *p;
-  char buf[PATH_MAX+2];
+  char* buf;
   int warned= 0;
   long l;
 
   path= getenv("PATH");
   if (!path) fputs(_("dpkg - warning: PATH is not set.\n"), stderr);
+  buf=(char*)m_malloc(strlen(path)+1);
   
   for (clp=checklist; *clp; clp++) {
     s= path;
@@ -98,6 +100,7 @@ void checkpath(void) {
     }
   }
 
+  free(buf);
   if (warned)
     forcibleerr(fc_badpath,_("%d expected program(s) not found on PATH.\nNB: root's "
                 "PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."),

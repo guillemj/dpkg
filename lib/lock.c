@@ -42,7 +42,7 @@ static void cu_unlockdb(int argc, void **argv) {
   fl.l_type= F_UNLCK;
   fl.l_whence= SEEK_SET;
   fl.l_start= 0;
-  fl.l_len= 1;
+  fl.l_len= 0;
   if (fcntl(dblockfd,F_SETLK,&fl) == -1)
     ohshite(_("unable to unlock dpkg status database"));
 }
@@ -72,7 +72,7 @@ void lockdatabase(const char *admindir) {
   fl.l_type= F_WRLCK;
   fl.l_whence= SEEK_SET;
   fl.l_start= 0;
-  fl.l_len= 1;
+  fl.l_len= 0;
   if (fcntl(dblockfd,F_SETLK,&fl) == -1) {
     if (errno == EWOULDBLOCK || errno == EAGAIN)
       ohshit(_("status database area is locked - another dpkg/dselect is running"));
