@@ -26,84 +26,31 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-#define BINS (1 << 7)
- /* This must always be a power of two.  If you change it
-  * consider changing the per-character hashing factor (currently 5) too.
+#define BINS 8191
+ /* This must always be a prime for optimal performance.
+  * With 4093 buckets, we glean a 20% speedup, for 8191 buckets
+  * we get 23%. The nominal increase in memory usage is a mere
+  * sizeof(void*)*8063 (I.E. less than 32KB on 32bit systems)
   */
 
 static struct pkginfo *bins[BINS];
 static int npackages;
 
-static int hash(const char *name) {
-  int v= 0;
-  while (*name) { v *= 5; v += tolower(*name); name++; }
-  return v;
-/* These results were achieved with 128 bins, and the list of packages
- * shown at the bottom of this file.
- */
-/*  while (*name) { v *= 17; v += tolower(*name); name++; }
- *  size       5 occurs     1 times
- *  size       4 occurs     0 times
- *  size       3 occurs     7 times
- *  size       2 occurs    32 times
- *  size       1 occurs    51 times
- *  size       0 occurs    37 times
- */
-/*  while (*name) { v *= 5; v += tolower(*name); name++; }
- *  size       4 occurs     1 times
- *  size       3 occurs    14 times
- *  size       2 occurs    20 times
- *  size       1 occurs    55 times
- *  size       0 occurs    38 times
- */
-/*  while (*name) { v *= 11; v += tolower(*name); name++; }
- *  size       5 occurs     1 times
- *  size       4 occurs     4 times
- *  size       3 occurs     9 times
- *  size       2 occurs    25 times
- *  size       1 occurs    43 times
- *  size       0 occurs    46 times
- */
-/*  while (*name) { v *= 31; v += tolower(*name); name++; }
- *  size       6 occurs     1 times
- *  size       5 occurs     0 times
- *  size       4 occurs     1 times
- *  size       3 occurs    11 times
- *  size       2 occurs    27 times
- *  size       1 occurs    44 times
- *  size       0 occurs    44 times
- */
-/*  while (*name) { v *= 111; v += tolower(*name); name++; }
- *  size       5 occurs     1 times
- *  size       4 occurs     1 times
- *  size       3 occurs    14 times
- *  size       2 occurs    23 times
- *  size       1 occurs    44 times
- *  size       0 occurs    45 times
- */
-/*  while (*name) { v += (v<<3); v += tolower(*name); name++; }
- *  size       4 occurs     5 times
- *  size       3 occurs    12 times
- *  size       2 occurs    22 times
- *  size       1 occurs    41 times
- *  size       0 occurs    48 times
- */
-/*  while (*name) { v *= 29; v += tolower(*name); name++; }
- *  size       5 occurs     1 times
- *  size       4 occurs     2 times
- *  size       3 occurs    10 times
- *  size       2 occurs    26 times
- *  size       1 occurs    46 times
- *  size       0 occurs    43 times
- */
-/*  while (*name) { v *= 13; v += tolower(*name); name++; }
- *  size       5 occurs     1 times
- *  size       4 occurs     2 times
- *  size       3 occurs     5 times
- *  size       2 occurs    30 times
- *  size       1 occurs    53 times
- *  size       0 occurs    37 times
- */
+#define FNV_offset_basis 2166136261ul
+#define FNV_mixing_prime 16777619ul
+
+/* Fowler/Noll/Vo -- simple string hash.
+ * For more info, see http://www.isthe.com/chongo/tech/comp/fnv/index.html
+ * */
+
+static unsigned int hash(const char *name) {
+  register unsigned int h = FNV_offset_basis;
+  register unsigned int p = FNV_mixing_prime;
+  while( *name ) {
+    h *= p;
+    h ^= *name++;
+  }
+  return h;
 }
 
 void blankversion(struct versionrevision *version) {
@@ -178,7 +125,7 @@ struct pkginfo *findpackage(const char *inname) {
   p= name;
   while(*p) { *p= tolower(*p); p++; }
   
-  pointerp= bins + (hash(name) & (BINS-1));
+  pointerp= bins + (hash(name) % (BINS));
   while (*pointerp && strcasecmp((*pointerp)->name,name))
     pointerp= &(*pointerp)->next;
   if (*pointerp) { free(name); return *pointerp; }
