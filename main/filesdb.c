@@ -60,7 +60,7 @@ static int saidread=0;
 void ensure_packagefiles_available(struct pkginfo *pkg) {
   static struct varbuf fnvb;
   
-  FILE *file;
+  int fd;
   const char *filelistfile;
   struct fileinlist **lendp, *newent, *current;
   struct filepackages *packageslump;
@@ -118,9 +118,9 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
 
   onerr_abort++;
   
-  file= fopen(filelistfile,"r");
+  fd= open(filelistfile,O_RDONLY);
 
-  if (!file) {
+  if (fd==-1) {
     if (errno != ENOENT)
       ohshite(_("unable to open files list file for package `%.250s'"),pkg->name);
     onerr_abort--;
@@ -135,14 +135,14 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
     return;
   }
 
-  push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)file);
+  push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,(void*)fd);
   
-   if(fstat(fileno(file), &stat_buf))
+   if(fstat(fd, &stat_buf))
      ohshite("unable to stat files list file for package `%.250s'",pkg->name);
    loaded_list = nfmalloc(stat_buf.st_size);
    loaded_list_end = loaded_list + stat_buf.st_size;
 
-  fd_buf_copy(fileno(file), loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
+  fd_buf_copy(fd, loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
 
   lendp= &pkg->clientdata->files;
   thisline = loaded_list;
@@ -164,8 +164,8 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
     lendp= &newent->next;
     thisline = nextline;
   }
-  pop_cleanup(ehflag_normaltidy); /* file= fopen() */
-  if (fclose(file))
+  pop_cleanup(ehflag_normaltidy); /* fd= open() */
+  if (close(fd))
     ohshite(_("error closing files list file for package `%.250s'"),pkg->name);
   if (fnvb.used)
     ohshit(_("files list file for package `%.250s' is truncated"),pkg->name);
