@@ -67,6 +67,7 @@ require 'controllib.pl';
 	    'ia64',		'ia64-linux',
 	    'openbsd-i386',	'i386-openbsd',
 	    'freebsd-i386',	'i386-freebsd',
+	    'netbsd-i386',	'i386-netbsdelf-gnu',
 	    'darwin-powerpc',	'powerpc-darwin',
 	    'darwin-i386',	'i386-darwin');
 
@@ -123,10 +124,9 @@ if ($?>>8) {
 }
 chomp $deb_build_arch;
 $deb_build_gnu_type = $archtable{$deb_build_arch};
-$deb_build_gnu_cpu = $deb_build_gnu_type;
-$deb_build_gnu_system = $deb_build_gnu_type;
-$deb_build_gnu_cpu =~ s/-.*$//;
-$deb_build_gnu_system =~ s/^.*-//;
+@deb_build_gnu_triple = split(/-/, $deb_build_gnu_type, 2);
+$deb_build_gnu_cpu = $deb_build_gnu_triple[0];
+$deb_build_gnu_system = $deb_build_gnu_triple[1];
 
 # Default host: Current gcc.
 $gcc = `\${CC:-gcc} --print-libgcc-file-name`;
@@ -153,8 +153,9 @@ if ($gcc ne '') {
 	$gcc=$archtable{$list[0]};
 	$deb_host_arch = $list[0];
 	$deb_host_gnu_type = $gcc;
-        ($deb_host_gnu_system = $gcc) =~ s/^.*-//;
-        ($deb_host_gnu_cpu = $gcc ) =~ s/-.*$//;
+	@deb_host_gnu_triple = split(/-/, $deb_host_gnu_type, 2);
+	$deb_host_gnu_cpu = $deb_host_gnu_triple[0];
+	$deb_host_gnu_system = $deb_host_gnu_triple[1];
     }
 }
 if (!defined($deb_host_arch)) {
@@ -213,9 +214,10 @@ die "couldn't parse GNU system type $req_host_gnu_type, must be arch-os or arch-
 
 $deb_host_arch = $req_host_arch if $req_host_arch ne '';
 if ($req_host_gnu_type ne '') {
-    $deb_host_gnu_cpu = $deb_host_gnu_system = $deb_host_gnu_type = $req_host_gnu_type;
-    $deb_host_gnu_cpu =~ s/-.*$//;
-    $deb_host_gnu_system =~ s/^.*-//;
+    $deb_host_gnu_type = $req_host_gnu_type;
+    @deb_host_gnu_triple = split(/-/, $deb_host_gnu_type, 2);
+    $deb_host_gnu_cpu = $deb_host_gnu_triple[0];
+    $deb_host_gnu_system = $deb_host_gnu_triple[1];
 }
 
 #$gcc = `\${CC:-gcc} --print-libgcc-file-name`;

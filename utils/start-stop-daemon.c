@@ -34,6 +34,8 @@
 #  define OShpux
 #elif defined(__FreeBSD__)
 #  define OSFreeBSD
+#elif defined(__NetBSD__)
+#  define OSNetBSD
 #else
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
@@ -45,7 +47,7 @@
 #  include <ps.h>
 #endif
 
-#if defined(OSOpenBSD) || defined(OSFreeBSD)
+#if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
 #include <sys/param.h>
 #include <sys/user.h>
 #include <sys/proc.h>
@@ -677,7 +679,7 @@ check(pid_t pid)
 {
 #if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
-#elif defined(OSHURD) || defined(OSFreeBSD)
+#elif defined(OSHURD) || defined(OSFreeBSD) || defined(OSNetBSD)
     /* I will try this to see if it works */
 	if (execname && !pid_is_cmd(pid, execname))
 #endif
@@ -771,7 +773,7 @@ do_procinit(void)
 #endif /* OSHURD */
 
 
-#if defined(OSOpenBSD) || defined(OSFreeBSD)
+#if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
 static int
 pid_is_cmd(pid_t pid, const char *name)
 {
