@@ -228,9 +228,7 @@ void parsemustfield
  const struct pkginfo *pigp, int warnonly,
  const char **value, const char *what) 
 {
-  static char *empty = NULL;
-  if (!empty)
-    empty= nfstrsave("");
+  static const char *empty = "";
   if (!*value) {
     parseerr(file,filename,lno, warnto,warncount,pigp,warnonly, _("missing %s"),what);
     *value= empty;
