@@ -518,10 +518,10 @@ sub config_alternatives {
 			"$altdir/$slave.dpkg-tmp");
 		checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
 	    } else {
-		&amp;pr("Removing $slave ($slavelinks[$slnum]), not appropriate with $versions[$preferred].")
+		&&pr("Removing $slave ($slavelinks[$slnum]), not appropriate with $versions[$preferred].")
 		    if $verbosemode &gt; 0;
-		unlink("$altdir/$slave") || $! == &amp;ENOENT ||
-		    &amp;quit("unable to remove $altdir/$slave: $!");
+		unlink("$altdir/$slave") || $! == &ENOENT ||
+		    &quit("unable to remove $altdir/$slave: $!");
 	    }
 	}
 
@@ -548,12 +548,12 @@ sub rename_mv {
 sub checked_symlink {
     my ($filename, $linkname) = @_;
     symlink($filename, $linkname) ||
-	&amp;quit("unable to make $linkname a symlink to $filename: $!");
+	&quit("unable to make $linkname a symlink to $filename: $!");
 }
 sub checked_mv {
     my ($source, $dest) = @_;
     rename_mv($source, $dest) ||
-	&amp;quit("unable to install $source as $dest: $!");
+	&quit("unable to install $source as $dest: $!");
 }
 
 exit(0);
