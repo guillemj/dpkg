@@ -229,21 +229,11 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 
 			for (fip=fieldinfos; fip->name; fip++) 
 				if (strcasecmp(head->data, fip->name)==0)  {
-					size_t len;
-					char* i;
-
-					fip->wcall(&wb,pkg,&pkg->installed,fip);
+					fip->wcall(&wb,pkg,&pkg->installed,0,fip);
 					if (!wb.used)
 						break;
-					/* Bugger, wcall adds the fieldname and a trailing newline we
-					 * do not need. We should probably improve wcall to only do that
-					 * optionally, but this will do for now (ie this is a TODO)
-					 */
-					wb.buf[wb.used-1]='\0';
-					i=strchr(wb.buf, ':')+2;
-					len=strlen(i)+1;
-					memmove(wb.buf, i, len);
 
+					varbufaddc(&wb, '\0');
 					varbufprintf(&fb, fmt, wb.buf);
 					varbufreset(&wb);
 					ok=1;
