@@ -368,10 +368,8 @@ if ($opmode eq 'build') {
                 $type{$fn}= 'plain file';
                 if (!lstat("$origdir/$fn")) {
                     $! == ENOENT || &syserr("cannot stat orig file $origdir/$fn");
-		    $ofn= '/dev/null';
                     $ofnread= '/dev/null';
                 } elsif (-f _) {
-		    $ofn= "$basedirname.orig/$fn";
                     $ofnread= "$origdir/$fn";
                 } else {
                     &unrepdiff2("something else","plain file");
@@ -383,7 +381,7 @@ if ($opmode eq 'build') {
 		    $ENV{'LC_ALL'}= 'C';
                     exec('diff','-u',
                          '-L',"$basedirname.orig/$fn",
-                         '-L',"$ofn",
+                         '-L',"$basedirname/$fn",
                          '--',"$ofnread","$dir/$fn"); &syserr("exec diff");
                 }
                 $difflinefound= 0;
@@ -949,11 +947,9 @@ sub extracttar {
     @dirchdirfiles = grep($_ ne "." && $_ ne "..",readdir(D));
     closedir(D) || &syserr("Unable to close dir $dirchdir");
     if (@dirchdirfiles==1 && -d "$dirchdir/$dirchdirfiles[0]") {
-	if ("$dirchdir/$dirchdirfiles[0]" ne "$dirchdir/$newtopdir") {
-	    rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
-		&syserr("Unable to rename $dirchdir/$dirchdirfiles[0] to ".
-		"$dirchdir/$newtopdir");
-	}
+	rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
+	    &syserr("Unable to rename $dirchdir/$dirchdirfiles[0] to ".
+	    "$dirchdir/$newtopdir");
     } else {
 	mkdir("$dirchdir/$newtopdir", 0777) ||
 	    &syserr("Unable to mkdir $dirchdir/$newtopdir");
