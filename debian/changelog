@@ -1,6 +1,21 @@
 dpkg (1.10.16) unstable; urgency=low
 
-  * Fix configure to set HAVE_SETLOCALE.  Closes: #211816
+  * Jordi Mallach <jordi@debian.org>:
+    Fix configure to set HAVE_SETLOCALE.  Closes: #211816
+  * "Loïc Le Loarer" <lll_deb@m4x.org>:
+    Add a -d|--chdir option to start-stop-daemon.  Closes: #151802
+  * Split the background block into 2 parts: one that does the fork, and
+    opens /dev/tty and /dev/null, and one that does everything else.  The
+    second block is then moved to be run right before the exec.  This
+    allows error messages to be seen from the child(previously, they were
+    lost), and allows for the chroot to not require the device files.
+    These changes based on the bugs filed by:
+    Marc Herbert <Marc.Herbert@ens-lyon.fr>: Closes: #155219
+    Loïc Le Loarer <lll_deb@m4x.org>: Closes: #151800
+  * Mario Lang <mlang@debian.org>:
+    When --start, --startas and --pidfile are given, print 'process'
+    instead of '(null)' for the process name, if it's already running.
+    Closes: #209355
 
  -- Adam Heath <doogie@debian.org>  UNRELEASED
 

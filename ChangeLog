@@ -1,3 +1,15 @@
+Sat Sep 20 18:45:11 CDT 2003 Adam Heath <doogie@debian.org>
+
+  * utils/start-stop-daemon.[c8]:
+    * Add a -d|--chdir option to start-stop-daemon.
+    * Split the background block into 2 parts: one that does the fork, and
+      opens /dev/tty and /dev/null, and one that does everything else.  The
+      second block is then moved to be run right before the exec.  This
+      allows error messages to be seen from the child(previously, they were
+      lost), and allows for the chroot to not require the device files.
+    * When --start, --startas and --pidfile are given, print 'process'
+      instead of '(null)' for the process name, if it's already running.
+
 Sat Sep 20 17:44:40 CDT 2003 Adam Heath <doogie@debian.org>
 
   * configure.in, include/dpkg.h.in: Fix (non-)detection of setlocale.

@@ -109,6 +109,7 @@ static const char *userspec = NULL;
 static char *changeuser = NULL;
 static const char *changegroup = NULL;
 static char *changeroot = NULL;
+static const char *changedir = "/";
 static const char *cmdname = NULL;
 static char *execname = NULL;
 static char *startas = NULL;
@@ -278,6 +279,7 @@ do_help(void)
 "  -n|--name <process-name>      stop processes with this name\n"
 "  -s|--signal <signal>          signal to send (default TERM)\n"
 "  -a|--startas <pathname>       program to start (default is <executable>)\n"
+"  -C|--chdir <directory>        Change to <directory>(default is /)\n"
 "  -N|--nicelevel <incr>         add incr to the process's nice level\n"
 "  -b|--background               force the process to detach\n"
 "  -m|--make-pidfile             create the pidfile before starting\n"
@@ -466,12 +468,13 @@ parse_options(int argc, char * const *argv)
 		{ "background",   0, NULL, 'b'},
 		{ "make-pidfile", 0, NULL, 'm'},
  		{ "retry",        1, NULL, 'R'},
+		{ "chdir",        1, NULL, 'd'},
 		{ NULL,		0, NULL, 0}
 	};
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:bmR:g:",
+		c = getopt_long(argc, argv, "HKSV:a:n:op:qr:s:tu:vx:c:N:bmR:g:d:",
 				longopts, (int *) 0);
 		if (c == -1)
 			break;
@@ -542,6 +545,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'R':  /* --retry <schedule>|<timeout> */
 			schedule_str = optarg;
+			break;
+		case 'd':  /* --chdir /new/dir */
+			changedir = optarg;
 			break;
 		default:
 			badusage(NULL);  /* message printed by getopt */
@@ -1122,6 +1128,10 @@ int main(int argc, char **argv) NONRETURNING;
 int
 main(int argc, char **argv)
 {
+	int devnull_fd = -1;
+#ifdef HAVE_TIOCNOTTY
+	int tty_fd = -1;
+#endif
 	progname = argv[0];
 
 	parse_options(argc, argv);
@@ -1167,7 +1177,7 @@ main(int argc, char **argv)
 
 	if (found) {
 		if (quietmode <= 0)
-			printf("%s already running.\n", execname);
+			printf("%s already running.\n", execname ? execname : "process");
 		exit(exitnodo);
 	}
 	if (testmode) {
@@ -1191,23 +1201,8 @@ main(int argc, char **argv)
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
-	if (changeroot != NULL) {
-		if (chdir(changeroot) < 0)
-			fatal("Unable to chdir() to %s", changeroot);
-		if (chroot(changeroot) < 0)
-			fatal("Unable to chroot() to %s", changeroot);
-	}
-	if (changeuser != NULL) {
- 		if (setgid(runas_gid))
- 			fatal("Unable to set gid to %d", runas_gid);
-		if (initgroups(changeuser, runas_gid))
-			fatal("Unable to set initgroups() with gid %d", runas_gid);
-		if (setuid(runas_uid))
-			fatal("Unable to set uid to %s", changeuser);
-	}
-
 	if (background) { /* ok, we need to detach this process */
-		int i, fd;
+		int i;
 		if (quietmode < 0)
 			printf("Detatching to start %s...", startas);
 		i = fork();
@@ -1221,32 +1216,10 @@ main(int argc, char **argv)
 		}
 		 /* child continues here */
 
-		/* create a new session */
-#ifdef HAVE_SETSID
-		setsid();
-#else
-		setpgid(0,0);
-#endif
-
-#if defined(OShpux)
-		 /* now close all extra fds */
-		for (i=sysconf(_SC_OPEN_MAX)-1; i>=0; --i) close(i);
-#else
-		 /* now close all extra fds */
-		for (i=getdtablesize()-1; i>=0; --i) close(i);
-#endif
-
 #ifdef HAVE_TIOCNOTTY
-		 /* change tty */
-		fd = open("/dev/tty", O_RDWR);
-		ioctl(fd, TIOCNOTTY, 0);
-		close(fd);
+		tty_fd=open("/dev/tty", O_RDWR);
 #endif
-		chdir("/");
-		umask(022); /* set a default for dumb programs */
-		fd=open("/dev/null", O_RDWR); /* stdin */
-		dup(fd); /* stdout */
-		dup(fd); /* stderr */
+		devnull_fd=open("/dev/null", O_RDWR);
 	}
 	if (nicelevel) {
 		errno=0;
@@ -1262,6 +1235,48 @@ main(int argc, char **argv)
 				strerror(errno));
 		fprintf(pidf, "%d\n", pidt);
 		fclose(pidf);
+	}
+	if (changeroot != NULL) {
+		if (chdir(changeroot) < 0)
+			fatal("Unable to chdir() to %s", changeroot);
+		if (chroot(changeroot) < 0)
+			fatal("Unable to chroot() to %s", changeroot);
+	}
+	if (chdir(changedir) < 0)
+		fatal("Unable to chdir() to %s", changedir);
+	if (changeuser != NULL) {
+ 		if (setgid(runas_gid))
+ 			fatal("Unable to set gid to %d", runas_gid);
+		if (initgroups(changeuser, runas_gid))
+			fatal("Unable to set initgroups() with gid %d", runas_gid);
+		if (setuid(runas_uid))
+			fatal("Unable to set uid to %s", changeuser);
+	}
+	if (background) { /* continue background setup */
+		int i;
+#ifdef HAVE_TIOCNOTTY
+		 /* change tty */
+		ioctl(tty_fd, TIOCNOTTY, 0);
+		close(tty_fd);
+#endif
+		umask(022); /* set a default for dumb programs */
+		dup2(devnull_fd,0); /* stdin */
+		dup2(devnull_fd,1); /* stdout */
+		dup2(devnull_fd,2); /* stderr */
+#if defined(OShpux)
+		 /* now close all extra fds */
+		for (i=sysconf(_SC_OPEN_MAX)-1; i>=3; --i) close(i);
+#else
+		 /* now close all extra fds */
+		for (i=getdtablesize()-1; i>=3; --i) close(i);
+#endif
+
+		/* create a new session */
+#ifdef HAVE_SETSID
+		setsid();
+#else
+		setpgid(0,0);
+#endif
 	}
 	execv(startas, argv);
 	fatal("Unable to start %s: %s", startas, strerror(errno));
