@@ -133,11 +133,13 @@ binary-indep: binary-trees
 		fi; \
 		dpkg-distaddfile -f$(DIR)/debian/files $$f.html.tar.gz byhand -; \
 	done
-	set -e; \
+	set -e;\
 		version=`sed -n 's/^Version: //p' $(DIR)/debian/tmp-dev/DEBIAN/control`; \
 		file=dpkg-$${version}.tar.gz; \
-		cp $(DIR)/../dpkg_$${version}.tar.gz $(DIR)/../$${file}; \
-		dpkg-distaddfile -f$(DIR)/debian/files $${file} byhand -;
+		if [ -f $(DIR)/../dpkg_$${version}.tar.gz ]; then \
+			cp $(DIR)/../dpkg_$${version}.tar.gz $(DIR)/../$${file}; \
+			dpkg-distaddfile -f$(DIR)/debian/files $${file} byhand -; \
+		fi
 
 binary-arch: binary-trees
 	$(checkdir)

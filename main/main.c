@@ -396,8 +396,6 @@ int main(int argc, const char *const *argv) {
 
   umask(022); /* Make sure all our status databases are readable. */
  
-  check_libver();
-
   for (argvs=argv+1; (argp= *argvs) && *argp++=='-'; argvs++) {
     if (*argp++=='-') {
       if (!strcmp(argp,"-")) break;
