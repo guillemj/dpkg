@@ -8,6 +8,7 @@ INSTALL_TMP	:= $(TMP)/install
 TMP_DPKG	:= $(TMP)/dpkg
 TMP_DPKG_DEV	:= $(TMP)/dpkg-dev
 TMP_DPKG_DOC	:= $(TMP)/dpkg-doc
+TMP_DSELECT 	:= $(TMP)/dselect
 DIR		:= $(shell pwd)
 
 # We should really get this in a different way...
@@ -88,7 +89,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	cp -a $(INSTALL_TMP)/usr/lib/dpkg/enoent $(TMP_DPKG)/usr/lib/dpkg/
 	cp -a $(INSTALL_TMP)/usr/lib/dpkg/methods $(TMP_DPKG)/usr/lib/dpkg/
 	cp -a $(INSTALL_TMP)/usr/share/locale $(TMP_DPKG)/usr/share/
-	set -e ; for i in dpkg-split dselect ; do \
+	set -e ; for i in dpkg-split ; do \
 		cp -a $(INSTALL_TMP)/usr/bin/$$i $(TMP_DPKG)/usr/bin/ ; \
 	done
 	set -ex ; for i in dpkg dpkg-deb md5sum ; do \
@@ -97,7 +98,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	set -e ; for i in ChangeLog THANKS TODO copyright ; do \
 		cp -a $(INSTALL_TMP)/usr/share/doc/dpkg/$$i $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ ; \
 	done
-	set -e ; for i in "" fr ja sv ; do \
+	set -e ; for i in "" de fr ja sv ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/man/$$i/man1 ; \
 		for m in md5sum.1 dpkg-deb.1 ; do \
 			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m ] ; then \
@@ -105,7 +106,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 			fi ; \
 		done ; \
 		install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/man/$$i/man8 ; \
-		for m in dpkg.8 dselect.8 dpkg-split.8 start-stop-daemon.8 \
+		for m in dpkg.8 dpkg-split.8 start-stop-daemon.8 \
 		    	cleanup-info.8 dpkg-divert.8 dpkg-statoverride.8 \
 			install-info.8 update-alternatives.8 update-rc.d.8 ; do \
 			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m ] ; then \
@@ -117,13 +118,12 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	install -d -m 755 -o root -g root $(TMP_DPKG)/etc/dpkg
 	install -p -m 644 -o root -g root debian/dpkg.cfg \
 		$(TMP_DPKG)/etc/dpkg/
-	install -p -m 644 -o root -g root debian/dselect.cfg \
-		$(TMP_DPKG)/etc/dpkg/
 
 # Now that dpkg has been installed, Debianize it
 # Policy stuff
 	find $(TMP_DPKG)/usr/share/man -type f | xargs gzip -9f
-	strip $(TMP_DPKG)/usr/bin/* $(TMP_DPKG)/sbin/*
+	strip --remove-section=.comment --remove-section=.note \
+		--strip-unneeded $(TMP_DPKG)/usr/bin/* $(TMP_DPKG)/sbin/*
 	mv $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ChangeLog \
 		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/changelog
 
@@ -142,11 +142,12 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	install -p -m 755 -o root -g root debian/dpkg.postinst $(TMP_DPKG)/DEBIAN/postinst
 
 	dpkg-shlibdeps -dPre-Depends -Tdebian/dpkg$(static).substvars \
-		$(TMP_DPKG)/usr/bin/dselect $(TMP_DPKG)/sbin/start-stop-daemon \
+		$(TMP_DPKG)/sbin/start-stop-daemon \
 		`test -z "$(static)" && echo $(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/md5sum $(TMP_DPKG)/usr/bin/dpkg-deb`
 
 	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
 		-Tdebian/dpkg$(static).substvars -pdpkg$(static) -P$(TMP_DPKG)
+
 binary-dpkg binary-dpkg-static: %: %-most
 	dpkg --build $(TMP_DPKG) ..
 
@@ -170,7 +171,7 @@ binary-dpkg-dev: stamp-binary
 		dpkg-parsechangelog dpkg-checkbuilddeps ; do \
 		mv $(INSTALL_TMP)/usr/bin/$$i $(TMP_DPKG_DEV)/usr/bin/ ; \
 	done
-	set -e ; for i in "" fr ja sv ; do \
+	set -e ; for i in "" de fr ja sv ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/man/$$i/man1 ; \
 		for m in dpkg-name.1 dpkg-source.1 822-date.1 dpkg-architecture.1 \
 			dpkg-buildpackage.1 dpkg-distaddfile.1 dpkg-genchanges.1 \
@@ -209,6 +210,46 @@ binary-dpkg-dev: stamp-binary
 		-Tdebian/dpkg-dev.substvars -pdpkg-dev -P$(TMP_DPKG_DEV)
 	dpkg --build $(TMP_DPKG_DEV) ..
 
+binary-dselect: stamp-binary
+	rm -rf $(TMP_DSELECT)
+	install -d -m 755 -o root -g root $(TMP_DSELECT)
+	chmod g-s $(TMP_DSELECT)
+
+	install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/bin
+	mv $(INSTALL_TMP)/usr/bin/dselect $(TMP_DSELECT)/usr/bin/
+
+	set -e ; for i in "" de fr ja sv ; do \
+		install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/share/man/$$i/man8 ; \
+		for m in dselect.8 ; do \
+			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m ] ; then \
+				cp -a $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m $(TMP_DSELECT)/usr/share/man/$$i/man8/$$m ; \
+			fi ; \
+		done ; \
+	done
+
+	install -d -m 755 -o root -g root $(TMP_DSELECT)/etc/dpkg
+	install -p -m 644 -o root -g root debian/dselect.cfg \
+		$(TMP_DSELECT)/etc/dpkg/
+
+# Now do the usual Debian stuff
+	find $(TMP_DSELECT)/usr/share/man -type f | xargs gzip -9f
+	install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/share/doc
+	ln -s dpkg $(TMP_DSELECT)/usr/share/doc/dselect
+	strip --remove-section=.comment --remove-section=.note \
+		--strip-unneeded $(TMP_DSELECT)/usr/bin/* 
+
+# Final package creation
+	install -d -m 755 -o root -g root $(TMP_DSELECT)/DEBIAN
+	install -p -m 644 -o root -g root debian/dselect.conffiles $(TMP_DSELECT)/DEBIAN/prerm
+	install -p -m 755 -o root -g root debian/dselect.prerm $(TMP_DSELECT)/DEBIAN/prerm
+	install -p -m 755 -o root -g root debian/dselect.postinst $(TMP_DSELECT)/DEBIAN/postinst
+
+	dpkg-shlibdeps -Tdebian/dselect.substvars \
+		$(TMP_DSELECT)/usr/bin/dselect 	
+	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+		-Tdebian/dselect.substvars -pdselect -P$(TMP_DSELECT)
+	dpkg --build $(TMP_DSELECT) ..
+
 binary-dpkg-doc: stamp-binary
 	rm -rf $(TMP_DPKG_DOC)
 	install -d -m 755 -o root -g root $(TMP_DPKG_DOC)
@@ -218,7 +259,7 @@ binary-dpkg-doc: stamp-binary
 	mv $(INSTALL_TMP)/usr/share/doc/dpkg/ChangeLog.manuals \
 		$(TMP_DPKG_DOC)/usr/share/doc/dpkg/changelog.manuals
 
-# Now that dpkg-dev has been installed, Debianize it
+# Now that dpkg-doc has been installed, Debianize it
 # Policy stuff
 	gzip -9f $(TMP_DPKG_DOC)/usr/share/doc/dpkg/[!i]*
 	ln -s dpkg $(TMP_DPKG_DOC)/usr/share/doc/dpkg-doc
@@ -234,11 +275,11 @@ binary-dpkg-doc: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg-doc.postinst $(TMP_DPKG_DOC)/DEBIAN/postinst
 
 	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
-		-Tdebian/dpkg-dev.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
+		-Tdebian/dpkg-doc.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
 	dpkg --build $(TMP_DPKG_DOC) ..
 
 binary-arch-static: binary-dpkg-static
-binary-arch: binary-dpkg binary-dpkg-static-most
+binary-arch: binary-dpkg binary-dpkg-static-most binary-dselect
 	set -e ; \
 	v=`sed -n 's/^Version: //p' $(TMP_DPKG)/DEBIAN/control`; \
 	for type in "" -static; do\
