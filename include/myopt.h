@@ -22,6 +22,8 @@
 #ifndef MYOPT_H
 #define MYOPT_H
 
+typedef void (*voidfnp)(void);
+
 struct cmdinfo {
   const char *olong;
   char oshort;
@@ -31,6 +33,7 @@ struct cmdinfo {
   void (*call)(const struct cmdinfo*, const char *value);
   int arg;
   void *parg;
+  voidfnp farg;
 };
 
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos);

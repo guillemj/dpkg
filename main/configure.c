@@ -378,8 +378,10 @@ void deferred_configure(struct pkginfo *pkg) {
 
   if (maintainer_script_installed(pkg, POSTINSTFILE, "post-installation",
                                   "configure",
-                                  versiondescribe(&pkg->configversion,
-                                                  vdew_nonambig),
+                                  informativeversion(&pkg->configversion)
+                                  ? versiondescribe(&pkg->configversion,
+                                                  vdew_nonambig)
+                                  : "",
                                   (char*)0))
     putchar('\n');
 

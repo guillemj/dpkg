@@ -48,30 +48,58 @@ static void printversion(void) {
              "conditions.  There is NO warranty.  See dpkg --licence for details.\n",
              stdout)) werr("stdout");
 }
-
+/*
+   options that need fixing:
+  " DPKG " --yet-to-unpack                 \n\
+  */
 static void usage(void) {
   if (!fputs("\
-Usage: " DPKG " -i|--install    <.deb file name> ... | -R|--recursive <dir> ...\n\
-       " DPKG " --unpack        <.deb file name> ... | -R|--recursive <dir> ...\n\
-       " DPKG " -A|--avail      <.deb file name> ... | -R|--recursive <dir> ...\n\
-       " DPKG " --configure     <package name> ... | -a|--pending\n\
-       " DPKG " -r|--remove | --purge <package name> ... | -a|--pending\n\
-       " DPKG " -s|--status       <package-name> ...\n\
-       " DPKG " -L|--listfiles    <package-name> ...\n\
-       " DPKG " -l|--list         [<package-name-pattern> ...]\n\
-       " DPKG " -S|--search       <filename-search-pattern> ...\n\
-       " DPKG " -C|--audit | --yet-to-unpack\n\
-       " DPKG " --merge-avail | --update-avail <Packages-file>\n\
+Usage: \n\
+  " DPKG " -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n\
+  " DPKG " --unpack          <.deb file name> ... | -R|--recursive <dir> ...\n\
+  " DPKG " -A|--record-avail <.deb file name> ... | -R|--recursive <dir> ...\n\
+  " DPKG " --configure           <package name> ... | -a|--pending\n\
+  " DPKG " -r|--remove | --purge <package name> ... | -a|--pending\n\
+  " DPKG " --update-avail <Packages-file>     replace available packages info\n\
+  " DPKG " --merge-avail <Packages-file>      merge with info from file\n\
+  " DPKG " --clear-avail                      erase existing available info\n\
+  " DPKG " -s|--status <package-name> ...     display package status details\n\
+  " DPKG " --print-avail <package-name> ...   display available version details\n\
+  " DPKG " -L|--listfiles <package-name> ...  list files `owned' by package(s)\n\
+  " DPKG " -l|--list [<pattern> ...]          list packages concisely\n\
+  " DPKG " -S|--search <pattern> ...          find package(s) owning file(s)\n\
+  " DPKG " -C|--audit                         check for broken package(s)\n\
+  " DPKG " --print-architecture               print target architecture (uses GCC)\n\
+  " DPKG " --print-installation-architecture  print host architecture (for inst'n)\n\
+  " DPKG " --compare-versions <a> <rel> <b>   compare version numbers - see below\n\
+  " DPKG " --help | --version                 show this help / version number\n\
+  " DPKG " --force-help | -Dh|--debug=help    help on forcing resp. debugging\n\
+  " DPKG " --licence                          print copyright licencing terms\n\
+\n\
 Use " DPKG " -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
  -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type " BACKEND " --help.)\n\
+\n\
 For internal use: " DPKG " --assert-support-predepends | --predep-package\n\
 \n\
-Options: --help --version --licence   --force-help  -Dh|--debug=help\n\
-         --root=<directory>   --admindir=<directory>   --instdir=<directory>\n\
-         -O|--selected-only   -E|--skip-same-version   -G=--refuse-downgrade\n\
-         -B|--auto-deconfigure   --ignore-depends=<package>,...\n\
-         -D|--debug=<octal>   --force-...  --no-force-...|--refuse-...\n\
-         --largemem|--smallmem   --no-act\n\
+Options:
+  --admindir=<directory>     Use <directory> instead of " ADMINDIR "\n\
+  --root=<directory>         Install on alternative system rooted elsewhere\n\
+  --instdir=<directory>      Change inst'n root without changing admin dir\n\
+  -O|--selected-only         Skip packages not selected for install/upgrade\n\
+  -E|--skip-same-version     Skip packages whose same version is installed\n\
+  -G=--refuse-downgrade      Skip packages with earlier version than installed\n\
+  -B|--auto-deconfigure      Install even if it would break some other package\n\
+  --largemem | --smallmem    Optimise for large (>4Mb) or small (<4Mb) RAM use\n\
+  --no-act                   Just say what we would do - don't do it\n\
+  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help
+  --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
+  --force-...                    Override problems - see --force-help\n\
+  --no-force-...|--refuse-...    Stop when problems encountered\n\
+\n\
+Comparison operators for --compare-versions are:\n\
+ lt le eq ne ge gt       (treat no version as earlier than any version);\n\
+ lt-nl le-nl ge-nl gt-nl (tread no version as later than any version);\n\
+ < << <= = >= >> >       (only for compatibility with control file syntax).\n\
 \n\
 Use `" DSELECT "' for user-friendly package management.\n",
              stdout)) werr("stdout");
@@ -79,12 +107,15 @@ Use `" DSELECT "' for user-friendly package management.\n",
 
 const char thisname[]= DPKG;
 const char architecture[]= ARCHITECTURE;
-const char printforhelp[]=
- "Type " DPKG " --help for help about installing and deinstalling packages;\n"
- "Use " DSELECT " for user-friendly package management;\n"
- "Type " DPKG " -Dhelp for a list of " DPKG " debug flag values;\n"
- "Type " DPKG " --force-help for a list of forcing options;\n"
- "Type " BACKEND " --help for help about manipulating *.deb files.";
+const char printforhelp[]= "\
+Type " DPKG " --help for help about installing and deinstalling packages [*];\n\
+Use " DSELECT " for user-friendly package management;\n\
+Type " DPKG " -Dhelp for a list of " DPKG " debug flag values;\n\
+Type " DPKG " --force-help for a list of forcing options;\n\
+Type " BACKEND " --help for help about manipulating *.deb files;\n\
+Type " DPKG " --licence for copyright licence and lack of warranty (GNU GPL) [*].\n\
+\n\
+Options marked [*] produce a lot of output - pipe it through `less' or `more' !";
 
 const struct cmdinfo *cipaction= 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
@@ -240,7 +271,7 @@ Forcing options marked [*] are enabled by default.\n",
 }
 
 static const char *const passlongopts[]= {
-  "build", "contents", "control", "info", "field", "extract",
+  "build", "contents", "control", "info", "field", "extract", "new", "old",
   "vextract", "fsys-tarfile", 0
 };
 
@@ -248,30 +279,40 @@ static const char passshortopts[]= "bceIfxX";
 static const char okpassshortopts[]= "D";
 
 static const struct cmdinfo cmdinfos[]= {
-  { "install",           'i',  0,  0, 0,               setaction,     act_install    },
-  { "unpack",             0,   0,  0, 0,               setaction,     act_unpack     },
-  { "avail",             'A',  0,  0, 0,               setaction,     act_avail      },
-  { "configure",          0,   0,  0, 0,               setaction,     act_configure  },
-  { "remove",            'r',  0,  0, 0,               setaction,     act_remove     },
-  { "purge",              0,   0,  0, 0,               setaction,     act_purge      },
-  { "list",              'l',  0,  0, 0,               setaction,     act_list       },
-  { "status",            's',  0,  0, 0,               setaction,     act_status     },
-  { "search",            'S',  0,  0, 0,               setaction,     act_search     },
-  { "audit",             'C',  0,  0, 0,               setaction,     act_audit      },
-  { "listfiles",         'L',  0,  0, 0,               setaction,     act_listfiles  },
-  { "update-avail",       0,   0,  0, 0,               setaction,     act_avreplace  },
-  { "merge-avail",        0,   0,  0, 0,               setaction,     act_avmerge    },
-  { "yet-to-unpack",      0,   0,  0, 0,               setaction,     act_unpackchk  },
-  { "assert-support-predepends", 0, 0,  0, 0,          setaction,    act_assuppredep },
-  { "print-architecture", 0,   0,  0, 0,               setaction,     act_printarch  },
-  { "print-installation-architecture", 0,0,  0,0,      setaction,  act_printinstarch },
-  { "predep-package",     0,   0,  0, 0,               setaction,  act_predeppackage },
+  /* This table has both the action entries in it and the normal options.
+   * The action entries are made with the ACTION macro, as they all
+   * have a very similar structure.
+   */
+#define ACTION(longopt,shortopt,code,function) \
+ { longopt, shortopt, 0,0,0, setaction, code, 0, (voidfnp)function }
+  ACTION( "install",                        'i', act_install,       archivefiles    ),
+  ACTION( "unpack",                          0,  act_unpack,        archivefiles    ),
+  ACTION( "record-avail",                   'A', act_avail,         archivefiles    ),
+  ACTION( "configure",                       0,  act_configure,     packages        ),
+  ACTION( "remove",                         'r', act_remove,        packages        ),
+  ACTION( "purge",                           0,  act_purge,         packages        ),
+  ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
+  ACTION( "status",                         's', act_status,        enqperpackage   ),
+  ACTION( "print-avail",                     0,  act_printavail,    enqperpackage   ),
+  ACTION( "update-avail",                    0,  act_avreplace,     updateavailable ),
+  ACTION( "merge-avail",                     0,  act_avmerge,       updateavailable ),
+  ACTION( "clear-avail",                     0,  act_avclear,       updateavailable ),
+  ACTION( "audit",                          'C', act_audit,         audit           ),
+  ACTION( "yet-to-unpack",                   0,  act_unpackchk,     unpackchk       ),
+  ACTION( "list",                           'l', act_listpackages,  listpackages    ),
+  ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
+  ACTION( "print-architecture",              0,  act_printarch,     printarch       ),
+  ACTION( "assert-support-predepends",       0,  act_assertpredep,  assertpredep    ),
+  ACTION( "print-installation-architecture", 0,  act_printinstarch, printinstarch   ),
+  ACTION( "predep-package",                  0,  act_predeppackage, predeppackage   ),
+  ACTION( "compare-versions",                0,  act_cmpversions,   cmpversions     ),
+  
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
   {  0,                  'G',  0,  &fc_downgrade,  0,  0, /* alias for --refuse */ 0 },
   { "selected-only",     'O',  0,  &f_alsoselect,  0,  0,             0              },
-  { "no-also-select",  'N', 0, &f_alsoselect, 0, 0, 0 /* fixme: remove eventually */ },
+  { "no-also-select",    'N',  0,  &f_alsoselect,  0,0,0 /* fixme: remove sometime */ },
   { "skip-same-version", 'E',  0,  &f_skipsame,    0,  0,             1              },
   { "auto-deconfigure",  'B',  0,  &f_autodeconf,  0,  0,             1              },
   { "largemem",           0,   0,  &f_largemem,    0,  0,             1              },
@@ -300,6 +341,7 @@ int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
   int c;
   const char *argp, *const *blongopts, *const *argvs;
+  static void (*actionfunction)(const char *const *argv);
 
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
@@ -328,53 +370,10 @@ int main(int argc, const char *const *argv) {
 
   setvbuf(stdout,0,_IONBF,0);
   filesdbinit();
-  
-  switch (cipaction->arg) {
-  case act_install: case act_unpack: case act_avail:
-    checkpath();
-    archivefiles(argv);
-    break;
-  case act_configure: case act_remove: case act_purge:
-    checkpath();
-    packages(argv);
-    break;
-  case act_listfiles: case act_status:
-    enqperpackage(argv);
-    break;
-  case act_avreplace: 
-    availablefrompackages(argv,1);
-    break;
-  case act_avmerge:
-    availablefrompackages(argv,0);
-    break;
-  case act_audit:
-    audit(argv);
-    break;
-  case act_unpackchk:
-    unpackchk(argv);
-    break;
-  case act_list:
-    listpackages(argv);
-    break;
-  case act_search:
-    searchfiles(argv);
-    break;
-  case act_assuppredep:
-    assertsupportpredepends(argv);
-    break;
-  case act_predeppackage:
-    predeppackage(argv);
-    break;
-  case act_printinstarch:
-    if (printf("%s\n",architecture) == EOF) werr("stdout");
-    if (fflush(stdout)) werr("stdout");
-    break;
-  case act_printarch:
-    printarchitecture(argv);
-    break;
-  default:
-    internerr("unknown action");
-  }
+
+  actionfunction= (void (*)(const char* const*))cipaction->farg;
+
+  actionfunction(argv);
 
   set_error_display(0,0);
   error_unwind(ehflag_normaltidy);

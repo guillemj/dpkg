@@ -30,26 +30,6 @@
 
 #include "main.h"
 
-int versionsatisfied3(const struct versionrevision *it,
-                      const struct versionrevision *ref,
-                      enum depverrel verrel) {
-  int r;
-  if (verrel == dvr_none) return 1;
-  r= versioncompare(it,ref);
-  switch (verrel) {
-  case dvr_earlierequal:   return r <= 0;
-  case dvr_laterequal:     return r >= 0;
-  case dvr_earlierstrict:  return r < 0;
-  case dvr_laterstrict:    return r > 0;
-  case dvr_exact:          return r == 0;
-  default:                 internerr("unknown verrel");
-  }
-}
-
-int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against) {
-  return versionsatisfied3(&it->version,&against->version,against->verrel);
-}
-
 struct cyclesofarlink {
   struct cyclesofarlink *back;
   struct pkginfo *pkg;

@@ -30,12 +30,6 @@ then
 	mount -rt nfs "$p_nfs" -o nosuid,nodev "$p_mountpoint"
 fi
 
-case "$p_mountpoint" in
-*/ )	binaryprefix="$p_mountpoint" ;;
-'' )	binaryprefix="" ;;
-* )	binaryprefix="$p_mountpoint/" ;;
-esac
-
 predep="$vardir/predep-package"
 while true
 do

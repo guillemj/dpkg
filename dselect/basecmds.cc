@@ -184,7 +184,7 @@ void baselist::setcursor(int index) {
   cursorline= index;
   if (listpad) {
     redrawitemsrange(cursorline,cursorline+1);
-    redraw1itemsel(cursorline,1);
+    redraw1itemsel(cursorline, showinfo != 2);
     refreshlist();
     redrawthisstate();
   }

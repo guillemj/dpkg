@@ -282,6 +282,10 @@ void varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
 
 /*** from vercmp.c ***/
 
+int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against);
+int versionsatisfied3(const struct versionrevision *it,
+                      const struct versionrevision *ref,
+                      enum depverrel verrel);
 int versioncompare(const struct versionrevision *version,
                    const struct versionrevision *refversion);
 int epochsdiffer(const struct versionrevision *a,

@@ -67,6 +67,7 @@ void packages(const char *const *argv) {
   const char *thisarg;
   int l;
   
+  checkpath();
   modstatdb_init(admindir, f_noact ? msdbrw_readonly : msdbrw_needsuperuser);
 
   if (f_pending) {

@@ -66,7 +66,7 @@ void process_archive(const char *filename) {
   struct pkgiterator *it;
   struct pkginfo *pkg, *conflictor, *otherpkg, *divpkg;
   char *cidir, *cidirrest, *p;
-  char pfilenamebuf[50], conffilenamebuf[MAXCONFFILENAME];
+  char pfilenamebuf[35], conffilenamebuf[MAXCONFFILENAME];
   const char *pfilename, *newinfofilename;
   struct fileinlist *newconff, **newconffileslastp, *newfileslist;
   struct fileinlist *cfile;
@@ -169,7 +169,7 @@ void process_archive(const char *filename) {
           &pkg,0,0);
 
   if (cipaction->arg == act_avail) {
-    printf("Read updated information about %s from %s.\n",pkg->name,pfilename);
+    printf("Recorded info about %s from %s.\n",pkg->name,pfilename);
     pop_cleanup(ehflag_normaltidy);
     return;
   }

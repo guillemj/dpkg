@@ -904,7 +904,8 @@ installing the package, after installation, before package removal,
 and after removal, respectively.
 
    They are given arguments which indicate the precise situation and
-action being performed---see @file{maintainer-script-args.txt} for
+action being performed---see
+@pxref{Maintainer script arguments and how dpkg does things} for
 details of exactly when each of the scripts is invoked and what its
 arguments are.  Extra arguments and situations may be added later, so
 you should not test the number of arguments to your script to determine
@@ -1092,7 +1093,7 @@ field.
 * configuration files -- /etc/skel vs /usr/doc/examples::
 * How to write the Description control file field::
 * Configuration of init::
-* Maintainer script arguments and how @file{dpkg} does things::
+* Maintainer script arguments and how dpkg does things::
 * Mail processing packages::
 * Virtual dependencies::
 @end menu
@@ -1338,7 +1339,7 @@ Description: Electronic mail transport system.
  networking support, in the form of IP or UUCP.
 @end smallexample
 
-@node Configuration of init, Maintainer script arguments and how @file{dpkg} does things, How to write the Description control file field, Appendix
+@node Configuration of init, Maintainer script arguments and how dpkg does things, How to write the Description control file field, Appendix
 @unnumberedsec Configuration of init
 
 The @file{/etc/init.d} directory contains the scripts executed by
@@ -1535,15 +1536,17 @@ update-rc.d acct remove >/dev/null
 Otherwise, the @file{/etc/rc?.d} symbolic links will remain on the system
 along with @file{/etc/init.d/acct} script.
 
-@node Maintainer script arguments and how @file{dpkg} does things, Mail processing packages, Configuration of init, Appendix
-@unnumberedsec Maintainer script arguments and how @file{dpkg} does things
+@node Maintainer script arguments and how dpkg does things, Mail processing packages, Configuration of init, Appendix
+@unnumberedsec Maintainer script arguments and how dpkg does things
 
 This appendix describes exactly how maintainer scripts are called, with
 what arguments, in what order, and what @file{dpkg} does in between.
 
 In all cases version numbers are <version>-<revision>, if the package
 has both, or just <version>.  @code{upgrade} is used even when the new
-version number looks lower than the old.
+version number looks lower than the old.  If there is no appropriate
+version then the argument may be the empty string (or, in versions of
+dpkg before 1.2.1, @code{<unknown>}).
 
 
 @unnumberedsubsec Summary
@@ -1554,7 +1557,7 @@ version number looks lower than the old.
 <new preinst> upgrade <old-version>
 <old preinst> abort-upgrade <new-version>
 
-<postinst> configure
+<postinst> configure <most-recently-configured-version>
 <old postinst> abort-upgrade <new version>
 <conflictor's postinst> abort-remove in-favour <package> <new version>
 <deconfigured's postinst> abort-deconfigure \
@@ -1774,7 +1777,7 @@ The package's file list is removed.
 @end enumerate
 No attempt is made to unwind after errors during removal.
 
-@node Mail processing packages, Virtual dependencies, Maintainer script arguments and how @file{dpkg} does things, Appendix
+@node Mail processing packages, Virtual dependencies, Maintainer script arguments and how dpkg does things, Appendix
 @unnumberedsec Mail processing packages
 
 Debian packages which process electronic mail (whether mail-user-agents

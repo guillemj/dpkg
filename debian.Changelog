@@ -1,3 +1,38 @@
+dpkg (1.2.1); priority=MEDIUM
+
+  * `=' key in dselect really does `hold' rather than `unhold'.
+  * dselect dependency processing now interacts better with `hold'.
+  * dselect `I' key (not `i') modifies display of the info window.
+  * dselect shows unavailable packages as being unavailable.
+  * dselect main menu headings and many other strings changed to try to
+    discourage people from deselecting every package and using [R]emove.
+    Notably, `select' changed to `mark' throughout.
+
+  * dselect disk methods now print a few fewer double slashes.
+  * dselect disk access methods will offer to use dpkg --record-avail
+    to scan the available packages, if no Packages file is found.
+
+  * New dpkg --compare-versions option, for the benefit of scripts &c.
+  * New dpkg --clear-avail option forgets all available packages info.
+  * New dpkg --print-avail option, prints `available' data (from Packages, &c).
+  * dpkg usage message is more informative, but no longer fits on screen.
+  * dpkg --avail option renamed --record-avail.
+
+  * Latest dpkg-name from Erick Branderhorst.
+  * dpkg-scanpackages has more sensible problem reporting.
+  * postinst configure now gets null argument (not <unknown> or <none>)
+    when there is no previously configured version.
+
+  * Guidelines say that postinst configure is given previous version.
+  * Guidelines don't refer to maintainer-script-args.txt in main text.
+  * Guidelines (Texinfo source) uploaded separately.
+
+  * Own version of strcpy (used for debugging) removed.
+  * Interface to access methods document in source (doc/dselect-methods.txt).
+  * debian.buildscript moves changes file into parent directory.
+
+ -- Ian Jackson <ian@chiark.chu.cam.ac.uk>  Wed, 22 May 1996 01:26:31 +0100
+
 dpkg (1.2.0); priority=MEDIUM
 
   * dselect can sort packages by available and installed states, and

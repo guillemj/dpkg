@@ -117,12 +117,14 @@ class packagelist : public baselist {
   void itd_recurwelcome();
   void itd_relations();
   void itd_description();
-  void itd_controlfile();
+  void itd_statuscontrol();
+  void itd_availablecontrol();
   
   // Dependency and sublist processing
   struct doneent { doneent *next; void *dep; } *depsdone, *unavdone;
   int alreadydone(doneent**, void*);
   int resolvedepcon(dependency*);
+  int checkdependers(pkginfo*, int changemade); // returns new changemade
   int deselect_one_of(pkginfo *er, pkginfo *ed, dependency *display);
   
   // Define these virtuals
@@ -143,6 +145,7 @@ class packagelist : public baselist {
   pkginfo::pkgwant reallywant(pkginfo::pkgwant, struct perpackagestate*);
   int describemany(char buf[], const char *prioritystring, const char *section,
                    const struct perpackagestate *pps);
+  int deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade);
 
   void sortmakeheads();
   void resortredisplay();
@@ -177,6 +180,7 @@ class packagelist : public baselist {
   void kd_hold();
   void kd_unhold();
   void kd_info();
+  void kd_toggleinfo();
   void kd_verbose();
   void kd_versiondisplay();
   
@@ -188,6 +192,8 @@ class packagelist : public baselist {
   void add(pkginfo*, const char *extrainfo, showpriority displayimportance);
   int add(dependency*, showpriority displayimportance);
   void addunavailable(deppossi*);
+  int useavailable(pkginfo*);
+  pkginfoperfile *findinfo(pkginfo*);
 
   int resolvesuggest();
   int deletelessimp_anyleft(showpriority than);
@@ -211,7 +217,6 @@ extern const char eflagchars[];
 extern const char wantchars[];
 
 const struct pkginfoperfile *i2info(struct pkginfo *pkg);
-int deppossatisfied(deppossi *possi);
 
 extern modstatdb_rw readwrite;
 

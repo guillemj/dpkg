@@ -35,7 +35,7 @@ extern "C" {
 
 /* These MUST be in the same order as the corresponding enums in dpkg-db.h */
 const char
-  *const wantstrings[]=   { "new package", "selected", "hold", "remove", "purge", 0 },
+  *const wantstrings[]=   { "new package", "install", "hold", "remove", "purge", 0 },
   *const eflagstrings[]=   { "", "REINSTALL", 0 },
   *const statusstrings[]= { "not installed", "unpacked (not set up)",
                             "failed config", "installed", "half installed",
@@ -213,10 +213,10 @@ void packagelist::redrawtitle() {
         internerr("bad sort in redrawtitle");
       }
     }
-    const char *helpstring= readwrite ? (verbose ? " +/-=select v=terse ?=help"
-                                                 : " +/-=select v=verbose ?=help")
-                                      : (verbose ? " v=terse ?=help"
-                                                 : " v=verbose ?=help");
+    const char *helpstring= readwrite ? (verbose ? " mark:+/=/- terse:v help:?"
+                                                 : " mark:+/=/- verbose:v help:?")
+                                      : (verbose ? " terse:v help:?"
+                                                 : " verbose:v help:?");
     int l= strlen(helpstring);
     getyx(titlewin,y,x);
     if (xmax-l > 0) {

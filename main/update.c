@@ -33,13 +33,17 @@
 
 #include "main.h"
 
-void availablefrompackages(const char *const *argv, int replace) {
+void updateavailable(const char *const *argv) {
   const char *sourcefile= argv[0];
-  int count;
+  int count= 0;
   static struct varbuf vb;
-  
-  if (!sourcefile || argv[1])
+
+  if (cipaction->arg == act_avclear) {
+    if (sourcefile)
+      badusage("--clear-avail takes no arguments");
+  } else if (!sourcefile || argv[1]) {
     badusage("--%s needs exactly one Packages file argument", cipaction->olong);
+  }
   
   if (!f_noact) {
     if (access(admindir,W_OK)) {
@@ -51,25 +55,34 @@ void availablefrompackages(const char *const *argv, int replace) {
     lockdatabase(admindir);
   }
   
-  if (replace) {
+  switch (cipaction->arg) {
+  case act_avreplace:
     printf("Replacing available packages info, using %s.\n",sourcefile);
-  } else {
+    break;
+  case act_avmerge:
     printf("Updating available packages info, using %s.\n",sourcefile);
+    break;
+  case act_avclear:
+    break;
+  default:
+    internerr("bad cipaction->arg in update available");
   }
 
   varbufaddstr(&vb,admindir);
   varbufaddstr(&vb,"/" AVAILFILE);
   varbufaddc(&vb,0);
-  
-  if (!replace)
+
+  if (cipaction->arg == act_avmerge)
     parsedb(vb.buf, pdb_recordavailable|pdb_rejectstatus, 0,0,0);
 
-  count= parsedb(sourcefile, pdb_recordavailable|pdb_rejectstatus, 0,0,0);
+  if (cipaction->arg != act_avclear)
+    count+= parsedb(sourcefile, pdb_recordavailable|pdb_rejectstatus, 0,0,0);
 
   if (!f_noact) {
     writedb(vb.buf,1,0);
     unlockdatabase(admindir);
   }
-  
-  printf("Information about %d package(s) was updated.\n",count);
+
+  if (cipaction->arg != act_avclear)
+    printf("Information about %d package(s) was updated.\n",count);
 }

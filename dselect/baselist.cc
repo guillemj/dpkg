@@ -81,6 +81,29 @@ void baselist::setupsigwinch() {
   if (sigaction(SIGWINCH,&nsigact,0)) ohshite("failed to set new SIGWINCH sigact");
 }
 
+void baselist::setheights() {
+  int y= ymax - (title_height + colheads_height + thisstate_height);
+  assert(y>=1);
+  if (showinfo==2 && y>=3) {
+    list_height= 1;
+    whatinfo_height= 1;
+    info_height= y-2;
+  } else if (showinfo==1 && y>=10) {
+    list_height= y/2;
+    info_height= (y-1)/2;
+    whatinfo_height= 1;
+  } else {
+    list_height= y;
+    info_height= 0;
+    whatinfo_height= 0;
+  }
+  colheads_row= title_height;
+  list_row= colheads_row + colheads_height;
+  thisstate_row= list_row + list_height;
+  info_row= thisstate_row + thisstate_height;
+  whatinfo_row= ymax - 1;
+}
+
 void baselist::startdisplay() {
   if (debug) fprintf(debug,"baselist[%p]::startdisplay()\n",this);
   cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
@@ -112,29 +135,12 @@ void baselist::startdisplay() {
   whatinfo_attr= thisstate_attr;
 
   // set up windows and pads, based on screen size
-  int y;  
   getmaxyx(stdscr,ymax,xmax);
   title_height= ymax>=6;
   colheads_height= ymax>=5;
   thisstate_height= ymax>=3;
-  whatinfo_height= ymax>=2;
-  y= ymax - (title_height + colheads_height +
-               thisstate_height + whatinfo_height);
-  assert(y>=1);
-  y-= list_height + info_height;
-  if (y>0) {
-    list_height += (y+1)/2;
-    info_height += y/2;
-  } else if (y<0) {
-    list_height -= (-y)/2;
-    info_height -= (-y+1)/2;
-  }
-  colheads_row= title_height;
-  list_row= colheads_row + colheads_height;
-  thisstate_row= list_row + list_height;
-  info_row= thisstate_row + thisstate_height;
-  whatinfo_row= info_row + info_height;
 
+  setheights();
   setwidths();
   
   titlewin= newwin(1,xmax, 0,0);
@@ -209,7 +215,7 @@ void baselist::redrawall() {
 }
 
 void baselist::redraw1item(int index) {
-  redraw1itemsel(index, index == cursorline);
+  redraw1itemsel(index, showinfo == 2 ? 0 : index == cursorline);
 }
 
 baselist::baselist(keybindings *kb) {
@@ -223,6 +229,7 @@ baselist::baselist(keybindings *kb) {
   list_height=0; info_height=0;
   topofscreen= 0; leftofscreen= 0;
   listpad= 0; cursorline= -1;
+  showinfo= 1;
 
   searchstring[0]= 0;
 }  

@@ -33,12 +33,6 @@
 #include "config.h"
 #include "dpkg.h"
 
-char *strcpy(char *to, const char *from) {
-  char *oto= to;
-  while ((*to++ = *from++) != 0);
-  return oto;
-}
-
 #ifndef HAVE_VSNPRINTF
 int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {
   static FILE *file= 0;

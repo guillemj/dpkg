@@ -124,8 +124,7 @@ while(<O>) {
         if ($maintainer =~ m/\s*=\>\s*/) {
             $oldmaint= $`; $newmaint= $';
             if ($pv{$p,'maintainer'} ne $oldmaint) {
-                push(@changedmaint,
-                     "  $p (package says $pv{$p,'maintainer'}, not $oldmaint)\n");
+                push(@changedmaint,"  $p ($pv{$p,'maintainer'}, not $oldmaint)\n");
             } else {
                 $pv{$p,'maintainer'}= $newmaint;
             }
@@ -171,12 +170,20 @@ close(STDOUT) || die $!;
 
 &writelist("** Packages in archive but missing from override file: **",
            @missingover);
+<<<<<<< dpkg-scanpackages.pl
+||||||| /usr/ian-home/junk/u
+&writelist("++ Packages appearing in override file but not in archive: ++",
+           @inover);
+=======
+&writelist("++ Packages appearing in override file but not in archive: ++",
+           @inover);
 if (@changedmaint) {
     print(STDERR
           " ++ Packages in override file with incorrect old maintainer value: ++\n",
           @changedmaint,
           "\n") || die $!;
 }
+>>>>>>> /usr/ian-home/junk/t
 if (@samemaint) {
     print(STDERR
           " -- Packages specifying same maintainer as override file: --\n",

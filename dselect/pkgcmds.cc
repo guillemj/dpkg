@@ -90,8 +90,6 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
 
   if (recursive) {
     redrawitemsrange(cursorline,cursorline+1);
-    nw= reallywant(nwarg,table[cursorline]);
-    nw= nwarg != pkginfo::want_sentinel ? nwarg :
     table[cursorline]->selected= reallywant(nwarg,table[cursorline]);
     redraw1item(cursorline);
     top= cursorline;
@@ -118,13 +116,16 @@ void packagelist::setwant(pkginfo::pkgwant nwarg) {
 }
 
 void packagelist::kd_select()   { setwant(pkginfo::want_install);   }
-void packagelist::kd_hold() { setwant(pkginfo::want_hold); }
+void packagelist::kd_hold()     { setwant(pkginfo::want_hold);      }
 void packagelist::kd_deselect() { setwant(pkginfo::want_deinstall); }
-void packagelist::kd_unhold() { setwant(pkginfo::want_sentinel); }
+void packagelist::kd_unhold()   { setwant(pkginfo::want_sentinel);  }
 void packagelist::kd_purge()    { setwant(pkginfo::want_purge);     }
 
 int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
   /* Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition. */
+  if (debug) fprintf(debug,"would_like_to_install(%d, %s) status %d\n",
+                     wantvalue,pkg->name,pkg->status);
+  
   if (wantvalue == pkginfo::want_install) return 1;
   if (wantvalue != pkginfo::want_hold) return 0;
   if (pkg->status == pkginfo::stat_installed) return 1;
@@ -246,8 +247,25 @@ void packagelist::kd_revertsuggest() {
 
 /* fixme: configurable purge/deselect */
 
-void packagelist::kd_info() {
-  currentinfo++;
-  infotopofscreen=0;
+void packagelist::kd_toggleinfo() {
+  showinfo= (showinfo+2) % 3;
+  setheights();
+  if (cursorline >= topofscreen+list_height) topofscreen += list_height;
+  if (topofscreen > nitems - list_height) topofscreen= nitems-list_height;
+  if (topofscreen < 0) topofscreen= 0;
+  infotopofscreen= 0;
+  redraw1item(cursorline);
+  refreshlist();
+  redrawthisstate();
   redrawinfo();
+}
+
+void packagelist::kd_info() {
+  if (!showinfo) {
+    showinfo= 2; kd_toggleinfo();
+  } else {
+    currentinfo++;
+    infotopofscreen=0;
+    redrawinfo();
+  }
 }

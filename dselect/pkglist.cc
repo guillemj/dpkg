@@ -300,7 +300,9 @@ void packagelist::sortmakeheads() {
                        thispkg->clientdata->ssstate,
                        ssdiff ? "*diff" : "same",
                        thispkg->priority,
-                       thispkg->otherpriority ? thispkg->otherpriority : "<null>",
+                       thispkg->priority != pkginfo::pri_other ? "<none>"
+                       : thispkg->otherpriority ? thispkg->otherpriority
+                       : "<null>",
                        prioritydiff ? "*diff*" : "same",
                        thispkg->section ? thispkg->section : "<null>",
                        sectiondiff ? "*diff*" : "same");
@@ -400,7 +402,7 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     table[nitems]= state;
     nitems++;
   }
-  if (!nitems) ohshit("There are no packages to select.");
+  if (!nitems) ohshit("There are no packages.");
   recursive= 0;
   sortorder= so_priority;
   statsortorder= sso_avail;

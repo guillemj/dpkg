@@ -41,28 +41,45 @@ then
 	mount -rt nfs "$p_nfs" -o nosuid,nodev "$p_mountpoint"
 fi
 
+updatetype=update
+
 for f in main ctb nf lcl
 do
 	eval 'this_packages=$p_'$f'_packages'
-	if [ -z "$this_packages" ]; then continue; fi
-	case "$p_mountpoint" in
-	*/ )	packagesfile="$p_mountpoint$this_packages" ;;
-	'' )	packagesfile="$this_packages" ;;
-	* )	packagesfile="$p_mountpoint/$this_packages" ;;
-	esac
-	case "$packagesfile" in
-	*.gz | *.Z | *.GZ | *.z)
-		echo -n "Uncompressing $packagesfile ... "
-		zcat <"$packagesfile" >packages-$f
-		echo done.
-		dpkg --merge-avail packages-$f
-		;;
+	case "$this_packages" in
 	'')
+		continue
+		;;
+	scan)
+		eval 'this_binary=$p_'$f'_binary'
+		if [ -z "$this_binary" ]; then continue; fi
+		if [ "$updatetype" = update ]
+		then
+			dpkg --clear-avail
+			updatetype=merge
+		fi
+		echo Running dpkg --record-avail -R "$p_mountpoint$this_binary"
+		dpkg --record-avail -R "$p_mountpoint$this_binary"
 		;;
 	*)
-		dpkg --merge-avail "$packagesfile"
+		packagesfile="$p_mountpoint$this_packages"
+		case "$packagesfile" in
+		*.gz | *.Z | *.GZ | *.z)
+			echo -n "Uncompressing $packagesfile ... "
+			zcat <"$packagesfile" >packages-$f
+			echo done.
+			dpkg --$updatetype-avail packages-$f
+			updatetype=merge
+			;;
+		'')
+			;;
+		*)
+			dpkg --$updatetype-avail "$packagesfile"
+			updatetype=merge
+			;;
+		esac
 		;;
-	esac
+	esac	
 done
 
 echo -n 'Update OK.  Hit RETURN.  '

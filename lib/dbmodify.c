@@ -178,7 +178,6 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
 
   if (cstatus != msdbrw_needsuperuserlockonly) {
     parsedb(statusfile, pdb_weakclassification, 0,0,0);
-    parsedb(statusfile, pdb_recordavailable, 0,0,0);
     parsedb(availablefile,
             pdb_recordavailable|pdb_rejectstatus|
             (cflags & msdbrw_availablepreferversion ? pdb_preferversion : 0),

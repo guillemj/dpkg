@@ -416,14 +416,20 @@ experts who like to live dangerously and want to help with testing) ?'
 	echo
 fi
 
+case "$hierbase" in
+/* )	;;
+'' )	;;
+* )	hierbase="/$hierbase" ;;
+esac
+
 check_binary () {
 	# args: area-in-messages directory
-	if ! [ -d "$mountpoint/$2" ]
+	if ! [ -d "$mountpoint$2" ]
 	then
 		echo "\`$2' does not exist."
 		return
 	fi
-	if ! find "$mountpoint/$2" -follow -name '*.deb' -print \
+	if ! find "$mountpoint$2" -follow -name '*.deb' -print \
 		2>/dev/null | head -1 | grep . >/dev/null
 	then
 		echo "\`$2' does not contain any *.deb packages.  Hmmpf."
@@ -457,15 +463,11 @@ alternative source.'
 		defaultbinary="$4"
 		echo "
 Which directory contains the *.deb packages from the $1 distribution
-area (this directory is named \`$3/binary' on the distribution site) ?"
-		if [ $2 != main ]
+area (this directory is named \`$3/binary' on the distribution site) ?
+Say \`none' if this area is not available."
+		if [ $2 != main -a -z "$defaultbinary" ]
 		then
-			if [ -z "$defaultbinary" ]
-			then
-				defaultbinary=none
-			fi
-			echo \
-"Say \`none' if this area is not available."
+			defaultbinary=none
 		fi
 		echo -n \
 "Enter _$1_ binary dir. [$4]
@@ -475,7 +477,7 @@ area (this directory is named \`$3/binary' on the distribution site) ?"
 		then
 			response="$defaultbinary"
 		fi
-		if [ none = "$response" -a $2 != main ]
+		if [ none = "$response" ]
 		then
 			break
 		fi
@@ -506,12 +508,13 @@ If you overlooked it when downloading you should do get it now and
 return to this installation procedure when you have done so: you will
 find one Packages file and one Packages.gz file -- either will do --
 in the \`binary' subdirectory of each area on the FTP sites and
-CD-ROMs.
+CD-ROMs.  Alternatively (and this will be rather slow) I can scan the
+packages in the distribution area - say \`scan' if you want me to do so.
 
 You need a separate Packages file from each of the distribution areas
 you wish to install.
 
-Where is the _$1_ \`Packages' file (if none is available, say\`none')
+Where is the _$1_ \`Packages' file (if none is available, say \`none')
 [$5]
  ?  "
 			read response
@@ -522,6 +525,7 @@ Where is the _$1_ \`Packages' file (if none is available, say\`none')
 			case "$response" in
 			'')		continue			;;
 			none)		break				;;
+			scan)		this_packages=scan		;;
 			/*)		this_packages="$response"	;;
 			*)		this_packages="/$response"	;;
 			esac

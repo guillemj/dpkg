@@ -60,12 +60,13 @@ protected:
   static baselist *signallist;
   static void sigwinchhandler(int);
 
-  int nitems, ldrawnstart, ldrawnend;
+  int nitems, ldrawnstart, ldrawnend, showinfo;
   int topofscreen, leftofscreen, cursorline;
   int infotopofscreen, infolines;
   varbuf whatinfovb;
   char searchstring[50];
 
+  void setheights();
   void unsizes();
   void dosearch();
   void displayhelp(const struct helpmenuentry *menu, int key);

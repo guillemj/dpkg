@@ -49,10 +49,10 @@ struct packageinlist {
 };
 
 enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
-              act_remove, act_purge, act_list, act_avreplace, act_avmerge,
-              act_unpackchk, act_status, act_search, act_audit, act_listfiles,
-              act_assuppredep, act_printarch, act_predeppackage,
-              act_printinstarch };
+              act_remove, act_purge, act_listpackages, act_avreplace, act_avmerge,
+              act_unpackchk, act_status, act_searchfiles, act_audit, act_listfiles,
+              act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
+              act_printinstarch, act_compareversions, act_printavail, act_avclear };
 
 enum conffopt {
   cfof_prompt        =     001,
@@ -98,7 +98,7 @@ void process_archive(const char *filename);
 
 /* from update.c */
 
-void availablefrompackages(const char *const *argv, int replace);
+void updateavailable(const char *const *argv);
 
 /* from enquiry.c */
 
@@ -107,9 +107,11 @@ void audit(const char *const *argv);
 void unpackchk(const char *const *argv);
 void searchfiles(const char *const *argv);
 void enqperpackage(const char *const *argv);
-void assertsupportpredepends(const char *const *argv);
+void assertpredep(const char *const *argv);
 void predeppackage(const char *const *argv);
-void printarchitecture(const char *const *argv);
+void printarch(const char *const *argv);
+void printinstarch(const char *const *argv);
+void cmpversions(const char *const *argv);
 
 /* from packages.c, remove.c and configure.c */
 
@@ -188,10 +190,5 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
 struct cyclesofarlink;
 int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar);
 void describedepcon(struct varbuf *addto, struct dependency *dep);
-
-int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against);
-int versionsatisfied3(const struct versionrevision *it,
-                      const struct versionrevision *ref,
-                      enum depverrel verrel);
 
 #endif /* MAIN_H */

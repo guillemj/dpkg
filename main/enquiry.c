@@ -393,6 +393,15 @@ void enqperpackage(const char *const *argv) {
       }
       break;
 
+    case act_printavail:
+      if (!informative(pkg,&pkg->available)) {
+        printf("Package `%s' is not available.\n",pkg->name);
+        failures++;
+      } else {
+        writerecord(stdout, "<stdout>", pkg, &pkg->available);
+      }
+      break;
+      
     case act_listfiles:
       switch (pkg->status) {
       case stat_notinstalled: 
@@ -430,7 +439,7 @@ void enqperpackage(const char *const *argv) {
   }
 }
 
-void assertsupportpredepends(const char *const *argv) {
+void assertpredep(const char *const *argv) {
   static struct versionrevision predepversion = {~0UL,0,0};
   struct pkginfo *pkg;
   
@@ -555,7 +564,14 @@ static void badlgccfn(const char *compiler, const char *output, const char *why)
   ohshit("compiler libgcc filename not understood: %.250s",why);
 }
 
-void printarchitecture(const char *const *argv) {
+void printinstarch(const char *const *argv) {
+  if (*argv) badusage("--print-installation-architecture does not take any argument");
+
+  if (printf("%s\n",architecture) == EOF) werr("stdout");
+  if (fflush(stdout)) werr("stdout");
+}
+
+void printarch(const char *const *argv) {
   static const struct { const char *from, *to; } archtable[]= {
 #include "archtable.inc"
     { 0,0 }
@@ -568,6 +584,8 @@ void printarchitecture(const char *const *argv) {
   struct varbuf vb;
   ptrdiff_t ll;
   char *p, *q;
+
+  if (*argv) badusage("--print-architecture does not take any argument");
 
   ccompiler= getenv("CC");
   if (!ccompiler) ccompiler= "gcc";
@@ -602,4 +620,82 @@ void printarchitecture(const char *const *argv) {
   }
   if (printf("%s\n",arch) == EOF) werr("stdout");
   if (fflush(stdout)) werr("stdout");
+}
+
+void cmpversions(const char *const *argv) {
+  struct relationinfo {
+    const char *string;
+    /* These values are exit status codes, so 0=true, 1=false */
+    int if_lesser, if_equal, if_greater;
+    int if_none_a, if_none_b, if_none_both;
+  };
+
+  static const struct relationinfo relationinfos[]= {
+   /*              < = > !a!2!b  */
+    { "le",        0,0,1, 0,0,1  },
+    { "lt",        0,1,1, 0,1,1  },
+    { "eq",        1,0,1, 1,0,1  },
+    { "ne",        0,1,0, 0,1,0  },
+    { "ge",        1,0,0, 1,0,0  },
+    { "gt",        1,1,0, 1,1,0  },
+    { "le-nl",     0,0,1, 1,0,0  }, /* Here none
+    { "lt-nl",     0,1,1, 1,1,0  },  * is counted
+    { "ge-nl",     1,0,0, 0,0,1  },  * than any version.
+    { "gt-nl",     1,1,0, 0,1,1  },  */
+    { "<",         0,0,1, 0,0,1  }, /* For compatibility
+    { "<=",        0,0,1, 0,0,1  },  * with dpkg
+    { "<<",        0,1,1, 0,1,1  },  * control file
+    { "=",         1,0,1, 1,0,1  },  * syntax
+    { ">",         1,0,0, 1,0,0  },  */
+    { ">=",        1,0,0, 1,0,0  },
+    { ">>",        1,1,0, 1,1,0  },
+    {  0                         }
+  };
+
+  const struct relationinfo *rip;
+  const char *emsg;
+  struct versionrevision a, b;
+  int r;
+  
+  if (!argv[0] || !argv[1] || !argv[2] || argv[3])
+    badusage("--cmpversions takes three arguments:"
+             " <version> <relation> <version>");
+
+  for (rip=relationinfos; rip->string && strcmp(rip->string,argv[1]); rip++);
+
+  if (!rip->string) badusage("--cmpversions bad relation");
+
+  if (*argv[0] && strcmp(argv[0],"<unknown>")) {
+    emsg= parseversion(&a,argv[0]);
+    if (emsg) {
+      if (printf("version a has bad syntax: %s\n",emsg) == EOF) werr("stdout");
+      if (fflush(stdout)) werr("stdout");
+      exit(1);
+    }
+  } else {
+    blankversion(&a);
+  }
+  if (*argv[2] && strcmp(argv[2],"<unknown>")) {
+    emsg= parseversion(&b,argv[2]);
+    if (emsg) {
+      if (printf("version b has bad syntax: %s\n",emsg) == EOF) werr("stdout");
+      if (fflush(stdout)) werr("stdout");
+      exit(1);
+    }
+  } else {
+    blankversion(&b);
+  }
+  if (!informativeversion(&a)) {
+    exit(informativeversion(&b) ? rip->if_none_a : rip->if_none_both);
+  } else if (!informativeversion(&b)) {
+    exit(rip->if_none_b);
+  }
+  r= versioncompare(&a,&b);
+  debug(dbg_general,"cmpversions a=`%s' b=`%s' r=%d",
+        versiondescribe(&a,vdew_always),
+        versiondescribe(&b,vdew_always),
+        r);
+  if (r>0) exit(rip->if_greater);
+  else if (r<0) exit(rip->if_lesser);
+  else exit(rip->if_equal);
 }

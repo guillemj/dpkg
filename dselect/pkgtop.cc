@@ -273,14 +273,14 @@ void packagelist::redrawcolheads() {
                  status_status_width);
       mvwaddnstr(colheadspad,0,
                  status_hold_width+status_status_width+2,
-                 "Old sel.",
+                 "Old mark",
                  status_want_width);
       mvwaddnstr(colheadspad,0,
                  status_hold_width+status_status_width+status_want_width+3,
-                 "Selection",
+                 "Marked for",
                  status_want_width);
     } else {
-      mvwaddstr(colheadspad,0,0, "HIOS");
+      mvwaddstr(colheadspad,0,0, "HIOM");
     }
     mvwaddnstr(colheadspad,0,section_column, "Section", section_width);
     mvwaddnstr(colheadspad,0,priority_column, "Priority", priority_width);

@@ -143,8 +143,8 @@ const keybindings::description keybindings::descriptions[]= {
   { "scrollback",      "Scroll backwards through list"                         },
 
   // Actions which apply only to lists of packages.
-  { "select",          "Select package(s) for installation"                    },
-  { "deselect",        "Mark package(s) for deinstallation"                    },
+  { "install",         "Mark package(s) for installation"                      },
+  { "remove",          "Mark package(s) for deinstallation"                    },
   { "purge",           "Mark package(s) for deinstall and purge"               },
   { "morespecific",    "Make highlight more specific"                          },
   { "lessspecific",    "Make highlight less specific"                          },

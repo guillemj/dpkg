@@ -666,6 +666,8 @@ void archivefiles(const char *const *argv) {
   const char **arglist;
   char *p;
 
+  checkpath();
+  
   if (f_recursive) {
     
     if (!*argv)

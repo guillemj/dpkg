@@ -63,15 +63,15 @@ struct menuentry {
 };
 
 static const menuentry menuentries[]= {
-  { "access",  "Choose the access method to use.",                 &urq_setup   },
-  { "update",  "Update list of available packages, if possible.",  &urq_update  },
-  { "select",  "Select which packages to install (or deinstall).", &urq_list    },
-  { "install", "Install selected software.",                       &urq_install },
-  { "config",  "Configure packages that are unconfigured.",        &urq_config  },
-  { "remove",  "Remove software selected for deinstallation.",     &urq_remove  },
-  { "quit",    "Quit dselect.",                                    &urq_quit    },
-  { "menu",     0,                                                 &urq_menu    },
-  {  0                                                                          }
+  { "access",  "Choose the access method to use.",                &urq_setup   },
+  { "update",  "Update list of available packages, if possible.", &urq_update  },
+  { "select",  "Request which packages you want on your system.", &urq_list    },
+  { "install", "Install and upgrade wanted packages.",            &urq_install },
+  { "config",  "Configure any packages that are unconfigured.",   &urq_config  },
+  { "remove",  "Remove unwanted software.",                       &urq_remove  },
+  { "quit",    "Quit dselect.",                                   &urq_quit    },
+  { "menu",     0,                                                &urq_menu    },
+  {  0                                                                         }
 };
 
 static const char programdesc[]=

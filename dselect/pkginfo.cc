@@ -66,10 +66,11 @@ const struct helpmenuentry *packagelist::helpmenulist() {
 int packagelist::itr_recursive() { return recursive; }
 
 const packagelist::infotype packagelist::infoinfos[]= {
-  { itr_recursive,     itd_relations    },
-  { 0,                 itd_description  },
-  { 0,                 itd_controlfile  },
-  { 0,                 0                }
+  { itr_recursive,     itd_relations         },
+  { 0,                 itd_description       },
+  { 0,                 itd_statuscontrol     },
+  { 0,                 itd_availablecontrol  },
+  { 0,                 0                     }
 };
 
 const packagelist::infotype *const packagelist::baseinfo= infoinfos;
@@ -78,11 +79,14 @@ void packagelist::severalinfoblurb(const char *whatinfoline) {
   whatinfovb(whatinfoline);
   varbuf vb;
   vb("The line you have highlighted represents many packages; "
-     "if you ask to select or deselect it you will affect all the "
-     "packages which match the criterion shown.\n"
+     "if you ask to install, remove, hold, &c it you will affect all "
+     "the packages which match the criterion shown.\n"
      "\n"
      "If you move the highlight to a line for a particular package "
-     "you will see information about that package displayed here.");
+     "you will see information about that package displayed here."
+     "\n"
+     "You can use `o' and `O' to change the sort order and give yourself "
+     "the opportunity to mark packages in different kinds of groups.");
   wordwrapinfo(0,vb.string());
 }
 
@@ -121,18 +125,34 @@ void packagelist::itd_description() {
   }
 }
 
-void packagelist::itd_controlfile() {
+void packagelist::itd_statuscontrol() {
   werase(infopad);
   if (!table[cursorline]->pkg->name) {
-    severalinfoblurb("control file information");
+    severalinfoblurb("currently installed control info");
   } else {
-    whatinfovb("control file information for ");
+    whatinfovb("installed control info for ");
+    whatinfovb(table[cursorline]->pkg->name);
+    varbuf vb;
+    varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->installed);
+    vb.terminate();
+    if (debug)
+      fprintf(debug,"packagelist[%p]::idt_statuscontrol(); `%s'\n",this,vb.string());
+    waddstr(infopad,vb.string());
+  }
+}
+
+void packagelist::itd_availablecontrol() {
+  werase(infopad);
+  if (!table[cursorline]->pkg->name) {
+    severalinfoblurb("available version of control file info");
+  } else {
+    whatinfovb("available version of control info for ");
     whatinfovb(table[cursorline]->pkg->name);
     varbuf vb;
     varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->available);
     vb.terminate();
     if (debug)
-      fprintf(debug,"packagelist[%p]::idt_controlfile(); `%s'\n",this,vb.string());
+      fprintf(debug,"packagelist[%p]::idt_availablecontrol(); `%s'\n",this,vb.string());
     waddstr(infopad,vb.string());
   }
 }

@@ -144,15 +144,13 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
    * whether to display things, and by dump to decide whether to write them
    * out.
    */
-  if (info == &pkg->installed ?
+  if (info == &pkg->installed &&
       ((pkg->want != want_unknown && pkg->want != want_purge) ||
        pkg->eflag != eflagv_ok ||
        pkg->status != stat_notinstalled ||
        informativeversion(&pkg->configversion) ||
-       pkg->files)
-      :
-      (nes(pkg->section) ||
-       pkg->priority != pri_unknown))
+       pkg->files))
+    /* We ignore Section and Priority, as these tend to hang around. */
     return 1;
   if (!info->valid) return 0;
   if (info->depends ||
