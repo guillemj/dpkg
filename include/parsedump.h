@@ -3,6 +3,7 @@
  * parse.c - declarations for in-core database reading/writing
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -49,8 +50,13 @@ freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
 freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
 freadfunction f_configversion;
 
-typedef void fwritefunction(struct varbuf*, const struct pkginfo*,
-                            const struct pkginfoperfile*, const struct fieldinfo*);
+enum fwriteflags {
+	fw_printheader	= 001	/* print field header and trailing newline */
+};
+
+typedef void fwritefunction(struct varbuf*,
+			    const struct pkginfo*, const struct pkginfoperfile*,
+			    enum fwriteflags flags, const struct fieldinfo*);
 fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configversion;
 fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
 fwritefunction w_filecharf;

@@ -3,7 +3,7 @@
  * dump.c - code to write in-core database to a file
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
- * Copyright (C) 2001 Wichert Akkerman
+ * Copyright (C) 2001 Wichert Akkerman 
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -38,107 +38,137 @@
 
 void w_name(struct varbuf *vb,
             const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-            const struct fieldinfo *fip) {
+            enum fwriteflags flags, const struct fieldinfo *fip) {
   assert(pigp->name);
-  varbufaddstr(vb,"Package: "); varbufaddstr(vb, pigp->name);
-  varbufaddc(vb,'\n');
+  if (flags&fw_printheader)
+    varbufaddstr(vb,"Package: ");
+  varbufaddstr(vb, pigp->name);
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void w_version(struct varbuf *vb,
                const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-               const struct fieldinfo *fip) {
+               enum fwriteflags flags, const struct fieldinfo *fip) {
   /* Epoch and revision information is printed in version field too. */
   if (!informativeversion(&pifp->version)) return;
-  varbufaddstr(vb,"Version: ");
+  if (flags&fw_printheader)
+    varbufaddstr(vb,"Version: ");
   varbufversion(vb,&pifp->version,vdew_nonambig);
-  varbufaddc(vb,'\n');
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void w_configversion(struct varbuf *vb,
                      const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                     const struct fieldinfo *fip) {
+                     enum fwriteflags flags, const struct fieldinfo *fip) {
   if (pifp != &pigp->installed) return;
   if (!informativeversion(&pigp->configversion)) return;
   if (pigp->status == stat_installed || pigp->status == stat_notinstalled) return;
-  varbufaddstr(vb,"Config-Version: ");
+  if (flags&fw_printheader)
+    varbufaddstr(vb,"Config-Version: ");
   varbufversion(vb,&pigp->configversion,vdew_nonambig);
-  varbufaddc(vb,'\n');
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void w_null(struct varbuf *vb,
             const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-            const struct fieldinfo *fip) {
+            enum fwriteflags flags, const struct fieldinfo *fip) {
 }
 
 void w_section(struct varbuf *vb,
                const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-               const struct fieldinfo *fip) {
+               enum fwriteflags flags, const struct fieldinfo *fip) {
   const char *value= pigp->section;
   if (!value || !*value) return;
-  varbufaddstr(vb,"Section: ");
+  if (flags&fw_printheader)
+    varbufaddstr(vb,"Section: ");
   varbufaddstr(vb,value);
-  varbufaddc(vb,'\n');
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void w_charfield(struct varbuf *vb,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                 const struct fieldinfo *fip) {
+                 enum fwriteflags flags, const struct fieldinfo *fip) {
   const char *value= pifp->valid ? PKGPFIELD(pifp,fip->integer,const char*) : NULL;
   if (!value || !*value) return;
-  varbufaddstr(vb,fip->name); varbufaddstr(vb, ": "); varbufaddstr(vb,value);
-  varbufaddc(vb,'\n');
+  if (flags&fw_printheader) {
+    varbufaddstr(vb,fip->name);
+    varbufaddstr(vb, ": ");
+  }
+  varbufaddstr(vb,value);
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void w_filecharf(struct varbuf *vb,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                 const struct fieldinfo *fip) {
+                 enum fwriteflags flags, const struct fieldinfo *fip) {
   struct filedetails *fdp;
   
   if (pifp != &pigp->available) return;
   fdp= pigp->files;
   if (!fdp || !FILEFFIELD(fdp,fip->integer,const char*)) return;
-  varbufaddstr(vb,fip->name); varbufaddc(vb,':');
+
+  if (flags&fw_printheader) {
+    varbufaddstr(vb,fip->name);
+    varbufaddc(vb,':');
+  }
+
   while (fdp) {
     varbufaddc(vb,' ');
     varbufaddstr(vb,FILEFFIELD(fdp,fip->integer,const char*));
     fdp= fdp->next;
   }
-  varbufaddc(vb,'\n');
+
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void w_booleandefno(struct varbuf *vb,
                     const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                    const struct fieldinfo *fip) {
+                    enum fwriteflags flags, const struct fieldinfo *fip) {
   int value= pifp->valid ? PKGPFIELD(pifp,fip->integer,int) : -1;
+  if (!(flags&fw_printheader)) {
+    varbufaddstr(vb, (value==1) ? "yes" : "no");
+    return;
+  }
   if (!value) return;
   assert(value==1);
-  varbufaddstr(vb,fip->name); varbufaddstr(vb, ": yes\n");
+  varbufaddstr(vb,fip->name); varbufaddstr(vb, ": yes\n"); 
 }
 
 void w_priority(struct varbuf *vb,
                 const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                const struct fieldinfo *fip) {
+                enum fwriteflags flags, const struct fieldinfo *fip) {
   if (pigp->priority == pri_unknown) return;
   assert(pigp->priority <= pri_unknown);
-  varbufaddstr(vb,"Priority: ");
+  if (flags&fw_printheader)
+    varbufaddstr(vb,"Priority: ");
   varbufaddstr(vb,
                pigp->priority == pri_other
                ? pigp->otherpriority
                : priorityinfos[pigp->priority].name);
-  varbufaddc(vb,'\n');
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void w_status(struct varbuf *vb,
               const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-              const struct fieldinfo *fip) {
+              enum fwriteflags flags, const struct fieldinfo *fip) {
   if (pifp != &pigp->installed) return;
   assert(pigp->want <= want_purge);
   assert(pigp->eflag <= eflagv_reinstreq); /* hold and hold-reinstreq NOT allowed */
   assert(pigp->status <= stat_configfiles);
-  varbufaddstr(vb,"Status: ");
+  if (flags&fw_printheader)
+    varbufaddstr(vb,"Status: ");
   varbufaddstr(vb,wantinfos[pigp->want].name); varbufaddc(vb,' ');
   varbufaddstr(vb,eflaginfos[pigp->eflag].name); varbufaddc(vb,' ');
-  varbufaddstr(vb,statusinfos[pigp->status].name); varbufaddc(vb,'\n');
+  varbufaddstr(vb,statusinfos[pigp->status].name);
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void varbufdependency(struct varbuf *vb, struct dependency *dep) {
@@ -169,33 +199,41 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
 
 void w_dependency(struct varbuf *vb,
                   const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                  const struct fieldinfo *fip) {
+                  enum fwriteflags flags, const struct fieldinfo *fip) {
   char fnbuf[50];
   const char *depdel;
   struct dependency *dyp;
 
   if (!pifp->valid) return;
-  sprintf(fnbuf,"%s: ",fip->name); depdel= fnbuf;
+  if (flags&fw_printheader)
+    sprintf(fnbuf,"%s: ",fip->name);
+
+  depdel= fnbuf;
   for (dyp= pifp->depends; dyp; dyp= dyp->next) {
     if (dyp->type != fip->integer) continue;
     assert(dyp->up == pigp);
     varbufaddstr(vb,depdel); depdel= ", ";
     varbufdependency(vb,dyp);
   }
-  if (depdel != fnbuf) varbufaddc(vb,'\n');
+  if ((flags&fw_printheader) && (depdel!=fnbuf))
+    varbufaddc(vb,'\n');
 }
 
 void w_conffiles(struct varbuf *vb,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
-                 const struct fieldinfo *fip) {
+                 enum fwriteflags flags, const struct fieldinfo *fip) {
   struct conffile *i;
 
   if (!pifp->valid || !pifp->conffiles || pifp == &pigp->available) return;
-  varbufaddstr(vb,"Conffiles:\n");
+  if (flags&fw_printheader)
+    varbufaddstr(vb,"Conffiles:\n");
   for (i=pifp->conffiles; i; i= i->next) {
+    if (i!=pifp->conffiles) varbufaddc(vb,'\n');
     varbufaddc(vb,' '); varbufaddstr(vb,i->name); varbufaddc(vb,' ');
-    varbufaddstr(vb,i->hash); varbufaddc(vb,'\n');
+    varbufaddstr(vb,i->hash);
   }
+  if (flags&fw_printheader)
+    varbufaddc(vb,'\n');
 }
 
 void varbufrecord(struct varbuf *vb,
@@ -204,7 +242,7 @@ void varbufrecord(struct varbuf *vb,
   const struct arbitraryfield *afp;
 
   for (fip= fieldinfos; fip->name; fip++) {
-    fip->wcall(vb,pigp,pifp,fip);
+    fip->wcall(vb,pigp,pifp,fw_printheader,fip);
   }
   if (pifp->valid) {
     for (afp= pifp->arbs; afp; afp= afp->next) {
