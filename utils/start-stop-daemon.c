@@ -654,10 +654,10 @@ main(int argc, char **argv)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
 	if (changeuser != NULL) {
-		if (seteuid(runas_uid))
-			fatal("Unable to set effective uid to %s", changeuser);
 		if (initgroups(changeuser, runas_gid))
 			fatal("Unable to set initgroups() with gid %d", runas_gid);
+		if (seteuid(runas_uid))
+			fatal("Unable to set effective uid to %s", changeuser);
 	}
 	
 	if (background) { /* ok, we need to detach this process */
