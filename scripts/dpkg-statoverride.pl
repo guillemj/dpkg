@@ -1,6 +1,6 @@
 #! /usr/bin/perl
 
-$dpkglibdir= "/var/lib/dpkg"; # This line modified by Makefile
+$admindir= "/var/lib/dpkg"; # This line modified by Makefile
 $version= '1.3.0'; # This line modified by Makefile
 
 $verbose= 1;
@@ -51,7 +51,7 @@ while (@ARGV) {
 		$force=1;
 	} elsif (m/^--admindir$/) {
 		@ARGV || &badusage("--admindir needs a directory argument");
-		$dpkglibdir= shift(@ARGV);
+		$admindir= shift(@ARGV);
 	} elsif (m/^--add$/) {
 		&CheckModeConflict;
 		$mode= 'add';
@@ -151,7 +151,7 @@ if ($mode eq "add") {
 exit(0);
 
 sub ReadOverrides {
-	open(SO,"$dpkglibdir/statoverride") || &quit("cannot open statoverride: $!");
+	open(SO,"$admindir/statoverride") || &quit("cannot open statoverride: $!");
 	while (<SO>) {
 		my ($owner,$group,$mode,$file);
 		chomp;
@@ -170,17 +170,17 @@ sub ReadOverrides {
 sub WriteOverrides {
 	my ($file);
 
-	open(SO,"$dpkglibdir/statoverride-new") || &quit("cannot open new statoverride file: $!");
+	open(SO,"$admindir/statoverride-new") || &quit("cannot open new statoverride file: $!");
 	foreach $file (keys %owner) {
 		print SO "$owner{$file} $group{$file} $mode{$file} $file\n";
 	}
 	close(SO);
-	chmod(0644, "$dpkglibdir/statoverride-new");
-	unlink("$dpkglibdir/statoverride-old") ||
+	chmod(0644, "$admindir/statoverride-new");
+	unlink("$admindir/statoverride-old") ||
 		$! == &ENOENT || &quit("error removing statoverride-old: $!");
-	link("$dpkglibdir/statoverride","$dpkglibdir/statoverride-old") ||
+	link("$admindir/statoverride","$admindir/statoverride-old") ||
 		$! == &ENOENT || &quit("error creating new statoverride-old: $!");
-	rename("$dpkglibdir/statoverride-new","$dpkglibdir/statoverride")
+	rename("$admindir/statoverride-new","$admindir/statoverride")
 		|| &quit("error installing new statoverride: $!");
 }
 

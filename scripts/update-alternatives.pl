@@ -52,7 +52,7 @@ sub quit { print STDERR "update-alternatives: @_\n"; exit(2); }
 sub badusage { print STDERR "update-alternatives: @_\n\n"; &usageversion; exit(2); }
 
 $altdir= '/etc/alternatives';
-$admindir= '/var/lib/dpkg/alternatives';
+$admindir= '/var/lib/dpkg' . '/alternatives';
 $testmode= 0;
 $verbosemode= 0;
 $mode='';
