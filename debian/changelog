@@ -13,9 +13,9 @@ dpkg (1.9.0) unstable; urgency=low
   * Removed all --smallmem code, as smallmem and largemem now actually
     use about the same amount of memory, and largemem is faster.  Both
     --largemem and --smallmem are now obselete options, and will print
-    a warning if used. Closes: Bug#84905
+    a warning if used. Closes: Bug#84905, #67528
   * Initialize unitialized variables.  This should solve several
-    segfaults. Closes: Bug#25317(plus 8 others, thru the beauty of
+    segfaults. Closes: Bug#25317(plus 9 others, thru the beauty of
     merges)
   * Found that when working with dependency cycles, and part of the cycle
     was a provide, the provider was not being considered, so the cycle
@@ -97,7 +97,7 @@ dpkg (1.9.0) unstable; urgency=low
   * Handle dangling symlinks, by ignoring error code 1 from find, when
     processing --recursive. Closes: Bug#4784
   * dpkg -L, -S, -l, -s, and -p now return an error code if any package
-    does not exist. Closes: Bug#4974
+    does not exist. Closes: Bug#4974, #72406
 
  -- Wichert Akkerman <wakkerma@debian.org>  Sat, 13 Jan 2001 08:52:11 -0500
 
