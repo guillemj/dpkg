@@ -361,6 +361,7 @@ if ($opmode eq 'build') {
                 }
                 defined($c3= open(DIFFGEN,"-|")) || &syserr("fork for diff");
                 if (!$c3) {
+		    $ENV{'LANG'}= 'C';
                     exec('diff','-u',
                          '-L',"$basedirname.orig/$fn",
                          '-L',"$basedirname/$fn",
@@ -535,6 +536,7 @@ if ($opmode eq 'build') {
 	    while (($_ = <GZIP>) && !/^--- /) {
 		# read hunk header (@@)
 		s/\n$// or &error("diff is missing trailing newline");
+		next if /^\\ No newline/;
 		/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@$/ or
 		    &error("Expected ^@@ in line $. of diff");
 		my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
@@ -543,6 +545,7 @@ if ($opmode eq 'build') {
 		while ($olines || $nlines) {
 		    $_ = <GZIP> or &error("unexpected end of diff");
 		    s/\n$// or &error("diff is missing trailing newline");
+		    next if /^\\ No newline/;
 		    if (/^ /) { --$olines; --$nlines; }
 		    elsif (/^-/) { --$olines; }
 		    elsif (/^\+/) { --$nlines; }
@@ -626,6 +629,7 @@ if ($opmode eq 'build') {
         if (!$c2) {
             open(STDIN,"<&GZIP") || &syserr("reopen gzip for patch");
             chdir($newdirectory) || &syserr("chdir to $newdirectory for patch");
+	    $ENV{'LANG'}= 'C';
             exec('patch','-s','-t','-F','0','-N','-p1','-u',
                  '-V','never','-g0','-b','-z','.dpkg-orig');
             &syserr("exec patch");
