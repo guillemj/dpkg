@@ -24,12 +24,27 @@
 
 #include <config.h>
 #include <dpkg.h>
-
-/* This also defines our obstack usage */
 #include <dpkg-db.h>
 
-struct obstack db_obs;
-int ob_init = 0;
+#include <obstack.h>
+
+#define obstack_chunk_alloc m_malloc
+#define obstack_chunk_free free
+#define ALIGN_BOUNDARY 64
+#define ALIGN_MASK (ALIGN_BOUNDARY - 1)
+
+static struct obstack db_obs;
+static int dbobs_init = 0;
+
+#ifdef HAVE_INLINE
+inline void *nfmalloc(size_t size)
+#else
+void *nfmalloc(size_t size)
+#endif
+{
+  if (!dbobs_init) { obstack_init(&db_obs); dbobs_init = 1; }
+    return obstack_alloc(&db_obs, size);
+}
 
 char *nfstrsave(const char *string) {
   int i = strlen(string) + 1;

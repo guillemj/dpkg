@@ -307,15 +307,11 @@ int epochsdiffer(const struct versionrevision *a,
                  const struct versionrevision *b);
 
 /*** from nfmalloc.c ***/
-
-#include <obstack.h>
-#define obstack_chunk_alloc m_malloc
-#define obstack_chunk_free free
-#define ALIGN_BOUNDARY 64
-#define ALIGN_MASK (ALIGN_BOUNDARY - 1)
-
-extern struct obstack db_obs;
-#define nfmalloc(size) obstack_alloc(&db_obs, size)
+#ifdef HAVE_INLINE
+extern inline void *nfmalloc(size_t);
+#else
+extern void *nfmalloc(size_t);
+#endif
 char *nfstrsave(const char*);
 char *nfstrnsave(const char*, int);
 void nffreeall(void);

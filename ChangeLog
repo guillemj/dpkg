@@ -1,3 +1,13 @@
+Sun Jan 14 23:37:30 EST 2001 Ben Collins <bcollins@debian.org>
+
+  * include/dpkg-db.h: redeclare nfmalloc(), remove obstack definitions
+  * lib/dbmodify.c (modstatdb_init): remove obstack init
+  * lib/nfmalloc.c: redefine nfmalloc to be an inline function. It now checks
+    to make sure db_obs is initliazed.
+  * main/archives.c (tarobject): declare our own obstack, and use it instead
+    (cu_fileslist) just call obstack_free
+  * main/processarc.c: correct calling of cu_fileslist
+
 Sun Jan 14 18:23:07 CST 2001 Adam Heath <doogie@debian.org>
 
   * main/dpkg.8: Document --command-fd.

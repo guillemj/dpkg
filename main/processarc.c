@@ -270,7 +270,7 @@ void process_archive(const char *filename) {
    * hashes across.
    */
   newconffiles= 0; newconffileslastp= &newconffiles;
-  push_cleanup(cu_fileslist,~0, 0,0, 1,(void*)&newconffiles);
+  push_cleanup(cu_fileslist,~0, 0, 0, 0);
   strcpy(cidirrest,CONFFILESFILE);
   conff= fopen(cidir,"r");
   if (conff) {
@@ -512,7 +512,7 @@ void process_archive(const char *filename) {
   close(p1[1]);
 
   newfileslist= 0; tc.newfilesp= &newfileslist;
-  push_cleanup(cu_fileslist,~0, 0,0, 1,(void*)&newfileslist);
+  push_cleanup(cu_fileslist,~0, 0, 0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
   push_cleanup(cu_closefd,~ehflag_bombout, 0,0, 1,(void*)&tc.backendpipe);

@@ -33,6 +33,10 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <obstack.h>
+#define obstack_chunk_alloc m_malloc
+#define obstack_chunk_free free
+
 #include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
@@ -208,7 +212,10 @@ int unlinkorrmdir(const char *filename) {
         filename, r ? strerror(e) : "OK");
   errno= e; return r;
 }
-     
+
+static struct obstack tar_obs;
+static int tarobs_init = 0;
+
 int tarobject(struct TarInfo *ti) {
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
   const char *usename;
@@ -222,11 +229,16 @@ int tarobject(struct TarInfo *ti) {
   struct filepackages *packageslump;
   mode_t am;
 
+  if (!tarobs_init) {
+    obstack_init(&tar_obs);
+    tarobs_init = 1;
+  }
+
   /* Append to list of files.
    * The trailing / put on the end of names in tarfiles has already
    * been stripped by TarExtractor (lib/tarfn.c).
    */
-  nifd= m_malloc(sizeof(struct fileinlist));
+  nifd= obstack_alloc(&tar_obs, sizeof(struct fileinlist));
   nifd->namenode= findnamenode(ti->Name, 0);
   nifd->next= 0; *tc->newfilesp= nifd; tc->newfilesp= &nifd->next;
   nifd->namenode->flags |= fnnf_new_inarchive;
@@ -548,7 +560,7 @@ static int try_remove_can(struct deppossi *pdep,
       }
     }
     pdep->up->up->clientdata->istobe= itb_deconfigure;
-    newdeconf= m_malloc(sizeof(struct packageinlist));
+    newdeconf= obstack_alloc(&tar_obs, sizeof(struct packageinlist));
     newdeconf->next= deconfigure;
     newdeconf->pkg= pdep->up->up;
     deconfigure= newdeconf;
@@ -676,11 +688,9 @@ void cu_cidir(int argc, void **argv) {
 }  
 
 void cu_fileslist(int argc, void **argv) {
-  struct fileinlist **headp= (struct fileinlist**)argv[0];
-  struct fileinlist *current, *next;
-  for (current= *headp; current; current= next) {
-    next= current->next;
-    free(current);
+  if (tarobs_init) {
+    obstack_free(&tar_obs, 0);
+    tarobs_init = 0;
   }
 }  
 
