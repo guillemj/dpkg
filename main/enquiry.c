@@ -647,7 +647,8 @@ void printarch(const char *const *argv) {
      * are being called, then we should just give them the built
      * in arch.
      */
-    if (printf("%s\n",architecture) == EOF) werr("stdout");
+    if (printf("/usr/lib/gcc-lib/%s-none/0.0.0/libgcc.a\n",architecture) == EOF)
+      werr("stdout");
     if (fflush(stdout)) werr("stdout");
     exit(0);
   }
