@@ -48,7 +48,7 @@ extern "C" {
 #include "pkglist.h"
 
 const char thisname[]= DSELECT;
-const char printforhelp[]= "Type " DPKG " --help for help.";
+const char printforhelp[]= "Type " DSELECT " --help for help.";
 
 modstatdb_rw readwrite;
 const char *admindir= ADMINDIR;
