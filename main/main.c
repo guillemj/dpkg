@@ -521,7 +521,6 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
-fprintf(stderr,"dpkg(adam)\n");
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
   }
