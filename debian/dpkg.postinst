@@ -115,11 +115,13 @@ OK.
 fi
 
 cd /var/lib/dpkg
-if ! test -f diversions
-then
+if ! test -f diversions ; then
 	touch diversions
 fi
 
+if ! test -f statoverride ; then
+	touch statoverride
+fi
 rm -f /usr/bin/dpkg-deb.dist
 
 if test -d /DEBIAN

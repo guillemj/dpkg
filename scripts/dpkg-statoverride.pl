@@ -10,7 +10,7 @@ $mode= "";
 
 sub UsageVersion {
 	print STDERR <<EOF || &quit("failed to write usage: $!");
-"Debian dpkg-statoverride $version.
+Debian dpkg-statoverride $version.
 Copyright (C) 2000 Wichert Akkerman.
 
 This is free software; see the GNU General Public Licence version 2 or later
@@ -26,7 +26,7 @@ Options:
   --update                 immediately update file permissions
   --force                  force an action even if a sanity check fails
   --quiet                  quiet operation, minimal output
-  --help                   print this help screenm and exit
+  --help                   print this help screen and exit
   --admindir <directory>   set the directory with the statoverride file
 EOF
 }
@@ -73,10 +73,23 @@ $dowrite=0;
 
 if ($mode eq "add") {
 	@ARGV==4 || &badusage("--add needs four arguments");
+
 	$user=$ARGV[0];
-	($user =~ m/^#[0-9]*/ or (($tmp)=getpwnam($user))) || &badusage("illegal user $user");
+	if ($user =~ m/^#\(0-9+\)$/) {
+	    $uid=$1;
+	    &badusage("illegal user $user") if ($uid<0);
+	} else {
+	    (($name,$pw,$uid)=getpwnam($user)) || &badusage("non-existing user $user");
+	}
+
 	$group=$ARGV[1];
-	($group =~ m/^#[0-9]*/ or (($tmp)=getgrnam($group))) || &badusage("illegal group $group");
+	if ($group =~ m/^#\(0-9+\)$/) {
+	    $gid=$1;
+	    &badusage("illegal group $group") if ($gid<0);
+	} else {
+	    (($name,$pw,$gid)=getgrnam($group)) || &badusage("illegal group $group");
+	}
+
 	$mode= $ARGV[2];
 	(($mode<0) or ($mode>07777)) && &badusage("illegal mode $mode");
 	$file= $ARGV[3];
@@ -95,6 +108,15 @@ if ($mode eq "add") {
 	$group{$file}=$group;
 	$mode{$file}=$mode;
 	$dowrite=1;
+
+	if ($doupate) {
+	    if (not -f $file) {
+		print STDERR "waring: --update given but $file does not exist\n";
+	    } else {
+		chmod $mode,$file || warn "failed to chmod $file: $!\n";
+		chown $uid,$gid,$file || warn "failed to chown $file: $!\n";
+	    }
+	}
 } elsif ($mode eq "remove") {
 	@ARGV==1 || &badusage("--remove needs four arguments");
 	$file=$ARGV[0];
@@ -106,6 +128,7 @@ if ($mode eq "add") {
 	delete $group{$file};
 	delete $mode{$file};
 	$dowrite=1;
+	print STDERR "warning: --update is useless for --remove\n" if ($doupdate);
 } elsif ($mode eq "list") {
 	my (@list,@ilist,$pattern,$file);
 	
@@ -164,3 +187,5 @@ sub WriteOverrides {
 
 sub quit { print STDERR "dpkg-statoverride: @_\n"; exit(2); }
 sub badusage { print STDERR "dpkg-statoverride: @_\n\n"; print("You need --help.\n"); exit(2); }
+
+# vi: ts=8 sw=8 ai si cindent
