@@ -1,0 +1,185 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.TH START\-STOP\-DAEMON 8 "15th March 1997" "Debian Project" "Debian GNU/Linux"
+.SH NOM
+start\-stop\-daemon \- lance ou arrête des démons-systèmes
+.SH SYNOPSIS
+.B start-stop-daemon
+.BR -S|--start
+.IR "options ... -- arguments ..."
+.HP
+.B start-stop-daemon
+.BR -K|--stop
+.IR "options ..."
+.HP
+.B start-stop-daemon
+.BR -H|--help
+.HP
+.B start-stop-daemon
+.BR -V|--version
+.SH DESCRIPTION
+On se sert de
+.B start\-stop\-daemon
+pour contrôler la création ou l'arrêt de processus-systèmes.
+On peut configurer
+.B start\-stop\-daemon
+avec les options
+.BR --exec,
+.BR --pidfile,
+.BR --user,
+et
+.BR --name
+pour trouver les exemplaires présents d'un processus en fonctionnement.
+
+Avec l'action
+.BR --start,
+.B start\-stop\-daemon
+vérifie l'existence d'un processus particulier.
+Quand existe un tel processus,
+.B start\-stop\-daemon
+ne fait rien et se termine avec un code d'erreur égal à 1 (0 si
+.BR --oknodo
+est précisé).  
+Quand un tel processus n'existe pas, un exemplaire de l'exécutable est lancé 
+avec
+.BR --exec
+, (ou, si c'est précisé, avec
+.BR --startas
+).
+Tout argument donné après
+.BR --
+sur la ligne de commande est passé tel quel au programme qui doit être lancé.
+
+Avec l'action
+.BR --stop,
+.B start\-stop\-daemon
+vérifie aussi l'existence d'un processus particulier.
+Quand un tel processus existe 
+.B start\-stop\-daemon
+lui envoie le signal précisé avec
+.BR --signal,
+et se termine avec un code d'erreur égal à 0.
+Quand un tel processus n'existe pas
+.B start\-stop\-daemon
+se termine avec un code d'erreur égal à 1
+(0 if 
+.BR --oknodo
+est précisé).  
+
+.SH OPTIONS
+
+.TP
+.I -x|--exec exécutable
+Cherche les processus qui sont des exemplaires de cet exécutable (selon
+.B /proc/
+.I pid
+.B /exe 
+).
+.TP
+.I -p|--pidfile pid-file
+Cherche les processus dont les identifiants sont précisés dans
+.I pid-file.
+.TP
+.I -u|--user nom-d-utilisateur|uid
+Cherche les processus qui appartiennent à l'utilisateur défini par
+.I nom-d-utilisateur 
+ou
+.I uid.
+.TP
+.I -n|--name nom-de-processus
+Cherche les processus dont le nom est
+.I nom-de-processus
+(selon
+.B /proc/
+.I pid
+.B /stat 
+).
+.TP
+.I -s|--signal signal
+Avec l'action
+.BR --stop
+, définit le signal à envoyer au processus qui doit être arrêté 
+(par défaut : signal 15).
+.TP
+.I -a|--startas chemin/nom
+Avec l'action
+.B --start
+, lance le processus spécifié par
+.I chemin/nom.
+Si rien n'est précisé, c'est par défaut l'argument donné à
+.B --exec.
+.TP
+.I -t|--test
+Affiche les actions qui seraient entreprises et détermine la bonne valeur de 
+retour, mais ne fait rien.
+.TP
+.I -o|--oknodo
+Retourne un code de sortie égal à 0 au lieu de 1 si rien n'est ou ne sera fait.
+.TP
+.I -q|--quiet
+N'affiche pas de messages d'information ; affiche seulement les messages
+d'erreur.
+.TP
+.I -c|--chuid
+Change l'utilisateur ou l'identifiant avant de lancer le processus.
+On peut aussi préciser un groupe an ajoutant un « : », puis le groupe ou un 
+identifiant de la même façon qu'avec la commande « chown » 
+(utilisateur:groupe). Quand on utilise cette option, on doit s'apercevoir
+que les groupes primaires ainsi que les groupes supplémentaires sont aussi 
+déterminés, même si l'option « group » n'est pas spécifiée. L'option « group » 
+sert seulement pour les groupes dont l'utilisateur n'est pas un membre régulier
+(c'est comme rendre membres d'un groupe-processus des utilisateurs 
+génériques comme « nobody »).
+.TP
+.I -r|--chroot root
+Change de répertoire racine pour
+.B root
+avant de lancer le processus. Remarquez que le « pidfile » est aussi écrit
+après le changement de racine.
+.TP
+.I -b|--background
+est utilisé de manière classique pour les programmes qui ne « se détachent » 
+pas d'eux-mêmes. Cette option oblige
+.B start-stop-daemon
+à se dupliquer (fork) avant de lancer le processus, et l'oblige à passer en
+arrière-plan.
+.B AVERTISSEMENT :
+start-stop-daemon
+ne peut pas vérifier le code de sortie quand, pour
+.B une raison ou une autre,
+le processus échoue.
+C'est un expédient dont on se servira seulement pour des programmes dont la
+duplication n'a pas de sens ou bien des programmes dont le code 
+n'est pas transformable pour leur ajouter cette fonctionnalité.
+.TP
+.I -m|--make-pidfile
+Est utilisé lors du lancement d'un programme qui ne crée pas son propre 
+fichier identificateur. Cette option dit à
+.B start-stop-daemon
+de créer le fichier référencé par
+.B --pidfile
+et place le « pid » dans ce fichier juste avant d'exécuter le processus.
+Il faut remarquer que ce fichier n'est pas supprimé quand le programme
+s'arrête.
+.B NOTE :
+il se peut que cette caractéristique ne marche pas dans tous les cas. Et
+notamment quand le programme qui est exécuté se duplique. À cause de cela,
+cette option n'est habituellement utile que combinée avec l'option
+.B --background.
+.TP
+.I -v|--verbose
+Affiche des messages prolixes de renseignements.
+.TP
+.I -H|--help
+Affiche une aide et se termine.
+.TP
+.I -V|--version
+Affiche le numéro de version et se termine.
+
+.SH AUTEURS
+Ian Jackson <ijackson@gnu.ai.mit.edu>
+
+Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
+
+Page de manuel par Klee Dienes <klee@mit.edu>.
+.SH TRADUCTION
+Philippe Batailler, Dec 2000.

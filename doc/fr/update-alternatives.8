@@ -1,0 +1,357 @@
+.\" update-alternatives.8
+.\" This man page is copyright 1997 Charles Briscoe-Smith
+.\" This is free documentation; you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published
+.\" by the Free Software Foundation; either version 2 of the License, or
+.\" (at your option) any later version.  There is NO WARRANTY.  You can
+.\" find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
+.\" traduction de la révision CVS 1.6
+.TH UPDATE-ALTERNATIVES 8 "19 January 1998" "DEBIAN" "Debian GNU/Linux"
+.SH NOM
+update-alternatives \- maintenance des liens symboliques déterminant les noms
+par défaut de certaines commandes
+.SH SYNOPSIS
+.B update-alternatives
+.RI [ options ]
+.B --install
+.I lien nom chemin priorité
+.RB [ --slave
+.I lien nom
+.IR chemin ]...
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --remove
+.I nom chemin
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --auto
+.I nom
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --display
+.I nom
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --config
+.I nom
+.SH DESCRIPTION
+.B update-alternatives
+crée, enlève, conserve et affiche des informations concernant les liens 
+symboliques qui forment le système Debian des « alternatives ».
+.PP
+Il est possible d'installer, sur un même système et en même temps, des
+programmes qui remplissent des fonctions identiques ou semblables.
+Par exemple, beaucoup de systèmes installent plusieurs éditeurs de
+texte en même temps. Cela permet à chaque utilisateur d'un système de choisir,
+s'il le désire, un éditeur de texte différent ; mais cela rend les choses
+difficiles pour le programme qui doit choisir un bon éditeur de texte
+quand l'utilisateur n'a pas fait de choix précis.
+.PP
+Le système Debian des « alternatives » essaie de résoudre ce problème.
+Tous les fichiers qui proposent des fonctions interchangeables se servent
+d'un nom générique qui se trouve dans l'arborescence. Le système des 
+« alternatives » et l'administrateur système font connaître ensemble le
+fichier qui est réellement visé par ce nom générique. Par exemple, si les
+éditeurs de texte
+.BR ed (1)
+et
+.BR nvi (1)
+sont tous les deux installés, le système des « alternatives » fait que le nom 
+générique 
+.I /usr/bin/editor
+renvoie par défaut à
+.I /usr/bin/nvi.
+L'administrateur système peut remplacer cette assignation par
+.I /usr/bin/ed
+et le système des « alternatives » ne la changera pas tant qu'on ne lui
+aura pas demandé explicitement de le faire.
+.PP
+Le nom générique n'est pas un lien symbolique direct vers l'alternative
+choisie. c'est en fait un lien symbolique vers un nom situé dans le
+.IR répertoire
+.I des « alternatives »,
+lequel nom est à son tour un lien symbolique vers le fichier réellement
+visé. Les modifications faites par l'administrateur système sont ainsi
+confinées dans le répertoire 
+.I /etc :
+le FSSTND (lisez-le) donne de Bonnes Raisons de faire ainsi.
+.PP
+Chaque fois qu'un paquet proposant un fichier pour une fonction déterminée,
+est installé, modifié ou désinstallé,
+.B update-alternatives
+est appelé pour mettre à jour les informations concernant ce fichier dans
+le système des « alternatives ».
+On appelle habituellement
+.B update-alternatives
+dans les scripts
+.B postinst
+et
+.B prerm
+des paquets Debian.
+.PP
+Il est souvent utile de synchroniser certaines alternatives, de manière à
+pouvoir les manipuler globalement ; par exemple, quand plusieurs versions
+de 
+.BR vi (1) 
+sont installées, la page de manuel qui est visée par
+.I /usr/man/man1/vi.1
+devrait correspondre à 
+.IR /usr/bin/vi.
+.B update-alternatives
+gère ce problème avec les liens
+.I principaux (« master »)
+et les liens
+.I secondaires (« slave »)
+Quand le lien principal est changé, tous les liens secondaires associés
+sont changés.
+Un lien principal et ses liens secondaires associés composent un
+.IR groupe
+de
+.I liens.
+.PP
+À tout moment, un groupe de liens est dans l'un des deux modes suivants : 
+automatique ou manuel. Quand un groupe est dans le mode automatique et que 
+des paquets sont installés ou désinstallés, le système des « alternatives » 
+décide automatiquement s'il doit mettre à jour les liens et comment le faire.
+Dans le mode manuel, le système des « alternatives » ne change pas les
+liens et laisse l'administrateur système prendre toutes les décisions.
+.PP
+Un groupe de liens est en mode automatique quand il est crée sur un système
+pour la première fois. Quand l'administrateur système
+modifie le paramétrage automatique du système, 
+.B update-alternatives
+le remarquera la prochaine fois qu'il sera lancé pour ce groupe aux
+liens modifiés et il fera passer ce groupe en mode manuel.
+.PP
+À chaque alternative est associée une
+.I priorité.
+Quand un groupe de liens est en mode automatique, l'alternative visée par les
+éléments du groupe est celle qui possède la priorité la plus élevée.
+.PP
+Quand on utilise l'option
+.I --config,
+.B update-alternatives
+affiche toutes les possibilités du groupe pour lequel
+.I nom
+est le lien principal.
+On vous demandera alors quelle possibilité vous choisissez pour ce groupe.
+Dès qu'une modification est faite, le groupe de liens n'est plus en mode
+.I auto. 
+Il vous faudra utiliser l'option
+.I --auto
+pour revenir au mode automatique.
+.SH TERMINOLOGIE
+Comme les opérations de
+.B update-alternatives
+sont très compliquées, voici quelques termes qui faciliteront l'explication.
+.TP
+nom générique
+C'est un nom, par exemple
+.IR /usr/bin/editor,
+qui renvoie, à travers le système des « alternatives », à l'un des fichiers qui
+remplissent des fonctions similaires.
+.TP
+lien symbolique
+Sans en dire plus, c'est un lien symbolique qui se trouve dans le répertoire
+alternatives, répertoire que l'administrateur système est supposé déterminer.
+.TP
+alternative
+C'est le nom d'un fichier particulier dans l'arborescence ; il peut être
+accessible, via un nom générique, avec le système des « alternatives ».
+.TP
+répertoire des alternatives 
+C'est le répertoire qui contient les liens symboliques ; il s'agit 
+par défaut de
+.IR /etc/alternatives.
+.TP
+répertoire administratif
+C'est le répertoire qui contient des renseignements sur l'état de
+.BR update-alternatives. 
+Il s'agit par défaut de
+.IR /var/lib/dpkg/alternatives.
+.TP
+groupe de liens
+C'est un ensemble de liens symboliques corrélés, de manière qu'on puisse les
+mettre à jour en une seule fois.
+.TP
+lien principal
+Dans un groupe de liens, c'est le lien qui détermine comment sont configurés
+les autres liens du groupe.
+.TP
+lien secondaire (« slave »)
+Dans un groupe de liens, c'est un lien déterminé par le paramétrage du lien
+principal.
+.TP
+mode automatique
+Quand un groupe de liens est en mode automatique,
+le système des « alternatives » assure que les liens dans le groupe
+pointent vers l'alternative possédant la priorité la plus élevée
+dans ce groupe.
+.TP
+mode manuel 
+Quand un groupe de liens est en mode manuel,
+le système des « alternatives » ne modifie pas le paramétrage de l'
+administrateur système.
+.SH OPTIONS
+Pour toute opération significative, on doit demander une seule action à
+.B update-alternatives.
+Pour toute action, on peut préciser un certain nombre d'options.
+.SS "Options générales"
+.TP
+.B --verbose
+produit plus de commentaires sur ce que fait
+.B update-alternatives.
+.TP
+.B --quiet
+ne produit pas de commentaires à moins qu'une erreur survienne.
+Cette option n'est pas encore implémentée.
+.TP
+.B --test
+En vérité, ne fait rien ! dit simplement ce qui pourrait être fait.
+Cette option n'est pas encore implémentée.
+.TP
+.B --help
+Donne des renseignements sur l'utilisation (et donne la version de
+.B update-alternatives).
+.TP
+.B --version
+donne la version de
+.B update-alternatives
+et des renseignements sur l'utilisation.
+.TP
+\fB--altdir\fR \fIrépertoire\fR
+Donne le répertoire des alternatives, quand il est différent de celui par
+défaut.
+.TP
+\fB--admindir\fR \fIrépertoire\fR
+Donne le répertoire administratif, quand il est différent de celui par
+défaut.
+.SS ACTIONS
+.\" The names of the arguments should be identical with the ones
+.\" in SYNOPSIS section.
+.TP
+\fB--install\fR \fIlien gen chemin pri\fR [\fB--slave\fR \fIslien sgen schemin\fR] ...
+Ajoute un groupe d'alternatives au système.
+.I gen
+est le nom générique du lien principal,
+.I lien
+est le nom de son lien symbolique, et
+.I chemin
+est l'alternative présentée pour le lien principal.
+.IR sgen ,
+.I slien
+et
+.I schemin
+sont les nom générique, lien symbolique et alternative pour un lien secondaire.
+On peut indiquer zéro ou plusieurs options
+.B --slave
+chacune suivie par trois arguments.
+.IP
+Quand le lien principal spécifié existe déjà dans les enregistrements du
+système des « alternatives », les renseignements fournies sont ajoutées
+dans un nouvel ensemble d'alternatives pour le groupe.
+Sinon, un nouveau groupe contenant ces informations est ajouté et mis en 
+mode automatique.
+Quand un groupe est en mode automatique, et quand la priorité des
+alternatives nouvellement ajoutées est plus élevée que toutes celles des
+alternatives installées dans ce groupe, les liens symboliques sont mis à
+jour et pointent vers les alternatives nouvellement ajoutées.
+.TP
+\fB--remove\fR \fInom chemin\fR
+Enlève une alternative et tous ses liens secondaires associés.
+.I nom
+est un nom dans le répertoire des « alternatives », et
+.I chemin
+est un nom de fichier auquel
+.I nom
+peut être lié.  Quand
+.I nom
+est en effet lié à
+.IR chemin,
+.I nom
+est mis à jour et pointe vers une  autre alternative adéquate, ou bien
+est enlevé si il n'y en a pas d'autre.  De même, les liens secondaires 
+associés sont mis à jour ou enlevés.
+Quand le lien ne pointe pas déjà sur
+.IR chemin, 
+aucun lien n'est modifié ; seules les informations sur l'alternative sont
+supprimées.
+.TP
+\fB--auto\fR \fInom\fR
+Passe le lien symbolique principal
+.I nom
+en mode  automatique.
+En même temps, le lien symbolique principal et ses liens  secondaires sont mis
+à jour et pointent vers les alternatives avec les priorités les plus
+élevées.
+.TP
+\fB--display\fR \fInom\fR
+Affiche des renseignements sur le groupe de liens pour lequel
+.I nom
+est le lien principal.
+L'information affichée comprend le mode du groupe
+(auto ou manuel),
+vers quelle alternative le lien symbolique pointe actuellement,
+quelles autres alternatives sont disponibles (et les liens secondaires 
+associés),
+et l'alternative actuellement installée qui possède la priorité la plus
+élevée.
+.SH FICHIERS
+.TP
+.I /etc/alternatives/
+Le répertoire des « alternatives » par défaut.
+Peut être remplacé avec l'option
+.B --altdir.
+.TP
+.I /var/lib/dpkg/alternatives/
+Le répertoire administratif par défaut.
+Peut être remplacé avec l'option
+.B --admindir
+.SH "ÉTAT DE SORTIE"
+.IP 0
+L'action demandée s'est correctement déroulée.
+.IP 2
+Des problèmes sont survenus lors de l'analyse de la ligne de commande ou bien
+pendant l'exécution de l'action.
+.SH DIAGNOSTICS
+.B update-alternatives
+bavarde sans arrêt sur ses opérations sur le canal de sortie standard.
+Quand un problème arrive,
+.B update-alternatives
+envoie des messages d'erreur sur la sortie d'erreur standard et retourne
+un état de sortie égal à 2.
+Ces diagnostics devraient s'expliquer d'eux-mêmes ; Si ce n'est pas le cas,
+veuillez faire un rapport de bogue.
+.SH BOGUES
+Si vous trouvez un bogue, veuillez envoyer un rapport de bogue au système
+de suivi des bogues de Debian, ou bien, si ce n'est pas possible, envoyez
+un mél directement à l'auteur.
+.PP
+Si vous trouvez une discordance entre l'action de
+.B update-alternatives
+et cette page de manuel, c'est qu'il y a un bogue, soit dans l'implémentation 
+soit dans la documentation ;
+faites un rapport.
+.SH AUTEUR
+Le programme update-alternatives de Debian GNU/Linux est sous copyright 1995
+Ian Jackson.  C'est un logiciel libre ; Voyez la « GNU General Public Licence »
+version 2 ou supérieure pour les conditions du copyright. Il n'y a
+AUCUNE garantie.
+.PP
+Cette page de manuel est sous copyright 1997/98 Charles Briscoe-Smith.
+C'est une documentation libre ; Voyez la « GNU General Public Licence »
+version 2 ou supérieure pour les conditions du copyright. Il n'y a
+AUCUNE garantie.
+.PP
+On peut trouver la licence GNU GPL dans /usr/share/common-licenses/GPL 
+sur tous les systèmes Debian.
+.\" .SH REMERCIEMENTS
+.SH "VOIR AUSSI"
+.BR ln (1),
+FSSTND, le standard pour les systèmes de fichiers Linux.
+.SH "TRADUCTION"
+Philippe Batailler. Nov 200O

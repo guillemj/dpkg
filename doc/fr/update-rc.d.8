@@ -1,0 +1,195 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Authors: Ian Jackson
+.\" Traduction de la révision CVS 1.2
+.TH UPDATE\-RC.D 8 "2 March 1998" "Debian Project" "Debian/GNU Linux"
+.SH NOM
+update\-rc.d \- Pour installer ou supprimer les liens vers les scripts d'
+initialisation de type System-V 
+.SH SYNOPSIS
+.B update\-rc.d
+.RI [ -n ]
+.RI [ -f ]
+.IB nom " remove"
+.HP
+.B update-rc.d
+.RI [ -n ]
+.RI [ -f ]
+.IB nom " defaults"
+.RI [ NN " | " NN-start " " NN-stop ]
+.HP
+.B update-rc.d
+.RI [ -n ]
+.RI [ -f ]
+.I nom
+.BR start | stop
+.IR "NN runlevel runlevel " ...
+.B .
+.BR start | stop
+.IR "NN runlevel runlevel " ...
+.BR . " ..."
+.SH DESCRIPTION
+.B update-rc.d
+met à jour automatiquement les liens vers les scripts d'initialisation de type
+System-V dont le nom est
+.BI /etc/rc runlevel .d/ NNnom
+vers les scripts
+.BI /etc/init.d/ name \fR.
+Ils sont lancés par
+.B init
+quand on change de niveau de fonctionnement et ils sont généralement utilisés 
+pour démarrer ou arrêter des services tels que les démons.
+.I runlevel
+est l'un des niveaux de fonctionnement autorisés par
+.BR init ", " 0123456789S ,
+et
+.I NN
+est le code à deux chiffres utilisé par
+.B init
+pour décider de l'ordre d'exécution des scripts.
+
+Cette page de manuel documente seulement le comportement de
+.BR update-rc.d 
+et son utilisation.
+Pour une discussion sur la préparation des scripts pour l'initialisation de type System-V voyez
+.BR init (8)
+et le
+.IR "dpkg programmers' manual" .
+.SH L'INSTALLATION DES LIENS DES SCRIPTS D'INITIALISATION
+Quand update-rc.d est lancé avec les options
+.BR defaults ", " start ", ou " stop,
+il crée les liens
+.BI /etc/rc runlevel .d/[SK] NNname
+qui pointent vers le script
+.BI /etc/init.d/ name\fR.
+
+Quand des fichiers
+.BI /etc/rc runlevel .d/[SK]?? name
+existent déjà, 
+.B update-rc.d
+ne fait rien.  C'est ainsi pour que l'administrateur système puisse
+réarranger les liens -- à condition qu'il en reste au moins un -- sans
+que sa configuration ne soit réécrite.  
+
+Quand l'option
+.B defaults
+est utilisée,
+.B update-rc.d
+crée des liens pour démarrer un service dans les niveaux de fonctionnement
+.B 2345
+et des liens pour arrêter un service dans les niveaux 
+.BR 016 .
+Par défaut, tous les liens ont un code égal à 20, mais on peut le changer en
+donnant un ou deux arguments
+.I NN ;
+quand un seul argument est donné, il remplace le code à la fois pour les 
+liens de démarrage (start) et pour les liens d'arrêt (stop) ; quand deux 
+arguments sont donnés, le premier remplace le code pour les liens de 
+démarrage (start) et le second remplace le code pour les liens d'arrêt (stop).
+
+Au lieu de
+.B defaults,
+on peut indiquer les niveaux de fonctionnement dans lesquels lancer ou 
+arrêter les services en utilisant une suite explicite d'ensembles d'arguments :
+
+Chacun de ces ensembles commence par un argument
+.BR start " ou " stop
+de manière à indiquer s'il faut créer des liens de démarrage ou d'arrêt.
+Ensuite vient le nombre du code
+.IR NN ,
+pour tous les liens de cet ensemble, puis un ou plusieurs nombres indiquant
+le niveau de fonctionnement, un seul argument pour chacun. l'ensemble se
+termine par un argument
+.B .
+(un simple point).
+
+Quand, plutôt que
+.BR defaults,
+on utilise une détermination explicite, il faut habituellement un ensemble de
+démarrage
+.B start, 
+et un ensemble d'arrêt
+.B stop.
+Quand on veut différents codes dans les différents niveaux de fonctionnement,
+on peut spécifier différents ensembles de démarrage
+.B start
+ou différents ensembles d'arrêt
+.B stop.
+
+Le script
+.BI /etc/init.d/ name
+doit exister avant de lancer
+.B update-rc.d
+pour créer les liens.
+.SH LA SUPPRESSION DES SCRIPTS
+Quand on appelle update-rc.d avec l'option
+.I remove
+les liens dans les répertoires
+.BI /etc/rc runlevel .d
+qui pointent vers le script
+.BI /etc/init.d/ name\fR.
+sont supprimés.
+Ce script doit déjà avoir été supprimé --
+.B update-rc.d
+vérifie cela.
+On appelle habituellement
+.B update-rc.d
+dans le script « post-removal » d'un paquet et quand ce script a détecté que
+son premier argument était 
+.BR purge ; 
+Cela indique que l'utilisateur a demandé le suppression de la configuration de
+ce paquet.
+Tout fichier dans les répertoires
+.BI /etc/rc runlevel .d
+qui n'est pas un lien symbolique vers le script
+.BI /etc/init.d/ name
+est préservé.
+.SH OPTIONS
+.TP
+.I -n
+Ne fait rien, montre seulement ce qui pourrait être fait.
+.TP
+.I -f
+Force la suppression des liens même si
+.BI /etc/init.d/ name
+existe encore.
+.SH EXEMPLES
+Insère des liens avec l'option « defaults » :
+.nf
+.B "   update-rc.d foobar defaults"
+.fi
+La même commande, avec une détermination explicite utilisant les ensembles 
+d'arguments :
+.nf
+.B "   update-rc.d foobar start 20 2 3 4 5 . stop 20 0 1 6 ."
+.fi
+.SH BOGUES
+
+Il devrait y avoir un moyen pour l'administrateur système d'indiquer à
+l'option 
+.B defaults
+au moins les niveaux de fonctionnement par défaut à utiliser pour le 
+démarrage et l'arrêt des services ; l'administrateur système  devrait sans
+doute aussi pouvoir changer d'autres choses.
+.SH FICHIERS
+.TP
+.B /etc/init.d/
+Le répertoire qui contient en fait les scripts d'initialisation.
+.TP
+.B /etc/rc?.d/
+Le répertoire qui contient les liens utilisés par
+.BR init
+et gérés par
+.BR update-rc.d.
+.TP
+.B /etc/init.d/skeleton
+Modèle pour l'écriture des scripts de
+.B init.d
+scripts.
+.SH VOYEZ AUSSI
+.IR "dpkg programmers manual" ,
+.br
+.BR /etc/init.d/skeleton ,
+.br
+.BR init (8).
+.SH TRADUCTION
+Philippe Batailler. Dec 2000.

@@ -1,0 +1,45 @@
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+include ../../Makefile.conf
+
+frman1dir	= $(subst $(mandir),$(mandir)/fr,$(man1dir))
+frman5dir	= $(subst $(mandir),$(mandir)/fr,$(man5dir))
+frman8dir	= $(subst $(mandir),$(mandir)/fr,$(man8dir))
+
+MAN1PAGES	= dpkg-deb.1 md5sum.1
+MAN5PAGES	= deb-old.5 deb.5
+MAN8PAGES	= dpkg.8 dselect.8 install-info.8 start-stop-daemon.8 \
+		  update-alternatives.8 update-rc.d.8
+
+all: 
+
+clean: 
+
+distclean: clean 
+	rm -f Makefile
+
+install: install-doc
+
+install-program:
+
+install-doc:
+	$(mkinstalldirs) $(DESTDIR)$(frman1dir) 
+	set -e ; for i in $(MAN1PAGES) ; do \
+	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(frman1dir) ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)$(frman5dir) 
+	set -e ; for i in $(MAN5PAGES) ; do \
+	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(frman5dir) ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)$(frman8dir) 
+	set -e ; for i in $(MAN8PAGES) ; do \
+	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(frman8dir) ; \
+	done
+
+.PHONY: all clean distclean install install-doc install-program
+
