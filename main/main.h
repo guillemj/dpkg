@@ -54,7 +54,8 @@ enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
               act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
               act_printinstarch, act_compareversions, act_printavail, act_avclear,
               act_forgetold, act_getselections, act_setselections, act_printgnuarch,
-              act_assertepoch, act_assertlongfilenames, act_assertmulticonrep };
+              act_assertepoch, act_assertlongfilenames, act_assertmulticonrep,
+	      act_commandfd };
 
 enum conffopt {
   cfof_prompt        =     001,
@@ -182,7 +183,8 @@ struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 /* all ...'s are const char*'s ... */
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *description, ...);
-int maintainer_script_new(const char *scriptname, const char *description,
+int maintainer_script_new(const char *pkgname,
+			  const char *scriptname, const char *description,
                           const char *cidir, char *cidirrest, ...);
 int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *scriptname, const char *description,

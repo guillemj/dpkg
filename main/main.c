@@ -67,6 +67,7 @@ Usage: \n\
   dpkg --update-avail <Packages-file>      replace available packages info\n\
   dpkg --merge-avail <Packages-file>       merge with info from file\n\
   dpkg --clear-avail                       erase existing available info\n\
+  dpkg --command-fd <n>                    pass commands in on this file descriptor\n\
   dpkg --forget-old-unavail                forget uninstalled unavailable pkgs\n\
   dpkg -s|--status <package-name> ...      display package status details\n\
   dpkg -p|--print-avail <package-name> ... display available version details\n\
@@ -99,7 +100,7 @@ Options:\n\
   --largemem | --smallmem    Optimise for large (>4Mb) or small (<4Mb) RAM use\n\
   --no-act                   Just say what we would do - don't do it\n\
   -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
-  --status-pipe <n>          Send status change updates to file descriptor <n>\n\
+  --status-fd <n>            Send status change updates to file descriptor <n>\n\
   --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
   --force-...                    Override problems - see --force-help\n\
   --no-force-...|--refuse-...    Stop when problems encountered\n\
@@ -343,7 +344,7 @@ static const char *const passlongopts[]= {
 static const char passshortopts[]= "bceIfxX";
 static const char okpassshortopts[]= "D";
 
-void commandpipe(const char *const *argv);
+void commandfd(const char *const *argv);
 static const struct cmdinfo cmdinfos[]= {
   /* This table has both the action entries in it and the normal options.
    * The action entries are made with the ACTION macro, as they all
@@ -382,9 +383,9 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch   ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
-  ACTION( "command-pipe",                   'c', act_commandpipe,   commandpipe     ),
+  ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
   
-  { "status-pipe",	  0,   1,  0,              0,  setstatuspipe },
+  { "status-fd",	  0,   1,  0,              0,  setstatuspipe },
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
@@ -415,7 +416,7 @@ static void execbackend(int argc, const char *const *argv) {
   execvp(BACKEND, (char* const*) argv);
   ohshite(_("failed to exec dpkg-deb"));
 }
-void commandpipe(const char *const *argv) {
+void commandfd(const char *const *argv) {
   jmp_buf ejbuf;
   struct varbuf linevb;
   const char * pipein;
@@ -425,10 +426,10 @@ void commandpipe(const char *const *argv) {
   int argc= 1, mode= 0, c, lno= 0, infd, i;
   static void (*actionfunction)(const char *const *argv);
 
-  if ((pipein= *argv++) == NULL) badusage(_("--command-pipe takes 1 argument, not 0"));
-  if (*argv) badusage(_("--command-pipe only takes 1 argument"));
+  if ((pipein= *argv++) == NULL) badusage(_("--command-fd takes 1 argument, not 0"));
+  if (*argv) badusage(_("--command-fd only takes 1 argument"));
   if ((infd= strtol(pipein, (char **)NULL, 10)) == -1)
-    ohshite(_("invalid number for --command-pipe"));
+    ohshite(_("invalid number for --command-fd"));
   if ((in= fdopen(infd, "r")) == NULL)
     ohshite(_("couldn't open `%i' for stream"), infd);
 
