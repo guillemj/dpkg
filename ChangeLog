@@ -1,9 +1,21 @@
+Fri Dec 24 17:34:30 CET 1999 Wichert Akkerman <wakkerma@debian.org>
+
+  * version-nr: update to 1.6.5
+  * doc/Makefile.in: install THANKS
+  * TODO: remove items that have been done
+  * lib/showcright.c: exit(0) after showing the copyright since
+    we don't exec cat anymore
+  * Patch from David Huggins-Daines <dhd@eradicator.org>:
+    + main/configure.c: add NULL to execlp() parameters; this fixes the random
+      segfaults when showing the conffile-diff
+
 Fri Dec 24 15:35:29 CET 1999 Wichert Akkerman <wakkerma@debian.org>
 
   * debian/control: add Build-Depends
   * THANKS: new file which lists everyone who contributed to the code
   * Change `Debian Linux' to `Debian GNU/Linux' in a couple of manpages
   * main/enquiry.c: modify list1package to use the full width of the tty
+  * main/main.c: fix wrong call to fputs
   * Merge patches from Adam Heath:
     + lib/mlib.c: new function do_fd_copy to read a file into a fd
     + dpkg-deb/build.c: use do_fd_copy
@@ -25,7 +37,7 @@ Wed Dec 22 12:07:40 CET 1999 Wichert Akkerman <wakkerma@debian.org>
 
   * debian/dpkg-doc.postrm: Use doc-name instead of file-name (probably
     need to change the filename, but I'll be lazy now :)
-  * dselect/pkgdisplay.cc: Replace empty string for eflags to a space
+  * dselect/pkgdisplay.cc: Replace empty string for eflags with a space
     so gettext doesn't use the translation-info
   * po/update.sh: Generate dselect/helpmsgs.{cc,h} so we can translate them.
   * po/POTFILES.in: add dselect/helpmsgs.cc

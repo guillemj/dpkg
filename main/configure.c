@@ -319,7 +319,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	      sprintf(cmdbuf, "diff -u %.250s %.250s | %.250s", cdr.buf, cdr2.buf, p);
               s= getenv(SHELLENV);
               if (!s || !*s) s= DEFAULTSHELL;
-	      execlp(s,s,"-c", cmdbuf);
+	      execlp(s,s,"-c", cmdbuf, NULL);
               ohshite(_("failed to run diff (%.250s)"), cmdbuf);
 	    }
             while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);

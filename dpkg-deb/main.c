@@ -80,7 +80,7 @@ const char printforhelp[]=
      "Type dpkg --help for help about installing and deinstalling packages.");
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
-const char* compression=NULL;
+char* compression=NULL;
 const struct cmdinfo *cipaction=0;
 dofunction *action=0;
 
