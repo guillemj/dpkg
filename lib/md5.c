@@ -16,7 +16,7 @@
  *
  * Changed so as no longer to depend on Colin Plumb's `usual.h' header
  * definitions; now uses stuff from dpkg's config.h.
- *  - Ian Jackson <ijackson@nyx.cs.du.edu>.
+ *  - Ian Jackson <ian.greenend.org.uk>.
  * Still in the public domain.
  */
 

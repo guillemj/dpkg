@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * method.cc - access method handling
  *
- * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
  * Copyright (C) 2001,2002 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * pkgdepcon.cc - dependency and conflict resolution
  *
- * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

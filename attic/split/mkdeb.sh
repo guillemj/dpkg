@@ -3,7 +3,7 @@
 # Its arguments are: <sourcefile> <partsize> <prefix> <totalsize>
 # Stdin is also redirected from the source archive by dpkg-split.
 
-# Copyright (C) 1995 Ian Jackson <ijackson@nyx.cs.du.edu>
+# Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
 #
 #   This is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as

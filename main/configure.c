@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * configure.c - configure packages
  *
- * Copyright 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright 1995 Ian Jackson <ian.greenend.org.uk>
  * Copyright 1999 Wichert Akkerman <wichert@deephackmode.org>
  *
  * This is free software; you can redistribute it and/or modify

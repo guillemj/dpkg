@@ -6,7 +6,7 @@
 # Copyright (C) 1994 Matt Welsh <mdw@sunsite.unc.edu>
 # Copyright (C) 1994 Carl Streeter <streeter@cae.wisc.edu>
 # Copyright (C) 1994 Ian Murdock <imurdock@debian.org>
-# Copyright (C) 1994 Ian Jackson <iwj10@cus.cam.ac.uk>
+# Copyright (C) 1994 Ian Jackson <ian.greenend.org.uk>
 #
 #   dpkg is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as

@@ -2,7 +2,7 @@
  * dpkg-split - splitting and joining of multipart *.deb archives
  * info.c - information about split archives
  *
- * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

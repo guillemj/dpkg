@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * select.c - by-hand (rather than dselect-based) package selection
  *
- * Copyright (C) 1995,1996 Ian Jackson <ijackson@gnu.ai.mit.edu>
+ * Copyright (C) 1995,1996 Ian Jackson <ian.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

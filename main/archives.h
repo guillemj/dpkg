@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * archives.h - functions common to archives.c and processarc.c
  *
- * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
