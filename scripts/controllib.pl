@@ -177,10 +177,12 @@ sub parsecdata {
     # many=0: ordinary control data like output from dpkg-parsechangelog
     # many=1: many paragraphs like in source control file
     # many=-1: single paragraph of control data optionally signed
-    local ($index,$cf);
-    $index=''; $cf='';
+    local ($index,$cf,$paraborder);
+    $index=''; $cf=''; $paraborder=1;
     while (<CDATA>) {
         s/\s*\n$//;
+	if (m/^$/) and $paraborder) next;
+	$paraborder=0;
         if (m/^(\S+)\s*:\s*(.*)$/) {
             $cf=$1; $v=$2;
             $cf= &capit($cf);
@@ -194,6 +196,7 @@ sub parsecdata {
             while (<CDATA>) { last if m/^$/; }
             $many= -2;
         } elsif (m/^$/) {
+	    $paraborder = 1;
             if ($many>0) {
                 $index++; $cf='';
             } elsif ($many == -2) {
