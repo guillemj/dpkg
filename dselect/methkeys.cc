@@ -110,6 +110,7 @@ const keybindings::orgbinding methodlist_korgbindings[]= {
   { '\r',           "select-and-quit"  },
   { 'x',            "abort"            },
   { 'X',            "abort"            },
+  { 'Q',            "abort"            },
   
   {  -1,             0                 }
 };
