@@ -325,6 +325,7 @@ int main(int, const char *const *argv) {
   }
   push_error_handler(&ejbuf,print_error_fatal,0);
 
+  myfileopt(CONFIGDIR "/" DSELECT ".cfg", cmdinfos);
   myopt(&argv,cmdinfos);
 
   if (*argv) {
