@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2001-07-16 02:32+0200\n"
+"POT-Creation-Date: 2001-07-27 04:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1469,7 +1469,7 @@ msgstr ""
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr ""
 
-#: main/enquiry.c:56
+#: main/enquiry.c:56 main/query.c:96
 msgid "(no description available)"
 msgstr ""
 
@@ -1932,11 +1932,12 @@ msgstr ""
 msgid "Debian GNU/Linux `"
 msgstr ""
 
-#: main/main.c:46
+#: main/main.c:46 main/query.c:432
 msgid "' package management program version "
 msgstr ""
 
-#: main/main.c:48
+#.  if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
+#: main/main.c:48 main/query.c:434
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
@@ -2028,7 +2029,7 @@ msgid ""
 "`more' !"
 msgstr ""
 
-#: dpkg-deb/main.c:137 main/main.c:185 split/main.c:144
+#: dpkg-deb/main.c:137 main/main.c:185 main/query.c:493 split/main.c:144
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr ""
@@ -2159,7 +2160,8 @@ msgstr ""
 msgid "unexpected eof before end of line %d"
 msgstr ""
 
-#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:570 split/main.c:166
+#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:571 main/query.c:540
+#: split/main.c:166
 msgid "need an action option"
 msgstr ""
 
@@ -2168,7 +2170,7 @@ msgstr ""
 msgid "--%s --pending does not take any non-option arguments"
 msgstr ""
 
-#: main/packages.c:109
+#: main/packages.c:109 main/query.c:295
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr ""
@@ -2545,7 +2547,7 @@ msgstr ""
 msgid "can't remove old postrm script"
 msgstr ""
 
-#: main/select.c:80
+#: main/query.c:200 main/query.c:419 main/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr ""
@@ -2628,6 +2630,138 @@ msgstr ""
 
 #: main/update.c:101
 msgid "--forget-old-unavail takes no arguments"
+msgstr ""
+
+#: main/query.c:140
+msgid ""
+"Desired=Unknown/Install/Remove/Purge/Hold\n"
+"| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
+"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+"uppercase=bad)\n"
+msgstr ""
+
+#: main/query.c:144
+msgid "Name"
+msgstr ""
+
+#: main/query.c:144
+msgid "Version"
+msgstr ""
+
+#: dselect/methlist.cc:118 dselect/pkgtop.cc:295 main/query.c:144
+msgid "Description"
+msgstr ""
+
+#: main/query.c:215
+#, c-format
+msgid "diversion by %s"
+msgstr ""
+
+#: main/query.c:216
+msgid "local diversion"
+msgstr ""
+
+#: main/query.c:217
+msgid "to"
+msgstr ""
+
+#: main/query.c:217
+msgid "from"
+msgstr ""
+
+#: main/query.c:250
+msgid "--search needs at least one file name pattern argument"
+msgstr ""
+
+#: main/query.c:278
+#, c-format
+msgid "dpkg: %s not found.\n"
+msgstr ""
+
+#: main/query.c:315
+#, c-format
+msgid "Package `%s' is not installed and no info is available.\n"
+msgstr ""
+
+#: main/query.c:324
+#, c-format
+msgid "Package `%s' is not available.\n"
+msgstr ""
+
+#: main/query.c:334
+#, c-format
+msgid "Package `%s' is not installed.\n"
+msgstr ""
+
+#: main/query.c:343
+#, c-format
+msgid "Package `%s' does not contain any files (!)\n"
+msgstr ""
+
+#: main/query.c:349
+msgid "locally diverted"
+msgstr ""
+
+#: main/query.c:350
+msgid "package diverts others"
+msgstr ""
+
+#: main/query.c:351
+#, c-format
+msgid "diverted by %s"
+msgstr ""
+
+#: main/query.c:352
+#, c-format
+msgid " to: %s\n"
+msgstr ""
+
+#: main/query.c:371
+msgid ""
+"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgstr ""
+
+#: main/query.c:430
+msgid "Debian"
+msgstr ""
+
+#: main/query.c:444
+#, c-format
+msgid ""
+"Usage: \n"
+"  dpkg -s|--status <package-name> ...      display package status details\n"
+"  dpkg -p|--print-avail <package-name> ... display available version "
+"details\n"
+"  dpkg -L|--listfiles <package-name> ...   list files `owned' by package(s)\n"
+"  dpkg -l|--list [<pattern> ...]           list packages concisely\n"
+"  dpkg -W|--show <pattern> ...             show information on package(s)\n"
+"  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n"
+"  dpkg --help | --version                  show this help / version number\n"
+"  dpkg --licence                           print copyright licensing terms\n"
+"\n"
+"Options:\n"
+"  --admindir=<directory>     Use <directory> instead of %s\n"
+"  --showformat=<format>      Use alternative format for --show\n"
+msgstr ""
+
+#: main/query.c:462
+msgid ""
+"Type dpkg-query --help for help about installing and deinstalling packages "
+"[*];\n"
+"Use dselect for user-friendly package management;\n"
+"Type dpkg-query --licence for copyright licence and lack of warranty (GNU "
+"GPL) [*].\n"
+"\n"
+msgstr ""
+
+#: main/showpkg.c:71
+#, c-format
+msgid "invalid character `%c' in field width\n"
+msgstr ""
+
+#: main/showpkg.c:158
+msgid "Closing brace missing in format\n"
 msgstr ""
 
 #: dpkg-deb/build.c:66
@@ -3587,99 +3721,102 @@ msgstr ""
 msgid "%s: no files checked\n"
 msgstr ""
 
-#: dselect/basecmds.cc:99
+#: dselect/basecmds.cc:120
 msgid "Search for ? "
 msgstr ""
 
-#: dselect/basecmds.cc:131
+#: dselect/basecmds.cc:142
+msgid "Error: "
+msgstr ""
+
+#: dselect/basecmds.cc:170
 msgid "Help: "
 msgstr ""
 
-#: dselect/basecmds.cc:137
-msgid ""
-"? = help menu    Space = exit help    . = next help    or a help page key "
+#: dselect/basecmds.cc:176
+msgid "Press ? for help menu, <space> for next topic, <enter> to exit help."
 msgstr ""
 
-#: dselect/basecmds.cc:145
+#: dselect/basecmds.cc:183
 msgid "Help information is available under the following topics:"
 msgstr ""
 
-#: dselect/basecmds.cc:153
+#: dselect/basecmds.cc:191
 msgid ""
-"Press a key from the list above, Space to exit help,\n"
-"  or `.' (full stop) to read each help page in turn. "
+"Press a key from the list above, <enter>, `q' or `Q' to exit help,\n"
+"  or <space> to read each help page in turn. "
 msgstr ""
 
-#: dselect/basecmds.cc:159
+#: dselect/basecmds.cc:197
 msgid "error reading keyboard in help"
 msgstr ""
 
-#: dselect/baselist.cc:54
+#: dselect/baselist.cc:55
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr ""
 
-#: dselect/baselist.cc:57
+#: dselect/baselist.cc:58
 msgid "doupdate in SIGWINCH handler failed"
 msgstr ""
 
-#: dselect/baselist.cc:64
+#: dselect/baselist.cc:65
 msgid "failed to restore old SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:66
+#: dselect/baselist.cc:67
 msgid "failed to restore old signal mask"
 msgstr ""
 
-#: dselect/baselist.cc:76
+#: dselect/baselist.cc:77
 msgid "failed to get old signal mask"
 msgstr ""
 
-#: dselect/baselist.cc:77
+#: dselect/baselist.cc:78
 msgid "failed to get old SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:81
+#: dselect/baselist.cc:82
 msgid "failed to block SIGWINCH"
 msgstr ""
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:86
+#: dselect/baselist.cc:87
 msgid "failed to set new SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:123
+#: dselect/baselist.cc:124
 msgid "failed to allocate colour pair"
 msgstr ""
 
-#: dselect/baselist.cc:163
+#: dselect/baselist.cc:164
 msgid "failed to create title window"
 msgstr ""
 
-#: dselect/baselist.cc:167
+#: dselect/baselist.cc:168
 msgid "failed to create whatinfo window"
 msgstr ""
 
-#: dselect/baselist.cc:171
+#: dselect/baselist.cc:172
 msgid "failed to create baselist pad"
 msgstr ""
 
-#: dselect/baselist.cc:174
+#: dselect/baselist.cc:175
 msgid "failed to create heading pad"
 msgstr ""
 
-#: dselect/baselist.cc:178
+#: dselect/baselist.cc:179
 msgid "failed to create thisstate pad"
 msgstr ""
 
-#: dselect/baselist.cc:182
+#: dselect/baselist.cc:183
 msgid "failed to create info pad"
 msgstr ""
 
-#: dselect/baselist.cc:187
+#: dselect/baselist.cc:188
 msgid "failed to create query window"
 msgstr ""
 
-#: dselect/baselist.cc:200
+#: dselect/baselist.cc:201
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -3694,21 +3831,21 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dselect/baselist.cc:256
+#: dselect/baselist.cc:257
 msgid "keybindings"
 msgstr ""
 
-#: dselect/baselist.cc:311
+#: dselect/baselist.cc:305
 #, c-format
 msgid "  -- %d%%, press "
 msgstr ""
 
-#: dselect/baselist.cc:314
+#: dselect/baselist.cc:308
 #, c-format
 msgid "%s for more"
 msgstr ""
 
-#: dselect/baselist.cc:318
+#: dselect/baselist.cc:312
 #, c-format
 msgid "%s to go back"
 msgstr ""
@@ -3999,7 +4136,7 @@ msgid "screen part"
 msgstr ""
 
 #: dselect/main.cc:244
-msgid "Null color specificaton\n"
+msgid "Null color specification\n"
 msgstr ""
 
 #: dselect/main.cc:252 dselect/main.cc:257
@@ -4048,53 +4185,49 @@ msgstr ""
 msgid "failed to getch in main menu"
 msgstr ""
 
-#: dselect/main.cc:496
+#: dselect/main.cc:497
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr ""
 
-#: dselect/methlist.cc:67
+#: dselect/methlist.cc:74
 msgid "dselect - list of access methods"
 msgstr ""
 
-#: dselect/methlist.cc:76
+#: dselect/methlist.cc:83
 #, c-format
 msgid "Access method `%s'."
 msgstr ""
 
-#: dselect/methlist.cc:110
+#: dselect/methlist.cc:117
 msgid "Abbrev."
 msgstr ""
 
-#: dselect/methlist.cc:111 dselect/pkgtop.cc:295
-msgid "Description"
-msgstr ""
-
-#: dselect/methlist.cc:155
+#: dselect/methlist.cc:162
 msgid "doupdate failed"
 msgstr ""
 
-#: dselect/methlist.cc:157
+#: dselect/methlist.cc:164
 msgid "failed to unblock SIGWINCH"
 msgstr ""
 
-#: dselect/methlist.cc:161
+#: dselect/methlist.cc:168
 msgid "failed to re-block SIGWINCH"
 msgstr ""
 
-#: dselect/methlist.cc:162
+#: dselect/methlist.cc:169
 msgid "getch failed"
 msgstr ""
 
-#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:242
+#: dselect/methlist.cc:173 dselect/pkgdepcon.cc:242
 msgid "[none]"
 msgstr ""
 
-#: dselect/methlist.cc:180
+#: dselect/methlist.cc:187
 msgid "explanation of "
 msgstr ""
 
-#: dselect/methlist.cc:190
+#: dselect/methlist.cc:197
 msgid "No explanation available."
 msgstr ""
 
@@ -4652,8 +4785,16 @@ msgstr ""
 msgid "available version of control info for "
 msgstr ""
 
-#: dselect/pkglist.cc:120 dselect/pkglist.cc:121
+#: dselect/pkglist.cc:121 dselect/pkglist.cc:122
 msgid "<null>"
+msgstr ""
+
+#: dselect/pkglist.cc:505
+msgid "invalid search option given"
+msgstr ""
+
+#: dselect/pkglist.cc:519
+msgid "error in regular expression"
 msgstr ""
 
 #: dselect/pkgsublist.cc:103
@@ -4779,70 +4920,63 @@ msgid ""
 msgstr ""
 
 #: dselect/helpmsgs.cc:33
-msgid "Introduction to package list"
+msgid "Introduction to package selections"
 msgstr ""
 
 #: dselect/helpmsgs.cc:33
 msgid ""
-"Welcome to the main package listing.  Please read the help that is "
-"available!\n"
+"Welcome to dselect's main package listing.\n"
 "\n"
 "You will be presented with a list of packages which are installed or "
 "available\n"
 "for installation.  You can navigate around the list using the cursor keys,\n"
 "mark packages for installation (using `+') or deinstallation (using `-').\n"
-"\n"
 "Packages can be marked either singly or in groups; initially you will see "
 "that\n"
 "the line `All packages' is selected.  `+', `-' and so on will affect all "
 "the\n"
-"packages described by the highlighted line.  Use `o' to change the order of "
-"the\n"
-"list (this also changes which kinds of group selections are possible).\n"
-"\n"
-"(Mainly for new installations:) Standard packages will be requested by "
-"default.\n"
-"Use capital `D' or `R' key to override this - see the keybindings help "
-"screen.\n"
+"packages described by the highlighted line.\n"
 "\n"
 "Some of your choices will cause conflicts or dependency problems; you will "
 "be\n"
 "given a sub-list of the relevant packages, so that you can solve the "
 "problems.\n"
 "\n"
-"When you are satisfied with your choices you should press Return to confirm\n"
-"your changes and leave the package listing.  A final check on conflicts and\n"
+"You should read the list of keys and the explanations of the display.\n"
+"Much on-line help is available, please make use of it - press `?' at\n"
+"any time for help.\n"
+"\n"
+"When you have finished selecting packages, press <enter> to confirm "
+"changes,\n"
+"or `Q' to quit without saving changes. A final check on conflicts and\n"
 "dependencies will be done - here too you may see a sublist.\n"
 "\n"
-"Press Space to leave help and enter the list; press `?' at any time for "
-"help.\n"
+"Press <enter> to leave help and enter the list now.\n"
 msgstr ""
 
-#: dselect/helpmsgs.cc:58
-msgid "Introduction to package list browser (read-only)"
+#: dselect/helpmsgs.cc:57
+msgid "Introduction to read-only package list browser"
 msgstr ""
 
-#: dselect/helpmsgs.cc:58
+#: dselect/helpmsgs.cc:57
 msgid ""
-"Welcome to dselect's main package listing.  Since you do not have the\n"
-"privilege necessary to update package states you are in read-only mode.\n"
-"\n"
-"Much on-line help is available, please make use of it!  Press `?' for help.\n"
-"You should read the list of keys and the explanations of the display.\n"
+"Welcome to dselect's main package listing.\n"
 "\n"
 "You will be presented with a list of packages which are installed or "
 "available\n"
-"for installation.  You can navigate around the list using the cursor keys "
-"(just\n"
-"as you would be able to do if you had read/write access - see the "
-"keystrokes\n"
-"help screen) and observe the status of the packages and read information "
-"about\n"
-"them.\n"
+"for installation.  Since you do not have the privilege necessary to update\n"
+"package states, you are in a read-only mode.  You can navigate around the\n"
+"list using the cursor keys (please see the `Keystrokes' help screen), "
+"observe\n"
+"the status of the packages and read information about them.\n"
 "\n"
-"Press Space to leave help and enter the list; press `?' at any time for "
-"help.\n"
+"You should read the list of keys and the explanations of the display.\n"
+"Much on-line help is available, please make use of it - press `?' at\n"
+"any time for help.\n"
+"\n"
 "When you have finished browsing, press `Q' or <enter> to quit.\n"
+"\n"
+"Press <enter> to leave help and enter the list now.\n"
 msgstr ""
 
 #: dselect/helpmsgs.cc:75
@@ -4880,7 +5014,7 @@ msgid ""
 "force me to accept the situation currently displayed, in case you want to\n"
 "override a recommendation or think that the program is mistaken.\n"
 "\n"
-"Press Space to leave help and enter the sub-list; remember: press `?' for "
+"Press <enter> to leave help and enter the sub-list; remember: press `?' for "
 "help.\n"
 msgstr ""
 
