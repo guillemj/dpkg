@@ -160,6 +160,7 @@ if ($mode eq 'add') {
                    ($i < $#altname ? @altname[$i+1..$#altname] : ()));
         @package= (($i > 0 ? @package[0..$i-1] : ()),
                    ($i < $#package ? @package[$i+1..$#package] : ()));
+	$dorename = 1;
         &checkrename($orgdivertto,$orgfile);
         &dorename($orgdivertto,$orgfile);
         &save;
@@ -223,7 +224,7 @@ sub checkrename {
 		&quit("error checking \`$file': $!");
 	close TMP;
 	if ($! == ENOENT) {
-		$dorename = 0;
+		$dorename = !$dorename;
 	} else {
 		unlink ("${file}.dpkg-devert.tmp");
 	}
