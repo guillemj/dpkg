@@ -61,6 +61,7 @@ require 'controllib.pl';
 	    'hppa',      'hppa-linux',
 	    'hurd-i386', 'i386-gnu',
 	    's390',	 's390-linux',
+	    'ia64',	 'ia64-linux',
 	    'openbsd-i386', 'i386-openbsd'
 	    'freebsd-i386', 'i386-freebsd');
 

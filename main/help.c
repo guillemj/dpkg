@@ -260,6 +260,7 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
   c1= m_fork();
   if (!c1) {
     scriptexec= preexecscript(scriptpath,arglist);
+    arglist[0]=scriptexec;
     execv(scriptexec,arglist);
     ohshite(desc,name);
   }
