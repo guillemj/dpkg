@@ -321,7 +321,7 @@ for $f (@sourcefiles,@fileslistfiles) {
     (@s=stat(STDIN)) || &syserr("cannot fstat upload file $uf");
     $size= $s[7]; $size || &warn("upload file $uf is empty");
     $md5sum=`md5sum`; $? && subprocerr("md5sum upload file $uf");
-    $md5sum =~ m/^([0-9a-f]{32})\s*$/i ||
+    $md5sum =~ m/^([0-9a-f]{32})\s*-?\s*$/i ||
         &failure("md5sum upload file $uf gave strange output \`$md5sum'");
     $md5sum= $1;
     defined($md5sum{$f}) && $md5sum{$f} ne $md5sum &&

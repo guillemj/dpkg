@@ -3,7 +3,8 @@ use strict;
 
 # $Id$
 
-# Copyright (C) 1999 Roderick Schertler
+# Copyright 1999 Roderick Schertler
+# Copyright 2002 Wichert Akkerman <wakkerma@debian.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -289,6 +290,7 @@ sub read_dsc {
 	xwarn_noerror close_msg 'md5sum';
 	return;
     }
+    $md5 =~ s/ *-$//; # Remove trailing spaces and -, to work with GNU md5sum
     unless (length($md5) == 32 && $md5 !~ /[^\da-f]/i) {
 	xwarn_noerror "invalid md5 output for $file ($md5)\n";
 	return;
