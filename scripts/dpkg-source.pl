@@ -59,7 +59,7 @@ General options: -h                  print this message
 
 $i = 100;
 grep ($fieldimps {$_} = $i--,
-      qw (Format Source Version Binary Maintainer Architecture
+      qw (Format Source Version Binary Origin Maintainer Architecture
       Standards-Version Build-Depends Build-Depends-Indep Build-Conflicts
       Build-Conflicts-Indep));
 
@@ -124,10 +124,10 @@ if ($opmode eq 'build') {
         if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
             if (m/^Source$/) { &setsourcepackage; }
-            elsif (m/^Standards-Version$|^Maintainer$/) { $f{$_}= $v; }
+            elsif (m/^(Standards-Version|Origin|Maintainer)$/) { $f{$_}= $v; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= $v; }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
-            elsif (m/^(Section|Priority|Files)$/ || m/^X[BC]+-/i) { }
+            elsif (m/^(Section|Priority|Files|Bugs)$/ || m/^X[BC]+-/i) { }
             else { &unknown('general section of control info file'); }
         } elsif (s/^C(\d+) //) {
 #print STDERR "P key >$_< value >$v<\n";

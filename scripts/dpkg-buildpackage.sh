@@ -174,7 +174,7 @@ fi
 if [ x$binaryonly = x ]; then
 	cd ..; withecho dpkg-source $diffignore -b "$dirn"; cd "$dirn"
 fi
-if [ x$sourceonly != x ]; then
+if [ x$sourceonly = x ]; then
 	withecho debian/rules build $archlist
 	withecho $rootcommand debian/rules $binarytarget $archlist
 fi
