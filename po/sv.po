@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10\n"
-"POT-Creation-Date: 2002-05-05 20:15+0100\n"
-"PO-Revision-Date: 2002-05-05 20:16+0100\n"
+"POT-Creation-Date: 2002-05-26 18:45+0100\n"
+"PO-Revision-Date: 2002-05-26 18:51+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -544,62 +544,67 @@ msgstr "kunde inte allokera buffer i buffer_copy (%s)"
 msgid "failed in buffer_copy (%s)"
 msgstr "misslyckades i buffer_copy (%s)"
 
-#: lib/myopt.c:39
+#: lib/mlib.c:338
+#, c-format
+msgid "short read in buffer_copy (%s)"
+msgstr "för lite data läst i buffer_copy (%s)"
+
+#: lib/myopt.c:40
 #, c-format
 msgid "failed to open configuration file `%.255s' for reading"
 msgstr "kunde inte öppna konfigurationsfil \"%.255s\" för läsning"
 
-#: lib/myopt.c:71
+#: lib/myopt.c:72
 #, c-format
 msgid "configuration error: unknown option %s"
 msgstr "konfigureringsfel: okänd flagga %s"
 
-#: lib/myopt.c:74
+#: lib/myopt.c:75
 #, c-format
 msgid "configuration error: %s needs a value"
 msgstr "konfigureringsfel: %s kräver ett värde"
 
-#: lib/myopt.c:78
+#: lib/myopt.c:79
 #, c-format
 msgid "configuration error: %s does not take a value"
 msgstr "konfigurationsfel: %s tar inget värde"
 
-#: lib/myopt.c:83
+#: lib/myopt.c:84
 #, c-format
 msgid "read error in configuration file `%.255s'"
 msgstr "fel vid läsning av konfigurationsfil \"%.250s\""
 
-#: lib/myopt.c:84
+#: lib/myopt.c:85
 #, c-format
 msgid "error closing configuration file `%.255s'"
 msgstr "fel vid läsning av konfigurationsfil \"%.250s\""
 
-#: lib/myopt.c:107
+#: lib/myopt.c:127
 #, c-format
 msgid "unknown option --%s"
 msgstr "okänd flagga --%s"
 
-#: lib/myopt.c:111
+#: lib/myopt.c:131
 #, c-format
 msgid "--%s option takes a value"
 msgstr "flaggan --%s tar ett värde"
 
-#: lib/myopt.c:116
+#: lib/myopt.c:136
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "flaggan --%s tar inget värde"
 
-#: lib/myopt.c:123
+#: lib/myopt.c:143
 #, c-format
 msgid "unknown option -%c"
 msgstr "okänd flagga -%c"
 
-#: lib/myopt.c:128
+#: lib/myopt.c:148
 #, c-format
 msgid "-%c option takes a value"
 msgstr "flaggan -%c tar ett värde"
 
-#: lib/myopt.c:136
+#: lib/myopt.c:156
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "flaggan -%c tar inget värde"
@@ -875,7 +880,7 @@ msgstr "försöker skriva över \"%.250s\" som också finns i paketet %.250s"
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:368 main/archives.c:496
+#: dpkg-deb/build.c:367 main/archives.c:496
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "kunde inte skapa \"%.255s\""
@@ -1122,17 +1127,17 @@ msgstr "kunde inte återställa säkerhetskopierad version av \"%.250s\""
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr "kunde inte ta bort nyss uppackad version av \"%.250s\""
 
-#: main/configure.c:81
+#: main/configure.c:86
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr "inget paket med namnet \"%s\" är installerat, kan inte konfigurera"
 
-#: main/configure.c:83
+#: main/configure.c:88
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr "paketet %.250s är redan installerat och konfigurerat"
 
-#: main/configure.c:85
+#: main/configure.c:90
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
@@ -1141,7 +1146,7 @@ msgstr ""
 "paketet %.250s är inte redo för att konfigureras\n"
 " kan inte konfigurera (aktuell status är \"%.250s\")"
 
-#: main/configure.c:102
+#: main/configure.c:109
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1150,11 +1155,11 @@ msgstr ""
 "dpkg: beroendeproblem förhindrar konfigurering av %s:\n"
 "%s"
 
-#: main/configure.c:105
+#: main/configure.c:112
 msgid "dependency problems - leaving unconfigured"
 msgstr "beroendeproblem - lämnar okonfigurerad"
 
-#: main/configure.c:109
+#: main/configure.c:116
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you request:\n"
@@ -1163,7 +1168,7 @@ msgstr ""
 "dpkg: %s: beroendeproblem, men konfigurerar ändå enligt önskemål:\n"
 "%s"
 
-#: main/configure.c:117
+#: main/configure.c:124
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1171,32 +1176,22 @@ msgstr ""
 "Paketet är i ett väldigt dåligt inkonsistent läge - du bör\n"
 " ominstallera det innan du försöker konfigurera."
 
-#: main/configure.c:120
+#: main/configure.c:127
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Ställer in %s (%s) ...\n"
 
-#: main/configure.c:168
+#: main/configure.c:174
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr "kunde inte ta status på ny medsänd konfigurationsfil \"%.250s\""
 
-#: main/configure.c:177
-#, c-format
-msgid "unable to change ownership of new dist conffile `%.250s'"
-msgstr "kunde inte ändra ägandeskap på ny medsänd konfigurationsfil \"%.250s\""
-
-#: main/configure.c:180
-#, c-format
-msgid "unable to set mode of new dist conffile `%.250s'"
-msgstr "kunde inte sätta läge på ny medsänd konfigurationsfil \"%.250s\""
-
-#: main/configure.c:183
+#: main/configure.c:184 main/configure.c:422
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "kunde inte ta status på nu installerad konfigurationsfil \"%.250s\""
 
-#: main/configure.c:192
+#: main/configure.c:193
 #, c-format
 msgid ""
 "\n"
@@ -1207,7 +1202,151 @@ msgstr ""
 "Konfigurationsfilen \"%s\" existerar inte på ditt system.\n"
 "Installerar ny konfigurationsfil enligt önskemål.\n"
 
-#: main/configure.c:231
+#: main/configure.c:225
+#, c-format
+msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
+msgstr ""
+"dpkg: %s: varning - misslyckades att ta bort gammal säkerhetskopia \"%.250s"
+"\": %s\n"
+
+#: main/configure.c:233
+#, c-format
+msgid "dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"
+msgstr ""
+"dpkg: %s: varning - misslyckades att namnändra \"%.250s\" till \"%.250s\": %"
+"s\n"
+
+#: main/configure.c:241
+#, c-format
+msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
+msgstr "dpkg: %s: varning - misslyckades att ta bort \"%.250s\": %s\n"
+
+#: main/configure.c:249
+#, c-format
+msgid "dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"
+msgstr ""
+"dpkg: %s: varning - misslyckades att ta bort tidigare distribuerad version "
+"\"%.250s\": %s\n"
+
+#: main/configure.c:254
+#, c-format
+msgid "dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"
+msgstr ""
+"dpkg: %s: varning - misslyckades att ta bort \"%.250s\" (före "
+"överskrivning): %s\n"
+
+#: main/configure.c:258
+#, c-format
+msgid "dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"
+msgstr ""
+"dpkg: %s: varning - misslyckades att länka \"%.250s\" till \"%.250s\": %s\n"
+
+#: main/configure.c:262
+#, c-format
+msgid "Installing new version of config file %s ...\n"
+msgstr "Installerar ny version av konfigurationsfilen %s ...\n"
+
+#: main/configure.c:266
+#, c-format
+msgid "unable to install `%.250s' as `%.250s'"
+msgstr "kunde inte installera \"%.250s\" som \"%.250s\""
+
+#: main/configure.c:327
+#, c-format
+msgid ""
+"dpkg: %s: warning - unable to stat config file `%s'\n"
+" (= `%s'): %s\n"
+msgstr ""
+"dpkg: %s: varning - kunde inte ta status på konfigurationsfilen \"%s\"\n"
+" (= \"%s\"): %s\n"
+
+#: main/configure.c:338
+#, c-format
+msgid ""
+"dpkg: %s: warning - config file `%s' is a circular link\n"
+" (= `%s')\n"
+msgstr ""
+"dpkg: %s: varning - konfigurationsfilen \"%s\" är en cirkulär länk\n"
+" (= \"%s\")\n"
+
+#: main/configure.c:351
+#, c-format
+msgid ""
+"dpkg: %s: warning - unable to readlink conffile `%s'\n"
+" (= `%s'): %s\n"
+msgstr ""
+"dpkg: %s: varning - kunde inte läsa länken till konfigurationsfilen \"%s\"\n"
+" (= \"%s\"): %s\n"
+
+#: main/configure.c:371
+#, c-format
+msgid ""
+"dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
+" (`%s' is a symlink to `%s')\n"
+msgstr ""
+"dpkg: %s: varning - konfigurationsfilen \"%.250s\" blir ett degenererat "
+"filnamn\n"
+" (\"%s\" är en symbolisk länk till \"%s\")\n"
+
+#: main/configure.c:384
+#, c-format
+msgid ""
+"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
+"s')\n"
+msgstr ""
+"dpkg: %s: varning -  konfigurationfilen \"%.250s\" är inte en vanlig fil "
+"eller symbolisk länk (= \"%s\")\n"
+
+#: main/configure.c:402
+msgid "md5hash"
+msgstr "md5hash"
+
+#: main/configure.c:408
+#, c-format
+msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
+msgstr ""
+"dpkg: %s: varning - kunde inte öppna konfigurationsfilen %s för hashning: %"
+"s\n"
+
+#: main/configure.c:426
+#, c-format
+msgid "unable to change ownership of new dist conffile `%.250s'"
+msgstr "kunde inte ändra ägandeskap på ny medsänd konfigurationsfil \"%.250s\""
+
+#: main/configure.c:429
+#, c-format
+msgid "unable to set mode of new dist conffile `%.250s'"
+msgstr "kunde inte sätta läge på ny medsänd konfigurationsfil \"%.250s\""
+
+#: main/configure.c:459
+#, c-format
+msgid "failed to run %s (%.250s)"
+msgstr "kunde inte starta %s (%.250s)"
+
+#: main/configure.c:468 main/configure.c:506
+msgid "wait for shell failed"
+msgstr "kunde inte vänta på skalet"
+
+#. Do not job control to suspend but fork and start a new shell
+#. * instead.
+#.
+#. waitpid status
+#. waitpid result
+#: main/configure.c:488
+msgid "Type `exit' when you're done.\n"
+msgstr "Skriv \"exit\" när du är klar.\n"
+
+#: main/configure.c:497
+#, c-format
+msgid "failed to exec shell (%.250s)"
+msgstr "kunde inte starta skalet (%.250s)"
+
+#: main/configure.c:509
+msgid "Don't forget to foreground (`fg') this process when you're done !\n"
+msgstr ""
+"Glöm inte att flytta denna process till förgrunden (\"fg\") när du är klar!\n"
+
+#: main/configure.c:528
 #, c-format
 msgid ""
 "\n"
@@ -1216,12 +1355,12 @@ msgstr ""
 "\n"
 "Konfigurationsfil \"%s\""
 
-#: main/configure.c:233
+#: main/configure.c:530
 #, c-format
 msgid " (actually `%s')"
 msgstr " (i verkligheten \"%s\")"
 
-#: main/configure.c:238
+#: main/configure.c:534
 msgid ""
 "\n"
 " ==> File on system created by you or by a script.\n"
@@ -1231,7 +1370,7 @@ msgstr ""
 " ==> Den fil som nu finns skapades av dig eller ett program.\n"
 " ==> Paketansvariges version finns även i paketet du installerar.\n"
 
-#: main/configure.c:245
+#: main/configure.c:539
 msgid ""
 "\n"
 " ==> Modified (by you or by a script) since installation.\n"
@@ -1239,7 +1378,7 @@ msgstr ""
 "\n"
 " ==> Modifierad (av dig eller ett program) sedan installationen.\n"
 
-#: main/configure.c:246
+#: main/configure.c:540
 msgid ""
 "\n"
 "     Not modified since installation.\n"
@@ -1247,31 +1386,31 @@ msgstr ""
 "\n"
 "     Ej modifierad sedan installationen.\n"
 
-#: main/configure.c:249
+#: main/configure.c:543
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Paketdistributören har uppdaterat konfigurationsfilen.\n"
 
-#: main/configure.c:250
+#: main/configure.c:544
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Versionen i paketet är samma som vid senaste installationen.\n"
 
-#: main/configure.c:256
+#: main/configure.c:551
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Använder ny fil enligt önskemål.\n"
 
-#: main/configure.c:260
+#: main/configure.c:555
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Använder nuvarande gammal fil enligt önskemål.\n"
 
-#: main/configure.c:267
+#: main/configure.c:565
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Behåller gammal konfigurationsfil enligt förval.\n"
 
-#: main/configure.c:271
+#: main/configure.c:569
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Använder ny konfigurationsfil enligt förval.\n"
 
-#: main/configure.c:277
+#: main/configure.c:577
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
 "    Y or I  : install the package maintainer's version\n"
@@ -1285,186 +1424,38 @@ msgstr ""
 "      D     : visa skillnaderna mellan versionerna\n"
 "      Z     : lägg denna process i bakgrunden för att undersöka situationen\n"
 
-#: main/configure.c:284
+#: main/configure.c:584
 msgid " The default action is to keep your current version.\n"
 msgstr " Förvald funktion är att behålla din nuvarande version.\n"
 
-#: main/configure.c:286
+#: main/configure.c:586
 msgid " The default action is to install the new version.\n"
 msgstr " Förvald funktion är att installera den nya versionen.\n"
 
-#: main/configure.c:292
+#: main/configure.c:592
 msgid "[default=N]"
 msgstr "[förval=N]"
 
-#: main/configure.c:293
+#: main/configure.c:593
 msgid "[default=Y]"
 msgstr "[förval=Y]"
 
-#: main/configure.c:293
+#: main/configure.c:593
 msgid "[no default]"
 msgstr "[inget förval]"
 
-#: main/configure.c:296
+#: main/configure.c:596
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 "fel vid skrivning till stderr, upptäcktes innan konfigurationsfilfrågan"
 
-#: main/configure.c:303
+#: main/configure.c:603
 msgid "read error on stdin at conffile prompt"
 msgstr "läsfel på stdin vid konfigurationsfilsfrågan"
 
-#: main/configure.c:304
+#: main/configure.c:604
 msgid "EOF on stdin at conffile prompt"
 msgstr "Filslut på stdin vid konfigurationsfilsfrågan"
-
-#: main/configure.c:324
-#, c-format
-msgid "failed to run %s (%.250s)"
-msgstr "kunde inte starta %s (%.250s)"
-
-#: main/configure.c:327 main/configure.c:354
-msgid "wait for shell failed"
-msgstr "kunde inte vänta på skalet"
-
-#: main/configure.c:335
-#, c-format
-msgid ""
-"Your currently installed version of the file is in:\n"
-" %s\n"
-"The version contained in the new version of the package is in:\n"
-" %s\n"
-"If you decide to take care of the update yourself, perhaps by editing\n"
-" the installed version, you should choose `N' when you return, so that\n"
-" I do not mess up your careful work.\n"
-msgstr ""
-"Din för närvarande installerade version av filen finns i:\n"
-" %s\n"
-"Versionen som innehåller den nya versionen av paketet finns i:\n"
-" %s\n"
-"Om du väljer att ta hand om uppdateringen själv, kanske genom att redigera\n"
-" den installerade versionen, bör du välja \"N\" när du återvänder, så att\n"
-" jag inte förstör ditt omsorgsfulla arbete.\n"
-
-#: main/configure.c:346
-msgid "Type `exit' when you're done.\n"
-msgstr "Skriv \"exit\" när du är klar.\n"
-
-#: main/configure.c:351
-#, c-format
-msgid "failed to exec shell (%.250s)"
-msgstr "kunde inte starta skalet (%.250s)"
-
-#: main/configure.c:356
-msgid "Don't forget to foreground (`fg') this process when you're done !\n"
-msgstr ""
-"Glöm inte att flytta denna process till förgrunden (\"fg\") när du är klar!\n"
-
-#: main/configure.c:377
-#, c-format
-msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
-msgstr ""
-"dpkg: %s: varning - misslyckades att ta bort gammal säkerhetskopia \"%.250s"
-"\": %s\n"
-
-#: main/configure.c:385
-#, c-format
-msgid "dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"
-msgstr ""
-"dpkg: %s: varning - misslyckades att namnändra \"%.250s\" till \"%.250s\": %"
-"s\n"
-
-#: main/configure.c:393
-#, c-format
-msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
-msgstr "dpkg: %s: varning - misslyckades att ta bort \"%.250s\": %s\n"
-
-#: main/configure.c:401
-#, c-format
-msgid "dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"
-msgstr ""
-"dpkg: %s: varning - misslyckades att ta bort tidigare distribuerad version "
-"\"%.250s\": %s\n"
-
-#: main/configure.c:406
-#, c-format
-msgid "dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"
-msgstr ""
-"dpkg: %s: varning - misslyckades att ta bort \"%.250s\" (före "
-"överskrivning): %s\n"
-
-#: main/configure.c:410
-#, c-format
-msgid "dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"
-msgstr ""
-"dpkg: %s: varning - misslyckades att länka \"%.250s\" till \"%.250s\": %s\n"
-
-#: main/configure.c:414
-#, c-format
-msgid "Installing new version of config file %s ...\n"
-msgstr "Installerar ny version av konfigurationsfilen %s ...\n"
-
-#: main/configure.c:418
-#, c-format
-msgid "unable to install `%.250s' as `%.250s'"
-msgstr "kunde inte installera \"%.250s\" som \"%.250s\""
-
-#: main/configure.c:476
-#, c-format
-msgid ""
-"dpkg: %s: warning - unable to stat config file `%s'\n"
-" (= `%s'): %s\n"
-msgstr ""
-"dpkg: %s: varning - kunde inte ta status på konfigurationsfilen \"%s\"\n"
-" (= \"%s\"): %s\n"
-
-#: main/configure.c:487
-#, c-format
-msgid ""
-"dpkg: %s: warning - config file `%s' is a circular link\n"
-" (= `%s')\n"
-msgstr ""
-"dpkg: %s: varning - konfigurationsfilen \"%s\" är en cirkulär länk\n"
-" (= \"%s\")\n"
-
-#: main/configure.c:500
-#, c-format
-msgid ""
-"dpkg: %s: warning - unable to readlink conffile `%s'\n"
-" (= `%s'): %s\n"
-msgstr ""
-"dpkg: %s: varning - kunde inte läsa länken till konfigurationsfilen \"%s\"\n"
-" (= \"%s\"): %s\n"
-
-#: main/configure.c:519
-#, c-format
-msgid ""
-"dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
-" (`%s' is a symlink to `%s')\n"
-msgstr ""
-"dpkg: %s: varning - konfigurationsfilen \"%.250s\" blir ett degenererat "
-"filnamn\n"
-" (\"%s\" är en symbolisk länk till \"%s\")\n"
-
-#: main/configure.c:532
-#, c-format
-msgid ""
-"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
-"s')\n"
-msgstr ""
-"dpkg: %s: varning -  konfigurationfilen \"%.250s\" är inte en vanlig fil "
-"eller symbolisk länk (= \"%s\")\n"
-
-#: main/configure.c:546
-msgid "md5hash"
-msgstr "md5hash"
-
-#: main/configure.c:552
-#, c-format
-msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
-msgstr ""
-"dpkg: %s: varning - kunde inte öppna konfigurationsfilen %s för hashning: %"
-"s\n"
 
 #: main/depcon.c:74
 #, c-format
@@ -1733,21 +1724,21 @@ msgstr "inget snedstreck efter gcc-lib"
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr "dpkg: varning, arkitekturen \"%s\" finns ej i ommappningstabellen\n"
 
-#: main/enquiry.c:495
+#: main/enquiry.c:494
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr "--compare-versions tar tre argument: <version> <relation> <version>"
 
-#: main/enquiry.c:500
+#: main/enquiry.c:499
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions: ogiltig relation"
 
-#: main/enquiry.c:505
+#: main/enquiry.c:504
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "version a har felaktig syntax: %s\n"
 
-#: main/enquiry.c:515
+#: main/enquiry.c:514
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "version b har felaktig syntax: %s\n"
@@ -2440,8 +2431,8 @@ msgstr "kunde inte öppna \"%i\" för ström"
 msgid "unexpected eof before end of line %d"
 msgstr "oväntat filslut före slut på rad %d"
 
-#: dpkg-deb/main.c:178 main/main.c:537 main/main.c:571 main/query.c:548
-#: split/main.c:166
+#: dpkg-deb/main.c:169 main/main.c:537 main/main.c:552 main/query.c:537
+#: split/main.c:157
 msgid "need an action option"
 msgstr "du har inte talat om vad som skall utföras"
 
@@ -3149,25 +3140,25 @@ msgid "%s: failed to exec gzip %s"
 msgstr "%s: kunde inte exekvera gzip %s"
 
 #. Decode our arguments
-#: dpkg-deb/build.c:224
+#: dpkg-deb/build.c:223
 msgid "--build needs a directory argument"
 msgstr "--build behöver ett katalogargument"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:232
 msgid "--build takes at most two arguments"
 msgstr "--build tar högst två argument"
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:236
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "kunde inte kontrollera om arkivet \"%.250s\" existerar"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:251
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "målet är en katalog - kan inte hoppa över kontroll av konfigurationsfiler"
 
-#: dpkg-deb/build.c:253
+#: dpkg-deb/build.c:252
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -3176,44 +3167,44 @@ msgstr ""
 "dpkg-deb: varning, kontrollerar inte innehållet i kontrollområdet.\n"
 "dpkg-deb: bygger ett okänt paket i \"%s\".\n"
 
-#: dpkg-deb/build.c:271
+#: dpkg-deb/build.c:270
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "paketnamnet har tecken som inte är gemena alfanumeriska eller \"-+.\""
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:272
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr ""
 "varning, \"%s\" innehåller användardefinierat värde för Priority \"%s\"\n"
 
-#: dpkg-deb/build.c:278
+#: dpkg-deb/build.c:277
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "varning, \"%s\" innehåller användardefinierat fält \"%s\"\n"
 
-#: dpkg-deb/build.c:284
+#: dpkg-deb/build.c:283
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d fel i kontrollfilen"
 
-#: dpkg-deb/build.c:295
+#: dpkg-deb/build.c:294
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: bygger paketet \"%s\" i \"%s\".\n"
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:302
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "kontrollkatalogen har felaktig behörighet %03lo (måste vara >=0755 och "
 "<=0775)"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:313
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "utvecklarskript \"%.50s\" är inte en vanlig fil eller symbolisk länk"
 
-#: dpkg-deb/build.c:316
+#: dpkg-deb/build.c:315
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3222,16 +3213,16 @@ msgstr ""
 "utvecklarskript \"%.50s\" har felaktig behörighet %03lo (måste vara >=0555 "
 "och <=0775)"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:319
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "kunde inte ta status på utvecklarskript \"%.50s\""
 
-#: dpkg-deb/build.c:330
+#: dpkg-deb/build.c:329
 msgid "empty string from fgets reading conffiles"
 msgstr "tom sträng från fgets när conffiles lästes"
 
-#: dpkg-deb/build.c:332
+#: dpkg-deb/build.c:331
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3239,110 +3230,110 @@ msgstr ""
 "varning, konfigurationsfilnamnet \"%.50s...\" är för långt eller saknar "
 "nyradstecken på slutet\n"
 
-#: dpkg-deb/build.c:344
+#: dpkg-deb/build.c:343
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "konfigurationsfilen \"%.250s\" finns inte i paketet"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:345
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "kunde inte ta status på konfigurationsfilen \"%.50s\""
 
-#: dpkg-deb/build.c:348
+#: dpkg-deb/build.c:347
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "varning, konfigurationsfieln \"%s\" är inte en vanlig fil\n"
 
-#: dpkg-deb/build.c:353
+#: dpkg-deb/build.c:352
 msgid "error reading conffiles file"
 msgstr "fel vid läsning av filen conffiles"
 
-#: dpkg-deb/build.c:356
+#: dpkg-deb/build.c:355
 msgid "error opening conffiles file"
 msgstr "fel vid öppning av filen conffiles"
 
-#: dpkg-deb/build.c:359
+#: dpkg-deb/build.c:358
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: ignorerar %d varningar om kontrollfilerna\n"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:368
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "kunde inte stänga av buffert för \"%.255s\""
 
-#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
+#: dpkg-deb/build.c:373 dpkg-deb/build.c:446 dpkg-deb/build.c:467
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "kunde inte byta katalog till \"%.255s\""
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:374
 msgid "failed to chdir to .../DEBIAN"
 msgstr "kunde inte byta katalog till .../DEBIAN"
 
-#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
+#: dpkg-deb/build.c:375 dpkg-deb/build.c:448
 msgid "failed to exec tar -cf"
 msgstr "kunde inte exekvera tar -cf"
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:381
 msgid "failed to make tmpfile (control)"
 msgstr "kunde inte skapa temporärfil (kontrolldel)"
 
-#: dpkg-deb/build.c:383
+#: dpkg-deb/build.c:382
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "kunde inte öppna temporärfil (kontrolldel), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:385
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "kunde inte ta bort temporärfil (kontrolldel), %s"
 
-#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
+#: dpkg-deb/build.c:393 dpkg-deb/build.c:422 dpkg-deb/build.c:457
 msgid "control"
 msgstr "kontrolldel"
 
-#: dpkg-deb/build.c:399
+#: dpkg-deb/build.c:398
 msgid "failed to fstat tmpfile (control)"
 msgstr "kunde inte ta status på temporär fil (kontrolldel)"
 
-#: dpkg-deb/build.c:422
+#: dpkg-deb/build.c:421
 msgid "failed to rewind tmpfile (control)"
 msgstr "kunde inte gå till början av temporär fil (kontrolldel)"
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:429
 msgid "failed to make tmpfile (data)"
 msgstr "kunde inte skapa temporärfil (datadel)"
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:430
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "kunde inte öppna temporärfil (datadel), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:433
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "kunde inte ta bort temporärfil (datadel), %s"
 
-#: dpkg-deb/build.c:470
+#: dpkg-deb/build.c:469
 msgid "failed to exec find"
 msgstr "kunde inte exekvera find"
 
-#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
+#: dpkg-deb/build.c:480 dpkg-deb/build.c:487
 msgid "failed to write filename to tar pipe (data)"
 msgstr "kunde inte skriva filnamn till tar-rör (datadel)"
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:504
 msgid "failed to rewind tmpfile (data)"
 msgstr "kunde inte gå till början av temporär fil (datadel)"
 
-#: dpkg-deb/build.c:506
+#: dpkg-deb/build.c:505
 msgid "cat (data)"
 msgstr "cat (data)"
 
@@ -3939,8 +3930,8 @@ msgid ""
 "GNU General Public Licence version 2 or later for copying conditions.\n"
 "There is NO warranty.  See dpkg-split --licence for details.\n"
 msgstr ""
-"Copyright 1994-1996 Ian Jackson. Detta program är fri programvara. Se\n"
-"GNU General Public License version 2 eller senare för kopieringsvillkor.\n"
+"Upphovsrättsskyddat © 1994-1996 Ian Jackson. Detta program är fri programvara.\n"
+"Se GNU General Public License version 2 eller senare för kopieringsvillkor.\n"
 "Det finns INGEN garanti. Se dpkg-split --license för detaljer.\n"
 
 #: split/main.c:47
@@ -4117,42 +4108,42 @@ msgstr "kunde inte kasta bort \"%.250s\""
 msgid "Deleted %s.\n"
 msgstr "Tog bort %s.\n"
 
-#: split/split.c:46
+#: split/split.c:45
 msgid "--split needs a source filename argument"
 msgstr "--split kräver ett källfilnamnsargument"
 
-#: split/split.c:49
+#: split/split.c:48
 msgid "--split takes at most a source filename and destination prefix"
 msgstr "--split tar som mest ett källfilnamn och ett destinationsprefix"
 
-#: split/split.c:63
+#: split/split.c:62
 #, c-format
 msgid "unable to open source file `%.250s'"
 msgstr "kunde inte öppna källfil \"%.250s\""
 
-#: split/split.c:64
+#: split/split.c:63
 msgid "unable to fstat source file"
 msgstr "kunde inte ta status på källfil"
 
-#: split/split.c:65
+#: split/split.c:64
 #, c-format
 msgid "source file `%.250s' not a plain file"
 msgstr "källfil \"%.250s\" inte en vanlig fil"
 
-#: split/split.c:71
+#: split/split.c:70
 msgid "unable to exec mksplit"
 msgstr "kunde inte exekvera mksplit"
 
-#: utils/md5sum.c:62
+#: utils/md5sum.c:60
 msgid "Type md5sum --help for help."
 msgstr "Skriv md5sum --help för hjälp."
 
-#: utils/md5sum.c:79
+#: utils/md5sum.c:78
 #, c-format
 msgid "error processing %s: %s\n"
 msgstr "fel vid hantering av %s: %s\n"
 
-#: utils/md5sum.c:170
+#: utils/md5sum.c:185
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -4170,44 +4161,44 @@ msgstr ""
 "Indata för -c ska vara listan av meddelandesamlingar och filnamnet\n"
 "som skrivs på stdout av detta program när det genererar samlingar.\n"
 
-#: utils/md5sum.c:183
+#: utils/md5sum.c:198
 msgid "mdfile"
 msgstr "mdfile"
 
-#: utils/md5sum.c:223
+#: utils/md5sum.c:238
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr "%s: oväntad rad: %s"
 
-#: utils/md5sum.c:264
+#: utils/md5sum.c:268
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr "%s: kunde inte öppna %s\n"
 
-#: utils/md5sum.c:270
+#: utils/md5sum.c:272
 #, c-format
 msgid "%s: error reading %s\n"
 msgstr "%s: fel vid läsning av %s\n"
 
-#: utils/md5sum.c:281
+#: utils/md5sum.c:278
 msgid "FAILED\n"
 msgstr "MISSLYCKADES\n"
 
-#: utils/md5sum.c:283
+#: utils/md5sum.c:280
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: MD5-kontroll misslyckades för \"%s\"\n"
 
-#: utils/md5sum.c:286
+#: utils/md5sum.c:283
 msgid "OK\n"
 msgstr "OK\n"
 
-#: utils/md5sum.c:290
+#: utils/md5sum.c:287
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr "%s: %d av %d fil(er) misslyckades MD5-kontroll\n"
 
-#: utils/md5sum.c:292
+#: utils/md5sum.c:289
 #, c-format
 msgid "%s: no files checked\n"
 msgstr "%s: inga filer kontrollerade\n"
@@ -4604,8 +4595,8 @@ msgid ""
 "dselect --licence for details.\n"
 msgstr ""
 "Version %s.\n"
-"Copyright © 1994-1996 Ian Jackson.\n"
-"Copyright © 2000,2001 Wichert Akkerman.\n"
+"Upphovsrättsskyddat © 1994-1996 Ian Jackson.\n"
+"Upphovsrättsskyddat © 2000,2001 Wichert Akkerman.\n"
 "Detta program är fri programvara. Se GNU General Public License version 2\n"
 "eller senare för kopieringsvillkor. Det finns INGEN garanti. Se\n"
 "dselect --license för detaljer.\n"
@@ -4712,7 +4703,7 @@ msgstr ""
 msgid "failed to getch in main menu"
 msgstr "kunde inte läsa tecken i huvudmenyn"
 
-#: dselect/main.cc:496
+#: dselect/main.cc:489
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "okänd handling \"%.50s\""
@@ -5873,6 +5864,25 @@ msgstr ""
 " ^l             rita om skärmen\n"
 "  /             sök (Enter avbryter)\n"
 "  \\             repetera senaste sökning\n"
+
+#~ msgid ""
+#~ "Your currently installed version of the file is in:\n"
+#~ " %s\n"
+#~ "The version contained in the new version of the package is in:\n"
+#~ " %s\n"
+#~ "If you decide to take care of the update yourself, perhaps by editing\n"
+#~ " the installed version, you should choose `N' when you return, so that\n"
+#~ " I do not mess up your careful work.\n"
+#~ msgstr ""
+#~ "Din för närvarande installerade version av filen finns i:\n"
+#~ " %s\n"
+#~ "Versionen som innehåller den nya versionen av paketet finns i:\n"
+#~ " %s\n"
+#~ "Om du väljer att ta hand om uppdateringen själv, kanske genom att "
+#~ "redigera\n"
+#~ " den installerade versionen, bör du välja \"N\" när du återvänder, så "
+#~ "att\n"
+#~ " jag inte förstör ditt omsorgsfulla arbete.\n"
 
 #~ msgid ""
 #~ "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"

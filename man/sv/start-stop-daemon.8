@@ -1,4 +1,4 @@
-.\" Translation of CVS revision 1.12
+.\" Translation of CVS revision 1.15
 .TH START\-STOP\-DAEMON 8 "15 mars 1997" "Debianprojektet" "dpkg-verktygen"
 .SH NAMN
 start\-stop\-daemon \- startar och stoppar bakgrundsprocesser
@@ -47,7 +47,9 @@ Eventuella parametrar som ges efter
 på kommandoraden skickas omodiferade till programmet som startas.
 Om
 .B --retry
-anges kommer start-stop-daemon kontrollera att processen har avslutats.
+anges kommer
+.B start-stop-daemon
+kontrollera att processen har avslutats.
 
 Med 
 .B --stop
@@ -69,7 +71,7 @@ anges).
 .TP
 \fB-x\fP|\fB--exec\fP \fIprogramfil\fP
 Sök efter processer som är instanser av denna programfil (enligt
-.BI /proc/ pid /exe 
+.B /proc/\fIpid\fB/exe\fP
 ).
 .TP
 \fB-p\fP|\fB--pidfile\fP \fIpidfil\fP
@@ -86,8 +88,7 @@ eller
 Sök efter processer med namnet
 .I processnamn
 (enligt
-.BI /proc/ pid /stat 
-).
+.BR /proc/\fIpid\fB/stat\fP ).
 .TP
 \fB-s\fP|\fB--signal\fP \fIsignal\fP
 Tillsammans med
