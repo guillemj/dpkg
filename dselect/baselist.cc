@@ -84,10 +84,10 @@ void baselist::setupsigwinch() {
 void baselist::setheights() {
   int y= ymax - (title_height + colheads_height + thisstate_height);
   assert(y>=1);
-  if (showinfo==2 && y>=3) {
-    list_height= 1;
+  if (showinfo==2 && y>=7) {
+    list_height= 5;
     whatinfo_height= 1;
-    info_height= y-2;
+    info_height= y-6;
   } else if (showinfo==1 && y>=10) {
     list_height= y/2;
     info_height= (y-1)/2;
@@ -215,7 +215,7 @@ void baselist::redrawall() {
 }
 
 void baselist::redraw1item(int index) {
-  redraw1itemsel(index, showinfo == 2 ? 0 : index == cursorline);
+  redraw1itemsel(index, index == cursorline);
 }
 
 baselist::baselist(keybindings *kb) {
