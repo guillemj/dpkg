@@ -603,7 +603,6 @@ void predeppackage(const char *const *argv) {
       if (trypkg->files && versionsatisfied(&trypkg->available,possi)) {
         if (trypkg->clientdata->istobe == itb_normal) { pkg= trypkg; break; }
       }
-      if (possi->verrel != dvr_none) continue;
       for (provider=possi->ed->available.depended;
            !pkg && provider;
            provider=provider->next) {
