@@ -86,7 +86,7 @@ void baselist::kd_redraw() {
 //  RFSH(whatinfowin); /* fixme-ncurses: why does ncurses need this ? */
   clearok(curscr,TRUE);
   redrawall();
-  if (debug) fprintf(debug,"baselist[%p]::kd_redraw() done\n",this);
+  if (debug) fprintf(debug,_("baselist[%p]::kd_redraw() done\n"),this);
 }
 
 void baselist::kd_searchagain() {
@@ -96,7 +96,7 @@ void baselist::kd_searchagain() {
 
 void baselist::kd_search() {
   werase(querywin);
-  mvwaddstr(querywin,0,0, "Search for ? ");
+  mvwaddstr(querywin,0,0, _("Search for ? "));
   echo(); /* fixme: ncurses documentation or implementation */
   /* fixme: make / RET do `search again' and / DEL to abort */
   if (wgetnstr(querywin,searchstring,sizeof(searchstring)-1) == ERR)
@@ -123,13 +123,13 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
       attrset(list_attr);
       mvaddstr(1,0, hme->msg->text);
       attrset(title_attr);
-      mvaddstr(0,0, "Help: ");
+      mvaddstr(0,0, _("Help: "));
       addstr(hme->msg->title);
       getyx(stdscr,y,x);
       while (++x<maxx) addch(' ');
       attrset(thisstate_attr);
       mvaddstr(maxy-1,0,
-"? = help menu    Space = exit help    . = next help    or a help page key "
+_("? = help menu    Space = exit help    . = next help    or a help page key ")
                );
       getyx(stdscr,y,x);
       while (++x<maxx) addch(' ');
@@ -137,7 +137,7 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
       attrset(A_NORMAL);
       nextkey= hme[1].key;
     } else {
-      mvaddstr(1,1, "Help information is available under the following topics:");
+      mvaddstr(1,1, _("Help information is available under the following topics:"));
       for (i=0, hme=helpmenu; hme->key; hme++,i++) {
         attrset(A_BOLD);
         mvaddch(i+3,3, hme->key);
@@ -145,13 +145,13 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
         mvaddstr(i+3,6, hme->msg->title);
       }
       mvaddstr(i+4,1,
-               "Press a key from the list above, Space to exit help,\n"
-               "  or `.' (full stop) to read each help page in turn. ");
+               _("Press a key from the list above, Space to exit help,\n"
+               "  or `.' (full stop) to read each help page in turn. "));
       nextkey= helpmenu[0].key;
     }
     refresh();
     key= getch();
-    if (key == EOF) ohshite("error reading keyboard in help");
+    if (key == EOF) ohshite(_("error reading keyboard in help"));
     if (key == ' ') {
       break;
     } else if (key == '?') {

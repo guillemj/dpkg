@@ -49,16 +49,16 @@ void baselist::sigwinchhandler(int) {
   p->enddisplay();
   endwin(); initscr();
   p->startdisplay();
-  if (doupdate() == ERR) ohshite("doupdate in SIGWINCH handler failed");
+  if (doupdate() == ERR) ohshite(_("doupdate in SIGWINCH handler failed"));
 }
 
 static void cu_sigwinch(int, void **argv) {
   struct sigaction *osigactp= (struct sigaction*)argv[0];
   sigset_t *oblockedp= (sigset_t*)argv[1];
   
-  if (sigaction(SIGWINCH,osigactp,0)) ohshite("failed to restore old SIGWINCH sigact");
+  if (sigaction(SIGWINCH,osigactp,0)) ohshite(_("failed to restore old SIGWINCH sigact"));
   delete osigactp;
-  if (sigprocmask(SIG_SETMASK,oblockedp,0)) ohshite("failed to restore old signal mask");
+  if (sigprocmask(SIG_SETMASK,oblockedp,0)) ohshite(_("failed to restore old signal mask"));
   delete oblockedp;
 } 
 
@@ -68,17 +68,17 @@ void baselist::setupsigwinch() {
     
   osigactp= new(struct sigaction);
   oblockedp= new(sigset_t);
-  if (sigprocmask(0,0,oblockedp)) ohshite("failed to get old signal mask");
-  if (sigaction(SIGWINCH,0,osigactp)) ohshite("failed to get old SIGWINCH sigact");
+  if (sigprocmask(0,0,oblockedp)) ohshite(_("failed to get old signal mask"));
+  if (sigaction(SIGWINCH,0,osigactp)) ohshite(_("failed to get old SIGWINCH sigact"));
 
   push_cleanup(cu_sigwinch,~0, 0,0, 2,(void*)osigactp,(void*)oblockedp);
 
-  if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite("failed to block SIGWINCH");
+  if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite(_("failed to block SIGWINCH"));
   memset(&nsigact,0,sizeof(nsigact));
   nsigact.sa_handler= sigwinchhandler;
   sigemptyset(&nsigact.sa_mask);
   nsigact.sa_flags= SA_INTERRUPT;
-  if (sigaction(SIGWINCH,&nsigact,0)) ohshite("failed to set new SIGWINCH sigact");
+  if (sigaction(SIGWINCH,&nsigact,0)) ohshite(_("failed to set new SIGWINCH sigact"));
 }
 
 void baselist::setheights() {
@@ -105,7 +105,7 @@ void baselist::setheights() {
 }
 
 void baselist::startdisplay() {
-  if (debug) fprintf(debug,"baselist[%p]::startdisplay()\n",this);
+  if (debug) fprintf(debug,_("baselist[%p]::startdisplay()\n"),this);
   cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
   clear(); wnoutrefresh(stdscr);
 
@@ -114,7 +114,7 @@ void baselist::startdisplay() {
     if (init_pair(1,COLOR_WHITE,COLOR_BLACK) != OK ||
         init_pair(2,COLOR_WHITE,COLOR_RED) != OK ||
         init_pair(3,COLOR_WHITE,COLOR_BLUE) != OK)
-      ohshite("failed to allocate colour pairs");
+      ohshite(_("failed to allocate colour pairs"));
     list_attr= COLOR_PAIR(1);
     listsel_attr= list_attr|A_REVERSE;
     title_attr= COLOR_PAIR(2);
@@ -144,30 +144,30 @@ void baselist::startdisplay() {
   setwidths();
   
   titlewin= newwin(1,xmax, 0,0);
-  if (!titlewin) ohshite("failed to create title window");
+  if (!titlewin) ohshite(_("failed to create title window"));
   wattrset(titlewin,title_attr);
   
   whatinfowin= newwin(1,xmax, whatinfo_row,0);
-  if (!whatinfowin) ohshite("failed to create whatinfo window");
+  if (!whatinfowin) ohshite(_("failed to create whatinfo window"));
   wattrset(whatinfowin,whatinfo_attr);
   
   listpad= newpad(nitems+1, total_width);
-  if (!listpad) ohshite("failed to create baselist pad");
+  if (!listpad) ohshite(_("failed to create baselist pad"));
   
   colheadspad= newpad(1, total_width);
-  if (!colheadspad) ohshite("failed to create heading pad");
+  if (!colheadspad) ohshite(_("failed to create heading pad"));
   wattrset(colheadspad,colheads_attr);
   
   thisstatepad= newpad(1, total_width);
-  if (!thisstatepad) ohshite("failed to create thisstate pad");
+  if (!thisstatepad) ohshite(_("failed to create thisstate pad"));
   wattrset(thisstatepad,thisstate_attr);
 
   infopad= newpad(MAX_DISPLAY_INFO, total_width);
-  if (!infopad) ohshite("failed to create info pad");
+  if (!infopad) ohshite(_("failed to create info pad"));
   wattrset(infopad,info_attr);
 
   querywin= newwin(1,xmax,ymax-1,0);
-  if (!querywin) ohshite("failed to create query window");
+  if (!querywin) ohshite(_("failed to create query window"));
 
   if (cursorline >= topofscreen + list_height) topofscreen= cursorline;
   if (topofscreen > nitems - list_height) topofscreen= nitems - list_height;
@@ -179,12 +179,12 @@ void baselist::startdisplay() {
 
   if (debug)
     fprintf(debug,
-            "baselist::startdisplay() done ...\n\n"
+            _("baselist::startdisplay() done ...\n\n"
             " xmax=%d, ymax=%d;\n\n"
             " title_height=%d, colheads_height=%d, list_height=%d;\n"
             " thisstate_height=%d, info_height=%d, whatinfo_height=%d;\n\n"
             " colheads_row=%d, thisstate_row=%d, info_row=%d;\n"
-            " whatinfo_row=%d, list_row=%d;\n\n",
+            " whatinfo_row=%d, list_row=%d;\n\n"),
             xmax, ymax,
             title_height, colheads_height, list_height,
             thisstate_height, info_height, whatinfo_height,
@@ -220,7 +220,7 @@ void baselist::redraw1item(int index) {
 
 baselist::baselist(keybindings *kb) {
   if (debug)
-    fprintf(debug,"baselist[%p]::baselist()\n",this);
+    fprintf(debug,_("baselist[%p]::baselist()\n"),this);
 
   bindings= kb;
   nitems= 0;
@@ -235,7 +235,7 @@ baselist::baselist(keybindings *kb) {
 }  
 
 void baselist::itd_keys() {
-  whatinfovb("keybindings");
+  whatinfovb(_("keybindings"));
   
   const int givek= xmax/3;
   bindings->describestart();
@@ -243,7 +243,7 @@ void baselist::itd_keys() {
   while ((ta= bindings->describenext()) != 0) {
     const char **tap= ta+1;
     for (;;) {
-      waddstr(infopad, *tap);
+      waddstr(infopad, gettext(*tap));
       tap++;  if (!*tap) break;
       waddstr(infopad, ", ");
     }
@@ -258,7 +258,7 @@ void baselist::itd_keys() {
 void baselist::dosearch() {
   int offset, index, searchlen;
   searchlen= strlen(searchstring);
-  if (debug) fprintf(debug,"packagelist[%p]::dosearch(); searchstring=`%s' len=%d\n",
+  if (debug) fprintf(debug,_("packagelist[%p]::dosearch(); searchstring=`%s' len=%d\n"),
                      this,searchstring,searchlen);
   for (offset=1, index=greaterint(topofscreen,cursorline+1);
        offset<nitems;
@@ -290,14 +290,14 @@ void baselist::refreshinfo() {
     mywerase(whatinfowin);
     mvwaddstr(whatinfowin,0,0, whatinfovb.string());
     if (infolines > info_height) {
-      wprintw(whatinfowin,"  -- %d%%, press ",
+      wprintw(whatinfowin,_("  -- %d%%, press "),
               (int)((infotopofscreen + info_height) * 100.0 / infolines));
       if (infotopofscreen + info_height < infolines) {
-        wprintw(whatinfowin,"%s for more", bindings->find("iscrollon"));
+        wprintw(whatinfowin,_("%s for more"), bindings->find("iscrollon"));
         if (infotopofscreen) waddstr(whatinfowin, ", ");
       }
       if (infotopofscreen)
-        wprintw(whatinfowin, "%s to go back",bindings->find("iscrollback"));
+        wprintw(whatinfowin, _("%s to go back"),bindings->find("iscrollback"));
       waddch(whatinfowin,'.');
     }
     wnoutrefresh(whatinfowin);
@@ -306,7 +306,7 @@ void baselist::refreshinfo() {
 
 void baselist::wordwrapinfo(int offset, const char *m) {
   int usemax= xmax-5;
-  if (debug) fprintf(debug,"baselist[%p]::wordwrapinfo(%d, `%s')\n",this,offset,m);
+  if (debug) fprintf(debug,_("baselist[%p]::wordwrapinfo(%d, `%s')\n"),this,offset,m);
   int wrapping=0;
   for (;;) {
     int offleft=offset; while (*m == ' ' && offleft>0) { m++; offleft--; }
@@ -352,7 +352,7 @@ void baselist::wordwrapinfo(int offset, const char *m) {
     if (!p) break;
     m= ++p;
   }
-  if (debug) fprintf(debug,"baselist[%p]::wordwrapinfo() done\n",this);
+  if (debug) fprintf(debug,_("baselist[%p]::wordwrapinfo() done\n"),this);
 }
 
 baselist::~baselist() { }

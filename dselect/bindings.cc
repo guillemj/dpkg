@@ -68,11 +68,11 @@ int keybindings::bind(int key, const char *action) {
 const char *keybindings::find(const char *action) {
   binding *b;
   for (b=bindings; b && strcmp(action,b->interp->action); b=b->next);
-  if (!b) return "[not bound]";
+  if (!b) return _("[not bound]");
   const char *n= key2name(b->key);
   if (n) return n;
   static char buf[50];
-  sprintf(buf,"[unk: %d]",b->key);
+  sprintf(buf,_("[unk: %d]"),b->key);
   return buf;
 }
 
@@ -126,41 +126,41 @@ keybindings::~keybindings() {
 
 const keybindings::description keybindings::descriptions[]= {
   // Actions which apply to both types of list.
-  { "iscrollon",       "Scroll onwards through help/information"               },
-  { "iscrollback",     "Scroll backwards through help/information"             },
-  { "up",              "Move up"                                               },
-  { "down",            "Move down"                                             },
-  { "top",             "Go to top of list"                                     },
-  { "bottom",          "Go to end of list"                                     },
-  { "help",            "Request help (cycle through help screens)"             },
-  { "info",            "Cycle through information displays"                    },
-  { "redraw",          "Redraw display"                                        },
-  { "scrollon1",       "Scroll onwards through list by 1 line"                 },
-  { "scrollback1",     "Scroll backwards through list by 1 line"               },
-  { "iscrollon1",      "Scroll onwards through help/information by 1 line"     },
-  { "iscrollback1",    "Scroll backwards through help/information by 1 line"   },
-  { "scrollon",        "Scroll onwards through list"                           },
-  { "scrollback",      "Scroll backwards through list"                         },
+  { "iscrollon",       N_("Scroll onwards through help/information")             },
+  { "iscrollback",     N_("Scroll backwards through help/information")           },
+  { "up",              N_("Move up")                                             },
+  { "down",            N_("Move down")                                           },
+  { "top",             N_("Go to top of list")                                   },
+  { "bottom",          N_("Go to end of list")                                   },
+  { "help",            N_("Request help (cycle through help screens)")           },
+  { "info",            N_("Cycle through information displays")                  },
+  { "redraw",          N_("Redraw display")                                      },
+  { "scrollon1",       N_("Scroll onwards through list by 1 line")               },
+  { "scrollback1",     N_("Scroll backwards through list by 1 line")             },
+  { "iscrollon1",      N_("Scroll onwards through help/information by 1 line")   },
+  { "iscrollback1",    N_("Scroll backwards through help/information by 1 line") },
+  { "scrollon",        N_("Scroll onwards through list")                         },
+  { "scrollback",      N_("Scroll backwards through list")                       },
 
   // Actions which apply only to lists of packages.
-  { "install",         "Mark package(s) for installation"                      },
-  { "remove",          "Mark package(s) for deinstallation"                    },
-  { "purge",           "Mark package(s) for deinstall and purge"               },
-  { "morespecific",    "Make highlight more specific"                          },
-  { "lessspecific",    "Make highlight less specific"                          },
-  { "search",          "Search for a package whose name contains a string"     },
-  { "searchagain",     "Repeat last search."                                   },
-  { "swaporder",       "Swap sort order priority/section"                      },
-  { "quitcheck",       "Quit, confirming, and checking dependencies"           },
-  { "quitnocheck",     "Quit, confirming without check"                        },
-  { "quitrejectsug",   "Quit, rejecting conflict/dependency suggestions"       },
-  { "abortnocheck",    "Abort - quit without making changes"                   },
-  { "revert",          "Revert to old state for all packages"                  },
-  { "revertsuggest",   "Revert to suggested state for all packages"            },
-  { "revertdirect",    "Revert to directly requested state for all packages"   },
+  { "install",         N_("Mark package(s) for installation")                    },
+  { "remove",          N_("Mark package(s) for deinstallation")                  },
+  { "purge",           N_("Mark package(s) for deinstall and purge")             },
+  { "morespecific",    N_("Make highlight more specific")                        },
+  { "lessspecific",    N_("Make highlight less specific")                        },
+  { "search",          N_("Search for a package whose name contains a string")   },
+  { "searchagain",     N_("Repeat last search.")                                 },
+  { "swaporder",       N_("Swap sort order priority/section")                    },
+  { "quitcheck",       N_("Quit, confirming, and checking dependencies")         },
+  { "quitnocheck",     N_("Quit, confirming without check")                      },
+  { "quitrejectsug",   N_("Quit, rejecting conflict/dependency suggestions")     },
+  { "abortnocheck",    N_("Abort - quit without making changes")                 },
+  { "revert",          N_("Revert to old state for all packages")                },
+  { "revertsuggest",   N_("Revert to suggested state for all packages")          },
+  { "revertdirect",    N_("Revert to directly requested state for all packages") },
   
   // Actions which apply only to lists of methods.
-  { "select-and-quit", "Select currently-highlighted access method"            },
-  { "abort",           "Quit without changing selected access method"          },
-  {  0,                0                                                       }
+  { "select-and-quit", N_("Select currently-highlighted access method")          },
+  { "abort",           N_("Quit without changing selected access method")        },
+  {  0,                0                                                         }
 };

@@ -44,7 +44,7 @@ int packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewit
   case sso_unsorted:
     break;
   default:
-    internerr("unknown statsortorder in affectedmatches");
+    internerr(_("unknown statsortorder in affectedmatches"));
   }
   if (comparewith->priority != pkginfo::pri_unset &&
       (comparewith->priority != pkg->priority ||
@@ -136,7 +136,7 @@ void packagelist::kd_purge()    { setwant(pkginfo::want_purge);     }
 
 int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
   /* Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition. */
-  if (debug) fprintf(debug,"would_like_to_install(%d, %s) status %d\n",
+  if (debug) fprintf(debug,_("would_like_to_install(%d, %s) status %d\n"),
                      wantvalue,pkg->name,pkg->status);
   
   if (wantvalue == pkginfo::want_install) return 1;
@@ -157,7 +157,7 @@ void packagelist::kd_swapstatorder() {
   case sso_avail:     statsortorder= sso_state;     break;
   case sso_state:     statsortorder= sso_unsorted;  break;
   case sso_unsorted:  statsortorder= sso_avail;     break;
-  default: internerr("unknown statsort in kd_swapstatorder");
+  default: internerr(_("unknown statsort in kd_swapstatorder"));
   }
   resortredisplay();
 }
@@ -168,7 +168,7 @@ void packagelist::kd_swaporder() {
   case so_section:   sortorder= so_alpha;     break;
   case so_alpha:     sortorder= so_priority;  break;
   case so_unsorted:                           return;
-  default: internerr("unknown sort in kd_swaporder");
+  default: internerr(_("unknown sort in kd_swaporder"));
   }
   resortredisplay();
 }
@@ -204,7 +204,7 @@ void packagelist::kd_versiondisplay() {
   case vdo_both:       versiondisplayopt= vdo_none;       break;
   case vdo_none:       versiondisplayopt= vdo_available;  break;
   case vdo_available:  versiondisplayopt= vdo_both;       break;
-  default: internerr("unknown versiondisplayopt in kd_versiondisplay");
+  default: internerr(_("unknown versiondisplayopt in kd_versiondisplay"));
   }
   setwidths();
   leftofscreen= 0;

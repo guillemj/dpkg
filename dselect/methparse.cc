@@ -50,12 +50,12 @@ struct method *methods=0;
 static void badmethod(const char *pathname, const char *why) NONRETURNING;
 static void badmethod(const char *pathname, const char *why)
 {
-  ohshit("syntax error in method options file `%.250s' -- %s", pathname, why);
+  ohshit(_("syntax error in method options file `%.250s' -- %s"), pathname, why);
 }
 
 static void eofmethod(const char *pathname, FILE *f, const char *why) NONRETURNING;
 static void eofmethod(const char *pathname, FILE *f, const char *why) {
-  if (ferror(f)) ohshite("error reading options file `%.250s'",pathname);
+  if (ferror(f)) ohshite(_("error reading options file `%.250s'"),pathname);
   badmethod(pathname,why);
 }
 
@@ -83,21 +83,21 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
   dir= opendir(pathbuf);
   if (!dir) {
     if (errno == ENOENT) return;
-    ohshite("unable to read `%.250s' directory for reading methods",pathbuf);
+    ohshite(_("unable to read `%.250s' directory for reading methods"),pathbuf);
   }
 
-  if (debug) fprintf(debug,"readmethods(`%s',...) directory open\n", pathbase);
+  if (debug) fprintf(debug,_("readmethods(`%s',...) directory open\n"), pathbase);
   
   while ((dent= readdir(dir)) != 0) {
     c= dent->d_name[0];
-    if (debug) fprintf(debug,"readmethods(`%s',...) considering `%s' ...\n",
+    if (debug) fprintf(debug,_("readmethods(`%s',...) considering `%s' ...\n"),
                        pathbase,dent->d_name);
     if (c != '_' && !isalpha(c)) continue;
     for (p= dent->d_name+1; (c= *p) != 0 && isalnum(c) && c != '_'; p++);
     if (c) continue;
     methodlen= strlen(dent->d_name);
     if (methodlen > IMETHODMAXLEN)
-      ohshit("method `%.250s' has name that is too long (%d > %d characters)",
+      ohshit(_("method `%.250s' has name that is too long (%d > %d characters)"),
              dent->d_name, methodlen, IMETHODMAXLEN);
     /* Check if there is a localized version of this method */
     
@@ -108,13 +108,13 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
     for (ccpp= methodprograms; *ccpp; ccpp++) {
       strcpy(pathinmeth,*ccpp);
       if (access(pathbuf,R_OK|X_OK))
-        ohshite("unable to access method script `%.250s'",pathbuf);
+        ohshite(_("unable to access method script `%.250s'"),pathbuf);
     }
-    if (debug) fprintf(debug," readmethods(`%s',...) scripts ok\n", pathbase);
+    if (debug) fprintf(debug,_(" readmethods(`%s',...) scripts ok\n"), pathbase);
 
     strcpy(pathinmeth,METHODOPTIONSFILE);
     names= fopen(pathbuf,"r");
-    if (!names) ohshite("unable to read method options file `%.250s'",pathbuf);
+    if (!names) ohshite(_("unable to read method options file `%.250s'"),pathbuf);
 
     meth= new method;
     meth->name= new char[strlen(dent->d_name)+1];
@@ -127,8 +127,8 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
     meth->back= 0;
     if (methods) methods->back= meth;
     methods= meth;
-    if (debug) fprintf(debug," readmethods(`%s',...) new method"
-                       " name=`%s' path=`%s' pathinmeth=`%s'\n",
+    if (debug) fprintf(debug,_(" readmethods(`%s',...) new method"
+                       " name=`%s' path=`%s' pathinmeth=`%s'\n"),
                        pathbase, meth->name, meth->path, meth->pathinmeth);
     
     while ((c= fgetc(names)) != EOF) {
@@ -137,40 +137,40 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
       opt->meth= meth;
       vb.reset();
       do {
-        if (!isdigit(c)) badmethod(pathbuf,"non-digit where digit wanted");
+        if (!isdigit(c)) badmethod(pathbuf,_("non-digit where digit wanted"));
         vb(c);
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,"EOF in index string");
+        if (c == EOF) eofmethod(pathbuf,names,_("EOF in index string"));
       } while (!isspace(c));
       if (strlen(vb.string()) > OPTIONINDEXMAXLEN)
-        badmethod(pathbuf,"index string too long");
+        badmethod(pathbuf,_("index string too long"));
       strcpy(opt->index,vb.string());
       do {
-        if (c == '\n') badmethod(pathbuf,"newline before option name start");
+        if (c == '\n') badmethod(pathbuf,_("newline before option name start"));
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,"EOF before option name start");
+        if (c == EOF) eofmethod(pathbuf,names,_("EOF before option name start"));
       } while (isspace(c));
       vb.reset();
       if (!isalpha(c) && c != '_')
-        badmethod(pathbuf,"nonalpha where option name start wanted");
+        badmethod(pathbuf,_("nonalpha where option name start wanted"));
       do {
-        if (!isalnum(c) && c != '_') badmethod(pathbuf,"non-alphanum in option name");
+        if (!isalnum(c) && c != '_') badmethod(pathbuf,_("non-alphanum in option name"));
         vb(c);
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,"EOF in option name");
+        if (c == EOF) eofmethod(pathbuf,names,_("EOF in option name"));
       } while (!isspace(c));
       opt->name= new char[strlen(vb.string())+1];
       strcpy(opt->name,vb.string());
       do {
-        if (c == '\n') badmethod(pathbuf,"newline before summary");
+        if (c == '\n') badmethod(pathbuf,_("newline before summary"));
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,"EOF before summary");
+        if (c == EOF) eofmethod(pathbuf,names,_("EOF before summary"));
       } while (isspace(c));
       vb.reset();
       do {
         vb(c);
         c= fgetc(names);
-        if (c == EOF) eofmethod(pathbuf,names,"EOF in summary - missing newline");
+        if (c == EOF) eofmethod(pathbuf,names,_("EOF in summary - missing newline"));
       } while (c != '\n');
       opt->summary= new char[strlen(vb.string())+1];
       strcpy(opt->summary,vb.string());
@@ -180,26 +180,26 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
       descfile= fopen(pathbuf,"r");
       if (!descfile) {
         if (errno != ENOENT)
-          ohshite("unable to open option description file `%.250s'",pathbuf);
+          ohshite(_("unable to open option description file `%.250s'"),pathbuf);
         opt->description= 0;
       } else { /* descfile != 0 */
         if (fstat(fileno(descfile),&stab))
-          ohshite("unable to stat option description file `%.250s'",pathbuf);
+          ohshite(_("unable to stat option description file `%.250s'"),pathbuf);
         opt->description= new char[stab.st_size+1];  errno=0;
         unsigned long filelen= stab.st_size;
         if (fread(opt->description,1,stab.st_size+1,descfile) != filelen)
-          ohshite("failed to read option description file `%.250s'",pathbuf);
+          ohshite(_("failed to read option description file `%.250s'"),pathbuf);
         opt->description[stab.st_size]= 0;
         if (ferror(descfile))
-          ohshite("error during read of option description file `%.250s'",pathbuf);
+          ohshite(_("error during read of option description file `%.250s'"),pathbuf);
         fclose(descfile);
       }
       strcpy(pathinmeth,METHODOPTIONSFILE);
       
-      if (debug) fprintf(debug," readmethods(`%s',...) new option"
+      if (debug) fprintf(debug,_(" readmethods(`%s',...) new option"
                          " index=`%s' name=`%s' summary=`%.20s'"
                          " strlen(description=%s)=%ld"
-                         " method name=`%s' path=`%s' pathinmeth=`%s'\n",
+                         " method name=`%s' path=`%s' pathinmeth=`%s'\n"),
                          pathbase,
                          opt->index, opt->name, opt->summary,
                          opt->description ? "`...'" : "null",
@@ -213,11 +213,11 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
       (*nread)++;
     }
     if (ferror(names))
-      ohshite("error during read of method options file `%.250s'",pathbuf);
+      ohshite(_("error during read of method options file `%.250s'"),pathbuf);
     fclose(names);
   }
   closedir(dir);
-  if (debug) fprintf(debug,"readmethods(`%s',...) done\n", pathbase);
+  if (debug) fprintf(debug,_("readmethods(`%s',...) done\n"), pathbase);
   delete[] pathbuf;
 }
 
@@ -243,28 +243,28 @@ void getcurrentopt() {
   cmo= fopen(methoptfile,"r");
   if (!cmo) {
     if (errno == ENOENT) return;
-    ohshite("unable to open current option file `%.250s'",methoptfile);
+    ohshite(_("unable to open current option file `%.250s'"),methoptfile);
   }
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt open\n");
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt open\n"));
   if (!fgets(methoptbuf,sizeof(methoptbuf),cmo)) { fclose(cmo); return; }
   if (fgetc(cmo) != EOF) { fclose(cmo); return; }
   if (!feof(cmo)) { fclose(cmo); return; }
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt eof\n");
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt eof\n"));
   fclose(cmo);
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt read\n");
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt read\n"));
   l= strlen(methoptbuf);  if (!l || methoptbuf[l-1] != '\n') return;
   methoptbuf[--l]= 0;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt len and newline\n");
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt len and newline\n"));
   p= strchr(methoptbuf,' ');  if (!p) return;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt space\n");
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt space\n"));
   *p++= 0;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt meth name `%s'\n", methoptbuf);
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt meth name `%s'\n"), methoptbuf);
   for (meth= methods; meth && strcmp(methoptbuf,meth->name); meth= meth->next);
   if (!meth) return;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt meth found; opt `%s'\n",p);
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt meth found; opt `%s'\n"),p);
   for (opt= options; opt && (opt->meth != meth || strcmp(p,opt->name)); opt= opt->next);
   if (!opt) return;
-  if (debug) fprintf(debug,"getcurrentopt() cmethopt opt found\n");
+  if (debug) fprintf(debug,_("getcurrentopt() cmethopt opt found\n"));
   coption= opt;
 }
 
@@ -281,13 +281,13 @@ void writecurrentopt() {
     strcpy(newfile+l, NEWDBEXT);
   }
   cmo= fopen(newfile,"w");
-  if (!cmo) ohshite("unable to open new option file `%.250s'",newfile);
+  if (!cmo) ohshite(_("unable to open new option file `%.250s'"),newfile);
   if (fprintf(cmo,"%s %s\n",coption->meth->name,coption->name) == EOF) {
     fclose(cmo);
-    ohshite("unable to write new option to `%.250s'",newfile);
+    ohshite(_("unable to write new option to `%.250s'"),newfile);
   }
   if (fclose(cmo))
-    ohshite("unable to close new option file `%.250s'",newfile);
+    ohshite(_("unable to close new option file `%.250s'"),newfile);
   if (rename(newfile,methoptfile))
-    ohshite("unable to install new option as `%.250s'",methoptfile);
+    ohshite(_("unable to install new option as `%.250s'"),methoptfile);
 }

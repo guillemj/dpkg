@@ -35,54 +35,90 @@ extern "C" {
 
 /* These MUST be in the same order as the corresponding enums in dpkg-db.h */
 const char
-  *const wantstrings[]=   { "new package", "install", "hold", "remove", "purge", 0 },
-  *const eflagstrings[]=   { "", "REINSTALL", 0 },
-  *const statusstrings[]= { "not installed", "unpacked (not set up)",
-                            "failed config", "installed", "half installed",
-                            "removed (configs remain)", 0                             },
-  *const prioritystrings[]=  { "Required", "Important", "Standard", "Recommended",
-                               "Optional", "Extra", "Contrib",
-                               "!Bug!", "Unclassified", 0                             },
-  *const relatestrings[]= { "suggests", "recommends", "depends on", "pre-depends on",
-                            "conflicts with", "provides", "replaces", 0               },
-  *const priorityabbrevs[]=  { "Req", "Imp", "Std", "Rec",
-                               "Opt", "Xtr", "Ctb",
-                               "bUG", "?"                  };
+  *const wantstrings[]=   { N_("new package"), 
+			    N_("install"),
+			    N_("hold"),
+			    N_("remove"), 
+			    N_("purge"),
+			    0 },
+
+  *const eflagstrings[]=   { N_(""), 
+			     N_("REINSTALL"), 
+			     0 },
+
+  *const statusstrings[]= { N_("not installed"),
+			    N_("unpacked (not set up)"),
+			    N_("failed config"),
+			    N_("installed"),
+			    N_("half installed"),
+			    N_("removed (configs remain)"),
+			    0 },
+
+  *const prioritystrings[]=  { N_("Required"),
+			       N_("Important"),
+			       N_("Standard"),
+			       N_("Recommended"),
+			       N_("Optional"),
+			       N_("Extra"),
+			       N_("Contrib"),
+			       N_("!Bug!"),
+			       N_("Unclassified"),
+			       0 },
+
+  *const relatestrings[]= { N_("suggests"),
+			    N_("recommends"),
+			    N_("depends on"),
+			    N_("pre-depends on"),
+			    N_("conflicts with"),
+			    N_("provides"),
+			    N_("replaces"),
+			    0 },
+
+  *const priorityabbrevs[]=  { N_("Req"),
+			       N_("Imp"),
+			       N_("Std"),
+			       N_("Rec"),
+			       N_("Opt"),
+			       N_("Xtr"),
+			       N_("Ctb"),
+			       N_("bUG"),
+			       N_("?") };
+
 const char statuschars[]=   " UC*I-";
 const char eflagchars[]=     " R?#";
 const char wantchars[]=     "n*=-_";
 
 /* These MUST be in the same order as the corresponding enums in pkglist.h */
 const char
-  *const ssaabbrevs[]= { "Broken",
-                         "New",
-                         "Updated",
-                         "Obsolete/local",
-                         "Up-to-date",
-                         "Available",
-                         "Removed" },
-  *const ssastrings[]= { "Brokenly installed packages",
-                         "Newly available packages",
-                         "Updated packages (newer version is available)",
-                         "Obsolete and local packages present on system",
-                         "Up to date installed packages",
-                         "Available packages (not currently installed)",
-                         "Removed and no longer available packages" };
+  *const ssaabbrevs[]= { N_("Broken"),
+                         N_("New"),
+                         N_("Updated"),
+                         N_("Obsolete/local"),
+                         N_("Up-to-date"),
+                         N_("Available"),
+                         N_("Removed") },
+  *const ssastrings[]= { N_("Brokenly installed packages"),
+                         N_("Newly available packages"),
+                         N_("Updated packages (newer version is available)"),
+                         N_("Obsolete and local packages present on system"),
+                         N_("Up to date installed packages"),
+                         N_("Available packages (not currently installed)"),
+                         N_("Removed and no longer available packages") };
 
 const char
-  *const sssstrings[]= { "Brokenly installed packages",
-                         "Installed packages",
-                         "Removed packages (configuration still present)",
-                         "Purged packages and those never installed" },
-  *const sssabbrevs[]= { "Broken",
-                         "Installed",
-                         "Removed",
-                         "Purged" };
+  *const sssstrings[]= { N_("Brokenly installed packages"),
+                         N_("Installed packages"),
+                         N_("Removed packages (configuration still present)"),
+                         N_("Purged packages and those never installed") },
+  *const sssabbrevs[]= { N_("Broken"),
+                         N_("Installed"),
+                         N_("Removed"),
+                         N_("Purged") };
 
 static int maximumstring(const char *const *array) {
   int maxlen= 0;
   while (*array) {
-    int l= strlen(*array);
+    int l= strlen(gettext(*array));
     const char *p= strchr(*array, '(');
     if (p && p > *array && *--p == ' ') l= p - *array;
     if (l > maxlen) maxlen= l;
@@ -92,7 +128,7 @@ static int maximumstring(const char *const *array) {
 }
 
 void packagelist::setwidths() {
-  if (debug) fprintf(debug,"packagelist[%p]::setwidths()\n",this);
+  if (debug) fprintf(debug,_("packagelist[%p]::setwidths()\n"),this);
 
   if (verbose) {
     status_hold_width= 9;
@@ -142,7 +178,7 @@ void packagelist::setwidths() {
     description_column= versionavailable_column + versionavailable_width + gap_width;
     break;
   default:
-    internerr("unknown versiondisplayopt in setwidths");
+    internerr(_("unknown versiondisplayopt in setwidths"));
   }
     
   total_width= TOTAL_LIST_WIDTH;
@@ -155,9 +191,9 @@ void packagelist::redrawtitle() {
   if (title_height) {
     mywerase(titlewin);
     mvwaddnstr(titlewin,0,0,
-               recursive ?  "dselect - recursive package listing" :
-               !readwrite ? "dselect - inspection of package states" :
-                            "dselect - main package listing",
+               recursive ?  _("dselect - recursive package listing") :
+               !readwrite ? _("dselect - inspection of package states") :
+                            _("dselect - main package listing"),
                xmax);
     getyx(titlewin,y,x);
     if (x < xmax) {
@@ -165,60 +201,60 @@ void packagelist::redrawtitle() {
       case so_section:
         switch (statsortorder) {
         case sso_unsorted:
-          waddnstr(titlewin, " (by section)", xmax-x);
+          waddnstr(titlewin, _(" (by section)"), xmax-x);
           break;
         case sso_avail:
-          waddnstr(titlewin, " (avail., section)", xmax-x);
+          waddnstr(titlewin, _(" (avail., section)"), xmax-x);
           break;
         case sso_state:
-          waddnstr(titlewin, " (status, section)", xmax-x);
+          waddnstr(titlewin, _(" (status, section)"), xmax-x);
           break;
         default:
-          internerr("bad statsort in redrawtitle/so_section");
+          internerr(_("bad statsort in redrawtitle/so_section"));
         }
         break;
       case so_priority:
         switch (statsortorder) {
         case sso_unsorted:
-          waddnstr(titlewin, " (by priority)", xmax-x);
+          waddnstr(titlewin, _(" (by priority)"), xmax-x);
           break;
         case sso_avail:
-          waddnstr(titlewin, " (avail., priority)", xmax-x);
+          waddnstr(titlewin, _(" (avail., priority)"), xmax-x);
           break;
         case sso_state:
-          waddnstr(titlewin, " (status, priority)", xmax-x);
+          waddnstr(titlewin, _(" (status, priority)"), xmax-x);
           break;
         default:
-          internerr("bad statsort in redrawtitle/so_priority");
+          internerr(_("bad statsort in redrawtitle/so_priority"));
         }
         break;
       case so_alpha:
         switch (statsortorder) {
         case sso_unsorted:
-          waddnstr(titlewin, " (alphabetically)", xmax-x);
+          waddnstr(titlewin, _(" (alphabetically)"), xmax-x);
           break;
         case sso_avail:
-          waddnstr(titlewin, " (by availability)", xmax-x);
+          waddnstr(titlewin, _(" (by availability)"), xmax-x);
           break;
         case sso_state:
-          waddnstr(titlewin, " (by status)", xmax-x);
+          waddnstr(titlewin, _(" (by status)"), xmax-x);
           break;
         default:
-          internerr("bad statsort in redrawtitle/so_priority");
+          internerr(_("bad statsort in redrawtitle/so_priority"));
         }
         break;
-        waddnstr(titlewin, " (alphabetically)", xmax-x);
+        waddnstr(titlewin, _(" (alphabetically)"), xmax-x);
         break;
       case so_unsorted:
         break;
       default:
-        internerr("bad sort in redrawtitle");
+        internerr(_("bad sort in redrawtitle"));
       }
     }
-    const char *helpstring= readwrite ? (verbose ? " mark:+/=/- terse:v help:?"
-                                                 : " mark:+/=/- verbose:v help:?")
-                                      : (verbose ? " terse:v help:?"
-                                                 : " verbose:v help:?");
+    const char *helpstring= readwrite ? (verbose ? _(" mark:+/=/- terse:v help:?")
+                                                 : _(" mark:+/=/- verbose:v help:?"))
+                                      : (verbose ? _(" terse:v help:?")
+                                                 : _(" verbose:v help:?"));
     int l= strlen(helpstring);
     getyx(titlewin,y,x);
     if (xmax-l > 0) {

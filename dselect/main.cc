@@ -48,7 +48,7 @@ extern "C" {
 #include "pkglist.h"
 
 const char thisname[]= DSELECT;
-const char printforhelp[]= "Type " DSELECT " --help for help.";
+const char printforhelp[]= N_("Type " DSELECT " --help for help.");
 
 modstatdb_rw readwrite;
 const char *admindir= ADMINDIR;
@@ -63,36 +63,36 @@ struct menuentry {
 };
 
 static const menuentry menuentries[]= {
-  { "access",  "Choose the access method to use.",                &urq_setup   },
-  { "update",  "Update list of available packages, if possible.", &urq_update  },
-  { "select",  "Request which packages you want on your system.", &urq_list    },
-  { "install", "Install and upgrade wanted packages.",            &urq_install },
-  { "config",  "Configure any packages that are unconfigured.",   &urq_config  },
-  { "remove",  "Remove unwanted software.",                       &urq_remove  },
-  { "quit",    "Quit dselect.",                                   &urq_quit    },
-  { "menu",     0,                                                &urq_menu    },
-  {  0                                                                         }
+  { N_("access"),  N_("Choose the access method to use."),                &urq_setup   },
+  { N_("update"),  N_("Update list of available packages, if possible."), &urq_update  },
+  { N_("select"),  N_("Request which packages you want on your system."), &urq_list    },
+  { N_("install"), N_("Install and upgrade wanted packages."),            &urq_install },
+  { N_("config"),  N_("Configure any packages that are unconfigured."),   &urq_config  },
+  { N_("remove"),  N_("Remove unwanted software."),                       &urq_remove  },
+  { N_("quit"),    N_("Quit dselect."),                                   &urq_quit    },
+  { N_("menu"),    0,                                                     &urq_menu    },
+  { 0                                                                              }
 };
 
 static const char programdesc[]=
-      "Debian Linux `" DSELECT "' package handling frontend.";
+      N_("Debian Linux `" DSELECT "' package handling frontend.");
 
-static const char copyrightstring[]=
+static const char copyrightstring[]= N_(
       "Version " DPKG_VERSION_ARCH ".  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
       "free software; see the GNU General Public Licence version 2 or later for\n"
-      "copying conditions.  There is NO warranty.  See dselect --licence for details.\n";
+      "copying conditions.  There is NO warranty.  See dselect --licence for details.\n");
 
 static void printversion(void) {
-  if (fprintf(stdout,"%s\n%s",programdesc,copyrightstring) == EOF) werr("stdout");
+  if (fprintf(stdout,"%s\n%s",gettext(programdesc),gettext(copyrightstring)) == EOF) werr("stdout");
 }
 
 static void usage(void) {
-  if (!fputs
-      ("Usage: dselect [options]\n"
+  if (!fputs(
+     _("Usage: dselect [options]\n"
        "       dselect [options] action ...\n"
        "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
        "          --help  --version  --licence   --debug <file> | -D<file> | -D\n"
-       "Actions:  access update select install config remove quit menu\n",
+       "Actions:  access update select install config remove quit menu\n"),
        stdout)) werr("stdout");
 }
 
@@ -134,7 +134,7 @@ extern "C" {
 
   static void setdebug(const struct cmdinfo*, const char *v) {
     debug= fopen(v,"a");
-    if (!debug) ohshite("couldn't open debug file `%.255s'\n",v);
+    if (!debug) ohshite(_("couldn't open debug file `%.255s'\n"),v);
     setvbuf(debug,0,_IONBF,0);
   }
 
@@ -160,12 +160,12 @@ void curseson() {
     if (!cup || !smso) {
       endwin();
       if (!cup)
-        fputs("Terminal does not appear to support cursor addressing.\n",stderr);
+        fputs(_("Terminal does not appear to support cursor addressing.\n"),stderr);
       if (!smso)
-        fputs("Terminal does not appear to support highlighting.\n",stderr);
-      fputs("Set your TERM variable correctly, use a better terminal,\n"
-            "or make do with the per-package management tool " DPKG ".\n",stderr);
-      ohshit("terminal lacks necessary features, giving up");
+        fputs(_("Terminal does not appear to support highlighting.\n"),stderr);
+      fputs(_("Set your TERM variable correctly, use a better terminal,\n"
+            "or make do with the per-package management tool " DPKG ".\n"),stderr);
+      ohshit(_("terminal lacks necessary features, giving up"));
     }
   }
   cursesareon= 1;
@@ -209,10 +209,11 @@ urqresult urq_list(void) {
 void dme(int i, int so) {
   char buf[120];
   const menuentry *me= &menuentries[i];
+  const char* option = gettext(me->option);
   sprintf(buf," %c %d. [%c]%-10.10s %-80.80s ",
           so ? '*' : ' ', i,
-          toupper(me->option[0]), me->option+1,
-          me->menuent);
+          toupper(option[0]), option+1,
+          gettext(me->menuent));
   
   int y,x;
   getmaxyx(stdscr,y,x);
@@ -230,7 +231,7 @@ int refreshmenu(void) {
 
   clear();
   attrset(A_BOLD);
-  mvaddnstr(0,0, programdesc,x-1);
+  mvaddnstr(0,0, gettext(programdesc),x-1);
 
   attrset(A_NORMAL);
   const struct menuentry *mep; int i;
@@ -238,12 +239,12 @@ int refreshmenu(void) {
     dme(i,0);
 
   attrset(A_BOLD);
-  addstr("\n\n"
+  addstr(_("\n\n"
          "Use ^P and ^N, cursor keys, initial letters, or digits to select;\n"
-         "Press ENTER to confirm selection.   ^L to redraw screen.\n\n");
+         "Press ENTER to confirm selection.   ^L to redraw screen.\n\n"));
 
   attrset(A_NORMAL);
-  addstr(copyrightstring);
+  addstr(gettext(copyrightstring));
 
   return i;
 }
@@ -256,7 +257,7 @@ urqresult urq_menu(void) {
   dme(0,1);
   for (;;) {
     refresh();
-    c= getch();  if (c==ERR) ohshite("failed to getch in main menu");
+    c= getch();  if (c==ERR) ohshite(_("failed to getch in main menu"));
     if (c==C('n') || c==KEY_DOWN || c==' ') {
       dme(cursor,0); cursor++; cursor %= entries; dme(cursor,1);
     } else if (c==C('p') || c==KEY_UP || c==C('h') ||
@@ -272,7 +273,7 @@ urqresult urq_menu(void) {
       case urqr_fail:
         break;
       default:
-        internerr("unknown menufn");
+        internerr(_("unknown menufn"));
       }
       refreshmenu(); dme(cursor,1);
     } else if (c==C('l')) {
@@ -286,7 +287,7 @@ urqresult urq_menu(void) {
       }
     } else if (isalpha(c)) {
       c= tolower(c);
-      for (i=0; i<entries && menuentries[i].option[0] != c; i++);
+      for (i=0; i<entries && gettext(menuentries[i].option)[0] != c; i++);
       if (i < entries) {
         dme(cursor,0); cursor=i; dme(cursor,1);
       } else {
@@ -306,6 +307,10 @@ urqresult urq_quit(void) {
 int main(int, const char *const *argv) {
   jmp_buf ejbuf;
 
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  textdomain(PACKAGE);
+
 #if CAN_RESIZE
   (void) signal(SIGWINCH, adjust); /* arrange interrupts to resize */
 #endif
@@ -323,7 +328,7 @@ int main(int, const char *const *argv) {
     while ((a= *argv++) != 0) {
       const menuentry *me;
       for (me= menuentries; me->option && strcmp(me->option,a); me++);
-      if (!me->option) badusage("unknown action string `%.50s'",a);
+      if (!me->option) badusage(_("unknown action string `%.50s'"),a);
       me->fn();
     }
   } else {
