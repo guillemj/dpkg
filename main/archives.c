@@ -877,7 +877,7 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
       vdew_always : vdew_never;
     if (fc_downgrade) {
       if (saywhy) fprintf(stderr, _("%s - warning: downgrading %.250s "
-             "from %.250s to %.250s.\n"), DPK, pkg->name,
+             "from %.250s to %.250s.\n"), DPKG, pkg->name,
              versiondescribe(&pkg->installed.version,needepochs),
              versiondescribe(&pkg->available.version,needepochs));
       return 1;
