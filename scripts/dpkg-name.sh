@@ -37,6 +37,7 @@ usage () {
   according to the ``underscores convention''.
   -a|--no-architecture  No architecture part in filename
   -o|--overwrite        Overwrite if file exists
+  -k|--symlink          Don't create a new file, but a symlink
   -s|--subdir [dir]     Move file into subdir (Use with care)
   -c|--create-dir       Create target dir if not there (Use with care)
   -h|--help|-v|--version|-l|--license  Show help/version/license"
@@ -137,13 +138,19 @@ move () {
 			fi
 		fi
 		newname=`echo $dir/$name`;
+		if [ x$symlink = x1 ];
+		then
+			command="ln -s --"
+		else
+			command="mv --"
+		fi
 		if [ $newname -ef "$1" ]; # same device and inode numbers
 		then
 			stderr "skipping \`"$1"'";
 		elif [ -f $newname -a -z "$overwrite" ];
 		then
 			stderr "can't move \`"$1"' to existing file";
-		elif `mv -- "$1" $newname`;
+		elif `$command "$1" $newname`;
 		then
 			echo "moved \``basename "$1"`' to \`$newname'";
 		else
@@ -173,6 +180,7 @@ do
 		--create-dir|-c) createdir=1;;
 		--subdir|-s) subdirset=1;;
 		--overwrite|-o) overwrite=1 ;;
+		--symlink|-k) symlink=1 ;;
 		--no-architecture|-a) noarchitecture=1 ;;
 		--) shift; 
 			for arg 
