@@ -5,24 +5,33 @@ sub ENOENT { 2; }
 # Sorry about this, but the errno-part of POSIX.pm isn't in perl-*-base
 
 $version= '1.0.11'; # This line modified by Makefile
-sub usageversion {
-    print(STDERR <<END)
-Debian GNU/Linux dpkg-divert $version.  Copyright (C) 1995
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+sub showversion {
+    print("Debian GNU/Linux dpkg-divert $version.\n") || &quit("failed to write version: $!");
+}
+
+sub usage {
+    &showversion;
+    print(STDOUT <<END)
+Copyright (C) 1995 Ian Jackson.  This is free software; see the GNU General
+Public Licence version 2 or later for copying conditions. There is NO warranty.
 
 Usage:
- dpkg-divert [options] [--add] <file>
- dpkg-divert [options] --remove <file>
- dpkg-divert [options] --list [<glob-pattern>]
 
-Options:  --package <package> | --local  --divert <divert-to>  --rename
-          --quiet  --test  --help|--version  --admindir <directory>
+ dpkg-divert [options] [--add] <file>               - add a diversion
+ dpkg-divert [options] --remove <file>              - remove the diversion
+ dpkg-divert [options] --list [<glob-pattern>]      - show file diversions
 
-<package> is the name of a package whose copy of <file> will not be diverted.
-<divert-to> is the name used by other packages' versions.
---local specifies that all packages' versions are diverted.
---rename causes dpkg-divert to actually move the file aside (or back).
+Options: 
+    --package <package>        name of the package whose copy of <file>
+                               will not be diverted.
+    --local                    all packages' versions are diverted.
+    --divert <divert-to>       the name used by other packages' versions.
+    --rename                   actually move the file aside (or back).
+    --quiet                    quiet operation, minimal output
+    --test                     don't do anything, just demonstrate
+    --help                     print this help screen and exit
+    --version                  output version and exit
+    --admindir <directory>     set the directory with the diversions file
 
 When adding, default is --local and --divert <original>.distrib.
 When removing, --package or --local and --divert must match if specified.
@@ -48,8 +57,10 @@ while (@ARGV) {
     last if m/^--$/;
     if (!m/^-/) {
         unshift(@ARGV,$_); last;
-    } elsif (m/^--(help|version)$/) {
-        &usageversion; exit(0);
+    } elsif (m/^--help$/) {
+        &usage; exit(0);
+    } elsif (m/^--version$/) {
+        &showversion; exit(0);
     } elsif (m/^--test$/) {
         $testmode= 1;
     } elsif (m/^--rename$/) {
@@ -232,5 +243,5 @@ sub infoa { &infol($file,$divertto,$package); }
 sub infon { &infol($contest[$i],$altname[$i],$package[$i]); }
 
 sub quit { print STDERR "dpkg-divert: @_\n"; exit(2); }
-sub badusage { print STDERR "dpkg-divert: @_\n\n"; &usageversion; exit(2); }
+sub badusage { print STDERR "dpkg-divert: @_\n\n"; print("You need --help.\n"); exit(2); }
 sub badfmt { &quit("internal error: $admindir/diversions corrupt: $_[0]"); }

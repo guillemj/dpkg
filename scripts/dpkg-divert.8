@@ -1,0 +1,83 @@
+.TH DPKG-DIVERT 8 "December 1999" "Debian Project" "dpkg utilities"
+.SH NAME
+dpkg-divert -- override a package's version of a file
+.SH SYNOPSIS
+.B dpkg-divert
+[options] [--add]
+.I <file>
+.br
+.B dpkg-divert
+[options] --remove
+.I <file>
+.br
+.B dpkg-divert
+[options]
+--list
+.I <glob-pattern>
+.SH DESCRIPTION
+File `diversions' are a way of forcing dpkg not to install a file into its
+location, but to a `diverted' location. Diversions can be used through the
+package maintainer scripts to move a file away when it causes a conflict.
+System administrators can also use it to override some package's
+configuration file, or whenever some files (which aren't marked as
+'conffiles') need to be preserved by dpkg, when installing a newer version
+of a package which contains those files.
+.sp
+.B dpkg-divert
+is the utility used to set up and update the list of diversions. It
+functions in three basic modes - adding, removing, and listing diversions.
+The options are --add, --remove, and --list, respectively. Other options
+(listed below) may also be specified.
+.SH OPTIONS
+.TP
+.I --admindir <directory>
+Set the dpkg data directory to <directory> (default: /var/lib/dpkg).
+.TP
+.I --divert <divert-to>
+<divert-to> is the name used by other packages' versions.
+.TP
+.I --help
+Output the version and the short usage instructions, and exit successfully.
+.TP
+.I --local
+Specifies that all packages' versions are diverted.
+.TP
+.I --package <package>
+<package> is the name of a package whose copy of <file> will not be diverted.
+.TP
+.I --quiet
+Quiet mode, i.e. no verbose output.
+.TP
+.I --rename
+Actually move the file aside (or back). dpkg-divert will abort operation
+in case the destination file already exists.
+.TP
+.I --test
+Test mode, i.e. don't actually perform any changes, just demonstrate.
+.TP
+.I --version
+Output program name and version and exit successfully.
+.SH NOTES
+When adding, default is --local and --divert <original>.distrib.
+When removing, --package or --local and --divert must match if specified.
+.br
+Directories can't be diverted with dpkg-divert.
+.SH FILES
+.TP
+.I /var/lib/dpkg/diversions
+File which contains the current list of diversions of the system. It is
+located in the dpkg administration directory, along with other files
+important to dpkg, such as `status' or `available'.
+.br
+Note: dpkg-divert preserves the old copy of this file, with extension
+"-old", before replacing it with the new one.
+.SH SEE ALSO
+.BR dpkg (8).
+.sp
+Please read the Debian Packaging Manual, section 11., "Diversions -
+overriding a package's version of a file" for more information.
+.SH AUTHOR
+Copyright (C) 1995 Ian Jackson.
+.sp
+This is free software; see the GNU General Public Licence
+version 2 or later for copying conditions.  There is NO warranty.
