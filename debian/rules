@@ -38,8 +38,12 @@ configure: configure.in aclocal.m4
 config.h.in: configure.in
 	autoheader
 
+config.guess config.sub: %: /usr/share/misc/%
+	cp -a $< $@.new
+	mv $@.new $@
+
 # Setup the buildlocation
-$(BUILD)/configure-stamp: configure config.h.in
+$(BUILD)/configure-stamp: configure config.h.in config.guess config.sub
 	$(checkdir)
 	install -d $(@D)
 	cd $(@D) && LDFLAGS=$(LDFLAGS) $(CURDIR)/configure \
