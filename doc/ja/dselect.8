@@ -1,0 +1,153 @@
+.\" Japanese Version Copyright (c) 1998 Koichi Sekido
+.\"         all rights reserved.
+.\" Translated Tue Aug  4 15:27:29 JST 1998
+.\"         by Koichi Sekido <sekido@mbox.kyoto-inet.or.jp>
+.\"
+.\" WORD:       parameter               引数
+.\" WORD:       user interface          ユーザインタフェース
+.\" WORD:       anonymous FTP           匿名 FTP
+.\"
+.TH DSELECT 8 "29th November 1995" "Debian Project" "Debian GNU/Linux"
+.\" .SH NAME
+.SH 名前
+.\" dselect \- a user tool to manage Debian GNU/Linux packages
+dselect \- Debian GNU/Linux のパッケージを管理するユーザツール
+.\" .SH SYNOPSIS
+.SH 書式
+.\" .B dselect
+.\" [options]
+.\" .br
+.\" .B dselect
+.\" [options] action ...
+.B dselect
+[オプション]
+.br
+.B dselect
+[オプション] アクション ...
+.\" .SH DESCRIPTION
+.SH 説明
+.\" .B dselect
+.\" is the primary user interface for installing, removing and managing
+.\" Debian GNU/Linux packages. It is an front-end to
+.\" .B dpkg(8).
+.\" Normally
+.\" .B dselect
+.\" is invoked without parameters, but some commandline parameters are still
+.\" available.
+.B dselect
+は Debian GNU/Linux のパッケージをインストールしたり削除したり管理したり
+するための代表的なユーザインタフェースである。dselect は
+.B dpkg(8)
+のフロントエンドである。通常
+.B dselect
+は引数なしで起動されるが、指定可能なコマンドライン引数もある。
+
+.\" The usage of
+.\" .B dselect
+.\" is pretty self-explanatory, and also an internal help-system is
+.\" included, which describes the keystrokes and some general concepts.
+.\" .I Read the help.
+.B dselect
+の使い方は進めながら説明されるようになっている。キー操作と概要を示すヘル
+プも含まれている。
+.I ヘルプを読まれたい。
+.\" .SS ACTIONS
+.SS アクション
+.TP
+.B access, update, select, install, config, remove
+.\" These actions automatically selects corresponding commands from the main
+.\" menu, without even showing the main menu to you.
+これらのアクションは、それぞれに見合ったコマンドをメインメニューから自動
+的に選択する。メインメニューは表示されない。
+.TP
+.B quit
+.\" Do nothing but quit.
+何もせずに終了する。
+.TP
+.B menu
+.\" Displays the default menu. This is equivalent to starting
+.\" .B dselect
+.\" with no parameters.
+デフォルトのメニューを表示する。これは
+.B dselect
+を引数なしで起動するのと同じことである。
+.\" .SS OPTIONS
+.SS オプション
+.TP
+.\" .B --admindir <directory>
+.B --admindir <ディレクトリ>
+.\" Changes the directory where datafiles are located. This defaults to
+.\" .I /var/lib/dpkg.
+.\" Note, that these files are just some internal datafiles, actual Debian
+.\" packages doesn't have to be located here.
+データファイルが位置するディレクトリを変える。デフォルトは
+.I /var/lib/dpkg
+である。これらのファイルは内部で使用されるデータファイルであり、実際の 
+Debian パッケージをここに置く必要はないことに注意されたい。
+.TP
+.\" .B --debug <file> | -D<file>
+.B --debug <ファイル> | -D<ファイル>
+.\" Turn on debugging. Debugging information is sent to
+.\" .I <file>.
+デバッギングを有効にする。デバッグ情報は
+.I <ファイル>
+に送られる。
+.TP
+.B --help
+.\" Print a brief help text.
+簡単なヘルプを表示する。
+.TP
+.B --licence
+.\" Print the licence of
+.\" .B dselect.
+.B dselect
+のライセンスを表示する。
+.TP
+.B --version
+.\" Print version information.
+バージョン情報を表示する。
+.\" .SH BUGS
+.SH バグ
+.\" This manpage doesn't document the options quite correctly, and has
+.\" formatting inconsistent with other manpages.
+このマニュアルページは必ずしもオプションを正確に記述していない。また他の
+マニュアルページとの間でフォーマットに矛盾がある。
+
+.\" The
+.\" .B dselect
+.\" package selection interface is confusing or even alarming to the new
+.\" user.
+.B dselect
+パッケージ選択のインタフェースは混乱を招きやすく、新しいユーザを不安にさ
+せることすらある。
+
+.\" There is no easy way automatically to download and install packages
+.\" via anonymous FTP.
+.\" （訳出せず）
+.\" .SH SEE ALSO
+.SH 関連項目
+.B deb(5)
+,
+.B dpkg-deb(8)
+,
+.B dpkg(8)
+.\"and
+,
+.B deb-control(5)
+
+.\" .SH AUTHOR
+.SH 著者
+.\" .B dselect
+.\" was written by Ian Jackson (ijackson@gnu.ai.mit.edu).
+.\" This manual page is by Juho Vuori (javuori@cc.helsinki.fi).
+.B dselect
+は Ian Jackson (ijackson@gnu.ai.mit.edu) によって書かれた。このマニュア
+ルページは Juho Vuori (javuori@cc.helsinki.fi) の手による。
+
+.SH 翻訳者
+関戸 幸一 <sekido@mbox.kyoto-inet.or.jp>
+
+.\" Local Variables:
+.\" mode: nroff
+.\" comment-start: "\.\\\" "
+.\" End:

@@ -1,0 +1,144 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\"
+.\" Translated Wed May 13 17:28:56 JST 1998
+.\"	by Hidenobu NABETANI <nabetani@kern.phys.sci.osaka-u.ac.jp>
+.\"
+.\" WORD:	infomational message	参考情報
+.\" WORD:	instance		インスタンス
+.\"
+.TH START\-STOP\-DAEMON 8 "15th March 1997" "Debian Project" "Debian GNU/Linux"
+.SH 名前
+start\-stop\-daemon \- システムデーモンプログラムの起動、停止
+.SH 書式
+.B start-stop-daemon
+.BR -S|--start
+.IR "options ... -- arguments ..."
+.HP
+.B start-stop-daemon
+.BR -K|--stop
+.IR "options ..."
+.HP
+.B start-stop-daemon
+.BR -H|--help
+.HP
+.B start-stop-daemon
+.BR -V|--version
+.SH 説明
+.B start\-stop\-daemon
+はシステムレベルのプロセスの生成・停止を制御するために使用される。
+また、
+.BR --exec
+、
+.BR --pidfile
+、
+.BR --user
+ または 
+.BR --name
+オプションを与えることで、実行中のプロセスを見つけることができる。
+
+.BR --start
+を使用すると、
+.B start\-stop\-daemon
+は指定されたプロセスが存在するかを調べる。
+該当するプロセスが存在する場合、
+.B start\-stop\-daemon
+は何もせず、エラーステータス 1 を返して終了する(
+.BR --oknodo
+が指定された場合は、0 を返す)。該当するプロセスが存在しない場合、
+.BR --exec
+により(又は、
+.BR --startas
+が指定された場合はこれにより
+)指定される実行ファイルを起動する。
+コマンドライン上で
+.BR --
+以降に与えられた任意の引数は起動されるプログラムにそのまま引き
+渡される。
+
+.BR --stop
+を使用すると、
+.B start\-stop\-daemon
+は指定されたプロセスが存在するかを調べる。該当するプロセスが存在す
+る場合、
+.B start\-stop\-daemon
+は
+.BR --signal
+により指定されたシグナルをそのプロセスに送り、エラーステータス 0 
+を返して終了する。該当するプロセスが存在しない場合、
+.B start\-stop\-daemon
+はエラーステータス 1 を返して終了する(
+.BR --oknodo
+が指定された場合は 0 を返す)。
+
+.SH オプション
+
+.TP
+.I -x|--exec executable
+(
+.B /proc/
+.I pid
+.B /exe 
+により)指定された executable のプロセスを調べる。
+.TP
+.I -p|--pidfile pid-file
+.I pid-file
+で指定されるプロセスIDを持つプロセスを調べる。
+.TP
+.I -u|--user username|uid
+.I username 
+または
+.I uid
+で指定されるユーザが所有するプロセスを調べる。
+.TP
+.I -n|--name process-name
+(
+.B /proc/
+.I pid
+.B /stat 
+により)
+.I process-name
+という名のプロセスを調べる。
+.TP
+.I -s|--signal signal
+.BR --stop
+が与えられた時、プロセスを停止するために送るシグナルを指定する
+(デフォルトは 15)。
+.TP
+.I -a|--startas pathname
+同時に
+.B --start
+が与えられると、
+.I pathname
+により指定されるプロセスを起動する。このオプションが指定されない場合、
+.B --exec
+に与えられる引数がデフォルトになる。
+.TP
+.I -t|--test
+実行しようとする処理内容を出力し，それに伴い適切な返り値が設定される
+が、実際の処理は行わない。
+.TP
+.I -o|--oknodo
+処理が何も行われない(又は、行なわれようともしなかった)場合、
+終了ステータス 1 のかわりに 0 を返す。
+.TP
+.I -q|--quiet
+参考情報を出力しない。エラーメッセージのみ表示。
+.TP
+.I -v|--verbose
+詳しい参考情報を出力する。
+.TP
+.I -H|--help
+ヘルプ情報を出力して終了する。
+.TP
+.I -V|--version
+バージョン情報を出力して終了する。
+
+.SH 著者
+Ian Jackson <ijackson@gnu.ai.mit.edu>
+
+Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
+
+このマニュアルは Klee Dienes <klee@mit.edu> によって書かれた。
+
+.SH 翻訳者
+鍋谷 栄展 <nabetani@kern.phys.sci.osaka-u.ac.jp>
