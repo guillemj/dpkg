@@ -13,7 +13,8 @@ MD5_SOURCES		= md5sum.c md5.c
 MD5_OBJECTS		= $(patsubst %.c, %.o, $(MD5_SOURCES))
 MD5_MANPAGES		= md5sum.1
 
-GENFILES		= $(SSD_OBJECTS) start-stop-daemon
+GENFILES		= $(SSD_OBJECTS) start-stop-daemon \
+			  $(MD5_OBJECTS) md5sum
 
 .PHONY: all
 all:: start-stop-daemon md5sum
@@ -46,7 +47,7 @@ install-doc:
 	$(mkinstalldirs) $(DESTDIR)/$(man1dir)
 	$(INSTALL_DATA) $(srcdir)/$(MD5_MANPAGES) $(DESTDIR)/$(man1dir)
 
-start-stop-daemon: $(SSD_OBJECTS)
+start-stop-daemon: $(SSD_OBJECTS) ../optlib/libopt.a
 
-md5sum: $(MD5_OBJECTS)
+md5sum: $(MD5_OBJECTS) ../optlib/libopt.a
 
