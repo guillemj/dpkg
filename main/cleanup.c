@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * cleanup.c - cleanup functions, used when we need to unwind
  *
- * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
+ * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

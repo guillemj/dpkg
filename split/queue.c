@@ -2,7 +2,7 @@
  * dpkg-split - splitting and joining of multipart *.deb archives
  * queue.c - queue management
  *
- * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
+ * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

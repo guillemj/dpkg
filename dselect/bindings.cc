@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * bindings.cc - keybinding manager object definitions and default bindings
  *
- * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
+ * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

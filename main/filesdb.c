@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * filesdb.c - management of database of files installed on system
  *
- * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
+ * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  * Copyright (C) 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify

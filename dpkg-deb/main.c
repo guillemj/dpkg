@@ -2,7 +2,7 @@
  * dpkg-deb - construction and deconstruction of *.deb archives
  * main.c - main program
  *
- * Copyright (C) 1994,1995 Ian Jackson <ian.greenend.org.uk>
+ * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as

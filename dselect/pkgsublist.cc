@@ -2,7 +2,7 @@
  * dselect - Debian package maintenance user interface
  * pkgsublist.cc - status modification and recursive package list handling
  *
- * Copyright (C) 1995 Ian Jackson <ian.greenend.org.uk>
+ * Copyright (C) 1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
