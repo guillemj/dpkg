@@ -315,8 +315,12 @@ commands mapped to the following keys:
 .sp
 The list of packages can be searched by package name.  This
 is done by pressing \fB'/'\fP, and typing a simple search
-string.  The string is interpreted literally and should not contain
-metacharacters, like those used in regular expressions or file globs.
+string. The string is interpreted as a
+.BR regex (7)
+regular expression.
+If you add \fB'/d'\fP to the search expression, dselect will also search
+in descriptions. If you add \fB'/i'\fP the search will be case insensitive.
+You may combine these two suffixes like this: \fB'/id'\fP.
 Repeated searching is accomplished by repeatedly pressing
 the \fB'n'\fP or \fB'\\'\fP keys, until the wanted package is found.
 If the search reaches the bottom of the list, it wraps to the top
