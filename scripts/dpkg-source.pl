@@ -205,6 +205,7 @@ if ($opmode eq 'build') {
             } else {
                 &unknown("parsed version of changelog");
             }
+        } elsif (m/^o:.*/) {
         } else {
             &internerr("value from nowhere, with key >$_< and value >$v<");
         }

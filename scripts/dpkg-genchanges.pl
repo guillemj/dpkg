@@ -219,6 +219,7 @@ for $_ (keys %fi) {
         } elsif (!m/^X[BS]+-/i) {
             &unknown("parsed version of changelog");
         }
+    } elsif (m/^o:.*/) {
     } else {
         &internerr("value from nowhere, with key >$_< and value >$v<");
     }
