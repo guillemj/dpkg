@@ -1,245 +1,27 @@
-#!/bin/sh -
+#!/bin/sh
 
 set -e
 
-dupdaemonhelp () {
-	cat <<'END'
-
-Some daemons and similar services whose scripts have links in the
-/etc/rcN.d directories have both start (S) and stop (K) links in
-some runlevels.  Thus these services get stopped and immediately
-restarted at some runlevel changes, which is probably not what
-you want.  I can remove the probably-spurious K links if you like.
-
-Type Y to remove then, N to leave them, or L to list them.
-If you don't know what to do you can say N now and then delete
-them by hand later.
-
-END
-}
-
-if [ "x$1" = xconfigure ]; then
-	if [ -d /usr/doc -a ! -e /usr/doc/dpkg -a -d /usr/share/doc/dpkg ] ; then
-		ln -s ../share/doc/dpkg /usr/doc/dpkg
-	fi
-
-	case "$2" in
-	0.* | 1.0.* | 1.1.0 | 1.1.0[^0-9]* | '' )
-		for f in 0 1 2 3 4 5 6
-		do
-			cd /etc/rc$f.d
-			for g in K[0-9][0-9]*
-			do
-				if [ -n "`echo \"x$g\" | tr -d 0-9A-Za-z_-`" ]
-				then
-					continue
-				fi
-				h="`echo $g | sed -e 's/^K/S/'`"
-				if ! [ -L $h -a -L $g ] \
-				  || [ "`ls -Li $g 2>/dev/null | awk '{print $1}'`" != \
-				       "`ls -Li $h 2>/dev/null | awk '{print $1}'`" ]
-				then
-					continue
-				fi
-				removes="$removes rc$f.d/$g"
-			done
-		done
-		if [ -n "$removes" ]
-		then
-			cd /etc
-			dupdaemonhelp
-			while [ -n "$removes" ]
-			do
-				echo -n 'y=remove, n=leave, l=list, h=help ?  '
-				read response
-				case "$response" in
-				[Yy]*)
-					echo "Removing duplicate K links ..."
-					rm -v $removes
-					removes=""
-					;;
-				[Nn]*)
-					echo -e "OK, leaving them.\n"
-					removes=""
-					;;
-				[Ll]*)
-					echo
-					echo $removes
-					echo
-					;;
-				[Hh]*)
-					dupdaemonhelp
-					;;
-				esac
-			done
-		fi
-		;;
-	1.1.6 | 1.1.6elf | 1.2.[0123] | 1.2.[0123]elf )
-		response=''
-		while [ -z "$response" ]; do
-			echo -n '
-The version of dpkg you'\''re upgrading from had a problem with the
-install-info program used to maintain the /usr/info/dir file.  It may
-have corrupted the file, for example by placing new entries for the
-menu in it before the `* Menu'\'' line (thus making them ineffective) or
-by creating several identical sections.
-
-I can try to sort these problems out, but beware that this process is
-not guaranteed not to mess up a dir file which has things that look
-like menu entries in the introductory paragraphs.  The distributed dir
-files do not do this, so if you haven'\''t edited /usr/info/dir it'\''s
-almost certainly safe to say `yes'\'' to the next question.
-
-If you say `no'\'' you may wish to check and/or edit /usr/info/dir yourself.
-
-Try to check/repair /usr/info/dir automatically ?  [y/n]  '
-			read response
-			case "$response" in
-			[Yy]* | '')	response=yes ;;
-			[Nn]*)		response=no ;;
-			*)		response='' ;;
-			esac
-		done
-		if [ "$response" = yes ]; then
-			echo "
-Checking/repairing /usr/info/dir ..."
-			cleanup-info --unsafe
-			echo
-		else
-			echo "
-OK.
-"
-		fi
-		;;
-	esac
+if [ "$1" != "configure" ] ; then
+	exit 0
 fi
 
-cd /var/lib/dpkg
-if ! test -f diversions ; then
-	touch diversions
+if [ -d /usr/doc -a ! -e /usr/doc/dpkg -a -d /usr/share/doc/dpkg ] ; then
+	ln -s ../share/doc/dpkg /usr/doc/dpkg
 fi
 
-if ! test -f statoverride ; then
-	touch statoverride
-fi
-rm -f /usr/bin/dpkg-deb.dist
 
-if test -d /DEBIAN
-then
-	echo 'Removing /DEBIAN directory which was created by a dpkg bug ...'
-	rm -r /DEBIAN
-fi
-
-if test -d /usr/lib/dpkg/methods/hd -a ! -x /usr/lib/dpkg/methods/hd/install
-then
-	echo \
-'Warning - /usr/lib/dpkg/methods/hd/ exists, but .../hd/install does not.
-This is probably left over from some previous manual installation of
-now-obsolete dselect-related software.  I suggest you remove the whole
-/usr/lib/dpkg/methods/hd directory and all its contents; otherwise dselect
-is unlikely to function correctly.'
-fi
-
-if test -f /var/lib/dpkg/status; then exit 0; fi
-
-cd /var/adm/dpkg
-
-if [ ! -f status ]
-then
-	echo 'Adding "status" file to dpkg system database ...'
-
-	rm -f dpp.$$ || true
-
-	ls -1 deb/*.control >dpp.$$
-	sed -e 's:^deb/::; s:\.control$: Install OK Installed:;' \
-		<dpp.$$ >status.new
-
-	rm dpp.$$
-	mv status.new status
-fi
-
-if grep '{' deb/*.control >/dev/null
-then
-	echo 'Fixing up curly brackets in control files ...'
-	perl -i~ -pe \
-		'y/{}//d if m/^(depends|recommended|optional|conflicts):/i' \
-		deb/*.control
-	rm deb/*.control~
-fi
-
-if grep 'Optional: idanish ifrench' deb/ispell.control >/dev/null 2>&1
-then
-	echo 'Fixing up broken ispell.control file ...'
-	perl -i~ -pe 's/ /, /g, s/,// if m/^Optional:/' deb/ispell.control
-fi
-
-newdb=/var/lib/dpkg
-echo "Moving datatabase /var/adm/dpkg to $newdb and changing format ..."
-
-exec 4>$newdb/status.new
-exec 5<status
-
-while read <&5 package status
-do
-	echo " processing $package ..."
-	if test -f deb/$package.control
-	then
-		egrep . deb/$package.control >&4
-	else
-		echo >&4 "Package: $package"
-	fi
-	echo >&4 "Status: $status"
- 	if test -f deb/$package.conffiles -a -s deb/$package.conffiles
- 	then
- 		echo >&4 "Conffiles:"
- 		exec 6<deb/$package.conffiles
- 		while read <&6 cfile
- 		do
- 			expr match "$cfile" "[^ 	]" >/dev/null || continue
- 			if test -f deb/$package.hash
- 			then
- 				hash="`grep \"^$cfile \" <deb/$package.hash || \
- 					test $? = 1`"
- 			else
- 				hash=''
- 			fi
- 			test -n "$hash" || hash="$cfile -"
- 			expr match "$hash" / >/dev/null || hash="/$hash"
- 			echo >&4 " $hash"
- 		done
- 	elif test -f deb/$package.hash -a -s deb/$package.conffiles
- 	then
- 		echo >&4 "Conffiles:"
- 		sed -ne '/^[^\/]/ s:^:/:; s/^/ /; / ./p' >&4 deb/$package.hash
- 	fi
- 	echo >&4
-	for s in prerm postrm preinst postinst list
-	do
-		if test -f deb/$package.$s
-		then
-			mv deb/$package.$s $newdb/info/$package.$s
-		fi
-	done
-done
-
-if ! test -f $newdb/available
-then
-	if test -f database
-	then
-		cp database $newdb/available
-	else
-		touch $newdb/available
-	fi
-fi
-
-mv $newdb/status.new $newdb/status
-
-if test -f /usr/info/dir
-then
-	echo "Moving /usr/info/dir to /usr/share/info/dir, and creating"
-	echo "/usr/info/dir symlink."
+if [ -f /usr/info/dir ] ; then
+	echo "Moving /usr/info/dir to /usr/share/info/dir, and creating /usr/info/dir symlink."
 	cp -a /usr/info/dir /usr/share/info/dir
 	ln -f ../share/info/dir /usr/info/dir
 fi
 
+
+cd /var/lib/dpkg
+for f in diversions statoverride status ; do
+	if [ ! -f "$f" ] ; then
+		touch "$f"
+	fi
+done
 
