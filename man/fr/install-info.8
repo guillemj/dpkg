@@ -1,281 +1,210 @@
+.\" This file was generated with po4a. Translate the source file.
+.\" 
 .\" Install-info and this manpage are Copyright 1994 by Ian Jackson.
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
-.\" traduction de la version cvs 1.4
-.TH INSTALL-INFO 8 "29th November 1995" "Projet Debian " "Utilitaires de dpkg"
+.TH INSTALL\-INFO 8 "29 Novembre 1995" "Projet Debian" "Utilitaires de dpkg"
 .SH NOM
-install\-info \- création ou mise à jour d'une entrée dans le répertoire Info
+install\-info \- création ou mise à jour d'une entrée dans le répertoire 
+Info
 .SH SYNOPSIS
-.B install\-info
-[\-\-version] [\-\-help] [\-\-debug] [\-\-maxwidth=nnn]
-[\-\-section regexp title] [\-\-infodir=xxx] [\-\-align=nnn]
-[\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx]
-[\-\-remove | \-\-remove-exactly ]
+\fBinstall\-info\fR [\-\-version] [\-\-help] [\-\-debug] [\-\-maxwidth=nnn] 
+[\-\-section regexp title] [\-\-infodir=xxx] [\-\-align=nnn] [\-\-quiet] 
+[\-\-menuentry=xxx] [\-\-description=xxx] [\-\-remove | \-\-remove-exactly ] 
 [\-\-] nom-de-fichier
 .SH DESCRIPTION
 .PP
-.B install-info
-crée, met à jour ou supprime des entrées dans le fichier
-.B dir
-du répertoire Info.
-Quand, pour la création ou la mise à jour d'une entrée, on ne donne aucune
-description sur la ligne de commande ou dans le fichier Info, 
-.B install-info
-essaye d'en deviner une à travers le contenu du fichier.
+\fBinstall\-info\fR crée, met à jour ou supprime des entrées dans le fichier 
+\fBdir\fR du répertoire Info. Quand, pour la création ou la mise à jour d'une 
+entrée, on ne donne aucune description sur la ligne de commande ou dans le 
+fichier Info, \fBinstall\-info\fR essaye d'en deviner une à travers le contenu 
+du fichier.
 
-Voyez la description de l'option
-.B \-\-section
-pour des précisions sur l'emplacement choisi pour l'entrée et sur le format attendu du
-fichier
+Voyez la description de l'option \fB\-\-section\fR pour des précisions sur 
+l'emplacement choisi pour l'entrée et sur le format attendu du fichier 
 .B dir.
-
 .SS OPTIONS
 .TP
 .BI "[\-\-] " nom-de-fichier
-Donne le nom du fichier Info dont l'entrée de menu doit être créée, mise à
-jour ou supprimée. Si l'option
-.B \-\-remove-exactly
-est précisée,
-.I nom-de-fichier sera le nom exact de l'entrée à supprimer (p.ex. 
-«\ emacs-20/emacs\ » ou «\ gcc\ ») ; dans les autres cas, la partie principale
-de ce nom sert de référent pour l'entrée de menu qui est créée, à moins qu'il 
-y ait, dans le fichier donné, une entrée START-INFO-DIR. Ce fichier doit donc 
-exister (ou bien être sur le point d'être installé, ou bien doit avoir existé 
-en cas de suppression d'entrée) dans le même répertoire que le fichier
-.B dir (voyez l'option
-.B \-\-infodir).
+Donne le nom du fichier Info dont l'entrée de menu doit être créée, mise à 
+jour ou supprimée. Si l'option \fB\-\-remove\-exactly\fR est précisée, 
+\fInom-de-fichier sera le nom exact de l'entrée à supprimer (p.  ex.\fR «\ 
+emacs-20/emacs\ » ou «\ gcc\ »)\ ; dans les autres cas, la partie principale 
+de ce nom sert de référent pour l'entrée de menu qui est créée, à moins 
+qu'il y ait, dans le fichier donné, une entrée START-INFO-DIR. Ce fichier 
+doit donc exister (ou bien être sur le point d'être installé, ou bien doit 
+avoir existé en cas de suppression d'entrée) dans le même répertoire que le 
+fichier \fBdir (voyez l'option\fR \fB\-\-infodir).\fR
 
-Quand
-.I nom-de-fichier
-se termine par
-.B .gz
-on considère qu'il renvoie à un fichier comprimé avec « GNU gzip » ; s'il 
-n'existe pas, mais qu'il y a un
-.IB nom-de-fichier .gz
-on utilisera ce dernier.
+Quand \fInom-de-fichier\fR se termine par \fB.gz\fR on considère qu'il renvoie à 
+un fichier comprimé avec «\ GNU gzip\ »\ ; s'il n'existe pas, mais qu'il y a 
+un \fInom-de-fichier\fR\fB.gz\fR on utilisera ce dernier.
 
-Quand on ajoute ou on met à jour des entrées, ce fichier doit exister dans le 
-chemin spécifié (si possible avec l'extension 
-.B .gz
-supplémentaire).
+Quand on ajoute ou on met à jour des entrées, ce fichier doit exister dans 
+le chemin spécifié (si possible avec l'extension \fB.gz\fR supplémentaire).
 .TP
 .B \-\-remove
-Demande que l'entrée pour le fichier
-.I nom-de-fichier
-soit détruite ; par défaut les entrées sont créées ou mises à jour.
+Demande que l'entrée pour le fichier \fInom-de-fichier\fR soit détruite\ ; par 
+défaut les entrées sont créées ou mises à jour.
 
 Quand la suppression d'une entrée vide une section, l'en-tête (et la ligne 
-blanche détachée) de la section est supprimée aussi, à moins que ce ne soit la
-dernière section du fichier ou bien que l'option
-.B \-\-keep\-old
-soit indiquée. Voyez l'option
-.B \-\-section
-pour des précisions sur le format attendu du fichier
-.B dir.
+blanche détachée) de la section est supprimée aussi, à moins que ce ne soit 
+la dernière section du fichier ou bien que l'option \fB\-\-keep\-old\fR soit 
+indiquée. Voyez l'option \fB\-\-section\fR pour des précisions sur le format 
+attendu du fichier \fBdir.\fR
 
-Quand il y a plusieurs entrées possibles dans le fichier
-.B dir,
-seules celles qui appartiennent au premier groupe contigu correspondant
-sont supprimées ; les autres sont silencieusement ignorées.
+Quand il y a plusieurs entrées possibles dans le fichier \fBdir,\fR seules 
+celles qui appartiennent au premier groupe contigu correspondant sont 
+supprimées\ ; les autres sont silencieusement ignorées.
 
-Ne pas trouver d'entrée possible n'est pas une erreur, bien que
-.B install\-info
-avertisse du problème quand l'option
-.B \-\-quiet
-n'a pas été demandée.
+Ne pas trouver d'entrée possible n'est pas une erreur, bien que 
+\fBinstall\-info\fR avertisse du problème quand l'option \fB\-\-quiet\fR n'a pas 
+été demandée.
 
-Quand 
-.B \-\-remove
-est spécifié, les options de formatage
-.BR \-\-maxwidth ", " \-\-align " et " \-\-calign
-sont silencieusement ignorées.
+Quand \fB\-\-remove\fR est spécifié, les options de formatage \fB\-\-maxwidth\fR, 
+\fB\-\-align\fR et \fB\-\-calign\fR sont silencieusement ignorées.
 .TP
 .B \-\-remove-exactly
-Cette option est pratiquement identique à 
-.B \-\-remove
-mais
-.I nom-de-fichier 
-est compris comme le nom exact de l'entrée à supprimer plutôt que comme le 
-nom d'un fichier existant. Cela peut être important quand on essaye de
-supprimer des entrées pour des fichiers info dans des sous-répertoires
-(p.ex. «\ emacs-20/emacs\ »)\ : 
-.B \-\-remove 
-opère sur la partie principale du
-.I nom-de-fichier
-plutôt que sur le nom exact. (p.ex.
-.B \-\-remove 
-«\ emacs-20/emacs\ » forcerait
-.B install-info
-à chercher «\ emacs\ », pas «\ emacs-20/emacs\ »).
+Cette option est pratiquement identique à \fB\-\-remove\fR mais 
+\fInom-de-fichier\fR est compris comme le nom exact de l'entrée à supprimer 
+plutôt que comme le nom d'un fichier existant. Cela peut être important 
+quand on essaye de supprimer des entrées pour des fichiers info dans des 
+sous-répertoires (p.\ ex. «\ emacs-20/emacs\ »)\ : \fB\-\-remove\fR opère sur 
+la partie principale du \fInom-de-fichier\fR plutôt que sur le nom exact. (p.\ 
+ex.  \fB\-\-remove\fR «\ emacs\-20/emacs\ » forcerait \fBinstall\-info\fR à 
+chercher «\ emacs\ », pas «\ emacs\-20/emacs\ »).
 .TP
-.BI "\-\-section " "exp-reg titre"
-Indique que l'entrée qui doit être créée sera placée dans la section du fichier
-.B dir
-dont le titre correspond à
-.IR exp-reg .
-Si une telle section n'existe pas, une nouvelle dernière section 
-(voyez ci-après) est créée dans le fichier, avec un titre égal à
-.IR titre.
-Une section est un choix possible dans le menu de
-.B dir ;
-les choix sont séparés par des lignes blanches ; la première ligne est 
-supposée représenter le titre.
+.BI "\-\-section " "exp\-reg titre"
+Indique que l'entrée qui doit être créée sera placée dans la section du 
+fichier \fBdir\fR dont le titre correspond à \fIexp\-reg\fR. Si une telle section 
+n'existe pas, une nouvelle dernière section (voyez ci-après) est créée dans 
+le fichier, avec un titre égal à \fItitre.\fR Une section est un choix possible 
+dans le menu de \fBdir\fR\ ; les choix sont séparés par des lignes blanches\ ; 
+la première ligne est supposée représenter le titre.
 
-Quand une nouvelle entrée doit être créée,
-.B install-info
-essaye de l'insérer dans la section selon l'ordre alphabétique ; si les
-entrées de la section ne sont pas déjà triées, on ne peut prévoir
-l'emplacement qui sera choisi. L'ordre existant des entrées n'est pas
-modifié.
+Quand une nouvelle entrée doit être créée, \fBinstall\-info\fR essaye de 
+l'insérer dans la section selon l'ordre alphabétique ; si les entrées de la 
+section ne sont pas déjà triées, on ne peut prévoir l'emplacement qui sera 
+choisi. L'ordre existant des entrées n'est pas modifié.
 
-Par défaut, les entrées nouvelles sont ajoutées à la fin du fichier.
-La dernière section doit toujours exister (même si elle consiste en une
-simple ligne de titre) de manière que les nouvelles sections puissent être 
-créées au bon endroit. Le titre de la dernière section devrait refléter le fait
-que des fichiers Info sans emplacement bien défini sont ajoutés à la fin de
+Par défaut, les entrées nouvelles sont ajoutées à la fin du fichier. La 
+dernière section doit toujours exister (même si elle consiste en une simple 
+ligne de titre) de manière que les nouvelles sections puissent être créées 
+au bon endroit. Le titre de la dernière section devrait refléter le fait que 
+des fichiers Info sans emplacement bien défini sont ajoutés à la fin de 
 cette section.
 
-Quand le fichier Info que l'on doit installer possède déjà une entrée, celle-ci
-est remplacée in situ par la nouvelle entrée.
+Quand le fichier Info que l'on doit installer possède déjà une entrée, 
+celle-ci est remplacée in situ par la nouvelle entrée.
 
-Quand on supprime une entrée, une section spécifiée est ignorée et un
+Quand on supprime une entrée, une section spécifiée est ignorée et un 
 avertissement est produit.
 
-Quand on ajoute une entrée et qu'une section est spécifiée, mais que le
-fichier ne contient aucun en-tête de section, 
-.B install-info
-crée à la fois la section demandée et une section « Miscellaneous » à la fin
-du fichier.
+Quand on ajoute une entrée et qu'une section est spécifiée, mais que le 
+fichier ne contient aucun en-tête de section, \fBinstall-info\fR crée à la fois 
+la section demandée et une section «\ Miscellaneous\ » à la fin du fichier.
 .TP
-.BI \-\-infodir= rep-info
-Spécifie que le fichier
-.B dir
-est situé dans
-.IR rep-info ,
-ou que la copie installée du nouveau fichier Info était, est ou sera située
-dans
-.IR rep-info . 
-Par défaut, c'est
-.BR /usr/info .
+.BI \-\-infodir= rep\-info
+Spécifie que le fichier \fBdir\fR est situé dans \fIrep\-info\fR, ou que la copie 
+installée du nouveau fichier Info était, est ou sera située dans 
+\fIrep\-info\fR. Par défaut, c'est \fB/usr/info\fR.
 .TP
 .BI \-\-align= nnn " [déconseillé]"
-Précise que l'espace d'indentation de la première ligne de la description
-sera d'au moins
-.I nnn
-caractères ; des espaces supplémentaires peuvent être ajoutés.
-Quand la longueur des éléments de l'entrée du menu
-.B dir
-le demande, on peut le décaler davantage. Par défaut ce nombre est égal à 27.
+Précise que l'espace d'indentation de la première ligne de la description 
+sera d'au moins \fInnn\fR caractères\ ; des espaces supplémentaires peuvent 
+être ajoutées. Quand la longueur des éléments de l'entrée du menu \fBdir\fR le 
+demande, on peut le décaler davantage. Par défaut ce nombre est égal à 27.
 .TP
 .BI \-\-calign= nnn " [déconseillé]"
 Précise que l'espace d'indentation de la deuxième ligne et des lignes 
-suivantes de la description sera d'au moins
-.I nnn
-caractères.  Par défaut ce nombre est égal à 29.
+suivantes de la description sera d'au moins \fInnn\fR caractères. Par défaut ce 
+nombre est égal à 29.
 .TP
 .BI \-\-maxwidth= nnn " [déconseillé]"
-Précise que la largeur maximale d'une ligne du fichier Info est de
-.IR nnn .
-Cela sert pour « couper » automatiquement les lignes du texte descriptif.
-Par défaut ce nombre est égal à 79.
+Précise que la largeur maximale d'une ligne du fichier Info est de 
+\fInnn\fR. Cela sert pour «\ couper\ » automatiquement les lignes du texte 
+descriptif. Par défaut ce nombre est égal à 79.
 .TP
 .B \-\-quiet
 Empêche l'affichage normal de la nouvelle entrée du menu juste avant qu'elle 
-soit insérée et l'affichage de messages annonçant le remplacement ou la
+soit insérée et l'affichage de messages annonçant le remplacement ou la 
 suppression d'entrées existantes ou la création ou la suppression de 
 section.
 .TP
 .B \-\-help
-option pour afficher une aide sur l'utilisation de
-.B install-info
+Option pour afficher une aide sur l'utilisation de \fBinstall\-info\fR
 .TP
 .B \-\-version
-option pour afficher la version et le copyright de
-.B install-info
+Option pour afficher la version et le copyright de \fBinstall\-info\fR
 .TP
 .BI \-\-description= xxx
 Précise que la description employée après l'entrée du menu pour une nouvelle 
-entrée ou bien pour une entrée mise à jour sera
-.IR xxx .
-Par défaut, on emploie la valeur indiquée par le fichier Info lui-même ;
-on peut la trouver en cherchant une section de la forme suivante :
+entrée ou bien pour une entrée mise à jour sera \fIxxx\fR. Par défaut, on 
+emploie la valeur indiquée par le fichier Info lui-même\ ; on peut la 
+trouver en cherchant une section de la forme suivante\ :
 .br
 .B START\-INFO\-DIR\-ENTRY
 .br
-.B * Auto-PGP: (auto-pgp).  PGP under GNU Emacs.
+.B * Auto-PGP: (auto-pgp). PGP under GNU Emacs.
 .br
 .B END\-INFO\-DIR\-ENTRY
 
-Quand l'entrée trouvée dans le fichier Info lui-même s'étend sur plusieurs
-lignes, chacune donnant une entrée du menu, on reprend le texte trouvé 
-« verbatim ». Dans ce cas, on ne tient pas compte de l'ordre alphabétique et
-les entrées sont insérées au début de la section en question.
-Et les options
-.BR \-\-menuentry ", " \-\-maxwidth ", " \-\-align ", " \-\-calign
-sont ignorées.
+Quand l'entrée trouvée dans le fichier Info lui-même s'étend sur plusieurs 
+lignes, chacune donnant une entrée du menu, on reprend le texte trouvé «\ 
+verbatim\ ». Dans ce cas, on ne tient pas compte de l'ordre alphabétique et 
+les entrées sont insérées au début de la section en question.  Et les 
+options \fB\-\-menuentry\fR, \fB\-\-maxwidth\fR, \fB\-\-align\fR, \fB\-\-calign\fR sont 
+ignorées.
 
-Quand il n'y a pas d'entrée pour
-.B dir
-dans le fichier, le programme essaye de trouver un paragraphe au début du
-fichier qui commence par
-.BR "this file documents" .
-Il met une capitale au premier caractère de la suite et l'utilise comme
-description.
+Quand il n'y a pas d'entrée pour \fBdir\fR dans le fichier, le programme essaye 
+de trouver un paragraphe au début du fichier qui commence par \fBthis file 
+documents\fR. Il met une capitale au premier caractère de la suite et 
+l'utilise comme description.
 
 C'est une erreur si aucune de ces méthodes ne peut donner une description.
 
-Quand l'option
-.B \-\-remove
-est donnée, l'argument pour l'option « description » est ignoré et un
-avertissement est produit.
+Quand l'option \fB\-\-remove\fR est donnée, l'argument pour l'option « 
+description » est ignoré et un avertissement est produit.
 .TP
 .BI \-\-menuentry= xxx
-Précise que l'entrée de menu sera
-.IR xxx .
-Par défaut, on emploie la valeur indiquée par le fichier Info lui-même.
-Quand elle n'est pas présente, la partie principale du nom du fichier Info
-est utilisée 
-.RB "(tout fichier " ".info " "est supprimé et la première lettre de l'entrée 
-est capitalisée).
-Voyez ci-dessus pour des précisions sur le format attendu pour l'entrée de 
-menu dans le fichier Info.
+Précise que l'entrée de menu sera \fIxxx\fR. Par défaut, on emploie la valeur 
+indiquée par le fichier Info lui-même. Quand elle n'est pas présente, la 
+partie principale du nom du fichier Info est utilisée (tout fichier \fB.info 
+\fRest supprimé et la première lettre de l'entrée est capitalisée). Voyez 
+ci-dessus pour des précisions sur le format attendu pour l'entrée de menu 
+dans le fichier Info.
 
-Quand on supprime des entrées,  la valeur de l'option 
-.B \-\-menuentry
-doit correspondre au champ réel de l'entrée de menu qui doit être supprimée
-(peu importe la casse).
-Quand l'option
-.B \-\-menuentry
-est omise, aucune vérification sur l'entrée de menu n'est faite.
+Quand on supprime des entrées, la valeur de l'option \fB\-\-menuentry\fR doit 
+correspondre au champ réel de l'entrée de menu qui doit être supprimée (peu 
+importe la casse). Quand l'option \fB\-\-menuentry\fR est omise, aucune 
+vérification sur l'entrée de menu n'est faite.
 .TP
 .B \-\-keep\-old
-Empêche le remplacement d'entrées existantes et la suppression des sections
+Empêche le remplacement d'entrées existantes et la suppression des sections 
 vides.
 
-Quand le fichier qu'on doit installer possède déjà une entrée dans le
-répertoire, l'ancienne entrée est laissée seule plutôt que d'être remplacée.
-Par défaut, toute entrée ancienne trouvée est remplacée par la nouvelle.
+Quand le fichier qu'on doit installer possède déjà une entrée dans le 
+répertoire, l'ancienne entrée est laissée seule plutôt que remplacée. Par 
+défaut, toute entrée ancienne trouvée est remplacée par la nouvelle.
 
-Quand l'option
-.BR \-\-remove " est indiquée ", \-\-keep\-old
-empêche la suppression de l'en-tête de section qui sans cela serait
-supprimé si la suppression vidait la section.
+Quand l'option \fB\-\-remove\fR est indiquée \fB,\fR\-\-keep\-old empêche la 
+suppression de l'en-tête de section qui sans cela serait supprimé si la 
+suppression vidait la section.
 .TP
 .B \-\-test
-met en mode test, lequel empêche la mise à jour du fichier dir.
+Met en mode test, lequel empêche la mise à jour du fichier dir.
 .TP
 .B \-\-debug
-met en mode débogage, lequel montre les résultats de certaines étapes du 
+Met en mode débogage, lequel montre les résultats de certaines étapes du 
 traitement.
 .SH "VOIR AUSSI"
 emacs(1), info(1), gzip(1)
-.SH "TRADUCTION"
-Philippe Batailler. Dec 2000
 .SH COPYRIGHT
-Copyright 1994, Ian Jackson.
-.B install\-info
-est un logiciel libre ; voyez la « GNU General Public Licence » version 2 ou
-supérieure pour le copyright. Il
-.I n'y a pas
-de garantie.
+Copyright 1994, Ian Jackson. \fBinstall\-info\fR est un logiciel libre\ ; voyez 
+la «\ GNU General Public Licence\ » version 2 ou supérieure pour le 
+copyright. Il \fIn'y a pas\fR de garantie.
+.SH TRADUCTION
+Philippe Batailler, 2004.
+Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
+dpkg, version 1.10.23.

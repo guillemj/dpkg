@@ -1,78 +1,75 @@
+.\" This file was generated with po4a. Translate the source file.
+.\" 
 .\" This is an -*- nroff -*- source file.
 .\" dpkg-name and this manpage are Copyright 1995,1996 by Erick Branderhorst.
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
 .\" Time-stamp: <96/05/03 14:00:06 root>
-.\" Traduction de la version cvs 1.7
-.TH dpkg-name 1 "May 1996" "Projet Debian " "Utilitaires de dpkg"
+.TH dpkg\-name 1 "Mai 1996" "Projet Debian" "Utilitaires de dpkg"
 .SH NOM
-dpkg\-name \- redonner aux paquets Debian leur nom complet
+dpkg\-name \- redonne aux paquets Debian leur nom complet
 .SH SYNOPSIS
-.B dpkg\-name 
-[\-a|\-\-no\-architecture] [\-o|\-\-overwrite] [\-s|\-\-subdir [rep]]
-[\-c|\-\-create\-dir] [\-h|\-\-help] [\-v|\-\-version]
-[\-l|\-\-license] [\-k|\-\-symlink] [\-[--] [fichiers]
+\fBdpkg\-name\fR [\-a|\-\-no\-architecture] [\-o|\-\-overwrite] [\-s|\-\-subdir 
+[rep]] [\-c|\-\-create\-dir] [\-h|\-\-help] [\-v|\-\-version] 
+[\-l|\-\-license] [\-k|\-\-symlink] [\-[\-\-] [fichiers]
 .SH DESCRIPTION
 .PP
-Cette page de manuel documente le script sh
-.B dpkg\-name. 
-Celui-ci fournit une façon simple de redonner aux paquets 
-.B Debian
-leur nom complet. Ce nom consiste en une chaîne 
-«\ <package>_<version>_<architecture>.deb\ » telle qu'elle est indiquée dans le
-fichier «\ control\ » du paquet. La partie <version> du nom est composée
-d'informations sur la version «\ originale\ » qui peuvent ou non être suivies 
-d'un trait d'union et d'informations sur la révision.
+Cette page de manuel documente le script sh \fBdpkg\-name\fR. Celui-ci fournit 
+une façon simple de redonner aux paquets \fBDebian\fR leur nom complet. Ce nom 
+consiste en une chaîne «\ 
+<paquet>_<version>_<architecture>.deb\ » telle 
+qu'elle est indiquée dans le fichier «\ control\ » du paquet. La partie 
+<version> du nom est composée d'informations sur la version «\ 
+originale\ » qui peuvent ou non être suivies d'un trait d'union et 
+d'informations sur la révision.
 .SH EXEMPLES
 .TP
-.B dpkg-name bar-foo.deb
-Le nom du fichier «\ bar-foo.deb\ » devient «\ bar-foo_1.0-2_i386.deb\ » ou
-quelque chose de similaire suivant les renseignements que contient
-la partie de contrôle de «\ bar-foo.deb\ ».
+.B dpkg\-name bar\-foo.deb
+Le nom du fichier «\ bar\-foo.deb\ » devient «\ bar\-foo_1.0-2_i386.deb\ » 
+ou quelque chose de similaire suivant les renseignements que contient la 
+partie de contrôle de «\ bar\-foo.deb\ ».
 .TP
 .B find /root/debian/ \-name '*.deb' | xargs \-n 1 dpkg\-name \-a
 Cette commande redonne leur nom complet à tous les fichiers qui se trouvent 
 dans le répertoire /root/debian et ses sous-répertoires et qui possèdent une 
 extension «\ deb\ », mais supprime l'information sur l'architecture.
 .TP
-.B find -name '*.deb' | xargs \-n 1 dpkg-name -a -o -s -c
-.B Ne faites pas ça !
-L'archive sera complètement gâchée par des paquets qui ne possèdent pas
-d'informations sur la section.
+.B find \-name '*.deb' | xargs \-n 1 dpkg\-name \-a \-o \-s \-c
+\fBNe faites pas ça !\fR L'archive sera complètement gâchée par des paquets qui 
+ne possèdent pas d'informations sur la section. \fBNe faites pas ça !\fR
 .TP
-.B dpkg --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb
-On peut se servir de cette commande lors de la construction d'un nouveau
+.B dpkg \-\-build debian\-tmp && dpkg\-name \-o \-s .. debian\-tmp.deb
+On peut se servir de cette commande lors de la construction d'un nouveau 
 paquet.
 .SS OPTIONS
 .TP
 .B "\-a, \-\-no\-architecture"
-Le nom du fichier n'aura pas d'information sur l'architecture.
+Le nom du fichier n'aura pas l'information sur l'architecture.
 .TP
 .B "\-k, \-\-symlink"
 Faire un lien symbolique plutôt qu'une création de fichier.
-.TP 
+.TP
 .B "\-o, \-\-overwrite"
-Remplace des fichiers existants s'ils ont le même nom que le fichier
-de destination.
-.TP 
+Remplace des fichiers existants s'ils ont le même nom que le fichier de 
+destination.
+.TP
 .B "\-s, \-\-subdir [rep]"
-Met les fichiers dans 
-.B rep. 
-Si le répertoire donné comme argument existe, les fichiers sont déplacés dans
-ce répertoire ; sinon le répertoire cible, extrait du champ «\ section\ »
-que contient la partie de contrôle du paquet, sera 
-«\ unstable/binary-<architecture>/<section>\ ». Quand la section est
-«\ non-free\ » ou «\ contrib\ », ou bien quand aucune information sur la
-section n'est trouvée dans le fichier «\ control\ », le répertoire cible
-est «\ <section>/binary-<architecture>\ ». le champ «\ section\ »
-est facultatif ; aussi beaucoup de paquets sont dans la zone 
-«\ no-section\ ». Utilisez cette option avec soin : elle est compliquée.
+Met les fichiers dans rep. Si le répertoire donné en argument existe, les 
+fichiers sont déplacés dans ce répertoire\ ; sinon le répertoire cible, 
+extrait du champ «\ section\ » que contient la partie de contrôle du paquet, 
+sera «\ unstable/binary\-<architecture>/<section>\ ». Quand 
+la section est «\ non\-free\ » ou «\ contrib\ », ou bien quand aucune 
+information sur la section n'est trouvée dans le fichier «\ control\ », le 
+répertoire cible est «\ <section>/binary\-<architecture>\ 
+». le champ «\ section\ » est facultatif\ ; aussi beaucoup de paquets sont 
+dans la zone «\ no\-section\ ». Utilisez cette option avec soin\ : elle est 
+compliquée.
 .TP
 .B "\-c, \-\-create\-dir"
-On peut utiliser cette option avec l'option \-s. Quand un répertoire cible
-n'est pas trouvé, il est crée automatiquement.
-.B Utilisez cette option avec soin.
+On peut utiliser cette option avec l'option \-s. Quand un répertoire cible 
+n'est pas trouvé, il est créé automatiquement.  \fBUtilisez cette option avec 
+soin.\fR
 .TP
 .B "\-h, \-\-help"
 Affiche une aide et se termine normalement.
@@ -81,27 +78,22 @@ Affiche une aide et se termine normalement.
 Affiche la version et se termine normalement.
 .TP
 .B "\-l, \-\-license"
-Affiche les informations sur le copyright (une référence à GNU) et
-se termine normalement.
+Affiche les informations sur le copyright et sur la licence (avec une 
+référence à GNU), puis se termine normalement.
 .SH BOGUES
-Certains paquets ne respectent pas l'organisation
-<package>_<version>_<architecture>.deb. Les paquets traités par dpkg-name
-la respecte. Cela n'a pas de conséquence sur la façon dont dselect/dpkg
-installe les paquets, mais il se peut que d'autres systèmes d'installation
-aient besoin de cette organisation.
-.SH VOIR AUSSI
-.BR deb (5),
-.BR deb-control (5),
-.BR dpkg (8),
-.BR dpkg-deb (1),
-.BR find (1),
-.BR xargs (1).
+Certains paquets ne respectent pas l'organisation 
+<paquet>_<version>_<architecture>.deb. Les paquets 
+traités par dpkg\-name la respecte. Cela n'a pas de conséquence sur la façon 
+dont dselect/dpkg installe les paquets, mais il se peut que d'autres 
+systèmes d'installation aient besoin de cette organisation.
+.SH "VOIR AUSSI"
+\fBdeb\fR(5), \fBdeb\-control\fR(5), \fBdpkg\fR(8), \fBdpkg\-deb\fR(1), \fBfind\fR(1), 
+\fBxargs\fR(1).
 .SH COPYRIGHT
-Copyright 1995,1996 Erick Branderhorst.
-.B dpkg-name
-est un logiciel libre ; voyez la «\  GNU General Public Licence\ » version 2 
-ou supérieure pour le copyright. Il n'y a 
-.B pas
-de garantie.
+Copyright 1995,1996 Erick Branderhorst. \fBdpkg\-name\fR est un logiciel libre\ 
+; voyez la «\ GNU General Public Licence\ » version 2 ou supérieure pour le 
+copyright. Il n'y a \fBpas\fR de garantie.
 .SH TRADUCTION
-Philippe Batailler, Janvier 2001.
+Philippe Batailler, 2004.
+Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
+dpkg, version 1.10.23.

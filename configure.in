@@ -136,7 +136,7 @@ AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}", [Set this to the canonical D
 
 dnl gettext
 
-ALL_LINGUAS="ca cs da de en es fr gl it ja ko nl nn pl pt pt_BR ru sv"
+ALL_LINGUAS="ca cs da de el en es fr gl he it ja ko nl nn pl pt pt_BR ru sv zh_CN"
 AM_GNU_GETTEXT([external])
 AM_PO_SUBDIRS
 if test "x$HAVE_LOCALE_H" = "x"; then
@@ -214,6 +214,29 @@ fi
 AC_SUBST(ZLIB_CFLAGS)
 AC_SUBST(ZLIB_LIBS)
 AC_SUBST(ZLIB_LIBS_ALSO_STATIC)
+
+BZ2LIB_CFLAGS=
+BZ2LIB_LIBS=
+BZ2LIB_LIBS_ALSO_STATIC=
+AC_ARG_WITH(bz2lib,
+[  --with-bz2lib           use bz2lib for decompression of some bzip2 files],
+	[use_bz2lib=$withval],
+	[uze_bz2lib=no])
+if test "$use_bz2lib" != "no" ; then
+	BZ2LIB_CFLAGS=-DUSE_BZ2LIB
+	if test "$use_bz2lib" = "static"  ; then
+		BZ2LIB_LIBS="-Wl,-Bstatic -lbz2 -Wl,-Bdynamic"
+		if test "$ALSO_STATIC"; then
+			BZ2LIB_LIBS_ALSO_STATIC="-lbz2"
+		fi
+	else
+		BZ2LIB_LIBS=-lbz2
+		BZ2LIB_LIBS_ALSO_STATIC="-lbz2"
+	fi
+fi
+AC_SUBST(BZ2LIB_CFLAGS)
+AC_SUBST(BZ2LIB_LIBS)
+AC_SUBST(BZ2LIB_LIBS_ALSO_STATIC)
 
 AC_TRY_COMPILE([
 #include <sys/types.h>

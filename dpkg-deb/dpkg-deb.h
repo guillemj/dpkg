@@ -36,11 +36,16 @@ void extracthalf(const char *debar, const char *directory,
 
 extern const char *compression;
 extern const char* showformat;
+extern enum compression_type compress_type;
 
 #define DEBMAGIC     "!<arch>\ndebian-binary   "
 #define ADMINMEMBER		"control.tar.gz  "
 #define ADMINMEMBER_COMPAT	"control.tar.gz/ "
-#define DATAMEMBER		"data.tar.gz     "
-#define DATAMEMBER_COMPAT	"data.tar.gz/    "
+#define DATAMEMBER_GZ		"data.tar.gz     "
+#define DATAMEMBER_COMPAT_GZ	"data.tar.gz/    "
+#define DATAMEMBER_BZ2   	"data.tar.bz2    "
+#define DATAMEMBER_COMPAT_BZ2  	"data.tar.bz2    "
+#define DATAMEMBER_CAT   	"data.tar        "
+#define DATAMEMBER_COMPAT_CAT  	"data.tar        "
 
 #endif /* DPKG_DEB_H */

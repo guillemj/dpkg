@@ -1,253 +1,174 @@
-.\" Traduction de la révision CVS 1.11
-.TH DPKG\-DEB 1 "1st June 1996" "Debian Project" "Dpkg suite"
-.SH NOM 
-dpkg\-deb \- outil pour la manipulation des archives (.deb) des paquets Debian
+.\" This file was generated with po4a. Translate the source file.
+.\" 
+.TH DPKG\-DEB 1 "1 Juin 1996" "Projet Debian" "suite dpkg"
+.SH NOM
+dpkg\-deb \- outil pour la manipulation des archives (.deb) des paquets 
+Debian
 .SH SYNOPSIS
-.B dpkg-deb
-.BR -b | --build
-.IR répertoire " [" archive | répertoire ]
+\fBdpkg\-deb\fR \fB\-b\fR|\fB\-\-build\fR \fIrépertoire\fR [\fIarchive\fR|\fIrépertoire\fR]
 .br
-.B dpkg-deb
-.BR -I | --info
-.IR archive " [" control\-fichier\-nom " ..]"
+\fBdpkg\-deb\fR \fB\-I\fR|\fB\-\-info\fR \fIarchive\fR [\fIcontrol\-fichier\-nom\fR ..]
 .br
-.B dpkg-deb
-.BR -f | --field
-.IR archive " [" control\-champ\-nom " ...]"
+\fBdpkg\-deb\fR \fB\-f\fR|\fB\-\-field\fR \fIarchive\fR [\fIcontrol\-champ\-nom\fR ...]
 .br
-.B dpkg-deb
-.BR -c | --contents
-.I archive
+.B dpkg\-deb\fR \fB\-c\fR|\fB\-\-contents\fR \fIarchive
 .br
-.B dpkg-deb
-.BR -x | --extract | -X | --vextract
-.I archive répertoire
+\fBdpkg\-deb\fR \fB\-x\fR|\fB\-\-extract\fR|\fB\-X\fR|\fB\-\-vextract\fR \fIarchive 
+répertoire\fR
 .br
-.B dpkg-deb --fsys-tarfile
-.I archive
+.B dpkg\-deb \-\-fsys\-tarfile\fR \fIarchive
 .br
-.B dpkg-deb --control
-.I archive répertoire
+.B dpkg\-deb \-\-control\fR \fIarchive répertoire
 .SH DESCRIPTION
-.B dpkg-deb
-crée un paquet, dépaquète ou donne des renseignements sur les archives Debian 
+\fBdpkg\-deb\fR crée un paquet, dépaquète ou donne des renseignements sur les 
+archives Debian
 
-.B dpkg
-sert à installer ou à supprimer des paquets sur le système.
+\fBdpkg\fR sert à installer ou à supprimer des paquets sur le système.
 
-On peut aussi lancer
-.B dpkg\-deb
-en appelant
-.B dpkg
-avec les options que vous voulez passer à
-.BR dpkg\-deb ".  " dpkg
-comprend que vous voulez
-.B dpkg\-deb
-et le lance pour vous.
-.SH ACTION OPTIONS
+On peut aussi lancer \fBdpkg\-deb\fR en appelant \fBdpkg\fR avec les options que 
+vous voulez passer à \fBdpkg\-deb\fR. \fBdpkg\fR comprend que vous voulez 
+\fBdpkg\-deb\fR et le lance pour vous.
+.SH "ACTION OPTIONS"
 .TP
-.BR --build ", " -b
-Crée une archive Debian avec l'arborescence contenue dans
-.IR répertoire ".  " répertoire
-doit posséder un sous-répertoire
-.B DEBIAN
-qui contient les fichiers de contrôle tels que le fichier « control » lui-même.
-Ce répertoire 
-.I n'apparaît pas
-dans l'archive de l'arborescence du paquet binaire ; mais les fichiers qu'il
-contient sont mis dans la zone de contrôle du paquet binaire.
+.BR \-\-build ", " \-b
+Crée une archive Debian avec l'arborescence contenue dans 
+\fIrépertoire\fR. \fIrépertoire\fR doit posséder un sous\-répertoire \fBDEBIAN\fR qui 
+contient les fichiers de contrôle tel que le fichier «\ control\ » 
+lui\-même. Ce répertoire \fIn'apparaît pas\fR dans l'archive de l'arborescence 
+du paquet binaire\ ; mais les fichiers qu'il contient sont mis dans la zone 
+de contrôle du paquet binaire.
 
-On peut préciser le degré de compression en ajoutant une option
-.B \-z#.
-.B dpkg-deb
-passe cette option à gzip.
+On peut préciser le degré de compression en ajoutant une option \fB\-z#.\fR 
+\fBdpkg\-deb\fR passe cette option à gzip.
 
-À moins de préciser
-.BR \-\-nocheck ", " dpkg\-deb "
-lit
-.B DEBIAN/control
-et l'analyse. Il cherche les erreurs de syntaxe et d'autres problèmes 
-existants; et il affiche le nom du paquet binaire qu'il construit.
-.B dpkg\-deb
-vérifie aussi les permissions des scripts du responsable et des autres 
-fichiers qu'il trouve dans le répertoire de contrôle
-.B DEBIAN.
+À moins de préciser \fB\-\-nocheck\fR, \fBdpkg\-deb\fR lit \fBDEBIAN/control\fR et 
+l'analyse. Il cherche les erreurs de syntaxe et d'autres problèmes 
+existants\ ; et il affiche le nom du paquet binaire qu'il 
+construit. \fBdpkg\-deb\fR vérifie aussi les permissions des scripts du 
+responsable et des autres fichiers qu'il trouve dans le répertoire de 
+contrôle \fBDEBIAN.\fR
 
-Quand aucune
-.I archive
-n'est donnée,
-.B dpkg\-deb
-appelle le paquet
-.IR répertoire \fB.deb\fR.
+Quand aucune \fIarchive\fR n'est donnée, \fBdpkg\-deb\fR appelle le paquet 
+\fIrépertoire\fR\fB.deb\fR.
 
 Si l'archive qui doit être créée existe déjà, elle est remplacée.
 
-Quand le second argument est un répertoire,
-.B dpkg\-deb
-appelle le paquet
-.IB package _ version _ arch .deb\fR,
-ou bien
-.IB package _ version .deb
-si aucun champ
-.B Architecture
-n'est présent dans le fichier de contrôle du paquet.  Quand un répertoire
-cible est précisé à la place d'un fichier, l'option
-.B \-\-nocheck
-ne doit pas être utilisée (puisque
-.B dpkg\-deb
-a besoin de lire et d'analyser le fichier de contrôle du paquet pour 
-connaître le nom de fichier à utiliser).
+Quand le second argument est un répertoire, \fBdpkg\-deb\fR appelle le paquet 
+\fIpaquet\fR\fB_\fR\fIversion\fR\fB_\fR\fIarch\fR\fB.deb\fR,\fP ou bien 
+\fIpaquet\fR\fB_\fR\fIversion\fR\fB.deb\fR si aucun champ \fBArchitecture\fR n'est présent 
+dans le fichier de contrôle du paquet. Quand un répertoire cible est précisé 
+à la place d'un fichier, l'option \fB\-\-nocheck\fR ne doit pas être utilisée 
+(puisque \fBdpkg\-deb\fR a besoin de lire et d'analyser le fichier de contrôle 
+du paquet pour connaître le nom de fichier à utiliser).
 .TP
-.BR \-\-info ", " -I
+.BR \-\-info ", " \-I
 Donne des renseignements sur une archive de paquet binaire.
 
-Quand aucun argument
-.IR control\-fichier\-nom 
-n'est précisé, un résumé du contenu du paquet ainsi que son fichier 
-« control » sont affichés.
+Quand aucun argument \fIcontrol\-fichier\-nom\fR n'est précisé, un résumé du 
+contenu du paquet ainsi que son fichier «\ control\ » sont affichés.
 
-Quand un argument
-.IR control\-fichier\-nom 
-est précisé,
-.B dpkg\-deb
-affiche les éléments dans l'ordre d'apparition ; quand l'un des éléments
-n'est pas présent, il affiche un message d'erreur sur « sdterr » et
-quitte avec un code égal à 2.
+Quand un argument \fIcontrol\-fichier\-nom\fR est précisé, \fBdpkg\-deb\fR affiche 
+les éléments dans l'ordre d'apparition\ ; quand l'un des éléments n'est pas 
+présent, il affiche un message d'erreur sur «\ sdterr\ » et quitte avec un 
+code égal à 2.
 .TP
-.BR \-\-field ", " -f
-Extrait les renseignements du fichier « control » de l'archive du paquet
+.BR \-\-field ", " \-f
+Extrait les renseignements du fichier « control » de l'archive du paquet 
 binaire.
 
-Quand aucun argument
-.BR control\-fichier\-champ 
-n'est précisé, le fichier « control » est affiché en entier.
+Quand aucun argument \fBcontrol\-fichier\-champ\fR n'est précisé, le fichier « 
+control » est affiché en entier.
 
-Quand il y en a un,
-.B dpkg\-deb
-affiche ses éléments en suivant leur ordre d'apparition dans
-le fichier « control ».  Quand il y a plus d'un argument
-.BR control\-fichier\-field,
-.B dpkg\-deb
-fait précéder chacun par le nom de son champ (puis par un « deux-points » et un
-espace).
+Quand il y en a un, \fBdpkg\-deb\fR affiche ses éléments en suivant leur ordre 
+d'apparition dans le fichier «\ control\ ». Quand il y a plus d'un argument 
+\fBcontrol\-fichier\-field,\fR \fBdpkg\-deb\fR fait précéder chacun par le nom de 
+son champ (puis par un «\ deux\-points\ » et un espace).
 
-L'inexistence de champs demandés ne provoque pas de messages d'erreur.
+L'absence des champs demandés ne provoque pas de messages d'erreur.
 .TP
-.BR --contents ", " -c
-Liste seulement l'arborescence des fichiers d'une archive de paquet. C'est
-en fait le résultat produit par la commande
-.BR tar 
-et une option d'énumération verbeuse.
+.BR \-\-contents ", " \-c
+Liste seulement l'arborescence des fichiers d'une archive de paquet. C'est 
+en fait le résultat produit par la commande \fBtar\fR et une option 
+d'énumération verbeuse.
 .TP
-.BR --extract ", " -x ", " \-\-vextract ", " -X
-Extrait l'arborescence d'une archive de paquet dans le
-répertoire spécifié.
+.BR \-\-extract ", " \-x ", " \-\-vextract ", " \-X
+Extrait l'arborescence d'une archive de paquet dans le répertoire spécifié.
 
-.BR \-\-vextract " (" -X ")"
-affiche la liste des fichiers au fur et à mesure qu'ils sont extraits,
-tandis que
-.BR \-\-extract " (" -x ")"
-ne produit pas de message à moins qu'une erreur survienne.
+\fB\-\-vextract\fR (\fB\-X\fR) affiche la liste des fichiers au fur et à mesure 
+qu'ils sont extraits, tandis que \fB\-\-extract\fR (\fB\-x\fR) ne produit pas de 
+message à moins qu'une erreur survienne.
 
-Il faut remarquer que l'extraction d'un paquet dans le répertoire root
-.I ne produit pas
-une installation correcte !  Utilisez
-.B dpkg
-pour l'installation des paquets.
+Il faut remarquer que l'extraction d'un paquet dans le répertoire root \fIne 
+produit pas\fR une installation correcte ! Utilisez \fBdpkg\fR pour 
+l'installation des paquets.
 
-.I répertoire
-est créé si nécessaire (mais pas ses répertoires parents).
+\fIrépertoire\fR est créé si nécessaire (mais pas ses répertoires parents).
 .TP
-.BR --fsys-tarfile
-Extrait les données de l'arborescence d'une archive de paquet et les envoie
-sur la sortie standard dans le format propre à la commande 
-.B tar.
-En combinant cette option avec la commande
-.B tar,
-on peut ainsi extraire un fichier précis d'une archive de paquet.
+.BR \-\-fsys\-tarfile
+Extrait les données de l'arborescence d'une archive de paquet et les envoie 
+sur la sortie standard dans le format propre à la commande \fBtar.\fR En 
+combinant cette option avec la commande \fBtar,\fR on peut ainsi extraire un 
+fichier précis d'une archive de paquet.
 .TP
-.BR --control ", " -e
-Extrait les fichiers de contrôle d'une archive de paquet dans le
-répertoire spécifié.
+.BR \-\-control ", " \-e
+Extrait les fichiers de contrôle d'une archive de paquet dans le répertoire 
+spécifié.
 
-Quand aucun répertoire n'est précisé,
-on utilise un sous-répertoire
-.B DEBIAN
-du répertoire actuel.
+Quand aucun répertoire n'est précisé, on utilise un sous\-répertoire 
+\fBDEBIAN\fR du répertoire actuel.
 
-Le répertoire cible est créé si nécessaire (mais pas ses répertoires parents).
-
+Le répertoire cible est créé si nécessaire (mais pas ses répertoires 
+parents).
 .TP
-.BR --help ", " -h
-Affiche l'aide de
-.BR dpkg\-deb
-qui résume la manière d'utiliser ses options.
+.BR \-\-help ", " \-h
+Affiche l'aide de \fBdpkg\-deb\fR qui résume la manière d'utiliser ses options.
 .TP
-.BR --version
-Affiche le numéro de version de
-.BR dpkg\-deb.
+.BR \-\-version
+Affiche le numéro de version de \fBdpkg\-deb.\fR
 .TP
-.BR --licence
-Affiche des renseignements sur le copyright de
-.BR dpkg\-deb 
-et l'absence de garantie.  (On peut utiliser l'écriture américaine
-.B \-\-license.)
-.SH AUTRES OPTIONS
+.BR \-\-licence
+Affiche des renseignements sur le copyright de \fBdpkg\-deb\fR et l'absence de 
+garantie. (On peut utiliser l'écriture américaine \fB\-\-license.)\fR
+.SH "AUTRES OPTIONS"
 .TP
-.BR --new
-S'assure que
-.B dpkg\-deb
-construit une archive avec le « nouveau » format. c'est le défaut.
+.BR \-\-new
+S'assure que \fBdpkg\-deb\fR construit une archive avec le « nouveau » 
+format. C'est le comportement par défaut.
 .TP
-.BR --old
-Oblige
-.B dpkg\-deb
-à construire une archive avec « l'ancien » format. Ce format, moins
-facilement compris par les outils non-Debian, est maintenant dépassé.
-On l'utilise seulement quand on construit des paquets qui doivent être
-analysés par des versions de dpkg plus anciennes que la version
-0.93.76 (Septembre 1995), qui fut produite uniquement pour le format
-« i386 a.out ».
+.BR \-\-old
+Oblige \fBdpkg\-deb\fR à construire une archive avec l'«\ ancien\ » format. Ce 
+format, moins facilement compris par les outils non\-Debian, est maintenant 
+dépassé. On l'utilise seulement quand on construit des paquets qui doivent 
+être analysés par des versions de dpkg plus anciennes que la version 0.93.76 
+(Septembre 1995), qui fut produite uniquement pour le format «\ i386 a.out\ 
+».
 .TP
-.BR --nocheck
-Empêche les vérifications normales de
-.BR "dpkg\-deb \-\-build" 
-quant au contenu proposé d'une archive. De cette façon, on peut construire
-n'importe quelle archive, aussi défectueuse soit elle.
+.BR \-\-nocheck
+Empêche les vérifications normales de \fBdpkg\-deb \-\-build\fR quant au 
+contenu proposé d'une archive. De cette façon, on peut construire n'importe 
+quelle archive, aussi défectueuse soit elle.
 .TP
-.BR --debug ", " -D
-permet les messages de débogage. Ce n'est pas très intéressant.
+.BR \-\-debug ", " \-D
+Permet les messages de débogage. Ce n'est pas très intéressant.
 .SH BOGUES
-.B dpkg-deb -I 
-.IB package1 .deb
-.IB package2 .deb
-se trompe.
+\fBdpkg\-deb \-I\fR \fIpaquet1\fR\fB.deb\fR \fIpaquet2\fR\fB.deb\fR se trompe.
 
-Il n'y a pas de validation des fichiers
-.B .deb ;
-en fait , il n'y a même pas de simple somme de contrôle.
+Il n'y a pas de validation des fichiers \fB.deb ;\fR en fait , il n'y a même 
+pas de simple somme de contrôle.
 
-N'essayez pas d'installer un logiciel avec
-.B dpkg\-deb !
-Vous devez utiliser
-.B dpkg
-pour être sûr que tous ses fichiers sont correctement mis en place, que
-les scripts du paquet sont exécutés et que son contenu et son état sont
-enregistrés.
-.SH VOIR AUSSI
-.BR deb (5),
-.BR deb-control (5),
-.BR dpkg (8),
-.BR dselect (8).
+N'essayez pas d'installer un logiciel avec \fBdpkg\-deb !\fR Vous devez 
+utiliser \fBdpkg\fR pour être sûr que tous ses fichiers sont correctement mis 
+en place, que les scripts du paquet sont exécutés et que son contenu et son 
+état sont enregistrés.
+.SH "VOIR AUSSI"
+\fBdeb\fR(5), \fBdeb\-control\fR(5), \fBdpkg\fR(8), \fBdselect\fR(8).
 .SH AUTEUR
-.B dpkg\-deb
-et cette page de manuel ont été écrits par Ian Jackson.
-Le copyright (C) date de 1995-1996 et ils ont paru sous la licence
-« GNU General Public Licence » ; il n'y a PAS de garantie.
-Voyez
-.B /usr/share/doc/dpkg/copyright
-et
-.B /usr/share/common-licenses/GPL
-pour des précisions.
-.SH "TRADUCTION"
-Philippe Batailler, Dec 2000.
+\fBdpkg\-deb\fR et cette page de manuel ont été écrits par Ian Jackson. Le 
+copyright (C) date de 1995\-1996 et ils ont paru sous la licence «\ GNU 
+General Public Licence\ »\ ; il n'y a PAS de garantie. Voyez 
+\fB/usr/share/doc/dpkg/copyright\fR et \fB/usr/share/common\-licenses/GPL\fR pour 
+des précisions.
+.SH TRADUCTION
+Philippe Batailler, 2004.
+Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
+dpkg, version 1.10.23.

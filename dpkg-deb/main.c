@@ -78,6 +78,8 @@ static void usage(void) {
 "  --old, --new               select archive format\n"
 "  --nocheck                  suppress control file check (build bad package).\n"
 "  -z# to set the compression when building\n"
+"  -Z<type>                   set the compression type to use when building.\n"
+"                             allowed values: gzip, bzip2, none\n"
 "\n"
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
@@ -100,6 +102,7 @@ const char printforhelp[]=
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
 const char* compression=NULL;
+enum compression_type compress_type = GZ;
 const struct cmdinfo *cipaction=0;
 dofunction *action=0;
 
@@ -113,6 +116,7 @@ static void versiononly(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setaction(const struct cmdinfo *cip, const char *value);
+static void setcompresstype(const struct cmdinfo *cip, const char *value);
 
 static dofunction *const dofunctions[]= {
   do_build,
@@ -144,6 +148,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "debug",        'D',  0,  &debugflag,     0,  0,            1  },
   { "nocheck",       0,   0,  &nocheckflag,   0,  0,            1  },
   { "compression",  'z',  1,  0,   &compression,  0,            1  },
+  { "compress_type",'Z',  1,  0, 0,               setcompresstype  },
   { "showformat",    0,   1,  0, &showformat,     0                },
   { "help",         'h',  0,  0, 0,               helponly         },
   { "version",       0,   0,  0, 0,               versiononly      },
@@ -158,6 +163,17 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
   cipaction= cip;
   assert((int)(cip-cmdinfos) < (int)(sizeof(dofunctions)*sizeof(dofunction*)));
   action= dofunctions[cip-cmdinfos];
+}
+
+static void setcompresstype(const struct cmdinfo *cip, const char *value) {
+  if (!strcmp(value, "gzip"))
+    compress_type= GZ;
+  else if (!strcmp(value, "bzip2"))
+    compress_type= BZ2;
+  else if (!strcmp(value, "none"))
+    compress_type= CAT;
+  else
+    ohshit(_("unknown compression type `%s'!"), value);
 }
 
 int main(int argc, const char *const *argv) NONRETURNING;

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 
-# $Id$
+# $Id: dpkg-scansources.pl,v 1.6.2.1 2003/09/14 01:49:08 doogie Exp $
 
 # Copyright 1999 Roderick Schertler
 # Copyright 2002 Wichert Akkerman <wakkerma@debian.org>
@@ -31,7 +31,7 @@ use Getopt::Long ();
 
 my $Exit = 0;
 (my $Me = $0) =~ s-.*/--;
-my $Version = q$Revision$ =~ /(\d\S+)/ ? $1 : '?';
+my $Version = q$Revision: 1.6.2.1 $ =~ /(\d\S+)/ ? $1 : '?';
 
 # %Override is a hash of lists.  The subs following describe what's in
 # the lists.

@@ -1,93 +1,100 @@
-.TH DPKG\-QUERY 8 "August 2001" "Debian Project" "dpkg suite"
-.\" traduction de la révision CVS 1.3
+.\" This file was generated with po4a. Translate the source file.
+.\" 
+.TH DPKG\-QUERY 8 "Août 2001" "Projet Debian" "suite dpkg"
 .SH NOM
 dpkg\-query \- Un outil pour interroger la base de données de dpkg
+
 .SH SYNOPSIS
-.B dpkg-query
+.B dpkg\-query
 
 .SH DESCRIPTION
-\fBdpkg-query\fP est un outil pour afficher des informations sur les paquets
-connus par la base de données de \fBdpkg\fP.
+\fBdpkg\-query\fR est un outil pour afficher des informations sur les paquets 
+connus par la base de données de \fBdpkg\fR.
+
 
 
 .SH COMMANDES
 .TP
-\fB-l\fP | \fB--list\fP \fIpaquet-nom-motif\fP ...
-Liste les paquets correspondant au motif donné. Quand on ne donne aucun
-\fIpaquet-nom-motif\fP, tous les paquets listés dans 
-\fI/var/lib/dpkg/available\fP sont affichés. Les métacaractères ordinaires du
-shell sont autorisés dans \fIpaquet-nom-motif\fP. Il faudra sans doute mettre
-\fIpaquet-nom-motif\fP entre apostrophes pour éviter l'expansion des noms de
-fichier par le shell. Par exemple, tous les paquets dont le nom commence par
-«\ libc5\ » seront affichés par la commande :
+\fB\-l\fR | \fB\-\-list\fR \fInom-paquet-motif\fR ...
+Liste les paquets correspondants au motif donné. Quand on ne donne aucun 
+\fInom-paquet-motif\fR, tous les paquets listés dans \fI/var/lib/dpkg/status\fR 
+sont affichés. Les métacaractères ordinaires de l'interpréteur de commandes 
+sont autorisés dans \fInom-paquet-motif\fR. Il faudra sans doute mettre 
+\fInom-paquet-motif\fR entre apostrophes pour éviter l'expansion des noms de 
+fichier par l'interpréteur de commandes. Par exemple, tous les paquets dont 
+le nom commence par «\ libc5\ » seront affichés par la commande\ :
 
-.T
 .nf
-  \fBdpkg-query -l 'libc5*'\fP
+  \fBdpkg\-query \-l 'libc5*'\fR
 .fi
 .TP
-\fB-W\fP | \fB--show\fP \fIpaquet-nom-motif\fP...
-Tout comme l'option \fB--list\fP, elle affiche la liste des paquets qui 
+\fB\-W\fR | \fB\-\-show\fR \fInom-paquet-motif\fR...
+Tout comme l'option \fB\-\-list\fR, elle affiche la liste des paquets qui 
 correspondent au motif donné. La sortie peut cependant être formatée en 
-utilisant l'option \fB--showformat\fP.
+utilisant l'option \fB\-\-showformat\fR.
 .TP
-\fB-s\fP | \fB--status\fP \fIpaquet-nom\fP ...
-Donne l'état du paquet indiqué. C'est simplement l'affichage de l'entrée
-de la base de données concernant les états des paquets installés.
+\fB\-s\fR | \fB\-\-status\fR \fInom-paquet\fR ...
+Donne l'état du paquet indiqué. C'est simplement l'affichage de l'entrée de 
+la base de données concernant les états des paquets installés.
 .TP
-\fB-L\fP | \fB--listfiles\fP \fIpaquet\fP ...
-Affiche la liste des fichiers de \fIpaquet\fP installés sur le système.
-Il faut remarquer cependant que les fichiers créés par les scripts 
-d'installation particuliers au paquet ne sont pas affichés.
+\fB\-L\fR | \fB\-\-listfiles\fR \fIpaquet\fR ...
+Affiche la liste des fichiers de \fIpaquet\fR installés sur le système. Il faut 
+remarquer cependant que les fichiers créés par les scripts d'installation 
+particuliers au paquet ne sont pas affichés.
 .TP
-\fB-S\fP | \fB--search\fP \fImotif-de-recherche\fP ...
-Recherche un nom de fichier dans les paquets installés. On peut utiliser
-dans le motif tous les métacaractères du shell. Cette commande ne donne pas
-les fichiers supplémentaires créés par les scripts du responsable de paquet, 
-ni les alternatives.
+\fB\-S\fR | \fB\-\-search\fR \fImotif-de-recherche\fR ...
+Recherche un nom de fichier dans les paquets installés. On peut utiliser 
+dans le motif tous les métacaractères de l'interpréteur de commandes. Cette 
+commande ne donne pas les fichiers supplémentaires créés par les scripts du 
+responsable de paquet, ni les alternatives.
 .TP
-\fB-p\fP |\fB--print-avail\fP paquet
-Affiche des renseignements détaillés sur \fIpaquet\fP, tels qu'ils sont
-trouvés dans le fichier \fI/var/lib/dpkg/available\fP.
+\fB\-p\fR |\fB\-\-print\-avail\fR paquet
+Affiche des renseignements détaillés sur \fIpaquet\fR, tels qu'ils sont trouvés 
+dans le fichier \fI/var/lib/dpkg/available\fR.
 .TP
-\fB--licence\fP | \fB--license\fP
+.B \-\-licence\fR | \fB\-\-license
 Affiche des renseignements sur la licence et le copyright.
 .TP
-\fB--version\fP
+.B \-\-version
 Affiche des renseignements sur la version.
 
 .SH OPTIONS
 .TP
-\fB--admindir=\fIdir\fP
-Changer l'endroit où se trouve la base de données de \fBdpkg\fR. Par
-défaut, c'est \fI/var/lib/dpkg\fP.
+.B \-\-admindir\fR=\fIdir
+Change l'endroit où se trouve la base de données de \fBdpkg\fR. Par défaut, 
+c'est \fI/var/lib/dpkg\fR.
 .TP
-\fB--showformat=\fP\fIformat\fR
-On se sert de cette option pour préciser le format de la sortie que produit la
-commande \fB--show\fP. Ce format est une chaîne, produite pour chaque paquet,
-qui peut contenir les séquences d'échappement classiques comme \en (nouvelle 
-ligne), \er (retour chariot) ou \e\e (simple barre oblique). On peut inclure
-des informations concernant un paquet (variables référençant des champs) en 
-se servant de la syntaxe ${var[;largeur]}. Les champs sont alignés sur la 
-droite, sauf si largeur est négatif, auquel cas ils sont alignés sur la
-gauche.
+.B \-\-showformat=\fR\fIformat
+On se sert de cette option pour préciser le format de la sortie que produit 
+la commande \fB\-\-show\fR. Ce format est une chaîne, produite pour chaque 
+paquet, qui peut contenir les séquences d'échappement classiques comme \en 
+(nouvelle ligne), \er (retour chariot) ou \e\e (simple barre oblique). On 
+peut inclure des informations concernant un paquet (variables référençant 
+des champs) en se servant de la syntaxe ${var[;largeur]}. Les champs sont 
+alignés sur la droite, sauf si largeur est négatif, auquel cas ils sont 
+alignés sur la gauche.
 
 .SH ENVIRONNEMENT
 .TP
-\fBCOLUMNS\fP
-Fixer le nombre de colonnes influence la sortie de l'option \fB--list\fP en
+.B COLUMNS
+Fixer le nombre de colonnes influence la sortie de l'option \fB\-\-list\fR en 
 modifiant la largeur d'affichage.
-.SH Voir aussi
-.BR dpkg (8)
 
 .SH AUTEUR
-copyright 2001 Wichert Akkerman
+Copyright 2001 Wichert Akkerman
 .UR mailto:wakkerma@debian.org
 <wakkerma@debian.org>
 .UE
 .sp
-C'est un logiciel libre ; voyez la licence publique générale du projet GNU
+C'est un logiciel libre ; voyez la licence publique générale du projet GNU 
 version 2 ou supérieure pour les droits de copie. Il n'y a PAS de garantie.
-.SH TRADUCTEUR
-Philippe Batailler, Octobre 2003.
-<debian-l10n-french@lists.debian.org>
+
+
+
+.SH "Voir aussi"
+\fBdpkg\fR(8)
+
+.SH TRADUCTION
+Philippe Batailler, 2004.
+Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
+dpkg, version 1.10.23.

@@ -1,18 +1,19 @@
 # Czech translation for dpkg.
 #
 # Petr Cech <cech@debian.org>, 1999, 2000, 2001.
+# Miroslav Kure <kurem@debian.cz>, 2004.
 #
 # Thanks go to:
 # Milan Zamazal <pdm@debian.org>
 # Vladimir Michl <Vladimir.Michl@seznam.cz>
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.9.4\n"
+"Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-19 19:52+0100\n"
-"PO-Revision-Date: 2001-05-02 13:37+02:00\n"
-"Last-Translator: Petr Cech <cech@debian.org>\n"
-"Language-Team: Czech <cs@li.org>\n"
+"POT-Creation-Date: 2004-10-27 09:08+0000\n"
+"PO-Revision-Date: 2004-10-24 19:18+0200\n"
+"Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
+"Language-Team: Czech <provoz@debian.cz>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -59,13 +60,80 @@ msgstr "Systémová chyba èíslo %d"
 msgid "Signal no.%d"
 msgstr "Signál èíslo %d"
 
-#: lib/database.c:125
+#: lib/compression.c:45
 #, fuzzy, c-format
-msgid "couldn't allocate memory for strdup in findpackage(%s)"
+msgid "%s: internal gzip error: `%s'"
+msgstr "%s:%d: vnitøní chyba `%s'\n"
+
+#: lib/compression.c:60
+#, fuzzy, c-format
+msgid "%s: failed to exec gzip -dc"
+msgstr "nelze zavøít gzip -dc"
+
+#: lib/compression.c:76
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: `%s'"
+msgstr "%s:%d: vnitøní chyba `%s'\n"
+
+#: lib/compression.c:91
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 -dc"
+msgstr "nelze zavøít gzip -dc"
+
+#: lib/compression.c:94
+#, c-format
+msgid "%s: decompression"
 msgstr ""
-"dpkg: nepodaøilo se alokovat pamì» pro novou polo¾ku v seznamu balíkù, "
-"jejich¾\n"
-" instalace se nepodaøila."
+
+#: lib/compression.c:128
+#, fuzzy, c-format
+msgid "%s: internal gzip error: read: `%s'"
+msgstr "%s:%d: vnitøní chyba `%s'\n"
+
+#: lib/compression.c:138
+#, fuzzy, c-format
+msgid "%s: internal gzip error: write: `%s'"
+msgstr "%s:%d: vnitøní chyba `%s'\n"
+
+#: lib/compression.c:141
+#, c-format
+msgid "%s: internal gzip error: read(%i) != write(%i)"
+msgstr ""
+
+#: lib/compression.c:157
+#, fuzzy, c-format
+msgid "%s: failed to exec gzip %s"
+msgstr "nelze spustit %s"
+
+#: lib/compression.c:171
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: read: `%s'"
+msgstr "%s:%d: vnitøní chyba `%s'\n"
+
+#: lib/compression.c:181
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: write: `%s'"
+msgstr "%s:%d: vnitøní chyba `%s'\n"
+
+#: lib/compression.c:184
+#, c-format
+msgid "%s: internal bzip2 error: read(%i) != write(%i)"
+msgstr ""
+
+#: lib/compression.c:200
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 %s"
+msgstr "nelze spustit %s"
+
+#: lib/compression.c:203
+#, c-format
+msgid "%s: compression"
+msgstr ""
+
+#: lib/database.c:125
+#, c-format
+msgid "couldn't allocate memory for strdup in findpackage(%s)"
+msgstr "nepodaøilo se alokovat pamì» pro strdup() ve findpackage(%s)"
 
 #: lib/database.c:195
 #, c-format
@@ -82,14 +150,15 @@ msgid ""
 "updates directory contains file `%.250s' whose name is too long (length=%d, "
 "max=%d)"
 msgstr ""
-"aktualizovaný adresáø obsahuje soubor `%.250s', jeho¾ název je pøíli¹ dlouhý "
-"(%d, max=%d)"
+"adresáø s aktualizacemi obsahuje soubor `%.250s', jeho¾ název je pøíli¹ "
+"dlouhý (%d, max=%d)"
 
 #: lib/dbmodify.c:62
 #, c-format
 msgid ""
 "updates directory contains files with different length names (both %d and %d)"
 msgstr ""
+"adresáø s aktualizacemi obsahuje soubory s rùznou délkou názvù (%d i %d)"
 
 #: lib/dbmodify.c:76
 #, c-format
@@ -99,7 +168,7 @@ msgstr "nelze zjistit obsah aktualizovaného adresáøe `%.255s'"
 #: lib/dbmodify.c:92
 #, c-format
 msgid "failed to remove incorporated update file %.255s"
-msgstr ""
+msgstr "selhalo odstranìní spojeného aktualizaèního souboru %.255s"
 
 #: lib/dbmodify.c:109
 #, c-format
@@ -109,17 +178,17 @@ msgstr "nelze vytvoøit %.250s"
 #: lib/dbmodify.c:113
 #, c-format
 msgid "unable to fill %.250s with padding"
-msgstr ""
+msgstr "nemohu dorovnat %.250s"
 
 #: lib/dbmodify.c:115
 #, c-format
 msgid "unable flush %.250s after padding"
-msgstr ""
+msgstr "nemohu vyprázdnit %.250s"
 
 #: lib/dbmodify.c:117
 #, c-format
 msgid "unable seek to start of %.250s after padding"
-msgstr ""
+msgstr "nemohu se pøesunout na zaèátek %.250s"
 
 #: lib/dbmodify.c:147
 msgid "requested operation requires superuser privilege"
@@ -136,7 +205,7 @@ msgstr "operace po¾aduje zápisová práva do stavové oblasti dpkg"
 #: lib/dbmodify.c:202
 #, c-format
 msgid "failed to remove my own update file %.255s"
-msgstr ""
+msgstr "nemohu odstranit svùj vlastní soubor s aktualizacemi %.255s"
 
 #: lib/dbmodify.c:256
 #, c-format
@@ -146,17 +215,17 @@ msgstr "nelze zapsat zmìnìný stav balíku `%.250s'"
 #: lib/dbmodify.c:258
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
-msgstr ""
+msgstr "nemohu vyprázdnit aktualizovaný stav `%.250s'"
 
 #: lib/dbmodify.c:260
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
-msgstr ""
+msgstr "nelze zkrátit pro aktualizovaný stav `%.250s'"
 
 #: lib/dbmodify.c:262
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
-msgstr ""
+msgstr "nelze synchronizovat aktualizovaný stav `%.250s'"
 
 #: lib/dbmodify.c:264
 #, c-format
@@ -171,45 +240,45 @@ msgstr "nelze nainstalovat zmìnìný stav balíku `%.250s'"
 #: lib/dump.c:291
 #, c-format
 msgid "failed to open `%s' for writing %s information"
-msgstr ""
+msgstr "selhalo otevøení `%s' pro zapsání %s informace"
 
 #: lib/dump.c:294
 msgid "unable to set buffering on status file"
-msgstr "nelze nastavit buffrování souboru status"
+msgstr "nelze nastavit bufferování souboru status"
 
 #: lib/dump.c:305
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
-msgstr ""
+msgstr "selhalo zapsání %s záznamu o `%.50s' do souboru `%.250s'"
 
 #: lib/dump.c:313
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
-msgstr ""
+msgstr "selhalo vypsání %s informace do souboru `%.250s'"
 
 #: lib/dump.c:315
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
-msgstr ""
+msgstr "selhal fsync %s informace do souboru `%.250s'"
 
 #: lib/dump.c:317
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
-msgstr ""
+msgstr "selhalo zavøení `%.250s' po zapsání %s informace"
 
 #: lib/dump.c:321
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
-msgstr ""
+msgstr "selhalo linkování `%.250s' na `%.250s' pro zálohu %s informace"
 
 #: lib/dump.c:324
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
-msgstr ""
+msgstr "selhala instalace `%.250s' jako `%.250s' obsahující %s informaci"
 
 #: lib/ehandle.c:81
 msgid "out of memory pushing error handler: "
-msgstr ""
+msgstr "nouzový chybový výstup: "
 
 #: lib/ehandle.c:96
 #, c-format
@@ -227,11 +296,11 @@ msgstr "dpkg: pøíli¹ mnoho vnoøených chyb bìhem opravování chyb!!\n"
 
 #: lib/ehandle.c:184
 msgid "out of memory for new cleanup entry with many arguments"
-msgstr ""
+msgstr "nedostatek pamìti pro novou polo¾ku s mnoha argumenty"
 
 #: lib/ehandle.c:196
 msgid "out of memory for new cleanup entry"
-msgstr ""
+msgstr "nedostatek pamìti pro novou polo¾ku"
 
 #: lib/ehandle.c:284
 #, c-format
@@ -266,27 +335,26 @@ msgstr "chybné jméno balíku (%.250s)"
 #: lib/fields.c:91
 #, c-format
 msgid "empty file details field `%s'"
-msgstr ""
+msgstr "prázdné pole detailù o souboru `%s'"
 
 #: lib/fields.c:94
 #, c-format
 msgid "file details field `%s' not allowed in status file"
-msgstr ""
+msgstr "pole detailù o souboru `%s' není ve stavovém souboru dovoleno"
 
 #: lib/fields.c:104
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
-msgstr ""
+msgstr "pøíli¹ mnoho hodnot v polo¾ce `%s' (vzhledem k ostatním)"
 
 #: lib/fields.c:117
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
-msgstr ""
+msgstr "pøíli¹ málo hodnot v polo¾ce `%s' (vzhledem k ostatním)"
 
 #: lib/fields.c:133
-#, fuzzy
 msgid "yes/no in boolean field"
-msgstr "yes/no v polo¾ce `essential'"
+msgstr "yes/no v dvojhodnotovém poli"
 
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
@@ -294,7 +362,7 @@ msgstr "hodnota polo¾ky `status' není v tomto místì pøípustná"
 
 #: lib/fields.c:177
 msgid "third (status) word in `status' field"
-msgstr ""
+msgstr "tøetí (stavové) slovo v poli `status'"
 
 #: lib/fields.c:188
 #, c-format
@@ -317,12 +385,12 @@ msgstr "chyba v øetìzci Config-Version `%.250s': %.250s"
 #: lib/fields.c:238
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
-msgstr ""
+msgstr "hodnota `conffiles' obsahuje øádek nezaèínající mezerou `%c'"
 
 #: lib/fields.c:244
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
-msgstr ""
+msgstr "hodnota `conffiles' obsahuje zkomolený øádek `%.*s'"
 
 #: lib/fields.c:250
 msgid "root or null directory is listed as a conffile"
@@ -345,6 +413,8 @@ msgid ""
 "`%s' field, reference to `%.255s':\n"
 " bad version relationship %c%c"
 msgstr ""
+"polo¾ka `%s', odkaz na `%.255s':\n"
+" chybný vztah mezi verzemi %c%c"
 
 #: lib/fields.c:345
 #, c-format
@@ -352,6 +422,8 @@ msgid ""
 "`%s' field, reference to `%.255s':\n"
 " `%c' is obsolete, use `%c=' or `%c%c' instead"
 msgstr ""
+"polo¾ka `%s', odkaz na `%.255s':\n"
+" `%c' je zastaralé, místo toho pou¾ijte `%c=' nebo `%c%c'"
 
 #: lib/fields.c:355
 #, c-format
@@ -359,6 +431,8 @@ msgid ""
 "`%s' field, reference to `%.255s':\n"
 " implicit exact match on version number, suggest using `=' instead"
 msgstr ""
+"polo¾ka `%s', odkaz na `%.255s':\n"
+" implicitní shoda s konkrétním èíslem verze, doporuèuji pou¾ít `='"
 
 #: lib/fields.c:362
 msgid "Only exact versions may be used for Provides"
@@ -370,31 +444,33 @@ msgid ""
 "`%s' field, reference to `%.255s':\n"
 " version value starts with non-alphanumeric, suggest adding a space"
 msgstr ""
+"polo¾ka `%s', odkaz na `%.255s':\n"
+" èíslo verze nezaèíná alfanumerickým znakem, doporuèuji pøidat mezeru"
 
 #: lib/fields.c:381
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
-msgstr ""
+msgstr "polo¾ka `%s', odkaz na `%.255s': verze obsahuje `('"
 
 #: lib/fields.c:384
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
-msgstr ""
+msgstr "polo¾ka `%s', odkaz na `%.255s': verze obsahuje ` '"
 
 #: lib/fields.c:387
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
-msgstr ""
+msgstr "polo¾ka `%s', odkaz na `%.255s': neurèitelná verze"
 
 #: lib/fields.c:397
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
-msgstr ""
+msgstr "polo¾ka `%s', odkaz na `%.255s': chybe ve verzi: `%.255s'"
 
 #: lib/fields.c:406
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
-msgstr ""
+msgstr "polo¾ka `%s', syntaktická chyba po referenci na balík `%.255s'"
 
 #: lib/fields.c:413
 #, c-format
@@ -443,12 +519,12 @@ msgstr "fork selhal"
 #: lib/mlib.c:98
 #, c-format
 msgid "failed to dup for std%s"
-msgstr ""
+msgstr "dup selhal pro std%s"
 
 #: lib/mlib.c:99
 #, c-format
 msgid "failed to dup for fd %d"
-msgstr ""
+msgstr "dup selhal pro fd %d"
 
 #: lib/mlib.c:105
 msgid "failed to create pipe"
@@ -482,67 +558,67 @@ msgstr "podproces %s vrátil èekací chybový status %d"
 #: lib/mlib.c:137
 #, c-format
 msgid "wait for %s failed"
-msgstr ""
+msgstr "èekání na %s selhalo"
 
 #: lib/mlib.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read filedescriptor flags for %.250s"
-msgstr "nelze otevøít soubor s popisy `%.250s'"
+msgstr "nelze pøeèíst pøíznaky filedescriptoru pro `%.250s'"
 
 #: lib/mlib.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set close-on-exec flag for %.250s"
-msgstr "nelze uzavøít nový konfiguraèní soubor `%.250s'"
+msgstr "nelze nastavit pøíznak zapøít-pøi-spu¹tìní pro `%.250s'"
 
 #: lib/mlib.c:199
 #, c-format
 msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
-msgstr ""
+msgstr "chyba v buffer_write(fd) (%i, ret=%li): %s"
 
 #: lib/mlib.c:206
 #, c-format
 msgid "eof in buffer_write(stream): %s"
-msgstr ""
+msgstr "konec souboru v buffer_write(stream): %s"
 
 #: lib/mlib.c:208
 #, c-format
 msgid "error in buffer_write(stream): %s"
-msgstr ""
+msgstr "chyba v buffer_write(stream): %s"
 
 #: lib/mlib.c:214
 #, c-format
 msgid "unknown data type `%i' in buffer_write\n"
-msgstr ""
+msgstr "neznámý datový typ `%i' v buffer_write\n"
 
 #: lib/mlib.c:230
 #, c-format
 msgid "failed in buffer_read(fd): %s"
-msgstr ""
+msgstr "chyba v buffer_read(fd): %s"
 
 #: lib/mlib.c:237
 #, c-format
 msgid "error in buffer_read(stream): %s"
-msgstr ""
+msgstr "chyba v buffer_read(stream): %s"
 
 #: lib/mlib.c:240
 #, c-format
 msgid "unknown data type `%i' in buffer_read\n"
-msgstr ""
+msgstr "neznámý datový typ `%i' v buffer_read\n"
 
 #: lib/mlib.c:306
 #, c-format
 msgid "failed to allocate buffer in buffer_copy (%s)"
-msgstr ""
+msgstr "selhalo alokování bufferu v buffer_copy (%s)"
 
 #: lib/mlib.c:337
 #, c-format
 msgid "failed in buffer_copy (%s)"
-msgstr ""
+msgstr "chyba v buffer_copy (%s)"
 
 #: lib/mlib.c:338
 #, c-format
 msgid "short read in buffer_copy (%s)"
-msgstr ""
+msgstr "zkrácené ètení v buffer_copy (%s)"
 
 #: lib/myopt.c:40
 #, c-format
@@ -576,7 +652,7 @@ msgstr "chyba pøi zavírání konfiguraèního souboru `%.255s'"
 
 #: lib/myopt.c:94 lib/myopt.c:102
 msgid "Error allocating memory for cfgfilename"
-msgstr ""
+msgstr "Chyba pøi alokaci pamìti pro cfgfilename"
 
 #: lib/myopt.c:130
 #, c-format
@@ -616,22 +692,22 @@ msgstr "nelze otevøít soubor `%.255s' s informacemi o balíku pro ètení"
 #: lib/parse.c:110
 #, c-format
 msgid "can't stat package info file `%.255s'"
-msgstr ""
+msgstr "nefunguje volání fstat na info soubor `%.255s'"
 
 #: lib/parse.c:114
 #, c-format
 msgid "can't mmap package info file `%.255s'"
-msgstr ""
+msgstr "nefunguje volání mmap na info soubor `%.255s'"
 
 #: lib/parse.c:117
 #, c-format
 msgid "failed to malloc for info file `%.255s'"
-msgstr ""
+msgstr "selhalo volání malloc pro info soubor `%.255s'"
 
 #: lib/parse.c:119
 #, c-format
 msgid "copy info file `%.255s'"
-msgstr ""
+msgstr "kopírování info souboru `%.255s'"
 
 #: lib/parse.c:148
 #, c-format
@@ -694,12 +770,12 @@ msgstr "Configured-Version pro balík s neodpovídajícím Stavem"
 #: lib/parse.c:269
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
-"Balík, který je v stavu not-installed má konfiguraèní soubory, vypou¹tím je"
+"Balík, je ve stavu nenainstalovaný a má konfiguraèní soubory, vypou¹tím je"
 
 #: lib/parse.c:324
 #, c-format
 msgid "failed to close after read: `%.255s'"
-msgstr ""
+msgstr "po ètení zapomìl zavøít: `%.255s'"
 
 #: lib/parse.c:325
 #, c-format
@@ -755,9 +831,8 @@ msgid "version string is empty"
 msgstr "prázdná verze"
 
 #: lib/parsehelp.c:204
-#, fuzzy
 msgid "version string has embedded spaces"
-msgstr "prázdná verze"
+msgstr "verze obsahuje mezery"
 
 #: lib/parsehelp.c:209
 msgid "epoch in version is not number"
@@ -784,20 +859,20 @@ msgstr "nelze otevøít soubor s GPL "
 #: lib/showpkg.c:70
 #, c-format
 msgid "invalid character `%c' in field width\n"
-msgstr ""
+msgstr "¹íøka pole obsahuje neplatný znak `%c'\n"
 
 #: lib/showpkg.c:157
 #, c-format
 msgid "Closing brace missing in format\n"
-msgstr ""
+msgstr "Ve formátu chybí uzavírací závorka\n"
 
 #: lib/varbuf.c:105
 msgid "failed to realloc for variable buffer"
-msgstr ""
+msgstr "selhalo realokování promìnlivého bufferu"
 
 #: main/archives.c:202
 msgid "process_archive ...  already disappeared !"
-msgstr ""
+msgstr "process_archive ...  ji¾ zmizel !"
 
 #: main/archives.c:222
 msgid "error reading from dpkg-deb pipe"
@@ -873,7 +948,7 @@ msgstr "zkou¹ím pøepsat soubor `%.250s', který je také v balíku %.250s"
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: main/archives.c:496 dpkg-deb/build.c:368
+#: main/archives.c:496 dpkg-deb/build.c:314
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "nelze vytvoøit `%.255s'"
@@ -881,7 +956,7 @@ msgstr "nelze vytvoøit `%.255s'"
 #: main/archives.c:501
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
-msgstr ""
+msgstr "dpkg-deb bìhem `%.255s'"
 
 #: main/archives.c:519
 #, c-format
@@ -1064,7 +1139,7 @@ msgstr "chyba pøi zavírání roury od pøíkazu find"
 #: main/archives.c:859
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
-msgstr ""
+msgstr "hledání --recursive vrátilo neo¹etøenou chybu %i"
 
 #: main/archives.c:862
 msgid "searched, but found no packages (files matching *.deb)"
@@ -1308,9 +1383,9 @@ msgid "unable to set mode of new dist conffile `%.250s'"
 msgstr "mód nového konfiguraèního souboru `%.250s' nelze nastavit"
 
 #: main/configure.c:460
-#, fuzzy, c-format
+#, c-format
 msgid "failed to run %s (%.250s)"
-msgstr "nelze spustit diff (%.250s)"
+msgstr "nelze spustit %s (%.250s)"
 
 #: main/configure.c:469 main/configure.c:507
 msgid "wait for shell failed"
@@ -1838,12 +1913,12 @@ msgstr "nelze zapsat aktualizovaný seznam souborù balíku %s"
 #: main/filesdb.c:252
 #, c-format
 msgid "failed to flush updated files list file for package %s"
-msgstr ""
+msgstr "nelze vyprázdnit seznam aktualizovaných souborù pro balík %s"
 
 #: main/filesdb.c:254
 #, c-format
 msgid "failed to sync updated files list file for package %s"
-msgstr ""
+msgstr "nelze synchronizovat seznam aktualizovaných souborù pro balík %s"
 
 #: main/filesdb.c:257
 #, c-format
@@ -1890,27 +1965,27 @@ msgstr "nelze fstat odsunutý soubor"
 
 #: main/filesdb.c:474
 msgid "fgets gave an empty string from diversions [i]"
-msgstr ""
+msgstr "fgets vrátil z diversions prázdný øetìzec [i]"
 
 #: main/filesdb.c:475
 msgid "diversions file has too-long line or EOF [i]"
-msgstr ""
+msgstr "soubor diversions má pøíli¹ dlouhý øádek nebo EOF [i]"
 
 #: main/filesdb.c:481
 msgid "read error in diversions [ii]"
-msgstr ""
+msgstr "chyba pøi ètení diversions [ii]"
 
 #: main/filesdb.c:482
 msgid "unexpected EOF in diversions [ii]"
-msgstr ""
+msgstr "neoèekávaný konec souboru diversions [ii]"
 
 #: main/filesdb.c:485
 msgid "fgets gave an empty string from diversions [ii]"
-msgstr ""
+msgstr "fgets dostal z diversions prázdný øetìzec [ii]"
 
 #: main/filesdb.c:486 main/filesdb.c:497
 msgid "diversions file has too-long line or EOF [ii]"
-msgstr ""
+msgstr "soubor diversions obsahuje pøíli¹ dlouhý øádek nebo konec souboru [ii]"
 
 #: main/filesdb.c:492
 msgid "read error in diversions [iii]"
@@ -1918,11 +1993,11 @@ msgstr "chyba pøi ètení diversions [iii]"
 
 #: main/filesdb.c:493
 msgid "unexpected EOF in diversions [iii]"
-msgstr ""
+msgstr "neoèekávaný konec souboru diversions [iii]"
 
 #: main/filesdb.c:496
 msgid "fgets gave an empty string from diversions [iii]"
-msgstr ""
+msgstr "fgets vrátil z diversions prázdný øetìzec [iii]"
 
 #: main/filesdb.c:504
 #, c-format
@@ -1958,9 +2033,8 @@ msgid "not installed but configs remain"
 msgstr "nanainstalovaný, ale configuraèní soubory zachovány"
 
 #: main/help.c:87
-#, fuzzy
 msgid "dpkg - error: PATH is not set.\n"
-msgstr "dpkg - varování: PATH není nastaven.\n"
+msgstr "dpkg - varování: PATH není nastavena.\n"
 
 #: main/help.c:102
 #, c-format
@@ -2000,7 +2074,7 @@ msgstr "nelze nastavit spustitelné právo na `%.250s'"
 #: main/help.c:299
 #, c-format
 msgid "unable to stat installed %s script `%.250s'"
-msgstr ""
+msgstr "nemohu zjistit stat() instalovaného %s skriptu `%.250s'"
 
 #: main/help.c:301 main/help.c:357 main/help.c:377
 #, c-format
@@ -2010,7 +2084,7 @@ msgstr "nelze spustit %s"
 #: main/help.c:325
 #, c-format
 msgid "unable to stat new %s script `%.250s'"
-msgstr ""
+msgstr "nemohu zjistit stat() nového %s skriptu `%.250s'"
 
 #: main/help.c:327
 #, c-format
@@ -2049,7 +2123,7 @@ msgstr "nelze zjistit stav %s `%.250s'"
 #: main/help.c:378
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
-msgstr "dpkg: ... vypadáto, ¾e se v¹e povedlo.\n"
+msgstr "dpkg: ... vypadá to, ¾e se v¹e povedlo.\n"
 
 #. Huh ?
 #: main/help.c:473
@@ -2067,27 +2141,25 @@ msgstr "Debian GNU/Linux `"
 
 #: main/main.c:46
 msgid "' package management program version "
-msgstr "' program pro údr¾bu balíkù verze "
+msgstr "' program pro správu balíkù verze "
 
 #: main/main.c:48 main/query.c:438
-#, fuzzy
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
 "See "
 msgstr ""
-"Toto je volnì ¹iøitelné programové vybavení; podrobnosti o pravidlech\n"
-"kopírování naleznete v Obecné veøejné licenci GNU (GNU General Public "
-"Licence)\n"
-"verze 2 nebo pozdìj¹í. Toto programové vybavení je absolutnì bez záruky.\n"
-"Pou¾itím dpkg --licence získáte více informací.\n"
+"Toto je svobodný software; podrobnosti o podmínkách kopírování naleznete\n"
+"v Obecné veøejné licenci GNU (GNU General Public Licence) verze 2 nebo\n"
+"novìj¹í. Toto programové vybavení je absolutnì bez záruky.\n"
+"Pou¾itím "
 
 #: main/main.c:50 main/query.c:440
 msgid " --licence for copyright and license details.\n"
-msgstr ""
+msgstr " --licence získáte více informací.\n"
 
 #: main/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2156,40 +2228,38 @@ msgid ""
 "Use `dselect' or 'aptitude' for user-friendly package management.\n"
 msgstr ""
 "Pou¾ití: \n"
-"  dpkg -i|--install      <.deb souboru> ... | -R|--recursive <adr> ...\n"
-"  dpkg --unpack          <.deb souboru> ... | -R|--recursive <adr> ...\n"
-"  dpkg -A|--record-avail <.deb souboru> ... | -R|--recursive <adr> ...\n"
+"  dpkg -i|--install      <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  dpkg --unpack          <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  dpkg -A|--record-avail <.deb soubor> ... | -R|--recursive <adr> ...\n"
 "  dpkg --configure              <jméno balíku> ... | -a|--pending\n"
 "  dpkg -r|--remove | -P|--purge <jméno balíku> ... | -a|--pending\n"
-"  dpkg --get-selections [<vzorek> ...]    vypí¹e výbìr na stdout\n"
-"  dpkg --set-selections                   nastaví výbìr ze stdin\n"
+"  dpkg --get-selections [<vzor> ...]      vypí¹e vybrané balíky na stdout\n"
+"  dpkg --set-selections                   nastaví vybrané balíky ze stdin\n"
 "  dpkg --update-avail <soubor Packages>   nahradí informace o dostupných\n"
 "                                          balících\n"
-"  dpkg --merge-avail <soubor Packages>    slouèí informace o dostupnýh "
+"  dpkg --merge-avail <soubor Packages>    slouèí informace o dostupných "
 "balících\n"
 "  dpkg --clear-avail                      zru¹í informace o balících\n"
-"  dpkg --command-fd <n>                   oèekává pøíkazy na tomto "
-"popisovaèi\n"
 "  dpkg --forget-old-unavail               zapomene nenainstalované "
 "nedostupné\n"
 "                                          balíky\n"
 "  dpkg -s|--status <název balíku> ...     zobrazí detailní stav balíku\n"
-"  dpkg -p|--print-avail <název balíku> .  zobrazí informaci o dostupné "
+"  dpkg -p|--print-avail <název balíku> .  zobrazí informace o dostupné "
 "verzi\n"
 "                                          balíku\n"
 "  dpkg -L|--listfiles <název balíku> ...  vypí¹e soubory `vlastnìné' "
 "balíkem\n"
-"  dpkg -l|--list [<vzorek> ...]           struèný seznam balíkù\n"
-"  dpkg -S|--search <vzorek> ...           nalezne balík, který vlastní\n"
+"  dpkg -l|--list [<vzor> ...]             struèný seznam balíkù\n"
+"  dpkg -S|--search <vzor> ...             nalezne balík, který vlastní\n"
 "                                          soubor(y)\n"
-"  dpkg -C|--audit                         vyhledá poka¾ené balíky\n"
+"  dpkg -C|--audit                         vyhledá poru¹ené balíky\n"
 "  dpkg --print-architecture               vypí¹e cílovou architekturu "
 "(pomocí GCC)\n"
 "  dpkg --print-gnu-build-architecture     vypí¹e GNU verzi cílové "
 "architektury\n"
 "  dpkg --print-installation-architecture  vypí¹e architekturu poèítaèe (pro\n"
 "                                          instalaci)\n"
-"  dpkg --compare-versions <a> <rel> <b>   porovná èísla verzí - viz. ní¾e\n"
+"  dpkg --compare-versions <a> <rel> <b>   porovná èísla verzí - viz ní¾e\n"
 "  dpkg --help | --version                 vypí¹e tuto nápovìdu / verzi\n"
 "  dpkg --force-help | -Dh|--debug=help    nápovìda pro force resp. ladìní\n"
 "  dpkg --licence                          vypí¹e licenèní podmínky\n"
@@ -2212,14 +2282,15 @@ msgstr ""
 "  -B|--auto-deconfigure      Nainstaluje balík, i kdy¾ se poru¹í závislosti "
 "jiného\n"
 "  --no-debsig                Nepokou¹ej se ovìøit podpis balíku\n"
-"  --no-act                   Pouze vypisuje, co by se stalo, ale neprovádí "
+"  --no-act|--dry-run|--simulate\n"
+"                             Pouze vypisuje, co by se stalo, ale neprovádí "
 "se\n"
-"  -D|--debug=<octal>         Povolí ladìní - viz. -Dhelp nebo --debug==help\n"
+"  -D|--debug=<octal>         Povolí ladìní - viz -Dhelp nebo --debug==help\n"
 "  --status-fd <n>            Po¹li zmìny stavu balíku na popisovaè <n>\n"
 "  --ignore-depends=<balík>,...   Ignoruje závislosti s <balíkem>\n"
-"  --force-...                    Ignoruje problémy - viz. --force-help\n"
+"  --force-...                    Ignoruje problémy - viz --force-help\n"
 "  --no-force-...|--refuse-...    Zastaví se pøi problémech\n"
-"  dpkg --abort-after <n>     zastav po nalezení <n> chyb\n"
+"  --abort-after <n>              Zastaví po nalezení <n> chyb\n"
 "\n"
 "Operátory porovnání pro --compare-versions jsou:\n"
 " lt le eq ne ge gt        (neexistenci verze pova¾uje za star¹í ne¾ "
@@ -2228,7 +2299,8 @@ msgstr ""
 "cokoli);\n"
 " < << <= = >= >> >        (pro kompatibilitu se syntaxí souboru control).\n"
 "\n"
-"Pou¾ijte `dselect' pro u¾ivatelsky pøívìtivé rozhraní ke správì balíkù.\n"
+"Pro u¾ivatelsky pøívìtivou správu balíkù pou¾ijte `dselect' nebo "
+"`aptitude'.\n"
 
 #: main/main.c:120
 msgid ""
@@ -2247,14 +2319,14 @@ msgstr ""
 "[*];\n"
 "Pou¾ijte dselect k pøívìtivé správì balíkù;\n"
 "Napi¹te dpkg -Dhelp pro seznam ladících hodnot dpkg;\n"
-"Napi¹te dpkg --force-help k získání seznamu donucovaních pøepínaèù;\n"
+"Napi¹te dpkg --force-help k získání seznamu donucovacích pøepínaèù;\n"
 "Napi¹te dpkg-deb --help k získání nápovìdy o zacházení se soubory *.deb;\n"
 "Napi¹te dpkg --licence pro licenèní podmínky a neexistenci záruky\n"
 " (GNU GPL) [*].\n"
 "\n"
 "Volby oznaèené [*] produkují obsáhlý výstup - pou¾ijte `less' nebo `more' !"
 
-#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:157 split/main.c:146
+#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:162 split/main.c:146
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "odporující si akce --%s a --%s"
@@ -2409,16 +2481,16 @@ msgstr "neznámá force/refuse volba `%.*s'"
 
 #: main/main.c:441 main/main.c:445
 msgid "couldn't malloc in execbackend"
-msgstr ""
+msgstr "nelze provést malloc() v execbackend"
 
 #: main/main.c:443 main/main.c:450
 msgid "couldn't strdup in execbackend"
-msgstr ""
+msgstr "nelze provést strdup v execbackend"
 
 #: main/main.c:454
-#, fuzzy, c-format
+#, c-format
 msgid "failed to exec %s"
-msgstr "nelze spustit tar"
+msgstr "nelze spustit %s"
 
 #: main/main.c:466
 msgid "--command-fd takes 1 argument, not 0"
@@ -2435,14 +2507,14 @@ msgstr "neplatné èíslo pro --command-fd"
 #: main/main.c:471
 #, c-format
 msgid "couldn't open `%i' for stream"
-msgstr ""
+msgstr "nelze otevøít `%i' pro proud"
 
 #: main/main.c:496
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "neoèekávaný konec souboru pøed koncem øádku %d"
 
-#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:169
+#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:185
 #: split/main.c:159
 msgid "need an action option"
 msgstr "potøebuji zadat akci"
@@ -2527,7 +2599,7 @@ msgstr "nelze pøistoupit k archivu"
 #: main/processarc.c:112
 #, c-format
 msgid "error ensuring `%.250s' doesn't exist"
-msgstr ""
+msgstr "chyba pøi ovìøování, ¾e `%.250s' neexistuje"
 
 #: main/processarc.c:117
 msgid "failed to exec dpkg-split to see if it's part of a multiparter"
@@ -2689,16 +2761,16 @@ msgstr "nelze odstranit starý info soubor `%.250s'"
 #: main/processarc.c:710
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
-msgstr ""
+msgstr "nelze instalovat nový info soubor `%.250s'"
 
 #: main/processarc.c:717
 msgid "unable to open temp control directory"
-msgstr ""
+msgstr "nelze otevøít doèasný kontrolní adresáø"
 
 #: main/processarc.c:726
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
-msgstr ""
+msgstr "balík obsahuje pøíli¹ dlouhé jméno info souboru (zaèíná `%.50s')"
 
 #: main/processarc.c:731
 #, c-format
@@ -2708,17 +2780,17 @@ msgstr "informace o balíku obsahují adresáø `%.250s'"
 #: main/processarc.c:733
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
-msgstr ""
+msgstr "informacec o balíku rmdir na `%.250s' neøekl, ¾e to není adresáø"
 
 #: main/processarc.c:739
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
-msgstr ""
+msgstr "dpkg: varování - balík %s obsahoval seznam jako info soubor"
 
 #: main/processarc.c:746
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
-msgstr ""
+msgstr "nelze instalovat nový info soubor `%.250s' jako `%.250s'"
 
 #: main/processarc.c:899
 #, c-format
@@ -2728,15 +2800,15 @@ msgstr "(Zji¹»uji zmizení balíku %s, který byl úplnì nahrazen.)\n"
 #: main/processarc.c:935
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
-msgstr ""
+msgstr "nelze smazat mizící kontrolní info soubor `%.250s'"
 
 #: main/remove.c:92
 #, c-format
 msgid ""
 "dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"
 msgstr ""
-"dpkg - warning: ignoruji poÅ¾adavek na odstranÄnÃ­ balÃ­ku %s, kterÃ½ nenÃ­"
-"nainstalovÃ¡n.\n"
+"dpkg - warning: ignoruji po¾adavek na odstranìní balíku %s, který "
+"nenínainstalován.\n"
 
 #: main/remove.c:100
 #, c-format
@@ -2833,17 +2905,17 @@ msgstr "Odstraòuji konfiguraèní soubory balíku %s ...\n"
 #: main/remove.c:437
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
-msgstr ""
+msgstr "nelze odstranit starý konfiguraèní soubor `%.250s' (= `%.250s')"
 
 #: main/remove.c:452
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgstr ""
+msgstr "nnemohu èíst konfiruraèní soubor adresáø `%.250s' (z `%.250s')"
 
 #: main/remove.c:487
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
-msgstr ""
+msgstr "nelze odstranit starý konfiguraèní soubor `%.250s' (z `%.250s')"
 
 #: main/remove.c:523
 #, c-format
@@ -2919,10 +2991,12 @@ msgstr "--%s potøebuje právì jedno jméno souboru Packages"
 #: main/update.c:57
 msgid "unable to access dpkg status area for bulk available update"
 msgstr ""
+"nemohu pøistoupit ke stavové oblasti dpkg pro objemnou dostupnou aktualizaci"
 
 #: main/update.c:59
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
+"objemná dostupná aktualizace vy¾aduje práva zápisu do stavové oblasti dpkg"
 
 #: main/update.c:66
 #, c-format
@@ -3045,19 +3119,17 @@ msgstr ""
 "a dpkg --contents (= dpkg-deb --contents) k vypsání jeho obsahu.\n"
 
 #: main/query.c:434 dpkg-deb/main.c:46
-#, fuzzy
 msgid "Debian `"
-msgstr "Debian GNU/Linux `"
+msgstr "Debian `"
 
 #: main/query.c:436
-#, fuzzy
 msgid "' package management program query tool\n"
-msgstr "' program pro údr¾bu balíkù verze "
+msgstr "' program pro správu balíkù\n"
 
 #: main/query.c:448
 #, c-format
 msgid "Usage: "
-msgstr ""
+msgstr "Pou¾ití: "
 
 #: main/query.c:449
 #, c-format
@@ -3087,6 +3159,27 @@ msgid ""
 "which\n"
 "   case left aligenment will be used. \n"
 msgstr ""
+" [<volba>] <pøíkaz>\n"
+"Pøíkazy:\n"
+"  -s|--status <jméno-balíku> ...      zobrazí podrobný stav balíku\n"
+"  -p|--print-avail <jméno-balíku> ... zobrazí dostupné verze balíku\n"
+"  -L|--listfiles <jméno-balíku> ...   vypí¹e soubory 'vlastnìné' balíkem\n"
+"  -l|--list [<vzor> ...]              vypí¹e balíky ve zhu¹tìném tvaru\n"
+"  -W|--show <vzor> ...                zobrazí informace o balíku\n"
+"  -S|--search <vzor> ...              najde balík(y) vlastnící soubor(y)\n"
+"  --help | --version                  zobrazí tuto nápovìdu / verzi\n"
+"  --licence                           zobrazí licenèní ujednání\n"
+"\n"
+"Volby:\n"
+"  --admindir=<adresáø>       Místo %s pou¾ije <adresáø>\n"
+"  --showformat=<formát>      Pro --show pou¾ije alternativní formát\n"
+"\n"
+"Formát:\n"
+"  Formát je øetìzec, který bude vyti¹tìn pro ka¾dý balík. Formát mù¾e\n"
+"  obsahovat standardní escape sekvence \\n (nový øádek), \\r (návrat\n"
+"  vozíku) nebo \\\\ (lomítko). Informace o balíku mù¾ete zahrnout pomocí\n"
+"  odkazù na rùzná pole balíku dle vzoru ${promìnná[;¹íøka]}.\n"
+"  Pole budou zarovnaná napravo, záporná ¹íøka je zarovná vlevo.\n"
 
 #: main/query.c:476
 msgid ""
@@ -3094,56 +3187,34 @@ msgid ""
 "Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
 "\n"
 msgstr ""
+"Pro nápovìdu o dotazování balíkù pou¾ijte --help;\n"
+"Pro zobrazení licenèního ujednání pou¾ijte --licence.\n"
+"\n"
 
 #: dpkg-deb/build.c:67
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - chyba: %s (`%s') neobsahuje èísla\n"
 
-#: dpkg-deb/build.c:166
-#, c-format
-msgid "%s: no compression copy loop"
-msgstr ""
-
-#: dpkg-deb/build.c:176
-#, c-format
-msgid "%s: internal gzip error: read: `%s'"
-msgstr ""
-
-#: dpkg-deb/build.c:186
-#, c-format
-msgid "%s: internal gzip error: write: `%s'"
-msgstr ""
-
-#: dpkg-deb/build.c:189
-#, c-format
-msgid "%s: internal gzip error: read(%i) != write(%i)"
-msgstr ""
-
-#: dpkg-deb/build.c:196
-#, c-format
-msgid "%s: failed to exec gzip %s"
-msgstr ""
-
 #. Decode our arguments
-#: dpkg-deb/build.c:224
+#: dpkg-deb/build.c:170
 msgid "--build needs a directory argument"
 msgstr "--build potøebuje jméno adresáøe"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:179
 msgid "--build takes at most two arguments"
 msgstr "--build potøebuje nejvý¹e dva parametry"
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:183
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
-msgstr "nelze zkontrolovat existenci archívu `%.250s'"
+msgstr "nelze zkontrolovat existenci archivu `%.250s'"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:198
 msgid "target is directory - cannot skip control file check"
-msgstr ""
+msgstr "cíl je adresáø - nemohu pøeskoèit test kontrolního souboru"
 
-#: dpkg-deb/build.c:253
+#: dpkg-deb/build.c:199
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -3152,57 +3223,58 @@ msgstr ""
 "dpkg-deb: pozor, nekontroluji obsah oblasti control.\n"
 "dpkg-deb: vytváøím neznámý balík v `%s'.\n"
 
-#: dpkg-deb/build.c:271
+#: dpkg-deb/build.c:217
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "jméno balíku se skládá ze znakù, které nejsou malými písmeny ani `-+.'"
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:219
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr "pozor, `%s' obsahuje u¾ivatelskou hodnotu Priority `%s'\n"
 
-#: dpkg-deb/build.c:278
+#: dpkg-deb/build.c:224
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "pozor, `%s' obsahuje u¾iveleskou polo¾ku `%s'\n"
 
-#: dpkg-deb/build.c:284
+#: dpkg-deb/build.c:230
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d chyb v souboru control"
 
-#: dpkg-deb/build.c:295
+#: dpkg-deb/build.c:241
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: vytváøím balík `%s' v `%s'.\n"
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:249
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr "øídící adresáø má ¹patná práva %03lo (musí být >=0755 a <=0775)"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:260
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "maintainer skript `%.50s' není obyèejný soubor ani symlink"
 
-#: dpkg-deb/build.c:316
+#: dpkg-deb/build.c:262
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
 "<=0775)"
 msgstr ""
+"maintainer script `%.50s' má ¹patná práva %03lo (musí být >=0555 a <=0775)"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:266
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
-msgstr ""
+msgstr "maintainer script `%.50s' is not stattable"
 
-#: dpkg-deb/build.c:330
+#: dpkg-deb/build.c:276
 msgid "empty string from fgets reading conffiles"
-msgstr ""
+msgstr "fgets vrátil pøi ètení konnfiguraèního souboru prázdný øetìzec"
 
-#: dpkg-deb/build.c:332
+#: dpkg-deb/build.c:278
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3210,112 +3282,121 @@ msgstr ""
 "pozor, jméno konfiguraèního souboru `%.50s...' je pøíli¹ dlouhé, nebo chybí\n"
 "koncová nová øádka\n"
 
-#: dpkg-deb/build.c:344
+#: dpkg-deb/build.c:290
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "konfiguraèní soubor `%.250s' nebyl v balíku nenalezen"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:292
 #, c-format
 msgid "conffile `%.250s' is not stattable"
-msgstr ""
+msgstr "na konfiguraèním souboru `%.250s' nelze spustit stat()"
 
-#: dpkg-deb/build.c:348
+#: dpkg-deb/build.c:294
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "varování, konfiguraèní soubor `%.s' není obyèejný soubor\n"
 
-#: dpkg-deb/build.c:353
+#: dpkg-deb/build.c:299
 msgid "error reading conffiles file"
 msgstr "chyba pøi ètení souboru conffiles"
 
-#: dpkg-deb/build.c:356
+#: dpkg-deb/build.c:302
 msgid "error opening conffiles file"
 msgstr "chyba pøi otevøení soubory conffiles"
 
-#: dpkg-deb/build.c:359
+#: dpkg-deb/build.c:305
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: ignoruji %d varování o kontrolních souborech\n"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:315
 #, c-format
 msgid "unable to unbuffer `%.255s'"
-msgstr ""
+msgstr "nelze odbufferovat `%.255s'"
 
-#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
+#: dpkg-deb/build.c:320 dpkg-deb/build.c:393 dpkg-deb/build.c:414
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "nelze zmìnit adresáø na `%.255s'"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:321
 msgid "failed to chdir to .../DEBIAN"
 msgstr "nelze zmìnit adresáø na .../DEBIAN"
 
-#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
+#: dpkg-deb/build.c:322 dpkg-deb/build.c:395
 msgid "failed to exec tar -cf"
 msgstr "nelze spustit tar -cf"
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:328
 msgid "failed to make tmpfile (control)"
-msgstr ""
+msgstr "selhalo vytvoøení doèasného souboru (control)"
 
-#: dpkg-deb/build.c:383
+#: dpkg-deb/build.c:329
 #, c-format
 msgid "failed to open tmpfile (control), %s"
-msgstr ""
+msgstr "selhalo otevøení doèasného souboru (control), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:332
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
-msgstr ""
+msgstr "selhalo smazání doèasného souboru (control), %s"
 
-#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
+#: dpkg-deb/build.c:340 dpkg-deb/build.c:369
 msgid "control"
-msgstr ""
+msgstr "control"
 
-#: dpkg-deb/build.c:399
+#: dpkg-deb/build.c:345
 msgid "failed to fstat tmpfile (control)"
-msgstr ""
+msgstr "selhal fstat na doèasném souboru (control)"
 
-#: dpkg-deb/build.c:422
+#: dpkg-deb/build.c:368
 msgid "failed to rewind tmpfile (control)"
-msgstr ""
+msgstr "selhalo pøesunutí v doèasném souboru (control)"
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:376
 msgid "failed to make tmpfile (data)"
-msgstr ""
+msgstr "selhalo vytvoøení doèasného souboru (data)"
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:377
 #, c-format
 msgid "failed to open tmpfile (data), %s"
-msgstr ""
+msgstr "selhalo otevøení doèasného souboru (data), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:380
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
-msgstr ""
+msgstr "selhalo smazání doèasného souboru (data), %s"
 
-#: dpkg-deb/build.c:470
+#: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
+msgid "data"
+msgstr "data"
+
+#: dpkg-deb/build.c:416
 msgid "failed to exec find"
 msgstr "nelze spustit find"
 
-#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
+#: dpkg-deb/build.c:427 dpkg-deb/build.c:434
 msgid "failed to write filename to tar pipe (data)"
-msgstr ""
+msgstr "selhal zápis jména souboru do roury s tarem (data)"
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:448
+#, c-format
+msgid "Internal error, compress_type `%i' unknown!"
+msgstr "Vnitøní chyba, neznámý compress_type `%i'!"
+
+#: dpkg-deb/build.c:460
 msgid "failed to rewind tmpfile (data)"
-msgstr ""
+msgstr "pøesun v doèasném souboru (data) selhal"
 
-#: dpkg-deb/build.c:506
+#: dpkg-deb/build.c:461
 msgid "cat (data)"
-msgstr ""
+msgstr "cat (data)"
 
 #: dpkg-deb/extract.c:51
 msgid "failed to exec sh -c mv foo/* &c"
@@ -3334,58 +3415,58 @@ msgstr "neoèekávaný konec souboru v %s na %.255s"
 #: dpkg-deb/extract.c:72 split/info.c:52
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
-msgstr ""
+msgstr "soubor `%.250s' je po¹kozen - délka %.250s obsahuje nuly"
 
 #: dpkg-deb/extract.c:79 split/info.c:43
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
-msgstr ""
+msgstr "soubor `%.250s' je po¹kozen - chybná èíslice (kód %d) v %s"
 
-#: dpkg-deb/extract.c:108
+#: dpkg-deb/extract.c:104
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "chyba pøi ètení archivu `%.255s'"
 
-#: dpkg-deb/extract.c:109
+#: dpkg-deb/extract.c:105
 msgid "failed to fstat archive"
-msgstr ""
+msgstr "na archivu selhalo volání fstat()"
 
-#: dpkg-deb/extract.c:110
+#: dpkg-deb/extract.c:106
 msgid "version number"
-msgstr "verse"
+msgstr "verze"
 
-#: dpkg-deb/extract.c:119
+#: dpkg-deb/extract.c:115
 msgid "between members"
-msgstr ""
+msgstr "mezi prvky"
 
-#: dpkg-deb/extract.c:121 split/info.c:95
+#: dpkg-deb/extract.c:117 split/info.c:95
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
-msgstr ""
+msgstr "soubor `%.250s' je po¹kozen - ¹patná magie na konci první hlavièky"
 
-#: dpkg-deb/extract.c:125
+#: dpkg-deb/extract.c:121
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "soubor `%.250s' je po¹kozen - záporná délka èásti %zi"
 
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:125
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "soubor `%.250s' není binárním balíkem (zkuste dpkg-split?)"
 
-#: dpkg-deb/extract.c:132
+#: dpkg-deb/extract.c:128
 msgid "header info member"
-msgstr ""
+msgstr "èást hlavièky"
 
-#: dpkg-deb/extract.c:135
+#: dpkg-deb/extract.c:131
 msgid "archive has no newlines in header"
-msgstr ""
+msgstr "archiv v hlavièce neobsahuje nové øádky"
 
-#: dpkg-deb/extract.c:138
+#: dpkg-deb/extract.c:134
 msgid "archive has no dot in version number"
 msgstr "archiv nemá teèku v èísle verze"
 
-#: dpkg-deb/extract.c:141
+#: dpkg-deb/extract.c:137
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "neznámá verze %.250s archivu, nainstalujste novìj¹í dpkg-deb"
@@ -3393,22 +3474,22 @@ msgstr "neznámá verze %.250s archivu, nainstalujste novìj¹í dpkg-deb"
 #. Members with `_' are noncritical, and if we don't understand them
 #. * we skip them.
 #.
-#: dpkg-deb/extract.c:150 dpkg-deb/extract.c:168
+#: dpkg-deb/extract.c:146 dpkg-deb/extract.c:175
 #, c-format
 msgid "skipped member data from %s"
-msgstr ""
+msgstr "pøeskoèena èást od %s"
 
-#: dpkg-deb/extract.c:159
+#: dpkg-deb/extract.c:165
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
-msgstr ""
+msgstr "soubor `%.250s' obsahuje nerozpoznanou èást %.*s, vzdávám to"
 
-#: dpkg-deb/extract.c:164
+#: dpkg-deb/extract.c:171
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
-msgstr ""
+msgstr "soubor `%.250s' obsahuje dvì kontrolní èásti, vzdávám to"
 
-#: dpkg-deb/extract.c:176
+#: dpkg-deb/extract.c:183
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3417,29 +3498,29 @@ msgstr ""
 " nový formát balíku, verze %s.\n"
 " velikost %ld bajtù, øídící archiv= %zi bajtù.\n"
 
-#: dpkg-deb/extract.c:188
+#: dpkg-deb/extract.c:195
 msgid "ctrl information length"
-msgstr ""
+msgstr "délka kontrolní informace"
 
-#: dpkg-deb/extract.c:190
+#: dpkg-deb/extract.c:197
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
-msgstr ""
+msgstr "archiv má chybnì formátovanou kontrolní délku `%s'"
 
-#: dpkg-deb/extract.c:193
-#, fuzzy, c-format
+#: dpkg-deb/extract.c:200
+#, c-format
 msgid ""
 " old debian package, version %s.\n"
 " size %ld bytes: control archive= %zi, main archive= %ld.\n"
 msgstr ""
-" starý formát balíku, verze %s.\n"
-" velikost %ld bajtù: øídící archiv= %ld, hlavní archiv= %zi.\n"
+" starý debianí balík, verze %s.\n"
+" velikost %ld bajtù: kontrolní archiv= %zi, hlavní archiv= %ld.\n"
 
-#: dpkg-deb/extract.c:202
+#: dpkg-deb/extract.c:209
 msgid "ctrlarea"
-msgstr ""
+msgstr "ctrlarea"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:215
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3448,74 +3529,65 @@ msgstr ""
 "dpkg-deb: soubor vypadá jako archiv, který byl po¹kozen\n"
 "dpkg-deb:    pøi stahování v ASCII módu\n"
 
-#: dpkg-deb/extract.c:213
+#: dpkg-deb/extract.c:220
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "`%.255s' nemá formát balíku debian"
 
-#: dpkg-deb/extract.c:218
+#: dpkg-deb/extract.c:225
 msgid "fgetpos failed"
-msgstr ""
-
-#: dpkg-deb/extract.c:222
-msgid "fsetpos failed"
-msgstr ""
+msgstr "fgetpos selhal"
 
 #: dpkg-deb/extract.c:229
-msgid "failed to fdopen p1 in paste"
-msgstr ""
+msgid "fsetpos failed"
+msgstr "fsetpos selhal"
 
-#: dpkg-deb/extract.c:231
+#: dpkg-deb/extract.c:236
+msgid "failed to fdopen p1 in paste"
+msgstr "selhal fdopen p1"
+
+#: dpkg-deb/extract.c:238
 msgid "failed to write to gzip -dc"
 msgstr "nelze zapisovat do gzip -dc"
 
-#: dpkg-deb/extract.c:232
+#: dpkg-deb/extract.c:239
 msgid "failed to close gzip -dc"
 msgstr "nelze zavøít gzip -dc"
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:246
 msgid "failed to syscall lseek to files archive portion"
-msgstr ""
+msgstr "selhal lseek k èásti archivu se soubory"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:254
 msgid "failed to write to pipe in copy"
-msgstr ""
+msgstr "nelze zapisovat do roury bìhem kopírování"
 
-#: dpkg-deb/extract.c:248
+#: dpkg-deb/extract.c:255
 msgid "failed to close pipe in copy"
-msgstr ""
+msgstr "nelze zavøít rouru bìhem kopírování"
 
-#: dpkg-deb/extract.c:271
-#, c-format
-msgid "internal gzip error: `%s'"
-msgstr ""
-
-#: dpkg-deb/extract.c:277
-msgid "failed to exec gzip -dc"
-msgstr "nelze spustit gzip -dc"
-
-#: dpkg-deb/extract.c:286
+#: dpkg-deb/extract.c:276
 msgid "failed to create directory"
 msgstr "nelze vytvoøit adresáø"
 
-#: dpkg-deb/extract.c:287
+#: dpkg-deb/extract.c:277
 msgid "failed to chdir to directory after creating it"
 msgstr "nelze se pøepnout do právì vytvoøeného adresáøe"
 
-#: dpkg-deb/extract.c:289
+#: dpkg-deb/extract.c:279
 msgid "failed to chdir to directory"
 msgstr "nelze vstoupit do adresáøe"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:293
 msgid "failed to exec tar"
 msgstr "nelze spustit tar"
 
-#: dpkg-deb/extract.c:326 dpkg-deb/extract.c:341 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:316 dpkg-deb/extract.c:331 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s potøebuje jméno .deb souboru"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:319
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3525,12 +3597,12 @@ msgstr ""
 "Nechtìl jste pou¾ít dpkg --install ?"
 
 # nemá tak být ) na konci ?
-#: dpkg-deb/extract.c:332
+#: dpkg-deb/extract.c:322
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s potøebuje nejvý¹e dva parametry (.deb a adresáø)"
 
-#: dpkg-deb/extract.c:343
+#: dpkg-deb/extract.c:333
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s potøebuje jen jeden parametr (jméno .deb souboru)"
@@ -3541,21 +3613,20 @@ msgstr "nelze zmìnit adresáø na `/' pro úklid"
 
 #: dpkg-deb/info.c:51
 msgid "failed to fork for cleanup"
-msgstr ""
+msgstr "rozdvojení pro úklid selhalo"
 
 #: dpkg-deb/info.c:56
 msgid "failed to wait for rm cleanup"
-msgstr ""
+msgstr "èekání na úklid programem rm selhalo"
 
 #: dpkg-deb/info.c:57
 #, c-format
 msgid "rm cleanup failed, code %d\n"
-msgstr ""
+msgstr "úklid programem rm selhal, kód %d\n"
 
 #: dpkg-deb/info.c:71
-#, fuzzy
 msgid "failed to make temporary directoryname"
-msgstr "nelze vytvoøit adresáø"
+msgstr "nelze vytvoøit doèasný adresáø"
 
 #: dpkg-deb/info.c:75
 msgid "failed to exec rm -rf"
@@ -3563,36 +3634,36 @@ msgstr "chyba pøi zpu¹tìní rm -rf"
 
 #: dpkg-deb/info.c:95
 msgid "info_spew"
-msgstr ""
+msgstr "info_spew"
 
 #: dpkg-deb/info.c:97
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
-msgstr ""
+msgstr "dpkg-deb: `%.255s' neobsahuje kontrolní èást `%.255s'\n"
 
 #: dpkg-deb/info.c:101
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
-msgstr ""
+msgstr "otevírání komponenty `%.255s' (v %.255s) selhalo neoèekávaným zpùsobem"
 
 #: dpkg-deb/info.c:106
 msgid "One requested control component is missing"
-msgstr ""
+msgstr "Jedna vy¾adovaná kontrolní èást chybí"
 
 #: dpkg-deb/info.c:108
 #, c-format
 msgid "%d requested control components are missing"
-msgstr ""
+msgstr "Chybí vy¾adované kontrolní èásti (celkem %d)"
 
 #: dpkg-deb/info.c:121
 #, c-format
 msgid "cannot scan directory `%.255s'"
-msgstr ""
+msgstr "nemohu prohledat adresáø `%.255s'"
 
 #: dpkg-deb/info.c:126
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
-msgstr ""
+msgstr "nelze volat stat na `%.255s' (v `%.255s')"
 
 #: dpkg-deb/info.c:129
 #, c-format
@@ -3602,22 +3673,22 @@ msgstr "nelze otevøít `%.255s' (v `%.255s')"
 #: dpkg-deb/info.c:143
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
-msgstr ""
+msgstr "selhalo ètení `%.255s' (v `%.255s')"
 
 #: dpkg-deb/info.c:146
 #, c-format
 msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
-msgstr ""
+msgstr " %7ld bajtù, %5d øádkù   %c  %-20.127s %.127s\n"
 
 #: dpkg-deb/info.c:152
 #, c-format
 msgid "     not a plain file          %.255s\n"
-msgstr ""
+msgstr "     není prostý soubor        %.255s\n"
 
 #: dpkg-deb/info.c:157
 #, c-format
 msgid "failed to read `control' (in `%.255s')"
-msgstr ""
+msgstr "selhalo ètení `control' (v `%.255s')"
 
 #: dpkg-deb/info.c:158
 msgid "(no `control' file in control archive!)\n"
@@ -3625,15 +3696,15 @@ msgstr "(soubor `control' chybí v øídícím archivu!)\n"
 
 #: dpkg-deb/info.c:178
 msgid "could not open the `control' component"
-msgstr ""
+msgstr "nelze otevøít èást `control'"
 
 #: dpkg-deb/info.c:208
 msgid "failed during read of `control' component"
-msgstr ""
+msgstr "chyba bìhem ètení èásti `control'"
 
 #: dpkg-deb/info.c:219
 msgid "Error in format"
-msgstr ""
+msgstr "Chyba ve formátu"
 
 #: dpkg-deb/info.c:255
 msgid "--contents takes exactly one argument"
@@ -3641,23 +3712,20 @@ msgstr "--contents vy¾aduje právì jeden parametr"
 
 #: dpkg-deb/main.c:48
 msgid "' package archive backend version "
-msgstr ""
+msgstr "' verze "
 
 #: dpkg-deb/main.c:50
-#, fuzzy
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 "See dpkg-deb --licence for details.\n"
 msgstr ""
-"Toto je volnì ¹iøitelné programové vybavení; podrobnosti o pravidlech\n"
-"kopírování naleznete v Obecné veøejné licenci GNU (GNU General Public "
-"Licence)\n"
-"verze 2 nebo pozdìj¹í. Toto programové vybavení je absolutnì bez záruky.\n"
-"Pou¾itím dpkg --licence získáte více informací.\n"
+"Toto je svobodný software; podrobnosti o podmínkách kopírování naleznete\n"
+"v Obecné veøejné licenci GNU (GNU General Public Licence) verze 2 nebo\n"
+"pozdìj¹í. Toto programové vybavení je absolutnì bez záruky.\n"
+"Více informací získáte pou¾itím dpkg-deb --licence.\n"
 
 #: dpkg-deb/main.c:58
-#, fuzzy
 msgid ""
 "Command:\n"
 "  -b|--build <directory> [<deb>]    build an archive.\n"
@@ -3683,6 +3751,8 @@ msgid ""
 "  --nocheck                  suppress control file check (build bad "
 "package).\n"
 "  -z# to set the compression when building\n"
+"  -Z<type>                   set the compression type to use when building.\n"
+"                             allowed values: gzip, bzip2, none\n"
 "\n"
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
@@ -3698,39 +3768,56 @@ msgid ""
 "`dselect' for user-friendly package management.  Packages unpacked\n"
 "using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
-"Pou¾ití: dpkg-deb -b|--build <adresáø> [<deb>]     Vytvoøí archiv.\n"
-"         dpkg-deb -c|--contents <deb>              Vypí¹e obsah.\n"
-"         dpkg-deb -I|--info <deb> [<cfile>...]     Vypí¹e informace na "
-"stdout.\n"
-"         dpkg-deb -f|--field <deb> [<cfield>...]   Vypí¹e polo¾ku na "
-"stdout.\n"
-"         dpkg-deb -e|--control <deb> [<adresáø>]   Rozbalí øídící "
-"informace.\n"
-"         dpkg-deb -x|--extract <deb> <adresáø>     Rozbalí soubory.\n"
-"         dpkg-deb -X|--vextract <deb> <adresáø>    Rozbalí a oznamuje "
-"soubory.\n"
-"         dpkg-deb --fsys-tarfile <deb>             Vypí¹e tar se soubory.\n"
-"         dpkg-deb -h|--help                        Vypí¹e tuto nápovìdu.\n"
-"         dpkg-deb --version | --licence            Vypí¹e verzi/licenci.\n"
-"<deb> je jméno Debianového archívu.\n"
-"<cfile> je jméno øídícího souboru.\n"
-"<cfield> je název polo¾ky v hlavním `control' souboru.\n"
-"Pøepínaèe: -D ladící výpisy; --old nebo --new ovládají formát archivu;\n"
-"           --nocheck potlaèí kontrolu souboru control (vytváøení chybného\n"
-"            balíku).\n"
-"           -z# nastaví kompresi pøi vytváøení\n"
+"Pøíkaz:\n"
+"  -b|--build <adresáø> [<deb>]     Vytvoøí archiv.\n"
+"  -c|--contents <deb>              Vypí¹e obsah.\n"
+"  -I|--info <deb> [<csoubor>...]   Vypí¹e informace na standardní výstup.\n"
+"  -W|--show <deb>                  Vypí¹e informace o balíku\n"
+"  -f|--field <deb> [<cpolo¾ka>...] Vypí¹e polo¾ku na standardní výstup.\n"
+"  -e|--control <deb> [<adresáø>]   Rozbalí øídící informace.\n"
+"  -x|--extract <deb> <adresáø>     Rozbalí soubory.\n"
+"  -X|--vextract <deb> <adresáø>    Rozbalí a vypí¹e soubory.\n"
+"  --fsys-tarfile <deb>             Vypí¹e tar se soubory.\n"
+"  -h|--help                        Vypí¹e tuto nápovìdu.\n"
+"  --version | --licence            Vypí¹e verzi/licenci.\n"
+"\n"
+"<deb> je jméno debianího archivu.\n"
+"<csoubor> je jméno øídícího souboru.\n"
+"<cpolo¾ka> je název polo¾ky v hlavním `control' souboru.\n"
+"\n"
+"Pøepínaèe:\n"
+"  --showformat=<formát>     Pou¾ije alternativní formát pro --show.\n"
+"  -D                        Povolí ladící výpisy.\n"
+"  --old, --new              Nastaví formát archivu.\n"
+"  --nocheck                 Potlaèí kontrolu souboru control (vytváøení\n"
+"                            chybného balíku).\n"
+"  -z#                       Pøi vytváøení nastaví kompresi.\n"
+"  -Z<typ>                   Pøi vytváøení nastaví typ komprese.\n"
+"                            Povolené hodnoty: gzip, bzip2, none\n"
+"\n"
+"Formát:\n"
+"  Formát je øetìzec, který bude vyti¹tìn pro ka¾dý balík. Formát mù¾e\n"
+"  obsahovat standardní escape sekvence \\n (nový øádek), \\r (návrat\n"
+"  vozíku) nebo \\\\ (lomítko). Informace o balíku mù¾ete zahrnout pomocí\n"
+"  odkazù na rùzná pole balíku dle vzoru ${promìnná[;¹íøka]}.\n"
+"  Pole budou zarovnaná napravo, záporná ¹íøka je zarovná vlevo.\n"
 "\n"
 "Pou¾ijte buï `dpkg' k nainstalování a odinstalování balíku ze systému, nebo\n"
 "`dselect' pro pøívìtivou správu balíèkù. Balíky rozbalené pomocí\n"
 "`dpkg-deb --extract' nebudou správnì nainstalované!\n"
 
-#: dpkg-deb/main.c:98
+#: dpkg-deb/main.c:100
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
 "Napi¹te dpkg-deb --help k získání nápovìdy k manipulaci s *.deb soubory;\n"
 "Napi¹te dpkg --help k získání informací o instalování a odinstalování balíkù."
+
+#: dpkg-deb/main.c:176
+#, c-format
+msgid "unknown compression type `%s'!"
+msgstr "neznámý typ komprese `%s'!"
 
 #: split/info.c:64
 #, c-format
@@ -3740,7 +3827,7 @@ msgstr "soubor `%.250s' je po¹kozen - %250s chybí"
 #: split/info.c:67
 #, c-format
 msgid "file `%.250s' is corrupt - missing newline after %.250s"
-msgstr "soubor `%.250s' je po¹kozen - chybí newline za %.250s"
+msgstr "soubor `%.250s' je po¹kozen - chybí nový øádek za %.250s"
 
 #: split/info.c:91
 msgid "unable to seek back"
@@ -3765,7 +3852,7 @@ msgstr ""
 #: split/info.c:124
 #, c-format
 msgid "file `%.250s' is corrupt - bad MD5 checksum `%.250s'"
-msgstr "soubor `%.250s' je po¹kozen - ¹patný MD5 kontrolní souèet `%.250s'"
+msgstr "soubor `%.250s' je po¹kozen - ¹patný kontrolní souèet MD5 `%.250s'"
 
 #: split/info.c:131
 #, c-format
@@ -3796,12 +3883,12 @@ msgstr "soubor `%.250s' je po¹kozen - chybný poèet èástí pro uvozené velikosti"
 #: split/info.c:157
 #, c-format
 msgid "file `%.250s' is corrupt - size is wrong for quoted part number"
-msgstr ""
+msgstr "soubor `%.250s' je po¹kozen - chybná velikost uvozené èásti"
 
 #: split/info.c:163
 #, c-format
 msgid "unable to fstat part file `%.250s'"
-msgstr ""
+msgstr "nelze zjistit fstat èásti souboru `%.250s'"
 
 #: split/info.c:169
 #, c-format
@@ -3819,7 +3906,7 @@ msgid "file `%.250s' is not an archive part"
 msgstr "soubor `%.250s' není èástí archivu"
 
 #: split/info.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s:\n"
 "    Part format version:            %s\n"
@@ -3835,16 +3922,16 @@ msgid ""
 "\n"
 msgstr ""
 "%s:\n"
-"    verze formátu èásti:            %s\n"
+"    Verze formátu èásti:            %s\n"
 "    Èást balíku:                    %s\n"
 "      ... verze:                    %s\n"
 "      ... MD5 souèet:               %s\n"
 "      ... délka:                    %lu bajtù\n"
 "      ... dìleno ka¾dých:           %lu bajtù\n"
 "    Èíslo èásti:                    %d/%d\n"
-"    Délka èásti:                    %lu bajtù\n"
+"    Délka èásti:                    %zi bajtù\n"
 "    Offset èásti:                   %lu bajtù\n"
-"    Velikost souboru:               %zi bajtù\n"
+"    Velikost èásti (pou¾itá èást):  %lu bajtù\n"
 "\n"
 
 #: split/info.c:218
@@ -3864,12 +3951,12 @@ msgstr "nelze otevøít výstupní soubor `%.250s'"
 #: split/join.c:52
 #, c-format
 msgid "unable to (re)open input part file `%.250s'"
-msgstr ""
+msgstr "nelze (znovu)otevøít vstupní soubor `%.250s'"
 
 #: split/join.c:68
 #, c-format
 msgid "done\n"
-msgstr "dokonèeno\n"
+msgstr "hotovo\n"
 
 #: split/join.c:84
 #, c-format
@@ -3893,8 +3980,7 @@ msgstr "%d. èást chybí"
 #: split/main.c:40
 msgid "Debian GNU/Linux `dpkg-split' package split/join tool; version "
 msgstr ""
-"Debian GNU/Linux `dpkg-split' - nástroj pro rozdìlování a sluèování "
-"souborù;\n"
+"Debian GNU/Linux `dpkg-split' - nástroj na dìlení/sluèování balíkù;\n"
 " verze "
 
 #: split/main.c:42
@@ -3986,7 +4072,7 @@ msgstr "velikost èásti musí být alespoò %dk (kvùli hlavièce)"
 #: split/queue.c:69
 #, c-format
 msgid "unable to read depot directory `%.250s'"
-msgstr ""
+msgstr "nelze èíst skladi¹»ní adresáø `%.250s'"
 
 #: split/queue.c:107
 msgid "--auto requires the use of the --output option"
@@ -4009,7 +4095,7 @@ msgstr "Soubor `%.250s' není èástí rozdìleného archivu.\n"
 #: split/queue.c:143
 #, c-format
 msgid "unable to reopen part file `%.250s'"
-msgstr ""
+msgstr "nelze znovuotevøít soubor `%.250s'"
 
 #: split/queue.c:147
 #, c-format
@@ -4019,12 +4105,12 @@ msgstr "soubor `%.250s' má na konci nesmysly"
 #: split/queue.c:156
 #, c-format
 msgid "unable to open new depot file `%.250s'"
-msgstr ""
+msgstr "nelze otevøít nový skladi¹»ní soubor `%.250s'"
 
 #: split/queue.c:160
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
-msgstr ""
+msgstr "nelze pøejmenovat nový skladi¹»ní soubor `%.250s' na `%.250s'"
 
 #: split/queue.c:162
 #, c-format
@@ -4038,7 +4124,7 @@ msgstr " a "
 #: split/queue.c:179
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
-msgstr ""
+msgstr "nelze smazat vyu¾itý skladi¹»ní soubor `%.250s'"
 
 #: split/queue.c:194
 msgid "--listq does not take any arguments"
@@ -4051,7 +4137,7 @@ msgstr "Pøebyteèné soubory ponechánu v odkladi¹ti:\n"
 #: split/queue.c:202 split/queue.c:226
 #, c-format
 msgid "unable to stat `%.250s'"
-msgstr ""
+msgstr "nelze zjistit stav `%.250s'"
 
 #: split/queue.c:205
 #, c-format
@@ -4065,7 +4151,7 @@ msgstr " %s (není obyèejným souborem)\n"
 
 #: split/queue.c:212
 msgid "Packages not yet reassembled:\n"
-msgstr "Je¹tì nesestavené balíky:\n"
+msgstr "Dosud nesestavené balíky:\n"
 
 #: split/queue.c:228
 #, c-format
@@ -4080,7 +4166,7 @@ msgstr "(celkem %lu bajtù)\n"
 #: split/queue.c:256
 #, c-format
 msgid "unable to discard `%.250s'"
-msgstr ""
+msgstr "nelze zahodit `%.250s'"
 
 #: split/queue.c:257
 #, c-format
@@ -4118,11 +4204,9 @@ msgid "Type md5sum --help for help."
 msgstr "Napi¹te md5sum --help pro získání nápovìdy."
 
 #: utils/md5sum.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "error processing %s: %s\n"
-msgstr ""
-"%s: chyba pøi zpracovávání %s (--%s):\n"
-" %s\n"
+msgstr "chyba pøi zpracovávání %s: %s\n"
 
 #: utils/md5sum.c:186
 msgid ""
@@ -4151,9 +4235,9 @@ msgstr "mdfile"
 #. * non-text file.
 #.
 #: utils/md5sum.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized line\n"
-msgstr "%s: nerozpoznaný øádek: %s"
+msgstr "%s: nerozpoznaný øádek\n"
 
 #: utils/md5sum.c:292
 #, c-format
@@ -4195,9 +4279,8 @@ msgid "Search for ? "
 msgstr "Hledej øetìzec: "
 
 #: dselect/basecmds.cc:143
-#, fuzzy
 msgid "Error: "
-msgstr "Chyba"
+msgstr "Chyba: "
 
 #: dselect/basecmds.cc:171
 msgid "Help: "
@@ -4205,20 +4288,20 @@ msgstr "Nápovìda: "
 
 #: dselect/basecmds.cc:177
 msgid "Press ? for help menu, <space> for next topic, <enter> to exit help."
-msgstr ""
+msgstr "Pro nápovìdu stisknìte ?, pro dal¹í téma <mezeru> a pro konec <enter>."
 
 #: dselect/basecmds.cc:184
 msgid "Help information is available under the following topics:"
 msgstr "Nápovìda je dostupná pro následující témata:"
 
 #: dselect/basecmds.cc:192
-#, fuzzy
 msgid ""
 "Press a key from the list above, <enter>, `q' or `Q' to exit help,\n"
 "  or <space> to read each help page in turn. "
 msgstr ""
-"Stisknìte klávesu ze seznamu vý¹e, mezerníkem nápovìdu opustíte,\n"
-"  nebo stisknìte `.' (teèku) pro postupné ètení v¹ech stránek nápovìdy. "
+"Stisknìte klávesu ze seznamu vý¹e, nebo mù¾ete nápovìdu opustit klávesou\n"
+"  <enter>, `q' nebo `Q'. Také mù¾ete pou¾ít <mezeru> pro postupné ètení \n"
+"  v¹ech stránek nápovìdy. "
 
 #: dselect/basecmds.cc:198
 msgid "error reading keyboard in help"
@@ -4258,9 +4341,8 @@ msgid "failed to set new SIGWINCH sigact"
 msgstr "nepovedlo se nastavit nové zpracování signálu v SIGWINCH"
 
 #: dselect/baselist.cc:126
-#, fuzzy
 msgid "failed to allocate colour pair"
-msgstr "nepovedlo se alokovat páry barev"
+msgstr "nepovedlo se alokovat pár barev"
 
 #: dselect/baselist.cc:166
 msgid "failed to create title window"
@@ -4572,7 +4654,7 @@ msgid "Debian `%s' package handling frontend."
 msgstr "Debian `%s' rozhraní pro správu balíkù."
 
 #: dselect/main.cc:154
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
@@ -4583,14 +4665,13 @@ msgid ""
 msgstr ""
 "Verze %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
-"Toto je volnì ¹iøitelné programové vybavení; podrobnosti o pravidlech\n"
-"kopírování naleznete v Obecné veøejné licenci GNU (GNU General Public\n"
-"Licence) verze 2 nebo pozdìj¹í. Toto programové vybavení je absolutnì\n"
-"bez záruky. Pou¾itím dselect --licence získáte více informací.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
+"Toto je svobodný software; podrobnosti o podmínkách kopírování naleznete\n"
+"v Obecné veøejné licenci GNU (GNU General Public Licence) verze 2 nebo\n"
+"pozdìj¹í. Toto programové vybavení je absolutnì bez záruky.\n"
+"Pou¾itím dselect --licence získáte více informací.\n"
 
 #: dselect/main.cc:170
-#, fuzzy
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -4601,24 +4682,25 @@ msgid ""
 msgstr ""
 "Pou¾ití: dselect [volby]\n"
 "         dselect [volby] akce ...\n"
-"Volby:  --admindir <directory>  (implicitní je /var/lib/dpkg)\n"
-"        --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-"Akce:   access update select install config remove quit menu\n"
+"Volby:  --admindir <adresáø>  (implicitní je /var/lib/dpkg)\n"
+"        --help  --version  --licence  --expert  --debug <soub> | -D<soub>\n"
+"        --colour screenpart:[popøedí],[pozadí][:atribut[+atribut+..]]\n"
+"Akce:   access update select install config remove quit\n"
 
 #: dselect/main.cc:178
 #, c-format
 msgid "Screenparts:\n"
-msgstr ""
+msgstr "Èásti obrazovky:\n"
 
 #: dselect/main.cc:183
 #, c-format
 msgid "Colours:\n"
-msgstr ""
+msgstr "Barvy:\n"
 
 #: dselect/main.cc:188
 #, c-format
 msgid "Attributes:\n"
-msgstr ""
+msgstr "Atributy:\n"
 
 #: dselect/main.cc:208
 #, c-format
@@ -4628,24 +4710,24 @@ msgstr "nepodaøilo se otevøít ladící soubor `%.255s'\n"
 #: dselect/main.cc:223
 #, c-format
 msgid "Invalid %s `%s'\n"
-msgstr ""
+msgstr "Neplatné %s `%s'\n"
 
 #. strtok modifies strings, keep string const
 #: dselect/main.cc:240
 msgid "screen part"
-msgstr ""
+msgstr "èást obrazovky"
 
 #: dselect/main.cc:246
 msgid "Null colour specification\n"
-msgstr ""
+msgstr "Zadání prázdné barvy\n"
 
 #: dselect/main.cc:254 dselect/main.cc:259
 msgid "colour"
-msgstr ""
+msgstr "barva"
 
 #: dselect/main.cc:267
 msgid "colour attribute"
-msgstr ""
+msgstr "atribut barvy"
 
 #: dselect/main.cc:301
 msgid "Terminal does not appear to support cursor addressing.\n"
@@ -5257,7 +5339,6 @@ msgid " verbose:v help:?"
 msgstr " podrob:v pomoc:?"
 
 #: dselect/pkginfo.cc:82
-#, fuzzy
 msgid ""
 "The line you have highlighted represents many packages; if you ask to "
 "install, remove, hold, etc. it you will affect all the packages which match "
@@ -5274,8 +5355,8 @@ msgstr ""
 "\n"
 "Posunete-li zvýraznìní na øádek konkrétního balíku, zobrazí se vám zde o nìm "
 "informace.\n"
-"Poøadí tøídìní balíkù mù¾ete zmìnit klávesami `o' a `O' a umo¾nit si tak "
-"oznaèit balíku v rùzných typech skupin."
+"Poøadí tøídìní balíkù lze zmìnit klávesami `o' a `O', co¾ vám umo¾ní oznaèit "
+"balíky v rùzných typech skupin."
 
 #: dselect/pkginfo.cc:96
 msgid "interrelationships affecting "
@@ -5319,11 +5400,11 @@ msgstr "<null>"
 
 #: dselect/pkglist.cc:507
 msgid "invalid search option given"
-msgstr ""
+msgstr "zadána neplatná volba"
 
 #: dselect/pkglist.cc:521
 msgid "error in regular expression"
-msgstr ""
+msgstr "chyba v regulárním výrazu"
 
 #: dselect/pkgsublist.cc:105
 msgid " does not appear to be available\n"
@@ -5389,7 +5470,7 @@ msgstr "Oznaèen pro"
 
 #: dselect/pkgtop.cc:284
 msgid "EIOM"
-msgstr ""
+msgstr "EIOM"
 
 #: dselect/pkgtop.cc:286
 msgid "Section"
@@ -5416,7 +5497,6 @@ msgid "Keystrokes"
 msgstr "Funkce kláves"
 
 #: dselect/helpmsgs.cc:8
-#, fuzzy
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  Down-arrow, j         Up-arrow, k             move highlight\n"
@@ -5448,7 +5528,7 @@ msgid ""
 "   D     set all to Directly requested state  n, \\  repeat last search\n"
 msgstr ""
 "Posuny: Následující/Pøedchozí, Zaèátek/Konec, Nahoru/Dolù, Vzad/Vpøed:\n"
-"  n, ¹ipka dolù, j      p, ¹ipka nahoru, k      posun zvýraznìní\n"
+"  ¹ipka dolù, j         ¹ipka nahoru, k         posun zvýraznìní\n"
 "  N, Page-down, Space   P, Page-up, Backspace   posun seznamu o 1 stránku\n"
 "  ^n                    ^p                      posun seznamu o 1 øádek\n"
 "  t, Home               e, End                  skok na zaèátek/konec "
@@ -5469,18 +5549,16 @@ msgstr ""
 " Return  potvrzení, ukonèení (provìø. závis.) i, I  pøepne/cyklí informace\n"
 "   Q     potvrzení, ukonèení (ign. závis.)    o, O  cyklí druhy øazení\n"
 " X, Esc  vyskoèení, zapomenutí proved. zmìn   v, V  zmìna zobrazení stavu\n"
-"   R     návrat to do pùvodního stavu          ^l   pøekreslí obrazovku\n"
-"   U     nastavení navr¾eného stavu pro v¹e     /   hlededá (Return zru¹í)\n"
-"   D     nastavení ¾ádaného stavu pro v¹e       \\   opakuje poslední "
+"   R     návrat do pùvodního stavu             ^l   pøekreslí obrazovku\n"
+"   U     nastavení v¹eho navr¾eného stavu       /   hlededá (Return zru¹í)\n"
+"   D     nastavení v¹eho ¾ádaného stavu       n, \\  opakuje poslední "
 "hledání\n"
 
 #: dselect/helpmsgs.cc:33
-#, fuzzy
 msgid "Introduction to package selections"
 msgstr "Úvod do práce se seznamem balíkù"
 
 #: dselect/helpmsgs.cc:33
-#, fuzzy
 msgid ""
 "Welcome to dselect's main package listing.\n"
 "\n"
@@ -5510,42 +5588,35 @@ msgid ""
 "\n"
 "Press <enter> to leave help and enter the list now.\n"
 msgstr ""
-"Vítejte v hlavním seznamu balíkù. Pøeètìte si prosím nápovìdu!\n"
+"Vítejte v hlavním seznamu balíkù programu dselect.\n"
 "\n"
 "Uvidíte seznam balíkù, které jsou instalované nebo dostupné pro instalaci.\n"
-"Mù¾ete se po seznamu pohybovat pomocí kurzorových kláves a oznaèovat balíky\n"
+"V seznamu se mù¾ete pohybovat pomocí kurzorových kláves a oznaèovat balíky\n"
 "pro instalaci (pomocí `+') nebo odinstalaci (pomocí `-').\n"
 "\n"
-"Balíky mohou být oznaèovány jednotlivì nebo po skupinách, na zaèátku je\n"
+"Balíky mohou být oznaèovány jednotlivì nebo po skupinách. Na zaèátku je\n"
 "zvýraznìn øádek `V¹echny balíky'. `+', `-', atd. provedou pøíslu¹né akce na\n"
-"balíky dané zvýraznìným øádkem. Pro zmìnu poøadí balíkù v seznamu pou¾ijte "
-"`o'\n"
-"(to také ovlivní, která hromadná oznaèení balíkù mù¾ete provádìt).\n"
-"\n"
-"(Zejména pro nové instalace:) Implicitnì jsou pro instalaci nastaveny\n"
-"standardní balíky.\n"
-"Pro pøípadnou zmìnu tohoto nastavení mù¾ete vyu¾ít velká písmena\n"
-"`D' nebo `R' - viz nápovìda funkcí kláves.\n"
+"balíky dané zvýraznìným øádkem.\n"
 "\n"
 "Nìkteré va¹e výbìry mohou zpùsobit konflikty nebo problém se závislostmi;\n"
 "dostanete podseznam odpovídajících balíkù, ve kterém mù¾ete problém "
 "napravit.\n"
 "\n"
-"A¾ budete se svým výbìrem spokojeni, stisknìte Return pro potvrzení svých\n"
-"zmìn a opu¹tìní seznamu balíkù. Poté se provede závìreèná kontrola "
-"konfliktù\n"
-"a závislostí - po ní se opìt mù¾e objevit podseznam.\n"
+"Mìli byste si prostudovat seznam kláves a význam rùzných obrazovek.\n"
+"K dispozici je kvalitní nápovìda - pou¾ijte ji. Kdykoliv mù¾ete stisknout\n"
+"klávesu `?' a získat potøebné informace.\n"
+"A¾ budete s výbìrem balíkù spokojeni, stisknìte <enter> pro potvrzení svých\n"
+"zmìn. Klávesou `Q' mù¾ete seznam balíkù opustit bez ukládání zmìn. Poté se\n"
+"provede závìreèná kontrola konfliktù a závislostí - po ní se opìt mù¾e\n"
+"objevit podseznam.\n"
 "\n"
-"Nápovìdu mù¾ete opustit stiskem mezerníku; nápovìdu mù¾ete opìt kdykoliv\n"
-"znovu zobrazit stiskem `?'.\n"
+"Pro opu¹tìní nápovìdy nyní stisknìte <enter>.\n"
 
 #: dselect/helpmsgs.cc:57
-#, fuzzy
 msgid "Introduction to read-only package list browser"
 msgstr "Úvod do prohlí¾eèe seznamu balíkù (pøístup pouze pro ètení)"
 
 #: dselect/helpmsgs.cc:57
-#, fuzzy
 msgid ""
 "Welcome to dselect's main package listing.\n"
 "\n"
@@ -5565,25 +5636,21 @@ msgid ""
 "\n"
 "Press <enter> to leave help and enter the list now.\n"
 msgstr ""
-"Vítejte v hlavním seznamu balíkù dselectu. Proto¾e nemáte nezbytná "
-"privilegia\n"
-"pro provádìní zmìn stavù balíkù, bude vám umo¾nìno pouze prohlí¾ení.\n"
+"Vítejte v hlavním seznamu balíkù dselectu.\n"
 "\n"
-"Máte k dispozici hodnì pøímé nápovìdy, pou¾ívejte ji, prosím! Nápovìdu "
-"získáte\n"
-"stiskem `?'. Mìli byste si pøeèíst pøehled kláves a popis obrazovky.\n"
-"\n"
-"Dostanete seznam balíkù, které jsou instalovány nebo dostupné pro "
+"Zobrazí se seznam balíkù, které jsou instalovány nebo dostupné pro "
 "instalaci.\n"
-"Mù¾ete se po nìm pohybovat kurzorovými klávesami (úplnì stejnì jako v "
-"re¾imu\n"
-"plného pøístupu - viz nápovìda ke klávesám) a prohlí¾et si stav balíkù a "
-"èíst\n"
-"si informace o nich.\n"
+"Proto¾e nemáte nezbytná privilegia pro provádìní zmìn stavù balíkù, bude\n"
+"vám umo¾nìno pouze prohlí¾ení. V seznamu se mù¾ete pohybovat kurzorovými\n"
+"klávesami (viz nápovìda ke klávesám), prohlí¾et si stav balíkù a èíst si\n"
+"informace o nich.\n"
 "\n"
-"Nápovìdu mù¾ete opustit stiskem mezerníku; nápovìdu mù¾ete opìt kdykoliv\n"
-"znovu zobrazit stiskem `?'.\n"
+"Mìli byste si pøeèíst pøehled kláves a popis obrazovky. K dispozici máte\n"
+"dostatek nápovìdy, pou¾ívejte ji, prosím! Nápovìdu mù¾ete kdykoliv znovu\n"
+"zobrazit stiskem `?'.\n"
 "Prohlí¾ení ukonèíte stiskem nìkteré z kláves `Q' nebo <enter>.\n"
+"\n"
+"Klávesou <enter> opustíte nápovìdu a dostanete se do seznamu.\n"
 
 #: dselect/helpmsgs.cc:75
 msgid "Introduction to conflict/dependency resolution sub-list"
@@ -5591,7 +5658,6 @@ msgstr ""
 "Úvod do práce s podseznamem pro øe¹ení problémù s konflikty a závislostmi"
 
 #: dselect/helpmsgs.cc:75
-#, fuzzy
 msgid ""
 "Dependency/conflict resolution - introduction.\n"
 "\n"
@@ -5640,19 +5706,17 @@ msgstr ""
 "\n"
 "Je urèena mno¾ina `navr¾ených' balíkù a poèáteèní znaèky v podseznamu jsou\n"
 "nastaveny tak, aby jí odpovídaly, tak¾e mù¾ete jednodu¹e tento návrh\n"
-"akceptovat stiskem klávesy Return. Mù¾ete také zru¹it zmìny, které problém\n"
-"zpùsobily, a vrátit se do hlavního seznamu stiskem velkého `X'.\n"
+"akceptovat stiskem klávesy Enter. Mù¾ete také zru¹it zmìny, které problém\n"
+"zpùsobily a vrátit se do hlavního seznamu stiskem velkého `X'.\n"
 "\n"
-"Mù¾ete se také po seznamu pohybovat a zmìnit znaèky, aby lépe odpovídaly "
-"va¹í\n"
-"pøedstavì a mù¾ete zamítnout mùj návrh stiskem velkého `D' nebo `R' (viz\n"
-"nápovìda ke klávesám). Jestli¾e nechcete respektovat doporuèení nebo máte\n"
-"pocit, ¾e doporuèení programu je chybné, mù¾ete mì donutit akceptovat\n"
-"aktuálnì zobrazené nastavení stiskem velkého `Q'.\n"
+"Po seznamu se samozøejmì mù¾ete pohybovat a zmìnit znaèky, aby lépe\n"
+"odpovídaly va¹í pøedstavì a mù¾ete zamítnout mùj návrh stiskem velkého `D'\n"
+"nebo `R' (viz nápovìda ke klávesám). Jestli¾e nechcete respektovat\n"
+"doporuèení nebo máte pocit, ¾e doporuèení programu je chybné, mù¾ete mì\n"
+"donutit akceptovat aktuálnì zobrazené nastavení stiskem velkého `Q'.\n"
 "\n"
-"Pokraèujte stiskem mezerníku, dostanete se do podseznamu. Nezapomeòte: "
-"nápovìdu\n"
-"získáte stiskem `?'.\n"
+"Klávesou <enter> opustíte nápovìdu a dostanete se do podseznamu.\n"
+"Nezapomeòte: nápovìdu získáte stiskem `?'.\n"
 
 #: dselect/helpmsgs.cc:100
 msgid "Display, part 1: package listing and status chars"
@@ -5721,7 +5785,6 @@ msgid "Display, part 2: list highlight; information display"
 msgstr "Zobrazení, èást 2: zvýraznìní; informaèní obrazovka"
 
 #: dselect/helpmsgs.cc:125
-#, fuzzy
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
@@ -5801,7 +5864,7 @@ msgstr ""
 "\n"
 "Tento seznam vám umo¾òuje zvolit jednu z instalaèních metod.\n"
 "\n"
-"Posuòte zvýraznìní na metodu, kterou chcete pou¾ít a stisknìtì Enter. "
+"Posuòte zvýraznìní na metodu, kterou chcete pou¾ít a stisknìte Enter. "
 "Budete\n"
 "dotázáni na informace nutné pro provedení instalace.\n"
 "\n"
@@ -5867,54 +5930,3 @@ msgstr ""
 " ^l                pøekreslí obrazovku\n"
 "  /                hledá (zru¹ení stiskem Return)\n"
 "  \\                opakuje poslední hledání\n"
-
-#~ msgid "must be at least two characters"
-#~ msgstr "musí mít alespoò dva znaky"
-
-#~ msgid "no gcc-lib component"
-#~ msgstr "neobsahuje èást gcc-lib"
-
-#~ msgid "no slash after gcc-lib"
-#~ msgstr "chybí lomítko za gcc-lib"
-
-#~ msgid ""
-#~ "Your currently installed version of the file is in:\n"
-#~ " %s\n"
-#~ "The version contained in the new version of the package is in:\n"
-#~ " %s\n"
-#~ "If you decide to take care of the update yourself, perhaps by editing\n"
-#~ " the installed version, you should choose `N' when you return, so that\n"
-#~ " I do not mess up your careful work.\n"
-#~ msgstr ""
-#~ "Va¹e aktuálnì instalovaná verze souboru je v:\n"
-#~ " %s\n"
-#~ "Verze obsa¾ena v nové verzi balíku je v:\n"
-#~ " %s\n"
-#~ "Jestli¾e se rozhodnete provést aktualizaci sám, tøeba editací "
-#~ "instalované\n"
-#~ "verze, stisknìte po návratu `N' a já vám nebudu do Va¹í práce zasahovat.\n"
-
-#~ msgid ""
-#~ "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
-#~ "GNU General Public Licence version 2 or later for copying conditions.\n"
-#~ "There is NO warranty.  See dpkg-deb --licence for details.\n"
-#~ msgstr ""
-#~ "Copyright (C) 1994-1996 Ian Jackson. Toto je volnì ¹iøitelné programové\n"
-#~ "vybavení; podrobnosti o pravidlech kopírování naleznete v Obecné veøejné\n"
-#~ "licenci GNU (GNU General Public Licence) verze 2 nebo pozdìj¹í. Toto "
-#~ "programové\n"
-#~ "vybavení je absolutnì bez záruky. Pou¾itím dpkg-deb --licence získáte "
-#~ "více\n"
-#~ "informací.\n"
-
-#~ msgid ""
-#~ "? = help menu    Space = exit help    . = next help    or a help page key "
-#~ msgstr ""
-#~ "? = nabídka nápovìdy   mezerník = opus» nápovìdu   . = následující "
-#~ "nápovìda "
-
-#~ msgid "failed to exec dpkg-deb"
-#~ msgstr "nepovedené spu¹tìní dpkg-deb"
-
-#~ msgid "%s: read error on stdin\n"
-#~ msgstr "%s: chyba pøi ètení ze stdin\n"

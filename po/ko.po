@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.10.22\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-19 19:52+0100\n"
-"PO-Revision-Date: 2004-06-26 22:54+0900\n"
+"POT-Creation-Date: 2004-10-27 09:08+0000\n"
+"PO-Revision-Date: 2004-10-25 08:56+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <cwryu@debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -55,6 +55,76 @@ msgstr "시스템 오류 %d번"
 #, c-format
 msgid "Signal no.%d"
 msgstr "시그널 %d번"
+
+#: lib/compression.c:45
+#, fuzzy, c-format
+msgid "%s: internal gzip error: `%s'"
+msgstr "%s:%d: 내부 오류 `%s' 발생했습니다\n"
+
+#: lib/compression.c:60
+#, fuzzy, c-format
+msgid "%s: failed to exec gzip -dc"
+msgstr "gzip -dc를 닫는 데 실패했습니다"
+
+#: lib/compression.c:76
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: `%s'"
+msgstr "%s:%d: 내부 오류 `%s' 발생했습니다\n"
+
+#: lib/compression.c:91
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 -dc"
+msgstr "gzip -dc를 닫는 데 실패했습니다"
+
+#: lib/compression.c:94
+#, c-format
+msgid "%s: decompression"
+msgstr ""
+
+#: lib/compression.c:128
+#, fuzzy, c-format
+msgid "%s: internal gzip error: read: `%s'"
+msgstr "%s:%d: 내부 오류 `%s' 발생했습니다\n"
+
+#: lib/compression.c:138
+#, fuzzy, c-format
+msgid "%s: internal gzip error: write: `%s'"
+msgstr "%s:%d: 내부 오류 `%s' 발생했습니다\n"
+
+#: lib/compression.c:141
+#, c-format
+msgid "%s: internal gzip error: read(%i) != write(%i)"
+msgstr ""
+
+#: lib/compression.c:157
+#, fuzzy, c-format
+msgid "%s: failed to exec gzip %s"
+msgstr "%s 실행이 실패했습니다"
+
+#: lib/compression.c:171
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: read: `%s'"
+msgstr "%s:%d: 내부 오류 `%s' 발생했습니다\n"
+
+#: lib/compression.c:181
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: write: `%s'"
+msgstr "%s:%d: 내부 오류 `%s' 발생했습니다\n"
+
+#: lib/compression.c:184
+#, c-format
+msgid "%s: internal bzip2 error: read(%i) != write(%i)"
+msgstr ""
+
+#: lib/compression.c:200
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 %s"
+msgstr "%s 실행이 실패했습니다"
+
+#: lib/compression.c:203
+#, c-format
+msgid "%s: compression"
+msgstr ""
 
 #: lib/database.c:125
 #, c-format
@@ -886,7 +956,7 @@ msgstr ""
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: main/archives.c:496 dpkg-deb/build.c:368
+#: main/archives.c:496 dpkg-deb/build.c:314
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "`%.255s'을(를) 만들 수 없습니다"
@@ -977,7 +1047,7 @@ msgid ""
 " package %s, to enable removal of %s.\n"
 msgstr ""
 "dpkg: 경고 - 꼭 필요한 꾸러미 %s의 설정 해제 고려\n"
-" (%s의 삭제를 위해).\n"
+" (%s의 지우기를 위해).\n"
 
 #: main/archives.c:655
 #, c-format
@@ -986,7 +1056,7 @@ msgid ""
 " it in order to enable removal of %s.\n"
 msgstr ""
 "dpkg: 아니오, 꼭 필요한 %s 꾸러미는 설정 해제하지 않습니다\n"
-" (%s의 삭제를 위해).\n"
+" (%s의 지우기를 위해).\n"
 
 #: main/archives.c:668
 #, c-format
@@ -1628,7 +1698,7 @@ msgid ""
 "the packages can be removed using dselect or dpkg --remove:\n"
 msgstr ""
 "다음 꾸러미는 일부만 설치되었습니다. 아마도 설치할 때 문제가\n"
-"발생하였을 것입니다. 설치를 재시도하면 아마도 완료될 것입니다;\n"
+"발생하였을 것입니다. 설치를 재시도하면 아마도 완료될 것입니다.\n"
 "dselect나 dpkg --remote를 사용하여 꾸러미를 지울 수도 있습니다:\n"
 
 #: main/enquiry.c:121
@@ -1963,7 +2033,7 @@ msgstr "postinst 실패로 망가진 상태입니다"
 
 #: main/help.c:44 dselect/pkgdisplay.cc:55
 msgid "installed"
-msgstr "설치했습니다"
+msgstr "설치함"
 
 #: main/help.c:45
 msgid "broken due to failed removal"
@@ -2092,7 +2162,7 @@ msgid ""
 "later for copying conditions.  There is NO warranty.\n"
 "See "
 msgstr ""
-"자유 소프트웨어입니다; 복사 조건은 GNU General Public License 버전 2\n"
+"자유 소프트웨어입니다.  복사 조건은 GNU General Public License 버전 2\n"
 "혹은 그 이후 버전을 참고하십시오.  어떠한 보증도 하지 않습니다.\n"
 " "
 
@@ -2228,8 +2298,8 @@ msgstr ""
 "  --abort-after <n>              <n>개의 오류가 발생하면 중단\n"
 "\n"
 "--compare-versions에 대한 비교 연산자는 다음과 같습니다:\n"
-" lt le eq ne ge gt       (버전이 없으면 어떤 버전보다도 앞 버전);\n"
-" lt-nl le-nl ge-nl gt-nl (버전이 없으면 어떤 버전보다도 뒤 버전);\n"
+" lt le eq ne ge gt       (버전이 없으면 어떤 버전보다도 앞 버전).\n"
+" lt-nl le-nl ge-nl gt-nl (버전이 없으면 어떤 버전보다도 뒤 버전).\n"
 " < << <= = >= >> >       (control 파일의 문법과 호환되기 위한 연산자).\n"
 "\n"
 "사용하기 편리한 꾸러미 관리를 위해 `dselect'를 사용하십시오.\n"
@@ -2247,7 +2317,7 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through `less' or "
 "`more' !"
 msgstr ""
-"꾸러미 설치 및 지우기 대해 도움말을 보려면 dpkg --help를 실행하십시오 [*];\n"
+"꾸러미 설치 및 지우기 대해 도움말을 보려면 dpkg --help를 실행하십시오 [*].\n"
 "이용하기 편리한 꾸러미 관리 시스템을 이용하려면 dselect를 사용하십시오.\n"
 "dpkg 디버그 플래그 값을 보려면 dpkg -Dhelp를 입력하십시오.\n"
 "강제 옵션에 대해 알아보려면 dpkg --force-help를 입력하십시오.\n"
@@ -2256,7 +2326,7 @@ msgstr ""
 "[*]표로 표시된 옵션은 출력되는 내용이 많습니다. - `less'나 `more'를 이용하십"
 "시오!"
 
-#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:157 split/main.c:146
+#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:162 split/main.c:146
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "--%s 명령과 --%s 명령은 충돌합니다"
@@ -2319,7 +2389,7 @@ msgstr ""
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends 옵션에는 올바른 꾸러미 이름이 필요합니다. `%.250s' 꾸러미는 "
-"올바르지 않습니다; %s"
+"올바르지 않습니다: %s"
 
 #: main/main.c:263 main/main.c:274
 #, c-format
@@ -2438,7 +2508,7 @@ msgstr "`%i' 파일디스크립터를 스트림으로 열 수 없습니다"
 msgid "unexpected eof before end of line %d"
 msgstr "%d번째 줄이 끝나기 전에 예상치 못하게 파일이 끝났습니다"
 
-#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:169
+#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:185
 #: split/main.c:159
 msgid "need an action option"
 msgstr "명령 옵션이 필요합니다"
@@ -2516,7 +2586,7 @@ msgstr " 꾸러미는 설치하지 않았습니다.\n"
 #.
 #: main/packages.c:395
 msgid "; however:\n"
-msgstr "; 하지만:\n"
+msgstr ": 하지만:\n"
 
 #: main/processarc.c:102
 msgid "cannot access archive"
@@ -3118,7 +3188,7 @@ msgid ""
 "Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
 "\n"
 msgstr ""
-"꾸러미 질의에 관한 도움말은 --help 옵션을 사용하십시오;\n"
+"꾸러미 질의에 관한 도움말은 --help 옵션을 사용하십시오.\n"
 "저작권 및 보증 없음에 관한 (GNU GPL) 정보는 --license 옵션을 사용하십시오.\n"
 "\n"
 
@@ -3127,50 +3197,25 @@ msgstr ""
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - 오류: %s(`%s')에는 숫자가 들어 있지 않습니다\n"
 
-#: dpkg-deb/build.c:166
-#, c-format
-msgid "%s: no compression copy loop"
-msgstr "%s: 압축하지 않는 복사 루프"
-
-#: dpkg-deb/build.c:176
-#, c-format
-msgid "%s: internal gzip error: read: `%s'"
-msgstr "%s: 내부 gzip 오류: 읽기: `%s'"
-
-#: dpkg-deb/build.c:186
-#, c-format
-msgid "%s: internal gzip error: write: `%s'"
-msgstr "%s: 내부 gzip 오류: 쓰기: `%s'"
-
-#: dpkg-deb/build.c:189
-#, c-format
-msgid "%s: internal gzip error: read(%i) != write(%i)"
-msgstr "%s: 내부 gzip 오류: 읽기(%i) != 쓰기(%i)"
-
-#: dpkg-deb/build.c:196
-#, c-format
-msgid "%s: failed to exec gzip %s"
-msgstr "%s: gzip %s 실행이 실패했습니다"
-
 #. Decode our arguments
-#: dpkg-deb/build.c:224
+#: dpkg-deb/build.c:170
 msgid "--build needs a directory argument"
 msgstr "--build 옵션은 디렉토리 인수가 필요합니다"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:179
 msgid "--build takes at most two arguments"
 msgstr "--build 옵션은 최대 두 개의 인수를 받습니다"
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:183
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "`%.250s' 아카이브가 있는 지 여부를 검사할 수 없습니다"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:198
 msgid "target is directory - cannot skip control file check"
 msgstr "대상이 디렉토리입니다 - 컨트롤 파일 검사를 건너 뛸 수 없습니다"
 
-#: dpkg-deb/build.c:253
+#: dpkg-deb/build.c:199
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -3179,43 +3224,43 @@ msgstr ""
 "dpkg-deb: 경고, 컨트롤 영역의 내용을 검사하지 않습니다.\n"
 "dpkg-deb: `%s'에 알 수 없는 꾸러미를 만듭니다.\n"
 
-#: dpkg-deb/build.c:271
+#: dpkg-deb/build.c:217
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "꾸러미 이름에 영문 소문자나 숫자나 `-+.'이 아닌 문자가 들어 있습니다"
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:219
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr "경고, '%s'에 사용자 정의 우선순위 값 `%s'이(가) 들어 있습니다.\n"
 
-#: dpkg-deb/build.c:278
+#: dpkg-deb/build.c:224
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "경고, '%s'에 사용자 정의 필드 `%s'이(가) 들어 있습니다.\n"
 
-#: dpkg-deb/build.c:284
+#: dpkg-deb/build.c:230
 #, c-format
 msgid "%d errors in control file"
 msgstr "컨트롤 파일에 %d개의 오류가 발생했습니다"
 
-#: dpkg-deb/build.c:295
+#: dpkg-deb/build.c:241
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: `%s' 꾸러미 빌드하는 중입니다 (`%s'에서).\n"
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:249
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "컨트롤 디렉토리의 권한이 잘못되었습니다 : %03lo (>=0755 및 <=0775이어야 합니"
 "다)"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:260
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "관리자 스크립트 `%.50s'은(는) 일반 파일이 아니거나 심볼릭 링크입니다"
 
-#: dpkg-deb/build.c:316
+#: dpkg-deb/build.c:262
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3224,16 +3269,16 @@ msgstr ""
 "관리자 스크립트 `%.50s'의 권한이 잘못되었습니다 : %03lo (>=0555 및 <=0775이어"
 "야 합니다)"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:266
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "관리자 스크립트 `%.50s'의 정보를 읽을 수 없습니다"
 
-#: dpkg-deb/build.c:330
+#: dpkg-deb/build.c:276
 msgid "empty string from fgets reading conffiles"
 msgstr "정보 파일을 읽는 fgets에서 빈 문자열을 리턴했습니다"
 
-#: dpkg-deb/build.c:332
+#: dpkg-deb/build.c:278
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3241,110 +3286,119 @@ msgstr ""
 "경고, 설정파일의 이름(`%.50s...')이 너무 길거나 마지막에 줄바꿈 문자가 빠졌습"
 "니다\n"
 
-#: dpkg-deb/build.c:344
+#: dpkg-deb/build.c:290
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "`%.250s' 설정파일이 꾸러미 안에 없습니다"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:292
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "`%.250s' 설정 파일의 정보를 읽을 수 없습니다"
 
-#: dpkg-deb/build.c:348
+#: dpkg-deb/build.c:294
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "경고, `%.250s' 설정 파일이 일반 파일이 아닙니다\n"
 
-#: dpkg-deb/build.c:353
+#: dpkg-deb/build.c:299
 msgid "error reading conffiles file"
 msgstr "conffile 파일을 읽는 데 오류가 발생했습니다"
 
-#: dpkg-deb/build.c:356
+#: dpkg-deb/build.c:302
 msgid "error opening conffiles file"
 msgstr "conffile 파일을 여는 데 오류가 발생했습니다"
 
-#: dpkg-deb/build.c:359
+#: dpkg-deb/build.c:305
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: 컨트롤 파일과 관련된 %d개의 경고를 무시합니다\n"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:315
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "`%.255s'의 버퍼를 없앨 수 없습니다"
 
-#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
+#: dpkg-deb/build.c:320 dpkg-deb/build.c:393 dpkg-deb/build.c:414
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "`%.255s' 디렉토리로 이동하는 데 실패했습니다"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:321
 msgid "failed to chdir to .../DEBIAN"
 msgstr ".../DEBIAN 디렉토리로 이동하는 데 실패했습니다"
 
-#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
+#: dpkg-deb/build.c:322 dpkg-deb/build.c:395
 msgid "failed to exec tar -cf"
 msgstr "tar -cf 실행에 실패했습니다"
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:328
 msgid "failed to make tmpfile (control)"
 msgstr "임시파일을 만드는 데 실패했습니다 (컨트롤)"
 
-#: dpkg-deb/build.c:383
+#: dpkg-deb/build.c:329
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "임시파일을 여는 데 실패했습니다 (컨트롤), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:332
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "임시파일을 지우는 데 실패했습니다 (컨트롤), %s"
 
-#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
+#: dpkg-deb/build.c:340 dpkg-deb/build.c:369
 msgid "control"
 msgstr "컨트롤"
 
-#: dpkg-deb/build.c:399
+#: dpkg-deb/build.c:345
 msgid "failed to fstat tmpfile (control)"
 msgstr "임시파일의 정보를 읽는 데 실패했습니다 (컨트롤)"
 
-#: dpkg-deb/build.c:422
+#: dpkg-deb/build.c:368
 msgid "failed to rewind tmpfile (control)"
 msgstr "임시파일의 앞으로 이동하는 데 실패했습니다 (컨트롤)"
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:376
 msgid "failed to make tmpfile (data)"
 msgstr "임시파일을 만드는 데 실패했습니다 (데이터)"
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:377
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "임시파일을 여는 데 실패했습니다 (데이터), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:380
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "임시파일을 지우는 데 실패했습니다 (데이터), %s"
 
-#: dpkg-deb/build.c:470
+#: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
+msgid "data"
+msgstr "데이터"
+
+#: dpkg-deb/build.c:416
 msgid "failed to exec find"
 msgstr "find 실행이 실패했습니다"
 
-#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
+#: dpkg-deb/build.c:427 dpkg-deb/build.c:434
 msgid "failed to write filename to tar pipe (data)"
 msgstr "파일이름을 tar 파이프에 쓰는 데 실패했습니다 (데이터)"
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:448
+#, c-format
+msgid "Internal error, compress_type `%i' unknown!"
+msgstr "내부 오류, 압축 종류 `%i' 알 수 없습니다!"
+
+#: dpkg-deb/build.c:460
 msgid "failed to rewind tmpfile (data)"
 msgstr "임시파일의 앞으로 이동하는 데 실패했습니다 (데이터)"
 
-#: dpkg-deb/build.c:506
+#: dpkg-deb/build.c:461
 msgid "cat (data)"
 msgstr "cat (데이터)"
 
@@ -3374,54 +3428,54 @@ msgstr ""
 "`%1$.250s' 파일이 손상되었습니다 - %3$s에서 숫자가 잘못되었습니다 (코드 %2"
 "$d)."
 
-#: dpkg-deb/extract.c:108
+#: dpkg-deb/extract.c:104
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "`%.255s' 아카이브를 읽는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:109
+#: dpkg-deb/extract.c:105
 msgid "failed to fstat archive"
 msgstr "아카이브 파일의 정보를 읽는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:110
+#: dpkg-deb/extract.c:106
 msgid "version number"
 msgstr "버전 번호"
 
-#: dpkg-deb/extract.c:119
+#: dpkg-deb/extract.c:115
 msgid "between members"
 msgstr "멤버"
 
-#: dpkg-deb/extract.c:121 split/info.c:95
+#: dpkg-deb/extract.c:117 split/info.c:95
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "`%.250s' 파일이 손상되었습니다 - 첫번째 헤더의 끝에 버전 번호가 틀렸습니다"
 
-#: dpkg-deb/extract.c:125
+#: dpkg-deb/extract.c:121
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "`%.250s' 파일이 손상되었습니다 - 멤버 크기(%zi)가 음수입니다"
 
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:125
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr ""
 "`%.250s' 파일은 데비안 바이너리 아카이브가 아닙니다 (dpkg-split을 시도해 보십"
 "시오?)"
 
-#: dpkg-deb/extract.c:132
+#: dpkg-deb/extract.c:128
 msgid "header info member"
 msgstr "헤더 정보 멤버"
 
-#: dpkg-deb/extract.c:135
+#: dpkg-deb/extract.c:131
 msgid "archive has no newlines in header"
 msgstr "아카이브의 헤더에 줄바꿈이 없습니다"
 
-#: dpkg-deb/extract.c:138
+#: dpkg-deb/extract.c:134
 msgid "archive has no dot in version number"
 msgstr "아카이브의 버전 번호에 점이 없습니다"
 
-#: dpkg-deb/extract.c:141
+#: dpkg-deb/extract.c:137
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr ""
@@ -3431,23 +3485,23 @@ msgstr ""
 #. Members with `_' are noncritical, and if we don't understand them
 #. * we skip them.
 #.
-#: dpkg-deb/extract.c:150 dpkg-deb/extract.c:168
+#: dpkg-deb/extract.c:146 dpkg-deb/extract.c:175
 #, c-format
 msgid "skipped member data from %s"
 msgstr "%s에서 멤버 데이터를 건너 뜁니다"
 
-#: dpkg-deb/extract.c:159
+#: dpkg-deb/extract.c:165
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr ""
 "`%.250s' 파일에 이해할 수 없는 데이터 멤버(%.*s)가 있습니다. 포기합니다"
 
-#: dpkg-deb/extract.c:164
+#: dpkg-deb/extract.c:171
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "`%.250s' 파일에 두 개의 컨트롤 멤버가 있습니다. 포기합니다"
 
-#: dpkg-deb/extract.c:176
+#: dpkg-deb/extract.c:183
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3456,16 +3510,16 @@ msgstr ""
 " 새 데비안 꾸러미, 버전 %s.\n"
 " 크기 %ld바이트: 컨트롤 아카이브= %zi바이트\n"
 
-#: dpkg-deb/extract.c:188
+#: dpkg-deb/extract.c:195
 msgid "ctrl information length"
 msgstr "컨트롤 정보 길이"
 
-#: dpkg-deb/extract.c:190
+#: dpkg-deb/extract.c:197
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
 msgstr "아카이브에 컨트롤 길이 `%s'의 형식이 틀렸습니다"
 
-#: dpkg-deb/extract.c:193
+#: dpkg-deb/extract.c:200
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -3474,11 +3528,11 @@ msgstr ""
 " 옛날 데비안 꾸러미, 버전 %s.\n"
 " 크기 %ld바이트: 컨트롤 아카이브= %zi, 주 아카이브= %ld.\n"
 
-#: dpkg-deb/extract.c:202
+#: dpkg-deb/extract.c:209
 msgid "ctrlarea"
 msgstr "컨트롤영역"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:215
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3487,74 +3541,65 @@ msgstr ""
 "dpkg-deb: 파일이 마치 ASCII 모드로 내려받는 과정에서\n"
 "dpkg-deb:    손상된 아카이브로 보입니다\n"
 
-#: dpkg-deb/extract.c:213
+#: dpkg-deb/extract.c:220
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "`%.255s'은(는) 데비안 형식의 아카이브가 아닙니다"
 
-#: dpkg-deb/extract.c:218
+#: dpkg-deb/extract.c:225
 msgid "fgetpos failed"
 msgstr "fgetpos가 실패했습니다"
 
-#: dpkg-deb/extract.c:222
+#: dpkg-deb/extract.c:229
 msgid "fsetpos failed"
 msgstr "fsetpos가 실패했습니다"
 
-#: dpkg-deb/extract.c:229
+#: dpkg-deb/extract.c:236
 msgid "failed to fdopen p1 in paste"
 msgstr "붙여 넣기에서 fdopen p1이 실패했습니다"
 
-#: dpkg-deb/extract.c:231
+#: dpkg-deb/extract.c:238
 msgid "failed to write to gzip -dc"
 msgstr "gzip -dc에 쓰는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:232
+#: dpkg-deb/extract.c:239
 msgid "failed to close gzip -dc"
 msgstr "gzip -dc를 닫는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:246
 msgid "failed to syscall lseek to files archive portion"
 msgstr "파일 아카이브 위치로 lseek 시스템 콜이 실패했습니다"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:254
 msgid "failed to write to pipe in copy"
 msgstr "복사할 때 파이프에 쓰는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:248
+#: dpkg-deb/extract.c:255
 msgid "failed to close pipe in copy"
 msgstr "복사할 때 파이프를 닫는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:271
-#, c-format
-msgid "internal gzip error: `%s'"
-msgstr "내부 gzip 오류가 발생했습니다: `%s'"
-
-#: dpkg-deb/extract.c:277
-msgid "failed to exec gzip -dc"
-msgstr "gzip -dc 실행이 실패했습니다"
-
-#: dpkg-deb/extract.c:286
+#: dpkg-deb/extract.c:276
 msgid "failed to create directory"
 msgstr "디렉토리를 만드는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:287
+#: dpkg-deb/extract.c:277
 msgid "failed to chdir to directory after creating it"
 msgstr "디렉토리를 만든 다음에 거기로 이동하는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:289
+#: dpkg-deb/extract.c:279
 msgid "failed to chdir to directory"
 msgstr "디렉토리로 이동하는 데 실패했습니다"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:293
 msgid "failed to exec tar"
 msgstr "tar 실행이 실패했습니다"
 
-#: dpkg-deb/extract.c:326 dpkg-deb/extract.c:341 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:316 dpkg-deb/extract.c:331 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s 옵션에는 .deb 파일이름 인수가 필요합니다"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:319
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3563,12 +3608,12 @@ msgstr ""
 "--%s 옵션에는 대상 디렉토리가 필요합니다.\n"
 "혹시 dpkg --install을 하려고 했던 것 아닌가요?"
 
-#: dpkg-deb/extract.c:332
+#: dpkg-deb/extract.c:322
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s 옵션에는 최대 두 개의 인수를 받습니다 (.deb 및 디렉토리)"
 
-#: dpkg-deb/extract.c:343
+#: dpkg-deb/extract.c:333
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s 옵션에는 오직 한 개의 인수만 받습니다 (.deb 파일이름)"
@@ -3688,7 +3733,7 @@ msgid ""
 "later for copying conditions. There is NO warranty.\n"
 "See dpkg-deb --licence for details.\n"
 msgstr ""
-"자유 소프트웨어입니다; 복사 조건에 관해서는 GNU General Public License\n"
+"자유 소프트웨어입니다.  복사 조건에 관해서는 GNU General Public License\n"
 "version 2를 보십시오.  어떤 보증도 하지 않습니다.\n"
 "저작권 관련 정보를 보려면 dpkg --licence를 참고하십시오.\n"
 
@@ -3718,6 +3763,8 @@ msgid ""
 "  --nocheck                  suppress control file check (build bad "
 "package).\n"
 "  -z# to set the compression when building\n"
+"  -Z<type>                   set the compression type to use when building.\n"
+"                             allowed values: gzip, bzip2, none\n"
 "\n"
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
@@ -3756,7 +3803,9 @@ msgstr ""
 "  --old, --new               아카이브 형식을 지정합니다\n"
 "  --nocheck                  컨트롤 파일 검사를 하지 않습니다 (불량 꾸러미 만"
 "들기).\n"
-"  -z# 옵션은 아카이브를 만들 때 압축 레벨을 지정합니다.\n"
+"  -z# 옵션은 빌드할 때 압축 정도를 지정합니다\n"
+"  -Z<type>                   빌드할 때 압축 종류를 설정합니다.\n"
+"                             사용할 수 있는 값은: gzip, bzip2, none\n"
 "\n"
 "형식 문법:\n"
 "  형식은 각 패키지마다 출력되는 문자열입니다. 형식에는 \\n(줄바꿈), \\r(캐리"
@@ -3771,13 +3820,18 @@ msgstr ""
 "좀 더 사용하기 쉬운 꾸러미 관리자를 쓰려면 `dselect'를 사용하십시오.\n"
 "`dpkg-deb --extract'로 압축을 푼 꾸러미는 올바르지 않게 설치될 것입니다!\n"
 
-#: dpkg-deb/main.c:98
+#: dpkg-deb/main.c:100
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
-"*.deb 파일 조작에 관한 도움말을 보려면 dpkg-deb --help를 실행하십시오;\n"
+"*.deb 파일 조작에 관한 도움말을 보려면 dpkg-deb --help를 실행하십시오.\n"
 "꾸러미 설치와 설치 해제에 관한 도움말을 보려면 dpkg --help를 실행하십시오."
+
+#: dpkg-deb/main.c:176
+#, c-format
+msgid "unknown compression type `%s'!"
+msgstr "알 수 없는 압축 종류 `%s'!"
 
 #: split/info.c:64
 #, c-format
@@ -3952,7 +4006,7 @@ msgid ""
 "GNU General Public Licence version 2 or later for copying conditions.\n"
 "There is NO warranty.  See dpkg-split --licence for details.\n"
 msgstr ""
-"Copyright (C) 1994-1996 Ian Jackson.  자유 소프트웨어입니다; 복사 조건에\n"
+"Copyright (C) 1994-1996 Ian Jackson.  자유 소프트웨어입니다.  복사 조건에\n"
 "관해서는 GNU General Public License version 2 혹은 그 이후 버전을 보십시"
 "오.  \n"
 "어떤 보증도 하지 않습니다.  자세한 사항을 보려면 dpkg-split --licence를\n"
@@ -4000,7 +4054,7 @@ msgstr ""
 "       -Q|--npquiet            (-a에서 구성 요소가 아닌 경우에 조용히)\n"
 "       --msdos                 (8.3 형식의 파일이름 만들기)\n"
 "\n"
-"끝내기 상태값: 0 = 이상 없음;  1 = -a에서 구성 요소가 아님;  2 = 문제 발생!\n"
+"끝내기 상태값: 0 = 이상 없음, 1 = -a에서 구성 요소가 아님, 2 = 문제 발생!\n"
 
 #: split/main.c:70
 msgid "Type dpkg-split --help for help."
@@ -4257,15 +4311,14 @@ msgstr ""
 
 #: dselect/basecmds.cc:184
 msgid "Help information is available under the following topics:"
-msgstr "도움말 정보는 다음 주제들 아래에 있습니다:"
+msgstr "다음 주제에 대한 도움말 정보가 있습니다:"
 
 #: dselect/basecmds.cc:192
 msgid ""
 "Press a key from the list above, <enter>, `q' or `Q' to exit help,\n"
 "  or <space> to read each help page in turn. "
 msgstr ""
-"위의 목록에 따라 키를 누르십시오. 도움말을 나가려면 <enter>, `q', 혹은 `Q' 키"
-"를,\n"
+"위의 목록에 따라 키를 누르십시오. 도움말을 나가려면 <enter>, `q', 혹은 `Q',\n"
 "  각 도움말 페이지를 순서대로 읽으려면 <스페이스> 키를 누르십시오."
 
 #: dselect/basecmds.cc:198
@@ -4353,13 +4406,13 @@ msgid ""
 msgstr ""
 "baselist::startdisplay() 완료 ...\n"
 "\n"
-" xmax=%d, ymax=%d;\n"
+" xmax=%d, ymax=%d,\n"
 "\n"
-" title_height=%d, colheads_height=%d, list_height=%d;\n"
-" thisstate_height=%d, info_height=%d, whatinfo_height=%d;\n"
+" title_height=%d, colheads_height=%d, list_height=%d,\n"
+" thisstate_height=%d, info_height=%d, whatinfo_height=%d,\n"
 "\n"
-" colheads_row=%d, thisstate_row=%d, info_row=%d;\n"
-" whatinfo_row=%d, list_row=%d;\n"
+" colheads_row=%d, thisstate_row=%d, info_row=%d,\n"
+" whatinfo_row=%d, list_row=%d,\n"
 "\n"
 
 #: dselect/baselist.cc:259
@@ -4534,11 +4587,11 @@ msgstr "a"
 
 #: dselect/main.cc:139
 msgid "[A]ccess"
-msgstr "설치 방법 [A]"
+msgstr "설치방법(A)"
 
 #: dselect/main.cc:139
 msgid "Choose the access method to use."
-msgstr "사용할 설치 방법을 선택합니다."
+msgstr "설치 방법을 선택합니다."
 
 #: dselect/main.cc:140
 msgid "u"
@@ -4546,11 +4599,11 @@ msgstr "u"
 
 #: dselect/main.cc:140
 msgid "[U]pdate"
-msgstr "업데이트 [U]"
+msgstr "업데이트(U)"
 
 #: dselect/main.cc:140
 msgid "Update list of available packages, if possible."
-msgstr "이용가능한 꾸러미 목록을 업데이트합니다 (가능하다면)."
+msgstr "이용 가능한 꾸러미 목록을 업데이트합니다."
 
 #: dselect/main.cc:141
 msgid "s"
@@ -4558,7 +4611,7 @@ msgstr "s"
 
 #: dselect/main.cc:141
 msgid "[S]elect"
-msgstr "선택 [S]"
+msgstr "선택(S)"
 
 #: dselect/main.cc:141
 msgid "Request which packages you want on your system."
@@ -4570,7 +4623,7 @@ msgstr "i"
 
 #: dselect/main.cc:142
 msgid "[I]nstall"
-msgstr "설치 [I]"
+msgstr "설치(I)"
 
 #: dselect/main.cc:142
 msgid "Install and upgrade wanted packages."
@@ -4582,7 +4635,7 @@ msgstr "c"
 
 #: dselect/main.cc:143
 msgid "[C]onfig"
-msgstr "설정 [C]"
+msgstr "설정(C)"
 
 #: dselect/main.cc:143
 msgid "Configure any packages that are unconfigured."
@@ -4594,7 +4647,7 @@ msgstr "r"
 
 #: dselect/main.cc:144
 msgid "[R]emove"
-msgstr "지우기 [R]"
+msgstr "지우기(R)"
 
 #: dselect/main.cc:144
 msgid "Remove unwanted software."
@@ -4606,7 +4659,7 @@ msgstr "q"
 
 #: dselect/main.cc:145
 msgid "[Q]uit"
-msgstr "끝내기 [Q]"
+msgstr "끝내기(Q)"
 
 #: dselect/main.cc:145
 msgid "Quit dselect."
@@ -4634,7 +4687,7 @@ msgstr ""
 "버전 %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
 "Copyright (C) 2000 Wichert Akkerman.\n"
-"자유 소프트웨어입니다; 복사 조건에 관해서는 GNU General Public License\n"
+"자유 소프트웨어입니다.  복사 조건에 관해서는 GNU General Public License\n"
 "version 2를 보십시오.  어떤 보증도 하지 않습니다.\n"
 "자세한 사항을 보려면 dselect --licence를 실행하십시오.\n"
 
@@ -4726,8 +4779,8 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"^P 및 ^N, 커서 키, 첫 글자 혹은 숫자로 이동할 수 있습니다;\n"
-"선택에 대해 확인하려면 <enter> 키를 누르십시오.   ^L은 화면을 다시 그립니"
+"^P 및 ^N, 커서 키, 단축키 혹은 숫자로 이동할 수 있습니다.\n"
+"선택한 항목으로 들어가려면 <enter> 키를 누르십시오.   ^L은 화면을 다시 그립니"
 "다.\n"
 
 #: dselect/main.cc:399
@@ -5106,7 +5159,7 @@ msgstr "꾸러미는 다음 꾸러미를 추천:"
 
 #: dselect/pkgdisplay.cc:73
 msgid "depends on"
-msgstr "꾸머리는 다음 꾸러미에 의존:"
+msgstr "꾸러미는 다음 꾸러미에 의존:"
 
 #: dselect/pkgdisplay.cc:74
 msgid "pre-depends on"
@@ -5122,7 +5175,7 @@ msgstr "꾸러미는 다음 꾸러미의 기능을 제공:"
 
 #: dselect/pkgdisplay.cc:77
 msgid "replaces"
-msgstr "꾸머리는 다음 꾸러미를 대치:"
+msgstr "꾸러미는 다음 꾸러미를 대치:"
 
 #: dselect/pkgdisplay.cc:78
 msgid "enhances"
@@ -5174,7 +5227,7 @@ msgstr "새로움"
 
 #: dselect/pkgdisplay.cc:99
 msgid "Updated"
-msgstr "업데이트"
+msgstr "업데이트한"
 
 #: dselect/pkgdisplay.cc:100
 msgid "Obsolete/local"
@@ -5206,7 +5259,7 @@ msgstr "업데이트한 꾸러미 (새로운 버전이 있음)"
 
 #: dselect/pkgdisplay.cc:107
 msgid "Obsolete and local packages present on system"
-msgstr "오래되거나 시스템에 존재하는 로컬 꾸러미"
+msgstr "시스템에 있지만 오래전 꾸러미 및 로컬 꾸러미"
 
 #: dselect/pkgdisplay.cc:108
 msgid "Up to date installed packages"
@@ -5315,8 +5368,8 @@ msgid ""
 "You can use `o' and `O' to change the sort order and give yourself the "
 "opportunity to mark packages in different kinds of groups."
 msgstr ""
-"반전 막대가 있는 줄은 많은 꾸러미에 영향을 미칩니다; 설치, 지우기, 고정 등을 "
-"요청하면 거기에 해당되는 꾸러미 모두가 영향을 받습니다.\n"
+"반전 막대가 있는 줄은 많은 꾸러미에 영향을 미칩니다.  설치, 지우기, 고정 등"
+"을 요청하면 거기에 해당되는 꾸러미 모두가 영향을 받습니다.\n"
 "\n"
 "반전 막대를 꾸러미가 위치한 줄로 옮기면 각 꾸러미에 대한 정보를 볼 수 있습니"
 "다.\n"
@@ -5421,7 +5474,7 @@ msgstr "%s %s 꾸러미 (%s 섹션)"
 #: dselect/pkgtop.cc:117
 #, c-format
 msgid "%-*s %s%s%s;  %s (was: %s).  %s"
-msgstr "%-*s %s%s%s;  %s (이전상태: %s).  %s"
+msgstr "%-*s %s%s%s,  %s (이전상태: %s).  %s"
 
 #: dselect/pkgtop.cc:269
 msgid "Error"
@@ -5515,14 +5568,14 @@ msgstr ""
 "\n"
 "나중에 처리할 꾸러미 표시:\n"
 " +, Insert  설치 혹은 업그레이드    =, H  현재 상태로 고정\n"
-" -, Delete  지우기                :, G  고정해제: 업그레이드 혹은 남겨둠\n"
-" _          지우기와 설정파일 깨끗이\n"
+" -, Delete  지우기                 :, G  고정해제: 업그레이드 혹은 남겨두기\n"
+" _          지우기 및 설정 깨끗이\n"
 "                                             그 외:\n"
-"끝내기, 나감, 덮어쓰기 (대문자임을 유의!):    ?, F1 도움말 요청 (혹은 Help)\n"
+"끝내기, 나감, 덮어쓰기 (대문자 유의!):        ?, F1 도움말 요청 (혹은 Help)\n"
 " Return  확인, 끝내기 (의존성 검사)           i, I  정보 화면 토글/순환\n"
 "   Q     확인, 끝내기 (의존성 무시)           o, O  정렬 옵션 순환\n"
-" X, Esc  나가기, 어떠한 바뀐 사항도 무시함    v, V  상태 표시 옵션 바꾸기\n"
-"   R     이 목록 전 상태로 되돌림              ^l   화면 다시 그림\n"
+" X, Esc  나가기, 어떠한 바뀐 사항도 무시      v, V  상태 표시 옵션 바꾸기\n"
+"   R     이 목록 전 상태로 되돌리기            ^l   화면 다시 그리기\n"
 "   U     모두 제안하는 상태로                   /   찾기 (취소하려면 Return\n"
 "   D     모두 직접 요청된 상태로                \\  마지막 찾기 반복\n"
 
@@ -5560,25 +5613,26 @@ msgid ""
 "\n"
 "Press <enter> to leave help and enter the list now.\n"
 msgstr ""
-"주 꾸러미 목록입니다.\n"
+"주요 꾸러미 목록입니다.\n"
 "\n"
-"여기에는 설치되었거나 설치할 수 있는 꾸러미 목록이 나타납니다.  커서키를\n"
+"여기에는 설치되었거나 설치할 수 있는 꾸러미의 목록이 나타납니다.  커서키를\n"
 "사용하여 목록을 살펴볼 수 있고, 설치(`+' 사용)나 설치해제(`-' 사용)를\n"
 "하도록 꾸러미에 표시할 수 있습니다.  꾸러미를 하나씩 표시할 수도 있고 그룹\n"
-"단위로 표시할 수도 있습니다; 최초에는 `모든 꾸러미' 줄이 선택되어 있습니다.\n"
+"단위로 표시할 수도 있습니다. 최초에는 `모든 꾸러미' 줄이 선택되어 있습니다.\n"
 "`+', `-' 등은 반전 막대에 해당되는 모든 꾸러미에 영향을 미칩니다.\n"
 "\n"
-"선택을 어떻게 하느냐에 따라 충돌이나 의존성 문제를 일으킬 수도 있습니다;\n"
-"이 경우 그 문제에 해당되는 꾸러미의 목록을 보게 됩니다. 그 안에서 문제를\n"
+"선택을 어떻게 하느냐에 따라 충돌이나 의존성 문제를 일으킬 수도 있습니다.\n"
+"이 경우 그 문제에 해당되는 꾸러미의 목록이 나타납니다. 그 안에서 문제를\n"
 "해결하면 됩니다.\n"
 "\n"
 "키 입력 방법 및 화면 구성에 대한 도움말을 읽어 보십시오.  다양한 온라인\n"
-"도움말을 볼 수 있으니 이용하십시오 - 언제든지 도움말이 필요하면 `?'를\n"
+"도움말을 볼 수 있으니 잘 이용하십시오 - 언제든지 도움말이 필요하면 `?'를\n"
 "누르십시오.\n"
 "\n"
 "꾸러미 선택을 마치면, <enter>를 눌러 해당 바뀐 사항을 확정하십시오.\n"
 "'Q'를 누르면 바뀐 사항을 저장하지 않고 마칩니다.  충돌이나 의존성에\n"
-"관해 마지막 검사를 하게 되고, 거기서도 관련된 꾸러미 목록이 나타납니다.\n"
+"관해 마지막 검사를 하게 되고, 거기에서도 그 충돌이나 의존성에 관련된\n"
+"꾸러미 목록이 나타납니다.\n"
 "\n"
 "<enter>를 누르시면 도움말을 나가서 꾸러미 목록으로 들어갑니다.\n"
 
@@ -5661,31 +5715,36 @@ msgid ""
 msgstr ""
 "의존성/충돌 해결 - 소개.\n"
 "\n"
-"선택하신 내용 중에서 하나 이상의 꾸러미에서 충돌이나 의존성 문제가\n"
-"발생했습니다 - 일부 꾸러미는 다른 꾸러미와 같이 설치되어야 하며\n"
-"꾸러미 사이에는 동시에 설치될 수 없는 꾸러미도ㄷ 있습니다.\n"
+"선택하신 내용 중에 하나 이상의 꾸러미에서 충돌이나 의존성 문제가 발생했습니"
+"다\n"
+"- 어떤 꾸러미는 어떤 꾸러미와 같이 설치해야 하기도 하고 동시에 설치할 수 없"
+"는\n"
+"꾸러미도 있습니다.\n"
 "\n"
-"관련된 꾸러미의 하위 목록이 나타날 것입니다. 화면 아래 부분에는 관련된\n"
-"충돌 및 의존성 문제가 나타납니다; `i' 키를 사용하면 꾸러미 설명 및\n"
-"내부 제어 정보도 여기에서 차례대로 볼 수 있습니다.\n"
+"이 문제와 관련된 꾸러미의 하위 목록이 나타날 것입니다. 화면 아래 부분을 보"
+"면\n"
+"관련된 충돌 및 의존성 문제가 있습니다.  `i' 키를 사용하면 꾸러미 설명 및 내"
+"부\n"
+"제어 정보도 여기에서 차례대로 볼 수 있습니다.\n"
 "\n"
-"`제안되는' 꾸러미가 계산되어, 이미 이 하위 목록에서 초기값으로 표시되어\n"
-"있습니다.  그러므로 Return키를 누르기만 하면 그 제안을 받아들이게 됩니다.\n"
-"문제가 되는 선택 사항을 취소하고 주 목록으로 돌아가려면, 대문자 `X'\n"
-"를 누르면 됩니다.\n"
+"`제안한' 꾸러미를 계산해서, 여기 하위 목록에서 이미 초기값으로 표시되어\n"
+"있습니다.  그러므로 Return키를 누르기만 하면 그 제안을 그대로 받아들이게\n"
+"됩니다.  문제가 된 선택 사항을 취소하고 주요 목록으로 돌아가려면, 대문자 "
+"`X'를\n"
+"누르면 됩니다.\n"
 "\n"
-"목록을 돌아다니면서 꾸러미 선택을 원하는 대로 바꿀 수 있습니다.\n"
-"또 제안된 내용을 거부하려면 대문자 `D'나 `R' 키를 누르면 됩니다\n"
-"(키 입력 도움말 화면을 참고).  대문자 `Q' 키를 누르면 현재\n"
-"표시된 상태를 강제로 받아들이게 됩니다.  추천된 사항이나 프로그램의\n"
-"실수라고 생각되는 부분까지도 무시하려면 `Q'를 사용하십시오.\n"
+"목록을 돌아다니면서 꾸러미 선택을 원하는 대로 바꿀 수 있습니다.  또 제안한\n"
+"내용을 거부하려면 대문자 `D'나 `R' 키를 누르면 됩니다 (키 입력 도움말\n"
+"화면을 참고).  대문자 `Q' 키를 누르면 현재 표시된 상태를 강제로 받아들이게\n"
+"됩니다.  추천한 사항이나 프로그램의 실수라고 생각되는 부분까지도 무시하려면\n"
+"`Q'를 사용하십시오.\n"
 "\n"
-"도움말에서 빠져나가서 하위 목록으로 들어가려면 <enter>키를 누르십시오;\n"
-"기억하세요; 도움이 필요하면 `?'키를 누르십시오.\n"
+"도움말에서 빠져나가서 하위 목록으로 들어가려면 <enter>키를 누르십시오.\n"
+"기억하세요.  도움이 필요하면 `?'키를 누르십시오.\n"
 
 #: dselect/helpmsgs.cc:100
 msgid "Display, part 1: package listing and status chars"
-msgstr "화면 구성, 첫번째: 꾸러미 목록 및 상태를 나타내는 문자"
+msgstr "화면 구성 첫번째: 꾸러미 목록 및 상태를 나타내는 문자"
 
 #: dselect/helpmsgs.cc:100
 msgid ""
@@ -5726,27 +5785,27 @@ msgstr ""
 "\n"
 " 오류 플래그: 공백 - 오류 없음 (꾸러미는 망가진 상태일 수도 있음 - 아래 참"
 "고)\n"
-"               `R' - 설치중에 심각한 오류, 다시 설치해야 함;\n"
-" 설치 상태:   공백 - 설치 안 함;\n"
-"               `*' - 설치함;\n"
-"                     `-'  - 설치되지 않았으나 설정 파일 남김;\n"
-"       다음 상태의 { `U'  - 압축 풀었지만 설정하지 않음;\n"
-"          꾸러미는 { `C'  - 일부만 설정됨 (오류 발생);\n"
-"       망가진 상태 { `I'  - 일부만 설치됨 (오류 발생).\n"
-" 과거 표시: 이 목록을 표시하기 전에 꾸러미에 대해 요청한 상태;\n"
+"               `R' - 설치중에 심각한 오류, 다시 설치해야 함.\n"
+" 설치 상태:   공백 - 설치 안 함.\n"
+"               `*' - 설치함.\n"
+"                     `-'  - 설치되지 않았으나 설정 파일 남김.\n"
+"       다음 상태의 { `U'  - 압축 풀었지만 설정하지 않음.\n"
+"          꾸러미는 { `C'  - 일부만 설정 (오류 발생).\n"
+"       망가진 상태 { `I'  - 일부만 설치 (오류 발생).\n"
+" 과거 표시: 이 목록을 표시하기 전에 꾸러미에 대해 요청한 상태.\n"
 " 표시: 이 꾸러미에 대해 요청한 상태:\n"
-"  `*': 설치 혹은 업그레이드 표시;\n"
-"  `-': 삭제 표시, 하지만 설정 파일 남기기;\n"
-"  `=': 고정: 꾸러미를 어떻게도 처리하지 않음;\n"
-"  `_': 완전히 지우기 표시 - 설정 파일도 지움;\n"
-"  `n': 아직 설치/삭제를 표시하지 않은 새로운 꾸러미.\n"
+"  `*': 설치 혹은 업그레이드 표시.\n"
+"  `-': 지우기 표시, 하지만 설정 파일 남기기.\n"
+"  `=': 고정: 꾸러미를 어떻게도 처리하지 않기.\n"
+"  `_': 완전히 지우기 표시 - 설정 파일도 지우기.\n"
+"  `n': 아직 설치/지우기를 표시하지 않은 새로운 꾸러미.\n"
 "\n"
 "각 꾸러미의 우선순위, 섹션, 이름, 설치된 버전과 사용 가능한 버전 (shift-V를\n"
 "누르면 보이기/숨기기) 및 요약된 설명을 표시합니다.\n"
 
 #: dselect/helpmsgs.cc:125
 msgid "Display, part 2: list highlight; information display"
-msgstr "화면 구성, 두번째: 반전 막대; 정보 표시"
+msgstr "화면 구성 두번째: 반전 막대, 정보 표시"
 
 #: dselect/helpmsgs.cc:125
 msgid ""
@@ -5774,28 +5833,32 @@ msgid ""
 "  Use the `i' key to cycle through the displays, and `I' to hide the\n"
 "  information display or expand it to use almost all of the screen.\n"
 msgstr ""
-"* 반전 막대: 꾸러미 목록에서 한 줄이 반전됩니다.  `+', `-' 및 `_'을\n"
-"  누르면 이 줄에 있는 꾸러미(혹은 꾸러미 그룹)에 표시를 합니다.\n"
+"* 반전 막대: 꾸러미 목록에서 한 줄이 반전됩니다.  `+', `-' 및 `_'을 누르면 "
+"이\n"
+"  줄에 있는 꾸러미(혹은 꾸러미 그룹)에 표시를 합니다.\n"
 "\n"
-"* 화면 가운데에 창을 구분하는 줄에는 현재 반전된 꾸러미의 상태에 대한\n"
-"  간략한 설명, 혹은 반전된 줄이 그룹이라면 그 그룹의 설명을 표시합니다.\n"
-"  상태 표시 문자가 무슨 뜻인지 잘 모르겠다면, 해당되는 꾸러미로 이동해서\n"
-"  이 구분하는 줄을 들여다 보십시오.  아니면 `v' 키를 눌러 자세한 설명을\n"
-"  보십시오 (다시 `v'를 누르면 간략한 설명으로 돌아갑니다).\n"
+"* 화면 가운데에 창을 구분하는 줄에는 현재 반전된 꾸러미의 상태에 대한 간략"
+"한\n"
+"  설명, 혹은 반전된 줄이 그룹이라면 그 그룹의 설명을 표시합니다.  상태 표시\n"
+"  문자가 무슨 뜻인지 잘 모르겠다면, 해당되는 꾸러미로 이동해서 이 구분하는\n"
+"  줄을 들여다 보십시오.  아니면 `v' 키를 눌러 자세한 설명을 보십시오 (다시\n"
+"  `v'를 누르면 간략한 설명으로 돌아갑니다).\n"
 "\n"
-"* 화면의 하단에는 현재 반전된 꾸러미의 정보가 더 많이 나타납니다 (꾸러미\n"
-"  한 개의 경우).\n"
+"* 화면의 하단에는 현재 반전된 꾸러미의 정보가 더 많이 나타납니다 (꾸러미 한\n"
+"  개의 경우).\n"
 "\n"
-"  여기에는 꾸러미의 자세한 설명, 꾸러미의 자세한 내부 정보 (설치된 버전\n"
-"  혹은 사용 가능한 버전), 혹은 충돌 및 의존성 정보를 표시할 수 있습니다 \n"
+"  여기에는 꾸러미의 자세한 설명, 꾸러미의 자세한 내부 정보 (설치된 버전 혹"
+"은\n"
+"  사용 가능한 버전), 혹은 충돌 및 의존성 정보를 표시할 수 있습니다\n"
 "  (충돌/의존성 해결 하위 목록의 경우).\n"
 "\n"
-"  `i' 키를 누르면 각각의 정보를 번갈아가면서 표시합니다.  `I' 키를 누르면\n"
-"  이 화면을 감추거나 정보 창을 크게 표시할 수도 있습니다.\n"
+"  `i' 키를 누르면 각각의 정보를 번갈아가면서 표시합니다.  `I' 키를 누르면 "
+"이\n"
+"  화면을 감추거나 정보 창을 크게 표시할 수도 있습니다.\n"
 
 #: dselect/helpmsgs.cc:148
 msgid "Introduction to method selection display"
-msgstr "설치 방법 선택 화면 구성 소개"
+msgstr "설치 방법 선택, 화면 구성 소개"
 
 #: dselect/helpmsgs.cc:148
 msgid ""
@@ -5820,25 +5883,25 @@ msgid ""
 "help\n"
 "menu reachable by pressing `?'.\n"
 msgstr ""
-"dselect와 dpkg는, 여러 위치에서 가져온 꾸러미 파일을 읽어들여서 자동으로\n"
+"dselect와 dpkg에서는, 여러 곳에서 꾸러미 파일을 가져와서 자동으로\n"
 "설치할 수 있습니다.\n"
 "\n"
-"이 목록에서는 그러한 설치 방법중의 하나를 선택합니다.\n"
+"이 목록에서는 그러한 설치 방법중에 무엇을 사용할 지 선택합니다.\n"
 "\n"
-"반전 막대를 사용하려는 설치 방법으로 옮기고 Enter를 누르십시오.  그 다음에\n"
-"설치에 필요한 정보를 더 물어보게 됩니다.\n"
+"반전 막대를 사용하려는 설치 방법으로 옮긴 다음 Enter를 누르십시오.  그\n"
+"다음에 설치에 필요한 정보를 더 물어보게 됩니다.\n"
 "\n"
-"반전 막대를 움직일 때마다, 각 설치 방법에 관한 설명이 화면의 하단에 (설명이\n"
-"있다면) 표시됩니다.\n"
+"반전 막대를 움직일 때마다, 각 설치 방법에 관한 설명을 화면의 하단에 \n"
+"표시합니다 (설명이 있다면).\n"
 "\n"
-"아무 것도 바꾸지 않고 끝내려면, 설치 방법 목록에서 `x' 키를 사용하십시오.\n"
+"아무 것도 바꾸지 않고 끝내려면, 설치 방법 목록에서 `x' 키를 누르십시오.\n"
 "\n"
 "키 입력에 관한 설명을 보시려면 `k'를 누르시고, 도움말 메뉴를 보려면 `?'를\n"
 "누르십시오.\n"
 
 #: dselect/helpmsgs.cc:167
 msgid "Keystrokes for method selection"
-msgstr "설치 방법 선택 키 입력"
+msgstr "설치 방법 선택, 키 입력"
 
 #: dselect/helpmsgs.cc:167
 msgid ""
@@ -5881,11 +5944,11 @@ msgstr ""
 "(꾸러미 목록 표시할 때의 이동 키와 동일합니다.)\n"
 "\n"
 "끝내기:\n"
-" Return, Enter    이 설치 방법을 선택하고 설정 창으로 돌아갑니다\n"
-" x, X             설치 방법을 바꾸거나 설정하지 않고 끝냅니다\n"
+" Return, Enter     이 설치 방법을 선택하고 설정 창으로 돌아갑니다\n"
+" x, X              설치 방법을 바꾸거나 설정하지 않고 끝냅니다\n"
 "\n"
 "기타:\n"
 "  ?, Help, F1      도움말 보기\n"
-" ^l                화면을 다시 그림\n"
+" ^l                화면을 다시 그리기\n"
 "  /                찾기 (취소하려면 그냥 Return을 누르십시오)\n"
 "  \\                마지막 찾기 반복\n"

@@ -1,260 +1,203 @@
+.\" This file was generated with po4a. Translate the source file.
+.\" 
 .\" Authors: Ian Jackson
-.\" traduction version cvs 1.4
-.TH dpkg-split 1 "23rd June 1996" "Debian GNU/Linux"
+.TH dpkg\-split 1 "23 Juin 1996" "Projet Debian" "Utilitaires de dpkg"
 .SH NOM
-dpkg\-split \- outil de décomposition/recomposition pour les paquets Debian 
+dpkg\-split \- outil de décomposition/recomposition pour les paquets Debian
 .SH SYNOPSIS
-.B dpkg-split
-.BR -s | --split
-.IR archive\-complète " [" préfixe ]
+\fBdpkg\-split\fR \fB\-s\fR|\fB\-\-split\fR \fIarchive\-complète\fR [\fIpréfixe\fR]
 .br
-.B dpkg-split
-.BR -j | --join
-.IR "partie partie " ...
+\fBdpkg-split\fR \fB\-j\fR|\fB\-\-join\fR \fIpartie partie \fR...
 .br
-.B dpkg-split
-.BR -I | --info
-.IR "partie partie " ...
+\fBdpkg\-split\fR \fB\-I\fR|\fB\-\-info\fR \fIpartie partie \fR...
 .br
-.B dpkg-split
-.BR -a | --auto
-.BI -o " fichier\-complet partie"
+.B dpkg\-split\fR \fB\-a\fR|\fB\-\-auto\fR \fB\-o\fR\fI fichier\-complet partie
 .br
-.B dpkg-split
-.BR -l | --listq
+.B dpkg\-split\fR \fB\-l\fR|\fB\-\-listq
 .br
-.B dpkg-split
-.BR -d | --discard
-.RI [ "paquet paquet " ...]
+\fBdpkg\-split\fR \fB\-d\fR|\fB\-\-discard\fR [\fIpaquet paquet \fR...]
 .SH DESCRIPTION
-.B dpkg-split
-décompose les fichiers d'un paquet binaire Debian en parties plus petites (et 
-les recompose), pour permettre le stockage des fichiers d'un paquet volumineux
-sur des média de faible capacité tels que les disquettes.
+\fBdpkg\-split\fR décompose les fichiers d'un paquet binaire Debian en parties 
+plus petites (et les recompose), pour permettre l'enregistrement des 
+fichiers d'un paquet volumineux sur des média de faible capacité tels que 
+les disquettes.
 
-On peut s'en servir « à la main » avec les options
-.BR --split ", " --join " et " --info .
+On peut s'en servir «\ à la main\ » avec les options \fB\-\-split\fR, 
+\fB\-\-join\fR et \fB\-\-info\fR.
 
-Il possède aussi un mode automatique, appelé avec l'option
-.B --auto ,
+Il possède aussi un mode automatique, appelé avec l'option \fB\-\-auto ,\fR 
 dans lequel il conserve séparément dans une file les parties connues ou 
-recompose le fichier d'un paquet quand il connaît toutes ses parties.
-Les options
-.BR --listq " et " --discard
-permettent la gestion de cette file.
+recompose le fichier d'un paquet quand il connaît toutes ses parties. Les 
+options \fB\-\-listq\fR et \fB\-\-discard\fR permettent la gestion de cette file.
 
-Toutes les opérations de décomposition, recomposition ou de mise en file
-produisent des messages sur la sortie standard ; On peut tranquillement les
+Toutes les opérations de décomposition, recomposition ou de mise en file 
+produisent des messages sur la sortie standard\ ; On peut tranquillement les 
 ignorer.
-.SH ACTION OPTIONS
+.SH "ACTION OPTIONS"
 .TP
-.BR --split ", " -s
+.BR \-\-split ", " \-s
 Décompose en plusieurs parties un paquet binaire Debian.
 
-Le nom d'une partie est :
-.IB préfixe . N de M .deb
-où
-.I N
-le numéro de partie, commençant à 1, et
-.I M
-est le nombre total de parties (les deux sont des décimaux).
+Le nom d'une partie est : \fIpréfixe\fR\fB.\fR\fIN\fR\fBde\fR\fIM\fR\fB.deb\fR où \fIN\fR le 
+numéro de partie, commençant à 1, et \fIM\fR est le nombre total de parties 
+(les deux sont des décimaux).
 
-Quand on ne donne pas de
-.I préfixe,
-le nom du fichier
-.I archive\-complète
-est utilisé, en incluant le répertoire et en supprimant tout
-.B .deb
+Quand on ne donne pas de \fIpréfixe,\fR le nom du fichier \fIarchive\-complète\fR 
+est utilisé, en incluant le répertoire et en supprimant tout \fB.deb\fR 
 restant.
 .TP
-.BR --join ", " -j
-Rassemble les parties d'un fichier, recomposant ainsi le fichier original tel
-qu'il était avant la décomposition.
+.BR \-\-join ", " \-j
+Rassemble les parties d'un fichier, recomposant ainsi le fichier original 
+tel qu'il était avant la décomposition.
 
 Ces parties, données comme arguments, doivent appartenir toutes au même 
-fichier binaire original. Chaque partie ne doit apparaître qu'une seule
-fois dans la liste des arguments ; mais il est inutile de les ordonner.
+fichier binaire original. Chaque partie ne doit apparaître qu'une seule fois 
+dans la liste des arguments\ ; mais il est inutile de les ordonner.
 
-Les parties doivent bien sûr avoir été créées selon le même modèle (taille
-maximum des parties), qui est déclaré au moment de la décomposition ; ce qui 
-signifie en fait qu'elles doivent avoir été créées par le même appel à
-.BR "dpkg-split --split" .
+Les parties doivent bien sûr avoir été créées selon le même modèle (taille 
+maximum des parties), qui est déclaré au moment de la décomposition\ ; ce 
+qui signifie en fait qu'elles doivent avoir été créées par le même appel à 
+\fBdpkg\-split \-\-split\fR.
 
-Le nom des parties n'est pas significatif pour le processus de recomposition.
+Le nom des parties n'est pas significatif pour le processus de 
+recomposition.
 
-Par défaut, le fichier produit s'appelle :
-.IB paquet - version .deb\fR.
+Par défaut, le fichier produit s'appelle\ : 
+.I paquet\fR\fB\-\fR\fIversion\fR\fB.deb\fR.
 
 .TP
-.BR --info ", " -I
-Affiche les renseignements concernant telle partie dans un format lisible par
-tous. Les arguments ne représentant pas la partie d'un fichier binaire
+.BR \-\-info ", " \-I
+Affiche les renseignements concernant telle partie dans un format lisible 
+par tous. Les arguments ne représentant pas la partie d'un fichier binaire 
 le disent aussi sur la sortie standard.
-
 .TP
-.BR --auto ", " -a
-Met en file automatiquement les parties en vue de la recomposition d'un
+.BR \-\-auto ", " \-a
+Met en file automatiquement les parties en vue de la recomposition d'un 
 paquet.
 
-La
-.I partie
-déclarée est examinée et comparée avec les autres parties du même paquet qui 
-se trouvent (si elles existent) dans la file.
+La \fIpartie\fR déclarée est examinée et comparée avec les autres parties du 
+même paquet qui se trouvent (si elles existent) dans la file.
 
-Quand toutes les parties d'un fichier (auquel appartient la partie
-.I part)
-sont présentes, le fichier est recomposé et créé en tant que :
-.I fichier\-complet
-(ce fichier ne devrait pas déjà exister, mais ce n'est pas une erreur).
+Quand toutes les parties d'un fichier (auquel appartient la partie \fIpart)\fR 
+sont présentes, le fichier est recomposé et créé en tant que 
+\fIfichier\-complet\fR (ce fichier ne devrait pas déjà exister, mais ce n'est 
+pas une erreur).
 
-Quand ce n'est pas le cas, la partie
-.I part
-est mise dans la file et le fichier
-.I fichier\-complet
-n'est pas créé.
+Quand ce n'est pas le cas, la partie \fIpart\fR est mise dans la file et le 
+fichier \fIfichier\-complet\fR n'est pas créé.
 
-Quand la partie
-.I part
-n'appartient pas à un paquet binaire décomposé,
-.B dpkg\-split
-se termine avec un code de sortie égal à 1 ; s'il y a une autre erreur,
-c'est un code de sortie égal à 2.
+Quand la partie \fIpart\fR n'appartient pas à un paquet binaire décomposé, 
+\fBdpkg\-split\fR se termine avec un code de sortie égal à 1\ ; s'il y a une 
+autre erreur, c'est un code de sortie égal à 2.
 
-L'option
-.BR --output " ou " -o
-doit être fournie avec l'action
-.BR --auto .
-(Si cela n'était pas obligatoire, le programme appelant ne saurait pas
-quel fichier attendre.)
+L'option \fB\-\-output\fR ou \fB\-o\fR doit être fournie avec l'action 
+\fB\-\-auto\fR. Si cela n'était pas obligatoire, le programme appelant ne 
+saurait pas quel fichier attendre.
 .TP
-.BR --listq ", " -l
+.BR \-\-listq ", " \-l
 Liste le contenu d'une file de paquets à recomposer.
 
-Pour chaque fichier possédant des parties dans la file, cette action donne
-le nom du fichier, les parties présentes dans la file et le nombre total
+Pour chaque fichier possédant des parties dans la file, cette action donne 
+le nom du fichier, les parties présentes dans la file et le nombre total 
 d'octets conservés.
 .TP
-.BR --discard ", " -d
-Cette action laisse de côté les parties dans la file qui attendent le reste
-des parties du paquet.
+.BR \-\-discard ", " \-d
+Cette action laisse de côté certaines parties dans la file, celles qui sont 
+en attente des autres parties composant le paquet.
 
-Quand aucun 
-.I paquet
-n'est donné, la file est vidée ; si un paquet est donné, seules les parties
-de ce paquet sont détruites.
+Quand aucun \fIpaquet\fR n'est donné, la file est vidée\ ; si un paquet est 
+donné, seules les parties de ce paquet sont détruites.
 .TP
-.BR --help ", " -h
-Affiche un message de
-.BR dpkg\-split
-donnant un résumé de ses options et de leur utilisation.
+.BR \-\-help ", " \-h
+Affiche un message de \fBdpkg\-split\fR donnant un résumé de ses options et de 
+leur utilisation.
 .TP
-.BR --version
-Affiche le numéro de version de
-.BR dpkg\-split .
+.BR \-\-version
+Affiche le numéro de version de \fBdpkg\-split\fR.
 .TP
-.BR --licence
-Affiche les renseignements sur le copyright et l'absence de garantie.
-(L'orthographe américaine :
-.B \-\-license
-est acceptée.)
-.SH AUTRES OPTIONS
+.BR \-\-licence
+Affiche les renseignements sur le copyright et l'absence de garantie.  
+(L'orthographe américaine\ : \fB\-\-license\fR est acceptée.)
+.SH "AUTRES OPTIONS"
 .TP
-.BI --depotdir " répertoire"
-Indique un répertoire différent pour la file comprenant les parties en attente
-d'une recomposition automatique. Par défaut, c'est le répertoire
-.BR /var/lib/dpkg .
+.BI \-\-depotdir " répertoire"
+Indique un répertoire différent pour la file comprenant les parties en 
+attente d'une recomposition automatique. Par défaut, c'est le répertoire 
+\fB/var/lib/dpkg\fR.
 .TP
-.BI --partsize\fR|\fB-S " kbytes"
-Indique (en kilooctets (1024 octets)) la taille maximum d'une partie lors 
-d'une décomposition. Par défaut, la taille maximum est : 450 ko.
+.BI \-\-partsize|-S " kbytes"
+Indique, en kilooctets (1024 octets), la taille maximum d'une partie lors 
+d'une décomposition. Par défaut, la taille maximum est de 450 ko.
 .TP
-.BI --output\fR|\fB-O " fichier\-complet"
+.BI \-\-output|\-O " fichier\-complet"
 Indique le nom du fichier à produire pour une recomposition.
 
-Cela annule le fichier par défaut lors d'une recomposition « à la main » 
-.RB ( \-\-join )
-et c'est obligatoire pour une recomposition ou une mise en file automatiques
-.RB ( \-\-auto ).
+Cela annule le fichier par défaut lors d'une recomposition «\ à la main\ » 
+(\fB\-\-join\fR) et c'est obligatoire pour une recomposition ou une mise en 
+file automatiques (\fB\-\-auto\fR).
 .TP
-.BR --npquiet ", " -Q
-Pour une recomposition ou une mise en file automatiques,
-.B dpkg\-split
-affiche habituellement un message si on lui donne une
-.I partie
-qui n'est pas une partie d'un paquet binaire. Cette option supprime ce
-message ; cela permet à des programmes comme
-.B dpkg
-de ne pas afficher de faux messages quand il est confronté à des paquets
-décomposés et des paquets non décomposés.
+.BR \-\-npquiet ", " \-Q
+Pour une recomposition ou une mise en file automatiques, \fBdpkg\-split\fR 
+affiche habituellement un message si on lui donne une \fIpartie\fR qui n'est 
+pas une partie d'un paquet binaire. Cette option supprime ce message\ ; cela 
+permet à des programmes comme \fBdpkg\fR de ne pas afficher de faux messages 
+quand il est confronté à des paquets décomposés et des paquets non 
+décomposés.
 .TP
-.BR --msdos
-Oblige le nom des fichiers produits par
-.B \-\-split
-à se conformer à msdos.
+.BR \-\-msdos
+Oblige le nom des fichiers produits par \fB\-\-split\fR à se conformer à msdos.
 
-Cela supprime le préfixe -- soit celui par défaut dérivé du fichier d'entrée,
-soit celui donné comme argument : les caractères alphanumériques sont en
-minuscules, les signes plus sont remplacés par des
-.BR x 
-et tous les autres caractères sont abandonnés.
+Cela supprime le préfixe - soit celui par défaut dérivé du fichier d'entrée, 
+soit celui donné comme argument\ : les caractères alphanumériques sont en 
+minuscules, les signes plus sont remplacés par des \fBx\fR et tous les autres 
+caractères sont abandonnés.
 
-le résultat est alors tronqué autant que nécessaire et des fichiers de la
-forme :
-.IB "prefixN" of M .deb
-sont créés.
-.SH CODE DE SORTIE
+le résultat est alors tronqué autant que nécessaire et des fichiers de la 
+forme\ : \fIprefixN\fR\fBof\fR\fIM\fR\fB.deb\fR sont créés.
+.SH "CODE DE SORTIE"
 Un code de sortie égal à 0 signifie que la décomposition demandée, la 
-recomposition ou bien toute autre commande a réussie. Les commandes
-.B \-\-info
-réussissent toujours même si les fichiers ne sont pas des parties d'un paquet
+recomposition ou bien toute autre commande a réussi. Les commandes 
+\fB\-\-info\fR réussissent toujours même si les fichiers ne sont pas des 
+parties d'un paquet binaire.
+
+Un code de sortie égal à 1 ne peut apparaître qu'avec l'action \fB\-\-auto\fR 
+et signale que le fichier \fIpartie\fR n'est pas une partie d'un paquet 
 binaire.
 
-Un code de sortie égal à 1 ne peut apparaître qu'avec l'action
-.B \-\-auto
-et signale que le fichier
-.I partie
-n'est pas une partie d'un paquet binaire.
-
-Un code de sortie égal à 2 signale des problèmes, comme l'échec d'un appel
-système, ou un fichier qui, bien que ressemblant à une partie de fichier,
+Un code de sortie égal à 2 signale des problèmes, comme l'échec d'un appel 
+système, ou un fichier qui, bien que ressemblant à une partie de fichier, 
 est défectueux, ou bien une erreur d'utilisation, etc.
 .SH BOGUES
-.B dpkg\-split
-utilise des conventions plutôt périmées pour les noms des paquets Debian.
+\fBdpkg\-split\fR utilise des conventions plutôt périmées pour les noms des 
+paquets Debian.
 
-On ne peut pas obtenir tous les détails voulus sur les paquets présents dans
+On ne peut pas obtenir tous les détails voulus sur les paquets présents dans 
 la file à moins d'aller voir soi-même dans le répertoire de la file.
 
-On ne peut pas facilement savoir si un fichier est vraiment la partie d'un
+On ne peut pas facilement savoir si un fichier est vraiment la partie d'un 
 paquet binaire ou non.
 
-L'architecture n'est pas indiquée dans l'en-tête des fichiers ; elle l'est
-seulement dans les informations de contrôle du paquet binaire ; et elle n'est
-pas présente dans les fichiers produits.
+L'architecture n'est pas indiquée dans l'en-tête des fichiers\ ; elle l'est 
+seulement dans les informations de contrôle du paquet binaire\ ; et elle 
+n'est pas présente dans les fichiers produits.
 .SH FICHIERS
 .TP
 .B /var/lib/dpkg/parts
-Le répertoire par défaut de la file contenant les fichiers qui attendent une
+Le répertoire par défaut de la file contenant les fichiers qui attendent une 
 recomposition automatique.
 
-Les noms de fichiers utilisés dans ce répertoire sont dans un format
-particulier à
-.B dpkg\-split
-et ne sont sans doute pas utiles pour d'autres programmes ; en tous cas
-on ne peut pas compter sur ce format de nom de fichier.
-.SH VOIR AUSSI
-.BR deb (5),
-.BR deb\-control (5),
-.BR dpkg\-deb (1),
-.BR dpkg (8)
+Les noms de fichiers utilisés dans ce répertoire sont dans un format 
+particulier à \fBdpkg\-split\fR et ne sont sans doute pas utiles pour d'autres 
+programmes ; en tous cas on ne peut pas compter sur ce format de nom de 
+fichier.
+.SH "VOIR AUSSI"
+\fBdeb\fR(5), \fBdeb\-control\fR(5), \fBdpkg\-deb\fR(1), \fBdpkg\fR(8)
 .SH AUTEUR
-.B dpkg\-split
-et cette page de manuel ont été écrits par Ian Jackson.
-Copyright (C) 1995-1996
-Ils ont été édités sous la « GNU General Public Licence » ; il n'y a
-PAS de GARANTIE.
-Voyez
-.B /usr/share/dpkg/copyright
-et
-.B /usr/share/common-licenses/GPL
-pour des précisions.
+\fBdpkg\-split\fR et cette page de manuel ont été écrits par Ian Jackson.  
+Copyright (C) 1995-1996 Ils ont été édités sous la «\ GNU General Public 
+Licence\ »\ ; il n'y a PAS de GARANTIE. Voyez \fB/usr/share/dpkg/copyright\fR 
+et \fB/usr/share/common\-licenses/GPL\fR pour des précisions.
+.SH TRADUCTION
+Philippe Batailler, 2004.
+Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
+dpkg, version 1.10.23.

@@ -1,7 +1,7 @@
 .\" (c) 2003 Software in the Public Interest
 .\" Esta traducción ha sido realizada por Rubén Porras Campo <nahoo@inicia.es>
 .\" Está basada en la página de manual original:
-.\" versión 1.1 del CVS de
+.\" versión 1.2 del CVS de
 .\"/cvs/debian-doc/manpages/english/dpkg/dpkg-statoverride.8 
 
 .TH DPKG-STATOVERRIDE 8 "Noviembre de 2000" "Proyecto Debian" "utilidades dpkg"
@@ -34,31 +34,35 @@ Añade una excepción al \fB<fichero>\fR. No es necesario que exista el
 posteriormente. Los usuarios y los grupos pueden especificarse por su nombre
 (por ejemplo \fBroot\fR o \fBnobody\fR), o por su número precedido por un
 `\fB#\fR' (por ejemplo \fB#0\fR o \fB#65534\fR).
+
+Si se especifica la opción \-\-update y existe \fB<fichero>\fR, se le asigna
+inmediatamente el nuevo propietario y modo.
 .TP
-.I --remove <fichero>
-Elimina una excepción de \fB<fichero>\fR.
+.I \-\-remove <fichero>
+Elimina una excepción de \fB<fichero>\fR, esta orden no modifica el estado de
+\fB<fichero>\fR.
 .TP
-.I --list [<patrón-global>]
+.I \-\-list [<patrón\-global>]
 Lista todas las excepciones. Si se especifica un patrón global, éste restringe
 la salida a lo que concuerde con el patrón. Si no hay ninguna excepción o
-ninguna concuerda con el patrón \fBdpkg-statoverride\fR terminará con un código
+ninguna concuerda con el patrón \fBdpkg\-statoverride\fR terminará con un código
 de salida igual a 1.
 .TP
-.I --force
+.I \-\-force
 Fuerza una acción, incluso si ésta pudiese resultar perjudicial. Es necesario
 para modificar una excepción existente.
 .TP
-.I --update
+.I \-\-update
 Trata inmediatamente de cambiar el fichero al nuevo propietario y
-modo, si es que existe. Esto sólo se hace para \fI--add\fR.
+modo, si es que existe.
 .TP
-.I --quiet
+.I \-\-quiet
 Es menos explicativo a cerca de lo que realiza.
 .TP
-.I --help
+.I \-\-help
 Muestra la versión, copyright y modo de uso.
 .TP
-.I --admindir
+.I \-\-admindir
 Cambia el directorio con la base de datos de dpkg donde también se guarda la
 información relativa a statoverride. Por omisión es /var/lib/dpkg.
 .SH FICHEROS
@@ -68,8 +72,8 @@ Fichero que contiene la lista actual de excepciones de propiedades del
 sistema. Se encuentra en el directorio de administración dpkg, junto con otros
 ficheros importantes para dpkg, como `status' o `available'.
 .br
-Nota: dpkg-statoverride preserva una copia antigua del fichero con la
-extensión "-old" antes de reemplazarla con una nueva.
+Nota: dpkg\-statoverride preserva una copia antigua del fichero con la
+extensión "\-old" antes de reemplazarla con una nueva.
 .SH VÉASE TAMBIÉN
 .BR dpkg (8)
 .SH AUTOR
@@ -81,4 +85,4 @@ Copyright 2000 Wichert Akkerman
 Esto es software libre; vea la versión 2 o posterior de la Licencia Pública
 General GNU para condiciones de copia. NO hay ninguna garantía.
 .SH TRADUCTOR
-Traducción de Rubén Porras Campo <debian-l10n-spanish@lists.debian.org>
+Traducción de Rubén Porras Campo <debian\-l10n\-spanish@lists.debian.org>

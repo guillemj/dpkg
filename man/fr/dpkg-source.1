@@ -1,839 +1,589 @@
-.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" This file was generated with po4a. Translate the source file.
+.\" 
 .\" Authors: Ian Jackson
-.\" traduction de la version cvs 1.19
-.TH DPKG\-SOURCE 1 "January 2000" "Debian Project" "Utilitaires de Dpkg"
-.SH NOM 
-dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges,
-dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog
-\- Les outils de Debian pour les paquets source.
+.TH DPKG\-SOURCE 1 "Janvier 2000" "Projet Debian" "Utilitaires de Dpkg"
+.SH NOM
+dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges, 
+dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog \- Les outils de 
+Debian pour les paquets source.
 .SH SYNOPSIS
-.B dpkg-source
-.BI "-x " fichier.dsc
+.B dpkg\-source\fR \fB-x \fR\fIfichier.dsc
 .br
-.B dpkg-source -b
-.RI [ options "] " répertoire " [" répertoire-d'origine |'']
+\fBdpkg\-source \-b\fR [\fIoptions\fR] \fIrépertoire\fR [\fIrépertoire-d'origine\fR|'']
 .br
-.B dpkg-gencontrol
-.RI [ options ]
+\fBdpkg\-gencontrol\fR [\fIoptions\fR]
 .br
-.B dpkg-shlibdeps
-.IR options
+.B dpkg\-shlibdeps\fR \fIoptions
 .br
-.B dpkg-genchanges
-.RI [ options ]
+\fBdpkg\-genchanges\fR [\fIoptions\fR]
 .br
-.B dpkg-buildpackage
-.RI [ options ]
+\fBdpkg\-buildpackage\fR [\fIoptions\fR]
 .br
-.B dpkg-distaddfile
-.RI [ options ] " fichier section priorité"
+.B dpkg\-distaddfile\fR [\fIoptions\fR]\fI fichier section priorité
 .br
-.B dpkg-parsechangelog
-.RI [ options ]
+\fBdpkg\-parsechangelog\fR [\fIoptions\fR]
 .SH DESCRIPTION
-.B dpkg-source
-empaquète ou dépaquète une archive source Debian.
+\fBdpkg\-source\fR empaquète ou dépaquète une archive source Debian.
 
-.B dpkg-gencontrol
-lit les information contenues dans une arborescence Debian dépaquetée et 
-crée le fichier «\ control\ » d'un paquet binaire (par défaut, c'est 
-le fichier debian/tmp/DEBIAN/control)\ ;
-il ajoute aussi une entrée pour ce paquet binaire dans
-.BR debian/files .
+\fBdpkg\-gencontrol\fR lit les informations contenues dans une arborescence 
+Debian dépaquetée et crée le fichier «\ control\ » d'un paquet binaire (par 
+défaut, c'est le fichier debian/tmp/DEBIAN/control)\ ; il ajoute aussi une 
+entrée pour ce paquet binaire dans \fBdebian/files\fR.
 
-.B dpkg-shlibdeps
-calcule, pour les exécutables nommés dans ses arguments, les dépendances 
-envers les bibliothèques partagées. Ces dépendances sont ajoutées 
-sous la forme
-.BI shlibs: dependencyfield 
--- où
-.I dependencyfield
-est le nom du champ « dépendance » --
-dans le fichier
-.B debian/substvars
-qui indique les substitutions de variables. Toute autre variable après
-.I shlibs:
-est supprimée du fichier.
-.B dpkg-shlibdeps
-lit les informations concernant les dépendances envers les bibliothèques 
-partagées dans les fichiers suivants :
-.BR debian/shlibs.local,
-.BR /etc/dpkg/shlibs.override,
-le fichier
-.B shlibs,
-(fichier du paquet contenant un fichier qui, selon
-.B objdump,
-satisfait au système de dépendance envers les bibliothèques) ou bien
-.BR /etc/dpkg/shlibs.default.
-Le premier trouvé est utilisé. Voyez le
-.I Debian packaging manual
-pour des détails sur le format des fichiers qui traitent des dépendances 
-envers les bibliothèques partagées.
+\fBdpkg\-shlibdeps\fR calcule, pour les exécutables nommés dans ses arguments, 
+les dépendances envers les bibliothèques partagées. Ces dépendances sont 
+ajoutées au fichier \fBdebian/substvars\fR sous la forme 
+\fBshlibs:\fR\fIdependencyfield\fR où \fIdependencyfield\fR est le nom du champ «\ 
+dépendance\ ». Toute autre variable après \fIshlibs:\fR est supprimée du 
+fichier. \fBdpkg\-shlibdeps\fR lit les informations concernant les dépendances 
+envers les bibliothèques partagées dans les fichiers suivants\ : 
+\fBdebian/shlibs.local\fR, \fB/etc/dpkg/shlibs.override\fR, le fichier \fBshlibs\fR, 
+(fichier du paquet contenant un fichier qui, selon \fBobjdump,\fR satisfait au 
+système de dépendance envers les bibliothèques) ou bien 
+\fB/etc/dpkg/shlibs.default.\fR Le premier trouvé est utilisé. Voyez le 
+\fIDebian packaging manual\fR pour des précisions sur le format des fichiers 
+qui traitent des dépendances envers les bibliothèques partagées.
 
-.B dpkg-genchanges
-lit les informations à la fois dans une arborescence debian dépaquetée et déjà 
-construite et sur les fichiers qui ont été créés\ ; puis il crée un fichier de 
-contrôle pour la mise en place dans l'archive Debian (c'est le fichier
-.RB .changes 
-).
-.B dpkg-buildpackage
-est un script de contrôle qui peut faciliter la construction automatique d'un
-paquet.
+\fBdpkg\-genchanges\fR lit les informations à la fois dans une arborescence 
+debian dépaquetée et déjà construite et sur les fichiers qui ont été créés\ 
+; puis il crée un fichier de contrôle pour la mise en place dans l'archive 
+Debian (c'est le fichier \fB.changes\fR).
 
-.B dpkg-distaddfile
-ajoute une entrée pour un fichier dans
-.BR debian/files.
+\fBdpkg\-buildpackage\fR est un script de contrôle qui peut faciliter la 
+construction automatique d'un paquet.
 
-.B dpkg-parsechangelog
-lit et fait l'analyse du fichier «\ changelog\ » d'une arborescence source 
-dépaquetée et affiche les informations qu'il contient sur la sortie
-standard et sous une forme lisible par la machine.
+.B dpkg\-distaddfile\fR ajoute une entrée pour un fichier dans \fBdebian/files.
+
+\fBdpkg\-parsechangelog\fR lit et fait l'analyse du fichier «\ changelog\ » 
+d'une arborescence source dépaquetée et affiche les informations qu'il 
+contient sur la sortie standard et sous une forme lisible par la machine.
 
 Aucune de ces commandes ne permet la combinaison de plusieurs options en une 
-seule et elles ne permettent pas d'indiquer la valeur d'une option dans un
+seule et elles ne permettent pas d'indiquer la valeur d'une option dans un 
 argument séparé.
-.SH LES OPTIONS COMMUNES
-Beaucoup de ces programmes partagent les options qui sont décrites ici\ ;
-on décrit en même temps les programmes qui les acceptent.
+.SH "LES OPTIONS COMMUNES"
+Beaucoup de ces programmes partagent les options qui sont décrites ici\ ; on 
+décrit en même temps les programmes qui les acceptent.
 .TP
-.BI -h
-Affiche la version du programme et un message d'aide qui
-comprend un résumé des options acceptées. Tous les outils pour les paquets 
-source comprennent cette option.
+.BI \-h
+Affiche la version du programme et un message d'aide qui comprend un résumé 
+des options acceptées. Tous les outils pour les paquets source comprennent 
+cette option.
 .TP
-.BI -v version
-Avec
-.BR dpkg-buildpackage ", " dpkg-genchanges " et " dpkg-parsechangelog
-cette option force l'utilisation des informations contenues dans le fichier
+.BI \-v version
+Avec \fBdpkg-buildpackage\fR, \fBdpkg-genchanges\fR et \fBdpkg-parsechangelog\fR 
+cette option force l'utilisation des informations contenues dans le fichier 
 «\ changelog\ » et qui concernent toutes les versions strictement plus 
-récentes que
-.I version.
+récentes que \fIversion.\fR
 
-Avec
-.BR dpkg-gencontrol,
-cette option donne le numéro de version du paquet binaire qui sera crée.
+Avec \fBdpkg\-gencontrol,\fR cette option donne le numéro de version du paquet 
+binaire qui sera crée.
 .TP
-.BI -C description-des-changements
-Lit la description des changements dans le fichier
-.I description-des-changements
-plutôt que dans le fichier
-«\ changelog\ » de l'arborescence source.
-.BR dpkg-buildpackage " et " dpkg-genchanges
+.BI \-C description-des-changements
+Lit la description des changements dans le fichier 
+\fIdescription-des-changements\fR plutôt que dans le fichier «\ changelog\ » de 
+l'arborescence source.  \fBdpkg\-buildpackage\fR et \fBdpkg\-genchanges\fR 
 acceptent cette option.
 .TP
-.BI -m adresse-du-responsable
-Utilise
-.I adresse-du-responsable
-comme nom et adresse électronique du responsable de paquet pour cette mise en
-place, plutôt que d'utiliser les informations contenues dans le fichier
-«\ control\ » de l'arborescence source.
-.BR dpkg-buildpackage " et " dpkg-genchanges
-acceptent cette option.
+.BI \-m adresse-du-responsable
+Utilise \fIadresse-du-responsable\fR comme nom et adresse électronique du 
+responsable de paquet pour cette mise en place, plutôt que d'utiliser les 
+informations contenues dans le fichier «\ control\ » de l'arborescence 
+source. \fBdpkg\-buildpackage\fR et \fBdpkg\-genchanges\fR acceptent cette option.
 .TP
-.BI -e adresse-du-responsable
-Utilise
-.I adresse-du-responsable
-comme nom et adresse électronique du responsable de paquet pour cette mise en
-place, plutôt que d'utiliser les informations contenues dans le fichier
-«\ changelog\ » de l'arborescence source.
-.BR dpkg-buildpackage " et " dpkg-genchanges
-acceptent cette option.
+.BI \-e adresse-du-responsable
+Utilise \fIadresse-du-responsable\fR comme nom et adresse électronique du 
+responsable de paquet pour cette mise en place, plutôt que d'utiliser les 
+informations contenues dans le fichier «\ changelog\ » de l'arborescence 
+source. \fBdpkg\-buildpackage\fR et \fBdpkg\-genchanges\fR acceptent cette option.
 .TP
-.BR -si ", " -sa ", " -sd
-Ces options contrôlent si l'archive source originale est incluse
-dans l'installation produite par
-.BR dpkg-buildpackage " et " dpkg-genchanges
-quand on construit un paquet source (i.e., les options
-.BR -b " or " -B
-ne sont pas utilisées).
+.BR \-si ", " \-sa ", " \-sd
+Ces options contrôlent si l'archive source originale est incluse dans 
+l'installation produite par \fBdpkg\-buildpackage\fR et \fBdpkg\-genchanges\fR 
+quand on construit un paquet source (les options \fB\-b\fR or \fB\-B\fR n'ont pas 
+été utilisées).
 
-Par défaut, ou quand l'option
-.B -si
-est indiquée, les sources originales sont incluses si le numéro de version
-se termine par
-.BR -0 " ou " -1,
-i.e., si la partie « révision Debian » du numéro de version est égal à
-.BR 0 " ou " 1.
+Par défaut, ou quand l'option \fB\-si\fR est indiquée, les sources originales 
+sont incluses si le numéro de version se termine par \fB\-0\fR ou \fB\-1,\fR i.e., 
+si la partie «\ révision Debian\ » du numéro de version est égal à \fB0\fR ou 
+.B 1.
 
-L'option
-.B -sa
-force l'inclusion des sources originales ;
-l'option
-.B -sd
-force leur exclusion et inclut seulement le « diff ».
+L'option \fB\-sa\fR force l'inclusion des sources originales\ ; l'option 
+\fB\-sd\fR force leur exclusion et inclut seulement le «\ diff_ ».
 .TP
-.BI -V nom = valeur
-Fixe la valeur d'une variable de substitution.
-.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges
-acceptent cette option.
-Voyez ci-dessous pour une discussion sur la valeur de substitution.
+.BI \-V nom = valeur
+Fixe la valeur d'une variable de substitution. \fBdpkg\-source\fR, 
+\fBdpkg\-gencontrol\fR et \fBdpkg\-genchanges\fR acceptent cette option. Voyez 
+ci-dessous pour une discussion sur la valeur de substitution.
 .TP
-.BI -T fichier/substvars
-Lit (ou, écrit, pour
-.BR dpkg-shlibdeps),
-les variables de substitution dans le fichier
-.IR fichier/substvars ;
-Par défaut c'est le fichier
-.BR debian/substvars.
-.BR dpkg-source ", " dpkg-gencontrol ", " dpkg-shlibdeps " et " dpkg-genchanges
+.BI \-T fichier/substvars
+Lit (ou, écrit, pour \fBdpkg\-shlibdeps),\fR les variables de substitution dans 
+le fichier \fIfichier/substvars\fR; Par défaut c'est le fichier 
+\fBdebian/substvars.\fR \fBdpkg\-source\fR, \fBdpkg\-gencontrol\fR, 
+\fBdpkg\-shlibdeps\fR et dpkg-genchanges acceptent cette option.
+.TP
+.BI \-D champ = valeur
+Remplace ou ajoute en sortie un champ dans le fichier de 
+contrôle. \fBdpkg\-source\fR, \fBdpkg\-gencontrol\fR et \fBdpkg\-genchanges\fR 
 acceptent cette option.
 .TP
-.BI -D champ = valeur
-Remplace ou ajoute en sortie un champ dans le fichier de contrôle.
-.BR dpkg-source ", " dpkg-gencontrol " et " dpkg-genchanges
-acceptent cette option.
+.BI \-U champ
+Supprime en sortie un champ dans le fichier de contrôle. \fBdpkg\-source\fR, 
+\fBdpkg\-gencontrol\fR and \fBdpkg\-genchanges\fR acceptent cette option.
 .TP
-.BI -U champ
-Supprime en sortie un champ dans le fichier de contrôle.
-.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges
-acceptent cette option.
-.TP
-.BR -b | -B | -S
-Avec
-.BR dpkg-genchanges " et " dpkg-buildpackage
-les options
-.BR -b " et " -B
-indiquent qu'on veut seulement construire un paquet binaire.
-L'option
-.B -b
-indique qu'aucun fichier source n'est à construire ou à distribuer, et
-l'option
-.B -B
-indique en plus qu'aucun fichier, appartenant à un paquet binaire ne dépendant 
-pas d'une architecture, n'est à distribuer.
-L'option
-.B -S
-indique que seul le source doit être installé et qu'on a pas besoin de
-construire un paquet binaire. Seul
-.BR dpkg-buildpackage
-se sert des options
-.BR -b " et " -B ;
-.B dpkg-genchanges
-crée seulement un fichier
-.B .changes
-pour tous les fichiers produits par la cible
-.B binary-*
-du paquet qui est construit.
+.BR \-b | \-B | \-S
+Avec \fBdpkg\-genchanges\fR et \fBdpkg\-buildpackage\fR les options \fB\-b\fR et 
+\fB\-B\fR indiquent qu'on veut seulement construire un paquet binaire. L'option 
+\fB\-b\fR indique qu'aucun fichier source n'est à construire ou à distribuer, 
+et l'option \fB\-B\fR indique en plus qu'aucun fichier, appartenant à un paquet 
+binaire ne dépendant pas d'une architecture, n'est à distribuer. L'option 
+\fB\-S\fR indique que seul le source doit être installé et qu'on a pas besoin 
+de construire un paquet binaire. Seul \fBdpkg\-buildpackage\fR se sert des 
+options \fB\-b\fR et \fB\-B\fR. \fBdpkg-genchanges\fR crée seulement un fichier 
+\fB.changes\fR pour tous les fichiers produits par la cible \fBbinary\-*\fR du 
+paquet qui est construit.
 
-L'option
-.B -b
-indique à
-.B dpkg-source
-de construire un paquet source (plutôt que d'en extraire un) -- 
-voyez ci-dessous.
+L'option \fB\-b\fR indique à \fBdpkg\-source\fR de construire un paquet source 
+(plutôt que d'en extraire un), voyez ci-dessous.
 .TP
-.BI -c fichier/control
-indique le principal fichier de contrôle des sources où trouver des
-renseignements. Par défaut, c'est le fichier
-.BR debian/control .
-.BR dpkg-source ", " dpkg-gencontrol " et " dpkg-genchanges
-acceptent cette option.
+.BI \-c fichier/control
+Indique le principal fichier de contrôle des sources où trouver des 
+renseignements. Par défaut, c'est le fichier 
+\fBdebian/control\fR. \fBdpkg\-source\fR, \fBdpkg\-gencontrol\fR et 
+\fBdpkg\-genchanges\fR acceptent cette option.
 .TP
-.BI -l fichier/changelog
-indique le fichier d'enregistrement des changements où trouver des
-renseignements. Par défaut, c'est le fichier
-.BR debian/changelog.
-.BR dpkg-source ", " dpkg-gencontrol " et " dpkg-genchanges
-acceptent cette option.
+.BI \-l fichier/changelog
+Indique le fichier d'enregistrement des changements où trouver des 
+renseignements. Par défaut, c'est le fichier \fBdebian/changelog.\fR 
+\fBdpkg\-source\fR, \fBdpkg\-gencontrol\fR et \fBdpkg\-genchanges\fR acceptent cette 
+option.
 .TP
-.BI -f fichier/liste-des-fichiers
-lit ou écrit la liste des fichiers qui doivent être mis en place dans le 
-fichier
-.I fichier/liste-des-fichiers,
-plutôt que dans le fichier
-.BR debian/files.
-.BR dpkg-gencontrol ", " dpkg-genchanges " et " dpkg-distaddfile
-acceptent cette option.
+.BI \-f fichier/liste-des-fichiers
+Lit ou écrit la liste des fichiers qui doivent être mis en place dans le 
+fichier \fIfichier/liste-des-fichiers,\fR plutôt que dans le fichier 
+\fBdebian/files.\fR \fBdpkg\-gencontrol\fR, \fBdpkg\-genchanges\fR et 
+\fBdpkg\-distaddfile\fR acceptent cette option.
 .TP
-.BI -F format-du-changelog
-donne le format du fichier changelog. Par défaut, c'est une ligne spéciale,
-près de la fin du fichier, qui l'indique (voyez le Debian packaging manual) ;
-sinon, on utilise le format classique
-.BR debian,
-décrit dans le
-.IR "Debian packaging manual".
-.BR dpkg-source ", " dpkg-gencontrol " et " dpkg-genchanges
-acceptent cette option.
+.BI \-F format-du-changelog
+Donne le format du fichier changelog. Par défaut, c'est une ligne spéciale, 
+près de la fin du fichier, qui l'indique (voyez le Debian packaging manual)\ 
+; sinon, on utilise le format classique \fBdebian,\fR décrit dans le \fIDebian 
+packaging manual\fR. \fBdpkg\-source\fR, \fBdpkg\-gencontrol\fR et 
+\fBdpkg\-genchanges\fR acceptent cette option.
 .TP
-.BI -W
-Cette option transforme certaines erreurs en avertissements. Seul dpkg-source 
-l'utilise, mais
-.BR dpkg-buildpackage
-la reconnait et la transmet à
-.BR dpkg-source "."
+.BI \-W
+Cette option transforme certaines erreurs en avertissements. Seul 
+dpkg\-source l'utilise, mais \fBdpkg\-buildpackage\fR la reconnait et la 
+transmet à \fBdpkg\-source\fR.
 .TP
-.BI -E
-Cette option annule une précédente option
-.BR -W "."
-Elle n'est actuellement comprise que par
-.BR dpkg-buildpackage " et " dpkg-source "."
-.SH LES OPTIONS DE DPKG-SOURCE
-Quand on fournit les options communes
-.BR -c " et " -l
-avec des chemins relatifs, on considère qu'ils sont relatifs au répertoire 
-le plus élevé de l'arborescence source.
+.BI \-E
+Cette option annule une précédente option \fB\-W\fR. Elle n'est actuellement 
+comprise que par \fBdpkg\-buildpackage\fR et \fBdpkg\-source\fR.
+.SH "LES OPTIONS DE DPKG\-SOURCE"
+Quand on fournit les options communes \fB\-c\fR et \fB\-l\fR avec des chemins 
+relatifs, on considère qu'ils sont relatifs au répertoire le plus élevé de 
+l'arborescence source.
 .TP
-.B -x
-Cette option sert à extraire un paquet source. On doit donner un seul argument
-sans option : le nom du fichier de contrôle des sources Debian
-.RB ( .dsc ).
-Aucune option n'est utile avec
-.BR "dpkg-source -x".
-.B dpkg-source
-lit, dans le fichier de contrôle, les noms des fichiers qui composent le 
-paquet source\ ; il suppose qu'ils sont dans le même répertoire que le
-fichier
-.BR .dsc.
+.B \-x
+Cette option sert à extraire un paquet source. On doit donner un seul 
+argument sans option\ : le nom du fichier de contrôle des sources Debian 
+(\fB.dsc\fR). Aucune option n'est utile avec \fBdpkg\-source 
+\-x\fR. \fBdpkg\-source\fR lit, dans le fichier de contrôle, les noms des 
+fichiers qui composent le paquet source\ ; il suppose qu'ils sont dans le 
+même répertoire que le fichier \fB.dsc.\fR
 
 Les fichiers extraits du paquet auront le même système de propriété et de 
-permission que s'ils avaient été simplement crées -- les répertoires et
-les fichiers exécutables auront un système de permission égal à 0777 et
-les simples fichiers, 0666 ; ces deux systèmes étant modifiés par le
-masque de celui qui fait l'extraction ; Si le répertoire parent est
-« setgid », les répertoires extraits le seront aussi et tous les fichiers
-et répertoires hériteront du système de propriété de ce groupe.
+permission que s'ils avaient été simplement créés -- les répertoires et les 
+fichiers exécutables auront un système de permission égal à 0777 et les 
+simples fichiers, 0666\ ; ces deux systèmes étant modifiés par le masque de 
+celui qui fait l'extraction\ ; Si le répertoire parent est «\ setgid\ », les 
+répertoires extraits le seront aussi et tous les fichiers et répertoires 
+hériteront du système de propriété de ce groupe.
 .TP
-.B -b
-Construire : empaqueter une arborescence. Un ou deux arguments, sans options,
-seront fournis. Le premier représente le nom du répertoire qui contient 
-l'arborescence non empaquetée. Si l'on donne un second argument, ce sera le 
-nom du répertoire source original ou bien le nom du fichier «\ tar\ » ou bien
-une chaîne vide si le paquet est «\ debian pure souche\ » et n'a donc pas de
-fichiers «\ diffs\ » concernant sa «\ debianisation\ ». S'il n'y a pas de 
-second argument, et selon les autres arguments donnés,
-.B dpkg-source
-cherche le fichier « tar »  des sources originelles
-.IB paquet _ version-originelle .orig.tar.gz
-ou bien le répertoire source originel
-.IB répertoire .orig
-ou bien une chaîne vide (pas de source originel, et donc pas de « diffs »).
+.B \-b
+Construire : empaqueter une arborescence. Un ou deux arguments, sans 
+options, seront fournis. Le premier représente le nom du répertoire qui 
+contient l'arborescence non empaquetée. Si l'on donne un second argument, ce 
+sera le nom du répertoire source original ou bien le nom du fichier «\ tar\ 
+» ou bien une chaîne vide si le paquet est «\ debian pure souche\ » et n'a 
+donc pas de fichiers «\ diffs\ » concernant sa «\ debianisation\ ». S'il n'y 
+a pas de second argument, et selon les autres arguments donnés, 
+\fBdpkg\-source\fR cherche le fichier « tar » des sources originelles 
+\fIpaquet\fR\fB_\fR\fIversion-originelle\fR\fB.orig.tar.gz\fR ou bien le répertoire 
+source originel \fIrépertoire\fR\fB.orig\fR ou bien une chaîne vide (pas de source 
+originel, et donc pas de « diffs »).
 .TP
-.B -i[<regexp>]
-On peut donner une expression régulière Perl correspondant aux fichiers
-d'une liste qui doivent être filtrés pour le « diff ». 
-(Cette liste est créée par une commande « find ».) L'option \fB-i\fR toute 
-seule filtre les sous-répertoires CVS, RCS et libtool .deps et tous les
-fichiers qu'ils contiennent, aussi bien les fichiers de sauvegarde
-terminés par un « ~ » que ceux crées par une interruption de l'éditeur JOE.
+.B \-i[<regexp>]
+On peut donner une expression rationnelle Perl correspondant aux fichiers 
+qui doivent être éliminés de la liste des fichiers pour le «\ diff\ ». Cette 
+liste est créée par une commande «\ find\ ». L'option \fB-i\fR toute seule, 
+élimine les fichiers de contrôle et les répertoires des systèmes les plus 
+connus de contrôle de version, les fichiers d'échange et de sauvegarde et 
+les répertoire utilisés par Libtool.
 
 C'est très utile pour supprimer les fichiers superflus qui sont inclus dans 
 le .diff.gz (p. ex. «\ debian/BUGS_TODO/*\ » ou «\ debian/RCS/*,v\ »). Quand 
-on suit avec un CVS distant un paquet que l'on maintient, et qu'on a pas la
-possibilité d'enregistrer les fichiers debian de contrôle ou d'étiqueter
-\fIcvs-buildpackage(1)\fR, il faut faire un «\ checkout/update\ » 
+on suit avec un CVS distant un paquet que l'on maintient, et qu'on a pas la 
+possibilité d'enregistrer les fichiers debian de contrôle ou d'étiqueter 
+\fIcvs\-buildpackage(1)\fR, il faut faire un «\ checkout/update\ » 
 supplémentaire dans un répertoire tenu vierge pour créer le fichier 
-.orig.tar.gz. Les fichiers «\ CVS/Entries\ » de ce répertoire contiennent des 
+orig.tar.gz. Les fichiers «\ CVS/Entries\ » de ce répertoire contiennent des 
 dates qui diffèrent de celles du répertoire de travail\ ; cela provoque 
-indûment
-leur inclusion dans chaque .diff.gz créé, à moins d'utiliser l'option
-\fB-i\fR.
+indûment leur inclusion dans chaque .diff.gz créé, à moins d'utiliser 
+l'option \fB\-i\fR.
 .TP
-.B -I<fichier>
-Avec cette option, le fichier est passé à l'option --exclude  de tar quand on
-veut créer un fichier .orig.tar.gz ou .tar.gz. Par exemple, -ICVS fera que
-tar sautera les répertoires du CVS quand il doit créer un fichier .tar.gz. On
-peut répéter cette option pour exclure plusieurs fichiers.
+.B \-I<fichier>
+Avec cette option, le fichier est passé à l'option \-\-exclude de tar quand 
+on veut créer un fichier .orig.tar.gz ou .tar.gz. Par exemple, \-ICVS fera 
+que tar sautera les répertoires du CVS quand il doit créer un fichier  .tar.gz. On peut répéter cette option pour exclure plusieurs fichiers.
 .TP
-.BR -sa , -sp , -su , -sk , -sA , -sP , -sU , -sK , -ss " avec " -b
-Quand on spécifie
-.BR -sk " ou " -sp,
-.B dpkg-source
-s'attend à ce que le source originel soit un fichier «\ tar\ » ; par défaut 
-c'est le fichier
-.IB paquet _ version-originelle .orig.tar.gz\fR.
-Il le laisse en place en tant que fichier «\ tar\ »  ou le copie dans le
-répertoire en cours s'il n'y est pas déjà.
-Quand on utilise
-.B -sp
-au lieu de
-.B -sk,
-il le supprime ensuite.
+.BR \-sa , \-sp , \-su , \-sk , \-sA , \-sP , \-sU , \-sK , \-ss " avec " \-b
+Quand on spécifie \fB\-sk\fR ou \fB\-sp,\fR \fBdpkg\-source\fR s'attend à ce que le 
+source originel soit un fichier «\ tar\ »\ ; par défaut, c'est le fichier 
+\fIpaquet\fR\fB_\fR\fIversion-originelle\fR\fB.orig.tar.gz\fR.\fP Il le laisse en place 
+en tant que fichier «\ tar\ » ou le copie dans le répertoire en cours s'il 
+n'y est pas déjà. Quand on utilise \fB\-sp\fR au lieu de \fB\-sk,\fR il le 
+supprime ensuite.
 
-Quand on spécifie
-.BR -su " ou " -sr,
-le source originel est attendu comme un répertoire ; par défaut c'est le 
-répertoire
-.IB paquet - version-originelle .orig
-et
-.B dpkg-source
-crée une nouvelle archive du source originel.
-Quand on utilise
-.B -sr,
-.B dpkg-source 
-supprime ce répertoire après usage.
+Quand on spécifie \fB\-su\fR ou \fB\-sr,\fR le source originel est attendu comme 
+un répertoire\ ; par défaut, c'est le répertoire 
+\fIpaquet\fR\fB-\fR\fIversion-originelle\fR\fB.orig\fR et \fBdpkg\-source\fR crée une 
+nouvelle archive du source originel. Quand on utilise \fB\-sr,\fR 
+\fBdpkg\-source\fR supprime ce répertoire après usage.
 
-Quand on utilise
-.B -ss,
-.B dpkg-source
-s'attend à ce que le source originel soit disponible à la fois comme un
-répertoire et comme un fichier «\ tar\ ». Il se sert du répertoire pour créer
-le «\ diff\ », mais se sert du fichier «\ tar\ » pour créer le fichier
-.BR .dsc.
-On doit faire attention avec cette option  -- Si le répertoire et le
-fichier «\ tar\ » ne correspondent pas, une mauvaise archive source en
-résulte.
+Quand on utilise \fB\-ss,\fR \fBdpkg\-source\fR s'attend à ce que le source 
+originel soit disponible à la fois comme un répertoire et comme un fichier 
+«\ tar\ ». Il se sert du répertoire pour créer le «\ diff\ », mais se sert 
+du fichier «\ tar\ » pour créer le fichier \fB.dsc\fR. On doit faire attention 
+avec cette option. Si le répertoire et le fichier «\ tar\ » ne correspondent 
+pas, une mauvaise archive source en résulte.
 
-Quand on utilise
-.B -sn,
-.B dpkg-source
-ne cherche pas de source originel, et ne crée pas de «\ diff\ ».
-Le second argument, s'il existe, doit être une chaîne vide. Cela sert pour
-les paquets Debian pure souche qui n'ont pas un source originel distinct et 
-donc, pas de fichier «\ diff\ » de debianisation.
+Quand on utilise \fB\-sn,\fR \fBdpkg\-source\fR ne cherche pas de source originel, 
+et ne crée pas de «\ diff\ ». Le second argument, s'il existe, doit être une 
+chaîne vide. Cela sert pour les paquets Debian pure souche qui n'ont pas un 
+source originel distinct et donc, pas de fichier «\ diff\ » de 
+debianisation.
 
-Quand on utilise
-.BR -sa " ou " -sA,
-.B dpkg-source
-cherche un source originel soit sous forme de fichier «\ tar\ », soit sous 
-forme de répertoire -- le deuxième argument, s'il existe, ou bien une chaîne 
-vide (cela revient à utiliser l'option
-.BR -sn).
-Quand un fichier «\ tar\ » existe, il est dépaqueté et
-.B dpkg-source
-crée un fichier «\ diff\ » ; ensuite il supprime le fichier «\ tar\ » (cela 
-revient à utiliser l'option
-.BR -sp) ;
-quand un répertoire est trouvé, il est dépaqueté et
-.B dpkg-source
-crée le source originel et supprime ensuite ce répertoire (cela revient
-à utiliser l'option
-.BR -sr) ;
-Quand ni l'un ni l'autre n'est trouvé,
-.B dpkg-source
-suppose que le paquet ne possède pas de fichier «\ diff\ » de debianisation,
-mais seulement une simple archive source (cela revient à utiliser l'option
-.BR -sn).
-Quand les deux sont trouvés,
-.B dpkg-source
-ignore le répertoire, et le remplace si l'option
-.B -sA
-a été spécifiée (cela revient à utiliser l'option
-.BR -sP) ; 
-ou bien il provoque une erreur quand l'option
-.B -sa
-a été spécifiée.
-L'option par défaut est
-.B -sA.
+Quand on utilise \fB\-sa\fR ou \fB\-sA,\fR \fBdpkg\-source\fR cherche un source 
+originel soit sous forme de fichier «\ tar\ », soit sous forme de répertoire 
+-- le deuxième argument, s'il existe, ou bien une chaîne vide (cela revient 
+à utiliser l'option \fB\-sn)\fR. Quand un fichier «\ tar\ » existe, il est 
+dépaqueté et \fBdpkg\-source\fR crée un fichier «\ diff\ »\ ; ensuite il 
+supprime le fichier «\ tar\ » (cela revient à utiliser l'option \fB\-sp)\fR\ ; 
+quand un répertoire est trouvé, il est dépaqueté et \fBdpkg\-source\fR crée le 
+source originel et supprime ensuite ce répertoire (cela revient à utiliser 
+l'option \fB\-sr)\fR\ ; quand ni l'un ni l'autre n'est trouvé, \fBdpkg\-source\fR 
+suppose que le paquet ne possède pas de fichier «\ diff\ » de debianisation, 
+mais seulement une simple archive source (cela revient à utiliser l'option 
+\fB\-sn\fR). Quand les deux sont trouvés, \fBdpkg\-source\fR ignore le répertoire 
+et le remplace si l'option \fB\-sA\fR a été spécifiée (cela revient à utiliser 
+l'option \fB\-sP)\fR\ ; ou bien il provoque une erreur si l'option \fB\-sa\fR a 
+été spécifiée. L'option par défaut est \fB\-sA\fR.
 
-Les options
-.BR -sa ", " -sp ", " -sk ", " -su " et "  -sr
-ne remplacent pas les fichiers «\ tar\ » ou les répertoires existants. Pour 
-cela, il faut utiliser les options
-.BR -sA ", " -sP ", " -sK ", " -sU " et "  -sR.
+Les options \fB\-sa\fR, \fB\-sp\fR, \fB\-sk\fR, \fB\-su\fR et \fB\-sr\fR ne remplacent pas 
+les fichiers «\ tar\ » ou les répertoires existants. Pour cela, il faut 
+utiliser les options \fB\-sA\fR, \fB\-sP\fR, \fB\-sK\fR, \fB\-sU\fR et \fB\-sR.\fR
 .TP
-.BR -sp , -su , -sn " avec " -x
-Dans tous ces cas, l'arborescence existante d'un source originel est supprimée.
+.BR \-sp , \-su , \-sn " avec " \-x
+Dans tous ces cas, l'arborescence existante d'un source originel est 
+supprimée.
 
-Quand on utilise l'option
-.B -sp
-lors d'une extraction, le source originel (s'il existe) est laissé en tant
-que fichier «\ tar\ ». S'il n'est pas déjà dans le répertoire en cours ou
-si ce répertoire contient un fichier différent, le fichier «\ tar\ » est
-copié dans ce répertoire. C'est le comportement par défaut.
+Quand on utilise l'option \fB\-sp\fR lors d'une extraction, le source originel 
+(s'il existe) est laissé en tant que fichier «\ tar\ ». S'il n'est pas déjà 
+dans le répertoire en cours ou si ce répertoire contient un fichier 
+différent, le fichier «\ tar\ » est copié dans ce répertoire. C'est le 
+comportement par défaut.
 
-L'option
-.B -su
-dépaquète une arborescence source originelle.
+L'option \fB\-su\fR dépaquète une arborescence source originelle.
 
-L'option
-.B -sn
-assure que le source originel ne sera ni copié dans le répertoire en cours, 
-ni dépaqueté. Une arborescence source originelle présente dans le répertoire 
-en cours est toujours supprimée.
-.SH LES OPTIONS POUR DPKG-GENCONTROL
-.B dpkg-gencontrol
-ne prend pas d'argument sans options.
+L'option \fB\-sn\fR assure que le source originel ne sera ni copié dans le 
+répertoire en cours, ni dépaqueté. Une arborescence source originelle 
+présente dans le répertoire en cours est toujours supprimée.
+.SH "LES OPTIONS POUR DPKG\-GENCONTROL"
+\fBdpkg\-gencontrol\fR ne prend pas d'argument sans option.
 .TP
-.BI -p paquet
-cette option produit les informations concernant le paquet binaire
-.IR paquet.
-Si le fichier de contrôle des sources liste un seul paquet binaire, on peut
-omettre cette option ; sinon c'est indispensable d'indiquer le paquet pour
-lequel on veut produire les informations.
+.BI \-p paquet
+cette option produit les informations concernant le paquet binaire 
+\fIpaquet.\fR Si le fichier de contrôle des sources liste un seul paquet 
+binaire, on peut omettre cette option\ ; sinon c'est indispensable 
+d'indiquer le paquet pour lequel on veut produire les informations.
 .TP
-.BI -n nom-de-fichier
-Le nom du paquet est
-.I nom-de-fichier
-au lieu de l'habituel : paquet_version_arch.deb.
+.BI \-n nom-de-fichier
+Le nom du paquet est \fInom-de-fichier\fR au lieu de l'habituel : 
+paquet_version_arch.deb.
 .TP
-.BR -is ", " -ip ", " -isp
-ces options incluent, dans le fichier de contrôle du paquet binaire, les champs
-.BR Section " et " Priority
-qui concernent ce paquet et qui se trouvent dans le fichier principal de 
-contrôle des sources. Habituellement on ne met pas ces informations là
-mais dans le fichier
-.B .changes.
-L'option
-.B -isp
-inclue les deux champs,
-.BR -is " seulement le champ " Section " et " -ip " seulement le champ " Priority .
+.BR \-is ", " \-ip ", " \-isp
+Ces options incluent, dans le fichier de contrôle du paquet binaire, les 
+champs \fBSection\fR et \fBPriority\fR qui concernent ce paquet et qui se trouvent 
+dans le fichier principal de contrôle des sources. Habituellement on ne met 
+pas ces informations là, mais dans le fichier \fB.changes.\fR L'option \fB\-isp\fR 
+inclut les deux champs, \fB\-is\fR seulement le champ \fBSection\fR et \fB\-ip\fR 
+seulement le champ \fBPriority\fR.
 .TP
-.BI -P rep-de-construction-du-paquet
-Cette option indique à
-.B dpkg-source
-que le répertoire de construction du paquet est
-.I rep-de-construction-du-paquet
-au lieu de
-.BR debian/tmp.
-Cette valeur sert à trouver la valeur par défaut de la variable de
-substitution
-.B Installed-Size
-et celle du champ correspondant dans le fichier de contrôle (on utilise la
-commande
-.BR du ) ;
-elle donne aussi l'emplacement par défaut pour le fichier de sortie.
+.BI \-P rep-de-construction-du-paquet
+Cette option indique à \fBdpkg\-source\fR que le répertoire de construction du 
+paquet est \fIrep-de-construction-du-paquet\fR au lieu de \fBdebian/tmp.\fR Cette 
+valeur sert à trouver la valeur par défaut de la variable de substitution 
+\fBInstalled\-Size\fR et celle du champ correspondant dans le fichier de 
+contrôle (on utilise la commande \fBdu\fR)\ ; elle donne aussi l'emplacement 
+par défaut pour le fichier de sortie.
 .TP
-.B -O
+.B \-O
 Cette option provoque l'affichage du fichier de contrôle sur la sortie 
-standard au lieu de
-.B debian/tmp/DEBIAN/control
-(ou
-.IB rep-de-construction-du-paquet /DEBIAN/control
-si l'option
-.B -P
-a été utilisée).
-.SH LES OPTIONS POUR DPKG-SHLIBDEPS
-.B dpkg-shlibdeps
-interprète des arguments sans option comme des commandes 
-exécutables, comme si on avait simplement donné
-.BI -e exécutable\fR.
+standard au lieu de \fBdebian/tmp/DEBIAN/control\fR (ou 
+\fIrep-de-construction-du-paquet\fR\fB/DEBIAN/control\fR si l'option \fB\-P\fR a été 
+utilisée).
+.SH "LES OPTIONS POUR DPKG\-SHLIBDEPS"
+\fBdpkg-shlibdeps\fR interprète des arguments sans option comme des commandes 
+exécutables, comme si on avait simplement donné \fB\-e\fR\fIexécutable\fR.\fP
 .TP
-.BI -e exécutable
-Cette option inclue les bonnes dépendances envers les bibliothèques partagées 
-que demande
-.IR exécutable.
+.BI \-e exécutable
+Cette option inclut les bonnes dépendances envers les bibliothèques 
+partagées que demande \fIexécutable.\fR
 .TP
-.BI -d champ-dépendance
+.BI \-d champ-dépendance
 Cette option ajoute les dépendances destinées au champ « dépendance » du 
-fichier de contrôle
-.IR champ-dépendance.
-(Les dépendances pour ce champ sont dans la variable 
-.BI shlibs: champ-dépendance\fR.)
+fichier de contrôle \fIchamp-dépendance.\fR (Les dépendances pour ce champ sont 
+dans la variable \fBshlibs:\fR\fIchamp-dépendance\fR.)\fP
 
-L'option
-.BI -d champ-dépendance
-concerne tous les exécutables qui suivent l'option, jusqu'à la prochaine option
-.BI -d champ-dépendance\fR.
-Par défaut,
-.I champ-dépendance
-vaut
-.BR Depends .
+L'option \fB\-d\fR\fIchamp-dépendance\fR concerne tous les exécutables qui suivent 
+l'option, jusqu'à la prochaine option \fB\-d\fR\fIchamp-dépendance\fR.\fP Par 
+défaut, \fIchamp-dépendance\fR vaut \fBDepends\fR.
 
-Quand, dans plusieurs champs reconnus ayant trait aux dépendances comme
-les champs
-.BR Pre-Depends ", " Depends ", " Recommends ", " Enhances " ou " Suggests, 
-apparaît la même entrée (ou bien un ensemble d'alternatives)
-.B dpkg-shlibdeps
-supprime automatiquement les dépendances dans tous les champs sauf celui qui
-représente les dépendances les plus importantes.
+Quand, dans plusieurs champs reconnus ayant trait aux dépendances comme les 
+champs \fBPre\-Depends\fR, \fBDepends\fR, \fBRecommends\fR, \fBEnhances\fR ou 
+\fBSuggests,\fR apparaît la même entrée (ou bien un ensemble d'alternatives)  
+\fBdpkg\-shlibdeps\fR supprime automatiquement les dépendances dans tous les 
+champs sauf celui qui représente les dépendances les plus importantes.
 .TP
-.BI -p préfixe-pour-le-nom-des-variables
-Les variables de substitution commenceront par
-.IB préfixe-pour-le-nom-des-variables :
-au lieu de
-.BR shlibs: .
-De même, toute variable de substitution commençant par
-.IB préfixe-pour-le-nom-des-variables :
-(au lieu de
-.BR shlib: )
-sont enlevés du fichier de substitution des variables.
+.BI \-p préfixe-pour-le-nom-des-variables
+Les variables de substitution commenceront par 
+\fIpréfixe-pour-le-nom-des-variables\fR\fB:\fR au lieu de \fBshlibs:\fR. De même, 
+toute variable de substitution commençant par 
+\fIpréfixe-pour-le-nom-des-variables\fR\fB:\fR (au lieu de \fBshlib:\fR) est enlevée 
+du fichier de substitution des variables.
 .TP
-.BI -L fichier-local-shlibs
-.B dpkg-shlibs
-lira les information de remplacement concernant les dépendances envers les
-bibliothèques partagées dans
-.I fichier-local-shlibs
-au lieu de
-.BR debian/shlibs.local .
+.BI \-L fichier-local-shlibs
+\fBdpkg-shlibs\fR lira les informations de remplacement concernant les 
+dépendances envers les bibliothèques partagées dans \fIfichier-local-shlibs\fR 
+au lieu de \fBdebian/shlibs.local\fR.
 .TP
-.B -O
-Les définitions des variables de substitution seront affichées sur la sortie
-standard, plutôt qu'ajoutées dans le fichier de substitution des variables qui
-est par défaut
-.RB  debian/substvars.
-.SH LES OPTIONS DE DPKG-GENCHANGES 
-.B dpkg-genchanges
-ne prend pas d'argument sans options.
+.B \-O
+Les définitions des variables de substitution seront affichées sur la sortie 
+standard, plutôt qu'ajoutées dans le fichier de substitution des variables 
+qui est par défaut debian/substvars.
+.SH "LES OPTIONS DE DPKG\-GENCHANGES"
+\fBdpkg-genchanges\fR ne prend pas d'argument sans option.
 .TP
-.BI -u répertoire-des-fichiers-à-installer
-Cherche les fichiers à installer dans
-.I répertoire-des-fichiers-à-installer
-plutôt que dans
-.B ..
-.RB ( dpkg-genchanges
-doit trouver ces fichiers de manière à mettre leurs tailles et leurs sommes de
-contrôle dans le fichier
+.BI \-u répertoire-des-fichiers-à-installer
+Cherche les fichiers à installer dans \fIrépertoire-des-fichiers-à-installer\fR 
+plutôt que dans \fB..\fR (\fBdpkg-genchanges\fR doit trouver ces fichiers de 
+manière à mettre leurs tailles et leurs sommes de contrôle dans le fichier 
 .B .changes.)
 .TP
-.B -q
-.B dpkg-genchanges
-affiche habituellement des messages d'information sur la sortie d'erreur 
-standard ; par exemple, combien de fichiers source du paquet sont en cours
-d'installation.
-.B -q
-supprime ces messages.
-.SH LES OPTIONS DE DPKG-BUILDPACKAGE
-.B dpkg-buildpackage
-ne prend pas d'arguments sans options.
+.B \-q
+\fBdpkg\-genchanges\fR affiche habituellement des messages d'information sur la 
+sortie d'erreur standard\ ; par exemple, combien de fichiers source du 
+paquet sont en cours d'installation. \fB\-q\fR supprime ces messages.
+.SH "LES OPTIONS DE DPKG\-BUILDPACKAGE"
+\fBdpkg\-buildpackage\fR ne prend pas d'arguments sans option.
 .TP
-.BI -k key-id
-Précise un « key-ID » pour la signature des paquets.
+.BI \-k key-id
+Précise une clé pour la signature des paquets.
 .TP
-.BI -r commande-pour-obtenir-privilèges-de-root
-Quand
-.B dpkg-buildpackage
-doit exécuter une partie du processus de construction en tant que root,
-il préfixe la commande exécutée par
-.I commande-pour-obtenir-privilèges-de-root
-si elle existe.
-.I commande-pour-obtenir-privilèges-de-root
-sera le nom d'un programme présent dans le
-.B PATH
-et ce programme prend comme argument le nom de la commande réelle à
-exécuter et les arguments qu'elle doit prendre.
-.I commande-pour-obtenir-privilèges-de-root
-ne contiendra pas d'espace ni aucun « métacaractère » du shell.
-.\" Que se passe-t-il si elle contient des espaces ? (hs)
-.I commande-pour-obtenir-privilèges-de-root
-est classiquement
-.BR sudo ", " super " ou " really .
-.B su
-ne va pas, puisque ce programme demande une option
-.B -c
-pour exécuter une commande ; et même alors il ne peut qu'appeler le shell
-de l'utilisateur au lieu de passer directement les arguments à la commande
-qui doit être exécutée.
+.BI \-r commande-pour-obtenir-privilèges-de-root
+Quand \fBdpkg\-buildpackage\fR doit exécuter une partie du processus de 
+construction en tant que root, il préfixe la commande exécutée par 
+\fIcommande-pour-obtenir-privilèges-de-root\fR, si elle 
+existe. \fIcommande-pour-obtenir-privilèges-de-root\fR sera le nom d'un 
+programme présent dans le \fBPATH\fR et ce programme prend comme argument le 
+nom de la commande réelle à exécuter et les arguments qu'elle doit 
+prendre. \fIcommande-pour-obtenir-privilèges-de-root\fR ne contiendra pas 
+d'espace ni aucun « métacaractère » de l'interpréteur de commandes.
+.\" what happens, if it contains spaces? (hs)
+\fIcommande-pour-obtenir-privilèges-de-root\fR est classiquement \fBfakeroot\fR, 
+\fBsudo\fR, \fBsuper\fR ou \fBreally\fR. \fBsu\fR ne va pas, puisque ce programme 
+demande une option \fB\-c\fR pour exécuter une commande\ ; et même alors il ne 
+peut qu'appeler l'interpréteur de commandes de l'utilisateur au lieu de 
+passer directement les arguments à la commande qui doit être exécutée.
 .TP
-.BI -p commande-de-signature
-Quand
-.B dpkg-buildpackage
-doit exécuter GPG ou PGP pour signer un fichier source de contrôle
-.RB ( .dsc )
-ou un fichier
-.B .changes,
-il exécute
-.I commande-de-signature
-(en examinant le
-.B PATH
-si nécessaire) au lieu de
-.BR pgp .
-.I commande-de-signature
-obtient tous les arguments qu'aurait obtenu
-.B pgp.
-Si
-.I commande-de-signature
-veut recevoir ses arguments à la manière GPG plutôt qu'à la manière PGP,
-on choisira l'option
-.B -sgpg.
-.I commande-de-signature
-ne contiendra pas d'espace ni aucun «\ métacaractère\ » du shell.
+.BI \-p commande-de-signature
+Quand \fBdpkg-buildpackage\fR doit exécuter GPG ou PGP pour signer un fichier 
+source de contrôle (\fB.dsc\fR) ou un fichier \fB.changes\fR, il exécute 
+\fIcommande-de-signature\fR (en examinant le \fBPATH\fR si nécessaire) au lieu de 
+\fBpgp\fR. \fIcommande-de-signature\fR obtient tous les arguments qu'aurait obtenu 
+\fBpgp\fR. Si \fIcommande-de-signature\fR veut recevoir ses arguments à la manière 
+GPG plutôt qu'à la manière PGP, on choisira l'option \fB\-sgpg.\fR 
+\fIcommande-de-signature\fR ne contiendra pas d'espace ni aucun «\ 
+métacaractère\ » de l'interpréteur de commandes.
 .TP
-.B -tc
-Nettoyage de l'arborescence (en utilisant
-.I commande-pour-obtenir-privilèges-de-root
-.BR "debian/rules clean" )
-après la construction du paquet.
+.B \-tc
+Nettoyage de l'arborescence (en utilisant 
+\fIcommande-pour-obtenir-privilèges-de-root\fR \fBdebian/rules clean\fR)  après la 
+construction du paquet.
 .TP
-.BR -us ", " -uc
-Ne pas signer, respectivement, soit le paquet source, soit le fichier 
-«\ .changes\ ».
+.BR \-us ", " \-uc
+Ne pas signer, respectivement, soit le paquet source, soit le fichier «\  .changes\ ».
 .TP
-.BI -a architecture
-Précise l'architecture Debian pour laquelle on construit. L'architecture de la
-machine sur laquelle on construit est automatiquement déterminée\ ; c'est aussi
-l'architecture par défaut de la machine hôte.
+.BI \-a architecture
+Précise l'architecture Debian pour laquelle on construit. L'architecture de 
+la machine sur laquelle on construit est automatiquement déterminée\ ; c'est 
+aussi l'architecture par défaut de la machine hôte.
 .TP
-.B -i[<regexp>]
-chaîne passée telle quelle à
-.BR dpkg-source.
+.B \-i[<regexp>]
+Chaîne passée telle quelle à \fBdpkg\-source.\fR
 .TP
-.B -I<fichier>
-fichier passé tel quel à
-.BR dpkg-source. 
-Peut être plusieurs fois répétée.
-.B -D
-Vérifier les dépendances de constructions et les conflits\ ; se termine en cas
-de problèmes.
+.B \-I<fichier>
+Fichier passé tel quel à \fBdpkg\-source.\fR Peut être plusieurs fois répétée.
 .TP
-.B -d
+.B \-D
+Vérifier les dépendances de constructions et les conflits\ ; se termine en 
+cas de problèmes.
+.TP
+.B \-d
 Ne pas vérifier les dépendances de constructions et les conflits.
 .TP
-.B -nc
-Ne pas nettoyer l'arborescence source (implique l'option -b)
-.TP
-.SH LES ARGUMENTS DE DPKG-DISTADDFILE
-.B dpkg-distaddfile
-ne prend pas d'option particulière. Il prend trois arguments sans options,
-à savoir le nom du fichier, la section et la priorité, pour le fichier
-.B .changes.
+.B \-nc
+Ne pas nettoyer l'arborescence source (implique l'option \-b)
+.SH "LES ARGUMENTS DE DPKG\-DISTADDFILE"
+\fBdpkg\-distaddfile\fR ne prend pas d'option particulière. Il prend trois 
+arguments sans option, à savoir le nom du fichier, la section et la 
+priorité, pour le fichier \fB.changes.\fR
 
-Le nom du fichier sera indiqué relativement au répertoire dans lequel
-.B dpkg-genchanges
-s'attend à trouver les fichiers, habituellement
-.BR .. ,
-plutôt que relativement au répertoire dans lequel est exécuté
-.B dpkg-distaddfile.
-.SH  LES ARGUMENTS DE DPKG-PARSECHANGELOG
-.B dpkg-parsechangelog
-ne prend ni d'option particulière ni d'argument sans options.
-.SH LA SUBSTITUTION DE VARIABLE
-Avant que
-.BR dpkg-source ", " dpkg-gencontrol " et " dpkg-genchanges
-n'écrivent leurs informations de contrôle (dans le fichier source de contrôle
-.B .dsc
-pour
-.B dpkg-source
-et sur la sortie standard pour
-.BR dpkg-gencontrol " et " dpkg-genchanges),
-ils accomplissent quelques substitutions de variable dans le fichier de 
-sortie.
+Le nom du fichier sera indiqué relativement au répertoire dans lequel 
+\fBdpkg\-genchanges\fR s'attend à trouver les fichiers, habituellement \fB..\fR, 
+plutôt que relativement au répertoire dans lequel est exécuté 
+.B dpkg\-distaddfile.
+.SH "LES ARGUMENTS DE DPKG\-PARSECHANGELOG"
+\fBdpkg\-parsechangelog\fR ne prend ni d'option particulière ni d'argument sans 
+option.
+.SH "LA SUBSTITUTION DE VARIABLE"
+Avant que \fBdpkg\-source\fR, \fBdpkg\-gencontrol\fR et \fBdpkg\-genchanges\fR 
+n'écrivent leurs informations de contrôle (dans le fichier source de 
+contrôle \fB.dsc\fR pour \fBdpkg\-source\fR et sur la sortie standard pour 
+\fBdpkg\-gencontrol\fR et \fBdpkg\-genchanges),\fR ils accomplissent quelques 
+substitutions de variable dans le fichier de sortie.
 
-Une substitution de variable est de la forme :
-.BI ${ variable-name }\fR.
-Les noms de variable consistent en caractères alphanumériques, traits d'union 
-et «\ deux points\ » ; ils commencent par une lettre ou un chiffre.
-La substitution se fait répétitivement jusqu'à ce qu'il n'en reste aucune à
-faire ; le texte entier du champ après la substitution est réexaminé pour
+Une substitution de variable est de la forme : \fB${\fR\fIvariable-nom\fR\fB}\fR.\fP 
+Les noms de variable consistent en caractères alphanumériques, traits 
+d'union et «\ deux points\ » ; ils commencent par une lettre ou un chiffre.  
+La substitution se fait répétitivement jusqu'à ce qu'il n'en reste aucune à 
+faire\ ; le texte entier du champ après la substitution est réexaminé pour 
 chercher d'autres substitutions.
 
-Quand toutes les substitutions ont été faites, chaque occurrence de la
-chaîne
-.B ${}
-(laquelle n'est pas une substitution autorisée) est remplacée par un signe
-.B $.
+Quand toutes les substitutions ont été faites, chaque occurrence de la 
+chaîne \fB${}\fR (laquelle n'est pas une substitution autorisée) est remplacée 
+par un signe \fB$.\fR
 
-On peut définir les variables en utilisant l'option commune
-.B -V.
-On peut aussi se servir du fichier
-.B debian/substvars
-(ou tout autre fichier avec l'option
-.B -T).
-Ce fichier est composé de lignes de la forme suivante :
-.IB name = value\fR.
-Les espaces résiduels sur chaque ligne, les lignes vides et les lignes qui
-commencent par un symbole
-.B #
-sont ignorés.
+On peut définir les variables en utilisant l'option commune \fB\-V.\fR On peut 
+aussi se servir du fichier \fBdebian/substvars\fR (ou tout autre fichier avec 
+l'option \fB\-T).\fR Ce fichier est composé de lignes de la forme suivante\ : 
+\fInom\fR\fB=\fR\fIvaleur\fR.\fP Les espaces résiduels sur chaque ligne, les lignes 
+vides et les lignes qui commencent par un symbole \fB#\fR sont ignorés.
 
-En outre, les variables standards suivantes sont disponibles :
+En outre, les variables standard suivantes sont disponibles\ :
 .TP
 .BI Arch
-L'architecture pour laquelle on construit (tirée de
-.BR "dpkg \-\-print-architecture" ).
+L'architecture pour laquelle on construit (tirée de \fBdpkg 
+\-\-print-architecture\fR).
 .TP
-.B Source-Version
+.B Source\-Version
 La version du paquet source (tirée du fichier changelog).
 .TP
-.B Installed-Size
-La taille de tous les fichiers installés du paquet. Cette valeur est copiée
+.B Installed\-Size
+La taille de tous les fichiers installés du paquet. Cette valeur est copiée 
 dans le champ adéquat du fichier « control » ; Quand on fixe cette variable, 
-cela modifie la valeur de ce champ. Quand elle est indéterminée,
-.B dpkg-gencontrol
-use de la commande
-.B du -k debian/tmp
-pour trouver une valeur par défaut.
+cela modifie la valeur de ce champ. Quand elle est indéterminée, 
+\fBdpkg\-gencontrol\fR use de la commande \fBdu \-k debian/tmp\fR pour trouver une 
+valeur par défaut.
 .TP
-.B Extra-Size
-L'espace disque supplémentaire utilisé pour l'installation du paquet. 
-Quand on fixe cette variable, on ajoute sa valeur à la valeur de la variable
-.B Installed-Size
-(qu'elle soit définie explicitement ou calculée par défaut) avant que la 
-variable
-.B Installed-Size
-ne soit copiée dans le champ du fichier «\ control\ ».
+.B Extra\-Size
+L'espace disque supplémentaire utilisé pour l'installation du paquet. Quand 
+on fixe cette variable, on ajoute sa valeur à la valeur de la variable 
+\fBInstalled\-Size\fR (qu'elle soit définie explicitement ou calculée par 
+défaut) avant que la variable \fBInstalled\-Size\fR ne soit copiée dans le 
+champ du fichier «\ control\ ».
 .TP
 .BI F: fieldname
-La valeur du champ
-.IR fieldname
-affiché en sortie et qui doit être classiquement en majuscules.  Quand on 
-fixe ces variables,
-cela ne prend effet que là où elles sont effectivement développées.
+La valeur du champ \fIfieldname\fR affiché en sortie et qui doit être 
+classiquement en majuscules. Quand on fixe ces variables, cela ne prend 
+effet que là où elles sont effectivement développées.
 .TP
 .B Format
-La version du format du fichier
-.B .changes
-produite par la version des scripts construisant le source. Quand on
-détermine cette variable, le contenu du champ
-.B Format
-dans le fichier
-.B .changes
-est aussi modifié.
+La version du format du fichier \fB.changes\fR produite par la version des 
+scripts construisant le source. Quand on détermine cette variable, le 
+contenu du champ \fBFormat\fR dans le fichier \fB.changes\fR est aussi modifié.
 .TP
 .BR Newline ", " Space ", " Tab
 Ces variables contiennent chacune le caractère correspondant.
 .TP
 .BI shlibs: dependencyfield
-Les variables déterminées de cette façon sont produites par
-.B dpkg-shlibdeps
-- voyez plus haut.
+Les variables déterminées de cette façon sont produites par 
+\fBdpkg\-shlibdeps\fR, voyez plus haut.
+.TP
+.B dpkg:UpstreamVersion
+The upstream version of dpkg.
+.TP
+.B dpkg:Version
+The full version of dpkg.
 .LP
-Quand une variable est référencée mais n'est pas définie, cela produit
-un avertissement et une valeur nulle est assumée.
+Quand une variable est référencée mais n'est pas définie, cela produit un 
+avertissement et une valeur nulle est assumée.
 .SH FICHIERS
 .TP
 .B debian/control
-Le principal fichier d'information sur les sources ; il donne des 
-renseignements qui ne dépendent pas d'une version concernant le paquet
+Le principal fichier d'information sur les sources\ ; il donne des 
+renseignements qui ne dépendent pas d'une version concernant le paquet 
 source et les paquets binaires qui peuvent être créés.
 .TP
 .B debian/changelog
-Le fichier d'enregistrement des modifications\ ; on s'en sert pour connaître
-les informations qui dépendent d'une version du paquet source, par exemple
-l'urgence ou la distribution d'une installation sur le serveur, les
-modifications faites depuis telle édition et le numéro de la version source
+Le fichier d'enregistrement des modifications\ ; on s'en sert pour connaître 
+les informations qui dépendent d'une version du paquet source, par exemple 
+l'urgence ou la distribution d'une installation sur le serveur, les 
+modifications faites depuis telle édition et le numéro de la version source 
 lui-même.
 .TP
 .B debian/files
-la liste des fichiers créés qui seront installés sur le serveur.
-.B dpkg-gencontrol
-ajoute les noms présumés des fichiers des paquets binaires à partir des
-fichiers « control » qu'il crée ; pour ajouter d'autres fichiers on peut se
-servir de
-.B dpkg-distaddfile.
-.B dpkg-genchanges
-lit dans ce fichier les données nécessaires à la création du fichier
-.B .changes.
-
+La liste des fichiers créés qui seront installés sur le 
+serveur. \fBdpkg\-gencontrol\fR ajoute les noms présumés des fichiers des 
+paquets binaires à partir des fichiers «\ control\ » qu'il crée\ ; pour 
+ajouter d'autres fichiers on peut se servir de 
+\fBdpkg\-distaddfile\fR. \fBdpkg\-genchanges\fR lit dans ce fichier les données 
+nécessaires à la création du fichier \fB.changes\fR.
 .TP
 .B debian/substvars
 La liste des variables de substitution et leurs valeurs.
 .TP
 .B debian/shlibs.local
-Fichier particulier à un paquet remplaçant les informations qui concernent les
-dépendances envers des bibliothèques partagées.
+Fichier particulier à un paquet remplaçant les informations qui concernent 
+les dépendances envers des bibliothèques partagées.
 .TP
 .B /etc/dpkg/shlibs.override
-Fichier système remplaçant les informations qui concernent les dépendances
+Fichier système remplaçant les informations qui concernent les dépendances 
 envers des bibliothèques partagées.
 .TP
 .B /etc/dpkg/shlibs.default
 Fichier système par défaut concernant les informations de dépendances envers 
 des bibliothèques partagées.
 .SH BOGUES
-Le moment où a lieu le remplacement d'un champ par rapport à certaines
-déterminations de champ affiché sur la sortie standard est plutôt embrouillé.
-.\" et cette phrase aussi !
+Le moment où a lieu le remplacement d'un champ par rapport à certaines 
+déterminations de champ affichées sur la sortie standard est plutôt 
+embrouillé.
 
 On opère deux fois la substitution de variable sur les entrées d'un paquet 
-binaire dans le fichier
-.B debian/files.
-Cela ne devrait pas poser de problèmes puisque
-.BR $ ", " { " et " }
-ne sont pas permis dans les noms de paquets et les numéros de version.
+binaire dans le fichier \fBdebian/files\fR. Cela ne devrait pas poser de 
+problème puisque \fB$\fR, \fB{\fR et \fB}\fR ne sont pas permis dans les noms de 
+paquet et les numéros de version.
 
-On devrait pouvoir mettre des espaces et des métacaractères du shell dans les
-arguments initiaux de
-.IR commande-pour-obtenir-privilèges-de-root " et " commande-de-signature .
-.SH VOIR AUSSI
-.IR "Debian packaging manual" ,
+On devrait pouvoir mettre des espaces et des métacaractères du shell dans 
+les arguments initiaux de \fIcommande-pour-obtenir-privilèges-de-root\fR et 
+\fIcommande-de-signature\fR.
+.SH "VOIR AUSSI"
+\fIDebian packaging manual\fR,
 .br
-.IR "Debian policy manual" ,
+\fIDebian policy manual\fR,
 .br
-.BR dpkg\-deb (1),
-.BR dpkg (8),
-.BR dselect (8),
-.BR gpg (1),
-.BR pgp (1).
+\fBdpkg\-deb\fR(1), \fBdpkg\fR(8), \fBdselect\fR(8), \fBgpg\fR(1), \fBpgp\fR(1).
 .SH AUTEUR
 Ces outils et cette page de manuel ont été écrits par Ian Jackson.
 .SH COPYRIGHT
@@ -841,14 +591,11 @@ Copyright (C) 1995-1996 Ian Jackson
 .br
 Copyright (C) 2000 Wichert Akkerman
 .br
-Ce sont des logiciels libres ; voyez la «\  GNU General Public Licence\ » 
-version 2 ou supérieure pour le copyright. Il n'y a
-.B pas
-de garantie. Voyez
-.B /usr/share/doc/dpkg/copyright
-et
-.B /usr/share/common-licenses/GPL
-pour des précisions.
+C'est un logiciel libre\ ; voyez la «\ GNU General Public Licence\ » version 
+2 ou supérieure pour le copyright. Il n'y a \fBpas\fR de garantie. Voyez 
+\fB/usr/share/doc/dpkg/copyright\fR et \fB/usr/share/common-licenses/GPL\fR pour 
+des précisions.
 .SH TRADUCTION
-Philippe Batailler, Octobre 2003.
-<debian-l10n-french@lists.debian.org>
+Philippe Batailler, 2004.
+Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
+dpkg, version 1.10.23.

@@ -2,55 +2,55 @@
 .\" (c) 2003 Software in the Public Interest
 .\" Esta traducción ha sido realizada por Rubén Porras Campo <nahoo@inicia.es>
 .\" Está basada en la página de manual original:
-.\" versión 1.1 del CVS de /cvs/debian-doc/manpages/english/dpkg/dpkg-split.8
-.TH dpkg-split 1 "23 de Junio de 1996" "Proyecto Debian" "herramientas dpkg"
+.\" versión 1.2 del CVS de /cvs/debian-doc/manpages/english/dpkg/dpkg-split.8
+.TH dpkg\-split 1 "23 de Junio de 1996" "Proyecto Debian" "herramientas dpkg"
 .SH NOMBRE
 dpkg\-split \- herramienta para separar/unir paquetes Debian
 .SH SINOPSIS
-.B dpkg-split
-.BR -s | --split
+.B dpkg\-split
+.BR \-s | \-\-split
 .IR fichero\-completo " [" prefijo ]
 .br
-.B dpkg-split
-.BR -j | --join
+.B dpkg\-split
+.BR \-j | \-\-join
 .IR "parte parte " ...
 .br
-.B dpkg-split
-.BR -I | --info
+.B dpkg\-split
+.BR \-I | \-\-info
 .IR "parte parte " ...
 .br
-.B dpkg-split
-.BR -a | --auto
-.BI -o " salida\-completa parte"
+.B dpkg\-split
+.BR \-a | \-\-auto
+.BI \-o " salida\-completa parte"
 .br
-.B dpkg-split
-.BR -l | --listq
+.B dpkg\-split
+.BR \-l | \-\-listq
 .br
-.B dpkg-split
-.BR -d | --discard
+.B dpkg\-split
+.BR \-d | \-\-discard
 .RI [ "paquete paquete " ...]
 .SH DESCRIPCIÓN
-.B dpkg-split
+.B dpkg\-split
 separa un paquete binario de Debian en varias partes más pequeñas para luego
 volverlas a unir, de esta forma se pueden almacenar paquetes en medios de poca
 capacidad, como disquetes.
 
 Puede usarse manualmente usando las opciones
-.BR --split ", " --join " e " --info.
+.BR \-\-split ", " \-\-join " e " \-\-info.
 
 También posee un modo automático, invocado con la opción
-.B --auto
+.B \-\-auto
 , entonces mantiene una cola con las partes que ha visto pero que aún
 no se han unido y reensambla el paquete cuando haya visto todas sus partes.
 Las opciones 
-.BR --listq " y " --discard
+.BR \-\-listq " y " \-\-discard
 permiten administrar la cola.
 
 Todas las operaciones de separación, unión y encolado producen mensajes
 informativos en la salida estándar, pueden ignorarse sin ningún riesgo.
 .SH OPCIONES DE ACCIÓN
 .TP
-.BR --split ", " -s
+.BR \-\-split ", " \-s
 Separa un paquete binario de Debian en varias partes.
 
 Las partes reciben el nombre
@@ -69,7 +69,7 @@ entonces se toma el nombre del
 .B .deb
 eliminada.
 .TP
-.BR --join ", " -j
+.BR \-\-join ", " \-j
 Une las partes de un paquete, dejando el paquete tal y como era originalmente.
 
 Las partes que se proporcionen como argumento deben de ser todas las partes del
@@ -79,21 +79,21 @@ necesariamente en orden.
 Todas las partes deben generarse con el mismo tamaño especificado a la hora de
 la separación, lo que significa que todas deben haber sido generadas por la
 misma invocación de 
-.BR "dpkg-split --split" .
+.BR "dpkg\-split \-\-split" .
 
 El nombre de las partes no es significativo para el proceso de reensamblado.
 
 Por omisión el fichero resultante se llama
-.IB paquete - versión .deb\fR.
+.IB paquete \- versión .deb\fR.
 
 .TP
-.BR --info ", " -I
+.BR \-\-info ", " \-I
 Muestra información entendible por una persona acerca de la parte o
 las partes del fichero o ficheros especificados. Argumentos que no sean parte de
 un paquete binario producen un mensaje avisando del problema (en la salida
 estándar).
 .TP
-.BR --auto ", " -a
+.BR \-\-auto ", " \-a
 Encolar las partes automáticamente y reensamblar el paquete si es posible.
 
 La
@@ -120,21 +120,21 @@ terminará con un estado de salida igual a 1, si ocurre algún otro tipo de error
 el estado de salida será 2.
 
 Debe de proporcionar la opción
-.BR --output " o " -o
+.BR \-\-output " o " \-o
 cuando use
-.BR --auto .
+.BR \-\-auto .
 (Si este argumento no fuese obligatorio el programa que ejecute
 .B dpkg\-split
 no sabría que fichero esperar).
 .TP
-.BR --listq ", " -l
+.BR \-\-listq ", " \-l
 Lista los contenidos de la cola de paquetes para reensamblar.
 
 Por cada fichero de un paquete que contenga partes en la cola se muestra el
 nombre del paquete, las partes en la cola y el número total de bytes guardados
 en ésta.
 .TP
-.BR --discard ", " -d
+.BR \-\-discard ", " \-d
 Descarta partes de la cola de aquéllas que esperan las partes restantes
 del paquete para ser reensambladas.
 
@@ -143,16 +143,16 @@ Si no se especifica ningún
 se limpia la cola por completo, si se especifica alguno sólo se eliminan las
 partes de los paquetes relevantes.
 .TP
-.BR --help ", " -h
+.BR \-\-help ", " \-h
 Muestra el modo de uso de
 .BR dpkg\-split
 , dando además un breve resumen de sus opciones.
 .TP
-.BR --version
+.BR \-\-version
 Muestra la versión de 
 .BR dpkg\-split.
 .TP
-.BR --licence
+.BR \-\-licence
 Muestra información acerca de la licencia de
 .BR dpkg\-split
 así como de su falta de garantía. (La escritura americana
@@ -160,16 +160,16 @@ así como de su falta de garantía. (La escritura americana
 también se admite).
 .SH OTRAS OPCIONES
 .TP
-.BI --depotdir " directorio"
+.BI \-\-depotdir " directorio"
 Especifica un directorio alternativo para las partes que se encuentran en la
 cola esperando para ser reensambladas. Por omisión es
 .BR /var/lib/dpkg .
 .TP
-.BI --partsize\fR|\fB-S " kbytes"
+.BI \-\-partsize\fR|\fB\-S " kbytes"
 Especifica el tamaño máximo de cada parte en kilobytes (1024
 bytes). Por omisión es 450Kb.
 .TP
-.BI --output\fR|\fB-O " complete\-output"
+.BI \-\-output\fR|\fB\-O " complete\-output"
 Especifica el nombre del fichero donde se reensamblarán las partes.
 
 Ésto substituye el nombre por omisión en modo manual
@@ -177,7 +177,7 @@ Especifica el nombre del fichero donde se reensamblarán las partes.
 y es obligatorio para el modo automático
 .RB ( \-\-auto ).
 .TP
-.BR --npquiet ", " -Q
+.BR \-\-npquiet ", " \-Q
 Cuando
 .B dpkg\-split
 está en modo automático normalmente muestra mensajes si se le pasa una
@@ -187,7 +187,7 @@ permite que programas como
 .B dpkg
 puedan separar y unir paquetes sin producir mensajes espúreos.
 .TP
-.BR --msdos
+.BR \-\-msdos
 Fuerza nombres compatibles con msdos.
 
 Esta opción modifica el prefijo (tanto el prefijo por omisión como el
@@ -247,12 +247,12 @@ deberían tener en cuenta.
 .BR dpkg (8)
 .SH AUTOR
 .B dpkg\-split
-Esta página de manual fue escrita por Ian Jackson. Es Copyright (C) 1995-1996
+Esta página de manual fue escrita por Ian Jackson. Es Copyright (C) 1995\-1996
 del mismo y liberada bajo la Licencia Pública General de GNU, NO hay ninguna
 garantía. Vea
 .B /usr/share/dpkg/copyright
 y
-.B /usr/share/common-licenses/GPL
+.B /usr/share/common\-licenses/GPL
 para más información.
 .SH TRADUCTOR
-Traducción de Rubén Porras Campo <debian-l10n-spanish@lists.debian.org>
+Traducción de Rubén Porras Campo <debian\-l10n\-spanish@lists.debian.org>

@@ -128,6 +128,7 @@
 
 #define TAR		"tar"
 #define GZIP		"gzip"
+#define BZIP2		"bzip2"
 #define RM		"rm"
 #define FIND		"find"
 #define SHELL		"sh"
@@ -303,5 +304,12 @@ void showcopyright(const struct cmdinfo*, const char*);
 
 int cisdigit(int c);
 int cisalpha(int c);
+
+/*** from compression.c ***/
+
+enum compression_type { CAT, GZ, BZ2 };
+
+void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *desc, ...) NONRETURNING;
+void compress_cat(enum compression_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) NONRETURNING;
 
 #endif /* DPKG_H */

@@ -143,60 +143,6 @@ static void free_filist(struct _finfo* fi) {
   }
 }
 
-int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) NONRETURNING;
-int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) {
-  va_list al;
-  struct varbuf v;
-#ifdef USE_ZLIB
-  gzFile gzfile;
-  char gzbuffer[4096];
-  int gzactualwrite, actualread;
-#endif
-  char combuf[6];
-
-  varbufinit(&v);
-
-  va_start(al,desc);
-  varbufvprintf(&v, desc, al);
-  va_end(al);
-
-  
-  if(compression == NULL) compression= "9";
-  if(*compression == '0') {
-    fd_fd_copy(0, 1, -1, _("%s: no compression copy loop"), v.buf);
-    exit(0);
-  }
-#ifdef USE_ZLIB
-  strncpy(combuf, "w9", sizeof(combuf));
-  combuf[1]= *compression;
-  gzfile = gzdopen(1, combuf);
-  while((actualread = read(0,gzbuffer,sizeof(gzbuffer))) > 0) {
-    if (actualread < 0 ) {
-      if (errno == EINTR) continue;
-      ohshite(_("%s: internal gzip error: read: `%s'"), v.buf, strerror(errno));
-    }
-    gzactualwrite= gzwrite(gzfile,gzbuffer,actualread);
-    if (gzactualwrite < 0 ) {
-      int gzerr = 0;
-      const char *errmsg = gzerror(gzfile, &gzerr);
-      if (gzerr == Z_ERRNO) {
-        if (errno == EINTR) continue;
-        errmsg= strerror(errno);
-      }
-      ohshite(_("%s: internal gzip error: write: `%s'"), v.buf, errmsg);
-    }
-    if (gzactualwrite != actualread)
-      ohshite(_("%s: internal gzip error: read(%i) != write(%i)"), v.buf, actualread, gzactualwrite);
-  }
-  gzclose(gzfile);
-  exit(0);
-#else
-  strncpy(combuf, "-9c", sizeof(combuf));
-  combuf[1]= *compression;
-  execlp(GZIP,"gzip",combuf,(char*)0); ohshit(_("%s: failed to exec gzip %s"), v.buf, combuf);
-#endif
-}
-
 /* Overly complex function that builds a .deb file
  */
 void do_build(const char *const *argv) {
@@ -391,7 +337,7 @@ void do_build(const char *const *argv) {
   /* And run gzip to compress our control archive */
   if (!(c2= m_fork())) {
     m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
-    internalGzip(0, 1, "9", _("control"));
+    compress_cat(GZ, 0, 1, "9", _("control"));
   }
   close(p1[0]);
   waitsubproc(c2,"gzip -9c",0);
@@ -455,7 +401,7 @@ void do_build(const char *const *argv) {
     close(p1[1]);
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
-    internalGzip(0, 1, compression, _("control"));
+    compress_cat(compress_type, 0, 1, compression, _("data"));
   }
   close(p2[0]);
   /* All the pipes are set, now lets run find, and start feeding
@@ -489,15 +435,24 @@ void do_build(const char *const *argv) {
   /* All done, clean up wait for tar and gzip to finish their job */
   close(p1[1]);
   free_filist(symlist);
-  waitsubproc(c2,"gzip -9c from tar -cf",0);
+  waitsubproc(c2,"<compress> from tar -cf",0);
   waitsubproc(c1,"tar -cf",0);
   /* Okay, we have data.tar.gz as well now, add it to the ar wrapper */
   if (!oldformatflag) {
+    const char *datamember;
+    switch (compress_type) {
+      case GZ: datamember= DATAMEMBER_GZ; break;
+      case BZ2: datamember= DATAMEMBER_BZ2; break;
+      case CAT: datamember= DATAMEMBER_CAT; break;
+      default:
+        ohshit(_("Internal error, compress_type `%i' unknown!"), compress_type);
+    }
     if (fstat(gzfd,&datastab)) ohshite("_(failed to fstat tmpfile (data))");
     if (fprintf(ar,
                 "%s"
-                DATAMEMBER "%-12lu0     0     100644  %-10ld`\n",
+                "%s" "%-12lu0     0     100644  %-10ld`\n",
                 (controlstab.st_size & 1) ? "\n" : "",
+                datamember,
                 (unsigned long)thetime,
                 (long)datastab.st_size) == EOF)
       werr(debar);

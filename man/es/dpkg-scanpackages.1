@@ -18,41 +18,41 @@
 .\" You should have received a copy of the GNU General Public
 .\" License along with dpkg; if not, write to the Free Software
 .\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-.TH DPKG-SCANPACKAGES 8 "08-07-1996" "Proyecto Debian" "Utilidades dpkg"
+.TH DPKG-SCANPACKAGES 1 "08\-07\-1996" "Proyecto Debian" "Utilidades dpkg"
 .SH NOMBRE
 dpkg-scanpackages \- Crea ficheros Packages.
 .
 .SH SINOPSIS
-.B dpkg-scanpackages
-.RI [ -u ]
-.RI [ -a<arquit> ]
+.B dpkg\-scanpackages
+.RI [ \-u ]
+.RI [ \-a<arquit> ]
 .I bindir
-.I fichero-override
+.I fichero\-override
 .RI [ path_prefijo ]
 .B >
 .I Packages
 .
 .SH DESCRIPCIÓN
-.B dpkg-scanpackages
+.B dpkg\-scanpackages
 busca paquetes binarios de Debian en un árbol de directorios y crea
 un fichero Packages usado por
 .BR dselect (8),
 etc, para mostrar al usuario los paquetes disponibles para su
 instalación. Estos ficheros Packages son idénticos a los que se
-encuentran en los archivos de Debian en Internet o en los CD-ROMs.
-.B dpkg-scanpackages
+encuentran en los archivos de Debian en Internet o en los CD\-ROMs.
+.B dpkg\-scanpackages
 se puede usar para crear un directorio local con paquetes para
 instalar en una ó varias máquinas.
 .PP
 .I bindir
 es el nombre del árbol de directorios que contiene los binarios que se
 desea  procesar (por ejemplo,
-.BR contrib/binary-i386 ).
+.BR contrib/binary\-i386 ).
 Es mejor hacer que este directorio sea relativo al directorio
 principal del repositorio de Debian, porque todo fichero listado en el
 nuevo Packages empezará por esta cadena de caracteres.
 .PP
-.I fichero-override
+.I fichero\-override
 es el nombre del fichero que contiene información acerca de como los
 paquetes se instalan en la distribución, vea más abajo.
 .PP
@@ -61,10 +61,10 @@ es un parámetro opcional que se antepondrá en el campo del nombre de
 los archivos.
 .PP
 Si se especifica la opción
-.I -u
+.I \-u
 , se buscan ficheros *.udeb en vez de *.deb.
 .PP
-Cuando se especifica -a\fI<arquit>\fP, en vez de buscar todo tipo de debs,
+Cuando se especifica \-a\fI<arquit>\fP, en vez de buscar todo tipo de debs,
 se usa un patrón basado en *_all.deb y *_arch.deb.
 .
 .SH EL FICHERO OVERRIDE
@@ -85,7 +85,7 @@ espacios en blanco. Los comentarios van precedidos de
 .I prioridad
 .I sección
 .RI [ información_del_mantenedor ]
-.in -5
+.in \-5
 .PP
 .I paquete
 El nombre del paquete.  Las entradas en el fichero de override de un
@@ -115,8 +115,8 @@ oficiales, suelen encontrarse en el directorio
 en cualquier réplica de Debian.
 .
 .SH DIAGNÓSTICOS
-.B dpkg-scanpackages
-devuelve los errores auto-explicativos comunes.  Además avisa acerca de
+.B dpkg\-scanpackages
+devuelve los errores auto\-explicativos comunes.  Además avisa acerca de
 paquetes que están en el subdirectorio equivocado, duplicados, tienen
 un campo de nombre en su fichero de control, no aparecen en el fichero
 de override, o contienen alguna sustitución de mantenedor que no ha
@@ -125,7 +125,7 @@ tenido efecto.
 .SH VEA ADEMÁS
 .BR dpkg (8),
 .BR dselect (8),
-.BR dpkg-scansources (8).
+.BR dpkg\-scansources (1).
 
 .SH "TRADUCTOR"
 .IX Header "TRADUCTOR"

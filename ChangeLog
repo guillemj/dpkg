@@ -1,6 +1,266 @@
+2004-10-27  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* configure.in (AC_OUTPUT): Add po/Makefile.in.
+
+Wed Oct 27 09:58:27 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * lib/compression.c: Which revealed some brown-paper bag issues:
+  Replace "BZFILE" with "BZFILE *", "file" with "bzfile"
+  and "bzdopen" to "BZ2_bzdopen".
+
+Wed Oct 27 09:49:15 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * lib/compression.c: Replace USE_BZ2 with USE_BZ2LIB to match configure.in.
+
+Tue Oct 26 19:24:54 CEST 2004 Havard Korsvoll <korsvoll@skulelinux.no>
+
+  * po/nn.po: Updated
+
+Tue Oct 26 17:24:54 CEST 2004 Carlos Liu <carlos_liu@yahoo.com>
+
+  * po/zh_CN.po: Updated
+
+Tue Oct 26 06:54:54 CEST 2004 Peter Karlsson <peter@softwolves.pp.se>
+
+  * po/sv.po: Updated
+
+Tue Oct 26 06:54:54 CEST 2004 CEST 2004 Piarres Beobide Egana <pi@beobide.net>
+
+  * po/eu.po: updated
+
+Tue Oct 26 06:54:54 CEST 2004 Miguel Figueiredo <elmig@debianpt.org>
+
+  * po/pt.po: Updated
+
+Mon Oct 25 18:26:54 CEST 2004 Miroslav Kure <kurem@upcase.inf.upol.cz>
+
+  * po/cs.po: Updated
+
+Mon Oct 25 18:26:54 CEST 2004 Michael Piefel <piefel@debian.org>
+
+  * po/de.po: updated
+
+Mon Oct 25 18:26:54 CEST 2004 Yuri Kozlov <yuray@id.ru>
+
+  * po/ru.po: Updated
+
+Mon Oct 25 15:09:43 CEST 2004 Trorrr [Héctor Fernández] <trorrr@yahoo.es>
+
+  * po/gl.po: Updated
+
+Mon Oct 25 08:03:00 CEST 2004 Lele Gaifax <lele@nautilus.homeip.net>
+
+  * po/it.po: Updated
+
+Mon Oct 25 07:18:36 CEST 2004 Changwoo Ryu <cwryu@debian.org>
+
+  * po/ko.po: Updated
+
+Mon Oct 25 07:18:36 CEST 2004 Kenshi Muto <kmuto@topstudio.co.jp>
+
+  * po/ja.po: Updated
+
+Mon Oct 25 07:18:36 CEST 2004 Claus Hindsgaul <claus_h@image.dk>
+
+  * po/da.po: Updated
+
+Mon Oct 25 07:18:36 CEST 2004 Javier Fernandez-Sanguino Pena <jfs@dat.etsit.upm.es>
+
+  * po/es.po: Updated
+
 Sun Oct 24 21:51:55 CEST 2004 Jordi Mallach <jordi@debian.org>
 
   * po/ca.po: Updated Catalan translation.
+
+Sun Oct 24 20:16:43 CEST 2004 Lele Gaifax <lele@nautilus.homeip.net>
+
+  * po/it.po: Updated
+
+Sun Oct 24 20:06:43 CEST 2004 Trorrr [Héctor Fernández] <trorrr@yahoo.es>
+
+  * po/gl.po: Updated
+
+Sun Oct 24 19:20:43 CEST 2004 Bartosz Fenski aka fEnIo <fenio@o2.pl>
+
+  * po/pl.po: Updated
+
+Sun Oct 24 19:20:43 CEST 2004 Andre Luis Lopes <andrelop@debian.org>
+
+  * po/pt_BR.po: Updated
+
+Sun Oct 24 19:20:43 CEST 2004 Bart Cornelis <cobaco@linux.be>
+
+  * po/nl.po: Updated
+
+Sun Oct 24 16:18:52 CEST 2004 Christian Perrier <bubulle@debian.org>
+
+  * po/dpkg.pot: regenerated
+  * po/*po: synced with dpkg.pot
+  * po/fr.po: complete the translation
+
+Sun Oct 24 09:40:27 CEST 2004 Christian Perrier <bubulle@debian.org>
+
+  * po/nl.po: Correct obvious typo from the translator
+
+Sun Oct 24 09:21:17 CEST 2004 Christian Perrier <bubulle@debian.org>
+
+  * debian/changelog: Close *all* Portuguese translation bug reports
+
+Sun Oct 24 12:58:36 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * po/POTFILES.in: Add lib/compression.c here.
+
+Fri Jun 18 17:04:44 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * configure.in: Add checks for bz2 in a similar manner to zlib.
+  * Makefile.conf.in: Add definitions for BZ2LIB macros.
+  * lib/compression.c: New file taken from HEAD that implements
+  compression and decompression for gzip, bzip2 and pass-through.
+  * lib/Makefile.in: Compile the new source file.
+  * include/dpkg.h.in: Add BZIP2 macro expanding to the name of the
+  bzip2 tool.  Add compression_type enum and headers for functions in
+  compression.c
+  * dpkg-deb/Makefile.in: Also link static bzip2 libraries to static dpkg-deb.
+  * dpkg-deb/build.c: Remove internalGzip() function, replace calling
+  code with call to new compress_cat() function.  Choose the appropriate
+  name for the data member based on compress_type.
+  * dpkg-deb/extract.c: Remove gzip calling code, replace with call to
+  new decompress_cat() function.  Add code to detect compression type
+  of data member.
+  * dpkg-deb/main.c: Add new -Z option to set compression type, set
+  default to gzip.
+  * dpkg-deb/dpkg-deb.h: Add extern definition of compress_type option,
+  add macros to define the bzip2 and pass-through data member filenames.
+
+Tue Oct 19 08:28:46 CEST 2004 Javier Fernández-Sanguino Peña <jfs@computer.org>
+
+  * po/es.po: updated (complete)
+
+Sun Oct 17 08:40:46 CEST 2004 Piarres Beobide Egana <pi@beobide.net>
+
+  * po/eu.po: updated (complete)
+
+Thu Oct 14 17:01:21 CEST 2004 Michael Piefel <piefel@debian.org>
+
+  * po/de.po: updated (now complete)
+
+Wed Oct 13 17:01:31 CEST 2004 George Papamichelakis <george@step.gr>
+
+  * po/el.po: Updated
+
+Wed Oct 13 08:45:54 CEST 2004 Peter Karlsson <peterk@debian.org>
+
+  * man/sv/dpkg-split.8: Updated
+  * man/sv/start-stop-daemon.8: Updated
+  * man/sv/deb-control.5: Updated
+  * man/sv/dpkg.8: Updated
+  * man/sv/md5sum.1: Updated
+  * man/sv/dpkg-deb.1: Updated
+  * man/sv/dpkg-query.8: Updated
+  * man/sv/dselect.8: Updated
+
+Tue Oct 12 22:22:55 CEST 2004 Miroslav Kure <kurem@upcase.inf.upol.cz>
+
+  * po/cs.po: Updated (now complete)
+
+Tue Oct 12 22:22:55 CEST 2004 Peter Karlsson <peter@softwolves.pp.se>
+
+  * po/sv.po: Updated (now complete)
+
+Tue Oct 12 07:50:21 CEST 2004 Philippe Batailler <philippe.batailler@free.fr>
+
+  * man/fr/cleanup-info.8: updated
+  * man/fr/dpkg.8: updated
+  * man/fr/dpkg-deb.1: updated
+  * man/fr/dpkg-divert.8: updated
+  * man/fr/dpkg-name.1: updated
+  * man/fr/dpkg-query.8: updated
+  * man/fr/dpkg-source.1: updated
+  * man/fr/dpkg-split.8: updated
+  * man/fr/dpkg-statoverride.8: updated
+  * man/fr/install-info.8: updated
+  * man/fr/start-stop-daemon.8: updated
+  * man/fr/update-alternatives.8: updated
+
+Mon Oct 11 18:11:54 CEST 2004 Robert Luberda <robert@debian.org>
+
+  * po/pl.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Lior Kaplan <webmaster@guides.co.il>
+
+  * po/he.po: Added
+
+Mon Oct 11 18:11:54 CEST 2004 Piarres Beobide Egana <pi@beobide.net>
+
+  * po/eu.po: Added
+
+Mon Oct 11 18:11:54 CEST 2004 Yongtao Yang <yongtao.yang@telia.com>
+
+  * po/zh_CN.po: Added
+
+Mon Oct 11 18:11:54 CEST 2004 Miguel Figueiredo <elmig@debianpt.org>
+
+  * po/pt.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Yuri Kozlov <yuray@id.ru>
+
+  * po/ru.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Kenshi Muto <kmuto@debian.org>
+
+  * po/ja.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Changwoo Ryu <cwryu@debian.org>
+
+  * po/ko.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Bart Cornelis <cobaco@linux.be>
+
+  * po/nl.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Havard Korsvoll <korsvoll@skulelinux.no>
+
+  * po/nn.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Miroslav Kure <kurem@upcase.inf.upol.cz>
+
+  * po/cs.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Andre Luis Lopes <andrelop@debian.org> 
+
+  * po/pt_BR.po: Updated
+
+Mon Oct 11 18:11:54 CEST 2004 Ruben Porras <nahoo82@telefonica.net>
+
+  * man/es/md5sum.1: updated
+  * man/es/start-stop-daemon.8: updated
+  * man/es/dpkg-scansources.1: updated
+  * man/es/dpkg-scanpackages.1: updated
+  * man/es/update-alternatives.8: updated
+  * man/es/dpkg-divert.8: updated
+  * man/es/cleanup-info.8: updated
+  * man/es/dpkg-checkbuilddeps.1: updated
+  * man/es/dpkg-split.8: updated
+  * man/es/dpkg-statoverride.8: updated
+  * man/es/dpkg.8: updated
+  * man/es/dselect.8: updated
+  * man/es/dpkg-source.1: updated
+  * man/es/dpkg-deb.1: updated
+  * man/es/dpkg-name.1: updated
+
+Mon Oct 11 18:11:54 CEST 2004 Christian Perrier <bubulle@debian.org>
+
+  * configure.in: Added he to ALL_LINGUAS.
+  * configure.in: Added eu to ALL_LINGUAS.
+  * configure.in: Added zh_CN to ALL_LINGUAS.
+
+Mon Oct 11 16:33:49 CEST 2004 George Papamichelakis <george@step.gr>
+
+  * po/el.po: Added
+
+Mon Oct 11 16:33:49 CEST 2004 Christian Perrier <bubulle@debian.org>
+
+  * configure.in: Added el to ALL_LINGUAS.
 
 Mon Jul 19 20:17:09 BST 2004 Scott James Remnant <scott@netsplit.com>
 

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.10.18\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-19 19:52+0100\n"
-"PO-Revision-Date: 2004-03-26 19:10+0100\n"
-"Last-Translator: Santiago Vila <sanvila@debian.org>\n"
+"POT-Creation-Date: 2004-10-27 09:08+0000\n"
+"PO-Revision-Date: 2004-10-25 00:38+0200\n"
+"Last-Translator: Javier Fernández-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -60,6 +60,76 @@ msgstr "Error del sistema nº%d"
 #, c-format
 msgid "Signal no.%d"
 msgstr "Señal nº%d"
+
+#: lib/compression.c:45
+#, fuzzy, c-format
+msgid "%s: internal gzip error: `%s'"
+msgstr "error interno de gzip: `%s'"
+
+#: lib/compression.c:60
+#, fuzzy, c-format
+msgid "%s: failed to exec gzip -dc"
+msgstr "fallo al ejecutar gzip -dc"
+
+#: lib/compression.c:76
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: `%s'"
+msgstr "error interno de gzip: `%s'"
+
+#: lib/compression.c:91
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 -dc"
+msgstr "fallo al ejecutar gzip -dc"
+
+#: lib/compression.c:94
+#, fuzzy, c-format
+msgid "%s: decompression"
+msgstr "%s: sin compresión"
+
+#: lib/compression.c:128
+#, c-format
+msgid "%s: internal gzip error: read: `%s'"
+msgstr "%s: error interno de gzip: lectura: `%s'"
+
+#: lib/compression.c:138
+#, c-format
+msgid "%s: internal gzip error: write: `%s'"
+msgstr "%s: error interno de gzip: escritura `%s'"
+
+#: lib/compression.c:141
+#, c-format
+msgid "%s: internal gzip error: read(%i) != write(%i)"
+msgstr "%s: error interno de gzip: lectura(%i) != escritura(%i)"
+
+#: lib/compression.c:157
+#, c-format
+msgid "%s: failed to exec gzip %s"
+msgstr "%s: fallo al ejecutar gzip %s"
+
+#: lib/compression.c:171
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: read: `%s'"
+msgstr "%s: error interno de gzip: lectura: `%s'"
+
+#: lib/compression.c:181
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: write: `%s'"
+msgstr "%s: error interno de gzip: escritura `%s'"
+
+#: lib/compression.c:184
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: read(%i) != write(%i)"
+msgstr "%s: error interno de gzip: lectura(%i) != escritura(%i)"
+
+#: lib/compression.c:200
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 %s"
+msgstr "%s: fallo al ejecutar gzip %s"
+
+#: lib/compression.c:203
+#, fuzzy, c-format
+msgid "%s: compression"
+msgstr "%s: sin compresión"
 
 #: lib/database.c:125
 #, c-format
@@ -929,7 +999,7 @@ msgstr ""
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: main/archives.c:496 dpkg-deb/build.c:368
+#: main/archives.c:496 dpkg-deb/build.c:314
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "no se puede crear `%.255s'"
@@ -2204,7 +2274,7 @@ msgstr " --license para ver el copyright y más detalles sobre la licencia.\n"
 # FUZZY.
 # FIXME: Extra space in Usage: line.
 #: main/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2293,7 +2363,7 @@ msgstr ""
 "  dpkg -s|--status <paquete> ...         muestra detalles sobre el estado "
 "del\n"
 "                                         paquete\n"
-"  dpkg --print-avail <paquete> ...       muestra detalles sobre la versión\n"
+"  dpkg -p|--print-avail <paquete> ...    muestra detalles sobre la versión\n"
 "                                         disponible\n"
 "  dpkg -L|--listfiles <paquete> ...      lista ficheros del(de los) paquete"
 "(s)\n"
@@ -2362,7 +2432,7 @@ msgstr ""
 " < << <= = >= >> >       (sólo por compatibilidad con la sintaxis de los\n"
 "                           ficheros de control).\n"
 "\n"
-"Utilice `dselect' para una gestión de paquetes más amigable.\n"
+"Utilice `dselect' o 'aptitude' para una gestión de paquetes más amigable.\n"
 
 #: main/main.c:120
 msgid ""
@@ -2389,7 +2459,7 @@ msgstr ""
 "Las opciones marcadas con ([*]) producen una salida extensa,\n"
 "¡fíltrela con `less' o con `more'!"
 
-#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:157 split/main.c:146
+#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:162 split/main.c:146
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "acciones en conflicto --%s y --%s"
@@ -2593,7 +2663,7 @@ msgstr "no se pudo abrir `%i' para un flujo"
 msgid "unexpected eof before end of line %d"
 msgstr "eof inesperado antes del fin de la línea %d"
 
-#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:169
+#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:185
 #: split/main.c:159
 msgid "need an action option"
 msgstr "se necesita una opción de acción"
@@ -3312,53 +3382,28 @@ msgstr ""
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - error: %s (`%s') no contiene ningún dígito\n"
 
-#: dpkg-deb/build.c:166
-#, c-format
-msgid "%s: no compression copy loop"
-msgstr "%s: sin compresión"
-
-#: dpkg-deb/build.c:176
-#, c-format
-msgid "%s: internal gzip error: read: `%s'"
-msgstr "%s: error interno de gzip: lectura: `%s'"
-
-#: dpkg-deb/build.c:186
-#, c-format
-msgid "%s: internal gzip error: write: `%s'"
-msgstr "%s: error interno de gzip: escritura `%s'"
-
-#: dpkg-deb/build.c:189
-#, c-format
-msgid "%s: internal gzip error: read(%i) != write(%i)"
-msgstr "%s: error interno de gzip: lectura(%i) != escritura(%i)"
-
-#: dpkg-deb/build.c:196
-#, c-format
-msgid "%s: failed to exec gzip %s"
-msgstr "%s: fallo al ejecutar gzip %s"
-
 #. Decode our arguments
-#: dpkg-deb/build.c:224
+#: dpkg-deb/build.c:170
 msgid "--build needs a directory argument"
 msgstr "--build necesita un directorio como parámetro"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:179
 msgid "--build takes at most two arguments"
 msgstr "--build lleva a lo sumo dos parámetros"
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:183
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "no se puede comprobar la existencia del archivo `%.250s'"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:198
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "el objetivo es un directorio - no se puede omitir la comprobación del "
 "fichero\n"
 "de control"
 
-#: dpkg-deb/build.c:253
+#: dpkg-deb/build.c:199
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -3367,46 +3412,46 @@ msgstr ""
 "dpkg-deb: atención, no se comprueba el contenido del área de control.\n"
 "dpkg-deb: se construye un paquete desconocido en `%s'.\n"
 
-#: dpkg-deb/build.c:271
+#: dpkg-deb/build.c:217
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "el nombre del paquete tiene caracteres que no son minúsculas, alfanuméricos\n"
 "o `-+.'"
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:219
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr ""
 "atención, `%s' contiene un valor Priority `%s' definido por el usuario\n"
 
-#: dpkg-deb/build.c:278
+#: dpkg-deb/build.c:224
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "atención, `%s' contiene un campo `%s' definido por el usuario\n"
 
-#: dpkg-deb/build.c:284
+#: dpkg-deb/build.c:230
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d errores en el fichero de control"
 
-#: dpkg-deb/build.c:295
+#: dpkg-deb/build.c:241
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: construyendo el paquete `%s' en `%s'.\n"
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:249
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "el directorio de control tiene permisos erróneos %03lo\n"
 "(debe ser >=0755 y <=0775)"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:260
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "el script `%.50s' no es un fichero normal o un enlace simbólico"
 
-#: dpkg-deb/build.c:316
+#: dpkg-deb/build.c:262
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3415,16 +3460,16 @@ msgstr ""
 "el script `%.50s' tiene permisos erróneos %03lo\n"
 "(debe ser >=0555 y <=0775)"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:266
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "no se puede efectuar `stat' sobre el script `%.50s'"
 
-#: dpkg-deb/build.c:330
+#: dpkg-deb/build.c:276
 msgid "empty string from fgets reading conffiles"
 msgstr "cadena vacía de fgets al leer conffiles"
 
-#: dpkg-deb/build.c:332
+#: dpkg-deb/build.c:278
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3432,111 +3477,120 @@ msgstr ""
 "atención, el nombre de conffile `%.50s...' es demasiado largo, o le falta\n"
 "el carácter de nueva línea final\n"
 
-#: dpkg-deb/build.c:344
+#: dpkg-deb/build.c:290
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "el conffile `%.250s' no aparece dentro del paquete"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:292
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "no se puede efectuar `stat' sobre el conffile `%.250s'"
 
-#: dpkg-deb/build.c:348
+#: dpkg-deb/build.c:294
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "atención, el conffile `%s' no es un fichero normal\n"
 
-#: dpkg-deb/build.c:353
+#: dpkg-deb/build.c:299
 msgid "error reading conffiles file"
 msgstr "error al leer el fichero de conffiles"
 
-#: dpkg-deb/build.c:356
+#: dpkg-deb/build.c:302
 msgid "error opening conffiles file"
 msgstr "error al abrir el fichero de conffiles"
 
-#: dpkg-deb/build.c:359
+#: dpkg-deb/build.c:305
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr ""
 "dpkg-deb: no se tendrán en cuenta %d avisos sobre los ficheros de control\n"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:315
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "no se puede deshacer el búfer `%.255s'"
 
-#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
+#: dpkg-deb/build.c:320 dpkg-deb/build.c:393 dpkg-deb/build.c:414
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "fallo al cambiar al directorio `%.255s'"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:321
 msgid "failed to chdir to .../DEBIAN"
 msgstr "fallo al cambiar al directorio .../DEBIAN"
 
-#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
+#: dpkg-deb/build.c:322 dpkg-deb/build.c:395
 msgid "failed to exec tar -cf"
 msgstr "fallo al ejecutar tar -cf"
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:328
 msgid "failed to make tmpfile (control)"
 msgstr "fallo al crear un fichero temporal (control)"
 
-#: dpkg-deb/build.c:383
+#: dpkg-deb/build.c:329
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "fallo al abrir un fichero temporal (control), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:332
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "fallo al borrar con unlink el fichero temporal (control), %s"
 
-#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
+#: dpkg-deb/build.c:340 dpkg-deb/build.c:369
 msgid "control"
 msgstr "control"
 
-#: dpkg-deb/build.c:399
+#: dpkg-deb/build.c:345
 msgid "failed to fstat tmpfile (control)"
 msgstr "fallo al efectuar `fstat' sobre el fichero temporal (control)"
 
-#: dpkg-deb/build.c:422
+#: dpkg-deb/build.c:368
 msgid "failed to rewind tmpfile (control)"
 msgstr "fallo al efectuar `rewind' sobre el fichero temporal (control)"
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:376
 msgid "failed to make tmpfile (data)"
 msgstr "fallo al crear el fichero temporal (data)"
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:377
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "fallo al abrir el fichero temporal (data), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:380
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "fallo al borrar el fichero temporal (data), %s"
 
-#: dpkg-deb/build.c:470
+#: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
+msgid "data"
+msgstr "datos"
+
+#: dpkg-deb/build.c:416
 msgid "failed to exec find"
 msgstr "fallo al ejecutar find"
 
-#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
+#: dpkg-deb/build.c:427 dpkg-deb/build.c:434
 msgid "failed to write filename to tar pipe (data)"
 msgstr "fallo al escribir el nombre del fichero en la tubería de tar (data)"
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:448
+#, c-format
+msgid "Internal error, compress_type `%i' unknown!"
+msgstr "Error interno, ¡tipo de compresión «%i» desconocido!"
+
+#: dpkg-deb/build.c:460
 msgid "failed to rewind tmpfile (data)"
 msgstr "fallo al efectuar `rewind' sobre el fichero temporal (data)"
 
-#: dpkg-deb/build.c:506
+#: dpkg-deb/build.c:461
 msgid "cat (data)"
 msgstr "cat (datos)"
 
@@ -3564,54 +3618,54 @@ msgstr "el fichero `%.250s' está dañado - la longitud %.250s contiene nulos"
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "el fichero `%.250s' está dañado - dígito erróneo (código %d) en %s"
 
-#: dpkg-deb/extract.c:108
+#: dpkg-deb/extract.c:104
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "fallo al leer el archivo `%.255s'"
 
-#: dpkg-deb/extract.c:109
+#: dpkg-deb/extract.c:105
 msgid "failed to fstat archive"
 msgstr "fallo al efectuar `fstat' sobre el archivo"
 
-#: dpkg-deb/extract.c:110
+#: dpkg-deb/extract.c:106
 msgid "version number"
 msgstr "número de versión"
 
-#: dpkg-deb/extract.c:119
+#: dpkg-deb/extract.c:115
 msgid "between members"
 msgstr "entre números"
 
-#: dpkg-deb/extract.c:121 split/info.c:95
+#: dpkg-deb/extract.c:117 split/info.c:95
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "el fichero `%.250s' está dañado - magia errónea al final de la\n"
 "primera cabecera"
 
-#: dpkg-deb/extract.c:125
+#: dpkg-deb/extract.c:121
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "el fichero `%.250s' está dañado - longitud %zi negativa"
 
 # FIXME: Comment about dpkg-split may be misleading.
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:125
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "el fichero `%.250s' no es un archivo binario de debian"
 
-#: dpkg-deb/extract.c:132
+#: dpkg-deb/extract.c:128
 msgid "header info member"
 msgstr "información de cabecera del elemento"
 
-#: dpkg-deb/extract.c:135
+#: dpkg-deb/extract.c:131
 msgid "archive has no newlines in header"
 msgstr "el archivo no tiene caracteres de nueva línea en la cabecera"
 
-#: dpkg-deb/extract.c:138
+#: dpkg-deb/extract.c:134
 msgid "archive has no dot in version number"
 msgstr "el archivo no tiene ningún punto en el número de versión"
 
-#: dpkg-deb/extract.c:141
+#: dpkg-deb/extract.c:137
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr ""
@@ -3621,22 +3675,22 @@ msgstr ""
 #. Members with `_' are noncritical, and if we don't understand them
 #. * we skip them.
 #.
-#: dpkg-deb/extract.c:150 dpkg-deb/extract.c:168
+#: dpkg-deb/extract.c:146 dpkg-deb/extract.c:175
 #, c-format
 msgid "skipped member data from %s"
 msgstr "se salta el elemento de %s"
 
-#: dpkg-deb/extract.c:159
+#: dpkg-deb/extract.c:165
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "el fichero `%.250s' contiene un miembro %.*s ininteligible, abandono"
 
-#: dpkg-deb/extract.c:164
+#: dpkg-deb/extract.c:171
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "el fichero `%.250s' contiene dos miembros de control, abandono"
 
-#: dpkg-deb/extract.c:176
+#: dpkg-deb/extract.c:183
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3645,30 +3699,30 @@ msgstr ""
 " paquete debian nuevo, versión %s.\n"
 " tamaño %ld bytes: archivo de control= %zi bytes.\n"
 
-#: dpkg-deb/extract.c:188
+#: dpkg-deb/extract.c:195
 msgid "ctrl information length"
 msgstr "longitud de la información de control"
 
 # FIXME: ctrl is the same as `control'? sv
-#: dpkg-deb/extract.c:190
+#: dpkg-deb/extract.c:197
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
 msgstr "el archivo tiene una longitud de control mal formada `%s'"
 
-#: dpkg-deb/extract.c:193
-#, fuzzy, c-format
+#: dpkg-deb/extract.c:200
+#, c-format
 msgid ""
 " old debian package, version %s.\n"
 " size %ld bytes: control archive= %zi, main archive= %ld.\n"
 msgstr ""
 " paquete debian antiguo, versión %s.\n"
-" tamaño %ld bytes: archivo de control= %ld, archivo principal= %zi.\n"
+" tamaño %ld bytes: archivo de control= %zi, archivo principal= %ld.\n"
 
-#: dpkg-deb/extract.c:202
+#: dpkg-deb/extract.c:209
 msgid "ctrlarea"
 msgstr "área de control"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:215
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3677,75 +3731,66 @@ msgstr ""
 "dpkg-deb: el fichero tiene pinta de ser un archivo que ha sido dañado\n"
 "dpkg-deb     al ser transferido en modo ASCII\n"
 
-#: dpkg-deb/extract.c:213
+#: dpkg-deb/extract.c:220
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "`%.255s' no es un archivo en formato debian"
 
-#: dpkg-deb/extract.c:218
+#: dpkg-deb/extract.c:225
 msgid "fgetpos failed"
 msgstr "fgetpos falló"
 
-#: dpkg-deb/extract.c:222
+#: dpkg-deb/extract.c:229
 msgid "fsetpos failed"
 msgstr "fsetpos falló"
 
-#: dpkg-deb/extract.c:229
+#: dpkg-deb/extract.c:236
 msgid "failed to fdopen p1 in paste"
 msgstr "fallo al efectuar `fdopen' sobre p1 en `paste'"
 
-#: dpkg-deb/extract.c:231
+#: dpkg-deb/extract.c:238
 msgid "failed to write to gzip -dc"
 msgstr "fallo al escribir a gzip -dc"
 
-#: dpkg-deb/extract.c:232
+#: dpkg-deb/extract.c:239
 msgid "failed to close gzip -dc"
 msgstr "fallo al cerrar gzip -dc"
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:246
 msgid "failed to syscall lseek to files archive portion"
 msgstr ""
 "fallo en la llamada al sistema lseek en los ficheros porción de archivo"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:254
 msgid "failed to write to pipe in copy"
 msgstr "fallo al escribir a la tubería en la copia"
 
-#: dpkg-deb/extract.c:248
+#: dpkg-deb/extract.c:255
 msgid "failed to close pipe in copy"
 msgstr "fallo al cerrar la tubería en la copia"
 
-#: dpkg-deb/extract.c:271
-#, c-format
-msgid "internal gzip error: `%s'"
-msgstr "error interno de gzip: `%s'"
-
-#: dpkg-deb/extract.c:277
-msgid "failed to exec gzip -dc"
-msgstr "fallo al ejecutar gzip -dc"
-
-#: dpkg-deb/extract.c:286
+#: dpkg-deb/extract.c:276
 msgid "failed to create directory"
 msgstr "fallo al crear directorio"
 
-#: dpkg-deb/extract.c:287
+#: dpkg-deb/extract.c:277
 msgid "failed to chdir to directory after creating it"
 msgstr "fallo al cambiar a un directorio después de crearlo"
 
-#: dpkg-deb/extract.c:289
+#: dpkg-deb/extract.c:279
 msgid "failed to chdir to directory"
 msgstr "fallo al cambiar al directorio"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:293
 msgid "failed to exec tar"
 msgstr "fallo al ejecutar tar"
 
-#: dpkg-deb/extract.c:326 dpkg-deb/extract.c:341 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:316 dpkg-deb/extract.c:331 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s necesita un nombre de fichero .deb como argumento"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:319
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3754,12 +3799,12 @@ msgstr ""
 "--%s necesita un directorio de destino.\n"
 "¿A lo mejor lo que quiere hacer es dpkg --install?"
 
-#: dpkg-deb/extract.c:332
+#: dpkg-deb/extract.c:322
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s toma como mucho dos argumentos (.deb y directorio)"
 
-#: dpkg-deb/extract.c:343
+#: dpkg-deb/extract.c:333
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s toma solamente un argumento (fichero .deb)"
@@ -3910,6 +3955,8 @@ msgid ""
 "  --nocheck                  suppress control file check (build bad "
 "package).\n"
 "  -z# to set the compression when building\n"
+"  -Z<type>                   set the compression type to use when building.\n"
+"                             allowed values: gzip, bzip2, none\n"
 "\n"
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
@@ -3953,6 +4000,9 @@ msgstr ""
 "  --nocheck                suprime la verificación del fichero de control\n"
 "                           (construye paquetes erróneos)\n"
 "  -z# para establecer la compresión en la creación del paquete\n"
+"  -Z<tipo>                 establece el tipo de compresión a usar cuando\n"
+"                           se construye un paquete. Valores permitidos:\n"
+"                           «gzip», «bzip2», «none» (ninguna)\n"
 "\n"
 "Sintaxis del formato\n"
 "  Un formato es una cadena que se mostrará para cada paquete. El formato\n"
@@ -3970,7 +4020,7 @@ msgstr ""
 "para una gestión de paquetes amigable. ¡Los paquetes desempaquetados usando\n"
 "`dpkg-deb --extract' se instalarán incorrectamente!\n"
 
-#: dpkg-deb/main.c:98
+#: dpkg-deb/main.c:100
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -3978,6 +4028,11 @@ msgstr ""
 "Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos ."
 "deb;\n"
 "Escriba dpkg --help para obtener ayuda sobre instalar y desinstalar paquetes."
+
+#: dpkg-deb/main.c:176
+#, c-format
+msgid "unknown compression type `%s'!"
+msgstr "¡tipo de compresión «%s» desconocido!"
 
 #: split/info.c:64
 #, c-format
@@ -4079,7 +4134,7 @@ msgid "file `%.250s' is not an archive part"
 msgstr "el fichero `%.250s' no es una parte de archivo"
 
 #: split/info.c:188
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s:\n"
 "    Part format version:            %s\n"
@@ -4102,10 +4157,10 @@ msgstr ""
 "         ... longitud:              %lu bytes\n"
 "         ... troceado cada:         %lu bytes\n"
 "    Parte número:                   %d/%d\n"
-"    Longitud de parte:              %lu bytes\n"
+"    Longitud de parte:              %zi bytes\n"
 "    Desplazamiento de parte:        %lu bytes\n"
 "    Tamaño de fichero de parte\n"
-"        (porción utilizada):        %zi bytes\n"
+"        (porción utilizada):        %lu bytes\n"
 "\n"
 
 #: split/info.c:218
@@ -5530,7 +5585,6 @@ msgid " verbose:v help:?"
 msgstr " literal:v ayuda:?"
 
 #: dselect/pkginfo.cc:82
-#, fuzzy
 msgid ""
 "The line you have highlighted represents many packages; if you ask to "
 "install, remove, hold, etc. it you will affect all the packages which match "
@@ -5693,7 +5747,6 @@ msgid "Keystrokes"
 msgstr "Pulsaciones"
 
 #: dselect/helpmsgs.cc:8
-#, fuzzy
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  Down-arrow, j         Up-arrow, k             move highlight\n"
@@ -5726,10 +5779,10 @@ msgid ""
 msgstr ""
 "Teclas de movimiento: Re Pág/Av Pág, Inicio/Fin,\n"
 "                      Hacia adelante/hacia atrás:\n"
-" n, Flecha abajo, j    p, Flecha arriba, k    mueve lo destacado\n"
+" Flecha abajo, j        Flecha arriba, k      mueve lo destacado\n"
 " N, Página abajo, Espacio \n"
 "               P, página arriba, retroceder   desplaza la lista 1 página\n"
-" ^n                    ^p                     desplaza la lista 1 línea\n"
+" ^n                     ^p                    desplaza la lista 1 línea\n"
 " t, Inicio              e, Fin                salta al inicio/fin de la "
 "lista\n"
 " u                      d                     desplaza la información 1 "
@@ -5763,7 +5816,7 @@ msgstr ""
 "                                          ^l    refresca la visualización\n"
 "  U      lo pone todo al estado sUgerido   /   busca  (Intro para cancelar)\n"
 "  D      lo pone todo al estado Directamente solicitado\n"
-"                                           \\  repite la última búsqueda\n"
+"                                           n, \\  repite la última búsqueda\n"
 
 #: dselect/helpmsgs.cc:33
 msgid "Introduction to package selections"
@@ -6283,6 +6336,3 @@ msgstr ""
 
 #~ msgid "failed to fdopen p1 in copy"
 #~ msgstr "fallo al efectuar `fdopen' sobre p1 en la copia"
-
-#~ msgid "update"
-#~ msgstr "actualizar"

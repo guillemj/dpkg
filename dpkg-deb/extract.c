@@ -99,11 +99,7 @@ void extracthalf(const char *debar, const char *directory,
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
   fpos_t fpos;
 #endif
-#ifdef USE_ZLIB
-  gzFile gzfile;
-  char gzbuffer[4096];
-  int gzactualread;
-#endif
+  enum compression_type compress_type = GZ;
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
   if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
@@ -151,13 +147,24 @@ void extracthalf(const char *debar, const char *directory,
       } else {
         adminmember=
           (!memcmp(arh.ar_name,ADMINMEMBER,sizeof(arh.ar_name)) ||
-	  !memcmp(arh.ar_name,ADMINMEMBER_COMPAT,sizeof(arh.ar_name))) ? 1 :
-          (!memcmp(arh.ar_name,DATAMEMBER,sizeof(arh.ar_name)) ||
-	  !memcmp(arh.ar_name,DATAMEMBER_COMPAT,sizeof(arh.ar_name))) ? 0 :
-          -1;
-        if (adminmember == -1) {
-          ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
-                 debar, (int)sizeof(arh.ar_name), arh.ar_name);
+	  !memcmp(arh.ar_name,ADMINMEMBER_COMPAT,sizeof(arh.ar_name))) ? 1 : -1;
+	if (adminmember == -1) {
+	  if (!memcmp(arh.ar_name,DATAMEMBER_GZ,sizeof(arh.ar_name)) ||
+	      !memcmp(arh.ar_name,DATAMEMBER_COMPAT_GZ,sizeof(arh.ar_name))) {
+	    adminmember= 0;
+	    compress_type= GZ;
+	  } else if (!memcmp(arh.ar_name,DATAMEMBER_BZ2,sizeof(arh.ar_name)) ||
+		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_BZ2,sizeof(arh.ar_name))) {
+	    adminmember= 0;
+	    compress_type= BZ2;
+	  } else if (!memcmp(arh.ar_name,DATAMEMBER_CAT,sizeof(arh.ar_name)) ||
+		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_CAT,sizeof(arh.ar_name))) {
+	    adminmember= 0;
+	    compress_type= CAT;
+	  } else {
+            ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
+                   debar, (int)sizeof(arh.ar_name), arh.ar_name);
+	  }
         }
         if (adminmember == 1) {
           if (ctrllennum != 0)
@@ -258,24 +265,7 @@ void extracthalf(const char *debar, const char *directory,
     m_dup2(readfromfd,0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
-#ifdef USE_ZLIB
-    gzfile = gzdopen(0, "r");
-    while ((gzactualread= gzread(gzfile,gzbuffer,sizeof(gzbuffer))) > 0) {
-      if (gzactualread < 0 ) {
-	int gzerr = 0;
-	const char *errmsg = gzerror(gzfile, &gzerr);
-	if (gzerr == Z_ERRNO) {
-	  if (errno == EINTR) continue;
-	  errmsg= strerror(errno);
-	}
-	ohshite(_("internal gzip error: `%s'"), errmsg);
-      }
-      write(1,gzbuffer,gzactualread);
-    }
-    exit(0);
-#else
-    execlp(GZIP,"gzip","-dc",(char*)0); ohshite(_("failed to exec gzip -dc"));
-#endif
+    decompress_cat(compress_type, 0, 1, _("data"));
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
   if (taroption) close(p2[1]);
@@ -306,7 +296,7 @@ void extracthalf(const char *debar, const char *directory,
     waitsubproc(c3,"tar",0);
   }
   
-  waitsubproc(c2,"gzip -dc",PROCPIPE);
+  waitsubproc(c2,"<decompress>",PROCPIPE);
   if (c1 != -1) waitsubproc(c1,"paste",0);
   if (oldformat && admininfo) {
     if (versionnum == 0.931F) {

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg_1.10.19_da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-19 19:52+0100\n"
-"PO-Revision-Date: 2004-06-03 09:57+0200\n"
+"POT-Creation-Date: 2004-10-27 09:08+0000\n"
+"PO-Revision-Date: 2004-10-24 22:32+0200\n"
 "Last-Translator: Claus Hindsgaul <claus_h@image.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -59,6 +59,76 @@ msgstr "Systemfejl nr. %d"
 #, c-format
 msgid "Signal no.%d"
 msgstr "Signal nr. %d"
+
+#: lib/compression.c:45
+#, fuzzy, c-format
+msgid "%s: internal gzip error: `%s'"
+msgstr "intern gzip-fejl: '%s'"
+
+#: lib/compression.c:60
+#, fuzzy, c-format
+msgid "%s: failed to exec gzip -dc"
+msgstr "kunne ikke udføre 'gzip -dc'"
+
+#: lib/compression.c:76
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: `%s'"
+msgstr "intern gzip-fejl: '%s'"
+
+#: lib/compression.c:91
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 -dc"
+msgstr "kunne ikke udføre 'gzip -dc'"
+
+#: lib/compression.c:94
+#, fuzzy, c-format
+msgid "%s: decompression"
+msgstr "%s: ingen komprimeringskopierings-løkke"
+
+#: lib/compression.c:128
+#, c-format
+msgid "%s: internal gzip error: read: `%s'"
+msgstr "%s: intern gzip-fejl: læste: '%s'"
+
+#: lib/compression.c:138
+#, c-format
+msgid "%s: internal gzip error: write: `%s'"
+msgstr "%s: intern gzip-fejl: skrev: '%s'"
+
+#: lib/compression.c:141
+#, c-format
+msgid "%s: internal gzip error: read(%i) != write(%i)"
+msgstr "%s: intern gzip-fejl: læst(%i) != skrevet(%i)"
+
+#: lib/compression.c:157
+#, c-format
+msgid "%s: failed to exec gzip %s"
+msgstr "%s: kunne ikke eksekvere 'gzip' %s"
+
+#: lib/compression.c:171
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: read: `%s'"
+msgstr "%s: intern gzip-fejl: læste: '%s'"
+
+#: lib/compression.c:181
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: write: `%s'"
+msgstr "%s: intern gzip-fejl: skrev: '%s'"
+
+#: lib/compression.c:184
+#, fuzzy, c-format
+msgid "%s: internal bzip2 error: read(%i) != write(%i)"
+msgstr "%s: intern gzip-fejl: læst(%i) != skrevet(%i)"
+
+#: lib/compression.c:200
+#, fuzzy, c-format
+msgid "%s: failed to exec bzip2 %s"
+msgstr "%s: kunne ikke eksekvere 'gzip' %s"
+
+#: lib/compression.c:203
+#, fuzzy, c-format
+msgid "%s: compression"
+msgstr "%s: ingen komprimeringskopierings-løkke"
 
 #: lib/database.c:125
 #, c-format
@@ -887,7 +957,7 @@ msgstr "forsøger at overskrive '%.250s', som også er i pakken %.250s"
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: main/archives.c:496 dpkg-deb/build.c:368
+#: main/archives.c:496 dpkg-deb/build.c:314
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "kunne ikke oprette '%.255s'"
@@ -2274,7 +2344,7 @@ msgstr ""
 "Tilvalg markeret med [*] giver mange uddata - led dem gennem 'less' eller "
 "'more'!"
 
-#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:157 split/main.c:146
+#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:162 split/main.c:146
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "modstridende handlinger --%s og --%s"
@@ -2462,7 +2532,7 @@ msgstr "kunne ikke åbne '%i' for strøm"
 msgid "unexpected eof before end of line %d"
 msgstr "uventet slut-på-fil før afslutningen af linje %d"
 
-#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:169
+#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:185
 #: split/main.c:159
 msgid "need an action option"
 msgstr "kræver et handlings-tilvalg"
@@ -3147,50 +3217,25 @@ msgstr ""
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - fejl: %s ('%s') indeholder ingen tal\n"
 
-#: dpkg-deb/build.c:166
-#, c-format
-msgid "%s: no compression copy loop"
-msgstr "%s: ingen komprimeringskopierings-løkke"
-
-#: dpkg-deb/build.c:176
-#, c-format
-msgid "%s: internal gzip error: read: `%s'"
-msgstr "%s: intern gzip-fejl: læste: '%s'"
-
-#: dpkg-deb/build.c:186
-#, c-format
-msgid "%s: internal gzip error: write: `%s'"
-msgstr "%s: intern gzip-fejl: skrev: '%s'"
-
-#: dpkg-deb/build.c:189
-#, c-format
-msgid "%s: internal gzip error: read(%i) != write(%i)"
-msgstr "%s: intern gzip-fejl: læst(%i) != skrevet(%i)"
-
-#: dpkg-deb/build.c:196
-#, c-format
-msgid "%s: failed to exec gzip %s"
-msgstr "%s: kunne ikke eksekvere 'gzip' %s"
-
 #. Decode our arguments
-#: dpkg-deb/build.c:224
+#: dpkg-deb/build.c:170
 msgid "--build needs a directory argument"
 msgstr "--build kræver et mappe-parameter"
 
-#: dpkg-deb/build.c:233
+#: dpkg-deb/build.c:179
 msgid "--build takes at most two arguments"
 msgstr "--build kræver mindst to parametre"
 
-#: dpkg-deb/build.c:237
+#: dpkg-deb/build.c:183
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "kunne ikke tjekke eksistensen af arkivet '%.250s'"
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:198
 msgid "target is directory - cannot skip control file check"
 msgstr "målet er en mappe - kan ikke overspringe kontrolfil-tjek"
 
-#: dpkg-deb/build.c:253
+#: dpkg-deb/build.c:199
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -3199,44 +3244,44 @@ msgstr ""
 "dpkg-deb: advarsel, tjekker ikke indholdet af kontrolområdet.\n"
 "dpkg-deb: opbygger en ukendt pakke i '%s'.\n"
 
-#: dpkg-deb/build.c:271
+#: dpkg-deb/build.c:217
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "pakkenavnet har tegn, der hverken er små bogstaver, tal eller '-+.'"
 
-#: dpkg-deb/build.c:273
+#: dpkg-deb/build.c:219
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr "advarsel, '%s' indeholder brugerangivet prioritetsværdi '%s'\n"
 
-#: dpkg-deb/build.c:278
+#: dpkg-deb/build.c:224
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "advarsel, '%s' indeholder brugerangivet felt '%s'\n"
 
-#: dpkg-deb/build.c:284
+#: dpkg-deb/build.c:230
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d fejl i kontrolfil"
 
-#: dpkg-deb/build.c:295
+#: dpkg-deb/build.c:241
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: opbygger pakken '%s' i '%s'.\n"
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:249
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "kontrolmappen har forkerte rettigheder %03lo (skal være >=0755 og <=0775)"
 
-#: dpkg-deb/build.c:314
+#: dpkg-deb/build.c:260
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 "den pakkeansvarliges skript '%.50s' er hverken en almindelig fil eller "
 "symbolsk lænke"
 
-#: dpkg-deb/build.c:316
+#: dpkg-deb/build.c:262
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3245,16 +3290,16 @@ msgstr ""
 "den pakkeansvarliges skript '%.50s' har dårlige filrettigheder %03lo (skal "
 "være >=0555 og <=0775)"
 
-#: dpkg-deb/build.c:320
+#: dpkg-deb/build.c:266
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "den pakkeansvarliges skript '%.50s' kan ikke findes"
 
-#: dpkg-deb/build.c:330
+#: dpkg-deb/build.c:276
 msgid "empty string from fgets reading conffiles"
 msgstr "tom streng fra 'fgets' under læsning af konfigurationsfiler"
 
-#: dpkg-deb/build.c:332
+#: dpkg-deb/build.c:278
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3262,110 +3307,119 @@ msgstr ""
 "advarsel, konfigurationsfilnavn '%.50s...' er for langt, eller mangler "
 "afsluttende linjeskift\n"
 
-#: dpkg-deb/build.c:344
+#: dpkg-deb/build.c:290
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "konfigurationsfil '%.250s' optræder ikke i pakken"
 
-#: dpkg-deb/build.c:346
+#: dpkg-deb/build.c:292
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "konfigurationsfil '%.250s' kan ikke findes"
 
-#: dpkg-deb/build.c:348
+#: dpkg-deb/build.c:294
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "advarsel, konfigurationsfil '%s' er ikke en almindelig fil\n"
 
-#: dpkg-deb/build.c:353
+#: dpkg-deb/build.c:299
 msgid "error reading conffiles file"
 msgstr "fejl ved læsning af 'conffiles'-fil"
 
-#: dpkg-deb/build.c:356
+#: dpkg-deb/build.c:302
 msgid "error opening conffiles file"
 msgstr "fejl ved åbning af 'conffiles'-fil"
 
-#: dpkg-deb/build.c:359
+#: dpkg-deb/build.c:305
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: ignorerer %d advarsler om kontrolfiler\n"
 
-#: dpkg-deb/build.c:369
+#: dpkg-deb/build.c:315
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "kunne ikke lukke mellemlager for '%.255s'"
 
-#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
+#: dpkg-deb/build.c:320 dpkg-deb/build.c:393 dpkg-deb/build.c:414
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "kunne ikke skifte mappe til '%.255s'"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:321
 msgid "failed to chdir to .../DEBIAN"
 msgstr "kunne ikke skifte mappe til .../DEBIAN"
 
-#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
+#: dpkg-deb/build.c:322 dpkg-deb/build.c:395
 msgid "failed to exec tar -cf"
 msgstr "kunne ikke eksekvere 'tar -cf'"
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:328
 msgid "failed to make tmpfile (control)"
 msgstr "kunne ikke oprette midlertidig fil (kontrol)"
 
-#: dpkg-deb/build.c:383
+#: dpkg-deb/build.c:329
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "kunne ikke åbne midlertidig fil (kontrol), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:386
+#: dpkg-deb/build.c:332
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "kunne ikke fjerne lænke til midlertidig fil (kontrol), %s"
 
-#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
+#: dpkg-deb/build.c:340 dpkg-deb/build.c:369
 msgid "control"
 msgstr "kontrol"
 
-#: dpkg-deb/build.c:399
+#: dpkg-deb/build.c:345
 msgid "failed to fstat tmpfile (control)"
 msgstr "kunne ikke køre 'fstat' på midlertidig fil (kontrol)"
 
-#: dpkg-deb/build.c:422
+#: dpkg-deb/build.c:368
 msgid "failed to rewind tmpfile (control)"
 msgstr "kunne ikke hoppe tilbage i midlertidig fil (kontrol)"
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:376
 msgid "failed to make tmpfile (data)"
 msgstr "kunne ikke oprette midlertidig fil (data)"
 
-#: dpkg-deb/build.c:431
+#: dpkg-deb/build.c:377
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "kunne ikke åbne midlertidig fil (data), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:434
+#: dpkg-deb/build.c:380
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "kunne ikke fjerne lænke til midlertidig fil (data), %s"
 
-#: dpkg-deb/build.c:470
+#: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
+msgid "data"
+msgstr "data"
+
+#: dpkg-deb/build.c:416
 msgid "failed to exec find"
 msgstr "kunne ikke eksekvere 'find'"
 
-#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
+#: dpkg-deb/build.c:427 dpkg-deb/build.c:434
 msgid "failed to write filename to tar pipe (data)"
 msgstr "kunne ikke skrive filnavn til tar-videreførsel (data)"
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:448
+#, c-format
+msgid "Internal error, compress_type `%i' unknown!"
+msgstr "Intern fejl, compress_type `%i' ukendt!"
+
+#: dpkg-deb/build.c:460
 msgid "failed to rewind tmpfile (data)"
 msgstr "kunne ikke hoppe tilbage i midlertidig fil (data)"
 
-#: dpkg-deb/build.c:506
+#: dpkg-deb/build.c:461
 msgid "cat (data)"
 msgstr "cat (data)"
 
@@ -3393,53 +3447,53 @@ msgstr "filen '%.250s' er ødelagt - %.250s længde undeholder nuller"
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "filen '%.250s' er ødelagt - ugyldigt ciffer (kode %d) i %s"
 
-#: dpkg-deb/extract.c:108
+#: dpkg-deb/extract.c:104
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "kunne ikke læse arkivet '%.255s'"
 
-#: dpkg-deb/extract.c:109
+#: dpkg-deb/extract.c:105
 msgid "failed to fstat archive"
 msgstr "kunne ikke køre 'fstat' på arkivet"
 
-#: dpkg-deb/extract.c:110
+#: dpkg-deb/extract.c:106
 msgid "version number"
 msgstr "versionsnummer"
 
-#: dpkg-deb/extract.c:119
+#: dpkg-deb/extract.c:115
 msgid "between members"
 msgstr "mellem medlemmer"
 
-#: dpkg-deb/extract.c:121 split/info.c:95
+#: dpkg-deb/extract.c:117 split/info.c:95
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "filen '%.250s' er ødelagt - ugyldigt magisk nummer i slutningen af første "
 "hoved"
 
-#: dpkg-deb/extract.c:125
+#: dpkg-deb/extract.c:121
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "filen '%.250s' er ødelagt - negativ medlemslængde %zi"
 
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:125
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "filen '%.250s' er ikke et binært debianarkiv (prøv dpkg-split?)"
 
-#: dpkg-deb/extract.c:132
+#: dpkg-deb/extract.c:128
 msgid "header info member"
 msgstr "hovedinformationsmedlem"
 
-#: dpkg-deb/extract.c:135
+#: dpkg-deb/extract.c:131
 msgid "archive has no newlines in header"
 msgstr "arkivet har ingen linjeskift i hovedet"
 
-#: dpkg-deb/extract.c:138
+#: dpkg-deb/extract.c:134
 msgid "archive has no dot in version number"
 msgstr "arkivet har intet punktum i versionsnummer"
 
-#: dpkg-deb/extract.c:141
+#: dpkg-deb/extract.c:137
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "arkivets version %.250s blev ikke forstået. Hent en nyere dpkg-deb"
@@ -3447,22 +3501,22 @@ msgstr "arkivets version %.250s blev ikke forstået. Hent en nyere dpkg-deb"
 #. Members with `_' are noncritical, and if we don't understand them
 #. * we skip them.
 #.
-#: dpkg-deb/extract.c:150 dpkg-deb/extract.c:168
+#: dpkg-deb/extract.c:146 dpkg-deb/extract.c:175
 #, c-format
 msgid "skipped member data from %s"
 msgstr "sprang over medlemsdata fra %s"
 
-#: dpkg-deb/extract.c:159
+#: dpkg-deb/extract.c:165
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "filen '%.250s' indeholder uforstået datamedlem %.*s. Opgiver"
 
-#: dpkg-deb/extract.c:164
+#: dpkg-deb/extract.c:171
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "filen '%.250s' indeholder to kontrolmedlemmer. Opgiver"
 
-#: dpkg-deb/extract.c:176
+#: dpkg-deb/extract.c:183
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3471,16 +3525,16 @@ msgstr ""
 " ny debianpakke, version %s.\n"
 " størrelse %ld byte: kontrolarkiv= %zi byte.\n"
 
-#: dpkg-deb/extract.c:188
+#: dpkg-deb/extract.c:195
 msgid "ctrl information length"
 msgstr "kontrolinformationslængde"
 
-#: dpkg-deb/extract.c:190
+#: dpkg-deb/extract.c:197
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
 msgstr "arkivet har forkert udformet kontrollængde '%s'"
 
-#: dpkg-deb/extract.c:193
+#: dpkg-deb/extract.c:200
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -3489,11 +3543,11 @@ msgstr ""
 " gammel debianpakke, version %s.\n"
 " størrelse %ld byte: kontrolarkiv= %zi, hovedarkiv= %ld.\n"
 
-#: dpkg-deb/extract.c:202
+#: dpkg-deb/extract.c:209
 msgid "ctrlarea"
 msgstr "kontrolområde"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:215
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3502,74 +3556,65 @@ msgstr ""
 "dpkg-deb: filen ser ud til at være et arkiv, der er blevet\n"
 "dpkg-deb:    ødelagt ved at blive nedhentet i ASCII-tilstand\n"
 
-#: dpkg-deb/extract.c:213
+#: dpkg-deb/extract.c:220
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "'%.255s' er ikke et arkiv i debianformat"
 
-#: dpkg-deb/extract.c:218
+#: dpkg-deb/extract.c:225
 msgid "fgetpos failed"
 msgstr "'fgetpos' mislykkedes"
 
-#: dpkg-deb/extract.c:222
+#: dpkg-deb/extract.c:229
 msgid "fsetpos failed"
 msgstr "'fsetpos' mislykkedes"
 
-#: dpkg-deb/extract.c:229
+#: dpkg-deb/extract.c:236
 msgid "failed to fdopen p1 in paste"
 msgstr "kunne ikke køre 'fdopen p1' i indsætning"
 
-#: dpkg-deb/extract.c:231
+#: dpkg-deb/extract.c:238
 msgid "failed to write to gzip -dc"
 msgstr "kunne ikke skrive til 'gzip -dc'"
 
-#: dpkg-deb/extract.c:232
+#: dpkg-deb/extract.c:239
 msgid "failed to close gzip -dc"
 msgstr "kunne ikke lukke 'gzip -dc'"
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:246
 msgid "failed to syscall lseek to files archive portion"
 msgstr "kunne ikke udføre systemkaldet lseek på arkivfildelen"
 
-#: dpkg-deb/extract.c:247
+#: dpkg-deb/extract.c:254
 msgid "failed to write to pipe in copy"
 msgstr "kunne ikke skrive til videreførsel i 'copy'"
 
-#: dpkg-deb/extract.c:248
+#: dpkg-deb/extract.c:255
 msgid "failed to close pipe in copy"
 msgstr "kunne ikke lukke videreførsel i 'copy'"
 
-#: dpkg-deb/extract.c:271
-#, c-format
-msgid "internal gzip error: `%s'"
-msgstr "intern gzip-fejl: '%s'"
-
-#: dpkg-deb/extract.c:277
-msgid "failed to exec gzip -dc"
-msgstr "kunne ikke udføre 'gzip -dc'"
-
-#: dpkg-deb/extract.c:286
+#: dpkg-deb/extract.c:276
 msgid "failed to create directory"
 msgstr "kunne ikke oprette mappe"
 
-#: dpkg-deb/extract.c:287
+#: dpkg-deb/extract.c:277
 msgid "failed to chdir to directory after creating it"
 msgstr "kunne ikke skifte til mappe efter at have oprettet den"
 
-#: dpkg-deb/extract.c:289
+#: dpkg-deb/extract.c:279
 msgid "failed to chdir to directory"
 msgstr "kunne ikke skifte til mappe"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:293
 msgid "failed to exec tar"
 msgstr "kunne ikke eksekvere 'tar'"
 
-#: dpkg-deb/extract.c:326 dpkg-deb/extract.c:341 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:316 dpkg-deb/extract.c:331 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s kræver et .deb-filnavn som parameter"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:319
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3578,12 +3623,12 @@ msgstr ""
 "--%s kræver en målmappe.\n"
 "Måske skulle du bruge 'dpkg --install'?"
 
-#: dpkg-deb/extract.c:332
+#: dpkg-deb/extract.c:322
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s tager højst to parametre (.deb og mappe)"
 
-#: dpkg-deb/extract.c:343
+#: dpkg-deb/extract.c:333
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s tager kun ét parameter(.deb-filnavn)"
@@ -3731,6 +3776,8 @@ msgid ""
 "  --nocheck                  suppress control file check (build bad "
 "package).\n"
 "  -z# to set the compression when building\n"
+"  -Z<type>                   set the compression type to use when building.\n"
+"                             allowed values: gzip, bzip2, none\n"
 "\n"
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
@@ -3770,6 +3817,9 @@ msgstr ""
 "  --nocheck                  undertryk kontrolfiltjek (opbyg ugyldig "
 "pakke).\n"
 "  -z# for at sætte komprimeringen ved opbygningen\n"
+"  -E<type>                   angiv den kompressionstype, der skal bruges "
+"under\n"
+"                             bygning. Tilladet værdier: gzip, bzip2, none.\n"
 "\n"
 "Format-syntaks:\n"
 "  Et format er en streng, der vil blive vist for hver pakke. Formatet kan\n"
@@ -3783,13 +3833,18 @@ msgstr ""
 "'dselect' for en nogenlunde brugervenlig pakkehåndtering. Pakker udpakket\n"
 "med 'dpkg-deb --extract' vil blive ukorrekt installeret!\n"
 
-#: dpkg-deb/main.c:98
+#: dpkg-deb/main.c:100
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
 "Skriv 'dpkg-deb --help' for hjælp med manipulation med *.deb-filer\n"
 "Skriv 'dpkg --help' for hjælp med installation og afinstallation af pakker."
+
+#: dpkg-deb/main.c:176
+#, c-format
+msgid "unknown compression type `%s'!"
+msgstr "ukendt komprimeringstype `%s'!"
 
 #: split/info.c:64
 #, c-format

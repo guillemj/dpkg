@@ -1,79 +1,89 @@
-.\" traduction de la version cvs 1.7
-.TH DPKG-STATOVERRIDE 8 "November 2000" "Debian project" "Utilitaires de dpkg"
+.\" This file was generated with po4a. Translate the source file.
+.\" 
+.TH DPKG-STATOVERRIDE 8 "Novembre 2000" "Projet Debian" "Utilitaires de dpkg"
 .SH NOM
-dpkg-statoverride -- annuler la propriété et le mode des fichiers
+dpkg\-statoverride -- annuler la propriété et le mode des fichiers
 .SH SYNOPSIS
-\fBdpkg-statoverride\fR [options] --add <user> <group> <mode> \fI<fichier>\fR
+\fBdpkg\-statoverride\fR [options] \-\-add <utilisateur> 
+<groupe> <mode> \fI<fichier>\fR
 .br
-\fBdpkg-statoverride\fR [options] --remove \fI<fichier>\fR
+.B dpkg\-statoverride\fR [options] \-\-remove \fI<fichier>
 .br
-\fBdpkg-statoverride\fR [options] --list \fI[<exp-reg>]\fR
+.B dpkg\-statoverride\fR [options] \-\-list \fI[<exp-reg>]
 .SH DESCRIPTION
-Les «\ \fBstat overrides\fR\ » sont une façon de demander à Dpkg de changer le
-propriétaire ou le mode d'un fichier lors de l'installation d'un paquet.
-(Note : je dis «\ fichier\ » ici, mais cela peut être en réalité n'importe
-quel système de fichiers gérable par Dpkg, par exemple, des répertoires, des
-devices, etc.) On peut s'en servir pour forcer l'installation de programmes 
-qui sont normalement «\ setuid\ » sans ce drapeau «\ setuid\ », ou pour les
-rendre exécutables seulement par un groupe donné.
+Les «\ \fBdérogations au statut\fR\ » sont une façon de demander à Dpkg de 
+changer le propriétaire ou le mode d'un fichier lors de l'installation d'un 
+paquet. (Note\ : je dis «\ fichier\ » ici, mais cela peut être en réalité 
+n'importe quel système de fichiers gérable par Dpkg, par exemple, des 
+répertoires, des périphériques, etc.) On peut s'en servir pour forcer 
+l'installation de programmes qui sont normalement «\ setuid\ » sans ce 
+drapeau «\ setuid\ », ou pour les rendre exécutables seulement par un groupe 
+donné.
 .P
-\fBdpkg-statoverride\fR est un utilitaire pour gérer la liste des annulations.
-Il possède trois fonctions élémentaires : l'ajout, la suppression et le 
-listage d'annulations.
+\fBdpkg\-statoverride\fR est un utilitaire pour gérer la liste des 
+dérogations. Il possède trois fonctions élémentaires : l'ajout, la 
+suppression et le listage des dérogations.
 .SH OPTIONS
 .TP
-.I --add <user> <group> <mode> <fichier>
-Ajouter une annulation pour \fB<fichier>\fR. \fB<fichier>\fR n'a pas besoin
-d'exister quand cette commande est utilisée ; L'annulation est stockée et
-utilisée par la suite. Les utilisateurs ou les groupes peuvent être
-indiqués par leur nom (par exemple \fBroot\fR ou \fBnobody\fR), ou bien par
-leur numéro, en préfixant ce numéro par le caractère «\ fB#\fR\ » (par exemple,
-\fB#0\fR ou \fB#65534\fR).
+.I \-\-add <utilisateur> <groupe> <mode> <fichier>
+Ajoute une dérogation pour \fB<fichier>\fR. \fB<fichier>\fR n'a 
+pas besoin d'exister quand cette commande est utilisée\ ; la dérogation est 
+stockée et utilisée par la suite. Les utilisateurs ou les groupes peuvent 
+être indiqués par leur nom (par exemple \fBroot\fR ou \fBnobody\fR), ou bien par 
+leur numéro, en préfixant ce numéro par le caractère «\ \fB#\fR\ » (par 
+exemple, \fB#0\fR ou \fB#65534\fR).
+
+Si \-\-update est demandée et si \fB<fichier>\fR existe, le fichier 
+obtient un nouveau propriétaire et un nouveau mode.
 .TP
-.I --remove <fichier>
-Supprimer une annulation pour \fB<fichier>\fR.
+.I \-\-remove <fichier>
+Supprime une dérogation pour \fB<fichier>\fR, le statut de 
+\fB<fichier>\fR est inchangé.
 .TP
-.I --list [<exp-reg>]
-Lister toutes les annulations. Quand on donne une expression rationnelle, 
-on réduit la sortie aux annulations qui correspondent au motif. Quand il n'y 
-a pas d'annulation, ou quand aucune ne correspond au motif, 
-\fBdpkg-statoverride\fR se termine avec un code de sortie égal à 1.
+.I \-\-list [<exp-reg>]
+Liste toutes les dérogations. Quand on donne une expression rationnelle, on 
+réduit la sortie aux dérogations qui correspondent au motif. Quand il n'y a 
+pas de dérogation, ou quand aucune ne correspond au motif, 
+\fBdpkg\-statoverride\fR se termine avec un code de sortie égal à 1.
 .TP
-.I --force
-Forcer une opération, même si une vérification raisonnable l'interdirait.
-C'est nécessaire pour annuler une précédente annulation.
+.I \-\-force
+Forcer une opération, même si une vérification raisonnable 
+l'interdirait. C'est nécessaire pour annuler une précédente dérogation.
 .TP
-.I --update
-Essayer de changer immédiatement le propriétaire et le mode du fichier
-si ce fichier existe. Cela marche uniquement avec \fI--add\fR.
+.I \-\-update
+Essayer de changer immédiatement le propriétaire et le mode du fichier si ce 
+fichier existe.
 .TP
-.I --quiet
+.I \-\-quiet
 Moins de bavardage sur ce qui est fait.
 .TP
-.I --help
+.I \-\-help
 Afficher la version, le copyright et une aide.
 .TP
-.I --admindir
-Changer le répertoire de la base de données de dpkg, où se trouve aussi le
-fichier statoverride. par défaut, c'est /var/lib/dpkg.
+.I \-\-admindir
+Change le répertoire de la base de données de dpkg, où se trouve aussi le 
+fichier statoverride. Par défaut, c'est /var/lib/dpkg.
 .SH FICHIERS
 .TP
 .I /var/lib/dpkg/statoverride
-Ce fichier contient la liste actuelle des annulations concernant le système.
-Il se trouve dans le répertoire d'administration de Dpkg, avec les autres 
-fichiers importants comme «\ status\ » ou «\ available\ ».
+Ce fichier contient la liste actuelle des dérogations concernant le 
+système. Il se trouve dans le répertoire d'administration de Dpkg, avec les 
+autres fichiers importants comme «\ status\ » ou «\ available\ ».
 .br
-Note : dpkg-statoverride garde une copie de ce fichier, avec une extension
-"-old", avant de le remplacer par un nouveau.
-.SH Voir aussi
-.BR dpkg (8)
+Note\ : dpkg-statoverride garde une copie de ce fichier, avec une extension 
+\-old, avant de le remplacer par un nouveau.
+.SH "Voir aussi"
+\fBdpkg\fR(8)
 .SH AUTEUR
 Copyright 2000 Wichert Akkerman
 .UR mailto:wakkerma@debian.org
 <wakkerma@debian.org>
 .UE
 .sp
-C'est un logiciel libre ; voyez la licence publique générale du projet GNU
-version 2 ou supérieure pour les droits de copie. Il n'y a PAS de garantie.
-.SH TRADUCTEUR
-Philippe Batailler, Août 2001.
+Ce programme est un logiciel libre\ ; voyez la licence publique générale du 
+projet GNU version 2 ou supérieure pour les droits de copie. Il n'y a PAS de 
+garantie.
+.SH TRADUCTION
+Philippe Batailler, 2004.
+Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
+dpkg, version 1.10.23.

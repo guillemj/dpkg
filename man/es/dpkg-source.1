@@ -3,7 +3,7 @@
 .\" y Carlos Izquierdo (gheesh@ertis.net) y revisada por Rubén Porras Campo
 .\" (nahoo@inicia.es)
 .\" Está basada en la página de manual original:
-.\" versión 1.2 del CVS de /cvs/debian-doc/manpages/english/dpkg/dpkg-source.1
+.\" versión 1.3 del CVS de /cvs/debian-doc/manpages/english/dpkg/dpkg-source.1
 .TH "DPKG\-SOURCE" "1" "Enero de 2000" "Proyecto Debian" "utilidades de dpkg"
 .SH "NOMBRE"
 dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges,
@@ -300,9 +300,10 @@ función de los argumentos.
 Puede especificar una expresión regular de Perl para indicar aquellos
 ficheros que desee excluir de la lista de ficheros para el diff (esta
 lista es generada con una orden find). Por sí mismo, \fB\-i\fR
-activa la opción con un filtro predeterminado que elimina los directorios
-CVS, RCS y .deps (libtool) y todos los ficheros que contienen, así como
-ficheros de respaldo terminados en ~ y "DEADJOEs".
+activa la opción con un filtro predeterminado que elimina los ficheros y
+directorios de control de los sistemas de control de versiones más comunes, los
+ficheros de respaldo, los ficheros swap y los directorios que se generan como
+resultado de las operaciones de Libtool.
 
 Esta opción es muy útil para eliminar ficheros extraños que se incluyen
 en el .diff.gz, (como "debian/BUGS_TODO/*" o "debian/RCS/*,v"). Por
@@ -564,7 +565,7 @@ intérprete de órdenes.
 La
 .I orden\-para\-obtener\-root
 será típicamente
-.BR sudo ", " super " o " really .
+.BR fakeroot ", " sudo ", " super " o " really .
 .B su
 no se puede usar, ya que requiere la opción
 .B \-c
@@ -738,6 +739,12 @@ inglés. Nota del traductor: Newline = Terminación de línea, Space = Espacio, Tab
 Las variables con nombres de esta forma son generadas por
 .B dpkg\-shlibdeps
 \- vea más arriba.
+.TP
+.B dpkg:UpstreamVersion
+La versión de desarrollador principal de dpkg.
+.TP
+.B dpkg:Version
+La versión completa de dpkg.
 .LP 
 Si se hace referencia a una variable que no existe, se genera un aviso y
 se asume un valor vacío.
