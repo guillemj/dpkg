@@ -41,7 +41,7 @@
 #include "dpkg-deb.h"
 
 static void printversion(void) {
-  if (fputs(_("Debian GNU/Linux `"), stdout) < 0) werr("stdout");
+  if (fputs(_("Debian `"), stdout) < 0) werr("stdout");
   if (fputs(BACKEND, stdout) < 0) werr("stdout");
   if (fputs(_("' package archive backend version "), stdout) < 0) werr("stdout");
   if (fputs(DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
