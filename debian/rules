@@ -31,11 +31,13 @@ aclocal.m4: $(wildcard automake/*.m4)
 configure: configure.in aclocal.m4
 	autoconf
 
-config.h.in: configure.in
+$(BUILD)/stamp.config.h.in: configure.in
+	install -d $(@D)
 	autoheader
+	touch $@
 
 # Setup the buildlocation
-$(BUILD)/configure-stamp: configure config.h.in
+$(BUILD)/configure-stamp: configure $(BUILD)/stamp.config.h.in
 	$(checkdir)
 	install -d $(@D)
 	cd $(@D) && LDFLAGS=$(LDFLAGS) $(CURDIR)/configure \
