@@ -473,7 +473,9 @@ do_pidfile(const char *name)
 		if (fscanf(f, "%d", &pid) == 1)
 			check(pid);
 		fclose(f);
-	}
+	} else if (errno != ENOENT)
+		fatal("open pidfile %s: %s", name, strerror(errno));
+
 }
 
 /* WTA: this  needs to be an autoconf check for /proc/pid existance.
@@ -541,18 +543,18 @@ do_procinit(void)
 static int
 do_stop(void)
 {
-	char what[1024];
+	char what[2048];
 	struct pid_list *p;
 	int retval = 0;
 
 	if (cmdname)
-		strcpy(what, cmdname);
+		snprintf(what, sizeof(what), "%s", cmdname);
 	else if (execname)
-		strcpy(what, execname);
+		snprintf(what, sizeof(what), "%s", execname);
 	else if (pidfile)
-		sprintf(what, "process in pidfile `%s'", pidfile);
+		snprintf(what, sizeof(what), "process in pidfile `%s'", pidfile);
 	else if (userspec)
-		sprintf(what, "process(es) owned by `%s'", userspec);
+		snprintf(what, sizeof(what), "process(es) owned by `%s'", userspec);
 	else
 		fatal("internal error, please report");
 
