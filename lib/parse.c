@@ -171,6 +171,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
           lno++;
+	  if (EOF_mmap(dataptr, endptr)) break;
           c= getc_mmap(dataptr);
 /* Found double eol, or start of new field */
           if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
