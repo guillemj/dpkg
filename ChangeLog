@@ -1,6 +1,12 @@
 Sun Dec 17 13:34:06 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * debian/control: fix typo in Build-Depends and add zlib1g-dev
+  * More Adam stuff:
+    + lib/mlib.c, include/dpkg.h.in: make do_fd_copy even more modular
+    + dpkg-deb/{build.c,extract.c,info.c}, lib/showcright.c,
+      main/{enquiry.c,filesdb.c}: updated for new do_fd_copy routines
+    + main/{archives,[ch],main/processarc.c}: use fds instead of streams
+      so we don't mix fd and stream-based IO which can cause havoc
 
 Wed Dec 13 16:48:47 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 

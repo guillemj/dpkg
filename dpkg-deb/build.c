@@ -161,7 +161,7 @@ int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) {
   
   if(compression != NULL)
     if(*compression == '0') {
-      do_fd_copy(0, 1, -1, _("%s: no compression copy loop"), v.buf);
+      fd_fd_copy(0, 1, -1, _("%s: no compression copy loop"), v.buf);
       exit(0);
     }
 #ifdef USE_ZLIB
@@ -416,7 +416,7 @@ void do_build(const char *const *argv) {
   }                
                 
   if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (control)"));
-  do_fd_copy(gzfd, fileno(ar), -1, _("control"));
+  fd_fd_copy(gzfd, fileno(ar), -1, _("control"));
 
   /* Control is done, now we need to archive the data. Start by creating
    * a new temporary file. Immediately unlink the temporary file so others
@@ -500,7 +500,7 @@ void do_build(const char *const *argv) {
       werr(debar);
 
     if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
-    do_fd_copy(gzfd, fileno(ar), -1, _("cat (data)"));
+    fd_fd_copy(gzfd, fileno(ar), -1, _("cat (data)"));
 
     if (datastab.st_size & 1)
       if (putc('\n',ar) == EOF)

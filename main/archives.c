@@ -115,16 +115,10 @@ void cu_pathname(int argc, void **argv) {
   ensure_pathname_nonexisting((char*)(argv[0]));
 } 
 
-void cu_backendpipe(int argc, void **argv) {
-  FILE *f= *(FILE**)argv[0];
-  if (f) fclose(f);
-} 
-
 int tarfileread(void *ud, char *buf, int len) {
   struct tarcontext *tc= (struct tarcontext*)ud;
   int r;
-  r= fread(buf,1,len,tc->backendpipe);
-  if (r != len && ferror(tc->backendpipe))
+  if ((r= read(tc->backendpipe,buf,len)) == -1)
     ohshite(_("error reading from dpkg-deb pipe"));
   return r;
 }
@@ -223,7 +217,7 @@ int tarobject(struct TarInfo *ti) {
   int statr, fd, r, i, existingdirectory;
   struct stat stab, stabd;
   size_t sz, wsz;
-  FILE *thefile;
+  int thefile;
   char databuf[TARBLKSZ];
   struct fileinlist *nifd;
   struct pkginfo *divpkg, *otherpkg;
@@ -398,26 +392,13 @@ int tarobject(struct TarInfo *ti) {
      * it until we apply the proper mode, which might be a statoverride.
      */
     fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
-    if (fd < 0) ohshite("unable to create `%.255s'",ti->Name);
-    thefile= fdopen(fd,"w");
-    if (!thefile) { close(fd); ohshite(_("unable to fdopen for `%.255s'"),ti->Name); }
-    push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)thefile);
+    if (fd < 0) ohshite("unable to create 1 `%.255s'",ti->Name);
+    push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,(void*)fd);
     debug(dbg_eachfiledetail,"tarobject NormalFile[01] open size=%lu",
           (unsigned long)ti->Size);
-    for (sz= ti->Size; sz > 0; sz -= wsz) {
-      wsz= sz > TARBLKSZ ? TARBLKSZ : sz;
-      r= fread(databuf,1,TARBLKSZ,tc->backendpipe);
-      if (r<TARBLKSZ) {
-        if (ferror(tc->backendpipe)) {
-          ohshite(_("error reading dpkg-deb during `%.255s'"),ti->Name);
-        } else {
-          errno= 0;
-          return -1;
-        }
-      }
-      if (fwrite(databuf,1,wsz,thefile) != wsz)
-        ohshite(_("error writing to `%.255s'"),ti->Name);
-    }
+    fd_fd_copy(tc->backendpipe, fd, ti->Size, _("backend dpkg-deb during `%.255s'"),ti->Name);
+    r= ti->Size % TARBLKSZ;
+    if (r > 0) r= read(tc->backendpipe,databuf,TARBLKSZ - r);
     if (nifd->namenode->statoverride) 
       debug(dbg_eachfile, _("tarobject ... stat override, uid=%d, gid=%d, mode=%04o"),
 			  nifd->namenode->statoverride->uid,
@@ -427,17 +408,11 @@ int tarobject(struct TarInfo *ti) {
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
       ohshite(_("error setting ownership of `%.255s'"),ti->Name);
-    /* We flush the stream here to avoid any future
-     * writes, which will mask any setuid or setgid
-     * attemps by fchmod below.
-     */
-    if (fflush(thefile) == EOF)
-      ohshite(_("error flushing `%.255s'"),ti->Name);
     am=(nifd->namenode->statoverride ? nifd->namenode->statoverride->mode : ti->Mode) & ~S_IFMT;
     if (fchmod(fd,am))
       ohshite(_("error setting permissions of `%.255s'"),ti->Name);
-    pop_cleanup(ehflag_normaltidy); /* thefile= fdopen(fd) */
-    if (fclose(thefile))
+    pop_cleanup(ehflag_normaltidy); /* fd= open(fnamenewvb.buf) */
+    if (close(fd))
       ohshite(_("error closing/writing `%.255s'"),ti->Name);
     newtarobject_utime(fnamenewvb.buf,ti);
     break;

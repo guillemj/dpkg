@@ -514,25 +514,19 @@ void process_archive(const char *filename) {
   newfileslist= 0; tc.newfilesp= &newfileslist;
   push_cleanup(cu_fileslist,~0, 0,0, 1,(void*)&newfileslist);
   tc.pkg= pkg;
-  tc.backendpipe= fdopen(p1[0],"r");
-  if (!tc.backendpipe) ohshite(_("unable to fdopen dpkg-deb extract pipe"));
-  push_cleanup(cu_backendpipe,~ehflag_bombout, 0,0, 1,(void*)&tc.backendpipe);
+  tc.backendpipe= p1[0];
+  push_cleanup(cu_closefd,~ehflag_bombout, 0,0, 1,(void*)&tc.backendpipe);
 
   r= TarExtractor((void*)&tc, &tf);
   if (r) {
     if (errno) {
       ohshite(_("error reading dpkg-deb tar output"));
-    } else if (feof(tc.backendpipe)) {
-      waitsubproc(c1,BACKEND " --fsys-tarfile (EOF)",1);
-      ohshite(_("unexpected EOF in filesystem tarfile - corrupted package archive"));
     } else {
       ohshite(_("corrupted filesystem tarfile - corrupted package archive"));
     }
   }
-  tmpf= tc.backendpipe;
-  tc.backendpipe= 0;
-  while (getc(tmpf) != EOF) ; /* zap possible trailing zeros */
-  fclose(tmpf);
+  fd_null_copy(tc.backendpipe,-1,_("dpkg-deb: zap possible trailing zeros"));
+  close(tc.backendpipe);
   waitsubproc(c1,BACKEND " --fsys-tarfile",1);
 
   if (oldversionstatus == stat_halfinstalled || oldversionstatus == stat_unpacked) {

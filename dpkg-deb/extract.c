@@ -254,7 +254,7 @@ void extracthalf(const char *debar, const char *directory,
     m_pipe(p1);
     if (!(c1= m_fork())) {
       close(p1[0]);
-      do_fd_copy(fileno(ar), p1[1], memberlen, _("failed to write to pipe in copy"));
+      stream_fd_copy(ar, p1[1], memberlen, _("failed to write to pipe in copy"));
       if (close(p1[1]) == EOF) ohshite(_("failed to close pipe in copy"));
       exit(0);
     }

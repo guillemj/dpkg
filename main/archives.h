@@ -23,7 +23,7 @@
 #define ARCHIVES_H
 
 struct tarcontext {
-  FILE *backendpipe;
+  int backendpipe;
   struct pkginfo *pkg;
   struct fileinlist **newfilesp;
 };

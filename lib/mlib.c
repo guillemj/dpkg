@@ -124,33 +124,61 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   checksubprocerr(status,description,sigpipeok);
 }
 
-typedef struct do_fd_buf_data {
-  void *buf;
-  int type;
-} do_fd_buf_data_t;
-
-void do_fd_write_combined(char *buf, int length, void *proc_data, char *desc) {
-  do_fd_buf_data_t *data = (do_fd_buf_data_t *)proc_data;
+long buffer_write(buffer_data_t data, void *buf, long length, char *desc) {
+  long ret= length;
   switch(data->type) {
-    case FD_WRITE_BUF:
-      memcpy(data->buf, buf, length);
-      data->buf += length;
+    case BUFFER_WRITE_BUF:
+      memcpy(data->data, buf, length);
+      data->data += length;
       break;
-    case FD_WRITE_VBUF:
-      varbufaddbuf((struct varbuf *)data->buf, buf, length);
-      data->buf += length;
+    case BUFFER_WRITE_VBUF:
+      varbufaddbuf((struct varbuf *)data->data, buf, length);
       break;
-    case FD_WRITE_FD:
-      if(write((int)data->buf, buf, length) < length)
-	ohshite(_("failed in do_fd_write_combined (%i, %s)"), FD_WRITE_FD, desc);
+    case BUFFER_WRITE_FD:
+      if((ret= write((int)data->data, buf, length)) < 0)
+	ohshite(_("failed in buffer_write(fd) (%i, ret=%i, %s)"), (int)data->data, ret, desc);
+      break;
+    case BUFFER_WRITE_NULL:
+      break;
+    case BUFFER_WRITE_STREAM:
+      ret= fwrite(buf, 1, length, (FILE *)data->data);
+      if(feof((FILE *)data->data))
+	ohshite(_("eof in buffer_write(stream): %s"), desc);
+      if(ferror((FILE *)data->data))
+	ohshite(_("error in buffer_write(stream): %s"), desc);
       break;
     default:
-      fprintf(stderr, _("unknown data type `%i' in do_fd_write_buf\n"), data->type);
+      fprintf(stderr, _("unknown data type `%i' in buffer_write\n"), data->type);
    }
+   return ret;
 }
 
-int read_fd_combined(int fd, void *buf, int type, int limit, char *desc, ...) {
-  do_fd_buf_data_t data = { buf, type };
+long buffer_read(buffer_data_t data, void *buf, long length, char *desc) {
+  long ret= length;
+  switch(data->type) {
+    case BUFFER_READ_FD:
+      if((ret= read((int)data->data, buf, length)) < 0)
+	ohshite(_("failed in buffer_read(fd): %s"), desc);
+      break;
+    case BUFFER_READ_STREAM:
+      ret= fread(buf, 1, length, (FILE *)data->data);
+      if(feof((FILE *)data->data))
+	ohshite(_("eof in buffer_read(stream): %s"), desc);
+      if(ferror((FILE *)data->data))
+	ohshite(_("error in buffer_read(stream): %s"), desc);
+      break;
+    default:
+      fprintf(stderr, _("unknown data type `%i' in buffer_read\n"), data->type);
+   }
+   return ret;
+}
+
+long buffer_copy_setup(void *argIn, int typeIn, void *procIn,
+		       void *argOut, int typeOut, void *procOut,
+		       long limit, char *desc, ...)
+{
+  struct buffer_data read_data = { procIn, argIn, typeIn },
+		     write_data = { procOut, argOut, typeOut };
   va_list al;
   struct varbuf v;
   int ret;
@@ -161,22 +189,27 @@ int read_fd_combined(int fd, void *buf, int type, int limit, char *desc, ...) {
   varbufvprintf(&v, desc, al);
   va_end(al);
 
-  ret = do_fd_read(fd, limit, do_fd_write_combined, &data, v.buf);
+  if ( procIn == NULL )
+    read_data.proc = buffer_read;
+  if ( procOut == NULL )
+    write_data.proc = buffer_write;
+  ret = buffer_copy(&read_data, &write_data, limit, v.buf);
   varbuffree(&v);
   return ret;
 }
 
 
-int do_fd_read(int fd1, int limit, do_fd_write_t write_proc, void *proc_data, char *desc) {
+long buffer_copy(buffer_data_t read_data, buffer_data_t write_data, long limit, char *desc) {
   char *buf;
-  int count, bufsize= 32768, bytesread= 0;
+  int count, bufsize= 32768;
+  long bytesread= 0;
 
   if((limit != -1) && (limit < bufsize)) bufsize= limit;
   buf= malloc(bufsize);
   if(buf== NULL) ohshite(_("failed to allocate buffer in do_fd_read (%s)"), desc);
 
-  while(1) {
-    count= read(fd1, buf, bufsize);
+  while(bufsize) {
+    count= read_data->proc(read_data, buf, bufsize, desc);
     if (count<0) {
       if (errno==EINTR) continue;
       break;
@@ -185,7 +218,7 @@ int do_fd_read(int fd1, int limit, do_fd_write_t write_proc, void *proc_data, ch
       break;
 
     bytesread+= count;
-    write_proc(buf, count, proc_data, desc);
+    write_data->proc(write_data, buf, count, desc);
     if(limit!=-1) {
       limit-= count;
       if(limit<bufsize)
