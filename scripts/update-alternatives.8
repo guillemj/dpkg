@@ -31,6 +31,10 @@ update-alternatives \- maintain symbolic links determining default commands
 .RI [ options ]
 .B --display
 .I name
+.B update-alternatives
+.RI [ options ]
+.B --config
+.I name
 .SH DESCRIPTION
 .B update-alternatives
 creates, removes, maintains and displays information about the symbolic
@@ -130,6 +134,17 @@ associated with it.
 When a link group is in automatic mode,
 the alternatives pointed to by members of the group
 will be those which have the highest priority.
+.PP
+When using the
+.I --config
+option, update-alternatives will list all of the choices for the given
+alternative. You will then be prompted for which of the choices to use
+for the alternative. Once you make a change, the alternative will no
+longer be in
+.I auto
+mode. You will need to use the
+.I --auto
+option in order to return to the automatic state.
 .SH TERMINOLOGY
 Since the activities of
 .B update-alternatives

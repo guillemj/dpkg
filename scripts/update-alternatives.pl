@@ -14,6 +14,7 @@ Usage: update-alternatives --install <link> <name> <path> <priority>
        update-alternatives --remove <name> <path>
        update-alternatives --auto <name>
        update-alternatives --display <name>
+       update-alternatives --config <name>
 <name> is the name in /etc/alternatives.
 <path> is the name referred to.
 <link> is the link pointing to /etc/alternatives/<name>.
@@ -64,7 +65,7 @@ while (@ARGV) {
         @ARGV >= 2 || &badusage("--remove needs <name> <path>");
         ($name,$apath,@ARGV) = @ARGV;
         $mode= 'remove';
-    } elsif (m/^--(display|auto)$/) {
+    } elsif (m/^--(display|auto|config)$/) {
         &checkmanymodes;
         @ARGV || &badusage("--$1 needs <name>");
         $mode= $1;
@@ -162,6 +163,15 @@ if ($mode eq 'display') {
         }
     }
     exit 0;
+}
+
+if ($mode eq 'config') {
+    if (!$dataread) {
+	&pr("No alternatives for $name.");
+    } else {
+	&config_alternatives($name);
+	exit 0;
+    }
 }
 
 $best= '';
@@ -435,4 +445,37 @@ sub badfmt {
 sub rename_mv {
 	return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
 }
+
+sub config_message {
+    printf(STDOUT "\nYou have %s package(s) which", $#versions+1);
+    printf(STDOUT " provide the $name command:\n");
+    printf(STDOUT "  Selection    Command-Name        Command\n");
+    printf(STDOUT "-----------------------------------------------\n");
+    for ($i=0; $i<=$#versions; $i++) {
+	if (readlink("$altdir/$name") eq $versions[$i]) {
+	    printf(STDOUT "*     %s            %s           %s\n", $i+1,
+		$name, $versions[$i]);
+	} else {
+		printf(STDOUT "      %s            %s           %s\n", $i+1,
+		$name, $versions[$i]);
+	}
+    }
+    printf(STDOUT "\nWhich selection to supply `$name'?\n");
+    printf(STDOUT "Or press ENTER to keep the current (*) selection.\n");
+}
+
+sub config_alternatives {
+    do {
+	&config_message;
+	$preferred=<STDIN>;
+	chop($preferred);
+    } until $preferred eq '' || ($preferred>=1 && $preferred<=$#versions+1);
+    if ($preferred ne '') {
+	system("ln -sf $versions[$preferred-1] $altdir/$name");
+	if ($?) {
+	    &quit("unable to change link for alternative");
+	}
+    }
+}
+
 exit(0);
