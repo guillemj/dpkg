@@ -136,18 +136,20 @@ int waitsubproc(pid_t pid, const char *description, int flags) {
   return checksubprocerr(status,description,flags);
 }
 
+struct buffer_write_md5ctx {
+  struct MD5Context ctx;
+  unsigned char **hash;
+};
 ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *desc) {
   ssize_t ret= length;
   if(data->type & BUFFER_WRITE_SETUP) {
     switch(data->type ^ BUFFER_WRITE_SETUP) {
       case BUFFER_WRITE_MD5:
 	{
-	  unsigned char *hash= data->data.ptr;
-	  void ** array= malloc(sizeof(void *) * 2);
-	  data->data.ptr= array;
-	  array[0]= hash;
-	  array[1]= malloc(sizeof(struct MD5Context));
-	  MD5Init((struct MD5Context *)array[1]);
+	  struct buffer_write_md5ctx *ctx = malloc(sizeof(struct buffer_write_md5ctx));
+	  ctx->hash = data->data.ptr;
+	  data->data.ptr = ctx;
+	  MD5Init(&ctx->ctx);
 	}
 	break;
     }
@@ -159,12 +161,15 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *
 	{
 	  int i;
 	  unsigned char digest[16], *p = digest;
-	  unsigned char *hash= (unsigned char *)((void **)data->data.ptr)[0];
-	  MD5Final(digest, (struct MD5Context *)((void **)data->data.ptr)[1]);
+	  struct buffer_write_md5ctx *ctx = (struct buffer_write_md5ctx *)data->data.ptr;
+	  unsigned char *hash = *ctx->hash = malloc(33);
+	  MD5Final(digest, &ctx->ctx);
 	  for (i = 0; i < 16; ++i) {
 	    sprintf(hash, "%02x", *p++);
 	    hash += 2;
 	  }
+	  *hash = 0;
+	  free(ctx);
 	}
 	break;
     }
@@ -192,7 +197,7 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *
 	ohshite(_("error in buffer_write(stream): %s"), desc);
       break;
     case BUFFER_WRITE_MD5:
-      MD5Update((struct MD5Context *)((void **)data->data.ptr)[1], buf, length);
+      MD5Update(&(((struct buffer_write_md5ctx *)data->data.ptr)->ctx), buf, length);
       break;
     default:
       fprintf(stderr, _("unknown data type `%i' in buffer_write\n"), data->type);

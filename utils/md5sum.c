@@ -63,7 +63,7 @@ const char thisname[]= MD5SUM;
 
 void usage(void);
 void print_digest(unsigned char *p);
-int mdfile(int fd, unsigned char *digest);
+int mdfile(int fd, unsigned char **digest);
 int do_check(FILE *chkf);
 int hex_digit(int c);
 int get_md5_line(FILE *fp, unsigned char *digest, char *file);
@@ -79,7 +79,7 @@ main(int argc, char **argv)
 	int opt, rc = 0;
 	int check = 0;
 	FILE *fp = NULL;
-	unsigned char digest[16];
+	unsigned char *digest = NULL;
 
 	setlocale(LC_ALL, "");
 	bindtextdomain(PACKAGE, LOCALEDIR);
@@ -109,7 +109,7 @@ main(int argc, char **argv)
 		exit(do_check(fp));
 	}
 	if (argc == 0) {
-		if (mdfile(fileno(stdin), digest)) {
+		if (mdfile(fileno(stdin), &digest)) {
 			fprintf(stderr, _("%s: read error on stdin\n"), progname);
 			exit(2);
 		}
@@ -126,7 +126,7 @@ main(int argc, char **argv)
 			rc = 2;
 			continue;
 		}
-		if (mdfile(fileno(fp), digest)) {
+		if (mdfile(fileno(fp), &digest)) {
 			fprintf(stderr, _("%s: error reading %s\n"), progname, *argv);
 			rc = 2;
 		} else {
@@ -152,7 +152,7 @@ that is printed on stdout by this program when it generates digests.\n"), stderr
 }
 
 int
-mdfile(int fd, unsigned char *digest)
+mdfile(int fd, unsigned char **digest)
 {
 	ssize_t ret = fd_md5(fd, digest, -1, _("mdfile"));
 	if ( ret >= 0 )
@@ -215,7 +215,7 @@ int
 do_check(FILE *chkf)
 {
 	int rc, ex = 0, failed = 0, checked = 0;
-	unsigned char chk_digest[16], file_digest[16];
+	unsigned char chk_digest[16], *file_digest = NULL;
 	char filename[256];
 	FILE *fp;
 	size_t flen = 14;
@@ -237,7 +237,7 @@ do_check(FILE *chkf)
 			ex = 2;
 			continue;
 		}
-		if (mdfile(fileno(fp), file_digest)) {
+		if (mdfile(fileno(fp), &file_digest)) {
 			fprintf(stderr, _("%s: error reading %s\n"), progname, filename);
 			ex = 2;
 			fclose(fp);
