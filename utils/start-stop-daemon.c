@@ -77,6 +77,7 @@ static char *execname = NULL;
 static char *startas = NULL;
 static const char *pidfile = NULL;
 static const char *progname = "";
+static int nicelevel = 0;
 
 static struct stat exec_stat;
 #if defined(OSHURD)
@@ -177,6 +178,7 @@ Options (at least one of --exec|--pidfile|--user is required):
   -n|--name <process-name>      stop processes with this name\n\
   -s|--signal <signal>          signal to send (default TERM)\n\
   -a|--startas <pathname>       program to start (default is <executable>)\n\
+  -N|--nicelevel <incr>         add incr to the process's nice level\n\
   -b|--background               force the process to detach\n\
   -m|--make-pidfile             create the pidfile before starting\n\
   -t|--test                     test mode, don't do anything\n\
@@ -256,6 +258,7 @@ parse_options(int argc, char * const *argv)
 		{ "verbose",	  0, NULL, 'v'},
 		{ "exec",	  1, NULL, 'x'},
 		{ "chuid",	  1, NULL, 'c'},
+		{ "nicelevel",	  1, NULL, 'N'},
 		{ "background",   0, NULL, 'b'},
 		{ "make-pidfile", 0, NULL, 'm'},
 		{ NULL,		0, NULL, 0}
@@ -263,7 +266,7 @@ parse_options(int argc, char * const *argv)
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:bm",
+		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:bm",
 				longopts, (int *) 0);
 		if (c == -1)
 			break;
@@ -319,6 +322,9 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'r':  /* --chroot /new/root */
 			changeroot = optarg;
+			break;
+		case 'N':  /* --nice */
+			nicelevel = atoi(optarg);
 			break;
 		case 'b':  /* --background */
 			background = 1;
@@ -657,6 +663,8 @@ main(int argc, char **argv)
 		}
 		if (changeroot != NULL)
 			printf(" in directory %s", changeroot);
+		if (nicelevel)
+			printf(", and add %i to the priority", nicelevel);
 		printf(".\n");
 		exit(0);
 	}
@@ -704,6 +712,11 @@ main(int argc, char **argv)
 		fd=open("/dev/null", O_RDWR); /* stdin */
 		dup(fd); /* stdout */
 		dup(fd); /* stderr */
+	}
+	if (nicelevel) {
+		if (nice(nicelevel))
+			fatal("Unable to alter nice level by %i: %s", nicelevel,
+				strerror(errno));
 	}
 	if (mpidfile && pidfile != NULL) { /* user wants _us_ to make the pidfile :) */
 		FILE *pidf = fopen(pidfile, "w");
