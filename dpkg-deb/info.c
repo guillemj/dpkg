@@ -35,6 +35,7 @@
 
 #include <config.h>
 #include <dpkg.h>
+#include <dpkg-db.h>
 #include <myopt.h>
 #include "dpkg-deb.h"
 
@@ -209,6 +210,21 @@ static void info_field(const char *debar, const char *directory,
   if (ferror(stdout)) werr("stdout");
 }
 
+void do_showinfo(const char* const* argv) {
+  const char *debar, *directory;
+  struct pkginfo *pkg;
+  struct lstitem* fmt = parseformat(showformat);
+
+  if (!fmt)
+    ohshit(_("Error in format"));
+
+  info_prepare(&argv,&debar,&directory,1);
+
+  parsedb(CONTROLFILE, pdb_ignorefiles, &pkg, NULL, NULL);
+  show1package(fmt,pkg);
+}
+
+
 void do_info(const char *const *argv) {
   const char *debar, *directory;
 
@@ -239,3 +255,5 @@ void do_contents(const char *const *argv) {
   if (!(debar= *argv++) || *argv) badusage(_("--contents takes exactly one argument"));
   extracthalf(debar, 0, "tv", 0);
 }
+/* vi: sw=2
+ */
