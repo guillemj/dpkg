@@ -134,8 +134,7 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
       while (++x<maxx) addch(' ');
       attrset(thisstate_attr);
       mvaddstr(maxy-1,0,
-_("? = help menu    Space = exit help    . = next help    or a help page key ")
-               );
+_("Press ? for help menu, <space> for next topic, <enter> to exit help."));
       getyx(stdscr,y,x);
       while (++x<maxx) addch(' ');
       move(maxy,maxx);
@@ -150,18 +149,18 @@ _("? = help menu    Space = exit help    . = next help    or a help page key ")
         mvaddstr(i+3,6, gettext(hme->msg->title));
       }
       mvaddstr(i+4,1,
-               _("Press a key from the list above, Space to exit help,\n"
-               "  or `.' (full stop) to read each help page in turn. "));
+               _("Press a key from the list above, <emter>, `q' or `Q' to exit help,\n"
+               "  or <space> to read each help page in turn. "));
       nextkey= helpmenu[0].key;
     }
     refresh();
     key= getch();
     if (key == EOF) ohshite(_("error reading keyboard in help"));
-    if (key == ' ') {
+    if (key == '\n' || key == '\r' || key == KEY_ENTER || key == 'q' || key == 'Q') {
       break;
-    } else if (key == '?') {
+    } else if (key == '?' || key == 'h') {
       key= 0;
-    } else if (key == '.') {
+    } else if (key == ' ' || key == '.') {
       key= nextkey;
     }
   }
