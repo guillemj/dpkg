@@ -16,7 +16,10 @@ $parsechangelog= 'dpkg-parsechangelog';
 grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size
 			  Build-Depends Build-Depends-Indep 
 			  Build-Conflicts Build-Conflicts-Indep));
-
+@pkg_dep_fields = qw(Replaces Provides Depends Pre-Depends Recommends Suggests
+                     Conflicts Enhances);
+@src_dep_fields = qw(Build-Depends Build-Depends-Indep
+                     Build-Conflicts Build-Conflicts-Indep);
 
 $substvar{'Format'}= 1.7;
 $substvar{'Newline'}= "\n";
@@ -105,6 +108,7 @@ sub outputclose {
     if (length($varlistfile) and $dosubstvars) {
         $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
         if (open(SV,"< $varlistfile")) {
+            binmode(SV);
             while (<SV>) {
                 next if m/^\#/ || !m/\S/;
                 s/\s*\n$//;
@@ -142,6 +146,7 @@ sub parsecontrolfile {
     $controlfile="./$controlfile" if $controlfile =~ m/^\s/;
 
     open(CDATA,"< $controlfile") || &error("cannot read control file $controlfile: $!");
+    binmode(CDATA);
     $indices= &parsecdata('C',1,"control file $controlfile");
     $indices >= 2 || &error("control file must have at least one binary package part");
 
@@ -149,11 +154,81 @@ sub parsecontrolfile {
         defined($fi{"C$i Package"}) ||
             &error("per-package paragraph $i in control info file is ".
                    "missing Package line");
+        foreach my $dep_field (@pkg_dep_fields) {
+            if (defined($fi{"C$i $dep_field"})) {
+                ($fi{"C$i $dep_field"} = parsedep($fi{"C$i $dep_field"}, 1, 1)) ||
+                    &error("per-package paragraph $i in control info file ".
+                           "invalid dependency field \`$dep_field'");
+            }
+        }
     }
+    foreach my $dep_field (@src_dep_fields) {
+        if (defined($fi{"C $dep_field"})) {
+            ($fi{"C $dep_field"} = parsedep($fi{"C $dep_field"}, 1, 1)) ||
+                &error("source paragraph in control info file ".
+                       "invalid dependency field \`$dep_field'");
+        }
+    }
+}
+
+sub parsedep {
+    my ($dep_line, $use_arch, $reduce_arch) = @_;
+    my @dep_list;
+    foreach my $dep_and (split(/,\s*/m, $dep_line)) {
+        my @or_list = ();
+ALTERNATE:
+        foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
+            my ($package, $relation, $version);
+            $package = $1 if ($dep_or =~ s/^(\S+)\s*//m);
+            ($relation, $version) = ($1, $2) if ($dep_or =~ s/^\((=|<=|>=|<<?|>>?)\s*([^)]+).*\)//m);
+            my @arches = split(/\s+/m, $1) if ($use_arch && $dep_or =~ s/^\[([^]]+)\]//m);
+            if ($reduce_arch && @arches) {
+
+                my $seen_arch='';
+                foreach my $arch (@arches) {
+                    $arch=lc($arch);
+                    if ($arch eq $host_arch) {
+                        $seen_arch=1;
+                        next;
+                    } elsif ($arch eq "!$host_arch") {
+                        next ALTERNATE;
+                    } elsif ($arch =~ /!/) {
+                        # This is equivilant to
+                        # having seen the current arch,
+                        # unless the current arch
+                        # is also listed..
+                        $seen_arch=1;
+                    }
+                }
+                if (! $seen_arch) {
+                    next;
+                }
+            }
+            return undef if (length($dep_or));
+	    push @or_list, [ $package, $relation, $version, \@arches ];
+        }
+        push @dep_list, \@or_list;
+    }
+    \@dep_list;
+}
+
+sub showdep {
+    my ($dep_list, $show_arch) = @_;
+    my @and_list;
+    foreach my $dep_and (@$dep_list) {
+        my @or_list = ();
+        foreach my $dep_or (@$dep_and) {
+            my ($package, $relation, $version, $arch_list) = @$dep_or; 
+            push @or_list, $package . ($relation && $version ? " ($relation $version)" : '') . ($show_arch && @$arch_list ? " [@$arch_list]" : '');
+        }
+        push @and_list, join(' | ', @or_list);
+    }
+    join(', ', @and_list);
 }
 
 sub parsechangelog {
     defined($c=open(CDATA,"-|")) || &syserr("fork for parse changelog");
+    binmode(CDATA);
     if (!$c) {
         @al=($parsechangelog);
         push(@al,"-F$changelogformat") if length($changelogformat);
@@ -186,11 +261,13 @@ sub parsecdata {
     while (<CDATA>) {
         s/\s*\n$//;
 	next if (m/^$/ and $paraborder);
+	next if (m/^#/);
 	$paraborder=0;
         if (m/^(\S+)\s*:\s*(.*)$/) {
             $cf=$1; $v=$2;
             $cf= &capit($cf);
             $fi{"$source$index $cf"}= $v;
+            $fi{"o:$source$index $cf"}= $1;
             if (lc $cf eq 'package') { $p2i{"$source $v"}= $index; }
         } elsif (m/^\s+\S/) {
             length($cf) || &syntax("continued value line not in field");
@@ -225,7 +302,7 @@ sub parsecdata {
 }
 
 sub unknown {
-    &warn("unknown information field $_ in input data in $_[0]");
+    &warn("unknown information field " . $fi{"o:$_"} . " in input data in $_[0]");
 }
 
 sub syntax {

@@ -112,6 +112,8 @@ if (length($oppackage)) {
 
 #print STDERR "myindex $myindex\n";
 
+my %pkg_dep_fields = map { $_ => 1 } @pkg_dep_fields;
+
 for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
@@ -121,12 +123,13 @@ for $_ (keys %fi) {
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
 	elsif (m/^X[CS]+-|^(Standards-Version|Uploaders)$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
 	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
-        else { &unknown('general section of control info file'); }
+        else { $_ = "C $_"; &unknown('general section of control info file'); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Essential|Pre-Depends|Depends)$/ ||
-            m/^(Recommends|Suggests|Enhances|Optional|Conflicts|Provides|Replaces)$/) {
+        if (m/^(Package|Description|Essential|Optional)$/) {
             $f{$_}= $v;
+        } elsif (exists($pkg_dep_fields{$_})) {
+            $f{$_}= showdep($v, 0);
         } elsif (m/^Section$|^Priority$/) {
             $spvalue{$_}= $v;
         } elsif (m/^Architecture$/) {
@@ -144,7 +147,7 @@ for $_ (keys %fi) {
         } elsif (s/^X[CS]*B[CS]*-//i) {
             $f{$_}= $v;
         } elsif (!m/^X[CS]+-/i) {
-            &unknown("package's section of control info file");
+            $_ = "C$myindex $_"; &unknown("package's section of control info file");
         }
     } elsif (m/^C\d+ /) {
 #print STDERR "X key >$_< value not shown<\n";
@@ -159,8 +162,9 @@ for $_ (keys %fi) {
         } elsif (s/^X[CS]*B[CS]*-//i) {
             $f{$_}= $v;
         } elsif (!m/^X[CS]+-/i) {
-            &unknown("parsed version of changelog");
+            $_ = "L $_"; &unknown("parsed version of changelog");
         }
+    } elsif (m/o:/) {
     } else {
         &internerr("value from nowhere, with key >$_< and value >$v<");
     }
@@ -211,9 +215,11 @@ if (length($substvar{'Installed-Size'})) {
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr("open new files list file");
+binmode(Y);
 chown(@fowner, "$fileslistfile.new") 
 		|| &syserr("chown new files list file");
 if (open(X,"< $fileslistfile")) {
+    binmode(X);
     while (<X>) {
         chomp;
         next if m/^([-+0-9a-z.]+)_[^_]+_(\w+)\.deb /
@@ -242,6 +248,7 @@ if (!$stdout) {
     $cf= "./$cf" if $cf =~ m/^\s/;
     open(STDOUT,"> $cf.new") ||
         &syserr("cannot open new output control file \`$cf.new'");
+    binmode(STDOUT);
 }
 &outputclose(1);
 if (!$stdout) {

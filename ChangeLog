@@ -1,3 +1,21 @@
+Sun, 14 Sep 2003 21:16:18 -0500 Adam Heath <doogie@debian.org>
+
+  * scripts/controllib.pl, scripts/dpkg-checkbuilddeps.pl: Moved dependency
+    parsing logic from dpkg-checkbuilddeps.  The dpkg-checkbuilddeps parser
+    didn't support empty fields, while the controllib parser did.
+  * scripts/controllib.pl:
+    * Dependency fields are now parsed into a nested list structure.
+    * All dependency fields now support [arch] constructs.  Those that
+      don't apply for the current host_arch are removed during parsing.
+    * Comment lines(those that start with '#') are ignored during parsing.
+    * Store the original field's casing with 'o:' prepended in %fi.
+  * scripts/dpkg-checkbuilddeps.pl:  Because of the above controllib.pl
+    changes, this script is much simpler now.
+  * scripts/dpkg-gencontrol.pl:     
+    * Use the original casing of field names when reporting unknown fields.
+  * scripts/dpkg-gencontrol.pl, scripts/controllib.pl: After opening files,
+    set binmode.
+
 Sun Sep 14 17:24:20 CDT 2003 Adam Heath <doogie@debian.org>
 
   * dselect/{Makefile.in,helpmsgs.{cc,h,src},mkhelpmsgs.pl,.cvsignore}:

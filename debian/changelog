@@ -6,6 +6,26 @@ dpkg (1.10.11) unstable; urgency=low
   * Updated config.sub and config.guess in cvs.
   * Change use of strncpy in parsedb to memcpy.  Closes: #160447
   * No longer generate helpmsgs.{cc,h}.
+  * several controllib changes:
+    * Moved dependency parsing logic from dpkg-checkbuilddeps.
+      The dpkg-checkbuilddeps parser didn't support empty fields, while
+      the controllib parser did.
+    * All dependency fields parsed by controllib.pl support [arch]
+      specifiers.  If the arch specifier doesn't apply for the current
+      arch, then the item will not be added to the internal list structure.
+    * Comment lines(that begin with '#') are removed during parsing.
+    * Store the original casing of field names, for use in error reporting.
+    * Store the original field's casing with 'o:' prepended in %fi.
+      * ballombe@merulo.debian.org:
+        dpkg-checkbuilddeps now handles empty fields.  Closes: #111562
+      * Branden Robinson <branden@debian.org>:
+        support comments(first char on line begins with '#') in
+        debian/control.  Closes: #191810
+      * Bastian Blank <waldi@debian.org>:
+        Allow for per-arch generated dependency fields.  Closes: #170575
+      * Branden Robinson <branden@debian.org>:
+        Report the original casing of field names when they are unknown.
+        Closes: #177753
   * Frank Lichtenheld <frank@lichtenheld.de>:
     Apply patch, to handle missing infodir.bak, and empty files.  Closes:
     #196361
@@ -117,8 +137,10 @@ dpkg (1.10.11) unstable; urgency=low
   * Eduard Bloch <edi@gmx.de>:
     Apply patch to check whether the target path exists on removing.
     Closes: #37254
+  * Colin Walters <walters@debian.org>:
+    After opening files, set binmode.  Closes: #175363
 
- -- Wichert Akkerman <debian@extern.wiggy.net>  UNRELEASED
+ -- Wichert Akkerman <debian@extern.wiggy.net>  Sun, 14 Sep 2003 20:15:31 -0500
 
 dpkg (1.10.10) unstable; urgency=low
 

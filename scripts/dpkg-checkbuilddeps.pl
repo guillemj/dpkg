@@ -1,8 +1,13 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 # GPL copyright 2001 by Joey Hess <joeyh@debian.org>
 
-use strict;
+#use strict;
 use Getopt::Long;
+
+my $dpkglibdir="/usr/lib/dpkg";
+push(@INC,$dpkglibdir);
+#my $controlfile;
+require 'controllib.pl';
 
 sub usage {
 	print STDERR <<EOF;
@@ -27,26 +32,25 @@ if ($want_help) {
 }
 
 my $control=shift || "debian/control";
+$controlfile=$control;
 
-open (CONTROL, $control) || die "$control: $!\n";
+&parsecontrolfile;
 my @status=parse_status();
 my (@unmet, @conflicts);
 local $/='';
-my $cdata=<CONTROL>;
-close CONTROL;
 
-my $dep_regex=qr/\s*((.|\n\s+)*)\s/; # allow multi-line
-if ($cdata =~ /^Build-Depends:$dep_regex/mi) {
-	push @unmet, build_depends($1, @status);
+my $dep_regex=qr/[ \t]*(([^\n]+|\n[ \t])*)\s/; # allow multi-line
+if (defined($fi{"C Build-Depends"})) {
+	push @unmet, build_depends($fi{"C Build-Depends"}, @status);
 }
-if ($cdata =~ /^Build-Conflicts:$dep_regex/mi) {
-	push @conflicts, build_conflicts($1, @status);
+if (defined($fi{"C Build-Conflicts"})) {
+	push @unmet, build_conflicts($fi{"C Build-Conflicts"}, @status);
 }
-if (! $binary_only && $cdata =~ /^Build-Depends-Indep:$dep_regex/mi) {
-	push @unmet, build_depends($1, @status);
+if (! $binary_only && defined($fi{"C Build-Depends-Indep"})) {
+	push @unmet, build_depends($fi{"C Build-Depends-Indep"}, @status);
 }
-if (! $binary_only && $cdata =~ /^Build-Conflicts-Indep:$dep_regex/mi) {
-	push @conflicts, build_conflicts($1, @status);
+if (! $binary_only && defined($fi{"C Build-Conflicts-Indep"})) {
+	push @unmet, build_conflicts($fi{"C Build-Conflicts-Indep"}, @status);
 }
 
 if (@unmet) {
@@ -117,55 +121,24 @@ sub build_conflicts {
 # deps, and 0 to check build conflicts.
 sub check_line {
 	my $build_depends=shift;
-	my $line=shift;
+	my $dep_list=shift;
 	my %version=%{shift()};
 	my %providers=%{shift()};
 	my $host_arch=shift || `dpkg-architecture -qDEB_HOST_ARCH`;
 	chomp $host_arch;
 
 	my @unmet=();
-	foreach my $dep (split(/,\s*/, $line)) {
+	foreach my $dep_and (@$dep_list) {
 		my $ok=0;
 		my @possibles=();
-ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
-			my ($package, $rest)=split(/\s*(?=[[(])/, $alternate, 2);
-			$package =~ s/\s*$//;
+ALTERNATE:	foreach my $alternate (@$dep_and) {
+			my ($package, $relation, $version, $arch_list)= @{$alternate};
 
-			# Check arch specifications.
-			if (defined $rest && $rest=~m/\[(.*?)\]/) {
-				my $arches=lc($1);
-				my $seen_arch='';
-				foreach my $arch (split(' ', $arches)) {
-					if ($arch eq $host_arch) {
-						$seen_arch=1;
-						next;
-					}
-					elsif ($arch eq "!$host_arch") {
-						next ALTERNATE;
-					}
-					elsif ($arch =~ /!/) {
-						# This is equivilant to
-						# having seen the current arch,
-						# unless the current arch
-						# is also listed..
-						$seen_arch=1;
-					}
-				}
-				if (! $seen_arch) {
-					next;
-				}
-			}
-			
 			# This is a possibile way to meet the dependency.
 			# Remove the arch stuff from $alternate.
-			$alternate=~s/\s+\[.*?\]//;
-			push @possibles, $alternate;
+			push @possibles, $package . ($relation && $version ? " ($relation $version)" : '') . (@$arch_list ? " [@$arch_list]" : '');
 	
-			# Check version.
-			if (defined $rest && $rest=~m/\(\s*([<>=]{1,2})\s*(.*?)\s*\)/) {
-				my $relation=$1;
-				my $version=$2;
-				
+			if ($relation && $version) {
 				if (! exists $version{$package}) {
 					# Not installed at all, so fail.
 					next;
@@ -186,7 +159,6 @@ ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
 				# nothing provides it, so fail.
 				next;
 			}
-	
 			# If we get to here, the dependency was met.
 			$ok=1;
 		}
