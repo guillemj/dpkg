@@ -98,7 +98,6 @@ sub rewrite_gnu_cpu {
 
 	s/(?:i386|i486|i586|i686|pentium)(.*linux)/i386$1/;
 	s/ppc/powerpc/;
-	s/sh[34]/sh/;
 	return $_;
 }
 
