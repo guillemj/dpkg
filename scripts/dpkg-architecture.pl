@@ -67,7 +67,7 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux $0 $version.  Copyright (C) 1999 Marcus Brinkmann.
+"Debian $0 $version.  Copyright (C) 1999,2000,2001 Marcus Brinkmann.
 This is free software; see the GNU General Public Licence version 2
 or later for copying conditions.  There is NO warranty.
 
