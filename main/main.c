@@ -254,7 +254,7 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
   *cip->iassignto= v;
 }
 
-static void setforce(const struct cmdinfo *cip, const char *value) {
+void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   int l;
   const struct forceinfo *fip;
@@ -264,6 +264,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   warn but continue:  --force-<thing>,<thing>,...\n\
   stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n\
  Forcing things:\n\
+  all                    Set all force options\n\
   auto-select [*]        (De)select packages to install (remove) them\n\
   downgrade [*]          Replace a package with a lower version\n\
   configure-any          Configure any package which may help this one\n\
@@ -299,11 +300,18 @@ Forcing options marked [*] are enabled by default.\n"),
     for (fip=forceinfos; fip->name; fip++)
       if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
     if (!fip->name)
-      badusage(_("unknown force/refuse option `%.*s'"), l<250 ? l : 250, value);
-    *fip->opt= cip->arg;
+      if(!strncmp("all",value,l))
+	for (fip=forceinfos; fip->name; fip++)
+	  *fip->opt= cip->arg;
+      else
+	badusage(_("unknown force/refuse option `%.*s'"), l<250 ? l : 250, value);
+    else
+      *fip->opt= cip->arg;
     if (!comma) break;
     value= ++comma;
   }
+  for (fip=forceinfos; fip->name; fip++)
+    fprintf(stderr, "%s=%c\n", fip->name, *fip->opt);
 }
 
 static const char *const passlongopts[]= {
