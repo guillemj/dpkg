@@ -147,7 +147,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
    loaded_list = nfmalloc(stat_buf.st_size);
    loaded_list_end = loaded_list + stat_buf.st_size;
 
-  read_fd_into_buf(fileno(file), loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
+  read_fd_buf(fileno(file), loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
 
   lendp= &pkg->clientdata->files;
   thisline = loaded_list;
@@ -346,7 +346,7 @@ void ensure_statoverrides(void) {
   loaded_list = nfmalloc(stab2.st_size);
   loaded_list_end = loaded_list + stab2.st_size;
 
-  read_fd_into_buf(fileno(file), loaded_list, stab2.st_size, _("statoverride file `%.250s'"), vb.buf);
+  read_fd_buf(fileno(file), loaded_list, stab2.st_size, _("statoverride file `%.250s'"), vb.buf);
 
   thisline = loaded_list;
   while (thisline<loaded_list_end) {

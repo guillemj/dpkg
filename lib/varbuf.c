@@ -65,9 +65,8 @@ void varbufvprintf(struct varbuf *v, char *fmt, va_list va) {
   } while (r >= v->size-ou-1);
 }
 
-void varbufaddstr(struct varbuf *v, const char *s) {
-  int l, ou;
-  l= strlen(s);
+void varbufaddbuf(struct varbuf *v, const void *s, const int l) {
+  int ou;
   ou= v->used;
   v->used += l;
   if (v->used >= v->size) varbufextend(v);

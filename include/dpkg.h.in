@@ -197,8 +197,15 @@ void m_pipe(int fds[2]);
 void checksubprocerr(int status, const char *description, int sigpipeok);
 void waitsubproc(pid_t pid, const char *description, int sigpipeok);
 
-int do_fd_copy(int fd1, int fd2, int limit, char *desc, ...);
-int read_fd_into_buf(int fd, char *buf, int limit, char *desc, ...);
+#define FD_WRITE_BUF 0
+#define FD_WRITE_VBUF 1
+#define FD_WRITE_FD 2
+
+typedef void (*do_fd_write_t)(char *, int, void *, char *);
+#define do_fd_copy(fd1, fd2, limit, desc...) read_fd_combined(fd1, (void*)fd2, FD_WRITE_FD, limit, desc)
+#define read_fd_buf(fd1, buf, limit, desc...) read_fd_combined(fd1, buf, FD_WRITE_BUF, limit, desc)
+int read_fd_combined(int fd, void *buf, int type, int limit, char *desc, ...);
+int do_fd_read(int fd1, int limit, do_fd_write_t write_proc, void *proc_data, char *desc);
 
 extern volatile int onerr_abort;
 

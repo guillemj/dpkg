@@ -124,43 +124,36 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   checksubprocerr(status,description,sigpipeok);
 }
 
-typedef void (*do_fd_write_t)(char *, int, char *, void *data);
 typedef struct do_fd_copy_data {
   int fd;
 } do_fd_copy_data_t;
 typedef struct do_fd_buf_data {
-  char *buf;
+  void *buf;
+  int type;
 } do_fd_buf_data_t;
 
-int do_fd_write_fd(char* buf, int length, void *proc_data, char *desc) {
-  do_fd_copy_data_t *data = (do_fd_copy_data_t *)proc_data;
-  if(write(data->fd, buf, length) < length)
-    ohshite(_("failed in do_fd_write_fd (%s)"), desc);
-}
-
-int do_fd_copy(int fd1, int fd2, int limit, char *desc, ...) {
-  do_fd_copy_data_t data = { fd2 };
-  va_list al;
-  struct varbuf v;
-
-  varbufinit(&v);
-
-  va_start(al,desc);
-  varbufvprintf(&v, desc, al);
-  va_end(al);
-
-  do_fd_read(fd1, limit, do_fd_write_fd, &data, v.buf);
-  varbuffree(&v);
-}
-
-int do_fd_write_buf(char *buf, int length, void *proc_data, char *desc) {
+void do_fd_write_combined(char *buf, int length, void *proc_data, char *desc) {
   do_fd_buf_data_t *data = (do_fd_buf_data_t *)proc_data;
-  memcpy(data->buf, buf, length);
-  data->buf += length;
+  switch(data->type) {
+    case FD_WRITE_BUF:
+      memcpy(data->buf, buf, length);
+      data->buf += length;
+      break;
+    case FD_WRITE_VBUF:
+      varbufaddbuf((struct varbuf *)data->buf, buf, length);
+      data->buf += length;
+      break;
+    case FD_WRITE_FD:
+      if(write((int)data->buf, buf, length) < length)
+	ohshite(_("failed in do_fd_write_combined (%i, %s)"), FD_WRITE_FD, desc);
+      break;
+    default:
+      fprintf(stderr, _("unknown data type `%i' in do_fd_write_buf\n"), data->type);
+   }
 }
 
-int read_fd_into_buf(int fd, char *buf, int limit, char *desc, ...) {
-  do_fd_buf_data_t data = { buf };
+int read_fd_combined(int fd, void *buf, int type, int limit, char *desc, ...) {
+  do_fd_buf_data_t data = { buf, type };
   va_list al;
   struct varbuf v;
 
@@ -170,9 +163,10 @@ int read_fd_into_buf(int fd, char *buf, int limit, char *desc, ...) {
   varbufvprintf(&v, desc, al);
   va_end(al);
 
-  do_fd_read(fd, limit, do_fd_write_buf, &data, v.buf);
+  do_fd_read(fd, limit, do_fd_write_combined, &data, v.buf);
   varbuffree(&v);
 }
+
 
 int do_fd_read(int fd1, int limit, do_fd_write_t write_proc, void *proc_data, char *desc) {
   char *buf;
