@@ -58,8 +58,6 @@ static int saidread=0;
   * list if it is there but stale
   */
 void ensure_packagefiles_available(struct pkginfo *pkg) {
-  static struct varbuf fnvb;
-  
   int fd;
   const char *filelistfile;
   struct fileinlist **lendp, *newent, *current;
@@ -170,8 +168,6 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
   pop_cleanup(ehflag_normaltidy); /* fd= open() */
   if (close(fd))
     ohshite(_("error closing files list file for package `%.250s'"),pkg->name);
-  if (fnvb.used)
-    ohshit(_("files list file for package `%.250s' is truncated"),pkg->name);
 
   onerr_abort--;
 
@@ -187,6 +183,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
       packageslump= nfmalloc(sizeof(struct filepackages));
       packageslump->more= newent->namenode->packages;
       newent->namenode->packages= packageslump;
+      putat= 0;
     }
     packageslump->pkgs[putat]= pkg;
     if (++putat < PERFILEPACKAGESLUMP) packageslump->pkgs[putat]= 0;

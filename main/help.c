@@ -113,7 +113,7 @@ void checkpath(void) {
 
 void ensure_package_clientdata(struct pkginfo *pkg) {
   if (pkg->clientdata) return;
-  pkg->clientdata= nfmalloc(sizeof(struct pkginfoperfile));
+  pkg->clientdata= nfmalloc(sizeof(struct perpackagestate));
   pkg->clientdata->istobe= itb_normal;
   pkg->clientdata->fileslistvalid= 0;
   pkg->clientdata->files= 0;
