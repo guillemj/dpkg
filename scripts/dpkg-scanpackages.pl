@@ -104,7 +104,7 @@ while (<F>) {
 
     open(C,"md5sum <$fn |") || die "$fn $!";
     chop($_=<C>); close(C); $? and die "\`md5sum < $fn' exited with $?\n";
-    /^[0-9a-f]{32}\s*-?\s*$/ or die "Strange text from \`md5sum < $fn': \`$_'\n";
+    /^([0-9a-f]{32})\s*-?\s*$/ or die "Strange text from \`md5sum < $fn': \`$_'\n";
     $tv{'MD5sum'}= $1;
 
     @stat= stat($fn) or die "Couldn't stat $fn: $!\n";
