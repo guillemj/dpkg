@@ -200,13 +200,14 @@ TarExtractor(
 
                    status = functions->Read(userData, buffer, 512);
                    // if we didn't get 512 bytes read, punt
-                   if (512 != status)
+                   if (512 != status) {
 		     if ( status > 0 ) { /* Read partial header record */
 		       errno = 0;
 		       return -1;
 		     } else {
                        return status;
                      }
+		   }
 
                    copysize = long_read > 512 ? 512 : long_read;
                    memcpy (bp, buffer, copysize);
