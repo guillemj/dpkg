@@ -1,11 +1,12 @@
 $parsechangelog= 'dpkg-parsechangelog';
 
-grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version));
+grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size));
 
 $substvar{'Format'}= 1.5;
-$substvar{'newline'}= "\n";
-$substvar{'space'}= " ";
-$substvar{'tab'}= "\t";
+$substvar{'Newline'}= "\n";
+$substvar{'Space'}= " ";
+$substvar{'Tab'}= "\t";
+$maxsubsts=50;
 
 $progname= $0; $progname= $& if $progname =~ m,[^/]+$,;
 
@@ -18,16 +19,20 @@ sub findarch {
     $arch=`dpkg --print-architecture`;
     $? && &subprocerr("dpkg --print-archictecture");
     $arch =~ s/\n$//;
-    $substvar{'arch'}= $arch;
+    $substvar{'Arch'}= $arch;
 }
 
 sub substvars {
     my ($v) = @_;
-    my $lhs,$vn,$rhs;
+    my $lhs,$vn,$rhs,$count;
+    $count=0;
     while ($v =~ m/\$\{([-:0-9a-z]+)\}/i) {
+        $count < $maxsubsts ||
+            &error("too many substitutions - recursive ? - in \`$v'");
         $lhs=$`; $vn=$1; $rhs=$';
         if (defined($substvar{$vn})) {
             $v= $lhs.$substvar{$vn}.$rhs;
+            $count++;
         } else {
             &warn("unknown substitution variable \${$vn}");
             $v= $lhs.$rhs;
@@ -37,14 +42,14 @@ sub substvars {
 }
 
 sub outputclose {
-    for $f (keys %f) { $substvar{"f:$f"}= $f{$f}; }
+    for $f (keys %f) { $substvar{"F:$f"}= $f{$f}; }
     if (length($varlistfile)) {
         $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
         if (open(SV,"< $varlistfile")) {
             while (<SV>) {
                 next if m/^\#/ || !m/\S/;
                 s/\s*\n$//;
-                m/^(\w+)\=/ ||
+                m/^(\w[-:0-9A-Za-z]*)\=/ ||
                     &error("bad line in substvars file $varlistfile at line $.");
                 $substvar{$1}= $';
             }
@@ -56,6 +61,7 @@ sub outputclose {
     for $f (sort { $fieldimps{$b} <=> $fieldimps{$a} } keys %f) {
         $v= $f{$f};
         $v= &substvars($v);
+        $v =~ m/\S/ || next; # delete whitespace-only fields
         $v =~ m/\n\S/ && &internerr("field $f has newline then non whitespace >$v<");
         $v =~ m/\n[ \t]*\n/ && &internerr("field $f has blank lines >$v<");
         $v =~ m/\n$/ && &internerr("field $f has trailing newline >$v<");
@@ -91,7 +97,7 @@ sub parsechangelog {
     }
     &parsecdata('L',0,"parsed version of changelog");
     close(CDATA); $? && &subprocerr("parse changelog");
-    $substvar{'sourceversion'}= $fi{"L Version"};
+    $substvar{'Source-Version'}= $fi{"L Version"};
 }
 
 

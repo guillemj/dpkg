@@ -7,6 +7,7 @@ $controlfile= 'debian/control';
 $changelogfile= 'debian/changelog';
 $fileslistfile= 'debian/files';
 $varlistfile= 'debian/substvars';
+$packagebuilddir= 'debian/tmp';
 
 use POSIX;
 use POSIX qw(:errno_h);
@@ -28,6 +29,8 @@ Options:  -p<package>            print control file for package
           -F<changelogformat>    force change log format
           -v<forceversion>       set version of binary package
           -f<fileslistfile>      write files here instead of debian/files
+          -P<packagebuilddir>    temporary build dir instead of debian/tmp
+          -O                     write to stdout, not .../DEBIAN/control
           -is                    include section field
           -ip                    include priority field
           -isp|-ips              include both section and priority
@@ -35,13 +38,14 @@ Options:  -p<package>            print control file for package
           -U<field>              remove a field
           -V<name>=<value>       set a substitution variable
           -T<varlistfile>        read variables here, not debian/substvars
+          -h                     print this message
 ";
 }
 
 $i=100;grep($fieldimps{$_}=$i--,
           qw(Package Version Section Priority Architecture Essential
              Pre-Depends Depends Recommends Suggests Optional Conflicts Replaces
-             Provides Maintainer Source Description));
+             Provides Installed-Size Maintainer Source Description));
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -51,10 +55,14 @@ while (@ARGV) {
         $controlfile= $';
     } elsif (m/^-l/) {
         $changelogfile= $';
+    } elsif (m/^-P/) {
+        $packagebuilddir= $';
     } elsif (m/^-f/) {
         $fileslistfile= $';
     } elsif (m/^-v(.+)$/) {
         $forceversion= $1;
+    } elsif (m/^-O$/) {
+        $stdout= 1;
     } elsif (m/^-is$/) {
         $spinclude{'Section'}=1;
     } elsif (m/^-ip$/) {
@@ -68,7 +76,7 @@ while (@ARGV) {
         $override{$1}= $';
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
-    } elsif (m/^-V(\w+)[=:]/) {
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= $';
     } elsif (m/^-T/) {
         $varlistfile= $';
@@ -173,6 +181,24 @@ if ($oppackage ne $sourcepackage || $verdiff) {
     $f{'Source'}.= " ($sourceversion)" if $verdiff;
 }
 
+if (!defined($substvar{'Installed-Size'})) {
+    defined($c= open(DU,"-|")) || &syserr("fork for du");
+    if (!$c) {
+        chdir("$packagebuilddir") || &syserr("chdir for du to \`$packagebuilddir'");
+        exec("du","-k","-s","."); &syserr("exec du");
+    }
+    $duo=''; while (<DU>) { $duo.=$_; }
+    close(DU); $? && &subprocerr("du in \`$packagebuilddir'");
+    $duo =~ m/^(\d+)\s+\.$/ || &failure("du gave unexpected output \`$duo'");
+    $substvar{'Installed-Size'}= $1;
+}
+if (defined($substvar{'Extra-Size'})) {
+    $substvar{'Installed-Size'} += $substvar{'Extra-Size'};
+}
+if (length($substvar{'Installed-Size'})) {
+    $f{'Installed-Size'}= $substvar{'Installed-Size'};
+}
+
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr("open new files list file");
 if (open(X,"< $fileslistfile")) {
@@ -194,7 +220,16 @@ rename("$fileslistfile.new",$fileslistfile) || &syserr("install new files list f
 for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
 for $f (keys %remove) { delete $f{&capit($f)}; }
 
+if (!$stdout) {
+    $cf= "$packagebuilddir/DEBIAN/control";
+    $cf= "./$cf" if $cf =~ m/^\s/;
+    open(STDOUT,"> $cf.new") ||
+        &syserr("cannot open new output control file \`$cf.new'");
+}
 &outputclose;
+if (!$stdout) {
+    rename("$cf.new","$cf") || &syserr("cannot install output control file \`$cf'");
+}
 
 sub spfileslistvalue {
     $r= $spvalue{$_[0]};

@@ -751,6 +751,7 @@ void process_archive(const char *filename) {
   pkg->installed.maintainer= pkg->available.maintainer;
   pkg->installed.source= pkg->available.source;
   pkg->installed.architecture= 0; /* This is irrelevant in the status file. */
+  pkg->installed.installedsize= pkg->available.installedsize;
   pkg->installed.version= pkg->available.version;
 
   /* We have to generate our own conffiles structure. */
@@ -887,6 +888,7 @@ void process_archive(const char *filename) {
     otherpkg->installed.depends= 0;
     otherpkg->installed.essential= 0;
     otherpkg->installed.description= otherpkg->installed.maintainer= 0;
+    otherpkg->installed.installedsize= otherpkg->installed.source= 0;
     otherpkg->installed.conffiles= 0;
     blankversion(&otherpkg->installed.version);
     otherpkg->installed.arbs= 0;

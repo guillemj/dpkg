@@ -48,7 +48,7 @@ static void cu_info_prepare(int argc, void **argv) {
   if (lstat(directory,&stab) && errno==ENOENT) return;
   if ((c1= fork()) == -1) { perror("failed to fork for cleanup"); return; }
   if (!c1) {
-    execlp(RM,"rm","-r",directory,(char*)0);
+    execlp(RM,"rm","-rf",directory,(char*)0);
     perror("failed to exec " RM " for cleanup"); _exit(1);
   }
   if (waitpid(c1,&status,0) != c1) { perror("failed to wait for rm cleanup"); return; }

@@ -15,6 +15,9 @@ dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog
 .B dpkg-gencontrol
 .RI [ options ]
 .br
+.B dpkg-shlibdeps
+.IR options
+.br
 .B dpkg-genchanges
 .RI [ options ]
 .br
@@ -36,6 +39,19 @@ binary package control file on standard output; it also adds an entry
 for the binary package to
 .BR debian/files .
 
+.B dpkg-shlibdeps
+calculates shared library dependencies for executables named in its
+arguments.  The dependencies are added to the substitution
+variables file
+.B debian/substvars
+as variable names
+.BI shlibs: dependencyfield
+where
+.I dependencyfield
+is a dependency field name.  Any other variables starting
+.I shlibs:
+are removed from the file.
+
 .B dpkg-genchanges
 reads information from an unpacked and built Debian source tree and
 from the files it has generated and generates a Debian upload control
@@ -43,7 +59,7 @@ file
 .RB ( .changes " file)."
 
 .B dpkg-buildpackage
-Is a control script which can be used to help automate the building of
+is a control script which can be used to help automate the building of
 a package.
 
 .B dpkg-distaddfile
@@ -87,12 +103,14 @@ This option is understood by
 See below for a discussion of output substitution.
 .TP
 .BI -T substvarsfile
-Read substitution variables from
+Read (or, for
+.BR dpkg-shlibdeps ,
+write) substitution variables in
 .IR substvarsfile ;
 the default is
 .BR debian/substvars .
 This option is understood by
-.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.BR dpkg-source ", " dpkg-gencontrol ", " dpkg-shlibdeps " and " dpkg-genchanges .
 .TP
 .BI -D field = value
 Override or add an output control file field.
@@ -196,6 +214,79 @@ file.
 .B -isp
 includes both fields,
 .BR -is " only the " Section " and " -ip " only the " Priority .
+.TP
+.BI -P packagebuilddir
+Tells
+.B dpkg-source
+that the package is being built in
+.I packagebuilddir
+instead of
+.BR debian/tmp .
+This value is used to find the default value of the
+.B Installed-Size
+substitution variable and control file field (using
+.BR du ),
+and for the default location of the output file.
+.TP
+.B -O
+Causes the control file to be printed to standard output, rather than
+to
+.B debian/tmp/DEBIAN/control
+(or
+.IB packagebuilddir /DEBIAN/control
+if
+.B -P
+was used).
+.SH DPKG-SHLIBDEPS OPTIONS
+.B dpkg-shlibdeps
+interprets non-option arguments as executable names, just as if they'd
+been supplied as
+.BI -e executable\fR.
+.TP
+.BI -e executable
+Include dependencies appropriate for the shared libraries required by
+.IR executable .
+.TP
+.BI -d dependencyfield
+Add dependencies to be added to the control file dependency field
+.IR dependencyfield .
+(The dependencies for this field are placed in the variable
+.BI shlibs: dependencyfield\fR.)
+
+The
+.BI -d dependencyfield
+option takes effect for all executables after the option, until the
+next
+.BI -d dependencyfield\fR.
+The default
+.I dependencyfield
+is
+.BR Depends .
+
+If the same dependency entry (or set of alternatives) appears in more
+than one of the recognised dependency field names
+.BR Pre-Depends ", " Depends ", " Recommends " or " Suggests
+then
+.B dpkg-shlibdeps
+will automatically remove the dependency from all fields except the
+one representing the most important dependencies.
+.TP
+.BI -p varnameprefix
+Causes substitution variables to start with
+.IB varnameprefix :
+instead of
+.BR shlib: .
+Likewise, any existing substitution variables starting with
+.IB varnameprefix :
+(rather than
+.BR shlib: )
+are removed from the the substitution variables file.
+.TP
+.B -O
+Causes the substitution variable settings to be printed to standard
+output, rather than being added to the substitution variables file
+.RB ( debian/substvars
+by default).
 .SH DPKG-GENCHANGES OPTIONS
 .B dpkg-gencontrol
 does not take any non-option arguments.
@@ -293,9 +384,10 @@ they perform some variable substitutions on the output file.
 
 A variable substitution has the form
 .BI ${ variable-name }\fR.
-Variable substitutions are performed repeatedly until none are left;
-the full text of the field after the substitution is rescanned to look
-for more substitutions.
+Variable names consist of alphanumerics, hyphens and colons and start
+with an alphanumeric.  Variable substitutions are performed repeatedly
+until none are left; the full text of the field after the substitution
+is rescanned to look for more substitutions.
 
 After all the substitutions have been done each occurence of the
 string
@@ -304,36 +396,52 @@ string
 .B $
 sign.
 
-Variables whose names consist entirely of alphanumerics can be set
-using the
+Variables can be set using the
 .B -V
-common option.
-
-They can be also specified in the file
+common option.  They can be also specified in the file
 .B debian/substvars
 (or whatever other file is specified using the
 .B -T
 option).  This file consists of lines of the form
-.IB name = value
-(where
-.B name
-is a string of alphanumerics).  Trailing whitespace on each line,
-blank lines, and lines starting with a
+.IB name = value\fR.
+Trailing whitespace on each line, blank lines, and
+lines starting with a
 .B #
 symbol (comments) are ignored.
 
 Additionally, the following standard variables are available:
 .TP
-.BI arch
+.BI Arch
 The current build architecture (from
 .BR "dpkg \-\-print-architecture" ).
 .TP
-.B sourceversion
+.B Source-Version
 The source package version (from the changelog file).
 .TP
-.BI f: fieldname
+.B Installed-Size
+The total size of the package's installed files.  This value is copied
+into the corresponding control file field; setting it will modify the
+value of that field.  If this variable isn't set
+.B dpkg-gencontrol
+will use
+.B du -k debian/tmp
+to find the default value.
+.TP
+.B Extra-Size
+Additional disk space used when the package is installed.  If this
+variable is set its value is added to that of the
+.B Installed-Size
+variable (whether set explicitly or using the default value) before it
+is copied into the
+.B Installed-Size
+control file field.
+.TP
+.BI F: fieldname
 The value of the output field
-.IR fieldname .
+.IR fieldname
+(which must be given in the canonical capitalisation).  Setting these
+variables has no effect other than on places where they are expanded
+explicitly.
 .TP
 .B Format
 The
@@ -345,9 +453,14 @@ field in the
 .B .changes
 file will change too.
 .TP
-.BR newline ", " space ", " tab
+.BR Newline ", " Space ", " Tab
 These variables each hold the corresponding character.
-
+.TP
+.BI shlibs: dependencyfield
+Variable settings with names of this form are generated by
+.B dpkg-shlibdeps
+- see above.
+.LP
 If a variable is referred to but not defined it generates a warning
 and an empty value is assumed.
 .SH FILES

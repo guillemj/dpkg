@@ -18,6 +18,7 @@ Options:  -r<gain-root-command>
           -B         (binary-only, no arch-indep files)
           -us        (unsigned source)
           -uc        (unsigned changes)
+          -h         print this message
 END
 }
 

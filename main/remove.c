@@ -457,6 +457,7 @@ void removal_bulk(struct pkginfo *pkg) {
     pkg->installed.depends= 0;
     pkg->installed.essential= 0;
     pkg->installed.description= pkg->installed.maintainer= 0;
+    pkg->installed.source= pkg->installed.installedsize= 0;
     blankversion(&pkg->installed.version);
     pkg->installed.arbs= 0;
   }

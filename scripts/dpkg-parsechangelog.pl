@@ -20,8 +20,12 @@ sub usageversion {
 Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
-Usage: dpkg-parsechangelog [-L<libdir>] [-F<format>] [-v<version>]
-                           [-lchangelogfile]
+Usage: dpkg-parsechangelog [<option> ...]
+Options:  -l<changelogfile>      get per-version info from this file
+          -v<sinceversion>       include all changes later than version
+          -F<changelogformat>    force change log format
+          -L<libdir>             look for change log parsers in <libdir>
+          -h                     print this message
 ";
 }
 

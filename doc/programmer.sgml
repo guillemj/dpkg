@@ -259,6 +259,49 @@ This file contains a list of configuration files which are to be
 handled automatically by <prgn/dpkg/ (see <ref id="conffiles">).  Note
 that not necessarily every configuration file should be listed here.
 
+<tag><tt/shlibs/
+<item>
+
+This file contains a list of the shared libraries supplied by the
+package, with dependency details for each.  This is used by
+<prgn/dpkg-shlibdeps/ when it determines what dependencies are
+required in a package control file.
+<p>
+
+Each line is of the form:
+<example>
+<var/library-name/ <var/version-or-soname/ <var/dependencies .../
+</example>
+<p>
+
+<var/library-name/ is the name of the shared library, for example
+<tt/libc5/.
+<p>
+
+<var/version-or-soname/ is the soname of the library - ie, the thing
+that must exactly match for the library to be recognised by
+<prgn/ld.so/.  Usually this is major version number of the library.
+<p>
+
+<var/dependencies/ has the same syntax as a dependency field in a
+binary package control file.  It should give details of which
+package(s) are required to satisfy a binary built against the version
+of the library contained in the package.  See <ref id="depsyntax">.
+<p>
+
+For example, if the package <tt/foo/ contains <tt/libfoo.so.1.2.3/,
+where the soname of the library is <tt/libfoo.so.1/, and the first
+version of the package which contained a minor number of at least
+<tt/2.3/ was <var/1.2.3-1/, then the package's <var/shlibs/ could
+say:
+<example>
+libfoo 1	foo (>= 1.2.3-1)
+</example>
+<p>
+
+The version-specific dependency is to avoid warnings from <prgn/ld.so/
+about using older shared libraries with newer binaries.
+
 </taglist>
 
 <sect id="controlfile">The main control information file: <tt/control/
@@ -292,6 +335,7 @@ installed.</footnote>
 <item><qref id="f-classification"><tt/Section/, <tt/Priority/</>
 <item><qref id="f-Source"><tt/Source/</>
 <item><qref id="descriptions"><tt/Description/</>
+<item><qref id="f-Installed-Size"><tt/Installed-Size/</>
 
 </list>
 <p>
@@ -1152,6 +1196,16 @@ commas.<footnote>A space after each comma is conventional.</footnote>
 Currently the packages must be separated using only spaces in the
 <tt/.changes/ file.
 
+<sect1 id="f-Installed-Size"><tt/Installed-Size/
+<p>
+
+This field appears in the control files of binary packages, and in the
+<tt/Packages/ files.  It gives the total amount of disk space
+required to install the named package.
+<p>
+
+The disk space is represented in kilobytes as a simple decimal number.
+
 <sect1 id="f-Files"><tt/Files/
 <p>
 
@@ -1989,7 +2043,7 @@ This is done using the <tt/Depends/, <tt/Recommends/, <tt/Suggests/,
 <tt/Conflicts/, <tt/Provides/ and <tt/Replaces/ control file fields.
 <p>
 
-<sect>Syntax of relationship fields
+<sect id="depsyntax">Syntax of relationship fields
 <p>
 
 These fields all have a uniform syntax.  They are a list of package

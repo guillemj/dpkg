@@ -18,8 +18,9 @@ Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
 Usage:
-  dpkg-addfile <filename> <section> <priority>
+  dpkg-distaddfile <filename> <section> <priority>
 Options:  -f<fileslistfile>      write files here instead of debian/files
+          -h                     print this message
 ";
 }
 

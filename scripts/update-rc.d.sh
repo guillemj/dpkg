@@ -91,9 +91,13 @@ while [ $# -ge 3 ]; do
 			shift
 			continue
 			;;
+		*)
+			usage "runlevel is more than one character (forgotten \`.' ?)"
 		esac
-		usage 'runlevel is more than one character (forgotten . ?)'
 	done
+	if [ $# -eq 0 ]; then
+		usage "action with list of runlevels not terminated by \`.'"
+	fi
 	shift
 done
 

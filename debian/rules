@@ -21,17 +21,19 @@ clean:
 
 binary:	checkroot build
 	-rm -rf debian/tmp
-	install -d debian/tmp debian/tmp/DEBIAN
+	install -d debian/tmp debian/tmp/DEBIAN debian/tmp/etc/dpkg
 	install -d debian/tmp/usr/doc/{copyright,dpkg}
 	set -e; if [ $(arch) = i386 ]; then \
-		dpkg-gencontrol -Vlibcver=' (>= 5.2.18-2)' >$(cidir)/control ; \
 		sed -e 's/^# i386elf: //' <debian/preinst >$(cidir)/preinst ; \
 	else \
-		dpkg-gencontrol -Vlibcver='' >$(cidir)/control ; \
 		sed -e '/^# i386elf: /d' debian/preinst >$(cidir)/preinst ; \
 	fi
-	cp debian/{prerm,postinst} debian/tmp/DEBIAN/.
-	chmod +x debian/tmp/DEBIAN/{postinst,prerm,preinst}
+	set -e; if [ -f debian/shlibs.default.$(arch) ]; then \
+		echo /etc/dpkg/shlibs.default >$(cidir)/conffiles ; \
+		cp debian/shlibs.default.$(arch) debian/tmp/etc/dpkg/shlibs.default ; \
+	fi
+	cp debian/{prerm,postinst} $(cidir)/.
+	chmod +x $(cidir)/{postinst,prerm,preinst}
 	$(MAKE) prefix=$(DIR)/debian/tmp/usr \
 		datadir=$(DIR)/debian/tmp/var/lib/dpkg \
 		etcdir=$(DIR)/debian/tmp/etc \
@@ -39,8 +41,10 @@ binary:	checkroot build
 	cp debian/copyright debian/tmp/usr/doc/copyright/dpkg
 	cp TODO debian/tmp/usr/doc/dpkg/WISHLIST
 	touch debian/tmp/var/lib/dpkg/{status,available}
+	dpkg-shlibdeps -dPre-Depends main/dpkg dselect/dselect
+	dpkg-gencontrol
 	chown -R root.root debian/tmp
-	chmod -R g-ws debian/tmp
+	chmod -R g-ws,a+r,u+w debian/tmp
 	set -e; cd debian/tmp; \
 	 version=`sed -n 's/^Version: //p' DEBIAN/control`; \
 	 file=dpkg_$${version}_$(arch).nondebbin.tar; \

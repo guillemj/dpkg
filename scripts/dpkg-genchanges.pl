@@ -37,6 +37,7 @@ Options:  -b                     binary-only build - no source files
           -T<varlistfile>        read variables here, not debian/substvars
           -D<field>=<value>      override or add a field and value
           -U<field>              remove a field
+          -h                     print this message
 ";
 }
 
@@ -70,7 +71,7 @@ while (@ARGV) {
         $override{$1}= $';
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
-    } elsif (m/^-V(\w+)[=:]/) {
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= $';
     } elsif (m/^-h$/) {
         &usageversion; exit(0);

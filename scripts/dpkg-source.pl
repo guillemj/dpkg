@@ -52,7 +52,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $override{$1}= $';
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
-    } elsif (m/^-V(\w+)[=:]/) {
+    } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= $';
     } elsif (m/^-T/) {
         $varlistfile= $';
@@ -76,9 +76,10 @@ if ($opmode eq 'build') {
     stat($dir) || &error("cannot stat directory $dir: $!");
     -d $dir || &error("directory argument $dir is not a directory");
 
-    $!=0; if (@ARGV) {
+    if (@ARGV) {
         $origdir= shift(@ARGV);
         if (length($origdir)) {
+            $origdir= "./$origdir" unless $origdir =~ m:^/:;
             stat($origdir) || &error("cannot find orig directory $origdir: $!");
             -d $origdir || &error("orig directory argument $origdir is not a directory");
         }
@@ -90,6 +91,7 @@ if ($opmode eq 'build') {
     } else {
         &error("tentative orig directory $dir.orig is not a directory");
     }
+print STDERR ">$dir|$origdir<\n";
 
     $changelogfile= "$dir/debian/changelog" unless defined($changelogfile);
     $controlfile= "$dir/debian/control" unless defined($controlfile);
@@ -204,7 +206,8 @@ if ($opmode eq 'build') {
     if (!$c2) {
         chdir($tardirbase) || &syserr("chdir to above (orig) source $tardirbase");
         open(STDOUT,">&GZIP") || &syserr("reopen gzip for tar");
-        exec('tar','-cO','--',$tardirname); &syserr("exec tar");
+        # FIXME: put `--' argument back when tar is fixed
+        exec('tar','-cO',$tardirname); &syserr("exec tar");
     }
     close(GZIP);
     &reapgzip;
