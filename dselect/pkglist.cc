@@ -24,6 +24,7 @@
 #include <curses.h>
 #include <assert.h>
 #include <signal.h>
+#include <errno.h>
 
 extern "C" {
 #include <config.h>
@@ -497,15 +498,13 @@ pkginfo **packagelist::display() {
 
   if (debug) fprintf(debug,"packagelist[%p]::display() entering loop\n",this);
   for (;;) {
-#if CAN_RESIZE
-    if (interrupted)
-      adjust(0);
-#endif
     if (whatinfo_height) wcursyncup(whatinfowin);
     if (doupdate() == ERR) ohshite("doupdate failed");
     signallist= this;
     if (sigprocmask(SIG_UNBLOCK,&sigwinchset,0)) ohshite("failed to unblock SIGWINCH");
+    do
     response= getch();
+    while (response == ERR && errno == EINTR);
     if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite("failed to re-block SIGWINCH");
     if (response == ERR) ohshite("getch failed");
     interp= (*bindings)(response);

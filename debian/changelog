@@ -6,6 +6,52 @@ dpkg (1.7.0) unstable; urgency=low
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
+dpkg (1.6.10) frozen unstable; urgency=low
+
+  * The `it rains in Sydney' release
+  * Mark another string in dselect as translateable, Closes: Bug#58618
+  * Fix typos, Closes: Bug#58619
+  * Change dselect keybindings slightly so `n' really does searchagain
+  * Updated Czech and Spanish translations, Closes: Bug#58617
+  * dpkg-divert.pl: reinstate last writeability-patch. Modified
+    to not abort on ENOENT: this indicates a directory does not (yet)
+    exist. If this happens don't try to rename. This should fix all
+    current dpkg-divert problems. Closes: Bug#59207,#58596
+  * update-alternatives: switch back to auto-mode when manually selected
+    alternative is removed, Closes: Bug#54933
+  * dselect no longer segfaults on SIGWINCH but does The Right Thing
+    instead. Closes: Bug#54303,#58697,#59419
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Tue,  7 Mar 2000 15:09:47 +1100
+
+dpkg (1.6.9) frozen unstable; urgency=low
+
+  * Fix typo in update-alternatives manpage
+  * dpkg-architecture: -q should not imply -f, Closes: Bug#57761
+  * Cleanup bits of install-info to make it more stable
+  * Fix Build-Dependency for ncurses, Closes: Bug#58073
+  * Some more documentation updates, Closes: Bug#57985
+  * Revert patch to check for writeable filesystems in dpkg-divert,
+    Closes: Bug#57840
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Fri, 18 Feb 2000 12:11:58 +0100
+
+dpkg (1.6.8) frozen unstable; urgency=low
+
+  * Turn --force-overwrite on by default
+  * Fix a couple of small buildsystem errors
+  * Support multiple adjacent newlines in control-style files, Closes: Bug#56056
+  * Updated Czech and Swedish translations
+  * Revert patch to change order of things when purging a package,
+    Closes: Bug#56374
+  * Handle failed open of /dev/tty in dpkg -l, Closes: Bug# 55041
+  * Update Japanese translations, Closes: Bug# 56641, #57494, #57595
+  * Update extended description for dpkg-dev, Closes: Bug# 56675
+  * Implement verbose option for update-alternative
+  * Fix conflicts handling
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Thu, 10 Feb 2000 15:31:31 +0100
+
 dpkg (1.6.7) frozen unstable; urgency=low
 
   * dpkg compiles on HP-UX, Solaris and IRIX now

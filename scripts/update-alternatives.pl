@@ -4,6 +4,27 @@
 sub ENOENT { 2; }
 # Sorry about this, but the errno-part of POSIX.pm isn't in perl-*-base
 
+# Global variables:
+#  $alink            Alternative we are managing (ie the symlink we're making/removing) (install only)
+#  $name             Name of the alternative (the symlink) we are processing
+#  $apath            Path of alternative we are offering            
+#  $apriority        Priority of link (only when we are installing an alternative)
+#  $mode             action to perform (display / install / remove / display / auto / config)
+#  $manual           update-mode for alternative (manual / auto)
+#  $state            State of alternative:
+#                       expected: alternative with highest priority is the active alternative
+#                       expected-inprogress: busy selecting alternative with highest priority
+#                       unexpected: alternative another alternative is active / error during readlink
+#                       nonexistant: alternative-symlink does not exist
+#  $link             Link we are working with
+#  @slavenames       List with names of slavelinks
+#  %slavenum         Map from name of slavelink to slave-index (into @slavelinks)
+#  @slavelinks       List of slavelinks (indexed by slave-index)
+#  %versionnum       Map from currently available versions into @versions and @priorities
+#  @versions         List of available versions for alternative
+#  %priorities       Map from @version-index to priority
+#  %slavepath        Map from (@version-index,slavename) to slave-path
+
 $version= '0.93.80'; # This line modified by Makefile
 sub usageversion {
     print(STDERR <<END)
@@ -93,7 +114,7 @@ while (@ARGV) {
 defined($aslavelink{$name}) && &badusage("name $name is both primary and slave");
 $aslavelinkcount{$alink} && &badusage("link $link is both primary and slave");
 
-$mode || &badusage("need --display, --install, --remove or --auto");
+$mode || &badusage("need --display, --config, --install, --remove or --auto");
 $mode eq 'install' || !%slavelink || &badusage("--slave only allowed with --install");
 
 if (open(AF,"$admindir/$name")) {
@@ -280,6 +301,10 @@ if ($mode eq 'install') {
 }
 
 if ($mode eq 'remove') {
+    if ($manual eq "manual" and $state = "expected") {
+    	&pr("Removing manually selected alternative - switching to auto mode");
+	$manual= "auto";
+    }
     if (defined($i= $versionnum{$apath})) {
         $k= $#versions;
         $versionnum{$versions[$k]}= $i;

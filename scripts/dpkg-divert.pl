@@ -199,9 +199,13 @@ sub checkrename {
     # (hopefully) wont overwrite anything. If it succeeds, we
     # assume a writable filesystem.
     foreach $file ($rsrc,$rdest) {
-	open (TMP, ">> ${file}.dpkg-devert.tmp") || &quit("error checking \`$file': $!");
+	open (TMP, ">> ${file}.dpkg-devert.tmp") || $! == NOENT ||
+		&quit("error checking \`$file': $!");
 	close TMP;
-	unlink ("${file}.dpkg-devert.tmp");
+	if ($1 == ENOENT) {
+		$dorename = 0;
+	} else
+		unlink ("${file}.dpkg-devert.tmp");
     }
     if (@ssrc && @sdest &&
         !($ssrc[0] == $sdest[0] && $ssrc[1] == $sdest[1])) {

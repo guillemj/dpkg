@@ -45,9 +45,13 @@ void mywerase(WINDOW *win) {
 
 baselist *baselist::signallist= 0;
 void baselist::sigwinchhandler(int) {
+  struct winsize size;
+  if (debug) fprintf(debug,"baselist::sigwinchhandler(), signallist=%p\n",signallist);
   baselist *p= signallist;
   p->enddisplay();
   endwin(); initscr();
+  if (ioctl(fileno(stdout), TIOCGWINSZ, &size) != 0) ohshite(_("ioctl(TIOCGWINSZ) failed"));
+  resizeterm(size.ws_row, size.ws_col); wrefresh(curscr);
   p->startdisplay();
   if (doupdate() == ERR) ohshite(_("doupdate in SIGWINCH handler failed"));
 }

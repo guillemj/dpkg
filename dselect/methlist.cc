@@ -24,6 +24,7 @@
 #include <curses.h>
 #include <assert.h>
 #include <signal.h>
+#include <errno.h>
 
 extern "C" {
 #include <config.h>
@@ -156,7 +157,9 @@ quitaction methodlist::display() {
     if (doupdate() == ERR) ohshite(_("doupdate failed"));
     signallist= this;
     if (sigprocmask(SIG_UNBLOCK,&sigwinchset,0)) ohshite(_("failed to unblock SIGWINCH"));
+    do
     response= getch();
+    while (response == ERR && errno == EINTR);
     if (sigprocmask(SIG_BLOCK,&sigwinchset,0)) ohshite(_("failed to re-block SIGWINCH"));
     if (response == ERR) ohshite(_("getch failed"));
     interp= (*bindings)(response);
