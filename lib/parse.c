@@ -85,7 +85,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   const struct fieldinfo *fip;
   const struct nickname *nick;
   const char *fieldname;
-  int *ip, i, c;
+  int *ip, c;
 
   if (warncount) *warncount= 0;
   newpifp= (flags & pdb_recordavailable) ? &newpig.available : &newpig.installed;

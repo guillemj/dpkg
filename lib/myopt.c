@@ -22,6 +22,7 @@
 
 #include <string.h>
 #include <errno.h>
+#include <ctype.h>
 
 #include <config.h>
 #include <myopt.h>

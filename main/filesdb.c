@@ -71,7 +71,6 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
   int search, findlast, putat;
   struct stat stat_buf;
   char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
-  ssize_t bytes;
 
   if (pkg->clientdata && pkg->clientdata->fileslistvalid) return;
   ensure_package_clientdata(pkg);
@@ -314,7 +313,6 @@ void ensure_statoverrides(void) {
   struct stat stab1, stab2;
   FILE *file;
   char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
-  ssize_t bytes;
   struct filestatoverride *fso;
   struct filenamenode *fnn;
 
@@ -684,6 +682,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   default:
     internerr("findnamenode no f_largemem");
   }
+  return NULL;
 }
 
 /*** Code for low-memory-footprint in-core files database ***/

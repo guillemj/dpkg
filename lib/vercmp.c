@@ -85,6 +85,7 @@ int versionsatisfied3(const struct versionrevision *it,
   case dvr_exact:          return r == 0;
   default:                 internerr("unknown verrel");
   }
+  return 0;
 }
 
 int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against) {

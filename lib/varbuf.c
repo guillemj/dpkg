@@ -49,7 +49,7 @@ void varbufprintf(struct varbuf *v, const char *fmt, ...) {
   } while (r >= v->size-ou-1);
 }
 
-void varbufvprintf(struct varbuf *v, char *fmt, va_list va) {
+void varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
   int ou, r;
   va_list al;
 

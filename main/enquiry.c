@@ -262,6 +262,7 @@ static int yettobeunpacked(struct pkginfo *pkg, const char **thissect) {
   default:
     internerr("unknown status checking for unpackedness");
   }
+  return 0;
 }
 
 void unpackchk(const char *const *argv) {
@@ -666,7 +667,7 @@ void printarch(const char *const *argv) {
   }, *archp;
                   
   const char *ccompiler, *arch;
-  int p1[2], c;
+  int p1[2];
   pid_t c1;
   FILE *ccpipe;
   struct varbuf vb;

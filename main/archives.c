@@ -216,8 +216,6 @@ int tarobject(struct TarInfo *ti) {
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
   int statr, fd, r, i, existingdirectory;
   struct stat stab, stabd;
-  size_t sz, wsz;
-  int thefile;
   char databuf[TARBLKSZ];
   struct fileinlist *nifd;
   struct pkginfo *divpkg, *otherpkg;

@@ -84,7 +84,6 @@ static void info_spew(const char *debar, const char *directory,
                       const char *const *argv) {
   const char *component;
   FILE *co;
-  pid_t c1;
   int re= 0;
 
   while ((component= *argv++) != 0) {

@@ -77,7 +77,7 @@ void process_archive(const char *filename) {
   struct dependency *dsearch, *newdeplist, **newdeplistlastp;
   struct dependency *newdep, *dep, *providecheck;
   struct deppossi *psearch, **newpossilastp, *possi, *newpossi, *pdep;
-  FILE *conff, *tmpf;
+  FILE *conff;
   DIR *dsd;
   struct filenamenode *namenode;
   struct dirent *de;

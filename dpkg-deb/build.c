@@ -214,8 +214,6 @@ void do_build(const char *const *argv) {
   char conffilename[MAXCONFFILENAME+1];
   time_t thetime= 0;
   struct _finfo *fi;
-  struct _finfo *nosymlist = NULL;
-  struct _finfo *nosymlist_end = NULL;
   struct _finfo *symlist = NULL;
   struct _finfo *symlist_end = NULL;
   
@@ -451,7 +449,6 @@ void do_build(const char *const *argv) {
   close(p2[1]);
   /* Of course we should not forget to compress the archive as well.. */
   if (!(c2= m_fork())) {
-    char *combuf;
     close(p1[1]);
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : gzfd,1);

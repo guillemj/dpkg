@@ -94,12 +94,11 @@ void extracthalf(const char *debar, const char *directory,
   char nlc;
   char *cur;
   struct ar_hdr arh;
-  int readfromfd, oldformat, header_done, adminmember, c;
+  int readfromfd, oldformat, header_done, adminmember;
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
   fpos_t fpos;
 #endif
 #ifdef USE_ZLIB
-  z_streamp gzstream = NULL;
   gzFile gzfile;
   char gzbuffer[4096];
   int gzactualread;
