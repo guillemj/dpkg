@@ -421,12 +421,20 @@ for ($i=0; $i<=$#work; $i++) {
 }
 @work = @work[0..$j];
 
+my $descalign=40;
+
 @newwork = ();
 foreach ( @work ) {
 	if ( m/^(\* *[^:]+: *\(\w[^\)]*\)[^.]*\.)[ \t]*(.*)/ ||
 		m/^([ \t]+)(.*)/ ) {
-		$_ = $1 . ( " " x ( $length - length($1) + 1 ) ) . $2;
-		push @newwork, split( "\n", wrap('', " " x ( $length + 1 ), $_ ) );
+		if (length $1 >= $descalign) {
+			push @newwork, $1;
+			$_=(" " x $descalign) . $2;
+		}
+		else {
+			$_ = $1 . (" " x ($descalign - length $1)) . $2;
+		}
+		push @newwork, split( "\n", wrap('', " " x $descalign, $_ ) );
 	} else {
 		push @newwork, $_;
 	}
