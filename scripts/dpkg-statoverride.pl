@@ -1,5 +1,8 @@
 #! /usr/bin/perl
 
+use POSIX;
+use POSIX qw(:errno_h :signal_h);
+
 $admindir= "/var/lib/dpkg"; # This line modified by Makefile
 $version= '1.3.0'; # This line modified by Makefile
 
@@ -213,9 +216,9 @@ sub WriteOverrides {
 	close(SO);
 	chmod(0644, "$admindir/statoverride-new");
 	unlink("$admindir/statoverride-old") ||
-		$! == &ENOENT || &quit("error removing statoverride-old: $!");
+		$! == ENOENT || &quit("error removing statoverride-old: $!");
 	link("$admindir/statoverride","$admindir/statoverride-old") ||
-		$! == &ENOENT || &quit("error creating new statoverride-old: $!");
+		$! == ENOENT || &quit("error creating new statoverride-old: $!");
 	rename("$admindir/statoverride-new","$admindir/statoverride")
 		|| &quit("error installing new statoverride: $!");
 }
