@@ -213,7 +213,7 @@ do
  		sed -ne '/^[^\/]/ s:^:/:; s/^/ /; / ./p' >&4 deb/$package.hash
  	fi
  	echo >&4
-	for s in {pre,post}{rm,inst} list
+	for s in prerm postrm preinst postinst list
 	do
 		if test -f deb/$package.$s
 		then
