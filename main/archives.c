@@ -42,6 +42,10 @@
 #include "main.h"
 #include "archives.h"
 
+/* We shouldn't need anymore than 10 conflictors */
+struct conflict conflictor[10];
+int cflict_index = 0;
+
 int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
                      struct pkginfo *pkgbeinginstalled) {
   struct pkginfo *divpkg, *thirdpkg;
@@ -569,7 +573,7 @@ static int try_remove_can(struct deppossi *pdep,
 }
 
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
-                    const char *pfilename, struct conflict **conflictorp) {
+                    const char *pfilename) {
   struct pkginfo *fixbyrm;
   struct deppossi *pdep, flagdeppossi;
   struct varbuf conflictwhy, removalwhy;
@@ -577,8 +581,6 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   
   varbufinit(&conflictwhy);
   varbufinit(&removalwhy);
-
-  for ( ; *conflictorp && (*conflictorp)->next ; *conflictorp= (*conflictorp)->next );
 
   fixbyrm= 0;
   if (depisok(dep, &conflictwhy, &fixbyrm, 0)) {
@@ -653,16 +655,12 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         }
       }
       if (!pdep) {
+	/* if this gets triggered, it means a package has > 10 conflicts/replaces
+	 * pairs, which is the package's fault
+	 */
+	assert(cflict_index < 10);
         /* This conflict is OK - we'll remove the conflictor. */
-	if (*conflictorp) {
-	  (*conflictorp)->next= nfmalloc(sizeof(struct conflict));
-	  (*conflictorp)->next->cflict= fixbyrm;
-	  (*conflictorp)->next->next= 0;
-	} else {
-	  *conflictorp= nfmalloc(sizeof(struct conflict));
-	  (*conflictorp)->next= 0;
-	  (*conflictorp)->cflict= fixbyrm;
-	}
+	conflictor[cflict_index++].cflict= fixbyrm;
         varbuffree(&conflictwhy); varbuffree(&removalwhy);
         fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
                 fixbyrm->name, pkg->name);

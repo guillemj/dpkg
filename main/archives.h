@@ -34,6 +34,9 @@ extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;
 extern struct packageinlist *deconfigure;
 
+extern struct conflict conflictor[];
+extern int cflict_index;
+
 void cu_pathname(int argc, void **argv);
 void cu_cidir(int argc, void **argv);
 void cu_fileslist(int argc, void **argv);
@@ -61,7 +64,7 @@ int filesavespackage(struct fileinlist*, struct pkginfo*,
                      struct pkginfo *pkgbeinginstalled);
 
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
-                    const char *pfilename, struct conflict **conflictorp);
+                    const char *pfilename);
 
 extern int cleanup_pkg_failed, cleanup_conflictor_failed;
 
