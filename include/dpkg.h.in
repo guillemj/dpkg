@@ -167,8 +167,26 @@ extern const char printforhelp[];
 
 /*** from startup.c ***/
 
-void standard_startup(jmp_buf *ejbuf, int argc, const char *const **argv, const char *prog, int loadcfg, const struct cmdinfo cmdinfos[]);
-void standard_shutdown(int freemem);
+#define standard_startup(ejbuf, argc, argv, prog, loadcfg, cmdinfos) do {\
+  setlocale(LC_ALL, "");\
+  bindtextdomain(PACKAGE, LOCALEDIR);\
+  textdomain(PACKAGE);\
+  if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
+    error_unwind(ehflag_bombout); exit(2);\
+  }\
+  push_error_handler(ejbuf,print_error_fatal,0);\
+  umask(022); /* Make sure all our status databases are readable. */\
+  if (loadcfg)\
+    loadcfgfile(prog, cmdinfos);\
+  myopt(argv,cmdinfos);\
+} while (0)
+
+#define standard_shutdown(freemem) do {\
+  set_error_display(0,0);\
+  error_unwind(ehflag_normaltidy);\
+  if (freemem)\
+    nffreeall();\
+} while (0)
 
 /*** from ehandle.c ***/
 

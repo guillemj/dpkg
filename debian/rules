@@ -46,7 +46,7 @@ config.guess config.sub: %: /usr/share/misc/%
 $(BUILD)/configure-stamp: configure config.h.in config.guess config.sub
 	$(checkdir)
 	install -d $(@D)
-	cd $(@D) && LDFLAGS=$(LDFLAGS) $(CURDIR)/configure \
+	cd $(@D) && LDFLAGS=$(LDFLAGS) $(shell echo "$(patsubst $(CURDIR)/%,%,$(@D))" | sed -e 's,^[^/][^/]*$$,..,;s,/[^/][^/]*,/..,g' )/configure \
 		--prefix=/usr \
 		--datadir=/usr/share \
 		--mandir=/usr/share/man \
