@@ -348,8 +348,8 @@ parse_options(int argc, char * const *argv)
 	if (start == stop)
 		badusage("need one of --start or --stop");
 
-	if (!execname && !pidfile && !userspec)
-		badusage("need at least one of --exec, --pidfile or --user");
+	if (!execname && !pidfile && !userspec && !cmdname)
+		badusage("need at least one of --exec, --pidfile, --user or --name");
 
 	if (!startas)
 		startas = execname;
