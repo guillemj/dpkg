@@ -6,7 +6,7 @@ dpkg\-deb \- Debian package archive (.deb) manipulation tool
 .SH SYNOPSIS
 .B dpkg-deb
 .BR -b | --build
-.IR directory " [" archive ]
+.IR directory " [" archive | directory ]
 .br
 .B dpkg-deb
 .BR -I | --info
@@ -80,6 +80,22 @@ will write the package into the file
 .IR directory \fB.deb\fR.
 
 If the archive to be created already exists it will be overwritten.
+
+If the second argument is a directory then
+.B dpkg\-deb
+will write to the file
+.IB package _ version _ arch .deb\fR,
+or
+.IB package _ version .deb
+if no
+.B Architecture
+field is present in the package control file.  When a target directory
+is specified, rather than a file, the
+.B \-\-no\-check
+option may not be used (since
+.B dpkg\-deb
+needs to read and parse the package control file to determine which
+filename to use).
 .TP
 .BR \-\-info ", " -I
 Provides information about a binary package archive.

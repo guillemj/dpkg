@@ -312,7 +312,7 @@ int tarobject(struct TarInfo *ti) {
     }
     break;
   case NormalFile0: case NormalFile1:
-  case CharacterDevice: case BlockDevice:
+  case CharacterDevice: case BlockDevice: case FIFO:
   case HardLink:
     break;
   default:
@@ -404,6 +404,12 @@ int tarobject(struct TarInfo *ti) {
     if (fclose(thefile))
       ohshite("error closing/writing `%.255s'",ti->Name);
     newtarobject_utime(fnamenewvb.buf,ti);
+    break;
+  case FIFO:
+    if (mkfifo(fnamenewvb.buf,ti->Mode & S_IFMT))
+      ohshite("error creating pipe `%.255s'",ti->Name);
+    debug(dbg_eachfiledetail,"tarobject FIFO");
+    newtarobject_allmodes(fnamenewvb.buf,ti);
     break;
   case CharacterDevice: case BlockDevice:
     if (mknod(fnamenewvb.buf,ti->Mode & S_IFMT,ti->Device))

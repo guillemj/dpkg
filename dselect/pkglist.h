@@ -160,7 +160,6 @@ class packagelist : public baselist {
   void addheading(enum ssavailval, enum ssstateval,
                   pkginfo::pkgpriority, const char*, const char *section);
   void sortinplace();
-  int affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith);
   void affectedrange(int *startp, int *endp);
   void setwant(pkginfo::pkgwant nw);
   void sethold(int hold);

@@ -1,0 +1,62 @@
+#!/usr/bin/make -f
+
+DIR:=$(shell pwd)
+
+arch=$(shell dpkg --print-architecture)
+cidir=debian/tmp/DEBIAN
+
+build:
+	$(checkdir)
+	./configure --prefix=/usr
+	$(MAKE)
+	touch build
+
+clean:
+	$(checkdir)
+	-rm -f build
+	-$(MAKE) -i distclean || $(MAKE) -f Makefile.in -i distclean
+	-rm -rf debian/tmp* *~ *.orig ./#*# tmp.* debian/files*
+	-rm -f config.cache config.status config.h install config.log
+	find -name '*~' -print0 | xargs -r0 rm --
+
+binary:	checkroot build
+	-rm -rf debian/tmp
+	mkdir debian/tmp debian/tmp/DEBIAN
+	install -d debian/tmp/usr/doc/{copyright,dpkg}
+	set -e; if [ $(arch) = i386 ]; then \
+		dpkg-gencontrol -Vlibcver=' (>= 5.2.18-2)' >$(cidir)/control ; \
+		sed -e 's/^# i386elf: //' <debian/preinst >$(cidir)/preinst ; \
+	else \
+		dpkg-gencontrol -Vlibcver='' >$(cidir)/control ; \
+		sed -e '/^# i386elf: /d' debian/preinst >$(cidir)/preinst ; \
+	fi
+	cp debian/{prerm,postinst} debian/tmp/DEBIAN/.
+	chmod +x debian/tmp/DEBIAN/{postinst,prerm,preinst}
+	$(MAKE) prefix=$(DIR)/debian/tmp/usr \
+		datadir=$(DIR)/debian/tmp/var/lib/dpkg \
+		etcdir=$(DIR)/debian/tmp/etc \
+		install
+	gzip -9 debian/tmp/usr/info/guidelines.info*
+	cp debian/copyright debian/tmp/usr/doc/copyright/dpkg
+	cp TODO debian/tmp/usr/doc/dpkg/WISHLIST
+	touch debian/tmp/var/lib/dpkg/{status,available}
+	chown -R root.root debian/tmp
+	chmod -R g-ws debian/tmp
+	set -e; cd debian/tmp; \
+	 version=`sed -n 's/^Version: //p' DEBIAN/control`; \
+	 file=dpkg_$${version}_$(arch).nondebbin.tar; \
+	 tar cf ../../../$${file} usr var && gzip -9vf ../../../$${file}; \
+	 cd ../..; dpkg-distaddfile $${file}.gz byhand -
+	mv debian/tmp/usr/bin/dpkg-deb{,.dist}
+	rm debian/tmp/var/lib/dpkg/{status,available}
+	dpkg-deb --build debian/tmp ..
+
+define checkdir
+	test -f include/dpkg.h
+endef
+
+checkroot:
+	$(checkdir)
+	test root = "`whoami`"
+
+.PHONY: binary source diff clean checkroot

@@ -58,27 +58,38 @@ void do_build(const char *const *argv) {
   };
   
   char *m;
-  const char *debar, *directory, *const *mscriptp;
+  const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
   char *controlfile;
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *gz, *cf;
-  int p1[2],p2[2], warns, errs, n, c;
+  int p1[2],p2[2], warns, errs, n, c, subdir;
   pid_t c1,c2,c3,c4,c5;
-  struct stat controlstab, datastab, mscriptstab;
+  struct stat controlstab, datastab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
   time_t thetime= 0;
   
   directory= *argv++; if (!directory) badusage("--build needs a directory argument");
+  subdir= 0;
   if ((debar= *argv++) !=0) {
     if (*argv) badusage("--build takes at most two arguments");
+    if (debar) {
+      if (stat(debar,&debarstab)) {
+        if (errno != ENOENT)
+          ohshite("unable to check for existence of archive `%.250s'",debar);
+      } else if (S_ISDIR(debarstab.st_mode)) {
+        subdir= 1;
+      }
+    }
   } else {
     m= m_malloc(strlen(directory) + sizeof(DEBEXT));
     strcpy(m,directory); strcat(m,DEBEXT);
     debar= m;
   }
-  
+    
   if (nocheckflag) {
+    if (subdir)
+      ohshit("target is directory - cannot skip control file check");
     printf(BACKEND ": warning, not checking contents of control area.\n"
            BACKEND ": building an unknown package in `%s'.\n", debar);
   } else {
@@ -110,6 +121,16 @@ void do_build(const char *const *argv) {
     checkversion(checkedinfo->available.version.version,"(upstream) version",&errs);
     checkversion(checkedinfo->available.version.revision,"Debian revision",&errs);
     if (errs) ohshit("%d errors in control file",errs);
+
+    if (subdir) {
+      versionstring= versiondescribe(&checkedinfo->available.version,vdew_never);
+      m= m_malloc(strlen(debar)+1+strlen(checkedinfo->name)+1+
+                  strlen(versionstring)+sizeof(DEBEXT));
+      arch= checkedinfo->available.architecture; if (!arch) arch= "";
+      sprintf(m,"%s/%s_%s%s%s" DEBEXT,debar,checkedinfo->name,versionstring,
+              arch[0] ? "_" : "", arch);
+      debar= m;
+    }
     printf(BACKEND ": building package `%s' in `%s'.\n", checkedinfo->name, debar);
 
     strcpy(controlfile, directory);
