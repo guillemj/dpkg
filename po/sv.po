@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.7.0\n"
-"POT-Creation-Date: 2000-09-16 22:57+0200\n"
+"POT-Creation-Date: 2000-10-03 00:54+0200\n"
 "PO-Revision-Date: 2000-09-16 22:59+0200\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -497,32 +497,62 @@ msgstr "kunde inte allokera buffer för snprintf 2"
 msgid "failed in copy on read (control)"
 msgstr "kunde inte läsa vid kopiering (kontrolldel)"
 
-#: lib/myopt.c:48
+#: lib/myopt.c:38
+#, fuzzy, c-format
+msgid "failed to open configuration file `%.255s' for reading"
+msgstr "kunde inte öppna paketinformationsfil \"%.255s\" för läsning"
+
+#: lib/myopt.c:67
+#, c-format
+msgid "configuration error: unknown option %s"
+msgstr ""
+
+#: lib/myopt.c:70
+#, c-format
+msgid "configuration error: %s needs a value"
+msgstr ""
+
+#: lib/myopt.c:74
+#, fuzzy, c-format
+msgid "configuration error: %s does not take a value"
+msgstr "flaggan -%c tar inget värde"
+
+#: lib/myopt.c:79
+#, fuzzy, c-format
+msgid "read error in configuration file `%.255s'"
+msgstr "fel vid läsning av flaggfil \"%.250s\""
+
+#: lib/myopt.c:80
+#, fuzzy, c-format
+msgid "error closing configuration file `%.255s'"
+msgstr "fel vid läsning av flaggfil \"%.250s\""
+
+#: lib/myopt.c:103
 #, c-format
 msgid "unknown option --%s"
 msgstr "okänd flagga --%s"
 
-#: lib/myopt.c:52
+#: lib/myopt.c:107
 #, c-format
 msgid "--%s option takes a value"
 msgstr "flaggan --%s tar ett värde"
 
-#: lib/myopt.c:57
+#: lib/myopt.c:112
 #, c-format
 msgid "--%s option does not take a value"
 msgstr "flaggan --%s tar inget värde"
 
-#: lib/myopt.c:64
+#: lib/myopt.c:119
 #, c-format
 msgid "unknown option -%c"
 msgstr "okänd flagga -%c"
 
-#: lib/myopt.c:69
+#: lib/myopt.c:124
 #, c-format
 msgid "-%c option takes a value"
 msgstr "flaggan -%c tar ett värde"
 
-#: lib/myopt.c:77
+#: lib/myopt.c:132
 #, c-format
 msgid "-%c option does not take a value"
 msgstr "flaggan -%c tar inget värde"
@@ -1506,7 +1536,7 @@ msgstr "  %.250s tillhandahåller %.250s och är %s.\n"
 msgid "(no description available)"
 msgstr "(beskrivning saknas)"
 
-#: main/enquiry.c:107
+#: main/enquiry.c:100
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
@@ -1517,24 +1547,24 @@ msgstr ""
 "| Status=Ej(N)/Installerad(I)/Konf.(C)/Uppackad(U)/Misslyckad(F)/Delvis(H)\n"
 "|/ Fel?Inget(=)/Håll(H)/Ominstallera(R)/Båda(X) (Status,Fel: versaler=illa)\n"
 
-#: main/enquiry.c:111
+#: main/enquiry.c:104
 msgid "Name"
 msgstr "Namn"
 
-#: main/enquiry.c:111
+#: main/enquiry.c:104
 msgid "Version"
 msgstr "Version"
 
-#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:111
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:104
 msgid "Description"
 msgstr "Beskrivning"
 
-#: main/enquiry.c:167 main/select.c:80
+#: main/enquiry.c:160 main/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Inga paket matchar %s.\n"
 
-#: main/enquiry.c:192
+#: main/enquiry.c:185
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -1544,7 +1574,7 @@ msgstr ""
 "installerades. De måste ominstalleras om de (och paket som beror på\n"
 "dem) ska fungera korrekt:\n"
 
-#: main/enquiry.c:197
+#: main/enquiry.c:190
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -1554,7 +1584,7 @@ msgstr ""
 "konfigureras med dpkg --configure eller menyvalet \"configure\" i\n"
 "dselect för att de ska fungera:\n"
 
-#: main/enquiry.c:202
+#: main/enquiry.c:195
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -1564,7 +1594,7 @@ msgstr ""
 "vid deras första konfiguration. Nytt konfigurationsförsök bör göras med\n"
 "dpkg --configure <paket> eller menyvalet \"configure\" i dselect:\n"
 
-#: main/enquiry.c:207
+#: main/enquiry.c:200
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -1574,98 +1604,98 @@ msgstr ""
 "installationen. Installationen kan troligtvis genomföras genom att försöka\n"
 "igen. Paketen kan tas bort via dselect eller dpkg --remove:\n"
 
-#: main/enquiry.c:232
+#: main/enquiry.c:225
 msgid "--audit does not take any arguments"
 msgstr "--audit tar inget argument"
 
-#: main/enquiry.c:267
+#: main/enquiry.c:260
 msgid "<unknown>"
 msgstr "<okänd>"
 
-#: main/enquiry.c:283
+#: main/enquiry.c:276
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "--yet-to-unpack tar inget argument"
 
-#: main/enquiry.c:321
+#: main/enquiry.c:314
 #, c-format
 msgid " %d in %s: "
 msgstr " %d i %s: "
 
-#: main/enquiry.c:336
+#: main/enquiry.c:329
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d paket, från följande avdelningar:"
 
-#: main/enquiry.c:356
+#: main/enquiry.c:349
 #, c-format
 msgid "diversion by %s"
 msgstr "omdirigerat av %s"
 
-#: main/enquiry.c:357
+#: main/enquiry.c:350
 msgid "local diversion"
 msgstr "lokal omdirigering"
 
-#: main/enquiry.c:358
+#: main/enquiry.c:351
 msgid "to"
 msgstr "till"
 
-#: main/enquiry.c:358
+#: main/enquiry.c:351
 msgid "from"
 msgstr "från"
 
-#: main/enquiry.c:391
+#: main/enquiry.c:384
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search behöver åtminstone ett filnamnsmönsterargument"
 
-#: main/enquiry.c:419
+#: main/enquiry.c:412
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s kunde ej hittas.\n"
 
-#: main/enquiry.c:435 main/packages.c:109
+#: main/enquiry.c:428 main/packages.c:109
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s behöver åtminstone ett paket som argument"
 
-#: main/enquiry.c:455
+#: main/enquiry.c:448
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Paketet \"%s\" är inte installerat och ingen information finns.\n"
 
-#: main/enquiry.c:464
+#: main/enquiry.c:457
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Paketet \"%s\" är ej tillgängligt.\n"
 
-#: main/enquiry.c:474
+#: main/enquiry.c:467
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Paketet \"%s\" är ej installerat.\n"
 
-#: main/enquiry.c:483
+#: main/enquiry.c:476
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Paketet \"%s\" innehåller inga filer (!)\n"
 
-#: main/enquiry.c:489
+#: main/enquiry.c:482
 msgid "locally diverted"
 msgstr "lokalt omdirigerad"
 
-#: main/enquiry.c:490
+#: main/enquiry.c:483
 msgid "package diverts others"
 msgstr "paketet omdirigerar andra"
 
-#: main/enquiry.c:491
+#: main/enquiry.c:484
 #, c-format
 msgid "diverted by %s"
 msgstr "omdirigerad av %s"
 
-#: main/enquiry.c:492
+#: main/enquiry.c:485
 #, c-format
 msgid " to: %s\n"
 msgstr " till: %s\n"
 
-#: main/enquiry.c:510
+#: main/enquiry.c:503
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents."
@@ -1673,11 +1703,11 @@ msgstr ""
 "Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
 "och dpkg --contents (= dpkg-deb --contents) för att visa innehållet."
 
-#: main/enquiry.c:521
+#: main/enquiry.c:514
 msgid "--assert-* does not take any arguments"
 msgstr "--assert-* tar inget argument"
 
-#: main/enquiry.c:536
+#: main/enquiry.c:529
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
@@ -1685,16 +1715,16 @@ msgstr ""
 "Versionen av dpkg med fungerande epochstöd är ännu ej konfigurerad.\n"
 " Använd \"dpkg --configure dpkg\" och försök sedan igen.\n"
 
-#: main/enquiry.c:540
+#: main/enquiry.c:533
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
 msgstr ""
 "dpkg finns inte listad som installerad, kan inte kontrollera epochstöd!\n"
 
-#: main/enquiry.c:588
+#: main/enquiry.c:581
 msgid "--predep-package does not take any argument"
 msgstr "--predep-package tar inget argument"
 
-#: main/enquiry.c:639
+#: main/enquiry.c:632
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -1703,14 +1733,14 @@ msgstr ""
 "dpkg: kan inte komma på hur i förväg-beroendet kan tillfredsställas:\n"
 " %s\n"
 
-#: main/enquiry.c:640
+#: main/enquiry.c:633
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "kan inte tillfredsställa i förvägberoende för %.250s (krävs på grund av "
 "%.250s)"
 
-#: main/enquiry.c:660
+#: main/enquiry.c:653
 #, c-format
 msgid ""
 "dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
@@ -1719,62 +1749,62 @@ msgstr ""
 "dpkg: oväntad utdata från \"%s --print-libgcc-file-name\":\n"
 " \"%s\"\n"
 
-#: main/enquiry.c:663
+#: main/enquiry.c:656
 #, c-format
 msgid "compiler libgcc filename not understood: %.250s"
 msgstr "kompilatorns libgcc-filnamn förstås ej: %.250s"
 
-#: main/enquiry.c:667
+#: main/enquiry.c:660
 msgid "--print-installation-architecture does not take any argument"
 msgstr "--print-installation-architecture tar inget argument"
 
-#: main/enquiry.c:687
+#: main/enquiry.c:680
 msgid "--print-architecture does not take any argument"
 msgstr "--print-architecture tar inget argument"
 
-#: main/enquiry.c:693
+#: main/enquiry.c:686
 msgid "failed to fdopen CC pipe"
 msgstr "kunde inte anluta fill till CC-rör"
 
-#: main/enquiry.c:712
+#: main/enquiry.c:705
 msgid "error reading from CC pipe"
 msgstr "kunde inte läsa från CC-rör"
 
-#: main/enquiry.c:714
+#: main/enquiry.c:707
 msgid "empty output"
 msgstr "utdata saknas"
 
-#: main/enquiry.c:716
+#: main/enquiry.c:709
 msgid "no newline"
 msgstr "ingen radbrytning"
 
-#: main/enquiry.c:719
+#: main/enquiry.c:712
 msgid "no gcc-lib component"
 msgstr "ingen gcc-lib-komponent"
 
-#: main/enquiry.c:721
+#: main/enquiry.c:714
 msgid "no slash after gcc-lib"
 msgstr "inget snedstreck efter gcc-lib"
 
-#: main/enquiry.c:733
+#: main/enquiry.c:726
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr "dpkg: varning, arkitekturen \"%s\" finns ej i ommappningstabellen\n"
 
-#: main/enquiry.c:775
+#: main/enquiry.c:768
 msgid "--cmpversions takes three arguments: <version> <relation> <version>"
 msgstr "--cmpversions tar tre argument: <version> <relation> <version>"
 
-#: main/enquiry.c:780
+#: main/enquiry.c:773
 msgid "--cmpversions bad relation"
 msgstr "--cmpversions: ogiltig relation"
 
-#: main/enquiry.c:785
+#: main/enquiry.c:778
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "version a har felaktig syntax: %s\n"
 
-#: main/enquiry.c:795
+#: main/enquiry.c:788
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "version b har felaktig syntax: %s\n"
@@ -1910,64 +1940,64 @@ msgstr "kunde inte ta status på statoverride-fil"
 msgid "failed to fstat previous statoverride file"
 msgstr "kunde inte ta status på tidigare statoverride-fil"
 
-#: main/filesdb.c:385
+#: main/filesdb.c:383
 msgid "statoverride file contains empty line"
 msgstr "statoverride-fil innehåller tomrad"
 
-#: main/filesdb.c:472
+#: main/filesdb.c:468
 msgid "failed to open diversions file"
 msgstr "kunde inte öppna omdirigeringsfil"
 
-#: main/filesdb.c:476
+#: main/filesdb.c:472
 msgid "failed to fstat previous diversions file"
 msgstr "kunde inte ta status på tidigare omdirigeringsfil"
 
-#: main/filesdb.c:478
+#: main/filesdb.c:474
 msgid "failed to fstat diversions file"
 msgstr "kunde inte ta status på omdirigeringsfil"
 
-#: main/filesdb.c:500
+#: main/filesdb.c:496
 msgid "fgets gave an empty string from diversions [i]"
 msgstr "fgets gav en tom sträng från omdirigeringsfil [i]"
 
-#: main/filesdb.c:501
+#: main/filesdb.c:497
 msgid "diversions file has too-long line or EOF [i]"
 msgstr "omdirigeringsfilen har en för lång rad eller filslut [i]"
 
-#: main/filesdb.c:507
+#: main/filesdb.c:503
 msgid "read error in diversions [ii]"
 msgstr "läsfel i omdirigeringsfil [ii]"
 
-#: main/filesdb.c:508
+#: main/filesdb.c:504
 msgid "unexpected EOF in diversions [ii]"
 msgstr "oväntat filslut i omdirigeringsfil [ii]"
 
-#: main/filesdb.c:511
+#: main/filesdb.c:507
 msgid "fgets gave an empty string from diversions [ii]"
 msgstr "fgets gav en tom sträng från omdirigeringsfil [ii]"
 
-#: main/filesdb.c:512 main/filesdb.c:523
+#: main/filesdb.c:508 main/filesdb.c:519
 msgid "diversions file has too-long line or EOF [ii]"
 msgstr "omdirigeringsfilen har en för lång rad eller filslut [ii]"
 
-#: main/filesdb.c:518
+#: main/filesdb.c:514
 msgid "read error in diversions [iii]"
 msgstr "läsfel i omdirigeringsfil [iii]"
 
-#: main/filesdb.c:519
+#: main/filesdb.c:515
 msgid "unexpected EOF in diversions [iii]"
 msgstr "oväntat filslut i omdirigeringsfil [iii]"
 
-#: main/filesdb.c:522
+#: main/filesdb.c:518
 msgid "fgets gave an empty string from diversions [iii]"
 msgstr "fgets gav en tom sträng från omdirigeringsfil [iii]"
 
-#: main/filesdb.c:530
+#: main/filesdb.c:526
 #, c-format
 msgid "conflicting diversions involving `%.250s' or `%.250s'"
 msgstr "motsägande omdirigeringar av \"%.250s\" eller \"%.250s\""
 
-#: main/filesdb.c:539
+#: main/filesdb.c:535
 msgid "read error in diversions [i]"
 msgstr "läsfel i omdirigeringsfil [i]"
 
@@ -2435,7 +2465,7 @@ msgstr "okänd flagga för force/refuse: \"%.*s\""
 msgid "failed to exec dpkg-deb"
 msgstr "kunde inte exekvera dpkg-deb"
 
-#: dpkg-deb/main.c:155 main/main.c:419 split/main.c:163
+#: dpkg-deb/main.c:155 main/main.c:420 split/main.c:163
 msgid "need an action option"
 msgstr "du har inte talat om vad som skall utföras"
 
