@@ -1,6 +1,10 @@
 dpkg (1.4.1.20) unstable; urgency=low
 
   * Fix mixup with Czech and Polish translations, Closes: Bug# 48986
+  * utils/start-stop-daemon.c: Added ability for user.group arg to
+    --chuid. Also, always call initgroups() when using --chuid.
+  * utils/start-stop-daemon.8: Document above change, also add note to the
+    --make-pidfile option concerning its problem with daemons that fork
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

@@ -44,6 +44,7 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <pwd.h>
+#include <grp.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -65,9 +66,11 @@ static int mpidfile = 0;
 static int signal_nr = 15;
 static const char *signal_str = NULL;
 static int user_id = -1;
-static int runas_id = -1;
+static int runas_uid = -1;
+static int runas_gid = -1;
 static const char *userspec = NULL;
-static const char *changeuser = NULL;
+static char *changeuser = NULL;
+static char *changegroup = NULL;
 static const char *cmdname = NULL;
 static char *execname = NULL;
 static char *startas = NULL;
@@ -169,7 +172,8 @@ Usage:
 Options (at least one of --exec|--pidfile|--user is required):
   -x|--exec <executable>        program to start/check if it is running\n\
   -p|--pidfile <pid-file>       pid file to check\n\
-  -c|--chuid <username>|<uid>   change to this user before starting process\n\
+  -c|--chuid <name|uid[.group|gid]>
+  		change to this user/group before starting process\n\
   -u|--user <username>|<uid>    stop processes owned by this user\n\
   -n|--name <process-name>      stop processes with this name\n\
   -s|--signal <signal>          signal to send (default TERM)\n\
@@ -307,7 +311,12 @@ parse_options(int argc, char * const *argv)
 			execname = optarg;
 			break;
 		case 'c':  /* --chuid <username>|<uid> */
-			changeuser = optarg;
+			changeuser = strdup(optarg); /* because we need to modify */
+			changegroup = strchr(changeuser, '.');
+			if (changegroup != NULL) {
+				changegroup[0] = '\0';
+				changegroup++;
+			}
 			break;
 		case 'b':  /* --background */
 			background = 1;
@@ -590,15 +599,22 @@ main(int argc, char **argv)
 
 		user_id = pw->pw_uid;
 	}
-
-	if (changeuser && sscanf(changeuser, "%d", &runas_id) != 1) {
-		struct passwd *pw;
-
-		pw = getpwnam(changeuser);
+	
+	if (changegroup && sscanf(changegroup, "%d", &runas_gid) != 1) {
+		struct group *gr = getgrnam(changegroup);
+		if (!gr)
+			fatal("group `%s' not found\n", changegroup);
+		runas_gid = gr->gr_gid;
+	}
+	if (changeuser && sscanf(changeuser, "%d", &runas_uid) != 1) {
+		struct passwd *pw = getpwnam(changeuser);
 		if (!pw)
 			fatal("user `%s' not found\n", changeuser);
-
-		runas_id = pw->pw_uid;
+		runas_uid = pw->pw_uid;
+		if (changegroup == NULL) { /* pass the default group of this user */
+			changegroup = ""; /* just empty */
+			runas_gid = pw->pw_gid;
+		}
 	}
 
 	if (pidfile)
@@ -625,16 +641,26 @@ main(int argc, char **argv)
 		printf("Would start %s ", startas);
 		while (argc-- > 0)
 			printf("%s ", *argv++);
-		if (changeuser != NULL)
-			printf(" (as user %s[%d])", changeuser, runas_id);
+		if (changeuser != NULL) {
+			printf(" (as user %s[%d]", changeuser, runas_uid);
+			if (changegroup != NULL)
+				printf(", and group %s[%d])", changegroup, runas_gid);
+			else
+				printf(")");
+		}
 		printf(".\n");
 		exit(0);
 	}
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
-	if (changeuser != NULL && seteuid(runas_id))
-		fatal("Unable to set effective uid to %s", changeuser);
+	if (changeuser != NULL) {
+		if (seteuid(runas_uid))
+			fatal("Unable to set effective uid to %s", changeuser);
+		if (initgroups(changeuser, runas_gid))
+			fatal("Unable to set initgroups() with gid %d", runas_gid);
+	}
+	
 	if (background) { /* ok, we need to detach this process */
 		int i, fd;
 		if (quietmode < 0)

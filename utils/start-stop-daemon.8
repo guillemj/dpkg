@@ -122,7 +122,13 @@ Return exit status 0 instead of 1 if no actions are (would be) taken.
 Do not print informational messages; only display error messages.
 .TP
 .I -c|--chuid
-Change to this username/uid before starting the process
+Change to this username/uid before starting the process. You can also
+specify a group by appending a '.', then the group or gid in the same way
+as you would for the `chown' command (user.group). When using this option
+you must realize that the primary and suplimental groups are set as well,
+even if the `group' options is not specified. The group option is only for
+groups that the user isn't normally a member of (like adding per/process
+group membership for generic users like `nobody').
 .TP
 .I -b|--background
 Typically used with programs that don't detach on their own. This option
@@ -145,6 +151,12 @@ create the file referenced with
 .B --pidfile
 and place the pid into it just before executing the process. Note, it will
 not be removed when stopping the program.
+.B NOTE:
+This feature may not work in all cases. Most notably when the program
+being executed forks from it's main process. Because of this it is usually
+only useful when combined with the
+.B --background
+option.
 .TP
 .I -v|--verbose
 Print verbose informational messages.
