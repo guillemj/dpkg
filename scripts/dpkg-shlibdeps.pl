@@ -106,7 +106,6 @@ for ($i=0;$i<=$#exec;$i++) {
 # Now: See if it is in this package.  See if it is in any other package.
 sub searchdir {
     my $dir = shift;
-print STDERR "DEBUG: searching in $dir\n";
     if(opendir(DIR, $dir)) {
 	my @dirents = readdir(DIR);
 	closedir(DIR);

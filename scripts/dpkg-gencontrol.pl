@@ -49,7 +49,7 @@ $i=100;grep($fieldimps{$_}=$i--,
              Pre-Depends Depends Recommends Suggests Enhances Optional 
 	     Conflicts Replaces Provides Installed-Size Maintainer Source
 	     Description Build-Depends Build-Depends-Indep Build-Conflicts
-	     Build-Conflicts-Indep Source Bugs-Submit-To Bugs-Submit-Style ));
+	     Build-Conflicts-Indep Source Bugs-Submit-To ));
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -111,7 +111,7 @@ for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
-        if (m/^Origin|Bugs-(Submit-To|Submit-Style)|Maintainer$/) { $f{$_}=$v; }
+        if (m/^Origin|Bugs-Submit-To|Maintainer$/) { $f{$_}=$v; }
         elsif (m/^Source$/) { &setsourcepackage; }
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
 	elsif (m/^X[CS]+-|^Standards-Version$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
