@@ -136,6 +136,7 @@ int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_autoselect=1, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
 int fc_nonroot=0, fc_overwritedir=0, fc_conff_new=0, fc_conff_miss=0;
 int fc_conff_old=0, fc_conff_def=0;
+int fc_badverify = 0;
 
 int errabort = 50;
 const char *admindir= ADMINDIR;
@@ -165,6 +166,7 @@ static const struct forceinfo {
   { "overwrite-diverted",  &fc_overwritediverted        },
   { "overwrite-dir",       &fc_overwritedir             },
   { "architecture",        &fc_architecture             },
+  { "bad-verify",          &fc_badverify                },
   {  0                                                  }
 };
 
@@ -296,6 +298,7 @@ void setforce(const struct cmdinfo *cip, const char *value) {
   not-root               Try to (de)install things even when not root\n\
   overwrite              Overwrite a file from one package with another\n\
   overwrite-diverted     Overwrite a diverted file with an undiverted version\n\
+  bad-verify             Install a package even if it fails authenticity check\n\
   depends-version [!]    Turn dependency version problems into warnings\n\
   depends [!]            Turn all dependency problems into warnings\n\
   confnew [!]            Always use the new config files, don't prompt\n\
