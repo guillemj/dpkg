@@ -111,7 +111,7 @@ Comparison operators for --compare-versions are:\n\
  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n\
  < << <= = >= >> >       (only for compatibility with control file syntax).\n\
 \n\
-Use `dselect' for user-friendly package management.\n"),
+Use `dselect' or 'aptitude' for user-friendly package management.\n"),
 	    BACKEND, ADMINDIR) < 0) werr ("stdout");
 }
 
