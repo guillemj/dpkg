@@ -63,3 +63,9 @@
 /* Defined to the $(libdir) location */
 #undef LLIBDIR
 
+/* Is sysinfo() persent */
+#undef HAVE_SYSINFO
+
+/* Do we have proper memory information in struct sysinfo */
+#undef MEMINFO_IN_SYSINFO
+

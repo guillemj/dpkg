@@ -84,21 +84,8 @@ AC_CHECK_HEADERS(error.h hurd.h ps.h hurd/ihash.h)
 AC_CHECK_LIB(shouldbeinlibc, fmt_past_time)
 AC_CHECK_LIB(ps, proc_stat_list_pid_proc_stat)
 
-AC_CHECK_FUNC(sysinfo,
-  AC_DEFINE(HAVE_SYSINFO),
-  AC_MSG_CHECKING(__NR_sysinfo)
-  AC_EGREP_CPP(yes, [
-#include <linux/sys.h>
-#include <linux/kernel.h>
-#include <linux/unistd.h>
-#ifdef __NR_sysinfo
- yes
-#endif
-],
-    AC_MSG_RESULT([yes; tsk tsk - get your libc fixed.])
-    AC_DEFINE(HAVE_NRSYSINFO),
-    AC_MSG_RESULT(no)
-    AC_MSG_WARN([sysinfo missing; compilation of dpkg proper may fail.])))
+AC_HAVE_SYSINFO
+AC_MEMINFO_IN_SYSINFO
 
 AC_SUBST(OPTCFLAGS)
 if test "${GCC-no}" = yes; then
@@ -118,19 +105,6 @@ AC_TRY_COMPILE([
 AC_TRY_COMPILE(,[
 } inline int foo (int x) {], AC_DEFINE(HAVE_INLINE))
 
-AC_TRY_COMPILE(,
- [extern int testfunction(int x) __attribute__((,,))],
- AC_DEFINE(HAVE_GNUC25_ATTRIB)
-  AC_TRY_COMPILE(,
-   [extern int testfunction(int x) __attribute__((noreturn))],
-   AC_DEFINE(HAVE_GNUC25_NORETURN))
-  AC_TRY_COMPILE(,
-   [extern int testfunction(int x) __attribute__((const))],
-   AC_DEFINE(HAVE_GNUC25_CONST))
-  AC_TRY_COMPILE(,
-   [extern int testfunction(char *y, ...) __attribute__((format(printf,1,2)))],
-   AC_DEFINE(HAVE_GNUC25_PRINTFFORMAT))
- )
 
 DPKG_C_GCC_TRY_WARNS(-Wall -Wno-implicit, dpkg_cv_c_gcc_warn_all)
 DPKG_C_GCC_TRY_WARNS(-Wwrite-strings, dpkg_cv_c_gcc_warn_writestrings)

@@ -515,7 +515,7 @@ void iterfileend(struct fileiterator *i) {
 }
 
 static int autodetect_largemem(void) {
-#ifdef HAVE_SYSINFO
+#if defined(HAVE_SYSINFO) && defined (MEMINFO_IN_SYSINFO)
   struct sysinfo info;
   if (sysinfo(&info)) return 0;
   if (info.freeram + (info.sharedram>>2) + (info.bufferram>>2) < 24576*1024 &&

@@ -21,6 +21,10 @@
 #define OSLinux
 #endif
 
+#ifdef sunos
+#define OSsunos
+#endif
+
 #ifdef __GNU__
 #define OSHURD
 #endif
@@ -46,6 +50,7 @@
 #include <grp.h>
 #include <sys/ioctl.h>
 #include <sys/types.h>
+#include <sys/termios.h>
 #include <fcntl.h>
 
 #ifdef HAVE_ERROR_H
@@ -472,8 +477,9 @@ do_pidfile(const char *name)
 	}
 }
 
-
-#if defined(OSLinux)
+/* WTA: this  needs to be an autoconf check for /proc/pid existance.
+ */
+#if defined(OSLinux) || defined (OSsunos)
 static void
 do_procinit(void)
 {

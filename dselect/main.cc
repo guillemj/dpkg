@@ -234,7 +234,8 @@ int refreshmenu(void) {
 
   clear();
   attrset(A_BOLD);
-  mvaddnstr(0,0, gettext(programdesc),x-1);
+  sprintf(buf,gettext(programdesc),DSELECT);
+  mvaddnstr(0,0,buf,x-1);
 
   attrset(A_NORMAL);
   const struct menuentry *mep; int i;
