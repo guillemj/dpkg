@@ -201,7 +201,7 @@ if ($#libfiles >= 0) {
            &warn("unknown output from dpkg --search: \`$_'");
        }
     }
-    close(P); $? && subprocerr("dpkg --search");
+    close(P); 
 }
 
 LIB: for ($i=0;$i<=$#libname;$i++) {
