@@ -506,7 +506,7 @@ void enqperpackage(const char *const *argv) {
   if (failures) {
     nerrs++;
     fputs(_("Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-         "and dpkg --contents (= dpkg-deb --contents) to list their contents."),stderr);
+         "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"),stderr);
     if (ferror(stdout)) werr("stdout");
   }
 }
