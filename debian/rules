@@ -55,7 +55,8 @@ binary-trees: build
 	$(checkdir)
 	-$(RM) -r debian/tmp-{main,dev}
 	install -d debian/tmp-{main,dev}/{DEBIAN,etc/dpkg,usr/share/doc/dpkg}
-	install -d debian/tmp-dev/usr/{lib/dpkg,share/doc/dpkg-dev,share/man/man1,share/man/man8,sbin,bin}
+	install -d debian/tmp-dev/usr/{lib/dpkg,share/doc/dpkg-dev,sbin,bin}
+	install -d debian/tmp-dev/usr/share/man/{ja/man1,man1,ja/man8,man8}
 	install -d debian/tmp-dev/usr/share/emacs/site-lisp/dpkg-dev
 	install -d debian/tmp-main/sbin
 	set -e; if [ $(arch) = i386 ]; then \
@@ -107,11 +108,12 @@ binary-trees: build
  usr/share/doc/dpkg/{internals.html,changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
  usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages,dpkg-name,dpkg-architecture} \
- usr/share/man/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,architecture}.1.gz \
- usr/share/man/man1/{dpkg-parsechangelog,dpkg-distaddfile,822-date,dpkg-name}.1.gz \
- usr/share/man/man5 usr/share/man/man8/dpkg-scanpackages.8.gz \
+ usr/share/man{/ja,}/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,architecture}.1.gz \
+ usr/share/man{/ja,}/man1/{dpkg-parsechangelog,dpkg-distaddfile,822-date,dpkg-name}.1.gz \
+ usr/share/man{/ja,}/man5 usr/share/man{/ja,}/man8/dpkg-scanpackages.8.gz \
  usr/lib/dpkg/parsechangelog usr/lib/dpkg/controllib.pl \
-		; do mv debian/tmp-main/$$f debian/tmp-dev/$$f; done
+		; do if [ -e debian/tmp-main/$$f ]; then mv debian/tmp-main/$$f debian/tmp-dev/$$f; fi \
+			done
 
 binary-indep: binary-trees
 	$(checkdir)

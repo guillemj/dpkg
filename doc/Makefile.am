@@ -7,6 +7,10 @@ AUTOMAKE_OPTIONS	= 1.1 foreign
 docdir			= $(prefix)/doc
 pkgdocdir		= $(docdir)/@PACKAGE@
 
+## Subdirectories with translations
+
+SUBDIRS			= ja
+
 ## Automake variables
 
 man_MANS		= deb.5 deb-old.5 deb-control.5
