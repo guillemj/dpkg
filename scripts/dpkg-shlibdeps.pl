@@ -196,10 +196,9 @@ sub scanshlibsfile {
     $fn= "./$fn" if $fn =~ m/^\s/;
     if (!open(SLF,"< $fn")) {
         $! == ENOENT || syserr("unable to open shared libs info file \`$fn'");
-#print STDERR "scanshlibsfile($fn,$ln,$lsn,$lf) ... ENOENT\n";
         return 0;
     }
-#print STDERR "scanshlibsfile($fn,$ln,$lsn,$lf) ...\n";
+
     while (<SLF>) {
         s/\s*\n$//; next if m/^\#/;
         if (!m/^\s*(\S+)\s+(\S+)/) {
