@@ -1099,6 +1099,22 @@ including most loops and conditionals you must include a separate
 <tt/set -e/ command at the start of every makefile command that's
 actually one of these miniature shellscripts.
 
+<sect>Permissions
+<p>
+
+All the files in the source package should be world-readable and
+user-writeable.  Directories and executable programs should be
+world-exectuable.  None of the files should be world-writeable.  The
+files may or may not be group-writeable, and directories may or may
+not be setgid.  Pipes should not be world-readable and should be
+either both group readable and writeable or neither (and they should
+not be executable).
+<p>
+
+In summary: data files may be <tt/664/, <tt/644/.  Executable files
+may be <tt/775/ or <tt/755/.  Directories may be <tt/775/, <tt/755/,
+<tt/2775/ or <tt/2755/.  Pipes may be <tt/660/ or <tt/600/.
+
 <chapt id="developer">How to become a Debian developer
 
 <sect>Before you start work

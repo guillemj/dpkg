@@ -548,7 +548,6 @@ if ($opmode eq 'build') {
             &internerr("unknown object \`$fn' after extract (mode ".
                        sprintf("0%o",$mode).")");
         }
-printf STDERR "mode %07o newmode %07o %s\n",$mode,$newmode,$fn;
         next if ($mode & 07777) == $newmode;
         chmod($newmode,$fn) ||
             &syserr(sprintf("cannot change mode of \`%s' to 0%o from 0%o",
