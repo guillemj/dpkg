@@ -79,16 +79,6 @@ static unsigned long parseheaderlength(const char *inh, size_t len,
   return r;
 }
 
-static void skipmember(FILE *ar, const char *fn, long memberlen) {
-  int c;
-  
-  memberlen += (memberlen&1);
-  while (memberlen > 0) {
-    if ((c= getc(ar)) == EOF) readfail(ar,fn,_("skipped member data"));
-    memberlen--;
-  }
-}
-
 void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo) {
   char versionbuf[40];
@@ -157,7 +147,7 @@ void extracthalf(const char *debar, const char *directory,
           /* Members with `_' are noncritical, and if we don't understand them
            * we skip them.
            */
-        skipmember(ar,debar,memberlen);
+	stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member data from %s"), debar);
       } else {
         adminmember=
           (!memcmp(arh.ar_name,ADMINMEMBER,sizeof(arh.ar_name)) ||
@@ -175,7 +165,7 @@ void extracthalf(const char *debar, const char *directory,
           ctrllennum= memberlen;
         }
         if (!adminmember != !admininfo) {
-          skipmember(ar,debar,memberlen);
+	  stream_null_copy(ar, memberlen + (memberlen&1),_("skipped member data from %s"), debar);
         } else {
           break; /* Yes ! - found it. */
         }

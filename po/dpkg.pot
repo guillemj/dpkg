@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-12-20 01:32-0600\n"
+"POT-Creation-Date: 2000-12-20 01:38-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -745,13 +745,6 @@ msgstr ""
 msgid "error setting permissions of `%.255s'"
 msgstr ""
 
-#: main/archives.c:237
-#, c-format
-msgid ""
-"tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c) ti->LinkName=`%s' "
-"namenode=`%s' flags=%o instead=`%s'"
-msgstr ""
-
 #: main/archives.c:250
 #, c-format
 msgid ""
@@ -801,14 +794,17 @@ msgstr ""
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr ""
 
+#. Now that we have verified everything its time to actually
+#. * build something. Lets start by making the ar-wrapper.
+#.
+#: dpkg-deb/build.c:367 main/archives.c:395
+#, c-format
+msgid "unable to create `%.255s'"
+msgstr ""
+
 #: main/archives.c:399
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
-msgstr ""
-
-#: main/archives.c:403
-#, c-format
-msgid "tarobject ... stat override, uid=%d, gid=%d, mode=%04o"
 msgstr ""
 
 #: main/archives.c:416
@@ -849,6 +845,11 @@ msgstr ""
 #: main/archives.c:492
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
+msgstr ""
+
+#: main/archives.c:501
+#, c-format
+msgid "unable to read link `%.255s'"
 msgstr ""
 
 #: main/archives.c:505
@@ -2383,69 +2384,65 @@ msgstr ""
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr ""
 
-#: main/processarc.c:528
-msgid "dpkg-deb: zap possible trailing zeros"
-msgstr ""
-
-#: main/processarc.c:620
+#: main/processarc.c:619
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr ""
 
-#: main/processarc.c:642 main/processarc.c:877 main/remove.c:287
+#: main/processarc.c:641 main/processarc.c:876 main/remove.c:287
 msgid "cannot read info directory"
 msgstr ""
 
-#: main/processarc.c:655
+#: main/processarc.c:654
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 
-#: main/processarc.c:667
+#: main/processarc.c:666
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr ""
 
-#: main/processarc.c:670
+#: main/processarc.c:669
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 
-#: main/processarc.c:677
+#: main/processarc.c:676
 msgid "unable to open temp control directory"
 msgstr ""
 
-#: main/processarc.c:686
+#: main/processarc.c:685
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 
-#: main/processarc.c:691
+#: main/processarc.c:690
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr ""
 
-#: main/processarc.c:693
+#: main/processarc.c:692
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 
-#: main/processarc.c:699
+#: main/processarc.c:698
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr ""
 
-#: main/processarc.c:706
+#: main/processarc.c:705
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 
-#: main/processarc.c:857
+#: main/processarc.c:856
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr ""
 
-#: main/processarc.c:893
+#: main/processarc.c:892
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
@@ -2782,14 +2779,6 @@ msgstr ""
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr ""
 
-#. Now that we have verified everything its time to actually
-#. * build something. Lets start by making the ar-wrapper.
-#.
-#: dpkg-deb/build.c:367
-#, c-format
-msgid "unable to create `%.255s'"
-msgstr ""
-
 #: dpkg-deb/build.c:368
 #, c-format
 msgid "unable to unbuffer `%.255s'"
@@ -2893,182 +2882,186 @@ msgstr ""
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr ""
 
-#: dpkg-deb/extract.c:87
-msgid "skipped member data"
-msgstr ""
-
-#: dpkg-deb/extract.c:118
+#: dpkg-deb/extract.c:108
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr ""
 
-#: dpkg-deb/extract.c:119
+#: dpkg-deb/extract.c:109
 msgid "failed to fstat archive"
 msgstr ""
 
-#: dpkg-deb/extract.c:120
+#: dpkg-deb/extract.c:110
 msgid "version number"
 msgstr ""
 
-#: dpkg-deb/extract.c:129
+#: dpkg-deb/extract.c:119
 msgid "between members"
 msgstr ""
 
-#: dpkg-deb/extract.c:131 split/info.c:94
+#: dpkg-deb/extract.c:121 split/info.c:94
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 
-#: dpkg-deb/extract.c:135
+#: dpkg-deb/extract.c:125
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %ld"
 msgstr ""
 
-#: dpkg-deb/extract.c:139
+#: dpkg-deb/extract.c:129
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr ""
 
-#: dpkg-deb/extract.c:142
+#: dpkg-deb/extract.c:132
 msgid "header info member"
 msgstr ""
 
-#: dpkg-deb/extract.c:145
+#: dpkg-deb/extract.c:135
 msgid "archive has no newlines in header"
 msgstr ""
 
-#: dpkg-deb/extract.c:148
+#: dpkg-deb/extract.c:138
 msgid "archive has no dot in version number"
 msgstr ""
 
-#: dpkg-deb/extract.c:151
+#: dpkg-deb/extract.c:141
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr ""
 
-#: dpkg-deb/extract.c:169
+#. Members with `_' are noncritical, and if we don't understand them
+#. * we skip them.
+#.
+#: dpkg-deb/extract.c:150 dpkg-deb/extract.c:168
+#, c-format
+msgid "skipped member data from %s"
+msgstr ""
+
+#: dpkg-deb/extract.c:159
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr ""
 
-#: dpkg-deb/extract.c:174
+#: dpkg-deb/extract.c:164
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr ""
 
-#: dpkg-deb/extract.c:186
+#: dpkg-deb/extract.c:176
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
 " size %ld bytes: control archive= %ld bytes.\n"
 msgstr ""
 
-#: dpkg-deb/extract.c:198
+#: dpkg-deb/extract.c:188
 msgid "ctrl information length"
 msgstr ""
 
-#: dpkg-deb/extract.c:200
+#: dpkg-deb/extract.c:190
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
 msgstr ""
 
-#: dpkg-deb/extract.c:203
+#: dpkg-deb/extract.c:193
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
 " size %ld bytes: control archive= %ld, main archive= %ld.\n"
 msgstr ""
 
-#: dpkg-deb/extract.c:212
+#: dpkg-deb/extract.c:202
 msgid "ctrlarea"
 msgstr ""
 
-#: dpkg-deb/extract.c:218
+#: dpkg-deb/extract.c:208
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
 "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"
 msgstr ""
 
-#: dpkg-deb/extract.c:223
+#: dpkg-deb/extract.c:213
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr ""
 
-#: dpkg-deb/extract.c:228
+#: dpkg-deb/extract.c:218
 msgid "fgetpos failed"
 msgstr ""
 
-#: dpkg-deb/extract.c:232
+#: dpkg-deb/extract.c:222
 msgid "fsetpos failed"
 msgstr ""
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:229
 msgid "failed to fdopen p1 in paste"
 msgstr ""
 
-#: dpkg-deb/extract.c:241
+#: dpkg-deb/extract.c:231
 msgid "failed to write to gzip -dc"
 msgstr ""
 
-#: dpkg-deb/extract.c:242
+#: dpkg-deb/extract.c:232
 msgid "failed to close gzip -dc"
 msgstr ""
 
-#: dpkg-deb/extract.c:249
+#: dpkg-deb/extract.c:239
 msgid "failed to syscall lseek to files archive portion"
 msgstr ""
 
-#: dpkg-deb/extract.c:257
+#: dpkg-deb/extract.c:247
 msgid "failed to write to pipe in copy"
 msgstr ""
 
-#: dpkg-deb/extract.c:258
+#: dpkg-deb/extract.c:248
 msgid "failed to close pipe in copy"
 msgstr ""
 
-#: dpkg-deb/extract.c:281
+#: dpkg-deb/extract.c:271
 #, c-format
 msgid "internal gzip error: `%s'"
 msgstr ""
 
-#: dpkg-deb/extract.c:287
+#: dpkg-deb/extract.c:277
 msgid "failed to exec gzip -dc"
 msgstr ""
 
-#: dpkg-deb/extract.c:296
+#: dpkg-deb/extract.c:286
 msgid "failed to create directory"
 msgstr ""
 
-#: dpkg-deb/extract.c:297
+#: dpkg-deb/extract.c:287
 msgid "failed to chdir to directory after creating it"
 msgstr ""
 
-#: dpkg-deb/extract.c:299
+#: dpkg-deb/extract.c:289
 msgid "failed to chdir to directory"
 msgstr ""
 
-#: dpkg-deb/extract.c:313
+#: dpkg-deb/extract.c:303
 msgid "failed to exec tar"
 msgstr ""
 
-#: dpkg-deb/extract.c:336 dpkg-deb/extract.c:351 dpkg-deb/info.c:66
+#: dpkg-deb/extract.c:326 dpkg-deb/extract.c:341 dpkg-deb/info.c:66
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr ""
 
-#: dpkg-deb/extract.c:339
+#: dpkg-deb/extract.c:329
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
 "Perhaps you should be using dpkg --install ?"
 msgstr ""
 
-#: dpkg-deb/extract.c:342
+#: dpkg-deb/extract.c:332
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr ""
 
-#: dpkg-deb/extract.c:353
+#: dpkg-deb/extract.c:343
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr ""

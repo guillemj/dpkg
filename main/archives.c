@@ -234,8 +234,8 @@ int tarobject(struct TarInfo *ti) {
   nifd->namenode->flags |= fnnf_new_inarchive;
 
   debug(dbg_eachfile,
-        _("tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c)"
-        " ti->LinkName=`%s' namenode=`%s' flags=%o instead=`%s'"),
+        "tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c)"
+        " ti->LinkName=`%s' namenode=`%s' flags=%o instead=`%s'",
         ti->Name, (long)ti->Mode, (unsigned)ti->UserID, (unsigned)ti->GroupID, ti->Type,
         ti->Type == '\0' ? '_' :
         ti->Type >= '0' && ti->Type <= '6' ? "-hlcbdp"[ti->Type - '0'] : '?',
@@ -392,7 +392,7 @@ int tarobject(struct TarInfo *ti) {
      * it until we apply the proper mode, which might be a statoverride.
      */
     fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
-    if (fd < 0) ohshite("unable to create 1 `%.255s'",ti->Name);
+    if (fd < 0) ohshite(_("unable to create `%.255s'"),ti->Name);
     push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,(void*)fd);
     debug(dbg_eachfiledetail,"tarobject NormalFile[01] open size=%lu",
           (unsigned long)ti->Size);
@@ -400,7 +400,7 @@ int tarobject(struct TarInfo *ti) {
     r= ti->Size % TARBLKSZ;
     if (r > 0) r= read(tc->backendpipe,databuf,TARBLKSZ - r);
     if (nifd->namenode->statoverride) 
-      debug(dbg_eachfile, _("tarobject ... stat override, uid=%d, gid=%d, mode=%04o"),
+      debug(dbg_eachfile, "tarobject ... stat override, uid=%d, gid=%d, mode=%04o",
 			  nifd->namenode->statoverride->uid,
 			  nifd->namenode->statoverride->gid,
 			  nifd->namenode->statoverride->mode);
@@ -498,7 +498,7 @@ int tarobject(struct TarInfo *ti) {
       do {
         varbufextend(&symlinkfn);
         r= readlink(fnamevb.buf,symlinkfn.buf,symlinkfn.size);
-        if (r<0) ohshite("unable to read link `%.255s'",ti->Name);
+        if (r<0) ohshite(_("unable to read link `%.255s'"),ti->Name);
       } while (r == symlinkfn.size);
       symlinkfn.used= r; varbufaddc(&symlinkfn,0);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
