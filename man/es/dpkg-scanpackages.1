@@ -1,9 +1,9 @@
 .\" This manpage is copyright (C) 1996 Michael Shields <shields@crosslink.net>.
 .\" 
 .\" (c) 2003 Software in the Public Interest
-.\" Traductor: Rubn Porras Campo <nahoo@inicia.es>
-.\" Basado en la versin 1.3 de 
-.\" /cvs/debian-doc/manpages/english/dpkg/dpkg-scanpackages.1
+.\" Traductor: Rubén Porras Campo <nahoo@inicia.es>
+.\" Basado en la versión 1.3 de 
+.\" /cvs/debian-doc/manpages/english/dpkg/dpkg-scanpackages.8
 .\"
 .\" This is free software; you may redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
 .\" You should have received a copy of the GNU General Public
 .\" License along with dpkg; if not, write to the Free Software
 .\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-.TH DPKG-SCANPACKAGES 1 "08-07-1996" "Proyecto Debian" "Utilidades dpkg"
+.TH DPKG-SCANPACKAGES 8 "08-07-1996" "Proyecto Debian" "Utilidades dpkg"
 .SH NOMBRE
 dpkg-scanpackages \- Crea ficheros Packages.
 .
@@ -32,59 +32,59 @@ dpkg-scanpackages \- Crea ficheros Packages.
 .B >
 .I Packages
 .
-.SH DESCRIPCIN
+.SH DESCRIPCIÓN
 .B dpkg-scanpackages
-busca paquetes binarios de Debian en un rbol de directorios y crea
+busca paquetes binarios de Debian en un árbol de directorios y crea
 un fichero Packages usado por
 .BR dselect (8),
 etc, para mostrar al usuario los paquetes disponibles para su
-instalacin. Estos ficheros Packages son idnticos a los que se
+instalación. Estos ficheros Packages son idénticos a los que se
 encuentran en los archivos de Debian en Internet o en los CD-ROMs.
 .B dpkg-scanpackages
 se puede usar para crear un directorio local con paquetes para
-instalar en una  varias mquinas.
+instalar en una ó varias máquinas.
 .PP
 .I bindir
-es el nombre del rbol de directorios que contiene los binarios que se
+es el nombre del árbol de directorios que contiene los binarios que se
 desea  procesar (por ejemplo,
 .BR contrib/binary-i386 ).
 Es mejor hacer que este directorio sea relativo al directorio
 principal del repositorio de Debian, porque todo fichero listado en el
-nuevo Packages empezar por esta cadena de caracteres.
+nuevo Packages empezará por esta cadena de caracteres.
 .PP
 .I fichero-override
-es el nombre del fichero que contiene informacin acerca de como los
-paquetes se instalan en la distribucin, vea ms abajo.
+es el nombre del fichero que contiene información acerca de como los
+paquetes se instalan en la distribución, vea más abajo.
 .PP
 .I path_prefijo
-es un parmetro opcional que se antepondr en el campo del nombre de
+es un parámetro opcional que se antepondrá en el campo del nombre de
 los archivos.
 .PP
-Si se especifica la opcin
+Si se especifica la opción
 .I -u
 , se buscan ficheros *.udeb en vez de *.deb.
 .PP
 Cuando se especifica -a\fI<arquit>\fP, en vez de buscar todo tipo de debs,
-se usa un patrn basado en *_all.deb y *_arch.deb.
+se usa un patrón basado en *_all.deb y *_arch.deb.
 .
 .SH EL FICHERO OVERRIDE
-Mientras que la mayora de la informacin acerca de los paquetes se
-encuentre en el fichero de control, parte de esta informacin debe de
-ser rellenada por los encargados de planificar la distribucin en vez de
-por los mantenedores, porque es informacin relacionada con el
-ordenamiento de los archivos para el lanzamiento de la distribucin,
-ms que dependencias reales o descripciones del paquete. Este tipo
-de informacin se encuentra en el fichero de override.
+Mientras que la mayoría de la información acerca de los paquetes se
+encuentre en el fichero de control, parte de esta información debe de
+ser rellenada por los encargados de planificar la distribución en vez de
+por los mantenedores, porque es información relacionada con el
+ordenamiento de los archivos para el lanzamiento de la distribución,
+más que dependencias reales o descripciones del paquete. Este tipo
+de información se encuentra en el fichero de override.
 .PP
-El fichero  override tiene un formato simple, est delimitado por
+El fichero  override tiene un formato simple, está delimitado por
 espacios en blanco. Los comentarios van precedidos de
 .BR # ).
 .PP
 .in +5
 .I paquete
 .I prioridad
-.I seccin
-.RI [ informacin_del_mantenedor ]
+.I sección
+.RI [ información_del_mantenedor ]
 .in -5
 .PP
 .I paquete
@@ -93,42 +93,42 @@ paquete no encontrado en el directorio son descartadas.
 .PP
 .I prioridad
 y
-.I seccin
-colocan el paquete en el rbol de directorios de la distribucin;  esta
-informacin no debe de encontrarse en el fichero de control. Si el
+.I sección
+colocan el paquete en el árbol de directorios de la distribución;  esta
+información no debe de encontrarse en el fichero de control. Si el
 paquete se encuentra en un subdirectorio de 
 .IR bindir ,
-se tendr en cuenta la
-.IR seccin .
+se tendrá en cuenta la
+.IR sección .
 .PP
-.IR informacin_del_mantenedor ,
-si est presente, puede ser el nombre del mantenedor para un fichero de 
+.IR información_del_mantenedor ,
+si está presente, puede ser el nombre del mantenedor para un fichero de 
 override incondicional , o bien
 .I antiguo mantenedor
 .B =>
 .I nuevo mantenedor
-para hacer una substitucin.
+para hacer una substitución.
 .PP
 Los ficheros override que se usan para hacer las listas de paquetes
 oficiales, suelen encontrarse en el directorio
-.I ndices
-en cualquier rplica de Debian.
+.I índices
+en cualquier réplica de Debian.
 .
-.SH DIAGNSTICOS
+.SH DIAGNÓSTICOS
 .B dpkg-scanpackages
-devuelve los errores auto-explicativos comunes.  Adems avisa acerca de
-paquetes que estn en el subdirectorio equivocado, duplicados, tienen
+devuelve los errores auto-explicativos comunes.  Además avisa acerca de
+paquetes que están en el subdirectorio equivocado, duplicados, tienen
 un campo de nombre en su fichero de control, no aparecen en el fichero
-de override, o contienen alguna sustitucin de mantenedor que no ha
+de override, o contienen alguna sustitución de mantenedor que no ha
 tenido efecto.
 
-.SH VEA ADEMS
+.SH VEA ADEMÁS
 .BR dpkg (8),
 .BR dselect (8),
-.BR dpkg-scansources (1).
+.BR dpkg-scansources (8).
 
 .SH "TRADUCTOR"
 .IX Header "TRADUCTOR"
-Rubn Porras Campo <nahoo@inicia.es>
+Rubén Porras Campo <nahoo@inicia.es>
 .PP
 Revisado por Santiago Vila <sanvila@unex.es>
