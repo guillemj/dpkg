@@ -4,7 +4,8 @@ dpkg (1.9.0) unstable; urgency=low
     use about the same amount of memory, and largemem is faster.  Both
     --largemem and --smallmem are now obselete options, and will print
     a warning if used.
-  * Update French translation, Closes: Bug#65284
+  * Update German translation, Closes: Bug#80529
+  * Update French translation, Closes: Bug#65284,#87238
   * Add French manpages, courtesy of Philippe Batailler
   * Ingore vim swapfiles in dpkg-source, Closes: Bug#81630
   * remove --import option from dpkg-statoverride, Closes: Bug#81358
@@ -623,102 +624,8 @@ dpkg (1.4.1.4) unstable; urgency=low
   * Include spanish translation from Nicolás Lichtmaier <nick@debian.org>
   * Depend on perl5 instead of perl
 
- -- Wichert Akkerman <wakkerma@debian.org>  Mon,  5 Jul 1999 00:04:14 +0200
-
-dpkg (1.4.1.3) unstable; urgency=low
-
-  * Modify tarobject() so it does not complain if we are creating a
-    directory that replaces a removed file. This works around the
-    problem that the filedatabase doesn't remember what filetype a
-    file was by assuming it already was a directory
-
- -- Wichert Akkerman <wakkerma@debian.org>  Mon, 31 May 1999 23:49:23 +0200
-
-dpkg (1.4.1.2) unstable; urgency=low
-
-  * Non-maintainer upload
-  * Rebuild, so this is glibc2.1 (unless you're on m68k), which is rumoured
-    to also fix the i8n-problems.
-  * Incorporate 1.6 format of .changes, patch from Guy Maor
-  * Fix bug in section-handling of dpkg-scanpackages, patch from Guy Maor
-  * Disable force-overwrites again, since we're in unstable
-  * Assume largemem on systems for which sysinfo is not available, Bug# 33658
-
- -- Wichert Akkerman <wakkerma@debian.org>  Wed, 26 May 1999 15:50:17 +0200
-
-dpkg (1.4.1.1) unstable; urgency=low
-
-  * Non-maintainer upload
-  * Install emacs-startup scripts with mode 0644 (lintian)
-  * Incorporate changes in NMU 1.4.0.32 made by Vincent Renardias
-    <vincent@waw.com> for slink:
-    + Apply patch from Jim Pick for update-alternatives.pl to
-      fix 'Important' bugs #30891 in dpkg and (#27382, #27383, #27696,
-      #27703, #27736, #27097(merged bugs)) in jdk1.1.
-  * Incorporate changes in NMU 1.4.0.33 made by me for slink:
-    + Fix illegal perl construct (Bug# 30985)
-    + Initialize oialtname->useinstead and oicontest->camefrom to 0 (Bug# 30397)
-    + Update shlibs.default for libncurses 4 (Bug# 30332)
-    + Suggest debian-keyring instead of developer-keyring (Bug# 27376, 30248)
-    + Abort dpkg-divert when attempting to divert a directory (Bug# 30126)
-    + Make dpkg-deb.1 aware that it is in section 1, not 8
-    + Fix section in reference to dpkg-deb in dpkg.8 (Bug# 29740)
-    + Fix typo in --force-help (Bug# 26193)
-    + Correct path for debian-changelog-mode.el (Bug# 24606)
-    + Make disk-method for dpkg use /var/run instead of /tmp to fix
-      symlink-attacks (Bug# 21399)
-    + Document -n and -f options for update-rc.d in manpage (Bug# 15913)
-    + Add --abort-after option to change after how many errors we abort and
-      change the default to 50 (Bug# 22940)
-    + Fix controllib.pl: don't check debian/substvars unless needed, and
-      don't depend on language settings (Bug# 31508)
-    + Allow a - in the architecture-field (Bug# 25537)
-
- -- Wichert Akkerman <wakkerma@debian.org>  Mon,  1 Feb 1999 00:44:01 +0100
-
-dpkg (1.4.1) unstable; urgency=low
-
-  * Maintainer release by IWJ.
-  * Changed Maintainer: field description.
-  * Various changes to make the damn thing build.
-  * Add .cvsignore files.
-
- -- Ian Jackson <ian@davenant.greenend.org.uk>  Sun,  1 Nov 1998 17:33:38 +0000
-
-dpkg (1.4.0.31) unstable; urgency=low
-
-  * dpkg/processarc.c: Make newfileslist static like the other arguments
-    for register_cleanup's cu_* functions.
-  * N-th fix for controllib.pl (simulate old behavior by trying stdin,
-    stdout, and stderr for getlogin()).
-  * Enable --force-overwrite for slink release, and comment where to do
-    so (dpkg/main.c).
-  * Recompile against ncurses4.
-
- -- Daniel Jacobowitz <dan@debian.org>  Thu, 22 Oct 1998 17:37:23 -0400
-
-dpkg (1.4.0.30) unstable; urgency=low
-
-  * dpkg-dev isn't allowed to have a Recommends: debian-keyring (as that's
-    in contrib), so it's now lowered to a Suggests: . Thanks to James Troup
-    for pointing this out. 
-
- -- J.H.M. Dassen (Ray) <jdassen@wi.LeidenUniv.nl>  Sat, 26 Sep 1998 13:59:23 +0200
-
-dpkg (1.4.0.29) unstable; urgency=low
-
-  * For now, prefer PGP over GPG.
-
- -- J.H.M. Dassen (Ray) <jdassen@wi.LeidenUniv.nl>  Tue, 22 Sep 1998 09:38:09 +0200
-
-dpkg (1.4.0.28) unstable; urgency=low
-
-  * Added gpg (GNU Privacy Guard) support:
-    * scripts/buildpackage.sh: default to GPG (unless no GPG, but only a PGP
-      secret key file is found), as GPG, unlike PGP, is DFSG-free.
-    * Updated dpkg-source(1), and added gpg(1) and pgp(1) to the SEE ALSO
-      section.
-    * Worked around broken textmode implementation in GPG.
+ -- Wichert Akkerman:÷ ;÷ <÷ =÷ >÷ ?÷ @÷ A÷ B÷ C÷ D÷ E÷ H H H 	H 
+H H                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ementation in GPG.
     * dpkg-dev now Suggests: gnupg .
   * No longer includes developer-keys.pgp . Instead, dpkg now Suggests: and
     dpkg-dev now Recommends: developer-keyring.
