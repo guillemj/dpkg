@@ -21,7 +21,7 @@ push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
 # Make sure patch doesn't get any funny ideas
-undef $ENV{'POSIXLY_CORRECT'};
+delete $ENV{'POSIXLY_CORRECT'};
 
 sub usageversion {
     print STDERR
