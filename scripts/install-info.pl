@@ -37,7 +37,6 @@ $default='/usr/share/base-files/info.dir';
 
 $menuentry="";
 $description="";
-$infodir="";
 $sectionre="";
 $sectiontitle="";
 $infoentry="";
