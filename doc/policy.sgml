@@ -64,6 +64,7 @@ administrators' manual.
 <p>
 
 This document assumes familiarity with these other two manuals.
+Unfortunately the system administrators' manual does not exist yet.
 <p>
 
 The Debian version of the FSF's GNU <prgn/hello/ program is provided
@@ -1126,7 +1127,8 @@ Significant changes that will require work in many packages will be
 signaled by a change to the minor number.  The major patchlevel will
 be changed for any change to the meaning of the standards, however
 small; the minor patchlevel will be changed when only cosmetic,
-typographical or other edits which do not change the meaning are made.
+typographical or other edits which do not change the meaning are made,
+or changes which do not affect the contents of packages.
 <p>
 
 You should regularly, and especially if your package has become out of
@@ -1205,9 +1207,9 @@ including most loops and conditionals you must include a separate
 <tt/set -e/ command at the start of every makefile command that's
 actually one of these miniature shellscripts.
 
-<chapt id="developer">How to become a Debian developer
+<chapt id="developer">Procedure - how to participate in the Debian project
 
-<sect>Before you start work
+<sect>Before you start work on a package
 <p>
 
 So, you've read all the documentation, you understand what everything
@@ -1294,9 +1296,30 @@ This file is a control file with the following fields:
 All of them are mandatory for a Debian upload.  See the list of
 control fields in the <prgn/dpkg/ programmers' manual for the contents
 of these fields.
+<p>
 
+The first time a version is uploaded which corresponds to a particular
+upstream version the original source tarfile should be uploaded and
+included in the <tt/.changes/ file; subsequent times the very same
+tarfile should be used to build the new diffs and <tt/.dsc/ files, and
+it need not then be uploaded.
+<p>
 
-<chapt id="mailinglists">The Debian mailing lists
+By default <prgn/dpkg-genchanges/ and <prgn/dpkg-buildpackage/ will
+include the original source tarfile if and only if the Debian revision
+part of the source version number is <tt/0/ or <tt/1/, indicating a
+new upstream version.  This behaviour may be modified by using
+<tt/-sa/ to always include it or <tt/-sd/ to always leave it out.
+<p>
+
+If no original source is included in the upload then the original
+source tarfile used by <prgn/dpkg-source/ when constructing the
+<tt/.dsc/ file and diff to be uploaded <em/must/ be byte-for-byte
+identical with the one already in the archive.  If there is some
+reason why this is not the case then the new version of the original
+source should be uploaded, possibly by using the <tt/-sa/ flag.
+
+<sect id="mailinglists">The Debian mailing lists
 <p>
 
 The mailing list server is at <tt/lists.debian.org/.  Mail
@@ -1313,7 +1336,8 @@ see the responses.
 <p>
 
 As ever on the net, please trim down the quoting of articles you're
-replying to.
+replying to.  In general, please adhere to the usual conventions for
+posting messages.
 
 
 <chapt id="conversion">Conversion procedure from old source packages
@@ -1450,18 +1474,26 @@ whether to install a package.
 Look everything over.
 
 <item>
-Do a test build using <tt/dpkg-buildpackage -ur -uc -r<var/whatever//.
-Check the permissions and locations of files in the resulting package
-by eyeballing the output of <tt/dpkg-deb --contents/, and check that
-the source build happened OK.  Test install the binary package(s) and
-test extract the source package(s).
+Do a test build using <tt/dpkg-buildpackage -ur -uc -sa
+-r<var/whatever//.  Check the permissions and locations of files in
+the resulting package by eyeballing the output of <tt/dpkg-deb
+--contents/, and check that the source build happened OK.  Test
+install the binary package(s) and test extract the source package(s).
 
 <item>
-Sign the release: either re-run <prgn/dpkg-buildpackage/ (this will
-rebuild the package entirely), or PGP-sign the <tt/.dsc/, rebuild the
-<tt/.changes/ using <prgn/dpkg-genchanges/, and then PGP-sign the
-<tt/.changes/.
+Sign the release: either rebuild everything with <tt/dpkg-buildpackage
+-sa/, or PGP-sign the <tt/.dsc/, rebuild the <tt/.changes/ using
+<tt/dpkg-genchanges -sa/, and then PGP-sign the <tt/.changes/.
 
 </list>
+<p>
+
+The use of <tt/-sa/ on <prgn/dpkg-buildpackage/ and
+<prgn/dpkg-genchanges/ is important when doing the first
+build/uploading of a new-format source package.  Unless this happens
+to be Debian revision <tt/0/ or <tt/1/ by default the original source
+tarfile will not be included in the uploaded files listed in the
+<tt/.changes/ file, and so it won't be installed on the FTP site.
+<tt/-sa/ requests that the original source be included regardless.
 
 </book>

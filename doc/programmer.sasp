@@ -1,0 +1,8795 @@
+L13 programmer.sgml
+(DEBIANDOC
+(BOOK
+L15
+(TITLEPAG
+(TITLE
+(PRGN
+-dpkg
+)PRGN
+- programmers' manual
+L16
+)TITLE
+(AUTHOR
+(NAME
+-Ian Jackson 
+)NAME
+(EMAIL
+-ijackson@gnu.ai.mit.edu
+)EMAIL
+L17
+)AUTHOR
+(VERSION
+-version 0.2.0.0 (dpkg 1.3.7), 
+(DATE
+)DATE
+-\n
+L19
+)VERSION
+(ABSTRACT
+L20
+-This manual describes the technical aspects of creating Debian binary\nand source packages.  It also documents the interface between\n
+(PRGN
+-dselect
+)PRGN
+- and its access method scripts.  It does not deal with\nthe Debian Project policy requirements, and it assumes familiarity\nwith 
+(PRGN
+-dpkg
+)PRGN
+-'s functions from the system administrator's\nperspective.\n
+L27
+)ABSTRACT
+(COPYRIGHT
+(COPYRIGHTSUMMARY
+-Copyright \|©\|1996 Ian Jackson.
+L28
+)COPYRIGHTSUMMARY
+(P
+L29
+-\nThis manual is free software; you may redistribute it and/or modify it\nunder the terms of the GNU General Public License as published by the\nFree Software Foundation; either version 2, or (at your option) any\nlater version.
+L34
+)P
+(P
+L35
+-\nThis is distributed in the hope that it will be useful, but\n
+(EM
+-without any warranty
+)EM
+-; without even the implied warranty of\nmerchantability or fitness for a particular purpose.  See the GNU\nGeneral Public License for more details.
+L40
+)P
+(P
+L41
+-\nYou should have received a copy of the GNU General Public License with\nyour Debian GNU/Linux system, in 
+(TT
+-/usr/doc/copyright/GPL
+)TT
+-, or\nwith the 
+(PRGN
+-dpkg
+)PRGN
+- source package as the file 
+(TT
+-COPYING
+)TT
+-.  If\nnot, write to the Free Software Foundation, Inc., 675 Mass Ave,\nCambridge, MA 02139, USA.\n
+L48
+)P
+)COPYRIGHT
+)TITLEPAG
+ADETAIL TOKEN SECT
+(TOC
+)TOC
+AID CDATA scope
+L67
+(CHAPT
+(HEADING
+-Introduction and scope of this manual
+L68
+)HEADING
+(P
+L69
+-\n
+(PRGN
+-dpkg
+)PRGN
+- is a suite of programs for creating binary package files\nand installing and removing them on Unix systems.
+(FOOTNOTE
+(P
+(PRGN
+-dpkg
+)PRGN
+-\nis targetted primarily at Debian GNU/Linux, but may work on or be\nported to other systems.
+)P
+)FOOTNOTE
+L74
+)P
+(P
+L75
+-\nThe binary packages are designed for the management of installed\nexecutable programs (usually compiled binaries) and their associated\ndata, though source code examples and documentation are provided as\npart of some packages.
+L80
+)P
+(P
+L81
+-\nThis manual describes the technical aspects of creating Debian binary\npackages (
+(TT
+-.deb
+)TT
+- files).  It documents the behaviour of the\npackage management programs 
+(PRGN
+-dpkg
+)PRGN
+-, 
+(PRGN
+-dselect
+)PRGN
+- et al. and and the\nway they interact with packages.
+L86
+)P
+(P
+L87
+-\nIt also documents the interaction between 
+(PRGN
+-dselect
+)PRGN
+-'s core and the\naccess method scripts it uses to actually install the selected\npackages, and describes how to create a new access method.
+L91
+)P
+(P
+L92
+-\nThis manual does not go into detail about the options and usage of the\npackage building and installation tools.  It should therefore be read\nin conjuction with those programs' manpages.
+L96
+)P
+(P
+L97
+-\nThe utility programs which are provided with 
+(PRGN
+-dpkg
+)PRGN
+- for managing\nvarious system configuration and similar issues, such as\n
+(PRGN
+-update-rc.d
+)PRGN
+- and 
+(PRGN
+-install-info
+)PRGN
+-, are not described in\ndetail here - please see their manpages.
+L102
+)P
+(P
+L103
+-\nIt does 
+(EM
+-not
+)EM
+- describe the policy requirements imposed on Debian\npackages, such as the permissions on files and directories,\ndocumentation requirements, upload procedure, and so on.  You should\nsee the Debian packaging policy manual for these details.  (Many of\nthem will probably turn out to be helpful even if you don't plan to\nupload your package and make it available as part of the\ndistribution.)
+L111
+)P
+(P
+L112
+-\nIt is assumed that the reader is reasonably familiar with the\n
+(PRGN
+-dpkg
+)PRGN
+- System Administrators' manual.  Unfortunately this manual\ndoes not yet exist.
+L116
+)P
+(P
+L117
+-\nThe Debian version of the FSF's GNU hello program is provided as an\nexample for people wishing to create Debian packages.
+L120
+)P
+(P
+L121
+-\n
+(EM
+-Note that this document is still a draft!
+)EM
+-\n
+L124
+)P
+)CHAPT
+AID CDATA binarypkg
+(CHAPT
+(HEADING
+-Binary packages
+L125
+)HEADING
+(P
+L126
+-\nThe binary package has two main sections.  The first part consists of\nvarious control information files and scripts used by 
+(PRGN
+-dpkg
+)PRGN
+- when\ninstalling and removing.  See 
+AID CDATA controlarea
+(REF
+)REF
+-.
+L130
+)P
+(P
+L131
+-\nThe second part is an archive (currently a 
+(PRGN
+-tar
+)PRGN
+- archive)\ncontaining files and directories to be installed.
+L134
+)P
+(P
+L135
+-\nIn the future binary packages may also contain other components, such\nas checksums and digital signatures.\n\n
+L140
+)P
+AID CDATA bincreating
+(SECT
+(HEADING
+-Creating package files - 
+(PRGN
+-dpkg-deb
+)PRGN
+L141
+)HEADING
+(P
+L142
+-\nAll manipulation of binary package files is done by 
+(PRGN
+-dpkg-deb
+)PRGN
+-;\nit's the only program that has knowledge of the format.\n(
+(PRGN
+-dpkg-deb
+)PRGN
+- may be invoked by calling 
+(PRGN
+-dpkg
+)PRGN
+-, as 
+(PRGN
+-dpkg
+)PRGN
+- will\nspot that the options requested are appropriate to 
+(PRGN
+-dpkg-deb
+)PRGN
+- and\ninvoke that instead with the same arguments.)
+L148
+)P
+(P
+L149
+-\nIn order to create a binary package you must make a directory tree\nwhich contains all the files and directories you want to have in the\nfilesystem data part of the package.  In Debian-format source packages\nthis directory is usually 
+(TT
+-debian/tmp
+)TT
+-, relative to the top of\nthe package's source tree.
+L155
+)P
+(P
+L156
+-\nThey should have the locations (relative to the root of the directory\ntree you're constructing) ownerships and permissions which you want\nthem to have on the system when they are installed.
+L160
+)P
+(P
+L161
+-\nWith current versions of 
+(PRGN
+-dpkg
+)PRGN
+- the uid/username and gid/groupname\nmappings for the users and groups being used should be the same on the\nsystem where the package is built and the one where it is installed.
+L165
+)P
+(P
+L166
+-\nYou need to add one special directory to the root of the miniature\nfilesystem tree you're creating: 
+(PRGN
+-DEBIAN
+)PRGN
+-.  It should contain the\ncontrol information files, notably the binary package control file\n(see 
+AID CDATA controlfile
+(REF
+)REF
+-).
+L171
+)P
+(P
+L172
+-\nThe 
+(PRGN
+-DEBIAN
+)PRGN
+- directory will not appear in the filesystem archive of\nthe package, and so won't be installed by 
+(PRGN
+-dpkg
+)PRGN
+- when the package\nis installed.
+L176
+)P
+(P
+L177
+-\nWhen you've prepared the package, you should invoke:\n
+(EXAMPLE
+L180
+-dpkg --build 
+(VAR
+-directory
+)VAR
+L181
+)EXAMPLE
+L182
+)P
+(P
+L183
+-\nThis will build the package in 
+(TT
+(VAR
+-directory
+)VAR
+-.deb
+)TT
+-.\n(
+(PRGN
+-dpkg
+)PRGN
+- knows that 
+(TT
+---build
+)TT
+- is a 
+(PRGN
+-dpkg-deb
+)PRGN
+- option, so it\ninvokes 
+(PRGN
+-dpkg-deb
+)PRGN
+- with the same arguments to build the package.)
+L187
+)P
+(P
+L188
+-\nSee the manpage 
+ANAME CDATA dpkg-deb
+ASECTION CDATA 8
+(MANREF
+)MANREF
+- for details of how\nto examine the contents of this newly-created file.  You may find the\noutput of following commands enlightening:\n
+(EXAMPLE
+L193
+-dpkg-deb --info 
+(VAR
+-filename
+)VAR
+-.deb\ndpkg-deb --contents 
+(VAR
+-filename
+)VAR
+-.deb
+L195
+)EXAMPLE
+-\n
+L197
+)P
+)SECT
+AID CDATA controlarea
+(SECT
+(HEADING
+-Package control information files
+L198
+)HEADING
+(P
+L199
+-\nThe control information portion of a binary package is a collection of\nfiles with names known to 
+(PRGN
+-dpkg
+)PRGN
+-.  It will treat the contents of\nthese files specially - some of them contain information used by\n
+(PRGN
+-dpkg
+)PRGN
+- when installing or removing the package; others are scripts\nwhich the package maintainer wants 
+(PRGN
+-dpkg
+)PRGN
+- to run.
+L205
+)P
+(P
+L206
+-\nIt is possible to put other files in the package control area, but\nthis is not generally a good idea (though they will largely be\nignored).
+L210
+)P
+(P
+L211
+-\nHere is a brief list of the control info files supported by 
+(PRGN
+-dpkg
+)PRGN
+-\nand a summary of what they're used for.
+L214
+)P
+(P
+L215
+-\n
+ACOMPACT IMPLIED
+(TAGLIST
+L217
+(TAG
+(TT
+-control
+)TT
+L218
+)TAG
+(ITEM
+L220
+(P
+-This is the key description file used by 
+(PRGN
+-dpkg
+)PRGN
+-.  It specifies the\npackage's name and version, gives its description for the user, states\nits relationships with other packages, and so forth.\nSee 
+AID CDATA controlfile
+(REF
+)REF
+-.
+L224
+)P
+(P
+L225
+-\nIt is usually generated automatically from information in the source\npackage by the 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- program, and with assistance\nfrom 
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+-.  See 
+AID CDATA sourcetools
+(REF
+)REF
+-.\n
+L230
+)P
+)ITEM
+(TAG
+(TT
+-postinst
+)TT
+-, 
+(TT
+-preinst
+)TT
+-, 
+(TT
+-postrm
+)TT
+-, 
+(TT
+-prerm
+)TT
+L231
+)TAG
+(ITEM
+L233
+(P
+-These are exectuable files (usually scripts) which 
+(PRGN
+-dpkg
+)PRGN
+- runs\nduring installation, upgrade and removal of packages.  They allow the\npackage to deal with matters which are particular to that package or\nrequire more complicated processing than that provided by 
+(PRGN
+-dpkg
+)PRGN
+-.\nDetails of when and how they are called are in\n
+AID CDATA maintainerscripts
+(REF
+)REF
+-.
+L239
+)P
+(P
+L240
+-\nIt is very important to make these scripts itempotent.
+(FOOTNOTE
+(P
+-That\nmeans that if it runs successfully or fails and then you call it again\nit doesn't bomb out, but just ensures that everything is the way it\nought to be.
+)P
+)FOOTNOTE
+-  This is so that if an error occurs, the user\ninterrupts 
+(PRGN
+-dpkg
+)PRGN
+- or some other unforeseen circumstance happens you\ndon't leave the user with a badly-broken package.
+L247
+)P
+(P
+L248
+-\nThe maintainer scripts are guaranteed to run with a controlling\nterminal and can interact with the user.  If they need to prompt for\npasswords, do full-screen interaction or something similar you should\ndo these things to and from 
+(TT
+-/dev/tty
+)TT
+-, since 
+(PRGN
+-dpkg
+)PRGN
+- will at\nsome point redirect scripts' standard input and output so that it can\nlog the installation process.  Likewise, because these scripts may be\nexecuted with standard output redirected into a pipe for logging\npurposes, Perl scripts should set unbuffered output by setting\n
+(TT
+-$|=1
+)TT
+- so that the output is printed immediately rather than being\nbuffered.
+L259
+)P
+(P
+L260
+-\nEach script should return a zero exit status for success, or a nonzero\none for failure.\n
+L264
+)P
+)ITEM
+(TAG
+(TT
+-conffiles
+)TT
+L265
+)TAG
+(ITEM
+L267
+(P
+-This file contains a list of configuration files which are to be\nhandled automatically by 
+(PRGN
+-dpkg
+)PRGN
+- (see 
+AID CDATA conffiles
+(REF
+)REF
+-).  Note\nthat not necessarily every configuration file should be listed here.\n
+L271
+)P
+)ITEM
+(TAG
+(TT
+-shlibs
+)TT
+L272
+)TAG
+(ITEM
+L274
+(P
+-This file contains a list of the shared libraries supplied by the\npackage, with dependency details for each.  This is used by\n
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+- when it determines what dependencies are\nrequired in a package control file.
+L278
+)P
+(P
+L279
+-\nEach line is of the form:\n
+(EXAMPLE
+L282
+(VAR
+-library-name
+)VAR
+- 
+(VAR
+-version-or-soname
+)VAR
+- 
+(VAR
+-dependencies ...
+)VAR
+L283
+)EXAMPLE
+L284
+)P
+(P
+L285
+-\n
+(VAR
+-library-name
+)VAR
+- is the name of the shared library, for example\n
+(TT
+-libc5
+)TT
+-.
+L288
+)P
+(P
+L289
+-\n
+(VAR
+-version-or-soname
+)VAR
+- is the soname of the library - ie, the thing\nthat must exactly match for the library to be recognised by\n
+(PRGN
+-ld.so
+)PRGN
+-.  Usually this is major version number of the library.
+L293
+)P
+(P
+L294
+-\n
+(VAR
+-dependencies
+)VAR
+- has the same syntax as a dependency field in a\nbinary package control file.  It should give details of which\npackage(s) are required to satisfy a binary built against the version\nof the library contained in the package.  See 
+AID CDATA depsyntax
+(REF
+)REF
+-.
+L299
+)P
+(P
+L300
+-\nFor example, if the package 
+(TT
+-foo
+)TT
+- contains 
+(TT
+-libfoo.so.1.2.3
+)TT
+-,\nwhere the soname of the library is 
+(TT
+-libfoo.so.1
+)TT
+-, and the first\nversion of the package which contained a minor number of at least\n
+(TT
+-2.3
+)TT
+- was 
+(VAR
+-1.2.3-1
+)VAR
+-, then the package's 
+(VAR
+-shlibs
+)VAR
+- could\nsay:\n
+(EXAMPLE
+L307
+-libfoo 1\011foo (>= 1.2.3-1)
+L308
+)EXAMPLE
+L309
+)P
+(P
+L310
+-\nThe version-specific dependency is to avoid warnings from 
+(PRGN
+-ld.so
+)PRGN
+-\nabout using older shared libraries with newer binaries.\n
+L314
+)P
+)ITEM
+)TAGLIST
+-\n
+L316
+)P
+)SECT
+AID CDATA controlfile
+(SECT
+(HEADING
+-The main control information file: 
+(TT
+-control
+)TT
+L317
+)HEADING
+(P
+L318
+-\nThe most important control information file used by 
+(PRGN
+-dpkg
+)PRGN
+- when it\ninstalls a package is 
+(TT
+-control
+)TT
+-.  It contains all the package's\n`vital statistics'.
+L322
+)P
+(P
+L323
+-\nThe binary package control files of packages built from Debian sources\nare made by a special tool, 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+-, which reads\n
+(TT
+-debian/control
+)TT
+- and 
+(TT
+-debian/changelog
+)TT
+- to find the\ninformation it needs.  See 
+AID CDATA sourcepkg
+(REF
+)REF
+- for more details.
+L328
+)P
+(P
+L329
+-\nThe fields in binary package control files are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L333
+(ITEM
+(P
+AID CDATA f-Package
+(QREF
+(TT
+-Package
+)TT
+)QREF
+- (mandatory)
+L334
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA versions
+(QREF
+(TT
+-Version
+)TT
+)QREF
+- (mandatory)\n
+L336
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Architecture
+(QREF
+(TT
+-Architecture
+)TT
+)QREF
+-\n(mandatory)
+(FOOTNOTE
+(P
+-This field should appear in all packages, though\n
+(PRGN
+-dpkg
+)PRGN
+- doesn't require it yet so that old packages can still be\ninstalled.
+)P
+)FOOTNOTE
+-\n
+L341
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA relationships
+(QREF
+(TT
+-Depends
+)TT
+-, 
+(TT
+-Provides
+)TT
+- et al.
+)QREF
+L342
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Essential
+(QREF
+(TT
+-Essential
+)TT
+)QREF
+L343
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Maintainer
+(QREF
+(TT
+-Maintainer
+)TT
+)QREF
+L344
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-classification
+(QREF
+(TT
+-Section
+)TT
+-, 
+(TT
+-Priority
+)TT
+)QREF
+L345
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Source
+(QREF
+(TT
+-Source
+)TT
+)QREF
+L346
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA descriptions
+(QREF
+(TT
+-Description
+)TT
+)QREF
+L347
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Installed-Size
+(QREF
+(TT
+-Installed-Size
+)TT
+)QREF
+-\n
+L349
+)P
+)ITEM
+)LIST
+L350
+)P
+(P
+L351
+-\nA description of the syntax of control files and the purpose of these\nfields is available in 
+AID CDATA controlfields
+(REF
+)REF
+-.\n\n
+L356
+)P
+)SECT
+)CHAPT
+AID CDATA sourcepkg
+(CHAPT
+(HEADING
+-Source packages
+L357
+)HEADING
+(P
+L358
+-\nThe Debian binary packages in the distribution are generated from\nDebian sources, which are in a special format to assist the easy and\nautomatic building of binaries.\n
+L363
+)P
+AID CDATA sourcetools
+(SECT
+(HEADING
+-Tools for processing source packages
+L364
+)HEADING
+(P
+L365
+-\nVarious tools are provided for manipulating source packages; they pack\nand unpack sources and help build of binary packages and help manage\nthe distribution of new versions.
+L369
+)P
+(P
+L370
+-\nThey are introduced and typical uses described here; see 
+ANAME CDATA dpkg-source
+ASECTION CDATA 1
+(MANREF
+)MANREF
+L372
+- for full documentation about their\narguments and operation.
+L374
+)P
+(P
+L375
+-\nFor examples of how to construct a Debian source package, and how to\nuse those utilities that are used by Debian source packages, please\nsee the 
+(PRGN
+-hello
+)PRGN
+- example package.\n
+L380
+)P
+AID IMPLIED
+(SECT1
+(HEADING
+(PRGN
+-dpkg-source
+)PRGN
+- - packs and unpacks Debian source packages
+L381
+)HEADING
+(P
+L382
+-\nThis program is frequently used by hand, and is also called from\npackage-independent automated building scripts such as\n
+(PRGN
+-dpkg-buildpackage
+)PRGN
+-.
+L386
+)P
+(P
+L387
+-\nTo unpack a package it is typically invoked with\n
+(EXAMPLE
+L390
+-dpkg-source -x 
+(VAR
+-.../path/to/filename
+)VAR
+-.dsc
+L391
+)EXAMPLE
+-\nwith the 
+(TT
+(VAR
+-filename
+)VAR
+-.tar.gz
+)TT
+- and\n
+(TT
+(VAR
+-filename
+)VAR
+-.diff.gz
+)TT
+- (if applicable) in the same directory.  It\nunpacks into 
+(TT
+(VAR
+-package
+)VAR
+--
+(VAR
+-version
+)VAR
+)TT
+-, and if applicable\n
+(TT
+(VAR
+-package
+)VAR
+--
+(VAR
+-version
+)VAR
+-.orig
+)TT
+-, in the current directory.
+L396
+)P
+(P
+L397
+-\nTo create a packed source archive it is typically invoked:\n
+(EXAMPLE
+L400
+-dpkg-source -b 
+(VAR
+-package
+)VAR
+--
+(VAR
+-version
+)VAR
+L401
+)EXAMPLE
+-\nThis will create the 
+(TT
+-.dsc
+)TT
+-, 
+(TT
+-.tar.gz
+)TT
+- and 
+(TT
+-.diff.gz
+)TT
+- (if\nappropriate) in the current directory.  
+(PRGN
+-dpkg-source
+)PRGN
+- does not\nclean the source tree first - this must be done separately if it is\nrequired.
+L406
+)P
+(P
+L407
+-\nSee also 
+AID CDATA sourcearchives
+(REF
+)REF
+-.\n\n
+L411
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(PRGN
+-dpkg-buildpackage
+)PRGN
+- - overall package-building control\nscript
+L413
+)HEADING
+(P
+L414
+-\n
+(PRGN
+-dpkg-buildpackage
+)PRGN
+- is a script which invokes 
+(PRGN
+-dpkg-source
+)PRGN
+-,\nthe 
+(TT
+-debian/rules
+)TT
+- targets 
+(PRGN
+-clean
+)PRGN
+-, 
+(PRGN
+-build
+)PRGN
+- and\n
+(PRGN
+-binary
+)PRGN
+-, 
+(PRGN
+-dpkg-genchanges
+)PRGN
+- and 
+(PRGN
+-pgp
+)PRGN
+- to build a signed\nsource and binary package upload.
+L419
+)P
+(P
+L420
+-\nIt is usually invoked by hand from the top level of the built or\nunbuilt source directory.  It may be invoked with no arguments; useful\narguments include:\n
+ACOMPACT TOKEN COMPACT
+(TAGLIST
+L425
+(TAG
+(TT
+--uc
+)TT
+-, 
+(TT
+--us
+)TT
+L426
+)TAG
+(ITEM
+(P
+-Do not PGP-sign the 
+(TT
+-.changes
+)TT
+- file or the source package\n
+(TT
+-.dsc
+)TT
+- file, respectively.\n
+L429
+)P
+)ITEM
+(TAG
+(TT
+--p
+(VAR
+-pgp-command
+)VAR
+)TT
+L430
+)TAG
+(ITEM
+(P
+-Invoke 
+(VAR
+-pgp-command
+)VAR
+- instead of finding 
+(TT
+-pgp
+)TT
+- on the\n
+(PRGN
+-PATH
+)PRGN
+-.  
+(VAR
+-pgp-command
+)VAR
+- must behave just like 
+(PRGN
+-pgp
+)PRGN
+-.\n
+L433
+)P
+)ITEM
+(TAG
+(TT
+--r
+(VAR
+-root-command
+)VAR
+)TT
+L434
+)TAG
+(ITEM
+(P
+-When root privilege is required, invoke the command\n
+(VAR
+-root-command
+)VAR
+-.  
+(VAR
+-root-command
+)VAR
+- should invoke its first\nargument as a command, from the 
+(PRGN
+-PATH
+)PRGN
+- if necessary, and pass its\nsecond and subsequent arguments to the command it calls.  If no\n
+(VAR
+-root-command
+)VAR
+- is supplied then 
+(VAR
+-dpkg-buildpackage
+)VAR
+- will take\nno special action to gain root privilege, so that for most packages it\nwill have to be invoked as root to start with.\n
+L442
+)P
+)ITEM
+(TAG
+(TT
+--b
+)TT
+-, 
+(TT
+--B
+)TT
+L443
+)TAG
+(ITEM
+(P
+-Two types of binary-only build and upload - see 
+ANAME CDATA dpkg-source
+ASECTION CDATA 1
+(MANREF
+)MANREF
+L444
+-.
+L445
+)P
+)ITEM
+)TAGLIST
+-\n\n
+L448
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- - generates binary package control files
+L449
+)HEADING
+(P
+L450
+-\nThis program is usually called from 
+(TT
+-debian/rules
+)TT
+- (see 
+AID CDATA sourcetree
+(REF
+)REF
+L452
+-) in the top level of the source tree.
+L453
+)P
+(P
+L454
+-\nThis is usually done just before the files and directories in the\ntemporary directory tree where the package is being built have their\npermissions and ownerships set and the package is constructed using\n
+(PRGN
+-dpkg-deb
+)PRGN
+(FOOTNOTE
+(P
+-This is so that the control file which is\nproduced has the right permissions
+)P
+)FOOTNOTE
+-.
+L460
+)P
+(P
+L461
+-\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- must be called after all the files which are to\ngo into the package have been placed in the temporary build directory,\nso that its calculation of the installed size of a package is correct.
+L465
+)P
+(P
+L466
+-\nIt is also necessary for 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- to be run after\n
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+- so that the variable substitutions created by\n
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+- in 
+(TT
+-debian/substvars
+)TT
+- are available.
+L470
+)P
+(P
+L471
+-\nFor a package which generates only one binary package, and which\nbuilds it in 
+(TT
+-debian/tmp
+)TT
+- relative to the top of the source\npackage, it is usually sufficient to call:\n
+(EXAMPLE
+L476
+-dpkg-gencontrol
+L477
+)EXAMPLE
+L478
+)P
+(P
+L479
+-\nSources which build several binaries will typically need something\nlike:\n
+(EXAMPLE
+L483
+-dpkg-gencontrol -Pdebian/tmp-
+(VAR
+-pkg
+)VAR
+- -p
+(VAR
+-package
+)VAR
+L484
+)EXAMPLE
+-\nThe 
+(TT
+--P
+)TT
+- tells 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- that the package is being\nbuilt in a non-default directory, and the 
+(TT
+--p
+)TT
+- tells it which\npackage's control file should be generated.
+L488
+)P
+(P
+L489
+-\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- also adds information to the list of files in\n
+(TT
+-debian/files
+)TT
+-, for the benefit of (for example) a future\ninvocation of 
+(PRGN
+-dpkg-genchanges
+)PRGN
+-.\n\n
+L495
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+- - calculates shared library dependencies
+L496
+)HEADING
+(P
+L497
+-\nThis program is usually called from 
+(TT
+-debian/rules
+)TT
+- just before\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- (see 
+AID CDATA sourcetree
+(REF
+)REF
+-), in the top level\nof the source tree.
+L501
+)P
+(P
+L502
+-\nIts arguments are executables
+(FOOTNOTE
+(P
+-They may be specified either\nin the locations in the source tree where they are created or in the\nlocations in the temporary build tree where they are installed prior\nto binary package creation.
+)P
+)FOOTNOTE
+- for which shared library\ndependencies should be included in the binary package's control file.
+L508
+)P
+(P
+L509
+-\nIf some of the executable(s) shared libraries should only warrant a\n
+(TT
+-Recommends
+)TT
+- or 
+(TT
+-Suggests
+)TT
+-, or if some warrant a\n
+(TT
+-Pre-Depends
+)TT
+-, this can be achieved by using the\n
+(TT
+--d
+(VAR
+-dependency-field
+)VAR
+)TT
+- option before those executable(s).\n(Each 
+(TT
+--d
+)TT
+- option takes effect until the next 
+(TT
+--d
+)TT
+-.)
+L515
+)P
+(P
+L516
+-\n
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+- does not directly cause the output control file\nto be modified.  Instead by default it adds to the\n
+(TT
+-debian/substvars
+)TT
+- file variable settings like\n
+(TT
+-shlibs:Depends
+)TT
+-.  These variable settings must be referenced in\ndependency fields in the appropriate per-binary-package sections of\nthe source control file.
+L523
+)P
+(P
+L524
+-\nFor example, the 
+(PRGN
+-procps
+)PRGN
+- package generates two kinds of\nbinaries, simple C binaries like 
+(PRGN
+-ps
+)PRGN
+- which require a\npredependency and full-screen ncurses binaries like 
+(PRGN
+-top
+)PRGN
+- which\nrequire only a recommendation.  It can say in its 
+(TT
+-debian/rules
+)TT
+-:\n
+(EXAMPLE
+L530
+-dpkg-shlibdeps -dPre-Depends ps -dRecommends top
+L531
+)EXAMPLE
+-\nand then in its main control file 
+(TT
+-debian/control
+)TT
+-:\n
+(EXAMPLE
+L534
+(VAR
+-...
+)VAR
+-\nPackage: procps\nPre-Depends: ${shlibs:Pre-Depends}\nRecommends: ${shlibs:Recommends}\n
+(VAR
+-...
+)VAR
+L539
+)EXAMPLE
+L540
+)P
+(P
+L541
+-\nSources which produce several binary packages with different shared\nlibrary dependency requirements can use the 
+(TT
+--p
+(VAR
+-varnameprefix
+)VAR
+)TT
+-\noption to override the default 
+(TT
+-shlib:
+)TT
+- prefix (one invocation of\n
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+- per setting of this option).  They can thus\nproduce several sets of dependency variables, each of the form\n
+(TT
+(VAR
+-varnameprefix
+)VAR
+-:
+(VAR
+-dependencyfield
+)VAR
+)TT
+-, which can be referred\nto in the appropriate parts of the binary package control files.\n\n
+L551
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(PRGN
+-dpkg-distaddfile
+)PRGN
+- - adds a file to 
+(TT
+-debian/files
+)TT
+L552
+)HEADING
+(P
+L553
+-\nSome packages' uploads need to include files other than the source and\nbinary package files.
+L556
+)P
+(P
+L557
+-\n
+(PRGN
+-dpkg-distaddfile
+)PRGN
+- adds a file to the 
+(TT
+-debian/files
+)TT
+- file so\nthat it will be included in the 
+(TT
+-.changes
+)TT
+- file when\n
+(PRGN
+-dpkg-genchanges
+)PRGN
+- is run.
+L561
+)P
+(P
+L562
+-\nIt is usually invoked from the 
+(PRGN
+-binary
+)PRGN
+- target of\n
+(TT
+-debian/rules
+)TT
+-:\n
+(EXAMPLE
+L566
+-dpkg-distaddfile 
+(VAR
+-filename
+)VAR
+- 
+(VAR
+-section
+)VAR
+- 
+(VAR
+-priority
+)VAR
+L567
+)EXAMPLE
+-\nThe 
+(VAR
+-filename
+)VAR
+- is relative to the directory where\n
+(PRGN
+-dpkg-genchanges
+)PRGN
+- will expect to find it - this is usually the\ndirectory above the top level of the source tree.  The\n
+(TT
+-debian/rules
+)TT
+- target should put the file there just before or\njust after calling 
+(PRGN
+-dpkg-distaddfile
+)PRGN
+-.
+L573
+)P
+(P
+L574
+-\nThe 
+(VAR
+-section
+)VAR
+- and 
+(VAR
+-priority
+)VAR
+- are passed unchanged into the\nresulting 
+(TT
+-.changes
+)TT
+- file.  See 
+AID CDATA f-classification
+(REF
+)REF
+-.\n\n
+L579
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(PRGN
+-dpkg-genchanges
+)PRGN
+- - generates a 
+(TT
+-.changes
+)TT
+- upload\ncontrol file
+L581
+)HEADING
+(P
+L582
+-\nThis program is usually called by package-independent automatic\nbuilding scripts such as 
+(PRGN
+-dpkg-buildpackage
+)PRGN
+-, but it may also be\ncalled by hand.
+L586
+)P
+(P
+L587
+-\nIt is usually called in the top level of a built source tree, and when\ninvoked with no arguments will print out a straightforward\n
+(TT
+-.changes
+)TT
+- file based on the information in the source package's\nchangelog and control file and the binary and source packages which\nshould have been built.\n\n
+L595
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(PRGN
+-dpkg-parsechangelog
+)PRGN
+- - produces parsed representation of\na changelog
+L597
+)HEADING
+(P
+L598
+-\nThis program is used internally by 
+(PRGN
+-dpkg-source
+)PRGN
+- et al.  It may\nalso occasionally be useful in 
+(TT
+-debian/rules
+)TT
+- and elsewhere.  It\nparses a changelog, 
+(TT
+-debian/changelog
+)TT
+- by default, and prints a\ncontrol-file format representation of the information in it to\nstandard output.\n
+L605
+)P
+)SECT1
+)SECT
+AID CDATA sourcetree
+(SECT
+(HEADING
+-The Debianised source tree
+L606
+)HEADING
+(P
+L607
+-\nThe source archive scheme described later is intended to allow a\nDebianised source tree with some associated control information to be\nreproduced and transported easily.  The Debianised source tree is a\nversion of the original program with certain files added for the\nbenefit of the Debianisation process, and with any other changes\nrequired made to the rest of the source code and installation scripts.
+L614
+)P
+(P
+L615
+-\nThe extra files created for Debian are in the subdirectory 
+(TT
+-debian
+)TT
+-\nof the top level of the Debianised source tree.  They are described\nbelow.\n
+L620
+)P
+AID IMPLIED
+(SECT1
+(HEADING
+(TT
+-debian/rules
+)TT
+- - the main building script
+L621
+)HEADING
+(P
+L622
+-\nThis file is an executable makefile, and contains the package-specific\nrecipies for compiling the package and building binary package(s) out\nof the source.
+L626
+)P
+(P
+L627
+-\nIt must start with the line 
+(TT
+-#!/usr/bin/make -f
+)TT
+-, so that it\ncan be invoked by saying its name rather than invoking 
+(PRGN
+-make
+)PRGN
+-\nexplicitly.
+L631
+)P
+(P
+L632
+-\nThe targets which are required to be present are:\n\n
+ACOMPACT IMPLIED
+(TAGLIST
+L636
+(TAG
+(TT
+-build
+)TT
+)TAG
+L637
+(ITEM
+L639
+(P
+-This should perform all non-interactive configuration and compilation\nof the package.  If a package has an interactive pre-build\nconfiguration routine, the Debianised source package should be built\nafter this has taken place, so that it can be built without rerunning\nthe configuration.
+L644
+)P
+(P
+L645
+-\nFor some packages, notably ones where the same source tree is compiled\nin different ways to produce two binary packages, the 
+(PRGN
+-build
+)PRGN
+-\ntarget does not make much sense.  For these packages it is good enough\nto provide two (or more) targets (
+(TT
+-build-a
+)TT
+- and 
+(TT
+-build-b
+)TT
+- or\nwhatever) for each of the ways of building the package, and a\n
+(PRGN
+-build
+)PRGN
+- target that does nothing.  The 
+(PRGN
+-binary
+)PRGN
+- target will have\nto build the package in each of the possible ways and make the binary\npackage out of each.
+L654
+)P
+(P
+L655
+-\nThe 
+(PRGN
+-build
+)PRGN
+- target must not do anything that might require root\nprivilege.
+L658
+)P
+(P
+L659
+-\nThe 
+(PRGN
+-build
+)PRGN
+- target may need to run 
+(PRGN
+-clean
+)PRGN
+- first - see below.
+L661
+)P
+(P
+L662
+-\nWhen a package has a configuration routine that takes a long time, or\nwhen the makefiles are poorly designed, or when 
+(PRGN
+-build
+)PRGN
+- needs to\nrun 
+(PRGN
+-clean
+)PRGN
+- first, it is a good idea to 
+(TT
+-touch build
+)TT
+- when the\nbuild process is complete.  This will ensure that if 
+(TT
+-debian/rules\nbuild
+)TT
+- is run again it will not rebuild the whole program.\n
+L669
+)P
+)ITEM
+(TAG
+(TT
+-binary
+)TT
+-, 
+(TT
+-binary-arch
+)TT
+-, 
+(TT
+-binary-indep
+)TT
+L670
+)TAG
+(ITEM
+L672
+(P
+-The 
+(PRGN
+-binary
+)PRGN
+- target should be all that is necessary for the user\nto build the binary package.  It is split into two parts:\n
+(PRGN
+-binary-arch
+)PRGN
+- builds the packages' output files which are\nspecific to a particular architecture, and 
+(PRGN
+-binary-indep
+)PRGN
+-\nbuilds those which are not.
+L677
+)P
+(P
+L678
+-\n
+(PRGN
+-binary
+)PRGN
+- should usually be a target with no commands which simply\ndepends on 
+(PRGN
+-binary-arch
+)PRGN
+- and 
+(PRGN
+-binary-indep
+)PRGN
+-.
+L681
+)P
+(P
+L682
+-\nBoth 
+(PRGN
+-binary-*
+)PRGN
+- targets should depend on the 
+(PRGN
+-build
+)PRGN
+- target,\nabove, so that the package is built if it has not been already.  It\nshould then create the relevant binary package(s), using\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- to make their control files and 
+(PRGN
+-dpkg-deb
+)PRGN
+-\nto build them and place them in the parent of the top level directory.
+L688
+)P
+(P
+L689
+-\nIf one of the 
+(PRGN
+-binary-*
+)PRGN
+- targets has nothing to do (this will be\nalways be the case if the source generates only a single binary\npackage, whether architecture-dependent or not) it 
+(EM
+-must
+)EM
+- still\nexist, but should always succeed.
+L694
+)P
+(P
+L695
+-\n
+AID CDATA binarypkg
+(REF
+)REF
+- describes how to construct binary packages.
+L697
+)P
+(P
+L698
+-\nThe 
+(PRGN
+-binary
+)PRGN
+- targets must be invoked as root.\n
+L701
+)P
+)ITEM
+(TAG
+(TT
+-clean
+)TT
+)TAG
+L702
+(ITEM
+L704
+(P
+-This should undo any effects that the 
+(PRGN
+-build
+)PRGN
+- and 
+(PRGN
+-binary
+)PRGN
+-\ntargets may have had, except that it should leave alone any output\nfiles created in the parent directory by a run of 
+(PRGN
+-binary
+)PRGN
+-.
+L707
+)P
+(P
+L708
+-\nIf a 
+(PRGN
+-build
+)PRGN
+- file is touched at the end of the 
+(PRGN
+-build
+)PRGN
+- target,\nas suggested above, it must be removed as the first thing that\n
+(PRGN
+-clean
+)PRGN
+- does, so that running 
+(PRGN
+-build
+)PRGN
+- again after an interrupted\n
+(PRGN
+-clean
+)PRGN
+- doesn't think that everything is already done.
+L713
+)P
+(P
+L714
+-\nThe 
+(PRGN
+-clean
+)PRGN
+- target must be invoked as root if 
+(PRGN
+-binary
+)PRGN
+- has\nbeen invoked since the last 
+(PRGN
+-clean
+)PRGN
+-, or if 
+(PRGN
+-build
+)PRGN
+- has been\ninvoked as root (since 
+(PRGN
+-build
+)PRGN
+- may create directories, for\nexample).\n
+L720
+)P
+)ITEM
+(TAG
+(TT
+-get-orig-source
+)TT
+)TAG
+L721
+(ITEM
+L723
+(P
+-This target fetches the most recent version of the original source\npackage from a canonical archive site (via FTP or WWW, for example),\ndoes any necessary rearrangement to turn it into the original source\ntarfile format described below, and leaves it in the current directory.
+L727
+)P
+(P
+L728
+-\nThis target may be invoked in any directory, and should take care to\nclean up any temporary files it may have left.
+L731
+)P
+(P
+L732
+-\nThis target is optional, but providing it if possible is a good idea.\n
+L735
+)P
+)ITEM
+)TAGLIST
+-\n\nThe 
+(PRGN
+-build
+)PRGN
+-, 
+(PRGN
+-binary
+)PRGN
+- and 
+(PRGN
+-clean
+)PRGN
+- targets must be\ninvoked with a current directory of the package's top-level\ndirectory.\n
+L741
+)P
+(P
+L742
+-\nAdditional targets may exist in 
+(TT
+-debian/rules
+)TT
+-, either as\npublished or undocumented interfaces or for the package's internal\nuse.\n\n
+L748
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(TT
+-debian/control
+)TT
+L749
+)HEADING
+(P
+L750
+-\nThis file contains version-independent details about the source\npackage and about the binary packages it creates.
+L753
+)P
+(P
+L754
+-\nIt is a series of sets of control fields, each syntactically similar\nto a binary package control file.  The sets are separated by one or\nmore blank lines.  The first set is information about the source\npackage in general; each subsequent set describes one binary package\nthat the source tree builds.
+L760
+)P
+(P
+L761
+-\nThe syntax and semantics of the fields are described below in\n
+AID CDATA controlfields
+(REF
+)REF
+-.
+L764
+)P
+(P
+L765
+-\nThe general (binary-package-independent) fields are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L768
+(ITEM
+(P
+AID CDATA f-Source
+(QREF
+(TT
+-Source
+)TT
+)QREF
+- (mandatory)
+L769
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Maintainer
+(QREF
+(TT
+-Maintainer
+)TT
+)QREF
+L770
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-classification
+(QREF
+(TT
+-Section
+)TT
+- and 
+(TT
+-Priority
+)TT
+)QREF
+-\n(classification, mandatory)
+L772
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Standards-Version
+(QREF
+(TT
+-Standards-Version
+)TT
+)QREF
+L773
+)P
+)ITEM
+)LIST
+L774
+)P
+(P
+L775
+-\nThe per-binary-package fields are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L778
+(ITEM
+(P
+AID CDATA f-Package
+(QREF
+(TT
+-Package
+)TT
+)QREF
+- (mandatory)
+L779
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Architecture
+(QREF
+(TT
+-Architecture
+)TT
+)QREF
+- (mandatory)
+L780
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA descriptions
+(QREF
+(TT
+-Description
+)TT
+)QREF
+L781
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-classification
+(QREF
+(TT
+-Section
+)TT
+- and 
+(TT
+-Priority
+)TT
+)QREF
+- (classification)
+L782
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Essential
+(QREF
+(TT
+-Essential
+)TT
+)QREF
+L783
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA relationships
+(QREF
+(TT
+-Depends
+)TT
+- et al.
+)QREF
+- (package interrelationships)
+L784
+)P
+)ITEM
+)LIST
+L785
+)P
+(P
+L786
+-\nThese fields are used by 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- to generate control\nfiles for binary packages (see below), by 
+(PRGN
+-dpkg-genchanges
+)PRGN
+- to\ngenerate the 
+(TT
+-.changes
+)TT
+- file to accompany the upload, and by\n
+(PRGN
+-dpkg-source
+)PRGN
+- when it creates the 
+(TT
+-.dsc
+)TT
+- source control file as\npart of a source archive.
+L792
+)P
+(P
+L793
+-\nThe fields here may contain variable references - their values will be\nsubstituted by 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+-, 
+(PRGN
+-dpkg-genchanges
+)PRGN
+- or\n
+(PRGN
+-dpkg-source
+)PRGN
+- when they generate output control files.  See 
+AID CDATA srcsubstvars
+(REF
+)REF
+L797
+- for details.
+L798
+)P
+(P
+L800
+)P
+AID IMPLIED
+(SECT2
+(HEADING
+-User-defined fields
+L801
+)HEADING
+(P
+L802
+-\nAdditional user-defined fields may be added to the source package\ncontrol file.  Such fields will be ignored, and not copied to (for\nexample) binary or source package control files or upload control\nfiles.
+L807
+)P
+(P
+L808
+-\nIf you wish to add additional unsupported fields to these output files\nyou should use the mechanism described here.
+L811
+)P
+(P
+L812
+-\nFields in the main source control information file with names starting\n
+(TT
+-X
+)TT
+-, followed by one or more of the letters 
+(TT
+-BCS
+)TT
+- and a hyphen\n
+(TT
+--
+)TT
+-, will be copied to the output files.  Only the part of the\nfield name after the hyphen will be used in the output file.  Where\nthe letter 
+(TT
+-B
+)TT
+- is used the field will appear in binary package\ncontrol files, where the letter 
+(TT
+-S
+)TT
+- is used in source package\ncontrol files and where 
+(TT
+-C
+)TT
+- is used in upload control\n(
+(TT
+-.changes
+)TT
+-) files.
+L821
+)P
+(P
+L822
+-\nFor example, if the main source information control file contains the\nfield\n
+(EXAMPLE
+L826
+-XBS-Comment: I stand between the candle and the star.
+L827
+)EXAMPLE
+-\nthen the binary and source package control files will contain the\nfield\n
+(EXAMPLE
+L831
+-Comment: I stand between the candle and the star.
+L832
+)EXAMPLE
+-\n
+L834
+)P
+)SECT2
+)SECT1
+AID CDATA dpkgchangelog
+(SECT1
+(HEADING
+(TT
+-debian/changelog
+)TT
+L835
+)HEADING
+(P
+L836
+-\nThis file records the changes to the Debian-specific parts of the\npackage
+(FOOTNOTE
+(P
+-Though there is nothing stopping an author who is\nalso the Debian maintainer from using it for all their changes, it\nwill have to be renamed if the Debian and upstream maintainers become\ndifferent people.
+)P
+)FOOTNOTE
+-.
+L842
+)P
+(P
+L843
+-\nIt has a special format which allows the package building tools to\ndiscover which version of the package is being built and find out\nother release-specific information.
+L847
+)P
+(P
+L848
+-\nThat format is a series of entries like this:\n
+(EXAMPLE
+L851
+(VAR
+-package
+)VAR
+- (
+(VAR
+-version
+)VAR
+-) 
+(VAR
+-distribution(s)
+)VAR
+-; urgency=
+(VAR
+-urgency
+)VAR
+-\n\n  * 
+(VAR
+-change details
+)VAR
+-\n    
+(VAR
+-more change details
+)VAR
+-\n  * 
+(VAR
+-even more change details
+)VAR
+-\n\n -- 
+(VAR
+-maintainer name and email address
+)VAR
+-  
+(VAR
+-date
+)VAR
+L858
+)EXAMPLE
+L859
+)P
+(P
+L860
+-\n
+(VAR
+-package
+)VAR
+- and 
+(VAR
+-version
+)VAR
+- are the source package name and\nversion number.  
+(VAR
+-distribution(s)
+)VAR
+- lists the distributions where\nthis version should be installed when it is uploaded - it is copied to\nthe 
+(TT
+-Distribution
+)TT
+- field in the 
+(TT
+-.changes
+)TT
+- file.  See 
+AID CDATA f-Distribution
+(REF
+)REF
+L865
+-.
+L866
+)P
+(P
+L867
+-\n
+(VAR
+-urgency
+)VAR
+- is the value for the 
+(TT
+-Urgency
+)TT
+- field in the\n
+(TT
+-.changes
+)TT
+- file for the upload.  See 
+AID CDATA f-Urgency
+(REF
+)REF
+-.  It is\nnot possible to specify an urgency containing commas; commas are used\nto separate 
+(TT
+(VAR
+-keyword
+)VAR
+-=
+(VAR
+-value
+)VAR
+)TT
+- settings in the 
+(PRGN
+-dpkg
+)PRGN
+-\nchangelog format (though there is currently only one useful\n
+(VAR
+-keyword
+)VAR
+-, 
+(TT
+-urgency
+)TT
+-).
+L874
+)P
+(P
+L875
+-\nThe change details may in fact be any series of lines starting with at\nleast two spaces, but conventionally each change starts with an\nasterisk and a separating space and continuation lines are indented so\nas to bring them in line with the start of the text above.  Blank\nlines may be used here to separate groups of changes, if desired.
+L881
+)P
+(P
+L882
+-\nThe maintainer name and email address should 
+(EM
+-not
+)EM
+- necessarily be\nthose of the usual package maintainer.  They should be the details of\nthe person doing 
+(EM
+-this
+)EM
+- version.  The information here will be\ncopied to the 
+(TT
+-.changes
+)TT
+- file, and then later used to send an\nacknowledgement when the upload has been installed.
+L888
+)P
+(P
+L889
+-\nThe 
+(VAR
+-date
+)VAR
+- should be in RFC822 format; it should include the\ntimezone specified numerically, with the timezone name or abbreviation\noptionally present as a comment.
+L893
+)P
+(P
+L894
+-\nThe first `title' line with the package name should start at the left\nhand margin; the `trailer' line with the maintainer and date details\nshould be preceded by exactly one space.  The maintainer details and\nthe date must be separated by exactly two spaces.
+L899
+)P
+(P
+L900
+-\nAn Emacs mode for editing this format is available: it is called\n
+(TT
+-debian-changelog-mode
+)TT
+-.  You can have this mode selected\nautomatically when you edit a Debian changelog by adding a local\nvariables clause to the end of the changelog.\n
+L906
+)P
+AID IMPLIED
+(SECT2
+(HEADING
+-Defining alternative changelog formats
+L907
+)HEADING
+(P
+L908
+-\nIt is possible to use a different format to the standard one, by\nproviding a parser for the format you wish to use.
+L911
+)P
+(P
+L912
+-\nIn order to have 
+(TT
+-dpkg-parsechangelog
+)TT
+- run your parser, you must\ninclude a line within the last 40 lines of your file matching the Perl\nregular expression:\n
+(EXAMPLE
+L917
+-\\schangelog-format:\\s+([0-9a-z]+)\\W
+L918
+)EXAMPLE
+-\nThe part in parentheses should be the name of the format.
+L920
+)P
+(P
+L921
+-\nIf such a line exists then 
+(TT
+-dpkg-parsechangelog
+)TT
+- will look for the\nparser as 
+(TT
+-/usr/lib/dpkg/parsechangelog/
+(VAR
+-format-name
+)VAR
+)TT
+- or\n
+(TT
+-/usr/local/lib/dpkg/parsechangelog/
+(VAR
+-format-name
+)VAR
+)TT
+-; it is an\nerror for it not to find it, or for it not to be an executable\nprogram.  The default changelog format is 
+(TT
+-dpkg
+)TT
+-, and a parser for\nit is provided with the 
+(TT
+-dpkg
+)TT
+- package.
+L928
+)P
+(P
+L929
+-\nThe parser will be invoked with the changelog open on standard input\nat the start of the file.  It should read the file (it may seek if it\nwishes) to determine the information required and return the parsed\ninformation to standard output in the form of a series of control\nfields in the standard format.  By default it should return\ninformation about only the most recent version in the changelog; it\nshould accept a 
+(TT
+--v
+(VAR
+-version
+)VAR
+)TT
+- option to return changes\ninformation from all versions present 
+(EM
+-strictly after
+)EM
+-\n
+(VAR
+-version
+)VAR
+-, and it should then be an error for 
+(VAR
+-version
+)VAR
+- not to\nbe present in the changelog.
+L940
+)P
+(P
+L941
+-\nThe fields are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L944
+(ITEM
+(P
+AID CDATA f-Source
+(QREF
+(TT
+-Source
+)TT
+)QREF
+L945
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA versions
+(QREF
+(TT
+-Version
+)TT
+)QREF
+- (mandatory)
+L946
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Distribution
+(QREF
+(TT
+-Distribution
+)TT
+)QREF
+- (mandatory)
+L947
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Urgency
+(QREF
+(TT
+-Urgency
+)TT
+)QREF
+- (mandatory)
+L948
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Maintainer
+(QREF
+(TT
+-Maintainer
+)TT
+)QREF
+- (mandatory)
+L949
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Date
+(QREF
+(TT
+-Date
+)TT
+)QREF
+L950
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Changes
+(QREF
+(TT
+-Changes
+)TT
+)QREF
+- (mandatory)
+L951
+)P
+)ITEM
+)LIST
+L952
+)P
+(P
+L953
+-\nIf several versions are being returned (due to the use of 
+(TT
+--v
+)TT
+-),\nthe urgency value should be of the highest urgency code listed at the\nstart of any of the versions requested followed by the concatenated\n(space-separated) comments from all the versions requested; the\nmaintainer, version, distribution and date should always be from the\nmost recent version.
+L960
+)P
+(P
+L961
+-\nFor the format of the 
+(TT
+-Changes
+)TT
+- field see 
+AID CDATA f-Changes
+(REF
+)REF
+-.
+L963
+)P
+(P
+L964
+-\nIf the changelog format which is being parsed always or almost always\nleaves a blank line between individual change notes these blank lines\nshould be stripped out, so as to make the resulting output compact.
+L968
+)P
+(P
+L969
+-\nIf the changelog format does not contain date or package name\ninformation this information should be omitted from the output.  The\nparser should not attempt to synthesise it or find it from other\nsources.
+L974
+)P
+(P
+L975
+-\nIf the changelog does not have the expected format the parser should\nexit with a nonzero exit status, rather than trying to muddle through\nand possibly generating incorrect output.
+L979
+)P
+(P
+L980
+-\nA changelog parser may not interact with the user at all.\n
+L983
+)P
+)SECT2
+)SECT1
+AID CDATA srcsubstvars
+(SECT1
+(HEADING
+(TT
+-debian/substvars
+)TT
+- and variable substitutions
+L984
+)HEADING
+(P
+L985
+-\nWhen 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+-, 
+(PRGN
+-dpkg-genchanges
+)PRGN
+- and\n
+(PRGN
+-dpkg-source
+)PRGN
+- generate control files they do variable\nsubstitutions on their output just before writing it.  Variable\nsubstitutions have the form 
+(TT
+-${
+(VAR
+-variable-name
+)VAR
+-}
+)TT
+-.  The optional\nfile 
+(TT
+-debian/substvars
+)TT
+- contains variable substitutions to be\nused; variables can also be set directly from 
+(TT
+-debian/rules
+)TT
+-\nusing the 
+(TT
+--V
+)TT
+- option to the source packaging commands, and certain\npredefined variables are available.
+L994
+)P
+(P
+L995
+-\nThe file may be a static part of the source archive, or generated and\nmodified dynamically by 
+(TT
+-debian/rules
+)TT
+- targets.  In the latter\ncase it must be removed by the 
+(PRGN
+-clean
+)PRGN
+- target.
+L999
+)P
+(P
+L1000
+-\nSee 
+ANAME CDATA dpkg-source
+ASECTION CDATA 1
+(MANREF
+)MANREF
+- for full details about source\nvariable substitutions, including the format of\n
+(TT
+-debian/substvars
+)TT
+-.\n
+L1005
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(TT
+-debian/files
+)TT
+L1006
+)HEADING
+(P
+L1007
+-\nThis file is not a permanent part of the source tree; it is used while\nbuilding packages to record which files are being generated.\n
+(PRGN
+-dpkg-genchanges
+)PRGN
+- uses it when it generates a 
+(TT
+-.changes
+)TT
+- file.
+L1011
+)P
+(P
+L1012
+-\nIt should not exist in a shipped source package, and so it (and any\nbackup files or temporary files such as\n
+(TT
+-files.new
+)TT
+(FOOTNOTE
+(P
+(TT
+-files.new
+)TT
+- is used as a temporary file by\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- and 
+(PRGN
+-dpkg-distaddfile
+)PRGN
+- - they write a new\nversion of 
+(TT
+-files
+)TT
+- here before renaming it, to avoid leaving a\ncorrupted copy if an error occurs
+)P
+)FOOTNOTE
+-) should be removed by the\n
+(PRGN
+-clean
+)PRGN
+- target.  It may also be wise to ensure a fresh start by\nemptying or removing it at the start of the 
+(PRGN
+-binary
+)PRGN
+- target.
+L1021
+)P
+(P
+L1022
+-\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- adds an entry to this file for the 
+(TT
+-.deb
+)TT
+-\nfile that will be created by 
+(PRGN
+-dpkg-deb
+)PRGN
+- from the control file\nthat it generates, so for most packages all that needs to be done with\nthis file is to delete it in 
+(PRGN
+-clean
+)PRGN
+-.
+L1027
+)P
+(P
+L1028
+-\nIf a package upload includes files besides the source package and any\nbinary packages whose control files were made with\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- then they should be placed in the parent of the\npackage's top-level directory and 
+(PRGN
+-dpkg-distaddfile
+)PRGN
+- should be\ncalled to add the file to the list in 
+(TT
+-debian/files
+)TT
+-.\n
+L1035
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+(TT
+-debian/tmp
+)TT
+L1036
+)HEADING
+(P
+L1037
+-\nThis is the canonical temporary location for the construction of\nbinary packages by the 
+(PRGN
+-binary
+)PRGN
+- target.  The directory 
+(TT
+-tmp
+)TT
+-\nserves as the root of the filesystem tree as it is being constructed\n(for example, by using the package's upstream makefiles install\ntargets and redirecting the output there), and it also contains the\n
+(TT
+-DEBIAN
+)TT
+- subdirectory.  See 
+AID CDATA bincreating
+(REF
+)REF
+-.
+L1044
+)P
+(P
+L1045
+-\nIf several binary packages are generated from the same source tree it\nis usual to use several 
+(TT
+-debian/tmp
+(VAR
+-something
+)VAR
+)TT
+- directories,\nfor example 
+(TT
+-tmp-a
+)TT
+- or 
+(TT
+-tmp-doc
+)TT
+-.
+L1049
+)P
+(P
+L1050
+-\nWhatever 
+(TT
+-tmp
+)TT
+- directories are created and used by 
+(PRGN
+-binary
+)PRGN
+-\nmust of course be removed by the 
+(PRGN
+-clean
+)PRGN
+- target.\n\n
+L1055
+)P
+)SECT1
+)SECT
+AID CDATA sourcearchives
+(SECT
+(HEADING
+-Source packages as archives
+L1056
+)HEADING
+(P
+L1057
+-\nAs it exists on the FTP site, a Debian source package consists of\nthree related files.  You must have the right versions of all three to\nbe able to use them.
+L1061
+)P
+(P
+L1062
+-\n
+ACOMPACT IMPLIED
+(TAGLIST
+L1064
+(TAG
+-Debian source control file - 
+(TT
+-.dsc
+)TT
+)TAG
+L1065
+(ITEM
+L1067
+(P
+-This file contains a series of fields, identified and separated just\nlike the fields in the control file of a binary package.  The fields\nare listed below; their syntax is described above, in\n
+AID CDATA controlfields
+(REF
+)REF
+-.\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1072
+(ITEM
+(P
+AID CDATA f-Source
+(QREF
+(TT
+-Source
+)TT
+)QREF
+L1073
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA versions
+(QREF
+(TT
+-Version
+)TT
+)QREF
+L1074
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Maintainer
+(QREF
+(TT
+-Maintainer
+)TT
+)QREF
+L1075
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Binary
+(QREF
+(TT
+-Binary
+)TT
+)QREF
+L1076
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Architecture
+(QREF
+(TT
+-Architecture
+)TT
+)QREF
+L1077
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Standards-Version
+(QREF
+(TT
+-Standards-Version
+)TT
+)QREF
+L1078
+)P
+)ITEM
+(ITEM
+(P
+AID CDATA f-Files
+(QREF
+(TT
+-Files
+)TT
+)QREF
+L1079
+)P
+)ITEM
+)LIST
+L1080
+)P
+(P
+L1081
+-\nThe source package control file is generated by 
+(PRGN
+-dpkg-source
+)PRGN
+-\nwhen it builds the source archive, from other files in the source\npackage, described above.  When unpacking it is checked against the\nfiles and directories in the other parts of the source package, as\ndescribed below.\n
+L1088
+)P
+)ITEM
+(TAG
+-Original source archive - 
+(TT
+(VAR
+-package
+)VAR
+-_
+(VAR
+-upstream-version
+)VAR
+-.orig.tar.gz
+)TT
+)TAG
+L1089
+(ITEM
+L1091
+(P
+-This is a compressed (with 
+(TT
+-gzip -9
+)TT
+-) 
+(PRGN
+-tar
+)PRGN
+- file containing\nthe source code from the upstream authors of the program.  The tarfile\nunpacks into a directory\n
+(TT
+(VAR
+-package
+)VAR
+--
+(VAR
+-upstream-version
+)VAR
+-.orig
+)TT
+-, and does not contain\nfiles anywhere other than in there or in its subdirectories.\n
+L1097
+)P
+)ITEM
+(TAG
+-Debianisation diff - 
+(TT
+(VAR
+-package
+)VAR
+-_
+(VAR
+-version-revision
+)VAR
+-.diff.gz
+)TT
+)TAG
+L1098
+(ITEM
+L1100
+(P
+-This is a unified context diff (
+(TT
+-diff -u
+)TT
+-) giving the changes which\nare required to turn the original source into the Debian source.\nThese changes may only include editing and creating plain files.  The\npermissions of files, the targets of symbolic links and the\ncharacteristics of special files or pipes may not be changed and no\nfiles may be removed or renamed.
+L1106
+)P
+(P
+L1107
+-\nAll the directories in the diff must exist, except the 
+(TT
+-debian
+)TT
+-\nsubdirectory of the top of the source tree, which will be created by\n
+(PRGN
+-dpkg-source
+)PRGN
+- if necessary when unpacking.
+L1111
+)P
+(P
+L1112
+-\nThe 
+(PRGN
+-dpkg-source
+)PRGN
+- program will automatically make the\n
+(TT
+-debian/rules
+)TT
+- file executable (see below).\n
+L1116
+)P
+)ITEM
+)TAGLIST
+L1117
+)P
+(P
+L1118
+-\nIf there is no original source code - for example, if the package is\nspecially prepared for Debian or the Debian maintainer is the same as\nthe upstream maintainer - the format is slightly different: then there\nis no diff, and the tarfile is named\n
+(TT
+(VAR
+-package
+)VAR
+-_
+(VAR
+-version
+)VAR
+-.tar.gz
+)TT
+- and contains a directory\n
+(TT
+(VAR
+-package
+)VAR
+--
+(VAR
+-version
+)VAR
+)TT
+-.\n
+L1126
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Unpacking a Debian source package without 
+(PRGN
+-dpkg-source
+)PRGN
+L1127
+)HEADING
+(P
+L1128
+-\n
+(TT
+-dpkg-source -x
+)TT
+- is the recommended way to unpack a Debian source\npackage.  However, if it is not available it is possible to unpack a\nDebian source archive as follows:\n\n
+ACOMPACT TOKEN COMPACT
+(ENUMLIST
+L1134
+(ITEM
+(P
+-Untar the tarfile, which will create a 
+(TT
+-.orig
+)TT
+- directory.
+L1135
+)P
+)ITEM
+(ITEM
+(P
+-Rename the 
+(TT
+-.orig
+)TT
+- directory to\n
+(TT
+(VAR
+-package
+)VAR
+--
+(VAR
+-version
+)VAR
+)TT
+-.
+L1137
+)P
+)ITEM
+(ITEM
+(P
+-Create the subdirectory 
+(TT
+-debian
+)TT
+- at the top of the source\ntree.
+L1139
+)P
+)ITEM
+(ITEM
+(P
+-Apply the diff using 
+(TT
+-patch -p0
+)TT
+-.
+L1140
+)P
+)ITEM
+(ITEM
+(P
+-Untar the tarfile again if you want a copy of the original\nsource code alongside the Debianised version.
+L1142
+)P
+)ITEM
+)ENUMLIST
+L1143
+)P
+(P
+L1144
+-\nIt is not possible to generate a valid Debian source archive without\nusing 
+(PRGN
+-dpkg-source
+)PRGN
+-.  In particular, attempting to use\n
+(PRGN
+-diff
+)PRGN
+- directly to generate the 
+(TT
+-.diff.gz
+)TT
+- file will not work.\n
+L1149
+)P
+AID IMPLIED
+(SECT1
+(HEADING
+-Restrictions on objects in source packages
+L1150
+)HEADING
+(P
+L1151
+-\nThe source package may not contain any device special files, sockets\nor setuid or setgid files.
+(FOOTNOTE
+(P
+-Setgid directories are\nallowed.
+)P
+)FOOTNOTE
+L1155
+)P
+(P
+L1156
+-\nThe source packaging tools manage the changes between the original and\nDebianised source using 
+(PRGN
+-diff
+)PRGN
+- and 
+(PRGN
+-patch
+)PRGN
+-.  Turning the\noriginal source tree as included in the 
+(TT
+-.orig.tar.gz
+)TT
+- into the\ndebianised source must not involve any changes which cannot be handled\nby these tools.  Problematic changes which cause 
+(PRGN
+-dpkg-source
+)PRGN
+- to\nhalt with an error when building the source package are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1164
+(ITEM
+(P
+-Adding or removing symbolic links, sockets or pipes.
+L1165
+)P
+)ITEM
+(ITEM
+(P
+-Changing the targets of symbolic links.
+L1166
+)P
+)ITEM
+(ITEM
+(P
+-Creating directories, other than 
+(TT
+-debian
+)TT
+-.
+L1167
+)P
+)ITEM
+(ITEM
+(P
+-Changes to the contents of binary files.
+L1168
+)P
+)ITEM
+)LIST
+-\nChanges which cause 
+(PRGN
+-dpkg-source
+)PRGN
+- to print a warning but continue\nanyway are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1172
+(ITEM
+(P
+-Removing files, directories or symlinks.  
+(FOOTNOTE
+(P
+-Renaming a\nfile is not treated specially - it is seen as the removal of the old\nfile (which generates a warning, but is otherwise ignored), and the\ncreation of the new one.
+)P
+)FOOTNOTE
+L1176
+)P
+)ITEM
+)LIST
+-\nChanges which are not represented, but which are not detected by\n
+(PRGN
+-dpkg-source
+)PRGN
+-, are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1180
+(ITEM
+(P
+-Changing the permissions of files (other than\n
+(TT
+-debian/rules
+)TT
+-) and directories.
+L1182
+)P
+)ITEM
+)LIST
+L1183
+)P
+(P
+L1184
+-\nThe 
+(TT
+-debian
+)TT
+- directory and 
+(TT
+-debian/rules
+)TT
+- are handled\nspecially by 
+(PRGN
+-dpkg-source
+)PRGN
+- - before applying the changes it will\ncreate the 
+(TT
+-debian
+)TT
+- directory, and afterwards it will make\n
+(TT
+-debian/rules
+)TT
+- world-exectuable.\n
+L1190
+)P
+)SECT1
+)SECT
+)CHAPT
+AID CDATA controlfields
+(CHAPT
+(HEADING
+-Control files and their fields
+L1191
+)HEADING
+(P
+L1192
+-\nMany of the tools in the 
+(PRGN
+-dpkg
+)PRGN
+- suite manipulate data in a common\nformat, known as control files.  Binary and source packages have\ncontrol data as do the 
+(TT
+-.changes
+)TT
+- files which control the\ninstallation of uploaded files, and 
+(PRGN
+-dpkg
+)PRGN
+-'s internal databases\nare in a similar format.\n
+L1199
+)P
+AID IMPLIED
+(SECT
+(HEADING
+-Syntax of control files
+L1200
+)HEADING
+(P
+L1201
+-\nA file consists of one or more paragraphs of fields.  The paragraphs\nare separated by blank lines.  Some control files only allow one\nparagraph; others allow several, in which case each paragraph often\nrefers to a different package.
+L1206
+)P
+(P
+L1207
+-\nEach paragraph is a series of fields and values; each field consists\nof a name, followed by a colon and the value.  It ends at the end of\nthe line.  Horizontal whitespace (spaces and tabs) may occur before or\nafter the value and is ignored there; it is conventional to put a\nsingle space after the colon.
+L1213
+)P
+(P
+L1214
+-\nSome fields' values may span several lines; in this case each\ncontinuation line 
+(EM
+-must
+)EM
+- start with a space or tab.  Any trailing\nspaces or tabs at the end of individual lines of a field value are\nignored.
+L1219
+)P
+(P
+L1220
+-\nExcept where otherwise stated only a single line of data is allowed\nand whitespace is not significant in a field body.  Whitespace may\nnever appear inside names (of packages, architectures, files or\nanything else), version numbers or in between the characters of\nmulti-character version relationships.
+L1226
+)P
+(P
+L1227
+-\nField names are not case-sensitive, but it is usual to capitalise the\nfields using mixed case as shown below.
+L1230
+)P
+(P
+L1231
+-\nBlank lines, or lines consisting only of spaces and tabs, are not\nallowed within field values or between fields - that would mean a new\nparagraph.
+L1235
+)P
+(P
+L1236
+-\nIt is important to note that there are several fields which are\noptional as far as 
+(PRGN
+-dpkg
+)PRGN
+- and the related tools are concerned,\nbut which must appear in every Debian package, or whose omission may\ncause problems.  When writing the control files for Debian packages\nyou 
+(EM
+-must
+)EM
+- read the Debian policy manual in conjuction with the\ndetails below and the list of fields for the particular file.\n
+L1244
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-List of fields\n
+L1246
+)HEADING
+AID CDATA f-Package
+(SECT1
+(HEADING
+(TT
+-Package
+)TT
+L1247
+)HEADING
+(P
+L1248
+-\nThe name of the binary package.  Package names consist of the\nalphanumerics and 
+(TT
+-+
+)TT
+- 
+(TT
+--
+)TT
+- 
+(TT
+-.
+)TT
+- (plus, minus and full\nstop).
+(FOOTNOTE
+(P
+-The characters 
+(TT
+-@
+)TT
+- 
+(TT
+-:
+)TT
+- 
+(TT
+-=
+)TT
+- 
+(TT
+-%
+)TT
+- 
+(TT
+-_
+)TT
+- (at,\ncolon, equals, percent and underscore) used to be legal and are still\naccepted when found in a package file, but may not be used in new\npackages
+)P
+)FOOTNOTE
+L1255
+)P
+(P
+L1256
+-\nThey must be at least two characters and must start with an\nalphanumeric.  In current versions of dpkg they are sort of\ncase-sensitive
+(FOOTNOTE
+(P
+-This is a bug.
+)P
+)FOOTNOTE
+-; use lowercase\npackage names unless the package you're building (or referring to, in\nother fields) is already using uppercase.\n
+L1263
+)P
+)SECT1
+AID CDATA f-Version
+(SECT1
+(HEADING
+(TT
+-Version
+)TT
+L1264
+)HEADING
+(P
+L1265
+-\nThis lists the source or binary package's version number - see 
+AID CDATA versions
+(REF
+)REF
+L1267
+-.\n
+L1269
+)P
+)SECT1
+AID CDATA f-Architecture
+(SECT1
+(HEADING
+(TT
+-Architecture
+)TT
+L1270
+)HEADING
+(P
+L1271
+-\nThis is the architecture string; it is a single word for the CPU\narchitecture.
+L1274
+)P
+(P
+L1275
+-\n
+(PRGN
+-dpkg
+)PRGN
+- will check the declared architecture of a binary package\nagainst its own compiled-in value before it installs it.
+L1278
+)P
+(P
+L1279
+-\nThe special value 
+(TT
+-all
+)TT
+- indicates that the package is\narchitecture-independent.
+L1282
+)P
+(P
+L1283
+-\nIn the main 
+(TT
+-debian/control
+)TT
+- file in the source package, or in\nthe source package control file 
+(TT
+-.dsc
+)TT
+-, a list of architectures\n(separated by spaces) is also allowed, as is the special value\n
+(TT
+-any
+)TT
+-.  A list indicates that the source will build an\narchitecture-dependent package, and will only work correctly on the\nlisted architectures.  
+(TT
+-any
+)TT
+- indicates that though the source\npackage isn't dependent on any particular architecture and should\ncompile fine on any one, the binary package(s) produced are not\narchitecture-independent but will instead be specific to whatever the\ncurrent build architecture is.
+L1294
+)P
+(P
+L1295
+-\nIn a 
+(TT
+-.changes
+)TT
+- file the 
+(TT
+-Architecture
+)TT
+- field lists the\narchitecture(s) of the package(s) currently being uploaded.  This will\nbe a list; if the source for the package is being uploaded too the\nspecial entry 
+(TT
+-source
+)TT
+- is also present.
+L1300
+)P
+(P
+L1301
+-\nThe current build architecture can be determined using 
+(TT
+-dpkg\n--print-architecture
+)TT
+-.
+(FOOTNOTE
+(P
+-This actually invokes\n
+(EXAMPLE
+L1305
+-gcc --print-libgcc-file-name
+L1306
+)EXAMPLE
+-\nand parses and decomposes the output and looks the CPU type from the\nGCC configuration in a table in 
+(PRGN
+-dpkg
+)PRGN
+-.  This is so that it will\nwork if you're cross-compiling.
+L1310
+)P
+)FOOTNOTE
+-\nThis value is automatically used by 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- when\nbuilding the control file for a binary package for which the source\ncontrol information doesn't specify architecture 
+(TT
+-all
+)TT
+-.
+L1314
+)P
+(P
+L1315
+-\nThere is a separate option, 
+(TT
+---print-installation-architecture
+)TT
+-,\nfor finding out what architecture 
+(PRGN
+-dpkg
+)PRGN
+- is willing to install.\nThis information is also in the output of 
+(TT
+-dpkg --version
+)TT
+-.\n
+L1320
+)P
+)SECT1
+AID CDATA f-Maintainer
+(SECT1
+(HEADING
+(TT
+-Maintainer
+)TT
+L1321
+)HEADING
+(P
+L1322
+-\nThe package maintainer's name and email address.  The name should come\nfirst, then the email address inside angle brackets 
+(TT
+-\|<\|\|>\|
+)TT
+- (in\nRFC822 format).
+L1326
+)P
+(P
+L1327
+-\nIf the maintainer's name contains a full stop then the whole field\nwill not work directly as an email address due to a misfeature in the\nsyntax specified in RFC822; a program using this field as an address\nmust check for this and correct the problem if necessary (for example\nby putting the name in round brackets and moving it to the end, and\nbringing the email address forward).
+L1334
+)P
+(P
+L1335
+-\nIn a 
+(TT
+-.changes
+)TT
+- file or parsed changelog data this contains the\nname and email address of the person responsible for the particular\nversion in question - this may not be the package's usual maintainer.
+L1339
+)P
+(P
+L1340
+-\nThis field is usually optional in as far as the 
+(PRGN
+-dpkg
+)PRGN
+- are\nconcerned, but its absence when building packages usually generates a\nwarning.\n
+L1345
+)P
+)SECT1
+AID CDATA f-Source
+(SECT1
+(HEADING
+(TT
+-Source
+)TT
+L1346
+)HEADING
+(P
+L1347
+-\nThis field identifies the source package name.
+L1349
+)P
+(P
+L1350
+-\nIn a main source control information or a 
+(TT
+-.changes
+)TT
+- or 
+(TT
+-.dsc
+)TT
+-\nfile or parsed changelog data this may contain only the name of the\nsource package.
+L1354
+)P
+(P
+L1355
+-\nIn the control file of a binary package (or in a 
+(TT
+-Packages
+)TT
+- file)\nit may be followed by a version number in parentheses.
+(FOOTNOTE
+(P
+-It is\nusual to leave a space after the package name if a version number is\nspecified.
+)P
+)FOOTNOTE
+- This version number may be omitted (and is, by\n
+(PRGN
+-dpkg-gencontrol
+)PRGN
+-) if it has the same value as the 
+(TT
+-Version
+)TT
+-\nfield of the binary package in question.  The field itself may be\nomitted from a binary package control file when the source package has\nthe same name and version as the binary package.\n
+L1365
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+-Package interrelationship fields:\n
+(TT
+-Depends
+)TT
+-, 
+(TT
+-Pre-Depends
+)TT
+-, 
+(TT
+-Recommends
+)TT
+-\n
+(TT
+-Suggests
+)TT
+-, 
+(TT
+-Conflicts
+)TT
+-, 
+(TT
+-Provides
+)TT
+-, 
+(TT
+-Replaces
+)TT
+L1368
+)HEADING
+(P
+L1369
+-\nThese fields describe the package's relationships with other packages.\nTheir syntax and semantics are described in 
+AID CDATA relationships
+(REF
+)REF
+-.\n
+L1373
+)P
+)SECT1
+AID CDATA f-Description
+(SECT1
+(HEADING
+(TT
+-Description
+)TT
+L1374
+)HEADING
+(P
+L1375
+-\nIn a binary package 
+(TT
+-Packages
+)TT
+- file or main source control file\nthis field contains a description of the binary package, in a special\nformat.  See 
+AID CDATA descriptions
+(REF
+)REF
+- for details.
+L1379
+)P
+(P
+L1380
+-\nIn a 
+(TT
+-.changes
+)TT
+- file it contains a summary of the descriptions for\nthe packages being uploaded.  The part of the field before the first\nnewline is empty; thereafter each line has the name of a binary\npackage and the summary description line from that binary package.\nEach line is indented by one space.\n
+L1387
+)P
+)SECT1
+AID CDATA f-Essential
+(SECT1
+(HEADING
+(TT
+-Essential
+)TT
+L1388
+)HEADING
+(P
+L1389
+-\nThis is a boolean field which may occur only in the control file of a\nbinary package (or in the 
+(TT
+-Packages
+)TT
+- file) or in a per-package\nfields paragraph of a main source control data file.
+L1393
+)P
+(P
+L1394
+-\nIf set to 
+(TT
+-yes
+)TT
+- then 
+(PRGN
+-dpkg
+)PRGN
+- and 
+(PRGN
+-dselect
+)PRGN
+- will refuse to\nremove the package (though it can be upgraded and/or replaced).  The\nother possible value is 
+(TT
+-no
+)TT
+-, which is the same as not having the\nfield at all.\n
+L1400
+)P
+)SECT1
+AID CDATA f-classification
+(SECT1
+(HEADING
+(TT
+-Section
+)TT
+- and 
+(TT
+-Priority
+)TT
+L1401
+)HEADING
+(P
+L1402
+-\nThese two fields classify the package.  The 
+(TT
+-Priority
+)TT
+- represents\nhow important that it is that the user have it installed; the\n
+(TT
+-Section
+)TT
+- represents an application area into which the package has\nbeen classified.
+L1407
+)P
+(P
+L1408
+-\nWhen they appear in the 
+(TT
+-debian/control
+)TT
+- file these fields give\nvalues for the section and priority subfields of the 
+(TT
+-Files
+)TT
+- field\nof the 
+(TT
+-.changes
+)TT
+- file, and give defaults for the section and\npriority of the binary packages.
+L1413
+)P
+(P
+L1414
+-\nThe section and priority are represented, though not as separate\nfields, in the information for each file in the 
+AID CDATA f-Files
+(QREF
+L1417
+(TT
+-Files
+)TT
+)QREF
+- field of a 
+(TT
+-.changes
+)TT
+- file.  The\nsection value in a 
+(TT
+-.changes
+)TT
+- file is used to decide where to\ninstall a package in the FTP archive.
+L1420
+)P
+(P
+L1421
+-\nThese fields are not used by by 
+(PRGN
+-dpkg
+)PRGN
+- proper, but by\n
+(PRGN
+-dselect
+)PRGN
+- when it sorts packages and selects defaults.  See the\nDebian policy manual for the priorities in use and the criteria for\nselecting the priority for a Debian package, and look at the Debian\nFTP archive for a list of currently in-use priorities.
+L1427
+)P
+(P
+L1428
+-\nThese fields may appear in binary package control files, in which case\nthey provide a default value in case the 
+(TT
+-Packages
+)TT
+- files are\nmissing the information.  
+(PRGN
+-dpkg
+)PRGN
+- and 
+(PRGN
+-dselect
+)PRGN
+- will only use\nthe value from a 
+(TT
+-.deb
+)TT
+- file if they have no other information; a\nvalue listed in a 
+(TT
+-Packages
+)TT
+- file will always take precedence.  By\ndefault 
+(PRGN
+-dpkg-genchanges
+)PRGN
+- does not include the section and\npriority in the control file of a binary package - use the 
+(TT
+--isp
+)TT
+-,\n
+(TT
+--is
+)TT
+- or 
+(TT
+--ip
+)TT
+- options to achieve this effect.\n
+L1438
+)P
+)SECT1
+AID CDATA f-Binary
+(SECT1
+(HEADING
+(TT
+-Binary
+)TT
+L1439
+)HEADING
+(P
+L1440
+-\nThis field is a list of binary packages.
+L1442
+)P
+(P
+L1443
+-\nWhen it appears in the 
+(TT
+-.dsc
+)TT
+- file it is the list of binary\npackages which a source package can produce.  It does not necessarily\nproduce all of these binary packages for every architecture.  The\nsource control file doesn't contain details of which architectures are\nappropriate for which of the binary packages.
+L1449
+)P
+(P
+L1450
+-\nWhen it appears in a 
+(TT
+-.changes
+)TT
+- file it lists the names of the\nbinary packages actually being uploaded.
+L1453
+)P
+(P
+L1454
+-\nThe syntax is a list of binary packages separated by\ncommas.
+(FOOTNOTE
+(P
+-A space after each comma is conventional.
+)P
+)FOOTNOTE
+-\nCurrently the packages must be separated using only spaces in the\n
+(TT
+-.changes
+)TT
+- file.\n
+L1460
+)P
+)SECT1
+AID CDATA f-Installed-Size
+(SECT1
+(HEADING
+(TT
+-Installed-Size
+)TT
+L1461
+)HEADING
+(P
+L1462
+-\nThis field appears in the control files of binary packages, and in the\n
+(TT
+-Packages
+)TT
+- files.  It gives the total amount of disk space\nrequired to install the named package.
+L1466
+)P
+(P
+L1467
+-\nThe disk space is represented in kilobytes as a simple decimal number.\n
+L1470
+)P
+)SECT1
+AID CDATA f-Files
+(SECT1
+(HEADING
+(TT
+-Files
+)TT
+L1471
+)HEADING
+(P
+L1472
+-\nThis field contains a list of files with information about each one.\nThe exact information and syntax varies with the context.  In all\ncases the the part of the field contents on the same line as the field\nname is empty.  The remainder of the field is one line per file, each\nline being indented by one space and containing a number of sub-fields\nseparated by spaces.
+L1479
+)P
+(P
+L1480
+-\nIn the 
+(TT
+-.dsc
+)TT
+- (Debian source control) file each line contains the\nMD5 checksum, size and filename of the tarfile and (if applicable)\ndiff file which make up the remainder of the source\npackage.
+(FOOTNOTE
+(P
+-That is, the parts which are not the\n
+(TT
+-.dsc
+)TT
+-.
+)P
+)FOOTNOTE
+- The exact forms of the filenames are described\nin 
+AID CDATA sourcearchives
+(REF
+)REF
+-.
+L1487
+)P
+(P
+L1488
+-\nIn the 
+(TT
+-.changes
+)TT
+- file this contains one line per file being\nuploaded.  Each line contains the MD5 checksum, size, section and\npriority and the filename.  The section and priority are the values of\nthe corresponding fields in the main source control file - see 
+AID CDATA f-classification
+(REF
+)REF
+L1493
+-.  If no section or priority is specified then\n
+(TT
+--
+)TT
+- should be used, though section and priority values must be\nspecified for new packages to be installed properly.
+L1496
+)P
+(P
+L1497
+-\nThe special value 
+(TT
+-byhand
+)TT
+- for the section in a 
+(TT
+-.changes
+)TT
+- file\nindicates that the file in question is not an ordinary package file\nand must by installed by hand by the distribution maintainers.  If the\nsection is 
+(TT
+-byhand
+)TT
+- the priority should be 
+(TT
+--
+)TT
+-.
+L1502
+)P
+(P
+L1503
+-\nIf a new Debian revision of a package is being shipped and no new\noriginal source archive is being distributed the 
+(TT
+-.dsc
+)TT
+- must still\ncontain the 
+(TT
+-Files
+)TT
+- field entry for the original source archive\n
+(TT
+(VAR
+-package
+)VAR
+--
+(VAR
+-upstream-version
+)VAR
+-.orig.tar.gz
+)TT
+-, but the\n
+(TT
+-.changes
+)TT
+- file should leave it out.  In this case the original\nsource archive on the distribution site must match exactly,\nbyte-for-byte, the original source archive which was used to generate\nthe 
+(TT
+-.dsc
+)TT
+- file and diff which are being uploaded.\n\n
+L1514
+)P
+)SECT1
+AID CDATA f-Standards-Version
+(SECT1
+(HEADING
+(TT
+-Standards-Version
+)TT
+L1515
+)HEADING
+(P
+L1516
+-\nThe most recent version of the standards (the 
+(PRGN
+-dpkg
+)PRGN
+- programmers'\nand policy manuals and associated texts) with which the package\ncomplies.  This is updated manually when editing the source package to\nconform to newer standards; it can sometimes be used to tell when a\npackage needs attention.
+L1522
+)P
+(P
+L1523
+-\nIts format is the same as that of a version number except that no\nepoch or Debian revision is allowed - see 
+AID CDATA versions
+(REF
+)REF
+-.\n\n
+L1528
+)P
+)SECT1
+AID CDATA f-Distribution
+(SECT1
+(HEADING
+(TT
+-Distribution
+)TT
+L1529
+)HEADING
+(P
+L1530
+-\nIn a 
+(TT
+-.changes
+)TT
+- file or parsed changelog output this contains the\n(space-separated) name(s) of the distribution(s) where this version of\nthe package should be or was installed.  Distribution names follow the\nrules for package names.  (See 
+AID CDATA f-Package
+(REF
+)REF
+-).
+L1535
+)P
+(P
+L1536
+-\nCurrent distribution values are 
+(TT
+-stable
+)TT
+-, 
+(TT
+-unstable
+)TT
+-,\n
+(TT
+-contrib
+)TT
+-, 
+(TT
+-non-free
+)TT
+- and 
+(TT
+-experimental
+)TT
+-.\n
+L1540
+)P
+)SECT1
+AID CDATA f-Urgency
+(SECT1
+(HEADING
+(TT
+-Urgency
+)TT
+L1541
+)HEADING
+(P
+L1542
+-\nThis is a description of how important it is to upgrade to this\nversion from previous ones.  It consists of a single keyword usually\ntaking one of the values 
+(TT
+-LOW
+)TT
+-, 
+(TT
+-MEDIUM
+)TT
+- or 
+(TT
+-HIGH
+)TT
+-) followed\nby an optional commentary (separated by a space) which is usually in\nparentheses.  For example:\n
+(EXAMPLE
+L1549
+-Urgency: LOW (HIGH for diversions users)
+L1550
+)EXAMPLE
+L1551
+)P
+(P
+L1552
+-\nThis field appears in the 
+(TT
+-.changes
+)TT
+- file and in parsed changelogs;\nits value appears as the value of the 
+(TT
+-urgency
+)TT
+- attribute in a\n
+(PRGN
+-dpkg
+)PRGN
+--style changelog (see 
+AID CDATA dpkgchangelog
+(REF
+)REF
+-).
+L1556
+)P
+(P
+L1557
+-\nUrgency keywords are not case-sensitive.\n
+L1560
+)P
+)SECT1
+AID CDATA f-Date
+(SECT1
+(HEADING
+(TT
+-Date
+)TT
+L1561
+)HEADING
+(P
+L1562
+-\nIn 
+(TT
+-.changes
+)TT
+- files and parsed changelogs, this gives the date the\npackage was built or last edited.\n
+L1566
+)P
+)SECT1
+AID CDATA f-Format
+(SECT1
+(HEADING
+(TT
+-Format
+)TT
+L1567
+)HEADING
+(P
+L1568
+-\nThis field occurs in 
+(TT
+-.changes
+)TT
+- files, and specifies a format\nrevision for the file.  The format described here is version 
+(TT
+-1.5
+)TT
+-.\nThe syntax of the format value is the same as that of a package\nversion number except that no epoch or Debian revision is allowed -\nsee 
+AID CDATA versions
+(REF
+)REF
+-.\n
+L1575
+)P
+)SECT1
+AID CDATA f-Changes
+(SECT1
+(HEADING
+(TT
+-Changes
+)TT
+L1576
+)HEADING
+(P
+L1577
+-\nIn a 
+(TT
+-.changes
+)TT
+- file or parsed changelog this field contains the\nhuman-readable changes data, describing the differences between the\nlast version and the current one.
+L1581
+)P
+(P
+L1582
+-\nThere should be nothing in this field before the first newline; all\nthe subsequent lines must be indented by at least one space; blank\nlines must be represented by a line consiting only of a space and a\nfull stop.
+L1587
+)P
+(P
+L1588
+-\nEach version's change information should be preceded by a `title' line\ngiving at least the version, distribution(s) and urgency, in a\nhuman-readable way.
+L1592
+)P
+(P
+L1593
+-\nIf data from several versions is being returned the entry for the most\nrecent version should be returned first, and entries should be\nseparated by the representation of a blank line (the `title' line may\nalso be followed by the representation of blank line).\n
+L1599
+)P
+)SECT1
+AID CDATA f-Filename
+(SECT1
+(HEADING
+(TT
+-Filename
+)TT
+- and 
+(TT
+-MSDOS-Filename
+)TT
+L1600
+)HEADING
+(P
+L1601
+-\nThese fields in 
+(TT
+-Packages
+)TT
+- files give the filename(s) of (the parts\nof) a package in the distribution directories, relative to the root of\nthe Debian hierarchy.  If the package has been split into several\nparts the parts are all listed in order, separated by spaces.\n
+L1607
+)P
+)SECT1
+AID CDATA f-Size
+(SECT1
+(HEADING
+(TT
+-Size
+)TT
+- and 
+(TT
+-MD5sum
+)TT
+L1608
+)HEADING
+(P
+L1609
+-\nThese fields in 
+(TT
+-Packages
+)TT
+- files give the size (in bytes, expressed\nin decimal) and MD5 checksum of the file(s) which make(s) up a binary\npackage in the distribution.  If the package is split into several\nparts the values for the parts are listed in order, separated by\nspaces.\n
+L1616
+)P
+)SECT1
+AID CDATA f-Status
+(SECT1
+(HEADING
+(TT
+-Status
+)TT
+L1617
+)HEADING
+(P
+L1618
+-\nThis field in 
+(PRGN
+-dpkg
+)PRGN
+-'s status file records whether the user wants a\npackage installed, removed or left alone, whether it is broken\n(requiring reinstallation) or not and what its current state on the\nsystem is.  Each of these pieces of information is a single word.\n
+L1624
+)P
+)SECT1
+AID CDATA f-Config-Version
+(SECT1
+(HEADING
+(TT
+-Config-Version
+)TT
+L1625
+)HEADING
+(P
+L1626
+-\nIf a package is not installed or not configured, this field in\n
+(PRGN
+-dpkg
+)PRGN
+-'s status file records the last version of the package which\nwas successfully configured.\n
+L1631
+)P
+)SECT1
+AID CDATA f-Conffiles
+(SECT1
+(HEADING
+(TT
+-Conffiles
+)TT
+L1632
+)HEADING
+(P
+L1633
+-\nThis field in 
+(PRGN
+-dpkg
+)PRGN
+-'s status file contains information about the\nautomatically-managed configuration files held by a package.  This\nfield should 
+(EM
+-not
+)EM
+- appear anywhere in a package!\n
+L1638
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+-Obsolete fields
+L1639
+)HEADING
+(P
+L1640
+-\nThese are still recognised by 
+(PRGN
+-dpkg
+)PRGN
+- but should not appear anywhere\nany more.\n\n
+ACOMPACT TOKEN COMPACT
+(TAGLIST
+L1646
+(TAG
+(TT
+-Revision
+)TT
+L1647
+)TAG
+(TAG
+(TT
+-Package-Revision
+)TT
+L1648
+)TAG
+(TAG
+(TT
+-Package_Revision
+)TT
+L1649
+)TAG
+(ITEM
+L1650
+(P
+-The Debian revision part of the package version was at one point in a\nseparate control file field.  This field went through several names.\n
+L1653
+)P
+)ITEM
+(TAG
+(TT
+-Recommended
+)TT
+L1654
+)TAG
+(ITEM
+(P
+-Old name for 
+(TT
+-Recommends
+)TT
+-\n
+L1656
+)P
+)ITEM
+(TAG
+(TT
+-Optional
+)TT
+L1657
+)TAG
+(ITEM
+(P
+-Old name for 
+(TT
+-Suggests
+)TT
+-.\n
+L1659
+)P
+)ITEM
+(TAG
+(TT
+-Class
+)TT
+L1660
+)TAG
+(ITEM
+(P
+-Old name for 
+(TT
+-Priority
+)TT
+-.\n
+L1662
+)P
+)ITEM
+)TAGLIST
+-\n
+L1664
+)P
+)SECT1
+)SECT
+)CHAPT
+AID CDATA versions
+(CHAPT
+(HEADING
+-Version numbering
+L1665
+)HEADING
+(P
+L1666
+-\nEvery package has a version number, in its 
+(TT
+-Version
+)TT
+- control file\nfield.
+L1669
+)P
+(P
+L1670
+-\n
+(PRGN
+-dpkg
+)PRGN
+- imposes an ordering on version numbers, so that it can tell\nwhether packages are being up- or downgraded and so that 
+(PRGN
+-dselect
+)PRGN
+-\ncan tell whether a package it finds available is newer than the one\ninstalled on the system.  The version number format has the most\nsignificant parts (as far as comparison is concerned) at the\nbeginning.
+L1677
+)P
+(P
+L1678
+-\nThe version number format is:\n\|[\|
+(VAR
+-epoch
+)VAR
+(TT
+-:
+)TT
+-\|]\|
+(VAR
+-upstream-version
+)VAR
+-\|[\|
+(TT
+--
+)TT
+(VAR
+-debian-revision
+)VAR
+-\|]\|.
+L1681
+)P
+(P
+L1682
+-\nThe three components here are:\n\n
+ACOMPACT IMPLIED
+(TAGLIST
+L1687
+(TAG
+(VAR
+-epoch
+)VAR
+L1688
+)TAG
+(ITEM
+L1690
+(P
+-This is a single unsigned integer, which should usually be small.  It\nmay be omitted, in which case zero is assumed.  If it is omitted then\nthe 
+(VAR
+-upstream-version
+)VAR
+- may not contain any colons.
+L1693
+)P
+(P
+L1694
+-\nIt is provided to allow mistakes in the version numbers of older\nversions of a package, and also a package's previous version numbering\nschemes, to be left behind.
+L1698
+)P
+(P
+L1699
+-\n
+(PRGN
+-dpkg
+)PRGN
+- will not usually display the epoch unless it is essential\n(non-zero, or if the 
+(VAR
+-upstream-version
+)VAR
+- contains a colon);\n
+(PRGN
+-dselect
+)PRGN
+- does not display epochs at all in the main part of the\npackage selection display.\n
+L1705
+)P
+)ITEM
+(TAG
+(VAR
+-upstream-version
+)VAR
+L1706
+)TAG
+(ITEM
+L1708
+(P
+-This is the main part of the version.  It is usually version number of\nthe original (`upstream') package of which the 
+(TT
+-.deb
+)TT
+- file has been\nmade, if this is applicable.  Usually this will be in the same format\nas that specified by the upstream author(s); however, it may need to\nbe reformatted to fit into 
+(PRGN
+-dpkg
+)PRGN
+-'s format and comparison scheme.
+L1713
+)P
+(P
+L1714
+-\nThe comparison behaviour of 
+(PRGN
+-dpkg
+)PRGN
+- with respect to the\n
+(VAR
+-upstream-version
+)VAR
+- is described below.  The 
+(VAR
+-upstream-version
+)VAR
+-\nportion of the version number is mandatory.
+L1718
+)P
+(P
+L1719
+-\nThe 
+(VAR
+-upstream-version
+)VAR
+- may contain only alphanumerics and the\ncharacters 
+(TT
+-+
+)TT
+- 
+(TT
+-.
+)TT
+- 
+(TT
+--
+)TT
+- 
+(TT
+-:
+)TT
+- (full stop, plus, hyphen,\ncolon) and should start with a digit.  If there is no\n
+(VAR
+-debian-revision
+)VAR
+- then hyphens are not allowed; if there is no\n
+(VAR
+-epoch
+)VAR
+- then colons are not allowed.\n
+L1726
+)P
+)ITEM
+(TAG
+(VAR
+-debian-revision
+)VAR
+L1727
+)TAG
+(ITEM
+L1729
+(P
+-This part of the version represents the version of the modifications\nthat were made to the package to make it a Debian binary package.  It\nis in the same format as the 
+(VAR
+-upstream-version
+)VAR
+- and 
+(PRGN
+-dpkg
+)PRGN
+-\ncompares it in the same way.
+L1733
+)P
+(P
+L1734
+-\nIt is optional; if it isn't present then the 
+(VAR
+-upstream-version
+)VAR
+-\nmay not contain a hyphen.  This format represents the case where a\npiece of software was written specifically to be turned into a Debian\nbinary package, and so there is only one `debianization' of it and\ntherefore no revision indication is required.
+L1740
+)P
+(P
+L1741
+-\nIt is conventional to restart the 
+(VAR
+-debian-revision
+)VAR
+- at 
+(TT
+-1
+)TT
+- each\ntime the 
+(VAR
+-upstream-version
+)VAR
+- is increased.
+L1744
+)P
+(P
+L1745
+-\n
+(PRGN
+-dpkg
+)PRGN
+- will break the 
+(VAR
+-upstream-version
+)VAR
+- and\n
+(VAR
+-debian-revision
+)VAR
+- apart at the last hyphen in the string.  The\nabsence of a 
+(VAR
+-debian-revision
+)VAR
+- compares earlier than the presence\nof one (but note that the 
+(VAR
+-debian-revision
+)VAR
+- is the least\nsignificant part of the version number).
+L1751
+)P
+(P
+L1752
+-\nThe 
+(VAR
+-debian-revision
+)VAR
+- may contain only alphanumerics and the\ncharacters 
+(TT
+-+
+)TT
+- and 
+(TT
+-.
+)TT
+- (plus and full stop).\n
+L1756
+)P
+)ITEM
+)TAGLIST
+-\n\nThe 
+(VAR
+-upstream-version
+)VAR
+- and 
+(VAR
+-debian-revision
+)VAR
+- parts are\ncompared by 
+(PRGN
+-dpkg
+)PRGN
+- using the same algorithm:
+L1760
+)P
+(P
+L1761
+-\nThe strings are compared from left to right.
+L1763
+)P
+(P
+L1764
+-\nFirst the initial part of each string consisting entirely of non-digit\ncharacters is determined.  These two parts (one of which may be empty)\nare compared lexically.  If a difference is found it is returned.  The\nlexical comparison is a comparison of ASCII values modified so that\nall the letters sort earlier than all the non-letters.
+L1770
+)P
+(P
+L1771
+-\nThen the initial part of the remainder of each string which consists\nentirely of digit characters is determined.  The numerical values of\nthese two parts are compared, and any difference found is returned as\nthe result of the comparison.  For these purposes an empty string\n(which can only occur at the end of one or both version strings being\ncompared) counts as zero.
+L1778
+)P
+(P
+L1779
+-\nThese two steps are repeated (chopping initial non-digit strings and\ninitial digit strings off from the start) until a difference is found\nor both strings are exhausted.
+L1783
+)P
+(P
+L1784
+-\nNote that the purpose of epochs is to allow us to leave behind\nmistakes in version numbering, and to cope with situations where the\nversion numbering changes.  It is 
+(EM
+-not
+)EM
+- there to cope with version\nnumbers containing strings of letters which 
+(PRGN
+-dpkg
+)PRGN
+- cannot interpret\n(such as 
+(TT
+-ALPHA
+)TT
+- or 
+(TT
+-pre-
+)TT
+-), or with silly orderings (the author\nof this manual has heard of a package whose versions went 
+(TT
+-1.1
+)TT
+-,\n
+(TT
+-1.2
+)TT
+-, 
+(TT
+-1.3
+)TT
+-, 
+(TT
+-1
+)TT
+-, 
+(TT
+-2.1
+)TT
+-, 
+(TT
+-2.2
+)TT
+-, 
+(TT
+-2
+)TT
+- and so forth).
+L1792
+)P
+(P
+L1793
+-\nIf an upstream package has problematic version numbers they should be\nconverted to a sane form for use in the 
+(TT
+-Version
+)TT
+- field.\n\n
+L1798
+)P
+)CHAPT
+AID CDATA maintainerscripts
+(CHAPT
+(HEADING
+-Package maintainer scripts\nand installation procedure
+L1800
+)HEADING
+AID IMPLIED
+(SECT
+(HEADING
+-Introduction to package maintainer scripts
+L1801
+)HEADING
+(P
+L1802
+-\nIt is possible supply scripts as part of a package which 
+(PRGN
+-dpkg
+)PRGN
+-\nwill run for you when your package is installed, upgraded or removed.
+L1805
+)P
+(P
+L1806
+-\nThese scripts should be the files 
+(TT
+-preinst
+)TT
+-, 
+(TT
+-postinst
+)TT
+-,\n
+(TT
+-prerm
+)TT
+- and 
+(TT
+-postrm
+)TT
+- in the control area of the package.  They\nmust be proper exectuable files; if they are scripts (which is\nrecommended) they must start with the usual 
+(TT
+-#!
+)TT
+- convention.  They\nshould be readable and executable to anyone, and not world-writeable.
+L1812
+)P
+(P
+L1813
+-\n
+(PRGN
+-dpkg
+)PRGN
+- looks at the exit status from these scripts.  It is\nimportant that they exit with a non-zero status if there is an error,\nso that 
+(PRGN
+-dpkg
+)PRGN
+- can stop its processing.  For shell scripts this\nmeans that you 
+(EM
+-almost always
+)EM
+- need to use 
+(TT
+-set -e
+)TT
+- (this is\nusually true when writing shell scripts, in fact).  It is also\nimportant, of course, that they don't exit with a non-zero status if\neverything went well.
+L1821
+)P
+(P
+L1822
+-\nIt is necessary for the error recovery procedures that the scripts be\nidempotent: ie, invoking the same script several times in the same\nsituation should do no harm.  If the first call failed, or aborted\nhalf way through for some reason, the second call should merely do the\nthings that were left undone the first time, if any, and exit with a\nsuccess status.
+L1829
+)P
+(P
+L1830
+-\nWhen a package is upgraded a combination of the scripts from the old\nand new packages is called in amongst the other steps of the upgrade\nprocedure.  If your scripts are going to be at all complicated you\nneed to be aware of this, and may need to check the arguments to your\nscripts.
+L1836
+)P
+(P
+L1837
+-\nBroadly speaking the 
+(PRGN
+-preinst
+)PRGN
+- is called before (a particular\nversion of) a package is installed, and the 
+(PRGN
+-postinst
+)PRGN
+- afterwards;\nthe 
+(PRGN
+-prerm
+)PRGN
+- before (a version of) a package is removed and the\n
+(PRGN
+-postrm
+)PRGN
+- afterwards.\n\n
+L1844
+)P
+)SECT
+AID CDATA mscriptsinstact
+(SECT
+(HEADING
+-Summary of ways maintainer scripts are called
+L1845
+)HEADING
+(P
+L1846
+-\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1848
+(ITEM
+(P
+(VAR
+-new-preinst
+)VAR
+- 
+(TT
+-install
+)TT
+L1849
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-new-preinst
+)VAR
+- 
+(TT
+-install
+)TT
+- 
+(VAR
+-old-version
+)VAR
+L1850
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-new-preinst
+)VAR
+- 
+(TT
+-upgrade
+)TT
+- 
+(VAR
+-old-version
+)VAR
+L1851
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-old-preinst
+)VAR
+- 
+(TT
+-abort-upgrade
+)TT
+- 
+(VAR
+-new-version
+)VAR
+L1852
+)P
+)ITEM
+)LIST
+L1853
+)P
+(P
+L1854
+-\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1856
+(ITEM
+(P
+(VAR
+-postinst
+)VAR
+- 
+(TT
+-configure
+)TT
+- 
+(VAR
+-most-recently-configured-version
+)VAR
+L1857
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-old-postinst
+)VAR
+- 
+(TT
+-abort-upgrade
+)TT
+- 
+(VAR
+-new version
+)VAR
+L1858
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-conflictor's-postinst
+)VAR
+- 
+(TT
+-abort-remove
+)TT
+-\n    
+(TT
+-in-favour
+)TT
+- 
+(VAR
+-package
+)VAR
+- 
+(VAR
+-new-version
+)VAR
+L1860
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-deconfigured's-postinst
+)VAR
+- 
+(TT
+-abort-deconfigure
+)TT
+-\n    
+(TT
+-in-favour
+)TT
+- 
+(VAR
+-failed-install-package
+)VAR
+- 
+(VAR
+-version
+)VAR
+-\n    
+(TT
+-removing
+)TT
+- 
+(VAR
+-conflicting-package
+)VAR
+- 
+(VAR
+-version
+)VAR
+L1863
+)P
+)ITEM
+)LIST
+L1864
+)P
+(P
+L1865
+-\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1867
+(ITEM
+(P
+(VAR
+-prerm
+)VAR
+- 
+(TT
+-remove
+)TT
+L1868
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-old-prerm
+)VAR
+- 
+(TT
+-upgrade
+)TT
+- 
+(VAR
+-new-version
+)VAR
+L1869
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-new-prerm
+)VAR
+- 
+(TT
+-failed-upgrade
+)TT
+- 
+(VAR
+-old-version
+)VAR
+L1870
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-conflictor's-prerm
+)VAR
+- 
+(TT
+-remove
+)TT
+- 
+(TT
+-in-favour
+)TT
+-\n    
+(VAR
+-package
+)VAR
+- 
+(VAR
+-new-version
+)VAR
+L1872
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-deconfigured's-prerm
+)VAR
+- 
+(TT
+-deconfigure
+)TT
+-\n    
+(TT
+-in-favour
+)TT
+- 
+(VAR
+-package-being-installed
+)VAR
+- 
+(VAR
+-version
+)VAR
+-\n    
+(TT
+-removing
+)TT
+- 
+(VAR
+-conflicting-package
+)VAR
+- 
+(VAR
+-version
+)VAR
+L1875
+)P
+)ITEM
+)LIST
+L1876
+)P
+(P
+L1877
+-\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1879
+(ITEM
+(P
+(VAR
+-postrm
+)VAR
+- 
+(TT
+-remove
+)TT
+L1880
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-postrm
+)VAR
+- 
+(TT
+-purge
+)TT
+L1881
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-old-postrm
+)VAR
+- 
+(TT
+-upgrade
+)TT
+- 
+(VAR
+-new-version
+)VAR
+L1882
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-new-postrm
+)VAR
+- 
+(TT
+-failed-upgrade
+)TT
+- 
+(VAR
+-old-version
+)VAR
+L1883
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-new-postrm
+)VAR
+- 
+(TT
+-abort-install
+)TT
+L1884
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-new-postrm
+)VAR
+- 
+(TT
+-abort-install
+)TT
+- 
+(VAR
+-old-version
+)VAR
+L1885
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-new-postrm
+)VAR
+- 
+(TT
+-abort-upgrade
+)TT
+- 
+(VAR
+-old-version
+)VAR
+L1886
+)P
+)ITEM
+(ITEM
+(P
+(VAR
+-disappearer's-postrm
+)VAR
+- 
+(TT
+-disappear
+)TT
+- 
+(VAR
+-overwriter
+)VAR
+- 
+(VAR
+-new-version
+)VAR
+L1887
+)P
+)ITEM
+)LIST
+-\n\n
+L1890
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Details of unpack phase of installation or upgrade
+L1891
+)HEADING
+(P
+L1892
+-\nThe procedure on installation/upgrade/overwrite/disappear (ie, when\nrunning 
+(TT
+-dpkg --unpack
+)TT
+-, or the unpack stage of 
+(TT
+-dpkg\n--install
+)TT
+-) is as follows.  In each case if an error occurs the\nactions in are general run backwards - this means that the maintainer\nscripts are run with different arguments in reverse order.  These are\nthe `error unwind' calls listed below.\n\n
+ACOMPACT IMPLIED
+(ENUMLIST
+L1901
+(ITEM
+L1903
+(P
+ACOMPACT IMPLIED
+(ENUMLIST
+L1904
+(ITEM
+L1905
+(P
+-If a version the package is already\ninstalled, call\n
+(EXAMPLE
+L1908
+(VAR
+-old-prerm
+)VAR
+- upgrade 
+(VAR
+-new-version
+)VAR
+L1909
+)EXAMPLE
+-\n
+L1911
+)P
+)ITEM
+(ITEM
+L1912
+(P
+-If this gives an error (ie, a non-zero exit status), dpkg will\nattempt instead:\n
+(EXAMPLE
+L1915
+(VAR
+-new-prerm
+)VAR
+- failed-upgrade 
+(VAR
+-old-version
+)VAR
+L1916
+)EXAMPLE
+-\nError unwind, for both the above cases:\n
+(EXAMPLE
+L1919
+(VAR
+-old-postinst
+)VAR
+- abort-upgrade 
+(VAR
+-new-version
+)VAR
+L1920
+)EXAMPLE
+-\n
+L1922
+)P
+)ITEM
+)ENUMLIST
+-\n
+L1924
+)P
+)ITEM
+(ITEM
+L1925
+(P
+-If a `conflicting' package is being removed at the same time:\n
+ACOMPACT IMPLIED
+(ENUMLIST
+L1928
+(ITEM
+L1929
+(P
+-If any packages depended on that conflicting package and\n
+(TT
+---auto-deconfigure
+)TT
+- is specified, call, for each such package:\n
+(EXAMPLE
+L1932
+(VAR
+-deconfigured's-prerm
+)VAR
+- deconfigure \\\n    in-favour 
+(VAR
+-package-being-installed
+)VAR
+- 
+(VAR
+-version
+)VAR
+- \\\n    removing 
+(VAR
+-conflicting-package
+)VAR
+- 
+(VAR
+-version
+)VAR
+L1935
+)EXAMPLE
+-\nError unwind:\n
+(EXAMPLE
+L1938
+(VAR
+-deconfigured's-postinst
+)VAR
+- abort-deconfigure \\\n    in-favour 
+(VAR
+-package-being-installed-but-failed
+)VAR
+- 
+(VAR
+-version
+)VAR
+- \\\n    removing 
+(VAR
+-conflicting-package
+)VAR
+- 
+(VAR
+-version
+)VAR
+L1941
+)EXAMPLE
+-\nThe deconfigured packages are marked as requiring configuration, so\nthat if 
+(TT
+---install
+)TT
+- is used they will be configured again if\npossible.\n
+L1946
+)P
+)ITEM
+(ITEM
+L1947
+(P
+-To prepare for removal of the conflicting package, call:\n
+(EXAMPLE
+L1949
+(VAR
+-conflictor's-prerm
+)VAR
+- remove in-favour 
+(VAR
+-package
+)VAR
+- 
+(VAR
+-new-version
+)VAR
+L1950
+)EXAMPLE
+-\nError unwind:\n
+(EXAMPLE
+L1953
+(VAR
+-conflictor's-postinst
+)VAR
+- abort-remove \\\n    in-favour 
+(VAR
+-package
+)VAR
+- 
+(VAR
+-new-version
+)VAR
+L1955
+)EXAMPLE
+-\n
+L1957
+)P
+)ITEM
+)ENUMLIST
+-\n
+L1959
+)P
+)ITEM
+(ITEM
+L1960
+(P
+ACOMPACT IMPLIED
+(ENUMLIST
+L1961
+(ITEM
+L1962
+(P
+-If the package is being upgraded, call:\n
+(EXAMPLE
+L1964
+(VAR
+-new-preinst
+)VAR
+- upgrade 
+(VAR
+-old-version
+)VAR
+L1965
+)EXAMPLE
+-\n
+L1967
+)P
+)ITEM
+(ITEM
+L1968
+(P
+-Otherwise, if the package had some configuration files from a previous\nversion installed (ie, it is in the `configuration files only' state):\n
+(EXAMPLE
+L1971
+(VAR
+-new-preinst
+)VAR
+- install 
+(VAR
+-old-version
+)VAR
+L1972
+)EXAMPLE
+-\n
+L1974
+)P
+)ITEM
+(ITEM
+L1975
+(P
+-Otherwise (ie, the package was completely purged):\n
+(EXAMPLE
+L1977
+(VAR
+-new-preinst
+)VAR
+- install
+L1978
+)EXAMPLE
+-\nError unwind versions, respectively:\n
+(EXAMPLE
+L1981
+(VAR
+-new-postrm
+)VAR
+- abort-upgrade 
+(VAR
+-old-version
+)VAR
+-\n
+(VAR
+-new-postrm
+)VAR
+- abort-install 
+(VAR
+-old-version
+)VAR
+-\n
+(VAR
+-new-postrm
+)VAR
+- abort-install
+L1984
+)EXAMPLE
+-\n
+L1986
+)P
+)ITEM
+)ENUMLIST
+-\n
+L1988
+)P
+)ITEM
+(ITEM
+L1989
+(P
+-The new package's files are unpacked, overwriting any that may be on\nthe system already, for example any from the old version of the same\npackage or from another package (backups of the old files are left\naround, and if anything goes wrong dpkg will attempt to put them back\nas part of the error unwind).
+L1994
+)P
+(P
+L1995
+-\nIt is an error for a package to contains files which are on the system\nin another package, unless 
+(TT
+-Replaces
+)TT
+- is used (see\n
+AID CDATA replaces
+(REF
+)REF
+-).  Currently the 
+(TT
+---force-overwrite
+)TT
+- flag is\nenabled, downgrading it to a warning, but this may not always be the\ncase.
+L2001
+)P
+(P
+L2002
+-\nPackages which overwrite each other's files produce behaviour which\nthough deterministic is hard for the system administrator to\nunderstand.  It can easily lead to `missing' programs if, for example,\na package is installed which overwrites a file from another package,\nand is then removed again.
+(FOOTNOTE
+(P
+-Part of the problem is due to what\nis arguably a bug in 
+(PRGN
+-dpkg
+)PRGN
+-.
+)P
+)FOOTNOTE
+-\n
+L2010
+)P
+)ITEM
+(ITEM
+L2012
+(P
+ACOMPACT IMPLIED
+(ENUMLIST
+L2013
+(ITEM
+L2014
+(P
+-If the package is being upgraded, call\n
+(EXAMPLE
+L2016
+(VAR
+-old-postrm
+)VAR
+- upgrade 
+(VAR
+-new-version
+)VAR
+L2017
+)EXAMPLE
+-\n
+L2019
+)P
+)ITEM
+(ITEM
+L2020
+(P
+-If this fails, 
+(PRGN
+-dpkg
+)PRGN
+- will attempt:\n
+(EXAMPLE
+L2022
+(VAR
+-new-postrm
+)VAR
+- failed-upgrade 
+(VAR
+-old-version
+)VAR
+L2023
+)EXAMPLE
+-\nError unwind, for both cases:\n
+(EXAMPLE
+L2026
+(VAR
+-old-preinst
+)VAR
+- abort-upgrade 
+(VAR
+-new-version
+)VAR
+L2027
+)EXAMPLE
+-\n
+L2029
+)P
+)ITEM
+)ENUMLIST
+-\n\nThis is the point of no return - if 
+(PRGN
+-dpkg
+)PRGN
+- gets this far, it won't\nback off past this point if an error occurs.  This will leave the\npackage in a fairly bad state, which will require a successful\nreinstallation to clear up, but it's when 
+(PRGN
+-dpkg
+)PRGN
+- starts doing\nthings that are irreversible.\n
+L2037
+)P
+)ITEM
+(ITEM
+L2038
+(P
+-Any files which were in the old version of the package but not in the\nnew are removed.\n
+L2041
+)P
+)ITEM
+(ITEM
+L2042
+(P
+-The new file list replaces the old.\n
+L2044
+)P
+)ITEM
+(ITEM
+L2045
+(P
+-The new maintainer scripts replace the old.\n
+L2047
+)P
+)ITEM
+(ITEM
+L2048
+(P
+-Any packages all of whose files have been overwritten during the\ninstallation, and which aren't required for dependencies, are considered\nto have been removed.  For each such package,\n\n
+ACOMPACT IMPLIED
+(ENUMLIST
+L2053
+(ITEM
+L2054
+(P
+(PRGN
+-dpkg
+)PRGN
+- calls:\n
+(EXAMPLE
+L2056
+(VAR
+-disappearer's-postrm
+)VAR
+- disappear \\\n    
+(VAR
+-overwriter
+)VAR
+- 
+(VAR
+-overwriter-version
+)VAR
+L2058
+)EXAMPLE
+-\n
+L2060
+)P
+)ITEM
+(ITEM
+L2061
+(P
+-The package's maintainer scripts are removed.\n
+L2063
+)P
+)ITEM
+(ITEM
+L2064
+(P
+-It is noted in the status database as being in a sane state, namely\nnot installed (any conffiles it may have are ignored, rather than\nbeing removed by 
+(PRGN
+-dpkg
+)PRGN
+-).  Note that disappearing packages do not\nhave their prerm called, because 
+(PRGN
+-dpkg
+)PRGN
+- doesn't know in advance\nthat the package is going to vanish.\n
+L2070
+)P
+)ITEM
+)ENUMLIST
+-\n
+L2072
+)P
+)ITEM
+(ITEM
+L2073
+(P
+-Any files in the package we're unpacking that are also listed in the\nfile lists of other packages are removed from those lists.  (This will\nlobotomise the file list of the `conflicting' package if there is one.)\n
+L2077
+)P
+)ITEM
+(ITEM
+L2078
+(P
+-The backup files made during installation, above, are deleted.\n
+L2080
+)P
+)ITEM
+(ITEM
+L2081
+(P
+-The new package's status is now sane, and recorded as `unpacked'.  Here\nis another point of no return - if the conflicting package's removal\nfails we do not unwind the rest of the installation; the conflicting\npackage is left in a half-removed limbo.\n
+L2086
+)P
+)ITEM
+(ITEM
+L2087
+(P
+-If there was a conflicting package we go and do the removal actions\n(described below), starting with the removal of the conflicting\npackage's files (any that are also in the package being installed\nhave already been removed from the conflicting package's file list,\nand so do not get removed now).\n
+L2093
+)P
+)ITEM
+)ENUMLIST
+-\n
+L2095
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Details of configuration
+L2096
+)HEADING
+(P
+L2097
+-\nWhen we configure a package (this happens with 
+(TT
+-dpkg --install
+)TT
+-, or\nwith 
+(TT
+---configure
+)TT
+-), we first update the conffiles and then call:\n
+(EXAMPLE
+L2101
+(VAR
+-postinst
+)VAR
+- configure 
+(VAR
+-most-recently-configured-version
+)VAR
+L2102
+)EXAMPLE
+L2103
+)P
+(P
+L2104
+-\nNo attempt is made to unwind after errors during configuration.
+L2106
+)P
+(P
+L2107
+-\nIf there is no most recently configured version 
+(PRGN
+-dpkg
+)PRGN
+- will pass a\nnull argument; older versions of dpkg may pass\n
+(TT
+-\|<\|unknown\|>\|
+)TT
+- (including the angle brackets) in this case.\nEven older ones do not pass a second argument at all, under any\ncircumstances.\n
+L2114
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Details of removal and/or configuration purging
+L2115
+)HEADING
+(P
+L2116
+-\n
+ACOMPACT IMPLIED
+(ENUMLIST
+L2118
+(ITEM
+L2119
+(P
+(EXAMPLE
+L2120
+(VAR
+-prerm
+)VAR
+- remove
+L2121
+)EXAMPLE
+-\n
+L2123
+)P
+)ITEM
+(ITEM
+L2124
+(P
+-The package's files are removed (except conffiles).\n
+L2126
+)P
+)ITEM
+(ITEM
+L2127
+(P
+(EXAMPLE
+L2128
+(VAR
+-postrm
+)VAR
+- remove
+L2129
+)EXAMPLE
+-\n
+L2131
+)P
+)ITEM
+(ITEM
+L2132
+(P
+-All the maintainer scripts except the postrm are removed.
+L2133
+)P
+(P
+L2134
+-\nIf we aren't purging the package we stop here.  Note that packages\nwhich have no postrm and no conffiles are automatically purged when\nremoved, as there is no difference except for the 
+(PRGN
+-dpkg
+)PRGN
+- status.\n
+L2139
+)P
+)ITEM
+(ITEM
+L2140
+(P
+-The conffiles and any backup files (
+(TT
+-~
+)TT
+--files, 
+(TT
+-#*#
+)TT
+- files,\n
+(TT
+-%
+)TT
+--files, 
+(TT
+-.dpkg-{old,new,tmp}
+)TT
+-, etc.) are removed.\n
+L2143
+)P
+)ITEM
+(ITEM
+L2144
+(P
+(EXAMPLE
+L2145
+(VAR
+-postrm
+)VAR
+- purge
+L2146
+)EXAMPLE
+-\n
+L2148
+)P
+)ITEM
+(ITEM
+L2149
+(P
+-The package's file list is removed.\n
+L2151
+)P
+)ITEM
+)ENUMLIST
+-\n\nNo attempt is made to unwind after errors during removal.\n\n
+L2156
+)P
+)SECT
+)CHAPT
+AID CDATA descriptions
+(CHAPT
+(HEADING
+-Descriptions of packages - the\n
+(TT
+-Description
+)TT
+- field
+L2158
+)HEADING
+(P
+L2159
+-\nThe 
+(TT
+-Description
+)TT
+- control file field is used by 
+(PRGN
+-dselect
+)PRGN
+- when\nthe user is selecting which packages to install and by 
+(PRGN
+-dpkg
+)PRGN
+-\nwhen it displays information about the status of packages and so\nforth.  It is included on the FTP site in the 
+(PRGN
+-Packages
+)PRGN
+- files,\nand may also be used by the Debian WWW pages.
+L2165
+)P
+(P
+L2166
+-\nThe description is intended to describe the program to a user who has\nnever met it before so that they know whether they want to install it.\nIt should also give information about the significant dependencies and\nconflicts between this package and others, so that the user knows why\nthese dependencies and conflicts have been declared.
+L2172
+)P
+(P
+L2173
+-\nThe field's format is as follows:\n
+(EXAMPLE
+L2176
+-Description: 
+(VAR
+-single line synopsis
+)VAR
+-\n 
+(VAR
+-extended description over several lines
+)VAR
+L2178
+)EXAMPLE
+L2179
+)P
+(P
+L2180
+-\nThe synopsis is often printed in lists of packages and so forth, and\nshould be as informative as possible.  Every package should also have\nan extended description.
+L2184
+)P
+(P
+L2186
+)P
+AID IMPLIED
+(SECT
+(HEADING
+-Types of formatting line in the extended description
+L2187
+)HEADING
+(P
+L2188
+-\n
+ACOMPACT IMPLIED
+(LIST
+L2190
+(ITEM
+L2191
+(P
+-Those starting with a single space are part of a paragraph.\nSuccessive lines of this form will be word-wrapped when displayed.\nThe leading space will usually be stripped off.\n
+L2195
+)P
+)ITEM
+(ITEM
+L2196
+(P
+-Those starting with two or more spaces.  These will be displayed\nverbatim.  If the display cannot be panned horizontally the\ndisplaying program will linewrap them `hard' (ie, without taking\naccount of word breaks).  If it can they will be allowed to trail\noff to the right.  None, one or two initial spaces may be deleted,\nbut the number of spaces deleted from each line will be the same\n(so that you can have indenting work correctly, for example).\n
+L2204
+)P
+)ITEM
+(ITEM
+L2205
+(P
+-Those containing a single space followed by a single full stop\ncharacter.  These are rendered as blank lines.  This is the 
+(EM
+-only
+)EM
+-\nway to get a blank line - see below.\n
+L2209
+)P
+)ITEM
+(ITEM
+L2210
+(P
+-Those containing a space, a full stop and some more characters.  These\nare for future expansion.  Do not use them.
+L2212
+)P
+)ITEM
+)LIST
+-\n
+L2214
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Notes about writing descriptions
+L2215
+)HEADING
+(P
+L2216
+-\n
+(EM
+-Always
+)EM
+- start extended description lines with at least one\nwhitespace character.  Fields in the control file and in the Packages\nfile are separated by field names starting in the first column, just\nas message header fields are in RFC822.  Forgetting the whitespace\nwill cause 
+(PRGN
+-dpkg-deb
+)PRGN
+(FOOTNOTE
+(P
+-Version 0.93.23 or\nlater.
+)P
+)FOOTNOTE
+- to produce a syntax error when trying to build the\npackage.  If you force it to build anyway 
+(PRGN
+-dpkg
+)PRGN
+- will refuse to\ninstall the resulting mess.
+L2225
+)P
+(P
+L2226
+-\n
+(EM
+-Do not
+)EM
+- include any completely 
+(EM
+-empty
+)EM
+- lines. These separate\ndifferent records in the Packages file and different packages in the\n
+(TT
+-debian/control
+)TT
+- file, and are forbidden in package control\nfiles.  See the previous paragraph for what happens if you get this\nwrong.
+L2232
+)P
+(P
+L2233
+-\nThe single line synopsis should be kept brief - certainly under 80\ncharacters.  
+(PRGN
+-dselect
+)PRGN
+- displays between 25 and 49 characters\nwithout panning if you're using an 80-column terminal, depending on\nwhat display options are in effect.
+L2238
+)P
+(P
+L2239
+-\nDo not include the package name in the synopsis line.  The display\nsoftware knows how to display this already, and you do not need to\nstate it.  Remember that in many situations the user may only see\nthe synopsis line - make it as informative as you can.
+L2244
+)P
+(P
+L2245
+-\nThe extended description should describe what the package does and\nhow it relates to the rest of the system (in terms of, for\nexample, which subsystem it is which part of).
+L2249
+)P
+(P
+L2250
+-\nThe blurb that comes with a program in its announcements and/or\n
+(PRGN
+-README
+)PRGN
+- files is rarely suitable for use in a description.  It\nis usually aimed at people who are already in the community where the\npackage is used.  The description field needs to make sense to anyone,\neven people who have no idea about any of the\nthings the package deals with.
+L2257
+)P
+(P
+L2258
+-\nPut important information first, both in the synopis and extended\ndescription.  Sometimes only the first part of the synopsis or of\nthe description will be displayed.  You can assume that there will\nusually be a way to see the whole extended description.
+L2263
+)P
+(P
+L2264
+-\nYou may include information about dependencies and so forth in the\nextended description, if you wish.
+L2267
+)P
+(P
+L2268
+-\nDo not use tab characters.  Their effect is not predictable.
+L2270
+)P
+(P
+L2271
+-\nDo not try to linewrap the summary (the part on the same line as the\nfield name 
+(TT
+-Description
+)TT
+-) into the extended description.  This will\nnot work correctly when the full description is displayed, and makes\nno sense where only the summary is available.\n
+L2277
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Example description in control file for Smail
+L2278
+)HEADING
+(P
+L2279
+-\n
+(EXAMPLE
+L2281
+-Package: smail\nVersion: 3.1.29.1-13\nMaintainer: Ian Jackson \|<\|iwj10@cus.cam.ac.uk\|>\|\nRecommends: pine | mailx | elm | emacs | mail-user-agent\nSuggests: metamail\nDepends: cron, libc5\nConflicts: sendmail\nProvides: mail-transport-agent\nDescription: Electronic mail transport system.\n Smail is the recommended mail transport agent (MTA) for Debian.\n .\n An MTA is the innards of the mail system - it takes messages from\n user-friendly mailer programs and arranges for them to be delivered\n locally or passed on to other systems as required.\n .\n In order to make use of it you must have one or more user level\n mailreader programs such as elm, pine, mailx or Emacs (which has Rmail\n and VM as mailreaders) installed.  If you wish to send messages other\n than just to other users of your system you must also have appropriate\n and VM as mailreaders) installed.  If you wish to send messages other\n than just to other users of your system you must also have appropriate\n networking support, in the form of IP or UUCP.
+L2303
+)EXAMPLE
+-\n
+L2305
+)P
+)SECT
+)CHAPT
+AID CDATA relationships
+(CHAPT
+(HEADING
+-Declaring relationships between packages
+L2306
+)HEADING
+(P
+L2307
+-\nPackages can declare in their control file that they have certain\nrelationships to other packages - for example, that they may not be\ninstalled at the same time as certain other packages, and/or that they\ndepend on the presence of others, or that they should overwrite files\nin certain other packages if present.
+L2313
+)P
+(P
+L2314
+-\nThis is done using the 
+(TT
+-Depends
+)TT
+-, 
+(TT
+-Recommends
+)TT
+-, 
+(TT
+-Suggests
+)TT
+-,\n
+(TT
+-Conflicts
+)TT
+-, 
+(TT
+-Provides
+)TT
+- and 
+(TT
+-Replaces
+)TT
+- control file fields.
+L2317
+)P
+(P
+L2319
+)P
+AID CDATA depsyntax
+(SECT
+(HEADING
+-Syntax of relationship fields
+L2320
+)HEADING
+(P
+L2321
+-\nThese fields all have a uniform syntax.  They are a list of package\nnames separated by commas.
+L2324
+)P
+(P
+L2325
+-\nIn 
+(TT
+-Depends
+)TT
+-, 
+(TT
+-Recommends
+)TT
+-, 
+(TT
+-Suggests
+)TT
+- and 
+(TT
+-Pre-Depends
+)TT
+-\n(the fields which declare dependencies of the package in which they\noccur on other packages) these package names may also be lists of\nalternative package names, separated by vertical bar symbols 
+(TT
+-|
+)TT
+-\n(pipe symbols).
+L2331
+)P
+(P
+L2332
+-\nAll the fields except 
+(TT
+-Provides
+)TT
+- may restrict their applicability\nto particular versions of each named package.  This is done in\nparentheses after each individual package name; the parentheses should\ncontain a relation from the list below followed by a version number,\nin the format described in 
+AID CDATA versions
+(REF
+)REF
+-.
+L2338
+)P
+(P
+L2339
+-\nThe relations allowed are\n
+(TT
+-\|<\|\|<\|
+)TT
+-,\n
+(TT
+-\|<\|=
+)TT
+-,\n
+(TT
+-=
+)TT
+-,\n
+(TT
+-\|>\|=
+)TT
+- and\n
+(TT
+-\|>\|\|>\|
+)TT
+-\nfor strictly earlier, earlier or equal, exactly equal, later or equal\nand strictly later, respectively.  The forms 
+(TT
+-\|<\|
+)TT
+- and 
+(TT
+-\|>\|
+)TT
+-\nwere used to mean earlier/later or equal, rather than strictly\nearlier/later, so they should not appear in new packages (though\n
+(PRGN
+-dpkg
+)PRGN
+- still supports them).
+L2351
+)P
+(P
+L2352
+-\nWhitespace may appear at any point in the version specification, and\nmust appear where it's necessary to disambiguate; it is not otherwise\nsignificant.  For consistency and in case of future changes to\n
+(PRGN
+-dpkg
+)PRGN
+- it is recommended that a single space be used after a\nversion relationship and before a version number; it is usual also to\nput a single space after each comma, on either side of each vertical\nbar, and before each open parenthesis.
+L2360
+)P
+(P
+L2361
+-\nFor example:\n
+(EXAMPLE
+L2364
+-Package: metamail\nVersion: 2.7-3\nDepends: libc5 (>= 5.2.18-4), mime-support, csh | tcsh
+L2367
+)EXAMPLE
+-\n
+L2369
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Dependencies - 
+(TT
+-Depends
+)TT
+-, 
+(TT
+-Recommends
+)TT
+-, 
+(TT
+-Suggests
+)TT
+-, 
+(TT
+-Pre-Depends
+)TT
+L2370
+)HEADING
+(P
+L2371
+-\nThese four fields are used to declare a dependency by one package on\nanother.  They appear in the depending package's control file.
+L2374
+)P
+(P
+L2375
+-\nAll but 
+(TT
+-Pre-Depends
+)TT
+- (discussed below) take effect 
+(EM
+-only
+)EM
+- when\na package is to be configured.  They do not prevent a package being on\nthe system in an unconfigured state while its dependencies are\nunsatisfied, and it is possible to replace a package whose\ndependencies are satisfied and which is properly installed with a\ndifferent version whose dependencies are not and cannot be satisfied;\nwhen this is done the depending package will be left unconfigured\n(since attempts to configure it will give errors) and will not\nfunction properly.
+L2385
+)P
+(P
+L2386
+-\nFor this reason packages in an installation run are usually all\nunpacked first and all configured later; this gives later versions of\npackages with dependencies on later versions of other packages the\nopportunity to have their dependencies satisfied.
+L2391
+)P
+(P
+L2392
+-\nThus 
+(TT
+-Depends
+)TT
+- allows package maintainers to impose an order in\nwhich packages should be configured.\n\n
+ACOMPACT IMPLIED
+(TAGLIST
+L2397
+(TAG
+(TT
+-Depends
+)TT
+L2398
+)TAG
+(ITEM
+L2400
+(P
+-This declares an absolute dependency.
+L2401
+)P
+(P
+L2402
+-\n
+(PRGN
+-dpkg
+)PRGN
+- will not configure\npackages whose dependencies aren't satisfied.  If it is asked to make\nan installation which would cause an installed package's dependencies\nto become unsatisfied it will complain
+(FOOTNOTE
+(P
+-Current versions\n(1.2.4) of 
+(PRGN
+-dpkg
+)PRGN
+- have a bug in this area which will cause some of\nthese problems to be ignored.
+)P
+)FOOTNOTE
+-, unless\n
+(TT
+---auto-deconfigure
+)TT
+- is specified, in which case those packages\nwill be deconfigured before the installation proceeds.
+L2411
+)P
+(P
+L2412
+-\n
+(PRGN
+-dselect
+)PRGN
+- makes it hard for the user to select packages for\ninstallation, removal or upgrade in a way that would mean that\npackages' 
+(PRGN
+-Depends
+)PRGN
+- fields would be unsatisfied.  The user can\noverride this if they wish, for example if they know that 
+(PRGN
+-dselect
+)PRGN
+-\nhas an out-of-date view of the real package relationships.
+L2418
+)P
+(P
+L2419
+-\nThe 
+(TT
+-Depends
+)TT
+- field should be used if the depended-on package is\nrequired for the depending package to provide a significant amount of\nfunctionality.\n
+L2424
+)P
+)ITEM
+(TAG
+(TT
+-Recommends
+)TT
+L2425
+)TAG
+(ITEM
+L2426
+(P
+-This declares a strong, but not absolute, dependency.
+L2427
+)P
+(P
+L2428
+-\n
+(TT
+-Recommends
+)TT
+- is ignored by 
+(PRGN
+-dpkg
+)PRGN
+-, so that users using the\ncommand-line (who are presumed to know what they're doing) will not be\nimpeded.
+L2432
+)P
+(P
+L2433
+-\nIt is treated by 
+(PRGN
+-dselect
+)PRGN
+- exactly as 
+(TT
+-Depends
+)TT
+- is; this makes\nit hard for the user to select things so as to leave 
+(TT
+-Recommends
+)TT
+-\nfields unsatisfied, but they are able to do so by being persistent.
+L2437
+)P
+(P
+L2438
+-\nThe 
+(TT
+-Recommends
+)TT
+- field should list packages that would be found\ntogether with this one in all but unusual installations.\n
+L2442
+)P
+)ITEM
+(TAG
+(TT
+-Suggests
+)TT
+L2443
+)TAG
+(ITEM
+L2445
+(P
+-This is used to declare that one package may be more useful with one\nor more others.  Using this field tells the packaging system and the\nuser that the listed packages are be related to this one and can\nperhaps enhance its usefulness, but that installing this one without\nthem is perfectly reasonable.
+L2450
+)P
+(P
+L2451
+-\n
+(PRGN
+-dselect
+)PRGN
+- will offer suggsted packages to the system administrator\nwhen they select the suggesting package, but the default is not to\ninstall the suggested package.\n
+L2456
+)P
+)ITEM
+(TAG
+(TT
+-Pre-Depends
+)TT
+L2457
+)TAG
+(ITEM
+L2459
+(P
+-This field is like 
+(TT
+-Depends
+)TT
+-, except that it also forces 
+(PRGN
+-dpkg
+)PRGN
+-\nto complete installation of the packages named before even starting\nthe installation of the package which declares the predependency.
+L2462
+)P
+(P
+L2463
+-\n
+(PRGN
+-dselect
+)PRGN
+- checks for predependencies when it is doing an\ninstallation run, and will attempt to find the packages which are\nrequired to be installed first and do so in the right order.
+L2467
+)P
+(P
+L2468
+-\nHowever, this process is slow (because it requires repeated\ninvocations of 
+(PRGN
+-dpkg
+)PRGN
+-) and troublesome (because it requires\nguessing where to find the appropriate files).
+L2472
+)P
+(P
+L2473
+-\nFor these reasons, and because this field imposes restrictions on the\norder in which packages may be unpacked (which can be difficult for\ninstallations from multipart media, for example), 
+(TT
+-Pre-Depends
+)TT
+-\nshould be used sparingly, preferably only by packages whose premature\nupgrade or installation would hamper the ability of the system to\ncontinue with any upgrade that might be in progress.
+L2480
+)P
+(P
+L2481
+-\nWhen the package declaring it is being configured, a\n
+(TT
+-Pre-Dependency
+)TT
+- will be considered satisfied only if the depending\npackage has been correctly configured, just as if an ordinary\n
+(TT
+-Depends
+)TT
+- had been used.
+L2486
+)P
+(P
+L2487
+-\nHowever, when a package declaring a predependency is being unpacked\nthe predependency can be satisfied even if the depended-on package(s)\nare only unpacked or half-configured, provided that they have been\nconfigured correctly at some point in the past (and not removed or\npartially removed since).  In this case both the previously-configured\nand currently unpacked or half-configured versions must satisfy any\nversion clause in the 
+(TT
+-Pre-Depends
+)TT
+- field.\n
+L2496
+)P
+)ITEM
+)TAGLIST
+-\n
+L2498
+)P
+AID IMPLIED
+(SECT1
+(HEADING
+-Dependencies on shared libraries
+L2499
+)HEADING
+(P
+L2500
+-\nThe dependency fields listed above are used by packages which need\nshared libraries to declare dependencies on the appropriate packages.
+L2503
+)P
+(P
+L2504
+-\nThese dependencies are usually determined automatically using\n
+(PRGN
+-dpkg-shlibdeps
+)PRGN
+- and inserted in the package control file using\nthe control file substitution variables mechanism; see 
+AID CDATA srcsubstvars
+(REF
+)REF
+L2508
+- and 
+AID CDATA sourcetools
+(REF
+)REF
+-.\n
+L2510
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+-Deconfiguration due to removal during bulk installations
+L2511
+)HEADING
+(P
+L2512
+-\nIf 
+(PRGN
+-dpkg
+)PRGN
+- would like to remove a package due to a conflict, as\ndescribed above, but this would violate a dependency of some other\npackage on the system, 
+(PRGN
+-dpkg
+)PRGN
+- will usually not remove the\nconflicting package and halt with an error.
+L2517
+)P
+(P
+L2518
+-\nHowever, if the 
+(TT
+---auto-deconfigure
+)TT
+- (
+(TT
+--B
+)TT
+-) option is used\n
+(PRGN
+-dpkg
+)PRGN
+- will automatically `deconfigure' the package with the\nproblematic dependency, so that the conflicting package can be removed\nand the package we're trying to install can be installed.  If\n
+(PRGN
+-dpkg
+)PRGN
+- is being asked to install packages (rather than just\nunpacking them) it will try to reconfigure the package when it has\nunpacked all its arguments, in the hope that one of the other packages\nit is installing will satisfy the problematic dependency.
+L2527
+)P
+(P
+L2528
+-\n
+(PRGN
+-dselect
+)PRGN
+- supplies this argument to 
+(PRGN
+-dpkg
+)PRGN
+- when it invokes it,\nso that bulk installations proceed smoothly.\n
+L2532
+)P
+)SECT1
+)SECT
+AID CDATA conflicts
+(SECT
+(HEADING
+-Alternative packages - 
+(TT
+-Conflicts
+)TT
+- and 
+(TT
+-Replaces
+)TT
+L2533
+)HEADING
+(P
+L2534
+-\nWhen one package declares a conflict with another 
+(PRGN
+-dpkg
+)PRGN
+- will\nrefuse to allow them to be installed on the system at the same time.
+L2537
+)P
+(P
+L2538
+-\nIf one package is to be installed, the other must be removed first -\nif the package being installed is marked as replacing (
+AID CDATA replaces
+(REF
+)REF
+L2541
+-) the one on the system, or the one on the system is\nmarked as deselected, or both packages are marked 
+(TT
+-Essential
+)TT
+-, then\n
+(PRGN
+-dpkg
+)PRGN
+- will automatically remove the package which is causing the\nconflict, otherwise it will halt the installation of the new package\nwith an error.
+L2546
+)P
+(P
+L2547
+-\n
+(PRGN
+-dselect
+)PRGN
+- makes it hard to select conflicting packages, though the\nuser can override this if they wish.  If they do not override it then\n
+(PRGN
+-dselect
+)PRGN
+- will select one of the packages for removal, and the user\nmust make sure it is the right one.  In the future 
+(PRGN
+-dselect
+)PRGN
+- will\nlook for the presence of a 
+(TT
+-Replaces
+)TT
+- field to help decide which\npackage should be installed and which removed.
+L2554
+)P
+(P
+L2555
+-\nA package will not cause a conflict merely because its configuration\nfiles are still installed; it must be at least half-installed.
+L2558
+)P
+(P
+L2559
+-\nA special exception is made for packages which declare a conflict with\ntheir own package name, or with a virtual package which they provide\n(see below): this does not prevent their installation, and allows a\npackage to conflict with others providing a replacement for it.  You\nuse this feature when you want the package in question to be the only\npackage providing something.
+L2566
+)P
+(P
+L2567
+-\nA 
+(TT
+-Conflicts
+)TT
+- entry should almost never have an `earlier than'\nversion clause.  This would prevent 
+(PRGN
+-dpkg
+)PRGN
+- from upgrading or\ninstalling the package which declared such a conflict until the\nupgrade or removal of the conflicted-with package had been completed.\nThis aspect of installation ordering is not handled by 
+(PRGN
+-dselect
+)PRGN
+-,\nso that the use 
+(TT
+-Conflicts
+)TT
+- in this way is likely to cause problems\nfor `bulk run' upgrades and installations.
+L2575
+)P
+(P
+L2576
+-\n
+L2578
+)P
+)SECT
+AID CDATA virtual
+(SECT
+(HEADING
+-Virtual packages - 
+(TT
+-Provides
+)TT
+L2579
+)HEADING
+(P
+L2580
+-\nAs well as the names of actual (`concrete') packages, the package\nrelationship fields 
+(TT
+-Depends
+)TT
+-, 
+(TT
+-Recommends
+)TT
+-, 
+(TT
+-Suggests
+)TT
+- and\n
+(TT
+-Conflicts
+)TT
+- may mention virtual packages.
+L2584
+)P
+(P
+L2585
+-\nA virtual package is one which appears in the 
+(TT
+-Provides
+)TT
+- control\nfile field of another package.  The effect is as if the package(s)\nwhich provide a particular virtual package name had been listed by\nname everywhere were the virtual package name appears.
+L2590
+)P
+(P
+L2591
+-\nIf there are both a real and a virtual package of the same name then\nthe dependency may be satisfied (or the conflict caused) by either the\nreal package or any of the virtual packages which provide it.  This is\nso that, for example, supposing we have\n
+(EXAMPLE
+L2597
+-Package: vm\nDepends: emacs
+L2599
+)EXAMPLE
+-\nand someone else releases an xemacs package they can say\n
+(EXAMPLE
+L2602
+-Package: xemacs\nProvides: emacs
+L2604
+)EXAMPLE
+-\nand all will work in the interim (until a purely virtual package name\nis decided on and the 
+(TT
+-emacs
+)TT
+- and 
+(TT
+-vm
+)TT
+- packages are changed to\nuse it).
+L2608
+)P
+(P
+L2609
+-\nIf a dependency or a conflict has a version number attached then only\nreal packages will be considered to see whether the relationship is\nsatisfied (or the prohibition violated, for a conflict) - it is\nassumed that a real package which provides virtual package is not of\nthe `right' version.  So, a 
+(TT
+-Provides
+)TT
+- field may not contain\nversion numbers, and the version number of the concrete package which\nprovides a particular virtual package will not be looked at when\nconsidering a dependency on or conflict with the virtual package name.
+L2618
+)P
+(P
+L2619
+-\nIf you want to specify which of a set of real packages should be the\ndefault to satisfy a particular dependency on a virtual package, you\nshould list the real package as alternative before the virtual.
+L2623
+)P
+(P
+L2624
+-\n
+L2626
+)P
+)SECT
+AID CDATA replaces
+(SECT
+(HEADING
+(TT
+-Replaces
+)TT
+- - overwriting files and replacing packages
+L2627
+)HEADING
+(P
+L2628
+-\nThe 
+(TT
+-Replaces
+)TT
+- control file field has two purposes, which come into\nplay in different situations.
+L2631
+)P
+(P
+L2632
+-\nVirtual packages (
+AID CDATA virtual
+(REF
+)REF
+-) are not considered when looking\nat a 
+(TT
+-Replaces
+)TT
+- field - the packages declared as being replaced\nmust be mentioned by their real names.\n
+L2637
+)P
+AID IMPLIED
+(SECT1
+(HEADING
+-Overwriting files in other packages
+L2638
+)HEADING
+(P
+L2639
+-\nFirstly, as mentioned before, it is usually an error for a package to\ncontains files which are on the system in another package, though\ncurrently the 
+(TT
+---force-overwrite
+)TT
+- flag is enabled by default,\ndowngrading the error to a warning,
+L2644
+)P
+(P
+L2645
+-\nIf the overwriting package declares that it replaces the one\ncontaining the file being overwritten then 
+(PRGN
+-dpkg
+)PRGN
+- will proceed, and\nreplace the file from the old package with that from the new.  The\nfile will no longer be listed as `owned' by the old package.
+L2650
+)P
+(P
+L2651
+-\nIf a package is completely replaced in this way, so that 
+(PRGN
+-dpkg
+)PRGN
+-\ndoes not know of any files it still contains, it is considered to have\ndisappeared.  It will be marked as not wanted on the system (selected\nfor removal) and not installed.  Any conffiles details noted in the\npackage will be ignored, as they will have been taken over by the\nreplacing package(s).  The package's 
+(PRGN
+-postrm
+)PRGN
+- script will be run to\nallow the package to do any final cleanup required.\nSee 
+AID CDATA mscriptsinstact
+(REF
+)REF
+-.
+L2660
+)P
+(P
+L2661
+-\nIn the future 
+(PRGN
+-dpkg
+)PRGN
+- will discard files which overwrite those from\nanother package which declares that it replaces the one being\ninstalled (so that you can install an older version of a package\nwithout problems).
+L2666
+)P
+(P
+L2667
+-\nThis usage of 
+(TT
+-Replaces
+)TT
+- only takes effect when both packages are\nat least partially on the system at once, so that it can only happen\nif they do not conflict or if the conflict has been overridden.\n
+L2672
+)P
+)SECT1
+AID IMPLIED
+(SECT1
+(HEADING
+-Replacing whole packages, forcing their removal
+L2673
+)HEADING
+(P
+L2674
+-\nSecondly, 
+(TT
+-Replaces
+)TT
+- allows 
+(PRGN
+-dpkg
+)PRGN
+- and 
+(PRGN
+-dselect
+)PRGN
+- to resolve\nwhich package should be removed when a conflict - see\n
+AID CDATA conflicts
+(REF
+)REF
+-.  This usage only takes effect when the two\npackages 
+(EM
+-do
+)EM
+- conflict, so that the two effects do not interfere\nwith each other.
+L2680
+)P
+(P
+L2682
+)P
+)SECT1
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Defaults for satisfying dependencies - ordering
+L2683
+)HEADING
+(P
+L2684
+-\nOrdering is significant in dependency fields.
+L2686
+)P
+(P
+L2687
+-\nUsually dselect will suggest to the user that they select the package\nwith the most `fundamental' class (eg, it will prefer Base packages to\nOptional ones), or the one that they `most wanted' to select in some\nsense.
+L2692
+)P
+(P
+L2693
+-\nIn the absence of other information 
+(PRGN
+-dselect
+)PRGN
+- will offer a\ndefault selection of the first named package in a list of\nalternatives.
+L2697
+)P
+(P
+L2698
+-\nHowever, there is no way to specify the `order' of several packages\nwhich all provide the same thing, when that thing is listed as a\ndependency.
+L2702
+)P
+(P
+L2703
+-\nTherefore a dependency on a virtual package should contain a concrete\npackage name as the first alternative, so that this is the default.
+L2706
+)P
+(P
+L2707
+-\nFor example, consider the set of packages:\n\n
+(EXAMPLE
+L2711
+-Package: glibcdoc\nRecommends: info-browser\n\nPackage: info\nProvides: info-browser\n\nPackage: emacs\nProvides: info-browser
+L2719
+)EXAMPLE
+L2720
+)P
+(P
+L2721
+-\nIf 
+(PRGN
+-emacs
+)PRGN
+- and 
+(PRGN
+-info
+)PRGN
+- both have the same priority then\n
+(PRGN
+-dselect
+)PRGN
+-'s choice is essentially random.  Better would be\n
+(EXAMPLE
+L2725
+-Package: glibcdoc\nRecommends: info | info-browser
+L2727
+)EXAMPLE
+-\nso that 
+(PRGN
+-dselect
+)PRGN
+- defaults to selecting the lightweight standalone\ninfo browser.\n\n\n
+L2733
+)P
+)SECT
+)CHAPT
+AID CDATA conffiles
+(CHAPT
+(HEADING
+-Configuration file handling
+L2734
+)HEADING
+(P
+L2735
+-\n
+(PRGN
+-dpkg
+)PRGN
+- can do a certain amount of automatic handling of package\nconfiguration files.
+L2738
+)P
+(P
+L2739
+-\nWhether this mechanism is appropriate depends on a number of factors,\nbut basically there are two approaches to any particular configuration\nfile.
+L2743
+)P
+(P
+L2744
+-\nThe easy method is to ship a best-effort configuration in the package,\nand use 
+(PRGN
+-dpkg
+)PRGN
+-'s conffile mechanism to handle updates.  If the user\nis unlikely to want to edit the file, but you need them to be able to\nwithout losing their changes, and a new package with a changed version\nof the file is only released infrequently, this is a good approach.
+L2750
+)P
+(P
+L2751
+-\nThe hard method is to build the configuration file from scratch in the\n
+(PRGN
+-postinst
+)PRGN
+- script, and to take the responsibility for fixing any\nmistakes made in earlier versions of the package automatically.  This\nwill be appropriate if the file is likely to need to be different on\neach system.\n
+L2758
+)P
+AID IMPLIED
+(SECT
+(HEADING
+-Automatic handling of configuration files by 
+(PRGN
+-dpkg
+)PRGN
+L2759
+)HEADING
+(P
+L2760
+-\nA package may contain a control area file called 
+(TT
+-conffiles
+)TT
+-.  This\nfile should be a list of filenames of configuration files needing\nautomatic handling, separated by newlines.  The filenames should be\nabsolute pathnames, and the files referred to should actually exist in\nthe package.
+L2766
+)P
+(P
+L2767
+-\nWhen a package is upgraded 
+(PRGN
+-dpkg
+)PRGN
+- will process the configuration\nfiles during the configuration stage, shortly before it runs the\npackage's 
+(PRGN
+-postinst
+)PRGN
+- script,
+L2771
+)P
+(P
+L2772
+-\nFor each file it checks to see whether the version of the file\nincluded in the package is the same as the one that was included in\nthe last version of the package (the one that is being upgraded\nfrom); it also compares the version currently installed on the system\nwith the one shipped with the last version.
+L2778
+)P
+(P
+L2779
+-\nIf neither the user nor the package maintainer has changed the file,\nit is left alone.  If one or the other has changed their version, then\nthe changed version is preferred - ie, if the user edits their file,\nbut the package maintainer doesn't ship a different version, the\nuser's changes will stay, silently, but if the maintainer ships a new\nversion and the user hasn't edited it the new version will be\ninstalled (with an informative message).  If both have changed their\nversion the user is prompted about the problem and must resolve the\ndifferences themselves.
+L2789
+)P
+(P
+L2790
+-\nThe comparisons are done by calculating the MD5 message digests of the\nfiles, and storing the MD5 of the file as it was included in the most\nrecent version of the package.
+L2794
+)P
+(P
+L2795
+-\nWhen a package is installed for the first time 
+(PRGN
+-dpkg
+)PRGN
+- will install\nthe file that comes with it, unless that would mean overwriting a file\nalready on the filesystem.
+L2799
+)P
+(P
+L2800
+-\nHowever, note that 
+(PRGN
+-dpkg
+)PRGN
+- will 
+(EM
+-not
+)EM
+- replace a conffile that\nwas removed by the user (or by a script).  This is necessary because\nwith some programs a missing file produces an effect hard or\nimpossible to achieve in another way, so that a missing file needs to\nbe kept that way if the user did it.
+L2806
+)P
+(P
+L2807
+-\nNote that a package should 
+(EM
+-not
+)EM
+- modify a 
+(PRGN
+-dpkg
+)PRGN
+--handled\nconffile in its maintainer scripts.  Doing this will lead to\n
+(PRGN
+-dpkg
+)PRGN
+- giving the user confusing and possibly dangerous options\nfor conffile update when the package is upgraded.\n
+L2813
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Fully-featured maintainer script configuration handling
+L2814
+)HEADING
+(P
+L2815
+-\nFor files which contain site-specific information such as the hostname\nand networking details and so forth, it is better to create the file\nin the package's 
+(PRGN
+-postinst
+)PRGN
+- script.
+L2819
+)P
+(P
+L2820
+-\nThis will typically involve examining the state of the rest of the\nsystem to determine values and other information, and may involve\nprompting the user for some information which can't be obtained some\nother way.
+L2825
+)P
+(P
+L2826
+-\nWhen using this method there are a couple of important issues which\nshould be considered:
+L2829
+)P
+(P
+L2830
+-\nIf you discover a bug in the program which generates the configuration\nfile, or if the format of the file changes from one version to the\nnext, you will have to arrange for the postinst script to do something\nsensible - usually this will mean editing the installed configuration\nfile to remove the problem or change the syntax.  You will have to do\nthis very carefully, since the user may have changed the file, perhaps\nto fix the very problem that your script is trying to deal with - you\nwill have to detect these situations and deal with them correctly.
+L2839
+)P
+(P
+L2840
+-\nIf you do go down this route it's probably a good idea to make the\nprogram that generates the configuration file(s) a separate program in\n
+(TT
+-/usr/sbin
+)TT
+-, by convention called 
+(TT
+(VAR
+-package
+)VAR
+-config
+)TT
+- and\nthen run that if appropriate from the post-installation script.  The\n
+(TT
+(VAR
+-package
+)VAR
+-config
+)TT
+- program should not unquestioningly overwrite\nan existing configuration - if its mode of operation is geared towards\nsetting up a package for the first time (rather than any arbitrary\nreconfiguration later) you should have it check whether the\nconfiguration already exists, and require a 
+(TT
+---force
+)TT
+- flag to\noverwrite it.\n\n\n
+L2854
+)P
+)SECT
+)CHAPT
+AID CDATA alternatives
+(CHAPT
+(HEADING
+-Alternative versions of an interface -\n
+(PRGN
+-update-alternatives
+)PRGN
+L2856
+)HEADING
+(P
+L2857
+-\nWhen several packages all provide different versions of the same\nprogram or file it is useful to have the system select a default, but\nto allow the system administrator to change it and have their\ndecisions respected.
+L2862
+)P
+(P
+L2863
+-\nFor example, there are several versions of the 
+(PRGN
+-vi
+)PRGN
+- editor, and\nthere is no reason to prevent all of them from being installed at\nonce, each under their own name (
+(PRGN
+-nvi
+)PRGN
+-, 
+(PRGN
+-vim
+)PRGN
+- or whatever).\nNevertheless it is desirable to have the name 
+(TT
+-vi
+)TT
+- refer to\nsomething, at least by default.
+L2869
+)P
+(P
+L2870
+-\nIf all the packages involved cooperate, this can be done with\n
+(PRGN
+-update-alternatives
+)PRGN
+-.
+L2873
+)P
+(P
+L2874
+-\nEach package provides its own version under its own name, and calls\n
+(PRGN
+-update-alternatives
+)PRGN
+- in its postinst to register its version\n(and again in its prerm to deregister it).
+L2878
+)P
+(P
+L2879
+-\nSee the manpage 
+ANAME CDATA update-alternatives
+ASECTION CDATA 8
+(MANREF
+)MANREF
+- for\ndetails.
+L2882
+)P
+(P
+L2883
+-\nIf 
+(PRGN
+-update-alternatives
+)PRGN
+- does not seem appropriate you may wish\nto consider using diversions instead.\n\n
+L2888
+)P
+)CHAPT
+AID CDATA diversions
+(CHAPT
+(HEADING
+-Diversions - overriding a package's version of a file
+L2889
+)HEADING
+(P
+L2890
+-\nIt is possible to have 
+(PRGN
+-dpkg
+)PRGN
+- not overwrite a file when it\nreinstalls the package it belongs to, and to have it put the file from\nthe package somewhere else instead.
+L2894
+)P
+(P
+L2895
+-\nThis can be used locally to override a package's version of a file, or\nby one package to override another's version (or provide a wrapper for\nit).
+L2899
+)P
+(P
+L2900
+-\nBefore deciding to use a diversion, read 
+AID CDATA alternatives
+(REF
+)REF
+- to\nsee if you really want a diversion rather than several alternative\nversions of a program.
+L2904
+)P
+(P
+L2905
+-\nThere is a diversion list, which is read by 
+(PRGN
+-dpkg
+)PRGN
+-, and updated\nby a special program 
+(PRGN
+-dpkg-divert
+)PRGN
+-.  Please see 
+ANAME CDATA dpkg-divert
+ASECTION CDATA 8
+(MANREF
+)MANREF
+L2908
+- for full details of its operation.
+L2909
+)P
+(P
+L2910
+-\nWhen a package wishes to divert a file from another, it should call\n
+(PRGN
+-dpkg-divert
+)PRGN
+- in its preinst to add the diversion and rename the\nexisting file.  For example, supposing that a 
+(PRGN
+-smailwrapper
+)PRGN
+-\npackage wishes to install a wrapper around 
+(TT
+-/usr/sbin/smail
+)TT
+-:\n
+(EXAMPLE
+L2916
+-if [ install = "$1" ]; then\n    dpkg-divert --package smailwrapper --add --rename \\\n\011\011--divert /usr/sbin/smail.real /usr/sbin/smail\nfi
+L2920
+)EXAMPLE
+-\nTesting 
+(TT
+-$1
+)TT
+- is necessary so that the script doesn't try to add the\ndiversion again when 
+(PRGN
+-smailwrapper
+)PRGN
+- is upgraded.  The\n
+(TT
+---package smailwrapper
+)TT
+- ensures that 
+(PRGN
+-smailwrapper
+)PRGN
+-'s copy of\n
+(TT
+-/usr/sbin/smail
+)TT
+- can bypass the diversion and get installed as\nthe true version.
+L2926
+)P
+(P
+L2927
+-\nThe postrm has to do the reverse:\n
+(EXAMPLE
+L2930
+-if [ remove = "$1" ]; then\n    dpkg-divert --package smailwrapper --remove --rename \\\n                --divert /usr/sbin/smail.real /usr/sbin/smail\nfi
+L2934
+)EXAMPLE
+L2935
+)P
+(P
+L2936
+-\nDo not attempt to divert a file which is vitally important for the\nsystem's operation - when using 
+(PRGN
+-dpkg-divert
+)PRGN
+- there is a time,\nafter it has been diverted but before 
+(PRGN
+-dpkg
+)PRGN
+- has installed the\nnew version, when the file does not exist.\n\n
+L2943
+)P
+)CHAPT
+AID CDATA sharedlibs
+(CHAPT
+(HEADING
+-Shared libraries
+L2944
+)HEADING
+(P
+L2945
+-\nPackages containing shared libraries must be constructed with a little\ncare to make sure that the shared library is always available.  This\nis especially important for packages whose shared libraries are\nvitally important, such as the libc.
+L2950
+)P
+(P
+L2951
+-\nFirstly, your package should install the shared libraries under their\nnormal names.  For example, the 
+(PRGN
+-libgdbm1
+)PRGN
+- package should install\n
+(TT
+-libgdbm.so.1.7.3
+)TT
+- as 
+(TT
+-/usr/lib/libgdbm.so.1.7.3
+)TT
+-.  The\nfiles should not be renamed or relinked by any prerm or postrm\nscripts; 
+(PRGN
+-dpkg
+)PRGN
+- will take care of renaming things safely without\naffecting running programs, and attempts to interfere with this are\nlikely to lead to problems.
+L2959
+)P
+(P
+L2960
+-\nSecondly, your package should include the symlink that 
+(PRGN
+-ldconfig
+)PRGN
+-\nwould create for the shared libraries.  For example, the 
+(PRGN
+-libgdbm1
+)PRGN
+-\npackage should include a symlink from 
+(TT
+-/usr/lib/libgdbm.so.1
+)TT
+-\nto 
+(TT
+-libgdbm.so.1.7.3
+)TT
+-.  This is needed so that 
+(PRGN
+-ld.so
+)PRGN
+- can find\nthe library in between the time 
+(PRGN
+-dpkg
+)PRGN
+- installs it and\n
+(PRGN
+-ldconfig
+)PRGN
+- is run in the 
+(PRGN
+-postinst
+)PRGN
+- script.  Futhermore, and 
+(EM
+-this\nis very important
+)EM
+-, the symlink must be placed before the library it\npoints to in the 
+(TT
+-.deb
+)TT
+- file.  Currently the way to ensure the\nordering is done properly is to create the symlink in the appropriate\n
+(TT
+-debian/tmp/.../lib
+)TT
+- directory before installing the library\nwhen you build the package.
+L2972
+)P
+(P
+L2973
+-\nIf you do the above your package does not need to call 
+(PRGN
+-ldconfig
+)PRGN
+-\nin its maintainer scripts.  It is especially important not to call\n
+(PRGN
+-ldconfig
+)PRGN
+- in the postrm or preinst scripts in the case where the\npackage is being upgraded (see the programmer's manual), as\n
+(PRGN
+-ldconfig
+)PRGN
+- will see the temporary names that 
+(PRGN
+-dpkg
+)PRGN
+- uses for the\nfiles while it is installing them and will make the shared library\nlinks point to them, just before 
+(PRGN
+-dpkg
+)PRGN
+- continues the installation\nand removes the links!\n\n\n
+L2985
+)P
+)CHAPT
+AID CDATA sysvinit
+(CHAPT
+(HEADING
+-Configuration of 
+(PRGN
+-init
+)PRGN
+L2986
+)HEADING
+(P
+L2988
+)P
+AID IMPLIED
+(SECT
+(HEADING
+-Introduction to the 
+(TT
+-init.d
+)TT
+- scheme
+L2989
+)HEADING
+(P
+L2990
+-\nThe 
+(TT
+-/etc/init.d
+)TT
+- directory contains the scripts executed by\n
+(PRGN
+-init
+)PRGN
+- when init state (or `runlevel') is changed (see 
+ANAME CDATA init
+ASECTION CDATA 8
+(MANREF
+)MANREF
+L2993
+-).
+L2994
+)P
+(P
+L2995
+-\nThese scripts are be referenced by symbolic links in the\n
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+- directories.  When changing runlevels, init\nlooks in the directory 
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+- for the scripts it\nshould execute, where 
+(VAR
+-n
+)VAR
+- is the runlevel that is being changed\nto.
+L3001
+)P
+(P
+L3002
+-\nThe names of the links all have the form 
+(TT
+-S
+(VAR
+-mm
+)VAR
+(VAR
+-script
+)VAR
+)TT
+- or\n
+(TT
+-K
+(VAR
+-mm
+)VAR
+(VAR
+-script
+)VAR
+)TT
+- where 
+(VAR
+-mm
+)VAR
+- is a two-digit number and\n
+(VAR
+-script
+)VAR
+- is the name of the script (this should be the same as the\nname of the actual script in 
+(TT
+-/etc/init.d
+)TT
+-.\n\nWhen 
+(PRGN
+-init
+)PRGN
+- changes runlevel first the targets of the links whose\nnames starting with a 
+(TT
+-K
+)TT
+- are executed, each with the single\nargument 
+(TT
+-stop
+)TT
+-, followed by the scripts prefixed with an 
+(TT
+-S
+)TT
+-,\neach with the single argument 
+(TT
+-start
+)TT
+-.  The 
+(TT
+-K
+)TT
+- links are\nresponsible for killing services and the 
+(TT
+-S
+)TT
+- link for starting\nservices upon entering the runlevel.
+L3014
+)P
+(P
+L3015
+-\nFor example, if we are changing from runlevel 2 to runlevel 3, init\nwill first execute all of the 
+(TT
+-K
+)TT
+- prefixed scripts it finds in\n
+(TT
+-/etc/rc3.d
+)TT
+-, and then all of the 
+(TT
+-S
+)TT
+- prefixed scripts.  The\nlinks starting with 
+(TT
+-K
+)TT
+- will cause the referred-to file to be\nexecuted with an argument of 
+(TT
+-stop
+)TT
+-, and the 
+(TT
+-S
+)TT
+- links with an\nargument of 
+(TT
+-start
+)TT
+-.
+L3022
+)P
+(P
+L3023
+-\nThe two-digit number 
+(VAR
+-mm
+)VAR
+- is used to decide which order to start\nand stop things in - low-numbered links have their scripts run first.\nFor example, the 
+(TT
+-K20
+)TT
+- scripts will be executed before the 
+(TT
+-K30
+)TT
+-\nscripts.  This is used when a certain service must be started before\nanother.  For example, the name server 
+(PRGN
+-bind
+)PRGN
+- might need to be\nstarted before the news server 
+(PRGN
+-inn
+)PRGN
+- so that 
+(PRGN
+-inn
+)PRGN
+- can set\nup its access lists.  In this case, the script that starts 
+(PRGN
+-bind
+)PRGN
+-\nshould have a lower number than the script that starts 
+(PRGN
+-inn
+)PRGN
+- so\nthat it runs first:\n
+(EXAMPLE
+L3034
+-/etc/rc2.d/S17bind\n/etc/rc2.d/S70inn
+L3036
+)EXAMPLE
+-\n
+L3038
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Writing 
+(TT
+-init.d
+)TT
+- scripts
+L3039
+)HEADING
+(P
+L3040
+-\nPackages can and should place scripts in 
+(TT
+-/etc/init.d
+)TT
+- to start\nor stop services at boot time or during a change of runlevel.  These\nscripts should be named 
+(TT
+-/etc/init.d/
+(VAR
+-package
+)VAR
+)TT
+-, and they\nshould accept one argument, saying what to do: 
+(TT
+-start
+)TT
+-, meaning to\nstarts the service, or 
+(TT
+-stop
+)TT
+-, to stop the service.  Optionally\nthey can support 
+(TT
+-reload
+)TT
+- which causes the configuration to be\nreloaded.
+L3048
+)P
+(P
+L3049
+-\nThe 
+(TT
+-init.d
+)TT
+- scripts should ensure that they will behave sensibly\nif invoked with 
+(TT
+-start
+)TT
+- when the service is already running, or\nwith 
+(TT
+-stop
+)TT
+- when it isn't, and that they don't kill\nunfortunately-named user processes.  The best way to achieve this is\nusually to use 
+(PRGN
+-start-stop-daemon
+)PRGN
+-.
+L3055
+)P
+(P
+L3056
+-\nThese scripts should not fail obscurely when the configuration files\nremain but the package has been removed, as the default in 
+(PRGN
+-dpkg
+)PRGN
+-\nis to leave configuration files on the system after the package has\nbeen removed.  Only when it is executed with the 
+(TT
+---purge
+)TT
+- option\nwill dpkg remove configuration files.  Therefore, you should include a\n
+(TT
+-test
+)TT
+- statement at the top of the script, like this:\n
+(EXAMPLE
+L3064
+-test -f 
+(VAR
+-program-executed-later-in-script
+)VAR
+- || exit 0
+L3065
+)EXAMPLE
+-\n
+L3067
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Managing the 
+(TT
+-rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+- links - 
+(PRGN
+-update-rc.d
+)PRGN
+L3068
+)HEADING
+(P
+L3069
+-\nA program is provided, 
+(PRGN
+-update-rc.d
+)PRGN
+-, to make it easier for\npackage maintainers to arrange for the proper creation and removal of\n
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+- symbolic links from their postinst and postrm\nscripts.
+L3074
+)P
+(P
+L3075
+-\nYou should use this script to make changes to 
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+-\nand 
+(EM
+-never
+)EM
+- include any 
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+- symbolic links in\nthe actual archive.
+L3079
+)P
+(P
+L3080
+-\nBy default 
+(PRGN
+-update-rc.d
+)PRGN
+- will start services in each of the\nmulti-user state runlevels (2, 3, 4, and 5) and stop them in the halt\nrunlevel (0), the single-user runlevel (1) and the reboot runlevel\n(6).  The system administrator will have the opportunity to customize\nrunlevels by simply adding, moving, or removing the symbolic links in\n
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+-.
+L3087
+)P
+(P
+L3088
+-\nTo get the default behaviour for your package, put in your postinst\nscript\n
+(EXAMPLE
+L3092
+-update-rc.d 
+(VAR
+-package
+)VAR
+- default \|>\|/dev/null
+L3093
+)EXAMPLE
+-\nand in your postrm\n
+(EXAMPLE
+L3096
+-if [ purge = "$1" ]; then\n    update-rc.d 
+(VAR
+-package
+)VAR
+- remove \|>\|/dev/null\nfi
+L3099
+)EXAMPLE
+L3100
+)P
+(P
+L3101
+-\nThis will use a default sequence number of 20.  If it does not matter\nwhen or in which order the script is run, use this default.  If it\ndoes, then you should talk to the maintainer of the 
+(PRGN
+-sysvinit
+)PRGN
+-\npackage or post to 
+(TT
+-debian-devel
+)TT
+-, and they will help you choose\na number.
+L3107
+)P
+(P
+L3108
+-\nFor more information about using 
+(TT
+-update-rc.d
+)TT
+-, please consult its\nmanpage 
+ANAME CDATA update-rc.d
+ASECTION CDATA 8
+(MANREF
+)MANREF
+-.\n
+L3112
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Boot-time initialisation - 
+(TT
+-rc.boot
+)TT
+L3113
+)HEADING
+(P
+L3114
+-\nThere is another directory, 
+(TT
+-/etc/rc.boot
+)TT
+-, which contains\nscripts which are run once per machine boot.  This facility is\nprovided for initialisation of hardware devices, cleaning up of\nleftover files, and so forth.
+L3119
+)P
+(P
+L3120
+-\nFor example, the 
+(PRGN
+-kbd
+)PRGN
+- package provides a script here for\ninitialising the keyboard layout and console font and mode.
+L3123
+)P
+(P
+L3124
+-\nThe files in 
+(TT
+-/etc/rc.boot
+)TT
+- should 
+(EM
+-not
+)EM
+- be links into\n
+(TT
+-/etc/init.d
+)TT
+- - they should be the scripts themselves.
+L3127
+)P
+(P
+L3128
+-\n
+(TT
+-rc.boot
+)TT
+- should 
+(EM
+-not
+)EM
+- be used for starting general-purpose\ndaemons and similar activities.  This should be done using the\n
+(TT
+-rc
+(VAR
+-n
+)VAR
+-.d
+)TT
+- scheme, above, so that the services can be started\nand stopped cleanly when the runlevel changes or the machine is to be\nshut down or rebooted.\n
+L3135
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Notes
+L3136
+)HEADING
+(P
+L3137
+-\n
+(EM
+-Do not
+)EM
+- include the 
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d/*
+)TT
+- symbolic links in\nthe 
+(TT
+-.deb
+)TT
+- filesystem archive!  
+(EM
+-This will cause problems!
+)EM
+-\nYou should create them with 
+(PRGN
+-update-rc.d
+)PRGN
+-, as above.
+L3141
+)P
+(P
+L3142
+-\n
+(EM
+-Do not
+)EM
+- include the 
+(TT
+-/etc/rc
+(VAR
+-n
+)VAR
+-.d/*
+)TT
+- symbolic links in\n
+(PRGN
+-dpkg
+)PRGN
+-'s conffiles list!  
+(EM
+-This will cause problems!
+)EM
+-\n
+(EM
+-Do
+)EM
+-, however, include the 
+(TT
+-/etc/init.d
+)TT
+- scripts in conffiles.\n
+L3147
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Example
+L3148
+)HEADING
+(P
+L3149
+-\nThe 
+(PRGN
+-bind
+)PRGN
+- DNS (nameserver) package wants to make sure that the\nnameserver is running in multiuser runlevels, and is properly shut\ndown with the system.  It puts a script in 
+(TT
+-/etc/init.d
+)TT
+-, naming\nthe script appropriately 
+(TT
+-bind
+)TT
+-.  As you can see, the script\ninterprets the argument 
+(TT
+-reload
+)TT
+- to send the nameserver a 
+(TT
+-HUP
+)TT
+-\nsignal (causing it to reload its configuration); this way the user can\nsay 
+(TT
+-/etc/init.d/bind reload
+)TT
+- to reload the nameserver.
+L3157
+)P
+(P
+L3158
+-\n
+(EXAMPLE
+L3160
+-#!/bin/sh\n# Original version by Robert Leslie \|<\|rob@mars.org\|>\|, edited by iwj\ntest -x /usr/sbin/named || exit 0\ncase "$1" in\n  start)\n    test -f /etc/named.boot -a -f /var/named/boot.options || exit 0\n    start-stop-daemon --start --verbose --exec /usr/sbin/named\n    ;;\n  stop)\n    start-stop-daemon --stop --verbose  \\\n        --pidfile /var/run/named.pid --exec /usr/sbin/named\n    ;;\n  reload)\n    start-stop-daemon --stop --signal 1 --verbose  \\\n        --pidfile /var/run/named.pid --exec /usr/sbin/named\n    ;;\n  *)\n    echo "Usage: /etc/init.d/bind {start|stop|reload}" >&2\n    exit 1\n    ;;\nesac\nexit 0
+L3182
+)EXAMPLE
+L3183
+)P
+(P
+L3184
+-\nAnother example on which to base your 
+(TT
+-/etc/init.d
+)TT
+- scripts is in\n
+(TT
+-/etc/init.d/skeleton
+)TT
+-.
+L3187
+)P
+(P
+L3188
+-\nIf this package is happy with the default setup from\n
+(PRGN
+-update-rc.d
+)PRGN
+-, namely an ordering number of 20 and having named\nrunning in all runlevels, it can say in its postinst:\n
+(EXAMPLE
+L3193
+-update-rc.d bind default >/dev/null
+L3194
+)EXAMPLE
+-\nAnd in its postrm, to remove the links when the package is purged:\n
+(EXAMPLE
+L3197
+-if [ purge = "$1" ]; then\n     update-rc.d acct remove >/dev/null\nfi
+L3200
+)EXAMPLE
+-\n\n\n
+L3204
+)P
+)SECT
+)CHAPT
+AID CDATA methif
+(CHAPT
+(HEADING
+(PRGN
+-dselect
+)PRGN
+-'s interface to its installation methods
+L3205
+)HEADING
+(P
+L3206
+-\n
+(PRGN
+-dselect
+)PRGN
+- calls scripts from its installation methods when it\nneeds to actually access data from the distribution.  The core program\n
+(PRGN
+-dselect
+)PRGN
+- itself just calls these scripts and provides the\npackage and access method selection interfaces.  The installation\nmethods are responsible for invoking 
+(PRGN
+-dpkg
+)PRGN
+- as appropriate.
+L3212
+)P
+(P
+L3213
+-\nEach installation method has three scripts:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L3216
+(ITEM
+(P
+-Setup installation parameters.
+L3217
+)P
+)ITEM
+(ITEM
+(P
+-Update list of available packages.
+L3218
+)P
+)ITEM
+(ITEM
+(P
+-Install.
+L3219
+)P
+)ITEM
+)LIST
+L3220
+)P
+(P
+L3221
+-\n
+(PRGN
+-dselect
+)PRGN
+- searches for methods in 
+(TT
+-/usr/lib/dpkg/methods
+)TT
+-\nand 
+(TT
+-/usr/local/lib/dpkg/methods
+)TT
+-.\n
+L3225
+)P
+AID IMPLIED
+(SECT
+(HEADING
+-Functions of the method scripts
+L3226
+)HEADING
+(P
+L3227
+-\nThe setup script is run just after the user has chosen an installation\nmethod.  It should prompt the user for parameters like the site to\nNFS-mount or FTP from, the directory to use, or the directory or\nfilesystem where the 
+(TT
+-.deb
+)TT
+- files can be found, or the tape or\nfloppy device to install from.  It should store the responses under\n
+(TT
+-/var/lib/dpkg/methods
+)TT
+- - see below.  If no available\npackages list is available it should perhaps offer to scan the\navailable packages.
+L3236
+)P
+(P
+L3237
+-\nThe update script should obtain a list of available packages if\npossible, and run 
+(TT
+-dpkg --update-avail
+)TT
+-, 
+(TT
+-dpkg --merge-avail
+)TT
+-\nand/or 
+(TT
+-dpkg --forget-old-unavail
+)TT
+- to load it into 
+(PRGN
+-dpkg
+)PRGN
+- and\n
+(PRGN
+-dselect
+)PRGN
+-'s database of available packages.  If no packages list\nwas available and the user was offered and accepted the option of\nscanning the actual files available this scan should be done here,\nusing 
+(TT
+-dpkg --record-avail
+)TT
+-.
+L3245
+)P
+(P
+L3246
+-\nThe install script should feed all the available 
+(TT
+-.deb
+)TT
+- files to\n
+(TT
+-dpkg --iGOEB
+)TT
+- (this is equivalent to 
+(TT
+-dpkg --install\n--refuse-downgrade --selected-only --skip-same-version\n--auto-deconfigure
+)TT
+-).  The 
+(TT
+--R
+)TT
+- (
+(TT
+---recursive
+)TT
+-) option for\ntraversing subdirectories may also be useful here).
+L3252
+)P
+(P
+L3253
+-\nIf any of these scripts needs to display a message for the user, it\nshould wait for the user to hit `return' before exiting so that\ndselect doesn't immediately rewrite the screen.
+L3257
+)P
+(P
+L3258
+-\nIf a method script succeeds (returns a zero exit status)\n
+(PRGN
+-dselect
+)PRGN
+- will return immediately to the main menu, with the\n`next' option highlighted ready for the user to select it.  If it\nfails 
+(PRGN
+-dselect
+)PRGN
+- will display a message and wait for the user to\nhit return.\n
+L3265
+)P
+)SECT
+AID IMPLIED
+(SECT
+(HEADING
+-Location and arguments of the method scripts
+L3266
+)HEADING
+(P
+L3267
+-\nA set of scripts (henceforth known as a group) may provide several\nmethods on the `main menu' with different behaviour.  For example,\nthere might be a generic get-packages-by-FTP group which might provide\nmethods in the main menu for installation directly from one of the\nDebian mirror sites as well as for installation from a user-specified\nsite.
+L3274
+)P
+(P
+L3275
+-\nEach group of methods implemented by the same set of scripts should\nhave a subdirectory 
+(TT
+-/usr/lib/dpkg/methods/
+(VAR
+-group
+)VAR
+)TT
+- or\n
+(TT
+-/usr/local/lib/dpkg/methods/
+(VAR
+-group
+)VAR
+)TT
+-, containing:\n
+ACOMPACT TOKEN COMPACT
+(TAGLIST
+L3280
+(TAG
+(TT
+-names
+)TT
+L3281
+)TAG
+(ITEM
+(P
+-a list of user-visible methods provided by these scripts.
+L3282
+)P
+)ITEM
+(TAG
+(TT
+-setup
+)TT
+L3283
+)TAG
+(TAG
+(TT
+-update
+)TT
+L3284
+)TAG
+(TAG
+(TT
+-install
+)TT
+L3285
+)TAG
+(ITEM
+(P
+-executable programs, the scripts themselves.
+L3286
+)P
+)ITEM
+(TAG
+(TT
+-desc.
+(VAR
+-option
+)VAR
+)TT
+L3287
+)TAG
+(ITEM
+(P
+-description file.
+L3288
+)P
+)ITEM
+)TAGLIST
+L3289
+)P
+(P
+L3290
+-\n
+(TT
+-names
+)TT
+- will be formatted as a list of lines, each containing:\n
+(EXAMPLE
+L3293
+(VAR
+-sequence
+)VAR
+- 
+(VAR
+-method
+)VAR
+- 
+(VAR
+-summary
+)VAR
+L3294
+)EXAMPLE
+L3295
+)P
+(P
+L3296
+-\n
+(VAR
+-sequence
+)VAR
+- is a two-digit number that will be used much like\n
+(TT
+-rc.d
+)TT
+- prefixes to control the order in the main menu.  If in doubt\nuse 50.
+L3300
+)P
+(P
+L3301
+-\n
+(VAR
+-method
+)VAR
+- is a name which is displayed by 
+(PRGN
+-dselect
+)PRGN
+- as the\nname of the method, and which will be passed to 
+(TT
+-setup
+)TT
+-,\n
+(TT
+-update
+)TT
+- and 
+(TT
+-unpack
+)TT
+- as their first argument.
+L3305
+)P
+(P
+L3306
+-\n
+(VAR
+-summary
+)VAR
+- is the brief description string for 
+(PRGN
+-dselect
+)PRGN
+-'s menu.
+L3308
+)P
+(P
+L3309
+-\nEach of the three scripts gets the same three arguments: 
+(VAR
+-vardir
+)VAR
+-,\n
+(VAR
+-group
+)VAR
+- and 
+(VAR
+-method
+)VAR
+-.  
+(VAR
+-vardir
+)VAR
+- is the base directory for\nstoring 
+(PRGN
+-dpkg
+)PRGN
+- and 
+(PRGN
+-dselect
+)PRGN
+-'s state, usually\n
+(TT
+-/var/lib/dpkg
+)TT
+-; this is passed in so that the 
+(TT
+---admindir
+)TT
+-\noption to 
+(PRGN
+-dselect
+)PRGN
+- is honoured).
+L3315
+)P
+(P
+L3316
+-\nEach option may have an extended description in\n
+(TT
+-desc.
+(VAR
+-option
+)VAR
+)TT
+-.  This should be formatted like the extended\ndescription part of a 
+(TT
+-Description
+)TT
+- field entry 
+(EM
+-shifted one\ncharacter to the left
+)EM
+-.
+L3321
+)P
+(P
+L3322
+-\n
+(TT
+(VAR
+-vardir
+)VAR
+-/methods
+)TT
+- will exist, and a method group may use a\n
+(TT
+(VAR
+-vardir
+)VAR
+-/methods/
+(VAR
+-group
+)VAR
+)TT
+- directory to store its state.
+L3325
+)P
+(P
+L3326
+-\nThe group name and method name must follow the rules for C identifiers.\n
+L3329
+)P
+)SECT
+)CHAPT
+)BOOK
+)DEBIANDOC
+C

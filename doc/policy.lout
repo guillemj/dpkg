@@ -1,0 +1,2039 @@
+@SysInclude{ fontdefs }
+@SysInclude{ langdefs }
+@SysInclude{ dl }
+@SysInclude{ docf }
+@Use { @DocumentLayout
+  @ParaGap { 1.70vx }
+  @InitialBreak { 1.0fx ragged hyphen }
+  @PageHeaders { Titles }
+  @OptimizePages { Yes }
+  @RunningEvenTop { @B { @PageNum } }
+  @RunningOddTop { @Right { @B { @PageNum } } }
+  @RunningEvenFoot { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 @Right { Debian policy manual } }
+  @RunningOddFoot { Debian policy manual @Right { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 } }
+  @RunningStartEvenTop { @Null }
+  @RunningStartOddTop { @Null }
+  @RunningStartEvenFoot { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 @Right { Debian policy manual } }
+  @RunningStartOddFoot { Debian policy manual @Right { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 } }
+# @RunningEvenTop { @B { @PageNum } @Centre {  } @Right { @MinorNum } }
+# @RunningOddTop { @MinorNum @Centre { @MinorTitle } @Right { @B { @PageNum } } }
+# @RunningEvenFoot { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 @Right { Debian policy manual } }
+# @RunningOddFoot { Debian policy manual @Right { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 } }
+# @RunningStartEvenTop { @Null }
+# @RunningStartOddTop { @Null }
+# @RunningStartEvenFoot { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 @Right { Debian policy manual } }
+# @RunningStartOddFoot { Debian policy manual @Right { version 0.2.0.0 (dpkg 1.3.7), 23 August 1996 } }
+}
+@Use { @OrdinaryLayout }
+@Doc @Text @Begin
+@CenteredDisplay {clines 1.3v} @Break {
++5p @Font Bold @Font { Debian policy manual }
+-2p @Font { Ian Jackson {{0.7 1.0} @Scale {Courier Bold} @Font {<"ijackson@gnu.ai.mit.edu">}} }
+version 0.2.0.0 (dpkg 1.3.7), 23 August 1996
+}
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break {
+0.1.|0.5fe{ Abstract}}}} |0f }} //0.0fe
+
+
+@LP
+This manual describes the policy requirements which must be satisfied
+for a package to be included in the Debian distribution. This
+includes details of the permissions and ownerships of files in
+packages and other technical requirements as well as information like
+the upload procedure.
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break {
+0.2.|0.5fe{ Contents}}}} |0f }} //0.0fe
+
+//1vx//0.3vx Bold @Font @HAdjust { @HContract { { 1. } |5fx {Introduction and scope of this manual} } |2f @PageOf { ch-scope } } //1.00vx
+//0.3vx Bold @Font @HAdjust { @HContract { { 2. } |5fx {Package copyright} } |2f @PageOf { ch-pkgcopyright } } //1.00vx
+//0.3vx Bold @Font @HAdjust { @HContract { { 3. } |5fx {Contents of the binary package
+} } |2f @PageOf { ch-binarypkg } } //1.00vx
+@HAdjust { @HContract { { 3.1. } |5fx {Control file requirements
+} } |2f @PageOf { s3.1 } } //0.95vx
+@HAdjust { @HContract { { 3.2. } |5fx {Locations of files} } |2f @PageOf { s3.2 } } //0.95vx
+@HAdjust { @HContract { { 3.3. } |5fx {Permissions and ownerships} } |2f @PageOf { s3.3 } } //0.95vx
+@HAdjust { @HContract { { 3.4. } |5fx {Configuration files} } |2f @PageOf { s3.4 } } //0.95vx
+@HAdjust { @HContract { { 3.5. } |5fx {Maintainer scripts} } |2f @PageOf { s3.5 } } //0.95vx
+@HAdjust { @HContract { { 3.6. } |5fx {Scripts in general} } |2f @PageOf { s3.6 } } //0.95vx
+@HAdjust { @HContract { { 3.7. } |5fx {Compilation options} } |2f @PageOf { s3.7 } } //0.95vx
+@HAdjust { @HContract { { 3.8. } |5fx {Shared library packages} } |2f @PageOf { s3.8 } } //0.95vx
+@HAdjust { @HContract { { 3.9. } |5fx {Application configuration files, dotfiles and {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/skel"}}} } |2f @PageOf { s3.9 } } //0.95vx
+@HAdjust { @HContract { { 3.10. } |5fx {Mail processing on Debian systems} } |2f @PageOf { s-mail } } //0.95vx
+@HAdjust { @HContract { { 3.11. } |5fx {Packages which can use the X shared libraries} } |2f @PageOf { s3.11 } } //0.95vx
+@HAdjust { @HContract { { 3.12. } |5fx {Games} } |2f @PageOf { s3.12 } } //0.95vx
+@HAdjust { @HContract { { 3.13. } |5fx {Allocating "package-specific" users and groups} } |2f @PageOf { s3.13 } } //0.95vx
+//0.3vx Bold @Font @HAdjust { @HContract { { 4. } |5fx {Source package
+} } |2f @PageOf { ch-sourcepkg } } //1.00vx
+@HAdjust { @HContract { { 4.1. } |5fx {Releases of packages by other than the usual Debian maintainer} } |2f @PageOf { s4.1 } } //0.95vx
+@HAdjust { @HContract { { 4.2. } |5fx {Standards conformance and {{0.7 1.0} @Scale {Courier Bold} @Font {"Standards"--"Version"}}} } |2f @PageOf { s4.2 } } //0.95vx
+@HAdjust { @HContract { { 4.3. } |5fx {Documentation and the {{0.7 1.0} @Scale {Courier Bold} @Font {changelog}}} } |2f @PageOf { s4.3 } } //0.95vx
+@HAdjust { @HContract { { 4.4. } |5fx {Changes to the upstream sources} } |2f @PageOf { s4.4 } } //0.95vx
+@HAdjust { @HContract { { 4.5. } |5fx {Error trapping in makefiles} } |2f @PageOf { s4.5 } } //0.95vx
+//0.3vx Bold @Font @HAdjust { @HContract { { 5. } |5fx {How to become a Debian developer
+} } |2f @PageOf { ch-developer } } //1.00vx
+@HAdjust { @HContract { { 5.1. } |5fx {Before you start work} } |2f @PageOf { s5.1 } } //0.95vx
+@HAdjust { @HContract { { 5.2. } |5fx {When you have a package to upload} } |2f @PageOf { s5.2 } } //0.95vx
+@HAdjust { @HContract { { 5.3. } |5fx {Upload handling "-" {{0.7 1.0} @Scale {Courier Bold} @Font {.changes}} files} } |2f @PageOf { s-changesfiles } } //0.95vx
+//0.3vx Bold @Font @HAdjust { @HContract { { 6. } |5fx {The Debian mailing lists} } |2f @PageOf { ch-mailinglists } } //1.00vx
+//0.3vx Bold @Font @HAdjust { @HContract { { 7. } |5fx {Conversion procedure from old source packages} } |2f @PageOf { ch-conversion } } //1.00vx
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break {
+0.3.|0.5fe{ Copyright Notice}}}} |0f }} //0.0fe
+
+
+@LP
+Copyright ©1996 Ian Jackson.
+@LP
+
+This manual is free software; you may redistribute it "and/or" modify it
+under the terms of the GNU General Public License as published by the
+Free Software Foundation; either version 2, or (at your option) any
+later version.
+@LP
+
+This is distributed in the hope that it will be useful, but
+{{Times Slope} @Font {without any warranty}}; without even the implied warranty of
+merchantability or fitness for a particular purpose. See the GNU
+General Public License for more details.
+@LP
+
+You should have received a copy of the GNU General Public License with
+your Debian "GNU/Linux" system, in {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/copyright/GPL"}}, or
+with the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} source package as the file {{0.7 1.0} @Scale {Courier Bold} @Font {COPYING}}. If
+not, write to the Free Software Foundation, Inc., 675 Mass Ave,
+Cambridge, MA 02139, USA.
+
+@LP
+@NP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.2 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +5p @Font { 1.2vx @Break { {@PageMark ch-scope}
+1.|0.5fe{ Introduction and scope of this manual}}}} |0f }} //0.0fe
+
+
+@LP
+
+This manual describes the criteria that a "Debian-format" package must
+satisfy to be included in the Debian distribution.
+@LP
+
+Much of this information will be useful even when building a package
+which is to be distributed in some other way or is for local use.
+@LP
+
+This manual does {{Times Slope} @Font {not}} describe the technical mechanisms involved
+in package creation, installation and removal. This information can
+be found in the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} programmers' manual and the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} system
+administrators' manual.
+@LP
+
+This document assumes familiarity with these other two manuals.
+Unfortunately the system administrators' manual does not exist yet.
+@LP
+
+The Debian version of the FSF's GNU {{0.7 1.0} @Scale {Courier Bold} @Font {hello}} program is provided
+as an example for people wishing to create Debian packages.
+@LP
+
+{{Times Slope} @Font {Note that this document is still a draft!}}
+
+@LP
+@NP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.2 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +5p @Font { 1.2vx @Break { {@PageMark ch-pkgcopyright}
+2.|0.5fe{ Package copyright}}}} |0f }} //0.0fe
+
+
+@LP
+
+Please study the copyright of your submission {{Times Slope} @Font {carefully}} and
+understand it before proceeding. If you have doubts or questions,
+please ask.
+@LP
+
+The aims of the policy detailed below are:
+//1.0vx
+{@RawBulletList
+  gap { 1.0vx }
+@ListItem {
+That any user be able to rebuild any package in the official Debian
+distribution from the original source plus our patches.
+}
+@ListItem {
+That we make available in our packaging formats as much software as we
+can.
+}
+@ListItem {
+That it be easy for people to make CDROMs of our distribution without
+violating copyrights.
+}
+@RawEndList}//0ve
+
+@LP
+
+All packages in the Debian distribution proper must be freely useable,
+modifiable and redistributable in both source and binary form. It
+must be possible for anyone to distribute and use modified source code
+and their own own compiled binaries, at least when they do so as part
+of a Debian distribution.
+@LP
+
+Packages whose copyright permission notices (or patent problems) do
+not allow distribution and copying for profit, without restriction on
+the amount charged, or where distribution is restricted according to
+the medium used, or where the distributor must ask any kind of special
+permission of the authors, or with other onerous conditions, may only
+be placed in the "semi-supported" "non-free" section of the Debian FTP
+archives. This is important so that CDROM manufacturers can
+distribute Debian without having to check the copyright of each
+package individually, simply by leaving out the contents of the
+"non-free" area; CDROM distributors are encouraged, though, to check the
+copyrights on programs in "non-free" individually and include as many as
+they can.
+@LP
+
+Packages whose copyright permission notices (or patent problems) allow
+only distribution of compiled binaries (and thus of which only
+binaries are available), or where the source code which may be
+distributed is not the complete source code required to compile the
+program (ie, the program cannot be compiled using only packages in the
+main Debian distribution), or which depend for their use on "non-free"
+or contrib packages, or allow free use only for a trial period
+(shareware), or are demonstration programs lacking vital functionality
+(crippleware), or are only "installer-packages" which require the user
+to supply a separate file to be installed, or which fail to meet some
+other policy requirements, may only be placed in the "semi-supported"
+contrib section of the Debian FTP archives (unless they need to be in
+"non-free" "-" see above).
+@LP
+
+Programs whose authors encourage the user to make donations are fine
+for the main distribution, provided that the authors do not claim that
+not donating is immoral, unethical, illegal or something similar;
+otherwise they must go in contrib (or "non-free," if even distribution
+is restricted by such statements).
+@LP
+
+Packages whose copyright permission notices (or patent problems) do
+not allow redistribution even of only binaries, and where no special
+permission has been obtained, cannot placed on the Debian FTP site and
+its mirrors at all.
+@LP
+
+Note that under international copyright law{@FootNote{ This applies in
+the United States, too.}} {{Times Slope} @Font {no}} distribution or modification
+of a work is allowed without an explicit notice saying so. Therefore
+a program without a copyright notice {{Times Slope} @Font {is}} copyrighted and you may
+not do anything to it without risking being sued! Likewise if a
+program has a copyright notice but no statement saying what is
+permitted then nothing is permitted.
+@LP
+
+Many authors are unaware of the problems that restrictive copyrights
+(or lack of copyright notices) can cause for the users of their
+"supposedly-free" software. It is often worthwhile contacting such
+authors diplomatically to ask them to modify their terms generally, or
+specially for Debian. However, this is a politically difficult thing
+to do and you should ask for advice on {{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--"devel"}} first.
+@LP
+
+When in doubt, send mail to {{0.7 1.0} @Scale {Courier Bold} @Font {<"debian"--"devel@lists.debian.org">}}. Be
+prepared to provide us with the copyright statement. Software covered
+by the GPL, public domain software and "BSD-like" copyrights are safe;
+be wary of the phrases `commercial use prohibited' and `distribution
+restricted'.
+@LP
+
+Every package submission {{Times Slope} @Font {must}} be accompanied by verbatim copy of
+its copyright (with the exceptions of public domain packages and those
+covered by the UCB BSD licence or the GNU GPL or LGPL; in these cases
+simply indicate which is appropriate). This information must be
+included in a file installed by the binary package "-" see `{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/copyright"}}', page @PageOf{s-copyrightfile}.
+
+@LP
+@NP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.2 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +5p @Font { 1.2vx @Break { {@PageMark ch-binarypkg}
+3.|0.5fe{ Contents of the binary package
+}}}} |0f }} //0.0fe
+
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.1}
+3.1.|0.5fe{ Control file requirements
+}}}} |0f }} //0.0fe
+
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.1.1}
+3.1.1.|0.5fe{ {{0.7 1.0} @Scale {Courier Bold} @Font {Maintainer}} information}}}//0.2fe
+
+
+@LP
+
+All packages must have a {{0.7 1.0} @Scale {Courier Bold} @Font {Maintainer}} field with the correct name
+and a working email address for the Debian maintainer of the package.
+If one person maintains several packages they should try to avoid
+having different forms of their name and address in different
+{{0.7 1.0} @Scale {Courier Bold} @Font {Maintainer}} fields.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.1.2}
+3.1.2.|0.5fe{ Dependencies and virtual packages}}}//0.2fe
+
+
+@LP
+
+Add a dependency for any shared libraries required by
+"dynamically-linked" executable binaries in your package. Almost every
+package containing compiled C code should therefore include a
+{{0.7 1.0} @Scale {Courier Bold} @Font {Depends}} field which mentions the shared C library required for
+the program to run. For ELF binaries linked against {{0.7 1.0} @Scale {Courier Bold} @Font {libc.so.5}}
+the relevant package name is {{0.7 1.0} @Scale {Courier Bold} @Font {libc5}}.
+@LP
+
+All packages must use virtual package names where appropriate, and
+arrange to create new ones if necessary. They must not use virtual
+package names (except privately, amongst a cooperating group of
+packages) unless they have been agreed upon and appear in the list of
+virtual package names.
+@LP
+
+The latest version of the authoritative list of virtual package names
+can be found on {{0.7 1.0} @Scale {Courier Bold} @Font {ftp.debian.org}} in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/debian/doc/package"--"developer/virtual"--"package"--"names"--"list.text"}}
+or your local mirror. The procedure for updating it is described at
+the top of the file.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.1.3}
+3.1.3.|0.5fe{ {{0.7 1.0} @Scale {Courier Bold} @Font {Section}} and {{0.7 1.0} @Scale {Courier Bold} @Font {Priority}}}}}//0.2fe
+
+
+@LP
+
+Decide whether your package can go in {{0.7 1.0} @Scale {Courier Bold} @Font {"non"--"free"}}, {{0.7 1.0} @Scale {Courier Bold} @Font {contrib}} or
+the main distribution "-" see `Package copyright', page @PageOf{ch-pkgcopyright}, and put
+an appropriate value for the distribution in the
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian/changelog"}} file.
+@LP
+
+The {{0.7 1.0} @Scale {Courier Bold} @Font {Priority}} and {{0.7 1.0} @Scale {Courier Bold} @Font {Section}} control file fields give
+information for classifying the package in {{0.7 1.0} @Scale {Courier Bold} @Font {dselect}} and say
+which directory to place it in the FTP archive.
+@LP
+
+They are ultimately the responsibility of the distribution
+maintainers; however, you should suggest values for them in your
+{{0.7 1.0} @Scale {Courier Bold} @Font {.changes}} information when you upload a package. You do this by
+including appropriate information in the {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/control"}} file
+before building the packages.
+@LP
+
+For a list of the currently "in-use" sections, please see the FTP
+archive. Packages in the "non-free" and contrib areas should have
+section {{0.7 1.0} @Scale {Courier Bold} @Font {"non"--"free"}} and {{0.7 1.0} @Scale {Courier Bold} @Font {contrib}}, respectively.
+
+@LP
+@CNP
+@Heading +2p @Font { 1.2vx @Break { {@PageMark s3.1.3.1}
+3.1.3.1.|0.5fe{ {{0.7 1.0} @Scale {Courier Bold} @Font {Priority}} values}}}//0.2fe
+
+
+@LP
+
+{|0.5f {{{0.7 1.0} @Scale {Courier Bold} @Font {required}}}}
+//1.0vx
+@RawIndentedDisplay {
+{{0.7 1.0} @Scale {Courier Bold} @Font {required}} packages are necessary for the proper functioning of the
+system. You must not remove these packages or your system may become
+totally broken and you may probably not even be able to use
+{{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} to put things back. Systems with only the {{0.7 1.0} @Scale {Courier Bold} @Font {required}}
+packages are probably unuseable, but they do have enough functionality
+to allow the sysadmin to boot and install more software.
+
+}
+//0fe //1.2fx
+{|0.5f {{{0.7 1.0} @Scale {Courier Bold} @Font {important}}}}
+//1.0vx
+@RawIndentedDisplay {
+Important programs, including those which one would expect to find on
+any "Unix-like" system. If the expectation is that an experienced Unix
+person who found it missing would go `What the "F*!@"<+ is going on,
+where is {{0.7 1.0} @Scale {Courier Bold} @Font {foo}}', it should be in {{0.7 1.0} @Scale {Courier Bold} @Font {important}}. This is an
+important criterion because we are trying to produce, amongst other
+things, a free Unix. Other packages without which the system will not
+run well or be useable should also be here. This does {{Times Slope} @Font {not}}
+include Emacs or X11 or TeX or any other large applications. The
+{{0.7 1.0} @Scale {Courier Bold} @Font {important}} packages are just a bare minimum of "commonly-expected"
+and necessary tools.
+
+}
+//0fe //1.2fx
+{|0.5f {{{0.7 1.0} @Scale {Courier Bold} @Font {standard}}}}
+//1.0vx
+@RawIndentedDisplay {
+These packages provide a reasonably small but not too limited
+"character-mode" system. This is what will install by default if the
+user doesn't select anything else. It doesn't include many large
+applications, but it does include Emacs (this is more of a piece of
+infrastructure than an application) and a reasonable subset of TeX and
+LaTeX (if this is possible without X).
+
+}
+//0fe //1.2fx
+{|0.5f {{{0.7 1.0} @Scale {Courier Bold} @Font {optional}}{@FootNote{ In a sense everything is optional that
+isn't required, but that's not what is meant here.}}}}
+//1.0vx
+@RawIndentedDisplay {
+This is all the software that you might reasonably want to install if
+you didn't know what it was or don't have specialised requirements.
+This is a much larger system and includes X11, a full TeX
+distribution, and lots of applications.
+
+}
+//0fe //1.2fx
+{|0.5f {{{0.7 1.0} @Scale {Courier Bold} @Font {extra}}}}
+//1.0vx
+@RawIndentedDisplay {
+This contains packages that conflict with others with higher
+priorities, or are only likely to be useful if you already know what
+they are or have specialised requirements.
+
+}
+//0fe
+
+@LP
+
+Priority values are not "case-sensitive."
+
+@LP
+@CNP
+@Heading +2p @Font { 1.2vx @Break { {@PageMark s3.1.3.2}
+3.1.3.2.|0.5fe{ Base packages}}}//0.2fe
+
+
+@LP
+
+Some packages have {{0.7 1.0} @Scale {Courier Bold} @Font {Section: base}} and are in the {{0.7 1.0} @Scale {Courier Bold} @Font {base}}
+subdirectory on the FTP archives. These are the packages that are
+supplied on the base disks. They are the minimum sensible set for
+installing new packages (perhaps via a network).
+@LP
+
+Most of these packages should have {{0.7 1.0} @Scale {Courier Bold} @Font {Priority: required}} or at least
+{{0.7 1.0} @Scale {Courier Bold} @Font {Priority: important}}.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.1.4}
+3.1.4.|0.5fe{ The {{0.7 1.0} @Scale {Courier Bold} @Font {Essential}} flag}}}//0.2fe
+
+
+@LP
+
+The {{0.7 1.0} @Scale {Courier Bold} @Font {Essential: yes}} control file field should not be used unless
+removing a package really will completely hose the system; nor should
+it be used for a shared library package "-" the dependencies will
+prevent its premature removal, and we need to be able to remove it
+when it has been superseded.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.1.5}
+3.1.5.|0.5fe{ Including {{0.7 1.0} @Scale {Courier Bold} @Font {Priority}} and {{0.7 1.0} @Scale {Courier Bold} @Font {Section}} in the {{0.7 1.0} @Scale {Courier Bold} @Font {.deb}}
+control file}}}//0.2fe
+
+
+@LP
+
+If a user installs a package which is not part of the standard
+distribution, or without downloading and updating from a new
+{{0.7 1.0} @Scale {Courier Bold} @Font {Packages}} file, the information about the priority and section
+of a package will be absent, and the {{0.7 1.0} @Scale {Courier Bold} @Font {dselect}} package listing
+will have the package listed under `unclassified'. In order to
+improve this it is permissible to use the {{0.7 1.0} @Scale {Courier Bold} @Font {""--"is"}}, {{0.7 1.0} @Scale {Courier Bold} @Font {""--"isp"}} or
+{{0.7 1.0} @Scale {Courier Bold} @Font {""--"ip"}} option to {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"gencontrol"}}, so that the {{0.7 1.0} @Scale {Courier Bold} @Font {Section}}
+"and/or" {{0.7 1.0} @Scale {Courier Bold} @Font {Priority}} is copied into the actual control information in
+the {{0.7 1.0} @Scale {Courier Bold} @Font {.deb}} file. However, if you do this you should make sure you
+keep the information up to date so that users are not shown
+conflicting information.
+
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.1.6}
+3.1.6.|0.5fe{ Formatting of the {{0.7 1.0} @Scale {Courier Bold} @Font {Description}} control file field}}}//0.2fe
+
+
+@LP
+
+Every Debian package should have an extended description.
+@LP
+
+The description should be written so that it tells the user what they
+need to know to decide whether to install the package. This
+description should not just be copied from the blurb for the program.
+Instructions for configuring or using the package should not be
+included "-" that is what installation scripts, manpages, Info files and
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}}} are for. Copyright statements and other
+administrivia should not be included "-" that is what
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/copyright"}} is for.
+@LP
+
+If you wish to include a list in your extended with entries which are
+a line or more each you must indent each entry by one space to make
+sure that it doesn't get wordwrapped. The start of each list entry
+should be marked with an asterisk, followed by a single space. You
+must wrap the list entries yourself to 75 columns, and should start
+continuation lines indented by three spaces so that they line up with
+the start of the text on the first line of each list entry.
+@LP
+
+See the programmers' manual for further requirements and pitfalls.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.2}
+3.2.|0.5fe{ Locations of files}}}} |0f }} //0.0fe
+
+
+@LP
+
+The location of all installed files and directories must comply fully
+with the Linux File System Standard (FSSTND). The latest version of
+this document can be found alongside this manual or on
+{{0.7 1.0} @Scale {Courier Bold} @Font {"tsx"--"11.mit.edu"}} in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/pub/linux/docs/linux"--"standards/fsstnd/"}}. Specific questions
+about following the standard may be asked on {{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--"devel"}}, or
+referred to Daniel Quinlan, the FSSTND coordinator, at
+{{0.7 1.0} @Scale {Courier Bold} @Font {<"quinlan@yggdrasil.com">}}.
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.2.1}
+3.2.1.|0.5fe{ Manpages}}}//0.2fe
+
+
+@LP
+
+You must install manpages in {{0.7 1.0} @Scale {Courier Bold} @Font {nroff}} source form, in appropriate
+places under {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/man"}}. You should only use sections 1 to 9
+(see the FSSTND for more details). You must {{Times Slope} @Font {not}} install a
+preformatted `cat page'.
+@LP
+
+If no manual page is available for a particular program, utility or
+function and this is reported as a bug on "debian-bugs," a symbolic link
+from the requested manual page to the {{0.7 1.0} @Scale {Courier Bold} @Font {undocumented(7)}} manual page should be provided. This symbolic link can be
+created from {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/rules"}} like this:
+
+//1.0vx
+{@RawIndentedDisplay lines @Break { {0.7 1.0} @Scale {Courier Bold} @Font {
+ln ""--"s" "../man7/undocumented.7" "\\"
+ "debian/tmp/usr/man/man[1"--"9]/the_requested_manpage.[1"--"9]"}}} //0.2fe
+
+This manpage claims that the lack of a manpage has been reported as a
+bug, so you may only do this if it really has (you can report it
+yourself, if you like). Do not close the bug report until a proper
+manpage is available.
+@LP
+
+You may forward a complaint about a missing manpage to the upstream
+authors, and mark the bug as forwarded in the Debian bug tracking
+system. Even though the GNU Project do not in general consider the
+lack of a manpage to be a bug, we do "-" if they tell you that they
+don't consider it a bug you should leave the bug in our bug tracking
+system open anyway.
+@LP
+
+Manpages should be installed compressed using {{0.7 1.0} @Scale {Courier Bold} @Font {gzip ""--"9"}}.
+@LP
+
+If one manpage needs to be accesssible via several names it is better
+to use a symbolic link than the {{0.7 1.0} @Scale {Courier Bold} @Font {.so}} feature, but there is no need
+to fiddle with the relevant parts of the upstream source to change
+from {{0.7 1.0} @Scale {Courier Bold} @Font {.so}} to symlinks "-" don't do it unless it's easy. Do not
+create hard links in the manual page directories, and do not put
+absolute filenames in {{0.7 1.0} @Scale {Courier Bold} @Font {.so}} directives. The filename in a
+{{0.7 1.0} @Scale {Courier Bold} @Font {.so}} in a manpage should be relative to the base of the manpage
+tree (usually {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/man"}}).
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.2.2}
+3.2.2.|0.5fe{ Info documents}}}//0.2fe
+
+
+@LP
+
+Info documents should be installed in {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/info"}}. They should
+be compressed with {{0.7 1.0} @Scale {Courier Bold} @Font {gzip ""--"9"}}.
+@LP
+
+Your package must call {{0.7 1.0} @Scale {Courier Bold} @Font {"install"--"info"}} to update the Info {{0.7 1.0} @Scale {Courier Bold} @Font {dir}}
+file, in its "post-installation" script:
+
+//1.0vx
+{@RawIndentedDisplay lines @Break { {0.7 1.0} @Scale {Courier Bold} @Font {
+"install"--"info" ""--""--"quiet" ""--""--"section" Development Development "\\"
+  "/usr/info/foobar.info"}}} //0.2fe
+
+@LP
+
+It is a good idea to specify a section for the location of your
+program; this is done with the {{0.7 1.0} @Scale {Courier Bold} @Font {""--""--"section"}} switch. To determine
+which section to use, you should use look at {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/info/dir"}} on
+your system and choose the most relevant (or create a new section if
+none of the current sections are relevant). Note that the
+{{0.7 1.0} @Scale {Courier Bold} @Font {""--""--"section"}} flag takes two arguments; the first is a regular
+expression to match "(case-insensitively)" against an existing section,
+the second is used when creating a new one.
+@LP
+
+You must remove the entries in the "pre-removal" script:
+
+//1.0vx
+{@RawIndentedDisplay lines @Break { {0.7 1.0} @Scale {Courier Bold} @Font {
+"install"--"info" ""--""--"quiet" ""--""--"remove" "/usr/info/foobar.info"}}} //0.2fe
+
+@LP
+
+If {{0.7 1.0} @Scale {Courier Bold} @Font {"install"--"info"}} cannot find a description entry in the Info file
+you will have to supply one. See {{0.7 1.0} @Scale {Courier Bold} @Font {"install"--"info(8)"}}
+for details.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.2.3}
+3.2.3.|0.5fe{ Additional documentation}}}//0.2fe
+
+
+@LP
+
+Any additional documentation that comes with the package can be
+installed at the discretion of the package maintainer. Text
+documentation should be installed in a directory
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}}}{@FootNote{ Where {{Times Slope} @Font {package}} is the
+name of the package.}} and compressed with {{0.7 1.0} @Scale {Courier Bold} @Font {gzip ""--"9"}}
+unless it is small.
+@LP
+
+If a package comes with large amounts of documentation which many
+users of the package will not require you should create a separate
+binary package to contain it, so that it does not take up disk space
+on the machines of users who do not need or want it installed.
+@LP
+
+It is often a good idea to put text information files ({{0.7 1.0} @Scale {Courier Bold} @Font {README}}s,
+changelogs, and so forth) that come with the source package in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}}} in the binary package. However, don't
+install the instructions for building and installing the package, of
+course!
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.2.4}
+3.2.4.|0.5fe{ Preferred documentation formats}}}//0.2fe
+
+
+@LP
+
+The unification of Debian documentation is being carried out via HTML.
+@LP
+
+If your package comes with extensive documentation in a markup format
+that can be converted to various other formats you should if possible
+ship HTML versions in the binary package, in the directory
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}}} or its subdirectories.
+@LP
+
+Other formats such as PostScript may be provided at your option.
+
+@LP
+@CNP
+@Heading +2p @Font { 1.2vx @Break { {@PageMark s3.2.4.1}
+3.2.4.1.|0.5fe{ Examples}}}//0.2fe
+
+
+@LP
+
+Any examples (configurations, source files, whatever), should be
+installed in a directory {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/examples"}}.
+These files should not be referenced by any program "-" they're there
+for the benefit of the system administrator and users, as
+documentation only.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s-instchangelog}
+3.2.5.|0.5fe{ {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/changelog.Debian.gz"}}}}}//0.2fe
+
+
+@LP
+
+This installed file must contain a copy of the {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/changelog"}}
+file from your Debian source tree.
+@LP
+
+It should be installed compressed using {{0.7 1.0} @Scale {Courier Bold} @Font {gzip ""--"9"}}, as it will
+become large with time even if it starts out small.
+@LP
+
+If the package has only one changelog which is used both as the Debian
+changelog and the upstream one because there is no separate upstream
+maintainer then the changelog should usually be installed as
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/changelog.gz"}} instead.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s-copyrightfile}
+3.2.6.|0.5fe{ {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/copyright"}}}}}//0.2fe
+
+
+@LP
+
+This file must contain details of the authorship and copyright of the
+package. It must say where the upstream sources (if any) were
+obtained, and explain briefly what modifications were made in the
+Debian version of the package compared to the upstream one. It must
+name the original authors of the package and the Debian maintainer(s)
+who were involved with its creation.
+@LP
+
+It must contain the full text of the copyright notice and any
+acknowledgements for the program and the licence terms under which the
+program is distributed. If the package is distributed under the GNU
+General Public Licence, the GNU Library General Public Licence, the
+Regents of the University of California at Berkeley (BSD) licence or
+Larry Wall's Artistic Licence please say so instead of including a
+copy of the licence. The files {{0.7 1.0} @Scale {Courier Bold} @Font {BSD}}, {{0.7 1.0} @Scale {Courier Bold} @Font {GPL}}, {{0.7 1.0} @Scale {Courier Bold} @Font {LGPL}} and
+{{0.7 1.0} @Scale {Courier Bold} @Font {Artistic}} are be available in {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/copyright"}} for you
+to refer to.
+@LP
+
+The copyright file should not be compressed unless it is very large.
+@LP
+
+Do not use the copyright file as a general {{0.7 1.0} @Scale {Courier Bold} @Font {README}} file. If your
+package has such a file it should be installed in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/README"}} or {{0.7 1.0} @Scale {Courier Bold} @Font {README.Debian}} or some
+other appropriate place.
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.2.7}
+3.2.7.|0.5fe{ Symbolic links}}}//0.2fe
+
+
+@LP
+
+Most symbolic links should be relative, not absolute. Absolute links,
+in general, cause problems when a file system is not mounted where it
+"\"normally\"" resides (for example, when mounted via NFS).
+@LP
+
+In particular, symlinks from one part of {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr"}} to another
+should be relative.
+@LP
+
+In certain cases, however, relative links may cause more problems.
+For example, links into {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc"}} and {{0.7 1.0} @Scale {Courier Bold} @Font {"/var"}} should be
+absolute.
+@LP
+
+Note that when creating a relative link using {{0.7 1.0} @Scale {Courier Bold} @Font {ln}} it is not
+necessary for the target of the link to exist relative to the working
+directory you're running {{0.7 1.0} @Scale {Courier Bold} @Font {ln}} from; nor is it necessary to change
+directory to the directory where the link is to be made. Simply
+include the string that should appear as the target of the link (this
+will be a pathname relative to the directory in which the link
+resides) as the first argument to {{0.7 1.0} @Scale {Courier Bold} @Font {ln}}.
+@LP
+
+For example, in your {{0.7 1.0} @Scale {Courier Bold} @Font {Makefile}} or {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/rules"}}, do things
+like:
+
+//1.0vx
+{@RawIndentedDisplay lines @Break { {0.7 1.0} @Scale {Courier Bold} @Font {
+ln ""--"fs" gcc "$(prefix)/bin/cc"
+ln ""--"fs" gcc "debian/tmp/usr/bin/cc"
+ln ""--"fs" "../sbin/sendmail" "$(prefix)/bin/runq"
+ln ""--"fs" "../sbin/sendmail" "debian/tmp/usr/bin/runq"}}} //0.2fe
+
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.2.8}
+3.2.8.|0.5fe{ Logfiles}}}//0.2fe
+
+
+@LP
+
+Logfiles should usually be named
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/var/log/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}.log}}. If you have many logfiles,
+or need a separate directory for permissions reasons
+({{0.7 1.0} @Scale {Courier Bold} @Font {"/var/log"}} is writeable only by {{0.7 1.0} @Scale {Courier Bold} @Font {root}}), you should usually
+create a directory named {{0.7 1.0} @Scale {Courier Bold} @Font {"/var/log/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}}}.
+@LP
+
+Make sure that any logfiles are rotated occasionally using so that
+they don't grow indefinitely; the best way to do this is to use
+{{0.7 1.0} @Scale {Courier Bold} @Font {savelog}} program in an {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/cron.daily"}},
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/cron.weekly"}} or {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/cron.monthly"}} script.
+@LP
+
+Make sure that any logfiles are removed when the package is purged
+(but not when it is only removed), by checking the argument to the
+postrm script (see the programmer's manual for details).
+
+@LP
+@CNP
+@Heading +3p @Font { 1.2vx @Break { {@PageMark s3.2.9}
+3.2.9.|0.5fe{ {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/local"}} "-" for the use of the system administrator}}}//0.2fe
+
+
+@LP
+
+As mandated by the FSSTND no package should place any files in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/local"}}, either by putting them in the filesystem archive to
+be unpacked by {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} or by manipulating them in their maintainer
+scripts.
+@LP
+
+Every package that searches a number of directories or files for
+something (for example, looking for shared libraries in {{0.7 1.0} @Scale {Courier Bold} @Font {"/lib"}} or
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/lib"}}) should search an appropriate directory in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/local"}} too.
+@LP
+
+In order that the system administrator may know where to place
+additional files a package should create an empty directory in the
+appropriate place in {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/local"}} by supplying it in the
+filesystem archive for unpacking by {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}}. The
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/local"}} directory itself and all the subdirectories created
+by the package should have permissions 2775 "(group-writeable" and
+"set-group-id)" and be owned by {{0.7 1.0} @Scale {Courier Bold} @Font {root.staff}}.
+@LP
+
+In the future it will be possible to tell {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} not to unpack
+files matching certain patterns, so that system administrators who do
+not wish these directories in {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/local"}} do not need to have
+them.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.3}
+3.3.|0.5fe{ Permissions and ownerships}}}} |0f }} //0.0fe
+
+
+@LP
+
+The rules in this section are guidelines for general use. If
+necessary you may deviate from the details below. However, if you do
+so you must make sure that what is done is secure and you must try to
+be as consistent as possible with the rest of the system. You should
+probably also discuss it on {{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--"devel"}} first.
+@LP
+
+Files should be owned by {{0.7 1.0} @Scale {Courier Bold} @Font {root.root}}, and made writeable only by
+the owner and universally readable (and executable, if appropriate).
+@LP
+
+Directories should be mode 755 or (for "group-writability)" mode 2775.
+The ownership of the directory should be consistent with its mode "-"
+if a directory is mode 2775, it should be owned by the group that
+needs write access to it.
+@LP
+
+Setuid and setgid executables should be mode 4755 or 2755
+respectively, and owned by the appropriate user or group. They should
+not be made unreadable (modes like 4711 or 2711 or even 4111); doing
+so achieves no extra security, because anyone can find the binary in
+the freely available Debian package "-" it is merely inconvenient. For
+the same reason you should not restrict read or execute permissions on
+"non-set-id" executables.
+@LP
+
+Some setuid programs need to be restricted to particular sets of
+users, using file permissions. In this case they should be owned by
+the uid to which they are "set-id," and by the group which should be
+allowed to execute them. They should have mode 4754; there is no
+point in making them unreadable to those users who must not be allowed
+to execute them.
+@LP
+
+Do not arrange that the system administrator can only reconfigure the
+package to correspond to their local security policy by changing the
+permissions on a binary. Ordinary files installed by {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} (as
+opposed to conffiles and other similar objects) have their permissions
+reset to the distributed permissions when the package is reinstalled.
+Instead you should consider (for example) creating a group for people
+allowed to use the program(s) and making any setuid executables
+executable only by that group.
+@LP
+
+Shared libraries should be installed executable.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.4}
+3.4.|0.5fe{ Configuration files}}}} |0f }} //0.0fe
+
+
+@LP
+
+Any configuration files created or used by your package should reside
+in {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc"}}. If there are several you should consider creating a
+subdirectory named after your package.
+@LP
+
+It is almost certain that any file in {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc"}} that is in your
+package's filesystem archive should be listed in {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}}'s
+{{0.7 1.0} @Scale {Courier Bold} @Font {conffiles}} control area file. (See the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} programmers'
+manual).
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.5}
+3.5.|0.5fe{ Maintainer scripts}}}} |0f }} //0.0fe
+
+
+@LP
+
+The package installation scripts should avoid producing output which
+it is unnecessary for the user to see and should rely on {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} to
+stave off boredom on the part of a user installing many packages.
+This means, amongst other things, using the {{0.7 1.0} @Scale {Courier Bold} @Font {""--""--"quiet"}} option on
+{{0.7 1.0} @Scale {Courier Bold} @Font {"install"--"info"}}.
+@LP
+
+Packages should try to minimise the amount of prompting they need to
+do, and they should ensure that the user will only every be asked each
+question once. This means that packages should try to use appropriate
+shared configuration files (such as {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/papersize"}} and
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/news/server"}}, rather than each prompting for their own
+list of required pieces of information.
+@LP
+
+It also means that an upgrade should not ask the same questions again,
+unless the user has used {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg ""--""--"purge"}} to remove the package's
+configuration. The answers to configuration questions should be
+stored in an appropriate place in {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc"}} so that the user can
+modify them, and how this has been done should be documented.
+@LP
+
+If a package has a vitally important piece of information to pass to
+the user (such as "\"don't" run me as I am, you must edit the following
+configuration files first or you risk your system emitting
+"badly-formatted" "messages\")," it should display this in the
+{{0.7 1.0} @Scale {Courier Bold} @Font {postinst}} script and prompt the user to hit return to
+acknowledge the message. Copyright messages do not count as vitally
+important (they belong in {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/copyright"}}); neither do
+instructions on how to use a program (these should be in on line
+documentation, where all the users can see them).
+@LP
+
+Any necessary prompting should almost always be confined to the
+"post-installation" script, and should be protected with a conditional
+so that unnecssary prompting doesn't happen if a package's
+installation fails and the {{0.7 1.0} @Scale {Courier Bold} @Font {postinst}} is called with
+{{0.7 1.0} @Scale {Courier Bold} @Font {"abort"--"upgrade"}}, {{0.7 1.0} @Scale {Courier Bold} @Font {"abort"--"remove"}} or {{0.7 1.0} @Scale {Courier Bold} @Font {"abort"--"deconfigure"}}.
+@LP
+
+Errors which occur during the execution of an installation script
+{{Times Slope} @Font {must}} be checked and the installation {{Times Slope} @Font {must not}} continue after
+an error.
+@LP
+
+The section below on scripts in general applies to package maintainer
+scripts too.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.6}
+3.6.|0.5fe{ Scripts in general}}}} |0f }} //0.0fe
+
+
+@LP
+
+All command scripts, including the package maintainer scripts inside
+the package and used by {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}}, should have a {{0.7 1.0} @Scale {Courier Bold} @Font {"#!"}} line naming
+the shell to be used to interpret them.
+@LP
+
+In the case of Perl scripts this should be {{0.7 1.0} @Scale {Courier Bold} @Font {"#!/usr/bin/perl"}}.
+@LP
+
+Shell scripts ({{0.7 1.0} @Scale {Courier Bold} @Font {sh}} and {{0.7 1.0} @Scale {Courier Bold} @Font {bash}}) should almost certainly
+start with {{0.7 1.0} @Scale {Courier Bold} @Font {set ""--"e"}} so that errors are detected. Every script
+{{Times Slope} @Font {must}} use {{0.7 1.0} @Scale {Courier Bold} @Font {set ""--"e"}} or check the exit status of {{Times Slope} @Font {every}}
+command.
+@LP
+
+Perl scripts should check for errors when making any system calls,
+including {{0.7 1.0} @Scale {Courier Bold} @Font {open}}, {{0.7 1.0} @Scale {Courier Bold} @Font {print}}, {{0.7 1.0} @Scale {Courier Bold} @Font {close}}, {{0.7 1.0} @Scale {Courier Bold} @Font {rename}} and
+{{0.7 1.0} @Scale {Courier Bold} @Font {system}}.
+@LP
+
+{{0.7 1.0} @Scale {Courier Bold} @Font {csh}} and {{0.7 1.0} @Scale {Courier Bold} @Font {tcsh}} should be avoided as scripting languages. See
+Csh Programming Considered Harmful, one of the {{0.7 1.0} @Scale {Courier Bold} @Font {comp.unix.*}} FAQs.
+If an upstream package comes with {{0.7 1.0} @Scale {Courier Bold} @Font {csh}} scripts then you must make
+sure that they start with {{0.7 1.0} @Scale {Courier Bold} @Font {"#!/bin/csh"}} and make your package
+depend on {{0.7 1.0} @Scale {Courier Bold} @Font {csh}}.
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.7}
+3.7.|0.5fe{ Compilation options}}}} |0f }} //0.0fe
+
+
+@LP
+
+Generally the following compilation parameters should be used:
+
+//1.0vx
+{@RawIndentedDisplay lines @Break { {0.7 1.0} @Scale {Courier Bold} @Font {
+CC = gcc
+CFLAGS = ""--"O2" ""--"g" ""--"Wall" "#" sane warning options vary between programs
+LDFLAGS = "#" none
+install ""--"s" "#" (or use strip on the files in "debian/tmp)"}}} //0.2fe
+
+@LP
+
+Note that all installed binaries should be stripped, either by using
+the {{0.7 1.0} @Scale {Courier Bold} @Font {""--"s"}} flag to {{0.7 1.0} @Scale {Courier Bold} @Font {install}}, or by calling {{0.7 1.0} @Scale {Courier Bold} @Font {strip}} on the
+binaries after they have been copied into {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/tmp"}} but
+before the tree is made into a package.
+@LP
+
+Make sure that you do not link with {{0.7 1.0} @Scale {Courier Bold} @Font {""--"g"}}, as this makes a.out
+compilers produce huge statically linked binaries. The {{0.7 1.0} @Scale {Courier Bold} @Font {""--"g"}} flag
+is useful on compilation so that you have available a full set of
+debugging symbols in your built source tree, in case anyone should
+file a bug report involving (for example) a core dump.
+@LP
+
+The {{0.7 1.0} @Scale {Courier Bold} @Font {""--"N"}} flag should not be used. On a.out systems it may have
+been useful for some very small binaries, but for ELF it has no good
+effect.
+@LP
+
+It is up to the package maintainer to decide what compilation options
+are best for the package. Certain binaries (such as
+"computationally-intensive" programs) may function better with certain
+flags ({{0.7 1.0} @Scale {Courier Bold} @Font {""--"O3"}}, for example); feel free to use them. Please use good
+judgment here. Don't use flags for the sake of it; only use them if
+there is good reason to do so. Feel free to override the upstream
+author's ideas about which compilation options are best "-" they are
+often inappropriate for our environment.
+@LP
+
+Please make sure that you use only released versions of shared
+libraries to build your packages; otherwise other users will not be
+able to run your binaries properly. Producing source packages that
+depend on unreleased compilers is also usually a bad idea.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.8}
+3.8.|0.5fe{ Shared library packages}}}} |0f }} //0.0fe
+
+
+@LP
+
+Packages involving shared libraries should be split up into several
+binary packages.
+@LP
+
+For a straightforward library which has a development environment and
+a runtime kit including just shared libraries you need to create two
+packages: {{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {libraryname}}}}{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {soname}}}}}}{@FootNote{ {{Times Slope} @Font {soname}} is
+the shared object name of the shared library "-" it's the thing that has
+to match exactly between building an executable and running it for the
+dynamic linker to be able run the program. Usually the {{Times Slope} @Font {soname}}
+is the major number of the library.}} and
+{{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {libraryname}}}}{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {soname}}}}""--"dev"}}.
+@LP
+
+If you prefer only to support one development version time you may
+name the development package {{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {libraryname}}}}""--"dev"}}; otherwise you
+may wish to use {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}}'s conflicts mechanism to ensure that the
+user only installs one development version at a time (after all,
+different development versions are likely to have the same header
+files in them, causing a filename clash if both are installed).
+Typically the development version will also need an exact version
+dependency on the runtime library, to make sure that compilation and
+linking happens correctly.
+@LP
+
+Packages which use the shared library should have a dependency on the
+name of the shared library package,
+{{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {libraryname}}}}{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {soname}}}}}}. When the {{Times Slope} @Font {soname}} changes you
+can have both versions of the library installed while moving from the
+old library to the new.
+@LP
+
+If your package has some "run-time" support programs which use the
+shared library you must {{Times Slope} @Font {not}} put them in the shared library
+package. If you do that then you won't be able to install several
+versions of the shared library without getting filename clashes.
+Instead, either create a third package for the runtime binaries (this
+package might typically be named {{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {libraryname}}}}""--"runtime"}} "-" note
+the absence of the {{Times Slope} @Font {soname}} in the package name) or if the
+development package is small include them in there.
+@LP
+
+If you have several shared libraries built from the same source tree
+you can lump them all togther into a single shared library package,
+provided that you change all their {{Times Slope} @Font {soname}}s at once (so that you
+don't get filename clashes if you try to install different versions of
+the combined shared libraries package).
+@LP
+
+Follow the directions in the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} programmers' manual for
+putting the shared library in its package, and make sure you include a
+{{0.7 1.0} @Scale {Courier Bold} @Font {shlibs}} control area file with details of the dependencies for
+packages which use the library.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.9}
+3.9.|0.5fe{ Application configuration files, dotfiles and {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/skel"}}}}}} |0f }} //0.0fe
+
+
+@LP
+
+Files in {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/skel"}} will automatically be copied into new user
+accounts by {{0.7 1.0} @Scale {Courier Bold} @Font {adduser}}. They should not be referenced there by
+any program.
+@LP
+
+Therefore, if a program needs a dotfile to exist in advance in
+{{0.7 1.0} @Scale {Courier Bold} @Font {$HOME}} to work sensibly that dotfile should be installed in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/skel"}} (and listed in conffiles, if it is not generated and
+modified dynamically by the package's installation scripts).
+@LP
+
+However, programs that require dotfiles in order to operate sensibly
+(dotfiles that they do not create themselves automatically, that is)
+are a bad thing, and programs should be configured by the Debian
+default installation as close to normal as possible.
+@LP
+
+Therefore, if a program in a Debian package needs to be configured in
+some way in order to operate sensibly that configuration should be
+done in a "site-wide" global configuration file elsewhere in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc"}}. Only if the program doesn't support a "site-wide" default
+configuration and the package maintainer doesn't have time to add it
+should a default "per-user" file be placed in {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/skel"}}.
+@LP
+
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/skel"}} should be as empty as we can make it. This is
+particularly true because there is no easy mechanism for ensuring that
+the appropriate dotfiles are copied into the accounts of existing
+users when a package is installed.
+@LP
+
+Ideally the sysadmin should ideally not have to do any configuration
+other than that done "(semi-)automatically" by the postinst script.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s-mail}
+3.10.|0.5fe{ Mail processing on Debian systems}}}} |0f }} //0.0fe
+
+
+@LP
+
+Debian packages which process electronic mail, whether
+"mail-user-agents" (MUAs) or "mail-transport-agents" (MTAs), {{Times Slope} @Font {must}}
+make sure that they are compatible with the configuration decisions
+below. Failure to do this may result in lost mail, broken {{0.7 1.0} @Scale {Courier Bold} @Font {From:}}
+lines, and other serious brain damage!
+@LP
+
+The mail spool is {{0.7 1.0} @Scale {Courier Bold} @Font {"/var/spool/mail"}} and the interface to send a
+mail message is {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/sbin/sendmail"}} (as per the FSSTND). The
+mail spool is part of the base system and not part of the MTA package.
+@LP
+
+Mailboxes are locked using the {{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {username}}}}.lock}} lockfile
+convention, rather than {{0.7 1.0} @Scale {Courier Bold} @Font {fcntl}}, {{0.7 1.0} @Scale {Courier Bold} @Font {flock}} or {{0.7 1.0} @Scale {Courier Bold} @Font {lockf}}.
+@LP
+
+Mailboxes are generally 660 {{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {user}}}}.mail}} unless the user has
+chosen otherwise. A MUA may remove a mailbox (unless it has
+nonstandard permissions) in which case the MTA or another MUA must
+recreate it if needed. Mailboxes must be writeable by group mail.
+@LP
+
+The mail spool is 2775 {{0.7 1.0} @Scale {Courier Bold} @Font {mail.mail}}, and MUA's need to be setgid
+mail to do the locking mentioned above (and obviously need to avoid
+accessing other users' mailboxes using this privilege).
+@LP
+
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/aliases"}} is the source file for the system mail aliases
+(e.g. postmaster, usenet, etc.) "-" it is the one which the sysadmin
+and postinst scripts may edit. After {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/aliases"}} is edited
+the program or human editing it must call {{0.7 1.0} @Scale {Courier Bold} @Font {newaliases}}. All MTA
+packages should come with a {{0.7 1.0} @Scale {Courier Bold} @Font {newaliases}} program, even if it does
+nothing, but older MTA packages do not do this so programs should not
+fail if {{0.7 1.0} @Scale {Courier Bold} @Font {newaliases}} cannot be found.
+@LP
+
+The convention of writing {{0.7 1.0} @Scale {Courier Bold} @Font {forward to {{1.4285714285 1.0} @Scale {{{Times Slope} @Font {address}}}}}} in the mailbox
+itself is not supported. Use a {{0.7 1.0} @Scale {Courier Bold} @Font {.forward}} file instead.
+@LP
+
+The location for the {{0.7 1.0} @Scale {Courier Bold} @Font {rmail}} program used by UUCP for incoming
+mail is {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/sbin/rmail"}}, as per the FSSTND. Likewise,
+{{0.7 1.0} @Scale {Courier Bold} @Font {rsmtp}}, for receiving "batch-SMTP-over-UUCP," is in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/sbin/rsmtp"}} if it is supported.
+@LP
+
+If you need to know what name to use (for example) on outgoing news
+and mail messages which are generated locally, you should use the file
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/mailname"}}. It will contain the portion after the username
+and {{0.7 1.0} @Scale {Courier Bold} @Font {"@"}} (at) sign for email addresses of users on the machine
+(followed by a newline).
+@LP
+
+A package should check for the existence of this file. If it exists
+it should use it without comment.{@FootNote{ An MTA's prompting
+configuration script may wish to prompt the user even if it finds this
+file exists.}} If it does not exist it should prompt the user
+for the value and store it in {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/mailname"}} as well as using it
+in the package's configuration. The prompt should make it clear that
+the name will not just be used by that package. E.g., in this
+situation the INN package says:
+
+//1.0vx
+{@RawIndentedDisplay lines @Break { {0.7 1.0} @Scale {Courier Bold} @Font {
+Please enter the `mail name' of your system.  This is the hostname
+portion of the address to be shown on outgoing news and mail messages.
+The default is {{1.4285714285 1.0} @Scale {{{Times Slope} @Font {syshostname}}}}, your system's host name.
+Mail name [`{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {syshostname}}}}']:}}} //0.2fe
+
+where {{Times Slope} @Font {syshostname}} is the output of {{0.7 1.0} @Scale {Courier Bold} @Font {hostname ""--"fqdn"}}.
+
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.11}
+3.11.|0.5fe{ Packages which can use the X shared libraries}}}} |0f }} //0.0fe
+
+
+@LP
+
+Some programs can be configured with or without support for X Windows.
+Typically these binaries produced when configured for X will need the
+X shared libraries to run.
+@LP
+
+Such programs should be configured {{Times Slope} @Font {with}} X support, and should
+declare a dependency on {{0.7 1.0} @Scale {Courier Bold} @Font {"elf"--"x11r6lib"}} (for the X11R6 libraries).
+Users who wish to use the program can install just the relatively
+small {{0.7 1.0} @Scale {Courier Bold} @Font {xlib}} package, and do not need to install the whole of X.
+@LP
+
+Do not create two versions (one with X support and one without) of
+your package.
+
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.12}
+3.12.|0.5fe{ Games}}}} |0f }} //0.0fe
+
+
+@LP
+
+The permissions on "/var/lib/games" are 755 {{0.7 1.0} @Scale {Courier Bold} @Font {root.root}}.
+@LP
+
+Each game decides on its own security policy.
+@LP
+
+Games which require protected, privileged access to "high-score" files,
+savegames, "&"c, must be made "set-"{{Times Slope} @Font {group}}"-id" (mode 2755) and
+owned by {{0.7 1.0} @Scale {Courier Bold} @Font {root.games}}, and use files and directories with
+appropriate permissions (770 {{0.7 1.0} @Scale {Courier Bold} @Font {root.games}}, for example). They must
+{{Times Slope} @Font {not}} be made "set-"{{Times Slope} @Font {user}}"-id," as this causes security
+problems.{@FootNote{ If an attacker can subvert any "set-user-id" game
+they can overwrite the executable of any other, causing other players
+of these cames to run a trojan. With a "set-group-id" game the attacker
+only gets access to less important game data, and if they can get at
+the other players' accounts at all it will take considerably more
+effort.}}
+@LP
+
+Some packages, for example some fortune cookie programs, are
+configured by the upstream authors to install with their data files or
+other static information made unreadable so that they can only be
+accessed through "set-id" programs provided. Do not do this in a Debian
+package: anyone can download the {{0.7 1.0} @Scale {Courier Bold} @Font {.deb}} file and read the data from
+it, so there is no point making the files unreadable. Not making the
+files unreadable also means that you don't have to make so many
+programs "set-id," which reduces the risk of a security hole.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s3.13}
+3.13.|0.5fe{ Allocating "package-specific" users and groups}}}} |0f }} //0.0fe
+
+
+@LP
+
+If you need to create a new user or group for your package there are
+two possibilities. Firstly, you may need to make some files in the
+binary package be owned by this user or group, or you may need to
+compile the user or group id (rather than just the name) into the
+binary (though this latter should be avoided if possible). In this
+case you need a statically allocated id.
+@LP
+
+You must ask for a user or group id from the base system maintainer,
+and must not release the package until you have been allocated one.
+Once you have been allocated one you must make the package depend
+on a version of the base system with the id present in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/passwd"}} or {{0.7 1.0} @Scale {Courier Bold} @Font {"/etc/group"}}, or alternatively arrange
+for your package to create the user or group itself with the correct
+id (using {{0.7 1.0} @Scale {Courier Bold} @Font {adduser}}) in its "pre-" or "post-installation" script (the
+latter is to be preferred if it is possible).
+@LP
+
+On the other hand, the program may able to determine the uid or gid
+from the group name at runtime, so that a dynamic id can be used. In
+this case you must choose an appropriate user or group name,
+discussing this on {{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--"devel"}} and checking with the base system
+maintainer that it is unique and that they do not wish you to use a
+statically allocated id instead. When this has been checked you must
+arrange for your package to create the user or group if necessary
+using {{0.7 1.0} @Scale {Courier Bold} @Font {adduser}} in the "pre-" or "post-installation" script (again, the
+latter is to be preferred if it is possible).
+@LP
+
+Note that changing the numeric value of an id associated with a name
+is very difficult, and involves searching the filesystem for all
+appropriate files. You need to think carefully whether a static or
+dynamic id is required, since changing your mind later will cause
+problems.
+
+@LP
+@NP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.2 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +5p @Font { 1.2vx @Break { {@PageMark ch-sourcepkg}
+4.|0.5fe{ Source package
+}}}} |0f }} //0.0fe
+
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s4.1}
+4.1.|0.5fe{ Releases of packages by other than the usual Debian maintainer}}}} |0f }} //0.0fe
+
+
+@LP
+
+Under certain circumstances it is necessary for someone other than the
+usual package maintainer to make a release of a package. For example,
+a porter for another architecture may have to make some small changes
+to the source package and does not wish to wait with uploading their
+release until the main maintainer has incorporated the patch, or a
+serious security problem may have come to light requiring immediate
+attention.
+@LP
+
+Maintainers other than the usual package maintainer should make as few
+changes to the package as possible, and they should always send a
+unified context diff ({{0.7 1.0} @Scale {Courier Bold} @Font {diff ""--"u"}}) detailing their changes to the bug
+tracking system properly flagged with the correct package so that the
+usual maintainer is kept aware of the situation.
+@LP
+
+When someone other than the usual maintainer releases a package they
+should add a new component to the {{Times Slope} @Font {"debian-revision"}} component of
+the version number "-" that is, the portion after the (last) hyphen.
+This extra component will start at {{0.7 1.0} @Scale {Courier Bold} @Font {1}}. This is to avoid
+`stealing' one of the usual maintainer's version numbers, possibly
+disrupting their work. If there is no {{Times Slope} @Font {"debian-revision"}} component
+in the version number then one should be created, starting at {{0.7 1.0} @Scale {Courier Bold} @Font {1}}.
+@LP
+
+If it is absolutely necessary for someone other than the usual
+maintainer to make a release based on a new upstream version then the
+person making the release should start with the {{Times Slope} @Font {"debian-revision"}}
+value {{0.7 1.0} @Scale {Courier Bold} @Font {0.1}}. The usual maintainer of a package should start their
+{{Times Slope} @Font {"debian-revision"}} numbering at {{0.7 1.0} @Scale {Courier Bold} @Font {1}}.
+
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s4.2}
+4.2.|0.5fe{ Standards conformance and {{0.7 1.0} @Scale {Courier Bold} @Font {"Standards"--"Version"}}}}}} |0f }} //0.0fe
+
+
+@LP
+
+You should specify the most recent version of the packaging standards
+with which your package complies in the source package's
+{{0.7 1.0} @Scale {Courier Bold} @Font {"Standards"--"Version"}} field.
+@LP
+
+This value will be used to file bug reports automatically if your
+package becomes too much out of date.
+@LP
+
+The value corresponds to a version of the Debian manuals, as can be
+found on the title page or page headers and footers (depending on the
+format). The value for this version of the manuals and packaging
+standards is {{0.7 1.0} @Scale {Courier Bold} @Font {0.2.0.0}}.
+@LP
+
+The version number has four components "-" major and minor number and
+major and minor patchlevel. When the standards change in a way that
+requires every package to change the major number will be changed.
+Significant changes that will require work in many packages will be
+signaled by a change to the minor number. The major patchlevel will
+be changed for any change to the meaning of the standards, however
+small; the minor patchlevel will be changed when only cosmetic,
+typographical or other edits which do not change the meaning are made.
+@LP
+
+You should regularly, and especially if your package has become out of
+date, install the most recent version of dpkg and read
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/dpkg/changelog"--"manuals"}} to see which changes, if any,
+are relevant. If any are relevant you should look up the relevant
+section in the policy or programmers' manuals and update your package.
+When your package complies with the new standards you may update the
+{{0.7 1.0} @Scale {Courier Bold} @Font {"Standards"--"Version"}} source package field and release it.
+
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s4.3}
+4.3.|0.5fe{ Documentation and the {{0.7 1.0} @Scale {Courier Bold} @Font {changelog}}}}}} |0f }} //0.0fe
+
+
+@LP
+
+Document your changes and updates to the source package properly in
+the {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/changelog"}} file.
+@LP
+
+A copy of the file which will be installed in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/copyright"}} should be in
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian/copyright"}}.
+@LP
+
+In "non-experimental" packages you may only use a format for
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian/changelog"}} which is supported by the most recent released
+version of {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}}. If your format is not supported and there is
+general support for it you should contact the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} maintainer
+to have the parser script for your format included in the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}}
+package.{@FootNote{ You will need to agree that the parser and its
+manpage may be distributed under the GNU GPL, just as the rest of
+{{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} is.}}
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s4.4}
+4.4.|0.5fe{ Changes to the upstream sources}}}} |0f }} //0.0fe
+
+
+@LP
+
+If you need to edit a {{0.7 1.0} @Scale {Courier Bold} @Font {Makefile}} where "GNU-style" {{0.7 1.0} @Scale {Courier Bold} @Font {configure}}
+scripts are used, you should edit the {{0.7 1.0} @Scale {Courier Bold} @Font {.in}} files rather than
+editing the {{0.7 1.0} @Scale {Courier Bold} @Font {Makefile}} directly. This allows the user to
+reconfigure the package if necessary. You should {{Times Slope} @Font {not}} configure
+the package and edit the generated {{0.7 1.0} @Scale {Courier Bold} @Font {Makefile}}! This makes it
+impossible for someone else to later reconfigure the package.
+@LP
+
+If changes to the source code are made that are generally applicable
+please try to get them included in the upstream version of the package
+by supplying the upstream authors with the changes in whatever form
+they prefer.
+@LP
+
+If you need to configure the package differently for Debian or for
+Linux, and the upstream source doesn't provide a way to configure it
+the way you need to, please add such configuration facilities (for
+example, a new {{0.7 1.0} @Scale {Courier Bold} @Font {autoconf}} test or {{0.7 1.0} @Scale {Courier Bold} @Font {"#define"}}) and send the
+patch to the upstream authors, with the default set to the way they
+originally had it. You can then easily override the default in your
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian/rules"}} or wherever is appropriate.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s4.5}
+4.5.|0.5fe{ Error trapping in makefiles}}}} |0f }} //0.0fe
+
+
+@LP
+
+When {{0.7 1.0} @Scale {Courier Bold} @Font {make}} invokes a command in a makefile (including your
+package's upstream makefiles and the {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/rules"}}) it does so
+using {{0.7 1.0} @Scale {Courier Bold} @Font {sh}}. This means that {{0.7 1.0} @Scale {Courier Bold} @Font {sh}}'s usual bad error handling
+properties apply: if you include a miniature script as one of the
+commands in your makefile you'll find that if you don't do anything
+about it then errors are not detected and {{0.7 1.0} @Scale {Courier Bold} @Font {make}} will blithely
+continue after problems.
+@LP
+
+Every time you put more than one shell command (this includes using a
+loop) in a makefile command you {{Times Slope} @Font {must}} make sure that errors are
+trapped. For simple compound commands, such as changing directory and
+then running a program, using {{0.7 1.0} @Scale {Courier Bold} @Font {"&""&"}} rather than semicolon as
+a command separator is sufficient. For more complex commands
+including most loops and conditionals you must include a separate
+{{0.7 1.0} @Scale {Courier Bold} @Font {set ""--"e"}} command at the start of every makefile command that's
+actually one of these miniature shellscripts.
+
+@LP
+@NP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.2 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +5p @Font { 1.2vx @Break { {@PageMark ch-developer}
+5.|0.5fe{ How to become a Debian developer
+}}}} |0f }} //0.0fe
+
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s5.1}
+5.1.|0.5fe{ Before you start work}}}} |0f }} //0.0fe
+
+
+@LP
+
+So, you've read all the documentation, you understand what everything
+in the {{0.7 1.0} @Scale {Courier Bold} @Font {hello}} example package is for, and you're about to
+Debianise your favourite package. How do you actually become a Debian
+developer so that your work can be incorporated into the Project?
+@LP
+
+Firstly, subscribe to {{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--"devel"}} if you haven't already.
+Send the word {{0.7 1.0} @Scale {Courier Bold} @Font {subscribe}} in the {{Times Slope} @Font {Subject}} of a mail to
+{{0.7 1.0} @Scale {Courier Bold} @Font {<"debian"--"devel"--"REQUEST@lists.debian.org">}}. In case of problems
+contact the list administrator, Anders Chrigstrom {{0.7 1.0} @Scale {Courier Bold} @Font {<"ac@netg.se">}}.
+@LP
+
+You should to subscribe and lurk for a bit before doing any coding,
+and you should post about your intentions to work on something to
+avoid duplicated effort.
+@LP
+
+If you do not have a PGP key yet generate one. You should probably
+read the PGP manual, as it has much important information which is
+critical to its security. Many more security failures are due to
+human error than to software failure or "high-powered" spy techniques.
+@LP
+
+If you live in a country where use of cryptography even for signing is
+forbidden then please contact us so we can make special arrangements.
+This does not apply in France, where I believe only encryption and not
+signing is forbidden.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s5.2}
+5.2.|0.5fe{ When you have a package to upload}}}} |0f }} //0.0fe
+
+
+@LP
+
+When you have your package ready to be uploaded you must send a
+message to the project leader, Bruce Perens {{0.7 1.0} @Scale {Courier Bold} @Font {<"bruce@pixar.com">}},
+the administrator of {{0.7 1.0} @Scale {Courier Bold} @Font {master.debian.org}}, Simon Shapiro
+{{0.7 1.0} @Scale {Courier Bold} @Font {<"shimon@i"--"connect.net">}}, the mailing list administrator, Anders
+Chrigstrom {{0.7 1.0} @Scale {Courier Bold} @Font {<"ac@netg.se">}} and the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} maintainer, Ian
+Jackson {{0.7 1.0} @Scale {Courier Bold} @Font {<"ijackson@gnu.ai.mit.edu">}}.
+@LP
+
+The message should say what you've done and who you are, and should
+ask for an account on {{0.7 1.0} @Scale {Courier Bold} @Font {master}} and to be subscribed to
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--"private"}} (the "developers-only" mailing list). It should
+contain your PGP key (extracted using {{0.7 1.0} @Scale {Courier Bold} @Font {pgp ""--"kxa"}}) for the database
+of keys which is shipped with {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}}.
+
+When you have your personal account on {{0.7 1.0} @Scale {Courier Bold} @Font {master}} log in and
+transfer the files to
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/home/Debian/ftp/private/project/Incoming"}}. You cannot upload
+to {{0.7 1.0} @Scale {Courier Bold} @Font {Incoming}} on {{0.7 1.0} @Scale {Courier Bold} @Font {master}} using anonymous FTP.
+@LP
+
+You can also upload files to {{0.7 1.0} @Scale {Courier Bold} @Font {Incoming}} via a {{0.7 1.0} @Scale {Courier Bold} @Font {cron}}"-driven"
+upload queue in Europe on {{0.7 1.0} @Scale {Courier Bold} @Font {chiark.chu.cam.ac.uk}}. For details
+connect to {{0.7 1.0} @Scale {Courier Bold} @Font {chiark}} using anonymous FTP and read
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/pub/debian/private/project/README.how"--"to"--"upload"}}.
+
+@LP
+@CNP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.1 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +4p @Font { 1.2vx @Break { {@PageMark s-changesfiles}
+5.3.|0.5fe{ Upload handling "-" {{0.7 1.0} @Scale {Courier Bold} @Font {.changes}} files}}}} |0f }} //0.0fe
+
+
+@LP
+
+When a package is uploaded to the Debian FTP archive, it must be
+accompanied by a {{0.7 1.0} @Scale {Courier Bold} @Font {.changes}} file which gives directions for its
+handling. This is usually generated by {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"genchanges"}}.
+@LP
+
+This file is a control file with the following fields:
+//1.0vx
+{@RawBulletList
+  gap { 1.0vx }
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Format}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Date}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Source}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Binary}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Architecture}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Version}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Distribution}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Urgency}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Maintainer}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Description}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Changes}}
+}
+@ListItem {
+{{0.7 1.0} @Scale {Courier Bold} @Font {Files}}
+}
+@RawEndList}//0ve
+
+@LP
+
+All of them are mandatory for a Debian upload. See the list of
+control fields in the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} programmers' manual for the contents
+of these fields.
+
+
+@LP
+@NP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.2 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +5p @Font { 1.2vx @Break { {@PageMark ch-mailinglists}
+6.|0.5fe{ The Debian mailing lists}}}} |0f }} //0.0fe
+
+
+@LP
+
+The mailing list server is at {{0.7 1.0} @Scale {Courier Bold} @Font {lists.debian.org}}. Mail
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--""{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {foo}}}}""--"REQUEST@lists.debian.org"}}{@FootNote{ where
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--""{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {foo}}}}}} is the name of the list}} with the word
+{{0.7 1.0} @Scale {Courier Bold} @Font {subscribe}} in the Subject to subscribe or {{0.7 1.0} @Scale {Courier Bold} @Font {unsubscribe}} to
+unsubscribe.
+@LP
+
+When replying to messages on the mailing list, please do not send a
+carbon copy ({{0.7 1.0} @Scale {Courier Bold} @Font {CC}} "-" this does not mean `courtesy copy') to the
+original poster. Anyone who posts to a mailing list should read it to
+see the responses.
+@LP
+
+As ever on the net, please trim down the quoting of articles you're
+replying to.
+
+
+@LP
+@NP
+{
+  newpath   0  ysize 0.3 ft sub  moveto
+            xsize  0  rlineto
+            0  0.2 ft  rlineto
+            xsize neg  0  rlineto
+  closepath fill
+} @Graphic { //1.6f @HAdjust { @HContract {@Heading +5p @Font { 1.2vx @Break { {@PageMark ch-conversion}
+7.|0.5fe{ Conversion procedure from old source packages}}}} |0f }} //0.0fe
+
+
+@LP
+
+This is a brief summary of the procedure for converting a
+"pre-2.0.0.0-format" source package into the new format.
+@LP
+
+You are strongly advised to download and examine the {{0.7 1.0} @Scale {Courier Bold} @Font {hello}}
+package, and to read the section in the {{0.7 1.0} @Scale {Courier Bold} @Font {dpkg}} programmers'
+manual describing the source packaging tools. More detail about the
+exact functionality of these tools is available in {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"source(1)"}}.
+@LP
+
+{@RawBulletList
+@ListItem {
+Download the original source code from wherever it can be found and do
+any rearrangement required to make it look like the original tree of
+the Debian source. Put it in
+{{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}""--""{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {"upstream-version"}}}}".orig/"}} or
+{{0.7 1.0} @Scale {Courier Bold} @Font {{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}_{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {"upstream-version"}}}}.orig.tar.gz}}.
+
+}
+@ListItem {
+Rename all files {{0.7 1.0} @Scale {Courier Bold} @Font {debian.*}} to {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/*"}}. There may be some
+exceptions to this, but this is a good start.
+
+}
+@ListItem {
+Edit the {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/changelog"}} "-" create or rename it if necessary.
+Add a new revision to the top with the appropriate details, and a
+local variables entry to the bottom to set Emacs to the right mode:
+
+//1.0vx
+{@RawIndentedDisplay lines @Break { {0.7 1.0} @Scale {Courier Bold} @Font {
+Local variables:
+mode: "debian"--"changelog"
+End:}}} //0.2fe
+
+
+}
+@ListItem {
+"Edit/create" {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/control"}}:
+//1.0vx
+{@RawBulletList
+  gap { 1.0vx }
+@ListItem {
+Remove the {{0.7 1.0} @Scale {Courier Bold} @Font {Version}} field. If it is generated unusually (not
+equal to the source version) you must use the "-v" option to
+"dpkg-gencontrol" (see below). {{0.7 1.0} @Scale {Courier Bold} @Font {Section}}, {{0.7 1.0} @Scale {Courier Bold} @Font {Priority}},
+{{0.7 1.0} @Scale {Courier Bold} @Font {Maintainer}} go above the first blank line, most of the rest below.
+
+}
+@ListItem {
+Reorder the fields and add a blank line at an appropriate point,
+separating the source package fields from the binary package
+fields.
+
+}
+@ListItem {
+Add the {{0.7 1.0} @Scale {Courier Bold} @Font {Source}} field.
+
+}
+@ListItem {
+Add the {{0.7 1.0} @Scale {Courier Bold} @Font {"Standards"--"Version"}} field. The current value is
+{{0.7 1.0} @Scale {Courier Bold} @Font {0.2.0.0}}.
+
+}
+@ListItem {
+Change the {{0.7 1.0} @Scale {Courier Bold} @Font {Architecture}} field for each package to {{0.7 1.0} @Scale {Courier Bold} @Font {any}},
+{{0.7 1.0} @Scale {Courier Bold} @Font {all}} or whatever. If there isn't an {{0.7 1.0} @Scale {Courier Bold} @Font {Architecture}} field add
+one.
+
+}
+@ListItem {
+If any other seddery or things used to happen to make the binary
+control files use {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"gencontrol"}}'s variable substitution
+features to achieve the same effect. Use {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/substvars"}} if
+you need to put "unusally-generated" information (apart from details of
+{{0.7 1.0} @Scale {Courier Bold} @Font {.deb}} files) in the {{0.7 1.0} @Scale {Courier Bold} @Font {.changes}} file too.
+}
+@RawEndList}//0ve
+
+
+}
+@ListItem {
+Edit the {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/rules"}}:
+//1.0vx
+{@RawBulletList
+  gap { 1.0vx }
+@ListItem {
+Remove the {{0.7 1.0} @Scale {Courier Bold} @Font {source}} and {{0.7 1.0} @Scale {Courier Bold} @Font {diff}} and any {{0.7 1.0} @Scale {Courier Bold} @Font {changes}} and
+{{0.7 1.0} @Scale {Courier Bold} @Font {dist}} targets. These things now happen in a "package-independent"
+way and are not done by {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/rules"}}.
+}
+@ListItem {
+Split the {{0.7 1.0} @Scale {Courier Bold} @Font {binary}} target into {{0.7 1.0} @Scale {Courier Bold} @Font {"binary"--"arch"}} and
+{{0.7 1.0} @Scale {Courier Bold} @Font {"binary"--"indep"}}; in many cases all of {{0.7 1.0} @Scale {Courier Bold} @Font {binary}} should go into
+{{0.7 1.0} @Scale {Courier Bold} @Font {"binary"--"arch"}}. Create the {{0.7 1.0} @Scale {Courier Bold} @Font {binary}} target and the unused of
+the two other {{0.7 1.0} @Scale {Courier Bold} @Font {"binary"--"*"}} targets if there is one "-" you can copy
+the ones from the {{0.7 1.0} @Scale {Courier Bold} @Font {hello}} package.
+}
+@ListItem {
+Change the {{0.7 1.0} @Scale {Courier Bold} @Font {binary}} target to use {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"gencontrol"}} to make
+the package control file(s). Move it to after all the files have been
+installed but just before the last {{0.7 1.0} @Scale {Courier Bold} @Font {chown}} and {{0.7 1.0} @Scale {Courier Bold} @Font {chmod}} in
+the target.
+}
+@ListItem {
+Change occurrences of {{0.7 1.0} @Scale {Courier Bold} @Font {"debian"--"tmp"}} to {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/tmp"}}.
+}
+@ListItem {
+Change occurrences of {{0.7 1.0} @Scale {Courier Bold} @Font {"debian.{post,pre}{inst,rm}"}} to
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian/*"}}.
+}
+@ListItem {
+Remove the version number setting at the top, if there is one.
+}
+@ListItem {
+Ensure that the package's "Debian-specific" and upstream changelogs are
+installed.
+}
+@RawEndList}//0ve
+
+
+}
+@ListItem {
+Check that the {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/README"}} is really the copyright file, and
+if so rename it to {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/copyright"}} and edit
+{{0.7 1.0} @Scale {Courier Bold} @Font {"debian/rules"}} to cope with this and to change the installation
+of the copyright file from {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/copyright"}}
+instead of {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/copyright/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}}}. If it isn't then
+find {{0.7 1.0} @Scale {Courier Bold} @Font {"debian/copyright"}} and decide what to do with the
+{{0.7 1.0} @Scale {Courier Bold} @Font {README}}.
+
+}
+@ListItem {
+Check for various other anachronisms and problems:
+//1.0vx
+{@RawBulletList
+  gap { 1.0vx }
+@ListItem {
+Remove any {{0.7 1.0} @Scale {Courier Bold} @Font {Package_Revision}}, {{0.7 1.0} @Scale {Courier Bold} @Font {"Package"--"Revision"}} or
+{{0.7 1.0} @Scale {Courier Bold} @Font {Revision}} fields.
+}
+@ListItem {
+Rename {{0.7 1.0} @Scale {Courier Bold} @Font {Optional}} to {{0.7 1.0} @Scale {Courier Bold} @Font {Suggests}}, {{0.7 1.0} @Scale {Courier Bold} @Font {Recommended}} to
+{{0.7 1.0} @Scale {Courier Bold} @Font {Recommends}}.
+}
+@ListItem {
+Change {{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/examples/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}}} to
+{{0.7 1.0} @Scale {Courier Bold} @Font {"/usr/doc/"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {package}}}}"/examples"}}.
+}
+@ListItem {
+Make sure that manpages are installed compressed.
+}
+@ListItem {
+Check that the description has an extended description, is
+"well-formatted" and meaningful and helpful to people wanting to know
+whether to install a package.
+}
+@RawEndList}//0ve
+
+
+}
+@ListItem {
+Look everything over.
+
+}
+@ListItem {
+Do a test build using {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"buildpackage" ""--"ur" ""--"uc" ""--"r"{{1.4285714285 1.0} @Scale {{{Times Slope} @Font {whatever}}}}}}.
+Check the permissions and locations of files in the resulting package
+by eyeballing the output of {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"deb" ""--""--"contents"}}, and check that
+the source build happened OK. Test install the binary package(s) and
+test extract the source package(s).
+
+}
+@ListItem {
+Sign the release: either "re-run" {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"buildpackage"}} (this will
+rebuild the package entirely), or "PGP-sign" the {{0.7 1.0} @Scale {Courier Bold} @Font {.dsc}}, rebuild the
+{{0.7 1.0} @Scale {Courier Bold} @Font {.changes}} using {{0.7 1.0} @Scale {Courier Bold} @Font {"dpkg"--"genchanges"}}, and then "PGP-sign" the
+{{0.7 1.0} @Scale {Courier Bold} @Font {.changes}}.
+
+}
+@RawEndList}//0ve
+
+
+@End @Text

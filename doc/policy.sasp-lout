@@ -1,0 +1,4222 @@
+L12 policy.sgml
+(DEBIANDOC
+(BOOK
+L14
+(TITLEPAG
+(TITLE
+-Debian policy manual
+L15
+)TITLE
+(AUTHOR
+(NAME
+-Ian Jackson 
+)NAME
+(EMAIL
+-ijackson@gnu.ai.mit.edu
+)EMAIL
+L16
+)AUTHOR
+(VERSION
+-version 0.2.0.0 (dpkg 1.3.7), 
+(DATE
+)DATE
+-\n
+L18
+)VERSION
+(ABSTRACT
+L19
+-This manual describes the policy requirements which must be satisfied\nfor a package to be included in the Debian distribution.  This\nincludes details of the permissions and ownerships of files in\npackages and other technical requirements as well as information like\nthe upload procedure.
+L24
+)ABSTRACT
+L26
+(COPYRIGHT
+(COPYRIGHTSUMMARY
+-Copyright \|©\|1996 Ian Jackson.
+L27
+)COPYRIGHTSUMMARY
+(P
+L28
+-\nThis manual is free software; you may redistribute it and/or modify it\nunder the terms of the GNU General Public License as published by the\nFree Software Foundation; either version 2, or (at your option) any\nlater version.
+L33
+)P
+(P
+L34
+-\nThis is distributed in the hope that it will be useful, but\n
+(EM
+-without any warranty
+)EM
+-; without even the implied warranty of\nmerchantability or fitness for a particular purpose.  See the GNU\nGeneral Public License for more details.
+L39
+)P
+(P
+L40
+-\nYou should have received a copy of the GNU General Public License with\nyour Debian GNU/Linux system, in 
+(TT
+-/usr/doc/copyright/GPL
+)TT
+-, or\nwith the 
+(PRGN
+-dpkg
+)PRGN
+- source package as the file 
+(TT
+-COPYING
+)TT
+-.  If\nnot, write to the Free Software Foundation, Inc., 675 Mass Ave,\nCambridge, MA 02139, USA.\n
+L47
+)P
+)COPYRIGHT
+)TITLEPAG
+L47 policy.sgml
+ADETAIL TOKEN SECT
+(TOC
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-scope
+ACHAPT CDATA 1
+ASECT IMPLIED
+AHNAME CDATA chapter 1
+(TOCENTRY
+L49 policy.sgml
+-Introduction and scope of this manual
+L50
+)TOCENTRY
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-pkgcopyright
+ACHAPT CDATA 2
+ASECT IMPLIED
+AHNAME CDATA chapter 2
+(TOCENTRY
+L76 policy.sgml
+-Package copyright
+L77
+)TOCENTRY
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-binarypkg
+ACHAPT CDATA 3
+ASECT IMPLIED
+AHNAME CDATA chapter 3
+(TOCENTRY
+L178 policy.sgml
+-Contents of the binary package\n
+L180
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1
+AHNAME CDATA section 3.1
+(TOCENTRY
+L180 policy.sgml
+-Control file requirements\n
+L182
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.1.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.1
+AHNAME CDATA subsection 3.1.1
+(TOCENTRY
+L182 policy.sgml
+(TT
+-Maintainer
+)TT
+- information
+L183
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.1.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.2
+AHNAME CDATA subsection 3.1.2
+(TOCENTRY
+L191 policy.sgml
+-Dependencies and virtual packages
+L192
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.1.3
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.3
+AHNAME CDATA subsection 3.1.3
+(TOCENTRY
+L215 policy.sgml
+(TT
+-Section
+)TT
+- and 
+(TT
+-Priority
+)TT
+L216
+)TOCENTRY
+ALEVEL CDATA SECT2
+ASRID CDATA s3.1.3.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.3.1
+AHNAME CDATA subsubsection 3.1.3.1
+(TOCENTRY
+L240 policy.sgml
+(TT
+-Priority
+)TT
+- values
+L241
+)TOCENTRY
+ALEVEL CDATA SECT2
+ASRID CDATA s3.1.3.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.3.2
+AHNAME CDATA subsubsection 3.1.3.2
+(TOCENTRY
+L294 policy.sgml
+-Base packages
+L295
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.1.4
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.4
+AHNAME CDATA subsection 3.1.4
+(TOCENTRY
+L306 policy.sgml
+-The 
+(TT
+-Essential
+)TT
+- flag
+L307
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.1.5
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.5
+AHNAME CDATA subsection 3.1.5
+(TOCENTRY
+L315 policy.sgml
+-Including 
+(TT
+-Priority
+)TT
+- and 
+(TT
+-Section
+)TT
+- in the 
+(TT
+-.deb
+)TT
+-\ncontrol file
+L317
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.1.6
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.6
+AHNAME CDATA subsection 3.1.6
+(TOCENTRY
+L332 policy.sgml
+-Formatting of the 
+(TT
+-Description
+)TT
+- control file field
+L333
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2
+AHNAME CDATA section 3.2
+(TOCENTRY
+L359 policy.sgml
+-Locations of files
+L360
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.2.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.1
+AHNAME CDATA subsection 3.2.1
+(TOCENTRY
+L372 policy.sgml
+-Manpages
+L373
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.2.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.2
+AHNAME CDATA subsection 3.2.2
+(TOCENTRY
+L416 policy.sgml
+-Info documents
+L417
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.2.3
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.3
+AHNAME CDATA subsection 3.2.3
+(TOCENTRY
+L451 policy.sgml
+-Additional documentation
+L452
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.2.4
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.4
+AHNAME CDATA subsection 3.2.4
+(TOCENTRY
+L474 policy.sgml
+-Preferred documentation formats
+L475
+)TOCENTRY
+ALEVEL CDATA SECT2
+ASRID CDATA s3.2.4.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.4.1
+AHNAME CDATA subsubsection 3.2.4.1
+(TOCENTRY
+L488 policy.sgml
+-Examples
+L489
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s-instchangelog
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.5
+AHNAME CDATA subsection 3.2.5
+(TOCENTRY
+L497 policy.sgml
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/changelog.Debian.gz
+)TT
+L498
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s-copyrightfile
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.6
+AHNAME CDATA subsection 3.2.6
+(TOCENTRY
+L513 policy.sgml
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/copyright
+)TT
+L514
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.2.7
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.7
+AHNAME CDATA subsection 3.2.7
+(TOCENTRY
+L543 policy.sgml
+-Symbolic links
+L544
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.2.8
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.8
+AHNAME CDATA subsection 3.2.8
+(TOCENTRY
+L578 policy.sgml
+-Logfiles
+L579
+)TOCENTRY
+ALEVEL CDATA SECT1
+ASRID CDATA s3.2.9
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.9
+AHNAME CDATA subsection 3.2.9
+(TOCENTRY
+L598 policy.sgml
+(TT
+-/usr/local
+)TT
+- - for the use of the system administrator
+L599
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.3
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .3
+AHNAME CDATA section 3.3
+(TOCENTRY
+L627 policy.sgml
+-Permissions and ownerships
+L628
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.4
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .4
+AHNAME CDATA section 3.4
+(TOCENTRY
+L676 policy.sgml
+-Configuration files
+L677
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.5
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .5
+AHNAME CDATA section 3.5
+(TOCENTRY
+L689 policy.sgml
+-Maintainer scripts
+L690
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.6
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .6
+AHNAME CDATA section 3.6
+(TOCENTRY
+L740 policy.sgml
+-Scripts in general
+L741
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.7
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .7
+AHNAME CDATA section 3.7
+(TOCENTRY
+L769 policy.sgml
+-Compilation options
+L770
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.8
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .8
+AHNAME CDATA section 3.8
+(TOCENTRY
+L814 policy.sgml
+-Shared library packages
+L815
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.9
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .9
+AHNAME CDATA section 3.9
+(TOCENTRY
+L871 policy.sgml
+-Application configuration files, dotfiles and 
+(TT
+-/etc/skel
+)TT
+L872
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s-mail
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .10
+AHNAME CDATA section 3.10
+(TOCENTRY
+L908 policy.sgml
+-Mail processing on Debian systems
+L909
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.11
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .11
+AHNAME CDATA section 3.11
+(TOCENTRY
+L981 policy.sgml
+-Packages which can use the X shared libraries
+L982
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.12
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .12
+AHNAME CDATA section 3.12
+(TOCENTRY
+L999 policy.sgml
+-Games
+L1000
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s3.13
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .13
+AHNAME CDATA section 3.13
+(TOCENTRY
+L1030 policy.sgml
+-Allocating package-specific users and groups
+L1031
+)TOCENTRY
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-sourcepkg
+ACHAPT CDATA 4
+ASECT IMPLIED
+AHNAME CDATA chapter 4
+(TOCENTRY
+L1068 policy.sgml
+-Source package\n
+L1070
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s4.1
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .1
+AHNAME CDATA section 4.1
+(TOCENTRY
+L1070 policy.sgml
+-Releases of packages by other than the usual Debian maintainer
+L1071
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s4.2
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .2
+AHNAME CDATA section 4.2
+(TOCENTRY
+L1105 policy.sgml
+-Standards conformance and 
+(TT
+-Standards-Version
+)TT
+L1106
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s4.3
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .3
+AHNAME CDATA section 4.3
+(TOCENTRY
+L1142 policy.sgml
+-Documentation and the 
+(TT
+-changelog
+)TT
+L1143
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s4.4
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .4
+AHNAME CDATA section 4.4
+(TOCENTRY
+L1163 policy.sgml
+-Changes to the upstream sources
+L1164
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s4.5
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .5
+AHNAME CDATA section 4.5
+(TOCENTRY
+L1188 policy.sgml
+-Error trapping in makefiles
+L1189
+)TOCENTRY
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-developer
+ACHAPT CDATA 5
+ASECT IMPLIED
+AHNAME CDATA chapter 5
+(TOCENTRY
+L1209 policy.sgml
+-How to become a Debian developer\n
+L1211
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s5.1
+ACHAPT CDATA 5
+ACSRID CDATA ch-developer
+ASECT CDATA .1
+AHNAME CDATA section 5.1
+(TOCENTRY
+L1211 policy.sgml
+-Before you start work
+L1212
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s5.2
+ACHAPT CDATA 5
+ACSRID CDATA ch-developer
+ASECT CDATA .2
+AHNAME CDATA section 5.2
+(TOCENTRY
+L1242 policy.sgml
+-When you have a package to upload
+L1243
+)TOCENTRY
+ALEVEL CDATA SECT
+ASRID CDATA s-changesfiles
+ACHAPT CDATA 5
+ACSRID CDATA ch-developer
+ASECT CDATA .3
+AHNAME CDATA section 5.3
+(TOCENTRY
+L1270 policy.sgml
+-Upload handling - 
+(TT
+-.changes
+)TT
+- files
+L1271
+)TOCENTRY
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-mailinglists
+ACHAPT CDATA 6
+ASECT IMPLIED
+AHNAME CDATA chapter 6
+(TOCENTRY
+L1300 policy.sgml
+-The Debian mailing lists
+L1301
+)TOCENTRY
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-conversion
+ACHAPT CDATA 7
+ASECT IMPLIED
+AHNAME CDATA chapter 7
+(TOCENTRY
+L1320 policy.sgml
+-Conversion procedure from old source packages
+L1321
+)TOCENTRY
+)TOC
+L47 policy.sgml
+AID CDATA scope
+L49
+ASRID CDATA ch-scope
+ACHAPT CDATA 1
+ASECT IMPLIED
+AHNAME CDATA chapter 1
+(CHAPT
+(HEADING
+-Introduction and scope of this manual
+L50
+)HEADING
+(P
+L51
+-\nThis manual describes the criteria that a Debian-format package must\nsatisfy to be included in the Debian distribution.
+L54
+)P
+(P
+L55
+-\nMuch of this information will be useful even when building a package\nwhich is to be distributed in some other way or is for local use.
+L58
+)P
+(P
+L59
+-\nThis manual does 
+(EM
+-not
+)EM
+- describe the technical mechanisms involved\nin package creation, installation and removal.  This information can\nbe found in the 
+(PRGN
+-dpkg
+)PRGN
+- programmers' manual and the 
+(PRGN
+-dpkg
+)PRGN
+- system\nadministrators' manual.
+L64
+)P
+(P
+L65
+-\nThis document assumes familiarity with these other two manuals.\nUnfortunately the system administrators' manual does not exist yet.
+L68
+)P
+(P
+L69
+-\nThe Debian version of the FSF's GNU 
+(PRGN
+-hello
+)PRGN
+- program is provided\nas an example for people wishing to create Debian packages.
+L72
+)P
+(P
+L73
+-\n
+(EM
+-Note that this document is still a draft!
+)EM
+-\n
+L76
+)P
+)CHAPT
+AID CDATA pkgcopyright
+ASRID CDATA ch-pkgcopyright
+ACHAPT CDATA 2
+ASECT IMPLIED
+AHNAME CDATA chapter 2
+(CHAPT
+(HEADING
+-Package copyright
+L77
+)HEADING
+(P
+L78
+-\nPlease study the copyright of your submission 
+(EM
+-carefully
+)EM
+- and\nunderstand it before proceeding.  If you have doubts or questions,\nplease ask.
+L82
+)P
+(P
+L83
+-\nThe aims of the policy detailed below are:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L86
+(ITEM
+L87
+(P
+-That any user be able to rebuild any package in the official Debian\ndistribution from the original source plus our patches.
+L89
+)P
+)ITEM
+(ITEM
+L90
+(P
+-That we make available in our packaging formats as much software as we\ncan.
+L92
+)P
+)ITEM
+(ITEM
+L93
+(P
+-That it be easy for people to make CDROMs of our distribution without\nviolating copyrights.
+L95
+)P
+)ITEM
+)LIST
+L96
+)P
+(P
+L97
+-\nAll packages in the Debian distribution proper must be freely useable,\nmodifiable and redistributable in both source and binary form.  It\nmust be possible for anyone to distribute and use modified source code\nand their own own compiled binaries, at least when they do so as part\nof a Debian distribution.
+L103
+)P
+(P
+L104
+-\nPackages whose copyright permission notices (or patent problems) do\nnot allow distribution and copying for profit, without restriction on\nthe amount charged, or where distribution is restricted according to\nthe medium used, or where the distributor must ask any kind of special\npermission of the authors, or with other onerous conditions, may only\nbe placed in the semi-supported non-free section of the Debian FTP\narchives.  This is important so that CDROM manufacturers can\ndistribute Debian without having to check the copyright of each\npackage individually, simply by leaving out the contents of the\nnon-free area; CDROM distributors are encouraged, though, to check the\ncopyrights on programs in non-free individually and include as many as\nthey can.
+L117
+)P
+(P
+L118
+-\nPackages whose copyright permission notices (or patent problems) allow\nonly distribution of compiled binaries (and thus of which only\nbinaries are available), or where the source code which may be\ndistributed is not the complete source code required to compile the\nprogram (ie, the program cannot be compiled using only packages in the\nmain Debian distribution), or which depend for their use on non-free\nor contrib packages, or allow free use only for a trial period\n(shareware), or are demonstration programs lacking vital functionality\n(crippleware), or are only installer-packages which require the user\nto supply a separate file to be installed, or which fail to meet some\nother policy requirements, may only be placed in the semi-supported\ncontrib section of the Debian FTP archives (unless they need to be in\nnon-free - see above).
+L132
+)P
+(P
+L133
+-\nPrograms whose authors encourage the user to make donations are fine\nfor the main distribution, provided that the authors do not claim that\nnot donating is immoral, unethical, illegal or something similar;\notherwise they must go in contrib (or non-free, if even distribution\nis restricted by such statements).
+L139
+)P
+(P
+L140
+-\nPackages whose copyright permission notices (or patent problems) do\nnot allow redistribution even of only binaries, and where no special\npermission has been obtained, cannot placed on the Debian FTP site and\nits mirrors at all.
+L145
+)P
+(P
+L146
+-\nNote that under international copyright law
+(FOOTNOTE
+(P
+-This applies in\nthe United States, too.
+)P
+)FOOTNOTE
+- 
+(EM
+-no
+)EM
+- distribution or modification\nof a work is allowed without an explicit notice saying so.  Therefore\na program without a copyright notice 
+(EM
+-is
+)EM
+- copyrighted and you may\nnot do anything to it without risking being sued!  Likewise if a\nprogram has a copyright notice but no statement saying what is\npermitted then nothing is permitted.
+L154
+)P
+(P
+L155
+-\nMany authors are unaware of the problems that restrictive copyrights\n(or lack of copyright notices) can cause for the users of their\nsupposedly-free software.  It is often worthwhile contacting such\nauthors diplomatically to ask them to modify their terms generally, or\nspecially for Debian.  However, this is a politically difficult thing\nto do and you should ask for advice on 
+(PRGN
+-debian-devel
+)PRGN
+- first.
+L162
+)P
+(P
+L163
+-\nWhen in doubt, send mail to 
+(EMAIL
+-debian-devel@lists.debian.org
+)EMAIL
+-.  Be\nprepared to provide us with the copyright statement.  Software covered\nby the GPL, public domain software and BSD-like copyrights are safe;\nbe wary of the phrases `commercial use prohibited' and `distribution\nrestricted'.
+L169
+)P
+(P
+L170
+-\nEvery package submission 
+(EM
+-must
+)EM
+- be accompanied by verbatim copy of\nits copyright (with the exceptions of public domain packages and those\ncovered by the UCB BSD licence or the GNU GPL or LGPL; in these cases\nsimply indicate which is appropriate).  This information must be\nincluded in a file installed by the binary package - see 
+AID CDATA copyrightfile
+ALEVEL CDATA SECT1
+ASRID CDATA s-copyrightfile
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.6
+AHNAME CDATA subsection 3.2.6
+(REF
+L513 policy.sgml
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/copyright
+)TT
+L514
+)REF
+L176
+-.\n
+L178
+)P
+)CHAPT
+AID CDATA binarypkg
+ASRID CDATA ch-binarypkg
+ACHAPT CDATA 3
+ASECT IMPLIED
+AHNAME CDATA chapter 3
+(CHAPT
+(HEADING
+-Contents of the binary package\n
+L180
+)HEADING
+AID IMPLIED
+ASRID CDATA s3.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1
+AHNAME CDATA section 3.1
+(SECT
+(HEADING
+-Control file requirements\n
+L182
+)HEADING
+AID IMPLIED
+ASRID CDATA s3.1.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.1
+AHNAME CDATA subsection 3.1.1
+(SECT1
+(HEADING
+(TT
+-Maintainer
+)TT
+- information
+L183
+)HEADING
+(P
+L184
+-\nAll packages must have a 
+(TT
+-Maintainer
+)TT
+- field with the correct name\nand a working email address for the Debian maintainer of the package.\nIf one person maintains several packages they should try to avoid\nhaving different forms of their name and address in different\n
+(TT
+-Maintainer
+)TT
+- fields.\n
+L191
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.1.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.2
+AHNAME CDATA subsection 3.1.2
+(SECT1
+(HEADING
+-Dependencies and virtual packages
+L192
+)HEADING
+(P
+L193
+-\nAdd a dependency for any shared libraries required by\ndynamically-linked executable binaries in your package.  Almost every\npackage containing compiled C code should therefore include a\n
+(TT
+-Depends
+)TT
+- field which mentions the shared C library required for\nthe program to run.  For ELF binaries linked against 
+(TT
+-libc.so.5
+)TT
+-\nthe relevant package name is 
+(TT
+-libc5
+)TT
+-.
+L200
+)P
+(P
+L201
+-\nAll packages must use virtual package names where appropriate, and\narrange to create new ones if necessary.  They must not use virtual\npackage names (except privately, amongst a cooperating group of\npackages) unless they have been agreed upon and appear in the list of\nvirtual package names.
+L207
+)P
+(P
+L208
+-\nThe latest version of the authoritative list of virtual package names\ncan be found on 
+(FTPSITE
+-ftp.debian.org
+)FTPSITE
+- in\n
+(FTPPATH
+-/debian/doc/package-developer/virtual-package-names-list.text
+)FTPPATH
+-\nor your local mirror.  The procedure for updating it is described at\nthe top of the file.\n
+L215
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.1.3
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.3
+AHNAME CDATA subsection 3.1.3
+(SECT1
+(HEADING
+(TT
+-Section
+)TT
+- and 
+(TT
+-Priority
+)TT
+L216
+)HEADING
+(P
+L217
+-\nDecide whether your package can go in 
+(TT
+-non-free
+)TT
+-, 
+(TT
+-contrib
+)TT
+- or\nthe main distribution - see 
+AID CDATA pkgcopyright
+ALEVEL CDATA CHAPT
+ASRID CDATA ch-pkgcopyright
+ACHAPT CDATA 2
+ASECT IMPLIED
+AHNAME CDATA chapter 2
+(REF
+L76 policy.sgml
+-Package copyright
+L77
+)REF
+-, and put\nan appropriate value for the distribution in the\n
+(TT
+-debian/changelog
+)TT
+- file.
+L222
+)P
+(P
+L223
+-\nThe 
+(TT
+-Priority
+)TT
+- and 
+(TT
+-Section
+)TT
+- control file fields give\ninformation for classifying the package in 
+(PRGN
+-dselect
+)PRGN
+- and say\nwhich directory to place it in the FTP archive.
+L227
+)P
+(P
+L228
+-\nThey are ultimately the responsibility of the distribution\nmaintainers; however, you should suggest values for them in your\n
+(TT
+-.changes
+)TT
+- information when you upload a package.  You do this by\nincluding appropriate information in the 
+(TT
+-debian/control
+)TT
+- file\nbefore building the packages.
+L234
+)P
+(P
+L235
+-\nFor a list of the currently in-use sections, please see the FTP\narchive.  Packages in the non-free and contrib areas should have\nsection 
+(TT
+-non-free
+)TT
+- and 
+(TT
+-contrib
+)TT
+-, respectively.\n
+L240
+)P
+AID IMPLIED
+ASRID CDATA s3.1.3.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.3.1
+AHNAME CDATA subsubsection 3.1.3.1
+(SECT2
+(HEADING
+(TT
+-Priority
+)TT
+- values
+L241
+)HEADING
+(P
+L242
+-\n
+ACOMPACT IMPLIED
+(TAGLIST
+L244
+(TAG
+(TT
+-required
+)TT
+L245
+)TAG
+(ITEM
+L246
+(P
+(TT
+-required
+)TT
+- packages are necessary for the proper functioning of the\nsystem.  You must not remove these packages or your system may become\ntotally broken and you may probably not even be able to use\n
+(PRGN
+-dpkg
+)PRGN
+- to put things back.  Systems with only the 
+(TT
+-required
+)TT
+-\npackages are probably unuseable, but they do have enough functionality\nto allow the sysadmin to boot and install more software.\n
+L253
+)P
+)ITEM
+(TAG
+(TT
+-important
+)TT
+L254
+)TAG
+(ITEM
+L255
+(P
+-Important programs, including those which one would expect to find on\nany Unix-like system.  If the expectation is that an experienced Unix\nperson who found it missing would go `What the F*!@\|<\|+ is going on,\nwhere is 
+(PRGN
+-foo
+)PRGN
+-', it should be in 
+(TT
+-important
+)TT
+-.  This is an\nimportant criterion because we are trying to produce, amongst other\nthings, a free Unix.  Other packages without which the system will not\nrun well or be useable should also be here.  This does 
+(EM
+-not
+)EM
+-\ninclude Emacs or X11 or TeX or any other large applications.  The\n
+(TT
+-important
+)TT
+- packages are just a bare minimum of commonly-expected\nand necessary tools.\n
+L266
+)P
+)ITEM
+(TAG
+(TT
+-standard
+)TT
+L267
+)TAG
+(ITEM
+L268
+(P
+-These packages provide a reasonably small but not too limited\ncharacter-mode system.  This is what will install by default if the\nuser doesn't select anything else.  It doesn't include many large\napplications, but it does include Emacs (this is more of a piece of\ninfrastructure than an application) and a reasonable subset of TeX and\nLaTeX (if this is possible without X).\n
+L275
+)P
+)ITEM
+(TAG
+(TT
+-optional
+)TT
+(FOOTNOTE
+(P
+-In a sense everything is optional that\nisn't required, but that's not what is meant here.
+)P
+)FOOTNOTE
+L277
+)TAG
+(ITEM
+L278
+(P
+-This is all the software that you might reasonably want to install if\nyou didn't know what it was or don't have specialised requirements.\nThis is a much larger system and includes X11, a full TeX\ndistribution, and lots of applications.\n
+L283
+)P
+)ITEM
+(TAG
+(TT
+-extra
+)TT
+L284
+)TAG
+(ITEM
+L285
+(P
+-This contains packages that conflict with others with higher\npriorities, or are only likely to be useful if you already know what\nthey are or have specialised requirements.\n
+L289
+)P
+)ITEM
+)TAGLIST
+L290
+)P
+(P
+L291
+-\nPriority values are not case-sensitive.\n
+L294
+)P
+)SECT2
+AID IMPLIED
+ASRID CDATA s3.1.3.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.3.2
+AHNAME CDATA subsubsection 3.1.3.2
+(SECT2
+(HEADING
+-Base packages
+L295
+)HEADING
+(P
+L296
+-\nSome packages have 
+(TT
+-Section: base
+)TT
+- and are in the 
+(TT
+-base
+)TT
+-\nsubdirectory on the FTP archives.  These are the packages that are\nsupplied on the base disks.  They are the minimum sensible set for\ninstalling new packages (perhaps via a network).
+L301
+)P
+(P
+L302
+-\nMost of these packages should have 
+(TT
+-Priority: required
+)TT
+- or at least\n
+(TT
+-Priority: important
+)TT
+-.\n
+L306
+)P
+)SECT2
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.1.4
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.4
+AHNAME CDATA subsection 3.1.4
+(SECT1
+(HEADING
+-The 
+(TT
+-Essential
+)TT
+- flag
+L307
+)HEADING
+(P
+L308
+-\nThe 
+(TT
+-Essential: yes
+)TT
+- control file field should not be used unless\nremoving a package really will completely hose the system; nor should\nit be used for a shared library package - the dependencies will\nprevent its premature removal, and we need to be able to remove it\nwhen it has been superseded.\n
+L315
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.1.5
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.5
+AHNAME CDATA subsection 3.1.5
+(SECT1
+(HEADING
+-Including 
+(TT
+-Priority
+)TT
+- and 
+(TT
+-Section
+)TT
+- in the 
+(TT
+-.deb
+)TT
+-\ncontrol file
+L317
+)HEADING
+(P
+L318
+-\nIf a user installs a package which is not part of the standard\ndistribution, or without downloading and updating from a new\n
+(PRGN
+-Packages
+)PRGN
+- file, the information about the priority and section\nof a package will be absent, and the 
+(PRGN
+-dselect
+)PRGN
+- package listing\nwill have the package listed under `unclassified'.  In order to\nimprove this it is permissible to use the 
+(TT
+--is
+)TT
+-, 
+(TT
+--isp
+)TT
+- or\n
+(TT
+--ip
+)TT
+- option to 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+-, so that the 
+(TT
+-Section
+)TT
+-\nand/or 
+(TT
+-Priority
+)TT
+- is copied into the actual control information in\nthe 
+(TT
+-.deb
+)TT
+- file.  However, if you do this you should make sure you\nkeep the information up to date so that users are not shown\nconflicting information.\n\n
+L332
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.1.6
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .1.6
+AHNAME CDATA subsection 3.1.6
+(SECT1
+(HEADING
+-Formatting of the 
+(TT
+-Description
+)TT
+- control file field
+L333
+)HEADING
+(P
+L334
+-\nEvery Debian package should have an extended description.
+L336
+)P
+(P
+L337
+-\nThe description should be written so that it tells the user what they\nneed to know to decide whether to install the package.  This\ndescription should not just be copied from the blurb for the program.\nInstructions for configuring or using the package should not be\nincluded - that is what installation scripts, manpages, Info files and\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+)TT
+- are for.  Copyright statements and other\nadministrivia should not be included - that is what\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/copyright
+)TT
+- is for.
+L346
+)P
+(P
+L347
+-\nIf you wish to include a list in your extended with entries which are\na line or more each you must indent each entry by one space to make\nsure that it doesn't get wordwrapped.  The start of each list entry\nshould be marked with an asterisk, followed by a single space.  You\nmust wrap the list entries yourself to 75 columns, and should start\ncontinuation lines indented by three spaces so that they line up with\nthe start of the text on the first line of each list entry.
+L355
+)P
+(P
+L356
+-\nSee the programmers' manual for further requirements and pitfalls.\n
+L359
+)P
+)SECT1
+)SECT
+AID IMPLIED
+ASRID CDATA s3.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2
+AHNAME CDATA section 3.2
+(SECT
+(HEADING
+-Locations of files
+L360
+)HEADING
+(P
+L361
+-\nThe location of all installed files and directories must comply fully\nwith the Linux File System Standard (FSSTND).  The latest version of\nthis document can be found alongside this manual or on\n
+(FTPSITE
+-tsx-11.mit.edu
+)FTPSITE
+- in\n
+(FTPPATH
+-/pub/linux/docs/linux-standards/fsstnd/
+)FTPPATH
+-.  Specific questions\nabout following the standard may be asked on 
+(PRGN
+-debian-devel
+)PRGN
+-, or\nreferred to Daniel Quinlan, the FSSTND coordinator, at\n
+(EMAIL
+-quinlan@yggdrasil.com
+)EMAIL
+-.
+L370
+)P
+(P
+L372
+)P
+AID IMPLIED
+ASRID CDATA s3.2.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.1
+AHNAME CDATA subsection 3.2.1
+(SECT1
+(HEADING
+-Manpages
+L373
+)HEADING
+(P
+L374
+-\nYou must install manpages in 
+(PRGN
+-nroff
+)PRGN
+- source form, in appropriate\nplaces under 
+(TT
+-/usr/man
+)TT
+-.  You should only use sections 1 to 9\n(see the FSSTND for more details).  You must 
+(EM
+-not
+)EM
+- install a\npreformatted `cat page'.
+L379
+)P
+(P
+L380
+-\nIf no manual page is available for a particular program, utility or\nfunction and this is reported as a bug on debian-bugs, a symbolic link\nfrom the requested manual page to the 
+ANAME CDATA undocumented
+ASECTION CDATA 7
+(MANREF
+)MANREF
+L384
+- manual page should be provided.  This symbolic link can be\ncreated from 
+(TT
+-debian/rules
+)TT
+- like this:\n
+(EXAMPLE
+L387
+-ln -s ../man7/undocumented.7 \\\n debian/tmp/usr/man/man[1-9]/the_requested_manpage.[1-9]
+L389
+)EXAMPLE
+-\nThis manpage claims that the lack of a manpage has been reported as a\nbug, so you may only do this if it really has (you can report it\nyourself, if you like).  Do not close the bug report until a proper\nmanpage is available.
+L394
+)P
+(P
+L395
+-\nYou may forward a complaint about a missing manpage to the upstream\nauthors, and mark the bug as forwarded in the Debian bug tracking\nsystem.  Even though the GNU Project do not in general consider the\nlack of a manpage to be a bug, we do - if they tell you that they\ndon't consider it a bug you should leave the bug in our bug tracking\nsystem open anyway.
+L402
+)P
+(P
+L403
+-\nManpages should be installed compressed using 
+(TT
+-gzip -9
+)TT
+-.
+L405
+)P
+(P
+L406
+-\nIf one manpage needs to be accesssible via several names it is better\nto use a symbolic link than the 
+(TT
+-.so
+)TT
+- feature, but there is no need\nto fiddle with the relevant parts of the upstream source to change\nfrom 
+(TT
+-.so
+)TT
+- to symlinks - don't do it unless it's easy.  Do not\ncreate hard links in the manual page directories, and do not put\nabsolute filenames in 
+(TT
+-.so
+)TT
+- directives.  The filename in a\n
+(TT
+-.so
+)TT
+- in a manpage should be relative to the base of the manpage\ntree (usually 
+(TT
+-/usr/man
+)TT
+-).\n
+L416
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.2.2
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.2
+AHNAME CDATA subsection 3.2.2
+(SECT1
+(HEADING
+-Info documents
+L417
+)HEADING
+(P
+L418
+-\nInfo documents should be installed in 
+(TT
+-/usr/info
+)TT
+-.  They should\nbe compressed with 
+(TT
+-gzip -9
+)TT
+-.
+L421
+)P
+(P
+L422
+-\nYour package must call 
+(PRGN
+-install-info
+)PRGN
+- to update the Info 
+(TT
+-dir
+)TT
+-\nfile, in its post-installation script:\n
+(EXAMPLE
+L426
+-install-info --quiet --section Development Development \\\n  /usr/info/foobar.info
+L428
+)EXAMPLE
+L429
+)P
+(P
+L430
+-\nIt is a good idea to specify a section for the location of your\nprogram; this is done with the 
+(TT
+---section
+)TT
+- switch.  To determine\nwhich section to use, you should use look at 
+(TT
+-/usr/info/dir
+)TT
+- on\nyour system and choose the most relevant (or create a new section if\nnone of the current sections are relevant).  Note that the\n
+(TT
+---section
+)TT
+- flag takes two arguments; the first is a regular\nexpression to match (case-insensitively) against an existing section,\nthe second is used when creating a new one.
+L439
+)P
+(P
+L440
+-\nYou must remove the entries in the pre-removal script:\n
+(EXAMPLE
+L443
+-install-info --quiet --remove /usr/info/foobar.info
+L444
+)EXAMPLE
+L445
+)P
+(P
+L446
+-\nIf 
+(PRGN
+-install-info
+)PRGN
+- cannot find a description entry in the Info file\nyou will have to supply one.  See 
+ANAME CDATA install-info
+ASECTION CDATA 8
+(MANREF
+)MANREF
+-\nfor details.\n
+L451
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.2.3
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.3
+AHNAME CDATA subsection 3.2.3
+(SECT1
+(HEADING
+-Additional documentation
+L452
+)HEADING
+(P
+L453
+-\nAny additional documentation that comes with the package can be\ninstalled at the discretion of the package maintainer.  Text\ndocumentation should be installed in a directory\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+)TT
+(FOOTNOTE
+(P
+-Where 
+(VAR
+-package
+)VAR
+- is the\nname of the package.
+)P
+)FOOTNOTE
+- and compressed with 
+(TT
+-gzip -9
+)TT
+-\nunless it is small.
+L460
+)P
+(P
+L461
+-\nIf a package comes with large amounts of documentation which many\nusers of the package will not require you should create a separate\nbinary package to contain it, so that it does not take up disk space\non the machines of users who do not need or want it installed.
+L466
+)P
+(P
+L467
+-\nIt is often a good idea to put text information files (
+(TT
+-README
+)TT
+-s,\nchangelogs, and so forth) that come with the source package in\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+)TT
+- in the binary package.  However, don't\ninstall the instructions for building and installing the package, of\ncourse!\n
+L474
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.2.4
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.4
+AHNAME CDATA subsection 3.2.4
+(SECT1
+(HEADING
+-Preferred documentation formats
+L475
+)HEADING
+(P
+L476
+-\nThe unification of Debian documentation is being carried out via HTML.
+L478
+)P
+(P
+L479
+-\nIf your package comes with extensive documentation in a markup format\nthat can be converted to various other formats you should if possible\nship HTML versions in the binary package, in the directory\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+)TT
+- or its subdirectories.
+L484
+)P
+(P
+L485
+-\nOther formats such as PostScript may be provided at your option.\n
+L488
+)P
+AID IMPLIED
+ASRID CDATA s3.2.4.1
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.4.1
+AHNAME CDATA subsubsection 3.2.4.1
+(SECT2
+(HEADING
+-Examples
+L489
+)HEADING
+(P
+L490
+-\nAny examples (configurations, source files, whatever), should be\ninstalled in a directory 
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/examples
+)TT
+-.\nThese files should not be referenced by any program - they're there\nfor the benefit of the system administrator and users, as\ndocumentation only.\n
+L497
+)P
+)SECT2
+)SECT1
+AID CDATA instchangelog
+ASRID CDATA s-instchangelog
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.5
+AHNAME CDATA subsection 3.2.5
+(SECT1
+(HEADING
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/changelog.Debian.gz
+)TT
+L498
+)HEADING
+(P
+L499
+-\nThis installed file must contain a copy of the 
+(TT
+-debian/changelog
+)TT
+-\nfile from your Debian source tree.
+L502
+)P
+(P
+L503
+-\nIt should be installed compressed using 
+(TT
+-gzip -9
+)TT
+-, as it will\nbecome large with time even if it starts out small.
+L506
+)P
+(P
+L507
+-\nIf the package has only one changelog which is used both as the Debian\nchangelog and the upstream one because there is no separate upstream\nmaintainer then the changelog should usually be installed as\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/changelog.gz
+)TT
+- instead.\n
+L513
+)P
+)SECT1
+AID CDATA copyrightfile
+ASRID CDATA s-copyrightfile
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.6
+AHNAME CDATA subsection 3.2.6
+(SECT1
+(HEADING
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/copyright
+)TT
+L514
+)HEADING
+(P
+L515
+-\nThis file must contain details of the authorship and copyright of the\npackage.  It must say where the upstream sources (if any) were\nobtained, and explain briefly what modifications were made in the\nDebian version of the package compared to the upstream one.  It must\nname the original authors of the package and the Debian maintainer(s)\nwho were involved with its creation.
+L522
+)P
+(P
+L523
+-\nIt must contain the full text of the copyright notice and any\nacknowledgements for the program and the licence terms under which the\nprogram is distributed.  If the package is distributed under the GNU\nGeneral Public Licence, the GNU Library General Public Licence, the\nRegents of the University of California at Berkeley (BSD) licence or\nLarry Wall's Artistic Licence please say so instead of including a\ncopy of the licence.  The files 
+(TT
+-BSD
+)TT
+-, 
+(TT
+-GPL
+)TT
+-, 
+(TT
+-LGPL
+)TT
+- and\n
+(TT
+-Artistic
+)TT
+- are be available in 
+(TT
+-/usr/doc/copyright
+)TT
+- for you\nto refer to.
+L533
+)P
+(P
+L534
+-\nThe copyright file should not be compressed unless it is very large.
+L536
+)P
+(P
+L537
+-\nDo not use the copyright file as a general 
+(TT
+-README
+)TT
+- file.  If your\npackage has such a file it should be installed in\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/README
+)TT
+- or 
+(TT
+-README.Debian
+)TT
+- or some\nother appropriate place.\n
+L543
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.2.7
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.7
+AHNAME CDATA subsection 3.2.7
+(SECT1
+(HEADING
+-Symbolic links
+L544
+)HEADING
+(P
+L545
+-\nMost symbolic links should be relative, not absolute.  Absolute links,\nin general, cause problems when a file system is not mounted where it\n"normally" resides (for example, when mounted via NFS).
+L549
+)P
+(P
+L550
+-\nIn particular, symlinks from one part of 
+(TT
+-/usr
+)TT
+- to another\nshould be relative.
+L553
+)P
+(P
+L554
+-\nIn certain cases, however, relative links may cause more problems.\nFor example, links into 
+(TT
+-/etc
+)TT
+- and 
+(TT
+-/var
+)TT
+- should be\nabsolute.
+L558
+)P
+(P
+L559
+-\nNote that when creating a relative link using 
+(PRGN
+-ln
+)PRGN
+- it is not\nnecessary for the target of the link to exist relative to the working\ndirectory you're running 
+(PRGN
+-ln
+)PRGN
+- from; nor is it necessary to change\ndirectory to the directory where the link is to be made.  Simply\ninclude the string that should appear as the target of the link (this\nwill be a pathname relative to the directory in which the link\nresides) as the first argument to 
+(PRGN
+-ln
+)PRGN
+-.
+L567
+)P
+(P
+L568
+-\nFor example, in your 
+(PRGN
+-Makefile
+)PRGN
+- or 
+(TT
+-debian/rules
+)TT
+-, do things\nlike:\n
+(EXAMPLE
+L572
+-ln -fs gcc $(prefix)/bin/cc\nln -fs gcc debian/tmp/usr/bin/cc\nln -fs ../sbin/sendmail $(prefix)/bin/runq\nln -fs ../sbin/sendmail debian/tmp/usr/bin/runq
+L576
+)EXAMPLE
+-\n
+L578
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.2.8
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.8
+AHNAME CDATA subsection 3.2.8
+(SECT1
+(HEADING
+-Logfiles
+L579
+)HEADING
+(P
+L580
+-\nLogfiles should usually be named\n
+(TT
+-/var/log/
+(VAR
+-package
+)VAR
+-.log
+)TT
+-.  If you have many logfiles,\nor need a separate directory for permissions reasons\n(
+(TT
+-/var/log
+)TT
+- is writeable only by 
+(TT
+-root
+)TT
+-), you should usually\ncreate a directory named 
+(TT
+-/var/log/
+(VAR
+-package
+)VAR
+)TT
+-.
+L586
+)P
+(P
+L587
+-\nMake sure that any logfiles are rotated occasionally using so that\nthey don't grow indefinitely; the best way to do this is to use\n
+(PRGN
+-savelog
+)PRGN
+- program in an 
+(TT
+-/etc/cron.daily
+)TT
+-,\n
+(TT
+-/etc/cron.weekly
+)TT
+- or 
+(TT
+-/etc/cron.monthly
+)TT
+- script.
+L592
+)P
+(P
+L593
+-\nMake sure that any logfiles are removed when the package is purged\n(but not when it is only removed), by checking the argument to the\npostrm script (see the programmer's manual for details).\n
+L598
+)P
+)SECT1
+AID IMPLIED
+ASRID CDATA s3.2.9
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .2.9
+AHNAME CDATA subsection 3.2.9
+(SECT1
+(HEADING
+(TT
+-/usr/local
+)TT
+- - for the use of the system administrator
+L599
+)HEADING
+(P
+L600
+-\nAs mandated by the FSSTND no package should place any files in\n
+(TT
+-/usr/local
+)TT
+-, either by putting them in the filesystem archive to\nbe unpacked by 
+(PRGN
+-dpkg
+)PRGN
+- or by manipulating them in their maintainer\nscripts.
+L605
+)P
+(P
+L606
+-\nEvery package that searches a number of directories or files for\nsomething (for example, looking for shared libraries in 
+(TT
+-/lib
+)TT
+- or\n
+(TT
+-/usr/lib
+)TT
+-) should search an appropriate directory in\n
+(TT
+-/usr/local
+)TT
+- too.
+L611
+)P
+(P
+L612
+-\nIn order that the system administrator may know where to place\nadditional files a package should create an empty directory in the\nappropriate place in 
+(TT
+-/usr/local
+)TT
+- by supplying it in the\nfilesystem archive for unpacking by 
+(PRGN
+-dpkg
+)PRGN
+-.  The\n
+(TT
+-/usr/local
+)TT
+- directory itself and all the subdirectories created\nby the package should have permissions 2775 (group-writeable and\nset-group-id) and be owned by 
+(TT
+-root.staff
+)TT
+-.
+L620
+)P
+(P
+L621
+-\nIn the future it will be possible to tell 
+(PRGN
+-dpkg
+)PRGN
+- not to unpack\nfiles matching certain patterns, so that system administrators who do\nnot wish these directories in 
+(TT
+-/usr/local
+)TT
+- do not need to have\nthem.\n
+L627
+)P
+)SECT1
+)SECT
+AID IMPLIED
+ASRID CDATA s3.3
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .3
+AHNAME CDATA section 3.3
+(SECT
+(HEADING
+-Permissions and ownerships
+L628
+)HEADING
+(P
+L629
+-\nThe rules in this section are guidelines for general use.  If\nnecessary you may deviate from the details below.  However, if you do\nso you must make sure that what is done is secure and you must try to\nbe as consistent as possible with the rest of the system.  You should\nprobably also discuss it on 
+(PRGN
+-debian-devel
+)PRGN
+- first.
+L635
+)P
+(P
+L636
+-\nFiles should be owned by 
+(TT
+-root.root
+)TT
+-, and made writeable only by\nthe owner and universally readable (and executable, if appropriate).
+L639
+)P
+(P
+L640
+-\nDirectories should be mode 755 or (for group-writability) mode 2775.\nThe ownership of the directory should be consistent with its mode -\nif a directory is mode 2775, it should be owned by the group that\nneeds write access to it.
+L645
+)P
+(P
+L646
+-\nSetuid and setgid executables should be mode 4755 or 2755\nrespectively, and owned by the appropriate user or group.  They should\nnot be made unreadable (modes like 4711 or 2711 or even 4111); doing\nso achieves no extra security, because anyone can find the binary in\nthe freely available Debian package - it is merely inconvenient.  For\nthe same reason you should not restrict read or execute permissions on\nnon-set-id executables.
+L654
+)P
+(P
+L655
+-\nSome setuid programs need to be restricted to particular sets of\nusers, using file permissions.  In this case they should be owned by\nthe uid to which they are set-id, and by the group which should be\nallowed to execute them.  They should have mode 4754; there is no\npoint in making them unreadable to those users who must not be allowed\nto execute them.
+L662
+)P
+(P
+L663
+-\nDo not arrange that the system administrator can only reconfigure the\npackage to correspond to their local security policy by changing the\npermissions on a binary.  Ordinary files installed by 
+(PRGN
+-dpkg
+)PRGN
+- (as\nopposed to conffiles and other similar objects) have their permissions\nreset to the distributed permissions when the package is reinstalled.\nInstead you should consider (for example) creating a group for people\nallowed to use the program(s) and making any setuid executables\nexecutable only by that group.
+L672
+)P
+(P
+L673
+-\nShared libraries should be installed executable.\n
+L676
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.4
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .4
+AHNAME CDATA section 3.4
+(SECT
+(HEADING
+-Configuration files
+L677
+)HEADING
+(P
+L678
+-\nAny configuration files created or used by your package should reside\nin 
+(TT
+-/etc
+)TT
+-.  If there are several you should consider creating a\nsubdirectory named after your package.
+L682
+)P
+(P
+L683
+-\nIt is almost certain that any file in 
+(TT
+-/etc
+)TT
+- that is in your\npackage's filesystem archive should be listed in 
+(PRGN
+-dpkg
+)PRGN
+-'s\n
+(TT
+-conffiles
+)TT
+- control area file.  (See the 
+(PRGN
+-dpkg
+)PRGN
+- programmers'\nmanual).\n
+L689
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.5
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .5
+AHNAME CDATA section 3.5
+(SECT
+(HEADING
+-Maintainer scripts
+L690
+)HEADING
+(P
+L691
+-\nThe package installation scripts should avoid producing output which\nit is unnecessary for the user to see and should rely on 
+(PRGN
+-dpkg
+)PRGN
+- to\nstave off boredom on the part of a user installing many packages.\nThis means, amongst other things, using the 
+(TT
+---quiet
+)TT
+- option on\n
+(PRGN
+-install-info
+)PRGN
+-.
+L697
+)P
+(P
+L698
+-\nPackages should try to minimise the amount of prompting they need to\ndo, and they should ensure that the user will only every be asked each\nquestion once.  This means that packages should try to use appropriate\nshared configuration files (such as 
+(TT
+-/etc/papersize
+)TT
+- and\n
+(TT
+-/etc/news/server
+)TT
+-, rather than each prompting for their own\nlist of required pieces of information.
+L705
+)P
+(P
+L706
+-\nIt also means that an upgrade should not ask the same questions again,\nunless the user has used 
+(TT
+-dpkg --purge
+)TT
+- to remove the package's\nconfiguration.  The answers to configuration questions should be\nstored in an appropriate place in 
+(TT
+-/etc
+)TT
+- so that the user can\nmodify them, and how this has been done should be documented.
+L712
+)P
+(P
+L713
+-\nIf a package has a vitally important piece of information to pass to\nthe user (such as "don't run me as I am, you must edit the following\nconfiguration files first or you risk your system emitting\nbadly-formatted messages"), it should display this in the\n
+(PRGN
+-postinst
+)PRGN
+- script and prompt the user to hit return to\nacknowledge the message.  Copyright messages do not count as vitally\nimportant (they belong in 
+(TT
+-/usr/doc/copyright
+)TT
+-); neither do\ninstructions on how to use a program (these should be in on line\ndocumentation, where all the users can see them).
+L723
+)P
+(P
+L724
+-\nAny necessary prompting should almost always be confined to the\npost-installation script, and should be protected with a conditional\nso that unnecssary prompting doesn't happen if a package's\ninstallation fails and the 
+(PRGN
+-postinst
+)PRGN
+- is called with\n
+(TT
+-abort-upgrade
+)TT
+-, 
+(TT
+-abort-remove
+)TT
+- or 
+(TT
+-abort-deconfigure
+)TT
+-.
+L730
+)P
+(P
+L731
+-\nErrors which occur during the execution of an installation script\n
+(EM
+-must
+)EM
+- be checked and the installation 
+(EM
+-must not
+)EM
+- continue after\nan error.
+L735
+)P
+(P
+L736
+-\nThe section below on scripts in general applies to package maintainer\nscripts too.\n
+L740
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.6
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .6
+AHNAME CDATA section 3.6
+(SECT
+(HEADING
+-Scripts in general
+L741
+)HEADING
+(P
+L742
+-\nAll command scripts, including the package maintainer scripts inside\nthe package and used by 
+(PRGN
+-dpkg
+)PRGN
+-, should have a 
+(TT
+-#!
+)TT
+- line naming\nthe shell to be used to interpret them.
+L746
+)P
+(P
+L747
+-\nIn the case of Perl scripts this should be 
+(TT
+-#!/usr/bin/perl
+)TT
+-.
+L749
+)P
+(P
+L750
+-\nShell scripts (
+(PRGN
+-sh
+)PRGN
+- and 
+(PRGN
+-bash
+)PRGN
+-) should almost certainly\nstart with 
+(TT
+-set -e
+)TT
+- so that errors are detected.  Every script\n
+(EM
+-must
+)EM
+- use 
+(TT
+-set -e
+)TT
+- or check the exit status of 
+(EM
+-every
+)EM
+-\ncommand.
+L755
+)P
+(P
+L756
+-\nPerl scripts should check for errors when making any system calls,\nincluding 
+(TT
+-open
+)TT
+-, 
+(TT
+-print
+)TT
+-, 
+(TT
+-close
+)TT
+-, 
+(TT
+-rename
+)TT
+- and\n
+(TT
+-system
+)TT
+-.
+L760
+)P
+(P
+L761
+-\n
+(PRGN
+-csh
+)PRGN
+- and 
+(PRGN
+-tcsh
+)PRGN
+- should be avoided as scripting languages.  See\nCsh Programming Considered Harmful, one of the 
+(TT
+-comp.unix.*
+)TT
+- FAQs.\nIf an upstream package comes with 
+(PRGN
+-csh
+)PRGN
+- scripts then you must make\nsure that they start with 
+(TT
+-#!/bin/csh
+)TT
+- and make your package\ndepend on 
+(PRGN
+-csh
+)PRGN
+-.
+L767
+)P
+(P
+L769
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.7
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .7
+AHNAME CDATA section 3.7
+(SECT
+(HEADING
+-Compilation options
+L770
+)HEADING
+(P
+L771
+-\nGenerally the following compilation parameters should be used:\n
+(EXAMPLE
+L774
+-CC = gcc\nCFLAGS = -O2 -g -Wall # sane warning options vary between programs\nLDFLAGS = # none\ninstall -s # (or use strip on the files in debian/tmp)
+L778
+)EXAMPLE
+L779
+)P
+(P
+L780
+-\nNote that all installed binaries should be stripped, either by using\nthe 
+(TT
+--s
+)TT
+- flag to 
+(PRGN
+-install
+)PRGN
+-, or by calling 
+(PRGN
+-strip
+)PRGN
+- on the\nbinaries after they have been copied into 
+(TT
+-debian/tmp
+)TT
+- but\nbefore the tree is made into a package.
+L785
+)P
+(P
+L786
+-\nMake sure that you do not link with 
+(TT
+--g
+)TT
+-, as this makes a.out\ncompilers produce huge statically linked binaries.  The 
+(TT
+--g
+)TT
+- flag\nis useful on compilation so that you have available a full set of\ndebugging symbols in your built source tree, in case anyone should\nfile a bug report involving (for example) a core dump.
+L792
+)P
+(P
+L793
+-\nThe 
+(TT
+--N
+)TT
+- flag should not be used.  On a.out systems it may have\nbeen useful for some very small binaries, but for ELF it has no good\neffect.
+L797
+)P
+(P
+L798
+-\nIt is up to the package maintainer to decide what compilation options\nare best for the package.  Certain binaries (such as\ncomputationally-intensive programs) may function better with certain\nflags (
+(TT
+--O3
+)TT
+-, for example); feel free to use them.  Please use good\njudgment here.  Don't use flags for the sake of it; only use them if\nthere is good reason to do so.  Feel free to override the upstream\nauthor's ideas about which compilation options are best - they are\noften inappropriate for our environment.
+L807
+)P
+(P
+L808
+-\nPlease make sure that you use only released versions of shared\nlibraries to build your packages; otherwise other users will not be\nable to run your binaries properly.  Producing source packages that\ndepend on unreleased compilers is also usually a bad idea.\n
+L814
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.8
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .8
+AHNAME CDATA section 3.8
+(SECT
+(HEADING
+-Shared library packages
+L815
+)HEADING
+(P
+L816
+-\nPackages involving shared libraries should be split up into several\nbinary packages.
+L819
+)P
+(P
+L820
+-\nFor a straightforward library which has a development environment and\na runtime kit including just shared libraries you need to create two\npackages: 
+(TT
+(VAR
+-libraryname
+)VAR
+(VAR
+-soname
+)VAR
+)TT
+(FOOTNOTE
+(P
+(VAR
+-soname
+)VAR
+- is\nthe shared object name of the shared library - it's the thing that has\nto match exactly between building an executable and running it for the\ndynamic linker to be able run the program.  Usually the 
+(VAR
+-soname
+)VAR
+-\nis the major number of the library.
+)P
+)FOOTNOTE
+- and\n
+(TT
+(VAR
+-libraryname
+)VAR
+(VAR
+-soname
+)VAR
+--dev
+)TT
+-.
+L829
+)P
+(P
+L830
+-\nIf you prefer only to support one development version time you may\nname the development package 
+(TT
+(VAR
+-libraryname
+)VAR
+--dev
+)TT
+-; otherwise you\nmay wish to use 
+(PRGN
+-dpkg
+)PRGN
+-'s conflicts mechanism to ensure that the\nuser only installs one development version at a time (after all,\ndifferent development versions are likely to have the same header\nfiles in them, causing a filename clash if both are installed).\nTypically the development version will also need an exact version\ndependency on the runtime library, to make sure that compilation and\nlinking happens correctly.
+L840
+)P
+(P
+L841
+-\nPackages which use the shared library should have a dependency on the\nname of the shared library package,\n
+(TT
+(VAR
+-libraryname
+)VAR
+(VAR
+-soname
+)VAR
+)TT
+-.  When the 
+(VAR
+-soname
+)VAR
+- changes you\ncan have both versions of the library installed while moving from the\nold library to the new.
+L847
+)P
+(P
+L848
+-\nIf your package has some run-time support programs which use the\nshared library you must 
+(EM
+-not
+)EM
+- put them in the shared library\npackage.  If you do that then you won't be able to install several\nversions of the shared library without getting filename clashes.\nInstead, either create a third package for the runtime binaries (this\npackage might typically be named 
+(TT
+(VAR
+-libraryname
+)VAR
+--runtime
+)TT
+- - note\nthe absence of the 
+(VAR
+-soname
+)VAR
+- in the package name) or if the\ndevelopment package is small include them in there.
+L857
+)P
+(P
+L858
+-\nIf you have several shared libraries built from the same source tree\nyou can lump them all togther into a single shared library package,\nprovided that you change all their 
+(VAR
+-soname
+)VAR
+-s at once (so that you\ndon't get filename clashes if you try to install different versions of\nthe combined shared libraries package).
+L864
+)P
+(P
+L865
+-\nFollow the directions in the 
+(PRGN
+-dpkg
+)PRGN
+- programmers' manual for\nputting the shared library in its package, and make sure you include a\n
+(TT
+-shlibs
+)TT
+- control area file with details of the dependencies for\npackages which use the library.\n
+L871
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.9
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .9
+AHNAME CDATA section 3.9
+(SECT
+(HEADING
+-Application configuration files, dotfiles and 
+(TT
+-/etc/skel
+)TT
+L872
+)HEADING
+(P
+L873
+-\nFiles in 
+(TT
+-/etc/skel
+)TT
+- will automatically be copied into new user\naccounts by 
+(PRGN
+-adduser
+)PRGN
+-.  They should not be referenced there by\nany program.
+L877
+)P
+(P
+L878
+-\nTherefore, if a program needs a dotfile to exist in advance in\n
+(TT
+-$HOME
+)TT
+- to work sensibly that dotfile should be installed in\n
+(TT
+-/etc/skel
+)TT
+- (and listed in conffiles, if it is not generated and\nmodified dynamically by the package's installation scripts).
+L883
+)P
+(P
+L884
+-\nHowever, programs that require dotfiles in order to operate sensibly\n(dotfiles that they do not create themselves automatically, that is)\nare a bad thing, and programs should be configured by the Debian\ndefault installation as close to normal as possible.
+L889
+)P
+(P
+L890
+-\nTherefore, if a program in a Debian package needs to be configured in\nsome way in order to operate sensibly that configuration should be\ndone in a site-wide global configuration file elsewhere in\n
+(TT
+-/etc
+)TT
+-.  Only if the program doesn't support a site-wide default\nconfiguration and the package maintainer doesn't have time to add it\nshould a default per-user file be placed in 
+(TT
+-/etc/skel
+)TT
+-.
+L897
+)P
+(P
+L898
+-\n
+(TT
+-/etc/skel
+)TT
+- should be as empty as we can make it.  This is\nparticularly true because there is no easy mechanism for ensuring that\nthe appropriate dotfiles are copied into the accounts of existing\nusers when a package is installed.
+L903
+)P
+(P
+L904
+-\nIdeally the sysadmin should ideally not have to do any configuration\nother than that done (semi-)automatically by the postinst script.\n
+L908
+)P
+)SECT
+AID CDATA mail
+ASRID CDATA s-mail
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .10
+AHNAME CDATA section 3.10
+(SECT
+(HEADING
+-Mail processing on Debian systems
+L909
+)HEADING
+(P
+L910
+-\nDebian packages which process electronic mail, whether\nmail-user-agents (MUAs) or mail-transport-agents (MTAs), 
+(EM
+-must
+)EM
+-\nmake sure that they are compatible with the configuration decisions\nbelow.  Failure to do this may result in lost mail, broken 
+(TT
+-From:
+)TT
+-\nlines, and other serious brain damage!
+L916
+)P
+(P
+L917
+-\nThe mail spool is 
+(TT
+-/var/spool/mail
+)TT
+- and the interface to send a\nmail message is 
+(TT
+-/usr/sbin/sendmail
+)TT
+- (as per the FSSTND).  The\nmail spool is part of the base system and not part of the MTA package.
+L921
+)P
+(P
+L922
+-\nMailboxes are locked using the 
+(TT
+(VAR
+-username
+)VAR
+-.lock
+)TT
+- lockfile\nconvention, rather than 
+(PRGN
+-fcntl
+)PRGN
+-, 
+(PRGN
+-flock
+)PRGN
+- or 
+(PRGN
+-lockf
+)PRGN
+-.
+L925
+)P
+(P
+L926
+-\nMailboxes are generally 660 
+(TT
+(VAR
+-user
+)VAR
+-.mail
+)TT
+- unless the user has\nchosen otherwise.  A MUA may remove a mailbox (unless it has\nnonstandard permissions) in which case the MTA or another MUA must\nrecreate it if needed.  Mailboxes must be writeable by group mail.
+L931
+)P
+(P
+L932
+-\nThe mail spool is 2775 
+(TT
+-mail.mail
+)TT
+-, and MUA's need to be setgid\nmail to do the locking mentioned above (and obviously need to avoid\naccessing other users' mailboxes using this privilege).
+L936
+)P
+(P
+L937
+-\n
+(TT
+-/etc/aliases
+)TT
+- is the source file for the system mail aliases\n(e.g.  postmaster, usenet, etc.) - it is the one which the sysadmin\nand postinst scripts may edit.  After 
+(TT
+-/etc/aliases
+)TT
+- is edited\nthe program or human editing it must call 
+(PRGN
+-newaliases
+)PRGN
+-.  All MTA\npackages should come with a 
+(PRGN
+-newaliases
+)PRGN
+- program, even if it does\nnothing, but older MTA packages do not do this so programs should not\nfail if 
+(PRGN
+-newaliases
+)PRGN
+- cannot be found.
+L945
+)P
+(P
+L946
+-\nThe convention of writing 
+(TT
+-forward to 
+(VAR
+-address
+)VAR
+)TT
+- in the mailbox\nitself is not supported.  Use a 
+(TT
+-.forward
+)TT
+- file instead.
+L949
+)P
+(P
+L950
+-\nThe location for the 
+(PRGN
+-rmail
+)PRGN
+- program used by UUCP for incoming\nmail is 
+(TT
+-/usr/sbin/rmail
+)TT
+-, as per the FSSTND.  Likewise,\n
+(PRGN
+-rsmtp
+)PRGN
+-, for receiving batch-SMTP-over-UUCP, is in\n
+(TT
+-/usr/sbin/rsmtp
+)TT
+- if it is supported.
+L955
+)P
+(P
+L956
+-\nIf you need to know what name to use (for example) on outgoing news\nand mail messages which are generated locally, you should use the file\n
+(TT
+-/etc/mailname
+)TT
+-.  It will contain the portion after the username\nand 
+(TT
+-@
+)TT
+- (at) sign for email addresses of users on the machine\n(followed by a newline).
+L962
+)P
+(P
+L963
+-\nA package should check for the existence of this file.  If it exists\nit should use it without comment.
+(FOOTNOTE
+(P
+-An MTA's prompting\nconfiguration script may wish to prompt the user even if it finds this\nfile exists.
+)P
+)FOOTNOTE
+- If it does not exist it should prompt the user\nfor the value and store it in 
+(TT
+-/etc/mailname
+)TT
+- as well as using it\nin the package's configuration.  The prompt should make it clear that\nthe name will not just be used by that package.  E.g., in this\nsituation the INN package says:\n
+(EXAMPLE
+L973
+-Please enter the `mail name' of your system.  This is the hostname\nportion of the address to be shown on outgoing news and mail messages.\nThe default is 
+(VAR
+-syshostname
+)VAR
+-, your system's host name.\nMail name [`
+(VAR
+-syshostname
+)VAR
+-']:
+L977
+)EXAMPLE
+-\nwhere 
+(VAR
+-syshostname
+)VAR
+- is the output of 
+(TT
+-hostname -fqdn
+)TT
+-.\n\n
+L981
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.11
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .11
+AHNAME CDATA section 3.11
+(SECT
+(HEADING
+-Packages which can use the X shared libraries
+L982
+)HEADING
+(P
+L983
+-\nSome programs can be configured with or without support for X Windows.\nTypically these binaries produced when configured for X will need the\nX shared libraries to run.
+L987
+)P
+(P
+L988
+-\nSuch programs should be configured 
+(EM
+-with
+)EM
+- X support, and should\ndeclare a dependency on 
+(TT
+-elf-x11r6lib
+)TT
+- (for the X11R6 libraries).\nUsers who wish to use the program can install just the relatively\nsmall 
+(TT
+-xlib
+)TT
+- package, and do not need to install the whole of X.
+L993
+)P
+(P
+L994
+-\nDo not create two versions (one with X support and one without) of\nyour package.\n\n
+L999
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.12
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .12
+AHNAME CDATA section 3.12
+(SECT
+(HEADING
+-Games
+L1000
+)HEADING
+(P
+L1001
+-\nThe permissions on /var/lib/games are 755 
+(TT
+-root.root
+)TT
+-.
+L1003
+)P
+(P
+L1004
+-\nEach game decides on its own security policy.
+L1006
+)P
+(P
+L1007
+-\nGames which require protected, privileged access to high-score files,\nsavegames, \|&\|c, must be made set-
+(EM
+-group
+)EM
+--id (mode 2755) and\nowned by 
+(TT
+-root.games
+)TT
+-, and use files and directories with\nappropriate permissions (770 
+(TT
+-root.games
+)TT
+-, for example).  They must\n
+(EM
+-not
+)EM
+- be made set-
+(EM
+-user
+)EM
+--id, as this causes security\nproblems.
+(FOOTNOTE
+(P
+-If an attacker can subvert any set-user-id game\nthey can overwrite the executable of any other, causing other players\nof these cames to run a trojan.  With a set-group-id game the attacker\nonly gets access to less important game data, and if they can get at\nthe other players' accounts at all it will take considerably more\neffort.
+)P
+)FOOTNOTE
+L1019
+)P
+(P
+L1020
+-\nSome packages, for example some fortune cookie programs, are\nconfigured by the upstream authors to install with their data files or\nother static information made unreadable so that they can only be\naccessed through set-id programs provided.  Do not do this in a Debian\npackage: anyone can download the 
+(TT
+-.deb
+)TT
+- file and read the data from\nit, so there is no point making the files unreadable.  Not making the\nfiles unreadable also means that you don't have to make so many\nprograms set-id, which reduces the risk of a security hole.\n
+L1030
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s3.13
+ACHAPT CDATA 3
+ACSRID CDATA ch-binarypkg
+ASECT CDATA .13
+AHNAME CDATA section 3.13
+(SECT
+(HEADING
+-Allocating package-specific users and groups
+L1031
+)HEADING
+(P
+L1032
+-\nIf you need to create a new user or group for your package there are\ntwo possibilities.  Firstly, you may need to make some files in the\nbinary package be owned by this user or group, or you may need to\ncompile the user or group id (rather than just the name) into the\nbinary (though this latter should be avoided if possible).  In this\ncase you need a statically allocated id.
+L1039
+)P
+(P
+L1040
+-\nYou must ask for a user or group id from the base system maintainer,\nand must not release the package until you have been allocated one.\nOnce you have been allocated one you must make the package depend\non a version of the base system with the id present in\n
+(TT
+-/etc/passwd
+)TT
+- or 
+(TT
+-/etc/group
+)TT
+-, or alternatively arrange\nfor your package to create the user or group itself with the correct\nid (using 
+(TT
+-adduser
+)TT
+-) in its pre- or post-installation script (the\nlatter is to be preferred if it is possible).
+L1049
+)P
+(P
+L1050
+-\nOn the other hand, the program may able to determine the uid or gid\nfrom the group name at runtime, so that a dynamic id can be used.  In\nthis case you must choose an appropriate user or group name,\ndiscussing this on 
+(PRGN
+-debian-devel
+)PRGN
+- and checking with the base system\nmaintainer that it is unique and that they do not wish you to use a\nstatically allocated id instead.  When this has been checked you must\narrange for your package to create the user or group if necessary\nusing 
+(PRGN
+-adduser
+)PRGN
+- in the pre- or post-installation script (again, the\nlatter is to be preferred if it is possible).
+L1060
+)P
+(P
+L1061
+-\nNote that changing the numeric value of an id associated with a name\nis very difficult, and involves searching the filesystem for all\nappropriate files.  You need to think carefully whether a static or\ndynamic id is required, since changing your mind later will cause\nproblems.\n
+L1068
+)P
+)SECT
+)CHAPT
+AID CDATA sourcepkg
+ASRID CDATA ch-sourcepkg
+ACHAPT CDATA 4
+ASECT IMPLIED
+AHNAME CDATA chapter 4
+(CHAPT
+(HEADING
+-Source package\n
+L1070
+)HEADING
+AID IMPLIED
+ASRID CDATA s4.1
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .1
+AHNAME CDATA section 4.1
+(SECT
+(HEADING
+-Releases of packages by other than the usual Debian maintainer
+L1071
+)HEADING
+(P
+L1072
+-\nUnder certain circumstances it is necessary for someone other than the\nusual package maintainer to make a release of a package.  For example,\na porter for another architecture may have to make some small changes\nto the source package and does not wish to wait with uploading their\nrelease until the main maintainer has incorporated the patch, or a\nserious security problem may have come to light requiring immediate\nattention.
+L1080
+)P
+(P
+L1081
+-\nMaintainers other than the usual package maintainer should make as few\nchanges to the package as possible, and they should always send a\nunified context diff (
+(TT
+-diff -u
+)TT
+-) detailing their changes to the bug\ntracking system properly flagged with the correct package so that the\nusual maintainer is kept aware of the situation.
+L1087
+)P
+(P
+L1088
+-\nWhen someone other than the usual maintainer releases a package they\nshould add a new component to the 
+(VAR
+-debian-revision
+)VAR
+- component of\nthe version number - that is, the portion after the (last) hyphen.\nThis extra component will start at 
+(TT
+-1
+)TT
+-.  This is to avoid\n`stealing' one of the usual maintainer's version numbers, possibly\ndisrupting their work.  If there is no 
+(VAR
+-debian-revision
+)VAR
+- component\nin the version number then one should be created, starting at 
+(TT
+-1
+)TT
+-.
+L1096
+)P
+(P
+L1097
+-\nIf it is absolutely necessary for someone other than the usual\nmaintainer to make a release based on a new upstream version then the\nperson making the release should start with the 
+(VAR
+-debian-revision
+)VAR
+-\nvalue 
+(TT
+-0.1
+)TT
+-.  The usual maintainer of a package should start their\n
+(VAR
+-debian-revision
+)VAR
+- numbering at 
+(TT
+-1
+)TT
+-.\n\n
+L1105
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s4.2
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .2
+AHNAME CDATA section 4.2
+(SECT
+(HEADING
+-Standards conformance and 
+(TT
+-Standards-Version
+)TT
+L1106
+)HEADING
+(P
+L1107
+-\nYou should specify the most recent version of the packaging standards\nwith which your package complies in the source package's\n
+(TT
+-Standards-Version
+)TT
+- field.
+L1111
+)P
+(P
+L1112
+-\nThis value will be used to file bug reports automatically if your\npackage becomes too much out of date.
+L1115
+)P
+(P
+L1116
+-\nThe value corresponds to a version of the Debian manuals, as can be\nfound on the title page or page headers and footers (depending on the\nformat).  The value for this version of the manuals and packaging\nstandards is 
+(TT
+-0.2.0.0
+)TT
+-.
+L1121
+)P
+(P
+L1122
+-\nThe version number has four components - major and minor number and\nmajor and minor patchlevel.  When the standards change in a way that\nrequires every package to change the major number will be changed.\nSignificant changes that will require work in many packages will be\nsignaled by a change to the minor number.  The major patchlevel will\nbe changed for any change to the meaning of the standards, however\nsmall; the minor patchlevel will be changed when only cosmetic,\ntypographical or other edits which do not change the meaning are made.
+L1131
+)P
+(P
+L1132
+-\nYou should regularly, and especially if your package has become out of\ndate, install the most recent version of dpkg and read\n
+(TT
+-/usr/doc/dpkg/changelog-manuals
+)TT
+- to see which changes, if any,\nare relevant.  If any are relevant you should look up the relevant\nsection in the policy or programmers' manuals and update your package.\nWhen your package complies with the new standards you may update the\n
+(TT
+-Standards-Version
+)TT
+- source package field and release it.\n\n
+L1142
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s4.3
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .3
+AHNAME CDATA section 4.3
+(SECT
+(HEADING
+-Documentation and the 
+(TT
+-changelog
+)TT
+L1143
+)HEADING
+(P
+L1144
+-\nDocument your changes and updates to the source package properly in\nthe 
+(TT
+-debian/changelog
+)TT
+- file.
+L1147
+)P
+(P
+L1148
+-\nA copy of the file which will be installed in\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/copyright
+)TT
+- should be in\n
+(TT
+-debian/copyright
+)TT
+-.
+L1152
+)P
+(P
+L1153
+-\nIn non-experimental packages you may only use a format for\n
+(TT
+-debian/changelog
+)TT
+- which is supported by the most recent released\nversion of 
+(PRGN
+-dpkg
+)PRGN
+-.  If your format is not supported and there is\ngeneral support for it you should contact the 
+(PRGN
+-dpkg
+)PRGN
+- maintainer\nto have the parser script for your format included in the 
+(PRGN
+-dpkg
+)PRGN
+-\npackage.
+(FOOTNOTE
+(P
+-You will need to agree that the parser and its\nmanpage may be distributed under the GNU GPL, just as the rest of\n
+(PRGN
+-dpkg
+)PRGN
+- is.
+)P
+)FOOTNOTE
+-\n
+L1163
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s4.4
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .4
+AHNAME CDATA section 4.4
+(SECT
+(HEADING
+-Changes to the upstream sources
+L1164
+)HEADING
+(P
+L1165
+-\nIf you need to edit a 
+(PRGN
+-Makefile
+)PRGN
+- where GNU-style 
+(PRGN
+-configure
+)PRGN
+-\nscripts are used, you should edit the 
+(TT
+-.in
+)TT
+- files rather than\nediting the 
+(PRGN
+-Makefile
+)PRGN
+- directly.  This allows the user to\nreconfigure the package if necessary.  You should 
+(EM
+-not
+)EM
+- configure\nthe package and edit the generated 
+(PRGN
+-Makefile
+)PRGN
+-!  This makes it\nimpossible for someone else to later reconfigure the package.
+L1172
+)P
+(P
+L1173
+-\nIf changes to the source code are made that are generally applicable\nplease try to get them included in the upstream version of the package\nby supplying the upstream authors with the changes in whatever form\nthey prefer.
+L1178
+)P
+(P
+L1179
+-\nIf you need to configure the package differently for Debian or for\nLinux, and the upstream source doesn't provide a way to configure it\nthe way you need to, please add such configuration facilities (for\nexample, a new 
+(PRGN
+-autoconf
+)PRGN
+- test or 
+(TT
+-#define
+)TT
+-) and send the\npatch to the upstream authors, with the default set to the way they\noriginally had it.  You can then easily override the default in your\n
+(TT
+-debian/rules
+)TT
+- or wherever is appropriate.\n
+L1188
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s4.5
+ACHAPT CDATA 4
+ACSRID CDATA ch-sourcepkg
+ASECT CDATA .5
+AHNAME CDATA section 4.5
+(SECT
+(HEADING
+-Error trapping in makefiles
+L1189
+)HEADING
+(P
+L1190
+-\nWhen 
+(PRGN
+-make
+)PRGN
+- invokes a command in a makefile (including your\npackage's upstream makefiles and the 
+(TT
+-debian/rules
+)TT
+-) it does so\nusing 
+(TT
+-sh
+)TT
+-.  This means that 
+(TT
+-sh
+)TT
+-'s usual bad error handling\nproperties apply: if you include a miniature script as one of the\ncommands in your makefile you'll find that if you don't do anything\nabout it then errors are not detected and 
+(PRGN
+-make
+)PRGN
+- will blithely\ncontinue after problems.
+L1198
+)P
+(P
+L1199
+-\nEvery time you put more than one shell command (this includes using a\nloop) in a makefile command you 
+(EM
+-must
+)EM
+- make sure that errors are\ntrapped.  For simple compound commands, such as changing directory and\nthen running a program, using 
+(TT
+-\|&\|\|&\|
+)TT
+- rather than semicolon as\na command separator is sufficient.  For more complex commands\nincluding most loops and conditionals you must include a separate\n
+(TT
+-set -e
+)TT
+- command at the start of every makefile command that's\nactually one of these miniature shellscripts.\n
+L1209
+)P
+)SECT
+)CHAPT
+AID CDATA developer
+ASRID CDATA ch-developer
+ACHAPT CDATA 5
+ASECT IMPLIED
+AHNAME CDATA chapter 5
+(CHAPT
+(HEADING
+-How to become a Debian developer\n
+L1211
+)HEADING
+AID IMPLIED
+ASRID CDATA s5.1
+ACHAPT CDATA 5
+ACSRID CDATA ch-developer
+ASECT CDATA .1
+AHNAME CDATA section 5.1
+(SECT
+(HEADING
+-Before you start work
+L1212
+)HEADING
+(P
+L1213
+-\nSo, you've read all the documentation, you understand what everything\nin the 
+(PRGN
+-hello
+)PRGN
+- example package is for, and you're about to\nDebianise your favourite package.  How do you actually become a Debian\ndeveloper so that your work can be incorporated into the Project?
+L1218
+)P
+(P
+L1219
+-\nFirstly, subscribe to 
+(PRGN
+-debian-devel
+)PRGN
+- if you haven't already.\nSend the word 
+(TT
+-subscribe
+)TT
+- in the 
+(EM
+-Subject
+)EM
+- of a mail to\n
+(EMAIL
+-debian-devel-REQUEST@lists.debian.org
+)EMAIL
+-.  In case of problems\ncontact the list administrator, Anders Chrigstrom 
+(EMAIL
+-ac@netg.se
+)EMAIL
+-.
+L1224
+)P
+(P
+L1225
+-\nYou should to subscribe and lurk for a bit before doing any coding,\nand you should post about your intentions to work on something to\navoid duplicated effort.
+L1229
+)P
+(P
+L1230
+-\nIf you do not have a PGP key yet generate one.  You should probably\nread the PGP manual, as it has much important information which is\ncritical to its security.  Many more security failures are due to\nhuman error than to software failure or high-powered spy techniques.
+L1235
+)P
+(P
+L1236
+-\nIf you live in a country where use of cryptography even for signing is\nforbidden then please contact us so we can make special arrangements.\nThis does not apply in France, where I believe only encryption and not\nsigning is forbidden.\n
+L1242
+)P
+)SECT
+AID IMPLIED
+ASRID CDATA s5.2
+ACHAPT CDATA 5
+ACSRID CDATA ch-developer
+ASECT CDATA .2
+AHNAME CDATA section 5.2
+(SECT
+(HEADING
+-When you have a package to upload
+L1243
+)HEADING
+(P
+L1244
+-\nWhen you have your package ready to be uploaded you must send a\nmessage to the project leader, Bruce Perens 
+(EMAIL
+-bruce@pixar.com
+)EMAIL
+-,\nthe administrator of 
+(TT
+-master.debian.org
+)TT
+-, Simon Shapiro\n
+(EMAIL
+-shimon@i-connect.net
+)EMAIL
+-, the mailing list administrator, Anders\nChrigstrom 
+(EMAIL
+-ac@netg.se
+)EMAIL
+- and the 
+(PRGN
+-dpkg
+)PRGN
+- maintainer, Ian\nJackson 
+(EMAIL
+-ijackson@gnu.ai.mit.edu
+)EMAIL
+-.
+L1251
+)P
+(P
+L1252
+-\nThe message should say what you've done and who you are, and should\nask for an account on 
+(PRGN
+-master
+)PRGN
+- and to be subscribed to\n
+(PRGN
+-debian-private
+)PRGN
+- (the developers-only mailing list).  It should\ncontain your PGP key (extracted using 
+(TT
+-pgp -kxa
+)TT
+-) for the database\nof keys which is shipped with 
+(PRGN
+-dpkg
+)PRGN
+-.\n\nWhen you have your personal account on 
+(PRGN
+-master
+)PRGN
+- log in and\ntransfer the files to\n
+(TT
+-/home/Debian/ftp/private/project/Incoming
+)TT
+-.  You cannot upload\nto 
+(PRGN
+-Incoming
+)PRGN
+- on 
+(PRGN
+-master
+)PRGN
+- using anonymous FTP.
+L1263
+)P
+(P
+L1264
+-\nYou can also upload files to 
+(PRGN
+-Incoming
+)PRGN
+- via a 
+(PRGN
+-cron
+)PRGN
+--driven\nupload queue in Europe on 
+(FTPSITE
+-chiark.chu.cam.ac.uk
+)FTPSITE
+-.  For details\nconnect to 
+(PRGN
+-chiark
+)PRGN
+- using anonymous FTP and read\n
+(FTPPATH
+-/pub/debian/private/project/README.how-to-upload
+)FTPPATH
+-.\n
+L1270
+)P
+)SECT
+AID CDATA changesfiles
+ASRID CDATA s-changesfiles
+ACHAPT CDATA 5
+ACSRID CDATA ch-developer
+ASECT CDATA .3
+AHNAME CDATA section 5.3
+(SECT
+(HEADING
+-Upload handling - 
+(TT
+-.changes
+)TT
+- files
+L1271
+)HEADING
+(P
+L1272
+-\nWhen a package is uploaded to the Debian FTP archive, it must be\naccompanied by a 
+(TT
+-.changes
+)TT
+- file which gives directions for its\nhandling.  This is usually generated by 
+(PRGN
+-dpkg-genchanges
+)PRGN
+-.
+L1276
+)P
+(P
+L1277
+-\nThis file is a control file with the following fields:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1280
+(ITEM
+(P
+(TT
+-Format
+)TT
+L1281
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Date
+)TT
+L1282
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Source
+)TT
+L1283
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Binary
+)TT
+L1284
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Architecture
+)TT
+L1285
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Version
+)TT
+L1286
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Distribution
+)TT
+L1287
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Urgency
+)TT
+L1288
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Maintainer
+)TT
+L1289
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Description
+)TT
+L1290
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Changes
+)TT
+L1291
+)P
+)ITEM
+(ITEM
+(P
+(TT
+-Files
+)TT
+L1292
+)P
+)ITEM
+)LIST
+L1293
+)P
+(P
+L1294
+-\nAll of them are mandatory for a Debian upload.  See the list of\ncontrol fields in the 
+(PRGN
+-dpkg
+)PRGN
+- programmers' manual for the contents\nof these fields.\n\n
+L1300
+)P
+)SECT
+)CHAPT
+AID CDATA mailinglists
+ASRID CDATA ch-mailinglists
+ACHAPT CDATA 6
+ASECT IMPLIED
+AHNAME CDATA chapter 6
+(CHAPT
+(HEADING
+-The Debian mailing lists
+L1301
+)HEADING
+(P
+L1302
+-\nThe mailing list server is at 
+(TT
+-lists.debian.org
+)TT
+-.  Mail\n
+(TT
+-debian-
+(VAR
+-foo
+)VAR
+--REQUEST@lists.debian.org
+)TT
+(FOOTNOTE
+(P
+-where\n
+(TT
+-debian-
+(VAR
+-foo
+)VAR
+)TT
+- is the name of the list
+)P
+)FOOTNOTE
+- with the word\n
+(TT
+-subscribe
+)TT
+- in the Subject to subscribe or 
+(TT
+-unsubscribe
+)TT
+- to\nunsubscribe.
+L1308
+)P
+(P
+L1309
+-\nWhen replying to messages on the mailing list, please do not send a\ncarbon copy (
+(TT
+-CC
+)TT
+- - this does not mean `courtesy copy') to the\noriginal poster.  Anyone who posts to a mailing list should read it to\nsee the responses.
+L1314
+)P
+(P
+L1315
+-\nAs ever on the net, please trim down the quoting of articles you're\nreplying to.\n\n
+L1320
+)P
+)CHAPT
+AID CDATA conversion
+ASRID CDATA ch-conversion
+ACHAPT CDATA 7
+ASECT IMPLIED
+AHNAME CDATA chapter 7
+(CHAPT
+(HEADING
+-Conversion procedure from old source packages
+L1321
+)HEADING
+(P
+L1322
+-\nThis is a brief summary of the procedure for converting a\npre-2.0.0.0-format source package into the new format.
+L1325
+)P
+(P
+L1326
+-\nYou are strongly advised to download and examine the 
+(PRGN
+-hello
+)PRGN
+-\npackage, and to read the section in the 
+(PRGN
+-dpkg
+)PRGN
+- programmers'\nmanual describing the source packaging tools.  More detail about the\nexact functionality of these tools is available in 
+ANAME CDATA dpkg-source
+ASECTION CDATA 1
+(MANREF
+)MANREF
+L1331
+-.
+L1332
+)P
+(P
+L1333
+-\n
+ACOMPACT IMPLIED
+(LIST
+L1336
+(ITEM
+L1337
+(P
+-Download the original source code from wherever it can be found and do\nany rearrangement required to make it look like the original tree of\nthe Debian source.  Put it in\n
+(TT
+(VAR
+-package
+)VAR
+--
+(VAR
+-upstream-version
+)VAR
+-.orig/
+)TT
+- or\n
+(TT
+(VAR
+-package
+)VAR
+-_
+(VAR
+-upstream-version
+)VAR
+-.orig.tar.gz
+)TT
+-.\n
+L1343
+)P
+)ITEM
+(ITEM
+L1344
+(P
+-Rename all files 
+(TT
+-debian.*
+)TT
+- to 
+(TT
+-debian/*
+)TT
+-.  There may be some\nexceptions to this, but this is a good start.\n
+L1347
+)P
+)ITEM
+(ITEM
+L1348
+(P
+-Edit the 
+(TT
+-debian/changelog
+)TT
+- - create or rename it if necessary.\nAdd a new revision to the top with the appropriate details, and a\nlocal variables entry to the bottom to set Emacs to the right mode:\n
+(EXAMPLE
+L1352
+-Local variables:\nmode: debian-changelog\nEnd:
+L1355
+)EXAMPLE
+-\n
+L1357
+)P
+)ITEM
+(ITEM
+L1358
+(P
+-Edit/create 
+(TT
+-debian/control
+)TT
+-:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1360
+(ITEM
+L1361
+(P
+-Remove the 
+(TT
+-Version
+)TT
+- field.  If it is generated unusually (not\nequal to the source version) you must use the -v option to\ndpkg-gencontrol (see below).  
+(TT
+-Section
+)TT
+-, 
+(TT
+-Priority
+)TT
+-,\n
+(TT
+-Maintainer
+)TT
+- go above the first blank line, most of the rest below.\n
+L1366
+)P
+)ITEM
+(ITEM
+L1367
+(P
+-Reorder the fields and add a blank line at an appropriate point,\nseparating the source package fields from the binary package\nfields.\n
+L1371
+)P
+)ITEM
+(ITEM
+L1372
+(P
+-Add the 
+(TT
+-Source
+)TT
+- field.\n
+L1374
+)P
+)ITEM
+(ITEM
+L1375
+(P
+-Add the 
+(TT
+-Standards-Version
+)TT
+- field.  The current value is\n
+(TT
+-0.2.0.0
+)TT
+-.\n
+L1378
+)P
+)ITEM
+(ITEM
+L1379
+(P
+-Change the 
+(TT
+-Architecture
+)TT
+- field for each package to 
+(TT
+-any
+)TT
+-,\n
+(TT
+-all
+)TT
+- or whatever.  If there isn't an 
+(TT
+-Architecture
+)TT
+- field add\none.\n
+L1383
+)P
+)ITEM
+(ITEM
+L1384
+(P
+-If any other seddery or things used to happen to make the binary\ncontrol files use 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+-'s variable substitution\nfeatures to achieve the same effect.  Use 
+(TT
+-debian/substvars
+)TT
+- if\nyou need to put unusally-generated information (apart from details of\n
+(TT
+-.deb
+)TT
+- files) in the 
+(TT
+-.changes
+)TT
+- file too.
+L1389
+)P
+)ITEM
+)LIST
+-\n
+L1391
+)P
+)ITEM
+(ITEM
+L1392
+(P
+-Edit the 
+(TT
+-debian/rules
+)TT
+-:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1394
+(ITEM
+L1395
+(P
+-Remove the 
+(PRGN
+-source
+)PRGN
+- and 
+(PRGN
+-diff
+)PRGN
+- and any 
+(PRGN
+-changes
+)PRGN
+- and\n
+(PRGN
+-dist
+)PRGN
+- targets.  These things now happen in a package-independent\nway and are not done by 
+(TT
+-debian/rules
+)TT
+-.
+L1398
+)P
+)ITEM
+(ITEM
+L1399
+(P
+-Split the 
+(PRGN
+-binary
+)PRGN
+- target into 
+(PRGN
+-binary-arch
+)PRGN
+- and\n
+(PRGN
+-binary-indep
+)PRGN
+-; in many cases all of 
+(PRGN
+-binary
+)PRGN
+- should go into\n
+(PRGN
+-binary-arch
+)PRGN
+-.  Create the 
+(PRGN
+-binary
+)PRGN
+- target and the unused of\nthe two other 
+(PRGN
+-binary-*
+)PRGN
+- targets if there is one - you can copy\nthe ones from the 
+(PRGN
+-hello
+)PRGN
+- package.
+L1404
+)P
+)ITEM
+(ITEM
+L1405
+(P
+-Change the 
+(PRGN
+-binary
+)PRGN
+- target to use 
+(PRGN
+-dpkg-gencontrol
+)PRGN
+- to make\nthe package control file(s).  Move it to after all the files have been\ninstalled but just before the last 
+(PRGN
+-chown
+)PRGN
+- and 
+(PRGN
+-chmod
+)PRGN
+- in\nthe target.
+L1409
+)P
+)ITEM
+(ITEM
+L1410
+(P
+-Change occurrences of 
+(TT
+-debian-tmp
+)TT
+- to 
+(TT
+-debian/tmp
+)TT
+-.
+L1411
+)P
+)ITEM
+(ITEM
+L1412
+(P
+-Change occurrences of 
+(TT
+-debian.{post,pre}{inst,rm}
+)TT
+- to\n
+(TT
+-debian/*
+)TT
+-.
+L1414
+)P
+)ITEM
+(ITEM
+L1415
+(P
+-Remove the version number setting at the top, if there is one.
+L1416
+)P
+)ITEM
+(ITEM
+L1417
+(P
+-Ensure that the package's Debian-specific and upstream changelogs are\ninstalled.
+L1419
+)P
+)ITEM
+)LIST
+-\n
+L1421
+)P
+)ITEM
+(ITEM
+L1422
+(P
+-Check that the 
+(TT
+-debian/README
+)TT
+- is really the copyright file, and\nif so rename it to 
+(TT
+-debian/copyright
+)TT
+- and edit\n
+(TT
+-debian/rules
+)TT
+- to cope with this and to change the installation\nof the copyright file from 
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/copyright
+)TT
+-\ninstead of 
+(TT
+-/usr/doc/copyright/
+(VAR
+-package
+)VAR
+)TT
+-.  If it isn't then\nfind 
+(TT
+-debian/copyright
+)TT
+- and decide what to do with the\n
+(TT
+-README
+)TT
+-.\n
+L1430
+)P
+)ITEM
+(ITEM
+L1431
+(P
+-Check for various other anachronisms and problems:\n
+ACOMPACT TOKEN COMPACT
+(LIST
+L1433
+(ITEM
+L1434
+(P
+-Remove any 
+(TT
+-Package_Revision
+)TT
+-, 
+(TT
+-Package-Revision
+)TT
+- or\n
+(TT
+-Revision
+)TT
+- fields.
+L1436
+)P
+)ITEM
+(ITEM
+L1437
+(P
+-Rename 
+(TT
+-Optional
+)TT
+- to 
+(TT
+-Suggests
+)TT
+-, 
+(TT
+-Recommended
+)TT
+- to\n
+(TT
+-Recommends
+)TT
+-.
+L1439
+)P
+)ITEM
+(ITEM
+L1440
+(P
+-Change 
+(TT
+-/usr/doc/examples/
+(VAR
+-package
+)VAR
+)TT
+- to\n
+(TT
+-/usr/doc/
+(VAR
+-package
+)VAR
+-/examples
+)TT
+-.
+L1442
+)P
+)ITEM
+(ITEM
+L1443
+(P
+-Make sure that manpages are installed compressed.
+L1444
+)P
+)ITEM
+(ITEM
+L1445
+(P
+-Check that the description has an extended description, is\nwell-formatted and meaningful and helpful to people wanting to know\nwhether to install a package.
+L1448
+)P
+)ITEM
+)LIST
+-\n
+L1450
+)P
+)ITEM
+(ITEM
+L1451
+(P
+-Look everything over.\n
+L1453
+)P
+)ITEM
+(ITEM
+L1454
+(P
+-Do a test build using 
+(TT
+-dpkg-buildpackage -ur -uc -r
+(VAR
+-whatever
+)VAR
+)TT
+-.\nCheck the permissions and locations of files in the resulting package\nby eyeballing the output of 
+(TT
+-dpkg-deb --contents
+)TT
+-, and check that\nthe source build happened OK.  Test install the binary package(s) and\ntest extract the source package(s).\n
+L1460
+)P
+)ITEM
+(ITEM
+L1461
+(P
+-Sign the release: either re-run 
+(PRGN
+-dpkg-buildpackage
+)PRGN
+- (this will\nrebuild the package entirely), or PGP-sign the 
+(TT
+-.dsc
+)TT
+-, rebuild the\n
+(TT
+-.changes
+)TT
+- using 
+(PRGN
+-dpkg-genchanges
+)PRGN
+-, and then PGP-sign the\n
+(TT
+-.changes
+)TT
+-.\n
+L1466
+)P
+)ITEM
+)LIST
+-\n
+L1468
+)P
+)CHAPT
+)BOOK
+)DEBIANDOC
+C

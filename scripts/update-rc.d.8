@@ -1,80 +1,159 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.TH UPDATE\-RC.D 8 "6th June 1996" "Debian Project" "Debian/GNU Linux"
+.\" Authors: Ian Jackson
+.TH UPDATE\-RC.D 8 "23rd August 1996" "Debian Project" "Debian/GNU Linux"
 .SH NAME
 update\-rc.d \- install and remove System-V style init script links
 .SH SYNOPSIS
 .B update\-rc.d
-.I <basename>
-\&remove
-.LP
+.IB name " remove"
+.HP
 .B update-rc.d
-.I <basename>
-\&defaults
-.RI [ " <codenumber> " | " <startcodenumber>" " " "<stopcodenumber> " ]
-.LP
+.IB name " defaults"
+.RI [ NN " | " NN-start " " NN-stop ]
+.HP
 .B update-rc.d
-.I <basename>
-\&start | stop
-.I <codenumber> <runlevel>
-.RI [ " <runlevel> " [ " <runlevel> " [ ... ]]]
-\&.
+.I name
+.BR start | stop
+.IR "NN runlevel runlevel " ...
+.B .
+.BR start | stop
+.IR "NN runlevel runlevel " ...
+.BR . " ..."
 .SH DESCRIPTION
-This manual page explains the Debian
-.B "update-rc.d"
-System-V init script link utility.  It should be used when installing and
-removing init scripts on a Debian system.
+.B update-rc.d
+automatically updates the System V style init script links
+.BI /etc/rc runlevel .d/ NNname
+to scripts
+.BI /etc/init.d/ name \fR.
+These are run by
+.B init
+when changing runlevels and are generally used to start and stop
+system services such as daemons.
+.I runlevel
+is one of the runlevels supported by
+.BR init ", " 0123456 ,
+and
+.I NN
+is the two-digit sequence code used by
+.B init
+to decide which order to run the scripts in.
 
+This manpage documents only the usage and behaviour of
+.BR update-rc.d .
+For a discussion of the System V style init script arrangements please
+see
+.BR init (8)
+and the
+.IR "dpkg programmers' manual" .
+.SH INSTALLING INIT SCRIPT LINKS
+When run with either the
+.BR defaults ", " start ", or " stop
+options, update-rc.d makes links
+.BI /etc/rc runlevel .d/[SK] NNname
+pointing to the script
+.BI /etc/init.d/ name\fR,
+
+If any links
+.BI /etc/rc runlevel .d/?? name
+already exist then
+.B update-rc.d
+does nothing.  This is so that the system administrator can rearrange
+the links, provided that they leave at least one link remaining,
+without having their configuration overwritten.
+
+If
+.B defaults
+is used then
+.B update-rc.d
+will make links to start the service in runlevels
+.B 2345
+and stop the service in runlevels
+.BR 016 .
+By default all the links will have sequence code, but
+this can be overridden by supplying one or two
+.I NN
+arguments; one argument overrides the sequence code for both start and
+stop links whereas of two arguments the first overrides the code for
+start links and the second that for stop links.
+
+Instead of
+.B defaults
+the runlevels in which to start and stop the service may be specified
+explicitly using a series of sets of arguments:
+
+Each of these sets starts with an argument
+.BR start " or " stop
+to specify whether start or stop links are to be created by that set.
+Then follows
+.IR NN ,
+the sequence code number for all the links in the set, and one or more
+runlevel numbers as a single argument each.  The set is terminated by
+an argument
+.B .
+(a single full stop).
+
+When explicit specification, rather than
+.BR defaults ,
+is used there will usually be one
+.B start
+and one
+.B stop
+set.  If different sequence codes are required in different runlevels
+then several 
+.B start
+sets or several
+.B stop
+sets may be specified.
+
+The script
+.BI /etc/init.d/ name
+must exist before
+.B update-rc.d
+is run to create the links.
 .SH REMOVING SCRIPTS
 When invoked with the
 .I remove
-option, update-rc.d removes the links to the script for the package
-.IR basename .
+option, update-rc.d removes any links in the
+.BI /etc/rc runlevel .d
+directories to the script
+.BI /etc/init.d/ name\fR.
 The script must have been deleted already -
 .B update-rc.d
 checks for this.
-It then removes all the (now-dangling) links to the script in
-.RB "" /etc/rc[0123456].d/ .
 
-.SH INSTALLING SCRIPTS
-When run with either the
-.RI "" defaults ", " start ", or " stop
-options, update-rc.d makes links pointing to the script in
-.RB "" /etc/init.d/ .
-The script must be installed before update-rc.d is run.
-The
-.I <codenumber>
-arguments specify the order in which the script will be executed.
-When
-.B init
-changes runlevels it executes the scripts in the order of their
-.I codenumber
-from lowest to highest.
+.B update-rc.d
+is usually called from a package's post-removal script when that
+script detects that its first argument is
+.BR purge ,
+indicating that the user has requested the configuration for the
+package to be removed.
+.SH BUGS
+This script is written in
+.B sh
+and is therefore far too slow.
 
-The
-.I <runlevel>
-arguments specify the runlevels that the script will be run in.
-As many as seven runlevels (0-6) may be specified.
-The last runlevel must be followed by a period.
-
-When invoked with the
-.I defaults
-option the start runlevels are 
-.B 2 3 4 5
-and the stop runlevels are
-.RB "" "0 1 2 3 4 5 6" .
-If neither
-.I <codenumber>
-or
-.I <startcodenumber>
-and
-.I <stopcodenumber>
-are specified, then the stop and start codenumbers default to 20.
-
+There should be a way for the system administrator to specify at least
+the default start and stop runlevels to be used by
+.B defaults
+and possibly to override other things as well.
 .SH FILES
+.TP
 .B /etc/init.d/
-.bl
-.B /etc/rc[0123456].d/
-
-.SH "SEE ALSO"
-.BR init (1),
-.BR inittab (1),
+The directory containing the actual init scripts.
+.TP
+.B /etc/rc?.d/
+The directories containing the links used by
+.TP
+.B /etc/init.d/skeleton
+Model for use by writers of
+.B init.d
+scripts.
+.BR init
+and managed by
+.BR update-rc.d .
+.SH SEE ALSO
+.IR "dpkg programmers manual" ,
+.br
+.BR /etc/init.d/skeleton ,
+.br
+.BR init (8).

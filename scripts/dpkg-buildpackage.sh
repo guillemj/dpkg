@@ -47,7 +47,8 @@ do
 	-p*)	pgpcommand="$value" ;;
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
-	-sa)	sourcestyle='' ;;
+	-si)	sourcestyle=-si ;;
+	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
 	-b)	binaryonly=-b ;;
 	-B)	binaryonly=-b; binarytarget=binary-arch ;;
