@@ -119,7 +119,7 @@ for $_ (keys %fi) {
         if (m/^Origin|Bugs|Maintainer$/) { $f{$_}=$v; }
         elsif (m/^Source$/) { &setsourcepackage; }
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
-	elsif (m/^X[CS]+-|^Standards-Version$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
+	elsif (m/^X[CS]+-|^(Standards-Version|Uploaders)$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
 	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
         else { &unknown('general section of control info file'); }
     } elsif (s/^C$myindex //) {
