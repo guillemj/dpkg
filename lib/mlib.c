@@ -135,7 +135,7 @@ typedef struct do_fd_buf_data {
 int do_fd_write_fd(char* buf, int length, void *proc_data, char *desc) {
   do_fd_copy_data_t *data = (do_fd_copy_data_t *)proc_data;
   if(write(data->fd, buf, length) < length)
-    ohshite(_("failed in do_fd_write_fd (%s)"), dsc);
+    ohshite(_("failed in do_fd_write_fd (%s)"), desc);
 }
 
 int do_fd_copy(int fd1, int fd2, int limit, char *desc, ...) {
