@@ -21,6 +21,11 @@ maintainer-configure: Makefile.am configure.in
 	patch -p0 < debian/ltconfig-1.3.2.diff
 	automake --copy --add-missing --foreign
 	autoconf
+	cd utils ; \
+		aclocal -I ../automake ; \
+		autoheader ; \
+		automake --foreign ; \
+		autoconf
 
 $(BUILD)/config.status:
 	$(checkdir)

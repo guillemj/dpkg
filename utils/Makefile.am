@@ -9,12 +9,12 @@ localedir		= $(datadir)/locale
 
 ## Various options
 
-CFLAGS			= @CFLAGS@ @CWARNS@ -g $(XCFLAGS) -DLOCALEDIR=\"$(localedir)\"
+CFLAGS			= @CFLAGS@ -g $(XCFLAGS) -DLOCALEDIR=\"$(localedir)\"
 OPTCFLAGS		= @CFLAGS@ @OPTCFLAGS@ @CWARNS@ -g $(XCFLAGS) -DLOCALEDIR=\"$(localedir)\"
 LDFLAGS			= @LDFLAGS@ $(XLDFLAGS)
-LIBS			= @INTLLIBS@ @LIBS@ $(XLIBS)
+LIBS			= @LIBS@ $(XLIBS)
 
-CXXFLAGS		= @CXXFLAGS@ @CWARNS@ -g $(XCXXFLAGS) -DLOCALEDIR=\"$(localedir)\"
+CXXFLAGS		= @CXXFLAGS@ -g $(XCXXFLAGS) -DLOCALEDIR=\"$(localedir)\"
 OPTCXXFLAGS		= @CXXFLAGS @OPTCFLAGS@ @CWARNS@ -g $(XCXXFLAGS) -DLOCALEDIR=\"$(localedir)\"
 
 DEFS			= -I$(top_srcdir)/include -I$(top_srcdir) -I$(srcdir) \

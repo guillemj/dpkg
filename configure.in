@@ -205,7 +205,8 @@ fi
 echo "#define DPKG_VERSION \"$VERSION\" /* This line modified by configure */" > version.h.new
 cmp -s version.h.new version.h || mv version.h.new version.h
 
+AC_CONFIG_SUBDIRS(utils)
 AC_OUTPUT([Makefile intl/Makefile dpkg-deb/Makefile lib/Makefile
           include/Makefile dselect/Makefile split/Makefile methods/Makefile
           md5sum/Makefile main/Makefile doc/Makefile doc/ja/Makefile scripts/Makefile
-          po/Makefile.in])
+          utils/Makefile po/Makefile.in])

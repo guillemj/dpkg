@@ -11,6 +11,24 @@
  * changes by Klee Dienes <klee@debian.org>, also placed in the Public
  * Domain. */
 
+#include "config.h"
+#define _GNU_SOURCE
+
+#ifdef linux
+#define OSLinux
+#endif
+
+#ifdef __GNU__
+#define OSHURD
+#endif
+
+#ifdef HAVE_HURH_H
+#include <hurd.h>
+#endif
+#ifdef HAVE_PS_H
+#include <ps.h>
+#endif
+
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -23,7 +41,12 @@
 #include <getopt.h>
 #include <pwd.h>
 
-#define VERSION "version 0.4.1, 1997-01-29"
+#ifdef HAVE_ERROR_H
+#include <error.h>
+#endif
+#ifdef HURD_IHASH_H
+#include <hurd/ihash.h>
+#endif
 
 static int testmode = 0;
 static int quietmode = 0;
@@ -41,6 +64,11 @@ static const char *pidfile = NULL;
 static const char *progname = "";
 
 static struct stat exec_stat;
+#if defined(OSHURD)
+static struct ps_context *context;
+static struct proc_stat_list *procset;
+#endif
+
 
 struct pid_list {
 	struct pid_list *next;
@@ -54,13 +82,16 @@ static void *xmalloc(int size);
 static void push(struct pid_list **list, int pid);
 static void do_help(void);
 static void parse_options(int argc, char * const *argv);
-static int pid_is_exec(int pid, const struct stat *esb);
 static int pid_is_user(int pid, int uid);
 static int pid_is_cmd(int pid, const char *name);
 static void check(int pid);
 static void do_pidfile(const char *name);
-static void do_procfs(void);
 static void do_stop(void);
+#if defined(OSLinux)
+static int pid_is_exec(int pid, const struct stat *esb);
+#endif
+static void do_psinit(void);
+
 
 #ifdef __GNUC__
 static void fatal(const char *format, ...)
@@ -284,7 +315,7 @@ parse_options(int argc, char * const *argv)
 		badusage("--start needs --exec or --startas");
 }
 
-
+#if defined(OSLinux)
 static int
 pid_is_exec(int pid, const struct stat *esb)
 {
@@ -334,12 +365,50 @@ pid_is_cmd(int pid, const char *name)
 	fclose(f);
 	return (c == ')' && *name == '\0');
 }
+#endif /* OSLinux */
+
+#if defined(OSHURD)
+static int
+pid_is_user(int pid, int uid)
+{
+   struct stat sb;
+   char buf[32];
+   struct proc_stat *pstat;
+
+   sprintf(buf, "/proc/%d", pid);
+   if (stat(buf, &sb) != 0)
+       return 0;
+   return (sb.st_uid == uid);
+   pstat = proc_stat_list_pid_proc_stat (procset, pid);
+   if (pstat == NULL)
+       fatal ("Error getting process information: NULL proc_stat struct");
+   proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_OWNER_UID);
+   return (pstat->owner_uid == uid);
+}
+
+static int
+pid_is_cmd(int pid, const char *name)
+{
+   struct proc_stat *pstat;
+   pstat = proc_stat_list_pid_proc_stat (procset, pid);
+   if (pstat == NULL)
+       fatal ("Error getting process information: NULL proc_stat struct");
+   proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_ARGS);
+   return (!strcmp (name, pstat->args));
+}
+#endif /* OSHURD */
+
 
 
 static void
 check(int pid)
 {
+#if defined(OSLinux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
+#elif defined(OSHURD)
+    /* I will try this to see if it works */
+	if (execname && !pid_is_cmd(pid, execname))
+#endif
 		return;
 	if (userspec && !pid_is_user(pid, user_id))
 		return;
@@ -364,8 +433,9 @@ do_pidfile(const char *name)
 }
 
 
+#if defined(OSLinux)
 static void
-do_procfs(void)
+do_procinit(void)
 {
 	DIR *procdir;
 	struct dirent *entry;
@@ -386,6 +456,39 @@ do_procfs(void)
 	if (!foundany)
 		fatal("nothing in /proc - not mounted?");
 }
+#endif /* OSLinux */
+
+
+#if defined(OSHURD)
+error_t
+check_all (void *ptr)
+{
+   struct proc_stat *pstat = ptr;
+
+   check (pstat->pid);
+   return (0);
+}
+
+static void
+do_psinit(void)
+   error_t err;
+
+   err = ps_context_create (getproc (), &context);
+   if (err)
+       error (1, err, "ps_context_create");
+
+   err = proc_stat_list_create (context, &procset);
+   if (err)
+       error (1, err, "proc_stat_list_create");
+
+   err = proc_stat_list_add_all (procset, 0, 0);
+   if (err)
+       error (1, err, "proc_stat_list_add_all");
+
+   /* Check all pids */
+   ihash_iterate (context->procs, check_all);
+}
+#endif /* OSHURD */
 
 
 static void
@@ -454,7 +557,7 @@ main(int argc, char **argv)
 	if (pidfile)
 		do_pidfile(pidfile);
 	else
-		do_procfs();
+		do_procinit();
 
 	if (stop) {
 		do_stop();

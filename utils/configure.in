@@ -1,0 +1,23 @@
+dnl Process this file with autoconf to produce a configure script.
+
+AC_PREREQ([2.12])
+
+AC_INIT(start-stop-daemon.c)
+AM_CONFIG_HEADER(config.h)
+
+AC_PROG_CC
+AC_CANONICAL_SYSTEM
+AC_CHECK_TOOL_PREFIX
+
+AM_INIT_AUTOMAKE(start-stop-daemon,[`sed -n '1s/dpkg (\([0-9.]\+\)).*/\1/p' ${srcdir}/../debian/changelog`])
+
+AC_PREFIX_DEFAULT(/)
+
+AC_PROG_INSTALL
+
+AC_CHECK_HEADERS(error.h hurd.h ps.h hurd/ihash.h)
+
+AC_CHECK_LIB(shouldbeinlibc, fmt_past_time)
+AC_CHECK_LIB(ps, proc_stat_list_pid_proc_stat)
+
+AC_OUTPUT(Makefile)
