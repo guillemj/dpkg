@@ -35,7 +35,7 @@ static int convert_string
  const char **endpp) 
 {
   const char *ep;
-  int c, l;
+  int c, l = 0;
 
   ep= startp;
   if (!*ep) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("%s is missing"),what);

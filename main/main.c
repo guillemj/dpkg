@@ -420,10 +420,10 @@ void commandfd(const char *const *argv) {
   jmp_buf ejbuf;
   struct varbuf linevb;
   const char * pipein;
-  const char **newargs, **oldargs= NULL;
+  const char **newargs;
   char *ptr, *endptr;
   FILE *in;
-  int argc= 1, mode= 0, c, lno= 0, infd, i;
+  int c, lno, infd, i;
   static void (*actionfunction)(const char *const *argv);
 
   if ((pipein= *argv++) == NULL) badusage(_("--command-fd takes 1 argument, not 0"));
@@ -433,11 +433,14 @@ void commandfd(const char *const *argv) {
   if ((in= fdopen(infd, "r")) == NULL)
     ohshite(_("couldn't open `%i' for stream"), infd);
 
+  if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
+    error_unwind(ehflag_bombout); exit(2);
+  }
   varbufinit(&linevb);
-  for (;;argc= 1,mode= 0) {
-    if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-      error_unwind(ehflag_bombout); exit(2);
-    }
+  for (;;lno= 0) {
+    const char **oldargs= NULL;
+    int argc= 1, mode= 0;
+    lno= 0;
     push_error_handler(&ejbuf,print_error_fatal,0);
 
     do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && isspace(c));

@@ -121,6 +121,7 @@ int checksubprocerr(int status, const char *description, int sigpipeok, int warn
   } else {
     ohshit(_("subprocess %s failed with wait status code %d"),description,status);
   }
+  return -1;
 }
 
 int waitsubproc(pid_t pid, const char *description, int sigpipeok, int warn) {

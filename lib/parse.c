@@ -81,7 +81,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   /* warnto, warncount and donep may be null.
    * If donep is not null only one package's information is expected.
    */
-  static char readbuf[16384];
   
   int fd;
   struct pkginfo newpig, *pigp;
@@ -92,7 +91,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   int fieldencountered[NFIELDS];
   const struct fieldinfo *fip;
   const struct nickname *nick;
-  const char *fieldname;
   char *data, *dataptr, *endptr;
   const char *fieldstart, *valuestart;
   char *value= NULL;
@@ -211,9 +209,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
                    _("user-defined field name `%.*s' too short"), fieldstart,fieldlen);
         larpp= &newpifp->arbs;
         while ((arp= *larpp) != 0) {
-          if (!strncasecmp(arp->name,fieldname,fieldlen))
+          if (!strncasecmp(arp->name,fieldstart,fieldlen))
             parseerr(0,filename,lno, warnto,warncount,&newpig,0,
-                     _("duplicate value for user-defined field `%.*s'"), fieldname,fieldlen);
+                     _("duplicate value for user-defined field `%.*s'"), fieldstart,fieldlen);
           larpp= &arp->next;
         }
         arp= nfmalloc(sizeof(struct arbitraryfield));

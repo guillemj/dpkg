@@ -272,11 +272,10 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *description, ...) {
   /* all ...'s are const char*'s */
-  const char *scriptpath, *scriptexec;
+  const char *scriptpath;
   char *const *arglist;
   struct stat stab;
   va_list ap;
-  int c1;
   char buf[100];
 
   scriptpath= pkgadminfile(pkg,scriptname);
@@ -301,11 +300,9 @@ int maintainer_script_new(const char *pkgname,
 			  const char *scriptname, const char *description,
                           const char *cidir, char *cidirrest, ...) {
   char *const *arglist;
-  const char *scriptexec;
   struct stat stab;
   va_list ap;
   char buf[100];
-  int c1;
   
   va_start(ap,cidirrest);
   arglist= vbuildarglist(scriptname,ap);
@@ -329,12 +326,10 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *scriptname, const char *description,
                                   const char *cidir, char *cidirrest,
                                   const char *ifok, const char *iffallback) {
-  const char *oldscriptpath, *scriptexec;
+  const char *oldscriptpath;
   char *const *arglist;
   struct stat stab;
-  int c1, n, status;
   char buf[100];
-  pid_t r;
 
   oldscriptpath= pkgadminfile(pkg,scriptname);
   arglist= buildarglist(scriptname,
