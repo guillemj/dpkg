@@ -3,6 +3,7 @@
  * dump.c - code to write in-core database to a file
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -111,7 +112,7 @@ void w_booleandefno(struct varbuf *vb,
   int value= pifp->valid ? PKGPFIELD(pifp,fip->integer,int) : -1;
   if (!value) return;
   assert(value==1);
-  varbufaddstr(vb,"Essential: yes\n");
+  varbufaddstr(vb,fip->name); varbufaddstr(vb, ": yes\n");
 }
 
 void w_priority(struct varbuf *vb,
