@@ -134,7 +134,8 @@ binary-dpkg: stamp-binary
 	dpkg-shlibdeps -dPre-Depends -Tdebian/dpkg.substvars \
 		$(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/dselect \
 		$(TMP_DPKG)/sbin/start-stop-daemon
-	dpkg-gencontrol -Tdebian/dpkg.substvars -pdpkg -P$(TMP_DPKG)
+	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+		-Tdebian/dpkg.substvars -pdpkg -P$(TMP_DPKG)
 	dpkg --build $(TMP_DPKG) ..
 
 binary-dpkg-dev: stamp-binary
@@ -197,7 +198,8 @@ binary-dpkg-dev: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg-dev.prerm $(TMP_DPKG_DEV)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg-dev.postinst $(TMP_DPKG_DEV)/DEBIAN/postinst
 
-	dpkg-gencontrol -Tdebian/dpkg-dev.substvars -pdpkg-dev -P$(TMP_DPKG_DEV)
+	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+		-Tdebian/dpkg-dev.substvars -pdpkg-dev -P$(TMP_DPKG_DEV)
 	dpkg --build $(TMP_DPKG_DEV) ..
 
 binary-dpkg-doc: stamp-binary
@@ -224,7 +226,8 @@ binary-dpkg-doc: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg-doc.prerm $(TMP_DPKG_DOC)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg-doc.postinst $(TMP_DPKG_DOC)/DEBIAN/postinst
 
-	dpkg-gencontrol -Tdebian/dpkg-dev.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
+	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
+		-Tdebian/dpkg-dev.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
 	dpkg --build $(TMP_DPKG_DOC) ..
 
 binary-arch: binary-dpkg

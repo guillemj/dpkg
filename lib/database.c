@@ -129,7 +129,7 @@ void blankpackageperfile(struct pkginfoperfile *pifp) {
   pifp->essential= 0;
   pifp->depends= 0;
   pifp->depended= 0;
-  pifp->description= pifp->maintainer= pifp->source= pifp->installedsize= 0;
+  pifp->description= pifp->maintainer= pifp->source= pifp->installedsize= pifp->bugs= pifp->origin= 0;
   pifp->architecture= 0;
   blankversion(&pifp->version);
   pifp->conffiles= 0;
@@ -155,6 +155,8 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
   if (info->depends ||
       nes(info->description) ||
       nes(info->maintainer) ||
+      nes(info->origin) ||
+      nes(info->bugs) ||
       nes(info->installedsize) ||
       nes(info->source) ||
       nes(info->architecture) ||

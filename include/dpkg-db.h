@@ -97,7 +97,7 @@ struct pkginfoperfile { /* pif */
   struct dependency *depends;
   struct deppossi *depended;
   int essential; /* The `essential' flag, 1=yes, 0=no (absent) */
-  char *description, *maintainer, *source, *architecture, *installedsize;
+  char *description, *maintainer, *source, *architecture, *installedsize, *origin, *bugs;
   struct versionrevision version;
   struct conffile *conffiles;
   struct arbitraryfield *arbs;

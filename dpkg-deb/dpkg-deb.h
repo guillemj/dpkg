@@ -33,7 +33,7 @@ extern dofunction *action;
 void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo);
 
-extern char *compression;
+extern const char *compression;
 
 #define DEBMAGIC     "!<arch>\ndebian-binary   "
 #define ADMINMEMBER		"control.tar.gz  "
