@@ -105,6 +105,11 @@ binary-dpkg: stamp-binary
 			fi ; \
 		done ; \
 	done
+
+	install -d -m 755 -o root -g root $(TMP_DPKG)/etc/dpkg
+	install -p -m 644 -o root -g root debian/dpkg.cfg \
+		$(TMP_DPKG)/etc/dpkg/dpkg
+
 # Now that dpkg has been installed, Debianize it
 # Policy stuff
 	find $(TMP_DPKG)/usr/share/man -type f | xargs gzip -9f
@@ -121,6 +126,7 @@ binary-dpkg: stamp-binary
 
 # Final package creation
 	install -d -m 755 -o root -g root $(TMP_DPKG)/DEBIAN
+	install -p -m 644 -o root -g root debian/dpkg.conffiles $(TMP_DPKG)/DEBIAN/conffiles
 	install -p -m 755 -o root -g root debian/dpkg.preinst $(TMP_DPKG)/DEBIAN/preinst
 	install -p -m 755 -o root -g root debian/dpkg.prerm $(TMP_DPKG)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg.postinst $(TMP_DPKG)/DEBIAN/postinst
