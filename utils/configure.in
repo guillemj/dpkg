@@ -3,14 +3,13 @@ dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.12])
 
 AC_INIT(start-stop-daemon.c)
-AM_CONFIG_HEADER(config.h)
 
 AC_CHECK_TOOL(CC, gcc)
 AC_PROG_CC
 AC_CANONICAL_SYSTEM
 AC_CHECK_TOOL_PREFIX
 
-AM_INIT_AUTOMAKE(start-stop-daemon,[`sed -n '1s/dpkg (\([0-9.]\+\)).*/\1/p' ${srcdir}/../debian/changelog`])
+AM_INIT_AUTOMAKE(start-stop-daemon,[`cat ${srcdir}/../version-nr`])
 
 AC_PREFIX_DEFAULT(/)
 
