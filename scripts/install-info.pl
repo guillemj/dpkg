@@ -124,7 +124,7 @@ my $fileinentry;
 if (!$remove) {
 
     if (!-f $filename && -f "$filename.gz" || $filename =~ s/\.gz$//) {
-        $filename= "gzip -d <$filename.gz |";  $pipeit= 1;
+        $filename= "gzip -cd <$filename.gz |";  $pipeit= 1;
     } else {
         $filename= "< $filename";
     }
