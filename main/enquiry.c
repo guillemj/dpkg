@@ -236,7 +236,7 @@ void unpackchk(const char *const *argv) {
   
   if (*argv) badusage(_("--yet-to-unpack does not take any arguments"));
 
-  modstatdb_init(admindir,msdbrw_readonly);
+  modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
 
   totalcount= 0;
   sectionentries= 0;
@@ -344,7 +344,7 @@ void searchfiles(const char *const *argv) {
   if (!*argv)
     badusage(_("--search needs at least one file name pattern argument"));
 
-  modstatdb_init(admindir,msdbrw_readonly);
+  modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
   ensure_allinstfiles_available_quiet();
   ensure_diversions();
 
@@ -389,6 +389,9 @@ void enqperpackage(const char *const *argv) {
     badusage(_("--%s needs at least one package name argument"), cipaction->olong);
 
   failures= 0;
+  if (cipaction->arg==act_listfiles)
+    modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
+  else
   modstatdb_init(admindir,msdbrw_readonly);
   
   while ((thisarg= *argv++) != 0) {
@@ -464,24 +467,25 @@ void enqperpackage(const char *const *argv) {
   }
 }
 
-void assertepoch(const char *const *argv) {
-  static struct versionrevision epochversion = {~0UL,0,0};
+void assertversion(const char *const *argv,
+			struct versionrevision *verrev_buf,
+			const char *reqversion) {
   struct pkginfo *pkg;
 
-  if (*argv) badusage("--assert-working-epoch does not take any arguments");
+  if (*argv) badusage("--assert-* does not take any arguments");
 
-  modstatdb_init(admindir,msdbrw_readonly);
-  pkg= findpackage("dpkg");
-  if (epochversion.epoch == ~0UL) {
-    epochversion.epoch= 0;
-    epochversion.version= nfstrsave("1.4.0.7");
-    epochversion.revision= 0;
+  modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
+  if (verrev_buf->epoch == ~0UL) {
+    verrev_buf->epoch= 0;
+    verrev_buf->version= nfstrsave(reqversion);
+    verrev_buf->revision= 0;
   }
+  pkg= findpackage("dpkg");
   switch (pkg->status) {
   case stat_installed:
     break;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
-    if (versionsatisfied3(&pkg->configversion,&epochversion,dvr_laterequal))
+    if (versionsatisfied3(&pkg->configversion,verrev_buf,dvr_laterequal))
       break;
     printf("Version of dpkg with working epoch support not yet configured.\n"
            " Please use `dpkg --configure dpkg', and then try again.\n");
@@ -494,30 +498,12 @@ void assertepoch(const char *const *argv) {
 
 void assertpredep(const char *const *argv) {
   static struct versionrevision predepversion = {~0UL,0,0};
-  struct pkginfo *pkg;
-  
-  if (*argv) badusage(_("--assert-support-predepends does not take any arguments"));
+  assertversion(argv,&predepversion,"1.1.0");
+  }
 
-  modstatdb_init(admindir,msdbrw_readonly);
-  pkg= findpackage("dpkg");
-  if (predepversion.epoch == ~0UL) {
-    predepversion.epoch= 0;
-    predepversion.version= nfstrsave("1.1.0");
-    predepversion.revision= 0;
-  }
-  switch (pkg->status) {
-  case stat_installed:
-    break;
-  case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
-    if (versionsatisfied3(&pkg->configversion,&predepversion,dvr_laterequal))
-      break;
-    printf(_("Version of dpkg with Pre-Depends support not yet configured.\n"
-           " Please use `dpkg --configure dpkg', and then try again.\n"));
-    exit(1);
-  default:
-    printf(_("dpkg not recorded as installed, cannot check for Pre-Depends support !\n"));
-    exit(1);
-  }
+void assertepoch(const char *const *argv) {
+  static struct versionrevision epochversion = {~0UL,0,0};
+  assertversion(argv,&epochversion,"1.4.0.7");
 }
 
 void predeppackage(const char *const *argv) {

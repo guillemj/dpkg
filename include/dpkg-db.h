@@ -152,7 +152,8 @@ enum modstatdb_rw {
   msdbrw_write/*s*/, msdbrw_needsuperuser,
   /* Now some optional flags: */
   msdbrw_flagsmask= ~077,
-  /* ... of which there are currently none, but they'd start at 0100 */
+  /* flags start at 0100 */
+  msdbrw_noavail= 0100,
 };
 
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);

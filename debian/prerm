@@ -2,6 +2,10 @@
 
 set -e
 
+if [ ! \( "$1" = "upgrade" -o "$1" = "remove" \) ]; then
+	exit 0
+fi
+
 cd /usr/bin
 
 install-info --quiet --remove /usr/info/Guidelines
@@ -9,3 +13,8 @@ install-info --quiet --remove /usr/info/debian-guidelines
 install-info --quiet --remove /usr/info/guidelines
 install-info --quiet --remove /usr/info/debian-guidelines.info.gz
 install-info --quiet --remove /usr/info/guidelines.info.gz
+
+if [ -L /usr/doc/dpkg ]; then
+	rm -f /usr/doc/dpkg
+fi
+

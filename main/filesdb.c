@@ -32,6 +32,10 @@
 #include "filesdb.h"
 #include "main.h"
 
+#ifdef HAVE_SYS_SYSINFO_H
+#include <sys/sysinfo.h>
+#endif
+
 /*** Generic data structures and routines ***/
 
 static int allpackagesdone= 0;
@@ -355,9 +359,10 @@ void ensure_diversions(void) {
     oialtname->camefrom= findnamenode(linebuf);
     oialtname->useinstead= 0;    
 
-    if (!fgets(linebuf,sizeof(linebuf),file))
+    if (!fgets(linebuf,sizeof(linebuf),file)) {
       if (ferror(file)) ohshite(_("read error in diversions [ii]"));
       else ohshit(_("unexpected EOF in diversions [ii]"));
+    } 
     l= strlen(linebuf);
     if (l == 0) ohshit(_("fgets gave an empty string from diversions [ii]"));
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
@@ -365,9 +370,10 @@ void ensure_diversions(void) {
     oicontest->useinstead= findnamenode(linebuf);
     oicontest->camefrom= 0;
     
-    if (!fgets(linebuf,sizeof(linebuf),file))
+    if (!fgets(linebuf,sizeof(linebuf),file)) {
       if (ferror(file)) ohshite(_("read error in diversions [iii]"));
       else ohshit(_("unexpected EOF in diversions [iii]"));
+    }
     l= strlen(linebuf);
     if (l == 0) ohshit(_("fgets gave an empty string from diversions [iii]"));
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
@@ -485,25 +491,23 @@ void iterfileend(struct fileiterator *i) {
   free(i);
 }
 
-void filesdbinit(void) {
-  struct filenamenode *fnn;
+static int autodetect_largemem(void) {
 #ifdef HAVE_SYSINFO
   struct sysinfo info;
+  if (sysinfo(&info)) return 0;
+  if (info.freeram + (info.sharedram>>2) + (info.bufferram>>2) < 16384*1024 &&
+      info.totalram < 16384*1024)
+    return 0;
 #endif
+  return 1;
+}
+
+void filesdbinit(void) {
+  struct filenamenode *fnn;
   int i;
 
-#ifdef HAVE_SYSINFO
-  if (!f_largemem) {
-    f_largemem= -1;
-    if (!sysinfo(&info)) {
-      if (info.freeram + (info.sharedram>>2) + (info.bufferram>>2) >= 4096*1024 ||
-          info.totalram >= 6144)
-        f_largemem= 1;
-    }
-  }
-#else
-  f_largemem= 1;
-#endif
+  if (!f_largemem)
+    f_largemem= autodetect_largemem() ? 1 : -1;
 
   switch (f_largemem) {
   case 1:

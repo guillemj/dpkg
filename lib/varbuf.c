@@ -44,6 +44,7 @@ void varbufprintf(struct varbuf *v, const char *fmt, ...) {
     va_start(al,fmt);
     r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
     va_end(al);
+    if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;
   } while (r >= v->size-ou-1);
 }

@@ -28,7 +28,8 @@ $(BUILD)/config.status:
 	install -d debian/build
 	cd $(BUILD) && ../../configure \
 		--enable-shared \
-		--prefix=/usr \
+		--prefix=/usr/share \
+		--exec-prefix=/usr \
 		--datadir=/usr/share \
 		--mandir=/usr/share/man \
 		--sysconfdir=/etc \
@@ -53,8 +54,8 @@ binary: binary-arch binary-indep
 binary-trees: build
 	$(checkdir)
 	-$(RM) -r debian/tmp-{main,dev}
-	install -d debian/tmp-{main,dev}/{DEBIAN,etc/dpkg,usr/doc/dpkg}
-	install -d debian/tmp-dev/usr/{lib/dpkg,doc/dpkg-dev,share/man/man1,share/man/man8,sbin,bin}
+	install -d debian/tmp-{main,dev}/{DEBIAN,etc/dpkg,usr/share/doc/dpkg}
+	install -d debian/tmp-dev/usr/{lib/dpkg,share/doc/dpkg-dev,share/man/man1,share/man/man8,sbin,bin}
 	install -d debian/tmp-dev/usr/share/emacs/site-lisp/dpkg-dev
 	install -d debian/tmp-main/sbin
 	set -e; if [ $(arch) = i386 ]; then \
@@ -70,7 +71,8 @@ binary-trees: build
 	cp debian/{prerm,postinst} $(mcidir)/.
 	$(MAKE) -C $(BUILD) top_distdir=. dist 
 	$(MAKE) -C $(BUILD) \
-		prefix=$(DIR)/debian/tmp-main/usr \
+		prefix=$(DIR)/debian/tmp-main/usr/share \
+		exec_prefix=$(DIR)/debian/tmp-main/usr \
 		sysconfdir=$(DIR)/debian/tmp-main/etc \
 		datadir=$(DIR)/debian/tmp-main/usr/share \
 		mandir=$(DIR)/debian/tmp-main/usr/share/man \
@@ -97,12 +99,12 @@ binary-trees: build
 		ln -s dpkg-source.1.gz debian/tmp-main/usr/share/man/man1/$$f.1.gz ; \
 	done
 	ln -s ../man7/undocumented.7.gz debian/tmp-main/usr/share/man/man1/dpkg-divert.1.gz
-	gzip -9vf debian/tmp-main/usr/doc/dpkg/changelog*
-	cp debian/copyright debian/tmp-main/usr/doc/dpkg/copyright
-	cp debian/copyright debian/tmp-dev/usr/doc/dpkg-dev/copyright
-	cp debian/dev-README debian/tmp-dev/usr/doc/dpkg-dev/README
+	gzip -9vf debian/tmp-main/usr/share/doc/dpkg/changelog*
+	cp debian/copyright debian/tmp-main/usr/share/doc/dpkg/copyright
+	cp debian/copyright debian/tmp-dev/usr/share/doc/dpkg-dev/copyright
+	cp debian/dev-README debian/tmp-dev/usr/share/doc/dpkg-dev/README
 	set -e; for f in \
- usr/doc/dpkg/{internals.html,changelog.manuals.gz} \
+ usr/share/doc/dpkg/{internals.html,changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
  usr/bin/{dpkg-distaddfile,822-date,dpkg-scanpackages,dpkg-name,dpkg-architecture} \
  usr/share/man/man1/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,architecture}.1.gz \

@@ -99,6 +99,7 @@ void filesdbinit(void);
 
 void archivefiles(const char *const *argv);
 void process_archive(const char *filename);
+int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int saywhy);
 
 /* from update.c */
 
@@ -169,6 +170,7 @@ void ensure_package_clientdata(struct pkginfo *pkg);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 void oldconffsetflags(struct conffile *searchconff);
 void ensure_pathname_nonexisting(const char *pathname);
+int chmodsafe_unlink(const char *pathname); /* chmod 600, then unlink */
 void checkpath(void);
 struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 

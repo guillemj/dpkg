@@ -239,7 +239,13 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
 }
 
 static void setinteger(const struct cmdinfo *cip, const char *value) {
-	*cip->iassignto=atoi(value);
+  unsigned long v;
+  char *ep;
+
+  v= strtoul(value,&ep,0);
+  if (*ep || v > INT_MAX)
+    badusage("invalid integer for --%s: `%.250s'",cip->olong,value);
+  *cip->iassignto= v;
 }
 
 static void setforce(const struct cmdinfo *cip, const char *value) {

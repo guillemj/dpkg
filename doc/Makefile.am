@@ -54,7 +54,11 @@ internals.dvi: internals.texi
 	texi2dvi $^
 
 internals.info: internals.texi
-	makeinfo $^
+	# WTA: We force makeinfo and ignore errors, since we use a broken method
+	# to generate the texi-file anyway. Since we are supposed to switch to the
+	# dpkg-iwj branch soon anyway fixing this correctly is more trouble then
+ 	# it's worth
+	-makeinfo --force $^
 
 internals.html-stamp: internals.texi
 	-$(RM) -r $*.html*

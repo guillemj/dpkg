@@ -816,3 +816,68 @@ void archivefiles(const char *const *argv) {
 
   modstatdb_shutdown();
 }
+
+int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int saywhy) {
+  /* Decide whether we want to install a new version of the package.
+   * ver is the version we might want to install.  If saywhy is 1 then
+   * if we skip the package we say what we are doing (and, if we are
+   * selecting a previously deselected package, say so and actually do
+   * the select).  want_install returns 0 if the package should be
+   * skipped and 1 if it should be installed.
+   *
+   * ver may be 0, in which case saywhy must be 0 and want_install may
+   * also return -1 to mean it doesn't know because it would depend on
+   * the version number.
+   */
+  enum versiondisplayepochwhen needepochs;
+  int r;
+
+  if (pkg->want != want_install) {
+    if (f_alsoselect) {
+      if (saywhy) {
+   printf("Selecting previously deselected package %s.\n",pkg->name);
+   pkg->want= want_install;
+      }
+      return 1;
+    } else {
+      if (saywhy) printf("Skipping deselected package %s.\n",pkg->name);
+      return 0;
+    }
+  }
+
+  if (pkg->status != stat_installed) return 1;
+  if (!ver) return -1;
+
+  r= versioncompare(ver,&pkg->installed.version);
+  if (r > 0) {
+    return 1;
+  } else if (r == 0) {
+    if (f_skipsame && /* same version fully installed ? */
+   pkg->status == stat_installed && !(pkg->eflag &= eflagf_reinstreq)) {
+      if (saywhy) fprintf(stderr, "Version %.250s of %.250s already installed, "
+             "skipping.\n",
+             versiondescribe(&pkg->installed.version,vdew_never),
+             pkg->name);
+      return 0;
+    } else {
+      return 1;
+    }
+  } else {
+    needepochs= epochsdiffer(&pkg->available.version,&pkg->installed.version) ?
+      vdew_always : vdew_never;
+    if (fc_downgrade) {
+      if (saywhy) fprintf(stderr, DPKG " - warning: downgrading %.250s "
+             "from %.250s to %.250s.\n", pkg->name,
+             versiondescribe(&pkg->installed.version,needepochs),
+             versiondescribe(&pkg->available.version,needepochs));
+      return 1;
+    } else {
+      if (saywhy) fprintf(stderr, "Will not downgrade %.250s from version %.250s "
+             "to %.250s, skipping.\n", pkg->name,
+             versiondescribe(&pkg->installed.version,needepochs),
+             versiondescribe(&pkg->available.version,needepochs));
+      return 0;
+    }
+  }
+}
+

@@ -28,7 +28,7 @@
 void showcopyright(const struct cmdinfo *c, const char *v) {
   int fd;
   fd= open(COPYINGFILE,O_RDONLY);
-  if (fd < 0) ohshite(_("cannot open GPL file /usr/doc/dpkg/copyright"));
+  if (fd < 0) ohshite(_("cannot open GPL file " COPYINGFILE));
   m_dup2(fd,0);
   execlp(CAT,CAT,"-",(char*)0);
   ohshite(_("unable to exec cat for displaying GPL file"));

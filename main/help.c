@@ -161,16 +161,25 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   return vb.buf;
 }
 
-static void preexecscript(const char *path, char *const *argv) {
+static const char* preexecscript(const char *path, char *const *argv) {
+  /* returns the path to the script inside the chroot
+   * none of the stuff here will work if admindir isn't inside instdir
+   * as expected. - fixme
+   */
+  int instdirl;
+
   if (*instdir) {
-    /* fixme: won't work right when instdir != admindir */
-    if (chdir(instdir) || chroot(instdir)) ohshite("failed to chroot to `%.250s'",instdir);
+    if (chroot(instdir)) ohshite("failed to chroot to `%.250s'",instdir);
   }
   if (f_debug & dbg_scripts) {
     fprintf(stderr,"D0%05o: fork/exec %s (",dbg_scripts,path);
     while (*argv) fprintf(stderr," %s",*argv++);
     fputs(" )\n",stderr);
   }
+  instdirl= strlen(instdir);
+  if (!instdirl) return path;
+  assert (strlen(path)>=instdirl);
+  return path+instdirl;
 }  
 
 static char *const *vbuildarglist(const char *scriptname, va_list ap) {
@@ -240,7 +249,7 @@ static void setexecute(const char *path, struct stat *stab) {
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *description, ...) {
   /* all ...'s are const char*'s */
-  const char *scriptpath;
+  const char *scriptpath, *scriptexec;
   char *const *arglist;
   struct stat stab;
   va_list ap;
@@ -263,8 +272,8 @@ int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
   setexecute(scriptpath,&stab);
   c1= m_fork();
   if (!c1) {
-    preexecscript(scriptpath,arglist);
-    execv(scriptpath+strlen(instdir),arglist);
+    scriptexec= preexecscript(scriptpath,arglist);
+    execv(scriptexec,arglist);
     ohshite(_("unable to execute %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
@@ -278,6 +287,7 @@ int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
 int maintainer_script_new(const char *scriptname, const char *description,
                           const char *cidir, char *cidirrest, ...) {
   char *const *arglist;
+  const char *scriptexec;
   struct stat stab;
   va_list ap;
   char buf[100];
@@ -299,8 +309,8 @@ int maintainer_script_new(const char *scriptname, const char *description,
   setexecute(cidir,&stab);
   c1= m_fork();
   if (!c1) {
-    preexecscript(cidir,arglist);
-    execv(cidir+strlen(instdir),arglist);
+    scriptexec= preexecscript(cidir,arglist);
+    execv(scriptexec,arglist);
     ohshite(_("unable to execute new %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
@@ -315,7 +325,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *scriptname, const char *description,
                                   const char *cidir, char *cidirrest,
                                   const char *ifok, const char *iffallback) {
-  const char *oldscriptpath;
+  const char *oldscriptpath, *scriptexec;
   char *const *arglist;
   struct stat stab;
   int c1, n, status;
@@ -341,8 +351,8 @@ int maintainer_script_alternative(struct pkginfo *pkg,
     setexecute(oldscriptpath,&stab);
     c1= m_fork();
     if (!c1) {
-      preexecscript(oldscriptpath,arglist);
-      execv(oldscriptpath+strlen(instdir),arglist);
+      scriptexec= preexecscript(oldscriptpath,arglist);
+      execv(scriptexec, arglist);
       ohshite(_("unable to execute %s"),buf);
     }
     script_catchsignals(); /* This does a push_cleanup() */
@@ -370,18 +380,19 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   strcpy(cidirrest,scriptname);
   sprintf(buf,_("new %s script"),description);
 
-  if (stat(cidir,&stab))
+  if (stat(cidir,&stab)) {
     if (errno == ENOENT)
       ohshit(_("there is no script in the new version of the package - giving up"));
     else
       ohshite(_("unable to stat %s `%.250s'"),buf,cidir);
+  }
 
   setexecute(cidir,&stab);
 
   c1= m_fork();
   if (!c1) {
-    preexecscript(cidir,arglist);
-    execv(cidir+strlen(instdir),arglist);
+    scriptexec= preexecscript(cidir,arglist);
+    execv(scriptexec, arglist);
     ohshite(_("unable to execute %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
@@ -448,6 +459,22 @@ void oldconffsetflags(struct conffile *searchconff) {
   }
 }
 
+int chmodsafe_unlink(const char *pathname) {
+  struct stat stab;
+
+  if (lstat(pathname,&stab)) return -1;
+  if (S_ISREG(stab.st_mode) ? (stab.st_mode | 07000) :
+      !(S_ISLNK(stab.st_mode) || S_ISDIR(stab.st_mode) ||
+   S_ISFIFO(stab.st_mode) || S_ISSOCK(stab.st_mode))) {
+    /* We chmod it if it is 1. a sticky or set-id file, or 2. an unrecognised
+     * object (ie, not a file, link, directory, fifo or socket
+     */
+    if (chmod(pathname,0600)) return -1;
+  }
+  if (unlink(pathname)) return -1;
+  return 0;
+}
+
 void ensure_pathname_nonexisting(const char *pathname) {
   int c1;
   const char *u;
@@ -462,7 +489,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
     /* Either it's a file, or one of the path components is.  If one
      * of the path components is this will fail again ...
      */
-    if (!unlink(pathname)) return; /* OK, it was */
+    if (!chmodsafe_unlink(pathname)) return; /* OK, it was */
     if (errno == ENOTDIR) return;
   }
   if (errno != ENOTEMPTY) /* Huh ? */

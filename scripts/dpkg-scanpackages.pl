@@ -26,6 +26,7 @@ $version= '1.2.6'; # This line modified by Makefile
             'MD5sum',
             'Description');
 
+$written=0;
 $i=100; grep($pri{$_}=$i--,@fieldpri);
 
 $#ARGV == 1 || $#ARGV == 2

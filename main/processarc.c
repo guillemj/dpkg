@@ -201,43 +201,9 @@ void process_archive(const char *filename) {
   deconfigure= 0;
   clear_istobes();
 
-  if (pkg->want != want_install) {
-    if (f_alsoselect) {
-      printf(_("Selecting previously deselected package %s.\n"),pkg->name);
-      pkg->want= want_install;
-    } else {
-      printf(_("Skipping deselected package %s.\n"),pkg->name);
-      return;
-    }
-  }
-
-  if (pkg->status == stat_installed) {
-    r= versioncompare(&pkg->available.version,&pkg->installed.version);
-    if (r < 0) {
-      needepochs= epochsdiffer(&pkg->available.version,&pkg->installed.version) ?
-        vdew_always : vdew_never;
-      if (fc_downgrade) {
-        fprintf(stderr, _("dpkg - warning: downgrading %.250s from %.250s to %.250s.\n"),
-                pkg->name,
-                versiondescribe(&pkg->installed.version,needepochs),
-                versiondescribe(&pkg->available.version,needepochs));
-      } else {
-        fprintf(stderr, _("Will not downgrade"
-                " %.250s from version %.250s to %.250s, skipping.\n"),
-                pkg->name,
-                versiondescribe(&pkg->installed.version,needepochs),
-                versiondescribe(&pkg->available.version,needepochs));
-        pop_cleanup(ehflag_normaltidy);
-        return;
-      }
-    } else if (r == 0 && f_skipsame && /* same version fully installed ? */
-               pkg->status == stat_installed && !(pkg->eflag &= eflagf_reinstreq)) {
-      fprintf(stderr, _("Version %.250s of %.250s already installed, skipping.\n"),
-              versiondescribe(&pkg->installed.version,vdew_never),
-              pkg->name);
+  if (!wanttoinstall(pkg,&pkg->available.version,1)) {
       pop_cleanup(ehflag_normaltidy);
       return;
-    }
   }
 
   pkg->clientdata->istobe= itb_installnew;

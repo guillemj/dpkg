@@ -42,11 +42,16 @@ That is, each line in the file describes a file. A line looks like:
 
 .B <MD5 checksum>  <filename>
 
-So, for example, a file containing checksum for this manpage would look
-like(don't worry, if the checkusum doesn't match, there is a minor
-problem in keeping it up to date):
+So, for example, if a file was created and its message digest calculated
+like so:
 
-.B c6514f34ffe6e1ce146e1f17db2c0f90  md5sum.1
+.B echo foo > md5-test-file; md5sum md5-test-file
+
+.B md5sum
+would report:
+
+.B d3b07384d113edec49eaa6238ad5ff00\  md5-test-file
+
 .TP
 .B -v
 Be more verbose. Print filenames when checking (with -c).
