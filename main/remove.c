@@ -1,3 +1,17 @@
+/* Change: separate removal_bulk handling of halfinstalled or unpacked pkgs
+ *         (ie, remove the real files in the .deb) into its own function.
+ *         Note that "installed" state is converted to unpacked by 
+ *         deferred_remove() or halfinstalled by process_archive())
+ *
+ * Change: separate purging of configfiles and running of postrm to its
+ *         own function.
+ *
+ * Change: retry removing directories after postrm purge is finished, to
+ *         handle directories that had conffiles or config files and so
+ *         forth in them. also only warn about non-empty directories at
+ *         that point.
+ */
+
 /*
  * dpkg - main program for package management
  * remove.c - functionality for removing packages
@@ -173,32 +187,20 @@ static void push_leftover(struct fileinlist **leftoverp,
   *leftoverp= newentry;
 }
 
-void removal_bulk(struct pkginfo *pkg) {
-  /* This is used both by deferred_remove in this file, and at
-   * the end of process_archive in archives.c if it needs to finish
-   * removing a conflicting package.
-   */
-  static const char *const removeconffexts[]= { REMOVECONFFEXTS, 0 };
-
-  static struct varbuf fnvb, removevb;
-  
-  int before, r, foundpostrm= 0, removevbbase;
-  int infodirbaseused, conffnameused, conffbasenamelen, pkgnameused;
-  char *conffbasename;
+static void removal_bulk_remove_files(
+    struct pkginfo *pkg, 
+    int *out_foundpostrm) 
+{
+  int before;
+  int infodirbaseused;
   struct reversefilelistiter rlistit;
-  struct conffile *conff, **lconffp;
-  struct fileinlist *searchfile, *leftover;
-  struct stat stab;
+  struct fileinlist *leftover;
+  struct filenamenode *namenode;
+  static struct varbuf fnvb;
   DIR *dsd;
   struct dirent *de;
-  char *p;
-  const char *const *ext;
-  const char *postrmfilename;
-  struct filenamenode *namenode;
-
-  debug(dbg_general,"removal_bulk package %s",pkg->name);
+  struct stat stab;
   
-  if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked) {
     pkg->status= stat_halfinstalled;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
@@ -242,10 +244,6 @@ void removal_bulk(struct pkginfo *pkg) {
       debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
       if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
       if (errno == ENOTEMPTY) {
-        fprintf(stderr,
-                _("dpkg - warning: while removing %.250s, directory `%.250s' not empty "
-                "so not removed.\n"),
-                pkg->name, namenode->name);
         push_leftover(&leftover,namenode);
         continue;
       } else if (errno == EBUSY || errno == EPERM) {
@@ -286,11 +284,13 @@ void removal_bulk(struct pkginfo *pkg) {
     varbufaddc(&fnvb,0);
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
     push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
-    foundpostrm= 0;
+  *out_foundpostrm= 0;
 
     debug(dbg_general, "removal_bulk cleaning info directory");
 
     while ((de= readdir(dsd)) != 0) {
+    char *p;
+
       debug(dbg_veryverbose, "removal_bulk info file `%s'", de->d_name);
       if (de->d_name[0] == '.') continue;
       p= strrchr(de->d_name,'.'); if (!p) continue;
@@ -299,7 +299,7 @@ void removal_bulk(struct pkginfo *pkg) {
       debug(dbg_stupidlyverbose, "removal_bulk info this pkg");
       /* We need the postrm and list files for --purge. */
       if (!strcmp(p+1,LISTFILE)) continue;
-      if (!strcmp(p+1,POSTRMFILE)) { foundpostrm=1; continue; }
+    if (!strcmp(p+1,POSTRMFILE)) { *out_foundpostrm=1; continue; }
       debug(dbg_stupidlyverbose, "removal_bulk info not postrm or list");
       fnvb.used= infodirbaseused;
       varbufaddstr(&fnvb,de->d_name);
@@ -314,26 +314,80 @@ void removal_bulk(struct pkginfo *pkg) {
     pkg->installed.essential= 0;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
+}
 
-  } else {
+static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
+  struct reversefilelistiter rlistit;
+  struct fileinlist *leftover;
+  struct filenamenode *namenode;
+  static struct varbuf fnvb;
+  struct stat stab;
 
-    postrmfilename= pkgadminfile(pkg,POSTRMFILE);
-    if (!lstat(postrmfilename,&stab)) foundpostrm= 1;
-    else if (errno == ENOENT) foundpostrm= 0;
-    else ohshite(_("unable to check existence of `%.250s'"),postrmfilename);
+  modstatdb_note(pkg);
+  push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
+  reversefilelist_init(&rlistit,pkg->clientdata->files);
+  leftover= 0;
+  while ((namenode= reversefilelist_next(&rlistit))) {
+    debug(dbg_eachfile, "removal_bulk `%s' flags=%o",
+          namenode->name, namenode->flags);
+    if (namenode->flags & fnnf_old_conff) {
+      push_leftover(&leftover,namenode);
+      continue;
+    }
+
+    varbufreset(&fnvb);
+    varbufaddstr(&fnvb,instdir);
+    varbufaddstr(&fnvb,namenodetouse(namenode,pkg)->name);
+
+    if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
+      debug(dbg_eachfiledetail, "removal_bulk is a directory");
+      /* Only delete a directory or a link to one if we're the only
+       * package which uses it.  Other files should only be listed
+       * in this package (but we don't check).
+       */
+      if (isdirectoryinuse(namenode,pkg)) continue;
+    }
+
+    debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
+    if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
+    if (errno == ENOTEMPTY) {
+      fprintf(stderr,
+              _("dpkg - warning: while removing %.250s, directory `%.250s' not empty "
+              "so not removed.\n"),
+              pkg->name, namenode->name);
+      push_leftover(&leftover,namenode);
+      continue;
+    } else if (errno == EBUSY || errno == EPERM) {
+      fprintf(stderr, _("dpkg - warning: while removing %.250s,"
+              " unable to remove directory `%.250s':"
+              " %s - directory may be a mount point ?\n"),
+              pkg->name, namenode->name, strerror(errno));
+      push_leftover(&leftover,namenode);
+      continue;
+    }
+    if (errno != ENOTDIR) ohshite(_("cannot remove `%.250s'"),fnvb.buf);
+
+    push_leftover(&leftover,namenode);
+    continue;
   }
-  
-  debug(dbg_general, "removal_bulk purging? foundpostrm=%d",foundpostrm);
-  
-  if (!foundpostrm && !pkg->installed.conffiles) {
-    /* If there are no config files and no postrm script then we
-     * go straight into `purge'.
-     */
-    debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
-    pkg->want= want_purge;
+  write_filelist_except(pkg,leftover,0);
 
-  } else if (pkg->want == want_purge) {
+  modstatdb_note(pkg);
+  push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
+}
+
+static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
+  static const char *const removeconffexts[]= { REMOVECONFFEXTS, 0 };
+  int r, removevbbase;
+  int conffnameused, conffbasenamelen;
+  char *conffbasename;
+  struct conffile *conff, **lconffp;
+  struct fileinlist *searchfile;
+  DIR *dsd;
+  struct dirent *de;
+  char *p;
+  const char *const *ext;
 
     printf(_("Purging configuration files for %s ...\n"),pkg->name);
     ensure_packagefiles_available(pkg); /* We may have modified this above. */
@@ -372,6 +426,7 @@ void removal_bulk(struct pkginfo *pkg) {
     modstatdb_note(pkg);
     
     for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
+    static struct varbuf fnvb, removevb;
       varbufreset(&fnvb);
       r= conffderef(pkg, &fnvb, conff->name);
       debug(dbg_conffdetail, "removal_bulk conffile `%s' (= `%s')",
@@ -441,14 +496,56 @@ void removal_bulk(struct pkginfo *pkg) {
         
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "purge", (char*)0);
+}
 
-    /* fixme: retry empty directories */
+void removal_bulk(struct pkginfo *pkg) {
+  /* This is used both by deferred_remove in this file, and at
+   * the end of process_archive in archives.c if it needs to finish
+   * removing a conflicting package.
+   */
+
+  int pkgnameused;
+  int foundpostrm= 0;
+  const char *postrmfilename;
+
+  debug(dbg_general,"removal_bulk package %s",pkg->name);
+
+  if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked) {
+
+    removal_bulk_remove_files(pkg, &foundpostrm);
+
+  } else {
+    struct stat stab;
+
+    postrmfilename= pkgadminfile(pkg,POSTRMFILE);
+    if (!lstat(postrmfilename,&stab)) foundpostrm= 1;
+    else if (errno == ENOENT) foundpostrm= 0;
+    else ohshite(_("unable to check existence of `%.250s'"),postrmfilename);
+
+  }
+
+  debug(dbg_general, "removal_bulk purging? foundpostrm=%d",foundpostrm);
+  
+  if (!foundpostrm && !pkg->installed.conffiles) {
+    /* If there are no config files and no postrm script then we
+     * go straight into `purge'.
+     */
+    debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
+    pkg->want= want_purge;
+
+  } else if (pkg->want == want_purge) {
+
+    removal_bulk_remove_configfiles(pkg);
 
   }
 
   if (pkg->want == want_purge) {
-
     /* ie, either of the two branches above. */
+    static struct varbuf fnvb;
+
+    /* retry empty directories, and warn on any leftovers that aren't */
+    removal_bulk_remove_leftover_dirs(pkg);
+
     varbufreset(&fnvb);
     varbufaddstr(&fnvb,admindir);
     varbufaddstr(&fnvb,"/" INFODIR);
