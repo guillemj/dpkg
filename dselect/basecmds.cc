@@ -140,7 +140,7 @@ _("? = help menu    Space = exit help    . = next help    or a help page key ")
       mvaddstr(1,1, _("Help information is available under the following topics:"));
       for (i=0, hme=helpmenu; hme->key; hme++,i++) {
         attrset(A_BOLD);
-        mvaddch(i+3,3, gettext(hme->key));
+        mvaddch(i+3,3, hme->key);
         attrset(A_NORMAL);
         mvaddstr(i+3,6, gettext(hme->msg->title));
       }
