@@ -1,13 +1,13 @@
 # Swedish translation of dpkg
-# By Peter Karlsson <peterk@debian.org>, 1999-2001.
-# Copyright 1999-2001 Software in the Public Interest
+# By Peter Karlsson <peterk@debian.org>, 1999-2002.
+# Copyright 1999-2002 Software in the Public Interest
 # $Id$
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10\n"
-"POT-Creation-Date: 2001-09-12 20:57+0200\n"
-"PO-Revision-Date: 2001-09-12 21:05+0200\n"
+"POT-Creation-Date: 2002-01-02 19:34+0100\n"
+"PO-Revision-Date: 2002-01-21 18:40+0200\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -968,7 +968,7 @@ msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
 " package %s, to enable removal of %s.\n"
 msgstr ""
-"dpkg: varning - funderar på att avkonfigurera det viktiga\n"
+"dpkg: varning - funderar på att avkonfigurera det systemkritiska\n"
 " paketet %s för att kunna ta bort %s.\n"
 
 #: main/archives.c:649
@@ -2319,12 +2319,12 @@ msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends behöver ett giltigt paketnamn. \"%.250s\" är inte det; %s"
 
-#: main/main.c:263 main/main.c:281
+#: main/main.c:263 main/main.c:274
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "ogiltigt heltal för --%s: \"%.250s\""
 
-#: main/main.c:291
+#: main/main.c:292
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2394,53 +2394,53 @@ msgstr ""
 "  architecture [!]       Hantera även paket med fel arkitektur\n"
 "  overwrite-dir [!]      Skriv över ett pakets katalog med ett annats fil\n"
 "  remove-reinstreq [!]   Ta bort paket som kräver installation\n"
-"  remove-essential [!]   Ta bort ett viktigt paket\n"
+"  remove-essential [!]   Ta bort ett systemkritiskt paket\n"
 "\n"
 "VARNING - flaggor markerade [!] kan tillfoga stor skada till din "
 "installation\n"
 "om de används. Flaggor markerade [*] är förvalda.\n"
 
-#: main/main.c:336
+#: main/main.c:337
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "okänd flagga för force/refuse: \"%.*s\""
 
-#: main/main.c:437 main/main.c:441
+#: main/main.c:438 main/main.c:442
 msgid "couldn't malloc in execbackend"
 msgstr "kunde inte allokera i execbackend"
 
-#: main/main.c:439 main/main.c:446
+#: main/main.c:440 main/main.c:447
 msgid "couldn't strdup in execbackend"
 msgstr "kunde inte duplicera sträng i execbackend"
 
-#: main/main.c:450
+#: main/main.c:451
 #, c-format
 msgid "failed to exec %s"
 msgstr "kunde inte exekvera %s"
 
-#: main/main.c:462
+#: main/main.c:463
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd tar exakt ett argument"
 
-#: main/main.c:463
+#: main/main.c:464
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd tar bara ett argument"
 
-#: main/main.c:465
+#: main/main.c:466
 msgid "invalid number for --command-fd"
 msgstr "ogiltigt tal för --command-fd"
 
-#: main/main.c:467
+#: main/main.c:468
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "kunde inte öppna \"%i\" för ström"
 
-#: main/main.c:492
+#: main/main.c:493
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "oväntat filslut före slut på rad %d"
 
-#: dpkg-deb/main.c:178 main/main.c:536 main/main.c:571 main/query.c:549
+#: dpkg-deb/main.c:178 main/main.c:537 main/main.c:571 main/query.c:548
 #: split/main.c:166
 msgid "need an action option"
 msgstr "du har inte talat om vad som skall utföras"
@@ -2709,8 +2709,8 @@ msgstr "paketets kontrollinformation innehåller katalogen \"%.250s\""
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
-"\"rmdir\" på paketets kontrollinformation \"%.250s\" svarade inte \"ej katalog"
-"\""
+"\"rmdir\" på paketets kontrollinformation \"%.250s\" svarade inte \"ej "
+"katalog\""
 
 #: main/processarc.c:724
 #, c-format
@@ -2751,7 +2751,7 @@ msgstr ""
 
 #: main/remove.c:95
 msgid "This is an essential package - it should not be removed."
-msgstr "Detta är ett viktigt paket - det bör inte tas bort."
+msgstr "Detta är ett systemkritiskt paket - det bör inte tas bort."
 
 #: main/remove.c:121
 #, c-format
@@ -3746,11 +3746,16 @@ msgstr ""
 "  -z#                             Ställer in komprimering vid byggning\n"
 "\n"
 "Formatsyntax:\n"
-"  En formatsträng är den sträng som kommer skrivas för varje paket. Formatet\n"
-"  kan innehålla de vanliga ersättningssekvenserna \\n (ny rad), \\r (vagnretur)\n"
-"  eller \\\\ (bara omvänt snedstreck). Paketinformation kan inkluderas genom\n"
-"  att lägga in variabelreferenser till paketfält på syntaxen ${var[;bredd]}.\n"
-"  Fälten kommer högerjusteras såvida inte bredden anges negativt, då istället\n"
+"  En formatsträng är den sträng som kommer skrivas för varje paket. "
+"Formatet\n"
+"  kan innehålla de vanliga ersättningssekvenserna \\n (ny rad), \\r "
+"(vagnretur)\n"
+"  eller \\\\ (bara omvänt snedstreck). Paketinformation kan inkluderas "
+"genom\n"
+"  att lägga in variabelreferenser till paketfält på syntaxen ${var[;"
+"bredd]}.\n"
+"  Fälten kommer högerjusteras såvida inte bredden anges negativt, då "
+"istället\n"
 "  vänsterjustering kommer användas.\n"
 "\n"
 "Använd \"dpkg\" för att installera och ta bort paket från ditt system, "
@@ -4707,7 +4712,7 @@ msgstr ""
 msgid "failed to getch in main menu"
 msgstr "kunde inte läsa tecken i huvudmenyn"
 
-#: dselect/main.cc:497
+#: dselect/main.cc:496
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "okänd handling \"%.50s\""
