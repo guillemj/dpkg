@@ -33,7 +33,19 @@ extern "C" {
 #include "dselect.h"
 #include "pkglist.h"
 
-static int matches(struct pkginfo *pkg, struct pkginfo *comparewith) {
+int packagelist::affectedmatches(struct pkginfo *pkg, struct pkginfo *comparewith) {
+  switch (statsortorder) {
+  case sso_avail:
+    if (comparewith->clientdata->ssavail != pkg->clientdata->ssavail) return 0;
+    break;
+  case sso_state:
+    if (comparewith->clientdata->ssstate != pkg->clientdata->ssstate) return 0;
+    break;
+  case sso_unsorted:
+    break;
+  default:
+    internerr("unknown statsortorder in affectedmatches");
+  }
   if (comparewith->priority != pkginfo::pri_unset &&
       (comparewith->priority != pkg->priority ||
        comparewith->priority == pkginfo::pri_other &&
@@ -60,7 +72,8 @@ void packagelist::affectedrange(int *startp, int *endp) {
     return;
   }
   *startp= index;
-  while (index < nitems && matches(table[index]->pkg,table[cursorline]->pkg)) index++;
+  while (index < nitems && affectedmatches(table[index]->pkg,table[cursorline]->pkg))
+    index++;
   *endp= index;
 }
 

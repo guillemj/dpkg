@@ -1,4 +1,7 @@
-<!doctype debiandoc system>
+<!doctype debiandoc system [
+<!entity % manuals-version-def system "manuals-version">
+%manuals-version-def;
+]>
 
 <!--
  Debian Linux package policy manual.
@@ -10,7 +13,7 @@
 
 <title>Debian policy manual
 <author>Ian Jackson <email/ijackson@gnu.ai.mit.edu/
-<version>version 0.1, <date>
+<version>version &manuals-version; (dpkg &dpkg-version;), <date>
 
 <abstract>
 This manual describes the policy requirements which must be satisfied
@@ -338,7 +341,7 @@ Instructions for configuring or using the package should not be
 included - that is what installation scripts, manpages, Info files and
 <tt>/usr/doc/<var/package/</> are for.  Copyright statements and other
 administrivia should not be included - that is what
-<tt>/usr/doc/copyright</> is for.
+<tt>/usr/doc/<var/package//copyright</> is for.
 <p>
 
 If you wish to include a list in your extended with entries which are
@@ -397,7 +400,7 @@ don't consider it a bug you should leave the bug in our bug tracking
 system open anyway.
 <p>
 
-Manpages should be installed uncompressed.
+Manpages should be installed compressed using <tt/gzip -9/.
 <p>
 
 If one manpage needs to be accesssible via several names it is better
@@ -461,10 +464,11 @@ binary package to contain it, so that it does not take up disk space
 on the machines of users who do not need or want it installed.
 <p>
 
-It is often a good idea to put text information files that come with
-the source package in <tt>/usr/doc/<var/package/</> in the binary
-package.  However, don't install the instructions for building and
-installing the package, of course!
+It is often a good idea to put text information files (<tt/README/s,
+changelogs, and so forth) that come with the source package in
+<tt>/usr/doc/<var/package/</> in the binary package.  However, don't
+install the instructions for building and installing the package, of
+course!
 
 <sect1>Preferred documentation formats
 <p>
@@ -489,7 +493,23 @@ These files should not be referenced by any program - they're there
 for the benefit of the system administrator and users, as
 documentation only.
 
-<sect1 id="copyrightfile"><tt>/usr/doc/copyright/<var/package/</tt>
+<sect1 id="instchangelog"><tt>/usr/doc/<var/package//changelog.Debian.gz</tt>
+<p>
+
+This installed file must contain a copy of the <tt>debian/changelog</>
+file from your Debian source tree.
+<p>
+
+It should be installed compressed using <tt/gzip -9/, as it will
+become large with time even if it starts out small.
+<p>
+
+If the package has only one changelog which is used both as the Debian
+changelog and the upstream one because there is no separate upstream
+maintainer then the changelog should usually be installed as
+<tt>/usr/doc/<var/package//changelog.gz</> instead.
+
+<sect1 id="copyrightfile"><tt>/usr/doc/<var/package//copyright</tt>
 <p>
 
 This file must contain details of the authorship and copyright of the
@@ -508,14 +528,16 @@ Regents of the University of California at Berkeley (BSD) licence or
 Larry Wall's Artistic Licence please say so instead of including a
 copy of the licence.  The files <tt/BSD/, <tt/GPL/, <tt/LGPL/ and
 <tt/Artistic/ are be available in <tt>/usr/doc/copyright</tt> for you
-to refer to.  The package's copyright file should not be compressed.
+to refer to.
+<p>
+
+The copyright file should not be compressed unless it is very large.
 <p>
 
 Do not use the copyright file as a general <tt/README/ file.  If your
 package has such a file it should be installed in
 <tt>/usr/doc/<var/package//README</> or <tt/README.Debian/ or some
-other appropriate place.  Do not make links between
-<tt>/usr/doc/<var/package/</> and the <tt/copyright/ directory.
+other appropriate place.
 
 <sect1>Symbolic links
 <p>
@@ -841,7 +863,9 @@ the combined shared libraries package).
 <p>
 
 Follow the directions in the <prgn/dpkg/ programmers' manual for
-putting the shared library in its package.
+putting the shared library in its package, and make sure you include a
+<tt/shlibs/ control area file with details of the dependencies for
+packages which use the library.
 
 <sect>Application configuration files, dotfiles and <tt>/etc/skel</>
 <p>
@@ -1042,6 +1066,78 @@ problems.
 
 <chapt id="sourcepkg">Source package
 
+<sect>Releases of packages by other than the usual Debian maintainer
+<p>
+
+Under certain circumstances it is necessary for someone other than the
+usual package maintainer to make a release of a package.  For example,
+a porter for another architecture may have to make some small changes
+to the source package and does not wish to wait with uploading their
+release until the main maintainer has incorporated the patch, or a
+serious security problem may have come to light requiring immediate
+attention.
+<p>
+
+Maintainers other than the usual package maintainer should make as few
+changes to the package as possible, and they should always send a
+unified context diff (<tt/diff -u/) detailing their changes to the bug
+tracking system properly flagged with the correct package so that the
+usual maintainer is kept aware of the situation.
+<p>
+
+When someone other than the usual maintainer releases a package they
+should add a new component to the <var/debian-revision/ component of
+the version number - that is, the portion after the (last) hyphen.
+This extra component will start at <tt/1/.  This is to avoid
+`stealing' one of the usual maintainer's version numbers, possibly
+disrupting their work.  If there is no <var/debian-revision/ component
+in the version number then one should be created, starting at <tt/1/.
+<p>
+
+If it is absolutely necessary for someone other than the usual
+maintainer to make a release based on a new upstream version then the
+person making the release should start with the <var/debian-revision/
+value <tt/0.1/.  The usual maintainer of a package should start their
+<var/debian-revision/ numbering at <tt/1/.
+
+
+<sect>Standards conformance and <tt/Standards-Version/
+<p>
+
+You should specify the most recent version of the packaging standards
+with which your package complies in the source package's
+<tt/Standards-Version/ field.
+<p>
+
+This value will be used to file bug reports automatically if your
+package becomes too much out of date.
+<p>
+
+The value corresponds to a version of the Debian manuals, as can be
+found on the title page or page headers and footers (depending on the
+format).  The value for this version of the manuals and packaging
+standards is <tt/&manuals-version;/.
+<p>
+
+The version number has four components - major and minor number and
+major and minor patchlevel.  When the standards change in a way that
+requires every package to change the major number will be changed.
+Significant changes that will require work in many packages will be
+signaled by a change to the minor number.  The major patchlevel will
+be changed for any change to the meaning of the standards, however
+small; the minor patchlevel will be changed when only cosmetic,
+typographical or other edits which do not change the meaning are made.
+<p>
+
+You should regularly, and especially if your package has become out of
+date, install the most recent version of dpkg and read
+<tt>/usr/doc/dpkg/changelog-manuals</> to see which changes, if any,
+are relevant.  If any are relevant you should look up the relevant
+section in the policy or programmers' manuals and update your package.
+When your package complies with the new standards you may update the
+<tt/Standards-Version/ source package field and release it.
+
+
 <sect>Documentation and the <tt/changelog/
 <p>
 
@@ -1050,7 +1146,7 @@ the <tt>debian/changelog</tt> file.
 <p>
 
 A copy of the file which will be installed in
-<tt>/usr/doc/copyright/<var/package/</tt> should be in
+<tt>/usr/doc/<var/package//copyright</tt> should be in
 <tt>debian/copyright</tt>.
 <p>
 
@@ -1218,5 +1314,154 @@ see the responses.
 
 As ever on the net, please trim down the quoting of articles you're
 replying to.
+
+
+<chapt id="conversion">Conversion procedure from old source packages
+<p>
+
+This is a brief summary of the procedure for converting a
+pre-2.0.0.0-format source package into the new format.
+<p>
+
+You are strongly advised to download and examine the <prgn/hello/
+package, and to read the section in the <prgn/dpkg/ programmers'
+manual describing the source packaging tools.  More detail about the
+exact functionality of these tools is available in <manref
+name=dpkg-source section=1>.
+<p>
+
+<list>
+
+<item>
+Download the original source code from wherever it can be found and do
+any rearrangement required to make it look like the original tree of
+the Debian source.  Put it in
+<tt><var/package/-<var/upstream-version/.orig/</> or
+<tt/<var/package/_<var/upstream-version/.orig.tar.gz/.
+
+<item>
+Rename all files <tt/debian.*/ to <tt>debian/*</>.  There may be some
+exceptions to this, but this is a good start.
+
+<item>
+Edit the <tt>debian/changelog</> - create or rename it if necessary.
+Add a new revision to the top with the appropriate details, and a
+local variables entry to the bottom to set Emacs to the right mode:
+<example>
+Local variables:
+mode: debian-changelog
+End:
+</example>
+
+<item>
+Edit/create <tt>debian/control</>:
+<list compact>
+<item>
+Remove the <tt/Version/ field.  If it is generated unusually (not
+equal to the source version) you must use the -v option to
+dpkg-gencontrol (see below).  <tt/Section/, <tt/Priority/,
+<tt/Maintainer/ go above the first blank line, most of the rest below.
+
+<item>
+Reorder the fields and add a blank line at an appropriate point,
+separating the source package fields from the binary package
+fields.
+
+<item>
+Add the <tt/Source/ field.
+
+<item>
+Add the <tt/Standards-Version/ field.  The current value is
+<tt/&manuals-version;/.
+
+<item>
+Change the <tt/Architecture/ field for each package to <tt/any/,
+<tt/all/ or whatever.  If there isn't an <tt/Architecture/ field add
+one.
+
+<item>
+If any other seddery or things used to happen to make the binary
+control files use <prgn/dpkg-gencontrol/'s variable substitution
+features to achieve the same effect.  Use <tt>debian/substvars</> if
+you need to put unusally-generated information (apart from details of
+<tt/.deb/ files) in the <tt/.changes/ file too.
+</list>
+
+<item>
+Edit the <tt>debian/rules</>:
+<list compact>
+<item>
+Remove the <prgn/source/ and <prgn/diff/ and any <prgn/changes/ and
+<prgn/dist/ targets.  These things now happen in a package-independent
+way and are not done by <tt>debian/rules</>.
+<item>
+Split the <prgn/binary/ target into <prgn/binary-arch/ and
+<prgn/binary-indep/; in many cases all of <prgn/binary/ should go into
+<prgn/binary-arch/.  Create the <prgn/binary/ target and the unused of
+the two other <prgn/binary-*/ targets if there is one - you can copy
+the ones from the <prgn/hello/ package.
+<item>
+Change the <prgn/binary/ target to use <prgn/dpkg-gencontrol/ to make
+the package control file(s).  Move it to after all the files have been
+installed but just before the last <prgn/chown/ and <prgn/chmod/ in
+the target.
+<item>
+Change occurrences of <tt/debian-tmp/ to <tt>debian/tmp</>.
+<item>
+Change occurrences of <tt/debian.{post,pre}{inst,rm}/ to
+<tt>debian/*</>.
+<item>
+Remove the version number setting at the top, if there is one.
+<item>
+Ensure that the package's Debian-specific and upstream changelogs are
+installed.
+</list>
+
+<item>
+Check that the <tt>debian/README</> is really the copyright file, and
+if so rename it to <tt>debian/copyright</> and edit
+<tt>debian/rules</> to cope with this and to change the installation
+of the copyright file from <tt>/usr/doc/<var/package//copyright</>
+instead of <tt>/usr/doc/copyright/<var/package/</>.  If it isn't then
+find <tt>debian/copyright</> and decide what to do with the
+<tt>README</>.
+
+<item>
+Check for various other anachronisms and problems:
+<list compact>
+<item>
+Remove any <tt/Package_Revision/, <tt/Package-Revision/ or
+<tt/Revision/ fields.
+<item>
+Rename <tt/Optional/ to <tt/Suggests/, <tt/Recommended/ to
+<tt/Recommends/.
+<item>
+Change <tt>/usr/doc/examples/<var/package/</> to
+<tt>/usr/doc/<var/package//examples</>.
+<item>
+Make sure that manpages are installed compressed.
+<item>
+Check that the description has an extended description, is
+well-formatted and meaningful and helpful to people wanting to know
+whether to install a package.
+</list>
+
+<item>
+Look everything over.
+
+<item>
+Do a test build using <tt/dpkg-buildpackage -ur -uc -r<var/whatever//.
+Check the permissions and locations of files in the resulting package
+by eyeballing the output of <tt/dpkg-deb --contents/, and check that
+the source build happened OK.  Test install the binary package(s) and
+test extract the source package(s).
+
+<item>
+Sign the release: either re-run <prgn/dpkg-buildpackage/ (this will
+rebuild the package entirely), or PGP-sign the <tt/.dsc/, rebuild the
+<tt/.changes/ using <prgn/dpkg-genchanges/, and then PGP-sign the
+<tt/.changes/.
+
+</list>
 
 </book>

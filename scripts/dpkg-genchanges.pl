@@ -8,6 +8,7 @@ $changelogfile= 'debian/changelog';
 $fileslistfile= 'debian/files';
 $varlistfile= 'debian/substvars';
 $uploadfilesdir= '..';
+$sourcestyle= 'i';
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
@@ -23,15 +24,17 @@ version 2 or later for copying conditions.  There is NO warranty.
 
 Usage: dpkg-genchanges [options ...]
 
-Options:  -b                     binary-only build - no source files
-          -B                     architecture-only build - no src or \`all'
+Options:  -b or -B (identical)   binary-only build - no source files
           -c<controlfile>        get control info from this file
           -l<changelogfile>      get per-version info from this file
           -f<fileslistfile>      get .deb files list from this file
           -v<sinceversion>       include all changes later than version
-          -d<changesdescription> use change description from this file
+          -C<changesdescription> use change description from this file
           -m<maintainer>         override changelog's maintainer value
-          -u<uploadfilesdir>     directory with files (default is \`..'
+          -u<uploadfilesdir>     directory with files (default is \`..')
+          -si (default)          src includes orig for debian-revision 0 or 1
+          -sa                    source includes orig src
+          -sd                    source is diff and .dsc only
           -F<changelogformat>    force change log format
           -V<name>=<value>       set a substitution variable
           -T<varlistfile>        read variables here, not debian/substvars
@@ -47,15 +50,15 @@ $i=100;grep($fieldimps{$_}=$i--,
 
 while (@ARGV) {
     $_=shift(@ARGV);
-    if (m/^-b$/) {
+    if (m/^-b$|^-B$/) {
         $binaryonly= 1;
-    } elsif (m/^-B$/) {
-        $binaryonly= 2;
+    } elsif (m/^-s([iad])$/) {
+        $sourcestyle= $1;
     } elsif (m/^-c/) {
         $controlfile= $';
     } elsif (m/^-l/) {
         $changelogfile= $';
-    } elsif (m/^-d/) {
+    } elsif (m/^-C/) {
         $changesdescription= $';
     } elsif (m/^-f/) {
         $fileslistfile= $';
@@ -96,7 +99,6 @@ while(<FL>) {
             &warn("duplicate files list entry for file $1 (line $.)");
         $f2sec{$1}= $5;
         $f2pri{$1}= $6;
-        next if $4 eq 'all' && $binaryonly>=2;
         push(@fileslistfiles,$1);
     } elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
         defined($f2sec{$1}) &&
@@ -135,7 +137,6 @@ for $_ (keys %fi) {
         } elsif (s/^X[BS]*C[BS]*-//i) {
             $f{$_}= $v;
         } elsif (m/^Architecture$/) {
-            next if $v eq 'all' && $binaryonly>=2;
             $v= $arch if $v eq 'any';
             push(@archvalues,$v) unless $archadded{$v}++;
         } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
@@ -208,6 +209,12 @@ if (!$binaryonly) {
         push(@sourcefiles,$file);
     }
     for $f (@sourcefiles) { $f2sec{$f}= $sec; $f2pri{$f}= $pri; }
+    
+    if (($sourcestyle =~ m/i/ && $version !~ m/-[01]$/ ||
+         $sourcestyle =~ m/d/) &&
+        grep(m/\.diff\.gz$/,@sourcefiles)) {
+        @sourcefiles= grep(!m/\.orig\.tar\.gz$/,@sourcefiles);
+    }
 }
 
 $f{'Format'}= $substvar{'Format'};

@@ -1,4 +1,7 @@
-<!doctype debiandoc system>
+<!doctype debiandoc system [
+<!entity % manuals-version-def system "manuals-version">
+%manuals-version-def;
+]>
 
 <!--
  Debian Linux dpkg package installation tool.
@@ -11,7 +14,7 @@
 
 <title><prgn/dpkg/ programmers' manual
 <author>Ian Jackson <email/ijackson@gnu.ai.mit.edu/
-<version><date>
+<version>version &manuals-version; (dpkg &dpkg-version;), <date>
 
 <abstract>
 This manual describes the technical aspects of creating Debian binary
@@ -217,6 +220,11 @@ This is the key description file used by <prgn/dpkg/.  It specifies the
 package's name and version, gives its description for the user, states
 its relationships with other packages, and so forth.
 See <ref id="controlfile">.
+<p>
+
+It is usually generated automatically from information in the source
+package by the <prgn/dpkg-gencontrol/ program, and with assistance
+from <prgn/dpkg-shlibdeps/.  See <ref id="sourcetools">.
 
 <tag><tt/postinst/, <tt/preinst/, <tt/postrm/, <tt/prerm/
 <item>
@@ -350,14 +358,250 @@ fields is available in <ref id="controlfields">.
 The Debian binary packages in the distribution are generated from
 Debian sources, which are in a special format to assist the easy and
 automatic building of binaries.
+
+<sect id="sourcetools">Tools for processing source packages
 <p>
 
-Tools are provided for manipulating source packages; they pack and
-unpack sources and help build of binary packages and help manage the
-distribution of new versions.  See <manref name=dpkg-source section=1>
-for details.
+Various tools are provided for manipulating source packages; they pack
+and unpack sources and help build of binary packages and help manage
+the distribution of new versions.
+<p>
 
-<sect>The Debianised source tree
+They are introduced and typical uses described here; see <manref
+name=dpkg-source section=1> for full documentation about their
+arguments and operation.
+<p>
+
+For examples of how to construct a Debian source package, and how to
+use those utilities that are used by Debian source packages, please
+see the <prgn/hello/ example package.
+
+<sect1><prgn/dpkg-source/ - packs and unpacks Debian source packages
+<p>
+
+This program is frequently used by hand, and is also called from
+package-independent automated building scripts such as
+<prgn/dpkg-buildpackage/.
+<p>
+
+To unpack a package it is typically invoked with
+<example>
+dpkg-source -x <var>.../path/to/filename</>.dsc
+</example>
+with the <tt/<var/filename/.tar.gz/ and
+<tt/<var/filename/.diff.gz/ (if applicable) in the same directory.  It
+unpacks into <tt/<var/package/-<var/version//, and if applicable
+<tt/<var/package/-<var/version/.orig/, in the current directory.
+<p>
+
+To create a packed source archive it is typically invoked:
+<example>
+dpkg-source -b <var/package/-<var/version/
+</example>
+This will create the <tt/.dsc/, <tt/.tar.gz/ and <tt/.diff.gz/ (if
+appropriate) in the current directory.  <prgn/dpkg-source/ does not
+clean the source tree first - this must be done separately if it is
+required.
+<p>
+
+See also <ref id="sourcearchives">.
+
+
+<sect1><prgn/dpkg-buildpackage/ - overall package-building control
+script
+<p>
+
+<prgn/dpkg-buildpackage/ is a script which invokes <prgn/dpkg-source/,
+the <tt>debian/rules</> targets <prgn/clean/, <prgn/build/ and
+<prgn/binary/, <prgn/dpkg-genchanges/ and <prgn/pgp/ to build a signed
+source and binary package upload.
+<p>
+
+It is usually invoked by hand from the top level of the built or
+unbuilt source directory.  It may be invoked with no arguments; useful
+arguments include:
+<taglist compact>
+<tag><tt/-uc/, <tt/-us/
+<item>Do not PGP-sign the <tt/.changes/ file or the source package
+<tt/.dsc/ file, respectively.
+
+<tag><tt/-p<var/pgp-command//
+<item>Invoke <var/pgp-command/ instead of finding <tt/pgp/ on the
+<prgn/PATH/.  <var/pgp-command/ must behave just like <prgn/pgp/.
+
+<tag><tt/-r<var/root-command//
+<item>When root privilege is required, invoke the command
+<var/root-command/.  <var/root-command/ should invoke its first
+argument as a command, from the <prgn/PATH/ if necessary, and pass its
+second and subsequent arguments to the command it calls.  If no
+<var/root-command/ is supplied then <var/dpkg-buildpackage/ will take
+no special action to gain root privilege, so that for most packages it
+will have to be invoked as root to start with.
+
+<tag><tt/-b/, <tt/-B/
+<item>Two types of binary-only build and upload - see <manref
+name=dpkg-source section=1>.
+</taglist>
+
+
+<sect1><prgn/dpkg-gencontrol/ - generates binary package control files
+<p>
+
+This program is usually called from <tt>debian/rules</> (see <ref
+id="sourcetree">) in the top level of the source tree.
+<p>
+
+This is usually done just before the files and directories in the
+temporary directory tree where the package is being built have their
+permissions and ownerships set and the package is constructed using
+<prgn/dpkg-deb/<footnote>This is so that the control file which is
+produced has the right permissions</footnote>.
+<p>
+
+<prgn/dpkg-gencontrol/ must be called after all the files which are to
+go into the package have been placed in the temporary build directory,
+so that its calculation of the installed size of a package is correct.
+<p>
+
+It is also necessary for <prgn/dpkg-gencontrol/ to be run after
+<prgn/dpkg-shlibdeps/ so that the variable substitutions created by
+<prgn/dpkg-shlibdeps/ in <tt>debian/substvars</> are available.
+<p>
+
+For a package which generates only one binary package, and which
+builds it in <tt>debian/tmp</> relative to the top of the source
+package, it is usually sufficient to call:
+<example>
+dpkg-gencontrol
+</example>
+<p>
+
+Sources which build several binaries will typically need something
+like:
+<example>
+dpkg-gencontrol -Pdebian/tmp-<var/pkg/ -p<var/package/
+</example>
+The <tt/-P/ tells <prgn/dpkg-gencontrol/ that the package is being
+built in a non-default directory, and the <tt/-p/ tells it which
+package's control file should be generated.
+<p>
+
+<prgn/dpkg-gencontrol/ also adds information to the list of files in
+<tt>debian/files</>, for the benefit of (for example) a future
+invocation of <prgn/dpkg-genchanges/.
+
+
+<sect1><prgn/dpkg-shlibdeps/ - calculates shared library dependencies
+<p>
+
+This program is usually called from <tt>debian/rules</> just before
+<prgn/dpkg-gencontrol/ (see <ref id="sourcetree">), in the top level
+of the source tree.
+<p>
+
+Its arguments are executables<footnote>They may be specified either
+in the locations in the source tree where they are created or in the
+locations in the temporary build tree where they are installed prior
+to binary package creation.</footnote> for which shared library
+dependencies should be included in the binary package's control file.
+<p>
+
+If some of the executable(s) shared libraries should only warrant a
+<tt/Recommends/ or <tt/Suggests/, or if some warrant a
+<tt/Pre-Depends/, this can be achieved by using the
+<tt/-d<var/dependency-field// option before those executable(s).
+(Each <tt/-d/ option takes effect until the next <tt/-d/.)
+<p>
+
+<prgn/dpkg-shlibdeps/ does not directly cause the output control file
+to be modified.  Instead by default it adds to the
+<tt>debian/substvars</> file variable settings like
+<tt/shlibs:Depends/.  These variable settings must be referenced in
+dependency fields in the appropriate per-binary-package sections of
+the source control file.
+<p>
+
+For example, the <prgn/procps/ package generates two kinds of
+binaries, simple C binaries like <prgn/ps/ which require a
+predependency and full-screen ncurses binaries like <prgn/top/ which
+require only a recommendation.  It can say in its <tt>debian/rules</>:
+<example>
+dpkg-shlibdeps -dPre-Depends ps -dRecommends top
+</example>
+and then in its main control file <tt>debian/control</>:
+<example>
+<var/.../
+Package: procps
+Pre-Depends: ${shlibs:Pre-Depends}
+Recommends: ${shlibs:Recommends}
+<var/.../
+</example>
+<p>
+
+Sources which produce several binary packages with different shared
+library dependency requirements can use the <tt/-p<var/varnameprefix//
+option to override the default <tt/shlib:/ prefix (one invocation of
+<prgn/dpkg-shlibdeps/ per setting of this option).  They can thus
+produce several sets of dependency variables, each of the form
+<tt/<var/varnameprefix/:<var/dependencyfield//, which can be referred
+to in the appropriate parts of the binary package control files.
+
+
+<sect1><prgn/dpkg-distaddfile/ - adds a file to <tt>debian/files</>
+<p>
+
+Some packages' uploads need to include files other than the source and
+binary package files.
+<p>
+
+<prgn/dpkg-distaddfile/ adds a file to the <tt>debian/files</> file so
+that it will be included in the <tt/.changes/ file when
+<prgn/dpkg-genchanges/ is run.
+<p>
+
+It is usually invoked from the <prgn/binary/ target of
+<tt>debian/rules</>:
+<example>
+dpkg-distaddfile <var/filename/ <var/section/ <var/priority/
+</example>
+The <var/filename/ is relative to the directory where
+<prgn/dpkg-genchanges/ will expect to find it - this is usually the
+directory above the top level of the source tree.  The
+<tt>debian/rules</> target should put the file there just before or
+just after calling <prgn/dpkg-distaddfile/.
+<p>
+
+The <var/section/ and <var/priority/ are passed unchanged into the
+resulting <tt/.changes/ file.  See <ref id="f-classification">.
+
+
+<sect1><prgn/dpkg-genchanges/ - generates a <tt/.changes/ upload
+control file
+<p>
+
+This program is usually called by package-independent automatic
+building scripts such as <prgn/dpkg-buildpackage/, but it may also be
+called by hand.
+<p>
+
+It is usually called in the top level of a built source tree, and when
+invoked with no arguments will print out a straightforward
+<tt/.changes/ file based on the information in the source package's
+changelog and control file and the binary and source packages which
+should have been built.
+
+
+<sect1><prgn/dpkg-parsechangelog/ - produces parsed representation of
+a changelog
+<p>
+
+This program is used internally by <prgn/dpkg-source/ et al.  It may
+also occasionally be useful in <tt>debian/rules</> and elsewhere.  It
+parses a changelog, <tt>debian/changelog</> by default, and prints a
+control-file format representation of the information in it to
+standard output.
+
+<sect id="sourcetree">The Debianised source tree
 <p>
 
 The source archive scheme described later is intended to allow a
@@ -421,21 +665,37 @@ run <prgn/clean/ first, it is a good idea to <tt/touch build/ when the
 build process is complete.  This will ensure that if <tt>debian/rules
 build</tt> is run again it will not rebuild the whole program.
 
-<tag/<tt/binary//
+<tag/<tt/binary/, <tt/binary-arch/, <tt/binary-indep/
 <item>
 
-This target should be all that is necessary for the user to build the
-binary package.  It should depend on the <prgn/build/ target, above,
-so that the package is built if it has not been already.  It should
-then create the binary package(s), using <prgn/dpkg-gencontrol/ to
-make their control files and <prgn/dpkg-deb/ to build them and place
-them in the parent of the top level directory.
+The <prgn/binary/ target should be all that is necessary for the user
+to build the binary package.  It is split into two parts:
+<prgn/binary-arch/ builds the packages' output files which are
+specific to a particular architecture, and <prgn/binary-indep/
+builds those which are not.
+<p>
+
+<prgn/binary/ should usually be a target with no commands which simply
+depends on <prgn/binary-arch/ and <prgn/binary-indep/.
+<p>
+
+Both <prgn/binary-*/ targets should depend on the <prgn/build/ target,
+above, so that the package is built if it has not been already.  It
+should then create the relevant binary package(s), using
+<prgn/dpkg-gencontrol/ to make their control files and <prgn/dpkg-deb/
+to build them and place them in the parent of the top level directory.
+<p>
+
+If one of the <prgn/binary-*/ targets has nothing to do (this will be
+always be the case if the source generates only a single binary
+package, whether architecture-dependent or not) it <em/must/ still
+exist, but should always succeed.
 <p>
 
 <ref id="binarypkg"> describes how to construct binary packages.
 <p>
 
-The <prgn/binary/ target must be invoked as root.
+The <prgn/binary/ targets must be invoked as root.
 
 <tag/<tt/clean//
 <item>
@@ -1218,10 +1478,11 @@ separated by spaces.
 <p>
 
 In the <tt/.dsc/ (Debian source control) file each line contains the
-MD5 checksum, size and filename of the tarfile and (optionally) diff
-file which make up the remainder of the source package.<footnote>That
-is, the parts which are not the <tt/.dsc/.</footnote> The exact forms
-of the filenames are described in <ref id="sourcearchives">.
+MD5 checksum, size and filename of the tarfile and (if applicable)
+diff file which make up the remainder of the source
+package.<footnote>That is, the parts which are not the
+<tt/.dsc/.</footnote> The exact forms of the filenames are described
+in <ref id="sourcearchives">.
 <p>
 
 In the <tt/.changes/ file this contains one line per file being
@@ -1233,10 +1494,20 @@ id="f-classification">.  If no section or priority is specified then
 specified for new packages to be installed properly.
 <p>
 
-The special value <tt/byhand/ for the section indicates that the file
-in question is not an ordinary package file and must by installed by
-hand by the distribution maintainers.  If the section is <tt/byhand/
-the priority should be <tt/-/.
+The special value <tt/byhand/ for the section in a <tt/.changes/ file
+indicates that the file in question is not an ordinary package file
+and must by installed by hand by the distribution maintainers.  If the
+section is <tt/byhand/ the priority should be <tt/-/.
+<p>
+
+If a new Debian revision of a package is being shipped and no new
+original source archive is being distributed the <tt/.dsc/ must still
+contain the <tt/Files/ field entry for the original source archive
+<tt/<var/package/-<var/upstream-version/.orig.tar.gz/, but the
+<tt/.changes/ file should leave it out.  In this case the original
+source archive on the distribution site must match exactly,
+byte-for-byte, the original source archive which was used to generate
+the <tt/.dsc/ file and diff which are being uploaded.
 
 
 <sect1 id="f-Standards-Version"><tt/Standards-Version/
@@ -1251,6 +1522,7 @@ package needs attention.
 
 Its format is the same as that of a version number except that no
 epoch or Debian revision is allowed - see <ref id="versions">.
+
 
 <sect1 id="f-Distribution"><tt/Distribution/
 <p>
@@ -2221,6 +2493,18 @@ and currently unpacked or half-configured versions must satisfy any
 version clause in the <tt/Pre-Depends/ field.
 
 </taglist>
+
+<sect1>Dependencies on shared libraries
+<p>
+
+The dependency fields listed above are used by packages which need
+shared libraries to declare dependencies on the appropriate packages.
+<p>
+
+These dependencies are usually determined automatically using
+<prgn/dpkg-shlibdeps/ and inserted in the package control file using
+the control file substitution variables mechanism; see <ref
+id="srcsubstvars"> and <ref id="sourcetools">.
 
 <sect1>Deconfiguration due to removal during bulk installations
 <p>

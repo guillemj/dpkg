@@ -8,6 +8,7 @@ use POSIX qw(:errno_h :signal_h);
 
 $shlibsoverride= '/etc/dpkg/shlibs.override';
 $shlibsdefault= '/etc/dpkg/shlibs.default';
+$shlibslocal= 'debian/shlibs.local';
 $shlibsppdir= '/var/lib/dpkg/info';
 $shlibsppext= '.shlibs';
 $varnameprefix= 'shlibs';
@@ -28,13 +29,14 @@ version 2 or later for copying conditions.  There is NO warranty.
 Usage:
   dpkg-shlibdeps [<option> ...] <executable>|-e<executable> [<option>] ...
 Positional arguments/options (order is significant):
-          <executable>           } include dependencies for <executable>
-          -e<executable>         }  (use -e if <executable> starts with \`-')
-          -d<dependencyfield>    next executable(s) set shlibs:<dependencyfield>
+       <executable>           } include dependencies for <executable>
+       -e<executable>         }  (use -e if <executable> starts with \`-')
+       -d<dependencyfield>    next executable(s) set shlibs:<dependencyfield>
 Overall options (have global effect no matter where placed):
-          -p<varnameprefix>      set <varnameprefix>:* instead of shlibs:*.
-          -O                     print variable settings to stdout
-          -T<varlistfile>        update variables here, not debian/substvars
+       -p<varnameprefix>      set <varnameprefix>:* instead of shlibs:*.
+       -O                     print variable settings to stdout
+       -L<localshlibsfile>    shlibs override file, not debian/shlibs.local
+       -T<varlistfile>        update variables here, not debian/substvars
 Dependency fields recognised are ".join("/",@depfields)."
 ";
 }
@@ -47,6 +49,8 @@ while (@ARGV) {
         $varlistfile= $';
     } elsif (m/^-p(\w[-:0-9A-Za-z]*)$/) {
         $varnameprefix= $1;
+    } elsif (m/^-L/) {
+        $shlibslocal= $';
     } elsif (m/^-O$/) {
         $stdout= 1;
     } elsif (m/^-h$/) {
@@ -102,6 +106,7 @@ while (<P>) {
 close(P); $? && subprocerr("dpkg --search");
 
 for ($i=0;$i<=$#libname;$i++) {
+    scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i]) && next;
     scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i]) && next;
     if (!defined($pathpackages{$libpath[$i]})) {
         &warn("could not find any packages for $libpath[$i]".

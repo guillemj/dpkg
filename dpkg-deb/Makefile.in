@@ -23,8 +23,8 @@ exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
 libdir = $(prefix)/lib
 mandir = $(prefix)/man
-man8dir = $(mandir)/man8
-man8 = 8
+man1dir = $(mandir)/man1
+man1 = 1
 
 SRC = main.c build.c extract.c info.c
 OBJ = main.o build.o extract.o info.o
@@ -63,4 +63,4 @@ distclean:	clean
 
 install:	all
 		$(INSTALL_PROGRAM) -s dpkg-deb $(bindir)/dpkg-deb
-		$(INSTALL_DATA) dpkg-deb.8 $(man8dir)/dpkg-deb.$(man8)
+		$(INSTALL_DATA) dpkg-deb.1 $(man1dir)/dpkg-deb.$(man1)

@@ -12,13 +12,19 @@ Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
 Usage: dpkg-buildpackage [options]
-Options:  -r<gain-root-command>
-          -p<pgp-command>
-          -b         (binary-only)
-          -B         (binary-only, no arch-indep files)
-          -us        (unsigned source)
-          -uc        (unsigned changes)
-          -h         print this message
+Options: -r<gain-root-command>
+         -p<pgp-command>
+         -us           unsigned source
+         -uc           unsigned changes
+         -b            binary-only, do not build source } also passed to
+         -B            binary-only, no arch-indep files } dpkg-genchanges
+         -v<version>   changes since version <version>      }
+         -m<maint>     maintainer for release is <maint>    } only passed
+         -C<descfile>  changes are described in <descfile>  }  to dpkg-
+         -si (default) src includes orig for rev. 0 or 1    } genchanges
+         -sa           uploaded src includes orig (default) }
+         -sd           uploaded src is diff and .dsc only   }
+         -h            print this message
 END
 }
 
@@ -26,6 +32,11 @@ rootcommand=''
 pgpcommand=pgp
 signsource=signfile
 signchanges=signfile
+binarytarget=binary
+sourcestyle=''
+version=''
+maint=''
+desc=''
 
 while [ $# != 0 ]
 do
@@ -36,7 +47,13 @@ do
 	-p*)	pgpcommand="$value" ;;
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
-	-b|-B)	binaryonly=$1 ;;
+	-sa)	sourcestyle='' ;;
+	-sd)	sourcestyle=-sd ;;
+	-b)	binaryonly=-b ;;
+	-B)	binaryonly=-b; binarytarget=binary-arch ;;
+	-v*)	version="$value" ;;
+	-m*)	maint="$value" ;;
+	-C*)	descfile="$value" ;;
 	*)	echo >&2 "$progname: unknown option or argument $1"
 		usageversion; exit 2 ;;
 	esac
@@ -66,14 +83,19 @@ signfile () {
 	mv -- "../$1.asc" "../$1"
 }
 
-set -x -e
+set -- $binaryonly
+if [ -n "$maint"	]; then set -- "$@" "-m$maint"		; fi
+if [ -n "$version"	]; then set -- "$@" "-v$version"	; fi
+if [ -n "$desc"		]; then set -- "$@" "-C$desc"		; fi
+
+set -x
 
 $rootcommand debian/rules clean
 if [ x$binaryonly = x ]; then
 	cd ..; dpkg-source -b "$dirn"; cd "$dirn"
 fi
 debian/rules build
-$rootcommand debian/rules binary
+$rootcommand debian/rules $binarytarget
 $signsource "$pv.dsc"
-dpkg-genchanges $binaryonly >../"$pva.changes"
+dpkg-genchanges $binaryonly $sourcestyle >../"$pva.changes"
 $signchanges "$pva.changes"

@@ -19,7 +19,13 @@ clean:
 	-rm -f config.cache config.status config.h install config.log
 	find -name '*~' -print0 | xargs -r0 rm --
 
-binary:	checkroot build
+binary:		binary-arch binary-indep
+
+binary-indep:
+	$(checkdir)
+
+binary-arch:	checkroot build
+	$(checkdir)
 	-rm -rf debian/tmp
 	install -d debian/tmp debian/tmp/DEBIAN debian/tmp/etc/dpkg
 	install -d debian/tmp/usr/doc/{copyright,dpkg}
@@ -40,6 +46,7 @@ binary:	checkroot build
 		install
 	cp debian/copyright debian/tmp/usr/doc/copyright/dpkg
 	cp TODO debian/tmp/usr/doc/dpkg/WISHLIST
+	gzip -9v debian/tmp/usr/doc/dpkg/changelog.*
 	touch debian/tmp/var/lib/dpkg/{status,available}
 	dpkg-shlibdeps -dPre-Depends main/dpkg dselect/dselect
 	dpkg-gencontrol

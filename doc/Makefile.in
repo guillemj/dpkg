@@ -35,9 +35,7 @@ INSTALL_DATA = @INSTALL_DATA@
 MAKEINFO = makeinfo
 TEXI2DVI = texi2dvi
 
-DPKGDOCS= developer-keys.pgp
-
-SGMLDOCS= programmer policy
+SGMLDOCSTAMPS= programmer.html-stamp policy.html-stamp
 
 # Files folded into manuals
 OBSOLETEDOCS= descriptions.txt upgrades+errors.txt \
@@ -46,10 +44,18 @@ OBSOLETEDOCS= descriptions.txt upgrades+errors.txt \
  disappear-replace.txt diversions.text \
  essential-flag.txt version-ordering.txt
 
-all:		$(DPKGDOCS) $(SGMLDOCS)
+all:		$(DPKGDOCS) $(SGMLDOCSTAMPS)
 
-$(SGMLDOCS):
-		debiandoc2html $@.sgml
+manuals-version:	changelog Makefile
+		v=`dpkg-parsechangelog -lchangelog | sed -n 's/^Version: //p'` && \
+		echo "<!entity manuals-version \"$$v\">" >$@.new
+		d=`pwd | sed -e 's,/doc$$,,; s,^.*dpkg-\([0-9.]*\),\1,'` && \
+		echo "<!entity dpkg-version \"$$d\">" >>$@.new
+		mv $@.new $@
+
+%.html-stamp:	%.sgml manuals-version
+		rm -rf $*.html
+		debiandoc2html $<
 		touch $@
 
 guidelines.info: guidelines.texi
@@ -65,7 +71,7 @@ database-structure.monops: database-structure.ps
 		mv ps database-structure.monops
 
 clean:
-		rm -f $(SGMLDOCS)
+		rm -f $(SGMLDOCSTAMPS)
 		rm -f database-structure.ps database-structure.monops ps
 		rm -f *.{aux,cp,dvi,fn,ky,log,pg,toc,tp,vr,bak}
 		rm -f guidelines.info* *.sasp*
@@ -78,9 +84,10 @@ install:	all
 		$(INSTALL_DATA) deb.5 $(man5dir)/deb.$(man5)
 		$(INSTALL_DATA) deb-old.5 $(man5dir)/deb-old.$(man5)
 		$(INSTALL_DATA) deb-control.5 $(man5dir)/deb-control.$(man5)
-		set -e; for f in $(SGMLDOCS) ; do \
-			cp -r $$f.html $(dpkgdocdir)/$$f.html ; \
+		set -e; for f in $(SGMLDOCSTAMPS) ; do \
+			g=`echo $$f | sed -e 's/-stamp$$//'` ; \
+			cp -r $$g $(dpkgdocdir)/$$g ; \
 		done
-		set -e; for d in $(DPKGDOCS) ; do \
-			$(INSTALL_DATA) $$d $(dpkgdocdir)/$$d ; \
-		done
+		$(INSTALL_DATA) developer-keys.pgp $(dpkgdocdir)/.
+		$(INSTALL_DATA) ../debian/changelog $(dpkgdocdir)/changelog.dpkg
+		$(INSTALL_DATA) changelog $(dpkgdocdir)/changelog.manuals
