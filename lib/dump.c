@@ -222,6 +222,7 @@ void writerecord(FILE *file, const char *filename,
   varbufaddc(&vb,'\0');
   if (fputs(vb.buf,file) < 0)
     ohshite("failed to write details of `%.50s' to `%.250s'", pigp->name, filename);
+   varbuffree(&vb);
 }
 
 void writedb(const char *filename, int available, int mustsync) {

@@ -381,5 +381,6 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     if (!*p) break;
     p++; while (isspace(*p)) p++;
   }
+  varbuffree(&depname); varbuffree(&version);
 }
 
