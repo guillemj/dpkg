@@ -76,7 +76,7 @@ static const menuentry menuentries[]= {
 };
 
 static const char programdesc[]=
-      N_("Debian Linux `%s' package handling frontend.");
+      N_("Debian GNU/Linux `%s' package handling frontend.");
 
 static const char copyrightstring[]= N_(
       "Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"

@@ -161,7 +161,7 @@ static void
 do_help(void)
 {
 	printf("\
-start-stop-daemon for Debian Linux - small and fast C version written by\n\
+start-stop-daemon for Debian GNU/Linux - small and fast C version written by\n\
 Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>, public domain.\n"
 VERSION "\n\
 \n\

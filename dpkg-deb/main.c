@@ -41,7 +41,7 @@
 #include "dpkg-deb.h"
 
 static void printversion(void) {
-  if (fputs(_("Debian Linux `" BACKEND "' package archive backend version "), stdout) < 0) werr("stdout");
+  if (fputs(_("Debian GNU/Linux `" BACKEND "' package archive backend version "), stdout) < 0) werr("stdout");
   if (fputs(DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
   if (fputs(_("Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
 	      "GNU General Public Licence version 2 or later for copying conditions.\n"

@@ -41,7 +41,7 @@
 #include "main.h"
 
 static void printversion(void) {
-  if (fputs(_("Debian Linux `"), stdout) < 0) werr("stdout");
+  if (fputs(_("Debian GNU/Linux `"), stdout) < 0) werr("stdout");
   if (fputs(DPKG, stdout) < 0) werr("stdout");
   if (fputs(_("' package management program version "), stdout) < 0) werr("stdout");
   if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");

@@ -35,7 +35,7 @@
 
 static void printversion(void) {
   if (fputs
-      (_("Debian Linux `dpkg-split' package split/join tool; version "), stdout) < 0) werr ("stdout");
+      (_("Debian GNU/Linux `dpkg-split' package split/join tool; version "), stdout) < 0) werr ("stdout");
   if (fputs (DPKG_VERSION_ARCH ".\n", stdout) < 0) werr ("stdout");
   if (fputs (_("Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
        "GNU General Public Licence version 2 or later for copying conditions.\n"

@@ -27,7 +27,7 @@
 my $version = '1.1.6'; # This line modified by Makefile
 sub version {
     print STDERR <<END;
-Debian Linux cleanup-info $version.  Copyright (C)1996 Kim-Minh Kaplan.
+Debian GNU/Linux cleanup-info $version.  Copyright (C)1996 Kim-Minh Kaplan.
 This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 END
