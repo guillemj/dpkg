@@ -21,6 +21,14 @@ dpkg
 * refactor processarc.c
 * add test to see if a file should really be installed and optionally
   skip it
+* dpkg --reconfigure <pkg> <pkg>
+    <pkg>.postinst reconfigure <ver>
+    Fail if pkg is not in the configured state.
+* dpkg --call-maint-script=<script> --maint-script-arg=<arg>
+  --maint-script-arg=<arg> <pkg> <pkg>
+    dpkg will not allow <script> to be one of {pre,post}{inst,rm}.  Only
+    unknown scripts can be called this way.  dpkg will also not keep track
+    of any state for these scripts.
 
 Fix:
 <joeyh_> package a conflicted with old versions of package b. package b
