@@ -241,7 +241,7 @@ extern "C" {
 
     if ((colours == NULL || ! strlen(colours)) &&
         (attributes == NULL || ! strlen(attributes))) {
-       ohshit(_("Null color specificaton\n"));
+       ohshit(_("Null color specification\n"));
     }
 
     if (colours != NULL && strlen(colours)) {
