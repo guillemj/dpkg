@@ -115,7 +115,7 @@ static struct proc_stat_list *procset;
 
 struct pid_list {
 	struct pid_list *next;
-	int pid;
+	pid_t pid;
 };
 
 static struct pid_list *found = NULL;
@@ -131,17 +131,17 @@ static int schedule_length;
 static struct schedule_item *schedule = NULL;
 
 static void *xmalloc(int size);
-static void push(struct pid_list **list, int pid);
+static void push(struct pid_list **list, pid_t pid);
 static void do_help(void);
 static void parse_options(int argc, char * const *argv);
-static int pid_is_user(int pid, uid_t uid);
-static int pid_is_cmd(int pid, const char *name);
-static void check(int pid);
+static int pid_is_user(pid_t pid, uid_t uid);
+static int pid_is_cmd(pid_t pid, const char *name);
+static void check(pid_t pid);
 static void do_pidfile(const char *name);
 static void do_stop(int signal_nr, int quietmode,
 		    int *n_killed, int *n_notkilled, int retry_nr);
 #if defined(OSLinux)
-static int pid_is_exec(int pid, const struct stat *esb);
+static int pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
 
@@ -221,7 +221,7 @@ xgettimeofday(struct timeval *tv)
 
 
 static void
-push(struct pid_list **list, int pid)
+push(struct pid_list **list, pid_t pid)
 {
 	struct pid_list *p;
 
@@ -402,7 +402,7 @@ parse_schedule(const char *schedule_str) {
 		repeatat = -1;
 		while (schedule_str != NULL) {
 			slash = strchr(schedule_str,'/');
-			str_len = slash ? slash - schedule_str : (ptrdiff_t)strlen(schedule_str);
+			str_len = slash ? slash - schedule_str : strlen(schedule_str);
 			if (str_len >= (ptrdiff_t)sizeof(item_buf))
 				badusage("invalid schedule item: far too long"
 					 " (you must delimit items with slashes)");
@@ -564,7 +564,7 @@ parse_options(int argc, char * const *argv)
 
 #if defined(OSLinux)
 static int
-pid_is_exec(int pid, const struct stat *esb)
+pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	struct stat sb;
 	char buf[32];
@@ -577,7 +577,7 @@ pid_is_exec(int pid, const struct stat *esb)
 
 
 static int
-pid_is_user(int pid, uid_t uid)
+pid_is_user(pid_t pid, uid_t uid)
 {
 	struct stat sb;
 	char buf[32];
@@ -590,7 +590,7 @@ pid_is_user(int pid, uid_t uid)
 
 
 static int
-pid_is_cmd(int pid, const char *name)
+pid_is_cmd(pid_t pid, const char *name)
 {
 	char buf[32];
 	FILE *f;
@@ -617,7 +617,7 @@ pid_is_cmd(int pid, const char *name)
 
 #if defined(OSHURD)
 static int
-pid_is_user(int pid, int uid)
+pid_is_user(pid_t pid, uid_t uid)
 {
 	struct stat sb;
 	char buf[32];
@@ -635,7 +635,7 @@ pid_is_user(int pid, int uid)
 }
 
 static int
-pid_is_cmd(int pid, const char *name)
+pid_is_cmd(pid_t pid, const char *name)
 {
 	struct proc_stat *pstat;
 	pstat = proc_stat_list_pid_proc_stat (procset, pid);
@@ -649,7 +649,7 @@ pid_is_cmd(int pid, const char *name)
 
 
 static void
-check(int pid)
+check(pid_t pid)
 {
 #if defined(OSLinux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
@@ -669,7 +669,7 @@ static void
 do_pidfile(const char *name)
 {
 	FILE *f;
-	int pid;
+	pid_t pid;
 
 	f = fopen(name, "r");
 	if (f) {
@@ -689,7 +689,8 @@ do_procinit(void)
 {
 	DIR *procdir;
 	struct dirent *entry;
-	int foundany, pid;
+	int foundany;
+	pid_t pid;
 
 	procdir = opendir("/proc");
 	if (!procdir)
@@ -745,7 +746,7 @@ do_procinit(void)
 
 #if defined(OSOpenBSD)
 int
-pid_is_cmd(int pid, const char *name)
+pid_is_cmd(pid_t pid, const char *name)
 {
         kvm_t *kd;
         int nentries, argv_len=0;
@@ -786,7 +787,7 @@ pid_is_cmd(int pid, const char *name)
 }
  
 int
-pid_is_user(int pid, int uid)
+pid_is_user(pid_t pid, int uid)
 {
 	kvm_t *kd;
 	int nentries;   /* Value not used */
@@ -809,7 +810,7 @@ pid_is_user(int pid, int uid)
 }
 
 int
-pid_is_exec(int pid, const char *name)
+pid_is_exec(pid_t pid, const char *name)
 {
 	kvm_t *kd;
 	int nentries;
