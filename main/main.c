@@ -264,22 +264,23 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
   *cip->iassignto= v;
 }
 
-
-static void setstatuspipe(const struct cmdinfo *cip, const char *value) {
-  static struct pipef *lastpipe= NULL;
+static void setpipe(const struct cmdinfo *cip, const char *value) {
+  static struct pipef **lastpipe;
   unsigned long v;
   char *ep;
 
   v= strtoul(value,&ep,0);
   if (*ep || v > INT_MAX)
     badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
-  if (lastpipe) {
-    lastpipe->next= nfmalloc(sizeof(struct pipef));
-    lastpipe= lastpipe->next;
+
+  lastpipe= cip->parg;
+  if (*lastpipe) {
+    (*lastpipe)->next= nfmalloc(sizeof(struct pipef));
+    *lastpipe= (*lastpipe)->next;
   } else {
-    lastpipe= status_pipes= nfmalloc(sizeof(struct pipef));
+    *lastpipe= nfmalloc(sizeof(struct pipef));
   }
-  lastpipe->fd= v;
+  (*lastpipe)->fd= v;
 }
 
 void setforce(const struct cmdinfo *cip, const char *value) {
@@ -389,7 +390,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
 */
   
-  { "status-fd",	  0,   1,  0,              0,  setstatuspipe },
+  { "status-fd",	  0,   1,  0,              0,  setpipe, 0, &status_pipes },
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
