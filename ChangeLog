@@ -1,3 +1,12 @@
+Tue Feb  8 21:33:58 EST 2000 Ben Collins <bcollins@debian.org>
+
+  * main/{processarc,archive}.c: Make the conflictor an array of structs and
+    make sure that check_conflicts uses that and increments a global indexs
+    for the array. The reason that multiple conflicts/replaces were getting
+    borked had something to do with thre first one in the hash not being
+    processed. This was the result of bad pointer games, so this makes it a
+    lot cleaner.
+
 Wed Jan 19 16:41:04 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * scripts/controllib.pl: add comment with description of global variables
