@@ -145,8 +145,9 @@ main(int argc, char **argv)
 				perror(*argv);
 				rc++;
 				break;
+			default:
+				printf("%s %c%s\n", digest, bin_mode ? '*' : ' ', *argv);
 		}
-		printf("%s %c%s\n", digest, bin_mode ? '*' : ' ', *argv);
 	}
 	return rc;
 }
