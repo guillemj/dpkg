@@ -95,7 +95,7 @@ void baselist::kd_searchagain() {
 }
 
 void baselist::kd_search() {
-  char newsearchstring[50]
+  char newsearchstring[50];
   strcpy(newsearchstring,searchstring);
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
