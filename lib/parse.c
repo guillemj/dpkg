@@ -132,7 +132,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     blankpackage(&newpig);
     blankpackageperfile(newpifp);
 /* Skip adjacent new lines */
-    for (;;) {
+    while(!EOF_mmap(dataptr, endptr)) {
       c= getc_mmap(dataptr); if (c!='\n' && c!=MSDOS_EOF_CHAR ) break;
       lno++;
     }
@@ -156,9 +156,9 @@ int parsedb(const char *filename, enum parsedbflags flags,
         parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("field name `%.*s' must be followed by colon"),fieldlen,fieldstart);
 /* Skip space after ':' but before value and eol */
-      for (;;) {
+      while(!EOF_mmap(dataptr, endptr)) {
         c= getc_mmap(dataptr);
-        if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
+        if (c == '\n' || !isspace(c)) break;
       }
       if (EOF_mmap(dataptr, endptr))
         parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
