@@ -13,9 +13,8 @@ Package: dpkg
 Architecture: any
 Essential: yes
 Pre-Depends: dselect, ${shlibs:Pre-Depends}
-Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch
+Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch, dpkg-static
 Replaces: dpkg-doc-ja, dpkg-static, manpages-de (<= 0.4-3)
-Conflicts: dpkg-static
 Description: Package maintenance system for Debian
  This package contains the programs which handle the installation and
  removal of packages on your system.
@@ -31,9 +30,8 @@ Package: dpkg-static
 Architecture: any
 Priority: optional
 Pre-Depends: dselect, ${shlibs:Pre-Depends}
-Depends: sysvinit (>= 2.82-1)
-Replaces: dpkg-doc-ja, dpkg
-Conflicts: dpkg
+Replaces: dpkg-doc-ja, dpkg, manpages-de (<= 0.4-3)
+Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch, dpkg
 Provides: dpkg
 Description: Package maintenance system for Debian (static compile)
  This package contains the programs which handle the installation and
