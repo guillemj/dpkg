@@ -1,3 +1,11 @@
+Wed Sep 12 18:45:57 CDT 2001 Adam Heath <doogie@debian.org>
+
+  Fixes for building of dpkg-static.deb.
+    * Can't build both dpkg.deb and dpkg-static.deb in single run, because
+      /etc is moved from $(INSTALL_TMP), instead of copied.
+    * dpkg-static.deb is added to debian/files, even if it isn't created.
+    * dpkg-static.tar.gz is added to debian/files, even if it doesn't exist.
+
 Wed Sep 12 17:28:57 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
 
   * dpkg-deb/main.c: Fix unterminated line in usage text

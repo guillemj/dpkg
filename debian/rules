@@ -81,7 +81,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/bin
 	install -d -m 755 -o root -g root $(TMP_DPKG)/sbin
-	-test -d $(INSTALL_TMP)/etc && mv $(INSTALL_TMP)/etc $(TMP_DPKG)/
+	-test -d $(INSTALL_TMP)/etc && cp -a $(INSTALL_TMP)/etc $(TMP_DPKG)/
 	cp -a $(INSTALL_TMP)/var $(TMP_DPKG)/
 	cp -a $(INSTALL_TMP)/usr/sbin/start-stop-daemon $(TMP_DPKG)/sbin/
 	cp -a $(INSTALL_TMP)/usr/sbin $(TMP_DPKG)/usr/
@@ -145,10 +145,9 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 		$(TMP_DPKG)/sbin/start-stop-daemon \
 		`test -z "$(static)" && echo $(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/md5sum $(TMP_DPKG)/usr/bin/dpkg-deb`
 
+binary-dpkg binary-dpkg-static: %: %-most
 	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
 		-Tdebian/dpkg$(static).substvars -pdpkg$(static) -P$(TMP_DPKG)
-
-binary-dpkg binary-dpkg-static: %: %-most
 	dpkg --build $(TMP_DPKG) ..
 
 binary-dpkg-dev: stamp-binary
@@ -283,10 +282,12 @@ binary-arch: binary-dpkg binary-dpkg-static-most binary-dselect
 	set -e ; \
 	v=`sed -n 's/^Version: //p' $(TMP_DPKG)/DEBIAN/control`; \
 	for type in "" -static; do\
-		f=dpkg-$${v}_$(arch)$$type.nondebbin.tar ; \
-		tar -C $(TMP_DPKG)$$type -cf $(DIR)/../$$f usr var ; \
-		gzip -9f ../$$f ; \
-		dpkg-distaddfile -fdebian/files $$f.gz byhand -; \
+		if [ -d $(TMP_DPKG)$$type ]; then\
+			f=dpkg-$${v}_$(arch)$$type.nondebbin.tar ; \
+			tar -C $(TMP_DPKG)$$type -cf $(DIR)/../$$f usr var ; \
+			gzip -9f ../$$f ; \
+			dpkg-distaddfile -fdebian/files $$f.gz byhand -; \
+		fi;\
 	done
 
 binary-indep: binary-dpkg-dev binary-dpkg-doc
