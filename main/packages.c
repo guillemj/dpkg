@@ -298,7 +298,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
       } else {
 	debug(dbg_depcondetail,"      checking package %s provided by pkg %s",
 	      checkversion->ed->name,possdependee->name);
-        if (versionsatisfied3(&checkversion->version,&provider->version,
+        if (!versionsatisfied3(&checkversion->version,&provider->version,
                               checkversion->verrel)) {
           varbufaddstr(oemsgs,_("  Version of "));
 	  varbufaddstr(oemsgs,checkversion->ed->name);
@@ -391,12 +391,38 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                provider= provider->nextrev) {
             if (provider->up->type != dep_provides) continue;
             debug(dbg_depcondetail,"     checking provider %s",provider->up->up->name);
-	    if (possi->verrel == dvr_none)
+	    if (possi->verrel == dvr_none) {
+	      /* A simple package dep, no version */
 	      thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
 				       &matched,NULL,&interestingwarnings,&oemsgs,NULL);
-	    else
-              thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
-                                       &matched,possi,&interestingwarnings,&oemsgs,provider);
+	    } else if (provider->verrel == dvr_exact) {
+	      /* For versioned depends, we only check providers with
+	       * dvr_exact. It doesn't make sense to check ones without a
+	       * version since we have nothing to verify it. Also, it is
+	       * way too complex to allow anything but exact in a provided
+	       * version. A few examples below to deter you from
+	       * trying:
+	       *
+	       *  - foo depends on pkg1 (>= 0.6), bar provides pkg1 (<= 1.0).
+	       *    Should pass (easy enough)
+	       *
+	       *  - foo depends on pkg1 (>= 0.7) and (<= 1.1), bar
+	       *    provides pkg1 (>= 1.2). Should fail (little harder)
+	       *
+	       *  - foo depends on pkg1 (>= 0.4), bar provides pkg1 (<= 1.0)
+	       *    and (>= 0.5), IOW, inclusive of only those versions.
+	       *    This would require backchecking the other provided
+	       *    versions in the possi, which would make things sickly
+	       *    complex and overly time consuming.
+	       *
+	       *  There's probably some miracle formula to do this, but I
+	       *  don't see it, and there's little to gain, IMNHO. Also,
+	       *  packages can get around most of these by providing
+	       *  multiple dvr_exact versions. -- Ben
+	       */
+	      thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
+				       &matched,possi,&interestingwarnings,&oemsgs,provider);
+	    }
             if (thisf > found) found= thisf;
           }
         }
