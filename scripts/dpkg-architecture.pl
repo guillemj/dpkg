@@ -63,7 +63,9 @@ require 'controllib.pl';
 	    's390',	 's390-linux',
 	    'ia64',	 'ia64-linux',
 	    'openbsd-i386', 'i386-openbsd',
-	    'freebsd-i386', 'i386-freebsd');
+	    'freebsd-i386', 'i386-freebsd'
+	    'darwin-powerpc', 'powerpc-darwin',
+	    'darwin-i386', 'i386-darwin');
 
 sub usageversion {
     print STDERR
