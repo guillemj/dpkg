@@ -29,14 +29,15 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
-#ifdef PARSE_MMAP
-#include <sys/mman.h>
-#endif
 
 #include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
 #include "parsedump.h"
+
+#ifdef HAVE_MMAP
+#include <sys/mman.h>
+#endif
 
 const struct fieldinfo fieldinfos[]= {
   /* NB: capitalisation of these strings is important. */
@@ -108,7 +109,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   if (fstat(fd, &stat) == -1)
     ohshite(_("can't stat package info file `%.255s'"),filename);
 
-#ifdef PARSE_MMAP
+#ifdef HAVE_MMAP
   if ((dataptr= (char *)mmap(NULL, stat.st_size, PROT_READ, MAP_SHARED, fd, 0)) == MAP_FAILED)
     ohshite(_("can't mmap package info file `%.255s'"),filename);
 #else
@@ -316,7 +317,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (c == '\n') lno++;
   }
   pop_cleanup(0);
-#ifdef PARSE_MMAP
+#ifdef HAVE_MMAP
   munmap(data, stat.st_size);
 #else
   free(data);
