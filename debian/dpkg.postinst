@@ -123,10 +123,20 @@ if [ -d /usr/doc -a ! -e /usr/doc/dpkg -a -d /usr/share/doc/dpkg ] ; then
 fi
 
 
-if [ ! -L /usr/info/dir ]; then
-	echo "Moving /usr/info/dir to /usr/share/info/dir, and creating /usr/info/dir symlink."
+if [ -d /usr/info -a ! -L /usr/info -a ! -L /usr/info/dir ]; then              
+	echo Moving /usr/info/dir to /usr/share/info/dir.
 	mv /usr/info/dir /usr/share/info/dir
-	ln -sf ../share/info/dir /usr/info/dir
+	if [ -f /usr/info/dir.old ]; then
+		mv /usr/info/dir.old /usr/share/info/dir.old
+	fi
+	if [ "`find /usr/info -empty`" = "/usr/info" ]; then
+		echo Making /usr/info a symlink to /usr/share/info.
+		rmdir /usr/info
+		ln -s share/info /usr/info
+	else
+		echo Making /usr/info/dir a symlink to /usr/share/info/dir.
+		ln -sf ../share/info/dir /usr/info/dir
+	fi
 fi
 
 
