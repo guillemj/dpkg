@@ -1,36 +1,31 @@
 # This file contains a table of known architecture strings, with
-# things to map them to. `configure' will take the output of gcc
-# --print-libgcc-file-name, strip off leading directories up to and
-# including gcc-lib, strip off trailing /libgcc.a and trailing version
-# number directory, and then strip off everything after the first
-# hyphen.  The idea is that you're left with this bit:
-#   $ gcc --print-libgcc-file-name
-#   /usr/lib/gcc-lib/i486-linux/2.7.2/libgcc.a
-#                    ^^^^
-# This is then looked up in the table below, to find out what to map
-# it to.  If it isn't found then configure will print a warning and
-# continue.  You can override configure's ideas using --with-arch.
-# The third field is the GNU configure architecture to use with
-# this build architecture.
+# things to map them to.
+#
+# Column 1 contains the $target_cpu-$target_os string as determined
+# by configure.
+# Column 2 contains the Debian architecture string, which is
+# returned by `dpkg --print-installation-architecture'.
+# Column 3 is returned by `dpkg --print-architecture'.
 
-i386	i386	i486
-i486	i386	i486
-i586	i386	i486
-i686	i386	i486
-pentium	i386	i486
-sparc	sparc	sparc
-sparc64	sparc64	sparc64
-alpha	alpha	alpha
-alphaev4	alpha	alpha
-alphaev5	alpha	alpha
-alphaev56	alpha	alpha
-alphaev6	alpha	alpha
-alphapca56	alpha	alpha
-m68k	m68k	m68k
-arm	arm	arm
-armv4l	arm	arm
-ppc	powerpc	powerpc
-powerpc	powerpc	powerpc
-mips	mips	mips
-mipsel	mipsel	mipsel
-mipseb	mips	mips
+i386-linux-gnu		i386		i486
+i486-linux-gnu		i386		i486
+i586-linux-gnu		i386		i486
+i686-linux-gnu		i386		i486
+pentium-linux-gnu	i386		i486
+sparc-linux-gnu		sparc		sparc
+sparc64-linux-gnu	sparc64		sparc64
+alpha-linux-gnu		alpha		alpha
+alphaev4-linux-gnu	alpha		alpha
+alphaev5-linux-gnu	alpha		alpha
+alphaev56-linux-gnu	alpha		alpha
+alphaev6-linux-gnu	alpha		alpha
+alphapca56-linux-gnu	alpha		alpha
+m68k-linux-gnu		m68k		m68k
+arm-linux-gnu		arm		arm
+armv4l-linux-gnu	arm		arm
+ppc-linux-gnu		powerpc		powerpc
+powerpc			powerpc		powerpc
+mips-linux-gnu		mips		mips
+mipsel-linux-gnu	mipsel		mipsel
+mipseb-linux-gnu	mips		mips
+i386-gnu		hurd-i386	undefined

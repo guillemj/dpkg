@@ -58,20 +58,16 @@ AC_MSG_RESULT($VERSION)
 AC_PREFIX_DEFAULT(/usr)
 
 dpkg_archset=''
-AC_MSG_CHECKING(system architecture)
-dpkg_archset="`awk '$1 == "'$target_cpu'" { print $2 }' $srcdir/archtable`"
+AC_MSG_CHECKING(Debian architecture)
+dpkg_archset="`awk '$1 == "'$target_cpu-$target_os'" { print $2 }' $srcdir/archtable`"
 # Finish off
 if test "x$dpkg_archset" = "x"; then
- AC_MSG_RESULT($target_cpu, but not found in archtable)
- dpkg_archset=$target_cpu
-else
+ AC_MSG_RESULT([$target_cpu-$target_os, but not found in archtable])
+ dpkg_archset=$target_cpu-$target_os
+ else
  AC_MSG_RESULT($dpkg_archset)
 fi
-
-if test "x$dpkg_archset" != x
-then
- AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}")
-fi
+AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_archset}")
 
 dnl gettext
 

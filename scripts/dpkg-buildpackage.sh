@@ -71,7 +71,7 @@ do
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
 	-ap)	usepause="true";;
-	-a*)    opt_a=1; arch="$value" ;;
+	-a*)    opt_a=1; targetarch="$value" ;;
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
@@ -116,11 +116,9 @@ mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source pac
 mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version"
 if [ -n "$maint" ]; then maintainer="$maint"; 
 else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
-command -v dpkg-architecture > /dev/null 2>&1 && eval `dpkg-architecture -a${arch} -t${targetgnusystem} -s`
-archlist=`dpkg-architecture -a${arch} -t${targetgnusystem} -f 2> /dev/null`
-test "${opt_a}" \
-	|| arch=`dpkg-architecture -a${arch} -t${targetgnusystem} -qDEB_HOST_ARCH 2> /dev/null` && test "${arch}" \
-	|| mustsetvar arch "`dpkg --print-architecture`" "build architecture"
+eval `dpkg-architecture -a${arch} -t${targetgnusystem} -s`
+archlist=`dpkg-architecture -a${targetarch} -t${targetgnusystem} -f 2> /dev/null`
+mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_HOST_ARCH`" "build architecture"
 
 sversion=`echo "$version" | perl -pe 's/^\d+://'`
 pv="${package}_${sversion}"

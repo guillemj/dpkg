@@ -1,3 +1,21 @@
+Sun Feb 13 01:06:46 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * scripts/dpkg-buildpackage.sh: we know that dpkg-architecture is
+    installed since we provide it, so don't test for its existance
+  * More updates from Marcus Brinkman:
+    + archtable: Change first column format from CPU to CPU-OS.
+      Add entry for i386-gnu. Update comment.
+    + configure.in: Check Debian architecture revamped:
+      More appropriate check title. Check for CPU-OS in arhctable (instead
+      just CPU). Enclose result message in [...] (because of the comma
+      character). After the test, $dpkg_archset can't be empty, so remove
+      following test which is always true.
+    + Remove internal use of --print-architecture:
+      scripts/controllib.pl: Use always dpkg-architecture -qDEB_HOST_ARCH
+      scripts/dpkg-buildpackage: Don't set $arch at command line parsing time,
+        instead, always set it later with dpkg-architecture -qDEB_HOST_ARCH
+      dpkg-name.pl: Fall back to dpkg --print-installation-architecture.
+
 Sat Feb 12 17:11:33 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * configure.in: don't try to outguess what CFLAGS should be

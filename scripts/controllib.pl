@@ -78,13 +78,9 @@ sub capit {
 }
 
 sub findarch {
-   if (exists $ENV{DEB_HOST_ARCH}) {
-      $arch=$ENV{DEB_HOST_ARCH};
-   } else {
-      $arch=`dpkg --print-architecture`;
-      $? && &subprocerr("dpkg --print-architecture");
-       chomp $arch;
-   }
+    $arch=`dpkg-architecture -qDEB_HOST_ARCH`;
+    $? && &subprocerr("dpkg-architecture -qDEB_HOST_ARCH");
+    chomp $arch;
     $substvar{'Arch'}= $arch;
 }
 

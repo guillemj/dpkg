@@ -71,7 +71,7 @@ getname () {
 		a=`echo $a|sed -e 's/ *//g'`;
 		if [ -z "$a" -a -n "$noarchitecture" ]; # arch field empty, or ignored
 		then
-			a=`dpkg --print-architecture`;
+			a=`dpkg --print-installation-architecture`;
 			stderr "assuming architecture \`"$a"' for \`"$1"'";
 		fi
 		if [ -z "$noarchitecture" ];
