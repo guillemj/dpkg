@@ -386,7 +386,9 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch   ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
+/*
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
+*/
   
   { "status-fd",	  0,   1,  0,              0,  setstatuspipe },
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
@@ -519,6 +521,7 @@ int main(int argc, const char *const *argv) {
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
+fprintf(stderr,"dpkg(adam)\n");
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     error_unwind(ehflag_bombout); exit(2);
   }
