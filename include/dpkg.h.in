@@ -139,29 +139,6 @@
 
 #define TARBLKSZ	512
 
-/* Take care of NLS matters.  */
-
-#if HAVE_LOCALE_H
-# include <locale.h>
-#endif
-#if !HAVE_SETLOCALE
-# define setlocale(Category, Locale) /* empty */
-#endif
-
-#if ENABLE_NLS
-# include <libintl.h>
-# define _(Text) gettext (Text)
-# define N_(Text) Text
-#else
-# undef bindtextdomain
-# define bindtextdomain(Domain, Directory) /* empty */
-# undef textdomain
-# define textdomain(Domain) /* empty */
-# define _(Text) Text
-# define N_(Text) Text
-# define gettext(Text) Text
-#endif
-
 extern const char thisname[]; /* defined separately in each program */
 extern const char printforhelp[];
 

@@ -135,6 +135,18 @@ dnl gettext
 ALL_LINGUAS="ca cs da de en es fr gl it nl ja pl pt_BR ru sv"
 AM_GNU_GETTEXT([external])
 AM_PO_SUBDIRS
+if test "x$HAVE_LOCALE_H" = "x"; then
+ AC_MSG_CHECKING([whether setlocale() is available])
+ HAVE_SETLOCALE=''
+ AC_TRY_COMPILE([#include <locale.h>],[ setlocale(0, "bar");], HAVE_SETLOCALE=1;
+  AC_DEFINE(HAVE_SETLOCALE,1,[Define if setlocale is available.])
+ )
+ if test "x$HAVE_SETLOCALE" = x; then
+  AC_MSG_RESULT(no)
+ else
+  AC_MSG_RESULT(yes)
+ fi
+fi
 
 dnl Other stuff
 
@@ -422,9 +434,33 @@ void unsetenv(const char *x);
 #ifndef BUILDOLDPKGFORMAT
 #define BUILDOLDPKGFORMAT 0
 #endif
+
+/* Take care of NLS matters.  */
+
+#if HAVE_LOCALE_H
+# include <locale.h>
+#endif
+#if !HAVE_SETLOCALE
+# define setlocale(Category, Locale) /* empty */
+#endif
+
+#if ENABLE_NLS
+# include <libintl.h>
+# define _(Text) gettext (Text)
+# define N_(Text) Text
+#else
+# undef bindtextdomain
+# define bindtextdomain(Domain, Directory) /* empty */
+# undef textdomain
+# define textdomain(Domain) /* empty */ 
+# define _(Text) Text
+# define N_(Text) Text
+# define gettext(Text) Text
+#endif
+
 ])
 
-AC_OUTPUT(
+AC_OUTPUT( po/Makefile.in
 Makefile.conf
 Makefile
 include/Makefile
@@ -446,5 +482,4 @@ scripts/Makefile
 main/Makefile
 dselect/Makefile
 methods/Makefile
-utils/Makefile
-po/Makefile.in)
+utils/Makefile)
