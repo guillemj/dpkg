@@ -96,7 +96,7 @@ sub checklinks {
 	}
 	opendir(DIR, ".");
 	foreach $_ (readdir(DIR)) {
-	    next unless (/^[S|K]\d\d$bn$/);
+	    next unless (/^[SK]\d\d$bn$/);
 	    $fn = "$etcd$i.d/$_";
 	    $found = 1;
 	    $islnk = &is_link ($_[0], $fn, $bn);

@@ -93,14 +93,40 @@ sub isbin {
 
 for ($i=0;$i<=$#exec;$i++) {
     if (!isbin ($exec[$i])) { next; }
+    
+    # First we get an ldd output to see what libs + paths we have at out
+    # disposal.
+    my %so2path = ();
+    defined($c= open(P,"-|")) || syserr("cannot fork for ldd");
+    if (!$c) { exec("ldd","--",$exec[$i]); syserr("cannot exec ldd"); }
+    while (<P>) {
+	if (m,^\s+(\S+)\s+=>\s+(\S+)\s+\(0x.+\)?$,) {
+	    $so2path{$1} = $2;
+	}
+    }
+    close(P); $? && subprocerr("ldd on \`$exec[$i]'");
+
+    # Now we get the direct deps of the program. We then check back with
+    # the ldd output from above to see what our path is.
     defined($c= open(P,"-|")) || syserr("cannot fork for objdump");
     if (!$c) { exec("objdump","-p","--",$exec[$i]); syserr("cannot exec objdump"); }
     while (<P>) {
 	chomp;
-	if (m,^\s*NEEDED\s+(\S+)\.so\.(\S+)$,) {
-	    push(@libname,$1); push(@libsoname,$2);
-	    push(@libf,$execf[$i]);
-	    push(@libfiles,"$1.so.$2");
+	if (m,^\s*NEEDED\s+,) {
+	    if (m,^\s*NEEDED\s+((\S+)\.so\.(\S+))$,) {
+		push(@libname,$2); push(@libsoname,$3);
+		push(@libf,$execf[$i]);
+		&warn("could not find path for $1") unless defined($so2path{$1});
+		push(@libfiles,$so2path{$1});
+	    } elsif (m,^\s*NEEDED\s+((\S+)-(\S+)\.so)$,) {
+		push(@libname,$2); push(@libsoname,$3);
+		push(@libf,$execf[$i]);
+		&warn("could not find path for $1") unless defined($so2path{$1});
+		push(@libfiles,$so2path{$1});
+	    } else {
+		m,^\s*NEEDED\s+(\S+)$,;
+		&warn("format of $1 not recognized");
+	    }
 	}
     }
     close(P); $? && subprocerr("objdump on \`$exec[$i]'");
@@ -162,14 +188,14 @@ if ($#libfiles >= 0) {
     if (!$c) {
         close STDERR; # we don't need to see dpkg's errors
 	open STDERR, "> /dev/null";
-        exec("dpkg","--search","--",map {"*/$_"} @libfiles); syserr("cannot exec dpkg");
+        exec("dpkg","--search","--",map {"$_"} @libfiles); syserr("cannot exec dpkg");
     }
     while (<P>) {
        chomp;
        if (m/^local diversion |^diversion by/) {
            &warn("diversions involved - output may be incorrect");
            print(STDERR " $_\n") || syserr("write diversion info to stderr");
-       } elsif (m=^(\S+(, \S+)*): /.+/([^/]+)$=) {
+       } elsif (m=^(\S+(, \S+)*): (\S+)$=) {
            push @{$pathpackages{$+}}, split(/, /, $1);
        } else {
            &warn("unknown output from dpkg --search: \`$_'");

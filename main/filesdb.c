@@ -367,7 +367,7 @@ void ensure_statoverrides(void) {
       ohshit("syntax error in statusoverride file ");
     *ptr=0;
     if (thisline[0]=='#') {
-      fso->uid=strtol(thisline, &endptr, 10);
+      fso->uid=strtol(thisline + 1, &endptr, 10);
       if (*endptr!=0)
 	ohshit("syntax error: invalid uid in statusoverride file ");
     } else {
@@ -380,14 +380,14 @@ void ensure_statoverrides(void) {
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexecpted end of line in statusoverride file");
+      ohshit("unexpected end of line in statusoverride file");
 
     /* Extract the gid */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
       ohshit("syntax error in statusoverride file ");
     *ptr=0;
     if (thisline[0]=='#') {
-      fso->gid=strtol(thisline, &endptr, 10);
+      fso->gid=strtol(thisline + 1, &endptr, 10);
       if (*endptr!=0)
 	ohshit("syntax error: invalid gid in statusoverride file ");
     } else {

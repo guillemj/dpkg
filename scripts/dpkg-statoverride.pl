@@ -82,7 +82,7 @@ if ($mode eq "add") {
 	@ARGV==4 || &badusage("--add needs four arguments");
 
 	$user=$ARGV[0];
-	if ($user =~ m/^#\(0-9+\)$/) {
+	if ($user =~ m/^#([0-9]+)$/) {
 	    $uid=$1;
 	    &badusage("illegal user $user") if ($uid<0);
 	} else {
@@ -90,15 +90,15 @@ if ($mode eq "add") {
 	}
 
 	$group=$ARGV[1];
-	if ($group =~ m/^#\(0-9+\)$/) {
+	if ($group =~ m/^#([0-9]+)$/) {
 	    $gid=$1;
 	    &badusage("illegal group $group") if ($gid<0);
 	} else {
-	    (($name,$pw,$gid)=getgrnam($group)) || &badusage("illegal group $group");
+	    (($name,$pw,$gid)=getgrnam($group)) || &badusage("non-existing group $group");
 	}
 
 	$mode= $ARGV[2];
-	(($mode<0) or ($mode>07777)) && &badusage("illegal mode $mode");
+	(($mode<0) or (oct($mode)>07777)) && &badusage("illegal mode $mode");
 	$file= $ARGV[3];
 	$file =~ m/\n/ && &badusage("file may not contain newlines");
 
@@ -116,12 +116,12 @@ if ($mode eq "add") {
 	$mode{$file}=$mode;
 	$dowrite=1;
 
-	if ($doupate) {
+	if ($doupdate) {
 	    if (not -f $file) {
 		print STDERR "waring: --update given but $file does not exist\n";
 	    } else {
-		chmod $mode,$file || warn "failed to chmod $file: $!\n";
-		chown $uid,$gid,$file || warn "failed to chown $file: $!\n";
+		chmod (oct($mode),$file) || warn "failed to chmod $file: $!\n";
+		chown ($uid,$gid,$file) || warn "failed to chown $file: $!\n";
 	    }
 	}
 } elsif ($mode eq "remove") {

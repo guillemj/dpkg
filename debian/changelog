@@ -6,6 +6,8 @@ dpkg (1.8.0) unstable; urgency=low
   * Update Galish translation
   * Add new --import option to dpkg-statoverride to make it easy to
     import suidmanager settings.
+  * Speedups patches by Adam Heath
+  * statoverride fixes by Robert Luberda, Closes: Bug#78436
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
@@ -15,8 +17,19 @@ dpkg (1.7.2) unstable; urgency=low
   * Add new powerpc-linux-gnu entry to archtable. Closes: Bug#76522
   * No longer bother to install emacs things. I don't use emacs myself
     and can't support that properly.
+  * scripts/dpkg-shlibdeps.pl: Make it parse soname's in the format of
+    "libfoo-X.X.so" (e.g. libdb-3.1.so) and use it. Also make it give a
+    warning if there is a NEEDED line in the objdump output that we cannot
+    grok.
+  * scripts/dpkg-shlibdeps.pl: resolve library paths using a combination
+    of the libc major version, and ldconfig -p output. Solves problems
+    with errant libc5 deps.
+  * Correct name of .changes file when doing source-only builds
+  * Fix -ap option for dpkg-buildpackage. Closes: Bug#77305
+  * Fix typo in update-alternatives manpage. Closes: Bug#77829
+  * Fix typo in script-regexp update-rc.d. Closes: Bug#76029
 
- -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
+ -- Wichert Akkerman <wakkerma@debian.org>  Thu, 23 Nov 2000 18:55:50 +0100
 
 dpkg (1.7.1) unstable; urgency=medium
 

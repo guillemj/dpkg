@@ -1,3 +1,20 @@
+Mon Dec  4 14:42:01 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * scripts/dpkg-statoverride.pl, main/filesdb.c: merge patch from
+    Robert Luberda <robert@pingu.ii.uj.edu.pl> to fix statoverrides
+    using numerical [ug]ids
+  * Merge updats from the v17 branch:
+    + scripts/dpkg-buildpackage.sh: Quote test options for usepause
+    + scripts/dpkg-shlibdeps.pl: resolve library paths using a combination
+      of the libc major version, and ldconfig -p output. Solves problems
+      with errant libc5 deps.
+    + scripts/dpkg-shlibdeps.pl: Make it parse soname's in the format of
+      "libfoo-X.X.so" (e.g. libdb-3.1.so) and use it. Also make it give a
+      warning if there is a NEEDED line in the objdump output that we cannot
+      grok.
+    + scripts/update-rc.d.pl: fix typo in regexp for scripts
+    + debian/rules: remove final occurance of emacs
+
 Mon Dec  4 01:34:57 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * Merge more of Adams handywork to bring dpkg up to speed (literally :)

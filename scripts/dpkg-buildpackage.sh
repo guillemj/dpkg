@@ -51,8 +51,8 @@ elif command -v pgp > /dev/null 2>&1 ; then
 	signcommand=pgp
 fi
 
-	signsource='withecho signfile'
-	signchanges='withecho signfile'
+signsource='withecho signfile'
+signchanges='withecho signfile'
 cleansource=false
 binarytarget=binary
 sourcestyle=''
@@ -183,7 +183,7 @@ if [ x$sourceonly = x ]; then
 	withecho debian/rules build $archlist
 	withecho $rootcommand debian/rules $binarytarget $archlist
 fi
-if [ "$usepause" = "true" ] && [ x$binaryonly = x -o x$signchanges != x ] ; then
+if [ "$usepause" = "true" ] && [ "x$binaryonly" = x -o "x$signchanges" != x ] ; then
     echo Press the return key to start signing process
     read dummy_stuff
 fi
