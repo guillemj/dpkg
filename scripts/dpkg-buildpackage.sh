@@ -136,7 +136,8 @@ curd="`pwd`"
 dirn="`basename \"$curd\"`"
 mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source package"
 mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version"
-if [ -n "$maint" ]; then maintainer="$maint"; 
+if [ -n "$changedby" ]; then maintainer="$changedby"; 
+elif [ -n "$maint" ]; then maintainer="$maint"; 
 else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
 eval `dpkg-architecture -a${targetarch} -t${targetgnusystem} -s -f`
 
@@ -169,7 +170,7 @@ withecho () {
 
 if [ "$checkbuilddep" = "true" ]; then
 	if ! dpkg-checkbuilddeps $checkbuilddep_args; then
-		echo >&2 "$progname: Build dependancies/conflicts unsatisfied; aborting."
+		echo >&2 "$progname: Build dependencies/conflicts unsatisfied; aborting."
 		echo >&2 "$progname: (Use -d flag to override.)"
 		exit 3
 	fi
@@ -191,7 +192,8 @@ if [ x$sourceonly = x ]; then
 	withecho debian/rules build 
 	withecho $rootcommand debian/rules $binarytarget
 fi
-if [ "$usepause" = "true" -a "signchanges" != ":" ] && [ "x$binaryonly" = x -o "x$signchanges" != x ] ; then
+if [ "$usepause" = "true" ] && \
+   [  "$signchanges" != ":" -o \( -z "$binaryonly"  -a "$signsource" != ":" \) ] ; then
     echo Press the return key to start signing process
     read dummy_stuff
 fi

@@ -114,6 +114,9 @@ sub gnu_to_debian {
 # Set default values:
 
 $deb_build_arch = `dpkg --print-installation-architecture`;
+if ($?>>8) {
+	&syserr("dpkg --print-installation-architecture filed");
+}
 chomp $deb_build_arch;
 $deb_build_gnu_type = $archtable{$deb_build_arch};
 $deb_build_gnu_cpu = $deb_build_gnu_type;
@@ -138,7 +141,7 @@ if ($?>>8) {
 
 if ($gcc ne '') {
     @list = &gnu_to_debian($gcc);
-    if (!defined(@list)) {
+    if ($#list == -1) {
 	&warn ("Unknown gcc system type $gcc, falling back to default (native compilation)"),
     } elsif ($#list > 0) {
 	&warn ("Ambiguous gcc system type $gcc, you must specify Debian architecture, too (one of ".join(", ",@list).")");
@@ -193,7 +196,7 @@ if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
 
 if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
     @list = &gnu_to_debian ($req_host_gnu_type);
-    die ("unknown GNU system type $req_host_gnu_type, you must specify Debian architecture, too") if !defined(@list);
+    die ("unknown GNU system type $req_host_gnu_type, you must specify Debian architecture, too") if $#list == -1;
     die ("ambiguous GNU system type $req_host_gnu_type, you must specify Debian architecture, too (one of ".join(", ",@list).")") if $#list > 0;
     $req_host_arch = $list[0];
 }
@@ -257,7 +260,7 @@ if ($action eq 'l') {
     exec @ARGV;
 } elsif ($action eq 'q') {
     if (exists $env{$req_variable_to_print}) {
-        print "$env{$req_variable_to_print}\n";     # works because -q implies -f !
+        print "$env{$req_variable_to_print}\n";
     } else {
         die "$req_variable_to_print is not a supported variable name";
     }
