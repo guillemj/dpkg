@@ -429,7 +429,7 @@ void commandfd(const char *const *argv) {
   const char **newargs;
   char *ptr, *endptr;
   FILE *in;
-  int c, lno, infd, i;
+  int c, lno, infd, i, skipchar;
   static void (*actionfunction)(const char *const *argv);
 
   if ((pipein= *argv++) == NULL) badusage(_("--command-fd takes 1 argument, not 0"));
@@ -470,9 +470,14 @@ printf("line=`%*s'\n",linevb.used,linevb.buf);
     argc= 1;
     ptr= linevb.buf;
     endptr= ptr + linevb.used;
+    skipchar= 0;
     while(ptr < endptr) {
-      if (*ptr == '\\') {
+      if (skipchar) {
+	skipchar= 0;
+      } else if (*ptr == '\\') {
 	memmove(ptr, (ptr+1), (linevb.used-(linevb.buf - ptr)-1));
+	endptr--;
+	skipchar= 1;
 	continue;
       } else if (isspace(*ptr)) {
 	if (mode == 1) {
