@@ -270,15 +270,15 @@ static void setstatuspipe(const struct cmdinfo *cip, const char *value) {
   unsigned long v;
   char *ep;
 
+  v= strtoul(value,&ep,0);
+  if (*ep || v > INT_MAX)
+    badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
   if (lastpipe) {
     lastpipe->next= nfmalloc(sizeof(struct pipef));
     lastpipe= lastpipe->next;
   } else {
     lastpipe= status_pipes= nfmalloc(sizeof(struct pipef));
   }
-  v= strtoul(value,&ep,0);
-  if (*ep || v > INT_MAX)
-    badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
   lastpipe->fd= v;
 }
 
