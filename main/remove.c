@@ -198,7 +198,116 @@ void removal_bulk(struct pkginfo *pkg) {
 
   debug(dbg_general,"removal_bulk package %s",pkg->name);
   
-  if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked) {
+  if (pkg->want == want_purge) {
+
+    printf(_("Purging configuration files for %s ...\n"),pkg->name);
+    ensure_packagefiles_available(pkg); /* We may have modified this above. */
+
+    /* We're about to remove the configuration, so remove the note
+     * about which version it was ...
+     */
+    blankversion(&pkg->configversion);
+    modstatdb_note(pkg);
+    
+    /* Remove from our list any conffiles that aren't ours any more or
+     * are involved in diversions, except if we are the package doing the
+     * diverting.
+     */
+    for (lconffp= &pkg->installed.conffiles;
+         (conff= *lconffp) != 0;
+         lconffp= &conff->next) {
+      for (searchfile= pkg->clientdata->files;
+           searchfile && strcmp(searchfile->namenode->name,conff->name);
+           searchfile= searchfile->next);
+      if (!searchfile) {
+        debug(dbg_conff,"removal_bulk conffile not ours any more `%s'",conff->name);
+        *lconffp= conff->next;
+      } else if (searchfile->namenode->divert &&
+                 (searchfile->namenode->divert->camefrom ||
+                  (searchfile->namenode->divert->useinstead &&
+                   searchfile->namenode->divert->pkg != pkg))) {
+        debug(dbg_conff,"removal_bulk conffile `%s' ignored due to diversion\n",
+              conff->name);
+        *lconffp= conff->next;
+      } else {
+        debug(dbg_conffdetail,"removal_bulk set to new conffile `%s'",conff->name);
+        conff->hash= (char*)NEWCONFFILEFLAG; /* yes, cast away const */
+      }
+    }
+    modstatdb_note(pkg);
+    
+    for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
+      varbufreset(&fnvb);
+      r= conffderef(pkg, &fnvb, conff->name);
+      debug(dbg_conffdetail, "removal_bulk conffile `%s' (= `%s')",
+            conff->name, r == -1 ? "<r==-1>" : fnvb.buf);
+      if (r == -1) continue;
+      conffnameused= fnvb.used-1;
+      if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
+        ohshite(_("cannot remove old config file `%.250s' (= `%.250s')"),
+                conff->name, fnvb.buf);
+      p= strrchr(fnvb.buf,'/'); if (!p) continue;
+      *p= 0;
+      varbufreset(&removevb);
+      varbufaddstr(&removevb,fnvb.buf);
+      varbufaddc(&removevb,'/');
+      removevbbase= removevb.used;
+      varbufaddc(&removevb,0);
+      dsd= opendir(removevb.buf);
+      if (!dsd) {
+        int e=errno;
+        debug(dbg_conffdetail, "removal_bulk conffile no dsd %s %s",
+              fnvb.buf, strerror(e)); errno= e;
+        if (errno == ENOENT || errno == ENOTDIR) continue;
+        ohshite(_("cannot read config file dir `%.250s' (from `%.250s')"),
+                fnvb.buf, conff->name);
+      }
+      debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);
+      push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
+      *p= '/';
+      conffbasenamelen= strlen(++p);
+      conffbasename= fnvb.buf+conffnameused-conffbasenamelen;
+      while ((de= readdir(dsd)) != 0) {
+        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry=`%s'"
+              " conffbasename=`%s' conffnameused=%d conffbasenamelen=%d",
+              de->d_name, conffbasename, conffnameused, conffbasenamelen);
+        if (!strncmp(de->d_name,conffbasename,conffbasenamelen)) {
+          debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts right");
+          for (ext= removeconffexts; *ext; ext++)
+            if (!strcmp(*ext,de->d_name+conffbasenamelen)) goto yes_remove;
+          p= de->d_name+conffbasenamelen;
+          if (*p++ == '~') {
+            while (*p && isdigit(*p)) p++;
+            if (*p == '~' && !*++p) goto yes_remove;
+          }
+        }
+        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts wrong");
+        if (de->d_name[0] == '#' &&
+            !strncmp(de->d_name+1,conffbasename,conffbasenamelen) &&
+            !strcmp(de->d_name+1+conffbasenamelen,"#"))
+          goto yes_remove;
+        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry not it");
+        continue;
+      yes_remove:
+        removevb.used= removevbbase;
+        varbufaddstr(&removevb,de->d_name); varbufaddc(&removevb,0);
+        debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing `%s'",
+              removevb.buf);
+        if (unlink(removevb.buf) && errno != ENOENT && errno != ENOTDIR)
+          ohshite(_("cannot remove old backup config file `%.250s' (of `%.250s')"),
+                  removevb.buf, conff->name);
+      }
+      pop_cleanup(ehflag_normaltidy); /* closedir */
+    
+    }
+    
+    pkg->installed.conffiles= 0;
+    modstatdb_note(pkg);
+        
+  }
+
+  if (pkg->status == stat_halfinstalled || pkg->status == stat_unpacked ||
+      pkg->status == stat_configfiles) {
     pkg->status= stat_halfinstalled;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
@@ -332,119 +441,9 @@ void removal_bulk(struct pkginfo *pkg) {
      */
     debug(dbg_general, "removal_bulk no postrm, no conffiles, purging");
     pkg->want= want_purge;
-
-  } else if (pkg->want == want_purge) {
-
-    printf(_("Purging configuration files for %s ...\n"),pkg->name);
-    ensure_packagefiles_available(pkg); /* We may have modified this above. */
-
-    /* We're about to remove the configuration, so remove the note
-     * about which version it was ...
-     */
-    blankversion(&pkg->configversion);
-    modstatdb_note(pkg);
-    
-    /* Remove from our list any conffiles that aren't ours any more or
-     * are involved in diversions, except if we are the package doing the
-     * diverting.
-     */
-    for (lconffp= &pkg->installed.conffiles;
-         (conff= *lconffp) != 0;
-         lconffp= &conff->next) {
-      for (searchfile= pkg->clientdata->files;
-           searchfile && strcmp(searchfile->namenode->name,conff->name);
-           searchfile= searchfile->next);
-      if (!searchfile) {
-        debug(dbg_conff,"removal_bulk conffile not ours any more `%s'",conff->name);
-        *lconffp= conff->next;
-      } else if (searchfile->namenode->divert &&
-                 (searchfile->namenode->divert->camefrom ||
-                  (searchfile->namenode->divert->useinstead &&
-                   searchfile->namenode->divert->pkg != pkg))) {
-        debug(dbg_conff,"removal_bulk conffile `%s' ignored due to diversion\n",
-              conff->name);
-        *lconffp= conff->next;
-      } else {
-        debug(dbg_conffdetail,"removal_bulk set to new conffile `%s'",conff->name);
-        conff->hash= (char*)NEWCONFFILEFLAG; /* yes, cast away const */
-      }
-    }
-    modstatdb_note(pkg);
-    
-    for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
-      varbufreset(&fnvb);
-      r= conffderef(pkg, &fnvb, conff->name);
-      debug(dbg_conffdetail, "removal_bulk conffile `%s' (= `%s')",
-            conff->name, r == -1 ? "<r==-1>" : fnvb.buf);
-      if (r == -1) continue;
-      conffnameused= fnvb.used-1;
-      if (unlink(fnvb.buf) && errno != ENOENT && errno != ENOTDIR)
-        ohshite(_("cannot remove old config file `%.250s' (= `%.250s')"),
-                conff->name, fnvb.buf);
-      p= strrchr(fnvb.buf,'/'); if (!p) continue;
-      *p= 0;
-      varbufreset(&removevb);
-      varbufaddstr(&removevb,fnvb.buf);
-      varbufaddc(&removevb,'/');
-      removevbbase= removevb.used;
-      varbufaddc(&removevb,0);
-      dsd= opendir(removevb.buf);
-      if (!dsd) {
-        int e=errno;
-        debug(dbg_conffdetail, "removal_bulk conffile no dsd %s %s",
-              fnvb.buf, strerror(e)); errno= e;
-        if (errno == ENOENT || errno == ENOTDIR) continue;
-        ohshite(_("cannot read config file dir `%.250s' (from `%.250s')"),
-                fnvb.buf, conff->name);
-      }
-      debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);
-      push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
-      *p= '/';
-      conffbasenamelen= strlen(++p);
-      conffbasename= fnvb.buf+conffnameused-conffbasenamelen;
-      while ((de= readdir(dsd)) != 0) {
-        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry=`%s'"
-              " conffbasename=`%s' conffnameused=%d conffbasenamelen=%d",
-              de->d_name, conffbasename, conffnameused, conffbasenamelen);
-        if (!strncmp(de->d_name,conffbasename,conffbasenamelen)) {
-          debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts right");
-          for (ext= removeconffexts; *ext; ext++)
-            if (!strcmp(*ext,de->d_name+conffbasenamelen)) goto yes_remove;
-          p= de->d_name+conffbasenamelen;
-          if (*p++ == '~') {
-            while (*p && isdigit(*p)) p++;
-            if (*p == '~' && !*++p) goto yes_remove;
-          }
-        }
-        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry starts wrong");
-        if (de->d_name[0] == '#' &&
-            !strncmp(de->d_name+1,conffbasename,conffbasenamelen) &&
-            !strcmp(de->d_name+1+conffbasenamelen,"#"))
-          goto yes_remove;
-        debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry not it");
-        continue;
-      yes_remove:
-        removevb.used= removevbbase;
-        varbufaddstr(&removevb,de->d_name); varbufaddc(&removevb,0);
-        debug(dbg_conffdetail, "removal_bulk conffile dsd entry removing `%s'",
-              removevb.buf);
-        if (unlink(removevb.buf) && errno != ENOENT && errno != ENOTDIR)
-          ohshite(_("cannot remove old backup config file `%.250s' (of `%.250s')"),
-                  removevb.buf, conff->name);
-      }
-      pop_cleanup(ehflag_normaltidy); /* closedir */
-    
-    }
-    
-    pkg->installed.conffiles= 0;
-    modstatdb_note(pkg);
-        
+  } else if ( pkg->want == want_purge )
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
                                 "purge", (char*)0);
-
-    /* fixme: retry empty directories */
-
-  }
 
   if (pkg->want == want_purge) {
 
