@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w --
+#!/usr/bin/perl --
 
 $admindir= "/var/lib/dpkg"; # This line modified by Makefile
 $dpkglibdir= "../utils"; # This line modified by Makefile
