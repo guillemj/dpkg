@@ -43,7 +43,7 @@ void varbufdupc(struct varbuf *v, int c, ssize_t n) {
   }
 }
 
-void varbufprintf(struct varbuf *v, const char *fmt, ...) {
+int varbufprintf(struct varbuf *v, const char *fmt, ...) {
   int ou, r;
   va_list al;
 
@@ -58,9 +58,10 @@ void varbufprintf(struct varbuf *v, const char *fmt, ...) {
     if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;
   } while (r >= v->size-ou-1);
+  return r;
 }
 
-void varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
+int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
   int ou, r;
   va_list al;
 
@@ -74,6 +75,7 @@ void varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
     if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;
   } while (r >= v->size-ou-1);
+  return r;
 }
 
 void varbufaddbuf(struct varbuf *v, const void *s, const int l) {

@@ -226,6 +226,8 @@ struct varbuf;
 
 extern void varbufaddc(struct varbuf *v, int c);
 extern void varbufdupc(struct varbuf *v, int c, ssize_t s);
+int varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
+int varbufvprintf(struct varbuf *v, const char *fmt, va_list va);
 void varbufinit(struct varbuf *v);
 void varbufreset(struct varbuf *v);
 void varbufextend(struct varbuf *v);
@@ -285,8 +287,6 @@ void writedb(const char *filename, int available, int mustsync);
 
 void varbufrecord(struct varbuf*, const struct pkginfo*, const struct pkginfoperfile*);
 void varbufdependency(struct varbuf *vb, struct dependency *dep);
-void varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
-void varbufvprintf(struct varbuf *v, const char *fmt, va_list va);
   /* NB THE VARBUF MUST HAVE BEEN INITIALISED AND WILL NOT BE NULL-TERMINATED */
 
 /*** from vercmp.c ***/
