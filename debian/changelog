@@ -12,6 +12,11 @@ dpkg (1.10.5) unstable; urgency=low
   * Fixes for HURD:  Closes: #156545
     * Add i386-gnu0.3 to archtable.
     * Fix handling of static compiles, with regard to zlib.
+  * Previous install-infos(before 1.10) handled multiple dir file entries,
+    because they would copy the entire stanza unmodified.  The newest
+    version does not do this, as it reformats the options, and thereby
+    only takes the first line.  So, we now split all the lines from the
+    stanza, and process them all.
 
  -- Adam Heath <doogie@debian.org>  UNRELEASED
 

@@ -339,7 +339,7 @@ if (!$remove) {
         $mss= $#work+1;
     }
 
-    @work= (@work[0..$mss-1], $infoentry, @work[$mss..$#work]);
+    @work= (@work[0..$mss-1], map("$_\n",split(/\n/,$infoentry)), @work[$mss..$#work]);
     
 } else {
 
