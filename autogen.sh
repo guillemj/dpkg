@@ -8,13 +8,3 @@ gettextize $copy -f
 libtoolize --force $copy
 autoheader
 autoconf
-
-# Utils has it's own configure, so we need to repeat this there
-cd utils
-aclocal -I ../automake
-autoheader
-autoconf -l ../
-
-# Return to the previous directory
-cd ..
-
