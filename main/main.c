@@ -341,14 +341,9 @@ Forcing options marked [*] are enabled by default.\n"),
   }
 }
 
-static const char *const passlongopts[]= {
-  "build", "contents", "control", "info", "field", "extract", "new", "old",
-  "vextract", "fsys-tarfile", 0
-};
-
-static const char passshortopts[]= "bceIfxX";
 static const char okpassshortopts[]= "D";
 
+void execbackend(const char *const *argv) NONRETURNING;
 void commandfd(const char *const *argv);
 static const struct cmdinfo cmdinfos[]= {
   /* This table has both the action entries in it and the normal options.
@@ -359,6 +354,8 @@ static const struct cmdinfo cmdinfos[]= {
  { longopt, shortopt, 0,0,0, setaction, code, 0, (voidfnp)function }
 #define OBSOLETE(longopt,shortopt) \
  { longopt, shortopt, 0,0,0, setobsolete, 0, 0, 0 }
+#define ACTIONBACKEND(longopt,shortop, backend) \
+ { longopt, shortop, 0,0,0, setaction, 0, (void*)backend, (voidfnp)execbackend }
 
   ACTION( "install",                        'i', act_install,              archivefiles    ),
   ACTION( "unpack",                          0,  act_unpack,               archivefiles    ),
@@ -366,19 +363,19 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "configure",                       0,  act_configure,            packages        ),
   ACTION( "remove",                         'r', act_remove,               packages        ),
   ACTION( "purge",                          'P', act_purge,                packages        ),
-  ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
-  ACTION( "status",                         's', act_status,               enqperpackage   ),
+  ACTIONBACKEND( "listfiles",                     'L', DPKGQUERY),
+  ACTIONBACKEND( "status",                        's', DPKGQUERY),
   ACTION( "get-selections",                  0,  act_getselections,        getselections   ),
   ACTION( "set-selections",                  0,  act_setselections,        setselections   ),
-  ACTION( "print-avail",                    'p', act_printavail,           enqperpackage   ),
+  ACTIONBACKEND( "print-avail",                   'p', DPKGQUERY),
   ACTION( "update-avail",                    0,  act_avreplace,            updateavailable ),
   ACTION( "merge-avail",                     0,  act_avmerge,              updateavailable ),
   ACTION( "clear-avail",                     0,  act_avclear,              updateavailable ),
   ACTION( "forget-old-unavail",              0,  act_forgetold,            forgetold       ),
   ACTION( "audit",                          'C', act_audit,                audit           ),
   ACTION( "yet-to-unpack",                   0,  act_unpackchk,            unpackchk       ),
-  ACTION( "list",                           'l', act_listpackages,         listpackages    ),
-  ACTION( "search",                         'S', act_searchfiles,          searchfiles     ),
+  ACTIONBACKEND( "list",                          'l', DPKGQUERY),
+  ACTIONBACKEND( "search",                        'S', DPKGQUERY),
   ACTION( "print-architecture",              0,  act_printarch,            printarch       ),
   ACTION( "print-gnu-build-architecture",    0,  act_printgnuarch,         printarch       ),
   ACTION( "assert-support-predepends",       0,  act_assertpredep,         assertpredep    ),
@@ -417,19 +414,40 @@ static const struct cmdinfo cmdinfos[]= {
   { "version",            0,   0,  0, 0,               versiononly                   },
   { "licence",/* UK spelling */ 0,0,0,0,               showcopyright                 },
   { "license",/* US spelling */ 0,0,0,0,               showcopyright                 },
+  ACTIONBACKEND( "build",		'b', BACKEND),
+  ACTIONBACKEND( "contents",		'c', BACKEND),
+  ACTIONBACKEND( "control",		'e', BACKEND),
+  ACTIONBACKEND( "info",		'I', BACKEND),
+  ACTIONBACKEND( "field",		'f', BACKEND),
+  ACTIONBACKEND( "extract",		'x', BACKEND),
+  ACTIONBACKEND( "new",			0,  BACKEND),
+  ACTIONBACKEND( "old",			0,  BACKEND),
+  ACTIONBACKEND( "vextract",		'X', BACKEND),
+  ACTIONBACKEND( "fsys-tarfile",	0,   BACKEND),
   {  0,                   0                                                          }
 };
 
-static void execbackend(int argc, const char *const *argv) NONRETURNING;
-static void execbackend(int argc, const char *const *argv) {
-  char **nargv= malloc(sizeof(char *) * argc + 1);
-  int i;
+void execbackend(const char *const *argv) {
+  char **nargv;
+  int i, argc = 1;
+  char **arg = argv;
+  while(*arg != 0) { arg++; argc++; }
+  nargv= malloc(sizeof(char *) * argc + 2);
+
   if (!nargv) ohshite(_("couldn't malloc in execbackend"));
-  for (i= 0; i < argc; i++)
-    nargv[i]= strdup(argv[i]);
+  nargv[0]= strdup(cipaction->parg);
+  if (!nargv[0]) ohshite(_("couldn't strdup in execbackend"));
+  nargv[1]= malloc(strlen(cipaction->olong) + 3);
+  if (!nargv[1]) ohshite(_("couldn't malloc in execbackend"));
+  strcpy(nargv[1], "--");
+  strcat(nargv[1], cipaction->olong);
+  for (i= 2; i <= argc; i++) {
+    nargv[i]= strdup(argv[i-2]);
+    if (!nargv[i]) ohshite(_("couldn't strdup in execbackend"));
+  }
   nargv[i]= 0;
-  execvp(BACKEND, nargv);
-  ohshite(_("failed to exec dpkg-deb"));
+  execvp(cipaction->parg, nargv);
+  ohshite(_("failed to exec %s"),cipaction->parg);
 }
 void commandfd(const char *const *argv) {
   jmp_buf ejbuf;
@@ -527,8 +545,6 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
 
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
-  int c;
-  const char *argp, *const *blongopts, *const *argvs;
   static void (*actionfunction)(const char *const *argv);
 
   setlocale(LC_ALL, "");
@@ -542,21 +558,6 @@ int main(int argc, const char *const *argv) {
 
   umask(022); /* Make sure all our status databases are readable. */
  
-  for (argvs=argv+1; (argp= *argvs) && *argp++=='-'; argvs++) {
-    if (*argp++=='-') {
-      if (!strcmp(argp,"-")) break;
-      for (blongopts=passlongopts; *blongopts; blongopts++) {
-        if (!strcmp(argp,*blongopts)) execbackend(argc,argv);
-      }
-    } else {
-      if (!*--argp) break;
-      while ((c= *argp++)) {
-        if (strchr(passshortopts,c)) execbackend(argc,argv);
-        if (!strchr(okpassshortopts,c)) break;
-      }
-    }
-  }
-
   myfileopt(CONFIGDIR "/" DPKG ".cfg", cmdinfos);
   myopt(&argv,cmdinfos);
   if (!cipaction) badusage(_("need an action option"));

@@ -14,8 +14,10 @@ MAN8PAGES	= dpkg.8
 OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
 GENFILES	= $(OBJECTS) archtable.h dpkg dpkg-static
 
+dpkg-query:	SOURCES = query.c filesdb.c errors.c
+
 .PHONY: all
-all:: dpkg
+all:: dpkg dpkg-query
 
 ifdef ALSO_STATIC
 all:: dpkg-static
@@ -56,6 +58,8 @@ install-doc:
 
 dpkg-static: LDFLAGS += -static
 dpkg dpkg-static: $(OBJECTS) ../lib/libdpkg.a
+dpkg-query: $(OBJECTS) query.o ../lib/libdpkg.a
+dpkg dpkg-static dpkg-query:
 	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg
 
 enquiry.o: archtable.h
