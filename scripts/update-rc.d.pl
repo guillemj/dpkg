@@ -124,7 +124,7 @@ sub defaults {
     $start = $stop = $ARGV[1] if ($#ARGV >= 1);
     $stop  =         $ARGV[2] if ($#ARGV >= 2);
     &usage ("codenumber must be a number between 0 and 99")
-	if ($start !~ /^\d\d$/ || $stop  !~ /^\d\d$/);
+	if ($start !~ /^\d\d?$/ || $stop  !~ /^\d\d?$/);
 
     $start = sprintf("%02d", $start);
     $stop  = sprintf("%02d", $stop);
@@ -149,7 +149,7 @@ sub startstop {
 	    &usage("expected start|stop");
 	}
 
-	if ($ARGV[1] !~ /^\d\d$/) {
+	if ($ARGV[1] !~ /^\d\d?$/) {
 	    &usage("expected NN after $ARGV[0]");
 	}
 	$NN = sprintf("%02d", $ARGV[1]);

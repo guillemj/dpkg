@@ -17,16 +17,14 @@
 
 #include "config.h"
 
-#ifdef linux
+#if defined(linux)
 #define OSLinux
-#endif
-
-#ifdef sunos
-#define OSsunos
-#endif
-
-#ifdef __GNU__
+#elif defined(__GNU__)
 #define OSHURD
+#elif defined(Sparc)
+#define OSsunos
+#else
+#error Unknown architecture - cannot build start-stop-daemon
 #endif
 
 #ifdef HAVE_HURH_H
