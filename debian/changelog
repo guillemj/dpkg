@@ -1,6 +1,15 @@
 dpkg (1.9.0) unstable; urgency=low
 
   * Things should mostly work OpenBSD 2.8 as well now
+  * Added a --status-pipe option.
+  * Fixed several memleaks.
+  * Profiled dpkg.
+    * Reworked lib/parse.c:parsedb().  Instead of using getc(), then
+      calling varbufaddc(), it now reads the entire file at once into a
+      huge buffer, then moves pointers around, to do the parsing.  This
+      gave a speedup of 33% on a dual celeron 333, when reading status and
+      available.
+    * various other speedups.
   * Removed all --smallmem code, as smallmem and largemem now actually
     use about the same amount of memory, and largemem is faster.  Both
     --largemem and --smallmem are now obselete options, and will print
