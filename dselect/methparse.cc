@@ -22,7 +22,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -33,7 +32,6 @@
 #include <ctype.h>
 #include <assert.h>
 
-#include <curses.h>
 
 extern "C" {
 #include <config.h>

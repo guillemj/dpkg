@@ -40,13 +40,21 @@ END
 }
 
 rootcommand=''
-if [ -e $HOME/.gnupg/secring.gpg ] ; then
+signcommand=""
+if [ -e $GNUPGHOME/secring.pgp -o -e $HOME/.gnupg/secring.gpg ] && \
+		command -v gpg > /dev/null 2>&1; then
 	signcommand=gpg
-else
+elif command -v pgp > /dev/null 2>&1 ; then
 	signcommand=pgp
 fi
-signsource='withecho signfile'
-signchanges='withecho signfile'
+
+if [ -n "$signcommand"  ] ; then
+	signsource='withecho signfile'
+	signchanges='withecho signfile'
+else
+	signsource=:
+	signchanges=:
+fi
 cleansource=false
 binarytarget=binary
 sourcestyle=''

@@ -317,7 +317,7 @@ static void controlextractvextract(int admin,
     else ohshit(_("--%s needs a target directory.\n"
                 "Perhaps you should be using dpkg --install ?"),cipaction->olong);
   } else if (*argv) {
-    badusage(_("--%s takes at most two arguments (.deb and directory"),cipaction->olong);
+    badusage(_("--%s takes at most two arguments (.deb and directory)"),cipaction->olong);
   }
   extracthalf(debar, directory, taroptions, admin);
 }

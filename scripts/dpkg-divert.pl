@@ -204,8 +204,9 @@ sub checkrename {
 	close TMP;
 	if ($1 == ENOENT) {
 		$dorename = 0;
-	} else
+	} else {
 		unlink ("${file}.dpkg-devert.tmp");
+	}
     }
     if (@ssrc && @sdest &&
         !($ssrc[0] == $sdest[0] && $ssrc[1] == $sdest[1])) {

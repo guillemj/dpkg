@@ -20,7 +20,6 @@
  */
 
 extern "C" {
-#include <curses.h>
 #include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>

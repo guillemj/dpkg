@@ -47,7 +47,7 @@ install-doc:
 	done
 
 dselect: $(OBJECTS) ../lib/libdpkg.a
-	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg -lncurses
+	$(CXX) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg -lncurses
 
 basecmds.o: helpmsgs.h
 curkeys.o: curkeys.h

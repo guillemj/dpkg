@@ -21,10 +21,10 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <curses.h>
 #include <assert.h>
-#include <signal.h>
 #include <ctype.h>
+#include <sys/ioctl.h>
+#include <sys/termios.h>
 
 extern "C" {
 #include <config.h>
