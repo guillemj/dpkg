@@ -104,7 +104,7 @@ struct pkginfoperfile { /* pif */
   struct arbitraryfield *arbs;
 };
 
-struct perpackagestate; /* used by dselect only, but we keep a pointer here */
+struct perpackagestate; /* dselect and dpkg have different versions of this */
 
 struct pkginfo { /* pig */
   struct pkginfo *next;
