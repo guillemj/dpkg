@@ -30,9 +30,18 @@
 
 #define obstack_chunk_alloc m_malloc
 #define obstack_chunk_free free
-#define ALIGN_BOUNDARY 64
-#define ALIGN_MASK (ALIGN_BOUNDARY - 1)
 
+/* We use lots of mem, so use a large chunk */
+#define CHUNK_SIZE 8192
+
+#define OBSTACK_INIT if (!dbobs_init) { nfobstack_init(); }
+
+static void nfobstack_init(void) {
+  obstack_init(&db_obs);
+  dbobs_init = 1;
+  obstack_chunk_size(&db_obs) = 8192;
+}
+  
 static struct obstack db_obs;
 static int dbobs_init = 0;
 
@@ -42,24 +51,21 @@ inline void *nfmalloc(size_t size)
 void *nfmalloc(size_t size)
 #endif
 {
-  if (!dbobs_init) { obstack_init(&db_obs); dbobs_init = 1; }
-    return obstack_alloc(&db_obs, size);
+  OBSTACK_INIT;
+  return obstack_alloc(&db_obs, size);
 }
 
 char *nfstrsave(const char *string) {
-  int i = strlen(string) + 1;
-  char *r = nfmalloc(i);
-  memcpy(r, string, i);
-  return r;
+  OBSTACK_INIT;
+  return obstack_copy (&db_obs, string, strlen(string) + 1)
 }
 
 char *nfstrnsave(const char *string, int l) {
-  char *r = nfmalloc(l+1);
-  memcpy(r, string, l);
-  r[l] = '\0';
-  return r;
+  OBSTACK_INIT;
+  return obstack_copy (&db_obs, string, l)
 }
 
 void nffreeall(void) {
   obstack_free(&db_obs, 0);
+  dbobs_init = 0;
 }
