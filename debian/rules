@@ -86,11 +86,11 @@ binary-trees: build
 	install -c debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/.
 	install -d debian/tmp-dev/usr/lib/emacsen-common/packages/{install,remove}
 	install -m 755 debian/emacsen-common-remove \
-	debian/tmp-dev/usr/lib/emacsen-common/packages/remove/dpkg-dev
+	    debian/tmp-dev/usr/lib/emacsen-common/packages/remove/dpkg-dev
 	install -m 755 debian/emacsen-common-install \
 	debian/tmp-dev/usr/lib/emacsen-common/packages/install/dpkg-dev
 	cp scripts/debian-changelog-mode.el \
-	debian/tmp-dev/usr/share/emacs/site-lisp/dpkg-dev
+	    debian/tmp-dev/usr/share/emacs/site-lisp/dpkg-dev
 	rm -f debian/tmp-main/usr/share/{x,}emacs/site-lisp/debian-changelog-mode.el*
 	chmod +x $(mcidir)/{postinst,prerm,preinst}
 	find debian/tmp-main/usr/share/man -type f | xargs gzip -9vf
@@ -102,8 +102,7 @@ binary-trees: build
 	ln -s ../man7/undocumented.7.gz debian/tmp-main/usr/share/man/man1/dpkg-divert.1.gz
 	gzip -9vf debian/tmp-main/usr/share/doc/dpkg/changelog*
 	cp debian/copyright debian/tmp-main/usr/share/doc/dpkg/copyright
-	cp debian/copyright debian/tmp-dev/usr/share/doc/dpkg-dev/copyright
-	cp debian/dev-README debian/tmp-dev/usr/share/doc/dpkg-dev/README
+	ln -s dpkg debian/tmp-dev/usr/share/doc/dpkg-dev
 	set -e; for f in \
  usr/share/doc/dpkg/{internals.html,changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
