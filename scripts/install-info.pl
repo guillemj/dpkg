@@ -1,5 +1,7 @@
 #!/usr/bin/perl --
 
+use Text::Wrap;
+
 # fixme: --dirfile option
 # fixme: sort entries
 # fixme: send to FSF ?
@@ -25,10 +27,10 @@ usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
 END
 }
 
-$infodir='/usr/info';
+$infodir='/usr/share/info';
 $maxwidth=79;
-$align=27;
-$calign=29;
+$Text::Wrap::columns=$maxwidth;
+$backup='/var/backups/infodir.bak';
 
 $menuentry="";
 $description="";
@@ -73,14 +75,12 @@ while ($ARGV[0] =~ m/^--/) {
         }
         $sectionre= shift(@ARGV);
         $sectiontitle= shift(@ARGV);
-    } elsif (m/^--maxwidth=([0-9]+)$/) {
-        $maxwidth= $1;
-    } elsif (m/^--align=([0-9]+)$/) {
-        $align= $1;
-    } elsif (m/^--calign=([0-9]+)$/) {
-        $calign= $1;
+    } elsif (m/^--(c?align|maxwidth)=([0-9]+)$/) {
+	warn( "$name: $1 deprecated(ignored)\n" );
     } elsif (m/^--infodir=/) {
         $infodir=$';
+    } elsif (m/^--info-file=/) {
+        $filename=$';
     } elsif (m/^--menuentry=/) {
         $menuentry=$';
     } elsif (m/^--info-dir=/) {
@@ -94,7 +94,10 @@ while ($ARGV[0] =~ m/^--/) {
 
 if (!@ARGV) { &version; print STDERR "\n"; &usage; exit 1; }
 
-$filename= shift(@ARGV);
+if ( !$filename ) {
+	$filename= shift(@ARGV);
+	$name = "$name($filename)";
+}
 if (@ARGV) { print STDERR "$name: too many arguments\n"; &usage; exit 1; }
 
 if ($remove) {
@@ -133,8 +136,8 @@ if (!$remove) {
         while(<IF>) {
 	    m/^START-INFO-DIR-ENTRY$/ && last;
 	    m/^INFO-DIR-SECTION (.+)$/ && do {
-		$sectiontitle = $1		unless defined($sectiontitle);
-		$sectionre = '^'.quotemeta($1)	unless defined($sectionre);
+		$sectiontitle = $1		unless ($sectiontitle);
+		$sectionre = '^'.quotemeta($1)	unless ($sectionre);
 	    }
 	}
         while(<IF>) { last if m/^END-INFO-DIR-ENTRY$/; $asread.= $_; }
@@ -209,22 +212,11 @@ $name: unable to determine description for \`dir' entry - giving up
         }
 
         $align--; $calign--;
-        $lprefix= length($cprefix);
-        if ($lprefix < $align) {
-            $cprefix .= ' ' x ($align - $lprefix);
-            $lprefix= $align;
-        }
-        $prefix= "\n". (' 'x $calign);
         $cwidth= $maxwidth+1;
 
         for $_ (split(/\s+/,$description)) {
             $l= length($_);
             $cwidth++; $cwidth += $l;
-            if ($cwidth > $maxwidth) {
-                $infoentry .= $cprefix;
-                $cwidth= $lprefix+1+$l;
-                $cprefix= $prefix; $lprefix= $calign;
-            }
             $infoentry.= ' '; $infoentry .= $_;
         }
 
@@ -235,8 +227,21 @@ $name: unable to determine description for \`dir' entry - giving up
     }
 }
 
+if (!$nowrite && ! -e "$infodir/dir") {
+    if (-r $backup) {
+	print STDERR "$name: no file $infodir/dir, retrieving backup file $backup.\n";
+	if (system ("cp $backup $infodir/dir")) {
+	    print STDERR "$name: copying $backup to $infodir/dir failed, giving up: $!\n";
+	    exit 1;
+	}
+    } else {
+	print STDERR "$name: no backup file $backup available, giving up.\n";
+	exit 1;
+    }
+}
+
 if (!$nowrite && !link("$infodir/dir","$infodir/dir.lock")) {
-    die "$name: failed to lock dir for editing! $!\n".
+    print STDERR "$name: failed to lock dir for editing! $!\n".
         ($! =~ m/exists/i ? "try deleting $infodir/dir.lock ?\n" : '');
 }
 
@@ -368,6 +373,35 @@ if (!$remove) {
             unless $quiet;
     }
 }
+$length = 0;
+
+$j = -1;
+for ($i=0; $i<=$#work; $i++) {
+	$_ = $work[$i];
+	chomp;
+	if ( m/^(\* *[^:]+: *\(\w[^\)]*\)[^.]*\.)[ \t]*(.*)/ ) {
+		$length = length($1) if ( length($1) > $length );
+		$work[++$j] = $_;
+	} elsif ( m/^[ \t]+(.*)/ ) {
+		$work[$j] = "$work[$j] $1";
+	} else {
+		$work[++$j] = $_;
+	}
+}
+@work = @work[0..$j];
+
+@newwork = ();
+foreach ( @work ) {
+	if ( m/^(\* *[^:]+: *\(\w[^\)]*\)[^.]*\.)[ \t]*(.*)/ ||
+		m/^([ \t]+)(.*)/ ) {
+		$_ = $1 . ( " " x ( $length - length($1) + 1 ) ) . $2;
+		push @newwork, split( "\n", wrap('', " " x ( $length + 1 ), $_ ) );
+	} else {
+		push @newwork, $_;
+	}
+}
+@work = @newwork;
+print join("\n",@newwork);
 
 if (!$nowrite) {
     open(NEW,"> $infodir/dir.new") || &ulquit("create $infodir/dir.new: $!");
@@ -380,6 +414,7 @@ if (!$nowrite) {
     rename("$infodir/dir.new","$infodir/dir") ||
         &ulquit("install new $infodir/dir: $!");
 unlink("$infodir/dir.lock") || die "$name: unlock $infodir/dir: $!\n";
+system ("cp $infodir/dir $backup") && warn "$name: couldn't backup $infodir/dir in $backup: $!\n";
 }
 
 sub ulquit {

@@ -37,6 +37,21 @@ dpkg (1.10) unstable; urgency=low
   * Update French translation
   * Add --showformat and --show options to dpkg-deb and dpkg-query to
     allow one to customize the output format
+  * several install-info cleanups:
+    * Move /usr/info/dir to /usr/share/info/dir.  Closes: #67174.
+    * If /usr/share/info doesn't exist, print a message saying so,
+      instead of the confusing "couldn't lock" error.  Closes: #2531.
+    * If /usr/share/info/dir doesn't exist, try to copy the backup from
+      /var/backups/infodir.bak.
+    * Add a --remove-exactly option, and allow for relative filenames.
+      Closes: #92650.
+    * Use the section from the .info file if --section is not given.
+      Closes: #76100.
+    * Error messages now include the filename being processed.
+      Closes: #66735
+    * /usr/share/info/dir now has it's entries formatted to even widths. 
+      Closes: #11228
+    * --calign|--align|--maxwidth are now ignored.
 
  -- Wichert Akkerman <wakkerma@debian.org>  Mon, 20 Aug 2001 14:54:38 +0200
 

@@ -234,3 +234,12 @@ fi
 
 mv $newdb/status.new $newdb/status
 
+if test -f /usr/info/dir
+then
+	echo "Moving /usr/info/dir to /usr/share/info/dir, and creating"
+	echo "/usr/info/dir symlink."
+	cp -a /usr/info/dir /usr/share/info/dir
+	ln -f ../share/info/dir /usr/info/dir
+fi
+
+
