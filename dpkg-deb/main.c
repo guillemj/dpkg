@@ -40,35 +40,52 @@
 
 #include "dpkg-deb.h"
 
+const char* showformat	= "${pkg:Package}\t${pkg:Version}\n";
+
 static void printversion(void) {
   if (fputs(_("Debian `"), stdout) < 0) werr("stdout");
   if (fputs(BACKEND, stdout) < 0) werr("stdout");
   if (fputs(_("' package archive backend version "), stdout) < 0) werr("stdout");
   if (fputs(DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
-  if (fputs(_("Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
-	      "GNU General Public Licence version 2 or later for copying conditions.\n"
-	      "There is NO warranty.  See dpkg-deb --licence for details.\n"),
+  if (fputs(_("This is free software; see the GNU General Public Licence version 2 or\n"
+	      "later for copying conditions. There is NO warranty.\n"
+	      "See dpkg-deb --licence for details.\n"),
 	    stdout) < 0) werr("stdout");
 }
 
 static void usage(void) {
   if (fputs(_("\
-Usage: dpkg-deb -b|--build <directory> [<deb>]    Build an archive.\n\
-       dpkg-deb -c|--contents <deb>               List contents.\n\
-       dpkg-deb -I|--info <deb> [<cfile>...]      Show info to stdout.\n\
-       dpkg-deb -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n\
-       dpkg-deb -e|--control <deb> [<directory>]  Extract control info.\n\
-       dpkg-deb -x|--extract <deb> <directory>    Extract files.\n\
-       dpkg-deb -X|--vextract <deb> <directory>   Extract & list files.\n\
-       dpkg-deb --fsys-tarfile <deb>              Output filesystem tarfile.\n\
-       dpkg-deb -h|--help                         Display this message.\n\
-       dpkg-deb --version | --licence             Show version/licence.\n\
+Command:\n\
+  -b|--build <directory> [<deb>]    build an archive.\n\
+  -c|--contents <deb>               list contents.\n\
+  -I|--info <deb> [<cfile>...]      show info to stdout.\n\
+  -W|--show <deb>                   Show information on package(s)\n\
+  -f|--field <deb> [<cfield>...]    show field(s) to stdout.\n\
+  -e|--control <deb> [<directory>]  extract control info.\n\
+  -x|--extract <deb> <directory>    extract files.\n\
+  -X|--vextract <deb> <directory>   extract & list files.\n\
+  --fsys-tarfile <deb>              output filesystem tarfile.\n\
+  -h|--help                         display this message.\n\
+  --version | --licence             show version/licence.\n\
+\n\
 <deb> is the filename of a Debian format archive.\n\
 <cfile> is the name of an administrative file component.\n\
 <cfield> is the name of a field in the main `control' file.\n\
-Options:  -D for debugging output; --old or --new controls archive format;\n\
-          --nocheck to suppress control file check (build bad package).\n\
-          -z# to set the compression when building\n\
+\n\
+Options:\n\
+  --showformat=<format>      Use alternative format for --show\n\
+  -D                         Enable debugging output
+  --old, --new               select archive format\n\
+  --nocheck                  suppress control file check (build bad package).\n\
+  -z# to set the compression when building\n\
+\n\
+Format syntax:\n\
+  A format is a string that will be output for each package. The format\n\
+  can include the standard escape sequences \\n (newline), \\r (carriage\n\
+  return) or \\\\ (plain backslash). Package information can be included\n\
+  by inserting variable references to package fields using the ${var[;width]}\n\
+  syntax. Fields will be right-aligned unless the width is negative in which\n\
+   case left aligenment will be used. \n\
 \n\
 Use `dpkg' to install and remove packages from your system, or\n\
 `dselect' for user-friendly package management.  Packages unpacked\n\
@@ -105,7 +122,8 @@ static dofunction *const dofunctions[]= {
   do_field,
   do_extract,
   do_vextract,
-  do_fsystarfile
+  do_fsystarfile,
+  do_showinfo
 };
 
 /* NB: the entries using setaction must appear first and be in the
@@ -120,11 +138,13 @@ static const struct cmdinfo cmdinfos[]= {
   { "extract",      'x',  0,  0, 0,               setaction        },
   { "vextract",     'X',  0,  0, 0,               setaction        },
   { "fsys-tarfile",  0,   0,  0, 0,               setaction        },
+  { "show",         'W',  0,  0, 0,               setaction        },
   { "new",           0,   0,  &oldformatflag, 0,  0,            0  },
   { "old",           0,   0,  &oldformatflag, 0,  0,            1  },
   { "debug",        'D',  0,  &debugflag,     0,  0,            1  },
   { "nocheck",       0,   0,  &nocheckflag,   0,  0,            1  },
   { "compression",  'z',  1,  0,   &compression,  0,            1  },
+  { "showformat",    0,   1,  0, &showformat,     0                },
   { "help",         'h',  0,  0, 0,               helponly         },
   { "version",       0,   0,  0, 0,               versiononly      },
   { "licence",       0,   0,  0, 0,               showcopyright    }, /* UK spelling */
@@ -163,3 +183,6 @@ int main(int argc, const char *const *argv) {
   error_unwind(ehflag_normaltidy);
   exit(0);
 }
+
+/* vi: sw=2
+ */
