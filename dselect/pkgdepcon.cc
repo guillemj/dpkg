@@ -292,7 +292,7 @@ int packagelist::resolvedepcon(dependency *depends) {
       best->selected= best->suggested= pkginfo::want_install;
       best->spriority= sp_selecting;
     }
-    return r;
+    return r ? 2 : 0;
     
   mustdeselect:
     best= depends->up->clientdata;
@@ -308,7 +308,7 @@ int packagelist::resolvedepcon(dependency *depends) {
           ? pkginfo::want_purge : pkginfo::want_deinstall; /* fixme: configurable */
       best->spriority= sp_deselecting;
     }
-    return r;
+    return r ? 2 : 0;
     
   case dep_conflicts:
 
