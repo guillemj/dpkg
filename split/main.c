@@ -83,9 +83,11 @@ void rerreof(FILE *f, const char *fn) {
   ohshit(_("unexpected end of file in %.250s"),fn);
 }
 
+static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 static void helponly(const struct cmdinfo *cip, const char *value) {
   usage(); exit(0);
 }
+static void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 static void versiononly(const struct cmdinfo *cip, const char *value) {
   printversion(); exit(0);
 }
@@ -145,6 +147,7 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
   action= dofunctions[cip-cmdinfos];
 }
 
+int main(int argc, const char *const *argv) NONRETURNING;
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
   int l;

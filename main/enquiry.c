@@ -725,6 +725,7 @@ void printarch(const char *const *argv) {
   if (fflush(stdout)) werr("stdout");
 }
 
+void cmpversions(const char *const *argv) NONRETURNING;
 void cmpversions(const char *const *argv) {
   struct relationinfo {
     const char *string;

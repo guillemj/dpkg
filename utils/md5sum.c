@@ -72,6 +72,7 @@ char *progname;
 int verbose = 0;
 int bin_mode = 0;
 
+int main(int argc, char **argv) NONRETURNING;
 int
 main(int argc, char **argv)
 {
@@ -136,6 +137,7 @@ main(int argc, char **argv)
 	exit(rc);
 }
 
+void usage() NONRETURNING;
 void
 usage()
 {

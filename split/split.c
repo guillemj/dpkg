@@ -33,6 +33,7 @@
 #include <dpkg-db.h>
 #include "dpkg-split.h"
 
+void do_split(const char *const *argv) NONRETURNING;
 void do_split(const char *const *argv) {
   const char *sourcefile, *prefix;
   char *palloc;
@@ -69,6 +70,3 @@ void do_split(const char *const *argv) {
         (char*)0);
   ohshite(_("unable to exec mksplit"));
 }
-
-
-

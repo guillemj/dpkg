@@ -86,9 +86,11 @@ const char* compression=NULL;
 const struct cmdinfo *cipaction=0;
 dofunction *action=0;
 
+static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 static void helponly(const struct cmdinfo *cip, const char *value) {
   usage(); exit(0);
 }
+static void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 static void versiononly(const struct cmdinfo *cip, const char *value) {
   printversion(); exit(0);
 }
@@ -138,6 +140,7 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
   action= dofunctions[cip-cmdinfos];
 }
 
+int main(int argc, const char *const *argv) NONRETURNING;
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
 

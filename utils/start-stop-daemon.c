@@ -1034,6 +1034,7 @@ x_finished:
 }
 
 
+int main(int argc, char **argv) NONRETURNING;
 int
 main(int argc, char **argv)
 {

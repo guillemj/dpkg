@@ -171,9 +171,11 @@ static const struct forceinfo {
   {  0                                                  }
 };
 
+static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 static void helponly(const struct cmdinfo *cip, const char *value) {
   usage(); exit(0);
 }
+static void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 static void versiononly(const struct cmdinfo *cip, const char *value) {
   printversion(); exit(0);
 }
@@ -418,6 +420,7 @@ static const struct cmdinfo cmdinfos[]= {
   {  0,                   0                                                          }
 };
 
+static void execbackend(int argc, const char *const *argv) NONRETURNING;
 static void execbackend(int argc, const char *const *argv) {
   execvp(BACKEND, (char* const*) argv);
   ohshite(_("failed to exec dpkg-deb"));
