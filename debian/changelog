@@ -32,7 +32,11 @@ dpkg (1.4.1.19) unstable; urgency=low
     package that contains the generated output from this file (.ps, .html
     and .info), includes doc-base support. Internals.sgml is also not
     generated on the binary-arch target, and is no longer "byhand"
- 
+  * scripts/dpkg-shlibdeps: start using objdump as opposed to ldd, this
+    works much more cleanly, works with libc5, and allows from better
+    error reporting. Also corrected checks on shlibs.local, which wasn't
+    really being parsed, it now works as advertised.
+
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
 dpkg (1.4.1.18) unstable; urgency=low

@@ -59,7 +59,7 @@ General options: -h                  print this message
 $i = 100;
 grep ($fieldimps {$_} = $i--,
       qw (Source Version Binary Maintainer Architecture Standards-Version
-          Build-Depends Build-Indep-Depends Build-Conflicts Build-Indep-Conflicts));
+          Build-Depends Build-Depends-Indep Build-Conflicts Build-Conflicts-Indep));
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);

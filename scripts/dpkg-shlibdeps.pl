@@ -1,7 +1,7 @@
 #!/usr/bin/perl
 
 $dpkglibdir= ".";
-$version= '1.3.7'; # This line modified by Makefile
+$version= '1.3.8'; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
@@ -88,44 +88,83 @@ sub isbin {
 
 for ($i=0;$i<=$#exec;$i++) {
     if (!isbin ($exec[$i])) { next; }
-    defined($c= open(P,"-|")) || syserr("cannot fork for ldd");
-    if (!$c) { exec("ldd","--",$exec[$i]); syserr("cannot exec ldd"); }
-    $nthisldd=0;
+    defined($c= open(P,"-|")) || syserr("cannot fork for objdump");
+    if (!$c) { exec("objdump","-p","--",$exec[$i]); syserr("cannot exec objdump"); }
     while (<P>) {
-    	chomp;
-	if (m,^\s+(\S+)\s+\=\>\s+\1$,) {
-	    # shared libraries depend on themselves (unsure why)
-	    # Only under old ld.so
-	    $nthisldd++;
-	} elsif (m,\s+statically linked(\s+\(ELF\))?$,) {
-	    $nthisldd++;
-	} elsif (m,^\s+(\S+)\.so\.(\S+)\s+=>\s+(/\S+)(\s+\(0x.+\))?$,) {
-	    push(@libname,$1); push(@libsoname,$2); push(@libpath,$3);
+	chomp;
+	if (m,^\s*NEEDED\s+(\S+)\.so\.(\S+)$,) {
+	    push(@libname,$1); push(@libsoname,$2);
 	    push(@libf,$execf[$i]);
-	    push(@libpaths,$3) if !$libpathadded{$3}++;
-	    $nthisldd++;
-	} else {
-	    &warn("unknown output from ldd on \`$exec[$i]': \`$_'");
+	    push(@libfiles,"$1.so.$2");
 	}
     }
-    close(P); $? && subprocerr("ldd on \`$exec[$i]'");
-    $nthisldd || &warn("ldd on \`$exec[$i]' gave nothing on standard output");
+    close(P); $? && subprocerr("objdump on \`$exec[$i]'");
 }
 
-if ($#libpaths >= 0) {
-    grep(s/\[\?\*/\\$&/g, @libpaths);
+# Now: See if it is in this package.  See if it is in any other package.
+sub searchdir {
+    my $dir = shift;
+    if(opendir(DIR, $dir)) {
+	my @dirents = readdir(DIR);
+	closedir(DIR);
+	for (@dirents) {
+	    if ( -f "$dir/$_/DEBIAN/shlibs" ) {
+		push(@curshlibs, "$dir/$_/DEBIAN/shlibs");
+		next;
+	    } elsif ( $_ !~ /^\./ && -d "$dir/$_" ) {
+		&searchdir("$dir/$_");
+	    }
+	}
+    }
+}
+
+$searchdir = $exec[0];
+$curpackdir = "debian/tmp";
+do { $searchdir =~ s,/[^/]*$,,; } while($searchdir =~ m,/, && ! -d "$searchdir/DEBIAN");
+if ($searchdir =~ m,/,) {
+    $curpackdir = $searchdir;
+    $searchdir =~ s,/[^/]*,,;
+    &searchdir($searchdir);
+}
+
+if ($#curshlibs >= 0) {
+    PRELIB: for ($i=0;$i<=$#libname;$i++) {
+	for my $shlibsfile (@curshlibs) {
+	    if(scanshlibsfile($shlibsfile, $libname[$i], $libsoname[$i], $libf[$i])) {
+		splice(@libname, $i, 1);
+		splice(@libsoname, $i, 1);
+		splice(@libf, $i, 1);
+		splice(@libfiles, $i, 1);
+		$i--;
+		next PRELIB;
+	    }
+	}
+	if(scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i])
+	    || scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i])) {
+	    splice(@libname, $i, 1);
+	    splice(@libsoname, $i, 1);
+	    splice(@libf, $i, 1);
+	    splice(@libfiles, $i, 1);
+	    $i--;
+	    next PRELIB;
+	}
+    }
+}
+
+if ($#libfiles >= 0) {
+    grep(s/\[\?\*/\\$&/g, @libname);
     defined($c= open(P,"-|")) || syserr("cannot fork for dpkg --search");
     if (!$c) {
         close STDERR; # we don't need to see dpkg's errors
 	open STDERR, "> /dev/null";
-        exec("dpkg","--search","--",@libpaths); syserr("cannot exec dpkg");
+        exec("dpkg","--search","--",map {"*/$_"} @libfiles); syserr("cannot exec dpkg");
     }
     while (<P>) {
        chomp;
        if (m/^local diversion |^diversion by/) {
            &warn("diversions involved - output may be incorrect");
            print(STDERR " $_\n") || syserr("write diversion info to stderr");
-       } elsif (m=^(\S+(, \S+)*): (/.+)$=) {
+       } elsif (m=^(\S+(, \S+)*): /.+/([^/]+)$=) {
            $pathpackages{$+}= $1;
        } else {
            &warn("unknown output from dpkg --search: \`$_'");
@@ -135,22 +174,20 @@ if ($#libpaths >= 0) {
 }
 
 LIB: for ($i=0;$i<=$#libname;$i++) {
-    scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i]) && next;
-    scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i]) && next;
-    if (!defined($pathpackages{$libpath[$i]})) {
-        &warn("could not find any packages for $libpath[$i]".
+    if (!defined($pathpackages{$libfiles[$i]})) {
+        &warn("could not find any packages for $libfiles[$i]".
               " ($libname[$i].so.$libsoname[$i])");
     } else {
-        @packages= split(/, /,$pathpackages{$libpath[$i]});
+        @packages= split(/, /,$pathpackages{$libfiles[$i]});
         for $p (@packages) {
             scanshlibsfile("$shlibsppdir/$p$shlibsppext",
                            $libname[$i],$libsoname[$i],$libf[$i])
                 && next LIB;
         }
     }
-    scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i]) && next;
+    scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i]) && next;
     &warn("unable to find dependency information for ".
-          "shared library $libname[$i] (soname $libsoname[$i], path $libpath[$i], ".
+          "shared library $libname[$i] (soname $libsoname[$i], path $libfiles[$i], ".
           "dependency field $libf[$i])");
 }
 
@@ -171,6 +208,7 @@ sub scanshlibsfile {
             next;
         }
         next if $1 ne $ln || $2 ne $lsn;
+        return 1 if $fn eq "debian/$curpackdir/DEBIAN/shlibs";
         $da= $';
         for $dv (split(/,/,$da)) {
             $dv =~ s/^\s+//; $dv =~ s/\s+$//;
