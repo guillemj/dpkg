@@ -27,10 +27,6 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-#ifndef HAVE_VA_COPY
-#define __va_copy(dest,src)     (dest) = (src)
-#endif
-
 inline void varbufaddc(struct varbuf *v, int c) {
   if (v->used >= v->size) varbufextend(v);
   v->buf[v->used++]= c;
@@ -74,7 +70,7 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
 
   do {
     varbufextend(v);
-    __va_copy(al, va);
+    va_copy(al, va);
     r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
     if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;

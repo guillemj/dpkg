@@ -60,7 +60,6 @@ signchanges='withecho signfile'
 cleansource=false
 checkbuilddep=true
 checkbuilddep_args=''
-buildtarget=build
 binarytarget=binary
 sourcestyle=''
 version=''
@@ -71,7 +70,6 @@ noclean=false
 usepause=false
 warnable_error=0
 passopts=''
-debian/rules -qn build-arch 2>/dev/null && buildarchavailable=true || buildarchavailable=false
 
 while [ $# != 0 ]
 do
@@ -99,7 +97,7 @@ do
 	-nc)	noclean=true; if [ -z "$binaryonly" ]; then binaryonly=-b; fi ;;
 	-b)	binaryonly=-b; [ "$sourceonly" ] && \
 			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
-	-B)	binaryonly=-B; binarytarget=binary-arch; if $buildarchavailable; then checkbuilddep_args=-B; fi; [ "$sourceonly" ] && \
+	-B)	binaryonly=-B; checkbuilddep_args=-B; binarytarget=binary-arch; [ "$sourceonly" ] && \
 			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
 	-S)	sourceonly=-S; checkbuilddep=false; [ "$binaryonly" ] && \
 			{ echo >&2 "$progname: cannot combine $binaryonly and $1" ; exit 2 ; } ;;
@@ -198,7 +196,7 @@ if [ x$binaryonly = x ]; then
 	cd ..; withecho dpkg-source $passopts $diffignore $tarignore -b "$dirn"; cd "$dirn"
 fi
 if [ x$sourceonly = x ]; then
-	withecho debian/rules $buildtarget 
+	withecho debian/rules build 
 	withecho $rootcommand debian/rules $binarytarget
 fi
 if [ "$usepause" = "true" ] && \

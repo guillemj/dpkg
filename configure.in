@@ -207,18 +207,18 @@ AC_TRY_COMPILE([
 AC_TRY_COMPILE(,[
 } inline int foo (int x) {], AC_DEFINE(HAVE_INLINE,,[Define if inline functions a la GCC are available.]))
 
-AC_MSG_CHECKING([for __va_copy])
-# OpenBSD passes AC_TRY_COMPILE for __va_copy even though 
+AC_MSG_CHECKING([for va_copy])
+# OpenBSD passes AC_TRY_COMPILE for va_copy even though 
 # it doesn't seem to exist, which is odd. We need to use
 # AC_TRY_RUN.
 AC_TRY_RUN([
 #include <stdarg.h>
 main(){
 va_list v1,v2;
-__va_copy(v1, v2);
+va_copy(v1, v2);
 exit(0);}
 ], [AC_MSG_RESULT(yes)
-AC_DEFINE(HAVE_VA_COPY)],[AC_MSG_RESULT(no)
+AC_DEFINE(HAVE_VA_COPY,,[Whether the va_copy macro exists])],[AC_MSG_RESULT(no)
 AC_MSG_CHECKING([for va_list assignment copy])
 AC_TRY_COMPILE([
 #include <stdarg.h>
@@ -407,7 +407,7 @@ void unsetenv(const char *x);
 #endif
 
 #ifndef HAVE_VA_COPY
-#define __va_copy(dest,src)	(dest) = (src)
+#define va_copy(dest,src)	(dest) = (src)
 #endif
 
 /* Define WCOREDUMP if we don't have it already - coredumps won't be
