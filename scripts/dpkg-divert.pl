@@ -25,6 +25,7 @@ Usage:
  dpkg-divert [options] [--add] <file>               - add a diversion
  dpkg-divert [options] --remove <file>              - remove the diversion
  dpkg-divert [options] --list [<glob-pattern>]      - show file diversions
+ dpkg-divert [options] --truname <file>             - return the diverted file
 
 Options: 
     --package <package>        name of the package whose copy of <file>
@@ -82,6 +83,9 @@ while (@ARGV) {
     } elsif (m/^--list$/) {
         &checkmanymodes;
         $mode= 'list';
+    } elsif (m/^--truename$/) {
+        &checkmanymodes;
+        $mode= 'truename';
     } elsif (m/^--divert$/) {
         @ARGV || &badusage("--divert needs a divert-to argument");
         $divertto= shift(@ARGV);
@@ -176,6 +180,16 @@ if ($mode eq 'add') {
                      $package[$i] =~ m/$pat/o);
         print &infon($i),"\n";
     }
+    exit(0);
+} elsif ($mode eq 'truename') {
+    @ARGV == 1 || &badusage("--truename needs a single argument");
+    $file= $ARGV[0];
+    for ($i=0; $i<=$#contest; $i++) {
+	next unless $file eq $contest[$i];
+	print $altname[$i], "\n";
+	exit(0);
+    }
+    print $file, "\n";
     exit(0);
 } else {
     &quit("internal error - bad mode \`$mode'");

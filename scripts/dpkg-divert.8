@@ -14,6 +14,10 @@ dpkg-divert -- override a package's version of a file
 [options]
 --list
 .I <glob-pattern>
+.B dpkg-divert
+[options] --truename
+.I <file>
+.br
 .SH DESCRIPTION
 File `diversions' are a way of forcing dpkg not to install a file into its
 location, but to a `diverted' location. Diversions can be used through the
@@ -26,7 +30,8 @@ contains those files.
 .B dpkg-divert
 is the utility used to set up and update the list of diversions. It
 functions in three basic modes - adding, removing, and listing diversions.
-The options are --add, --remove, and --list, respectively. Other options
+The options are --add, --remove, and --list, respectively. Additionally,
+it can print out the real name for a diverted file. Other options
 (listed below) may also be specified.
 .SH OPTIONS
 .TP
