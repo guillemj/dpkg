@@ -286,7 +286,7 @@ void deferred_configure(struct pkginfo *pkg) {
 
           s= strrchr(conff->name,'/');
           if (!s || !*++s) s= conff->name;
-          fprintf(stderr, "*** %s (Y/I/N/O/Z) %s ? ",
+          fprintf(stderr, "*** %s (Y/I/N/O/D/Z) %s ? ",
                   s,
                   (what & cfof_keep) ? _("[default=N]") :
                   (what & cfof_install) ? _("[default=Y]") : _("[no default]"));
