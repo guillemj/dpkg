@@ -18,8 +18,8 @@ require 'controllib.pl';
 sub usageversion {
     print STDERR
 "Debian dpkg-gencontrol $version. 
-Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2000 Wichert Akkerman.
+Copyright 1996 Ian Jackson.
+Copyright 2000,2002 Wichert Akkerman.
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions.  There is NO warranty.
 
@@ -56,7 +56,7 @@ while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-p([-+0-9a-z.]+)$/) {
         $oppackage= $1;
-    } elsif (m/^-p([-+0-9a-zA-Z.]+)$/) {
+    } elsif (m/^-p/) {
         &usageerr("Illegal package name \`$1'");
     } elsif (m/^-c/) {
         $controlfile= $';
