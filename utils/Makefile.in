@@ -46,10 +46,10 @@ install:: install-program install-doc
 install-program:
 ifeq (@USE_START_STOP_DAEMON@, true)
 	$(mkinstalldirs) $(DESTDIR)/$(sbindir)
-	$(INSTALL) start-stop-daemon $(DESTDIR)/$(sbindir)
+	$(INSTALL_PROGRAM) start-stop-daemon $(DESTDIR)/$(sbindir)
 endif
 	$(mkinstalldirs) $(DESTDIR)/$(bindir)
-	$(INSTALL) md5sum $(DESTDIR)/$(bindir)
+	$(INSTALL_PROGRAM) md5sum $(DESTDIR)/$(bindir)
 
 .PHONY: install-doc
 install-doc:
