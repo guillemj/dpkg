@@ -402,7 +402,7 @@ parse_schedule(const char *schedule_str) {
 		repeatat = -1;
 		while (schedule_str != NULL) {
 			slash = strchr(schedule_str,'/');
-			str_len = slash ? slash - schedule_str : strlen(schedule_str);
+			str_len = slash ? slash - schedule_str : (ptrdiff_t)strlen(schedule_str);
 			if (str_len >= (ptrdiff_t)sizeof(item_buf))
 				badusage("invalid schedule item: far too long"
 					 " (you must delimit items with slashes)");

@@ -430,7 +430,7 @@ static const struct cmdinfo cmdinfos[]= {
 void execbackend(const char *const *argv) {
   char **nargv;
   int i, argc = 1;
-  char **arg = argv;
+  const char *const *arg = argv;
   while(*arg != 0) { arg++; argc++; }
   nargv= malloc(sizeof(char *) * argc + 2);
 
@@ -447,7 +447,7 @@ void execbackend(const char *const *argv) {
   }
   nargv[i]= 0;
   execvp(cipaction->parg, nargv);
-  ohshite(_("failed to exec %s"),cipaction->parg);
+  ohshite(_("failed to exec %s"),(char *)cipaction->parg);
 }
 void commandfd(const char *const *argv) {
   jmp_buf ejbuf;

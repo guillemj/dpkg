@@ -110,9 +110,11 @@ static void usage(void) {
 /* These are called by C code, so need to have C calling convention */
 extern "C" {
 
+  static void helponly(const struct cmdinfo*, const char*) NONRETURNING;
   static void helponly(const struct cmdinfo*, const char*) {
     usage(); exit(0);
   }
+  static void versiononly(const struct cmdinfo*, const char*) NONRETURNING;
   static void versiononly(const struct cmdinfo*, const char*) {
     printversion(); exit(0);
   }

@@ -176,7 +176,7 @@ struct pkginfo *findpackage(const char *inname) {
   if (name == NULL)
     ohshite(_("couldn't allocate memory for strdup in findpackage(%s)"),inname);
   p= name;
-  while(*p) *p++= tolower(*p);
+  while(*p) { *p= tolower(*p); p++; }
   
   pointerp= bins + (hash(name) & (BINS-1));
   while (*pointerp && strcasecmp((*pointerp)->name,name))

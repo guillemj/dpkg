@@ -91,7 +91,7 @@ void checkpath(void) {
     s= path;
     while (s) {
       p= strchr(s,':');
-      l= p ? p-s : strlen(s);
+      l= p ? p-s : (long)strlen(s);
       memcpy(buf,s,l);
       if (l) buf[l++]= '/';
       strcpy(buf+l,*clp);
