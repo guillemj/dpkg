@@ -546,6 +546,7 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
   static void (*actionfunction)(const char *const *argv);
+  char *home, *homerc;
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
@@ -559,6 +560,12 @@ int main(int argc, const char *const *argv) {
   umask(022); /* Make sure all our status databases are readable. */
  
   myfileopt(CONFIGDIR "/" DPKG ".cfg", cmdinfos);
+  if ((home= getenv("HOME")) != NULL) {
+       homerc= (char*)malloc((strlen(home)+strlen("/." DPKG ".cfg")+1)*sizeof(char));
+       sprintf(homerc, "%s/.%s.cfg", home, DPKG);
+       myfileopt(homerc, cmdinfos);
+       free(homerc);
+  }
   myopt(&argv,cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
