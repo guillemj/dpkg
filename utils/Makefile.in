@@ -75,5 +75,6 @@ start-stop-daemon: $(SSD_OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $(SSD_OBJECTS) $(LIBS) $(SSD_LIBS)
 
 md5sum-static: LDFLAGS += -static
+md5sum-static: ZLIB_LIBS = $(ZLIBS_LIBS_ALSO_STATIC)
 md5sum md5sum-static: $(MD5_OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $(MD5_OBJECTS) $(LIBS) $(NLS_LIBS)

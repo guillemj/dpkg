@@ -61,6 +61,7 @@ install-doc:
 	done
 
 dpkg-static: LDFLAGS += -static
+dpkg-static: ZLIB_LIBS = $(ZLIBS_LIBS_ALSO_STATIC)
 dpkg dpkg-static: $(OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS)
 
