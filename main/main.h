@@ -124,7 +124,7 @@ void assertmulticonrep(const char *const *argv);
 void predeppackage(const char *const *argv);
 void printarch(const char *const *argv);
 void printinstarch(const char *const *argv);
-void cmpversions(const char *const *argv);
+void cmpversions(const char *const *argv) NONRETURNING;
 
 /* Intended for use as a comparison function for qsort when
  * sorting an array of pointers to struct pkginfo:
@@ -157,7 +157,7 @@ void cu_prermremove(int argc, void **argv);
 
 /* from errors.c */
 
-int nerrs;
+extern int nerrs;
 void print_error_perpackage(const char *emsg, const char *arg);
 void forcibleerr(int forceflag, const char *format, ...) PRINTFFORMAT(2,3);
 int reportbroken_retexitstatus(void);

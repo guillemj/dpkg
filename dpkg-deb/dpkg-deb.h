@@ -23,7 +23,8 @@
 #define DPKG_DEB_H
 
 typedef void dofunction(const char *const *argv);
-dofunction do_build, do_contents, do_control, do_showinfo;
+dofunction do_build NONRETURNING; 
+dofunction do_contents, do_control, do_showinfo;
 dofunction do_info, do_field, do_extract, do_vextract, do_fsystarfile;
 
 extern int debugflag, nocheckflag, oldformatflag;

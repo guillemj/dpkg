@@ -57,12 +57,10 @@
 #endif
 #endif
 
-extern char *optarg;
-extern int optind;
 const char printforhelp[]= N_("Type md5sum --help for help.");
 const char thisname[]= MD5SUM;
 
-void usage(void);
+void usage(void) NONRETURNING;
 void print_digest(unsigned char *p);
 int mdfile(int fd, unsigned char **digest);
 int do_check(FILE *chkf);
@@ -181,7 +179,6 @@ int process_arg(const char* arg, int bin_mode, unsigned char **digest)
 	return 0;
 }
 
-void usage(void) NONRETURNING;
 void
 usage(void)
 {

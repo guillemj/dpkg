@@ -198,7 +198,6 @@ int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) {
 
 /* Overly complex function that builds a .deb file
  */
-void do_build(const char *const *argv) NONRETURNING;
 void do_build(const char *const *argv) {
   static const char *const maintainerscripts[]= {
     PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, 0

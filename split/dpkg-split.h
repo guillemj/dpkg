@@ -23,7 +23,8 @@
 #define DPKG_SPLIT_H
 
 typedef void dofunction(const char *const *argv);
-dofunction do_split, do_join, do_info, do_auto, do_queue, do_discard;
+dofunction do_split NONRETURNING;
+dofunction do_join, do_info, do_auto, do_queue, do_discard;
 
 struct partinfo {
   const char *filename;
