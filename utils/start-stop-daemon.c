@@ -941,10 +941,11 @@ do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry
  	clear(&killed);
 
 	for (p = found; p; p = p->next) {
-		if (testmode)
+		if (testmode) {
 			printf("Would send signal %d to %d.\n",
 			       signal_nr, p->pid);
- 		else if (kill(p->pid, signal_nr) == 0) {
+			(*n_killed)++;
+		} else if (kill(p->pid, signal_nr) == 0) {
 			push(&killed, p->pid);
  			(*n_killed)++;
 		} else {
