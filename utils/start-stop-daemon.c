@@ -22,7 +22,7 @@
 
 #include "config.h"
 
-#if defined(linux)
+#if defined(linux) || (defined(__FreeBSD_kernel__) && defined(__GLIBC__))
 #  define OSLinux
 #elif defined(__GNU__)
 #  define OSHURD
@@ -47,17 +47,20 @@
 #  include <ps.h>
 #endif
 
-#if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
+#if  defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
 #include <sys/param.h>
-#include <sys/user.h>
 #include <sys/proc.h>
 #include <sys/stat.h>
-#include <sys/sysctl.h>
 #include <sys/types.h>
- 
+
 #include <err.h>
-#include <kvm.h>
 #include <limits.h>
+#endif
+ 
+#ifdef HAVE_KVM_H
+#include <kvm.h>
+#include <sys/sysctl.h>
+#include <sys/user.h>
 #endif
 
 #if defined(OShpux)
@@ -86,8 +89,30 @@
 #include <assert.h>
 #include <ctype.h>
 
+#ifdef HAVE_SYS_CDEFS_H
+#include <sys/cdefs.h>
+#endif
+
+#ifdef HAVE_STDDEF_H
+#include <stddef.h>
+#endif
+
 #ifdef HAVE_ERROR_H
 #  include <error.h>
+#endif
+
+#if HAVE_C_ATTRIBUTE
+# define CONSTANT __attribute__((constant))
+# define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
+# define NONRETURNING __attribute__((noreturn))
+# define UNUSED __attribute__((unused))
+# define NONRETURNPRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc),noreturn))
+#else
+# define CONSTANT
+# define PRINTFFORMAT(si, tc)
+# define NONRETURNING
+# define UNUSED
+# define NONRETURNPRINTFFORMAT(si, tc)
 #endif
 
 static int testmode = 0;
@@ -204,7 +229,7 @@ fatal(const char *format, ...)
 	va_start(arglist, format);
 	vfprintf(stderr, format, arglist);
 	va_end(arglist);
-	putc('\n', stderr);
+	fprintf(stderr, " (%s)\n", strerror (errno));
 	exit(2);
 }
 
@@ -756,7 +781,7 @@ do_pidfile(const char *name)
 /* WTA: this  needs to be an autoconf check for /proc/pid existance.
  */
 
-#if defined(OSLinux) || defined (OSsunos) || defined(OSfreebsd)
+#if defined(OSLinux) || defined (OSsunos)
 static void
 do_procinit(void)
 {
@@ -802,7 +827,7 @@ do_procinit(void)
 #endif /* OSHURD */
 
 
-#if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
+#ifdef HAVE_KVM_H
 static int
 pid_is_cmd(pid_t pid, const char *name)
 {
@@ -1142,7 +1167,6 @@ x_finished:
 }
 
 
-int main(int argc, char **argv) NONRETURNING;
 int
 main(int argc, char **argv)
 {

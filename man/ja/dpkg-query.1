@@ -1,0 +1,101 @@
+.\" Original manpage cvs revision 1.3.2.1
+.\" Translated by KISE Hiroshi <fuyuneko@ryuku.ne.jp>
+.TH DPKG\-QUERY 1 "August 2001" "Debian Project" "dpkg suite"
+.SH 名前
+dpkg\-query \- dpkg データベース問い合わせツール
+
+.SH 書式
+.B dpkg-query
+
+.SH 説明
+\fBdpkg-query\fP は、\fBdpkg\fP データベースから、パッケージの情報を
+表示するツールである。
+
+
+.SH コマンド
+.TP
+\fB-l\fP | \fB--list\fP \fIpackage-name-pattern\fP ...
+指定したパターンにマッチする名前のパッケージを表示する。
+\fIpackage-name-pattern\fP を指定しない場合は、
+\fI/var/lib/dpkg/status\fP にある、インストール済みのすべての
+パッケージの一覧を表示する。\fIpackage-name-pattern\fP には、
+標準的なシェルのワイルド文字を使用することができる。ただし、
+シェルにファイル名展開をさせないように、\fIpackage-name-pattern\fP を
+クオートする必要があることに注意していただきたい。
+例えば次のコマンドは、名前が \*(lqlibc5\*(rq で始まるすべての
+パッケージを表示する。
+
+.T
+.nf
+  \fBdpkg-query -l 'libc5*'\fP
+.fi
+.TP
+\fB-W\fP | \fB--show\fP \fIpackage-name-pattern\fP ...
+\fB--list\fP オプションと同様に、指定したパターンにマッチする
+すべてのパッケージを表示する。さらに、このオプションの出力は、
+\fB--showformat\fP オプションによってカスタマイズすることができる。
+.TP
+\fB-s\fP | \fB--status\fP \fIpackage-name\fP ...
+指定したパッケージの状況を報告する。これは、インストール済みパッケージ
+状況データベースからの内容を表示しているだけである。
+.TP
+\fB-L\fP | \fB--listfiles\fP \fIpackage\fP ...
+\fIpackage\fP によってインストールしたファイルを表示する。
+ただし、パッケージ付属のインストールスクリプトによって作成された
+ファイルは表示されないことに注意すること。
+.TP
+\fB-S\fP | \fB--search\fP \fIfilename-search-pattern\fP ...
+指定したファイルがどのパッケージからインストールされたかを探す。
+パターンには、標準的なシェルのすべてのワイルド文字を使用することができる。
+このコマンドでは、メンテナスクリプトで作成された追加ファイルや、
+alternatives は探すことができない
+.TP
+\fB-p\fP |\fB--print-avail\fP package
+\fI/var/lib/dpkg/available\fP にある \fIpackage\fP に関する情報を
+表示する。
+.TP
+\fB--licence\fP | \fB--license\fP
+ライセンスと著作権情報を表示する。
+.TP
+\fB--version\fP
+バージョン情報を表示する。
+
+.SH オプション
+.TP
+\fB--admindir=\fIdir\fP
+\fBdpkg\fR データベースの位置を変更する。デフォルトの位置は
+\fI/var/lib/dpkg\fP である。
+.TP
+\fB--showformat=\fP\fIformat\fR
+このオプションは、\fB--show\fP が生成する出力の書式を指定するものである。
+書式は文字列で、パッケージごとに出力される。
+文字列には標準的なエスケープシーケンス \en (改行), \er (キャリッジリターン)、
+そして \e\e (バックシュラッシュそのもの)が含まれる。
+パッケージ情報には、パッケージフィールドを参照する変数を含めることができる。
+その変数の構文は、${var[;width]} となる。
+それぞれのフィールドは右寄せで表示されるが、width に負の値を指定すると
+左寄せになる。
+
+.SH 環境変数
+.TP
+\fBCOLUMNS\fP
+設定すると、\fB--list\fP オプションによる出力の横幅を変更する。
+
+.SH 著者
+Copyright 2001 Wichert Akkerman
+.UR mailto:wakkerma@debian.org
+<wakkerma@debian.org>
+.UE
+.sp
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions.  There is NO warranty.
+(参考訳: このマニュアルはフリーソフトウェアである。再配布の条件は、
+GNU 一般公衆利用許諾契約書 (GPL) バージョン 2 以降を参照すること。
+このマニュアルは「無保証」である)
+
+
+.SH 関連項目
+.BR dpkg (8)
+
+.SH 翻訳者
+喜瀬浩 <fuyuneko@ryukyu.ne.jp>

@@ -22,26 +22,6 @@
 #include <getopt.h>
 #include <unistd.h>
 
-/* Take care of NLS matters.  */
-
-#if HAVE_LOCALE_H
-# include <locale.h>
-#endif
-#if !HAVE_SETLOCALE
-# define setlocale(Category, Locale) /* empty */
-#endif
-
-#if ENABLE_NLS
-# include <libintl.h>
-# define _(Text) gettext (Text)
-#else
-# undef bindtextdomain
-# define bindtextdomain(Domain, Directory) /* empty */
-# undef textdomain
-# define textdomain(Domain) /* empty */
-# define _(Text) Text
-#endif
-
 #include <dpkg.h>
 
 #ifdef UNIX
@@ -127,7 +107,7 @@ main(int argc, char **argv)
 		push_error_handler(&ejbuf, print_md5sum_error, "stdin");
 
 		mdfile(fileno(stdin), &digest);
-		printf("%s %c-\n", digest, bin_mode ? '*' : ' ');
+		printf("%s\n", digest);
 		set_error_display(0, 0);
 		error_unwind(ehflag_normaltidy);
 		exit(0);

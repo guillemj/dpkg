@@ -1,0 +1,56 @@
+.TH DPKG-SCANSOURCES 1 "2005-01-10" "Debian GNU/Linux"
+.SH "NAME"
+dpkg\-scansources \- search for '.dsc' files and build the 'Sources' index
+.SH "SYNOPSIS"
+.IX Header "SYNOPSIS"
+\&\fBdpkg-scansources\fR [switch]... \fIbinary-dir\fR [\fIoverride-file\fR
+[\fIpath-prefix\fR]] > Sources
+.SH "DESCRIPTION"
+.IX Header "DESCRIPTION"
+\&\fBdpkg-scansources\fR scans the given \fIbinary-dir\fR for \fI.dsc\fR files.
+These are used to create a Debian source index, which is output to
+stdout.
+.PP
+The \fIoverride-file\fR, if given, is used to set priorities in the resulting
+index records and to override the maintainer field given in the \fI.dsc\fR
+files.  See dpkg-scanpackages for the format of this file.  \s-1NB:\s0  Since
+the override file is indexed by binary, not source, packages, there's a bit
+of a problem here.  The current implementation uses the highest priority of
+all the binary packages produced by a \fI.dsc\fR file for the priority of the
+source package, and the override entry for the first binary package listed
+in the \fI.dsc\fR file to modify maintainer information.  This might change.
+.PP
+The \fIpath-prefix\fR, if given, is prepended to the directory field in the
+generated source index.  You generally use this to make the directory
+fields contain the path from the top of the Debian archive hierarchy.
+.SH "OPTIONS"
+.IX Header "OPTIONS"
+.IP "\fB\-\-debug\fR" 4
+.IX Item "--debug"
+Turn debugging on.
+.IP "\fB\-\-help\fR" 4
+.IX Item "--help"
+Show the usage message and die.
+.IP "\fB\-n\fR, \fB\-\-no\-sort\fR" 4
+.IX Item "-n, --no-sort"
+Don't sort the index records.  Normally they are sorted by source package
+name.
+.IP "\fB\-s\fR, \fB\-\-source\-override\fR \fIfile\fR" 4
+.IX Item "-s, --source-override file"
+Use \fIfile\fR as the source override file.  The default is the name of the
+override file you specified with \fI.src\fR appended.
+.Sp
+The source override file is in a different format from the binary override
+file.  It contains only two whitespace separated fields, the first is the
+source package name and the second is the section.  Blank lines and comment
+lines are ignored in the normal manner.  If a package appears in both files
+the source override takes precedence for setting the section.
+.IP "\fB\-\-version\fR" 4
+.IX Item "--version"
+Print the version number and exit.
+.SH "SEE ALSO"
+.IX Header "SEE ALSO"
+\&\fIdpkg\-scanpackages\fR\|(1)
+.SH "AUTHOR"
+.IX Header "AUTHOR"
+Roderick Schertler <roderick@argon.org>

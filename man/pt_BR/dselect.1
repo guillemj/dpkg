@@ -1,0 +1,463 @@
+.\" Tradução da versão cvs 1.1
+.TH DSELECT 1 "Julho 2001" "Projeto Debian" "Debian"
+.SH NOME
+dselect \- Frontend de gerenciamento de pacotes Debian
+.SH RESUMO
+.B dselect
+[\-\-admindir <diretório>] [\-\-help] [\-\-version] [\-\-licence | \-\-license]
+[\-\-expert] [\-\-debug | \-D <arquivo>] [\fI<ação>\fP]
+[\-\-colour | \-\-color parte_da_tela:[frente],[fundo][:atr[+atr+..]]]
+.SH DESCRIÇÃO
+O
+.B dselect
+é a interface de usuário primária para gerenciar pacotes em um sistema
+Debian.
+No menu principal do \fBdselect\fP, o administrador do sistema pode:
+ \- Atualizar a lista de versões de pacotes disponíveis,
+ \- Ver o estado dos pacotes instalados e disponíveis,
+ \- Alterar seleções de pacotes e gerenciar dependências,
+ \- Instalar pacotes novos e atualizar para versões mais novas.
+.PP
+O
+.B dselect 
+opera como um frontend para o \fBdpkg(8)\fP, a ferramenta de
+gerenciamento de pacotes debian de baixo nível. Ele consiste de um
+gerenciador em tela cheia de seleções com um solucionador de
+dependências e conflitos de pacotes. Quando é executado com privilégios
+de administrador, pode instalar, atualizar e remover pacotes. Pode-se
+configurar vários métodos de acesso para obter informações de versões de
+pacotes disponíveis e instaláveis dos repositórios de pacotes.
+Dependendo do método de acesso usado, esses repositórios podem ser
+servidores de arquivo públicos na internet, servidores de arquivo locais
+ou cdroms. O método de acesso recomendado é o \fIapt\fP, que é fornecido
+pelo pacote \fBapt\fP.
+.PP 
+Normalmente o \fBdselect\fP é chamado sem parâmetros.  É apresentado um
+menu interativo, oferecendo ao usuário uma lista de ações. Se for dada
+uma ação como argumento, então a ação dada é iniciada imediatamente.
+Ainda são disponíveis vários parâmetros de linha de comando para
+modificar o comportamento do \fBdselect\fP ou mostrar informação
+adicional sobre o programa.
+.SH OPÇÕES 
+Todas as opções podem ser especificadas tanto na linha de comando quanto
+no arquivo de configuração do \fBdselect\fP, o arquivo
+\fI/etc/dpkg/dselect.cfg\fP. Cada linha no arquivo de configuração é uma
+opção (exatamente a mesma da linha de comando, mas sem os hífens) ou um
+comentário (se começar com uma \fB#\fR).
+.br
+.TP
+.B --admindir <diretório>
+Altera o diretório onde estão localizados os arquivos `status',
+`available' e similares do dpkg.  A localização padrão é
+\fI/var/lib/dpkg\fP e normalmente não deve ocorrer a necessidade de
+alterá-la.
+.TP
+.B --debug <arquivo> | -D<arquivo>
+Ativa a depuração. A informação de depuração é enviada para o
+\fI<arquivo>\fP.
+.TP
+.B --expert
+Ativa o modo expert, isto é, não exibe mensagens de ajuda 
+possivelmente incômodas.
+.TP
+.B --colour | --color parte_da_tela:[frente],[fundo][:atr[+atr+..]]
+Configura as cores da tela. Isso funciona apenas se seu monitor suportar
+cores. Essa opção pode ser usada várias vezes (e é usada melhor no
+\fIdselect.cfg\fP). Cada uso altera as cores (e opcionalmente, outros
+atributos) de uma parte da tela. As partes da tela (do topo à base) são: 
+.RS
+.TP
+.B title
+O título da tela.
+.TP
+.B listhead
+A linha de cabeçalho acima da lista de pacotes.
+.TP
+.B list
+A lista rolável de pacotes (e também algum texto de ajuda).
+.TP
+.B listsel
+O item selecionado na lista.
+.TP
+.B pkgstate
+Na lista de pacotes, o texto indicando o estado atual de cada pacote.
+.TP
+.B pkgstatesel
+Na lista de pacotes, o texto indicando o estado atual do 
+pacote selecionado no momento.
+.TP
+.B infohead
+A linha de cabeçalho que exibe o estado do pacote selecionado 
+no momento.
+.TP
+.B infodesc
+A descrição curta do pacote.
+.TP
+.B info
+Usado para exibir informação do pacote, como sua descrição.
+.TP
+.B infofoot
+A última linha da tela quando selecionando pacotes.
+.TP
+.B query
+Usado para exibir linhas de pesquisa.
+.TP
+.B helpscreen
+Cor das telas de ajuda.
+.RE
+.P
+Depois da parte da tela vem dois pontos (:) e a especificação da  cor.
+Você pode especificar a cor frontal, a cor de fundo, ou ambas,
+substituindo as cores padrões. Use nomes de cores padrões de curses.
+.P
+Opcionalmente, depois da especificação da cor podem vir outros dois
+pontos e uma especificação de atributo. Isso é uma lista de um ou mais
+atributos, separados por caracteres mais ("+"). Os atributos disponíveis
+incluem (nem todos funcionarão em todos os terminais): normal, standout,
+underline, reverse, blink, bright, dim, bold.
+.TP
+.B --help
+Mostra um breve texto de ajuda e sai com sucesso.
+.TP
+.B --licence | --license
+Exibe informações de copyright e licença do \fBdselect\fP e sai com
+sucesso.
+.TP
+.B --version
+Mostra a informação sobre a versão e sai com sucesso.
+.SH USO
+Quando o
+.B dselect
+é iniciado interativamente, ele oferece ao usuário um menu das ações
+disponíveis:
+.SS access
+Escolhe e configura o método de acesso aos repositórios de pacotes.  
+.sp
+Por padrão, o \fBdselect\fP fornece vários métodos como \fIfloppy\fP,
+\fIharddisk\fP ou  \fIcdrom\fP, mas outros pacotes podem prover métodos
+adicionais, como por exemplo o método de acesso \fIapt\fP, fonecido pelo
+pacote \fBapt\fP, ou o método \fImulti_cd\fP, fornecido pelo pacote
+\fBdpkg-multicd\fP.
+.sp
+O uso do método de acesso \fIapt\fP é fortemente recomendado.
+.sp
+.SS update
+Atualiza a base de dados de pacotes disponíveis.
+.sp
+Obtém uma lista de versões de pacotes disponíveis do repositório de
+pacotes, configurado para o método de acesso atual, e atualiza a base de
+dados do dpkg. As listas de pacotes são normalmente providas  pelo
+repositório como arquivos nomeados como \fBPackages\fP ou
+\fBPackages.gz\fP. Esses arquivos podem ser gerados pelos mantenedores
+do repositório, usando o programa \fBdpkg-scanpackages(1)\fP.  
+.sp
+Detalhes da ação de atualização dependem da implementação do método  de
+acesso. Normalmente o processo é direto e não requer interação com o
+usuário.
+.sp
+.SS select
+Vê ou gerencia seleções e dependências de pacotes.  
+.sp
+Esta é a função principal do \fBdselect\fP. Na tela de seleção, o
+usuário pode visualizar uma lista de todos os pacotes disponíveis e
+instalados. Quando executado com privilégios de administrador, é
+possível também modificar interativamente o estado de seleção dos
+pacotes. O \fBdselect\fP verifica as implicações dessas mudanças para
+outros pacotes dependentes ou conflitantes.
+.sp
+Quando um conflito ou uma falha em dependência é detectada, uma subtela
+de resolução de dependências é oferecida ao usuário. Nessa tela é
+exibida uma lista de pacotes dependentes ou conflitantes, e para cada
+pacote listado, é mostrada a razão de sua presença na lista. O usuário
+pode aplicar as sugestões propostas pelo \fBdselect\fP, substituí-las,
+ou desfazer todas as mudanças, incluindo as que criaram as dependências
+ou conflitos não resolvidos.
+.sp
+O uso da tela de gerenciamento das seleções interativas de pacote é
+explicado em mais detalhes abaixo.
+.sp
+.SS install
+Instala pacotes selecionados.
+.sp
+O método de acesso configurado obterá pacotes instaláveis ou
+atualizáveis dos repositórios relevantes e os instalará usando o
+\fBdpkg\fP.  Dependendo da implementação do método de acesso, todos os
+pacotes podem ser pré-obtidos antes da instalação, ou obtidos quando
+necessários. Alguns métodos de acesso também podem remover pacotes que
+estavam marcados para remoção.
+.sp
+Se ocorrer um erro durante a instalação, é geralmente aconselhável
+executar esse passo novamente. Em muitos casos, os problemas
+desaparecerão ou serão solucionados. Se os problemas persistirem ou a
+instalação foi mal executada, por favor, verifique as causas e
+circuntâncias e relate o bug no sistema de rastreamento de bugs do
+Debian.  Você pode encontrar instruções sobre como fazer isso em
+http://bugs.debian.org/ ou lendo a documentação de \fBbug(1)\fP ou
+\fBreportbug(1)\fP, se estiverem instalados.
+.sp
+Detalhes da ação de instalação dependem da implementação do método de
+acesso. Podem ser necessários a atenção e intervenção do usuário durante
+a instalação, configuração e remoção dos pacotes. Isso depende dos
+scripts do mantenedor do pacote. Alguns pacotes fazem uso da biblioteca
+do \fBdebconf(8)\fP, permitindo ajustes de instalação mais flexíveis ou
+mesmo automatizados.
+.sp
+.SS config
+Configura qualquer pacote instalado anteriormente, mas não totalmente
+configurado.
+.sp
+.SS remove
+Remove ou elimina (purge) pacotes instalados, que estão marcados para
+remoção.
+.sp
+.SS quit
+Sai do \fBdselect\fP.
+.sp
+Sai do programa com código de erro zero (successo).
+.sp
+.SH Gerenciamento das seleções de pacotes
+.sp
+.SS Introdução
+.sp
+O
+.B dselect 
+expõe diretamente ao administrador algumas das complexidades envolvidas
+com o gerenciamento de grandes conjuntos de pacotes  com muitas
+interdependências. Para um usuário que não está familiarizado com esses
+conceitos e os detalhes do sistema de gerenciamento de pacotes do
+debian, isso pode ser um pouco confuso. Apesar de  o \fBdselect\fP ser
+feito para facilitar o gerenciamento e administração dos pacotes, é
+somente um instrumento e não pode ser considerado como um substituto à
+capacidade e compreensão do administrador. O usuário precisa ser
+familiar aos conceitos relacionados com o sistema de empacotamento
+Debian. Em caso de dúvida, consulte a página de manual do \fBdpkg(8)\fP
+e o manual de políticas do Debian.
+.sp
+A menos que o \fBdselect\fP seja executado no modo expert ou imediato, é
+exibida uma tela de ajuda quando essa ação é escolhida no menu.
+Aconselha-se \fIfortemente\fP que o usuário estude toda a informação
+apresentada nas telas de ajuda online, quando uma aparece. As telas de
+ajuda online podem ser invocadas com a tecla \fB'?'\fP.
+.sp
+.SS Disposição da tela
+.sp
+A tela select é dividida, por padrão, em uma parte superior e uma
+inferior. A metade superior exibe uma lista de pacotes. Uma barra de
+cursor pode selecionar um pacote individual, ou um grupo de pacotes, se
+aplicável, selecionando o cabeçalho do grupo. A metade inferior da tela
+exibe alguns detalhes sobre o pacote selecionado na metade superior. O
+tipo de detalhe que é exibido pode variar.
+.sp
+Pressionando a tecla \fB'I'\fP, alterna-se entre a exibição da lista de
+pacotes em tela cheia, a exibição ampliada dos detalhes do pacote, ou a
+tela dividida igualmente.
+.sp
+.SS Visão dos detalhes do pacote
+.sp
+Por padrão, a visão dos detalhes do pacote exibe uma descrição estendida
+do pacote selecionado atualmente na lista de estados dos pacotes. O tipo
+de detalhe pode ser mudado pressionando a tecla \fB'i'\fP. Isso
+alterna entre:
+ - a descrição extendida
+ - a informação de controle para a versão instalada
+ - a informação de controle para a versão disponível
+.sp
+Em uma tela de resolução de dependência, há também a possibilidade de
+ver as dependências não resolvidas ou conflitos específicos relacionados
+ao pacote que causaram sua listagem.
+.sh
+.SS Lista de estados dos pacotes
+.sp
+A tela principal de seleção mostra uma lista de todos os pacotes
+conhecidos pelo sistema de gerenciamento de pacotes do debian. Isso
+inclui pacotes instalados no sistema e pacotes conhecidos a partir da
+base de dados de pacotes disponíveis.  
+.sp
+Para todo pacote, a lista mostra seu estado, prioridade, seção, versões
+instalada e disponível, seu nome e sua descrição curta, tudo em uma
+linha. Pressionando a tecla \fB'V'\fP, pode-se alternar entre a
+visualização ou não das versões instalada e disponível. Pressionando a
+tecla \fB'v'\fP, alterna-se a visão do estado do pacote entre
+extensa e curta. A visão curta é padrão.
+.sp
+A indicação curta do estado consiste de quatro partes: um sinalizador de
+erro, que normalmente deve estar desativado, o estado atual, o último
+estado de seleção e o estado de seleção atual. Os dois primeiros estão
+relacionados com o estado atual do pacote e o segundo par é sobre as
+seleções feitas pelo usuário.
+.sp
+Os significados dos códigos dos indicadores curtos de estado de pacote
+são:
+ Sinalizadores de Erro: 
+  \fIvazio\fP   sem erro
+  \fBR\fP       erro grave, requer reinstalação
+ Estado de instalação:   
+  \fIvazio\fP   não instalado;
+  \fB*\fP       totalmente instalado e configurado;
+  \fB-\fP       não instalado mas podem existir alguns arquivos de configuração;
+  \fBU\fP       descompactado mas ainda não configurado;
+  \fBC\fP       parcialmente configurado (ocorreu um erro);
+  \fBI\fP       parcialmente instalado (ocorreu um erro).
+ Seleções atual e pedida:
+  \fB*\fP       marcado para instalação ou atualização;
+  \fB-\fP       marcado para remoção, mantendo arquivos de configuração;
+  \fB=\fP       em manutenção (hold): o pacote não será processado;
+  \fB_\fP       marcado para eliminação (purge), removendo também configuração e dados;
+  \fBn\fP       o pacote é novo e ainda não foi marcado.
+.sp
+.SS O Cursor e a Navegação na Tela
+.sp
+As telas da lista de seleção de pacotes e de resolução de conflitos e
+dependências podem ser navegadas usando comandos de movimentos mapeados
+para as seguintes teclas:
+.br
+  \fBp, Seta-cima, k\fP    move a barra do cursor para cima
+  \fBn, Seta-baixo, j\fP   move a barra do cursor para baixo 
+  \fBP, Pgup, Backspace\fP rola a lista 1 página para cima
+  \fBN, Pgdn, Espaço\fP    rola a lista 1 página para baixo
+  \fB^p\fP                 rola a lista 1 linha para cima
+  \fB^n\fP                 rola a lista 1 linha para baixo
+  \fBt, Home\fP            salta para o início da lista
+  \fBe, End\fP             salta para o fim da lista
+  \fBu\fP                  rola informação 1 página para cima
+  \fBd\fP                  rola informação 1 página para baixo
+  \fB^u\fP                 rola informação 1 linha para cima
+  \fB^d\fP                 rola informação 1 página para baixo
+  \fBB, Seta-Esquerda\fP   centra a tela a 1/3 para a esquerda   
+  \fBF, Seta-Direita\fP    centra a tela a 1/3 para a direita
+  \fB^b\fP                 centra tela 1 caracter para esquerda
+  \fB^f\fP                 centra tela 1 caracter para direita
+.sp
+.SS Busca e Ordenação
+.sp
+Pode-se fazer busca na lista de pacotes por nome de pacote. Isso pode
+ser feito pressionando \fB'/'\fP, e digitando um padrão de
+busca simples. O padrão é interpretado como uma expressão regular
+.BR regex (7).
+Se você acrescentar \fI'/d'\fP à expressão de busca, o dselect também
+procurará nas descrições. Se você acrescentar \fI'/i'\fP,  a busca não
+diferenciará maiúsculas e minúsculas. Você pode combinar esses dois
+sufixos assim: \fI'/id'\fP. A repetição da pesquisa pode ser feita
+pressionando repetidamente as teclas \fB'n'\fP ou \fB'\\'\fP, até que o
+pacote desejado seja encontrado. Se a pesquisa alcança o fim da lista,
+volta ao início e continua de lá.
+.sp
+A seqüência de ordenação da lista pode variar pressionando 
+as teclas \fB'o'\fP e \fB'O'\fP repetidamente. Pode-se selecionar essas
+9 seqüências de ordenação:
+ alfabética        disponibilidade       estado
+ prioridade+seção  disponib.+prioridade  estado+prioridade
+ seção+prioridade  disponib.+seção       estado+seção
+.br
+Onde não estiver listado acima explicitamente, a ordem alfabética é
+usada como última forma de seqüência de ordenação.
+.sp
+.SS Alterando Seleções
+.sp
+O estado de seleção requisitado de pacotes individuais pode ser alterado
+com os seguintes comandos:
+  \fB+, Insert\fP    instalar ou atualizar
+  \fB=, H\fP         manter no estado e versão atuais
+  \fB:, G\fP         largar (unhold): atualizar ou deixar desinstalado
+  \fB-, Delete\fP    remover, mas deixar configuração e dados
+  \fB_\fP            remover & eliminar configuração
+.sp
+Quando a mudança pedida resulta em uma ou mais dependências ou conflitos
+não satisfeitos, o \fBdselect\fP oferece ao usuário uma tela de
+resolução de dependência. Isso será explicado abaixo.
+.sp
+Também é possível aplicar esses comandos a grupos de seleções de
+pacotes, apontando a barra do cursor para o cabeçalho do grupo. O
+agrupamento exato de pacotes depende do tipo de ordenação atual da
+lista.  
+.sp
+Deve-se ter cautela especial ao alterar grandes grupos de seleções,
+porque isso pode criar instantaneamente um grande número de conflitos e
+dependências não resolvidas, que serão todas listadas em uma tela de
+resolução de dependência, tornando-as difíceis de se manipular. Na
+prática, apenas operações de manter no estado (hold) e largar (unhold)
+são úteis quando aplicadas a grupos.
+.sp
+.SS Resolvendo Dependências e Conflitos
+.sp
+Quando o pedido de mudança resulta em uma ou mais dependências
+insatisfeitas ou conflitos, o \fBdselect\fP oferece ao usuário uma tela
+de resolução de dependências. Antes, entretanto, é mostrada uma tela de
+ajuda. 
+.sp
+A metade superior dessa tela lista todos os pacotes que terão
+dependências não resolvidas ou conflitos, como resultado da mudança
+pedida, e todos os pacotes cuja instalação pode resolver uma dessas
+dependências ou cuja remoção pode resolver algum dos conflitos. A metade
+inferior, por padrão, exibe as dependências ou conflitos que motivaram a
+presença do pacote selecionado nessa lista.
+.sp
+Quando a sublista de pacotes é inicialmente mostrada, o \fBdselect\fP
+pode já ter ajustado o estado de seleção de alguns pacotes da lista,
+para resolver as dependências e conflitos que motivaram a exibição da
+tela de resolução. Normalmente, é melhor seguir as sugestões feitas pelo
+\fBdselect\fP.
+.sp
+O estado de seleção dos pacotes listados pode ser revertido aos ajustes
+originais, como estavam antes das dependências não resolvidas ou
+conflitos serem criados, pressionando a tecla \fB'R'\fP. Pressionando a
+tecla \fB'D'\fP, as sugestões automáticas são desativadas, mas as
+mudanças que motivaram a exibição da tela de resolução de dependências
+são mantidas como pedido. Finalmente, pressionando \fB'U'\fP, as
+seleções automáticas são reativadas para sugestão automática de valores.
+.sp
+.SS Estabelecendo as Seleções Pedidas
+.sp
+Pressionando \fBenter\fP, o conjunto de seleções feitas no momento é
+aceito. Se o \fBdselect\fP não detectar nenhuma dependência não
+resolvida como resultado das seleções pedidas, as novas seleções serão
+configuradas. Entretanto, se houver alguma dependência não resolvida, o
+\fBdselect\fP oferecerá novamente ao usuário a tela de resolução de
+dependências.  
+.sp
+Para alterar um conjunto de seleções que cria dependências não
+resolvidas ou conflitos e forçar o \fBdselect\fP a aceitá-las, pressione
+a tecla \fB'Q'\fP. Isso ajusta as seleções como especificadas pelo
+usuário, incondicionalmente. Geralmente, não faça isso a menos que tenha
+certeza do que está fazendo.
+.sp
+Por outro lado, para desfazer quaisquer mudanças de seleções e voltar à
+lista de seleções anterior, pressione as teclas \fB'X'\fP ou
+\fBescape\fP. Pressionando repetidamente essas teclas, quaisquer
+mudanças feitas à lista de seleções de pacotes podem ser desfeitas
+completamente, voltando aos últimos ajustes estabelecidos.
+.sp
+.SH BUGS
+A interface de seleção de pacotes do
+.B dselect
+é confusa para alguns novos usuários. Conhecidamente, ele faz até 
+desenvolvedores de kernel experientes chorarem.
+.sp
+O
+.B dselect
+não manipula o campo Recommends: muito bem.
+.sp
+Há pouca documentação.
+.sp
+Não há opção de ajuda no menu principal.
+.sp
+A lista visível de pacotes disponíveis não pode ser reduzida.
+.sp
+Os métodos de acesso nativos não atendem mais aos padrões atuais de
+qualidade. Use o método de acesso provido pelo apt, ele não só não está
+quebrado, como também é muito mais flexível que os métodos nativos.
+.SH VEJA TAMBÉM
+.BR dpkg (8),
+.BR apt-get (8),
+.BR sources.list (5),
+.BR deb (5),
+o manual de políticas Debian.
+.SH AUTORES
+O
+.B dselect
+foi escrito por Ian Jackson (ijackson@gnu.ai.mit.edu). Pode-se obter uma
+lista completa dos colaboradores com `dselect --license'.
+.br
+Esta página de manual foi escrita por Juho Vuori
+<javuori@cc.helsinki.fi>, Josip Rodin e Joost kooij.
+

@@ -36,7 +36,7 @@
 #include <limits.h>
 #include <ctype.h>
 #include <assert.h>
-#ifdef USE_ZLIB
+#ifdef WITH_ZLIB
 #include <zlib.h>
 #endif
 

@@ -4,6 +4,8 @@
  * Copyright (C) 1995 Bruce Perens
  * This is free software under the GNU General Public License.
  */
+#include <config.h>
+
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -152,16 +154,18 @@ TarExtractor(
 			}
 			break;
 		}
-               if (next_long_name) {
-                 h.Name = next_long_name;
-               }
+               if ( h.Type != GNU_LONGLINK && h.Type != GNU_LONGNAME ) {
+                 if (next_long_name) {
+                   h.Name = next_long_name;
+                 }
 
-               if (next_long_link) {
-                 h.LinkName = next_long_link;
-               }
+                 if (next_long_link) {
+                   h.LinkName = next_long_link;
+                 }
 
-               next_long_name = NULL;
-               next_long_link = NULL;
+                 next_long_link = NULL;
+                 next_long_name = NULL;
+               }
 
 		if ( h.Name[0] == '\0' ) {
 			errno = 0;	/* Indicates broken tarfile */

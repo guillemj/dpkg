@@ -5,52 +5,29 @@ Maintainer: Dpkg Development <debian-dpkg@lists.debian.org>
 Uploaders: Scott James Remnant <scott@netsplit.com>
 Origin: debian
 Bugs: debbugs://bugs.debian.org
-Standards-Version: 3.5.8
-Build-Depends: debiandoc-sgml, sgml-base (>= 1.9.1), sgmltools-lite, libncurses-dev, gettext (>= 0.12.1-3), zlib1g-dev (>= 1:1.1.3-19.1), libbz2-dev, autotools-dev
+Standards-Version: 3.6.1.0
+Build-Depends: debhelper (>= 4.1.81), libncurses5-dev | libncurses-dev, zlib1g-dev (>= 1:1.1.3-19.1), libbz2-dev
 
 Package: dpkg
 Architecture: any
 Essential: yes
-Pre-Depends: dselect, ${shlibs:Pre-Depends}
+Pre-Depends: ${shlibs:Depends}
 Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch (<< 0.11), dpkg-static, dpkg-dev (<< 1.10)
 Replaces: dpkg-doc-ja, dpkg-static, manpages-de (<= 0.4-3)
+Suggests: apt
 Description: Package maintenance system for Debian
- This package contains the programs which handle the installation and
- removal of packages on your system.
- .
- The primary interface for the dpkg suite is the `dselect' program;
- a more low-level and less user-friendly interface is available in
- the form of the `dpkg' command.
+ This package contains the low-level commands for handling the installation
+ and removal of packages on your system.
  .
  In order to unpack and build Debian source packages you will need to
  install the developers' package `dpkg-dev' as well as this one.
-
-Package: dpkg-static
-Architecture: any
-Priority: optional
-Pre-Depends: dselect, ${shlibs:Pre-Depends}
-Replaces: dpkg-doc-ja, dpkg, manpages-de (<= 0.4-3)
-Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch (<< 0.11), dpkg, dpkg-dev (<< 1.10)
-Provides: dpkg
-Description: Package maintenance system for Debian (static compile)
- This package contains the programs which handle the installation and
- removal of packages on your system.
- .
- The primary interface for the dpkg suite is the `dselect' program;
- a more low-level and less user-friendly interface is available in
- the form of the `dpkg' command.
- .
- In order to unpack and build Debian source packages you will need to
- install the developers' package `dpkg-dev' as well as this one.
- .
- This version has a dpkg binary that is linked statically.
 
 Package: dpkg-dev
 Section: utils
 Priority: standard
 Architecture: all
-Depends: perl5, perl-modules, cpio (>= 2.4.2-2), patch (>= 2.2-1), make, binutils
-Recommends: c-compiler
+Depends: dpkg (>= 1.13.1), perl5, perl-modules, cpio (>= 2.4.2-2), patch (>= 2.2-1), make, binutils
+Recommends: gcc | c-compiler
 Suggests: gnupg, debian-keyring
 Conflicts: dpkgname
 Replaces: dpkgname, dpkg (<< 1.4.1.8), dpkg-doc-ja
@@ -61,22 +38,13 @@ Description: Package building tools for Debian
  Most Debian source packages will require additional tools to build -
  for example, most packages need the `make' and the C compiler `gcc'.
 
-Package: dpkg-doc
-Section: doc
-Priority: optional
-Architecture: all
-Replaces: dpkg-dev (<<1.4.1.19)
-Description: Dpkg Internals Documentation
- This document describes the internal operations of the dpkg program. It
- covers building as well as the internals functions. If you are interested
- in creating your own packages, then you may be more interested in the
- debian-policy package.
-
 Package: dselect
 Architecture: any
-Depends: ${shlibs:Depends}
+Depends: ${shlibs:Depends}, dpkg (>= 1.13.1)
 Replaces: dpkg (<< 1.10.3)
 Description: a user tool to manage Debian packages
- dselect is the primary user interface for installing, removing and
- managing Debian packages. It is a front-end to dpkg.
-
+ dselect is an interface for managing the installation and removal of
+ packages on your system.
+ .
+ Many users find dselect intimidating and new users may prefer to use
+ `apt'-based user interfaces.

@@ -25,6 +25,14 @@
 
 #define md5byte unsigned char
 
+#if SIZEOF_UNSIGNED_LONG==4
+# define UWORD32 unsigned long
+#elif SIZEOF_UNSIGNED_INT==4
+# define UWORD32 unsigned int
+#else
+# error I do not know what to use for a UWORD32.
+#endif
+
 struct MD5Context {
 	UWORD32 buf[4];
 	UWORD32 bytes[2];

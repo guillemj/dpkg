@@ -35,7 +35,7 @@
 #include <assert.h>
 
 #include <dpkg.h>
-#include <version.h>
+#include <dpkg-db.h>
 #include <myopt.h>
 
 #include "dpkg-deb.h"
@@ -176,7 +176,6 @@ static void setcompresstype(const struct cmdinfo *cip, const char *value) {
     ohshit(_("unknown compression type `%s'!"), value);
 }
 
-int main(int argc, const char *const *argv) NONRETURNING;
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
 

@@ -2,7 +2,8 @@
 #
 # dpkg-architecture
 #
-# Copyright 1999 Marcus Brinkmann <brinkmd@debian.org>
+# Copyright © 1999 Marcus Brinkmann <brinkmd@debian.org>,
+# Copyright © 2004 Scott James Remnant <scott@netsplit.com>.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,67 +19,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-# History
-#  0.0.1  Initial release.
-#  0.0.2  Don't use dpkg to get default gnu system, so the default is
-#         correct even on non-linux system.
-#         Warn if the host gnu system does not match the gcc system.
-#         Determine default from gcc if possible, else fall back to native
-#         compilation.
-#         Do not set environment variables which are already defined unless
-#         force flag is given.
-#  1.0.0  Changed target to host, because this complies with GNU
-#         nomenclature.
-#         Added command facility.
-#  1.0.1  Moved to GNU nomenclature arch->cpu, system->type, os->system
-#  1.0.2  Add facility to query single values, suggested by Richard Braakman.
-#  1.0.3  Make it work with egcs, too.
-#  1.0.4  Suppress single "export" with "-s" when all env variables are already set
-#  1.0.5  Update default for rules files (i386->i486).
-#         Print out overridden values, so make gets them, too.
-#  1.0.6  Revert to i386 to comply with policy § 5.1.
-#  1.0.7  -q should not imply -f, because this prevents setting
-#         make variables with non-standard names correctly.
-
-$version="1.0.0";
+$version="1.0.0"; # This line modified by Makefile
 $0 = `basename $0`; chomp $0;
 
 $dpkglibdir="/usr/lib/dpkg";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-%archtable=('i386',		'i386-linux',
-	    'sparc',		'sparc-linux',
-	    'sparc64',		'sparc64-linux',
-	    'alpha',		'alpha-linux',
-	    'm68k',		'm68k-linux',
-            'arm',		'arm-linux',
-            'powerpc',		'powerpc-linux',
-	    'mips',		'mips-linux',
-	    'mipsel',		'mipsel-linux',
-	    'sh3',		'sh3-linux',
-	    'sh4',		'sh4-linux',
-	    'sh3eb',		'sh3eb-linux',
-	    'sh4eb',		'sh4eb-linux',
-	    'hppa',		'hppa-linux',
-	    'hurd-i386',	'i386-gnu',
-	    's390',		's390-linux',
-	    's390x',		's390x-linux',
-	    'ia64',		'ia64-linux',
-	    'amd64',		'x86_64-linux',
-	    'openbsd-i386',	'i386-openbsd',
-	    'freebsd-i386',	'i386-freebsd',
-	    'kfreebsd-i386',	'i386-kfreebsd-gnu',
-	    'netbsd-i386',	'i386-netbsdelf-gnu',
-	    'knetbsd-i386',	'i386-knetbsd-gnu',
-	    'darwin-powerpc',	'powerpc-darwin',
-	    'darwin-i386',	'i386-darwin');
+$pkgdatadir="/usr/share/dpkg";
+
 
 sub usageversion {
     print STDERR
-"Debian $0 $version.  Copyright (C) 1999,2000,2001 Marcus Brinkmann.
-This is free software; see the GNU General Public Licence version 2
-or later for copying conditions.  There is NO warranty.
+"Debian $0 $version.
+Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd@debian.org>,
+Copyright (C) 2004 Scott James Remnant <scott@netsplit.com>.
+This is free software; see the GNU General Public Licence
+version 2 or later for copying conditions.  There is NO warranty.
 
 Usage:
   $0 [<option> ...] [<action>]
@@ -98,15 +55,42 @@ Known GNU System Types are ".join(", ",map ($archtable{$_},keys %archtable))."
 ";
 }
 
-sub rewrite_gnu {
-	local ($_) = @_;
+sub read_archtable {
+    open ARCHTABLE, "$pkgdatadir/archtable"
+	or &syserr("unable to open archtable");
+    while (<ARCHTABLE>) {
+	$archtable{$2} = $1
+	    if m/^(?!\s*\#)\s*(\S+)\s+(\S+)\s*$/;
+    }
+    close ARCHTABLE;
+}
 
-	s/(?:i386|i486|i586|i686|pentium)(.*linux)/i386$1/;
-	s/(?:i386|i486|i586|i686|pentium)(.*gnu)/i386$1/;
-	s/ppc/powerpc/;
-	s/openbsd([\d\.]+$)/openbsd/;
-	s/-unknown-/-/;
-	return $_;
+sub rewrite_gnu {
+    local ($_) = @_;
+
+    # Rewrite CPU type
+    s/^(i386|i486|i586|i686|pentium)-/i386-/;
+    s/^alpha[^-]*/alpha/;
+    s/^arm[^-]*/arm/;
+    s/^hppa[^-]*/hppa/;
+    s/^(sparc|sparc64)-/sparc64-/;
+    s/^(mips|mipseb)-/mips-/;
+    s/^(powerpc|ppc)-/powerpc-/;
+
+    # Rewrite OS type
+    s/-linux.*-gnu.*/-linux/;
+    s/-darwin.*/-darwin/;
+    s/-freebsd.*/-freebsd/;
+    s/-gnu.*/-gnu/;
+    s/-kfreebsd.*-gnu.*/-kfreebsd-gnu/;
+    s/-knetbsd.*-gnu.*/-knetbsd-gnu/;
+    s/-netbsd.*/-netbsd/;
+    s/-openbsd.*/-openbsd/;
+
+    # Nuke the vendor bit
+    s/^([^-]*)-([^-]*)-(.*)/$1-$3/;
+
+    return $_;
 }
 
 sub gnu_to_debian {
@@ -122,11 +106,13 @@ sub gnu_to_debian {
 	return @list;
 }
 
+&read_archtable;
+
 # Set default values:
 
-$deb_build_arch = `dpkg --print-installation-architecture`;
+$deb_build_arch = `dpkg --print-architecture`;
 if ($?>>8) {
-	&syserr("dpkg --print-installation-architecture filed");
+	&syserr("dpkg --print-architecture failed");
 }
 chomp $deb_build_arch;
 $deb_build_gnu_type = $archtable{$deb_build_arch};
@@ -147,15 +133,17 @@ if ($gcc ne '') {
     @list = &gnu_to_debian($gcc);
     if ($#list == -1) {
 	&warn ("Unknown gcc system type $gcc, falling back to default (native compilation)"),
+	$gcc = '';
     } elsif ($#list > 0) {
 	&warn ("Ambiguous gcc system type $gcc, you must specify Debian architecture, too (one of ".join(", ",@list).")");
+	$gcc = '';
     } else {
-	$gcc=$archtable{$list[0]};
 	$deb_host_arch = $list[0];
-	$deb_host_gnu_type = $gcc;
+	$deb_host_gnu_type = $archtable{$deb_host_arch};
 	@deb_host_gnu_triple = split(/-/, $deb_host_gnu_type, 2);
 	$deb_host_gnu_cpu = $deb_host_gnu_triple[0];
 	$deb_host_gnu_system = $deb_host_gnu_triple[1];
+	$gcc = $deb_host_gnu_type;
     }
 }
 if (!defined($deb_host_arch)) {
@@ -175,16 +163,16 @@ $force=0;
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-a/) {
-	$req_host_arch = $';
+	$req_host_arch = "$'";
     } elsif (m/^-t/) {
-	$req_host_gnu_type = &rewrite_gnu($');
+	$req_host_gnu_type = &rewrite_gnu("$'");
     } elsif (m/^-[lsu]$/) {
 	$action = $_;
 	$action =~ s/^-//;
     } elsif (m/^-f$/) {
         $force=1;
     } elsif (m/^-q/) {
-        $req_variable_to_print = $';
+        $req_variable_to_print = "$'";
         $action = 'q';
     } elsif (m/^-c$/) {
        $action = 'c';
@@ -195,7 +183,7 @@ while (@ARGV) {
 }
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
-    die ("unknown Debian architecture $req_host_arch, you must specify GNU system type, too") if !exists $archtable{$req_host_arch};
+    die ("unknown Debian architecture $req_host_arch, you must specify \GNU system type, too") if !exists $archtable{$req_host_arch};
     $req_host_gnu_type = $archtable{$req_host_arch}
 }
 
@@ -207,7 +195,7 @@ if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
 }
 
 if (exists $archtable{$req_host_arch}) {
-    &warn("Default GNU system type $archtable{$req_host_arch} for Debian arch $req_host_arch does not match specified GNU system type $req_host_gnu_type\n") if $archtable{$req_host_arch} ne $req_host_gnu_type;
+    &warn("Default GNU system type $archtable{$req_host_arch} for Debian arch $req_host_arch does not match specified GNU system type $req_host_gnu_type") if $archtable{$req_host_arch} ne $req_host_gnu_type;
 }
 
 die "couldn't parse GNU system type $req_host_gnu_type, must be arch-os or arch-vendor-os" if $req_host_gnu_type !~ m/^([\w\d]+(-[\w\d]+){1,2})?$/;
@@ -271,209 +259,3 @@ if ($action eq 'l') {
         die "$req_variable_to_print is not a supported variable name";
     }
 }
-
-__END__
-
-=head1 NAME
-
-dpkg-architecture - set and determine the architecture for package building
-
-=head1 SYNOPSIS
-
-dpkg-architecture [options] [action]
-
-Valid options:
-B<-a>Debian-Architecture
-B<-t>Gnu-System-Type
-B<-f>
-
-Valid actions:
-B<-l>, B<-q>Variable-Name, B<-s>, B<-u>, B<-c> Command
-
-=head1 DESCRIPTION
-
-dpkg-architecture does provide a facility to determine and set the build and
-host architecture for package building.
-
-=head1 OVERVIEW
-
-The build architecture is always determined by an external call to dpkg, and
-can not be set at the command line.
-
-You can specify the host architecture by providing one or both of the options B<-a>
-and B<-t>. The default is determined by an external call to gcc, or the same as
-the build architecture if CC or gcc are both not available. One out of B<-a> and B<-t>
-is sufficient, the value of the other will be set to a usable default.
-Indeed, it is often better to only specify one, because dpkg-architecture
-will warn you if your choice doesn't match the default.
-
-The default action is B<-l>, which prints the environment variales, one each line,
-in the format VARIABLE=value. If you are only interested in the value of a
-single variable, you can use B<-q>. If you specify B<-s>, it will output an export
-command. This can be used to set the environment variables using eval. B<-u>
-does return a similar command to unset all variables. B<-c> does execute a
-command in an environment which has all variables set to the determined
-value.
-
-Existing environment variables with the same name as used by the scripts are
-not overwritten, except if the B<-f> force flag is present. This allows the user
-to override a value even when the call to dpkg-architecture is buried in
-some other script (for example dpkg-buildpackage).
-
-=head1 TERMS
-
-=over 4
-
-=item build machine
-
-The machine the package is built on.
-
-=item host machine
-
-The machine the package is built for.
-
-=item Debian Architecture
-
-The Debian archietcture string, which specifies the binary tree in the FTP
-archive. Examples: i386, sparc, hurd-i386.
-
-=item GNU System Type
-
-An architecture specification string consisting of two or three parts,
-cpu-system or cpu-vendor-system. Examples: i386-linux, sparc-linux, i386-gnu.
-
-=back
-
-=head1 EXAMPLES
-
-dpkg-buildpackage accepts the B<-a> option and passes it to dpkg-architecture.
-Other examples:
-
-CC=i386-gnu-gcc dpkg-architecture C<-c> debian/rules build
-
-eval `dpkg-architecture C<-u>`
-
-=head1 VARIABLES
-
-The following variables are set by dpkg-architecture:
-
-=over 4
-
-=item DEB_BUILD_ARCH
-
-The Debian architecture of the build machine.
-
-=item DEB_BUILD_GNU_TYPE
-
-The GNU system type of the build machine.
-
-=item DEB_BUILD_GNU_CPU
-
-The CPU part of DEB_BUILD_GNU_TYPE
-
-=item DEB_BUILD_GNU_SYSTEM
-
-The System part of DEB_BUILD_GNU_TYPE
-
-=item DEB_HOST_ARCH
-
-The Debian architecture of the host machine.
-
-=item DEB_HOST_GNU_TYPE
-
-The GNU system type of the host machine.
-
-=item DEB_HOST_GNU_CPU
-
-The CPU part of DEB_HOST_GNU_TYPE
-
-=item DEB_HOST_GNU_SYSTEM
-
-The System part of DEB_HOST_GNU_TYPE
-
-=back
-
-=head1 DEBIAN/RULES
-
-The environment variables set by dpkg-architecture are passed to
-debian/rules as make variables (see make documentation).  However, you
-should not rely on them, as this breaks manual invocation of the
-script.  Instead, you should always initialize them using
-dpkg-architecture with the -q option.  Here are some examples, which
-also show how you can improve the cross compilation support in your
-package:
-
-Instead of:
-
-ARCH=`dpkg --print-architecture`
-configure $(ARCH)-linux
-
-please use the following:
-
-DEB_BUILD_GNU_TYPE := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
-DEB_HOST_GNU_TYPE := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
-
-configure --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
-
-Instead of:
-
-ARCH=`dpkg --print-architecture`
-ifeq ($(ARCH),alpha)
-  ...
-endif
-
-please use:
-
-DEB_HOST_ARCH := $(shell dpkg-architecture -qDEB_HOST_ARCH)
-
-ifeq ($(DEB_HOST_ARCH),alpha)
-  ...
-endif
-
-In general, calling dpkg in the rules file to get architecture information
-is deprecated (until you want to provide backward compatibility, see below).
-Especially the --print-architecture option is unreliable since we have
-Debian architectures which don't equal a processor name.
-
-=head1 BACKWARD COMPATIBILITY
-
-When providing a new facility, it is always a good idea to stay
-compatible with old versions of the programs.  Note that
-dpkg-architecture does not affect old debian/rules files, so the only
-thing to consider is using old versions of dpkg-dev with new
-debian/rules files.  The following does the job:
-
-DEB_BUILD_ARCH := $(shell dpkg --print-installation-architecture)
-DEB_BUILD_GNU_CPU := $(patsubst hurd-%,%,$(DEB_BUILD_ARCH))
-ifeq ($(filter-out hurd-%,$(DEB_BUILD_ARCH)),)
-  DEB_BUILD_GNU_SYSTEM := gnu
-else
-  DEB_BUILD_GNU_SYSTEM := linux
-endif
-DEB_BUILD_GNU_TYPE=$(DEB_BUILD_GNU_CPU)-$(DEB_BUILD_GNU_SYSTEM)
-
-DEB_HOST_ARCH := $(DEB_BUILD_ARCH)
-DEB_HOST_GNU_CPU := $(DEB_BUILD_GNU_CPU)
-DEB_HOST_GNU_SYSTEM := $(DEB_BUILD_GNU_SYSTEM)
-DEB_HOST_GNU_TYPE := $(DEB_BUILD_GNU_TYPE)
-
-Put a subset of these lines at the top of your debian/rules file; these
-default values will be overwritten if dpkg-architecture is used.
-
-You don't need the full set. Choose a consistent set which contains the
-values you use in the rules file. For example, if you only need the host
-Debian architecture, `DEB_HOST_ARCH=`dpkg --print-installation-architecture`
-is sufficient (this is indeed the Debian architecture of the build machine,
-but remember that we are only trying to be backward compatible with native
-compilation).
-
-=head1 SEE ALSO
-
-dpkg-buildpackage
-dpkg-cross
-
-=head1 CONTACT
-
-If you have questions about the usage of the make variables in your rules
-files, or about cross compilation support in your packages, please email me.
-The address is Marcus Brinkmann <brinkmd@debian.org>.

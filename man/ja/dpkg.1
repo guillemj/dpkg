@@ -1,0 +1,637 @@
+.\" Hey Emacs! This file is -*- nroff -*- source.
+.\" Original manpage cvs revision 1.32.2.2
+.\" Translated by Hiroshi KISE <kise@fuyuneko.jp>
+.\" Last modified: Mon Mar 15 21:38:10 JST 2004
+.\"WORD:	package maintainers	パッケージ管理者
+.\"WORD:	command line options	コマンドライン・オプション
+.\"WORD:	command line parameter	コマンドライン引き数
+.\"WORD:	action (parameter)	アクション
+.\"WORD:	parameter		引き数
+.\"WORD:	install			インストール
+.\"WORD:	remove			削除
+.\"WORD:	purge			完全削除
+.\"WORD:	medium-level tool	中間レベルツール
+.\"WORD:	user-friendly		ユーザフレンドリ
+.\"WORD:	front-end		フロントエンド
+.\"WORD:	action			アクション
+.\"WORD:	configure		設定
+.\"WORD:	wildchars		ワイルド文字
+.\"WORD:	installed package status database	インストール済みパッケージ状況データベース
+.\"WORD:	control-information	制御情報
+.\"WORD:	deconfiguration		設定を無効にする
+.\"WORD:	bitwise-or		ビットごとの論理和
+.\"WORD:	forgotten by dpkg	dpkg に管理されていない
+.\"WORD:	don't care		無視する
+.\"WORD:	conflicts		競合する
+.\"WORD:	hold			(パッケージの)変更禁止
+.\"WORD:	avail			利用可能
+.TH DPKG 1 "April 12, 1998" "Debian Project" "dpkg suite"
+.SH 名前
+dpkg \- Debian 中間レベルパッケージマネージャ
+
+.SH 書式
+.B dpkg
+[\fIoptions\fP] \fIaction\fP
+
+.SH 警告
+このマニュアルは、\fBdpkg\fP のコマンドライン・オプションや
+パッケージ状態について、\fBdpkg --help\fP で得られる情報よりも
+さらに詳細に理解したい利用者のために書かれたものである。
+
+パッケージ管理者は、\fBdpkg\fP がどのようにパッケージをインストール
+するのかを理解するという目的では、このマニュアルを\fI読まない\fPほうがよい。
+パッケージをインストールするときや削除するときの \fBdpkg\fP の動作に
+関する記述は、特に不十分である。
+\fBdpkg\fP のよりくわしい情報については、
+Gnu Info システムにある \fIdebian-faq\fP の \fIPackage Management System\fP 
+というトピックを参照すること。
+Debian パッケージの作成については、同じところにある
+\fIDebian Package Management Tools\fP を参照すること。
+(訳注: Gnu Info 形式の \fIdebian-faq\fP は存在しないようである。
+Debian FAQ や、Debian リファレンスの Debian パッケージングシステムに
+関する章を参照)
+
+.SH 説明
+\fBdpkg\fP は、Debian パッケージの、インストール、構築、
+削除、管理をするためのツールである。
+\fBdselect\fP(8) は、\fBdpkg\fP の代表的なフロントエンドで、
+よりユーザフレンドリなツールである。
+\fBdpkg\fP は、コマンドライン引き数によって完全に制御することができる。
+コマンドライン引き数は、1 つのアクションと、0 個以上のオプションとで構成される。
+アクションは、dpkg に何をさせるのかを指定し、オプションはそのアクションの
+ふるまいを制御する。
+
+また、\fBdpkg\fP は \fBdpkg-deb\fP のフロントエンドとしても使うことができる。
+以下のアクションは \fBdpkg-deb\fP のアクションであり、\fBdpkg\fP に
+これらを引き数として与えると、\fBdpkg-deb\fP に同じ引き数を
+与えて起動する。
+.nf
+    \fB-b\fP, \fB--build\fP,
+    \fB-c\fP, \fB--contents\fP,
+    \fB-I\fP, \fB--info\fP,
+    \fB-f\fP, \fB--field\fP,
+    \fB-e\fP, \fB--control\fP,
+    \fB-x\fP, \fB--extract\fP,
+    \fB-X\fP, \fB--vextract\fP,
+    \fB--fsys-tarfile\fP
+.fi
+これらのアクションについては、\fBdpkg-deb\fP(1) にくわしい情報がある。
+
+.SH パッケージに関する情報
+\fBdpkg\fP は、いくつかの利用可能なパッケージに関する有用な情報を
+管理している。この情報は、\fBパッケージ状態\fP、\fBパッケージ選択状態\fP、
+そして\fBフラグ\fPの3つに分類できる。これらの値は主に \fBdselect\fP に
+よって変更される。
+.SS パッケージ状態
+.TP
+.B installed
+パッケージの展開と設定が完了している。
+.TP
+.B half-installed
+パッケージのインストールは開始しているが、何らかの理由で完了していない。
+.TP
+.B not-installed
+パッケージはシステムにインストールされていない。
+.TP
+.B unpacked
+パッケージは展開されたが、設定はされていない。
+.TP
+.B half-configured
+パッケージは展開され、設定も開始しているが何らかの理由によって
+完了していない。
+.TP
+.B config-files
+パッケージの設定ファイルだけが存在している。
+.SS パッケージ選択状態
+.TP
+.B install
+パッケージはインストールするように選択されている。
+.TP
+.B deinstall
+パッケージは deinstallation するように選択されている
+(設定ファイルを除くすべてのファイルを削除したい)。
+.TP
+.B purge
+パッケージは purge するように選択されている
+(設定ファイルも含めたすべてのファイルを削除したい)。
+.SS パッケージフラグ
+.TP
+.B hold
+パッケージは \fBhold\fP (変更禁止)されている。これは \fB--force-hold\fP
+で強制しない限り \fBdpkg\fP で扱わないということである。
+.TP
+.B reinst-required
+パッケージは \fBreinst-required\fP されている。これは、壊れている
+状態でインストールされていて、再インストールが要求されていると
+いうことである。このパッケージは \fB--force-reinstreq\fP で強制しない
+限り、削除することができない。
+
+.SS アクション
+.TP
+\fBdpkg -i\fP | \fB--install\fP \fIpackage_file\fP...
+指定したパッケージをインストールする。もし \fB--recursive\fP または \fB-R\fP 
+オプションを指定する場合、\fIpackage_file\fP に、参照するディレクトリを
+指定しなければならない。
+
+インストールは、以下の手順で構成されている。
+.br
+
+\fB1.\fP インストールするパッケージの制御ファイルを取り出す。
+.br
+
+\fB2.\fP もし同じパッケージの別のバージョンがすでにインストール
+済みの場合、新しいパッケージのインストールの前に、インストール済みの
+パッケージの \fIprerm\fP スクリプトを実行する。
+.br
+
+\fB3.\fP もしパッケージが \fIpreinst\fP スクリプトを提供している場合、
+それを実行する。
+.br
+
+\fB4.\fP 新しいファイルを展開する。同時に、失敗したときに元に戻せるように、
+古いファイルを保存する。
+.br
+
+\fB5.\fP もし同じパッケージの別のバージョンがすでにインストール済みの場合、
+先にインストールされていたパッケージの \fIpostrm\fP を実行する。この
+スクリプトが、新しいパッケージの \fIpreinst\fP の後に実行されることに
+注意すること。これは、新しいファイルが書き込まれるのと同時に古いファイルが
+削除されるためである。
+.br
+
+\fB6.\fP パッケージの設定をする。これがどのように実行されるか、
+\fB--configure\fP の項にくわしい情報がある。
+.TP
+\fB dpkg --unpack \fP\fIPackage_file\fP ... パッケージを展開する、しかし
+設定はしない。もし \fB--recursive\fP または \fB-R\fP オプションを
+指定する場合、\fIPackage_file\fP に、参照するディレクトリを指定
+しなければならない。
+.TP
+\fBdpkg --configure     \fP\fIpackage\fP ... | \fB-a\fP | \fB--pending\fP
+展開済みのパッケージを再設定する。もし、\fB-a\fP または \fB--pending\fP
+を指定した場合、まだ設定されていない展開済みのすべてのパッケージを設定する。
+
+設定は、以下の手順で構成されている。
+.br
+
+\fB1.\fP
+設定ファイルを展開する。同時に、失敗したときに元に戻せるように、
+古い設定ファイルを保存する。
+.br
+
+\fB2.\fP
+もしパッケージが \fIpostinst\fP スクリプトを提供している場合、それを実行する。
+.TP
+\fBdpkg -r\fP | \fB--remove\fP | \fB-P\fP | \fB--purge \fP\fIpackage\fP ... | \fB-a\fP | \fB--pending\fP
+インストール済みのパッケージを削除する。
+\fB-P\fP または \fB--purge\fP は、設定ファイルを含むすべてを削除する。
+\fB--remove\fP は、設定ファイルを除いたすべてを削除する(設定ファイルの一覧は、
+\fIconffiles\fP コントロールファイルにある)。
+引き数として、パッケージ名の代わりに \fB-a\fP または \fB--pending\fP が
+指定された場合には、\fI/var/lib/dpkg/status\fP ファイルに remove または
+purge の印を持つすべての展開済みパッケージを、それぞれ remove または
+purge する。
+
+パッケージの削除は以下の手順で構成されている。
+.br
+\fB1.\fP \fIprerm\fP スクリプトを実行する。
+.br
+
+\fB2.\fP インストールしたファイルを削除する。
+.br
+
+\fB3.\fP \fIpostrm\fP スクリプトを実行する。
+.br
+.TP
+\fBdpkg --update-avail\fP | \fB--merge-avail \fP\fIPackages-file\fP
+\fBdpkg\fP や \fBdselect\fP が管理する利用可能なパッケージの情報を更新する。
+\fB--merge-avail\fP アクションは、古い情報に \fIPackages-file\fP の情報を
+組み合わせる。
+\fB--update-avail\fP アクションは、古い情報を \fIPackages-file\fP の情報で
+置き換える。
+Debian と一緒に配布されている \fIPackages-file\fP の名前は簡単に
+\fIPackages\fP である。\fBdpkg\fP は、利用可能なパッケージの情報を
+\fI/var/lib/dpkg/available\fP に記録する。
+.TP
+\fBdpkg -A\fP | \fB--record-avail\fP \fIpackage_file\fP ...
+\fBdpkg\fP や \fBdselect\fP が管理する利用可能なパッケージの情報を、
+\fIpackage_file\fP パッケージからの情報で更新する。
+もし \fB--recursive\fP または \fB-R\fP オプションを指定する場合、
+\fIPackage_file\fP に、参照するディレクトリを指定しなければならない。
+.TP
+.B dpkg --forget-old-unavail
+インストールされていなくて利用可能でないパッケージの情報を消去する。
+.TP
+.B dpkg --clear-avail
+利用可能なパッケージの情報を消去する。
+.TP
+\fBdpkg -C\fP | \fB--audit\fP
+インストールが完了していないパッケージを探す。\fBdpkg\fP はインストールを
+完了させるためにどうすればよいかを提案する。
+.TP
+\fBdpkg --get-selections\fP [\fIpattern\fP...]
+パッケージ選択リストを標準出力に書き出す。
+.TP
+.B dpkg --set-selections
+パッケージ選択リストを標準入力から読み込んで設定する。
+.TP
+.B dpkg --yet-to-unpack
+インストールするために選択されたが、何らかの理由でまだインストール
+されていないパッケージを探す。
+.TP
+.B dpkg --print-architecture
+ターゲットアーキテクチャ(例えば、“i386”)を表示する。このオプションは
+\fBgcc\fP を使用する。
+.TP
+.B dpkg --print-gnu-build-architecture
+GNU バージョンのターゲットアーキテクチャ(例えば、“i486”)を表示する。
+.TP
+.B dpkg --print-installation-architecture
+インストールするホストのアーキテクチャを表示する。
+.TP
+.B dpkg --compare-versions \fIver1 op ver2\fP
+2項演算子 \fIop\fP で2つのバージョンを比較する。
+\fBdpkg\fP の返り値は、指定した条件を満たすなら成功(0)、そうでなければ
+失敗(0以外)となる。
+演算子は2つグループにわかれる。これは \fIver1\fP か \fIver2\fP が
+欠けているときのふるまいの違いによる。
+\fBlt le eq ne ge gt\fP は、欠けているバージョンがどれよりも古いとみなす。
+\fBlt-nl le-nl ge-nl gt-nl\fP は、欠けているバージョンがどれよりも新しい
+とみなす。
+\fB< << <= = >= >> >\fP は、制御ファイルの文法との互換性のためだけに
+提供されている。
+
+.TP
+.B dpkg --command-fd <n>
+ファイル記述子 \fB<n>\fPから一連のコマンドをうけいれる。注意:
+追加のオプションはコマンドラインとこのファイル記述子を通じて指定でき
+一回の実行を通じてそれらがリセットされることはない。
+.TP
+.B dpkg --help
+簡単なオプション一覧を表示する。
+.TP
+.B dpkg --force-help
+\fB--force-\fP\fIthing\fP オプション一覧を表示する。
+.TP
+.BR "dpkg -Dh " | " --debug=help"
+デバッグ用オプション一覧を表示する。
+.TP
+\fBdpkg --licence\fP | \fBdpkg --license\fP
+\fBdpkg\fP のライセンスを表示する。
+.TP
+.B dpkg --version
+\fBdpkg\fP のバージョン情報を表示する。
+.TP
+\fBdpkg-deb-actions\fP
+以下のアクションのくわしい情報は \fBdpkg-deb\fP(1) を参照すること。
+
+.nf
+\fBdpkg -b\fP | \fB--build\fP \fIdirectory\fP [\fIfilename\fP]
+    deb パッケージを構築する。
+\fBdpkg -c\fP | \fB--contents\fP \fIfilename\fP
+    deb パッケージに含まれるファイル一覧を表示する。
+\fBdpkg -e\fP | \fB--control\fP \fIfilename\fP [\fIdirectory\fP]
+    パッケージから制御情報を取り出す。
+\fBdpkg -x\fP | \fB--extract\fP \fIfilename directory\fP
+    パッケージに含まれるファイルをすべて取り出す。
+\fBdpkg -f\fP | \fB--field\fP  \fIfilename\fP [\fIcontrol-field\fP] ...
+    パッケージの制御フィールドを表示する。
+\fBdpkg --fsys-tarfile\fP \fIfilename\fP
+    Debian パッケージに含まれる tar ファイルを表示する。
+\fBdpkg -I\fP | \fB--info\fP \fIfilename\fP [\fIcontrol-file\fP]
+    パッケージに関する情報を表示する。
+\fBdpkg -X\fP | \fB--vextract\fP \fIfilename\fP \fIdirectory\fP
+    パッケージに含まれるファイルを展開し、ファイル名を表示する。
+.fi
+
+.TP
+\fBdpkg-query-actions\fP
+以下のアクションの詳細は、\fBdpkg-query\fP(1) を参照すること。
+
+.nf
+
+\fBdpkg -l\fP | \fB--list\fP \fIpackage-name-pattern\fP ...
+    与えられたパターンにマッチする名前のパッケージを表示する。
+\fBdpkg -s\fP | \fB--status\fP \fIpackage-name\fP ...
+    指定したパッケージの状態を報告する。
+\fBdpkg -L\fP | \fB--listfiles\fP \fIpackage\fP ...
+    \fBpackage\fP パッケージによってシステムにインストールされたファイルを表示する。
+\fBdpkg -S\fP | \fB--search\fP \fIfilename-search-pattern\fP ...
+    ファイルがどのパッケージからインストールされたか検索する。
+\fBdpkg -p\fP | \fB--print-avail\fP \fIpackage\fP
+    \fI/var/lib/dpkg/available\fP にある \fIpackage\fP の詳細情報を表示する。
+.fi
+
+
+
+.SS オプション
+すべてのオプションは、コマンドラインや \fBdpkg\fP の設定ファイルで
+ある \fI/etc/dpkg/dpkg.cfg\fP の中で指定できる。設定ファイルは、
+1 行に 1 つのオプション(コマンドラインオプションとまったく同じ、
+ただし頭のダッシュを取る)か、コメント(最初に \fB#\fR で始まる)
+で構成される。
+.br
+.TP
+\fB--abort-after=\fP\fInumber\fP
+dpkg の処理を中断させるエラー数を変更する。デフォルトは 50 である。
+.TP
+.BR -B | --auto-deconfigure
+パッケージを削除するとき、削除するパッケージに依存した別のパッケージが
+インストールされて場合がある。このオプションを指定すると、削除する
+パッケージに依存しているパッケージの設定を取り消す。
+.TP
+\fB-D\fIoctal\fP | \fB--debug=\fP\fIoctal\fP
+デバッグモードにする。
+\fIoctal\fP は、以下の一覧から望む値をビットごとの論理和で組み合わせた
+ものである(これらの値は、将来のリリースでは変更される可能性があるので
+注意すること)。\fB-Dh\fP または \fB--debug=help\fP はこれらの値を表示する。
+
+ 数値   説明
+    1   一般的に役に立つ進行状況
+    2   管理スクリプトの呼び出し状況と状態
+   10   各ファイル処理の情報
+  100   各ファイル処理の大量の情報
+   20   各設定ファイルの情報
+  200   各設定ファイルの大量の情報
+   40   依存関係、競合関係
+  400   依存関係、競合関係の大量の情報
+ 1000   dpkg/info ディレクトリなどに関する大量の情報
+ 2000   正気でないほどの大量の情報
+.TP
+\fB--force-\fP\fIthings\fP | \fB--no-force-\fP\fIthings\fP | \fB--refuse-\fP\fIthings\fP
+指定した \fIthings\fP を強制実行する(force)、または拒否する(refuse)
+(\fBno-force\fP と \fBrefuse\fP は同じ意味)。\fIthings\fP に、
+以下の項目をコンマで区切って指定する。\fB--force-help\fP オプションで
+これらの説明を表示する。(*)の印のものは、デフォルトで強制実行される。
+
+\fI 警告:
+これらのオプションは、おもに熟練したユーザだけが使うことを意図したものである。
+影響を完全に理解しないままにこれらを使うと、システム全体を壊してしまうかも
+しれない。\fP
+
+\fBall\fP:
+全ての強制オプションを指定する(noならば指定しない)。
+
+\fBauto-select\fP(*):
+インストールするパッケージを選択し、削除するパッケージを非選択にする。
+
+\fBdowngrade\fP(*):
+インストールするパッケージよりも新しいバージョンのパッケージがすでに
+インストールされていても、インストールをする。
+
+\fI警告: 現在の dpkg は、ダウングレード時にいかなる依存関係のチェックもしない。
+そのため、ダウングレードすることで、ほかのパッケージの依存関係を
+警告なしに壊すかもしれない。
+これは深刻な副作用となる可能性があり、主要なシステム構成をダウングレード
+することでシステムを壊してしまうこともありうる。注意して使用すること。\fP
+
+\fBconfigure-any\fP:
+指定したパッケージに依存していて、すでに展開されているが、まだ設定されて
+いないパッケージも一緒に設定をする。
+
+\fBhold\fP:
+たとえ “hold” と印されていても、そのパッケージの処理をする。
+
+\fBremove-reinstreq\fP:
+壊れていて、再インストールが必要だと印をされていたとしても、パッケージを
+削除する。これにより、例えば、パッケージの一部が \fBdpkg\fP に管理されない
+で残るなどの問題がおこるかもしれない。
+
+\fBremove-essential\fP:
+essential とされるパッケージであっても削除する。essential パッケージには、
+たいてい最も基本的な UNIX コマンドが含まれる。これらのパッケージを削除
+すると、システム全体が動作しなくなることもあるので、注意して削除すること。
+
+\fBdepends\fP:
+すべての依存問題を警告に変える。
+
+\fBdepends-version\fP:
+依存関係の確認をするとき、バージョンを無視する。
+
+\fBconflicts\fP:
+他のパッケージと競合してもインストールする。たいていはいくつかファイルを
+上書きすることになるため、危険である。
+
+\fBconfmiss\fP:
+常に、欠けている設定ファイルをインストールする。このオプションは、
+変更(ファイルを削除したこと)を保存しないため、危険である。
+
+\fBconfnew\fP:
+設定ファイルが変更されていた場合、問い合わせなしに新しいバージョンの
+設定ファイルをインストールする。ただし、\fB--force-confdef\fP を
+同時に指定した場合は、デフォルトの動作が優先される。
+
+\fBconfold\fP:
+設定ファイルが変更されていた場合、問い合わせなしに古いバージョンの
+設定ファイルを保持する。ただし、\fB--force-confdef\fP を同時に
+指定した場合は、デフォルトの動作が優先される。
+
+\fBconfdef\fP:
+設定ファイルが変更されていた場合、常にデフォルトの動作をする。
+デフォルトの動作がなく、\fB--force-confnew\fP と \fB--force-confold\fP
+のどちらも同時に指定していない場合、ユーザに尋ねるために中断する。
+指定している場合は、指定されたオプションによって最終的な動作が決まる。
+
+\fBoverwrite\fP:
+あるパッケージで提供されているファイルを、インストールするパッケージの
+ファイルで上書きする。
+
+\fBoverwrite-dir\fP:
+あるパッケージで提供されているディレクトリをインストールするパッケージの
+ファイルで上書きする。
+
+\fBoverwrite-diverted\fP:
+退避(divert した)版のファイルを非退避(divert していない)版のファイル
+で上書きする。
+
+\fBarchitecture\fP:
+パッケージが間違ったアーキテクチャ用であっても処理をする。
+
+\fBbad-path\fP:
+重要なプログラムが \fBPATH\fP に含まれていなくても実行する。問題が起きる
+可能性は高い。
+
+\fBnot-root\fP:
+root でないときでも、それをインストール(または削除)しようと試みる。
+
+.TP
+\fB--ignore-depends\fP=\fIpackage\fP,...
+指定したパッケージに関する依存関係の確認を無視する(実際は、依存関係を
+確認し、競合に対して警告メッセージを出して、アクションを実行する)。
+.TP
+\fB--new\fP | \fB--old\fP
+パッケージのフォーマットが新しいか古いかを指定する。
+これは \fBdpkg-deb\fP(1) のオプションである。
+.TP
+.B --nocheck
+パッケージを構築するときに、制御ファイルの内容を読むことも確認もしない。
+これは \fBdpkg-deb\fP(1) のオプションである。
+.TP
+\fB--no-act\fP | \fB--dry-run\fP | \fB--simulate\fP
+期待される動作をすべて実行するが、どのような変更も書き込まない。
+これは、実際にはシステムに何の変更も加えずに、指定したアクションで
+何がおこるのかを確認するためのものである。
+
+オプション \fB--no-act\fP は、必ずアクションより前に与えること。
+さもなくば、望ましくない結果が起きる可能性がある。
+(例えば、システムに何も変更を加えるつもりがないのに、
+\fBdpkg --purge foo --no-act\fP を実行すると、最初にパッケージ foo が
+本当に purge され、次にパッケージ --no-act が purge されることになる)
+.TP
+\fB-R\fP | \fB--recursive\fP
+指定したディレクトリを再帰的に検索し、みつけた \fB*.deb\fP という
+パターンにマッチするファイルをすべて扱う。これは、\fB-i\fP, \fB-A\fP,
+\fB--install\fP, \fB--unpack\fP そして \fB--avail\fP
+アクションとともに使うことができる。
+.TP
+\fB-G\fP
+インストール済みのパッケージのほうがバージョンが新しければ、インストール
+しない。これは \fB--refuse-downgrade\fP の別名である。
+.TP
+\fB--root=\fP\fIdir\fP | \fB--admindir=\fP\fIdir\fP | \fB--instdir=\fP\fIdir\fP
+デフォルトのディレクトリを変更する。\fBadmindir\fP はインストール済みの
+パッケージやインストールされていないパッケージの状態に関する情報などを
+提供する、多数のファイルが格納されているディレクトリで、デフォルトは
+\fI/var/lib/dpkg\fP である。\fBinstdir\fP はパッケージがインストール
+するときに参照されるディレクトリで、デフォルトは \fI/\fP である。
+また、\fBinstdir\fP は、パッケージのインストールスクリプトが実行
+される前に \fBchroot\fP(2) するディレクトリのパスである。つまり、
+スクリプトは \fBinstdir\fP をルートディレクトリとみなす。
+\fBroot\fP を変更すると、\fBinstdir\fP を \fIdir\fP に、\fBadmindir\fP
+を \fIdir\fP\fB/var/lib/dpkg\fP に変更する。
+.TP
+\fB-O\fP | \fB--selected-only\fP
+インストール(または削除)作業をするように選択したパッケージのみを処理する。
+実際の指定は、\fBdselect\fP や \fBdpkg\fP を使って行なう。
+例えば、あるパッケージが削除されるのは、そのパッケージが削除されるよう
+選択されているということである。
+.TP
+.BR -E " | " --skip-same-version
+すでに同じバージョンのパッケージがインストールされていたら、インストール
+しない。
+.TP
+\fB--status-fd \fP\fI<n>\fP
+ファイル記述子 \fI<n>\fPにパッケージ状態の情報を送る。これは複数与えることが
+できる。状態の情報は `status: <pkg>: <pkg qstate>'の形式である。
+
+.SH ファイル
+.TP
+.I /etc/dpkg.cfg
+オプションのデフォルト値を記述する設定ファイル。
+.P
+このほかの、以下に示すファイル一覧はデフォルトの値である。どのようにして
+ファイルの位置を変更するかについては、\fB--admindir\fP オプションの項を
+参照すること。
+.TP
+.I /var/lib/dpkg/available
+使用できるパッケージの一覧。
+.TP
+.I /var/lib/dpkg/status
+使用できるパッケージの状態。このファイルは、パッケージに削除の印があるか
+どうか、インストール済みかどうか、などの情報が含まれている。くわしくは、
+\fB パッケージに関する情報\fP の項を参照すること。
+.P
+以下のファイルはバイナリパッケージを構成するファイルである。これらの
+ファイルに関するくわしい情報は、\fBdeb\fP(5) を参照すること。
+.TP
+.I control
+.TP
+.I conffiles
+.TP
+.I preinst
+.TP
+.I postinst
+.TP
+.I prerm
+.TP
+.I postrm
+
+.SH 環境変数
+.TP
+.B DPKG_NO_TSTP
+任意の値で定義すると、シェルエスケープをしたときに \fBdpkg\fP自体 を一時停止
+(suspend)するのではなく、新しいシェルを起動する。
+.TP
+.B SHELL
+\fBdpkg\fP が新しいシェルを起動するときに、実際に起動するプログラム。
+.TP
+.B COLUMNS
+\fBdpkg\fPが整形テキストを表示する時に参照するコラム数。
+現在は -l オプションでのみ参照されている。
+.TP
+.B DPKG_OLD_CONFFILE
+変更される設定ファイルを確認するためにシェルを起動したとき、
+\fBdpkg\fP によって、古い設定ファイルのファイル名が設定される。
+.TP
+.B DPKG_NEW_CONFFILE
+変更される設定ファイルを確認するためにシェルを起動したとき、
+\fBdpkg\fP によって、新しい設定ファイルのファイル名が設定される。
+
+.SH 例
+vi エディタに関連のあるパッケージの一覧を表示する。
+.br
+\fB     dpkg -l '*vi*'\fP
+.br
+
+2 つのパッケージの \fI/var/lib/dpkg/available\fP にある項目を表示する。
+.br
+\fB     dpkg --print-avail elvis vim | less\fP
+.br
+
+自分でパッケージのリストから検索する。
+.br
+\fB     less /var/lib/dpkg/available\fP
+.br
+
+elvis パッケージを削除する。
+.br
+\fB     dpkg -r elvis\fP
+.br
+
+パッケージをインストールするには、まずそのパッケージをアーカイブや
+CDROMから探す必要がある。“available” ファイルによれば、vim パッケージは
+“editors” セクションに属している。
+.br
+\fB     cd /cdrom/hamm/hamm/binary-i386/editors\fP
+\fB     dpkg -i vim_4.5-3.deb\fP
+.br
+
+パッケージ選択状況のコピーを作成する。
+.br
+\fB     dpkg --get-selections >myselections\fP
+.br
+
+このファイルをほかのコンピュータに転送して、インストールする。
+.br
+\fB     dpkg --set-selections <myselections\fP
+.br
+これは実際にはインストールも削除もしないことに注意。これは単に
+要求しているパッケージの選択状態を設定するだけである。実際に
+要求しているパッケージをダウンロードしインストールするには別の
+アプリケーションが必要である。
+例えば、\fBdselect\fP を起動して、“導入(Install)”を選べばよい。
+
+通常、パッケージの選択状態を変更するには \fBdselect\fP(8) を
+使用するほうが便利である。
+.br
+.SH 関連項目
+\fBdselect\fP(8),
+\fBdpkg-deb\fP(1),
+\fBdeb\fP(5),
+\fBdeb-control\fP(5)
+
+.SH バグ
+
+\fB--no-act\fP の提供する情報はたいていの場合、不充分である。
+.SH 著者
+.nf
+\fBdpkg\fPに貢献した人のリストは \fB/usr/share/doc/dpkg/THANKS.gz\fPに
+挙げてある。
+.fi
+.SH 翻訳者
+喜瀬浩 <kise@fuyuneko.jp>
+.SH 翻訳校正
+Debian JP Documentation ML <debian-doc@debian.or.jp>
+.SH 翻訳者注
+このマニュアルページは dpkg パッケージのバージョン 1.10.20 に付属の
+dpkg(8)の日本語訳である。

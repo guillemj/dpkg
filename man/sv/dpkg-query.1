@@ -1,0 +1,96 @@
+.\" Translation of CVS revision 1.3.2.2
+.TH DPKG\-QUERY 1 "Augusti 2001" "Debianprojektet" "Dpkg-sviten"
+.SH NAMN
+dpkg\-query \- ett verktyg för att fråga dpkg-databasen
+
+.SH SYNOPS
+.B dpkg\-query
+
+.SH BESKRIVNING
+\fBdpkg\-query\fP är ett verktyg för att visa information om paket i
+\fBdpkg\fP-databasen.
+
+
+.SH KOMMANDON
+.TP
+\fB\-l\fP | \fB\-\-list\fP \fIpaketnamnsmönster\fP ...
+Lista paket som matchar det givna mönstret.
+Om inget \fIpaketnamnsmönster\fP anges listas alla paket i
+\fI/var/lib/dpkg/status\fP.
+Skalets normala jokertecken tillåts i \fIpaketnamnsmönster\fP.
+Observera att du sannolikt måste skriva \fIpaketnamnsmönster\fP inom
+citationstecken för att förhindra att skalet expanderar filnamnet.
+Till exempel kommer följande lista alla paket vars namn börjar på
+"libc5":
+
+.T
+.nf
+  \fBdpkg\-query \-l 'libc5*'\fP
+.fi
+.TP
+\fB\-W\fP | \fB\-\-show\fP \fIpaketnamnsmönster\fP ...
+Precis som flaggan \fB\-\-list\fP kommer detta att visa alla paket som matchar
+det givna mönstret.
+Utdatat kan dock skräddarsys med flaggan \fB\-\-showformat\fP.
+.TP
+\fB\-s\fP | \fB\-\-status\fP \fIpaketnamn\fP ...
+Rapportera status om det angivna paketet.
+Detta alternativ visar helt enkelt posten i statusdatabasen för installerade
+paket.
+.TP
+\fB\-L\fP | \fB\-\-listfiles\fP \fIpaket\fP ...
+Listar filer som installerats på ditt system från \fBpaket\fP.
+Observera dock att filer som skapats av paketspecifika installationsskript
+inte listas.
+.TP
+\fB\-S\fP | \fB\-\-search\fP \fIfilnamnssökmönster\fP ...
+Sök efter filnamnet bland de installerade paketen.
+Alla skalets vanliga jokertecken kan användas i mönstret.
+Kommandot kommer inte att visa extrafiler som skapas av paketskript,
+ej heller kommer det att visa alternativ.
+.TP
+\fB\-p\fP |\fB\-\-print\-avail\fP paket
+Visar detaljer om \fIpaket\fP från
+\fI/var/lib/dpkg/available\fP.
+.TP
+\fB\-\-licence\fP | \fB\-\-license\fP
+Visar licensvillkor och upphovsrättsinformation.
+.TP
+\fB\-\-version\fP
+Visar versionsinformation.
+
+.SH FLAGGOR
+.TP
+\fB\-\-admindir=\fIkat\fP
+Ändra platsen för \fBdpkg\fR-databasen.
+Förval är \fI/var/lib/dpkg\fP.
+.TP
+\fB\-\-showformat=\fP\fIformat\fR
+Denna flagga används för att ange formatet på det utdata \fB\-\-show\fP
+skapar.
+Formatet är en sträng som kommer att ange utdata för varje paket som listas.
+Formatsträngen kan innehålla de vanliga teckensekvenserna \en (nyrad),
+\er (vagnretur) eller \e\e (rent omvänt snedstreck).
+Paketinformation kan inkluderas genom att lägga in variabelreferenser till
+paketfält genom att använda syntaxen ${var[;bredd]}.
+Fälten som skrivs ut kommer att högerjusteras såvida inte bredden är
+negativ, i vilket fall vänsterjustering kommer att användas.
+
+.SH MILJÖVARIABLER
+.TP
+\fBCOLUMNS\fP
+Denna inställningar påverkar utdata från kommandot \fB\-\-list\fP genom att
+ändra bredden på dess utdata.
+
+.SH FÖRFATTARE
+Upphovsrättsskyddat 2001 Wichert Akkerman
+.UR mailto:wakkerma@debian.org
+<wakkerma@debian.org>
+.UE
+.sp
+Detta är fri programvara; se GNU General Public License version 2 eller
+senare för kopieringsvillkor. Det finns INGEN garanti.
+
+.SH SE ÄVEN
+.BR dpkg (8)
+

@@ -189,7 +189,7 @@ off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc
   switch(data->type) {
     case BUFFER_WRITE_BUF:
       memcpy(data->data.ptr, buf, length);
-      (char*)data->data.ptr += length;
+      data->data.ptr += length;
       break;
     case BUFFER_WRITE_VBUF:
       varbufaddbuf((struct varbuf *)data->data.ptr, buf, length);

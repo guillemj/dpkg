@@ -41,7 +41,6 @@ extern "C" {
 extern "C" {
 #include <dpkg.h>
 #include <dpkg-db.h>
-#include <version.h>
 #include <myopt.h>
 }
 #include "dselect.h"

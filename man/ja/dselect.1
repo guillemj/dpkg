@@ -1,0 +1,769 @@
+.\" Hey Emacs! This file is -*- nroff -*- source.
+.\" Original manpage cvs revision 1.8.2.1
+.\" Translated by KURASAWA Nozomu <nabetaro@debian.or.jp>
+.\" Last modified: Sun Nov 30 21:47:51 JST 2003
+.\"WORD:	system administrator	システム管理者
+.\"WORD:	available		利用可能
+.\"WORD:	dependencies		依存関係
+.\"WORD:	front-end		フロントエンド
+.\"WORD:	low-level		下位層
+.\"WORD:	conflict		競合
+.\"WORD:	package repositories	パッケージリポジトリ
+.\"WORD:	retrieve		取得(する)
+.\"WORD:	screen			画面
+.\"WORD:	access method		アクセス方式
+.\"WORD:	status			状況
+.\"WORD:	interactive		対話的
+.TH DSELECT 1 "July 2001" "Debian Project" "Debian"
+.\" .SH NAME
+.SH 名称
+.\" dselect \- Debian package management frontend
+dselect \- Debian パッケージ管理フロントエンド
+.\" .SH SYNOPSIS
+.SH 書式
+.B dselect
+[\-\-admindir <directory>] [\-\-help] [\-\-version] [\-\-licence | \-\-license]
+[\-\-expert] [\-\-debug | \-D <file>] [\fI<action>\fP]
+[\-\-colour | \-\-color screenpart:[foreground],[background][:attr[+attr+..]]]
+.\" .SH DESCRIPTION
+.SH 説明
+.\" .B dselect
+.\" is one of the primary user interfaces for managing packages on a Debian
+.\" system.  At the \fBdselect\fP main menu, the system administrator can:
+.\"  \- Update the list of available package versions,
+.\"  \- View the status of installed and available packages,
+.\"  \- Alter package selections and manage dependencies,
+.\"  \- Install new packages or upgrade to newer versions.
+.B dselect
+は Debian システムの、主要なパッケージ管理用ユーザインターフェースの
+一つである。システム管理者は、\fBdselect\fP のメインメニューで以下の
+操作を行える。
+ \- 利用可能パッケージのバージョンリストの更新。
+ \- インストール済み・利用可能パッケージの状況の参照。
+ \- 代替パッケージの選択及び依存関係管理。
+ \- 新規パッケージのインストールや新バージョンへの更新。
+.PP
+.\" .B dselect 
+.\" operates as a front-end to \fBdpkg(8)\fP, the low-level debian package
+.\" handling tool.  It features a full-screen package selections manager
+.\" with package depends and conflicts resolver.  When run with adminitrator
+.\" priviledges, packages can be installed, upgraded and removed. Various
+.\" access methods can be configured to retrieve available package version
+.\" information and installable packages from package repositories.
+.\" Depending on the used access method, these repositories can be public
+.\" archive servers on the internet, local archive servers or cdroms.
+.\" The recommended access method is \fIapt\fP, which is provided by the
+.\" package \fBapt\fP.
+.B dselect 
+は、\fBdpkg(8)\fP (下位層 Debian パッケージ管理ツール) の
+フロントエンドとして動作する。
+パッケージの依存・競合の解決を行なえる、
+全画面パッケージ選択マネージャであることが特徴である。
+管理者権限で起動すると、パッケージのインストール、更新、削除を
+行うことができる。
+またパッケージリポジトリより、
+利用可能パッケージのバージョン情報や、
+インストール可能パッケージ
+の取得するための、
+様々なアクセス方式を設定できる。
+使用するアクセス方式によって、インターネット上の公開サーバ、
+ローカルサーバ、CD-ROM をリポジトリにできる。
+推奨するアクセス方式は、\fBapt\fP パッケージで提供する \fIapt\fP である。
+.PP 
+.\" Normally \fBdselect\fP is invoked without parameters.  An interactive
+.\" menu is presented, offering the user a list of actions.  If an action
+.\" is given as argument, then that action is started immediately.  Several
+.\" commandline parameters are still available to modify the running behaviour
+.\" of \fBdselect\fP or show additional information about the program.
+通常、\fBdselect\fP はパラメータなしで起動する。
+ユーザへは、対話的メニューで、アクションのリストを提供する。
+引数で、アクションを与えられた場合、直ちにそのアクションを実行する。
+いくつかのコマンドラインパラメータで、\fBdselect\fP の動きを修正したり、
+プログラムの補足情報を示すことができる。
+.\" .SH OPTIONS 
+.\" All options can be specified both on the commandline and in the \fBdselect\fP 
+.\" configuration file \fI/etc/dpkg/dselect.cfg\fP. Each line in the 
+.\" configuration file is either an option (exactly the same as the
+.\" commandline option but without leading dashes) or a comment (if it starts
+.\" with a \fB#\fR).
+.SH オプション
+オプションはすべて、コマンドライン及び \fBdselect\fP の設定ファイル 
+\fI/etc/dpkg/dselect.cfg\fP の両方で指定できる。
+設定ファイル中の各行には、オプション (正確にはコマンドラインオプションからダッシュを除いたもの) か、コメント (行が \fB#\fR で始まる場合) を記述する。
+.br
+.TP
+.\" .B --admindir <directory>
+.\" Changes the directory where the dpkg `status', `available' and similar
+.\" files are located. This defaults to \fI/var/lib/dpkg\fP
+.\" and normally there shouldn't be any need to change it.
+.B --admindir <directory>
+dpkg が使用する `status' ファイルや `available' ファイルなどを
+置くディレクトリを変更する。
+デフォルトは \fI/var/lib/dpkg\fP で、通常変更する必要はない。
+.TP
+.\" .B --debug <file> | -D<file>
+.\" Turn on debugging. Debugging information is sent to \fI<file>\fP.
+.B --debug <file> | -D<file>
+デバッグを有効にする。デバッグ情報は \fI<file>\fP に送られる。
+.TP
+.\" .B --expert
+.\" Turns on expert mode, i.e. doesn't display possibly annoying help 
+.\" messages.
+.B --expert
+エキスパートモードを有効にする。つまり、うるさいヘルプを表示しない。
+.TP
+.\" .B --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]
+.\" Configures screen colors. This works only if your display supports colors.
+.\" This option may be used multiple times (and is best used in
+.\" \fIdselect.cfg\fP). Each use changes the color (and optionally, other
+.\" attributes) of one part of the screen.
+.\" The parts of the screen (from top to bottom) are:
+.B --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]
+表示色を設定する。
+ディスプレイがカラー表示をサポートしている場合に有効である。
+このオプションは、複数回指定できる (さらに \fIdselect.cfg\fP で一番使用される) 
+かもしれない。
+指定ごとに、画面の一部の色(や他の属性)を変更する。
+画面 (上から下まで) の部位は次のとおり:
+.RS
+.TP
+.B title
+.\" The screen title.
+画面タイトル
+.TP
+.B listhead
+.\" The header line above the list of packages.
+パッケージリストの上のヘッダライン
+.TP
+.B list
+.\" The scrolling list of packages (and also some help text).
+パッケージリストのスクロール領域 (ヘルプも表示する)
+.TP
+.B listsel
+.\" The selected item in the list.
+リスト内の選択行
+.TP
+.B pkgstate
+.\" In the list of packages, the text indicating the current state of each
+.\" package.
+パッケージリスト中、パッケージの現在状況表示部
+.TP
+.B pkgstatesel
+.\" In the list of packages, the text indicating the current state of the
+.\" currently selected package.
+パッケージリスト中、選択したパッケージの現在状況表示部
+.TP
+.B infohead
+.\" The header line that displays the state of the currently selected package.
+選択中パッケージの状況表示部のヘッダ行
+.TP
+.B infodesc
+.\" The package's short description.
+パッケージの短い説明文
+.TP
+.B info
+.\" Used to display package info such as the package's description.
+パッケージの説明などのパッケージ情報表示部
+.TP
+.B infofoot
+.\" The last line of the screen when selecting packages.
+パッケージ選択時の画面最下行
+.TP
+.B query
+.\" Used to display query lines
+要求行表示部
+.TP
+.B helpscreen
+.\" Color of help screens.
+ヘルプ画面の色
+.RE
+.P
+.\" After the part of the screen comes a colon and the color specification. You
+.\" can specify either the foreground color, the background color, or both,
+.\" overriding the compiled-in colors. Use standard curses color names.
+画面の部位の後に、コロンと色設定を記述する。
+コンパイル時の色を無視して、前景色、背景色あるいは両方を指定することができる。
+標準 curses 色名称を使用する。
+.P
+.\" Optionally, after the color specification is another colon, and an
+.\" attribute specification. This is a list of one or more attributes,
+.\" separated by plus ("+") characters. Available attributes include (not all
+.\" of these will work on all terminals): normal, standout, underline, reverse,
+.\" blink, bright, dim, bold
+任意で、色設定の後に別のコロンで、属性を設定できる。
+これはプラス("+")文字によって分離された、複数の属性のリストである。
+利用可能な属性を以下列挙する(すべての属性がすべての端末で有効とは限らない):
+normal, standout, underline, reverse, blink, bright, dim, bold
+.TP
+.B --help
+.\" Print a brief help text and exit successfully.
+簡単なヘルプを表示し、正常終了する。
+.TP
+.B --licence | --license
+.\" Displays the \fBdselect\fP copyright and license information and exits 
+.\" successfully.
+\fBdselect\fP の著作権情報とライセンス情報を表示し、正常終了する。
+.TP
+.B --version
+.\" Print version information and exit successfully.
+バージョン情報を表示し、正常終了する。
+.\" .SH USAGE
+.SH 使用方法
+.\" When
+.\" .B dselect
+.\" is started interactively, it prompts the user with a menu of available 
+.\" actions:
+.B dselect
+を対話的に起動すると、
+以下の利用可能アクションのメニューをユーザに提示する。
+.SS access
+.\" Choose and configure an access method to access package repositories.  
+パッケージリポジトリにアクセスするための、アクセス方式を選択・設定する。
+.sp
+.\" By default, \fBdselect\fP provides several methods such 
+.\" as \fIfloppy\fP, \fIharddisk\fP or \fIcdrom\fP, but other packages 
+.\" may provide additional methods, eg. the \fIapt\fP access method provided 
+.\" by the \fBapt\fP package or \fImulti_cd\fP by the \fBdpkg-multicd\fP
+.\" package.
+デフォルトでは \fBdselect\fP は \fIfloppy\fP, \fIharddisk\fP, \fIcdrom\fP
+といった、いくつかの方式を提供する。
+しかし、他のパッケージが追加アクセス方式を提供することもある。
+例えば、\fIapt\fP アクセス方式は \fBapt\fP パッケージで提供され、
+\fImulti_cd\fP は \fBdpkg-multicd\fP で提供される。
+.sp
+.\" The use of the \fIapt\fP access method is strongly recommended.
+\fIapt\fP アクセス方式の使用を、強く推奨する。
+.sp
+.SS update
+.\" Refresh the available packages database.
+利用可能パッケージデータベースをリフレッシュする。
+.sp
+.\" Retrieves a list of available package versions from the package 
+.\" repository, configured for the current access method, and update 
+.\" the dpkg database.  The package lists are commonly provided by the 
+.\" repository as files named \fBPackages\fP or \fBPackages.gz\fP.  
+.\" These files can be generated by repository maintainers, using the
+.\" program \fBdpkg-scanpackages(1)\fP.  
+利用可能パッケージのバージョンリストを、現在設定しているアクセス方式で、
+パッケージリポジトリから取得し、dpkg データベースを更新する。
+パッケージリストは、一般的には \fBPackages\fP, \fBPackages.gz\fP という名前で、
+リポジトリより提供されている。
+リポジトリ管理者は、\fBdpkg-scanpackages(1)\fPというプログラムを使用して、
+このファイルを生成することができる。
+.sp
+.\" Details of the update action depend on the access method's implementation.
+.\" Normally the process is straightforward and requires no user interaction.
+update アクションの詳細は、アクセス方式の実装に依存する。
+通常、このプロセスは単純で、ユーザの入力を必要としない。
+.sp
+.SS select
+.\" View or manage package selections and dependencies.  
+パッケージの選択や依存関係の表示・管理を行う。
+.sp
+.\" This is the main function of \fBdselect\fP.  In the select screen, the
+.\" user can review a list of all available and installed packages.  When run
+.\" with administrator privileges, it is also possible to interactively
+.\" change packages selection state.  \fBdselect\fP tracks the implications
+.\" of these changes to other depending or conflicting packages.
+これが \fBdselect\fP のメイン機能である。
+選択した画面で、全利用可能・インストール済みパッケージのリストを調査できる。
+管理者権限で実行すると、対話的に、
+パッケージ選択状況を変更することもできる。
+\fBdselect\fP は、選択状況の変更に関連して起こる
+他の依存・競合パッケージについても同様に追跡する。
+.sp
+.\" When a conflict or failed depends is detected, a dependency resolution 
+.\" subscreen is prompted to the user.  In this screen, a list of conflicting 
+.\" or depending packages is shown, and for each package listed, the reason
+.\" for its listing is shown.  The user may apply the suggestions proposed
+.\" by \fBdselect\fP, override them, or back out all the changes, including
+.\" the ones that created the unresolved depends or conflicts.
+競合や依存の失敗を検出すると、依存関係解決サブ画面をユーザに提示する。
+この画面では、競合パッケージや依存パッケージを、その理由とともに表示する。
+ユーザは、\fBdselect\fP が提案した変更案を適用してもよいし、
+その案を上書きしてもよい。また、変更をすべて元に戻してもよい。
+以上を、依存・競合が解決されるまで、繰り返す。
+.sp
+.\" The use of the interactive package selections management screen is 
+.\" explained in more detail below.
+対話的なパッケージ選択管理画面の詳細な使い方を後述する。
+.sp
+.SS install
+.\" Installs selected packages.
+選択したパッケージをインストールする。
+.sp
+.\" The configured access method will fetch installable or upgradable packages 
+.\" from the relevant repositories and install these using \fBdpkg\fP.  
+.\" Depending on the implementation of the access method, all packages can
+.\" be prefetched before installation, or fetched when needed.
+.\" Some access methods may also remove packages that were marked for removal.
+インストール・更新するパッケージを、
+設定したアクセス方式で適切なリポジトリより取得し、
+\fBdpkg\fP を用いてインストールを行う。
+アクセス方式の実装に依存するが、インストール前に全パッケージを取得、
+もしくは必要な時に取得する。
+アクセス方式により、削除マークをつけたパッケージの削除を行う場合もある。
+.sp
+.\" If an error occurred during install, it is usually advisable to run
+.\" install again.  In most cases, the problems will disappear or be solved.
+.\" If problems persist or the installation performed was incorrect, please
+.\" investigate into the causes and circumstances, and file a bug in the 
+.\" Debian bug tracking system.  Instructions on how to do this can be found 
+.\" at http://bugs.debian.org/ or by reading the documentation 
+.\" for \fBbug(1)\fP or \fBreportbug(1)\fP, if these are installed.
+インストール中にエラーが発生した場合、もう一度 install を行うよう促される。
+その場合でも、ほとんど問題が発生しないか、解決済みとなっている。
+問題が残ったままだったり、インストールが異常終了する場合、
+原因・事情を調べて、Debian バグ追跡システムへバグ報告をしていただきたい。
+バグ報告の方法は、http://bugs.debian.org/ や、
+インストールされていれば、 \fBbug(1)\fP や \fBreportbug(1)\fP の
+文書を参照のこと。
+.sp
+.\" Details of the install action depend on the access method's implementation.
+.\" The user's attention and input may be required during installation,
+.\" configuration or removal of packages.  This depends on the maintainer
+.\" scripts in the package.  Some packages make use of the \fBdebconf(8)\fP
+.\" library, allowing for more flexible or even automated installation
+.\" setups.
+install アクションの詳細はアクセス方式の実装に依存する。
+パッケージのインストール、設定、削除中に、ユーザに注意を促したり、
+入力を要求する可能性もある。
+これはパッケージ管理者スクリプトに依存する。
+パッケージによっては、\fBdebconf(8)\fP ライブラリを用いており、
+より柔軟で自動化されたインストールセットアップが可能である。
+.sp
+.SS config
+.\" Configures any previously installed, but not fully configured packages.
+すでにインストール済みだが、
+設定が完了していないパッケージの設定を行う。
+.sp
+.SS remove
+.\" Removes or purges installed packages, that are marked for removal.
+削除マークをつけたインストール済みパッケージの、削除・完全削除を行う。
+.sp
+.SS quit
+.\" Quit \fBdselect\fP
+\fBdselect\fP を終了する。
+.sp
+.\" Exits the program with zero (succesful) errorcode.
+エラーコード 0 (成功) でプログラムを終了する。
+.sp
+.\" .SH Package selections management
+.SH パッケージ選択管理
+.sp
+.\" .SS Introduction
+.SS 入門
+.sp
+.B dselect 
+.\" directly exposes
+.\" the administrator to some of the complexities involved with managing
+.\" large sets of packages with many interdependencies.  For a user who is
+.\" unfamiliar with the concepts and the ways of the debian package management
+.\" system, it can be quite overwhelming.  Although \fBdselect\fP is aimed
+.\" at easing package management and administration, it is only instrumental
+.\" in doing so and can not be assumed to be a sufficient substitute for
+.\" administrator skill and understanding.  The user is required to
+.\" be familiar with the concepts underlying the Debian packaging system.
+.\" In case of doubt, consult the \fBdpkg(8)\fP manpage and the Debian
+.\" policy manual.
+大量の相互依存関係を持つパッケージ群の管理する複雑さに、管理者は直面する。
+Debian パッケージ管理システムの概念や、その方法に慣れていないユーザにとっては、
+これは圧倒的ですらある。
+\fBdselect\fP は、パッケージ管理と管理作業の負担緩和を目指している。
+しかし、単に負担緩和に役立つだけで、
+管理者としての技術や知識の代用にはならない。
+ユーザには、Debian パッケージングシステムについての基礎概念に
+精通することが要求される。
+疑問があれば、\fBdpkg(8)\fP のマニュアルや、Debian ポリシーマニュアルを
+参照してほしい。
+.sp
+.\" Unless \fBdselect\fP is run in expert
+.\" or immediate mode, a help screen is first displayed when choosing this
+.\" action from the menu.  The user is \fIstrongly\fP advised to study all of
+.\" the information presented in the online help screens, when one pops up.
+.\" The online help screens can at any time be invoked with the \fB'?'\fP key.
+\fBdselect\fP が、エキスパートモードや直接モードで起動されない場合、
+メニューからアクションを選ぶ際に、初めにヘルプ画面が表示される。
+オンラインヘルプ画面がポップアップした際には、
+そこに示される内容をすべて検討するよう、 \fI強く\fP お奨めする。
+オンラインヘルプ画面は、いつでも \fB'?'\fP キーで表示できる。
+.sp
+.\" .SS Screen layout
+.SS 画面レイアウト
+.sp
+.\" The select screen is by default split in a top and a bottom half.
+.\" The top half shows a list of packages.  A cursor bar can select an
+.\" individual package, or a group of packages, if applicable, by selecting
+.\" the group header.  The bottom half of the screen shows some details
+.\" about the package currently selected in the top half of the screen.
+.\" The type of detail that is displayed can be varied.
+選択画面は、デフォルトで上下 2 分割されている。
+上半分は、パッケージリストを表示している。
+カーソルバーで個々のパッケージを選択したり、
+グループヘッダを選択(できれば)して、パッケージグループを選択したりできる。
+画面の下半分は、画面の上半分で現在選択しているパッケージの詳細が表示される。
+表示される詳細のタイプは、変更できる。
+.sp
+.\" Pressing the \fB'I'\fP key toggles a full-screen display of the packages
+.\" list, an enlarged view of the package details, or the equally split screen.
+ \fB'I'\fP キーを押すごとに、パッケージリストの全画面表示、
+パッケージ詳細の拡大、画面の均等分割を切り替える。
+.sp
+.\" .SS Package details view
+.SS パッケージ詳細表示
+.sp
+.\" The package details view by default shows the extended package description
+.\" for the package that is currently selected in the packages status list.
+.\" The type of detail can be toggled by pressing the \fB'i'\fP key.  This
+.\" alternates between:
+.\"  - the extended description
+.\"  - the control information for the installed version
+.\"  - the control information for the available version
+デフォルトのパッケージ詳細表示部は、
+パッケージ状況リスト中で現在選択されているパッケージの、
+長いパッケージ説明文を表示する。
+詳細タイプは \fB'i'\fP キーを押すごとに以下が切り替わる。
+ - 長い説明文
+ - インストール済みバージョンのコントロール情報
+ - 利用可能バージョンのコントロール情報
+.sp
+.\" In a dependency resolution screen, there is also the possibility of
+.\" viewing the specific unresolved depends or conflicts related to the
+.\" package and causing it to be listed.
+依存関係解決画面では、特定のパッケージの未解決依存・競合関係を、
+その原因とともに表示する可能性がある。
+.sh
+.\" .SS Packages status list
+.SS パッケージ状況リスト
+.sp
+.\" The main select screen displays a list of all packages known to the debian
+.\" package management system.  This includes packages installed on the system
+.\" and packages known from the available packages database.  
+メイン選択画面は、
+Debian パッケージ管理システムが知っている全パッケージを表示する。
+これには、システムにインストール済みのパッケージと、
+利用可能パッケージデータベースが知っているパッケージが含まれる。
+.sp
+.\" For every package, the list shows the package's status, priority,
+.\" section, installed and available versions, the package name and its
+.\" short description, all in one line.  By pressing the \fB'V'\fP key,
+.\" the display of the installed and available version can be toggled between
+.\" on an off.  By pressing the \fB'v'\fP key,
+.\" the package status display is toggled between verbose and shorthand.
+.\" Shorthand display is the default.
+リストにはパッケージごとに、パッケージの状況、優先度、セクション、
+インストール済み・利用可能バージョン、パッケージ名、短い説明文が
+1 行で表示される。
+\fB'V'\fP キーを押すと、インストール済みバージョンと利用可能バージョンの
+表示を ON/OFF できる。
+\fB'v'\fP キーを押すと、パッケージ状況を詳細表示と簡略表示で切り替える。
+簡略表示がデフォルトである。
+.sp
+.\" The shorthand status indication consists
+.\" of four parts:  an error flag, which should normally be clear, the
+.\" current status, the last selection state and the current selection state.
+.\" The first two relate to the actual state of the package, the second pair
+.\" are about the selections set by the user.
+状況簡略表示は、以下の 4 パートに分かれている。
+エラーフラグ (通常クリア)、現在の状況、前回選択状況、今回選択状況である。
+始めの 2 つはパッケージの現在の状況を表し、
+その後の 2 つはユーザがセットした選択状況を表している。
+.sp
+.\" These are the meanings of the shorthand package status indicator codes:
+パッケージ状況簡略表示部のコードには以下の意味がある。
+.\"  Error flag: 
+.\"   \fIempty\fP   no error
+.\"   \fBR\fP       serious error, needs reinstallation;
+.\"  Installed state:   
+.\"   \fIempty\fP   not installed;
+.\"   \fB*\fP       fully installed and configured;
+.\"   \fB-\fP       not installed but some config files may remain;
+.\"   \fBU\fP       unpacked but not yet configured;
+.\"   \fBC\fP       half-configured (an error happened);
+.\"   \fBI\fP       half-installed (an error happened).
+.\"  Current and requested selections:
+.\"   \fB*\fP       marked for installation or upgrade;
+.\"   \fB-\fP       marked for removal, configuration files remain;
+.\"   \fB=\fP       on hold: package will not be processed at all;
+.\"   \fB_\fP       marked for purge, also remove configuration;
+.\"   \fBn\fP       package is new and has yet to be marked.
+ エラーフラグ:
+  \fI空\fP      エラーなし
+  \fBR\fP       深刻なエラー (要再インストール)
+ インストール状況:   
+  \fI空\fP      未インストール
+  \fB*\fP       インストール済み、かつ設定済み
+  \fB-\fP       未インストールだが、設定ファイルが残っている
+  \fBU\fP       展開済みだが設定が済んでいない
+  \fBC\fP       半設定状況 (エラー発生)
+  \fBI\fP       半インストール状況 (エラー発生)
+ 現在の選択・要求した選択:
+  \fB*\fP       インストール・更新マーク
+  \fB-\fP       削除マーク (設定ファイルは残す)
+  \fB=\fP       保留 (パッケージになにも処理を行わない)
+  \fB_\fP       完全削除マーク (設定ファイルも削除する)
+  \fBn\fP       新規パッケージでまだマーク付けされていない
+.sp
+.\" .SS Cursor and screen movement
+.SS カーソルおよび画面移動
+.sp
+.\" The package selection list and the dependency conflict
+.\" resolution screens can be navigated using motion
+.\" commands mapped to the following keys:
+パッケージ選択リストや依存・競合関係解決画面では、
+以下のキー割当のコマンドで操作できる。
+.br
+.\"   \fBp, Up, k\fP           move cursor bar up
+.\"   \fBn, Down, j\fP         move cursor bar down  
+.\"   \fBP, Pgup, Backspace\fP scroll list 1 page up
+.\"   \fBN, Pgdn, Space\fP     scroll list 1 page down
+.\"   \fB^p\fP                 scroll list 1 line up
+.\"   \fB^n\fP                 scroll list 1 line down
+.\"   \fBt, Home\fP            jump to top of list
+.\"   \fBe, End\fP             jump to end of list
+.\"   \fBu\fP                  scroll info 1 page up
+.\"   \fBd\fP                  scroll info 1 page down
+.\"   \fB^u\fP                 scroll info 1 line up
+.\"   \fB^d\fP                 scroll info 1 line down
+.\"   \fBB, Left-arrow\fP      pan display 1/3 screen left
+.\"   \fBF, Right-arrow\fP     pan display 1/3 screen right
+.\"   \fB^b\fP                 pan display 1 character left
+.\"   \fB^f\fP                 pan display 1 character right
+  \fBp, Up, k\fP           カーソルバーを上に移動
+  \fBn, Down, j\fP         カーソルバーを下に移動
+  \fBP, Pgup, Backspace\fP リストを 1 ページ上にスクロール
+  \fBN, Pgdn, Space\fP     リストを 1 ページ下にスクロール
+  \fB^p\fP                 リストを 1 行上にスクロール
+  \fB^n\fP                 リストを 1 行下にスクロール
+  \fBt, Home\fP            リストの先頭にジャンプ
+  \fBe, End\fP             リストの最後にジャンプ
+  \fBu\fP                  情報を 1 ページ上にスクロール
+  \fBd\fP                  情報を 1 ページ下にスクロール
+  \fB^u\fP                 情報を 1 行上にスクロール
+  \fB^d\fP                 情報を 1 行下にスクロール
+  \fBB, Left-arrow\fP      表示を 1/3 画面左にスクロール
+  \fBF, Right-arrow\fP     表示を 1/3 画面右にスクロール
+  \fB^b\fP                 表示を 1 文字左にスクロール
+  \fB^f\fP                 表示を 1 文字右にスクロール
+.sp
+.\" .SS Searching and sorting
+.SS 検索と並べ替え
+.sp
+.\" The list of packages can be searched by package name.  This
+.\" is done by pressing \fB'/'\fP, and typing a simple search
+.\" string. The string is interpreted as a
+.\" .BR regex (7)
+.\" regular expression.
+.\" If you add \fB'/d'\fP to the search expression, dselect will also search
+.\" in descriptions. If you add \fB'/i'\fP the search will be case insensitive.
+.\" You may combine these two suffixes like this: \fB'/id'\fP.
+.\" Repeated searching is accomplished by repeatedly pressing
+.\" the \fB'n'\fP or \fB'\\'\fP keys, until the wanted package is found.
+.\" If the search reaches the bottom of the list, it wraps to the top
+.\" and continues searching from there.
+パッケージのリストでは、 \fB'/'\fP を押してから、
+単純な検索文字列を入力することで、パッケージ名の検索ができる。
+この文字列は、正規表現
+.BR regex (7)
+で解析される。
+検索文字列に続けて \fB'/d'\fP を加えると、説明文からも検索する。
+\fB'/i'\fP を加えた場合は、大文字小文字の区別をしない。
+この 2 つの添字を \fB'/id'\fP のようにつなげても記述できる。
+検索結果に対して、続けて \fB'n'\fP ないし \fB'\\'\fP キーを押すと、
+目的のパッケージが得られるまで、検索を繰り返せる。
+検索がリストの最後まで達すると、先頭に戻る。
+.sp
+.\" The list sort order can be varied by pressing 
+.\" the \fB'o'\fP and \fB'O'\fP keys repeatedly.
+.\" The following nine sort orderings can be selected:
+.\"  alphabet          available           status
+.\"  priority+section  available+priority  status+priority
+.\"  section+priority  available+section   status+section
+リストのソート順を変えるには、\fB'o'\fP と \fB'O'\fP キーを使用する。
+以下の 9 通りのソート順を選べる。
+ アルファベット	    利用可能             状況
+ 優先度+セクション  利用可能+優先度      状況+優先度
+ セクション+優先度  利用可能+セクション  状況+セクション
+.br
+.\" Where not listed above explicitly, alphabetic order is used as 
+.\" the final subordering sort key.
+上記リストには明記していないが、
+最後にアルファベット順でソートされる。
+.sp
+.\" .SS Altering selections
+.SS 選択の変更
+.sp
+.\" The requested selection state of individual packages may be 
+.\" altered with the following commands:
+それぞれのパッケージの要求選択状況は、以下のコマンドで変更できる。
+.\"   \fB+, Insert\fP    install or upgrade
+.\"   \fB=, H\fP         hold in present state and version
+.\"   \fB:, G\fP         unhold: upgrade or leave uninstalled
+.\"   \fB-, Delete\fP    remove, but leave configuration
+.\"   \fB_\fP            remove & purge configuration
+  \fB+, Insert\fP    インストール・更新する
+  \fB=, H\fP         現在の状況・バージョンを保留する
+  \fB:, G\fP         保留解除 (更新ないし未インストールのままとする)
+  \fB-, Delete\fP    削除して設定は残す
+  \fB_\fP            削除して設定も消す
+.sp
+.\" When the change request results in one or more unsatisfied depends
+.\" or conflicts, \fBdselect\fP prompts the user with a dependency resolution 
+.\" screen.  This will be further explained below.
+変更要求の結果、依存を満足しなかったり競合した場合、
+\fBdselect\fP 依存関係解決画面を提示する。
+これは後ほど説明する。
+.sp
+.\" It is also possible to apply these commands to groups of package
+.\" selections, by pointing the cursor bar onto a group header.  The
+.\" exact grouping of packages is dependent on the current list ordering
+.\" settings.  
+さらに、グループヘッダ上にカーソルバーを移動して、
+パッケージ選択のグループにコマンドを適用することができる。
+パッケージの正確なグループ化ができるかは、
+現在のリストのソート順設定に依存する。
+.sp
+.\" Proper care should be taken when altering large groups of selections,
+.\" because this can instantaneously create large numbers of unresolved 
+.\" depends or conflicts, all of which will be listed in one dependency
+.\" resolution screen, making them very hard to handle.  In practice, 
+.\" only hold and unhold operations are useful when applied to groups.
+一度に大量の未解決依存・競合を発生させるため、
+中身が大きいグループを変更する場合は、十分注意するべきである。
+1 つの依存関係解決画面に、すべて表示されることとなるため、
+これを解決するのは非常に難しい。
+実際には、グループの変更が有用なのは、保留や保留解除の時ぐらいである。
+.sp
+.\" .SS Resolving depends and conflicts
+.SS 依存・競合解決
+.sp
+.\" When the change request results in one or more unsatisfied depends
+.\" or conflicts, \fBdselect\fP prompts the user with a dependency resolution 
+.\" screen.  First however, an informative help screen is displayed. 
+選択状況を変更して未解決依存・競合が発生した場合、
+\fBdselect\fP は依存関係解決画面を表示する。
+初めての場合は、その前にヘルプ画面を表示する。
+.sp
+.\" The top half of this screen lists all the packages that will have 
+.\" unresolved depends or conflicts, as a result of the requested change, 
+.\" and all the packages whose installation can resolve any of these 
+.\" depends or whose removal can resolve any of the conflicts.
+.\" The bottom half defaults to show the depends or conflicts that
+.\" cause the currently selected package to be listed.
+この画面の上半分には、未解決依存・競合があるパッケージや、
+要求された変更の結果、
+そして依存を解決するのにインストールすればいいパッケージ、
+競合を解決するのに削除すればいいパッケージをすべて表示する。
+下半分には、現在選択しているパッケージの依存や競合の原因を、
+デフォルトで表示する。
+.sp
+.\" When the sublist of packages is displayed initially, \fBdselect\fP
+.\" may have already set the requested selection status of some of the
+.\" listed packages, in order to resolve the depends of conflicts that
+.\" caused the dependency resolution screen to be displayed.  Usually,
+.\" it is best to follow up the suggestions made by \fBdselect\fP.
+パッケージのサブリストが初期表示されたとき、
+\fBdselect\fP は、依存関係解決画面が表示されるときに依存や競合を解決するよう、
+リストしたパッケージの選択状況をすでに変更しているかもしれない。
+通常、\fBdselect\fP による提案を採用するのが最良である。
+.\" 訳注 "depends of conflicts" は "depends or conflicts" の typo として訳した
+.sp
+.\" The listed packages' selection state may be reverted to the original
+.\" settings, as they were before the unresolved depends or conflicts
+.\" were created , by pressing the \fB'R'\fP key.  By pressing the \fB'D'\fP
+.\" key, the automatic suggestions are reset, but the change that caused
+.\" the dependency resolution screen to be prompted is kept as requested.
+.\" Finally, by pressing \fB'U'\fP, the selections are again set to the 
+.\" automatic suggestion values.
+\fB'R'\fP キーを押すことで、未解決依存・競合が作成されたときのように、
+リストしたパッケージの選択状況を元に戻せるだろう。
+\fB'D'\fP キーを押すことで、自動提案はリセットされるが、
+依存関係解決画面が示した変更は、要求したものと同様に維持される。
+最終的に \fB'U'\fP を押すことで、自動提案をセットすることができる。
+.sp
+.\" .SS Establishing the requested selections
+.SS 選択要求の確定
+.sp
+.\" By pressing \fBenter\fP, the currently displayed set of selections
+.\" is accepted.  If \fBdselect\fP detects no unresolved depends as a result 
+.\" of the requested selections, the new selections will be set.
+.\" However, if there are any unresolveded depends, \fBdselect\fP will again 
+.\" prompt the user with a dependency resolution screen.
+\fBenter\fP を押すと、現在表示されている選択セットで確定する。
+選択要求の結果、未解決依存が検出されなければ、
+\fBdselect\fP は新しい選択を設定する。
+しかし、いまだ未解決依存が存在する場合、
+\fBdselect\fP は依存関係解決画面を改めて表示する。
+.sp
+.\" To alter a set of selections that creates unresolved depends or 
+.\" conflicts and forcing \fBdselect\fP to accept it, press the \fB'Q'\fP
+.\" key.  This sets the selections as specified by the user, 
+.\" unconditionally.  Generally, don't do this unless you've read 
+.\" the fine print.
+未解決依存・競合存在する選択状況で、\fBdselect\fP 確定を強制するには、
+\fB'Q'\fPキーを押す。
+これはユーザが指定した選択を無条件にセットする。
+一般的に、詳細を読んでいなければ、これをしないこと。
+.sp
+.\" The opposite effect, to back out any selections change requests and 
+.\" go back to the previous list of selections, is attained by pressing 
+.\" the \fB'X'\fP or \fBescape\fP keys.  By repeatedly pressing these 
+.\" keys, any possibly detrimental changes to the requested package 
+.\" selections can be backed out completely to the last established 
+.\" settings.
+反対に、選択を取り消して選択リストを元に戻す場合は、
+\fB'X'\fP キーや \fBescape\fP キーを押すこと。
+繰り返しキーを押すことで、問題のある変更要求を取り消し、
+最後に確定した選択に戻すことができる。
+.sp
+.\" .SH BUGS
+.SH バグ
+.\" The
+.\" .B dselect
+.\" package selection interface is confusing to some new users.
+.\" Reportedly, it even makes seasoned kernel developers cry.
+.B dselect
+パッケージ選択インターフェースは、新しいユーザを混乱させる。
+聞くところでは、経験を積んだカーネル開発者ですら、これを嘆いている。
+.sp
+.\" The documentation is lacking.
+文書が足りない。
+.sp
+.\" There is no help option in the main menu.
+メインメニューにヘルプオプションがない。
+.sp
+.\" The visible list of available packages cannot be reduced.
+利用可能パッケージのリスト表示を減らせない。
+.sp
+.\" The built in access methods can no longer stand up to current quality
+.\" standards.  Use the access method provided by apt, it is not only not
+.\" broken, it is also much more flexible than the built in access methods.
+内蔵アクセス方式では、もはや現在の品質基準を満たせない。
+apt が提供するアクセス方式を利用すれば、壊れないだけでなく、
+内蔵アクセス方式より遙かに柔軟である。
+.\" .SH SEE ALSO
+.SH 関連項目
+.BR dpkg (8),
+.BR apt-get (8),
+.BR sources.list (5),
+.BR deb (5),
+.\" the Debian policy manual.
+Debian ポリシーマニュアル
+.\" .SH AUTHORS
+.SH 著者
+.B dselect
+.\" was written by Ian Jackson (ijackson@gnu.ai.mit.edu). Full list of
+.\" contributors may be found in `dselect --license'.
+は、Ian Jackson (ijackson@gnu.ai.mit.edu) によって書かれた。
+このプログラムへの全貢献者一覧は `dselect --license' で参照できる。
+.br
+.\" This manual page was written by Juho Vuori <javuori@cc.helsinki.fi>,
+.\" Josip Rodin and Joost kooij.
+このマニュアルは Juho Vuori <javuori@cc.helsinki.fi> によって書かれ、
+Josip Rodin, Joost kooij が更新した。
+.SH 翻訳者
+関戸 幸一 <sekido@mbox.kyoto-inet.or.jp>
+.br
+鍋谷 栄展 <nabe@debian.or.jp>
+.br
+倉澤 望 <nabetaro@debian.or.jp>

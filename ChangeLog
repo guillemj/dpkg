@@ -1,271 +1,724 @@
-Thu May 26 18:18:10 BST 2005 Scott James Remnant <scott@netsplit.com>
+2005-03-03  Scott James Remnant  <scott@netsplit.com>
 
-  * version-nr, debian/changelog: Release 1.10.28.
+	* configure.ac: Release 1.13.1.
+
+2005-03-03  Michael Vogt  <mvo@ubuntu.com>
+
+	* src/configure.c (promptconfaction): Output conffile-prompt
+	status onto status-fd to let front-ends capture conflicts.
+	* src/errors.c (print_error_perpackage): Output package errors
+	onto status-fd to let front-ends capture them.
+	* man/C/dpkg.1: Document how errors and configuration file
+	conflicts are reported on the status-fd.
+
+2005-01-22  Scott James Remnant  <scott@netsplit.com>
+
+	* man/C/dpkg.1: Remove --print-gnu-build-architecture and
+	--print-installation-architecture from documentation, correct
+	--print-architecture.
+	* man/C/dpkg-architecture.1: Give --print-architecture in examples,
+	instead of --print-installation-architecture.
+	* scripts/dpkg-name.sh (getname): Call 'dpkg --print-architecture'
+	instead of 'dpkg --print-installation-architecture'.
+	* scripts/dpkg-architecture.pl: Set the default $pkgdatadir to
+	point at an installed copy.
+	Call 'dpkg --print-architecture' instead of
+	'dpkg --print-installation-architecture'.
+	* methods/disk/setup (iarch): Call dpkg --print-architecture.
+	* debian/control ([dpkg-dev]Depends, [dselect]Depends): Depend on
+	dpkg (>= 1.13.1) so we get a dpkg with the right print options.
+
+	* src/enquiry.c (printarch): Completely nuke this function, we'll
+	no longer parse the compiler output and look up things in archtable.
+	(printinstarch): Rename to printarch, and change the output message
+	to refer to --print-architecture.
+	(badlgccfn): Remove unused function.
+	* src/main.c (cmdinfos): Remove --print-gnu-build-architecture option,
+	make --print-installation-architecture call printarch.
+	(usage): Remove both --print-gnu-build-architecture and
+	--print-installation-architecture and describe --print-architecture
+	as doing what --p-i-a used to do.  Use dpkg-architecture for host
+	information.
+	* src/main.h (action): Remove act_printgnuarch from enum, leave
+	act_printinstarch so we can later deprecate use of the longer command.
+	* src/Makefile.am (archtable.h): No need to generate archtable.h
+	seeing as we don't parse it within dpkg, remove rule to generate it.
+	(CLEANFILES): We don't generate archtable.h, so no need to clean it.
+	* src/.arch-inventory: Don't treat archtable.h specially.
+	* archtable: Remove unused third field, entirely inaccurate too.
+	Correct typo 'she3eb' -> 'sh3eb'.
+	* scripts/dpkg-architecture.pl (read_archtable): Parse only two
+	fields from archtable.
+
+	* scripts/dpkg-architecture.pl: Remove out-of-date history from the
+	top, ChangeLog serves better now and is less confusing.
+	Reset $gcc if we get less than, or more than one archtable result.
+	Remove extra newline from mismatched -a/-t warning.
+	(usageversion): Pedant the usage message while we scroll past.
+	(read_archtable): New function to read /usr/share/dpkg/archtable
+	rather than hard-coding some values in the script.
+	(rewrite_gnu): Rewrite along the lines of the code in m4/arch.m4 so
+	they should actually be vaguely consistent now.
+
+	* scripts/Makefile.am (do_perl_subst): Replace occurances of
+	$pkgdatadir in scripts with the right value.
+
+2005-01-22  Robert Millan  <rmh@debian.org>,
+
+	* configure.ac: Check for kvm.h.
+	* utils/start-stop-daemon.c: Remove includes for <sys/user.h>,
+	<sys/sysctl.h> and <kvm.h> for the BSDs unless configure found
+	<kvm.h>.
+	(fatal): Output the message associated with errno.
+
+2005-01-22  Rakesh 'arky' Ambati  <rakesh_ambati@yahoo.com>
+
+	* scripts/dpkg-architecture.pl: Correct typo, 'filed' to 'failed'.
+
+2005-01-22  Robert Millan  <rmh@debian.org>,
+	    Scott James Remnant  <scott@netsplit.com>
+
+	* m4/arch.m4 (DPKG_CPU_TYPE): Add a new macro to turn common
+	groups of CPU names into a single type (e.g. i*86 to i386).
+	(DPKG_OS_TYPE): Match linux*-gnu* for Linux (in case we get a
+	non-GNU Linux at some point) and produce a 'linux' type.  Remove
+	the initial '*' from the rest of the entries.  Restore gnu* as
+	gnu (for the Hurd).  Add support for darwin* as darwin.  Sort
+	into almost-alphabetical order with i386/linux at the top.
+	(DPKG_ARCHITECTURE): Call DPKG_CPU_TYPE and use $cpu_type instead of
+	$target_cpu.
+	* archtable: Rewrite the top comment to be a little clearer and
+	correct the lie that the third column is 'dpkg --print-architecture'
+	when it is, in fact, 'dpkg --print-gnu-build-architecture'.  Correct
+	third columns of the non-Linux architecture to actually return a
+	GNU name.  Sort the file into i386/linux-first alphabetical order.
+
+2005-01-22  Robert Millan  <rmh@debian.org>
+
+	* archtable: Add x86_64-kfreebsd to archtable as 'kfreebsd-amd64'.
+	* scripts/dpkg-architecture.pl: Add 'kfreebsd-amd64' to archtable.
+
+2005-01-22  NIIBE Yutaka  <gniibe@fsij.org>
+
+	* archtable: Add m32r-linux-gnu to archtable as 'm32r'.
+	* scripts/dpkg-architecture.pl: Add 'm32r' to archtable.
+
+2005-01-22  Scott James Remnant  <scott@netsplit.com>
+
+	* src/query.c (cmdinfos): Make -f alternative for --showformat.
+	* src/query.c (usage): Document that -f is alternative for
+	--showformat.
+	* man/C/dpkg-query.1: Update documentation to match.
+
+2005-01-22  Stephane Bortzmeyer  <stephane@sources.org>
+
+	* scripts/dpkg-source.pl (diff_ignore_default_regexp): Add the
+	darcs _darcs directory to the ignore list.
+
+2005-01-22  Scott James Remnant  <scott@netsplit.com>
+
+	* utils/md5sum.c (main): Correct md5sum according to the wishes
+	of the Debian technical committee; when given a file on standard
+	input, it now simply outputs the md5sum and does not append "  -"
+	or " *-" on the end.
+
+2005-01-22  Adam Heath  <doogie@debian.org>
+
+	* lib/tarfn.c (TarExtractor): Fix handling of GNU longname and
+	longlink support when there is both types for the same file entry
+	in a tarball.
+
+2005-01-19  Dafydd Harries  <daf@muse.19inch.net>
+
+	* man/C/dpkg-source.1: Make the summary for dpkg-source -b invocation
+	in the manpage match that output by dpkg-source --help. (I.e. indicate
+	the possibility of specifying the upstream tarball rather than the
+	upstream source directory as a second parameter.)
+
+2005-01-17  Scott James Remnant  <scott@netsplit.com>
+
+	* debian/dpkg.preinst (confirm_dselect_split): Support pre-sarge
+	upgrades by checking that they've upgraded dselect first, and
+	prompting if they haven't.
+
+2005-01-14  Scott James Remnant  <scott@netsplit.com>
+
+	* .arch-inventory: Ignore the upload result file as well.
+
+	* configure.ac: Bump version to 1.13.1~.
+
+	* configure.ac: Release 1.13.0.
+
+	* dpkg-deb/main.c (main): Remove NONRETURNING declaration as
+	this function does actually call return sometimes.
+	* dpkg-split/main.c (main): Remove NONRETURNING declaration as
+	this function does actually call return sometimes.
+	* utils/start-stop-daemon.c (main): Remove NONRETURNING declaration
+	as this function does actually call return sometimes.
+	* m4/compiler.m4 (SJR_COMPILER_WARNINGS): Enable warnings for CXX
+	too, my original macro doesn't do this.
 	
-Thu May 25 14:05:20 CEST 2005 Eddy Petrisor <eddy.petrisor@gmail.com>
+	* configure.ac: Use AC_GNU_SOURCE to get some of the extra goodies
+	in the GNU C library, use DPKG_C_C99 to test for C99 features.
+	* m4/compiler.m4 (DPKG_C_C99): New macro to determine whether
+	compiler supports C99 features.
+	(SJR_COMPILER_WARNINGS): Don't use -pedantic yet, dpkg isn't ready
+	for it.
 
-  * po/ro.po: Complete translation..:-)
+	* lib/dpkg.h: Provide C99-conformant variadic macros if the
+	compiler supports them in place of gnu-style ones.
+	* lib/tarfn.c: Add missing include of config.h to get some useful
+	information (and prototype of strnlen).
+	* src/help.c: Cast arguments to (char * const *) explicitly.
+	* dpkg-deb/main.c: Include dpkg-db.h to get nffreeall prototype.
+	* .arch-inventory: Ignore config.cache if the user uses it.
 
-Thu May 22 09:43:20 CEST 2005 Eddy Petrisor <eddy.petrisor@gmail.com>
+	* scripts/controllib.pl: Add #!/usr/bin/perl to satisfy lintian.
+	* debian/control ([dpkg]Pre-Depends): Needs to pre-depend on shlibs
+	dependencies like libc6, accidentally dropped earlier.
+	([dpkg-dev]Recommends): Added gcc as first choice for c-compiler.
+	* debian/rules: Generate shlibdeps for all arch packages, not just
+	dselect (so we get them for dselect too).
+	* debian/.arch-inventory: Ignore dpkg.substvars.
+	* debian/dpkg.conffiles: Removed, debhelper does the right thing.
+	* debian/dpkg-dev.conffiles: Removed, debhelper does the right thing.
+	* debian/dselect.conffiles: Removed, debhelper does the right thing.
+	* Makefile.am (EXTRA_DIST): Updated for debian directory changes.
+	(package): Add missing distdir dependency, also don't treat lintian
+	problems as errors, just report them.
+	* man/C/dpkg.8: Moved to section 1 where it belongs.
+	* man/C/dpkg-query.8: Moved to section 1 where it belongs.
+	* man/C/dpkg-split.8: Moved to section 1 where it belongs.
+	* man/C/dselect.8: Moved to section 1 where it belongs.
+	* man/C/Makefile.am: Install dpkg.1, dpkg-query.1, dselect.1
+	* man/es/dpkg.8: Moved to section 1 where it belongs.
+	* man/es/dpkg-split.8: Moved to section 1 where it belongs.
+	* man/es/dselect.8: Moved to section 1 where it belongs.
+	* man/es/Makefile.am: Install dpkg.1, dpkg-split.1, dselect.1
+	* man/fr/dpkg.8: Moved to section 1 where it belongs.
+	* man/fr/dpkg-query.8: Moved to section 1 where it belongs.
+	* man/fr/dpkg-split.8: Moved to section 1 where it belongs.
+	* man/fr/Makefile.am: Install dpkg.1, dpkg-query.1, dpkg-split.1
+	* man/ja/dpkg.8: Moved to section 1 where it belongs.
+	* man/ja/dpkg-query.8: Moved to section 1 where it belongs.
+	* man/ja/dselect.8: Moved to section 1 where it belongs.
+	* man/ja/Makefile.am: Install dpkg.1, dpkg-query.1, dselect.1
+	* man/pt_BR/dpkg.8: Moved to section 1 where it belongs.
+	* man/pt_BR/dselect.8: Moved to section 1 where it belongs.
+	* man/pt_BR/Makefile.am: Install dselect.1, dpkg.1
+	* man/ru/dpkg.8: Moved to section 1 where it belongs.
+	* man/ru/Makefile.am: Install dpkg.1
+	* man/sv/dpkg.8: Moved to section 1 where it belongs.
+	* man/sv/dpkg-query.8: Moved to section 1 where it belongs.
+	* man/sv/dpkg-split.8: Moved to section 1 where it belongs.
+	* man/sv/dselect.8: Moved to section 1 where it belongs.
+	* man/sv/Makefile.am: Install dpkg.1, dpkg-query.1, dpkg-split.1,
+	dselect.1
+	* debian/dpkg.install: Install dpkg.1, dpkg-query.1, dpkg-split.1
+	* debian/dselect.install: Install dselect.1
 
-  * po/ro.po: Better translation
+	* Makefile.am (EXTRA_DIST): Distribute files in the debian directory
+	in the source tarball.
+	(package): Create source and binary packages using dpkg-buildpackage
+	and some magic to give us a directory containing only 'dist' files.
+	Check the resulting changes file with lintian if we have it.
 
-Thu May 19 07:38:20 CEST 2005 Eddy Petrisor <eddy.petrisor@gmail.com>
+	* .arch-inventory: Apply l33t regex skills to ignore source tarballs,
+	packages and the dist directory.
 
-  * po/ro.po: Added though incomplete
-  * configure.in: Added Romanian to the languages list.
+	* utils/Makefile.am (rootsbin_PROGRAMS): Install start-stop-daemon
+	into the ordinary sbindir by default.
+	* debian/dpkg.install: Install usr/sbin/start-stop-daemon into /sbin.
 
-Sun Apr 24 07:38:20 CEST 2005 Philippe Batailler <philippe.batailler@free.fr>
+	* debian/control (Build-Depends): The source tarball now includes
+	the generated gmo files, so there's no reason for the package to
+	build-depend on gettext.
 
-  * man/fr/: all man pages updated
+	* getopt/getdate.c: Remove unused file.
 
-Wed Mar 30 14:30:20 CEST 2005 Christian Perrier <bubulle@debian.org>
+	* methods/disk/update: Remove {...} glob, as it's a bashism.
 
-  * man/pt_BR/update-alternatives.8: Syntax error corrected
+	* debian/control (Build-Depends): Fix dependency on virtual
+	package `libncurses-dev'.
 
-Wed Mar 30 13:30:20 CEST 2005 eric pareja <xenos@upm.edu.ph>
+	* m4/funcs.m4 (DPKG_FUNC_VA_COPY): Wrap TRY_RUN and TRY_COMPILE
+	calls in AC_CACHE_CHECK, missed when I copied it over and updated.
 
-  * po/tl.po: Added Tagalog translation
-  * configure.in: Added Tagalog to the languages list
+	* debian/dpkg.prerm: Give the script a bit of a spring clean,
+	add a comment block at the top to serve as documentation of how
+	prerm is called for anyone wanting a quick reference; this seems
+	a reasonable place to do it as any.  Don't remove the historic
+	info scripts anymore (dating back to 1.3.3) as we haven't shipped
+	them in ages and 1.3.3's upgrade script did it anyway.
+	* debian/dpkg.postrm: Equal spring clean and documentation comment
+	added to the top.  Removed code to purge dpkg.cfg now we include it
+	in the package as a conffile again anyway.
+	* debian/dpkg.preinst: Equal spring clean and documentation comment
+	added to the top.  Separated each discreet piece of upgrade behaviour
+	for the 0.93.50 jump into different functions.
+	* debian/dpkg.postinst: Equal spring clean and documentation comment
+	added to the top.  Separated each bit of behaviour into a separate
+	function.
+	(move_info_directory): No longer create symlinks to the new location.
+	(remove_info_symlink): Remove /usr/info or /usr/info/dir symlinks.
 
-Tue Mar 08 06:30:20 CEST 2005 Christian Perrier <bubulle@debian.org>
+2005-01-13  Scott James Remnant  <scott@netsplit.com>
 
-  * po/fr.po: Missing space added in one string
+	* debian/control (Build-Depends): Add forgotten build-depend on
+	debhelper, I picked 4.1.81 after reading the changelog as it has the
+	first feature we need (upstream and debian changelogs in a native
+	package).
 
-Mon Mar 07 17:32:20 CEST 2005 Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>
+	* man/C/Makefile.am (dpkg_source_aliases): I missed a whole bunch
+	of manpages created as aliases to dpkg-source, put the rules in to
+	do that.
+	* man/C/.arch-inventory: Ignore generated aliased pages.
 
-  * po/id.po: Completed
+	* debian/rules: Rewrite from scratch to use debhelper, this breaks
+	being able to bootstrap dpkg from its own source directory; but that
+	didn't really work anyway.  You can always just 'make install' first.
+	* debian/compat: Set debhelper compatibility to v4.
+	* debian/dpkg.docs: List documentation to ship with dpkg.
+	* debian/dpkg.install: List files that belong to dpkg.
+	* debian/dselect.install: List files that belong to dselect.
+	* debian/dpkg-dev.install: List files that belong to dpkg-dev.
+	* .arch-inventory: Ignore build-tree, created by debian/rules.
+	* debian/.arch-inventory: Ignore files and directories created by
+	debian/rules.
 
-Sat Feb 19 07:53:20 CEST 2005 Konstantinos Margaritis <markos@debian.org>
+	* lib/Makefile.am (INCLUDES): Correct sharedstatedir to datadir,
+	common-licenses isn't in /usr/com (whatever that is).
 
-  * po/el.po: Completed
+	* dpkg-split/Makefile.am (install-data-local): Use $(mkdir_p) instead
+	of $(MKINSTALLDIRS), better style.
+	* methods/Makefile.am (install-data-local): Use $(mkdir_p) instead of
+	$(MKINSTALLDIRS) here too.
+	* origins/Makefile.am (install-data-local): And here.
+	* scripts/Makefile.am (install-exec-local): Here as well.
+	(install-data-local): Likewise.
+	* src/Makefile.am (install-data-local): And finally, here too.
 
-Thu Feb 10 15:40:04 GMT 2005 Scott James Remnant <scott@netsplit.com>
+	* scripts/Makefile.am: Automake doesn't create out-of-tree output
+	directories for us, so do so if it they don't exist (but quiet, like).
+	(do_perl_subst): Remove space in #! line.
+	* dpkg-split/Makefile.am: Create out-of-tree directories.
+	(do_perl_subst): Remove space in #! line.
 
-  * version-nr, debian/changelog: Bump version to 1.10.28~.
+	* lib/dpkg.h: Include locale.h, for LC_ALL which is expanded in
+	a macro here.  This is needed if we build without optimisations
+	as libintl.h won't include it for us.
 
-Thu Feb 10 15:20:27 GMT 2005 Scott James Remnant <scott@netsplit.com>
+2005-01-12  Scott James Remnant  <scott@netsplit.com>
 
-  * version-nr, debian/changelog: Release 1.10.27.
+	* debian/pseudo-tags: Rewrite and clear up, put tags into a decent
+	order and add a new [DEPENDS] tag to track dependency handling
+	issues.
 
-Thu Feb 10 15:08:44 GMT 2005 Scott James Remnant <scott@netsplit.com>
+	* debian/shlibs.default: Clean up.
+	* debian/shlibs.override: Clean up.
 
-  * configure.in (ALL_LINGUAS): Add forgetten 'id'.
+	* debian/dselect.cfg: Clean up atrocious English spelling.
+	* debian/dpkg.cfg: Clean up atrocious English spelling; remove old
+	configuration values as this file would be useful to be installed
+	to describe its use.
+	* debian/dpkg.conffiles: Add dpkg.cfg.
 
-Wed Feb 09 06:30:20 CEST 2005 Christian Perrier <bubulle@debian.org>
+	* debian/copyright: Clean up, utf-8ify and add missing copyright
+	declarations.
 
-  * po/nl.po: Error corrected
+	* debian/control (Build-Depends): Remove SGML-related tools now	we no
+	longer have docs in that format; increase gettext build-dependency to
+	0.14.1; remove build-dependency on autotools-dev.
+	(Standards-Version): Bump to keep lintian happy, we're conformant.
+	([dpkg]Pre-Depends): Remove pre-dependency on dselect put in place
+	to ease transition between woody and sarge where dselect was split
+	into a separate binary package.
+	([dpkg]Suggests): It's about time we suggested apt.
+	([dpkg]Description): The dselect program is no longer included in the
+	dpkg package, so don't mention it in the description.
+	([dselect]Description): Rewrite as dselect is no longer the primary
+	interface for package management, and that users may prefer apt-based
+	interfaces.
 
-Sun Feb 06 19:55:54 CEST 2005 Carlos Liu <carlos_liu@yahoo.com>
+	* debian/control (dpkg-static): The dpkg (and dpkg-deb) binaries
+	have been linked statically to zlib for some time, and the
+	dpkg-static package hasn't actually been created either.  Remove
+	from the control file.
 
-  * po/zh_CN.po: Fix errors
+	* debian/control (dpkg-doc): The documentation shipped in the
+	dpkg-doc package was rather incomplete and out-of-date, so was
+	removed from the distribution.  Remove package from control file.
+	* debian/dpkg-doc.doc-base: Remove dpkg-doc file.
+	* debian/dpkg-doc.postinst: Remove dpkg-doc maintainer script.
+	* debian/dpkg-doc.prerm: Remove dpkg-doc maintainer script.
+	* debian/README.compile: Removed this file as it's both out of
+	date, and entirely replaced by Build-Depends anyway for those
+	that care about such things.
 
-Sat Feb 05 17:43:00 CEST 2005 Jacobo Tarrio <jtarrio@trasno.net>
+	* Makefile.am: Remove rules to install common documentation and
+	licence under /usr/share/doc/dpkg, leave that up to the package.
+	* lib/Makefile.am (INCLUDES): Define COPYINGFILE to point to
+	/usr/share/common-licenses/GPL-2.
 
-  * po/gl.po: Completed
+2005-01-11  Colin Watson  <cjwatson@debian.org>
 
-Sat Feb 05 17:33:00 CEST 2005 Asho Yeh <asho@ms44.url.com.tw>
+	* dselect/basecmds.cc (baselist::displayhelp) Revert to former
+	Space/Enter/'Q' behaviour, so that Space leaves the help screen
+	and Enter and 'Q' do nothing. It's dangerous to encourage users
+	to press Enter or 'Q', since they commit changes in the package
+	selection screen.
+	* dselect/helpmsgs.cc (hlp_readonlyintro, hlp_recurintro): Update
+	help text to match.
+	(hlp_mainintro): 'Q' quits and overrides dependency problems;
+	'X' quits without saving changes.
 
-  * po/zh_TW.po: Updated
+2005-01-10  Scott James Remnant  <scott@netsplit.com>
 
-Fri Jan 28 17:32:20 CEST 2005 Arief S Fitrianto <arief@gurame.fisika.ui.ac.id>
+	* configure.ac: Fix --without-dselect and --without-start-stop-daemon
+	so they actually work, Autoconf was preserving the old value of the
+	variable.  Always call AC_PROG_CXX otherwise things aren't happy
+	as it gets partially expanded.
 
-  * po/id.po: First version
+	* dpkg-split/Makefile.am (EXTRA_DIST): Distribute mksplit.pl.
+	* dselect/Makefile.am (EXTRA_DIST): Distribute mkcurkeys.pl.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Distribute gettext.h.
+	* scripts/Makefile.am (EXTRA_DIST): Distribute the scripts and
+	README.alternatives, oops.
+	(all-local): Build install-info from install-info.pl manually.
+	(install-exec-local): Install install-info manually.
+	(uninstall-local): Remove install-info manually.
+	* scripts/.arch-inventory: Ignore install-info-stamp file we need.
+	* src/Makefile.am (dpkg_query_SOURCES): There is no errors.h.
 
-Fri Jan 28 10:32:20 CEST 2005 Seo Sanghyeon <tinuviel@sparcs.kaist.ac.kr>
-
-  * po/ko.po: Completed
-
-Tue Jan 25 10:32:20 CEST 2005 Bjorn Steensrud <bjornst@powertech.no>
-
-  * po/nb.po: Added
-  * configure.in: Add nb to ALL_LINGUAS.
-
-Tue Jan 11 17:20:33 GMT 2005 Scott James Remnant <scott@netsplit.com>
-
-  * version-nr, debian/changelog: Bump version to 1.10.27~.
+	* Makefile.conf.in: Remove file used by old build system.
 	
-Tue Jan 11 16:33:07 GMT 2005 Scott James Remnant <scott@netsplit.com>
-
-  * version-nr, debian/changelog: Release 1.10.26.
-
-Tue Jan 11 16:23:57 GMT 2005 Scott James Remnant <scott@netsplit.com>
-
-  * po/en.po: Removed dangerously out-of-date English translation,
-  the source is in English so this isn't required.
-  * configure.in: Remove en from ALL_LINGUAS.
-
-Mon Jan 10 06:32:20 CEST 2005 Piarres Beobide Egaña <pi@beobide.net>
-
-  * po/eu.po: Updated
-
-Mon Jan 10 06:28:55 CEST 2005 Jordi Mallach <jordi@debian.org>
-
-  * po/ca.po: Updated Catalan translation.
-
-Sun Jan 09 11:00:43 CEST 2005 Miguel Figueiredo <elmig@debianpt.org>
-
-  * po/pt.po: Updated
-
-Sun Jan 09 07:50:00 CEST 2005 <benco@acid.sk>
-
-  * po/sk.po: Updated
-
-Sat Jan 08 16:03:54 CEST 2005 Havard Korsvoll <korsvoll@skulelinux.no>
-
-  * po/nn.po: Updated
-
-Fri Jan 07 06:30:20 CEST 2005 Bart Cornelis <cobaco@linux.be>
-
-  * po/nl.po: Updated
-
-Fri Jan 07 06:30:20 CEST 2005 Stefano Canepa <sc@linux.it>
-
-  * po/it.po: Updated
-
-Thu Jan 06 20:38:20 CEST 2005 Andre Luis Lopes <andrelop@debian.org>
-
-  * po/pt_BR.po: Updated
-
-Wed Jan 05 20:21:54 CEST 2005 Bartosz Fenski aka fEnIo <fenio@o2.pl>
-
-  * po/pl.po: updated
-
-Mon Jan 03 13:42:54 CEST 2005 Michael Piefel <piefel@debian.org>
-
-  * po/de.po: updated
-
-Sun Jan 02 07:48:43 CEST 2005 Peter Karlsson <peter@softwolves.pp.se>
-
-  * po/sv.po: Updated
-
-Sat Jan 01 22:43:20 CEST 2005 Miroslav Kure <kurem@upcase.inf.upol.cz>
-
-  * po/cs.po: Updated
-
-Sat Jan 01 22:41:43 CEST 2005 Claus Hindsgaul <claus_h@image.dk>
-
-  * po/da.po: Updated
-
-Sat Jan 01 11:31:43 CEST 2005 Yuri Kozlov <yuray@id.ru>
-
-  * po/ru.po: Updated
-
-Fri Dec 31 12:12:43 CEST 2004 Javier Fernandez-Sanguino Pena <jfs@dat.etsit.upm.es>
-
-  * po/es.po: Updated
-
-Fri Dec 31 11:12:43 CEST 2004 Kenshi Muto <kmuto@debian.org>
-
-  * po/ja.po: Updated
-
-Fri Dec 31 07:32:01 BST 2004 Christian Perrier <bubulle@debian.org>
-
-  * po/fr.po: Updated French translation.
-
-Thu Dec 30 18:30:03 GMT 2004 Colin Watson <cjwatson@debian.org>
-
-  * dselect/basecmds.cc: Revert to former Space/Enter/'Q' behaviour, so that
-    Space leaves the help screen and Enter and 'Q' do nothing. It's
-    dangerous to encourage users to press Enter or 'Q', since they commit
-    changes in the package selection screen.
-  * dselect/helpmsgs.cc: Update help text to match.
-
-Thu Dec 30 17:52:09 GMT 2004 Colin Watson <cjwatson@debian.org>
-
-  * dselect/helpmsgs.cc: 'Q' quits and overrides dependency problems;
-    'X' quits without saving changes.
-
-Wed Dec 29 20:34:54 CEST 2004 Christian Perrier <bubulle@debian.org>
-
-  * configure.in: Add eu and sk which were forgotten when these
-  translations were added
-
-Tue Dec 28 21:33:00 CEST 2004 Asho Yeh <asho@ms44.url.com.tw>
-
-  * po/zh_TW.po: Added
-  * configure.in: Added Traditional Chinese to the languages list
-
-Mon Dec 13 17:50:00 CEST 2004 <esafir@yahoo.com>
-
-  * po/bs.po: Added
-  * configure.in: Added Bosnian to the languages list
-
-Mon Dec 13 17:50:00 CEST 2004 <benco@acid.sk>
-
-  * po/sk.po: Updated
-
-Mon Nov 22 23:50:00 CEST 2004 Stefano Canepa <sc@linux.it>
-
-  * po/it.po: Updated
-
-Sun Nov 21 09:05:36 CEST 2004 Changwoo Ryu <cwryu@debian.org>
-
-  * po/ko.po: Updated
-
-Fri Now 19 18:19:54 CEST 2004 Christian Perrier <bubulle@debian.org>
-
-  * po/nl.po: Typo corrected
-
-Tue Nov 16 11:42:54 CEST 2004 Michael Piefel <piefel@debian.org>
-
-  * po/de.po: updated
-
-Tue Nov 16 11:42:54 CEST 2004 Michael Piefel <piefel@debian.org>
-
-  * po/de.po: updated
-
-Tue Nov 16 00:03:54 CEST 2004 Havard Korsvoll <korsvoll@skulelinux.no>
-
-  * po/nn.po: Updated
-
-Mon Nov 15 10:28:55 CEST 2004 Jordi Mallach <jordi@debian.org>
-
-  * po/ca.po: Updated Catalan translation.
-
-Sun Nov 14 19:32:20 CEST 2004 Piarres Beobide Egaña <pi@beobide.net>
-
-  * po/eu.po: Updated
-
-Sun Nov 14 17:41:20 CEST 2004 Miroslav Kure <kurem@upcase.inf.upol.cz>
-
-  * po/cs.po: Updated
-
-Sun Nov 14 14:38:20 CEST 2004 Andre Luis Lopes <andrelop@debian.org>
-
-  * po/pt_BR.po: Updated
-
-Sun Nov 12 13:53:43 CEST 2004 Yuri Kozlov <yuray@id.ru>
-
-  * po/ru.po: Updated
-
-Sun Nov 12 13:48:43 CEST 2004 Peter Karlsson <peter@softwolves.pp.se>
-
-  * po/sv.po: Updated
-
-Sun Nov 12 08:10:43 CEST 2004 Kenshi Muto <kmuto@debian.org>
-
-  * po/ja.po: Updated
-
-Sat Nov 11 23:20:43 CEST 2004 Miguel Figueiredo <elmig@debianpt.org>
-
-  * po/pt.po: Updated
-
-Sat Nov 11 23:18:43 CEST 2004 Claus Hindsgaul <claus_h@image.dk>
-
-  * po/da.po: Updated
-
-Sat Nov 11 23:16:43 CEST 2004 Javier Fernandez-Sanguino Pena <jfs@dat.etsit.upm.es>
-
-  * po/es.po: Updated
-
-Sat Nov 11 23:14:43 CEST 2004 Trorrr [Héctor Fernández] <trorrr@yahoo.es>
-
-  * po/gl.po: Updated
-
-Thu Nov 11 20:18:33 GMT 2004 Scott James Remnant <scott@netsplit.com>
-
-  * version-nr, debian/changelog: Bump version to 1.10.26~.
+	* lib/mlib.c (buffer_write): Remove cast from lvalue, deprecated
+	in recent versions of gcc.
+	* m4/compiler.m4 (SJR_COMPILER_OPTIMISATIONS): Explicitly set -O0
+	when disabling compiler optimisations, as recent versions of gcc
+	have some on by default.
+
+	Now we're not using CVS at all, replace the old .cvsignore files
+	with .arch-inventory files Arch can use to ignore generated files.
+
+	* .cvsignore: Remove old file.
+	* .arch-inventory: Replace with more complete regex rules.
+	* dpkg-deb/.cvsignore: Remove old file.
+	* dpkg-deb/.arch-inventory: Replace with more complete regex rules.
+	* dpkg-split/.cvsignore: Remove old file.
+	* dpkg-split/.arch-inventory: Replace with more complete regex rules.
+	* dselect/.cvsignore: Remove old file.
+	* dselect/.arch-inventory: Replace with more complete regex rules.
+	* getopt/.cvsignore: Remove old file.
+	* getopt/.arch-inventory: Replace with more complete regex rules.
+	* lib/.cvsignore: Remove old file.
+	* lib/.arch-inventory: Replace with more complete regex rules.
+	* m4/.arch-inventory: Ignore files copied in by 'autopoint'.
+	* man/.cvsignore: Remove old file.
+	* man/.arch-inventory: Replace with more complete regex rules.
+	* man/C/.cvsignore: Remove old file.
+	* man/C/.arch-inventory: Replace with more complete regex rules.
+	* man/de/.cvsignore: Remove old file.
+	* man/de/.arch-inventory: Replace with more complete regex rules.
+	* man/es/.arch-inventory: Ignore generated 'Makefile' and 'Makefile.in'.
+	* man/fr/.cvsignore: Remove old file.
+	* man/fr/.arch-inventory: Replace with more complete regex rules.
+	* man/ja/.cvsignore: Remove old file.
+	* man/ja/.arch-inventory: Replace with more complete regex rules.
+	* man/pt_BR/.cvsignore: Remove old file.
+	* man/pt_BR/.arch-inventory: Replace with more complete regex rules.
+	* man/ru/.cvsignore: Remove old file.
+	* man/ru/.arch-inventory: Replace with more complete regex rules.
+	* man/sv/.cvsignore: Remove old file.
+	* man/sv/.arch-inventory: Replace with more complete regex rules.
+	* methods/.cvsignore: Remove old file.
+	* methods/.arch-inventory: Replace with more complete regex rules.
+	* origins/.arch-inventory: Ignore generated 'Makefile'
+	and 'Makefile.in'.
+	* po/.cvsignore: Remove old file.
+	* po/.arch-inventory: Replace with more complete regex rules.
+	* scripts/.cvsignore: Remove old file.
+	* scripts/.arch-inventory: Replace with more complete regex rules.
+	* scripts/changelog/.arch-inventory: Ignore generated file.
+	* src/.cvsignore: Remove old file.
+	* src/.arch-inventory: Replace with more complete regex rules.
+	* utils/.cvsignore: Remove old file.
+	* utils/.arch-inventory: Replace with more complete regex rules.
+	
+	* man/sv/.check.pl: Remove as it uses CVS to check whether the
+	translations are up to date, and we don't use that anymore.
+	* dselect/checkunimp.pl: Remove unused file.
+	* dselect/keys.c: Remove unused file.
+	
+	For at least the second time in dpkg's history, convert the build
+	system to use GNU Automake.  I'm sure some future maintainer will
+	come along and get rid of it again, but for now, Automake is the
+	way forward.
+
+	* Makefile.in: Remove old file.
+	* Makefile.am: Replace with shiny Automake goodness, don't distribute
+	TODO anymore; it's only useful for developers.
+	* dpkg-deb/Makefile.in: Remove old file.
+	* dpkg-deb/Makefile.am: Replace with shiny Automake goodness, don't
+	include rules to build dpkg-deb-static.
+	* dpkg-split/Makefile.in: Remove old file.
+	* dpkg-split/Makefile.am: Replace with shiny Automake goodness.
+	* dselect/Makefile.in: Remove old file.
+	* dselect/Makefile.am: Replace with shiny Automake goodness.
+	* getopt/Makefile.in: Remove old file.
+	* getopt/Makefile.am: Replace with shiny Automake goodness.
+	* lib/Makefile.in: Remove old file.
+	* lib/Makefile.am: Replace with shiny Automake goodness.
+	(libdpkg_a_SOURCES): add refugee files from 'include'.
+	* man/Makefile.in: Remove old file.
+	* man/Makefile.am: Replace with shiny Automake goodness.
+	* man/C/Makefile.in: Remove old file.
+	* man/C/Makefile.am: Replace with shiny Automake goodness.
+	* man/de/Makefile.in: Remove old file.
+	* man/de/Makefile.am: Replace with shiny Automake goodness.
+	* man/es/Makefile.in: Remove old file.
+	* man/es/Makefile.am: Replace with shiny Automake goodness.
+	* man/fr/Makefile.in: Remove old file.
+	* man/fr/Makefile.am: Replace with shiny Automake goodness.
+	* man/ja/Makefile.in: Remove old file.
+	* man/ja/Makefile.am: Replace with shiny Automake goodness.
+	* man/pt_BR/Makefile.in: Remove old file.
+	* man/pt_BR/Makefile.am: Replace with shiny Automake goodness.
+	* man/ru/Makefile.in: Remove old file.
+	* man/ru/Makefile.am: Replace with shiny Automake goodness.
+	* man/sv/Makefile.in: Remove old file.
+	* man/sv/Makefile.am: Replace with shiny Automake goodness.
+	* methods/Makefile.in: Remove old file.
+	* methods/Makefile.am: Replace with shiny Automake goodness, taking
+	into account the new filesystem structure.
+	* origins/Makefile.am: New Automake file to install origin files.
+	* scripts/Makefile.in: Remove old file.
+	* scripts/Makefile.am: Replace with shiny Automake goodness.
+	* src/Makefile.in: Remove old file.
+	* src/Makefile.am: Replace with shiny Automake goodness, don't
+	include rules to build either dpkg-static or dpkg-query-static.
+	* utils/Makefile.in: Remove old file.
+	* utils/Makefile.am: Replace with shiny Automake goodness, don't
+	include rules to build md5sum-static.
+
+	* dpkg-deb/build.c: Replace USE_ZLIB with WITH_ZLIB.
+	* dpkg-deb/extract.c: Replace USE_ZLIB with WITH_ZLIB.
+	* dpkg-deb/main.c: Remove version.h include.
+	* dpkg-split/main.c: Remove version.h include.
+	* dselect/main.cc: Remove version.h include.
+	* lib/compression.c: Replace USE_ZLIB with WITH_ZLIB and USE_BZ2
+	with WITH_ZLIB.
+	* src/help.c: Remove version.h include and replace
+	USE_START_STOP_DAEMON with WITH_START_STOP_DAEMON.
+	* src/main.c: Remove version.h include.
+	
+	We're going to move to using 'autoreconf' to generate the build
+	scripts after a checkout and 'make dist' to get a clean tarball.
+	Various files will get copied automatically so there's no point
+	having them under version control, they'll still appear in the
+	tarballs though.
+
+	* INSTALL: Remove from version control.
+	* config.guess: Remove from version control.
+	* config.sub: Remove from version control.
+	* install-sh: Remove from version control.
+	* autogen.sh: Remove unnecessary script, just run 'autoreconf'.
+	* release.sh: Remove unnecessary script, just run 'make dist'.
+
+	The old 'configure.in' arranged for a bunch of code to be added
+	to the bottom of 'config.h' with the assumption that it'd be
+	included everywhere.  That's not good style, the file is only
+	supposed to contain settings and not real code.  Put the code in
+	real header files and source.
+
+	* lib/dpkg.h: Include <sys/cdefs.h> and <stddef.h> if available.
+	(INTERPRETER_MAX): Define to PATH_MAX or 1024 if not available.
+	(DPKG_VERSION_ARCH): Define using PACKAGE_VERSION instead of
+	DPKG_VERSION, which no longer exists.
+	(ADMINDIR): Remove definition, define in Makefiles where needed.
+	(CONFIGDIR): Remove definition, define in Makefiles where needed.
+	(LIBDIR): Remove definition, define in Makefiles where needed.
+	(CONSTANT, PRINTFFORMAT, NONRETURNING, UNUSED, NONRETURNPRINTFFORMAT):
+	Define attribute markers used in function prototypes.
+	(strerror, strsignal, scandir, alphasort, unsetenv): Define prototypes
+	for functions in 'compat.c' if the system lacks them.
+	(strtoul, va_copy, WCOREDUMP): Provide compatible macros for functions
+	the system lacks.
+	(BUILDOLDPKGFORMAT): Define here.
+	(_, N_): Include gettext.h and define friendlier macros.
+	* lib/gettext.h: Include from gettext distribution useful header
+	file that does the heavy lifting of enabling or disabling gettext.
+	* lib/md5.h: Add code to define UWORD32 used by this implementation.
+	* getopt/error.h (error, error_at_line): Remove printf format
+	attribute marker from prototypes to keep the code clean.
+	* getopt/getopt.c (store_args_and_env): Remove unused attribute
+	marker from function to keep the code clean.
+	* utils/md5sum.c: Let gettext.h (included through dpkg.h) do the
+	heavy lifting and define the right things for us.
+	* utils/start-stop-daemon.c: Duplicate includes of <sys/cdefs.h>
+	and <stddef.h> along with attribute marker definitions to avoid
+	having to include 'dpkg.h'.
+	
+	* configure.in: Rename to 'configure.ac' and rewrite from the
+	ground-up with Autoconf 2.59 in mind.
+	* m4/arch.m4: New file of macros for 'configure.ac':
+	(DPKG_OS_TYPE): Code from old 'configure.in' to turn output from
+	'config.guess' into an operating system name we recognise.
+	(DPKG_ARCHITECTURE): Code from old 'configure.in' to look up
+	CPU and operating system name in the 'archtable'.
+	* m4/compiler.m4: New file of macros for 'configure.ac':
+	(SJR_COMPILER_WARNINGS): Add my standard macro to enable additional
+	compiler warnings and treat them as errors.
+	(SJR_COMPILER_OPTIMISATIONS): Add my standard macro to allow
+	disabling of optimisations.
+	(DPKG_C_ATTRIBUTE): Macro to check whether the C compiler supports
+	__attribute__, we assume that compilers that do ignore unknown
+	attributes like gcc does.
+	* m4/funcs.m4: New file of macros for 'configure.ac':
+	(DPKG_FUNC_VA_COPY): Code from old 'configure.in' to determine
+	whether the system supports va_copy or directly copying the values.
+	* m4/libs.m4: New file of macros for 'configure.ac':
+	(DPKG_LIB_ZLIB): Rework of old 'configure.in' code to allow the
+	user to decide whether to use zlib, and whether to link it statically.
+	(DPKG_LIB_BZ2): Rework of old 'configure.in' code to allow the user
+	to decide whether to use the bz2 library, and whether to link it
+	statically.
+	(DPKG_LIB_CURSES): Code from old 'configure.in' to pick the right
+	curses library on the system.
+	(DPKG_LIB_SSD): Code from old 'configure.in' to look for libraries
+	used by start-stop-daemon.
+	* m4/linker.m4: New file of macros for 'configure.ac':
+	(SJR_LINKER_OPTIMISATIONS): Add my standard macro to enable linker
+	optimisations and allow them to be disabled.
+	* m4/perl.m4: New file of macros for 'configure.ac':
+	(DPKG_PROG_PERL): Macro to locate the Perl interpreter in the PATH,
+	or allow the user to specify it with PERL=.
+	* m4/types.m4: New file of macros for 'configure.ac':
+	(DPKG_TYPE_PTRDIFF_T): Macro to replace obsolete AC_TYPE_PTRDIFF_T
+	macro from Autoconf.
+	(DPKG_DECL_SYS_SIGLIST): Macro to replace obsolete AC_DECL_SYS_SIGLIST
+	macro from Autoconf.
+	(DPKG_CHECK_DEFINE): Rework of old 'automake/dpkg.m4' code.
+	* version-nr: Remove, version should be changed in configure.ac
+	directly.
+	* automake: Remove older Autoconf macros.
+	
+	* po/ChangeLog: Add new ChangeLog to describe changes affecting
+	translations and their infrastructure.
+	
+	* origin: Move to 'origins/debian' so we can ship additional
+	origins in future.
+
+	Rearrange changelog parsers under 'scripts' into a separate
+	directory so they also don't need to be renamed on installation.
+
+	* scripts/cl-debian.pl: Move to 'scripts/changelog/debian.pl'.
+
+	Rearrange 'methods' directory into the same hierarchy used when
+	installed to save having to rename files on installation.
+
+	* methods/disk.desc.cdrom: Move to 'methods/disk/desc.cdrom'.
+	* methods/disk.desc.harddisk: Move to 'methods/disk/desc.harddisk'.
+	* methods/disk.desc.mounted: Move to 'methods/disk/desc.mounted'.
+	* methods/disk.desc.nfs: Move to 'methods/disk/desc.nfs'.
+	* methods/disk.install: Move to 'methods/disk/install' and chmod +x.
+	* methods/disk.names: Move to 'methods/disk/names'.
+	* methods/disk.setup: Move to 'methods/disk/setup' and chmod +x.
+	* methods/disk.update: Move to 'methods/disk/update' and chmod +x.
+	* methods/floppy.desc.floppy: Move to 'methods/floppy/desc.floppy'.
+	* methods/floppy.install: Move to 'methods/floppy/install' and
+	chmod +x.
+	* methods/floppy.names: Move to 'methods/floppy/names'.
+	* methods/floppy.setup: Move to 'methods/floppy/setup' and chmod +x.
+	* methods/floppy.update: Move to 'methods/floppy/update' and chmod +x.
+	* methods/hd.setup: Remove unused method script.
+	* methods/hd.unpack: Remove unused method script.
+	* methods/hd.update: Remove unused method script.
+
+	Consolidate the library code into one directory, so the headers are
+	alongside the code rather than somewhere else.
+
+	* include/dpkg-db.h: Move to 'lib'.
+	* include/myopt.h: Move to 'lib'.
+	* include/parsedump.h: Move to 'lib'.
+	* include/tarfn.h: Move to 'lib'.
+	* include/dpkg.h.in: Move to 'lib' and rename to 'dpkg.h', we'll
+	set ADMINDIR, CONFIGDIR and LIBDIR in Makefile where needed as they
+	can contain shell paths.
+	* include: Remove directory.
+	
+	* AUTHORS: Add new file detailing the original authors of dpkg and
+	the maintainers through the years.
+	* COPYING: Update to include correct FSF address.
+	* NEWS: Add new file that just points to debian/changelog for major
+	changes between releases.
+	* README: Add new file to briefly describe the package.
+
+	Instead of scattering manpages throughout the source, we'll keep
+	all of the original pages in one place under 'man/C'.  This should
+	make it easier to keep track of them, especially translators.
+
+	* dpkg-deb/dpkg-deb.1: Move to 'man/C'.
+	* dpkg-split/dpkg-split.8: Move to 'man/C'.
+	* dselect/dselect.8: Move to 'man/C'.
+	* scripts/822-date.1: Move to 'man/C'.
+	* scripts/cleanup-info.8: Move to 'man/C'.
+	* scripts/dpkg-architecture.1: Move to 'man/C'.
+	* scripts/dpkg-checkbuilddeps.1: Move to 'man/C'.
+	* scripts/dpkg-divert.8: Move to 'man/C'.
+	* scripts/dpkg-name.1: Move to 'man/C'.
+	* scripts/dpkg-scanpackages.1: Move to 'man/C'.
+	* scripts/dpkg-scansources.1: Move to 'man/C'.
+	* scripts/dpkg-source.1: Move to 'man/C'.
+	* scripts/dpkg-statoverride.8: Move to 'man/C'.
+	* scripts/install-info.8: Move to 'man/C'.
+	* scripts/update-alternatives.8: Move to 'man/C'.
+	* src/dpkg-query.8: Move to 'man/C'.
+	* src/dpkg.8: Move to 'man/C'.
+	* utils/md5sum.1: Move to 'man/C'.
+	* utils/start-stop-daemon.8: Move to 'man/C'.
+	
+	* man/en: Rename directory to 'man/C', reserving country codes for
+	manpages that have actually undergone translation.  These are the
+	"original" format, and like the strings in the code itself don't
+	really belong to any particular locale.
+
+	Continuing the spirit of having only one markup format for manpages,
+	fix up the two generated from POD and remove the POD.
+
+	* scripts/dpkg-architecture.1: Generate with pod2man and remove
+	damage from the top, turning it into respectable nroff.
+	* scripts/dpkg-architecture.pl: Remove POD documentation from script.
+	* scripts/dpkg-scansources.1: Generate with pod2man and remove
+	damage from the top, turning it into respectable nroff.
+	* scripts/dpkg-scansources.pl: Remove POD documentation from script.
+	
+	Remove the SGML files containing the same content as the manpages,
+	but which were never used to generate them.  This avoids confusion,
+	and as one markup format is just as good as another, we'll settle
+	on nroff's man format.
+	
+	* man/en/cleanup-info.8.sgml: Remove SGML format documentation.
+	* man/en/deb-control.5.sgml: Remove SGML format documentation.
+	* man/en/deb-old.5.sgml: Remove SGML format documentation.
+	* man/en/deb.5.sgml: Remove SGML format documentation.
+	* man/en/dpkg-checkbuilddeps.1.sgml: Remove SGML format documentation.
+	* man/en/dpkg.8.sgml: Remove SGML format documentation.
+	* man/en/dpkg.cfg.5.sgml: Remove SGML format documentation.
+	* man/en/dselect.8.sgml: Remove SGML format documentation.
+	* man/en/dselect.cfg.5.sgml: Remove SGML format documentation.
+	* man/paths.ent.in: Remove now we have no SGML format pages.
+
+	* attic: Remove historical interest directory, that's what version
+	control is for.
+	* doc: Remove obsolete, incomplete and out-of-date documentation
+	including that licenced under the GFDL (ie the entire directory).
+	* md5sum: Remove empty directory.
+
+	* main: Rename directory to 'src' so it's consistent with 'lib'.
+	* optlib: Rename directory to 'getopt' as that's what's really in it.
+	* split: Rename directory to 'dpkg-split' so it's consistent with
+	'dpkg-deb'.
 
 Tue Nov 09 15:23:54 CEST 2004 Christian Perrier <bubulle@debian.org>
 
@@ -301,6 +754,24 @@ Thu Oct 28 15:55:14 BST 2004 Scott James Remnant <scott@netsplit.com>
 
   * dpkg-deb/dpkg-deb.h: Add '/' onto the end of the COMPAT values for
   bzip2 and tar.
+
+Wed Oct 27 12:22:08 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * version-nr, debian/changelog: Bump version to 1.13~.
+
+Wed Oct 27 10:14:29 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * version-nr, debian/changelog: Bump version to 1.10.25~.
+
+Wed Oct 27 09:58:27 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * lib/compression.c: Which revealed some brown-paper bag issues:
+  Replace "BZFILE" with "BZFILE *", "file" with "bzfile"
+  and "bzdopen" to "BZ2_bzdopen".
+
+Wed Oct 27 09:49:15 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * lib/compression.c: Replace USE_BZ2 with USE_BZ2LIB to match configure.in.
 
 Tue Oct 26 19:24:54 CEST 2004 Havard Korsvoll <korsvoll@skulelinux.no>
 

@@ -5,10 +5,10 @@
 #include <string.h>
 #include <errno.h>
 
-#ifdef USE_ZLIB
+#ifdef WITH_ZLIB
 #include <zlib.h>
 #endif
-#ifdef USE_BZ2LIB
+#ifdef WITH_BZ2
 #include <bzlib.h>
 #endif
 
@@ -29,7 +29,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
 
   switch(type) {
     case GZ:
-#ifdef USE_ZLIB
+#ifdef WITH_ZLIB
       {
         char buffer[4096];
         int actualread;
@@ -60,7 +60,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
       execlp(GZIP,"gzip","-dc",(char*)0); ohshite(_("%s: failed to exec gzip -dc"), v.buf);
 #endif
     case BZ2:
-#ifdef USE_BZ2LIB
+#ifdef WITH_BZ2
       {   
         char buffer[4096];
         int actualread;
@@ -114,7 +114,7 @@ void compress_cat(enum compression_type type, int fd_in, int fd_out, const char 
 
   switch(type) {
     case GZ:
-#ifdef USE_ZLIB
+#ifdef WITH_ZLIB
       {
         int actualread, actualwrite;
         char buffer[4096];
@@ -157,7 +157,7 @@ void compress_cat(enum compression_type type, int fd_in, int fd_out, const char 
       execlp(GZIP,"gzip",combuf,(char*)0); ohshit(_("%s: failed to exec gzip %s"), v.buf, combuf);
 #endif
     case BZ2:
-#ifdef USE_BZ2LIB
+#ifdef WITH_BZ2
       {
         int actualread, actualwrite;
         char buffer[4096];

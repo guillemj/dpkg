@@ -1,0 +1,622 @@
+.\" Hey Emacs! This file is -*- nroff -*- source.
+.\" Translation of CVS revision 1.32.2.4
+.TH DPKG 1 "12 april 1998" "Debianprojektet" "Dpkg-sviten"
+.SH NAMN
+dpkg - en mellannivåpakethanterare för Debian
+
+.SH SYNOPS
+.B dpkg
+[\fIflaggor\fP] \fIåtgärd\fP
+
+.SH VARNING
+Denna manual är avsedd för användare som vill få en mer detaljerad
+förståelse för \fBdpkg\fPs kommandoradsflaggor och pakettillstånd
+än vad som berättas med \fBdpkg \-\-help\fP.
+
+Den bör \fIinte\fP användas av paketansvariga som vill lära sig hur
+\fBdpkg\fP kommer att installera deras paket.
+Beskrivningen över vad \fBdpkg\fP gör när paket installeras och tas bort är
+speciellt otillräckliga.
+
+.SH BESKRIVNING
+\fBdpkg\fP är ett mellannivåverktyg för att installera, bygga, ta bort och
+hantera Debianpaket.
+Det primära och mer användarvänliga skalet runt \fBdpkg\fP är
+\fBdselect\fP(8).
+\fBdpkg\fP kontrolleras helt och hållet via kommandoradsflaggor, vilka
+består av exakt en åtgärd och noll eller fler tillval.
+Åtgärdsparametern talar om för dpkg vad som skall göras, och tillvalen styr
+på vilket sätt åtgärden skall utföras.
+
+\fBdpkg\fP kan även användas som ett skal runt \fBdpkg\-deb\fP.
+Följande är åtgärder för \fBdpkg\-deb\fP, och om de upptäcks kör \fBdpkg\fP
+helt enkelt \fBdpkg\-deb\fP med de flaggor som getts:
+.nf
+    \fB\-b\fP, \fB\-\-build\fP,
+    \fB\-c\fP, \fB\-\-contents\fP,
+    \fB\-I\fP, \fB\-\-info\fP,
+    \fB\-f\fP, \fB\-\-field\fP,
+    \fB\-e\fP, \fB\-\-control\fP,
+    \fB\-x\fP, \fB\-\-extract\fP,
+    \fB\-X\fP, \fB\-\-vextract\fP, och
+    \fB\-\-fsys\-tarfile\fP.
+.fi
+Se \fBdpkg\-deb\fP(1) för information om dessa åtgärder.
+
+.SH INFORMATION OM PAKET
+\fBdpkg\fP upprätthåller viss användbar information om tillgängliga paket.
+Informationen delas in i tre klasser:
+\fBtillstånd\fP, \fBmarkeringstillstånd\fP och \fBflaggor\fP.
+Dessa värden är avsedda att huvudsakligen ändras via \fBdselect\fP.
+.SS PAKETTILLSTÅND
+.TP
+.B installerat
+Paketet är uppackat och korrekt inställt.
+.TP
+.B halvt installerat
+Installationen av paketet har påbörjats, men av någon orsak inte slutförts.
+.TP
+.B ej installerat
+Paketet är inte installerat på ditt system.
+.TP
+.B uppackat
+Paketet är uppackat, men inte konfigurerat.
+.TP
+.B halvt konfigurerat
+Paketet är uppackat och konfigurationen har påbörjats, men av någon orsak
+inte slutförts.
+.TP
+.B konfigurationsfiler
+Endast konfigurationsfilerna för paketet finns på systemet.
+.SS MARKERINGSTILLSTÅND FÖR PAKET
+.TP
+.B installera
+Paketet är markerat för installation.
+.TP
+.B ta bort
+Paketet är markerat för avinstallation (dvs. vi vill ta bort alla filer
+förutom konfigurationsfilerna).
+.TP
+.B rensa
+Paketet är markerat för rensning (dvs. vi vill ta bort allting, även
+konfigurationsfiler).
+.SS PAKETFLAGGOR
+.TP
+.B håll
+Ett paket som är markerat med \fBhåll\fP hanteras inte av \fBdpkg\fP såvida
+inte detta framtvingas med flaggan \fB\-\-force\-hold\fP.
+.TP
+.B ominstallation krävs
+Ett paket markerat \fBominstallation krävs\fP är trasigt och kräver
+ominstallation.
+Dessa paket kan inte tas bort, såvida inte detta framtvingas med flaggan
+\fB\-\-force\-remove\-reinstreq\fP.
+
+.SH ÅTGÄRDER
+.TP
+\fBdpkg \-i\fP | \fB\-\-install\fP \fIpaketfil\fP...
+Installera paketet.
+Om flaggan \fB\-\-recursive\fP eller \fB\-R\fP anges måste
+\fIpaketfil\fP istället vara en katalog.
+
+Installationen består av följande steg:
+.br
+
+\fB1.\fP Extrahera styrfilerna ur paketet.
+.br
+
+\fB2.\fP Om en annan version av samma paket redan fanns installerat vid
+nyinstallationen exekveras \fIprerm\fP-skriptet för det gamla paketet.
+.br
+
+\fB3.\fP Kör \fIpreinst\fP-skriptet, om ett sådant medföljer paketet.
+.br
+
+\fB4.\fP Packa upp de nya filerna och säkerhetskopiera samtidigt de gamla
+filerna så att de kan återställas om någonting går fel.
+.br
+
+\fB5.\fP Om en annan version av samma paket redan fanns installerat vid
+nyinstallationen exekveras \fIpostrm\fP-skriptet för det gamla paketet.
+Observera att skriptet exekveras efter \fIpreinst\fP för det nya paketet
+eftersom de nya filerna skrivs samtidigt som de gamla tas bort.
+.br
+
+\fB6.\fP Konfigurera paketet.
+Se \fB\-\-configure\fP för detaljerad information om hur detta görs.
+.TP
+\fBdpkg \-\-unpack \fP\fIpaketfil\fP ...
+Packa upp paketet, men konfigurera det inte.
+Om flaggan \fB\-\-recursive\fP eller \fB\-R\fP anges måste
+\fIpaketfil\fP istället vara en katalog.
+.TP
+\fBdpkg \-\-configure \fP\fIpaket\fP ... | \fB\-a\fP | \fB\-\-pending\fP
+Konfigurera ett uppackat paket.
+Om \fB\-a\fP eller \fB\-\-pending\fP anges istället för \fIpaket\fP
+konfigureras alla paket som har packats upp men ännu inte konfigurerats.
+
+Konfigurering består av följande steg:
+.br
+
+\fB1.\fP Packa upp konfigurationsfilerna och säkerhetskopiera samtidigt de
+gamla konfigurationsfilerna så att de kan återställas om någonting går fel.
+.br
+
+\fB2.\fP Kör \fIpostinst\fP-skriptet, om ett sådant finns i paketet.
+.TP
+\fBdpkg \-r\fP | \fB\-\-remove\fP | \fB\-P\fP | \fB\-\-purge \fP\fIpaket\fP ... | \fB\-a\fP | \fB\-\-pending\fP
+Ta bort ett installerat paket.
+\fB\-r\fP eller \fB\-\-remove\fP tar bort allting förutom konfigurationsfiler,
+vilket gör att du kan undvika att konfigurera om paketet om du senare
+installerar om det.
+(Konfigurationsfiler listas i styrfilen \fIdebian/conffiles\fP).
+\fB\-P\fP eller \fB\-\-purge\fP tar bort allting, inklusive
+konfigurationsfiler.
+Om \fB\-a\fP eller \fB\-\-pending\fP anges istället för ett paketnamn kommer
+alla uppackade paket som i filen \fI/var/lib/dpkg/status\fP markerats för
+att tas bort eller rensas att tas bort eller rensas, respektive.
+
+Borttagning av ett paket består av följande steg:
+.br
+
+\fB1.\fP Kör \fIprerm\fP-skriptet
+.br
+
+\fB2.\fP Ta bort de installerade filerna
+.br
+
+\fB3.\fP Kör \fIpostrm\fP-skriptet
+.br
+.TP
+\fBdpkg \-\-update\-avail\fP | \fB\-\-merge\-avail\fP \fIPackages-fil\fP
+Uppdatera \fBdpkg\fPs och \fBdselect\fPs lista över vilka paket som finns
+tillgängliga.
+Med \fB\-\-merge\-avail\fP kombineras den gamla informationen med informationen
+från \fIPackages-filen\fP.
+Med \fB\-\-update\-avail\fP ersätts den gamla informationen med informationen
+från \fIPackages-filen\fP.
+\fIPackages-filerna\fP som medföljer Debian heter helt enkelt
+\fIPackages\fP.
+\fBdpkg\fP behåller sin lista över tillgängliga paket i
+\fI/var/lib/dpkg/available\fP.
+
+Ett enklare kommando för att hämta och uppdatera \fIavailable\fR-filen
+på en gång är \fBdselect update\fR.
+.TP
+\fBdpkg \-A\fP | \fB\-\-record\-avail\fP \fIpaketfil\fP ...
+Uppdatera \fBdpkg\fPs och \fBdselect\fPs lista över vilka paket som finns
+tillgängliga med information från paketet \fIpaketfil\fP.
+Om flaggan \fB\-\-recursive\fP eller \fB\-R\fP anges måste
+\fIpaketfil\fP istället vara en katalog.
+
+
+.TP
+.B dpkg \-\-forget\-old\-unavail
+Glöm bort ej installerade ej länge tillgängliga paket.
+.TP
+.B dpkg \-\-clear\-avail
+Radera existerande information om vilka paket som är tillgängliga.
+.TP
+\fBdpkg \-C\fP | \fB\-\-audit\fP
+Söker efter paket som endast installerats delvis på ditt system.
+\fBdpkg\fP kommer att föreslå vad som behöver göras för att få dem att
+fungera.
+.TP
+\fBdpkg \-\-get\-selections\fP [\fImönster\fP...]
+Hämta en lista över paketval och skriv den till standard ut.
+.TP
+.B dpkg \-\-set\-selections
+Sätt paketvalslistan med den fil som läses från standard in.
+.TP
+.B dpkg \-\-yet\-to\-unpack
+Söker efter paket som markerats för installation men som av någon anledning
+ännu inte har installerats.
+.TP
+.B dpkg \-\-print\-architecture
+Skriv målarkitekturen (till exempel "i386").
+Detta alternativ använder \fBgcc\fP.
+.TP
+.B dpkg \-\-print\-gnu\-build\-architecture
+Skriv GNU-versionen av målarkitekturen (till exempel "i486").
+.TP
+.B dpkg \-\-print\-installation\-architecture
+Visa installationens värdarkitektur.
+
+.TP
+.B dpkg \-\-compare\-versions \fIver1 op ver2\fP
+Jämför versionsnummer, där \fIop\fP är en binär operator.
+\fBdpkg\fP returnerar framgång (noll) om det angivna värdet uppfylls, och
+misslyckande (icke-noll) i annat fall.
+Det finns två grupper operatorer, vilka endast skiljer sig i hur de hanterar
+när \fIver1\fP eller \fIver2\fP är tom.
+Dessa hanterar tom version som om den är tidigare än alla andra
+versioner: \fBlt le eq ne ge gt\fP.
+Dessa hanterar tom version som om den är senare än alla andra
+versioner: \fBlt-nl le\-nl ge\-nl gt\-nl\fP.
+Dessa tillhandahålls endast för kompatibilitet med styrfilssyntaxen:
+\fB< << <= = >= >> >\fP.
+.TP
+.B dpkg \-\-command\-fd <n>
+Läser en följd av kommandon från indatafilhandtag \fB<n>\fP.
+Observera: Flaggor som sätts på kommandoraden, och genom detta
+filhandtag, återställs inte för kommandon som körs i en följd under
+samma körning.
+.TP
+.B dpkg \-\-help
+Visar en kortfattat hjälptext.
+.TP
+.B dpkg \-\-force\-help
+Get hjälp om \fB\-\-force\-\fP\fInånting\fP-flaggorna.
+.TP
+.BR "dpkg \-Dh " | " \-\-debug=help"
+Ger hjälp om felsökningsflaggorna.
+.TP
+\fBdpkg \-\-licence\fP | \fBdpkg \-\-license\fP
+Visar \fBdpkg\fPs licensvillkor.
+.TP
+\fBdpkg \-\-version\fP
+Visar \fBdpkg\fPs versionsinformation.
+.TP
+\fBdpkg\-deb-åtgärder\fP
+Se \fBdpkg\-deb\fP(1) för ytterligare information om följande åtgärder:
+
+.nf
+\fBdpkg \-b\fP | \fB\-\-build\fP \fIkatalog\fP [\fIfilnamn\fP]
+    Bygg ett deb-paket.
+\fBdpkg \-c\fP | \fB\-\-contents\fP \fIfilnamn\fP
+    Visar innehållet i ett deb-paket.
+\fBdpkg \-e\fP | \fB\-\-control\fP \fIfilnamn\fP [\fIkatalog\fP]
+    Extraherar styrinformation från ett paket.
+\fBdpkg \-x\fP | \fB\-\-extract\fP \fIfilnamn katalog\fP
+    Extraherar filerna i ett paket.
+\fBdpkg \-f\fP | \fB\-\-field\fP  \fIfilnamn\fP [\fIcontrol-fält\fP] ...
+    Visar fält från paketets styrfil (control).
+\fBdpkg \-\-fsys\-tarfile\fP \fIfilnamn\fP
+    Visar filsystems-tarfilen i Debianpaketet.
+\fBdpkg \-I\fP | \fB\-\-info\fP \fIfilnamn\fP [\fIcontrol-fil\fP]
+    Visa information om ett paket.
+\fBdpkg \-X\fP | \fB\-\-vextract\fP \fIfilnamn\fP \fIkatalog\fP
+    Extrahera och visa filnamnen som finns i ett paket.
+.fi
+
+.TP
+\fBdpkg\-query-åtgärder\fP
+Se \fBdpkg\-query\fP(1) för ytterligare information om följande åtgärder:
+
+.nf
+\fBdpkg \-l\fP | \fB\-\-list\fP \fIpaketnamnsmönster\fP ...
+    Lista paket som matchar det givna mönstret.
+\fBdpkg \-s\fP | \fB\-\-status\fP \fIpaketnamn\fP ...
+    Rapportera status om det angivna paketet.
+\fBdpkg \-L\fP | \fB\-\-listfiles\fP \fIpaket\fP ...
+    Lista filer som installerats på ditt system från \fBpaket\fP.
+\fBdpkg \-S\fP | \fB\-\-search\fP \fIfilnamnssökmönster\fP ...
+    Sök efter filnamnet bland de installerade paketen.
+\fBdpkg \-p\fP | \fB\-\-print\-avail\fP \fIpaket\fP
+    Visa detaljer om \fIpaket\fP, som i \fI/var/lib/dpkg/available/\fP.
+.fi
+
+
+.SH FLAGGOR
+Alla flaggorna kan ges både på kommandoraden och i \fBdpkg\fPs
+konfigurationsfil \fI/etc/dpkg/dpkg.cfg\fP.
+En rad i konfigurationsfilen är antingen en flagga (precis samma som på
+kommandoraden, men utan inledande bindestreck) eller en kommentar (om den
+börjar med ett \fB#\fR).
+.br
+.TP
+\fB\-\-abort\-after=\fP\fIantal\fP
+Ställer in efter hur många fel dpkg skall avbryta.
+Förvalet är 50.
+.TP
+.BR \-B | \-\-auto\-deconfigure
+När ett paket tas bort är det möjligt att ett annat paket beror på det
+borttagna paketet.
+Om du anger denna flagga kommer de paket som beror på det borttagna paketet
+automatiskt att avkonfigureras.
+.TP
+\fB\-D\fIoktalvärde\fP | \fB\-\-debug=\fP\fIoktalvärde\fP
+Aktiverar felsökning.
+\fIoktalvärde\fPt skapas genom att utföra bitvis logisk "eller" av de
+önskade värdena från listan nedan (observera att dessa värden kan ändras i
+framtida versioner).
+\fB\-Dh\fP eller \fB\-\-debug=help\fP visar dessa felsökningsvärden.
+
+  tal   beskrivning
+    1   Allmänt hjälpsam förloppsinformation
+    2   Anrop och status för utvecklarskript
+   10   Utdata för varje fil som hanteras
+  100   Massvis med utdata för varje fil som hanteras
+   20   Utdata för varje konfigurationsfil
+  200   Massvis med utdata för varje konfigurationsfil
+   40   Beroenden och konflikter
+  400   Massvis av beroende-/konfliktutdata
+ 1000   Massvis av pladder om bl.a dpkg/info-katalogen
+ 2000   Knäppa mängder pladder
+.TP
+\fB\-\-force\-\fP\fInånting\fP | \fB\-\-no\-force\-\fP\fInånting\fP | \fB\-\-refuse\-\fP\fInånting\fP
+
+Tvinga eller vägra (\fBno\-force\fP och \fBrefuse\fP betyder detsamma) att
+göra vissa saker.
+\fInånting\fP är en kommaavgränsad lista över saker enligt nedan.
+\fB\-\-force\-help\fP visar en lista med beskrivningar.
+Saker som markeras med (*) är som förval tvingande.
+
+\fIVarning: Dessa flaggor är huvudsakligen avsedda att endast användas av
+experter.
+Om du använder dem utan att fullt ut förstå vad de går ut på kan du förstöra
+din systeminstallation.\fP
+
+\fBall\fP:
+Slår på (eller av) alla tvingande parametrar.
+
+\fBauto\-select\fP(*):
+Markerar paket för att installera, och avmarkerar paket för att ta bort.
+
+\fBdowngrade\fP(*):
+Installera ett paket även om en nyare version redan är installerad.
+
+\fIVarning:
+För närvarande undersöker inte dpkg beroenden vid nedgradering och kommer
+därför inte att varna dig om nedgraderingen bryter ett beroende för något
+paket.
+Detta kan ha allvarliga sidoeffekter, genom att nedgradera grundläggande
+systemkomponenter kan du riskera att göra hela systemet instabilt.
+Använd med tillförsikt.\fP
+
+\fBconfigure\-any\fP:
+Konfigurera även alla uppackade men ej konfigurerade paket på vilka det
+aktuella paketet beror.
+
+\fBhold\fP:
+Hantera även "håll"-markerade paket.
+
+\fBremove\-reinstreq\fP:
+Ta bort ett paket även om det är trasigt och markerat att vara i behov av
+ominstallation.
+Detta kan, till exempel, göra så att delar av paketet blir kvar på systemet,
+men glöms bort av \fBdpkg\fP.
+
+\fBremove\-essential\fP:
+Ta bort paketet även om det anses som viktigt (essential).
+Viktiga paket är huvudsakligen de mest grundläggande Unixkommandona.
+Om du tar bort dem kan det göra så att hela systemet slutar fungera, så
+använd med tillförsikt.
+
+\fBdepends\fP:
+Gör alla beroendeproblem till varningar.
+
+\fBdepends\-version\fP:
+Ignorera versionsnummer när beroenden kontrolleras.
+
+\fBconflicts\fP:
+Installera även om paket som är i konflikt (krockar) med ett annat paket.
+Detta är farligt, eftersom det oftast leder till att vissa filer skrivs
+över.
+
+\fBconfmiss\fP:
+Installera alltid saknade konfigurationsfiler.
+Detta är farligt, eftersom det inte bibehåller ändringar (raderingar) av
+filer.
+
+\fBconfnew\fP:
+Installera alltid nya versioner av ändrade konfigurationsfiler utan att
+fråga, såvida inte \fB\-\-force\-confdef\fP också anges, i vilket fall det
+förvalda alternativet kommer att utföras.
+
+\fBconfold\fP:
+Installera aldrig nya versioner av ändrade konfigurationsfiler utan
+att fråga, såvida inte \fB\-\-force\-confdef\fP också anges, i vilket fall
+det förvalda alternativet kommer att utföras.
+
+\fBconfdef\fP:
+Utför alltid förvalt alternativt för ändrade konfigurationsfiler.
+Om inget förval har angivits kommer programmet stanna och fråga användaren
+såvida inte \fB\-\-force\-confnew\fP eller \fB\-\-force\-confold\fP också angetts,
+i så fall används den för att bestämma vad som skall utföras.
+
+\fBoverwrite\fP:
+Skriv över ett pakets filer med ett annats.
+
+\fBoverwrite\-dir\fP
+Skriv över ett pakets kataloger med ett annats filer.
+
+\fBoverwrite\-diverted\fP:
+Skriv över en omdirigerad fil med en ej omdirigerad version.
+
+\fBarchitecture\fP:
+Hantera även paket med fel maskinvaruarkitektur.
+
+\fBbad\-path\fP:
+Sökvägen i \fBPATH\fP saknar viktiga program, så problem är troliga.
+
+\fBnot\-root\fP:
+Försök (av)installera saker även utan att vara root.
+
+\fBbad\-verify\fP:
+Installera ett paket även om det inte går att verifiera dess äkthet.
+
+.TP
+\fB\-\-ignore\-depends\fP=\fIpaket\fP,...
+Ignorera beroendekontroll för angivna paket (i verkligheten utförs
+kontrollen, men det ges endast varningar, ingenting annat).
+.TP
+\fB\-\-new\fP | \fB\-\-old\fP
+Välj det nya eller gamla binärpaketformatet.
+Detta är en flagga till \fBdpkg\-deb\fP(1).
+.TP
+.B \-\-nocheck
+Varken läs eller kontrollera innehållet i control-filen när paket skapas.
+Detta är en flagga till \fBdpkg\-deb\fP(1).
+.TP
+\fB\-\-no-act\fP | \fB\-\-dry\-run\fP | \fB\-\-simulate\fP
+Gör allting som efterfrågas, men skriv inte några ändringar.
+Detta används för att se vad som skulle ha hänt med givna parametrar utan
+att faktiskt ändra något.
+
+Se till att du anger \fB\-\-no\-act\fP före åtgärdsflaggan, annars kan du få
+oönskade biverkningar (t.ex så kommer \fBdpkg \-\-purge foo \-\-no\-act\fP först
+att rensa ut paketet foo för att sedan försöka rensa ut paketet \-\-no\-act,
+trots att du troligen förväntade dig att ingenting skulle utföras)
+.TP
+\fB\-R\fP | \fB\-\-recursive\fP
+Hantera alla vanliga filer som matchar sökmönstret \fB*.deb\fP rekursivt i
+de kataloger som anges, med alla sina underkataloger.
+Denna flagga kan användas tillsammans med \fB\-i\fP, \fB\-A\fP,
+\fB\-\-install\fP, \fB\-\-unpack\fP och \fB\-\-avail\fP.
+.TP
+\fB\-G\fP
+Installera inte paketet om en nyare version av samma paket redan är
+installerat.
+Detta är ett alias för \fB\-\-refuse\-downgrade.\fP
+.TP
+\fB\-\-root=\fP\fIkat\fP | \fB\-\-admindir=\fP\fIkat\fP | \fB\-\-instdir=\fP\fIkat\fP
+Ändra standardkataloger.
+Förval för \fBadmindir\fP är \fI/var/lib/dpkg\fP, och innehåller filer som
+ger information om status för installerade och ej installerade paket, osv.
+Förval för \fBinstdir\fP är \fI/\fP och är den katalog som skickas som
+parameter till \fBchroot\fP(2) innan paketets installationsfiler körs,
+vilket betyder att skripten ser \fBinstdir\fP som rotkatalog.
+Om du ändrar \fBroot\fP ändrar du \fBinstdir\fP till \fIkat\fP och
+\fBadmindir\fP till \fIkat\fP\fB/var/lib/dpkg\fP.
+.TP
+\fB\-O\fP | \fB\-\-selected\-only\fP
+Hantera endast paket som markerats för installation.
+Själva markeringen utförs med \fBdselect\fP eller av \fBdpkg\fP när paketen
+hanteras.
+Till exempel kommer paket som tas bort att markeras för installation.
+.TP
+.BR \-E " | " \-\-skip\-same\-version
+Installera inte paketet om samma version av paketet redan är installerat.
+.TP
+\fB\-\-status\-fd \fP\fI<n>\fP
+Sänder paketstatusinformation till filhandtag \fI<n>\fP.
+Denna flagga kan ges flera gånger.
+Statusuppdateringar ges på formen "status: <paket>: <paket qstatus>".
+
+.SH FILER
+.TP
+.I /etc/dpkg/dpkg.cfg
+Konfigurationsfil med förvalda inställningar.
+.P
+Övriga filer som listas här finns i sina förvalda kataloger, se flaggan
+\fB\-\-admindir\fP för information om hur du ändrar placeringen av dessa
+filer.
+.TP
+.I /var/lib/dpkg/available
+Lista över tillgängliga paket.
+.TP
+.I /var/lib/dpkg/status
+Status för tillgängliga paket.
+Denna fil innehåller information om huruvida ett paket är markerat för
+borttagning eller ej, om det är installerat eller ej, osv.
+Se sektionen \fBINFORMATION OM PAKET\fP för ytterligare information.
+.P
+Följande filer är komponenter i det binära paketet.
+Se \fBdeb\fP(5) för ytterligare information om dem:
+.TP
+.I control
+.TP
+.I conffiles
+.TP
+.I preinst
+.TP
+.I postinst
+.TP
+.I prerm
+.TP
+.I postrm
+
+.SH MILJÖVARIABLER
+.TP
+.B DPKG_NO_TSTP
+Definiera detta till någonting om du vill att \fBdpkg\fP skall starta ett
+nytt skal istället för att lägga sig i bakgrunden när ett skal
+startas.
+.TP
+.B SHELL
+Programmet \fBdpkg\fP kommer att exekvera när ett nytt skal startas.
+.TP
+.B COLUMNS
+Sätter antalet kolumner \fBdpkg\fP skall använda när formaterad text visas.
+Används för närvarande enbart av \-l.
+.TP
+.B DPKG_OLD_CONFFILE
+Sätts av \fBdpkg\fP till filnamnet för den gamla konfigurationsfilen när
+du startar ett skal för att undersöka en ändrad konfigurationsfil.
+.TP
+.B DPKG_NEW_CONFFILE
+Sätts av \fBdpkg\fP till filnamnet för den nya konfigurationsfilen när
+du startar ett skal för att undersöka en ändrad konfigurationsfil.
+
+.SH EXEMPEL
+För att lista paket relaterade till textredigeringsprogrammet vi:
+.br
+\fB     dpkg \-l '*vi*'\fP
+.br
+
+För att se posterna i \fI/var/lib/dpkg/available\fP för två paket:
+.br
+\fB     dpkg \-\-print\-avail elvis vim | less\fP
+.br
+
+För att själv söka i paketlistan:
+.br
+\fB     less /var/lib/dpkg/available\fP
+.br
+
+För att ta bort det installerade paketet elvis:
+.br
+\fB     dpkg \-r elvis\fP
+.br
+
+För att installera ett paket måste du först leta på det i ett arkiv eller på
+en cd-rom.
+Filen "available" visar att vim-paketet finns i sektionen "editors":
+.br
+\fB     cd /cdrom/hamm/hamm/binary/editors\fP
+\fB     dpkg \-i vim_4.5\-3.deb\fP
+.br
+
+För att göra en lokal kopia av paketmarkeringarna:
+.br
+\fB     dpkg \-\-get\-selections >minamarkeringar\fP
+.br
+
+Du kan överföra denna fil till en annan dator och installera den där genom
+att skriva:
+.br
+\fB     dpkg \-\-set\-selections <minamarkeringar\fP
+.br
+Observera att detta faktiskt inte kommer installera eller ta bort något,
+utan bara sätta valstatus på de efterfrågade paketen.
+Du måste använda något annat program för att faktiskt hämta och installera
+de efterfrågade paketen.
+Till exempel kan du köra \fBdselect\fP och välja "Installera".
+
+För normalt bruk kommer du att upptäcka att \fBdselect\fP(8) tillhandahåller
+ett bekvämare sätt att ändra paketmarkeringarna.
+.br
+.SH YTTERLIGARE FUNKTIONER
+Ytterligare funktioner kan erhållas genom att installera något av följande
+paket:
+\fIapt\fR, \fIaptitude\fR och \fIdebsums\fR.
+
+.br
+.SH SE ÄVEN
+\fBdselect\fP(8),
+\fBdpkg\-deb\fP(1),
+\fBdeb\fP(5),
+\fBdeb\-control\fP(5),
+och
+\fBdpkg\-reconfigure\fP(8)
+
+.SH PROGRAMFEL
+
+\fB\-\-no\-act\fP ger oftast mindre information än vad som vore hjälpsamt.
+
+.SH FÖRFATTARE
+.nf
+Se filen \fB/usr/share/doc/dpkg/THANKS.gz\fP för en lista över personer som
+bidragit till \fBdpkg\fP .
+.fi

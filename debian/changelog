@@ -1,20 +1,64 @@
-dpkg (1.10.28) unstable; urgency=low
+dpkg (1.13.1.0.1) experimental; urgency=low
+
+  * Bin-MU; recompile against Debian unstable, to make dselect actually
+    installable.
+
+ -- Scott James Remnant <scott@netsplit.com>  Fri, 11 Mar 2005 09:00:14 +0000
+
+dpkg (1.13.1) experimental; urgency=low
   
-  The "Awh, yeah?  Ripper!" Release.
+  The "Livin' like a good boy oughta" Release.
+  
+  * Removed dpkg --print-gnu-build-architecture option.  Use variables
+    defined by dpkg-architecture instead.
+  * Soft-deprecated dpkg --print-installation-architecture.  Use
+    dpkg --print-architecture instead, which now does the same thing.
+  * Removed third field from /usr/share/dpkg/archtable.
 
-  * New Translations (Christian Perrier):
-    - Romanian (Eddy Petrisor).  Closes: #309714.
-    - Tagalog (Eric Pareja).  Closes: #296407.
+  * Now we no-longer pre-depend on dselect, check the upgrade will work
+    in preinst and give the user a chance to abort if they haven't yet
+    installed dselect and need to.  Closes: #282335.
+  * Fix handling of GNU longname and longlink when a tarfile entry has
+    both.  Closes: #128388.
+  * md5sum no longer outputs "-" when no argument is supplied.
+    Closes: #164591, #164889.
+  * Add darcs metadirectory to dpkg-source diff ignore list.  Closes: #289760.
+  * Add new '-f' short option to dpkg-query as equivalent to --show-format.
+    Closes: #281627.
+  * Report conffile conflicts and per-package errors on the status-fd.
+    Closes: #297880.
+  * Correct typo in dpkg-architecture.  Closes: #282701.
+  * Fix start-stop-daemon's support for GNU/kFreeBSD.  Closes: #258051.
+
+  * Architecture Support:
+    - Added kfreebsd-amd64.  Closes: #280693.
+    - Added m32r.  Closes: #280710.
+    - Clean up of archtable.  Closes: #118910, #286898.
+    - Clean up of dpkg-architecture.  Closes: #256323.
   * Updated Translations (Christian Perrier):
-    - French (Christian Perrier).
-    - Greek (Konstantinos Margaritis).  Closes: #295922
-    - Indonesian (Arief S Fitrianto).  Closes: #296733
-  * Updated Manpage Translations (Christian Perrier):
-    - French (Philippe Batailler).
-    - Syntax error corrected in Brazilian Portuguese man page for
-      update-alternatives.  Closes: #300646
+    - French (French Team).
+    - Greek (Konstantinos Margaritis).  Closes: #295922.
 
- -- Scott James Remnant <scott@netsplit.com>  Thu, 26 May 2005 18:18:10 +0100
+ -- Scott James Remnant <scott@netsplit.com>  Thu,  3 Mar 2005 12:09:07 +0000
+
+dpkg (1.13.0) experimental; urgency=low
+  
+  The "Three banana strategy" Release.
+
+  * Remove the /usr/info or /usr/info/dir symlinks we used to create.
+    Closes: #206063, #288415.
+  * Fix cast in lvalue assignment that gcc 4.0 doesn't like.
+    Closes: #282669, #284797.
+  * Correct bashism in disk method update script.  Closes: #260568.
+
+  * Scorched-earth reimplementation of the build process and control files
+    with debhelper and automake.  Closes: #217946, #229629, #260568, #266995,
+    #283640, #292973, #293041.
+  * Remove SGML and POD documentation formats due to both licensing and
+    sanity issues.  Closes: #285086.
+  * The dpkg-doc and dpkg-static packages are no more.
+  
+ -- Scott James Remnant <scott@netsplit.com>  Fri, 14 Jan 2005 19:28:00 +0000
 
 dpkg (1.10.27) unstable; urgency=low
 
@@ -22,7 +66,7 @@ dpkg (1.10.27) unstable; urgency=low
 
   * New Translations (Christian Perrier):
     - Indonesian (Arief S Fitrianto).
-    - Norwegian Bokmal (Bjorn Steensrud).
+    - Norwegian Bokmål (Bjorn Steensrud).
   * Updated Translations (Christian Perrier):
     - Dutch (confusing option corrected by Christian Perrier).
     - Galician (Jacobo Tarrio).

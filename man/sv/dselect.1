@@ -1,0 +1,464 @@
+.\" Translation of CVS revision 1.8.2.2
+.TH DSELECT 1 "Juli 2001" "Debianprojektet" "Debian"
+.SH NAMN
+dselect \- Debians pakethanteringssystem
+.SH SYNOPS
+.B dselect
+[\-\-admindir <katalog>] [\-\-help] [\-\-version] [\-\-licence | \-\-license]
+[\-\-expert] [\-\-debug <fil> | \-D <fil>] [\fI<handling>\fP]
+[\-\-colour | \-\-color skärmdel:[förgrund],[bakgrund][:attr[+attr+..]]]
+.SH BESKRIVNING
+.B dselect
+är ett av det primära användargränssnitten för att hantera paket på ett
+Debiansystem.
+I \fBdselect\fPs huvudmeny kan systemadministratören:
+ \- Uppdatera listan över tillgängliga paketversioner,
+ \- Visa status för installerade och tillgängliga paket,
+ \- Ändra paketval och hantera beroenden,
+ \- Installera nya paket eller uppgradera till nyare versioner.
+.PP
+.B dselect
+arbetar som ett skal runt \fBdpkg(8)\fP, Debians lågnivåpakethanteringsverktyg.
+Det har en fullskärmspaketvalshanterare som hanterar beroenden och konflikter
+mellan paket.
+När det körs med administratörsbehörighet kan paket installeras, uppgraderas
+och tas bort.
+Olika åtkomstmetoder kan konfigureras för att hämta tillgänglig information
+om paketversioner och installerbara paket från paketsamlingar.
+Beroende på åtkomstmetoden kan dessa samlingar vara öppna arkivservrar på
+Internet, lokala arkivservrar eller finnas på cd-rom.
+Den rekommenderade åtkomstmetoden är \fIapt\fP, vilken tillhandahålls av
+paketet \fBapt\fP.
+.PP
+Vanligtvis anropas \fBdselect\fP utan parametrar.
+En interaktiv meny visas då, vilken ger användaren ett antal
+handlingsmöjligheter.
+Om en handling ges som kommandoradsflagga startas denna automatiskt.
+Flera kommandoradsflaggor finns ändå att tillgå för att förändra hur
+\fBdselect\fP arbetar eller för att visa ytterligare information om
+programmet.
+.SH FLAGGOR
+Alla flaggorna kan ges både på kommandoraden och i \fBdselect\fPs
+konfigurationsfil \fI/etc/dpkg/dselect.cfg\fP.
+En rad i konfigurationsfilen är antingen en flagga (precis samma som på
+kommandoraden, men utan inledande bindestreck) eller en kommentar (om den
+börjar med ett \fB#\fR).
+.br
+.TP
+.B --admindir <katalog>
+Ändrar namnet på katalogen där dpkg letar efter filerna "status", "available"
+m.fl.
+Förval är \fI/var/lib/dpkg\fP
+och du bör normalt sett inte behöva ändra det.
+.TP
+.B --debug <fil> | -D<fil>
+Slå på felsökningsläge. Felsökningsinformation lagras i \fI<fil>\fP.
+.TP
+.B --expert
+Slår på expertläge, dvs. visar inte hjälpmeddelanden som kanske kan vara
+irriterande.
+.TP
+.B --colour | --color skärmdel:[förgrund],[bakgrund][:attr[+attr+..]]
+Ställer in skärmfärger.
+Detta fungerar bara om din skärm kan visa färger.
+Flaggan kan användas flera gånger (och fungerar bäst i \fIdselect.cfg\fP).
+Varje användning ändrar färgen (och kanske andra attribut) för en del av
+skärmen.
+Skärmdelarna är, uppifrån och ner:
+.RS
+.TP
+.B title
+Skärmtiteln.
+.TP
+.B listhead
+Huvudraden ovanför paketlistan.
+.TP
+.B list
+Den rullande paketlistan (och även viss hjälptext).
+.TP
+.B listsel
+Den valda posten i listan.
+.TP
+.B pkgstate
+I listan över paket är detta texten som anger aktuellt tillstånd för
+varje paket.
+.TP
+.B pkgstatesel
+I listan över paket är detta texten som anger aktuellt tillstånd för
+det nu markerade paketet.
+.TP
+.B infohead
+Huvudraden som visar information om tillståndet för det nu markerade
+paketet.
+.TP
+.B infodesc
+Paketets korta beskrivning.
+.TP
+.B info
+Används för att visa paketinformation, såsom paketets beskrivning.
+.TP
+.B infofoot
+Den sista raden på skärmen när paket väljs.
+.TP
+.B query
+Används för att visa frågor.
+.TP
+.B helpscreen
+Färg på hjälpskärmar.
+.RE
+.P
+Efter skärmdelen följer ett kolon och färgangivelsen.
+Du kan ange antingen förgrundsfärgen, bakgrundsfärgen eller båda två,
+vilka kommer att ersätta de inkompilerade färgerna.
+Använd de normala curses-namnen för färgerna.
+.P
+Du kan även ange ytterligare ett kolon efter färgangivelsen och där ge
+attribut.
+Detta är en lista med ett eller flera attribut, avdelade med plustecken
+("+").
+Tillgängliga attribut är (alla fungerar inte på alla terminaler):
+normal, standout (uthävd), underline (understruken), reverse (omvänd),
+blink, bright (ljus), dim (mörk), bold (fet)
+.P
+.TP
+.B --help
+Visar en kort hjälptext och ger lyckat avslut.
+.TP
+.B --licence | --license
+Visar upphovsrättslig och licensinformation om \fBdselect\fP, och ger lyckat
+avslut.
+.TP
+.B --version
+Visar versionsinformation och ger lyckat avslut.
+.SH ANVÄNDNING
+När
+.B dselect
+startas interaktivt visas en meny för användaren med tillgängliga
+handlingar:
+.SS Access (Åtkomst)
+Väljer en "åtkomstmetod" för att komma åt paketsamlingen.
+.sp
+Som standard ger \fBdselect\fP flera olika metoder, såsom
+\fIfloppy\fP (diskett), \fIharddisk\fP (hårddisk) och
+\fIcdrom\fP, men andra paket du installerar kan tillhandahålla
+ytterligare metoder, t.ex ges åtkomstmetoden \fIapt\fP av paketet
+\fBapt\fP och \fImulti_cd\fP av \fBdpkg-multicd\fP.
+.sp
+Åtkomstmetoden \fIapt\fP rekommenderas starkt.
+.sp
+.SS Update (Uppdatera)
+Hämtar en lista över tillgängliga paket från paketsamlingen som
+konfigurerats för den aktuella åtkomstmetoden, och uppdaterar
+dpkgs databas.
+Paketlistor finns normalt på paketsamlingarna i filer vid namn
+\fBPackages\fP eller \fBPackages.gz\fP.
+Dessa filer kan genereras av de som underhåller samlingarna genom
+att använda programmet \fBdpkg-scanpackages(1)\fP.
+.sp
+Vilka detaljer som ges om uppdateringen beror på hur åtkomstmetoden
+är implementerad.
+Normalt är processen självförklarande och behöver ingen interaktion
+med användaren.
+.sp
+.SS Select (Välj)
+Visar eller väljer paketval och beroenden.
+.sp
+Detta är \fBdselect\fPs huvudfunktion.
+På valskärmen kan användaren titta på en lista över samtliga tillgängliga
+och installerade paket.
+När det körs med administratörsbehörighet är det även möjligt att
+interaktivt ändra paketets valstatus.
+\fBdselect\fP spårar vilken inverkning dessa ändringar får på beroende
+eller motstridiga paket.
+.sp
+När en konflikt eller ett misslyckat beroende upptäcks visas en delskärm
+med möjlighet att lösa beroendet.
+På denna skärm visas en lista över motstridiga eller beroende paket,
+och för varje paket som listas visas dess orsak.
+Användaren kan applicera de av \fBdselect\fP rekommenderade ändringarna,
+själv ändra dem, eller backa alla ändringar, inklusive de som gjorde
+att de ohanterade beroendena eller konflikterna uppstod till att börja med.
+.sp
+Användningen av den interaktiva paketvalshanterarskärmen beskrivs i
+ytterligare detalj nedan.
+.sp
+.SS Install (Installera)
+Installerar valda paket.
+.sp
+Den valda åtkomstmetoden hämtar installerbara eller uppgraderbara paket
+från relevanta paketsamlingar och installerar dem med \fBdpkg\fP.
+Beroende på hur åtkomstmetoden implementerats hämtas antingen alla
+paket innan installationen, eller så hämtas de när så är nödvändigt.
+Några åtkomstmetoder kommer även ta bort paket som markerades för
+borttagning.
+.sp
+Om ett fel uppstod under installationen är rekommenderas det vanligen
+att köra installationen på nytt.
+I de flesta fall kommer problemet försvinna eller lösas.
+Om problemet kvarstår eller den installation som genomfördes var
+felaktig, ber vi dig undersöka orsaken och omständigheterna och
+rapportera ett fel i Debians felrapporteringssystem.
+Instruktioner om hur detta görs finns på http://bugs.debian.org/ eller
+genom att läsa dokumentationen för \fBbug(1)\fP eller \fBreportbug(1)\fP,
+om dessa är installerade.
+.sp
+Detaljerna för hur installationen genomförs beror på hur
+åtkomstmetoden är installerad.
+Uppmärksamhet och indata från användaren kan behövas under installation,
+konfiguration eller borttagning av paket, beroende på hur utvecklarskripten
+i paketen ser ut.
+Vissa paket använder \fBdebconf(8)\fP-biblioteket, vilket möjliggör
+mer flexibel, eller till och med automatiserad, installation och
+inställning.
+.sp
+.SS Config (Konfigurera)
+Konfigurera paket som tidigare installerats, men ej till fullo konfigurerats.
+.sp
+.SS Remove (Radera)
+Tar bort eller helt raderar installerade paket som markerats för borttagning.
+.sp
+.SS Quit (Avsluta)
+Avslutar dselect med felkod noll (lyckat).
+.sp
+.SH Paketvalshantering
+.sp
+.SS Introduktion
+.sp
+.B dselect 
+utsätter direkt administratören för delar av den komplexitet det innebär att
+hantera stora mängder paket med många inbördes beroenden.
+För en användare som inte är nära förtrogen med koncepten och hur Debians
+pakethanteringssystem fungerar kan det te sig rätt så överväldigande.
+Trots att \fBdselect\fPs målsättning är att förenkla administration och
+hantering av paket är det bara en del av helheten, och kan inte antas vara
+ett tillräckligt substitut för administratörsfärdighet och -förståelse.
+Användaren är tvungen att ha kunskap om det underliggande paketsystemet i
+Debian.
+Om tvivel föreligger, konsultera manualsidan \fBdpkg(8)\fP och Debians
+policymanual.
+.sp
+Såvida inte \fBdselect\fP körs i expert- eller direktläge visas en
+hjälpskärm först när val görs i menyn.
+Användaren rekommenderas \fIstarkt\fP att studera all information som finns
+i direkthjälpskärmarna när de dyker upp.
+Direkthjälpskärmarna kan när som helst nås via tangenten \fB"?"\fP.
+.sp
+.SS Skärmutseende
+.sp
+Valskärmen är normalt delat i en övre och en nedre halva.
+Den övre halvan visar en lista över paket; en markeringsrad kan välja paket
+individuellt eller i grupp (när tillämpligt) genom att välja en grupprubrik.
+Den nedre halvan av skärmen visar detaljer om det paket som just nu visas i
+den övre halvan.
+Vilken sorts detaljer som visas kan varieras.
+.sp
+Genom att trycka \fB"I"\fP växlas vyn mellan en fullskärmsvisning av
+paketlistan, en förstorad vy för paketdetaljer, eller en skärm med två lika
+stora delar.
+.sp
+.SS Paketdetaljvy
+.sp
+Paketdetaljvyn visar normalt den utökade paketbeskrivningen för det paket
+som just nu är markerat i paketvallistan.
+Vilken sorts detaljer som visas kan växlas genom att trycka på \fB"i"\fP,
+vilken växlar mellan:
+ - den utökade beskrivningen
+ - kontrollinformationen för den installerade versionen
+ - kontrollinformationen för den tillgängliga versionen
+.sp
+I en beroendelösningsskärm är det även möjligt att visa specifika
+otillfredsställda beroenden eller konflikter för paketet.
+.sh
+.SS Paketstatuslista
+.sp
+Huvudvalskärmen visar en lista över samtliga paket som är kända för Debians
+pakethanteringssystem, vilket inbegriper paket installerade på systemet och
+paket kända från databasen över tillgängliga paket.
+.sp
+För varje paket visar listan paketets status, prioritet, avdelning,
+installerade och tillgängliga versioner, paketets namn och dess korta
+beskrivning, allt på en rad.
+Genom att trycka på tangenten \fB"V"\fP slås visningen av den installerade
+och den aktiva versionen på och av.
+Genom att trycka på tangenten \fB"v"\fP växlas paketstatusvisningen mellan
+ordrik och förkortad, med den förkortade visningen som förval.
+.sp
+Den förkortade statusindikeringen består av fyra delar: en felflagga, vilken
+normalt skall vara blank, aktuell status, senast vald status och nu vald
+status.
+De första två anger paketets faktiska status, det andra paret beskriver
+valet som gjorts av användaren.
+.sp
+Detta är vad de olika paketstatusindikatorerna i det förkortade läget
+betyder:
+ Felflagga:
+  \fItom\fP     inget fel
+  \fBR\fP       allvarligt fel, kräver ominstallation
+ Installerad status:
+  \fIempty\fP   ej installerat
+  \fB*\fP       helt installerat och konfigurerat
+  \fB-\fP       ej installerat, men konfigurationsfiler kan kvarstå
+  \fBU\fP       uppackat men ännu ej konfigurerat
+  \fBC\fP       halvkonfigurerat (ett fel uppstod)
+  \fBI\fP       halvinstallerat (ett fel uppstod)
+ Aktuella och begärda val:
+  \fB*\fP       markerat för installation eller uppgradering
+  \fB-\fP       markerat för borttagning, konfigurationsfiler lämnas kvar
+  \fB=\fP       håll: paketet kommer inte att röras alls
+  \fB_\fP       markerat för borttagning, tar även bort konfiguration
+  \fBn\fP       paketet är nytt och har ännu inte markerats
+.sp
+.SS Markör- och skärmrörelser
+.sp
+Paketvallistan och beroendekonfliktslösningnskärmarna kan navigeras genom
+att använda rörelsekommandon kopplade till följande tangenter:
+.br
+  \fBp, Upp, k\fP           flytta markeringsrad upp
+  \fBn, Ned, j\fP           flytta markeringsrad ned
+  \fBP, Pgup, Baksteg\fP    rulla lista 1 sida upp
+  \fBN, Pgdn, Mellanslag\fP rulla lista 1 sida ned
+  \fB^p\fP                  rulla lista 1 rad upp
+  \fB^n\fP                  rulla lista 1 rad ned
+  \fBt, Home\fP             hoppa till listans början
+  \fBe, End\fP              hoppa till listans slut
+  \fBu\fP                   rulla info 1 sida upp
+  \fBd\fP                   rulla info 1 sida ned
+  \fB^u\fP                  rulla info 1 rad upp
+  \fB^d\fP                  rulla info 1 rad ned
+  \fBB, Vänsterpil\fP       panorera vy 1/3 skärm vänster
+  \fBF, Högerpil\fP         panorera vy 1/3 skärm höger
+  \fB^b\fP                  panorera vy 1 tecken vänster
+  \fB^f\fP                  panorera vy 1 tecken höger
+.sp
+.SS Sökning och sortering
+.sp
+Det går att söka i paketlistan efter paketnamn.
+Detta görs genom att trycka \fB"/"\fP och ange en enkel söksträng.
+Strängen tolkas som ett
+.BR regex (7)-reguljärt
+uttryck.
+Om du lägger till \fB"/d"\fP till sökuttrycket kommer dselect även söka
+beskrivningar.
+Om du lägger till \fB"/i"\fP kommer sökningen att ignorera skillnader mellan
+gemener och versaler.
+Du kan kombinera dessa båda suffix så här: \fB"/id"\fP.
+Sökningen kan upprepas genom att trycka på \fB"n"\fP eller \fB"\\"\fP
+tills det önskade paketet hittas.
+Om sökningen når slutet på listan hoppar den till början och fortsätter
+sökningen därifrån.
+.sp
+Listans sorteringsordning kan ändras genom att trycka på tangenterna
+\fB"o"\fP och \fB"O"\fP upprepade gånger.
+Följande nio sorteringsordningar kan väljas:
+ alfabetisk         tillgänglig            status
+ prioritet+sektion  tillgänglig+prioritet  status+prioritet
+ sektion+prioritet  tillgänglig+sektion    status+sektion
+.br
+När det inte anges explicit ovan används alfabetisk ordning som den slutliga
+sorteringsnyckeln.
+.sp
+.SS Ändra val
+.sp
+Den begärda valstatusen för varje individuellt paket kan ändras med följande
+kommandon:
+  \fB+, Insert\fP    installera eller uppgradera
+  \fB=, H\fP         håll i aktuellt tillstånd och version
+  \fB:, G\fP         avbryt håll: uppgradera eller lämna oinstallerad
+  \fB-, Delete\fP    ta bort, men lämna kvar konfiguration
+  \fB_\fP            ta bort och radera konfiguration
+.sp
+När ändringar som får en eller flera otillfredsställda beroenden eller
+konflikter till följd görs, frågar \fBdselect\fP användaren med en
+beroendelösningsskärm, vilken beskrivs ytterligare nedan.
+.sp
+Det är även möjligt att applicera dessa kommandon på grupper av paketval,
+genom att peka markeringsraden på en grupprubrik.
+Exakt hur paketen grupperas beror på vilken listordning som för tillfället
+används.
+.sp
+Nödvändiga försiktighetsåtgärder skall tas när ändringar görs på stora
+gruppmarkeringar, eftersom detta med en gång kan ge stora mängder
+otillfredsställda beroenden eller konflikter, vilka alla kommer att visas på
+en beroendelösningsskärm, vilket gör dem mycket svåra att hantera.
+I praktiken är bara håll-kommandot och dess motsats användbara på grupper.
+.sp
+.SS Lösa beroenden och konflikter
+.sp
+När ändringar som får en eller flera otillfredsställda beroenden eller
+konflikter till följd görs, frågar \fBdselect\fP användaren med en
+beroendelösningsskärm.
+Först visas dock en informativ hjälpskärm.
+.sp
+Övre halvan av denna skärm listar alla paket som har otillfredsställda
+beroenden eller konflikter som ett resultat av ändringen som efterfrågas,
+samt alla paket vars installation kan lösa något av dessa beroenden, eller
+vars borttagning kan lösa någon av konflikterna.
+Den nedre halvan visar som förval de beroenden eller konflikter som leder
+till att det markerade paketet listas.
+.sp
+När paketunderlistan visas kan \fBdselect\fP redan ha satt efterfrågad
+valstatus för några av de listade paketen för att lösa de beroenden och
+konflikter som fick beroendelösningsskärmen att visas.
+Vanligtvis är det bäst att följa upp de förslag som görs av \fBdselect\fP.
+.sp
+De listade paketens valstatus kan återställas till ursprungsinställningarna,
+såsom de var innan de otillfredsställda beroendena eller konflikterna
+skapades, genom att trycka på tangenten \fB"R"\fP.
+Genom att trycka på \fB"D"\fP återställs de föreslagna lösningarna, men
+ändringen som fick skärmen att visas behålls i den status de valdes.
+Slutligen, genom att trycka \fB"U"\fP återställs valen återigen till de
+automatiskt föreslagna värdena.
+.sp
+.SS Bekräfta de efterfrågade valen
+.sp
+Genom att trycka \fBEnter\fP godtas den vid tillfället inställda
+uppsättningen val.
+Om \fBdselect\fP inte upptäcker några otillfredsställda beroenden som följd
+av de efterfrågade valen kommer de nya valen att lagras.
+Om det däremot finns några otillfredsställda beroenden kommer \fBdselect\fP
+återigen gå till beroendelösningsskärmen.
+.sp
+För att ändra en uppsättning val som skapar otillfredsställda beroenden
+eller konflikter, och tvinga \fBdselect\fP att godta dem trycker du på
+\fB"Q"\fP-tangenten.
+Detta ställer ovillkorligen in de val användaren gjort, vilket vanligtvis
+inte bör göras såvida man inte har läst det finstilta.
+.sp
+Motsatt effekt, att backa ut från valändringar och återgå till föregående
+vallista, kan fås genom att trycka på tangenterna \fB"X"\fP eller
+\fbEscape\fP.
+Genom att upprepade gånger trycka dessa tangenter, kan eventuella skadliga
+paketval backas ut helt och hållet för att återgå till senast etablerade
+inställningar.
+.sp
+.SH PROGRAMFEL
+Paketvalsgränssnittet i
+.B dselect
+är förvirrande för en del nya användare.
+Det har rapporterats att det till och med kan få erfarna utvecklare
+av kärnan att gråta.
+.sp
+Dokumentationen har brister.
+.sp
+Det finns inget hjälpalternativ i huvudmenyn.
+.sp
+Den synliga listan med tillgängliga paket kan inte förminskas.
+.sp
+De inbyggda åtkomstmetoderna kan inte längre nå nuvarande kvalitetsstandard.
+Använd åtkomstmetoden som ges av apt, den är inte bara inte trasig, utan
+även mycket flexiblare än de inbyggda åtkomstmetoderna.
+.SH SE ÄVEN
+.BR dpkg (8),
+.BR apt-get (8),
+.BR sources.list (5),
+.BR deb (5),
+Debians policymanual.
+.SH FÖRFATTARE
+.B dselect
+skrevs av (ijackson@gnu.ai.mit.edu).
+En komplett lista över bidragslämnare får du med "dselect --license".
+.br
+Denna manualsida skrevs av Juho Vuori <javuori@cc.helsinki.fi>,
+Josip Rodin och Joost Kooij.
+.br
+Dselect, och denna manualsida, är översatt av Peter Karlsson.
