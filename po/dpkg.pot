@@ -1,12 +1,14 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Free Software Foundation, Inc.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2002-05-27 19:05+0200\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-10-27 17:21+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,17 +58,17 @@ msgstr ""
 msgid "Signal no.%d"
 msgstr ""
 
-#: lib/database.c:177
+#: lib/database.c:124
 #, c-format
 msgid "couldn't allocate memory for strdup in findpackage(%s)"
 msgstr ""
 
-#: lib/database.c:247
+#: lib/database.c:194
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr ""
 
-#: lib/database.c:248
+#: lib/database.c:195
 msgid "failed write during hashreport"
 msgstr ""
 
@@ -113,49 +115,49 @@ msgstr ""
 msgid "unable seek to start of %.250s after padding"
 msgstr ""
 
-#: lib/dbmodify.c:145
+#: lib/dbmodify.c:147
 msgid "requested operation requires superuser privilege"
 msgstr ""
 
-#: lib/dbmodify.c:150
+#: lib/dbmodify.c:152
 msgid "unable to access dpkg status area"
 msgstr ""
 
-#: lib/dbmodify.c:152
+#: lib/dbmodify.c:154
 msgid "operation requires read/write access to dpkg status area"
 msgstr ""
 
-#: lib/dbmodify.c:200
+#: lib/dbmodify.c:202
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr ""
 
-#: lib/dbmodify.c:249
+#: lib/dbmodify.c:256
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr ""
 
-#: lib/dbmodify.c:251
+#: lib/dbmodify.c:258
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr ""
 
-#: lib/dbmodify.c:253
+#: lib/dbmodify.c:260
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr ""
 
-#: lib/dbmodify.c:255
+#: lib/dbmodify.c:262
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr ""
 
-#: lib/dbmodify.c:257
+#: lib/dbmodify.c:264
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr ""
 
-#: lib/dbmodify.c:260
+#: lib/dbmodify.c:267
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr ""
@@ -174,27 +176,27 @@ msgstr ""
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr ""
 
-#: lib/dump.c:310
+#: lib/dump.c:311
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr ""
 
-#: lib/dump.c:312
+#: lib/dump.c:313
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr ""
 
-#: lib/dump.c:314
+#: lib/dump.c:315
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr ""
 
-#: lib/dump.c:318
+#: lib/dump.c:319
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr ""
@@ -359,17 +361,17 @@ msgid ""
 " version value starts with non-alphanumeric, suggest adding a space"
 msgstr ""
 
-#: lib/fields.c:380
+#: lib/fields.c:381
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr ""
 
-#: lib/fields.c:383
+#: lib/fields.c:384
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr ""
 
-#: lib/fields.c:386
+#: lib/fields.c:387
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr ""
@@ -389,23 +391,23 @@ msgstr ""
 msgid "alternatives (`|') not allowed in %s field"
 msgstr ""
 
-#: lib/lock.c:47
+#: lib/lock.c:45
 msgid "unable to unlock dpkg status database"
 msgstr ""
 
-#: lib/lock.c:68
+#: lib/lock.c:65
 msgid "you do not have permission to lock the dpkg status database"
 msgstr ""
 
-#: lib/lock.c:69
+#: lib/lock.c:66
 msgid "unable to open/create status database lockfile"
 msgstr ""
 
-#: lib/lock.c:78
+#: lib/lock.c:75
 msgid "status database area is locked by another process"
 msgstr ""
 
-#: lib/lock.c:79
+#: lib/lock.c:76
 msgid "unable to lock dpkg status database"
 msgstr ""
 
@@ -483,7 +485,8 @@ msgid "unable to set close-on-exec flag for %.250s"
 msgstr ""
 
 #: lib/mlib.c:199
-msgid "failed in buffer_write(fd) (%i, ret=%zi %s): %s"
+#, c-format
+msgid "failed in buffer_write(fd) (%i, ret=%li %s): %s"
 msgstr ""
 
 #: lib/mlib.c:206
@@ -561,32 +564,36 @@ msgstr ""
 msgid "error closing configuration file `%.255s'"
 msgstr ""
 
-#: lib/myopt.c:127
+#: lib/myopt.c:93 lib/myopt.c:101
+msgid "Error allocating memory for cfgfilename"
+msgstr ""
+
+#: lib/myopt.c:129
 #, c-format
 msgid "unknown option --%s"
 msgstr ""
 
-#: lib/myopt.c:131
+#: lib/myopt.c:133
 #, c-format
 msgid "--%s option takes a value"
 msgstr ""
 
-#: lib/myopt.c:136
+#: lib/myopt.c:138
 #, c-format
 msgid "--%s option does not take a value"
 msgstr ""
 
-#: lib/myopt.c:143
+#: lib/myopt.c:145
 #, c-format
 msgid "unknown option -%c"
 msgstr ""
 
-#: lib/myopt.c:148
+#: lib/myopt.c:150
 #, c-format
 msgid "-%c option takes a value"
 msgstr ""
 
-#: lib/myopt.c:156
+#: lib/myopt.c:158
 #, c-format
 msgid "-%c option does not take a value"
 msgstr ""
@@ -646,44 +653,44 @@ msgstr ""
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr ""
 
-#: lib/parse.c:182
+#: lib/parse.c:183
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr ""
 
-#: lib/parse.c:205
+#: lib/parse.c:206
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr ""
 
-#: lib/parse.c:210
+#: lib/parse.c:211
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr ""
 
-#: lib/parse.c:215
+#: lib/parse.c:216
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr ""
 
-#: lib/parse.c:228
+#: lib/parse.c:229
 msgid "several package info entries found, only one allowed"
 msgstr ""
 
-#: lib/parse.c:256
+#: lib/parse.c:257
 msgid "Configured-Version for package with inappropriate Status"
 msgstr ""
 
-#: lib/parse.c:270
+#: lib/parse.c:271
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr ""
 
-#: lib/parse.c:325
+#: lib/parse.c:326
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr ""
 
-#: lib/parse.c:326
+#: lib/parse.c:327
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr ""
@@ -752,12 +759,12 @@ msgstr ""
 msgid "nothing after colon in version number"
 msgstr ""
 
-#: lib/parsehelp.c:235
+#: lib/parsehelp.c:233
 #, c-format
 msgid "missing %s"
 msgstr ""
 
-#: lib/parsehelp.c:239
+#: lib/parsehelp.c:237
 #, c-format
 msgid "empty value for %s"
 msgstr ""
@@ -766,12 +773,12 @@ msgstr ""
 msgid "cannot open GPL file "
 msgstr ""
 
-#: lib/showpkg.c:69
+#: lib/showpkg.c:70
 #, c-format
 msgid "invalid character `%c' in field width\n"
 msgstr ""
 
-#: lib/showpkg.c:156
+#: lib/showpkg.c:157
 msgid "Closing brace missing in format\n"
 msgstr ""
 
@@ -854,7 +861,7 @@ msgstr ""
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:367 main/archives.c:496
+#: main/archives.c:496 dpkg-deb/build.c:368
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr ""
@@ -950,117 +957,117 @@ msgid ""
 " it in order to enable removal of %s.\n"
 msgstr ""
 
-#: main/archives.c:663
+#: main/archives.c:662
 #, c-format
 msgid ""
 "dpkg: no, cannot remove %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 
-#: main/archives.c:697
+#: main/archives.c:696
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr ""
 
-#: main/archives.c:701
+#: main/archives.c:700
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr ""
 
-#: main/archives.c:728
+#: main/archives.c:727
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr ""
 
-#: main/archives.c:743
+#: main/archives.c:742
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
 "request.\n"
 msgstr ""
 
-#: main/archives.c:746
+#: main/archives.c:745
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr ""
 
-#: main/archives.c:759
+#: main/archives.c:758
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr ""
 
-#: main/archives.c:767
+#: main/archives.c:766
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
 "%s"
 msgstr ""
 
-#: main/archives.c:770
+#: main/archives.c:769
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr ""
 
-#: main/archives.c:771
+#: main/archives.c:770
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
 msgstr ""
 
-#: main/archives.c:809
+#: main/archives.c:808
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr ""
 
-#: main/archives.c:839
+#: main/archives.c:838
 msgid "failed to exec find for --recursive"
 msgstr ""
 
-#: main/archives.c:844
+#: main/archives.c:843
 msgid "failed to fdopen find's pipe"
 msgstr ""
 
-#: main/archives.c:850
+#: main/archives.c:849
 msgid "error reading find's pipe"
 msgstr ""
 
-#: main/archives.c:851
+#: main/archives.c:850
 msgid "error closing find's pipe"
 msgstr ""
 
-#: main/archives.c:854
+#: main/archives.c:853
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr ""
 
-#: main/archives.c:857
+#: main/archives.c:856
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 
-#: main/archives.c:873
+#: main/archives.c:872
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr ""
 
-#: main/archives.c:943
+#: main/archives.c:942
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr ""
 
-#: main/archives.c:948
+#: main/archives.c:947
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr ""
 
-#: main/archives.c:962
+#: main/archives.c:961
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr ""
 
-#: main/archives.c:974
+#: main/archives.c:973
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr ""
 
-#: main/archives.c:980
+#: main/archives.c:979
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1082,63 +1089,63 @@ msgstr ""
 msgid "unable to remove newly-extracted version of `%.250s'"
 msgstr ""
 
-#: main/configure.c:86
+#: main/configure.c:87
 #, c-format
 msgid "no package named `%s' is installed, cannot configure"
 msgstr ""
 
-#: main/configure.c:88
+#: main/configure.c:89
 #, c-format
 msgid "package %.250s is already installed and configured"
 msgstr ""
 
-#: main/configure.c:90
+#: main/configure.c:91
 #, c-format
 msgid ""
 "package %.250s is not ready for configuration\n"
 " cannot configure (current status `%.250s')"
 msgstr ""
 
-#: main/configure.c:109
+#: main/configure.c:110
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
 "%s"
 msgstr ""
 
-#: main/configure.c:112
+#: main/configure.c:113
 msgid "dependency problems - leaving unconfigured"
 msgstr ""
 
-#: main/configure.c:116
+#: main/configure.c:117
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you request:\n"
 "%s"
 msgstr ""
 
-#: main/configure.c:124
+#: main/configure.c:125
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
 msgstr ""
 
-#: main/configure.c:127
+#: main/configure.c:128
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr ""
 
-#: main/configure.c:174
+#: main/configure.c:175
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr ""
 
-#: main/configure.c:184 main/configure.c:422
+#: main/configure.c:185 main/configure.c:423
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr ""
 
-#: main/configure.c:193
+#: main/configure.c:194
 #, c-format
 msgid ""
 "\n"
@@ -1146,106 +1153,106 @@ msgid ""
 "Installing new config file as you request.\n"
 msgstr ""
 
-#: main/configure.c:225
+#: main/configure.c:226
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
 msgstr ""
 
-#: main/configure.c:233
+#: main/configure.c:234
 #, c-format
 msgid "dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"
 msgstr ""
 
-#: main/configure.c:241
+#: main/configure.c:242
 #, c-format
 msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
 msgstr ""
 
-#: main/configure.c:249
+#: main/configure.c:250
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"
 msgstr ""
 
-#: main/configure.c:254
+#: main/configure.c:255
 #, c-format
 msgid "dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"
 msgstr ""
 
-#: main/configure.c:258
+#: main/configure.c:259
 #, c-format
 msgid "dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"
 msgstr ""
 
-#: main/configure.c:262
+#: main/configure.c:263
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr ""
 
-#: main/configure.c:266
+#: main/configure.c:267
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr ""
 
-#: main/configure.c:327
+#: main/configure.c:328
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to stat config file `%s'\n"
 " (= `%s'): %s\n"
 msgstr ""
 
-#: main/configure.c:338
+#: main/configure.c:339
 #, c-format
 msgid ""
 "dpkg: %s: warning - config file `%s' is a circular link\n"
 " (= `%s')\n"
 msgstr ""
 
-#: main/configure.c:351
+#: main/configure.c:352
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to readlink conffile `%s'\n"
 " (= `%s'): %s\n"
 msgstr ""
 
-#: main/configure.c:371
+#: main/configure.c:372
 #, c-format
 msgid ""
 "dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
 " (`%s' is a symlink to `%s')\n"
 msgstr ""
 
-#: main/configure.c:384
+#: main/configure.c:385
 #, c-format
 msgid ""
 "dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
 "s')\n"
 msgstr ""
 
-#: main/configure.c:402
+#: main/configure.c:403
 msgid "md5hash"
 msgstr ""
 
-#: main/configure.c:408
+#: main/configure.c:409
 #, c-format
 msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
 msgstr ""
 
-#: main/configure.c:426
+#: main/configure.c:427
 #, c-format
 msgid "unable to change ownership of new dist conffile `%.250s'"
 msgstr ""
 
-#: main/configure.c:429
+#: main/configure.c:430
 #, c-format
 msgid "unable to set mode of new dist conffile `%.250s'"
 msgstr ""
 
-#: main/configure.c:459
+#: main/configure.c:460
 #, c-format
 msgid "failed to run %s (%.250s)"
 msgstr ""
 
-#: main/configure.c:468 main/configure.c:506
+#: main/configure.c:469 main/configure.c:507
 msgid "wait for shell failed"
 msgstr ""
 
@@ -1254,75 +1261,75 @@ msgstr ""
 #.
 #. waitpid status
 #. waitpid result
-#: main/configure.c:488
+#: main/configure.c:489
 msgid "Type `exit' when you're done.\n"
 msgstr ""
 
-#: main/configure.c:497
+#: main/configure.c:498
 #, c-format
 msgid "failed to exec shell (%.250s)"
 msgstr ""
 
-#: main/configure.c:509
+#: main/configure.c:510
 msgid "Don't forget to foreground (`fg') this process when you're done !\n"
 msgstr ""
 
-#: main/configure.c:528
+#: main/configure.c:529
 #, c-format
 msgid ""
 "\n"
 "Configuration file `%s'"
 msgstr ""
 
-#: main/configure.c:530
+#: main/configure.c:531
 #, c-format
 msgid " (actually `%s')"
 msgstr ""
 
-#: main/configure.c:534
+#: main/configure.c:535
 msgid ""
 "\n"
 " ==> File on system created by you or by a script.\n"
 " ==> File also in package provided by package maintainer.\n"
 msgstr ""
 
-#: main/configure.c:539
+#: main/configure.c:540
 msgid ""
 "\n"
 " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 
-#: main/configure.c:540
+#: main/configure.c:541
 msgid ""
 "\n"
 "     Not modified since installation.\n"
 msgstr ""
 
-#: main/configure.c:543
+#: main/configure.c:544
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr ""
 
-#: main/configure.c:544
+#: main/configure.c:545
 msgid "     Version in package is the same as at last installation.\n"
 msgstr ""
 
-#: main/configure.c:551
+#: main/configure.c:552
 msgid " ==> Using new file as you requested.\n"
 msgstr ""
 
-#: main/configure.c:555
+#: main/configure.c:556
 msgid " ==> Using current old file as you requested.\n"
 msgstr ""
 
-#: main/configure.c:565
+#: main/configure.c:566
 msgid " ==> Keeping old config file as default.\n"
 msgstr ""
 
-#: main/configure.c:569
+#: main/configure.c:570
 msgid " ==> Using new config file as default.\n"
 msgstr ""
 
-#: main/configure.c:577
+#: main/configure.c:578
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
 "    Y or I  : install the package maintainer's version\n"
@@ -1331,35 +1338,35 @@ msgid ""
 "      Z     : background this process to examine the situation\n"
 msgstr ""
 
-#: main/configure.c:584
+#: main/configure.c:585
 msgid " The default action is to keep your current version.\n"
 msgstr ""
 
-#: main/configure.c:586
+#: main/configure.c:587
 msgid " The default action is to install the new version.\n"
 msgstr ""
 
-#: main/configure.c:592
+#: main/configure.c:593
 msgid "[default=N]"
 msgstr ""
 
-#: main/configure.c:593
+#: main/configure.c:594
 msgid "[default=Y]"
 msgstr ""
 
-#: main/configure.c:593
+#: main/configure.c:594
 msgid "[no default]"
 msgstr ""
 
-#: main/configure.c:596
+#: main/configure.c:597
 msgid "error writing to stderr, discovered before conffile prompt"
 msgstr ""
 
-#: main/configure.c:603
+#: main/configure.c:604
 msgid "read error on stdin at conffile prompt"
 msgstr ""
 
-#: main/configure.c:604
+#: main/configure.c:605
 msgid "EOF on stdin at conffile prompt"
 msgstr ""
 
@@ -1596,34 +1603,26 @@ msgstr ""
 msgid "no newline"
 msgstr ""
 
-#: main/enquiry.c:438
-msgid "no gcc-lib component"
-msgstr ""
-
-#: main/enquiry.c:440
-msgid "no slash after gcc-lib"
-msgstr ""
-
-#: main/enquiry.c:452
+#: main/enquiry.c:449
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr ""
 
-#: main/enquiry.c:494
+#: main/enquiry.c:491
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 
-#: main/enquiry.c:499
+#: main/enquiry.c:496
 msgid "--compare-versions bad relation"
 msgstr ""
 
-#: main/enquiry.c:504
+#: main/enquiry.c:501
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr ""
 
-#: main/enquiry.c:514
+#: main/enquiry.c:511
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr ""
@@ -1813,7 +1812,7 @@ msgstr ""
 msgid "read error in diversions [i]"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:50 main/help.c:41
+#: main/help.c:41 dselect/pkgdisplay.cc:52
 msgid "not installed"
 msgstr ""
 
@@ -1825,7 +1824,7 @@ msgstr ""
 msgid "broken due to postinst failure"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:53 main/help.c:44
+#: main/help.c:44 dselect/pkgdisplay.cc:55
 msgid "installed"
 msgstr ""
 
@@ -1931,7 +1930,7 @@ msgstr ""
 msgid "failed to rmdir/unlink `%.255s'"
 msgstr ""
 
-#: dpkg-deb/info.c:54 main/help.c:477
+#: main/help.c:477 dpkg-deb/info.c:54
 msgid "failed to exec rm for cleanup"
 msgstr ""
 
@@ -1943,14 +1942,14 @@ msgstr ""
 msgid "' package management program version "
 msgstr ""
 
-#: main/main.c:48 main/query.c:434
+#: main/main.c:48 main/query.c:438
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
 "See "
 msgstr ""
 
-#: main/main.c:50 main/query.c:436
+#: main/main.c:50 main/query.c:440
 msgid " --licence for copyright and license details.\n"
 msgstr ""
 
@@ -1969,8 +1968,6 @@ msgid ""
 "  dpkg --update-avail <Packages-file>      replace available packages info\n"
 "  dpkg --merge-avail <Packages-file>       merge with info from file\n"
 "  dpkg --clear-avail                       erase existing available info\n"
-"  dpkg --command-fd <n>                    pass commands in on this file "
-"descriptor\n"
 "  dpkg --forget-old-unavail                forget uninstalled unavailable "
 "pkgs\n"
 "  dpkg -s|--status <package-name> ...      display package status details\n"
@@ -2008,7 +2005,8 @@ msgid ""
 "  -B|--auto-deconfigure      Install even if it would break some other "
 "package\n"
 "  --no-debsig                Do no try to verify package signatures\n"
-"  --no-act                   Just say what we would do - don't do it\n"
+"  --no-act|--dry-run|--simulate\n"
+"                             Just say what we would do - don't do it\n"
 "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
 "<n>\n"
@@ -2039,7 +2037,7 @@ msgid ""
 "`more' !"
 msgstr ""
 
-#: dpkg-deb/main.c:157 main/main.c:185 main/query.c:502 split/main.c:144
+#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:157 split/main.c:144
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr ""
@@ -2089,7 +2087,7 @@ msgstr ""
 msgid "invalid integer for --%s: `%.250s'"
 msgstr ""
 
-#: main/main.c:292
+#: main/main.c:293
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2130,47 +2128,47 @@ msgid ""
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
 
-#: main/main.c:337
+#: main/main.c:338
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr ""
 
-#: main/main.c:438 main/main.c:442
+#: main/main.c:441 main/main.c:445
 msgid "couldn't malloc in execbackend"
 msgstr ""
 
-#: main/main.c:440 main/main.c:447
+#: main/main.c:443 main/main.c:450
 msgid "couldn't strdup in execbackend"
 msgstr ""
 
-#: main/main.c:451
+#: main/main.c:454
 #, c-format
 msgid "failed to exec %s"
 msgstr ""
 
-#: main/main.c:463
+#: main/main.c:466
 msgid "--command-fd takes 1 argument, not 0"
 msgstr ""
 
-#: main/main.c:464
+#: main/main.c:467
 msgid "--command-fd only takes 1 argument"
 msgstr ""
 
-#: main/main.c:466
+#: main/main.c:469
 msgid "invalid number for --command-fd"
 msgstr ""
 
-#: main/main.c:468
+#: main/main.c:471
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr ""
 
-#: main/main.c:493
+#: main/main.c:496
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr ""
 
-#: dpkg-deb/main.c:169 main/main.c:537 main/main.c:552 main/query.c:537
+#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:169
 #: split/main.c:157
 msgid "need an action option"
 msgstr ""
@@ -2180,7 +2178,7 @@ msgstr ""
 msgid "--%s --pending does not take any non-option arguments"
 msgstr ""
 
-#: main/packages.c:109 main/query.c:295
+#: main/packages.c:109 main/query.c:297
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr ""
@@ -2386,7 +2384,7 @@ msgstr ""
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr ""
 
-#: main/processarc.c:668 main/processarc.c:905 main/remove.c:287
+#: main/processarc.c:668 main/processarc.c:905 main/remove.c:285
 msgid "cannot read info directory"
 msgstr ""
 
@@ -2444,77 +2442,70 @@ msgstr ""
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
 
-#: main/remove.c:78
+#: main/remove.c:92
 #, c-format
 msgid ""
 "dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"
 msgstr ""
 
-#: main/remove.c:86
+#: main/remove.c:100
 #, c-format
 msgid ""
 "dpkg - warning: ignoring request to remove %.250s, only the config\n"
 " files of which are on the system.  Use --purge to remove them too.\n"
 msgstr ""
 
-#: main/remove.c:95
+#: main/remove.c:109
 msgid "This is an essential package - it should not be removed."
 msgstr ""
 
-#: main/remove.c:121
+#: main/remove.c:135
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent removal of %s:\n"
 "%s"
 msgstr ""
 
-#: main/remove.c:123
+#: main/remove.c:137
 msgid "dependency problems - not removing"
 msgstr ""
 
-#: main/remove.c:127
+#: main/remove.c:141
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but removing anyway as you request:\n"
 "%s"
 msgstr ""
 
-#: main/remove.c:135
+#: main/remove.c:149
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
 msgstr ""
 
-#: main/remove.c:142
+#: main/remove.c:156
 #, c-format
 msgid "Would remove or purge %s ...\n"
 msgstr ""
 
-#: main/remove.c:150
+#: main/remove.c:164
 #, c-format
 msgid "Removing %s ...\n"
 msgstr ""
 
-#: main/remove.c:246
-#, c-format
-msgid ""
-"dpkg - warning: while removing %.250s, directory `%.250s' not empty so not "
-"removed.\n"
-msgstr ""
-
-#: main/remove.c:252
+#: main/remove.c:250 main/remove.c:362
 #, c-format
 msgid ""
 "dpkg - warning: while removing %.250s, unable to remove directory `%.250s': %"
 "s - directory may be a mount point ?\n"
 msgstr ""
 
-#: main/remove.c:259
+#: main/remove.c:257 main/remove.c:369
 #, c-format
 msgid "cannot remove `%.250s'"
 msgstr ""
 
-#: main/remove.c:277
+#: main/remove.c:275
 #, c-format
 msgid "cannot remove file `%.250s'"
 msgstr ""
@@ -2524,40 +2515,47 @@ msgstr ""
 msgid "unable to delete control info file `%.250s'"
 msgstr ""
 
-#: main/remove.c:323
+#: main/remove.c:356
 #, c-format
-msgid "unable to check existence of `%.250s'"
+msgid ""
+"dpkg - warning: while removing %.250s, directory `%.250s' not empty so not "
+"removed.\n"
 msgstr ""
 
-#: main/remove.c:338
+#: main/remove.c:392
 #, c-format
 msgid "Purging configuration files for %s ...\n"
 msgstr ""
 
-#: main/remove.c:382
+#: main/remove.c:437
 #, c-format
 msgid "cannot remove old config file `%.250s' (= `%.250s')"
 msgstr ""
 
-#: main/remove.c:397
+#: main/remove.c:452
 #, c-format
 msgid "cannot read config file dir `%.250s' (from `%.250s')"
 msgstr ""
 
-#: main/remove.c:432
+#: main/remove.c:487
 #, c-format
 msgid "cannot remove old backup config file `%.250s' (of `%.250s')"
 msgstr ""
 
-#: main/remove.c:461
+#: main/remove.c:523
+#, c-format
+msgid "unable to check existence of `%.250s'"
+msgstr ""
+
+#: main/remove.c:558
 msgid "cannot remove old files list"
 msgstr ""
 
-#: main/remove.c:467
+#: main/remove.c:564
 msgid "can't remove old postrm script"
 msgstr ""
 
-#: main/query.c:200 main/query.c:419 main/select.c:80
+#: main/select.c:80 main/query.c:200 main/query.c:422
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr ""
@@ -2658,93 +2656,93 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: dselect/methlist.cc:118 dselect/pkgtop.cc:295 main/query.c:144
+#: main/query.c:144 dselect/methlist.cc:120 dselect/pkgtop.cc:297
 msgid "Description"
 msgstr ""
 
-#: main/query.c:215
+#: main/query.c:216
 #, c-format
 msgid "diversion by %s"
 msgstr ""
 
-#: main/query.c:216
+#: main/query.c:217
 msgid "local diversion"
 msgstr ""
 
-#: main/query.c:217
+#: main/query.c:218
 msgid "to"
 msgstr ""
 
-#: main/query.c:217
+#: main/query.c:218
 msgid "from"
 msgstr ""
 
-#: main/query.c:250
+#: main/query.c:251
 msgid "--search needs at least one file name pattern argument"
 msgstr ""
 
-#: main/query.c:278
+#: main/query.c:279
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr ""
 
-#: main/query.c:315
+#: main/query.c:317
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr ""
 
-#: main/query.c:324
+#: main/query.c:326
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr ""
 
-#: main/query.c:334
+#: main/query.c:336
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr ""
 
-#: main/query.c:343
+#: main/query.c:345
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr ""
 
-#: main/query.c:349
+#: main/query.c:351
 msgid "locally diverted"
 msgstr ""
 
-#: main/query.c:350
+#: main/query.c:352
 msgid "package diverts others"
 msgstr ""
 
-#: main/query.c:351
+#: main/query.c:353
 #, c-format
 msgid "diverted by %s"
 msgstr ""
 
-#: main/query.c:352
+#: main/query.c:354
 #, c-format
 msgid " to: %s\n"
 msgstr ""
 
-#: main/query.c:371
+#: main/query.c:373
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgstr ""
 
-#: dpkg-deb/main.c:46 main/query.c:430
+#: main/query.c:434 dpkg-deb/main.c:46
 msgid "Debian `"
 msgstr ""
 
-#: main/query.c:432
+#: main/query.c:436
 msgid "' package management program query tool\n"
 msgstr ""
 
-#: main/query.c:444
+#: main/query.c:448
 msgid "Usage: "
 msgstr ""
 
-#: main/query.c:445
+#: main/query.c:449
 #, c-format
 msgid ""
 " [<option>] <command>\n"
@@ -2773,228 +2771,228 @@ msgid ""
 "   case left aligenment will be used. \n"
 msgstr ""
 
-#: main/query.c:472
+#: main/query.c:476
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
 "\n"
 msgstr ""
 
-#: dpkg-deb/build.c:66
+#: dpkg-deb/build.c:67
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr ""
 
-#: dpkg-deb/build.c:165
+#: dpkg-deb/build.c:166
 #, c-format
 msgid "%s: no compression copy loop"
 msgstr ""
 
-#: dpkg-deb/build.c:175
+#: dpkg-deb/build.c:176
 #, c-format
 msgid "%s: internal gzip error: read: `%s'"
 msgstr ""
 
-#: dpkg-deb/build.c:185
+#: dpkg-deb/build.c:186
 #, c-format
 msgid "%s: internal gzip error: write: `%s'"
 msgstr ""
 
-#: dpkg-deb/build.c:188
+#: dpkg-deb/build.c:189
 #, c-format
 msgid "%s: internal gzip error: read(%i) != write(%i)"
 msgstr ""
 
-#: dpkg-deb/build.c:195
+#: dpkg-deb/build.c:196
 #, c-format
 msgid "%s: failed to exec gzip %s"
 msgstr ""
 
 #. Decode our arguments
-#: dpkg-deb/build.c:223
+#: dpkg-deb/build.c:224
 msgid "--build needs a directory argument"
 msgstr ""
 
-#: dpkg-deb/build.c:232
+#: dpkg-deb/build.c:233
 msgid "--build takes at most two arguments"
 msgstr ""
 
-#: dpkg-deb/build.c:236
+#: dpkg-deb/build.c:237
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr ""
 
-#: dpkg-deb/build.c:251
+#: dpkg-deb/build.c:252
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 
-#: dpkg-deb/build.c:252
+#: dpkg-deb/build.c:253
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
 "dpkg-deb: building an unknown package in `%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:270
+#: dpkg-deb/build.c:271
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 
-#: dpkg-deb/build.c:272
+#: dpkg-deb/build.c:273
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr ""
 
-#: dpkg-deb/build.c:277
+#: dpkg-deb/build.c:278
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr ""
 
-#: dpkg-deb/build.c:283
+#: dpkg-deb/build.c:284
 #, c-format
 msgid "%d errors in control file"
 msgstr ""
 
-#: dpkg-deb/build.c:294
+#: dpkg-deb/build.c:295
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:303
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 
-#: dpkg-deb/build.c:313
+#: dpkg-deb/build.c:314
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 
-#: dpkg-deb/build.c:315
+#: dpkg-deb/build.c:316
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
 "<=0775)"
 msgstr ""
 
-#: dpkg-deb/build.c:319
+#: dpkg-deb/build.c:320
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr ""
 
-#: dpkg-deb/build.c:329
+#: dpkg-deb/build.c:330
 msgid "empty string from fgets reading conffiles"
 msgstr ""
 
-#: dpkg-deb/build.c:331
+#: dpkg-deb/build.c:332
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
 msgstr ""
 
-#: dpkg-deb/build.c:343
+#: dpkg-deb/build.c:344
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr ""
 
-#: dpkg-deb/build.c:345
+#: dpkg-deb/build.c:346
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr ""
 
-#: dpkg-deb/build.c:347
+#: dpkg-deb/build.c:348
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr ""
 
-#: dpkg-deb/build.c:352
+#: dpkg-deb/build.c:353
 msgid "error reading conffiles file"
 msgstr ""
 
-#: dpkg-deb/build.c:355
+#: dpkg-deb/build.c:356
 msgid "error opening conffiles file"
 msgstr ""
 
-#: dpkg-deb/build.c:358
+#: dpkg-deb/build.c:359
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr ""
 
-#: dpkg-deb/build.c:368
+#: dpkg-deb/build.c:369
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:373 dpkg-deb/build.c:446 dpkg-deb/build.c:467
+#: dpkg-deb/build.c:374 dpkg-deb/build.c:447 dpkg-deb/build.c:468
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:374
+#: dpkg-deb/build.c:375
 msgid "failed to chdir to .../DEBIAN"
 msgstr ""
 
-#: dpkg-deb/build.c:375 dpkg-deb/build.c:448
+#: dpkg-deb/build.c:376 dpkg-deb/build.c:449
 msgid "failed to exec tar -cf"
 msgstr ""
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:381
+#: dpkg-deb/build.c:382
 msgid "failed to make tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:383
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr ""
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:385
+#: dpkg-deb/build.c:386
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr ""
 
-#: dpkg-deb/build.c:393 dpkg-deb/build.c:422 dpkg-deb/build.c:457
+#: dpkg-deb/build.c:394 dpkg-deb/build.c:423 dpkg-deb/build.c:458
 msgid "control"
 msgstr ""
 
-#: dpkg-deb/build.c:398
+#: dpkg-deb/build.c:399
 msgid "failed to fstat tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:422
 msgid "failed to rewind tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:429
+#: dpkg-deb/build.c:430
 msgid "failed to make tmpfile (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:430
+#: dpkg-deb/build.c:431
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr ""
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:433
+#: dpkg-deb/build.c:434
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr ""
 
-#: dpkg-deb/build.c:469
+#: dpkg-deb/build.c:470
 msgid "failed to exec find"
 msgstr ""
 
-#: dpkg-deb/build.c:480 dpkg-deb/build.c:487
+#: dpkg-deb/build.c:481 dpkg-deb/build.c:488
 msgid "failed to write filename to tar pipe (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:504
+#: dpkg-deb/build.c:505
 msgid "failed to rewind tmpfile (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:505
+#: dpkg-deb/build.c:506
 msgid "cat (data)"
 msgstr ""
 
@@ -3045,6 +3043,7 @@ msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 
 #: dpkg-deb/extract.c:125
+#, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr ""
 
@@ -3089,6 +3088,7 @@ msgid "file `%.250s' contains two control members, giving up"
 msgstr ""
 
 #: dpkg-deb/extract.c:176
+#, c-format
 msgid ""
 " new debian package, version %s.\n"
 " size %ld bytes: control archive= %zi bytes.\n"
@@ -3104,6 +3104,7 @@ msgid "archive has malformatted ctrl len `%s'"
 msgstr ""
 
 #: dpkg-deb/extract.c:193
+#, c-format
 msgid ""
 " old debian package, version %s.\n"
 " size %ld bytes: control archive= %ld, main archive= %zi.\n"
@@ -3323,7 +3324,7 @@ msgid ""
 "  -b|--build <directory> [<deb>]    build an archive.\n"
 "  -c|--contents <deb>               list contents.\n"
 "  -I|--info <deb> [<cfile>...]      show info to stdout.\n"
-"  -W|--show <deb>                   Show information on package(s)\n"
+"  -W|--show <deb>                   show information on package(s)\n"
 "  -f|--field <deb> [<cfield>...]    show field(s) to stdout.\n"
 "  -e|--control <deb> [<directory>]  extract control info.\n"
 "  -x|--extract <deb> <directory>    extract files.\n"
@@ -3337,8 +3338,8 @@ msgid ""
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 "Options:\n"
-"  --showformat=<format>      Use alternative format for --show\n"
-"  -D                         Enable debugging output\n"
+"  --showformat=<format>      use alternative format for --show\n"
+"  -D                         enable debugging output\n"
 "  --old, --new               select archive format\n"
 "  --nocheck                  suppress control file check (build bad "
 "package).\n"
@@ -3352,7 +3353,7 @@ msgid ""
 "width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in "
 "which\n"
-"   case left aligenment will be used. \n"
+"   case left alignment will be used. \n"
 "\n"
 "Use `dpkg' to install and remove packages from your system, or\n"
 "`dselect' for user-friendly package management.  Packages unpacked\n"
@@ -3450,6 +3451,7 @@ msgid "file `%.250s' is not an archive part"
 msgstr ""
 
 #: split/info.c:188
+#, c-format
 msgid ""
 "%s:\n"
 "    Part format version:            %s\n"
@@ -3710,7 +3712,7 @@ msgstr ""
 msgid "error processing %s: %s\n"
 msgstr ""
 
-#: utils/md5sum.c:185
+#: utils/md5sum.c:186
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -3721,144 +3723,144 @@ msgid ""
 "that is printed on stdout by this program when it generates digests.\n"
 msgstr ""
 
-#: utils/md5sum.c:198
+#: utils/md5sum.c:199
 msgid "mdfile"
 msgstr ""
 
-#: utils/md5sum.c:238
+#: utils/md5sum.c:239
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr ""
 
-#: utils/md5sum.c:268
+#: utils/md5sum.c:269
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr ""
 
-#: utils/md5sum.c:272
+#: utils/md5sum.c:273
 #, c-format
 msgid "%s: error reading %s\n"
 msgstr ""
 
-#: utils/md5sum.c:278
+#: utils/md5sum.c:279
 msgid "FAILED\n"
 msgstr ""
 
-#: utils/md5sum.c:280
+#: utils/md5sum.c:281
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr ""
 
-#: utils/md5sum.c:283
+#: utils/md5sum.c:284
 msgid "OK\n"
 msgstr ""
 
-#: utils/md5sum.c:287
+#: utils/md5sum.c:288
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr ""
 
-#: utils/md5sum.c:289
+#: utils/md5sum.c:290
 #, c-format
 msgid "%s: no files checked\n"
 msgstr ""
 
-#: dselect/basecmds.cc:120
+#: dselect/basecmds.cc:121
 msgid "Search for ? "
 msgstr ""
 
-#: dselect/basecmds.cc:142
+#: dselect/basecmds.cc:143
 msgid "Error: "
 msgstr ""
 
-#: dselect/basecmds.cc:170
+#: dselect/basecmds.cc:171
 msgid "Help: "
 msgstr ""
 
-#: dselect/basecmds.cc:176
+#: dselect/basecmds.cc:177
 msgid "Press ? for help menu, <space> for next topic, <enter> to exit help."
 msgstr ""
 
-#: dselect/basecmds.cc:183
+#: dselect/basecmds.cc:184
 msgid "Help information is available under the following topics:"
 msgstr ""
 
-#: dselect/basecmds.cc:191
+#: dselect/basecmds.cc:192
 msgid ""
 "Press a key from the list above, <enter>, `q' or `Q' to exit help,\n"
 "  or <space> to read each help page in turn. "
 msgstr ""
 
-#: dselect/basecmds.cc:197
+#: dselect/basecmds.cc:198
 msgid "error reading keyboard in help"
 msgstr ""
 
-#: dselect/baselist.cc:55
+#: dselect/baselist.cc:57
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr ""
 
-#: dselect/baselist.cc:58
+#: dselect/baselist.cc:60
 msgid "doupdate in SIGWINCH handler failed"
 msgstr ""
 
-#: dselect/baselist.cc:65
+#: dselect/baselist.cc:67
 msgid "failed to restore old SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:67
+#: dselect/baselist.cc:69
 msgid "failed to restore old signal mask"
 msgstr ""
 
-#: dselect/baselist.cc:77
+#: dselect/baselist.cc:79
 msgid "failed to get old signal mask"
 msgstr ""
 
-#: dselect/baselist.cc:78
+#: dselect/baselist.cc:80
 msgid "failed to get old SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:82
+#: dselect/baselist.cc:84
 msgid "failed to block SIGWINCH"
 msgstr ""
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:87
+#: dselect/baselist.cc:89
 msgid "failed to set new SIGWINCH sigact"
 msgstr ""
 
-#: dselect/baselist.cc:124
+#: dselect/baselist.cc:126
 msgid "failed to allocate colour pair"
 msgstr ""
 
-#: dselect/baselist.cc:164
+#: dselect/baselist.cc:166
 msgid "failed to create title window"
 msgstr ""
 
-#: dselect/baselist.cc:168
+#: dselect/baselist.cc:170
 msgid "failed to create whatinfo window"
 msgstr ""
 
-#: dselect/baselist.cc:172
+#: dselect/baselist.cc:174
 msgid "failed to create baselist pad"
 msgstr ""
 
-#: dselect/baselist.cc:175
+#: dselect/baselist.cc:177
 msgid "failed to create heading pad"
 msgstr ""
 
-#: dselect/baselist.cc:179
+#: dselect/baselist.cc:181
 msgid "failed to create thisstate pad"
 msgstr ""
 
-#: dselect/baselist.cc:183
+#: dselect/baselist.cc:185
 msgid "failed to create info pad"
 msgstr ""
 
-#: dselect/baselist.cc:188
+#: dselect/baselist.cc:190
 msgid "failed to create query window"
 msgstr ""
 
-#: dselect/baselist.cc:201
+#: dselect/baselist.cc:203
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -3873,263 +3875,263 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dselect/baselist.cc:257
+#: dselect/baselist.cc:259
 msgid "keybindings"
 msgstr ""
 
-#: dselect/baselist.cc:305
+#: dselect/baselist.cc:307
 #, c-format
 msgid "  -- %d%%, press "
 msgstr ""
 
-#: dselect/baselist.cc:308
+#: dselect/baselist.cc:310
 #, c-format
 msgid "%s for more"
 msgstr ""
 
-#: dselect/baselist.cc:312
+#: dselect/baselist.cc:314
 #, c-format
 msgid "%s to go back"
 msgstr ""
 
-#: dselect/bindings.cc:69
+#: dselect/bindings.cc:71
 msgid "[not bound]"
 msgstr ""
 
-#: dselect/bindings.cc:73
+#: dselect/bindings.cc:75
 #, c-format
 msgid "[unk: %d]"
 msgstr ""
 
 #. Actions which apply to both types of list.
-#: dselect/bindings.cc:127
+#: dselect/bindings.cc:129
 msgid "Scroll onwards through help/information"
 msgstr ""
 
-#: dselect/bindings.cc:128
+#: dselect/bindings.cc:130
 msgid "Scroll backwards through help/information"
 msgstr ""
 
-#: dselect/bindings.cc:129
+#: dselect/bindings.cc:131
 msgid "Move up"
 msgstr ""
 
-#: dselect/bindings.cc:130
+#: dselect/bindings.cc:132
 msgid "Move down"
 msgstr ""
 
-#: dselect/bindings.cc:131
+#: dselect/bindings.cc:133
 msgid "Go to top of list"
 msgstr ""
 
-#: dselect/bindings.cc:132
+#: dselect/bindings.cc:134
 msgid "Go to end of list"
 msgstr ""
 
-#: dselect/bindings.cc:133
+#: dselect/bindings.cc:135
 msgid "Request help (cycle through help screens)"
 msgstr ""
 
-#: dselect/bindings.cc:134
+#: dselect/bindings.cc:136
 msgid "Cycle through information displays"
 msgstr ""
 
-#: dselect/bindings.cc:135
+#: dselect/bindings.cc:137
 msgid "Redraw display"
 msgstr ""
 
-#: dselect/bindings.cc:136
+#: dselect/bindings.cc:138
 msgid "Scroll onwards through list by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:137
+#: dselect/bindings.cc:139
 msgid "Scroll backwards through list by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:138
+#: dselect/bindings.cc:140
 msgid "Scroll onwards through help/information by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:139
+#: dselect/bindings.cc:141
 msgid "Scroll backwards through help/information by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:140
+#: dselect/bindings.cc:142
 msgid "Scroll onwards through list"
 msgstr ""
 
-#: dselect/bindings.cc:141
+#: dselect/bindings.cc:143
 msgid "Scroll backwards through list"
 msgstr ""
 
 #. Actions which apply only to lists of packages.
-#: dselect/bindings.cc:144
+#: dselect/bindings.cc:146
 msgid "Mark package(s) for installation"
 msgstr ""
 
-#: dselect/bindings.cc:145
+#: dselect/bindings.cc:147
 msgid "Mark package(s) for deinstallation"
 msgstr ""
 
-#: dselect/bindings.cc:146
+#: dselect/bindings.cc:148
 msgid "Mark package(s) for deinstall and purge"
 msgstr ""
 
-#: dselect/bindings.cc:147
+#: dselect/bindings.cc:149
 msgid "Make highlight more specific"
 msgstr ""
 
-#: dselect/bindings.cc:148
+#: dselect/bindings.cc:150
 msgid "Make highlight less specific"
 msgstr ""
 
-#: dselect/bindings.cc:149
+#: dselect/bindings.cc:151
 msgid "Search for a package whose name contains a string"
 msgstr ""
 
-#: dselect/bindings.cc:150
+#: dselect/bindings.cc:152
 msgid "Repeat last search."
 msgstr ""
 
-#: dselect/bindings.cc:151
+#: dselect/bindings.cc:153
 msgid "Swap sort order priority/section"
 msgstr ""
 
-#: dselect/bindings.cc:152
+#: dselect/bindings.cc:154
 msgid "Quit, confirming, and checking dependencies"
 msgstr ""
 
-#: dselect/bindings.cc:153
+#: dselect/bindings.cc:155
 msgid "Quit, confirming without check"
 msgstr ""
 
-#: dselect/bindings.cc:154
+#: dselect/bindings.cc:156
 msgid "Quit, rejecting conflict/dependency suggestions"
 msgstr ""
 
-#: dselect/bindings.cc:155
+#: dselect/bindings.cc:157
 msgid "Abort - quit without making changes"
 msgstr ""
 
-#: dselect/bindings.cc:156
+#: dselect/bindings.cc:158
 msgid "Revert to old state for all packages"
 msgstr ""
 
-#: dselect/bindings.cc:157
+#: dselect/bindings.cc:159
 msgid "Revert to suggested state for all packages"
 msgstr ""
 
-#: dselect/bindings.cc:158
+#: dselect/bindings.cc:160
 msgid "Revert to directly requested state for all packages"
 msgstr ""
 
 #. Actions which apply only to lists of methods.
-#: dselect/bindings.cc:161
+#: dselect/bindings.cc:163
 msgid "Select currently-highlighted access method"
 msgstr ""
 
-#: dselect/bindings.cc:162
+#: dselect/bindings.cc:164
 msgid "Quit without changing selected access method"
 msgstr ""
 
-#: dselect/main.cc:54
+#: dselect/main.cc:56
 msgid "Type dselect --help for help."
 msgstr ""
 
-#: dselect/main.cc:137
+#: dselect/main.cc:139
 msgid "a"
 msgstr ""
 
-#: dselect/main.cc:137
+#: dselect/main.cc:139
 msgid "[A]ccess"
 msgstr ""
 
-#: dselect/main.cc:137
+#: dselect/main.cc:139
 msgid "Choose the access method to use."
 msgstr ""
 
-#: dselect/main.cc:138
+#: dselect/main.cc:140
 msgid "u"
 msgstr ""
 
-#: dselect/main.cc:138
+#: dselect/main.cc:140
 msgid "[U]pdate"
 msgstr ""
 
-#: dselect/main.cc:138
+#: dselect/main.cc:140
 msgid "Update list of available packages, if possible."
 msgstr ""
 
-#: dselect/main.cc:139
+#: dselect/main.cc:141
 msgid "s"
 msgstr ""
 
-#: dselect/main.cc:139
+#: dselect/main.cc:141
 msgid "[S]elect"
 msgstr ""
 
-#: dselect/main.cc:139
+#: dselect/main.cc:141
 msgid "Request which packages you want on your system."
 msgstr ""
 
-#: dselect/main.cc:140
+#: dselect/main.cc:142
 msgid "i"
 msgstr ""
 
-#: dselect/main.cc:140
+#: dselect/main.cc:142
 msgid "[I]nstall"
 msgstr ""
 
-#: dselect/main.cc:140
+#: dselect/main.cc:142
 msgid "Install and upgrade wanted packages."
 msgstr ""
 
-#: dselect/main.cc:141
+#: dselect/main.cc:143
 msgid "c"
 msgstr ""
 
-#: dselect/main.cc:141
+#: dselect/main.cc:143
 msgid "[C]onfig"
 msgstr ""
 
-#: dselect/main.cc:141
+#: dselect/main.cc:143
 msgid "Configure any packages that are unconfigured."
 msgstr ""
 
-#: dselect/main.cc:142
+#: dselect/main.cc:144
 msgid "r"
 msgstr ""
 
-#: dselect/main.cc:142
+#: dselect/main.cc:144
 msgid "[R]emove"
 msgstr ""
 
-#: dselect/main.cc:142
+#: dselect/main.cc:144
 msgid "Remove unwanted software."
 msgstr ""
 
-#: dselect/main.cc:143
+#: dselect/main.cc:145
 msgid "q"
 msgstr ""
 
-#: dselect/main.cc:143
+#: dselect/main.cc:145
 msgid "[Q]uit"
 msgstr ""
 
-#: dselect/main.cc:143
+#: dselect/main.cc:145
 msgid "Quit dselect."
 msgstr ""
 
-#: dselect/main.cc:144
+#: dselect/main.cc:146
 msgid "menu"
 msgstr ""
 
-#: dselect/main.cc:149
+#: dselect/main.cc:151
 #, c-format
 msgid "Debian `%s' package handling frontend."
 msgstr ""
 
-#: dselect/main.cc:152
+#: dselect/main.cc:154
 #, c-format
 msgid ""
 "Version %s.\n"
@@ -4140,7 +4142,7 @@ msgid ""
 "dselect --licence for details.\n"
 msgstr ""
 
-#: dselect/main.cc:168
+#: dselect/main.cc:170
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -4150,64 +4152,64 @@ msgid ""
 "Actions:  access update select install config remove quit\n"
 msgstr ""
 
-#: dselect/main.cc:176
+#: dselect/main.cc:178
 msgid "Screenparts:\n"
 msgstr ""
 
-#: dselect/main.cc:181
+#: dselect/main.cc:183
 msgid "Colours:\n"
 msgstr ""
 
-#: dselect/main.cc:186
+#: dselect/main.cc:188
 msgid "Attributes:\n"
 msgstr ""
 
-#: dselect/main.cc:206
+#: dselect/main.cc:208
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr ""
 
-#: dselect/main.cc:221
+#: dselect/main.cc:223
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr ""
 
 #. strtok modifies strings, keep string const
-#: dselect/main.cc:238
+#: dselect/main.cc:240
 msgid "screen part"
 msgstr ""
 
-#: dselect/main.cc:244
+#: dselect/main.cc:246
 msgid "Null colour specification\n"
 msgstr ""
 
-#: dselect/main.cc:252 dselect/main.cc:257
+#: dselect/main.cc:254 dselect/main.cc:259
 msgid "colour"
 msgstr ""
 
-#: dselect/main.cc:265
+#: dselect/main.cc:267
 msgid "colour attribute"
 msgstr ""
 
-#: dselect/main.cc:299
+#: dselect/main.cc:301
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr ""
 
-#: dselect/main.cc:301
+#: dselect/main.cc:303
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr ""
 
-#: dselect/main.cc:302
+#: dselect/main.cc:304
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
 msgstr ""
 
-#: dselect/main.cc:305
+#: dselect/main.cc:307
 msgid "terminal lacks necessary features, giving up"
 msgstr ""
 
-#: dselect/main.cc:383
+#: dselect/main.cc:385
 msgid ""
 "\n"
 "\n"
@@ -4216,64 +4218,64 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dselect/main.cc:397
+#: dselect/main.cc:399
 msgid ""
 "\n"
 "\n"
 "Read-only access: only preview of selections is available!"
 msgstr ""
 
-#: dselect/main.cc:416
+#: dselect/main.cc:418
 msgid "failed to getch in main menu"
 msgstr ""
 
-#: dselect/main.cc:489
+#: dselect/main.cc:491
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr ""
 
-#: dselect/methlist.cc:74
+#: dselect/methlist.cc:76
 msgid "dselect - list of access methods"
 msgstr ""
 
-#: dselect/methlist.cc:83
+#: dselect/methlist.cc:85
 #, c-format
 msgid "Access method `%s'."
 msgstr ""
 
-#: dselect/methlist.cc:117
+#: dselect/methlist.cc:119
 msgid "Abbrev."
 msgstr ""
 
-#: dselect/methlist.cc:162
+#: dselect/methlist.cc:164
 msgid "doupdate failed"
 msgstr ""
 
-#: dselect/methlist.cc:164
+#: dselect/methlist.cc:166
 msgid "failed to unblock SIGWINCH"
 msgstr ""
 
-#: dselect/methlist.cc:168
+#: dselect/methlist.cc:170
 msgid "failed to re-block SIGWINCH"
 msgstr ""
 
-#: dselect/methlist.cc:169
+#: dselect/methlist.cc:171
 msgid "getch failed"
 msgstr ""
 
-#: dselect/methlist.cc:173 dselect/pkgdepcon.cc:240
+#: dselect/methlist.cc:175 dselect/pkgdepcon.cc:242
 msgid "[none]"
 msgstr ""
 
-#: dselect/methlist.cc:187
+#: dselect/methlist.cc:189
 msgid "explanation of "
 msgstr ""
 
-#: dselect/methlist.cc:197
+#: dselect/methlist.cc:199
 msgid "No explanation available."
 msgstr ""
 
-#: dselect/method.cc:62
+#: dselect/method.cc:64
 #, c-format
 msgid ""
 "\n"
@@ -4281,229 +4283,229 @@ msgid ""
 "%s: %s\n"
 msgstr ""
 
-#: dselect/method.cc:65
+#: dselect/method.cc:67
 msgid ""
 "\n"
 "Press <enter> to continue."
 msgstr ""
 
-#: dselect/method.cc:142
+#: dselect/method.cc:144
 #, c-format
 msgid "error un-catching signal %d: %s\n"
 msgstr ""
 
-#: dselect/method.cc:160
+#: dselect/method.cc:162
 #, c-format
 msgid "unable to ignore signal %d before running %.250s"
 msgstr ""
 
-#: dselect/method.cc:167
+#: dselect/method.cc:169
 #, c-format
 msgid "unable to run %.250s process `%.250s'"
 msgstr ""
 
-#: dselect/method.cc:171
+#: dselect/method.cc:173
 #, c-format
 msgid "unable to wait for %.250s"
 msgstr ""
 
-#: dselect/method.cc:173
+#: dselect/method.cc:175
 #, c-format
 msgid "got wrong child's status - asked for %ld, got %ld"
 msgstr ""
 
-#: dselect/method.cc:184
+#: dselect/method.cc:186
 #, c-format
 msgid "returned error exit status %d.\n"
 msgstr ""
 
-#: dselect/method.cc:188
+#: dselect/method.cc:190
 msgid "was interrupted.\n"
 msgstr ""
 
-#: dselect/method.cc:190
+#: dselect/method.cc:192
 #, c-format
 msgid "was terminated by a signal: %s.\n"
 msgstr ""
 
-#: dselect/method.cc:193
+#: dselect/method.cc:195
 msgid "(It left a coredump.)\n"
 msgstr ""
 
-#: dselect/method.cc:195
+#: dselect/method.cc:197
 #, c-format
 msgid "failed with an unknown wait return code %d.\n"
 msgstr ""
 
-#: dselect/method.cc:197
+#: dselect/method.cc:199
 msgid "Press <enter> to continue.\n"
 msgstr ""
 
-#: dselect/method.cc:199
+#: dselect/method.cc:201
 msgid "write error on standard error"
 msgstr ""
 
-#: dselect/method.cc:202
+#: dselect/method.cc:204
 msgid "error reading acknowledgement of program failure message"
 msgstr ""
 
-#: dselect/method.cc:233
+#: dselect/method.cc:235
 msgid "update available list script"
 msgstr ""
 
-#: dselect/method.cc:237
+#: dselect/method.cc:239
 msgid "installation script"
 msgstr ""
 
-#: dselect/method.cc:285
+#: dselect/method.cc:287
 msgid "query/setup script"
 msgstr ""
 
-#: dselect/methparse.cc:51
+#: dselect/methparse.cc:53
 #, c-format
 msgid "syntax error in method options file `%.250s' -- %s"
 msgstr ""
 
-#: dselect/methparse.cc:56
+#: dselect/methparse.cc:58
 #, c-format
 msgid "error reading options file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:84
+#: dselect/methparse.cc:86
 #, c-format
 msgid "unable to read `%.250s' directory for reading methods"
 msgstr ""
 
-#: dselect/methparse.cc:98
+#: dselect/methparse.cc:100
 #, c-format
 msgid "method `%.250s' has name that is too long (%d > %d characters)"
 msgstr ""
 
-#: dselect/methparse.cc:109
+#: dselect/methparse.cc:111
 #, c-format
 msgid "unable to access method script `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:115
+#: dselect/methparse.cc:117
 #, c-format
 msgid "unable to read method options file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:138
+#: dselect/methparse.cc:140
 msgid "non-digit where digit wanted"
 msgstr ""
 
-#: dselect/methparse.cc:141
+#: dselect/methparse.cc:143
 msgid "EOF in index string"
 msgstr ""
 
-#: dselect/methparse.cc:144
+#: dselect/methparse.cc:146
 msgid "index string too long"
 msgstr ""
 
-#: dselect/methparse.cc:147
+#: dselect/methparse.cc:149
 msgid "newline before option name start"
 msgstr ""
 
-#: dselect/methparse.cc:149
+#: dselect/methparse.cc:151
 msgid "EOF before option name start"
 msgstr ""
 
-#: dselect/methparse.cc:153
+#: dselect/methparse.cc:155
 msgid "nonalpha where option name start wanted"
 msgstr ""
 
-#: dselect/methparse.cc:155
+#: dselect/methparse.cc:157
 msgid "non-alphanum in option name"
 msgstr ""
 
-#: dselect/methparse.cc:158
+#: dselect/methparse.cc:160
 msgid "EOF in option name"
 msgstr ""
 
-#: dselect/methparse.cc:163
+#: dselect/methparse.cc:165
 msgid "newline before summary"
 msgstr ""
 
-#: dselect/methparse.cc:165
+#: dselect/methparse.cc:167
 msgid "EOF before summary"
 msgstr ""
 
-#: dselect/methparse.cc:171
+#: dselect/methparse.cc:173
 msgid "EOF in summary - missing newline"
 msgstr ""
 
-#: dselect/methparse.cc:181
+#: dselect/methparse.cc:183
 #, c-format
 msgid "unable to open option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:185
+#: dselect/methparse.cc:187
 #, c-format
 msgid "unable to stat option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:189
+#: dselect/methparse.cc:191
 #, c-format
 msgid "failed to read option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:192
+#: dselect/methparse.cc:194
 #, c-format
 msgid "error during read of option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:214
+#: dselect/methparse.cc:216
 #, c-format
 msgid "error during read of method options file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:244
+#: dselect/methparse.cc:246
 #, c-format
 msgid "unable to open current option file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:282
+#: dselect/methparse.cc:284
 #, c-format
 msgid "unable to open new option file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:285
+#: dselect/methparse.cc:287
 #, c-format
 msgid "unable to write new option to `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:288
+#: dselect/methparse.cc:290
 #, c-format
 msgid "unable to close new option file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:290
+#: dselect/methparse.cc:292
 #, c-format
 msgid "unable to install new option as `%.250s'"
 msgstr ""
 
-#: dselect/pkgdepcon.cc:213
+#: dselect/pkgdepcon.cc:215
 msgid "(no clientdata)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:36
+#: dselect/pkgdisplay.cc:38
 msgid "new package"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:37
+#: dselect/pkgdisplay.cc:39
 msgid "install"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:38
+#: dselect/pkgdisplay.cc:40
 msgid "hold"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:39
+#: dselect/pkgdisplay.cc:41
 msgid "remove"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:40
+#: dselect/pkgdisplay.cc:42
 msgid "purge"
 msgstr ""
 
@@ -4511,275 +4513,275 @@ msgstr ""
 #. * string to store information about the translation. DO NOT CHANGE
 #. * THAT IN A TRANSLATION! The code really relies on that being a single space.
 #.
-#: dselect/pkgdisplay.cc:46
+#: dselect/pkgdisplay.cc:48
 msgid " "
 msgstr ""
 
-#: dselect/pkgdisplay.cc:47
+#: dselect/pkgdisplay.cc:49
 msgid "REINSTALL"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:51
+#: dselect/pkgdisplay.cc:53
 msgid "unpacked (not set up)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:52
+#: dselect/pkgdisplay.cc:54
 msgid "failed config"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:54
+#: dselect/pkgdisplay.cc:56
 msgid "half installed"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:55
+#: dselect/pkgdisplay.cc:57
 msgid "removed (configs remain)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:58
+#: dselect/pkgdisplay.cc:60
 msgid "Required"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:59
+#: dselect/pkgdisplay.cc:61
 msgid "Important"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:62
 msgid "Standard"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:63
 msgid "Recommended"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:64
 msgid "Optional"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:65
 msgid "Extra"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:66
 msgid "Contrib"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:67
 msgid "!Bug!"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:68
 msgid "Unclassified"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:69
+#: dselect/pkgdisplay.cc:71
 msgid "suggests"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:70
+#: dselect/pkgdisplay.cc:72
 msgid "recommends"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:73
 msgid "depends on"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:74
 msgid "pre-depends on"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:75
 msgid "conflicts with"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:76
 msgid "provides"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:75
+#: dselect/pkgdisplay.cc:77
 msgid "replaces"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:78
 msgid "enhances"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:79
+#: dselect/pkgdisplay.cc:81
 msgid "Req"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:80
+#: dselect/pkgdisplay.cc:82
 msgid "Imp"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:81
+#: dselect/pkgdisplay.cc:83
 msgid "Std"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:84
 msgid "Rec"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:85
 msgid "Opt"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:86
 msgid "Xtr"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:87
 msgid "Ctb"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:88
 msgid "bUG"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:89
 msgid "?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:95 dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:97 dselect/pkgdisplay.cc:117
 msgid "Broken"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:96
+#: dselect/pkgdisplay.cc:98
 msgid "New"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:97
+#: dselect/pkgdisplay.cc:99
 msgid "Updated"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:98
+#: dselect/pkgdisplay.cc:100
 msgid "Obsolete/local"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:101
 msgid "Up-to-date"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:102
 msgid "Available"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:101 dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:103 dselect/pkgdisplay.cc:119
 msgid "Removed"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:102 dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:104 dselect/pkgdisplay.cc:113
 msgid "Brokenly installed packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:105
 msgid "Newly available packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:104
+#: dselect/pkgdisplay.cc:106
 msgid "Updated packages (newer version is available)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:105
+#: dselect/pkgdisplay.cc:107
 msgid "Obsolete and local packages present on system"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:108
 msgid "Up to date installed packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:109
 msgid "Available packages (not currently installed)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:110
 msgid "Removed and no longer available packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:112
+#: dselect/pkgdisplay.cc:114
 msgid "Installed packages"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:113
+#: dselect/pkgdisplay.cc:115
 msgid "Removed packages (configuration still present)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:116
 msgid "Purged packages and those never installed"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:118
 msgid "Installed"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:120
 msgid "Purged"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:196
+#: dselect/pkgdisplay.cc:198
 msgid "dselect - recursive package listing"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:197
+#: dselect/pkgdisplay.cc:199
 msgid "dselect - inspection of package states"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:198
+#: dselect/pkgdisplay.cc:200
 msgid "dselect - main package listing"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:206
+#: dselect/pkgdisplay.cc:208
 msgid " (by section)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:209
+#: dselect/pkgdisplay.cc:211
 msgid " (avail., section)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:212
+#: dselect/pkgdisplay.cc:214
 msgid " (status, section)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:221
+#: dselect/pkgdisplay.cc:223
 msgid " (by priority)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:224
+#: dselect/pkgdisplay.cc:226
 msgid " (avail., priority)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:227
+#: dselect/pkgdisplay.cc:229
 msgid " (status, priority)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:236 dselect/pkgdisplay.cc:248
+#: dselect/pkgdisplay.cc:238 dselect/pkgdisplay.cc:250
 msgid " (alphabetically)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:239
+#: dselect/pkgdisplay.cc:241
 msgid " (by availability)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:242
+#: dselect/pkgdisplay.cc:244
 msgid " (by status)"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:256
+#: dselect/pkgdisplay.cc:258
 msgid " mark:+/=/- terse:v help:?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:257
+#: dselect/pkgdisplay.cc:259
 msgid " mark:+/=/- verbose:v help:?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:258
+#: dselect/pkgdisplay.cc:260
 msgid " terse:v help:?"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:259
+#: dselect/pkgdisplay.cc:261
 msgid " verbose:v help:?"
 msgstr ""
 
-#: dselect/pkginfo.cc:80
+#: dselect/pkginfo.cc:82
 msgid ""
 "The line you have highlighted represents many packages; if you ask to "
 "install, remove, hold, &c it you will affect all the packages which match "
@@ -4791,137 +4793,137 @@ msgid ""
 "opportunity to mark packages in different kinds of groups."
 msgstr ""
 
-#: dselect/pkginfo.cc:94
+#: dselect/pkginfo.cc:96
 msgid "interrelationships affecting "
 msgstr ""
 
-#: dselect/pkginfo.cc:100
+#: dselect/pkginfo.cc:102
 msgid "interrelationships"
 msgstr ""
 
-#: dselect/pkginfo.cc:106
+#: dselect/pkginfo.cc:108
 msgid "description of "
 msgstr ""
 
-#: dselect/pkginfo.cc:110
+#: dselect/pkginfo.cc:112
 msgid "no description available."
 msgstr ""
 
-#: dselect/pkginfo.cc:123
+#: dselect/pkginfo.cc:125
 msgid "description"
 msgstr ""
 
-#: dselect/pkginfo.cc:130
+#: dselect/pkginfo.cc:132
 msgid "currently installed control info"
 msgstr ""
 
-#: dselect/pkginfo.cc:132
+#: dselect/pkginfo.cc:134
 msgid "installed control info for "
 msgstr ""
 
-#: dselect/pkginfo.cc:146
+#: dselect/pkginfo.cc:148
 msgid "available version of control file info"
 msgstr ""
 
-#: dselect/pkginfo.cc:148
+#: dselect/pkginfo.cc:150
 msgid "available version of control info for "
 msgstr ""
 
-#: dselect/pkglist.cc:121 dselect/pkglist.cc:122
+#: dselect/pkglist.cc:123 dselect/pkglist.cc:124
 msgid "<null>"
 msgstr ""
 
-#: dselect/pkglist.cc:505
+#: dselect/pkglist.cc:507
 msgid "invalid search option given"
 msgstr ""
 
-#: dselect/pkglist.cc:519
+#: dselect/pkglist.cc:521
 msgid "error in regular expression"
 msgstr ""
 
-#: dselect/pkgsublist.cc:103
+#: dselect/pkgsublist.cc:105
 msgid " does not appear to be available\n"
 msgstr ""
 
-#: dselect/pkgsublist.cc:120
+#: dselect/pkgsublist.cc:122
 msgid " or "
 msgstr ""
 
-#: dselect/pkgtop.cc:54
+#: dselect/pkgtop.cc:56
 msgid "All"
 msgstr ""
 
-#: dselect/pkgtop.cc:76
+#: dselect/pkgtop.cc:78
 msgid "All packages"
-msgstr ""
-
-#: dselect/pkgtop.cc:80
-#, c-format
-msgid "%s packages without a section"
 msgstr ""
 
 #: dselect/pkgtop.cc:82
 #, c-format
+msgid "%s packages without a section"
+msgstr ""
+
+#: dselect/pkgtop.cc:84
+#, c-format
 msgid "%s packages in section %s"
 msgstr ""
 
-#: dselect/pkgtop.cc:88
+#: dselect/pkgtop.cc:90
 #, c-format
 msgid "%s %s packages"
 msgstr ""
 
-#: dselect/pkgtop.cc:92
+#: dselect/pkgtop.cc:94
 #, c-format
 msgid "%s %s packages without a section"
 msgstr ""
 
-#: dselect/pkgtop.cc:94
+#: dselect/pkgtop.cc:96
 #, c-format
 msgid "%s %s packages in section %s"
 msgstr ""
 
-#: dselect/pkgtop.cc:115
+#: dselect/pkgtop.cc:117
 #, c-format
 msgid "%-*s %s%s%s;  %s (was: %s).  %s"
 msgstr ""
 
-#: dselect/pkgtop.cc:267
+#: dselect/pkgtop.cc:269
 msgid "Error"
 msgstr ""
 
-#: dselect/pkgtop.cc:271
+#: dselect/pkgtop.cc:273
 msgid "Installed?"
 msgstr ""
 
-#: dselect/pkgtop.cc:275
+#: dselect/pkgtop.cc:277
 msgid "Old mark"
 msgstr ""
 
-#: dselect/pkgtop.cc:279
+#: dselect/pkgtop.cc:281
 msgid "Marked for"
 msgstr ""
 
-#: dselect/pkgtop.cc:282
+#: dselect/pkgtop.cc:284
 msgid "EIOM"
 msgstr ""
 
-#: dselect/pkgtop.cc:284
+#: dselect/pkgtop.cc:286
 msgid "Section"
 msgstr ""
 
-#: dselect/pkgtop.cc:285
+#: dselect/pkgtop.cc:287
 msgid "Priority"
 msgstr ""
 
-#: dselect/pkgtop.cc:286
+#: dselect/pkgtop.cc:288
 msgid "Package"
 msgstr ""
 
-#: dselect/pkgtop.cc:290
+#: dselect/pkgtop.cc:292
 msgid "Inst.ver"
 msgstr ""
 
-#: dselect/pkgtop.cc:293
+#: dselect/pkgtop.cc:295
 msgid "Avail.ver"
 msgstr ""
 
