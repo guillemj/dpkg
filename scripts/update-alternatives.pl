@@ -531,3 +531,5 @@ sub rename_mv {
 	return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
 }
 exit(0);
+
+# vim: nowrap ts=8 sw=4

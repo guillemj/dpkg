@@ -48,13 +48,8 @@ elif command -v pgp > /dev/null 2>&1 ; then
 	signcommand=pgp
 fi
 
-if [ -n "$signcommand"  ] ; then
 	signsource='withecho signfile'
 	signchanges='withecho signfile'
-else
-	signsource=:
-	signchanges=:
-fi
 cleansource=false
 binarytarget=binary
 sourcestyle=''
@@ -98,6 +93,11 @@ do
 	esac
 	shift
 done
+
+if [ -z "$signcommand"  ] ; then
+	signsource=:
+	signchanges=:
+fi
 
 if test -n "$forcesigninterface" ; then
   signinterface=$forcesigninterface

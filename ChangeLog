@@ -1,29 +1,47 @@
+Thu Apr 13 09:57:52 EDT 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * Synchronize with potato-branch again:
+    + scripts/dpkg-divert.pl: fixed typo
+    + debian/dpkg-dev.{postinst,prerm}: remove emacsen-common stuff
+    + po/{es,sv}.po: updated
+    + debian/changelog: include changes for 1.6.12
+    + dpkg-genchanges: recognize non-deb packages (tarballs, such as
+      dpkg-non-deb and boot-floppies disk tarballs). This makes sure that we
+      include them when figuring up the Arch field in the .changes
+    + scripts/dpkg-buildpackage.sh: Don't default to no signing until
+      after we parsed the options, otherwise we will miss overrides.
+
+Wed Apr 12 19:06:27 EDT 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * scripts/dpkg-genchanges.pl: add dpkg:Version and dpkg:UpstreamVersion
+    to list of substvars
+
 Sat Mar 18 19:08:20 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * Synchronize with potato-branch again:
-  * scripts/dpkg-buildpackage: improve test for default signcommand
-  * po/ja.po: updated
-  * dselect/*.cc: remove includes for signal.h and curses.h
-  * dselect/dselect.h: include both signal.h and curses.h and #undef
-    the ERR from sys/ucontext.h which breaks curses
-  * scripts/dpkg-divert.pl: fix syntax error
+    + scripts/dpkg-buildpackage: improve test for default signcommand
+    + po/ja.po: updated
+    + dselect/*.cc: remove includes for signal.h and curses.h
+    + dselect/dselect.h: include both signal.h and curses.h and #undef
+      the ERR from sys/ucontext.h which breaks curses
+    + scripts/dpkg-divert.pl: fix syntax error
  
 Sat Mar  4 16:52:38 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * Synchronize with potato-branch again:
-  * debian/changelog: update to 1.6.10
-  * scripts/dpkg-divert.pl: reinstate last writeability-patch. Modified
-    to not abort on ENOENT: this indicates a directory does not (yet)
-    exist. If this happens don't try to rename.
-  * scripts/update-alternatives.pl:
-    + update usage-warning to reflect the new --config option
-    + Document some global variables
-    + Switch back to auto-mode when removing a manually selected alternative
-  * dselect/{dselect.h,main.cc,pkglist.cc}: remove CAN_RESIZE stuff
-  * dselect/methlist.cc: don't abort if getch fails due to interrupted syscall
-  * dselect/pkglist.cc: don't abort if getch fails due to interrupted syscall
-  * dselect/baselist.cc: put debug-statement in sigwinchhandler and
-    actually resize the current terminal before redisplaying the screen
+    + debian/changelog: update to 1.6.10
+    + scripts/dpkg-divert.pl: reinstate last writeability-patch. Modified
+      to not abort on ENOENT: this indicates a directory does not (yet)
+      exist. If this happens don't try to rename.
+    + scripts/update-alternatives.pl:
+      + update usage-warning to reflect the new --config option
+      + Document some global variables
+      + Switch back to auto-mode when removing a manually selected alternative
+    + dselect/{dselect.h,main.cc,pkglist.cc}: remove CAN_RESIZE stuff
+    + dselect/methlist.cc: don't abort if getch fails due to interrupted syscall
+    + dselect/pkglist.cc: don't abort if getch fails due to interrupted syscall
+    + dselect/baselist.cc: put debug-statement in sigwinchhandler and
+      actually resize the current terminal before redisplaying the screen
 
 Thu Mar  2 17:03:04 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 

@@ -130,6 +130,12 @@ while(<FL>) {
         $f2sec{$1}= $5;
         $f2pri{$1}= $6;
         push(@fileslistfiles,$1);
+    } elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
+	# A non-deb package
+	$f2sec{$1}= $3;
+	$f2pri{$1}= $4;
+	push(@archvalues,$2) unless !$2 || $archadded{$2}++;
+	push(@fileslistfiles,$1);
     } elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	defined($f2sec{$1}) &&
             &warn("duplicate files list entry for file $1 (line $.)");
@@ -230,9 +236,15 @@ for $p (keys %p2f) {
                                  " file but $f2pri{$f} in files list");
 }
 
+# Extract version and origversion so we can add them to our fixed list
+# of substvars
+
+$version= $f{'Version'};
+$origversion= $version; $origversion =~ s/-[^-]+$//;
+$substvar{"dpkg:UpstreamVersion"}=$origversion;
+$substvar{"dpkg:Version"}=$version;
+
 if (!$binaryonly) {
-    $version= $f{'Version'};
-    $origversion= $version; $origversion =~ s/-[^-]+$//;
     $sec= $sourcedefault{'Section'};
     if (!length($sec)) { $sec='-'; &warn("missing Section for source files"); }
     $pri= $sourcedefault{'Priority'};

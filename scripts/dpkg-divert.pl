@@ -199,7 +199,7 @@ sub checkrename {
     # (hopefully) wont overwrite anything. If it succeeds, we
     # assume a writable filesystem.
     foreach $file ($rsrc,$rdest) {
-	open (TMP, ">> ${file}.dpkg-devert.tmp") || $! == NOENT ||
+	open (TMP, ">> ${file}.dpkg-devert.tmp") || $! == ENOENT ||
 		&quit("error checking \`$file': $!");
 	close TMP;
 	if ($1 == ENOENT) {
