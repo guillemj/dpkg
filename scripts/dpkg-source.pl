@@ -368,8 +368,10 @@ if ($opmode eq 'build') {
                 $type{$fn}= 'plain file';
                 if (!lstat("$origdir/$fn")) {
                     $! == ENOENT || &syserr("cannot stat orig file $origdir/$fn");
+		    $ofn= '/dev/null';
                     $ofnread= '/dev/null';
                 } elsif (-f _) {
+		    $ofn= "$basedirname.orig/$fn";
                     $ofnread= "$origdir/$fn";
                 } else {
                     &unrepdiff2("something else","plain file");
@@ -378,9 +380,10 @@ if ($opmode eq 'build') {
                 defined($c3= open(DIFFGEN,"-|")) || &syserr("fork for diff");
                 if (!$c3) {
 		    $ENV{'LANG'}= 'C';
+		    $ENV{'LC_ALL'}= 'C';
                     exec('diff','-u',
                          '-L',"$basedirname.orig/$fn",
-                         '-L',"$basedirname/$fn",
+                         '-L',"$ofn",
                          '--',"$ofnread","$dir/$fn"); &syserr("exec diff");
                 }
                 $difflinefound= 0;
