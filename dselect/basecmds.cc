@@ -111,7 +111,7 @@ void baselist::kd_search() {
   else { touchwin(listpad); refreshlist(); }
   if (newsearchstring[0]) {
     strcpy(searchstring,newsearchstring);
-	dosearch()
+    dosearch();
   } else
     kd_searchagain();
 }
