@@ -3,9 +3,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.9.0\n"
-"POT-Creation-Date: 2001-04-24 12:07+0200\n"
-"PO-Revision-Date: 2000-03-05 23:09+01:00\n"
+"Project-Id-Version: dpkg 1.9.4\n"
+"POT-Creation-Date: 2001-05-07 00:49+0200\n"
+"PO-Revision-Date: 2001-05-07 01:14+02:00\n"
 "Last-Translator: Ivo Timmermans <ivo@debian.org>\n"
 "Language-Team: Dutch <debian-l10n-dutch@debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -54,12 +54,17 @@ msgstr "Systeemfout nr.%d"
 msgid "Signal no.%d"
 msgstr "Signaal nr.%d"
 
-#: lib/database.c:240
+#: lib/database.c:177
+#, c-format
+msgid "couldn't allocate memory for strdup in findpackage(%s)"
+msgstr "reserveren van geheugen voor strdup in findpackage(%s) mislukte"
+
+#: lib/database.c:247
 #, c-format
 msgid "size %7d occurs %5d times\n"
 msgstr "grootte %7d komt %5d keer voor\n"
 
-#: lib/database.c:241
+#: lib/database.c:248
 msgid "failed write during hashreport"
 msgstr "schrijven mislukte tijdens frommelrapport"
 
@@ -225,9 +230,9 @@ msgid "out of memory for new cleanup entry"
 msgstr "geen geheugen meer voor een nieuwe opschoon-ingang"
 
 #: lib/ehandle.c:271
-#, fuzzy, c-format
+#, c-format
 msgid "error writing `%s'"
-msgstr "fout bij schrijven naar `%.250s'"
+msgstr "fout bij schrijven naar `%s'"
 
 #: lib/ehandle.c:275
 #, c-format
@@ -254,75 +259,75 @@ msgstr "rommel na %s"
 msgid "invalid package name (%.250s)"
 msgstr "ongeldige pakketnaam (%.250s)"
 
-#: lib/fields.c:92
+#: lib/fields.c:90
 #, c-format
 msgid "empty file details field `%s'"
 msgstr "leeg veld voor bestandsdetails `%s'"
 
-#: lib/fields.c:95
+#: lib/fields.c:93
 #, c-format
 msgid "file details field `%s' not allowed in status file"
 msgstr "veld voor bestandsdetails `%s' niet toegestaan in statusbestand"
 
-#: lib/fields.c:105
+#: lib/fields.c:103
 #, c-format
 msgid "too many values in file details field `%s' (compared to others)"
 msgstr ""
 "te veel waarden in veld voor bestandsdetails `%s' (vergeleken met anderen)"
 
-#: lib/fields.c:118
+#: lib/fields.c:116
 #, c-format
 msgid "too few values in file details field `%s' (compared to others)"
 msgstr ""
 "te weinig waarden in het veld voor bestandsdetails `%s' (vergeleken met "
 "anderen)"
 
-#: lib/fields.c:134
+#: lib/fields.c:132
 msgid "yes/no in `essential' field"
 msgstr "yes/no in `essential' veld"
 
-#: lib/fields.c:167
+#: lib/fields.c:165
 msgid "value for `status' field not allowed in this context"
 msgstr "waarde voor `status' veld is niet toegestaan in deze context"
 
-#: lib/fields.c:178
+#: lib/fields.c:176
 msgid "third (status) word in `status' field"
 msgstr "derde (status) woord in `status' veld"
 
-#: lib/fields.c:189
+#: lib/fields.c:187
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "fout in Version string `%.250s': %.250s"
 
-#: lib/fields.c:200
+#: lib/fields.c:198
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "verouderde `Revision' of `Package-Revision' veld gebruikt"
 
-#: lib/fields.c:218
+#: lib/fields.c:216
 msgid "value for `config-version' field not allowed in this context"
 msgstr "waarde voor `config-version' veld niet toegestaan in deze context"
 
-#: lib/fields.c:222
+#: lib/fields.c:220
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "fout in Config-Version string `%.250s': %.250s"
 
-#: lib/fields.c:239
+#: lib/fields.c:237
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "waarde voor `conffiles' heeft een regel die niet begint met een spatie (`%c')"
 
-#: lib/fields.c:245
+#: lib/fields.c:243
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "waarde voor `conffiles' heeft een verkeerd opgemaakte regel `%.*s'"
 
-#: lib/fields.c:251
+#: lib/fields.c:249
 msgid "root or null directory is listed as a conffile"
 msgstr "hoofd- of null-map wordt genoemd als een conffile"
 
-#: lib/fields.c:306
+#: lib/fields.c:304
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -330,12 +335,12 @@ msgstr ""
 "`%s'-veld, ontbrekende pakketnaam, of rommel waar een pakketnaam werd "
 "verwacht"
 
-#: lib/fields.c:309
+#: lib/fields.c:307
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "`%s'-veld, ongeldige pakketnaam `%.255s': %s"
 
-#: lib/fields.c:340
+#: lib/fields.c:338
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -344,7 +349,7 @@ msgstr ""
 "`%s'-veld, verwijzing naar `%.255s':\n"
 " foute versie-relatie %c%c"
 
-#: lib/fields.c:346
+#: lib/fields.c:344
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -353,7 +358,7 @@ msgstr ""
 "`%s'-veld, verwijzing naar `%.255s':\n"
 " `%c' is verouderd, gebruik `%c=' of `%c%c'"
 
-#: lib/fields.c:356
+#: lib/fields.c:354
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -362,11 +367,11 @@ msgstr ""
 "`%s'-veld, verwijzing naar `%.255s':\n"
 " impliciete exacte overeenkomst in versienummer, gebruik `='"
 
-#: lib/fields.c:363
+#: lib/fields.c:361
 msgid "Only exact versions may be used for Provides"
 msgstr "Slechts exacte versies mogen gebruikt worden voor Provides"
 
-#: lib/fields.c:367
+#: lib/fields.c:365
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -376,32 +381,32 @@ msgstr ""
 " versiewaarde begint met een niet-alfanumeriek teken, voeg bijv. een spatie "
 "toe"
 
-#: lib/fields.c:381
+#: lib/fields.c:379
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "`%s'-veld, verwijzing naar `%.255s': versie bevat `('"
 
-#: lib/fields.c:384
+#: lib/fields.c:382
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "`%s'-veld, verwijzing naar `%.255s': versie bevat ` '"
 
-#: lib/fields.c:387
+#: lib/fields.c:385
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "`%s'-veld, verwijzing naar `%.255s': versie niet afgesloten"
 
-#: lib/fields.c:398
+#: lib/fields.c:396
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "`%s'-veld, verwijzing naar `%.255s': fout in versie: %.255s"
 
-#: lib/fields.c:407
+#: lib/fields.c:405
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "`%s'-veld, syntaxfout na verwijzing naar pakket `%.255s'"
 
-#: lib/fields.c:414
+#: lib/fields.c:412
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternatieven (`|') niet toegestaan in %s-veld"
@@ -489,47 +494,46 @@ msgstr "subproces %s mislukte met een wait statuscode %d"
 msgid "wait for %s failed"
 msgstr "wachten op %s mislukte"
 
-#: lib/mlib.c:183
-#, fuzzy
+#: lib/mlib.c:188
 msgid "failed in buffer_write(fd) (%i, ret=%zi %s)"
-msgstr "fout in buffer_write(fd) (%i, ret=%i, %s)"
+msgstr "fout in buffer_write(fd) (%i, ret=%zi, %s)"
 
-#: lib/mlib.c:190
+#: lib/mlib.c:195
 #, c-format
 msgid "eof in buffer_write(stream): %s"
 msgstr "bestandseinde in buffer_write(stream): %s"
 
-#: lib/mlib.c:192
+#: lib/mlib.c:197
 #, c-format
 msgid "error in buffer_write(stream): %s"
 msgstr "fout in buffer_write(stream): %s"
 
-#: lib/mlib.c:198
+#: lib/mlib.c:203
 #, c-format
 msgid "unknown data type `%i' in buffer_write\n"
 msgstr "onbekend datatype `%i' in buffer_write\n"
 
-#: lib/mlib.c:214
+#: lib/mlib.c:219
 #, c-format
 msgid "failed in buffer_read(fd): %s"
 msgstr "fout in buffer_read(fd): %s"
 
-#: lib/mlib.c:221
+#: lib/mlib.c:226
 #, c-format
 msgid "error in buffer_read(stream): %s"
 msgstr "fout in buffer_read(stream): %s"
 
-#: lib/mlib.c:224
+#: lib/mlib.c:229
 #, c-format
 msgid "unknown data type `%i' in buffer_read\n"
 msgstr "onbekend datatype `%i' in buffer_read\n"
 
-#: lib/mlib.c:290
+#: lib/mlib.c:295
 #, c-format
 msgid "failed to allocate buffer in buffer_copy (%s)"
 msgstr "alloceren van buffer mislukte in buffer_copy (%s)"
 
-#: lib/mlib.c:321
+#: lib/mlib.c:326
 #, c-format
 msgid "failed in buffer_copy (%s)"
 msgstr "fout in buffer_copy (%s)"
@@ -650,44 +654,44 @@ msgstr ""
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr "MSDOS EOF teken in waarde van veld `%.*s' (ontbrekende nieuwe regel?)"
 
-#: lib/parse.c:183
+#: lib/parse.c:182
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
 msgstr "EOF in waarde van veld `%.*s' (ontbrekende afsluitende nieuwe regel)"
 
-#: lib/parse.c:206
+#: lib/parse.c:205
 #, c-format
 msgid "duplicate value for `%s' field"
 msgstr "dubbele waarde voor `%s'-veld"
 
-#: lib/parse.c:211
+#: lib/parse.c:210
 #, c-format
 msgid "user-defined field name `%.*s' too short"
 msgstr "zelf gedefinieerde veldnaam `%.*s' te kort"
 
-#: lib/parse.c:216
+#: lib/parse.c:215
 #, c-format
 msgid "duplicate value for user-defined field `%.*s'"
 msgstr "dubbele waarde voor zelf gedefinieerd veld `%.*s'"
 
-#: lib/parse.c:229
+#: lib/parse.c:228
 msgid "several package info entries found, only one allowed"
 msgstr "meerdere pakket informatie-ingangen gevonden, slechts een toegestaan"
 
-#: lib/parse.c:257
+#: lib/parse.c:256
 msgid "Configured-Version for package with inappropriate Status"
 msgstr "Configured-Version voor pakket met ongepaste Status"
 
-#: lib/parse.c:271
+#: lib/parse.c:270
 msgid "Package which in state not-installed has conffiles, forgetting them"
 msgstr "Pakket in toestand `not-installed' heeft conffiles, ik vergeet ze maar"
 
-#: lib/parse.c:326
+#: lib/parse.c:325
 #, c-format
 msgid "failed to close after read: `%.255s'"
 msgstr "kon niet afsluiten na lezen: `%.255s'"
 
-#: lib/parse.c:327
+#: lib/parse.c:326
 #, c-format
 msgid "no package information in `%.255s'"
 msgstr "geen pakketinformatie in `%.255s'"
@@ -770,30 +774,30 @@ msgstr "kan GPL bestand niet openen "
 msgid "failed to realloc for variable buffer"
 msgstr "kon niet opnieuw geheugen vrijmaken voor de buffer voor variabelen"
 
-#: main/archives.c:164
+#: main/archives.c:182
 msgid "process_archive ...  already disappeared !"
 msgstr "process_archive ...  reeds verdwenen !"
 
-#: main/archives.c:184
+#: main/archives.c:202
 msgid "error reading from dpkg-deb pipe"
 msgstr "fout bij het lezen uit de dpkg-deb pijp"
 
-#: main/archives.c:221
+#: main/archives.c:239
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "fout bij het instellen van de tijd van `%.255s'"
 
-#: main/archives.c:228 main/archives.c:481
+#: main/archives.c:246 main/archives.c:499
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "fout bij het instellen van de eigenaar van `%.255s'"
 
-#: main/archives.c:230 main/archives.c:484
+#: main/archives.c:248 main/archives.c:502
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "fout bij het instellen van de permissies op `%.255s'"
 
-#: main/archives.c:319
+#: main/archives.c:337
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
@@ -802,17 +806,17 @@ msgstr ""
 "poging tot overschrijven van `%.250s', wat een omgeleide versie is van `"
 "%.250s'%.10s%.100s%.10s"
 
-#: main/archives.c:323
+#: main/archives.c:341
 msgid " (package: "
 msgstr " (pakket: "
 
-#: main/archives.c:345
+#: main/archives.c:363
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 "kan de status van `%.255s' niet opvragen (die ik net wilde gaan installeren)"
 
-#: main/archives.c:353
+#: main/archives.c:371
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -821,24 +825,24 @@ msgstr ""
 "kon de rommel rond `%.255s' niet opruimen alvorens een nieuwe versie te "
 "installeren"
 
-#: main/archives.c:359
+#: main/archives.c:377
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "kon de status van de teruggezette `%.255s' niet opvragen voor de installatie "
 "van een nieuwe versie"
 
-#: main/archives.c:391
+#: main/archives.c:409
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "archief bevatte een object `%.255s' van het onbekende type 0x%x"
 
-#: main/archives.c:422
+#: main/archives.c:440
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Overschrijven van de bestanden in het oude pakket %s ...\n"
 
-#: main/archives.c:426
+#: main/archives.c:444
 #, c-format
 msgid ""
 "trying to overwrite directory `%.250s' in package %.250s with nondirectory"
@@ -846,7 +850,7 @@ msgstr ""
 "poging tot overschrijven van de map `%250s' in het pakket %.250s met iets "
 "dat geen map is"
 
-#: main/archives.c:436
+#: main/archives.c:454
 #, c-format
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr "poging tot overschrijven van `%.250s', wat ook in pakket %.250s zit"
@@ -854,85 +858,85 @@ msgstr "poging tot overschrijven van `%.250s', wat ook in pakket %.250s zit"
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:368 main/archives.c:464
+#: dpkg-deb/build.c:368 main/archives.c:482
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "kan `%.255s' niet aanmaken"
 
-#: main/archives.c:469
+#: main/archives.c:487
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "fout in dpkg-deb tijdens `%.255s'"
 
-#: main/archives.c:487
+#: main/archives.c:505
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "fout bij het sluiten van/schrijven naar `%.255s'"
 
-#: main/archives.c:492
+#: main/archives.c:510
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "fout bij het aanmaken van de pijp `%.255s'"
 
-#: main/archives.c:498
+#: main/archives.c:516
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "fout bij het aanmaken van het apparaatbestand `%.255s'"
 
-#: main/archives.c:507
+#: main/archives.c:525
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "fout bij het maken van de harde koppeling `%.255s'"
 
-#: main/archives.c:514
+#: main/archives.c:532
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "fout bij het maken van de symbolische koppeling `%.255s'"
 
-#: main/archives.c:523
+#: main/archives.c:541
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr ""
 "fout bij het instellen van de eigenaar van de symbolische koppeling `%.255s'"
 
-#: main/archives.c:528
+#: main/archives.c:546
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "fout bij het maken van de map `%.255s'"
 
-#: main/archives.c:563
+#: main/archives.c:581
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "kun `%.255s' niet opzij zetten om een nieuwe versie te installeren"
 
-#: main/archives.c:572
+#: main/archives.c:590
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "kon koppeling niet lezen uit `%.255s'"
 
-#: main/archives.c:576
+#: main/archives.c:594
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "kon geen reservekoppeling maken voor `%.255s'"
 
-#: main/archives.c:582
+#: main/archives.c:600
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr "kon de eigenaar van de reservekoppeling niet instellen voor `%.255s'"
 
-#: main/archives.c:586
+#: main/archives.c:604
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "kon geen reservekoppeling van `%.255s' maken voor de installatie van de "
 "nieuwe versie"
 
-#: main/archives.c:592
+#: main/archives.c:610
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "kon de nieuwe versie van `%.255s' niet installeren"
 
-#: main/archives.c:606
+#: main/archives.c:624
 #, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with removal of %s:\n"
@@ -942,7 +946,7 @@ msgstr ""
 "verwijderen van %s:\n"
 "%s"
 
-#: main/archives.c:613
+#: main/archives.c:631
 #, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
@@ -951,7 +955,7 @@ msgstr ""
 "dpkg: waarschuwing - overweeg deconfiguratie van het essentiële\n"
 " pakket %s, om %s te kunnen verwijderen.\n"
 
-#: main/archives.c:617
+#: main/archives.c:635
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -960,7 +964,7 @@ msgstr ""
 "dpkg: nee, %s is essentiëel, ik zal hat niet deconfigureren\n"
 " om de verwijdering van %s mogelijk te maken.\n"
 
-#: main/archives.c:630
+#: main/archives.c:648
 #, c-format
 msgid ""
 "dpkg: no, cannot remove %s (--auto-deconfigure will help):\n"
@@ -969,24 +973,24 @@ msgstr ""
 "dpkg: nee, ik kan %s niet verwijderen (--auto-deconfigure kan helpen):\n"
 "%s"
 
-#: main/archives.c:664
+#: main/archives.c:682
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: ik overweeg %s te verwijderen ten gunste van %s ...\n"
 
-#: main/archives.c:668
+#: main/archives.c:686
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr "%s is niet goed geïnstalleerd - ik negeer afhankelijkheid daarvan.\n"
 
-#: main/archives.c:695
+#: main/archives.c:713
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr ""
 "dpkg: ik zou problemen kunnen hebben met het verwijderen van %s, omdat het %"
 "s bevat ...\n"
 
-#: main/archives.c:710
+#: main/archives.c:728
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -995,17 +999,17 @@ msgstr ""
 "dpkg: pakket %s behoeft herinstallatie, maar ik zal het toch weghalen zoals "
 "u gevraagd had.\n"
 
-#: main/archives.c:713
+#: main/archives.c:731
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr "dpkg: pakket %s behoeft herinstallatie, zal het niet verwijderen.\n"
 
-#: main/archives.c:726
+#: main/archives.c:744
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: ja, ik zal %s verwijderen ten gunste van %s.\n"
 
-#: main/archives.c:734
+#: main/archives.c:752
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1014,73 +1018,73 @@ msgstr ""
 "dpkg: ik bekijk %s, dat %s bevat:\n"
 "%s"
 
-#: main/archives.c:737
+#: main/archives.c:755
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "conflicterende pakketten - ik installeer %.250s niet"
 
-#: main/archives.c:738
+#: main/archives.c:756
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
 msgstr "dpkg: let op - conflict wordt genegeerd, dus ik ga toch door !\n"
 
-#: main/archives.c:779
+#: main/archives.c:797
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive heeft op zijn minst één pad-argument nodig"
 
-#: main/archives.c:809
+#: main/archives.c:827
 msgid "failed to exec find for --recursive"
 msgstr "find kon niet uitgevoerd worden voor --recursive"
 
-#: main/archives.c:814
+#: main/archives.c:832
 msgid "failed to fdopen find's pipe"
 msgstr "het toepassen van fdopen op de pijp naar find mislukte"
 
-#: main/archives.c:820
+#: main/archives.c:838
 msgid "error reading find's pipe"
 msgstr "fout bij het lezen van de pijp naar find"
 
-#: main/archives.c:821
+#: main/archives.c:839
 msgid "error closing find's pipe"
 msgstr "fout bij het sluiten van de pijp naar find"
 
-#: main/archives.c:824
+#: main/archives.c:842
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
-msgstr ""
+msgstr "find voor --recursive gaf onafgehandelde fout %i"
 
-#: main/archives.c:827
+#: main/archives.c:845
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr ""
 "ik heb gekeken, maar ik kon geen pakketten vinden (bestanden die "
 "overeenkomen met *.deb)"
 
-#: main/archives.c:843
+#: main/archives.c:861
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s heeft op zijn minst één pakket-bestandnsnaam argument nodig"
 
-#: main/archives.c:913
+#: main/archives.c:931
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Selecteren van voorheen niet geselecteerd pakket %s.\n"
 
-#: main/archives.c:918
+#: main/archives.c:936
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Overslaan van niet geselecteerd pakket %s.\n"
 
-#: main/archives.c:932
+#: main/archives.c:950
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Versie %.250s van %.250s is reeds geïnstalleerd, wordt overgeslagen.\n"
 
-#: main/archives.c:944
+#: main/archives.c:962
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr "%s - let op: %.250s wordt gedegradeerd van %.250s naar %.250s.\n"
 
-#: main/archives.c:950
+#: main/archives.c:968
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1399,7 +1403,7 @@ msgstr "Installeren van nieuwe versie van configuratiebestand %s ...\n"
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "kon `%.250s' niet installeren als `%.250s'"
 
-#: main/configure.c:473
+#: main/configure.c:475
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to stat config file `%s'\n"
@@ -1409,7 +1413,7 @@ msgstr ""
 "opvragen\n"
 " (= `%s'): %s\n"
 
-#: main/configure.c:484
+#: main/configure.c:486
 #, c-format
 msgid ""
 "dpkg: %s: warning - config file `%s' is a circular link\n"
@@ -1419,7 +1423,7 @@ msgstr ""
 "verwijzing\n"
 " (= `%s')\n"
 
-#: main/configure.c:497
+#: main/configure.c:499
 #, c-format
 msgid ""
 "dpkg: %s: warning - unable to readlink conffile `%s'\n"
@@ -1428,7 +1432,7 @@ msgstr ""
 "dpkg: %s: waarschuwing - readlink op configuratiebestand `%s' mislukte\n"
 " (= `%s'): %s\n"
 
-#: main/configure.c:516
+#: main/configure.c:518
 #, c-format
 msgid ""
 "dpkg: %s: warning - conffile `%.250s' resolves to degenerate filename\n"
@@ -1438,7 +1442,7 @@ msgstr ""
 "verouderde bestandsnaam\n"
 " (`%s' is een symbolische koppeling naar `%s')\n"
 
-#: main/configure.c:529
+#: main/configure.c:531
 #, c-format
 msgid ""
 "dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
@@ -1447,97 +1451,97 @@ msgstr ""
 "dpkg: %s: waarschuwing - configuratiebestand `%.250s' is niet een gewoon "
 "bestand of symbolische koppeling (= `%s')\n"
 
-#: main/configure.c:543
+#: main/configure.c:545
 msgid "md5hash"
 msgstr "md5hash"
 
-#: main/configure.c:549
+#: main/configure.c:551
 #, c-format
 msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
 msgstr ""
 "dpkg: %s: waarschuwing - kon configuratiebestand %s niet openen voor hash: %"
 "s\n"
 
-#: main/depcon.c:73
+#: main/depcon.c:74
 #, c-format
 msgid "unable to check for existence of `%.250s'"
 msgstr "kon het bestaan van `%.250s' niet verifiëren"
 
-#: main/depcon.c:132 main/packages.c:386
+#: main/depcon.c:133 main/packages.c:386
 msgid " depends on "
 msgstr " is afhankelijk van "
 
-#: main/depcon.c:133
+#: main/depcon.c:134
 msgid " pre-depends on "
 msgstr " is voor-afhankelijk van "
 
-#: main/depcon.c:134
+#: main/depcon.c:135
 msgid " recommends "
 msgstr " beveelt aan "
 
-#: main/depcon.c:135
+#: main/depcon.c:136
 msgid " conflicts with "
 msgstr " is in strijd met "
 
-#: main/depcon.c:136
+#: main/depcon.c:137
 msgid " suggests "
 msgstr " stelt voor "
 
-#: main/depcon.c:137
+#: main/depcon.c:138
 msgid " enhances "
 msgstr " verbetert "
 
-#: main/depcon.c:213
+#: main/depcon.c:214
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s wordt verwijderd.\n"
 
-#: main/depcon.c:216
+#: main/depcon.c:217
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s wordt gedeconfigureerd.\n"
 
-#: main/depcon.c:220
+#: main/depcon.c:221
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr "  %.250s wordt geïnstalleerd, maar is versie %.250s.\n"
 
-#: main/depcon.c:228
+#: main/depcon.c:229
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s is geïnstalleerd, maar is versie %.250s.\n"
 
-#: main/depcon.c:243
+#: main/depcon.c:244
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s is uitgepakt, maar is nooit geconfigureerd.\n"
 
-#: main/depcon.c:247
+#: main/depcon.c:248
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s is uitgepakt, maar is versie %.250s.\n"
 
-#: main/depcon.c:253
+#: main/depcon.c:254
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s laatst geconfigureerde versie is %.250s.\n"
 
-#: main/depcon.c:262
+#: main/depcon.c:263
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s is %s.\n"
 
-#: main/depcon.c:298
+#: main/depcon.c:299
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s bevat %.250s maar wordt verwijderd.\n"
 
-#: main/depcon.c:302
+#: main/depcon.c:303
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s bevat %.250s maar wordt gedeconfigureerd.\n"
 
-#: main/depcon.c:307
+#: main/depcon.c:308
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s bevat %.250s maar is %s.\n"
@@ -1545,28 +1549,28 @@ msgstr "  %.250s bevat %.250s maar is %s.\n"
 #. If the package wasn't installed at all, and we haven't said
 #. * yet why this isn't satisfied, we should say so now.
 #.
-#: main/depcon.c:321
+#: main/depcon.c:322
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s is niet geïnstalleerd.\n"
 
-#: main/depcon.c:352
+#: main/depcon.c:353
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (versie %.250s) wordt geïnstalleerd.\n"
 
-#: main/depcon.c:366
+#: main/depcon.c:367
 #, c-format
 msgid "  %.250s (version %.250s) is %s.\n"
 msgstr "  %.250s (versie (%.250s) is %s.\n"
 
 #. conflicts and provides the same
-#: main/depcon.c:391
+#: main/depcon.c:392
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s bevat %.250s en wordt geïnstalleerd\n"
 
-#: main/depcon.c:422
+#: main/depcon.c:423
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %.250s bevat %.250s en is %s.\n"
@@ -1575,35 +1579,7 @@ msgstr "  %.250s bevat %.250s en is %s.\n"
 msgid "(no description available)"
 msgstr "(geen beschrijving beschikbaar)"
 
-#: main/enquiry.c:100
-msgid ""
-"Desired=Unknown/Install/Remove/Purge/Hold\n"
-"| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
-"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-"uppercase=bad)\n"
-msgstr ""
-"Gewenst=(U)Onbekend/Installeren/Remove/Purge/Hold\n"
-"| Status=Niet/geInstalleerd/Config/Uitgepakt/(F)config-mislukt/Half-geinst\n"
-"|/ Fout?=(geen)/Hold/Reinst nodig/X=beide (Status,Fout: hoofdlett=ernstig)\n"
-
-#: main/enquiry.c:104
-msgid "Name"
-msgstr "Naam"
-
-#: main/enquiry.c:104
-msgid "Version"
-msgstr "Versie"
-
-#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:104
-msgid "Description"
-msgstr "Omschrijving"
-
-#: main/enquiry.c:160 main/select.c:80
-#, c-format
-msgid "No packages found matching %s.\n"
-msgstr "Geen pakketten gevonden overeenkomend met %s.\n"
-
-#: main/enquiry.c:187
+#: main/enquiry.c:81
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -1613,7 +1589,7 @@ msgstr ""
 "tijdens installatie.  Ze moeten opnieuw worden geïnstalleerd om ze (en\n"
 "pakketten die ervan afhankelijk zijn) goed te laten functioneren:\n"
 
-#: main/enquiry.c:192
+#: main/enquiry.c:86
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -1623,7 +1599,7 @@ msgstr ""
 "moeten geconfigureerd worden met dpkg --configure of de menu optie\n"
 "Configureren in dselect om ze te laten werken:\n"
 
-#: main/enquiry.c:197
+#: main/enquiry.c:91
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -1634,7 +1610,7 @@ msgstr ""
 "configureren zou opnieuw moeten gebeuren met dpkg --configure <pakket>\n"
 "of de menu optie Configureren in dselect:\n"
 
-#: main/enquiry.c:202
+#: main/enquiry.c:96
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -1645,111 +1621,33 @@ msgstr ""
 "afgerond na een nieuwe poging; de pakketten kunnen verwijderd worden\n"
 "met dselect of dpkg --remove:\n"
 
-#: main/enquiry.c:227
+#: main/enquiry.c:121
 msgid "--audit does not take any arguments"
 msgstr "--audit verwacht geen argumenten"
 
-#: main/enquiry.c:262
+#: main/enquiry.c:156
 msgid "<unknown>"
 msgstr "<onbekend>"
 
-#: main/enquiry.c:279
+#: main/enquiry.c:173
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "--yet-to-unpack verwachtg een argumenten"
 
-#: main/enquiry.c:317
+#: main/enquiry.c:211
 #, c-format
 msgid " %d in %s: "
 msgstr " %d in %s: "
 
-#: main/enquiry.c:332
+#: main/enquiry.c:226
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d pakketten, uit de volgende secties:"
 
-#: main/enquiry.c:352
-#, c-format
-msgid "diversion by %s"
-msgstr "omleiding door %s"
-
-#: main/enquiry.c:353
-msgid "local diversion"
-msgstr "lokale omleiding"
-
-#: main/enquiry.c:354
-msgid "to"
-msgstr "naar"
-
-#: main/enquiry.c:354
-msgid "from"
-msgstr "van"
-
-#: main/enquiry.c:387
-msgid "--search needs at least one file name pattern argument"
-msgstr "--search heeft ten minste een bestandsnaam patroon argument nodig"
-
-#: main/enquiry.c:415
-#, c-format
-msgid "dpkg: %s not found.\n"
-msgstr "dpkg: %s niet gevonden.\n"
-
-#: main/enquiry.c:432 main/packages.c:109
-#, c-format
-msgid "--%s needs at least one package name argument"
-msgstr "--%s heeft ten minste een pakketnaam argument nodig"
-
-#: main/enquiry.c:452
-#, c-format
-msgid "Package `%s' is not installed and no info is available.\n"
-msgstr "Pakket `%s' is niet geïnstalleerd en geen info is beschijbaar.\n"
-
-#: main/enquiry.c:461
-#, c-format
-msgid "Package `%s' is not available.\n"
-msgstr "Pakket `%s' is niet beschikbaar.\n"
-
-#: main/enquiry.c:471
-#, c-format
-msgid "Package `%s' is not installed.\n"
-msgstr "Pakket `%s' is niet geïnstalleerd.\n"
-
-#: main/enquiry.c:480
-#, c-format
-msgid "Package `%s' does not contain any files (!)\n"
-msgstr "Pakket `%s' bevat geen bestanden (!)\n"
-
-#: main/enquiry.c:486
-msgid "locally diverted"
-msgstr "lokaal omgeleid"
-
-#: main/enquiry.c:487
-msgid "package diverts others"
-msgstr "pakket leidt andere om"
-
-#: main/enquiry.c:488
-#, c-format
-msgid "diverted by %s"
-msgstr "omgeleid door %s"
-
-#: main/enquiry.c:489
-#, c-format
-msgid " to: %s\n"
-msgstr " naar: %s\n"
-
-#: main/enquiry.c:508
-#, fuzzy
-msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
-msgstr ""
-"Gebruik dpkg --info (= dpkg-deb --info) om archiefbestanden te bekijken,\n"
-"en dpkg --contents (= dpkg-deb --contents) om de inhoud weer te geven."
-
-#: main/enquiry.c:519
+#: main/enquiry.c:245
 msgid "--assert-* does not take any arguments"
 msgstr "--assert-* verwacht geen argumenten"
 
-#: main/enquiry.c:534
+#: main/enquiry.c:260
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
@@ -1758,17 +1656,17 @@ msgstr ""
 "geconfigureerd.\n"
 "  Gebruik aub. `dpkg --configure dpkg', en probeer het opnieuw.\n"
 
-#: main/enquiry.c:538
+#: main/enquiry.c:264
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
 msgstr ""
 "dpkg is niet als geïnstalleerd geregistreerd, kan niet controleren op "
 "ondersteuning voor epoch !\n"
 
-#: main/enquiry.c:581
+#: main/enquiry.c:307
 msgid "--predep-package does not take any argument"
 msgstr "--predep-package accepteert geen argumenten"
 
-#: main/enquiry.c:633
+#: main/enquiry.c:359
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -1777,14 +1675,14 @@ msgstr ""
 "dpkg: kan geen manier vinden om aan voor-afhankelijkheid te voldoen:\n"
 " %s\n"
 
-#: main/enquiry.c:634
+#: main/enquiry.c:360
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "kan niet voldoen aan voor-afhankelijkheden voor %.250s (gewenst wegens "
 "%.250s)"
 
-#: main/enquiry.c:654
+#: main/enquiry.c:380
 #, c-format
 msgid ""
 "dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
@@ -1793,64 +1691,64 @@ msgstr ""
 "dpkg: onverwachte uitvoer van `%s --print-libgcc-file-name':\n"
 " `%s'\n"
 
-#: main/enquiry.c:657
+#: main/enquiry.c:383
 #, c-format
 msgid "compiler libgcc filename not understood: %.250s"
 msgstr "compiler libgcc bestandsnaam niet begrepen: %.250s"
 
-#: main/enquiry.c:661
+#: main/enquiry.c:387
 msgid "--print-installation-architecture does not take any argument"
 msgstr "--print-installation-architecture accepteert geen argumenten"
 
-#: main/enquiry.c:681
+#: main/enquiry.c:407
 msgid "--print-architecture does not take any argument"
 msgstr "--print-architecture accepteert geen argumenten"
 
-#: main/enquiry.c:687
+#: main/enquiry.c:413
 msgid "failed to fdopen CC pipe"
 msgstr "kon CC pijp niet fdopenen"
 
-#: main/enquiry.c:705
+#: main/enquiry.c:431
 msgid "error reading from CC pipe"
 msgstr "fout bij lezen uit CC pijp"
 
-#: main/enquiry.c:707
+#: main/enquiry.c:433
 msgid "empty output"
 msgstr "lege uitvoer"
 
-#: main/enquiry.c:709
+#: main/enquiry.c:435
 msgid "no newline"
 msgstr "geen nieuwe regel"
 
-#: main/enquiry.c:712
+#: main/enquiry.c:438
 msgid "no gcc-lib component"
 msgstr "geen gcc-lib onderdeel"
 
-#: main/enquiry.c:714
+#: main/enquiry.c:440
 msgid "no slash after gcc-lib"
 msgstr "geen schuine streep na gcc-lib"
 
-#: main/enquiry.c:726
+#: main/enquiry.c:452
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr "dpkg: waarschuwinng, architectuur `%s' niet in tabel\n"
 
-#: main/enquiry.c:769
+#: main/enquiry.c:495
 msgid ""
 "--compare-versions takes three arguments: <version> <relation> <version>"
 msgstr ""
 "--compare-versions verwacht drie argumenten: <versie> <relatie> <versie>"
 
-#: main/enquiry.c:774
+#: main/enquiry.c:500
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions foute relatie"
 
-#: main/enquiry.c:779
+#: main/enquiry.c:505
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "versie met verkeerde syntax: %s\n"
 
-#: main/enquiry.c:789
+#: main/enquiry.c:515
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "versie b heeft verkeerde syntax: %s\n"
@@ -2197,7 +2095,7 @@ msgstr ""
 "Zie dpkg --licence voor auteursrechten en licentiedetails.\n"
 
 #: main/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2274,33 +2172,21 @@ msgstr ""
 "  dpkg -r|--remove | -P|--purge <pakketnaam> ... | -a|--pending\n"
 "  dpkg --get-selections [<patroon> ...]    get list of selections to stdout\n"
 "  dpkg --set-selections                    set pakket selections from stdin\n"
-"  dpkg --update-avail <Packages-bestand>   vervang de beschikbare "
-"pakketinfo\n"
-"  dpkg --merge-avail <Packages-bestand>    samenvoegen met "
-"beschikbaarheidsinfo\n"
-"  dpkg --clear-avail                       verwijder huidige "
-"beschikbaarheidsinfo\n"
-"  dpkg --command-fd <n>                    geef opdrachten op deze "
-"bestandsbeschr\n"
-"  dpkg --forget-old-unavail                vergeet niet-geïnstalleerde oude "
-"pakketten\n"
+"  dpkg --update-avail <Packages-bestand>   vervang de beschikbare pakketinfo\n"
+"  dpkg --merge-avail <Packages-bestand>    samenvoegen met beschikbaarheidsinfo\n"
+"  dpkg --clear-avail                       verwijder huidige beschikbaarheidsinfo\n"
+"  dpkg --command-fd <n>                    geef opdrachten op deze bestandsbeschr\n"
+"  dpkg --forget-old-unavail                vergeet niet-geïnstalleerde oude pakketten\n"
 "  dpkg -s|--status <pakket-naam> ...       geef de status van pakket\n"
-"  dpkg -p|--print-avail <pakket-naam> ...  geef beschikbaarheidsinfo versie "
-"details\n"
-"  dpkg -L|--listfiles <pakket-naam> ...    geef bestanden die `van' pakket "
-"zijn\n"
-"  dpkg -l|--list [<patroon> ...]           geef een korte lijst van "
-"pakketten\n"
-"  dpkg -S|--search <patroon> ...           vind pakketten die bestanden "
-"bevatten\n"
+"  dpkg -p|--print-avail <pakket-naam> ...  geef beschikbaarheidsinfo versie details\n"
+"  dpkg -L|--listfiles <pakket-naam> ...    geef bestanden die `van' pakket zijn\n"
+"  dpkg -l|--list [<patroon> ...]           geef een korte lijst van pakketten\n"
+"  dpkg -S|--search <patroon> ...           vind pakketten die bestanden bevatten\n"
 "  dpkg -C|--audit                          zoek naar kapotte pakketten\n"
-"  dpkg --print-architecture                geef doelarchitectuur (gebruikt "
-"GCC)\n"
-"  dpkg --print-gnu-build-architecture      geef GNU versie van "
-"doelarchitectuur\n"
+"  dpkg --print-architecture                geef doelarchitectuur (gebruikt GCC)\n"
+"  dpkg --print-gnu-build-architecture      geef GNU versie van doelarchitectuur\n"
 "  dpkg --print-installation-architecture   geef huidige architectuur\n"
-"  dpkg --compare-versions <a> <rel> <b>    vergelijk versienummers (zie "
-"onder)\n"
+"  dpkg --compare-versions <a> <rel> <b>    vergelijk versienummers (zie onder)\n"
 "  dpkg --help | --version                  geef deze hulp/versienummer\n"
 "  dpkg --force-help | -Dh|--debug=help     hulp over forceren/debuggen\n"
 "  dpkg --licence                           geef auteursrechten en garantie\n"
@@ -2317,15 +2203,12 @@ msgstr ""
 "  --instdir=<map>            Verander hoofdmap maar niet administratiemap\n"
 "  -O|--selected-only         Skip pakkets not selected for install/upgrade\n"
 "  -E|--skip-same-version     Skip pakkets whose same version is installed\n"
-"  -G|--refuse-downgrade      Skip pakkets with earlier version than "
-"installed\n"
-"  -B|--auto-deconfigure      Install even if it would break some other "
-"pakket\n"
-"  --no-debsign               Do no try to verify pakket signatures\n"
+"  -G|--refuse-downgrade      Skip pakkets with earlier version than installed\n"
+"  -B|--auto-deconfigure      Install even if it would break some other pakket\n"
+"  --no-debsig                Do no try to verify pakket signatures\n"
 "  --no-act                   Just say what we would do - don't do it\n"
 "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n"
-"  --status-fd <n>            Send status change updates to file descriptor "
-"<n>\n"
+"  --status-fd <n>            Send status change updates to file descriptor <n>\n"
 "  --ignore-depends=<pakket>,... Ignore dependencies involving <pakket>\n"
 "  --force-...                    Override problems - see --force-help\n"
 "  --no-force-...|--refuse-...    Stop when problems encountered\n"
@@ -2393,6 +2276,22 @@ msgid ""
 "Debugging options are be mixed using bitwise-or.\n"
 "Note that the meanings and values are subject to change.\n"
 msgstr ""
+"%s debug optie, --debug=<octaal> of -D<octaal>:\n"
+"\n"
+" nummer  ref. in bron<     omschrijving\n"
+"      1  general           Algemene behulpzame voortgangsinformatie\n"
+"      2  scripts           Aanroep en status van beheerdersscripts\n"
+"     10  eachfile          Uitvoer voor ieder behandeld bestand\n"
+"    100  eachfiledetail    Veel uitvoer voor ieder behandeld bestand\n"
+"     20  conff             Uitvoer voor ieder configuratiebestand\n"
+"    200  conffdetail       Veel uitvoer voor ieder configuratiebestand\n"
+"     40  depcon            Afhankelijkheden en conflicten\n"
+"    400  depcondetail      Veel uitvoer voor afhankelijkheden en conflicten\n"
+"   1000  veryverbose       Veel gezever over bijv. de dpkg/info map\n"
+"   2000  stupidlyverbose   Idiote hoeveelheden gezever\n"
+"\n"
+"Debug-opties kunnen worden gecombineerd met bitsgewijze of.\n"
+"Merk op dat de betekenissen en waarden kunnen veranderen.\n"
 
 #: main/main.c:217
 msgid "--debug requires an octal argument"
@@ -2455,43 +2354,95 @@ msgid ""
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
+"%s forceer-opties - bestuur handelwijze bij problemen:\n"
+"  waarschuw maar ga door: --force-<iets>,<iets>,...\n"
+"  stop met foutmelding: --refuse-<iets>,<iets>,... | --no-force-<iets>,...\n"
+" Forceeropties:\n"
+"  all                    Zet alle forceer-opties\n"
+"  auto-select [*]        (de)selecteer pakketten om ze te installeren "
+"(verwijderen)\n"
+"  downgrade [*]          Vervang pakketten met een lagere versie\n"
+"  configure-any          Configureer een pakket dat kan helpen bij dit "
+"pakket\n"
+"  hold                   Behandel ook pakketten die op hold staan\n"
+"  bad-path               Belangrijke programma's ontbreken in PATH, "
+"waarschijnlijk problematisch\n"
+"  not-root               Probeer dingen te (de)installeren ook als niet-"
+"root\n"
+"  overwrite              Overschrijf een bestand uit het ene pakket met een "
+"ander\n"
+"  overwrite-diverted     Overschrijf een omleiding met een niet-omgeleide "
+"versie\n"
+"  bad-verify             Installeer een pakket zelfs al mislukt de "
+"verificatie\n"
+"  depends-version [!]    Verander afhankelijkheidsproblemen met versies in "
+"waarschuwingen\n"
+"  depends [!]            Verander alle afhankelijkheidsproblemen in "
+"waarschuwingen\n"
+"  confnew [!]            Gebruik altijd de nieuwe configuratiebestanden, "
+"vraag niets\n"
+"  confold [!]            Gebruik altijd de oude configuratiebestanden, vraag "
+"niets\n"
+"  confdef [!]            Gebruik altijd de standaardoptie voor nieuwe\n"
+"                         configuratiebestanden, vraag niets.  Als geen\n"
+"                         standaard is gevonden wordt het gevraagd\n"
+"                         tenzij ook confold of confnew opgegeven is\n"
+"  confmiss [!]           Installeer altijd ontbrekende "
+"configuratiebestanden\n"
+"  conflicts [!]          Sta installatie van conflicterende pakketten toe\n"
+"  architecture [!]       Behandel ook pakketten met een verkeerde "
+"architectuur\n"
+"  overwrite-dir [!]      Overschrijf een map in een pakket met een bestand "
+"uit een ander\n"
+"  remove-reinstreq [!]   Verwijder pakketten die herinstallatie nodig "
+"hebben\n"
+"  remove-essential [!]   Verwijder een essentieel pakket\n"
+"\n"
+"WAARSCHUWING - het gebruik van de opties met [!] kunnen uw installatie "
+"ernstig beschadigen.\n"
+"Forceeropties gemarkeerd met [*] staan standaard aan.\n"
 
 #: main/main.c:336
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "onbekende force/refuse optie `%.*s'"
 
-#: main/main.c:427
+#: main/main.c:437 main/main.c:441
 msgid "couldn't malloc in execbackend"
-msgstr ""
+msgstr "kon geen geheugen reserveren in exec-backend"
 
-#: main/main.c:432
-msgid "failed to exec dpkg-deb"
-msgstr "kon dpkg-deb niet uitvoeren"
+#: main/main.c:439 main/main.c:446
+msgid "couldn't strdup in execbackend"
+msgstr "strdup mislukte in exec-backend"
 
-#: main/main.c:444
+#: main/main.c:450
+#, c-format
+msgid "failed to exec %s"
+msgstr "kon %s niet uitvoeren"
+
+#: main/main.c:462
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd verwacht een argument, niet nul"
 
-#: main/main.c:445
+#: main/main.c:463
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd verwacht slechts één argument"
 
-#: main/main.c:447
+#: main/main.c:465
 msgid "invalid number for --command-fd"
 msgstr "ongeldig nummer voor --command-fd"
 
-#: main/main.c:449
+#: main/main.c:467
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "kan `%i' niet openen voor stream"
 
-#: main/main.c:474
+#: main/main.c:492
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "onverwacht bestandseinde voor einde regel %d"
 
-#: dpkg-deb/main.c:158 main/main.c:518 main/main.c:562 split/main.c:166
+#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:563 split/main.c:166
 msgid "need an action option"
 msgstr "heb een actie-optie nodig"
 
@@ -2499,6 +2450,11 @@ msgstr "heb een actie-optie nodig"
 #, c-format
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending accepteert geen niet-optie argumenten"
+
+#: main/packages.c:109
+#, c-format
+msgid "--%s needs at least one package name argument"
+msgstr "--%s heeft ten minste een pakketnaam argument nodig"
 
 #: main/packages.c:116
 msgid ""
@@ -2901,6 +2857,11 @@ msgstr "kan oude bestandenlijst niet verwijderen"
 msgid "can't remove old postrm script"
 msgstr "kan oud postrm script niet verwijderen"
 
+#: main/select.c:80
+#, c-format
+msgid "No packages found matching %s.\n"
+msgstr "Geen pakketten gevonden overeenkomend met %s.\n"
+
 #: main/select.c:95
 msgid "--set-selections does not take any argument"
 msgstr "--set-selections verwacht geen argumenten"
@@ -2955,13 +2916,14 @@ msgid "--%s needs exactly one Packages file argument"
 msgstr "--%s verwacht precies een Packages bestand als argument"
 
 #: main/update.c:57
-#, fuzzy
 msgid "unable to access dpkg status area for bulk available update"
-msgstr "kan niet bij de dpkg statusomgeving voor veel updates"
+msgstr "kan niet bij de dpkg statusomgeving voor massale update"
 
 #: main/update.c:59
 msgid "bulk available update requires write access to dpkg status area"
 msgstr ""
+"grote bijwerking van de beschikbaarheidsdatabase vereist schrijftoegang tot "
+"de dpkg statusomgeving"
 
 #: main/update.c:66
 #, c-format
@@ -3232,7 +3194,7 @@ msgstr "bestand `%.250s' is beschadigd - %.250s bevat nultekens"
 #: dpkg-deb/extract.c:79 split/info.c:43
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
-msgstr "bestand `%.250s' is beschadigd - foutief cijfer (code %s) in %s"
+msgstr "bestand `%.250s' is beschadigd - foutief cijfer (code %d) in %s"
 
 #: dpkg-deb/extract.c:108
 #, c-format
@@ -3259,9 +3221,8 @@ msgstr ""
 "eerste kop"
 
 #: dpkg-deb/extract.c:125
-#, fuzzy
 msgid "file `%.250s' is corrupt - negative member length %zi"
-msgstr "bestand `%.250s' is beschadigd - negatieve lidlengte %ld"
+msgstr "bestand `%.250s' is beschadigd - negatieve lidlengte %zi"
 
 #: dpkg-deb/extract.c:129
 #, c-format
@@ -3306,13 +3267,12 @@ msgid "file `%.250s' contains two control members, giving up"
 msgstr "bestand `%.250s' bevat twee besturingsleden, ik geef het op"
 
 #: dpkg-deb/extract.c:176
-#, fuzzy
 msgid ""
 " new debian package, version %s.\n"
 " size %ld bytes: control archive= %zi bytes.\n"
 msgstr ""
 " nieuw debian pakket, versie %s.\n"
-" grootte %ld bytes: besturingsarchief= %ld bytes.\n"
+" grootte %ld bytes: besturingsarchief= %zi bytes.\n"
 
 #: dpkg-deb/extract.c:188
 msgid "ctrl information length"
@@ -3324,13 +3284,12 @@ msgid "archive has malformatted ctrl len `%s'"
 msgstr "archief heeft verkeerde besturingslengte `%s'"
 
 #: dpkg-deb/extract.c:193
-#, fuzzy
 msgid ""
 " old debian package, version %s.\n"
 " size %ld bytes: control archive= %ld, main archive= %zi.\n"
 msgstr ""
 " oud debian pakket, versie %s.\n"
-" grootte %ld bytes: besturingsarchief= %ld, hoofdarchief= %ld.\n"
+" grootte %ld bytes: besturingsarchief= %ld, hoofdarchief= %zi.\n"
 
 #: dpkg-deb/extract.c:202
 msgid "ctrlarea"
@@ -3684,7 +3643,6 @@ msgid "file `%.250s' is not an archive part"
 msgstr "bestand `%.250s' is niet een archiefonderdeel"
 
 #: split/info.c:188
-#, fuzzy
 msgid ""
 "%s:\n"
 "    Part format version:            %s\n"
@@ -3709,7 +3667,7 @@ msgstr ""
 "    Deel nummer:                    %d/%d\n"
 "    Deel lengte:                    %lu bytes\n"
 "    Deel begin:                     %lu bytes\n"
-"    Deel bestandsgrootte (deel):    %lu bytes\n"
+"    Deel bestandsgrootte (deel):    %zi bytes\n"
 "\n"
 
 #: split/info.c:218
@@ -3886,7 +3844,7 @@ msgstr "kon nieuwe depotbestand niet hernoemen van `%.250s' naar `%.250s'"
 #: split/queue.c:162
 #, c-format
 msgid "Part %d of package %s filed (still want "
-msgstr "Deel %d van pakket %d opgeslagen (ik wil nog "
+msgstr "Deel %d van pakket %s opgeslagen (ik wil nog "
 
 #: split/queue.c:166
 msgid " and "
@@ -3974,17 +3932,12 @@ msgstr "kon mksplit niet uitvoeren"
 msgid "Type md5sum --help for help."
 msgstr "Type md5sum --help voor hulp."
 
-#: utils/md5sum.c:113
+#: utils/md5sum.c:78
 #, c-format
-msgid "%s: read error on stdin\n"
-msgstr "%s: leesfout op standaard invoer\n"
+msgid "error processing %s: %s\n"
+msgstr "fout bij afhandelen van %s: %s\n"
 
-#: utils/md5sum.c:130 utils/md5sum.c:241
-#, c-format
-msgid "%s: error reading %s\n"
-msgstr "%s: fout bij lezen van %s\n"
-
-#: utils/md5sum.c:144
+#: utils/md5sum.c:169
 msgid ""
 "usage: md5sum [-bv] [-c [file]] | [file...]\n"
 "Generates or checks MD5 Message Digests\n"
@@ -4004,39 +3957,44 @@ msgstr ""
 "afgedrukt wordt op de standaard uitvoer van het programma als het de sommen\n"
 "genereert.\n"
 
-#: utils/md5sum.c:157
+#: utils/md5sum.c:182
 msgid "mdfile"
 msgstr "mdfile"
 
-#: utils/md5sum.c:202
+#: utils/md5sum.c:222
 #, c-format
 msgid "%s: unrecognized line: %s"
 msgstr "%s: regel niet herkend: %s"
 
-#: utils/md5sum.c:236
+#: utils/md5sum.c:256
 #, c-format
 msgid "%s: can't open %s\n"
 msgstr "%s: kan %s niet openen\n"
 
-#: utils/md5sum.c:249
+#: utils/md5sum.c:261
+#, c-format
+msgid "%s: error reading %s\n"
+msgstr "%s: fout bij lezen van %s\n"
+
+#: utils/md5sum.c:269
 msgid "FAILED\n"
 msgstr "MISLUKT\n"
 
-#: utils/md5sum.c:251
+#: utils/md5sum.c:271
 #, c-format
 msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: MD5 controle mislukt voor `%s'\n"
 
-#: utils/md5sum.c:254
+#: utils/md5sum.c:274
 msgid "OK\n"
 msgstr "OK\n"
 
-#: utils/md5sum.c:258
+#: utils/md5sum.c:278
 #, c-format
 msgid "%s: %d of %d file(s) failed MD5 check\n"
 msgstr "%s: %d van %d bestand(en) overleefden MD5 controle niet\n"
 
-#: utils/md5sum.c:260
+#: utils/md5sum.c:280
 #, c-format
 msgid "%s: no files checked\n"
 msgstr "%s: geen bestanden gecontroleerd\n"
@@ -4174,7 +4132,7 @@ msgstr "  -- %d%%, druk op "
 #: dselect/baselist.cc:302
 #, c-format
 msgid "%s for more"
-msgstr "%d voor meer"
+msgstr "%s voor meer"
 
 #: dselect/baselist.cc:306
 #, c-format
@@ -4293,9 +4251,8 @@ msgid "Quit, confirming without check"
 msgstr "Beëindigen, met bevestiging zonder controle"
 
 #: dselect/bindings.cc:154
-#, fuzzy
 msgid "Quit, rejecting conflict/dependency suggestions"
-msgstr "Beëindigen, zonder conflicterende/afhankelijkheids suggesties"
+msgstr "Beëindigen, zonder conflict/afhankelijkheids suggesties te accepteren"
 
 #: dselect/bindings.cc:155
 msgid "Abort - quit without making changes"
@@ -4424,14 +4381,14 @@ msgstr "Debian `%s' pakket selectieprogramma."
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "This is free software; see the GNU General Public Licence version 2\n"
 "or later for copying conditions.  There is NO warranty.  See\n"
 "dselect --licence for details.\n"
 msgstr ""
 "Versie %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "Dit is vrije programmatuur; zie de GNU General Public License versie 2\n"
 "of later voor kopieervoorwaarden.  Er is GEEN garantie.  Zie dselect\n"
 "--license voor details.\n"
@@ -4521,6 +4478,10 @@ msgstr "Toegangsmethode `%s'."
 #: dselect/methlist.cc:110
 msgid "Abbrev."
 msgstr "Afko."
+
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295
+msgid "Description"
+msgstr "Omschrijving"
 
 #: dselect/methlist.cc:155
 msgid "doupdate failed"
@@ -4864,11 +4825,11 @@ msgstr "aanbeveelt"
 
 #: dselect/pkgdisplay.cc:71
 msgid "depends on"
-msgstr "afhankelijk van"
+msgstr "is afhankelijk van"
 
 #: dselect/pkgdisplay.cc:72
 msgid "pre-depends on"
-msgstr "voor-afhankelijk van"
+msgstr "is voor-afhankelijk van"
 
 #: dselect/pkgdisplay.cc:73
 msgid "conflicts with"
@@ -5185,6 +5146,10 @@ msgstr "Huidig"
 #: dselect/pkgtop.cc:279
 msgid "Marked for"
 msgstr "Gewenst"
+
+#: dselect/pkgtop.cc:282
+msgid "EIOM"
+msgstr "EIOM"
 
 #: dselect/pkgtop.cc:284
 msgid "Section"
@@ -5527,7 +5492,7 @@ msgstr "Scherm, deel 2: lijstselectie; informatiescherm"
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
-"  which package(s) will be affected by presses of `+', '-' and `_'.\n"
+"  which package(s) will be affected by presses of `+', `-' and `_'.\n"
 "\n"
 "* The dividing line in the middle of the screen shows a brief explanation "
 "of\n"
@@ -5549,8 +5514,27 @@ msgid ""
 "  Use the `i' key to cycle through the displays, and `I' to hide the\n"
 "  information display or expand it to use almost all of the screen.\n"
 msgstr ""
-"* Oplichten: Een pakket in de lijst wordt opgelicht.  Het geeft aan welk "
-"pakket(ten)\n"
+"* Oplichten: Een pakket in de lijst wordt opgelicht.  Het geeft aan op\n"
+"  welk(e) pakket(ten) de knoppen `+', `-' en `_' effect zullen hebben.\n"
+"\n"
+"* De scheidingslijn in het midden van het scherm toont een korte\n"
+"  uitleg van de status van het opgelichte pakket, of een omschrijving\n"
+"  van de groep die is opgelicht.  Als u de betekenis van een gegeven\n"
+"  statusteken, kunt u naar het relevante pakket gaan en naar de\n"
+"  scheidingslijn kijen, of gebruik de toets `v' voor een uitgebreide\n"
+"  weergave (druk weer op `v' om terug te gaan naar de korte weergave).\n"
+"\n"
+"* De onderste helft van het scherm geeft meer informatie over het\n"
+"  opgelichte pakket (als dat er slechts een is).\n"
+"\n"
+"  Het kan een uitgebreide omschrijving van het pakket zijn, de interne\n"
+"  pakketbesturings details (ofwel voor de geïnstalleerde of beschikbare\n"
+"  versie van het pakket), of informatie over\n"
+"  conflicts-/afhankelijkheidsrelaties met het huidige pakket (in de\n"
+"  conflicts-/afhankelijkheisoplossers).\n"
+"\n"
+"  Gebruik de `i'-toets om de wisselen tussen weergaven, en `I' om het\n"
+"  informatiescherm te vergroten of verbergen.\n"
 
 #: dselect/helpmsgs.cc:148
 msgid "Introduction to method selection display"
@@ -5579,6 +5563,24 @@ msgid ""
 "help\n"
 "menu reachable by pressing `?'.\n"
 msgstr ""
+"dselect en dpkg kunnen automatische installatie aan, door de te\n"
+"installeren pakketbestanden op te halen van een aantal mogelijke\n"
+"plaatsen.\n"
+"\n"
+"Deze lijst geeft u de mogelijkheid om een van deze installatiemethodes\n"
+"te kiezen.\n"
+"\n"
+"Beweeg de markering naar de gewenste methode en druk op Enter.  U zult\n"
+"dan informatie moeten opgeven voor de installatie.\n"
+"\n"
+"Als u de markering beweegt zal een omschrijving worden gegeven van die\n"
+"methode in de onderste helft van het scherm.\n"
+"\n"
+"Als u wilt ophouden zonder iets te veranderen kunt u de `x' toets\n"
+"gebruiken in de lijst van methoden.\n"
+"\n"
+"Een volledige lijst met toetsen is beschikbaar door nu op `k' te\n"
+"drukken, of vanuit het hulpmenu dat u kunt bereiken met `?'.\n"
 
 #: dselect/helpmsgs.cc:167
 msgid "Keystrokes for method selection"
@@ -5608,9 +5610,106 @@ msgid ""
 "  /                search (just return to cancel)\n"
 "  \\                repeat last search\n"
 msgstr ""
+"Bewegingstoetsen: Volgende/Vorige, Begin/Eind, Op/Neer, Vooruit/Achteruit:\n"
+"  n, Pijltje-beneden    p, Pijltje-boven        verplaats markering\n"
+"  N, Page-down, Spatie  P, Page-up, Backspace   verschuif lijst met 1 "
+"pagina\n"
+"  ^n                    ^p                      verschuif lijst met 1 regel\n"
+"  t, Home               e, End                  naar begin/einde lijst\n"
+"  u                     d                       verschuif info met 1 pagina\n"
+"  ^u                    ^d                      verschuif info met 1 regel\n"
+"  B, Pijltje-links      F, Pijltje-rechts       pan display by 1/3 screen\n"
+"  ^b                    ^f                      pan display by 1 character\n"
+"(Deze zijn de zelfde toetsen als in het scherm met pakketlijst.)\n"
+"\n"
+"Einde:\n"
+" Return, Enter    selecteer deze methode en ga naar zijn "
+"configuratiedialoog\n"
+" x, X             beëindig zonder veranderingen of instellen van "
+"installatiemethode\n"
+"\n"
+"Divers:\n"
+"  ?, Help, F1      vraag hulp\n"
+" ^l                scherm opnieuw tekenen\n"
+"  /                zoeken (alleen enter voor annuleren)\n"
+"  \\                laatste zoekopdracht herhalen\n"
+
+#~ msgid ""
+#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
+#~ "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
+#~ "installed\n"
+#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+#~ "uppercase=bad)\n"
+#~ msgstr ""
+#~ "Gewenst=(U)Onbekend/Installeren/Remove/Purge/Hold\n"
+#~ "| Status=Niet/geInstalleerd/Config/Uitgepakt/(F)config-mislukt/Half-"
+#~ "geinst\n"
+#~ "|/ Fout?=(geen)/Hold/Reinst nodig/X=beide (Status,Fout: "
+#~ "hoofdlett=ernstig)\n"
+
+#~ msgid "Name"
+#~ msgstr "Naam"
+
+#~ msgid "Version"
+#~ msgstr "Versie"
+
+#~ msgid "diversion by %s"
+#~ msgstr "omleiding door %s"
+
+#~ msgid "local diversion"
+#~ msgstr "lokale omleiding"
+
+#~ msgid "to"
+#~ msgstr "naar"
+
+#~ msgid "from"
+#~ msgstr "van"
+
+#~ msgid "--search needs at least one file name pattern argument"
+#~ msgstr "--search heeft ten minste een bestandsnaam patroon argument nodig"
+
+#~ msgid "dpkg: %s not found.\n"
+#~ msgstr "dpkg: %s niet gevonden.\n"
+
+#~ msgid "Package `%s' is not installed and no info is available.\n"
+#~ msgstr "Pakket `%s' is niet geïnstalleerd en geen info is beschijbaar.\n"
+
+#~ msgid "Package `%s' is not available.\n"
+#~ msgstr "Pakket `%s' is niet beschikbaar.\n"
+
+#~ msgid "Package `%s' is not installed.\n"
+#~ msgstr "Pakket `%s' is niet geïnstalleerd.\n"
+
+#~ msgid "Package `%s' does not contain any files (!)\n"
+#~ msgstr "Pakket `%s' bevat geen bestanden (!)\n"
+
+#~ msgid "locally diverted"
+#~ msgstr "lokaal omgeleid"
+
+#~ msgid "package diverts others"
+#~ msgstr "pakket leidt andere om"
+
+#~ msgid "diverted by %s"
+#~ msgstr "omgeleid door %s"
+
+#~ msgid " to: %s\n"
+#~ msgstr " naar: %s\n"
+
+#~ msgid ""
+#~ "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#~ "and dpkg --contents (= dpkg-deb --contents) to list their contents."
+#~ msgstr ""
+#~ "Gebruik dpkg --info (= dpkg-deb --info) om archiefbestanden te bekijken,\n"
+#~ "en dpkg --contents (= dpkg-deb --contents) om de inhoud weer te geven."
 
 #~ msgid "files list file for package `%.250s' is truncated"
 #~ msgstr "bestandenlijst-bestand voor pakket `%.250s' is ingekort"
+
+#~ msgid "failed to exec dpkg-deb"
+#~ msgstr "kon dpkg-deb niet uitvoeren"
+
+#~ msgid "%s: read error on stdin\n"
+#~ msgstr "%s: leesfout op standaard invoer\n"
 
 #~ msgid "failed in copy on write (%s)"
 #~ msgstr "fout in copy on write (%s)"
