@@ -139,6 +139,8 @@ AC_CHECK_LIB(shouldbeinlibc, fmt_past_time, SSD_LIBS="-lshouldbeinlibc $SSD_LIBS
 AC_CHECK_LIB(kvm, kvm_openfiles, SSD_LIBS="-lkvm $SSD_LIBS")
 AC_SUBST(SSD_LIBS)
 
+DPKG_CHECK_DEFINE(TIOCNOTTY,sys/ioctl.h)
+
 ZLIB_CFLAGS=
 ZLIB_LIBS=
 ZLIB_LIBS_ALSO_STATIC=
