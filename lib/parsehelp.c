@@ -56,53 +56,52 @@ void parseerr
 }
 
 const struct namevalue booleaninfos[]= {  /* Note !  These must be in order ! */
-  { "no",                             0                  },
-  { "yes",                            1                  },
+  { "no",                             0,                 2 },
+  { "yes",                            1,                 3 },
   {  0                                                   }
 };
 
 const struct namevalue priorityinfos[]= {  /* Note !  These must be in order ! */
-  { "required",                       pri_required     },
-  { "important",                      pri_important    },
-  { "standard",                       pri_standard     },
-  { "recommended",                    pri_recommended  }, /* fixme: obsolete */
-  { "optional",                       pri_optional     },
-  { "extra",                          pri_extra        },
-  { "contrib",                        pri_contrib      }, /* fixme: keep? */
-  { "this is a bug - please report",  pri_other        },
-  { "unknown",                        pri_unknown      },
-  
-  { "base",                           pri_required     }, /* fixme: alias, remove */
+  { "required",                       pri_required,     8 },
+  { "important",                      pri_important,    9 },
+  { "standard",                       pri_standard,     8 },
+  { "recommended",                    pri_recommended,  11 }, /* fixme: obsolete */
+  { "optional",                       pri_optional,     8 },
+  { "extra",                          pri_extra,        5 },
+  { "contrib",                        pri_contrib,      7 }, /* fixme: keep? */
+  { "this is a bug - please report",  pri_other,        28 },
+  { "unknown",                        pri_unknown,      7 },
+  { "base",                           pri_required,     4 }, /* fixme: alias, remove */
   {  0                                                 }
 };
 
 const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
-  { "not-installed",   stat_notinstalled    },
-  { "unpacked",        stat_unpacked        },
-  { "half-configured", stat_halfconfigured  },
-  { "installed",       stat_installed       },
-  { "half-installed",  stat_halfinstalled   },
-  { "config-files",    stat_configfiles     },
+  { "not-installed",   stat_notinstalled,    13 },
+  { "unpacked",        stat_unpacked,        8 },
+  { "half-configured", stat_halfconfigured,  15, },
+  { "installed",       stat_installed,       9 },
+  { "half-installed",  stat_halfinstalled,   14 },
+  { "config-files",    stat_configfiles,     12 },
   /* These are additional entries for reading only, in any order ... */
-  { "postinst-failed", stat_halfconfigured  }, /* fixme: backwards compat., remove */
-  { "removal-failed",  stat_halfinstalled   }, /* fixme: backwards compat., remove */
+  { "postinst-failed", stat_halfconfigured,  15 }, /* fixme: backwards compat., remove */
+  { "removal-failed",  stat_halfinstalled,   14 }, /* fixme: backwards compat., remove */
   {  0                                      }
 };
 
 const struct namevalue eflaginfos[]= {  /* Note !  These must be in order ! */
-  { "ok",                      eflagv_ok                 },
-  { "reinstreq",               eflagv_reinstreq          },
-  { "hold",                    eflagv_obsoletehold       },
-  { "hold-reinstreq",          eflagv_obsoleteboth       },
+  { "ok",                      eflagv_ok,                2 },
+  { "reinstreq",               eflagv_reinstreq,         9 },
+  { "hold",                    eflagv_obsoletehold,      4 },
+  { "hold-reinstreq",          eflagv_obsoleteboth,      14 },
   {  0                                                   }
 };
 
 const struct namevalue wantinfos[]= {  /* Note !  These must be in order ! */
-  { "unknown",   want_unknown    },
-  { "install",   want_install    },
-  { "hold",      want_hold       },
-  { "deinstall", want_deinstall  },
-  { "purge",     want_purge      },
+  { "unknown",   want_unknown,    7 },
+  { "install",   want_install,    7 },
+  { "hold",      want_hold,       4 },
+  { "deinstall", want_deinstall,  9 },
+  { "purge",     want_purge,      5 },
   {  0                           }
 };
 

@@ -200,7 +200,7 @@ void copy_dependency_links(struct pkginfo *pkg,
 
 struct namevalue {
   const char *name;
-  int value;
+  int value, length;
 };
 
 extern const struct namevalue booleaninfos[];

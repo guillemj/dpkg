@@ -39,14 +39,23 @@ static int convert_string
 
   ep= startp;
   if (!*ep) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("%s is missing"),what);
-  while ((c= *ep) && !isspace(c)) ep++;
-  l= (int)(ep-startp);
-  while (nvip->name && (strncasecmp(nvip->name,startp,l) || nvip->name[l])) nvip++;
+  while (nvip->name) {
+    if ((l= nvip->length) == 0) {
+      l= strlen(nvip->name);
+      ((struct namevalue *)nvip)->length= l;
+    }
+    if (strncasecmp(nvip->name,startp,l) || nvip->name[l])
+      nvip++;
+    else
+      break;
+  }
   if (!nvip->name) {
     if (otherwise != -1) return otherwise;
     parseerr(0,filename,lno, warnto,warncount,pigp,0, _("`%.*s' is not allowed for %s"),
              l > 50 ? 50 : l, startp, what);
   }
+  ep = startp + l;
+  c = *ep;
   while (isspace(c)) c= *++ep;
   if (c && !endpp)
     parseerr(0,filename,lno, warnto,warncount,pigp,0, _("junk after %s"),what);
