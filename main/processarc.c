@@ -609,13 +609,10 @@ void process_archive(const char *filename) {
 	  upgrade/downgrade", fnamevb.buf);
       if (!lstat(fnamevb.buf, &oldfs) && !S_ISDIR(oldfs.st_mode)) {
 	for (cfile = newfileslist; cfile; cfile = cfile->next) {
-	  if(!cfile->namenode->stat) {
-	    newfs = nfmalloc(sizeof(struct stat));
-	    if (lstat(cfile->namenode->name, newfs)) continue;
-	    cfile->namenode->stat = newfs;
-	  } else newfs = cfile->namenode->stat;
-	  if (!S_ISDIR(newfs->st_mode) && oldfs.st_dev == newfs->st_dev &&
-	      oldfs.st_ino == newfs->st_ino) {
+          if (lstat(cfile->namenode->name, &newfs) || S_ISDIR(newfs.st_mode))
+            continue;
+          if (oldfs.st_dev == newfs.st_dev &&
+              oldfs.st_ino == newfs.st_ino) {
 	    donotrm = 1;
 	    debug(dbg_eachfile, "process_archive: not removing %s, since it matches %s",
 		fnamevb.buf, cfile->namenode->name);
