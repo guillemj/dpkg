@@ -2,9 +2,9 @@
 
 # Start by setting up everything for main tree
 aclocal -I ./automake
-autohedaer
+autoheader
 gettextize
-libtoolize
+libtoolize --force
 automake --add-missing --foreign
 autoconf
 
