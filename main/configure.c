@@ -535,38 +535,14 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
 }
     
 static void md5hash(struct pkginfo *pkg, char hashbuf[33], const char *fn) {
-  static int fd, p1[2];
-  FILE *file;
-  pid_t c1;
-  int ok;
+  static int fd;
   
   fd= open(fn,O_RDONLY);
   if (fd >= 0) {
     push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,(void*)&fd);
-    m_pipe(p1);
-    push_cleanup(cu_closepipe,ehflag_bombout, 0,0, 1,(void*)&p1[0]);
-    if (!(c1= m_fork())) {
-      m_dup2(fd,0); m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-      execlp(MD5SUM,MD5SUM,(char*)0);
-      ohshite(_("failed to exec md5sum"));
-    }
-    close(p1[1]); close(fd);
-    file= fdopen(p1[0],"r");
-    push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)file);
-    if (!file) ohshite(_("unable to fdopen for md5sum of `%.250s'"),fn);
-    ok= 1;
-    memset(hashbuf,0,33);
-    if (fread(hashbuf,1,32,file) != 32) ok=0;
-    if (getc(file) != '\n') ok=0;
-    if (getc(file) != EOF) ok=0;
-    waitsubproc(c1,"md5sum",0);
-    if (strspn(hashbuf,"0123456789abcdef") != 32) ok=0;
-    if (ferror(file)) ohshite(_("error reading pipe from md5sum"));
-    if (fclose(file)) ohshite(_("error closing pipe from md5sum"));
-    pop_cleanup(ehflag_normaltidy); /* file= fdopen(p1[0]) */
-    pop_cleanup(ehflag_normaltidy); /* m_pipe() */
+    fd_md5(fd, hashbuf, -1, _("md5hash"));
     pop_cleanup(ehflag_normaltidy); /* fd= open(cdr.buf) */
-    if (!ok) ohshit(_("md5sum gave malformatted output `%.250s'"),hashbuf);
+    close(fd);
   } else if (errno == ENOENT) {
     strcpy(hashbuf,NONEXISTENTFLAG);
   } else {
