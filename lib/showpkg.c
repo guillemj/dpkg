@@ -39,7 +39,7 @@ struct lstitem {
 };
 
 
-static struct lstitem* alloclstitem() {
+static struct lstitem* alloclstitem(void) {
 	struct lstitem*	buf;
 
 	buf=(struct lstitem*)malloc(sizeof(struct lstitem));
@@ -185,15 +185,16 @@ struct lstitem* parseformat(const char* fmt) {
 }
 
 
-static void dumpchain(struct lstitem* head) {
-	while (head) {
-		printf("Type: %s\n", (head->type==string) ? "string" : "field");
-		printf("Width: %d\n", head->width);
-		printf("Data: %s\n", head->data);
-		printf("\n");
-		head=head->next;
-	}
-}
+#define dumpchain(head) {\
+	const struct lstitem* ptr = head;\
+	while (ptr) {\
+		printf("Type: %s\n", (ptr->type==string) ? "string" : "field");\
+		printf("Width: %d\n", ptr->width);\
+		printf("Data: %s\n", ptr->data);\
+		printf("\n");\
+		ptr=ptr->next;\
+	}\
+}\
 
 
 void show1package(const struct lstitem* head, struct pkginfo *pkg) {

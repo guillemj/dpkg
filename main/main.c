@@ -283,7 +283,7 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   (*lastpipe)->fd= v;
 }
 
-void setforce(const struct cmdinfo *cip, const char *value) {
+static void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   size_t l;
   const struct forceinfo *fip;

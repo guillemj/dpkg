@@ -131,7 +131,7 @@ static struct obstack tar_obs;
 static int tarobs_init= 0;
 
 /* ensure the obstack is properly initialized */
-static void ensureobstackinit() {
+static void ensureobstackinit(void) {
 
   if (!tarobs_init) {
     obstack_init(&tar_obs);
@@ -140,7 +140,7 @@ static void ensureobstackinit() {
 }
 
 /* destroy the obstack */
-static void destroyobstack() {
+static void destroyobstack(void) {
   if (tarobs_init) {
     obstack_free(&tar_obs, 0);
     tarobs_init= 0;
@@ -692,7 +692,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
          (((fixbyrm->want != want_install && fixbyrm->want != want_hold) ||
            does_replace(pkg,&pkg->available,fixbyrm)) &&
           (!fixbyrm->installed.essential || fc_removeessential)))) {
-      assert(fixbyrm->clientdata->istobe == itb_normal);
+      assert(fixbyrm->clientdata->istobe == itb_normal || fixbyrm->clientdata->istobe == itb_deconfigure);
       fixbyrm->clientdata->istobe= itb_remove;
       fprintf(stderr, _("dpkg: considering removing %s in favour of %s ...\n"),
               fixbyrm->name, pkg->name);

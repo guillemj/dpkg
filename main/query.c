@@ -100,7 +100,7 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   *pdesc_r=pdesc; *l_r=l;
 }
 
-static int getwidth() {
+static int getwidth(void) {
   int fd;
   int res;
   struct winsize ws;

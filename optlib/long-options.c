@@ -44,7 +44,7 @@ parse_long_options (argc, argv, command_name, package, version, usage)
      const char *command_name;
      const char *package;
      const char *version;
-     void (*usage)();
+     void (*usage)(int);
 {
   int c;
   int saved_opterr;

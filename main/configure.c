@@ -48,7 +48,7 @@ int conffoptcells[2][2]= { CONFFOPTCELLS };
 static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn);
 static void copyfileperm(const char* source, const char* target);
 static void showdiff(const char* old, const char* new);
-static void suspend();
+static void suspend(void);
 static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 		const char* realnew, int useredited, int distedited,
 		enum conffopt what);
@@ -472,7 +472,7 @@ static void showdiff(const char* old, const char* new) {
 
 /* Suspend dpkg temporarily
  */
-static void suspend() {
+static void suspend(void) {
 	const char*	s;
 	int		pid;
 

@@ -19,6 +19,7 @@
  */
 
 #include <config.h>
+#include <dpkg.h>
 
 /* Reimplementation of the standard ctype.h is* functions. Since gettext
  * has overloaded the meaning of LC_CTYPE we can't use that to force C
