@@ -11,7 +11,7 @@ SSD_SOURCES		= start-stop-daemon.c
 SSD_OBJECTS		= $(patsubst %.c, %.o, $(SSD_SOURCES))
 SSD_MANPAGES		= start-stop-daemon.8
 
-MD5_SOURCES		= md5sum.c md5.c
+MD5_SOURCES		= md5sum.c
 MD5_OBJECTS		= $(patsubst %.c, %.o, $(MD5_SOURCES))
 MD5_MANPAGES		= md5sum.1
 
@@ -62,6 +62,5 @@ endif
 start-stop-daemon: $(SSD_OBJECTS) ../optlib/libopt.a
 	$(CC) $(LDFLAGS) -o $@ $^ $(SSD_LIBS)
 
-md5sum: $(MD5_OBJECTS) ../optlib/libopt.a
+md5sum: $(MD5_OBJECTS) ../optlib/libopt.a ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $^ $(NLS_LIBS)
-

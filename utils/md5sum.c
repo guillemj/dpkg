@@ -16,8 +16,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <getopt.h>
+
 #include "config.h"
-#include "md5.h"
 
 /* Take care of NLS matters.  */
 
@@ -39,6 +39,8 @@
 # define _(Text) Text
 #endif
 
+#include <dpkg.h>
+
 #ifdef UNIX
 #define	FOPRTXT	"r"
 #define	FOPRBIN	"r"
@@ -54,6 +56,8 @@
 
 extern char *optarg;
 extern int optind;
+const char printforhelp[]= N_("Type md5sum --help for help.");
+const char thisname[]= MD5SUM;
 
 void usage(void);
 void print_digest(unsigned char *p);
@@ -106,8 +110,7 @@ main(int argc, char **argv)
 			fprintf(stderr, _("%s: read error on stdin\n"), progname);
 			exit(2);
 		}
-		print_digest(digest);
-		printf("\n");
+		printf("%s\n", digest);
 		exit(0);
 	}
 	for ( ; argc > 0; --argc, ++argv) {
@@ -124,8 +127,7 @@ main(int argc, char **argv)
 			fprintf(stderr, _("%s: error reading %s\n"), progname, *argv);
 			rc = 2;
 		} else {
-			print_digest(digest);
-			printf(" %c%s\n", bin_mode ? '*' : ' ', *argv);
+			printf("%s %c%s\n", digest, bin_mode ? '*' : ' ', *argv);
 		}
 		fclose(fp);
 	}
@@ -148,26 +150,11 @@ that is printed on stdout by this program when it generates digests.\n"), stderr
 int
 mdfile(FILE *fp, unsigned char *digest)
 {
-	unsigned char buf[1024];
-	struct MD5Context ctx;
-	int n;
-
-	MD5Init(&ctx);
-	while ((n = fread(buf, 1, sizeof(buf), fp)) > 0)
-		MD5Update(&ctx, buf, n);
-	MD5Final(digest, &ctx);
-	if (ferror(fp))
-		return -1;
-	return 0;
-}
-
-void
-print_digest(unsigned char *p)
-{
-	int i;
-
-	for (i = 0; i < 16; ++i)
-		printf("%02x", *p++);
+	ssize_t ret = stream_md5(fp, digest, -1, _("mdfile"));
+	if ( ret >= 0 )
+		return 0;
+	else
+		return ret;
 }
 
 int

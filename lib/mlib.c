@@ -31,6 +31,7 @@
 #include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
+#include <md5.h>
 
 /* Incremented when we do some kind of generally necessary operation, so that
  * loops &c know to quit if we take an error exit.  Decremented again afterwards.
@@ -147,6 +148,9 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) 
       if(ferror((FILE *)data->data))
 	ohshite(_("error in buffer_write(stream): %s"), desc);
       break;
+    case BUFFER_WRITE_MD5:
+      MD5Update((struct MD5Context *)data->data, buf, length);
+      break;
     default:
       fprintf(stderr, _("unknown data type `%i' in buffer_write\n"), data->type);
    }
@@ -163,7 +167,7 @@ ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, char *desc) {
     case BUFFER_READ_STREAM:
       ret= fread(buf, 1, length, (FILE *)data->data);
       if(feof((FILE *)data->data))
-	ohshite(_("eof in buffer_read(stream): %s"), desc);
+	return ret;
       if(ferror((FILE *)data->data))
 	ohshite(_("error in buffer_read(stream): %s"), desc);
       break;
@@ -194,6 +198,36 @@ ssize_t buffer_copy_setup(void *argIn, int typeIn, void *procIn,
   if ( procOut == NULL )
     write_data.proc = buffer_write;
   ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+  varbuffree(&v);
+  return ret;
+}
+
+ssize_t buffer_md5_setup(void *argIn, int typeIn, void *procIn,
+		      unsigned char hash[33], ssize_t limit, const char *desc, ...)
+{
+  struct MD5Context ctx;
+  struct buffer_data read_data = { procIn, argIn, typeIn },
+		     write_data = { buffer_write, &ctx, BUFFER_WRITE_MD5 };
+  va_list al;
+  struct varbuf v;
+  int ret, i;
+  unsigned char digest[16], *p = digest;
+
+  varbufinit(&v);
+
+  va_start(al,desc);
+  varbufvprintf(&v, desc, al);
+  va_end(al);
+
+  if ( procIn == NULL )
+    read_data.proc = buffer_read;
+  MD5Init(&ctx);
+  ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+  MD5Final(digest, &ctx);
+  for (i = 0; i < 16; ++i) {
+    sprintf(hash, "%02x", *p++);
+    hash += 2;
+  }
   varbuffree(&v);
   return ret;
 }
