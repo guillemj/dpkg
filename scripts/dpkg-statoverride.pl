@@ -114,10 +114,10 @@ if ($mode eq "add") {
 
 	if ($doupdate) {
 	    if (not -f $file) {
-		print STDERR "waring: --update given but $file does not exist\n";
+		print STDERR "warning: --update given but $file does not exist\n";
 	    } else {
-		chmod (oct($mode),$file) || warn "failed to chmod $file: $!\n";
 		chown ($uid,$gid,$file) || warn "failed to chown $file: $!\n";
+		chmod (oct($mode),$file) || warn "failed to chmod $file: $!\n";
 	    }
 	}
 } elsif ($mode eq "remove") {
