@@ -98,6 +98,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 
 defined($opmode) || &usageerr("need -x or -b");
 
+$SIG{'PIPE'} = 'DEFAULT';
+
 if ($opmode eq 'build') {
 
     $sourcestyle =~ y/X/A/;
