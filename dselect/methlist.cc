@@ -67,6 +67,8 @@ void methodlist::setwidths() {
   description_column= name_column + name_width + gap_width;
 
   total_width= TOTAL_LIST_WIDTH;
+  if (total_width < COLS)
+    total_width= COLS;
   description_width= total_width - description_column;
 }
 
