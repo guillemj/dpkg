@@ -402,7 +402,7 @@ void printarch(const char *const *argv) {
   FILE *ccpipe;
   struct varbuf vb;
   ptrdiff_t ll;
-  char *p, *q;
+  char *p;
 
   if (*argv) badusage(_("--print-architecture does not take any argument"));
 
@@ -445,7 +445,7 @@ void printarch(const char *const *argv) {
   default: internerr("unknown action in printarch");
   }
   if (!arch) {
-    *q= 0; arch= p;
+    arch= p;
     fprintf(stderr, _("dpkg: warning, architecture `%s' not in remapping table\n"),arch);
   }
   if (printf("%s\n",arch) == EOF) werr("stdout");
