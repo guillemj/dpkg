@@ -119,13 +119,15 @@ static void createimptmp(void) {
   onerr_abort--;
 }
 
+const struct fni { const char *suffix; char **store; } fnis[]= {
+  {   STATUSFILE,                 &statusfile         },
+  {   AVAILFILE,                  &availablefile      },
+  {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
+  {   NULL, NULL                                      }
+};
+
 enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritereq) {
-  static const struct fni { const char *suffix; char **store; } fnis[]= {
-    {   STATUSFILE,                 &statusfile         },
-    {   AVAILFILE,                  &availablefile      },
-    {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
-    {   NULL, NULL                                      }
-  }, *fnip;
+  const struct fni *fnip;
   
   admindir= adir;
 
@@ -203,6 +205,7 @@ static void checkpoint(void) {
 }
 
 void modstatdb_shutdown(void) {
+  const struct fni *fnip;
   switch (cstatus) {
   case msdbrw_write:
     checkpoint();
@@ -218,9 +221,10 @@ void modstatdb_shutdown(void) {
     break;
   }
 
-  free(statusfile);
-  free(availablefile);
-  free(importanttmpfile);
+  for (fnip=fnis; fnip->suffix; fnip++) {
+    free(*fnip->store);
+    *fnip->store= NULL;
+  }
   free(updatefnbuf);
 }
 
