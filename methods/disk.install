@@ -104,15 +104,15 @@ package by using `dpkg --install --auto-deconfigure'\'' by hand.
 		print "Running dpkg -iB for $package ...\n";
 		exec("dpkg","-iB","--",@invoke);
 		die "failed to exec dpkg: $!\n";
-	' -- "$binaryprefix$p_main_binary" "$predep"
+	' -- "$p_mountpoint$p_main_binary" "$predep"
 done
 
 for f in main ctb nf lcl
 do
 	eval 'this_binary=$p_'$f'_binary'
 	if [ -z "$this_binary" ]; then continue; fi
-	echo Running dpkg -iGROEB "$binaryprefix$this_binary"
-	dpkg -iGROEB "$binaryprefix$this_binary"
+	echo Running dpkg -iGROEB "$p_mountpoint$this_binary"
+	dpkg -iGROEB "$p_mountpoint$this_binary"
 done
 
 echo -n 'Installation OK.  Hit RETURN.  '

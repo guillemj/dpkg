@@ -1,1 +1,0 @@
-#include <ncurses/curses.h>
