@@ -34,7 +34,9 @@ void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo);
 
 #define DEBMAGIC     "!<arch>\ndebian-binary   "
-#define ADMINMEMBER  "control.tar.gz  "
-#define DATAMEMBER   "data.tar.gz     "
+#define ADMINMEMBER		"control.tar.gz  "
+#define ADMINMEMBER_COMPAT	"control.tar.gz/ "
+#define DATAMEMBER		"data.tar.gz     "
+#define DATAMEMBER_COMPAT	"data.tar.gz/    "
 
 #endif /* DPKG_DEB_H */

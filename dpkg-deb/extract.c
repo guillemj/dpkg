@@ -125,7 +125,8 @@ void extracthalf(const char *debar, const char *directory,
       if (memberlen<0)
         ohshit(_("file `%.250s' is corrupt - negative member length %ld"),debar,memberlen);
       if (!header_done) {
-        if (memcmp(arh.ar_name,"debian-binary   ",sizeof(arh.ar_name)))
+        if (memcmp(arh.ar_name,"debian-binary   ",sizeof(arh.ar_name)) &&
+	    memcmp(arh.ar_name,"debian-binary/   ",sizeof(arh.ar_name)))
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
         if (fread(infobuf,1, memberlen + (memberlen&1), ar) != memberlen + (memberlen&1))
@@ -150,8 +151,10 @@ void extracthalf(const char *debar, const char *directory,
         skipmember(ar,debar,memberlen);
       } else {
         adminmember=
-          !memcmp(arh.ar_name,ADMINMEMBER,sizeof(arh.ar_name)) ? 1 :
-          !memcmp(arh.ar_name,DATAMEMBER,sizeof(arh.ar_name)) ? 0 :
+          (!memcmp(arh.ar_name,ADMINMEMBER,sizeof(arh.ar_name)) ||
+	  !memcmp(arh.ar_name,ADMINMEMBER_COMPAT,sizeof(arh.ar_name))) ? 1 :
+          (!memcmp(arh.ar_name,DATAMEMBER,sizeof(arh.ar_name)) ||
+	  !memcmp(arh.ar_name,DATAMEMBER_COMPAT,sizeof(arh.ar_name))) ? 0 :
           -1;
         if (adminmember == -1) {
           ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
