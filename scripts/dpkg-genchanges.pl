@@ -180,9 +180,11 @@ for $p (keys %p2f) {
 for $p (keys %p2f) {
     $f= $p2f{$p};
     $sec= $f2seccf{$f}; $sec= $sourcedefault{'Section'} if !length($sec);
+    if (!length($sec)) { $sec='-'; &warn("missing Section for binary package $p"); }
     $sec eq $f2sec{$f} || &error("package $p has section $sec in control file".
                                  " but $f2sec{$f} in files list");
     $pri= $f2pricf{$f}; $pri= $sourcedefault{'Priority'} if !length($pri);
+    if (!length($pri)) { $pri='-'; &warn("missing Priority for binary package $p"); }
     $pri eq $f2pri{$f} || &error("package $p has priority $pri in control".
                                  " file but $f2pri{$f} in files list");
 }

@@ -597,9 +597,9 @@ void printinstarch(const char *const *argv) {
 }
 
 void printarch(const char *const *argv) {
-  static const struct { const char *from, *to; } archtable[]= {
+  static const struct { const char *from, *to, *gnu; } archtable[]= {
 #include "archtable.inc"
-    { 0,0 }
+    { 0,0,0 }
   }, *archp;
                   
   const char *ccompiler, *arch;
@@ -638,7 +638,11 @@ void printarch(const char *const *argv) {
   for (archp=archtable;
        archp->from && !(strlen(archp->from) == ll && !strncmp(archp->from,p,ll));
        archp++);
-  arch= archp->to;
+  switch (cipaction->arg) {
+  case act_printarch:    arch= archp->to;  break;
+  case act_printgnuarch: arch= archp->gnu; break;
+  default: internerr("unknown action in printarch");
+  }
   if (!arch) {
     *q= 0; arch= p;
     fprintf(stderr,DPKG ": warning, architecture `%s' not in remapping table\n",arch);

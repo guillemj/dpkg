@@ -61,13 +61,14 @@ filesdb.o:	filesdb.c
 		$(CC) $(ALL_CFLAGS_OPT) -c $<
 
 archtable.inc:	../archtable
-		perl -ne 'print "  { \"$$1\",$$2\"$$3\" },\n" \
-			   if m/^\s*(\w+)(\s+)(\w+)\s*$$/' \
-			../archtable >archtable.inc.new
+		expand ../archtable | \
+		 perl -ne 'print "  { \"$$1\",$$2\"$$3\",$$4\"$$5\" },\n" \
+			   if m/^\s*(\w+)(\s+)(\w+)(\s+)(\w+)\s*$$/' \
+			>archtable.inc.new
 		mv archtable.inc.new archtable.inc
 
 clean:
-		rm -f *.o core dpkg *.new
+		rm -f *.o core dpkg *.new archtable.inc
 
 distclean:	clean
 		rm -f Makefile *.orig *~ *.~* ./#*#

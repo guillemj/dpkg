@@ -33,10 +33,7 @@ changequote([, ])dnl
     dpkg_arch=""
     dpkg_archwhy=" (bad output from --print-libgcc-file-name)"
    else
-changequote(, )dnl
-    dpkg_arch2="`sed -e '/^'$dpkg_arch'[ 	]/!d; s/^[-0-9a-z]*[	 ]*//' \
-		     $srcdir/archtable`"
-changequote([, ])dnl
+    dpkg_arch2="`awk '$1 == "'$dpkg_arch'" { print $2 }' $srcdir/archtable`"
     if test "x$dpkg_arch2" = "x$dpkg_arch"; then
      dpkg_archwhy=" (obtained from gcc)"
     elif test "x$dpkg_arch2" != x; then

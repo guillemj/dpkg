@@ -73,6 +73,7 @@ Usage: \n\
   " DPKG " -S|--search <pattern> ...          find package(s) owning file(s)\n\
   " DPKG " -C|--audit                         check for broken package(s)\n\
   " DPKG " --print-architecture               print target architecture (uses GCC)\n\
+  " DPKG " --print-gnu-build-architecture     print GNU version of target arch\n\
   " DPKG " --print-installation-architecture  print host architecture (for inst'n)\n\
   " DPKG " --compare-versions <a> <rel> <b>   compare version numbers - see below\n\
   " DPKG " --help | --version                 show this help / version number\n\
@@ -313,6 +314,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "list",                           'l', act_listpackages,  listpackages    ),
   ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
   ACTION( "print-architecture",              0,  act_printarch,     printarch       ),
+  ACTION( "print-gnu-build-architecture",    0,  act_printgnuarch,  printarch       ),
   ACTION( "assert-support-predepends",       0,  act_assertpredep,  assertpredep    ),
   ACTION( "print-installation-architecture", 0,  act_printinstarch, printinstarch   ),
   ACTION( "predep-package",                  0,  act_predeppackage, predeppackage   ),

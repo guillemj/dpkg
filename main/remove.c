@@ -247,11 +247,11 @@ void removal_bulk(struct pkginfo *pkg) {
                 pkg->name, namenode->name);
         push_leftover(&leftover,namenode);
         continue;
-      } else if (errno == EPERM) {
+      } else if (errno == EBUSY || errno == EPERM) {
         fprintf(stderr, DPKG " - warning: while removing %.250s,"
                 " unable to remove directory `%.250s':"
-                " Operation not permitted - directory may be a mount point ?\n",
-                pkg->name, namenode->name);
+                " %s - directory may be a mount point ?\n",
+                pkg->name, namenode->name, strerror(errno));
         push_leftover(&leftover,namenode);
         continue;
       }
