@@ -305,6 +305,21 @@ static int searchoutput(struct filenamenode *namenode) {
   int found, i;
   struct filepackages *packageslump;
 
+  if (namenode->divert) {
+    for (i=0; i<2; i++) {
+      if (namenode->divert->pkg) printf("diversion by %s",namenode->divert->pkg->name);
+      else printf("local diversion");
+      printf(" %s: %s\n", i ? "to" : "from",
+             i ?
+             (namenode->divert->useinstead
+              ? namenode->divert->useinstead->name
+              : namenode->name)
+             :
+             (namenode->divert->camefrom
+              ? namenode->divert->camefrom->name
+              : namenode->name));
+    }
+  }
   found= 0;
   for (packageslump= namenode->packages;
        packageslump;
@@ -316,7 +331,7 @@ static int searchoutput(struct filenamenode *namenode) {
     }
   }
   if (found) printf(": %s\n",namenode->name);
-  return found;
+  return found + (namenode->divert ? 1 : 0);
 }
 
 void searchfiles(const char *const *argv) {
@@ -331,6 +346,7 @@ void searchfiles(const char *const *argv) {
 
   modstatdb_init(admindir,msdbrw_readonly);
   ensure_allinstfiles_available_quiet();
+  ensure_diversions();
 
   while ((thisarg= *argv++) != 0) {
     found= 0;
@@ -367,6 +383,7 @@ void enqperpackage(const char *const *argv) {
   const char *thisarg;
   struct fileinlist *file;
   struct pkginfo *pkg;
+  struct filenamenode *namenode;
   
   if (!*argv)
     badusage("--%s needs at least one package name argument", cipaction->olong);
@@ -411,12 +428,20 @@ void enqperpackage(const char *const *argv) {
         
       default:
         ensure_packagefiles_available(pkg);
+        ensure_diversions();
         file= pkg->clientdata->files;
         if (!file) {
           printf("Package `%s' does not contain any files (!)\n",pkg->name);
         } else {
           while (file) {
-            puts(file->namenode->name);
+            namenode= file->namenode;
+            puts(namenode->name);
+            if (namenode->divert && !namenode->divert->camefrom) {
+              if (!namenode->divert->pkg) printf("locally diverted");
+              else if (pkg == namenode->divert->pkg) printf("package diverts others");
+              else printf("diverted by %s",pkg->name);
+              printf(" to: %s\n",namenode->divert->useinstead->name);
+            }
             file= file->next;
           }
         }

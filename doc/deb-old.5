@@ -1,0 +1,55 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Author: Raul Miller, Ian Jackson
+.TH DEB-OLD 5  "1st July 1996" "Debian Project" "Debian GNU/Linux"
+.SH NAME 
+deb-old - Debian GNU/Linux binary package old style format
+.SH SYNOPSIS
+.IB filename .deb
+.SH DESCRIPTION
+Old style Debian binary package format.
+
+The
+.B .deb
+format is the Debian binary package file format.  The format has
+changed since Debian 0.93 and the new format is being phased in.
+
+The old format is described here.  Please see
+.BR deb (5)
+for details of the old format.
+.SH FORMAT
+The file is two lines of format information as ASCII text, followed by
+two concatenated gzipped ustar files.
+
+The first line is the format version number padded to 8 digits, and is
+.B 0.939000
+for all old-format archives.
+
+The second line is a decimal string (without leading zeroes) giving
+the length of the first gzipped tarfile.
+
+Each of these lines is terminated with a single newline character.
+
+The first tarfile contains the control information (see the
+.IR "dpkg Programmer's manual" )
+as a series of ordinary files.  The file
+.B control
+must be present, and contains the core control information.  The files
+in the control tarfile may optionally be in a
+.B DEBIAN
+subdirectory in some very old archives - in this case the
+.B DEBIAN
+subdirectory will be in the control tarfile too, and the control
+tarfile will have only files in that directory.  Optionally the
+control tarfile may contain an entry for
+.RB ` . ',
+that is, the current directory.
+
+The second gzipped tarfile is the filesystem archive, containing
+pathnames relative to the root directory of the system to be installed
+on.  The pathnames do not have leading slashes.
+
+.SH SEE ALSO
+.BR deb (5),
+.BR deb\-control (5),
+.IR "dpkg Programmers' manual" ,
+.BR dpkg\-deb (8)

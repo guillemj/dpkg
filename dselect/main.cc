@@ -78,7 +78,7 @@ static const char programdesc[]=
       "Debian Linux `" DSELECT "' package handling frontend.";
 
 static const char copyrightstring[]=
-      "Version " DPKG_VERSION_ARCH ".  Copyright (C) 1994,1995 Ian Jackson.   This is\n"
+      "Version " DPKG_VERSION_ARCH ".  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
       "free software; see the GNU General Public Licence version 2 or later for\n"
       "copying conditions.  There is NO warranty.  See dselect --licence for details.\n";
 
