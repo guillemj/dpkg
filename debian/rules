@@ -119,7 +119,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	set -e ; for i in dpkg dpkg-deb md5sum ; do \
 		cp -a $(INSTALL_TMP)/usr/bin/$$i$(static) $(TMP_DPKG)/usr/bin/$$i ; \
 	done
-	set -e ; for i in ChangeLog THANKS TODO copyright ; do \
+	set -e ; for i in ChangeLog THANKS TODO copyright debian/pseudo-tags; do \
 		cp -a $(INSTALL_TMP)/usr/share/doc/dpkg/$$i $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ ; \
 	done
 	set -e ; for i in "" de fr ja sv ; do \
