@@ -10,7 +10,7 @@
 
   <refnamediv>
     <refname>dpkg</refname>
-    <refpurpose>a medium-level package manager for Debian</refpurpose>
+    <refpurpose>medium-level package manager for Debian</refpurpose>
   </refnamediv>
 
 
@@ -37,6 +37,11 @@
       packages. The descriptions of what <command>dpkg</command> does when
       installing and removing packages are particularly inadequate.
     </para>
+
+    <para>
+      For information about this, please refer to sections regarding the
+      Debian packaging system in the Debian FAQ or in the Debian Reference.
+    </para>
   </refsect1>
 
 
@@ -45,10 +50,7 @@
 
     <para>
       <command>dpkg</command> is a medium-level tool to install, build, remove
-      and manage Debian packages. The primary and more user-friendly front-end
-      for <command>dpkg</command> is <command>dselect</command> (see
-      <citerefentry><refentrytitle>dselect</refentrytitle>
-      <manvolnum>8</manvolnum></citerefentry>). <command>dpkg</command> itself
+      and manage Debian packages. <command>dpkg</command>
       is controlled entirely via command line parameters, which consist of
       exactly one action and zero or more options. The action-parameter tells
       <command>dpkg</command> what to do and options control the behavior of
@@ -80,6 +82,17 @@
       <manvolnum>1</manvolnum> </citerefentry> for information about these
       actions.
     </para>
+
+    <note>
+      <para>
+	The primary and more user-friendly front-end for
+	<command>dpkg</command> is <command>dselect</command> (see
+	<citerefentry><refentrytitle>dselect</refentrytitle>
+	<manvolnum>8</manvolnum></citerefentry>). There are other front-ends
+	such as those based on <citerefentry><refentrytitle>apt</refentrytitle>
+	<manvolnum>8</manvolnum></citerefentry>.
+      </para>
+    </note>
   </refsect1>
 
   <refsect1>
@@ -721,7 +734,7 @@
 	</term>
 
 	<listitem><para>
-	  Display a brief help message.
+	  Display the usage instructions.
 	</para></listitem>
       </varlistentry>
 
@@ -764,14 +777,14 @@
 	    <arg choice="plain">
 	      <group choice="req">
 		<arg>--licence</arg>
-		<arg>--license </arg>
+		<arg>--license</arg>
 	      </group>
 	    </arg>
 	  </cmdsynopsis>
 	</term>
 
 	<listitem><para>
-	  Display <command>dpkg</command> licence.
+	  Display <command>dpkg</command> copyright and licence information.
 	</para></listitem>
       </varlistentry>
 
@@ -943,13 +956,13 @@
 	    <screen>(*)</screen> are forced by default.
 	  </para>
 
-	  <note>
+	  <warning>
 	    <para>
-	      <emphasis>Warning: These options are mostly intended to be used
-	      by experts only. Using them without fully understanding their
-	      effects may break your whole system.</emphasis>
+	      These options are mostly intended to be used by experts only.
+	      Using them without fully understanding their effects may break
+	      your whole system.
 	    </para>
-	  </note>
+	  </warning>
 
 	  <variablelist>
 	    <varlistentry>
@@ -1215,7 +1228,7 @@
 	    (e.g.  <screen>dpkg --purge foo --no-act</screen> will first
 	    purge package foo and then try to <command>purge</command>
 	    package --no-act, even though you probably expected it to
-	    actually do nothing)
+	    actually do nothing!)
 	  </para>
 	</listitem>
       </varlistentry>
@@ -1432,26 +1445,20 @@
     <title>Examples</title>
 
     <para>
-      To list packages related to the editor vi:
+      To list packages containing the string `vi' in their name:
 
       <Screen><command>dpkg</command> <option>-l</option> '*vi*'</Screen>
     </para>
 
     <para>
-      To see the entries in <filename>/var/lib/dpkg/available</filename> on two
-      packages
+      To see the entries in <filename>/var/lib/dpkg/available</filename> on
+      several packages:
 
-      <Screen><command>dpkg</command> <option>--print-avail</option> elvis vim</Screen>
+      <Screen><command>dpkg</command> <option>--print-avail</option> base-files login xfree86-common | pager</Screen>
     </para>
 
     <para>
-      To search the listing of packages yourself:
-
-      <Screen><command>less</command> <filename>/var/lib/dpkg/available</filename></Screen>
-    </para>
-
-    <para>
-      To remove an installed emacs package:
+      To remove an installed package named "emacs":
 
       <Screen><command>dpkg</command> <option>-r</option> emacs</Screen>
     </para>
@@ -1487,11 +1494,6 @@
 
     <para>
       <citerefentry>
-        <refentrytitle>dselect</refentrytitle>
-	<manvolnum>8</manvolnum>
-      </citerefentry>,
-
-      <citerefentry>
         <refentrytitle>dpkg-deb</refentrytitle>
 	<manvolnum>1</manvolnum>
       </citerefentry>,
@@ -1504,7 +1506,17 @@
       <citerefentry>
 	<refentrytitle>deb-control</refentrytitle>
 	<manvolnum>5</manvolnum>
-      </citerefentry>
+      </citerefentry>,
+
+      <citerefentry>
+        <refentrytitle>dselect</refentrytitle>
+	<manvolnum>8</manvolnum>
+      </citerefentry>,
+
+      <citerefentry>
+        <refentrytitle>apt</refentrytitle>
+	<manvolnum>8</manvolnum>
+      </citerefentry>.
     </para>
   </refsect1>
 </refentry>
