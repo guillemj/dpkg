@@ -472,7 +472,7 @@ printf("line=`%*s'\n",linevb.used,linevb.buf);
     endptr= ptr + linevb.used;
     while(ptr < endptr) {
       if (*ptr == '\\') {
-	memmove(ptr, ++ptr, linevb.used - (linevb.buf - ptr));
+	memmove(ptr, (ptr+1), (linevb.used-(linevb.buf - ptr)-1));
 	continue;
       } else if (isspace(*ptr)) {
 	if (mode == 1) {
