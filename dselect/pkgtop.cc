@@ -242,7 +242,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
     wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
     p= buf;
-    while (i>0 && *p) { waddch(listpad, *p); p++; i--; }
+    while (i>0 && *p) { waddnstr(listpad, p,1); p++; i--; }
     wattrset(listpad, selected ? listsel_attr : list_attr);
 
     waddch(listpad,' ');
