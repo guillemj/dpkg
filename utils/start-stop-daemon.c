@@ -311,12 +311,8 @@ parse_options(int argc, char * const *argv)
 			execname = optarg;
 			break;
 		case 'c':  /* --chuid <username>|<uid> */
-			changeuser = strdup(optarg); /* because we need to modify */
-			changegroup = strchr(changeuser, ':');
-			if (changegroup != NULL) {
-				changegroup[0] = '\0';
-				changegroup++;
-			}
+			changeuser = strtok(optarg, ":");
+			changegroup = strtok(NULL, ":");
 			break;
 		case 'b':  /* --background */
 			background = 1;
