@@ -50,6 +50,7 @@ const struct fieldinfo fieldinfos[]= {
   { "Recommends",       f_dependency,      w_dependency,     dep_recommends           },
   { "Suggests",         f_dependency,      w_dependency,     dep_suggests             },
   { "Conflicts",        f_dependency,      w_dependency,     dep_conflicts            },
+  { "Enhances",         f_dependency,      w_dependency,     dep_enhances             },
   { "Conffiles",        f_conffiles,       w_conffiles                                },
   { "Filename",         f_filecharf,       w_filecharf,      FILEFOFF(name)           },
   { "Size",             f_filecharf,       w_filecharf,      FILEFOFF(size)           },

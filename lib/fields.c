@@ -289,8 +289,8 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       dop->up= dyp;
       dop->ed= findpackage(depname.buf);
       dop->next= 0; *ldopp= dop; ldopp= &dop->next;
-      dop->nextrev= 0; /* Don't link this (which is after all only `newpig' from
-      dop->backrev= 0;  * the main parsing loop in parsedb) into the depended on
+      dop->nextrev= 0; /* Don't link this (which is after all only `newpig' from */
+      dop->backrev= 0; /* the main parsing loop in parsedb) into the depended on
                         * packages' lists yet.  This will be done later when we
                         * install this (in parse.c).  For the moment we do the
                         * `forward' links in deppossi (`ed') only, and the backward
@@ -334,6 +334,10 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                    fip->name,depname.buf);
           dop->verrel= dvr_exact;
         }
+	if ((dop->verrel!=dvr_exact) && (fip->integer==dep_provides))
+	  parseerr(0,filename,lno,warnto,warncount,pigp,0,
+		  _("Only exact versions may be used for Provides"));
+
         if (!isspace(*p) && !isalnum(*p)) {
           parseerr(0,filename,lno, warnto,warncount,pigp,1,
                    _("`%s' field, reference to `%.255s':\n"
