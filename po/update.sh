@@ -5,16 +5,20 @@ xgettext --default-domain=dpkg --directory=.. \
 	 --files-from=POTFILES.in && test ! -f dpkg.po \
 	 || ( rm -f dpkg.pot && mv dpkg.po dpkg.pot )
 
-catalogs='en.gmo fr.gmo es.gmo ja_JP.ujis.gmo cs.gmo'
+catalogs=`ls *.po`
 for cat in $catalogs; do
-  lang=`echo $cat | sed 's/\.gmo$//'`
-  mv $lang.po $lang.old.po
+  if [ "$cat" = "dpkg.po" ] ; then continue ; fi
+  lang=`echo $cat | sed 's/\.po$//'`
+  mv $cat $lang.old.po
   echo "$lang:"
-  if msgmerge $lang.old.po dpkg.pot -o $lang.po; then
+  if msgmerge $lang.old.po dpkg.pot -o $cat; then
     rm -f $lang.old.po
   else
     echo "msgmerge for $cat failed!"
-    rm -f $lang.po
-    mv $lang.old.po $lang.po
+    if cmp --quiet $cat $lang.old.po ; then
+      rm -f $lang.old.po
+    else
+      mv -f $lang.old.po $cat
+    fi
   fi
 done

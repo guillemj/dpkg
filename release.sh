@@ -15,10 +15,11 @@ rm -f `find . -name '*.orig' -o -name '*.rej' -o -name '*~'`
 # Generate all the gettext stuff
 cd po
 ./update.sh
-catalogs='en.gmo fr.gmo es.gmo ja_JP.ujis.gmo'
+catalogs=`ls *.po`
 for cat in $catalogs; do
-  lang=`echo $cat | sed 's/\.gmo$//'`
-  msgfmt -o $cat $lang.po
+  if [ "$cat" = "dpkg.po" ] ; then continue ; fi
+  lang=`echo $cat | sed 's/\.po$//'`
+  msgfmt -o $lang.gmo $cat
 done
 cd ..
 
