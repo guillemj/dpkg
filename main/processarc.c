@@ -490,6 +490,9 @@ void process_archive(const char *filename) {
    *  - The listed thing does not exist.  We ignore it.
    *  - The listed thing is a directory or a symlink to a directory.
    *    We delete it only if it isn't listed in any other package.
+   *  - The listed thing is not a directory, but was part of the package
+   *    that was upgraded, we check to make sure the files aren't the
+   *    same ones from the old package by checking dev/inode
    *  - The listed thing is not a directory or a symlink to one (ie,
    *    it's a plain file, device, pipe, &c, or a symlink to one, or a
    *    dangling symlink).  We delete it.
@@ -586,6 +589,41 @@ void process_archive(const char *filename) {
     if (!rmdir(fnamevb.buf)) continue;
     if (errno == ENOENT || errno == ELOOP) continue;
     if (errno == ENOTDIR) {
+      /* Ok, it's an old file, but is it really not in the new package?
+       * We need to check to make sure, so we stat the file, then compare
+       * it to the new list. If we find a dev/inode match, we assume they
+       * are the same file, and leave it alone. NOTE: we don't check in
+       * other packages for sanity reasons (we don't want to stat _all_
+       * the files on the system).
+       *
+       * We run down the list of _new_ files in this package. This keeps
+       * the process a little leaner. We are only worried about new ones
+       * since ones that stayed the same don't really apply here.
+       */
+      struct stat oldfs, *newfs;
+      int donotrm = 0;
+      /* If we can't stat the old or new file, or it's a directory,
+       * we leave it up to the normal code
+       */
+      debug(dbg_eachfile, "process_archive: checking %s for same files on
+	  upgrade/downgrade", fnamevb.buf);
+      if (!lstat(fnamevb.buf, &oldfs) && !S_ISDIR(oldfs.st_mode)) {
+	for (cfile = newfileslist; cfile; cfile = cfile->next) {
+	  if(!cfile->namenode->stat) {
+	    newfs = nfmalloc(sizeof(struct stat));
+	    if (lstat(cfile->namenode->name, newfs)) continue;
+	    cfile->namenode->stat = newfs;
+	  } else newfs = cfile->namenode->stat;
+	  if (!S_ISDIR(newfs->st_mode) && oldfs.st_dev == newfs->st_dev &&
+	      oldfs.st_ino == newfs->st_ino) {
+	    donotrm = 1;
+	    debug(dbg_eachfile, "process_archive: not removing %s, since it matches %s",
+		fnamevb.buf, cfile->namenode->name);
+	  }
+	}
+      } else
+	debug(dbg_eachfile, "process_archive: could not stat %s, skipping", fnamevb.buf);
+      if (donotrm) continue;
       if (!unlink(fnamevb.buf)) continue;
       if (errno == ENOTDIR) continue;
     }
