@@ -24,6 +24,15 @@ require 'controllib.pl';
 # Make sure patch doesn't get any funny ideas
 delete $ENV{'POSIXLY_CORRECT'};
 
+my @exit_handlers = ();
+sub exit_handler {
+	&$_ foreach ( reverse @exit_handlers );
+	exit(127);
+}
+$SIG{'INT'} = \&exit_handler;
+$SIG{'HUP'} = \&exit_handler;
+$SIG{'QUIT'} = \&exit_handler;
+
 sub usageversion {
     print STDERR
 "Debian dpkg-source $version.  Copyright (C) 1996
@@ -327,7 +336,9 @@ if ($opmode eq 'build') {
             $sourcestyle =~ m/[KP]/ ||
                 &error("orig dir \`$origdir' already exists, not overwriting,".
                        " giving up; use -sA, -sK or -sP to override");
+	    push @exit_handlers, sub { erasedir($origdir) };
             erasedir($origdir);
+	    pop @exit_handlers;
         } elsif ($! != ENOENT) {
             &syserr("unable to check for existence of orig dir \`$origdir'");
         }
@@ -338,13 +349,14 @@ if ($opmode eq 'build') {
 #        checktarsane($origtargz,$expectprefix);
         mkdir("$origtargz.tmp-nest",0755) ||
             &syserr("unable to create \`$origtargz.tmp-nest'");
+	push @exit_handlers, sub { erasedir("$origtargz.tmp-nest") };
         extracttar($origtargz,"$origtargz.tmp-nest",$expectprefix);
         rename("$origtargz.tmp-nest/$expectprefix",$expectprefix) ||
             &syserr("unable to rename \`$origtargz.tmp-nest/$expectprefix' to ".
                     "\`$expectprefix'");
         rmdir("$origtargz.tmp-nest") ||
             &syserr("unable to remove \`$origtargz.tmp-nest'");
-
+	    pop @exit_handlers;
     }
         
     if ($sourcestyle =~ m/[kpursKPUR]/) {
