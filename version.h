@@ -1,1 +1,1 @@
-#define DPKG_VERSION "1.2.3" /* This line modified by Makefile */
+#define DPKG_VERSION "1.2.4" /* This line modified by Makefile */

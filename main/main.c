@@ -63,6 +63,7 @@ Usage: \n\
   " DPKG " --update-avail <Packages-file>     replace available packages info\n\
   " DPKG " --merge-avail <Packages-file>      merge with info from file\n\
   " DPKG " --clear-avail                      erase existing available info\n\
+  " DPKG " --forget-old-unavail               forget uninstalled unavailable pkgs\n\
   " DPKG " -s|--status <package-name> ...     display package status details\n\
   " DPKG " --print-avail <package-name> ...   display available version details\n\
   " DPKG " -L|--listfiles <package-name> ...  list files `owned' by package(s)\n\
@@ -242,7 +243,7 @@ DPKG " forcing options - control behaviour when problems found:\n\
   configure-any          Configure any package which may help this one\n\
   hold                   Process incidental packages even when on hold\n\
   bad-path               PATH is missing important programs, problems likely\n\
-  overwrite              Overwrite a file from one package with another\n\
+  overwrite [*]          Overwrite a file from one package with another\n\
   overwrite-diverted     Overwrite a diverted file with an undiverted version\n\
   depends-version [!]    Turn dependency version problems into warnings\n\
   depends [!]            Turn all dependency problems into warnings\n\
@@ -297,6 +298,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "update-avail",                    0,  act_avreplace,     updateavailable ),
   ACTION( "merge-avail",                     0,  act_avmerge,       updateavailable ),
   ACTION( "clear-avail",                     0,  act_avclear,       updateavailable ),
+  ACTION( "forget-old-unavail",              0,  act_forgetold,     forgetold       ),
   ACTION( "audit",                          'C', act_audit,         audit           ),
   ACTION( "yet-to-unpack",                   0,  act_unpackchk,     unpackchk       ),
   ACTION( "list",                           'l', act_listpackages,  listpackages    ),

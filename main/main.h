@@ -52,7 +52,8 @@ enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
               act_remove, act_purge, act_listpackages, act_avreplace, act_avmerge,
               act_unpackchk, act_status, act_searchfiles, act_audit, act_listfiles,
               act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
-              act_printinstarch, act_compareversions, act_printavail, act_avclear };
+              act_printinstarch, act_compareversions, act_printavail, act_avclear,
+              act_forgetold };
 
 enum conffopt {
   cfof_prompt        =     001,
@@ -98,6 +99,7 @@ void process_archive(const char *filename);
 
 /* from update.c */
 
+void forgetold(const char *const *argv);
 void updateavailable(const char *const *argv);
 
 /* from enquiry.c */

@@ -1,0 +1,1089 @@
+<!doctype linuxdoc system>
+
+<!--
+ Debian Linux dpkg package installation tool.
+ Programmers' manual.
+ Copyright (C)1996 Ian Jackson; released under the terms of the GNU
+ General Public License, version 2 or (at your option) any later.
+ -->
+
+<article>
+
+<title><tt/dpkg/ Programmers' manual
+<author>Ian Jackson, <tt/ijackson@gnu.ai.mit.edu/
+<date>1st June 1996
+<abstract>
+This manual describes the technical aspects of creating Debian binary
+packages.  It describes how to use utilities like <tt/install-info/.
+It also documents the interface between <tt/dselect/ and its access
+method scripts.  It does not deal with the Debian Project policy
+requirements, and it assumes familiarity with <tt/dpkg/'s functions
+from the system administrator's perspective.
+</abstract>
+
+<toc>
+
+<!-- Describes the technical interface between a package and dpkg.
+Control file fields and their syntax and semantics.  How to use
+update-rc.d, diversions, update-alternatives, install-info in a
+package.  How to safely put shared libraries in a package.  Details of
+dpkg's handling of individual files.  Semantics of virtual packages.
+Sections on when to use which feature (eg Replaces
+vs. Replaces/Conflicts vs. update-alternatives vs. diversions)
+Cross-references to the policy document (see below) where appropriate.
+Description of the interface between dselect and its access methods.
+Hints on where to start with a new package (ie, the hello package).
+-->
+
+<sect>Scope of this manual
+
+This manual describes the technical aspects of creating Debian binary
+packages (<tt/.deb/ files.).  It documents the behaviour of the
+package management programs <tt/dpkg/, <tt/dselect/ et al and and the
+way they interact with packages.
+<p>
+
+It documents the utility programs which are provided with <tt/dpkg/
+for managing various system configuration and similar issues (such as
+<tt/update-rc.d/ and <tt/install-info/.
+<p>
+
+It also documents the interaction between <tt/dselect/'s core and the
+access method scripts it uses to actually install the selected
+packages, and describes how to create a new access method.
+<p>
+
+It does <em/not/ describe the policy requirements imposed on Debian
+packages, such as the permissions on files and directories,
+documentation requirements, upload procedure, and so on.  You should
+see the Debian packaging policy manual for these details.  (Many of
+them will probably turn out to be helpful even if you don't plan to
+upload your package and make it available as part of the
+distribution.)
+<p>
+
+It is assumed that the reader is reasonably familiar with the
+<tt/dpkg/ System Administrators' manual.
+<p>
+
+The Debian version of the FSF's GNU hello program is provided as an
+example for people wishing to create Debian packages.
+<p>
+
+<em>Note that this document is not yet complete !</em>
+
+<sect>Binary package format
+
+<tt/dpkg/ is a suite of programs for creating binary package files and
+installing and removing them on Unix systems.<footnote><tt/dpkg/ is
+targetted primarily at Debian Linux, but may work or be ported to
+other systems.</footnote>
+<p>
+
+The binary package files' contents may be architecture-independent,
+but they usually aren't.  They aren't designed for the management of
+program source code (though examples of this are provided as part of
+some packages by way of documentation).
+<p>
+
+The binary package has two main sections: the first part consists of
+various control information files and scripts used by <tt/dpkg/ when
+installing and removing, and the second part is an archive (currently
+a <tt/tar/ archive) containing files and directories to be installed.
+In the future binary packages may also contain other components, such
+as checksums and digital signatures.
+<p>
+
+The control information files are described in <ref id="controlarea"
+name="the control information section">.
+
+<sect1>Creating package files -- <tt/dpkg-deb/
+
+All manipulation of binary package files is done by <tt/dpkg-deb/;
+it's the only program that has knowledge of the format.
+(<tt/dpkg-deb/ may be invoked by calling <tt/dpkg/, as <tt/dpkg/ will
+spot that the options requested are appropriate to <tt/dpkg-deb/ and
+invoke that instead with the same arguments.)
+<p>
+
+In order to create a binary package you must make a directory tree
+which contains all the files and directories you want to have in the
+filesystem data part of the package.
+<p>
+
+They should have the locations (relative to the root of the directory
+tree you're constructing) ownerships and permissions which you want
+them to have on the system when they are installed.
+<p>
+
+With current versions of <tt/dpkg/ the uid/username and gid/groupname
+mappings for the users and groups being used should be the same on the
+system where the package is built and the one where it is installed.
+<p>
+
+You need to add one special directory to the root of the miniature
+filesystem tree you're creating: <tt/DEBIAN/.  It should contain the
+control information files, notably the main package control file (see
+<ref id="controlarea" name="later"> for details of what files to put
+here.
+<p>
+
+The <tt/DEBIAN/ directory will not appear in the filesystem archive of
+the package, and so won't be installed by <tt/dpkg/ when the package
+is installed.
+<p>
+
+When you've prepared the package, you should invoke:<!--var-->
+<tscreen><verb>
+dpkg --build <it/directory/
+</verb></tscreen>
+<p>
+
+This will build the package in <var/directory/<tt/.deb/.
+(<tt/dpkg/ knows that <tt/--build/ is a <tt/dpkg-deb/ option, so it
+invokes <tt/dpkg-deb/ with the same arguments to build the package.)
+<p>
+
+See the manpage for <tt/dpkg-deb/ for details of how to examine the
+contents of this newly-created file.  You may find the output of
+following commands enlightening:
+<tscreen><verb>
+dpkg-deb --info <var/filename/<tt/.deb/
+dpkg-deb --contents <var/filename/<tt/.deb/
+</verb></tscreen>
+
+<sect1>Package control information files<label id="controlarea">
+
+The control information portion of a binary package is a collection of
+files with names known to <tt/dpkg/.  It will treat the contents of
+these files specially - some of them contain information used by
+<tt/dpkg/ when installing or removing the package; others are scripts
+which the package maintainer wants <tt/dpkg/ to run.
+<p>
+
+It is possible to put other files in the package control area, but
+this is not generally a good idea (though they will largely be
+ignored).
+<p>
+
+Here is a brief list of the control info files supported by <tt/dpkg/
+and a summary of what they're used for.
+
+<descrip>
+
+<tag/<tt/control//
+
+This is the key description file used by <tt/dpkg/.  It specifies the
+package's name and version, gives its description for the user, states
+its relationships with other packages, and so forth.  Its format is
+described in more detail in <ref id="controlfile"
+name="its own section">.
+
+<tag><tt/postinst/, <tt/preinst/, <tt/postrm/, <tt/prerm/</tag>
+
+These are exectuable files (usually scripts) which <tt/dpkg/ runs
+during installation, upgrade and removal of packages.  They allow the
+package to deal with matters which are particular to that package or
+require more complicated processing than that provided by <tt/dpkg/.
+Details of when and how they are called are in <ref
+id="maintainerscripts">.
+
+<tag/<tt/conffiles//
+
+This file contains a list of configuration files which are to be
+handled automatically by <tt/dpkg/.  Details of this mechanism are in
+<ref id="conffiles" name="a separate section">.  Note that not all a
+package's configuration files should be listed here.
+
+</descrip>
+
+<sect1>The main control information file: <tt/control/<label id="controlfile">
+
+The most important control information file used by <tt/dpkg/ when it
+installs a package is <tt/control/.  It contains all the package's
+`vital statistics'.
+<p>
+
+It is a series of fields and values; each field consists of a name,
+followed by a colon and the value.  It ends at the end of the line.
+Horizontal whitespace (spaces and tabs) may occur before or after the
+value and is ignored there; it is conventional to put a single space
+after the colon.  Many of the fields have a syntax where whitespace is
+not significant.
+<p>
+
+Some fields' values may span several lines; in this case each
+continuation line <em/must/ start with a space or tab.  Any trailing
+spaces or tabs at the end of individual lines of a field value are
+ignored.
+<p>
+
+Field names are not case-sensitive, but it is usual to capitalise the
+fields as shown below (usually using a form of mixed case).
+<p>
+
+Blank lines, or lines consisting only of spaces and tabs, are not allowed.
+<p>
+
+
+Here is a list of the fields which are permitted in packages, together
+with a description of the purposes and syntax of each and or a pointer
+to further information if appropriate.
+<p>
+
+It is important to note that there are several fields which are
+optional as far as <tt/dpkg/ is concerned, but which must appear in
+every Debian package, or whose omission may cause problems.  When
+writing the control file for a Debian package you <em/must/ read the
+Debian policy manual in conjuction with the list below.
+
+<sect2>List of package control file fields
+<p>
+
+<descrip>
+
+<tag/<tt/Package//
+
+The name of the package.  Package names consist of the alphanumerics,
+plus, minus and dot.  They must be at least two characters and must
+start with an alphanumeric.  In current versions of dpkg they are sort
+of case-sensitive; use lowercase package names unless the package
+you're building (or referring to, in other fields) is already using
+uppercase.
+<p>
+
+This field is mandatory.
+
+<tag/<tt/Version//
+
+This lists the package's version number.  See the section on version
+numbers <ref id="versions" name="later"> for details.
+
+This field is mandatory.
+
+<tag/<tt/Architecture//
+
+This is the architecture string; it is a single word for the CPU
+architecture, and <tt/dpkg/ will check it against its own compiled-in
+value before it installs a package.  The special value <tt/all/
+indicates that the package is architecture-independent.
+<p>
+
+The value for this field can be obtained using
+<tscreen><verb>
+dpkg --print-architecture
+</verb></tscreen>
+This actually invokes
+<tscreen><verb>
+gcc --print-libgcc-file-name
+</verb></tscreen>
+and parses and decomposes the output and looks the CPU type from the
+GCC configuration in a table in <tt/dpkg/.  This is so that it will
+work if you're cross-compiling.
+<p>
+
+There is a separate option, <tt/--print-installation-architecture/,
+for finding out what architecture <tt/dpkg/ is willing to install.
+This information is also in the output of <tt/dpkg --version/.
+<p>
+
+This field should appear in all packages, though <tt/dpkg/ doesn't
+require it yet so that old packages can still be installed.
+
+<tag/<tt/Maintainer//
+
+The package maintainer's name and email address.  The name should come
+first, then the email address inside angle brackets <tt/&lt;&gt/ (in
+RFC822 format).
+<p>
+
+If the maintainer's name contains a full stop then the whole field
+will not work directly as an email address due to a misfeature in the
+syntax for addresses; a program using this field as an address must
+check for this and reverse the components if necessary (for example by
+putting the name in round brackets or quotes, and perhaps moving it to
+the end).
+
+This feature is optional as far as <tt/dpkg/ is concerned, but
+<tt/dpkg-deb/ will warn if it is missing.
+
+<tag><tt/Depends/, <tt/Pre-Depends/, <tt/Recommends/, <tt/Suggests/
+<tt/Conflicts/, <tt/Provides/, <tt/Replaces/</tag>
+
+These fields describe the package's relationships with other packages.
+Their syntax and semantics are described in the package relationships
+section <ref id="depconoverwr" name="later">.
+
+<tag/<tt/Source//
+
+This field identifies the source package name, primarily for the
+benefit of humans reading the control file rather than <tt/dpkg/.  It
+consists solely of the source package name; it may be omitted when the
+source package has the same name as the binary package.
+
+This field is optional as far as <tt/dpkg/ is concerned.
+
+<tag/<tt/Description//
+
+This field contains a description of the package, in a special format.
+<p>
+
+It is very important that you read the section <ref id="descriptions"
+name="later"> on how to write a description.
+
+<tag/<tt/Essential//
+
+This is a boolean field.  If set to <tt/yes/ then <tt/dpkg/ and
+<tt/dselect/ will refuse to remove the package (though it can be
+upgraded and/or replaced).  The other possible value is <tt/no/, which
+is the same as not having the field at all.
+<p>
+
+This field is optional.
+
+<tag/<tt/Priority//
+
+This specifies the `priority' of the package; this represents how
+important that it is that the user have it installed.
+<p>
+
+This value isn't used by <tt/dpkg/, but only by <tt/dselect/ when it
+sorts packages and selects defaults.  See the <tt/dpkg/ System
+Administrator's Manual for details of the values it can take, and the
+Debian Policy Manual for the criteria for selecting the priority for a
+Debian package.
+<p>
+
+<tt/dpkg/ and <tt/dselect/ will only use the value from a <tt/.deb/
+file if they have no other information; a priority value listed in a
+<tt/Packages/ file will always take precedence.  This field is
+optional as far as <tt/dpkg/ is concerned.
+
+<tag/<tt/Section//
+
+This specifies the `section' of the package, namely the application
+area or group of packages which contain it.  The value is a simple
+string, usually from a set chosen by the distribution maintainers.
+<p>
+
+The section isn't used at all except by <tt/dselect/, which only uses
+it for sorting packages in the selection display and not even for
+choosing defaults.
+<p>
+
+Just as with <tt/Priority/, this field is optional as far as <tt/dpkg/
+is concerned, and the value from a package file is used only as a last
+resort.
+
+</descrip>
+
+<sect2>List of other control fields
+
+There are several other fields which are used elsewhere by parts of
+the system.  These should not appear in package control files.
+
+<sect3>Status fields
+
+These fields appear in <tt/dpkg/'s internal status file; they are also
+printed by <tt/dpkg --status/ and can be seen in <tt/dselect/ by
+selecting the installed control info display.
+
+<p>
+
+<descrip>
+
+<tag/<tt/Status//
+
+This field in <tt/dpkg/'s status file records whether the user wants a
+package installed, removed or left alone, whether it is broken
+(requiring reinstallation) or not and what its current state on the
+system is.  Each of these pieces of information is a single word.
+
+<tag/<tt/Config-Version//
+
+If a package is not installed or not configured, this field in
+<tt/dpkg/'s status file records the last version of the package which
+was successfully configured.
+
+<tag/<tt/Conffiles//
+
+This field in <tt/dpkg/'s status file contains information about the
+automatically-managed configuration files held by a package.  Let me
+emphasise that this field should <em/not/ appear in a package !
+
+</descrip>
+
+<sect4><tt/Packages/ file (available package) fields
+
+These fields are found in <tt/Packages/ files (lists of packages
+available for installation, which are generated by the distribution
+maintainers and used principally by <tt/dselect/) and in <tt/dpkg/'s
+database of available packages (which can be inspected using
+<tt/dpkg --print-avail/ or by selecting the `available control
+information' in <tt/dselect/.
+
+<p>
+
+<descrip>
+
+<tag><tt/Filename/, <tt/MSDOS-Filename/</tag>
+
+These fields in <tt/Packages/ files give the filename(s) of (the parts
+of) a package in the distribution directories, relative to the root of
+the Debian hierarchy.  If the package has been split into several
+parts the parts are all listed in order, separated by spaces.
+
+<tag><tt/Size/, <tt/MD5sum/</tag>
+
+These fields in <tt/Packages/ files give the size (in bytes, expressed
+in decimal) and MD5 checksum of the file(s) which make(s) up a binary
+package in the distribution.  If the package is split into several
+parts the values for the parts are listed in order, separated by
+spaces.
+
+</descrip>
+
+<sect4>Obsolete fields
+
+These are still recognised by <tt/dpkg/ but should not appear anywhere
+any more.
+
+<p><descrip>
+
+<tag><tt/Revision/, <tt/Package-Revision/, <tt/Package_Revision/</tag>
+
+The Debian revision part of the package version was at one point in a
+separate control file field.  This field went through several names.
+
+<tag/Recommended/ Old name for <tt/Recommends/.
+<tag/Optional/ Old name for <tt/Suggests/.
+<tag/Class/ Old name for <tt/Priority/.
+
+</descrip>
+
+<sect1>Version numbering<label id="versions">
+
+Every package has a version number, in its <tt/Version/ control file
+field.
+<p>
+
+<tt/dpkg/ imposes an ordering on version numbers, so that it can tell
+whether packages are being up- or downgraded and so that <tt/dselect/
+can tell whether a package it finds available is newer than the one
+installed on the system.  The version number format has the most
+significant parts (as far as comparison is concerned) at the
+beginning.
+<p>
+
+The version number format is:
+&lsqb<var/epoch/<tt/:/&rsqb;<var/upstream-version/&lsqb;<tt/-/<var/debian-revision/&rsqb;.
+<p>
+
+The three components here are:
+
+<descrip>
+
+<tag/<var/epoch//
+
+This is a single unsigned integer, which should usually be small.  It
+may be omitted, in which case it defaults to zero.  If it is omitted
+then the <var/upstream-version/ may not contain any colons.
+<p>
+
+It is provided to allow mistakes in the version numbers of older
+versions of a package, and also a package's previous version numbering
+schemes, to be left behind.
+<p>
+
+<tt/dpkg/ will not usually display the epoch unless it is essential
+(non-zero, or if the <var/upstream-version/ contains a colon);
+<tt/dselect/ does not display epochs at all in the main part of the
+package selection display.
+
+<tag/<var/upstream-version//
+
+This is the main part of the version.  It is usually version number of
+the original (`upstream') package of which the <tt/.deb/ file has been
+made, if this is applicable.  Usually this will be in the same format
+as that specified by the upstream author(s); however, it may need to
+be reformatted to fit into <tt/dpkg/'s format and comparison scheme.
+<p>
+
+The comparison behaviour of <tt/dpkg/ with respect to the
+<var/upstream-version/ is described below.  The <var/upstream-version/
+portion of the version number is mandatory.
+
+<tag/<var/debian-revision//
+
+This part of the version represents the version of the modifications
+that were made to the package to make it a Debian binary package.  It
+is in the same format as the <var/upstream-version/ and <tt/dpkg/
+compares it in the same way.
+<p>
+
+It is optional; if it isn't present then the <var/upstream-version/
+should not contain a hyphen.  This format represents the case where a
+piece of software was written specifically to be turned into a Debian
+binary package, and so there is only one `debianization' of it and
+therefore no version indication is require there.
+<p>
+
+It is conventional to restart the <var/debian-revision/ at <tt/1/ each
+time the <var/upstream-version/ is increased.
+<p>
+
+<tt/dpkg/ will break the <var/upstream-version/ and
+<var/debian-revision/ apart at the last hyphen in the string.  The
+absence of a <var/debian-revision/ compares earlier than the presence
+of one (but note that the <var/debian-revision/ is the least
+significant part of the version number).
+
+</descrip>
+
+The <var/upstream-version/ and <var/debian-revision/ parts are
+compared by <tt/dpkg/ using the same algorithm:
+<p>
+
+The strings are compared from left to right.
+<p>
+
+First the initial part of each string consisting entirely of non-digit
+characters is determined.  These two parts (one of which may be empty)
+are compared lexically.  If a difference is found it is returned.  The
+lexical comparison is a comparison of ASCII values modified so that
+all the letters sort earlier than all the non-letters.
+<p>
+
+Then the initial part of the remainder of each string which consists
+entirely of digit characters is determined.  The numerical values of
+these two parts are compared, and any difference found is returned as
+the result of the comparison.  For these purposes an empty string
+(which can only occur at the end of one or both version strings being
+compared) counts as zero.
+<p>
+
+These two steps are repeated (chopping initial non-digit strings and
+initial digit strings off from the start) until a difference is found
+or both strings are exhausted.
+<p>
+
+Note that the purpose of epochs is to allow us to leave behind
+mistakes in version numbering, and to cope with situations where the
+version numbering changes.  It is <em/not/ there to cope with version
+numbers containing strings of letters which <tt/dpkg/ cannot interpret
+(such as <tt/ALPHA/ or <tt/pre-/), or with silly orderings (the author
+of this manual has heard of a package whose versions went <tt/1.1/,
+<tt/1.2/, <tt/1.3/, <tt/1/, <tt/2.1/, <tt/2.2/, <tt/2/ and so forth).
+<p>
+
+If an upstream package has problematic version numbers they should be
+converted to a sane form for use in the <tt/Version/ field.
+
+<sect1>Package maintainer scripts run by <tt/dpkg/<label id="maintainerscripts">
+
+It is possible supply scripts as part of a package which <tt/dpkg/
+will run for you when your package is installed, upgraded or removed.
+<p>
+
+These scripts should be the files <tt/preinst/, <tt/postinst/,
+<tt/prerm/ and <tt/postrm/ in the control area of the package.  They
+should be proper exectuable files, so that if they are scripts (which
+is to be recommended) they must start with the usual <tt/#!/
+convention.  They should be readable and executable to anyone, and not
+world-writeable.
+<p>
+
+<tt/dpkg/ looks at the exit status from these scripts.  It is
+important that they exit with a non-zero status if there is an error,
+so that <tt/dpkg/ can stop its processing.  For shell scripts this
+means that you <em/almost always/ need to use <tt/set -e/ (this is
+usually true when writing shell scripts, in fact).  It is also
+important, of course, that they don't exit with a non-zero status if
+everything went well.
+<p>
+
+It is necessary for the error recovery procedures that the scripts be
+idempotent: ie, invoking the same script several times in the same
+situation should do no harm.  If the first call failed, or aborted
+half way through for some reason, the second call should merely do the
+things that were left undone the first time, if any, and exit with a
+success status.
+<p>
+
+When a package is upgraded a combination of the scripts from the old
+and new packages is called in amongst the other steps of the upgrade
+procedure.  If your scripts are going to be at all complicated you
+need to be aware of this, and may need to check the arguments to your
+scripts.
+<p>
+
+Broadly speaking the <tt/preinst/ is called before (a particular
+version of) a package is installed, and the <tt/postinst/ afterwards;
+the <tt/prerm/ before (a version of) a package is removed and the
+<tt/postrm/ afterwards.
+<p>
+
+See <ref id="maintscripts-instact" name="later"> for details of
+exactly when and how these scripts are called and with what arguments.
+
+<sect>Declaring relationships between packages<label id="depconoverwr">
+
+Packages can declare in their control file that they have certain
+relationships to other packages - for example, that they may not be
+installed at the same time as certain other packages, and/or that they
+depend on the presence of others.
+<p>
+
+This is done using the <tt/Depends/, <tt/Recommends/, <tt/Suggests/,
+<tt/Conflicts/, <tt/Provides/ and <tt/Replaces control file fields.
+<p>
+
+<sect>Syntax of relationship fields
+
+These fields all have a uniform syntax.  They are a list of package
+names separated by commas.
+<p>
+
+In <tt/Depends/, <tt/Recommends/, <tt/Suggests/ and <tt/Pre-Depends/
+(the fields which declare dependencies of the package in which they
+occur on other packages) these package names may also be lists of
+alternative package names, separated by vertical bar symbols <tt/|/
+(pipe symbols).
+<p>
+
+All the fields except <tt/Provides/ may restrict their applicability
+to particular versions of each named package.  This is done in
+parentheses after each individual package name; the parentheses should
+contain a relation from the list below followed by a version number,
+in the format described in <ref id="versions" name="the version number
+section, above">.
+<p>
+
+The relations allowed are
+<tt/&lt;&lt;/,
+<tt/&lt;=/,
+<tt/=/,
+<tt/&gt;=/ and
+<tt/&gt;&gt;/
+for strictly earlier, earlier or equal, exactly equal, later or equal
+and strictly later, respectively.  The forms <tt/&lt;/ and <tt/&gt;/
+were used to mean earlier/later or equal, rather than strictly
+earlier/later, and so (while <tt/dpkg/ still supports them) they
+should not appear in new packages.
+<p>
+
+Whitespace may appear at any point in the version specification, and
+must appear where it's necessary to disambiguate; it is not otherwise
+significant.  For consistency and in case of future changes to
+<tt/dpkg/ it is recommended that a single space be used after a
+version relationship and before a version number; it is usual also to
+put a single space after each comma, on either side of each vertical
+bar, and before each open parenthesis.
+
+<sect1>Dependencies - <tt/Depends/, <tt/Recommends/, <tt/Suggests/, <tt/Pre-Depends/
+
+These three fields are used to declare a dependency by one package on
+another.  They appear in the depending package's control file.
+<p>
+
+All but <tt/Pre-Depends/ (discussed below) take effect <em/only/ when
+a package is to be configured.  They do not prevent a package being on
+the system in an unconfigured state while its dependencies are
+unsatisfied, and it is possible to replace a package whose
+dependencies are satisfied and which is properly installed with a
+different version whose dependencies are not and cannot be satisfied;
+when this is done the depending package will be left unconfigured
+(since attempts to configure it will give errors) and will not
+function properly.
+<p>
+
+For this reason packages in an installation run are usually all
+unpacked first and all configured later; this gives later versions of
+packages with dependencies on later versions of other packages the
+opportunity to have their dependencies satisfied.
+
+<descrip>
+<tag/<tt/Depends//
+This declares an absolute dependency.
+<p>
+
+<tt/dpkg/ will not configure
+packages whose dependencies aren't satisfied.  If it is asked to make
+an installation which would cause an installed package's dependencies
+to become unsatisfied it will complain<footnote>Current versions
+(1.2.4) of <tt/dpkg/ have a bug in this area which will cause some of
+these problems to be ignored.</footnote>, unless
+<tt/--auto-deconfigure/ is specified, in which case those packages
+will be deconfigured before the installation proceeds.
+<p>
+
+<tt/dselect/ makes it hard for the user to select packages for
+installation, removal or upgrade in a way that would mean that
+packages' <tt/Depends/ fields would be unsatisfied.  The user can
+override this if they wish, for example if they know that <tt/dselect/
+has an out-of-date view of the real package relationships.
+
+**** WHEN TO USE -- POLICY STATEMENT HERE ?
+
+<tag/<tt/Recommends//
+This declares a strong, but not absolute, dependency.
+<p>
+
+<tt/Recommends/ is ignored by <tt/dpkg/, so that users using the
+command-line (who are presumed to know what they're doing) will not be
+impeded.
+<p>
+
+It is treated by <tt/dselect/ exactly as <tt/Depends/ is; this makes
+it hard for the user to select things so as to leave <tt/Recommends/
+fields unsatisfied, but they are able to do so by being persistent.
+
+**** WHEN TO USE -- POLICY STATEMENT HERE ?
+
+
+
+
+<tt/<tt/Suggests//
+This declares a 
+
+**** WRITE THIS
+
+<sect1>Alternative packages - <tt/Conflicts/
+
+**** WRITE THIS
+
+<sect1>Virtual packages - <tt/Provides/
+
+**** WRITE THIS
+
+<sect1>Overwriting files - <tt/Replaces/
+
+**** WRITE THIS
+
+<tt/&lt;&lt;/
+<tt/&lt;&lt;/
+<tt/&lt;&lt;/
+<descrip>
+<tag>&lt
+
+<sect>Order of processing steps and maintainer script arguments<label id="maintscripts-instact">
+
+<sect1>Summary of ways maintainer scripts are called
+<p>
+
+<itemize>
+<item><var/new preinst/ <tt/install/
+<item><var/new preinst/ <tt/install/ <var/old-version/
+<item><var/new preinst/ <tt/upgrade/ <var/old-version/
+<item><var/old preinst/ <tt/abort-upgrade/ <var/new-version/
+</itemize>
+
+<itemize>
+<item><var/postinst/ <tt/configure/ <var/most-recently-configured-version/
+<item><var/old-postinst/ <tt/abort-upgrade/ <var/new version/
+<item><var/conflictor's-postinst/ <tt/abort-remove/
+ in-favour <var/package/ <var/new-version/
+<item><var/deconfigured's-postinst/ <tt/abort-deconfigure/
+ <tt/in-favour/ <var/failed-install-package/ <var/version/
+ <tt/removing/ <var/conflicting-package/ <var/version/
+</itemize>
+
+<itemize>
+<item><var/prerm/ <tt/remove/
+<item><var/old-prerm/ <tt/upgrade/ <var/new-version/
+<item><var/new-prerm/ <tt/failed-upgrade/ <var/old-version/
+<item><var/conflictor's-prerm/ <tt/remove/ <tt/in-favour/
+ <var/package/ <var/new-version/
+<item><var/deconfigured's-prerm/ <tt/deconfigure/
+ <tt/in-favour/ <var/package-being-installed/ <var/version/
+ <tt/removing/ <var/conflicting-package/ <var/version/
+</itemize>
+
+<itemize>
+<item><var/postrm/ <tt/remove/
+<item><var/postrm/ <tt/purge/
+<item><var/old-postrm/ <tt/upgrade/ <var/new-version/
+<item><var/new-postrm/ <tt/failed-upgrade/ <var/old-version/
+<item><var/new-postrm/ <tt/abort-install/
+<item><var/new-postrm/ <tt/abort-install/ <var/old-version/
+<item><var/new-postrm/ <tt/abort-upgrade/ <var/old-version/
+<item><var/disappearer's-postrm/ <tt/disappear/ <var/overwriter/ <var/new-version/
+</itemize>
+
+<sect1>Details of unpack phase of installation or upgrade
+<p>
+
+The procedure on installation/upgrade/overwrite/disappear (ie, when
+running <tt/dpkg --unpack/, or the unpack stage of <tt/dpkg
+--install/) is as follows.  In each case if an error occurs the
+actions in are general run backwards - this means that the maintainer
+scripts are run with different arguments in reverse order.  These are
+the `error unwind' calls listed below.
+
+<enum>
+<item>
+
+<enum>
+<item>
+If a version the package is already
+installed, call
+<tscreen><verb>
+<var/old-prerm/ <tt/upgrade/ <var/new-version/
+</verb></tscreen>
+
+<item>
+If this gives an error (ie, a non-zero exit status), dpkg will
+attempt instead:
+<tscreen><verb>
+<var/new-prerm/ <tt/failed-upgrade/ <var/old-version/
+</verb></tscreen>
+Error unwind, for both the above cases:
+<tscreen><verb>
+<var/old-postinst/ <tt/abort-upgrade/ <var/new-version/
+</verb></tscreen>
+
+</enum>
+
+<item>
+If a `conflicting' package is being removed at the same time:
+<enum>
+
+<item>
+If any packages depended on that conflicting package and
+<tt/--auto-deconfigure/ is specified, call, for each such package:
+<tscreen><verb>
+<var/deconfigured's-prerm/ <tt/deconfigure/
+ <tt/in-favour/ <var/package-being-installed/ <var/version/
+ <tt/removing/ <var/conflicting-package/ <var/version/
+</verb></tscreen>
+Error unwind:
+<tscreen><verb>
+<var/deconfigured's-postinst/ <tt/abort-deconfigure/
+ <tt/in-favour/ <var/package-being-installed-but-failed/ <var/version/
+ <tt/removing/ <var/conflicting-package/ <var/version/
+</verb></tscreen>
+The deconfigured packages are marked as requiring configuration, so
+that if <tt/--install/ is used they will be configured again if
+possible.
+
+<item>
+To prepare for removal of the conflicting package, call:
+<tscreen><verb>
+<var/conflictor's-prerm/ <tt/remove/
+ <tt/in-favour/ <var/package/ <var/new-version/
+</verb></tscreen>
+Error unwind:
+<tscreen><verb>
+<var/conflictor's-postinst/ <tt/abort-remove/
+ <tt/in-favour/ <var/package/ <var/new-version/
+</verb></tscreen>
+
+</enum>
+
+<item>
+<enum>
+<item>
+If the package is being upgraded, call:
+<tscreen><verb>
+<var/new-preinst/ <tt/upgrade/ <var/old-version/
+</verb></tscreen>
+
+<item>
+Otherwise, if the package had some configuration files from a previous
+version installed (ie, it is in the `configuration files only' state):
+<tscreen><verb>
+<var/new-preinst/ <tt/install/ <var/old-version/
+</verb></tscreen>
+
+<item>
+Otherwise (ie, the package was completely purged):
+<tscreen><verb>
+<var/new-preinst/ <tt/install/
+</verb></tscreen>
+Error unwind versions, respectively:
+<tscreen><verb>
+<var/new-postrm/ <tt/abort-upgrade/ <var/old-version/
+<var/new-postrm/ <tt/abort-install/ <var/old-version/
+<var/new-postrm/ <tt/abort-install/
+</verb></tscreen>
+
+</enum>
+
+<item>
+The new package's files are unpacked, overwriting any that may be on
+the system already, for example any from the old version of the same
+package or from another package (backups of the old files are left
+around, and if anything goes wrong dpkg will attempt to put them back
+as part of the error unwind).
+<p>
+
+It is an error for a package to contains files which are on the system
+in another package, unless <tt/Replaces/ is used (see <ref
+id="replaces" name="earlier">).  Currently the <tt/--force-overwrite/
+flag is enabled, downgrading it to a warning, but this will not always
+be the case.
+<p>
+
+Packages which overwrite each other's files produce behaviour which
+(though deterministic) is hard for the system administrator to
+understand and can easily lead to `missing' programs (for example, if
+a package is installed which overwrites a file from another package,
+and then it is removed again).
+
+<item>
+
+<enum>
+<item>
+If the package is being upgraded, call
+<tscreen><verb>
+<var/old-postrm/ <tt/upgrade/ <var/new-version/
+</verb></tscreen>
+
+<item>
+If this fails, <tt/dpkg/ will attempt:
+<tscreen><verb>
+<var/new-postrm/ <tt/failed-upgrade/ <var/old-version/
+</verb></tscreen>
+Error unwind, for both cases:
+<tscreen><verb>
+<var/old-preinst/ <tt/abort-upgrade/ <var/new-version/
+</verb></tscreen>
+
+</enum>
+
+This is the point of no return - if <tt/dpkg/ gets this far, it won't
+back off past this point if an error occurs.  This will leave the
+package in a fairly bad state, which will require a successful
+reinstallation to clear up, but it's when <tt/dpkg/ starts doing
+things that are irreversible.
+
+<item>
+Any files which were in the old version of the package but not in the
+new are removed.
+
+<item>
+The new file list replaces the old.
+
+<item>
+The new maintainer scripts replace the old.
+
+<item>
+Any packages all of whose files have been overwritten during the
+installation, and which aren't required for dependencies, are considered
+to have been removed.  For each such package,
+
+<enum>
+<item>
+<tt/dpkg/ calls:
+<tscreen><verb>
+<var/disappearer's-postrm/ <tt/disappear/ <var/overwriter/ <var/overwriter-version/
+</verb></tscreen>
+
+<item>
+The package's maintainer scripts are removed.
+
+<item>
+It is noted in the status database as being in a sane state, namely
+not installed (any conffiles it may have are ignored).  Note that
+disappearing packages do not have their prerm called, because
+<tt/dpkg/ doesn't know in advance that the package is going to vanish.
+
+</enum>
+
+<item>
+Any files in the package we're unpacking that are also listed in the
+file lists of other packages are removed from those lists.  (This will
+lobotomise the file list of the `conflicting' package if there is one.)
+
+<item>
+The backup files made during installation, above, are deleted.
+
+<item>
+The new package's status is now sane, and recorded as `unpacked'.  Here
+is another point of no return - if the conflicting package's removal
+fails we do not unwind the rest of the installation; the conflicting
+package is left in a half-removed limbo.
+
+<item>
+If there was a conflicting package we go and do the removal actions
+(described below), starting with the removal of the conflicting
+package's files (any that are also in the package being installed
+have already been removed from the conflicting package's file list,
+and so do not get removed now).
+
+</enum>
+
+<sect1>Details of configuration
+<p>
+
+When we configure a package (this happens with <tt/dpkg --install/, or
+with <tt/--configure/), we first update the conffiles and then call:
+<tscreen><verb>
+<var/postinst/ <tt/configure/ <var/most-recently-configured-version/
+</verb></tscreen>
+<p>
+
+No attempt is made to unwind after errors during configuration.
+<p>
+
+If there is no most recently configured version <tt/dpkg/ will pass a
+null argument; older versions of dpkg may pass
+<tt>&lt;unknown&gt;</tt> (including the angle brackets) in this case.
+Even older ones do not pass a second argument at all, under any
+circumstances.
+
+<sect1>Details of removal and/or configration purging
+<p>
+
+<enum>
+<item>
+<tscreen><verb>
+<var/prerm/ <tt/remove/
+</verb></tscreen>
+
+<item>
+The package's files are removed (except conffiles).
+
+<item>
+<tscreen><verb>
+<var/postrm/ <tt/remove/
+</verb></tscreen>
+
+<item>
+All the maintainer scripts except the postrm are removed.
+<p>
+
+If we aren't purging the package we stop here.  Note that packages
+which have no postrm and no conffiles are automatically purged when
+removed, as there is no difference except for the <tt/dpkg/ status.
+
+<item>
+The conffiles and any backup files (<tt/~/-files, <tt/#*#/ files,
+<tt/%/-files, <tt/.dpkg-{old,new,tmp}/, etc.) are removed.
+
+<item>
+<tscreen><verb>
+<var/postrm/ <tt/purge/
+</verb></tscreen>
+
+<item>
+The package's file list is removed.
+
+</enum>
+
+No attempt is made to unwind after errors during removal.
+
+
+<sect>Dangling references
+
+<sect1>Would dangle to conffiles<label id="conffiles">
+
+There would be a dangling xref here.  Instead I've just put this dummy
+text in.
+
+<sect1>Would dangle to descriptions<label id="descriptions">
+
+There would be a dangling xref here.  Instead I've just put this dummy
+text in.
+
+</article>

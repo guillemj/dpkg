@@ -257,7 +257,7 @@ if (!$remove) {
             if ($i <= 0) { # We ran off the top, make this section and Misc.
                 print "$name: no sections yet, creating Miscellaneous section too.\n"
                     unless $quiet;
-                @work= ("\n", "$sectiontitle\n", "\n", "Miscellaneous:", @work);
+                @work= ("\n", "$sectiontitle\n", "\n", "Miscellaneous:\n", @work);
                 $mss= 1;
             } else {
                 @work= (@work[0..$i], "$sectiontitle\n", "\n", @work[$i+1..$#work]);

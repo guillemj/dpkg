@@ -146,9 +146,7 @@ enum modstatdb_rw {
   msdbrw_write/*s*/, msdbrw_needsuperuser,
   /* Now some optional flags: */
   msdbrw_flagsmask= ~077,
-  /* Prefer later versions from `status' in `available' info, but do not
-   * save `available' info: */
-  msdbrw_availablepreferversion= 0100
+  /* ... of which there are currently none, but they'd start at 0100 */
 };
 
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);
@@ -178,8 +176,7 @@ void hashreport(FILE*);
 enum parsedbflags {
   pdb_recordavailable   =001, /* Store in `available' in-core structures, not `status' */
   pdb_rejectstatus      =002, /* Throw up an error if `Status' encountered             */
-  pdb_weakclassification=004, /* Ignore priority/section info if we already have any   */
-  pdb_preferversion=     010  /* Discard information about earlier versions            */
+  pdb_weakclassification=004  /* Ignore priority/section info if we already have any   */
 };
 
 const char *illegal_packagename(const char *p, const char **ep);

@@ -4,7 +4,7 @@
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
 .\" Time-stamp: <96/05/03 14:00:06 root>
-.TH dpkg-name 1 "April 1996" "Debian Project" "Debian Linux"
+.TH dpkg-name 1 "May 1996" "Debian Project" "Debian Linux"
 .SH NAME
 dpkg\-name \- rename Debian packages to full package names
 .SH SYNOPSIS
@@ -19,19 +19,18 @@ This manual page documents the
 sh script which provides an easy way to rename
 .B Debian
 packages into their full package names. A full package name consists
-of <package>-<version>.<architecture>.deb as specified in the control
-file of the package. The <package> part of the filename will have
-hyphens "-" replaced by underscores "_". The <version> part of the
-filename consists of the mainstream version information optionally
-followed by a hyphen and the revision information.
+of <package>_<version>_<architecture>.deb as specified in the control
+file of the package. The <version> part of the filename consists of
+the mainstream version information optionally followed by a hyphen and
+the revision information.
 .SH EXAMPLES
 .TP
 .B dpkg-name bar-foo.deb
-The file `bar-foo.deb' will be renamed to bar_foo-1.0-2.i386.deb or
+The file `bar-foo.deb' will be renamed to bar-foo_1.0-2_i386.deb or
 something similar (depending on whatever information is in the control
 part of `bar-foo.deb').
 .TP
-.B find /root/debian/ \-name '*.deb' | xargs \-n 1 dpkg\-name -a
+.B find /root/debian/ \-name '*.deb' | xargs \-n 1 dpkg\-name \-a
 All files with the extension `deb' in the directory /root/debian and its
 subdirectory's will be renamed by dpkg\-name if required into names with no
 architecture information.
@@ -42,7 +41,7 @@ Your archive will be messed up completely because a lot of packages
 don't come with section information.
 .B Don't do this.
 .TP
-.B dpkg --build debian-tmp && dpkg-name -s .. debian-tmp.deb
+.B dpkg --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb
 This can be used when building new packages.
 .SS OPTIONS
 .TP
@@ -83,15 +82,18 @@ information and exit successfully.
 Successfully tested on
 .B Debian Linux 
 systems only. Some packages don't follow the name structure
-<package>-<version>.<architecture>.deb. Packages renamed by dpkg-name
+<package>_<version>_<architecture>.deb. Packages renamed by dpkg-name
 will follow this structure. Generally this will have no impact on how
-packages are installed by dselect/dpkg.
+packages are installed by dselect/dpkg, but other installation tools
+might depend on this naming structure.
 .SH SEE ALSO
 .BR deb (5),
 .BR deb-control (5),
 .BR dpkg (5),
 .BR dpkg (8),
-.BR dpkg-deb (8).
+.BR dpkg-deb (8),
+.BR find (1),
+.BR xargs (1).
 .SH COPYRIGHT
 Copyright 1995,1996 Erick Branderhorst.
 .B dpkg-name

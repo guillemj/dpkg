@@ -1,3 +1,38 @@
+dpkg (1.2.4); priority=MEDIUM
+
+  * New dpkg-name from Erick (<pkg>_<version>_<arch>.deb convention).
+  * Disappeared packages can't own conffiles any more !  (Bug#3214.)
+  * install-info creates Miscellaneous sections with a newline
+    following the heading.  (Bug#3218.)
+  * cleanup-info script installed in /usr/sbin; called as appropriate
+    by postinst.  Thanks to Kim-Minh Kaplan.  (Bug#3125.)
+  * Allow superseded Essential packages to be purged after they've
+    been removed (clear the Essential flag on removal, and ignore it
+    on packages that are in stat_configfiles).
+
+  * dselect disk methods understand `y' as well as `yes' for using
+    development tree.
+  * dselect doesn't make packages appear as `new' again if update
+    of available packages fails.
+  * dselect places method selection cursor over option last selected.
+
+  * dpkg-scanpackages doesn't die when repeated packages are found.
+  * dpkg-scanpackages allows many old maintainers (`//'-separated).
+
+  * `Version' field is now mandatory (some operations already
+    wouldn't work right anyway if it was't there).
+
+  * update-rc.d(8) now says you must remove the script.  (Bug#3215.)
+  * dpkg --force-help says that --force-overwrite is on by default.
+  * dpkg-deb manpage rewritten.
+  * debian.README (= /usr/doc/copyright/dpkg) edited slightly.
+
+  * Some database parsing grunge removed (pdb_preferversion, &c).
+  * Source tree doc/sgml contains some embryonic manuals.
+  * Leftover files in lib directory in source tree deleted.
+
+ -- Ian Jackson <ian@chiark.chu.cam.ac.uk>  Mon, 10 Jun 1996 03:52:01 +0100
+
 dpkg (1.2.3); priority=HIGH
 
   * install-info doesn't replicate section headings (Bug#3125, #2973).

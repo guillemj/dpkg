@@ -115,16 +115,22 @@ void methodlist::redrawcolheads() {
 }
 
 methodlist::methodlist() : baselist(&methodlistbindings) {
+  int newcursor= -1;
+  
   if (debug)
     fprintf(debug,"methodlist[%p]::methodlist()\n",this);
 
   table= new struct option*[noptions];
 
   struct option *opt, **ip;
-  for (opt=options, ip=table, nitems=0; opt; opt=opt->next, nitems++) *ip++= opt;
+  for (opt=options, ip=table, nitems=0; opt; opt=opt->next, nitems++) {
+    if (opt == coption) { assert(newcursor==-1); newcursor= nitems; }
+    *ip++= opt;
+  }
   assert(nitems==noptions);
 
-  setcursor(0);
+  if (newcursor==-1) newcursor= 0;
+  setcursor(newcursor);
 
   if (debug)
     fprintf(debug,"methodlist[%p]::methodlist done; noptions=%d\n", this, noptions);

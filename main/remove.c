@@ -90,7 +90,7 @@ void deferred_remove(struct pkginfo *pkg) {
   }
 
   assert(pkg->installed.valid);
-  if (pkg->installed.essential)
+  if (pkg->installed.essential && pkg->status != stat_configfiles)
     forcibleerr(fc_removeessential, "This is an essential package -"
                 " it should not be removed.");
 
@@ -294,6 +294,7 @@ void removal_bulk(struct pkginfo *pkg) {
     pop_cleanup(ehflag_normaltidy); /* closedir */
     
     pkg->status= stat_configfiles;
+    pkg->installed.essential= 0;
     modstatdb_note(pkg);
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 

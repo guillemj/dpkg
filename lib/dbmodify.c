@@ -179,8 +179,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
   if (cstatus != msdbrw_needsuperuserlockonly) {
     parsedb(statusfile, pdb_weakclassification, 0,0,0);
     parsedb(availablefile,
-            pdb_recordavailable|pdb_rejectstatus|
-            (cflags & msdbrw_availablepreferversion ? pdb_preferversion : 0),
+            pdb_recordavailable|pdb_rejectstatus,
             0,0,0);
   }
 
@@ -206,9 +205,7 @@ void modstatdb_shutdown(void) {
   switch (cstatus) {
   case msdbrw_write:
     checkpoint();
-    if (!(cflags & msdbrw_availablepreferversion))
-      writedb(availablefile,1,0);
-
+    writedb(availablefile,1,0);
     /* tidy up a bit, but don't worry too much about failure */
     fclose(importanttmp);
     strcpy(updatefnrest, IMPORTANTTMP); unlink(updatefnbuf);

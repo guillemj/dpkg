@@ -38,11 +38,16 @@ void updateavailable(const char *const *argv) {
   int count= 0;
   static struct varbuf vb;
 
-  if (cipaction->arg == act_avclear) {
-    if (sourcefile)
-      badusage("--clear-avail takes no arguments");
-  } else if (!sourcefile || argv[1]) {
-    badusage("--%s needs exactly one Packages file argument", cipaction->olong);
+  switch (cipaction->arg) {
+  case act_avclear:
+    if (sourcefile) badusage("--%s takes no arguments",cipaction->olong);
+    break;
+  case act_avreplace: case act_avmerge:
+    if (!sourcefile || argv[1])
+      badusage("--%s needs exactly one Packages file argument",cipaction->olong);
+    break;
+  default:
+    internerr("bad cipaction->arg in updateavailable");
   }
   
   if (!f_noact) {
@@ -85,4 +90,38 @@ void updateavailable(const char *const *argv) {
 
   if (cipaction->arg != act_avclear)
     printf("Information about %d package(s) was updated.\n",count);
+}
+
+void forgetold(const char *const *argv) {
+  struct pkgiterator *it;
+  struct pkginfo *pkg;
+  enum pkgwant oldwant;
+
+  if (*argv) badusage("--forget-old-unavail takes no arguments");
+
+  modstatdb_init(admindir, f_noact ? msdbrw_readonly : msdbrw_write);
+
+  it= iterpkgstart();
+  while ((pkg= iterpkgnext(it))) {
+    debug(dbg_eachfile,"forgetold checking %s",pkg->name);
+    if (informative(pkg,&pkg->available)) {
+      debug(dbg_eachfile,"forgetold ... informative available");
+      continue;
+    }
+    if (pkg->want != want_purge && pkg->want != want_deinstall) {
+      debug(dbg_eachfile,"forgetold ... informative want");
+      continue;
+    }
+    oldwant= pkg->want;
+    pkg->want= want_unknown;
+    if (informative(pkg,&pkg->installed)) {
+      debug(dbg_eachfile,"forgetold ... informative installed");
+      pkg->want= oldwant;
+      continue;
+    }
+    debug(dbg_general,"forgetold forgetting %s",pkg->name);
+  }
+  iterpkgend(it);
+  
+  modstatdb_shutdown();
 }

@@ -166,10 +166,7 @@ extern void operator delete(void *p) {
 }
 
 urqresult urq_list(void) {
-  readwrite= modstatdb_init(admindir,
-                            // Why do I need this cast ??
-                            (modstatdb_rw)(msdbrw_writeifposs|
-                                           msdbrw_availablepreferversion));
+  readwrite= modstatdb_init(admindir,msdbrw_writeifposs);
 
   curseson();
 

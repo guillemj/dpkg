@@ -197,7 +197,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
                      &newpifp->description, "description");
       parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,
                      &newpifp->maintainer, "maintainer");
-      parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,
+      parsemustfield(file,filename,lno, warnto,warncount,&newpig,0,
                      &newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
@@ -222,51 +222,57 @@ int parsedb(const char *filename, enum parsedbflags flags,
       }
     }
 
+    /* There was a bug that could make a not-installed package have
+     * conffiles, so we check for them here and remove them (rather than
+     * calling it an error, which will do at some point -- fixme).
+     */
+    if (!(flags & pdb_recordavailable) &&
+        newpig.status == stat_notinstalled &&
+        newpifp->conffiles) {
+      parseerr(file,filename,lno, warnto,warncount,&newpig,1,
+               "Package which in state not-installed has conffiles, forgetting them");
+      newpifp->conffiles= 0;
+    }
+
     pigp= findpackage(newpig.name);
     pifp= (flags & pdb_recordavailable) ? &pigp->available : &pigp->installed;
     if (!pifp->valid) blankpackageperfile(pifp);
 
-    if (!(flags & pdb_preferversion) ||
-        versioncompare(&newpifp->version,&pifp->version) >= 0) {
-      /* If we're ignoring older versions compare version numbers
-       * and only process this entry if it's a higher version.
-       */
-
-      /* Copy the priority and section across, but don't overwrite existing
-       * values if the pdb_weakclassification flag is set.
-       */
-      if (newpig.section && *newpig.section &&
-          !((flags & pdb_weakclassification) && pigp->section && *pigp->section))
-        pigp->section= newpig.section;
-      if (newpig.priority != pri_unknown &&
-          !((flags & pdb_weakclassification) && pigp->priority != pri_unknown)) {
-        pigp->priority= newpig.priority;
-        if (newpig.priority == pri_other) pigp->otherpriority= newpig.otherpriority;
-      }
-
-      /* Sort out the dependency mess. */
-      copy_dependency_links(pigp,&pifp->depends,newpifp->depends,
-                            (flags & pdb_recordavailable) ? 1 : 0);
-      /* Leave the `depended' pointer alone, we've just gone to such
-       * trouble to get it right :-).  The `depends' pointer in
-       * pifp was indeed also updated by copy_dependency_links,
-       * but since the value was that from newpifp anyway there's
-       * no need to copy it back.
-       */
-      newpifp->depended= pifp->depended;
-
-      /* Copy across data */
-      memcpy(pifp,newpifp,sizeof(struct pkginfoperfile));
-      if (!(flags & pdb_recordavailable)) {
-        pigp->want= newpig.want;
-        pigp->eflag= newpig.eflag;
-        pigp->status= newpig.status;
-        pigp->configversion= newpig.configversion;
-        pigp->files= 0;
-      } else {
-        pigp->files= newpig.files;
-      }
+    /* Copy the priority and section across, but don't overwrite existing
+     * values if the pdb_weakclassification flag is set.
+     */
+    if (newpig.section && *newpig.section &&
+        !((flags & pdb_weakclassification) && pigp->section && *pigp->section))
+      pigp->section= newpig.section;
+    if (newpig.priority != pri_unknown &&
+        !((flags & pdb_weakclassification) && pigp->priority != pri_unknown)) {
+      pigp->priority= newpig.priority;
+      if (newpig.priority == pri_other) pigp->otherpriority= newpig.otherpriority;
     }
+
+    /* Sort out the dependency mess. */
+    copy_dependency_links(pigp,&pifp->depends,newpifp->depends,
+                          (flags & pdb_recordavailable) ? 1 : 0);
+    /* Leave the `depended' pointer alone, we've just gone to such
+     * trouble to get it right :-).  The `depends' pointer in
+     * pifp was indeed also updated by copy_dependency_links,
+     * but since the value was that from newpifp anyway there's
+     * no need to copy it back.
+     */
+    newpifp->depended= pifp->depended;
+
+    /* Copy across data */
+    memcpy(pifp,newpifp,sizeof(struct pkginfoperfile));
+    if (!(flags & pdb_recordavailable)) {
+      pigp->want= newpig.want;
+      pigp->eflag= newpig.eflag;
+      pigp->status= newpig.status;
+      pigp->configversion= newpig.configversion;
+      pigp->files= 0;
+    } else {
+      pigp->files= newpig.files;
+    }
+
     if (donep) *donep= pigp;
     pdone++;
     if (c == EOF) break;

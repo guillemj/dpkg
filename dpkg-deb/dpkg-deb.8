@@ -1,130 +1,231 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.\" Authors: Raul Miller and Ian Jackson
-.TH DPKG\-DEB 8 "29 Nov 1995" "Debian Project" "Debian GNU/Linux"
+.\" Authors: Ian Jackson
+.TH DPKG\-DEB 8 "1st June 1996" "Debian Project" "Debian Linux manual"
 .SH NAME 
-dpkg\-deb \- Debian GNU/Linux package archive backend
+dpkg\-deb \- Debian package archive (.deb) manipulation tool
 .SH SYNOPSIS
-.B dpkg-deb --version
-.LP
-.B dpkg-deb
-.BR -X | --vextract
-.I <deb>
-.RI [ <directory> ]
-.LP
 .B dpkg-deb
 .BR -b | --build
-.RB [ --nocheck ]
-.I <directory>
-.RI [ <deb> ]
-.LP
-.B dpkg-deb
-.BR -c | --contents
-.I <deb>
-.LP
-.B dpkg-deb
-.BR -e | --control
-.I <deb>
-.RI [ <directory> ]
-.LP
-.B dpkg-deb
-.BR -f | --field
-.I <deb>
-.RI [ <cfield> ]...
-.LP
-.B dpkg-deb
-.BR -h | --help
-.LP
+.IR directory " [" archive ]
+.br
 .B dpkg-deb
 .BR -I | --info
-.I <deb>
-.RI [ <cfile> ]
-.LP
+.IR archive " [" control\-file\-name " ..]"
+.br
 .B dpkg-deb
-.BR -x | --extract 
-.I <deb> <directory>
-.LP
+.BR -f | --field
+.IR archive " [" control\-field\-name " ...]"
+.br
 .B dpkg-deb
-.BR -D | --debug
-.I <invocation-options>
+.BR -c | --contents
+.I archive
+.br
+.B dpkg-deb
+.BR -x | --extract | -X | --vextract
+.I archive directory
+.br
+.B dpkg-deb --fsys-tarfile
+.I archive
+.br
+.B dpkg-deb --control
+.I archive directory
 .SH DESCRIPTION
 .B dpkg-deb
-packs and unpacks debian archives.  It tracks file permissions, and
-includes support for the staged unpacking mechanism required by debian.
-.SH OPTIONS
-.I <deb>
-is the filename of a Debian format archive.
-.I <cfile>
-is the name of an administrative file component.
-.I <cfield>
-is the name of a field in the main `control' file.
-.LP
-.B --version
-displays the version number.
-.LP
-.BR -X | --vextract
-extracts files from archive and lists archive's contents.
-.LP
-.BR -b | --build
-makes a debian archive from the image of
-.IR <directory> .
-.I <directory>
+packs, unpacks and provides information about Debian archives.
+
+Use
+.B dpkg
+to install and remove packages from your system.
+
+You can also invoke
+.B dpkg\-deb
+by calling
+.B dpkg
+with whatever options you want to pass to
+.BR dpkg\-deb ".  " dpkg
+will spot that you wanted
+.B dpkg\-deb
+and run it for you.
+.SH ACTION OPTIONS
+.TP
+.BR -b ", " --build
+Creates a debian archive from the filesystem tree stored in
+.IR directory ".  " directory
 must have a
 .B DEBIAN
-subdirectory, which is treated specially for the debian-specific
-control file and any pre- or post-install scripts.
+subdirectory, which contains the control information files such
+as the control file itself.  This directory will
+.I not
+appear in the binary package's filesystem archive, but instead
+the files in it will be put in the binary package's control
+information area.
 
-The
+Unless you specify
+.BR \-\-no\-check ", " dpkg\-deb "
+will read
+.B DEBIAN/control
+and parse it.  It will check it for syntax errors and other problems,
+and display the name of the binary package being built.
+.B dpkg\-deb
+will also check the permissions of the maintainer scripts and other
+files found in the
 .B DEBIAN
-directory must contain a file called
-.B control
-whose contents is a valid control file for the Debian package
-management system.  Errors in this file will abort the processing of
-the package.  This check can be bypassed by the use of the
-.B --nocheck
-option.
-.LP
-.BR -c | --contents
-lists the contents of the archive on stdout.
-.LP
-.BR -e | --control
-extracts the control file from the archive.
-If no target directory is specified, the control files are extracted
-into
-.BR ./DEBIAN .
-.LP
-.BR -f | --field
-displays [named field(s) from] the control file.
-.LP
-.BR -h | --help
-displays summary of usage.
-.LP
-.BR -I | --info
-describes the archive, on stdout.
-.LP
-.BR -x | --extract
-extracts files from archive.
-.LP
-.BR -D | --debug
-would enable debugging.
-.SH NOTES
-.B dpkg-deb
-packs and unpacks *.deb files, but does not deal with any of the
-larger administrative issues of installing/de-installing packages.
-.SH SEE ALSO
-.BR deb (5),
-.BR deb-control (5),
-.BR dpkg (5),
-.BR dpkg (8),
-.BR dselect (8).
+control information directory.
+
+If no
+.I archive
+is specified then
+.B dpkg\-deb
+will write the package into the file
+.IR directory \fB.deb\fR.
+
+If the archive to be created already exists it will be overwritten.
+.TP
+.BR \-\-info ", " -I
+Provides information about a binary package archive.
+
+If no
+.IR control\-file\-name s
+are specified then it will print a summary of the contents of the
+package as well as its control file.
+
+If any
+.IR control\-file\-name s
+are specified then
+.B dpkg\-deb
+will print them in the order they were specified; if any of the
+components weren't present it will print an error message to stderr
+about each one and exit with status 2.
+.TP
+.BR \-\-field ", " -f
+Extracts control file information from a binary package archive.
+
+If no
+.BR control\-file\-field s
+are specified then it will print the whole control file.
+
+If any are specified then
+.B dpkg\-deb
+will print their contents, in the order in which they appear in the
+control file.  If more than one
+.BR control\-file\-field
+is specified then
+.B dpkg\-deb
+will precede each with its field name (and a colon and space).
+
+No errors are reported for fields requested but not found.
+.TP
+.BR --contents ", " -c
+Lists the contents of the filesystem tree archive portion of the
+package archive.  It is currently produced in the format generated by
+.BR tar 's
+verbose listing.
+.TP
+.BR --extract ", " -x ", " \-\-vextract ", " -X
+Extracts the filesystem tree from a package archive into the specified
+directory.
+
+.BR \-\-vextract " (" -X ")"
+prints a listing of the files extracted as it goes, while
+.BR \-\-extract " (" -x ")"
+is silent unless an error occurs.
+
+Note that extracting a package to the root directory will
+.I not
+result in a correct installation !  Use
+.B dpkg
+to install packages.
+
+.I directory
+(but not its parents) will be created if necessary.
+.TP
+.BR --fsys-tarfile
+Extracts the filesystem tree data from a binary package and sends it
+to standard output in
+.B tar
+format.  Together with
+.B tar
+this can be used to extract a particular file from a package archive.
+.TP
+.BR --control ", " -e
+Extracs the control information files from a package archive into the
+specified directory.
+
+If no directory is specified then a subdirectory
+.B DEBIAN
+in the current directory is used.
+
+The target directory (but not its parents) will be created if
+necessary.
+.TP
+.BR --help ", " -h
+Prints
+.BR dpkg\-deb 's
+usage message, giving a summary of its options and their uses.
+.TP
+.BR --version
+Prints
+.BR dpkg\-deb 's
+version number.
+.TP
+.BR --licence
+Prints information about
+.BR dpkg\-deb 's
+copyright licensing and lack of warranty.  (The American spelling
+.B \-\-license
+is also supported.)
+.SH OTHER OPTIONS
+.TP
+.BR --new
+Ensures that
+.B dpkg\-deb
+builds a `new' format archive.  This is the default.
+.TP
+.BR --old
+Forces
+.B dpkg\-deb
+to build an `old' format archive.  This old archive format is less
+easily parsed by non-Debian tools and is now obsolete; its only use is
+when building packages to be parsed by versions of dpkg older than
+0.93.76 (September 1995), which was released as i386 a.out only.
+.TP
+.BR --no-check
+Inhibit's
+.BR "dpkg\-deb \-\-build" 's
+usual checks on the proposed contents of an archive.  You can build
+any archive you want, no matter how broken, this way.
+.TP
+.BR --debug ", " -D
+Enables debugging output.  This is not very interesting.
 .SH BUGS
 .B dpkg-deb -I 
 .IB package1 .deb
 .IB package2 .deb
 does the wrong thing.
 
-This manpage is too terse and fails to document all the options.  If
-you are a competent and accurate writer and are willing to spend the
-time reading the source and writing good manpages please
-please write a better man page than this one.
-.LP
-Still being developed, as of 29th November 1995.
+There is no authentication on
+.B .deb
+files; in fact, there isn't even a straightforward checksum.
+
+Do not attempt to use just
+.B dpkg\-deb
+to install software !  You must use
+.B dpkg
+proper to ensure that all the files are correctly placed and the
+package's scripts run and its status and contents recorded.
+.SH SEE ALSO
+.BR deb (5),
+.BR deb-control (5),
+.BR dpkg (5),
+.BR dpkg (8),
+.BR dselect (8).
+.SH AUTHOR
+.B dpkg\-deb
+and this manpage were written by Ian Jackson.  They are
+Copyright (C)1995-1996
+by him and released under the GNU General Public Licence; there is NO
+WARRANTY.  See
+.B /usr/doc/copyright/dpkg
+and
+.B /usr/doc/copyright/GPL
+for details.

@@ -4,7 +4,7 @@ set -e
 
 # Time-stamp: <96/05/03 13:59:41 root>
 prog="`basename \"${0}\"`"
-version="1.1.6"; # This line modified by Makefile
+version="1.2.3"; # This line modified by Makefile
 purpose="rename Debian packages to full package names"
 
 license () {
@@ -33,8 +33,8 @@ show_version () {
 usage () {
 	echo "Usage: ${prog} file[s]
   ${purpose}
-  file.deb changes to <package>-<version>.<architecture>.deb
-  <package> is y/-/_/ aware
+  file.deb changes to <package>_<version>_<architecture>.deb 
+  according to the ``underscores convention''.
   -a|--no-architecture  No architecture part in filename
   -o|--overwrite        Overwrite if file exists
   -s|--subdir [dir]     Move file into subdir (Use with care)
@@ -55,7 +55,6 @@ fileexists () {
 getname () {
 	if p=`dpkg-deb -f -- "$1" package`;
 	then
-		p=`echo $p|sed -e 'y/-/_/'`;
 		v=`dpkg-deb -f -- "$1" version`;
 		r=`dpkg-deb -f -- "$1" revision`;
 		if [ -z "$r" ];
@@ -77,9 +76,9 @@ getname () {
 		fi
 		if [ -z "$noarchitecture" ];
 		then
-			tname=$p-$v.$a.deb;
+			tname=$p\_$v\_$a.deb;
 		else
-			tname=$p-$v.deb
+			tname=$p\_$v.deb
 		fi
 	
 		name=`echo $tname|sed -e 's/ //g'`

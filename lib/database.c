@@ -145,11 +145,10 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
    * out.
    */
   if (info == &pkg->installed &&
-      ((pkg->want != want_unknown && pkg->want != want_purge) ||
+      (pkg->want != want_unknown ||
        pkg->eflag != eflagv_ok ||
        pkg->status != stat_notinstalled ||
-       informativeversion(&pkg->configversion) ||
-       pkg->files))
+       informativeversion(&pkg->configversion)))
     /* We ignore Section and Priority, as these tend to hang around. */
     return 1;
   if (!info->valid) return 0;

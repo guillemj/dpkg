@@ -1,5 +1,5 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.TH UPDATE\-RC.D 8 "29th November 1995" "Debian Project" "Debian/GNU Linux"
+.TH UPDATE\-RC.D 8 "6th June 1996" "Debian Project" "Debian/GNU Linux"
 .SH NAME
 update\-rc.d \- install and remove System-V style init script links
 .SH SYNOPSIS
@@ -27,11 +27,12 @@ removing init scripts on a Debian system.
 .SH REMOVING SCRIPTS
 When invoked with the
 .I remove
-option, update-rc.d removes the script and links to the script for the package
-.RI "" <basename> .
-It first finds and removes the script in
-.B /etc/init.d/
-and then removes all links to the script in
+option, update-rc.d removes the links to the script for the package
+.IR basename .
+The script must have been deleted already -
+.B update-rc.d
+checks for this.
+It then removes all the (now-dangling) links to the script in
 .RB "" /etc/rc[0123456].d/ .
 
 .SH INSTALLING SCRIPTS
