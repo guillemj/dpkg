@@ -153,16 +153,7 @@ int main(int argc, const char *const *argv) {
   int l;
   char *p;
 
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-
-  if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-    error_unwind(ehflag_bombout); exit(2);
-  }
-  push_error_handler(&ejbuf,print_error_fatal,NULL);
-
-  myopt(&argv,cmdinfos);
+  standard_startup(&ejbuf, argc, &argv, NULL, 0, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
   l= strlen(depotdir);
@@ -178,7 +169,6 @@ int main(int argc, const char *const *argv) {
 
   if (ferror(stderr)) werr("stderr");
   
-  set_error_display(NULL,NULL);
-  error_unwind(ehflag_normaltidy);
+  standard_shutdown();
   exit(0);
 }

@@ -38,5 +38,5 @@ struct cmdinfo {
 
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos);
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos);
-
+void loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos);
 #endif /* MYOPT_H */

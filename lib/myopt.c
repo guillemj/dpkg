@@ -23,6 +23,7 @@
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 #include <config.h>
 #include <myopt.h>
@@ -82,6 +83,25 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   }
   if (ferror(file)) ohshite(_("read error in configuration file `%.255s'"), fn);
   if (fclose(file)) ohshite(_("error closing configuration file `%.255s'"), fn);
+}
+
+void loadcfgfile(const char *prog, const struct cmdinfo* cmdinfos) {
+  char *home, *file;
+  int l1, l2;
+  l1 = strlen(CONFIGDIR "/.cfg") + strlen(prog);
+  file = malloc(l1 + 1);
+  sprintf(file, CONFIGDIR "/%s.cfg", prog);
+  myfileopt(file, cmdinfos);
+  if ((home = getenv("HOME")) != NULL) {
+    l2 = strlen(home) + strlen("/.cfg") + strlen(prog);
+    if (l2 > l1) {
+      free(file);
+      file = malloc(l2 + 1);
+      l1 = l2;
+    }
+    myfileopt(file, cmdinfos);
+  }
+  free(file);
 }
 
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos) {

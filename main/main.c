@@ -547,27 +547,8 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
   static void (*actionfunction)(const char *const *argv);
-  char *home, *homerc;
 
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-
-  if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-    error_unwind(ehflag_bombout); exit(2);
-  }
-  push_error_handler(&ejbuf,print_error_fatal,0);
-
-  umask(022); /* Make sure all our status databases are readable. */
- 
-  myfileopt(CONFIGDIR "/" DPKG ".cfg", cmdinfos);
-  if ((home= getenv("HOME")) != NULL) {
-       homerc= (char*)malloc((strlen(home)+strlen("/." DPKG ".cfg")+1)*sizeof(char));
-       sprintf(homerc, "%s/.%s.cfg", home, DPKG);
-       myfileopt(homerc, cmdinfos);
-       free(homerc);
-  }
-  myopt(&argv,cmdinfos);
+  standard_startup(&ejbuf, argc, &argv, DPKG, 1, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
   setvbuf(stdout,0,_IONBF,0);
@@ -577,8 +558,7 @@ int main(int argc, const char *const *argv) {
 
   actionfunction(argv);
 
-  set_error_display(0,0);
-  error_unwind(ehflag_normaltidy);
+  standard_shutdown();
 
   return reportbroken_retexitstatus();
 }

@@ -467,7 +467,6 @@ urqresult urq_quit(void) {
 
 int main(int, const char *const *argv) {
   jmp_buf ejbuf;
-  char *home, *homerc;
 
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
@@ -479,13 +478,7 @@ int main(int, const char *const *argv) {
   }
   push_error_handler(&ejbuf,print_error_fatal,0);
 
-  myfileopt(CONFIGDIR "/" DSELECT ".cfg", cmdinfos);
-  if ((home= getenv("HOME")) != NULL) {
-       homerc= (char*)malloc((strlen(home)+strlen("/." DSELECT ".cfg")+1)*sizeof(char));
-       sprintf(homerc, "%s/.%s.cfg", home, DSELECT);
-       myfileopt(homerc, cmdinfos);
-       free(homerc);
-  }
+  loadcfgfile(DSELECT, cmdinfos);
   myopt(&argv,cmdinfos);
 
   if (*argv) {
@@ -501,8 +494,7 @@ int main(int, const char *const *argv) {
   }
 
   cursesoff();
-  set_error_display(0,0);
-  error_unwind(ehflag_normaltidy);
+  standard_shutdown();
   return(0);
 }
 

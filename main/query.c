@@ -533,18 +533,7 @@ int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
   static void (*actionfunction)(const char *const *argv);
 
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-
-  if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-    error_unwind(ehflag_bombout); exit(2);
-  }
-  push_error_handler(&ejbuf,print_error_fatal,0);
-
-  umask(022); /* Make sure all our status databases are readable. */
- 
-  myopt(&argv,cmdinfos);
+  standard_startup(&ejbuf, argc, &argv, NULL, 0, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
   setvbuf(stdout,0,_IONBF,0);
@@ -554,8 +543,7 @@ int main(int argc, const char *const *argv) {
 
   actionfunction(argv);
 
-  set_error_display(0,0);
-  error_unwind(ehflag_normaltidy);
+  standard_shutdown();
 
   return reportbroken_retexitstatus();
 }

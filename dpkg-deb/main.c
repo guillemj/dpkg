@@ -164,23 +164,13 @@ int main(int argc, const char *const *argv) NONRETURNING;
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
 
-  setlocale(LC_ALL, "");
   setlocale(LC_NUMERIC, "POSIX");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
-
-  if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
-    error_unwind(ehflag_bombout); exit(2);
-  }
-  push_error_handler(&ejbuf,print_error_fatal,0);
-
-  myopt(&argv,cmdinfos);
+  standard_startup(&ejbuf, argc, &argv, NULL, 0, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
   unsetenv("GZIP");
   action(argv);
-  set_error_display(0,0);
-  error_unwind(ehflag_normaltidy);
+  standard_shutdown();
   exit(0);
 }
 

@@ -28,6 +28,8 @@
 #include <stdio.h>
 #include <sys/types.h>
 
+#include <myopt.h>
+
 #define ARCHIVEVERSION     "2.0"
 #define SPLITVERSION       "2.1"
 #define OLDARCHIVEVERSION  "0.939000"
@@ -162,6 +164,11 @@
 
 extern const char thisname[]; /* defined separately in each program */
 extern const char printforhelp[];
+
+/*** from startup.c ***/
+
+void standard_startup(jmp_buf *ejbuf, int argc, const char *const **argv, const char *prog, int loadcfg, const struct cmdinfo cmdinfos[]);
+void standard_shutdown(void);
 
 /*** from ehandle.c ***/
 
