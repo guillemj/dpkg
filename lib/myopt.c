@@ -26,7 +26,7 @@
 #include <myopt.h>
 #include <dpkg.h>
 
-void myoptfile(const char* fn, const struct cmdinfo* cmdinfos) {
+void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   FILE* file;
   char linebuf[MAXDIVERTFILENAME];
 
