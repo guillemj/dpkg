@@ -170,7 +170,8 @@ for $_ (keys %fi) {
 	if (!defined($p2f{$p})) {
 	    if ($a eq 'any' || ($a eq 'all' && !$archspecific) ||
 		grep($_ eq $substvar{'Arch'}, split(/\s+/, $a))) {
-		&error("package $p in control file but not in files list");
+		&warn("package $p in control file but not in files list");
+		next;
 	    }
 	} else {
 	    $p2arch{$p}=$a;
