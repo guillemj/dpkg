@@ -1,0 +1,31 @@
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+SUBDIRS		= de en fr ja ru sv
+
+include ../Makefile.conf
+
+clean: clean-recursive
+
+distclean: clean distclean-recursive
+	$(RM) Makefile
+
+install: install-doc
+
+install-doc: install-doc-recursive
+	$(mkinstalldirs) $(DESTDIR)$(docdir)
+	set -e ; for i in ChangeLog THANKS TODO ; do \
+		$(INSTALL_DATA) $(top_srcdir)/$$i $(DESTDIR)$(docdir) ; \
+	done
+	$(INSTALL_DATA) $(top_srcdir)/COPYING $(DESTDIR)$(copyingfile)
+
+all-recursive install-recursive install-doc-recursive clean-recursive distclean-recursive:
+	set -e ; target=`echo $@ | $(SED) s/-recursive//`; \
+		for s in $(SUBDIRS) ; do \
+		$(MAKE) $(MFLAGS) -C $$s $$target ; \
+	done;
+
+.PHONY: all clean distclean install install-doc
+.PHONY: all-recursive clean-recursive distclean-recursive install-recursive
+.PHONY: install-doc-recursive
