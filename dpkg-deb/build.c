@@ -159,13 +159,14 @@ int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) {
   va_end(al);
 
   
-  if(compression != NULL)
-    if(*compression == '0') {
-      fd_fd_copy(0, 1, -1, _("%s: no compression copy loop"), v.buf);
-      exit(0);
-    }
+  if(compression == NULL) compression= "9";
+  if(*compression == '0') {
+    fd_fd_copy(0, 1, -1, _("%s: no compression copy loop"), v.buf);
+    exit(0);
+  }
 #ifdef USE_ZLIB
-  snprintf(combuf, sizeof(combuf), "w%c", *compression);
+  strncpy(combuf, "w9", sizeof(combuf));
+  combuf[1]= *compression;
   gzfile = gzdopen(1, combuf);
   while((actualread = read(0,gzbuffer,sizeof(gzbuffer))) > 0) {
     if (actualread < 0 ) {
@@ -185,9 +186,11 @@ int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) {
     if (gzactualwrite != actualread)
       ohshite(_("%s: internal gzip error: read(%i) != write(%i)"), v.buf, actualread, gzactualwrite);
   }
+  gzclose(gzfile);
   exit(0);
 #else
-  snprintf(combuf, sizeof(combuf), "-%cc", *compression);
+  strncpy(combuf, "-9c", sizeof(combuf));
+  combuf[1]= *compression;
   execlp(GZIP,"gzip",combuf,(char*)0); ohshit(_("%s: failed to exec gzip %s"), v.buf, combuf);
 #endif
 }
