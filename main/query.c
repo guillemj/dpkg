@@ -442,15 +442,16 @@ static void printversion(void) {
   */
 static void usage(void) {
   if (fprintf (stdout, _("\
-Usage: \n\
-  dpkg -s|--status <package-name> ...      display package status details\n\
-  dpkg -p|--print-avail <package-name> ... display available version details\n\
-  dpkg -L|--listfiles <package-name> ...   list files `owned' by package(s)\n\
-  dpkg -l|--list [<pattern> ...]           list packages concisely\n\
-  dpkg -W|--show <pattern> ...             show information on package(s)\n\
-  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n\
-  dpkg --help | --version                  show this help / version number\n\
-  dpkg --licence                           print copyright licensing terms\n\
+Usage: dpkg-query [<option>] <command>\n\
+Commands:\n\
+  -s|--status <package-name> ...      display package status details\n\
+  -p|--print-avail <package-name> ... display available version details\n\
+  -L|--listfiles <package-name> ...   list files `owned' by package(s)\n\
+  -l|--list [<pattern> ...]           list packages concisely\n\
+  -W|--show <pattern> ...             show information on package(s)\n\
+  -S|--search <pattern> ...           find package(s) owning file(s)\n\
+  --help | --version                  show this help / version number\n\
+  --licence                           print copyright licensing terms\n\
 \n\
 Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
@@ -458,11 +459,10 @@ Options:\n\
 	    ADMINDIR) < 0) werr ("stdout");
 }
 
-const char thisname[]= "dpkg";
+const char thisname[]= "dpkg-query";
 const char printforhelp[]= N_("\
-Type dpkg-query --help for help about installing and deinstalling packages [*];\n\
-Use dselect for user-friendly package management;\n\
-Type dpkg-query --licence for copyright licence and lack of warranty (GNU GPL) [*].\n\
+Use --help for help about querying packages;\n\
+Use --licence for copyright licence and lack of warranty (GNU GPL).\n\
 \n");
 
 const struct cmdinfo *cipaction= 0;
