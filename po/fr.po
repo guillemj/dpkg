@@ -19,7 +19,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.6.13\n"
-"POT-Creation-Date: 2000-10-03 00:54+0200\n"
+"POT-Creation-Date: 2000-10-29 02:26+0200\n"
 "PO-Revision-Date: 2000-04-29 00:48+02:00\n"
 "Last-Translator: Jérôme Marant <jerome.marant@free.fr>\n"
 "Language-Team: French\n"
@@ -1533,7 +1533,7 @@ msgstr ""
 msgid "unable to check for existence of `%.250s'"
 msgstr "impossible de vérifier l'existence de `%.250s'"
 
-#: main/depcon.c:132 main/packages.c:442
+#: main/depcon.c:132 main/packages.c:449
 msgid " depends on "
 msgstr " dépend de "
 
@@ -2728,7 +2728,7 @@ msgstr " n'est pas installé.\n"
 #. Don't print the line about the package to be removed if
 #. * that's the only line.
 #.
-#: main/packages.c:448
+#: main/packages.c:455
 msgid "; however:\n"
 msgstr "; cependant :\n"
 
@@ -2863,77 +2863,77 @@ msgstr ""
 "archive du système de fichiers du fichier tar corrompue - archive du paquet "
 "corrompue"
 
-#: main/processarc.c:625
+#: main/processarc.c:626
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr ""
 "dpkg: avertissement - impossible de supprimer l'ancien fichier `%.250s': %s\n"
 
-#: main/processarc.c:647 main/processarc.c:882 main/remove.c:287
+#: main/processarc.c:648 main/processarc.c:883 main/remove.c:287
 msgid "cannot read info directory"
 msgstr "ne peut pas lire le répertoire d'informations"
 
-#: main/processarc.c:660
+#: main/processarc.c:661
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "l'ancienne version du paquet a un nom de fichier d'information commençant "
 "par `%.250s' trop long"
 
-#: main/processarc.c:672
+#: main/processarc.c:673
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "impossible de supprimer le fichier d'information obsolète `%.250s'"
 
-#: main/processarc.c:675
+#: main/processarc.c:676
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr ""
 "impossible d'installer le (supposé) nouveau fichier d'information `%.250s'"
 
-#: main/processarc.c:682
+#: main/processarc.c:683
 msgid "unable to open temp control directory"
 msgstr "impossible d'ouvrir le répertoire de contrôle temporaire"
 
-#: main/processarc.c:691
+#: main/processarc.c:692
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "le paquet contient un nom de fichier de contrôle trop long (commençant par "
 "`%.50s')"
 
-#: main/processarc.c:696
+#: main/processarc.c:697
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "l'information de contrôle du paquet contient le répertoire `%.250s'"
 
-#: main/processarc.c:698
+#: main/processarc.c:699
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 "l'information de contrôle du paquet \"rmdir\" de `%.250s' ne dit pas que ce "
 "n'est pas un répertoire"
 
-#: main/processarc.c:704
+#: main/processarc.c:705
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr ""
 "dpkg: avertissement - le paquet %s contient une liste comme fichier "
 "d'information"
 
-#: main/processarc.c:711
+#: main/processarc.c:712
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 "impossible d'installer le nouveau fichier d'information `%.250s' comme "
 "`%.250s'"
 
-#: main/processarc.c:862
+#: main/processarc.c:863
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(À noter la disparition de %s, qui a été complètement remplacé.)\n"
 
-#: main/processarc.c:898
+#: main/processarc.c:899
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
@@ -3415,6 +3415,10 @@ msgstr ""
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "le fichier `%.250s' est corrompu - mauvais chiffre (code %d) dans %s"
 
+#: dpkg-deb/extract.c:84
+msgid "skipped member data"
+msgstr ""
+
 #: dpkg-deb/extract.c:109
 #, c-format
 msgid "failed to read archive `%.255s'"
@@ -3423,6 +3427,15 @@ msgstr "échec de la lecture de l'archive `%.255s'"
 #: dpkg-deb/extract.c:110
 msgid "failed to fstat archive"
 msgstr "échec de \"fstat\" sur l'archive"
+
+#: dpkg-deb/extract.c:111
+#, fuzzy
+msgid "version number"
+msgstr "l'époque (epoch) dans la version n'est pas un nombre"
+
+#: dpkg-deb/extract.c:120
+msgid "between members"
+msgstr ""
 
 #: dpkg-deb/extract.c:122 split/info.c:94
 #, c-format
@@ -3442,6 +3455,10 @@ msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr ""
 "le fichier `%.250s n'est pas une archive binaire debian (essayer dpkg-split "
 "?)"
+
+#: dpkg-deb/extract.c:133
+msgid "header info member"
+msgstr ""
 
 #: dpkg-deb/extract.c:136
 msgid "archive has no newlines in header"
@@ -3479,6 +3496,10 @@ msgstr ""
 " nouveau paquet Debian, version %s.\n"
 " taille %ld octets: archive de contrôle= %ld octets.\n"
 
+#: dpkg-deb/extract.c:189
+msgid "ctrl information length"
+msgstr ""
+
 #: dpkg-deb/extract.c:191
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
@@ -3492,6 +3513,10 @@ msgid ""
 msgstr ""
 " ancien paquet Debian, version %s.\n"
 " taille %ld octets: archive de contrôle= %ld, archive principale= %ld.\n"
+
+#: dpkg-deb/extract.c:203
+msgid "ctrlarea"
+msgstr ""
 
 #: dpkg-deb/extract.c:209
 msgid ""
@@ -3534,6 +3559,10 @@ msgstr ""
 #: dpkg-deb/extract.c:248
 msgid "failed to fdopen p1 in copy"
 msgstr "échec de \"fdopen\" sur p1 en copie"
+
+#: dpkg-deb/extract.c:250
+msgid "member data"
+msgstr ""
 
 #: dpkg-deb/extract.c:251
 msgid "failed to write to pipe in copy"

@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.7\n"
-"POT-Creation-Date: 2000-10-03 00:54+0200\n"
+"POT-Creation-Date: 2000-10-29 02:26+0200\n"
 "PO-Revision-Date: 2000-03-04 14:39+09:00\n"
 "Last-Translator: Keita Maehara <maehara@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
@@ -1441,7 +1441,7 @@ msgstr "dpkg: %s: 警告 - ハッシュ用に conffile %s をオープンできません: %s\n"
 msgid "unable to check for existence of `%.250s'"
 msgstr "`%.250s'の存在をチェックできません。"
 
-#: main/depcon.c:132 main/packages.c:442
+#: main/depcon.c:132 main/packages.c:449
 msgid " depends on "
 msgstr " は以下に依存(depends)します: "
 
@@ -2573,7 +2573,7 @@ msgstr " はインストールされていません。\n"
 #. Don't print the line about the package to be removed if
 #. * that's the only line.
 #.
-#: main/packages.c:448
+#: main/packages.c:455
 msgid "; however:\n"
 msgstr " ...しかし:\n"
 
@@ -2702,16 +2702,16 @@ msgstr ""
 "壊れている tar ファイルのファイルシステム - "
 "パッケージアーカイブが壊れています。"
 
-#: main/processarc.c:625
+#: main/processarc.c:626
 #, c-format
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr "dpkg: 警告 - 古いファイル`%.250s'の削除ができません: %s\n"
 
-#: main/processarc.c:647 main/processarc.c:882 main/remove.c:287
+#: main/processarc.c:648 main/processarc.c:883 main/remove.c:287
 msgid "cannot read info directory"
 msgstr "情報ディレクトリを読み込めません。"
 
-#: main/processarc.c:660
+#: main/processarc.c:661
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
@@ -2719,33 +2719,33 @@ msgstr ""
 "`%.250s'で始まる情報ファイル名はあまりにも\n"
 "長すぎます"
 
-#: main/processarc.c:672
+#: main/processarc.c:673
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "古い情報ファイル`%.250s'を削除できません。"
 
-#: main/processarc.c:675
+#: main/processarc.c:676
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "(おそらく)新しい情報ファイル`%.250s'をインストールできません。"
 
-#: main/processarc.c:682
+#: main/processarc.c:683
 msgid "unable to open temp control directory"
 msgstr "一時的コントロールディレクトリをオープンできません。"
 
-#: main/processarc.c:691
+#: main/processarc.c:692
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
 "パッケージに含まれる(`%.50s' "
 "で始まる)コントロール情報ファイル名はあまりにも長すぎます。"
 
-#: main/processarc.c:696
+#: main/processarc.c:697
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr "パッケージコントロール情報にディレクトリ`%.250s'が含まれています。"
 
-#: main/processarc.c:698
+#: main/processarc.c:699
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
@@ -2756,22 +2756,22 @@ msgstr ""
 # #, c-format
 # msgid "package control info rmdir of `%.250s' didn't say not a dir"
 # msgstr "`%.250s' のパッケージコントロール情報 rmdir がディレクトリではないと言っています"
-#: main/processarc.c:704
+#: main/processarc.c:705
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr "dpkg: 警告 - パッケージ %s が一覧を情報ファイルとして含んでいました。"
 
-#: main/processarc.c:711
+#: main/processarc.c:712
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "新規情報ファイル`%.250s'を`%.250s'としてインストールできません。"
 
-#: main/processarc.c:862
+#: main/processarc.c:863
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(%s は完全に置換されているため、消えていることに注意)\n"
 
-#: main/processarc.c:898
+#: main/processarc.c:899
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "コントロール情報ファイル`%.250s'が見つからないため削除できません。"
@@ -3236,6 +3236,10 @@ msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr ""
 "ファイル `%.250s' は壊れています - %3$s にある数字(コード %2$d)は不正です。"
 
+#: dpkg-deb/extract.c:84
+msgid "skipped member data"
+msgstr ""
+
 #: dpkg-deb/extract.c:109
 #, c-format
 msgid "failed to read archive `%.255s'"
@@ -3244,6 +3248,15 @@ msgstr "アーカイブ `%.255s' の読み込みに失敗しました"
 #: dpkg-deb/extract.c:110
 msgid "failed to fstat archive"
 msgstr "アーカイブの状態を得られませんでした(fstat 失敗)。"
+
+#: dpkg-deb/extract.c:111
+#, fuzzy
+msgid "version number"
+msgstr "バージョン中の epoch が数値でありません。"
+
+#: dpkg-deb/extract.c:120
+msgid "between members"
+msgstr ""
 
 #: dpkg-deb/extract.c:122 split/info.c:94
 #, c-format
@@ -3263,6 +3276,10 @@ msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr ""
 "ファイル `%.250s' は debian バイナリアーカイブでありません(dpkg-split "
 "を使ってみてください?)"
+
+#: dpkg-deb/extract.c:133
+msgid "header info member"
+msgstr ""
 
 #: dpkg-deb/extract.c:136
 msgid "archive has no newlines in header"
@@ -3300,6 +3317,10 @@ msgstr ""
 " 新形式 debian パッケージ、バージョン %s。\n"
 " サイズ %ld バイト: コントロールアーカイブ = %ld バイト。\n"
 
+#: dpkg-deb/extract.c:189
+msgid "ctrl information length"
+msgstr ""
+
 #: dpkg-deb/extract.c:191
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
@@ -3313,6 +3334,10 @@ msgid ""
 msgstr ""
 " 旧形式 debian パッケージ, バージョン %s.\n"
 " サイズ %ld バイト: コントロールアーカイブ = %ld, メインアーカイブ = %ld.\n"
+
+#: dpkg-deb/extract.c:203
+msgid "ctrlarea"
+msgstr ""
 
 #: dpkg-deb/extract.c:209
 msgid ""
@@ -3354,6 +3379,10 @@ msgstr "files アーカイブの位置に lseek できませんでした。"
 #: dpkg-deb/extract.c:248
 msgid "failed to fdopen p1 in copy"
 msgstr "コピー中に p1 のオープン(fdopen)に失敗しました。"
+
+#: dpkg-deb/extract.c:250
+msgid "member data"
+msgstr ""
 
 #: dpkg-deb/extract.c:251
 msgid "failed to write to pipe in copy"
