@@ -33,7 +33,7 @@ sub usageversion {
     print(STDERR <<END)
 Debian update-alternatives $version.
 Copyright (C) 1995 Ian Jackson.
-Copyright (C) 2000,2001 Wichert Akkerman
+Copyright (C) 2000-2002 Wichert Akkerman
 This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
