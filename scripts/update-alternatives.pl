@@ -42,6 +42,7 @@ Usage: update-alternatives --install <link> <name> <path> <priority>
        update-alternatives --remove <name> <path>
        update-alternatives --auto <name>
        update-alternatives --display <name>
+       update-alternatives --list <name>
        update-alternatives --config <name>
 <name> is the name in /etc/alternatives.
 <path> is the name referred to.
@@ -93,7 +94,7 @@ while (@ARGV) {
         @ARGV >= 2 || &badusage("--remove needs <name> <path>");
         ($name,$apath,@ARGV) = @ARGV;
         $mode= 'remove';
-    } elsif (m/^--(display|auto|config)$/) {
+    } elsif (m/^--(display|auto|config|list)$/) {
         &checkmanymodes;
         @ARGV || &badusage("--$1 needs <name>");
         $mode= $1;
@@ -190,6 +191,15 @@ if ($mode eq 'display') {
         } else {
             &pr("Current \`best' version is $best.");
         }
+    }
+    exit 0;
+}
+
+if ($mode eq 'list') {
+    if ($dataread) {
+	for ($i = 0; $i<=$#versions; $i++) {
+	    &pr("$versions[$i]");
+	}
     }
     exit 0;
 }
