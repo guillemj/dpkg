@@ -114,7 +114,8 @@ OK.
 	esac
 fi
 
-if [ -d /usr/info -a ! -L /usr/info -a ! -L /usr/info/dir ]; then              
+if [ -d /usr/info -a ! -L /usr/info -a ! -L /usr/info/dir \
+		-a -f /usr/info/dir ]; then              
 	echo Moving /usr/info/dir to /usr/share/info/dir.
 	mv /usr/info/dir /usr/share/info/dir
 	if [ -f /usr/info/dir.old ]; then
