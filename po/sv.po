@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10\n"
-"POT-Creation-Date: 2001-07-16 17:03+0200\n"
-"PO-Revision-Date: 2001-07-16 17:23+0200\n"
+"POT-Creation-Date: 2001-08-11 22:40+0200\n"
+"PO-Revision-Date: 2001-08-11 22:54+0200\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -195,8 +195,8 @@ msgstr "kunde inte stänga \"%.250s\" efter att ha skrivit %s-information"
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
-"kunde inte länka \"%.250s\" till \"%.250s\" för att säkerhetskopiera "
-"%s-information"
+"kunde inte länka \"%.250s\" till \"%.250s\" för att säkerhetskopiera %s-"
+"information"
 
 #: lib/dump.c:282
 #, c-format
@@ -810,8 +810,8 @@ msgstr "fel när behörighet för \"%.255\" skulle sättas"
 #: main/archives.c:351
 #, c-format
 msgid ""
-"trying to overwrite `%.250s', which is the diverted version of "
-"`%.250s'%.10s%.100s%.10s"
+"trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
+"%.100s%.10s"
 msgstr ""
 "försökte skriva över \"%.250s\", vilket är den omdirigerade varianten av "
 "\".250s\"%.10s%.100s%.10s"
@@ -1355,15 +1355,15 @@ msgstr ""
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
 msgstr ""
-"dpkg: %s: varning - misslyckades att ta bort gammal säkerhetskopia "
-"\"%.250s\": %s\n"
+"dpkg: %s: varning - misslyckades att ta bort gammal säkerhetskopia \"%.250s"
+"\": %s\n"
 
 #: main/configure.c:384
 #, c-format
 msgid "dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"
 msgstr ""
-"dpkg: %s: varning - misslyckades att namnändra \"%.250s\" till \"%.250s\": "
-"%s\n"
+"dpkg: %s: varning - misslyckades att namnändra \"%.250s\" till \"%.250s\": %"
+"s\n"
 
 #: main/configure.c:392
 #, c-format
@@ -1440,8 +1440,8 @@ msgstr ""
 #: main/configure.c:531
 #, c-format
 msgid ""
-"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= "
-"`%s')\n"
+"dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
+"s')\n"
 msgstr ""
 "dpkg: %s: varning -  konfigurationfilen \"%.250s\" är inte en vanlig fil "
 "eller symbolisk länk (= \"%s\")\n"
@@ -1454,8 +1454,8 @@ msgstr "md5hash"
 #, c-format
 msgid "dpkg: %s: warning - unable to open conffile %s for hash: %s\n"
 msgstr ""
-"dpkg: %s: varning - kunde inte öppna konfigurationsfilen %s för hashning: "
-"%s\n"
+"dpkg: %s: varning - kunde inte öppna konfigurationsfilen %s för hashning: %"
+"s\n"
 
 #: main/depcon.c:74
 #, c-format
@@ -1570,7 +1570,7 @@ msgstr "  %.250s tillhandahåller %.250s och kommer att installeras.\n"
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %.250s tillhandahåller %.250s och är %s.\n"
 
-#: main/enquiry.c:56
+#: main/enquiry.c:56 main/query.c:96
 msgid "(no description available)"
 msgstr "(beskrivning saknas)"
 
@@ -1976,8 +1976,8 @@ msgid ""
 "NB: root's PATH should usually contain /usr/local/sbin, /usr/sbin and /sbin."
 msgstr ""
 "%s förväntade program som inte finns i PATH.\n"
-"Obs! roots PATH bör vanligtvis innehålla /usr/local/sbin, /usr/sbin och "
-"/sbin."
+"Obs! roots PATH bör vanligtvis innehålla /usr/local/sbin, /usr/sbin och /"
+"sbin."
 
 #: main/help.c:179
 #, c-format
@@ -2061,7 +2061,7 @@ msgstr "kunde inte ta bort fil eller katalog \"%.255s\""
 msgid "failed to exec rm for cleanup"
 msgstr "kunde inte utföra rm för upprensning"
 
-#: dpkg-deb/main.c:44 main/main.c:44
+#: main/main.c:44
 msgid "Debian GNU/Linux `"
 msgstr "Debian GNU/Linux \""
 
@@ -2069,15 +2069,18 @@ msgstr "Debian GNU/Linux \""
 msgid "' package management program version "
 msgstr "\" pakethanteringsprogram version "
 
-#: main/main.c:48
+#: main/main.c:48 main/query.c:434
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
-"See dpkg --licence for copyright and license details.\n"
+"See "
 msgstr ""
 "Detta program är fri programvara. Se GNU General Public License version 2\n"
 "eller senare för kopieringsvillkor. Det finns INGEN garanti.\n"
-"Se dpkg --license för upphovsrättsliga och licenstekniska detaljer.\n"
+
+#: main/main.c:50 main/query.c:436
+msgid " --licence for copyright and license details.\n"
+msgstr " --license för upphovsrättsliga och licenstekniska detaljer.\n"
 
 #: main/main.c:58
 #, c-format
@@ -2195,8 +2198,8 @@ msgstr ""
 "  --admindir=<katalog>       Använd <katalog> i.st.f %s\n"
 "  --root=<katalog>           Installera på alternativt system med annan rot\n"
 "  --instdir=<katalog>        Byt installationsrot, men inte admin.-katalog\n"
-"  -O|--selected-only         Hoppa över paket ej valda för "
-"install./uppgrad.\n"
+"  -O|--selected-only         Hoppa över paket ej valda för install./"
+"uppgrad.\n"
 "  -E|--skip-same-version     Hoppa över paket med samma version som "
 "install.\n"
 "  -G|--refuse-downgrade      Hoppa över paket med tidigare version än "
@@ -2205,8 +2208,8 @@ msgstr ""
 "  --no-debsig                Försök inte verifiera paketsignaturer\n"
 "  --no-act                   Säg bara vad som skulle hända - utför "
 "ingenting\n"
-"  -D|--debug=<oktalt>        Slå på felsökning - se -Dhelp eller "
-"--debug=help\n"
+"  -D|--debug=<oktalt>        Slå på felsökning - se -Dhelp eller --"
+"debug=help\n"
 "  --status-fd <n>            Sänd statusändringar till filidentifierare <n>\n"
 "  --ignore-depends=<paket>,... Ignorera beroenden angående <paket>\n"
 "  --force-...                  Tvinga utförande - se --force-help\n"
@@ -2241,10 +2244,10 @@ msgstr ""
 "Skriv dpkg --license för upphovsrättslig licens och avsaknad av garanti\n"
 "                     (GNU GPL) [*].\n"
 "\n"
-"Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller "
-"\"more\"!"
+"Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller \"more"
+"\"!"
 
-#: dpkg-deb/main.c:137 main/main.c:185 split/main.c:144
+#: dpkg-deb/main.c:137 main/main.c:185 main/query.c:502 split/main.c:144
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "motstridiga val --%s och --%s"
@@ -2427,7 +2430,8 @@ msgstr "kunde inte öppna \"%i\" för ström"
 msgid "unexpected eof before end of line %d"
 msgstr "oväntat filslut före slut på rad %d"
 
-#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:571 split/main.c:166
+#: dpkg-deb/main.c:158 main/main.c:536 main/main.c:571 main/query.c:549
+#: split/main.c:166
 msgid "need an action option"
 msgstr "du har inte talat om vad som skall utföras"
 
@@ -2436,7 +2440,7 @@ msgstr "du har inte talat om vad som skall utföras"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "--%s --pending tar inga argument som inte är flaggor"
 
-#: main/packages.c:109
+#: main/packages.c:109 main/query.c:295
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s behöver åtminstone ett paket som argument"
@@ -2683,8 +2687,8 @@ msgstr "kunde inte öppna temporär kontrollkatalog"
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr ""
-"paketet innehåller för långt kontrollinformationsfilnamn (börjar på "
-"\"%.50s\")"
+"paketet innehåller för långt kontrollinformationsfilnamn (börjar på \"%.50s"
+"\")"
 
 #: main/processarc.c:716
 #, c-format
@@ -2695,8 +2699,8 @@ msgstr "paketets kontrollinformation innehåller katalogen \"%.250s\""
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
-"\"rmdir\" på paketets kontrollinformation \"%.250\" svarade inte \"ej "
-"katalog\""
+"\"rmdir\" på paketets kontrollinformation \"%.250\" svarade inte \"ej katalog"
+"\""
 
 #: main/processarc.c:724
 #, c-format
@@ -2791,8 +2795,8 @@ msgstr ""
 #: main/remove.c:252
 #, c-format
 msgid ""
-"dpkg - warning: while removing %.250s, unable to remove directory `%.250s': "
-"%s - directory may be a mount point ?\n"
+"dpkg - warning: while removing %.250s, unable to remove directory `%.250s': %"
+"s - directory may be a mount point ?\n"
 msgstr ""
 "dpkg - varning: när %.250s togs bort kunde inte katalogen \"%.250s\" tas "
 "bort: %s - katalogen kan vara en monteringspunkt?\n"
@@ -2846,7 +2850,7 @@ msgstr "kan inte ta bort gammal fillista"
 msgid "can't remove old postrm script"
 msgstr "kunde inte ta bort gammalt postrm-skript"
 
-#: main/select.c:80
+#: main/query.c:200 main/query.c:419 main/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Inga paket matchar %s.\n"
@@ -2934,6 +2938,182 @@ msgstr "Information om %d paket uppdaterades.\n"
 #: main/update.c:101
 msgid "--forget-old-unavail takes no arguments"
 msgstr "--forget-old-unavail tar inget argument"
+
+#: main/query.c:140
+msgid ""
+"Desired=Unknown/Install/Remove/Purge/Hold\n"
+"| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
+"|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
+"uppercase=bad)\n"
+msgstr ""
+"Önskat=Okänd(U)/Installera(I)/Radera(R)/Rensa(P)/Håll(H)\n"
+"| Status=Ej(N)/Installerad(I)/Konf.(C)/Uppackad(U)/Misslyckad(F)/Delvis(H)\n"
+"|/ Fel?Inget(=)/Håll(H)/Ominstallera(R)/Båda(X) (Status,Fel: versaler=illa)\n"
+
+#: main/query.c:144
+msgid "Name"
+msgstr "Namn"
+
+#: main/query.c:144
+msgid "Version"
+msgstr "Version"
+
+#: dselect/methlist.cc:118 dselect/pkgtop.cc:295 main/query.c:144
+msgid "Description"
+msgstr "Beskrivning"
+
+#: main/query.c:215
+#, c-format
+msgid "diversion by %s"
+msgstr "omdirigerat av %s"
+
+#: main/query.c:216
+msgid "local diversion"
+msgstr "lokal omdirigering"
+
+#: main/query.c:217
+msgid "to"
+msgstr "till"
+
+#: main/query.c:217
+msgid "from"
+msgstr "från"
+
+#: main/query.c:250
+msgid "--search needs at least one file name pattern argument"
+msgstr "--search behöver åtminstone ett filnamnsmönsterargument"
+
+#: main/query.c:278
+#, c-format
+msgid "dpkg: %s not found.\n"
+msgstr "dpkg: %s kunde ej hittas.\n"
+
+#: main/query.c:315
+#, c-format
+msgid "Package `%s' is not installed and no info is available.\n"
+msgstr "Paketet \"%s\" är inte installerat och ingen information finns.\n"
+
+#: main/query.c:324
+#, c-format
+msgid "Package `%s' is not available.\n"
+msgstr "Paketet \"%s\" är ej tillgängligt.\n"
+
+#: main/query.c:334
+#, c-format
+msgid "Package `%s' is not installed.\n"
+msgstr "Paketet \"%s\" är ej installerat.\n"
+
+#: main/query.c:343
+#, c-format
+msgid "Package `%s' does not contain any files (!)\n"
+msgstr "Paketet \"%s\" innehåller inga filer (!)\n"
+
+#: main/query.c:349
+msgid "locally diverted"
+msgstr "lokalt omdirigerad"
+
+#: main/query.c:350
+msgid "package diverts others"
+msgstr "paketet omdirigerar andra"
+
+#: main/query.c:351
+#, c-format
+msgid "diverted by %s"
+msgstr "omdirigerad av %s"
+
+#: main/query.c:352
+#, c-format
+msgid " to: %s\n"
+msgstr " till: %s\n"
+
+#: main/query.c:371
+msgid ""
+"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgstr ""
+"Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
+"och dpkg --contents (= dpkg-deb --contents) för att visa innehållet.\n"
+
+#: dpkg-deb/main.c:44 main/query.c:430
+msgid "Debian `"
+msgstr "Debian \""
+
+#: main/query.c:432
+msgid "' package management program query tool\n"
+msgstr "\" paketfrågeprogram version "
+
+#: main/query.c:444
+msgid "Usage: "
+msgstr "Användning: "
+
+#: main/query.c:445
+#, c-format
+msgid ""
+" [<option>] <command>\n"
+"Commands:\n"
+"  -s|--status <package-name> ...      display package status details\n"
+"  -p|--print-avail <package-name> ... display available version details\n"
+"  -L|--listfiles <package-name> ...   list files `owned' by package(s)\n"
+"  -l|--list [<pattern> ...]           list packages concisely\n"
+"  -W|--show <pattern> ...             show information on package(s)\n"
+"  -S|--search <pattern> ...           find package(s) owning file(s)\n"
+"  --help | --version                  show this help / version number\n"
+"  --licence                           print copyright licensing terms\n"
+"\n"
+"Options:\n"
+"  --admindir=<directory>     Use <directory> instead of %s\n"
+"  --showformat=<format>      Use alternative format for --show\n"
+"\n"
+"Format syntax:\n"
+"  A format is a string that will be output for each package. The format\n"
+"  can include the standard escape sequences \\n (newline), \\r (carriage\n"
+"  return) or \\\\ (plain backslash). Package information can be included\n"
+"  by inserting variable references to package fields using the ${var[;"
+"width]}\n"
+"  syntax. Fields will be right-aligned unless the width is negative in "
+"which\n"
+"   case left aligenment will be used. \n"
+msgstr ""
+" [<flagga>] <kommando>\n"
+"Kommandon:\n"
+"  -s|--status <paketnamn> ...      visa detaljer om paketstatus\n"
+"  -p|--print-avail <paketnamn> ... visa detaljer om tillgänglig version\n"
+"  -L|--listfiles <paketnamn> ...   visa filer \"ägda\" av paket\n"
+"  -l|--list [<mönster> ...]        visa sammanfattande paketlista\n"
+"  -W|--show <mönster> ...          visa information om paket\n"
+"  -S|--search <mönster> ...        sök paket som äver fil(er)\n"
+"  --help | --version               visa denna hjälp / versionsnummer\n"
+"  --licence                        visa upphovsrättslicensvillkor\n"
+"\n"
+"Flaggor:\n"
+"  --admindir=<katalog>       Använd <katalog> i.st.f %s\n"
+"  --showformat=<format>      Använd alternativt format för --show\n"
+"\n"
+"Formatsyntax:\n"
+"  Ett format är en sträng som kommer skrivas ut för varje paket. Formatet\n"
+"  kan innehålla de vanliga teckensekvenserna \\n (ny rad), \\r (vagnretur)\n"
+"  eller \\\\ (vanligt omvänt snedstreck). Paketinformation kan läggas in genom\n"
+"  att lägga in variabelreferenser till paketfält genom att använda syntaxen\n"
+"  ${var[;bredd]}. Fälten kommer att högerjusteras såvida inte bredden anges\n"
+"  negativt, i vilket fall vänsterjustering kommer användas.\n"
+
+#: main/query.c:472
+msgid ""
+"Use --help for help about querying packages;\n"
+"Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
+"\n"
+msgstr ""
+"Använd --help för hjälp om att fråga efter paketinformation;\n"
+"Använd --license för upphovsrättslig licens och avsaknad av garanti (GNU GPL).\n"
+
+#: main/showpkg.c:71
+#, c-format
+msgid "invalid character `%c' in field width\n"
+msgstr "ogiltigt tecken \"%c\" i fältbredd\n"
+
+#: main/showpkg.c:158
+msgid "Closing brace missing in format\n"
+msgstr "Avslutande klammerparentes i format\n"
 
 #: dpkg-deb/build.c:66
 #, c-format
@@ -3721,8 +3901,8 @@ msgid ""
 "       dpkg-split -j|--join <part> <part> ...      Join parts together.\n"
 "       dpkg-split -I|--info <part> ...             Display info about a "
 "part.\n"
-"       dpkg-split -h|--help|--version|--licence    Show "
-"help/version/licence.\n"
+"       dpkg-split -h|--help|--version|--licence    Show help/version/"
+"licence.\n"
 "\n"
 "       dpkg-split -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
 "       dpkg-split -l|--listq                       List unmatched pieces.\n"
@@ -3731,8 +3911,8 @@ msgid ""
 "\n"
 "Options:  --depotdir <directory>  (default is %s/%s)\n"
 "          -S|--partsize <size>    (in Kb, for -s, default is 450)\n"
-"          -o|--output <file>      (for -j, default is "
-"<package>-<version>.deb)\n"
+"          -o|--output <file>      (for -j, default is <package>-<version>."
+"deb)\n"
 "          -Q|--npquiet            (be quiet when -a is not a part)\n"
 "          --msdos                 (generate 8.3 filenames)\n"
 "\n"
@@ -3983,100 +4163,106 @@ msgstr "%s: %d av %d fil(er) misslyckades MD5-kontroll\n"
 msgid "%s: no files checked\n"
 msgstr "%s: inga filer kontrollerade\n"
 
-#: dselect/basecmds.cc:100
+#: dselect/basecmds.cc:120
 msgid "Search for ? "
 msgstr "Sök efter? "
 
-#: dselect/basecmds.cc:131
+#: dselect/basecmds.cc:142
+msgid "Error: "
+msgstr "Fel: "
+
+#: dselect/basecmds.cc:170
 msgid "Help: "
 msgstr "Hjälp: "
 
-#: dselect/basecmds.cc:137
+#: dselect/basecmds.cc:176
 msgid "Press ? for help menu, <space> for next topic, <enter> to exit help."
-msgstr "Tryck ? för hjälpmenyn, <mellanslag> för nästa ämne, <Enter> lämnar hjälpen."
+msgstr ""
+"Tryck ? för hjälpmenyn, <mellanslag> för nästa ämne, <Enter> lämnar hjälpen."
 
-#: dselect/basecmds.cc:144
+#: dselect/basecmds.cc:183
 msgid "Help information is available under the following topics:"
 msgstr "Hjälpinformation finns för följande ämnen:"
 
-#: dselect/basecmds.cc:152
+#: dselect/basecmds.cc:191
 msgid ""
 "Press a key from the list above, <enter>, `q' or `Q' to exit help,\n"
 "  or <space> to read each help page in turn. "
 msgstr ""
-"Tryck en tangent från listan ovan, <Enter>, \"q\" eller \"Q\" avslutar hjälpen,\n"
+"Tryck en tangent från listan ovan, <Enter>, \"q\" eller \"Q\" avslutar "
+"hjälpen,\n"
 "  eller <mellanslag> för att läsa hjälpsidorna i sekvens. "
 
-#: dselect/basecmds.cc:158
+#: dselect/basecmds.cc:197
 msgid "error reading keyboard in help"
 msgstr "fel vid läsning av tangentbordet i hjälpfunktionen"
 
-#: dselect/baselist.cc:54
+#: dselect/baselist.cc:55
 msgid "ioctl(TIOCGWINSZ) failed"
 msgstr "ioctl(TIOCGWINSZ) misslyckades"
 
-#: dselect/baselist.cc:57
+#: dselect/baselist.cc:58
 msgid "doupdate in SIGWINCH handler failed"
 msgstr "doupdate misslyckades i hanterare för fönsterändring"
 
-#: dselect/baselist.cc:64
+#: dselect/baselist.cc:65
 msgid "failed to restore old SIGWINCH sigact"
 msgstr "kunde inte återställa tidigare fönsteruppdateringshanterare"
 
-#: dselect/baselist.cc:66
+#: dselect/baselist.cc:67
 msgid "failed to restore old signal mask"
 msgstr "kunde inte återställa gammal signalmask"
 
-#: dselect/baselist.cc:76
+#: dselect/baselist.cc:77
 msgid "failed to get old signal mask"
 msgstr "kunde inte hämta gammal signalmask"
 
-#: dselect/baselist.cc:77
+#: dselect/baselist.cc:78
 msgid "failed to get old SIGWINCH sigact"
 msgstr "kunde inte hämta tidigare fönsteruppdateringshanterare"
 
-#: dselect/baselist.cc:81
+#: dselect/baselist.cc:82
 msgid "failed to block SIGWINCH"
 msgstr "kunde inte blockera fönsterändring"
 
 #. nsigact.sa_flags= SA_INTERRUPT;
-#: dselect/baselist.cc:86
+#: dselect/baselist.cc:87
 msgid "failed to set new SIGWINCH sigact"
 msgstr "kunde inte sätta ny fönsteruppdateringshanterare"
 
-#: dselect/baselist.cc:123
+#: dselect/baselist.cc:124
 msgid "failed to allocate colour pair"
 msgstr "kunde allokera färgpar"
 
-#: dselect/baselist.cc:163
+#: dselect/baselist.cc:164
 msgid "failed to create title window"
 msgstr "kunde inte skapa titelfönster"
 
-#: dselect/baselist.cc:167
+#: dselect/baselist.cc:168
 msgid "failed to create whatinfo window"
 msgstr "kunde inte skapa informationfönster"
 
-#: dselect/baselist.cc:171
+#: dselect/baselist.cc:172
 msgid "failed to create baselist pad"
 msgstr "kunde inte skapa baslisteflik"
 
-#: dselect/baselist.cc:174
+#: dselect/baselist.cc:175
 msgid "failed to create heading pad"
 msgstr "kunde inte skapa rubrikflik"
 
-#: dselect/baselist.cc:178
+#: dselect/baselist.cc:179
 msgid "failed to create thisstate pad"
 msgstr "kunde inte skapa \"detta tillstånd\"-flik"
 
-#: dselect/baselist.cc:182
+#: dselect/baselist.cc:183
 msgid "failed to create info pad"
 msgstr "kunde inte skapa informationsflik"
 
-#: dselect/baselist.cc:187
+#: dselect/baselist.cc:188
 msgid "failed to create query window"
 msgstr "kunde inte skapa frågefönster"
 
-#: dselect/baselist.cc:200
+#: dselect/baselist.cc:201
 #, c-format
 msgid ""
 "baselist::startdisplay() done ...\n"
@@ -4102,20 +4288,21 @@ msgstr ""
 "\n"
 
 # ??
-#: dselect/baselist.cc:256
+#: dselect/baselist.cc:257
 msgid "keybindings"
 msgstr "tangentbordsbindningar"
 
-#: dselect/baselist.cc:311
+#: dselect/baselist.cc:305
+#, c-format
 msgid "  -- %d%%, press "
 msgstr "  -- %d%%, tryck "
 
-#: dselect/baselist.cc:314
+#: dselect/baselist.cc:308
 #, c-format
 msgid "%s for more"
 msgstr "%s för mer"
 
-#: dselect/baselist.cc:318
+#: dselect/baselist.cc:312
 #, c-format
 msgid "%s to go back"
 msgstr "%s återgår"
@@ -4418,15 +4605,15 @@ msgid "screen part"
 msgstr "skärmdel"
 
 #: dselect/main.cc:244
-msgid "Null color specification\n"
+msgid "Null colour specification\n"
 msgstr "Tom färgangivelse\n"
 
 #: dselect/main.cc:252 dselect/main.cc:257
-msgid "color"
+msgid "colour"
 msgstr "färg"
 
 #: dselect/main.cc:265
-msgid "color attribute"
+msgid "colour attribute"
 msgstr "färgattribut"
 
 #: dselect/main.cc:299
@@ -4493,10 +4680,6 @@ msgstr "Åtkomstmetod \"%s\"."
 #: dselect/methlist.cc:117
 msgid "Abbrev."
 msgstr "Förk."
-
-#: dselect/methlist.cc:118 dselect/pkgtop.cc:295
-msgid "Description"
-msgstr "Beskrivning"
 
 #: dselect/methlist.cc:162
 msgid "doupdate failed"
@@ -5093,9 +5276,17 @@ msgstr "tillgänglig version av kontrollinfo för"
 msgid "available version of control info for "
 msgstr "tillgänglig version av kontrollinfo för "
 
-#: dselect/pkglist.cc:120 dselect/pkglist.cc:121
+#: dselect/pkglist.cc:121 dselect/pkglist.cc:122
 msgid "<null>"
 msgstr "<tom>"
+
+#: dselect/pkglist.cc:505
+msgid "invalid search option given"
+msgstr "ogiltigt sökflagga given"
+
+#: dselect/pkglist.cc:519
+msgid "error in regular expression"
+msgstr "fel i reguljärt uttryck"
 
 #: dselect/pkgsublist.cc:103
 msgid " does not appear to be available\n"
@@ -5284,8 +5475,8 @@ msgstr ""
 "tillgängliga\n"
 "för installation. Du kan navigera i listan genom att använda "
 "piltangenterna,\n"
-"markera paket för installation (med \"+\") eller avinstallation (med "
-"\"-\").\n"
+"markera paket för installation (med \"+\") eller avinstallation (med \"-"
+"\").\n"
 "Paket kan markeras antingen själva eller i grupper. Till att börja med "
 "kommer\n"
 "du att se att raden \"Alla paket\" är vald. \"+\", \"-\" osv. kommer att "
@@ -5301,7 +5492,8 @@ msgstr ""
 "\n"
 "När du är färdig med dina val trycker du <Enter> för att bekräfta dina val,\n"
 "eller \"Q\" för att avsluta utan att spara. En sista kontroll av konflikter\n"
-"och beroenden kommer att göras, och även här kan du komma att se en dellista.\n"
+"och beroenden kommer att göras, och även här kan du komma att se en "
+"dellista.\n"
 "\n"
 "Tryck <Enter> för att lämna hjälpen och gå till listan nu.\n"
 
@@ -5331,10 +5523,12 @@ msgid ""
 msgstr ""
 "Välkomen till dselects huvudpaketlista.\n"
 "\n"
-"Du kommer att få se en lista över paket som är installerade eller tillgängliga\n"
+"Du kommer att få se en lista över paket som är installerade eller "
+"tillgängliga\n"
 "för installation. Eftersom du inte har tillräcklig behörighet för att\n"
 "uppdatera informationen är du i skrivskyddat läge. Du kan navigera i listan\n"
-"med piltangenterna (se hjälpskärmen \"Tangenter\") och se på paketens status\n"
+"med piltangenterna (se hjälpskärmen \"Tangenter\") och se på paketens "
+"status\n"
 "samt läsa information om dem.\n"
 "\n"
 "Du bör läsa listan över tangenter och förklaringen av visningen.\n"
@@ -5411,8 +5605,7 @@ msgstr ""
 "att tvinga mig att acceptera nuvarande inställningar, om du önskar gå förbi\n"
 "rekommendationen, eller tycker att programmet misstagit sig.\n"
 "\n"
-"Tryck <Enter> för att lämna hjälpen och komma till underlistan. Kom "
-"ihåg:\n"
+"Tryck <Enter> för att lämna hjälpen och komma till underlistan. Kom ihåg:\n"
 "tryck \"?\" för hjälp.\n"
 
 #: dselect/helpmsgs.cc:100
@@ -5531,8 +5724,8 @@ msgstr ""
 "  av paketet), eller information om konflikter och beroenden som gäller det\n"
 "  aktuella pektet (i underlistor där konflikter/beroenden hanteras).\n"
 "\n"
-"  Använd \"i\"-tangenten för att cykla genom de olika visningslägena, och "
-"\"I\"\n"
+"  Använd \"i\"-tangenten för att cykla genom de olika visningslägena, och \"I"
+"\"\n"
 "  för att gömma informationsvisningen, eller utöka den till att använda "
 "nästan\n"
 "  hela skärmen.\n"
@@ -5575,8 +5768,8 @@ msgstr ""
 "När du flyttar markeringsraden visas en beskrivning av varje metod, om en\n"
 "sådan finns, på skärmens nedre halva.\n"
 "\n"
-"Om du önskar avsluta utan att ändra någonting kan du använda "
-"\"x\"-tangenten\n"
+"Om du önskar avsluta utan att ändra någonting kan du använda \"x\"-"
+"tangenten\n"
 "medan listan över installationsmetoder visas.\n"
 "\n"
 "En komplett lista av tangentbordsfunktioner får du om du trycker \"k\" nu "
@@ -5635,72 +5828,8 @@ msgstr ""
 #~ msgid ""
 #~ "? = help menu    Space = exit help    . = next help    or a help page key "
 #~ msgstr ""
-#~ "? = hjälpmeny  Space = avsluta hjälp  . = nästa hjälp  eller välj hjälpsida "
-
-#~ msgid ""
-#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
-#~ "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
-#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-#~ "uppercase=bad)\n"
-#~ msgstr ""
-#~ "Önskat=Okänd(U)/Installera(I)/Radera(R)/Rensa(P)/Håll(H)\n"
-#~ "| Status=Ej(N)/Installerad(I)/Konf.(C)/Uppackad(U)/Misslyckad(F)/Delvis(H)\n"
-#~ "|/ Fel?Inget(=)/Håll(H)/Ominstallera(R)/Båda(X) (Status,Fel: versaler=illa)\n"
-
-#~ msgid "Name"
-#~ msgstr "Namn"
-
-#~ msgid "Version"
-#~ msgstr "Version"
-
-#~ msgid "diversion by %s"
-#~ msgstr "omdirigerat av %s"
-
-#~ msgid "local diversion"
-#~ msgstr "lokal omdirigering"
-
-#~ msgid "to"
-#~ msgstr "till"
-
-#~ msgid "from"
-#~ msgstr "från"
-
-#~ msgid "--search needs at least one file name pattern argument"
-#~ msgstr "--search behöver åtminstone ett filnamnsmönsterargument"
-
-#~ msgid "dpkg: %s not found.\n"
-#~ msgstr "dpkg: %s kunde ej hittas.\n"
-
-#~ msgid "Package `%s' is not installed and no info is available.\n"
-#~ msgstr "Paketet \"%s\" är inte installerat och ingen information finns.\n"
-
-#~ msgid "Package `%s' is not available.\n"
-#~ msgstr "Paketet \"%s\" är ej tillgängligt.\n"
-
-#~ msgid "Package `%s' is not installed.\n"
-#~ msgstr "Paketet \"%s\" är ej installerat.\n"
-
-#~ msgid "Package `%s' does not contain any files (!)\n"
-#~ msgstr "Paketet \"%s\" innehåller inga filer (!)\n"
-
-#~ msgid "locally diverted"
-#~ msgstr "lokalt omdirigerad"
-
-#~ msgid "package diverts others"
-#~ msgstr "paketet omdirigerar andra"
-
-#~ msgid "diverted by %s"
-#~ msgstr "omdirigerad av %s"
-
-#~ msgid " to: %s\n"
-#~ msgstr " till: %s\n"
-
-#~ msgid ""
-#~ "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-#~ "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
-#~ msgstr ""
-#~ "Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
-#~ "och dpkg --contents (= dpkg-deb --contents) för att visa innehållet.\n"
+#~ "? = hjälpmeny  Space = avsluta hjälp  . = nästa hjälp  eller välj "
+#~ "hjälpsida "
 
 #~ msgid "failed to exec dpkg-deb"
 #~ msgstr "kunde inte exekvera dpkg-deb"
@@ -5742,11 +5871,11 @@ msgstr ""
 #~ msgstr "kunde inte läsa i do_fd_read (%s)"
 
 #~ msgid ""
-#~ "tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c) ti->LinkName=`%s' "
-#~ "namenode=`%s' flags=%o instead=`%s'"
+#~ "tarobject ti->Name=`%s' Mode=%lo owner=%u.%u Type=%d(%c) ti->LinkName=`%"
+#~ "s' namenode=`%s' flags=%o instead=`%s'"
 #~ msgstr ""
-#~ "tarobject ti->Name=\"%s\" mode=%lo owner=%u.%u Type=%d(%c) "
-#~ "ti->LinkName=\"%s\" namenode=\"%s\" flags=%o instead=\"%s\""
+#~ "tarobject ti->Name=\"%s\" mode=%lo owner=%u.%u Type=%d(%c) ti->LinkName="
+#~ "\"%s\" namenode=\"%s\" flags=%o instead=\"%s\""
 
 #~ msgid "tarobject ... stat override, uid=%d, gid=%d, mode=%04o"
 #~ msgstr "tarobjekt ... statoverride, uid=%d, gid=%d, behörighet=%04o"
@@ -5854,7 +5983,8 @@ msgstr ""
 #~ msgstr ""
 #~ "Copyright 1994-1996 Ian Jackson, Bruce Perens. Detta program är fri\n"
 #~ "programvara. Se GNU General Public License version 2 eller senare för\n"
-#~ "kopieringsvillkor. Det finns INGEN garanti. Se dpkg --license för detaljer.\n"
+#~ "kopieringsvillkor. Det finns INGEN garanti. Se dpkg --license för "
+#~ "detaljer.\n"
 
 #~ msgid "failed to exec cat component"
 #~ msgstr "kunde inte exekvera cat-del"
