@@ -122,7 +122,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     {   STATUSFILE,                 &statusfile         },
     {   AVAILFILE,                  &availablefile      },
     {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
-    {   0                                               }
+    {   0, 0                                            }
   }, *fnip;
   
   admindir= adir;
