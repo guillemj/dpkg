@@ -13,23 +13,41 @@
  *
  * Changes by Ben Collins <bcollins@debian.org>, added --chuid, --background
  * and --make-pidfile options, placed in public domain aswell.
+ *
+ * Port to OpenBSD by Sontri Tomo Huynh <huynh.29@osu.edu>
+ *                 and Andreas Schuldei <andreas@schuldei.org>
  */
 
 #include "config.h"
 
 #if defined(linux)
-#define OSLinux
+#  define OSLinux
 #elif defined(__GNU__)
-#define OSHURD
+#  define OSHURD
 #elif defined(__sparc__)
-#define OSsunos
+#  define OSsunos
+#elif defined(OPENBSD)
+#  define OSOpenBSD
 #else
-#error Unknown architecture - cannot build start-stop-daemon
+#  error Unknown architecture - cannot build start-stop-daemon
 #endif
 
-#ifdef OSHURD
-#include <hurd.h>
-#include <ps.h>
+#if defined(OSHURD)
+#  include <hurd.h>
+#  include <ps.h>
+#endif
+
+#if defined(OSOpenBSD)
+#include <sys/param.h>
+#include <sys/user.h>
+#include <sys/proc.h>
+#include <sys/stat.h>
+#include <sys/sysctl.h>
+#include <sys/types.h>
+ 
+#include <err.h>
+#include <kvm.h>
+#include <limits.h>
 #endif
 
 #include <errno.h>
@@ -50,10 +68,10 @@
 #include <fcntl.h>
 
 #ifdef HAVE_ERROR_H
-#include <error.h>
+#  include <error.h>
 #endif
 #ifdef HURD_IHASH_H
-#include <hurd/ihash.h>
+  #include <hurd/ihash.h>
 #endif
 
 static int testmode = 0;
@@ -205,25 +223,25 @@ struct sigpair {
 };
 
 const struct sigpair siglist[] = {
-	{ "ABRT", SIGABRT },
-	{ "ALRM", SIGALRM },
-	{ "FPE", SIGFPE },
-	{ "HUP", SIGHUP },
-	{ "ILL", SIGILL },
-	{ "INT", SIGINT },
-	{ "KILL", SIGKILL },
-	{ "PIPE", SIGPIPE },
-	{ "QUIT", SIGQUIT },
-	{ "SEGV", SIGSEGV },
-	{ "TERM", SIGTERM },
-	{ "USR1", SIGUSR1 },
-	{ "USR2", SIGUSR2 },
-	{ "CHLD", SIGCHLD },
-	{ "CONT", SIGCONT },
-	{ "STOP", SIGSTOP },
-	{ "TSTP", SIGTSTP },
-	{ "TTIN", SIGTTIN },
-	{ "TTOU", SIGTTOU }
+	{ "ABRT",	SIGABRT	},
+	{ "ALRM",	SIGALRM	},
+	{ "FPE",	SIGFPE	},
+	{ "HUP",	SIGHUP	},
+	{ "ILL",	SIGILL	},
+	{ "INT",	SIGINT	},
+	{ "KILL",	SIGKILL	},
+	{ "PIPE",	SIGPIPE	},
+	{ "QUIT",	SIGQUIT	},
+	{ "SEGV",	SIGSEGV	},
+	{ "TERM",	SIGTERM	},
+	{ "USR1",	SIGUSR1	},
+	{ "USR2",	SIGUSR2	},
+	{ "CHLD",	SIGCHLD	},
+	{ "CONT",	SIGCONT	},
+	{ "STOP",	SIGSTOP	},
+	{ "TSTP",	SIGTSTP	},
+	{ "TTIN",	SIGTTIN	},
+	{ "TTOU",	SIGTTOU	}
 };
 
 static int parse_signal (const char *signal_str, int *signal_nr)
@@ -417,34 +435,35 @@ pid_is_cmd(int pid, const char *name)
 }
 #endif /* OSLinux */
 
+
 #if defined(OSHURD)
 static int
 pid_is_user(int pid, int uid)
 {
-   struct stat sb;
-   char buf[32];
-   struct proc_stat *pstat;
+	struct stat sb;
+	char buf[32];
+	struct proc_stat *pstat;
 
-   sprintf(buf, "/proc/%d", pid);
-   if (stat(buf, &sb) != 0)
-       return 0;
-   return (sb.st_uid == uid);
-   pstat = proc_stat_list_pid_proc_stat (procset, pid);
-   if (pstat == NULL)
-       fatal ("Error getting process information: NULL proc_stat struct");
-   proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_OWNER_UID);
-   return (pstat->owner_uid == uid);
+	sprintf(buf, "/proc/%d", pid);
+	if (stat(buf, &sb) != 0)
+		return 0;
+	return (sb.st_uid == uid);
+	pstat = proc_stat_list_pid_proc_stat (procset, pid);
+	if (pstat == NULL)
+		fatal ("Error getting process information: NULL proc_stat struct");
+	proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_OWNER_UID);
+	return (pstat->owner_uid == uid);
 }
 
 static int
 pid_is_cmd(int pid, const char *name)
 {
-   struct proc_stat *pstat;
-   pstat = proc_stat_list_pid_proc_stat (procset, pid);
-   if (pstat == NULL)
-       fatal ("Error getting process information: NULL proc_stat struct");
-   proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_ARGS);
-   return (!strcmp (name, pstat->args));
+	struct proc_stat *pstat;
+	pstat = proc_stat_list_pid_proc_stat (procset, pid);
+	if (pstat == NULL)
+		fatal ("Error getting process information: NULL proc_stat struct");
+	proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_ARGS);
+	return (!strcmp (name, pstat->args));
 }
 #endif /* OSHURD */
 
@@ -516,34 +535,129 @@ do_procinit(void)
 error_t
 check_all (void *ptr)
 {
-   struct proc_stat *pstat = ptr;
+	struct proc_stat *pstat = ptr;
 
-   check (pstat->pid);
-   return (0);
+	check (pstat->pid);
+	return (0);
 }
 
 static void
 do_procinit(void)
 {
-   struct ps_context *context;
-   error_t err;
+	struct ps_context *context;
+	error_t err;
 
-   err = ps_context_create (getproc (), &context);
-   if (err)
-       error (1, err, "ps_context_create");
+	err = ps_context_create (getproc (), &context);
+	if (err)
+		error (1, err, "ps_context_create");
 
-   err = proc_stat_list_create (context, &procset);
-   if (err)
-       error (1, err, "proc_stat_list_create");
+	err = proc_stat_list_create (context, &procset);
+	if (err)
+		error (1, err, "proc_stat_list_create");
 
-   err = proc_stat_list_add_all (procset, 0, 0);
-   if (err)
-       error (1, err, "proc_stat_list_add_all");
+	err = proc_stat_list_add_all (procset, 0, 0);
+	if (err)
+		error (1, err, "proc_stat_list_add_all");
 
-   /* Check all pids */
-   ihash_iterate (context->procs, check_all);
+	/* Check all pids */
+	ihash_iterate (context->procs, check_all);
 }
 #endif /* OSHURD */
+
+
+#if defined(OSOpenBSD)
+int
+pid_is_cmd(int pid, const char *name)
+{
+        kvm_t *kd;
+        int nentries, argv_len=0;
+        struct kinfo_proc *kp;
+        char  errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
+	char  **pid_argv_p;
+	char  *start_argv_0_p, *end_argv_0_p;
+ 
+ 
+        kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+        if (kd == 0)
+                errx(1, "%s", errbuf);
+        if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+                errx(1, "%s", kvm_geterr(kd));
+	if ( ( pid_argv_p = kvm_getargv(kd, kp, argv_len)) == 0)
+		errx(1, "%s", kvm_geterr(kd)); 
+
+	start_argv_0_p = *pid_argv_p;
+	/* find and compare string */
+	  
+	/* find end of argv[0] then copy and cut of str there. */
+	if ( (end_argv_0_p = strchr(*pid_argv_p, ' ')) == 0 ) 	
+	/* There seems to be no space, so we have the command
+	 * allready in its desired form. */
+	  start_argv_0_p = *pid_argv_p;
+	else {
+	  /* Tests indicate that this never happens, since
+	   * kvm_getargv itselfe cuts of tailing stuff. This is
+	   * not what the manpage says, however. */
+	  strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
+	  buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
+	  start_argv_0_p = buf;
+	}
+        
+	if (strlen(name) != strlen(start_argv_0_p))
+               return 0;
+        return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
+}
+ 
+int
+pid_is_user(int pid, int uid)
+{
+	kvm_t *kd;
+	int nentries;   /* Value not used */
+	uid_t proc_uid;
+	struct kinfo_proc *kp;
+	char  errbuf[_POSIX2_LINE_MAX];
+
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == 0)
+		errx(1, "%s", errbuf);
+	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+		errx(1, "%s", kvm_geterr(kd));
+	if ( kp->kp_proc.p_cred )
+		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
+			&proc_uid, sizeof(uid_t));
+	else
+		return 0;
+	return (proc_uid == (uid_t)uid);
+}
+
+int
+pid_is_exec(int pid, const char *name)
+{
+	kvm_t *kd;
+	int nentries;
+	struct kinfo_proc *kp;
+	char errbuf[_POSIX2_LINE_MAX], *pidexec;
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == 0)
+		errx(1, "%s", errbuf);
+	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+		errx(1, "%s", kvm_geterr(kd));
+	pidexec = (&kp->kp_proc)->p_comm;
+	if (strlen(name) != strlen(pidexec))
+		return 0;
+	return (strcmp(name, pidexec) == 0) ? 1 : 0;
+}
+
+
+static void
+do_procinit(void)
+{
+	/* Nothing to do */
+}
+
+#endif /* OSOpenBSD */
+
 
 /* return 1 on failure */
 static int
@@ -708,7 +822,7 @@ main(int argc, char **argv)
 		close(fd);
 		chdir("/");
 		umask(022); /* set a default for dumb programs */
-		setpgrp();  /* set the process group */
+		setpgid(0,0);  /* set the process group */
 		fd=open("/dev/null", O_RDWR); /* stdin */
 		dup(fd); /* stdout */
 		dup(fd); /* stderr */

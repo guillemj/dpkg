@@ -1,3 +1,9 @@
+Fri Feb 23 15:54:00 CET 2001 Wichert Akkerman <wakkerma@debian.org>
+
+  * utils/start-stop-daemon.c: Add OpenBSD support
+  * utils/md5sum.c: include unistd.h to things compile on OpenBSD
+  * configure.in: test to see if we need to link to kvm
+
 Fri Feb 23 10:22:02 CET 2001 Wichert Akkerman <wakkerma@debian.org>
 
   * scripts/dpkg-divert.pl: fix typo in usage message
@@ -7,7 +13,7 @@ Fri Feb 23 10:22:02 CET 2001 Wichert Akkerman <wakkerma@debian.org>
 
 Thu Feb 15 11:24:46 EST 2001 Ben Collins <bcollins@debian.org>
 
-  * utils/Makefile.in: Do not use libopt.a, since libdpkg.a not includes those
+  * utils/Makefile.in: Do not use libopt.a, since libdpkg.a now includes those
     objects
   * optlib/Makefile.in: do not generate libopt.a
   * lib/Makefile.in: build libdpkg.a to include the objects from optlib
@@ -1156,105 +1162,7 @@ Tue Jan 11 03:34:22 CET 2000 Wichert Akkerman <wakkerma@debian.org>
   * scripts/dpkg-genchanges.pl: also upload full source if version is *-0.1
   * doc/ja/dpkg.8: updated with patch from Hiroshi KISE <fuyuneko@ryukyu.ne.jp>
 
-Tue Jan 11 18:32:52 CET 2000 Wichert Akkerman <wakkerma@debian.org>
-
-  * configure.in: Fix include in test for alphasort 
-  * Makefile.in: add intl to subdirectory-list
-  * dpkg-deb/Makefile.in: set top_builddir
-  * dselect/Makefile.in: set top_builddir
-  * main/Makefile.in: set top_builddir
-  * lib/compat.c: add really simple snprintf (doesn't do range-checking)
-  * lib/compat.c: add sys_siglist
-  * configure.in: add tests for snprintf and sys_siglist
-  * include/dpkg.h.in: don't include sys/sysinfo.h, filesdb.c is the only
-    thing that needs it and it has its own include.
-
-Tue Jan 11 02:02:00 CET 2000 Wichert Akkerman <wakkerma@debian.org>
-
-  * dselect/baselist.cc: don't specify SA_INTERRUPT, since it's
-    not portable and the default behaviour
-  * main/enquiry.c: include sys/termios.h (needed on Solaris)
-  * lib/lock.c: use EACCESS instead of EWOULDBLOCK
-  * dselect/main.cc: fix help for -D
-  * dselect/main.cc: try to lock admindir instead of using readwrite
-  * dselect/method.cc: switch to using fcntl for lock since that is more
-    portable, and revamp lockingcode to reduce code duplication
-
-Mon Jan 10 20:55:45 CET 2000 Wichert Akkerman <wakkerma@debian.org>
-
-  * Update Swedish and Russian translation
-
-Sun Jan  9 16:11:39 CET 2000 Wichert Akkerman <wakkerma@debian.org>
-
-  * Merge patches from Josip Rodin:
-    + various text and manpage updates
-    + dselect/method.cc: don't abort if locking fails but give a
-      warning
-    + THANKS: fix various small errors 
-
-Sun Jan  9 01:40:23 CET 2000 Wichert Akkerman <wakkerma@debian.org>
-
-  * scripts/cl-debian.pl: Allow space between `#' and the bugnumber in the
-    changelog scripts
-  * scripts/start-stop-daemon.c: test for __sparc__ instead
-  * scripts/Makefile.in: add optlib to CFLAGS
-  * utils/start-stop-daemon.c: add option to chroot first, patch from Marco d'Itri
-  * utils/start-stop-daemon.8: document chroot option
-  * dselect/pkgtop.cc: use waddnstr to print package description instead of waddch
-
-Fri Jan  7 18:24:45 CET 2000 Wichert Akkerman <wakkerma@debian.org>
-
-  * dselect/method.cc: pass admindir to dpkg
-  * dselect/Makefile.in: fix rule to build helpmessages
-  * dselect/curkeys.h: use curses.h instead of ncurses.h, since someone
-    decided to play nasty and just remove that
-  * scripts/: remove dpkg-safelist
-  * dpkg-deb/build.c: remove dpkg-safelist calls
-  * main/enquiry.c: redo formula to get fieldwidths for packages
-
-Wed Jan  5 17:09:45 CET 2000 Wichert Akkerman <wakkerma@debian.org>
-
-  * Merge patch from Tom Lees <tom@lpsg.demon.co.uk>:
-    + scripts/dpkg-buildpackage.sh: support debsign
-  * scripts/update-alternatives.8: fix wrong order of parameters
-    in ACTION section
-  * Updated Polish translation
-
-Sun Dec 26 01:31:08 CET 1999 Wichert Akkerman <wakkerma@debian.org>
-
-  * Update copyright for Swedish translation to SPI instead of Debian
-
-Sat Dec 25 04:04:48 CET 1999 Wichert Akkerman <wakkerma@debian.org>
-
-  * dselect/pkgtop.cc: use waddnstr instead of waddch so we don't strip
-    the 8th bit of characters
-  * Replace `Debian Linux' with `Debian GNU/Linux' in some more places
-  * Update Spanish translation
-  * main/enquire.c: always use a minimum width of 80 in list1package
-  * debian/rules: install dpkg-safefilelist
-
-Sat Dec 25 02:50:31 CET 1999 Wichert Akkerman <wakkerma@debian.org>
-
-  * Oops, forgot to add scripts/dpkg-safefilelist.{1,pl}
-  * debian/control: remove double empty line
-  * dpkg-deb/main.c: Fix help-message
-
-Fri Dec 24 17:34:30 CET 1999 Wichert Akkerman <wakkerma@debian.org>
-
-  * version-nr: update to 1.6.5
-  * doc/Makefile.in: install THANKS
-  * TODO: remove items that have been done
-  * lib/showcright.c: exit(0) after showing the copyright since
-    we don't exec cat anymore
-  * Patch from David Huggins-Daines <dhd@eradicator.org>:
-    + main/configure.c: add NULL to execlp() parameters; this fixes the random
-      segfaults when showing the conffile-diff
-
-Fri Dec 24 15:35:29 CET 1999 Wichert Akkerman <wakkerma@debian.org>
-
-  * debian/control: add Build-Depends
-  * THANKS: new file which lists everyone who contributed to the code
-  * Change `Debian Linux' to `Debian GNU/Linux' in a couple of manpages
+Tue Jan 11 18:32:52 CET 2000 Wichert Akkerman <wakkerma@dÞ ‚Þ ƒÞ „Þ …Þ †Þ ‡Þ ˆÞ ‰Þ ŠÞ ‹Þ ŒÞ Þ ŽÞ Þ Þ ‘Þ ’Þ “Þ ”Þ •Þ –Þ —Þ ˜Þ ™Þ šÞ ›Þ œÞ Þ žÞ ŸÞ                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     of manpages
   * main/enquiry.c: modify list1package to use the full width of the tty
   * main/main.c: fix wrong call to fputs
   * Merge patches from Adam Heath:
