@@ -3,7 +3,7 @@
  * method.cc - access method handling
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
- * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright (C) 2001,2002 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -197,8 +197,8 @@ urqresult falliblesubprocess(const char *exepath, const char *name,
   fprintf(stderr,_("Press <enter> to continue.\n"));
   if (ferror(stderr))
     ohshite(_("write error on standard error"));
-  do { c= fgetc(stdin); } while ((c == ERR && errno==EINTR) || (c != '\n'));
-  if (c == ERR)
+  do { c= fgetc(stdin); } while ((c == ERR && errno==EINTR) || ((c != '\n') && c != EOF));
+  if ((c == ERR) || (c == EOF))
     ohshite(_("error reading acknowledgement of program failure message"));
   return urqr_fail;
 }
