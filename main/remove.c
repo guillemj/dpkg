@@ -403,9 +403,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
      * are involved in diversions, except if we are the package doing the
      * diverting.
      */
-    for (lconffp= &pkg->installed.conffiles;
-         (conff= *lconffp) != 0;
-         lconffp= &conff->next) {
+    for (lconffp= &pkg->installed.conffiles; (conff= *lconffp) != 0; ) {
       for (searchfile= pkg->clientdata->files;
            searchfile && strcmp(searchfile->namenode->name,conff->name);
            searchfile= searchfile->next);
@@ -422,6 +420,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
       } else {
         debug(dbg_conffdetail,"removal_bulk set to new conffile `%s'",conff->name);
         conff->hash= NEWCONFFILEFLAG; /* yes, cast away const */
+        lconffp= &conff->next;
       }
     }
     modstatdb_note(pkg);
