@@ -34,6 +34,9 @@
 #include <limits.h>
 #include <ctype.h>
 #include <assert.h>
+#ifdef USE_ZLIB
+#include <zlib.h>
+#endif
 
 #include <config.h>
 #include <dpkg.h>
@@ -139,6 +142,55 @@ static void free_filist(struct _finfo* fi) {
   }
 }
 
+int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) {
+  va_list al;
+  struct varbuf v;
+#ifdef USE_ZLIB
+  gzFile gzfile;
+  char gzbuffer[4096];
+  int gzactualwrite, actualread;
+  char combuf[6];
+#endif
+
+  varbufinit(&v);
+
+  va_start(al,desc);
+  varbufvprintf(&v, desc, al);
+  va_end(al);
+
+  
+  if(compression != NULL)
+    if(*compression == '0') {
+      do_fd_copy(0, 1, -1, _("%s: no compression copy loop"), v.buf);
+      exit(0);
+    }
+#ifdef USE_ZLIB
+  snprintf(combuf, sizeof(combuf), "w%c", *compression);
+  gzfile = gzdopen(1, combuf);
+  while((actualread = read(0,gzbuffer,sizeof(gzbuffer))) > 0) {
+    if (actualread < 0 ) {
+      if (errno == EINTR) continue;
+      ohshite(_("%s: internal gzip error: read: `%s'"), v.buf, strerror(errno));
+    }
+    gzactualwrite= gzwrite(gzfile,gzbuffer,actualread);
+    if (gzactualwrite < 0 ) {
+      int gzerr = 0;
+      const char *errmsg = gzerror(gzfile, &gzerr);
+      if (gzerr == Z_ERRNO) {
+        if (errno == EINTR) continue;
+        errmsg= strerror(errno);
+      }
+      ohshite(_("%s: internal gzip error: write: `%s'"), v.buf, errmsg);
+    }
+    if (gzactualwrite != actualread)
+      ohshite(_("%s: internal gzip error: read(%i) != write(%i)"), v.buf, actualread, gzactualwrite);
+  }
+  exit(0);
+#else
+  snprintf(combuf, sizeof(combuf), "-%cc", *compression);
+  execlp(GZIP,"gzip",combuf,(char*)0); ohshit(_("%s: failed to exec gzip %s"), v.buf, combuf);
+#endif
+}
 
 /* Overly complex function that builds a .deb file
  */
@@ -153,8 +205,8 @@ void do_build(const char *const *argv) {
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *gz, *cf;
-  int p1[2],p2[2], warns, errs, n, c, subdir, gzfd;
-  pid_t c1,c2,c3,c4,c5;
+  int p1[2],p2[2],p3[2], warns, errs, n, c, subdir, gzfd;
+  pid_t c1,c2,c3;
   struct stat controlstab, datastab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
   time_t thetime= 0;
@@ -335,7 +387,7 @@ void do_build(const char *const *argv) {
   /* And run gzip to compress our control archive */
   if (!(c2= m_fork())) {
     m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
-    execlp(GZIP,"gzip","-9c",(char*)0); ohshite(_("failed to exec gzip -9c"));
+    internalGzip(0, 1, "9", _("control"));
   }
   close(p1[0]);
   waitsubproc(c2,"gzip -9c",0);
@@ -381,30 +433,11 @@ void do_build(const char *const *argv) {
     strcpy(tfbuf,envbuf);
     strcat(tfbuf,"/dpkg.XXXXXX");
   }
-  /* We need to reorder the files so we can make sure that symlinks
-   * will not appear before their target.
-   */
-  m_pipe(p2);
-  if (!(c4= m_fork())) {
-    m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
-    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
-    execlp(FIND,"find",".","-path","./" BUILDCONTROLDIR,"-prune","-o","-print0",(char*)0);
-    ohshite(_("failed to exec find"));
-  }
-  close(p2[1]);
-  while ((fi=getfi(directory, p2[0]))!=NULL)
-    if (S_ISLNK(fi->st.st_mode))
-      add_to_filist(fi,&symlist,&symlist_end);
-    else
-      add_to_filist(fi,&nosymlist,&nosymlist_end);
-  close(p2[0]);
-  waitsubproc(c4,"find",0);
-
   /* Fork off a tar. We will feed it a list of filenames on stdin later.
    */
   m_pipe(p1);
   m_pipe(p2);
-  if (!(c4= m_fork())) {
+  if (!(c1= m_fork())) {
     m_dup2(p1[0],0); close(p1[0]); close(p1[1]);
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
@@ -414,36 +447,47 @@ void do_build(const char *const *argv) {
   close(p1[0]);
   close(p2[1]);
   /* Of course we should not forget to compress the archive as well.. */
-  if (!(c5= m_fork())) {
+  if (!(c2= m_fork())) {
     char *combuf;
     close(p1[1]);
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
-    combuf = strdup("-9c");
-    if(compression != NULL) {
-      if(*compression == '0') {
-	do_fd_copy(0, 1, -1, _("no compression copy loop"));
-	exit(0);
-      }
-      combuf[1] = *compression;
-    }
-    execlp(GZIP,"gzip",combuf,(char*)0);
-    ohshite(_("failed to exec gzip %s from tar -cf"), combuf);
+    internalGzip(0, 1, compression, _("control"));
   }
   close(p2[0]);
-  /* All the pipes are set, lets feed tar its filenames */
-  for (fi= nosymlist;fi;fi= fi->next)
-    if (write(p1[1], fi->fn, strlen(fi->fn)+1) ==- 1)
-      ohshite(_("failed to write filename to tar pipe (data)"));
+  /* All the pipes are set, now lets run find, and start feeding
+   * filenames to tar.
+   */
+
+  m_pipe(p3);
+  if (!(c3= m_fork())) {
+    m_dup2(p3[1],1); close(p3[0]); close(p3[1]);
+    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
+    execlp(FIND,"find",".","-path","./" BUILDCONTROLDIR,"-prune","-o","-print0",(char*)0);
+    ohshite(_("failed to exec find"));
+  }
+  close(p3[1]);
+  /* We need to reorder the files so we can make sure that symlinks
+   * will not appear before their target.
+   */
+  while ((fi=getfi(directory, p3[0]))!=NULL)
+    if (S_ISLNK(fi->st.st_mode))
+      add_to_filist(fi,&symlist,&symlist_end);
+    else {
+      if (write(p1[1], fi->fn, strlen(fi->fn)+1) ==- 1)
+	ohshite(_("failed to write filename to tar pipe (data)"));
+    }
+  close(p3[0]);
+  waitsubproc(c3,"find",0);
+
   for (fi= symlist;fi;fi= fi->next)
     if (write(p1[1], fi->fn, strlen(fi->fn)+1) == -1)
       ohshite(_("failed to write filename to tar pipe (data)"));
   /* All done, clean up wait for tar and gzip to finish their job */
   close(p1[1]);
-  free_filist(nosymlist);
   free_filist(symlist);
-  waitsubproc(c5,"gzip -9c from tar -cf",0);
-  waitsubproc(c4,"tar -cf",0);
+  waitsubproc(c2,"gzip -9c from tar -cf",0);
+  waitsubproc(c1,"tar -cf",0);
   /* Okay, we have data.tar.gz as well now, add it to the ar wrapper */
   if (!oldformatflag) {
     if (fstat(gzfd,&datastab)) ohshite("_(failed to fstat tmpfile (data))");

@@ -129,6 +129,24 @@ AC_CHECK_LIB(ps, proc_stat_list_create, SSD_LIBS="-lps $SSD_LIBS")
 AC_CHECK_LIB(shouldbeinlibc, fmt_past_time, SSD_LIBS="-lshouldbeinlibc $SSD_LIBS")
 AC_SUBST(SSD_LIBS)
 
+AC_ARG_WITH(zlib,
+[  --with-zlib             use zlib for decompression of some gzip files],
+	[use_zlib=$withval],
+	[uze_zlib=no])
+if [ "$use_zlib" = "no" ] ; then
+	ZLIB_CFLAGS=
+	ZLIB_LIBS=
+else
+	ZLIB_CFLAGS=-DUSE_ZLIB
+	if [ "$use_zlib" = "static" ] ; then
+		ZLIB_LIBS=-Wl,-Bstatic -lz -Wl,-Bdynamic
+	else
+		ZLIB_LIBS=-lz
+	fi
+fi
+AC_SUBST(ZLIB_CFLAGS)
+AC_SUBST(ZLIB_LIBS)
+
 AC_HAVE_SYSINFO
 AC_MEMINFO_IN_SYSINFO
 

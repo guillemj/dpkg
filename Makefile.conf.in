@@ -54,15 +54,18 @@ LD			= @LD@
 LDFLAGS			= @LDFLAGS@
 LIBS			= @LIBS@
 
-SSD_LIBS		= @SSD_LIBS@
-
 DEFS			= @DEFS@
 INCLUDE_CFLAGS		= -I$(top_srcdir)/include -I$(top_srcdir) -I$(srcdir) -I../include -I.. -I.
 
 NLS_CFLAGS		= -DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl -I../intl
 NLS_LIBS		= @INTLLIBS@ 
 
-ALL_CFLAGS		= $(CFLAGS) $(DEFS) $(NLS_CFLAGS) $(INCLUDE_CFLAGS)
+SSD_LIBS		= @SSD_LIBS@
+
+ZLIB_CFLAGS		= @ZLIBCFLAGS@
+ZLIB_LIBS		= @ZLIBLIBS@
+
+ALL_CFLAGS		= $(CFLAGS) $(DEFS) $(NLS_CFLAGS) $(INCLUDE_CFLAGS) $(ZLIB_CFLAGS)
 ALL_CXXFLAGS		= $(ALL_CFLAGS) $(CXXFLAGS)
 
 .c.o:

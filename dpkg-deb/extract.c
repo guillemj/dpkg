@@ -33,6 +33,9 @@
 #include <ctype.h>
 #include <assert.h>
 #include <ar.h>
+#ifdef USE_ZLIB
+#include <zlib.h>
+#endif
 
 #include <config.h>
 #include <dpkg.h>
@@ -104,6 +107,12 @@ void extracthalf(const char *debar, const char *directory,
   int readfromfd, oldformat, header_done, adminmember, c;
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
   fpos_t fpos;
+#endif
+#ifdef USE_ZLIB
+  z_streamp gzstream = NULL;
+  gzFile gzfile;
+  char gzbuffer[4096];
+  int gzactualread;
 #endif
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
@@ -259,7 +268,24 @@ void extracthalf(const char *debar, const char *directory,
     m_dup2(readfromfd,0);
     if (admininfo) close(p1[0]);
     if (taroption) { m_dup2(p2[1],1); close(p2[0]); close(p2[1]); }
+#ifdef USE_ZLIB
+    gzfile = gzdopen(0, "r");
+    while ((gzactualread= gzread(gzfile,gzbuffer,sizeof(gzbuffer))) > 0) {
+      if (gzactualread < 0 ) {
+	int gzerr = 0;
+	const char *errmsg = gzerror(gzfile, &gzerr);
+	if (gzerr == Z_ERRNO) {
+	  if (errno == EINTR) continue;
+	  errmsg= strerror(errno);
+	}
+	ohshite(_("internal gzip error: `%s'"), errmsg);
+      }
+      write(1,gzbuffer,gzactualread);
+    }
+    exit(0);
+#else
     execlp(GZIP,"gzip","-dc",(char*)0); ohshite(_("failed to exec gzip -dc"));
+#endif
   }
   if (readfromfd != fileno(ar)) close(readfromfd);
   if (taroption) close(p2[1]);

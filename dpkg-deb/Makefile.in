@@ -4,7 +4,9 @@ srcdir		= @srcdir@
 top_srcdir	= @top_srcdir@
 top_builddir	= ..
 
+
 include ../Makefile.conf
+
 
 SOURCES		= build.c extract.c info.c main.c
 
@@ -39,5 +41,5 @@ install-doc:
 	$(INSTALL_DATA) $(srcdir)/dpkg-deb.1 $(DESTDIR)$(man1dir)
 
 dpkg-deb: $(OBJECTS) ../lib/libdpkg.a
-	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg
+	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) $(ZLIB_LIBS) -ldpkg
 
