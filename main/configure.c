@@ -44,7 +44,7 @@
 
 int conffoptcells[2][2]= { CONFFOPTCELLS };
 
-static void md5hash(struct pkginfo *pkg, char hashbuf[MD5HASHLEN+1], const char *fn);
+static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn);
 
 void deferred_configure(struct pkginfo *pkg) {
   /* The algorithm for deciding what to configure first is as follows:
@@ -71,7 +71,7 @@ void deferred_configure(struct pkginfo *pkg) {
   char *cdr2rest;
   int ok, r, useredited, distedited, c, cc, status, c1;
   struct conffile *conff;
-  char currenthash[MD5HASHLEN+1], newdisthash[MD5HASHLEN+1];
+  char *currenthash= 0, *newdisthash= 0;
   struct stat stab;
   enum conffopt what;
   const char *s;
@@ -153,7 +153,7 @@ void deferred_configure(struct pkginfo *pkg) {
         conff->hash= nfstrsave("-");
         continue;
       }
-      md5hash(pkg,currenthash,cdr.buf);
+      md5hash(pkg,&currenthash,cdr.buf);
 
       varbufreset(&cdr2);
       varbufaddstr(&cdr2,cdr.buf);
@@ -166,7 +166,7 @@ void deferred_configure(struct pkginfo *pkg) {
         if (errno == ENOENT) continue;
         ohshite(_("unable to stat new dist conffile `%.250s'"),cdr2.buf);
       }
-      md5hash(pkg,newdisthash,cdr2.buf);
+      md5hash(pkg,&newdisthash,cdr2.buf);
 
       /* Copy the permissions from the installed version to the new
        * distributed version.
@@ -423,6 +423,8 @@ void deferred_configure(struct pkginfo *pkg) {
 
       conff->hash= nfstrsave(newdisthash);
       modstatdb_note(pkg);
+      free(newdisthash);
+      free(currenthash);
       
     } /* for (conff= ... */
     varbuffree(&cdr);
@@ -534,7 +536,7 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
   }
 }
     
-static void md5hash(struct pkginfo *pkg, char hashbuf[33], const char *fn) {
+static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn) {
   static int fd;
   
   fd= open(fn,O_RDONLY);
@@ -544,10 +546,10 @@ static void md5hash(struct pkginfo *pkg, char hashbuf[33], const char *fn) {
     pop_cleanup(ehflag_normaltidy); /* fd= open(cdr.buf) */
     close(fd);
   } else if (errno == ENOENT) {
-    strcpy(hashbuf,NONEXISTENTFLAG);
+    *hashbuf= strdup(NONEXISTENTFLAG);
   } else {
     fprintf(stderr, _("dpkg: %s: warning - unable to open conffile %s for hash: %s\n"),
             pkg->name, fn, strerror(errno));
-    strcpy(hashbuf,"-");
+    *hashbuf= strdup("-");
   }
 }      
