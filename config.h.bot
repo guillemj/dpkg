@@ -78,6 +78,18 @@
 #define CONSTANT FUNCATTR((ATTRCONST))
 #endif
 
+/* GNU C unused functions, or null. */
+#ifndef ATTRUNUSED
+#ifdef HAVE_GNUC25_UNUSED
+#define ATTRUNUSED
+#else
+#define ATTRUNUSED
+#endif
+#endif
+#ifndef UNUSED
+#define UNUSED FUNCATTR((ATTRUNUSED))
+#endif
+
 /* Declare strerror if we don't have it already. */
 #ifndef HAVE_STRERROR
 const char *strerror(int);
