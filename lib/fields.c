@@ -375,6 +375,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           if (isspace(*p)) break;
           p++;
         }
+	versionlength= p - versionstart;
         while (isspace(*p)) p++;
         if (*p == '(') parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
@@ -385,7 +386,6 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
         else if (*p == 0) parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                    _("`%s' field, reference to `%.255s': "
                                    "version unterminated"),fip->name,depname);
-	versionlength= p - versionstart;
 	if (versionlength >=  versionused) {
 	  versionused= versionlength;
 	  version= realloc(version,versionlength+1);
