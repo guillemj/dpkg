@@ -52,11 +52,11 @@ if (! $binary_only && $cdata =~ /^Build-Conflicts-Indep:$dep_regex/mi) {
 
 if (@unmet) {
 	print STDERR "$me: Unmet build dependencies: ";
-	print STDERR join(", ", @unmet), "\n";
+	print STDERR join(" ", @unmet), "\n";
 }
 if (@conflicts) {
 	print STDERR "$me: Build conflicts: ";
-	print STDERR join(", ", @conflicts), "\n";
+	print STDERR join(" ", @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;
 
