@@ -3,13 +3,14 @@
 # Thiago Jung Bauermann <jungmann@cwb.matrix.com.br>, 1999.
 # Carlos Henrique Santos Laviola <claviola@brfree.com.br>, 2000.
 # André Luís Lopes <andrelop@ig.com.br>, 2002.
+# André Luís Lopes <andrelop@debian.org>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.6.14\n"
+"Project-Id-Version: dpkg 1.10.20\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-25 15:37+0100\n"
-"PO-Revision-Date: 2002-05-30 14:49-0300\n"
+"POT-Creation-Date: 2004-04-19 14:10+0100\n"
+"PO-Revision-Date: 2004-03-13 14:44-0300\n"
 "Last-Translator: André Luís Lopes <andrelop@ig.com.br>\n"
 "Language-Team: Debian-BR l10n Team <debian-l10n-portuguese@lists.debian."
 "org>\n"
@@ -510,9 +511,9 @@ msgid "unable to set close-on-exec flag for %.250s"
 msgstr "não foi possível definir a flag close-on-exec para %.250s"
 
 #: lib/mlib.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "failed in buffer_write(fd) (%i, ret=%li): %s"
-msgstr "falha em buffer_write(fd) (%i, ret=%zi %s): %s"
+msgstr "falha em buffer_write(fd) (%i, ret=%li): %s"
 
 #: lib/mlib.c:206
 #, c-format
@@ -591,7 +592,7 @@ msgstr "erro ao fechar arquivo de configuração `%.255s'"
 
 #: lib/myopt.c:93 lib/myopt.c:101
 msgid "Error allocating memory for cfgfilename"
-msgstr ""
+msgstr "Erro alocando memória para cfgfilename"
 
 #: lib/myopt.c:129
 #, c-format
@@ -2132,10 +2133,10 @@ msgstr ""
 
 #: main/main.c:50 main/query.c:440
 msgid " --licence for copyright and license details.\n"
-msgstr "--licence para copyright e detalhes de licenciamento.\n"
+msgstr " --licence para copyright e detalhes de licenciamento.\n"
 
 #: main/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2220,8 +2221,6 @@ msgstr ""
 "  dpkg --merge-avail <arquivo-Packages>    juntar com inf. do arquivo\n"
 "  dpkg --clear-avail                       apagar inf. existentes "
 "disponíveis\n"
-"  dpkg-command-fd <n>                      passa comandos neste descritor "
-"dearquivo\n"
 "  dpkg --forget-old-unavail                esquecer dos pacotes não inst. e "
 "não disp.\n"
 "  dpkg -s|--status <nome-do-pacote> ...    mostrar detalhes do estado do "
@@ -2235,7 +2234,6 @@ msgstr ""
 "(s)\n"
 "  dpkg -C|--audit                          procurar por pacote(s) quebrado"
 "(s)\n"
-"  dpkg --abort-after <n>                   aborta após encontrar <n> erros\n"
 "  dpkg --print-architecture                exibe arquitetura alvo (usando o "
 "GCC)\n"
 "  dpkg --print-gnu-build-architecture      exibe versão GNU da arquitetura "
@@ -3800,7 +3798,6 @@ msgstr ""
 "Veja dpkg-deb --license para direitos autorais e detalhes de licença.\n"
 
 #: dpkg-deb/main.c:58
-#, fuzzy
 msgid ""
 "Command:\n"
 "  -b|--build <directory> [<deb>]    build an archive.\n"
@@ -3844,36 +3841,36 @@ msgstr ""
 "Comando:\n"
 "  -b|--build <diretório> [<deb>]    constrói um arquivo.\n"
 "  -c|--contents <deb>               lista o conteúdo.\n"
-"  -I|--info <deb> [<cfile>...]      mostra informação na saída.\n"
-"  -W|--show <deb>                   mostra informação sobre pacote(s)\n"
-"  -f|--field <deb> [<cfield>...]    mostra campo(s) na saída.\n"
+"  -I|--info <deb> [<cfile>...]      exibe informação na saída.\n"
+"  -W|--show <deb>                   exibe informação sobre pacote(s)\n"
+"  -f|--field <deb> [<cfield>...]    exibe campo(s) na saída.\n"
 "  -e|--control <deb> [<diretório>]  extrai informação de controle.\n"
 "  -x|--extract <deb> <diretório>    extrai arquivos.\n"
 "  -X|--vextract <deb> <diretório>   extrai & lista arquivos.\n"
 "  --fsys-tarfile <deb>              exibe arquivo tar do sistema de "
 "arquivo.\n"
 "  -h|--help                         exibe esta mensagem.\n"
-"  --version | --licence             mostra versão/licença.\n"
+"  --version | --licence             exibe versão/licença.\n"
 "\n"
 "<deb> é o nome do arquivo de um arquivo no formato Debian,\n"
-"<cfile> é o nome de um componente arquivo administrativo.\n"
+"<cfile> é o nome de um componente de arquivo administrativo.\n"
 "<cfield> é o nome de um campo no arquivo principal `control'.\n"
 "\n"
 "Opções:\n"
-"  --showformat=<formato>     Usar formato alternativo para --show\n"
-"  -D                         Habilita saída de depuração\n"
+"  --showformat=<formato>     usar formato alternativo para --show\n"
+"  -D                         habilita saída de depuração\n"
 "  --old, --new               seleciona formato de arquivo\n"
 "  --nocheck                  suprime checagem de arquivo de controle "
-"(constroípacote ruim).\n"
+"(constroí pacote ruim).\n"
 "  -z# para definir compressão na construção\n"
 "\n"
 "Sintaxe de Formato:\n"
 "  Um formato é uma string que será a saída para cada pacote. O formato\n"
 "  pode incluir as sequências de escape padrão \\n (nova linha), \\r \n"
-"  (retorno de carro) ou \\\\ (backslah puro). Informação de pacote pode\n"
-"  ser incluída inserindo referências variáveis para campos de pacote usando\n"
-"  a sintaxe $[var[;width]}\n"
-", Campos serão alinhados à direita a menos que o\n"
+"  (retorno de carro) ou \\\\ (barra invertida pura). Informação de pacote \n"
+"  pode ser incluída inserindo referências variáveis para campos de pacote \n"
+"  usando a sintaxe $[var[;width]}\n"
+", Campos serão alinhados à direita a menos que a\n"
 "  largura seja negativa e nesse caso o alinhamento a esquerda será usado. \n"
 "\n"
 "Use `dpkg' para instalar e remover pacotes de seu sistema, ou `dselect'\n"
@@ -4308,9 +4305,9 @@ msgstr "mdfile"
 #. * non-text file.
 #.
 #: utils/md5sum.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "%s: unrecognized line\n"
-msgstr "%s: linha não reconhecida: %s"
+msgstr "%s: linha não reconhecida\n"
 
 #: utils/md5sum.c:284
 #, c-format
