@@ -86,7 +86,7 @@ Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
  -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n\
 \n\
 For internal use: dpkg --assert-support-predepends | --predep-package |\n\
-  --assert-working-epoch | --assert-longfilenames | --assert-multi-conrep\n\
+  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n\
 \n\
 Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
