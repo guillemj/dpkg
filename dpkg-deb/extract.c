@@ -122,7 +122,7 @@ void extracthalf(const char *debar, const char *directory,
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
                                    debar,"member length");
       if (memberlen<0)
-        ohshit(_("file `%.250s' is corrupt - negative member length %ld"),debar,memberlen);
+        ohshit(_("file `%.250s' is corrupt - negative member length %zi"),debar,memberlen);
       if (!header_done) {
         if (memcmp(arh.ar_name,"debian-binary   ",sizeof(arh.ar_name)) &&
 	    memcmp(arh.ar_name,"debian-binary/   ",sizeof(arh.ar_name)))
@@ -174,7 +174,7 @@ void extracthalf(const char *debar, const char *directory,
 
     if (admininfo >= 2)
       if (printf(_(" new debian package, version %s.\n"
-                 " size %ld bytes: control archive= %ld bytes.\n"),
+                 " size %ld bytes: control archive= %zi bytes.\n"),
                  versionbuf, (long)stab.st_size, ctrllennum) == EOF ||
           fflush(stdout)) werr("stdout");
     
@@ -186,12 +186,12 @@ void extracthalf(const char *debar, const char *directory,
     l= strlen(versionbuf); if (l && versionbuf[l-1]=='\n') versionbuf[l-1]=0;
     if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
       readfail(ar,debar,_("ctrl information length"));
-    if (sscanf(ctrllenbuf,"%ld%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
+    if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
       ohshit(_("archive has malformatted ctrl len `%s'"),ctrllenbuf);
 
     if (admininfo >= 2)
       if (printf(_(" old debian package, version %s.\n"
-                 " size %ld bytes: control archive= %ld, main archive= %ld.\n"),
+                 " size %ld bytes: control archive= %ld, main archive= %zi.\n"),
                  versionbuf, (long)stab.st_size, ctrllennum,
                  (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l)) == EOF ||
           fflush(stdout)) werr("stdout");
