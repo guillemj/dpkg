@@ -5,6 +5,16 @@ AC_PREREQ([2.13])
 AC_INIT(include/dpkg.h.in)
 AC_CONFIG_HEADER(config.h)
 
+ALSO_STATIC=
+AC_ARG_WITH(static-progs,
+[  --with-static-progs     compile static versions of certain binaries as well],
+[case "$withval" in
+  "true" | "yes" )
+    ALSO_STATIC=1
+    ;;
+ esac])
+AC_SUBST(ALSO_STATIC)
+
 DSELECTDIR="dselect"
 AC_ARG_WITH(dselect,
 [  --with-dselect          the dselect package-management frontend],
@@ -142,12 +152,16 @@ else
 	ZLIB_CFLAGS=-DUSE_ZLIB
 	if test "$use_zlib" = "static"  ; then
 		ZLIB_LIBS="-Wl,-Bstatic -lz -Wl,-Bdynamic"
+		if test "$ALSO_STATIC"; then
+			ZLIB_LIBS_ALSO_STATIC="-lz"
+		fi
 	else
 		ZLIB_LIBS=-lz
 	fi
 fi
 AC_SUBST(ZLIB_CFLAGS)
 AC_SUBST(ZLIB_LIBS)
+AC_SUBST(ZLIB_LIBS_ALSO_STATIC)
 
 AC_TRY_COMPILE([
 #include <sys/types.h>

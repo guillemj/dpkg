@@ -4,9 +4,10 @@
 # Build locations
 BUILD		:= $(shell pwd)/build
 TMP		:= $(shell pwd)/debian/tmp
-TMP_DPKG	:= $(TMP)-dpkg
-TMP_DPKG_DEV	:= $(TMP)-dpkg-dev
-TMP_DPKG_DOC	:= $(TMP)-dpkg-doc
+INSTALL_TMP	:= $(TMP)/install
+TMP_DPKG	:= $(TMP)/dpkg
+TMP_DPKG_DEV	:= $(TMP)/dpkg-dev
+TMP_DPKG_DOC	:= $(TMP)/dpkg-doc
 DIR		:= $(shell pwd)
 
 # We should really get this in a different way...
@@ -22,12 +23,11 @@ endif
 
 BUILD-DIRS	:= $(BUILD) $(BUILD)-static
 
-$(BUILD)-static/config.status:	LDFLAGS = -static
 # Setup the buildlocation
-$(BUILD)/config.status $(BUILD)-static/config.status:
+$(BUILD)/config.status:
 	$(checkdir)
 	install -d $(@D)
-	cd $(@D) && LDFLAGS=$(LDFLAGS) CFLAGS=$(CFLAGS) $(DIR)/configure \
+	cd $(@D) && LDFLAGS=$(LDFLAGS) CFLAGS="$(CFLAGS) -g" $(DIR)/configure \
 		--prefix=/usr \
 		--datadir=/usr/share \
 		--mandir=/usr/share/man \
@@ -37,76 +37,79 @@ $(BUILD)/config.status $(BUILD)-static/config.status:
 		--localstatedir=/var/lib \
 		--with-admindir=/var/lib/dpkg \
 		--with-zlib=static \
+		--with-static-progs \
 		$(config_arg)
 
 clean:
 	$(checkdir)
 	rm -f debian/files debian/substvars
-	rm -f debian/dpkg.substvars
-	rm -fr $(BUILD-DIRS) $(TMP) $(TMP_DPKG) $(TMP_DPKG_DEV) $(TMP_DPKG_DOC)
+	rm -f debian/dpkg.substvars debian/dpkg-static.substvars
+	rm -fr $(BUILD-DIRS) $(TMP)
 	rm -f po/{cat-id-tbl.c,stamp-cat-id,*.gmo}
-	rm -f stamp-build stamp-build-static stamp-binary
+	rm -f stamp-build stamp-binary
 
-build build-static: build%: stamp-build%
+build: stamp-build
 
-stamp-build stamp-build-static: stamp-build%: $(BUILD)%/config.status
-	$(MAKE) $(MFLAGS) -C $(BUILD)$*
-	touch $@
+stamp-build: $(BUILD)/config.status
+	$(MAKE) $(MFLAGS) -C $(BUILD)
+#	touch $@
 
+binary-static: binary-arch-static
 binary: binary-arch binary-indep
 
+stamp-binary-static: stamp-binary
 stamp-binary: stamp-build
 	$(checkdir)
 	test "`id -u`" -eq 0
 	rm -rf $(TMP)
-	$(MAKE) $(MFLAGS) -C $(BUILD) \
-		admindir=$(TMP)/var/lib/dpkg \
-		prefix=$(TMP)/usr \
-		datadir=$(TMP)/usr/share \
-		mandir=$(TMP)/usr/share/man \
-		infodir=$(TMP)/usr/share/info \
-		sysconfdir=$(TMP)/etc \
-		sharedstatedir=$(TMP)/var/lib \
-		localstatedir=$(TMP)/var/lib \
+	$(MAKE) $(MFLAGS) -C $(BUILD)$* \
+		DESTDIR=$(INSTALL_TMP) \
 		install
 	find $(TMP) -type d | xargs chmod 755
-	touch stamp-binary
+	touch $@
 
-binary-dpkg: stamp-binary
+binary-dpkg-static-most:	TMP_DPKG=$(TMP)/dpkg-static
+binary-dpkg-static-most:	static=-static
+binary-dpkg-static:		TMP_DPKG=$(TMP)/dpkg-static
+
+binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	rm -rf $(TMP_DPKG)
 	install -d -m 755 -o root -g root $(TMP_DPKG)
 	chmod g-s $(TMP_DPKG)
-	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/doc/dpkg
+	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/doc/dpkg$(static)
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/bin
 	install -d -m 755 -o root -g root $(TMP_DPKG)/sbin
-	-test -d $(TMP)/etc && mv $(TMP)/etc $(TMP_DPKG)/
-	mv $(TMP)/var $(TMP_DPKG)/
-	mv $(TMP)/usr/sbin/start-stop-daemon $(TMP_DPKG)/sbin/
-	mv $(TMP)/usr/sbin $(TMP_DPKG)/usr/
-	mv $(TMP)/usr/lib/dpkg/mksplit $(TMP_DPKG)/usr/lib/dpkg/
-	mv $(TMP)/usr/lib/dpkg/enoent $(TMP_DPKG)/usr/lib/dpkg/
-	mv $(TMP)/usr/lib/dpkg/methods $(TMP_DPKG)/usr/lib/dpkg/
-	mv $(TMP)/usr/share/locale $(TMP_DPKG)/usr/share/
-	set -e ; for i in dpkg dpkg-deb dpkg-split md5sum dselect ; do \
-		mv $(TMP)/usr/bin/$$i $(TMP_DPKG)/usr/bin/ ; \
+	-test -d $(INSTALL_TMP)/etc && mv $(INSTALL_TMP)/etc $(TMP_DPKG)/
+	cp -a $(INSTALL_TMP)/var $(TMP_DPKG)/
+	cp -a $(INSTALL_TMP)/usr/sbin/start-stop-daemon $(TMP_DPKG)/sbin/
+	cp -a $(INSTALL_TMP)/usr/sbin $(TMP_DPKG)/usr/
+	cp -a $(INSTALL_TMP)/usr/lib/dpkg/mksplit $(TMP_DPKG)/usr/lib/dpkg/
+	cp -a $(INSTALL_TMP)/usr/lib/dpkg/enoent $(TMP_DPKG)/usr/lib/dpkg/
+	cp -a $(INSTALL_TMP)/usr/lib/dpkg/methods $(TMP_DPKG)/usr/lib/dpkg/
+	cp -a $(INSTALL_TMP)/usr/share/locale $(TMP_DPKG)/usr/share/
+	set -e ; for i in dpkg-split dselect ; do \
+		cp -a $(INSTALL_TMP)/usr/bin/$$i $(TMP_DPKG)/usr/bin/ ; \
+	done
+	set -ex ; for i in dpkg dpkg-deb md5sum ; do \
+		cp -a $(INSTALL_TMP)/usr/bin/$$i$(static) $(TMP_DPKG)/usr/bin/$$i ; \
 	done
 	set -e ; for i in ChangeLog THANKS TODO copyright ; do \
-		mv $(TMP)/usr/share/doc/dpkg/$$i $(TMP_DPKG)/usr/share/doc/dpkg/ ; \
+		cp -a $(INSTALL_TMP)/usr/share/doc/dpkg/$$i $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ ; \
 	done
 	set -e ; for i in "" fr ja sv ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/man/$$i/man1 ; \
 		for m in md5sum.1 dpkg-deb.1 ; do \
-			if [ -f $(TMP)/usr/share/man/$$i/man1/$$m ] ; then \
-				mv $(TMP)/usr/share/man/$$i/man1/$$m $(TMP_DPKG)/usr/share/man/$$i/man1/$$m ; \
+			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m ] ; then \
+				cp -a $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m $(TMP_DPKG)/usr/share/man/$$i/man1/$$m ; \
 			fi ; \
 		done ; \
 		install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/man/$$i/man8 ; \
 		for m in dpkg.8 dselect.8 dpkg-split.8 start-stop-daemon.8 \
 		    	cleanup-info.8 dpkg-divert.8 dpkg-statoverride.8 \
 			install-info.8 update-alternatives.8 update-rc.d.8 ; do \
-			if [ -f $(TMP)/usr/share/man/$$i/man8/$$m ] ; then \
-				mv $(TMP)/usr/share/man/$$i/man8/$$m $(TMP_DPKG)/usr/share/man/$$i/man8/$$m ; \
+			if [ -f $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m ] ; then \
+				cp -a $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m $(TMP_DPKG)/usr/share/man/$$i/man8/$$m ; \
 			fi ; \
 		done ; \
 	done
@@ -121,15 +124,15 @@ binary-dpkg: stamp-binary
 # Policy stuff
 	find $(TMP_DPKG)/usr/share/man -type f | xargs gzip -9f
 	strip $(TMP_DPKG)/usr/bin/* $(TMP_DPKG)/sbin/*
-	mv $(TMP_DPKG)/usr/share/doc/dpkg/ChangeLog \
-		$(TMP_DPKG)/usr/share/doc/dpkg/changelog
+	mv $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ChangeLog \
+		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/changelog
 
 	install -p -m 644 -o root -g root debian/changelog \
-		$(TMP_DPKG)/usr/share/doc/dpkg/changelog.Debian
-	rm -f $(TMP_DPKG)/usr/share/doc/dpkg/copyright
-	gzip -9 $(TMP_DPKG)/usr/share/doc/dpkg/*
+		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/changelog.Debian
+	rm -f $(TMP_DPKG)/usr/share/doc/dpkg$(static)/copyright
+	gzip -9 $(TMP_DPKG)/usr/share/doc/dpkg$(static)/*
 	install -p -m 644 -o root -g root debian/copyright \
-		$(TMP_DPKG)/usr/share/doc/dpkg/
+		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/
 
 # Final package creation
 	install -d -m 755 -o root -g root $(TMP_DPKG)/DEBIAN
@@ -138,11 +141,13 @@ binary-dpkg: stamp-binary
 	install -p -m 755 -o root -g root debian/dpkg.prerm $(TMP_DPKG)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg.postinst $(TMP_DPKG)/DEBIAN/postinst
 
-	dpkg-shlibdeps -dPre-Depends -Tdebian/dpkg.substvars \
-		$(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/dselect \
-		$(TMP_DPKG)/sbin/start-stop-daemon
+	dpkg-shlibdeps -dPre-Depends -Tdebian/dpkg$(static).substvars \
+		$(TMP_DPKG)/usr/bin/dselect $(TMP_DPKG)/sbin/start-stop-daemon \
+		`test -z "$(static)" && echo $(TMP_DPKG)/usr/bin/dpkg $(TMP_DPKG)/usr/bin/md5sum $(TMP_DPKG)/usr/bin/dpkg-deb`
+
 	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
-		-Tdebian/dpkg.substvars -pdpkg -P$(TMP_DPKG)
+		-Tdebian/dpkg$(static).substvars -pdpkg$(static) -P$(TMP_DPKG)
+binary-dpkg binary-dpkg-static: %: %-most
 	dpkg --build $(TMP_DPKG) ..
 
 binary-dpkg-dev: stamp-binary
@@ -157,13 +162,13 @@ binary-dpkg-dev: stamp-binary
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/bin
-	mv $(TMP)/usr/lib/dpkg/parsechangelog $(TMP_DPKG_DEV)/usr/lib/dpkg/
-	mv $(TMP)/usr/lib/dpkg/controllib.pl $(TMP_DPKG_DEV)/usr/lib/dpkg/
+	mv $(INSTALL_TMP)/usr/lib/dpkg/parsechangelog $(TMP_DPKG_DEV)/usr/lib/dpkg/
+	mv $(INSTALL_TMP)/usr/lib/dpkg/controllib.pl $(TMP_DPKG_DEV)/usr/lib/dpkg/
 	set -e ; for i in dpkg-name dpkg-source dpkg-genchanges dpkg-gencontrol \
 		dpkg-shlibdeps dpkg-buildpackage dpkg-distaddfile 822-date \
 		dpkg-scanpackages dpkg-scansources dpkg-architecture \
 		dpkg-parsechangelog dpkg-checkbuilddeps ; do \
-		mv $(TMP)/usr/bin/$$i $(TMP_DPKG_DEV)/usr/bin/ ; \
+		mv $(INSTALL_TMP)/usr/bin/$$i $(TMP_DPKG_DEV)/usr/bin/ ; \
 	done
 	set -e ; for i in "" fr ja sv ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/man/$$i/man1 ; \
@@ -171,20 +176,20 @@ binary-dpkg-dev: stamp-binary
 			dpkg-buildpackage.1 dpkg-distaddfile.1 dpkg-genchanges.1 \
 			dpkg-gencontrol.1 dpkg-parsechangelog.1 dpkg-shlibdeps.1 \
 			dpkg-checkbuilddeps.1 ; do \
-			if [ -e $(TMP)/usr/share/man/$$i/man1/$$m ] ; then \
-				mv $(TMP)/usr/share/man/$$i/man1/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man1/$$m ; \
+			if [ -e $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m ] ; then \
+				mv $(INSTALL_TMP)/usr/share/man/$$i/man1/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man1/$$m ; \
 			fi ; \
 		done ; \
 		install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/man/$$i/man5 ; \
 		for m in deb.5 deb-control.5 deb-old.5 ; do \
-			if [ -e $(TMP)/usr/share/man/$$i/man5/$$m ] ; then \
-				mv $(TMP)/usr/share/man/$$i/man5/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man5/$$m ; \
+			if [ -e $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m ] ; then \
+				mv $(INSTALL_TMP)/usr/share/man/$$i/man5/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man5/$$m ; \
 			fi ; \
 		done ; \
 		install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/man/$$i/man8 ; \
 		for m in dpkg-scanpackages.8 dpkg-scansources.8 ; do \
-			if [ -e $(TMP)/usr/share/man/$$i/man8/$$m ] ; then \
-				mv $(TMP)/usr/share/man/$$i/man8/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man8/$$m ; \
+			if [ -e $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m ] ; then \
+				mv $(INSTALL_TMP)/usr/share/man/$$i/man8/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man8/$$m ; \
 			fi ; \
 		done ; \
 	done
@@ -209,8 +214,8 @@ binary-dpkg-doc: stamp-binary
 	install -d -m 755 -o root -g root $(TMP_DPKG_DOC)
 	chmod g-s $(TMP_DPKG_DOC)
 	install -d -m 755 -o root -g root $(TMP_DPKG_DOC)/usr/share/doc/dpkg
-	mv $(TMP)/usr/share/doc/dpkg/internals $(TMP_DPKG_DOC)/usr/share/doc/dpkg/
-	mv $(TMP)/usr/share/doc/dpkg/ChangeLog.manuals \
+	mv $(INSTALL_TMP)/usr/share/doc/dpkg/internals $(TMP_DPKG_DOC)/usr/share/doc/dpkg/
+	mv $(INSTALL_TMP)/usr/share/doc/dpkg/ChangeLog.manuals \
 		$(TMP_DPKG_DOC)/usr/share/doc/dpkg/changelog.manuals
 
 # Now that dpkg-dev has been installed, Debianize it
@@ -232,13 +237,16 @@ binary-dpkg-doc: stamp-binary
 		-Tdebian/dpkg-dev.substvars -pdpkg-doc -P$(TMP_DPKG_DOC)
 	dpkg --build $(TMP_DPKG_DOC) ..
 
-binary-arch: binary-dpkg
+binary-arch-static: binary-dpkg-static
+binary-arch: binary-dpkg binary-dpkg-static-most
 	set -e ; \
 	v=`sed -n 's/^Version: //p' $(TMP_DPKG)/DEBIAN/control`; \
-	f=dpkg-$${v}_$(arch).nondebbin.tar ; \
-	tar -C $(TMP_DPKG) -cf $(DIR)/../$$f usr var ; \
-	gzip -9f ../$$f ; \
-	dpkg-distaddfile -fdebian/files $$f.gz byhand -
+	for type in "" -static; do\
+		f=dpkg-$${v}_$(arch)$$type.nondebbin.tar ; \
+		tar -C $(TMP_DPKG)$$type -cf $(DIR)/../$$f usr var ; \
+		gzip -9f ../$$f ; \
+		dpkg-distaddfile -fdebian/files $$f.gz byhand -; \
+	done
 
 binary-indep: binary-dpkg-dev binary-dpkg-doc
 	set -e ; set -x ; \

@@ -19,7 +19,7 @@ MD5_MANPAGES		= md5sum.1
 ENOENT_SOURCES		= enoent.c
 ENOENT_OBJECTS		= $(patsubst %.c, %.o, $(ENOENT_SOURCES))
 
-GENFILES		= $(MD5_OBJECTS) md5sum $(ENOENT_OBJECTS) enoent
+GENFILES		= $(MD5_OBJECTS) md5sum md5sum-static $(ENOENT_OBJECTS) enoent
 ifeq (@USE_START_STOP_DAEMON@, true)
 GENFILES		+= $(SSD_OBJECTS) start-stop-daemon
 endif
@@ -33,6 +33,9 @@ endif
 
 .PHONY: install
 install:: all
+ifdef ALSO_STATIC
+all:: md5sum-static
+endif
 
 .PHONY: clean
 clean::
@@ -53,7 +56,9 @@ ifeq (@USE_START_STOP_DAEMON@, true)
 endif
 	$(mkinstalldirs) $(DESTDIR)/$(bindir)
 	$(INSTALL_PROGRAM) md5sum $(DESTDIR)/$(bindir)
-
+ifdef ALSO_STATIC
+	$(INSTALL_PROGRAM) md5sum-static $(DESTDIR)/$(bindir)
+endif
 	$(mkinstalldirs) $(DESTDIR)/$(dpkglibdir)
 	$(INSTALL_PROGRAM) enoent $(DESTDIR)/$(dpkglibdir)
 
@@ -69,5 +74,6 @@ endif
 start-stop-daemon: $(SSD_OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $^ $(SSD_LIBS)
 
-md5sum: $(MD5_OBJECTS) ../lib/libdpkg.a
+md5sum-static: LDFLAGS += -static
+md5sum md5sum-static: $(MD5_OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -o $@ $^ $(NLS_LIBS)

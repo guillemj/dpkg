@@ -12,10 +12,14 @@ SOURCES		= main.c enquiry.c filesdb.c archives.c processarc.c \
 MAN8PAGES	= dpkg.8
 
 OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
-GENFILES	= $(OBJECTS) archtable.h dpkg
+GENFILES	= $(OBJECTS) archtable.h dpkg dpkg-static
 
 .PHONY: all
 all:: dpkg
+
+ifdef ALSO_STATIC
+all:: dpkg-static
+endif
 
 .PHONY: install
 install:: all
@@ -35,6 +39,9 @@ install:: install-program install-doc
 install-program:
 	$(mkinstalldirs) $(DESTDIR)/$(bindir)
 	$(INSTALL_PROGRAM) dpkg $(DESTDIR)/$(bindir)
+ifdef ALSO_STATIC
+	$(INSTALL_PROGRAM) dpkg-static $(DESTDIR)/$(bindir)
+endif
 	$(mkinstalldirs) $(DESTDIR)/$(admindir)/alternatives
 	$(mkinstalldirs) $(DESTDIR)/$(admindir)/info
 	$(mkinstalldirs) $(DESTDIR)/$(admindir)/updates
@@ -47,7 +54,8 @@ install-doc:
 	    $(INSTALL_DATA) $$d$$i $(DESTDIR)/$(man8dir) ; \
 	done
 
-dpkg: $(OBJECTS) ../lib/libdpkg.a
+dpkg-static: LDFLAGS += -static
+dpkg dpkg-static: $(OBJECTS) ../lib/libdpkg.a
 	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg
 
 enquiry.o: archtable.h

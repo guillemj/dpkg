@@ -11,17 +11,20 @@ include ../Makefile.conf
 SOURCES		= build.c extract.c info.c main.c
 
 OBJECTS		= $(patsubst %.c, %.o, $(SOURCES))
-GENFILES	= $(OBJECTS) dpkg-deb
+GENFILES	= $(OBJECTS) dpkg-deb dpkg-deb-static
 
 .PHONY: all
 all:: dpkg-deb
+ifdef ALSO_STATIC
+all:: dpkg-deb-static
+endif
 
 .PHONY: install
 install:: all
 
 .PHONY: clean
 clean::
-	$(RM) $(GENFILES)
+	-$(RM) $(GENFILES)
 
 .PHONY: distclean
 cvslean:: clean
@@ -34,12 +37,17 @@ install:: install-program install-doc
 install-program:
 	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(INSTALL) dpkg-deb $(DESTDIR)$(bindir)
+ifdef ALSO_STATIC
+	$(INSTALL) dpkg-deb-static $(DESTDIR)$(bindir)
+endif
 
 .PHONY: install-doc
 install-doc:
 	$(mkinstalldirs) $(DESTDIR)$(man1dir)
 	$(INSTALL_DATA) $(srcdir)/dpkg-deb.1 $(DESTDIR)$(man1dir)
 
-dpkg-deb: $(OBJECTS) ../lib/libdpkg.a
-	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) $(ZLIB_LIBS) -ldpkg
+dpkg-deb-static: LDFLAGS += -static
+dpkg-deb-static: ZLIB_LIBS = $(ZLIB_LIBS_ALSO_STATIC)
+dpkg-deb dpkg-deb-static: $(OBJECTS) ../lib/libdpkg.a
+	$(CC) $(LDFLAGS) -L../lib -o $@ $(OBJECTS) $(LIBS) $(NLS_LIBS) -ldpkg $(ZLIB_LIBS)
 
