@@ -2,7 +2,8 @@
  * dpkg - main program for package management
  * configure.c - configure packages
  *
- * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright 1999 Wichert Akkerman <wichert@deephackmode.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -316,11 +317,11 @@ void deferred_configure(struct pkginfo *pkg) {
 	      char cmdbuf[1024];
 	      p= getenv(PAGERENV);
 	      if (!p || !*p) p= DEFAULTPAGER;
-	      sprintf(cmdbuf, "diff -Nu %.250s %.250s | %.250s", cdr.buf, cdr2.buf, p);
+	      sprintf(cmdbuf, DIFF " -Nu %.250s %.250s | %.250s", cdr.buf, cdr2.buf, p);
               s= getenv(SHELLENV);
               if (!s || !*s) s= DEFAULTSHELL;
 	      execlp(s,s,"-c", cmdbuf, NULL);
-              ohshite(_("failed to run diff (%.250s)"), cmdbuf);
+              ohshite(_("failed to run %s (%.250s)"), DIFF, cmdbuf);
 	    }
             while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
             if (r != c1) { onerr_abort++; ohshite(_("wait for shell failed")); }
