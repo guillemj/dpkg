@@ -1,10 +1,10 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Authors: Ian Jackson
-.\" Original manpage is provided by dpkg_1.4.0.23.2.
-.\" Translated by Hiroshi KISE <kise@imicom.or.jp>
-.\" Last modify: Mon Aug 17 12:19:02 JST 1998
-.\"WORD:	pack			作成
-.\"WORD:	unpack			展開
+.\" Original manpage is provided by dpkg_1.6.6
+.\" Translated by Hiroshi KISE <fuyuneko@ryukyu.ne.jp>
+.\" Last modify: Fri Jan 14 15:44:07 JST 2000
+.\"WORD:	pack			(アーカイブの)作成
+.\"WORD:	unpack			(アーカイブの)展開
 .\"WORD:	filesystem tree		ファイルシステム木
 .\"WORD:	control	information files	制御情報ファイル
 .\"WORD:	syntax error		文法エラー
@@ -17,29 +17,29 @@ dpkg\-deb \- Debian パッケージアーカイブ(.deb) 操作ツール
 .SH 書式
 .B dpkg-deb
 .BR -b | --build
-.IR ディレクトリ " [" アーカイブ | ディレクトリ ]
+.IR directory " [" archive | directory ]
 .br
 .B dpkg-deb
 .BR -I | --info
-.IR アーカイブ " [" 制御ファイル名 " ..]"
+.IR archive " [" control\-file\-name " ..]"
 .br
 .B dpkg-deb
 .BR -f | --field
-.IR アーカイブ " [" 制御ファイル名 " ...]"
+.IR archive " [" control\-field\-name " ...]"
 .br
 .B dpkg-deb
 .BR -c | --contents
-.I アーカイブ
+.I archive
 .br
 .B dpkg-deb
 .BR -x | --extract | -X | --vextract
-.I アーカイブ ディレクトリ
+.I archive directory
 .br
 .B dpkg-deb --fsys-tarfile
-.I アーカイブ
+.I archive
 .br
 .B dpkg-deb --control
-.I アーカイブ ディレクトリ
+.I archive directory
 .SH 説明
 .B dpkg-deb
 は、Debian アーカイブの作成、展開、情報の表示をする。
@@ -67,10 +67,10 @@ dpkg\-deb \- Debian パッケージアーカイブ(.deb) 操作ツール
 .SH アクション・オプション
 .TP
 .BR --build ", " -b
-.IR ディレクトリ
+.IR directory
 に格納されているファイルシステム木から
 debian アーカイブを作成する。
-.IR ディレクトリ
+.IR directory
 には、control ファイルなどの制御情報ファイルのある
 .B DEBIAN
 サブディレクトリが必ず存在しなければならない。
@@ -80,7 +80,13 @@ DEBIAN ディレクトリはバイナリパッケージのファイルシステム・
 。そのかわり、DEBIAN ディレクトリ以下にあったファイルは
 バイナリパッケージ制御情報エリアに置かれる。
 
-.BR \-\-no\-check
+圧縮レベルを指定する場合は、
+.B \-z#
+オプションを追加する。
+.B dpkg-deb
+は、このオプションを gzip に渡す。
+
+.BR \-\-nocheck
 を指定しないかぎり、
 .BR dpkg\-deb
 は
@@ -95,11 +101,11 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 ファイルのパーミッションをチェックする。
 
 もし、
-.I アーカイブ
+.I archive
 を指定しない場合、
 .B dpkg\-deb
 はパッケージを
-.IR ディレクトリ \fB.deb\fR
+.IR directory \fB.deb\fR
 という名前で作成する。
 
 もし、すでにアーカイブが作成されて存在している場合、上書きする。
@@ -107,14 +113,14 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 2番目の引き数がディレクトリの場合、
 .B dpkg\-deb
 は
-.IB パッケージ _ バージョン _ アーキテクチャ .deb\fR
+.IB package _ version _ arch .deb\fR
 または
-.IB パッケージ _ バージョン .deb
+.IB package _ version .deb
 (パッケージ制御ファイルに
 .B Architecture
 フィールドがない場合)というファイルを作成する。
 アーカイブの代わりにディレクトリを指定するときには、
-.B \-\-no\-check
+.B \-\-nocheck
 オプションは使用してはいけない(
 .B dpkg\-deb
 は、使用するファイル名を調べるために、パッケージ制御ファイルを読んで解析
@@ -124,12 +130,12 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 バイナリパッケージアーカイブの情報を表示する。
 
 もし
-.IR 制御ファイル名
+.IR control\-file\-name
 が指定されていない場合、制御ファイル一覧と、パッケージの中身の要約を
 表示する。
 
 もし
-.IR 制御ファイル名
+.IR control\-file\-name
 を指定した場合、
 .B dpkg\-deb
 は指定した順でファイル名を表示する。もし指定したファイルのどれかが
@@ -139,13 +145,13 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 .BR \-\-field ", " -f
 バイナリパッケージアーカイブから制御ファイル情報を取り出す。
 
-.BR 制御ファイルフィールド
+.BR control\-file\-field
 が指定されていない場合、制御ファイルすべてを表示する。
 
 もし何か指定されている場合、
 .B dpkg\-deb
 はその内容を制御ファイルに現われる順序で表示する。もし、複数の
-.BR 制御ファイルフィールド
+.BR control\-file\-field
 が指定された場合、
 .B dpkg\-deb
 は、それぞれの情報の前にフィールド名(そしてコロンと空白)を表示する。
@@ -173,7 +179,7 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 .B dpkg
 を使うべきである。
 
-.I ディレクトリ
+.I directory
 (親やそれより上のディレクトリは含まない)は必要があれば作成される。
 
 .TP
@@ -223,7 +229,7 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 バージョン 0.93.76(1995年9月)以前の dpkg で処理するためのパッケージを
 構築するときだけに使用される。
 .TP
-.BR --no-check
+.BR --nocheck
 .BR "dpkg\-deb \-\-build"
 のときにアーカイブの中身を確認することをやめさせる。これによって、
 アーカイブの中身にどのように問題があっても、望むアーカイブを構築する
@@ -253,6 +259,16 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 .BR dselect (8).
 .SH 著者
 .B dpkg\-deb
+とこのマニュアルページは Ian Jackson が作成した。これらの著作権は彼に
+あり(Copyright (C)1995-1996)、GNU 一般公有使用許諾により頒布される。
+これらは無保証である。詳細は
+.B /usr/share/doc/dpkg/copyright
+と
+.B /usr/share/common-licenses/GPL
+を参照すること。
+
+(
+.B dpkg\-deb
 and this manpage were written by Ian Jackson.  They are
 Copyright (C)1995-1996
 by him and released under the GNU General Public Licence; there is NO
@@ -261,3 +277,11 @@ WARRANTY.  See
 and
 .B /usr/share/common-licenses/GPL
 for details.
+)
+.SH 日本語版翻訳
+喜瀬浩 <fuyuneko@ryukyu.ne.jp>
+.SH 日本語版校正
+Debian JP Documentation ML <debian-doc@debian.or.jp>
+.SH 翻訳者注
+このマニュアルページは dpkg パッケージのバージョン1.6.6に付属の
+dpkg-deb(1)の日本語訳である。

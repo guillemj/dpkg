@@ -1,7 +1,7 @@
 .\" Hey Emacs! This file is -*- nroff -*- source.
-.\" Original manpage is provided by dpkg_1.4.0.34
+.\" Original manpage is provided by dpkg_1.6.6
 .\" Translated by Hiroshi KISE <fuyuneko@ryuku.ne.jp>
-.\" Last modify: Tue Mar 16 15:35:00 JST 1999
+.\" Last modify: Mon Jan 10 22:42:17 JST 2000
 .\"WORD:	package maintainers	パッケージ管理者
 .\"WORD:	command line options	コマンドライン・オプション
 .\"WORD:	command line parameter	コマンドライン引き数
@@ -10,7 +10,7 @@
 .\"WORD:	install			インストール
 .\"WORD:	remove			削除
 .\"WORD:	purge			完全削除
-.\"WORD:	medium-level tool	中レベルツール
+.\"WORD:	medium-level tool	中間レベルツール
 .\"WORD:	user-friendly		ユーザフレンドリ
 .\"WORD:	front-end		フロントエンド
 .\"WORD:	action			アクション
@@ -27,7 +27,7 @@
 .\"WORD:	avail			利用可能
 .TH DPKG 8 "April 12, 1998" "Debian Project" "Debian GNU/Linux"
 .SH 名前
-dpkg - Debian GNU/Linux 中レベルパッケージマネージャ
+dpkg - Debian GNU/Linux 中間レベルパッケージマネージャ
 
 .SH 書式
 .B dpkg
@@ -182,9 +182,9 @@ Debian パッケージの作成については、同じところにある
 \fB2.\fP
 もしパッケージが \fIpostinst\fP スクリプトを提供している場合、それを実行する。
 .TP
-\fBdpkg -r\fP | \fB--remove\fP | \fB--purge \fP\fIpackage\fP ... | \fB-a\fP | \fB--pending\fP
+\fBdpkg -r\fP | \fB--remove\fP | \fB-P\fP | \fB--purge \fP\fIpackage\fP ... | \fB-a\fP | \fB--pending\fP
 インストール済みのパッケージを削除する。
-\fB--purge\fP は、設定ファイルを含むすべてを削除する。
+\fB-P\fP または \fB--purge\fP は、設定ファイルを含むすべてを削除する。
 \fB--remove\fP は、設定ファイルを除いたすべてを削除する(設定ファイルの一覧は、
 \fIconffiles\fP コントロールファイルにある)。
 引き数として、パッケージ名の代わりに \fB-a\fP または \fB--pending\fP が
@@ -203,7 +203,7 @@ purge する。
 \fB3.\fP \fIpostrm\fP スクリプトを実行する。
 .br
 .TP
-.BI "dpkg --print-avail " package
+.BI "dpkg -p|--print-avail " package
 \fI/var/lib/dpkg/available\fP にある \fIpackage\fP に関する情報を
 表示する。
 .TP
@@ -400,6 +400,20 @@ essential とされるパッケージであっても削除する。essential パッケージには、
 他のパッケージと競合してもインストールする。たいていはいくつかファイルを
 上書きすることになるため、危険である。
 
+\fBconfnew\fP:
+設定ファイルが変更されていた場合、問い合わせなしに新しいバージョンの
+設定ファイルをインストールする。
+
+\fBconfold\fP:
+設定ファイルが変更されていた場合、問い合わせなしに古いバージョンの
+設定ファイルを保持する。
+
+\fBconfdef\fP:
+設定ファイルが変更されていた場合、常にデフォルトの動作をする。
+\fB--force-confnew\fP や \fB--force-confold\fP がある場合でも、常に
+デフォルトの動作をする。デフォルトがない場合は、これらのオプションの
+与え方によって新しい、または古いバージョンの設定ファイルを使用する。
+
 \fBoverwrite\fP(*):
 あるパッケージで提供されているファイルを、インストールするパッケージの
 ファイルで上書きする。
@@ -575,24 +589,32 @@ CDROMから探す必要がある。“available”ファイルによれば、vimパッケージは
 \fB--no-act\fP の提供する情報はたいていの場合、不充分である。
 .SH 著者
 .nf
-\fBdpkg\fP は以下の人々によって開発された。
-    Ian Jackson <ian@chiark.chu.cam.ac.uk>
-    Klee Dienes <klee@debian.org>
-    Erick Branderhorst <branderhorst@heel.fgg.eur.nl>
-    Miquel van Smoorenburg <miquels@cistron.nl>
-    Kim-Minh Kaplan <kkaplan@cdfhp3.in2p3.fr>
-    Michael Shields <shields@crosslink.net>
-    Bruce Perens <bruce@pixar.com>
-    Streeter <streeter@cae.wisc.edu>
-    Matt Welsh <mdw@sunsite.unc.edu>
-    Ian Murdock <imurdock@debian.org>
-    Colin Plumb
-    Branko Lankester
+\fBdpkg\fP に貢献した人々を以下に示す。
+Ian Jackson <ian@davenant.greenend.org.uk>
+Wichert Akkerman <wakkerma@debian.org>
+Ben Collins <bcollins@debian.org>
+Nils Rennebarth <nils@debian.org>
+Miquel van Smoorenburg <miquels@cistron.nl>
+Juan Cespedes <cespedes@debian.org>
+Juho Vuori <javuori@cc.helsinki.fi>
+Charles Briscoe-Smith <cpbs@debian.org>
+Erick Branderhorst <branderhorst@heel.fgg.eur.nl>
+Miquel van Smoorenburg <miquels@cistron.nl>
+Kim-Minh Kaplan <kkaplan@cdfhp3.in2p3.fr>
+Michael Shields <shields@crosslink.net>
+Bruce Perens <bruce@pixar.com>
+Carl Streeter <streeter@cae.wisc.edu>
+Matt Welsh <mdw@sunsite.unc.edu>
+Ian Murdock <imurdock@debian.org>
+Colin Plumb
+Branko Lankester
 .fi
 このマニュアルページは Juho Vuori <javuori@cc.helsinki.fi> が
 記述し、Jim Van Zandt <jrv@vanzandt.mv.com> が更新した。
-.SH 翻訳者
+.SH 日本語版翻訳
 喜瀬浩 <fuyuneko@ryukyu.ne.jp>
+.SH 日本語版校正
+Debian JP Documentation ML <debian-doc@debian.or.jp>
 .SH 翻訳者注
-このマニュアルページは dpkg パッケージのバージョン1.4.0.34に付属の
+このマニュアルページは dpkg パッケージのバージョン1.6.6に付属の
 dpkg(8)の日本語訳である。

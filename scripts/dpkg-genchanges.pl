@@ -238,7 +238,7 @@ if (!$binaryonly) {
     }
     for $f (@sourcefiles) { $f2sec{$f}= $sec; $f2pri{$f}= $pri; }
     
-    if (($sourcestyle =~ m/i/ && $version !~ m/-[01]$/ ||
+    if (($sourcestyle =~ m/i/ && $version !~ m/-(0|1|0\.1)$/ ||
          $sourcestyle =~ m/d/) &&
         grep(m/\.diff\.gz$/,@sourcefiles)) {
         $origsrcmsg= "not including original source code in upload";
