@@ -759,7 +759,7 @@ void archivefiles(const char *const *argv) {
   const char *volatile thisarg;
   const char *const *volatile argp;
   jmp_buf ejbuf;
-  int pi[2], fc, nfiles, c, i;
+  int pi[2], fc, nfiles, c, i, r;
   FILE *pf;
   static struct varbuf findoutput;
   const char **arglist;
@@ -819,7 +819,9 @@ void archivefiles(const char *const *argv) {
     }
     if (ferror(pf)) ohshite(_("error reading find's pipe"));
     if (fclose(pf)) ohshite(_("error closing find's pipe"));
-    waitsubproc(fc,"find",0);
+    r= waitsubproc(fc,"find",PROCNOERR);
+    if(!(r==0 || r==1))
+      ohshit(_("find for --recurisve returned unhandled error %i"),r);
 
     if (!nfiles)
       ohshit(_("searched, but found no packages (files matching *.deb)"));

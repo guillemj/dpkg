@@ -107,10 +107,12 @@ int checksubprocerr(int status, const char *description, int flags) {
   int n;
   if (WIFEXITED(status)) {
     n= WEXITSTATUS(status); if (!n) return n;
-    if(flags & PROCWARN)
-      fprintf(stderr, _("dpkg: warning - %s returned error exit status %d\n"),description,n);
-    else
-      ohshit(_("subprocess %s returned error exit status %d"),description,n);
+    if(!(flags & PROCNOERR)) {
+      if(flags & PROCWARN)
+        fprintf(stderr, _("dpkg: warning - %s returned error exit status %d\n"),description,n);
+      else
+        ohshit(_("subprocess %s returned error exit status %d"),description,n);
+    }
   } else if (WIFSIGNALED(status)) {
     n= WTERMSIG(status); if (!n || ((flags & PROCPIPE) && n==SIGPIPE)) return 0;
     if (flags & PROCWARN)
