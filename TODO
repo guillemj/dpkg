@@ -1,5 +1,7 @@
 libdpkg:
 * cut compat.c into little pieces and move them to optlib
+* modify database to store per-file flags
+* store checksums and stat data in per-file flags
 
 optlib:
 * add fnmatch, IRIX5 doesn't have it
@@ -14,6 +16,9 @@ dpkg
 * log our actions
 * try to remove directories again after removing conffiles
 * verify Enhances works (ie don't trigger some assertion)
+* refactor processarc.c
+* add test to see if a file should really be installed and optionally
+  skip it
 
 Fix:
 <joeyh_> package a conflicted with old versions of package b. package b
@@ -22,7 +27,7 @@ Fix:
       simulantaneously. It refused.
 
 dselect:
-* support Enhances (GNU/FSF)
+* support Enhances
 
 dpkg-source
 * update format to handle multiple patches and tarballs
