@@ -60,20 +60,21 @@ int expertmode = 0;
 static keybindings packagelistbindings(packagelist_kinterps,packagelist_korgbindings);
 
 struct menuentry {
+  const char *key;
   const char *option;
   const char *menuent;
   urqfunction *fn;
 };
 
 static const menuentry menuentries[]= {
-  { N_("access"),  N_("Choose the access method to use."),                &urq_setup   },
-  { N_("update"),  N_("Update list of available packages, if possible."), &urq_update  },
-  { N_("select"),  N_("Request which packages you want on your system."), &urq_list    },
-  { N_("install"), N_("Install and upgrade wanted packages."),            &urq_install },
-  { N_("config"),  N_("Configure any packages that are unconfigured."),   &urq_config  },
-  { N_("remove"),  N_("Remove unwanted software."),                       &urq_remove  },
-  { N_("quit"),    N_("Quit dselect."),                                   &urq_quit    },
-  { N_("menu"),    0,                                                     &urq_menu    },
+  { N_("a"), N_("[A]ccess"),  N_("Choose the access method to use."),                &urq_setup   },
+  { N_("u"), N_("[U]pdate"),  N_("Update list of available packages, if possible."), &urq_update  },
+  { N_("s"), N_("[S]elect"),  N_("Request which packages you want on your system."), &urq_list    },
+  { N_("i"), N_("[I]nstall"), N_("Install and upgrade wanted packages."),            &urq_install },
+  { N_("c"), N_("[C]onfig"),  N_("Configure any packages that are unconfigured."),   &urq_config  },
+  { N_("r"), N_("[R]emove"),  N_("Remove unwanted software."),                       &urq_remove  },
+  { N_("q"), N_("[Q]uit"),    N_("Quit dselect."),                                   &urq_quit    },
+  { 0,       N_("menu"),      0,                                                     &urq_menu    },
   { 0                                                                              }
 };
 
@@ -194,10 +195,9 @@ urqresult urq_list(void) {
 void dme(int i, int so) {
   char buf[120];
   const menuentry *me= &menuentries[i];
-  const char* option = gettext(me->option);
-  sprintf(buf," %c %d. [%c]%-10.10s %-80.80s ",
+  sprintf(buf," %c %d. %-11.11s %-80.80s ",
           so ? '*' : ' ', i,
-          toupper(option[0]), option+1,
+          me->option,
           gettext(me->menuent));
   
   int y,x;
@@ -287,7 +287,7 @@ urqresult urq_menu(void) {
       }
     } else if (isalpha(c)) {
       c= tolower(c);
-      for (i=0; i<entries && gettext(menuentries[i].option)[0] != c; i++);
+      for (i=0; i<entries && gettext(menuentries[i].key)[0] != c; i++);
       if (i < entries) {
         dme(cursor,0); cursor=i; dme(cursor,1);
       } else {
