@@ -945,9 +945,11 @@ sub extracttar {
     @dirchdirfiles = grep($_ ne "." && $_ ne "..",readdir(D));
     closedir(D) || &syserr("Unable to close dir $dirchdir");
     if (@dirchdirfiles==1 && -d "$dirchdir/$dirchdirfiles[0]") {
-	rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
-	    &syserr("Unable to rename $dirchdir/$dirchdirfiles[0] to ".
-	    "$dirchdir/$newtopdir");
+	if ("$dirchdir/$dirchdirfiles[0]" ne "$dirchdir/$newtopdir") {
+	    rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
+		&syserr("Unable to rename $dirchdir/$dirchdirfiles[0] to ".
+		"$dirchdir/$newtopdir");
+	}
     } else {
 	mkdir("$dirchdir/$newtopdir", 0777) ||
 	    &syserr("Unable to mkdir $dirchdir/$newtopdir");
