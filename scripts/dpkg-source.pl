@@ -691,7 +691,7 @@ if ($opmode eq 'build') {
 	    $ENV{'LC_ALL'}= 'C';
 	    $ENV{'LANG'}= 'C';
             exec('patch','-s','-t','-F','0','-N','-p1','-u',
-                 '-V','never','-g0','-b','-Z','-z','.dpkg-orig');
+                 '-V','never','-g0','-b','-z','.dpkg-orig');
             &syserr("exec patch");
         }
         close(GZIP);
