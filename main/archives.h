@@ -34,7 +34,7 @@ extern struct varbuf fnametmpvb;
 extern struct varbuf fnamenewvb;
 extern struct packageinlist *deconfigure;
 
-extern struct conflict conflictor[];
+extern struct pkginfo *conflictor[];
 extern int cflict_index;
 
 void cu_pathname(int argc, void **argv);

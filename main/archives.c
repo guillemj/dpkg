@@ -43,7 +43,7 @@
 #include "archives.h"
 
 /* We shouldn't need anymore than 10 conflictors */
-struct conflict conflictor[10];
+struct pkginfo *conflictor[20];
 int cflict_index = 0;
 
 int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
@@ -658,9 +658,9 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
 	/* if this gets triggered, it means a package has > 10 conflicts/replaces
 	 * pairs, which is the package's fault
 	 */
-	assert(cflict_index < 10);
+	assert(cflict_index < sizeof(conflictor));
         /* This conflict is OK - we'll remove the conflictor. */
-	conflictor[cflict_index++].cflict= fixbyrm;
+	conflictor[cflict_index++]= fixbyrm;
         varbuffree(&conflictwhy); varbuffree(&removalwhy);
         fprintf(stderr, _("dpkg: yes, will remove %s in favour of %s.\n"),
                 fixbyrm->name, pkg->name);

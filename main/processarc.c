@@ -345,7 +345,7 @@ void process_archive(const char *filename) {
    */
   oldconffsetflags(pkg->installed.conffiles);
   for (i = 0 ; i < cflict_index ; i++) {
-    oldconffsetflags(conflictor[i].cflict->installed.conffiles);
+    oldconffsetflags(conflictor[i]->installed.conffiles);
   }
   
   oldversionstatus= pkg->status;
@@ -367,11 +367,11 @@ void process_archive(const char *filename) {
   }
 
   for (i = 0 ; i < cflict_index ; i++) {
-    if (!(conflictor[i].cflict->status == stat_halfconfigured ||
-	  conflictor[i].cflict->status == stat_installed)) continue;
+    if (!(conflictor[i]->status == stat_halfconfigured ||
+	  conflictor[i]->status == stat_installed)) continue;
     for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
       printf(_("De-configuring %s, so that we can remove %s ...\n"),
-             deconpil->pkg->name, conflictor[i].cflict->name);
+             deconpil->pkg->name, conflictor[i]->name);
       deconpil->pkg->status= stat_halfconfigured;
       modstatdb_note(deconpil->pkg);
       /* This means that we *either* go and run postinst abort-deconfigure,
@@ -381,27 +381,27 @@ void process_archive(const char *filename) {
       push_cleanup(cu_prermdeconfigure,~ehflag_normaltidy,
                    ok_prermdeconfigure,ehflag_normaltidy,
                    3,(void*)deconpil->pkg,
-		   (void*)conflictor[i].cflict,(void*)pkg);
+		   (void*)conflictor[i],(void*)pkg);
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
                                   "deconfigure", "in-favour", pkg->name,
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
-                                  "removing", conflictor[i].cflict->name,
-                                  versiondescribe(&conflictor[i].cflict->installed.version,
+                                  "removing", conflictor[i]->name,
+                                  versiondescribe(&conflictor[i]->installed.version,
                                                   vdew_nonambig),
                                   (char*)0);
     }
-    conflictor[i].cflict->status= stat_halfconfigured;
-    modstatdb_note(conflictor[i].cflict);
+    conflictor[i]->status= stat_halfconfigured;
+    modstatdb_note(conflictor[i]);
     push_cleanup(cu_prerminfavour,~ehflag_normaltidy, 0,0,
-                 2,(void*)conflictor[i].cflict,(void*)pkg);
-    maintainer_script_installed(conflictor[i].cflict, PRERMFILE, "pre-removal",
+                 2,(void*)conflictor[i],(void*)pkg);
+    maintainer_script_installed(conflictor[i], PRERMFILE, "pre-removal",
                                 "remove", "in-favour", pkg->name,
                                 versiondescribe(&pkg->available.version,
                                                 vdew_nonambig),
                                 (char*)0);
-    conflictor[i].cflict->status= stat_halfinstalled;
-    modstatdb_note(conflictor[i].cflict);
+    conflictor[i]->status= stat_halfinstalled;
+    modstatdb_note(conflictor[i]);
   }
 
   pkg->eflag |= eflagf_reinstreq;
@@ -1011,7 +1011,7 @@ void process_archive(const char *filename) {
   for (i = 0 ; i < cflict_index ; i++) {
     /* We need to have the most up-to-date info about which files are what ... */
     ensure_allinstfiles_available();
-    removal_bulk(conflictor[i].cflict);
+    removal_bulk(conflictor[i]);
   }
 
   if (cipaction->arg == act_install) add_to_queue(pkg);
