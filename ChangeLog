@@ -1,3 +1,31 @@
+Mon Sep 10 12:41:14 PDT 2001 Wichert Akkerman <wakkerma@debian.org>
+
+  * main/showpkg.c: move to lib/ so multiple tools can share it
+  * main/Makefile.in: remove showpkg.c
+  * lib/Makefile.in: add showpkg.c
+  * include/dpkg-db.h: add showpkg.c prototypes
+  * main/query.h: obsolete now, removed
+
+Mon Sep 10 12:07:20 PDT 2001 Wichert Akkerman <wakkerma@debian.org>
+
+  * dpkg-deb/info.c: count how many control components are missing
+    in info_spew()
+  * main/processarc.c: change two more 0s into NULLs
+
+Mon Sep 10 10:59:53 PDT 2001 Wichert Akkerman <wakkerma@debian.org>
+
+  * include/parsedump.h, lib/dump.c: add flags to fwritefunction.
+    Implement fw_printheader to toggle printing of field headers.
+  * main/showpkg.c: modify show1package() to no longer remove the
+    fieldname and newline itself but make wcall not print it instead
+
+Mon Sep 10 09:44:54 PDT 2001 Wichert Akkerman <wakkerma@debian.org>
+
+  * lib/dump.c: make w_booleandefno get the fieldname from the fip
+    instead of hardcoding Essential
+  * lib/fields.c: don't harcode `essential' fieldname in f_boolean
+     convert_string call
+
 Sun Aug 19 15:20:53 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
 
   * utils/start-stop-daemon.c: do not start a command if the pidfile
