@@ -124,8 +124,15 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
     {   0                                               }
   }, *fnip;
+  
+  static int obs_inited = 0;
 
   admindir= adir;
+
+  if (!obs_inited) {
+    obstack_init(&db_obs);
+    obs_inited = 1;
+  }
   
   for (fnip=fnis; fnip->suffix; fnip++) {
     free(*fnip->store);

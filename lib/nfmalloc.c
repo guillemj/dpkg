@@ -24,76 +24,27 @@
 
 #include <config.h>
 #include <dpkg.h>
+
+/* This also defines our obstack usage */
 #include <dpkg-db.h>
 
-#define ABLOCKSIZE 65536
-#define UNIQUE      4096
-
-union maxalign {
-  long l;
-  void *pv; char *pc; union maxalign *ps; void (*pf)(void);
-};
-
-static unsigned char *playground= 0;
-static long remaining= 0;
-static struct piece { struct piece *next; union maxalign space; } *pieces= 0;
-
-void nffreeall(void) {
-  struct piece *a,*b;
-  for (a=pieces; a; a=b) { b=a->next; free(a); }
-  pieces= 0; remaining= 0;
-}
-
-static void *nfmalloc_sysmalloc(size_t size) {
-  struct piece *alc;
-  alc= m_malloc(size + sizeof(struct piece));
-  alc->next= pieces; pieces= alc;
-  return &alc->space;
-}
-
-#ifndef MDEBUG
-void *nfmalloc(size_t size) {
-#else
-static void *nfmalloc_r(size_t size) {
-#endif
-  const size_t alignment= sizeof(union maxalign);
-
-  size -= (size + alignment-1) % alignment;
-  size += alignment-1;
-  if (size > UNIQUE) return nfmalloc_sysmalloc(size);
-  remaining -= size;
-  if (remaining > 0) return playground -= size;
-  playground= (unsigned char*)nfmalloc_sysmalloc(ABLOCKSIZE) + ABLOCKSIZE - size;
-  remaining= ABLOCKSIZE-size;
-  return playground;
-}
-
-#ifdef MDEBUG
-/* If we haven't switched off debugging we wrap nfmalloc in something
- * that fills the space with junk that may tell us what happened if
- * we dereference a wild pointer.  It's better than leaving it full of
- * nulls, anyway.
- */
-void *nfmalloc(size_t size) {
-  unsigned short *r, *r2, x;
-  r= nfmalloc_r(size); r2=r; x= (unsigned short)size;
-  while (size >= 2) { *r2++= x; size -= 2; }
-  return r;
-}
-#endif
+struct obstack db_obs;
+int ob_init = 0;
 
 char *nfstrsave(const char *string) {
-  char *r;
-  
-  r= nfmalloc(strlen(string)+1);
-  strcpy(r,string);
+  int i = strlen(string) + 1;
+  char *r = nfmalloc(i);
+  memcpy(r, string, i);
   return r;
 }
 
 char *nfstrnsave(const char *string, int l) {
-  char *r;
-  
-  r= nfmalloc(l+1);
-  strncpy(r,string,l);
+  char *r = nfmalloc(l+1);
+  memcpy(r, string, l);
+  r[l] = '\0';
   return r;
+}
+
+void nffreeall(void) {
+  obstack_free(&db_obs, 0);
 }
