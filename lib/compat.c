@@ -101,7 +101,7 @@ const char *strsignal(int e) {
 }
 #endif
 
-#ifndef SYS_SIGLIST_DECLARED
+#ifndef HAVE_DECL_SYS_SIGLIST
 const char *const sys_siglist[32] = {
   "SIGHUP",      /*1*/
   "SIGINT",      /*2*/
