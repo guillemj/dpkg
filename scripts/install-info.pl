@@ -141,6 +141,10 @@ if (!$remove) {
 	    }
 	}
         while(<IF>) { last if m/^END-INFO-DIR-ENTRY$/; $asread.= $_; }
+	if ($pipeit) {
+	    while (<IF>) {};
+	}
+
         close(IF); &checkpipe;
         if ($asread =~ m/(\*\s*[^:]+:\s*\(([^\)]+)\).*\. *.*\n){2,}/) {
             $infoentry= $asread;
@@ -183,6 +187,9 @@ END
                 while(<IF>) { last if m/^\s*$/; $asread.= $_; }
                 $description= $asread;
             }
+	    if ($pipeit) {
+		while (<IF>) {};
+	    }
             close(IF); &checkpipe;
         }
 
