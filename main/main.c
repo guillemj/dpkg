@@ -86,7 +86,7 @@ Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
  -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n\
 \n\
 For internal use: dpkg --assert-support-predepends | --predep-package |\n\
-  --assert-working-epoch\n\
+  --assert-working-epoch | --assert-longfilenames\n\
 \n\
 Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
@@ -320,32 +320,33 @@ static const struct cmdinfo cmdinfos[]= {
    */
 #define ACTION(longopt,shortopt,code,function) \
  { longopt, shortopt, 0,0,0, setaction, code, 0, (voidfnp)function }
-  ACTION( "install",                        'i', act_install,       archivefiles    ),
-  ACTION( "unpack",                          0,  act_unpack,        archivefiles    ),
-  ACTION( "record-avail",                   'A', act_avail,         archivefiles    ),
-  ACTION( "configure",                       0,  act_configure,     packages        ),
-  ACTION( "remove",                         'r', act_remove,        packages        ),
-  ACTION( "purge",                          'P', act_purge,         packages        ),
+  ACTION( "install",                        'i', act_install,              archivefiles    ),
+  ACTION( "unpack",                          0,  act_unpack,               archivefiles    ),
+  ACTION( "record-avail",                   'A', act_avail,                archivefiles    ),
+  ACTION( "configure",                       0,  act_configure,            packages        ),
+  ACTION( "remove",                         'r', act_remove,               packages        ),
+  ACTION( "purge",                          'P', act_purge,                packages        ),
   ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
-  ACTION( "status",                         's', act_status,        enqperpackage   ),
-  ACTION( "get-selections",                  0,  act_getselections, getselections   ),
-  ACTION( "set-selections",                  0,  act_setselections, setselections   ),
-  ACTION( "print-avail",                    'p', act_printavail,    enqperpackage   ),
-  ACTION( "update-avail",                    0,  act_avreplace,     updateavailable ),
-  ACTION( "merge-avail",                     0,  act_avmerge,       updateavailable ),
-  ACTION( "clear-avail",                     0,  act_avclear,       updateavailable ),
-  ACTION( "forget-old-unavail",              0,  act_forgetold,     forgetold       ),
-  ACTION( "audit",                          'C', act_audit,         audit           ),
-  ACTION( "yet-to-unpack",                   0,  act_unpackchk,     unpackchk       ),
-  ACTION( "list",                           'l', act_listpackages,  listpackages    ),
-  ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
-  ACTION( "print-architecture",              0,  act_printarch,     printarch       ),
-  ACTION( "print-gnu-build-architecture",    0,  act_printgnuarch,  printarch       ),
-  ACTION( "assert-support-predepends",       0,  act_assertpredep,  assertpredep    ),
-  ACTION( "assert-working-epoch",            0,  act_assertepoch,   assertepoch     ),
-  ACTION( "print-installation-architecture", 0,  act_printinstarch, printinstarch   ),
-  ACTION( "predep-package",                  0,  act_predeppackage, predeppackage   ),
-  ACTION( "compare-versions",                0,  act_cmpversions,   cmpversions     ),
+  ACTION( "status",                         's', act_status,               enqperpackage   ),
+  ACTION( "get-selections",                  0,  act_getselections,        getselections   ),
+  ACTION( "set-selections",                  0,  act_setselections,        setselections   ),
+  ACTION( "print-avail",                    'p', act_printavail,           enqperpackage   ),
+  ACTION( "update-avail",                    0,  act_avreplace,            updateavailable ),
+  ACTION( "merge-avail",                     0,  act_avmerge,              updateavailable ),
+  ACTION( "clear-avail",                     0,  act_avclear,              updateavailable ),
+  ACTION( "forget-old-unavail",              0,  act_forgetold,            forgetold       ),
+  ACTION( "audit",                          'C', act_audit,                audit           ),
+  ACTION( "yet-to-unpack",                   0,  act_unpackchk,            unpackchk       ),
+  ACTION( "list",                           'l', act_listpackages,         listpackages    ),
+  ACTION( "search",                         'S', act_searchfiles,          searchfiles     ),
+  ACTION( "print-architecture",              0,  act_printarch,            printarch       ),
+  ACTION( "print-gnu-build-architecture",    0,  act_printgnuarch,         printarch       ),
+  ACTION( "assert-support-predepends",       0,  act_assertpredep,         assertpredep    ),
+  ACTION( "assert-working-epoch",            0,  act_assertepoch,          assertepoch     ),
+  ACTION( "assert-long-filenames",           0,  act_assertlongfilenames,  assertlongfilenames ),
+  ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch   ),
+  ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
+  ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
   
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },

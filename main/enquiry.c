@@ -506,6 +506,11 @@ void assertepoch(const char *const *argv) {
   assertversion(argv,&epochversion,"1.4.0.7");
 }
 
+void assertlongfilenames(const char *const *argv) {
+  static struct versionrevision epochversion = {~0UL,0,0};
+  assertversion(argv,&epochversion,"1.4.1.17");
+}
+
 void predeppackage(const char *const *argv) {
   /* Print a single package which:
    *  (a) is the target of one or more relevant predependencies.
