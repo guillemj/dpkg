@@ -266,10 +266,10 @@ urqresult urq_menu(void) {
       c= getch();
     while (c == ERR && errno == EINTR);
     if (c==ERR) ohshite(_("failed to getch in main menu"));
-    if (c==C('n') || c==KEY_DOWN || c==' ') {
+    if (c==C('n') || c==KEY_DOWN || c==' ' || c=='k') {
       dme(cursor,0); cursor++; cursor %= entries; dme(cursor,1);
     } else if (c==C('p') || c==KEY_UP || c==C('h') ||
-               c==KEY_BACKSPACE || c==KEY_DC) {
+               c==KEY_BACKSPACE || c==KEY_DC || c=='j') {
       dme(cursor,0); cursor+= entries-1; cursor %= entries; dme(cursor,1);
     } else if (c=='\n' || c=='\r' || c==KEY_ENTER) {
       clear(); refresh();
