@@ -71,7 +71,7 @@ protected:
   varbuf whatinfovb;
   char searchstring[50];
 
-  void setheights();
+  virtual void setheights();
   void unsizes();
   void dosearch();
   void displayhelp(const struct helpmenuentry *menu, int key);
