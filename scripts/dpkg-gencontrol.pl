@@ -111,7 +111,7 @@ for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
-        if (m/^Origin|Bugs-(Submit-To|Submit-Style)|Maintainer)$/) { $f{$_}=$v; }
+        if (m/^Origin|Bugs-(Submit-To|Submit-Style)|Maintainer$/) { $f{$_}=$v; }
         elsif (m/^Source$/) { &setsourcepackage; }
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
 	elsif (m/^X[CS]+-|^Standards-Version$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
