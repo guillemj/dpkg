@@ -53,15 +53,12 @@ inline void *nfmalloc(size_t size)
 
 char *nfstrsave(const char *string) {
   OBSTACK_INIT;
-  return obstack_copy (&db_obs, string, strlen(string) + 1);
+  return obstack_copy0 (&db_obs, string, strlen(string));
 }
 
 char *nfstrnsave(const char *string, int l) {
-  char *ret;
   OBSTACK_INIT;
-  ret = obstack_copy (&db_obs, string, l + 1);
-  *(ret + l) = 0;
-  return ret;
+  return obstack_copy0 (&db_obs, string, l);
 }
 
 void nffreeall(void) {
