@@ -156,8 +156,10 @@ void listpackages(const char *const *argv) {
         if (fnmatch(thisarg,pkg->name,0)) continue;
         list1package(pkg,&head); found++;
       }
-      if (!found)
+      if (!found) {
         fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
+	nerrs++;
+      }
     }
   }
   if (ferror(stdout)) werr("stdout");
@@ -411,6 +413,7 @@ void searchfiles(const char *const *argv) {
     }
     if (!found) {
       fprintf(stderr,_("dpkg: %s not found.\n"),thisarg);
+      nerrs++;
       if (ferror(stderr)) werr("stderr");
     } else {
       if (ferror(stdout)) werr("stdout");

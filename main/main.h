@@ -156,6 +156,7 @@ void cu_prermremove(int argc, void **argv);
 
 /* from errors.c */
 
+int nerrs;
 void print_error_perpackage(const char *emsg, const char *arg);
 void forcibleerr(int forceflag, const char *format, ...) PRINTFFORMAT(2,3);
 int reportbroken_retexitstatus(void);
