@@ -1,0 +1,741 @@
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook V3.1//EN" [
+  <!ENTITY debian "<productname>Debian</productname>">
+  <!ENTITY dpkg "<command>dpkg</command>">
+  <!ENTITY dselect "<command>dselect</command>">
+  <!ENTITY deb "<filename>.deb</filename>">
+]>
+<book id="packaging-manual">
+<bookinfo>
+  <title>dpkg reference Manual</title>
+  <edition>draft</edition>
+  <authorgroup>
+    <author>
+      <firstname>Wichert</firstname>
+      <surname>Akkerman</surname>
+      <affiliation>
+	<address>
+	  <email>wichert@deephackmode.org</email>
+	</address>
+      </affiliation>
+    </author>
+  </authorgroup>
+  <copyright>
+    <year>2001</year>
+    <year>2002</year>
+    <holder>Wichert Akkerman</holder>
+  </copyright>
+
+  <legalnotice>
+    <para>
+      Permission is granted to copy, distribute and/or modify this document
+      under the terms of the GNU Free Documentation License, Version 1.1 or any
+      later version published by the Free Software Foundation. There are
+      no invariant sections. A copy of the license is included in the section
+      entitled "GNU Free Documentation License".
+    </para>
+  </legalnotice>
+</bookinfo>
+
+<preface>
+  <title>Preface</title>
+
+  <para>
+    This manual is a reference to the &debian; package management system.
+  </para>
+
+  <para>
+    This manual is currently being written based on the previous packaging
+    manual and as such is a work in progress.
+  </para>
+</preface>
+
+<chapter id="intro">
+  <title>Introduction</title>
+
+  <para>
+    The Debian package management system is build up from various seperate
+    tools that work together form a comprehensive system to manage your
+    system.
+  </para>
+
+  <para>
+    This document describes all the tools that used to handle and produce
+    them as well as the file formats used.
+  </para>
+</chapter>
+
+
+<chapter id="diversions">
+  <title>Managing diversions</title>
+
+  <para>
+    Diversions are a method to instruct &dpkg; to use a different filename
+    when installing a file. This can be useful to prevent conflicts between
+    related packages or when a system administator wants to replace a file
+    with another version.
+  </para>
+
+  <para>
+    Diversions are specific to either a package or the local system.  A
+    package specific diversion will only divert a file if it does not
+    belongs to a specific package that was given when the diversion was
+    created. This allow a package to divert a file from other packages and
+    replacing them with its own copy. Local diversions are applied to all
+    packages and can be used by the system administrator.
+  </para>
+
+  <section>
+    <title>Managing diversions with dpkg-divert</title>
+
+    <tip>
+      <para>
+	The official documentation for <command>dpkg-divert</command> can always
+	be found online in the
+	<citerefentry><refentrytitle>dpkg-divert</refentrytitle>
+	<manvolnum>8</manvolnum></citerefentry> manual page.
+      </para>
+    </tip>
+
+    <section>
+    <title>Adding new diversions</title>
+
+    <para>New options can be added using the <emphasis>--add</emphasis>
+    option for <command>dpkg-divert</command>. Its syntax is:
+    </para>
+
+    </section>
+
+  </section>
+</chapter>
+
+<chapter id="permissions">
+  <title>Managing file permissions / ownership</title>
+
+  <para>
+    When you install a package &dpkg; will use the ownership and permissions
+    that are used inside the package. In some situations you might not agree
+    with those defaults and would like to use other settings. To support this
+    a feature called statoverrides was introduced in &dpkg; 1.8.0, and an
+    accompanying tool called <command>dpkg-statoverride</command>.
+  </para>
+
+  <note>
+    <para>
+      Even though we use the word file here, this applies to all filesystem
+      objects that &dpkg; handles, including directories,
+      devices, etc.
+    </para>
+  </note>
+
+  <caution>
+    <para>
+      If you look at the &dpkg; changelog you will see that statoverrides
+      were actually added in version 1.7.0. However that version had
+      some problems both in <command>dpkg-statoverrides</command> which
+      broke adding and removing of overrides and in &dpkg; itself which
+      made it only apply overrides to normal files. Both problems
+      were fixed in version 1.8.0.
+    </para>
+  </caution>
+
+  <section>
+    <title>How permissions and ownership are applied</title>
+
+    <para>
+      &dpkg; uses the following logic to determine the ownership and
+      permissions to use when installing a file:
+    </para>
+
+    <orderedlist>
+      <listitem><para>Check if there is a statoverride registered for this file
+      </para></listitem>
+
+      <listitem><para>If an override is present use the ownership and permission
+	specified in the override.</para></listitem>
+
+      <listitem><para>If no override is present:</para>
+
+	<orderedlist>
+	  <listitem><para>Check if there is a system account with the same name
+	    as the owner used inside the archive. If so use that as owner,
+	    otherwise use the uid as used in the package.
+	  </para></listitem>
+
+	  <listitem><para>Check if there is a system group with the same name
+	    as the group used inside the archive. If so use that as group,
+	    otherwise use the gid as used in the package.
+	  </para></listitem>
+
+	  <listitem><para>Use the permissions as used in the package.
+	  </para></listitem>
+	</orderedlist>
+      </listitem>
+    </orderedlist>
+
+    <para>
+      The exact method that &dpkg; uses to set the ownership and permissions
+      depends on the type of file that is being created:
+    </para>
+
+    <variablelist>
+      <varlistentry>
+	<term>regular files</term>
+	<listitem><para>Created with owner and group set to
+	  <filename>root</filename> and with mode 0. After the data has
+	  been written to the file the ownership and mode are set to their
+	  final values.
+	</para></listitem>
+      </varlistentry>
+
+      <varlistentry>
+	<term>FIFOs</term>
+	<term>character and block devices</term>
+	<term>directories</term>
+	<listitem><para>Created with owner and group set to
+	  <filename>root</filename> and with mode 0, and then updated
+	  to set the ownership and mode to their final values.
+	</para></listitem>
+      </varlistentry>
+	  
+      <varlistentry>
+	<term>Hardlinks</term>
+	<listitem><para>After the link has been made its ownership and
+	  permissions are setup. <emphasis>This means the original file
+	  will also be changed!</emphasis>
+	</para></listitem>
+      </varlistentry>
+    </variablelist>
+  </section>
+
+  <section>
+    <title>Managing overrides with dpkg-statoverride</title>
+
+    <tip>
+      <para>
+	The official documentation for <command>dpkg-statoverride</command> can
+	always be found online in the
+	<citerefentry><refentrytitle>dpkg-statoverride</refentrytitle>
+	<manvolnum>8</manvolnum></citerefentry> manual page.
+      </para>
+    </tip>
+
+    <section>
+      <title>Listing overrides</title>
+
+      <para>
+	You can get a list of all overrides present in the database by using the
+	<option>--list</option> option:
+      </para>
+
+      <blockquote><para>
+	<synopsis><command>dpkg-statoverride</command> <option>--list</option> <parameter>&lt;glob&gt;</parameter></synopsis>
+</para></blockquote>
+
+      <para>
+	There is an optional glob option that restricts the output from
+	<option>--list</option> to overrides for files that match the glob
+	expression. 
+      <para>
+
+      <footnote>
+	<para>
+	  Please see the <citerefentry><refentrytitle>sh</refentrytitle>
+	  <manvolnum>1</manvolnum></citerefentry> or
+	  <citerefentry><refentrytitle>glob</refentrytitle><manvolnum>7</manvolnum>
+	  </citerefentry> for a description of glob syntax.
+	</para>
+      </footnote>
+
+      <example>
+	<title>Listing overrides</title>
+	<programlisting>
+[fog;~]-1# dpkg-statoverride --list
+root root 0755 /bin/mount
+root root 0755 /bin/ping
+[fog;~]-2# dpkg-statoverride --list '*mount*'
+root root 0755 /bin/mount
+</programlisting>
+      </example>
+    </section>
+
+    <section>
+      <title>Adding new overrides</title>
+
+      <para>
+	New options can be added using the <option>--add</option> option
+	for <command>dpkg-statoverride</command>. Its syntax is:
+      </para>
+
+      <blockquote><para>
+	<synopsis><command>dpkg-statoverride</command> <option>--add</option> <parameter>&lt;user&gt;</parameter> <parameter>&lt;group&gt;</parameter> <parameter>&lt;mode&gt;</parameter> <parameter>&lt;file&gt;</parameter>
+</synopsis></para></blockquote>
+      
+      <para>
+	This will add an override for <filename>&lt;file&gt;</filename> by
+	telling &dpkg; to use the user, group and mode given to
+	<command>dpkg-statoverride</command>. The user and group can be
+	specified in two ways: either by using the name as found in the
+	system account database (ie <filename>/etc/passwd</filename>, NIS or
+	another source configured in
+	<filename>/etc/nsswitch.conf</filename>), or by using a number
+	prefixed with <computeroutput>#</computeroutput>.
+      </para>
+
+      <example>
+	<title>Adding an override</title>
+
+      <programlisting>
+
+[fog;~]-1# ls -l /bin/mount
+-rwsr-xr-x    1 root     root        56284 Nov 23 06:14 /bin/mount
+[fog;~]-2# dpkg-statoverride --add root root 0755 /bin/mount
+[fog;~]-3# ls -l /bin/mount
+-rwsr-xr-x    1 root     root        56284 Nov 23 06:14 /bin/mount
+</programlisting>
+      </example>
+
+      <para>
+	Adding an override does not update the file on the filesystem, unless
+	you also specify the <option>--update</option> option.
+      </para>
+
+      <example>
+	<title>Adding an override using --update</title>
+
+	<programlisting>
+[fog;~]-1# ls -l /bin/mount
+-rwsr-xr-x    1 root     root        56284 Nov 23 06:14 /bin/mount
+[fog;~]-2# dpkg-statoverride --update --add root root 0755 /bin/mount
+[fog;~]-3# ls -l /bin/mount
+-rwxr-xr-x    1 root     root        56284 Nov 23 06:14 /bin/mount
+</programlisting>
+    </example>
+
+    <para>
+      If an override already exists and you want to replace it you can
+      use the <option>--force</option> to force <command>dpkg-statoverride
+      </command> to replace the existing override.
+    </para>
+
+    <example>
+      <title>Replacing an existing override</title>
+      <programlisting>
+[fog;~/sources/play/pkg-manual]-1# dpkg-statoverride --add root root 0755 /bin/mount
+An override for "/bin/mount" already exists, aborting
+[fog;~/sources/play/pkg-manual]-2# dpkg-statoverride --force --add root root 0755 /bin/mount
+An override for "/bin/mount" already exists, but --force specified so lets ignore it.
+[fog;~/sources/play/pkg-manual]-3# dpkg-statoverride --list /bin/mount
+root root 0755 /bin/mount
+</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>Removing overrides</title>
+    <para>
+    Overrides can be removed using the <option>--remove</option> option,
+    which takes a single filename as argument:
+    </para>
+
+    <blockquote><para>
+      <synopsis><command>dpkg-statoverride</command> <option>--remove</option> <parameter>&lt;file&gt;</parameter></synopsis>
+</para></blockquote>
+
+    <para>
+    This will remove the override for <filename>&lt;file&gt;</filename>
+    from the database.
+    </para>
+
+    <note>
+      <para>When an override for a file is removed its ownership and permission
+      are <emphasis>not</emphasis> restored to the original value.
+      </para>
+    </note>
+
+    <example>
+      <title>Removing an override</title>
+      <programlisting>
+[fog;~]-1# dpkg-statoverride --list
+root root 0755 /bin/mount
+[fog;~]-2# dpkg-statoverride --remove /bin/mount
+[fog;~]-3# dpkg-statoverride --list
+[fog;~]-4#
+</programlisting>
+    </example>
+  </section>
+
+  </section>
+</chapter>
+
+
+<chapter id="formats">
+  <title>File formats</title>
+  <para>
+    This chapter describes all the file formats used by the package tools.
+    All files are text files which you can view and modify using any normal
+    text editor if needed.
+  </para>
+
+  <para>
+    Most file formats are based on the RFC822 format, which is best known
+    as the format used in e-mail headers.
+  </para>
+
+  <section>
+    <title>RFC822</title>
+    <para>
+      A RFC822 style messages consists of one or more blocks, seperated by
+      null lines (an empty line). Each block is made up of fields. Fields
+      can be folded over multiple lines by inserting a 'newline whitespace'
+      pair. This combination is interpreted as a single whitespace.
+    </para>
+
+    <para>
+      Each fiels s a single line consisting of a field-name and a
+      field-body, seperated by a colon (:). The field-name is made up
+      from printable ASCII characters minus the colon. The field-body
+      may be composed of all ASCII characters except CR or LF (they
+      are automatically removed when unfolding lines).
+    </para>
+
+    <example>
+      <title>RFC822 style file</title>
+
+      <programlisting>
+Header: value
+Description: this is an example of an RFC822 style message
+
+Section: new
+Name: body
+Description: this is block 2 of the example
+X-Fortune:
+ To be excellent when engaged in administration is to be like the North
+ Star.  As it remains in its one position, all the other stars surround it.
+ -- Confucius
+</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>changes file</title>
+
+    <para>
+      Bla
+    </para>
+  </section>
+
+  <section>
+    <title>dsc file</title>
+
+    <para>
+      The <filename>.dsc</filename> file describes the source for a Debian
+      package: it contains general information over the source such as the
+      name of the package and which binary package it produces as well as
+      the files that contain the sourcecode.
+    </para>
+    
+    <para>
+      Just like other dpkg datafiles this file is formated using RFC822
+      syntax. In addition the file can signed as an OpenPGP ASCII armored
+      message (see RFC2440). The table below lists the allowed fields
+      in a <filename>.dsc</filename> file. The order used is not important,
+      although <command>dpkg-source</command> will output the fields using
+      the ordering used in the table.
+    </para>
+
+    <table>
+      <title>Fields in a <filename>.dsc</filename> file</title>
+      <tgroup cols="2">
+	<thead>
+	  <row><entry>Field</entry><entry>Description</entry></row>
+	</thead>
+	<tbody>
+	  <row><entry>Format</entry>
+	       <entry>Version of the <filename>.dsc</filename> file format used
+		      </entry></row>
+	  <row><entry>Source</entry>
+	       <entry>Name of the source package</entry></row>
+	  <row><entry>Version</entry>
+	       <entry>Version number of the source</entry></row>
+	  <row><entry>Binary</entry>
+	       <entry>comma seperated list of binary packages build from this
+		  source</entry></row>
+	  <row><entry>Origin</entry>
+	       <entry>Name of the organization that procudes this package
+		      </entry></row>
+	  <row><entry>Maintainer</entry>
+	       <entry>Maintainer of this package</entry></row>
+	  <row><entry>Uploaders</entry>
+	       <entry>Multi-line field with list of people authorized to make
+		      uploads of a package (optional)</entry>
+	  <row><entry>Architecture</entry>
+	       <entry>Space seperated list of architectures for which package
+		      are build from this source</entry></row>
+	  <row><entry>Standards-Version</entry>
+	       <entry>Version of &debian; policy this package is complient
+		      with</entry></row>
+	  <row><entry>Files</entry>
+	       <entry>Multi-line field with list of files with the actual source
+		      code</entry></row>
+	</tbody>
+      </tgroup>
+    </table>
+
+    <para>
+      The current version of the <filename>.dsc</filename> is 1.0 . The first
+      digit in the version number is the major version. Within a major version
+      the only allowed changes in format are additiong of new fields. This
+      guarantees that tools like <command>dpkg-source</command> will be
+      fully backwards and upwards compatible within  a major version.
+    </para>
+
+    <para>
+      The Files field contains one line for each file that is
+      contains source for this package (only 2 files are supported: a
+      <filename>.tar.gz</filename> file with the (original) source, and
+      an optional <filename>.diff.gz</filename> with Debian changes to the
+      source). Each file description consists of 3 items, seperated by
+      a single space:
+
+      <orderedlist>
+	<listitem><para>A MD5 checksum of the file</para></listitem>
+	<listitem><para>The filesize in bytes</para></listitem>
+	<listitem><para>The filename</para></listitem>
+      </orderedlist>
+    </para>
+
+    <example>
+      <title>modutils .dsc file</title>
+
+      <programlisting>
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Format: 1.0
+Source: modutils
+Version: 2.4.1-1
+Binary: modutils
+Origin: debian
+Maintainer: Wichert Akkerman &lt;wakkerma@debian.org&gt;
+Architecture: any
+Standards-Version: 3.2.0
+Files: 
+ 6d69ff476c964e703659d950999e411c 246022 modutils_2.4.1.orig.tar.gz
+ 3de7100460662472404f8a83cccde6da 17219 modutils_2.4.1-1.diff.gz
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.0.4 (GNU/Linux)
+Comment: For info see http://www.gnupg.org
+
+iEYEARECAAYFAjpbNIAACgkQPLiSUC+jvC1CFQCePvKBH6qT7/BKXVHCamKXZvZq
+Be8An1QDPcyDFtMddYJw/BwTVphbwzU6
+=Zl3g
+-----END PGP SIGNATURE-----
+</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>control</title>
+
+    <table>
+      <title>Fields in the source section of the <filename>control</filename>
+	     file</title>
+      <tgroup cols="2">
+	<thead>
+	  <row><entry>Field</entry>
+	       <entry>required</entry>
+	       <entry>Description</entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row><entry>Source</entry><entry>yes</entry>
+	       <entry>Name of the source package</entry></row>
+	  <row><entry>Section</entry><entry>no</entry>
+	       <entry>Package category for this package, used by frontends.
+		      </entry></row>
+	  <row><entry>Priority</entry><entry>no</entry>
+	       <entry>Indication of package importance. Legal values are
+		      extra, important, optional, required and standard.
+		      </entry></row>
+	  <row><entry>Maintainer</entry><entry>yes</entry>
+	       <entry>Name of the source package</entry></row>
+	  <row><entry>Standards-Version</entry><entry>no</entry>
+	       <entry>Version of &debian; policy this package is complient
+		      with</entry></row>
+	  <row><entry>Build-Depends, Build-Conflicts,
+		      Build-Depends-Indep, Build-Conflicts-Indep</entry><entry>no</entry>
+	       <entry>Specify demands on the build environment</entry></row>
+	  <row><entry>Bugs</entry><entry>no</entry>
+	       <entry>Name of the source package</entry></row>
+	  <row><entry>Origin</entry><entry>no</entry>
+	       <entry>Name of the source package</entry></row>
+	</tbody>
+      </tgroup>
+    </table>
+
+
+    <table>
+      <title>Fields in the package section of the <filename>control</filename>
+	     file</title>
+      <tgroup cols="2">
+	<thead>
+	  <row><entry>Field</entry>
+	       <entry>required</entry>
+	       <entry>Description</entry>
+	  </row>
+	</thead>
+	<tbody>
+	  <row><entry>Package</entry><entry>yes</entry>
+	       <entry>Name of the package</entry></row>
+	  <row><entry>Architecture</entry><entry>yes</entry>
+	       <entry>Space seperated list of architectures for which package
+		      are build from this source</entry></row>
+	  <row><entry>Essential</entry><entry>no</entry>
+	       <entry>Indicates if a package is essential to the system
+		      </entry></row>
+	  <row><entry>Pre-Depends, Depends, Recommends, Suggests, Replaces,
+		      Conflicts</entry><entry>no</entry>
+	       <entry>Specify relations to other packages</entry></row>
+	  <row><entry>Description</entry><entry>yes</entry>
+	       <entry>Description of the package</entry></row>
+	</tbody>
+      </tgroup>
+    </table>
+  </section>
+
+  <section>
+    <title>diversions</title>
+
+    <para>
+      The <filename>diversions</filename> file contains all the alternatives
+      defined on this system. It is located in the &dpkg; admin directory.
+    </para>
+
+    <note>
+      <para>
+	This is an internal &dpkg; file: do not edit it by hand unless really
+	needed, but use the <command>dpkg-divert</command> tool instead.
+      </para>
+    </note>
+
+    <para>
+      For each diversion there are 3 lines in the diversions file:
+      <orderedlist>
+	<listitem><para>
+	  The name of the file that will be diverted.
+	</para></listitem>
+
+       <listitem><para>
+	 The filename that the diverted file will be diverted to.
+       </para></listitem>
+
+       <listitem><para>
+	 The name of the package that made this diversion. If it is a
+	 local (ie user) diversion the magic packagename `:' is used
+	 instead.
+       </para></listitem>
+      </orderedlist>
+    </para>
+
+    <example>
+      <title>Example <filename>diversions</filename> file</title>
+
+      <programlisting>
+/sbin/modprobe
+/sbin/modprobe.orig
+:
+/usr/bin/locate
+/usr/bin/locate.notslocate
+slocate
+</programlisting>
+    </example>
+  </section>
+
+  <section>
+    <title>statoverrides</title>
+    <para>
+      This file contains the list of all statoverrides that &dpkg; uses
+      when unpacking packages. It is located in the &dpkg; admin
+      directory. Each line in the file represents one override, and
+      comments are not allowed.
+    </para>
+
+    <note>
+      <para>
+	This is an internal &dpkg; file: do not edit it by hand unless really
+	needed, but use the <command>dpkg-statoverride</command> tool instead.
+      </para>
+    </note>
+
+    <para>
+      Each line contains 4 items, seperated by whitespace:
+      <orderedlist>
+	<listitem><para>
+	  The owner to use. This can be either an accountname that must
+	  be present on the system, or a numerical uid. Uids are prefixed
+	  with a <computeroutput>#</computeroutput>.
+	</para></listitem>
+
+	<listitem><para>
+	  The group to use. This can be either a group that must be present on
+	  the system, or a numerical gid. Gids are prefixed
+	  with a <computeroutput>#</computeroutput>.
+	</para></listitem>
+
+	<listitem><para>
+	  Mode to use for this file. This is an octal number.
+	</para></listitem>
+
+	<listitem><para>
+	  The filesystem object (file, directory, device, FIFO or link)
+	  to which this override should be applied. Since this is the
+	  last item on a line it may contain whitespace.
+	</para></listitem>
+      </orderedlist>
+    </para>
+
+    <example>
+      <title>Example <filename>statoverride</filename> file</title>
+      <programlisting>
+root wheel 04750 /bin/su
+root adm 0750 /var/log/apache
+</programlisting>
+
+      <para>
+        This will tell &dpkg; to do the following:
+      </para>
+
+      <itemizedlist>
+	<listitem><para><filename>/bin/su</filename> is installed owned by
+	  user <computeroutput>root</computeroutput> and group
+	  <computeroutput>wheel</computeroutput> with mode 04750. This means
+	  that only people in the <computeroutput>wheel</computeroutput>
+	  group are allowed to run <command>su</command>.
+        </para></listitem>
+  
+	<listitem><para><filename>/var/log/apache</filename> is installed
+	  owned by user <computeroutput>root</computeroutput> and group
+	  <computeroutput>adm</computeroutput> with mode 0750. This
+	  restricts the ability to view the
+	  <productname>apache</productname> to people in the
+	  <computeroutput>adm</computeroutput> group by disallowing others
+	  to access the <filename>/var/log/apache</filename> directory.
+        </para></listitem>
+      </itemizedlist>
+    </example>
+  </section>
+
+  <section>
+    <title>alternatives</title>
+
+    <para>
+      Bla
+    </para>
+  </section>
+</chapter>
+
+</book>
+
+<!-- vim: sw=2
+-->
