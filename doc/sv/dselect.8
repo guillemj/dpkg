@@ -1,4 +1,4 @@
-.\" Translation of CVS revision 1.7
+.\" Translation of CVS revision 1.8
 .TH DSELECT 8 "Juli 2001" "Debianprojektet" "Debian"
 .SH NAMN
 dselect \- Debians pakethanteringssystem
@@ -334,8 +334,14 @@ att använda rörelsekommandon kopplade till följande tangenter:
 .sp
 Det går att söka i paketlistan efter paketnamn.
 Detta görs genom att trycka \fB"/"\fP och ange en enkel söksträng.
-Strängen tolkas bokstavligen och får inte innehålla metatecken, såsom
-de som används i reguljära uttryck eller som jokertecken i filnamn.
+Strängen tolkas som ett
+.BR regex (7)-reguljärt
+uttryck.
+Om du lägger till \fB"/d"\fP till sökuttrycket kommer dselect även söka
+beskrivningar.
+Om du lägger till \fB"/i"\fP kommer sökningen att ignorera skillnader mellan
+gemener och versaler.
+Du kan kombinera dessa båda suffix så här: \fB"/id"\fP.
 Sökningen kan upprepas genom att trycka på \fB"n"\fP eller \fB"\\"\fP
 tills det önskade paketet hittas.
 Om sökningen når slutet på listan hoppar den till början och fortsätter
