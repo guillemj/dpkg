@@ -181,7 +181,7 @@ struct pkginfo *findpackage(const char *inname) {
   pointerp= bins + (hash(name) & (BINS-1));
   while (*pointerp && strcasecmp((*pointerp)->name,name))
     pointerp= &(*pointerp)->next;
-  if (*pointerp) return *pointerp;
+  if (*pointerp) { free(name); return *pointerp; }
 
   newpkg= nfmalloc(sizeof(struct pkginfo));
   blankpackage(newpkg);

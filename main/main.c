@@ -433,7 +433,7 @@ void execbackend(const char *const *argv) {
   int i, argc = 1;
   const char *const *arg = argv;
   while(*arg != 0) { arg++; argc++; }
-  nargv= malloc(sizeof(char *) * argc + 2);
+  nargv= malloc(sizeof(char *) * (argc + 2));
 
   if (!nargv) ohshite(_("couldn't malloc in execbackend"));
   nargv[0]= strdup(cipaction->parg);
