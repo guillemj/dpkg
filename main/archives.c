@@ -350,9 +350,15 @@ int tarobject(struct TarInfo *ti) {
           printf("Replacing files in old package %s ...\n",otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 1;
         } else {
-          forcibleerr(fc_overwrite,
-                      "trying to overwrite `%.250s', which is also in package %.250s",
-                      nifd->namenode->name,otherpkg->name);
+          if (S_ISDIR(stab.st_mode)) {
+            forcibleerr(fc_overwritedir, "trying to overwrite directory `%.250s' "
+                        "in package %.250s with nondirectory",
+                        nifd->namenode->name,otherpkg->name);
+          } else {
+            forcibleerr(fc_overwrite,
+                        "trying to overwrite `%.250s', which is also in package %.250s",
+                        nifd->namenode->name,otherpkg->name);
+          }
         }
       }
     }
@@ -747,6 +753,7 @@ void archivefiles(const char *const *argv) {
   modstatdb_init(admindir,
                  f_noact ?                     msdbrw_readonly
                : cipaction->arg == act_avail ? msdbrw_write
+               : fc_nonroot ?                  msdbrw_write
                :                               msdbrw_needsuperuser);
 
   currenttime= time(0);

@@ -53,7 +53,7 @@ enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
               act_unpackchk, act_status, act_searchfiles, act_audit, act_listfiles,
               act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
               act_printinstarch, act_compareversions, act_printavail, act_avclear,
-              act_forgetold };
+              act_forgetold, act_getselections, act_setselections };
 
 enum conffopt {
   cfof_prompt        =     001,
@@ -82,6 +82,7 @@ extern unsigned long f_debug;
 extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
 extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
 extern int fc_autoselect, fc_badpath, fc_overwritediverted, fc_architecture;
+extern int fc_nonroot, fc_overwritedir;
 
 extern const char *admindir;
 extern const char *instdir;
@@ -114,6 +115,16 @@ void predeppackage(const char *const *argv);
 void printarch(const char *const *argv);
 void printinstarch(const char *const *argv);
 void cmpversions(const char *const *argv);
+
+/* Intended for use as a comparison function for qsort when
+ * sorting an array of pointers to struct pkginfo:
+ */
+int pkglistqsortcmp(const void *a, const void *b);
+
+/* from select.c */
+
+void getselections(const char *const *argv);
+void setselections(const char *const *argv);
 
 /* from packages.c, remove.c and configure.c */
 

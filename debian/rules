@@ -44,9 +44,10 @@ binary-arch:	checkroot build
 		datadir=$(DIR)/debian/tmp/var/lib/dpkg \
 		etcdir=$(DIR)/debian/tmp/etc \
 		install
-	cp debian/copyright debian/tmp/usr/doc/copyright/dpkg
-	cp TODO debian/tmp/usr/doc/dpkg/WISHLIST
+	find debian/tmp/usr/man -type f | xargs gzip -9v
 	gzip -9v debian/tmp/usr/doc/dpkg/changelog.*
+	cp debian/copyright debian/tmp/usr/doc/dpkg/copyright
+	cp TODO debian/tmp/usr/doc/dpkg/WISHLIST
 	touch debian/tmp/var/lib/dpkg/{status,available}
 	dpkg-shlibdeps -dPre-Depends main/dpkg dselect/dselect
 	dpkg-gencontrol

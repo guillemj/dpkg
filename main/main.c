@@ -60,6 +60,8 @@ Usage: \n\
   " DPKG " -A|--record-avail <.deb file name> ... | -R|--recursive <dir> ...\n\
   " DPKG " --configure           <package name> ... | -a|--pending\n\
   " DPKG " -r|--remove | --purge <package name> ... | -a|--pending\n\
+  " DPKG " --get-selections [<pattern> ...]   get list of selections to stdout\n\
+  " DPKG " --set-selections                   set package selections from stdin\n\
   " DPKG " --update-avail <Packages-file>     replace available packages info\n\
   " DPKG " --merge-avail <Packages-file>      merge with info from file\n\
   " DPKG " --clear-avail                      erase existing available info\n\
@@ -125,6 +127,7 @@ unsigned long f_debug=0;
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=1;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_autoselect=1, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
+int fc_nonroot=0, fc_overwritedir=0;
 
 const char *admindir= ADMINDIR;
 const char *instdir= "";
@@ -144,8 +147,10 @@ static const struct forceinfo {
   { "depends-version",     &fc_dependsversion           },
   { "auto-select",         &fc_autoselect               },
   { "bad-path",            &fc_badpath                  },
+  { "not-root",            &fc_nonroot                  },
   { "overwrite",           &fc_overwrite                },
   { "overwrite-diverted",  &fc_overwritediverted        },
+  { "overwrite-dir",       &fc_overwritedir             },
   { "architecture",        &fc_architecture             },
   {  0                                                  }
 };
@@ -243,12 +248,14 @@ DPKG " forcing options - control behaviour when problems found:\n\
   configure-any          Configure any package which may help this one\n\
   hold                   Process incidental packages even when on hold\n\
   bad-path               PATH is missing important programs, problems likely\n\
+  not-root               Try to (de)install things even when not root\n\
   overwrite [*]          Overwrite a file from one package with another\n\
   overwrite-diverted     Overwrite a diverted file with an undiverted version\n\
   depends-version [!]    Turn dependency version problems into warnings\n\
   depends [!]            Turn all dependency problems into warnings\n\
   conflicts [!]          Allow installation of conflicting packages\n\
   architecture [!]       Process even packages with wrong architecture\n\
+  overwrite-dir [!]      Overwrite one package's directory with another's file\n\
   remove-reinstreq [!]   Remove packages which require installation\n\
   remove-essential [!]   Remove an essential package\n\
 \n\
@@ -294,6 +301,8 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "purge",                           0,  act_purge,         packages        ),
   ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
   ACTION( "status",                         's', act_status,        enqperpackage   ),
+  ACTION( "get-selections",                  0,  act_getselections, getselections   ),
+  ACTION( "set-selections",                  0,  act_setselections, setselections   ),
   ACTION( "print-avail",                     0,  act_printavail,    enqperpackage   ),
   ACTION( "update-avail",                    0,  act_avreplace,     updateavailable ),
   ACTION( "merge-avail",                     0,  act_avmerge,       updateavailable ),

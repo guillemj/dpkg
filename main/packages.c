@@ -68,7 +68,10 @@ void packages(const char *const *argv) {
   int l;
   
   checkpath();
-  modstatdb_init(admindir, f_noact ? msdbrw_readonly : msdbrw_needsuperuser);
+  modstatdb_init(admindir,
+                 f_noact ?    msdbrw_readonly
+               : fc_nonroot ? msdbrw_write
+               :              msdbrw_needsuperuser);
 
   if (f_pending) {
 

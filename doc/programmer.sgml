@@ -2000,12 +2000,24 @@ enabled, downgrading it to a warning, but this may not always be the
 case.
 <p>
 
+It is a more serious error for a package to contain a plain file or
+other kind of nondirectory where another package has a directory
+(again, unless <tt/Replaces/ is used).  This error can be overridden
+if desired using <tt/--force-overwrite-dir/, but this is not -->
+--advisable.
+<p>
+
 Packages which overwrite each other's files produce behaviour which
 though deterministic is hard for the system administrator to
 understand.  It can easily lead to `missing' programs if, for example,
 a package is installed which overwrites a file from another package,
 and is then removed again.<footnote>Part of the problem is due to what
 is arguably a bug in <prgn/dpkg/.</footnote>
+<p>
+
+A directory will never be replaced by a symbolic links to a directory
+or vice versa; instead, the existing state (symlink or not) will be
+left alone and <prgn/dpkg/ will follow the symlink if there is one.
 
 <item>
 

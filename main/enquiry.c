@@ -36,7 +36,7 @@
 #include "filesdb.h"
 #include "main.h"
 
-static int listqcmp(const void *a, const void *b) {
+int pkglistqsortcmp(const void *a, const void *b) {
   struct pkginfo *pa= *(struct pkginfo**)a;
   struct pkginfo *pb= *(struct pkginfo**)b;
   return strcmp(pa->name,pb->name);
@@ -100,7 +100,7 @@ void listpackages(const char *const *argv) {
   iterpkgend(it);
   assert(i==np);
 
-  qsort(pkgl,np,sizeof(struct pkginfo*),listqcmp);
+  qsort(pkgl,np,sizeof(struct pkginfo*),pkglistqsortcmp);
   head=0;
   
   if (!*argv) {
