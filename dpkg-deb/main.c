@@ -66,7 +66,7 @@ Usage: dpkg-deb -b|--build <directory> [<deb>]    Build an archive.\n\
 <cfield> is the name of a field in the main `control' file.\n\
 Options:  -D for debugging output; --old or --new controls archive format;\n\
           --nocheck to suppress control file check (build bad package).\n\
-          -z# to set the compression when building
+          -z# to set the compression when building\n\
 \n\
 Use `dpkg' to install and remove packages from your system, or\n\
 `dselect' for user-friendly package management.  Packages unpacked\n\
