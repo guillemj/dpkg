@@ -196,8 +196,9 @@ void process_archive(const char *filename) {
     pkg->files= nfmalloc(sizeof(struct filedetails));
     pkg->files->next= 0;
     pkg->files->name= pkg->files->msdosname= pkg->files->md5sum= 0;
-    pkg->files->size= nfmalloc(30);
   }
+  /* Always nfmalloc.  Otherwise, we may overwrite some other field. */
+  pkg->files->size= nfmalloc(30);
   sprintf(pkg->files->size,"%lu",(unsigned long)stab.st_size);
 
   if (cipaction->arg == act_avail) {
