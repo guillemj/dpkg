@@ -1,4 +1,4 @@
-#!/usr/bin/perl --
+#!/usr/bin/perl -w --
 
 $admindir= "/var/lib/dpkg"; # This line modified by Makefile
 $dpkglibdir= "../utils"; # This line modified by Makefile
@@ -39,10 +39,13 @@ version 2 or later for copying conditions.  There is NO warranty.
 Usage: update-alternatives --install <link> <name> <path> <priority>
                           [--slave <link> <name> <path>] ...
        update-alternatives --remove <name> <path>
+       update-alternatives --remove-all <name>
        update-alternatives --auto <name>
        update-alternatives --display <name>
        update-alternatives --list <name>
        update-alternatives --config <name>
+       update-alternatives --set <name> <path>
+       update-alternatives --all
 <name> is the name in /etc/alternatives.
 <path> is the name referred to.
 <link> is the link pointing to /etc/alternatives/<name>.
@@ -88,12 +91,12 @@ while (@ARGV) {
         ($alink,$name,$apath,$apriority,@ARGV) = @ARGV;
         $apriority =~ m/^[-+]?\d+/ || &badusage("priority must be an integer");
         $mode= 'install';
-    } elsif (m/^--remove$/) {
+    } elsif (m/^--(remove|set)$/) {
         &checkmanymodes;
-        @ARGV >= 2 || &badusage("--remove needs <name> <path>");
+        @ARGV >= 2 || &badusage("--$1 needs <name> <path>");
         ($name,$apath,@ARGV) = @ARGV;
-        $mode= 'remove';
-    } elsif (m/^--(display|auto|config|list)$/) {
+        $mode= $1;
+    } elsif (m/^--(display|auto|config|list|remove-all)$/) {
         &checkmanymodes;
         @ARGV || &badusage("--$1 needs <name>");
         $mode= $1;
@@ -111,6 +114,8 @@ while (@ARGV) {
     } elsif (m/^--admindir$/) {
         @ARGV || &badusage("--admindir needs a <directory> argument");
         $admindir= shift(@ARGV);
+    } elsif (m/^--all$/) {
+        $mode = 'all';
     } else {
         &badusage("unknown option \`$_'");
     }
@@ -119,8 +124,12 @@ while (@ARGV) {
 defined($aslavelink{$name}) && &badusage("name $name is both primary and slave");
 $aslavelinkcount{$alink} && &badusage("link $link is both primary and slave");
 
-$mode || &badusage("need --display, --config, --install, --remove or --auto");
-$mode eq 'install' || !%slavelink || &badusage("--slave only allowed with --install");
+$mode || &badusage("need --display, --config, --set, --install, --remove, --all, --remove-all or --auto");
+$mode eq 'install' || !%aslavelink || &badusage("--slave only allowed with --install");
+
+if ($mode eq 'all') {
+    &config_all();
+}
 
 if (open(AF,"$admindir/$name")) {
     $manual= &gl("manflag");
@@ -128,7 +137,7 @@ if (open(AF,"$admindir/$name")) {
     $link= &gl("link");
     while (($sname= &gl("sname")) ne '') {
         push(@slavenames,$sname);
-        defined($slavenum{$sname}) && &badfmt("duplicate slave $tsname");
+        defined($slavenum{$sname}) && &badfmt("duplicate slave $sname");
         $slavenum{$sname}= $#slavenames;
         $slink= &gl("slink");
         $slink eq $link && &badfmt("slave link same as main link $link");
@@ -136,7 +145,7 @@ if (open(AF,"$admindir/$name")) {
         push(@slavelinks,$slink);
     }
     while (($version= &gl("version")) ne '') {
-        defined($versionnum{$version}) && &badfmt("duplicate path $tver");
+        defined($versionnum{$version}) && &badfmt("duplicate path $version");
        if ( -r $version ) {
            push(@versions,$version);
            $versionnum{$version}= $i= $#versions;
@@ -219,10 +228,18 @@ if ($mode eq 'config') {
     }
 }
 
+if ($mode eq 'set') {
+    if (!$dataread) {
+	&pr("No alternatives for $name.");
+    } else {
+	&set_alternatives($name);
+    }
+}
+
 if (defined($linkname= readlink("$altdir/$name"))) {
     if ($linkname eq $best) {
         $state= 'expected';
-    } elsif (defined($linkname2= readlink("$altdir/$name.dpkg-tmp"))) {
+    } elsif (defined(readlink("$altdir/$name.dpkg-tmp"))) {
         $state= 'expected-inprogress';
     } else {
         $state= 'unexpected';
@@ -236,7 +253,7 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 # Possible values for:
 #   $manual      manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
-#   $mode        auto, install, remove
+#   $mode        auto, install, remove, remove-all
 # all independent
 
 if ($mode eq 'auto') {
@@ -309,7 +326,7 @@ if ($mode eq 'install') {
 }
 
 if ($mode eq 'remove') {
-    if ($manual eq "manual" and $state eq "expected") {
+    if ($manual eq "manual" and $state ne "expected" and (map { $hits += $apath eq $_ } @versions) and $hits and $linkname eq $apath) {
     	&pr("Removing manually selected alternative - switching to auto mode");
 	$manual= "auto";
     }
@@ -328,6 +345,22 @@ if ($mode eq 'remove') {
           if $verbosemode > 0;
     }
 }
+
+if ($mode eq 'remove-all') {
+   $manual= "auto";
+   $k= $#versions;
+   for ($i=0; $i<=$#versions; $i++) {
+        $k--;
+        delete $versionnum{$versions[$i]};
+	$#priorities--;
+        for ($j=0; $j<=$#slavenames; $j++) {
+            $slavepath{$i,$j}= $slavepath{$k,$j};
+            delete $slavepath{$k,$j};
+        }
+      }
+   $#versions=$k;
+ }
+
 
 for ($j=0; $j<=$#slavenames; $j++) {
     for ($i=0; $i<=$#versions; $i++) {
@@ -499,7 +532,7 @@ sub config_message {
 	    ($best eq $versions[$i]) ? '+' : ' ',
 	    $i+1, $versions[$i]);
     }
-    printf(STDOUT "\nEnter to keep the default[*], or type selection number: ");
+    printf(STDOUT "\nPress enter to keep the default[*], or type selection number: ");
 }
 
 sub config_alternatives {
@@ -537,6 +570,40 @@ sub config_alternatives {
     }
 }
 
+sub set_alternatives {
+   $manual = "manual";
+   # Get prefered number
+   $preferred = -1;
+   for ($i=0; $i<=$#versions; $i++) {
+     if($versions[$i] eq $apath) {
+       $preferred = $i;
+       last;
+     }
+   }
+   if($preferred == -1){
+     &quit("Cannot find alternative `$apath'.\n")
+   }
+   print STDOUT "Using \`$apath' to provide \`$name'.\n";
+   symlink("$apath","$altdir/$name.dpkg-tmp") ||
+     &quit("unable to make $altdir/$name.dpkg-tmp a symlink to $apath: $!");
+   rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
+     &quit("unable to install $altdir/$name.dpkg-tmp as $altdir/$name: $!");
+   # Link slaves...
+   for( $slnum = 0; $slnum < @slavenames; $slnum++ ) {
+     $slave = $slavenames[$slnum];
+     if ($slavepath{$preferred,$slnum} ne '') {
+       checked_symlink($slavepath{$preferred,$slnum},
+		       "$altdir/$slave.dpkg-tmp");
+       checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
+     } else {
+       &pr("Removing $slave ($slavelinks[$slnum]), not appropriate with $versions[$preferred].")
+	 if $verbosemode > 0;
+       unlink("$altdir/$slave") || $! == &ENOENT ||
+	 &quit("unable to remove $altdir/$slave: $!");
+     }
+   }
+}
+
 sub pr { print(STDOUT "@_\n") || &quit("error writing stdout: $!"); }
 sub paf {
     $_[0] =~ m/\n/ && &quit("newlines prohibited in update-alternatives files ($_[0])");
@@ -564,7 +631,16 @@ sub checked_mv {
     rename_mv($source, $dest) ||
 	&quit("unable to install $source as $dest: $!");
 }
-
+sub config_all {
+    opendir ADMINDIR, $admindir or die "Serious problem: $!";
+    my @filenames = grep !/^\.\.?$/, readdir ADMINDIR;
+    close ADMINDIR;
+    foreach my $name (@filenames) {
+        system "$0 --config $name";
+        exit $? if $?;
+    }
+    exit(0);
+}
 exit(0);
 
 # vim: nowrap ts=8 sw=4

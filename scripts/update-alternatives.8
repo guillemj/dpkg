@@ -24,6 +24,15 @@ update-alternatives \- maintain symbolic links determining default commands
 .PP
 .B update-alternatives
 .RI [ options ]
+.B --remove-all
+.I name
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --all
+.PP
+.B update-alternatives
+.RI [ options ]
 .B --auto
 .I name
 .PP
@@ -41,6 +50,11 @@ update-alternatives \- maintain symbolic links determining default commands
 .RI [ options ]
 .B --config
 .I name
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --set
+.I name path
 .SH DESCRIPTION
 .B update-alternatives
 creates, removes, maintains and displays information about the symbolic
@@ -156,6 +170,10 @@ longer be in
 mode. You will need to use the
 .I --auto
 option in order to return to the automatic state.
+.PP
+If you want to configure non-interactivily you can use the
+.I --set
+option instead (see below).
 .SH TERMINOLOGY
 Since the activities of
 .B update-alternatives
@@ -317,6 +335,15 @@ and the newly added alternatives' priority is higher than
 any other installed alternatives for this group,
 the symlinks will be updated to point to the newly added alternatives.
 .TP
+\fB--set\fR \fIname path\fR
+Set the program
+.I path
+as alternative for
+.I name.
+This is equivalent to
+.IB --config
+but is non-interactive and thus scriptable.
+.TP
 \fB--remove\fR \fIname path\fR
 Remove an alternative and all of its associated slave links.
 .I name
@@ -336,6 +363,14 @@ If the link is not currently pointing to
 .IR path ,
 no links are changed;
 only the information about the alternative is removed.
+.TP
+\fB--remove-all\fR \fIname\fR
+Remove all alternatives and all of their associated slave links.
+.I name
+is a name in the alternatives directory.
+.TP
+.B --all
+Call \fB--config\fP on all alternatives.
 .TP
 \fB--auto\fR \fIlink\fR
 Switch the master symlink
