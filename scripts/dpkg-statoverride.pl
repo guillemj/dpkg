@@ -102,7 +102,7 @@ if ($mode eq "add") {
 	$file= $ARGV[3];
 	$file =~ m/\n/ && &badusage("file may not contain newlines");
 
-	if (defined $user{$file}) {
+	if (defined $owner{$file}) {
 		print STDERR "An override for \"$file\" already exists, ";
 		if ($doforce) {
 			print STDERR "but --force specified so lets ignore it.\n";
@@ -111,7 +111,7 @@ if ($mode eq "add") {
 			exit(3);
 		}
 	}
-	$user{$file}=$user;
+	$owner{$file}=$user;
 	$group{$file}=$group;
 	$mode{$file}=$mode;
 	$dowrite=1;
@@ -127,11 +127,11 @@ if ($mode eq "add") {
 } elsif ($mode eq "remove") {
 	@ARGV==1 || &badusage("--remove needs one arguments");
 	$file=$ARGV[0];
-	if (not defined $user{$file}) {
+	if (not defined $owner{$file}) {
 		print "No override present.";
 		exit(0);
 	}
-	delete $user{$file};
+	delete $owner{$file};
 	delete $group{$file};
 	delete $mode{$file};
 	$dowrite=1;
@@ -140,7 +140,7 @@ if ($mode eq "add") {
 	@ARGV==2 || &badusage("--import needs two arguments");
 	$pkg=$ARGV[0];
 	$file=$ARGV[1];
-	if (defined $user{$file}) {
+	if (defined $owner{$file}) {
 		print STDERR "An override for \"$file\" already exists, ";
 		if ($doforce) {
 			print STDERR "but --force specified so lets ignore it.\n";
@@ -158,7 +158,7 @@ if ($mode eq "add") {
 		next if ($sm_pkg eq $pkg);
 		$sm_user="#$sm_user" if ($sm_user =~ m/^\d*$/);
 		$sm_group="#$sm_group" if ($sm_group =~ m/^\d*$/);
-		$user{$fm_file}=$sm_user;
+		$owner{$fm_file}=$sm_user;
 		$group{$fm_file}=$sm_group;
 		if ( -x "/usr/sbin/suidunregister") {
 			@args = ("suidunregister", "$file");
