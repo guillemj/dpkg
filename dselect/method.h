@@ -36,6 +36,7 @@ struct dselect_option {
 };
 
 class methodlist : public baselist {
+protected:
   int status_width, gap_width, name_width, description_width;
   int name_column, description_column;
 
@@ -55,6 +56,7 @@ class methodlist : public baselist {
   void redrawinfo();
   void redrawtitle();
   void setwidths();
+  void setheights();
   const char *itemname(int index);
   const struct helpmenuentry *helpmenulist();
 
