@@ -1,3 +1,18 @@
+Tue Jul 17 16:53:12 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
+  
+  * Merge changes from v1_9 branch
+    + debian/changelog: add 1.9.15 and 1.9.16 releases
+    + scripts/dpkg-source.pl: 
+      - Add handleformat sub to check if we can handle a dscformat
+      - Revert dscformat to 1.0. Technically we changed a few things
+        but older versions of dpkg-source did not handle minor updates
+        to the dscformat. New policy is that minor updates (last digit
+        changes) to the dscformat have to be fully backward and forward
+        compatible.
+      - restore test if tar exited with exited with a non-zero exitcode
+      - remove a bunch of commented debug statements
+    + main/help.c: fix narglist construction building and usage in do_script() 
+
 Tue Jul 17 00:36:32 CEST 2001 Wichert Akkerman <wakkerma@debian.org>
 
   * dselect/dselect.8: document new search features

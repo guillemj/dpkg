@@ -262,12 +262,12 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
   if (!c1) {
     const char **narglist;
     for (r=0; arglist[r]; r++) ;
-    narglist=nfmalloc(r*sizeof(char*));
-    for (r=1; arglist[r]; r++)
+    narglist=nfmalloc((r+1)*sizeof(char*));
+    for (r=1; arglist[r-1]; r++)
       narglist[r]= arglist[r];
     scriptexec= preexecscript(scriptpath,narglist);
     narglist[0]= scriptexec;
-    execv(scriptexec,arglist);
+    execv(scriptexec,narglist);
     ohshite(desc,name);
   }
   script_catchsignals(); /* This does a push_cleanup() */

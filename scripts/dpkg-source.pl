@@ -11,7 +11,7 @@ my $fn;
 $diff_ignore_default_regexp = '^.*~$|^\..*\.swp|DEADJOE|(?:/CVS|/RCS|/.deps)(?:$|/.*$)';
 
 $sourcestyle = 'X';
-$dscformat = "1.1";
+$dscformat = "1.0";
 
 use POSIX;
 use POSIX qw (:errno_h :signal_h);
@@ -58,6 +58,17 @@ Extract options: -sp (default)       leave orig source packed in current dir
 General options: -h                  print this message
 ";
 }
+
+sub handleformat {
+	local $fmt	= shift;
+	local $ourfmt	= $dscformat;
+
+	$fmt =~ s/(.*)\.\d*/$1/;
+	$ourfmt =~ s/(.*)\.\d*/$1/;
+
+	return ($fmt==$ourfmt);
+}
+
 
 $i = 100;
 grep ($fieldimps {$_} = $i--,
@@ -130,7 +141,6 @@ if ($opmode eq 'build') {
     for $_ (keys %fi) {
         $v= $fi{$_};
         if (s/^C //) {
-#print STDERR "G key >$_< value >$v<\n";
             if (m/^Source$/) { &setsourcepackage; }
             elsif (m/^(Standards-Version|Origin|Maintainer|Uploaders)$/) { $f{$_}= $v; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= $v; }
@@ -138,11 +148,9 @@ if ($opmode eq 'build') {
             elsif (m/^(Section|Priority|Files|Bugs)$/ || m/^X[BC]+-/i) { }
             else { &unknown('general section of control info file'); }
         } elsif (s/^C(\d+) //) {
-#print STDERR "P key >$_< value >$v<\n";
             $i=$1; $p=$fi{"C$i Package"};
             push(@binarypackages,$p) unless $packageadded{$p}++;
             if (m/^Architecture$/) {
-#print STDERR "$p >$v< >".join(' ',@sourcearch)."<\n";
                 if ($v eq 'any') {
                     @sourcearch= ('any');
                 } elsif ($v eq 'all') {
@@ -152,12 +160,16 @@ if ($opmode eq 'build') {
                         @sourcearch= ('any');
                     }
                 } else {
+		    if (grep($sourcearch[0] eq $_, 'any','all'))  {
+			@sourcearch= ('any');
+		    } else {
                         for $a (split(/\s+/,$v)) {
                             &error("architecture $a only allowed on its own".
                                    " (list for package $p is \`$a')")
                                    if grep($a eq $_, 'any','all');
                             push(@sourcearch,$a) unless $archadded{$a}++;
                         }
+                }
                 }
                 $f{'Architecture'}= join(' ',@sourcearch);
             } elsif (s/^X[BC]*S[BC]*-//i) {
@@ -170,7 +182,6 @@ if ($opmode eq 'build') {
                 &unknown("package's section of control info file");
             }
         } elsif (s/^L //) {
-#print STDERR "L key >$_< value >$v<\n";
             if (m/^Source$/) {
                 &setsourcepackage;
             } elsif (m/^Version$/) {
@@ -205,9 +216,7 @@ if ($opmode eq 'build') {
     $basenamerev= $sourcepackage.'_'.$version;
     $basename= $sourcepackage.'_'.$upstreamversion;
     $basedirname= $basename;
-#print STDERR ">$basedirname<\n";
     $basedirname =~ s/_/-/;
-#print STDERR ">$basedirname<\n";
 
     $origdir= "$dir.orig";
     $origtargz= "$basename.orig.tar.gz";
@@ -276,8 +285,6 @@ if ($opmode eq 'build') {
         $tarname= "$basenamerev.tar.gz";
     }
 
-#print STDERR ">$dir|$origdir|$origtargz|$sourcestyle<\n";
-
     if ($sourcestyle =~ m/[nurUR]/) {
 
         if (stat($tarname)) {
@@ -288,15 +295,12 @@ if ($opmode eq 'build') {
             &syserr("unable to check for existence of \`$tarname'");
         }
 
-#print STDERR ">$tarname|$tardirbase|$tardirname<\n";
-    
         print("$progname: building $sourcepackage in $tarname\n")
             || &syserr("write building tar message");
         &forkgzipwrite("$tarname.new");
         defined($c2= fork) || &syserr("fork for tar");
         if (!$c2) {
             chdir($tardirbase) || &syserr("chdir to above (orig) source $tardirbase");
-#system('pwd && ls');
             open(STDOUT,">&GZIP") || &syserr("reopen gzip for tar");
             # FIXME: put `--' argument back when tar is fixed
             exec('tar','-cf','-',$tardirname); &syserr("exec tar");
@@ -329,6 +333,8 @@ if ($opmode eq 'build') {
         }
 
         $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
+# tar checking is disabled, there are too many broken tar archives out there
+# which we can still handle anyway.
 #        checktarsane($origtargz,$expectprefix);
         mkdir("$origtargz.tmp-nest",0755) ||
             &syserr("unable to create \`$origtargz.tmp-nest'");
@@ -495,11 +501,12 @@ if ($opmode eq 'build') {
     }
 
     if (defined $fi{'S Format'}) {
-        $dscformat=$fi{'S Format'};
-	if (not $dscformat =~ /^1\./) {
+	if (not handleformat($fi{'S Format'})) {
 	    &error("Unsupported format of .dsc file ($dscformat)");
 	}
+        $dscformat=$fi{'S Format'};
     }
+
     $sourcepackage =~ m/[^.0-9]/ &&
         &error("dsc format contains illegal character \`$&'");
 
@@ -536,6 +543,8 @@ if ($opmode eq 'build') {
     checkstats($tarfile);
     checkstats($difffile) if length($difffile);
 
+# tar checking is disabled, there are too many broken tar archives out there
+# which we can still handle anyway.
 #    checktarsane("$dscdir/$tarfile",$expectprefix);
 
     if (length($difffile)) {
@@ -935,7 +944,7 @@ sub checktarsane {
         if ($type ne '-') { $notfileobject{$tarfn} = 1; }
     }
     close (TAR);
-    #$? && subprocerr ("tar -vvtf");
+    $? && subprocerr ("tar -vvtf");
     &reapgzip;
 
     my $tarsubst = quotemeta ($tarprefix);
@@ -1023,7 +1032,6 @@ sub unrepdiff2 {
 }
 
 sub forkgzipwrite {
-#print STDERR "forkgzipwrite $_[0]\n";
     open(GZIPFILE,"> $_[0]") || &syserr("create file $_[0]");
     pipe(GZIPREAD,GZIP) || &syserr("pipe for gzip");
     defined($cgz= fork) || &syserr("fork for gzip");
@@ -1037,7 +1045,6 @@ sub forkgzipwrite {
 }
 
 sub forkgzipread {
-#print STDERR "forkgzipread $_[0]\n";
     local $SIG{PIPE} = 'DEFAULT';
     open(GZIPFILE,"< $_[0]") || &syserr("read file $_[0]");
     pipe(GZIP,GZIPWRITE) || &syserr("pipe for gunzip");
@@ -1052,7 +1059,6 @@ sub forkgzipread {
 }
 
 sub reapgzip {
-#print STDERR "reapgzip $_[0]\n";
     $cgz == waitpid($cgz,0) || &syserr("wait for gzip");
     !$? || ($gzipsigpipeok && WIFSIGNALED($?) && WTERMSIG($?)==SIGPIPE) ||
         subprocerr("gzip");
