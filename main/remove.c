@@ -182,7 +182,7 @@ void removal_bulk(struct pkginfo *pkg) {
 
   static struct varbuf fnvb, removevb;
   
-  int before, r, foundpostrm, removevbbase;
+  int before, r, foundpostrm= 0, removevbbase;
   int infodirbaseused, conffnameused, conffbasenamelen, pkgnameused;
   char *conffbasename;
   struct reversefilelistiter rlistit;

@@ -602,7 +602,7 @@ struct fileiterator *iterfilestart(void) {
 }
 
 struct filenamenode *iterfilenext(struct fileiterator *i) {
-  struct filenamenode *r;
+  struct filenamenode *r= NULL;
   switch (f_largemem) {
   case 1:
     while (!i->u.high.namenode) {

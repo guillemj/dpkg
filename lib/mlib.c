@@ -129,7 +129,7 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) 
   switch(data->type) {
     case BUFFER_WRITE_BUF:
       memcpy(data->data, buf, length);
-      data->data += length;
+      (char*)data->data += length;
       break;
     case BUFFER_WRITE_VBUF:
       varbufaddbuf((struct varbuf *)data->data, buf, length);
@@ -175,7 +175,7 @@ ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, char *desc) {
 
 ssize_t buffer_copy_setup(void *argIn, int typeIn, void *procIn,
 		       void *argOut, int typeOut, void *procOut,
-		       ssize_t limit, char *desc, ...)
+		       ssize_t limit, const char *desc, ...)
 {
   struct buffer_data read_data = { procIn, argIn, typeIn },
 		     write_data = { procOut, argOut, typeOut };

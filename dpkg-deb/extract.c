@@ -94,7 +94,7 @@ void extracthalf(const char *debar, const char *directory,
   char nlc;
   char *cur;
   struct ar_hdr arh;
-  int readfromfd, oldformat, header_done, adminmember;
+  int readfromfd, oldformat= 0, header_done, adminmember;
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
   fpos_t fpos;
 #endif

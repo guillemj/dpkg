@@ -666,7 +666,7 @@ void printarch(const char *const *argv) {
     { 0,0,0 }
   }, *archp;
                   
-  const char *ccompiler, *arch;
+  const char *ccompiler, *arch= NULL;
   int p1[2];
   pid_t c1;
   FILE *ccpipe;

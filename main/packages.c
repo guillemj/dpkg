@@ -132,7 +132,7 @@ void process_queue(void) {
   struct pkginqueue *removeent, *rundown;
   struct pkginfo *volatile pkg;
   jmp_buf ejbuf;
-  enum istobes istobe;
+  enum istobes istobe= itb_normal;
   
   clear_istobes();
 
