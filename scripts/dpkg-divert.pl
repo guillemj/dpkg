@@ -1,11 +1,11 @@
 #!/usr/bin/perl --
 
-#use POSIX; &ENOENT;
-sub ENOENT { 2; }
-# Sorry about this, but the errno-part of POSIX.pm isn't in perl-*-base
-
 $version= '1.0.11'; # This line modified by Makefile
 $admindir= "/var/lib/dpkg"; # This line modified by Makefile
+$dpkglibdir= "../utils"; # This line modified by Makefile
+
+$enoent=`$dpkglibdir/enoent` || die "Cannot get ENOENT value from $dpkglibdir/enoent: $!";
+sub ENOENT { $enoent; }
 
 sub showversion {
     print("Debian dpkg-divert $version.\n") || &quit("failed to write version: $!");
@@ -15,7 +15,7 @@ sub usage {
     &showversion;
     print STDERR <<EOF
 Copyright (C) 1995 Ian Jackson.
-Copyright (C) 2000 Wichert Akkerman.
+Copyright (C) 2000,2001 Wichert Akkerman.
 
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO warranty.

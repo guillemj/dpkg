@@ -16,16 +16,19 @@ MD5_SOURCES		= md5sum.c
 MD5_OBJECTS		= $(patsubst %.c, %.o, $(MD5_SOURCES))
 MD5_MANPAGES		= md5sum.1
 
-GENFILES		= $(MD5_OBJECTS) md5sum
+ENOENT_SOURCES		= enoent.c
+ENOENT_OBJECTS		= $(patsubst %.c, %.o, $(ENOENT_SOURCES))
+
+GENFILES		= $(MD5_OBJECTS) md5sum $(ENOENT_OBJECTS) enoent
 ifeq (@USE_START_STOP_DAEMON@, true)
 GENFILES		+= $(SSD_OBJECTS) start-stop-daemon
 endif
 
 .PHONY: all
 ifeq (@USE_START_STOP_DAEMON@, true)
-all:: start-stop-daemon md5sum
+all:: start-stop-daemon md5sum enoent
 else
-all:: md5sum
+all:: md5sum enoent
 endif
 
 .PHONY: install
@@ -50,6 +53,9 @@ ifeq (@USE_START_STOP_DAEMON@, true)
 endif
 	$(mkinstalldirs) $(DESTDIR)/$(bindir)
 	$(INSTALL_PROGRAM) md5sum $(DESTDIR)/$(bindir)
+
+	$(mkinstalldirs) $(DESTDIR)/$(dpkglibdir)
+	$(INSTALL_PROGRAM) enoent $(DESTDIR)/$(dpkglibdir)
 
 .PHONY: install-doc
 install-doc:

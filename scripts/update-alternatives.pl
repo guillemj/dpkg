@@ -1,8 +1,8 @@
 #!/usr/bin/perl --
 
-#use POSIX; &ENOENT;
-sub ENOENT { 2; }
-# Sorry about this, but the errno-part of POSIX.pm isn't in perl-*-base
+$admindir= "/var/lib/dpkg"; # This line modified by Makefile
+$dpkglibdir= "../utils"; # This line modified by Makefile
+$version= '0.93.80'; # This line modified by Makefile
 
 # Global variables:
 #  $alink            Alternative we are managing (ie the symlink we're making/removing) (install only)
@@ -25,12 +25,15 @@ sub ENOENT { 2; }
 #  %priorities       Map from @version-index to priority
 #  %slavepath        Map from (@version-index,slavename) to slave-path
 
-$version= '0.93.80'; # This line modified by Makefile
+$enoent=`$dpkglibdir/enoent` || die "Cannot get ENOENT value from $dpkglibdir/enoent: $!";
+$enoent=`$dpkglibdir/enoent`;
+sub ENOENT { $enoent; }
+
 sub usageversion {
     print(STDERR <<END)
 Debian update-alternatives $version.
 Copyright (C) 1995 Ian Jackson.
-Copyright (C) 2000 Wichert Akkerman
+Copyright (C) 2000,2001 Wichert Akkerman
 This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
@@ -54,7 +57,7 @@ sub quit { print STDERR "update-alternatives: @_\n"; exit(2); }
 sub badusage { print STDERR "update-alternatives: @_\n\n"; &usageversion; exit(2); }
 
 $altdir= '/etc/alternatives';
-$admindir= '/var/lib/dpkg' . '/alternatives';
+$admindir= $admindir . '/alternatives';
 $testmode= 0;
 $verbosemode= 0;
 $mode='';
