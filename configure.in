@@ -99,8 +99,10 @@ AC_PREFIX_DEFAULT(/usr)
 os_type=''
 AC_MSG_CHECKING(Operating system type)
 case $target_os in 
+        *linux-gnu* )
+          os_type="linux-gnu";;
         *linux* )
-          os_type="linux";;
+          os_type="linux-gnu";;
         *openbsd* )
           os_type="openbsd";;
         *netbsd* )
