@@ -11,6 +11,17 @@ $uploadfilesdir= '..';
 $sourcestyle= 'i';
 $quiet= 0;
 
+# Other global variables used:
+# %f2p             - file to package map
+# %p2f             - package to file map
+#                    has entries for both "packagename" and "packagename architecture"
+# %p2ver           - package to version map
+# %f2sec           - file to section map
+# %f2pri           - file to priority map
+# %sourcedefault   - default values as taken from source (used for Section,
+#                    Priority and Maintainer)
+# $changedby       - person who created this package (as listed in changelog)
+
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 
@@ -19,9 +30,11 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian GNU/Linux dpkg-genchanges $version.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+"Debian GNU/Linux dpkg-genchanges $version. 
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2000 Wichert Akkerman.
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions.  There is NO warranty.
 
 Usage: dpkg-genchanges [options ...]
 
@@ -32,7 +45,8 @@ Options:  -b                     binary-only build - no source files
           -f<fileslistfile>      get .deb files list from this file
           -v<sinceversion>       include all changes later than version
           -C<changesdescription> use change description from this file
-          -m<maintainer>         override changelog's maintainer value
+          -m<maintainer>         override control's maintainer value
+          -e<maintainer>         override changelog's maintainer value
           -u<uploadfilesdir>     directory with files (default is \`..')
           -si (default)          src includes orig for debian-revision 0 or 1
           -sa                    source includes orig src
@@ -78,6 +92,8 @@ while (@ARGV) {
         $varlistfile= $';
     } elsif (m/^-m/) {
         $forcemaint= $';
+    } elsif (m/^-e/) {
+        $forcechangedby= $';
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/) {
@@ -129,14 +145,13 @@ close(FL);
 for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
-#print STDERR "G key >$_< value >$v<\n";
 	if (m/^Source$/) { &setsourcepackage; }
-	elsif (m/^Section$|^Priority$/) { $sourcedefault{$_}= $v; }
+	elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
+	elsif (m/^Maintainer$/i) { $f{$_}= $v; }
 	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
-	elsif (m/|^X[BS]+-|^Standards-Version$|^Maintainer$/i) { }
+	elsif (m/|^X[BS]+-|^Standards-Version$/i) { }
 	else { &unknown('general section of control info file'); }
     } elsif (s/^C(\d+) //) {
-#print STDERR "P key >$_< value >$v<\n";
 	$i=$1; $p=$fi{"C$i Package"}; $a=$fi{"C$i Architecture"};
 	if (!defined($p2f{$p})) {
 	    if ($a eq 'any' || ($a eq 'all' && !$archspecific) ||
@@ -170,10 +185,11 @@ for $_ (keys %fi) {
 	    }
 	}
     } elsif (s/^L //) {
-#print STDERR "L key >$_< value >$v<\n";
-        if (m/^Source$/) {
+        if (m/^Source$/i) {
             &setsourcepackage;
-        } elsif (m/^(Version|Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
+        } elsif (m/^Maintainer$/i) {
+	    $f{"Changed-By"}=$v;
+        } elsif (m/^(Version|Changes|Urgency|Distribution|Date|Closes)$/i) {
             $f{$_}= $v;
         } elsif (s/^X[BS]*C[BS]*-//i) {
             $f{$_}= $v;
@@ -288,6 +304,7 @@ for $f (@sourcefiles,@fileslistfiles) {
 $f{'Source'}= $sourcepackage;
 
 $f{'Maintainer'}= $forcemaint if length($forcemaint);
+$f{'Changed-By'}= $forcechangedby if length($forcechangedby);
 
 for $f (qw(Version Distribution Maintainer Changes)) {
     defined($f{$f}) || &error("missing information for critical output field $f");

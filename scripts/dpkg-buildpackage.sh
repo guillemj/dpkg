@@ -24,7 +24,8 @@ Options: -r<gain-root-command>
          -b            binary-only, do not build source } also passed to
          -B            binary-only, no arch-indep files } dpkg-genchanges
          -v<version>   changes since version <version>      }
-         -m<maint>     maintainer for release is <maint>    } only passed
+         -m<maint>     maintainer for package is <maint>    } 
+         -e<maint>     maintainer for release is <maint>    } only passed
          -C<descfile>  changes are described in <descfile>  }  to dpkg-
          -si (default) src includes orig for rev. 0 or 1    } genchanges
          -sa           uploaded src always includes orig    }
@@ -82,6 +83,7 @@ do
 	-B)	binaryonly=-B; binarytarget=binary-arch ;;
 	-v*)	since="$value" ;;
 	-m*)	maint="$value" ;;
+	-e*)	changedby="$value" ;;
 	-C*)	descfile="$value" ;;
 	*)	echo >&2 "$progname: unknown option or argument $1"
 		usageversion; exit 2 ;;
@@ -151,6 +153,7 @@ withecho () {
 
 set -- $binaryonly $sourcestyle
 if [ -n "$maint"	]; then set -- "$@" "-m$maint"		; fi
+if [ -n "$changedby"	]; then set -- "$@" "-e$changedby"	; fi
 if [ -n "$since"	]; then set -- "$@" "-v$since"		; fi
 if [ -n "$desc"		]; then set -- "$@" "-C$desc"		; fi
 

@@ -1,4 +1,16 @@
 
+# Global variables:
+# $v                - value parameter to function
+# $sourcepackage    - name of sourcepackage
+# %capit            - map to get properly capitilized version of fields
+# %fi               - map of fields values. keys are of the form "S# key"
+#                     where S is source (L is changelog, C is control)
+#                     and # is an index
+# %p2i              - map from datafile+packagename to index in controlfile
+#                     (used if multiple packages can be listed). Key is
+#                     "S key" where S is the source and key is the packagename
+# %substvar         - map with substitution variables
+
 $parsechangelog= 'dpkg-parsechangelog';
 
 grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size
@@ -6,7 +18,7 @@ grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size
 			  Build-Conflicts Build-Conflicts-Indep));
 
 
-$substvar{'Format'}= 1.6;
+$substvar{'Format'}= 1.7;
 $substvar{'Newline'}= "\n";
 $substvar{'Space'}= " ";
 $substvar{'Tab'}= "\t";

@@ -1,6 +1,6 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Authors: Ian Jackson
-.TH DPKG\-SOURCE 1 "7th August" "Debian Project" "Debian GNU/Linux manual"
+.TH DPKG\-SOURCE 1 "Januari 2000" "Debian Project" "Debian GNU/Linux manual"
 .SH NAME 
 dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges,
 dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog
@@ -117,6 +117,14 @@ file.  This is understood by
 .BR dpkg-buildpackage " and " dpkg-genchanges .
 .TP
 .BI -m maintaineraddress
+Use
+.I maintaineraddress
+as the name and email address of the maintainer for this package,
+rather than using the information from the source tree's control.
+This is understood by
+.BR dpkg-buildpackage " and " dpkg-genchanges .
+.TP
+.BI -e maintaineraddress
 Use
 .I maintaineraddress
 as the name and email address of the maintainer for this upload,
@@ -488,7 +496,7 @@ output, rather than being added to the substitution variables file
 .RB ( debian/substvars
 by default).
 .SH DPKG-GENCHANGES OPTIONS
-.B dpkg-gencontrol
+.B dpkg-genchanges
 does not take any non-option arguments.
 .TP
 .BI -u uploadfilesdir
@@ -753,9 +761,12 @@ and initial arguments for
 .BR gpg (1),
 .BR pgp (1).
 .SH AUTHOR
-The utilities and this manpage were written by Ian Jackson.  They are
-Copyright (C)1995-1996 by him and released under the GNU General
-Public Licence; there is NO WARRANTY.  See
+The utilities and this manpage were written by Ian Jackson.
+.SH COPYRIGHT
+Copyright (C) 1995-1996 Ian Jackson
+Copyright (C) 2000 Wichert Akkerman
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions. There is NO WARRANTY.  See
 .B /usr/share/doc/dpkg/copyright
 and
 .B /usr/share/common-licenses/GPL
