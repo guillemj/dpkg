@@ -100,6 +100,7 @@ sub rewrite_gnu {
 	local ($_) = @_;
 
 	s/(?:i386|i486|i586|i686|pentium)(.*linux)/i386$1/;
+	s/(?:i386|i486|i586|i686|pentium)(.*gnu)/i386$1/;
 	s/ppc/powerpc/;
 	s/openbsd([\d\.]+$)/openbsd/;
 	s/-unknown-/-/;
