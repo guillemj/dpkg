@@ -1,0 +1,139 @@
+.\" original cvs revision: 1.7
+.TH DPKG-STATOVERRIDE 8 "November 2000" "Debian project" "dpkg utililties"
+.\"O .SH NAME
+.\"O dpkg-statoverride -- override ownership and mode of files
+.SH 名前
+dpkg-statoverride \- ファイルの所有権やモードを変更する
+.\"O .SH SYNOPSIS
+.SH 書式
+\fBdpkg-statoverride\fR [options] \-\-add <user> <group> <mode> \fI<file>\fR
+.br
+\fBdpkg-statoverride\fR [options] \-\-remove \fI<file>\fR
+.br
+\fBdpkg-statoverride\fR [options] \-\-list \fI[<glob-pattern>]\fR
+.\"O .SH DESCRIPTION
+.SH 説明
+.\"O `\fBstat overrides\fR' are a way to tell dpkg to use a different owner
+.\"O or mode for a file when a package is installed. (note: I use the word
+.\"O `file' here, but in reality this can be any filesystem object that dpkg
+.\"O handles, including directories, devices, etc.).  This can be used to
+.\"O force programs that are normall setuid to be install without a setuid
+.\"O flag, or only executable by a certain group.
+`\fBstat override\fR' とは、パッケージがインストールされるときに、
+ファイルの所有者やモードを変更するよう dpkg に指示する方法である
+(注意: ここでは「ファイル」という言葉を使ったが、
+実際には dpkg が扱えるファイルシステムオブジェクトならなんでもよい。
+つまりディレクトリやデバイスなどでも OK)。
+これを用いると、通常 setuid されるプログラムを setuid フラグ無しで
+インストールしたり、特定のグループのみに実行許可を与えるようにしたりできる。
+.P
+.\"O \fBdpkg-statoverride\fR is a utility to manage the list of stat
+.\"O overrides.  It has three basic functions: adding, removing and listing
+.\"O overrides.
+.B dpkg-statoverride
+は stat override のリストを管理するユーティリティである。
+override を追加・削除・表示するという、3 つの基本機能がある。
+.\"O .SH OPTIONS
+.SH オプション
+.TP
+.I --add <user> <group> <mode> <file>
+.\"O Add an override for \fB<file>\fR. \fB<file>\fR does not need to exist
+.\"O when this command is used; the override will be stored and used later.
+.\"O Users and groups can be specified by their name (for example \fBroot\fR
+.\"O or \fBnobody\fR), or by their number by prepending the number with a
+.\"O `\fB#\fR' (for example \fB#0\fR or \fB#65534\fR).
+.B <file>
+の override を追加する。
+.B <file>
+はコマンドの実行時には存在していなくてもよい。
+override は保存され、後で用いられる。
+ユーザーとグループは名前 (例えば
+.B root
+とか
+.B nobody
+とか) でも指定できるし、前に `\fB#\fR' 文字をつけた数字
+(例えば
+.B #0
+とか
+.B #65534
+とか) でも指定できる。
+.TP
+.I \-\-remove <file>
+.\"O Remove an override for \fB<file>\fR.
+.B <file>
+の override を削除する。
+.TP
+.I \-\-list [<glob-pattern>]
+.\"O List all overrides. If a glob pattern is specified restrict the output
+.\"O to overrides which match the glob. If there are no overrides or none
+.\"O match the glob \fBdpkg-statoverride\fR will exit with an exitcode of 1.
+override をすべてリストする。
+glob パターンが指定された場合は、
+マッチした override のみを出力する。
+override が全くない場合や、glob にマッチするものがひとつもなかった場合は、
+.B dpkg-statoverride
+は終了コード 1 で終了する。
+.TP
+.I \-\-force
+.\"O Force an action, even if a sanity check would otherwise prohibit it.
+.\"O This is necessary to override an existing override.
+sanity チェック (正気度チェック) が禁止するような場合でも、
+動作を強制的に行う。既存の override を変更する場合には、
+これを指定する必要がある。
+.TP
+.I --update
+.\"O Immediately try to change the file to the new owner and mode if it
+.\"O exists.  This is only done for \fI--add\fR.
+ファイルが存在する場合は、すぐにその所有者とモードを
+新しい値に変更しようとする。これは
+.I \-\-add
+の場合にのみ行われる。
+.TP
+.I --quiet
+.\"O Be less verbose about what we do.
+動作を無口に行う。
+.TP
+.I --help
+.\"O Show version, copyright and usage information.
+バージョン・著作権・利用方法に関する情報を表示する。
+.TP
+.I --admindir
+.\"O Change the directory of the dpkg database where the statoverride file is
+.\"O also stored. Defaults to /var/lib/dpkg.
+dpkg データベースのディレクトリを変更する。
+statoverride のファイルもここに保存される。
+デフォルトは /var/lib/dpkg。
+.\"O .SH FILES
+.SH ファイル
+.TP
+.I /var/lib/dpkg/statoverride
+.\"O File which contains the current list of stat overrides of the system. It
+.\"O is located in the dpkg administration directory, along with other files
+.\"O important to dpkg, such as `status' or `available'.
+システムの現在の stat override のリストが書かれたファイル。
+dpkg の管理ディレクトリに、dpkg に取って重要な他のファイル 
+(`status' や `available' など) といっしょに置かれる。
+.br
+.\"O Note: dpkg-statoverride preserves the old copy of this file, with
+.\"O extension "-old", before replacing it with the new one.
+注意: dpkg-statoverride はこのファイルを新しく書き変える前に、
+古いコピーを "-old" を追加した名前で保存する。
+.\"O .SH SEE ALSO
+.SH 関連項目
+.BR dpkg (8)
+.\"O .SH AUTHOR
+.SH 著者
+Copyright 2000 Wichert Akkerman
+.UR mailto:wakkerma@debian.org
+<wakkerma@debian.org>
+.UE
+.sp
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions.  There is NO warranty.
+.SH 翻訳者
+中野武雄 <nakano@apm.seikei.ac.jp>
+.SH 翻訳者注
+このマニュアルページは dpkg パッケージに付属の
+.BR dpkg-statoverride (8)
+の日本語訳である。
+翻訳対象は CVS revision が 1.7 のものである。

@@ -1,0 +1,106 @@
+.\" This is an -*- nroff -*- source file.
+.\" dpkg-name and this manpage are Copyright 1995,1996 by Erick Branderhorst.
+.\" original cvs revision: 1.6
+.\"
+.\" This is free software; see the GNU General Public Licence version 2
+.\" or later for copying conditions.  There is NO warranty.
+.\" Time-stamp: <96/05/03 14:00:06 root>
+.TH dpkg-name 1 "May 1996" "Debian Project" "dpkg utilities"
+.SH 名前
+dpkg\-name \- Debianパッケージを完全なパッケージの名前に変更
+.SH 書式
+.B dpkg\-name 
+[\-a|\-\-no\-architecture] [\-o|\-\-overwrite] [\-s|\-\-subdir [dir]]
+[\-c|\-\-create\-dir] [\-h|\-\-help] [\-v|\-\-version]
+[\-l|\-\-license] [\-k|\-\-symlink] [\-[--] [files]
+.SH 説明
+.PP
+このマニュアルページで
+.B dpkg\-name 
+シェルスクリプトについて説明する。
+.B dpkg\-name
+シェルスクリプトで
+.B Debian
+パッケージを完全なパッケージ名に変更するための簡単にすることができる。
+完全なパッケージ名とはパッケージのcontrolファイルで指定された情報から
+得られる<パッケージ>_<バージョン>_<アーキテクチャ>.deb という名前である。
+<バージョン>の部分は、元々のバージョン情報にハイフンが続いてリビジョン
+情報からできている。
+.SH 例
+.TP
+.B dpkg-name bar-foo.deb
+ファイル`bar-foo.deb'が bar-foo_1.0-2_i386.deb のような感じに変更される。
+(実際にどうなるかは`bar-foo.deb'の中のcontrolの情報に依存する)
+.TP
+.B find /root/debian/ \-name '*.deb' | xargs \-n 1 dpkg\-name \-a
+ディレクトリ/root/debian 以下にあり拡張子が `deb'の全てのファイルを
+dpkg\-name を使ってアーキテクチャ情報なしの名前に変更する。
+.TP
+.B find -name '*.deb' | xargs \-n 1 dpkg-name -a -o -s -c
+.B やってはいけない!
+多くのパッケージはセクション情報をもっていないので、あなたのアーカイブは
+ぐちゃぐちゃになってしまうだろう。
+.B やってはいけない!
+.TP
+.B dpkg --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb
+これは新しいパッケージを作る時に使うことができる。
+.SS オプション
+.TP
+.B "\-a, \-\-no\-architecture"
+変更後のファイル名にアーキテクチャ情報を含ませない。
+.TP
+.B "\-k, \-\-symlink"
+移動するかわりにシンボリックリンクを作る。
+.TP 
+.B "\-o, \-\-overwrite"
+変更後のファイル名と同名のファイルがあれば、それを上書きしてしまう。
+.TP 
+.B "\-s, \-\-subdir [dir]"
+ファイルをsubdirで指定したディレクトリに移動する。もし引数で指定した
+ディレクトリが存在すれば、パッケージのcontrolのセクションフィールド
+から得られたターゲットディレクトリの名前のかわりにそのディレクトリに
+ファイルを移動する。通常、ターゲットディレクトリは
+`unstable/binary-<アーキテクチャ>/<セクション>'である。 
+もしcontrolでのセクションが`non-free'、`contrib'もしくはセクション情報が
+ない場合は、ターゲットディレクトリは`<セクション>/binary-<アーキテクチャ>'
+になる。セクションフィールドは必須ではないので多くのパッケージが
+セクションなしの場所にいってしまうだろう。このオプションを使う時は
+注意すること。厄介である。
+.TP
+.B "\-c, \-\-create\-dir"
+このオプションは\-sオプションとともに使うことができる。ターゲット
+ディレクトリがなければ、自動的に作成される。
+.B このオプションを使う時は注意すること。
+.TP
+.B "\-h, \-\-help"
+利用方法を表示して正常終了する。
+.TP
+.B "\-v, \-\-version"
+バージョン情報を表示して正常終了する。
+.TP
+.B "\-l, \-\-license"
+著作権情報、ライセンス情報(GNUへの参照)を表示して正常終了する。
+.SH バグ
+パッケージによっては
+<パッケージ>_<バージョン>_<アーキテクチャ>.debという名前ではない。
+dpkg-nameによって改名されたパッケージはこのような名前になる。
+一般には、これはdselect/dpkgによってパッケージがどのようにインストール
+され方には影響はないが、この名前構造に依存しているインストールツールに
+よっては影響があるかもしれない。
+.SH 関連項目
+.BR deb (5),
+.BR deb-control (5),
+.BR dpkg (5),
+.BR dpkg (8),
+.BR dpkg-deb (1),
+.BR find (1),
+.BR xargs (1).
+.SH COPYRIGHT
+Copyright 1995,1996 Erick Branderhorst.
+.B dpkg-name
+is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is
+.B no
+warranty.
+.SH 翻訳者
+鵜飼文敏 <ukai@debian.or.jp>

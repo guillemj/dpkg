@@ -1,7 +1,7 @@
 .\" Hey Emacs! This file is -*- nroff -*- source.
-.\" Original manpage is provided by dpkg_1.6.6
+.\" Original manpage cvs revision 1.25
 .\" Translated by Hiroshi KISE <fuyuneko@ryuku.ne.jp>
-.\" Last modify: Mon Jan 10 22:42:17 JST 2000
+.\" Last modified: Thu Apr 26 01:00:00 JST 2001
 .\"WORD:	package maintainers	パッケージ管理者
 .\"WORD:	command line options	コマンドライン・オプション
 .\"WORD:	command line parameter	コマンドライン引き数
@@ -25,9 +25,9 @@
 .\"WORD:	conflicts		競合する
 .\"WORD:	hold			(パッケージの)変更禁止
 .\"WORD:	avail			利用可能
-.TH DPKG 8 "April 12, 1998" "Debian Project" "Debian GNU/Linux"
+.TH DPKG 8 "April 12, 1998" "Debian Project" "dpkg suite"
 .SH 名前
-dpkg - Debian GNU/Linux 中間レベルパッケージマネージャ
+dpkg \- Debian 中間レベルパッケージマネージャ
 
 .SH 書式
 .B dpkg
@@ -75,7 +75,7 @@ Debian パッケージの作成については、同じところにある
     \fB-X\fP, \fB--vextract\fP,
     \fB--fsys-tarfile\fP
 .fi
-これらのアクションについては、\fBdpkg-deb\fP(8) にくわしい情報がある。
+これらのアクションについては、\fBdpkg-deb\fP(1) にくわしい情報がある。
 
 .SH パッケージに関する情報
 \fBdpkg\fP は、いくつかの利用可能なパッケージに関する有用な情報を
@@ -289,6 +289,11 @@ GNU バージョンのターゲットアーキテクチャ(例えば、“i486”)を表示する。
 提供されている。
 
 .TP
+.B dpkg --command-fd <n>
+ファイル記述子 \fB<n>\fPから一連のコマンドをうけいれる。注意:
+追加のオプションはコマンドラインとこのファイル記述子を通じて指定でき
+一回の実行を通じてそれらがリセットされることはない。
+.TP
 .B dpkg --help
 簡単なオプション一覧を表示する。
 .TP
@@ -305,7 +310,7 @@ GNU バージョンのターゲットアーキテクチャ(例えば、“i486”)を表示する。
 \fBdpkg\fP のバージョン情報を表示する。
 .TP
 \fBdpkg-deb-actions\fP
-以下のアクションのくわしい情報は \fBdpkg-deb\fP(8) を参照すること。
+以下のアクションのくわしい情報は \fBdpkg-deb\fP(1) を参照すること。
 
 .nf
 \fBdpkg -b\fP | \fB--build\fP \fIdirectory\fP [\fIfilename\fP]
@@ -327,6 +332,11 @@ GNU バージョンのターゲットアーキテクチャ(例えば、“i486”)を表示する。
 .fi
 
 .SS オプション
+すべてのオプションは、コマンドラインや \fBdpkg\fP の設定ファイルで
+ある \fI/etc/dpkg/dpkg.cfg\fP の中で指定できる。設定ファイルは、
+1 行に 1 つのオプション(コマンドラインオプションとまったく同じ、
+ただし頭のダッシュを取る)か、コメント(最初に \fB#\fR で始まる)
+で構成される。
 .br
 .TP
 \fB--abort-after=\fP\fInumber\fP
@@ -365,6 +375,9 @@ dpkg の処理を中断させるエラー数を変更する。デフォルトは 50 である。
 これらのオプションは、おもに熟練したユーザだけが使うことを意図したものである。
 影響を完全に理解しないままにこれらを使うと、システム全体を壊してしまうかも
 しれない。\fP
+
+\fBall\fP:
+全ての強制オプションを指定する(noならば指定しない)
 
 \fBauto-select\fP(*):
 インストールするパッケージを選択し、削除するパッケージを非選択にする。
@@ -414,7 +427,7 @@ essential とされるパッケージであっても削除する。essential パッケージには、
 デフォルトの動作をする。デフォルトがない場合は、これらのオプションの
 与え方によって新しい、または古いバージョンの設定ファイルを使用する。
 
-\fBoverwrite\fP(*):
+\fBoverwrite\fP:
 あるパッケージで提供されているファイルを、インストールするパッケージの
 ファイルで上書きする。
 
@@ -441,17 +454,13 @@ root でないときでも、それをインストール(または削除)しようと試みる。
 指定したパッケージに関する依存関係の確認を無視する(実際は、依存関係を
 確認し、競合に対して警告メッセージを出して、アクションを実行する)。
 .TP
-\fB--largemem\fP | \fB--smallmem\fP
-\fBdpkg\fP に対して、メモリを節約して(RAM を 4MB 以下)使用するか、
-必要なだけ使用するか指定する。
-.TP
 \fB--new\fP | \fB--old\fP
 パッケージのフォーマットが新しいか古いかを指定する。
-これは \fBdpkg-deb\fP(8) のオプションである。
+これは \fBdpkg-deb\fP(1) のオプションである。
 .TP
 .B --nocheck
 パッケージを構築するときに、制御ファイルの内容を読むことも確認もしない。
-これは \fBdpkg-deb\fP(8) のオプションである。
+これは \fBdpkg-deb\fP(1) のオプションである。
 .TP
 .B --no-act
 期待される動作をすべて実行するが、どのような変更も書き込まない。
@@ -474,7 +483,7 @@ root でないときでも、それをインストール(または削除)しようと試みる。
 インストール済みのパッケージのほうがバージョンが新しければ、インストール
 しない。これは \fB--refuse-downgrade\fP の別名である。
 .TP
-\fB-R\fP | \fB--root=\fP\fIdir\fP | \fB--admindir=\fP\fIdir\fP | \fB--instdir=\fP\fIdir\fP
+\fB--root=\fP\fIdir\fP | \fB--admindir=\fP\fIdir\fP | \fB--instdir=\fP\fIdir\fP
 デフォルトのディレクトリを変更する。\fBadmindir\fP はインストール済みの
 パッケージやインストールされていないパッケージの状態に関する情報などを
 提供する、多数のファイルが格納されているディレクトリで、デフォルトは
@@ -499,10 +508,19 @@ root でないときでも、それをインストール(または削除)しようと試みる。
 .BR -E " | " --skip-same-version
 すでに同じバージョンのパッケージがインストールされていたら、インストール
 しない。
+.TP
+\fB--status-fd \fP\fI<n>\fP
+ファイル記述子 \fI<n>\fPにパッケージ状態の情報を送る。これは複数与えることが
+できる。状態の情報は `status: <pkg>: <pkg qstate>'の形式である。
 
 .SH ファイル
-ここに示すファイル一覧はデフォルトの位置である。どのようにしてファイルの
-位置を変更するかについては、\fB--admindir\fP オプションの項を参照すること。
+.TP
+.I /etc/dpkg.cfg
+オプションのデフォルト値を記述する設定ファイル。
+.P
+このほかの、以下に示すファイル一覧はデフォルトの値である。どのようにして
+ファイルの位置を変更するかについては、\fB--admindir\fP オプションの項を
+参照すること。
 .TP
 .I /var/lib/dpkg/available
 使用できるパッケージの一覧。
@@ -530,11 +548,15 @@ root でないときでも、それをインストール(または削除)しようと試みる。
 .SH 環境変数
 .TP
 .B DPKG_NO_TSTP
-任意の値で定義すると、シェルエスケープをしたときに \fBdpkg\fP を一時停止
+任意の値で定義すると、シェルエスケープをしたときに \fBdpkg\fP自体 を一時停止
 (suspend)するのではなく、新しいシェルを起動する。
 .TP
 .B SHELL
 \fBdpkg\fP が新しいシェルを起動するときに、実際に起動するプログラム。
+.TP
+.B COLUMNS
+\fBdpkg\fPが整形テキストを表示する時に参照するコラム数。
+現在は -l オプションでのみ参照されている。
 
 .SH 例
 vi エディタに関連のあるパッケージの一覧を表示する。
@@ -574,6 +596,10 @@ CDROMから探す必要がある。“available”ファイルによれば、vimパッケージは
 .br
 \fB     dpkg --set-selections <myselections\fP
 .br
+これは実際にはインストールも削除もしないことに注意。これは単に
+要求しているパッケージの選択状態を設定するだけである。実際に
+要求しているパッケージをダウンロードしインストールするには別の
+アプリケーションが必要である。
 
 通常、パッケージの選択状態を変更するには \fBdselect\fP(8) を
 使用するほうが便利である。
@@ -589,32 +615,13 @@ CDROMから探す必要がある。“available”ファイルによれば、vimパッケージは
 \fB--no-act\fP の提供する情報はたいていの場合、不充分である。
 .SH 著者
 .nf
-\fBdpkg\fP に貢献した人々を以下に示す。
-Ian Jackson <ian@davenant.greenend.org.uk>
-Wichert Akkerman <wakkerma@debian.org>
-Ben Collins <bcollins@debian.org>
-Nils Rennebarth <nils@debian.org>
-Miquel van Smoorenburg <miquels@cistron.nl>
-Juan Cespedes <cespedes@debian.org>
-Juho Vuori <javuori@cc.helsinki.fi>
-Charles Briscoe-Smith <cpbs@debian.org>
-Erick Branderhorst <branderhorst@heel.fgg.eur.nl>
-Miquel van Smoorenburg <miquels@cistron.nl>
-Kim-Minh Kaplan <kkaplan@cdfhp3.in2p3.fr>
-Michael Shields <shields@crosslink.net>
-Bruce Perens <bruce@pixar.com>
-Carl Streeter <streeter@cae.wisc.edu>
-Matt Welsh <mdw@sunsite.unc.edu>
-Ian Murdock <imurdock@debian.org>
-Colin Plumb
-Branko Lankester
+\fBdpkg\fPに貢献した人のリストは \fB/usr/share/doc/dpkg/THANKS\fPに
+挙げてある。
 .fi
-このマニュアルページは Juho Vuori <javuori@cc.helsinki.fi> が
-記述し、Jim Van Zandt <jrv@vanzandt.mv.com> が更新した。
 .SH 日本語版翻訳
 喜瀬浩 <fuyuneko@ryukyu.ne.jp>
 .SH 日本語版校正
 Debian JP Documentation ML <debian-doc@debian.or.jp>
 .SH 翻訳者注
-このマニュアルページは dpkg パッケージのバージョン1.6.6に付属の
+このマニュアルページは dpkg パッケージのバージョン1.9.0に付属の
 dpkg(8)の日本語訳である。
