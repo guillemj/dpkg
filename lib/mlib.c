@@ -264,6 +264,8 @@ ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t l
   int bufsize= 32768;
   ssize_t totalread= 0, totalwritten= 0;
   if((limit != -1) && (limit < bufsize)) bufsize= limit;
+  if(bufsize == 0)
+    return 0;
   writebuf= buf= malloc(bufsize);
   if(buf== NULL) ohshite(_("failed to allocate buffer in buffer_copy (%s)"), desc);
 
