@@ -53,7 +53,7 @@ static int ulist_select(const struct dirent *de) {
   const char *p;
   int l;
   for (p= de->d_name, l=0; *p; p++, l++)
-    if (!isdigit(*p)) return 0;
+    if (!cisdigit(*p)) return 0;
   if (l > IMPORTANTMAXLEN)
     ohshit(_("updates directory contains file `%.250s' whose name is too long "
            "(length=%d, max=%d)"), de->d_name, l, IMPORTANTMAXLEN);
@@ -101,7 +101,7 @@ static void cleanupdates(void) {
 }
 
 static void createimptmp(void) {
-  int i, f;
+  int i;
   
   onerr_abort++;
   

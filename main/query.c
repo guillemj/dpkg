@@ -534,7 +534,6 @@ int main(int argc, const char *const *argv) {
   static void (*actionfunction)(const char *const *argv);
 
   setlocale(LC_ALL, "");
-  setlocale(LC_CTYPE, "C");
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 

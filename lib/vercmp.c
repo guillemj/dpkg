@@ -34,9 +34,9 @@ int epochsdiffer(const struct versionrevision *a,
 
 /* assume ascii; warning: evaluates x multiple times! */
 #define order(x) ((x) == '~' ? -1 \
-		: isdigit((x)) ? 0 \
+		: cisdigit((x)) ? 0 \
 		: !(x) ? 0 \
-		: isalpha((x)) ? (x) \
+		: cisalpha((x)) ? (x) \
 		: (x) + 256)
 
 static int verrevcmp(const char *val, const char *ref) {
@@ -46,7 +46,7 @@ static int verrevcmp(const char *val, const char *ref) {
   while (*val || *ref) {
     int first_diff= 0;
 
-    while ( (*val && !isdigit(*val)) || (*ref && !isdigit(*ref)) ) {
+    while ( (*val && !cisdigit(*val)) || (*ref && !cisdigit(*ref)) ) {
       int vc= order(*val), rc= order(*ref);
       if (vc != rc) return vc - rc;
       val++; ref++;
@@ -54,12 +54,12 @@ static int verrevcmp(const char *val, const char *ref) {
 
     while ( *val == '0' ) val++;
     while ( *ref == '0' ) ref++;
-    while (isdigit(*val) && isdigit(*ref)) {
+    while (cisdigit(*val) && cisdigit(*ref)) {
       if (!first_diff) first_diff= *val - *ref;
       val++; ref++;
     }
-    if (isdigit(*val)) return 1;
-    if (isdigit(*ref)) return -1;
+    if (cisdigit(*val)) return 1;
+    if (cisdigit(*ref)) return -1;
     if (first_diff) return first_diff;
   }
   return 0;

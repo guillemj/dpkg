@@ -364,19 +364,19 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "configure",                       0,  act_configure,            packages        ),
   ACTION( "remove",                         'r', act_remove,               packages        ),
   ACTION( "purge",                          'P', act_purge,                packages        ),
-  ACTIONBACKEND( "listfiles",                     'L', DPKGQUERY),
-  ACTIONBACKEND( "status",                        's', DPKGQUERY),
+  ACTIONBACKEND( "listfiles",               'L', DPKGQUERY),
+  ACTIONBACKEND( "status",                  's', DPKGQUERY),
   ACTION( "get-selections",                  0,  act_getselections,        getselections   ),
   ACTION( "set-selections",                  0,  act_setselections,        setselections   ),
-  ACTIONBACKEND( "print-avail",                   'p', DPKGQUERY),
+  ACTIONBACKEND( "print-avail",             'p', DPKGQUERY),
   ACTION( "update-avail",                    0,  act_avreplace,            updateavailable ),
   ACTION( "merge-avail",                     0,  act_avmerge,              updateavailable ),
   ACTION( "clear-avail",                     0,  act_avclear,              updateavailable ),
   ACTION( "forget-old-unavail",              0,  act_forgetold,            forgetold       ),
   ACTION( "audit",                          'C', act_audit,                audit           ),
   ACTION( "yet-to-unpack",                   0,  act_unpackchk,            unpackchk       ),
-  ACTIONBACKEND( "list",                          'l', DPKGQUERY),
-  ACTIONBACKEND( "search",                        'S', DPKGQUERY),
+  ACTIONBACKEND( "list",                    'l', DPKGQUERY),
+  ACTIONBACKEND( "search",                  'S', DPKGQUERY),
   ACTION( "print-architecture",              0,  act_printarch,            printarch       ),
   ACTION( "print-gnu-build-architecture",    0,  act_printgnuarch,         printarch       ),
   ACTION( "assert-support-predepends",       0,  act_assertpredep,         assertpredep    ),
@@ -550,7 +550,6 @@ int main(int argc, const char *const *argv) {
   char *home, *homerc;
 
   setlocale(LC_ALL, "");
-  setlocale(LC_CTYPE, "C");
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 

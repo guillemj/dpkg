@@ -412,7 +412,7 @@ void removal_bulk(struct pkginfo *pkg) {
             if (!strcmp(*ext,de->d_name+conffbasenamelen)) goto yes_remove;
           p= de->d_name+conffbasenamelen;
           if (*p++ == '~') {
-            while (*p && isdigit(*p)) p++;
+            while (*p && cisdigit(*p)) p++;
             if (*p == '~' && !*++p) goto yes_remove;
           }
         }

@@ -3,7 +3,7 @@
  * build.c - building archives
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
- * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright (C) 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -62,7 +62,7 @@ struct _finfo {
 static void checkversion(const char *vstring, const char *valuename, int *errs) {
   const char *p;
   if (!vstring || !*vstring) return;
-  for (p=vstring; *p; p++) if (isdigit(*p)) return;
+  for (p=vstring; *p; p++) if (cisdigit(*p)) return;
   fprintf(stderr, _("dpkg-deb - error: %s (`%s') doesn't contain any digits\n"),
           valuename, vstring);
   (*errs)++;
