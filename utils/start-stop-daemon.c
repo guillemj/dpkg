@@ -247,42 +247,41 @@ clear(struct pid_list **list)
 static void
 do_help(void)
 {
-	printf("\
-start-stop-daemon for Debian GNU/Linux - small and fast C version written by\n\
-Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>, public domain.\n"
-VERSION "\n\
-\n\
-Usage:
-  start-stop-daemon -S|--start options ... -- arguments ...\n\
-  start-stop-daemon -K|--stop options ...\n\
-  start-stop-daemon -H|--help\n\
-  start-stop-daemon -V|--version\n\
-\n\
-Options (at least one of --exec|--pidfile|--user is required):
-  -x|--exec <executable>        program to start/check if it is running\n\
-  -p|--pidfile <pid-file>       pid file to check\n\
-  -c|--chuid <name|uid[:group|gid]>
-  		change to this user/group before starting process\n\
-  -u|--user <username>|<uid>    stop processes owned by this user\n\
-  -n|--name <process-name>      stop processes with this name\n\
-  -s|--signal <signal>          signal to send (default TERM)\n\
-  -a|--startas <pathname>       program to start (default is <executable>)\n\
-  -N|--nicelevel <incr>         add incr to the process's nice level\n\
-  -b|--background               force the process to detach\n\
-  -m|--make-pidfile             create the pidfile before starting\n\
-  -R|--retry <schedule>         check whether processes die, and retry\n\
-  -t|--test                     test mode, don't do anything\n\
-  -o|--oknodo                   exit status 0 (not 1) if nothing done\n\
-  -q|--quiet                    be more quiet\n\
-  -v|--verbose                  be more verbose\n\
-Retry <schedule> is <item>|/<item>/... where <item> is one of
- -<signal-num>|[-]<signal-name>  send that signal
- <timeout>                       wait that many seconds
- forever                         repeat remainder forever
-or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>
-\n\
-Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)
-              3 = trouble   2 = with --retry, processes wouldn't die\n");
+	printf(
+"start-stop-daemon VERSION for Debian - small and fast C version written by\n"
+"Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>, public domain.\n"
+"\n"
+"Usage:\n"
+"  start-stop-daemon -S|--start options ... -- arguments ...\n"
+"  start-stop-daemon -K|--stop options ...\n"
+"  start-stop-daemon -H|--help\n"
+"  start-stop-daemon -V|--version\n"
+"\n"
+"Options (at least one of --exec|--pidfile|--user is required):\n"
+"  -x|--exec <executable>        program to start/check if it is running\n"
+"  -p|--pidfile <pid-file>       pid file to check\n"
+"  -c|--chuid <name|uid[:group|gid]>\n"
+"  		change to this user/group before starting process\n"
+"  -u|--user <username>|<uid>    stop processes owned by this user\n"
+"  -n|--name <process-name>      stop processes with this name\n"
+"  -s|--signal <signal>          signal to send (default TERM)\n"
+"  -a|--startas <pathname>       program to start (default is <executable>)\n"
+"  -N|--nicelevel <incr>         add incr to the process's nice level\n"
+"  -b|--background               force the process to detach\n"
+"  -m|--make-pidfile             create the pidfile before starting\n"
+"  -R|--retry <schedule>         check whether processes die, and retry\n"
+"  -t|--test                     test mode, don't do anything\n"
+"  -o|--oknodo                   exit status 0 (not 1) if nothing done\n"
+"  -q|--quiet                    be more quiet\n"
+"  -v|--verbose                  be more verbose\n"
+"Retry <schedule> is <item>|/<item>/... where <item> is one of\n"
+" -<signal-num>|[-]<signal-name>  send that signal\n"
+" <timeout>                       wait that many seconds\n"
+" forever                         repeat remainder forever\n"
+"or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>\n"
+"\n"
+"Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)\n"
+"              3 = trouble   2 = with --retry, processes wouldn't die\n");
 }
 
 
