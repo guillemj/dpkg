@@ -1,4 +1,4 @@
-.\" Translation of CVS revision 1.6
+.\" Translation of CVS revision 1.7
 .TH DSELECT 8 "Juli 2001" "Debianprojektet" "Debian"
 .SH NAMN
 dselect \- Debians pakethanteringssystem
@@ -21,7 +21,7 @@ I \fBdselect\fPs huvudmeny kan systemadministratören:
 arbetar som ett skal runt \fBdpkg(8)\fP, Debians lågnivåpakethanteringsverktyg.
 Det har en fullskärmspaketvalshanterare som hanterar beroenden och konflikter
 mellan paket.
-När det körs med administratösbehörighet kan paket installeras, uppgraderas
+När det körs med administratörsbehörighet kan paket installeras, uppgraderas
 och tas bort.
 Olika åtkomstmetoder kan konfigureras för att hämta tillgänglig information
 om paketversioner och installerbara paket från paketsamlingar.
@@ -62,7 +62,7 @@ irriterande.
 Ställer in skärmfärger.
 Detta fungerar bara om din skärm kan visa färger.
 Flaggan kan användas flera gånger (och fungerar bäst i \fIdselect.cfg\fP).
-Varje använding ändrar färgen (och kanske andra attribut) för en del av
+Varje användning ändrar färgen (och kanske andra attribut) för en del av
 skärmen.
 Skärmdelarna är, uppifrån och ner:
 .RS
@@ -107,7 +107,7 @@ Används för att visa frågor.
 Färg på hjälpskärmar.
 .RE
 .P
-Defter skärmdelen följer ett kolon och färgangivelsen.
+Efter skärmdelen följer ett kolon och färgangivelsen.
 Du kan ange antingen förgrundsfärgen, bakgrundsfärgen eller båda två,
 vilka kommer att ersätta de inkompilerade färgerna.
 Använd de normala curses-namnen för färgerna.
@@ -173,7 +173,7 @@ eller motstridiga paket.
 .sp
 När en konflikt eller ett misslyckat beroende upptäcks visas en delskärm
 med möjlighet att lösa beroendet.
-På denna skärm visas en lista över motstridiga eller beorende paket,
+På denna skärm visas en lista över motstridiga eller beroende paket,
 och för varje paket som listas visas dess orsak.
 Användaren kan applicera de av \fBdselect\fP rekommenderade ändringarna,
 själv ändra dem, eller backa alla ändringar, inklusive de som gjorde
@@ -195,7 +195,7 @@ borttagning.
 Om ett fel uppstod under installationen är rekommenderas det vanligen
 att köra installationen på nytt.
 I de flesta fall kommer problemet försvinna eller lösas.
-Om probelemet kvarstår eller den installation som genomfördes var
+Om problemet kvarstår eller den installation som genomfördes var
 felaktig, ber vi dig undersöka orsaken och omständigheterna och
 rapportera ett fel i Debians felrapporteringssystem.
 Instruktioner om hur detta görs finns på http://bugs.debian.org/ eller
@@ -220,209 +220,210 @@ Tar bort eller helt raderar installerade paket som markerats för borttagning.
 .SS Quit (Avsluta)
 Avslutar dselect med felkod noll (lyckat).
 .sp
-.SH Packetvalshantering
+.SH Paketvalshantering
 .sp
 .SS Introduktion
 .sp
 .B dselect 
-directly exposes
-the administrator to some of the complexities involved with managing
-large sets of packages with many interdependencies.  For a user who is
-unfamiliar with the concepts and the ways of the debian package management
-system, it can be quite overwhelming.  Although \fBdselect\fP is aimed
-at easing package management and administration, it is only instrumental
-in doing so and can not be assumed to be a sufficient substitute for
-administrator skill and understanding.  The user is required to
-be familiar with the concepts underlying the Debian packaging system.
-In case of doubt, consult the \fBdpkg(8)\fP manpage and the Debian
-policy manual.
+utsätter direkt administratören för delar av den komplexitet det innebär att
+hantera stora mängder paket med många inbördes beroenden.
+För en användare som inte är nära förtrogen med koncepten och hur Debians
+pakethanteringssystem fungerar kan det te sig rätt så överväldigande.
+Trots att \fBdselect\fPs målsättning är att förenkla administration och
+hantering av paket är det bara en del av helheten, och kan inte antas vara
+ett tillräckligt substitut för administratörsfärdighet och -förståelse.
+Användaren är tvungen att ha kunskap om det underliggande paketsystemet i
+Debian.
+Om tvivel föreligger, konsultera manualsidan \fBdpkg(8)\fP och Debians
+policymanual.
 .sp
-Unless \fBdselect\fP is run in expert
-or immediate mode, a help screen is first displayed when choosing this
-action from the menu.  The user is \fIstrongly\fP advised to study all of
-the information presented in the online help screens, when one pops up.
-The online help screens can at any time be invoked with the \fB'?'\fP key.
+Såvida inte \fBdselect\fP körs i expert- eller direktläge visas en
+hjälpskärm först när val görs i menyn.
+Användaren rekommenderas \fIstarkt\fP att studera all information som finns
+i direkthjälpskärmarna när de dyker upp.
+Direkthjälpskärmarna kan när som helst nås via tangenten \fB"?"\fP.
 .sp
 .SS Skärmutseende
 .sp
-The select screen is by default split in a top and a bottom half.
-The top half shows a list of packages.  A cursor bar can select an
-individual package, or a group of packages, if applicable, by selecting
-the group header.  The bottom half of the screen shows some details
-about the package currently selected in the top half of the screen.
-The type of detail that is displayed can be varied.
+Valskärmen är normalt delat i en övre och en nedre halva.
+Den övre halvan visar en lista över paket; en markeringsrad kan välja paket
+individuellt eller i grupp (när tillämpligt) genom att välja en grupprubrik.
+Den nedre halvan av skärmen visar detaljer om det paket som just nu visas i
+den övre halvan.
+Vilken sorts detaljer som visas kan varieras.
 .sp
-Pressing the \fB'I'\fP key toggles a full-screen display of the packages
-list, an enlarged view of the package details, or the equally split screen.
+Genom att trycka \fB"I"\fP växlas vyn mellan en fullskärmsvisning av
+paketlistan, en förstorad vy för paketdetaljer, eller en skärm med två lika
+stora delar.
 .sp
 .SS Paketdetaljvy
 .sp
-The package details view by default shows the extended package description
-for the package that is currently selected in the packages status list.
-The type of detail can be toggled by pressing the \fB'i'\fP key.  This
-alternates between:
- - the extended description
- - the control information for the installed version
- - the control information for the available version
+Paketdetaljvyn visar normalt den utökade paketbeskrivningen för det paket
+som just nu är markerat i paketvallistan.
+Vilken sorts detaljer som visas kan växlas genom att trycka på \fB"i"\fP,
+vilken växlar mellan:
+ - den utökade beskrivningen
+ - kontrollinformationen för den installerade versionen
+ - kontrollinformationen för den tillgängliga versionen
 .sp
-In a dependency resolution screen, there is also the possibility of
-viewing the specific unresolved depends or conflicts related to the
-package and causing it to be listed.
+I en beroendelösningsskärm är det även möjligt att visa specifika
+otillfredsställda beroenden eller konflikter för paketet.
 .sh
 .SS Paketstatuslista
 .sp
-The main select screen displays a list of all packages known to the debian
-package management system.  This includes packages installed on the system
-and packages known from the available packages database.  
+Huvudvalskärmen visar en lista över samtliga paket som är kända för Debians
+pakethanteringssystem, vilket inbegriper paket installerade på systemet och
+paket kända från databasen över tillgängliga paket.
 .sp
-For every package, the list shows the package's status, priority,
-section, installed and available versions, the package name and its
-short description, all in one line.  By pressing the \fB'V'\fP key,
-the display of the installed and available version can be toggled between
-on an off.  By pressing the \fB'v'\fP key,
-the package status display is toggled between verbose and shorthand.
-Shorthand display is the default.
+För varje paket visar listan paketets status, prioritet, avdelning,
+installerade och tillgängliga versioner, paketets namn och dess korta
+beskrivning, allt på en rad.
+Genom att trycka på tangenten \fB"V"\fP slås visningen av den installerade
+och den aktiva versionen på och av.
+Genom att trycka på tangenten \fB"v"\fP växlas paketstatusvisningen mellan
+ordrik och förkortad, med den förkortade visningen som förval.
 .sp
-The shorthand status indication consists
-of four parts:  an error flag, which should normally be clear, the
-current status, the last selection state and the current selection state.
-The first two relate to the actual state of the package, the second pair
-are about the selections set by the user.
+Den förkortade statusindikeringen består av fyra delar: en felflagga, vilken
+normalt skall vara blank, aktuell status, senast vald status och nu vald
+status.
+De första två anger paketets faktiska status, det andra paret beskriver
+valet som gjorts av användaren.
 .sp
-These are the meanings of the shorthand package status indicator codes:
- Error flag: 
-  \fIempty\fP   no error
-  \fBR\fP       serious error, needs reinstallation;
- Installed state:   
-  \fIempty\fP   not installed;
-  \fB*\fP       fully installed and configured;
-  \fB-\fP       not installed but some config files may remain;
-  \fBU\fP       unpacked but not yet configured;
-  \fBC\fP       half-configured (an error happened);
-  \fBI\fP       half-installed (an error happened).
- Current and requested selections:
-  \fB*\fP       marked for installation or upgrade;
-  \fB-\fP       marked for removal, configuration files remain;
-  \fB=\fP       on hold: package will not be processed at all;
-  \fB_\fP       marked for purge, also remove configuration;
-  \fBn\fP       package is new and has yet to be marked.
+Detta är vad de olika paketstatusindikatorerna i det förkortade läget
+betyder:
+ Felflagga:
+  \fItom\fP     inget fel
+  \fBR\fP       allvarligt fel, kräver ominstallation
+ Installerad status:
+  \fIempty\fP   ej installerat
+  \fB*\fP       helt installerat och konfigurerat
+  \fB-\fP       ej installerat, men konfigurationsfiler kan kvarstå
+  \fBU\fP       uppackat men ännu ej konfigurerat
+  \fBC\fP       halvkonfigurerat (ett fel uppstod)
+  \fBI\fP       halvinstallerat (ett fel uppstod)
+ Aktuella och begärda val:
+  \fB*\fP       markerat för installation eller uppgradering
+  \fB-\fP       markerat för borttagning, konfigurationsfiler lämnas kvar
+  \fB=\fP       håll: paketet kommer inte att röras alls
+  \fB_\fP       markerat för borttagning, tar även bort konfiguration
+  \fBn\fP       paketet är nytt och har ännu inte markerats
 .sp
 .SS Markör- och skärmrörelser
 .sp
-The package selection list and the dependency conflict
-resolution screens can be navigated using motion
-commands mapped to the following keys:
+Paketvallistan och beroendekonfliktslösningnskärmarna kan navigeras genom
+att använda rörelsekommandon kopplade till följande tangenter:
 .br
-  \fBp, Up, k\fP           move cursor bar up
-  \fBn, Down, j\fP         move cursor bar down  
-  \fBP, Pgup, Backspace\fP scroll list 1 page up
-  \fBN, Pgdn, Space\fP     scroll list 1 page down
-  \fB^p\fP                 scroll list 1 line up
-  \fB^n\fP                 scroll list 1 line down
-  \fBt, Home\fP            jump to top of list
-  \fBe, End\fP             jump to end of list
-  \fBu\fP                  scroll info 1 page up
-  \fBd\fP                  scroll info 1 page down
-  \fB^u\fP                 scroll info 1 line up
-  \fB^d\fP                 scroll info 1 line down
-  \fBB, Left-arrow\fP      pan display 1/3 screen left
-  \fBF, Right-arrow\fP     pan display 1/3 screen right
-  \fB^b\fP                 pan display 1 character left
-  \fB^f\fP                 pan display 1 character right
+  \fBp, Upp, k\fP           flytta markeringsrad upp
+  \fBn, Ned, j\fP           flytta markeringsrad ned
+  \fBP, Pgup, Baksteg\fP    rulla lista 1 sida upp
+  \fBN, Pgdn, Mellanslag\fP rulla lista 1 sida ned
+  \fB^p\fP                  rulla lista 1 rad upp
+  \fB^n\fP                  rulla lista 1 rad ned
+  \fBt, Home\fP             hoppa till listans början
+  \fBe, End\fP              hoppa till listans slut
+  \fBu\fP                   rulla info 1 sida upp
+  \fBd\fP                   rulla info 1 sida ned
+  \fB^u\fP                  rulla info 1 rad upp
+  \fB^d\fP                  rulla info 1 rad ned
+  \fBB, Vänsterpil\fP       panorera vy 1/3 skärm vänster
+  \fBF, Högerpil\fP         panorera vy 1/3 skärm höger
+  \fB^b\fP                  panorera vy 1 tecken vänster
+  \fB^f\fP                  panorera vy 1 tecken höger
 .sp
 .SS Sökning och sortering
 .sp
-The list of packages can be searched by package name.  This
-is done by pressing \fB'/'\fP, and typing a simple search
-string.  The string is interpreted literally and should not contain
-metacharacters, like those used in ergular expressions or file globs.
-Repeated searching is accomplished by repeatedly pressing
-the \fB'n'\fP or \fB'\\'\fP keys, until the wanted package is found.
-If the search reaches the bottom of the list, it wraps to the top
-and continues searching from there.
+Det går att söka i paketlistan efter paketnamn.
+Detta görs genom att trycka \fB"/"\fP och ange en enkel söksträng.
+Strängen tolkas bokstavligen och får inte innehålla metatecken, såsom
+de som används i reguljära uttryck eller som jokertecken i filnamn.
+Sökningen kan upprepas genom att trycka på \fB"n"\fP eller \fB"\\"\fP
+tills det önskade paketet hittas.
+Om sökningen når slutet på listan hoppar den till början och fortsätter
+sökningen därifrån.
 .sp
-The list sort order can be varied by pressing 
-the \fB'o'\fP and \fB'O'\fP keys repeatedly.
-The following nine sort orderings can be selected:
- alphabet          available           status
- priority+section  available+priority  status+priority
- section+priority  available+section   status+section
+Listans sorteringsordning kan ändras genom att trycka på tangenterna
+\fB"o"\fP och \fB"O"\fP upprepade gånger.
+Följande nio sorteringsordningar kan väljar:
+ alfabetisk         tillgänglig            status
+ prioritet+sektion  tillgänglig+prioritet  status+prioritet
+ sektion+prioritet  tillgänglig+sektion    status+sektion
 .br
-Where not listed above explicitly, alphabetic order is used as 
-the final subordering sort key.
+När det inte anges explicit ovan används alfabetisk ordning som den slutliga
+sorteringsnyckeln.
 .sp
 .SS Ändra val
 .sp
-The requested selection state of individual packages may be 
-altered with the following commands:
-  \fB+, Insert\fP    install or upgrade
-  \fB=, H\fP         hold in present state and version
-  \fB:, G\fP         unhold: upgrade or leave uninstalled
-  \fB-, Delete\fP    remove, but leave configuration
-  \fB_\fP            remove & purge configuration
+Den begärda valstatusen för varje individuellt paket kan ändras med följande
+kommandon:
+  \fB+, Insert\fP    installera eller uppgradera
+  \fB=, H\fP         håll i aktuellt tillstånd och version
+  \fB:, G\fP         avbryt håll: uppgradera eller lämna oinstallerad
+  \fB-, Delete\fP    ta bort, men lämna kvar konfiguration
+  \fB_\fP            ta bort och radera konfiguration
 .sp
-When the change request results in one or more unsatisfied depends
-or conflicts, \fBdselect\fP prompts the user with a dependency resolution 
-screen.  This will be further explained below.
+När ändringar som får en eller flera otillfredsställda beroenden eller
+konflikter till följd görs, frågar \fBdselect\fP användaren med en
+beroendelösningsskärm, vilken beskrivs ytterligare nedan.
 .sp
-It is also possible to apply these commands to groups of package
-selections, by pointing the cursor bar onto a group header.  The
-exact grouping of packages is dependent on the current list ordering
-settings.  
+Det är även möjligt att applicera dessa kommandon på grupper av paketval,
+genom att peka markeringsraden på en grupprubrik.
+Exakt hur paketen grupperas beror på vilken listordning som för tillfället
+används.
 .sp
-Proper care should be taken when altering large groups of selections,
-because this can instantaneously create large numbers of unresolved 
-depends or conflicts, all of which will be listed in one dependency
-resolution screen, making them very hard to handle.  In practice, 
-only hold and unhold operations are useful when applied to groups.
+Nödvändiga försighetsåtgärder skall tas när ändringar görs på stora
+gruppmarkeringar, eftersom detta med en gång kan ge stora mängder
+otillfredsställda beroenden eller konflikter, vilka alla kommer att visas på
+en beroendelösningsskärm, vilket gör dem mycket svåra att hantera.
+I praktiken är bara håll-kommandot och dess motsats användbara på grupper.
 .sp
 .SS Lösa beroenden och konflikter
 .sp
-When the change request results in one or more unsatisfied depends
-or conflicts, \fBdselect\fP prompts the user with a dependency resolution 
-screen.  First however, an informative help screen is displayed. 
+När ändringar som får en eller flera otillfredsställda beroenden eller
+konflikter till följd görs, frågar \fBdselect\fP användaren med en
+beroendelösningsskärm.
+Först visas dock en informativ hjälpskärm.
 .sp
-The top half of this screen lists all the packages that will have 
-unresolved depends or conflicts, as a result of the requested change, 
-and all the packages whose installation can resolve any of these 
-depends or whose removal can resolve any of the conflicts.
-The bottom half defaults to show the depends or conflicts that
-cause the currently selected package to be listed.
+Övre halvan av denna skärm listar alla paket som har otillfredsställda
+beroenden eller konflikter som ett resultat av ändringen som efterfrågas,
+samt alla paket vars installation kan lösa något av dessa beroenden, eller
+vars borttagning kan lösa någon av konflikterna.
+Den nedre halvan visar som förval de beroenden eller konflikter som leder
+till att det markerade paketet listas.
 .sp
-When the sublist of packages is displayed initially, \fBdselect\fP
-may have already set the requested selection status of some of the
-listed packages, in order to resolve the depends of conflicts that
-caused the dependency resolution screen to be displayed.  Usually,
-it is best to follow up the suggestions made by \fBdselect\fP.
+När paketunderlistan visas kan \fBdselect\fP redan ha satt efterfrågad
+valstatus för några av de listade paketen för att lösa de beroenden och
+konflikter som fick beroendelösningsskärmen att visas.
+Vanligtvis är det bäst att följa upp de förslag som görs av \fBdselect\fP.
 .sp
-The listed packages' selection state may be reverted to the original
-settings, as they were before the unresolved depends or conflicts
-were created, by pressing the \fB'R'\fP key.  By pressing the \fB'D'\fP
-key, the automatic suggestions are reset, but the change that caused
-the dependency resolution screen to be prompted is kept as requested.
-Finally, by pressing \fB'U'\fP, the selections are again set to the 
-automatic suggestion values.
+De listade paketens valstatus kan återställas till ursprungsinställningarna,
+såsom de var innan de otillfredsställda beroendena eller konflikterna
+skapades, genom att trycka på tangenten \fB"R"\fP.
+Genom att trycka på \fB"D"\fP återställs de föreslagna lösningarna, men
+ändringen som fick skärmen att visas behålls i den status de valdes.
+Slutligen, genom att trycka \fB"U"\fP återställs valen återigen till de
+automatiskt föreslagna värdena.
 .sp
 .SS Bekräfta de efterfrågade valen
 .sp
-By pressing \fBenter\fP, the currently displayed set of selections
-is accepted.  If \fBdselect\fP detects no unresolved depends as a result 
-of the requested selections, the new selections will be set.  When
-If there are however any unresolveded depends, \fBdselect\fP will again 
-prompt the user with a dependency resolution screen.  
+Genom att trycka \fBEnter\fP godtas den vid tillfället inställda
+uppsättningen val.
+Om \fBdselect\fP inte upptäcker några otillfredsställda beroenden som följd
+av de efterfrågade valen kommer de nya valen att lagras.
+Om det däremot finns några otillfredsställda beroenden kommer \fBdselect\fP
+återigen gå till beroendelösningsskärmen.
 .sp
-To alter a set of selections that creates unresolved depends or 
-conflicts and forcing \fBdselect\fP to accept it, press the \fB'Q'\fP
-key.  This sets the selections as specified by the user, 
-unconditionally.  Generally, don't do this unless you've read 
-the fine print.
+För att ändra en uppsättning val som skapar otillfredsställda beroenden
+eller konflikter, och tvinga \fBdselect\fP att godta dem trycker du på
+\fB"Q"\fP-tangenten.
+Detta ställer ovillkorligen in de val användaren gjort, vilket vanligtvis
+inte bör göras såvida man inte har läst det finstilta.
 .sp
-The opposite effect, to back out any selections change requests and 
-go back to the previous list of selections, is attained by pressing 
-the \fB'X'\fP or \fBescape\fP keys.  By repeatedly pressing these 
-keys, any possibly detrimental changes to the requested package 
-selections can be backed out completely to the last established 
-settings.
+Motsatt effekt, att backa ut från valändringar och återgå till föregående
+vallista, kan fås genom att trycka på tangenterna \fB"X"\fP eller
+\fbEscape\fP.
+Genom att upprepade gånger trycka dessa tangenter, kan eventuella skadliga
+paketval backas ut helt och hållet för att återgå till senast etablerade
+inställningar.
 .sp
 .SH PROGRAMFEL
 Paketvalsgränssnittet i
@@ -440,7 +441,7 @@ Det finns inget hjälpalternativ i huvudmenyn.
 .sp
 Den synliga listan med tillgängliga paket kan inte förminskas.
 .sp
-De inbyggda åtkomstmetoderna kan itne längre nå nuvarande kvalitetsstandard.
+De inbyggda åtkomstmetoderna kan inte längre nå nuvarande kvalitetsstandard.
 Använd åtkomstmetoden som ges av apt, den är inte bara inte trasig, utan
 även mycket flexiblare än de inbyggda åtkomstmetoderna.
 .SH SE ÄVEN
