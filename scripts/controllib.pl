@@ -181,7 +181,7 @@ sub parsecdata {
     $index=''; $cf=''; $paraborder=1;
     while (<CDATA>) {
         s/\s*\n$//;
-	if (m/^$/ and $paraborder) next;
+	next if (m/^$/ and $paraborder);
 	$paraborder=0;
         if (m/^(\S+)\s*:\s*(.*)$/) {
             $cf=$1; $v=$2;
