@@ -222,7 +222,7 @@ sub checkrename {
 	open (TMP, ">> ${file}.dpkg-devert.tmp") || $! == ENOENT ||
 		&quit("error checking \`$file': $!");
 	close TMP;
-	if ($1 == ENOENT) {
+	if ($! == ENOENT) {
 		$dorename = 0;
 	} else {
 		unlink ("${file}.dpkg-devert.tmp");
