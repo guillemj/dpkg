@@ -396,7 +396,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
   { "dry-run",            0,   0,  &f_noact,       0,  0,             1              },
-  { "simulate,            0,   0,  &f_noact,       0,  0,             1              },
+  { "simulate",           0,   0,  &f_noact,       0,  0,             1              },
   { "no-debsig",          0,   0,  &f_nodebsig,    0,  0,             1              },
   {  0,                  'G',  0,  &fc_downgrade,  0,  0, /* alias for --refuse */ 0 },
   { "selected-only",     'O',  0,  &f_alsoselect,  0,  0,             0              },
