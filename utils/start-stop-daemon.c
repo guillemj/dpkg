@@ -1211,7 +1211,12 @@ main(int argc, char **argv)
 		 /* child continues here */
 
 		/* create a new session */
+#ifdef HAVE_SETSID
 		setsid();
+#else
+		setpgid(0,0);
+#endif
+
 #if defined(OShpux)
 		 /* now close all extra fds */
 		for (i=sysconf(_SC_OPEN_MAX)-1; i>=0; --i) close(i);
@@ -1225,7 +1230,6 @@ main(int argc, char **argv)
 #endif
 		chdir("/");
 		umask(022); /* set a default for dumb programs */
-		setpgid(0,0);  /* set the process group */
 		fd=open("/dev/null", O_RDWR); /* stdin */
 		dup(fd); /* stdout */
 		dup(fd); /* stderr */
