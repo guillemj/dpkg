@@ -1,3 +1,20 @@
+Mon Oct 18 18:40:35 EDT 1999 Ben Collins <bcollins.debian.org>
+
+  * Reimplemented a better *stat cache for the removal checking code,
+    this helps a lot when doing upgrades where the packages are a lot
+    different in layout. Note, I tested the first way and this new way
+    against package foo (version 1 & 2) each had 5000 files (different
+    in version 2 than in version 1). basically this meant the old way
+    needed to do about 2.5 million lstats, and the new way only needs
+    10,000 lstats. This sped it up about %6000 percent (the old way took
+    over 1 hour on a 333Mhz, the new way was 2 minutes and 20 seconds).
+    Note that this is an extreme case since most per package upgrades
+    a) don't have 5000 files
+    b) don't have all the files different
+  * Increased largemem auto detection to >= 24megs, since it's not uncommon
+    for dpkg to actually use 16megs of ram all on its own when using the
+    largemem setting (old minimum was 16megs)
+
 Mon Oct 18 09:25:30 EDT 1999 Ben Collins <bcollins.debian.org>
 
   * Add mipseb to the archtable too, since mips and mipseb are

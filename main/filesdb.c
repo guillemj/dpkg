@@ -495,8 +495,8 @@ static int autodetect_largemem(void) {
 #ifdef HAVE_SYSINFO
   struct sysinfo info;
   if (sysinfo(&info)) return 0;
-  if (info.freeram + (info.sharedram>>2) + (info.bufferram>>2) < 16384*1024 &&
-      info.totalram < 16384*1024)
+  if (info.freeram + (info.sharedram>>2) + (info.bufferram>>2) < 24576*1024 &&
+      info.totalram < 24576*1024)
     return 0;
 #endif
   return 1;
@@ -515,6 +515,7 @@ void filesdbinit(void) {
       for (fnn= bins[i]; fnn; fnn= fnn->next) {
         fnn->flags= 0;
         fnn->oldhash= 0;
+        fnn->filestat= 0;
       }
     break;
   case -1:
@@ -523,6 +524,7 @@ void filesdbinit(void) {
          fnn= fnn->next) {
       fnn->flags= 0;
       fnn->oldhash= 0;
+      fnn->filestat= 0;
     }
     break;
   default:
@@ -608,6 +610,7 @@ static struct filenamenode *findnamenode_low(const char *name) {
   traverse->here->packages= 0;
   traverse->here->flags= 0;
   traverse->here->divert= 0;
+  traverse->here->filestat= 0;
 
   n= strlen(name)+2;
   if (namesarealeft < n) {
@@ -658,6 +661,7 @@ struct filenamenode *findnamenode_high(const char *name) {
   newnode->flags= 0;
   newnode->next= 0;
   newnode->divert= 0;
+  newnode->filestat= 0;
   *pointerp= newnode;
   nfiles++;
 

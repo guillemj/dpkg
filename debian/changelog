@@ -37,6 +37,12 @@ dpkg (1.4.1.17) unstable; urgency=low
   * Removed shlibs.default.i386. It's now a template for arch porting to
     Debian/dpkg, we install it still, if there exists a file matching the
     arch
+  * Reimplemented a better *stat cache for the removal checking code,
+    this helps a lot when doing upgrades where the packages are a lot
+    different in layout
+  * Increased largemem auto detection to >= 24megs, since it's not uncommon
+    for dpkg to actually use 16megs of ram all on its own when using the
+    largemem setting (old minimum was 16megs)
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

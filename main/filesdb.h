@@ -62,6 +62,7 @@ struct filenamenode {
     fnnf_no_atomic_overwrite= 000020, /* >=1 instance is a dir, cannot rename over */
   } flags; /* Set to zero when a new node is created. */
   const char *oldhash; /* valid iff this namenode is in the newconffiles list */
+  struct stat *filestat;
 };
  
 struct fileinlist {

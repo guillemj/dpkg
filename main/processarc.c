@@ -599,7 +599,7 @@ void process_archive(const char *filename) {
        * the process a little leaner. We are only worried about new ones
        * since ones that stayed the same don't really apply here.
        */
-      struct stat oldfs, newfs;
+      struct stat oldfs;
       int donotrm = 0;
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code
@@ -608,10 +608,17 @@ void process_archive(const char *filename) {
 	  "upgrade/downgrade", fnamevb.buf);
       if (!lstat(fnamevb.buf, &oldfs) && !S_ISDIR(oldfs.st_mode)) {
 	for (cfile = newfileslist; cfile; cfile = cfile->next) {
-          if (lstat(cfile->namenode->name, &newfs) || S_ISDIR(newfs.st_mode))
-            continue;
-          if (oldfs.st_dev == newfs.st_dev &&
-              oldfs.st_ino == newfs.st_ino) {
+	  if (!cfile->namenode->filestat) {
+	    cfile->namenode->filestat = (struct stat *) nfmalloc(sizeof(struct stat));
+	    if (lstat(cfile->namenode->name, cfile->namenode->filestat)) {
+	      cfile->namenode->filestat= 0;
+	      continue;
+	    }
+	  }
+	  if (S_ISDIR(cfile->namenode->filestat->st_mode))
+	    continue;
+          if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
+              oldfs.st_ino == cfile->namenode->filestat->st_ino) {
 	    donotrm = 1;
 	    debug(dbg_eachfile, "process_archive: not removing %s, since it matches %s",
 		fnamevb.buf, cfile->namenode->name);
