@@ -97,7 +97,7 @@ void packages(const char *const *argv) {
           continue;
         break;
       default:
-        internerr(_("unknown action for pending"));
+        internerr("unknown action for pending");
       }
       add_to_queue(pkg);
     }
@@ -139,7 +139,7 @@ void process_queue(void) {
   switch (cipaction->arg) {
   case act_configure: case act_install:  istobe= itb_installnew;  break;
   case act_remove: case act_purge:       istobe= itb_remove;      break;
-  default: internerr(_("unknown action for queue start"));
+  default: internerr("unknown action for queue start");
   }
   for (rundown= queuehead; rundown; rundown= rundown->next) {
     ensure_package_clientdata(rundown->pkg);
@@ -156,7 +156,7 @@ void process_queue(void) {
                rundown->pkg->name);
         break;
       default:
-        internerr(_("unknown action in duplicate"));
+        internerr("unknown action in duplicate");
       }
       rundown->pkg= 0;
    } else {
@@ -199,7 +199,7 @@ void process_queue(void) {
       deferred_remove(pkg);
       break;
     default:
-      internerr(_("unknown action in queue"));
+      internerr("unknown action in queue");
     }
     if (ferror(stdout)) werr("stdout");
     if (ferror(stderr)) werr("stderr");
@@ -402,7 +402,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     case 3:
       break;
     default:
-      internerr(_("unknown value for found"));
+      internerr("unknown value for found");
     }
   }
   if (ok == 0 && (pkg->clientdata && pkg->clientdata->istobe == itb_remove))

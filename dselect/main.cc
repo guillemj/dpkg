@@ -273,7 +273,7 @@ urqresult urq_menu(void) {
       case urqr_fail:
         break;
       default:
-        internerr(_("unknown menufn"));
+        internerr("unknown menufn");
       }
       refreshmenu(); dme(cursor,1);
     } else if (c==C('l')) {

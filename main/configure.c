@@ -363,7 +363,7 @@ void deferred_configure(struct pkginfo *pkg) {
         switch (cc) {
         case 'i': case 'y':  what= cfof_install | cfof_backup;   break;
         case 'n': case 'o':  what= cfof_keep    | cfof_backup;   break;
-        default:             internerr(_("unknown response"));
+        default:             internerr("unknown response");
         }
 
       }
@@ -418,7 +418,7 @@ void deferred_configure(struct pkginfo *pkg) {
         break;
 
       default:
-        internerr(_("unknown what"));
+        internerr("unknown what");
       }
 
       conff->hash= nfstrsave(newdisthash);

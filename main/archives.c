@@ -465,7 +465,7 @@ int tarobject(struct TarInfo *ti) {
     newtarobject_allmodes(fnamenewvb.buf,ti);
     break;
   default:
-    internerr(_("bad tar type, but already checked"));
+    internerr("bad tar type, but already checked");
   }
   /*
    * Now we have extracted the new object in .dpkg-new (or, if the
@@ -821,7 +821,7 @@ void archivefiles(const char *const *argv) {
   case act_avail:
     break;
   default:
-    internerr(_("unknown action"));
+    internerr("unknown action");
   }
 
   modstatdb_shutdown();

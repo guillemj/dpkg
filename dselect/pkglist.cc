@@ -45,7 +45,7 @@ int packagelist::compareentries(struct perpackagestate *a,
   case sso_unsorted:
     break;
   default:
-    internerr(_("unknown statsortorder in compareentries"));
+    internerr("unknown statsortorder in compareentries");
   }
 
   const char *asection= a->pkg->section;
@@ -76,7 +76,7 @@ int packagelist::compareentries(struct perpackagestate *a,
     return c_name;
   case so_unsorted:
   default:
-    internerr(_("unsorted or unknown in compareentries"));
+    internerr("unsorted or unknown in compareentries");
   }
   /* never reached, make gcc happy */
   return 1;
@@ -204,7 +204,7 @@ void packagelist::ensurestatsortinfo() {
         }
         break;
       default:
-        internerr(_("unknown stat in ensurestatsortinfo sso_avail"));
+        internerr("unknown stat in ensurestatsortinfo sso_avail");
       }
       if (debug)
         fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssavail=%d\n",
@@ -237,7 +237,7 @@ void packagelist::ensurestatsortinfo() {
         table[index]->ssstate= sss_installed;
         break;
       default:
-        internerr(_("unknown stat in ensurestatsortinfo sso_state"));
+        internerr("unknown stat in ensurestatsortinfo sso_state");
       }
       if (debug)
         fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssstate=%d\n",
@@ -247,7 +247,7 @@ void packagelist::ensurestatsortinfo() {
     calcsssdone= 1;
     break;
   default:
-    internerr(_("unknown statsortorder in ensurestatsortinfo"));
+    internerr("unknown statsortorder in ensurestatsortinfo");
   }
 }
 

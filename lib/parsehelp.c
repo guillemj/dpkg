@@ -159,7 +159,7 @@ void varbufversion
     varbufprintf(vb,"%lu:",version->epoch);
     break;
   default:
-    internerr(_("bad versiondisplayepochwhen in varbufversion"));
+    internerr("bad versiondisplayepochwhen in varbufversion");
   }
   if (version->version) varbufaddstr(vb,version->version);
   if (version->revision && *version->revision) {

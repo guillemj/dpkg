@@ -48,7 +48,7 @@ void updateavailable(const char *const *argv) {
       badusage(_("--%s needs exactly one Packages file argument"),cipaction->olong);
     break;
   default:
-    internerr(_("bad cipaction->arg in updateavailable"));
+    internerr("bad cipaction->arg in updateavailable");
   }
   
   if (!f_noact) {
@@ -71,7 +71,7 @@ void updateavailable(const char *const *argv) {
   case act_avclear:
     break;
   default:
-    internerr(_("bad cipaction->arg in update available"));
+    internerr("bad cipaction->arg in update available");
   }
 
   varbufaddstr(&vb,admindir);

@@ -178,7 +178,7 @@ void packagelist::setwidths() {
     description_column= versionavailable_column + versionavailable_width + gap_width;
     break;
   default:
-    internerr(_("unknown versiondisplayopt in setwidths"));
+    internerr("unknown versiondisplayopt in setwidths");
   }
     
   total_width= TOTAL_LIST_WIDTH;
@@ -210,7 +210,7 @@ void packagelist::redrawtitle() {
           waddnstr(titlewin, _(" (status, section)"), xmax-x);
           break;
         default:
-          internerr(_("bad statsort in redrawtitle/so_section"));
+          internerr("bad statsort in redrawtitle/so_section");
         }
         break;
       case so_priority:
@@ -225,7 +225,7 @@ void packagelist::redrawtitle() {
           waddnstr(titlewin, _(" (status, priority)"), xmax-x);
           break;
         default:
-          internerr(_("bad statsort in redrawtitle/so_priority"));
+          internerr("bad statsort in redrawtitle/so_priority");
         }
         break;
       case so_alpha:
@@ -240,7 +240,7 @@ void packagelist::redrawtitle() {
           waddnstr(titlewin, _(" (by status)"), xmax-x);
           break;
         default:
-          internerr(_("bad statsort in redrawtitle/so_priority"));
+          internerr("bad statsort in redrawtitle/so_priority");
         }
         break;
         waddnstr(titlewin, _(" (alphabetically)"), xmax-x);
@@ -248,7 +248,7 @@ void packagelist::redrawtitle() {
       case so_unsorted:
         break;
       default:
-        internerr(_("bad sort in redrawtitle"));
+        internerr("bad sort in redrawtitle");
       }
     }
     const char *helpstring= readwrite ? (verbose ? _(" mark:+/=/- terse:v help:?")

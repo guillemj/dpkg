@@ -221,7 +221,7 @@ static int yettobeunpacked(struct pkginfo *pkg, const char **thissect) {
       *thissect= pkg->section && *pkg->section ? pkg->section : _("<unknown>");
     return 1;
   default:
-    internerr(_("unknown status checking for unpackedness"));
+    internerr("unknown status checking for unpackedness");
   }
 }
 
@@ -453,7 +453,7 @@ void enqperpackage(const char *const *argv) {
       break;
 
     default:
-      internerr(_("unknown action"));
+      internerr("unknown action");
     }
         
     putchar('\n');
@@ -676,7 +676,7 @@ void printarch(const char *const *argv) {
   switch (cipaction->arg) {
   case act_printarch:    arch= archp->to;  break;
   case act_printgnuarch: arch= archp->gnu; break;
-  default: internerr(_("unknown action in printarch"));
+  default: internerr("unknown action in printarch");
   }
   if (!arch) {
     *q= 0; arch= p;
