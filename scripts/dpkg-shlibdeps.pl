@@ -1,4 +1,7 @@
 #! /usr/bin/perl
+#
+# dpkg-shlibdeps
+# $Id$
 
 $dpkglibdir="/usr/lib/dpkg";
 $version="1.4.1.19"; # This line modified by Makefile
