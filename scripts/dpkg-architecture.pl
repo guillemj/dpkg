@@ -47,25 +47,27 @@ $dpkglibdir="/usr/lib/dpkg";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-%archtable=('i386',      'i386-linux',
-	    'sparc',     'sparc-linux',
-	    'sparc64',   'sparc64-linux',
-	    'alpha',     'alpha-linux',
-	    'm68k',      'm68k-linux',
-            'arm',       'arm-linux',
-            'powerpc',   'powerpc-linux',
-	    'mips',      'mips-linux',
-	    'mipsel',    'mipsel-linux',
-	    'sh',        'sh-linux',
-	    'sheb',      'sheb-linux',
-	    'hppa',      'hppa-linux',
-	    'hurd-i386', 'i386-gnu',
-	    's390',	 's390-linux',
-	    'ia64',	 'ia64-linux',
-	    'openbsd-i386', 'i386-openbsd',
-	    'freebsd-i386', 'i386-freebsd',
-	    'darwin-powerpc', 'powerpc-darwin',
-	    'darwin-i386', 'i386-darwin');
+%archtable=('i386',		'i386-linux',
+	    'sparc',		'sparc-linux',
+	    'sparc64',		'sparc64-linux',
+	    'alpha',		'alpha-linux',
+	    'm68k',		'm68k-linux',
+            'arm',		'arm-linux',
+            'powerpc',		'powerpc-linux',
+	    'mips',		'mips-linux',
+	    'mipsel',		'mipsel-linux',
+	    'sh3',		'sh3-linux',
+	    'sh4',		'sh4-linux',
+	    'sh3eb',		'sh3eb-linux',
+	    'sh4eb',		'sh4eb-linux',
+	    'hppa',		'hppa-linux',
+	    'hurd-i386',	'i386-gnu',
+	    's390',		's390-linux',
+	    'ia64',		'ia64-linux',
+	    'openbsd-i386',	'i386-openbsd',
+	    'freebsd-i386',	'i386-freebsd',
+	    'darwin-powerpc',	'powerpc-darwin',
+	    'darwin-i386',	'i386-darwin');
 
 sub usageversion {
     print STDERR
