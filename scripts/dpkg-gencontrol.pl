@@ -151,7 +151,7 @@ for $_ (keys %fi) {
         } elsif (m/^Version$/) {
             $sourceversion= $v;
             $f{$_}= $v unless length($forceversion);
-        } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date)$/) {
+        } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
         } elsif (s/^X[CS]*B[CS]*-//i) {
             $f{$_}= $v;
         } elsif (!m/^X[CS]+-/i) {
