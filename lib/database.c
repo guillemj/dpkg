@@ -123,6 +123,8 @@ void blankpackage(struct pkginfo *pigp) {
   pigp->installed.valid= 0;
   pigp->available.valid= 0;
   pigp->clientdata= 0;
+  blankpackageperfile(&pigp->installed);
+  blankpackageperfile(&pigp->available);
 }
 
 void blankpackageperfile(struct pkginfoperfile *pifp) {
