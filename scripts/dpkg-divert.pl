@@ -133,11 +133,11 @@ if ($mode eq 'add') {
         $orgfile= $contest[$i];
         $orgdivertto= $altname[$i];
         @contest= (($i > 0 ? @contest[0..$i-1] : ()),
-                   ($i < $#contest ? @contest[$i+1,$#contest] : ()));
+                   ($i < $#contest ? @contest[$i+1..$#contest] : ()));
         @altname= (($i > 0 ? @altname[0..$i-1] : ()),
-                   ($i < $#altname ? @altname[$i+1,$#altname] : ()));
+                   ($i < $#altname ? @altname[$i+1..$#altname] : ()));
         @package= (($i > 0 ? @package[0..$i-1] : ()),
-                   ($i < $#package ? @package[$i+1,$#package] : ()));
+                   ($i < $#package ? @package[$i+1..$#package] : ()));
         &checkrename($orgdivertto,$orgfile);
         &dorename($orgdivertto,$orgfile);
         &save;

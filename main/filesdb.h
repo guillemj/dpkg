@@ -75,15 +75,15 @@ struct diversion {
    * instead.  Both files have entries in the filesdb database, and
    * they refer to each other via these diversion structures.
    *
-   * The contended filename's filenamenode has an diversion entry
+   * The contested filename's filenamenode has an diversion entry
    * with useinstead set to point to the redirected filename's
    * filenamenode; the redirected filenamenode has camefrom set to the
-   * contended filenamenode.  Both sides' diversion entries will
+   * contested filenamenode.  Both sides' diversion entries will
    * have pkg set to the package (if any) which is allowed to use the
    * contended filename.
    *
    * Packages that contain either version of the file will all
-   * refer to the contended filenamenode in their per-file package lists
+   * refer to the contested filenamenode in their per-file package lists
    * (both in core and on disk).  References are redirected to the other
    * filenamenode's filename where appropriate.
    */

@@ -338,9 +338,10 @@ void ensure_diversions(void) {
   diversionsfile= file;
 
   for (ov= diversions; ov; ov= ov->next) {
+    ov->useinstead->divert->camefrom->divert= 0;
     ov->useinstead->divert= 0;
-    ov->camefrom->divert= 0;
   }
+  diversions= 0;
   if (!file) { onerr_abort--; return; }
 
   while (fgets(linebuf,sizeof(linebuf),file)) {
@@ -375,10 +376,13 @@ void ensure_diversions(void) {
 
     if (oialtname->camefrom->divert || oicontest->useinstead->divert)
       ohshit("conflicting diversions involving `%.250s' or `%.250s'",
-             oicontest->camefrom->name, oicontest->useinstead->name);
+             oialtname->camefrom->name, oicontest->useinstead->name);
 
     oialtname->camefrom->divert= oicontest;
     oicontest->useinstead->divert= oialtname;
+
+    oicontest->next= diversions;
+    diversions= oicontest;
   }
   if (ferror(file)) ohshite("read error in diversions [i]");
 

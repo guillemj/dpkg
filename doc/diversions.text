@@ -1,5 +1,6 @@
 (These messages have been edited to conform to the terminology
-eventually decided on.)
+eventually decided on, and to make them give better and clearer
+examples.)
 
 ------- start of digest (2 messages) (RFC 934 encapsulation) -------
 Resent-Message-Id: <m0tcceI-0002c6C@chiark.chu.cam.ac.uk>
@@ -100,12 +101,16 @@ diagrammatically:
      |  ...              |                 \____________________/
      |...................|
      |preinst:           |
-     | dpkg-divert --divert /bin/ls.mono \
-     |   --package colour-ls /bin/ls
+     | case "$1" in install)
+     |  dpkg-divert --rename --divert /bin/ls.mono \
+     |              --package colour-ls /bin/ls ;;
+     | esac              |
      |...................|
      |postrm:            |
-     | dpkg-divert --remove --divert /bin/ls.mono \
-     |   --package colour-ls /bin/ls
+     | case "$1" in remove|abort-install)
+     |   dpkg-divert --remove --rename --divert /bin/ls.mono \
+     |               --package colour-ls /bin/ls ;;
+     | esac              |
      |___________________|
 
 We need a name that applies to `/usr/sbin/smail.real' and
