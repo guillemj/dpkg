@@ -19,6 +19,7 @@ for copying conditions.  There is NO warranty.
 Usage:
 
   dpkg-statoverride [options] --add <owner> <group> <mode> <file>
+  dpkg-statoverride [options] --import <package> <file>
   dpkg-statoverride [options] --remove <file>
   dpkg-statoverride [options] --list [<glob-pattern>]
 
@@ -61,6 +62,9 @@ while (@ARGV) {
 	} elsif (m/^--list$/) {
 		&CheckModeConflict;
 		$mode= 'list';
+	} elsif (m/^--import$/) {
+		&CheckModeConflict;
+		$mode= 'import';
 	} else {
 		&badusage("unknown option \`$_'");
 	}
@@ -118,7 +122,7 @@ if ($mode eq "add") {
 	    }
 	}
 } elsif ($mode eq "remove") {
-	@ARGV==1 || &badusage("--remove needs four arguments");
+	@ARGV==1 || &badusage("--remove needs one arguments");
 	$file=$ARGV[0];
 	if (not defined $user{$file}) {
 		print "No override present.";
@@ -129,6 +133,37 @@ if ($mode eq "add") {
 	delete $mode{$file};
 	$dowrite=1;
 	print STDERR "warning: --update is useless for --remove\n" if ($doupdate);
+} elsif ($mode eq "import") {
+	@ARGV==2 || &badusage("--import needs two arguments");
+	$pkg=$ARGV[0];
+	$file=$ARGV[1];
+	if (defined $user{$file}) {
+		print STDERR "An override for \"$file\" already exists, ";
+		if ($doforce) {
+			print STDERR "but --force specified so lets ignore it.\n";
+		} else {
+			print STDERR "aborting\n";
+			exit(3);
+		}
+		SUIDCONF=open("/etc/suid.conf") || &quit("error opening /etc/suid.conf");
+		while (<SUIDCONF>) {
+			chomp;
+			($sm_pkg,$sm_file,$sm_user,$sm_group)=split;
+			next ($sm_file != $pkg) next;
+			last if ($sm_pkg==$pkg);
+			$sm_user="#$sm_user") if ($sm_user =~ m/^\d*$/);
+			$sm_group="#$sm_group") if ($sm_group =~ m/^\d*$/);
+			$user{$fm_file}=$sm_user;
+			$group{$fm_file}=$sm_group;
+			if { -x /usr/sbin/suidunregister) {
+				@args = ("suidunregister", "$file");
+				system(@args) == 0 || &quit("system @args failed: $?");
+			}
+			$dowrite=1;
+			last;
+		}
+		close(SUIDCONF);
+	}
 } elsif ($mode eq "list") {
 	my (@list,@ilist,$pattern,$file);
 	

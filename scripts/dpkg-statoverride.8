@@ -1,10 +1,12 @@
-.TH DPKG-STATOVERRIDE 8 "June 2000" "Debian project" "dpkg utililties"
+.TH DPKG-STATOVERRIDE 8 "November 2000" "Debian project" "dpkg utililties"
 .SH NAME
 dpkg-statoverride -- override ownership and mode of files
 .SH SYNOPSIS
 \fBdpkg-statoverride\fR [options] --add <user> <group> <mode> \fI<file>\fR
 .br
 \fBdpkg-statoverride\fR [options] --remove \fI<file>\fR
+.br
+\fBdpkg-statoverride\fR [options] --import \fI<package>\fR \fI<file>\fR
 .br
 \fBdpkg-statoverride\fR [options] --list \fI[<glob-pattern>]\fR
 .SH DESCRIPTION
@@ -30,6 +32,13 @@ groups can be specified by their name (for example \fBroot\fR or
 .I --remove <file>
 Remove an override for \fB<file>\fR.
 .TP
+.TP
+.I --import <package> <file>
+Import the override for file \fB<file>\fR as provided by package
+\fB<package>\fR. If the user has not made an override nothing is
+done and the default permissions are used. If an override is present
+it is removed from \fI/etc/suid.conf\fR and added to the statoverride
+database.
 .I --list [<glob-pattern>]
 List all overrides. If a glob pattern is specified restrict the output
 to overrides which match the glob.
