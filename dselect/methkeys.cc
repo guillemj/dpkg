@@ -63,10 +63,10 @@ const keybindings::interpretation methodlist_kinterps[] = {
 
 const keybindings::orgbinding methodlist_korgbindings[]= {
   { 'j',            "down"           }, // vi style
-  { 'n',            "down"           },
+//{ 'n',            "down"           }, // no style
   { KEY_DOWN,       "down"           },
   { 'k',            "up"             }, // vi style
-  { 'p',            "up"             },
+//{ 'p',            "up"             }, // no style
   { KEY_UP,         "up"             },
   
   { C('f'),         "scrollon"       }, // vi style
