@@ -89,9 +89,6 @@
 #ifdef HAVE_ERROR_H
 #  include <error.h>
 #endif
-#ifdef HURD_IHASH_H
-  #include <hurd/ihash.h>
-#endif
 
 static int testmode = 0;
 static int quietmode = 0;
@@ -121,7 +118,7 @@ static int nicelevel = 0;
 
 static struct stat exec_stat;
 #if defined(OSHURD)
-static struct proc_stat_list *procset;
+static struct proc_stat_list *procset = NULL;
 #endif
 
 
@@ -638,38 +635,70 @@ pid_is_cmd(pid_t pid, const char *name)
 
 
 #if defined(OSHURD)
+static void
+init_procset(void)
+{
+	struct ps_context *context;
+	error_t err;
+
+	err = ps_context_create(getproc(), &context);
+	if (err)
+		error(1, err, "ps_context_create");
+
+	err = proc_stat_list_create(context, &procset);
+	if (err)
+		error(1, err, "proc_stat_list_create");
+
+	err = proc_stat_list_add_all(procset, 0, 0);
+	if (err)
+		error(1, err, "proc_stat_list_add_all");
+}
+
+static struct proc_stat *
+get_proc_stat (pid_t pid, ps_flags_t flags)
+{
+	struct proc_stat *ps;
+	ps_flags_t wanted_flags = PSTAT_PID | flags;
+
+	if (!procset)
+		init_procset();
+
+	ps = proc_stat_list_pid_proc_stat(procset, pid);
+	if (!ps)
+		return NULL;
+	if (proc_stat_set_flags(ps, wanted_flags))
+		return NULL;
+	if ((proc_stat_flags(ps) & wanted_flags) != wanted_flags)
+		return NULL;
+
+	return ps;
+}
+
 static int
 pid_is_user(pid_t pid, uid_t uid)
 {
-	struct stat sb;
-	char buf[32];
-	struct proc_stat *pstat;
+	struct proc_stat *ps;
 
-	sprintf(buf, "/proc/%d", pid);
-	if (stat(buf, &sb) != 0)
-		return 0;
-	return (sb.st_uid == uid);
-	pstat = proc_stat_list_pid_proc_stat (procset, pid);
-	if (pstat)
-		proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_OWNER_UID);
-	else
-		return 1;
-	return (pstat->owner_uid == uid);
+	ps = get_proc_stat(pid, PSTAT_OWNER_UID);
+	return ps && proc_stat_owner_uid(ps) == uid;
 }
 
 static int
 pid_is_cmd(pid_t pid, const char *name)
 {
-	struct proc_stat *pstat;
-	pstat = proc_stat_list_pid_proc_stat (procset, pid);
-	if (pstat)
-		proc_stat_set_flags (pstat, PSTAT_PID | PSTAT_ARGS);
-	else
-		return 1;
-	return (!strcmp (name, pstat->args));
-}
-#endif /* OSHURD */
+	struct proc_stat *ps;
 
+	ps = get_proc_stat(pid, PSTAT_ARGS);
+	return ps && !strcmp(proc_stat_args(ps), name);
+}
+
+static int
+pid_is_running(pid_t pid)
+{
+	return get_proc_stat(pid, 0) != NULL;
+}
+
+#else /* !OSHURD */
 
 static int
 pid_is_running(pid_t pid)
@@ -686,6 +715,8 @@ pid_is_running(pid_t pid)
 
 	return 1;
 }
+
+#endif /* OSHURD */
 
 static void
 check(pid_t pid)
@@ -753,29 +784,20 @@ do_procinit(void)
 
 
 #if defined(OSHURD)
+static int
+check_proc_stat (struct proc_stat *ps)
+{
+	check(ps->pid);
+	return 0;
+}
+
 static void
 do_procinit(void)
 {
-	struct ps_context *context;
-	error_t err;
+	if (!procset)
+		init_procset();
 
-	err = ps_context_create(getproc(), &context);
-	if (err)
-		error(1, err, "ps_context_create");
-
-	err = proc_stat_list_create(context, &procset);
-	if (err)
-		error(1, err, "proc_stat_list_create");
-
-	err = proc_stat_list_add_all(procset, 0, 0);
-	if (err)
-		error(1, err, "proc_stat_list_add_all");
-
-	/* Check all pids */
-	HURD_IHASH_ITERATE (&context->procs, ptr) {
-		struct proc_stat *pstat = ptr;
-		check(pstat->pid);
-	}
+	proc_stat_list_for_each (procset, check_proc_stat);
 }
 #endif /* OSHURD */
 
