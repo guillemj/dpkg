@@ -8,7 +8,7 @@ include ../Makefile.conf
 
 MAN5PAGES	= deb-control.5 deb-old.5 deb.5
 
-all: internals.html all-recursive
+all: internals.html/index.html all-recursive
 
 clean: clean-recursive
 	$(RM) $(srcdir)/manuals-version
@@ -24,7 +24,7 @@ manuals-version: $(top_srcdir)/version-nr
 	echo "<!entity manuals-version \"$$v\">" > $@
 	echo "<!entity dpkg-version \"$(VERSION)\">" >> $@
 
-internals.html: internals.sgml manuals-version
+internals.html/index.html: internals.sgml manuals-version
 	debiandoc2html -n -D. $<
 
 install-doc: install-doc-recursive
