@@ -221,7 +221,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
     i= description_width;
     p= info->description ? info->description : "";
-    while (i>0 && *p && *p != '\n') { waddch(listpad,*p); i--; p++; }
+    while (i>0 && *p && *p != '\n') { waddnstr(listpad,p,1); i--; p++; }
       
   } else {
 

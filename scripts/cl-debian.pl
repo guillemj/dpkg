@@ -138,7 +138,7 @@ $expect eq 'next heading or eof' || die "found eof where expected $expect";
 $f{'Changes'} =~ s/\n$//;
 $f{'Changes'} =~ s/^/\n/;
 
-while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#\d+(?:,\s*(?:bug)?\#\d+)*/ig) {
+while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#\s*\d+(?:,\s*(?:bug)?\#\s*\d+)*/ig) {
   push(@closes, $& =~ /\#(\d+)/g);
 }
 $f{'Closes'} = join(' ',sort { $a <=> $b} @closes);

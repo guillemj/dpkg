@@ -21,7 +21,7 @@
 #define OSLinux
 #elif defined(__GNU__)
 #define OSHURD
-#elif defined(Sparc)
+#elif defined(__sparc__)
 #define OSsunos
 #else
 #error Unknown architecture - cannot build start-stop-daemon
@@ -73,6 +73,7 @@ static int runas_gid = -1;
 static const char *userspec = NULL;
 static char *changeuser = NULL;
 static char *changegroup = NULL;
+static char *changeroot = NULL;
 static const char *cmdname = NULL;
 static char *execname = NULL;
 static char *startas = NULL;
@@ -255,6 +256,7 @@ parse_options(int argc, char * const *argv)
 		{ "signal",	  1, NULL, 's'},
 		{ "test",	  0, NULL, 't'},
 		{ "user",	  1, NULL, 'u'},
+		{ "chroot",	  1, NULL, 'r'},
 		{ "verbose",	  0, NULL, 'v'},
 		{ "exec",	  1, NULL, 'x'},
 		{ "chuid",	  1, NULL, 'c'},
@@ -265,7 +267,7 @@ parse_options(int argc, char * const *argv)
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qs:tu:vx:c:bm",
+		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:bm",
 				longopts, (int *) 0);
 		if (c == -1)
 			break;
@@ -318,6 +320,9 @@ parse_options(int argc, char * const *argv)
 			changeuser = strdup(optarg);
 			changeuser = strtok(changeuser, ":");
 			changegroup = strtok(NULL, ":");
+			break;
+		case 'r':  /* --chroot /new/root */
+			changeroot = optarg;
 			break;
 		case 'b':  /* --background */
 			background = 1;
@@ -650,12 +655,20 @@ main(int argc, char **argv)
 			else
 				printf(")");
 		}
+		if (changeroot != NULL)
+			printf(" in directory %s", changeroot);
 		printf(".\n");
 		exit(0);
 	}
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
+	if (changeroot != NULL) {
+		if (chdir(changeroot) < 0)
+			fatal("Unable to chdir() to %s", changeroot);
+		if (chroot(changeroot) < 0)
+			fatal("Unable to chroot() to %s", changeroot);
+	}
 	if (changeuser != NULL) {
  		if (setgid(runas_gid))
  			fatal("Unable to set gid to %d", runas_gid);
