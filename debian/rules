@@ -119,9 +119,10 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	set -e ; for i in dpkg dpkg-deb md5sum ; do \
 		cp -a $(INSTALL_TMP)/usr/bin/$$i$(static) $(TMP_DPKG)/usr/bin/$$i ; \
 	done
-	set -e ; for i in ChangeLog THANKS TODO copyright debian/pseudo-tags; do \
+	set -e ; for i in ChangeLog THANKS TODO copyright; do \
 		cp -a $(INSTALL_TMP)/usr/share/doc/dpkg/$$i $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ ; \
 	done
+	cp -a debian/pseudo-tags $(TMP_DPKG)/usr/share/doc/dpkg$(static)/
 	set -e ; for i in "" de fr ja sv ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/man/$$i/man1 ; \
 		for m in md5sum.1 dpkg-deb.1 ; do \
@@ -313,25 +314,8 @@ binary-dpkg-doc: stamp-binary
 
 binary-arch-static: binary-dpkg-static
 binary-arch: binary-dpkg binary-dpkg-static-most binary-dselect
-	set -e ; \
-	v=`sed -n 's/^Version: //p' $(TMP_DPKG)/DEBIAN/control`; \
-	for type in "" -static; do\
-		if [ -d $(TMP_DPKG)$$type ]; then\
-			f=dpkg-$${v}_$(arch)$$type.nondebbin.tar ; \
-			tar -C $(TMP_DPKG)$$type -cf $(CURDIR)/../$$f usr var ; \
-			gzip -9f ../$$f ; \
-			dpkg-distaddfile -fdebian/files $$f.gz byhand -; \
-		fi;\
-	done
 
 binary-indep: binary-dpkg-dev binary-dpkg-doc
-	set -e ; set -x ; \
-	v=`sed -n 's/^Version: //p' $(TMP_DPKG_DEV)/DEBIAN/control`; \
-	f=dpkg-$${v}.tar.gz ; \
-	if [ -f ../dpkg_$${v}.tar.gz ] ; then \
-	    	cp ../dpkg_$${v}.tar.gz ../$$f ; \
-		dpkg-distaddfile -fdebian/files  $$f byhand - ; \
-	fi
 
 define checkdir
 	test -f include/dpkg.h.in
