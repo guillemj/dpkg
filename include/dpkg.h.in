@@ -206,6 +206,11 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok);
 #define BUFFER_READ_FD 0
 #define BUFFER_READ_STREAM 1
 
+#define BUFFER_WRITE_SETUP 1 << 16
+#define BUFFER_READ_SETUP 1 << 17
+#define BUFFER_WRITE_SHUTDOWN 1 << 18
+#define BUFFER_READ_SHUTDOWN 1 << 19
+
 typedef struct buffer_data *buffer_data_t;
 typedef ssize_t (*buffer_proc_t)(buffer_data_t data, void *buf, ssize_t size, char *desc);
 struct buffer_data {
@@ -215,11 +220,13 @@ struct buffer_data {
 };
 
 #define fd_md5(fd, hash, limit, desc...)\
-	buffer_md5_setup((void *)fd, BUFFER_READ_FD, NULL, \
-			  hash, limit, desc)
+	buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
+			   hash, BUFFER_WRITE_MD5, NULL, \
+			   limit, desc)
 #define stream_md5(file, hash, limit, desc...)\
-	buffer_md5_setup((void *)file, BUFFER_READ_STREAM, NULL, \
-			  hash, limit, desc)
+	buffer_copy_setup((void *)file, BUFFER_READ_STREAM, NULL, \
+			   hash, BUFFER_WRITE_MD5, NULL, \
+			   limit, desc)
 
 #define fd_fd_copy(fd1, fd2, limit, desc...)\
 	buffer_copy_setup((void *)fd1, BUFFER_READ_FD, NULL, \
@@ -254,8 +261,6 @@ struct buffer_data {
 ssize_t buffer_copy_setup(void *argIn, int typeIn, void *procIn,
 		       void *argOut, int typeOut, void *procOut,
 		       ssize_t limit, const char *desc, ...);
-ssize_t buffer_md5_setup(void *argIn, int typeIn, void *procIn,
-		       unsigned char hash[33], ssize_t limit, const char *desc, ...);
 ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, char *desc);
 
 extern volatile int onerr_abort;

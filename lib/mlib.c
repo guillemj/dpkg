@@ -127,6 +127,38 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
 
 ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) {
   ssize_t ret= length;
+  if(data->type & BUFFER_WRITE_SETUP) {
+    switch(data->type ^ BUFFER_WRITE_SETUP) {
+      case BUFFER_WRITE_MD5:
+	{
+	  unsigned char *hash= data->data;
+	  void ** array= malloc(sizeof(void *) * 2);
+	  data->data= array;
+	  array[0]= hash;
+	  array[1]= malloc(sizeof(struct MD5Context));
+	  MD5Init((struct MD5Context *)array[1]);
+	}
+	break;
+    }
+    return 0;
+  }
+  if(data->type & BUFFER_WRITE_SHUTDOWN) {
+    switch(data->type ^ BUFFER_WRITE_SHUTDOWN) {
+      case BUFFER_WRITE_MD5:
+	{
+	  int i;
+	  unsigned char digest[16], *p = digest;
+	  unsigned char *hash= (unsigned char *)((void **)data->data)[0];
+	  MD5Final(digest, (struct MD5Context *)((void **)data->data)[1]);
+	  for (i = 0; i < 16; ++i) {
+	    sprintf(hash, "%02x", *p++);
+	    hash += 2;
+	  }
+	}
+	break;
+    }
+    return 0;
+  }
   switch(data->type) {
     case BUFFER_WRITE_BUF:
       memcpy(data->data, buf, length);
@@ -149,7 +181,7 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) 
 	ohshite(_("error in buffer_write(stream): %s"), desc);
       break;
     case BUFFER_WRITE_MD5:
-      MD5Update((struct MD5Context *)data->data, buf, length);
+      MD5Update((struct MD5Context *)((void **)data->data)[1], buf, length);
       break;
     default:
       fprintf(stderr, _("unknown data type `%i' in buffer_write\n"), data->type);
@@ -159,6 +191,12 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) 
 
 ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, char *desc) {
   ssize_t ret= length;
+  if(data->type & BUFFER_READ_SETUP) {
+    return 0;
+  }
+  if(data->type & BUFFER_READ_SHUTDOWN) {
+    return 0;
+  }
   switch(data->type) {
     case BUFFER_READ_FD:
       if((ret= read((int)data->data, buf, length)) < 0 && errno != EINTR)
@@ -197,41 +235,20 @@ ssize_t buffer_copy_setup(void *argIn, int typeIn, void *procIn,
     read_data.proc = buffer_read;
   if ( procOut == NULL )
     write_data.proc = buffer_write;
+  read_data.type |= BUFFER_READ_SETUP;
+  read_data.proc(&read_data, NULL, 0, v.buf);
+  read_data.type = typeIn;
+  write_data.type |= BUFFER_WRITE_SETUP;
+  write_data.proc(&write_data, NULL, 0, v.buf);
+  write_data.type = typeOut;
   ret = buffer_copy(&read_data, &write_data, limit, v.buf);
+  write_data.type |= BUFFER_WRITE_SHUTDOWN;
+  write_data.proc(&write_data, NULL, 0, v.buf);
+  read_data.type |= BUFFER_READ_SHUTDOWN;
+  read_data.proc(&read_data, NULL, 0, v.buf);
   varbuffree(&v);
   return ret;
 }
-
-ssize_t buffer_md5_setup(void *argIn, int typeIn, void *procIn,
-		      unsigned char hash[33], ssize_t limit, const char *desc, ...)
-{
-  struct MD5Context ctx;
-  struct buffer_data read_data = { procIn, argIn, typeIn },
-		     write_data = { buffer_write, &ctx, BUFFER_WRITE_MD5 };
-  va_list al;
-  struct varbuf v;
-  int ret, i;
-  unsigned char digest[16], *p = digest;
-
-  varbufinit(&v);
-
-  va_start(al,desc);
-  varbufvprintf(&v, desc, al);
-  va_end(al);
-
-  if ( procIn == NULL )
-    read_data.proc = buffer_read;
-  MD5Init(&ctx);
-  ret = buffer_copy(&read_data, &write_data, limit, v.buf);
-  MD5Final(digest, &ctx);
-  for (i = 0; i < 16; ++i) {
-    sprintf(hash, "%02x", *p++);
-    hash += 2;
-  }
-  varbuffree(&v);
-  return ret;
-}
-
 
 ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, char *desc) {
   char *buf, *writebuf;
