@@ -257,7 +257,6 @@ if ($action eq 'l') {
 } elsif ($action eq 'q') {
     if (exists $env{$req_variable_to_print}) {
         print "$env{$req_variable_to_print}\n";     # works because -q implies -f !
-        print "$env{$req_variable_to_print}\n";
     } else {
         die "$req_variable_to_print is not a supported variable name";
     }
