@@ -1,62 +1,62 @@
-.\" update-alternatives.8
+.\" update\-alternatives.8
 .\" This man page is copyright 1997 Charles Briscoe-Smith
 .\" This is free documentation; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published
 .\" by the Free Software Foundation; either version 2 of the License, or
 .\" (at your option) any later version.  There is NO WARRANTY.  You can
 .\" find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
-.TH UPDATE-ALTERNATIVES 8 "19 January 1998" "Debian Project" "dpkg utilities"
+.TH UPDATE\-ALTERNATIVES 8 "19 January 1998" "Debian Project" "dpkg utilities"
 .SH NAME
-update-alternatives \- maintain symbolic links determining default commands
+update\-alternatives - maintain symbolic links determining default commands
 .SH SYNOPSIS
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --install
+.B \-\-install
 .I link name path priority
-.RB [ --slave
+.RB [ \-\-slave
 .I link name
 .IR path ]...
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --remove
+.B \-\-remove
 .I name path
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --remove-all
+.B \-\-remove\-all
 .I name
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --all
+.B \-\-all
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --auto
+.B \-\-auto
 .I name
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --display
+.B \-\-display
 .I name
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --list
+.B \-\-list
 .I name
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --config
+.B \-\-config
 .I name
 .PP
-.B update-alternatives
+.B update\-alternatives
 .RI [ options ]
-.B --set
+.B \-\-set
 .I name path
 .SH DESCRIPTION
-.B update-alternatives
+.B update\-alternatives
 creates, removes, maintains and displays information about the symbolic
 links comprising the Debian alternatives system.
 .PP
@@ -103,9 +103,9 @@ directory: the FHS (q.v.) gives reasons why this is a Good Thing.
 When each package
 providing a file with a particular functionality is
 installed, changed or removed,
-.B update-alternatives
+.B update\-alternatives
 is called to update information about that file in the alternatives system.
-.B update-alternatives
+.B update\-alternatives
 is usually called from the
 .B postinst
 or
@@ -120,7 +120,7 @@ editor are installed, the man page referenced by
 .I /usr/share/man/man1/vi.1
 should correspond to the executable referenced by
 .IR /usr/bin/vi .
-.B update-alternatives
+.B update\-alternatives
 handles this by means of
 .I master
 and
@@ -144,7 +144,7 @@ the system.
 If the system administrator makes changes to the system's
 automatic settings,
 this will be noticed the next time
-.B update-alternatives
+.B update\-alternatives
 is run on the changed link's group,
 and the group will automatically be switched to manual mode.
 .PP
@@ -156,9 +156,9 @@ the alternatives pointed to by members of the group
 will be those which have the highest priority.
 .PP
 When using the
-.I --config
+.I \-\-config
 option,
-.B update-alternatives
+.B update\-alternatives
 will list all of the choices for the link group
 of which given
 .I name
@@ -168,15 +168,15 @@ for the link group. Once you make a change, the link group will no
 longer be in
 .I auto
 mode. You will need to use the
-.I --auto
+.I \-\-auto
 option in order to return to the automatic state.
 .PP
 If you want to configure non-interactivily you can use the
-.I --set
+.I \-\-set
 option instead (see below).
 .SH TERMINOLOGY
 Since the activities of
-.B update-alternatives
+.B update\-alternatives
 are quite involved, some specific terms will help to explain its
 operation.
 .TP
@@ -204,7 +204,7 @@ administrative directory
 A directory, by default
 .IR /var/lib/dpkg/alternatives ,
 containing
-.BR update-alternatives '
+.BR update\-alternatives '
 state information.
 .TP
 link group
@@ -243,11 +243,11 @@ which includes links for the program itself and the associated manpage.
 To display the available packages which provide
 .B vi
 and the current setting for it, use the
-.I --display
+.I \-\-display
 action:
 .RS
 .PP
-update-alternatives --display vi
+update\-alternatives \-\-display vi
 .RE
 .PP
 To choose a particular
@@ -256,7 +256,7 @@ implementation, use this command as root and then select a number
 from the list:
 .RS
 .PP
-update-alternatives --config vi
+update\-alternatives \-\-config vi
 .RE
 .PP
 To go back to having the
@@ -264,65 +264,65 @@ To go back to having the
 implementation chosen automatically, do this as root:
 .RS
 .PP
-update-alternatives --auto vi
+update\-alternatives \-\-auto vi
 .RE
 .SH OPTIONS
 Exactly one action must be specified if
-.B update-alternatives
+.B update\-alternatives
 is to perform any meaningful task.
 Any number of the common options may be specified together with any action.
 .SS "COMMON OPTIONS"
 .TP
-.B --verbose
+.B \-\-verbose
 Generate more comments about what
-.B update-alternatives
+.B update\-alternatives
 is doing.
 .TP
-.B --quiet
+.B \-\-quiet
 Don't generate any comments unless errors occur.
 This option is not yet implemented.
 .TP
-.B --test
+.B \-\-test
 Don't actually do anything, just say what would be done.
 This option is not yet implemented.
 .TP
-.B --help
+.B \-\-help
 Give some usage information (and say which version of
-.B update-alternatives
+.B update\-alternatives
 this is).
 .TP
-.B --version
+.B \-\-version
 Tell which version of
-.B update-alternatives
+.B update\-alternatives
 this is (and give some usage information).
 .TP
-\fB--altdir\fR \fIdirectory\fR
+\fB\-\-altdir\fR \fIdirectory\fR
 Specifies the alternatives directory, when this is to be
 different from the default.
 .TP
-\fB--admindir\fR \fIdirectory\fR
+\fB\-\-admindir\fR \fIdirectory\fR
 Specifies the administrative directory, when this is to be
 different from the default.
 .SS ACTIONS
 .\" The names of the arguments should be identical with the ones
 .\" in SYNOPSIS section.
 .TP
-\fB--install\fR \fIlink gen path pri\fR [\fB--slave\fR \fIslink sgen spath\fR] ...
+\fB\-\-install\fR \fIgen link alt pri\fR [\fB\-\-slave\fR \fIsgen slink salt\fR] ...
 Add a group of alternatives to the system.
 .I gen
 is the generic name for the master link,
 .I link
-is the name of its symlink, and
-.I path
+is the name of its symlink in the alternatives directory, and
+.I alt
 is the alternative being introduced for the master link.
 .IR sgen ,
 .I slink
 and
-.I spath
-are the generic name, symlink name and alternative
+.I salt
+are the generic name, symlink name in the alternatives directory and alternative
 for a slave link.
 Zero or more
-.B --slave
+.B \-\-slave
 options, each followed by three arguments,
 may be specified.
 .IP
@@ -337,16 +337,16 @@ and the newly added alternatives' priority is higher than
 any other installed alternatives for this group,
 the symlinks will be updated to point to the newly added alternatives.
 .TP
-\fB--set\fR \fIname path\fR
+\fB\-\-set\fR \fIname path\fR
 Set the program
 .I path
 as alternative for
 .I name.
 This is equivalent to
-.IB --config
+.IB \-\-config
 but is non-interactive and thus scriptable.
 .TP
-\fB--remove\fR \fIname path\fR
+\fB\-\-remove\fR \fIname path\fR
 Remove an alternative and all of its associated slave links.
 .I name
 is a name in the alternatives directory, and
@@ -366,22 +366,22 @@ If the link is not currently pointing to
 no links are changed;
 only the information about the alternative is removed.
 .TP
-\fB--remove-all\fR \fIname\fR
+\fB\-\-remove\-all\fR \fIname\fR
 Remove all alternatives and all of their associated slave links.
 .I name
 is a name in the alternatives directory.
 .TP
-.B --all
-Call \fB--config\fP on all alternatives.
+.B \-\-all
+Call \fB\-\-config\fP on all alternatives.
 .TP
-\fB--auto\fR \fIlink\fR
+\fB\-\-auto\fR \fIlink\fR
 Switch the master symlink
 .I link
 to automatic mode.
 In the process, this symlink and its slaves are updated
 to point to the highest priority installed alternatives.
 .TP
-\fB--display\fR \fIlink\fR
+\fB\-\-display\fR \fIlink\fR
 Display information about the link group of which
 .I link
 is the master link.
@@ -392,10 +392,10 @@ what other alternatives are available
 (and their corresponding slave alternatives),
 and the highest priority alternative currently installed.
 .TP
-\fB--list\fR \fIlink\fR
+\fB\-\-list\fR \fIlink\fR
 Display all targets of the link group.
 .TP
-\fB--config\fR \fIlink\fR
+\fB\-\-config\fR \fIlink\fR
 Show available alternatives for a link group and allow the user to
 interactively select which one to use.  The link group is updated
 and taken out of
@@ -406,13 +406,13 @@ mode.
 .I /etc/alternatives/
 The default alternatives directory.
 Can be overridden by the
-.B --altdir
+.B \-\-altdir
 option.
 .TP
 .I /var/lib/dpkg/alternatives/
 The default administration directory.
 Can be overridden by the
-.B --admindir
+.B \-\-admindir
 option.
 .SH "EXIT STATUS"
 .IP 0
@@ -421,10 +421,10 @@ The requested action was successfully performed.
 Problems were encountered whilst parsing the command line
 or performing the action.
 .SH DIAGNOSTICS
-.B update-alternatives
+.B update\-alternatives
 chatters incessantly about its activities on its standard output channel.
 If problems occur,
-.B update-alternatives
+.B update\-alternatives
 outputs error messages on its standard error channel and
 returns an exit status of 2.
 These diagnostics should be self-explanatory;
@@ -434,11 +434,11 @@ If you find a bug, please report it using the Debian bug-tracking system,
 or, if that is not possible, email the author directly.
 .PP
 If you find any discrepancy between the operation of
-.B update-alternatives
+.B update\-alternatives
 and this manual page, it is a bug,
 either in the implementation or the documentation; please report it.
 .SH AUTHOR
-Debian update-alternatives is copyright 1995
+Debian update\-alternatives is copyright 1995
 Ian Jackson.  It is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 .PP
@@ -446,7 +446,7 @@ This manual page is copyright 1997/98 Charles Briscoe-Smith.
 This is free documentation; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO WARRANTY.
 .PP
-You can find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
+You can find the GNU GPL in /usr/share/common\-licenses/GPL on any Debian system.
 .SH "SEE ALSO"
 .BR ln (1),
 FHS, the Filesystem Hierarchy Standard.

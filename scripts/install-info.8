@@ -2,19 +2,19 @@
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
-.TH INSTALL-INFO 8 "29th November 1995" "Debian Project" "dpkg utilities"
+.TH INSTALL\-INFO 8 "29th November 1995" "Debian Project" "dpkg utilities"
 .SH NAME
-install\-info \- create or update entry in Info directory
+install\-info - create or update entry in Info directory
 .SH SYNOPSIS
 .B install\-info
 [\-\-version] [\-\-help] [\-\-debug] [\-\-maxwidth=nnn]
 [\-\-section regexp title] [\-\-infodir=xxx] [\-\-align=nnn]
 [\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx]
-[\-\-remove | \-\-remove-exactly ]
+[\-\-remove | \-\-remove\-exactly ]
 [\-\-] filename
 .SH DESCRIPTION
 .PP
-.B install-info
+.B install\-info
 makes, updates or removes entries in the Info directory, the
 .B dir
 file.  When updating or creating entries, if no description is
@@ -32,10 +32,10 @@ file.
 .BI "[\-\-] " filename
 Gives the filename of the Info file whose menu entry is to be created,
 updated or removed.  If
-.B \-\-remove-exactly
+.B \-\-remove\-exactly
 is specified, then
 .I filename
-should be the exact entry name to be removed (i.e. "emacs-20/emacs" or
+should be the exact entry name to be removed (i.e. "emacs\-20/emacs" or
 "gcc"), otherwise the basename of this filename is used as the
 referent of the menu entry which is created, unless there's an
 overriding START-INFO-DIR entry inside the given file.  This file must
@@ -92,7 +92,7 @@ is specified the
 .BR \-\-maxwidth ", " \-\-align " and " \-\-calign
 formatting options are silently ignored.
 .TP
-.B \-\-remove-exactly
+.B \-\-remove\-exactly
 This option is essentially the same as
 .B \-\-remove
 except that
@@ -100,15 +100,15 @@ except that
 is taken as the exact entry to be removed, rather than as the name
 of an existing file.  This can be important when trying to remove
 entries that refer to info files in subdirectories
-(i.e. "emacs-20/emacs") because
+(i.e. "emacs\-20/emacs") because
 .B \-\-remove
 will operate on the basename of the given
 .I filename
 rather than the exact name given.  (i.e.
 .B \-\-remove
-"emacs-20/emacs" would cause
-.B install-info
-to look for "emacs", not "emacs-20/emacs").
+"emacs\-20/emacs" would cause
+.B install\-info
+to look for "emacs", not "emacs\-20/emacs").
 .TP
 .BI "\-\-section " "regexp title"
 Specifies that, if a new entry is to be made, it should be placed in a
@@ -125,7 +125,7 @@ menu delimited by blank lines; the first line is assumed to be the
 title.
 
 If a new entry is to be created
-.B install-info
+.B install\-info
 will attempt to insert it within the section according in alphabetic
 order; if the entries in the section aren't already sorted the new
 location within the section will be unpredictable.  The order of
@@ -145,7 +145,7 @@ ignored and a warning is issued.
 
 If a section is requested when adding an entry but the file contains
 no section headings at all then
-.B install-info
+.B install\-info
 will create both the requested section and a Miscellaneous section at
 the end of the file.
 .TP
@@ -186,12 +186,12 @@ of existing entries and the creation and deletion of sections.
 .TP
 .B \-\-help
 Causes
-.B install-info
+.B install\-info
 to display its usage information and exit.
 .TP
 .B \-\-version
 Causes
-.B install-info
+.B install\-info
 to display its version and copyright information and exit.
 .TP
 .BI \-\-description= xxx

@@ -80,7 +80,7 @@ void packagelist::severalinfoblurb(const char *whatinfoline) {
   whatinfovb(whatinfoline);
   varbuf vb;
   vb(_("The line you have highlighted represents many packages; "
-     "if you ask to install, remove, hold, &c it you will affect all "
+     "if you ask to install, remove, hold, etc. it you will affect all "
      "the packages which match the criterion shown.\n"
      "\n"
      "If you move the highlight to a line for a particular package "

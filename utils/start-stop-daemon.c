@@ -1204,7 +1204,7 @@ main(int argc, char **argv)
 	if (background) { /* ok, we need to detach this process */
 		int i;
 		if (quietmode < 0)
-			printf("Detatching to start %s...", startas);
+			printf("Detaching to start %s...", startas);
 		i = fork();
 		if (i<0) {
 			fatal("Unable to fork.\n");

@@ -1,55 +1,59 @@
 .TH DPKG-STATOVERRIDE 8 "November 2000" "Debian project" "dpkg utililties"
 .SH NAME
-dpkg-statoverride -- override ownership and mode of files
+dpkg\-statoverride - override ownership and mode of files
 .SH SYNOPSIS
-\fBdpkg-statoverride\fR [options] --add <user> <group> <mode> \fI<file>\fR
+\fBdpkg\-statoverride\fR [options] \-\-add <user> <group> <mode> \fI<file>\fR
 .br
-\fBdpkg-statoverride\fR [options] --remove \fI<file>\fR
+\fBdpkg\-statoverride\fR [options] \-\-remove \fI<file>\fR
 .br
-\fBdpkg-statoverride\fR [options] --list \fI[<glob-pattern>]\fR
+\fBdpkg\-statoverride\fR [options] \-\-list \fI[<glob-pattern>]\fR
 .SH DESCRIPTION
 `\fBstat overrides\fR' are a way to tell dpkg to use a different owner
 or mode for a file when a package is installed. (note: I use the word
 `file' here, but in reality this can be any filesystem object that dpkg
 handles, including directories, devices, etc.).  This can be used to
-force programs that are normall setuid to be install without a setuid
+force programs that are normally setuid to be install without a setuid
 flag, or only executable by a certain group.
 .P
-\fBdpkg-statoverride\fR is a utility to manage the list of stat
+\fBdpkg\-statoverride\fR is a utility to manage the list of stat
 overrides.  It has three basic functions: adding, removing and listing
 overrides.
 .SH OPTIONS
 .TP
-.I --add <user> <group> <mode> <file>
+.I \-\-add <user> <group> <mode> <file>
 Add an override for \fB<file>\fR. \fB<file>\fR does not need to exist
 when this command is used; the override will be stored and used later.
 Users and groups can be specified by their name (for example \fBroot\fR
 or \fBnobody\fR), or by their number by prepending the number with a
-`\fB#\fR' (for example \fB#0\fR or \fB#65534\fR).
+\fB#\fR' (for example \fB#0\fR or \fB#65534\fR).
+
+If \-\-update is specified and \fB<file>\fR exists, it is immediately
+set to the new owner and mode.
 .TP
-.I --remove <file>
-Remove an override for \fB<file>\fR.
+.I \-\-remove <file>
+Remove an override for \fB<file>\fR, the status of \fB<file\fR is left
+unchanged by this command.
 .TP
-.I --list [<glob-pattern>]
+.I \-\-list [<glob-pattern>]
 List all overrides. If a glob pattern is specified restrict the output
 to overrides which match the glob. If there are no overrides or none
-match the glob \fBdpkg-statoverride\fR will exit with an exitcode of 1.
+match the glob \fBdpkg\-statoverride\fR will exit with an exitcode of 1.
 .TP
-.I --force
+.I \-\-force
 Force an action, even if a sanity check would otherwise prohibit it.
 This is necessary to override an existing override.
 .TP
-.I --update
+.I \-\-update
 Immediately try to change the file to the new owner and mode if it
-exists.  This is only done for \fI--add\fR.
+exists.
 .TP
-.I --quiet
+.I \-\-quiet
 Be less verbose about what we do.
 .TP
-.I --help
+.I \-\-help
 Show version, copyright and usage information.
 .TP
-.I --admindir
+.I \-\-admindir
 Change the directory of the dpkg database where the statoverride file is
 also stored. Defaults to /var/lib/dpkg.
 .SH FILES
@@ -59,7 +63,7 @@ File which contains the current list of stat overrides of the system. It
 is located in the dpkg administration directory, along with other files
 important to dpkg, such as `status' or `available'.
 .br
-Note: dpkg-statoverride preserves the old copy of this file, with
+Note: dpkg\-statoverride preserves the old copy of this file, with
 extension "-old", before replacing it with the new one.
 .SH SEE ALSO
 .BR dpkg (8)
