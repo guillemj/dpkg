@@ -3,6 +3,7 @@
  * dselect.h - external definitions for this program
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -69,12 +70,13 @@ protected:
   int topofscreen, leftofscreen, cursorline;
   int infotopofscreen, infolines;
   varbuf whatinfovb;
-  char searchstring[50];
+  char searchstring[128];
 
   virtual void setheights();
   void unsizes();
   void dosearch();
   void displayhelp(const struct helpmenuentry *menu, int key);
+  void displayerror(const char* str);
 
   void redrawall();
   void redrawitemsrange(int start /*inclusive*/, int end /*exclusive*/);
@@ -95,6 +97,8 @@ protected:
   virtual const char *itemname(int index) =0;
   virtual const struct helpmenuentry *helpmenulist() =0;
 
+  virtual int checksearch(char* str);
+  virtual int matchsearch(int index);
   void wordwrapinfo(int offset, const char *string);
   
 public:

@@ -3,7 +3,7 @@
  * bcommands.cc - base list keyboard commands display
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
- * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
+ * Copyright (C) 2000,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -93,8 +93,28 @@ void baselist::kd_searchagain() {
   dosearch();
 }
 
+int baselist::checksearch(char* str) {
+  return 1;
+}
+
+int baselist::matchsearch(int index) {
+  int lendiff, searchlen, i;
+  const char* thisname;
+
+  thisname=itemname(index);
+  if (!thisname) return 0;	/* Skip things without a name (seperators) */
+
+  searchlen=strlen(searchstring);
+  lendiff= strlen(thisname) - searchlen;
+  for (i=0; i<=lendiff; i++)
+    if (!strncasecmp(thisname + i, searchstring, searchlen))
+      return 1;
+
+  return 0;
+}
+
 void baselist::kd_search() {
-  char newsearchstring[50];
+  char newsearchstring[128];
   strcpy(newsearchstring,searchstring);
   werase(querywin);
   mvwaddstr(querywin,0,0, _("Search for ? "));
@@ -108,11 +128,30 @@ void baselist::kd_search() {
   else if (thisstate_height) redrawthisstate();
   else { touchwin(listpad); refreshlist(); }
   if (newsearchstring[0]) {
+    if (!checksearch(newsearchstring)) {
+      beep();
+      return;
+    }
     strcpy(searchstring,newsearchstring);
     dosearch();
   } else
     kd_searchagain();
 }
+
+void baselist::displayerror(const char* str) {
+  const char* pr = _("Error: ");
+  int prlen=strlen(pr);
+
+  beep();
+  werase(querywin);
+  mvwaddstr(querywin,0,0,pr);
+  mvwaddstr(querywin,0,prlen,str);
+  wgetch(querywin);
+  if (whatinfo_height) { touchwin(whatinfowin); refreshinfo(); }
+  else if (info_height) { touchwin(infopad); refreshinfo(); }
+  else if (thisstate_height) redrawthisstate();
+}
+
 
 void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
   const struct helpmenuentry *hme;
