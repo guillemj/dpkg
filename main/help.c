@@ -252,6 +252,22 @@ static void setexecute(const char *path, struct stat *stab) {
   if (!chmod(path,0755)) return;
   ohshite(_("unable to set execute permissions on `%.250s'"),path);
 }
+static int do_script(const char *pkg, const char *scriptname, const char *scriptpath, struct stat *stab, char *const *arglist, const char *desc, const char *name, int warn) {
+  const char *scriptexec;
+  int c1, r;
+  setexecute(scriptpath,stab);
+
+  c1= m_fork();
+  if (!c1) {
+    scriptexec= preexecscript(scriptpath,arglist);
+    execv(scriptexec,arglist);
+    ohshite(desc,name);
+  }
+  script_catchsignals(); /* This does a push_cleanup() */
+  r= waitsubproc(c1,name,0,warn);
+  pop_cleanup(ehflag_normaltidy);
+  return r;
+}
 
 int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
                                 const char *description, ...) {
@@ -276,22 +292,13 @@ int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
     }
     ohshite(_("unable to stat installed %s script `%.250s'"),description,scriptpath);
   }
-  setexecute(scriptpath,&stab);
-  c1= m_fork();
-  if (!c1) {
-    scriptexec= preexecscript(scriptpath,arglist);
-    execv(scriptexec,arglist);
-    ohshite(_("unable to execute %s"),buf);
-  }
-  script_catchsignals(); /* This does a push_cleanup() */
-  waitsubproc(c1,buf,0,0);
-  pop_cleanup(ehflag_normaltidy);
-
+  do_script(pkg->name, scriptname, scriptpath, &stab, arglist, _("unable to execute %s"), buf, 0);
   ensure_diversions();
   return 1;
 }
   
-int maintainer_script_new(const char *scriptname, const char *description,
+int maintainer_script_new(const char *pkgname,
+			  const char *scriptname, const char *description,
                           const char *cidir, char *cidirrest, ...) {
   char *const *arglist;
   const char *scriptexec;
@@ -313,17 +320,7 @@ int maintainer_script_new(const char *scriptname, const char *description,
     }
     ohshite(_("unable to stat new %s script `%.250s'"),description,cidir);
   }
-  setexecute(cidir,&stab);
-  c1= m_fork();
-  if (!c1) {
-    scriptexec= preexecscript(cidir,arglist);
-    execv(scriptexec,arglist);
-    ohshite(_("unable to execute new %s"),buf);
-  }
-  script_catchsignals(); /* This does a push_cleanup() */
-  waitsubproc(c1,buf,0,0);
-  pop_cleanup(ehflag_normaltidy);
-
+  do_script(pkgname, scriptname, cidir, &stab, arglist, _("unable to execute new %s"), buf, 0);
   ensure_diversions();
   return 1;
 }
@@ -337,7 +334,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   struct stat stab;
   int c1, n, status;
   char buf[100];
-  int r;
+  pid_t r;
 
   oldscriptpath= pkgadminfile(pkg,scriptname);
   arglist= buildarglist(scriptname,
@@ -355,17 +352,8 @@ int maintainer_script_alternative(struct pkginfo *pkg,
             _("dpkg: warning - unable to stat %s `%.250s': %s\n"),
             buf,oldscriptpath,strerror(errno));
   } else {
-    setexecute(oldscriptpath,&stab);
-    c1= m_fork();
-    if (!c1) {
-      scriptexec= preexecscript(oldscriptpath,arglist);
-      execv(scriptexec, arglist);
-      ohshite(_("unable to execute %s"),buf);
-    }
-    script_catchsignals(); /* This does a push_cleanup() */
-    r= waitsubproc(c1,buf,0,1);
-    pop_cleanup(ehflag_normaltidy);
-    if (!r) return 1;
+    if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist, _("unable to execute %s"), buf, 1))
+      return 1;
     ensure_diversions();
   }
   fprintf(stderr, _("dpkg - trying script from the new package instead ...\n"));
@@ -384,17 +372,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
       ohshite(_("unable to stat %s `%.250s'"),buf,cidir);
   }
 
-  setexecute(cidir,&stab);
-
-  c1= m_fork();
-  if (!c1) {
-    scriptexec= preexecscript(cidir,arglist);
-    execv(scriptexec, arglist);
-    ohshite(_("unable to execute %s"),buf);
-  }
-  script_catchsignals(); /* This does a push_cleanup() */
-  waitsubproc(c1,buf,0,1);
-  pop_cleanup(ehflag_normaltidy);
+  do_script(pkg->name, scriptname, cidir, &stab, arglist, _("unable to execute %s"), buf, 0);
   fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
 
   ensure_diversions();

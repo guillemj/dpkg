@@ -161,7 +161,7 @@ void cu_preinstverynew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_new(POSTRMFILE,"post-removal",cidir,cidirrest,
+  maintainer_script_new(pkg->name, POSTRMFILE,"post-removal",cidir,cidirrest,
                         "abort-install",(char*)0);
   pkg->status= stat_notinstalled;
   pkg->eflag &= ~eflagf_reinstreq;
@@ -175,7 +175,7 @@ void cu_preinstnew(int argc, void **argv) {
   char *cidirrest= (char*)argv[2];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_new(POSTRMFILE,"post-removal",cidir,cidirrest,
+  maintainer_script_new(pkg->name, POSTRMFILE,"post-removal",cidir,cidirrest,
                         "abort-install", versiondescribe(&pkg->installed.version,
                                                          vdew_nonambig),
                         (char*)0);
@@ -192,7 +192,7 @@ void cu_preinstupgrade(int argc, void **argv) {
   enum pkgstatus *oldstatusp= (enum pkgstatus*)argv[3];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_new(POSTRMFILE,"post-removal",cidir,cidirrest,
+  maintainer_script_new(pkg->name, POSTRMFILE,"post-removal",cidir,cidirrest,
                         "abort-upgrade",
                         versiondescribe(&pkg->installed.version,
                                         vdew_nonambig),

@@ -412,19 +412,19 @@ void process_archive(const char *filename) {
   if (oldversionstatus == stat_notinstalled) {
     push_cleanup(cu_preinstverynew,~ehflag_normaltidy, 0,0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintainer_script_new(PREINSTFILE, "pre-installation", cidir, cidirrest,
+    maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "install", (char*)0);
   } else if (oldversionstatus == stat_configfiles) {
     push_cleanup(cu_preinstnew,~ehflag_normaltidy, 0,0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
-    maintainer_script_new(PREINSTFILE, "pre-installation", cidir, cidirrest,
+    maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "install", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
                           (char*)0);
   } else {
     push_cleanup(cu_preinstupgrade,~ehflag_normaltidy, 0,0,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
-    maintainer_script_new(PREINSTFILE, "pre-installation", cidir, cidirrest,
+    maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "upgrade", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
                           (char*)0);
