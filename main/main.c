@@ -47,7 +47,7 @@ static void printversion(void) {
   if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
   if (fputs(_( "This is free software; see the GNU General Public Licence version 2 or\n"
 		"later for copying conditions.  There is NO warranty.\n"
-		"See dpkg --licence for copyright and license details.\n"),
+		"See " DPKG " --licence for copyright and license details.\n"),
 		 stdout) < 0) werr("stdout");
 }
 /*
