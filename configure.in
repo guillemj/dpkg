@@ -60,22 +60,12 @@ AM_GNU_GETTEXT
 
 dnl Other stuff
 
-AC_MSG_CHECKING(for /usr/bin/perl)
-if test -f /usr/bin/perl
-then
-	AC_MSG_RESULT(yes)
-	perlpath=/usr/bin/perl
-	AC_SUBST(perlpath)
-else
-	AC_MSG_RESULT(no)
-	AC_PATH_PROG(perlpath,perl)
-fi
-
 AC_STDC_HEADERS
 AC_PROG_LN_S
 AC_CHECK_PROG(RM,rm,rm -f)
 AC_CHECK_PROG(SED,sed,sed)
 AC_PROG_INSTALL
+AC_PATH_PROG(PERL,perl,/usr/bin/perl)
 dnl Default in case EMACS == no
 lispdir="\$(datadir)/emacs/site-lisp/"
 AM_PATH_LISPDIR

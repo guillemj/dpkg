@@ -40,7 +40,7 @@ install:: all install-program install-doc
 clean::
 	$(RM) $(GENFILES)
 
-.PHONY: cvsclean
+.PHONY: distclean
 cvslean:: clean
 	$(RM) Makefile
 
@@ -98,7 +98,7 @@ install-doc:
 	pod2man --section=8 $^ > $@
 
 %: %.pl
-	$(SED) -e "s:^#![:space:]*/usr/bin/perl:#! $(perlpath):; \
+	$(SED) -e "s:^#![:space:]*/usr/bin/perl:#! $(PERL):; \
 		s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(dpkglibdir)\":; \
 		s:\$$version[[:space:]]*=[[:space:]]*['\"][^'\"]*[\"']:\$$version=\"$(VERSION)\":" \
 		< $< > $@

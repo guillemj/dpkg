@@ -16,7 +16,6 @@
  */
 
 #include "config.h"
-#define _GNU_SOURCE
 
 #ifdef linux
 #define OSLinux
@@ -564,7 +563,7 @@ do_stop(void)
 		else {
 			printf("%s: warning: failed to kill %d: %s\n",
 			       progname, p->pid, strerror(errno));
-			retval += 1;
+			retval += exitnodo;
 		}
 	}
 	if (quietmode < 0 && killed) {

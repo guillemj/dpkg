@@ -14,7 +14,7 @@ clean: clean-recursive
 	$(RM) $(srcdir)/manuals-version
 	$(RM) -rf internals.html/
 
-cvsclean: clean cvsclean-recursive
+distclean: clean distclean-recursive
 	$(RM) Makefile
 
 install: install-doc
@@ -44,12 +44,12 @@ install-doc: install-doc-recursive
 	done
 	$(INSTALL_DATA) $(top_srcdir)/COPYING $(DESTDIR)$(copyingfile)
 
-all-recursive install-recursive install-doc-recursive clean-recursive cvsclean-recursive:
+all-recursive install-recursive install-doc-recursive clean-recursive distclean-recursive:
 	set -e ; target=`echo $@ | $(SED) s/-recursive//`; \
 		for s in $(SUBDIRS) ; do \
 		$(MAKE) $(MFLAGS) -C $$s $$target ; \
 	done;
 
-.PHONY: all clean cvsclean install install-doc
-.PHONY: all-recursive clean-recursive cvsclean-recursive install-recursive
+.PHONY: all clean distclean install install-doc
+.PHONY: all-recursive clean-recursive distclean-recursive install-recursive
 .PHONY: install-doc-recursive

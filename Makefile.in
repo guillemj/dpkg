@@ -18,17 +18,17 @@ install: all install-recursive
 clean: clean-recursive
 	rm -f $(GENFILES)
 
-cvsclean: clean cvsclean-recursive
+distclean: clean distclean-recursive
 	rm -f Makefile.conf Makefile config.cache config.h config.log config.status
 
 version.h: version-nr
 	echo "#define DPKG_VERSION \"$(VERSION)\" /* This line modified by Makefile */" > version.h
 
-all-recursive install-recursive clean-recursive cvsclean-recursive:
+all-recursive install-recursive clean-recursive distclean-recursive:
 	set -e ; target=`echo $@ | sed s/-recursive//`; \
 	    for d in $(SUBDIRS) ; do \
 	    $(MAKE) $(MFLAGS) -C $$d $$target ; \
 	done;
 
-.PHONY: all install clean cvsclean 
-.PHONY: all-recursve install-recursive clean-recursive cvsclean-recursive
+.PHONY: all install clean distclean 
+.PHONY: all-recursive install-recursive clean-recursive distclean-recursive
