@@ -129,15 +129,14 @@ binary-dpkg-dev: stamp-binary
 	set -e ; for i in dpkg-name dpkg-source dpkg-genchanges dpkg-gencontrol \
 		dpkg-shlibdeps dpkg-buildpackage dpkg-distaddfile 822-date \
 		dpkg-scanpackages dpkg-scansources dpkg-architecture \
-		dpkg-parsechangelog dpkg-safefilelist ; do \
+		dpkg-parsechangelog ; do \
 		mv $(TMP)/usr/bin/$$i $(TMP_DPKG_DEV)/usr/bin/ ; \
 	done
 	set -e ; for i in "" ja ; do \
 		install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/man/$$i/man1 ; \
 		for m in dpkg-name.1 dpkg-source.1 822-date.1 dpkg-architecture.1 \
 			dpkg-buildpackage.1 dpkg-distaddfile.1 dpkg-genchanges.1 \
-			dpkg-gencontrol.1 dpkg-parsechangelog.1 dpkg-shlibdeps.1 \
-			dpkg-safefilelist.1 ; do \
+			dpkg-gencontrol.1 dpkg-parsechangelog.1 dpkg-shlibdeps.1 ; do \
 			if [ -e $(TMP)/usr/share/man/$$i/man1/$$m ] ; then \
 				mv $(TMP)/usr/share/man/$$i/man1/$$m $(TMP_DPKG_DEV)/usr/share/man/$$i/man1/$$m ; \
 			fi ; \

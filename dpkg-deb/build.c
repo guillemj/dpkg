@@ -266,42 +266,32 @@ void do_build(const char *const *argv) {
     strcpy(tfbuf,envbuf);
     strcat(tfbuf,"/dpkg.XXXXXX");
   }
-  m_pipe(p1);
-  if (!(c3= m_fork())) {
-    m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-    if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
-    execlp(SAFEFILELIST,"dpkg-deb-filelist",(char*)0);
-    ohshite(_("failed to exec dpkg-deb-filelist"));
-  }
-  close(p1[1]);
   m_pipe(p2);
   if (!(c4= m_fork())) {
-    m_dup2(p2[1],1); m_dup2(p1[0],0); close(p2[0]); close(p2[1]);
+    m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
-    execlp(TAR,"tar","--no-recursion", "--exclude",BUILDCONTROLDIR,"-T","-","-cf","-",(char*)0);
+    execlp(TAR,"tar","--exclude",BUILDCONTROLDIR,"-cf","-",".",(char*)0);
     ohshite(_("failed to exec tar --exclude"));
   }
   close(p2[1]);
-  close(p1[0]);
   if (!(c5= m_fork())) {
     char *combuf;
     m_dup2(p2[0],0); close(p2[0]);
     m_dup2(oldformatflag ? fileno(ar) : gzfd,1);
     combuf = strdup("-9c");
     if(compression != NULL) {
-      if(*compression = '0') {
+      if(*compression == '0') {
 	do_fd_copy(0, 1, _("no compression copy loop"));
 	exit(0);
       }
       combuf[1] = *compression;
     }
     execlp(GZIP,"gzip",combuf,(char*)0);
-    ohshite(_("failed to exec gzip -9c from tar --exclude"));
+    ohshite(_("failed to exec gzip %s from tar --exclude"), combuf);
   }
   close(p2[0]);
   waitsubproc(c5,"gzip -9c from tar --exclude",0);
   waitsubproc(c4,"tar --exclude",0);
-  waitsubproc(c3,"dpkg-deb-filelist",0);
   if (!oldformatflag) {
     if (fstat(gzfd,&datastab)) ohshite("_(failed to fstat tmpfile (data))");
     if (fprintf(ar,
@@ -313,7 +303,11 @@ void do_build(const char *const *argv) {
       werr(debar);
 
     if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
-    do_fd_copy(gzfd, fileno(ar), _("data"));
+    if (!(c3= m_fork())) {
+      m_dup2(gzfd,0); m_dup2(fileno(ar),1);
+      execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat (data)"));
+    }
+    waitsubproc(c3,"cat (data)",0);
 
     if (datastab.st_size & 1)
       if (putc('\n',ar) == EOF)

@@ -74,13 +74,17 @@ static int getttywidth() {
 
 static void list1package(struct pkginfo *pkg, int *head) {
   int l,w;
+  int nw,vw,dw;
   const char *pdesc;
   char format[80];
     
-  w=getttywidth()-(3+1+15+1+14+1+44); /* get spare width */
-  if (w<80) w=80; /* lets not try to deal with terminals that are too small */
-  w>>=1; /* halve that so we can add that to the both the name and description */
-  sprintf(format,"%%c%%c%%c %%-%d.%ds %%-14.14s %%.*s\n", (14+w), (14+w));
+  w=getttywidth()-80;	/* get spare width */
+  if (w<0) w=0;		/* lets not try to deal with terminals that are too small */
+  w>>=2;		/* halve that so we can add that to the both the name and description */
+  nw=(14+w);		/* name width */
+  vw=(14+w);		/* version width */
+  dw=(44+(2*w));	/* description width */
+  sprintf(format,"%%c%%c%%c %%-%d.%ds %%-%d.%ds %%.*s\n", nw, nw, vw, vw);
 
   if (!*head) {
     fputs(_("\
@@ -88,15 +92,15 @@ Desired=Unknown/Install/Remove/Purge\n\
 | Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n\
 |/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)\n"), stdout);
     printf(format,'|','|','/', _("Name"), _("Version"), 40, _("Description"));
-    printf("+++-");
-    for (l=0;l<(14+w);l++) printf("="); printf("-");
-    printf("==============-");
-    for (l=0;l<(44+w);l++) printf("="); 
+    printf("+++-");					/* status */
+    for (l=0;l<nw;l++) printf("="); printf("-");	/* packagename */
+    for (l=0;l<vw;l++) printf("="); printf("-");	/* version */
+    for (l=0;l<dw;l++) printf("="); 			/* description */
     printf("\n");
     *head= 1;
   }
   if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
-  limiteddescription(pkg,(44+w),&pdesc,&l);
+  limiteddescription(pkg,dw,&pdesc,&l);
   printf(format,
          "uihrp"[pkg->want],
          "nUFiHc"[pkg->status],

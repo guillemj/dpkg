@@ -221,6 +221,8 @@ urqresult urq_install(void) {
 static urqresult rundpkgauto(const char *name, const char *dpkgmode) {
   const char *fallibleargs[] = {
     DPKG,
+	"--admindir",
+	admindir,
     "--pending",
     dpkgmode,
     0

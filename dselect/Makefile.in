@@ -52,7 +52,7 @@ basecmds.o: helpmsgs.h
 curkeys.o: curkeys.h
 
 $(srcdir)/helpmsgs.h $(srcdir)/helpmsgs.cc: helpmsgs.src $(srcdir)/mkhelpmsgs.pl
-	cd $(srcdir) ; perl $(srcdir)/mkhelpmsgs.pl $<
+	cd $(srcdir) ; perl mkhelpmsgs.pl helpmsgs.src
 
 curkeys.h: keyoverride $(srcdir)/mkcurkeys.pl
 	cursesfile=`echo '#include <curses.h>' | \
