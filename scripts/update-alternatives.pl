@@ -26,7 +26,6 @@ $version= '0.93.80'; # This line modified by Makefile
 #  %slavepath        Map from (@version-index,slavename) to slave-path
 
 $enoent=`$dpkglibdir/enoent` || die "Cannot get ENOENT value from $dpkglibdir/enoent: $!";
-$enoent=`$dpkglibdir/enoent`;
 sub ENOENT { $enoent; }
 
 sub usageversion {
