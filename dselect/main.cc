@@ -226,6 +226,7 @@ void dme(int i, int so) {
 }
 
 int refreshmenu(void) {
+  char buf[2048];
   curseson(); cbreak(); noecho(); nonl(); keypad(stdscr,TRUE);
 
   int y,x;
@@ -246,7 +247,8 @@ int refreshmenu(void) {
          "Press ENTER to confirm selection.   ^L to redraw screen.\n\n"));
 
   attrset(A_NORMAL);
-  addstr(gettext(copyrightstring));
+  sprintf(buf,gettext(copyrightstring),DPKG_VERSION_ARCH);
+  addstr(buf);
 
   return i;
 }
