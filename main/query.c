@@ -38,7 +38,6 @@
 #include <config.h>
 #include <dpkg.h>
 #include <dpkg-db.h>
-#include <version.h>
 #include <myopt.h>
 
 #include "filesdb.h"
@@ -428,12 +427,14 @@ void showpackages(const char *const *argv) {
 }
 
 static void printversion(void) {
-  if (printf(_("Debian `%s' package  management program query tool version %s."), DPKGQUERY, DPKG_VERSION_ARCH) < 0) werr("stdout");
-  if (printf(_("This is free software; see the GNU General Public Licence version 2 or\n"
-             "later for copying conditions. There is NO warranty.\n"
-             "See %s --licence for copyright and license details.\n"),
-           DPKGQUERY) < 0) werr("stdout");
-  if (fflush(stdout) < 0) werr("stdout");
+  if (fputs(_("Debian `"), stdout) < 0) werr("stdout");
+  if (fputs(DPKGQUERY, stdout) < 0) werr("stdout");
+  if (fputs(_("' package management program query tool\n"), stdout) < 0)
+    werr("stdout");
+  if (fputs(_( "This is free software; see the GNU General Public Licence version 2 or\n"
+		"later for copying conditions.  There is NO warranty.\n"
+		"See " DPKGQUERY " --licence for copyright and license details.\n"),
+		 stdout) < 0) werr("stdout");
 }
 /*
    options that need fixing:

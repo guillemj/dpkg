@@ -34,12 +34,13 @@
 #include "dpkg-split.h"
 
 static void printversion(void) {
-  if (printf(_("Debian `%s' package split/join tool; version %s."), SPLITTER, DPKG_VERSION_ARCH) < 0) werr("stdout");
-  if (printf(_("This is free software; see the GNU General Public Licence version 2 or\n"
-             "later for copying conditions. There is NO warranty.\n"
-             "See %s --licence for copyright and license details.\n"),
-           SPLITTER) < 0) werr("stdout");
-  if (fflush(stdout) < 0) werr("stdout");
+  if (fputs
+      (_("Debian GNU/Linux `dpkg-split' package split/join tool; version "), stdout) < 0) werr ("stdout");
+  if (fputs (DPKG_VERSION_ARCH ".\n", stdout) < 0) werr ("stdout");
+  if (fputs (_("Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
+       "GNU General Public Licence version 2 or later for copying conditions.\n"
+       "There is NO warranty.  See dpkg-split --licence for details.\n"),
+       stdout) < 0) werr("stdout");
 }
 
 static void usage(void) {
