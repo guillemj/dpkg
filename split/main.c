@@ -44,7 +44,7 @@ static void printversion(void) {
 }
 
 static void usage(void) {
-  if (fputs(_("\
+  if (printf(_("\
 Usage: dpkg-split -s|--split <file> [<prefix>]     Split an archive.\n\
        dpkg-split -j|--join <part> <part> ...      Join parts together.\n\
        dpkg-split -I|--info <part> ...             Display info about a part.\n\
@@ -54,14 +54,14 @@ Usage: dpkg-split -s|--split <file> [<prefix>]     Split an archive.\n\
        dpkg-split -l|--listq                       List unmatched pieces.\n\
        dpkg-split -d|--discard [<filename> ...]    Discard unmatched pieces.\n\
 \n\
-Options:  --depotdir <directory>  (default is " ADMINDIR "/" PARTSDIR ")\n\
+Options:  --depotdir <directory>  (default is %s/%s)\n\
           -S|--partsize <size>    (in Kb, for -s, default is 450)\n\
           -o|--output <file>      (for -j, default is <package>-<version>.deb)\n\
           -Q|--npquiet            (be quiet when -a is not a part)\n\
           --msdos                 (generate 8.3 filenames)\n\
 \n\
 Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"),
-             stdout) < 0) werr("stdout");
+             ADMINDIR, PARTSDIR) < 0) werr("stdout");
 }
 
 const char thisname[]= SPLITTER;

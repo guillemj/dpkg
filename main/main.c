@@ -94,7 +94,7 @@ Options:\n\
   --instdir=<directory>      Change inst'n root without changing admin dir\n\
   -O|--selected-only         Skip packages not selected for install/upgrade\n\
   -E|--skip-same-version     Skip packages whose same version is installed\n\
-  -G=--refuse-downgrade      Skip packages with earlier version than installed\n\
+  -G|--refuse-downgrade      Skip packages with earlier version than installed\n\
   -B|--auto-deconfigure      Install even if it would break some other package\n\
   --largemem | --smallmem    Optimise for large (>4Mb) or small (<4Mb) RAM use\n\
   --no-act                   Just say what we would do - don't do it\n\
