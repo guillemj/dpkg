@@ -188,10 +188,18 @@ const char *versiondescribe
 
 const char *parseversion(struct versionrevision *rversion, const char *string) {
   char *hyphen, *colon, *eepochcolon;
+  const char *end;
   unsigned long epoch;
 
   if (!*string) return _("version string is empty");
-  
+
+  /* trim leading and trailing space */
+  while (*string && (*string == ' ' || *string == '\t') ) string++;
+  end = string;
+  while (*end && *end != ' ' && *end != '\t' ) end++;
+  /* check for extra chars after trailing space */
+  if (*end) return _("version string has embedded spaces");
+
   colon= strchr(string,':');
   if (colon) {
     epoch= strtoul(string,&eepochcolon,10);
@@ -202,7 +210,7 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   } else {
     rversion->epoch= 0;
   }
-  rversion->version= nfstrsave(string);
+  rversion->version= nfstrnsave(string,end-string+1);
   hyphen= strrchr(rversion->version,'-');
   if (hyphen) *hyphen++= 0;
   rversion->revision= hyphen ? hyphen : "";
