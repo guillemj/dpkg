@@ -133,13 +133,13 @@ AC_ARG_WITH(zlib,
 [  --with-zlib             use zlib for decompression of some gzip files],
 	[use_zlib=$withval],
 	[uze_zlib=no])
-if [ "$use_zlib" = "no" ] ; then
+if test "$use_zlib" = "no" ; then
 	ZLIB_CFLAGS=
 	ZLIB_LIBS=
 else
 	ZLIB_CFLAGS=-DUSE_ZLIB
-	if [ "$use_zlib" = "static" ] ; then
-		ZLIB_LIBS=-Wl,-Bstatic -lz -Wl,-Bdynamic
+	if test "$use_zlib" = "static"  ; then
+		ZLIB_LIBS="-Wl,-Bstatic -lz -Wl,-Bdynamic"
 	else
 		ZLIB_LIBS=-lz
 	fi
