@@ -150,11 +150,11 @@ if ($opmode eq 'build') {
     for $_ (keys %fi) {
         $v= $fi{$_};
         if (s/^C //) {
-            if (m/^Source$/) { &setsourcepackage; }
-            elsif (m/^(Standards-Version|Origin|Maintainer|Uploaders)$/) { $f{$_}= $v; }
+            if (m/^Source$/i) { &setsourcepackage; }
+            elsif (m/^(Standards-Version|Origin|Maintainer|Uploaders)$/i) { $f{$_}= $v; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= $v; }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
-            elsif (m/^(Section|Priority|Files|Bugs)$/ || m/^X[BC]+-/i) { }
+            elsif (m/^(Section|Priority|Files|Bugs)$/i || m/^X[BC]+-/i) { }
             else { &unknown('general section of control info file'); }
         } elsif (s/^C(\d+) //) {
             $i=$1; $p=$fi{"C$i Package"};
@@ -183,9 +183,9 @@ if ($opmode eq 'build') {
                 $f{'Architecture'}= join(' ',@sourcearch);
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
-            } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
-                     m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/ ||
-                     m/^(Description|Section|Priority)$/ ||
+            } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
+                     m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/i ||
+                     m/^(Description|Section|Priority)$/i ||
                      m/^X[CS]+-/i) {
             } else {
                 &unknown("package's section of control info file");
@@ -197,7 +197,7 @@ if ($opmode eq 'build') {
                 $f{$_}= $v;
             } elsif (s/^X[BS]*C[BS]*-//i) {
                 $f{$_}= $v;
-            } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/ ||
+            } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
                      m/^X[BS]+-/i) {
             } else {
                 &unknown("parsed version of changelog");
