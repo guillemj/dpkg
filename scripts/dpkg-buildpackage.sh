@@ -30,8 +30,8 @@ END
 
 rootcommand=''
 pgpcommand=pgp
-signsource=signfile
-signchanges=signfile
+signsource='withecho signfile'
+signchanges='withecho signfile'
 binarytarget=binary
 sourcestyle=''
 version=''
@@ -80,8 +80,14 @@ pv="${package}_${version}"
 pva="${package}_${version}_${arch}"
 
 signfile () {
-	$pgpcommand -fast <"../$1" >"../$1.asc"
+	$pgpcommand +clearsig=on -fast <"../$1" >"../$1.asc"
+	echo
 	mv -- "../$1.asc" "../$1"
+}
+
+withecho () {
+        echo " $@" >&2
+	"$@"
 }
 
 set -- $binaryonly
@@ -89,14 +95,33 @@ if [ -n "$maint"	]; then set -- "$@" "-m$maint"		; fi
 if [ -n "$version"	]; then set -- "$@" "-v$version"	; fi
 if [ -n "$desc"		]; then set -- "$@" "-C$desc"		; fi
 
-set -x
-
-$rootcommand debian/rules clean
+withecho $rootcommand debian/rules clean
 if [ x$binaryonly = x ]; then
-	cd ..; dpkg-source -b "$dirn"; cd "$dirn"
+	cd ..; withecho dpkg-source -b "$dirn"; cd "$dirn"
 fi
-debian/rules build
-$rootcommand debian/rules $binarytarget
+withecho debian/rules build
+withecho $rootcommand debian/rules $binarytarget
 $signsource "$pv.dsc"
-dpkg-genchanges $binaryonly $sourcestyle >../"$pva.changes"
+chg=../"$pva.changes"
+withecho dpkg-genchanges $binaryonly $sourcestyle >"$chg"
+
+fileomitted () {
+	set +e
+	test -z "`sed -n '/^Files:/,/^[^ ]/ s/'$1'$//p' <$chg`"
+	fir=$?
+	set -e
+	return $fir
+}	
+
+if fileomitted '\.dsc'; then
+	srcmsg='no source included in upload'
+elif fileomitted '\.diff\.gz'; then
+	srcmsg='Debian-specific package; upload is full source'
+elif fileomitted '\.orig\.tar\.gz'; then
+	srcmsg='diff-only upload (original source NOT included)'
+else
+	srcmsg='full upload (original source is included)'
+fi
+
 $signchanges "$pva.changes"
+echo "dpkg-buildpackage: $srcmsg"

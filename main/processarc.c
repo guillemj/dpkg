@@ -282,7 +282,10 @@ void process_archive(const char *filename) {
   filesdbinit();
   
   if (pkg->status != stat_notinstalled && pkg->status != stat_configfiles)
-    printf("Preparing to replace %s (using %s) ...\n",pkg->name,pfilename);
+    printf("Preparing to replace %s %s (using %s) ...\n",
+           pkg->name,
+           versiondescribe(&pkg->installed.version,vdew_nonambig),
+           pfilename);
   else
     printf("Unpacking %s (from %s) ...\n",pkg->name,pfilename);
 

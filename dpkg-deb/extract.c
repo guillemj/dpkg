@@ -197,7 +197,16 @@ void extracthalf(const char *debar, const char *directory,
       readfail(ar,debar,"ctrlarea");
 
   } else {
+    
+    if (!strncmp(versionbuf,"!<arch>",7)) {
+      if (fprintf(stderr, BACKEND
+                  ": file looks like it might be an archive which has been\n"
+                  BACKEND ":    corrupted by being downloaded in ASCII mode\n")
+          == EOF) werr("stderr");
+    }
+
     ohshit("`%.255s' is not a debian format archive",debar);
+
   }
 
   fflush(ar);

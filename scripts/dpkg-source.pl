@@ -666,9 +666,16 @@ sub checktarsane {
   file:
     while (defined($fn= <CPIO>)) {
         $fn =~ s/\0$//; $pname= $fn; $pname =~ y/ -~/?/c;
-        $fn =~ m/\n/ &&
-            &error("tarfile \`$tarfileread' contains object with".
-                   " newline in its name ($pname)");
+        if ($fn =~ m/\n/) {
+            if (!@filesinarchive) {
+                &error("first output from cpio -0t (from \`$tarfileread') ".
+                       "contains newline - you probably have an out of ".
+                       "date version of cpio.  2.4.2-2 is known to work");
+            } else {
+                &error("tarfile \`$tarfileread' contains object with".
+                       " newline in its name ($pname)");
+            }
+        }
         $slash= substr($fn,length($epfx),1);
         (($slash eq '/' || $slash eq '') &&
          substr($fn,0,length($epfx)) eq $epfx) ||

@@ -9,6 +9,7 @@ $fileslistfile= 'debian/files';
 $varlistfile= 'debian/substvars';
 $uploadfilesdir= '..';
 $sourcestyle= 'i';
+$quiet= 0;
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
@@ -35,6 +36,7 @@ Options:  -b or -B (identical)   binary-only build - no source files
           -si (default)          src includes orig for debian-revision 0 or 1
           -sa                    source includes orig src
           -sd                    source is diff and .dsc only
+          -q                     quiet - no informational messages on stderr
           -F<changelogformat>    force change log format
           -V<name>=<value>       set a substitution variable
           -T<varlistfile>        read variables here, not debian/substvars
@@ -54,6 +56,8 @@ while (@ARGV) {
         $binaryonly= 1;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
+    } elsif (m/^-q$/) {
+        $quiet= 1;
     } elsif (m/^-c/) {
         $controlfile= $';
     } elsif (m/^-l/) {
@@ -215,9 +219,17 @@ if (!$binaryonly) {
     if (($sourcestyle =~ m/i/ && $version !~ m/-[01]$/ ||
          $sourcestyle =~ m/d/) &&
         grep(m/\.diff\.gz$/,@sourcefiles)) {
+        $origsrcmsg= "not including original source code in upload";
         @sourcefiles= grep(!m/\.orig\.tar\.gz$/,@sourcefiles);
+    } else {
+        $origsrcmsg= "including full source code in upload";
     }
+} else {
+    $origsrcmsg= "binary-only upload - not including any source code";
 }
+
+print(STDERR "$progname: $origsrcmsg\n") ||
+    &syserr("write original source message") unless $quiet;
 
 $f{'Format'}= $substvar{'Format'};
 
