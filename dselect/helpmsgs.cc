@@ -7,7 +7,7 @@
 const struct helpmessage hlp_listkeys = {
   N_("Keystrokes"), N_("\
 Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
-  n, Down-arrow, j      p, Up-arrow, k          move highlight\n\
+  Down-arrow, j         Up-arrow, k             move highlight\n\
   N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n\
   ^n                    ^p                      scroll list by 1 line\n\
   t, Home               e, End                  jump to top/end of list\n\
@@ -27,7 +27,7 @@ Quit, exit, overwrite (note capitals!):       ?, F1 request help (also Help)\n\
  X, Esc  eXit, abandoning any changes made    v, V  change status display opts\n\
    R     Revert to state before this list      ^l   redraw display\n\
    U     set all to sUggested state             /   search (Return to cancel)\n\
-   D     set all to Directly requested state    \\   repeat last search\n")
+   D     set all to Directly requested state  n, \\  repeat last search\n")
 };
 const struct helpmessage hlp_mainintro = {
   N_("Introduction to package selections"), N_("\
