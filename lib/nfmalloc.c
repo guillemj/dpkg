@@ -42,7 +42,7 @@ static int dbobs_init = 0;
 static void nfobstack_init(void) {
   obstack_init(&db_obs);
   dbobs_init = 1;
-  obstack_chunk_size(&db_obs) = 8192;
+  obstack_chunk_size(&db_obs) = CHUNK_SIZE;
 }
   
 #ifdef HAVE_INLINE
