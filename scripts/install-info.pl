@@ -227,7 +227,7 @@ $name: unable to determine description for \`dir' entry - giving up
     }
 }
 
-if (!$nowrite && ! -e "$infodir/dir") {
+if (!$nowrite && ( ! -e "$infodir/dir" || ! -s "$infodir/dir" )) {
     if (-r $backup) {
 	print STDERR "$name: no file $infodir/dir, retrieving backup file $backup.\n";
 	if (system ("cp $backup $infodir/dir")) {
