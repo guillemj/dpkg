@@ -887,7 +887,8 @@ copied to the <tt/.changes/ file, and then later used to send an
 acknowledgement when the upload has been installed.
 <p>
 
-The <var/date/ should be in RFC822 format; it should include the
+The <var/date/ should be in RFC822 format<footnote>This is generated
+by the <prgn/822-date/ program.</footnote>; it should include the
 timezone specified numerically, with the timezone name or abbreviation
 optionally present as a comment.
 <p>
@@ -913,10 +914,13 @@ providing a parser for the format you wish to use.
 In order to have <tt/dpkg-parsechangelog/ run your parser, you must
 include a line within the last 40 lines of your file matching the Perl
 regular expression:
+<tt>\schangelog-format:\s+([0-9a-z]+)\W</tt>
+The part in parentheses should be the name of the format.  For
+example, you might say:
 <example>
-\schangelog-format:\s+([0-9a-z]+)\W
+@@@ changelog-format: joebloggs @@@
 </example>
-The part in parentheses should be the name of the format.
+Changelog format names are non-empty strings of alphanumerics.
 <p>
 
 If such a line exists then <tt/dpkg-parsechangelog/ will look for the

@@ -45,6 +45,11 @@ binary-arch:	checkroot build
 		etcdir=$(DIR)/debian/tmp/etc \
 		install
 	find debian/tmp/usr/man -type f | xargs gzip -9v
+	set -e; for f in dpkg-buildpackage dpkg-gencontrol dpkg-distaddfile \
+		  dpkg-parsechangelog dpkg-genchanges dpkg-shlibdeps; do \
+		rm debian/tmp/usr/man/man1/$$f.1; \
+		ln -s dpkg-source.1.gz debian/tmp/usr/man/man1/$$f.1.gz ; \
+	done
 	gzip -9v debian/tmp/usr/doc/dpkg/changelog.*
 	cp debian/copyright debian/tmp/usr/doc/dpkg/copyright
 	cp TODO debian/tmp/usr/doc/dpkg/WISHLIST

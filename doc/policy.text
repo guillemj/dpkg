@@ -2,7 +2,7 @@
                            Debian policy manual
                            --------------------
                    Ian Jackson <ijackson@gnu.ai.mit.edu>
-               version 0.2.0.0 (dpkg 1.3.7), 22 August 1996 
+              version 0.2.1.1 (dpkg 1.3.10), 25 August 1996 
 
 0.1 Abstract
 ------------
@@ -43,14 +43,13 @@
      4.4.      Changes to the upstream sources
      4.5.      Error trapping in makefiles
 
-     5.        How to become a Debian developer 
-     5.1.      Before you start work
+     5.        Procedure - how to participate in the Debian project 
+     5.1.      Before you start work on a package
      5.2.      When you have a package to upload
      5.3.      Upload handling - `.changes' files
+     5.4.      The Debian mailing lists
 
-     6.        The Debian mailing lists
-
-     7.        Conversion procedure from old source packages
+     6.        Conversion procedure from old source packages
 
      0.3.      Copyright Notice
 
@@ -73,6 +72,7 @@
      administrators' manual.
 
      This document assumes familiarity with these other two manuals.
+     Unfortunately the system administrators' manual does not exist yet.
 
      The Debian version of the FSF's GNU hello program is provided as an
      example for people wishing to create Debian packages.
@@ -99,36 +99,49 @@
           without violating copyrights.
 
      All packages in the Debian distribution proper must be freely useable,
-     modifiable and redistributable in both source and binary form. It must
-     be possible for anyone to distribute and use modified source code and
-     their own own compiled binaries, at least when they do so as part of a
-     Debian distribution.
+     modifiable and redistributable in both source and binary form.[1] It
+     must be possible for anyone to distribute and use modified source code
+     and their own own compiled binaries, at least when they do so as part
+     of a Debian distribution.
 
-     Packages whose copyright permission notices (or patent problems) do
-     not allow distribution and copying for profit, without restriction on
-     the amount charged, or where distribution is restricted according to
-     the medium used, or where the distributor must ask any kind of special
-     permission of the authors, or with other onerous conditions, may only
-     be placed in the semi-supported non-free section of the Debian FTP
-     archives. This is important so that CDROM manufacturers can distribute
-     Debian without having to check the copyright of each package
-     individually, simply by leaving out the contents of the non-free area;
-     CDROM distributors are encouraged, though, to check the copyrights on
-     programs in non-free individually and include as many as they can.
+     [1]  It is OK for there to be a requirement that modified versions
+          carry a warning, or that they be released with a different name
+          or version number, or something similar, because we can comply
+          with this requirement if necessary.
 
-     Packages whose copyright permission notices (or patent problems) allow
-     only distribution of compiled binaries (and thus of which only
-     binaries are available), or where the source code which may be
-     distributed is not the complete source code required to compile the
-     program (ie, the program cannot be compiled using only packages in the
-     main Debian distribution), or which depend for their use on non-free
-     or contrib packages, or allow free use only for a trial period
-     (shareware), or are demonstration programs lacking vital functionality
-     (crippleware), or are only installer-packages which require the user
-     to supply a separate file to be installed, or which fail to meet some
-     other policy requirements, may only be placed in the semi-supported
-     contrib section of the Debian FTP archives (unless they need to be in
-     non-free - see above).
+     Packages 
+        * whose copyright permission notices (or patent problems) do not
+          allow distribution and copying for profit, without restriction on
+          the amount charged, or
+        * where distribution is restricted according to the medium used, or
+        * where the distributor must ask any kind of special permission of
+          the authors, or
+        * with other onerous conditions,
+     may only be placed in the semi-supported non-free section of the
+     Debian FTP archives. This is important so that CDROM manufacturers can
+     distribute Debian without having to check the copyright of each
+     package individually, simply by leaving out the contents of the
+     non-free area; CDROM distributors are encouraged, though, to check the
+     copyrights on programs in non-free individually and include as many as
+     they can.
+
+     Packages 
+        * whose copyright permission notices (or patent problems) allow
+          only distribution of compiled binaries (and thus of which only
+          binaries are available), or
+        * where the source code which may be distributed is not the
+          complete source code required to compile the program (ie, the
+          program cannot be compiled using only packages in the main Debian
+          distribution), or
+        * which depend for their use on non-free or contrib packages, or
+        * allow free use only for a trial period (shareware), or
+        * are demonstration programs lacking vital functionality
+          (crippleware), or
+        * are only installer-packages which require the user to supply a
+          separate file to be installed, or
+        * which fail to meet some other policy requirements,
+     may only be placed in the semi-supported contrib section of the Debian
+     FTP archives (unless they need to be in non-free - see above).
 
      Programs whose authors encourage the user to make donations are fine
      for the main distribution, provided that the authors do not claim that
@@ -1008,7 +1021,7 @@ Mail name [`<syshostname>']:
      The value corresponds to a version of the Debian manuals, as can be
      found on the title page or page headers and footers (depending on the
      format). The value for this version of the manuals and packaging
-     standards is `0.2.0.0'.
+     standards is `0.2.1.1'.
 
      The version number has four components - major and minor number and
      major and minor patchlevel. When the standards change in a way that
@@ -1017,7 +1030,8 @@ Mail name [`<syshostname>']:
      signaled by a change to the minor number. The major patchlevel will be
      changed for any change to the meaning of the standards, however small;
      the minor patchlevel will be changed when only cosmetic, typographical
-     or other edits which do not change the meaning are made.
+     or other edits which do not change the meaning are made, or changes
+     which do not affect the contents of packages.
 
      You should regularly, and especially if your package has become out of
      date, install the most recent version of dpkg and read
@@ -1094,12 +1108,12 @@ Mail name [`<syshostname>']:
 -------------------------------------------------------------------------------
 
 
-5. How to become a Debian developer 
-------------------------------------
+5. Procedure - how to participate in the Debian project 
+--------------------------------------------------------
 
 
-5.1. Before you start work
---------------------------
+5.1. Before you start work on a package
+---------------------------------------
 
      So, you've read all the documentation, you understand what everything
      in the hello example package is for, and you're about to Debianise
@@ -1173,14 +1187,30 @@ Mail name [`<syshostname>']:
 
      All of them are mandatory for a Debian upload. See the list of control
      fields in the dpkg programmers' manual for the contents of these
-     fields. 
+     fields.
+
+     The first time a version is uploaded which corresponds to a particular
+     upstream version the original source tarfile should be uploaded and
+     included in the `.changes' file; subsequent times the very same
+     tarfile should be used to build the new diffs and `.dsc' files, and it
+     need not then be uploaded.
+
+     By default dpkg-genchanges and dpkg-buildpackage will include the
+     original source tarfile if and only if the Debian revision part of the
+     source version number is `0' or `1', indicating a new upstream
+     version. This behaviour may be modified by using `-sa' to always
+     include it or `-sd' to always leave it out.
+
+     If no original source is included in the upload then the original
+     source tarfile used by dpkg-source when constructing the `.dsc' file
+     and diff to be uploaded *must* be byte-for-byte identical with the one
+     already in the archive. If there is some reason why this is not the
+     case then the new version of the original source should be uploaded,
+     possibly by using the `-sa' flag. 
 
 
--------------------------------------------------------------------------------
-
-
-6. The Debian mailing lists
----------------------------
+5.4. The Debian mailing lists
+-----------------------------
 
      The mailing list server is at `lists.debian.org'. Mail
      `debian-<foo>-REQUEST@lists.debian.org'[1] with the word `subscribe'
@@ -1194,22 +1224,29 @@ Mail name [`<syshostname>']:
      see the responses.
 
      As ever on the net, please trim down the quoting of articles you're
-     replying to. 
+     replying to. In general, please adhere to the usual conventions for
+     posting messages. 
 
 
 -------------------------------------------------------------------------------
 
 
-7. Conversion procedure from old source packages
+6. Conversion procedure from old source packages
 ------------------------------------------------
 
      This is a brief summary of the procedure for converting a
      pre-2.0.0.0-format source package into the new format.
 
+     You are strongly advised to download and examine the hello package,
+     and to read the section in the dpkg programmers' manual describing the
+     source packaging tools. More detail about the exact functionality of
+     these tools is available in dpkg-source(1).
+
         * Download the original source code from wherever it can be found
           and do any rearrangement required to make it look like the
           original tree of the Debian source. Put it in
-          `<package>-<upstream-version>.orig'. 
+          `<package>-<upstream-version>.orig/' or
+          `<package>_<upstream-version>.orig.tar.gz'. 
 
         * Rename all files `debian.*' to `debian/*'. There may be some
           exceptions to this, but this is a good start. 
@@ -1233,7 +1270,7 @@ Mail name [`<syshostname>']:
                package fields. 
              * Add the `Source' field. 
              * Add the `Standards-Version' field. The current value is
-               `0.2.0.0'. 
+               `0.2.1.1'. 
              * Change the `Architecture' field for each package to `any',
                `all' or whatever. If there isn't an `Architecture' field
                add one. 
@@ -1272,7 +1309,7 @@ Mail name [`<syshostname>']:
           `/usr/doc/copyright/<package>'. If it isn't then find
           `debian/copyright' and decide what to do with the `README'. 
 
-        * Check for various other anachronisms: 
+        * Check for various other anachronisms and problems: 
              * Remove any `Package_Revision', `Package-Revision' or
                `Revision' fields.
              * Rename `Optional' to `Suggests', `Recommended' to
@@ -1280,20 +1317,30 @@ Mail name [`<syshostname>']:
              * Change `/usr/doc/examples/<package>' to
                `/usr/doc/<package>/examples'.
              * Make sure that manpages are installed compressed.
+             * Check that the description has an extended description, is
+               well-formatted and meaningful and helpful to people wanting
+               to know whether to install a package.
 
         * Look everything over. 
 
-        * Do a test build using `dpkg-buildpackage -ur -uc -r<whatever>'.
-          Check the permissions and locations of files in the resulting
-          package by eyeballing the output of `dpkg-deb --contents', and
-          check that the source build happened OK. Test install the binary
-          package(s) and test extract the source package(s). 
+        * Do a test build using `dpkg-buildpackage -ur -uc -sa
+          -r<whatever>'. Check the permissions and locations of files in
+          the resulting package by eyeballing the output of `dpkg-deb
+          --contents', and check that the source build happened OK. Test
+          install the binary package(s) and test extract the source
+          package(s). 
 
-        * Sign the release: either re-run dpkg-buildpackage (this will
-          rebuild the package entirely), or PGP-sign the `.dsc', rebuild
-          the `.changes' using dpkg-genchanges, and then PGP-sign the
+        * Sign the release: either rebuild everything with
+          `dpkg-buildpackage -sa', or PGP-sign the `.dsc', rebuild the
+          `.changes' using `dpkg-genchanges -sa', and then PGP-sign the
           `.changes'. 
 
+     The use of `-sa' on dpkg-buildpackage and dpkg-genchanges is important
+     when doing the first build/uploading of a new-format source package.
+     Unless this happens to be Debian revision `0' or `1' by default the
+     original source tarfile will not be included in the uploaded files
+     listed in the `.changes' file, and so it won't be installed on the FTP
+     site. `-sa' requests that the original source be included regardless. 
 
 
 -------------------------------------------------------------------------------
@@ -1324,6 +1371,6 @@ Mail name [`<syshostname>']:
 
 
      Debian policy manual
-     Ian Jackson <ijackson@gnu.ai.mit.edu> - version 0.2.0.0 (dpkg 1.3.7),
-     22 August 1996 
+     Ian Jackson <ijackson@gnu.ai.mit.edu> - version 0.2.1.1 (dpkg 1.3.10),
+     25 August 1996 
 

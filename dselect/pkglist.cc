@@ -395,8 +395,10 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
     if (!pkg->available.valid) blankpackageperfile(&pkg->available);
     state->direct= state->original= pkg->want;
     if (readwrite && pkg->want == pkginfo::want_unknown) {
-      state->suggested= pkg->priority <= pkginfo::pri_standard
-        ? pkginfo::want_install : pkginfo::want_purge; /* fixme: configurable */
+      state->suggested=
+        pkg->status == pkginfo::stat_installed ||
+          pkg->priority <= pkginfo::pri_standard /* fixme: configurable */
+            ? pkginfo::want_install : pkginfo::want_purge;
       state->spriority= sp_inherit;
     } else {
       state->suggested= pkg->want;
