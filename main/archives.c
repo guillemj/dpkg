@@ -165,10 +165,12 @@ static void newtarobject_utime(const char *path, struct TarInfo *ti) {
     ohshite(_("error setting timestamps of `%.255s'"),ti->Name);
 }
 
-static void newtarobject_allmodes(const char *path, struct TarInfo *ti) {
-  if (chown(path,ti->UserID,ti->GroupID))
+static void newtarobject_allmodes(const char *path, struct TarInfo *ti, struct filestatoverride* statoverride) {
+  if (chown(path,
+	    statoverride ? statoverride->uid : ti->UserID,
+	    statoverride ? statoverride->gid : ti->GroupID))
     ohshite(_("error setting ownership of `%.255s'"),ti->Name);
-  if (chmod(path,ti->Mode & ~S_IFMT))
+  if (chmod(path,(statoverride ? statoverride->mode : ti->Mode) & ~S_IFMT))
     ohshite(_("error setting permissions of `%.255s'"),ti->Name);
   newtarobject_utime(path,ti);
 }
@@ -392,8 +394,10 @@ int tarobject(struct TarInfo *ti) {
   /* Extract whatever it is as .dpkg-new ... */
   switch (ti->Type) {
   case NormalFile0: case NormalFile1:
-    fd= open(fnamenewvb.buf, O_CREAT|O_EXCL|O_WRONLY,
-             ti->Mode & (S_IRUSR|S_IRGRP|S_IROTH));
+    /* We create the file with mode 0 to make sure nobody can do anything with
+     * it until we apply the proper mode, which might be a statoverride.
+     */
+    fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
     if (fd < 0) ohshite("unable to create `%.255s'",ti->Name);
     thefile= fdopen(fd,"w");
     if (!thefile) { close(fd); ohshite(_("unable to fdopen for `%.255s'"),ti->Name); }
@@ -438,17 +442,17 @@ int tarobject(struct TarInfo *ti) {
     newtarobject_utime(fnamenewvb.buf,ti);
     break;
   case FIFO:
-    if (mkfifo(fnamenewvb.buf,am))
+    if (mkfifo(fnamenewvb.buf,0))
       ohshite(_("error creating pipe `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject FIFO");
-    newtarobject_allmodes(fnamenewvb.buf,ti);
+    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break;
   case CharacterDevice: case BlockDevice:
-    if (mknod(fnamenewvb.buf,am,ti->Device))
+    if (mknod(fnamenewvb.buf,0,ti->Device))
       ohshite(_("error creating device `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject CharacterDevice|BlockDevice");
-    newtarobject_allmodes(fnamenewvb.buf,ti);
-    break;
+    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
+    break; 
   case HardLink:
     varbufreset(&hardlinkfn);
     varbufaddstr(&hardlinkfn,instdir); varbufaddc(&hardlinkfn,'/');
@@ -456,7 +460,7 @@ int tarobject(struct TarInfo *ti) {
     if (link(hardlinkfn.buf,fnamenewvb.buf))
       ohshite(_("error creating hard link `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject HardLink");
-    newtarobject_allmodes(fnamenewvb.buf,ti);
+    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break;
   case SymbolicLink:
     /* We've already cheched for an existing directory. */
@@ -474,11 +478,10 @@ int tarobject(struct TarInfo *ti) {
     break;
   case Directory:
     /* We've already checked for an existing directory. */
-    if (mkdir(fnamenewvb.buf,
-              am & (S_IRUSR|S_IRGRP|S_IROTH | S_IXUSR|S_IXGRP|S_IXOTH)))
+    if (mkdir(fnamenewvb.buf,0))
       ohshite(_("error creating directory `%.255s'"),ti->Name);
     debug(dbg_eachfiledetail,"tarobject Directory creating");
-    newtarobject_allmodes(fnamenewvb.buf,ti);
+    newtarobject_allmodes(fnamenewvb.buf,ti,nifd->namenode->statoverride);
     break;
   default:
     internerr("bad tar type, but already checked");
