@@ -401,7 +401,6 @@ foreach ( @work ) {
 	}
 }
 @work = @newwork;
-print join("\n",@newwork);
 
 if (!$nowrite) {
     open(NEW,"> $infodir/dir.new") || &ulquit("create $infodir/dir.new: $!");
