@@ -81,7 +81,7 @@ static void skipmember(FILE *ar, const char *fn, long memberlen) {
   
   memberlen += (memberlen&1);
   while (memberlen > 0) {
-    if ((c= getc(ar)) == EOF) readfail(ar,fn,"skipped member data");
+    if ((c= getc(ar)) == EOF) readfail(ar,fn,_("skipped member data"));
     memberlen--;
   }
 }
@@ -108,7 +108,7 @@ void extracthalf(const char *debar, const char *directory,
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
   if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
-  if (!fgets(versionbuf,sizeof(versionbuf),ar)) readfail(ar,debar,"version number");
+  if (!fgets(versionbuf,sizeof(versionbuf),ar)) readfail(ar,debar,_("version number"));
 
   if (!strcmp(versionbuf,"!<arch>\n")) {
     oldformat= 0;
@@ -117,7 +117,7 @@ void extracthalf(const char *debar, const char *directory,
     header_done= 0;
     for (;;) {
       if (fread(&arh,1,sizeof(arh),ar) != sizeof(arh))
-        readfail(ar,debar,"between members");
+        readfail(ar,debar,_("between members"));
       if (memcmp(arh.ar_fmag,ARFMAG,sizeof(arh.ar_fmag)))
         ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),debar);
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
@@ -130,7 +130,7 @@ void extracthalf(const char *debar, const char *directory,
           ohshit(_("file `%.250s' is not a debian binary archive (try dpkg-split?)"),debar);
         infobuf= m_malloc(memberlen+1);
         if (fread(infobuf,1, memberlen + (memberlen&1), ar) != memberlen + (memberlen&1))
-          readfail(ar,debar,"header info member");
+          readfail(ar,debar,_("header info member"));
         infobuf[memberlen]= 0;
         cur= strchr(infobuf,'\n');
         if (!cur) ohshit(_("archive has no newlines in header"));
@@ -186,7 +186,7 @@ void extracthalf(const char *debar, const char *directory,
     oldformat= 1;
     l= strlen(versionbuf); if (l && versionbuf[l-1]=='\n') versionbuf[l-1]=0;
     if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
-      readfail(ar,debar,"ctrl information length");
+      readfail(ar,debar,_("ctrl information length"));
     if (sscanf(ctrllenbuf,"%ld%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
       ohshit(_("archive has malformatted ctrl len `%s'"),ctrllenbuf);
 
@@ -200,7 +200,7 @@ void extracthalf(const char *debar, const char *directory,
     ctrlarea= malloc(ctrllennum); if (!ctrlarea) ohshite("malloc ctrlarea failed");
 
     errno=0; if (fread(ctrlarea,1,ctrllennum,ar) != ctrllennum)
-      readfail(ar,debar,"ctrlarea");
+      readfail(ar,debar,_("ctrlarea"));
 
   } else {
     
@@ -247,7 +247,7 @@ void extracthalf(const char *debar, const char *directory,
       close(p1[0]);
       if (!(pi= fdopen(p1[1],"w"))) ohshite(_("failed to fdopen p1 in copy"));
       while (memberlen > 0) {
-        if ((c= getc(ar)) == EOF) readfail(ar,debar,"member data");
+        if ((c= getc(ar)) == EOF) readfail(ar,debar,_("member data"));
         if (putc(c,pi) == EOF) ohshite(_("failed to write to pipe in copy"));
         memberlen--;
       }
