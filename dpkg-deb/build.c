@@ -57,13 +57,13 @@ void do_build(const char *const *argv) {
     PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, 0
   };
   
-  char *m;
+  char *m, *tmpd, *tmpf;
   const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
   char *controlfile;
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *gz, *cf;
-  int p1[2],p2[2], warns, errs, n, c, subdir;
+  int p1[2],p2[2], warns, errs, n, c, subdir, gzfd;
   pid_t c1,c2,c3,c4,c5;
   struct stat controlstab, datastab, mscriptstab, debarstab;
   char conffilename[MAXCONFFILENAME+1];
@@ -209,7 +209,16 @@ void do_build(const char *const *argv) {
     execlp(TAR,"tar","-cf","-",".",(char*)0); ohshite(_("failed to exec tar -cf"));
   }
   close(p1[1]);
-  if (!(gz= tmpfile())) ohshite(_("failed to make tmpfile (control)"));
+
+  if (!(tmpd = getenv("TMPDIR")))
+    tmpd= "/tmp";
+  tmpf= malloc(strlen(tmpd) + strlen("/dpkg.XXXXXX"));
+  strcpy(tmpf, tmpd);
+  strcat(tmpf, "/dpkg.XXXXXX");
+  if (!(gzfd= mkstemp(tmpf)) || !(gz= fdopen(gzfd, "r+")))
+    ohshite(_("failed to make tmpfile (control)"));
+
+
   if (!(c2= m_fork())) {
     m_dup2(p1[0],0); m_dup2(fileno(gz),1); close(p1[0]);
     execlp(GZIP,"gzip","-9c",(char*)0); ohshite(_("failed to exec gzip -9c"));
@@ -246,8 +255,12 @@ void do_build(const char *const *argv) {
   
   if (!oldformatflag) {
     fclose(gz);
-    if (!(gz= tmpfile())) ohshite(_("failed to make tmpfile (data)"));
+    strcpy(tmpf, tmpd);
+    strcat(tmpf, "/dpkg.XXXXXX");
+    if (!(gzfd= mkstemp(tmpf)) || !(gz= fdopen(gzfd, "r+")))
+      ohshite(_("failed to make tmpfile (data)"));
   }
+  free(tmpf);
   m_pipe(p2);
   if (!(c4= m_fork())) {
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);

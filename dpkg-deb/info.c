@@ -59,12 +59,13 @@ static void info_prepare(const char *const **argvp,
                          const char **debarp,
                          const char **directoryp,
                          int admininfo) {
-  static char dbuf[L_tmpnam];
+  char *dbuf;
   pid_t c1;
   
   *debarp= *(*argvp)++;
   if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
-  if (!tmpnam(dbuf)) ohshite(_("failed to make temporary filename"));
+  dbuf = tempnam(NULL, "dpkg");
+  if (!dbuf) ohshite(_("failed to make temporary filename"));
   *directoryp= dbuf;
 
   if (!(c1= m_fork())) {
@@ -73,6 +74,7 @@ static void info_prepare(const char *const **argvp,
   waitsubproc(c1,"rm -rf",0);
   push_cleanup(cu_info_prepare,-1, 0,0, 1, (void*)dbuf);
   extracthalf(*debarp, dbuf, "mx", admininfo);
+  free(dbuf);
 }
 
 static int ilist_select(const struct dirent *de) {

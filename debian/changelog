@@ -8,11 +8,22 @@ dpkg (1.4.1.17) unstable; urgency=low
   * Updated the deb-control(5) man page with all the current fields
     and uses
   * Made the large info screen show 5 lines of the pkglist so that
-    it scrolled properly, and still showed the cursor
+    it scrolled properly, and still showed the cursor in dselect
   * Removed references to dpkg(5) which seems to not exist anymore
   * Fixed `dpkg-deb --help' and dpkg-deb(1) from reporting --no-check
     when it's actually --nocheck (went with the hardcoded option, so
     this is just a documentation fix).
+  * Added better check in disk.setup for a working NFS server. Makes
+    it compatible with other non-Linux servers.
+  * Corrected dpkg(8)'s example of using dpkg -i (showed it used with
+    a .tar.gz instead of a .deb)
+  * Applied patch to correct improper TMPDIR handling in dpkg-deb
+  * When encountering an error in extracting the tar archives in the
+    packages, we should abort the install, not simply give an error
+    and continue.
+  * Make dpkg give the builtin arch if there was an error while exec()'ing
+    the C compiler with --print-architecture. We still fail if the
+    output from gcc was bad in some way, since they may be of importance.
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

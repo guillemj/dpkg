@@ -533,9 +533,9 @@ void process_archive(const char *filename) {
       ohshite(_("error reading dpkg-deb tar output"));
     } else if (feof(tc.backendpipe)) {
       waitsubproc(c1,BACKEND " --fsys-tarfile (EOF)",1);
-      ohshit(_("unexpected EOF in filesystem tarfile - corrupted package archive"));
+      ohshite(_("unexpected EOF in filesystem tarfile - corrupted package archive"));
     } else {
-      ohshit(_("corrupted filesystem tarfile - corrupted package archive"));
+      ohshite(_("corrupted filesystem tarfile - corrupted package archive"));
     }
   }
   tmpf= tc.backendpipe;

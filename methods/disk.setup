@@ -236,7 +236,7 @@ then
 		if [ -z "$response" ]; then continue; fi
 		if [ -x /usr/bin/rpcinfo ]
 		then
-			if rpcinfo -u "$response" mountd >/dev/null
+			if rpcinfo -u "$response" mountd | grep -q 'ready'
 			then
 				nfsserver="$response"
 			else

@@ -634,7 +634,17 @@ void printarch(const char *const *argv) {
   if (!(c1= m_fork())) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     execlp(ccompiler,ccompiler,"--print-libgcc-file-name",(char*)0);
-    ohshite(_("failed to exec C compiler `%.250s'"),ccompiler);
+    /* if we have a problem excuting the C compiler, we don't
+     * want to fail. If there is a problem with the compiler,
+     * like not being installed, or CC being set incorrectly,
+     * then important problems will show up elsewhere, not in
+     * dpkg. If a C compiler is not important to the reason we
+     * are being called, then we should just give them the built
+     * in arch.
+     */
+    if (printf("%s\n",architecture) == EOF) werr("stdout");
+    if (fflush(stdout)) werr("stdout");
+    exit 0;
   }
   close(p1[1]);
   while ((c= getc(ccpipe)) != EOF) varbufaddc(&vb,c);

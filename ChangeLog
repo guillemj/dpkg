@@ -4,6 +4,17 @@ Sun Oct 17 13:40:46 EDT 1999 Ben Collins <bcollins.debian.org>
   * Fixed `dpkg-deb --help' and dpkg-deb(1) from reporting --no-check
     when it's actually --nocheck (went with the hardcoded option, so
     this is just a documentation fix).
+  * Added better check in disk.setup for a working NFS server. Makes
+    it compatible with other non-Linux servers.
+  * Corrected dpkg(8)'s example of using dpkg -i (showed it used with
+    a .tar.gz instead of a .deb)
+  * Applied patch to correct improper TMPDIR handling in dpkg-deb
+  * When encountering an error in extracting the tar archives in the
+    packages, we should abort the install, not simply give an error
+    and continue.
+  * Make dpkg give the builtin arch if there was an error while exec()'ing
+    the C compiler with --print-architecture. We still fail if the
+    output from gcc was bad in some way, since they may be of importance.
 
 Sun Oct 17 11:51:36 CEST 1999 Wichert Akkerman <wakkerma@debian.org>
 
