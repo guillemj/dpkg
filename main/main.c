@@ -102,7 +102,7 @@ Options:\n\
   --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
   --force-...                    Override problems - see --force-help\n\
   --no-force-...|--refuse-...    Stop when problems encountered\n\
-  --abort-after <n>              abort after encountering <n> errors\n\
+  --abort-after <n>              Abort after encountering <n> errors\n\
 \n\
 Comparison operators for --compare-versions are:\n\
  lt le eq ne ge gt       (treat no version as earlier than any version);\n\
