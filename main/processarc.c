@@ -793,6 +793,8 @@ void process_archive(const char *filename) {
   pkg->installed.architecture= 0; /* This is irrelevant in the status file. */
   pkg->installed.installedsize= pkg->available.installedsize;
   pkg->installed.version= pkg->available.version;
+  pkg->installed.origin = pkg->available.origin;                               
+  pkg->installed.bugs = pkg->available.bugs;                                   
 
   /* We have to generate our own conffiles structure. */
   pkg->installed.conffiles= 0; iconffileslastp= &pkg->installed.conffiles;
