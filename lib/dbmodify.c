@@ -235,7 +235,7 @@ void modstatdb_note(struct pkginfo *pkg) {
       varbufinit(status);
     } else
       varbufreset(status);
-    r= varbufprintf(status, "status: %s: %s\n", pkg->name, statusinfos[pkg->status]);
+    r= varbufprintf(status, "status: %s: %s\n", pkg->name, statusinfos[pkg->status].name);
     while (pipef) {
       write(pipef->fd, status->buf, r);
       pipef= pipef->next;
