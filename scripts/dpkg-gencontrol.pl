@@ -130,7 +130,6 @@ for $_ (keys %fi) {
         if (m/^(Package|Description|Essential|Optional)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
-            $f{$_}= showdep(parsedep(substvars($v)), 0);
         } elsif (m/^Section$|^Priority$/) {
             $spvalue{$_}= $v;
         } elsif (m/^Architecture$/) {
@@ -176,6 +175,26 @@ $version= $f{'Version'};
 $origversion= $version; $origversion =~ s/-[^-]+$//;
 $substvar{"dpkg:UpstreamVersion"}=$origversion;
 $substvar{"dpkg:Version"}=$version;
+
+for $_ (keys %fi) {
+    $v= $fi{$_};
+    if (s/^C //) {
+    } elsif (s/^C$myindex //) {
+        if (m/^(Package|Description|Essential|Optional)$/) {
+        } elsif (exists($pkg_dep_fields{$_})) {
+            $f{$_}= showdep(parsedep(substvars($v)), 0);
+        } elsif (m/^Section$|^Priority$/) {
+        } elsif (m/^Architecture$/) {
+        } elsif (s/^X[CS]*B[CS]*-//i) {
+        } elsif (!m/^X[CS]+-/i) {
+        }
+    } elsif (m/^C\d+ /) {
+    } elsif (s/^L //) {
+    } elsif (m/o:/) {
+    } else {
+    }
+}
+
 
 for $f (qw(Section Priority)) {
     $spvalue{$f}= $spdefault{$f} unless length($spvalue{$f});
