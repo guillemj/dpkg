@@ -1,3 +1,28 @@
+Thu Feb 26 01:48:15 GMT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * main/processarc.c (process_archive): Copy code from main/remove.c
+  to ensure that hardlinks to devices, setuid files or setgid files
+  cannot be stashed away in the hope that they become compromisable
+  in the future.  This was handled when removing a package, but not
+  when upgrading one.
+
+Thu Feb 26 01:23:13 GMT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * version-nr: Bump to 1.10.18.1
+
+Mon Feb 23 22:46:21 GMT 2004 Scott James Remnant <scott@netsplit.com>
+
+  * dpkg-deb/main.c: Clean up previous badly applied multiline string
+    patch.
+
+Mon Feb 23 01:30:13 CET 2004 Steinar H. Gunderson <sesse@debian.org>
+
+  * main/remove.c: Terminate string buffer correctly.
+
+Fri Feb 20 10:22:24 CET 2004 Colin Watson <cjwatson@debian.org>
+
+  * dpkg-deb/main.c: Don't use multiline strings (a removed GCC extension).
+
 Tue Jan 27 20:08:12 CST 2003 Adam Heath <doogie@debian.org>
 
   * debian/control: Update dpkg conflicts to << 1.10, instead of 1.9.

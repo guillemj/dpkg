@@ -639,6 +639,20 @@ void process_archive(const char *filename) {
       } else
 	debug(dbg_eachfile, "process_archive: could not stat %s, skipping", fnamevb.buf);
       if (donotrm) continue;
+      {
+	/*
+	 * If file to remove is a device or s[gu]id, change its mode
+	 * so that a malicious user cannot use it even if it's linked
+	 * to another file.
+	 */
+	struct stat stat_buf;
+	if (stat(fnamevb.buf,&stat_buf)==0) {
+	  if (S_ISCHR(stat_buf.st_mode) || S_ISBLK(stat_buf.st_mode))
+	    chmod(fnamevb.buf, 0);
+	  if (stat_buf.st_mode & (S_ISUID|S_ISGID))
+	    chmod(fnamevb.buf, stat_buf.st_mode & ~(S_ISUID|S_ISGID));
+	}
+      }
       if (!unlink(fnamevb.buf)) continue;
       if (errno == ENOTDIR) continue;
     }

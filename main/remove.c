@@ -339,6 +339,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
     varbufreset(&fnvb);
     varbufaddstr(&fnvb,instdir);
     varbufaddstr(&fnvb,namenodetouse(namenode,pkg)->name);
+    varbufaddc(&fnvb,0);
 
     if (!stat(fnvb.buf,&stab) && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail, "removal_bulk is a directory");
