@@ -128,7 +128,7 @@ sub check_line {
 		my $ok=0;
 		my @possibles=();
 ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
-			my ($package, $rest)=split(/\s*(?=\()/, $alternate, 2);
+			my ($package, $rest)=split(/\s*(?=[[(])/, $alternate, 2);
 	
 			# Check arch specifications.
 			if (defined $rest && $rest=~m/\[(.*?)\]/) {
@@ -161,7 +161,7 @@ ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
 			push @possibles, $alternate;
 	
 			# Check version.
-			if (defined $rest && $rest=~m/\((..)\s*(.*?)\)/) {
+			if (defined $rest && $rest=~m/\(\s*([<>=]{1,2})\s*(.*?)\s*\)/) {
 				my $relation=$1;
 				my $version=$2;
 				

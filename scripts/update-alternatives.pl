@@ -239,10 +239,10 @@ if ($mode eq 'auto') {
     $state= 'nonexistent';
     $manual= 'auto';
 } elsif ($state eq 'nonexistent') {
-    if ($mode eq 'manual') {
+    if ($manual eq 'manual') {
         &pr("$altdir/$name has been deleted, returning to automatic selection.")
           if $verbosemode > 0;
-        $mode= 'auto';
+        $manual= 'auto';
     }
 }
 

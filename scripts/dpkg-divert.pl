@@ -220,13 +220,13 @@ sub checkrename {
     # (hopefully) wont overwrite anything. If it succeeds, we
     # assume a writable filesystem.
     foreach $file ($rsrc,$rdest) {
-	open (TMP, ">> ${file}.dpkg-devert.tmp") || $! == ENOENT ||
-		&quit("error checking \`$file': $!");
-	if ($!) {
-		$dorename = !$dorename;
-	} else {
+	if (open (TMP, ">> ${file}.dpkg-devert.tmp")) {
 		close TMP;
 		unlink ("${file}.dpkg-devert.tmp");
+	} elsif ($! == ENOENT) {
+		$dorename = !$dorename;
+	} else {
+		&quit("error checking \`$file': $!");
 	}
     }
     if (@ssrc && @sdest &&
