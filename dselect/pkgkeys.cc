@@ -77,7 +77,6 @@ const keybindings::interpretation packagelist_kinterps[] = {
 
 const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'j',            "down"             }, // vi style
-  { 'n',            "down"             },
   { KEY_DOWN,       "down"             },
   { 'k',            "up"               }, // vi style
   { 'p',            "up"               },
@@ -132,6 +131,7 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'V',            "versiondisplay"   },
   { C('l'),         "redraw"           },
   { '/',            "search"           },
+  { 'n',            "searchagain"      },
   { '\\',           "searchagain"      },
                                        
   { KEY_ENTER,      "quitcheck"        },
