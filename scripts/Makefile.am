@@ -22,9 +22,6 @@ bin_SCRIPTS		= dpkg-name dpkg-source dpkg-genchanges dpkg-gencontrol \
 			  dpkg-distaddfile 822-date dpkg-scanpackages \
 			  dpkg-scansources dpkg-architecture
 
-sbin_PROGRAMS		= start-stop-daemon
-start_stop_daemon_SOURCES	= start-stop-daemon.c
-
 sbin_SCRIPTS		= update-rc.d update-alternatives \
 			  install-info dpkg-divert cleanup-info
 
@@ -34,7 +31,7 @@ lisp_LISP		= debian-changelog-mode.el
 ELCFILES		= debian-changelog-mode.elc
 
 man_MANS		= dpkg-name.1 dpkg-source.1 822-date.1 update-rc.d.8 \
-			  start-stop-daemon.8 update-alternatives.8 \
+			  update-alternatives.8 \
 			  install-info.8 dpkg-scanpackages.8 \
 			  dpkg-scansources.8 dpkg-architecture.1
 

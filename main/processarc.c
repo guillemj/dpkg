@@ -206,6 +206,8 @@ void process_archive(const char *filename) {
       return;
   }
 
+  /* Check if anything is installed that we conflict with, or not installed
+   * that we need */
   pkg->clientdata->istobe= itb_installnew;
   conflictor= 0;
   for (dsearch= pkg->available.depends; dsearch; dsearch= dsearch->next) {
@@ -239,10 +241,25 @@ void process_archive(const char *filename) {
       }
     }
   }
-  /* Look for things that conflict with us. */
-  for (psearch= pkg->installed.depended; psearch; psearch= psearch->nextrev) {
-    if (psearch->up->type != dep_conflicts) continue;
-    check_conflict(psearch->up, pkg, pfilename, &conflictor);
+  /* Look for things that we will break if we are installed */
+ for (psearch= pkg->installed.depended; psearch; psearch= psearch->nextrev) {
+    if (psearch->up->type == dep_depends && !depisok(psearch->up,&depprobwhy,0,1)) {
+      varbufaddc(&depprobwhy,0);
+      fprintf(stderr, _("dpkg: regarding %s containing %s, dependency problem:\n%s"),
+	pfilename, pkg->name, depprobwhy.buf);
+      if (!force_depends(psearch->up->list))
+	ohshit(_("dependency problem - not installing %.250s"),pkg->name);
+      fprintf(stderr, _("dpkg: warning - ignoring dependency problem !\n"));
+    } else if (psearch->up->type == dep_predepends &&
+	!depisok(psearch->up,&depprobwhy,0,1)) {
+      varbufaddc(&depprobwhy,0);
+      fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
+	pfilename, pkg->name, depprobwhy.buf);
+      if (!force_depends(psearch->up->list))
+	ohshit(_("pre-dependency problem - not installing %.250s"),pkg->name);
+      fprintf(stderr, _("dpkg: warning - ignoring pre-dependency problem !\n"));
+    } else if (psearch->up->type == dep_conflicts)
+      check_conflict(psearch->up, pkg, pfilename, &conflictor);
   }
   
   ensure_allinstfiles_available();

@@ -9,7 +9,7 @@ CPPSUBDIRS		=
 endif
 
 SUBDIRS			= po intl include lib main dpkg-deb split \
-			  md5sum scripts $(CPPSUBDIRS) doc
+			  md5sum scripts utils $(CPPSUBDIRS) doc
 
 ## Directory definitions
 
