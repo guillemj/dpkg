@@ -46,7 +46,6 @@ way they interact with packages.
 It documents the utility programs which are provided with <tt/dpkg/
 for managing various system configuration and similar issues (such as
 <tt/update-rc.d/ and <tt/install-info/.
-<p>
 
 It also documents the interaction between <tt/dselect/'s core and the
 access method scripts it uses to actually install the selected
@@ -88,14 +87,18 @@ some packages by way of documentation).
 
 The binary package has two main sections: the first part consists of
 various control information files and scripts used by <tt/dpkg/ when
-installing and removing, and the second part is an archive (currently
-a <tt/tar/ archive) containing files and directories to be installed.
+installing and removing.
+<p>
+
+The second part is an archive (currently a <tt/tar/ archive)
+containing files and directories to be installed.  See <ref
+id="controlarea">.
+<p>
+
 In the future binary packages may also contain other components, such
 as checksums and digital signatures.
 <p>
 
-The control information files are described in <ref id="controlarea"
-name="the control information section">.
 
 <sect1>Creating package files -- <tt/dpkg-deb/
 
@@ -124,8 +127,7 @@ system where the package is built and the one where it is installed.
 You need to add one special directory to the root of the miniature
 filesystem tree you're creating: <tt/DEBIAN/.  It should contain the
 control information files, notably the main package control file (see
-<ref id="controlarea" name="later"> for details of what files to put
-here.
+<ref id="controlarea">).
 <p>
 
 The <tt/DEBIAN/ directory will not appear in the filesystem archive of
@@ -175,9 +177,8 @@ and a summary of what they're used for.
 
 This is the key description file used by <tt/dpkg/.  It specifies the
 package's name and version, gives its description for the user, states
-its relationships with other packages, and so forth.  Its format is
-described in more detail in <ref id="controlfile"
-name="its own section">.
+its relationships with other packages, and so forth.
+See <ref id="controlfile">.
 
 <tag><tt/postinst/, <tt/preinst/, <tt/postrm/, <tt/prerm/</tag>
 
@@ -185,15 +186,14 @@ These are exectuable files (usually scripts) which <tt/dpkg/ runs
 during installation, upgrade and removal of packages.  They allow the
 package to deal with matters which are particular to that package or
 require more complicated processing than that provided by <tt/dpkg/.
-Details of when and how they are called are in <ref
-id="maintainerscripts">.
+Details of when and how they are called are in
+<ref id="maintainerscripts">.
 
 <tag/<tt/conffiles//
 
 This file contains a list of configuration files which are to be
-handled automatically by <tt/dpkg/.  Details of this mechanism are in
-<ref id="conffiles" name="a separate section">.  Note that not all a
-package's configuration files should be listed here.
+handled automatically by <tt/dpkg/ (see <ref id="conffiles">).  Note
+that not necessarily every configuration file should be listed here.
 
 </descrip>
 
@@ -256,8 +256,7 @@ This field is mandatory.
 
 <tag/<tt/Version//
 
-This lists the package's version number.  See the section on version
-numbers <ref id="versions" name="later"> for details.
+This lists the package's version number - see <ref id="versions">.
 
 This field is mandatory.
 
@@ -311,8 +310,7 @@ This feature is optional as far as <tt/dpkg/ is concerned, but
 <tt/Conflicts/, <tt/Provides/, <tt/Replaces/</tag>
 
 These fields describe the package's relationships with other packages.
-Their syntax and semantics are described in the package relationships
-section <ref id="depconoverwr" name="later">.
+Their syntax and semantics are described in <ref id="depconoverwr">.
 
 <tag/<tt/Source//
 
@@ -328,8 +326,7 @@ This field is optional as far as <tt/dpkg/ is concerned.
 This field contains a description of the package, in a special format.
 <p>
 
-It is very important that you read the section <ref id="descriptions"
-name="later"> on how to write a description.
+It is very important that you read <ref id="descriptions">.
 
 <tag/<tt/Essential//
 
@@ -623,8 +620,8 @@ the <tt/prerm/ before (a version of) a package is removed and the
 <tt/postrm/ afterwards.
 <p>
 
-See <ref id="maintscripts-instact" name="later"> for details of
-exactly when and how these scripts are called and with what arguments.
+See <ref id="maintscripts-instact"> for details of exactly when and
+how these scripts are called and with what arguments.
 
 <sect>Declaring relationships between packages<label id="depconoverwr">
 
@@ -635,7 +632,7 @@ depend on the presence of others.
 <p>
 
 This is done using the <tt/Depends/, <tt/Recommends/, <tt/Suggests/,
-<tt/Conflicts/, <tt/Provides/ and <tt/Replaces control file fields.
+<tt/Conflicts/, <tt/Provides/ and <tt/Replaces/ control file fields.
 <p>
 
 <sect>Syntax of relationship fields
@@ -655,8 +652,7 @@ All the fields except <tt/Provides/ may restrict their applicability
 to particular versions of each named package.  This is done in
 parentheses after each individual package name; the parentheses should
 contain a relation from the list below followed by a version number,
-in the format described in <ref id="versions" name="the version number
-section, above">.
+in the format described in <ref id="versions">.
 <p>
 
 The relations allowed are
@@ -748,6 +744,8 @@ This declares a
 
 **** WRITE THIS
 
+</descrip>
+
 <sect1>Alternative packages - <tt/Conflicts/
 
 **** WRITE THIS
@@ -756,15 +754,9 @@ This declares a
 
 **** WRITE THIS
 
-<sect1>Overwriting files - <tt/Replaces/
+<sect1>Overwriting files - <tt/Replaces/<label id="replaces">
 
 **** WRITE THIS
-
-<tt/&lt;&lt;/
-<tt/&lt;&lt;/
-<tt/&lt;&lt;/
-<descrip>
-<tag>&lt
 
 <sect>Order of processing steps and maintainer script arguments<label id="maintscripts-instact">
 
@@ -918,10 +910,10 @@ as part of the error unwind).
 <p>
 
 It is an error for a package to contains files which are on the system
-in another package, unless <tt/Replaces/ is used (see <ref
-id="replaces" name="earlier">).  Currently the <tt/--force-overwrite/
-flag is enabled, downgrading it to a warning, but this will not always
-be the case.
+in another package, unless <tt/Replaces/ is used
+(see <ref id="replaces">).  Currently the <tt/--force-overwrite/ flag
+is enabled, downgrading it to a warning, but this will not always be
+the case.
 <p>
 
 Packages which overwrite each other's files produce behaviour which

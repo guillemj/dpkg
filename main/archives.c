@@ -643,7 +643,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
 void cu_cidir(int argc, void **argv) {
   char *cidir= (char*)argv[0];
   char *cidirrest= (char*)argv[1];
-  *cidirrest= 0;
+  cidirrest[-1]= 0;
   ensure_pathname_nonexisting(cidir);
 }  
 

@@ -104,7 +104,7 @@ void do_auto(const char *const *argv) {
 
   if (!outputfile) badusage("--auto requires the use of the --output option");
   if (!(partfile= *argv++) || *argv)
-    badusage("--auto requires exactly one part file arguments");
+    badusage("--auto requires exactly one part file argument");
 
   refi= nfmalloc(sizeof(struct partqueue));
   part= fopen(partfile,"r");

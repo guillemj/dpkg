@@ -101,6 +101,8 @@ void process_archive(const char *filename) {
     pfilename= filename;
   }
 
+  if (stat(filename,&stab)) ohshite("existence check failed");
+
   if (!f_noact) {
     /* We can't `tentatively-reassemble' packages. */
     if (!reasmbuf) {
@@ -167,6 +169,11 @@ void process_archive(const char *filename) {
 
   parsedb(cidir, pdb_recordavailable|pdb_rejectstatus|pdb_weakclassification,
           &pkg,0,0);
+  pkg->files= nfmalloc(sizeof(struct filedetails));
+  pkg->files->next= 0;
+  pkg->files->name= pkg->files->msdosname= pkg->files->md5sum= 0;
+  pkg->files->size= nfmalloc(30);
+  sprintf(pkg->files->size,"%lu",(unsigned long)stab.st_size);
 
   if (cipaction->arg == act_avail) {
     printf("Recorded info about %s from %s.\n",pkg->name,pfilename);

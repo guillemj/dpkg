@@ -47,7 +47,8 @@ $msdos= ($msdos eq 'yes');
 if ($msdos) {
     $prefixdir= $prefix; $prefixdir =~ s:(/?)/*[^/]+$:$1:;
     $cleanprefix= $prefix; $cleanprefix =~ s:^.*/+::;
-    $cleanprefix =~ y/-A-Za-z0-9+/-a-za-z0-9x/d;
+    $cleanprefix =~ y/A-Za-z0-9+/a-za-z0-9x/;
+    $cleanprefix =~ y/a-z0-9//cd;
 }
 
 sub add {
