@@ -246,7 +246,7 @@ binary-dselect: stamp-binary
 	install -p -m 755 -o root -g root debian/dselect.postinst $(TMP_DSELECT)/DEBIAN/postinst
 
 	dpkg-shlibdeps -Tdebian/dselect.substvars \
-		$(TMP_DSELECT)/usr/bin/dselect 	
+		$(TMP_DSELECT)/usr/bin/dselect 
 	perl -I `pwd`/scripts scripts/dpkg-gencontrol.pl -isp \
 		-Tdebian/dselect.substvars -pdselect -P$(TMP_DSELECT)
 	dpkg --build $(TMP_DSELECT) ..
