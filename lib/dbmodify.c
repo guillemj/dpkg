@@ -260,7 +260,10 @@ void modstatdb_note(struct pkginfo *pkg) {
 
   nextupdate++;  
 
-  if (nextupdate > MAXUPDATES) checkpoint();
+  if (nextupdate > MAXUPDATES) {
+    checkpoint();
+    nextupdate= 0;
+  }
 
   createimptmp();
 
