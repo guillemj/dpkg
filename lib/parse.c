@@ -142,7 +142,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
       while (!EOF_mmap(dataptr, endptr) && !isspace(c) && c!=':' && c!=MSDOS_EOF_CHAR)
         c= getc_mmap(dataptr);
       fieldlen= dataptr - fieldstart - 1;
-      while (EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
+      while (!EOF_mmap(dataptr, endptr) && c != '\n' && isspace(c)) c= getc_mmap(dataptr);
       if (EOF_mmap(dataptr, endptr))
         parseerr(NULL,filename,lno, warnto,warncount,&newpig,0,
                  _("EOF after field name `%.*s'"),fieldlen,fieldstart);
