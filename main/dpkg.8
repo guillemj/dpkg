@@ -295,6 +295,10 @@ See \fBdpkg-deb\fP(1) for more information about the following actions.
 .fi
 
 .SH OPTIONS
+All options can be specified both on the commandline and in the \fBdpkg\fP
+configuration file \fI/etc/dpkg/dpkg.cfg\fP. Each line in the configuration
+file is either an option (exactly the same as the commandline option but
+without leading dashes) or a comment (if it starts with a \fB#\fR).
 .br
 .TP
 \fB--abort-after=\fP\fInumber\fP
@@ -460,7 +464,11 @@ installed.
 Send package status info to file descriptor \fI<n>\fP.  This can be given
 multiple times.  Status updates are of the form `status: <pkg>: <pkg qstate>'.
 .SH FILES
-The files listed here are in their default directories, see option
+.TP
+.I /etc/dpkg.cfg
+Configuration file with default options.
+.P
+The other files listed below are in their default directories, see option
 \fB--admindir\fP to see how to change locations of these files.
 .TP
 .I /var/lib/dpkg/available
