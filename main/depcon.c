@@ -198,7 +198,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
   
   /* TODO: check dep_enhances as well (WTA) */
   if (dep->type == dep_depends || dep->type == dep_predepends ||
-      dep->type == dep_recommends || dep->type = dep_suggests ) {
+      dep->type == dep_recommends || dep->type == dep_suggests ) {
     
     /* Go through the alternatives.  As soon as we find one that
      * we like, we return `1' straight away.  Otherwise, when we get to
