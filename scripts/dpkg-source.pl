@@ -523,7 +523,7 @@ if ($opmode eq 'build') {
         $dscformat=$fi{'S Format'};
     }
 
-    $sourcepackage =~ m/[^.0-9]/ &&
+    $sourcepackage =~ m/[^.0-9~]/ &&
         &error("dsc format contains illegal character \`$&'");
 
     $sourcepackage= $fi{'S Source'};
