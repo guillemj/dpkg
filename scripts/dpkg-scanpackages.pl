@@ -73,7 +73,7 @@ while (<F>) {
         print(STDERR " ! Package $p (filename $fn) is repeat;\n".
                      "   ignored that one and using data from $pfilename{$p}) !\n")
             || die $!;
-        continue;
+        next;
     }
     if (defined($tv{'filename'})) {
         print(STDERR " ! Package $p (filename $fn) has Filename field !\n") || die $!;
@@ -128,7 +128,7 @@ while(<O>) {
     if (length($maintainer)) {
         if ($maintainer =~ m/\s*=\>\s*/) {
             $oldmaint= $`; $newmaint= $'; $debmaint= $pv{$p,'maintainer'};
-            if (!grep($debmaint eq $_, split(m,\s*//\s*, $oldmaint))) {
+            if (!grep($debmaint eq $_, split(m:\s*//\s*:, $oldmaint))) {
                 push(@changedmaint,
                      "  $p (package says $pv{$p,'maintainer'}, not $oldmaint)\n");
             } else {
