@@ -249,12 +249,6 @@ if ($mode eq 'auto') {
         &quit("unable to remove $altdir/$name.dpkg-tmp: $!");
     $state= 'nonexistent';
     $manual= 'auto';
-} elsif ($state eq 'nonexistent') {
-    if ($manual eq 'manual') {
-        &pr("$altdir/$name has been deleted, returning to automatic selection.")
-          if $verbosemode > 0;
-        $manual= 'auto';
-    }
 }
 
 #   $manual      manual, auto
@@ -316,7 +310,7 @@ if ($mode eq 'install') {
 }
 
 if ($mode eq 'remove') {
-    if ($manual eq "manual" and $state eq "expected") {
+    if ($manual eq "manual" and $state ne "expected") {
     	&pr("Removing manually selected alternative - switching to auto mode");
 	$manual= "auto";
     }
