@@ -226,46 +226,8 @@ int packagelist::resolvedepcon(dependency *depends) {
 
   case dep_suggests:
   case dep_recommends:
-#if 0
-    if (would_like_to_install(depends->up->clientdata->selected,depends->up) <= 0)
-      return 0;
-
-    fixbyupgrade= 0;
-    
-    for (possi= depends->list;
-         possi && !deppossatisfied(possi,&fixbyupgrade);
-         possi= possi->next);
-    if (depdebug && debug)
-      fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): depends found %s\n",
-              this,depends,
-              possi ? possi->ed->name : _("[none]"));
-    if (possi) return 0;
-
-    // For a recommends we default to selecting the package
-    if (depends->type==dep_recommends)  {
-      for (possi=depends->list; possi; possi= possi->next) {
-        pkginfo::pkgwant nw;
-	if (!possi->ed->clientdata) continue;
-	nw= reallywant(pkginfo::want_install, possi->ed->clientdata);
-	if (possi->ed->clientdata->selected == nw ||
-		(possi->ed->clientdata->selected == pkginfo::want_purge &&
-		 nw==pkginfo::want_deinstall))
-	    ; // already in the state we want it, so do nothing
-	else {
-	  possi->ed->clientdata->suggested = possi->ed->clientdata->selected = nw;
-	  possi->ed->clientdata->spriority= sp_selecting;
-	}
-      }
-    }
-    
-    // Ensures all in the recursive list; adds info strings; ups priorities
-    r= add(depends, depends->type == dep_suggests ? dp_may : dp_must);
-
-    return r;
-#endif
   case dep_depends:
   case dep_predepends:
-
     if (would_like_to_install(depends->up->clientdata->selected,depends->up) <= 0)
       return 0;
 
@@ -281,9 +243,16 @@ int packagelist::resolvedepcon(dependency *depends) {
     if (possi) return 0;
 
     // Ensures all in the recursive list; adds info strings; ups priorities
-    r= add(depends, depends->type == dep_suggests ? dp_may : dp_must);
-
-    if (depends->type == dep_suggests) return r;
+    switch (depends->type) {
+    case dep_suggests:
+    	r= add(depends, dp_may);
+	return r;
+    case dep_recommends: 
+    	r= add(depends, dp_should);
+	break;
+    default:
+    	r= add(depends, dp_must);
+    }
 
     if (fixbyupgrade) {
       if (depdebug && debug) fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): "
@@ -316,9 +285,13 @@ int packagelist::resolvedepcon(dependency *depends) {
       fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): select best=%s{%d}\n",
               this,depends, best->pkg->name, best->spriority);
     if (best->spriority >= sp_selecting) return r;
-    best->selected= best->suggested= pkginfo::want_install;
-    best->spriority= sp_selecting;
-    return 2;
+    /* Always select depends. Only select recommends if we got here because
+     * of a manually-initiated install request. */
+    if (depends->type != dep_recommends || manual_install) {
+      best->selected= best->suggested= pkginfo::want_install;
+      best->spriority= sp_selecting;
+    }
+    return r;
     
   mustdeselect:
     best= depends->up->clientdata;
@@ -327,11 +300,14 @@ int packagelist::resolvedepcon(dependency *depends) {
               this,depends, best->pkg->name, best->spriority);
 
     if (best->spriority >= sp_deselecting) return r;
-    best->selected= best->suggested=
-      best->pkg->status == pkginfo::stat_notinstalled
-        ? pkginfo::want_purge : pkginfo::want_deinstall; /* fixme: configurable */
-    best->spriority= sp_deselecting;
-    return 2;
+    /* Always remove depends, but never remove recommends. */
+    if (depends->type != dep_recommends) {
+      best->selected= best->suggested=
+        best->pkg->status == pkginfo::stat_notinstalled
+          ? pkginfo::want_purge : pkginfo::want_deinstall; /* fixme: configurable */
+      best->spriority= sp_deselecting;
+    }
+    return r;
     
   case dep_conflicts:
 
