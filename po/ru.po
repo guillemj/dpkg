@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.6.5\n"
+"Project-Id-Version: dpkg 1.10\n"
 "POT-Creation-Date: 2001-07-16 02:32+0200\n"
 "PO-Revision-Date: $Date$\n"
 "Last-Translator: Alexey Mahotkin <alexm@hsys.msk.ru>\n"
@@ -478,14 +478,14 @@ msgid "wait for %s failed"
 msgstr ""
 
 #: lib/mlib.c:145
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read filedescriptor flags for %.250s"
-msgstr "не удалось открыть файл описания метода доступа `%.250s'"
+msgstr "не удалось прочитать флаги файлового дескриптора для `%.250s'"
 
 #: lib/mlib.c:147
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set close-on-exec flag for %.250s"
-msgstr "не удалось закрыть новый файл параметров `%.250s'"
+msgstr "не удалось установить флаг close-on-exec для `%.250s'"
 
 #: lib/mlib.c:199
 msgid "failed in buffer_write(fd) (%i, ret=%zi %s)"
@@ -742,9 +742,8 @@ msgid "version string is empty"
 msgstr "строка версии пуста"
 
 #: lib/parsehelp.c:205
-#, fuzzy
 msgid "version string has embedded spaces"
-msgstr "строка версии пуста"
+msgstr "в строке версии есть пробелы"
 
 #: lib/parsehelp.c:210
 msgid "epoch in version is not number"
@@ -973,9 +972,7 @@ msgstr ""
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
 "request.\n"
-msgstr ""
-"dpkg: пакет %s требует переустановки, но все равно будет удален раз вы "
-"требуете.\n"
+msgstr "dpkg: пакет %s требует переустановки, но все равно будет удален, раз вы требуете.\n"
 
 #: main/archives.c:746
 #, c-format
@@ -2207,9 +2204,9 @@ msgid "couldn't strdup in execbackend"
 msgstr ""
 
 #: main/main.c:450
-#, fuzzy, c-format
+#, c-format
 msgid "failed to exec %s"
-msgstr "ошибка запуска tar-а"
+msgstr "не удалось запустить %s"
 
 #: main/main.c:462
 msgid "--command-fd takes 1 argument, not 0"
@@ -3712,11 +3709,9 @@ msgid "Type md5sum --help for help."
 msgstr "Наберите md5sum --help для получения помощи."
 
 #: utils/md5sum.c:78
-#, fuzzy, c-format
+#, c-format
 msgid "error processing %s: %s\n"
-msgstr ""
-"%s: не удалось обработать параметр %s (--%s):\n"
-" %s\n"
+msgstr "ошибка при обработке %s: %s\n"
 
 #: utils/md5sum.c:169
 msgid ""
@@ -3842,7 +3837,6 @@ msgid "failed to set new SIGWINCH sigact"
 msgstr "не удалось установить обработчика сигнала SIGWINCH"
 
 #: dselect/baselist.cc:123
-#, fuzzy
 msgid "failed to allocate colour pair"
 msgstr "не удалось зарезервировать цветовую пару"
 
@@ -4146,7 +4140,7 @@ msgid "Debian `%s' package handling frontend."
 msgstr "Пользовательский интерфейс управления пакетами Debian GNU/Linux `%s'."
 
 #: dselect/main.cc:152
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
@@ -4157,7 +4151,7 @@ msgid ""
 msgstr ""
 "Версия %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
-"Copyright (C) 2000 Wichert Akkerman.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman.\n"
 "Это свободная программа; см. GNU General Public Licence (версии 2 или\n"
 "позднее), там описаны условия копирования.  Гарантии ОТСУТСТВУЮТ.\n"
 "Для подробной информации см. dselect --licence.\n"
@@ -5276,109 +5270,3 @@ msgstr ""
 " ^l               перерисовать экран\n"
 "  /               поиск (просто Enter -- отказ от поиска)\n"
 "  \\               искать следующее вхождение\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "Desired=Unknown/Install/Remove/Purge/Hold\n"
-#~ "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-"
-#~ "installed\n"
-#~ "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
-#~ "uppercase=bad)\n"
-#~ msgstr ""
-#~ "Желаем.=Неизв./Уст./Удал./Выч./Придержать\n"
-#~ "| Сост.=Not/Уст./Config-files/Unpacked/Failed-config/Half-installed\n"
-#~ "|/ Ошб?=(нет)/Hold/Reinst-required/X=both-problems (Сост.,Ошб: загл.бкв."
-#~ "=хуже)\n"
-
-#~ msgid "Name"
-#~ msgstr "Название"
-
-#~ msgid "Version"
-#~ msgstr "Версия"
-
-#~ msgid "dpkg: %s not found.\n"
-#~ msgstr "dpkg: %s не найден.\n"
-
-#~ msgid "Package `%s' is not installed and no info is available.\n"
-#~ msgstr "Пакет `%s' не установлен; информация недоступна.\n"
-
-#~ msgid "Package `%s' is not available.\n"
-#~ msgstr "Пакет `%s' недоступен.\n"
-
-#~ msgid "Package `%s' is not installed.\n"
-#~ msgstr "Пакет `%s' не установлен.\n"
-
-#~ msgid "Package `%s' does not contain any files (!)\n"
-#~ msgstr "Пакет `%s' не содержит никаких файлов (!)\n"
-
-#~ msgid ""
-#~ "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-#~ "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
-#~ msgstr ""
-#~ "Воспользуйтесь dpkg --info (= dpkg-deb --info) для получения информации о "
-#~ "файле\n"
-#~ "архива, или dpkg --contents (= dpkg-deb --contents) для получения его "
-#~ "содержимого.\n"
-
-#~ msgid "failed to exec dpkg-deb"
-#~ msgstr "ошибка исполнения dpkg-deb"
-
-#~ msgid "%s: read error on stdin\n"
-#~ msgstr "%s: ошибка чтения со стандартного ввода\n"
-
-#~ msgid "files list file for package `%.250s' is truncated"
-#~ msgstr "файл списка файлов `%.250s' усечен"
-
-#~ msgid "failed in copy on write (%s)"
-#~ msgstr "do_fd_copy: ошибка записи (%s)"
-
-#~ msgid "failed to allocate buffer for snprintf 1"
-#~ msgstr "do_fd_copy: не хватило памяти для буфера в snprintf (1)"
-
-#~ msgid "failed to allocate buffer for snprintf 2"
-#~ msgstr "do_fd_copy: не хватило памяти для буфера в snprintf (2)"
-
-#~ msgid "error writing to `%.255s'"
-#~ msgstr "ошибка записи в `%.255s'"
-
-#~ msgid "error flushing `%.255s'"
-#~ msgstr "ошибка сброса буферов для `%.255s'"
-
-#~ msgid "failed to exec md5sum"
-#~ msgstr "не удалось выполнить md5sum"
-
-#~ msgid "md5sum gave malformatted output `%.250s'"
-#~ msgstr "md5sum выдал нераспознаваемый результат `%.250s'"
-
-#~ msgid "(Scanning database ... "
-#~ msgstr "(Просмотр базы данных ... "
-
-#~ msgid "update"
-#~ msgstr "обновить"
-
-#~ msgid ""
-#~ "No access methods are available.\n"
-#~ "\n"
-#~ "Press RETURN to continue."
-#~ msgstr ""
-#~ "Методы доступа отсутствуют.\n"
-#~ "\n"
-#~ "Для продолжения, нажмите клавишу Enter"
-
-#~ msgid "you do not have permission to change the access method"
-#~ msgstr "у вас нет прав для изменения метода доступа"
-
-#~ msgid "unable to open/create access method lockfile"
-#~ msgstr "не удалось открыть/создать файл замка для метода доступа"
-
-#~ msgid "unable to lock access method area"
-#~ msgstr "не удалось заблокировать рабочую область метода доступа"
-
-#~ msgid ""
-#~ "No access method is selected/configured.\n"
-#~ "\n"
-#~ "Press RETURN to continue."
-#~ msgstr ""
-#~ "Метод доступа не указан/настроен.\n"
-#~ "\n"
-#~ "Для продолжения, нажмите клавишу Enter"
