@@ -124,8 +124,8 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   checksubprocerr(status,description,sigpipeok);
 }
 
-long buffer_write(buffer_data_t data, void *buf, long length, char *desc) {
-  long ret= length;
+ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, char *desc) {
+  ssize_t ret= length;
   switch(data->type) {
     case BUFFER_WRITE_BUF:
       memcpy(data->data, buf, length);
@@ -153,8 +153,8 @@ long buffer_write(buffer_data_t data, void *buf, long length, char *desc) {
    return ret;
 }
 
-long buffer_read(buffer_data_t data, void *buf, long length, char *desc) {
-  long ret= length;
+ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, char *desc) {
+  ssize_t ret= length;
   switch(data->type) {
     case BUFFER_READ_FD:
       if((ret= read((int)data->data, buf, length)) < 0 && errno != EINTR)
@@ -173,15 +173,15 @@ long buffer_read(buffer_data_t data, void *buf, long length, char *desc) {
    return ret;
 }
 
-long buffer_copy_setup(void *argIn, int typeIn, void *procIn,
+ssize_t buffer_copy_setup(void *argIn, int typeIn, void *procIn,
 		       void *argOut, int typeOut, void *procOut,
-		       long limit, char *desc, ...)
+		       ssize_t limit, char *desc, ...)
 {
   struct buffer_data read_data = { procIn, argIn, typeIn },
 		     write_data = { procOut, argOut, typeOut };
   va_list al;
   struct varbuf v;
-  int ret;
+  ssize_t ret;
 
   varbufinit(&v);
 
@@ -199,12 +199,11 @@ long buffer_copy_setup(void *argIn, int typeIn, void *procIn,
 }
 
 
-long buffer_copy(buffer_data_t read_data, buffer_data_t write_data, long limit, char *desc) {
+ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, char *desc) {
   char *buf, *writebuf;
   long bytesread= 0, byteswritten= 0;
   int bufsize= 32768;
-  long totalread= 0;
-  long totalwritten= 0;
+  ssize_t totalread= 0, totalwritten= 0;
   if((limit != -1) && (limit < bufsize)) bufsize= limit;
   writebuf= buf= malloc(bufsize);
   if(buf== NULL) ohshite(_("failed to allocate buffer in buffer_copy (%s)"), desc);
@@ -241,5 +240,5 @@ long buffer_copy(buffer_data_t read_data, buffer_data_t write_data, long limit, 
   if (bytesread<0 || byteswritten<0) ohshite(_("failed in buffer_copy (%s)"), desc);
 
   free(buf);
-  return bytesread;
+  return totalread;
 }
