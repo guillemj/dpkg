@@ -90,8 +90,11 @@ Sat Oct 23 21:23:08 EDT 1999 Ben Collins <bcollins.debian.org>
 
 Sat Oct 23 16:25:16 EDT 1999 Ben Collins <bcollins.debian.org>
 
-  * Implemented a nice fix for multiple conflicts and replaces. Also added
-    --assert-multi-conrep.
+  * main/{processarc.c,depcon.c}: added new structure for conflictors,
+    which contains a struct for conflicts. This is used to create an array
+    of conflicting packages, which are going to be replaced. Allows for
+    multiple conflicts and replaces. All conflictor handlers were
+    converted to loops to handle each one (processarc.c).
 
 Sat Oct 23 09:22:16 EDT 1999 Ben Collins <bcollins.debian.org>
 
