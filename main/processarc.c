@@ -137,8 +137,7 @@ void process_archive(const char *filename) {
   }
   
   /* Verify the package. */
-
-  if (stat(DEBSIGVERIFY, &stab) == 0) { /* We have verifier */
+  if (!f_nodebsig && (stat(DEBSIGVERIFY, &stab)==0)) {
     printf(_("Authenticating %s ...\n"), filename);
     fflush(stdout);
     c1 = m_fork();

@@ -97,6 +97,7 @@ Options:\n\
   -E|--skip-same-version     Skip packages whose same version is installed\n\
   -G|--refuse-downgrade      Skip packages with earlier version than installed\n\
   -B|--auto-deconfigure      Install even if it would break some other package\n\
+  --no-debsign               Do no try to verify package signatures\n\
   --no-act                   Just say what we would do - don't do it\n\
   -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
   --status-fd <n>            Send status change updates to file descriptor <n>\n\
@@ -128,7 +129,7 @@ Options marked [*] produce a lot of output - pipe it through `less' or `more' !"
 
 const struct cmdinfo *cipaction= 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
-int f_autodeconf=0;
+int f_autodeconf=0, f_nodebsig=0;
 unsigned long f_debug=0;
 /* Change fc_overwrite to 1 to enable force-overwrite by default */
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
@@ -391,6 +392,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
+  { "no-debsig",          0,   0,  &f_nodebsig,    0,  0,             1              },
   {  0,                  'G',  0,  &fc_downgrade,  0,  0, /* alias for --refuse */ 0 },
   { "selected-only",     'O',  0,  &f_alsoselect,  0,  0,             0              },
   { "no-also-select",    'N',  0,  &f_alsoselect,  0,0,0 /* fixme: remove sometime */ },
