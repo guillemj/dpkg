@@ -26,6 +26,15 @@ par défaut de certaines commandes
 .PP
 .B update-alternatives
 .RI [ options ]
+.B --remove-all
+.I nom
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --all
+.PP
+.B update-alternatives
+.RI [ options ]
 .B --auto
 .I nom
 .PP
@@ -43,6 +52,11 @@ par défaut de certaines commandes
 .RI [ options ]
 .B --config
 .I nom
+.PP
+.B update-alternatives
+.RI [ options ]
+.B --set
+.I nom chemin
 .SH DESCRIPTION
 .B update-alternatives
 crée, enlève, conserve et affiche des informations concernant les liens 
@@ -52,33 +66,33 @@ Il est possible d'installer, sur un même système et en même temps, des
 programmes qui remplissent des fonctions identiques ou semblables.
 Par exemple, beaucoup de systèmes installent plusieurs éditeurs de
 texte en même temps. Cela permet à chaque utilisateur d'un système de choisir,
-s'il le désire, un éditeur de texte différent ; mais cela rend les choses
+s'il le désire, un éditeur de texte différent\ ; mais cela rend les choses
 difficiles pour le programme qui doit choisir un bon éditeur de texte
 quand l'utilisateur n'a pas fait de choix précis.
 .PP
-Le système Debian des « alternatives » essaie de résoudre ce problème.
+Le système Debian des «\ alternatives\ » essaie de résoudre ce problème.
 Tous les fichiers qui proposent des fonctions interchangeables se servent
 d'un nom générique qui se trouve dans l'arborescence. Le système des 
-« alternatives » et l'administrateur système font connaître ensemble le
+«\ alternatives\ » et l'administrateur système font connaître ensemble le
 fichier qui est réellement visé par ce nom générique. Par exemple, si les
 éditeurs de texte
 .BR ed (1)
 et
 .BR nvi (1)
-sont tous les deux installés, le système des « alternatives » fait que le nom 
-générique 
+sont tous les deux installés, le système des «\ alternatives\ » fait que le 
+nom générique 
 .I /usr/bin/editor
 renvoie par défaut à
 .I /usr/bin/nvi.
 L'administrateur système peut remplacer cette assignation par
 .I /usr/bin/ed
-et le système des « alternatives » ne la changera pas tant qu'on ne lui
+et le système des «\ alternatives\ » ne la changera pas tant qu'on ne lui
 aura pas demandé explicitement de le faire.
 .PP
 Le nom générique n'est pas un lien symbolique direct vers l'alternative
 choisie. c'est en fait un lien symbolique vers un nom situé dans le
 .IR répertoire
-.I des « alternatives »,
+.I des «\ alternatives\ »,
 lequel nom est à son tour un lien symbolique vers le fichier réellement
 visé. Les modifications faites par l'administrateur système sont ainsi
 confinées dans le répertoire 
@@ -149,6 +163,11 @@ Dès qu'une modification est faite, le groupe de liens n'est plus en mode
 Il vous faudra utiliser l'option
 .I --auto
 pour revenir au mode automatique.
+.PP
+Si vous voulez configurer de manière non interactive, vous pouvez utiliser
+l'option
+.I --set
+(voyez ci-dessous).
 .SH TERMINOLOGIE
 Comme les opérations de
 .B update-alternatives
@@ -201,6 +220,40 @@ mode manuel
 Quand un groupe de liens est en mode manuel,
 le système des « alternatives » ne modifie pas le paramétrage de l'
 administrateur système.
+.SH EXEMPLES
+Plusieurs paquets fournissent un éditeur de texte compatible avec
+.BR vi ,
+par exemple
+.BR nvi " et " vim .
+Celui qui sera utilisé est déterminé par le groupe de liens
+.BR vi ,
+qui comprend des liens pour le programme lui-même et sa page de manuel.
+.PP
+Pour afficher les paquets disponibles qui fournissent
+.B vi
+et son paramétrage actuel, on peut utiliser l'action
+.I --display :
+.RS
+.PP
+update-alternatives --display vi
+.RE
+.PP
+Pour choisir une implémentation particulière de
+.B vi
+on peut utiliser cette commande en tant que super-utilisateur et choisir
+un nombre dans la liste :
+.RS
+.PP
+update-alternatives --config vi
+.RE
+.PP
+Pour retrouver l'implémentation par défaut de 
+.B vi
+on peut utiliser cette commande en tant que super-utilisateur\ :
+.RS
+.PP
+update-alternatives --auto vi
+.RE
 .SH OPTIONS
 Pour toute opération significative, on doit demander une seule action à
 .B update-alternatives.
@@ -266,6 +319,15 @@ alternatives nouvellement ajoutées est plus élevée que toutes celles des
 alternatives installées dans ce groupe, les liens symboliques sont mis à
 jour et pointent vers les alternatives nouvellement ajoutées.
 .TP
+\fB--set\fR \fInom chemin\fR
+Ajoute le programme
+.I chemin
+comme alternative pour
+.I nom.
+C'est équivalent à
+.IB --config
+mais ce n'est pas interactif et on ne peut faire un script.
+.TP
 \fB--remove\fR \fInom chemin\fR
 Enlève une alternative et tous ses liens secondaires associés.
 .I nom
@@ -286,11 +348,19 @@ Quand le lien ne pointe pas déjà sur
 aucun lien n'est modifié ; seules les informations sur l'alternative sont
 supprimées.
 .TP
+\fB--remove-all\fR \fInom\fR
+Supprime toutes les alternatives et tous les liens secondaires associés.
+.I nom
+est un nom dans le répertoire des alternatives.
+.TP
+.B --all
+Appelle \fB--config\fP sur toutes les alternatives.
+.TP
 \fB--auto\fR \fInom\fR
 Passe le lien symbolique principal
 .I nom
 en mode  automatique.
-En même temps, le lien symbolique principal et ses liens  secondaires sont mis
+En même temps, le lien symbolique principal et ses liens secondaires sont mis
 à jour et pointent vers les alternatives avec les priorités les plus
 élevées.
 .TP
@@ -308,6 +378,13 @@ et l'alternative actuellement installée qui possède la priorité la plus
 .TP
 \fB--list\fR \fIlink\fR
 Affiche toutes les cibles du groupe de liens.
+.TP
+\fB--config\fR \fIlien\fR
+Affiche les alternatives disponibles pour un groupe de liens et autorise
+l'utilisateur à faire un choix de manière interactive. Le groupe de liens
+est mise à jour et le mode automatique
+.I auto
+est désactivé.
 .SH FICHIERS
 .TP
 .I /etc/alternatives/
@@ -362,4 +439,4 @@ sur tous les systèmes Debian.
 .BR ln (1),
 FHS, le standard pour les systèmes de fichiers Linux.
 .SH "TRADUCTION"
-Philippe Batailler. Nov 200O
+Philippe Batailler. Octobre 2003.

@@ -1,7 +1,7 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Authors: Ian Jackson
 .\" traduction de la version cvs 1.19
-.TH DPKG\-SOURCE 1 "Januari 2000" "Debian Project" "Utilitaires de Dpkg"
+.TH DPKG\-SOURCE 1 "January 2000" "Debian Project" "Utilitaires de Dpkg"
 .SH NOM 
 dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges,
 dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog
@@ -37,7 +37,7 @@ empaquète ou dépaquète une archive source Debian.
 .B dpkg-gencontrol
 lit les information contenues dans une arborescence Debian dépaquetée et 
 crée le fichier «\ control\ » d'un paquet binaire (par défaut, c'est 
-le fichier debian/tmp/DEBIAN/control) ;
+le fichier debian/tmp/DEBIAN/control)\ ;
 il ajoute aussi une entrée pour ce paquet binaire dans
 .BR debian/files .
 
@@ -72,10 +72,10 @@ envers les bibliothèques partagées.
 
 .B dpkg-genchanges
 lit les informations à la fois dans une arborescence debian dépaquetée et déjà 
-construite et sur les fichiers qui ont été crées ; puis il crée un fichier de 
-contrôle pour la mise en place dans l'archive Debian ( c'est le fichier
-.RB .changes " )."
-
+construite et sur les fichiers qui ont été créés\ ; puis il crée un fichier de 
+contrôle pour la mise en place dans l'archive Debian (c'est le fichier
+.RB .changes 
+).
 .B dpkg-buildpackage
 est un script de contrôle qui peut faciliter la construction automatique d'un
 paquet.
@@ -93,7 +93,7 @@ Aucune de ces commandes ne permet la combinaison de plusieurs options en une
 seule et elles ne permettent pas d'indiquer la valeur d'une option dans un
 argument séparé.
 .SH LES OPTIONS COMMUNES
-Beaucoup de ces programmes partagent les options qui sont décrites ici ;
+Beaucoup de ces programmes partagent les options qui sont décrites ici\ ;
 on décrit en même temps les programmes qui les acceptent.
 .TP
 .BI -h
@@ -281,7 +281,7 @@ Aucune option n'est utile avec
 .BR "dpkg-source -x".
 .B dpkg-source
 lit, dans le fichier de contrôle, les noms des fichiers qui composent le 
-paquet source  ; il suppose qu'ils sont dans le même répertoire que le
+paquet source\ ; il suppose qu'ils sont dans le même répertoire que le
 fichier
 .BR .dsc.
 
@@ -317,14 +317,15 @@ fichiers qu'ils contiennent, aussi bien les fichiers de sauvegarde
 terminés par un « ~ » que ceux crées par une interruption de l'éditeur JOE.
 
 C'est très utile pour supprimer les fichiers superflus qui sont inclus dans 
-le .diff.gz (p.ex., «\ debian/BUGS_TODO/*\ » ou «\ debian/RCS/*,v\ »). Quand 
+le .diff.gz (p. ex. «\ debian/BUGS_TODO/*\ » ou «\ debian/RCS/*,v\ »). Quand 
 on suit avec un CVS distant un paquet que l'on maintient, et qu'on a pas la
 possibilité d'enregistrer les fichiers debian de contrôle ou d'étiqueter
 \fIcvs-buildpackage(1)\fR, il faut faire un «\ checkout/update\ » 
 supplémentaire dans un répertoire tenu vierge pour créer le fichier 
 .orig.tar.gz. Les fichiers «\ CVS/Entries\ » de ce répertoire contiennent des 
-dates qui diffèrent de celles du répertoire de travail ; cela provoque indûment
-leur inclusion dans chaque .diff.gz crée, à moins d'utiliser l'option
+dates qui diffèrent de celles du répertoire de travail\ ; cela provoque 
+indûment
+leur inclusion dans chaque .diff.gz créé, à moins d'utiliser l'option
 \fB-i\fR.
 .TP
 .B -I<fichier>
@@ -639,7 +640,7 @@ Ne pas signer, respectivement, soit le paquet source, soit le fichier
 .TP
 .BI -a architecture
 Précise l'architecture Debian pour laquelle on construit. L'architecture de la
-machine sur laquelle on construit est automatiquement déterminée ; c'est aussi
+machine sur laquelle on construit est automatiquement déterminée\ ; c'est aussi
 l'architecture par défaut de la machine hôte.
 .TP
 .B -i[<regexp>]
@@ -648,16 +649,17 @@ chaîne passée telle quelle à
 .TP
 .B -I<fichier>
 fichier passé tel quel à
-.BR dpkg-source. Peut être répétée.
+.BR dpkg-source. 
+Peut être plusieurs fois répétée.
 .B -D
-Vérifier les dépendances de constructions et les conflits ; se termine en cas
+Vérifier les dépendances de constructions et les conflits\ ; se termine en cas
 de problèmes.
 .TP
 .B -d
 Ne pas vérifier les dépendances de constructions et les conflits.
 .TP
 .B -nc
-Ne pas nettoyer l'arborescence source (imlies -b)
+Ne pas nettoyer l'arborescence source (implique l'option -b)
 .TP
 .SH LES ARGUMENTS DE DPKG-DISTADDFILE
 .B dpkg-distaddfile
@@ -775,7 +777,7 @@ renseignements qui ne dépendent pas d'une version concernant le paquet
 source et les paquets binaires qui peuvent être créés.
 .TP
 .B debian/changelog
-Le fichier d'enregistrement des modifications ; on s'en sert pour connaître
+Le fichier d'enregistrement des modifications\ ; on s'en sert pour connaître
 les informations qui dépendent d'une version du paquet source, par exemple
 l'urgence ou la distribution d'une installation sur le serveur, les
 modifications faites depuis telle édition et le numéro de la version source
@@ -848,4 +850,5 @@ et
 .B /usr/share/common-licenses/GPL
 pour des précisions.
 .SH TRADUCTION
-Philippe Batailler, Février 2001.
+Philippe Batailler, Octobre 2003.
+<debian-l10n-french@lists.debian.org>
