@@ -523,7 +523,7 @@ if ($opmode eq 'build') {
         $dscformat=$fi{'S Format'};
     }
 
-    $sourcepackage =~ m/[^.0-9~]/ &&
+    $sourcepackage =~ m/[^.0-9]/ &&
         &error("dsc format contains illegal character \`$&'");
 
     $sourcepackage= $fi{'S Source'};
@@ -533,7 +533,7 @@ if ($opmode eq 'build') {
         &error("source package name is too short or starts with non-alphanum");
 
     $version= $fi{'S Version'};
-    $version =~ m/[^-+:.0-9a-zA-Z]/ &&
+    $version =~ m/[^-+:.0-9a-zA-Z~]/ &&
         &error("version number contains illegal character \`$&'");
     $version =~ s/^\d+://;
     if ($version =~ m/-([^-]+)$/) {
