@@ -12,6 +12,10 @@ print(NC "#include \"helpmsgs.h\"\n") || die $!;
 print(NH <<'END') || die $!;
 #ifndef HELPMSGS_H
 #define HELPMSGS_H
+extern "C" {
+#include <config.h>
+#include <dpkg.h>
+}
 struct helpmessage { const char *title; const char *text; };
 END
 
