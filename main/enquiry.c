@@ -761,12 +761,12 @@ void cmpversions(const char *const *argv) {
   int r;
   
   if (!argv[0] || !argv[1] || !argv[2] || argv[3])
-    badusage(_("--cmpversions takes three arguments:"
+    badusage(_("--compare-versions takes three arguments:"
              " <version> <relation> <version>"));
 
   for (rip=relationinfos; rip->string && strcmp(rip->string,argv[1]); rip++);
 
-  if (!rip->string) badusage(_("--cmpversions bad relation"));
+  if (!rip->string) badusage(_("--compare-versions bad relation"));
 
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
     emsg= parseversion(&a,argv[0]);
