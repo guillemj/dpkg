@@ -531,6 +531,7 @@ void process_archive(const char *filename) {
   }
   tmpf= tc.backendpipe;
   tc.backendpipe= 0;
+  while (getc(tmpf) != EOF) ; /* zap possible trailing zeros */
   fclose(tmpf);
   waitsubproc(c1,BACKEND " --fsys-tarfile",1);
 
