@@ -54,13 +54,13 @@ OtoL(const char * s, int size)
 static int
 DecodeTarHeader(char * block, TarInfo * d)
 {
-	TarHeader *			h = (TarHeader *)block;
+	TarHeader *		h = (TarHeader *)block;
 	unsigned char *		s = (unsigned char *)block;
 	struct passwd *		passwd = 0;
 	struct group *		group = 0;
 	unsigned int		i;
-	long				sum;
-	long				checksum;
+	long			sum;
+	long			checksum;
 
 	if ( *h->UserName )
 		passwd = getpwnam(h->UserName);
@@ -106,6 +106,15 @@ TarExtractor(
 	char	buffer[512];
 	TarInfo	h;
 
+       char    *next_long_name, *next_long_link;
+       char    *bp;
+       char    **longp;
+       int     long_read;
+
+       next_long_name = 0;
+       next_long_link = 0;
+       long_read = 0;
+
 	h.UserData = userData;
 
 	while ( (status = functions->Read(userData, buffer, 512)) == 512 ) {
@@ -119,6 +128,17 @@ TarExtractor(
 				return -1;	/* Header checksum error */
 			}
 		}
+               if (next_long_name) {
+                 h.Name = next_long_name;
+               }
+
+               if (next_long_link) {
+                 h.LinkName = next_long_link;
+               }
+
+               next_long_name = 0;
+               next_long_link = 0;
+
 		if ( h.Name[0] == '\0' ) {
 			errno = 0;	/* Indicates broken tarfile */
 			return -1;	/* Bad header data */
@@ -150,6 +170,54 @@ TarExtractor(
 		case FIFO:
 			status = (*functions->MakeSpecialFile)(&h);
 			break;
+               case GNU_LONGLINK:
+               case GNU_LONGNAME:
+                 // set longp to the location of the long filename or link
+                 // we're trying to deal with
+                 longp = ((h.Type == GNU_LONGNAME)
+                          ? &next_long_name
+                          : &next_long_link);
+
+                 if (*longp)
+                   free(*longp);
+
+                 if (NULL == (*longp = (char *)malloc(h.Size))) {
+                   /* malloc failed, so bail */
+                   errno = 0;
+                   return -1;
+                 }
+                 bp = *longp;
+
+                 // the way the GNU long{link,name} stuff works is like this:  
+		 // The first header is a "dummy" header that contains the size
+		 // of the filename.  The next N headers contain the filename.
+		 // After the headers with the filename comes the "real" header
+		 // with a bogus name or link.
+                 for (long_read = h.Size; long_read > 0;
+                      long_read -= 512) {
+
+                   int copysize;
+
+                   status = functions->Read(userData, buffer, 512);
+                   // if we didn't get 512 bytes read, punt
+                   if (512 != status)
+		     if ( status > 0 ) { /* Read partial header record */
+		       errno = 0;
+		       return -1;
+		     } else {
+                       return status;
+                     }
+
+                   copysize = long_read > 512 ? 512 : long_read;
+                   memcpy (bp, buffer, copysize);
+                   bp += copysize;
+
+                 };
+                 // This decode function expects status to be 0 after
+                 // the case statement if we successfully decoded.  I
+                 // guess what we just did was successful.
+                 status = 0;
+                 break;
 		default:
 			errno = 0;	/* Indicates broken tarfile */
 			return -1;	/* Bad header field */

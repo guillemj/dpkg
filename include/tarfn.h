@@ -20,7 +20,9 @@ enum TarFileType {
 	CharacterDevice = '3',
 	BlockDevice = '4',
 	Directory = '5',
-	FIFO = '6'
+	FIFO = '6',
+	GNU_LONGLINK = 'K',
+	GNU_LONGNAME = 'L'
 };
 typedef enum TarFileType	TarFileType;
 
