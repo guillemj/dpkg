@@ -16,6 +16,30 @@ AC_ARG_WITH(dselect,
  esac])
 AC_SUBST(DSELECTDIR)
 
+USE_START_STOP_DAEMON="true"
+AC_ARG_WITH(start-stop-daemon,
+[  --with-start-stop-daemon
+                          start and stop system daemons],
+[case "$withval" in
+  "false" | "no" )
+    USE_START_STOP_DAEMON=""
+    ;;
+ esac])
+AC_SUBST(USE_START_STOP_DAEMON)
+if test "$USE_START_STOP_DAEMON" != ""; then
+    AC_DEFINE(USE_START_STOP_DAEMON)
+fi
+
+USE_SGML_DOC="true"
+AC_ARG_WITH(sgml-doc,
+[  --with-sgml-doc         SGML documentation converted to HTML],
+[case "$withval" in
+  "false" | "no" )
+    USE_SGML_DOC=""
+    ;;
+ esac])
+AC_SUBST(USE_SGML_DOC)
+
 admindir="$libdir/db"
 AC_ARG_WITH(admindir,
 [  --with-admindir=DIR     store dpkg database in DIR [LIBDIR/db]],

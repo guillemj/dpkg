@@ -123,9 +123,9 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   checksubprocerr(status,description,sigpipeok);
 }
 
-int do_fd_copy(int fd1, int fd2, char *desc) {
+int do_fd_copy(int fd1, int fd2, int limit, char *desc) {
     char *buf, *sbuf;
-    int count;
+    int count, bufsize = 32768;
     char *er_msg_1 = _("failed to allocate buffer for copy (%s)");
     char *er_msg_2 = _("failed in copy on write (%s)");
     char *er_msg_3 = _("failed in copy on read (%s)");
@@ -137,32 +137,40 @@ int do_fd_copy(int fd1, int fd2, char *desc) {
     snprintf(sbuf, count, er_msg_1, desc);
     sbuf[count-1] = 0;
 
-    buf = malloc(32768);
+    if((limit != -1) && (limit < bufsize))
+	bufsize = limit;
+    buf = malloc(bufsize);
     if(buf == NULL)
 	ohshite(sbuf);
     free(sbuf);
 
-    count = strlen(er_msg_2) + strlen(desc) + 1;
-    sbuf = malloc(count);
-    if(sbuf == NULL)
-	ohshite(_("failed to allocate buffer for snprintf 2"));
-    snprintf(sbuf, count, er_msg_2, desc);
-    sbuf[count-1] = 0;
-
-    while((count = read(fd1, buf, 32768)) > 0)
-	if(write(fd2, buf, count) < count)
-		ohshite(sbuf);
-
+    while((count = read(fd1, buf, bufsize)) > 0) {
+	if(write(fd2, buf, count) < count) {
+	  count = strlen(er_msg_2) + strlen(desc) + 1;
+	  sbuf = malloc(count);
+	  if(sbuf == NULL)
+	    ohshite(_("failed in copy on write"));
+	  snprintf(sbuf, count, er_msg_2, desc);
+	  sbuf[count-1] = 0;
+	  ohshite(sbuf);
+	}
+	if(limit != -1) {
+	    limit -= count;
+	    if(limit < bufsize)
+		bufsize = limit;
+	}
+    }
     free(sbuf);
-    count = strlen(er_msg_3) + strlen(desc) + 1;
-    sbuf = malloc(count);
-    if(sbuf == NULL)
-	ohshite(_("failed to allocate buffer for snprintf 2"));
-    snprintf(sbuf, count, er_msg_3, desc);
-    sbuf[count-1] = 0;
+    if (count<0) {
+      count = strlen(er_msg_3) + strlen(desc) + 1;
+      sbuf = malloc(count);
+      if(sbuf == NULL)
+	ohshite(_("failed in copy on read"));
+      snprintf(sbuf, count, er_msg_3, desc);
+      sbuf[count-1] = 0;
+      ohsite(sbuf);
+    }
 
-    if(count < 0)
-	ohshite(_("failed in copy on read (control)"));
     free(sbuf);
     free(buf);
 }

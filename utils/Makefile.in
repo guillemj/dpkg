@@ -15,11 +15,17 @@ MD5_SOURCES		= md5sum.c md5.c
 MD5_OBJECTS		= $(patsubst %.c, %.o, $(MD5_SOURCES))
 MD5_MANPAGES		= md5sum.1
 
-GENFILES		= $(SSD_OBJECTS) start-stop-daemon \
-			  $(MD5_OBJECTS) md5sum
+GENFILES		= $(MD5_OBJECTS) md5sum
+ifeq (@USE_START_STOP_DAEMON@, true)
+GENFILES		+= $(SSD_OBJECTS) start-stop-daemon
+endif
 
 .PHONY: all
+ifeq (@USE_START_STOP_DAEMON@, true)
 all:: start-stop-daemon md5sum
+else
+all:: md5sum
+endif
 
 .PHONY: install
 install:: all
@@ -37,15 +43,19 @@ install:: install-program install-doc
 
 .PHONY: install-program
 install-program:
+ifeq (@USE_START_STOP_DAEMON@, true)
 	$(mkinstalldirs) $(DESTDIR)/$(sbindir)
 	$(INSTALL) start-stop-daemon $(DESTDIR)/$(sbindir)
+endif
 	$(mkinstalldirs) $(DESTDIR)/$(bindir)
 	$(INSTALL) md5sum $(DESTDIR)/$(bindir)
 
 .PHONY: install-doc
 install-doc:
+ifeq (@USE_START_STOP_DAEMON@, true)
 	$(mkinstalldirs) $(DESTDIR)/$(man8dir)
 	$(INSTALL_DATA) $(srcdir)/$(SSD_MANPAGES) $(DESTDIR)/$(man8dir)
+endif
 	$(mkinstalldirs) $(DESTDIR)/$(man1dir)
 	$(INSTALL_DATA) $(srcdir)/$(MD5_MANPAGES) $(DESTDIR)/$(man1dir)
 
@@ -53,4 +63,5 @@ start-stop-daemon: $(SSD_OBJECTS) ../optlib/libopt.a
 	$(CC) $(LDFLAGS) -o $@ $^ $(SSD_LIBS)
 
 md5sum: $(MD5_OBJECTS) ../optlib/libopt.a
+	$(CC) $(LDFLAGS) -o $@ $^ $(NLS_LIBS)
 

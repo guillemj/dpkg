@@ -72,3 +72,5 @@
 /* Define the ptrdiff_t type if your system doesn't have it */
 #undef ptrdiff_t
 
+/* Define if start-stop-daemon is compiled */
+#undef USE_START_STOP_DAEMON

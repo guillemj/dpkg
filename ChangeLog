@@ -1,6 +1,21 @@
 Thu Nov 23 17:52:44 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * lib/fields.c, lib/dump.c: fix two memory leaks
+  * More Adam Heath patches:
+    + lib/mlib.c, include/dpkg.h.in: add new option for do_fd_copy to
+      specify buffersize
+    + dpkg-deb/build.c, lib/info.c, lib/showcright.c: update for new
+      do_fd_copy
+    + dpkg-deb/extract.c: use do_fd_copy to read data instead of reading
+      per character.
+  * lib/mlib.c: fix error reporting for reading data in do_fd_copy
+  * optlib/Makefile.am: remove (can't believe this still existed!)
+  * utils/Makefile.in: link md5sum with our own libintl if needed
+  * archtable, scripts/dpkg-architecture.pl: add freebsd-i386
+  * acconfig.h, configure.in, doc/Makefile.in: make building documentation
+    and start-stop-daemon optional
+  * main/help.c: only check for start-stop-daemon in checkpatch() if we
+    build it
 
 Thu Nov 23 15:48:53 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 

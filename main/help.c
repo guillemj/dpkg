@@ -69,8 +69,11 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
 
 void checkpath(void) {
 /* Verify that some programs can be found in the PATH. */
-  static const char *const checklist[]= {
-    "ldconfig", "start-stop-daemon", "install-info", "update-rc.d", 0
+  static const char *const checklist[]= { "ldconfig", 
+#ifdef USE_START_STOP_DAEMON
+    "start-stop-daemon",
+#endif    
+    "install-info", "update-rc.d", 0
   };
 
   struct stat stab;

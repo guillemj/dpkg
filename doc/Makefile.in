@@ -8,7 +8,11 @@ include ../Makefile.conf
 
 MAN5PAGES	= deb-control.5 deb-old.5 deb.5
 
+ifeq (@USE_SGML_DOC@, true)
 all: internals.html/index.html all-recursive
+else
+all: all-recursive
+endif
 
 clean: clean-recursive
 	$(RM) $(srcdir)/manuals-version
@@ -33,11 +37,13 @@ install-doc: install-doc-recursive
 		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
 		$(INSTALL_DATA) $$d$$i $(DESTDIR)$(man5dir) ; \
 	done
+ifeq (@USE_SGML_DOC@, true)
 	$(mkinstalldirs) $(DESTDIR)$(docdir)/internals/
 	set -e ; for i in internals.html/* ; do \
 		bn=`basename $$i` ; \
 		$(INSTALL_DATA) $$i $(DESTDIR)$(docdir)/internals/$$bn ; \
 	done
+endif
 	$(INSTALL_DATA) $(srcdir)/ChangeLog $(DESTDIR)$(docdir)/ChangeLog.manuals
 	set -e ; for i in ChangeLog THANKS TODO ; do \
 		$(INSTALL_DATA) $(top_srcdir)/$$i $(DESTDIR)$(docdir) ; \

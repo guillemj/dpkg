@@ -59,7 +59,8 @@ require 'controllib.pl';
 	    'sh',        'sh-linux',
 	    'shed',      'shed-linux',
 	    'hppa',      'hppa-linux',
-	    'hurd-i386', 'i386-gnu');
+	    'hurd-i386', 'i386-gnu',
+	    'freebsd-i386', 'i386-freebsd');
 
 sub usageversion {
     print STDERR

@@ -29,6 +29,6 @@ void showcopyright(const struct cmdinfo *c, const char *v) {
   int fd;
   fd= open(COPYINGFILE,O_RDONLY);
   if (fd < 0) ohshite(_("cannot open GPL file "));
-  do_fd_copy(fd, 1, "showcopyright");
+  do_fd_copy(fd, 1, -1, "showcopyright");
   exit(0);
 }

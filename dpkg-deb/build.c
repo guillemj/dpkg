@@ -364,7 +364,7 @@ void do_build(const char *const *argv) {
   }                
                 
   if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (control)"));
-  do_fd_copy(gzfd, fileno(ar), _("control"));
+  do_fd_copy(gzfd, fileno(ar), -1, _("control"));
 
   /* Control is done, now we need to archive the data. Start by creating
    * a new temporary file. Immediately unlink the temporary file so others
@@ -422,7 +422,7 @@ void do_build(const char *const *argv) {
     combuf = strdup("-9c");
     if(compression != NULL) {
       if(*compression == '0') {
-	do_fd_copy(0, 1, _("no compression copy loop"));
+	do_fd_copy(0, 1, -1, _("no compression copy loop"));
 	exit(0);
       }
       combuf[1] = *compression;
@@ -456,11 +456,7 @@ void do_build(const char *const *argv) {
       werr(debar);
 
     if (lseek(gzfd,0,SEEK_SET)) ohshite(_("failed to rewind tmpfile (data)"));
-    if (!(c3= m_fork())) {
-      m_dup2(gzfd,0); m_dup2(fileno(ar),1);
-      execlp(CAT,"cat",(char*)0); ohshite(_("failed to exec cat (data)"));
-    }
-    waitsubproc(c3,"cat (data)",0);
+    do_fd_copy(gzfd, fileno(ar), -1, _("cat (data)"));
 
     if (datastab.st_size & 1)
       if (putc('\n',ar) == EOF)

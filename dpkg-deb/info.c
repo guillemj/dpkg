@@ -90,7 +90,7 @@ static void info_spew(const char *debar, const char *directory,
   while ((component= *argv++) != 0) {
     co= fopen(component,"r");
     if (co) {
-      do_fd_copy(fileno(co), 1, _("info_spew"));
+      do_fd_copy(fileno(co), 1, -1, _("info_spew"));
     } else if (errno == ENOENT) {
       if (fprintf(stderr, _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
                   debar, component) == EOF) werr("stderr");
