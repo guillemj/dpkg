@@ -34,7 +34,7 @@ all-recursive install-recursive clean-recursive distclean-recursive: %-recursive
 	$(MAKE) $(MFLAGS) $(patsubst %,$*-%,$(SUBDIRS))
 
 $(foreach target,all install clean distclean,$(patsubst %,$(target)-%,$(SUBDIRS))):
-	$(MAKE) $(MFLAGS) -C '`echo $@ | sed s/[^-]*-//` `echo $@ | sed s/-.*//`'
+	$(MAKE) $(MFLAGS) -C "$(shell echo "$@" | sed 's/[^-]*-//')" "$(shell echo "$@" | sed 's/-.*//')"
 
 .PHONY: all install clean distclean 
 .PHONY: all-recursive install-recursive clean-recursive distclean-recursive
