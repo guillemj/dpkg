@@ -50,7 +50,7 @@ install-doc:
 	$(INSTALL_DATA) $(srcdir)/$(MD5_MANPAGES) $(DESTDIR)/$(man1dir)
 
 start-stop-daemon: $(SSD_OBJECTS) ../optlib/libopt.a
-	$(CC) $(LDFLAGS) -o $@ $(SSD_OBJECTS) $(SSD_LIBS)
+	$(CC) $(LDFLAGS) -o $@ $^ $(SSD_LIBS)
 
 md5sum: $(MD5_OBJECTS) ../optlib/libopt.a
 
