@@ -57,8 +57,11 @@ char *nfstrsave(const char *string) {
 }
 
 char *nfstrnsave(const char *string, int l) {
+  char *ret;
   OBSTACK_INIT;
-  return obstack_copy (&db_obs, string, l);
+  ret = obstack_copy (&db_obs, string, l + 1);
+  *(ret + l + 1) = 0;
+  return ret;
 }
 
 void nffreeall(void) {
