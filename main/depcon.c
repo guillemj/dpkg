@@ -268,54 +268,58 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       }
       varbufaddstr(whynot, linebuf);
 
-      /* See if the package we're about to install Provides it. */
-      for (provider= possi->ed->available.depended;
-           provider;
-           provider= provider->nextrev) {
-        if (provider->up->type != dep_provides) continue;
-        if (provider->up->up->clientdata->istobe == itb_installnew) return 1;
-      }
-
-      /* Now look at the packages already on the system. */
-      for (provider= possi->ed->installed.depended;
-           provider;
-           provider= provider->nextrev) {
-        if (provider->up->type != dep_provides) continue;
+      /* If there was no version specified we try looking for Providers. */
+      if (possi->verrel == dvr_none) {
         
-        switch (provider->up->up->clientdata->istobe) {
-        case itb_installnew:
-          /* Don't pay any attention to the Provides field of the
-           * currently-installed version of the package we're trying
-           * to install.  We dealt with that by using the available
-           * information above.
-           */
-          continue; 
-        case itb_remove:
-          sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
-                  provider->up->up->name, possi->ed->name);
-          break;
-        case itb_deconfigure:
-          sprintf(linebuf, _("  %.250s provides %.250s but is to be deconfigured.\n"),
-                  provider->up->up->name, possi->ed->name);
-          break;
-        case itb_normal: case itb_preinstall:
-          if (provider->up->up->status == stat_installed) return 1;
-          sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
-                  provider->up->up->name, possi->ed->name,
-                  gettext(statusstrings[provider->up->up->status]));
-          break;
-        default:
-          internerr("unknown istobe provider");
+        /* See if the package we're about to install Provides it. */
+        for (provider= possi->ed->available.depended;
+             provider;
+             provider= provider->nextrev) {
+          if (provider->up->type != dep_provides) continue;
+          if (provider->up->up->clientdata->istobe == itb_installnew) return 1;
         }
-        varbufaddstr(whynot, linebuf);
-      }
-      
-      if (!*linebuf) {
-        /* If the package wasn't installed at all, and we haven't said
-         * yet why this isn't satisfied, we should say so now.
-         */
-        sprintf(linebuf, _("  %.250s is not installed.\n"), possi->ed->name);
-        varbufaddstr(whynot, linebuf);
+
+        /* Now look at the packages already on the system. */
+        for (provider= possi->ed->installed.depended;
+             provider;
+             provider= provider->nextrev) {
+          if (provider->up->type != dep_provides) continue;
+          
+          switch (provider->up->up->clientdata->istobe) {
+          case itb_installnew:
+            /* Don't pay any attention to the Provides field of the
+             * currently-installed version of the package we're trying
+             * to install.  We dealt with that by using the available
+             * information above.
+             */
+            continue; 
+          case itb_remove:
+            sprintf(linebuf, _("  %.250s provides %.250s but is to be removed.\n"),
+                    provider->up->up->name, possi->ed->name);
+            break;
+          case itb_deconfigure:
+            sprintf(linebuf, _("  %.250s provides %.250s but is to be deconfigured.\n"),
+                    provider->up->up->name, possi->ed->name);
+            break;
+          case itb_normal: case itb_preinstall:
+            if (provider->up->up->status == stat_installed) return 1;
+            sprintf(linebuf, _("  %.250s provides %.250s but is %s.\n"),
+                    provider->up->up->name, possi->ed->name,
+                    gettext(statusstrings[provider->up->up->status]));
+            break;
+          default:
+            internerr("unknown istobe provider");
+          }
+          varbufaddstr(whynot, linebuf);
+        }
+        
+        if (!*linebuf) {
+          /* If the package wasn't installed at all, and we haven't said
+           * yet why this isn't satisfied, we should say so now.
+           */
+          sprintf(linebuf, _("  %.250s is not installed.\n"), possi->ed->name);
+          varbufaddstr(whynot, linebuf);
+        }
       }
     }
 
@@ -373,56 +377,60 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       }
     }
 
-    /* See if the package we're about to install Provides it. */
-    for (provider= possi->ed->available.depended;
-         provider;
-         provider= provider->nextrev) {
-      if (provider->up->type != dep_provides) continue;
-      if (provider->up->up->clientdata->istobe != itb_installnew) continue;
-      if (provider->up->up == dep->up) continue; /* conflicts and provides the same */
-      sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
-              provider->up->up->name, possi->ed->name);
-      varbufaddstr(whynot, linebuf);
-      /* We can't remove the one we're about to install: */
-      if (canfixbyremove) *canfixbyremove= 0;
-      return 0;
-    }
-
-    /* Now look at the packages already on the system. */
-    for (provider= possi->ed->installed.depended;
-         provider;
-         provider= provider->nextrev) {
-      if (provider->up->type != dep_provides) continue;
+    /* If there was no version specified we try looking for Providers. */
+    if (possi->verrel == dvr_none) {
         
-      if (provider->up->up == dep->up) continue; /* conflicts and provides the same */
-      
-      switch (provider->up->up->clientdata->istobe) {
-      case itb_installnew:
-        /* Don't pay any attention to the Provides field of the
-         * currently-installed version of the package we're trying
-         * to install.  We dealt with that package by using the
-         * available information above.
-         */
-        continue; 
-      case itb_remove:
-        continue;
-      case itb_normal: case itb_deconfigure: case itb_preinstall:
-        switch (provider->up->up->status) {
-        case stat_notinstalled: case stat_configfiles:
+      /* See if the package we're about to install Provides it. */
+      for (provider= possi->ed->available.depended;
+           provider;
+           provider= provider->nextrev) {
+        if (provider->up->type != dep_provides) continue;
+        if (provider->up->up->clientdata->istobe != itb_installnew) continue;
+        if (provider->up->up == dep->up) continue; /* conflicts and provides the same */
+        sprintf(linebuf, _("  %.250s provides %.250s and is to be installed.\n"),
+                provider->up->up->name, possi->ed->name);
+        varbufaddstr(whynot, linebuf);
+        /* We can't remove the one we're about to install: */
+        if (canfixbyremove) *canfixbyremove= 0;
+        return 0;
+      }
+
+      /* Now look at the packages already on the system. */
+      for (provider= possi->ed->installed.depended;
+           provider;
+           provider= provider->nextrev) {
+        if (provider->up->type != dep_provides) continue;
+          
+        if (provider->up->up == dep->up) continue; /* conflicts and provides the same */
+        
+        switch (provider->up->up->clientdata->istobe) {
+        case itb_installnew:
+          /* Don't pay any attention to the Provides field of the
+           * currently-installed version of the package we're trying
+           * to install.  We dealt with that package by using the
+           * available information above.
+           */
+          continue; 
+        case itb_remove:
           continue;
-        default:
-          sprintf(linebuf, _("  %.250s provides %.250s and is %s.\n"),
-                  provider->up->up->name, possi->ed->name,
-                  gettext(statusstrings[provider->up->up->status]));
-          varbufaddstr(whynot, linebuf);
-          if (!canfixbyremove) return 0;
-          nconflicts++;
-          *canfixbyremove= provider->up->up;
+        case itb_normal: case itb_deconfigure: case itb_preinstall:
+          switch (provider->up->up->status) {
+          case stat_notinstalled: case stat_configfiles:
+            continue;
+          default:
+            sprintf(linebuf, _("  %.250s provides %.250s and is %s.\n"),
+                    provider->up->up->name, possi->ed->name,
+                    gettext(statusstrings[provider->up->up->status]));
+            varbufaddstr(whynot, linebuf);
+            if (!canfixbyremove) return 0;
+            nconflicts++;
+            *canfixbyremove= provider->up->up;
+            break;
+          }
           break;
+        default:
+          internerr("unknown istobe conflict provider");
         }
-        break;
-      default:
-        internerr("unknown istobe conflict provider");
       }
     }
 

@@ -252,8 +252,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
                              int *matched,
                              struct deppossi *checkversion,
                              int *interestingwarnings,
-                             struct varbuf *oemsgs,
-			     struct deppossi *provider) {
+                             struct varbuf *oemsgs) {
   int thisf;
   
   if (ignore_depends(possdependee)) {
@@ -279,42 +278,18 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   case stat_unpacked:
   case stat_halfconfigured:
     assert(possdependee->installed.valid);
-    if (checkversion) {
-      if (!provider) {
-	debug(dbg_depcondetail,"      checking non-provided pkg %s",possdependee->name);
-	if (!versionsatisfied(&possdependee->installed,checkversion)) {
-          varbufaddstr(oemsgs,_("  Version of "));
-          varbufaddstr(oemsgs,possdependee->name);
-          varbufaddstr(oemsgs,_(" on system is "));
-          varbufaddstr(oemsgs,versiondescribe(&possdependee->installed.version,
-                                              vdew_nonambig));
-          varbufaddstr(oemsgs,".\n");
-          assert(checkversion->verrel != dvr_none);
-          if (fc_depends) thisf= (dependtry >= 3) ? 2 : 1;
-          debug(dbg_depcondetail,"       bad version, returning %d",thisf);
-          (*interestingwarnings)++;
-          return thisf;
-        }
-      } else {
-	debug(dbg_depcondetail,"      checking package %s provided by pkg %s",
-	      checkversion->ed->name,possdependee->name);
-        if (!versionsatisfied3(&checkversion->version,&provider->version,
-                              checkversion->verrel)) {
-          varbufaddstr(oemsgs,_("  Version of "));
-	  varbufaddstr(oemsgs,checkversion->ed->name);
-	  varbufaddstr(oemsgs,_(" on system, provided by "));
-	  varbufaddstr(oemsgs,possdependee->name);
-	  varbufaddstr(oemsgs,_(", is "));
-	  varbufaddstr(oemsgs,versiondescribe(&provider->version,
-					      vdew_nonambig));
-	  varbufaddstr(oemsgs,".\n");
-	  assert(checkversion->verrel != dvr_none);
-	  if (fc_depends) thisf= (dependtry >= 3) ? 2 : 1;
-	  debug(dbg_depcondetail,"      bad version, returning %d",thisf);
-	  (*interestingwarnings)++;
-	  return thisf;
-	}
-      }
+    if (checkversion && !versionsatisfied(&possdependee->installed,checkversion)) {
+      varbufaddstr(oemsgs,_("  Version of "));
+      varbufaddstr(oemsgs,possdependee->name);
+      varbufaddstr(oemsgs,_(" on system is "));
+      varbufaddstr(oemsgs,versiondescribe(&possdependee->installed.version,
+                                          vdew_nonambig));
+      varbufaddstr(oemsgs,".\n");
+      assert(checkversion->verrel != dvr_none);
+      if (fc_depends) thisf= (dependtry >= 3) ? 2 : 1;
+      debug(dbg_depcondetail,"      bad version, returning %d",thisf);
+      (*interestingwarnings)++;
+      return thisf;
     }
     if (possdependee->status == stat_installed) {
       debug(dbg_depcondetail,"      is installed, ok and found");
@@ -378,59 +353,21 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     for (possi= dep->list; found != 3 && possi; possi= possi->next) {
       debug(dbg_depcondetail,"    checking possibility  -> %s",possi->ed->name);
       if (possi->cyclebreak) {
-        debug(dbg_depcondetail,"      break cycle, so ok and found");
+        debug(dbg_depcondetail,"      break cycle so ok and found");
         found= 3; break;
       }
       thisf= deppossi_ok_found(possi->ed,pkg,removing,0,
-                               &matched,possi,&interestingwarnings,&oemsgs,NULL);
+                               &matched,possi,&interestingwarnings,&oemsgs);
       if (thisf > found) found= thisf;
-      if (found != 3) {
+      if (found != 3 && possi->verrel == dvr_none) {
         if (possi->ed->installed.valid) {
           for (provider= possi->ed->installed.depended;
                found != 3 && provider;
                provider= provider->nextrev) {
             if (provider->up->type != dep_provides) continue;
             debug(dbg_depcondetail,"     checking provider %s",provider->up->up->name);
-	    if (possi->verrel == dvr_none) {
-	      /* A simple package dep, no version */
-	      thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
-				       &matched,NULL,&interestingwarnings,&oemsgs,NULL);
-	    } else if (provider->verrel == dvr_exact) {
-	      /* For versioned depends, we only check providers with
-	       * dvr_exact. It doesn't make sense to check ones without a
-	       * version since we have nothing to verify it. Also, it is
-	       * way too complex to allow anything but exact in a provided
-	       * version. A few examples below to deter you from
-	       * trying:
-	       *
-	       *  - foo depends on pkg1 (>= 0.6), bar provides pkg1 (<= 1.0).
-	       *    Should pass (easy enough)
-	       *
-	       *  - foo depends on pkg1 (>= 0.7) and (<= 1.1), bar
-	       *    provides pkg1 (>= 1.2). Should fail (little harder)
-	       *
-	       *  - foo depends on pkg1 (>= 0.4), bar provides pkg1 (<= 1.0)
-	       *    and (>= 0.5), IOW, inclusive of only those versions.
-	       *    This would require backchecking the other provided
-	       *    versions in the possi, which would make things sickly
-	       *    complex and overly time consuming. Should fail (very
-	       *    hard to implement).
-	       *
-	       *  There's probably some miracle formula to do this, but I
-	       *  don't see it, and there's little to gain, IMNHO. Also,
-	       *  packages can get around most of these by providing
-	       *  multiple dvr_exact versions. -- Ben
-	       */
-	      thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
-				       &matched,possi,&interestingwarnings,&oemsgs,provider);
-	    }
-	    if (thisf == 1 && provider->up->up == pkg && !removing) {
-	      /* IOW, if the pkg satisfies it's own dep (via a provide),
-	       * then we let it pass, even if it isn't configured yet
-	       * (duh, we're installing it!) -- Ben
-	       */
-	       thisf = 3;
-	    }
+            thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
+                                     &matched,0,&interestingwarnings,&oemsgs);
             if (thisf > found) found= thisf;
           }
         }
