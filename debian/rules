@@ -58,23 +58,16 @@ binary: binary-arch binary-indep
 
 binary-trees: build
 	$(checkdir)
-	-$(RM) -r debian/tmp-{main,dev}
-	install -d debian/tmp-{main,dev}/{DEBIAN,etc/dpkg,usr/share/doc/dpkg}
+	-$(RM) -r debian/tmp-{main,dev,dselect}
+	install -d debian/tmp-{main,dev,dselect}/{DEBIAN,etc/dpkg,usr/share/doc/dpkg}
 	install -d debian/tmp-dev/usr/{lib/dpkg,share/doc/dpkg-dev,sbin,bin}
 	install -d debian/tmp-dev/usr/share/man/{ja/man1,man1,ja/man8,man8}
 	install -d debian/tmp-dev/usr/share/emacs/site-lisp/dpkg-dev
 	install -d debian/tmp-main/sbin
-	set -e; if [ $(arch) = i386 ]; then \
-		sed -e 's/^# i386elf: //' <debian/preinst >$(mcidir)/preinst ; \
-	else \
-		sed -e '/^# i386elf: /d' debian/preinst >$(mcidir)/preinst ; \
-	fi
-	set -e; if [ -f debian/shlibs.default.$(arch) ]; then \
-		echo /etc/dpkg/shlibs.default >debian/tmp-dev/DEBIAN/conffiles ; \
-		cp debian/shlibs.default.$(arch) \
-			debian/tmp-dev/etc/dpkg/shlibs.default ; \
-	fi
-	cp debian/{prerm,postinst} $(mcidir)/.
+	install -d debian/tmp-dselect/usr/share/man/{ja/man1,man1,ja/man8,man8}
+	install -d debian/tmp-dselect/usr/{bin,lib/dpkg}
+	install -d debian/tmp-dselect/var/lib/dpkg
+
 	$(MAKE) -C $(BUILD) top_distdir=. dist 
 	$(MAKE) -C $(BUILD) \
 		prefix=$(DIR)/debian/tmp-main/usr \
@@ -85,19 +78,34 @@ binary-trees: build
 		sharedstatedir=$(DIR)/debian/tmp-main/var/lib \
 		localstatedir=$(DIR)/debian/tmp-main/var/lib \
 		install
-	install -m 755 debian/dev-postinst debian/tmp-dev/DEBIAN/postinst
-	install -m 755 debian/dev-prerm debian/tmp-dev/DEBIAN/prerm
+# Setup the dpkg-dev tree
+	set -e; if [ -f debian/shlibs.default.$(arch) ]; then \
+		echo /etc/dpkg/shlibs.default >debian/tmp-dev/DEBIAN/conffiles ; \
+		cp debian/shlibs.default.$(arch) \
+			debian/tmp-dev/etc/dpkg/shlibs.default ; \
+	fi
+	install -p -m 755 debian/dev-postinst debian/tmp-dev/DEBIAN/postinst
+	install -p -m 755 debian/dev-prerm debian/tmp-dev/DEBIAN/prerm
 	install -d debian/tmp-dev/etc/emacs/site-start.d
-	install -m 644 debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/.
+	install -p -m 644 debian/50dpkg-dev.el debian/tmp-dev/etc/emacs/site-start.d/.
 	install -d debian/tmp-dev/usr/lib/emacsen-common/packages/{install,remove}
-	install -m 755 debian/emacsen-common-remove \
+	install -p -m 755 debian/emacsen-common-remove \
 	    debian/tmp-dev/usr/lib/emacsen-common/packages/remove/dpkg-dev
-	install -m 755 debian/emacsen-common-install \
+	install -p -m 755 debian/emacsen-common-install \
 	debian/tmp-dev/usr/lib/emacsen-common/packages/install/dpkg-dev
 	cp scripts/debian-changelog-mode.el \
 	    debian/tmp-dev/usr/share/emacs/site-lisp/dpkg-dev
 	rm -f debian/tmp-main/usr/share/{x,}emacs/site-lisp/debian-changelog-mode.el*
-	chmod +x $(mcidir)/{postinst,prerm,preinst}
+	ln -s dpkg debian/tmp-dev/usr/share/doc/dpkg-dev
+# Setup the dpkg tree
+	install -p -m 755 debian/{prerm,postinst} $(mcidir)/
+	set -e; if [ $(arch) = i386 ]; then \
+		sed -e 's/^# i386elf: //' <debian/preinst >$(mcidir)/preinst ; \
+	else \
+		sed -e '/^# i386elf: /d' debian/preinst >$(mcidir)/preinst ; \
+	fi
+	chmod +x $(mcidir)/preinst
+
 	find debian/tmp-main/usr/share/man -type f | xargs gzip -9vf
 	set -e; for f in dpkg-buildpackage dpkg-gencontrol dpkg-distaddfile \
 		  dpkg-parsechangelog dpkg-genchanges dpkg-shlibdeps; do \
@@ -106,8 +114,20 @@ binary-trees: build
 	done
 	ln -s ../man7/undocumented.7.gz debian/tmp-main/usr/share/man/man1/dpkg-divert.1.gz
 	gzip -9vf debian/tmp-main/usr/share/doc/dpkg/changelog*
-	cp debian/copyright debian/tmp-main/usr/share/doc/dpkg/copyright
-	ln -s dpkg debian/tmp-dev/usr/share/doc/dpkg-dev
+	install -p -m 644 debian/copyright debian/tmp-main/usr/share/doc/dpkg/copyright
+# Setup the dselect tree
+	install -p -m 755 debian/dselect-postinst debian/tmp-dselect/DEBIAN/postinst
+	install -p -m 755 debian/dselect-prerm debian/tmp-dselect/DEBIAN/prerm
+	set -e; for f in \
+ usr/share/man/{ja,.}/man8/dselect.8.gz \
+ usr/lib/dpkg/methods \
+ var/lib/dpkg/methods \
+ usr/bin/dselect \
+		; do if [ -e debian/tmp-main/$$f -o -L debian/tmp-main/$$f ] ; \
+			then mv -v debian/tmp-main/$$f debian/tmp-dselect/$$f; \
+		fi done
+	ln -s dpkg debian/tmp-dev/usr/share/doc/dselect
+# Move stuff from the dpkg tree to the other trees
 	set -e; for f in \
  usr/share/doc/dpkg/{internals.html,changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
@@ -153,7 +173,7 @@ binary-indep: binary-trees
 
 binary-arch: binary-trees
 	$(checkdir)
-	mv debian/tmp-main/usr/sbin/start-stop-daemon debian/tmp-main/sbin/start-stop-daemon
+#	mv debian/tmp-main/usr/sbin/start-stop-daemon debian/tmp-main/sbin/start-stop-daemon
 	-strip debian/tmp-main/usr/{bin,sbin}/*	debian/tmp-main/sbin/*
 	-strip --strip-unneeded debian/tmp-main/usr/lib/libdpkg.so.*
 	-strip --strip-debug debian/tmp-main/usr/lib/libdpkg.a
@@ -168,6 +188,13 @@ binary-arch: binary-trees
 		gzip -9vf $(DIR)/../$${file}; \
 		dpkg-distaddfile -f$(DIR)/debian/files $${file}.gz byhand -
 	dpkg-deb --build debian/tmp-main ..
+
+	-strip debian/tmp-dselect/usr/{bin,sbin}/*	
+	dpkg-shlibdeps -dDepends debian/tmp-dselect/usr/bin/*
+	dpkg-gencontrol -pdselect -Pdebian/tmp-dselect
+	chown -R root.root debian/tmp-main
+	chmod -R g-ws,a+r,u+w debian/tmp-main
+	dpkg-deb --build debian/tmp-dselect ..
 
 define checkdir
 	test -f include/dpkg.h.in
