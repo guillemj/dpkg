@@ -50,7 +50,7 @@ static void movecontrolfiles(const char *thing) {
   if (!(c1= m_fork())) {
     execlp("sh","sh","-c",buf,(char*)0); ohshite(_("failed to exec sh -c mv foo/* &c"));
   }
-  waitsubproc(c1,"sh -c mv foo/* &c",0);
+  waitsubproc(c1,"sh -c mv foo/* &c",0,0);
 }
 
 static void readfail(FILE *a, const char *filename, const char *what) {
@@ -302,11 +302,11 @@ void extracthalf(const char *debar, const char *directory,
       ohshite(_("failed to exec tar"));
     }
     close(p2[0]);
-    waitsubproc(c3,"tar",0);
+    waitsubproc(c3,"tar",0,0);
   }
   
-  waitsubproc(c2,"gzip -dc",1);
-  if (c1 != -1) waitsubproc(c1,"paste",0);
+  waitsubproc(c2,"gzip -dc",1,0);
+  if (c1 != -1) waitsubproc(c1,"paste",0,0);
   if (oldformat && admininfo) {
     if (versionnum == 0.931F) {
       movecontrolfiles(OLDOLDDEBDIR);

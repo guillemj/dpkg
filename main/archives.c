@@ -747,7 +747,7 @@ void archivefiles(const char *const *argv) {
     }
     if (ferror(pf)) ohshite(_("error reading find's pipe"));
     if (fclose(pf)) ohshite(_("error closing find's pipe"));
-    waitsubproc(fc,"find",0);
+    waitsubproc(fc,"find",0,0);
 
     if (!nfiles)
       ohshit(_("searched, but found no packages (files matching *.deb)"));

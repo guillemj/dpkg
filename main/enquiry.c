@@ -699,7 +699,7 @@ void printarch(const char *const *argv) {
   }
   close(p1[1]);
   fd_vbuf_copy(fileno(ccpipe), &vb, -1, _("error reading from CC pipe"));
-  waitsubproc(c1,"gcc --print-libgcc-file-name",0);
+  waitsubproc(c1,"gcc --print-libgcc-file-name",0,0);
   if (!vb.used) badlgccfn(ccompiler,"",_("empty output"));
   varbufaddc(&vb,0);
   if (vb.buf[vb.used-2] != '\n') badlgccfn(ccompiler,vb.buf,_("no newline"));

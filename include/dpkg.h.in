@@ -194,8 +194,8 @@ int m_fork(void);
 void m_dup2(int oldfd, int newfd);
 void m_pipe(int fds[2]);
 
-void checksubprocerr(int status, const char *description, int sigpipeok);
-void waitsubproc(pid_t pid, const char *description, int sigpipeok);
+int checksubprocerr(int status, const char *description, int sigpipeok, int warn);
+int waitsubproc(pid_t pid, const char *description, int sigpipeok, int warn);
 
 #define BUFFER_WRITE_BUF 0
 #define BUFFER_WRITE_VBUF 1

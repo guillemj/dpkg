@@ -71,7 +71,7 @@ static void info_prepare(const char *const **argvp,
   if (!(c1= m_fork())) {
     execlp(RM,"rm","-rf",dbuf,(char*)0); ohshite(_("failed to exec rm -rf"));
   }
-  waitsubproc(c1,"rm -rf",0);
+  waitsubproc(c1,"rm -rf",0,0);
   push_cleanup(cu_info_prepare,-1, 0,0, 1, (void*)dbuf);
   extracthalf(*debarp, dbuf, "mx", admininfo);
 }

@@ -284,7 +284,7 @@ int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
     ohshite(_("unable to execute %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
-  waitsubproc(c1,buf,0);
+  waitsubproc(c1,buf,0,0);
   pop_cleanup(ehflag_normaltidy);
 
   ensure_diversions();
@@ -321,7 +321,7 @@ int maintainer_script_new(const char *scriptname, const char *description,
     ohshite(_("unable to execute new %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
-  waitsubproc(c1,buf,0);
+  waitsubproc(c1,buf,0,0);
   pop_cleanup(ehflag_normaltidy);
 
   ensure_diversions();
@@ -337,7 +337,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   struct stat stab;
   int c1, n, status;
   char buf[100];
-  pid_t r;
+  int r;
 
   oldscriptpath= pkgadminfile(pkg,scriptname);
   arglist= buildarglist(scriptname,
@@ -363,8 +363,9 @@ int maintainer_script_alternative(struct pkginfo *pkg,
       ohshite(_("unable to execute %s"),buf);
     }
     script_catchsignals(); /* This does a push_cleanup() */
-    waitsubproc(c1,buf,0);
+    r= waitsubproc(c1,buf,0,1);
     pop_cleanup(ehflag_normaltidy);
+    if (!r) return 1;
     ensure_diversions();
   }
   fprintf(stderr, _("dpkg - trying script from the new package instead ...\n"));
@@ -392,7 +393,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
     ohshite(_("unable to execute %s"),buf);
   }
   script_catchsignals(); /* This does a push_cleanup() */
-  waitsubproc(c1,buf,0);
+  waitsubproc(c1,buf,0,1);
   pop_cleanup(ehflag_normaltidy);
   fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
 
@@ -496,5 +497,5 @@ void ensure_pathname_nonexisting(const char *pathname) {
     ohshite(_("failed to exec rm for cleanup"));
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");
-  waitsubproc(c1,"rm cleanup",0);
+  waitsubproc(c1,"rm cleanup",0,0);
 }
