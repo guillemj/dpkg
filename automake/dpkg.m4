@@ -1,6 +1,3 @@
-dnl Moved from configure.in, modified to use AC_DEFUN
-dnl -- Tom Lees <tom@lpsg.demon.co.uk>
-
 dnl DPKG_CACHED_TRY_COMPILE(<description>,<cachevar>,<include>,<program>,<ifyes>,<ifno>)
 AC_DEFUN(DPKG_CACHED_TRY_COMPILE,[
  AC_MSG_CHECKING($1)
@@ -43,3 +40,22 @@ AC_DEFUN(DPKG_C_GCC_TRY_WARNS,[
  fi
 ])
 dnl DPKG_CACHED_TRY_COMPILE(<description>,<cachevar>,<include>,<program>,<ifyes>,<ifno>)
+
+
+dnl Check if a #define is present in an include file
+AC_DEFUN(DPKG_CHECK_DEFINE,
+  [AC_CACHE_CHECK(if $1 is defined in $2,
+     ac_cv_define_$1,
+     [AC_TRY_COMPILE([
+#include <$2>
+        ],[
+int i = $1;
+        ],
+        ac_cv_define_$1=yes,
+        ac_cv_define_$1=no)
+     ])
+   if test "$ac_cv_define_$1" = yes ; then
+    AC_DEFINE(HAVE_$1,,[define if $1 is defined])
+  fi
+])
+
