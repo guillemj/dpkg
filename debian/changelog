@@ -1,7 +1,7 @@
 dpkg (1.9.1) unstable; urgency=low
 
   * Fix segfault with empty status and available, and when missing a
-    trailing new line.  Closes: #95496
+    trailing new line.  Closes: Bug#95496
   * Make dpkg-shlibdeps not care if dpkg --search return with an error.
     Closes: Bug#95568
   * Fix corruption of user-defined fields in status and available.
@@ -10,6 +10,8 @@ dpkg (1.9.1) unstable; urgency=low
     currently signed, and we get false errors when debsig-verify is
     installed.  This will be removed in the future, when the archive tools
     support package signatures.  Closes: Bug#95573
+  * dpkg-buildpackage should only check for valid signinterface if the
+    user specifies one. Closes: Bug#95598
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

@@ -113,14 +113,14 @@ fi
 
 if test -n "$forcesigninterface" ; then
   signinterface=$forcesigninterface
-else
-  signinterface=$signcommand
-fi
-
 if [ "$signinterface" != "gpg" -a "$signinterface" != "pgp" ] ; then
 	echo >&2 "$progname: invalid sign interface specified"
 	exit 1
 fi
+else
+  signinterface=$signcommand
+fi
+
 
 mustsetvar () {
 	if [ "x$2" = x ]; then
