@@ -1,3 +1,13 @@
+Mon Dec  4 01:34:57 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * Merge more of Adams handywork to bring dpkg up to speed (literally :)
+    + include/dpkg.h.in: remove defines for cat and dpkg-safelist since they
+      are no longer used
+    + lib/mlib.c: split up do_fd_copy
+    + lib/varbuf.c: add varbufvprintf
+    + lib/parse.c: use memset to initialize fieldencountered
+    + main/filesdb.c: use new read_fd_into_buf
+
 Sun Dec  3 22:11:22 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * dpkg-deb/extract.c: apply one of Adams do_fd_copy patches
@@ -7,7 +17,7 @@ Thu Nov 30 02:45:42 CET 2000 Wichert Akkerman <wakkerma@debian.org>
   * scripts/dpkg-statoverride.{pl,8}: 
     + add new --import option to import settings from /etc/suid.conf
     + fix ENOENT issues
-    + use %owner consistently isntead of %owner and %user
+    + use %owner consistently instead of %owner and %user
 
 Wed Nov 29 17:56:43 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 

@@ -49,6 +49,22 @@ void varbufprintf(struct varbuf *v, const char *fmt, ...) {
   } while (r >= v->size-ou-1);
 }
 
+void varbufvprintf(struct varbuf *v, char *fmt, va_list va) {
+  int ou, r;
+  va_list al;
+
+  ou= v->used;
+  v->used+= strlen(fmt);
+
+  do {
+    varbufextend(v);
+    al= va;
+    r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
+    if (r < 0) r= (v->size-ou+1) * 2;
+    v->used= ou+r;
+  } while (r >= v->size-ou-1);
+}
+
 void varbufaddstr(struct varbuf *v, const char *s) {
   int l, ou;
   l= strlen(s);

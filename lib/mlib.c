@@ -30,6 +30,7 @@
 
 #include <config.h>
 #include <dpkg.h>
+#include <dpkg-db.h>
 
 /* Incremented when we do some kind of generally necessary operation, so that
  * loops &c know to quit if we take an error exit.  Decremented again afterwards.
@@ -123,54 +124,82 @@ void waitsubproc(pid_t pid, const char *description, int sigpipeok) {
   checksubprocerr(status,description,sigpipeok);
 }
 
-int do_fd_copy(int fd1, int fd2, int limit, char *desc) {
-    char *buf, *sbuf;
-    int count, bufsize = 32768;
-    char *er_msg_1 = _("failed to allocate buffer for copy (%s)");
-    char *er_msg_2 = _("failed in copy on write (%s)");
-    char *er_msg_3 = _("failed in copy on read (%s)");
+typedef void (*do_fd_write_t)(char *, int, char *, void *data);
+typedef struct do_fd_copy_data {
+  int fd;
+} do_fd_copy_data_t;
+typedef struct do_fd_buf_data {
+  char *buf;
+} do_fd_buf_data_t;
 
-    count = strlen(er_msg_1) + strlen(desc) + 1;
-    sbuf = malloc(count);
-    if(sbuf == NULL)
-	ohshite(_("failed to allocate buffer for snprintf 1"));
-    snprintf(sbuf, count, er_msg_1, desc);
-    sbuf[count-1] = 0;
+int do_fd_write_fd(char* buf, int length, void *proc_data, char *desc) {
+  do_fd_copy_data_t *data = (do_fd_copy_data_t *)proc_data;
+  if(write(data->fd, buf, length) < length)
+    ohshite(_("failed in do_fd_write_fd (%s)"), dsc);
+}
 
-    if((limit != -1) && (limit < bufsize))
-	bufsize = limit;
-    buf = malloc(bufsize);
-    if(buf == NULL)
-	ohshite(sbuf);
-    free(sbuf);
+int do_fd_copy(int fd1, int fd2, int limit, char *desc, ...) {
+  do_fd_copy_data_t data = { fd2 };
+  va_list al;
+  struct varbuf v;
 
-    while((count = read(fd1, buf, bufsize)) > 0) {
-	if(write(fd2, buf, count) < count) {
-	  count = strlen(er_msg_2) + strlen(desc) + 1;
-	  sbuf = malloc(count);
-	  if(sbuf == NULL)
-	    ohshite(_("failed in copy on write"));
-	  snprintf(sbuf, count, er_msg_2, desc);
-	  sbuf[count-1] = 0;
-	  ohshite(sbuf);
-	}
-	if(limit != -1) {
-	    limit -= count;
-	    if(limit < bufsize)
-		bufsize = limit;
-	}
-    }
-    free(sbuf);
+  varbufinit(&v);
+
+  va_start(al,desc);
+  varbufvprintf(&v, desc, al);
+  va_end(al);
+
+  do_fd_read(fd1, limit, do_fd_write_fd, &data, v.buf);
+  varbuffree(&v);
+}
+
+int do_fd_write_buf(char *buf, int length, void *proc_data, char *desc) {
+  do_fd_buf_data_t *data = (do_fd_buf_data_t *)proc_data;
+  memcpy(data->buf, buf, length);
+  data->buf += length;
+}
+
+int read_fd_into_buf(int fd, char *buf, int limit, char *desc, ...) {
+  do_fd_buf_data_t data = { buf };
+  va_list al;
+  struct varbuf v;
+
+  varbufinit(&v);
+
+  va_start(al,desc);
+  varbufvprintf(&v, desc, al);
+  va_end(al);
+
+  do_fd_read(fd, limit, do_fd_write_buf, &data, v.buf);
+  varbuffree(&v);
+}
+
+int do_fd_read(int fd1, int limit, do_fd_write_t write_proc, void *proc_data, char *desc) {
+  char *buf;
+  int count, bufsize= 32768, bytesread= 0;
+
+  if((limit != -1) && (limit < bufsize)) bufsize= limit;
+  buf= malloc(bufsize);
+  if(buf== NULL) ohshite(_("failed to allocate buffer in do_fd_read (%s)"), desc);
+
+  while(1) {
+    count= read(fd1, buf, bufsize);
     if (count<0) {
-      count = strlen(er_msg_3) + strlen(desc) + 1;
-      sbuf = malloc(count);
-      if(sbuf == NULL)
-	ohshite(_("failed in copy on read"));
-      snprintf(sbuf, count, er_msg_3, desc);
-      sbuf[count-1] = 0;
-      ohshite(sbuf);
+      if (errno==EINTR) continue;
+      break;
     }
+    if (count==0)
+      break;
 
-    free(sbuf);
-    free(buf);
+    bytesread+= count;
+    write_proc(buf, count, proc_data, desc);
+    if(limit!=-1) {
+      limit-= count;
+      if(limit<bufsize)
+	bufsize=limit;
+    }
+  }
+  if (count<0) ohshite(_("failed in do_fd_read on read (%s)"), desc);
+
+  free(buf);
 }

@@ -71,7 +71,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
   int search, findlast, putat;
   struct stat stat_buf;
   char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
-  ssize_t bytes, readden;
+  ssize_t bytes;
 
   if (pkg->clientdata && pkg->clientdata->fileslistvalid) return;
   ensure_package_clientdata(pkg);
@@ -146,20 +146,9 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
      ohshite("unable to stat files list file for package `%.250s'",pkg->name);
    loaded_list = nfmalloc(stat_buf.st_size);
    loaded_list_end = loaded_list + stat_buf.st_size;
-   /* stdio is an extra copy, hence we use read() */
-   readden = 0;			/* write->written, read->readden */
-   while (readden < stat_buf.st_size) {
-     bytes = read(fileno(file),
- 		 loaded_list + readden, stat_buf.st_size - readden);
-     if (bytes < 0) {
-       if (errno == EINTR) continue;
-       ohshite("unable to read files list for package `%.250s'",pkg->name);
-     }
-     if (!bytes)
-       ohshit("unexpected end of file in files list for package `%.250s'",pkg->name);
-     readden += bytes;
-   }
-  
+
+  read_fd_into_buf(fileno(file), loaded_list, stat_buf.st_size, _("files list for package `%.250s'"), pkg->name);
+
   lendp= &pkg->clientdata->files;
   thisline = loaded_list;
   while (thisline < loaded_list_end) {
@@ -325,7 +314,7 @@ void ensure_statoverrides(void) {
   struct stat stab1, stab2;
   FILE *file;
   char *loaded_list, *loaded_list_end, *thisline, *nextline, *ptr;
-  ssize_t bytes, readden;
+  ssize_t bytes;
   struct filestatoverride *fso;
   struct filenamenode *fnn;
 
@@ -356,18 +345,8 @@ void ensure_statoverrides(void) {
 
   loaded_list = nfmalloc(stab2.st_size);
   loaded_list_end = loaded_list + stab2.st_size;
-  readden=0;
-  while (readden<stab2.st_size) {
-    bytes = read(fileno(file),
-	loaded_list + readden, stab2.st_size - readden);
-    if (bytes < 0) {
-      if (errno == EINTR) continue;
-      ohshite("unable to read statoverride file `%.250s'",vb.buf);
-    }
-    if (!bytes)
-      ohshit("unexpected end of file in statoverride file `%.250s'",vb.buf);
-    readden += bytes;
-  }
+
+  read_fd_into_buf(fileno(file), loaded_list, stab2.st_size, _("statoverride file `%.250s'"), vb.buf);
 
   thisline = loaded_list;
   while (thisline<loaded_list_end) {

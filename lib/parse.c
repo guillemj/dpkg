@@ -102,8 +102,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   lno= 1;
   pdone= 0;
   for (;;) { /* loop per package */
-    i= sizeof(fieldencountered)/sizeof(int); ip= fieldencountered;
-    while (i--) *ip++= 0;
+    memset(fieldencountered, 0, sizeof(fieldencountered));
     blankpackage(&newpig);
     blankpackageperfile(newpifp);
     for (;;) {
