@@ -644,7 +644,7 @@ void printarch(const char *const *argv) {
      */
     if (printf("%s\n",architecture) == EOF) werr("stdout");
     if (fflush(stdout)) werr("stdout");
-    exit 0;
+    exit(0);
   }
   close(p1[1]);
   while ((c= getc(ccpipe)) != EOF) varbufaddc(&vb,c);
