@@ -14,7 +14,7 @@
 $parsechangelog= 'dpkg-parsechangelog';
 
 grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size
-			  Build-Depends Build-Depends-Indep Origin
+			  Build-Depends Build-Depends-Indep 
 			  Build-Conflicts Build-Conflicts-Indep));
 
 
@@ -57,7 +57,7 @@ if (defined ($ENV{'LOGNAME'})) {
     @fowner = getpwnam ($getlogin);
     if (! @fowner) { die (sprintf ('unable to get login information for username "%s"', $getlogin)); }
 } else {
-    warn (sprintf ('no utmp entry available and LOGNAME not defined; using uid of process (%d)', $<));
+    &warn (sprintf ('no utmp entry available and LOGNAME not defined; using uid of process (%d)', $<));
     @fowner = getpwuid ($<);
     if (! @fowner) { die (sprintf ('unable to get login information for uid %d', $<)); }
 }

@@ -231,6 +231,7 @@ if ($action eq 'l') {
     print join("\n",@env)."\n";
 } elsif ($action eq 's') {
     print "export ".join("\n",@env)."\n" if ($#env != 0);
+    print "export ".join("\nexport ",@env)."\n" if ($#enf != 0);
 } elsif ($action eq 'u') {
     print "unset DEB_BUILD_ARCH DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE DEB_HOST_ARCH DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE\n";
 } elsif ($action eq 'c') {

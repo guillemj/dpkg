@@ -23,14 +23,58 @@ dpkg (1.9.0) unstable; urgency=low
   * fix typo in usage message for dpkg-divert, Closes: Bug#85977
   * Use full path for argv[0] when calling scripts. Closes: Bug#68783
   * Add ia64 support to dpkg-architecture.
+  * Minor script changes, Closes: Bug#87485
+  * Stop dpkg-genchanges from complaining about missing packages
+    when doing a source-only build. Closes: Bug#87571
+  * Make dpkg-architecture -s export all variables instead of only
+    the first
+  * dpkg-buildpackage updates: Closes: Bug#87572
+    + make -C work properly
+    + fix test for gpg secret keyring
+    + improve source messages
+    + skip signing pause when building unsigned packages
+    + test for invalid signinterface. Closes: Bug#87579
+  * Fix wording in dpkg-statoverride manpage for --add. Closes: Bug#85080
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
+
+dpkg (1.8.3.1) unstable; urgency=low
+
+  * Revert change to nfmalloc.c that was causing SIGBUS on sparc.
+
+ -- Ben Collins <bcollins@debian.org>  Sat, 13 Jan 2001 08:52:11 -0500
+
+dpkg (1.8.3) unstable; urgency=low
+
+  * Do chown before chmod in dpkg-statoverride, Closes: Bug#81943
+  * Fix recusion in dpkg-shlibdeps, Closes: Bug#81322
+  * Really completely revert dpkg-source patches which broke backwards
+    compatibility
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Fri, 12 Jan 2001 00:02:22 -0800
+
+dpkg (1.8.2) unstable; urgency=low
+
+  * Don't attempt to read from an input source when we only want 0 bytes.
+    Also handle buggy systems that return EAGAIN instead of EINTR.  Closes:
+    #81881.
+ 
+ -- Adam Heath <doogie@debian.org>  Thu, 11 Jan 2001 00:43:50 -0600
+
+dpkg (1.8.1.1) unstable; urgency=low
+
+  * Apply patch from bug to fix badly generated diffs(in some
+    circumstances).  Closes: #81152
+
+ -- Adam Heath <doogie@debian.org>  Sat,  6 Jan 2001 16:07:33 -0600
 
 dpkg (1.8.1) unstable; urgency=low
 
   * Make --name a valid option.  Closes: #31206, #51953.
+  * dpkg-deb -I <pkg> <control> works again
+  * Update Swedish translation
 
- -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
+ -- Wichert Akkerman <wakkerma@debian.org>  Thu,  4 Jan 2001 19:31:13 +0100
 
 dpkg (1.8.0) unstable; urgency=low
 
@@ -87,7 +131,7 @@ dpkg (1.8.0) unstable; urgency=low
     Closes: Bug#80237
   * List descriptions for udebs in .changes
 
- -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
+ -- Wichert Akkerman <wakkerma@debian.org>  Mon, 25 Dec 2000 17:19:31 +0100
 
 dpkg (1.7.2) unstable; urgency=low
 

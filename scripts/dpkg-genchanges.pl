@@ -167,7 +167,7 @@ for $_ (keys %fi) {
 	else { &unknown('general section of control info file'); }
     } elsif (s/^C(\d+) //) {
 	$i=$1; $p=$fi{"C$i Package"}; $a=$fi{"C$i Architecture"};
-	if (!defined($p2f{$p})) {
+	if (!defined($p2f{$p}) && not $sourceonly) {
 	    if ($a eq 'any' || ($a eq 'all' && !$archspecific) ||
 		grep($_ eq $substvar{'Arch'}, split(/\s+/, $a))) {
 		&warn("package $p in control file but not in files list");

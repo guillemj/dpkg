@@ -45,7 +45,7 @@ END
 
 rootcommand=''
 signcommand=""
-if [ -e $GNUPGHOME/secring.pgp -o -e $HOME/.gnupg/secring.gpg ] && \
+if [ -e $GNUPGHOME/secring.gpg -o -e $HOME/.gnupg/secring.gpg ] && \
 		command -v gpg > /dev/null 2>&1; then
 	signcommand=gpg
 elif command -v pgp > /dev/null 2>&1 ; then
@@ -78,7 +78,7 @@ do
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
 	-ap)	usepause="true";;
-	-a*)    opt_a=1; targetarch="$value" ;;
+	-a*)    targetarch="$value" ;;
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
@@ -95,7 +95,7 @@ do
 	-v*)	since="$value" ;;
 	-m*)	maint="$value" ;;
 	-e*)	changedby="$value" ;;
-	-C*)	descfile="$value" ;;
+	-C*)	desc="$value" ;;
 	*)	echo >&2 "$progname: unknown option or argument $1"
 		usageversion; exit 2 ;;
 	esac
@@ -112,6 +112,13 @@ if test -n "$forcesigninterface" ; then
 else
   signinterface=$signcommand
 fi
+
+if [ "$signinterface" != "gpg" -a "$signinterface" != "pgp" -a \
+	"$signitnerface" != "debsign" ] ; \
+	echo >&2 "$progname: invalid sign interface specified"
+	exit 1
+fi
+
 if test "$signinterface" = "debsign"; then
 	signsource=:
 fi
@@ -141,7 +148,7 @@ else
 fi
 sversion=`echo "$version" | perl -pe 's/^\d+://'`
 pv="${package}_${sversion}"
-pva="${package}_${sversion}${arch:+_${arch}}"
+pva="${package}_${sversion}_${arch}
 
 signfile () {
 	if test "$signinterface" = "gpg" ; then
@@ -184,7 +191,7 @@ if [ x$sourceonly = x ]; then
 	withecho debian/rules build $archlist
 	withecho $rootcommand debian/rules $binarytarget $archlist
 fi
-if [ "$usepause" = "true" ] && [ "x$binaryonly" = x -o "x$signchanges" != x ] ; then
+if [ "$usepause" = "true" -a "signchanges" != ":" ] && [ "x$binaryonly" = x -o "x$signchanges" != x ] ; then
     echo Press the return key to start signing process
     read dummy_stuff
 fi
@@ -203,16 +210,27 @@ fileomitted () {
 	return $fir
 }	
 
-if fileomitted '\.dsc'; then
-	srcmsg='no source included in upload'
-elif fileomitted '\.diff\.gz'; then
-	srcmsg='Debian-specific package; upload is full source'
-elif fileomitted '\.orig\.tar\.gz'; then
-	srcmsg='diff-only upload (original source NOT included)'
-elif fileomitted '\.deb'; then
-	srcmsg='source-only upload'
+
+if fileomitted '\.deb'; then
+	# source only upload
+	if fileomitted '\.diff\.gz'; then
+		srcmsg='source only upload: Debian-native package'
+	elif fileomitted '\.orig\.tar\.gz'; then
+		srcmsg='source only, diff-only upload (original source NOT included)'
+	else
+		srcmsg='source only upload (original source is included)'
+	fi
 else
 	srcmsg='full upload (original source is included)'
+	if fileomitted '\.dsc'; then
+		srcmsg='binary only upload (no source included)'
+	elif fileomitted '\.diff\.gz'; then
+		srcmsg='full upload; Debian-native package (full source is included)'
+	elif fileomitted '\.orig\.tar\.gz'; then
+		srcmsg='binary and diff upload (original source NOT included)'
+	else
+		srcmsg='full upload (original source is included)'
+	fi
 fi
 
 $signchanges "$pva.changes"
