@@ -183,8 +183,12 @@ sub checkrename {
     (@sdest= lstat($rdest)) || $! == &ENOENT ||
         &quit("cannot stat new name \`$rdest': $!");
     $exist{$rdest} = 1 unless $! != &ENOENT;
+    # Unfortunately we have to check for write access in both
+    # places, just having +w is not enough, since people do
+    # mount things RO, and we need to fail before we start
+    # mucking around with things
     foreach $file ($rsrc,$rdest) {
-	open (TMP, "a $file") || &quit("error checking \`$file': $!");
+	open (TMP, ">> $file") || &quit("error checking \`$file': $!");
 	close TMP;
 	if ($exist{$file} == 1) {
 	    unlink ("$file");

@@ -16,6 +16,7 @@ Usage: update-alternatives --install <link> <name> <path> <priority>
        update-alternatives --remove <name> <path>
        update-alternatives --auto <name>
        update-alternatives --display <name>
+       update-alternatives --config <name>
 <name> is the name in /etc/alternatives.
 <path> is the name referred to.
 <link> is the link pointing to /etc/alternatives/<name>.
@@ -66,7 +67,7 @@ while (@ARGV) {
         @ARGV >= 2 || &badusage("--remove needs <name> <path>");
         ($name,$apath,@ARGV) = @ARGV;
         $mode= 'remove';
-    } elsif (m/^--(display|auto)$/) {
+    } elsif (m/^--(display|auto|config)$/) {
         &checkmanymodes;
         @ARGV || &badusage("--$1 needs <name>");
         $mode= $1;
@@ -170,6 +171,15 @@ $best= '';
 for ($i=0; $i<=$#versions; $i++) {
     if ($best eq '' || $priorities[$i] > $bestpri) {
         $best= $versions[$i]; $bestpri= $priorities[$i];
+    }
+}
+
+if ($mode eq 'config') {
+    if (!$dataread) {
+	&pr("No alternatives for $name.");
+    } else {
+	&config_alternatives($name);
+	exit 0;
     }
 }
 
@@ -419,6 +429,43 @@ if ($manual eq 'auto') {
             rename_mv("$altdir/$sname.dpkg-tmp","$altdir/$sname") ||
                 &quit("unable to install $altdir/$sname.dpkg-tmp as $altdir/$sname: $!");
         }
+    }
+}
+
+sub config_message {
+    if ($#versions == 0) {
+	print "\nThere is only 1 program which provides $name\n";
+	print "($versions[0]). Nothing to configure.\n";
+	return;
+    }
+    printf(STDOUT "\nThere are %s programs which provide \`$name'.\n\n", $#versions+1);
+    printf(STDOUT "  Selection    Command\n");
+    printf(STDOUT "-----------------------------------------------\n");
+    for ($i=0; $i<=$#versions; $i++) {
+	if ($best eq $versions[$i]) {
+	    printf(STDOUT "*     %s        %s\n", $i+1, $versions[$i]);
+	} else {
+	    printf(STDOUT "      %s        %s\n", $i+1, $versions[$i]);
+	}
+    }
+    printf(STDOUT "\nEnter to keep the default[*], or type selection number: ");
+}
+
+sub config_alternatives {
+    do {
+	&config_message;
+	if ($#versions == 0) { return; }
+	$preferred=<STDIN>;
+	chop($preferred);
+    } until $preferred eq '' || $preferred>=1 && $preferred<=$#versions+1 &&
+	($preferred =~ m/[0-9]*/);
+    if ($preferred ne '') {
+	$preferred--;
+	my $spath = $versions[$preferred];
+	symlink("$spath","$altdir/$name.dpkg-tmp") ||
+	    &quit("unable to make $altdir/$name.dpkg-tmp a symlink to $spath: $!");
+	rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
+	    &quit("unable to install $altdir/$name.dpkg-tmp as $altdir/$name: $!");
     }
 }
 
