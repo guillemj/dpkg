@@ -47,19 +47,29 @@ void myoptfile(const char* fn, const struct cmdinfo* cmdinfos) {
       while (isspace(*opt)) opt++;
     }
 
-    for (cip=cmdinfos; cip->olong || cip->oshort; cip++)
-      if (!strcmp(cip->olong,linebuf)) {
-        if (cip->takesvalue) {
-	  if (!opt) ohshite(_("configuration error: %s needs a value"), linebuf);
-	  if (cip->call) cip->call(cip,opt);
-	  else *cip->sassignto= opt;
-	} else {
-	  if (opt) ohshite(_("configuration error: %s does not take a value"), linebuf);
-	  if (cip->call) cip->call(cip,0);
-	  else *cip->iassignto= cip->arg;
-	}
+    for (cip=cmdinfos; cip->olong || cip->oshort; cip++) {
+      int l;
+      if (!cip->olong) continue;
+      if (!strcmp(cip->olong,linebuf)) break;
+      l=strlen(cip->olong);
+      if ((cip->takesvalue==2) && (linebuf[l]=='-') &&
+	  !opt && !strncmp(linebuf,cip->olong,l)) {
+	opt=linebuf+l+1;
+	break;
       }
+    }
+
     if (!cip->olong) ohshite(_("configuration error: unknown option %s"), linebuf);
+
+    if (cip->takesvalue) {
+      if (!opt) ohshite(_("configuration error: %s needs a value"), linebuf);
+      if (cip->call) cip->call(cip,opt);
+      else *cip->sassignto= opt;
+    } else {
+      if (opt) ohshite(_("configuration error: %s does not take a value"), linebuf);
+      if (cip->call) cip->call(cip,0);
+      else *cip->iassignto= cip->arg;
+    }
   }
   if (ferror(file)) ohshite(_("read error in configuration file `%.255s'"), fn);
   if (fclose(file)) ohshite(_("error closing configuration file `%.255s'"), fn);
