@@ -127,6 +127,26 @@ static int safe_read(int fd, void *buf, int len)
   return have;
 }
 
+static struct obstack tar_obs;
+static int tarobs_init= 0;
+
+/* ensure the obstack is properly initialized */
+static void ensureobstackinit() {
+
+  if (!tarobs_init) {
+    obstack_init(&tar_obs);
+    tarobs_init= 1;
+  }
+}
+
+/* destroy the obstack */
+static void destroyobstack() {
+  if (tarobs_init) {
+    obstack_free(&tar_obs, 0);
+    tarobs_init= 0;
+  }
+}
+
 int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
                      struct pkginfo *pkgbeinginstalled) {
   struct pkginfo *divpkg, *thirdpkg;
@@ -289,9 +309,6 @@ int unlinkorrmdir(const char *filename) {
   errno= e; return r;
 }
 
-static struct obstack tar_obs;
-static int tarobs_init = 0;
-
 int tarobject(struct TarInfo *ti) {
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
   const char *usename;
@@ -306,10 +323,7 @@ int tarobject(struct TarInfo *ti) {
   struct filepackages *packageslump;
   mode_t am;
 
-  if (!tarobs_init) {
-    obstack_init(&tar_obs);
-    tarobs_init = 1;
-  }
+  ensureobstackinit();
 
   /* Append to list of files.
    * The trailing / put on the end of names in tarfiles has already
@@ -639,6 +653,7 @@ static int try_remove_can(struct deppossi *pdep,
       }
     }
     pdep->up->up->clientdata->istobe= itb_deconfigure;
+    ensureobstackinit();
     newdeconf= obstack_alloc(&tar_obs, sizeof(struct packageinlist));
     newdeconf->next= deconfigure;
     newdeconf->pkg= pdep->up->up;
@@ -767,10 +782,7 @@ void cu_cidir(int argc, void **argv) {
 }  
 
 void cu_fileslist(int argc, void **argv) {
-  if (tarobs_init) {
-    obstack_free(&tar_obs, 0);
-    tarobs_init = 0;
-  }
+  destroyobstack();
 }  
 
 void archivefiles(const char *const *argv) {
