@@ -937,7 +937,7 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
   enum versiondisplayepochwhen needepochs;
   int r;
 
-  if (pkg->want != want_install) {
+  if (pkg->want != want_install && pkg->want != want_hold) {
     if (f_alsoselect) {
       if (saywhy) {
    printf(_("Selecting previously deselected package %s.\n"),pkg->name);
