@@ -5,15 +5,21 @@ sub ENOENT { 2; }
 # Sorry about this, but the errno-part of POSIX.pm isn't in perl-*-base
 
 $version= '1.0.11'; # This line modified by Makefile
+$dpkglibdir= "."; # This line modified by Makefile
+
 sub showversion {
     print("Debian GNU/Linux dpkg-divert $version.\n") || &quit("failed to write version: $!");
 }
 
 sub usage {
     &showversion;
-    print(STDOUT <<END)
-Copyright (C) 1995 Ian Jackson.  This is free software; see the GNU General
-Public Licence version 2 or later for copying conditions. There is NO warranty.
+    print(STDERR <<END)
+"Debian dpkg-divert $version.
+Copyright (C) 1995 Ian Jackson.
+Copyright (C) 2000 Wichert Akkerman
+
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions. There is NO warranty.
 
 Usage:
 
@@ -40,7 +46,6 @@ END
         || &quit("failed to write usage: $!");
 }
 
-$admindir= '/var/lib/dpkg';
 $testmode= 0;
 $dorename= 0;
 $verbose= 1;
@@ -88,7 +93,7 @@ while (@ARGV) {
         $divertto =~ m/\n/ && &badusage("package may not contain newlines");
     } elsif (m/^--admindir$/) {
         @ARGV || &badusage("--admindir needs a directory argument");
-        $admindir= shift(@ARGV);
+        $dpkglibdir= shift(@ARGV);
     } else {
         &badusage("unknown option \`$_'");
     }
@@ -96,7 +101,7 @@ while (@ARGV) {
 
 $mode='add' unless $mode;
 
-open(O,"$admindir/diversions") || &quit("cannot open diversions: $!");
+open(O,"$dpkglibdir/diversions") || &quit("cannot open diversions: $!");
 while(<O>) {
     s/\n$//; push(@contest,$_);
     $_=<O>; s/\n$// || &badfmt("missing altname");
@@ -165,7 +170,7 @@ if ($mode eq 'add') {
         s/\\\*/.*/g;
         push(@list,"^$_\$");
     }
-    $pat= join('$|^',@list);
+    $pat= join('|',@list);
     for ($i=0; $i<=$#contest; $i++) {
         next unless ($contest[$i] =~ m/$pat/o ||
                      $altname[$i] =~ m/$pat/o ||
@@ -229,18 +234,18 @@ sub dorename {
     
 sub save {
     return if $testmode;
-    open(N,"> $admindir/diversions-new") || &quit("create diversions-new: $!");
-    chmod 0644, "$admindir/diversions-new";
+    open(N,"> $dpkglibdir/diversions-new") || &quit("create diversions-new: $!");
+    chmod 0644, "$dpkglibdir/diversions-new";
     for ($i=0; $i<=$#contest; $i++) {
         print(N "$contest[$i]\n$altname[$i]\n$package[$i]\n")
             || &quit("write diversions-new: $!");
     }
     close(N) || &quit("close diversions-new: $!");
-    unlink("$admindir/diversions-old") ||
+    unlink("$dpkglibdir/diversions-old") ||
         $! == &ENOENT || &quit("remove old diversions-old: $!");
-    link("$admindir/diversions","$admindir/diversions-old") ||
+    link("$dpkglibdir/diversions","$dpkglibdir/diversions-old") ||
         $! == &ENOENT || &quit("create new diversions-old: $!");
-    rename("$admindir/diversions-new","$admindir/diversions")
+    rename("$dpkglibdir/diversions-new","$dpkglibdir/diversions")
         || &quit("install new diversions: $!");
 }
 
@@ -249,4 +254,4 @@ sub infon { &infol($contest[$i],$altname[$i],$package[$i]); }
 
 sub quit { print STDERR "dpkg-divert: @_\n"; exit(2); }
 sub badusage { print STDERR "dpkg-divert: @_\n\n"; print("You need --help.\n"); exit(2); }
-sub badfmt { &quit("internal error: $admindir/diversions corrupt: $_[0]"); }
+sub badfmt { &quit("internal error: $dpkglibdir/diversions corrupt: $_[0]"); }

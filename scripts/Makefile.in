@@ -10,7 +10,7 @@ BIN_SCRIPTS		= dpkg-name dpkg-source dpkg-genchanges \
 			  dpkg-scanpackages dpkg-scansources dpkg-architecture
 
 SBIN_SCRIPTS		= update-rc.d update-alternatives install-info \
-			  dpkg-divert cleanup-info
+			  dpkg-divert dpkg-statoverride cleanup-info
 
 MAN1PAGES		= dpkg-name.1 dpkg-source.1 822-date.1 dpkg-architecture.1
 MAN8PAGES		= update-rc.d.8 update-alternatives.8 install-info.8  \
@@ -62,7 +62,7 @@ install-program:
 	$(mkinstalldirs) $(DESTDIR)/$(parsechangelogdir)
 	set -e ; for i in $(CHANGELOG_PARSERS) ; do \
 		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
-		rn=`echo $$i | sed -e 's/^cl-//'` ; \
+		rn=`echo $$i | $(SED) -e 's/^cl-//'` ; \
 		$(INSTALL_SCRIPT) $$d$$i $(DESTDIR)/$(parsechangelogdir)/$$rn ; \
 	done
 	$(mkinstalldirs) $(DESTDIR)/$(dpkglibdir)

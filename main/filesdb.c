@@ -3,6 +3,7 @@
  * filesdb.c - management of database of files installed on system
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2000 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -338,13 +339,15 @@ void ensure_statoverrides(void) {
   if (!file) {
     if (errno != ENOENT) ohshite(_("failed to open statoverride file"));
     if (!statoverridefile) { onerr_abort--; return; }
-  } else if (statoverridefile) {
-    if (fstat(fileno(statoverridefile),&stab1))
-      ohshite(_("failed to fstat previous statoverride file"));
+  } else {
     if (fstat(fileno(file),&stab2))
       ohshite(_("failed to fstat statoverride file"));
-    if (stab1.st_dev == stab2.st_dev && stab1.st_ino == stab2.st_ino) {
-      fclose(file); onerr_abort--; return;
+    if (statoverridefile) {
+      if (fstat(fileno(statoverridefile),&stab1))
+	ohshite(_("failed to fstat previous statoverride file"));
+      if (stab1.st_dev == stab2.st_dev && stab1.st_ino == stab2.st_ino) {
+	fclose(file); onerr_abort--; return;
+      }
     }
   }
   if (statoverridefile) fclose(statoverridefile);
@@ -352,12 +355,12 @@ void ensure_statoverrides(void) {
 
   push_cleanup(cu_closefile,ehflag_bombout, 0,0,1,(void*)file);
 
-  loaded_list = nfmalloc(stab1.st_size);
-  loaded_list_end = loaded_list + stab1.st_size;
+  loaded_list = nfmalloc(stab2.st_size);
+  loaded_list_end = loaded_list + stab2.st_size;
   readden=0;
-  while (readden<stab1.st_size) {
+  while (readden<stab2.st_size) {
     bytes = read(fileno(file),
-	loaded_list + readden, stab1.st_size - readden);
+	loaded_list + readden, stab2.st_size - readden);
     if (bytes < 0) {
       if (errno == EINTR) continue;
       ohshite("unable to read statoverride file `%.250s'",vb.buf);

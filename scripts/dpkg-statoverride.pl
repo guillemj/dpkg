@@ -1,0 +1,166 @@
+#! /usr/bin/perl
+
+$dpkglibdir= "/var/lib/dpkg"; # This line modified by Makefile
+$version= '1.3.0'; # This line modified by Makefile
+
+$verbose= 1;
+$force= 0;
+$doupdate= 0;
+$mode= "";
+
+sub UsageVersion {
+	print STDERR <<EOF || &quit("failed to write usage: $!");
+"Debian dpkg-statoverride $version.
+Copyright (C) 2000 Wichert Akkerman.
+
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions.  There is NO warranty.
+
+Usage:
+
+  dpkg-statoverride [options] --add <owner> <group> <mode> <file>
+  dpkg-statoverride [options] --remove <file>
+  dpkg-statoverride [options] --list [<glob-pattern>]
+
+Options:
+  --update                 immediately update file permissions
+  --force                  force an action even if a sanity check fails
+  --quiet                  quiet operation, minimal output
+  --help                   print this help screenm and exit
+  --admindir <directory>   set the directory with the statoverride file
+EOF
+}
+
+sub CheckModeConflict {
+	return unless $mode;
+	&badusage("two modes specified: $_ and --$mode");
+}
+
+while (@ARGV) {
+	$_=shift(@ARGV);
+	last if m/^--$/;
+	if (!m/^-/) {
+		unshift(@ARGV,$_); last;
+	} elsif (m/^--help$/) {
+		&UsageVersion; exit(0);
+	} elsif (m/^--update$/) {
+		$doupdate=1;
+	} elsif (m/^--quiet$/) {
+		$verbose=1;
+	} elsif (m/^--force$/) {
+		$force=1;
+	} elsif (m/^--admindir$/) {
+		@ARGV || &badusage("--admindir needs a directory argument");
+		$dpkglibdir= shift(@ARGV);
+	} elsif (m/^--add$/) {
+		&CheckModeConflict;
+		$mode= 'add';
+	} elsif (m/^--remove$/) {
+		&CheckModeConflict;
+		$mode= 'remove';
+	} elsif (m/^--list$/) {
+		&CheckModeConflict;
+		$mode= 'list';
+	} else {
+		&badusage("unknown option \`$_'");
+	}
+}
+
+$dowrite=0;
+
+&badusage("no mode specified") unless $mode;
+&ReadOverrides;
+
+if ($mode eq "add") {
+	@ARGV==4 || &badusage("--add needs four arguments");
+	$user=$ARGV[0];
+	($user =~ m/^#[0-9]*/ or (($tmp)=getpwnam($user))) || &badusage("illegal user $user");
+	$group=$ARGV[1];
+	($group =~ m/^#[0-9]*/ or (($tmp)=getgrnam($group))) || &badusage("illegal group $group");
+	$mode= $ARGV[2];
+	(($mode<0) or ($mode>07777)) && &badusage("illegal mode $mode");
+	$file= $ARGV[3];
+	$file =~ m/\n/ && &badusage("file may not contain newlines");
+
+	if (defined $user{$file}) {
+		print STDERR "An override for \"$file\" already exists, ";
+		if ($doforce) {
+			print STDERR "but --force specified so lets ignore it.\n";
+		} else {
+			print STDERR "aborting\n";
+			exit(3);
+		}
+	}
+	$user{$file}=$user;
+	$group{$file}=$group;
+	$mode{$file}=$mode;
+	$dowrite=1;
+} elsif ($mode eq "remove") {
+	@ARGV==1 || &badusage("--remove needs four arguments");
+	$file=$ARGV[0];
+	if (not defined $user{$file}) {
+		print "No override present.";
+		exit(0);
+	}
+	delete $user{$file};
+	delete $group{$file};
+	delete $mode{$file};
+	$dowrite=1;
+} elsif ($mode eq "list") {
+	my (@list,@ilist,$pattern,$file);
+	
+	@ilist= @ARGV ? @ARGV : ('*');
+	while (defined($_=shift(@ilist))) {
+		s/\W/\\$&/g;
+		s/\\\?/./g;
+		s/\\\*/.*/g;
+		push(@list,"^$_\$");
+	}
+	$pat= join('|',@list);
+	for $file (keys %owner) {
+		next unless ($file =~ m/$pat/o);
+		print "$owner{$file} $group{$file} $mode{$file} $file\n";
+	}
+}
+
+&WriteOverrides if ($dowrite);
+
+exit(0);
+
+sub ReadOverrides {
+	open(SO,"$dpkglibdir/statoverride") || &quit("cannot open statoverride: $!");
+	while (<SO>) {
+		my ($owner,$group,$mode,$file);
+		chomp;
+
+		($owner,$group,$mode,$file)=split(' ', $_, 4);
+		die "Multiple overrides for \"$file\", aborting"
+			if defined $owner{$file};
+		$owner{$file}=$owner;
+		$group{$file}=$group;
+		$mode{$file}=$mode;
+	}
+	close(SO);
+}
+
+
+sub WriteOverrides {
+	my ($file);
+
+	open(SO,"$dpkglibdir/statoverride-new") || &quit("cannot open new statoverride file: $!");
+	foreach $file (keys %owner) {
+		print SO "$owner{$file} $group{$file} $mode{$file} $file\n";
+	}
+	close(SO);
+	chmod(0644, "$dpkglibdir/statoverride-new");
+	unlink("$dpkglibdir/statoverride-old") ||
+		$! == &ENOENT || &quit("error removing statoverride-old: $!");
+	link("$dpkglibdir/statoverride","$dpkglibdir/statoverride-old") ||
+		$! == &ENOENT || &quit("error creating new statoverride-old: $!");
+	rename("$dpkglibdir/statoverride-new","$dpkglibdir/statoverride")
+		|| &quit("error installing new statoverride: $!");
+}
+
+
+sub quit { print STDERR "dpkg-statoverride: @_\n"; exit(2); }
+sub badusage { print STDERR "dpkg-statoverride: @_\n\n"; print("You need --help.\n"); exit(2); }
