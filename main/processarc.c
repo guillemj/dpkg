@@ -162,6 +162,7 @@ void process_archive(const char *filename) {
 
   if (f_noact) {
     cidir= cidirtmpnambuf;
+    /* We use tmpnam here, not to get a unique filename, but to get a unique directory. */
     if (!tmpnam(cidir)) ohshite(_("unable to get unique filename for control info"));
     strcat(cidir,"/");
   } else {

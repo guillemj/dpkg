@@ -64,6 +64,7 @@ static void info_prepare(const char *const **argvp,
   
   *debarp= *(*argvp)++;
   if (!*debarp) badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
+  /* This created a temporary directory, so ignore the warning. */
   if ((dbuf= tempnam(NULL,"dpkg")) == NULL)
     ohshite(_("failed to make temporary filename"));
   *directoryp= dbuf;
