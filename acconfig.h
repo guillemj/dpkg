@@ -18,6 +18,9 @@
 /* Define if constant functions a la GCC 2.5 and higher are available.  */
 #undef HAVE_GNUC25_CONST
 
+/* Define if unused variables la GCC 2.5 and higher are available.  */
+#undef HAVE_GNUC25_UNUSED
+
 /* Define if nonreturning functions a la GCC 2.5 and higher are available.  */
 #undef HAVE_GNUC25_NORETURN
 
