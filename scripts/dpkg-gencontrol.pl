@@ -56,8 +56,8 @@ while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-p([-+0-9a-z.]+)$/) {
         $oppackage= $1;
-    } elsif (m/^-p/) {
-        &usageerr("Illegal package name \`$1'");
+    } elsif (m/^-p(.*)/) {
+        &error("Illegal package name \`$1'");
     } elsif (m/^-c/) {
         $controlfile= $';
     } elsif (m/^-l/) {

@@ -32,6 +32,8 @@
 #  define OSOpenBSD
 #elif defined(hpux)
 #  define OShpux
+#elif defined(__FreeBSD__)
+#  define OSFreeBSD
 #else
 #  error Unknown architecture - cannot build start-stop-daemon
 #endif
@@ -43,7 +45,7 @@
 #  include <ps.h>
 #endif
 
-#if defined(OSOpenBSD)
+#if defined(OSOpenBSD) || defined(OSFreeBSD)
 #include <sys/param.h>
 #include <sys/user.h>
 #include <sys/proc.h>
@@ -675,7 +677,7 @@ check(pid_t pid)
 {
 #if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
-#elif defined(OSHURD)
+#elif defined(OSHURD) || defined(OSFreeBSD)
     /* I will try this to see if it works */
 	if (execname && !pid_is_cmd(pid, execname))
 #endif
@@ -707,7 +709,8 @@ do_pidfile(const char *name)
 
 /* WTA: this  needs to be an autoconf check for /proc/pid existance.
  */
-#if defined(OSLinux) || defined (OSsunos)
+
+#if defined(OSLinux) || defined (OSsunos) || defined(OSfreebsd)
 static void
 do_procinit(void)
 {
@@ -768,8 +771,8 @@ do_procinit(void)
 #endif /* OSHURD */
 
 
-#if defined(OSOpenBSD)
-int
+#if defined(OSOpenBSD) || defined(OSFreeBSD)
+static int
 pid_is_cmd(pid_t pid, const char *name)
 {
         kvm_t *kd;
@@ -810,8 +813,8 @@ pid_is_cmd(pid_t pid, const char *name)
         return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
 }
  
-int
-pid_is_user(pid_t pid, int uid)
+static int
+pid_is_user(pid_t pid, uid_t uid)
 {
 	kvm_t *kd;
 	int nentries;   /* Value not used */
@@ -833,7 +836,7 @@ pid_is_user(pid_t pid, int uid)
 	return (proc_uid == (uid_t)uid);
 }
 
-int
+static int
 pid_is_exec(pid_t pid, const char *name)
 {
 	kvm_t *kd;
