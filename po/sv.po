@@ -6,7 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10\n"
-"POT-Creation-Date: 2004-03-13 18:36+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-04-25 15:37+0100\n"
 "PO-Revision-Date: 2004-03-13 18:37+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Peter Karlsson <peterk@debian.org>\n"
@@ -218,6 +219,7 @@ msgstr ""
 " %s\n"
 
 #: lib/ehandle.c:111
+#, c-format
 msgid "dpkg: too many nested errors during error recovery !!\n"
 msgstr "dpkg: för många nästlade fel vid feluppstädning!!\n"
 
@@ -796,6 +798,7 @@ msgid "invalid character `%c' in field width\n"
 msgstr "ogiltigt tecken \"%c\" i fältbredd\n"
 
 #: lib/showpkg.c:157
+#, c-format
 msgid "Closing brace missing in format\n"
 msgstr "Avslutande klammerparentes i format\n"
 
@@ -886,7 +889,7 @@ msgstr "försöker skriva över \"%.250s\" som också finns i paketet %.250s"
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:368 main/archives.c:496
+#: main/archives.c:496 dpkg-deb/build.c:368
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "kunde inte skapa \"%.255s\""
@@ -1050,6 +1053,7 @@ msgid "conflicting packages - not installing %.250s"
 msgstr "paketkonflikt - installerar inte %.250s"
 
 #: main/archives.c:770
+#, c-format
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
 msgstr "dpkg: varning - ignorerar konflikt, kan ändå fortsätta!\n"
 
@@ -1367,6 +1371,7 @@ msgid " (actually `%s')"
 msgstr " (i verkligheten \"%s\")"
 
 #: main/configure.c:535
+#, c-format
 msgid ""
 "\n"
 " ==> File on system created by you or by a script.\n"
@@ -1377,6 +1382,7 @@ msgstr ""
 " ==> Paketansvariges version finns även i paketet du installerar.\n"
 
 #: main/configure.c:540
+#, c-format
 msgid ""
 "\n"
 " ==> Modified (by you or by a script) since installation.\n"
@@ -1385,6 +1391,7 @@ msgstr ""
 " ==> Modifierad (av dig eller ett program) sedan installationen.\n"
 
 #: main/configure.c:541
+#, c-format
 msgid ""
 "\n"
 "     Not modified since installation.\n"
@@ -1393,30 +1400,37 @@ msgstr ""
 "     Ej modifierad sedan installationen.\n"
 
 #: main/configure.c:544
+#, c-format
 msgid " ==> Package distributor has shipped an updated version.\n"
 msgstr " ==> Paketdistributören har uppdaterat konfigurationsfilen.\n"
 
 #: main/configure.c:545
+#, c-format
 msgid "     Version in package is the same as at last installation.\n"
 msgstr "     Versionen i paketet är samma som vid senaste installationen.\n"
 
 #: main/configure.c:552
+#, c-format
 msgid " ==> Using new file as you requested.\n"
 msgstr " ==> Använder ny fil enligt önskemål.\n"
 
 #: main/configure.c:556
+#, c-format
 msgid " ==> Using current old file as you requested.\n"
 msgstr " ==> Använder nuvarande gammal fil enligt önskemål.\n"
 
 #: main/configure.c:566
+#, c-format
 msgid " ==> Keeping old config file as default.\n"
 msgstr " ==> Behåller gammal konfigurationsfil enligt förval.\n"
 
 #: main/configure.c:570
+#, c-format
 msgid " ==> Using new config file as default.\n"
 msgstr " ==> Använder ny konfigurationsfil enligt förval.\n"
 
 #: main/configure.c:578
+#, c-format
 msgid ""
 "   What would you like to do about it ?  Your options are:\n"
 "    Y or I  : install the package maintainer's version\n"
@@ -1431,10 +1445,12 @@ msgstr ""
 "      Z     : lägg denna process i bakgrunden för att undersöka situationen\n"
 
 #: main/configure.c:585
+#, c-format
 msgid " The default action is to keep your current version.\n"
 msgstr " Förvald funktion är att behålla din nuvarande version.\n"
 
 #: main/configure.c:587
+#, c-format
 msgid " The default action is to install the new version.\n"
 msgstr " Förvald funktion är att installera den nya versionen.\n"
 
@@ -1647,6 +1663,7 @@ msgid "--assert-* does not take any arguments"
 msgstr "--assert-* tar inget argument"
 
 #: main/enquiry.c:260
+#, c-format
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
@@ -1655,6 +1672,7 @@ msgstr ""
 " Använd \"dpkg --configure dpkg\" och försök sedan igen.\n"
 
 #: main/enquiry.c:264
+#, c-format
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
 msgstr ""
 "dpkg finns inte listad som installerad, kan inte kontrollera epochstöd!\n"
@@ -1758,6 +1776,7 @@ msgstr ""
 "paket."
 
 #: main/errors.c:70
+#, c-format
 msgid "dpkg: too many errors, stopping\n"
 msgstr "dpkg: för många fel, avbryter\n"
 
@@ -1818,6 +1837,7 @@ msgid "error closing files list file for package `%.250s'"
 msgstr "fel vid stängning av fillistfilen för paketet \"%.250s\""
 
 #: main/filesdb.c:201
+#, c-format
 msgid "(Reading database ... "
 msgstr "(Läser databasen ... "
 
@@ -1934,7 +1954,7 @@ msgstr "motsägande omdirigeringar av \"%.250s\" eller \"%.250s\""
 msgid "read error in diversions [i]"
 msgstr "läsfel i omdirigeringsfil [i]"
 
-#: dselect/pkgdisplay.cc:52 main/help.c:41
+#: main/help.c:41 dselect/pkgdisplay.cc:52
 msgid "not installed"
 msgstr "ej installerat"
 
@@ -1946,7 +1966,7 @@ msgstr "uppackat, men okonfigurerat"
 msgid "broken due to postinst failure"
 msgstr "trasigt p.g.a fel i postinst"
 
-#: dselect/pkgdisplay.cc:55 main/help.c:44
+#: main/help.c:44 dselect/pkgdisplay.cc:55
 msgid "installed"
 msgstr "installerat"
 
@@ -2028,6 +2048,7 @@ msgid "dpkg: warning - unable to stat %s `%.250s': %s\n"
 msgstr "dpkg: varning - kunde inte ta status på %s \"%.250s\": %s\n"
 
 #: main/help.c:361
+#, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - försöker skript från det nya paketet istället ...\n"
 
@@ -2046,6 +2067,7 @@ msgid "unable to stat %s `%.250s'"
 msgstr "kunde inte ta status på %s \"%.250s\""
 
 #: main/help.c:378
+#, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... det verkar ha fungerat.\n"
 
@@ -2055,7 +2077,7 @@ msgstr "dpkg: ... det verkar ha fungerat.\n"
 msgid "failed to rmdir/unlink `%.255s'"
 msgstr "kunde inte ta bort fil eller katalog \"%.255s\""
 
-#: dpkg-deb/info.c:54 main/help.c:477
+#: main/help.c:477 dpkg-deb/info.c:54
 msgid "failed to exec rm for cleanup"
 msgstr "kunde inte utföra rm för upprensning"
 
@@ -2244,7 +2266,7 @@ msgstr ""
 "Flaggor markerade med [*] ger mycket utdata - kör genom \"less\" eller \"more"
 "\"!"
 
-#: dpkg-deb/main.c:157 main/main.c:185 main/query.c:506 split/main.c:144
+#: main/main.c:185 main/query.c:506 dpkg-deb/main.c:157 split/main.c:144
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "motstridiga val --%s och --%s"
@@ -2427,7 +2449,7 @@ msgstr "kunde inte öppna \"%i\" för ström"
 msgid "unexpected eof before end of line %d"
 msgstr "oväntat filslut före slut på rad %d"
 
-#: dpkg-deb/main.c:169 main/main.c:540 main/main.c:555 main/query.c:541
+#: main/main.c:540 main/main.c:555 main/query.c:541 dpkg-deb/main.c:169
 #: split/main.c:157
 msgid "need an action option"
 msgstr "du har inte talat om vad som skall utföras"
@@ -2551,6 +2573,7 @@ msgstr ""
 "men installerar ändå enligt önskemål.\n"
 
 #: main/processarc.c:157
+#, c-format
 msgid "passed\n"
 msgstr "lyckades\n"
 
@@ -2588,6 +2611,7 @@ msgid "pre-dependency problem - not installing %.250s"
 msgstr "för-beroendeproblem - installerar inte %.250s"
 
 #: main/processarc.c:269
+#, c-format
 msgid "dpkg: warning - ignoring pre-dependency problem !\n"
 msgstr "dpkg: varning - ignorerar för-beroendeproblem!\n"
 
@@ -2847,7 +2871,7 @@ msgstr "kan inte ta bort gammal fillista"
 msgid "can't remove old postrm script"
 msgstr "kunde inte ta bort gammalt postrm-skript"
 
-#: main/query.c:200 main/query.c:422 main/select.c:80
+#: main/select.c:80 main/query.c:200 main/query.c:422
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Inga paket matchar %s.\n"
@@ -2955,7 +2979,7 @@ msgstr "Namn"
 msgid "Version"
 msgstr "Version"
 
-#: dselect/methlist.cc:122 dselect/pkgtop.cc:297 main/query.c:144
+#: main/query.c:144 dselect/methlist.cc:122 dselect/pkgtop.cc:297
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -2965,6 +2989,7 @@ msgid "diversion by %s"
 msgstr "omdirigerat av %s"
 
 #: main/query.c:217
+#, c-format
 msgid "local diversion"
 msgstr "lokal omdirigering"
 
@@ -3006,10 +3031,12 @@ msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Paketet \"%s\" innehåller inga filer (!)\n"
 
 #: main/query.c:351
+#, c-format
 msgid "locally diverted"
 msgstr "lokalt omdirigerad"
 
 #: main/query.c:352
+#, c-format
 msgid "package diverts others"
 msgstr "paketet omdirigerar andra"
 
@@ -3031,7 +3058,7 @@ msgstr ""
 "Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
 "och dpkg --contents (= dpkg-deb --contents) för att visa innehållet.\n"
 
-#: dpkg-deb/main.c:46 main/query.c:434
+#: main/query.c:434 dpkg-deb/main.c:46
 msgid "Debian `"
 msgstr "Debian \""
 
@@ -3040,6 +3067,7 @@ msgid "' package management program query tool\n"
 msgstr "\" frågeverktyg för pakethanteringsprogrammet\n"
 
 #: main/query.c:448
+#, c-format
 msgid "Usage: "
 msgstr "Användning: "
 
@@ -3381,6 +3409,7 @@ msgstr ""
 "filen \"%.250s\" är trasig - fel magisk siffra i slutet av första huvudet"
 
 #: dpkg-deb/extract.c:125
+#, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "filen \"%.250s\" är trasig - negativ medlemslängd %zi"
 
@@ -3425,6 +3454,7 @@ msgid "file `%.250s' contains two control members, giving up"
 msgstr "filen \"%.250s\" innehåller två kontrolldelar, ger upp"
 
 #: dpkg-deb/extract.c:176
+#, c-format
 msgid ""
 " new debian package, version %s.\n"
 " size %ld bytes: control archive= %zi bytes.\n"
@@ -3442,6 +3472,7 @@ msgid "archive has malformatted ctrl len `%s'"
 msgstr "arkivet har felformaterad kontrollängd \"%s\""
 
 #: dpkg-deb/extract.c:193
+#, c-format
 msgid ""
 " old debian package, version %s.\n"
 " size %ld bytes: control archive= %ld, main archive= %zi.\n"
@@ -3454,6 +3485,7 @@ msgid "ctrlarea"
 msgstr "kontrollområde"
 
 #: dpkg-deb/extract.c:208
+#, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
 "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"
@@ -3845,6 +3877,7 @@ msgid "file `%.250s' is not an archive part"
 msgstr "filen \"%.250s\" är inte en arkivdel"
 
 #: split/info.c:188
+#, c-format
 msgid ""
 "%s:\n"
 "    Part format version:            %s\n"
@@ -3892,6 +3925,7 @@ msgid "unable to (re)open input part file `%.250s'"
 msgstr "kunde inte (åter)öppna indatadelfil \"%.250s\""
 
 #: split/join.c:68
+#, c-format
 msgid "done\n"
 msgstr "klar\n"
 
@@ -4181,6 +4215,7 @@ msgid "%s: error reading %s\n"
 msgstr "%s: fel vid läsning av %s\n"
 
 #: utils/md5sum.c:294
+#, c-format
 msgid "FAILED\n"
 msgstr "MISSLYCKADES\n"
 
@@ -4190,6 +4225,7 @@ msgid "%s: MD5 check failed for '%s'\n"
 msgstr "%s: MD5-kontroll misslyckades för \"%s\"\n"
 
 #: utils/md5sum.c:299
+#, c-format
 msgid "OK\n"
 msgstr "OK\n"
 
@@ -4618,14 +4654,17 @@ msgstr ""
 "Handlingar: access update select install config remove quit\n"
 
 #: dselect/main.cc:178
+#, c-format
 msgid "Screenparts:\n"
 msgstr "Skärmdelar:\n"
 
 #: dselect/main.cc:183
+#, c-format
 msgid "Colours:\n"
 msgstr "Färger:\n"
 
 #: dselect/main.cc:188
+#, c-format
 msgid "Attributes:\n"
 msgstr "Attribut:\n"
 
@@ -4799,6 +4838,7 @@ msgid "returned error exit status %d.\n"
 msgstr "returnerade felkod %d.\n"
 
 #: dselect/method.cc:190
+#, c-format
 msgid "was interrupted.\n"
 msgstr "avbröts.\n"
 
@@ -4808,6 +4848,7 @@ msgid "was terminated by a signal: %s.\n"
 msgstr "avbröts av signal: %s.\n"
 
 #: dselect/method.cc:195
+#, c-format
 msgid "(It left a coredump.)\n"
 msgstr "(Lämnade minnesutskrift.)\n"
 
@@ -4817,6 +4858,7 @@ msgid "failed with an unknown wait return code %d.\n"
 msgstr "misslyckades med okänt väntekod %d.\n"
 
 #: dselect/method.cc:199
+#, c-format
 msgid "Press <enter> to continue.\n"
 msgstr "Tryck <Enter> för att fortsätta.\n"
 
