@@ -8,6 +8,7 @@ $version= '1.2.6'; # This line modified by Makefile
         'package_revision','revision');
 
 @fieldpri= ('Package',
+	    'Source',
             'Version',
             'Priority',
             'Section',
@@ -23,6 +24,7 @@ $version= '1.2.6'; # This line modified by Makefile
             'Architecture',
             'Filename',
             'Size',
+	    'Installed-Size',
             'MD5sum',
             'Description');
 
