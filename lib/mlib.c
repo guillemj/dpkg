@@ -168,7 +168,7 @@ int do_fd_copy(int fd1, int fd2, int limit, char *desc) {
 	ohshite(_("failed in copy on read"));
       snprintf(sbuf, count, er_msg_3, desc);
       sbuf[count-1] = 0;
-      ohsite(sbuf);
+      ohshite(sbuf);
     }
 
     free(sbuf);
