@@ -154,12 +154,12 @@ static const char copyrightstring[]= N_(
       "Copyright (C) 2000,2001 Wichert Akkerman.\n"
       "This is free software; see the GNU General Public Licence version 2\n"
       "or later for copying conditions.  There is NO warranty.  See\n"
-      "dselect --licence for details.\n");
+      "%s --licence for copyright and license details.\n");
 
 static void printversion(void) {
   if (fprintf(stdout,gettext(programdesc),DSELECT) == EOF) werr("stdout");
   if (fprintf(stdout,"\n") == EOF) werr("stdout");
-  if (fprintf(stdout,gettext(copyrightstring), DPKG_VERSION_ARCH) == EOF) werr("stdout");
+  if (fprintf(stdout,gettext(copyrightstring), DPKG_VERSION_ARCH, DSELECT) == EOF) werr("stdout");
 }
 
 static void usage(void) {

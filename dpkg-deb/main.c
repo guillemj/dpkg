@@ -43,14 +43,12 @@
 const char* showformat	= "${pkg:Package}\t${pkg:Version}\n";
 
 static void printversion(void) {
-  if (fputs(_("Debian `"), stdout) < 0) werr("stdout");
-  if (fputs(BACKEND, stdout) < 0) werr("stdout");
-  if (fputs(_("' package archive backend version "), stdout) < 0) werr("stdout");
-  if (fputs(DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
-  if (fputs(_("This is free software; see the GNU General Public Licence version 2 or\n"
-	      "later for copying conditions. There is NO warranty.\n"
-	      "See dpkg-deb --licence for details.\n"),
-	    stdout) < 0) werr("stdout");
+  if (printf(_("Debian `%s' package archive backend version %s."), BACKEND, DPKG_VERSION_ARCH) < 0) werr("stdout");
+  if (printf(_("This is free software; see the GNU General Public Licence version 2 or\n"
+             "later for copying conditions. There is NO warranty.\n"
+             "See %s --licence for copyright and license details.\n"),
+           BACKEND) < 0) werr("stdout");
+  if (fflush(stdout) < 0) werr("stdout");
 }
 
 static void usage(void) {
