@@ -195,7 +195,7 @@ void print_info(const struct partinfo *pi) {
          "    Part number:                    %d/%d\n"
          "    Part length:                    %lu bytes\n"
          "    Part offset:                    %lu bytes\n"
-         "    Part file size (used portion):  %lu bytes\n\n"),
+         "    Part file size (used portion):  %zi bytes\n\n"),
          pi->filename,
          pi->fmtversion,
          pi->package,
