@@ -27,6 +27,10 @@ dpkg (1.10.11) unstable; urgency=low
       * Branden Robinson <branden@debian.org>:
         Report the original casing of field names when they are unknown.
         Closes: #177753
+  * Patch dpkg-buildpackage to call debian/rules -qn build-arch, and if
+    it's available, modify -B handling appropriately.  If build-arch is not
+    available, then when -B was called, do *not* pass -B on to
+    dpkg-checkbuilddeps.  Closes: #203097
   * Frank Lichtenheld <frank@lichtenheld.de>:
     Apply patch, to handle missing infodir.bak, and empty files.  Closes:
     #196361
