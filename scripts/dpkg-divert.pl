@@ -13,10 +13,9 @@ sub showversion {
 
 sub usage {
     &showversion;
-    print(STDERR <<END)
-"Debian dpkg-divert $version.
+    print STDERR <<EOF
 Copyright (C) 1995 Ian Jackson.
-Copyright (C) 2000 Wichert Akkerman
+Copyright (C) 2000 Wichert Akkerman.
 
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO warranty.
@@ -42,7 +41,7 @@ Options:
 When adding, default is --local and --divert <original>.distrib.
 When removing, --package or --local and --divert must match if specified.
 Package preinst/postrm scripts should always specify --package and --divert.
-END
+EOF
         || &quit("failed to write usage: $!");
 }
 
