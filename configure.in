@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 
-AC_PREREQ([2.13])
+AC_PREREQ([2.53])
 
 AC_INIT(include/dpkg.h.in)
 AC_CONFIG_HEADER(config.h)
@@ -77,6 +77,8 @@ AC_SUBST(PACKAGE)
 VERSION=`cat $srcdir/version-nr`
 AC_SUBST(VERSION)
 
+AC_SYS_LARGEFILE
+
 dnl test to see if srcdir already configured
 if test "`cd $srcdir && pwd`" != "`pwd`" && test -f $srcdir/config.status; then
   AC_MSG_ERROR([source directory already configured; run "make distclean" there first])
@@ -132,7 +134,6 @@ AC_CHECK_FUNCS(vsnprintf lchown snprintf)
 AC_CHECK_HEADERS(sys/cdefs.h syslog.h stddef.h)
 AC_CHECK_HEADERS(error.h)
 AC_SYS_SIGLIST_DECLARED
-
 AC_CHECK_LIB(ihash, ihash_create, SSD_LIBS="-lihash $SSD_LIBS")
 AC_CHECK_LIB(ps, proc_stat_list_create, SSD_LIBS="-lps $SSD_LIBS")
 AC_CHECK_LIB(shouldbeinlibc, fmt_past_time, SSD_LIBS="-lshouldbeinlibc $SSD_LIBS")

@@ -13,13 +13,14 @@
  *   to support GNU gettext.
  * This file is in the public domain.
  */
+
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <getopt.h>
 #include <unistd.h>
-
-#include "config.h"
 
 /* Take care of NLS matters.  */
 
