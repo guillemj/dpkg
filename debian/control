@@ -10,7 +10,7 @@ Build-Depends: debiandoc-sgml, sgmltools-lite, libncurses-dev, gettext (>= 0.10.
 Package: dpkg
 Architecture: any
 Essential: yes
-Pre-Depends: ${shlibs:Pre-Depends}
+Pre-Depends: dselect, ${shlibs:Pre-Depends}
 Conflicts: sysvinit (<< 2.72)
 Replaces: dpkg-doc-ja, dpkg-static
 Conflicts: dpkg-static
@@ -70,3 +70,13 @@ Description: Dpkg Internals Documentation
  covers building aswell as the internals functions. If you are interested
  in creating your own packages, then you may be more interested in the
  packaging-manual documentation package.
+
+Package: dselect
+Architecture: any
+Priority: standard
+Depends: ${shlibs:Depends}
+Replaces: dpkg (>= 1.9.10)
+Description: a user tool to manage Debian GNU/Linux packages
+ dselect is the primary user interface for installing, removing and
+ managing Debian GNU/Linux packages. It is an front-end to dpkg.
+
