@@ -149,8 +149,8 @@ int internalGzip(int fd1, int fd2, const char *compression, char *desc, ...) {
   gzFile gzfile;
   char gzbuffer[4096];
   int gzactualwrite, actualread;
-  char combuf[6];
 #endif
+  char combuf[6];
 
   varbufinit(&v);
 
