@@ -220,6 +220,7 @@ if (open(X,"< $fileslistfile")) {
                 && ($1 eq $oppackage) && ($2 eq $arch || $2 eq 'all');
         print(Y "$_\n") || &syserr("copy old entry to new files list file");
     }
+    close(X) || &syserr("close old files list file");
 } elsif ($! != ENOENT) {
     &syserr("read old files list file");
 }
