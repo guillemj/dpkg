@@ -11,7 +11,7 @@ arch=$(shell dpkg --print-architecture)
 mcidir=debian/tmp-main/DEBIAN
 
 
-maintainer-configure: Makefile.am configure.in
+configure: Makefile.am configure.in
 	$(checkdir)
 	mkdir -p automake
 	aclocal -I ./automake
@@ -27,7 +27,7 @@ maintainer-configure: Makefile.am configure.in
 		automake --foreign ; \
 		autoconf
 
-$(BUILD)/config.status:
+$(BUILD)/config.status: configure
 	$(checkdir)
 	$(RM) -r debian/build
 	install -d debian/build

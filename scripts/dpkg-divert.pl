@@ -1,6 +1,6 @@
 #!/usr/bin/perl --
 
-use Errno;
+use POSIX;
 
 $version= '1.0.11'; # This line modified by Makefile
 sub usageversion {
