@@ -1,6 +1,8 @@
 #!/usr/bin/perl --
 
-use POSIX;
+#use POSIX; &ENOENT;
+sub ENOENT { 2; }
+# Sorry about this, but the errno-part of POSIX.pm isn't in perl-*-base
 
 $version= '1.0.11'; # This line modified by Makefile
 sub usageversion {
