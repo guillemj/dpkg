@@ -196,8 +196,7 @@ that is printed on stdout by this program when it generates digests.\n"), stderr
 int
 mdfile(int fd, unsigned char **digest)
 {
-	ssize_t ret;
-	while ((ret = fd_md5(fd, digest, 100 * 1024 * 1024, _("mdfile"))) >= 0);
+	off_t ret = fd_md5(fd, digest, -1, _("mdfile"));
 	if ( ret >= 0 )
 		return 0;
 	else

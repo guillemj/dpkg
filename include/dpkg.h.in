@@ -222,7 +222,7 @@ int waitsubproc(pid_t pid, const char *description, int flags);
 #define BUFFER_READ_SHUTDOWN 1 << 19
 
 typedef struct buffer_data *buffer_data_t;
-typedef ssize_t (*buffer_proc_t)(buffer_data_t data, void *buf, ssize_t size, const char *desc);
+typedef off_t (*buffer_proc_t)(buffer_data_t data, void *buf, off_t size, const char *desc);
 typedef union buffer_arg {
   void *ptr;
   int i;
@@ -272,24 +272,24 @@ struct buffer_data {
 	buffer_copy_setup_PtrInt(file, BUFFER_READ_STREAM, NULL, \
 				 fd, BUFFER_WRITE_FD, NULL, \
 				 limit, desc)
-ssize_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
+off_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
 					int i, int typeOut, void *procOut,
-					ssize_t limit, const char *desc, ...);
-ssize_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
+					off_t limit, const char *desc, ...);
+off_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
 					void *p2, int typeOut, void *procOut,
-					ssize_t limit, const char *desc, ...);
-ssize_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
+					off_t limit, const char *desc, ...);
+off_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
 					void *p, int typeOut, void *procOut,
-					ssize_t limit, const char *desc, ...);
-ssize_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
+					off_t limit, const char *desc, ...);
+off_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
 					int i2, int typeOut, void *procOut,
-					ssize_t limit, const char *desc, ...);
-ssize_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
+					off_t limit, const char *desc, ...);
+off_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
 		       buffer_arg argOut, int typeOut, void *procOut,
-		       ssize_t limit, const char *desc);
-ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *desc);
-ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, const char *desc);
-ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, const char *desc);
+		       off_t limit, const char *desc);
+off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc);
+off_t buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc);
+off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, off_t limit, const char *desc);
 
 extern volatile int onerr_abort;
 

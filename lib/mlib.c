@@ -18,7 +18,7 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#include <config.h>
+#include "config.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -151,8 +151,8 @@ struct buffer_write_md5ctx {
   struct MD5Context ctx;
   unsigned char **hash;
 };
-ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *desc) {
-  ssize_t ret= length;
+off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc) {
+  off_t ret= length;
   if(data->type & BUFFER_WRITE_SETUP) {
     switch(data->type ^ BUFFER_WRITE_SETUP) {
       case BUFFER_WRITE_MD5:
@@ -196,7 +196,7 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *
       break;
     case BUFFER_WRITE_FD:
       if((ret= write(data->data.i, buf, length)) < 0 && errno != EINTR)
-	ohshite(_("failed in buffer_write(fd) (%i, ret=%zi %s): %s"), data->data.i, ret, desc);
+	ohshite(_("failed in buffer_write(fd) (%i, ret=%li %s): %s"), data->data.i, (long)ret, desc);
       break;
     case BUFFER_WRITE_NULL:
       break;
@@ -216,8 +216,8 @@ ssize_t buffer_write(buffer_data_t data, void *buf, ssize_t length, const char *
    return ret;
 }
 
-ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, const char *desc) {
-  ssize_t ret= length;
+off_t buffer_read(buffer_data_t data, void *buf, off_t length, const char *desc) {
+  off_t ret= length;
   if(data->type & BUFFER_READ_SETUP) {
     return 0;
   }
@@ -243,14 +243,14 @@ ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, const char *d
 }
 
 #define buffer_copy_setup_dual(name, type1, name1, type2, name2) \
-ssize_t buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn,\
+off_t buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn,\
 					type2 n2, int typeOut, void *procOut,\
-					ssize_t limit, const char *desc, ...)\
+					off_t limit, const char *desc, ...)\
 {\
   va_list al;\
   buffer_arg a1, a2;\
   struct varbuf v;\
-  ssize_t ret;\
+  off_t ret;\
   a1.name1 = n1; a2.name2 = n2;\
   varbufinit(&v);\
   va_start(al,desc);\
@@ -268,13 +268,13 @@ buffer_copy_setup_dual(IntPtr, int, i, void *, ptr);
 buffer_copy_setup_dual(PtrInt, void *, ptr, int, i);
 buffer_copy_setup_dual(PtrPtr, void *, ptr, void *, ptr);
 
-ssize_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
+off_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
 		       buffer_arg argOut, int typeOut, void *procOut,
-		       ssize_t limit, const char *desc)
+		       off_t limit, const char *desc)
 {
   struct buffer_data read_data = { procIn, argIn, typeIn },
 		     write_data = { procOut, argOut, typeOut };
-  ssize_t ret;
+  off_t ret;
 
   if ( procIn == NULL )
     read_data.proc = buffer_read;
@@ -294,12 +294,12 @@ ssize_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
   return ret;
 }
 
-ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t limit, const char *desc) {
+off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, off_t limit, const char *desc) {
   char *buf, *writebuf;
   long bytesread= 0, byteswritten= 0;
   int bufsize= 32768;
-  ssize_t totalread= 0, totalwritten= 0;
-  if((limit != -1) && (limit < bufsize)) bufsize= limit;
+  off_t totalread= 0, totalwritten= 0;
+  if((limit!=-1) && (limit < bufsize)) bufsize= limit;
   if(bufsize == 0)
     return 0;
   writebuf= buf= malloc(bufsize);
@@ -315,7 +315,7 @@ ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t l
       break;
 
     totalread+= bytesread;
-    if(limit!=-1) {
+    if(limit != -1) {
       limit-= bytesread;
       if(limit<bufsize)
 	bufsize=limit;
