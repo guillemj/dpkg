@@ -4,36 +4,30 @@
 start\-stop\-daemon \- start and stop system daemon programs
 .SH SYNOPSIS
 .B start-stop-daemon
-.BR -S|--start
-.IR "options ... -- arguments ..."
+.BR -S | --start
+.IR options
+.RB [ \-\- ]
+.IR arguments
 .HP
 .B start-stop-daemon
-.BR -K|--stop
-.IR "options ..."
+.BR -K | --stop
+.IR options
 .HP
 .B start-stop-daemon
-.BR -H|--help
+.BR -H | --help
 .HP
 .B start-stop-daemon
-.BR -V|--version
+.BR -V | --version
 .SH DESCRIPTION
 .B start\-stop\-daemon
 is used to control the creation and termination of system-level processes.
 Using the
-.BR --exec
-,
-.BR --pidfile
-,
-.BR --user
-, and
-.BR --name
-options, 
+.BR --exec ", " --pidfile ", " --user ", and " --name " options,"
 .B start\-stop\-daemon
 can be configured to find existing instances of a running process.
 
 With
-.BR --start
-,
+.BR --start ,
 .B start\-stop\-daemon
 checks for the existence of a specified process.
 If such a process exists,
@@ -43,53 +37,51 @@ does nothing, and exits with error status 1 (0 if
 is specified).  
 If such a process does not exist, it starts an
 instance, using either the executable specified by
-.BR --exec
-, (or, if specified, by
-.BR --startas
-).
+.BR --exec ,
+(or, if specified, by
+.BR --startas ).
 Any arguments given after
 .BR --
 on the command line are passed unmodified to the program being
 started.
 
 With 
-.BR --stop
-,
+.BR --stop ,
 .B start\-stop\-daemon
 also checks for the existence of a specified process.
 If such a process exists,
 .B start\-stop\-daemon
 sends it the signal specified by
-.BR --signal
-, and exits with error status 0.
+.BR --signal ,
+and exits with error status 0.
 If such a process does not exist,
 .B start\-stop\-daemon
 exits with error status 1
-(0 if 
+(0 if
 .BR --oknodo
-is specified).  
+is specified).
 
 .SH OPTIONS
 
 .TP
-.I -x|--exec executable
+\fB-x\fP|\fB--exec\fP \fIexecutable\fP
 Check for processes that are instances of this executable (according to 
 .B /proc/
 .I pid
 .B /exe 
 ).
 .TP
-.I -p|--pidfile pid-file
+\fB-p\fP|\fB--pidfile\fP \fIpid-file\fP
 Check for processes whose process-id is specified in 
 .I pid-file.
 .TP
-.I -u|--user username|uid
+\fB-u\fP|\fB--user\fP \fIusername\fP|\fIuid\fP
 Check for processes owned by the user specified by
 .I username 
 or
 .I uid.
 .TP
-.I -n|--name process-name
+\fB-n\fP|\fB--name\fP \fIprocess-name\fP
 Check for processes with the name
 .I process-name
 (according to
@@ -98,58 +90,65 @@ Check for processes with the name
 .B /stat 
 ).
 .TP
-.I -s|--signal signal
+\fB-s\fP|\fB--signal\fP \fIsignal\fP
 With
 .BR --stop
 , specifies the signal to send to processes being stopped (default 15).
 .TP
-.I -a|--startas pathname
+\fB-a\fP|\fB--startas\fP \fIpathname\fP
 With 
-.B --start
-, start the process specified by 
-.I pathname.
+.BR --start ,
+start the process specified by 
+.IR pathname .
 If not specified, defaults to the argument given to
-.B --exec.
+.BR --exec .
 .TP
-.I -t|--test
+.BR -t | --test
 Print actions that would be taken and set appropriate return value,
 but take no action.
 .TP
-.I -o|--oknodo
+.BR -o | --oknodo
 Return exit status 0 instead of 1 if no actions are (would be) taken.
 .TP
-.I -q|--quiet
+.BR -q | --quiet
 Do not print informational messages; only display error messages.
 .TP
-.I -c|--chuid
+\fB-c\fP|\fB--chuid\fP \fIusername\fR|\fIuid\fP
 Change to this username/uid before starting the process. You can also
-specify a group by appending a ':', then the group or gid in the same way
-as you would for the `chown' command (user:group). When using this option
+specify a group by appending a
+.BR : ,
+then the group or gid in the same way
+as you would for the `chown' command (\fIuser\fP\fB:\fP\fIgroup\fP).
+When using this option
 you must realize that the primary and suplimental groups are set as well,
-even if the `group' options is not specified. The group option is only for
+even if the
+.B --group
+option is not specified.  The
+.B --group
+option is only for
 groups that the user isn't normally a member of (like adding per/process
-group membership for generic users like `nobody').
+group membership for generic users like
+.BR nobody ).
 .TP
-.I -r|--chroot root
+\fB-r\fP|\fB--chroot\fP \fIroot\fP
 Chdir and chroot to
-.B root
+.I root
 before starting the process. Please note that the pidfile is also written
 after the chroot.
 .TP
-.I -b|--background
+.BR -b | --background
 Typically used with programs that don't detach on their own. This option
 will force
 .B start-stop-daemon
 to fork before starting the process, and force it into the background.
-.B WARNING:
-start-stop-daemon
+.B WARNING: start-stop-daemon
 cannot check the exit status if the process fails to execute for
 .B any
 reason. This is a last resort, and is only meant for programs that either
 make no sense forking on their own, or where it's not feasible to add the
 code for it to do this itself.
 .TP
-.I -m|--make-pidfile
+.BR -m | --make-pidfile
 Used when starting a program that does not create its own pid file. This
 option will make
 .B start-stop-daemon
@@ -164,18 +163,18 @@ only useful when combined with the
 .B --background
 option.
 .TP
-.I -v|--verbose
+.BR -v|--verbose
 Print verbose informational messages.
 .TP
-.I -H|--help
+.BR -H|--help
 Print help information; then exit.
 .TP
-.I -V|--version
+.BR -V|--version
 Print version information; then exit.
 
 .SH AUTHORS
-Ian Jackson <ijackson@gnu.ai.mit.edu>
+Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl> based on
+a previous version by Ian Jackson <ian@chiark.greenend.org.uk>.
 
-Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
-
-Manual page by Klee Dienes <klee@mit.edu>.
+Manual page by Klee Dienes <klee@mit.edu>, partially reformatted
+by Ian Jackson.
