@@ -93,7 +93,7 @@ while (@ARGV) {
     } elsif (m/^--package$/) {
         @ARGV || &badusage("--package needs a package argument");
         $package= shift(@ARGV);
-        $divertto =~ m/\n/ && &badusage("package may not contain newlines");
+        $package =~ m/\n/ && &badusage("package may not contain newlines");
     } elsif (m/^--admindir$/) {
         @ARGV || &badusage("--admindir needs a directory argument");
         $admindir= shift(@ARGV);
