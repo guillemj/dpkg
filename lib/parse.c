@@ -241,8 +241,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (flags & pdb_recordavailable)
       parsemustfield(NULL,filename,lno, warnto,warncount,&newpig,1,
                      (const char **)&newpifp->architecture, "architecture");
-    else if (newpifp->architecture && *newpifp->architecture)
-      newpifp->architecture= NULL;
 
     /* Check the Config-Version information:
      * If there is a Config-Version it is definitely to be used, but

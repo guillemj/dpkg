@@ -804,7 +804,7 @@ void process_archive(const char *filename) {
   pkg->installed.description= pkg->available.description;
   pkg->installed.maintainer= pkg->available.maintainer;
   pkg->installed.source= pkg->available.source;
-  pkg->installed.architecture= 0; /* This is irrelevant in the status file. */
+  pkg->installed.architecture= pkg->available.architecture;
   pkg->installed.installedsize= pkg->available.installedsize;
   pkg->installed.version= pkg->available.version;
   pkg->installed.origin = pkg->available.origin;                               
