@@ -99,7 +99,7 @@ Options:\n\
   --largemem | --smallmem    Optimise for large (>4Mb) or small (<4Mb) RAM use\n\
   --no-act                   Just say what we would do - don't do it\n\
   -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
-  --status-pipe <n>	     Send status change updates to file descriptor <n>\n\
+  --status-pipe <n>          Send status change updates to file descriptor <n>\n\
   --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
   --force-...                    Override problems - see --force-help\n\
   --no-force-...|--refuse-...    Stop when problems encountered\n\
@@ -382,6 +382,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "print-installation-architecture", 0,  act_printinstarch,        printinstarch   ),
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
+  ACTION( "command-pipe",                   'c', act_commandpipe,   commandpipe     ),
   
   { "status-pipe",	  0,   1,  0,              0,  setstatuspipe },
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
@@ -414,6 +415,91 @@ static void execbackend(int argc, const char *const *argv) {
   execvp(BACKEND, (char* const*) argv);
   ohshite(_("failed to exec dpkg-deb"));
 }
+void commandpipe(const char *const *argv) {
+  jmp_buf ejbuf;
+  struct varbuf linevb;
+  const char * pipein;
+  const char **newargs, **oldargs= NULL;
+  char *ptr, *endptr;
+  FILE *in;
+  int argc= 1, mode= 0, c, lno= 0, infd, i;
+  static void (*actionfunction)(const char *const *argv);
+
+  if ((pipein= *argv++) == NULL) badusage(_("--command-pipe takes 1 argument, not 0"));
+  if (*argv) badusage(_("--command-pipe only takes 1 argument"));
+  if ((infd= strtol(pipein, (char **)NULL, 10)) == -1)
+    ohshite(_("invalid number for --command-pipe"));
+  if ((in= fdopen(infd, "r")) == NULL)
+    ohshite(_("couldn't open `%i' for stream"), infd);
+
+  varbufinit(&linevb);
+  for (;;argc= 1,mode= 0) {
+    if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
+      error_unwind(ehflag_bombout); exit(2);
+    }
+    push_error_handler(&ejbuf,print_error_fatal,0);
+
+    do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && isspace(c));
+    if (c == EOF) break;
+    if (c == '#') {
+      do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && c != '\n');
+      continue;
+    }
+    varbufreset(&linevb);
+    do {
+      varbufaddc(&linevb,c);
+      c= getc(in);
+      if (c == '\n') lno++;
+      if (isspace(c)) argc++;  /* This isn't fully accurate, but overestimating can't hurt. */
+    } while (c != EOF && c != '\n');
+    if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
+    if (!argc) continue;
+    varbufaddc(&linevb,0);
+printf("line=`%*s'\n",linevb.used,linevb.buf);
+    oldargs= newargs= realloc(oldargs,sizeof(const char *) * (argc + 1));
+    argc= 1;
+    ptr= linevb.buf;
+    endptr= ptr + linevb.used;
+    while(ptr < endptr) {
+      if (*ptr == '\\') {
+	memmove(ptr, ++ptr, linevb.used - (linevb.buf - ptr));
+	continue;
+      } else if (isspace(*ptr)) {
+	if (mode == 1) {
+	  *ptr= 0;
+	  mode= 0;
+	}
+      } else {
+	if (mode == 0) {
+	  newargs[argc]= ptr;
+	  argc++;
+	  mode= 1;
+	}
+      }
+      ptr++;
+    }
+    *ptr= 0;
+    newargs[argc++] = 0;
+
+/* We strdup each argument, but never free it, because the error messages
+ * contain references back to these strings.  Freeing them, and reusing
+ * the memory, would make those error messages confusing, to say the
+ * least.
+ */
+    for(i=1;i<argc;i++)
+	if (newargs[i]) newargs[i]=strdup(newargs[i]);
+
+    cipaction= NULL;
+    myopt((const char *const**)&newargs,cmdinfos);
+    if (!cipaction) badusage(_("need an action option"));
+
+    actionfunction= (void (*)(const char* const*))cipaction->farg;
+    actionfunction(newargs);
+    set_error_display(0,0);
+    error_unwind(ehflag_normaltidy);
+  }
+}
+
 
 int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;

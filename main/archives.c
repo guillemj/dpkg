@@ -774,6 +774,10 @@ void archivefiles(const char *const *argv) {
 
   currenttime= time(0);
 
+  varbufinit(&fnamevb);
+  varbufinit(&fnametmpvb);
+  varbufinit(&fnamenewvb);
+
   varbufaddstr(&fnamevb,instdir); varbufaddc(&fnamevb,'/');
   varbufaddstr(&fnametmpvb,instdir); varbufaddc(&fnametmpvb,'/');
   varbufaddstr(&fnamenewvb,instdir); varbufaddc(&fnamenewvb,'/');
