@@ -41,9 +41,11 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   while (fgets(linebuf, sizeof(linebuf), file)) {
     char* opt;
     const struct cmdinfo *cip;
+    int l;
 
     if ((linebuf[0]=='#') || (linebuf[0]=='\n') || (linebuf[0]==0)) continue;
-    linebuf[strlen(linebuf)-1]=0;
+    l=strlen(linebuf);
+    if (linebuf[l-1]=='\n') linebuf[l-1]=0;
     for (opt=linebuf;isalnum(*opt)||*opt=='-';opt++) ;
     if (*opt==0)
       opt=NULL;
