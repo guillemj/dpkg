@@ -156,9 +156,9 @@ static int pid_is_exec(pid_t pid, const struct stat *esb);
 
 #ifdef __GNUC__
 static void fatal(const char *format, ...)
-	__attribute__((noreturn, format(printf, 1, 2)));
+	NONRETURNPRINTFFORMAT(1, 2);
 static void badusage(const char *msg)
-	__attribute__((noreturn));
+	NONRETURNING;
 #else
 static void fatal(const char *format, ...);
 static void badusage(const char *msg);
