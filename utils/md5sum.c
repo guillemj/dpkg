@@ -200,19 +200,14 @@ int
 get_md5_line(FILE *fp, unsigned char *digest, char *file)
 {
 	char buf[1024];
-	int i, d1, d2, rc;
+	int i, rc;
 	char *p = buf;
 
 	if (fgets(buf, sizeof(buf), fp) == NULL)
 		return -1;
 
-	for (i = 0; i < 16; ++i) {
-		if ((d1 = hex_digit(*p++)) == -1)
-			return 0;
-		if ((d2 = hex_digit(*p++)) == -1)
-			return 0;
-		*digest++ = d1*16 + d2;
-	}
+	memcpy(digest, p, 32);
+	p += 32;
 	if (*p++ != ' ')
 		return 0;
 	/*
@@ -240,7 +235,7 @@ int
 do_check(FILE *chkf)
 {
 	int rc, ex = 0, failed = 0, checked = 0;
-	unsigned char chk_digest[16], *file_digest = NULL;
+	unsigned char chk_digest[32], *file_digest = NULL;
 	char filename[256];
 	FILE *fp;
 	size_t flen = 14;
@@ -269,7 +264,7 @@ do_check(FILE *chkf)
 			continue;
 		}
 		fclose(fp);
-		if (memcmp(chk_digest, file_digest, 16) != 0) {
+		if (memcmp(chk_digest, file_digest, 32) != 0) {
 			if (verbose)
 				fprintf(stderr, _("FAILED\n"));
 			else
