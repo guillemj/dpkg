@@ -45,6 +45,7 @@ static int foundcyclebroken(struct cyclesofarlink *thislink,
   const char *postinstfilename;
   struct stat stab;
 
+  if(!possi) return 0;
   /* We're investigating the dependency `possi' to see if it
    * is part of a loop.  To this end we look to see whether the
    * depended-on package is already one of the packages whose

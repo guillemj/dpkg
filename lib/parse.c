@@ -123,7 +123,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   lno= 1;
   pdone= 0;
-#define EOF_mmap(dataptr, endptr)	(dataptr > endptr)
+#define EOF_mmap(dataptr, endptr)	(dataptr >= endptr)
 #define getc_mmap(dataptr)		*dataptr++;
 #define ungetc_mmap(c, dataptr, data)	dataptr--;
 

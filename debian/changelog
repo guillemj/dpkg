@@ -5,6 +5,16 @@ dpkg (1.10) unstable; urgency=low
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
  
+dpkg (1.9.4) unstable; urgency=low
+
+  * Oops.  EOF_mmap incorrectly detecting the end of the data block.
+    Closes: Bug#95981.
+  * After fixing the above bug, and using debootstrap to build a sid
+    chroot, I discovered that my previous dependency cycle fix could cause
+    segfaults in some situations.
+
+ -- Adam Heath <doogie@debian.org>  Tue,  1 May 2001 23:04:46 -0500
+
 dpkg (1.9.3) unstable; urgency=low
 
   * Fix compiles on ppc. Closes: Bug#95918.
