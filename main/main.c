@@ -73,7 +73,7 @@ Usage: \n\
   dpkg -l|--list [<pattern> ...]          list packages concisely\n\
   dpkg -S|--search <pattern> ...          find package(s) owning file(s)\n\
   dpkg -C|--audit                         check for broken package(s)\n\
-  dpkg --abort-after <n>                  abort after encountering <n> errors\n
+  dpkg --abort-after <n>                  abort after encountering <n> errors\n\
   dpkg --print-architecture               print target architecture (uses GCC)\n\
   dpkg --print-gnu-build-architecture     print GNU version of target arch\n\
   dpkg --print-installation-architecture  print host architecture (for inst'n)\n\
@@ -88,7 +88,7 @@ Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
 For internal use: dpkg --assert-support-predepends | --predep-package |\n\
   --assert-working-epoch\n\
 \n\
-Options:
+Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
   --root=<directory>         Install on alternative system rooted elsewhere\n\
   --instdir=<directory>      Change inst'n root without changing admin dir\n\
@@ -129,7 +129,7 @@ int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_largemem=0;
 unsigned long f_debug=0;
 /* Change fc_overwrite to 1 to enable force-overwrite by default */
-int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=1;
+int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
 int fc_autoselect=1, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
 int fc_nonroot=0, fc_overwritedir=0;

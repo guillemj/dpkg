@@ -354,7 +354,7 @@ void ensure_diversions(void) {
     linebuf[l]= 0;
     oialtname->camefrom= findnamenode(linebuf);
     oialtname->useinstead= 0;    
-    
+
     if (!fgets(linebuf,sizeof(linebuf),file))
       if (ferror(file)) ohshite(_("read error in diversions [ii]"));
       else ohshit(_("unexpected EOF in diversions [ii]"));
@@ -487,9 +487,12 @@ void iterfileend(struct fileiterator *i) {
 
 void filesdbinit(void) {
   struct filenamenode *fnn;
+#ifdef HAVE_SYSINFO
   struct sysinfo info;
+#endif
   int i;
 
+#ifdef HAVE_SYSINFO
   if (!f_largemem) {
     f_largemem= -1;
     if (!sysinfo(&info)) {
@@ -498,7 +501,10 @@ void filesdbinit(void) {
         f_largemem= 1;
     }
   }
-  
+#else
+  f_largemem= 1;
+#endif
+
   switch (f_largemem) {
   case 1:
     for (i=0; i<BINS; i++)

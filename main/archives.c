@@ -356,7 +356,12 @@ int tarobject(struct TarInfo *ti) {
                         "in package %.250s with nondirectory"),
                         nifd->namenode->name,otherpkg->name);
           } else {
-            forcibleerr(fc_overwrite,
+            /* WTA: At this point we are replacing something without a Replaces.
+	     * if the new object is a directory and the previous object does not
+	     * exist assume it's also a directory and don't complain
+	     */
+            if (! (statr && ti->Type==Directory))
+              forcibleerr(fc_overwrite,
                         _("trying to overwrite `%.250s', which is also in package %.250s"),
                         nifd->namenode->name,otherpkg->name);
           }
