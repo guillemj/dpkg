@@ -23,7 +23,7 @@ Options: -r<gain-root-command>
          -spgp         the sign-command is called like PGP 
          -us           unsigned source
          -uc           unsigned changes
-         -a<arch>      Debian architecture we build for
+         -a<arch>      Debian architecture we build for (implies -d)
          -b            binary-only, do not build source } also passed to
          -B            binary-only, no arch-indep files } dpkg-genchanges
          -S            source only, no binary files     } 
@@ -82,7 +82,7 @@ do
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
 	-ap)	usepause="true";;
-	-a*)    targetarch="$value" ;;
+	-a*)    targetarch="$value"; checkbuilddep=false ;;
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
@@ -142,7 +142,7 @@ else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`"
 eval `dpkg-architecture -a${targetarch} -t${targetgnusystem} -s -f`
 
 if [ x$sourceonly = x ]; then
-	mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_BUILD_ARCH`" "build architecture"
+	mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_HOST_ARCH`" "host architecture"
 else
 	arch=source
 fi

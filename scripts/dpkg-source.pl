@@ -146,16 +146,12 @@ if ($opmode eq 'build') {
                         @sourcearch= ('any');
                     }
                 } else {
-                    if (grep($sourcearch[0] eq $_, 'any','all')) {
-                        @sourcearch= ('any');
-                    } else {
                         for $a (split(/\s+/,$v)) {
                             &error("architecture $a only allowed on its own".
                                    " (list for package $p is \`$a')")
                                    if grep($a eq $_, 'any','all');
                             push(@sourcearch,$a) unless $archadded{$a}++;
                         }
-                    }
                 }
                 $f{'Architecture'}= join(' ',@sourcearch);
             } elsif (s/^X[BC]*S[BC]*-//i) {
@@ -723,6 +719,7 @@ sub checkstats {
     (@s= stat(STDIN)) || &syserr("cannot fstat $dscdir/$f");
     $s[7] == $size{$f} || &error("file $f has size $s[7] instead of expected $size{$f}");
     $m= `md5sum`; $? && subprocerr("md5sum $f"); $m =~ s/\n$//;
+    $m =~ s/ *-$//; # Remove trailing spaces and -, to work with GNU md5sum
     $m =~ m/^[0-9a-f]{32}$/ || &failure("md5sum of $f gave bad output \`$m'");
     $m eq $md5sum{$f} || &error("file $f has md5sum $m instead of expected $md5sum{$f}");
     open(STDIN,"</dev/null") || &syserr("reopen stdin from /dev/null");
@@ -756,6 +753,7 @@ sub checktarcpio {
     &forkgzipread ("$tarfileread");
     if (! defined ($c2 = open (CPIO,"-|"))) { &syserr ("fork for cpio"); }
     if (!$c2) {
+	$ENV{'LANG'} = 'C';
         open (STDIN,"<&GZIP") || &syserr ("reopen gzip for cpio");
         &cpiostderr;
         exec ('cpio','-0t');
@@ -764,7 +762,6 @@ sub checktarcpio {
     close (GZIP);
 
     $/ = "\0";
-    open (CPIO, "<cpiolog");
     while (defined ($fn = <CPIO>)) {
 
         $fn =~ s/\0$//;
@@ -841,7 +838,6 @@ sub checktarsane {
     close (GZIP);
 
     my $efix= 0;
-    open (TAR, "<tarlog");
     while (<TAR>) {
 
         chomp;
@@ -857,15 +853,15 @@ sub checktarsane {
                    "unknown or forbidden type \`".substr($_,0,1)."'");
         my $type = $&;
 
-        if ($mode =~ /^l/) { $_ =~ s/ -\> .*//; }
+        if ($mode =~ /^l/) { $_ =~ s/ -> .*//; }
         s/ link to .+//;
 
-	if (length ($_) <= 48) { 
+	my @tarfields = split(' ', $_, 6);
+	if (@tarfields < 6) { 
 	    &error ("tarfile \`$tarfileread' contains incomplete entry \`$_'\n");
 	}
 
-	my $tarfn = substr ($_, 48, length ($_) - 48);
-	$tarfn = deoctify ($tarfn);
+	my $tarfn = deoctify ($tarfields[5]);
 
 	# store printable name of file for error messages
 	my $pname = $tarfn;
@@ -1022,6 +1018,7 @@ sub forkgzipwrite {
 
 sub forkgzipread {
 #print STDERR "forkgzipread $_[0]\n";
+    local $SIG{PIPE} = 'DEFAULT';
     open(GZIPFILE,"< $_[0]") || &syserr("read file $_[0]");
     pipe(GZIP,GZIPWRITE) || &syserr("pipe for gunzip");
     defined($cgz= fork) || &syserr("fork for gunzip");

@@ -131,7 +131,7 @@ if ($?>>8) {
     $gcc = '';
 } else {
     $gcc =~ s!^.*gcc-lib/([^/]*)/(?:egcs-)?\d+(?:[.\da-z]*)/libgcc.*$!$1!s;
-    if (defined $1) {
+    if (defined $1 and $1 ne '') {
 	$gcc = $1;
     } else {
 	&warn("Couldn't determine gcc system type, falling back to default (native compilation)");

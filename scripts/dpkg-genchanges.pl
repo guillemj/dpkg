@@ -190,10 +190,14 @@ for $_ (keys %fi) {
 	    } elsif (s/^X[BS]*C[BS]*-//i) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
-		if ($v eq 'any' || grep($_ eq $arch, split(/\s+/, $v))) {
-		    $v= $arch;
-		} elsif ($v ne 'all') {
-		    $v= '';
+		if (not $sourceonly) {
+		    if ($v eq 'any' || grep($_ eq $arch, split(/\s+/, $v))) {
+			$v= $arch;
+		    } elsif ($v ne 'all') {
+			$v= '';
+		    }
+		} else {
+		    $v = '';
 		}
 		push(@archvalues,$v) unless !$v || $archadded{$v}++;
 	    } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||

@@ -1,3 +1,40 @@
+Wed Jun 20 11:28:25 CDT 2001 Adam Heath <doogie@debian.org>
+
+  * Merged in changes from 1.9.10 to 1.9.11 branch.
+
+    + scripts/dpkg-source.pl: Fix typo.
+    + scripts/dpkg-buildpackage.sh: Option -a implies option -d.
+      Set ARCH correctly to host architecture, rather than build arch.
+    + scripts/dpkg-gencontrol.pl: Error if an illegal package name is used.
+    + scripts/cl-debian.pl: Change list of allowed urgencies to: low, medium,
+      high, and critcial.
+    + scripts/dpkg-scanpackages.pl: warn instead of die when find returns
+      an error(which happens if there is a dangling symlink, because we use
+      -follow).
+    + scripts/dpkg-source.pl: Apply patch from Colin Watson:
+      * Reset SIGPIPE to DEFAULT when forking gzip.
+      * set LANG to C before execing cpio, as we parse its output.
+      * In checktarcpio() and checktarsane(), use the previously open pipes,
+        instead of the opening files on disk(which was the old, ancient way).
+      * Improve the output parsing of tar in checktarsane().
+    + scripts/dpkg-source.pl: When both arch: all and arch: <arch> packages
+      exist in debian/control, don't promote the source arch: to any, but
+      only list all and <arch>.
+    + scripts/dpkg-source.pl: Make it work with GNU md5sum.
+    + scripts/dpkg-source.1: Document -nc for dpkg-buildpackage.
+    + scripts/dpkg-genchanges.pl: Set the Architecture to 'source' only when
+      doing source only uploads in the generated changes files.
+    + scripts/dpkg-shlibdeps.pl: Fix infinite directory recursion thru
+      symlinks.
+    + doc/deb.5: Changed see-also reference to deb-old(5).
+    + scripts/{Makefile.in,dpkg-architecture.1}: Removed the manpage, and
+      generate it from the script now.
+    + scripts/dpkg-architecture.pl: Apply patch to correctly check the output
+      of gcc on hurd.
+    + scripts/dpkg-checkbuilddeps.pl: Fix logic error that kept everything
+      but Build-Deps from working.
+    + scripts/dpkg-checkbuilddeps.pl: Trim trailing spaces from packages.
+
 Sat Jun 16 18:52:17 CDT 2001 Adam Heath <doogie@debian.org>
 
   * Merge changes from v1_9_10 tag:

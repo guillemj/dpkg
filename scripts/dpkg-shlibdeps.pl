@@ -142,7 +142,7 @@ sub searchdir {
 	    if ( -f "$dir/$_/DEBIAN/shlibs" ) {
 		push(@curshlibs, "$dir/$_/DEBIAN/shlibs");
 		next;
-	    } elsif ( $_ !~ /^\./ && -d "$dir/$_" ) {
+	    } elsif ( $_ !~ /^\./ && -d "$dir/$_" && ! -l "$dir/$_" ) {
 		&searchdir("$dir/$_");
 	    }
 	}

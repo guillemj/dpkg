@@ -37,17 +37,17 @@ close CONTROL;
 
 my $dep_regex=qr/\s*((.|\n\s+)*)\s/; # allow multi-line
 if ($cdata =~ /^Build-Depends:$dep_regex/mi) {
-		push @unmet, build_depends($1, @status);
-	}
-elsif ($cdata =~ /^Build-Conflicts:$dep_regex/mi) {
-		push @conflicts, build_conflicts($1, @status);
-	}
-elsif (! $binary_only && $cdata =~ /^Build-Depends-Indep:$dep_regex/mi) {
-		push @unmet, build_depends($1, @status);
-	}
-elsif (! $binary_only && $cdata =~ /^Build-Conflicts-Indep:$dep_regex/mi) {
-		push @conflicts, build_conflicts($1, @status);
-	}
+	push @unmet, build_depends($1, @status);
+}
+if ($cdata =~ /^Build-Conflicts:$dep_regex/mi) {
+	push @conflicts, build_conflicts($1, @status);
+}
+if (! $binary_only && $cdata =~ /^Build-Depends-Indep:$dep_regex/mi) {
+	push @unmet, build_depends($1, @status);
+}
+if (! $binary_only && $cdata =~ /^Build-Conflicts-Indep:$dep_regex/mi) {
+	push @conflicts, build_conflicts($1, @status);
+}
 
 if (@unmet) {
 	print STDERR "$me: Unmet build dependencies: ";
@@ -129,7 +129,8 @@ sub check_line {
 		my @possibles=();
 ALTERNATE:	foreach my $alternate (split(/\s*\|\s*/, $dep)) {
 			my ($package, $rest)=split(/\s*(?=[[(])/, $alternate, 2);
-	
+			$package =~ s/\s*$//;
+
 			# Check arch specifications.
 			if (defined $rest && $rest=~m/\[(.*?)\]/) {
 				my $arches=lc($1);

@@ -126,7 +126,7 @@ while (<F>) {
     $pfilename{$p}= $fn;
 }
 close(F);
-$? and die "find exited with $?\n";
+$? and warn "find exited with $?\n";
 
 select(STDERR); $= = 1000; select(STDOUT);
 

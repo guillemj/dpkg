@@ -5,6 +5,47 @@ dpkg (1.10) unstable; urgency=low
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
+dpkg (1.9.11) unstable; urgency=low
+
+  * The "Hang on to your hats, it gets bumpy from here." release.
+  * Trim trailing spaces from package names when checking builddeps.
+    Closes: #101304.
+  * Apply patch from bug to fix logic error that kept everything but
+    Build-Deps from working in checkbuilddeps.  Closes: #101511.
+  * Apply patch to correctly check the output of gcc on hurd, for
+    dpkg-architecture. Closes: #99874.
+  * The internal pod docs in dpkg-architecture were updated to reflect
+    that -f was no longer implied when -q was given, but the build system
+    wasn't generating new documentation.  Closes: #100997.
+  * deb(5) now has a see-also for deb-old(5).  Closes: #99620.
+  * Fix dpkg-shlibdeps infinite directory recursion thru symlinks.
+    Closes: #97622.
+  * Set the Architecture to 'source' only when doing source only uploads
+    in the generated changes files.  Closes: #100144.
+  * Document -nc in the dpkg-buildpackage manpage.  Closes: #101038.
+  * Make dpkg-source work with GNU md5sum.  Closes: #97666.
+  * in dpkg-source, when both arch: all and arch: <arch> packages exist in
+    debian/control, don't promote the source arch: to any, but only list
+    all and <arch>.  Closes: #94608
+  * Apply patch from Colin Watson:  Closes: #89679
+    * Reset SIGPIPE to DEFAULT when forking gzip.
+    * set LANG to C before execing cpio, as we parse its output.
+    * In checktarcpio() and checktarsane(), use the previously open pipes,
+      instead of the opening files on disk(which was the old, ancient way).
+    * Improve the output parsing of tar in checktarsane().
+  * warn instead of die when find returns an error(which happens if there
+    is a dangling symlink, because we use -follow).  Closes: #51479.
+  * Change list of allowed urgencies in debian/changelog to: low, medium,
+    high, and critcial.  Closes: #94475.
+  * Error out if an illegal package name is used in dpkg-gencontrol.pl.
+    Closes: #61211
+  * Apply patch from Marcus Brinkmann to dpkg-buildpackage:  Closes:
+    #98201.
+    * Option -a implies option -d.
+    * Set ARCH correctly to host architecture, rather than build arch.
+
+ -- Adam Heath <doogie@debian.org>  Tue, 19 Jun 2001 22:15:25 -0500
+
 dpkg (1.9.10) unstable; urgency=low
 
   * Fix [arch] parsing, and handle extra spaces better.  Closes: #100512,
