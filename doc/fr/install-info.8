@@ -1,9 +1,8 @@
-.\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Install-info and this manpage are Copyright 1994 by Ian Jackson.
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
-.\" traduction de la version cvs 1.2
+.\" traduction de la version cvs 1.4
 .TH INSTALL-INFO 8 "29th November 1995" "Projet Debian " "Utilitaires de dpkg"
 .SH NOM
 install\-info \- création ou mise à jour d'une entrée dans le répertoire Info
@@ -11,7 +10,8 @@ install\-info \- création ou mise à jour d'une entrée dans le répertoire Info
 .B install\-info
 [\-\-version] [\-\-help] [\-\-debug] [\-\-maxwidth=nnn]
 [\-\-section regexp title] [\-\-infodir=xxx] [\-\-align=nnn]
-[\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx] [\-\-remove]
+[\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx]
+[\-\-remove | \-\-remove-exactly ]
 [\-\-] nom-de-fichier
 .SH DESCRIPTION
 .PP
@@ -34,10 +34,15 @@ fichier
 .TP
 .BI "[\-\-] " nom-de-fichier
 Donne le nom du fichier Info dont l'entrée de menu doit être créée, mise à
-jour ou supprimée. La partie principale de ce nom sert de référent pour
-l'entrée de menu qui est créée. Ce fichier doit donc exister (ou bien être
-sur le point d'être installé, ou bien doit avoir existé en cas de suppression
-d'entrée) dans le même répertoire que le fichier
+jour ou supprimée. Si l'option
+.B \-\-remove-exactly
+est précisée,
+.I nom-de-fichier sera le nom exact de l'entrée à supprimer (p.ex. 
+«\ emacs-20/emacs\ » ou «\ gcc\ ») ; dans les autres cas, la partie principale
+de ce nom sert de référent pour l'entrée de menu qui est créée, à moins qu'il 
+y ait, dans le fichier donné, une entrée START-INFO-DIR. Ce fichier doit donc 
+exister (ou bien être sur le point d'être installé, ou bien doit avoir existé 
+en cas de suppression d'entrée) dans le même répertoire que le fichier
 .B dir (voyez l'option
 .B \-\-infodir).
 
@@ -85,6 +90,24 @@ Quand
 est spécifié, les options de formatage
 .BR \-\-maxwidth ", " \-\-align " et " \-\-calign
 sont silencieusement ignorées.
+.TP
+.B \-\-remove-exactly
+Cette option est pratiquement identique à 
+.B \-\-remove
+mais
+.I nom-de-fichier 
+est compris comme le nom exact de l'entrée à supprimer plutôt que comme le 
+nom d'un fichier existant. Cela peut être important quand on essaye de
+supprimer des entrées pour des fichiers info dans des sous-répertoires
+(p.ex. «\ emacs-20/emacs\ »)\ : 
+.B \-\-remove 
+opère sur la partie principale du
+.I nom-de-fichier
+plutôt que sur le nom exact. (p.ex.
+.B \-\-remove 
+«\ emacs-20/emacs\ » forcerait
+.B install-info
+à chercher «\ emacs\ », pas «\ emacs-20/emacs\ »).
 .TP
 .BI "\-\-section " "exp-reg titre"
 Indique que l'entrée qui doit être créée sera placée dans la section du fichier
@@ -136,7 +159,7 @@ dans
 Par défaut, c'est
 .BR /usr/info .
 .TP
-.BI \-\-align= nnn
+.BI \-\-align= nnn " [déconseillé]"
 Précise que l'espace d'indentation de la première ligne de la description
 sera d'au moins
 .I nnn
@@ -145,13 +168,13 @@ Quand la longueur des éléments de l'entrée du menu
 .B dir
 le demande, on peut le décaler davantage. Par défaut ce nombre est égal à 27.
 .TP
-.BI \-\-calign= nnn
+.BI \-\-calign= nnn " [déconseillé]"
 Précise que l'espace d'indentation de la deuxième ligne et des lignes 
 suivantes de la description sera d'au moins
 .I nnn
 caractères.  Par défaut ce nombre est égal à 29.
 .TP
-.BI \-\-maxwidth= nnn
+.BI \-\-maxwidth= nnn " [déconseillé]"
 Précise que la largeur maximale d'une ligne du fichier Info est de
 .IR nnn .
 Cela sert pour « couper » automatiquement les lignes du texte descriptif.
