@@ -1,7 +1,7 @@
 .\" Hey Emacs! This file is -*- nroff -*- source.
-.\" Original manpage cvs revision 1.25
-.\" Translated by Hiroshi KISE <fuyuneko@ryuku.ne.jp>
-.\" Last modified: Thu Apr 26 01:00:00 JST 2001
+.\" Original manpage cvs revision 1.32.2.2
+.\" Translated by Hiroshi KISE <kise@fuyuneko.jp>
+.\" Last modified: Mon Mar 15 21:38:10 JST 2004
 .\"WORD:	package maintainers	パッケージ管理者
 .\"WORD:	command line options	コマンドライン・オプション
 .\"WORD:	command line parameter	コマンドライン引き数
@@ -48,16 +48,16 @@ Gnu Info システムにある \fIdebian-faq\fP の \fIPackage Management System\fP
 Debian パッケージの作成については、同じところにある
 \fIDebian Package Management Tools\fP を参照すること。
 (訳注: Gnu Info 形式の \fIdebian-faq\fP は存在しないようである。
-その代わり、doc-debian パッケージをインストールした状態の
-/usr/share/doc/debian/FAQ ディレクトリに HTML 形式で置かれている)。
+Debian FAQ や、Debian リファレンスの Debian パッケージングシステムに
+関する章を参照)
 
 .SH 説明
-\fBdpkg\fP は、Debian GNU/Linux のパッケージの、インストール、構築、
+\fBdpkg\fP は、Debian パッケージの、インストール、構築、
 削除、管理をするためのツールである。
 \fBdselect\fP(8) は、\fBdpkg\fP の代表的なフロントエンドで、
 よりユーザフレンドリなツールである。
 \fBdpkg\fP は、コマンドライン引き数によって完全に制御することができる。
-コマンドライン引き数は、1つのアクションと、0個以上のオプションとで構成される。
+コマンドライン引き数は、1 つのアクションと、0 個以上のオプションとで構成される。
 アクションは、dpkg に何をさせるのかを指定し、オプションはそのアクションの
 ふるまいを制御する。
 
@@ -203,17 +203,13 @@ purge する。
 \fB3.\fP \fIpostrm\fP スクリプトを実行する。
 .br
 .TP
-.BI "dpkg -p|--print-avail " package
-\fI/var/lib/dpkg/available\fP にある \fIpackage\fP に関する情報を
-表示する。
-.TP
 \fBdpkg --update-avail\fP | \fB--merge-avail \fP\fIPackages-file\fP
 \fBdpkg\fP や \fBdselect\fP が管理する利用可能なパッケージの情報を更新する。
 \fB--merge-avail\fP アクションは、古い情報に \fIPackages-file\fP の情報を
 組み合わせる。
 \fB--update-avail\fP アクションは、古い情報を \fIPackages-file\fP の情報で
 置き換える。
-\fIPackages-file\fP は Debian GNU/Linux と一緒に配布されている。名前は単純に
+Debian と一緒に配布されている \fIPackages-file\fP の名前は簡単に
 \fIPackages\fP である。\fBdpkg\fP は、利用可能なパッケージの情報を
 \fI/var/lib/dpkg/available\fP に記録する。
 .TP
@@ -229,20 +225,6 @@ purge する。
 .B dpkg --clear-avail
 利用可能なパッケージの情報を消去する。
 .TP
-\fBdpkg -l\fP | \fB--list\fP \fIpackage-name-pattern\fP ...
-与えられたパターンにマッチする名前のパッケージを表示する。
-もし \fIpackage-name-pattern\fP が与えられない場合は、
-\fI/var/lib/dpkg/status\fP にあるインストール済みのすべてのパッケージを
-表示する。\fIpackage-name-pattern\fP には、標準的なシェルのワイルド文字を
-使用することができる。
-(シェルにファイル名展開をさせないように、\fIpackage-name-pattern\fP を
-クオートする必要がある。例えば、\fBdpkg -l 'libc5*'\fP は
-名前が "libc5" ではじまるすべてのパッケージを表示する。)
-.TP
-\fBdpkg -s\fP | \fB--status\fP \fIpackage-name\fP ...
-指定したパッケージの状況を報告する。これは、単にインストール済みパッケージ
-状況データベースからの内容を表示している。
-.TP
 \fBdpkg -C\fP | \fB--audit\fP
 インストールが完了していないパッケージを探す。\fBdpkg\fP はインストールを
 完了させるためにどうすればよいかを提案する。
@@ -256,15 +238,6 @@ purge する。
 .B dpkg --yet-to-unpack
 インストールするために選択されたが、何らかの理由でまだインストール
 されていないパッケージを探す。
-.TP
-\fBdpkg -L\fP | \fB--listfiles\fP \fIpackage\fP ...
-\fIpackage\fP からインストールしたファイルを表示する。ただし、パッケージ
-付属のインストールスクリプトによって作成されたファイルは表示されない
-ことに注意すること。
-.TP
-\fBdpkg -S\fP | \fB--search\fP \fIfilename-search-pattern\fP ...
-指定したファイルがどのパッケージからインストールされたかを探す。
-パターンには、標準的なシェルのすべてのワイルド文字を使用することができる。
 .TP
 .B dpkg --print-architecture
 ターゲットアーキテクチャ(例えば、“i386”)を表示する。このオプションは
@@ -314,9 +287,9 @@ GNU バージョンのターゲットアーキテクチャ(例えば、“i486”)を表示する。
 
 .nf
 \fBdpkg -b\fP | \fB--build\fP \fIdirectory\fP [\fIfilename\fP]
-    Debian GNU/Linux パッケージを構築する。
+    deb パッケージを構築する。
 \fBdpkg -c\fP | \fB--contents\fP \fIfilename\fP
-    Debian GNU/Linux パッケージに含まれるファイル一覧を表示する。
+    deb パッケージに含まれるファイル一覧を表示する。
 \fBdpkg -e\fP | \fB--control\fP \fIfilename\fP [\fIdirectory\fP]
     パッケージから制御情報を取り出す。
 \fBdpkg -x\fP | \fB--extract\fP \fIfilename directory\fP
@@ -330,6 +303,26 @@ GNU バージョンのターゲットアーキテクチャ(例えば、“i486”)を表示する。
 \fBdpkg -X\fP | \fB--vextract\fP \fIfilename\fP \fIdirectory\fP
     パッケージに含まれるファイルを展開し、ファイル名を表示する。
 .fi
+
+.TP
+\fBdpkg-query-actions\fP
+以下のアクションの詳細は、\fBdpkg-query\fP(1) を参照すること。
+
+.nf
+
+\fBdpkg -l\fP | \fB--list\fP \fIpackage-name-pattern\fP ...
+    与えられたパターンにマッチする名前のパッケージを表示する。
+\fBdpkg -s\fP | \fB--status\fP \fIpackage-name\fP ...
+    指定したパッケージの状態を報告する。
+\fBdpkg -L\fP | \fB--listfiles\fP \fIpackage\fP ...
+    \fBpackage\fP パッケージによってシステムにインストールされたファイルを表示する。
+\fBdpkg -S\fP | \fB--search\fP \fIfilename-search-pattern\fP ...
+    ファイルがどのパッケージからインストールされたか検索する。
+\fBdpkg -p\fP | \fB--print-avail\fP \fIpackage\fP
+    \fI/var/lib/dpkg/available\fP にある \fIpackage\fP の詳細情報を表示する。
+.fi
+
+
 
 .SS オプション
 すべてのオプションは、コマンドラインや \fBdpkg\fP の設定ファイルで
@@ -355,7 +348,7 @@ dpkg の処理を中断させるエラー数を変更する。デフォルトは 50 である。
 
  数値   説明
     1   一般的に役に立つ進行状況
-    2   管理スクリプトの実行状況と状態
+    2   管理スクリプトの呼び出し状況と状態
    10   各ファイル処理の情報
   100   各ファイル処理の大量の情報
    20   各設定ファイルの情報
@@ -377,7 +370,7 @@ dpkg の処理を中断させるエラー数を変更する。デフォルトは 50 である。
 しれない。\fP
 
 \fBall\fP:
-全ての強制オプションを指定する(noならば指定しない)
+全ての強制オプションを指定する(noならば指定しない)。
 
 \fBauto-select\fP(*):
 インストールするパッケージを選択し、削除するパッケージを非選択にする。
@@ -386,12 +379,18 @@ dpkg の処理を中断させるエラー数を変更する。デフォルトは 50 である。
 インストールするパッケージよりも新しいバージョンのパッケージがすでに
 インストールされていても、インストールをする。
 
+\fI警告: 現在の dpkg は、ダウングレード時にいかなる依存関係のチェックもしない。
+そのため、ダウングレードすることで、ほかのパッケージの依存関係を
+警告なしに壊すかもしれない。
+これは深刻な副作用となる可能性があり、主要なシステム構成をダウングレード
+することでシステムを壊してしまうこともありうる。注意して使用すること。\fP
+
 \fBconfigure-any\fP:
 指定したパッケージに依存していて、すでに展開されているが、まだ設定されて
 いないパッケージも一緒に設定をする。
 
 \fBhold\fP:
-たとえ“hold”と印されていても、そのパッケージの処理をする。
+たとえ “hold” と印されていても、そのパッケージの処理をする。
 
 \fBremove-reinstreq\fP:
 壊れていて、再インストールが必要だと印をされていたとしても、パッケージを
@@ -413,25 +412,31 @@ essential とされるパッケージであっても削除する。essential パッケージには、
 他のパッケージと競合してもインストールする。たいていはいくつかファイルを
 上書きすることになるため、危険である。
 
+\fBconfmiss\fP:
+常に、欠けている設定ファイルをインストールする。このオプションは、
+変更(ファイルを削除したこと)を保存しないため、危険である。
+
 \fBconfnew\fP:
 設定ファイルが変更されていた場合、問い合わせなしに新しいバージョンの
-設定ファイルをインストールする。
+設定ファイルをインストールする。ただし、\fB--force-confdef\fP を
+同時に指定した場合は、デフォルトの動作が優先される。
 
 \fBconfold\fP:
 設定ファイルが変更されていた場合、問い合わせなしに古いバージョンの
-設定ファイルを保持する。
+設定ファイルを保持する。ただし、\fB--force-confdef\fP を同時に
+指定した場合は、デフォルトの動作が優先される。
 
 \fBconfdef\fP:
 設定ファイルが変更されていた場合、常にデフォルトの動作をする。
-\fB--force-confnew\fP や \fB--force-confold\fP がある場合でも、常に
-デフォルトの動作をする。デフォルトがない場合は、これらのオプションの
-与え方によって新しい、または古いバージョンの設定ファイルを使用する。
+デフォルトの動作がなく、\fB--force-confnew\fP と \fB--force-confold\fP
+のどちらも同時に指定していない場合、ユーザに尋ねるために中断する。
+指定している場合は、指定されたオプションによって最終的な動作が決まる。
 
 \fBoverwrite\fP:
 あるパッケージで提供されているファイルを、インストールするパッケージの
 ファイルで上書きする。
 
-\fBoverwrite-dir\fP
+\fBoverwrite-dir\fP:
 あるパッケージで提供されているディレクトリをインストールするパッケージの
 ファイルで上書きする。
 
@@ -462,7 +467,7 @@ root でないときでも、それをインストール(または削除)しようと試みる。
 パッケージを構築するときに、制御ファイルの内容を読むことも確認もしない。
 これは \fBdpkg-deb\fP(1) のオプションである。
 .TP
-.B --no-act
+\fB--no-act\fP | \fB--dry-run\fP | \fB--simulate\fP
 期待される動作をすべて実行するが、どのような変更も書き込まない。
 これは、実際にはシステムに何の変更も加えずに、指定したアクションで
 何がおこるのかを確認するためのものである。
@@ -496,14 +501,10 @@ root でないときでも、それをインストール(または削除)しようと試みる。
 を \fIdir\fP\fB/var/lib/dpkg\fP に変更する。
 .TP
 \fB-O\fP | \fB--selected-only\fP
-インストール(または削除)作業のために選択したパッケージのみを処理する。
-実際には、\fBdselect\fP や \fBdpkg\fP を使って複数のパッケージを選択する。
-例えば、あるパッケージが削除されるとき、そのパッケージはインストール
-作業で選択状態になるはずである。
-
-
-インストール(またはアップグレード)の指定をされているパッケージだけを
-処理する。インストールの指定は、\fBdselect\fP や \fBdpkg\fP で行なう。
+インストール(または削除)作業をするように選択したパッケージのみを処理する。
+実際の指定は、\fBdselect\fP や \fBdpkg\fP を使って行なう。
+例えば、あるパッケージが削除されるのは、そのパッケージが削除されるよう
+選択されているということである。
 .TP
 .BR -E " | " --skip-same-version
 すでに同じバージョンのパッケージがインストールされていたら、インストール
@@ -557,6 +558,14 @@ root でないときでも、それをインストール(または削除)しようと試みる。
 .B COLUMNS
 \fBdpkg\fPが整形テキストを表示する時に参照するコラム数。
 現在は -l オプションでのみ参照されている。
+.TP
+.B DPKG_OLD_CONFFILE
+変更される設定ファイルを確認するためにシェルを起動したとき、
+\fBdpkg\fP によって、古い設定ファイルのファイル名が設定される。
+.TP
+.B DPKG_NEW_CONFFILE
+変更される設定ファイルを確認するためにシェルを起動したとき、
+\fBdpkg\fP によって、新しい設定ファイルのファイル名が設定される。
 
 .SH 例
 vi エディタに関連のあるパッケージの一覧を表示する。
@@ -564,7 +573,7 @@ vi エディタに関連のあるパッケージの一覧を表示する。
 \fB     dpkg -l '*vi*'\fP
 .br
 
-2つのパッケージの \fI/var/lib/dpkg/available\fP にある項目を表示する。
+2 つのパッケージの \fI/var/lib/dpkg/available\fP にある項目を表示する。
 .br
 \fB     dpkg --print-avail elvis vim | less\fP
 .br
@@ -580,8 +589,8 @@ elvis パッケージを削除する。
 .br
 
 パッケージをインストールするには、まずそのパッケージをアーカイブや
-CDROMから探す必要がある。“available”ファイルによれば、vimパッケージは
-“editors”セクションに属している。
+CDROMから探す必要がある。“available” ファイルによれば、vim パッケージは
+“editors” セクションに属している。
 .br
 \fB     cd /cdrom/hamm/hamm/binary-i386/editors\fP
 \fB     dpkg -i vim_4.5-3.deb\fP
@@ -600,6 +609,7 @@ CDROMから探す必要がある。“available”ファイルによれば、vimパッケージは
 要求しているパッケージの選択状態を設定するだけである。実際に
 要求しているパッケージをダウンロードしインストールするには別の
 アプリケーションが必要である。
+例えば、\fBdselect\fP を起動して、“導入(Install)”を選べばよい。
 
 通常、パッケージの選択状態を変更するには \fBdselect\fP(8) を
 使用するほうが便利である。
@@ -615,13 +625,13 @@ CDROMから探す必要がある。“available”ファイルによれば、vimパッケージは
 \fB--no-act\fP の提供する情報はたいていの場合、不充分である。
 .SH 著者
 .nf
-\fBdpkg\fPに貢献した人のリストは \fB/usr/share/doc/dpkg/THANKS\fPに
+\fBdpkg\fPに貢献した人のリストは \fB/usr/share/doc/dpkg/THANKS.gz\fPに
 挙げてある。
 .fi
-.SH 日本語版翻訳
-喜瀬浩 <fuyuneko@ryukyu.ne.jp>
-.SH 日本語版校正
+.SH 翻訳者
+喜瀬浩 <kise@fuyuneko.jp>
+.SH 翻訳校正
 Debian JP Documentation ML <debian-doc@debian.or.jp>
 .SH 翻訳者注
-このマニュアルページは dpkg パッケージのバージョン1.9.0に付属の
+このマニュアルページは dpkg パッケージのバージョン 1.10.20 に付属の
 dpkg(8)の日本語訳である。

@@ -1,8 +1,6 @@
-.\" Hey, Emacs!  This is an -*- nroff -*- source file.
-.\" Authors: Ian Jackson
-.\" Original manpage cvs revision: 1.9
-.\" Translated by Hiroshi KISE <fuyuneko@ryukyu.ne.jp>
-.\" Last modified: Wed Apr 25 17:30:43 JST 2001
+.\" Original manpage cvs revision: 1.11
+.\" Translated by Hiroshi KISE <kise@fuyuneko.jp>
+.\" Last modified: Mon Mar 15 21:43:38 JST 2004
 .\"WORD:	pack			(アーカイブの)作成
 .\"WORD:	unpack			(アーカイブの)展開
 .\"WORD:	filesystem tree		ファイルシステム木
@@ -11,9 +9,9 @@
 .\"WORD:	maintainer script	管理スクリプト
 .\"WORD:	premission		パーミッション
 .\"WORD:	control-file-names	制御ファイル名
-.TH DPKG\-DEB 1 "1st June 1996" "Debian Project" "Debian GNU/Linux manual"
+.TH DPKG\-DEB 1 "1st June 1996" "Debian Project" "dpkg suite"
 .SH 名前
-dpkg\-deb \- Debian パッケージアーカイブ(.deb) 操作ツール
+dpkg\-deb \- Debian パッケージアーカイブ (.deb) 操作ツール
 .SH 書式
 .B dpkg-deb
 .BR -b | --build
@@ -92,7 +90,7 @@ DEBIAN ディレクトリはバイナリパッケージのファイルシステム・
 は
 .B DEBIAN/control
 を読み、解析する。
-dpkg-debは、文法エラーやその他の問題のチェックをし、
+dpkg-deb は、文法エラーやその他の問題のチェックをし、
 そして、構築中のバイナリパッケージ名を表示する。
 .B dpkg\-deb
 はまた、
@@ -110,7 +108,7 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 
 もし、すでにアーカイブが作成されて存在している場合、上書きする。
 
-2番目の引き数がディレクトリの場合、
+2 番目の引き数がディレクトリの場合、
 .B dpkg\-deb
 は
 .IB package _ version _ arch .deb\fR
@@ -140,7 +138,7 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 .B dpkg\-deb
 は指定した順でファイル名を表示する。もし指定したファイルのどれかが
 存在しなければ、存在しなかったファイルに対してそれぞれ
-エラーメッセージを表示し、そして終了ステータス2で終了する。
+エラーメッセージを表示し、そして終了ステータス 2 で終了する。
 .TP
 .BR \-\-field ", " -f
 バイナリパッケージアーカイブから制御ファイル情報を取り出す。
@@ -166,7 +164,7 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 の冗長出力(-v オプション)をそのまま表示する。
 .TP
 .BR --extract ", " -x ", " \-\-vextract ", " -X
-パッケージアーカイブからファイルシステム木を指定したディレクトリに展開する。
+パッケージアーカイブからファイルシステム木を、指定したディレクトリに展開する。
 
 .BR \-\-vextract " (" -X ")"
 は現在展開中のファイルを表示する。
@@ -211,9 +209,9 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 .TP
 .BR --licence
 .BR dpkg\-deb
-の著作権と無保証に関する情報を表示する。(アメリカ式の綴りである
+の著作権と無保証に関する情報を表示する(アメリカ式の綴りである
 .B \-\-license
-もサポートしている)
+もサポートしている)。
 .SH その他のオプション
 .TP
 .BR --new
@@ -226,13 +224,13 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 新しい形式よりも非 Debian ツールで処理することが難しく、現在は
 使用されていない。
 このオプションは、i386 の a.out形式のみを対象としてリリースされた、
-バージョン 0.93.76(1995年9月)以前の dpkg で処理するためのパッケージを
+バージョン 0.93.76(1995 年 9 月)以前の dpkg で処理するためのパッケージを
 構築するときだけに使用される。
 .TP
 .BR --nocheck
 .BR "dpkg\-deb \-\-build"
-のときにアーカイブの中身を確認することをやめさせる。これによって、
-アーカイブの中身にどのように問題があっても、望むアーカイブを構築する
+のときにアーカイブの中身を確認させない。これによって、
+アーカイブの中身にどのように問題があっても、望んだ通りアーカイブを構築する
 ことができる。
 .TP
 .BR --debug ", " -D
@@ -247,11 +245,11 @@ dpkg-debは、文法エラーやその他の問題のチェックをし、
 ファイル自体には認証の手段がない。実際、単純なチェックサムさえもない。
 
 .B dpkg\-deb
-でソフトウェアをインストールしようとしてはいけない! すべてのファイルを
-正しい位置に置き、パッケージのスクリプトを実行し、状態や内容を記録する、
-ということを確実に実行させるのであれば、
+でソフトウェアをインストールしようとしてはいけない! 必ず
 .B dpkg
-を使うべきである。
+を使うこと。そうすれば、すべてのファイルを正しい位置に置き、
+パッケージのスクリプトを実行し、状態や内容を記録する、
+ということを確実に実行できる。
 .SH 関連項目
 .BR deb (5),
 .BR deb-control (5),
@@ -278,10 +276,10 @@ and
 .B /usr/share/common-licenses/GPL
 for details.
 )
-.SH 日本語版翻訳
-喜瀬浩 <fuyuneko@ryukyu.ne.jp>
-.SH 日本語版校正
+.SH 翻訳者
+喜瀬浩 <kise@fuyuneko.jp>
+.SH 翻訳校正
 Debian JP Documentation ML <debian-doc@debian.or.jp>
 .SH 翻訳者注
-このマニュアルページは dpkg パッケージのバージョン1.9.0に付属の
-dpkg-deb(1)の日本語訳である。
+このマニュアルページは dpkg パッケージのバージョン 1.10.20 に付属の
+dpkg-deb(1) の日本語訳である。

@@ -1,5 +1,5 @@
 .\" This manpage is copyright (C) 1996 Michael Shields <shields@crosslink.net>.
-.\" original cvs revision: 1.3
+.\" original cvs revision: 1.4.2.2
 .\" 
 .\" This is free software; you may redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as
@@ -16,10 +16,12 @@
 .\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 .TH DPKG-SCANPACKAGES 8 "1996-07-08" "Debian project" "dpkg utilities"
 .SH 名前
-dpkg-scanpackages \- Packagesファイルの作成
+dpkg-scanpackages \- Packages ファイルの作成
 .
 .SH 書式
 .B dpkg-scanpackages
+.RI [ -u ]
+.RI [ -a<arch> ]
 .I binarydir
 .I overridefile
 .RI [ pathprefix ]
@@ -28,11 +30,11 @@ dpkg-scanpackages \- Packagesファイルの作成
 .
 .SH 説明
 .B dpkg-scanpackages
-はDebianバイナリパッケージのツリーを見てPackagesファイルを生成する。
-Packagesファイルは
+は Debian バイナリパッケージのツリーを見て Packages ファイルを生成する。
+Packages ファイルは
 .BR dselect (8)
-にどのパッケージがインストールできるかをユーザに知らせるために利用している。
-これらのPackagesファイルはDebianアーカイブサイトやCD-ROMなどで使われている
+などに、どのパッケージがインストールできるかをユーザに知らせるために利用している。
+これらの Packages ファイルは Debian アーカイブサイトや CD-ROM などで使われている
 ものと同じものである。
 もし、たくさんのマシンにインストールしたいローカルなパッケージの
 ディレクトリを作るなら、自分で
@@ -40,11 +42,11 @@ Packagesファイルは
 を使うことができる。
 .PP
 .I binarydir
-は処理するバイナリツリーの名前である。(例えば
+は処理するバイナリツリーの名前である(例えば
 .BR contrib/binary-i386 
-など)
-Debianアーカイブのルートからの相対にしておくのが最もいい方法である。
-なぜならPackagesファイルに含まれている各々のFilenameフィールドは
+など)。
+Debian アーカイブのルートからの相対にしておくのが最もいい方法である。
+なぜなら Packages ファイルに含まれている各々の Filename フィールドは
 この文字列で始まるからである。
 .PP
 .I overridefile
@@ -52,20 +54,26 @@ Debianアーカイブのルートからの相対にしておくのが最もいい方法である。
 含んでいるファイルの名前である。以下を参照のこと。
 .PP
 .I pathprefix
-はFilenameフィールドで前に追加できるオプションの文字列である。
+は Filename フィールドで前に追加できるオプションの文字列である。
+.PP
+.I -u
+を指定した場合は、*.deb の代わりに *.udeb をスキャンする。
+.PP
+-a\fI<arch>\fP を指定した場合は、すべての deb ファイルをスキャンする代わりに、
+*_all.deb や *_arch.deb パターンにマッチするファイルを対象とする。
 .
-.SH THE OVERRIDE FILE
-パッケージに関するほとんどの情報はcontrolファイルで見つけることができるが
-いくつかはメンテナではなくディストリビューション作成者によりそれらの情報を
+.SH OVERRIDE ファイル
+パッケージに関するほとんどの情報は control ファイルで見つけることができるが、
+いくつかはメンテナではなくディストリビューション作成者により、それらの情報を
 与える必要がある。パッケージの実際の依存関係や説明よりも、リリースに
 むけてファイルをどう配置するかに関係してくるからである。
-これらの情報はoverrideファイルにある。
+これらの情報は override ファイルにある。
 .PP
-overrideファイルは簡単な空白で区切られた形式になっている。コメントも
-許されている。(
+override ファイルは簡単な空白で区切られた形式になっている。コメントも
+許されている(
 .BR # 
 以降がコメント
-).
+)。
 .PP
 .in +5
 .I package
@@ -75,14 +83,14 @@ overrideファイルは簡単な空白で区切られた形式になっている。コメントも
 .in -5
 .PP
 .I package
-はパッケージ名である。overrideファイルにあるがバイナリツリーには
+はパッケージ名である。override ファイルにあるがバイナリツリーには
 ないパッケージ名のエントリは無視される。
 .PP
 .I priority
 と
 .I section
 はパッケージをリリースツリーでどこに置くかを指定する。これらは
-controlファイルにあるべきではない。もしパッケージが
+control ファイルにあるべきではない。もしパッケージが
 .I binarydir
 のサブディレクトリにあれば
 .I section 
@@ -95,20 +103,21 @@ controlファイルにあるべきではない。もしパッケージが
 .I newmaintainer
 の場合は置換される。
 .PP
-公式のPackagesリストを作成するために使われているoverrideファイルは、
-Debianミラーの
+公式の Packages リストを作成するために使われている override ファイルは、
+Debian ミラーの
 .I indices
 ディレクトリにある。
 .
 .SH 診断
 .B dpkg-scanpackages
 は通常の自己説明的なエラーを出力する。パッケージが間違ったディレクトリに
-ある、複数ある、controlファイルにFilenameフィールドがある、override
+ある、複数ある、control ファイルに Filename フィールドがある、override
 ファイルにない、実行されなかったメンテナの置換があるなどといった警告も
 する。
 .
 .SH 関連項目
 .BR dpkg (8),
-.BR dselect (8).
+.BR dselect (8),
+.BR dpkg-scansources (8).
 .SH 翻訳者
 鵜飼文敏 <ukai@debian.or.jp>
