@@ -66,6 +66,20 @@ int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {
 }
 #endif
 
+#ifndef HAVE_SNPRINTF
+int
+snprintf (char *str, size_t n, char const *format, ...)
+{
+  va_list ap;
+  int i;
+  (void)n;
+  va_start (ap, format);
+  i = vsprintf (str, format, ap);
+  va_end (ap);
+  return i;
+}
+#endif
+
 #ifndef HAVE_STRERROR
 extern const char *const sys_errlist[];
 extern const int sys_nerr;
@@ -85,6 +99,43 @@ const char *strsignal(int e) {
   sprintf(buf, _("Signal no.%d"), e);
   return buf;
 }
+#endif
+
+#ifndef SYS_SIGLIST_DECLARED
+const char *const sys_siglist[32] = {
+  "SIGHUP",      /*1*/
+  "SIGINT",      /*2*/
+  "SIGQUIT",     /*3*/
+  "SIGILL",      /*4*/
+  "SIGTRAP",     /*5*/
+  "SIGABRT",     /*6*/
+  "SIGEMT",      /*7*/
+  "SIGFPE",      /*8*/
+  "SIGKILL",     /*9*/
+  "SIGUSR1",     /*10*/
+  "SIGSEGV",     /*11*/
+  "SIGUSR2",     /*12*/
+  "SIGPIPE",     /*13*/
+  "SIGALRM",     /*14*/
+  "SIGTERM",     /*15*/
+  "SIGSTKFLT",   /*16*/
+  "SIGCHLD",     /*17*/
+  "SIGCONT",     /*18*/
+  "SIGSTOP",     /*19*/
+  "SIGTSTP",     /*20*/
+  "SIGTTIN",     /*21*/
+  "SIGTTOU",     /*22*/
+  "SIGXXX",      /*23*/
+  "SIGXXX",      /*24*/
+  "SIGXXX",      /*25*/
+  "SIGXXX",      /*26*/
+  "SIGXXX",      /*27*/
+  "SIGXXX",      /*28*/
+  "SIGXXX",      /*29*/
+  "SIGXXX",      /*30*/
+  "SIGXXX",      /*31*/
+  "SIGXXX"       /*32*/
+};
 #endif
 
 #ifndef HAVE_SCANDIR
