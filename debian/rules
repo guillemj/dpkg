@@ -135,6 +135,11 @@ binary-dpkg-dev: stamp-binary
 	rm -rf $(TMP_DPKG_DEV)
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)
 	chmod g-s $(TMP_DPKG_DEV)
+	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/etc/dpkg
+	install -p -m 644 -o root -g root debian/shlibs.default \
+		$(TMP_DPKG_DEV)/etc/dpkg/
+	install -p -m 644 -o root -g root debian/shlibs.override \
+		$(TMP_DPKG_DEV)/etc/dpkg/
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/bin
