@@ -123,7 +123,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 
   lno= 1;
   pdone= 0;
-#define EOF_mmap(dataptr, endptr)	(dataptr >= endptr)
+#define EOF_mmap(dataptr, endptr)	(dataptr > endptr)
 #define getc_mmap(dataptr)		*dataptr++;
 #define ungetc_mmap(c, dataptr, data)	dataptr--;
 
@@ -172,7 +172,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
       for (;;) {
         if (c == '\n' || c == MSDOS_EOF_CHAR) {
           lno++;
-	  if (EOF_mmap(dataptr, endptr)) break;
           c= getc_mmap(dataptr);
 /* Found double eol, or start of new field */
           if (EOF_mmap(dataptr, endptr) || c == '\n' || !isspace(c)) break;
@@ -185,7 +184,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
         }
         c= getc_mmap(dataptr);
       }
-      valuelen= dataptr - valuestart - 2;
+      valuelen= dataptr - valuestart - 1;
 /* trim ending space on value */
       while (valuelen && isspace(*(valuestart+valuelen-1)))
  valuelen--;
