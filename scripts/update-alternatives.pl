@@ -309,7 +309,7 @@ if ($mode eq 'install') {
 }
 
 if ($mode eq 'remove') {
-    if ($manual eq "manual" and $state ne "expected") {
+    if ($manual eq "manual" and $state eq "expected") {
     	&pr("Removing manually selected alternative - switching to auto mode");
 	$manual= "auto";
     }
