@@ -216,7 +216,7 @@ binary-arch: binary-dpkg
 binary-indep: binary-dpkg-dev binary-dpkg-doc
 	set -e ; set -x ; \
 	v=`sed -n 's/^Version: //p' $(TMP_DPKG_DEV)/DEBIAN/control`; \
-	f=dpkg-$${v}_$(arch).tar.gz ; \
+	f=dpkg-$${v}.tar.gz ; \
 	if [ -f ../dpkg_$${v}.tar.gz ] ; then \
 	    	cp ../dpkg_$${v}.tar.gz ../$$f ; \
 		dpkg-distaddfile -fdebian/files  $$f byhand - ; \
