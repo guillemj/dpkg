@@ -60,7 +60,7 @@ require 'controllib.pl';
 	    'shed',      'shed-linux',
 	    'hppa',      'hppa-linux',
 	    'hurd-i386', 'i386-gnu',
-	    's390',	 's390-linux');
+	    's390',	 's390-linux',
 	    'freebsd-i386', 'i386-freebsd');
 
 sub usageversion {
