@@ -288,10 +288,10 @@ void packagelist::redrawcolheads() {
 
     if (versioninstalled_width)
       mvwaddnstr(colheadspad,0,versioninstalled_column,
-                 "Inst.ver",versioninstalled_width);
+                 _("Inst.ver"),versioninstalled_width);
     if (versionavailable_width)
       mvwaddnstr(colheadspad,0,versionavailable_column,
-                 "Avail.ver",versionavailable_width);
+                 _("Avail.ver"),versionavailable_width);
 
     mvwaddnstr(colheadspad,0,description_column, _("Description"), description_width);
   }
