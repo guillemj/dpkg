@@ -405,7 +405,7 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
     }
   }
   deppossi *provider;
-  if (possi->ed->installed.valid) {
+  if (possi->ed->installed.valid && possi->verrel == dvr_none) {
     for (provider= possi->ed->installed.depended;
          provider;
          provider= provider->nextrev) {
