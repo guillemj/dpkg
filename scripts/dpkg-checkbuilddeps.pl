@@ -35,7 +35,6 @@ local $/='';
 my $cdata=<CONTROL>;
 close CONTROL;
 
-push @unmet, build_depends("build-essential", @status);
 my $dep_regex=qr/\s*((.|\n\s+)*)\s/; # allow multi-line
 if ($cdata =~ /^Build-Depends:$dep_regex/mi) {
 	push @unmet, build_depends($1, @status);
