@@ -225,14 +225,20 @@ struct buffer_data {
 	buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
 			  buf, BUFFER_WRITE_VBUF, NULL, \
 			  limit, desc)
-#define fd_null_copy(fd, limit, desc...)\
-	buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
-			  NULL, BUFFER_WRITE_NULL, NULL, \
-			  limit, desc)
-#define stream_null_copy(file, limit, desc...)\
-	buffer_copy_setup((void *)file, BUFFER_READ_STREAM, NULL, \
-			  NULL, BUFFER_WRITE_NULL, NULL, \
-			  limit, desc)
+#define fd_null_copy(fd, limit, desc...) \
+	if (lseek(fd, limit, SEEK_CUR) == -1) { \
+	    if(errno != ESPIPE) ohshite(desc); \
+	    buffer_copy_setup((void *)fd, BUFFER_READ_FD, NULL, \
+			      0, BUFFER_WRITE_NULL, NULL, \
+			      limit, desc);\
+	}
+#define stream_null_copy(file, limit, desc...) \
+	if (fseek(file, limit, SEEK_CUR) == -1) { \
+	    if(errno != EBADF) ohshite(desc); \
+	    buffer_copy_setup((void *)file, BUFFER_READ_STREAM, NULL, \
+			      0, BUFFER_WRITE_NULL, NULL, \
+			      limit, desc);\
+	}
 #define stream_fd_copy(file, fd, limit, desc...)\
 	buffer_copy_setup((void *)file, BUFFER_READ_STREAM, NULL, \
 			  (void *)fd, BUFFER_WRITE_FD, NULL, \
