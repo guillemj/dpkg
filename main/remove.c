@@ -323,7 +323,7 @@ void removal_bulk(struct pkginfo *pkg) {
     /* We're about to remove the configuration, so remove the note
      * about which version it was ...
      */
-    pkg->configversion= pkg->configrevision= 0;
+    blankversion(&pkg->configversion);
     modstatdb_note(pkg);
     
     /* Remove from our list any conffiles that aren't ours any more or
@@ -455,8 +455,8 @@ void removal_bulk(struct pkginfo *pkg) {
      */
     pkg->installed.depends= 0;
     pkg->installed.essential= 0;
-    pkg->installed.description= pkg->installed.maintainer=
-      pkg->installed.version= pkg->installed.revision= 0;
+    pkg->installed.description= pkg->installed.maintainer= 0;
+    blankversion(&pkg->installed.version);
     pkg->installed.arbs= 0;
   }
       

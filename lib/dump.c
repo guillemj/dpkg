@@ -44,31 +44,21 @@ void w_name(struct varbuf *vb,
 void w_version(struct varbuf *vb,
                const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                const struct fieldinfo *fip) {
-  /* Revision information is printed in version field too. */
-  if ((!pifp->version || !*pifp->version) &&
-      (!pifp->revision || !*pifp->revision)) return;
+  /* Epoch and revision information is printed in version field too. */
+  if (!informativeversion(&pifp->version)) return;
   varbufaddstr(vb,"Version: ");
-  varbufaddstr(vb,pifp->version ? pifp->version : "");
-  if (pifp->revision && *pifp->revision) {
-    varbufaddc(vb,'-');
-    varbufaddstr(vb,pifp->revision);
-  }
+  varbufversion(vb,&pifp->version,vdew_nonambig);
   varbufaddc(vb,'\n');
 }
 
 void w_configversion(struct varbuf *vb,
                      const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                      const struct fieldinfo *fip) {
-  if ((!pigp->configversion || !*pigp->configversion) &&
-      (!pigp->configrevision || !*pigp->configrevision)) return;
   if (pifp != &pigp->installed) return;
+  if (!informativeversion(&pigp->configversion)) return;
   if (pigp->status == stat_installed || pigp->status == stat_notinstalled) return;
   varbufaddstr(vb,"Config-Version: ");
-  varbufaddstr(vb,pigp->configversion ? pigp->configversion : "");
-  if (pigp->configrevision && *pigp->configrevision) {
-    varbufaddc(vb,'-');
-    varbufaddstr(vb,pigp->configrevision);
-  }
+  varbufversion(vb,&pigp->configversion,vdew_nonambig);
   varbufaddc(vb,'\n');
 }
 
@@ -140,7 +130,7 @@ void w_status(struct varbuf *vb,
               const struct fieldinfo *fip) {
   if (pifp != &pigp->installed) return;
   assert(pigp->want <= want_purge &&
-         pigp->eflag <= eflagv_both &&
+         pigp->eflag <= eflagv_reinstreq && /* hold and hold-reinstreq NOT allowed */
          pigp->status <= stat_configfiles);
   varbufaddstr(vb,"Status: ");
   varbufaddstr(vb,wantinfos[pigp->want].name); varbufaddc(vb,' ');
@@ -167,9 +157,8 @@ void varbufdependency(struct varbuf *vb, struct dependency *dep) {
       case dvr_earlierstrict: varbufaddstr(vb,"<<"); break;
       default: internerr("unknown verrel");
       }
-      if (!isalnum(dop->version[0])) varbufaddc(vb,' ');
-      varbufaddstr(vb,dop->version);
-      if (dop->revision) { varbufaddc(vb,'-'); varbufaddstr(vb,dop->revision); }
+      varbufaddc(vb,' ');
+      varbufversion(vb,&dop->version,vdew_nonambig);
       varbufaddc(vb,')');
     }
   }

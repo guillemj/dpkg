@@ -82,7 +82,8 @@ void process_archive(const char *filename) {
   struct dirent *de;
   struct stat stab;
   struct packageinlist *deconpil, *deconpiltemp;
-
+  enum versiondisplayepochwhen needepochs;
+  
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
   admindirlen= strlen(admindir);
 
@@ -180,8 +181,6 @@ void process_archive(const char *filename) {
                 "package architecture (%s) does not match system (%s)",
                 pkg->available.architecture,architecture);
     
-  if (skip_due_to_hold(pkg)) { pop_cleanup(ehflag_normaltidy); return; }
-  
   if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
   assert(pkg->available.valid);
 
@@ -205,27 +204,28 @@ void process_archive(const char *filename) {
   }
 
   if (pkg->status == stat_installed) {
-    r= versioncompare(pkg->available.version,pkg->available.revision,
-                      pkg->installed.version,pkg->installed.revision);
+    r= versioncompare(&pkg->available.version,&pkg->installed.version);
     if (r < 0) {
+      needepochs= epochsdiffer(&pkg->available.version,&pkg->installed.version) ?
+        vdew_always : vdew_never;
       if (fc_downgrade) {
         fprintf(stderr, DPKG " - warning: downgrading %.250s from %.250s to %.250s.\n",
                 pkg->name,
-                versiondescribe(pkg->installed.version,pkg->installed.revision),
-                versiondescribe(pkg->available.version,pkg->available.revision));
+                versiondescribe(&pkg->installed.version,needepochs),
+                versiondescribe(&pkg->available.version,needepochs));
       } else {
         fprintf(stderr, "Will not downgrade"
                 " %.250s from version %.250s to %.250s, skipping.\n",
                 pkg->name,
-                versiondescribe(pkg->installed.version,pkg->installed.revision),
-                versiondescribe(pkg->available.version,pkg->available.revision));
+                versiondescribe(&pkg->installed.version,needepochs),
+                versiondescribe(&pkg->available.version,needepochs));
         pop_cleanup(ehflag_normaltidy);
         return;
       }
     } else if (r == 0 && f_skipsame && /* same version fully installed ? */
                pkg->status == stat_installed && !(pkg->eflag &= eflagf_reinstreq)) {
       fprintf(stderr, "Version %.250s of %.250s already installed, skipping.\n",
-              versiondescribe(pkg->installed.version,pkg->installed.revision),
+              versiondescribe(&pkg->installed.version,vdew_never),
               pkg->name);
       pop_cleanup(ehflag_normaltidy);
       return;
@@ -400,11 +400,11 @@ void process_archive(const char *filename) {
                    3,(void*)deconpil->pkg,(void*)conflictor,(void*)pkg);
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
                                   "deconfigure", "in-favour", pkg->name,
-                                  versiondescribe(pkg->available.version,
-                                                  pkg->available.revision),
+                                  versiondescribe(&pkg->available.version,
+                                                  vdew_nonambig),
                                   "removing", conflictor->name,
-                                  versiondescribe(conflictor->installed.version,
-                                                  conflictor->installed.revision),
+                                  versiondescribe(&conflictor->installed.version,
+                                                  vdew_nonambig),
                                   (char*)0);
     }
     conflictor->status= stat_halfconfigured;
@@ -413,8 +413,8 @@ void process_archive(const char *filename) {
                  2,(void*)conflictor,(void*)pkg);
     maintainer_script_installed(conflictor, PRERMFILE, "pre-removal",
                                 "remove", "in-favour", pkg->name,
-                                versiondescribe(pkg->available.version,
-                                                pkg->available.revision),
+                                versiondescribe(&pkg->available.version,
+                                                vdew_nonambig),
                                 (char*)0);
     conflictor->status= stat_halfinstalled;
     modstatdb_note(conflictor);
@@ -432,15 +432,15 @@ void process_archive(const char *filename) {
     push_cleanup(cu_preinstnew,~ehflag_normaltidy, 0,0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintainer_script_new(PREINSTFILE, "pre-installation", cidir, cidirrest,
-                          "install", versiondescribe(pkg->installed.version,
-                                                     pkg->installed.revision),
+                          "install", versiondescribe(&pkg->installed.version,
+                                                     vdew_nonambig),
                           (char*)0);
   } else {
     push_cleanup(cu_preinstupgrade,~ehflag_normaltidy, 0,0,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
     maintainer_script_new(PREINSTFILE, "pre-installation", cidir, cidirrest,
-                          "upgrade", versiondescribe(pkg->installed.version,
-                                                     pkg->installed.revision),
+                          "upgrade", versiondescribe(&pkg->installed.version,
+                                                     vdew_nonambig),
                           (char*)0);
     printf("Unpacking replacement %.250s ...\n",pkg->name);
   }
@@ -715,10 +715,7 @@ void process_archive(const char *filename) {
       newpossi->ed= possi->ed;
       newpossi->next= 0; newpossi->nextrev= newpossi->backrev= 0;
       newpossi->verrel= possi->verrel;
-      if (possi->verrel != dvr_none) {
-        newpossi->version= possi->version;
-        newpossi->revision= possi->revision;
-      }
+      if (possi->verrel != dvr_none) newpossi->version= possi->version;
       newpossi->cyclebreak= 0;
       *newpossilastp= newpossi;
       newpossilastp= &newpossi->next;
@@ -746,7 +743,6 @@ void process_archive(const char *filename) {
   pkg->installed.source= pkg->available.source;
   pkg->installed.architecture= 0; /* This is irrelevant in the status file. */
   pkg->installed.version= pkg->available.version;
-  pkg->installed.revision= pkg->available.revision;
 
   /* We have to generate our own conffiles structure. */
   pkg->installed.conffiles= 0; iconffileslastp= &pkg->installed.conffiles;
@@ -844,8 +840,8 @@ void process_archive(const char *filename) {
     maintainer_script_installed(otherpkg, POSTRMFILE,
                                 "post-removal script (for disappearance)",
                                 "disappear", pkg->name, 
-                                versiondescribe(pkg->available.version,
-                                                pkg->available.revision),
+                                versiondescribe(&pkg->available.version,
+                                                vdew_nonambig),
                                 (char*)0);
 
     /* OK, now we delete all the stuff in the `info' directory .. */
@@ -881,8 +877,8 @@ void process_archive(const char *filename) {
 
     otherpkg->installed.depends= 0;
     otherpkg->installed.essential= 0;
-    otherpkg->installed.description= otherpkg->installed.maintainer=
-      otherpkg->installed.version= otherpkg->installed.revision= 0;
+    otherpkg->installed.description= otherpkg->installed.maintainer= 0;
+    blankversion(&otherpkg->installed.version);
     otherpkg->installed.arbs= 0;
     otherpkg->clientdata->fileslistvalid= 0;
 

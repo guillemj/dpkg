@@ -46,12 +46,14 @@ typedef void freadfunction(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                            const char *filename, int lno, FILE *warnto, int *warncount,
                            const char *value, const struct fieldinfo *fip);
 freadfunction f_name, f_charfield, f_priority, f_section, f_status, f_filecharf;
-freadfunction f_boolean, f_dependency, f_conffiles, f_configversion;
+freadfunction f_boolean, f_dependency, f_conffiles, f_version, f_revision;
+freadfunction f_configversion;
 
 typedef void fwritefunction(struct varbuf*, const struct pkginfo*,
                             const struct pkginfoperfile*, const struct fieldinfo*);
 fwritefunction w_name, w_charfield, w_priority, w_section, w_status, w_configversion;
-fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles, w_filecharf;
+fwritefunction w_version, w_null, w_booleandefno, w_dependency, w_conffiles;
+fwritefunction w_filecharf;
 
 struct fieldinfo {
   const char *name;

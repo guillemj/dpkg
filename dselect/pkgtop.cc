@@ -45,30 +45,57 @@ const char *pkgprioritystring(const struct pkginfo *pkg) {
   }
 }
 
-static int describemany(char buf[], const char *prioritystring, const char *section) {
+int packagelist::describemany(char buf[], const char *prioritystring,
+                              const char *section,
+                              const struct perpackagestate *pps) {
+  const char *ssostring, *ssoabbrev;
+  int statindent;
+
+  statindent= 0;
+  ssostring= 0;
+  ssoabbrev= "All";
+  switch (statsortorder) {
+  case sso_avail:
+    if (pps->ssavail == -1) break;
+    ssostring= ssastrings[pps->ssavail];
+    ssoabbrev= ssaabbrevs[pps->ssavail];
+    statindent++;
+    break;
+  case sso_state:
+    if (pps->ssstate == -1) break;
+    ssostring= sssstrings[pps->ssstate];
+    ssoabbrev= sssabbrevs[pps->ssstate];
+    statindent++;
+    break;
+  case sso_unsorted:
+    break;
+  default:
+    internerr("unknown statsortrder in describemany all");
+  }
+  
   if (!prioritystring) {
     if (!section) {
-      strcpy(buf, "All packages");
-      return 0;
+      strcpy(buf, ssostring ? ssostring : "All packages");
+      return statindent;
     } else {
       if (!*section) {
-        strcpy(buf, "All packages without a section");
+        sprintf(buf,"%s packages without a section",ssoabbrev);
       } else {
-        sprintf(buf, "All packages in section %s", section);
+        sprintf(buf,"%s packages in section %s",ssoabbrev,section);
       }
-      return 1;
+      return statindent+1;
     }
   } else {
     if (!section) {
-      sprintf(buf, "All %s packages", prioritystring);
-      return 1;
+      sprintf(buf,"%s %s packages",ssoabbrev,prioritystring);
+      return statindent+1;
     } else {
       if (!*section) {
-        sprintf(buf, "All %s packages without a section", prioritystring);
+        sprintf(buf,"%s %s packages without a section",ssoabbrev,prioritystring);
       } else {
-        sprintf(buf, "All %s packages in section %s", prioritystring, section);
+        sprintf(buf,"%s %s packages in section %s",ssoabbrev,prioritystring,section);
       }
-      return 2;
+      return statindent+2;
     }
   }
 }
@@ -79,7 +106,7 @@ void packagelist::redrawthisstate() {
 
   const char *section= table[cursorline]->pkg->section;
   const char *priority= pkgprioritystring(table[cursorline]->pkg);
-  char *buf= new char[220+
+  char *buf= new char[500+
                       greaterint((table[cursorline]->pkg->name
                                   ? strlen(table[cursorline]->pkg->name) : 0),
                                  (section ? strlen(section) : 0) +
@@ -91,13 +118,13 @@ void packagelist::redrawthisstate() {
             package_width,
             table[cursorline]->pkg->name,
             statusstrings[table[cursorline]->pkg->status],
-            holdstrings[table[cursorline]->pkg->eflag][0] ? " - " : "",
-            holdstrings[table[cursorline]->pkg->eflag],
+            eflagstrings[table[cursorline]->pkg->eflag][0] ? " - " : "",
+            eflagstrings[table[cursorline]->pkg->eflag],
             wantstrings[table[cursorline]->selected],
             wantstrings[table[cursorline]->original],
             priority);
   } else {
-    describemany(buf,priority,section);
+    describemany(buf,priority,section,table[cursorline]->pkg->clientdata);
   }
   mvwaddnstr(thisstatepad,0,0, buf, total_width);
   pnoutrefresh(thisstatepad, 0,leftofscreen, thisstate_row,0,
@@ -120,7 +147,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
       mvwprintw(listpad,index,0, "%-*.*s ",
                 status_hold_width, status_hold_width,
-                holdstrings[pkg->eflag]);
+                eflagstrings[pkg->eflag]);
       wprintw(listpad, "%-*.*s ",
               status_status_width, status_status_width,
               statusstrings[pkg->status]);
@@ -143,7 +170,7 @@ void packagelist::redraw1itemsel(int index, int selected) {
 
     } else {
 
-      mvwaddch(listpad,index,0, holdchars[pkg->eflag]);
+      mvwaddch(listpad,index,0, eflagchars[pkg->eflag]);
       waddch(listpad, statuschars[pkg->status]);
       waddch(listpad,
              /* fixme: keep this feature? */
@@ -176,7 +203,22 @@ void packagelist::redraw1itemsel(int index, int selected) {
   
     mvwprintw(listpad,index,package_column-1, " %-*.*s ",
               package_width, package_width, pkg->name);
-      
+
+    if (versioninstalled_width)
+      mvwprintw(listpad,index,versioninstalled_column, "%-*.*s ",
+                versioninstalled_width, versioninstalled_width,
+                versiondescribe(&pkg->installed.version,vdew_never));
+    if (versionavailable_width) {
+      if (informativeversion(&pkg->available.version) &&
+          versioncompare(&pkg->available.version,&pkg->installed.version) > 0)
+        wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
+      mvwprintw(listpad,index,versionavailable_column, "%-*.*s",
+                versionavailable_width, versionavailable_width,
+                versiondescribe(&pkg->available.version,vdew_never));
+      wattrset(listpad, selected ? listsel_attr : list_attr);
+      waddch(listpad,' ');
+    }
+
     i= description_width;
     p= info->description ? info->description : "";
     while (i>0 && *p && *p != '\n') { waddch(listpad,*p); i--; p++; }
@@ -186,11 +228,11 @@ void packagelist::redraw1itemsel(int index, int selected) {
     const char *section= pkg->section;
     const char *priority= pkgprioritystring(pkg);
 
-    char *buf= new char[220+
+    char *buf= new char[500+
                         (section ? strlen(section) : 0) +
                         (priority ? strlen(priority) : 0)];
     
-    indent= describemany(buf,priority,section);
+    indent= describemany(buf,priority,section,pkg->clientdata);
 
     mvwaddstr(listpad,index,0, "    ");
     i= total_width-6;
@@ -243,6 +285,14 @@ void packagelist::redrawcolheads() {
     mvwaddnstr(colheadspad,0,section_column, "Section", section_width);
     mvwaddnstr(colheadspad,0,priority_column, "Priority", priority_width);
     mvwaddnstr(colheadspad,0,package_column, "Package", package_width);
+
+    if (versioninstalled_width)
+      mvwaddnstr(colheadspad,0,versioninstalled_column,
+                 "Inst.ver",versioninstalled_width);
+    if (versionavailable_width)
+      mvwaddnstr(colheadspad,0,versionavailable_column,
+                 "Avail.ver",versionavailable_width);
+
     mvwaddnstr(colheadspad,0,description_column, "Description", description_width);
   }
   refreshcolheads();

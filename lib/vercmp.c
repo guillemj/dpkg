@@ -27,6 +27,11 @@
 #include "dpkg-db.h"
 #include "parsedump.h"
 
+int epochsdiffer(const struct versionrevision *a,
+                 const struct versionrevision *b) {
+  return a->epoch != b->epoch;
+}
+
 static int verrevcmp(const char *val, const char *ref) {
   int vc, rc;
   long vl, rl;
@@ -56,9 +61,12 @@ static int verrevcmp(const char *val, const char *ref) {
   }
 }
 
-int versioncompare(const char *version, const char *revision,
-                   const char *refversion, const char *refrevision) {
+int versioncompare(const struct versionrevision *version,
+                   const struct versionrevision *refversion) {
   int r;
-  r= verrevcmp(version,refversion);  if (r) return r;
-  return verrevcmp(revision,refrevision);
+
+  if (version->epoch > refversion->epoch) return 1;
+  if (version->epoch < refversion->epoch) return 1;
+  r= verrevcmp(version->version,refversion->version);  if (r) return r;
+  return verrevcmp(version->revision,refversion->revision);
 }

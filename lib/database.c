@@ -106,13 +106,19 @@ static int hash(const char *name) {
  */
 }
 
+void blankversion(struct versionrevision *version) {
+  version->epoch= 0;
+  version->version= version->revision= 0;
+}
+
 void blankpackage(struct pkginfo *pigp) {
   pigp->name= 0;
   pigp->status= stat_notinstalled;
   pigp->eflag= eflagv_ok;
   pigp->want= want_unknown;
   pigp->priority= pri_unknown;
-  pigp->section= pigp->configversion= pigp->configrevision= 0;
+  pigp->section= 0;
+  blankversion(&pigp->configversion);
   pigp->files= 0;
   pigp->installed.valid= 0;
   pigp->available.valid= 0;
@@ -124,7 +130,8 @@ void blankpackageperfile(struct pkginfoperfile *pifp) {
   pifp->depends= 0;
   pifp->depended= 0;
   pifp->description= pifp->maintainer= pifp->source= 0;
-  pifp->architecture= pifp->version= pifp->revision= 0;
+  pifp->architecture= 0;
+  blankversion(&pifp->version);
   pifp->conffiles= 0;
   pifp->arbs= 0;
   pifp->valid= 1;
@@ -141,6 +148,7 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
       ((pkg->want != want_unknown && pkg->want != want_purge) ||
        pkg->eflag != eflagv_ok ||
        pkg->status != stat_notinstalled ||
+       informativeversion(&pkg->configversion) ||
        pkg->files)
       :
       (nes(pkg->section) ||
@@ -152,8 +160,7 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
       nes(info->maintainer) ||
       nes(info->source) ||
       nes(info->architecture) ||
-      nes(info->version) ||
-      nes(info->revision) ||
+      informativeversion(&info->version) ||
       info->conffiles ||
       info->arbs) return 1;
   return 0;

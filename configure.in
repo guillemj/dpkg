@@ -8,13 +8,14 @@ AC_PREFIX_DEFAULT(/usr)
 AC_PROG_CC
 AC_PROG_CXX
 
+dpkg_archset=''
 AC_ARG_WITH(arch,
 [  --with-arch=value       set/override (Debian) architecture value],
 [
  if test "x$with_arch" = x; then
   AC_MSG_ERROR(--with-arch requires an architecture name)
  fi
- AC_DEFINE_UNQUOTED(ARCHITECTURE, "${with_arch}")
+ dpkg_archset="${with_arch}"
 ],[
  AC_MSG_CHECKING(system architecture)
  dpkg_archwhy=''
@@ -52,45 +53,42 @@ changequote([, ])dnl
  ])
  if test "x$dpkg_cv_arch" != x; then
   AC_MSG_RESULT("$dpkg_cv_arch$dpkg_archwhy")
-  AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_cv_arch}")
+  dpkg_archset="${dpkg_cv_arch}"
  else
   AC_MSG_RESULT("failed$dpkg_archwhy")
  fi
 ])
- 
-AC_ARG_WITH(newdeb,
-[  --with-newdeb           make dpkg-deb default to new archives],
-[
- AC_DEFINE(BUILDOLDPKGFORMAT, 0)
-],[
- AC_ARG_WITH(olddeb,
-[  --with-olddeb           make dpkg-deb default to old archives],
-[
-  AC_DEFINE(BUILDOLDPKGFORMAT, 1)
-],
-[
-  case "$CC" in
-  /*)
-   pathccompiler="$CC"
-   ;;
+if test "x$dpkg_archset" != x
+then
+ AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_cv_arch}")
+fi
+
+if test "x${dpkg_archset}" = xi386; then
+ AC_MSG_CHECKING(for i386 system/binary format)
+ dpkg_libgcc="`$CC --print-libgcc-file-name 2>/dev/null`"
+ case "$dpkg_libgcc" in
+  *-linux*)
+   if ar p "$dpkg_libgcc" __main.o 2>/dev/null | file - 2>/dev/null | grep ELF >/dev/null; then
+    AC_MSG_RESULT(Linux ELF)
+    dpkg_cc_binfmt=elf
+   else
+    AC_MSG_RESULT(Linux a.out)
+    dpkg_cc_binfmt=a.out
+   fi
+   AC_DEFINE_UNQUOTED(ARCHBINFMT, " $dpkg_cc_binfmt")
+  ;;
   *)
-   AC_PATH_PROG(pathccompiler,"$CC")
-   ;;
-  esac
-  AC_MSG_CHECKING(.deb format to build by default)
-  if file "$pathccompiler" 2>/dev/null | grep ELF >/dev/null 2>&1; then
-   AC_MSG_RESULT([new (C compiler looks like ELF)])
-   AC_DEFINE(BUILDOLDPKGFORMAT, 0)
-  else
-   AC_MSG_RESULT([old (C compiler not ELF)])
-   AC_DEFINE(BUILDOLDPKGFORMAT, 1)
-  fi
-])])
+   AC_MSG_RESULT(non-Linux)
+  ;;
+ esac
+fi
 
 AC_ARG_WITH(newdeb,
 [  --with-newdeb           make dpkg-deb default to new archives],
 [AC_DEFINE(BUILDOLDPKGFORMAT, 0)])
-
+AC_ARG_WITH(olddeb,
+[  --with-olddeb           make dpkg-deb default to old archives],
+[AC_DEFINE(BUILDOLDPKGFORMAT, 1)])
 
 AC_MSG_CHECKING(for /usr/bin/perl)
 if test -f /usr/bin/perl
@@ -116,7 +114,7 @@ AC_C_CONST
 AC_C_BIGENDIAN
 AC_CHECK_SIZEOF(unsigned long)
 AC_CHECK_SIZEOF(unsigned int)
-AC_CHECK_FUNCS(unsetenv alphasort scandir strerror strsignal strtoul)
+AC_CHECK_FUNCS(unsetenv alphasort scandir strerror strsignal strtoul vsnprintf)
 AC_CHECK_HEADERS(sys/cdefs.h)
 
 AC_CHECK_FUNC(sysinfo,

@@ -25,8 +25,52 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+#include <stdarg.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "config.h"
+#include "dpkg.h"
+
+char *strcpy(char *to, const char *from) {
+  char *oto= to;
+  while ((*to++ = *from++) != 0);
+  return oto;
+}
+
+#ifndef HAVE_VSNPRINTF
+int vsnprintf (char *buf, size_t maxsize, const char *fmt, va_list al) {
+  static FILE *file= 0;
+
+  struct stat stab;
+  unsigned long want, nr;
+  int retval;
+
+  if (maxsize == 0) return -1;
+  if (!file) {
+    file= tmpfile(); if (!file) ohshite("unable to open tmpfile for vsnprintf");
+  } else {
+    if (fseek(file,0,0)) ohshite("unable to rewind at start of vsnprintf");
+    if (ftruncate(fileno(file),0)) ohshite("unable to truncate in vsnprintf");
+  }
+  if (vfprintf(file,fmt,al) == EOF) ohshite("write error in vsnprintf");
+  if (fflush(file)) ohshite("unable to flush in vsnprintf");
+  if (fstat(fileno(file),&stab)) ohshite("unable to stat in vsnprintf");
+  if (fseek(file,0,0)) ohshite("unable to rewind in vsnprintf");
+  want= stab.st_size;
+  if (want >= maxsize) {
+    want= maxsize-1; retval= -1;
+  } else {
+    retval= want;
+  }
+  nr= fread(buf,1,want-1,file);
+  if (nr != want-1) ohshite("read error in vsnprintf truncated");
+  buf[want]= 0;
+
+  return retval;
+}
+#endif
 
 #ifndef HAVE_STRERROR
 extern const char *const sys_errlist[];

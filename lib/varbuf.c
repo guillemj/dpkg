@@ -30,6 +30,22 @@ void varbufaddc(struct varbuf *v, int c) {
   v->buf[v->used++]= c;
 }
 
+void varbufprintf(struct varbuf *v, const char *fmt, ...) {
+  int ou, r;
+  va_list al;
+
+  ou= v->used;
+  v->used+= strlen(fmt);
+
+  do {
+    varbufextend(v);
+    va_start(al,fmt);
+    r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
+    va_end(al);
+    v->used= ou+r;
+  } while (r >= v->size-ou-1);
+}
+
 void varbufaddstr(struct varbuf *v, const char *s) {
   int l, ou;
   l= strlen(s);

@@ -158,27 +158,55 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                              warnto,warncount,pigp, value,wantinfos,&ep);
   pigp->eflag= convert_string(filename,lno,"second (error) word in `status' field", -1,
                               warnto,warncount,pigp, ep,eflaginfos,&ep);
+  if (pigp->eflag & eflagf_obsoletehold) {
+    pigp->want= want_hold;
+    pigp->eflag &= ~eflagf_obsoletehold;
+  }
   pigp->status= convert_string(filename,lno,"third (status) word in `status' field", -1,
                                warnto,warncount,pigp, ep,statusinfos,0);
 }
+
+void f_version(struct pkginfo *pigp, struct pkginfoperfile *pifp,
+               enum parsedbflags flags,
+               const char *filename, int lno, FILE *warnto, int *warncount,
+               const char *value, const struct fieldinfo *fip) {
+  const char *emsg;
+  
+  emsg= parseversion(&pifp->version,value);
+  if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0, "error "
+                     "in Version string `%.250s': %.250s",value,emsg);
+}  
+
+void f_revision(struct pkginfo *pigp, struct pkginfoperfile *pifp,
+                enum parsedbflags flags,
+                const char *filename, int lno, FILE *warnto, int *warncount,
+                const char *value, const struct fieldinfo *fip) {
+  char *newversion;
+
+  parseerr(0,filename,lno, warnto,warncount,pigp,1,
+           "obsolete `Revision' or `Package-Revision' field used");
+  if (!*value) return;
+  if (pifp->version.revision && *pifp->version.revision) {
+    newversion= nfmalloc(strlen(pifp->version.version)+strlen(pifp->version.revision)+2);
+    sprintf(newversion,"%s-%s",pifp->version.version,pifp->version.revision);
+  }
+  pifp->version.revision= nfstrsave(value);
+}  
 
 void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                      enum parsedbflags flags,
                      const char *filename, int lno, FILE *warnto, int *warncount,
                      const char *value, const struct fieldinfo *fip) {
-  char *mycopy, *hyphen;
-
+  const char *emsg;
+  
   if (flags & pdb_rejectstatus)
     parseerr(0,filename,lno, warnto,warncount,pigp,0,
              "value for `config-version' field not allowed in this context");
   if (flags & pdb_recordavailable) return;
 
-  mycopy= nfstrsave(value);
-  hyphen= strrchr(mycopy,'-');
-  if (hyphen) *hyphen++= 0;
-
-  pigp->configversion= mycopy;
-  pigp->configrevision= hyphen ? hyphen : nfstrsave("");
+  emsg= parseversion(&pigp->configversion,value);
+  if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0, "error "
+                     "in Config-Version string `%.250s': %.250s",value,emsg);
 }
 
 void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
@@ -223,7 +251,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                   enum parsedbflags flags,
                   const char *filename, int lno, FILE *warnto, int *warncount,
                   const char *value, const struct fieldinfo *fip) {
-  char *q, c1, c2;
+  char c1, c2;
   const char *p, *emsg;
   struct varbuf depname, version;
   struct dependency *dyp, **ldypp;
@@ -253,7 +281,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       emsg= illegal_packagename(depname.buf,0);
       if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0, "`%s' field,"
                          " invalid package name `%.255s': %s",
-                         fip->name, depname.buf, emsg);
+                         fip->name,depname.buf,emsg);
       dop= nfmalloc(sizeof(struct deppossi));
       dop->up= dyp;
       dop->ed= findpackage(depname.buf);
@@ -315,24 +343,20 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
           p++;
         }
         if (*p == '(') parseerr(0,filename,lno, warnto,warncount,pigp,0,
-                                "`%s' field, reference to `%.255s'"
-                                " version contains (", fip->name, depname.buf);
+                                "`%s' field, reference to `%.255s': "
+                                "version contains `('",fip->name,depname.buf);
         else if (*p == 0) parseerr(0,filename,lno, warnto,warncount,pigp,0,
-                                   "`%s' field, reference to `%.255s'"
-                                   "version unterminated", fip->name, depname.buf);
+                                   "`%s' field, reference to `%.255s': "
+                                   "version unterminated",fip->name,depname.buf);
         varbufaddc(&version,0);
-        q= strrchr(version.buf,'-');
-        if (q) {
-          *q++= 0;
-          dop->revision= nfstrsave(q);
-        } else {
-          dop->revision= 0;
-        }
-        dop->version= nfstrsave(version.buf);
+        emsg= parseversion(&dop->version,version.buf);
+        if (emsg) parseerr(0,filename,lno, warnto,warncount,pigp,0,
+                           "`%s' field, reference to `%.255s': "
+                           "error in version: %.255s",fip->name,depname.buf,emsg);
         p++; while (isspace(*p)) p++;
       } else {
         dop->verrel= dvr_none;
-        dop->revision= dop->version= 0;
+        blankversion(&dop->version);
       }
       if (!*p || *p == ',') break;
       if (*p != '|')

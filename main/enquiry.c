@@ -2,7 +2,7 @@
  * dpkg - main program for package management
  * enquiry.c - status enquiry and listing options
  *
- * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 1995,1996 Ian Jackson <ijackson@gnu.ai.mit.edu>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -73,11 +73,11 @@ Desired=Unknown/Install/Remove/Purge\n\
   if (!pkg->installed.valid) blankpackageperfile(&pkg->installed);
   limiteddescription(pkg,44,&pdesc,&l);
   printf("%c%c%c %-15.15s %-14.14s %.*s\n",
-         "uirp"[pkg->want],
+         "uihrp"[pkg->want],
          "nUFiHc"[pkg->status],
-         " hRX"[pkg->eflag],
+         " R?#"[pkg->eflag],
          pkg->name,
-         versiondescribe(pkg->installed.version,pkg->installed.revision),
+         versiondescribe(&pkg->installed.version,vdew_never),
          l, pdesc);
 }         
 
@@ -431,19 +431,23 @@ void enqperpackage(const char *const *argv) {
 }
 
 void assertsupportpredepends(const char *const *argv) {
+  static struct versionrevision predepversion = {~0UL,0,0};
   struct pkginfo *pkg;
   
   if (*argv) badusage("--assert-support-predepends does not take any arguments");
 
   modstatdb_init(admindir,msdbrw_readonly);
   pkg= findpackage("dpkg");
-
+  if (!predepversion.epoch == ~0UL) {
+    predepversion.epoch= 0;
+    predepversion.version= nfstrsave("1.1.0");
+    predepversion.revision= 0;
+  }
   switch (pkg->status) {
   case stat_installed:
     break;
   case stat_unpacked: case stat_halfconfigured:
-    if (versionsatisfied5(pkg->configversion,pkg->configrevision,
-                          "1.1.0","", dvr_laterequal))
+    if (versionsatisfied3(&pkg->configversion,&predepversion,dvr_laterequal))
       break;
     printf("Version of dpkg with Pre-Depends support not yet configured.\n"
            " Please use `dpkg --configure dpkg', and then try again.\n");

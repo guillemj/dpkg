@@ -42,6 +42,11 @@ struct dependency { /* dy */
   enum deptype type;
 };
 
+struct versionrevision {
+  unsigned long epoch;
+  char *version, *revision;
+};  
+
 struct deppossi { /* do */
   struct dependency *up;
   struct pkginfo *ed;
@@ -59,7 +64,7 @@ struct deppossi { /* do */
     dvr_laterstrict=   dvrf_builtup | dvrf_later   | dvrf_strict,
     dvr_exact=         0400
   } verrel;
-  char *version, *revision;
+  struct versionrevision version;
   int cyclebreak;
 };
 
@@ -85,7 +90,8 @@ struct pkginfoperfile { /* pif */
   struct dependency *depends;
   struct deppossi *depended;
   int essential; /* The `essential' flag, 1=yes, 0=no (absent) */
-  char *description, *maintainer, *version, *revision, *source, *architecture;
+  char *description, *maintainer, *source, *architecture;
+  struct versionrevision version;
   struct conffile *conffiles;
   struct arbitraryfield *arbs;
 };
@@ -96,12 +102,18 @@ struct pkginfo { /* pig */
   struct pkginfo *next;
   char *name;
   enum pkgwant {
-    want_unknown, want_install, want_deinstall, want_purge
+    want_unknown, want_install, want_hold, want_deinstall, want_purge,
+    want_sentinel /* Not allowed except as special sentinel value
+                     in some places */
   } want;
   enum pkgeflag {
-    eflagv_ok=00, eflagv_hold=01, eflagv_reinstreq=02, eflagv_both=03,
-    eflagf_hold=01, eflagf_reinstreq=02
-  } eflag; /* bitmask */
+    eflagf_reinstreq    = 01,
+    eflagf_obsoletehold = 02,
+    eflagv_ok           = 0,
+    eflagv_reinstreq    =    eflagf_reinstreq,
+    eflagv_obsoletehold =                       eflagf_obsoletehold,
+    eflagv_obsoleteboth =    eflagf_reinstreq | eflagf_obsoletehold
+  } eflag; /* bitmask, but obsoletehold no longer used except when reading */
   enum pkgstatus {
     stat_notinstalled, stat_unpacked, stat_halfconfigured,
     stat_installed, stat_halfinstalled, stat_configfiles
@@ -113,7 +125,7 @@ struct pkginfo { /* pig */
   } priority;
   char *otherpriority;
   char *section;
-  char *configversion, *configrevision;
+  struct versionrevision configversion;
   struct filedetails *files;
   struct pkginfoperfile installed;
   struct pkginfoperfile available;
@@ -150,6 +162,7 @@ extern char *statusfile, *availablefile; /* initialised by modstatdb_init */
 struct pkginfo *findpackage(const char *name);
 void blankpackage(struct pkginfo *pp);
 void blankpackageperfile(struct pkginfoperfile *pifp);
+void blankversion(struct versionrevision*);
 int informative(struct pkginfo *pkg, struct pkginfoperfile *info);
 int countpackages(void);
 void resetpackages(void);
@@ -191,6 +204,15 @@ extern const struct namevalue eflaginfos[];
 extern const struct namevalue wantinfos[];
 
 const char *skip_slash_dotslash(const char *p);
+
+int informativeversion(const struct versionrevision *version);
+
+enum versiondisplayepochwhen { vdew_never, vdew_nonambig, vdew_always };
+void varbufversion(struct varbuf*, const struct versionrevision*,
+                   enum versiondisplayepochwhen);
+const char *parseversion(struct versionrevision *rversion, const char*);
+const char *versiondescribe(const struct versionrevision*,
+                            enum versiondisplayepochwhen);
 
 /*** from varbuf.c ***/
 
@@ -255,12 +277,15 @@ void writedb(const char *filename, int available, int mustsync);
 
 void varbufrecord(struct varbuf*, const struct pkginfo*, const struct pkginfoperfile*);
 void varbufdependency(struct varbuf *vb, struct dependency *dep);
+void varbufprintf(struct varbuf *v, const char *fmt, ...) PRINTFFORMAT(2,3);
   /* NB THE VARBUF MUST HAVE BEEN INITIALISED AND WILL NOT BE NULL-TERMINATED */
 
 /*** from vercmp.c ***/
 
-int versioncompare(const char *version, const char *revision,
-                   const char *refversion, const char *refrevision);
+int versioncompare(const struct versionrevision *version,
+                   const struct versionrevision *refversion);
+int epochsdiffer(const struct versionrevision *a,
+                 const struct versionrevision *b);
 
 /*** from nfmalloc.c ***/
 

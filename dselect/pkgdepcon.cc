@@ -120,12 +120,12 @@ static int dep_update_best_to_change_stop(perpackagestate *& best, pkginfo *tryt
 int packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *display) {
   perpackagestate *er= per->clientdata;
   perpackagestate *ed= ped->clientdata;
-  
-  if (!er || er->selected != pkginfo::want_install ||
-      !ed || ed->selected != pkginfo::want_install) return 0;
+
+  if (!er || !would_like_to_install(er->selected,per) ||
+      !ed || !would_like_to_install(ed->selected,ped)) return 0;
   
   add(display,dp_must);
-  
+
   er= per->clientdata;  // these can be changed by add
   ed= ped->clientdata;
   
@@ -134,9 +134,11 @@ int packagelist::deselect_one_of(pkginfo *per, pkginfo *ped, dependency *display
             this, er->pkg->name, er->spriority, ed->pkg->name, ed->spriority, display);
   
   perpackagestate *best;
-  if (er->spriority < ed->spriority) best= er;        // We'd rather change the
-  else if (er->spriority > ed->spriority) best= ed;   // one with the lowest priority.
-  
+
+  if (per->eflag & pkginfo::eflagf_reinstreq) best= ed;      // Try not keep packages
+  else if (ped->eflag & pkginfo::eflagf_reinstreq) best= er; //  needing reinstallation
+  else if (er->spriority < ed->spriority) best= er; // We'd rather change the
+  else if (er->spriority > ed->spriority) best= ed; // one with the lowest priority.
   else if (er->pkg->priority >
            er->pkg->priority) best= er;         // ... failing that the one with
   else if (er->pkg->priority <                  //  the highest priority
@@ -276,10 +278,7 @@ int deppossatisfied(deppossi *possi) {
     // and therefore OK, or a version must have been specified,
     // in which case we don't need to look at the rest anyway.
     if (possi->verrel == deppossi::dvr_none) return 1;
-    int r= versioncompare(possi->ed->available.version,
-                          possi->ed->available.revision,
-                          possi->version,
-                          possi->revision);
+    int r= versioncompare(&possi->ed->available.version,&possi->version);
     switch (possi->verrel) {
     case deppossi::dvr_earlierequal:   return r <= 0;
     case deppossi::dvr_laterequal:     return r >= 0;
@@ -296,7 +295,8 @@ int deppossatisfied(deppossi *possi) {
        provider= provider->nextrev) {
     if (provider->up->type != dep_provides) continue;
     if (provider->up->up->clientdata &&
-        provider->up->up->clientdata->selected == pkginfo::want_install)
+        would_like_to_install(provider->up->up->clientdata->selected,
+                              provider->up->up) == 1)
       return 1;
   }
   return 0;

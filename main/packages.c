@@ -172,8 +172,6 @@ void process_queue(void) {
     
     if (!pkg) continue; /* duplicate, which we removed earlier */
 
-    if (skip_due_to_hold(pkg)) { pkg->clientdata->istobe= itb_normal; continue; }
-    
     assert(pkg->status <= stat_configfiles);
 
     if (setjmp(ejbuf)) {
@@ -280,8 +278,8 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
       varbufaddstr(oemsgs,"  Version of ");
       varbufaddstr(oemsgs,possdependee->name);
       varbufaddstr(oemsgs," on system is ");
-      varbufaddstr(oemsgs,versiondescribe(possdependee->installed.version,
-                                           possdependee->installed.revision));
+      varbufaddstr(oemsgs,versiondescribe(&possdependee->installed.version,
+                                          vdew_nonambig));
       varbufaddstr(oemsgs,".\n");
       assert(checkversion->verrel != dvr_none);
       if (fc_depends) thisf= (dependtry >= 3) ? 2 : 1;
@@ -297,7 +295,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
         possdependee->clientdata->istobe == itb_installnew) {
       debug(dbg_depcondetail,"      unpacked/halfconfigured, defer");
       return 1;
-    } else if (!removing && fc_configureany) {
+    } else if (!removing && fc_configureany && !skip_due_to_hold(possdependee)) {
       fprintf(stderr, DPKG
               ": also configuring `%s' (required by `%s')\n",
               possdependee->name, requiredby->name);

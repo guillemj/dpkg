@@ -34,12 +34,12 @@
 
 static void printversion(void) {
   if (!fputs
-      ("Debian GNU/Linux `" SPLITTER "' package archive split/join tool;\n"
-       "version " DPKG_VERSION_ARCH
-       ".  Copyright (C) 1994,1995 Ian Jackson.  This is free\n"
-       "software; see the GNU General Public Licence version 2 or later for copying\n"
-       "conditions.  There is NO warranty.  See dpkg-split --licence for details.\n",
-       stderr)) werr("stderr");
+      ("Debian Linux `" SPLITTER "' package split/join tool; "
+       "version " DPKG_VERSION_ARCH ".\n"
+       "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
+       "GNU General Public Licence version 2 or later for copying conditions.\n"
+       "There is NO warranty.  See dpkg-split --licence for details.\n",
+       stdout)) werr("stdout");
 }
 
 static void usage(void) {
@@ -60,7 +60,7 @@ Options:  --depotdir <directory>  (default is /var/lib/dpkg/parts)\n\
           --msdos                 (generate 8.3 filenames)\n\
 \n\
 Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n",
-             stderr)) werr("stderr");
+             stdout)) werr("stdout");
 }
 
 const char thisname[]= SPLITTER;

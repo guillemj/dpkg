@@ -323,8 +323,8 @@ int maintainer_script_alternative(struct pkginfo *pkg,
 
   oldscriptpath= pkgadminfile(pkg,scriptname);
   arglist= buildarglist(scriptname,
-                        ifok,versiondescribe(pkg->available.version,
-                                             pkg->available.revision),
+                        ifok,versiondescribe(&pkg->available.version,
+                                             vdew_nonambig),
                         (char*)0);
   sprintf(buf,"old %s script",description);
   if (stat(oldscriptpath,&stab)) {
@@ -363,8 +363,8 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   fprintf(stderr, DPKG " - trying script from the new package instead ...\n");
 
   arglist= buildarglist(scriptname,
-                        iffallback,versiondescribe(pkg->installed.version,
-                                                   pkg->installed.revision),
+                        iffallback,versiondescribe(&pkg->installed.version,
+                                                   vdew_nonambig),
                         (char*)0);
   strcpy(cidirrest,scriptname);
   sprintf(buf,"new %s script",description);

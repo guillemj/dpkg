@@ -30,12 +30,12 @@
 
 #include "main.h"
 
-int versionsatisfied5(const char *itver, const char *itrev,
-                      const char *refver, const char *refrev,
+int versionsatisfied3(const struct versionrevision *it,
+                      const struct versionrevision *ref,
                       enum depverrel verrel) {
   int r;
   if (verrel == dvr_none) return 1;
-  r= versioncompare(itver,itrev,refver,refrev);
+  r= versioncompare(it,ref);
   switch (verrel) {
   case dvr_earlierequal:   return r <= 0;
   case dvr_laterequal:     return r >= 0;
@@ -47,27 +47,7 @@ int versionsatisfied5(const char *itver, const char *itrev,
 }
 
 int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against) {
-  return versionsatisfied5(it->version, it->revision,
-                           against->version, against->revision, against->verrel);
-}
-
-const char *versiondescribe(const char *ver, const char *rev) {
-  static char bufs[10][512];
-  static int bufnum=0;
-  char *buf;
-  
-  buf= bufs[bufnum]; bufnum++; if (bufnum == 10) bufnum= 0;
-  
-  if (!ver || !*ver) {
-    strcpy(buf,"<unknown>");
-  } else {
-    if (rev && *rev) {
-      sprintf(buf, "%.250s-%.250s", ver, rev);
-    } else {
-      sprintf(buf, "%.250s", ver);
-    }
-  }
-  return buf;
+  return versionsatisfied3(&it->version,&against->version,against->verrel);
 }
 
 struct cyclesofarlink {
@@ -245,30 +225,28 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
      * the end we'll have accumulated all the reasons in whynot and
      * can return `0'.
      */
-    
+
     for (possi= dep->list; possi; possi= possi->next) {
       switch (possi->ed->clientdata->istobe) {
       case itb_remove:
-        sprintf(linebuf, "  %.250s is to be removed.\n", possi->ed->name);
+        sprintf(linebuf,"  %.250s is to be removed.\n",possi->ed->name);
         break;
       case itb_deconfigure:
-        sprintf(linebuf, "  %.250s is to be deconfigured.\n", possi->ed->name);
+        sprintf(linebuf,"  %.250s is to be deconfigured.\n",possi->ed->name);
         break;
       case itb_installnew:
-        if (versionsatisfied(&possi->ed->available, possi)) return 1;
-        sprintf(linebuf, "  %.250s is to be installed, but is version %.250s.\n",
+        if (versionsatisfied(&possi->ed->available,possi)) return 1;
+        sprintf(linebuf,"  %.250s is to be installed, but is version %.250s.\n",
                 possi->ed->name,
-                versiondescribe(possi->ed->available.version,
-                                possi->ed->available.revision));
+                versiondescribe(&possi->ed->available.version,vdew_nonambig));
         break;
       case itb_normal: case itb_preinstall:
         switch (possi->ed->status) {
         case stat_installed:
-          if (versionsatisfied(&possi->ed->installed, possi)) return 1;
-          sprintf(linebuf, "  %.250s is installed, but is version %.250s.\n",
+          if (versionsatisfied(&possi->ed->installed,possi)) return 1;
+          sprintf(linebuf,"  %.250s is installed, but is version %.250s.\n",
                   possi->ed->name,
-                  versiondescribe(possi->ed->available.version,
-                                  possi->ed->available.revision));
+                  versiondescribe(&possi->ed->installed.version,vdew_nonambig));
           break;
         case stat_notinstalled:
           /* Don't say anything about this yet - it might be a virtual package.
@@ -280,24 +258,20 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         case stat_unpacked:
         case stat_halfconfigured:
           if (allowunconfigd) {
-            if (!possi->ed->configversion || !*possi->ed->configversion) {
+            if (!informativeversion(&possi->ed->configversion)) {
               sprintf(linebuf, "  %.250s is unpacked, but has never been configured.\n",
                       possi->ed->name);
               break;
             } else if (!versionsatisfied(&possi->ed->installed, possi)) {
               sprintf(linebuf, "  %.250s is unpacked, but is version %.250s.\n",
                       possi->ed->name,
-                      versiondescribe(possi->ed->available.version,
-                                      possi->ed->available.revision));
+                      versiondescribe(&possi->ed->available.version,vdew_nonambig));
               break;
-            } else if (!versionsatisfied5(possi->ed->configversion,
-                                          possi->ed->configrevision,
-                                          possi->version, possi->revision,
-                                          possi->verrel)) {
+            } else if (!versionsatisfied3(&possi->ed->configversion,
+                                          &possi->version,possi->verrel)) {
               sprintf(linebuf, "  %.250s latest configured version is %.250s.\n",
                       possi->ed->name,
-                      versiondescribe(possi->ed->configversion,
-                                      possi->ed->configrevision));
+                      versiondescribe(&possi->ed->configversion,vdew_nonambig));
               break;
             } else {
               return 1;
@@ -396,8 +370,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         if (!versionsatisfied(&possi->ed->available, possi)) break;
         sprintf(linebuf, "  %.250s (version %.250s) is to be installed.\n",
                 possi->ed->name,
-                versiondescribe(possi->ed->available.version,
-                                possi->ed->available.revision));
+                versiondescribe(&possi->ed->available.version,vdew_nonambig));
         varbufaddstr(whynot, linebuf);
         if (!canfixbyremove) return 0;
         nconflicts++;
@@ -411,8 +384,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           if (!versionsatisfied(&possi->ed->installed, possi)) break;
           sprintf(linebuf, "  %.250s (version %.250s) is %s.\n",
                   possi->ed->name,
-                  versiondescribe(possi->ed->available.version,
-                                  possi->ed->available.revision),
+                  versiondescribe(&possi->ed->installed.version,vdew_nonambig),
                   statusstrings[possi->ed->status]);
           varbufaddstr(whynot, linebuf);
           if (!canfixbyremove) return 0;
@@ -455,8 +427,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         case itb_installnew:
           /* Don't pay any attention to the Provides field of the
            * currently-installed version of the package we're trying
-           * to install.  We dealt with that by using the available
-           * information above.
+           * to install.  We dealt with that package by using the
+           * available information above.
            */
           continue; 
         case itb_remove:

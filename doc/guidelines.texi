@@ -6,7 +6,7 @@
 @setchapternewpage off
 
 @iftex
-@center @titlefont{Debian GNU/Linux Packaging Guidelines}
+@center @titlefont{Debian Linux Packaging Guidelines}
 @tex
 \vskip2pt \hrule height 2pt width \hsize \vskip2pt
 @end tex
@@ -25,11 +25,11 @@ END-INFO-DIR-ENTRY
 @node Top, Additional Information, (dir), (dir)
 
 @ifinfo
-@top Debian GNU/Linux Packaging Guidelines
+@top Debian Linux Packaging Guidelines
 @end ifinfo
 
    This file documents the steps that must be taken in the preparation
-of a Debian GNU/Linux package.  All submissions to be included in the
+of a Debian Linux package.  All submissions to be included in the
 distribution proper and all packages to be considered for @file{contrib}
 or @file{non-free} availability @emph{must} conform to the guidelines
 and standards described in this document or they cannot be included or
@@ -41,11 +41,11 @@ planning on going further than just contributing a package (i.e., if
 you plan to maintain it for an extended period of time or if you are
 generally interested in becoming more involved in the Project), you
 should join the @code{debian-devel} mailing list.  For more details,
-read @file{info/mailing-lists.txt}, available at any Debian GNU/Linux
+read @file{info/mailing-lists.txt}, available at any Debian Linux
 archive.
 
    (This file was last updated on @value{DATE}.  Please check the most
-recent @file{dpkg} package at any Debian GNU/Linux archive for a
+recent @file{dpkg} package at any Debian Linux archive for a
 potentially more up to date copy.)
 
 @menu
@@ -66,10 +66,10 @@ potentially more up to date copy.)
 
    These Guidelines are intended to be fairly general.  More specific
 information is available about certain aspects of building packages,
-such as how to use the features of Init under Debian GNU/Linux and how
+such as how to use the features of Init under Debian Linux and how
 to interact with some more technical details of dpkg's operation.  This
 information can be found in the directory @file{doc/package-developer}
-at any Debian GNU/Linux archive.  At the time of this writing, the
+at any Debian Linux archive.  At the time of this writing, the
 following documents are available:
 
 @table @file
@@ -174,11 +174,11 @@ personal purposes.  Software that will typically be included in
 software that does not allow modification or redistribution of
 modifications, commercial ``demos'', and ``shareware''.
 
-   When in doubt, send mail to @file{iwj10@@cus.cam.ac.uk} and
-@file{imurdock@@debian.org}.  Be prepared to provide us with the
-copyright statement.  Software covered by the GPL, public domain
-software and BSD-like copyrights are safe; be wary of the phrases
-``commercial use prohibited'' and ``distribution restricted''.
+   When in doubt, send mail to @file{debian-devel@@lists.debian.org}.
+Be prepared to provide us with the copyright statement.  Software
+covered by the GPL, public domain software and BSD-like copyrights are
+safe; be wary of the phrases ``commercial use prohibited'' and
+``distribution restricted''.
 
    Every package submission @emph{must} be accompanied by verbatim copy
 of its copyright (with the exceptions of public domain packages and
@@ -196,7 +196,7 @@ See below for details.
 source packages.  In either case, when files have been installed,
 they must conform to the requirements described in this section.
 
-   The primary rule in Debian GNU/Linux is to follow the Linux @dfn{File
+   The primary rule in Debian Linux is to follow the Linux @dfn{File
 System Standard} (@dfn{FSSTND}).  The location of installed files
 @emph{must} comply @emph{fully} with the FSSTND.  The latest version of
 this document can be found alongside the Guidelines or at
@@ -204,7 +204,7 @@ this document can be found alongside the Guidelines or at
 Specific questions about following the standard should be addressed to
 Daniel Quinlan, the FSSTND coordinator, at @code{quinlan@@yggdrasil.com}.
 
-   In addition to the FSSTND, all Debian GNU/Linux packages must follow
+   In addition to the FSSTND, all Debian Linux packages must follow
 the guidelines below.
 
 @itemize @bullet
@@ -587,7 +587,7 @@ This will create a file called @file{debian-tmp.deb}, from the
 After the @file{binary} target has done all this, the
 @file{<@i{package}>-<@i{version}>.deb} file in the parent directory is
 the binary distribution.  This file may be distributed and installed on
-any Debian GNU/Linux system with @file{dpkg} in the same manner and
+any Debian Linux system with @file{dpkg} in the same manner and
 using the same methods as all packages are installed to the system.
 
 @item
@@ -1359,7 +1359,7 @@ scripts should be named @file{/etc/init.d/}<package>, and they should
 accept one of two arguments: "start", which starts the services, or
 "stop", which stops the services.  These scripts should ensure that they
 will behave sensibly if invoked with "start" when the service is already
-running, or with "stop2 when it isn't---the best way to achieve this is
+running, or with "stop" when it isn't---the best way to achieve this is
 often to use @file{start-stop-daemon}.
 
 This script should not fail obscurely when the configuration files
@@ -1414,14 +1414,11 @@ number "20".  If it does, then you should talk to the maintainer of the
 @code{sysvinit} package or post to @code{debian-devel}, and they will
 help you choose a number.
 
-In Debian GNU/Linux, we try to ship our software in as much of a
+In Debian Linux, we try to ship our software in as much of a
 "default" state as possible.  Therefore, unless there is a good reason
-for doing differently, we ask that you start and stop the services in
-each of the multi-user state runlevels (2, 3, 4, and 5).  If a service
-needs to be stopped before a file system can be unmounted (an example is
-process accounting or quota services), then be sure to stop them in the
-halt runlevel (0), the single-user runlevel (1) and the reboot runlevel
-(6).
+for doing differently, we ask that you start the services in each of the
+multi-user state runlevels (2, 3, 4, and 5) and stop them in the halt
+runlevel (0), the single-user runlevel (1) and the reboot runlevel (6).
 
 The system administrator will have the opportunity to customize
 runlevels by simply adding, moving, or removing the symbolic links in

@@ -8,6 +8,8 @@ option=$3
 cd "$vardir/methods/disk"
 tp=/tmp/ddm$$
 
+iarch=`dpkg --print-installation-architecture`
+
 xit=1
 trap '
 	rm -f $tp.?
@@ -353,7 +355,7 @@ just answer \`none' and we'll go through the parts I need individually."
 	defhierbase=none
 	if [ -n "$p_hierbase" ]
 	then
-		if [ -d "$mountpoint/$p_hierbase/stable/binary" ]
+		if [ -d "$mountpoint/$p_hierbase/stable/binary-i386" ]
 		then
 			echo "
 Last time you said \`$p_hierbase', and that looks plausible."
@@ -364,7 +366,7 @@ Last time you said \`$p_hierbase', but that doesn't look plausible,
 since \`$p_hierbase/stable/binary' doesn't seem to exist."
 		fi
 	fi
-	if [ none = "$defhierbase" -a -d "$mountpoint/debian/stable/binary" ]
+	if [ none = "$defhierbase" -a -d "$mountpoint/debian/stable/binary-i386" ]
 	then
 		echo "
 \`/debian' exists and looks plausible, so that's the default."
@@ -381,20 +383,20 @@ since \`$p_hierbase/stable/binary' doesn't seem to exist."
 	then
 		hierbase=""
 		break
-	elif [ -d "$mountpoint/$response/stable/binary" ]
+	elif [ -d "$mountpoint/$response/stable/binary-i386" ]
 	then
 		hierbase="`echo \"$response\" | sed -e 's:/$::; s:^/*:/:'`"
 		break
 	fi
 	echo \
-"$response/stable/binary does not exist.
+"$response/stable/binary-i386 does not exist.
 "
 done
 
 whichmain=stable
 if [ -n "$hierbase" ]
 then
-	if [ -d "$mountpoint/$hierbase/development/binary" ]
+	if [ -d "$mountpoint/$hierbase/unstable/binary-$iarch" ]
 	then
 		echo \
 '
@@ -438,7 +440,7 @@ find_area () {
 	this_packages=''
 	if [ -n "$hierbase" ]
 	then
-		check_binary $1 "$hierbase/$3/binary"
+		check_binary $1 "$hierbase/$3/binary-$iarch"
 	fi
 	if [ $option = cdrom -a $2 = nf -a -z "$this_binary" ]
 	then

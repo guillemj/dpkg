@@ -40,12 +40,12 @@
 #include "dpkg-deb.h"
 
 static void printversion(void) {
-  if (!fputs("Debian GNU/Linux `" BACKEND "' package archive backend "
+  if (!fputs("Debian Linux `" BACKEND "' package archive backend "
              "version " DPKG_VERSION_ARCH ".\n"
-             "Copyright (C) 1994,1995 Ian Jackson.  This is free software; see the\n"
+             "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
              "GNU General Public Licence version 2 or later for copying conditions.\n"
              "There is NO warranty.  See dpkg-deb --licence for details.\n",
-             stderr)) werr("stderr");
+             stdout)) werr("stdout");
 }
 
 static void usage(void) {
@@ -69,7 +69,7 @@ Options:  -D for debugging output; --old or --new controls archive format;\n\
 Use `" DPKG "' to install and remove packages from your system, or\n\
 `" DSELECT "' for user-friendly package management.  Packages unpacked\n\
 using `" BACKEND " --extract' will be incorrectly installed !\n",
-             stderr)) werr("stderr");
+             stdout)) werr("stdout");
 }
 
 const char thisname[]= BACKEND;

@@ -39,6 +39,24 @@ enum selpriority {
   // high
 };
 
+enum ssavailval {        // Availability sorting order, first to last:
+  ssa_broken,            //   Brokenly-installed and nothing available
+  ssa_notinst_unseen,    //   Entirely new packages (available but not deselected yet)
+  ssa_installed_newer,   //   Installed, newer version available
+  ssa_installed_gone,    //   Installed but no longer available
+  ssa_installed_sameold, //   Same or older version available as installed
+  ssa_notinst_seen,      //   Available but not installed
+  ssa_none=-1
+};
+
+enum ssstateval {      // State sorting order, first to last:
+  sss_broken,          //   In some way brokenly installed
+  sss_installed,       //   Installed
+  sss_configfiles,     //   Config files only
+  sss_notinstalled,    //   Not installed
+  sss_none=-1
+};
+
 struct perpackagestate {
   struct pkginfo *pkg;
   /* The `heading' entries in the list, for `all packages of type foo',
@@ -55,6 +73,8 @@ struct perpackagestate {
   selpriority spriority;             // monotonically increases (used by sublists)
   showpriority dpriority;            // monotonically increases (used by sublists)
   struct perpackagestate *uprec;     // 0 if this is not part of a recursive list
+  ssavailval ssavail;
+  ssstateval ssstate;
   varbuf relations;
 
   void free(int recursive);
@@ -62,8 +82,9 @@ struct perpackagestate {
 
 class packagelist : public baselist {
   int status_width, gap_width, section_width, priority_width;
-  int package_width, description_width;
-  int section_column, priority_column, package_column, description_column;
+  int package_width, versioninstalled_width, versionavailable_width, description_width;
+  int section_column, priority_column, versioninstalled_column;
+  int versionavailable_column, package_column, description_column;
 
   // Only used when `verbose' is set
   int status_hold_width, status_status_width, status_want_width;
@@ -75,6 +96,9 @@ class packagelist : public baselist {
   // Misc.
   int recursive, nallocated, verbose;
   enum { so_unsorted, so_section, so_priority, so_alpha } sortorder;
+  enum { sso_unsorted, sso_avail, sso_state } statsortorder;
+  enum { vdo_none, vdo_available, vdo_both } versiondisplayopt;
+  int calcssadone, calcsssdone;
   struct perpackagestate *headings;
 
   // Information displays
@@ -116,15 +140,21 @@ class packagelist : public baselist {
   void redraw1package(int index, int selected);
   int compareentries(struct perpackagestate *a, struct perpackagestate *b);
   friend int qsort_compareentries(const void *a, const void *b);
+  pkginfo::pkgwant reallywant(pkginfo::pkgwant, struct perpackagestate*);
+  int describemany(char buf[], const char *prioritystring, const char *section,
+                   const struct perpackagestate *pps);
 
   void sortmakeheads();
+  void resortredisplay();
   void movecursorafter(int ncursor);
   void initialsetup();
   void finalsetup();
+  void ensurestatsortinfo();
 
   // To do with building the list, with heading lines in it
   void discardheadings();
-  void addheading(pkginfo::pkgpriority,const char*, const char *section);
+  void addheading(enum ssavailval, enum ssstateval,
+                  pkginfo::pkgpriority, const char*, const char *section);
   void sortinplace();
   void affectedrange(int *startp, int *endp);
   void setwant(pkginfo::pkgwant nw);
@@ -140,6 +170,7 @@ class packagelist : public baselist {
   void kd_morespecific();
   void kd_lessspecific();
   void kd_swaporder();
+  void kd_swapstatorder();
   void kd_select();
   void kd_deselect();
   void kd_purge();
@@ -147,6 +178,7 @@ class packagelist : public baselist {
   void kd_unhold();
   void kd_info();
   void kd_verbose();
+  void kd_versiondisplay();
   
   packagelist(keybindings *kb); // nonrecursive
   packagelist(keybindings *kb, pkginfo **pkgltab); // recursive
@@ -164,15 +196,18 @@ class packagelist : public baselist {
 };
 
 void repeatedlydisplay(packagelist *sub, showpriority, packagelist *unredisplay =0);
+int would_like_to_install(pkginfo::pkgwant, pkginfo *pkg);
 
 extern const char *const wantstrings[];
-extern const char *const holdstrings[];
+extern const char *const eflagstrings[];
 extern const char *const statusstrings[];
 extern const char *const prioritystrings[];
 extern const char *const priorityabbrevs[];
 extern const char *const relatestrings[];
+extern const char *const ssastrings[], *const ssaabbrevs[];
+extern const char *const sssstrings[], *const sssabbrevs[];
 extern const char statuschars[];
-extern const char holdchars[];
+extern const char eflagchars[];
 extern const char wantchars[];
 
 const struct pkginfoperfile *i2info(struct pkginfo *pkg);

@@ -1,3 +1,43 @@
+dpkg (1.2.0); priority=MEDIUM
+
+  * dselect can sort packages by available and installed states, and
+    display their version numbers.  (Use O, o and V.)
+  * Hold is properly integrated as a real `wanted state', rather than
+    a separate flag.
+  * Epochs in version numbers implemented, using the syntax
+    <epoch>:<version>-<revision>.  (Epoch not usually displayed.)
+  * dselect disk method is architecture-independent (uses dpkg's
+    installation architecture, and looks in the right part of the tree).
+
+  * dselect disk method doesn't try to satisfy the predependencies of
+    packages which are on hold.
+  * Fixed conflict-related assertion failure.  (Bug#2784.)
+  * conffiles do not cause file conflicts if the conflicting package
+    is in the `configuration only' state.  (Bug#2720.)
+  * Fixed messages where available version number was reported as installed
+    version in conflict and dependency messages.  (Bug#2654, Bug#2974.)
+
+  * New format .deb files are default even for a.out compiles (but
+    a.out version of dpkg is in old format).
+  * Characters @:= (at colon equals) in package names now strictly
+    forbidden everywhere (_ is still allowed in existing packages).
+  * New dpkg --print-installation-architecture option prints installation
+    architecture (compiled in), rather than build architecture (determined
+    from gcc -print-libgcc-file-name).
+
+  * Version messages show whether compiled a.out or ELF (i386 only).
+  * Fixed missing space in version syntax error messages.
+  * Manpage dpkg.8 installed with warning about inaccuracy.
+
+  * Guidelines don't say to stop and restart daemons in runlevels 2345;
+    instead they say to start in 2345 and stop in 016.
+  * Guidelines and version messages say just Debian Linux.
+  * Guidelines typo fix `"stop2' => `"stop"'.  (Bug#2867.)
+
+  * doc/Makefile.in clean properly deletes various guidelines.info* files.
+
+ -- Ian Jackson <ian@chiark.chu.cam.ac.uk>  Thu, 16 May 1996 00:01:21 +0100
+
 dpkg (1.1.6); priority=MEDIUM
 
   * Check virtual dependencies when removing (ouch! - thanks SDE.)

@@ -73,14 +73,26 @@ void packagelist::movecursorafter(int ncursor) {
   refreshlist(); redrawthisstate();
 }
 
-void packagelist::setwant(pkginfo::pkgwant nw) {
+pkginfo::pkgwant packagelist::reallywant(pkginfo::pkgwant nwarg,
+                                         struct perpackagestate *pkgstate) {
+  if (nwarg != pkginfo::want_sentinel) return nwarg;
+  pkginfo::pkgstatus status= pkgstate->pkg->status;
+  if (status == pkginfo::stat_notinstalled) return pkginfo::want_purge;
+  if (status == pkginfo::stat_configfiles) return pkginfo::want_deinstall;
+  return pkginfo::want_install;
+}
+
+void packagelist::setwant(pkginfo::pkgwant nwarg) {
   int index, top, bot;
+  pkginfo::pkgwant nw;
 
   if (!readwrite) { beep(); return; }
 
   if (recursive) {
     redrawitemsrange(cursorline,cursorline+1);
-    table[cursorline]->selected= nw;
+    nw= reallywant(nwarg,table[cursorline]);
+    nw= nwarg != pkginfo::want_sentinel ? nwarg :
+    table[cursorline]->selected= reallywant(nwarg,table[cursorline]);
     redraw1item(cursorline);
     top= cursorline;
     bot= cursorline+1;
@@ -89,9 +101,11 @@ void packagelist::setwant(pkginfo::pkgwant nw) {
 
     affectedrange(&top,&bot);
     for (index= top; index < bot; index++) {
-      if (!table[index]->pkg->name ||
-          table[index]->selected == nw ||
-          table[index]->selected == pkginfo::want_purge && nw == pkginfo::want_deinstall)
+      if (!table[index]->pkg->name) continue;
+      nw= reallywant(nwarg,table[index]);
+      if (table[index]->selected == nw ||
+          (table[index]->selected == pkginfo::want_purge &&
+           nw == pkginfo::want_deinstall))
         continue;
       sub->add(table[index]->pkg,nw);
     }
@@ -104,31 +118,34 @@ void packagelist::setwant(pkginfo::pkgwant nw) {
 }
 
 void packagelist::kd_select()   { setwant(pkginfo::want_install);   }
+void packagelist::kd_hold() { setwant(pkginfo::want_hold); }
 void packagelist::kd_deselect() { setwant(pkginfo::want_deinstall); }
+void packagelist::kd_unhold() { setwant(pkginfo::want_sentinel); }
 void packagelist::kd_purge()    { setwant(pkginfo::want_purge);     }
 
-void packagelist::sethold(int hold) {
-  int top, bot, index;
-
-  if (!readwrite) { beep(); return; }
-
-  affectedrange(&top,&bot);
-  for (index= top; index < bot; index++) {
-    // Sorry about the contortions, but GCC produces a silly warning otherwise
-    unsigned int neweflag= table[index]->pkg->eflag;
-    if (hold) neweflag |= pkginfo::eflagf_hold;
-    else neweflag &= ~pkginfo::eflagf_hold;
-    table[index]->pkg->eflag= (enum pkginfo::pkgeflag)neweflag;
-    redraw1item(index);
-  }
-  movecursorafter(bot);
+int would_like_to_install(pkginfo::pkgwant wantvalue, pkginfo *pkg) {
+  /* Returns: 1 for yes, 0 for no, -1 for if they want to preserve an error condition. */
+  if (wantvalue == pkginfo::want_install) return 1;
+  if (wantvalue != pkginfo::want_hold) return 0;
+  if (pkg->status == pkginfo::stat_installed) return 1;
+  if (pkg->status == pkginfo::stat_notinstalled ||
+      pkg->status == pkginfo::stat_configfiles) return 0;
+  return -1;
 }
-
-void packagelist::kd_hold()     { sethold(1);                       }
-void packagelist::kd_unhold()   { sethold(0);                       }
-
+  
 const char *packagelist::itemname(int index) {
   return table[index]->pkg->name;
+}
+
+void packagelist::kd_swapstatorder() {
+  if (sortorder == so_unsorted) return;
+  switch (statsortorder) {
+  case sso_avail:     statsortorder= sso_state;     break;
+  case sso_state:     statsortorder= sso_unsorted;  break;
+  case sso_unsorted:  statsortorder= sso_avail;     break;
+  default: internerr("unknown statsort in kd_swapstatorder");
+  }
+  resortredisplay();
 }
 
 void packagelist::kd_swaporder() {
@@ -139,6 +156,10 @@ void packagelist::kd_swaporder() {
   case so_unsorted:                           return;
   default: internerr("unknown sort in kd_swaporder");
   }
+  resortredisplay();
+}
+
+void packagelist::resortredisplay() {
   const char *oldname= table[cursorline]->pkg->name;
   sortmakeheads();
   int newcursor;
@@ -161,6 +182,22 @@ void packagelist::kd_swaporder() {
   ldrawnstart= ldrawnend= -1;
   cursorline= -1;
   setcursor(newcursor);
+  refreshlist();
+}
+
+void packagelist::kd_versiondisplay() {
+  switch (versiondisplayopt) {
+  case vdo_both:       versiondisplayopt= vdo_none;       break;
+  case vdo_none:       versiondisplayopt= vdo_available;  break;
+  case vdo_available:  versiondisplayopt= vdo_both;       break;
+  default: internerr("unknown versiondisplayopt in kd_versiondisplay");
+  }
+  setwidths();
+  leftofscreen= 0;
+  ldrawnstart= ldrawnend= -1;
+  redrawtitle();
+  redrawcolheads();
+  redrawitemsrange(topofscreen,lesserint(topofscreen+list_height,nitems));
   refreshlist();
 }
 
@@ -208,7 +245,6 @@ void packagelist::kd_revertsuggest() {
 }
 
 /* fixme: configurable purge/deselect */
-/* fixme: un-hold things */
 
 void packagelist::kd_info() {
   currentinfo++;

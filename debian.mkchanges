@@ -1,0 +1,36 @@
+#!/usr/bin/perl
+# Usage:
+#  perl debian.mkchanges <version> <debian.changestemplate >thing.changes
+
+$x=time; sub z { $_[1]+$_[2]*60; }; @l=localtime($x); $od=1440;
+$d=&z(@l)-&z(gmtime($x)); $d+=$od; $d%=$od; $s=$d>$od/2?($d=$od-$d,'-'):'+';
+$date=sprintf("%s, %d %s %d %02d:%02d:%02d %s%02d%02d",
+ (Sun,Mon,Tue,Wed,Thu,Fri,Sat)[$l[6]], $l[3],
+ (Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec)[$l[4]], $l[5]+1900,
+ $l[2],$l[1],$l[0], $s,$d/60,$d%60);
+
+($version)=@ARGV;
+chop($arch=`dpkg --print-architecture`);
+
+open(Z,"debian.Changelog");
+while(<Z>) { $changes.=$_; last if m/^ --/; }
+close(Z); $changes =~ s/^/ /g; $changes =~ s/^/\n/; $changes =~ s/\n$//;
+
+chdir("..");
+
+while (<STDIN>) {
+    s/=a/$arch/g;
+    s/=v/$version/g;
+    if (m/^ =f:(\S+) (\S+) (\S+)$/) {
+        ($file,$sec,$pri)=($1,$2,$3);
+        $!=0; chop($md5sum=`md5sum <$file`); $? && die "$file: $? $!";
+        $!=0; $size=`ls -l $file`; $? && die "$file: $? $!";
+        $size =~ m/^\S+\s+\d+\s+\S+\s+\S+\s+(\d+)\s/ || die "$file: `$size'";
+        $size= $1;
+        $_= " $md5sum $size $sec $pri $file\n";
+    } else {
+        s/=c/$changes/ || s/=d/$date/g;
+    }
+    print || die $!;
+}
+close(STDOUT) || die $!;

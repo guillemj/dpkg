@@ -41,12 +41,12 @@
 #include "main.h"
 
 static void printversion(void) {
-  if (!fputs("Debian GNU/Linux `" DPKG "' package management program version "
+  if (!fputs("Debian Linux `" DPKG "' package management program version "
               DPKG_VERSION_ARCH ".\n"
-             "Copyright 1994,1995 Ian Jackson, Bruce Perens.  This is free software;\n"
+             "Copyright 1994-1996 Ian Jackson, Bruce Perens.  This is free software;\n"
              "see the GNU General Public Licence version 2 or later for copying\n"
              "conditions.  There is NO warranty.  See dpkg --licence for details.\n",
-             stderr)) werr("stderr");
+             stdout)) werr("stdout");
 }
 
 static void usage(void) {
@@ -74,7 +74,7 @@ Options: --help --version --licence   --force-help  -Dh|--debug=help\n\
          --largemem|--smallmem   --no-act\n\
 \n\
 Use `" DSELECT "' for user-friendly package management.\n",
-             stderr)) werr("stderr");
+             stdout)) werr("stdout");
 }
 
 const char thisname[]= DPKG;
@@ -209,7 +209,7 @@ DPKG " forcing options - control behaviour when problems found:\n\
   auto-select [*]        (De)select packages to install (remove) them\n\
   dowgrade [*]           Replace a package with a lower version\n\
   configure-any          Configure any package which may help this one\n\
-  hold                   Process packages which are on hold\n\
+  hold                   Process incidental packages even when on hold\n\
   bad-path               PATH is missing important programs, problems likely\n\
   overwrite              Overwrite a file from one package with another\n\
   overwrite-diverted     Overwrite a diverted file with an undiverted version\n\
@@ -264,6 +264,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "yet-to-unpack",      0,   0,  0, 0,               setaction,     act_unpackchk  },
   { "assert-support-predepends", 0, 0,  0, 0,          setaction,    act_assuppredep },
   { "print-architecture", 0,   0,  0, 0,               setaction,     act_printarch  },
+  { "print-installation-architecture", 0,0,  0,0,      setaction,  act_printinstarch },
   { "predep-package",     0,   0,  0, 0,               setaction,  act_predeppackage },
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
@@ -363,6 +364,10 @@ int main(int argc, const char *const *argv) {
     break;
   case act_predeppackage:
     predeppackage(argv);
+    break;
+  case act_printinstarch:
+    if (printf("%s\n",architecture) == EOF) werr("stdout");
+    if (fflush(stdout)) werr("stdout");
     break;
   case act_printarch:
     printarchitecture(argv);

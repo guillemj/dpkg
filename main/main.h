@@ -51,7 +51,8 @@ struct packageinlist {
 enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
               act_remove, act_purge, act_list, act_avreplace, act_avmerge,
               act_unpackchk, act_status, act_search, act_audit, act_listfiles,
-              act_assuppredep, act_printarch, act_predeppackage };
+              act_assuppredep, act_printarch, act_predeppackage,
+              act_printinstarch };
 
 enum conffopt {
   cfof_prompt        =     001,
@@ -184,14 +185,13 @@ void debug(int which, const char *fmt, ...) PRINTFFORMAT(2,3);
 
 int depisok(struct dependency *dep, struct varbuf *whynot,
             struct pkginfo **fixbyrm, int allowunconfigd);
-const char *versiondescribe(const char *ver, const char *rev);
 struct cyclesofarlink;
 int findbreakcycle(struct pkginfo *pkg, struct cyclesofarlink *sofar);
 void describedepcon(struct varbuf *addto, struct dependency *dep);
 
 int versionsatisfied(struct pkginfoperfile *it, struct deppossi *against);
-int versionsatisfied5(const char *itver, const char *itrev,
-                      const char *refver, const char *refrev,
+int versionsatisfied3(const struct versionrevision *it,
+                      const struct versionrevision *ref,
                       enum depverrel verrel);
 
 #endif /* MAIN_H */

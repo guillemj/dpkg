@@ -86,7 +86,7 @@ int reportbroken_retexitstatus(void) {
 }
 
 int skip_due_to_hold(struct pkginfo *pkg) {
-  if (!(pkg->eflag & eflagf_hold)) return 0;
+  if (pkg->want != want_hold) return 0;
   if (fc_hold) {
     fprintf(stderr, "Package %s was on hold, processing it anyway as you request\n",
             pkg->name);

@@ -31,32 +31,32 @@
 
 const struct fieldinfo fieldinfos[]= {
   /* NB: capitalisation of these strings is important. */
-  { "Package",          f_name,           w_name                                   },
-  { "Essential",        f_boolean,        w_booleandefno,  PKGIFPOFF(essential)    },
-  { "Status",           f_status,         w_status                                 },
-  { "Priority",         f_priority,       w_priority                               },
-  { "Section",          f_section,        w_section                                },
-  { "Maintainer",       f_charfield,      w_charfield,     PKGIFPOFF(maintainer)   },
-  { "Architecture",     f_charfield,      w_charfield,     PKGIFPOFF(architecture) },
-  { "Source",           f_charfield,      w_charfield,     PKGIFPOFF(source)       },
-  { "Version",          f_charfield,      w_version,       PKGIFPOFF(version)      },
-  { "Revision",         f_charfield,      w_null,          PKGIFPOFF(revision)     },
-  { "Config-Version",   f_configversion,  w_configversion                          },
-  { "Replaces",         f_dependency,     w_dependency,    dep_replaces            },
-  { "Provides",         f_dependency,     w_dependency,    dep_provides            },
-  { "Depends",          f_dependency,     w_dependency,    dep_depends             },
-  { "Pre-Depends",      f_dependency,     w_dependency,    dep_predepends          },
-  { "Recommends",       f_dependency,     w_dependency,    dep_recommends          },
-  { "Suggests",         f_dependency,     w_dependency,    dep_suggests            },
-  { "Conflicts",        f_dependency,     w_dependency,    dep_conflicts           },
-  { "Conffiles",        f_conffiles,      w_conffiles                              },
-  { "Filename",         f_filecharf,      w_filecharf,     FILEFOFF(name)          },
-  { "Size",             f_filecharf,      w_filecharf,     FILEFOFF(size)          },
-  { "MD5sum",           f_filecharf,      w_filecharf,     FILEFOFF(md5sum)        },
-  { "MSDOS-Filename",   f_filecharf,      w_filecharf,     FILEFOFF(msdosname)     },
-  { "Description",      f_charfield,      w_charfield,     PKGIFPOFF(description)  },
+  { "Package",          f_name,            w_name                                    },
+  { "Essential",        f_boolean,         w_booleandefno,   PKGIFPOFF(essential)    },
+  { "Status",           f_status,          w_status                                  },
+  { "Priority",         f_priority,        w_priority                                },
+  { "Section",          f_section,         w_section                                 },
+  { "Maintainer",       f_charfield,       w_charfield,      PKGIFPOFF(maintainer)   },
+  { "Architecture",     f_charfield,       w_charfield,      PKGIFPOFF(architecture) },
+  { "Source",           f_charfield,       w_charfield,      PKGIFPOFF(source)       },
+  { "Version",          f_version,         w_version                                 },
+  { "Revision",         f_revision,        w_null                                    },
+  { "Config-Version",   f_configversion,   w_configversion                           },
+  { "Replaces",         f_dependency,      w_dependency,     dep_replaces            },
+  { "Provides",         f_dependency,      w_dependency,     dep_provides            },
+  { "Depends",          f_dependency,      w_dependency,     dep_depends             },
+  { "Pre-Depends",      f_dependency,      w_dependency,     dep_predepends          },
+  { "Recommends",       f_dependency,      w_dependency,     dep_recommends          },
+  { "Suggests",         f_dependency,      w_dependency,     dep_suggests            },
+  { "Conflicts",        f_dependency,      w_dependency,     dep_conflicts           },
+  { "Conffiles",        f_conffiles,       w_conffiles                               },
+  { "Filename",         f_filecharf,       w_filecharf,      FILEFOFF(name)          },
+  { "Size",             f_filecharf,       w_filecharf,      FILEFOFF(size)          },
+  { "MD5sum",           f_filecharf,       w_filecharf,      FILEFOFF(md5sum)        },
+  { "MSDOS-Filename",   f_filecharf,       w_filecharf,      FILEFOFF(msdosname)     },
+  { "Description",      f_charfield,       w_charfield,      PKGIFPOFF(description)  },
   /* Note that aliases are added to the nicknames table in parsehelp.c. */
-  {  0   /* sentinel - tells code that list is ended */                            }
+  {  0   /* sentinel - tells code that list is ended */                              }
 };
 #define NFIELDS (sizeof(fieldinfos)/sizeof(struct fieldinfo))
 const int nfields= NFIELDS;
@@ -81,7 +81,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
   const struct fieldinfo *fip;
   const struct nickname *nick;
   const char *fieldname;
-  char *hyphen;
   int *ip, i, c;
 
   if (warncount) *warncount= 0;
@@ -199,27 +198,13 @@ int parsedb(const char *filename, enum parsedbflags flags,
       parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,
                      &newpifp->maintainer, "maintainer");
       parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,
-                     &newpifp->version, "version");
+                     &newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
       parsemustfield(file,filename,lno, warnto,warncount,&newpig,1,
                      &newpifp->architecture, "architecture");
     else if (newpifp->architecture && *newpifp->architecture)
       newpifp->architecture= 0;
-
-    /* Break out the revision */
-    if (newpifp->revision) {
-      parseerr(file,filename,lno, warnto,warncount,&newpig,1,
-              "obsolete `Revision' or `Package-Revision' field used");
-    } else if (newpifp->version) {
-      hyphen= strrchr(newpifp->version,'-');
-      if (hyphen) {
-        *hyphen++= 0;
-        newpifp->revision= hyphen;
-      } else {
-        newpifp->revision= nfstrsave("");
-      }
-    }
 
     /* Check the Config-Version information:
      * If there is a Config-Version it is definitely to be used, but
@@ -228,15 +213,12 @@ int parsedb(const char *filename, enum parsedbflags flags,
      * `not-installed' (in which case there is no Config-Version).
      */
     if (!(flags & pdb_recordavailable)) {
-      if (newpig.configversion) {
+      if (newpig.configversion.version) {
         if (newpig.status == stat_installed || newpig.status == stat_notinstalled)
           parseerr(file,filename,lno, warnto,warncount,&newpig,0,
                    "Configured-Version for package with inappropriate Status");
       } else {
-        if (newpig.status == stat_installed) {
-          newpig.configversion= newpifp->version;
-          newpig.configrevision= newpifp->revision;
-        }
+        if (newpig.status == stat_installed) newpig.configversion= newpifp->version;
       }
     }
 
@@ -245,8 +227,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (!pifp->valid) blankpackageperfile(pifp);
 
     if (!(flags & pdb_preferversion) ||
-        versioncompare(newpifp->version,newpifp->revision,
-                       pifp->version,pifp->revision) >= 0) {
+        versioncompare(&newpifp->version,&pifp->version) >= 0) {
       /* If we're ignoring older versions compare version numbers
        * and only process this entry if it's a higher version.
        */
@@ -281,7 +262,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
         pigp->eflag= newpig.eflag;
         pigp->status= newpig.status;
         pigp->configversion= newpig.configversion;
-        pigp->configrevision= newpig.configrevision;
         pigp->files= 0;
       } else {
         pigp->files= newpig.files;

@@ -43,12 +43,12 @@
 # define S_ISLNK(mode) ((mode&0xF000) == S_IFLNK)
 #endif
 
-static void checkversion(const char *vstring, const char *fieldname, int *errs) {
+static void checkversion(const char *vstring, const char *valuename, int *errs) {
   const char *p;
   if (!vstring || !*vstring) return;
   for (p=vstring; *p; p++) if (isdigit(*p)) return;
-  fprintf(stderr, BACKEND " - error: %s field (`%s') doesn't contain any digits\n",
-          fieldname, vstring);
+  fprintf(stderr, BACKEND " - error: %s (`%s') doesn't contain any digits\n",
+          valuename, vstring);
   (*errs)++;
 }
 
@@ -107,8 +107,8 @@ void do_build(const char *const *argv) {
               controlfile, field->name);
       warns++;
     }
-    checkversion(checkedinfo->available.version,"Version",&errs);
-    checkversion(checkedinfo->available.revision,"Revision",&errs);
+    checkversion(checkedinfo->available.version.version,"(upstream) version",&errs);
+    checkversion(checkedinfo->available.version.revision,"Debian revision",&errs);
     if (errs) ohshit("%d errors in control file",errs);
     printf(BACKEND ": building package `%s' in `%s'.\n", checkedinfo->name, debar);
 

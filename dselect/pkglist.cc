@@ -35,6 +35,19 @@ extern "C" {
 
 int packagelist::compareentries(struct perpackagestate *a,
                                 struct perpackagestate *b) {
+  switch (statsortorder) {
+  case sso_avail:
+    if (a->ssavail != b->ssavail) return a->ssavail - b->ssavail;
+    break;
+  case sso_state:
+    if (a->ssstate != b->ssstate) return a->ssstate - b->ssstate;
+    break;
+  case sso_unsorted:
+    break;
+  default:
+    internerr("unknown statsortorder in compareentries");
+  }
+
   const char *asection= a->pkg->section;
   if (!asection && a->pkg->name) asection= "";
   const char *bsection= b->pkg->section;
@@ -87,7 +100,9 @@ void packagelist::discardheadings() {
   headings= 0;
 }
 
-void packagelist::addheading(pkginfo::pkgpriority priority,
+void packagelist::addheading(enum ssavailval ssavail,
+                             enum ssstateval ssstate,
+                             pkginfo::pkgpriority priority,
                              const char *otherpriority,
                              const char *section) {
   assert(nitems <= nallocated);
@@ -99,8 +114,8 @@ void packagelist::addheading(pkginfo::pkgpriority priority,
     table= newtable;
   }
   
-  if (debug) fprintf(debug,"packagelist[%p]::addheading(%d,%s,%s)\n",
-                     this,priority,
+  if (debug) fprintf(debug,"packagelist[%p]::addheading(%d,%d,%d,%s,%s)\n",
+                     this,ssavail,ssstate,priority,
                      otherpriority ? otherpriority : "<null>",
                      section ? section : "<null>");
 
@@ -114,6 +129,9 @@ void packagelist::addheading(pkginfo::pkgpriority priority,
   newstate->pkg= newhead;
   newstate->uprec= headings;
   headings= newstate;
+  newstate->ssavail= ssavail;
+  newstate->ssstate= ssstate;
+  newhead->clientdata= newstate;
  
   table[nitems++]= newstate;
 }
@@ -132,20 +150,111 @@ void packagelist::sortinplace() {
   qsort(table,nitems,sizeof(struct pkginfoperfile*),qsort_compareentries);
 }
 
+void packagelist::ensurestatsortinfo() {
+  const struct versionrevision *veri;
+  const struct versionrevision *vera;
+  int index;
+  
+  if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() "
+                     "sortorder=%d nitems=%d\n",this,statsortorder,nitems);
+  
+  switch (statsortorder) {
+  case sso_unsorted:
+    if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() unsorted\n",this);
+    return;
+  case sso_avail:
+    if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() calcssadone=%d\n",
+                       this,calcssadone);
+    if (calcssadone) return;
+    for (index=0; index < nitems; index++) {
+      if (debug)
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n",
+                this,index,table[index]->pkg->name);
+      switch (table[index]->pkg->status) {
+      case pkginfo::stat_unpacked:
+      case pkginfo::stat_halfconfigured:
+      case pkginfo::stat_halfinstalled:
+        table[index]->ssavail= ssa_broken;
+        break;
+      case pkginfo::stat_notinstalled:
+      case pkginfo::stat_configfiles:
+        table[index]->ssavail=
+          table[index]->original == pkginfo::want_unknown
+            ? ssa_notinst_unseen : ssa_notinst_seen;
+        break;
+      case pkginfo::stat_installed:
+        veri= &table[index]->pkg->installed.version;
+        vera= &table[index]->pkg->available.version;
+        if (!informativeversion(vera)) {
+          table[index]->ssavail= ssa_installed_gone;
+        } else if (versioncompare(vera,veri) > 0) {
+          table[index]->ssavail= ssa_installed_newer;
+        } else {
+          table[index]->ssavail= ssa_installed_sameold;
+        }
+        break;
+      default:
+        internerr("unknown stat in ensurestatsortinfo sso_avail");
+      }
+      if (debug)
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssavail=%d\n",
+                this,index,table[index]->ssavail);
+  
+    }
+    calcssadone= 1;
+    break;
+  case sso_state:
+    if (debug) fprintf(debug,"packagelist[%p]::ensurestatsortinfos() calcsssdone=%d\n",
+                       this,calcsssdone);
+    if (calcsssdone) return;
+    for (index=0; index < nitems; index++) {
+      if (debug)
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d pkg=%s\n",
+                this,index,table[index]->pkg->name);
+      switch (table[index]->pkg->status) {
+      case pkginfo::stat_unpacked:
+      case pkginfo::stat_halfconfigured:
+      case pkginfo::stat_halfinstalled:
+        table[index]->ssstate= sss_broken;
+        break;
+      case pkginfo::stat_notinstalled:
+        table[index]->ssstate= sss_notinstalled;
+        break;
+      case pkginfo::stat_configfiles:
+        table[index]->ssstate= sss_configfiles;
+        break;
+      case pkginfo::stat_installed:
+        table[index]->ssstate= sss_installed;
+        break;
+      default:
+        internerr("unknown stat in ensurestatsortinfo sso_state");
+      }
+      if (debug)
+        fprintf(debug,"packagelist[%p]::ensurestatsortinfos() i=%d ssstate=%d\n",
+                this,index,table[index]->ssstate);
+  
+    }
+    calcsssdone= 1;
+    break;
+  default:
+    internerr("unknown statsortorder in ensurestatsortinfo");
+  }
+}
+
 void packagelist::sortmakeheads() {
   discardheadings();
+  ensurestatsortinfo();
   sortinplace();
   assert(nitems);
 
-  if (debug) fprintf(debug,"packagelist[%p]::sortmakeheads() sortorder=%d\n",
-                     this,sortorder);
+  if (debug) fprintf(debug,"packagelist[%p]::sortmakeheads() "
+                     "sortorder=%d statsortorder=%d\n",this,sortorder,statsortorder);
   
   int nrealitems= nitems;
-  addheading(pkginfo::pri_unset,0,0);
+  addheading(ssa_none,sss_none,pkginfo::pri_unset,0,0);
 
-  if (sortorder == so_alpha) { sortinplace(); return; }
-  
-  assert(sortorder == so_section || sortorder == so_priority);
+  assert(sortorder != so_unsorted);
+  if (sortorder == so_alpha && statsortorder == sso_unsorted) { sortinplace(); return; }
 
   // Important: do not save pointers into table in this function, because
   // addheading may need to reallocate table to make it larger !
@@ -157,6 +266,24 @@ void packagelist::sortmakeheads() {
   for (a=0; a<nrealitems; a++) {
     thispkg= table[a]->pkg;
     assert(thispkg->name);
+    int ssdiff= 0;
+    ssavailval ssavail= ssa_none;
+    ssstateval ssstate= sss_none;
+    switch (statsortorder) {
+    case sso_avail:
+      ssavail= thispkg->clientdata->ssavail;
+      ssdiff= (!lastpkg || ssavail != lastpkg->clientdata->ssavail);
+      break;
+    case sso_state:
+      ssstate= thispkg->clientdata->ssstate;
+      ssdiff= (!lastpkg || ssstate != lastpkg->clientdata->ssstate);
+      break;
+    case sso_unsorted:
+      break;
+    default:
+      internerr("unknown statsortorder in sortmakeheads");
+    }
+    
     int prioritydiff= (!lastpkg ||
                        thispkg->priority != lastpkg->priority ||
                        (thispkg->priority == pkginfo::pri_other &&
@@ -166,20 +293,35 @@ void packagelist::sortmakeheads() {
                                  lastpkg->section ? lastpkg->section : ""));
 
     if (debug) fprintf(debug,"packagelist[%p]::sortmakeheads()"
-                       " pkg=%s  priority=%d otherpriority=%s %s  section=%s %s\n",
-                       this, thispkg->name, thispkg->priority,
+                       " pkg=%s  state=%d avail=%d %s  priority=%d"
+                       " otherpriority=%s %s  section=%s %s\n",
+                       this, thispkg->name,
+                       thispkg->clientdata->ssavail,
+                       thispkg->clientdata->ssstate,
+                       ssdiff ? "*diff" : "same",
+                       thispkg->priority,
                        thispkg->otherpriority ? thispkg->otherpriority : "<null>",
                        prioritydiff ? "*diff*" : "same",
                        thispkg->section ? thispkg->section : "<null>",
                        sectiondiff ? "*diff*" : "same");
 
+    if (ssdiff)
+      addheading(ssavail,ssstate,
+                 pkginfo::pri_unset,0, 0);
+    
     if (sortorder == so_section && sectiondiff)
-      addheading(pkginfo::pri_unset,0, thispkg->section ? thispkg->section : "");
+      addheading(ssavail,ssstate,
+                 pkginfo::pri_unset,0, thispkg->section ? thispkg->section : "");
+    
     if (sortorder == so_priority && prioritydiff)
-      addheading(thispkg->priority,thispkg->otherpriority, 0);
-    if (prioritydiff || sectiondiff) 
-      addheading(thispkg->priority,thispkg->otherpriority,
+      addheading(ssavail,ssstate,
+                 thispkg->priority,thispkg->otherpriority, 0);
+    
+    if (sortorder != so_alpha && (prioritydiff || sectiondiff))
+      addheading(ssavail,ssstate,
+                 thispkg->priority,thispkg->otherpriority,
                  thispkg->section ? thispkg->section : "");
+    
     lastpkg= thispkg;
   }
 
@@ -213,6 +355,7 @@ void packagelist::initialsetup() {
   currentinfo= 0;
   headings= 0;
   verbose= 0;
+  calcssadone= calcsssdone= 0;
 }
 
 void packagelist::finalsetup() {
@@ -260,6 +403,8 @@ packagelist::packagelist(keybindings *kb) : baselist(kb) {
   if (!nitems) ohshit("There are no packages to select.");
   recursive= 0;
   sortorder= so_priority;
+  statsortorder= sso_avail;
+  versiondisplayopt= vdo_both;
   sortmakeheads();
   finalsetup();
 }
@@ -276,6 +421,8 @@ packagelist::packagelist(keybindings *kb, pkginfo **pkgltab) : baselist(kb) {
   }
     
   sortorder= so_unsorted;
+  statsortorder= sso_unsorted;
+  versiondisplayopt= vdo_none;
   finalsetup();
 }
 

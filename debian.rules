@@ -1,7 +1,7 @@
 #!/usr/bin/make -f
 
 package=dpkg
-version=1.1.6
+version=1.2.0
 
 archi=$(shell dpkg --print-architecture)
 DIR:=$(shell pwd)
@@ -52,16 +52,17 @@ binary:
 	chown -R root.root debian-tmp
 	chmod -R g-ws debian-tmp
 	cd debian-tmp && \
-	tar cf ../../$(package)-$(version).nondebbin.tar usr var && \
-	gzip -9vf ../../$(package)-$(version).nondebbin.tar
+	tar cf ../../$(package)-$(version).$(archi).nondebbin.tar usr var && \
+	gzip -9vf ../../$(package)-$(version).$(archi).nondebbin.tar
 	mv debian-tmp/usr/bin/dpkg-deb{,.dist}
 	rm debian-tmp/var/lib/dpkg/{status,available}
-	dpkg --build debian-tmp
-	if file main/dpkg | grep -q ELF; then \
+	set -e; if file main/dpkg | grep -q ELF; then \
+		dpkg-deb --build --new debian-tmp ; \
 		mv debian-tmp.deb ../dpkg-$(version)elf.$(archi).deb ; \
-		mv ../dpkg-$(version).nondebbin.tar.gz \
-		   ../dpkg-$(version)elf.nondebbin.tar.gz ; \
+		mv ../dpkg-$(version).$(archi).nondebbin.tar.gz \
+		   ../dpkg-$(version)elf.$(archi).nondebbin.tar.gz ; \
 	else \
+		dpkg-deb --build --old debian-tmp ; \
 		mv debian-tmp.deb ../dpkg-$(version).$(archi).deb ; \
 	fi
 

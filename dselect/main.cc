@@ -75,7 +75,7 @@ static const menuentry menuentries[]= {
 };
 
 static const char programdesc[]=
-      "Debian GNU/Linux `" DSELECT "' package handling frontend.";
+      "Debian Linux `" DSELECT "' package handling frontend.";
 
 static const char copyrightstring[]=
       "Version " DPKG_VERSION_ARCH ".  Copyright (C) 1994,1995 Ian Jackson.   This is\n"
@@ -83,7 +83,7 @@ static const char copyrightstring[]=
       "copying conditions.  There is NO warranty.  See dselect --licence for details.\n";
 
 static void printversion(void) {
-  if (fprintf(stderr,"%s\n%s",programdesc,copyrightstring) == EOF) werr("stderr");
+  if (fprintf(stdout,"%s\n%s",programdesc,copyrightstring) == EOF) werr("stdout");
 }
 
 static void usage(void) {
@@ -93,7 +93,7 @@ static void usage(void) {
        "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
        "          --help  --version  --licence   --debug <file> | -D<file> | -D\n"
        "Actions:  access update select install config remove quit menu\n",
-       stderr)) werr("stderr");
+       stdout)) werr("stdout");
 }
 
 /* These are called by C code, so need to have C calling convention */
@@ -167,7 +167,9 @@ extern void operator delete(void *p) {
 
 urqresult urq_list(void) {
   readwrite= modstatdb_init(admindir,
-                            msdbrw_writeifposs|msdbrw_availablepreferversion);
+                            // Why do I need this cast ??
+                            (modstatdb_rw)(msdbrw_writeifposs|
+                                           msdbrw_availablepreferversion));
 
   curseson();
 

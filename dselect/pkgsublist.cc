@@ -58,7 +58,7 @@ void packagelist::add(pkginfo *pkg, pkginfo::pkgwant nw) {
   add(pkg);  if (!pkg->clientdata) return;
   pkg->clientdata->direct= nw;
   selpriority np;
-  np= (nw == pkginfo::want_install) ? sp_selecting : sp_deselecting;
+  np= would_like_to_install(nw,pkg) ? sp_selecting : sp_deselecting;
   if (pkg->clientdata->spriority > np) return;
   if (debug) fprintf(debug,"packagelist[%p]::add(pkginfo %s, %s) setting\n",
                      this,pkg->name,wantstrings[nw]);
@@ -122,7 +122,7 @@ int packagelist::add(dependency *depends, showpriority displayimportance) {
        possi=possi->next, comma=(possi && possi->next ? ", " : " or ")) {
     info(comma);
     info(possi->ed->name);
-    if (possi->version && *possi->version) {
+    if (possi->verrel != deppossi::dvr_none) {
       switch (possi->verrel) {
       case deppossi::dvr_earlierequal:  info(" (<= "); break;
       case deppossi::dvr_laterequal:    info(" (>= "); break;
@@ -131,11 +131,7 @@ int packagelist::add(dependency *depends, showpriority displayimportance) {
       case deppossi::dvr_exact:         info(" (= "); break;
       default: internerr("unknown verrel");
       }
-      info(possi->version);
-      if (possi->revision && *possi->revision) {
-        info('-');
-        info(possi->revision);
-      }
+      info(versiondescribe(&possi->version,vdew_never));
       info(")");
     }
   }
@@ -143,7 +139,7 @@ int packagelist::add(dependency *depends, showpriority displayimportance) {
   add(depends->up,info.string(),displayimportance);
   for (possi=depends->list; possi; possi=possi->next) {
     add(possi->ed,info.string(),displayimportance);
-    if (depends->type != dep_provides && (!possi->version || !*possi->version)) {
+    if (possi->verrel == deppossi::dvr_none && depends->type != dep_provides) {
       // providers aren't relevant if a version was specified, or
       // if we're looking at a provider relationship already
       deppossi *provider;

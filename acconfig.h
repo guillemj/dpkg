@@ -29,3 +29,6 @@
 
 /* Set this to 1 to build new archives by default. */
 #define BUILDOLDPKGFORMAT 0
+
+/* Set this string to append something to the version number. */
+#define ARCHBINFMT ""

@@ -183,7 +183,8 @@ void readmethods(const char *pathbase, option **optionspp, int *nread) {
         if (fstat(fileno(descfile),&stab))
           ohshite("unable to stat option description file `%.250s'",pathbuf);
         opt->description= new char[stab.st_size+1];  errno=0;
-        if (fread(opt->description,1,stab.st_size+1,descfile) != stab.st_size)
+        unsigned long filelen= stab.st_size;
+        if (fread(opt->description,1,stab.st_size+1,descfile) != filelen)
           ohshite("failed to read option description file `%.250s'",pathbuf);
         opt->description[stab.st_size]= 0;
         if (ferror(descfile))

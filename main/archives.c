@@ -137,12 +137,12 @@ static int does_replace(struct pkginfo *newpigp,
   struct dependency *dep;
   
   debug(dbg_depcon,"does_replace new=%s old=%s (%s)",newpigp->name,
-        oldpigp->name,versiondescribe(oldpigp->installed.version,
-                                      oldpigp->installed.revision));
+        oldpigp->name,versiondescribe(&oldpigp->installed.version,
+                                      vdew_always));
   for (dep= newpifp->depends; dep; dep= dep->next) {
     if (dep->type != dep_replaces || dep->list->ed != oldpigp) continue;
     debug(dbg_depcondetail,"does_replace ... found old, version %s",
-          versiondescribe(dep->list->version,dep->list->revision));
+          versiondescribe(&dep->list->version,vdew_always));
     if (!versionsatisfied(&oldpigp->installed,dep->list)) continue;
     debug(dbg_depcon,"does_replace ... yes");
     return 1;
@@ -339,6 +339,11 @@ int tarobject(struct TarInfo *ti) {
         }
         /* Nope ?  Hmm, file conflict, perhaps.  Check Replaces. */
         if (otherpkg->clientdata->replacingfilesandsaid) continue;
+        /* Is the package with the conflicting file in the `config files
+         * only' state ?  If so it must be a config file and we can
+         * silenty take it over.
+         */
+        if (otherpkg->status == stat_configfiles) continue;
         /* Perhaps we're removing a conflicting package ? */
         if (otherpkg->clientdata->istobe == itb_remove) continue;
         if (does_replace(tc->pkg,&tc->pkg->available,otherpkg)) {
@@ -547,75 +552,82 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
     varbuffree(&removalwhy);
     return;
   }
-  if (fixbyrm &&
-      ((pkg->available.essential && fixbyrm->installed.essential) ||
-       ((fixbyrm->want != want_install || does_replace(pkg,&pkg->available,fixbyrm)) &&
-        (!fixbyrm->installed.essential || fc_removeessential)))) {
+  if (fixbyrm) {
     ensure_package_clientdata(fixbyrm);
-    assert(fixbyrm->clientdata->istobe == itb_normal);
-    fixbyrm->clientdata->istobe= itb_remove;
-    fprintf(stderr, DPKG ": considering removing %s in favour of %s ...\n",
-            fixbyrm->name, pkg->name);
-    if (fixbyrm->status != stat_installed) {
-      fprintf(stderr,
-              "%s is not properly installed - ignoring any dependencies on it.\n",
-              fixbyrm->name);
-      pdep= 0;
-    } else {
-      for (pdep= fixbyrm->installed.depended;
-           pdep;
-           pdep= pdep->nextrev) {
-        if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends) continue;
-        if (depisok(pdep->up, &removalwhy, 0,0)) continue;
-        varbufaddc(&removalwhy,0);
-        if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
-          break;
-      }
-      if (!pdep) {
-        /* If we haven't found a reason not to yet, let's look some more. */
-        for (providecheck= fixbyrm->installed.depends;
-             providecheck;
-             providecheck= providecheck->next) {
-          if (providecheck->type != dep_provides) continue;
-          for (pdep= providecheck->list->ed->installed.depended;
-               pdep;
-               pdep= pdep->nextrev) {
-            if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
-              continue;
-            if (depisok(pdep->up, &removalwhy, 0,0)) continue;
-            varbufaddc(&removalwhy,0);
-            fprintf(stderr, DPKG
-                    ": may have trouble removing %s, as it provides %s ...\n",
-                    fixbyrm->name, providecheck->list->ed->name);
-            if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
-              goto break_from_both_loops_at_once;
-          }
-        }
-      break_from_both_loops_at_once:;
-      }
+    if (fixbyrm->clientdata->istobe == itb_installnew) {
+      fixbyrm= dep->up;
+      ensure_package_clientdata(fixbyrm);
     }
-    if (!pdep && skip_due_to_hold(fixbyrm)) {
-      pdep= &flagdeppossi;
-    }
-    if (!pdep && (fixbyrm->eflag & eflagf_reinstreq)) {
-      if (fc_removereinstreq) {
-        fprintf(stderr, DPKG ": package %s requires reinstallation, but will"
-                " remove anyway as you request.\n", fixbyrm->name);
-      } else {
-        fprintf(stderr, DPKG ": package %s requires reinstallation, will not remove.\n",
+    if (((pkg->available.essential && fixbyrm->installed.essential) ||
+         (((fixbyrm->want != want_install && fixbyrm->want != want_hold) ||
+           does_replace(pkg,&pkg->available,fixbyrm)) &&
+          (!fixbyrm->installed.essential || fc_removeessential)))) {
+      assert(fixbyrm->clientdata->istobe == itb_normal);
+      fixbyrm->clientdata->istobe= itb_remove;
+      fprintf(stderr, DPKG ": considering removing %s in favour of %s ...\n",
+              fixbyrm->name, pkg->name);
+      if (fixbyrm->status != stat_installed) {
+        fprintf(stderr,
+                "%s is not properly installed - ignoring any dependencies on it.\n",
                 fixbyrm->name);
+        pdep= 0;
+      } else {
+        for (pdep= fixbyrm->installed.depended;
+             pdep;
+             pdep= pdep->nextrev) {
+          if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
+            continue;
+          if (depisok(pdep->up, &removalwhy, 0,0)) continue;
+          varbufaddc(&removalwhy,0);
+          if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
+            break;
+        }
+        if (!pdep) {
+          /* If we haven't found a reason not to yet, let's look some more. */
+          for (providecheck= fixbyrm->installed.depends;
+               providecheck;
+               providecheck= providecheck->next) {
+            if (providecheck->type != dep_provides) continue;
+            for (pdep= providecheck->list->ed->installed.depended;
+                 pdep;
+                 pdep= pdep->nextrev) {
+              if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
+                continue;
+              if (depisok(pdep->up, &removalwhy, 0,0)) continue;
+              varbufaddc(&removalwhy,0);
+              fprintf(stderr, DPKG
+                      ": may have trouble removing %s, as it provides %s ...\n",
+                      fixbyrm->name, providecheck->list->ed->name);
+              if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
+                goto break_from_both_loops_at_once;
+            }
+          }
+        break_from_both_loops_at_once:;
+        }
+      }
+      if (!pdep && skip_due_to_hold(fixbyrm)) {
         pdep= &flagdeppossi;
       }
+      if (!pdep && (fixbyrm->eflag & eflagf_reinstreq)) {
+        if (fc_removereinstreq) {
+          fprintf(stderr, DPKG ": package %s requires reinstallation, but will"
+                  " remove anyway as you request.\n", fixbyrm->name);
+        } else {
+          fprintf(stderr, DPKG ": package %s requires reinstallation, "
+                  "will not remove.\n", fixbyrm->name);
+          pdep= &flagdeppossi;
+        }
+      }
+      if (!pdep) {
+        /* This conflict is OK - we'll remove the conflictor. */
+        *conflictorp= fixbyrm;
+        varbuffree(&conflictwhy); varbuffree(&removalwhy);
+        fprintf(stderr, DPKG ": yes, will remove %s in favour of %s.\n",
+                fixbyrm->name, pkg->name);
+        return;
+      }
+      fixbyrm->clientdata->istobe= itb_normal; /* put it back */
     }
-    if (!pdep) {
-      /* This conflict is OK - we'll remove the conflictor. */
-      *conflictorp= fixbyrm;
-      varbuffree(&conflictwhy); varbuffree(&removalwhy);
-      fprintf(stderr, DPKG ": yes, will remove %s in favour of %s.\n",
-              fixbyrm->name, pkg->name);
-      return;
-    }
-    fixbyrm->clientdata->istobe= itb_normal; /* put it back */
   }
   varbufaddc(&conflictwhy,0);
   fprintf(stderr, DPKG ": regarding %s containing %s:\n%s",

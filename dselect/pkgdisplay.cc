@@ -35,9 +35,8 @@ extern "C" {
 
 /* These MUST be in the same order as the corresponding enums in dpkg-db.h */
 const char
-  *const wantstrings[]=   { "new package", "selected", "deselected", "purge", 0 },
-  *const holdstrings[]=   { "", "on hold", "REINSTALL",
-                            "hold,REINSTALL", 0 },
+  *const wantstrings[]=   { "new package", "selected", "hold", "remove", "purge", 0 },
+  *const eflagstrings[]=   { "", "REINSTALL", 0 },
   *const statusstrings[]= { "not installed", "unpacked (not set up)",
                             "failed config", "installed", "half installed",
                             "removed (configs remain)", 0                            },
@@ -49,9 +48,34 @@ const char
   *const priorityabbrevs[]=  { "Req", "Imp", "Std", "Rec",
                                "Opt", "Xtr", "Ctb",
                                "bUG", "?"                  };
-const char statuschars[]=   " uF*H-";
-const char holdchars[]=     " hRX";
-const char wantchars[]=     "n*-_";
+const char statuschars[]=   " UF*H-";
+const char eflagchars[]=     " R?#";
+const char wantchars[]=     "n*=-_";
+
+/* These MUST be in the same order as the corresponding enums in pkglist.h */
+const char
+  *const ssaabbrevs[]= { "Broken",
+                         "New",
+                         "Updated",
+                         "Obsolete/local",
+                         "Up-to-date",
+                         "Available" },
+  *const ssastrings[]= { "Brokenly installed packages",
+                         "Newly available packages",
+                         "Updated packages (newer version is available)",
+                         "Obsolete and local packages present on system",
+                         "Up to date installed packages",
+                         "Available packages (not currently installed)" };
+
+const char
+  *const sssstrings[]= { "Brokenly installed packages",
+                         "Installed packages",
+                         "Removed packages (configuration still present)",
+                         "Purged packages and those never installed" },
+  *const sssabbrevs[]= { "Broken",
+                         "Installed",
+                         "Removed",
+                         "Purged" };
 
 static int maximumstring(const char *const *array) {
   int maxlen= 0;
@@ -74,7 +98,7 @@ void packagelist::setwidths() {
     status_want_width= maximumstring(wantstrings);
     status_width= status_hold_width+status_status_width+status_want_width*2+3;
     priority_width= 8;
-   package_width= 16;
+    package_width= 16;
   } else {
     status_width= 4;
     priority_width= 3;
@@ -94,8 +118,31 @@ void packagelist::setwidths() {
     package_column= section_column + section_width + gap_width;
   }
 
-  description_column= package_column + package_width + gap_width;
-
+  int versiondescriptioncolumn= package_column + package_width + gap_width;
+  
+  switch (versiondisplayopt) {
+  case vdo_none:
+    versioninstalled_column= versioninstalled_width= 0;
+    versionavailable_column= versionavailable_width= 0;
+    description_column= versiondescriptioncolumn;
+    break;
+  case vdo_available:
+    versioninstalled_column= versioninstalled_width= 0;
+    versionavailable_column= versiondescriptioncolumn;
+    versionavailable_width= 11;
+    description_column= versionavailable_column + versionavailable_width + gap_width;
+    break;
+  case vdo_both:
+    versioninstalled_column= versiondescriptioncolumn;
+    versioninstalled_width= 11;
+    versionavailable_column= versioninstalled_column + versioninstalled_width +gap_width;
+    versionavailable_width= versioninstalled_width;
+    description_column= versionavailable_column + versionavailable_width + gap_width;
+    break;
+  default:
+    internerr("unknown versiondisplayopt in setwidths");
+  }
+    
   total_width= TOTAL_LIST_WIDTH;
   description_width= total_width - description_column;
 }
@@ -114,12 +161,50 @@ void packagelist::redrawtitle() {
     if (x < xmax) {
       switch (sortorder) {
       case so_section:
-        waddnstr(titlewin, " (by section)", xmax-x);
+        switch (statsortorder) {
+        case sso_unsorted:
+          waddnstr(titlewin, " (by section)", xmax-x);
+          break;
+        case sso_avail:
+          waddnstr(titlewin, " (avail., section)", xmax-x);
+          break;
+        case sso_state:
+          waddnstr(titlewin, " (status, section)", xmax-x);
+          break;
+        default:
+          internerr("bad statsort in redrawtitle/so_section");
+        }
         break;
       case so_priority:
-        waddnstr(titlewin, " (by priority)", xmax-x);
+        switch (statsortorder) {
+        case sso_unsorted:
+          waddnstr(titlewin, " (by priority)", xmax-x);
+          break;
+        case sso_avail:
+          waddnstr(titlewin, " (avail., priority)", xmax-x);
+          break;
+        case sso_state:
+          waddnstr(titlewin, " (status, priority)", xmax-x);
+          break;
+        default:
+          internerr("bad statsort in redrawtitle/so_priority");
+        }
         break;
       case so_alpha:
+        switch (statsortorder) {
+        case sso_unsorted:
+          waddnstr(titlewin, " (alphabetically)", xmax-x);
+          break;
+        case sso_avail:
+          waddnstr(titlewin, " (by availability)", xmax-x);
+          break;
+        case sso_state:
+          waddnstr(titlewin, " (by status)", xmax-x);
+          break;
+        default:
+          internerr("bad statsort in redrawtitle/so_priority");
+        }
+        break;
         waddnstr(titlewin, " (alphabetically)", xmax-x);
         break;
       case so_unsorted:
