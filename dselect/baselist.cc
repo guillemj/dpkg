@@ -3,6 +3,7 @@
  * baselist.cc - list of somethings
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -274,27 +275,20 @@ void baselist::itd_keys() {
 }
 
 void baselist::dosearch() {
-  int offset, index, searchlen;
-  searchlen= strlen(searchstring);
-  if (debug) fprintf(debug,"packagelist[%p]::dosearch(); searchstring=`%s' len=%d\n",
-                     this,searchstring,searchlen);
+  int offset, index;
+  if (debug) fprintf(debug,"baselist[%p]::dosearch(); searchstring=`%s'\n",
+                     this,searchstring);
   for (offset=1, index=greaterint(topofscreen,cursorline+1);
        offset<nitems;
        offset++, index++) {
     if (index >= nitems) index -= nitems;
-    int lendiff, i;
-    const char *thisname;
-    thisname= itemname(index);
-    if (!thisname) continue;
-    lendiff= strlen(thisname) - searchlen;
-    for (i=0; i<=lendiff; i++)
-      if (!strncasecmp(thisname + i, searchstring, searchlen)) {
-        topofscreen= index-1;
-        if (topofscreen > nitems - list_height) topofscreen= nitems-list_height;
-        if (topofscreen < 0) topofscreen= 0;
-        setcursor(index);
-        return;
-      }
+    if (matchsearch(index)) {
+      topofscreen= index-1;
+      if (topofscreen > nitems - list_height) topofscreen= nitems-list_height;
+      if (topofscreen < 0) topofscreen= 0;
+      setcursor(index);
+      return;
+    }
   }
   beep();
 }
@@ -374,3 +368,6 @@ void baselist::wordwrapinfo(int offset, const char *m) {
 }
 
 baselist::~baselist() { }
+
+/* vi: sw=2 ts=8
+ */
