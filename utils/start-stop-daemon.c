@@ -321,7 +321,7 @@ const struct sigpair siglist[] = {
 	{ "TTOU",	SIGTTOU	}
 };
 
-static int parse_integer (const char *string, int *value_r) {
+static int parse_integer(const char *string, int *value_r) {
 	unsigned long ul;
 	char *ep;
 
@@ -336,7 +336,7 @@ static int parse_integer (const char *string, int *value_r) {
 	return 0;
 }
 
-static int parse_signal (const char *signal_str, int *signal_nr)
+static int parse_signal(const char *signal_str, int *signal_nr)
 {
 	unsigned int i;
 
@@ -647,6 +647,21 @@ pid_is_cmd(pid_t pid, const char *name)
 #endif /* OSHURD */
 
 
+static int
+pid_is_running(pid_t pid)
+{
+	struct stat sb;
+	char buf[32];
+
+	sprintf(buf, "/proc/%d", pid);
+	if (stat(buf, &sb) != 0) {
+		if (errno!=ENOENT)
+			fatal("Error stating %s: %s", buf, strerror(errno));
+		return 0;
+	}
+
+	return 1;
+}
 
 static void
 check(pid_t pid)
@@ -661,6 +676,8 @@ check(pid_t pid)
 	if (userspec && !pid_is_user(pid, user_id))
 		return;
 	if (cmdname && !pid_is_cmd(pid, cmdname))
+		return;
+	if (start && pid_is_running(pid))
 		return;
 	push(&found, pid);
 }
@@ -712,12 +729,12 @@ do_procinit(void)
 
 #if defined(OSHURD)
 error_t
-check_all (void *ptr)
+check_all(void *ptr)
 {
 	struct proc_stat *pstat = ptr;
 
-	check (pstat->pid);
-	return (0);
+	check(pstat->pid);
+	return 0;
 }
 
 static void
@@ -726,20 +743,20 @@ do_procinit(void)
 	struct ps_context *context;
 	error_t err;
 
-	err = ps_context_create (getproc (), &context);
+	err = ps_context_create(getproc(), &context);
 	if (err)
-		error (1, err, "ps_context_create");
+		error(1, err, "ps_context_create");
 
-	err = proc_stat_list_create (context, &procset);
+	err = proc_stat_list_create(context, &procset);
 	if (err)
-		error (1, err, "proc_stat_list_create");
+		error(1, err, "proc_stat_list_create");
 
-	err = proc_stat_list_add_all (procset, 0, 0);
+	err = proc_stat_list_add_all(procset, 0, 0);
 	if (err)
-		error (1, err, "proc_stat_list_add_all");
+		error(1, err, "proc_stat_list_add_all");
 
 	/* Check all pids */
-	ihash_iterate (context->procs, check_all);
+	ihash_iterate(context->procs, check_all);
 }
 #endif /* OSHURD */
 
@@ -761,14 +778,14 @@ pid_is_cmd(pid_t pid, const char *name)
                 errx(1, "%s", errbuf);
         if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
                 errx(1, "%s", kvm_geterr(kd));
-	if ( ( pid_argv_p = kvm_getargv(kd, kp, argv_len)) == 0)
+	if ((pid_argv_p = kvm_getargv(kd, kp, argv_len)) == 0)
 		errx(1, "%s", kvm_geterr(kd)); 
 
 	start_argv_0_p = *pid_argv_p;
 	/* find and compare string */
 	  
 	/* find end of argv[0] then copy and cut of str there. */
-	if ( (end_argv_0_p = strchr(*pid_argv_p, ' ')) == 0 ) 	
+	if ((end_argv_0_p = strchr(*pid_argv_p, ' ')) == 0 ) 	
 	/* There seems to be no space, so we have the command
 	 * allready in its desired form. */
 	  start_argv_0_p = *pid_argv_p;
@@ -801,7 +818,7 @@ pid_is_user(pid_t pid, int uid)
 		errx(1, "%s", errbuf);
 	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
 		errx(1, "%s", kvm_geterr(kd));
-	if ( kp->kp_proc.p_cred )
+	if (kp->kp_proc.p_cred )
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
 			&proc_uid, sizeof(uid_t));
 	else
