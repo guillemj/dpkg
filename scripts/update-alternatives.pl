@@ -231,7 +231,7 @@ if ($state eq 'unexpected' && $manual eq 'auto') {
 if ($mode eq 'install') {
     if ($link ne $alink && $link ne '') {
         &pr("Renaming $name link from $link to $alink.");
-        rename($link,$alink) || $! == &ENOENT ||
+        rename_mv($link,$alink) || $! == &ENOENT ||
             &quit("unable to rename $link to $alink: $!");
     }
     $link= $alink;
@@ -252,7 +252,7 @@ if ($mode eq 'install') {
             &quit("slave link name $newslavelink duplicated");
         if ($newslavelink ne $oldslavelink && $oldslavelink ne '') {
             &pr("Renaming $sname slave link from $oldslavelink to $newslavelink.");
-            rename($oldslavelink,$newslavelink) || $! == &ENOENT ||
+            rename_mv($oldslavelink,$newslavelink) || $! == &ENOENT ||
                 &quit("unable to rename $oldslavelink to $newslavelink: $!");
         }
         $slavelinks[$j]= $newslavelink;
@@ -308,7 +308,7 @@ if ($manual eq 'manual') {
 } else {
     if ($state eq 'expected-inprogress') {
         &pr("Recovering from previous failed update of $name ...");
-        rename("$altdir/$name.dpkg-tmp","$altdir/$name") ||
+        rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
             &quit("unable to rename $altdir/$name.dpkg-tmp to $altdir/$name: $!");
         $state= 'expected';
     }
@@ -365,7 +365,7 @@ if ($manual eq 'auto') {
                 &quit("unable to ensure $link.dpkg-tmp nonexistent: $!");
             symlink("$altdir/$name","$link.dpkg-tmp") ||
                 &quit("unable to make $link.dpkg-tmp a symlink to $altdir/$name: $!");
-            rename("$link.dpkg-tmp",$link) ||
+            rename_mv("$link.dpkg-tmp",$link) ||
                 &quit("unable to install $link.dpkg-tmp as $link: $!");
         }
         if (defined($linkname= readlink("$altdir/$name")) && $linkname eq $best) {
@@ -379,11 +379,11 @@ if ($manual eq 'auto') {
     }
 }
 
-rename("$admindir/$name.dpkg-new","$admindir/$name") ||
+rename_mv("$admindir/$name.dpkg-new","$admindir/$name") ||
     &quit("unable to rename $admindir/$name.dpkg-new to $admindir/$name: $!");
 
 if ($manual eq 'auto') {
-    rename("$altdir/$name.dpkg-tmp","$altdir/$name") ||
+    rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
         &quit("unable to install $altdir/$name.dpkg-tmp as $altdir/$name");
     for ($j=0; $j<=$#slavenames; $j++) {
         $sname= $slavenames[$j];
@@ -396,7 +396,7 @@ if ($manual eq 'auto') {
                 &quit("unable to ensure $slink.dpkg-tmp nonexistent: $!");
             symlink("$altdir/$sname","$slink.dpkg-tmp") ||
                 &quit("unable to make $slink.dpkg-tmp a symlink to $altdir/$sname: $!");
-            rename("$slink.dpkg-tmp",$slink) ||
+            rename_mv("$slink.dpkg-tmp",$slink) ||
                 &quit("unable to install $slink.dpkg-tmp as $slink: $!");
         }
         $spath= $slavepath{$bestnum,$j};
@@ -414,7 +414,7 @@ if ($manual eq 'auto') {
             }
             symlink("$spath","$altdir/$sname.dpkg-tmp") ||
                 &quit("unable to make $altdir/$sname.dpkg-tmp a symlink to $spath: $!");
-            rename("$altdir/$sname.dpkg-tmp","$altdir/$sname") ||
+            rename_mv("$altdir/$sname.dpkg-tmp","$altdir/$sname") ||
                 &quit("unable to install $altdir/$sname.dpkg-tmp as $altdir/$sname: $!");
         }
     }
@@ -434,5 +434,7 @@ sub gl {
 sub badfmt {
     &quit("internal error: $admindir/$name corrupt: $_[0]");
 }
-
+sub rename_mv {
+	return (rename($_[0], $_[1]) || (system(("mv", $_[0], $_[1])) == 0));
+}
 exit(0);
