@@ -16,7 +16,9 @@ all: version.h all-recursive
 
 install: all install-recursive
 	$(mkinstalldirs) $(DESTDIR)$(dpkgconfdir)/origins
+	$(mkinstalldirs) $(DESTDIR)$(dpkgsharedir)/origins
 	$(INSTALL_DATA) $(srcdir)/origin $(DESTDIR)$(dpkgconfdir)/origins/debian
+	$(INSTALL_DATA) $(srcdir)/archtable $(DESTDIR)$(dpkgsharedir)/archtable
 
 clean: clean-recursive
 	rm -f $(GENFILES)
