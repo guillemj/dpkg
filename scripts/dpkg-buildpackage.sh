@@ -26,6 +26,7 @@ Options: -r<gain-root-command>
          -b            binary-only, do not build source } also passed to
          -B            binary-only, no arch-indep files } dpkg-genchanges
          -S            source only, no binary files     } 
+         -t<system>    set GNU system type  } passed to dpkg-architecture
          -v<version>   changes since version <version>      }
          -m<maint>     maintainer for package is <maint>    } 
          -e<maint>     maintainer for release is <maint>    } only passed
