@@ -105,19 +105,21 @@ finalised yet (ie, has a maintainer name and email address and a
 release date."
   (save-excursion
     (goto-char (point-min))
-    (if (re-search-forward "\n\\S-" (point-max) t) nil
-      (goto-char (point-max)))
-    (if (re-search-backward "\n --" (point-min) t)
-        (forward-char 4)
-      (beginning-of-line)
-      (insert " --\n\n")
-      (backward-char 2))
-    (cond
-     ((looking-at "[ \n]+\\S-[^\n\t]+\\S- <[^ \t\n<>]+>  \\S-[^\t\n]+\\S-[ \t]*\n")
-      t)
-     ((looking-at "[ \t]*\n")
-      nil)
-     ("finalisation line has bad format (not ` -- maintainer <email>  date')"))))
+    (if (re-search-forward "\n\\S-" (point-max) t)
+        (progn
+          (if (re-search-backward "\n --" (point-min) t)
+              (forward-char 4)
+            (beginning-of-line)
+            (insert " --\n\n")
+            (backward-char 2))
+          (cond
+           ((looking-at "[ \n]+\\S-[^\n\t]+\\S- <[^ \t\n<>]+>  \\S-[^\t\n]+\\S-[ \t]*\n")
+            t)
+           ((looking-at "[ \t]*\n")
+            nil)
+           (t
+            "finalisation line has bad format (not ` -- maintainer <email>  date')")))
+      t)))
 
 (defun debian-changelog-add-version ()
   "Add a new version section to a debian-style changelog file."
@@ -132,7 +134,7 @@ release date."
                      (number-to-string (+ 1 (string-to-number (match-string 2))))
                      (match-string 3))
            (let ((pkg (read-string "Package name: "))
-                 (ver (read-version "New version (including any revision): ")))
+                 (ver (read-string "New version (including any revision): ")))
              (concat pkg " (" ver ") unstable; urgency="
                      (cdr (car debian-changelog-urgencies)))))))
     (insert headstring "\n\n  * ")
@@ -190,7 +192,7 @@ Runs `debian-changelog-mode-hook' if it exists.
 
 Key bindings:
 
-\\{dpkg-changelog-mode-map}"
+\\{debian-changelog-mode-map}"
   (interactive)
   (kill-all-local-variables)
   (text-mode)

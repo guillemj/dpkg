@@ -504,7 +504,8 @@ if ($opmode eq 'build') {
         if (!$c2) {
             open(STDIN,"<&GZIP") || &syserr("reopen gzip for patch");
             chdir($newdirectory) || &syserr("chdir to $newdirectory for patch");
-            exec('patch','-b','.dpkg-orig','-s','-t','-F','0','-N','-p1','-u');
+            exec('patch','-s','-t','-F','0','-N','-p1','-u',
+                 '-V','never','-b','.dpkg-orig');
             &syserr("exec patch");
         }
         close(GZIP);
