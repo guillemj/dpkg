@@ -239,6 +239,7 @@ do_check(FILE *chkf)
 	char filename[256];
 	FILE *fp;
 	size_t flen = 14;
+	jmp_buf ejbuf;
 
 	while ((rc = get_md5_line(chkf, chk_digest, filename)) >= 0) {
 		if (rc == 0)	/* not an md5 line */
@@ -248,6 +249,12 @@ do_check(FILE *chkf)
 				flen = strlen(filename);
 			fprintf(stderr, "%-*s ", (int)flen, filename);
 		}
+		if (setjmp(ejbuf)) {
+			error_unwind(ehflag_bombout);
+			ex = 2;
+			continue;
+		}
+		push_error_handler(&ejbuf, print_md5sum_error, filename);
 		if (bin_mode || rc == 2)
 			fp = fopen(filename, FOPRBIN);
 		else
@@ -257,13 +264,17 @@ do_check(FILE *chkf)
 			ex = 2;
 			continue;
 		}
+		push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)fp);
 		if (mdfile(fileno(fp), &file_digest)) {
 			fprintf(stderr, _("%s: error reading %s\n"), progname, filename);
 			ex = 2;
 			fclose(fp);
 			continue;
 		}
+		pop_cleanup(ehflag_normaltidy); /* fd= fopen() */
 		fclose(fp);
+		set_error_display(0, 0);
+		error_unwind(ehflag_normaltidy);
 		if (memcmp(chk_digest, file_digest, 32) != 0) {
 			if (verbose)
 				fprintf(stderr, _("FAILED\n"));
