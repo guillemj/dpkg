@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.8.0\n"
-"POT-Creation-Date: 2000-12-05 07:39+0100\n"
-"PO-Revision-Date: 2000-12-05 07:42+0100\n"
+"POT-Creation-Date: 2000-12-09 12:17+0100\n"
+"PO-Revision-Date: 2000-12-09 12:20+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -470,17 +470,22 @@ msgstr "underprocess %s misslyckades med statuskod %d"
 msgid "wait for %s failed"
 msgstr "väntan på %s misslyckades"
 
-#: lib/mlib.c:138
+#: lib/mlib.c:148
 #, c-format
-msgid "failed in do_fd_write_fd (%s)"
-msgstr "misslyckades i do_fd_write_fd (%s)"
+msgid "failed in do_fd_write_combined (%i, %s)"
+msgstr "misslyckades i do_fd_write_combined (%i, %s)"
 
-#: lib/mlib.c:183
+#: lib/mlib.c:151
+#, c-format
+msgid "unknown data type `%i' in do_fd_write_buf\n"
+msgstr "okänd datatyp \"%i\" i do_fd_write_buf\n"
+
+#: lib/mlib.c:177
 #, c-format
 msgid "failed to allocate buffer in do_fd_read (%s)"
 msgstr "kunde inte allokera buffer i do_fd_read (%s)"
 
-#: lib/mlib.c:202
+#: lib/mlib.c:196
 #, c-format
 msgid "failed in do_fd_read on read (%s)"
 msgstr "kunde inte läsa i do_fd_read (%s)"
@@ -701,7 +706,7 @@ msgstr "tomt värde för %s"
 msgid "cannot open GPL file "
 msgstr "kan inte öppna GPL-fil "
 
-#: lib/varbuf.c:93
+#: lib/varbuf.c:92
 msgid "failed to realloc for variable buffer"
 msgstr "misslyckades att återallokera variabelbuffert"
 
@@ -2933,31 +2938,56 @@ msgstr "Information om %d paket uppdaterades.\n"
 msgid "--forget-old-unavail takes no arguments"
 msgstr "--forget-old-unavail tar inget argument"
 
-#: dpkg-deb/build.c:63
+#: dpkg-deb/build.c:66
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - fel: %s (\"%s\") innehåller inga siffror\n"
 
+#: dpkg-deb/build.c:164
+#, c-format
+msgid "%s: no compression copy loop"
+msgstr "%s: ingen komprimeringskopieslinga"
+
+#: dpkg-deb/build.c:173
+#, c-format
+msgid "%s: internal gzip error: read: `%s'"
+msgstr "%s: internt gzip-fel: läsning: \"%s\""
+
+#: dpkg-deb/build.c:183
+#, c-format
+msgid "%s: internal gzip error: write: `%s'"
+msgstr "%s: internt gzip-fel: skrivning: \"%s\""
+
+#: dpkg-deb/build.c:186
+#, c-format
+msgid "%s: internal gzip error: read(%i) != write(%i)"
+msgstr "%s: internt gzip-fel: läs(%1) != skriv(%1)"
+
+#: dpkg-deb/build.c:191
+#, c-format
+msgid "%s: failed to exec gzip %s"
+msgstr "%s: kunde inte exekvera gzip %s"
+
 #. Decode our arguments
-#: dpkg-deb/build.c:168
+#: dpkg-deb/build.c:220
 msgid "--build needs a directory argument"
 msgstr "--build behöver ett katalogargument"
 
-#: dpkg-deb/build.c:177
+#: dpkg-deb/build.c:229
 msgid "--build takes at most two arguments"
 msgstr "--build tar högst två argument"
 
-#: dpkg-deb/build.c:181
+#: dpkg-deb/build.c:233
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "kunde inte kontrollera om arkivet \"%.250s\" existerar"
 
-#: dpkg-deb/build.c:196
+#: dpkg-deb/build.c:248
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "målet är en katalog - kan inte hoppa över kontroll av konfigurationsfiler"
 
-#: dpkg-deb/build.c:197
+#: dpkg-deb/build.c:249
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -2966,44 +2996,44 @@ msgstr ""
 "dpkg-deb: varning, kontrollerar inte innehållet i kontrollområdet.\n"
 "dpkg-deb: bygger ett okänt paket i \"%s\".\n"
 
-#: dpkg-deb/build.c:215
+#: dpkg-deb/build.c:267
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr "paketnamnet har tecken som inte är gemena alfanumeriska eller \"-+.\""
 
-#: dpkg-deb/build.c:217
+#: dpkg-deb/build.c:269
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr ""
 "varning, \"%s\" innehåller användardefinierat värde för Priority \"%s\"\n"
 
-#: dpkg-deb/build.c:222
+#: dpkg-deb/build.c:274
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "varning, \"%s\" innehåller användardefinierat fält \"%s\"\n"
 
-#: dpkg-deb/build.c:228
+#: dpkg-deb/build.c:280
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d fel i kontrollfilen"
 
-#: dpkg-deb/build.c:239
+#: dpkg-deb/build.c:291
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: bygger paketet \"%s\" i \"%s\".\n"
 
-#: dpkg-deb/build.c:247
+#: dpkg-deb/build.c:299
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "kontrollkatalogen har felaktig behörighet %03lo (måste vara >=0755 och "
 "<=0775)"
 
-#: dpkg-deb/build.c:258
+#: dpkg-deb/build.c:310
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr "utvecklarskript \"%.50s\" är inte en vanlig fil eller symbolisk länk"
 
-#: dpkg-deb/build.c:260
+#: dpkg-deb/build.c:312
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3012,16 +3042,16 @@ msgstr ""
 "utvecklarskript \"%.50s\" har felaktig behörighet %03lo (måste vara >=0555 "
 "och <=0775)"
 
-#: dpkg-deb/build.c:264
+#: dpkg-deb/build.c:316
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "kunde inte ta status på utvecklarskript \"%.50s\""
 
-#: dpkg-deb/build.c:274
+#: dpkg-deb/build.c:326
 msgid "empty string from fgets reading conffiles"
 msgstr "tom sträng från fgets när conffiles lästes"
 
-#: dpkg-deb/build.c:276
+#: dpkg-deb/build.c:328
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3029,30 +3059,30 @@ msgstr ""
 "varning, konfigurationsfilnamnet \"%.50s...\" är för långt eller saknar "
 "nyradstecken på slutet\n"
 
-#: dpkg-deb/build.c:288
+#: dpkg-deb/build.c:340
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "konfigurationsfilen \"%.250s\" finns inte i paketet"
 
-#: dpkg-deb/build.c:290
+#: dpkg-deb/build.c:342
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "kunde inte ta status på konfigurationsfilen \"%.50s\""
 
-#: dpkg-deb/build.c:292
+#: dpkg-deb/build.c:344
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "varning, konfigurationsfieln \"%s\" är inte en vanlig fil\n"
 
-#: dpkg-deb/build.c:297
+#: dpkg-deb/build.c:349
 msgid "error reading conffiles file"
 msgstr "fel vid läsning av filen conffiles"
 
-#: dpkg-deb/build.c:300
+#: dpkg-deb/build.c:352
 msgid "error opening conffiles file"
 msgstr "fel vid öppning av filen conffiles"
 
-#: dpkg-deb/build.c:303
+#: dpkg-deb/build.c:355
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: ignorerar %d varningar om kontrollfilerna\n"
@@ -3060,192 +3090,179 @@ msgstr "dpkg-deb: ignorerar %d varningar om kontrollfilerna\n"
 #. Now that we have verified everything its time to actually
 #. * build something. Lets start by making the ar-wrapper.
 #.
-#: dpkg-deb/build.c:312
+#: dpkg-deb/build.c:364
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "kunde inte skapa \"%.255s\""
 
-#: dpkg-deb/build.c:313
+#: dpkg-deb/build.c:365
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "kunde inte stänga av buffert för \"%.255s\""
 
-#: dpkg-deb/build.c:318 dpkg-deb/build.c:390 dpkg-deb/build.c:410
+#: dpkg-deb/build.c:370 dpkg-deb/build.c:443 dpkg-deb/build.c:465
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "kunde inte byta katalog till \"%.255s\""
 
-#: dpkg-deb/build.c:319
+#: dpkg-deb/build.c:371
 msgid "failed to chdir to .../DEBIAN"
 msgstr "kunde inte byta katalog till .../DEBIAN"
 
-#: dpkg-deb/build.c:320 dpkg-deb/build.c:412
+#: dpkg-deb/build.c:372 dpkg-deb/build.c:445
 msgid "failed to exec tar -cf"
 msgstr "kunde inte exekvera tar -cf"
 
 #. Create a temporary file to store the control data in. Immediately unlink
 #. * our temporary file so others can't mess with it.
 #.
-#: dpkg-deb/build.c:326
+#: dpkg-deb/build.c:378
 msgid "failed to make tmpfile (control)"
 msgstr "kunde inte skapa temporärfil (kontrolldel)"
 
-#: dpkg-deb/build.c:327
+#: dpkg-deb/build.c:379
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "kunde inte öppna temporärfil (kontrolldel), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:330
+#: dpkg-deb/build.c:382
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "kunde inte ta bort temporärfil (kontrolldel), %s"
 
-#: dpkg-deb/build.c:338
-msgid "failed to exec gzip -9c"
-msgstr "kunde inte exekvera gzip -9c"
-
-#: dpkg-deb/build.c:343
-msgid "failed to fstat tmpfile (control)"
-msgstr "kunde inte ta status på temporär fil (kontrolldel)"
-
-#: dpkg-deb/build.c:366
-msgid "failed to rewind tmpfile (control)"
-msgstr "kunde inte gå till början av temporär fil (kontrolldel)"
-
-#: dpkg-deb/build.c:367
+#: dpkg-deb/build.c:390 dpkg-deb/build.c:419 dpkg-deb/build.c:455
 msgid "control"
 msgstr "kontrolldel"
 
-#: dpkg-deb/build.c:374
+#: dpkg-deb/build.c:395
+msgid "failed to fstat tmpfile (control)"
+msgstr "kunde inte ta status på temporär fil (kontrolldel)"
+
+#: dpkg-deb/build.c:418
+msgid "failed to rewind tmpfile (control)"
+msgstr "kunde inte gå till början av temporär fil (kontrolldel)"
+
+#: dpkg-deb/build.c:426
 msgid "failed to make tmpfile (data)"
 msgstr "kunde inte skapa temporärfil (datadel)"
 
-#: dpkg-deb/build.c:375
+#: dpkg-deb/build.c:427
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "kunde inte öppna temporärfil (datadel), %s"
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:378
+#: dpkg-deb/build.c:430
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "kunde inte ta bort temporärfil (datadel), %s"
 
-#: dpkg-deb/build.c:392
+#: dpkg-deb/build.c:467
 msgid "failed to exec find"
 msgstr "kunde inte exekvera find"
 
-#: dpkg-deb/build.c:425
-msgid "no compression copy loop"
-msgstr "ingen komprimeringskopieslinga"
-
-#: dpkg-deb/build.c:431
-#, c-format
-msgid "failed to exec gzip %s from tar -cf"
-msgstr "kunde inte exekvera gzip %s från tar -cf"
-
-#: dpkg-deb/build.c:437 dpkg-deb/build.c:440
+#: dpkg-deb/build.c:478 dpkg-deb/build.c:485
 msgid "failed to write filename to tar pipe (data)"
 msgstr "kunde inte skriva filnamn till tar-rör (datadel)"
 
-#: dpkg-deb/build.c:458
+#: dpkg-deb/build.c:502
 msgid "failed to rewind tmpfile (data)"
 msgstr "kunde inte gå till början av temporär fil (datadel)"
 
-#: dpkg-deb/build.c:459
+#: dpkg-deb/build.c:503
 msgid "cat (data)"
 msgstr "cat (data)"
 
-#: dpkg-deb/extract.c:48
+#: dpkg-deb/extract.c:51
 msgid "failed to exec sh -c mv foo/* &c"
 msgstr "kunde inte exekvera sh -c mv foo/* &c"
 
-#: dpkg-deb/extract.c:55
+#: dpkg-deb/extract.c:58
 #, c-format
 msgid "error reading %s from %.255s"
 msgstr "fel vid läsning av %s från %.255s"
 
-#: dpkg-deb/extract.c:57
+#: dpkg-deb/extract.c:60
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr "oväntat filslut i %s i %.255s"
 
-#: dpkg-deb/extract.c:68 split/info.c:52
+#: dpkg-deb/extract.c:71 split/info.c:52
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
 msgstr "filen \"%.250s\" är korrupt - %.250s längd innehåller nulltecken"
 
-#: dpkg-deb/extract.c:75 split/info.c:43
+#: dpkg-deb/extract.c:78 split/info.c:43
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "filen \"%.250s\" är korrupt - felaktig siffra (kod %d) i %s"
 
-#: dpkg-deb/extract.c:84
+#: dpkg-deb/extract.c:87
 msgid "skipped member data"
 msgstr "överhoppad medlemsdata"
 
-#: dpkg-deb/extract.c:109
+#: dpkg-deb/extract.c:118
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "kunde inte läsa arkivet \"%.255s\""
 
-#: dpkg-deb/extract.c:110
+#: dpkg-deb/extract.c:119
 msgid "failed to fstat archive"
 msgstr "kunde inte ta status på arkivet"
 
-#: dpkg-deb/extract.c:111
+#: dpkg-deb/extract.c:120
 msgid "version number"
 msgstr "versionsnummer"
 
-#: dpkg-deb/extract.c:120
+#: dpkg-deb/extract.c:129
 msgid "between members"
 msgstr "mellan medlemmar"
 
-#: dpkg-deb/extract.c:122 split/info.c:94
+#: dpkg-deb/extract.c:131 split/info.c:94
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr ""
 "filen \"%.250s\" är korrupt - fel magisk siffra i slutet av första huvudet"
 
-#: dpkg-deb/extract.c:126
+#: dpkg-deb/extract.c:135
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %ld"
 msgstr "filen \"%.250s\" är korrupt - negativ medlemslängd %ld"
 
-#: dpkg-deb/extract.c:130
+#: dpkg-deb/extract.c:139
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "filen \"%.250s\" är inte ett debianbinärarkiv (försök med dpkg-split?)"
 
-#: dpkg-deb/extract.c:133
+#: dpkg-deb/extract.c:142
 msgid "header info member"
 msgstr "huvudinformationsmedlem"
 
-#: dpkg-deb/extract.c:136
+#: dpkg-deb/extract.c:145
 msgid "archive has no newlines in header"
 msgstr "arkivet har inga nyradstecken i huvudet"
 
-#: dpkg-deb/extract.c:139
+#: dpkg-deb/extract.c:148
 msgid "archive has no dot in version number"
 msgstr "arkivet har ingen punkt i versionsnumret"
 
-#: dpkg-deb/extract.c:142
+#: dpkg-deb/extract.c:151
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "arkivets versionen %.250s förstods inte, hämta en nyare dpkg-deb"
 
-#: dpkg-deb/extract.c:160
+#: dpkg-deb/extract.c:169
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "filen \"%.250s\" innehåler okänd datadel %.*s, ger upp"
 
-#: dpkg-deb/extract.c:165
+#: dpkg-deb/extract.c:174
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "filen \"%.250s\" innehåller två kontrolldelar, ger upp"
 
-#: dpkg-deb/extract.c:177
+#: dpkg-deb/extract.c:186
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3254,16 +3271,16 @@ msgstr ""
 " nytt debianpaket, version %s.\n"
 " storlek %ld byte: kontrollarkiv= %ld byte.\n"
 
-#: dpkg-deb/extract.c:189
+#: dpkg-deb/extract.c:198
 msgid "ctrl information length"
 msgstr "kontrollinformationslängd"
 
-#: dpkg-deb/extract.c:191
+#: dpkg-deb/extract.c:200
 #, c-format
 msgid "archive has malformatted ctrl len `%s'"
 msgstr "arkivet har felformaterad kontrollängd \"%s\""
 
-#: dpkg-deb/extract.c:194
+#: dpkg-deb/extract.c:203
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -3272,11 +3289,11 @@ msgstr ""
 " gammalt debianpaket, version %s.\n"
 " storlek %ld byte: kontrollarkiv= %ld, huvudarkiv= %ld.\n"
 
-#: dpkg-deb/extract.c:203
+#: dpkg-deb/extract.c:212
 msgid "ctrlarea"
 msgstr "kontrollområde"
 
-#: dpkg-deb/extract.c:209
+#: dpkg-deb/extract.c:218
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
 "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"
@@ -3284,69 +3301,74 @@ msgstr ""
 "dpkg-deb: filen verkar vara ett arkiv som har gått sönder genom\n"
 "dpkg-deb:    att ha hämtats i ASCII-läge\n"
 
-#: dpkg-deb/extract.c:214
+#: dpkg-deb/extract.c:223
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "\"%.255s\" är inte ett debianarkiv"
 
-#: dpkg-deb/extract.c:219
+#: dpkg-deb/extract.c:228
 msgid "fgetpos failed"
 msgstr "fgetpos misslyckades"
 
-#: dpkg-deb/extract.c:223
+#: dpkg-deb/extract.c:232
 msgid "fsetpos failed"
 msgstr "fsetpos misslyckades"
 
-#: dpkg-deb/extract.c:230
+#: dpkg-deb/extract.c:239
 msgid "failed to fdopen p1 in paste"
 msgstr "kunde inte ansluta fil till p1 i \"klistra in\""
 
-#: dpkg-deb/extract.c:232
+#: dpkg-deb/extract.c:241
 msgid "failed to write to gzip -dc"
 msgstr "kunde inte skriva till gzip -dc"
 
-#: dpkg-deb/extract.c:233
+#: dpkg-deb/extract.c:242
 msgid "failed to close gzip -dc"
 msgstr "kunde inte stänga gzip -dc"
 
-#: dpkg-deb/extract.c:240
+#: dpkg-deb/extract.c:249
 msgid "failed to syscall lseek to files archive portion"
 msgstr "kunde inte utföra systemanropet \"lseek\" för filarkivdelen"
 
-#: dpkg-deb/extract.c:248
+#: dpkg-deb/extract.c:257
 msgid "failed to write to pipe in copy"
 msgstr "kunde inte skriva till rör i \"kopiera\""
 
-#: dpkg-deb/extract.c:249
+#: dpkg-deb/extract.c:258
 msgid "failed to close pipe in copy"
 msgstr "kunde inte stänga rör i \"kopiera\""
 
-#: dpkg-deb/extract.c:262
+#: dpkg-deb/extract.c:281
+#, c-format
+msgid "internal gzip error: `%s'"
+msgstr "internt gzip-fel: \"%s\""
+
+#: dpkg-deb/extract.c:287
 msgid "failed to exec gzip -dc"
 msgstr "kunde inte exekvera gzip -dc"
 
-#: dpkg-deb/extract.c:270
+#: dpkg-deb/extract.c:296
 msgid "failed to create directory"
 msgstr "kunde inte skapa katalog"
 
-#: dpkg-deb/extract.c:271
+#: dpkg-deb/extract.c:297
 msgid "failed to chdir to directory after creating it"
 msgstr "kunde inte byta till katalog efter att ha skapat den"
 
-#: dpkg-deb/extract.c:273
+#: dpkg-deb/extract.c:299
 msgid "failed to chdir to directory"
 msgstr "kunde inte byta till katalogen"
 
-#: dpkg-deb/extract.c:287
+#: dpkg-deb/extract.c:313
 msgid "failed to exec tar"
 msgstr "kunde inte exekvera tar"
 
-#: dpkg-deb/extract.c:310 dpkg-deb/extract.c:325 dpkg-deb/info.c:66
+#: dpkg-deb/extract.c:336 dpkg-deb/extract.c:351 dpkg-deb/info.c:66
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s behöver ett .deb-filnamn som argument"
 
-#: dpkg-deb/extract.c:313
+#: dpkg-deb/extract.c:339
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3355,12 +3377,12 @@ msgstr ""
 "--%s behöver en målkatalog.\n"
 "Kanske är det dpkg --install du vill använda?"
 
-#: dpkg-deb/extract.c:316
+#: dpkg-deb/extract.c:342
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s tar som mest två argument (.deb och katalog)"
 
-#: dpkg-deb/extract.c:327
+#: dpkg-deb/extract.c:353
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s tar bara ett argument (.deb-filnamn)"
@@ -5550,6 +5572,9 @@ msgstr ""
 " ^l             rita om skärmen\n"
 "  /             sök (Enter avbryter)\n"
 "  \\             repetera senaste sökning\n"
+
+#~ msgid "failed to exec gzip %s from tar -cf"
+#~ msgstr "kunde inte exekvera gzip %s från tar -cf"
 
 #~ msgid "failed to allocate buffer for snprintf 1"
 #~ msgstr "kunde inte allokera buffer för snprintf 1"
