@@ -159,7 +159,7 @@ if ($opmode eq 'build') {
                 $f{$_}= $v;
             } elsif (s/^X[BS]*C[BS]*-//i) {
                 $f{$_}= $v;
-            } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date)$/ ||
+            } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/ ||
                      m/^X[BS]+-/i) {
             } else {
                 &unknown("parsed version of changelog");
