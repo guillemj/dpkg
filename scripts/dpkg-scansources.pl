@@ -58,7 +58,7 @@ my $Src_override = undef;
 my @Option_spec = (
     'debug!'		=> \$Debug,
     'help!'		=> sub { usage() },
-    'no-sort|n!'	=> \$No_sort,
+    'no-sort|n'		=> \$No_sort,
     'source-override|s=s' => \$Src_override,
     'version'		=> sub { print "$Me version $Version\n"; exit },
 );
