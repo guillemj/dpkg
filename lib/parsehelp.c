@@ -188,17 +188,21 @@ const char *versiondescribe
 
 const char *parseversion(struct versionrevision *rversion, const char *string) {
   char *hyphen, *colon, *eepochcolon;
-  const char *end;
+  const char *end, *ptr;
   unsigned long epoch;
 
   if (!*string) return _("version string is empty");
 
   /* trim leading and trailing space */
   while (*string && (*string == ' ' || *string == '\t') ) string++;
+  /* string now points to the first non-whitespace char */
   end = string;
+  /* find either the end of the string, or a whitespace char */
   while (*end && *end != ' ' && *end != '\t' ) end++;
   /* check for extra chars after trailing space */
-  if (*end) return _("version string has embedded spaces");
+  ptr = end;
+  while (*ptr && ( *ptr == ' ' || *ptr == '\t' ) ) ptr++;
+  if (*ptr) return _("version string has embedded spaces");
 
   colon= strchr(string,':');
   if (colon) {
