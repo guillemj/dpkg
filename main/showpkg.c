@@ -189,6 +189,8 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 					char* i;
 
 					fip->wcall(&fb,pkg,&pkg->installed,fip);
+					if (!fb.used)
+						break;
 					/* Bugger, wcall adds the fieldname and a trailing newline we
 					 * do not need. We should probably improve wcall to only do that
 					 * optionally, but this will do for now (ie this is a TODO)
