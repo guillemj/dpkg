@@ -147,7 +147,7 @@ else
 fi
 sversion=`echo "$version" | perl -pe 's/^\d+://'`
 pv="${package}_${sversion}"
-pva="${package}_${sversion}_${arch}
+pva="${package}_${sversion}_${arch}"
 
 signfile () {
 	if test "$signinterface" = "gpg" ; then
