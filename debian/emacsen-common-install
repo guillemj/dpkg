@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+FLAVOR=$1
+PACKAGE=dpkg-dev
+
+ELDIR=/usr/share/emacs/site-lisp/${PACKAGE}
+ELCDIR=/usr/share/${FLAVOR}/site-lisp/${PACKAGE}
+files="debian-changelog-mode.el"
+flags="-batch --no-site-file -l path.el -f batch-byte-compile"
+
+if [ ${FLAVOR} != emacs ]; then
+  echo install/${PACKAGE}: Byte-compiling for ${FLAVOR}
+
+  install -m 755 -d ${ELCDIR}
+  cd ${ELDIR}
+  cp ${files} ${ELCDIR}
+  cd ${ELCDIR}
+  cat << EOF > path.el
+(setq load-path (cons "." load-path) byte-compile-warnings nil)
+EOF
+  ${FLAVOR} ${flags} ${files}
+  rm -f *.el path.el
+fi
