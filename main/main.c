@@ -549,6 +549,7 @@ int main(int argc, const char *const *argv) {
   char *home, *homerc;
 
   setlocale(LC_ALL, "");
+  setlocale(LC_CTYPE, "C");
   bindtextdomain(PACKAGE, LOCALEDIR);
   textdomain(PACKAGE);
 
