@@ -113,7 +113,7 @@ if ($mode eq "add") {
 	$dowrite=1;
 
 	if ($doupdate) {
-	    if (not -f $file) {
+	    if (not -e $file) {
 		print STDERR "warning: --update given but $file does not exist\n";
 	    } else {
 		chown ($uid,$gid,$file) || warn "failed to chown $file: $!\n";

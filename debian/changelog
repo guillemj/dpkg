@@ -6,13 +6,18 @@ dpkg (1.9.0) unstable; urgency=low
     a warning if used.
   * Update French translation, Closes: Bug#65284
   * Add French manpages, courtesy of Philippe Batailler
-  * Ingore vim swapfiles in dpkg-soruce, Closes: Bug#81630
+  * Ingore vim swapfiles in dpkg-source, Closes: Bug#81630
   * remove --import option from dpkg-statoverride, Closes: Bug#81358
   * Replace nfmalloc implementation with obstack. Added obstack.[ch] to
     optlib, for non-GNU systems.
   * dpkg-divert only allows absolute filenames now. Closes: Bug#82419
   * Handle diffs from non-existing files to existing files. Closes: Bug#82708
   * Small fixes to the buildsystem. Closes: Bug#84361
+  * Fix dpkg-statoverride --update for things other then plain files.
+    Closes: Bug#84449
+  * Fix race with source directory disappearing in dpkg-source.
+    chdir("$dirchdir") || &syserr("cannot chdir to \`$dirchdir' for tar extract");
+    Closes: Bug#82797
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 

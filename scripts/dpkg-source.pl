@@ -935,8 +935,8 @@ sub extracttar {
     &forkgzipread("$tarfileread");
     defined($c2= fork) || &syserr("fork for tar -xkf -");
     if (!$c2) {
-        chdir("$dirchdir") || &syserr("cannot chdir to \`$dirchdir' for tar extract");
         open(STDIN,"<&GZIP") || &syserr("reopen gzip for tar -xkf -");
+        chdir("$dirchdir") || &syserr("cannot chdir to \`$dirchdir' for tar extract");
         &cpiostderr;
         exec('tar','-xkf','-'); &syserr("exec tar -xkf -");
     }
