@@ -219,11 +219,22 @@ $name: unable to determine description for \`dir' entry - giving up
         }
 
         $align--; $calign--;
+        $lprefix= length($cprefix);
+        if ($lprefix < $align) {
+            $cprefix .= ' ' x ($align - $lprefix);
+            $lprefix= $align;
+        }
+        $prefix= "\n". (' 'x $calign);
         $cwidth= $maxwidth+1;
 
         for $_ (split(/\s+/,$description)) {
             $l= length($_);
             $cwidth++; $cwidth += $l;
+            if ($cwidth > $maxwidth) {
+                $infoentry .= $cprefix;
+                $cwidth= $lprefix+1+$l;
+                $cprefix= $prefix; $lprefix= $calign;
+            }
             $infoentry.= ' '; $infoentry .= $_;
         }
 
