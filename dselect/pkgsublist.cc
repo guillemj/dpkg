@@ -164,6 +164,7 @@ void repeatedlydisplay(packagelist *sub,
     if (debug) fprintf(debug,"repeatedlydisplay(packagelist[%p]) once\n",sub);
     if (unredisplay) unredisplay->enddisplay();
     for (;;) {
+      manual_install = 0; /* Remove flag now that resolvesuggest has seen it. */
       newl= sub->display();
       if (!newl) break;
       if (debug) fprintf(debug,"repeatedlydisplay(packagelist[%p]) newl\n",sub);
