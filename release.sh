@@ -10,7 +10,7 @@ rm -rf `find . -name CVS -type d`
 rm -f `find . -name .cvsignore -type f`
 
 # Remove any cruft files...
-rm -f `find . -name '*.orig' -o -name '*.rej' -o -name '*~' -o name '.#*'`
+rm -f `find . -name '*.orig' -o -name '*.rej' -o -name '*~' -o -name '.#*'`
 
 # Generate all the gettext stuff
 cd po
