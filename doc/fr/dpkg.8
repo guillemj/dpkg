@@ -1,5 +1,5 @@
 .\" Hey Emacs! This file is -*- nroff -*- source.
-.\" traduction de la révision CVS 1.11
+.\" traduction de la révision CVS 1.19
 .TH DPKG 8 "April 12, 1998" "Debian Project" "Debian GNU/Linux"
 .SH NOM
 dpkg \- un gestionnaire de paquet de niveau intermédiaire pour Debian GNU-Linux
@@ -155,13 +155,13 @@ paquet.
 .br
 .TP
 \fBdpkg -r\fP | \fB--remove\fP | \fB-P\fP | \fB--purge \fP\fIpaquet\fP ... | \fB-a\fP | \fB--pending\fP
-Supprime un paquet installé. L'action \fB-r\fP or \fB--remove\fP supprime 
+Supprime un paquet installé. L'action \fB-r\fP ou \fB--remove\fP supprime 
 tout sauf
 les fichiers de configuration.  Cela peut éviter la reconfiguration du
 paquet lors d'une réinstallation. (Les fichiers de configuration sont les 
 fichiers répertoriés dans le fichier de contrôle \fIdebian/conffiles\fP.) 
-L'option \fB-P\fP or \fB--purge\fP supprime tout, y compris les fichiers de
-configuration. Si l'on donne l'option \fB-a\fP or \fB--pending\fP à la 
+L'option \fB-P\fP ou \fB--purge\fP supprime tout, y compris les fichiers de
+configuration. Si l'on donne l'option \fB-a\fP ou \fB--pending\fP à la 
 place d'un nom de paquet, tous les paquets non dépaquetés, mais qui sont
 marqués comme devant être supprimés ou purgés
 dans le file \fI/var/lib/dpkg/status\fP, sont respectivement
@@ -196,11 +196,11 @@ distribué avec Debian GNU-Linux est appelé simplement \fIpaquet\fP.
 \fBdpkg -A\fP | \fB--record-avail\fP \fIfichier-paquet\fP ...
 Met à jour les idées de \fBdpkg\fP et de \fBdselect\fP sur les paquets
 disponibles avec les informations qui proviennent de \fIfichier-paquet\fP.
-Si l'option \fB--recursive\fP or \fB-R\fP est donnée, \fIfichier-paquet\fP
-doit alors indiquer un répertoire.
+Si l'option \fB--recursive\fP ou \fB-R\fP est donnée, \fIfichier-paquet\fP
+doit indiquer un répertoire.
 .TP
 .B dpkg --forget-old-unavail
-Oublie ce qui concerne les paquets non-installés ou non-disponibles.
+Oublie ce qui concerne les paquets non installés ou non disponibles.
 .TP
 .B dpkg --clear-avail
 Efface les renseignements existants concernant les paquets disponibles.
@@ -213,7 +213,7 @@ ordinaires du shell sont autorisés dans \fIpaquet-nom-motif\fP. (Il faudra
 sans doute mettre \fIpaquet-nom-motif\fP entre apostrophes pour éviter 
 l'expansion des noms de fichier par le shell. Par exemple, la commande
 \fBdpkg -l 'libc5*'\fP affiche tous les paquets dont le nom commence par
-« libc5 ».)
+«\ libc5\ ».)
 .TP
 \fBdpkg -s\fP | \fB--status\fP \fInom-de-paquet\fP ...
 Rapporte l'état du paquet indiqué. C'est simplement l'affichage de l'entrée
@@ -265,6 +265,12 @@ ne traitent pas les versions supérieures à une version donnée. Les opérateurs
 \fB< << <= = >= >> >\fP ne sont fournis que pour la compatibilité avec la
 syntaxe du fichier de contrôle.
 .TP
+.B dpkg --command-fd <n>
+Cette action accepte une série de commandes sur le descripteur du fichier
+d'entrée \fB<n>\fP.  Note : des options supplémentaires définies sur la
+ligne de commande à travers ce descripteur de fichier ne sont pas redéfinies
+pour les commandes suivantes qui sont exécutées pendant la même séquence.
+.TP
 .B dpkg --help
 Affiche un court message d'aide.
 .TP
@@ -281,7 +287,7 @@ Affiche la licence de \fBdpkg\fP.
 Affiche la version de \fBdpkg\fP.
 .TP
 \fBdpkg-deb-actions\fP
-Voyez \fBdpkg-deb\fP(1) pour des rensenseignements supplémentaires sur les
+Voyez \fBdpkg-deb\fP(1) pour des renseignements supplémentaires sur les
 actions suivantes.
 
 .nf
@@ -313,7 +319,7 @@ Modifie le nombre d'erreurs au delà duquel dpkg s'arrête. il est par défaut
 .BR -B | --auto-deconfigure
 Quand un paquet est supprimé, il peut arriver qu'un paquet installé
 dépendait du paquet supprimé. En spécifiant cette option, on
-obtient la dé-configuration automatique du paquet qui dépendait du paquet 
+obtient la déconfiguration automatique du paquet qui dépendait du paquet 
 supprimé.
 .TP
 \fB-D\fIoctal\fP | \fB--debug=\fP\fIoctal\fP
@@ -345,6 +351,9 @@ forcées par défaut.
 Un usage auquel manque la pleine compréhension de leurs effets
 peut casser le système entier.\fP
 
+\fBall\fP:
+Met en oeuvre (ou pas) toutes les options de forçage.
+
 \fBauto-select\fP(*):
 Sélectionner les paquets pour l'installation, ou la désinstallation.
 
@@ -353,14 +362,14 @@ Installer un paquet, même si une version plus récente du paquet est déjà
 installée.
 
 \fBconfigure-any\fP:
-Configurer aussi les paquets dépaquetés mais non-configurés dont dépend le
+Configurer aussi les paquets dépaquetés mais non configurés dont dépend le
 paquet en question.
 
 \fBhold\fP:
 Traiter même les paquets marqués « à garder » (« hold »).
 
 \fBremove-reinstreq\fP:
-Supprimer un paquet, même cassé et marqué comme demandant une
+Supprimer un paquet, même défectueux et marqué comme demandant une
 réinstallation. Il se peut par exemple que des morceaux de paquet restent 
 sur le système et soient dès lors oubliés par \fBdpkg\fP.
 
@@ -402,7 +411,7 @@ Remplacer un fichier d'un paquet par celui d'un autre.
 Remplacer un répertoire d'un paquet par celui d'un autre.
 
 \fBoverwrite-diverted\fP:
-Remplacer un fichier détourné avec une version non-détournée.
+Remplacer un fichier détourné avec une version non détournée.
 
 \fBarchitecture\fP:
 Traiter même les paquets d'une autre architecture
@@ -421,8 +430,8 @@ spécifiés (en fait, la vérification est faite mais on ne donne rien d'autre que
 des avertissements).
 .TP
 \fB--largemem\fP | \fB--smallmem\fP
-Demander à \fBdpkg\fP soit d'économiser la mémoire (e.g. avec moins de 4 MB
-de mémoire) soit d'en prendre autant qu'il veut.
+Demander à \fBdpkg\fP soit d'économiser la mémoire (p.ex., avec moins de 4 MB
+de mémoire) soit d'en prendre autant qu'il veut (comportement par défaut).
 .TP
 \fB--new\fP | \fB--old\fP
 Sélectionner soit l'ancien format des paquet binaires, soit le nouveau. C'est
@@ -453,7 +462,7 @@ sous-répertoires. On peut utiliser cette option avec les actions
 Ne pas installer un paquet si une version plus récente de ce paquet est déjà
 installée. C'est un alias pour \fB--refuse-downgrade.\fP.
 .TP
-\fB-R\fP | \fB--root=\fP\fIrep\fP | \fB--admindir=\fP\fIrep\fP | \fB--instdir=\fP\fIrep\fP
+\fB--root=\fP\fIrep\fP | \fB--admindir=\fP\fIrep\fP | \fB--instdir=\fP\fIrep\fP
 Changer les répertoires par défaut. \fBadmindir\fP est par défaut 
 \fI/var/lib/dpkg\fP et contient beaucoup de fichiers qui donnent des
 informations sur l'état des paquets installés ou non installés, etc. 
@@ -473,6 +482,11 @@ marqué comme ayant été sélectionné pour l'installation.
 .BR -E " | " --skip-same-version
 Ne pas installer le paquet si la même version du paquet est déjà
 installée.
+.TP
+\fB--status-fd \fP\fI<n>\fP
+Cette action envoie des informations sur l'état d'un paquet au descripteur
+de fichier \fI<n>\fP.  On peut répéter l'opération plusieurs fois.
+La mise à jour d'un état est de la forme : «\ status: <pkg>: <pkg qstate> ».
 
 .SH FICHIERS
 Les fichiers répertoriés ici sont dans leur répertoire par défaut, voyez
@@ -510,6 +524,9 @@ shell plutôt que de s'interrompre, pour faire un appel au shell.
 .TP
 .B SHELL
 Le programme qu'exécute \fBdpkg\fP quand il lance un nouveau shell.
+.B COLUMNS
+Fixe le nombre de colonnes utilisés par \fBdpkg\fP lorsqu'il affiche un texte
+formaté. Seule l'action \fB-l\fP se sert actuellement de cette variable.
 
 .SH EXEMPLES
 Pour afficher les paquets liés à l'éditeur vi :
@@ -545,6 +562,10 @@ Pour faire une copie locale des états de sélection des paquets :
 .br
 \fB     dpkg --get-selections >myselections\fP
 .br
+On remarquera que cela n'installe ou supprime rien du tout ; cela ne fait
+que déterminer l'état de sélection des paquets requis. Vous aurez besoin
+d'autres applications pour transférer et installer réellement les paquets
+requis.
 
 Vous pourriez transférer ce fichier sur un autre ordinateur et l'installer de
 cette manière :
