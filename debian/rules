@@ -129,10 +129,6 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 		done ; \
 	done
 
-	install -d -m 755 -o root -g root $(TMP_DPKG)/etc/dpkg
-	install -p -m 644 -o root -g root debian/dselect.cfg \
-		$(TMP_DPKG)/etc/dpkg/
-
 # Now that dpkg has been installed, Debianize it
 # Policy stuff
 	find $(TMP_DPKG)/usr/share/man -type f | xargs gzip -9f
