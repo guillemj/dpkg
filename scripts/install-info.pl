@@ -400,11 +400,10 @@ foreach ( @work ) {
 		push @newwork, $_;
 	}
 }
-@work = @newwork;
 
 if (!$nowrite) {
     open(NEW,"> $infodir/dir.new") || &ulquit("create $infodir/dir.new: $!");
-    print(NEW @head,@work) || &ulquit("write $infodir/dir.new: $!");
+    print(NEW @head,join("\n",@newwork)) || &ulquit("write $infodir/dir.new: $!");
     close(NEW) || &ulquit("close $infodir/dir.new: $!");
 
     unlink("$infodir/dir.old");
