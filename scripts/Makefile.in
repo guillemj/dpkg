@@ -22,8 +22,6 @@ CHANGELOG_PARSERS	= cl-debian
 
 SCRIPTLIBS		= controllib.pl
 
-LISPFILES		= debian-changelog-mode.el
-
 GEN_MAN8PAGES		= dpkg-scansources.8
 
 MAN_SOURCE_ALIASES	= dpkg-gencontrol.1 dpkg-genchanges.1 dpkg-buildpackage.1 \
@@ -70,11 +68,6 @@ install-program:
 	set -e ; for i in $(SCRIPTLIBS) ; do \
 		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
 		$(INSTALL_DATA) $$d$$i $(DESTDIR)/$(dpkglibdir) ; \
-	done
-	$(mkinstalldirs) $(DESTDIR)/$(elispdir)
-	set -e ; for i in $(LISPFILES) ; do \
-		if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
-		$(INSTALL_DATA) $$d$$i $(DESTDIR)/$(elispdir) ; \
 	done
 
 .PHONY: install-doc

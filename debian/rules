@@ -187,11 +187,6 @@ binary-dpkg-dev: stamp-binary
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share/doc
 	ln -s dpkg $(TMP_DPKG_DEV)/usr/share/doc/dpkg-dev
 
-# Of course our own emacs system
-	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/etc/emacs/site-start.d
-	install -p -m 644 -o root -g root debian/50dpkg-dev.el \
-		$(TMP_DPKG_DEV)/etc/emacs/site-start.d
-
 # Final package creation
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/DEBIAN
 	install -p -m 644 -o root -g root debian/dpkg-dev.conffiles $(TMP_DPKG_DEV)/DEBIAN/conffiles
