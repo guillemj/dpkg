@@ -138,7 +138,7 @@ mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source pac
 mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version"
 if [ -n "$maint" ]; then maintainer="$maint"; 
 else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
-eval `dpkg-architecture -a${arch} -t${targetgnusystem} -s -f`
+eval `dpkg-architecture -a${targetarch} -t${targetgnusystem} -s -f`
 
 if [ x$sourceonly = x ]; then
 	mustsetvar arch "`dpkg-architecture -a${targetarch} -t${targetgnusystem} -qDEB_BUILD_ARCH`" "build architecture"

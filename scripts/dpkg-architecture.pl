@@ -57,7 +57,7 @@ require 'controllib.pl';
 	    'mips',      'mips-linux',
 	    'mipsel',    'mipsel-linux',
 	    'sh',        'sh-linux',
-	    'shed',      'shed-linux',
+	    'sheb',      'sheb-linux',
 	    'hppa',      'hppa-linux',
 	    'hurd-i386', 'i386-gnu',
 	    's390',	 's390-linux',
