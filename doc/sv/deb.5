@@ -1,0 +1,76 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Authors: Raul Miller, Ian Jackson
+.\" Translation of CVS revision 1.3
+.TH DEB 5 "Januari 2000" "Debianprojektet" "Debian GNU/Linux"
+.SH NAME 
+deb \- Debian GNU/Linux binära paketformat
+.SH SYNOPSIS
+.IB filenamn .deb
+.SH BESKRIVNING
+.BR .deb -formatet
+är Debians binära paketformat. Det förstås av dpkg 0.93.76 och senare, och
+genereras som förval av alla versioner av dpkg sedan 1.2.0, och alla
+i386/ELF-versioner sedan 1.1.1elf.
+.PP
+Formatet som beskrivs här används sedan Debian 0.93; detaljer om det
+gamla formatet finns i
+.BR deb-old (5).
+.SH FORMAT
+Filen är ett
+.BR ar -arkiv
+med det magiska numret
+.BR !<arch> .
+.PP
+Den första posten i arkivet heter
+.B debian-binary
+och innehåller ett antal rader, avdelade med nyradstecken.
+För närvarande, när denna manualsida skrivs, finns endast en rad,
+formatets versionsnummer,
+.BR 2.0 .
+Program som läser arkiv i det nya formatet bör vara förberedda på
+att underversionsnumret kan komma att ökas, och att nya rader kan
+förekomma, och skall i så fall ignorera dessa.
+.PP
+Om huvudversionsnumret har ändrats har en inkompatibel ändring införts,
+och programmet skall avbrytas. Om så inte har gjorts, skall programmet
+kunna fortsätta utan problem, såvida det inte stöter på en oväntad
+post i arkivet (förutom i slutet), enligt vad beskrivs nedan.
+.PP
+Den anda krävda posten heter
+.B control.tar.gz .
+Det är ett gzip-packat tar-arkiv som innehåller paketets
+kontrollinformation, lagrade som ett antal filer, av vilka filen
+.B control
+krävs. Filen innehåller grundläggande kontrollinformation.
+Se
+.I "Debian Packaging Manual, sektion 2.2"
+för detaljer om dessa filer.
+Tarfilen control kan eventuellt innehålla en post för
+.RB " . ",
+den aktuella katalogen.
+.PP
+Den tredje och sista krävda posten heter
+.B data.tar.gz .
+Den innehåller filsystemsarkivet, lagrat som ett gzip-packat tar-arkiv.
+.PP
+Dessa poster måste ligga i exakt denna ordning. Nuvarande implementationer
+bör ignorera eventuella ytterligare poster efter
+.BR data.tar.gz .
+Ytterligare poster kan komma att definieras i framtiden, och (om möjligt)
+kommer placeras efter dessa tre. Eventuella ytterligare poster som kan komma
+att behöva finnas före
+.B data.tar.gz
+och som kan ignoreras av äldre program utan problem kommer att ha namn som
+börjar med understreck,
+.RB " _ ".
+.PP
+Nya poster som inte kommer att kunna ignoreras utan problem kommer att
+läggas in före
+.B data.tar.gz
+med namn som börjar med något annat än understreck, eller (mer troligt)
+gör att huvudversionsnumret ökas.
+.SH SE ÄVEN
+.BR deb (5),
+.BR dpkg-deb (8),
+.BR deb-control (5),
+.IR "Debian Packaging Manual".

@@ -74,7 +74,6 @@ Usage: \n\
   dpkg -l|--list [<pattern> ...]           list packages concisely\n\
   dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n\
   dpkg -C|--audit                          check for broken package(s)\n\
-  dpkg --abort-after <n>                   abort after encountering <n> errors\n\
   dpkg --print-architecture                print target architecture (uses GCC)\n\
   dpkg --print-gnu-build-architecture      print GNU version of target arch\n\
   dpkg --print-installation-architecture   print host architecture (for inst'n)\n\
@@ -103,6 +102,7 @@ Options:\n\
   --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
   --force-...                    Override problems - see --force-help\n\
   --no-force-...|--refuse-...    Stop when problems encountered\n\
+  --abort-after <n>              abort after encountering <n> errors\n\
 \n\
 Comparison operators for --compare-versions are:\n\
  lt le eq ne ge gt       (treat no version as earlier than any version);\n\

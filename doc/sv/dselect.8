@@ -1,0 +1,101 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Translation of CVS revision 1.2
+.TH DSELECT 8 "Januari 2000" "Debianprojektet" "Debian GNU/Linux"
+.SH NAMN
+dselect \- konsolbaserat pakethanteringssystem för Debian
+.SH SYNOPSIS
+.B dselect
+[--admindir <katalog>] [--help] [--version] [--licence | --license]
+[--expert] [--debug <fil> | -D <fil>] [\fI<handling>\fP]
+.SH BESKRIVNING
+.B dselect
+är det primära användargränssnittet för att installera, ta bort och
+hantera paket i Debian GNU/Linux. Det är ett skal runt
+.B dpkg(8).
+Vanligtvis anropas
+.B dselect
+utan parametrar, men några kommandoradsflaggor finns ändå att tillgå.
+.PP
+.B Dselect
+är rätt självförklarande, och det medföljande interna hjälpsystemet
+beskriver tangentbordskombinationer och grundläggande koncept.
+.I Läs hjälpen.
+.SS HANDLINGAR
+.TP
+.B Access
+(Åtkomst)
+Väljer en "åtkomstmetod" för att komma åt paketsamlingen.
+Som standard finns flera olika metoder, såsom "floppy" (diskett),
+"harddisk" (hårddisk) och "cdrom", men andra paket du installerar kan
+tillhandahålla ytterligare metoder, t.ex "apt" eller "multi_cd" osv.
+.TP
+.B Update
+(Uppdatera)
+Uppdaterar listan över paket dpkg/dselet kan komma åt med data från
+den valda paketsamlingens Packages-fil(er).
+.TP
+.B Select
+(Välj)
+Väljer de individuella paket som skall installeras.
+.TP
+.B Install
+(Installera)
+Installerar valda paket.
+.TP
+.B Config
+(Konfigurera)
+Konfigurera paket som ännu ej konfigurerats.
+.TP
+.B Remove
+(Radera)
+Tar bort eller helt raderar avmarkerade paket.
+.TP
+.B Quit
+(Avsluta)
+Avslutar dselect (lyckat).
+.SH FLAGGOR
+.TP
+.B --admindir <katalog>
+Ändrar namnet på katalogen där dpkg letar efter filerna "status", "available"
+m.fl. Förval är
+.I /var/lib/dpkg
+och du bör normalt sett inte behöva ändra det.
+.TP
+.B --debug <fil> | -D<fil>
+Slå på felsökningsläge. Felsökningsinformation lagras i
+.I <fil>.
+.TP
+.B --expert
+Slår på expertläge, dvs. visar inte hjälpmeddelanden som kanske kan vara
+irriterande.
+.TP
+.B --help
+Visar en kort hjälptext och ger lyckat avslut.
+.TP
+.B --licence | --license
+Visar upphovsrättslig och licensinformation om dselect, och ger lyckat
+avslut.
+.TP
+.B --version
+Visar versionsinformation och ger lyckat avslut.
+.SH BUGS
+The
+.B dselect
+package selection interface is confusing or even alarming to a new user.
+.sp
+.B dselect
+hanterar inte Recommends:-fältet speciellt bra, och förstår inte alls
+Replaces:.
+.sp
+Det finns inte något enkelt sätt att automatiskt hämta och installera
+paket via anonym ftp med de normala åtkomstmetoderna (APT stöder det).
+.SH SE ÄVEN
+.BR dpkg (8),
+.BR deb (5).
+.SH FÖRFATTARE
+.B dselect
+skrevs av (ijackson@gnu.ai.mit.edu).
+En komplett lista över bidragslämnare får du med "dselect --license".
+.br
+Denna manualsida skrevs av Juho Vuori <javuori@cc.helsinki.fi>,
+uppdaterades av Josip Rodin och översattes av Peter Karlsson.

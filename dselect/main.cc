@@ -148,7 +148,8 @@ void curseson() {
       if (!smso)
         fputs(_("Terminal does not appear to support highlighting.\n"),stderr);
       fputs(_("Set your TERM variable correctly, use a better terminal,\n"
-            "or make do with the per-package management tool " DPKG ".\n"),stderr);
+            "or make do with the per-package management tool "),stderr);
+      fputs(DPKG ".\n",stderr);
       ohshit(_("terminal lacks necessary features, giving up"));
     }
   }

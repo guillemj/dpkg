@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.6.5\n"
-"POT-Creation-Date: 2000-03-10 13:52+1100\n"
-"PO-Revision-Date: 1999-12-31 19:55+0100\n"
+"Project-Id-Version: dpkg 1.6.12\n"
+"POT-Creation-Date: 2000-05-07 16:02+0200\n"
+"PO-Revision-Date: 2000-04-19 16:44+0100\n"
 "Last-Translator: Piotr Roszatycki <dexter@debian.org>\n"
 "Language-Team: Polish\n"
 "MIME-Version: 1.0\n"
@@ -407,10 +407,8 @@ msgid "unable to open/create status database lockfile"
 msgstr "nie mo¿na otworzyæ/utworzyæ pliku blokuj±cego bazê danych stanu dpkg"
 
 #: lib/lock.c:78
-#, fuzzy
 msgid "status database area is locked by another process"
-msgstr ""
-"baza danych stanu jest zablokowana - inny dpkg/dselect jest ju¿ uruchomiony"
+msgstr "baza danych stanu jest zablokowana przez inny proces"
 
 #: lib/lock.c:79
 msgid "unable to lock dpkg status database"
@@ -977,9 +975,8 @@ msgid "error closing find's pipe"
 msgstr "nie mo¿na zamkn±æ potoku z `find'"
 
 #: main/archives.c:765
-#, fuzzy
 msgid "searched, but found no packages (files matching *.deb)"
-msgstr "przeszukane, ale nie znaleziono ¿adnych pakietów (plików *.deb"
+msgstr "przeszukane, ale nie znaleziono ¿adnych pakietów (plików *.deb)"
 
 #: main/archives.c:781
 #, c-format
@@ -1517,8 +1514,9 @@ msgid "(no description available)"
 msgstr "(brak dostêpnego opisu)"
 
 #: main/enquiry.c:92
+#, fuzzy
 msgid ""
-"Desired=Unknown/Install/Remove/Purge\n"
+"Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
@@ -1528,7 +1526,6 @@ msgstr ""
 "Stan=N=Brak/I=Zainst./C=Skonfig./U=Rozpakowany/F=Nieskonfig./H=Wpó³-zainst.\n"
 "|/ B³êdy?=(brak)/H=Wstrzym./R=Do przeinst./X=Obydwa "
 "(Stan,B³êdy:wielk.lit.=¼le)\n"
-"||/ Nazwa           Wersja         Opis\n"
 
 #: main/enquiry.c:96
 msgid "Name"
@@ -1538,7 +1535,7 @@ msgstr "Nazwa"
 msgid "Version"
 msgstr "Wersja"
 
-#: dselect/methlist.cc:113 dselect/pkgtop.cc:296 main/enquiry.c:96
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:96
 msgid "Description"
 msgstr "Opis"
 
@@ -1568,10 +1565,11 @@ msgstr ""
 "wywo³anie dpkg --configure lub u¿ycie opcji konfiguracji w menu dselect.\n"
 
 #: main/enquiry.c:187
+#, fuzzy
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
-"dpkg --configure <package> or the configure menu option in "
+"dpkg --configure <package> or the configure menu option in dselect:\n"
 msgstr ""
 "Ni¿ej wymienione pakiety zosta³y wpó³-skonfigurowane, gdy¿ prawdopodobnie\n"
 "wyst±pi³y problemy podczas ich konfigurowania. Proces ten powinien byæ "
@@ -1974,7 +1972,7 @@ msgstr "konflikt dla ominiêcia `%.250s' lub `%.250s'"
 msgid "read error in diversions [i]"
 msgstr "nie mo¿na odczytaæ ominiêcia [i]"
 
-#: dselect/pkgdisplay.cc:51 main/help.c:41
+#: dselect/pkgdisplay.cc:50 main/help.c:41
 msgid "not installed"
 msgstr "nie zainstalowany"
 
@@ -1986,7 +1984,7 @@ msgstr "rozpakowany ale nie skonfigurowany"
 msgid "broken due to postinst failure"
 msgstr "uszkodzony podczas przetwarzania skryptu `postinst'"
 
-#: dselect/pkgdisplay.cc:54 main/help.c:44
+#: dselect/pkgdisplay.cc:53 main/help.c:44
 msgid "installed"
 msgstr "zainstalowany"
 
@@ -2134,7 +2132,7 @@ msgstr ""
 "Wiêcej szczegó³ów zobacz w --licence.\n"
 
 #: main/main.c:58
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2157,8 +2155,6 @@ msgid ""
 "  dpkg -l|--list [<pattern> ...]           list packages concisely\n"
 "  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n"
 "  dpkg -C|--audit                          check for broken package(s)\n"
-"  dpkg --abort-after <n>                   abort after encountering <n> "
-"errors\n"
 "  dpkg --print-architecture                print target architecture (uses "
 "GCC)\n"
 "  dpkg --print-gnu-build-architecture      print GNU version of target arch\n"
@@ -2193,6 +2189,7 @@ msgid ""
 "  --ignore-depends=<package>,... Ignore dependencies involving <package>\n"
 "  --force-...                    Override problems - see --force-help\n"
 "  --no-force-...|--refuse-...    Stop when problems encountered\n"
+"  dpkg --abort-after <n>     abort after encountering <n> errors\n"
 "\n"
 "Comparison operators for --compare-versions are:\n"
 " lt le eq ne ge gt       (treat no version as earlier than any version);\n"
@@ -2299,7 +2296,7 @@ msgstr ""
 "\n"
 "Opcje oznaczone [*] podaj± du¿o tre¶ci - skieruj potok na `less' lub `more' !"
 
-#: dpkg-deb/main.c:133 main/main.c:179 split/main.c:142
+#: dpkg-deb/main.c:135 main/main.c:179 split/main.c:142
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "konflikt miêdzy dzia³aniem --%s i --%s"
@@ -2364,7 +2361,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "b³êdna warto¶æ liczbowa dla --%s: `%.250s'"
 
 #: main/main.c:263
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2400,7 +2397,7 @@ msgid ""
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
-"dpkg - opcje wymuszenia - dzia³ania w przypadku wyst±pienia problemów:\n"
+"%s - opcje wymuszenia - dzia³ania w przypadku wyst±pienia problemów:\n"
 "  ostrze¿ ale kontynuuj:  --force-<opcja>,<opcja>,...\n"
 "  wstrzymaj i zg³o¶ b³±d: --refuse-<opcja>,<opcja>,... | "
 "--no-force-<opcja>,...\n"
@@ -2413,7 +2410,7 @@ msgstr ""
 "  bad-path              Zignorowanie braków programów w ¶cie¿ce zmiennej "
 "PATH\n"
 "  not-root              Próba (de)instalacji gdy dpkg nie uruchomi³ root\n"
-"  overwrite             Nadpisanie plików z innych pakietów\n"
+"  overwrite[*]          Nadpisanie plików z innych pakietów\n"
 "  overwrite-diverted    Napisanie ominiêtych plików nieominiêtymi\n"
 "  depends-version [!]   Zignorowanie problemów z wersj± przy zale¿no¶ciach\n"
 "  depends [!]           Zignorowanie wszelkich problemów z zale¿no¶ciami\n"
@@ -2442,7 +2439,7 @@ msgstr "nieznana opcja force/refuse `%.*s'"
 msgid "failed to exec dpkg-deb"
 msgstr "nie mo¿na wykonaæ `dpkg-deb'"
 
-#: dpkg-deb/main.c:153 main/main.c:417 split/main.c:163
+#: dpkg-deb/main.c:155 main/main.c:417 split/main.c:163
 msgid "need an action option"
 msgstr "nale¿y okre¶liæ dzia³anie"
 
@@ -3120,18 +3117,17 @@ msgid "no compression copy loop"
 msgstr "brak kompresji dla kopii"
 
 #: dpkg-deb/build.c:290
-#, fuzzy, c-format
+#, c-format
 msgid "failed to exec gzip %s from tar --exclude"
-msgstr "nie mo¿na wykonaæ polecenia `gzip -9c' dla `tar --exclude'"
+msgstr "nie mo¿na wykonaæ polecenia `gzip %s' dla `tar --exclude'"
 
 #: dpkg-deb/build.c:305
 msgid "failed to rewind tmpfile (data)"
 msgstr "nie mo¿na przewin±æ tymczasowego pliku dla archiwum z danymi"
 
 #: dpkg-deb/build.c:308
-#, fuzzy
 msgid "failed to exec cat (data)"
-msgstr "nie mo¿na wywo³aæ `tar'"
+msgstr "nie mo¿na wywo³aæ `cat' dla archiwum z danymi"
 
 #: dpkg-deb/extract.c:48
 msgid "failed to exec sh -c mv foo/* &c"
@@ -3315,9 +3311,9 @@ msgstr ""
 "Byæ mo¿e nale¿y u¿yæ dpkg --install"
 
 #: dpkg-deb/extract.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
-msgstr "--%s wymaga podania co najwy¿ej dwóch argumentów (.deb oraz katalogu"
+msgstr "--%s wymaga podania co najwy¿ej dwóch argumentów (.deb oraz katalogu)"
 
 #: dpkg-deb/extract.c:331
 #, c-format
@@ -3421,6 +3417,11 @@ msgid "--contents takes exactly one argument"
 msgstr "--contents wymaga podania dok³adnie jednego argumentu"
 
 #: dpkg-deb/main.c:46
+#, fuzzy
+msgid "' package archive backend version "
+msgstr "' program do zarz±dzania pakietami, wersja "
+
+#: dpkg-deb/main.c:48
 msgid ""
 "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
 "GNU General Public Licence version 2 or later for copying conditions.\n"
@@ -3432,7 +3433,7 @@ msgstr ""
 "lub której¶ z pó¼niejszych wersji. Brak JAKIEJKOLWIEK gwarancji.\n"
 "Wiêcej szczegó³ów zobacz w --licence.\n"
 
-#: dpkg-deb/main.c:53
+#: dpkg-deb/main.c:55
 msgid ""
 "Usage: dpkg-deb -b|--build <directory> [<deb>]    Build an archive.\n"
 "       dpkg-deb -c|--contents <deb>               List contents.\n"
@@ -3484,7 +3485,7 @@ msgstr ""
 "rozpakowane poleceniem `dpkg-deb --extract' nie bêd± poprawnie zainstalowane "
 "!\n"
 
-#: dpkg-deb/main.c:79
+#: dpkg-deb/main.c:81
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -3940,26 +3941,26 @@ msgstr "%s: %d z %d plik(ów) ma b³êdny skrót MD5\n"
 msgid "%s: no files checked\n"
 msgstr "%s: nie sprawdzono ¿adnych plików\n"
 
-#: dselect/basecmds.cc:101
+#: dselect/basecmds.cc:99
 msgid "Search for ? "
 msgstr "Szukaj ? "
 
-#: dselect/basecmds.cc:132
+#: dselect/basecmds.cc:130
 msgid "Help: "
 msgstr "Pomoc: "
 
-#: dselect/basecmds.cc:138
+#: dselect/basecmds.cc:136
 msgid ""
 "? = help menu    Space = exit help    . = next help    or a help page key "
 msgstr ""
 "? = menu     Spacja = wyj¶cie    . = nastêpna strona    lub kod strony "
 "pomocy "
 
-#: dselect/basecmds.cc:146
+#: dselect/basecmds.cc:144
 msgid "Help information is available under the following topics:"
 msgstr "Informacje pomocy s± dostêpne pod nastêpuj±cymi tematami:"
 
-#: dselect/basecmds.cc:154
+#: dselect/basecmds.cc:152
 msgid ""
 "Press a key from the list above, Space to exit help,\n"
 "  or `.' (full stop) to read each help page in turn. "
@@ -3967,13 +3968,13 @@ msgstr ""
 "Wybierz klawisz z powy¿szej listy, Spacja = wyj¶cie,\n"
 "  lub `.' (kropka) pokazuje po kolei strony pomocy. "
 
-#: dselect/basecmds.cc:160
+#: dselect/basecmds.cc:158
 msgid "error reading keyboard in help"
 msgstr "nie mo¿na odczytaæ klawisza pomocy"
 
 #: dselect/baselist.cc:53
 msgid "ioctl(TIOCGWINSZ) failed"
-msgstr ""
+msgstr "nie powiod³o siê wywo³anie ioctl(TIOCGWINSZ)"
 
 #: dselect/baselist.cc:56
 msgid "doupdate in SIGWINCH handler failed"
@@ -4079,216 +4080,216 @@ msgstr "%s - wiêcej"
 msgid "%s to go back"
 msgstr "%s - powrót"
 
-#: dselect/bindings.cc:71
+#: dselect/bindings.cc:69
 msgid "[not bound]"
 msgstr "[nie skojarzone]"
 
-#: dselect/bindings.cc:75
+#: dselect/bindings.cc:73
 #, c-format
 msgid "[unk: %d]"
 msgstr "[nieznane: %d]"
 
 #. Actions which apply to both types of list.
-#: dselect/bindings.cc:129
+#: dselect/bindings.cc:127
 msgid "Scroll onwards through help/information"
 msgstr "Przewiniêcie pomocy/informacji"
 
-#: dselect/bindings.cc:130
+#: dselect/bindings.cc:128
 msgid "Scroll backwards through help/information"
 msgstr "Cofniêcie pomocy/informacji"
 
-#: dselect/bindings.cc:131
+#: dselect/bindings.cc:129
 msgid "Move up"
 msgstr "W górê"
 
-#: dselect/bindings.cc:132
+#: dselect/bindings.cc:130
 msgid "Move down"
 msgstr "W dó³"
 
-#: dselect/bindings.cc:133
+#: dselect/bindings.cc:131
 msgid "Go to top of list"
 msgstr "Pocz±tek listy"
 
-#: dselect/bindings.cc:134
+#: dselect/bindings.cc:132
 msgid "Go to end of list"
 msgstr "Koniec listy"
 
-#: dselect/bindings.cc:135
+#: dselect/bindings.cc:133
 msgid "Request help (cycle through help screens)"
 msgstr "Wywo³anie pomocy (przewijanie ekranów pomocy)"
 
-#: dselect/bindings.cc:136
+#: dselect/bindings.cc:134
 msgid "Cycle through information displays"
 msgstr "Przewijanie ekranów z informacjami"
 
-#: dselect/bindings.cc:137
+#: dselect/bindings.cc:135
 msgid "Redraw display"
 msgstr "Przerysowanie ekranu"
 
-#: dselect/bindings.cc:138
+#: dselect/bindings.cc:136
 msgid "Scroll onwards through list by 1 line"
 msgstr "Przesuniêcie listy o jedn± liniê"
 
-#: dselect/bindings.cc:139
+#: dselect/bindings.cc:137
 msgid "Scroll backwards through list by 1 line"
 msgstr "Cofniêcie listy o jedn± liniê"
 
-#: dselect/bindings.cc:140
+#: dselect/bindings.cc:138
 msgid "Scroll onwards through help/information by 1 line"
 msgstr "Przesuniêcie ekranu pomocy/informacji o jedn± liniê"
 
-#: dselect/bindings.cc:141
+#: dselect/bindings.cc:139
 msgid "Scroll backwards through help/information by 1 line"
 msgstr "Cofniêcie ekranu pomocy/informacji o jedn± liniê"
 
-#: dselect/bindings.cc:142
+#: dselect/bindings.cc:140
 msgid "Scroll onwards through list"
 msgstr "Przewiniêcie listy w dó³"
 
-#: dselect/bindings.cc:143
+#: dselect/bindings.cc:141
 msgid "Scroll backwards through list"
 msgstr "Przewiniêcie listy w górê"
 
 #. Actions which apply only to lists of packages.
-#: dselect/bindings.cc:146
+#: dselect/bindings.cc:144
 msgid "Mark package(s) for installation"
 msgstr "Zaznaczenie pakietu do instalacji"
 
-#: dselect/bindings.cc:147
+#: dselect/bindings.cc:145
 msgid "Mark package(s) for deinstallation"
 msgstr "Zaznaczenie pakietu do skasowania"
 
-#: dselect/bindings.cc:148
+#: dselect/bindings.cc:146
 msgid "Mark package(s) for deinstall and purge"
 msgstr "Zaznaczenie pakietu do wyczyszczenia"
 
-#: dselect/bindings.cc:149
+#: dselect/bindings.cc:147
 msgid "Make highlight more specific"
 msgstr "W³±czenie szczegó³owych informacji"
 
-#: dselect/bindings.cc:150
+#: dselect/bindings.cc:148
 msgid "Make highlight less specific"
 msgstr "Wy³±czenie szczegó³owych informacji"
 
-#: dselect/bindings.cc:151
+#: dselect/bindings.cc:149
 msgid "Search for a package whose name contains a string"
 msgstr "Szukanie nazwy pakietu zawieraj±cej ci±g znaków"
 
-#: dselect/bindings.cc:152
+#: dselect/bindings.cc:150
 msgid "Repeat last search."
 msgstr "Powtórzenie ostatniego szukania."
 
-#: dselect/bindings.cc:153
+#: dselect/bindings.cc:151
 msgid "Swap sort order priority/section"
 msgstr "Zmiana sposobu uporz±dkowania pakietów"
 
-#: dselect/bindings.cc:154
+#: dselect/bindings.cc:152
 msgid "Quit, confirming, and checking dependencies"
 msgstr "Wyj¶cie z potwierdzeniem i sprawdzeniem zale¿no¶ci"
 
-#: dselect/bindings.cc:155
+#: dselect/bindings.cc:153
 msgid "Quit, confirming without check"
 msgstr "Wyj¶cie z potwiedzeniem bez sprawdzenia"
 
-#: dselect/bindings.cc:156
+#: dselect/bindings.cc:154
 msgid "Quit, rejecting conflict/dependency suggestions"
 msgstr "Wyj¶cie z odrzuceniem konfliktów/sugestii"
 
-#: dselect/bindings.cc:157
+#: dselect/bindings.cc:155
 msgid "Abort - quit without making changes"
 msgstr "Wycofanie siê bez dokonania zmian"
 
-#: dselect/bindings.cc:158
+#: dselect/bindings.cc:156
 msgid "Revert to old state for all packages"
 msgstr "Przywrócenie poprzedniego stanu pakietów"
 
-#: dselect/bindings.cc:159
+#: dselect/bindings.cc:157
 msgid "Revert to suggested state for all packages"
 msgstr "Przywrócenie sugerowanego stanu pakietów"
 
-#: dselect/bindings.cc:160
+#: dselect/bindings.cc:158
 msgid "Revert to directly requested state for all packages"
 msgstr "Przywrócenie rz±danego stanu pakietów"
 
 #. Actions which apply only to lists of methods.
-#: dselect/bindings.cc:163
+#: dselect/bindings.cc:161
 msgid "Select currently-highlighted access method"
 msgstr "Wybór metody dostêpu"
 
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:162
 msgid "Quit without changing selected access method"
 msgstr "Wyj¶cie bez zmiany metody dostêpu"
 
-#: dselect/main.cc:55
+#: dselect/main.cc:53
 msgid "Type dselect --help for help."
 msgstr "Wpisz dselect --help aby otrzymaæ pomoc."
 
-#: dselect/main.cc:71
+#: dselect/main.cc:69
 msgid "access"
 msgstr "dostêp"
 
-#: dselect/main.cc:71
+#: dselect/main.cc:69
 msgid "Choose the access method to use."
 msgstr "Wybór metody dostêpu."
 
-#: dselect/main.cc:72
+#: dselect/main.cc:70
 msgid "update"
 msgstr "aktualizacja"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:70
 msgid "Update list of available packages, if possible."
 msgstr "Zaktualizowanie informacji o dostêpnych pakietach."
 
-#: dselect/main.cc:73
+#: dselect/main.cc:71
 msgid "select"
-msgstr "wybrór"
+msgstr "wybór"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:71
 msgid "Request which packages you want on your system."
 msgstr "Wybór pakietów instalowanych w systemie"
 
-#: dselect/main.cc:74 dselect/pkgdisplay.cc:39
+#: dselect/main.cc:72 dselect/pkgdisplay.cc:37
 msgid "install"
 msgstr "instalacja"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:72
 msgid "Install and upgrade wanted packages."
 msgstr "Instalacja i uaktualnienie wybranych pakietów."
 
-#: dselect/main.cc:75
+#: dselect/main.cc:73
 msgid "config"
 msgstr "konfiguracja"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:73
 msgid "Configure any packages that are unconfigured."
 msgstr "Konfiguracja pakietów, które pozosta³y nieskonfigurowane."
 
-#: dselect/main.cc:76 dselect/pkgdisplay.cc:41
+#: dselect/main.cc:74 dselect/pkgdisplay.cc:39
 msgid "remove"
 msgstr "skasowanie"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:74
 msgid "Remove unwanted software."
 msgstr "Skasowanie niechcianych pakietów."
 
-#: dselect/main.cc:77
+#: dselect/main.cc:75
 msgid "quit"
 msgstr "Wyj¶cie"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:75
 msgid "Quit dselect."
 msgstr "Wyj¶cie z dselect."
 
-#: dselect/main.cc:78
+#: dselect/main.cc:76
 msgid "menu"
 msgstr "menu"
 
-#: dselect/main.cc:83
+#: dselect/main.cc:81
 #, c-format
 msgid "Debian GNU/Linux `%s' package handling frontend."
 msgstr "Debian GNU/Linux `%s', nak³adka na program zarz±dzania pakietami."
 
-#: dselect/main.cc:86
+#: dselect/main.cc:84
 #, c-format
 msgid ""
 "Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
@@ -4300,10 +4301,9 @@ msgstr ""
 "Niniejszy program jest oprogramowaniem wolnodostêpnym, rozpowszechnianym\n"
 "na warunkach Powszechnej Licencji Publicznej GNU wersji 2-giej tej Licencji\n"
 "lub której¶ z pó¼niejszych wersji. Brak JAKIEJKOLWIEK gwarancji.\n"
-"Wiêcej szczegó³ów zobacz w dpkg-split --licence.\n"
+"Wiêcej szczegó³ów zobacz w dselect --licence.\n"
 
-#: dselect/main.cc:98
-#, fuzzy
+#: dselect/main.cc:96
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -4314,24 +4314,23 @@ msgstr ""
 "U¿ycie: dselect [opcje]\n"
 "        dselect [opcje] dzia³anie ...\n"
 "Opcje:    --admindir <katalog>  (domy¶lnie /var/lib/dpkg)\n"
-"          --help  --version  --licence  --expert  --debug <plik> | -D<plik> "
-"| -D\n"
+"          --help  --version  --licence  --expert  --debug <plik> | -D<plik>\n"
 "Dzia³ania:  access update select install config remove quit menu\n"
 
-#: dselect/main.cc:118
+#: dselect/main.cc:116
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "nie mo¿na otworzyæ pliku debuggera `%.255s'\n"
 
-#: dselect/main.cc:149
+#: dselect/main.cc:147
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Terminal nie obs³uguje adresowania kursora.\n"
 
-#: dselect/main.cc:151
+#: dselect/main.cc:149
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Terminal nie obs³uguje pod¶wietlania.\n"
 
-#: dselect/main.cc:152
+#: dselect/main.cc:150
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
@@ -4339,12 +4338,11 @@ msgstr ""
 "Proszê poprawnie ustawiæ zmienn± TERM, u¿yæ lepszego terminala,\n"
 "lub wykorzystaæ narzêdzie do zarz±dzania pakietami z linii poleceñ "
 
-#: dselect/main.cc:154
+#: dselect/main.cc:153
 msgid "terminal lacks necessary features, giving up"
 msgstr "brak potrzebnych funkcji dla terminala"
 
-#: dselect/main.cc:233
-#, fuzzy
+#: dselect/main.cc:232
 msgid ""
 "\n"
 "\n"
@@ -4354,65 +4352,67 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"U¿ycie ^P oraz ^N, klawiszy kursora, pierwszych liter lub cyfr dla "
-"dokonania\n"
-"wyboru;     ENTER - potwiedzenie wyboru.   ^L przerysowanie ekranu.\n"
+"U¿yj ^P oraz ^N, klawiszy kursora, pierwszych liter lub cyfr;\n"
+"Wci¶nij ENTER dla potwiedzenie wyboru.   ^L przerysowanie ekranu.\n"
 "\n"
 
-#: dselect/main.cc:247
+#: dselect/main.cc:246
 msgid ""
 "\n"
 "\n"
 "Read-only access: only preview of selections is available!"
 msgstr ""
+"\n"
+"\n"
+"Tryb tylko do odczytu: mo¿na jedynie przegl±daæ listê pakietów!"
 
-#: dselect/main.cc:261
+#: dselect/main.cc:260
 msgid "failed to getch in main menu"
 msgstr "nie mo¿na wywo³aæ `getch' w g³ównym menu"
 
-#: dselect/main.cc:328
+#: dselect/main.cc:327
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "nieznane dzia³anie `%.50s'"
 
-#: dselect/methlist.cc:69
+#: dselect/methlist.cc:67
 msgid "dselect - list of access methods"
 msgstr "dselect - lista metod dostêpu"
 
-#: dselect/methlist.cc:78
+#: dselect/methlist.cc:76
 #, c-format
 msgid "Access method `%s'."
 msgstr "Metoda dostêpu `%s'."
 
-#: dselect/methlist.cc:112
+#: dselect/methlist.cc:110
 msgid "Abbrev."
 msgstr "Oznaczenie"
 
-#: dselect/methlist.cc:157
+#: dselect/methlist.cc:155
 msgid "doupdate failed"
 msgstr "nie mo¿na wykonaæ funckji `doupdate'"
 
-#: dselect/methlist.cc:159
+#: dselect/methlist.cc:157
 msgid "failed to unblock SIGWINCH"
 msgstr "nie mo¿na odblokowaæ SIGWINCH"
 
-#: dselect/methlist.cc:163
+#: dselect/methlist.cc:161
 msgid "failed to re-block SIGWINCH"
 msgstr "nie mo¿na przeblokowaæ SIGWINCH"
 
-#: dselect/methlist.cc:164
+#: dselect/methlist.cc:162
 msgid "getch failed"
 msgstr "nie mo¿na wykonaæ funckji `getch'"
 
-#: dselect/methlist.cc:168 dselect/pkgdepcon.cc:242 dselect/pkgdepcon.cc:281
+#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:241 dselect/pkgdepcon.cc:280
 msgid "[none]"
 msgstr "[brak]"
 
-#: dselect/methlist.cc:182
+#: dselect/methlist.cc:180
 msgid "explanation of "
 msgstr "wyja¶nienie dla "
 
-#: dselect/methlist.cc:192
+#: dselect/methlist.cc:190
 msgid "No explanation available."
 msgstr "Brak dostêpnego wyja¶nienia."
 
@@ -4423,13 +4423,17 @@ msgid ""
 "\n"
 "%s: %s\n"
 msgstr ""
+"\n"
+"\n"
+"%s: %s\n"
 
 #: dselect/method.cc:66
-#, fuzzy
 msgid ""
 "\n"
 "Press <enter> to continue."
-msgstr "RETURN - kontynuacja.\n"
+msgstr ""
+"\n"
+"Wci¶nij ENTER aby kontynuowaæ."
 
 #: dselect/method.cc:143
 #, c-format
@@ -4481,9 +4485,8 @@ msgid "failed with an unknown wait return code %d.\n"
 msgstr "funkcja `wait' zwróci³a nierozpoznany kod b³êdu %d.\n"
 
 #: dselect/method.cc:198
-#, fuzzy
 msgid "Press <enter> to continue.\n"
-msgstr "RETURN - kontynuacja.\n"
+msgstr "Wci¶nij ENTER aby kontynuowaæ.\n"
 
 #: dselect/method.cc:200
 msgid "write error on standard error"
@@ -4505,418 +4508,419 @@ msgstr "skrypt instalacyjny"
 msgid "query/setup script"
 msgstr "skrypt zapytania/ustawiania"
 
-#: dselect/methparse.cc:53
+#: dselect/methparse.cc:51
 #, c-format
 msgid "syntax error in method options file `%.250s' -- %s"
 msgstr "b³±d sk³adni w pliku opcji metody `%.250s' -- %s"
 
-#: dselect/methparse.cc:58
+#: dselect/methparse.cc:56
 #, c-format
 msgid "error reading options file `%.250s'"
 msgstr "nie mo¿na odczytaæ pliku opcji `%.250s'"
 
-#: dselect/methparse.cc:86
+#: dselect/methparse.cc:84
 #, c-format
 msgid "unable to read `%.250s' directory for reading methods"
 msgstr "nie mo¿na odczytaæ katalogu `%.250s' do odczytu metod"
 
-#: dselect/methparse.cc:100
+#: dselect/methparse.cc:98
 #, c-format
 msgid "method `%.250s' has name that is too long (%d > %d characters)"
 msgstr "metoda `%.250s' ma za d³ug± nazwê (%d > %d znaków)"
 
-#: dselect/methparse.cc:111
+#: dselect/methparse.cc:109
 #, c-format
 msgid "unable to access method script `%.250s'"
 msgstr "nie mo¿na odczytaæ skryptu opcji metody `%.250s'"
 
-#: dselect/methparse.cc:117
+#: dselect/methparse.cc:115
 #, c-format
 msgid "unable to read method options file `%.250s'"
 msgstr "nie mo¿na odczytaæ pliku opcji metody `%.250s'"
 
-#: dselect/methparse.cc:140
+#: dselect/methparse.cc:138
 msgid "non-digit where digit wanted"
 msgstr "znak nie bêd±cy cyfr± tam gdzie jest wymagana"
 
-#: dselect/methparse.cc:143
+#: dselect/methparse.cc:141
 msgid "EOF in index string"
 msgstr "EOF w ci±gu znaków indeksu"
 
-#: dselect/methparse.cc:146
+#: dselect/methparse.cc:144
 msgid "index string too long"
 msgstr "ci±g znaków indeksu jest za d³ugi"
 
-#: dselect/methparse.cc:149
+#: dselect/methparse.cc:147
 msgid "newline before option name start"
 msgstr "znak nowej linii przed nazw± opcji"
 
-#: dselect/methparse.cc:151
+#: dselect/methparse.cc:149
 msgid "EOF before option name start"
 msgstr "EOF przed nazw± opcji"
 
-#: dselect/methparse.cc:155
+#: dselect/methparse.cc:153
 msgid "nonalpha where option name start wanted"
 msgstr "znak nie bêd±cy liter± na pocz±tku nazwy opcji"
 
-#: dselect/methparse.cc:157
+#: dselect/methparse.cc:155
 msgid "non-alphanum in option name"
 msgstr "znak nie bêd±cy liter± lub cyfr± w nazwie opcji"
 
-#: dselect/methparse.cc:160
+#: dselect/methparse.cc:158
 msgid "EOF in option name"
 msgstr "EOF w nazwie opcji"
 
-#: dselect/methparse.cc:165
+#: dselect/methparse.cc:163
 msgid "newline before summary"
 msgstr "znak nowej linii przed podsumowaniem"
 
-#: dselect/methparse.cc:167
+#: dselect/methparse.cc:165
 msgid "EOF before summary"
 msgstr "EOF przed podsumowaniem"
 
-#: dselect/methparse.cc:173
+#: dselect/methparse.cc:171
 msgid "EOF in summary - missing newline"
 msgstr "EOF w podsumowaniu - brak znaku nowej linii"
 
-#: dselect/methparse.cc:183
+#: dselect/methparse.cc:181
 #, c-format
 msgid "unable to open option description file `%.250s'"
 msgstr "nie mo¿na otworzyæ pliku opisu opcji `%.250s'"
 
-#: dselect/methparse.cc:187
+#: dselect/methparse.cc:185
 #, c-format
 msgid "unable to stat option description file `%.250s'"
 msgstr "nie mo¿na ustaliæ stanu pliku opisu opcji %.250s"
 
-#: dselect/methparse.cc:191
+#: dselect/methparse.cc:189
 #, c-format
 msgid "failed to read option description file `%.250s'"
 msgstr "nie mo¿na odczytaæ pliku opisu opcji %.250s"
 
-#: dselect/methparse.cc:194
+#: dselect/methparse.cc:192
 #, c-format
 msgid "error during read of option description file `%.250s'"
 msgstr "nie mo¿na odczytaæ pliku opisu opcji %.250s"
 
-#: dselect/methparse.cc:216
+#: dselect/methparse.cc:214
 #, c-format
 msgid "error during read of method options file `%.250s'"
 msgstr "nie mo¿na odczytaæ pliku opcji metody %.250s"
 
-#: dselect/methparse.cc:246
+#: dselect/methparse.cc:244
 #, c-format
 msgid "unable to open current option file `%.250s'"
 msgstr "nie mo¿na otworzyæ pliku bierz±cej opcji `%.250s'"
 
-#: dselect/methparse.cc:284
+#: dselect/methparse.cc:282
 #, c-format
 msgid "unable to open new option file `%.250s'"
 msgstr "nie mo¿na otworzyæ pliku nowej opcji `%.250s'"
 
-#: dselect/methparse.cc:287
+#: dselect/methparse.cc:285
 #, c-format
 msgid "unable to write new option to `%.250s'"
 msgstr "nie mo¿na zapisaæ nowej opcji w `%.250s'"
 
-#: dselect/methparse.cc:290
+#: dselect/methparse.cc:288
 #, c-format
 msgid "unable to close new option file `%.250s'"
 msgstr "nie mo¿na zamkn±æ pliku nowej opcji `%.250s'"
 
-#: dselect/methparse.cc:292
+#: dselect/methparse.cc:290
 #, c-format
 msgid "unable to install new option as `%.250s'"
 msgstr "nie mo¿na zainstalowaæ nowej opcji jako `%.250s'"
 
-#: dselect/pkgdepcon.cc:214
+#: dselect/pkgdepcon.cc:213
 msgid "(no clientdata)"
 msgstr "(brak danych)"
 
-#: dselect/pkgdisplay.cc:38
+#: dselect/pkgdisplay.cc:36
 msgid "new package"
 msgstr "nowy pakiet"
 
-#: dselect/pkgdisplay.cc:40
+#: dselect/pkgdisplay.cc:38
 msgid "hold"
 msgstr "wstrzymany"
 
-#: dselect/pkgdisplay.cc:42
+#: dselect/pkgdisplay.cc:40
 msgid "purge"
 msgstr "wyczyszczony"
 
-#. WTA: the space is a trick to work aroung gettext which uses the empty
-#. * string to store information about the translation
+#. WTA: the space is a trick to work around gettext which uses the empty
+#. * string to store information about the translation. DO NOT CHANGE
+#. * THAT IN A TRANSLATION! The code really relies on that being a single space.
 #.
-#: dselect/pkgdisplay.cc:47
+#: dselect/pkgdisplay.cc:46
 msgid " "
 msgstr " "
 
-#: dselect/pkgdisplay.cc:48
+#: dselect/pkgdisplay.cc:47
 msgid "REINSTALL"
 msgstr "REINSTALACJA"
 
-#: dselect/pkgdisplay.cc:52
+#: dselect/pkgdisplay.cc:51
 msgid "unpacked (not set up)"
 msgstr "rozpakowany (nie skonfigurowany)"
 
-#: dselect/pkgdisplay.cc:53
+#: dselect/pkgdisplay.cc:52
 msgid "failed config"
 msgstr "b³êdna konfiguracja"
 
-#: dselect/pkgdisplay.cc:55
+#: dselect/pkgdisplay.cc:54
 msgid "half installed"
 msgstr "wpó³ zainstalowany"
 
-#: dselect/pkgdisplay.cc:56
+#: dselect/pkgdisplay.cc:55
 msgid "removed (configs remain)"
 msgstr "usuniêty (konfiguracja pozosta³a)"
 
-#: dselect/pkgdisplay.cc:59
+#: dselect/pkgdisplay.cc:58
 msgid "Required"
 msgstr "Wymagane"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:59
 msgid "Important"
 msgstr "Wa¿ne"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:60
 msgid "Standard"
 msgstr "Zwyczajne"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:61
 msgid "Recommended"
 msgstr "Polecane"
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:62
 msgid "Optional"
 msgstr "Opcjonalne"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:63
 msgid "Extra"
 msgstr "Dodatkowe"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:64
 msgid "Contrib"
 msgstr "Serwisowane"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:65
 msgid "!Bug!"
 msgstr "!B³±d!"
 
-#: dselect/pkgdisplay.cc:67
+#: dselect/pkgdisplay.cc:66
 msgid "Unclassified"
 msgstr "Niesklasyfikowane"
 
-#: dselect/pkgdisplay.cc:70
+#: dselect/pkgdisplay.cc:69
 msgid "suggests"
 msgstr "sugeruje"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:70
 msgid "recommends"
 msgstr "poleca"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:71
 msgid "depends on"
 msgstr "zale¿y od"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:72
 msgid "pre-depends on"
 msgstr "zale¿y-przed od"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:73
 msgid "conflicts with"
 msgstr "w konflikcie z"
 
-#: dselect/pkgdisplay.cc:75
+#: dselect/pkgdisplay.cc:74
 msgid "provides"
 msgstr "dostarcza"
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:75
 msgid "replaces"
 msgstr "wymienia"
 
-#: dselect/pkgdisplay.cc:77
+#: dselect/pkgdisplay.cc:76
 msgid "enhances"
 msgstr "rozszerza"
 
-#: dselect/pkgdisplay.cc:80
+#: dselect/pkgdisplay.cc:79
 msgid "Req"
 msgstr "Kon"
 
-#: dselect/pkgdisplay.cc:81
+#: dselect/pkgdisplay.cc:80
 msgid "Imp"
 msgstr "Wa¿"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:81
 msgid "Std"
 msgstr "Zwy"
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:82
 msgid "Rec"
 msgstr "Pol"
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:83
 msgid "Opt"
 msgstr "Opc"
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:84
 msgid "Xtr"
 msgstr "Dod"
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:85
 msgid "Ctb"
 msgstr "Ser"
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:86
 msgid "bUG"
 msgstr "B³±"
 
-#: dselect/pkgdisplay.cc:88
+#: dselect/pkgdisplay.cc:87
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:96 dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:95 dselect/pkgdisplay.cc:115
 msgid "Broken"
 msgstr "Uszkodzone"
 
-#: dselect/pkgdisplay.cc:97
+#: dselect/pkgdisplay.cc:96
 msgid "New"
 msgstr "Nowe"
 
-#: dselect/pkgdisplay.cc:98
+#: dselect/pkgdisplay.cc:97
 msgid "Updated"
 msgstr "Aktualne"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:98
 msgid "Obsolete/local"
 msgstr "Wycofane/lokalne"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:99
 msgid "Up-to-date"
 msgstr "Do-zaktualizowania"
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:100
 msgid "Available"
 msgstr "Dostêpne"
 
-#: dselect/pkgdisplay.cc:102 dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:101 dselect/pkgdisplay.cc:117
 msgid "Removed"
 msgstr "Usuniête"
 
-#: dselect/pkgdisplay.cc:103 dselect/pkgdisplay.cc:112
+#: dselect/pkgdisplay.cc:102 dselect/pkgdisplay.cc:111
 msgid "Brokenly installed packages"
 msgstr "Pakiety uszkodzone podczas instalacji"
 
-#: dselect/pkgdisplay.cc:104
+#: dselect/pkgdisplay.cc:103
 msgid "Newly available packages"
 msgstr "Pakiety nowodostêpne"
 
-#: dselect/pkgdisplay.cc:105
+#: dselect/pkgdisplay.cc:104
 msgid "Updated packages (newer version is available)"
 msgstr "Pakiety o dostêpnej aktualnej wersji"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:105
 msgid "Obsolete and local packages present on system"
 msgstr "Pakiety wycofane lub dostêpne tylko lokalnie"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:106
 msgid "Up to date installed packages"
 msgstr "Pakiety do zaktualizowania"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:107
 msgid "Available packages (not currently installed)"
 msgstr "Pakiety dostêpne i jeszcze nie zainstalowane"
 
-#: dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:108
 msgid "Removed and no longer available packages"
 msgstr "Pakiety usuniête i ju¿ niedostêpne"
 
-#: dselect/pkgdisplay.cc:113
+#: dselect/pkgdisplay.cc:112
 msgid "Installed packages"
 msgstr "Pakiety zainstalowane"
 
-#: dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:113
 msgid "Removed packages (configuration still present)"
 msgstr "Pakiety skasowane (konfiguracja pozosta³a)"
 
-#: dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:114
 msgid "Purged packages and those never installed"
 msgstr "Pakiety wyczyszone i nie zainstalowane"
 
-#: dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:116
 msgid "Installed"
 msgstr "Zainstalowane"
 
-#: dselect/pkgdisplay.cc:119
+#: dselect/pkgdisplay.cc:118
 msgid "Purged"
 msgstr "Wyczyszone"
 
-#: dselect/pkgdisplay.cc:197
+#: dselect/pkgdisplay.cc:196
 msgid "dselect - recursive package listing"
 msgstr "dselect - lista konfliktów"
 
-#: dselect/pkgdisplay.cc:198
+#: dselect/pkgdisplay.cc:197
 msgid "dselect - inspection of package states"
 msgstr "dselect - stan pakietów"
 
-#: dselect/pkgdisplay.cc:199
+#: dselect/pkgdisplay.cc:198
 msgid "dselect - main package listing"
 msgstr "dselect - lista pakietów"
 
-#: dselect/pkgdisplay.cc:207
+#: dselect/pkgdisplay.cc:206
 msgid " (by section)"
 msgstr " (wg sekcji)"
 
-#: dselect/pkgdisplay.cc:210
+#: dselect/pkgdisplay.cc:209
 msgid " (avail., section)"
 msgstr " (dostêpn., sekcja)"
 
-#: dselect/pkgdisplay.cc:213
+#: dselect/pkgdisplay.cc:212
 msgid " (status, section)"
 msgstr " (stan, sekcja)"
 
-#: dselect/pkgdisplay.cc:222
+#: dselect/pkgdisplay.cc:221
 msgid " (by priority)"
 msgstr " (wg priorytetu)"
 
-#: dselect/pkgdisplay.cc:225
+#: dselect/pkgdisplay.cc:224
 msgid " (avail., priority)"
 msgstr " (dostêpn., priorytet)"
 
-#: dselect/pkgdisplay.cc:228
+#: dselect/pkgdisplay.cc:227
 msgid " (status, priority)"
 msgstr " (stan, priorytet)"
 
-#: dselect/pkgdisplay.cc:237 dselect/pkgdisplay.cc:249
+#: dselect/pkgdisplay.cc:236 dselect/pkgdisplay.cc:248
 msgid " (alphabetically)"
 msgstr " (alfabetycznie)"
 
-#: dselect/pkgdisplay.cc:240
+#: dselect/pkgdisplay.cc:239
 msgid " (by availability)"
 msgstr " (wg dostêpno¶ci)"
 
-#: dselect/pkgdisplay.cc:243
+#: dselect/pkgdisplay.cc:242
 msgid " (by status)"
 msgstr " (wg stanu)"
 
-#: dselect/pkgdisplay.cc:257
+#: dselect/pkgdisplay.cc:256
 msgid " mark:+/=/- terse:v help:?"
 msgstr " wybór:+/=/- ogólnie:v pomoc:?"
 
-#: dselect/pkgdisplay.cc:258
+#: dselect/pkgdisplay.cc:257
 msgid " mark:+/=/- verbose:v help:?"
 msgstr " wybór:+/=/- szczegó³y:v pomoc:?"
 
-#: dselect/pkgdisplay.cc:259
+#: dselect/pkgdisplay.cc:258
 msgid " terse:v help:?"
 msgstr " ogólnie:v pomoc:?"
 
-#: dselect/pkgdisplay.cc:260
+#: dselect/pkgdisplay.cc:259
 msgid " verbose:v help:?"
 msgstr " szczegó³y:v pomoc:?"
 
-#: dselect/pkginfo.cc:81
+#: dselect/pkginfo.cc:80
 msgid ""
 "The line you have highlighted represents many packages; if you ask to "
 "install, remove, hold, &c it you will affect all the packages which match "
@@ -4936,122 +4940,125 @@ msgstr ""
 "Mo¿na u¿yæ `o' lub `O' aby zmieniæ kolejno¶æ uporz±dkowania pakietów, aby "
 "wybraæ inn± grupê pakietów."
 
-#: dselect/pkginfo.cc:95
+#: dselect/pkginfo.cc:94
 msgid "interrelationships affecting "
 msgstr "relacje dotycz±ce pakietu "
 
-#: dselect/pkginfo.cc:101
+#: dselect/pkginfo.cc:100
 msgid "interrelationships"
 msgstr "relacje"
 
-#: dselect/pkginfo.cc:107
+#: dselect/pkginfo.cc:106
 msgid "description of "
 msgstr "opis pakietu "
 
-#: dselect/pkginfo.cc:111
+#: dselect/pkginfo.cc:110
 msgid "no description available."
 msgstr "brak dostêpnego opisu."
 
-#: dselect/pkginfo.cc:124
+#: dselect/pkginfo.cc:123
 msgid "description"
 msgstr "opis"
 
-#: dselect/pkginfo.cc:131
+#: dselect/pkginfo.cc:130
 msgid "currently installed control info"
 msgstr "plik kontrolny zainstalowanego pakietu"
 
-#: dselect/pkginfo.cc:133
+#: dselect/pkginfo.cc:132
 msgid "installed control info for "
 msgstr "plik kontrolny zainstalowanego pakietu "
 
-#: dselect/pkginfo.cc:147
+#: dselect/pkginfo.cc:146
 msgid "available version of control file info"
 msgstr "plik kontrolny dostêpnej wersji pakietu"
 
-#: dselect/pkginfo.cc:149
+#: dselect/pkginfo.cc:148
 msgid "available version of control info for "
 msgstr "plik kontrolny dostêpnej wersji pakietu "
 
-#: dselect/pkglist.cc:122 dselect/pkglist.cc:123
+#: dselect/pkglist.cc:120 dselect/pkglist.cc:121
 msgid "<null>"
 msgstr "<puste>"
 
-#: dselect/pkgsublist.cc:122
-msgid " or "
+#: dselect/pkgsublist.cc:103
+msgid " does not appear to be available\n"
 msgstr ""
 
-#: dselect/pkgtop.cc:56
+#: dselect/pkgsublist.cc:120
+msgid " or "
+msgstr " lub "
+
+#: dselect/pkgtop.cc:54
 msgid "All"
 msgstr "Wszystkie"
 
-#: dselect/pkgtop.cc:78
+#: dselect/pkgtop.cc:76
 msgid "All packages"
 msgstr "Wszystkie pakiety"
 
-#: dselect/pkgtop.cc:82
+#: dselect/pkgtop.cc:80
 #, c-format
 msgid "%s packages without a section"
 msgstr "%s pakiety bez sekcji %s"
 
-#: dselect/pkgtop.cc:84
+#: dselect/pkgtop.cc:82
 #, c-format
 msgid "%s packages in section %s"
 msgstr "%s pakiety w sekcji %s"
 
-#: dselect/pkgtop.cc:90
+#: dselect/pkgtop.cc:88
 #, c-format
 msgid "%s %s packages"
 msgstr "%s %s pakiety"
 
-#: dselect/pkgtop.cc:94
+#: dselect/pkgtop.cc:92
 #, c-format
 msgid "%s %s packages without a section"
 msgstr "%s %s pakiety bez sekcji %s"
 
-#: dselect/pkgtop.cc:96
+#: dselect/pkgtop.cc:94
 #, c-format
 msgid "%s %s packages in section %s"
 msgstr "%s %s pakiety w sekcji %s"
 
-#: dselect/pkgtop.cc:117
+#: dselect/pkgtop.cc:115
 #, c-format
 msgid "%-*s %s%s%s;  %s (was: %s).  %s"
 msgstr "%-*s %s%s%s;  %s (by³: %s).  %s"
 
-#: dselect/pkgtop.cc:268
+#: dselect/pkgtop.cc:267
 msgid "Error"
 msgstr "B³±d"
 
-#: dselect/pkgtop.cc:272
+#: dselect/pkgtop.cc:271
 msgid "Installed?"
 msgstr "zainstalowany?"
 
-#: dselect/pkgtop.cc:276
+#: dselect/pkgtop.cc:275
 msgid "Old mark"
 msgstr "Poprzedni wybór"
 
-#: dselect/pkgtop.cc:280
+#: dselect/pkgtop.cc:279
 msgid "Marked for"
 msgstr "Zaznaczony do"
 
-#: dselect/pkgtop.cc:285
+#: dselect/pkgtop.cc:284
 msgid "Section"
 msgstr "Sekcja"
 
-#: dselect/pkgtop.cc:286
+#: dselect/pkgtop.cc:285
 msgid "Priority"
 msgstr "Priorytet"
 
-#: dselect/pkgtop.cc:287
+#: dselect/pkgtop.cc:286
 msgid "Package"
 msgstr "Pakiet"
 
-#: dselect/pkgtop.cc:291
+#: dselect/pkgtop.cc:290
 msgid "Inst.ver"
-msgstr ""
+msgstr "Zainst."
 
-#: dselect/pkgtop.cc:294
-#, fuzzy
+#: dselect/pkgtop.cc:293
 msgid "Avail.ver"
 msgstr "Dostêpne"
 
@@ -5127,7 +5134,6 @@ msgid "Introduction to package list"
 msgstr "Wprowadzenie do listy pakietów"
 
 #: dselect/helpmsgs.cc:33
-#, fuzzy
 msgid ""
 "Welcome to the main package listing.  Please read the help that is "
 "available!\n"
@@ -5199,7 +5205,6 @@ msgid "Introduction to package list browser (read-only)"
 msgstr "Wprowadzenie do listy pakietów (tylko do odczytu)"
 
 #: dselect/helpmsgs.cc:58
-#, fuzzy
 msgid ""
 "Welcome to dselect's main package listing.  Since you do not have the\n"
 "privilege necessary to update package states you are in read-only mode.\n"
@@ -5237,7 +5242,7 @@ msgstr ""
 "\n"
 "Wci¶nij spacjê aby opu¶ciæ ekran pomocy; wci¶nij `?' aby przywo³aæ ten "
 "ekran.\n"
-"Po zakoñczonym przegl±daniu listy pakietów, wci¶nij `q' lub Return.\n"
+"Po zakoñczonym przegl±daniu listy pakietów, wci¶nij `Q' lub `ENTER'.\n"
 
 #: dselect/helpmsgs.cc:75
 msgid "Introduction to conflict/dependency resolution sub-list"
@@ -5528,42 +5533,3 @@ msgstr ""
 " ^l                od¶wie¿enie ekranu\n"
 "  /                szukaj (return - anuluj)\n"
 "  \\                powtórz ostatnie szukanie\n"
-
-#~ msgid "failed to exec dpkg-deb-filelist"
-#~ msgstr "nie mo¿na wykonaæ `dpkg-deb-filelist'"
-
-#~ msgid "data"
-#~ msgstr "data"
-
-#~ msgid "unable to unlock access method area"
-#~ msgstr "nie mo¿na odblokowaæ obszaru metody dostêpu"
-
-#~ msgid ""
-#~ "No access methods are available.\n"
-#~ "\n"
-#~ "Press RETURN to continue."
-#~ msgstr ""
-#~ "Brak dostêpnych metod dostêpu.\n"
-#~ "\n"
-#~ "ENTER - kontynuowanie."
-
-#~ msgid "you do not have permission to change the access method"
-#~ msgstr "brak praw do zmiany metody dostêpu"
-
-#~ msgid "unable to open/create access method lockfile"
-#~ msgstr "nie mo¿na otworzyæ/utworzyæ pliku blokuj±cego metody dostêpu"
-
-#~ msgid "the access method area is already locked"
-#~ msgstr "obszar metody dostêpu jest ju¿ zablokowany"
-
-#~ msgid "unable to lock access method area"
-#~ msgstr "nie mo¿na zablokowaæ obszaru metody dostêpu"
-
-#~ msgid ""
-#~ "No access method is selected/configured.\n"
-#~ "\n"
-#~ "Press RETURN to continue."
-#~ msgstr ""
-#~ "Brak metody dostêpu dla wyboru/konfiguracji.\n"
-#~ "\n"
-#~ "RETURN - kontynuacja."

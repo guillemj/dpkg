@@ -90,7 +90,7 @@ static void list1package(struct pkginfo *pkg, int *head) {
 
   if (!*head) {
     fputs(_("\
-Desired=Unknown/Install/Remove/Purge\n\
+Desired=Unknown/Install/Remove/Purge/Hold\n\
 | Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n\
 |/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)\n"), stdout);
     printf(format,'|','|','/', _("Name"), _("Version"), 40, _("Description"));
@@ -186,7 +186,7 @@ static const struct badstatinfo badstatinfos[]= {
     bsyn_status, stat_halfconfigured,
     N_("The following packages are only half configured, probably due to problems\n"
     "configuring them the first time.  The configuration should be retried using\n"
-    "dpkg --configure <package> or the configure menu option in " DSELECT ":\n")
+    "dpkg --configure <package> or the configure menu option in dselect:\n")
   }, {
     bsyn_status, stat_halfinstalled,
     N_("The following packages are only half installed, due to problems during\n"

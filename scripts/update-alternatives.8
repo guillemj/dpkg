@@ -138,9 +138,14 @@ will be those which have the highest priority.
 .PP
 When using the
 .I --config
-option, update-alternatives will list all of the choices for the given
-alternative. You will then be prompted for which of the choices to use
-for the alternative. Once you make a change, the alternative will no
+option,
+.B update-alternatives
+will list all of the choices for the link group
+of which given
+.I name
+is the master link.
+You will then be prompted for which of the choices to use
+for the link group. Once you make a change, the link group will no
 longer be in
 .I auto
 mode. You will need to use the
@@ -238,6 +243,8 @@ different from the default.
 Specifies the administrative directory, when this is to be
 different from the default.
 .SS ACTIONS
+.\" The names of the arguments should be identical with the ones
+.\" in SYNOPSIS section.
 .TP
 \fB--install\fR \fIlink gen path pri\fR [\fB--slave\fR \fIslink sgen spath\fR] ...
 Add a group of alternatives to the system.
@@ -269,18 +276,18 @@ and the newly added alternatives' priority is higher than
 any other installed alternatives for this group,
 the symlinks will be updated to point to the newly added alternatives.
 .TP
-\fB--remove\fR \fIlink path\fR
+\fB--remove\fR \fIname path\fR
 Remove an alternative and all of its associated slave links.
-.I link
+.I name
 is a name in the alternatives directory, and
 .I path
 is an absolute filename to which
 .I name
 could be linked.  If
-.I link
+.I name
 is indeed linked to
 .IR path ,
-.I link
+.I name
 will be updated to point to another appropriate alternative, or
 removed if there is no such alternative left.
 Associated slave links will be updated or removed, correspondingly.

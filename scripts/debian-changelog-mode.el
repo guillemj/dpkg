@@ -186,8 +186,8 @@ release date."
 	   out))))
 
 (defun debian-changelog-finalise-last-version ()
-  "Remove the `finalisation' information (maintainer's name and email
-address and release date) so that new entries can be made."
+  "Add the `finalisation' information (maintainer's name and email
+address and release date)."
   (interactive)
   (or add-log-full-name (setq add-log-full-name (user-full-name)))
   (or add-log-mailing-address (setq add-log-mailing-address user-mail-address))
@@ -250,5 +250,22 @@ NMUs."
   (set (make-local-variable 'page-delimiter) "^\\<")
   (set (make-local-variable 'version-control) 'never)
   (run-hooks 'debian-changelog-mode-hook))
+
+
+;; define a menu with a few useful commands
+(define-key debian-changelog-mode-map [menu-bar] (make-sparse-keymap))
+(define-key debian-changelog-mode-map [menu-bar debian]
+  (cons "Debian" (make-sparse-keymap "Debian")))
+
+;; Define specific subcommands in this menu.
+(define-key debian-changelog-mode-map 
+  [menu-bar debian add-entry]
+  '("Add entry" . debian-changelog-add-entry))
+(define-key debian-changelog-mode-map 
+  [menu-bar debian add-version]
+  '("Add version" . debian-changelog-add-version))
+(define-key debian-changelog-mode-map
+  [menu-bar debian finalise-and-save]
+  '("Finalise and save" . debian-changelog-finalise-last-version))
 
 (provide 'debian-changelog)

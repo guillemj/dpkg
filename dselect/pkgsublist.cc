@@ -100,7 +100,7 @@ void packagelist::addunavailable(deppossi *possi) {
 
   varbuf& vb= possi->up->up->clientdata->relations;
   vb(possi->ed->name);
-  vb(" does not appear to be available\n");
+  vb(_(" does not appear to be available\n"));
 }
 
 int packagelist::add(dependency *depends, showpriority displayimportance) {

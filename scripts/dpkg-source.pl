@@ -490,9 +490,9 @@ if ($opmode eq 'build') {
     }
 
     if (defined $fi{'S Format'}) {
-        $dscformat=$fi{'S format'};
+        $dscformat=$fi{'S Format'};
 	$dscformat != "1.0" &&
-	    &error("Unsupported format of .dsc file");
+	    &error("Unsupported format of .dsc file ($dscformat)");
     }
     $sourcepackage =~ m/[^.0-9]/ &&
         &error("dsc format contains illegal character \`$&'");

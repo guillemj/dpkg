@@ -17,7 +17,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.7\n"
-"POT-Creation-Date: 2000-03-10 13:52+1100\n"
+"POT-Creation-Date: 2000-05-07 16:02+0200\n"
 "PO-Revision-Date: 2000-03-04 14:39+09:00\n"
 "Last-Translator: Keita Maehara <maehara@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
@@ -1517,8 +1517,9 @@ msgid "(no description available)"
 msgstr "(説明(description)がありません)"
 
 #: main/enquiry.c:92
+#, fuzzy
 msgid ""
-"Desired=Unknown/Install/Remove/Purge\n"
+"Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
 "|/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: "
 "uppercase=bad)\n"
@@ -1538,7 +1539,7 @@ msgstr "名前"
 msgid "Version"
 msgstr "バージョン"
 
-#: dselect/methlist.cc:113 dselect/pkgtop.cc:296 main/enquiry.c:96
+#: dselect/methlist.cc:111 dselect/pkgtop.cc:295 main/enquiry.c:96
 msgid "Description"
 msgstr "説明"
 
@@ -1569,10 +1570,11 @@ msgstr ""
 "せなければなりません:\n"
 
 #: main/enquiry.c:187
+#, fuzzy
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
-"dpkg --configure <package> or the configure menu option in "
+"dpkg --configure <package> or the configure menu option in dselect:\n"
 msgstr ""
 "以下のパッケージは最初の設定中に問題が発生したため、設定が終了していません。"
 "\n"
@@ -1975,7 +1977,7 @@ msgstr "`%.250s' か `%.250s' が関係する退避操作(diversion)は競合しています"
 msgid "read error in diversions [i]"
 msgstr "diversions の読み込みエラー [i]"
 
-#: dselect/pkgdisplay.cc:51 main/help.c:41
+#: dselect/pkgdisplay.cc:50 main/help.c:41
 msgid "not installed"
 msgstr "未導入"
 
@@ -1987,7 +1989,7 @@ msgstr "展開済(未設定)"
 msgid "broken due to postinst failure"
 msgstr "postinst の失敗のため壊れています。"
 
-#: dselect/pkgdisplay.cc:54 main/help.c:44
+#: dselect/pkgdisplay.cc:53 main/help.c:44
 msgid "installed"
 msgstr "導入済"
 
@@ -2135,7 +2137,7 @@ msgstr ""
 "を参照してください。\n"
 
 #: main/main.c:58
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2158,8 +2160,6 @@ msgid ""
 "  dpkg -l|--list [<pattern> ...]           list packages concisely\n"
 "  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n"
 "  dpkg -C|--audit                          check for broken package(s)\n"
-"  dpkg --abort-after <n>                   abort after encountering <n> "
-"errors\n"
 "  dpkg --print-architecture                print target architecture (uses "
 "GCC)\n"
 "  dpkg --print-gnu-build-architecture      print GNU version of target arch\n"
@@ -2194,6 +2194,7 @@ msgid ""
 "  --ignore-depends=<package>,... Ignore dependencies involving <package>\n"
 "  --force-...                    Override problems - see --force-help\n"
 "  --no-force-...|--refuse-...    Stop when problems encountered\n"
+"  dpkg --abort-after <n>     abort after encountering <n> errors\n"
 "\n"
 "Comparison operators for --compare-versions are:\n"
 " lt le eq ne ge gt       (treat no version as earlier than any version);\n"
@@ -2300,7 +2301,7 @@ msgstr ""
 "[*]のある物は大量の情報が出力されます。パイプを使い`less'や`more'で見ましょう"
 "!"
 
-#: dpkg-deb/main.c:133 main/main.c:179 split/main.c:142
+#: dpkg-deb/main.c:135 main/main.c:179 split/main.c:142
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "アクション --%s と --%s が競合します。"
@@ -2433,7 +2434,7 @@ msgstr "不明な強制・拒否(force/refuse)オプション `%.*s'"
 msgid "failed to exec dpkg-deb"
 msgstr "dpkg-deb の実行に失敗しました。"
 
-#: dpkg-deb/main.c:153 main/main.c:417 split/main.c:163
+#: dpkg-deb/main.c:155 main/main.c:417 split/main.c:163
 msgid "need an action option"
 msgstr "アクションを指定するオプションが必要です。"
 
@@ -3420,6 +3421,11 @@ msgid "--contents takes exactly one argument"
 msgstr "--contents は引数を 1 つだけ取ります。"
 
 #: dpkg-deb/main.c:46
+#, fuzzy
+msgid "' package archive backend version "
+msgstr "' パッケージ管理プログラム バージョン "
+
+#: dpkg-deb/main.c:48
 msgid ""
 "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
 "GNU General Public Licence version 2 or later for copying conditions.\n"
@@ -3430,7 +3436,7 @@ msgstr ""
 "もしくはそれ以降を参照してください。\n"
 "無保証です。詳細は dpkg-deb --licence を参照してください。\n"
 
-#: dpkg-deb/main.c:53
+#: dpkg-deb/main.c:55
 msgid ""
 "Usage: dpkg-deb -b|--build <directory> [<deb>]    Build an archive.\n"
 "       dpkg-deb -c|--contents <deb>               List contents.\n"
@@ -3481,7 +3487,7 @@ msgstr ""
 "--extract'を使って展開されたパッケージ\n"
 "は正しくインストールされません!\n"
 
-#: dpkg-deb/main.c:79
+#: dpkg-deb/main.c:81
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -3935,25 +3941,25 @@ msgstr "%s: %3$d ファイル中 %2$d ファイルが MD5 チェックに失敗しました。\n"
 msgid "%s: no files checked\n"
 msgstr "%s: ファイルがチェックされませんでした。\n"
 
-#: dselect/basecmds.cc:101
+#: dselect/basecmds.cc:99
 msgid "Search for ? "
 msgstr "検索項目?"
 
-#: dselect/basecmds.cc:132
+#: dselect/basecmds.cc:130
 msgid "Help: "
 msgstr "ヘルプ: "
 
-#: dselect/basecmds.cc:138
+#: dselect/basecmds.cc:136
 msgid ""
 "? = help menu    Space = exit help    . = next help    or a help page key "
 msgstr ""
 "? =ヘルプメニュー  Space =ヘルプの終了  . =次のヘルプ、またはヘルプ操作キー "
 
-#: dselect/basecmds.cc:146
+#: dselect/basecmds.cc:144
 msgid "Help information is available under the following topics:"
 msgstr "以下のトピックスからヘルプ情報が利用できます:"
 
-#: dselect/basecmds.cc:154
+#: dselect/basecmds.cc:152
 msgid ""
 "Press a key from the list above, Space to exit help,\n"
 "  or `.' (full stop) to read each help page in turn. "
@@ -3961,7 +3967,7 @@ msgstr ""
 "上のリストからキーを入力してください。スペースキーでヘルプを終了します。\n"
 " '.'(ピリオド)キーでヘルプページを順次見ていくことができます。"
 
-#: dselect/basecmds.cc:160
+#: dselect/basecmds.cc:158
 msgid "error reading keyboard in help"
 msgstr "ヘルプのキーボード読み込みエラーです。"
 
@@ -4073,216 +4079,216 @@ msgstr "%s でスクロール"
 msgid "%s to go back"
 msgstr "%s キーで戻る"
 
-#: dselect/bindings.cc:71
+#: dselect/bindings.cc:69
 msgid "[not bound]"
 msgstr "[未割当]"
 
-#: dselect/bindings.cc:75
+#: dselect/bindings.cc:73
 #, c-format
 msgid "[unk: %d]"
 msgstr "[unk: %d]"
 
 #. Actions which apply to both types of list.
-#: dselect/bindings.cc:129
+#: dselect/bindings.cc:127
 msgid "Scroll onwards through help/information"
 msgstr "ヘルプ/情報を前方にスクロールする"
 
-#: dselect/bindings.cc:130
+#: dselect/bindings.cc:128
 msgid "Scroll backwards through help/information"
 msgstr "ヘルプ/情報を後方にスクロールする"
 
-#: dselect/bindings.cc:131
+#: dselect/bindings.cc:129
 msgid "Move up"
 msgstr "上へ"
 
-#: dselect/bindings.cc:132
+#: dselect/bindings.cc:130
 msgid "Move down"
 msgstr "下へ"
 
-#: dselect/bindings.cc:133
+#: dselect/bindings.cc:131
 msgid "Go to top of list"
 msgstr "リストの先頭へ"
 
-#: dselect/bindings.cc:134
+#: dselect/bindings.cc:132
 msgid "Go to end of list"
 msgstr "リストの最後へ"
 
-#: dselect/bindings.cc:135
+#: dselect/bindings.cc:133
 msgid "Request help (cycle through help screens)"
 msgstr "ヘルプの呼び出し(ヘルプ画面を循環する)"
 
-#: dselect/bindings.cc:136
+#: dselect/bindings.cc:134
 msgid "Cycle through information displays"
 msgstr "情報画面を切り替える"
 
-#: dselect/bindings.cc:137
+#: dselect/bindings.cc:135
 msgid "Redraw display"
 msgstr "再描画"
 
-#: dselect/bindings.cc:138
+#: dselect/bindings.cc:136
 msgid "Scroll onwards through list by 1 line"
 msgstr "一覧を 1 行ごとに前方にスクロールする"
 
-#: dselect/bindings.cc:139
+#: dselect/bindings.cc:137
 msgid "Scroll backwards through list by 1 line"
 msgstr "一覧を 1 行ごとに後方にスクロールする"
 
-#: dselect/bindings.cc:140
+#: dselect/bindings.cc:138
 msgid "Scroll onwards through help/information by 1 line"
 msgstr "ヘルプ/情報を 1 行ごとに前方にスクロールする"
 
-#: dselect/bindings.cc:141
+#: dselect/bindings.cc:139
 msgid "Scroll backwards through help/information by 1 line"
 msgstr "ヘルプ/情報を 1 行ごとに後方にスクロールする"
 
-#: dselect/bindings.cc:142
+#: dselect/bindings.cc:140
 msgid "Scroll onwards through list"
 msgstr "一覧を前方にスクロールする"
 
-#: dselect/bindings.cc:143
+#: dselect/bindings.cc:141
 msgid "Scroll backwards through list"
 msgstr "一覧を後方にスクロールする"
 
 #. Actions which apply only to lists of packages.
-#: dselect/bindings.cc:146
+#: dselect/bindings.cc:144
 msgid "Mark package(s) for installation"
 msgstr "インストール用にマーク"
 
-#: dselect/bindings.cc:147
+#: dselect/bindings.cc:145
 msgid "Mark package(s) for deinstallation"
 msgstr "削除用にマーク"
 
-#: dselect/bindings.cc:148
+#: dselect/bindings.cc:146
 msgid "Mark package(s) for deinstall and purge"
 msgstr "削除・完全削除用にマーク"
 
-#: dselect/bindings.cc:149
+#: dselect/bindings.cc:147
 msgid "Make highlight more specific"
 msgstr "ハイライト部をより詳細に"
 
-#: dselect/bindings.cc:150
+#: dselect/bindings.cc:148
 msgid "Make highlight less specific"
 msgstr "ハイライト部をよりおおまかに"
 
-#: dselect/bindings.cc:151
+#: dselect/bindings.cc:149
 msgid "Search for a package whose name contains a string"
 msgstr "指定した文字を含むパッケージの名前を検索"
 
-#: dselect/bindings.cc:152
+#: dselect/bindings.cc:150
 msgid "Repeat last search."
 msgstr "再検索"
 
-#: dselect/bindings.cc:153
+#: dselect/bindings.cc:151
 msgid "Swap sort order priority/section"
 msgstr "優先度/分類(priority/section) 順でのソートの変換"
 
-#: dselect/bindings.cc:154
+#: dselect/bindings.cc:152
 msgid "Quit, confirming, and checking dependencies"
 msgstr "終了、依存関係の調査を行なう"
 
-#: dselect/bindings.cc:155
+#: dselect/bindings.cc:153
 msgid "Quit, confirming without check"
 msgstr "終了、調査を行わない"
 
-#: dselect/bindings.cc:156
+#: dselect/bindings.cc:154
 msgid "Quit, rejecting conflict/dependency suggestions"
 msgstr "終了、依存関係や競合解決の提案を破棄する"
 
-#: dselect/bindings.cc:157
+#: dselect/bindings.cc:155
 msgid "Abort - quit without making changes"
 msgstr "中断 - 変更を行わずに終了"
 
-#: dselect/bindings.cc:158
+#: dselect/bindings.cc:156
 msgid "Revert to old state for all packages"
 msgstr "すべてのパッケージについて古い状態に戻す"
 
-#: dselect/bindings.cc:159
+#: dselect/bindings.cc:157
 msgid "Revert to suggested state for all packages"
 msgstr "すべてのパッケージについて提案された状態に戻す"
 
-#: dselect/bindings.cc:160
+#: dselect/bindings.cc:158
 msgid "Revert to directly requested state for all packages"
 msgstr "すべてのパッケージについて直接要求した状態に戻す"
 
 #. Actions which apply only to lists of methods.
-#: dselect/bindings.cc:163
+#: dselect/bindings.cc:161
 msgid "Select currently-highlighted access method"
 msgstr "現在ハイライト表示されているアクセス方法を選択する"
 
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:162
 msgid "Quit without changing selected access method"
 msgstr "選択されたアクセス方法を変更せずに終了する"
 
-#: dselect/main.cc:55
+#: dselect/main.cc:53
 msgid "Type dselect --help for help."
 msgstr "ヘルプは dselect --help で参照できます。"
 
-#: dselect/main.cc:71
+#: dselect/main.cc:69
 msgid "access"
 msgstr "aアクセス"
 
-#: dselect/main.cc:71
+#: dselect/main.cc:69
 msgid "Choose the access method to use."
 msgstr "使用するアクセス方法を選択する。"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:70
 msgid "update"
 msgstr "u更新"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:70
 msgid "Update list of available packages, if possible."
 msgstr "可能なら取得可能パッケージ一覧を更新する。"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:71
 msgid "select"
 msgstr "s選択"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:71
 msgid "Request which packages you want on your system."
 msgstr "システムにインストールしたいパッケージを選択する。"
 
-#: dselect/main.cc:74 dselect/pkgdisplay.cc:39
+#: dselect/main.cc:72 dselect/pkgdisplay.cc:37
 msgid "install"
 msgstr "install"
 
-#: dselect/main.cc:74
+#: dselect/main.cc:72
 msgid "Install and upgrade wanted packages."
 msgstr "要求したパッケージのインストール・更新を行う。"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:73
 msgid "config"
 msgstr "c設定"
 
-#: dselect/main.cc:75
+#: dselect/main.cc:73
 msgid "Configure any packages that are unconfigured."
 msgstr "未設定のパッケージを設定する。"
 
-#: dselect/main.cc:76 dselect/pkgdisplay.cc:41
+#: dselect/main.cc:74 dselect/pkgdisplay.cc:39
 msgid "remove"
 msgstr "remove"
 
-#: dselect/main.cc:76
+#: dselect/main.cc:74
 msgid "Remove unwanted software."
 msgstr "不必要なソフトを削除する。"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:75
 msgid "quit"
 msgstr "q終了"
 
-#: dselect/main.cc:77
+#: dselect/main.cc:75
 msgid "Quit dselect."
 msgstr "dselect を終了する。"
 
-#: dselect/main.cc:78
+#: dselect/main.cc:76
 msgid "menu"
 msgstr "メニュー"
 
-#: dselect/main.cc:83
+#: dselect/main.cc:81
 #, c-format
 msgid "Debian GNU/Linux `%s' package handling frontend."
 msgstr "Debian GNU/Linux `%s' パッケージ管理フロントエンド"
 
-#: dselect/main.cc:86
+#: dselect/main.cc:84
 #, c-format
 msgid ""
 "Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
@@ -4295,7 +4301,7 @@ msgstr ""
 "またはそれ以降を参照してください。このソフトウェアは無保証です。\n"
 "詳細は dselect --licence を参照してください。\n"
 
-#: dselect/main.cc:98
+#: dselect/main.cc:96
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -4310,20 +4316,20 @@ msgstr ""
 "-D<ファイル>\n"
 "アクション: access update select install config remove quit menu\n"
 
-#: dselect/main.cc:118
+#: dselect/main.cc:116
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "デバッグファイル `%.250s' をオープンできませんでした\n"
 
-#: dselect/main.cc:149
+#: dselect/main.cc:147
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "端末がカーソル割り付けをサポートしていません。\n"
 
-#: dselect/main.cc:151
+#: dselect/main.cc:149
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "端末がハイライトをサポートしていません。\n"
 
-#: dselect/main.cc:152
+#: dselect/main.cc:150
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
@@ -4331,11 +4337,11 @@ msgstr ""
 "TERM 環境変数を正しく設定してください。高機能な端末を使用するか、\n"
 "もしくはパッケージ毎の管理ツールを使用しましょう "
 
-#: dselect/main.cc:154
+#: dselect/main.cc:153
 msgid "terminal lacks necessary features, giving up"
 msgstr "必要とする機能がこの端末にはありません。終了します。"
 
-#: dselect/main.cc:233
+#: dselect/main.cc:232
 msgid ""
 "\n"
 "\n"
@@ -4349,7 +4355,7 @@ msgstr ""
 "リターンキーで選択項目を決定します。^L で画面を再描画します。\n"
 "\n"
 
-#: dselect/main.cc:247
+#: dselect/main.cc:246
 msgid ""
 "\n"
 "\n"
@@ -4359,53 +4365,53 @@ msgstr ""
 "\n"
 "リードオンリーアクセス: 選択プレビューのみ利用できます!"
 
-#: dselect/main.cc:261
+#: dselect/main.cc:260
 msgid "failed to getch in main menu"
 msgstr "メインメニューでの getch に失敗しました。"
 
-#: dselect/main.cc:328
+#: dselect/main.cc:327
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "不明なアクション文字列 `%.50s' です。"
 
-#: dselect/methlist.cc:69
+#: dselect/methlist.cc:67
 msgid "dselect - list of access methods"
 msgstr "dselect - アクセス方法の一覧"
 
-#: dselect/methlist.cc:78
+#: dselect/methlist.cc:76
 #, c-format
 msgid "Access method `%s'."
 msgstr "アクセス方法 `%s'。"
 
-#: dselect/methlist.cc:112
+#: dselect/methlist.cc:110
 msgid "Abbrev."
 msgstr "頭文字"
 
-#: dselect/methlist.cc:157
+#: dselect/methlist.cc:155
 msgid "doupdate failed"
 msgstr "doupdate 失敗"
 
-#: dselect/methlist.cc:159
+#: dselect/methlist.cc:157
 msgid "failed to unblock SIGWINCH"
 msgstr "SIGWINCH のアンブロックに失敗しました"
 
-#: dselect/methlist.cc:163
+#: dselect/methlist.cc:161
 msgid "failed to re-block SIGWINCH"
 msgstr "SIGWINCH のリブロックに失敗しました"
 
-#: dselect/methlist.cc:164
+#: dselect/methlist.cc:162
 msgid "getch failed"
 msgstr "getch 失敗"
 
-#: dselect/methlist.cc:168 dselect/pkgdepcon.cc:242 dselect/pkgdepcon.cc:281
+#: dselect/methlist.cc:166 dselect/pkgdepcon.cc:241 dselect/pkgdepcon.cc:280
 msgid "[none]"
 msgstr "[なし]"
 
-#: dselect/methlist.cc:182
+#: dselect/methlist.cc:180
 msgid "explanation of "
 msgstr "説明: "
 
-#: dselect/methlist.cc:192
+#: dselect/methlist.cc:190
 msgid "No explanation available."
 msgstr "説明がありません。"
 
@@ -4500,419 +4506,420 @@ msgstr "インストールスクリプト"
 msgid "query/setup script"
 msgstr "質問/設定スクリプト"
 
-#: dselect/methparse.cc:53
+#: dselect/methparse.cc:51
 #, c-format
 msgid "syntax error in method options file `%.250s' -- %s"
 msgstr "メソッドオプションファイル `%.250s' 内の構文エラー -- %s"
 
-#: dselect/methparse.cc:58
+#: dselect/methparse.cc:56
 #, c-format
 msgid "error reading options file `%.250s'"
 msgstr "オプションファイル `%.250s' の読み込みエラー"
 
-#: dselect/methparse.cc:86
+#: dselect/methparse.cc:84
 #, c-format
 msgid "unable to read `%.250s' directory for reading methods"
 msgstr "メソッドを読み込むための '%.250s' を読めません。"
 
-#: dselect/methparse.cc:100
+#: dselect/methparse.cc:98
 #, c-format
 msgid "method `%.250s' has name that is too long (%d > %d characters)"
 msgstr "メソッド `%.250s' の名前が長すぎます(%d > %d 文字)"
 
-#: dselect/methparse.cc:111
+#: dselect/methparse.cc:109
 #, c-format
 msgid "unable to access method script `%.250s'"
 msgstr "メソッドスクリプト `%.250s' にアクセスできません。"
 
-#: dselect/methparse.cc:117
+#: dselect/methparse.cc:115
 #, c-format
 msgid "unable to read method options file `%.250s'"
 msgstr "メソッドオプションファイル `%.250s' の読み込みに失敗しました。"
 
-#: dselect/methparse.cc:140
+#: dselect/methparse.cc:138
 msgid "non-digit where digit wanted"
 msgstr "数字があるべきところに数字でない文字があります"
 
-#: dselect/methparse.cc:143
+#: dselect/methparse.cc:141
 msgid "EOF in index string"
 msgstr "インデックス文字列に EOF があります"
 
-#: dselect/methparse.cc:146
+#: dselect/methparse.cc:144
 msgid "index string too long"
 msgstr "インデックス文字列が長すぎます"
 
-#: dselect/methparse.cc:149
+#: dselect/methparse.cc:147
 msgid "newline before option name start"
 msgstr "オプション名が始まる前に改行があります"
 
-#: dselect/methparse.cc:151
+#: dselect/methparse.cc:149
 msgid "EOF before option name start"
 msgstr "オプション名が始まる前に EOF があります"
 
-#: dselect/methparse.cc:155
+#: dselect/methparse.cc:153
 msgid "nonalpha where option name start wanted"
 msgstr "オプション名の始まりがアルファベットではありません"
 
-#: dselect/methparse.cc:157
+#: dselect/methparse.cc:155
 msgid "non-alphanum in option name"
 msgstr "オプション名が英数字ではありません"
 
-#: dselect/methparse.cc:160
+#: dselect/methparse.cc:158
 msgid "EOF in option name"
 msgstr "オプション名に EOF があります"
 
-#: dselect/methparse.cc:165
+#: dselect/methparse.cc:163
 msgid "newline before summary"
 msgstr "要約の前に改行があります"
 
-#: dselect/methparse.cc:167
+#: dselect/methparse.cc:165
 msgid "EOF before summary"
 msgstr "要約の前に EOF があります"
 
-#: dselect/methparse.cc:173
+#: dselect/methparse.cc:171
 msgid "EOF in summary - missing newline"
 msgstr "要約の中に EOF があります - 改行がありません"
 
-#: dselect/methparse.cc:183
+#: dselect/methparse.cc:181
 #, c-format
 msgid "unable to open option description file `%.250s'"
 msgstr "説明ファイル `%.250s' をオープンできません。"
 
-#: dselect/methparse.cc:187
+#: dselect/methparse.cc:185
 #, c-format
 msgid "unable to stat option description file `%.250s'"
 msgstr "オプション記述ファイル `%.250s' のステータスを得られません。"
 
-#: dselect/methparse.cc:191
+#: dselect/methparse.cc:189
 #, c-format
 msgid "failed to read option description file `%.250s'"
 msgstr "オプション記述ファイル `%.250s' の読み込みに失敗しました。"
 
-#: dselect/methparse.cc:194
+#: dselect/methparse.cc:192
 #, c-format
 msgid "error during read of option description file `%.250s'"
 msgstr "オプション記述ファイル `%.250s' の読み込み中にエラーが発生しました。"
 
-#: dselect/methparse.cc:216
+#: dselect/methparse.cc:214
 #, c-format
 msgid "error during read of method options file `%.250s'"
 msgstr ""
 "メソッドオプションファイル `%.250s' の読み込み中にエラーが発生しました。"
 
-#: dselect/methparse.cc:246
+#: dselect/methparse.cc:244
 #, c-format
 msgid "unable to open current option file `%.250s'"
 msgstr "現在のオプションファイル `%.250s' をオープンできません。"
 
-#: dselect/methparse.cc:284
+#: dselect/methparse.cc:282
 #, c-format
 msgid "unable to open new option file `%.250s'"
 msgstr "新しいオプションファイル `%.250s' をオープンできません。"
 
-#: dselect/methparse.cc:287
+#: dselect/methparse.cc:285
 #, c-format
 msgid "unable to write new option to `%.250s'"
 msgstr "新しいオプションを `%.255s' に書き込むことができません。"
 
-#: dselect/methparse.cc:290
+#: dselect/methparse.cc:288
 #, c-format
 msgid "unable to close new option file `%.250s'"
 msgstr "新しいオプションファイル `%.250s' をクローズすることができません。"
 
-#: dselect/methparse.cc:292
+#: dselect/methparse.cc:290
 #, c-format
 msgid "unable to install new option as `%.250s'"
 msgstr "新しいオプションを `%.255s' としてインストールできません。"
 
-#: dselect/pkgdepcon.cc:214
+#: dselect/pkgdepcon.cc:213
 msgid "(no clientdata)"
 msgstr "(クライアントなし)"
 
-#: dselect/pkgdisplay.cc:38
+#: dselect/pkgdisplay.cc:36
 msgid "new package"
 msgstr "新パッケージ"
 
-#: dselect/pkgdisplay.cc:40
+#: dselect/pkgdisplay.cc:38
 msgid "hold"
 msgstr "保持"
 
-#: dselect/pkgdisplay.cc:42
+#: dselect/pkgdisplay.cc:40
 msgid "purge"
 msgstr "完全削除"
 
-#. WTA: the space is a trick to work aroung gettext which uses the empty
-#. * string to store information about the translation
+#. WTA: the space is a trick to work around gettext which uses the empty
+#. * string to store information about the translation. DO NOT CHANGE
+#. * THAT IN A TRANSLATION! The code really relies on that being a single space.
 #.
-#: dselect/pkgdisplay.cc:47
+#: dselect/pkgdisplay.cc:46
 msgid " "
 msgstr ""
 
-#: dselect/pkgdisplay.cc:48
+#: dselect/pkgdisplay.cc:47
 msgid "REINSTALL"
 msgstr "再インストール"
 
-#: dselect/pkgdisplay.cc:52
+#: dselect/pkgdisplay.cc:51
 msgid "unpacked (not set up)"
 msgstr "展開(未設定)"
 
-#: dselect/pkgdisplay.cc:53
+#: dselect/pkgdisplay.cc:52
 msgid "failed config"
 msgstr "設定失敗"
 
-#: dselect/pkgdisplay.cc:55
+#: dselect/pkgdisplay.cc:54
 msgid "half installed"
 msgstr "インストール済"
 
-#: dselect/pkgdisplay.cc:56
+#: dselect/pkgdisplay.cc:55
 msgid "removed (configs remain)"
 msgstr "未インストール(設定は保存)"
 
-#: dselect/pkgdisplay.cc:59
+#: dselect/pkgdisplay.cc:58
 msgid "Required"
 msgstr "必須"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:59
 msgid "Important"
 msgstr "重要"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:60
 msgid "Standard"
 msgstr "標準"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:61
 msgid "Recommended"
 msgstr "は以下を推奨(recommends)します: "
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:62
 msgid "Optional"
 msgstr "任意"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:63
 msgid "Extra"
 msgstr "番外"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:64
 msgid "Contrib"
 msgstr "寄贈(contrib)"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:65
 msgid "!Bug!"
 msgstr "!バグ!"
 
-#: dselect/pkgdisplay.cc:67
+#: dselect/pkgdisplay.cc:66
 msgid "Unclassified"
 msgstr "分類不可"
 
-#: dselect/pkgdisplay.cc:70
+#: dselect/pkgdisplay.cc:69
 msgid "suggests"
 msgstr "は以下のパッケージを提案しています:"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:70
 msgid "recommends"
 msgstr "は以下のパッケージを推奨しています:"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:71
 msgid "depends on"
 msgstr "は以下のパッケージに依存しています:"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:72
 msgid "pre-depends on"
 msgstr "は以下のパッケージに先行依存しています:"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:73
 msgid "conflicts with"
 msgstr "は以下のパッケージと競合しています:"
 
-#: dselect/pkgdisplay.cc:75
+#: dselect/pkgdisplay.cc:74
 msgid "provides"
 msgstr "は以下のパッケージを提供しています:"
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:75
 msgid "replaces"
 msgstr "置換"
 
-#: dselect/pkgdisplay.cc:77
+#: dselect/pkgdisplay.cc:76
 msgid "enhances"
 msgstr "強化"
 
-#: dselect/pkgdisplay.cc:80
+#: dselect/pkgdisplay.cc:79
 msgid "Req"
 msgstr "必"
 
-#: dselect/pkgdisplay.cc:81
+#: dselect/pkgdisplay.cc:80
 msgid "Imp"
 msgstr "重"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:81
 msgid "Std"
 msgstr "標"
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:82
 msgid "Rec"
 msgstr "再"
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:83
 msgid "Opt"
 msgstr "任"
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:84
 msgid "Xtr"
 msgstr "番"
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:85
 msgid "Ctb"
 msgstr "寄"
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:86
 msgid "bUG"
 msgstr "バ"
 
-#: dselect/pkgdisplay.cc:88
+#: dselect/pkgdisplay.cc:87
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:96 dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:95 dselect/pkgdisplay.cc:115
 msgid "Broken"
 msgstr "壊れている"
 
-#: dselect/pkgdisplay.cc:97
+#: dselect/pkgdisplay.cc:96
 msgid "New"
 msgstr "新規"
 
-#: dselect/pkgdisplay.cc:98
+#: dselect/pkgdisplay.cc:97
 msgid "Updated"
 msgstr "更新されている"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:98
 msgid "Obsolete/local"
 msgstr "廃止/ローカル"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:99
 msgid "Up-to-date"
 msgstr "最新"
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:100
 msgid "Available"
 msgstr "取得可能"
 
-#: dselect/pkgdisplay.cc:102 dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:101 dselect/pkgdisplay.cc:117
 msgid "Removed"
 msgstr "削除"
 
-#: dselect/pkgdisplay.cc:103 dselect/pkgdisplay.cc:112
+#: dselect/pkgdisplay.cc:102 dselect/pkgdisplay.cc:111
 msgid "Brokenly installed packages"
 msgstr "うまくインストールされていないパッケージ"
 
-#: dselect/pkgdisplay.cc:104
+#: dselect/pkgdisplay.cc:103
 msgid "Newly available packages"
 msgstr "取得可能新パッケージ"
 
-#: dselect/pkgdisplay.cc:105
+#: dselect/pkgdisplay.cc:104
 msgid "Updated packages (newer version is available)"
 msgstr "更新されているパッケージ(新バージョンが取得可能)"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:105
 msgid "Obsolete and local packages present on system"
 msgstr "システムに残っている廃止された、またはローカルなパッケージ"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:106
 msgid "Up to date installed packages"
 msgstr "インストールされている最新パッケージ"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:107
 msgid "Available packages (not currently installed)"
 msgstr "取得可能パッケージ(未インストール)"
 
-#: dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:108
 msgid "Removed and no longer available packages"
 msgstr "削除されて利用不可能なパッケージ"
 
-#: dselect/pkgdisplay.cc:113
+#: dselect/pkgdisplay.cc:112
 msgid "Installed packages"
 msgstr "インストール済のパッケージ"
 
-#: dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:113
 msgid "Removed packages (configuration still present)"
 msgstr "削除されているパッケージ(設定ファイルは存在)"
 
-#: dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:114
 msgid "Purged packages and those never installed"
 msgstr "削除されて、一度もインストールされていない"
 
-#: dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:116
 msgid "Installed"
 msgstr "導入済"
 
-#: dselect/pkgdisplay.cc:119
+#: dselect/pkgdisplay.cc:118
 msgid "Purged"
 msgstr "完全削除"
 
-#: dselect/pkgdisplay.cc:197
+#: dselect/pkgdisplay.cc:196
 msgid "dselect - recursive package listing"
 msgstr "dselect - 再帰的パッケージ一覧"
 
-#: dselect/pkgdisplay.cc:198
+#: dselect/pkgdisplay.cc:197
 msgid "dselect - inspection of package states"
 msgstr "dselect - パッケージ状態の閲覧"
 
-#: dselect/pkgdisplay.cc:199
+#: dselect/pkgdisplay.cc:198
 msgid "dselect - main package listing"
 msgstr "dselect - パッケージ一覧"
 
-#: dselect/pkgdisplay.cc:207
+#: dselect/pkgdisplay.cc:206
 msgid " (by section)"
 msgstr "(分類別)"
 
-#: dselect/pkgdisplay.cc:210
+#: dselect/pkgdisplay.cc:209
 msgid " (avail., section)"
 msgstr "(利用可、分類別)"
 
-#: dselect/pkgdisplay.cc:213
+#: dselect/pkgdisplay.cc:212
 msgid " (status, section)"
 msgstr "(状態、分類別)"
 
-#: dselect/pkgdisplay.cc:222
+#: dselect/pkgdisplay.cc:221
 msgid " (by priority)"
 msgstr "(優先度別)"
 
-#: dselect/pkgdisplay.cc:225
+#: dselect/pkgdisplay.cc:224
 msgid " (avail., priority)"
 msgstr "(利用可、優先度別)"
 
-#: dselect/pkgdisplay.cc:228
+#: dselect/pkgdisplay.cc:227
 msgid " (status, priority)"
 msgstr "(状態、優先度別)"
 
-#: dselect/pkgdisplay.cc:237 dselect/pkgdisplay.cc:249
+#: dselect/pkgdisplay.cc:236 dselect/pkgdisplay.cc:248
 msgid " (alphabetically)"
 msgstr "(アルファベット順)"
 
-#: dselect/pkgdisplay.cc:240
+#: dselect/pkgdisplay.cc:239
 msgid " (by availability)"
 msgstr "(利用可別)"
 
-#: dselect/pkgdisplay.cc:243
+#: dselect/pkgdisplay.cc:242
 msgid " (by status)"
 msgstr "(状態別)"
 
-#: dselect/pkgdisplay.cc:257
+#: dselect/pkgdisplay.cc:256
 msgid " mark:+/=/- terse:v help:?"
 msgstr "マーク:+/=/- 簡易:v ヘルプ:?"
 
-#: dselect/pkgdisplay.cc:258
+#: dselect/pkgdisplay.cc:257
 msgid " mark:+/=/- verbose:v help:?"
 msgstr "マーク:+/=/- 詳細:v ヘルプ:?"
 
-#: dselect/pkgdisplay.cc:259
+#: dselect/pkgdisplay.cc:258
 msgid " terse:v help:?"
 msgstr " 簡易:v ヘルプ:?"
 
-#: dselect/pkgdisplay.cc:260
+#: dselect/pkgdisplay.cc:259
 msgid " verbose:v help:?"
 msgstr " 詳細:v ヘルプ:?"
 
-#: dselect/pkginfo.cc:81
+#: dselect/pkginfo.cc:80
 msgid ""
 "The line you have highlighted represents many packages; if you ask to "
 "install, remove, hold, &c it you will affect all the packages which match "
@@ -4931,121 +4938,125 @@ msgstr ""
 "示されます。`o' および `O' を使用してパッケージソート順を変更し、異なるグ\n"
 "ループに属したパッケージ群にマークを付けることもできます。"
 
-#: dselect/pkginfo.cc:95
+#: dselect/pkginfo.cc:94
 msgid "interrelationships affecting "
 msgstr "関連依存情報: "
 
-#: dselect/pkginfo.cc:101
+#: dselect/pkginfo.cc:100
 msgid "interrelationships"
 msgstr "関連依存"
 
-#: dselect/pkginfo.cc:107
+#: dselect/pkginfo.cc:106
 msgid "description of "
 msgstr "説明: "
 
-#: dselect/pkginfo.cc:111
+#: dselect/pkginfo.cc:110
 msgid "no description available."
 msgstr "説明がありません。"
 
-#: dselect/pkginfo.cc:124
+#: dselect/pkginfo.cc:123
 msgid "description"
 msgstr "説明"
 
-#: dselect/pkginfo.cc:131
+#: dselect/pkginfo.cc:130
 msgid "currently installed control info"
 msgstr "導入済バージョンの制御情報"
 
-#: dselect/pkginfo.cc:133
+#: dselect/pkginfo.cc:132
 msgid "installed control info for "
 msgstr "導入済バージョンの制御情報 "
 
-#: dselect/pkginfo.cc:147
+#: dselect/pkginfo.cc:146
 msgid "available version of control file info"
 msgstr "利用可能バージョンの制御情報"
 
-#: dselect/pkginfo.cc:149
+#: dselect/pkginfo.cc:148
 msgid "available version of control info for "
 msgstr "利用可能バージョンの制御情報 "
 
-#: dselect/pkglist.cc:122 dselect/pkglist.cc:123
+#: dselect/pkglist.cc:120 dselect/pkglist.cc:121
 msgid "<null>"
 msgstr "<なし>"
 
-#: dselect/pkgsublist.cc:122
+#: dselect/pkgsublist.cc:103
+msgid " does not appear to be available\n"
+msgstr ""
+
+#: dselect/pkgsublist.cc:120
 msgid " or "
 msgstr ""
 
-#: dselect/pkgtop.cc:56
+#: dselect/pkgtop.cc:54
 msgid "All"
 msgstr "すべて"
 
-#: dselect/pkgtop.cc:78
+#: dselect/pkgtop.cc:76
 msgid "All packages"
 msgstr "全パッケージ"
 
-#: dselect/pkgtop.cc:82
+#: dselect/pkgtop.cc:80
 #, c-format
 msgid "%s packages without a section"
 msgstr "セクションのない%sパッケージ:"
 
-#: dselect/pkgtop.cc:84
+#: dselect/pkgtop.cc:82
 #, c-format
 msgid "%s packages in section %s"
 msgstr "%2$s セクションの%1$sパッケージ"
 
-#: dselect/pkgtop.cc:90
+#: dselect/pkgtop.cc:88
 #, c-format
 msgid "%s %s packages"
 msgstr "%s%sパッケージ"
 
-#: dselect/pkgtop.cc:94
+#: dselect/pkgtop.cc:92
 #, c-format
 msgid "%s %s packages without a section"
 msgstr "セクションのない%s%sパッケージ"
 
-#: dselect/pkgtop.cc:96
+#: dselect/pkgtop.cc:94
 #, c-format
 msgid "%s %s packages in section %s"
 msgstr "%3$s セクションの%1$s%2$sパッケージ"
 
-#: dselect/pkgtop.cc:117
+#: dselect/pkgtop.cc:115
 #, c-format
 msgid "%-*s %s%s%s;  %s (was: %s).  %s"
 msgstr "%-*s %s%s%s;  %s (前回: %s).  %s"
 
-#: dselect/pkgtop.cc:268
+#: dselect/pkgtop.cc:267
 msgid "Error"
 msgstr "エラー"
 
-#: dselect/pkgtop.cc:272
+#: dselect/pkgtop.cc:271
 msgid "Installed?"
 msgstr "導入?"
 
-#: dselect/pkgtop.cc:276
+#: dselect/pkgtop.cc:275
 msgid "Old mark"
 msgstr "前回"
 
-#: dselect/pkgtop.cc:280
+#: dselect/pkgtop.cc:279
 msgid "Marked for"
 msgstr "今回"
 
-#: dselect/pkgtop.cc:285
+#: dselect/pkgtop.cc:284
 msgid "Section"
 msgstr "分類"
 
-#: dselect/pkgtop.cc:286
+#: dselect/pkgtop.cc:285
 msgid "Priority"
 msgstr "優"
 
-#: dselect/pkgtop.cc:287
+#: dselect/pkgtop.cc:286
 msgid "Package"
 msgstr "パッケージ"
 
-#: dselect/pkgtop.cc:291
+#: dselect/pkgtop.cc:290
 msgid "Inst.ver"
 msgstr ""
 
-#: dselect/pkgtop.cc:294
+#: dselect/pkgtop.cc:293
 msgid "Avail.ver"
 msgstr ""
 

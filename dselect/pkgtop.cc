@@ -116,7 +116,8 @@ void packagelist::redrawthisstate() {
             package_width,
             table[cursorline]->pkg->name,
             gettext(statusstrings[table[cursorline]->pkg->status]),
-            eflagstrings[table[cursorline]->pkg->eflag][0] ? " - " : "",
+            ((eflagstrings[table[cursorline]->pkg->eflag][0]==' ') &&
+              (eflagstrings[table[cursorline]->pkg->eflag][1]=='\0'))  ? "" : " - ",
             gettext(eflagstrings[table[cursorline]->pkg->eflag]),
             gettext(wantstrings[table[cursorline]->selected]),
             gettext(wantstrings[table[cursorline]->original]),
