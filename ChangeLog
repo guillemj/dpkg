@@ -1,3 +1,24 @@
+Tue Feb 15 19:57:45 CET 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * Merge the potato branch:
+  * main/dpkg.8: don't list all authors but refer to THANKS file
+  * debian/control: correct Build-Dependencies for ncurses
+  * debian/control: update extended description to not list dependencies
+    for dpkg-dev
+  * Update lots of documentation
+  * main/enquiry.c: handle failed open of /dev/tty
+  * main/remove.c: revert earlier patch from Oct 11 1999 to remove
+    conffiles before removing directories. Due to the changed execution
+    order conffiles were no longer around when the postrm was run.
+    which is not what we want.
+  * methods/Makefile.in: create $(admindir)/methods/mnt
+  * scripts/dpkg-gencontrol.pl: undo Source-Version changes
+  * scripts/dpkg-source.pl: remove sticky bits from directory when
+    unpacking source
+  * scripts/install-info.pl: partially apply patch from Jammin Wheeler
+    <jammin@life.eu.org> to clean up errors
+  * scripts/update-alternatives.pl: implement --verbose
+
 Sun Feb 13 01:06:46 CET 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * scripts/dpkg-buildpackage.sh: we know that dpkg-architecture is

@@ -2,12 +2,11 @@
 # By Peter Karlsson <peter@softwolves.pp.se>, 1999.
 # Copyright 1999 Software in the Public Interest
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.6.3\n"
-"POT-Creation-Date: 2000-01-08 14:49+0100\n"
-"PO-Revision-Date: 1999-12-09 10:11+0100\n"
+"Project-Id-Version: dpkg 1.6.8\n"
+"POT-Creation-Date: 2000-01-26 21:53+0100\n"
+"PO-Revision-Date: 2000-01-26 21:59+0100\n"
 "Last-Translator: Peter Karlsson <peter@softwolves.pp.se>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
@@ -45,12 +44,12 @@ msgstr "kunde inte gå tillbaka i vsnprintf"
 msgid "read error in vsnprintf truncated"
 msgstr "läsfel i vsnprintf klipptes"
 
-#: lib/compat.c:75
+#: lib/compat.c:89
 #, c-format
 msgid "System error no.%d"
 msgstr "Systemfel nr %d"
 
-#: lib/compat.c:85
+#: lib/compat.c:99
 #, c-format
 msgid "Signal no.%d"
 msgstr "Signal nr. %d"
@@ -406,8 +405,8 @@ msgid "unable to open/create status database lockfile"
 msgstr "kunde inte öppna/skapa låsfil för statusdatabas"
 
 #: lib/lock.c:78
-msgid "status database area is locked - another dpkg/dselect is running"
-msgstr "statusdatabasområdet är låst - dpkg/dselect körs redan"
+msgid "status database area is locked by another process"
+msgstr "statusdatabasområdet är låst av en annan process"
 
 #: lib/lock.c:79
 msgid "unable to lock dpkg status database"
@@ -482,17 +481,14 @@ msgid "failed in copy on read (%s)"
 msgstr "kunde inte läsa vid kopiering (%.250s)"
 
 #: lib/mlib.c:136
-#, c-format
 msgid "failed to allocate buffer for snprintf 1"
 msgstr "kunde inte allokera buffer för snprintf 1"
 
 #: lib/mlib.c:148 lib/mlib.c:160
-#, c-format
 msgid "failed to allocate buffer for snprintf 2"
 msgstr "kunde inte allokera buffer för snprintf 2"
 
 #: lib/mlib.c:165
-#, c-format
 msgid "failed in copy on read (control)"
 msgstr "kunde inte läsa vid kopiering (kontrolldel)"
 
@@ -1502,11 +1498,11 @@ msgstr "  %.250s tillhandahåller %.250s och kommer att installeras.\n"
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %.250s tillhandahåller %.250s och är %s.\n"
 
-#: main/enquiry.c:55
+#: main/enquiry.c:56
 msgid "(no description available)"
 msgstr "(beskrivning saknas)"
 
-#: main/enquiry.c:86
+#: main/enquiry.c:91
 msgid ""
 "Desired=Unknown/Install/Remove/Purge\n"
 "| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n"
@@ -1517,24 +1513,24 @@ msgstr ""
 "| Status=Ej(N)/Installerad(I)/Konf.(C)/Uppackad(U)/Misslyckad(F)/Delvis(H)\n"
 "|/ Fel?Inget(=)/Håll(H)/Ominstallera(R)/Båda(X) (Status,Fel: versaler=illa)\n"
 
-#: main/enquiry.c:90
+#: main/enquiry.c:95
 msgid "Name"
 msgstr "Namn"
 
-#: main/enquiry.c:90
+#: main/enquiry.c:95
 msgid "Version"
 msgstr "Version"
 
-#: dselect/methlist.cc:112 dselect/pkgtop.cc:296 main/enquiry.c:90
+#: dselect/methlist.cc:112 dselect/pkgtop.cc:296 main/enquiry.c:95
 msgid "Description"
 msgstr "Beskrivning"
 
-#: main/enquiry.c:146 main/select.c:80
+#: main/enquiry.c:151 main/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Inga paket matchar %s.\n"
 
-#: main/enquiry.c:171
+#: main/enquiry.c:176
 msgid ""
 "The following packages are in a mess due to serious problems during\n"
 "installation.  They must be reinstalled for them (and any packages\n"
@@ -1544,7 +1540,7 @@ msgstr ""
 "installerades. De måste ominstalleras om de (och paket som beror på\n"
 "dem) ska fungera korrekt:\n"
 
-#: main/enquiry.c:176
+#: main/enquiry.c:181
 msgid ""
 "The following packages have been unpacked but not yet configured.\n"
 "They must be configured using dpkg --configure or the configure\n"
@@ -1554,7 +1550,7 @@ msgstr ""
 "konfigureras med dpkg --configure eller menyvalet \"configure\" i\n"
 "dselect för att de ska fungera:\n"
 
-#: main/enquiry.c:181
+#: main/enquiry.c:186
 msgid ""
 "The following packages are only half configured, probably due to problems\n"
 "configuring them the first time.  The configuration should be retried using\n"
@@ -1564,7 +1560,7 @@ msgstr ""
 "vid deras första konfiguration. Konfigurationen bör försökas igen med\n"
 "dpkg --configure <paket> eller menyvalet \"configure\" i "
 
-#: main/enquiry.c:186
+#: main/enquiry.c:191
 msgid ""
 "The following packages are only half installed, due to problems during\n"
 "installation.  The installation can probably be completed by retrying it;\n"
@@ -1574,93 +1570,93 @@ msgstr ""
 "installationen. Installationen kan troligtvis genomföras genom att försöka\n"
 "igen. Paketen kan tas bort via dselect eller dpkg --remove:\n"
 
-#: main/enquiry.c:211
+#: main/enquiry.c:216
 msgid "--audit does not take any arguments"
 msgstr "--audit tar inget argument"
 
-#: main/enquiry.c:246
+#: main/enquiry.c:251
 msgid "<unknown>"
 msgstr "<okänd>"
 
-#: main/enquiry.c:262
+#: main/enquiry.c:267
 msgid "--yet-to-unpack does not take any arguments"
 msgstr "--yet-to-unpack tar inget argument"
 
-#: main/enquiry.c:300
+#: main/enquiry.c:305
 #, c-format
 msgid " %d in %s: "
 msgstr " %d i %s: "
 
-#: main/enquiry.c:315
+#: main/enquiry.c:320
 #, c-format
 msgid " %d packages, from the following sections:"
 msgstr " %d paket, från följande avdelningar:"
 
-#: main/enquiry.c:335
+#: main/enquiry.c:340
 #, c-format
 msgid "diversion by %s"
 msgstr "omdirigerat av %s"
 
-#: main/enquiry.c:336
+#: main/enquiry.c:341
 msgid "local diversion"
 msgstr "lokal omdirigering"
 
-#: main/enquiry.c:337
+#: main/enquiry.c:342
 msgid "to"
 msgstr "till"
 
-#: main/enquiry.c:337
+#: main/enquiry.c:342
 msgid "from"
 msgstr "från"
 
-#: main/enquiry.c:370
+#: main/enquiry.c:375
 msgid "--search needs at least one file name pattern argument"
 msgstr "--search behöver åtminstone ett filnamnsmönsterargument"
 
-#: main/enquiry.c:398
+#: main/enquiry.c:403
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s kunde ej hittas.\n"
 
-#: main/enquiry.c:414 main/packages.c:109
+#: main/enquiry.c:419 main/packages.c:109
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "--%s behöver åtminstone ett paket som argument"
 
-#: main/enquiry.c:434
+#: main/enquiry.c:439
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Paketet \"%s\" är inte installerat och ingen information finns.\n"
 
-#: main/enquiry.c:443
+#: main/enquiry.c:448
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "Paketet \"%s\" är ej tillgängligt.\n"
 
-#: main/enquiry.c:453
+#: main/enquiry.c:458
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "Paketet \"%s\" är ej installerat.\n"
 
-#: main/enquiry.c:462
+#: main/enquiry.c:467
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Paketet \"%s\" innehåller inga filer (!)\n"
 
-#: main/enquiry.c:468
+#: main/enquiry.c:473
 msgid "locally diverted"
 msgstr "lokalt omdirigerad"
 
-#: main/enquiry.c:469
+#: main/enquiry.c:474
 msgid "package diverts others"
 msgstr "paketet omdirigerar andra"
 
-#: main/enquiry.c:470
+#: main/enquiry.c:475
 #, c-format
 msgid "diverted by %s"
 msgstr "omdirigerad av %s"
 
-#: main/enquiry.c:489
+#: main/enquiry.c:494
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents."
@@ -1668,11 +1664,11 @@ msgstr ""
 "Använd dpkg --info (= dpkg-deb --info) för att undersöka arkivfiler,\n"
 "och dpkg --contents (= dpkg-deb --contents) för att visa innehållet."
 
-#: main/enquiry.c:500
+#: main/enquiry.c:505
 msgid "--assert-* does not take any arguments"
 msgstr "--assert-* tar inget argument"
 
-#: main/enquiry.c:515
+#: main/enquiry.c:520
 msgid ""
 "Version of dpkg with working epoch support not yet configured.\n"
 " Please use `dpkg --configure dpkg', and then try again.\n"
@@ -1680,16 +1676,16 @@ msgstr ""
 "Versionen av dpkg med fungerande epochstöd är ännu ej konfigurerad.\n"
 " Använd \"dpkg --configure dpkg\" och försök sedan igen.\n"
 
-#: main/enquiry.c:519
+#: main/enquiry.c:524
 msgid "dpkg not recorded as installed, cannot check for epoch support !\n"
 msgstr ""
 "dpkg finns inte listad som installerad, kan inte kontrollera epochstöd!\n"
 
-#: main/enquiry.c:562
+#: main/enquiry.c:567
 msgid "--predep-package does not take any argument"
 msgstr "--predep-package tar inget argument"
 
-#: main/enquiry.c:614
+#: main/enquiry.c:619
 #, c-format
 msgid ""
 "dpkg: cannot see how to satisfy pre-dependency:\n"
@@ -1698,14 +1694,14 @@ msgstr ""
 "dpkg: kan inte komma på hur i förväg-beroendet kan tillfredsställas:\n"
 " %s\n"
 
-#: main/enquiry.c:615
+#: main/enquiry.c:620
 #, c-format
 msgid "cannot satisfy pre-dependencies for %.250s (wanted due to %.250s)"
 msgstr ""
 "kan inte tillfredsställa i förvägberoende för %.250s (krävs på grund av "
 "%.250s)"
 
-#: main/enquiry.c:635
+#: main/enquiry.c:640
 #, c-format
 msgid ""
 "dpkg: unexpected output from `%s --print-libgcc-file-name':\n"
@@ -1714,62 +1710,62 @@ msgstr ""
 "dpkg: oväntad utdata från \"%s --print-libgcc-file-name\":\n"
 " \"%s\"\n"
 
-#: main/enquiry.c:638
+#: main/enquiry.c:643
 #, c-format
 msgid "compiler libgcc filename not understood: %.250s"
 msgstr "kompilatorns libgcc-filnamn förstås ej: %.250s"
 
-#: main/enquiry.c:642
+#: main/enquiry.c:647
 msgid "--print-installation-architecture does not take any argument"
 msgstr "--print-installation-architecture tar inget argument"
 
-#: main/enquiry.c:662
+#: main/enquiry.c:667
 msgid "--print-architecture does not take any argument"
 msgstr "--print-architecture tar inget argument"
 
-#: main/enquiry.c:668
+#: main/enquiry.c:673
 msgid "failed to fdopen CC pipe"
 msgstr "kunde inte utföra \"fdopen\" på CC-rör"
 
-#: main/enquiry.c:687
+#: main/enquiry.c:692
 msgid "error reading from CC pipe"
 msgstr "kunde inte läsa från CC-rör"
 
-#: main/enquiry.c:689
+#: main/enquiry.c:694
 msgid "empty output"
 msgstr "utdata saknas"
 
-#: main/enquiry.c:691
+#: main/enquiry.c:696
 msgid "no newline"
 msgstr "ingen radbrytning"
 
-#: main/enquiry.c:694
+#: main/enquiry.c:699
 msgid "no gcc-lib component"
 msgstr "inge gcc-lib-komponent"
 
-#: main/enquiry.c:696
+#: main/enquiry.c:701
 msgid "no hyphen after gcc-lib"
 msgstr "inget bindestreck efter gcc-lib"
 
-#: main/enquiry.c:708
+#: main/enquiry.c:713
 #, c-format
 msgid "dpkg: warning, architecture `%s' not in remapping table\n"
 msgstr "dpkg: varning, arkitekturen \"%s\" finns ej i ommappningstabellen\n"
 
-#: main/enquiry.c:750
+#: main/enquiry.c:755
 msgid "--cmpversions takes three arguments: <version> <relation> <version>"
 msgstr "--cmpversions tar tre argument: <version> <relation> <version>"
 
-#: main/enquiry.c:755
+#: main/enquiry.c:760
 msgid "--cmpversions bad relation"
 msgstr "--cmpversions: ogiltig relation"
 
-#: main/enquiry.c:760
+#: main/enquiry.c:765
 #, c-format
 msgid "version a has bad syntax: %s\n"
 msgstr "version a har felaktig syntax: %s\n"
 
-#: main/enquiry.c:770
+#: main/enquiry.c:775
 #, c-format
 msgid "version b has bad syntax: %s\n"
 msgstr "version b har felaktig syntax: %s\n"
@@ -3020,7 +3016,7 @@ msgstr "kunde inte skapa \"%.255s\""
 msgid "unable to unbuffer `%.255s'"
 msgstr "kunde inte stänga av buffert för \"%.255s\""
 
-#: dpkg-deb/build.c:213 dpkg-deb/build.c:272 dpkg-deb/build.c:280
+#: dpkg-deb/build.c:213 dpkg-deb/build.c:272
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "kunde inte byta katalog till \"%.255s\""
@@ -3080,28 +3076,25 @@ msgid "failed to unlink tmpfile (data), %s"
 msgstr "kunde inte ta bort temporärfil (datadel), %s"
 
 #: dpkg-deb/build.c:274
-msgid "failed to exec dpkg-deb-filelist"
-msgstr "kunde inte exekvera dpkg-deb-filelist"
-
-#: dpkg-deb/build.c:282
 msgid "failed to exec tar --exclude"
 msgstr "kunde inte exekvera tar --exclude"
 
-#: dpkg-deb/build.c:293
+#: dpkg-deb/build.c:284
 msgid "no compression copy loop"
 msgstr "ingen komprimeringskopieslinga"
 
-#: dpkg-deb/build.c:299
-msgid "failed to exec gzip -9c from tar --exclude"
-msgstr "kunde inte exekvera gzip -9c från tar --exclude"
+#: dpkg-deb/build.c:290
+#, c-format
+msgid "failed to exec gzip %s from tar --exclude"
+msgstr "kunde inte exekvera gzip %s från tar --exclude"
 
-#: dpkg-deb/build.c:315
+#: dpkg-deb/build.c:305
 msgid "failed to rewind tmpfile (data)"
 msgstr "kunde inte utföra \"rewind\" mot temporär fil (datadel)"
 
-#: dpkg-deb/build.c:316
-msgid "data"
-msgstr "datadel"
+#: dpkg-deb/build.c:308
+msgid "failed to exec cat (data)"
+msgstr "kunde inte exekvera cat (datadel)"
 
 #: dpkg-deb/extract.c:48
 msgid "failed to exec sh -c mv foo/* &c"
@@ -3942,6 +3935,7 @@ msgstr "kunde inte hämta tidigare fönsteruppdateringshanterare"
 msgid "failed to block SIGWINCH"
 msgstr "kunde inte blockera fönsterändring"
 
+#. nsigact.sa_flags= SA_INTERRUPT;
 #: dselect/baselist.cc:81
 msgid "failed to set new SIGWINCH sigact"
 msgstr "kunde inte sätta ny fönsteruppdateringshanterare"
@@ -4162,76 +4156,76 @@ msgstr "Välj nu markerad åtkomstmetod"
 msgid "Quit without changing selected access method"
 msgstr "Avsluta utan att ändra vald åtkomstmetod"
 
-#: dselect/main.cc:51
+#: dselect/main.cc:55
 msgid "Type dselect --help for help."
 msgstr "Skriv dselect --help för hjälp."
 
-#: dselect/main.cc:67
+#: dselect/main.cc:71
 msgid "access"
 msgstr "åtkomst"
 
-#: dselect/main.cc:67
+#: dselect/main.cc:71
 msgid "Choose the access method to use."
 msgstr "Välj använd åtkomstmetod."
 
-#: dselect/main.cc:68
+#: dselect/main.cc:72
 msgid "update"
 msgstr "uppdatera"
 
-#: dselect/main.cc:68
+#: dselect/main.cc:72
 msgid "Update list of available packages, if possible."
 msgstr "Uppdatera listan över tillgängliga paket, om möjligt."
 
-#: dselect/main.cc:69
+#: dselect/main.cc:73
 msgid "select"
 msgstr "välj"
 
-#: dselect/main.cc:69
+#: dselect/main.cc:73
 msgid "Request which packages you want on your system."
 msgstr "Välj paket du vill ha på ditt system."
 
-#: dselect/main.cc:70 dselect/pkgdisplay.cc:39
+#: dselect/main.cc:74 dselect/pkgdisplay.cc:39
 msgid "install"
 msgstr "installera"
 
-#: dselect/main.cc:70
+#: dselect/main.cc:74
 msgid "Install and upgrade wanted packages."
 msgstr "Installera och uppgradera önskade paket."
 
-#: dselect/main.cc:71
+#: dselect/main.cc:75
 msgid "config"
 msgstr "konfigurera"
 
-#: dselect/main.cc:71
+#: dselect/main.cc:75
 msgid "Configure any packages that are unconfigured."
 msgstr "Konfigurera paket som ännu ej konfigurerats."
 
-#: dselect/main.cc:72 dselect/pkgdisplay.cc:41
+#: dselect/main.cc:76 dselect/pkgdisplay.cc:41
 msgid "remove"
 msgstr "radera"
 
-#: dselect/main.cc:72
+#: dselect/main.cc:76
 msgid "Remove unwanted software."
 msgstr "Ta bort oönskad programvara."
 
-#: dselect/main.cc:73
+#: dselect/main.cc:77
 msgid "quit"
 msgstr "avsluta"
 
-#: dselect/main.cc:73
+#: dselect/main.cc:77
 msgid "Quit dselect."
 msgstr "Lämnar dselect."
 
-#: dselect/main.cc:74
+#: dselect/main.cc:78
 msgid "menu"
 msgstr "meny"
 
-#: dselect/main.cc:79
+#: dselect/main.cc:83
 #, c-format
 msgid "Debian GNU/Linux `%s' package handling frontend."
 msgstr "Debian GNU/Linux \"%s\" pakethanteringsskal."
 
-#: dselect/main.cc:82
+#: dselect/main.cc:86
 #, c-format
 msgid ""
 "Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
@@ -4245,35 +4239,33 @@ msgstr ""
 "kopieringsvillkor. Det finns INGEN garanti. Se dselect --license för "
 "detaljer.\n"
 
-#: dselect/main.cc:94
-#, fuzzy
+#: dselect/main.cc:98
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
 "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
-"          --help  --version  --licence  --expert  --debug <file> | -D<file> "
-"| -D\n"
+"          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
 "Actions:  access update select install config remove quit menu\n"
 msgstr ""
 "Användning: dselect [flaggor]\n"
 "            dselect [flaggor] handling ...\n"
 "Flaggor: --admindir <katalog>  (förval är /var/lib/dpkg)\n"
-"         --help  --version  --license  --expert  --debug <fil> | -D<fil> | -D\n"
+"         --help  --version  --license  --expert  --debug <fil> | -D<fil>\n"
 
-#: dselect/main.cc:140
+#: dselect/main.cc:144
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "kunde inte öppna felsökningsfil \"%.255s\"\n"
 
-#: dselect/main.cc:171
+#: dselect/main.cc:175
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Terminalen verkar inte tillåta marköradressering.\n"
 
-#: dselect/main.cc:173
+#: dselect/main.cc:177
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Terminalen verkar inte tillåta ljusmarkering.\n"
 
-#: dselect/main.cc:174
+#: dselect/main.cc:178
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
@@ -4281,29 +4273,35 @@ msgstr ""
 "Korrigera din TERM-variabel, använd en bättre terminal eller\n"
 "lev med det per-pakethanterande verktyget "
 
-#: dselect/main.cc:176
+#: dselect/main.cc:180
 msgid "terminal lacks necessary features, giving up"
 msgstr "terminalen saknar funktioner som behövs, ger upp"
 
-#: dselect/main.cc:252
+#: dselect/main.cc:259
 msgid ""
 "\n"
 "\n"
-"Use ^P and ^N, cursor keys, initial letters, or digits to select;\n"
-"Press ENTER to confirm selection.   ^L to redraw screen.\n"
+"Move around with ^P and ^N, cursor keys, initial letters, or digits;\n"
+"Press <enter> to confirm selection.   ^L redraws screen.\n"
 "\n"
 msgstr ""
 "\n"
 "\n"
-"Använd ^P och ^N, piltangenter, första bokstäver eller siffror för att "
-"välja\n"
-"Tryck ENTER för att bekräfta val. ^L ritar om skärmen.\n"
+"Använd ^P och ^N, piltangenter, första bokstäver eller siffror.\n"
+"Tryck <Enter> för att bekräfta val. ^L ritar om skärmen.\n"
 
-#: dselect/main.cc:271
+#: dselect/main.cc:273
+msgid ""
+"\n"
+"\n"
+"Read-only access: only preview of selections is available!"
+msgstr ""
+
+#: dselect/main.cc:287
 msgid "failed to getch in main menu"
 msgstr "kunde inte utföra \"getch\" i huvudmenyn"
 
-#: dselect/main.cc:342
+#: dselect/main.cc:358
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "okänd handling \"%.50s\""
@@ -4349,115 +4347,89 @@ msgstr "förklaring av "
 msgid "No explanation available."
 msgstr "Ingen förklaring finns."
 
-#: dselect/method.cc:62
-msgid "unable to unlock access method area"
-msgstr "kunde inte låsa upp åtkomstmetodsområde"
-
-#: dselect/method.cc:77
+#: dselect/method.cc:63
+#, c-format
 msgid ""
-"No access methods are available.\n"
 "\n"
-"Press RETURN to continue."
+"\n"
+"%s: %s\n"
 msgstr ""
-"Inga åtkomstmetoder är tillgängliga.\n"
+
+#: dselect/method.cc:66
+msgid ""
 "\n"
-"Tryck ENTER för att fortsätta."
+"Press <enter> to continue."
+msgstr "\nTryck <Enter> för att fortsätta."
 
-#: dselect/method.cc:100
-msgid "you do not have permission to change the access method"
-msgstr "du har inte behörighet att ändra åtkomstmetoden"
-
-#: dselect/method.cc:101
-msgid "unable to open/create access method lockfile"
-msgstr "kunde inte öppna/skapa låsfilen för åtkomstmetod"
-
-#: dselect/method.cc:106
-msgid "the access method area is already locked"
-msgstr "åtkomstmetodområdet är redan låst"
-
-#: dselect/method.cc:107
-msgid "unable to lock access method area"
-msgstr "kunde inte låsa åtkomstmetodområdet"
-
-#: dselect/method.cc:120
+#: dselect/method.cc:143
 #, c-format
 msgid "error un-catching signal %d: %s\n"
 msgstr "kunde inte stänga av hantering av signal %d: %s\n"
 
-#: dselect/method.cc:138
+#: dselect/method.cc:161
 #, c-format
 msgid "unable to ignore signal %d before running %.250s"
 msgstr "kunde inte ignorera signal %d innan %.250s startas"
 
-#: dselect/method.cc:145
+#: dselect/method.cc:168
 #, c-format
 msgid "unable to run %.250s process `%.250s'"
 msgstr "kunde inte köra %.250s process \"%.250s\""
 
-#: dselect/method.cc:149
+#: dselect/method.cc:172
 #, c-format
 msgid "unable to wait for %.250s"
 msgstr "kunde inte vänta på %.250s"
 
-#: dselect/method.cc:151
+#: dselect/method.cc:174
 #, c-format
 msgid "got wrong child's status - asked for %ld, got %ld"
 msgstr "fick fel barns status - frågade efter %ld, fick %ld"
 
-#: dselect/method.cc:162
+#: dselect/method.cc:185
 #, c-format
 msgid "returned error exit status %d.\n"
 msgstr "returnerade felkod %d.\n"
 
-#: dselect/method.cc:166
+#: dselect/method.cc:189
 msgid "was interrupted.\n"
 msgstr "avbröts.\n"
 
-#: dselect/method.cc:168
+#: dselect/method.cc:191
 #, c-format
 msgid "was terminated by a signal: %s.\n"
 msgstr "avbröts av signal: %s.\n"
 
-#: dselect/method.cc:171
+#: dselect/method.cc:194
 msgid "(It left a coredump.)\n"
 msgstr "(Lämnade minnesutskrift.)\n"
 
-#: dselect/method.cc:173
+#: dselect/method.cc:196
 #, c-format
 msgid "failed with an unknown wait return code %d.\n"
 msgstr "misslyckades med okänt väntekod %d.\n"
 
-#: dselect/method.cc:175
-msgid "Press RETURN to continue.\n"
-msgstr "Tryck ENTER för att fortsätta.\n"
+#: dselect/method.cc:198
+msgid "Press <enter> to continue.\n"
+msgstr "Tryck <Enter> för att fortsätta.\n"
 
-#: dselect/method.cc:177
+#: dselect/method.cc:200
 msgid "write error on standard error"
 msgstr "skrivfel på standard fel"
 
-#: dselect/method.cc:180
+#: dselect/method.cc:203
 msgid "error reading acknowledgement of program failure message"
 msgstr "kunde inte läsa bekräftelse av meddelande om programs misslyckande"
 
-#: dselect/method.cc:203
-msgid ""
-"No access method is selected/configured.\n"
-"\n"
-"Press RETURN to continue."
-msgstr ""
-"Inga åtkomstmetoder är valda/konfigurerade.\n"
-"\n"
-"Tryck ENTER för att fortsätta."
-
-#: dselect/method.cc:214
+#: dselect/method.cc:234
 msgid "update available list script"
 msgstr "skriptfil för att uppdatera lista över tillgängliga paket"
 
-#: dselect/method.cc:218
+#: dselect/method.cc:238
 msgid "installation script"
 msgstr "installationsskriptfil"
 
-#: dselect/method.cc:264
+#: dselect/method.cc:286
 msgid "query/setup script"
 msgstr "fråge-/inställningsskriptfil"
 
@@ -5046,15 +5018,18 @@ msgstr ""
 "Markera paket för senare hantering:\n"
 " +, Insert  installera/uppgradera   =, H  håll i nuvarande tillstånd\n"
 " -, Delete  ta bort                 :, G  stäng av \"håll\":\n"
-" _          ta bort & radera konfig.            uppgradera/lämna oinstallerat\n"
+" _          ta bort & radera konfig.            uppgradera/lämna "
+"oinstallerat\n"
 "                                             Diverse:\n"
 "Avsluta, lämna, skriv över (versaler!):       ?, F1 begär hjälp (även Help)\n"
-" Enter   Bekräfta, lämna (undersök beroenden) i, I  växla/cykla infovisningar\n"
+" Enter   Bekräfta, lämna (undersök beroenden) i, I  växla/cykla "
+"infovisningar\n"
 "   Q     Bekräfta, lämna (ignorera beroenden) o, O  cykla sorteringsval\n"
 " X, Esc  Avsluta utan att genomföra ändringar v, V  ändra statusvisningsval\n"
 "   R     Återgå till föregående tillstånd      ^l   rita om skärmen\n"
 "   U     Ställ till föreslaget tillstånd        /   sök (Enter avbryter)\n"
-"   D     Sätt alla till önskat tillstånd        \\   repetera senaste sökningen\n"
+"   D     Sätt alla till önskat tillstånd        \\   repetera senaste "
+"sökningen\n"
 
 #: dselect/helpmsgs.cc:33
 msgid "Introduction to package list"
@@ -5062,8 +5037,8 @@ msgstr "Introduktion till paketlistan"
 
 #: dselect/helpmsgs.cc:33
 msgid ""
-"Welcome to the main package listing.  Please read the help that is available "
-"!\n"
+"Welcome to the main package listing.  Please read the help that is "
+"available!\n"
 "\n"
 "You will be presented with a list of packages which are installed or "
 "available\n"
@@ -5105,8 +5080,7 @@ msgid ""
 "Welcome to dselect's main package listing.  Since you do not have the\n"
 "privilege necessary to update package states you are in read-only mode.\n"
 "\n"
-"Much on-line help is available, please make use of it !  Press `?' for "
-"help.\n"
+"Much on-line help is available, please make use of it!  Press `?' for help.\n"
 "You should read the list of keys and the explanations of the display.\n"
 "\n"
 "You will be presented with a list of packages which are installed or "
@@ -5121,7 +5095,7 @@ msgid ""
 "\n"
 "Press Space to leave help and enter the list; press `?' at any time for "
 "help.\n"
-"When you have finished browsing, press `q' or Return to quit.\n"
+"When you have finished browsing, press `Q' or <enter> to quit.\n"
 msgstr ""
 "Välkomen till dselects huvudpaketlista. Eftersom du inte har tillräckliga\n"
 "privilegier för att uppdatera informationen är du i skrivskyddat läge.\n"
@@ -5129,15 +5103,19 @@ msgstr ""
 "En mängd direkthjälp finns att tillgå, använd den !  Tryck \"?\" för hjälp.\n"
 "Du bör läsa genom tangentlistningen och förklaringen av visningen.\n"
 "\n"
-"Du kommer att visas en lista över paket som är installerade eller tillgägnliga\n"
-"för installation. Du kan navigera i listan med piltangenterna (på samma sätt\n"
-"som du hade kunnat om du hade haft rätt att ändra i listan - se hjälpskärmen\n"
-"för tangentbordskommandona) och se på paketens status och läsa information om\n"
+"Du kommer att visas en lista över paket som är installerade eller "
+"tillgängliga\n"
+"för installation. Du kan navigera i listan med piltangenterna (på samma "
+"sätt\n"
+"som du hade kunnat om du hade haft rätt att ändra i listan - se "
+"hjälpskärmen\n"
+"för tangentbordskommandona) och se på paketens status samt läsa information "
+"om\n"
 "dem.\n"
 "\n"
-"Tryck mellanslag för att lämna hjälpskärmen och gå tillbaka till listan. Tryck\n"
-"\"?\" när som helst för hjälp.\n"
-"När du har tittat färdigt, tryck \"q\" eller Enter för att avsluta.\n"
+"Tryck mellanslag för att lämna hjälpen och gå till listan. Tryck \"?\" när\n"
+"som helst för hjälp.\n"
+"När du har tittat färdigt, tryck \"q\" eller <Enter> för att avsluta.\n"
 
 #: dselect/helpmsgs.cc:75
 msgid "Introduction to conflict/dependency resolution sub-list"
@@ -5179,27 +5157,34 @@ msgid ""
 msgstr ""
 "Hantering av beroenden/konflikter - introduktion.\n"
 "\n"
-"Ett eller flera av dina val har orsakat en konflikt eller ett beroendeproblem -\n"
+"Ett eller flera av dina val har orsakat en konflikt eller ett "
+"beroendeproblem -\n"
 "vissa paket bör endast installeras i samband med vissa andra, och vissa\n"
 "kombinationer av paket kan inte installeras samtidigt.\n"
 "\n"
 "Du kommer att se en underlista med de involverande paketen. Nedre halvan av\n"
-"skärmen visar relevanta konflikter och beroenden. Använd \"i\" för att cykla\n"
+"skärmen visar relevanta konflikter och beroenden. Använd \"i\" för att "
+"cykla\n"
 "mellan dem, paketbeskrivningarna och den interna kontrollinformationen.\n"
 "\n"
 "En samling \"föreslagna\" paket har beräknats, och de ursprungliga\n"
-"inställningarna i denna underlista har satts till att matcha dessa, så att du\n"
+"inställningarna i denna underlista har satts till att matcha dessa, så att "
+"du\n"
 "helt enkelt kan trycka Enter för att acceptera valen om du vill. Du kan\n"
 "avbryta ändringarna som orsakade problemen och gå tillbaka till huvudlistan\n"
 "genom att trycka ett versalt \"X\".\n"
 "\n"
-"Du kan också stega genom listan och ändra inställningarna så att de blir mer\n"
-"vad du önskar, och du kan \"förkasta\" mitt förslag genom att använda versalt\n"
-"\"D\" eller \"R\" (se tangentbordshjälpen). Du kan använda versalt \"Q\" för\n"
+"Du kan också stega genom listan och ändra inställningarna så att de blir "
+"mer\n"
+"vad du önskar, och du kan \"förkasta\" mitt förslag genom att använda "
+"versalt\n"
+"\"D\" eller \"R\" (se tangentbordshjälpen). Du kan använda versalt \"Q\" "
+"för\n"
 "att tvinga mig att acceptera nuvarande inställningar, om du önskar gå förbi\n"
 "rekommendationen, eller tycker att programmet misstagit sig.\n"
 "\n"
-"Tryck mellanslag för att lämna hjälpen och komma till underlistan. Kom ihåg:\n"
+"Tryck mellanslag för att lämna hjälpen och komma till underlistan. Kom "
+"ihåg:\n"
 "tryck \"?\" för hjälp.\n"
 
 #: dselect/helpmsgs.cc:100
@@ -5237,13 +5222,17 @@ msgid ""
 "available version numbers (shift-V to display/hide) and summary "
 "description.\n"
 msgstr ""
-"Övre halvan av skärmen visar en lista över paket. För varje paket ser du fyra\n"
-"kolumner för deras nuvarande status och markering. I det koncisa läget (tryck\n"
+"Övre halvan av skärmen visar en lista över paket. För varje paket ser du "
+"fyra\n"
+"kolumner för deras nuvarande status och markering. I det koncisa läget "
+"(tryck\n"
 "\"v\" för att få pratsamt läge) är dessa enkla bokstäver, från vänster till\n"
 "höger:\n"
 "\n"
-" Felflagga: mellanslag - inget fel (men paketet kan vara trasigt - se nedan)\n"
-"             \"R\"       - allvarligt fel vid installation, måste ominstalleras\n"
+" Felflagga: mellanslag - inget fel (men paketet kan vara trasigt - se "
+"nedan)\n"
+"             \"R\"       - allvarligt fel vid installation, måste "
+"ominstalleras\n"
 " Tillstånd: mellanslag - ej installerat\n"
 "                \"*\"    - installerat\n"
 "                \"-\"    - ej installerat, men konfigurationsfiler kvarstår\n"
@@ -5255,7 +5244,8 @@ msgstr ""
 "  \"*\": markerat för att installeras eller uppgraderas\n"
 "  \"-\": markerat för att tas bort, men att behålla konfigurationsfilerna\n"
 "  \"=\": håll: paketet kommer över huvud taget inte att hanteras\n"
-"  \"_\": markerat för rensning, även konfigurationsfiler kommer att tas bort\n"
+"  \"_\": markerat för rensning, även konfigurationsfiler kommer att tas "
+"bort\n"
 "  \"n\": paketet är nytt har ännu inte markerats för någonting\n"
 "\n"
 "Varje pakets prioritet, sektion, namn, installerad och tillgänglig version\n"
@@ -5295,22 +5285,28 @@ msgstr ""
 "  paket som kommer att påverkas om \"+\", \"-\" och \"_\" trycks.\n"
 "\n"
 "* Avdelningslinjen i mitten av skärmen visar en kort förklaring av det nu\n"
-"  markerade paketets status, eller en beskrivning av vilken grupp som markeras\n"
+"  markerade paketets status, eller en beskrivning av vilken grupp som "
+"markeras\n"
 "  om markeringsraden står på en sådan rad. Om du inte förstår betydelsen av\n"
 "  någon av statussymbolerna som visas kan du gå till paketet och titta på\n"
 "  avdelningslinjen, eller använda \"v\" för att slå på det pratsamma läget\n"
 "  (tryck \"v\" igen för att återgå till den koncisa visningen).\n"
 "\n"
-"* Den nedre delen av skärmen visar ytterligare information om det nu markerade\n"
+"* Den nedre delen av skärmen visar ytterligare information om det nu "
+"markerade\n"
 "  paketet (om endast ett paket markerats).\n"
 "\n"
-"  Den kan visa den utökade beskrivningen av paketet, detaljer om intern paket-\n"
-"  information (antingen för den installerade eller den tillgängliga versionen\n"
+"  Den kan visa den utökade beskrivningen av paketet, detaljer om intern "
+"paket-\n"
+"  information (antingen för den installerade eller den tillgängliga "
+"versionen\n"
 "  av paketet), eller information om konflikter och beroenden som gäller det\n"
 "  aktuella pektet (i underlistor där konflikter/beroenden hanteras).\n"
 "\n"
-"  Använd \"i\"-tangenten för att cykla genom de olika visningslägena, och \"I\"\n"
-"  för att gömma informationsvisningen, eller utöka den till att använda nästan\n"
+"  Använd \"i\"-tangenten för att cykla genom de olika visningslägena, och "
+"\"I\"\n"
+"  för att gömma informationsvisningen, eller utöka den till att använda "
+"nästan\n"
 "  hela skärmen.\n"
 
 #: dselect/helpmsgs.cc:148
@@ -5351,10 +5347,12 @@ msgstr ""
 "När du flyttar markeringsraden visas en beskrivning av varje metod, om en\n"
 "sådan finns, på skärmens nedre halva.\n"
 "\n"
-"Om du önskar avsluta utan att ändra någonting kan du använda \"x\"-tangenten\n"
+"Om du önskar avsluta utan att ändra någonting kan du använda "
+"\"x\"-tangenten\n"
 "medan listan över installationsmetoder visas.\n"
 "\n"
-"En komplett lista av tangentbordsfunktioner får du om du trycker \"k\" nu eller\n"
+"En komplett lista av tangentbordsfunktioner får du om du trycker \"k\" nu "
+"eller\n"
 "från hjälpmenyn du når genom att trycka \"?\".\n"
 
 #: dselect/helpmsgs.cc:167
@@ -5406,6 +5404,45 @@ msgstr ""
 "  /             sök (Enter avbryter)\n"
 "  \\             repetera senaste sökning\n"
 
+#~ msgid "failed to exec dpkg-deb-filelist"
+#~ msgstr "kunde inte exekvera dpkg-deb-filelist"
+
+#~ msgid "data"
+#~ msgstr "datadel"
+
+#~ msgid "unable to unlock access method area"
+#~ msgstr "kunde inte låsa upp åtkomstmetodsområde"
+
+#~ msgid ""
+#~ "No access methods are available.\n"
+#~ "\n"
+#~ "Press RETURN to continue."
+#~ msgstr ""
+#~ "Inga åtkomstmetoder är tillgängliga.\n"
+#~ "\n"
+#~ "Tryck ENTER för att fortsätta."
+
+#~ msgid "you do not have permission to change the access method"
+#~ msgstr "du har inte behörighet att ändra åtkomstmetoden"
+
+#~ msgid "unable to open/create access method lockfile"
+#~ msgstr "kunde inte öppna/skapa låsfilen för åtkomstmetod"
+
+#~ msgid "the access method area is already locked"
+#~ msgstr "åtkomstmetodområdet är redan låst"
+
+#~ msgid "unable to lock access method area"
+#~ msgstr "kunde inte låsa åtkomstmetodområdet"
+
+#~ msgid ""
+#~ "No access method is selected/configured.\n"
+#~ "\n"
+#~ "Press RETURN to continue."
+#~ msgstr ""
+#~ "Inga åtkomstmetoder är valda/konfigurerade.\n"
+#~ "\n"
+#~ "Tryck ENTER för att fortsätta."
+
 #~ msgid "unable to exec cat for displaying GPL file"
 #~ msgstr "kunde inte exekvera cat för att visa GPL-fil"
 
@@ -5417,9 +5454,6 @@ msgstr ""
 #~ "Copyright 1994-1996 Ian Jackson, Bruce Perens. Detta program är fri\n"
 #~ "programvara. Se GNU General Public License version 2 eller senare för\n"
 #~ "kopieringsvillkor. Det finns INGEN garanti. Se dpkg --license för detaljer.\n"
-
-#~ msgid "failed to exec cat (data)"
-#~ msgstr "kunde inte exekvera cat (datadel)"
 
 #~ msgid "failed to exec cat component"
 #~ msgstr "kunde inte exekvera cat-del"

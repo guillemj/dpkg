@@ -28,13 +28,17 @@ $maxwidth=79;
 $align=27;
 $calign=29;
 
-undef $menuentry;
-undef $quiet;
-undef $nowrite;
-undef $keepold;
-undef $description;
-undef $sectionre;
-undef $sectiontitle;
+$menuentry="";
+$description="";
+$sectionre="";
+$sectiontitle="";
+$infoentry="";
+$quiet=0;
+$nowrite=0;
+$keepold=0;
+$debug=0;
+$remove=0;
+
 $0 =~ m|[^/]+$|; $name= $&;
 
 while ($ARGV[0] =~ m/^--/) {
@@ -53,7 +57,8 @@ while ($ARGV[0] =~ m/^--/) {
     } elsif ($_ eq '--help') {
         &usage; exit 0;
     } elsif ($_ eq '--debug') {
-        open(DEBUG,">&STDERR") || exit 1;
+        open(DEBUG,">&STDERR") || die "Could not open stderr for output! $!\n";
+	$debug=1;
     } elsif ($_ eq '--section') {
         if (@ARGV < 2) {
             print STDERR "$name: --section needs two more args\n";
@@ -96,11 +101,7 @@ print STDERR "$name: test mode - dir file will not be updated\n"
 umask(umask(0777) & ~0444);
 
 $filename =~ m|[^/]+$|; $basename= $&; $basename =~ s/(\.info)?(\.gz)?$//;
-print DEBUG <<END;
- infodir=\`$infodir'  filename=\`$filename'  maxwidth=\`$maxwidth'
- menuentry=\`$menuentry'  basename=\`$basename'
- description=\`$description' remove=$remove
-END
+&dprint("infodir='$infodir'  filename='$filename'  maxwidth='$maxwidth'\nmenuentry='$menuentry'  basename='$basename'\ndescription='$description'  remove=$remove");
 
 if (!$remove) {
 
@@ -125,14 +126,10 @@ if (!$remove) {
         close(IF); &checkpipe;
         if ($asread =~ m/(\* *[^:]+: *\([^\)]+\).*\. *.*\n){2,}/) {
             $infoentry= $asread; $multiline= 1;
-            print DEBUG <<END;
- multiline \`$asread'
-END
+            &dprint("multiline '$asread'");
         } elsif ($asread =~ m/^\* *([^:]+):( *\([^\)]+\)\.|:)\s*/) {
             $menuentry= $1; $description= $';
-            print DEBUG <<END;
- infile menuentry \`$menuentry' description \`$description'
-END
+            &dprint("infile menuentry '$menuentry' description '$description'");
         } elsif (length($asread)) {
             print STDERR <<END;
 $name: warning, ignoring confusing INFO-DIR-ENTRY in file.
@@ -144,7 +141,7 @@ END
 
         $infoentry =~ m/\n/;
         print "$`\n" unless $quiet;
-        $infoentry =~ m/^\* *([^:]+): *\(([^\)]+)\)/ || die; # internal error
+        $infoentry =~ m/^\* *([^:]+): *\(([^\)]+)\)/ || die "$name: Invalid info entry\n"; # internal error
         $sortby= $1;  $fileinentry= $2;
         
     } else {
@@ -182,9 +179,7 @@ END
             $menuentry= $_ . $menuentry;
         }
 
-        print DEBUG <<END;
- menuentry=\`$menuentry'  description=\`$description'
-END
+        &dprint("menuentry='$menuentry'  description='$description'");
 
         $cprefix= sprintf("* %s: (%s).", $menuentry, $basename);
         $align--; $calign--;
@@ -219,17 +214,17 @@ if (!$nowrite && !link("$infodir/dir","$infodir/dir.lock")) {
         ($! =~ m/exists/i ? "try deleting $infodir/dir.lock ?\n" : '');
 }
 
-open(OLD,"$infodir/dir") || &ulquit("$name: open $infodir/dir: $!\n");
+open(OLD,"$infodir/dir") || &ulquit("open $infodir/dir: $!");
 @work= <OLD>;
-eof(OLD) || &ulquit("$name: read $infodir/dir: $!\n");
-close(OLD) || &ulquit("$name: close $infodir/dir after read: $!\n");
+eof(OLD) || &ulquit("read $infodir/dir: $!");
+close(OLD) || &ulquit("close $infodir/dir after read: $!");
 while ($work[$#work] !~ m/\S/) { $#work--; }
 
-do {
-    last if !@work;
+while (@work) {
     $_= shift(@work);
     push(@head,$_);
-} until (m/^\*\s*Menu:/i);
+    last if (m/^\*\s*Menu:/i);
+}
 
 if (!$remove) {
 
@@ -308,11 +303,9 @@ if (!$remove) {
         $tme =~ y/A-Z/a-z/;
         last unless $tme eq $menuentry;
     }
-        print DEBUG <<END;
- i=$i \$work[\$i]=\`$work[$i]' j=$j \$work[\$j]=\`$work[$j]'
-END
 
     if ($i < $j) {
+        &dprint("i=$i \$work[\$i]='$work[$i]' j=$j \$work[\$j]='$work[$j]'");
         print "$name: deleting entry \`$match ...'\n" unless $quiet;
         $_= $work[$i-1];
         unless (m/^\s/ || m/^\*/ || m/^$/ ||
@@ -335,27 +328,31 @@ END
 }
 
 if (!$nowrite) {
-    open(NEW,"> $infodir/dir.new") || &ulquit("$name: create $infodir/dir.new: $!\n");
-    print(NEW @head,@work) || &ulquit("$name: write $infodir/dir.new: $!\n");
-    close(NEW) || &ulquit("$name: close $infodir/dir.new: $!\n");
+    open(NEW,"> $infodir/dir.new") || &ulquit("create $infodir/dir.new: $!");
+    print(NEW @head,@work) || &ulquit("write $infodir/dir.new: $!");
+    close(NEW) || &ulquit("close $infodir/dir.new: $!");
 
     unlink("$infodir/dir.old");
     link("$infodir/dir","$infodir/dir.old") ||
-        &ulquit("$name: cannot backup old $infodir/dir, giving up: $!\n");
+        &ulquit("cannot backup old $infodir/dir, giving up: $!");
     rename("$infodir/dir.new","$infodir/dir") ||
-        &ulquit("$name: install new $infodir/dir: $!\n");
+        &ulquit("install new $infodir/dir: $!");
 unlink("$infodir/dir.lock") || die "$name: unlock $infodir/dir: $!\n";
 }
 
 sub ulquit {
     unlink("$infodir/dir.lock") ||
         warn "$name: warning - unable to unlock $infodir/dir: $!\n";
-    die $_[0];
+    die "$name: $_[0]\n";
 }
 
 sub checkpipe {
     return if !$pipeit || !$? || $?==0x8D00 || $?==0x0D;
     die "$name: read $filename: $?\n";
+}
+
+sub dprint {
+    print DEBUG "dbg: $_[0]\n" if ($debug);
 }
 
 exit 0;

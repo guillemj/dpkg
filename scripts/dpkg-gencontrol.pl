@@ -43,7 +43,7 @@ Options:  -p<package>            print control file for package
 }
 
 $i=100;grep($fieldimps{$_}=$i--,
-          qw(Package Source-Version Section Priority Architecture Essential
+          qw(Package Version Section Priority Architecture Essential
              Pre-Depends Depends Recommends Suggests Enhances Optional 
 	     Conflicts Replaces Provides Installed-Size Maintainer Source
 	     Description Build-Depends Build-Depends-Indep Build-Conflicts
@@ -147,7 +147,7 @@ for $_ (keys %fi) {
             &setsourcepackage;
         } elsif (m/^Version$/) {
             $sourceversion= $v;
-            $f{"Source-Version"}= $v unless length($forceversion);
+            $f{$_}= $v unless length($forceversion);
         } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
         } elsif (s/^X[CS]*B[CS]*-//i) {
             $f{$_}= $v;
@@ -159,14 +159,14 @@ for $_ (keys %fi) {
     }
 }
 
-$f{'Source-Version'}= $forceversion if length($forceversion);
+$f{'Version'}= $forceversion if length($forceversion);
 
 for $f (qw(Section Priority)) {
     $spvalue{$f}= $spdefault{$f} unless length($spvalue{$f});
     $f{$f}= $spvalue{$f} if $spinclude{$f} && length($spvalue{$f});
 }
 
-for $f (qw(Package Source-Version)) {
+for $f (qw(Package Version)) {
     defined($f{$f}) || &error("missing information for output field $f");
 }
 for $f (qw(Maintainer Description Architecture)) {
@@ -174,7 +174,7 @@ for $f (qw(Maintainer Description Architecture)) {
 }
 $oppackage= $f{'Package'};
 
-$verdiff= $f{'Source-Version'} ne $sourceversion;
+$verdiff= $f{'Version'} ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
     $f{'Source'}= $sourcepackage;
     $f{'Source'}.= " ($sourceversion)" if $verdiff;
@@ -212,7 +212,7 @@ if (open(X,"< $fileslistfile")) {
 } elsif ($! != ENOENT) {
     &syserr("read old files list file");
 }
-$sversion=$f{'Source-Version'};
+$sversion=$f{'Version'};
 $sversion =~ s/^\d+://;
 print(Y &substvars(sprintf("%s_%s_%s.deb %s %s\n",
                            $oppackage,$sversion,$f{'Architecture'},

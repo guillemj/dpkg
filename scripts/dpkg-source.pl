@@ -582,6 +582,7 @@ if ($opmode eq 'build') {
 
     mkdir("$expectprefix.tmp-nest",0755)
 	|| &syserr("unable to create \`$expectprefix.tmp-nest'");
+    system "chmod", "g-s", "$expectprefix.tmp-nest";
     extracttar("$dscdir/$tarfile","$expectprefix.tmp-nest","$expectprefix");
     rename("$expectprefix.tmp-nest/$expectprefix","$expectprefix")
 	|| &syserr("unable to rename \`$expectprefix.tmp-nest/$expectprefix' "
@@ -612,6 +613,7 @@ if ($opmode eq 'build') {
         if ($sourcestyle =~ m/u/) {
 	    mkdir("$expectprefix.tmp-nest",0755)
 		|| &syserr("unable to create \`$expectprefix.tmp-nest'");
+	    system "chmod", "g-s", "$expectprefix.tmp-nest";
 	    extracttar("$dscdir/$tarfile","$expectprefix.tmp-nest",
 		       "$expectprefix");
 	    rename("$expectprefix.tmp-nest/$expectprefix","$expectprefix")

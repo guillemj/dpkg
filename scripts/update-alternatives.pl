@@ -122,7 +122,8 @@ if (open(AF,"$admindir/$name")) {
            }
        } else {
            # File not found - remove
-            &pr("Alternative for $name points to $version - which wasn't found.  Removing from list of alternatives.");
+           &pr("Alternative for $name points to $version - which wasn't found.  Removing from list of alternatives.")
+             if $verbosemode > 0;
            &gl("priority");
            for ($j=0; $j<=$#slavenames; $j++) {
                &gl("spath");
@@ -204,7 +205,8 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 # all independent
 
 if ($mode eq 'auto') {
-    &pr("Setting up automatic selection of $name.");
+    &pr("Setting up automatic selection of $name.")
+      if $verbosemode > 0;
     unlink("$altdir/$name.dpkg-tmp") || $! == &ENOENT ||
         &quit("unable to remove $altdir/$name.dpkg-tmp: $!");
     unlink("$altdir/$name") || $! == &ENOENT ||
@@ -213,7 +215,8 @@ if ($mode eq 'auto') {
     $manual= 'auto';
 } elsif ($state eq 'nonexistent') {
     if ($mode eq 'manual') {
-        &pr("$altdir/$name has been deleted, returning to automatic selection.");
+        &pr("$altdir/$name has been deleted, returning to automatic selection.")
+          if $verbosemode > 0;
         $mode= 'auto';
     }
 }
@@ -225,7 +228,8 @@ if ($mode eq 'auto') {
 
 if ($state eq 'unexpected' && $manual eq 'auto') {
     &pr("$altdir/$name has been changed (manually or by a script).\n".
-        "Switching to manual updates only.");
+        "Switching to manual updates only.")
+      if $verbosemode > 0;
     $manual= 'manual';
 }
 
@@ -236,11 +240,13 @@ if ($state eq 'unexpected' && $manual eq 'auto') {
 # state=unexpected => manual=manual
 
 &pr("Checking available versions of $name, updating links in $altdir ...\n".
-    "(You may modify the symlinks there yourself if desired - see \`man ln'.)");
+    "(You may modify the symlinks there yourself if desired - see \`man ln'.)")
+  if $verbosemode > 0;
 
 if ($mode eq 'install') {
     if ($link ne $alink && $link ne '') {
-        &pr("Renaming $name link from $link to $alink.");
+        &pr("Renaming $name link from $link to $alink.")
+          if $verbosemode > 0;
         rename_mv($link,$alink) || $! == &ENOENT ||
             &quit("unable to rename $link to $alink: $!");
     }
@@ -261,7 +267,8 @@ if ($mode eq 'install') {
         $slavelinkcount{$newslavelink}++ &&
             &quit("slave link name $newslavelink duplicated");
         if ($newslavelink ne $oldslavelink && $oldslavelink ne '') {
-            &pr("Renaming $sname slave link from $oldslavelink to $newslavelink.");
+            &pr("Renaming $sname slave link from $oldslavelink to $newslavelink.")
+              if $verbosemode > 0;
             rename_mv($oldslavelink,$newslavelink) || $! == &ENOENT ||
                 &quit("unable to rename $oldslavelink to $newslavelink: $!");
         }
@@ -284,7 +291,8 @@ if ($mode eq 'remove') {
             delete $slavepath{$k,$j};
         }
     } else {
-        &pr("Alternative $apath for $name not registered, not removing.");
+        &pr("Alternative $apath for $name not registered, not removing.")
+          if $verbosemode > 0;
     }
 }
 
@@ -293,7 +301,8 @@ for ($j=0; $j<=$#slavenames; $j++) {
         last if $slavepath{$i,$j} ne '';
     }
     if ($i > $#versions) {
-        &pr("Discarding obsolete slave link $slavenames[$j] ($slavelinks[$j]).");
+        &pr("Discarding obsolete slave link $slavenames[$j] ($slavelinks[$j]).")
+          if $verbosemode > 0;
         unlink("$altdir/$slavenames[$j]") || $! == &ENOENT ||
             &quit("unable to remove $slavenames[$j]: $!");
         unlink($slavelinks[$j]) || $! == &ENOENT ||
@@ -313,8 +322,10 @@ for ($j=0; $j<=$#slavenames; $j++) {
 }
         
 if ($manual eq 'manual') {
-    &pr("Automatic updates of $altdir/$name are disabled, leaving it alone.");
-    &pr("To return to automatic updates use \`update-alternatives --auto $name'.");
+    &pr("Automatic updates of $altdir/$name are disabled, leaving it alone.")
+      if $verbosemode > 0;
+    &pr("To return to automatic updates use \`update-alternatives --auto $name'.")
+      if $verbosemode > 0;
 } else {
     if ($state eq 'expected-inprogress') {
         &pr("Recovering from previous failed update of $name ...");
@@ -356,7 +367,8 @@ close(AF) || &quit("unable to close $admindir/$name.dpkg-new: $!");
 
 if ($manual eq 'auto') {
     if ($best eq '') {
-        &pr("Last package providing $name ($link) removed, deleting it.");
+        &pr("Last package providing $name ($link) removed, deleting it.")
+          if $verbosemode > 0;
         unlink("$altdir/$name") || $! == &ENOENT ||
             &quit("unable to remove $altdir/$name: $!");
         unlink("$link") || $! == &ENOENT ||
@@ -369,7 +381,8 @@ if ($manual eq 'auto') {
     } else {
         if (!defined($linkname= readlink($link)) && $! != &ENOENT) {
             &pr("warning: $link is supposed to be a symlink to $altdir/$name\n".
-                " (or nonexistent); however, readlink failed: $!");
+                " (or nonexistent); however, readlink failed: $!")
+              if $verbosemode > 0;
         } elsif ($linkname ne "$altdir/$name") {
             unlink("$link.dpkg-tmp") || $! == &ENOENT ||
                 &quit("unable to ensure $link.dpkg-tmp nonexistent: $!");
@@ -379,9 +392,11 @@ if ($manual eq 'auto') {
                 &quit("unable to install $link.dpkg-tmp as $link: $!");
         }
         if (defined($linkname= readlink("$altdir/$name")) && $linkname eq $best) {
-            &pr("Leaving $name ($link) pointing to $best.");
+            &pr("Leaving $name ($link) pointing to $best.")
+              if $verbosemode > 0;
         } else {
-            &pr("Updating $name ($link) to point to $best.");
+            &pr("Updating $name ($link) to point to $best.")
+              if $verbosemode > 0;
         }
         unlink("$altdir/$name.dpkg-tmp") || $! == &ENOENT ||
             &quit("unable to ensure $altdir/$name.dpkg-tmp nonexistent: $!");
@@ -400,7 +415,8 @@ if ($manual eq 'auto') {
         $slink= $slavelinks[$j];
         if (!defined($linkname= readlink($slink)) && $! != &ENOENT) {
             &pr("warning: $slink is supposed to be a slave symlink to\n".
-                " $altdir/$sname, or nonexistent; however, readlink failed: $!");
+                " $altdir/$sname, or nonexistent; however, readlink failed: $!")
+              if $verbosemode > 0;
         } elsif ($linkname ne "$altdir/$sname") {
             unlink("$slink.dpkg-tmp") || $! == &ENOENT ||
                 &quit("unable to ensure $slink.dpkg-tmp nonexistent: $!");
@@ -413,16 +429,19 @@ if ($manual eq 'auto') {
         unlink("$altdir/$sname.dpkg-tmp") || $! == &ENOENT ||
             &quit("unable to ensure $altdir/$sname.dpkg-tmp nonexistent: $!");
         if ($spath eq '') {
-            &pr("Removing $sname ($slink), not appropriate with $best.");
+            &pr("Removing $sname ($slink), not appropriate with $best.")
+              if $verbosemode > 0;
             unlink("$altdir/$sname") || $! == &ENOENT ||
                 &quit("unable to remove $altdir/$sname: $!");
 	    unlink("$slink") || $! == &ENOENT ||
 	        &quit("unable to remove $slink: $!");
         } else {
             if (defined($linkname= readlink("$altdir/$sname")) && $linkname eq $spath) {
-                &pr("Leaving $sname ($slink) pointing to $spath.");
+                &pr("Leaving $sname ($slink) pointing to $spath.")
+                  if $verbosemode > 0;
             } else {
-                &pr("Updating $sname ($slink) to point to $spath.");
+                &pr("Updating $sname ($slink) to point to $spath.")
+                  if $verbosemode > 0;
             }
             symlink("$spath","$altdir/$sname.dpkg-tmp") ||
                 &quit("unable to make $altdir/$sname.dpkg-tmp a symlink to $spath: $!");

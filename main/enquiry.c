@@ -69,8 +69,9 @@ static int getttywidth() {
     if (ioctl(fd, TIOCGWINSZ, &ws)==-1)
       ws.ws_col=80;
     close(fd);
-  }
   return ws.ws_col;
+  } else
+    return 80;
 }
 
 static void list1package(struct pkginfo *pkg, int *head) {

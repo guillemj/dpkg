@@ -1,4 +1,5 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\"original revision: 1.6
 .\"
 .\" Translated Wed May 13 17:28:56 JST 1998
 .\"	by Hidenobu NABETANI <nabetani@kern.phys.sci.osaka-u.ac.jp>
@@ -124,6 +125,50 @@ start\-stop\-daemon \- システムデーモンプログラムの起動、停止
 .I -q|--quiet
 参考情報を出力しない。エラーメッセージのみ表示。
 .TP
+.I -c|--chuid
+処理を開始する前に指定されたユーザ名/ユーザ ID に変更する。':' の後に
+グループ名またはグループ ID を与えることによりグループも指定できる。
+これは `chown' コマンドと同じ書式 (user:group) である。このオプションを
+使用した時には、`group' オプションが指定されていない場合であってもプライ
+マリグループと補助グループは同様に設定されることを理解していなければなら
+ない。グループオプションは、(`nobody' のような一般的ユーザに対してプロセ
+ス単位でグループに追加するというように)ユーザが通常のメンバーでないグルー
+プを指定する場合にのみ使用する。
+.TP
+.I -r|--chroot root
+処理を開始する前に、
+.B root
+に chdir と chroot を実行する。pidfile は chroot 後に、書き出されること
+に注意する。
+.TP
+.I -b|--background
+典型的には、デーモンプロセスを切り離せないプログラムで使用される。このオプ
+ションを指定した場合、
+.B start-stop-daemon
+は自分自身を対象プロセスの実行前に fork し、以後バックグラウンドで処理を行う。
+.B 警告:
+start-stop-daemon は
+.B 何らかの理由
+によって処理の実行に失敗した場合に、その終了ステータスをチェックできない。
+このオプションは最終手段であり、自分から fork することに意味のないプログ
+ラムや、fork を自分で行うためのコードを追加できないプログラムのみでの使用
+を意図している。
+.TP
+.I -m|--make-pidfile
+自分自身で PID ファイルを作成しないプログラムを起動する際に使用する。
+このオプションにより、処理の実行直前に
+.B start-stop-daemon
+は
+.B --pidfile
+で参照されるファイルを作成し、配置する。このファイルはプログラムの
+停止時に削除されないことに注意されたい。
+.B 注意:
+このオプションは動作しない場合がある。特に、プログラムの実行時にその
+メインプロセスから fork するようなプログラムでは正しく動作しない。
+このため、通常は
+.B --background
+オプションと併用する場合にのみ有用である。
+.TP
 .I -v|--verbose
 詳しい参考情報を出力する。
 .TP
@@ -141,4 +186,4 @@ Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
 このマニュアルは Klee Dienes <klee@mit.edu> によって書かれた。
 
 .SH 翻訳者
-鍋谷 栄展 <nabetani@kern.phys.sci.osaka-u.ac.jp>
+鍋谷 栄展 <nabe@debian.or.jp>

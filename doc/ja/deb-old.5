@@ -1,40 +1,39 @@
 .\" Hey, Emacs!  This is an -*- nroff -*- source file.
 .\" Author: Raul Miller, Ian Jackson
-.TH DEB-OLD 5  "1st July 1996" "Debian Project" "Debian GNU/Linux"
+.\"original revision: 1.3
+.TH DEB-OLD 5 "January 2000" "Debian Project" "Debian GNU/Linux"
 .SH 名称
 deb-old - Debian GNU/Linux バイナリパッケージ旧形式フォーマット
 .SH 書式
 .IB filename .deb
 .SH 説明
-Debian バイナリパッケージの旧形式フォーマットである。
-
 .B .deb
-フォーマットは Debian バイナリパッケージのファイル形式である。この
-フォーマットはDebian 0.93 で変更され、徐々に新形式に移行している。
-
-ここでは旧形式について記述する。新形式の詳細については
+フォーマットは Debian バイナリパッケージのファイル形式である。
+このマニュアルでは、Debian 0.93 以前に使用されていた
+.B 旧形式
+について記述する。新形式の詳細については
 .BR deb (5)
 を参照されたい。
 .SH フォーマット
 2行のフォーマット情報をASCIIテキストファイルがあり、それに2つの
 圧縮 tar ファイルが続く。
-
+.PP
 1行目は8桁にそろえたフォーマットバージョン番号であり、
 旧形式アーカイブはすべて
 .B 0.939000
 である。
-
+.PP
 2行目はひとつ目の圧縮 tar ファイルの大きさを与える(0から始まらない)
 十進数である。
-
+.PP
 それぞれの行の終わりは改行文字ひとつである。
-
-1番目の tar ファイルは、
-制御情報(
-.IR "dpkg Programmer's manual"
-を参照)を平文ファイル群として含む。
+.PP
+1番目の tar ファイルは、制御情報を平文ファイル群として含む。詳細は
+.IR "Debian Packaging Manual, section 2.2".
+に記述されている。
 .B control
 ファイルは必須であり、中心となる制御情報を含む。
+.PP
 非常に古いアーカイブでは、
 control tar ファイル中のファイルが
 .B DEBIAN
@@ -43,19 +42,18 @@ control tar ファイルにも
 .B DEBIAN
 サブディレクトリが存在し、
 control tar ファイルはそのディレクトリ内にのみファイルを保有する。
- 
 control tar ファイルは、
 .RB ` . ',
 つまりカレントディレクトリにファイルを含むこともある。
-
+.PP
 2番目の圧縮 tar ファイルはファイルシステムアーカイブであり、
 インストールされるシステムのルートディレクトリからの相対パス名を
 含んでいる。パス名の先頭にスラッシュ(/)はない。
 
 .SH 関連項目
 .BR deb (5),
-.BR deb\-control (5),
-.IR "dpkg Programmers' manual" ,
-.BR dpkg\-deb (8)
+.BR dpkg-deb (8),
+.BR deb-control (5),
+.IR "Debian Packaging Manual".
 .SH 翻訳者
-鍋谷 栄展 <nabetani@kern.phys.sci.osaka-u.ac.jp>
+鍋谷 栄展 <nabe@debian.or.jp>
