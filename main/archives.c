@@ -653,8 +653,7 @@ static int try_remove_can(struct deppossi *pdep,
       }
     }
     pdep->up->up->clientdata->istobe= itb_deconfigure;
-    ensureobstackinit();
-    newdeconf= obstack_alloc(&tar_obs, sizeof(struct packageinlist));
+    newdeconf= malloc(sizeof(struct packageinlist));
     newdeconf->next= deconfigure;
     newdeconf->pkg= pdep->up->up;
     deconfigure= newdeconf;
