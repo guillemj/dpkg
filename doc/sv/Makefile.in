@@ -17,11 +17,9 @@ all:
 clean: 
 
 distclean: clean 
-	rm -f Makefile
+	$(RM) Makefile
 
 install: install-doc
-
-install-program:
 
 install-doc:
 	$(mkinstalldirs) $(DESTDIR)$(svman1dir) 
@@ -40,5 +38,5 @@ install-doc:
 	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(svman8dir) ; \
 	done
 
-.PHONY: all clean distclean install install-doc install-program
+.PHONY: all clean distclean install install-doc
 

@@ -1,0 +1,42 @@
+VPATH		= @srcdir@
+srcdir		= @srcdir@
+top_srcdir	= @top_srcdir@
+
+include ../../Makefile.conf
+
+ruman1dir	= $(subst $(mandir),$(mandir)/ru,$(man1dir))
+ruman5dir	= $(subst $(mandir),$(mandir)/ru,$(man5dir))
+ruman8dir	= $(subst $(mandir),$(mandir)/ru,$(man8dir))
+
+MAN1PAGES	= 822-date.1 dpkg-checkbuilddeps.1
+MAN5PAGES	= deb-control.5
+MAN8PAGES	= dpkg.8 start-stop-daemon.8 
+
+all: 
+
+clean: 
+
+distclean: clean 
+	$(RM) Makefile
+
+install: install-doc
+
+install-doc:
+	$(mkinstalldirs) $(DESTDIR)$(ruman1dir) 
+	set -e ; for i in $(MAN1PAGES) ; do \
+	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(ruman1dir) ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)$(ruman5dir) 
+	set -e ; for i in $(MAN5PAGES) ; do \
+	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(ruman5dir) ; \
+	done
+	$(mkinstalldirs) $(DESTDIR)$(ruman8dir) 
+	set -e ; for i in $(MAN8PAGES) ; do \
+	    if test -f $$i ; then d= ; else d="$(srcdir)/" ; fi ; \
+	    $(INSTALL_DATA) $$d$$i $(DESTDIR)$(ruman8dir) ; \
+	done
+
+.PHONY: all clean distclean install install-doc
+

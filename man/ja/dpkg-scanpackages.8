@@ -1,0 +1,114 @@
+.\" This manpage is copyright (C) 1996 Michael Shields <shields@crosslink.net>.
+.\" original cvs revision: 1.3
+.\" 
+.\" This is free software; you may redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 2,
+.\" or (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful, but
+.\" WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with dpkg; if not, write to the Free Software
+.\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+.TH DPKG-SCANPACKAGES 8 "1996-07-08" "Debian project" "dpkg utilities"
+.SH 名前
+dpkg-scanpackages \- Packagesファイルの作成
+.
+.SH 書式
+.B dpkg-scanpackages
+.I binarydir
+.I overridefile
+.RI [ pathprefix ]
+.B >
+.I Packages
+.
+.SH 説明
+.B dpkg-scanpackages
+はDebianバイナリパッケージのツリーを見てPackagesファイルを生成する。
+Packagesファイルは
+.BR dselect (8)
+にどのパッケージがインストールできるかをユーザに知らせるために利用している。
+これらのPackagesファイルはDebianアーカイブサイトやCD-ROMなどで使われている
+ものと同じものである。
+もし、たくさんのマシンにインストールしたいローカルなパッケージの
+ディレクトリを作るなら、自分で
+.B dpkg-scanpackages
+を使うことができる。
+.PP
+.I binarydir
+は処理するバイナリツリーの名前である。(例えば
+.BR contrib/binary-i386 
+など)
+Debianアーカイブのルートからの相対にしておくのが最もいい方法である。
+なぜならPackagesファイルに含まれている各々のFilenameフィールドは
+この文字列で始まるからである。
+.PP
+.I overridefile
+はパッケージがディストリビューションにあうようにするための情報を
+含んでいるファイルの名前である。以下を参照のこと。
+.PP
+.I pathprefix
+はFilenameフィールドで前に追加できるオプションの文字列である。
+.
+.SH THE OVERRIDE FILE
+パッケージに関するほとんどの情報はcontrolファイルで見つけることができるが
+いくつかはメンテナではなくディストリビューション作成者によりそれらの情報を
+与える必要がある。パッケージの実際の依存関係や説明よりも、リリースに
+むけてファイルをどう配置するかに関係してくるからである。
+これらの情報はoverrideファイルにある。
+.PP
+overrideファイルは簡単な空白で区切られた形式になっている。コメントも
+許されている。(
+.BR # 
+以降がコメント
+).
+.PP
+.in +5
+.I package
+.I priority
+.I section
+.RI [ maintainerinfo ]
+.in -5
+.PP
+.I package
+はパッケージ名である。overrideファイルにあるがバイナリツリーには
+ないパッケージ名のエントリは無視される。
+.PP
+.I priority
+と
+.I section
+はパッケージをリリースツリーでどこに置くかを指定する。これらは
+controlファイルにあるべきではない。もしパッケージが
+.I binarydir
+のサブディレクトリにあれば
+.I section 
+の値とチェックされる。
+.PP
+.IR maintainerinfo ,
+がもしあればメンテナの名前を無条件に上書きできる。もしくは
+.I oldmaintainer
+.B =>
+.I newmaintainer
+の場合は置換される。
+.PP
+公式のPackagesリストを作成するために使われているoverrideファイルは、
+Debianミラーの
+.I indices
+ディレクトリにある。
+.
+.SH 診断
+.B dpkg-scanpackages
+は通常の自己説明的なエラーを出力する。パッケージが間違ったディレクトリに
+ある、複数ある、controlファイルにFilenameフィールドがある、override
+ファイルにない、実行されなかったメンテナの置換があるなどといった警告も
+する。
+.
+.SH 関連項目
+.BR dpkg (8),
+.BR dselect (8).
+.SH 翻訳者
+鵜飼文敏 <ukai@debian.or.jp>

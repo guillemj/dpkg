@@ -1,0 +1,492 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Install-info and this manpage are Copyright 1994 by Ian Jackson.
+.\"
+.\" This is free software; see the GNU General Public Licence version 2
+.\" or later for copying conditions.  There is NO warranty.
+.\"
+.\" Japanese Version Copyright (c) 1998 Koichi Sekido
+.\"         all rights reserved.
+.\" Translated Tue Jul  7 11:31:24 JST 1998
+.\"         by Koichi Sekido <sekido@mbox.kyoto-inet.or.jp>
+.\" Updated Wed Apr 25 2001 by NAKANO Takeo <nakano@apm.seikei.ac.jp>
+.\" original cvs revision: 1.3
+.\"
+.\" WORD:       basename                ベースネーム
+.\"
+.TH INSTALL-INFO 8 "29th November 1995" "Debian Project" "dpkg utilities"
+.\"O .SH NAME
+.\"O install\-info \- create or update entry in Info directory
+.SH 名前
+install\-info \- Info ディレクトリにエントリを作成したり更新したりする
+.\"O .SH SYNOPSIS
+.SH 書式
+.B install\-info
+[\-\-version] [\-\-help] [\-\-debug] [\-\-maxwidth=nnn]
+[\-\-section regexp title] [\-\-infodir=xxx] [\-\-align=nnn]
+[\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx]
+[\-\-remove | \-\-remove-exactly ]
+[\-\-] filename
+.\"O .SH DESCRIPTION
+.SH 説明
+.PP
+.\"O .B install-info
+.\"O makes, updates or removes entries in the Info directory, the
+.\"O .B dir
+.\"O file.  When updating or creating entries, if no description is
+.\"O specified on the command line or in the Info file it attempts to guess
+.\"O a description from the contents of the file.
+.B install-info
+は、Info ディレクトリの
+.B dir
+ファイルにエントリを作成・更新・削除する。作成か更新の場合、
+コマンドラインにも Info ファイルにも説明文が指定されていなかったら、
+ファイルの中身から説明文を推測しようとする。
+
+.\"O See the description of the
+.\"O .B \-\-section
+.\"O option for details of where the entry will be placed and a description
+.\"O of the expected format of the
+.\"O .B dir
+.\"O file.
+エントリの置かれる位置や
+.B dir
+ファイルの望ましい形式の説明については、
+.B \-\-section
+の記述を見られよ。
+.\"O .SS OPTIONS
+.SS オプション
+.TP
+.BI "[\-\-] " filename
+.\"O Gives the filename of the Info file whose menu entry is to be created,
+.\"O updated or removed.  If
+.\"O .B \-\-remove-exactly
+.\"O is specified, then
+.\"O .I filename
+.\"O should be the exact entry name to be removed (i.e. "emacs-20/emacs" or
+.\"O "gcc"), otherwise the basename of this filename is used as the
+.\"O referent of the menu entry which is created, unless there's an
+.\"O overriding START-INFO-DIR entry inside the given file.  This file must
+.\"O therefore exist (or be about to be installed, or have previously
+.\"O existed when removing an entry) in the same directory as the
+.\"O .B dir
+.\"O file (see the
+.\"O .B \-\-infodir
+.\"O option).
+メニューエントリを作成・更新・削除したい Info ファイルのファイル名を与える。
+.B \-\-remove-exactly
+が指定された場合は、
+.I filename
+は削除対象の正確なエントリ名 (例えば "emacs-20/emacs" とか "gcc")
+でなければならない。
+指定されなかった場合は、このファイル名のベースネームが
+作成されるメニューエントリのリファレンスとして使われる
+(ただしそのファイルの内部で
+START-INFO-DIR による上書きがされている場合は除く)。
+従ってこのファイルは
+.B dir
+ファイルと同じディレクトリに存在していなけらばならない。
+あるいは、ほぼインストールされているか、
+エントリ削除の場合は以前存在していたか、でなければならない。
+.B \-\-infodir
+オプションを参照せよ。
+
+.\"O If
+.\"O .I filename
+.\"O ends in
+.\"O .B .gz
+.\"O it is taken to refer to a file compressed with GNU gzip; if it doesn't
+.\"O exist, but a corresponding
+.\"O .IB filename .gz
+.\"O does, the latter is used instead.
+.I filename
+が
+.B .gz
+で終わっていたら、GNU gzip で圧縮されているファイルであるとみなされる。
+.I filename
+は存在しないがこれに対応する
+.IB filename .gz
+が存在する場合は、替わりに
+.IB filename .gz
+が使われる。
+
+.\"O When adding or updating entries the file must exist at the path
+.\"O specified (possibly with an additional
+.\"O .B .gz
+.\"O extension).
+エントリを追加か更新するときは、ファイル（拡張子
+.B .gz
+が付加的に付いているかもしれない
+は指定されたパスに存在していなければならない。
+.TP
+.B \-\-remove
+.\"O Specifies that the entry for the file
+.\"O .I filename
+.\"O is to be removed; by default entries are created or updated.
+ファイル
+.I filename
+のエントリを削除することを指定する。
+デフォルトではエントリは作成もしくは更新される。
+
+.\"O If the removal results in a section becoming empty the section heading
+.\"O (and the spare blank line) will be removed as well, unless this is the
+.\"O last section in the file or
+.\"O .B \-\-keep\-old
+.\"O is specified.  See the
+.\"O .B \-\-section
+.\"O option for details about the expected format of the
+.\"O .B dir
+.\"O file.
+削除の結果セクションが空っぽになる場合、
+これがファイルの最後のセクションでないか
+.B \-\-keep\-old
+が指定されるかしていなかったら、セクション見出しも同様に削除される。
+.B dir
+ファイルの望ましい形式の説明については、
+.B \-\-section
+の記述を見られよ。
+
+.\"O If there are several suitable entries in the
+.\"O .B dir
+.\"O file only those in the first matching contiguous group will be removed
+.\"O and the others silently ignored.
+あてはまるエントリが
+.B dir
+ファイルにいくつかある場合、
+最初にマッチしたカテゴリグループのものが削除され、
+残りは無視される。
+
+.\"O It is not an error for no suitable entry to be found, though
+.\"O .B install\-info
+.\"O will issue a warning unless the
+.\"O .B \-\-quiet
+.\"O option was specified.
+.B install\-info
+は
+.B \-\-quiet
+オプションが指定されない限り警告を発するが、このオプションについては、
+あてはまるエントリが見つからなくてもエラーにはならない。
+
+.\"O When
+.\"O .B \-\-remove
+.\"O is specified the
+.\"O .BR \-\-maxwidth ", " \-\-align " and " \-\-calign
+.\"O formatting options are silently ignored.
+.B \-\-remove
+オプションが指定された場合、
+.BR \-\-maxwidth " , " \-\-align " ," \-\-calign
+の整形オプションは無視される。
+.TP
+.B \-\-remove-exactly
+.\"O This option is essentially the same as
+.\"O .B \-\-remove
+.\"O except that
+.\"O .I filename
+.\"O is taken as the exact entry to be removed, rather than as the name
+.\"O of an existing file.  This can be important when trying to remove
+.\"O entries that refer to info files in subdirectories
+.\"O (i.e. "emacs-20/emacs") because
+.\"O .B \-\-remove
+.\"O will operate on the basename of the given
+.\"O .I filename
+.\"O rather than the exact name given.  (i.e.
+.\"O .B \-\-remove
+.\"O "emacs-20/emacs" would cause
+.\"O .B install-info
+.\"O to look for "emacs", not "emacs-20/emacs").
+このオプションは基本的には
+.B \-\-remove
+と同じだが、ただし
+.I filename
+を削除対象となる既存のファイルとしてではなく、
+削除対象のエントリそのものとみなす。
+この違いは、サブディレクトリの info ファイルを参照しているエントリ
+(例えば "emacs-20/emacs" など) を削除しようとする場合に重要となる。
+なぜなら
+.B \-\-remove
+は与えられた
+.I filename
+そのものではなく、そのベースネームに作用するからである
+(つまり
+.B \-\-remove
+"emacs-20/emacs" とすると、
+.B install-info
+は "emacs-20/emacs" ではなく "emacs" を対象とする)。
+.TP
+.BI "\-\-section " "regexp title"
+.\"O Specifies that, if a new entry is to be made, it should be placed in a
+.\"O section of the
+.\"O .B dir
+.\"O file whose title matches
+.\"O .IR regexp .
+.\"O If no such section exists one will be created as the second last
+.\"O section in the file (see below), with title
+.\"O .IR title .
+.\"O A section is a part of the
+.\"O .B dir
+.\"O menu delimited by blank lines; the first line is assumed to be the
+.\"O title.
+新しいエントリを作るときに、
+.B dir
+ファイルの中でタイトルが
+.IR regexp
+にマッチするセクションに配置することを指定する。
+該当するセクションが存在しなかったら、
+ファイルの最後から二番目のセクション（後述）として
+.I title
+というタイトルで作られる。
+セクションとは
+.B dir
+メニューの中の一部で、空白行で区切られたものである。
+セクションの先頭行はタイトルとして扱われる。
+
+.\"O If a new entry is to be created
+.\"O .B install-info
+.\"O will attempt to insert it within the section according in alphabetic
+.\"O order; if the entries in the section aren't already sorted the new
+.\"O location within the section will be unpredictable.  The order of
+.\"O existing entries will not be changed.
+新たなエントリを作るとき、
+.B install-info
+はセクションの中でアルファベット順にそれを挿入しようとする。
+セクション中のエントリがあらかじめソートされていなかったら、
+セクション中の位置は予測できない。
+すでに存在するエントリの順番は変更されない。
+
+.\"O The default is to append new entries to the end of the file.  The last
+.\"O section (even if it only consists of the title line) should always
+.\"O exist, to ensure that new sections are created in the right place.
+.\"O The final section should be titled to reflect the fact that Info files
+.\"O with no more well specified location are appended to it.
+デフォルトでは新たなエントリをファイルの終わりに付け加える。
+最後のセクションは、
+タイトル行だけであっても常に存在していなけらばならない。
+これは新たなセクションが正しい場所に作られるようにするためである。
+最後のセクションは、位置が正しく指定されていない
+Info ファイルがそこに付け加えられるようにタイトルを付けなければならない。
+
+.\"O If there is already an entry for the Info file being installed it is
+.\"O replaced in situ with the new entry.
+Info ファイルのエントリがすでにインストールされていたら、
+その位置で新たなエントリに置き換えられる。
+
+.\"O If a section is specified when removing an entry the section is
+.\"O ignored and a warning is issued.
+エントリ削除時にセクションを指定すると、
+セクションは無視され警告が発せられる。
+
+.\"O If a section is requested when adding an entry but the file contains
+.\"O no section headings at all then
+.\"O .B install-info
+.\"O will create both the requested section and a Miscellaneous section at
+.\"O the end of the file.
+エントリを加えるときにセクションが必要となるにもかかわらず
+ファイルにセクション見出しが一つもなかったら、
+.B install-info
+は必要となるセクションとファイルの終わりの
+Miscellaneous というセクションとの両方を作る。
+.TP
+.BI \-\-infodir= infodir
+.\"O Specifies that the
+.\"O .B dir
+.\"O file is, and the installed copy of the new Info file was, is or will
+.\"O be located in
+.\"O .IR infodir .
+.\"O The default is
+.\"O .BR /usr/info .
+.B dir
+ファイルと、インストールされる新たな Info ファイルのコピーとが
+.I infodir
+にあることを指定する。デフォルトは
+.B /usr/info
+である。
+.TP
+.BI \-\-align= nnn
+.\"O Specifies that the first line of the description should be indented at
+.\"O least
+.\"O .I nnn
+.\"O characters; extra spaces will be added as required.  If necessary
+.\"O because of the length of the
+.\"O .B dir
+.\"O menu entry details it may be offset more.  The default is 27.
+説明文の最初の行を少なくとも
+.I nnn
+字だけ字下げすべきものと指定する。余分な空白が必要なものとして加えられる。
+.B dir
+のメニューエントリの詳細の長さのため、
+より多くのオフセットが必要かもしれない。デフォルトは 27 である。
+.TP
+.BI \-\-calign= nnn
+.\"O Specifies that the second and subsequent lines of the description
+.\"O should be indented at least
+.\"O .I nnn
+.\"O characters.  The default is 29.
+説明文の二行目以降の行を少なくとも
+.I nnn
+だけ字下げすべきものと指定する。デフォルトは 29 である。
+.TP
+.BI \-\-maxwidth= nnn
+.\"O Specifies that the maximum width for the Info file is
+.\"O .IR nnn .
+.\"O This is used when wordwrapping the descriptive text.
+.\"O The default is 79.
+Info ファイルの最大幅を
+.I nnn
+にする。説明文をワードラップするときに使われる。
+デフォルトは 79 である。
+.TP
+.B \-\-quiet
+.\"O Prevents the usual display of the new menu entry just before it is
+.\"O inserted, and of the messages announcing the replacement and removal
+.\"O of existing entries and the creation and deletion of sections.
+挿入される直前の新たなメニューエントリと、現存するエントリの置換・削除や
+セクションの作成・削除の案内のメッセージを表示しない。
+.TP
+.B \-\-help
+.\"O Causes
+.\"O .B install-info
+.\"O to display its usage information and exit.
+.B install-info
+の使用法を表示して終了する。
+.TP
+.B \-\-version
+.\"O Causes
+.\"O .B install-info
+.\"O to display its version and copyright information and exit.
+.B install-info
+のバージョンと著作権の情報を表示して終了する。
+.TP
+.BI \-\-description= xxx
+.\"O Specifies that the description to use after the menu entry in new or
+.\"O updated entries be
+.\"O .IR xxx .
+.\"O The default is to use the the value specified in the Info file itself;
+.\"O this is found by searching for a section of the form
+新規・更新のメニューエントリの説明文を
+.IR xxx
+とする。デフォルトでは Info ファイル自身の中で指定された値を使う。これは
+.br
+.B START\-INFO\-DIR\-ENTRY
+.br
+.B * Auto-PGP: (auto-pgp).  PGP under GNU Emacs.
+.br
+.B END\-INFO\-DIR\-ENTRY
+という形式のセクションを探すことで見つけられる。
+
+.\"O If the entry found in the Info file itself extends across several
+.\"O lines, each giving a menu entry, the text found in the file is used
+.\"O verbatim.  In this case the alphabetic ordering scheme is turned off,
+.\"O and the entries are inserted at the top of section in question.  In
+.\"O this case the
+.\"O .BR \-\-menuentry ", " \-\-maxwidth ", " \-\-align ", " \-\-calign
+.\"O .RB " and " \-\-menuentry
+.\"O options are ignored.
+Info ファイルに見つかったエントリ自身がそれだけで数行に渡り、
+それぞれにメニューのエントリがある場合、
+ファイルの中に見つかったテキストがそのまま使われる。
+このときは、アルファベット順の配置は行われず、
+エントリは問い合わせのセクションの先頭に挿入される。また
+.BR \-\-menuentry ", " \-\-maxwidth ", " \-\-align ", " \-\-calign
+.RB ", " \-\-menuentry
+のオプションは無視される。
+
+.\"O If there is no
+.\"O .B dir
+.\"O entry in the file the program will try to find a paragraph early in
+.\"O the file starting
+.\"O .BR "this file documents" .
+.\"O It will capitalise the first character of the remainder, and use that.
+ファイルに
+.B dir
+エントリがなかったら、ファイルの最初のほうに
+.B "this file documents"
+で始まる段落がないかを見つけようとする。
+その後の最初の文字を大文字にしてそれを使う。
+
+.\"O It is an error for none of these methods to yield a description.
+これらの方法で説明文を得ることができなかったらエラーになる。
+
+.\"O If a description argument is given when
+.\"O .B \-\-remove
+.\"O is specified it is ignored and a warning is issued.
+.B \-\-remove
+が指定されたときには説明文の引数が与えられても無視され、警告が発せられる。
+.TP
+.BI \-\-menuentry= xxx
+.\"O Specifies that the entry in the menu should be
+.\"O .IR xxx .
+.\"O The default is to use the the value specified in the Info file itself.
+.\"O If this is not present the basename of the Info file is used
+.\"O .RB "(any " ".info " "is deleted, and the entry is made mixed case)."
+.\"O See above for details of the format expected for the menu entry in the
+.\"O Info file.
+メニューの中のエントリを
+.IR xxx
+とする。デフォルトでは、 Info ファイル自身の中で指定された値を使う。
+それがなかった場合は、
+Info ファイルのベースネームが使われる。.info が取り除かれ、
+大文字小文字混在のエントリ名が作られる。
+Info ファイルのメニューエントリの望ましい形式の説明については、
+上記の記述を参照されたい。
+
+.\"O When removing entries the value of the
+.\"O .B \-\-menuentry
+.\"O option must match the actual menu entry field in the menu item to be
+.\"O removed (case not significant).  If
+.\"O .B \-\-menuentry
+.\"O is omitted no check on the menu entry is done.
+エントリを削除するとき、
+.B \-\-menuentry
+オプションの値は、削除されるメニューアイテムの
+実際のメニューエントリフィールドと一致しなければならない。
+.B \-\-menuentry
+を省略したときは、メニューエントリのチェックは行われない。
+.TP
+.B \-\-keep\-old
+.\"O Inhibits the replacement of existing entries and the removal of empty
+.\"O sections.
+現存するエントリの置換や空セクションの削除を行わない。
+
+.\"O If the file being installed alreay has an entry in the directory the
+.\"O old entry will be left alone instead of being replaced; the default is
+.\"O to overwrite any old entry found with the newly generated one.
+すでにインストールされているファイルが
+ディレクトリにエントリを持っている場合、
+古いエントリは置き換えられずそのまま残る。デフォルトでは、
+古いエントリはいずれも新規作成されたものによって置き換えられる。
+
+.\"O If
+.\"O .BR \-\-remove " is specified " \-\-keep\-old
+.\"O will prevent the removal of the section heading which would otherwise
+.\"O happen if the section is made empty by the removal.
+.B \-\-remove
+が指定されている場合、削除の結果セクションが空っぽになるかもしれないが、
+.B \-\-keep\-old
+はセクション見出しを削除しない。
+.TP
+.B \-\-test
+.\"O Enables test mode, which inhibits the update of the directory file.
+テストモードを有効にし、ディレクトリファイルを更新しない。
+.TP
+.B \-\-debug
+.\"O Enables debugging mode, in which the results of some internal
+.\"O processing steps are shown.
+デバッグモードを有効にし、内部の処理ステップをいくらか表示する。
+.\"O .SH "SEE ALSO"
+.SH "関連項目"
+emacs(1), info(1), gzip(1)
+.\"O .SH COPYRIGHT
+.SH 著作権
+Copyright 1994, Ian Jackson.
+.B install\-info
+is free software; see the GNU General Public Licence version 2 or
+later for copying conditions.  There is
+.I no
+warranty.
+.SH 翻訳者
+関戸 幸一 <sekido@mbox.kyoto-inet.or.jp>
+.SH 翻訳者注
+このマニュアルページは dpkg パッケージに付属の
+.BR install-info (8)
+の日本語訳である。
+翻訳対象は CVS revision が 1.3 のものである。
+
