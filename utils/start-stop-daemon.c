@@ -535,7 +535,7 @@ parse_options(int argc, char * const *argv)
 	if (signal_str != NULL) {
 		if (parse_signal (signal_str, &signal_nr) != 0)
 			badusage("signal value must be numeric or name"
-				 " of signal (KILL, INTR, ...)");
+				 " of signal (KILL, INT, ...)");
 	}
 
 	if (schedule_str != NULL) {
