@@ -95,18 +95,20 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/bin
 	install -d -m 755 -o root -g root $(TMP_DPKG)/sbin
+	install -d -m 755 -o root -g root $(TMP_DPKG)/var
 	-test -d $(INSTALL_TMP)/etc && cp -a $(INSTALL_TMP)/etc $(TMP_DPKG)/
-	cp -a $(INSTALL_TMP)/var $(TMP_DPKG)/
+	set -e ; for i in info alternatives parts updates ; do \
+		mv $(INSTALL_TMP)/var/dpkg/$$i $(TMP_DPKG)/var ; \
+	done
 	cp -a $(INSTALL_TMP)/usr/sbin/start-stop-daemon $(TMP_DPKG)/sbin/
 	cp -a $(INSTALL_TMP)/usr/sbin $(TMP_DPKG)/usr/
 	cp -a $(INSTALL_TMP)/usr/lib/dpkg/mksplit $(TMP_DPKG)/usr/lib/dpkg/
 	cp -a $(INSTALL_TMP)/usr/lib/dpkg/enoent $(TMP_DPKG)/usr/lib/dpkg/
-	cp -a $(INSTALL_TMP)/usr/lib/dpkg/methods $(TMP_DPKG)/usr/lib/dpkg/
 	cp -a $(INSTALL_TMP)/usr/share/locale $(TMP_DPKG)/usr/share/
 	set -e ; for i in dpkg-split dpkg-query ; do \
 		cp -a $(INSTALL_TMP)/usr/bin/$$i $(TMP_DPKG)/usr/bin/ ; \
 	done
-	set -ex ; for i in dpkg dpkg-deb md5sum ; do \
+	set -e ; for i in dpkg dpkg-deb md5sum ; do \
 		cp -a $(INSTALL_TMP)/usr/bin/$$i$(static) $(TMP_DPKG)/usr/bin/$$i ; \
 	done
 	set -e ; for i in ChangeLog THANKS TODO copyright ; do \
@@ -228,6 +230,12 @@ binary-dselect: stamp-binary
 
 	install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/bin
 	mv $(INSTALL_TMP)/usr/bin/dselect $(TMP_DSELECT)/usr/bin/
+
+	install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/lib
+	mv $(INSTALL_TMP)/usr/lib/dpkg/methods $(TMP_DSELECT)/usr/lib/dpkg/
+
+	install -d -m 755 -o root -g root $(TMP_DSELECT)/var/lib/dpkg
+	mv $(INSTALL_TMP)/var/lib/dpkg/methods $(TMP_DSELECT)/var/lib/dpkg/
 
 	set -e ; for i in "" de fr ja sv ; do \
 		install -d -m 755 -o root -g root $(TMP_DSELECT)/usr/share/man/$$i/man8 ; \
