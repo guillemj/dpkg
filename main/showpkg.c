@@ -71,7 +71,7 @@ static void parsestring(struct lstitem* cur, const char* fmt, const char* fmtend
 
 	cur->type=string;
 	write=cur->data=(char*)malloc(len+1);
-	while (fmt<fmtend) {
+	while (fmt<=fmtend) {
 		if (*fmt=='\\') {
 			fmt++;
 			switch (*fmt) {
