@@ -222,10 +222,10 @@ sub checkrename {
     foreach $file ($rsrc,$rdest) {
 	open (TMP, ">> ${file}.dpkg-devert.tmp") || $! == ENOENT ||
 		&quit("error checking \`$file': $!");
-	close TMP;
-	if ($! == ENOENT) {
+	if ($!) {
 		$dorename = !$dorename;
 	} else {
+		close TMP;
 		unlink ("${file}.dpkg-devert.tmp");
 	}
     }
