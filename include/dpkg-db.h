@@ -3,6 +3,7 @@
  * dpkg-db.h - declarations for in-core package database management
  *
  * Copyright (C) 1994,1995 Ian Jackson <iwj10@cus.cam.ac.uk>
+ * Copyright (C) 2000,2001 Wichert Akkerman
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -301,4 +302,11 @@ char *nfstrsave(const char*);
 char *nfstrnsave(const char*, int);
 void nffreeall(void);
 
+/*** from showpkg.c ***/
+
+struct lstitem;
+
+struct lstitem* parseformat(const char* fmt);
+void freeformat(struct lstitem* head);
+void show1package(const struct lstitem* head, struct pkginfo *pkg);
 #endif /* DPKG_DB_H */
