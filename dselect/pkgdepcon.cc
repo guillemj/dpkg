@@ -39,7 +39,7 @@ int packagelist::useavailable(pkginfo *pkg) {
       pkg->clientdata->selected == pkginfo::want_install &&
       informative(pkg,&pkg->available) &&
       (pkg->status != pkginfo::stat_installed ||
-       versioncompare(&pkg->available.version,&pkg->installed.version) > 1))
+       versioncompare(&pkg->available.version,&pkg->installed.version) > 0))
     return 1;
   else
     return 0;
@@ -48,6 +48,8 @@ int packagelist::useavailable(pkginfo *pkg) {
 pkginfoperfile *packagelist::findinfo(pkginfo *pkg) {
   pkginfoperfile *r;
   r= useavailable(pkg) ? &pkg->available : &pkg->installed;
+  if (debug)
+    fprintf(debug,"packagelist[%p]::findinfo(%s) useavailable=%d\n",this,pkg->name,useavailable(pkg));
   if (!r->valid) blankpackageperfile(r);
   return r;
 }
@@ -350,17 +352,17 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
     // the right version, and therefore OK, or a version must have
     // been specified, in which case we don't need to look at the rest
     // anyway.
-    if (want == pkginfo::want_hold) {
+    if (useavailable(possi->ed)) {
+      assert(want == pkginfo::want_install);
+      return versionsatisfied(&possi->ed->available,possi);
+    } else {
       if (versionsatisfied(&possi->ed->installed,possi)) return 1;
-      if (fixbyupgrade && !*fixbyupgrade &&
+      if (want == pkginfo::want_hold && fixbyupgrade && !*fixbyupgrade &&
           versionsatisfied(&possi->ed->available,possi) &&
           versioncompare(&possi->ed->available.version,
                          &possi->ed->installed.version) > 1)
         *fixbyupgrade= possi->ed->clientdata;
       return 0;
-    } else {
-      assert(want == pkginfo::want_install);
-      return versionsatisfied(&possi->ed->available,possi);
     }
   }
   if (possi->verrel != deppossi::dvr_none) return 0;
