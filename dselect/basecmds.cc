@@ -121,10 +121,10 @@ void baselist::displayhelp(const struct helpmenuentry *helpmenu, int key) {
     for (hme= helpmenu; hme->key && hme->key != key; hme++);
     if (hme->key) {
       attrset(list_attr);
-      mvaddstr(1,0, hme->msg->text);
+      mvaddstr(1,0, gettext(hme->msg->text));
       attrset(title_attr);
       mvaddstr(0,0, _("Help: "));
-      addstr(hme->msg->title);
+      addstr(gettext(hme->msg->title));
       getyx(stdscr,y,x);
       while (++x<maxx) addch(' ');
       attrset(thisstate_attr);
@@ -140,9 +140,9 @@ _("? = help menu    Space = exit help    . = next help    or a help page key ")
       mvaddstr(1,1, _("Help information is available under the following topics:"));
       for (i=0, hme=helpmenu; hme->key; hme++,i++) {
         attrset(A_BOLD);
-        mvaddch(i+3,3, hme->key);
+        mvaddch(i+3,3, gettext(hme->key));
         attrset(A_NORMAL);
-        mvaddstr(i+3,6, hme->msg->title);
+        mvaddstr(i+3,6, gettext(hme->msg->title));
       }
       mvaddstr(i+4,1,
                _("Press a key from the list above, Space to exit help,\n"

@@ -25,7 +25,7 @@ while (<SRC>) {
         print(NH "extern const struct helpmessage hlp_$currentname;\n") || die $!;
         print(NC
               "const struct helpmessage hlp_$currentname = {\n".
-              "  \"$currenttitle\", \"") || die $!;
+              "  N_(\"$currenttitle\"), N_(\"") || die $!;
     } elsif (m/^\@\@\@/) {
         die;
     } elsif (!m/\S/) {
@@ -53,7 +53,7 @@ rename("helpmsgs.h.new","helpmsgs.h") || die $!;
     
 sub finishif {
     if ($state ne 'start') {
-        print(NC "\"\n};\n") || die $!;
+        print(NC "\")\n};\n") || die $!;
         printf "\t\t%s: %d lines\n",$currentname,$nlines;
         if ($nlines > $maxnlines) { warn "Too many lines in $currentname"; }
     }
