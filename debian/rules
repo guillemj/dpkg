@@ -46,7 +46,8 @@ binary-trees: build
 	$(checkdir)
 	-$(RM) -r debian/tmp-{main,dev}
 	install -d debian/tmp-{main,dev}/{DEBIAN,etc,usr/share/doc/dpkg}
-	install -d debian/tmp-dev/usr/{lib/dpkg,share/doc/dpkg-dev,sbin,bin}
+	install -d debian/tmp-dev/usr/{lib/dpkg,share/doc/dpkg,sbin,bin}
+	ln -s dpkg debian/tmp-dev/usr/share/doc/dpkg-dev
 	install -d debian/tmp-dev/usr/share/man/{ja/man1,man1,ja/man8,man8}
 	install -d debian/tmp-dev/usr/share/emacs/site-lisp/dpkg-dev
 	install -d debian/tmp-main/sbin
@@ -96,7 +97,6 @@ binary-trees: build
 	gzip -9vf debian/tmp-main/usr/share/doc/dpkg/changelog*
 	cp debian/copyright debian/tmp-main/usr/share/doc/dpkg/copyright
 	chmod -x debian/tmp-main/usr/lib/libdpkg.*
-	ln -s dpkg debian/tmp-dev/usr/share/doc/dpkg-dev
 	set -e; for f in \
  usr/share/doc/dpkg/{changelog.manuals.gz} \
  usr/bin/dpkg-{source,genchanges,gencontrol,shlibdeps,buildpackage,parsechangelog} \
@@ -132,6 +132,8 @@ binary-indep: binary-trees
 		datadir=$(DIR)/debian/tmp-doc/usr/share \
 		mandir=$(DIR)/debian/tmp-doc/usr/share/man \
 		infodir=$(DIR)/debian/tmp-doc/usr/share/info
+	gzip -9vf $(DIR)/debian/tmp-doc/usr/share/info/*
+	gzip -9vf $(DIR)/debian/tmp-doc/usr/share/doc/dpkg-doc/internals.ps
 	install -m644 $(DIR)/debian/dpkg-internals $(DIR)/debian/tmp-doc/usr/share/doc-base
 	dpkg-deb --build debian/tmp-doc ..
 	set -e;\
