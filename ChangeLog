@@ -1,3 +1,18 @@
+Sat Apr 15 14:53:23 EDT 2000 Wichert Akkerman <wakkerma@debian.org>
+
+  * TODO: updated
+  * debian/rules: explicitly strip the setgid bit for debian/tmp-*.
+    This is needed since the kernel copies it when we create subdirs
+    and install doesn't strip it even though we explicitly ask for
+    a mode 755 directory. Updated clean target to run make distclean
+    to remove generated sourcefiles as well.
+  * dpkg-deb/build.c: add comments to describe what we are doing.
+    Add code to get a list of files to be added to the archive, reorder
+    it and feed it to tar and use this to put symlinks after all other
+    files.
+  * scripts/dpkg-gencontrol.pl: add dpkg:Version and dpkg:UpstreamVersion
+    to list of substvars
+
 Thu Apr 13 09:57:52 EDT 2000 Wichert Akkerman <wakkerma@debian.org>
 
   * configure.in: add -D_GNU_SOURCE to CFLAGS so we can get strsignal

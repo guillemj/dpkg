@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2000-03-10 14:24+1100\n"
+"POT-Creation-Date: 2000-04-15 15:18-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2102,7 +2102,7 @@ msgid ""
 "  bad-path               PATH is missing important programs, problems "
 "likely\n"
 "  not-root               Try to (de)install things even when not root\n"
-"  overwrite[*]           Overwrite a file from one package with another\n"
+"  overwrite              Overwrite a file from one package with another\n"
 "  overwrite-diverted     Overwrite a diverted file with an undiverted "
 "version\n"
 "  depends-version [!]    Turn dependency version problems into warnings\n"
@@ -2574,206 +2574,217 @@ msgstr ""
 msgid "--forget-old-unavail takes no arguments"
 msgstr ""
 
-#: dpkg-deb/build.c:50
+#: dpkg-deb/build.c:62
 #, c-format
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr ""
 
-#: dpkg-deb/build.c:72
+#. Decode our arguments
+#: dpkg-deb/build.c:167
 msgid "--build needs a directory argument"
 msgstr ""
 
-#: dpkg-deb/build.c:81
+#: dpkg-deb/build.c:176
 msgid "--build takes at most two arguments"
 msgstr ""
 
-#: dpkg-deb/build.c:85
+#: dpkg-deb/build.c:180
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr ""
 
-#: dpkg-deb/build.c:98
+#: dpkg-deb/build.c:195
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 
-#: dpkg-deb/build.c:99
+#: dpkg-deb/build.c:196
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
 "dpkg-deb: building an unknown package in `%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:116
+#: dpkg-deb/build.c:214
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 
-#: dpkg-deb/build.c:118
+#: dpkg-deb/build.c:216
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr ""
 
-#: dpkg-deb/build.c:123
+#: dpkg-deb/build.c:221
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr ""
 
-#: dpkg-deb/build.c:129
+#: dpkg-deb/build.c:227
 #, c-format
 msgid "%d errors in control file"
 msgstr ""
 
-#: dpkg-deb/build.c:140
+#: dpkg-deb/build.c:238
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr ""
 
-#: dpkg-deb/build.c:147
+#: dpkg-deb/build.c:246
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 
-#: dpkg-deb/build.c:158
+#: dpkg-deb/build.c:257
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 
-#: dpkg-deb/build.c:160
+#: dpkg-deb/build.c:259
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
 "<=0775)"
 msgstr ""
 
-#: dpkg-deb/build.c:164
+#: dpkg-deb/build.c:263
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr ""
 
-#: dpkg-deb/build.c:173
+#: dpkg-deb/build.c:273
 msgid "empty string from fgets reading conffiles"
 msgstr ""
 
-#: dpkg-deb/build.c:175
+#: dpkg-deb/build.c:275
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
 msgstr ""
 
-#: dpkg-deb/build.c:187
+#: dpkg-deb/build.c:287
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr ""
 
-#: dpkg-deb/build.c:189
+#: dpkg-deb/build.c:289
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr ""
 
-#: dpkg-deb/build.c:191
+#: dpkg-deb/build.c:291
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr ""
 
-#: dpkg-deb/build.c:196
+#: dpkg-deb/build.c:296
 msgid "error reading conffiles file"
 msgstr ""
 
-#: dpkg-deb/build.c:199
+#: dpkg-deb/build.c:299
 msgid "error opening conffiles file"
 msgstr ""
 
-#: dpkg-deb/build.c:202
+#: dpkg-deb/build.c:302
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr ""
 
-#: dpkg-deb/build.c:208
+#. Now that we have verified everything its time to actually
+#. * build something. Lets start by making the ar-wrapper.
+#.
+#: dpkg-deb/build.c:311
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:209
+#: dpkg-deb/build.c:312
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:213 dpkg-deb/build.c:272
+#: dpkg-deb/build.c:317 dpkg-deb/build.c:390 dpkg-deb/build.c:410
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:214
+#: dpkg-deb/build.c:318
 msgid "failed to chdir to .../DEBIAN"
 msgstr ""
 
-#: dpkg-deb/build.c:215
+#: dpkg-deb/build.c:319 dpkg-deb/build.c:412
 msgid "failed to exec tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:218
+#. Create a temporary file to store the control data in. Immediately unlink
+#. * our temporary file so others can't mess with it.
+#.
+#: dpkg-deb/build.c:325
 msgid "failed to make tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:219
+#: dpkg-deb/build.c:326
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr ""
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:222
+#: dpkg-deb/build.c:329
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr ""
 
-#: dpkg-deb/build.c:229
+#: dpkg-deb/build.c:337
 msgid "failed to exec gzip -9c"
 msgstr ""
 
-#: dpkg-deb/build.c:234
+#: dpkg-deb/build.c:342
 msgid "failed to fstat tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:254
+#: dpkg-deb/build.c:365
 msgid "failed to rewind tmpfile (control)"
 msgstr ""
 
-#: dpkg-deb/build.c:255
+#: dpkg-deb/build.c:366
 msgid "control"
 msgstr ""
 
-#: dpkg-deb/build.c:259
+#: dpkg-deb/build.c:373
 msgid "failed to make tmpfile (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:260
+#: dpkg-deb/build.c:374
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr ""
 
 #. make sure it's gone, the fd will remain until we close it
-#: dpkg-deb/build.c:263
+#: dpkg-deb/build.c:377
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr ""
 
-#: dpkg-deb/build.c:274
-msgid "failed to exec tar --exclude"
+#: dpkg-deb/build.c:392
+msgid "failed to exec find"
 msgstr ""
 
-#: dpkg-deb/build.c:284
+#: dpkg-deb/build.c:422
 msgid "no compression copy loop"
 msgstr ""
 
-#: dpkg-deb/build.c:290
+#: dpkg-deb/build.c:428
 #, c-format
-msgid "failed to exec gzip %s from tar --exclude"
+msgid "failed to exec gzip %s from tar -cf"
 msgstr ""
 
-#: dpkg-deb/build.c:305
+#: dpkg-deb/build.c:434 dpkg-deb/build.c:437
+msgid "failed to write filename to tar pipe (data)"
+msgstr ""
+
+#: dpkg-deb/build.c:455
 msgid "failed to rewind tmpfile (data)"
 msgstr ""
 
-#: dpkg-deb/build.c:308
+#: dpkg-deb/build.c:458
 msgid "failed to exec cat (data)"
 msgstr ""
 
@@ -3604,216 +3615,216 @@ msgstr ""
 msgid "%s to go back"
 msgstr ""
 
-#: dselect/bindings.cc:72
+#: dselect/bindings.cc:69
 msgid "[not bound]"
 msgstr ""
 
-#: dselect/bindings.cc:76
+#: dselect/bindings.cc:73
 #, c-format
 msgid "[unk: %d]"
 msgstr ""
 
 #. Actions which apply to both types of list.
-#: dselect/bindings.cc:130
+#: dselect/bindings.cc:127
 msgid "Scroll onwards through help/information"
 msgstr ""
 
-#: dselect/bindings.cc:131
+#: dselect/bindings.cc:128
 msgid "Scroll backwards through help/information"
 msgstr ""
 
-#: dselect/bindings.cc:132
+#: dselect/bindings.cc:129
 msgid "Move up"
 msgstr ""
 
-#: dselect/bindings.cc:133
+#: dselect/bindings.cc:130
 msgid "Move down"
 msgstr ""
 
-#: dselect/bindings.cc:134
+#: dselect/bindings.cc:131
 msgid "Go to top of list"
 msgstr ""
 
-#: dselect/bindings.cc:135
+#: dselect/bindings.cc:132
 msgid "Go to end of list"
 msgstr ""
 
-#: dselect/bindings.cc:136
+#: dselect/bindings.cc:133
 msgid "Request help (cycle through help screens)"
 msgstr ""
 
-#: dselect/bindings.cc:137
+#: dselect/bindings.cc:134
 msgid "Cycle through information displays"
 msgstr ""
 
-#: dselect/bindings.cc:138
+#: dselect/bindings.cc:135
 msgid "Redraw display"
 msgstr ""
 
-#: dselect/bindings.cc:139
+#: dselect/bindings.cc:136
 msgid "Scroll onwards through list by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:140
+#: dselect/bindings.cc:137
 msgid "Scroll backwards through list by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:141
+#: dselect/bindings.cc:138
 msgid "Scroll onwards through help/information by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:142
+#: dselect/bindings.cc:139
 msgid "Scroll backwards through help/information by 1 line"
 msgstr ""
 
-#: dselect/bindings.cc:143
+#: dselect/bindings.cc:140
 msgid "Scroll onwards through list"
 msgstr ""
 
-#: dselect/bindings.cc:144
+#: dselect/bindings.cc:141
 msgid "Scroll backwards through list"
 msgstr ""
 
 #. Actions which apply only to lists of packages.
-#: dselect/bindings.cc:147
+#: dselect/bindings.cc:144
 msgid "Mark package(s) for installation"
 msgstr ""
 
-#: dselect/bindings.cc:148
+#: dselect/bindings.cc:145
 msgid "Mark package(s) for deinstallation"
 msgstr ""
 
-#: dselect/bindings.cc:149
+#: dselect/bindings.cc:146
 msgid "Mark package(s) for deinstall and purge"
 msgstr ""
 
-#: dselect/bindings.cc:150
+#: dselect/bindings.cc:147
 msgid "Make highlight more specific"
 msgstr ""
 
-#: dselect/bindings.cc:151
+#: dselect/bindings.cc:148
 msgid "Make highlight less specific"
 msgstr ""
 
-#: dselect/bindings.cc:152
+#: dselect/bindings.cc:149
 msgid "Search for a package whose name contains a string"
 msgstr ""
 
-#: dselect/bindings.cc:153
+#: dselect/bindings.cc:150
 msgid "Repeat last search."
 msgstr ""
 
-#: dselect/bindings.cc:154
+#: dselect/bindings.cc:151
 msgid "Swap sort order priority/section"
 msgstr ""
 
-#: dselect/bindings.cc:155
+#: dselect/bindings.cc:152
 msgid "Quit, confirming, and checking dependencies"
 msgstr ""
 
-#: dselect/bindings.cc:156
+#: dselect/bindings.cc:153
 msgid "Quit, confirming without check"
 msgstr ""
 
-#: dselect/bindings.cc:157
+#: dselect/bindings.cc:154
 msgid "Quit, rejecting conflict/dependency suggestions"
 msgstr ""
 
-#: dselect/bindings.cc:158
+#: dselect/bindings.cc:155
 msgid "Abort - quit without making changes"
 msgstr ""
 
-#: dselect/bindings.cc:159
+#: dselect/bindings.cc:156
 msgid "Revert to old state for all packages"
 msgstr ""
 
-#: dselect/bindings.cc:160
+#: dselect/bindings.cc:157
 msgid "Revert to suggested state for all packages"
 msgstr ""
 
-#: dselect/bindings.cc:161
+#: dselect/bindings.cc:158
 msgid "Revert to directly requested state for all packages"
 msgstr ""
 
 #. Actions which apply only to lists of methods.
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:161
 msgid "Select currently-highlighted access method"
 msgstr ""
 
-#: dselect/bindings.cc:165
+#: dselect/bindings.cc:162
 msgid "Quit without changing selected access method"
 msgstr ""
 
-#: dselect/main.cc:55
+#: dselect/main.cc:53
 msgid "Type dselect --help for help."
 msgstr ""
 
-#: dselect/main.cc:71
+#: dselect/main.cc:69
 msgid "access"
 msgstr ""
 
-#: dselect/main.cc:71
+#: dselect/main.cc:69
 msgid "Choose the access method to use."
 msgstr ""
 
-#: dselect/main.cc:72
+#: dselect/main.cc:70
 msgid "update"
 msgstr ""
 
-#: dselect/main.cc:72
+#: dselect/main.cc:70
 msgid "Update list of available packages, if possible."
 msgstr ""
 
-#: dselect/main.cc:73
+#: dselect/main.cc:71
 msgid "select"
 msgstr ""
 
-#: dselect/main.cc:73
+#: dselect/main.cc:71
 msgid "Request which packages you want on your system."
 msgstr ""
 
-#: dselect/main.cc:74 dselect/pkgdisplay.cc:37
+#: dselect/main.cc:72 dselect/pkgdisplay.cc:37
 msgid "install"
 msgstr ""
 
-#: dselect/main.cc:74
+#: dselect/main.cc:72
 msgid "Install and upgrade wanted packages."
 msgstr ""
 
-#: dselect/main.cc:75
+#: dselect/main.cc:73
 msgid "config"
 msgstr ""
 
-#: dselect/main.cc:75
+#: dselect/main.cc:73
 msgid "Configure any packages that are unconfigured."
 msgstr ""
 
-#: dselect/main.cc:76 dselect/pkgdisplay.cc:39
+#: dselect/main.cc:74 dselect/pkgdisplay.cc:39
 msgid "remove"
 msgstr ""
 
-#: dselect/main.cc:76
+#: dselect/main.cc:74
 msgid "Remove unwanted software."
 msgstr ""
 
-#: dselect/main.cc:77
+#: dselect/main.cc:75
 msgid "quit"
 msgstr ""
 
-#: dselect/main.cc:77
+#: dselect/main.cc:75
 msgid "Quit dselect."
 msgstr ""
 
-#: dselect/main.cc:78
+#: dselect/main.cc:76
 msgid "menu"
 msgstr ""
 
-#: dselect/main.cc:83
+#: dselect/main.cc:81
 #, c-format
 msgid "Debian GNU/Linux `%s' package handling frontend."
 msgstr ""
 
-#: dselect/main.cc:86
+#: dselect/main.cc:84
 #, c-format
 msgid ""
 "Version %s.  Copyright (C) 1994-1996 Ian Jackson.   This is\n"
@@ -3822,7 +3833,7 @@ msgid ""
 "details.\n"
 msgstr ""
 
-#: dselect/main.cc:98
+#: dselect/main.cc:96
 msgid ""
 "Usage: dselect [options]\n"
 "       dselect [options] action ...\n"
@@ -3831,30 +3842,30 @@ msgid ""
 "Actions:  access update select install config remove quit menu\n"
 msgstr ""
 
-#: dselect/main.cc:118
+#: dselect/main.cc:116
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr ""
 
-#: dselect/main.cc:149
+#: dselect/main.cc:147
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr ""
 
-#: dselect/main.cc:151
+#: dselect/main.cc:149
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr ""
 
-#: dselect/main.cc:152
+#: dselect/main.cc:150
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
 "or make do with the per-package management tool "
 msgstr ""
 
-#: dselect/main.cc:154
+#: dselect/main.cc:152
 msgid "terminal lacks necessary features, giving up"
 msgstr ""
 
-#: dselect/main.cc:233
+#: dselect/main.cc:231
 msgid ""
 "\n"
 "\n"
@@ -3863,18 +3874,18 @@ msgid ""
 "\n"
 msgstr ""
 
-#: dselect/main.cc:247
+#: dselect/main.cc:245
 msgid ""
 "\n"
 "\n"
 "Read-only access: only preview of selections is available!"
 msgstr ""
 
-#: dselect/main.cc:261
+#: dselect/main.cc:259
 msgid "failed to getch in main menu"
 msgstr ""
 
-#: dselect/main.cc:328
+#: dselect/main.cc:326
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr ""
@@ -4006,126 +4017,126 @@ msgstr ""
 msgid "query/setup script"
 msgstr ""
 
-#: dselect/methparse.cc:53
+#: dselect/methparse.cc:51
 #, c-format
 msgid "syntax error in method options file `%.250s' -- %s"
 msgstr ""
 
-#: dselect/methparse.cc:58
+#: dselect/methparse.cc:56
 #, c-format
 msgid "error reading options file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:86
+#: dselect/methparse.cc:84
 #, c-format
 msgid "unable to read `%.250s' directory for reading methods"
 msgstr ""
 
-#: dselect/methparse.cc:100
+#: dselect/methparse.cc:98
 #, c-format
 msgid "method `%.250s' has name that is too long (%d > %d characters)"
 msgstr ""
 
-#: dselect/methparse.cc:111
+#: dselect/methparse.cc:109
 #, c-format
 msgid "unable to access method script `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:117
+#: dselect/methparse.cc:115
 #, c-format
 msgid "unable to read method options file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:140
+#: dselect/methparse.cc:138
 msgid "non-digit where digit wanted"
 msgstr ""
 
-#: dselect/methparse.cc:143
+#: dselect/methparse.cc:141
 msgid "EOF in index string"
 msgstr ""
 
-#: dselect/methparse.cc:146
+#: dselect/methparse.cc:144
 msgid "index string too long"
 msgstr ""
 
-#: dselect/methparse.cc:149
+#: dselect/methparse.cc:147
 msgid "newline before option name start"
 msgstr ""
 
-#: dselect/methparse.cc:151
+#: dselect/methparse.cc:149
 msgid "EOF before option name start"
 msgstr ""
 
-#: dselect/methparse.cc:155
+#: dselect/methparse.cc:153
 msgid "nonalpha where option name start wanted"
 msgstr ""
 
-#: dselect/methparse.cc:157
+#: dselect/methparse.cc:155
 msgid "non-alphanum in option name"
 msgstr ""
 
-#: dselect/methparse.cc:160
+#: dselect/methparse.cc:158
 msgid "EOF in option name"
 msgstr ""
 
-#: dselect/methparse.cc:165
+#: dselect/methparse.cc:163
 msgid "newline before summary"
 msgstr ""
 
-#: dselect/methparse.cc:167
+#: dselect/methparse.cc:165
 msgid "EOF before summary"
 msgstr ""
 
-#: dselect/methparse.cc:173
+#: dselect/methparse.cc:171
 msgid "EOF in summary - missing newline"
 msgstr ""
 
-#: dselect/methparse.cc:183
+#: dselect/methparse.cc:181
 #, c-format
 msgid "unable to open option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:187
+#: dselect/methparse.cc:185
 #, c-format
 msgid "unable to stat option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:191
+#: dselect/methparse.cc:189
 #, c-format
 msgid "failed to read option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:194
+#: dselect/methparse.cc:192
 #, c-format
 msgid "error during read of option description file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:216
+#: dselect/methparse.cc:214
 #, c-format
 msgid "error during read of method options file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:246
+#: dselect/methparse.cc:244
 #, c-format
 msgid "unable to open current option file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:284
+#: dselect/methparse.cc:282
 #, c-format
 msgid "unable to open new option file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:287
+#: dselect/methparse.cc:285
 #, c-format
 msgid "unable to write new option to `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:290
+#: dselect/methparse.cc:288
 #, c-format
 msgid "unable to close new option file `%.250s'"
 msgstr ""
 
-#: dselect/methparse.cc:292
+#: dselect/methparse.cc:290
 #, c-format
 msgid "unable to install new option as `%.250s'"
 msgstr ""

@@ -160,6 +160,10 @@ for $_ (keys %fi) {
 }
 
 $f{'Version'}= $forceversion if length($forceversion);
+$version= $f{'Version'};
+$origversion= $version; $origversion =~ s/-[^-]+$//;
+$substvar{"dpkg:UpstreamVersion"}=$origversion;
+$substvar{"dpkg:Version"}=$version;
 
 for $f (qw(Section Priority)) {
     $spvalue{$f}= $spdefault{$f} unless length($spvalue{$f});

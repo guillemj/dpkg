@@ -37,6 +37,7 @@ $(BUILD)/config.status:
 
 clean:
 	$(checkdir)
+	$(MAKE) $(MFLAGS) -C $(BUILD) distclean
 	rm -f debian/files debian/substvars
 	rm -f debian/dpkg.substvars
 	rm -fr $(BUILD) $(TMP) $(TMP_DPKG) $(TMP_DPKG_DEV) $(TMP_DPKG_DOC)
@@ -69,6 +70,8 @@ stamp-binary: stamp-build
 
 binary-dpkg: stamp-binary
 	rm -rf $(TMP_DPKG)
+	install -d -m 755 -o root -g root $(TMP_DPKG)
+	chmod g-s $(TMP_DPKG)
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/share/doc/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG)/usr/bin
@@ -130,6 +133,8 @@ binary-dpkg: stamp-binary
 
 binary-dpkg-dev: stamp-binary
 	rm -rf $(TMP_DPKG_DEV)
+	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)
+	chmod g-s $(TMP_DPKG_DEV)
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/lib/dpkg
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/share
 	install -d -m 755 -o root -g root $(TMP_DPKG_DEV)/usr/bin
@@ -186,6 +191,8 @@ binary-dpkg-dev: stamp-binary
 
 binary-dpkg-doc: stamp-binary
 	rm -rf $(TMP_DPKG_DOC)
+	install -d -m 755 -o root -g root $(TMP_DPKG_DOC)
+	chmod g-s $(TMP_DPKG_DOC)
 	install -d -m 755 -o root -g root $(TMP_DPKG_DOC)/usr/share/doc/dpkg
 	mv $(TMP)/usr/share/doc/dpkg/internals $(TMP_DPKG_DOC)/usr/share/doc/dpkg/
 	mv $(TMP)/usr/share/doc/dpkg/ChangeLog.manuals \
