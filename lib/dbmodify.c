@@ -219,11 +219,28 @@ void modstatdb_shutdown(void) {
   free(updatefnbuf);
 }
 
+struct pipef *status_pipes= NULL;
+
 void modstatdb_note(struct pkginfo *pkg) {
   assert(cstatus >= msdbrw_write);
 
   onerr_abort++;
 
+  if (status_pipes) {
+    static struct varbuf *status= NULL;
+    struct pipef *pipef= status_pipes;
+    int r;
+    if (status == NULL) {
+      status = nfmalloc(sizeof(struct varbuf));
+      varbufinit(status);
+    } else
+      varbufreset(status);
+    r= varbufprintf(status, "status: %s: %s\n", pkg->name, statusinfos[pkg->status]);
+    while (pipef) {
+      write(pipef->fd, status->buf, r);
+      pipef= pipef->next;
+    }
+  }
   varbufreset(&uvb);
   varbufrecord(&uvb, pkg, &pkg->installed);
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)

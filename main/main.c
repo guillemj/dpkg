@@ -99,6 +99,7 @@ Options:\n\
   --largemem | --smallmem    Optimise for large (>4Mb) or small (<4Mb) RAM use\n\
   --no-act                   Just say what we would do - don't do it\n\
   -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
+  --status-pipe <n>	     Send status change updates to file descriptor <n>\n\
   --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
   --force-...                    Override problems - see --force-help\n\
   --no-force-...|--refuse-...    Stop when problems encountered\n\
@@ -258,6 +259,24 @@ static void setinteger(const struct cmdinfo *cip, const char *value) {
   *cip->iassignto= v;
 }
 
+
+static void setstatuspipe(const struct cmdinfo *cip, const char *value) {
+  static struct pipef *lastpipe= NULL;
+  unsigned long v;
+  char *ep;
+
+  if (lastpipe) {
+    lastpipe->next= nfmalloc(sizeof(struct pipef));
+    lastpipe= lastpipe->next;
+  } else {
+    lastpipe= status_pipes= nfmalloc(sizeof(struct pipef));
+  }
+  v= strtoul(value,&ep,0);
+  if (*ep || v > INT_MAX)
+    badusage(_("invalid integer for --%s: `%.250s'"),cip->olong,value);
+  lastpipe->fd= v;
+}
+
 void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   int l;
@@ -324,6 +343,7 @@ static const char *const passlongopts[]= {
 static const char passshortopts[]= "bceIfxX";
 static const char okpassshortopts[]= "D";
 
+void commandpipe(const char *const *argv);
 static const struct cmdinfo cmdinfos[]= {
   /* This table has both the action entries in it and the normal options.
    * The action entries are made with the ACTION macro, as they all
@@ -363,6 +383,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "predep-package",                  0,  act_predeppackage,        predeppackage   ),
   ACTION( "compare-versions",                0,  act_cmpversions,          cmpversions     ),
   
+  { "status-pipe",	  0,   1,  0,              0,  setstatuspipe },
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
