@@ -424,6 +424,13 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
 	      thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
 				       &matched,possi,&interestingwarnings,&oemsgs,provider);
 	    }
+	    if (thisf == 1 && provider->up->up == pkg && !removing) {
+	      /* IOW, if the pkg satisfies it's own dep (via a provide),
+	       * then we let it pass, even if it isn't configured yet
+	       * (duh, we're installing it!) -- Ben
+	       */
+	       thisf = 3;
+	    }
             if (thisf > found) found= thisf;
           }
         }
