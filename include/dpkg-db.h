@@ -303,6 +303,7 @@ int epochsdiffer(const struct versionrevision *a,
 
 void *nfmalloc(size_t);
 char *nfstrsave(const char*);
+char *nfstrnsave(const char*, int);
 void nffreeall(void);
 
 #endif /* DPKG_DB_H */
