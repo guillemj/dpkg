@@ -23,6 +23,7 @@
 #include <string.h>
 #include <assert.h>
 #include <ctype.h>
+#include <unistd.h>
 #include <sys/ioctl.h>
 #include <sys/termios.h>
 
