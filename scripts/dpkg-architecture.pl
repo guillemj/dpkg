@@ -323,11 +323,11 @@ some other script (for example dpkg-buildpackage).
 
 =item build machine
 
-The machine the package is build on.
+The machine the package is built on.
 
 =item host machine
 
-The machine the package is build for.
+The machine the package is built for.
 
 =item Debian Architecture
 
