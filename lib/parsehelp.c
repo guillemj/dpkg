@@ -112,7 +112,6 @@ const char *illegal_packagename(const char *p, const char **ep) {
   
   if (!*p) return _("may not be empty string");
   if (!isalnum(*p)) return _("must start with an alphanumeric");
-  if (!*++p) return _("must be at least two characters");
   while ((c= *p++)!=0)
     if (!isalnum(c) && !strchr(alsoallowed,c)) break;
   if (!c) return NULL;

@@ -52,7 +52,7 @@ $expect='first heading';
 while (<STDIN>) {
     s/\s*\n$//;
 #    printf(STDERR "%-39.39s %-39.39s\n",$expect,$_);
-    if (m/^(\w[-+0-9a-z.]+) \(([^\(\) \t]+)\)((\s+[-0-9a-z]+)+)\;/i) {
+    if (m/^(\w[-+0-9a-z.]*) \(([^\(\) \t]+)\)((\s+[-0-9a-z]+)+)\;/i) {
         if ($expect eq 'first heading') {
             $f{'Source'}= $1;
             $f{'Version'}= $2;

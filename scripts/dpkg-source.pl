@@ -530,8 +530,8 @@ if ($opmode eq 'build') {
     $sourcepackage= $fi{'S Source'};
     $sourcepackage =~ m/[^-+.0-9a-z]/ &&
         &error("source package name contains illegal character \`$&'");
-    $sourcepackage =~ m/^[0-9a-z]./ ||
-        &error("source package name is too short or starts with non-alphanum");
+    $sourcepackage =~ m/^[0-9a-z]/ ||
+        &error("source package name starts with non-alphanum");
 
     $version= $fi{'S Version'};
     $version =~ m/[^-+:.0-9a-zA-Z~]/ &&
