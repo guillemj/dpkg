@@ -128,7 +128,7 @@ if ($mode eq "add") {
 	@ARGV==1 || &badusage("--remove needs one arguments");
 	$file=$ARGV[0];
 	if (not defined $owner{$file}) {
-		print "No override present.";
+		print STDERR "No override present.\n";
 		exit(0);
 	}
 	delete $owner{$file};
