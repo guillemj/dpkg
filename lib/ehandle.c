@@ -256,6 +256,19 @@ void ohshite(const char *fmt, ...) {
   longjmp(*econtext->jbufp,1);
 }
 
+void warningf(const char *fmt, ...) {
+  int e;
+  va_list al;
+  char buf[1024];
+
+  e=errno;
+  va_start(al,fmt);
+  vsnprintf(buf,sizeof(buf),fmt,al);
+  va_end(al);
+
+  fprintf(stderr,"%s: %s",buf,strerror(e));
+}
+
 void badusage(const char *fmt, ...) {
   char buf[1024];
   va_list al;

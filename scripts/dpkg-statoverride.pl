@@ -95,7 +95,7 @@ if ($mode eq "add") {
 	}
 
 	$mode= $ARGV[2];
-	(($mode<0) or (oct($mode)>07777)) && &badusage("illegal mode $mode");
+	(($mode<0) or (oct($mode)>07777) or ($mode !~ m/\d+/)) && &badusage("illegal mode $mode");
 	$file= $ARGV[3];
 	$file =~ m/\n/ && &badusage("file may not contain newlines");
 	$file =~ s,/+$,, && print STDERR "stripping trailing /\n";

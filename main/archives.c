@@ -525,10 +525,16 @@ int tarobject(struct TarInfo *ti) {
     debug(dbg_eachfiledetail,"tarobject FIFO");
     newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break;
-  case CharacterDevice: case BlockDevice:
-    if (mknod(fnamenewvb.buf,0,ti->Device))
+  case CharacterDevice:
+    if (mknod(fnamenewvb.buf,S_IFCHR, ti->Device))
       ohshite(_("error creating device `%.255s'"),ti->Name);
-    debug(dbg_eachfiledetail,"tarobject CharacterDevice|BlockDevice");
+    debug(dbg_eachfiledetail,"tarobject CharacterDevice");
+    newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
+    break; 
+  case BlockDevice:
+    if (mknod(fnamenewvb.buf,S_IFBLK, ti->Device))
+      ohshite(_("error creating device `%.255s'"),ti->Name);
+    debug(dbg_eachfiledetail,"tarobject BlockDevice");
     newtarobject_allmodes(fnamenewvb.buf,ti, nifd->namenode->statoverride);
     break; 
   case HardLink:

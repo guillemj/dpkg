@@ -33,7 +33,7 @@ $i=100; grep($pri{$_}=$i--,@fieldpri);
 
 $udeb = 0;
 $arch = '';
-while ($ARGV[1] =~ m/^-.*/) {
+while ($ARGV[0] =~ m/^-.*/) {
     my $opt = shift @ARGV;
     if ($opt eq '-u') {
         $udeb = 1;
@@ -49,7 +49,7 @@ while ($ARGV[1] =~ m/^-.*/) {
     }
 }
 $ext = $udeb ? 'udeb' : 'deb';
-$pattern = $arch ? "-name '*_all.$ext' -o -name '*_$arch.$ext'" : "-name '*.$ext'";
+$pattern = $arch ? "'(' -name '*_all.$ext' -o -name '*_$arch.$ext' ')'" : "-name '*.$ext'";
 if ($ARGV[1] eq '-u') {
     $udeb = 1;
     shift @ARGV;

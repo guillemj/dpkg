@@ -1,3 +1,23 @@
+Sun Apr 25 18:02:34 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * scripts/install-info.pl: Add gndn --dir-file option for compatibility
+  with GNU install-info.  Correct code to break infinite loop.
+
+Sun Apr 25 17:57:46 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * scripts/dpkg-divert.8: Document that diverting shared libraries
+  can be troublesome when combined with ldconfig.
+
+Sun Apr 25 17:53:06 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * scripts/dpkg-checkbuilddeps.1: This script no longer checks for
+  build-essential, so don't document that it does.
+
+Sun Apr 25 17:45:47 BST 2004 Scott James Remnant <scott@netsplit.com>
+
+  * scripts/dpkg-genchanges.pl: Group the -o expression to find
+  using braces.
+
 Sun Apr 25 17:17:16 BST 2004 Scott James Remnant <scott@netsplit.com>
 
   * man/es/Makefile.in: Add new dpkg-source.1 manpage.
@@ -9,6 +29,46 @@ Sun Apr 25 17:08:57 BST 2004 Scott James Remnant <scott@netsplit.com>
 Sun Apr 25 16:59:09 BST 2004 Scott James Remnant <scott@netsplit.com>
 
   * configure.in: Add Norwegian Nynorsk and Portugese linguas.
+
+Sun Apr 25 12:27:38 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * main/archive.c: make block and char devices work properly when
+    extracting.  mknod can create other kinds of devices than just char
+    and block devices, so we need to pass the type of device to mknod in
+    the mode argument.
+
+Sun Apr 25 00:46:38 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * split/mksplit.pl: cut off anything after the first piece of whitespace
+    when getting the md5sum, since we now get a different-formatted md5sum
+    back.  (It now has a trailing dash.)
+
+Sun Apr 25 00:23:27 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * lib/dump.c: Terminate buffer in order to not display garbage when
+    displaying dependency fields.
+	
+Sun Apr 25 00:12:27 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * main/query.c, dpkg-deb/main.c: Fix up the query format to be
+    consistent with what the library expects.  Remove the pkg: prefix from
+    the default showformat.
+	
+Sun Apr 25 00:06:27 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * scripts/dpkg-statoverride.pl: Make sure the permissions passed to
+    dpkg-statoverride are numeric.
+
+Sat Apr 24 23:11:12 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * include/dpkg.h.in, lib/ehandle.c, lib/myopt.c: Failed opening of
+    configuration files are no longer a fatal error.  Thanks to Max
+    Vozeler <max@hinterhof.net> for the patch.
+
+Mon Apr 19 12:24:40 CEST 2004 Tollef Fog Heen <tfheen@debian.org>
+
+  * scripts/dpkg-shlibdeps.pl: Set LC_ALL to C before spawning off dpkg
+  --search, to avoid searching on localized strings.
 
 Sun Mar 28 18:32:19 CEST 2004 Jordi Mallach <jordi@debian.org>
 
@@ -64,6 +124,10 @@ Thu Mar  8 00:54:00 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
 
   * man/ja/{dpkg-architecture.1,dpkg-query.8,dselect.8}:  Update Japanese
     translation.  Closes: #224616
+
+Thu Mar  8 00:38:00 CEST 2004  Tollef Fog Heen  <tfheen@debian.org>
+
+  * release.sh: Remove .svn directories as well.
 
 Mon Mar  8 19:37:00 GMT 2004 Scott James Remnant <scott@netsplit.com>
 

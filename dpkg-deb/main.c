@@ -40,7 +40,7 @@
 
 #include "dpkg-deb.h"
 
-const char* showformat	= "${pkg:Package}\t${pkg:Version}\n";
+const char* showformat	= "${Package}\t${Version}\n";
 
 static void printversion(void) {
   if (fputs(_("Debian `"), stdout) < 0) werr("stdout");

@@ -192,6 +192,7 @@ if ($#libfiles >= 0) {
     if (!$c) {
         close STDERR; # we don't need to see dpkg's errors
 	open STDERR, "> /dev/null";
+        $ENV{LC_ALL} = "C";
         exec("dpkg","--search","--",map {"$_"} @libfiles); syserr("cannot exec dpkg");
     }
     while (<P>) {

@@ -43,7 +43,7 @@
 #include "filesdb.h"
 #include "main.h"
 
-static const char* showformat		= "${pkg:Package}\t${pkg:Version}\n";
+static const char* showformat		= "${Package}\t${Version}\n";
 
 
 void ensure_package_clientdata(struct pkginfo *pkg) {

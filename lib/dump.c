@@ -207,6 +207,8 @@ void w_dependency(struct varbuf *vb,
   if (!pifp->valid) return;
   if (flags&fw_printheader)
     sprintf(fnbuf,"%s: ",fip->name);
+  else
+    fnbuf[0] = '\0';
 
   depdel= fnbuf;
   for (dyp= pifp->depends; dyp; dyp= dyp->next) {

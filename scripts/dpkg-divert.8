@@ -66,8 +66,14 @@ Output program name and version and exit successfully.
 .SH NOTES
 When adding, default is --local and --divert <original>.distrib.
 When removing, --package or --local and --divert must match if specified.
-.br
+
 Directories can't be diverted with dpkg-divert.
+
+Care should be taken when diverting shared libraries, ldconfig (8) creates
+a symbolic link based on the DT_SONAME field embedded in the library.
+Because ldconfig doesn't honour diverts (only dpkg does), if a diverted
+ibrary has the same SONAME as the undiverted one the symlink may end up
+pointing at the diverted library.
 .SH FILES
 .TP
 .I /var/lib/dpkg/diversions

@@ -23,7 +23,7 @@ usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
              [--section regexp title] [--infodir=xxx] [--align=nnn]
              [--calign=nnn] [--quiet] [--menuentry=xxx] [--info-dir=xxx]
              [--keep-old] [--description=xxx] [--test]
-             [--remove | --remove-exactly ]
+             [--remove | --remove-exactly ] [--dir-file]
              [--]
              filename
 END
@@ -37,6 +37,7 @@ $default='/usr/share/base-files/info.dir';
 
 $menuentry="";
 $description="";
+$infodir="";
 $sectionre="";
 $sectiontitle="";
 $infoentry="";
@@ -90,6 +91,8 @@ while ($ARGV[0] =~ m/^--/) {
         $infodir=$';
     } elsif (m/^--description=/) {
         $description=$';
+    } elsif (m/^--dir-file=/) { # for compatibility with GNU install-info
+	$infodir=$';
     } else {
         print STDERR "$name: unknown option \`$_'\n"; &usage(STDERR); exit 1;
     }
@@ -280,7 +283,7 @@ open(OLD,"$infodir/dir") || &ulquit("open $infodir/dir: $!");
 @work= <OLD>;
 eof(OLD) || &ulquit("read $infodir/dir: $!");
 close(OLD) || &ulquit("close $infodir/dir after read: $!");
-while ($work[$#work] !~ m/\S/) { $#work--; last unless $#work; }
+while (($#work >= 0) && ($work[$#work] !~ m/\S/)) { $#work--; }
 
 while (@work) {
     $_= shift(@work);

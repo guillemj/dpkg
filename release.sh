@@ -8,6 +8,7 @@
 # remove CVS files
 rm -rf `find . -name CVS -type d`
 rm -f `find . -name .cvsignore -type f`
+rm -rf `find . -name .svn -type d`
 
 # Remove any cruft files...
 rm -f `find . -name '*.orig' -o -name '*.rej' -o -name '*~' -o -name '.#*'`

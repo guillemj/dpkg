@@ -37,7 +37,8 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
   if (!file) {
     if (errno==ENOENT)
       return;
-    ohshite(_("failed to open configuration file `%.255s' for reading"), fn);
+    warningf(_("failed to open configuration file `%.255s' for reading"),fn);
+    return;
   }
 
   while (fgets(linebuf, sizeof(linebuf), file)) {

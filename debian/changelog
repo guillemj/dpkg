@@ -1,10 +1,36 @@
 dpkg (1.10.21) unstable; urgency=low
 
-  * Don't require argument for start-stop-daemon -V.  Closes: #237589.
   * Fix incorrect linked list node removal code that caused every second
     shared or diverted conffile to be deleted by dpkg.
     Closes: #10879, #33046, #47267, #90623, #98210, #109691, #146167.
     Closes: #155456, #204275.
+  * Call mknod with the required device type.  Closes: #158916.
+  * Correct the default query output format to be consistent with
+    what the underlying library expects.  Closes: #174973.
+  * Fix missing NULL-termination in dpkg-query -W display of dependency
+    fields.  Closes: #174978
+  * Strip output from md5sum(1) after the first whitespace character.
+    Closes: #200763.
+  * Output a warning if we cannot open a configuration file instead of
+    treating it as a fatal error, in case our home directory is not readable
+    by root.  Closes: #200701.
+  * Set LC_ALL to C before spawning off dpkg --search, to avoid searching
+    on localized strings.  Closes: #244316.
+  * Don't require argument for start-stop-daemon -V.  Closes: #237589.
+  * Correct use of @ARGV within dpkg-scanpackages, allowing -u to work
+    once again.  Closes: #225086, #241503.
+  * Make sure file permissions passed to dpkg-statoverride are numeric.
+    Closes: #161156.
+  * Correctly break out of the loop in install-info.
+    Closes: #124225, #160761.
+  * Add ignored --dir-file option to install-info for GNU install-info
+    compatibility.  Closes: #179192
+  * Refer to debian-policy in dpkg-doc's description instead of the
+    non-existant packaging-manual.  Closes: #120970.
+  * Remove incorrect mention of build-essential from dpkg-checkbuilddeps
+    manpage.  Closes: #219210.
+  * Add a note about diverting shared libraries to the dpkg-divert
+    manpage.  Closes: #214699.
   * Updated Translations:
     - Brazilian Portugese (Andre Luis Lopes).  Closes: #237864.
     - Catalan (Jordi Mallach).

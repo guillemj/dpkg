@@ -32,6 +32,7 @@ sub output {
 
 $myversion='2.1';
 $csum= &output("md5sum <\"$sourcefile\"");
+$csum =~ s/\s.*//;
 $package= &output("dpkg-deb --field \"$sourcefile\" Package");
 $version= &output("dpkg-deb --field \"$sourcefile\" Version");
 $revision= &output("dpkg-deb --field \"$sourcefile\" Package_Revision");
