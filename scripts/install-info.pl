@@ -31,6 +31,7 @@ $infodir='/usr/share/info';
 $maxwidth=79;
 $Text::Wrap::columns=$maxwidth;
 $backup='/var/backups/infodir.bak';
+$default='/usr/share/base-files/info.dir';
 
 $menuentry="";
 $description="";
@@ -253,8 +254,18 @@ if (!$nowrite && ( ! -e "$infodir/dir" || ! -s "$infodir/dir" )) {
 	    exit 1;
 	}
     } else {
-	print STDERR "$name: no backup file $backup available, giving up.\n";
+        if (-r $default) {
+	    print STDERR "$name: no backup file $backup available, retrieving default file.\n";
+	    
+	    if (system("cp $default $infodir/dir")) {
+		print STDERR "$name: copying $default to $infodir/dir failed, giving up: $!\n";
 	exit 1;
+    }
+	} else {
+	    print STDERR "$name: no backup file $backup available.\n";
+	    print STDERR "$name: no default file $default available, giving up.\n";
+	    exit 1;
+	}
     }
 }
 
@@ -267,7 +278,7 @@ open(OLD,"$infodir/dir") || &ulquit("open $infodir/dir: $!");
 @work= <OLD>;
 eof(OLD) || &ulquit("read $infodir/dir: $!");
 close(OLD) || &ulquit("close $infodir/dir after read: $!");
-while ($work[$#work] !~ m/\S/) { $#work--; }
+while ($work[$#work] !~ m/\S/) { $#work--; last unless $#work; }
 
 while (@work) {
     $_= shift(@work);
