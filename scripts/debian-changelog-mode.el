@@ -1,4 +1,4 @@
-;; dpkg-changelog.el --- change log maintenance for dpkg-style changelogs
+;; debian-changelog.el --- change log maintenance for Debian-style changelogs
 
 ;; Keywords: maint
 
@@ -22,32 +22,33 @@
 
 (require 'add-log)
 
-(defvar dpkg-changelog-urgencies
-  '((?l."LOW") (?m."MEDIUM") (?h."HIGH"))
-  "alist of keystrokes vs. urgency values dpkg-changelog-urgency ^c^u.")
+(defvar debian-changelog-urgencies
+  '((?l."low") (?m."medium") (?h."HIGH"))
+  "alist of keystrokes vs. urgency values debian-changelog-urgency ^c^u.")
 
-(defvar dpkg-changelog-distributions
+(defvar debian-changelog-distributions
   '((?s."stable") (?u."unstable") (?c."contrib") (?n."non-free") (?e."experimental"))
-  "alist of keystrokes vs. distribution values for dpkg-changelog-distribution ^c^d.")
+  "alist of keystrokes vs. distribution values for debian-changelog-distribution ^c^d.")
 
-(defvar dpkg-changelog-mode-map nil
-  "Keymap for dpkg changelog major mode.")
-(if dpkg-changelog-mode-map
+(defvar debian-changelog-mode-map nil
+  "Keymap for Debian changelog major mode.")
+(if debian-changelog-mode-map
     nil
-  (setq dpkg-changelog-mode-map (make-sparse-keymap))
-  (define-key dpkg-changelog-mode-map "\C-c\C-a" 'dpkg-changelog-add-entry)
-  (define-key dpkg-changelog-mode-map "\C-c\C-f" 'dpkg-changelog-finalise-last-version)
-  (define-key dpkg-changelog-mode-map "\C-c\C-c" 'dpkg-changelog-finalise-and-save)
-  (define-key dpkg-changelog-mode-map "\C-c\C-v" 'dpkg-changelog-add-version)
-  (define-key dpkg-changelog-mode-map "\C-c\C-d" 'dpkg-changelog-distribution)
-  (define-key dpkg-changelog-mode-map "\C-c\C-u" 'dpkg-changelog-urgency)
-  (define-key dpkg-changelog-mode-map "\C-c\C-e"
-    'dpkg-changelog-unfinalise-last-version))
+  (setq debian-changelog-mode-map (make-sparse-keymap))
+  (define-key debian-changelog-mode-map "\C-c\C-a" 'debian-changelog-add-entry)
+  (define-key debian-changelog-mode-map "\C-c\C-f"
+    'debian-changelog-finalise-last-version)
+  (define-key debian-changelog-mode-map "\C-c\C-c" 'debian-changelog-finalise-and-save)
+  (define-key debian-changelog-mode-map "\C-c\C-v" 'debian-changelog-add-version)
+  (define-key debian-changelog-mode-map "\C-c\C-d" 'debian-changelog-distribution)
+  (define-key debian-changelog-mode-map "\C-c\C-u" 'debian-changelog-urgency)
+  (define-key debian-changelog-mode-map "\C-c\C-e"
+    'debian-changelog-unfinalise-last-version))
 
-(defun dpkg-changelog-add-entry ()
-  "Add a new change entry to a dpkg-style changelog."
+(defun debian-changelog-add-entry ()
+  "Add a new change entry to a debian-style changelog."
   (interactive)
-  (if (eq (dpkg-changelog-finalised-p) t)
+  (if (eq (debian-changelog-finalised-p) t)
       (error "most recent version has been finalised - use ^c^e or ^c^v"))
   (goto-char (point-min))
   (re-search-forward "\n --")
@@ -58,7 +59,7 @@
   (insert "  * ")
   (save-excursion (insert "\n")))
 
-(defun dpkg-changelog-headervalue (arg re alist)
+(defun debian-changelog-headervalue (arg re alist)
   (let (a b v k
         (lineend (save-excursion (end-of-line) (point))))
     (save-excursion
@@ -78,28 +79,28 @@
       (if arg nil (insert (cdr v))))
     (if arg (goto-char a))))
 
-(defun dpkg-changelog-urgency (arg)
+(defun debian-changelog-urgency (arg)
   "Without argument, prompt for a key for a new urgency value (using
-dpkg-changelog-urgencies).  With argument, delete the current urgency
+debian-changelog-urgencies).  With argument, delete the current urgency
 and position the cursor to type a new one."
   (interactive "P")
-  (dpkg-changelog-headervalue
+  (debian-changelog-headervalue
    arg
    "\\;[^\n]* urgency=\\(\\sw+\\)"
-   dpkg-changelog-urgencies))
+   debian-changelog-urgencies))
 
-(defun dpkg-changelog-distribution (arg)
+(defun debian-changelog-distribution (arg)
   "Without argument, prompt for a key for a new distribution value (using
-dpkg-changelog-distributions).  With argument, delete the current distribution
+debian-changelog-distributions).  With argument, delete the current distribution
 and position the cursor to type a new one."
   (interactive "P")
-  (dpkg-changelog-headervalue
+  (debian-changelog-headervalue
    arg
    ") \\(.*\\)\\;"
-   dpkg-changelog-distributions))
+   debian-changelog-distributions))
 
-(defun dpkg-changelog-finalised-p ()
-  "Check whether the most recent dpkg-style changelog entry is
+(defun debian-changelog-finalised-p ()
+  "Check whether the most recent debian-style changelog entry is
 finalised yet (ie, has a maintainer name and email address and a
 release date."
   (save-excursion
@@ -118,10 +119,10 @@ release date."
       nil)
      ("finalisation line has bad format (not ` -- maintainer <email>  date')"))))
 
-(defun dpkg-changelog-add-version ()
-  "Add a new version section to a dpkg-style changelog file."
+(defun debian-changelog-add-version ()
+  "Add a new version section to a debian-style changelog file."
   (interactive)
-  (let ((f (dpkg-changelog-finalised-p)))
+  (let ((f (debian-changelog-finalised-p)))
     (and (stringp f) (error f))
     (or f (error "previous version not yet finalised")))
   (goto-char (point-min))
@@ -133,30 +134,30 @@ release date."
            (let ((pkg (read-string "Package name: "))
                  (ver (read-version "New version (including any revision): ")))
              (concat pkg " (" ver ") unstable; urgency="
-                     (cdr (car dpkg-changelog-urgencies)))))))
+                     (cdr (car debian-changelog-urgencies)))))))
     (insert headstring "\n\n  * ")
     (save-excursion
       (if (re-search-backward "\;[^\n]* urgency=\\(\\sw+\\)" (point-min) t)
           (progn (goto-char (match-beginning 1))
                  (delete-region (point) (match-end 1))
-                 (insert (cdr (car dpkg-changelog-urgencies))))))
+                 (insert (cdr (car debian-changelog-urgencies))))))
     (save-excursion (insert "\n\n --\n\n"))))
 
-(defun dpkg-changelog-finalise-and-save ()
-  "Finalise, if necessary, and then save a dpkg-style changelog file."
+(defun debian-changelog-finalise-and-save ()
+  "Finalise, if necessary, and then save a debian-style changelog file."
   (interactive)
-  (let ((f (dpkg-changelog-finalised-p)))
+  (let ((f (debian-changelog-finalised-p)))
     (and (stringp f) (error f))
-    (or f (dpkg-changelog-finalise-last-version)))
+    (or f (debian-changelog-finalise-last-version)))
   (save-buffer))
 
-(defun dpkg-changelog-finalise-last-version ()
+(defun debian-changelog-finalise-last-version ()
   "Remove the `finalisation' information (maintainer's name and email
 address and release date) so that new entries can be made."
   (interactive)
   (or add-log-full-name (setq add-log-full-name (user-full-name)))
   (or add-log-mailing-address (setq add-log-mailing-address user-mail-address))
-  (and (dpkg-changelog-finalised-p) (dpkg-changelog-unfinalise-last-version))
+  (and (debian-changelog-finalised-p) (debian-changelog-unfinalise-last-version))
   (save-excursion
     (goto-char (point-min))
     (re-search-forward "\n --\\([ \t]*\\)")
@@ -170,11 +171,11 @@ address and release date) so that new entries can be made."
         (error (concat "expected newline after date from " dp)))
     (delete-char 1)))
 
-(defun dpkg-changelog-unfinalise-last-version ()
+(defun debian-changelog-unfinalise-last-version ()
   "Remove the `finalisation' information (maintainer's name and email
 address and release date) so that new entries can be made."
   (interactive)
-  (if (dpkg-changelog-finalised-p) nil
+  (if (debian-changelog-finalised-p) nil
     (error "most recent version is not finalised"))
   (save-excursion
     (goto-char (point-min))
@@ -183,18 +184,22 @@ address and release date) so that new entries can be made."
       (end-of-line)
       (delete-region dels (point)))))
 
-(defun dpkg-changelog-mode ()
-  "Major mode for editing dpkg-style change logs.
-Runs `dpkg-changelog-mode-hook'."
+(defun debian-changelog-mode ()
+  "Major mode for editing Debian-style change logs.
+Runs `debian-changelog-mode-hook' if it exists.
+
+Key bindings:
+
+\\{dpkg-changelog-mode-map}"
   (interactive)
   (kill-all-local-variables)
   (text-mode)
-  (setq major-mode 'dpkg-changelog-mode
-	mode-name "dpkg changelog"
+  (setq major-mode 'debian-changelog-mode
+	mode-name "Debian changelog"
         left-margin 2
-	fill-prefix "    "
+	fill-prefix "  "
 	fill-column 74)
-  (use-local-map dpkg-changelog-mode-map)
+  (use-local-map debian-changelog-mode-map)
   ;; Let each entry behave as one paragraph:
   (set (make-local-variable 'paragraph-start) "\\*")
   (set (make-local-variable 'paragraph-separate) "\\*\\|\\s-*$|\\S-")
@@ -203,6 +208,6 @@ Runs `dpkg-changelog-mode-hook'."
   ;; is grouped with what follows.
   (set (make-local-variable 'page-delimiter) "^\\<")
   (set (make-local-variable 'version-control) 'never)
-  (run-hooks 'dpkg-changelog-mode-hook))
+  (run-hooks 'debian-changelog-mode-hook))
 
-(provide 'dpkg-changelog)
+(provide 'debian-changelog)

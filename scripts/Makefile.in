@@ -47,8 +47,8 @@ MAN8 =	update-rc.d start-stop-daemon update-alternatives install-info \
 SBIN =	update-rc.d start-stop-daemon update-alternatives install-info \
 	dpkg-scanpackages dpkg-divert cleanup-info
 LIB =	controllib.pl
-ELISP =	dpkg-changelog-mode.el
-CHGLGS=	cl-dpkg
+ELISP =	debian-changelog-mode.el
+CHGLGS=	cl-debian
 
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -79,7 +79,7 @@ INSTALL_DATA = @INSTALL_DATA@
 all:		$(EXC) $(SBIN) $(CHGLGS)
 
 clean:
-		rm -f $(EXC) $(SBIN) core *.new
+		rm -f $(EXC) $(SBIN) $(CHGLGS) core *.new
 
 distclean:	clean
 		rm -f Makefile *.orig *~ *.~* ./#*# i386elf-hello-world.gz

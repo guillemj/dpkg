@@ -382,8 +382,7 @@ if ($opmode eq 'build') {
     defined($c2= open(CPIO,"-|")) || &syserr("fork for cpio");
     if (!$c2) {
         open(STDIN,"<&GZIP") || &syserr("reopen gzip for cpio");
-        open(STDERR,"| egrep -v '^[0-9]+ blocks\$' >&2") ||
-            &syserr("reopen stderr for cpio to grep out blocks message");
+        &cpiostderr;
         exec('cpio','-0t'); &syserr("exec cpio");
     }
     $/= "\0";
@@ -394,7 +393,7 @@ if ($opmode eq 'build') {
         $fn =~ m/\n/ &&
             &error("tarfile contains object with newline in its name ($pname)");
         $slash= substr($fn,length($expectprefix),1);
-        (($slash || '/' || $slash eq '') &&
+        (($slash eq '/' || $slash eq '') &&
          substr($fn,0,length($expectprefix)) eq $expectprefix) ||
              &error("tarfile contains object ($pname) not in expected directory".
                     " ($expectprefix)");
@@ -529,6 +528,32 @@ if ($opmode eq 'build') {
         }
     }
 
+    $execmode= 0777 & ~umask;
+    (@s= stat('.')) || &syserr("cannot stat \`.'");
+    $dirmode= $execmode | ($s[2] & 02000);
+    $plainmode= $execmode & ~0111;
+    $fifomode= ($plainmode & 0222) | (($plainmode & 0222) << 1);
+    for $fn (@filesinarchive) {
+        $fn= substr($fn,length($expectprefix)+1);
+        $fn= "$newdirectory/$fn";
+        (@s= lstat($fn)) || &syserr("cannot stat extracted object \`$fn'");
+        $mode= $s[2];
+        if (-d _) {
+            $newmode= $dirmode;
+        } elsif (-f _) {
+            $newmode= ($mode & 0111) ? $execmode : $plainmode;
+        } elsif (-p _) {
+            $newmode= $fifomode;
+        } elsif (!-l _) {
+            &internerr("unknown object \`$fn' after extract (mode ".
+                       sprintf("0%o",$mode).")");
+        }
+printf STDERR "mode %07o newmode %07o %s\n",$mode,$newmode,$fn;
+        next if ($mode & 07777) == $newmode;
+        chmod($newmode,$fn) ||
+            &syserr(sprintf("cannot change mode of \`%s' to 0%o from 0%o",
+                            $fn,$newmode,$mode));
+    }
     exit(0);
 }
 
@@ -556,15 +581,21 @@ sub erasedir {
 
 sub extracttar {
     &forkgzipread("$dscdir/$tarfile");
-    defined($c2= fork) || &syserr("fork for tar -x");
+    defined($c2= fork) || &syserr("fork for cpio -i");
     if (!$c2) {
-        open(STDIN,"<&GZIP") || &syserr("reopen gzip for tar -x");
-        exec('tar','-xf','-'); &syserr("exec tar -x");
+        open(STDIN,"<&GZIP") || &syserr("reopen gzip for cpio -i");
+        &cpiostderr;
+        exec('cpio','-Hustar','-im','--no-preserve-owner'); &syserr("exec cpio -i");
     }
     close(GZIP);
-    $c2 == waitpid($c2,0) || &syserr("wait for tar -x");
-    $? && subprocerr("tar -x");
+    $c2 == waitpid($c2,0) || &syserr("wait for cpio -i");
+    $? && subprocerr("cpio -i");
     &reapgzip;
+}
+
+sub cpiostderr {
+    open(STDERR,"| egrep -v '^[0-9]+ blocks\$' >&2") ||
+        &syserr("reopen stderr for cpio to grep out blocks message");
 }
 
 sub setfile {

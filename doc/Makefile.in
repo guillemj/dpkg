@@ -35,15 +35,22 @@ INSTALL_DATA = @INSTALL_DATA@
 MAKEINFO = makeinfo
 TEXI2DVI = texi2dvi
 
-DPKGDOCS= auto-deconfiguration.txt dependency-ordering.txt \
- disappear-replace.txt diversions.text \
- essential-flag.txt version-ordering.txt developer-keys.pgp
+DPKGDOCS= developer-keys.pgp
 
-# Files folded into main guidelines document
+SGMLDOCS= programmer policy
+
+# Files folded into manuals
 OBSOLETEDOCS= descriptions.txt upgrades+errors.txt \
- maintainer-script-args.txt virtual-dependencies.txt
+ maintainer-script-args.txt virtual-dependencies.txt \
+ auto-deconfiguration.txt dependency-ordering.txt \
+ disappear-replace.txt diversions.text \
+ essential-flag.txt version-ordering.txt
 
-all:		$(DPKGDOCS) guidelines.info
+all:		$(DPKGDOCS) $(SGMLDOCS)
+
+$(SGMLDOCS):
+		debiandoc2html $@.sgml
+		touch $@
 
 guidelines.info: guidelines.texi
 		$(MAKEINFO) $(srcdir)/guidelines.texi
@@ -57,16 +64,12 @@ database-structure.monops: database-structure.ps
  bind def$$:/$$1 {} bind def:' database-structure.ps >ps
 		mv ps database-structure.monops
 
-#dpkg.dvi:
-#		$(TEXI2DVI) $(srcdir)/dpkg.texi
-#
-#dpkg.info:
-#		$(MAKEINFO) $(srcdir)/dpkg.texi
-
 clean:
+		rm -f $(SGMLDOCS)
 		rm -f database-structure.ps database-structure.monops ps
 		rm -f *.{aux,cp,dvi,fn,ky,log,pg,toc,tp,vr,bak}
-		rm -f guidelines.info*
+		rm -f guidelines.info* *.sasp*
+		rm -rf {programmer,policy}.html
 
 distclean:
 		rm -f Makefile *.orig *~ *.~* ./#*#
@@ -75,8 +78,9 @@ install:	all
 		$(INSTALL_DATA) deb.5 $(man5dir)/deb.$(man5)
 		$(INSTALL_DATA) deb-old.5 $(man5dir)/deb-old.$(man5)
 		$(INSTALL_DATA) deb-control.5 $(man5dir)/deb-control.$(man5)
-		$(INSTALL_DATA) guidelines.info guidelines.info-*[0-9] \
-			$(infodir)/.
+		set -e; for f in $(SGMLDOCS) ; do \
+			cp -r $$f.html $(dpkgdocdir)/$$f.html ; \
+		done
 		set -e; for d in $(DPKGDOCS) ; do \
 			$(INSTALL_DATA) $$d $(dpkgdocdir)/$$d ; \
 		done

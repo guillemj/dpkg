@@ -3,7 +3,7 @@
 $dpkglibdir= ".";
 $version= '1.3.0'; # This line modified by Makefile
 
-$format='dpkg';
+$format='debian';
 $changelogfile='debian/changelog';
 @parserpath= ("/usr/local/lib/dpkg/parsechangelog",
               "$dpkglibdir/parsechangelog");
