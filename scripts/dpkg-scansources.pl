@@ -110,7 +110,7 @@ sub usage {
 # Getopt::Long has some really awful defaults.  This function loads it
 # then configures it to use more sane settings.
 
-sub getopt;
+sub getopt(@);
 sub configure_getopt {
     Getopt::Long->import(2.11);
     *getopt = \&Getopt::Long::GetOptions;

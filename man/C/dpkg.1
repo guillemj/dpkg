@@ -1,6 +1,6 @@
 .TH DPKG 1 "April 12, 1998" "Debian Project" "dpkg suite"
 .SH NAME
-dpkg - a medium-level package manager for Debian
+dpkg - package manager for Debian
 
 .SH SYNOPSIS
 .B dpkg
@@ -17,7 +17,7 @@ descriptions of what \fBdpkg\fP does when installing and removing
 packages are particularly inadequate.
 
 .SH DESCRIPTION
-\fBdpkg\fP is a medium-level tool to install, build, remove and manage
+\fBdpkg\fP is a tool to install, build, remove and manage
 Debian packages. The primary and more user-friendly
 front-end for \fBdpkg\fP is \fBdselect\fP(8).  \fBdpkg\fP itself is
 controlled entirely via command line parameters, which consist of exactly
@@ -175,7 +175,7 @@ Debian is simply named \fIPackages\fP.  \fBdpkg\fP keeps its
 record of available packages in \fI/var/lib/dpkg/available\fP.
 
 A simpler one-shot command to retrieve and update the \fIavailable\fR
-fileis \fBdselect update\fR.
+file is \fBdselect update\fR.
 .TP
 \fBdpkg \-A\fP | \fB\-\-record\-avail\fP \fIpackage_file\fP ...
 Update \fBdpkg\fP and \fBdselect\fP's idea of which packages are
@@ -194,11 +194,14 @@ Searches for packages that have been installed only partially on your
 system.  \fBdpkg\fP will suggest what to do with them to get them
 working.
 .TP
-\fBdpkg \-\-get\-selections\fP [\fIpattern\fP...]
+\fBdpkg \-\-get\-selections\fP [\fIpackage-name-pattern\fP...]
 Get list of package selections, and write it to stdout.
 .TP
 .B dpkg \-\-set\-selections
-Set package selections using file read from stdin.
+Set package selections using file read from stdin.  This file should be
+in the format '<package> <state>', where state is one of install, hold,
+deinstall or purge.  Blank lines and comment lines beginning with '#'
+are also permitted.
 .TP
 .B dpkg \-\-yet\-to\-unpack
 Searches for packages selected for installation, but which for some

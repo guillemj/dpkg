@@ -42,7 +42,7 @@ while (@ARGV) {
 
 %mapkv=(); # for future use
 $i=100;grep($fieldimps{$_}=$i--,
-          qw(Source Version Distribution Urgency Changed-By Date Closes
+          qw(Source Version Distribution Urgency Maintainer Date Closes
 	     Changes));
 $i=1;grep($urgencies{$_}=$i++,
           qw(low medium high critical emergency));
@@ -111,7 +111,7 @@ while (<STDIN>) {
     } elsif (m/^ \-\- (.*) <(.*)>  ((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)$/) {
         $expect eq 'more change data or trailer' ||
             &clerror("found trailer where expected $expect");
-        $f{'Changed-By'}= "$1 <$2>" unless defined($f{'Changed-By'});
+        $f{'Maintainer'}= "$1 <$2>" unless defined($f{'Maintainer'});
         $f{'Date'}= $3 unless defined($f{'Date'});
 #        $f{'Changes'}.= " .\n $_\n";
         $expect= 'next heading or eof';

@@ -304,8 +304,7 @@ sub parsecdata {
 
 sub unknown {
     my $field = $_;
-    my $key = (grep { /^o:C\d+ $field/ } keys %fi)[0];
-    &warn("unknown information field " . $f{"$key"} . " in input data in $_[0]");
+    &warn("unknown information field \`$field\' in input data in $_[0]");
 }
 
 sub syntax {

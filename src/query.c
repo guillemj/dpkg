@@ -183,9 +183,9 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 void listpackages(const char *const *argv) {
   struct pkgiterator *it;
   struct pkginfo *pkg;
-  struct pkginfo **pkgl;
+  struct pkginfo **pkgl, **pkgf;
   const char *thisarg;
-  int np, i, head, found;
+  int np, nf, i, head, found;
 
   modstatdb_init(admindir,msdbrw_readonly);
 
@@ -199,14 +199,12 @@ void listpackages(const char *const *argv) {
   iterpkgend(it);
   assert(i==np);
 
-  qsort(pkgl,np,sizeof(struct pkginfo*),pkglistqsortcmp);
-  head=0;
-
+  pkgf= m_malloc(sizeof(struct pkginfo*)*np); nf=0;
   if (!*argv) {
     for (i=0; i<np; i++) {
       pkg= pkgl[i];
       if (pkg->status == stat_notinstalled) continue;
-      list1package(pkg,&head,pkgl,np);
+      pkgf[nf++] = pkg;
     }
   } else {
     while ((thisarg= *argv++)) {
@@ -214,7 +212,7 @@ void listpackages(const char *const *argv) {
       for (i=0; i<np; i++) {
         pkg= pkgl[i];
         if (fnmatch(thisarg,pkg->name,0)) continue;
-        list1package(pkg,&head,pkgl,np); found++;
+	pkgf[nf++] = pkg; found++;
       }
       if (!found) {
         fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
@@ -222,6 +220,12 @@ void listpackages(const char *const *argv) {
       }
     }
   }
+
+  qsort(pkgf,nf,sizeof(struct pkginfo*),pkglistqsortcmp);
+  head=0;
+  for (i=0; i<nf; i++)
+    list1package(pkgf[i],&head,pkgf,nf);
+
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");  
   modstatdb_shutdown();

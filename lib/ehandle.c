@@ -266,7 +266,7 @@ void warningf(const char *fmt, ...) {
   vsnprintf(buf,sizeof(buf),fmt,al);
   va_end(al);
 
-  fprintf(stderr,"%s: %s",buf,strerror(e));
+  fprintf(stderr,"%s: %s\n",buf,strerror(e));
 }
 
 void badusage(const char *fmt, ...) {

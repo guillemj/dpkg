@@ -242,7 +242,7 @@ if (open(X,"< $fileslistfile")) {
     binmode(X);
     while (<X>) {
         chomp;
-        next if m/^([-+0-9a-z.]+)_[^_]+_(\w+)\.deb /
+        next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.deb /
                 && ($1 eq $oppackage) && ($2 eq $arch || $2 eq 'all');
         print(Y "$_\n") || &syserr("copy old entry to new files list file");
     }

@@ -110,7 +110,7 @@ Comparison operators for --compare-versions are:\n\
  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n\
  < << <= = >= >> >       (only for compatibility with control file syntax).\n\
 \n\
-Use `dselect' or 'aptitude' for user-friendly package management.\n"),
+Use `dselect' or `aptitude' for user-friendly package management.\n"),
 	    BACKEND, ADMINDIR) < 0) werr ("stdout");
 }
 
@@ -118,7 +118,7 @@ const char thisname[]= "dpkg";
 const char architecture[]= ARCHITECTURE;
 const char printforhelp[]= N_("\
 Type dpkg --help for help about installing and deinstalling packages [*];\n\
-Use dselect for user-friendly package management;\n\
+Use `dselect' or `aptitude' for user-friendly package management;\n\
 Type dpkg -Dhelp for a list of dpkg debug flag values;\n\
 Type dpkg --force-help for a list of forcing options;\n\
 Type dpkg-deb --help for help about manipulating *.deb files;\n\

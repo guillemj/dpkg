@@ -134,18 +134,18 @@ mustsetvar () {
 		echo >&2 "$progname: unable to determine $3" ; \
 		exit 1
 	else
-		echo "$progname: $3 is $2" ; \
+		echo "$progname: $3 $2" ; \
 		eval "$1=\"\$2\""
 	fi
 }
 
 curd="`pwd`"
 dirn="`basename \"$curd\"`"
-mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source package"
-mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version"
-if [ -n "$changedby" ]; then maintainer="$changedby"; 
-elif [ -n "$maint" ]; then maintainer="$maint"; 
-else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source maintainer"; fi
+mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source package is"
+mustsetvar version "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version is"
+if [ -n "$changedby" ]; then maintainer="$changedby";
+elif [ -n "$maint" ]; then maintainer="$maint";
+else mustsetvar maintainer "`dpkg-parsechangelog | sed -n 's/^Maintainer: //p'`" "source changed by"; fi
 eval `dpkg-architecture -a${targetarch} -t${targetgnusystem} -s -f`
 
 if [ x$sourceonly = x ]; then

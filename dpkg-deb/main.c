@@ -90,8 +90,8 @@ static void usage(void) {
 "   case left alignment will be used. \n"
 "\n"
 "Use `dpkg' to install and remove packages from your system, or\n"
-"`dselect' for user-friendly package management.  Packages unpacked\n"
-"using `dpkg-deb --extract' will be incorrectly installed !\n"),
+"`dselect' or `aptitude' for user-friendly package management.  Packages\n"
+"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"),
 	    stdout) < 0) werr("stdout");
 }
 

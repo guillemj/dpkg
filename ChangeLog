@@ -1,4 +1,77 @@
+2005-03-21  Scott James Remnant  <scott@netsplit.com>
+
+	* scripts/controllib.pl (unknown): Output field name we have in
+	hand, rather than trying to look it up in a dictionary in which
+	it doesn't exist yet.
+
+	* scripts/changelog/debian.pl: Revert accidental half-patch that
+	turned the Maintainer field into a Changed-By field.
+
+2005-03-21  Marc Dequènes  <duck@duckcorp.org>
+
+	* scripts/dpkg-gencontrol.pl: Fix filename regexp to allow '-'
+	in architecture names.
+
+2005-03-20  Scott James Remnant  <scott@netsplit.com>
+
+	* scripts/dpkg-buildpackage.sh: Output "source changed by"
+	rather than "source maintainer is".
+
+	* man/C/dpkg.1: Document that --get-selections takes a package
+	name pattern.  Document format of file --set-selections takes.
+
+	* man/C/dpkg-source.1: Remove unnecessary references to policy
+	and non-existant packaging manual.  Refer to dpkg-shlibdeps(1)
+	for shlibs file format.  Will need to document changelog format
+	at some point.
+	* man/C/dselect.1: Remove unnecessary reference to policy, refer
+	other reference to the package by name.
+	* man/C/deb-old.5: Remove reference to non-existant packaging
+	manual.
+	* man/C/deb.5: Remove reference to non-existant packaging
+	manual, will have to document control contents better here later.
+
+	* man/C/dpkg.1: Fix typo (fileis -> file is).
+
+	* origins/debian: Remove trailing line.
+
+2005-03-20  Mathias Weidner  <mathias@weidner.in-bad-schmiedeberg.de>
+
+	* scripts/dpkg-scansources.pl (getopt): Add (@) to prototype.
+
+2005-03-20  Scott James Remnant  <scott@netsplit.com>
+
+	* man/C/update-alternatives.8: Document what the '+' and '*'
+	marked choices in --config output mean.
+
+	* src/main.c (usage): Make aptitude quoting consistent.
+
+	* man/C/dpkg-divert.8: Mention --truename alongside the comment
+	about what it does.
+
+	* src/main.c (printforhelp): Mention aptitude alongside dselect.
+	* dpkg-deb/main.c (usage): Mention aptitude alongside dselect.
+
+	* lib/ehandle.c (warningf): Add missing newline to end of format
+	string.
+
+	* man/C/update-alternatives.8: Harmonise names for arguments to
+	--install option.
+
+	* man/C/dpkg.1: Remove "medium-level" from dpkg's description,
+	it's somewhere between medium and low.  The fact it's a package
+	manager is sufficient description.
+
+	* src/query.c (listpackages): Create a second filtered list of
+	packages, sort that (rather than the complete list) and use that
+	when calling list1package.  This means we only expand to the
+	longest field in the result, not the database.  Hopefully the
+	speed gain of only sorting a filtered list outweights the slighty
+	extra computation time.
+
 2005-03-18  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Bump version to 1.13.3~.
 
 	* configure.ac: Release 1.13.2.
 
