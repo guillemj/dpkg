@@ -335,6 +335,7 @@ ssize_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, ssize_t l
     }
   }
   if (bytesread<0 || byteswritten<0) ohshite(_("failed in buffer_copy (%s)"), desc);
+  if (limit > 0) ohshit(_("short read in buffer_copy (%s)"), desc);
 
   free(buf);
   return totalread;

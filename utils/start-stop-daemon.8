@@ -44,8 +44,9 @@ Any arguments given after
 on the command line are passed unmodified to the program being
 started.  If
 .B --retry
-is specified then start-stop-daemon will check that the process(es)
-have terminated.
+is specified then 
+.B start-stop-daemon
+will check that the process(es) have terminated.
 
 With 
 .BR --stop ,
@@ -68,34 +69,29 @@ is specified).
 .TP
 \fB-x\fP|\fB--exec\fP \fIexecutable\fP
 Check for processes that are instances of this executable (according to 
-.B /proc/
-.I pid
-.B /exe 
+.B /proc/\fIpid\fB/exe\fP
 ).
 .TP
 \fB-p\fP|\fB--pidfile\fP \fIpid-file\fP
 Check for processes whose process-id is specified in 
-.I pid-file.
+.IR pid-file .
 .TP
 \fB-u\fP|\fB--user\fP \fIusername\fP|\fIuid\fP
 Check for processes owned by the user specified by
 .I username 
 or
-.I uid.
+.IR uid .
 .TP
 \fB-n\fP|\fB--name\fP \fIprocess-name\fP
 Check for processes with the name
 .I process-name
 (according to
-.B /proc/
-.I pid
-.B /stat 
-).
+.BR /proc/\fIpid\fB/stat\fP ).
 .TP
 \fB-s\fP|\fB--signal\fP \fIsignal\fP
 With
-.BR --stop
-, specifies the signal to send to processes being stopped (default 15).
+.BR --stop ,
+specifies the signal to send to processes being stopped (default 15).
 .TP
 \fB-R\fP|\fB--retry\fP \fItimeout\fP|\fIschedule\fP
 With

@@ -375,12 +375,20 @@ Don't care about versions when checking dependencies.
 Install, even if it conflicts with another package. This is dangerous,
 for it will usually cause overwriting of some files.
 
+\fBconfmiss\fP:
+Always install a missing configuration file. This is dangerous,
+since it means not preserving a change (removing) made to the
+file.
+
 \fBconfnew\fP:
 If a conffile has been modified always install the new version without
-prompting.
+prompting, unless the \fB--force-confdef\fP is also specified, in
+which case the default action is preferred.
 
 \fBconfold\fP:
-If a conffile has been modified always keep the old version without prompting.
+If a conffile has been modified always keep the old version without
+prompting, unless the \fB--force-confdef\fP is also specified, in
+which case the default action is preferred.
 
 \fBconfdef\fP:
 If a conffile has been modified always choose the default action. If

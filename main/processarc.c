@@ -197,7 +197,7 @@ void process_archive(const char *filename) {
     pkg->files->next= 0;
     pkg->files->name= pkg->files->msdosname= pkg->files->md5sum= 0;
   }
-  /* Always nfmalloc.  Otherwise, we may overwrite some other field. */
+  /* Always nfmalloc.  Otherwise, we may overwrite some other field(like md5sum). */
   pkg->files->size= nfmalloc(30);
   sprintf(pkg->files->size,"%lu",(unsigned long)stab.st_size);
 

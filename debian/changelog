@@ -117,6 +117,29 @@ dpkg (1.10) unstable; urgency=low
 
  -- Wichert Akkerman <wakkerma@debian.org>  Mon, 20 Aug 2001 14:54:38 +0200
 
+dpkg (1.9.21) unstable; urgency=low
+
+  * Fix corrupt Swedish translations that would some error messages display
+    incorrectly.
+  * Enable --force-overwrite by default in /etc/dpkg/dpkg.cfg
+  * dpkg.cfg is now no longer a conffile. This means the installer can
+    change defaults depending on how an install is done
+  * Detect truncated debs, and abort the unpack.  Closes: #138569.
+  * Improve dpkg(8) --force documentation
+  * Fix error in Russian dselect translation
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Thu, 16 May 2002 19:42:29 +0200
+
+dpkg (1.9.20) unstable; urgency=medium
+
+  * Fix assertion when --auto-deconfigure is set.  Closes: #137765.
+  * Fix segfault discovered by fixing the above.
+  * Fix segfault when getenv("PATH") returns null.  Closes: #136349
+  * Recompiled against updated zlib, to fix possible security issue.  Also
+    bumped build-depends to match.  Closes: #137931(grave)
+
+ -- Adam Heath <doogie@debian.org>  Sun, 17 Mar 2002 02:52:44 -0600
+
 dpkg (1.9.19) unstable; urgency=medium
 
   * install-info continues to read all data from a pipe, until EOF.

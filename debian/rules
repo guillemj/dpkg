@@ -130,7 +130,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	done
 
 	install -d -m 755 -o root -g root $(TMP_DPKG)/etc/dpkg
-	install -p -m 644 -o root -g root debian/dpkg.cfg \
+	install -p -m 644 -o root -g root debian/dselect.cfg \
 		$(TMP_DPKG)/etc/dpkg/
 
 # Now that dpkg has been installed, Debianize it
@@ -146,6 +146,8 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/changelog.Debian
 	rm -f $(TMP_DPKG)/usr/share/doc/dpkg$(static)/copyright
 	gzip -9 $(TMP_DPKG)/usr/share/doc/dpkg$(static)/*
+	install -p -m 644 -o root -g root debian/dpkg.cfg \
+		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/
 	install -p -m 644 -o root -g root debian/copyright \
 		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/
 
@@ -155,6 +157,7 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 	install -p -m 755 -o root -g root debian/dpkg.preinst $(TMP_DPKG)/DEBIAN/preinst
 	install -p -m 755 -o root -g root debian/dpkg.prerm $(TMP_DPKG)/DEBIAN/prerm
 	install -p -m 755 -o root -g root debian/dpkg.postinst $(TMP_DPKG)/DEBIAN/postinst
+	install -p -m 755 -o root -g root debian/dpkg.postrm $(TMP_DPKG)/DEBIAN/postrm
 
 	dpkg-shlibdeps -dPre-Depends -Tdebian/dpkg$(static).substvars \
 		$(TMP_DPKG)/sbin/start-stop-daemon \
