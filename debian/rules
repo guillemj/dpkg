@@ -123,7 +123,8 @@ binary-dpkg-most binary-dpkg-static-most: binary-dpkg%-most: stamp-binary%
 # Policy stuff
 	find $(TMP_DPKG)/usr/share/man -type f | xargs gzip -9f
 	strip --remove-section=.comment --remove-section=.note \
-		--strip-unneeded $(TMP_DPKG)/usr/bin/* $(TMP_DPKG)/sbin/*
+		--strip-unneeded $(TMP_DPKG)/usr/bin/* $(TMP_DPKG)/sbin/* \
+		$(TMP_DPKG)/usr/lib/dpkg/enoent
 	mv $(TMP_DPKG)/usr/share/doc/dpkg$(static)/ChangeLog \
 		$(TMP_DPKG)/usr/share/doc/dpkg$(static)/changelog
 
