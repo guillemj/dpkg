@@ -214,7 +214,7 @@ void parsemustfield
 (FILE *file, const char *filename, int lno,
  FILE *warnto, int *warncount,
  const struct pkginfo *pigp, int warnonly,
- char **value, const char *what) 
+ const char **value, const char *what) 
 {
   if (!*value) {
     parseerr(file,filename,lno, warnto,warncount,pigp,warnonly, _("missing %s"),what);

@@ -32,13 +32,17 @@ int epochsdiffer(const struct versionrevision *a,
   return a->epoch != b->epoch;
 }
 
-static int verrevcmp(const char *val, const char *ref) {
+static int verrevcmp(const char *ival, const char *iref) {
+  static char empty[] = "";
   int vc, rc;
   long vl, rl;
-  const char *vp, *rp;
+  char *vp, *rp;
+  char *val, *ref;
+  memcpy(&val,&ival,sizeof(char*));
+  memcpy(&ref,&iref,sizeof(char*));
 
-  if (!val) val= "";
-  if (!ref) ref= "";
+  if (!val) val= empty;
+  if (!ref) ref= empty;
   for (;;) {
     vp= val;  while (*vp && !isdigit(*vp)) vp++;
     rp= ref;  while (*rp && !isdigit(*rp)) rp++;
@@ -52,8 +56,8 @@ static int verrevcmp(const char *val, const char *ref) {
     }
     val= vp;
     ref= rp;
-    vl=0;  if (isdigit(*vp)) vl= strtol(val,(char**)&val,10);
-    rl=0;  if (isdigit(*rp)) rl= strtol(ref,(char**)&ref,10);
+    vl=0;  if (isdigit(*vp)) vl= strtol(val,&val,10);
+    rl=0;  if (isdigit(*rp)) rl= strtol(ref,&ref,10);
     if (vl != rl) return vl - rl;
     if (!*val && !*ref) return 0;
     if (!*val) return -1;

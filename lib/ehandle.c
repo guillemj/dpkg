@@ -170,7 +170,7 @@ void push_checkpoint(int mask, int value) {
 
 void push_cleanup(void (*call1)(int argc, void **argv), int mask1,
                   void (*call2)(int argc, void **argv), int mask2,
-                  int nargs, ...) {
+                  unsigned int nargs, ...) {
   struct cleanupentry *cep;
   void **args;
   int e;

@@ -294,7 +294,7 @@ void removal_bulk(struct pkginfo *pkg) {
       debug(dbg_veryverbose, "removal_bulk info file `%s'", de->d_name);
       if (de->d_name[0] == '.') continue;
       p= strrchr(de->d_name,'.'); if (!p) continue;
-      if (strlen(pkg->name) != p-de->d_name ||
+      if (strlen(pkg->name) != (size_t)(p-de->d_name) ||
           strncmp(de->d_name,pkg->name,p-de->d_name)) continue;
       debug(dbg_stupidlyverbose, "removal_bulk info this pkg");
       /* We need the postrm and list files for --purge. */
@@ -366,7 +366,7 @@ void removal_bulk(struct pkginfo *pkg) {
         *lconffp= conff->next;
       } else {
         debug(dbg_conffdetail,"removal_bulk set to new conffile `%s'",conff->name);
-        conff->hash= (char*)NEWCONFFILEFLAG; /* yes, cast away const */
+        conff->hash= NEWCONFFILEFLAG; /* yes, cast away const */
       }
     }
     modstatdb_note(pkg);

@@ -65,7 +65,7 @@ void packages(const char *const *argv) {
   struct pkgiterator *it;
   struct pkginfo *pkg;
   const char *thisarg;
-  int l;
+  size_t l;
   
   modstatdb_init(admindir,
                  f_noact ?    msdbrw_readonly
@@ -409,6 +409,6 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
     ok= 1;
   
   varbuffree(&oemsgs);
-  debug(dbg_depcon,"ok %d msgs >>%.*s<<", ok, aemsgs->used, aemsgs->buf);
+  debug(dbg_depcon,"ok %d msgs >>%.*s<<", ok, (int)aemsgs->used, aemsgs->buf);
   return ok;
 }

@@ -32,8 +32,8 @@ extern "C" {
 #include "dselect.h"
 #include "bindings.h"
 
-int packagelist::compareentries(struct perpackagestate *a,
-                                struct perpackagestate *b) {
+int packagelist::compareentries(const struct perpackagestate *a,
+                                const struct perpackagestate *b) {
   switch (statsortorder) {
   case sso_avail:
     if (a->ssavail != b->ssavail) return a->ssavail - b->ssavail;
@@ -123,8 +123,8 @@ void packagelist::addheading(enum ssavailval ssavail,
   struct pkginfo *newhead= new pkginfo;
   newhead->name= 0;
   newhead->priority= priority;
-  newhead->otherpriority= (char*)otherpriority;
-  newhead->section= (char*)section;
+  newhead->otherpriority= otherpriority;
+  newhead->section= section;
 
   struct perpackagestate *newstate= new perpackagestate;
   newstate->pkg= newhead;
@@ -140,8 +140,8 @@ void packagelist::addheading(enum ssavailval ssavail,
 static packagelist *sortpackagelist;
 
 int qsort_compareentries(const void *a, const void *b) {
-  return sortpackagelist->compareentries(*(perpackagestate**)a,
-                                         *(perpackagestate**)b);
+  return sortpackagelist->compareentries((const struct perpackagestate*)&a,
+                                         (const struct perpackagestate*)&b);
 }
 
 void packagelist::sortinplace() {

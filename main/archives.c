@@ -279,7 +279,8 @@ int tarobject(struct TarInfo *ti) {
   const char *usename;
     
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
-  int statr, fd, r, i, existingdirectory;
+  int statr, fd, i, existingdirectory;
+  size_t r;
   struct stat stab, stabd;
   char databuf[TARBLKSZ];
   struct fileinlist *nifd;
@@ -718,7 +719,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
 	/* if this gets triggered, it means a package has > 10 conflicts/replaces
 	 * pairs, which is the package's fault
 	 */
-	assert(cflict_index < sizeof(conflictor));
+	assert(cflict_index < (int)sizeof(conflictor));
         /* This conflict is OK - we'll remove the conflictor. */
 	conflictor[cflict_index++]= fixbyrm;
         varbuffree(&conflictwhy); varbuffree(&removalwhy);
@@ -780,30 +781,31 @@ void archivefiles(const char *const *argv) {
     m_pipe(pi);
     if (!(fc= m_fork())) {
       const char *const *ap;
+      char **narglist;
       int i;
       m_dup2(pi[1],1); close(pi[0]); close(pi[1]);
       for (i=0, ap=argv; *ap; ap++, i++);
-      arglist= m_malloc(sizeof(char*)*(i+15));
-      arglist[0]= FIND;
+      narglist= m_malloc(sizeof(char*)*(i+15));
+      narglist[0]= strdup(FIND);
       for (i=1, ap=argv; *ap; ap++, i++) {
         if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
           char *a;
           a= m_malloc(strlen(*ap)+10);
           strcpy(a,"./");
           strcat(a,*ap);
-          arglist[i]= a;
+          narglist[i]= a;
         } else {
-          arglist[i]= *ap;
+          narglist[i]= strdup(*ap);
         }
       }
-      arglist[i++]= "-follow"; /*  When editing these, make sure that     */
-      arglist[i++]= "-name";   /*  arglist is mallocd big enough, above.  */
-      arglist[i++]= ARCHIVE_FILENAME_PATTERN;
-      arglist[i++]= "-type";
-      arglist[i++]= "f";
-      arglist[i++]= "-print0";
-      arglist[i++]= 0;
-      execvp(FIND, (char* const*)arglist);
+      narglist[i++]= strdup("-follow"); /*  When editing these, make sure that     */
+      narglist[i++]= strdup("-name");   /*  arglist is mallocd big enough, above.  */
+      narglist[i++]= strdup(ARCHIVE_FILENAME_PATTERN);
+      narglist[i++]= strdup("-type");
+      narglist[i++]= strdup("f");
+      narglist[i++]= strdup("-print0");
+      narglist[i++]= 0;
+      execvp(FIND, narglist);
       ohshite(_("failed to exec find for --recursive"));
     }
     close(pi[1]);

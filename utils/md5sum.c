@@ -218,7 +218,7 @@ do_check(FILE *chkf)
 	unsigned char chk_digest[16], file_digest[16];
 	char filename[256];
 	FILE *fp;
-	int flen = 14;
+	size_t flen = 14;
 
 	while ((rc = get_md5_line(chkf, chk_digest, filename)) >= 0) {
 		if (rc == 0)	/* not an md5 line */
@@ -226,7 +226,7 @@ do_check(FILE *chkf)
 		if (verbose) {
 			if (strlen(filename) > flen)
 				flen = strlen(filename);
-			fprintf(stderr, "%-*s ", flen, filename);
+			fprintf(stderr, "%-*s ", (int)flen, filename);
 		}
 		if (bin_mode || rc == 2)
 			fp = fopen(filename, FOPRBIN);

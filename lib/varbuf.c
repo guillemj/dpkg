@@ -44,7 +44,7 @@ void varbufdupc(struct varbuf *v, int c, ssize_t n) {
 }
 
 int varbufprintf(struct varbuf *v, const char *fmt, ...) {
-  int ou, r;
+  unsigned int ou, r;
   va_list al;
 
   ou= v->used;
@@ -62,7 +62,7 @@ int varbufprintf(struct varbuf *v, const char *fmt, ...) {
 }
 
 int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
-  int ou, r;
+  unsigned int ou, r;
   va_list al;
 
   ou= v->used;

@@ -136,7 +136,7 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
     badusage(_("conflicting actions --%s and --%s"),cip->olong,cipaction->olong);
   cipaction= cip;
-  assert(cip-cmdinfos < sizeof(dofunctions)*sizeof(dofunction*));
+  assert((int)(cip-cmdinfos) < (int)(sizeof(dofunctions)*sizeof(dofunction*)));
   action= dofunctions[cip-cmdinfos];
 }
 

@@ -81,8 +81,8 @@ struct arbitraryfield {
 
 struct conffile {
   struct conffile *next;
-  char *name;
-  char *hash;
+  const char *name;
+  const char *hash;
 };
 
 struct filedetails {
@@ -108,7 +108,7 @@ struct perpackagestate; /* dselect and dpkg have different versions of this */
 
 struct pkginfo { /* pig */
   struct pkginfo *next;
-  char *name;
+  const char *name;
   enum pkgwant {
     want_unknown, want_install, want_hold, want_deinstall, want_purge,
     want_sentinel /* Not allowed except as special sentinel value
@@ -131,8 +131,8 @@ struct pkginfo { /* pig */
     pri_optional, pri_extra, pri_contrib,
     pri_other, pri_unknown, pri_unset=-1
   } priority;
-  char *otherpriority;
-  char *section;
+  const char *otherpriority;
+  const char *section;
   struct versionrevision configversion;
   struct filedetails *files;
   struct pkginfoperfile installed;
@@ -257,7 +257,7 @@ extern void varbufaddbuf(struct varbuf *v, const void *s, const int l);
  * Callers using C++ need not worry about any of this.
  */
 struct varbuf {
-  int used, size;
+  size_t used, size;
   char *buf;
 
 #ifdef __cplusplus
@@ -265,20 +265,13 @@ struct varbuf {
   void free() { varbuffree(this); }
   varbuf() { varbufinit(this); }
   ~varbuf() { varbuffree(this); }
-  inline void operator()(int c); // definition below
+  void operator()(int c) { varbufaddc(this,c); }
   void operator()(const char *s) { varbufaddstr(this,s); }
-  inline void terminate(void/*to shut 2.6.3 up*/); // definition below
+  void terminate(void/*to shut 2.6.3 up*/) { varbufaddc(this,0); used--; }
   void reset() { used=0; }
   const char *string() { terminate(); return buf; }
 #endif
 };
-
-inline extern void varbufaddc(struct varbuf *v, int c);
-
-#ifdef __cplusplus
-inline void varbuf::operator()(int c) { varbufaddc(this,c); }
-inline void varbuf::terminate(void/*to shut 2.6.3 up*/) { varbufaddc(this,0); used--; }
-#endif
 
 /*** from dump.c ***/
 
@@ -303,7 +296,7 @@ int epochsdiffer(const struct versionrevision *a,
                  const struct versionrevision *b);
 
 /*** from nfmalloc.c ***/
-extern inline void *nfmalloc(size_t);
+extern void *nfmalloc(size_t);
 char *nfstrsave(const char*);
 char *nfstrnsave(const char*, int);
 void nffreeall(void);

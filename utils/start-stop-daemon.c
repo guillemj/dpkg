@@ -134,7 +134,7 @@ static void *xmalloc(int size);
 static void push(struct pid_list **list, int pid);
 static void do_help(void);
 static void parse_options(int argc, char * const *argv);
-static int pid_is_user(int pid, int uid);
+static int pid_is_user(int pid, uid_t uid);
 static int pid_is_cmd(int pid, const char *name);
 static void check(int pid);
 static void do_pidfile(const char *name);
@@ -338,7 +338,7 @@ static int parse_integer (const char *string, int *value_r) {
 
 static int parse_signal (const char *signal_str, int *signal_nr)
 {
-	int i;
+	unsigned int i;
 
 	if (parse_integer(signal_str, signal_nr) == 0)
 		return 0;
@@ -403,7 +403,7 @@ parse_schedule(const char *schedule_str) {
 		while (schedule_str != NULL) {
 			slash = strchr(schedule_str,'/');
 			str_len = slash ? slash - schedule_str : strlen(schedule_str);
-			if (str_len >= sizeof(item_buf))
+			if (str_len >= (ptrdiff_t)sizeof(item_buf))
 				badusage("invalid schedule item: far too long"
 					 " (you must delimit items with slashes)");
 			memcpy(item_buf, schedule_str, str_len);
@@ -577,7 +577,7 @@ pid_is_exec(int pid, const struct stat *esb)
 
 
 static int
-pid_is_user(int pid, int uid)
+pid_is_user(int pid, uid_t uid)
 {
 	struct stat sb;
 	char buf[32];

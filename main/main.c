@@ -284,7 +284,7 @@ static void setstatuspipe(const struct cmdinfo *cip, const char *value) {
 
 void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
-  int l;
+  size_t l;
   const struct forceinfo *fip;
 
   if (!strcmp(value,"help")) {
@@ -333,7 +333,7 @@ Forcing options marked [*] are enabled by default.\n"),
 	for (fip=forceinfos; fip->name; fip++)
 	  *fip->opt= cip->arg;
       else
-	badusage(_("unknown force/refuse option `%.*s'"), l<250 ? l : 250, value);
+	badusage(_("unknown force/refuse option `%.*s'"), l<250 ? (int)l : 250, value);
     else
       *fip->opt= cip->arg;
     if (!comma) break;
@@ -422,7 +422,13 @@ static const struct cmdinfo cmdinfos[]= {
 
 static void execbackend(int argc, const char *const *argv) NONRETURNING;
 static void execbackend(int argc, const char *const *argv) {
-  execvp(BACKEND, (char* const*) argv);
+  char **nargv= malloc(sizeof(char *) * argc + 1);
+  int i= 0;
+  if (!nargv) ohshite(_("couldn't malloc in execbackend"));
+  while (i < argc)
+    nargv[i++]= strdup(argv[i]);
+  nargv[i]= 0;
+  execvp(BACKEND, nargv);
   ohshite(_("failed to exec dpkg-deb"));
 }
 void commandfd(const char *const *argv) {
@@ -468,7 +474,7 @@ void commandfd(const char *const *argv) {
     if (c == EOF) ohshit(_("unexpected eof before end of line %d"),lno);
     if (!argc) continue;
     varbufaddc(&linevb,0);
-printf("line=`%*s'\n",linevb.used,linevb.buf);
+printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
     oldargs= newargs= realloc(oldargs,sizeof(const char *) * (argc + 1));
     argc= 1;
     ptr= linevb.buf;

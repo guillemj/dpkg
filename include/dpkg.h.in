@@ -171,7 +171,7 @@ void print_error_fatal(const char *emsg, const char *contextstring);
 void error_unwind(int flagset);
 void push_cleanup(void (*f1)(int argc, void **argv), int flagmask1,
                   void (*f2)(int argc, void **argv), int flagmask2,
-                  int nargs, ...);
+                  unsigned int nargs, ...);
 void push_checkpoint(int mask, int value);
 void pop_cleanup(int flagset);
 enum { ehflag_normaltidy=01, ehflag_bombout=02, ehflag_recursiveerror=04 };
@@ -263,16 +263,16 @@ struct buffer_data {
 	buffer_copy_setup_PtrInt(file, BUFFER_READ_STREAM, NULL, \
 				 fd, BUFFER_WRITE_FD, NULL, \
 				 limit, desc)
-inline ssize_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
+ssize_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
 					int i, int typeOut, void *procOut,
 					ssize_t limit, const char *desc, ...);
-inline ssize_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
+ssize_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
 					void *p2, int typeOut, void *procOut,
 					ssize_t limit, const char *desc, ...);
-inline ssize_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
+ssize_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
 					void *p, int typeOut, void *procOut,
 					ssize_t limit, const char *desc, ...);
-inline ssize_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
+ssize_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
 					int i2, int typeOut, void *procOut,
 					ssize_t limit, const char *desc, ...);
 ssize_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,

@@ -231,16 +231,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
                    &newpig.name, "package name");
     if ((flags & pdb_recordavailable) || newpig.status != stat_notinstalled) {
       parsemustfield(0,filename,lno, warnto,warncount,&newpig,1,
-                     &newpifp->description, "description");
+                     (const char **)&newpifp->description, "description");
       parsemustfield(0,filename,lno, warnto,warncount,&newpig,1,
-                     &newpifp->maintainer, "maintainer");
+                     (const char **)&newpifp->maintainer, "maintainer");
       if (newpig.status != stat_halfinstalled)
         parsemustfield(0,filename,lno, warnto,warncount,&newpig,0,
-                       (char **)&newpifp->version.version, "version");
+                       &newpifp->version.version, "version");
     }
     if (flags & pdb_recordavailable)
       parsemustfield(0,filename,lno, warnto,warncount,&newpig,1,
-                     &newpifp->architecture, "architecture");
+                     (const char **)&newpifp->architecture, "architecture");
     else if (newpifp->architecture && *newpifp->architecture)
       newpifp->architecture= 0;
 

@@ -32,12 +32,12 @@ struct partinfo {
   const char *version;
   const char *md5sum;
   unsigned long orglength;
-  int thispartn, maxpartn;
+  unsigned int thispartn, maxpartn;
   unsigned long maxpartlen;
   unsigned long thispartoffset;
-  unsigned long thispartlen;
-  unsigned long headerlen; /* size of header in part file */
-  unsigned long filesize;
+  size_t thispartlen;
+  size_t headerlen; /* size of header in part file */
+  off_t filesize;
 };
 
 struct partqueue {

@@ -59,7 +59,7 @@ struct fieldinfo {
   const char *name;
   freadfunction *rcall;
   fwritefunction *wcall;
-  int integer;
+  unsigned int integer;
 };
 
 void parseerr(FILE *file, const char *filename, int lno, FILE *warnto, int *warncount,
@@ -68,7 +68,7 @@ void parseerr(FILE *file, const char *filename, int lno, FILE *warnto, int *warn
 void parsemustfield(FILE *file, const char *filename, int lno,
                     FILE *warnto, int *warncount,
                     const struct pkginfo *pigp, int warnonly,
-                    char **value, const char *what);
+                    const char **value, const char *what);
 
 #define MSDOS_EOF_CHAR '\032' /* ^Z */
 

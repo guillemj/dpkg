@@ -54,7 +54,7 @@ enum fnnflags {
 
 struct filenamenode {
   struct filenamenode *next;
-  char *name;
+  const char *name;
   struct filepackages *packages;
   struct diversion *divert;
   struct filestatoverride *statoverride;

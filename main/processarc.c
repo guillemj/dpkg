@@ -670,7 +670,7 @@ void process_archive(const char *filename) {
     debug(dbg_veryverbose, "process_archive info file `%s'", de->d_name);
     if (de->d_name[0] == '.') continue; /* ignore dotfiles, including `.' and `..' */
     p= strrchr(de->d_name,'.'); if (!p) continue; /* ignore anything odd */
-    if (strlen(pkg->name) != p-de->d_name ||
+    if (strlen(pkg->name) != (size_t)(p-de->d_name) ||
         strncmp(de->d_name,pkg->name,p-de->d_name)) continue;
     debug(dbg_stupidlyverbose, "process_archive info this pkg");
     /* Right do we have one ? */
@@ -908,7 +908,7 @@ void process_archive(const char *filename) {
       debug(dbg_veryverbose, "process_archive info file `%s'", de->d_name);
       if (de->d_name[0] == '.') continue;
       p= strrchr(de->d_name,'.'); if (!p) continue;
-      if (strlen(otherpkg->name) != p-de->d_name ||
+      if (strlen(otherpkg->name) != (size_t)(p-de->d_name) ||
           strncmp(de->d_name,otherpkg->name,p-de->d_name)) continue;
       debug(dbg_stupidlyverbose, "process_archive info this pkg");
       fnvb.used= infodirbaseused;

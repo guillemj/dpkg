@@ -42,8 +42,8 @@
 #include "main.h"
 
 int pkglistqsortcmp(const void *a, const void *b) {
-  struct pkginfo *pa= *(struct pkginfo**)a;
-  struct pkginfo *pb= *(struct pkginfo**)b;
+  const struct pkginfo *pa= *(const struct pkginfo**)a;
+  const struct pkginfo *pb= *(const struct pkginfo**)b;
   return strcmp(pa->name,pb->name);
 }
 
@@ -176,7 +176,7 @@ static int bsyn_reinstreq(struct pkginfo *pkg, const struct badstatinfo *bsi) {
 
 static int bsyn_status(struct pkginfo *pkg, const struct badstatinfo *bsi) {
   if (pkg->eflag &= eflagf_reinstreq) return 0;
-  return pkg->status == bsi->val;
+  return (int)pkg->status == bsi->val;
 }
 
 static const struct badstatinfo badstatinfos[]= {

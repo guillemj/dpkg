@@ -589,10 +589,11 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   newnode= nfmalloc(sizeof(struct filenamenode));
   newnode->packages= 0;
   if((flags & fnn_nocopy) && name > orig_name && name[-1] == '/')
-    newnode->name = (char *)name - 1;
+    newnode->name = name - 1;
   else {
-    newnode->name= nfmalloc(strlen(name)+2);
-    newnode->name[0]= '/'; strcpy(newnode->name+1,name);
+    char *newname= nfmalloc(strlen(name)+2);
+    newname[0]= '/'; strcpy(newname+1,name);
+    newnode->name= newname;
   }
   newnode->flags= 0;
   newnode->next= 0;

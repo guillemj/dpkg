@@ -82,7 +82,7 @@ void w_section(struct varbuf *vb,
 void w_charfield(struct varbuf *vb,
                  const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                  const struct fieldinfo *fip) {
-  const char *value= pifp->valid ? PKGPFIELD(pifp,fip->integer,char*) : 0;
+  const char *value= pifp->valid ? PKGPFIELD(pifp,fip->integer,const char*) : 0;
   if (!value || !*value) return;
   varbufaddstr(vb,fip->name); varbufaddstr(vb, ": "); varbufaddstr(vb,value);
   varbufaddc(vb,'\n');
@@ -95,11 +95,11 @@ void w_filecharf(struct varbuf *vb,
   
   if (pifp != &pigp->available) return;
   fdp= pigp->files;
-  if (!fdp || !FILEFFIELD(fdp,fip->integer,char*)) return;
+  if (!fdp || !FILEFFIELD(fdp,fip->integer,const char*)) return;
   varbufaddstr(vb,fip->name); varbufaddc(vb,':');
   while (fdp) {
     varbufaddc(vb,' ');
-    varbufaddstr(vb,FILEFFIELD(fdp,fip->integer,char*));
+    varbufaddstr(vb,FILEFFIELD(fdp,fip->integer,const char*));
     fdp= fdp->next;
   }
   varbufaddc(vb,'\n');
@@ -108,7 +108,7 @@ void w_filecharf(struct varbuf *vb,
 void w_booleandefno(struct varbuf *vb,
                     const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
                     const struct fieldinfo *fip) {
-  int value= pifp->valid ? PKGPFIELD(pifp,fip->integer,int) : 0;
+  int value= pifp->valid ? PKGPFIELD(pifp,fip->integer,int) : -1;
   if (!value) return;
   assert(value==1);
   varbufaddstr(vb,"Essential: yes\n");

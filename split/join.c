@@ -34,8 +34,8 @@ void reassemble(struct partinfo **partlist, const char *outputfile) {
   FILE *output, *input;
   void *buffer;
   struct partinfo *pi;
-  int i,nr;
-  long buffersize;
+  unsigned int i;
+  size_t nr,buffersize;
 
   printf("Putting package %s together from %d parts: ",
          partlist[0]->package,partlist[0]->maxpartn);
@@ -96,7 +96,7 @@ void do_join(const char *const *argv) {
   const char *thisarg;
   struct partqueue *pq;
   struct partinfo *refi, *pi, **partlist;
-  int i;
+  unsigned int i;
   
   assert(!queue);
   if (!*argv) badusage(_("--join requires one or more part file arguments"));

@@ -225,7 +225,7 @@ ssize_t buffer_read(buffer_data_t data, void *buf, ssize_t length, const char *d
 }
 
 #define buffer_copy_setup_dual(name, type1, name1, type2, name2) \
-inline ssize_t buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn,\
+ssize_t buffer_copy_setup_##name(type1 n1, int typeIn, void *procIn,\
 					type2 n2, int typeOut, void *procOut,\
 					ssize_t limit, const char *desc, ...)\
 {\

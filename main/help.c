@@ -173,7 +173,7 @@ static const char* preexecscript(const char *path, char *const *argv) {
    * none of the stuff here will work if admindir isn't inside instdir
    * as expected. - fixme
    */
-  int instdirl;
+  size_t instdirl;
 
   if (*instdir) {
     if (chroot(instdir)) ohshite(_("failed to chroot to `%.250s'"),instdir);
@@ -195,7 +195,8 @@ static char *const *vbuildarglist(const char *scriptname, va_list ap) {
   int i;
 
   i=0;
-  bufs[i++]= (char*)scriptname; /* yes, cast away const because exec wants it that way */
+  if(bufs[0]) free(bufs[0]);
+  bufs[i++]= strdup(scriptname); /* yes, cast away const because exec wants it that way */
   for (;;) {
     assert(i < PKGSCRIPTMAXARGS);
     nextarg= va_arg(ap,char*);
@@ -215,7 +216,7 @@ static char *const *buildarglist(const char *scriptname, ...) {
   return arglist;
 }
 
-#define NSCRIPTCATCHSIGNALS sizeof(script_catchsignallist)/sizeof(int)-1
+#define NSCRIPTCATCHSIGNALS (int)(sizeof(script_catchsignallist)/sizeof(int)-1)
 static int script_catchsignallist[]= { SIGQUIT, SIGINT, 0 };
 static struct sigaction script_uncatchsignal[NSCRIPTCATCHSIGNALS];
 
@@ -252,8 +253,7 @@ static void setexecute(const char *path, struct stat *stab) {
   if (!chmod(path,0755)) return;
   ohshite(_("unable to set execute permissions on `%.250s'"),path);
 }
-static int do_script(const char *pkg, const char *scriptname, const char *scriptpath, struct stat *stab, char *const *arglist, const char *desc, const char *name, int warn) {
-  const char *scriptexec;
+static int do_script(const char *pkg, const char *scriptname, const char *scriptpath, struct stat *stab, char *const arglist[], const char *desc, const char *name, int warn) {
   int c1, r;
   setexecute(scriptpath,stab);
 
@@ -264,9 +264,8 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
     narglist=nfmalloc(r*sizeof(char*));
     for (r=1; arglist[r]; r++)
       narglist[r]= arglist[r];
-    scriptexec= preexecscript(scriptpath,arglist);
-    narglist[0]= (char*)scriptexec;
-    execv(scriptexec,arglist);
+    narglist[0]= strdup(preexecscript(scriptpath,arglist));
+    execv(narglist[0],narglist);
     ohshite(desc,name);
   }
   script_catchsignals(); /* This does a push_cleanup() */
@@ -423,7 +422,7 @@ int isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg) {
   return 0;
 }
 
-void oldconffsetflags(struct conffile *searchconff) {
+void oldconffsetflags(const struct conffile *searchconff) {
   struct filenamenode *namenode;
   
   while (searchconff) {

@@ -141,7 +141,7 @@ class packagelist : public baselist {
   // Miscellaneous internal routines
   
   void redraw1package(int index, int selected);
-  int compareentries(struct perpackagestate *a, struct perpackagestate *b);
+  int compareentries(const struct perpackagestate *a, const struct perpackagestate *b);
   friend int qsort_compareentries(const void *a, const void *b);
   pkginfo::pkgwant reallywant(pkginfo::pkgwant, struct perpackagestate*);
   int describemany(char buf[], const char *prioritystring, const char *section,

@@ -74,9 +74,10 @@ static char *nextline(char **ripp, const char *fn, const char *what) {
 struct partinfo *read_info(FILE *partfile, const char *fn, struct partinfo *ir) {
   /* returns info (nfmalloc'd) if was an archive part and we read it, 0 if it wasn't */
   static char *readinfobuf= 0;
-  static int readinfobuflen= 0;
+  static size_t readinfobuflen= 0;
 
-  unsigned long thisilen, templong;
+  size_t thisilen;
+  unsigned int templong;
   char magicbuf[sizeof(PARTMAGIC)-1], *rip, *partnums, *slash;
   struct ar_hdr arh;
   int c;

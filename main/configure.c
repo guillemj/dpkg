@@ -521,7 +521,7 @@ int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
         if (result->buf[r] == '/') r++;
         result->used= r;
         debug(dbg_conffdetail,"conffderef readlink relative to `%.*s'",
-              result->used, result->buf);
+              (int)result->used, result->buf);
       }
       varbufaddstr(result,linkreadbuf);
       varbufaddc(result,0);

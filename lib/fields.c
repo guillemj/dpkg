@@ -31,18 +31,20 @@
 static int convert_string
 (const char *filename, int lno, const char *what, int otherwise,
  FILE *warnto, int *warncount, const struct pkginfo *pigp,
- const char *startp, const struct namevalue *nvip,
+ const char *startp, const struct namevalue *ivip,
  const char **endpp) 
 {
   const char *ep;
   int c, l = 0;
+  struct namevalue *nvip= 0;
+  memcpy(&nvip,&ivip,sizeof(struct namevalue *));
 
   ep= startp;
   if (!*ep) parseerr(0,filename,lno, warnto,warncount,pigp,0, _("%s is missing"),what);
   while (nvip->name) {
     if ((l= nvip->length) == 0) {
       l= strlen(nvip->name);
-      ((struct namevalue *)nvip)->length= l;
+      nvip->length= (const int)l;
     }
     if (strncasecmp(nvip->name,startp,l) || nvip->name[l])
       nvip++;
@@ -107,7 +109,7 @@ void f_filecharf(struct pkginfo *pigp, struct pkginfoperfile *pifp,
       fdp->name= fdp->msdosname= fdp->size= fdp->md5sum= 0;
       *fdpp= fdp;
     }
-    FILEFFIELD(fdp,fip->integer,char*)= cpos;
+    FILEFFIELD(fdp,fip->integer,const char*)= cpos;
     fdpp= &fdp->next;
     while (*space && isspace(*space)) space++;
     cpos= space;
@@ -228,6 +230,7 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   struct conffile **lastp, *newlink;
   const char *endent, *endfn;
   int c, namelen, hashlen;
+  char *newptr;
   
   lastp= &pifp->conffiles;
   while (*value) {
@@ -246,12 +249,14 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     namelen= (int)(endfn-value);
     if (namelen <= 0) parseerr(0,filename,lno, warnto,warncount,pigp,0,
                                _("root or null directory is listed as a conffile"));
-    newlink->name= nfmalloc(namelen+2);
-    newlink->name[0]= '/';
-    memcpy(newlink->name+1,value,namelen);
-    newlink->name[namelen+1]= 0;
-    hashlen= (int)(endent-endfn)-1; newlink->hash= nfmalloc(hashlen+1);
-    memcpy(newlink->hash,endfn+1,hashlen); newlink->hash[hashlen]= 0;
+    newptr = nfmalloc(namelen+2);
+    newptr[0]= '/';
+    memcpy(newptr+1,value,namelen);
+    newptr[namelen+1]= 0;
+    newlink->name= newptr;
+    hashlen= (int)(endent-endfn)-1; newptr= nfmalloc(hashlen+1);
+    memcpy(newptr,endfn+1,hashlen); newptr[hashlen]= 0;
+    newlink->hash= newptr;
     newlink->next =0;
     *lastp= newlink;
     lastp= &newlink->next;

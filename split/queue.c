@@ -97,7 +97,9 @@ void do_auto(const char *const *argv) {
   const char *partfile;
   struct partinfo *pi, *refi, *npi, **partlist, *otherthispart;
   struct partqueue *pq;
-  int i, nr, j, ap;
+  unsigned int i, j;
+  int ap;
+  long nr;
   FILE *part;
   void *buffer;
   char *p, *q;
@@ -187,7 +189,7 @@ void do_queue(const char *const *argv) {
   const char *head;
   struct stat stab;
   unsigned long bytes;
-  int i;
+  unsigned int i;
 
   if (*argv) badusage(_("--listq does not take any arguments"));
   scandepot();

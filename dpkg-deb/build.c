@@ -73,8 +73,8 @@ static void checkversion(const char *vstring, const char *valuename, int *errs) 
  */
 static struct _finfo* getfi(const char* root, int fd) {
   static char* fn = NULL;
-  static int fnlen = 0;
-  int i	= 0;
+  static size_t fnlen = 0;
+  size_t i= 0;
   struct _finfo *fi;
   size_t rl = strlen(root);
 
@@ -206,7 +206,8 @@ void do_build(const char *const *argv) {
   
   char *m;
   const char *debar, *directory, *const *mscriptp, *versionstring, *arch;
-  char *controlfile, *tfbuf, *envbuf;
+  char *controlfile, *tfbuf;
+  const char *envbuf;
   struct pkginfo *checkedinfo;
   struct arbitraryfield *field;
   FILE *ar, *gz, *cf;
@@ -223,7 +224,7 @@ void do_build(const char *const *argv) {
   directory= *argv++; if (!directory) badusage(_("--build needs a directory argument"));
   /* template for our tempfiles */
   if ((envbuf= getenv("TMPDIR")) == NULL)
-    envbuf= (char *)P_tmpdir;
+    envbuf= P_tmpdir;
   tfbuf = (char *)malloc(strlen(envbuf)+13);
   strcpy(tfbuf,envbuf);
   strcat(tfbuf,"/dpkg.XXXXXX");
