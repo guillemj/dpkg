@@ -423,10 +423,10 @@ static const struct cmdinfo cmdinfos[]= {
 static void execbackend(int argc, const char *const *argv) NONRETURNING;
 static void execbackend(int argc, const char *const *argv) {
   char **nargv= malloc(sizeof(char *) * argc + 1);
-  int i= 0;
+  int i;
   if (!nargv) ohshite(_("couldn't malloc in execbackend"));
-  while (i < argc)
-    nargv[i++]= strdup(argv[i]);
+  for (i= 0; i < argc; i++)
+    nargv[i]= strdup(argv[i]);
   nargv[i]= 0;
   execvp(BACKEND, nargv);
   ohshite(_("failed to exec dpkg-deb"));
