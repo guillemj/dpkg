@@ -235,7 +235,7 @@ if ($opmode eq 'build') {
                     &syserr("cannot read link $dir/$fn");
                 defined($n2= readlink("$origdir/$fn")) ||
                     &syserr("cannot read orig link $origdir/$fn");
-                $n eq $nw || &unrepdiff2("symlink to $n2","symlink to $n");
+                $n eq $n2 || &unrepdiff2("symlink to $n2","symlink to $n");
             } elsif (-f _) {
                 $type{$fn}= 'plain file';
                 if (!lstat("$origdir/$fn")) {
@@ -322,7 +322,12 @@ if ($opmode eq 'build') {
     open(STDOUT,"> $basenamerev.dsc") || &syserr("create $basenamerev.dsc");
     &outputclose;
 
-    exit($ur ? 1 : 0);
+    if ($ur) {
+        print(STDERR "$progname: unrepresentable changes to source\n")
+            || &syserr("write error msg: $!");
+        exit(1);
+    }
+    exit(0);
 
 } else {
 
@@ -415,18 +420,18 @@ if ($opmode eq 'build') {
         s/\n$//;
         m,^(\S{10})\s, ||
             &error("tarfile contains unknown object listed by tar as \`$_'");
-        $fn= $filesinarchive[$efix++];
+        $fn= $filesinarchive[$efix++]; $mode= $1;
+        if ($mode =~ m/^l/) { $_ =~ s/ -\> .*//; }
         substr($_,length($_)-length($fn)-1) eq " $fn" ||
             &error("tarfile contains unexpected object listed by tar as \`$_',".
                    " expected \`$fn'");
-        $_= $1;
-        s/^([-dpsl])// ||
+        $mode =~ s/^([-dpsl])// ||
             &error("tarfile contains object \`$fn' with unknown or forbidden type \`".
                    substr($_,0,1)."'");
         $fn =~ m/\.dpkg-orig$/ &&
             &error("tarfile contains file with name ending .dpkg-orig");
         $type= $&;
-        m/[sStT]/ && $type ne 'd' &&
+        $mode =~ m/[sStT]/ && $type ne 'd' &&
             &error("tarfile contains setuid, setgid or sticky object \`$fn'");
         $fn eq "$expectprefix/debian" && $type ne 'd' &&
             &error("tarfile contains object `debian' that isn't a directory");

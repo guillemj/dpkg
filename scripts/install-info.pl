@@ -205,7 +205,7 @@ END
     }
 }
 
-if (!link("$infodir/dir","$infodir/dir.lock")) {
+if (!$nowrite && !link("$infodir/dir","$infodir/dir.lock")) {
     die "$name: failed to lock dir for editing! $!\n".
         ($! =~ m/exists/i ? "try deleting $infodir/dir.lock ?\n" : '');
 }
@@ -335,9 +335,8 @@ if (!$nowrite) {
         &ulquit("$name: cannot backup old $infodir/dir, giving up: $!\n");
     rename("$infodir/dir.new","$infodir/dir") ||
         &ulquit("$name: install new $infodir/dir: $!\n");
-}
-
 unlink("$infodir/dir.lock") || die "$name: unlock $infodir/dir: $!\n";
+}
 
 sub ulquit {
     unlink("$infodir/dir.lock") ||

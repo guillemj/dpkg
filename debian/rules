@@ -21,7 +21,7 @@ clean:
 
 binary:	checkroot build
 	-rm -rf debian/tmp
-	mkdir debian/tmp debian/tmp/DEBIAN
+	install -d debian/tmp debian/tmp/DEBIAN
 	install -d debian/tmp/usr/doc/{copyright,dpkg}
 	set -e; if [ $(arch) = i386 ]; then \
 		dpkg-gencontrol -Vlibcver=' (>= 5.2.18-2)' >$(cidir)/control ; \
