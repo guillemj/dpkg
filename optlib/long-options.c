@@ -22,6 +22,7 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <getopt.h>
 #include "closeout.h"
 #include "long-options.h"
