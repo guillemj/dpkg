@@ -172,7 +172,7 @@ Usage:
 Options (at least one of --exec|--pidfile|--user is required):
   -x|--exec <executable>        program to start/check if it is running\n\
   -p|--pidfile <pid-file>       pid file to check\n\
-  -c|--chuid <name|uid[.group|gid]>
+  -c|--chuid <name|uid[:group|gid]>
   		change to this user/group before starting process\n\
   -u|--user <username>|<uid>    stop processes owned by this user\n\
   -n|--name <process-name>      stop processes with this name\n\
@@ -312,7 +312,7 @@ parse_options(int argc, char * const *argv)
 			break;
 		case 'c':  /* --chuid <username>|<uid> */
 			changeuser = strdup(optarg); /* because we need to modify */
-			changegroup = strchr(changeuser, '.');
+			changegroup = strchr(changeuser, ':');
 			if (changegroup != NULL) {
 				changegroup[0] = '\0';
 				changegroup++;
