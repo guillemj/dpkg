@@ -4,7 +4,7 @@ copy=$1
 
 # Start by setting up everything for main tree
 aclocal -I ./automake
-gettextize $copy
+gettextize $copy -f
 libtoolize --force $copy
 autoheader
 automake --add-missing --foreign $copy
