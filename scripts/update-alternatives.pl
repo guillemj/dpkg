@@ -491,8 +491,8 @@ sub config_message {
 	print "($versions[0]). Nothing to configure.\n";
 	return;
     }
-    printf(STDOUT "\nThere are %s programs which provide \`$name'.\n\n", $#versions+1);
-    printf(STDOUT "  Selection    Command\n");
+    printf(STDOUT "\nThere are %s alternatives which provide \`$name'.\n\n", $#versions+1);
+    printf(STDOUT "  Selection    Alternative\n");
     printf(STDOUT "-----------------------------------------------\n");
     for ($i=0; $i<=$#versions; $i++) {
 	printf(STDOUT "%s%s    %s        %s\n", 
