@@ -1,0 +1,85 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Authors: Raul Miller, Ian Jackson
+.\" (c) 2003 Software in the Public Interest
+.\" Esta traducción ha sido realizada por Esteban Manchado Velázquez
+.\" (zoso@demiurgo.org) y revisada por Rubén Porras Campo (nahoo@inicia.es)
+.\" Está basada en la página de manual original:
+.\" versión 1.1 del CVS de /cvs/debian-doc/manpages/english/dpkg/deb.5
+
+.TH DEB 5 "Enero 2000" "Proyecto Debian" "Debian"
+.SH NOMBRE
+deb \- Formato de paquetes binarios de Debian
+.SH SINOPSIS
+.IB nombrefichero .deb
+.SH DESCRIPCIÓN
+El formato
+.B .deb
+es el que tienen los paquetes binarios de Debian. Lo entienden las
+versiones de dpkg 0.93.76 y posteriores, y se genera por omisión con
+las versiones de dpkg a partir de 1.2.0 y en todas las versiones i386/ELF
+desde 1.1.1elf.
+.PP
+El formato descrito aquí se usa desde Debian 0.93; los detalles sobre los
+anteriores formatos está en
+.BR deb-old (5).
+.SH FORMATO
+El fichero es un archivo
+.B ar
+con el número mágico
+.BR !<arch> .
+.PP
+El primer miembro del archivo
+.B ar
+se llama
+.B debian-binary
+y contiene una serie de líneas separadas por saltos de línea. A fecha de hoy
+sólo hay una línea, el número de versión del formato,
+.BR 2.0 .
+Los programas que lean versiones más nuevas deberían esperar que los números
+menores aumentaran y que hubiera nuevas líneas, y en ese caso deberían
+ignorarlas.
+.PP
+Si el número mayor ha cambiado es que hay cambios incompatibles y el programa
+debería parar. Si no, debería poder seguir sin problemas, a no ser que
+encontrara un miembro no esperado en el archivo (excepto al final), como se
+describe más abajo.
+.PP
+El segundo miembro requerido es
+.B control.tar.gz .
+Es un fichero tar comprimido con gzip que contiene la información de control
+del paquete en una serie de ficheros de texto, de los cuales
+.B control
+es obligatorio y contiene la información de control principal. Vea el
+.I "Manual de empaquetamiento de Debian, apartado 2.2"
+para más detalles sobre estos ficheros. El paquete tar puede optativamente
+contener una entrada para
+.RB ` . ',
+el directorio actual.
+.PP
+El tercer y último miembro requerido es el llamado
+.B data.tar.gz .
+Contiene el archivo del sistema de ficheros en forma de tar comprimido.
+.PP
+Estos miembros deben aparecer en este orden. Las implementaciones actuales
+deberían ignorar cualquier miembro adicional después de
+.BR data.tar.gz .
+Podrán definirse nuevos miembros en el futuro, y se pondrán, si es posible,
+después de éstos tres. Cualquier miembro adicional que tuviera que insertarse
+antes de
+.B data.tar.gz
+y que tenga que ser ignorado por los programas más antiguos, tendrá un nombre
+que comience con un guión bajo,
+.RB ` _ '.
+.PP
+Los nuevos miembros que no puedan ignorarse sin problemas se insertarán antes
+de 
+.B data.tar.gz
+con nombres que empiecen por algo que no sea un guión bajo, o (más
+probablemente) incrementarán el número mayor de la versión.
+.SH VÉASE TAMBIÉN
+.BR deb-old (5),
+.BR dpkg-deb (1),
+.BR deb-control (5),
+.IR "Manual de empaquetamiento de Debian".
+.SH TRADUCTOR
+Traducción de Esteban Manchado <debian-l10n-spanish@lists.debian.org>

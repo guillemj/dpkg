@@ -1,0 +1,78 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.TH MD5SUM 1 "29 de Noviembre de 1995" "Lankester et al" "Debian GNU/Linux"
+.SH NOMBRE
+md5sum \- genera o comprueba las sumas de control MD5
+
+.SH SINOPSIS
+.B md5sum
+[-bv] [-c [nombre_archivo]] | [nombre_archivo...]
+
+.SH DESCRIPCIÓN
+.B md5sum
+genera o comprueba las sumas de control MD5. El algoritmo que genera las
+sumas de control es razonablemente rápido y robusto para la mayoría de 
+los casos. Las especificaciones exactas del algoritmo están en 
+.I RFC 1321.
+
+Normalmente
+.B md5sum
+genera las sumas de control de todos los archivos que se le pasan como 
+argumentos e imprime las sumas de control seguidas de los nombres de 
+los archivos. Sin embargo si se especifica el parámetro
+.B -c
+, solo un nombre de archivo es permitido como parámetro.
+Este fichero debe de contener las sumas de control y los nombres de archivo
+a las que estas se refieren, entonces los ficheros listados en el archivo
+son comprobados con las sumas de control especificadas. Ver opción
+.B -c
+para mas información.
+
+.SS OPCIONES
+.TP
+.B -b
+Usar modo binario. En Unix, la única diferencia entre este modo y el normal
+es un asterisco que precede al nombre del fichero en la salida de la
+ejecución del comando.
+.TP
+.B -c
+Comprueba la suma de control md5 de todos los archivos listados en el
+.I archivo
+con la suma de control que aparece listada en el mismo fichero. El
+formato actual de este archivo es el mismo que la salida de
+.B md5sum.
+Esto es, cada linea en el archivo describe un fichero, y tiene
+dos campos, que son:
+
+.B <Suma de control MD5>  <nombre_archivo>
+
+Entonces, por ejemplo, si se crea un fichero y se calcula su suma de control como sigue:
+
+.B echo foo > md5-fichero-prueba; md5sum md5-fichero-prueba
+
+.B md5sum
+devolverá:
+
+.B d3b07384d113edec49eaa6238ad5ff00\  md5-fichero-prueba
+
+.TP
+.B -v
+Ser mas explicativo. Imprimir nombres de archivo (con -c).
+
+.SH FALLOS
+El relacionado algoritmo MD4 fue crackeado en octubre de 1995.
+MD5 no parece tan seguro como antes.
+
+Esta pagina del manual no es muy precisa y tiene un formato inconsistente
+con otras paginas del manual.
+
+.B md5sum
+no acepta opciones estándar como
+.BR --help .
+
+.SH AUTOR
+
+.B md5sum
+fue originalmente escrito por Branko Lankester, y modificado después por
+Colin Plumb y Ian Jackson (ijackson@gnu.ai.mit.edu). La pagina del manual
+fue agregada por  Juho Vuori (javuori@cc.helsinki.fi) y traducida por Rubén
+Porras (nahoo@inicia.es)

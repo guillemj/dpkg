@@ -1,0 +1,84 @@
+.\" version : 1.10.5
+.\" translator email: ariel.vardi@freesbee.fr
+
+.TH DEB 5 "Janvier 2000" "Projet Debian" "Debian"
+.SH NOM 
+deb \- Format des paquets binaires Debian
+.SH SYNOPSIS
+.IB nom-du-fichier.deb
+.SH DESCRIPTION
+Le format
+.B .deb
+est le format de fichier des paquets binaires de Debian. Il est 
+compatible avec les versions 0.93.76 et ultérieures de dpkg, et est 
+généré par défaut par toutes les versions de dpkg depuis la 1.2.0 ainsi
+que toutes les versions i386/ELF depuis la 1.1.1elf.
+.PP
+Le format décrit ici est utilisé depuis la Debian 0.93\ ; les détails concernant
+le vieux format sont consultables dans 
+.BR deb-old (5).
+.SH FORMAT
+Le fichier est une archive
+.B ar
+avec un numéro magique de
+.BR !<arch>.
+.PP
+Le premier membre est nommé
+.B debian-binary
+et contient une succession de lignes, séparées par des retours-chariot. Pour le
+moment, une seule ligne est présente\ : le numéro de version du format,
+.BR 2.0
+à l'heure où ce document a été écrit.
+Les programmes lisant des archives Debian récentes doivent être préparés à une
+augmentation du numéro de version mineur et à la présence de nouvelles lignes,
+ainsi qu'à les ignorer s'il le faut.
+.PP
+Si le numéro de version majeur a changé, cela signifie qu'une modification entraînant
+une incompatibilité entre les versions a été effectuée, et le programme doit alors
+s'arrêter. Si ce n'est pas le cas, le programme doit être en mesure de 
+continuer à traiter correctement le fichier, à moins qu'il ne rencontre un membre non 
+reconnu dans l'archive (excepté à la fin de cette dernière), comme décrit ci-dessous.
+.PP
+Le second membre requis est nommé
+.B control.tar.gz .
+Il s'agit d'une archive tar compressée grâce à gzip contenant les informations de
+contrôle du paquet, sous la forme d'une série de fichiers, parmi lesquels
+le fichier
+.B control
+est strictement requis et contient les principales informations de contrôle. Veuillez
+vous référer au
+.I "Manuel d'empaquetage Debian, section 2.2" 
+pour plus de détails
+concernant ces fichiers. Le tarball de contrôle peut éventuellement contenir une
+entrée pour 
+.RB «\ .\ »,
+le répertoire courant.
+.PP
+Le troisième, et dernier membre requis se nomme
+.B data.tar.gz.
+Il contient les fichiers de données sous forme d'une archive tar compressée
+grâce à gzip.
+.PP
+Ces trois membres doivent apparaître dans cet ordre exact. Les implémentations
+actuelles devraient ignorer tout membre additionnel suivant
+.BR data.tar.gz.
+D'autres membres seront éventuellement définis dans le futur, et (si possible)
+seront placés après ces trois derniers. Tout autre membre qui nécessitera d'être
+inséré avant
+.B data.tar.gz
+et qui pourra être ignoré sans problème par des programmes plus anciens, auront
+un nom commençant par un underscore,
+.RB «\ _\ ».
+.PP
+Les nouveaux membres qui ne pourront pas être ignorés sans conséquence seront
+insérés avant
+.B data.tar.gz
+avec des noms préfixés par quelque chose d'autre qu'un underscore, ou causeront
+(ce qui est plus probable) une incrémentation du numéro majeur de version.
+.SH VOIR AUSSI
+.BR deb-old (5),
+.BR dpkg-deb (1),
+.BR deb-control (5),
+.IR "Manuel d'empaquetage Debian".
+.SH TRADUCTION
+Ariel VARDI <ariel.vardi@freesbee.fr>, juillet 2002.

@@ -1,0 +1,109 @@
+.\" This is an -*- nroff -*- source file.
+.\" dpkg-name and this manpage are Copyright 1995,1996 by Erick Branderhorst.
+.\" Esta traducción ha sido realizada por Bruno Barrera 
+.\" y revisada posteriormente por Javier Fernandez-Sanguino
+.\" 
+.\" This is free software; see the GNU General Public Licence version 2
+.\" or later for copying conditions.  There is NO warranty.
+.\" Time-stamp: <96/05/03 14:00:06 root>
+.TH "dpkg-name" "1" "Mayo de 1996" "Proyecto Debian" "utilidades dpkg"
+.SH "NOMBRE"
+dpkg\-name \- Renombra paquetes Debian a nombres de paquetes completos.
+.SH "SINOPSIS"
+.B dpkg\-name 
+[\-a|\-\-no\-architecture] [\-o|\-\-overwrite] [\-s|\-\-subdir [directorio]]
+[\-c|\-\-create\-dir] [\-h|\-\-help] [\-v|\-\-version]
+[\-l|\-\-license] [\-k|\-\-symlink] [\-[\-\-] [archivos]
+.SH "DESCRIPCIÓN"
+.PP 
+Esta pagina de manual trata sobre 
+.B dpkg\-name 
+, un programa hecho en sh que ofrece una manera fácil de renombrar paquetes
+.B Debian
+a nombres de paquetes completos. Un nombre de paquete completo consiste
+de <paquete>_<versión>_<arquitectura>.deb tal y como está especificado
+en el fichero de control del paquete. La parte de <versión> del archivo 
+consiste en la principal versión de información opcionalmente seguido 
+de un guión y la versión de revisión.
+.SH "EJEMPLOS"
+.TP 
+.B dpkg\-name bar\-foo.deb
+El archivo `bar\-foo.deb' se renombrará a bar\-foo_1.0\-2_i386.deb o
+algo similar (dependiendo de cual sea la información en la sección de control 
+de `bar\-foo.deb').
+.TP 
+.B find /root/debian/ \-name '*.deb' | xargs \-n 1 dpkg\-name \-a
+dpkg\-name renombrará todos los archivos con extensión `deb' dentro
+del  directorio /root/debian y sus subdirectorios, si fuera necesario, 
+a nombres sin información de arquitectura.
+.TP 
+.B find \-name '*.deb' | xargs \-n 1 dpkg\-name \-a \-o \-s \-c
+.B No haga esto.
+Sus archivos se corromperán debido a que una gran cantidad de paquetes 
+no incluyen una sección de información.
+.B No haga esto.
+.TP 
+.B dpkg \-\-build debian\-tmp && dpkg\-name \-o \-s .. debian\-tmp.deb
+Esto se puede utilizar cuando se construyen nuevos paquetes.
+.SS OPCIONES
+.TP 
+.B "\-a, \-\-no\-architecture"
+El archivo destino no incluye información sobre la arquitectura.
+.TP 
+.B "\-k, \-\-symlink"
+Crea un enlace simbólico en vez de mover el archivo.
+.TP 
+.B "\-o, \-\-overwrite"
+Los archivos existentes se sobreescriben si poseen el mismo 
+nombre que el archivo de destino.
+.TP 
+.B "\-s, \-\-subdir [directorio]"
+Se moverán los archivos dentro del subdirectorio especificado. Si
+existe el directorio dado como argumento, los archivos se moverán dentro
+del directorio especificado, sino el nombre del directorio de destino
+se extraerá del archivo de control del paquete. El directorio de
+destino será `unstable/binary\-<arquitectura>/<sección>'. Si la
+sección es `non\-free', `contrib' o si no se encuentra ninguna sección
+en el archivo de control, el directorio de destino será
+`<sección>/binary\-<arquitectura>'. El campo de sección no es
+necesario, por lo que muchos paquetes encontrarán su camino hacia el
+área `no\-section' (`sin\-sección'). Use esta opción con cuidado, es
+algo delicado.
+.TP 
+.B "\-c, \-\-create\-dir"
+Esta opción puede usarse junto con la opción \-s. Si no se
+encuentra ningún directorio de destino se crea automáticamente.
+.B Use esta opción con cuidado.
+.TP 
+.B "\-h, \-\-help"
+Muestra las opciones de uso del programa y sale con éxito.
+.TP 
+.B "\-v, \-\-version"
+Muestra la información de versión del programa y sale con éxito.
+.TP 
+.B "\-l, \-\-license"
+Muestra la información de copyright y una referencia a la licencia GNU.
+.SH "ERRATAS"
+Algunos paquetes no siguen la misma estructura de
+<paquete>_<versión>_<arquitectura>.deb. Los paquetes que renombre
+dpkg\-name seguirán esta estructura. Generalmente esto no tendrá
+ningún impacto sobre cómo los paquetes se instalarán por dselect/dpkg,
+pero otras herramientas de instalación podrían depender de esta
+estructura.
+.SH "VÉASE TAMBIÉN"
+.BR deb (5),
+.BR deb\-control (5),
+.BR dpkg (8),
+.BR dpkg\-deb (1),
+.BR find (1),
+.BR xargs (1).
+.SH "COPYRIGHT"
+Copyright 1995,1996 Erick Branderhorst.
+.B dpkg\-name
+es software gratuito; Vea la Licencia Pública General de GNU en su
+versión 2 o superior para las condiciones de copia.
+.B No 
+hay garantía alguna.
+.P
+Está pagina fue traducida por Bruno Barrera C. <bruno.barrera@igloo.cl>
+, revisada posteriormente por Javier Fernández-Sanguino y Rubén Porras.

@@ -1,0 +1,62 @@
+.\" Esta traducción ha sido realizada Rudy Godoy 
+.\" Basado en la versión 1.1 del CVS de
+.\" /cvs/debian-doc/manpages/english/dpkg/deb-old.5 
+
+.TH DEB-OLD 5 "Enero de 2000" "Proyecto Debian" "Debian"
+.SH NOMBRE 
+deb-old \- Antiguo formato de paquetes binarios de Debian
+.SH SINOPSIS
+.IB archivo .deb
+.SH DESCRIPCIÓN
+El formato
+.B .deb
+es el formato de archivos de paquetes binarios de Debian.  Esta página de 
+manual describe el formato
+.B antiguo
+usado previamente a la versión de Debian 0.93. Por favor, vea el manual
+.BR deb (5)
+para mayor detalle sobre el nuevo formato.
+.SH FORMATO
+El archivo está conformado por dos lineas con información en texto ASCII,
+seguido por dos archivos tar, concatenados y comprimidos vía gzip.
+.PP
+La primera línea indica la versión del formato completada con 0 hasta cubrir
+8 dígitos, y es
+.B 0.939000
+para todos los archivos con formato antiguo.
+.PP
+La segunda línea es un número decimal (sin ceros precedentes) que informa
+el tamaño del primer archivo tar comprimido con gzip.
+.PP
+Cada línea finaliza con un carácter único de nueva línea.
+.PP
+El primer archivo tar contiene la información de control, como una serie de
+archivos comunes, descritos en
+.IR "Debian Packaging Manual, sección 2.2".
+El archivo de
+.B control
+debe estar presente, debido a que contiene la base de la información de control.
+.PP
+En algunos archivos muy antiguos, los archivos de control en el archivo tar 
+pueden estar opcionalmente en un subdirectorio
+.B DEBIAN.
+En este caso, el subdirectorio
+.B DEBIAN
+estará también en el archivo tar de control, y el archivo tar
+de control tendrá solamente archivos en este directorio. Opcionalmente el 
+archivo tar podrá contener una entrada para
+.RB ` . ',
+que es el directorio actual.
+.PP
+El segundo archivo tar comprimido con gzip es el archivo del sistema de
+archivos, contiene las rutas relativas al directorio raíz del sistema donde
+será instalado. Las rutas no tienen barras precedentes.
+.SH VEA TAMBIÉN
+.BR deb (5),
+.BR dpkg-deb (1),
+.BR deb-control (5),
+.IR "Debian Packaging Manual".
+
+La traducción de esta página de manual fue realizada por
+Rudy Godoy <rudy@kernel-panik.org> y revisada por Rubén Porras
+<nahoo@inicia.es>

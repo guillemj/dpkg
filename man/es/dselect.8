@@ -1,0 +1,106 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" (c) 2003 Software in the Public Interest
+.\" Esta traducción ha sido realizada por Bruno Barrera C.
+.\" (bruno.barrera@igloo.cl) y revisada por Esteban Manchado Velázquez
+.\" (zoso@demiurgo.org) 
+.\" Está basada en la página de manual original:
+.\" versión 1.1 del CVS de /cvs/debian-doc/manpages/english/dpkg/dselect.8
+
+.TH "DSELECT" "8" "Enero de 2000" "Proyecto Debian" "Debian GNU/Linux"
+.SH "NOMBRE"
+dselect \- Interfaz del manipulador de paquetes Debian para consola.
+.SH "SINOPSIS"
+.B dselect
+[\-\-admindir <directorio>] [\-\-help] [\-\-version] [\-\-licence | \-\-license]
+[\-\-expert] [\-\-debug <archivo> | \-D <archivo>] [\fI<acción>\fP]
+.SH "DESCRIPCION"
+.B dselect
+es la principal interfaz para la instalación, manejo y eliminación de paquetes
+Debian GNU/Linux. Es una interfaz de
+.B dpkg(8).
+Normalmente se llama a 
+.B dselect 
+sin parámetros, aunque hay algunos disponibles.
+.PP 
+El uso de 
+.B dselect 
+es muy intuitivo, e incluye un sistema interno de ayuda que describe las
+combinaciones de teclas y algunos conceptos generales.
+.I No olvide leer la ayuda.
+.SS USO
+.TP 
+.B Access
+Escoge el `método' de acceso usado para buscar los paquetes dentro de la
+base de datos.  Por omisión, existen bastantes métodos, como "floppy" (para
+disquetes), "harddisk" (para discos fijos) y "cdrom", pero se pueden instalar
+paquetes con metodos adicionales, como "apt", "multi_cd" , etc.
+.TP 
+.B Update
+Actualiza la lista de paquetes disponibles a dpkg/dselect desde el/los
+fichero(s) `Packages' de la base de datos elegida.
+.TP 
+.B Select
+Selecciona paquetes individuales para ser instalados.
+.TP 
+.B Install
+Instala los paquetes seleccionados.
+.TP 
+.B Config
+Configura cualesquiera paquetes no configurados todavía.
+.TP 
+.B Remove
+Borra o limpia los paquetes seleccionados.
+.TP 
+.B Quit
+Salir de dselect (satisfactoriamente).
+.SH "OPCIONES"
+Todas las opciones pueden especificarse tanto en la línea de órdenes como
+en el fichero de configuración \fI/etc/dpkg/dselect.cfg\fP.  Cada línea del
+fichero de configuración es una opción (exactamente la misma que la de
+las opciones la línea de órdenes pero sin \-\-) o un comentario (si empieza
+con un \fB#\fR).
+.br 
+.TP 
+.B \-\-admindir <directorio>
+Cambia el directorio donde se encuentran los ficheros `status', `available' y
+otros similares. Normalmente se ubican en
+.I /var/lib/dpkg
+y no debería haber ninguna necesidad de cambiarlo.
+.TP 
+.B \-\-debug <archivo> | \-D <archivo>
+Activa el informe sobre posibles errores. Esta información se envía a
+.I <archivo>.
+.TP 
+.B \-\-expert
+Activa el modo experto: no muestra ningún posible mensaje de ayuda. 
+.TP 
+.B \-\-help
+Muestra una breve ayuda sobre el programa.
+.TP 
+.B \-\-licence | \-\-license
+Muestra el copyright y la licencia de dselect.
+.TP 
+.B \-\-version
+Muestra la versión de dselect.
+.SH "FALLOS"
+La interfaz de
+.B dselect
+puede llegar a ser confusa y podría alarmar a un usuario nuevo.
+.sp
+No se gestiona muy bien el campo "Recommends:", y no se gestiona en absoluto
+el "Replaces:".
+.sp
+No hay una manera fácil de bajar e instalar automáticamente los paquetes vía
+FTP anónimo con los métodos por omisión (APT sí puede).
+.SH "VEÁSE TAMBIÉN"
+.BR dpkg (8),
+.BR deb (5).
+.SH "AUTORES"
+.B dselect
+fue escrito por Ian Jackson (ijackson@gnu.ai.mit.edu). 
+La lista completa de contribuciones puede verse escribiendo `dselect
+\-\-license'.
+.br 
+Esta página man fue escrita por Juho Vuori <javuori@cc.helsinki.fi> y
+actualizada por Josip Rodin.  Traducción realizada por Bruno Barrera C.
+(bruno.barrera@igloo.cl).
