@@ -1,0 +1,181 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Translation of CVS revision 1.6
+.TH START\-STOP\-DAEMON 8 "15 mars 1997" "Debianprojektet" "Debian GNU/Linux"
+.SH NAMN
+start\-stop\-daemon \- startar och stoppas bakgrundsprocesser
+.SH SYNOPS
+.B start-stop-daemon
+.BR -S|--start
+.IR "flaggor ... -- parametrar ..."
+.HP
+.B start-stop-daemon
+.BR -K|--stop
+.IR "flaggor ..."
+.HP
+.B start-stop-daemon
+.BR -H|--help
+.HP
+.B start-stop-daemon
+.BR -V|--version
+.SH BESKRIVNING
+.B start\-stop\-daemon
+används för att kontrollera skapande och avslutande av processer på
+systemnivå.
+Med hjälp av flaggorna
+.BR --exec ,
+.BR --pidfile ,
+.BR --user,
+and
+.BR --name
+kan
+.B start\-stop\-daemon
+ställas in att hitta existerande instanser av en körande process.
+
+Med
+.B --start
+letar
+.B start\-stop\-daemon
+efter om en angiven process existerar, och om så är fallet gör
+.B start\-stop\-daemon
+ingenting och avslutar med status 1 (0 om
+.B --oknodo
+anges).
+Om en sådan process inte existerar startas en instans, antingen med
+programfilen som anges med
+.BR --exec ,
+(eller, om den anges, med
+.BR --startas ).
+Eventuella parametrar som ges efter
+.BR --
+på kommandoraden skickas omodiferade till programmet som startas.
+
+Med 
+.B --stop
+testar
+.B start\-stop\-daemon
+också om den angivna processen existerar, och om så är fallet sänder
+.B start\-stop\-daemon
+den signal som anges av
+.B --signal
+till den, och avslutar med status 0.
+Om en sådan process inte existerar avslutar
+.B start\-stop\-daemon
+med status 1 (0 om
+.BR --oknodo
+anges).
+
+.SH FLAGGOR
+
+.TP
+.I -x|--exec programfil
+Sök efter processer som är instanser av denna programfil (enligt
+.BI /proc/ pid /exe 
+).
+.TP
+.I -p|--pidfile pidfil
+Sök efter processer vars process-id anges i
+.IR pidfil .
+.TP
+.I -u|--user användarnamn|användar-id
+Sök efter processer som ägs av den användare som anges med
+.I användarnamn 
+eller
+.IR användar-id .
+.TP
+.I -n|--name processnamn
+Sök efter processer med namnet
+.I processnamn
+(enligt
+.BI /proc/ pid /stat 
+).
+.TP
+.I -s|--signal signal
+Tillsammans med
+.B --stop
+anger detta den signal som skall sändas till processen som stoppas (förval
+är 15).
+.TP
+.I -a|--startas sökväg
+Tillsammans med
+.B --start
+anger detta att processen som anges med
+.I sökväg
+skall startas.
+Om den inte anges används parametern som gavs till
+.BR --exec .
+.TP
+.I -t|--test
+Skriver ut vad som skulle ha utförts och sätter returvärdet, men utför
+ingenting.
+.TP
+.I -o|--oknodo
+Returnerar felstatus 0 i stället för 1 om ingen åtgärd utförs/skulle
+utförts.
+.TP
+.I -q|--quiet
+Skriv inte informationsmeddelanden; visa endast felmeddelanden.
+.TP
+.I -c|--chuid
+Byt till detta användarnamn/användar-id innan processen startas.
+Du kan även ange en grupp genom att lägga till ett kolontecken (":") följt
+av gruppnamnet eller grupp-id på samma sätt som du skull gjort till
+"chown"-kommandot (användare:grupp).
+När du använder detta alternativ måste du ha i åtanke att även både primär
+och tilläggs-grupp sätts, även om "grupp"-valet inte anges.
+Gruppvalet är bara till för grupper som användaren normalt inte är en medlem
+i (t.ex för att lägga till gruppmedlemskap för enskilda processer för
+standardanvändare såsom "nobody").
+.TP
+.I -r|--chroot rot
+Byt katalog och rot till
+.B rot
+innan processen startas.
+Observera att även pidfilen skrivs efter chroot har utförts.
+.TP
+.I -b|--background
+Används typiskt med program som inte kopplar loss sig av sig själva.
+Denna flagga kommer tvinga
+.B start-stop-daemon
+att förgrena sig (fork) innan processen startar, och tvinga den grenen
+att köra i bakgrunden.
+.B VARNING:
+start-stop-daemon
+kan inte kontrollera felstatus för processer som av
+.B någon som helst
+anledning misslyckas med att exekvera.
+Detta är en sista utväg, och är endast avsett för program som det normalt
+sett inte är någon idé att på egen hand förgrena, eller där det inte är
+möjligt att lägga till koden för detta på egen hand.
+.TP
+.I -m|--make-pidfile
+Används när ett program startas som inte skapar sin egen pidfil.
+Denna flagga kommer att göra så att
+.B start-stop-daemon
+skapar filen som anges med
+.B --pidfile
+och lägga process-id i den precis innan processen startas.
+Observera att den inte kommer att tas bort när programmet stoppas.
+.B OBSERVERA:
+Denna funktion kanske inte alltid fungerar, något som huvudsakligen gäller
+när programmet som startas förgrenar sig (fork) från sin huvudprocess, och
+den är därför bara användbar i samband med flaggan
+.BR --background .
+.TP
+.I -v|--verbose
+Skriv ut pratsamma informationsmeddelanden.
+.TP
+.I -H|--help
+Skriv ut hjälpinformation och avsluta sedan.
+.TP
+.I -V|--version
+Skriv ut versionsinformation och avsluta sedan.
+
+.SH FÖRFATTARE
+Ian Jackson <ijackson@gnu.ai.mit.edu>
+
+Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>
+
+Manualsida av Klee Dienes <klee@mit.edu>.
+
+Manualsida översatt av Peter Karlsson <peterk@debian.org>.
+

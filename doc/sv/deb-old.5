@@ -1,0 +1,57 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Author: Raul Miller, Ian Jackson
+.\" Translation of CVS revision 1.4
+.TH DEB-OLD 5 "Januari 2000" "Debianprojektet" "Debian GNU/Linux"
+.SH NAMN
+deb-old \- Debian GNU/Linux gamla binärpaketformat
+.SH SYNOPS
+.IB filnamn .deb
+.SH BESKRIVNING
+.BR .deb -formatet
+är Debians binära paketformat.
+Denna manualsida beskriver det
+.B gamla
+formatet som används före Debian 0.93.
+Se
+.BR deb (5)
+för detaljerad information om det nya formatet.
+.SH FORMAT
+Filen innehåller två rader av formatinformation som ASCII-text, följt av två
+sammaslagna gzip-packade ustar-filer.
+.PP
+Den första raden i filen är formatversionsnumret utfyllt till åtta siffror,
+och är
+.B 0.939000
+för alla arkiv i det gamla formatet.
+.PP
+Nästa rad är en decimalsträng (utan inledande nollor) som anger längden på
+den första gzip-packade tar-filen.
+.PP
+Båda dessa rader avslutas med ett ensamt radbrytningstecken.
+.PP
+Den första tar-filen innehåller kontrollinformationen, lagrade som ett antal
+vanliga filer, beskrivna i
+.IR "Debian Packaging Manual, sektion 2.2".
+Filen
+.B control
+måste finnas, eftersom den innehåller grundläggande kontrollinformation.
+.PP
+I vissa väldigt gamla arkiv kan filerna i kontroll-tarfilen eventuellt ligga
+i en underkatalog vid namn
+.BR DEBIAN .
+Om så är fallet kommer underkatalogen
+.B DEBIAN
+även att finnas i kontroll-tarfilen, och kontroll-tarfilen kommer bara innehålla
+filer i den katalogen.
+Eventuellt kan kontroll-tarfilen innehålla en post för
+.RB " . ",
+det vill säga aktuell katalog.
+.PP
+Den andra gzip-packade tar-filen är filsystemsarkivet, vilken innehåller
+sökvägar relativt rotkatalogen för systemet det skall installeras på.
+Sökvägarna innehåller inte inledande snedstreck.
+.SH SE ÄVEN
+.BR deb (5),
+.BR dpkg-deb (8),
+.BR deb-control (5),
+.IR "Debian Packaging Manual".
