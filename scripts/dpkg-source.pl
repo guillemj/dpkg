@@ -545,7 +545,7 @@ if ($opmode eq 'build') {
     $files= $fi{'S Files'};
     for $file (split(/\n /,$files)) {
         next if $file eq '';
-        $file =~ m/^([0-9a-f]{32})[ \t]+(\d+)[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_]+)$/
+        $file =~ m/^([0-9a-f]{32})[ \t]+(\d+)[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
             || &error("Files field contains bad line \`$file'");
         ($md5sum{$3},$size{$3},$file) = ($1,$2,$3);
         &setfile(\$tarfile) if $file =~ m/\.tar\.gz$/;
