@@ -16,7 +16,7 @@ require 'controllib.pl';
 
 sub usageversion {
     print STDERR
-"Debian dpkg-source $version.
+"Debian dpkg-parsechangelog $version.
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2001 Wichert Akkerman
 This is free software; see the GNU General Public Licence

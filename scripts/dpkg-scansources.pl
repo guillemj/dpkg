@@ -528,7 +528,7 @@ __END__
 
 =head1 NAME
 
-dpkg-scansources - prog
+dpkg-scansources - search for '.dsc' files and build the 'Sources' index
 
 =head1 SYNOPSIS
 

@@ -1,31 +1,33 @@
-.TH DPKG 8 "February 2000" "Debian Project" "dpkg suite"
+.TH DPKG 8 "April 12, 1998" "Debian Project" "dpkg suite"
 .SH NAME
-dpkg \- medium-level package manager for Debian
-..
+dpkg \- a medium-level package manager for Debian
+
 .SH SYNOPSIS
 .B dpkg
 [\fIoptions\fP] \fIaction\fP
-..
+
 .SH WARNING
 This manual is intended for users wishing to understand \fBdpkg\fP's
 command line options and package states in more detail than that
 provided by \fBdpkg --help\fP.
-.PP
+
 It should \fInot\fP be used by package maintainers wishing to
 understand how \fBdpkg\fP will install their packages.  The
 descriptions of what \fBdpkg\fP does when installing and removing
-packages are particularly inadequate.
-.PP
-For information about this, please refer to sections regarding the
-Debian packaging system in the Debian FAQ or the Debian Reference.
-..
+packages are particularly inadequate.  For detailed information about
+this, please refer to the \fIPackage Management System\fP topic under
+\fIdebian-faq\fP in the GNU Info system.  For information about
+creating Debian packages, see the \fIDebian Package Management
+Tools\fP topic in the same place.
+
 .SH DESCRIPTION
 \fBdpkg\fP is a medium-level tool to install, build, remove and manage
-Debian packages. \fBdpkg\fP is
+Debian packages. The primary and more user-friendly
+front-end for \fBdpkg\fP is \fBdselect\fP(8).  \fBdpkg\fP itself is
 controlled entirely via command line parameters, which consist of exactly
 one action and zero or more options. The action-parameter tells dpkg
 what to do and options control the behavior of the action in some way.
-.PP
+
 \fBdpkg\fP can be also be used as a front-end to \fBdpkg-deb\fP.
 The following
 are \fBdpkg-deb\fP actions, and if they are encountered, \fBdpkg\fP
@@ -41,11 +43,7 @@ just runs \fBdpkg-deb\fP with the parameters given to it:
     \fB--fsys-tarfile\fP.
 .fi
 Please refer to \fBdpkg-deb\fP(1) for information about these actions.
-.PP
-Note: the primary and more user-friendly front-end for \fBdpkg\fP is
-\fBdselect\fP(8). There are other front-ends such as those based on
-\fBapt\fP(8).
-..
+
 .SH INFORMATION ABOUT PACKAGES
 \fBdpkg\fP maintains some usable information about available
 packages. The information is divided in three classes: \fBstates\fP,
@@ -94,31 +92,37 @@ unless forced to do that with option \fB--force-hold\fP.
 A package marked \fBreinst-required\fP is broken and requires
 reinstallation. These packages cannot be removed, unless forced with
 option \fB--force-reinstreq\fP.
-..
+
 .SH ACTIONS
 .TP
 \fBdpkg -i\fP | \fB--install\fP \fIpackage_file\fP...
 Install the package. If \fB--recursive\fP or \fB-R\fP option is
 specified, \fIpackage_file\fP must refer to a directory instead.
-.PP
+
 Installation consists of the following steps:
 .br
+
 \fB1.\fP Extract the control files of the new package.
 .br
+
 \fB2.\fP If another version of the same package was installed before
 the new installation, execute \fIprerm\fP script of the old package.
 .br
+
 \fB3.\fP Run \fIpreinst\fP script, if provided by the package.
 .br
+
 \fB4.\fP Unpack the new files, and at the same time back up the old
 files, so that if something goes wrong, they can be restored.
 .br
+
 \fB5.\fP If another version of the same package was installed before
 the new installation, execute the \fIpostrm\fP script of the old
 package. Note that this script is executed after the \fIpreinst\fP
 script of the new package, because new files are written at the same
 time old files are removed.
 .br
+
 \fB6.\fP Configure the package. See \fB--configure\fP for detailed
 information about how this is done.
 .TP
@@ -131,13 +135,15 @@ directory instead.
 Reconfigure an unpacked package.  If \fB-a\fP or \fB--pending\fP is
 given instead of \fIpackage\fP, all unpacked but unconfigured
 packages are configured.
-.PP
+
 Configuring consists of the following steps:
 .br
+
 \fB1.\fP Unpack the configuration files, and at the same time back up
 the old configuration files, so that they can be restored if
 something goes wrong.
 .br
+
 \fB2.\fP Run \fIpostinst\fP script, if provided by the package.
 .TP
 \fBdpkg -r\fP | \fB--remove\fP | \fB-P\fP | \fB--purge \fP\fIpackage\fP ... | \fB-a\fP | \fB--pending\fP
@@ -150,19 +156,18 @@ files.  If \fB-a\fP or \fB--pending\fP is given instead of a package
 name, then all packages unpacked, but marked to be removed or purged
 in file \fI/var/lib/dpkg/status\fP, are removed or purged,
 respectively.
-.PP
+
 Removing of a package consists of the following steps:
 .br
+
 \fB1.\fP Run \fIprerm\fP script
 .br
+
 \fB2.\fP Remove the installed files
 .br
+
 \fB3.\fP Run \fIpostrm\fP script
 .br
-.TP
-.BI "dpkg  -p|--print-avail " package
-Display details about \fIpackage\fP, as found in
-\fI/var/lib/dpkg/available\fP.
 .TP
 \fBdpkg --update-avail\fP | \fB--merge-avail\fP \fIPackages-file\fP
 Update \fBdpkg\fP's and \fBdselect\fP's idea of which packages are
@@ -185,17 +190,6 @@ Forget about uninstalled unavailable packages.
 .B dpkg --clear-avail
 Erase the existing information about what packages are available.
 .TP
-\fBdpkg -l\fP | \fB--list\fP \fIpackage-name-pattern\fP ...
-List packages matching given pattern. If no \fIpackage-name-pattern\fP
-is given, list all packages in \fI/var/lib/dpkg/available\fP.  Normal
-shell wildchars are allowed in \fIpackage-name-pattern\fP.  (You will
-probably have to quote \fIpackage-name-pattern\fP to prevent the shell
-from performing filename expansion.  For example, \fBdpkg -l 'libc5*'\fP will list all the package names starting with "libc5".)
-.TP
-\fBdpkg -s\fP | \fB--status\fP \fIpackage-name\fP ...
-Report status of specified package. This just displays the entry in
-the installed package status database.
-.TP
 \fBdpkg -C\fP | \fB--audit\fP
 Searches for packages that have been installed only partially on your
 system.  \fBdpkg\fP will suggest what to do with them to get them
@@ -211,14 +205,6 @@ Set package selections using file read from stdin.
 Searches for packages selected for installation, but which for some
 reason still haven't been installed.
 .TP
-\fBdpkg -L\fP | \fB--listfiles\fP \fIpackage\fP ...
-List files installed to your system from \fBpackage\fP.
-However, note that files created by package-specific
-installation-scripts are not listed.
-.TP
-\fBdpkg -S\fP | \fB--search\fP \fIfilename-search-pattern\fP ...
-Search for a filename from installed packages. All standard shell
-wildchars can be used in the pattern.
 .TP
 .B dpkg --print-architecture
 Print target architecture (for example, "i386").  This option uses
@@ -247,7 +233,7 @@ additional options set on the command line, and thru this file descriptor,
 are not reset for subsequent commands executed during the same run.
 .TP
 .B dpkg --help
-Display the usage instructions.
+Display a brief help message.
 .TP
 .B dpkg --force-help
 Give help about the \fB--force-\fP\fIthing\fP options.
@@ -256,14 +242,14 @@ Give help about the \fB--force-\fP\fIthing\fP options.
 Give help about debugging options.
 .TP
 \fBdpkg --licence\fP | \fBdpkg --license\fP
-Display \fBdpkg\fP copyright and licence information.
+Display \fBdpkg\fP licence.
 .TP
 \fBdpkg --version\fP
 Display \fBdpkg\fP version information.
 .TP
 \fBdpkg-deb-actions\fP
 See \fBdpkg-deb\fP(1) for more information about the following actions.
-.PP
+
 .nf
 \fBdpkg -b\fP | \fB--build\fP \fIdirectory\fP [\fIfilename\fP]
     Build a deb package.
@@ -284,7 +270,27 @@ See \fBdpkg-deb\fP(1) for more information about the following actions.
     Extract and display the filenames contained by a
     package.
 .fi
-..
+
+.TP
+\fBdpkg-query-actions\fP
+See \fBdpkg-query\fP(1) for more information about the following actions.
+
+.nf
+
+\fBdpkg -l\fP | \fB--list\fP \fIpackage-name-pattern\fP ...
+    List packages matching given pattern.
+\fBdpkg -s\fP | \fB--status\fP \fIpackage-name\fP ...
+    Report status of specified package.
+\fBdpkg -L\fP | \fB--listfiles\fP \fIpackage\fP ...
+    List files installed to your system from \fBpackage\fP.
+\fBdpkg -S\fP | \fB--search\fP \fIfilename-search-pattern\fP ...
+    Search for a filename from installed packages.
+\fBdpkg -p\fP | \fB--print-avail\fP \fIpackage\fP
+    Display details about \fIpackage\fP, as found in \fI/var/lib/dpkg/available\fP.
+.fi
+
+
+
 .SH OPTIONS
 All options can be specified both on the commandline and in the \fBdpkg\fP
 configuration file \fI/etc/dpkg/dpkg.cfg\fP. Each line in the configuration
@@ -320,90 +326,98 @@ debugging values.
  2000   Insane amounts of drivel
 .TP
 \fB--force-\fP\fIthings\fP | \fB--no-force-\fP\fIthings\fP | \fB--refuse-\fP\fIthings\fP
+
 Force or refuse (\fBno-force\fP and \fBrefuse\fP mean the same thing)
 to do some things.  \fIthings\fP is a comma separated list of things
 specified below.  \fB--force-help\fP displays a message describing them.
 Things marked with (*) are forced by default.
-.PP
+
 \fIWarning: These options are mostly intended to be used by experts
 only. Using them without fully understanding their effects may break
 your whole system.\fP
-.br
+
 \fBall\fP:
 Turns on(or off) all force options.
-.br
+
 \fBauto-select\fP(*):
 Select packages to install them, and deselect packages to remove them.
-.br
+
 \fBdowngrade\fP(*):
 Install a package, even if newer version of it is already installed.
-.br
+
+\fIWarning: At present dpkg does not do any dependency 
+checking on downgrades and therefore will not warn you 
+if the downgrade breaks the dependency of some other 
+package.  This can have serious side effects, downgrading
+essential system components can even make your whole
+system unusable.  Use with care.\fP
+
 \fBconfigure-any\fP:
 Configure also any unpacked but unconfigured packages on which the current
 package depends.
-.br
+
 \fBhold\fP:
 Process packages even when marked "hold".
-.br
+
 \fBremove-reinstreq\fP:
 Remove a package, even if it's broken and marked to require
 reinstallation.  This may, for example, cause parts of the package to
 remain on the system, which will then be forgotten by \fBdpkg\fP.
-.br
+
 \fBremove-essential\fP:
 Remove, even if the package is considered essential. Essential
 packages contain mostly very basic Unix commands. Removing them might
 cause the whole system to stop working, so use with caution.
-.br
+
 \fBdepends\fP:
 Turn all dependency problems into warnings.
-.br
+
 \fBdepends-version\fP:
 Don't care about versions when checking dependencies.
-.br
+
 \fBconflicts\fP:
 Install, even if it conflicts with another package. This is dangerous,
 for it will usually cause overwriting of some files.
-.br
+
 \fBconfmiss\fP:
 Always install a missing configuration file. This is dangerous,
 since it means not preserving a change (removing) made to the
 file.
-.br
+
 \fBconfnew\fP:
 If a conffile has been modified always install the new version without
 prompting, unless the \fB--force-confdef\fP is also specified, in
 which case the default action is preferred.
-.br
+
 \fBconfold\fP:
 If a conffile has been modified always keep the old version without
 prompting, unless the \fB--force-confdef\fP is also specified, in
 which case the default action is preferred.
-.br
+
 \fBconfdef\fP:
 If a conffile has been modified always choose the default action. If
 there is no default action it will stop to ask the user unless 
 \fB--force-confnew\fP or \fB--force-confold\fP is also been given, in
 which case it will use that to decide the final action.
-.br
+
 \fBoverwrite\fP:
 Overwrite one package's file with another's file.
-.br
-\fBoverwrite-dir\fP:
+
+\fBoverwrite-dir\fP
 Overwrite one package's directory with another's file.
-.br
+
 \fBoverwrite-diverted\fP:
 Overwrite a diverted file with an undiverted version.
-.br
+
 \fBarchitecture\fP:
 Process even packages with the wrong architecture.
-.br
+
 \fBbad-path\fP:
 \fBPATH\fP is missing important programs, so problems are likely.
-.br
+
 \fBnot-root\fP:
 Try to (de)install things even when not root.
-.br
+
 .TP
 \fB--ignore-depends\fP=\fIpackage\fP,...
 Ignore dependency-checking for specified packages (actually, checking is
@@ -417,15 +431,15 @@ option.
 Don't read or check contents of control file while building a package.
 This is a \fBdpkg-deb\fP(1) option.
 .TP
-.B --no-act
+\fB--no-act\fP | \fB--dry-run\fP | \fB--simulate\fP
 Do everything which is supposed to be done, but don't write any
 changes. This is used to see what would happen with the specified
 action, without actually modifying anything.
-.PP
+
 Be sure to give \fB--no-act\fP before the action-parameter, or you might
 end up with undesirable results.  (e.g.  \fBdpkg --purge foo
 --no-act\fP will first purge package foo and then try to purge package
---no-act, even though you probably expected it to actually do nothing!)
+--no-act, even though you probably expected it to actually do nothing)
 .TP
 \fB-R\fP | \fB--recursive\fP
 Recursively handle all regular files matching pattern \fB*.deb\fP
@@ -461,7 +475,6 @@ installed.
 \fB--status-fd \fP\fI<n>\fP
 Send package status info to file descriptor \fI<n>\fP.  This can be given
 multiple times.  Status updates are of the form `status: <pkg>: <pkg qstate>'.
-..
 .SH FILES
 .TP
 .I /etc/dpkg/dpkg.cfg
@@ -493,7 +506,7 @@ for more information about them:
 .I prerm
 .TP
 .I postrm
-..
+
 .SH ENVIRONMENT VARIABLES
 .TP
 .B DPKG_NO_TSTP
@@ -516,20 +529,28 @@ file.
 Set by \fBdpkg\fP to the filename of the newversion of a configuration file
 when you start a shell to examine a changed configuration.
 file.
-..
+
 .SH EXAMPLES
-To list packages containing the string `vi' in their name:
+To list packages related to the editor vi:
 .br
 \fB     dpkg -l '*vi*'\fP
-.PP
-To see the entries in \fI/var/lib/dpkg/available\fP on several packages:
 .br
-\fB     dpkg -p base-files login xfree86-common | pager\fP
-.PP
-To remove an installed package named "elvis":
+
+To see the entries in \fI/var/lib/dpkg/available\fP on two packages:
+.br
+\fB     dpkg --print-avail elvis vim | less\fP
+.br
+
+To search the listing of packages yourself:
+.br
+\fB     less /var/lib/dpkg/available\fP
+.br
+
+To remove an installed elvis package:
 .br
 \fB     dpkg -r elvis\fP
-.PP
+.br
+
 To install a package, you first need to find it in an archive or
 CDROM.  The "available" file shows that the vim package is in section
 "editors":
@@ -537,12 +558,12 @@ CDROM.  The "available" file shows that the vim package is in section
 \fB     cd /cdrom/hamm/hamm/binary/editors\fP
 \fB     dpkg -i vim_4.5-3.deb\fP
 .br
-(Note: \fBapt-get\fP(8) is commonly used for this.)
-.PP
+
 To make a local copy of the package selection states:
 .br
 \fB     dpkg --get-selections >myselections\fP
-.PP
+.br
+
 You might transfer this file to another computer, and install it there
 with:
 .br
@@ -551,33 +572,24 @@ with:
 Note that this will not actually install or remove anything, but just
 set the selection state on the requested packages.  You will need some
 other application to actually download and install the requested
-packages.
-.PP
+packages.  For example, run \fBdselect\fP and choose "Install".
+
 Ordinarily, you will find that \fBdselect\fP(8) provides a more
 convenient way to modify the package selection states.
-..
+.br
 .SH SEE ALSO
-.BR dpkg-deb (1),
-.BR deb (5),
-.BR deb-control (5),
-.BR dselect (8),
-.BR apt (8).
-..
-.SH BUGS/RESTRICTIONS
-dpkg doesn't do any intelligent package ordering on installation.
-.br
-There is no automatic logging ability in dpkg.
-.br
-Depending package relations may sometimes get out of sync on upgrades
-(e.g. exact dependencies of a library -dev package on the library package).
-.PP
-The --no-act option usually gives less information than might be helpful.
-.br
-There is no --status information for virtual packages.
-..
+\fBdselect\fP(8),
+\fBdpkg-deb\fP(1),
+\fBdeb\fP(5),
+and
+\fBdeb-control\fP(5)
+
+.SH BUGS
+
+\fB--no-act\fP usually gives less information than might be helpful.
+
 .SH AUTHORS
 .nf
-\fBdpkg\fP was originally written by Ian Jackson, and later updated by
-many other people, full list of which you may find in the
-\fB/usr/share/doc/dpkg/THANKS\fP file.
+See \fB/usr/share/doc/dpkg/THANKS.gz\fP for the list of people who have
+contributed to \fBdpkg\fP .
 .fi

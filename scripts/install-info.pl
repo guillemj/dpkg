@@ -8,7 +8,8 @@ use Text::Wrap;
 
 $version= '0.93.42.2'; # This line modified by Makefile
 sub version {
-        print STDERR <<END;
+        $file = $_[0];
+        print $file <<END;
 Debian install-info $version.  Copyright (C) 1994,1995
 Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
@@ -16,7 +17,8 @@ END
 }
 
 sub usage {
-    print STDERR <<END;
+    $file = $_[0];
+    print $file <<END;
 usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
              [--section regexp title] [--infodir=xxx] [--align=nnn]
              [--calign=nnn] [--quiet] [--menuentry=xxx] [--info-dir=xxx]
@@ -52,7 +54,7 @@ while ($ARGV[0] =~ m/^--/) {
     $_= shift(@ARGV);
     last if $_ eq '--';
     if ($_ eq '--version') {
-        &version; exit 0;
+        &version(STDOUT); exit 0;
     } elsif ($_ eq '--quiet') {
         $quiet=1;
     } elsif ($_ eq '--test') {
@@ -65,14 +67,14 @@ while ($ARGV[0] =~ m/^--/) {
         $remove=1;
         $remove_exactly=1;
     } elsif ($_ eq '--help') {
-        &usage; exit 0;
+        &usage(STDOUT); exit 0;
     } elsif ($_ eq '--debug') {
         open(DEBUG,">&STDERR") || die "Could not open stderr for output! $!\n";
 	$debug=1;
     } elsif ($_ eq '--section') {
         if (@ARGV < 2) {
             print STDERR "$name: --section needs two more args\n";
-            &usage; exit 1;
+            &usage(STDERR); exit 1;
         }
         $sectionre= shift(@ARGV);
         $sectiontitle= shift(@ARGV);
@@ -89,17 +91,17 @@ while ($ARGV[0] =~ m/^--/) {
     } elsif (m/^--description=/) {
         $description=$';
     } else {
-        print STDERR "$name: unknown option \`$_'\n"; &usage; exit 1;
+        print STDERR "$name: unknown option \`$_'\n"; &usage(STDERR); exit 1;
     }
 }
 
-if (!@ARGV) { &version; print STDERR "\n"; &usage; exit 1; }
+if (!@ARGV) { &version(STDERR); print STDERR "\n"; &usage(STDERR); exit 1; }
 
 if ( !$filename ) {
 	$filename= shift(@ARGV);
 	$name = "$name($filename)";
 }
-if (@ARGV) { print STDERR "$name: too many arguments\n"; &usage; exit 1; }
+if (@ARGV) { print STDERR "$name: too many arguments\n"; &usage(STDERR); exit 1; }
 
 if ($remove) {
     print STDERR "$name: --section ignored with --remove\n" if length($sectiontitle);

@@ -67,7 +67,6 @@ Usage: \n\
   dpkg --update-avail <Packages-file>      replace available packages info\n\
   dpkg --merge-avail <Packages-file>       merge with info from file\n\
   dpkg --clear-avail                       erase existing available info\n\
-  dpkg --command-fd <n>                    pass commands in on this file descriptor\n\
   dpkg --forget-old-unavail                forget uninstalled unavailable pkgs\n\
   dpkg -s|--status <package-name> ...      display package status details\n\
   dpkg -p|--print-avail <package-name> ... display available version details\n\
@@ -98,7 +97,8 @@ Options:\n\
   -G|--refuse-downgrade      Skip packages with earlier version than installed\n\
   -B|--auto-deconfigure      Install even if it would break some other package\n\
   --no-debsig                Do no try to verify package signatures\n\
-  --no-act                   Just say what we would do - don't do it\n\
+  --no-act|--dry-run|--simulate\n\
+                             Just say what we would do - don't do it\n\
   -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
   --status-fd <n>            Send status change updates to file descriptor <n>\n\
   --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
@@ -395,6 +395,8 @@ static const struct cmdinfo cmdinfos[]= {
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
+  { "dry-run",            0,   0,  &f_noact,       0,  0,             1              },
+  { "simulate,            0,   0,  &f_noact,       0,  0,             1              },
   { "no-debsig",          0,   0,  &f_nodebsig,    0,  0,             1              },
   {  0,                  'G',  0,  &fc_downgrade,  0,  0, /* alias for --refuse */ 0 },
   { "selected-only",     'O',  0,  &f_alsoselect,  0,  0,             0              },

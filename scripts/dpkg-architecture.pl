@@ -399,7 +399,7 @@ dpkg-architecture with the -q option.  Here are some examples, which
 also show how you can improve the cross compilation support in your
 package:
 
-Instead:
+Instead of:
 
 ARCH=`dpkg --print-architecture`
 configure $(ARCH)-linux
@@ -409,9 +409,9 @@ please use the following:
 DEB_BUILD_GNU_TYPE := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 DEB_HOST_GNU_TYPE := $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 
-configure --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_BUILD_GNU_SYSTEM)
+configure --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
 
-Instead:
+Instead of:
 
 ARCH=`dpkg --print-architecture`
 ifeq ($(ARCH),alpha)

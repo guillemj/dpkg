@@ -274,6 +274,7 @@ do_help(void)
 "  -c|--chuid <name|uid[:group|gid]>\n"
 "  		change to this user/group before starting process\n"
 "  -u|--user <username>|<uid>    stop processes owned by this user\n"
+"  -g|--group <group|gid>        run process as this group\n"
 "  -n|--name <process-name>      stop processes with this name\n"
 "  -s|--signal <signal>          signal to send (default TERM)\n"
 "  -a|--startas <pathname>       program to start (default is <executable>)\n"
@@ -456,6 +457,7 @@ parse_options(int argc, char * const *argv)
 		{ "signal",	  1, NULL, 's'},
 		{ "test",	  0, NULL, 't'},
 		{ "user",	  1, NULL, 'u'},
+		{ "group",	  1, NULL, 'g'},
 		{ "chroot",	  1, NULL, 'r'},
 		{ "verbose",	  0, NULL, 'v'},
 		{ "exec",	  1, NULL, 'x'},
@@ -469,7 +471,7 @@ parse_options(int argc, char * const *argv)
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:bmR:",
+		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:bmR:g:",
 				longopts, (int *) 0);
 		if (c == -1)
 			break;
@@ -522,6 +524,9 @@ parse_options(int argc, char * const *argv)
 			changeuser = strdup(optarg);
 			changeuser = strtok(changeuser, ":");
 			changegroup = strtok(NULL, ":");
+			break;
+		case 'g':  /* --group <group>|<gid> */
+			changegroup = optarg;
 			break;
 		case 'r':  /* --chroot /new/root */
 			changeroot = optarg;

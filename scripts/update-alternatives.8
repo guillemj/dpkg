@@ -210,6 +210,42 @@ manual mode
 When a link group is in manual mode,
 the alternatives system will not make any changes
 to the system administrator's settings.
+.SH EXAMPLES
+There are several packages which provide a text editor compatible
+with
+.BR vi ,
+for example
+.BR nvi &quot; and &quot; vim .
+Which one is used is controlled by the link group
+.BR vi ,
+which includes links for the program itself and the associated manpage.
+.PP
+To display the available packages which provide
+.B vi
+and the current setting for it, use the
+.I --display
+action:
+.RS
+.PP
+update-alternatives --display vi
+.RE
+.PP
+To choose a particular
+.B vi
+implementation, use this command as root and then select a number
+from the list:
+.RS
+.PP
+update-alternatives --config vi
+.RE
+.PP
+To go back to having the
+.B vi
+implementation chosen automatically, do this as root:
+.RS
+.PP
+update-alternatives --auto vi
+.RE
 .SH OPTIONS
 Exactly one action must be specified if
 .B update-alternatives
@@ -321,6 +357,13 @@ and the highest priority alternative currently installed.
 .TP
 \fB--list\fR \fIlink\fR
 Display all targets of the link group.
+.TP
+\fB--config\fR \fIlink\fR
+Show available alternatives for a link group and allow the user to
+interactively select which one to use.  The link group is updated
+and taken out of
+.I auto
+mode.
 .SH FILES
 .TP
 .I /etc/alternatives/

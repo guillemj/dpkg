@@ -59,7 +59,7 @@ Command:\n\
   -b|--build <directory> [<deb>]    build an archive.\n\
   -c|--contents <deb>               list contents.\n\
   -I|--info <deb> [<cfile>...]      show info to stdout.\n\
-  -W|--show <deb>                   Show information on package(s)\n\
+  -W|--show <deb>                   show information on package(s)\n\
   -f|--field <deb> [<cfield>...]    show field(s) to stdout.\n\
   -e|--control <deb> [<directory>]  extract control info.\n\
   -x|--extract <deb> <directory>    extract files.\n\
@@ -73,8 +73,8 @@ Command:\n\
 <cfield> is the name of a field in the main `control' file.\n\
 \n\
 Options:\n\
-  --showformat=<format>      Use alternative format for --show\n\
-  -D                         Enable debugging output\n\
+  --showformat=<format>      use alternative format for --show\n\
+  -D                         enable debugging output\n\
   --old, --new               select archive format\n\
   --nocheck                  suppress control file check (build bad package).\n\
   -z# to set the compression when building\n\
@@ -85,7 +85,7 @@ Format syntax:\n\
   return) or \\\\ (plain backslash). Package information can be included\n\
   by inserting variable references to package fields using the ${var[;width]}\n\
   syntax. Fields will be right-aligned unless the width is negative in which\n\
-   case left aligenment will be used. \n\
+   case left alignment will be used. \n\
 \n\
 Use `dpkg' to install and remove packages from your system, or\n\
 `dselect' for user-friendly package management.  Packages unpacked\n\
