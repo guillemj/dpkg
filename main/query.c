@@ -3,6 +3,7 @@
  * enquiry.c - status enquiry and listing options
  *
  * Copyright (C) 1995,1996 Ian Jackson <ijackson@gnu.ai.mit.edu>
+ * Copyright (C) 200,2001 Wichert Akkerman <wakkerma@debian.org>
  *
  * This is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as
@@ -40,6 +41,10 @@
 
 #include "filesdb.h"
 #include "main.h"
+#include "query.h"
+
+static const char* showformat		= "${pkg:Package}\t${pkg:Version}\n";
+
 
 void ensure_package_clientdata(struct pkginfo *pkg) {
   if (pkg->clientdata) return;
@@ -153,7 +158,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
          pkg->name,
          versiondescribe(&pkg->installed.version,vdew_never),
          l, pdesc);
-}         
+}
 
 void listpackages(const char *const *argv) {
   struct pkgiterator *it;
@@ -369,8 +374,60 @@ void enqperpackage(const char *const *argv) {
   }
 }
 
+void showpackages(const char *const *argv) {
+  struct pkgiterator *it;
+  struct pkginfo *pkg;
+  struct pkginfo **pkgl;
+  const char *thisarg;
+  int np, i, found;
+  const struct lstitem* fmt = parseformat(showformat);
+
+  if (!fmt) {
+    nerrs++;
+    return;
+  }
+
+  modstatdb_init(admindir,msdbrw_readonly);
+
+  np= countpackages();
+  pkgl= m_malloc(sizeof(struct pkginfo*)*np);
+  it= iterpkgstart(); i=0;
+  while ((pkg= iterpkgnext(it))) {
+    assert(i<np);
+    pkgl[i++]= pkg;
+  }
+  iterpkgend(it);
+  assert(i==np);
+
+  qsort(pkgl,np,sizeof(struct pkginfo*),pkglistqsortcmp);
+  
+  if (!*argv) {
+    for (i=0; i<np; i++) {
+      pkg= pkgl[i];
+      if (pkg->status == stat_notinstalled) continue;
+      show1package(fmt,pkg);
+    }
+  } else {
+    while ((thisarg= *argv++)) {
+      found= 0;
+      for (i=0; i<np; i++) {
+        pkg= pkgl[i];
+        if (fnmatch(thisarg,pkg->name,0)) continue;
+        show1package(fmt,pkg); found++;
+      }
+      if (!found) {
+        fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
+	nerrs++;
+      }
+    }
+  }
+  if (ferror(stdout)) werr("stdout");
+  if (ferror(stderr)) werr("stderr");  
+  freeformat(fmt);
+}
+
 static void printversion(void) {
-  if (fputs(_("Debian GNU/Linux `"), stdout) < 0) werr("stdout");
+  if (fputs(_("Debian"), stdout) < 0) werr("stdout");
   if (fputs(DPKG, stdout) < 0) werr("stdout");
   if (fputs(_("' package management program version "), stdout) < 0) werr("stdout");
 //  if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
@@ -390,12 +447,14 @@ Usage: \n\
   dpkg -p|--print-avail <package-name> ... display available version details\n\
   dpkg -L|--listfiles <package-name> ...   list files `owned' by package(s)\n\
   dpkg -l|--list [<pattern> ...]           list packages concisely\n\
+  dpkg -W|--show <pattern> ...             show information on package(s)\n\
   dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n\
   dpkg --help | --version                  show this help / version number\n\
   dpkg --licence                           print copyright licensing terms\n\
 \n\
 Options:\n\
   --admindir=<directory>     Use <directory> instead of %s\n\
+  --showformat=<format>      Use alternative format for --show\n\
   -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n"),
 	    ADMINDIR) < 0) werr ("stdout");
 }
@@ -446,18 +505,20 @@ static const struct cmdinfo cmdinfos[]= {
 #define OBSOLETE(longopt,shortopt) \
  { longopt, shortopt, 0,0,0, setobsolete, 0, 0, 0 }
 
-  ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),		//
-  ACTION( "status",                         's', act_status,               enqperpackage   ),	//
-  ACTION( "print-avail",                    'p', act_printavail,           enqperpackage   ),	//
-  ACTION( "list",                           'l', act_listpackages,         listpackages    ),	//
-  ACTION( "search",                         'S', act_searchfiles,          searchfiles     ),	//
+  ACTION( "listfiles",                      'L', act_listfiles,     enqperpackage   ),
+  ACTION( "status",                         's', act_status,        enqperpackage   ),
+  ACTION( "print-avail",                    'p', act_printavail,    enqperpackage   ),
+  ACTION( "list",                           'l', act_listpackages,  listpackages    ),
+  ACTION( "search",                         'S', act_searchfiles,   searchfiles     ),
+  ACTION( "show",                           'W', act_listpackages,  showpackages    ),
 
-  { "admindir",           0,   1,  0, &admindir,       0                             },
-  { "help",              'h',  0,  0, 0,               helponly                      },
-  { "version",            0,   0,  0, 0,               versiononly                   },
-  { "licence",/* UK spelling */ 0,0,0,0,               showcopyright                 },
-  { "license",/* US spelling */ 0,0,0,0,               showcopyright                 },
-  {  0,                   0                                                          }
+  { "admindir",           0,   1,  0, &admindir,       0                            },
+  { "showformat",         0,   1,  0, &showformat,     0                            },
+  { "help",              'h',  0,  0, 0,               helponly                     },
+  { "version",            0,   0,  0, 0,               versiononly                  },
+  { "licence",/* UK spelling */ 0,0,0,0,               showcopyright                },
+  { "license",/* US spelling */ 0,0,0,0,               showcopyright                },
+  {  0,                   0                                                         }
 };
 
 int main(int argc, const char *const *argv) {

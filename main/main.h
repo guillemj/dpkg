@@ -1,6 +1,6 @@
 /*
  * dpkg - main program for package management
- * dpkg-deb.h - external definitions for this program
+ * main.h - external definitions for this program
  *
  * Copyright (C) 1995 Ian Jackson <iwj10@cus.cam.ac.uk>
  *
