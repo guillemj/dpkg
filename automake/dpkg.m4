@@ -16,12 +16,12 @@ AC_DEFUN(DPKG_CACHED_TRY_COMPILE,[
  fi
 ])
 
-dnl DPKG_C_GCC_TRY_WARNS(<warnings>,<substvar>,<cachevar>)
+dnl DPKG_C_GCC_TRY_WARNS(<warnings>,<cachevar>)
 AC_DEFUN(DPKG_C_GCC_TRY_WARNS,[
  AC_MSG_CHECKING([GCC warning flag(s) $1])
  if test "${GCC-no}" = yes
  then
-  AC_CACHE_VAL($3,[
+  AC_CACHE_VAL($2,[
    oldcflags="${CFLAGS-}"
    CFLAGS="${CFLAGS-} ${CWARNS} $1 -Werror"
    AC_TRY_COMPILE([
@@ -29,20 +29,16 @@ AC_DEFUN(DPKG_C_GCC_TRY_WARNS,[
 #include <stdio.h>
 ],[
     strcmp("a","b"); fprintf(stdout,"test ok\n");
-], [$3=yes], [$3=no])
+], [$2=yes], [$2=no])
    CFLAGS="${oldcflags}"])
-  if test "x$$3" = xyes; then
-   $2='$1'
+  if test "x$$2" = xyes; then
    CWARNS="${CWARNS} $1"
    AC_MSG_RESULT(ok)
   else
-   $3=''
    $2=''
    AC_MSG_RESULT(no)
   fi
  else
-  $2=''
   AC_MSG_RESULT(no, not using GCC)
  fi
- AC_SUBST($2)
 ])

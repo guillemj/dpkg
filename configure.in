@@ -158,10 +158,11 @@ AC_TRY_COMPILE(,[
 } inline int foo (int x) {], AC_DEFINE(HAVE_INLINE))
 
 
-DPKG_C_GCC_TRY_WARNS(-Wall -Wno-implicit, WARN_ALL, dpkg_cv_c_gcc_warn_all)
-DPKG_C_GCC_TRY_WARNS(-Wwrite-strings, WARN_WRITESTRINGS, dpkg_cv_c_gcc_warn_writestrings)
-DPKG_C_GCC_TRY_WARNS(-Wpointer-arith, WARN_POINTERMATH, dpkg_cv_c_gcc_warn_pointerarith)
-DPKG_C_GCC_TRY_WARNS(-Wimplicit -Wnested-externs, WARN_IMPLICIT, dpkg_cv_c_gcc_warn_implicit)
+DPKG_C_GCC_TRY_WARNS(-Wall -Wno-implicit, dpkg_cv_c_gcc_warn_all)
+DPKG_C_GCC_TRY_WARNS(-Wwrite-strings, dpkg_cv_c_gcc_warn_writestrings)
+DPKG_C_GCC_TRY_WARNS(-Wpointer-arith, dpkg_cv_c_gcc_warn_pointerarith)
+DPKG_C_GCC_TRY_WARNS(-Wimplicit -Wnested-externs, dpkg_cv_c_gcc_warn_implicit)
+AC_SUBST(CWARNS)
 
 dnl Force this here so we can do the next step
 test "x$prefix" = xNONE && prefix="$ac_default_prefix"
