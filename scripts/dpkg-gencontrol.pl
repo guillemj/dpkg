@@ -14,7 +14,7 @@ use POSIX qw(:errno_h);
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-sub usage {
+sub usageversion {
     print STDERR
 "Debian GNU/Linux dpkg-gencontrol $version.  Copyright (C) 1996
 Ian Jackson.  This is free software; see the GNU General Public Licence

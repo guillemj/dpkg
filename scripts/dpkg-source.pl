@@ -21,9 +21,10 @@ Usage:
 Options:  -c<controlfile>        get control info from this file\n".
 "(for -b)  -l<changelogfile>      get per-version info from this file
           -F<changelogformat>    force change log format
+          -V<name>=<value>       set a substitution variable
+          -T<varlistfile>        read variables here, not debian/substvars
           -D<field>=<value>      override or add a .dsc field and value
           -U<field>              remove a field
-          -V<name>=<value>       set a substitution variable
           -h                     print this message
 Relative filenames for -c and -l are interpreted starting at the
 source tree's top level directory.  If <orig-directory> is omitted then
@@ -53,6 +54,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w+)[=:]/) {
         $substvar{$1}= $';
+    } elsif (m/^-T/) {
+        $varlistfile= $';
     } elsif (m/^-h$/) {
         &usageversion; exit(0);
     } elsif (m/^--$/) {
@@ -392,6 +395,7 @@ if ($opmode eq 'build') {
                     " ($expectprefix)");
         $fn =~ m,/\.\./, &&
             &error("tarfile contains object with /../ in its name ($pname)");
+        push(@filesinarchive,$fn);
     }
     close(CPIO); $? && subprocerr("cpio");
     $/= "\n";
@@ -405,12 +409,17 @@ if ($opmode eq 'build') {
         exec('tar','-vvtf','-'); &syserr("exec tar -vvtf -");
     }
     close(GZIP);
+    $efix= 0;
   file:
-    while (defined($fn= <TAR>)) {
-        $fn =~ s/\n$//;
-        $fn =~ m,^(\S{10})\s+\S+/\S+\s+\d+\s+\w+\s+\d+\s+\d+:\d\d\s+\d+ (.*)$, ||
+    while (length($_= <TAR>)) {
+        s/\n$//;
+        m,^(\S{10})\s, ||
             &error("tarfile contains unknown object listed by tar as \`$_'");
-        $_= $1; $fn= $2;
+        $fn= $filesinarchive[$efix++];
+        substr($_,length($_)-length($fn)-1) eq " $fn" ||
+            &error("tarfile contains unexpected object listed by tar as \`$_',".
+                   " expected \`$fn'");
+        $_= $1;
         s/^([-dpsl])// ||
             &error("tarfile contains object \`$fn' with unknown or forbidden type \`".
                    substr($_,0,1)."'");

@@ -42,7 +42,7 @@ sub outputclose {
         $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
         if (open(SV,"< $varlistfile")) {
             while (<SV>) {
-                next if m/^\#/;
+                next if m/^\#/ || !m/\S/;
                 s/\s*\n$//;
                 m/^(\w+)\=/ ||
                     &error("bad line in substvars file $varlistfile at line $.");

@@ -19,7 +19,7 @@ version 2 or later for copying conditions.  There is NO warranty.
 
 Usage:
   dpkg-addfile <filename> <section> <priority>
-Options:  -f<fileslistfile>      get files list from this file
+Options:  -f<fileslistfile>      write files here instead of debian/files
 ";
 }
 

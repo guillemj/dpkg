@@ -31,11 +31,15 @@ man8 = 8
 libdir = $(prefix)/lib
 dpkglibdir = $(libdir)/dpkg
 parsechangelogdir = $(dpkglibdir)/parsechangelog
+elispdir = $(libdir)/emacs/site-lisp
 etcdir= /etc
 altsetcdir = $(etcdir)/alternatives
 perlpath = @perlpath@
 
-MAN1 =  dpkg-name
+MAN1 =  dpkg-name dpkg-source
+LSMAN = dpkg-source.$(man1)
+LSMANL=	dpkg-gencontrol dpkg-genchanges dpkg-buildpackage \
+	dpkg-distaddfile dpkg-parsechangelog
 EXC =   dpkg-name dpkg-source dpkg-genchanges dpkg-gencontrol \
 	dpkg-buildpackage dpkg-parsechangelog dpkg-distaddfile
 MAN8 =	update-rc.d start-stop-daemon update-alternatives install-info \
@@ -43,7 +47,8 @@ MAN8 =	update-rc.d start-stop-daemon update-alternatives install-info \
 SBIN =	update-rc.d start-stop-daemon update-alternatives install-info \
 	dpkg-scanpackages dpkg-divert cleanup-info
 LIB =	controllib.pl
-CHGLGS = cl-dpkg
+ELISP =	dpkg-changelog-mode.el
+CHGLGS=	cl-dpkg
 
 INSTALL = @INSTALL@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -82,9 +87,11 @@ distclean:	clean
 install:	all
 		for f in $(EXC) ; do $(INSTALL_PROGRAM) $$f $(bindir)/$$f ; done
 		for f in $(MAN1) ; do $(INSTALL_DATA) $$f.1 $(man1dir)/$$f.$(man1) ; done
+		for f in $(LSMANL) ; do ln -s $(LSMAN) $(man1dir)/$$f.$(man1) ; done
 		for f in $(SBIN) ; do $(INSTALL_PROGRAM) $$f $(sbindir)/$$f ; done
 		for f in $(MAN8) ; do $(INSTALL_DATA) $$f.8 $(man8dir)/$$f.$(man8) ; done
-		for f in $(LIB) ; do $(INSTALL_DATA) $$f $(dpkglibdir)/$$f; done
+		for f in $(LIB) ; do $(INSTALL_DATA) $$f $(dpkglibdir)/$$f ; done
+		for f in $(ELISP) ; do $(INSTALL_DATA) $$f $(elispdir)/$$f ; done
 		for f in $(CHGLGS) ; do $(INSTALL_PROGRAM) $$f \
 			$(dpkglibdir)/parsechangelog/`echo $$f | sed -e 's/^cl-//'` ; \
 		done

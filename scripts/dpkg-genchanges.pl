@@ -30,13 +30,13 @@ Options:  -b                     binary-only build - no source files
           -f<fileslistfile>      get .deb files list from this file
           -v<sinceversion>       include all changes later than version
           -d<changesdescription> use change description from this file
-          -m<maintaineraddress>  override changelog's maintainer value
+          -m<maintainer>         override changelog's maintainer value
           -u<uploadfilesdir>     directory with files (default is \`..'
           -F<changelogformat>    force change log format
-          -D<field>=<value>      override or add a field and value
-          -U<field>              remove a field
           -V<name>=<value>       set a substitution variable
           -T<varlistfile>        read variables here, not debian/substvars
+          -D<field>=<value>      override or add a field and value
+          -U<field>              remove a field
 ";
 }
 

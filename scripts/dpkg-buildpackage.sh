@@ -36,7 +36,8 @@ do
 	-us)	signsource=: ;;
 	-uc)	signchanges=: ;;
 	-b|-B)	binaryonly=$1 ;;
-	*)	echo >&2 "$progname: unknown option or argument $1"; exit 2 ;;
+	*)	echo >&2 "$progname: unknown option or argument $1"
+		usageversion; exit 2 ;;
 	esac
 	shift
 done

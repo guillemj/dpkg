@@ -30,6 +30,7 @@ libdir = $(prefix)/lib
 dpkglibdir = $(libdir)/dpkg
 methodsdir = $(dpkglibdir)/methods
 parsechangelogdir = $(dpkglibdir)/parsechangelog
+elispdir = $(libdir)/emacs/site-lisp
 datadir = /var/lib/dpkg
 methodsdatadir = $(datadir)/methods
 methodsmnt = $(datadir)/methods/mnt
@@ -78,8 +79,9 @@ install:	all
 		$(BOURNESHELL) $(srcdir)/mkinstalldirs $(bindir) $(sbindir) \
 			$(man1dir) $(man5dir) $(man8dir) $(devdocdir) $(infodir) \
 			$(libdir) $(dpkglibdir) $(methodsdir) $(parsechangelogdir) \
-			$(datadir) $(pinfodir) $(pupdatesdir) $(methodsdatadir) \
-			$(methodsmnt) $(altsdatadir) $(altsetcdir) $(partsdir)
+			$(elispdir) $(datadir) $(pinfodir) $(pupdatesdir) \
+			$(methodsdatadir) $(methodsmnt) $(altsdatadir) \
+			$(altsetcdir) $(partsdir)
 		set -e; for d in $(SUBDIRS) ; do \
 			cd $$d ; \
 			$(MAKE) 'CC=$(CC)' 'LDFLAGS=$(LDFLAGS)' 'XLIBS=$(XLIBS)' \

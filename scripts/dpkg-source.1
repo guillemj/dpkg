@@ -1,0 +1,400 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" Authors: Ian Jackson
+.TH DPKG\-SOURCE 1 "7th Auguest" "Debian Project" "Debian GNU/Linux manual"
+.SH NAME 
+dpkg\-source, dpkg\-gencontrol, dpkg\-genchanges,
+dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog
+\- Debian source package tools
+.SH SYNOPSIS
+.B dpkg-source
+.BI "-x " filename .dsc
+.br
+.B dpkg-source -b
+.RI [ options "] " directory " [" orig-directory |'']
+.br
+.B dpkg-gencontrol
+.RI [ options ]
+.br
+.B dpkg-genchanges
+.RI [ options ]
+.br
+.B dpkg-buildpackage
+.RI [ options ]
+.br
+.B dpkg-distaddfile
+.RI [ options ] " filename section priority"
+.br
+.B dpkg-parsechangelog
+.RI [ options ]
+.SH DESCRIPTION
+.B dpkg-source
+packs and unpacks Debian source archives.
+
+.B dpkg-gencontrol
+reads information from an unpacked Debian source tree and generates a
+binary package control file on standard output; it also adds an entry
+for the binary package to
+.BR debian/files .
+
+.B dpkg-genchanges
+reads information from an unpacked and built Debian source tree and
+from the files it has generated and generates a Debian upload control
+file
+.RB ( .changes " file)."
+
+.B dpkg-buildpackage
+Is a control script which can be used to help automate the building of
+a package.
+
+.B dpkg-distaddfile
+adds an entry for a named file to
+.BR debian/files .
+
+.B dpkg-parsechangelog
+reads and parses the changelog of an unpacked Debian source tree and
+outputs the information in it to standard output in a machine-readable
+form.
+
+None of these commands allow multiple options to be combined into one,
+and they do not allow the value for an option to be specified in a
+separate argument.
+.SH COMMON OPTIONS
+Many of these programs share options; these are described here,
+together with the programs that accept them.
+.TP
+.BI -h
+Display the particular program's version and usage message, including
+a synopsis of the options it understands.  This option is understood
+by all the source package tools.
+.TP
+.BI -v version
+In
+.BR dpkg-genchanges " and " dpkg-parsechangelog
+this causes changelog information from all versions strictly later
+than
+.I version
+(which must appear in the changelog file) to be used.
+
+In
+.BR dpkg-gencontrol
+it sets the version number of the binary package which will be
+generated.
+.TP
+.BI -V name = value
+Set an output substitution variable.
+This option is understood by
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+See below for a discussion of output substitution.
+.TP
+.BI -T substvarsfile
+Read substitution variables from
+.IR substvarsfile ;
+the default is
+.BR debian/substvars .
+This option is understood by
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.TP
+.BI -D field = value
+Override or add an output control file field.
+This option is understood by
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.TP
+.BI -U field
+Remove an output control file field.
+This option is understood by
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.TP
+.BR -b | -B
+For
+.BR dpkg-genchanges " and " dpkg-buildpackage
+this specifies that a binary-only build is taking place.
+.B -b
+indicates that no source files are to be built and/or distributed, and
+.B -B
+that no architecture-independent binary package files are to be
+distributed either.
+
+.B -b
+tells
+.B dpkg-source
+to build a source package (rather than to extract one) - see below.
+.TP
+.BI -c controlfile
+Specifies the main source control file to read information from.  The
+default is
+.BR debian/control .
+This option is understood by
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.TP
+.BI -l changelogfile
+Specifies the change log file to read information from.  The
+default is
+.BR debian/changelog .
+This option is understood by
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.TP
+.BI -f fileslistfile
+Read or write the list of files to be uploaded here, rather than using
+.BR debian/files .
+This option is understood by
+.BR dpkg-gencontrol ", " dpkg-genchanges " and " dpkg-distaddfile .
+.TP
+.BI -F changelogformat
+Specifies the format of the changelog.  By default the format is read
+from a special line near the bottom of the changelog (see the
+programmers' manual) or failing that defaults to
+.BR dpkg .
+This option is understood by
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges .
+.SH DPKG-SOURCE OPTIONS
+.TP
+.B -x
+Extract a source package.  One non-option argument should be supplied,
+the name of the Debian source control file
+.RB ( .dsc ).
+No options are useful with
+.BR "dpkg-source -x" .
+.B dpkg-source
+will read the names of the other file(s) making up the source package
+from the control file; they are assumed to be in the same directory as
+the
+.BR .dsc .
+.TP
+.B -b
+Build: pack up a source tree.  One or two non-option arguments should
+be supplied.  The first is taken as the name of the directory
+containing the unpacked source tree.  If a second argument is supplied
+it should either be the name of the original source directory or the
+empty string if the package is a Debian-specific one and so has no
+Debianisation diffs.  If no second argument is supplied then
+.B dpkg-source
+will assume the directory
+.IB directory .orig
+if exists or the empty string (no original source, and so no diff) if
+it doesn't.
+.SH DPKG-GENCONTROL OPTIONS
+.B dpkg-gencontrol
+does not take any non-option arguments.
+.TP
+.BI -p package
+Generate information for the binary package
+.IR package .
+If the source control file lists several binary packages then this
+option may be omitted; otherwise it is essential to select which
+binary package's information to generate.
+.TP
+.BR -is ", " -ip ", " -isp
+Include the
+.BR Section " and " Priority
+fields for this package from the main source control file in the
+binary package control file being generated.  Usually this information
+is not included here, but only in the
+.B .changes
+file.
+.B -isp
+includes both fields,
+.BR -is " only the " Section " and " -ip " only the " Priority .
+.SH DPKG-GENCHANGES OPTIONS
+.B dpkg-gencontrol
+does not take any non-option arguments.
+.TP
+.BI -d changesdescription
+Read the description of the changes from the file
+.I changesdescription
+rather than using the information from the source tree's changelog
+file.
+.TP
+.BI -m maintaineraddress
+Use
+.I maintaineraddress
+as the name and email address of the maintainer for this upload,
+rather than using the information from the source tree's changelog.
+.TP
+.BI -u uploadfilesdir
+Look for the files to be uploaded in
+.I uploadfilesdir
+rather than
+.B ..
+.RB ( dpkg-genchanges
+needs to find these files so that it can include their sizes and
+checksums in the
+.B .changes
+file).
+.SH DPKG-BUILDPACKAGE OPTIONS
+.B dpkg-buildpackage
+does not take any non-option arguments.
+.TP
+.BI -r gain-root-command
+When
+.B dpkg-buildpackage
+needs to execute part of the build process as root, it prefixes the
+command it executes with
+.I gain-root-command
+if one has been specified.
+.I gain-root-command
+should be the name of a program on the
+.B PATH
+and will get as arguments the name of the real command to run and the
+arguments it should take.
+.I gain-root-command
+should not contain spaces or any other shell metacharacters.
+.TP
+.BI -p pgp-command
+When
+.B dpkg-buildpackage
+needs to execute PGP to sign a source control
+.RB ( .dsc )
+file or a
+.B .changes
+file it will run
+.I pgp-command
+(searching the
+.B PATH
+if necessary) instead of
+.BR pgp .
+.I pgp-command
+will get all the arguments that
+.B pgp
+would have done.
+.I pgp-command
+should not contain spaces or any other shell metacharacters.
+.TP
+.BR -us ", " -uc
+Do not PGP-sign the source package or the changelog, respectively.
+.SH DPKG-DISTADDFILE ARGUMENTS
+.B dpkg-distaddfile
+does not take any non-common options.  It takes three non-option
+arguments, the filename and the section and priority for the
+.B .changes
+file.
+
+The filename should be specified relative to the directory where
+.B dpkg-genchanges
+will expect to find the files, usually
+.BR .. ,
+rather than being a pathname relative to the current directory when
+.B dpkg-distaddfile
+is run.
+.SH DPKG-PARSECHANGELOG ARGUMENTS
+.B dpkg-parsechangelog
+does not take any non-common options or non-option arguments.
+.SH VARIABLE SUBSTITUTION
+Before
+.BR dpkg-source ", " dpkg-gencontrol " and " dpkg-genchanges
+write their control information (to the source control file
+.B .dsc
+for
+.B dpkg-source
+and to standard output for
+.BR dpkg-gencontrol " and " dpkg-genchanges )
+they perform some variable substitutions on the output file.
+
+A variable substitution has the form
+.BI ${ variable-name }\fR.
+Variable substitutions are performed repeatedly until none are left;
+the full text of the field after the substitution is rescanned to look
+for more substitutions.
+
+After all the substitutions have been done each occurence of the
+string
+.B ${}
+(which is not a legal substitution) is replaced with a
+.B $
+sign.
+
+Variables whose names consist entirely of alphanumerics can be set
+using the
+.B -V
+common option.
+
+They can be also specified in the file
+.B debian/substvars
+(or whatever other file is specified using the
+.B -T
+option).  This file consists of lines of the form
+.IB name = value
+(where
+.B name
+is a string of alphanumerics).  Trailing whitespace on each line,
+blank lines, and lines starting with a
+.B #
+symbol (comments) are ignored.
+
+Additionally, the following standard variables are available:
+.TP
+.BI arch
+The current build architecture (from
+.BR "dpkg \-\-print-architecture" ).
+.TP
+.B sourceversion
+The source package version (from the changelog file).
+.TP
+.BI f: fieldname
+The value of the output field
+.IR fieldname .
+.TP
+.B Format
+The
+.B .changes
+file format version generated by this version of the source packaging
+scripts.  If you set this variable the contents of the
+.B Format
+field in the
+.B .changes
+file will change too.
+.TP
+.BR newline ", " space ", " tab
+These variables each hold the corresponding character.
+.SH FILES
+.TP
+.B debian/control
+The main source control information file, giving version-independent
+information about the source package and the binary packages it can
+produce.
+.TP
+.B debian/changelog
+The changelog file, used to obtain version-dependent information about
+the source package, such as the urgency and distribution of an upload,
+the changes made since a particular release, and the source version
+number itself.
+.TP
+.B debian/files
+The list of generated files which are part of the upload being
+prepared.
+.B dpkg-gencontrol
+adds the presumed filenames of binary packages whose control files it
+generates here;
+.B dpkg-distaddfile
+can be used to add additional files.
+.B dpkg-genchanges
+reads the data here when producing a
+.B .changes
+file.
+.TP
+.B debian/substvars
+List of substitution variables and values.
+.SH BUGS
+The point at which field overriding occurs compared to certain
+standard output field settings is rather confused.
+
+The binary package entries in the 
+.B debian/files
+file will be passed through variable substitution twice.  This should
+not matter, since
+.BR $ ", " { " and " }
+are not legal in package names or version numbers.
+.SH SEE ALSO
+.B dpkg
+.IR "programmers' manual" ,
+.IR "Debian policy manual" ,
+.BR dpkg\-deb (8),
+.BR dpkg (8),
+.BR dselect (8).
+.SH AUTHOR
+The utilities and this manpage were written by Ian Jackson.  They are
+Copyright (C)1995-1996 by him and released under the GNU General
+Public Licence; there is NO WARRANTY.  See
+.B /usr/doc/copyright/dpkg
+and
+.B /usr/doc/copyright/GPL
+for details.
