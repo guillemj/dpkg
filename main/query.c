@@ -380,7 +380,7 @@ void showpackages(const char *const *argv) {
   struct pkginfo **pkgl;
   const char *thisarg;
   int np, i, found;
-  const struct lstitem* fmt = parseformat(showformat);
+  struct lstitem* fmt = parseformat(showformat);
 
   if (!fmt) {
     nerrs++;
