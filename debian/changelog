@@ -13,6 +13,20 @@ dpkg (1.7.0) unstable; urgency=low
 
  -- Wichert Akkerman <wakkerma@debian.org>  UNRELEASED
 
+dpkg (1.6.12.99) frozen unstable; urgency=low
+
+  * Pre-release for 1.6.13. which will only feature translation updates
+  * Fix typo in dpkg-divert, Closes: Bug#60243
+  * dpkg-genchanges: recognize non-deb packages (tarballs, such as
+    dpkg-non-deb and boot-floppies disk tarballs). This makes sure that we
+    include them when figuring out the Arch field in the .changes
+  * mark another string as translateable, Closes: Bug#62543
+  * fix location of --abort-after in --help output, Closes: Bug#62464
+  * fix allocation error in checkpath(), Closes: Bug#62364
+  * add Hold to list of desired package states in -l output, Closes: Bug#58765
+
+ -- Wichert Akkerman <wakkerma@debian.org>  Fri, 21 Apr 2000 11:52:59 +0200
+
 dpkg (1.6.12) frozen unstable; urgency=high
 
   * Fix test for gpg/pgp in dpkg-buildpackage. You can now build

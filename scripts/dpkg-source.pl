@@ -11,6 +11,7 @@ my $fn;
 $diff_ignore_default_regexp = '^.*~$|DEAD_JOE|(?:/CVS|/RCS|/.deps)(?:$|/.*$)';
 
 $sourcestyle = 'X';
+$dscformat = "1.0";
 
 use POSIX;
 use POSIX qw (:errno_h :signal_h);
@@ -58,8 +59,9 @@ General options: -h                  print this message
 
 $i = 100;
 grep ($fieldimps {$_} = $i--,
-      qw (Source Version Binary Maintainer Architecture Standards-Version
-          Build-Depends Build-Depends-Indep Build-Conflicts Build-Conflicts-Indep));
+      qw (Format Source Version Binary Maintainer Architecture
+      Standards-Version Build-Depends Build-Depends-Indep Build-Conflicts
+      Build-Conflicts-Indep));
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
@@ -114,6 +116,7 @@ if ($opmode eq 'build') {
     
     &parsechangelog;
     &parsecontrolfile;
+    $f{"Format"}=$dscformat;
 
     $archspecific=0;
     for $_ (keys %fi) {
@@ -485,6 +488,14 @@ if ($opmode eq 'build') {
         defined($fi{"S $f"}) ||
             &error("missing critical source control field $f");
     }
+
+    if (defined $fi{'S Format'}) {
+        $dscformat=$fi{'S format'};
+	$dscformat != "1.0" &&
+	    &error("Unsupported format of .dsc file");
+    }
+    $sourcepackage =~ m/[^.0-9]/ &&
+        &error("dsc format contains illegal character \`$&'");
 
     $sourcepackage= $fi{'S Source'};
     $sourcepackage =~ m/[^-+.0-9a-z]/ &&
