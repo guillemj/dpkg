@@ -74,7 +74,7 @@ Command:\n\
 \n\
 Options:\n\
   --showformat=<format>      Use alternative format for --show\n\
-  -D                         Enable debugging output
+  -D                         Enable debugging output\n\
   --old, --new               select archive format\n\
   --nocheck                  suppress control file check (build bad package).\n\
   -z# to set the compression when building\n\
