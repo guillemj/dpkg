@@ -30,7 +30,7 @@
 #define UNIQUE      4096
 
 union maxalign {
-  long l; long double d;
+  long l;
   void *pv; char *pc; union maxalign *ps; void (*pf)(void);
 };
 

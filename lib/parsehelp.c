@@ -206,7 +206,7 @@ const char *parseversion(struct versionrevision *rversion, const char *string) {
   rversion->version= nfstrsave(string);
   hyphen= strrchr(rversion->version,'-');
   if (hyphen) *hyphen++= 0;
-  rversion->revision= hyphen ? hyphen : nfstrsave("");
+  rversion->revision= hyphen ? hyphen : "";
   
   return 0;
 }
