@@ -127,7 +127,7 @@ for $_ (keys %fi) {
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
         if (m/^(Package|Description|Essential|Pre-Depends|Depends)$/ ||
-            m/^(Recommends|Suggests|Optional|Conflicts|Provides|Replaces)$/) {
+            m/^(Recommends|Suggests|Enhances|Optional|Conflicts|Provides|Replaces)$/) {
             $f{$_}= $v;
         } elsif (m/^Section$|^Priority$/) {
             $spvalue{$_}= $v;
