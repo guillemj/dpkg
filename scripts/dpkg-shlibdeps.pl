@@ -129,6 +129,15 @@ if ($searchdir =~ m,/,) {
 
 if ($#curshlibs >= 0) {
     PRELIB: for ($i=0;$i<=$#libname;$i++) {
+	if(scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i])
+	    || scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i])) {
+	    splice(@libname, $i, 1);
+	    splice(@libsoname, $i, 1);
+	    splice(@libf, $i, 1);
+	    splice(@libfiles, $i, 1);
+	    $i--;
+	    next PRELIB;
+	}
 	for my $shlibsfile (@curshlibs) {
 	    if(scanshlibsfile($shlibsfile, $libname[$i], $libsoname[$i], $libf[$i])) {
 		splice(@libname, $i, 1);
@@ -138,15 +147,6 @@ if ($#curshlibs >= 0) {
 		$i--;
 		next PRELIB;
 	    }
-	}
-	if(scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i])
-	    || scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i])) {
-	    splice(@libname, $i, 1);
-	    splice(@libsoname, $i, 1);
-	    splice(@libf, $i, 1);
-	    splice(@libfiles, $i, 1);
-	    $i--;
-	    next PRELIB;
 	}
     }
 }
