@@ -1,4 +1,5 @@
 # Return associative array of fields from control file $file.
+$vardir = $ARGV[0];
 sub slurp
 {
   local ($file) = @_;
@@ -27,9 +28,9 @@ sub slurp
   return %ci;
 }
 
-$file = "/var/lib/dpkg/methods/hd/hd.status";
+$file = "$vardir/methods/hd/hd.status";
 %info = slurp($file);
-$dpkg = "dpkg --auto --unpack --no-auto-select ";
+$dpkg = "dpkg --admindir $vardir --auto --unpack --no-auto-select ";
 $dpkg .= "--refuse downgrade --skip-same-version";
 
 system("$dpkg $info{'debdir'}");

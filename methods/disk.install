@@ -34,7 +34,7 @@ predep="$vardir/predep-package"
 while true
 do
 	set +e
-	dpkg --predep-package >"$predep"
+	dpkg --admindir "$vardir" --predep-package >"$predep"
 	rc=$?
 	set -e
 	if test $rc = 1; then break; fi
@@ -92,7 +92,7 @@ later, as that is listed in the Packages file.
 Perhaps you downloaded it with an unexpected name, or something.
 In any case, you must find the file(s) and then either place it with
 the correct filename(s) (as listed in the Packages file or in
-/var/lib/dpkg/available) and rerun the installation, or upgrade the
+$vardir/available) and rerun the installation, or upgrade the
 package by using `dpkg --install --auto-deconfigure'\'' by hand.
 
 ";
@@ -102,7 +102,7 @@ package by using `dpkg --install --auto-deconfigure'\'' by hand.
 			push(@invoke,$invoke);
 		}
 		print "Running dpkg -iB for $package ...\n";
-		exec("dpkg","-iB","--",@invoke);
+		exec("dpkg","--admindir",$vardir,"-iB","--",@invoke);
 		die "failed to exec dpkg: $!\n";
 	' -- "$p_mountpoint$p_main_binary" "$predep"
 done
@@ -111,8 +111,8 @@ for f in main ctb nf nus lcl
 do
 	eval 'this_binary=$p_'$f'_binary'
 	if [ -z "$this_binary" ]; then continue; fi
-	echo Running dpkg -iGROEB "$p_mountpoint$this_binary"
-	dpkg -iGROEB "$p_mountpoint$this_binary"
+	echo Running dpkg --admindir $vardir -iGROEB "$p_mountpoint$this_binary"
+	dpkg --admindir $vardir -iGROEB "$p_mountpoint$this_binary"
 done
 
 echo -n 'Installation OK.  Hit RETURN.  '

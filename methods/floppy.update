@@ -38,7 +38,7 @@ tryupdate () {
 		echo "$mountpoint/Packages does not exist.";
 		return
 	fi
-	if dpkg --merge-avail "$mountpoint/Packages"
+	if dpkg --admindir $vardir --merge-avail "$mountpoint/Packages"
 	then
 		success=1
 		echo '

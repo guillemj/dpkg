@@ -15,7 +15,7 @@
 #   You should have received a copy of the GNU General Public
 #   License along with this script; if not, write to the Free Software
 #   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-
+$vardir = $ARGV[0];
 print "Is the partition to install from mounted? [Y] ";
 $ans = <STDIN>;
 if ($ans =~ /^[Nn]/) {
@@ -68,7 +68,7 @@ if ($ans =~ /^[Nn]/) {
 
 # Assumedly, the drive is now mounted
 
-open (STATUS, ">/var/lib/dpkg/methods/hd/hd.status") || die "Can't open hd.status";
+open (STATUS, ">$vardir/methods/hd/hd.status") || die "Can't open hd.status";
 do {
 	print "What is the full path to the 'available' file?\n";
 	print "This file is found as Packages on the ftp site and CDROM";

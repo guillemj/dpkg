@@ -1,4 +1,5 @@
 # Return associative array of fields from control file $file.
+$vardir = $ARGV[0];
 sub slurp
 {
   local ($file) = @_;
@@ -27,10 +28,10 @@ sub slurp
   return %ci;
 }
 
-$file = "/var/lib/dpkg/methods/hd/hd.status";
+$file = "$vardir/methods/hd/hd.status";
 %info = slurp($file);
 open (IN, "<$info{'avail'}") || die "can't open $info{'avail'}";
-open (OUT, ">/var/lib/dpkg/available") || die "can't open /var/lib/dpkg/available";
+open (OUT, ">$vardir/available") || die "can't open $vardir/available";
 print OUT while (<IN>);
 close IN;
 close OUT;

@@ -31,7 +31,7 @@ trap '
 
 while [ -z "$goconfigure" ]
 do
-	yet="`dpkg --yet-to-unpack`"
+	yet="`dpkg --admindir $vardir --yet-to-unpack`"
 	if [ -z "$yet" ]
 	then
 		echo '
@@ -57,7 +57,7 @@ Insert a disk containing *.deb files, or type q to quit.  '
 		if mount -rt "$defaultfstype" "$defaultfloppy" "$mountpoint"
 		then
 			echo
-			dpkg --unpack -GROEB "$mountpoint" || true
+			dpkg --admindir $vardir --unpack -GROEB "$mountpoint" || true
 			umount "$defaultfloppy"
 		fi
 		umount=""
@@ -95,6 +95,6 @@ option on the dselect menu.
 	done
 fi
 
-dpkg --configure --pending
+dpkg --admindir $vardir --configure --pending
 
 xit=0

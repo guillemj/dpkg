@@ -56,11 +56,11 @@ do
 		if [ -z "$this_binary" ]; then continue; fi
 		if [ "$updatetype" = update ]
 		then
-			dpkg --clear-avail
+			dpkg --admindir $vardir --clear-avail
 			updatetype=merge
 		fi
 		echo Running dpkg --record-avail -R "$p_mountpoint$this_binary"
-		dpkg --record-avail -R "$p_mountpoint$this_binary"
+		dpkg --admindir $vardir --record-avail -R "$p_mountpoint$this_binary"
 		;;
 	*)
 		packagesfile="$p_mountpoint$this_packages"
@@ -69,13 +69,13 @@ do
 			echo -n "Uncompressing $packagesfile ... "
 			zcat <"$packagesfile" >packages-$f
 			echo done.
-			dpkg --$updatetype-avail packages-$f
+			dpkg --admindir $vardir --$updatetype-avail packages-$f
 			updatetype=merge
 			;;
 		'')
 			;;
 		*)
-			dpkg --$updatetype-avail "$packagesfile"
+			dpkg --admindir $vardir --$updatetype-avail "$packagesfile"
 			updatetype=merge
 			;;
 		esac
