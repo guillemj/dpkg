@@ -135,7 +135,7 @@ long buffer_write(buffer_data_t data, void *buf, long length, char *desc) {
       varbufaddbuf((struct varbuf *)data->data, buf, length);
       break;
     case BUFFER_WRITE_FD:
-      if((ret= write((int)data->data, buf, length)) < 0)
+      if((ret= write((int)data->data, buf, length)) < 0 && errno != EINTR)
 	ohshite(_("failed in buffer_write(fd) (%i, ret=%i, %s)"), (int)data->data, ret, desc);
       break;
     case BUFFER_WRITE_NULL:
@@ -157,7 +157,7 @@ long buffer_read(buffer_data_t data, void *buf, long length, char *desc) {
   long ret= length;
   switch(data->type) {
     case BUFFER_READ_FD:
-      if((ret= read((int)data->data, buf, length)) < 0)
+      if((ret= read((int)data->data, buf, length)) < 0 && errno != EINTR)
 	ohshite(_("failed in buffer_read(fd): %s"), desc);
       break;
     case BUFFER_READ_STREAM:
@@ -200,32 +200,45 @@ long buffer_copy_setup(void *argIn, int typeIn, void *procIn,
 
 
 long buffer_copy(buffer_data_t read_data, buffer_data_t write_data, long limit, char *desc) {
-  char *buf;
-  int count, bufsize= 32768;
-  long bytesread= 0;
-
+  char *buf, *writebuf;
+  long bytesread= 0, byteswritten= 0;
+  int bufsize= 32768;
+  long totalread= 0;
+  long totalwritten= 0;
   if((limit != -1) && (limit < bufsize)) bufsize= limit;
-  buf= malloc(bufsize);
-  if(buf== NULL) ohshite(_("failed to allocate buffer in do_fd_read (%s)"), desc);
+  writebuf= buf= malloc(bufsize);
+  if(buf== NULL) ohshite(_("failed to allocate buffer in buffer_copy (%s)"), desc);
 
-  while(bufsize) {
-    count= read_data->proc(read_data, buf, bufsize, desc);
-    if (count<0) {
+  while(bytesread >= 0 && byteswritten >= 0) {
+    bytesread= read_data->proc(read_data, buf, bufsize, desc);
+    if (bytesread<0) {
       if (errno==EINTR) continue;
       break;
     }
-    if (count==0)
+    if (bytesread==0)
       break;
 
-    bytesread+= count;
-    write_data->proc(write_data, buf, count, desc);
+    totalread+= bytesread;
     if(limit!=-1) {
-      limit-= count;
+      limit-= bytesread;
       if(limit<bufsize)
 	bufsize=limit;
     }
+    writebuf= buf;
+    while(bytesread) {
+      byteswritten= write_data->proc(write_data, writebuf, bytesread, desc);
+      if(byteswritten == -1) {
+	if(errno == EINTR) continue;
+	break;
+      }
+      if(byteswritten==0)
+	break;
+      bytesread-= byteswritten;
+      totalwritten+= byteswritten;
+      writebuf+= byteswritten;
+    }
   }
-  if (count<0) ohshite(_("failed in do_fd_read on read (%s)"), desc);
+  if (bytesread<0 || byteswritten<0) ohshite(_("failed in buffer_copy (%s)"), desc);
 
   free(buf);
   return bytesread;
