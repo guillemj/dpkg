@@ -131,9 +131,9 @@ void w_status(struct varbuf *vb,
               const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
               const struct fieldinfo *fip) {
   if (pifp != &pigp->installed) return;
-  assert(pigp->want <= want_purge &&
-         pigp->eflag <= eflagv_reinstreq && /* hold and hold-reinstreq NOT allowed */
-         pigp->status <= stat_configfiles);
+  assert(pigp->want <= want_purge);
+  assert(pigp->eflag <= eflagv_reinstreq); /* hold and hold-reinstreq NOT allowed */
+  assert(pigp->status <= stat_configfiles);
   varbufaddstr(vb,"Status: ");
   varbufaddstr(vb,wantinfos[pigp->want].name); varbufaddc(vb,' ');
   varbufaddstr(vb,eflaginfos[pigp->eflag].name); varbufaddc(vb,' ');
