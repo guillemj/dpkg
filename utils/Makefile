@@ -1,0 +1,80 @@
+
+
+srcdir		= .
+top_srcdir	= ..
+
+default: all
+include ../Makefile.conf
+
+CFLAGS			+= -I$(top_srcdir)/optlib
+
+SSD_SOURCES		= start-stop-daemon.c
+SSD_OBJECTS		= $(patsubst %.c, %.o, $(SSD_SOURCES))
+SSD_MANPAGES		= start-stop-daemon.8
+
+MD5_SOURCES		= md5sum.c
+MD5_OBJECTS		= $(patsubst %.c, %.o, $(MD5_SOURCES))
+MD5_MANPAGES		= md5sum.1
+
+ENOENT_SOURCES		= enoent.c
+ENOENT_OBJECTS		= $(patsubst %.c, %.o, $(ENOENT_SOURCES))
+
+GENFILES		= $(MD5_OBJECTS) md5sum md5sum-static $(ENOENT_OBJECTS) enoent
+ifeq (true, true)
+GENFILES		+= $(SSD_OBJECTS) start-stop-daemon
+endif
+
+.PHONY: all
+ifeq (true, true)
+all:: start-stop-daemon md5sum enoent
+else
+all:: md5sum enoent
+endif
+
+.PHONY: install
+install:: all
+ifdef ALSO_STATIC
+all:: md5sum-static
+endif
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+.PHONY: distclean
+cvslean:: clean
+	$(RM) Makefile confdefs.h config.log
+
+.PHONY: install
+install:: install-program install-doc
+
+.PHONY: install-program
+install-program:
+ifeq (true, true)
+	$(mkinstalldirs) $(DESTDIR)/$(sbindir)
+	$(INSTALL_PROGRAM) start-stop-daemon $(DESTDIR)/$(sbindir)
+endif
+	$(mkinstalldirs) $(DESTDIR)/$(bindir)
+	$(INSTALL_PROGRAM) md5sum $(DESTDIR)/$(bindir)
+ifdef ALSO_STATIC
+	$(INSTALL_PROGRAM) md5sum-static $(DESTDIR)/$(bindir)
+endif
+	$(mkinstalldirs) $(DESTDIR)/$(dpkglibdir)
+	$(INSTALL_PROGRAM) enoent $(DESTDIR)/$(dpkglibdir)
+
+.PHONY: install-doc
+install-doc:
+ifeq (true, true)
+	$(mkinstalldirs) $(DESTDIR)/$(man8dir)
+	$(INSTALL_DATA) $(srcdir)/$(SSD_MANPAGES) $(DESTDIR)/$(man8dir)
+endif
+	$(mkinstalldirs) $(DESTDIR)/$(man1dir)
+	$(INSTALL_DATA) $(srcdir)/$(MD5_MANPAGES) $(DESTDIR)/$(man1dir)
+
+start-stop-daemon: $(SSD_OBJECTS) ../lib/libdpkg.a
+	$(CC) $(LDFLAGS) -o $@ $(SSD_OBJECTS) $(LIBS) $(SSD_LIBS)
+
+md5sum-static: LDFLAGS += -static
+md5sum-static: ZLIB_LIBS = $(ZLIBS_LIBS_ALSO_STATIC)
+md5sum md5sum-static: $(MD5_OBJECTS) ../lib/libdpkg.a
+	$(CC) $(LDFLAGS) -o $@ $(MD5_OBJECTS) $(LIBS) $(NLS_LIBS)

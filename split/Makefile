@@ -1,0 +1,48 @@
+
+
+srcdir		= .
+top_srcdir	= ..
+
+default: all
+include ../Makefile.conf
+
+SPLIT_SOURCES		= queue.c split.c info.c join.c main.c
+SPLIT_OBJECTS		= $(patsubst %.c, %.o, $(SPLIT_SOURCES))
+
+GENFILES		= $(SPLIT_OBJECTS) dpkg-split
+
+.PHONY: all
+all:: dpkg-split
+
+.PHONY: install
+install:: all
+
+.PHONY: clean
+clean::
+	$(RM) $(GENFILES)
+
+.PHONY: distclean
+cvslean:: clean
+	$(RM) Makefile
+
+.PHONY: install
+install:: install-program install-doc
+
+.PHONY: install-program
+install-program:
+	$(mkinstalldirs) $(DESTDIR)/$(bindir)
+	$(INSTALL) dpkg-split $(DESTDIR)$(bindir)
+	$(mkinstalldirs) $(DESTDIR)/$(admindir)/parts
+	$(mkinstalldirs) $(DESTDIR)/$(dpkglibdir)
+	$(INSTALL) $(srcdir)/mksplit.pl $(DESTDIR)/$(dpkglibdir)/mksplit
+
+.PHONY: install-doc
+install-doc:
+	$(mkinstalldirs) $(DESTDIR)/$(man8dir)
+	$(INSTALL_DATA) $(srcdir)/dpkg-split.8 $(DESTDIR)/$(man8dir)
+
+dpkg-split: $(SPLIT_OBJECTS) 
+	$(CC) $(LDFLAGS) -o $@ $(SPLIT_OBJECTS) $(LIBS) $(NLS_LIBS)
+
+split.o: split.c
+	$(CC) $(ALL_CFLAGS) -DMKSPLITSCRIPT=\"$(dpkglibdir)/mksplit\" -c $<

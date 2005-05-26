@@ -1,0 +1,25 @@
+
+
+srcdir		= .
+
+GENFILES	= dpkg.h
+
+default: all
+include ../Makefile.conf
+
+all:: $(GENFILES)
+	
+install:: all
+
+clean::
+	rm -f $(GENFILES) 
+
+cvslean:: clean
+	rm -f Makefile
+
+dpkg.h: dpkg.h.in
+	sed -e 's,#CONFIGDIR#,$(dpkgconfdir),' \
+		-e 's,#ADMINDIR#,$(admindir),' \
+		-e 's,#LIBDIR#,$(dpkglibdir),' $< > $@
+
+.PHONY: all install clean distclean
