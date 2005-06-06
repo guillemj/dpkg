@@ -188,7 +188,7 @@ if ($opmode eq 'build') {
                 $f{$_}= $v;
             } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
                      m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/i ||
-                     m/^(Description|Section|Priority)$/i ||
+                     m/^(Enhances|Description|Section|Priority)$/i ||
                      m/^X[CS]+-/i) {
             } else {
                 &unknown("package's section of control info file");

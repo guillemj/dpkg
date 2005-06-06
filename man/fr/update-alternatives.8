@@ -12,24 +12,51 @@
 update\-alternatives \- maintenance des liens symboliques déterminant les 
 noms par défaut de certaines commandes
 .SH SYNOPSIS
-\fBupdate\-alternatives\fR [\fIoptions\fR] \fB\-\-install\fR \fIlien nom chemin 
-priorité\fR [\fB\-\-slave\fR \fIlien nom\fR \fIchemin\fR]...
+.B update\-alternatives
+.RI [ options ]
+.B \-\-install
+.I gen lien altern priorité
+.RB [ \-\-slave
+.IR altern ]...
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-remove\fR \fInom chemin
+.B update\-alternatives
+.RI [ options ]
+.B \-\-remove
+.I nom chemin
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-remove-all\fR \fInom
+.B update\-alternatives
+.RI [ options ]
+.B \-\-remove\-all
+.I nom
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-all
+.B update\-alternatives
+.RI [ options ]
+.B \-\-all
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-auto\fR \fInom
+.B update\-alternatives
+.RI [ options ]
+.B \-\-auto
+.I nom
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-display\fR \fInom
+.B update\-alternatives
+.RI [ options ]
+.B \-\-display
+.I nom
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-list\fR \fInom
+.B update\-alternatives
+.RI [ options ]
+.B \-\-list
+.I nome
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-config\fR \fInom
+.B update\-alternatives
+.RI [ options ]
+.B \-\-config
+.I nom
 .PP
-.B update\-alternatives\fR [\fIoptions\fR] \fB\-\-set\fR \fInom chemin
+.B update\-alternatives
+.RI [ options ]
+.B \-\-set
+.I nom chemin
 .SH DESCRIPTION
 \fBupdate\-alternatives\fR crée, enlève, conserve et affiche des informations 
 concernant les liens symboliques qui forment le système Debian des «\ 
@@ -91,12 +118,14 @@ automatique du système, \fBupdate\-alternatives\fR le remarquera la prochaine
 fois qu'il sera lancé pour ce groupe aux liens modifiés et il fera passer ce 
 groupe en mode manuel.
 .PP
-À chaque alternative est associée une \fIpriorité.\fR Quand un groupe de liens 
+À chaque alternative est associée une \fIpriorité\fR. Quand un groupe de liens 
 est en mode automatique, l'alternative visée par les éléments du groupe est 
 celle qui possède la priorité la plus élevée.
 .PP
 Quand on utilise l'option \fI\-\-config,\fR \fBupdate\-alternatives\fR affiche 
 toutes les possibilités du groupe pour lequel \fInom\fR est le lien principal.  
+Le choix actuel est noté par un «\ *\ » et le choix avec la plus haute priorité,
+par un «\ +\ »
 On vous demandera alors quelle possibilité vous choisissez pour ce groupe.  
 Dès qu'une modification est faite, le groupe de liens n'est plus en mode 
 \fIauto.\fR Il vous faudra utiliser l'option \fI\-\-auto\fR pour revenir au mode 
@@ -212,13 +241,14 @@ défaut.
 .\" The names of the arguments should be identical with the ones
 .\" in SYNOPSIS section.
 .TP
+\fB\-\-install\fR \fIgen lien altern priorité\fR [\fB\-\-slave\fR \fIgen lien altern\fR] ...
 \fB\-\-install\fR \fIlien gen chemin pri\fR [\fB\-\-slave\fR \fIslien sgen schemin\fR] ...
 Ajoute un groupe d'alternatives au système. \fIgen\fR est le nom générique du 
-lien principal, \fIlien\fR est le nom de son lien symbolique, et \fIchemin\fR est 
-l'alternative présentée pour le lien principal. \fIsgen\fR, \fIslien\fR et 
-\fIschemin\fR sont les nom générique, lien symbolique et alternative pour un 
-lien secondaire.  On peut indiquer zéro ou plusieurs options \fB\-\-slave\fR 
-chacune suivie par trois arguments.
+lien principal, \fIlien\fR est le nom de son lien symbolique, et \fIaltern\fR est 
+l'alternative présentée pour le lien principal. Les arguments après \fB\-\-slave\fR
+sont les nom générique, le lien symbolique dans le répertoire des alternatives
+et l'alternative pour un lien secondaire.  On peut indiquer zéro ou plusieurs options 
+\fB\-\-slave\fR chacune suivie par trois arguments.
 .IP
 Quand le lien principal spécifié existe déjà dans les enregistrements du 
 système des «\ alternatives\ », les renseignements fournies sont ajoutées 
@@ -316,6 +346,5 @@ tous les systèmes Debian.
 .SH "VOIR AUSSI"
 \fBln\fR(1), FHS, le standard pour l'organisation des systèmes de fichiers.
 .SH TRADUCTION
-Philippe Batailler, 2004.
+Philippe Batailler, 2005.
 Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
-dpkg, version 1.10.23.

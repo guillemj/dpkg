@@ -26,8 +26,8 @@ par Dpkg.
 la liste des détournements. Il possède trois modes élémentaires - l'ajout, 
 la suppression et le listage d'un détournement. Les options sont 
 respectivement \-\-add, \-\-remove, et \-\-list. De plus, il peut afficher 
-le vrai nom d'un fichier détourné. On peut indiquer d'autres options (voyez 
-la liste ci-dessous).
+le vrai nom d'un fichier détourné avec \-\-truename.. On peut indiquer d'autres options 
+(voyez la liste ci-dessous).
 .SH OPTIONS
 .TP
 .I \-\-admindir <répertoire>
@@ -73,6 +73,24 @@ embarqué dans la bibliothèque. ldconfig ne connaît pas les détournements
 (seul dpkg le fait), et si une bibliothèque détournée possède le même SONAME 
 que la bibliothèque non détournée, le lien symbolique peut pointer en fin de 
 compte sur la bibliothèque détournée.
+.SH EXAMPLES
+Pour détourner toutes les copies de \fI/usr/bin/example.foo\fR vers
+\fI/usr/bin/example\fR, il faut modifier le nom si c'est demandé\ :
+.HP
+dpkg-divert --divert /usr/bin/example --rename /usr/bin/example.foo
+.PP
+Pour supprimer ce détournement\ :
+.HP
+dpkg-divert --rename --remove /usr/bin/example.foo
+.PP
+Pour détourner un paquet qui veut installer \fI/usr/bin/example\fR
+dans \fI/usr/bin/example.foo\fR, sauf votre propre paquet \fIwibble\fR\:
+.HP
+dpkg-divert --package wibble --divert /usr/bin/example.foo --rename /usr/bin/example
+.PP
+Pour supprimer ce ce détournement\ :
+.HP
+dpkg-divert --package wibble --rename --remove /usr/bin/example
 .SH FICHIERS
 .TP
 .I /var/lib/dpkg/diversions
@@ -90,6 +108,5 @@ Copyright (C) 1995 Ian Jackson.
 C'est un logiciel libre ; voyez la « GNU General Public Licence » version 2 
 ou supérieure pour le copyright. Il n'y a PAS de garantie.
 .SH TRADUCTION
-Philippe Batailler, 2004.
+Philippe Batailler, 2005.
 Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
-dpkg, version 1.10.23.

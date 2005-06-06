@@ -1,6 +1,32 @@
+dpkg (1.13.5) experimental; urgency=low
+  
+  The "Flatulent Elm of West Ruislip" Release.
+
+  * Actions and package states are now logged by default in the
+    /var/log/dpkg.log file.  This file is rotated monthly and can be
+    disabled by commenting the line in /etc/dpkg/dpkg.cfg.
+  * User decisions about conffiles are now logged.
+  * dpkg-source no longer complains about Enhances field.  Closes: #159642,
+    #159745, #159746.
+  * preinst no longer relies on procps being installed.  Closes: #311808.
+
+  * Architecture Support:
+    - Change DEB_*_GNU_CPU from i386 to i486, to reflect reality.
+      DEB_*_ARCH_CPU remains at i386, you should be checking against that.
+      Closes: #310394.
+    - Fixed order ostable is read to prevent Linux becoming the Hurd.
+      Closes: #309603.
+  * Updated Manpage Translations (Christian Perrier):
+    - Syntax error corrected in Swedish man page for dpkg-deb.
+      Closes: #300980.
+    - Syntax error corrected in Spanish man page for dpkg-scanpackages.
+      Closes: #300981
+
+ -- Scott James Remnant <scott@netsplit.com>  Mon,  6 Jun 2005 05:34:21 +0100
+
 dpkg (1.13.4) experimental; urgency=low
   
-  The "Or the Wabbit gets it" Release
+  The "Or the Wabbit gets it" Release.
 
   * Add -L option to dpkg-architecture to list architecture strings
     we can accept.
@@ -131,9 +157,28 @@ dpkg (1.13.0) experimental; urgency=low
   * Remove SGML and POD documentation formats due to both licensing and
     sanity issues.  Closes: #285806.
   * The dpkg-doc and dpkg-static packages are no more.
-  * dpkg.cfg cleaned up to remove non-useful examples.  Closes: #169618.
+  * dpkg.cfg cleaned up to remove non-useful examples.
+    Closes: #169618, #305192.
   
  -- Scott James Remnant <scott@netsplit.com>  Fri, 14 Jan 2005 19:28:00 +0000
+
+dpkg (1.10.28) unstable; urgency=low
+  
+  The "Awh, yeah?  Ripper!" Release.
+
+  * New Translations (Christian Perrier):
+    - Romanian (Eddy Petrisor).  Closes: #309714.
+    - Tagalog (Eric Pareja).  Closes: #296407.
+  * Updated Translations (Christian Perrier):
+    - French (Christian Perrier).
+    - Greek (Konstantinos Margaritis).  Closes: #295922
+    - Indonesian (Arief S Fitrianto).  Closes: #296733
+  * Updated Manpage Translations (Christian Perrier):
+    - French (Philippe Batailler).
+    - Syntax error corrected in Brazilian Portuguese man page for
+      update-alternatives.  Closes: #300646
+
+ -- Scott James Remnant <scott@netsplit.com>  Thu, 26 May 2005 18:18:10 +0100
 
 dpkg (1.10.27) unstable; urgency=low
 

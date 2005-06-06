@@ -2,7 +2,7 @@
 .\" 
 .TH DPKG 1 "12 avril 1998" "Projet Debian" "suite dpkg"
 .SH NOM
-dpkg \- un gestionnaire de paquet de niveau intermédiaire pour Debian
+dpkg \- un gestionnaire de paquet pour Debian
 
 .SH SYNOPSIS
 .B dpkg\fR [\fIoptions\fR] \fIaction
@@ -17,11 +17,11 @@ leur paquet \fIne doivent pas\fR l'utiliser. Les descriptions concernant
 l'installation ou la désinstallation des paquets sont très insuffisantes.
 
 .SH DESCRIPTION
-\fBdpkg\fR est un outil de niveau intermédiaire pour l'installation, la 
+\fBdpkg\fR est un outil pour l'installation, la 
 création, la suppression et la gestion des paquets Debian.  \fBDselect\fR(8) 
 est la principale interface à \fBdpkg\fR et la plus agréable à l'utilisateur.  
 \fBdpkg\fR lui-même est entièrement contrôlé par des paramètres sur la ligne de 
-commande, laquelle comporte exactement une action et zéro ou plusieurs 
+commande. Une commande comporte exactement une action et zéro ou plusieurs 
 options. Le paramètre « action » dit ce que \fBdpkg\fR doit faire et les 
 options modifient l'action d'une manière ou d'une autre.
 
@@ -207,28 +207,24 @@ Efface les renseignements existants sur les paquets disponibles.
 Recherche les paquets qui n'ont été que partiellement installés sur le 
 système. \fBdpkg\fR suggère une manière de les faire fonctionner.
 .TP
-\fBdpkg \-\-get\-selections\fR [\fImotif\fR...]
+\fBdpkg \-\-get\-selections\fR [\fIpaquet-nom-motif\fR...]
 Obtient la liste des sélections des paquets, et l'envoie sur la sortie 
 standard.
 .TP
 .B dpkg \-\-set\-selections
 modifie la liste des sélections des paquets en lisant un fichier sur 
-l'entrée standard.
+l'entrée standard. Le format de ce fichier doit être de la forme
+'<paquet> <état>', où état vaut «\ install\ », «\ hold\ », «\ deinstall\ » 
+ou «\ purge\ ». Les lignes vides ou les lignes de commentaires débutant par
+«\ #\ » sont autorisées.
+
 .TP
 .B dpkg \-\-yet\-to\-unpack
 Recherche les paquets qui ont été sélectionnés pour l'installation, mais qui 
 pour une raison quelconque, ne sont pas encore installés.
 .TP
 .B dpkg \-\-print\-architecture
-Affiche l'architecture cible (par exemple, « i386 »). Cette option utilise 
-\fBgcc\fR.
-.TP
-.B dpkg \-\-print\-gnu\-build\-architecture
-Affiche la version «\ GNU\ » de l'architecture cible (par exemple, «\ i486\ 
-»).
-.TP
-.B dpkg \-\-print\-installation\-architecture
-Affiche l'architecture de l'hôte.
+Affiche l'architecture des paquets installés (par exemple, « i386 »). 
 .TP
 .B dpkg \-\-compare\-versions \fIver1 op ver2\fR
 Compare des numéros de version, où \fIop\fR est un opérateur binaire. \fBdpkg\fR 
@@ -330,10 +326,10 @@ Quand un paquet est supprimé, il peut arriver qu'un paquet installé
 dépendait du paquet supprimé. En spécifiant cette option, on obtient la 
 déconfiguration automatique du paquet qui dépendait du paquet supprimé.
 .TP
-.B \-D\fR\fIoctal\fR | \fB\-\-debug=\fR\fIoctal
+\fB\-D\fIoctal\fP | \fB\-\-debug=\fP\fIoctal\fP
 Demande de débogage. \fIoctal\fR est formé en faisant un « ou » logique entre 
 des valeurs souhaitées appartenant à la liste ci-dessous (notez que ces 
-valeurs pourront changer dans de prochaines versions).  \fB\-Dh\fR or 
+valeurs pourront changer dans les prochaines versions).  \fB\-Dh\fR ou 
 \fB\-\-debug=help\fR affiche ces valeurs de débogage.
 
  nombre  description
@@ -498,6 +494,17 @@ Cette action envoie des informations sur l'état d'un paquet au descripteur
 de fichier \fI<n>\fR. On peut répéter l'opération plusieurs fois. La 
 mise à jour d'un état est de la forme\ : «\ status: <pkg>: <pkg 
 qstate>\ ».
+Une erreur est signalée sous la forme : <pkg>: error: extend-error-message'.
+Un conflit avec un fichier de configuration est signalé sous la forme :
+`status: conffile-prompt: conffile : 'current-conffile' 'new-conffile' useredited distedited'
+.TP
+\fB\-\-log=\fP\fIfichier\fP
+Enregistre la modification de l'état, la mise à jour ou l'action sur \fIfichier\fP.
+Peut être répété. Les messages d'enregistrement sont de la forme
+AAAA-MM-JJ HH:MM:SS status <état> <paquet> <version-installée> pour les 
+modifications d'état et les mises à jour. Pour une action, où \fI<action>\fP
+est «\ install\ », «\ upgrade\ », «\ remove\ » ou «\ purge\ », le message est de
+la forme AAAA-MM-JJ HH:MM:SS <action> <paquet> <version-installée> <version-disponible>.
 .SH FICHIERS
 .TP
 .I /etc/dpkg/dpkg.cfg
@@ -629,6 +636,6 @@ Voyez le fichier \fB/usr/share/doc/dpkg/THANKS.gz\fR pour la
 liste des personnes qui ont contribué à \fBdpkg\fR.
 .fi
 .SH TRADUCTION
-Philippe Batailler, 2004.
+Philippe Batailler, 2005.
 Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
-dpkg, version 1.10.23.
+

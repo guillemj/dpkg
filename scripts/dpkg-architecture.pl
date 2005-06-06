@@ -109,16 +109,16 @@ sub gnu_to_debian {
     local ($a);
 
     local ($gnu_cpu, $gnu_os) = &split_gnu($gnu);
-    foreach $a (keys %cputable_re) {
-	if ($gnu_cpu =~ /^$cputable_re{$a}$/) {
-	    $cpu = $a;
+    foreach $_cpu (@cpu) {
+	if ($gnu_cpu =~ /^$cputable_re{$_cpu}$/) {
+	    $cpu = $_cpu;
 	    last;
 	}
     }
 
-    foreach $a (keys %ostable_re) {
-	if ($gnu_os =~ /^(.*-)?$ostable_re{$a}$/) {
-	    $os = $a;
+    foreach $_os (@os) {
+	if ($gnu_os =~ /^(.*-)?$ostable_re{$_os}$/) {
+	    $os = $_os;
 	    last;
 	}
     }

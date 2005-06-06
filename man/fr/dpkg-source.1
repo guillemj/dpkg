@@ -9,7 +9,7 @@ Debian pour les paquets source.
 .SH SYNOPSIS
 .B dpkg\-source\fR \fB-x \fR\fIfichier.dsc
 .br
-\fBdpkg\-source \-b\fR [\fIoptions\fR] \fIrépertoire\fR [\fIrépertoire-d'origine\fR|'']
+\fBdpkg\-source \-b\fR [\fIoptions\fR] \fIrépertoire\fR [\fIrépertoire-d'origine\fR | orig-targz |'']
 .br
 \fBdpkg\-gencontrol\fR [\fIoptions\fR]
 .br
@@ -40,8 +40,8 @@ envers les bibliothèques partagées dans les fichiers suivants\ :
 \fBdebian/shlibs.local\fR, \fB/etc/dpkg/shlibs.override\fR, le fichier \fBshlibs\fR, 
 (fichier du paquet contenant un fichier qui, selon \fBobjdump,\fR satisfait au 
 système de dépendance envers les bibliothèques) ou bien 
-\fB/etc/dpkg/shlibs.default.\fR Le premier trouvé est utilisé. Voyez le 
-\fIDebian packaging manual\fR pour des précisions sur le format des fichiers 
+\fB/etc/dpkg/shlibs.default.\fR Le premier trouvé est utilisé. Voyez  
+.BR dpkg-shlibdeps 1 pour des précisions sur le format des fichiers 
 qui traitent des dépendances envers les bibliothèques partagées.
 
 \fBdpkg\-genchanges\fR lit les informations à la fois dans une arborescence 
@@ -166,10 +166,9 @@ fichier \fIfichier/liste-des-fichiers,\fR plutôt que dans le fichier
 .TP
 .BI \-F format-du-changelog
 Donne le format du fichier changelog. Par défaut, c'est une ligne spéciale, 
-près de la fin du fichier, qui l'indique (voyez le Debian packaging manual)\ 
-; sinon, on utilise le format classique \fBdebian,\fR décrit dans le \fIDebian 
-packaging manual\fR. \fBdpkg\-source\fR, \fBdpkg\-gencontrol\fR et 
-\fBdpkg\-genchanges\fR acceptent cette option.
+près de la fin du fichier, qui l'indique\ ; sinon, on utilise le format 
+classique \fBdebian\fR.
+.BR dpkg\-source", " dpkg\-gencontrol "et" dpkg\-genchanges acceptent cette option.
 .TP
 .BI \-W
 Cette option transforme certaines erreurs en avertissements. Seul 
@@ -579,10 +578,6 @@ On devrait pouvoir mettre des espaces et des métacaractères du shell dans
 les arguments initiaux de \fIcommande-pour-obtenir-privilèges-de-root\fR et 
 \fIcommande-de-signature\fR.
 .SH "VOIR AUSSI"
-\fIDebian packaging manual\fR,
-.br
-\fIDebian policy manual\fR,
-.br
 \fBdpkg\-deb\fR(1), \fBdpkg\fR(8), \fBdselect\fR(8), \fBgpg\fR(1), \fBpgp\fR(1).
 .SH AUTEUR
 Ces outils et cette page de manuel ont été écrits par Ian Jackson.
@@ -596,6 +591,5 @@ C'est un logiciel libre\ ; voyez la «\ GNU General Public Licence\ » version
 \fB/usr/share/doc/dpkg/copyright\fR et \fB/usr/share/common-licenses/GPL\fR pour 
 des précisions.
 .SH TRADUCTION
-Philippe Batailler, 2004.
+Philippe Batailler, 2005.
 Veuillez signaler toute erreur à <debian-l10-french@lists.debian.org>.
-dpkg, version 1.10.23.

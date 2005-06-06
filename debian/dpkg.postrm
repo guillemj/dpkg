@@ -27,11 +27,18 @@
 #	<new-postrm> abort-upgrade <old-version>
 
 
+# Remove log file when dpkg is purged
+remove_logfile() {
+    rm -f /var/log/dpkg.log /var/log/dpkg.log.* 2>/dev/null
+}
+
+
 case "$1" in
     remove)
 	;;
 
     purge)
+	remove_logfile
 	;;
 
     upgrade|failed-upgrade|disappear|abort-install|abort-upgrade)

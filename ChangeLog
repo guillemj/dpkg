@@ -1,4 +1,75 @@
+2005-06-06  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Release 1.13.5.
+
+2005-06-06  Philippe Batailler  <philippe.batailler@free.fr>
+
+	* man/fr/*: All french man pages updated
+
+2005-06-06  Christian Perrier  <bubulle@debian.org>
+
+	* man/pt_BR/update-alternatives.8: Syntax error corrected.
+
+2005-06-06  Kevin Ryde  <user42@zip.com.au>
+
+	* man/sv/dpkg-deb.1: Syntax error corrected.
+	* man/es/dpkg-scanpackages.1: Syntax error corrected.
+
+2005-06-06  Scott James Remnant  <scott@netsplit.com>
+
+	* src/configure.c (promptconfaction): Record user's decision about
+	a conffile in the log file as either "install" or "keep".
+	* man/C/dpkg.1: Document the conffile output that'll appear in the
+	log file.
+
+	* debian/dpkg.cfg: Create a log-file by default.
+	* debian/dpkg.logrotate: Include a logrotate file for the log.
+	* debian/dpkg.install: Install the debian/dpkg.logrotate file as
+	/etc/logrotate.d/dpkg
+	* Makefile.am (EXTRA_DIST): Ship the debian/dpkg.logrotate file.
+	* debian/dpkg.preinst (create_logfile): Create a log file with
+	the default permissions.
+	* debian/dpkg.postrm (remove_logfile): Remove log files when dpkg
+	is purged (not that it will happen, but it pays to be compliant).
+	
+	* debian/dpkg.preinst (confirm_dselect_split): Only check process
+	list for dselect if ps is installed; this should be the case during
+	upgrades anyway.
+
+	* debian/dpkg.prerm (undivert_md5sum): Remove md5sum diversion
+	when the package is removed or downgraded to a version where
+	we supplied our own md5sum.
+	* debian/dpkg.postinst (divert_md5sum): Divert md5sum as long as
+	there isn't one, don't explicitly check for the textutils file
+	being there as it may be installed afterwards.
+
+2005-05-26  Scott James Remnant  <scott@netsplit.com>
+
+	* debian/control (Maintainer): I'm going to officially take blame for
+	this package Ian-style, we'll keep bugs going to the list using the
+	PTS instead.
+
+2005-05-25  Scott James Remnant  <scott@netsplit.com>
+
+	* scripts/dpkg-source.pl: Recognise Enhances in the package's
+	section of control files.
+
+2005-05-23  Scott James Remnant  <scott@netsplit.com>
+
+	* cputable: Change GNU name of the i386 CPU to i486, to reflect
+	reality.
+	* debian/archtable: Update first field of i386 and hurd-i386 to
+	use i486 as the CPU name.
+
+2005-04-03  Scott James Remnant  <scott@netsplit.com>
+
+	* scripts/dpkg-architecture.pl (gnu_to_debian): Check cputable
+	and ostable in file order.
+	* ostable: Place hurd at the bottom so it's checked last.
+
 2005-03-29  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Bump version to 1.13.5~.
 
 	* configure.ac: Release 1.13.4.
 

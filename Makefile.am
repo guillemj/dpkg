@@ -38,6 +38,7 @@ EXTRA_DIST = \
 	debian/dpkg.postrm \
 	debian/dpkg.preinst \
 	debian/dpkg.prerm \
+	debian/dpkg.logrotate \
 	debian/dselect.cfg \
 	debian/dselect.install \
 	debian/pseudo-tags \
