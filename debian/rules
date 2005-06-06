@@ -70,6 +70,8 @@ binary-arch: install
 	dh_testdir -a
 	dh_testroot -a
 	dh_install --sourcedir=debian/tmp -a
+	install -d debian/dpkg/etc/logrotate.d
+	install -m 644 debian/dpkg.logrotate debian/dpkg/etc/logrotate.d/dpkg
 
 	dh_installchangelogs -pdpkg ChangeLog
 	dh_installdocs -pdpkg
