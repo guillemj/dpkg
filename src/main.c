@@ -288,7 +288,13 @@ static void setfile(const struct cmdinfo *cip, const char *value) {
   int v;
 
   v= open(value, (O_CREAT|O_APPEND|O_WRONLY), 0644);
-  if (v < 0) ohshite(_("couldn't open log `%s'"), value);
+  if (v < 0) {
+    if (getuid() || geteuid())
+      return;
+    else
+      fprintf(stderr, _("couldn't open log `%s': %s\n"),
+	      value, strerror(errno));
+  }
 
   lastpipe= cip->parg;
   if (*lastpipe) {

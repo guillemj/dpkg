@@ -117,45 +117,89 @@ dpkg-architecture with the \-q option.  Here are some examples, which
 also show how you can improve the cross compilation support in your
 package:
 .PP
+
 Instead of:
-.PP
+.IP
+.nf
 ARCH=`dpkg \-\-print\-architecture`
 configure $(\s-1ARCH\s0)\-linux
+.fi
 .PP
 please use the following:
-.PP
+.IP
+.nf
 \&\s-1DEB_BUILD_GNU_TYPE\s0 := $(shell dpkg-architecture \-qDEB_BUILD_GNU_TYPE)
 \&\s-1DEB_HOST_GNU_TYPE\s0 := $(shell dpkg-architecture \-qDEB_HOST_GNU_TYPE)
-.PP
+
 configure \-\-build=$(\s-1DEB_BUILD_GNU_TYPE\s0) \-\-host=$(\s-1DEB_HOST_GNU_TYPE\s0)
+.fi
 .PP
+
 Instead of:
-.PP
+.IP
+.nf
 ARCH=`dpkg \-\-print\-architecture`
 ifeq ($(\s-1ARCH\s0),alpha)
   ...
 endif
+.fi
 .PP
 please use:
-.PP
+.IP
+.nf
 \&\s-1DEB_HOST_ARCH\s0 := $(shell dpkg-architecture \-qDEB_HOST_ARCH)
-.PP
+
 ifeq ($(\s-1DEB_HOST_ARCH\s0),alpha)
   ...
 endif
+.fi
+.PP
+or if you only need to check the CPU or OS type, use the DEB_HOST_ARCH_CPU
+or DEB_HOST_ARCH_OS variables.
 .PP
 In general, calling dpkg in the rules file to get architecture information
 is deprecated (until you want to provide backward compatibility, see below).
 Especially the \-\-print\-architecture option is unreliable since we have
 Debian architectures which don't equal a processor name.
+
 .SH "BACKWARD COMPATIBILITY"
 .IX Header "BACKWARD COMPATIBILITY"
-When providing a new facility, it is always a good idea to stay
-compatible with old versions of the programs.  Note that
-dpkg-architecture does not affect old debian/rules files, so the only
-thing to consider is using old versions of dpkg-dev with new
-debian/rules files.  The following does the job:
+The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were only introduced
+in relatively versions of \fIdpkg-architecture\fR (since dpkg 1.13.2),
+before this \fIdebian/rules\fR files tended to check the values of the
+DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have been subject
+to change.
 .PP
+Where \fIdebian/rules\fR files check these variables to decide how or what
+to compile, this should be updated to use the new variables and values.
+You may wish to retain backwards compatibility with older version of
+dpkg-dev by using the following code:
+.IP
+.nf
+DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
+DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2>/dev/null)
+
+# Take account of old dpkg-architecture output.
+ifeq ($(DEB_HOST_ARCH_CPU),)
+  DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+  ifeq ($(DEB_HOST_ARCH_CPU),x86_64)
+    DEB_HOST_ARCH_CPU := amd64
+  endif
+endif
+ifeq ($(DEB_HOST_ARCH_OS),)
+  DEB_HOST_ARCH_OS := $(subst -gnu,,$(shell dpkg-architecture -qDEB_HOST_GNU_SYSTEM))
+  ifeq ($(DEB_HOST_ARCH_OS),gnu)
+    DEB_HOST_ARCH_OS := hurd
+  endif
+endif
+.fi
+.PP
+And similarly for DEB_BUILD_ARCH_CPU and DEB_BUILD_ARCH_OS.
+.PP
+If you still wish to support versions of dpkg-dev that did not include
+\fIdpkg-architetcure\fR, the following does the job:
+.IP
+.nf
 \&\s-1DEB_BUILD_ARCH\s0 := $(shell dpkg \-\-print\-architecture)
 \&\s-1DEB_BUILD_GNU_CPU\s0 := $(patsubst hurd\-%,%,$(\s-1DEB_BUILD_ARCH\s0))
 ifeq ($(filter\-out hurd\-%,$(\s-1DEB_BUILD_ARCH\s0)),)
@@ -164,11 +208,12 @@ else
   \s-1DEB_BUILD_GNU_SYSTEM\s0 := linux-gnu
 endif
 DEB_BUILD_GNU_TYPE=$(\s-1DEB_BUILD_GNU_CPU\s0)\-$(\s-1DEB_BUILD_GNU_SYSTEM\s0)
-.PP
+
 \&\s-1DEB_HOST_ARCH\s0 := $(\s-1DEB_BUILD_ARCH\s0)
 \&\s-1DEB_HOST_GNU_CPU\s0 := $(\s-1DEB_BUILD_GNU_CPU\s0)
 \&\s-1DEB_HOST_GNU_SYSTEM\s0 := $(\s-1DEB_BUILD_GNU_SYSTEM\s0)
 \&\s-1DEB_HOST_GNU_TYPE\s0 := $(\s-1DEB_BUILD_GNU_TYPE\s0)
+.fi
 .PP
 Put a subset of these lines at the top of your debian/rules file; these
 default values will be overwritten if dpkg-architecture is used.
