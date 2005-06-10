@@ -109,17 +109,21 @@ int parsedb(const char *filename, enum parsedbflags flags,
   if (fstat(fd, &stat) == -1)
     ohshite(_("can't stat package info file `%.255s'"),filename);
 
+  if (stat.st_size > 0) {
 #ifdef HAVE_MMAP
-  if ((dataptr= (char *)mmap(NULL, stat.st_size, PROT_READ, MAP_SHARED, fd, 0)) == MAP_FAILED)
-    ohshite(_("can't mmap package info file `%.255s'"),filename);
+    if ((dataptr= (char *)mmap(NULL, stat.st_size, PROT_READ, MAP_SHARED, fd, 0)) == MAP_FAILED)
+      ohshite(_("can't mmap package info file `%.255s'"),filename);
 #else
-  if ((dataptr= malloc(stat.st_size)) == NULL)
-    ohshite(_("failed to malloc for info file `%.255s'"),filename);
+    if ((dataptr= malloc(stat.st_size)) == NULL)
+      ohshite(_("failed to malloc for info file `%.255s'"),filename);
 
-  fd_buf_copy(fd, dataptr, stat.st_size, _("copy info file `%.255s'"),filename);
+    fd_buf_copy(fd, dataptr, stat.st_size, _("copy info file `%.255s'"),filename);
 #endif
-  data= dataptr;
-  endptr= dataptr + stat.st_size;
+    data= dataptr;
+    endptr= dataptr + stat.st_size;
+  } else {
+    data= dataptr= endptr= NULL;
+  }
 
   lno= 1;
   pdone= 0;
@@ -315,11 +319,13 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (c == '\n') lno++;
   }
   pop_cleanup(0);
+  if (data != NULL) {
 #ifdef HAVE_MMAP
-  munmap(data, stat.st_size);
+    munmap(data, stat.st_size);
 #else
-  free(data);
+    free(data);
 #endif
+  }
   free(value);
   if (close(fd)) ohshite(_("failed to close after read: `%.255s'"),filename);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
