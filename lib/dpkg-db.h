@@ -164,13 +164,15 @@ struct pipef {
   int fd;
   struct pipef *next;
 };
-extern struct pipef *status_pipes, *log_pipes;
+extern struct pipef *status_pipes;
 
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);
 void modstatdb_note(struct pkginfo *pkg);
 void modstatdb_shutdown(void);
 
 extern char *statusfile, *availablefile; /* initialised by modstatdb_init */
+
+void log_message(const char *fmt, ...);
 
 /*** from database.c ***/
 

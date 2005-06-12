@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([dpkg], [1.13.8], [debian-dpkg@lists.debian.org])
+AC_INIT([dpkg], [1.13.9], [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 
@@ -61,6 +61,7 @@ AC_SYS_LARGEFILE
 # Checks for libraries.
 DPKG_LIB_ZLIB
 DPKG_LIB_BZ2
+DPKG_LIB_SELINUX
 if test "x$build_dselect" = "xyes"; then
    DPKG_LIB_CURSES
 fi

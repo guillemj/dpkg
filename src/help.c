@@ -481,25 +481,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
 }
 
 void log_action(const char *action, struct pkginfo *pkg) {
-  if (log_pipes) {
-    static struct varbuf *log= NULL;
-    struct pipef *pipef= log_pipes;
-    char time_str[20];
-    time_t now;
-    int r;
-    if (log == NULL) {
-      log = nfmalloc(sizeof(struct varbuf));
-      varbufinit(log);
-    } else
-      varbufreset(log);
-    time(&now);
-    strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", gmtime(&now));
-    r= varbufprintf(log, "%s %s %s %s %s\n", time_str, action,
-		    pkg->name, versiondescribe(&pkg->installed.version, vdew_nonambig),
-		    versiondescribe(&pkg->available.version, vdew_nonambig));
-    while (pipef) {
-      write(pipef->fd, log->buf, r);
-      pipef= pipef->next;
-    }
-  }
+  log_message("%s %s %s %s", action, pkg->name,
+	      versiondescribe(&pkg->installed.version, vdew_nonambig),
+	      versiondescribe(&pkg->available.version, vdew_nonambig));
 }

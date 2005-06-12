@@ -1,3 +1,30 @@
+dpkg (1.13.9) unstable; urgency=low
+  
+  The "On like Donkey Kong" Release.
+
+  * Only open the log file when we first need to write to it, this avoids
+    the need to suppress errors when not root which fakeroot defeated anyway.
+  * Stop dpkg-source clobbering an existing .orig directory during unpacking.
+    Closes: #21236.
+  * Allow an alternate output directory to be specified to dpkg-source by
+    giving a second argument to -x.  Closes: #246802, #282323.
+  * Added .arch-inventory to default diff ignore regexp.  Closes: #304297.
+
+  SELinux support (Manoj Srivastava):
+  * On SELinux-enabled systems, try to set the security context when the
+    package is unpacked.  Closes: #193653, #249496, #307139.
+  * Added build-dependancy on libselinux1-dev.
+
+  Improvements to dpkg-source (Brendan O'Dea):
+  * Support unpacking of "Wig And Pen" (Format 2.0) source packages.
+  * Multiple pristine upstream tarballs allowed.
+  * Native and upstream tarballs may be bzip2-compressed instead of gzip,
+    as may the debian diff or tarball.
+  * Unsupported format error fixed to output the unsupported format
+    rather than the supported one.  Closes: #156317.
+
+ -- Scott James Remnant <scott@netsplit.com>  Sun, 12 Jun 2005 15:52:43 +0100
+
 dpkg (1.13.8) experimental; urgency=low
   
   The "In like Flynn" Release.

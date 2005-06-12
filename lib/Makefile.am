@@ -5,8 +5,7 @@ pkgconfdir = $(sysconfdir)/@PACKAGE@
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
-	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\" \
-	$(ZLIB_CFLAGS) $(BZ2_CFLAGS)
+	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\"
 
 
 noinst_LIBRARIES = libdpkg.a

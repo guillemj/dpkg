@@ -1,4 +1,110 @@
+2005-06-12  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Release 1.13.9.
+
+2005-06-11  Scott James Remnant  <scott@netsplit.com>
+
+	* scripts/dpkg-source.pl: Add .arch-inventory to default diff
+	ignore regexp.
+
+	* scripts/dpkg-source.pl: If two arguments are given to dpkg-source,
+	use the second to set $newdirectory rather than creating it ourselves.
+	It's an error to specify an output directory that exists.
+	(usageversion): Document optional second argument to dpkg-source -x.
+	
+	* man/C/dpkg-source.1: Document optional second argument.
+
+2005-06-11  Matt Kraai  <kraai@alumni.cmu.edu>,
+	    Scott James Remnant  <scott@netsplit.com>
+
+	* scripts/dpkg-source.pl: Move the .orig directory out of the way
+	during the duration of the script, moving it back again afterwards.
+
+2005-06-11  Brendan O'Dea  <bod@debian.org>
+
+	Support unpacking of "Wig And Pen" (Format: 2.0) source packages.
+
+	* scripts/dpkg-source.pl: When unpacking a source package with a
+	2.x format, allow multiple orig tarballs and allow the diff to be
+	replaced by a debian.tar.  Additional orig tarballs are named
+	"*.orig-xxx.tar" where the "xxx" is the name of the sub-directory
+	of the source where they should be unpacked.  The debian.tar is
+	unpacked as the debian sub-directory of the source and may contain
+	binaries (which the diff can't) and patches (in a patches
+	sub-directory) which are automatically applied during unpacking.
+	(checkdiff): Move diff checking code into sub-routine as we call
+	it multiple times now.  Allow uncompressed patches, cruft
+	at the start of a patcha and be less strict about patched directory
+	name (including allowing /dev/null).  Skip "Index:" header generated
+	by CVS.
+	(forkgzipread): Run either gunzip or bunzip2 depending on the
+	filename, allowing us to support .tar.bz2, and .diff.bz2.
+	(handleformat): Compare a range of major versions, as we now
+	support both 1.0 and 2.0 formats.
+	(def_dscformat): Generate 1.0 format packages by default.
+	(setfile): Removed unused function.
+	* debian/control ([dpkg-dev]Recommends): Recommend bzip2, it's
+	not an absolute dependency until bz2 packages are supported by
+	katie and policy.
+
+2005-06-11  Scott James Remnant  <scott@netsplit.com>
+
+	* m4/libs.m4 (DPKG_LIB_ZLIB, DPKG_LIB_BZ2): Rewrite to match the
+	way --with-selinux works.  Actually check whether the library and
+	header files we need are available, using the configure option to
+	determine whether the tests should be skipped (=no) or cause a
+	hard failure if not present (=yes or =static).
+	* lib/Makefile.am (INCLUDES): Remove ZLIB_CFLAGS and BZ2_CFLAGS as
+	we don't set these to anything in configure anymore (WITH_ZLIB and
+	WITH_BZ2 are set in config.h) and users would set CFLAGS itself to
+	supply missing -I arguments.
+	* dpkg-deb/Makefile.am (INCLUDES): Remove ZLIB_CFLAGS and BZ2_CLFAGS.
+	* src/Makefile.am (dpkg_query_LDADD): Remove ZLIB_LIBS and CFLAGS_LIBS
+	as dpkg-query doesn't use them.
+
+	* m4/libs.m4 (DPKG_LIB_SELINUX): Add new test for the selinux
+	library and header.  This works a little differently from the
+	current --with-{zlib,bz2} tests in that if no option is given it
+	still tries to enable it if possible.  If "yes" or "static" is given,
+	that forces the requirement (configure fails if not present), if "no"
+	is given the tests are skipped.
+	* configure.ac: Include selinux test.
+
+2005-06-11  Manoj Srivastava  <srivasta@debian.org>
+
+	* lib/star.c (ExtractFile, SetModes): If dpkg is compiled with
+	SELinux, test once whether SELinux is enabled on the system.  If it
+	is enabled, find out the security context of the file from its path
+	and either set what we think it should be or let the default security
+	context for the process be applied.
+	* debian/control (Build-Depends): Add libselinux1-dev as a build
+	dependency. 
+	* debian/rules: Compile-in support for selinux and link statically.
+	* dpkg-deb/Makefile.am (dpkg_deb_LDADD): Link dpkg-deb with
+	SELINUX_LIBS.
+	* src/Makefile.am (dpkg_LDADD): Link dpkg with SELINUX_LIBS.
+
 2005-06-10  Scott James Remnant  <scott@netsplit.com>
+
+	* lib/dbmodify.c (log_message): New function that writes a
+	formatted string to the log file, opening it if it hasn't been
+	yet.  In case of error, we print it and don't try to open the
+	file again.
+	(modstatdb_note): Replace log writing code with call to new
+	log_message function.
+	* src/configure.c (promptconfaction): Replace log writing code
+	with call to log_message function.
+	* src/help.c (log_action): Simplify to just a log_message call.
+	* lib/dpkg-db.h: Remove extern definition of log_pipes, replace
+	with log_message function.
+	* src/main.c (cmdinfos): Change --log argument action to just
+	storing the string in the log_file variable.
+	(setfile): Remove function.
+	* lib/myopt.c (myfileopt): strdup the string option argument
+	before storing it, otherwise it just gets overwritten by the next
+	line.
+
+	* configure.ac: Bump version to 1.13.9~.
 
 	* configure.ac: Release 1.13.8.
 

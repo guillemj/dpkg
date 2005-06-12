@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2005-06-10 07:42+0100\n"
+"POT-Creation-Date: 2005-06-12 15:53+0100\n"
 "PO-Revision-Date: 2005-02-07 05:27+1300\n"
 "Last-Translator: Tchaikov <chaisave@263.com>\n"
 "Language-Team: Chinese (simplified) <i18n-translation@lists.linux.net.cn>\n"
@@ -203,35 +203,40 @@ msgstr "该操作需要用户对 dpkg 状态目录有读写权限"
 msgid "failed to remove my own update file %.255s"
 msgstr "删除我自己的更新文件 %.255s 失败"
 
-#: lib/dbmodify.c:278
+#: lib/dbmodify.c:260
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "无法写入“%.250s”的更新状态"
 
-#: lib/dbmodify.c:280
+#: lib/dbmodify.c:262
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "无法刷新“%.250s”的更新状态"
 
-#: lib/dbmodify.c:282
+#: lib/dbmodify.c:264
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "无法删节“%.250s”的更新状态"
 
-#: lib/dbmodify.c:284
+#: lib/dbmodify.c:266
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "无法 fsync “%.250s”的更新状态"
 
-#: lib/dbmodify.c:286
+#: lib/dbmodify.c:268
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "无法关闭“%.250s”的更新状态文件"
 
-#: lib/dbmodify.c:289
+#: lib/dbmodify.c:271
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "无法安装“%.250s”的更新状态"
+
+#: lib/dbmodify.c:301
+#, fuzzy, c-format
+msgid "couldn't open log `%s': %s\n"
+msgstr "无法打开调试信息文件“%.255s”\n"
 
 #: lib/dump.c:291
 #, c-format
@@ -2315,12 +2320,7 @@ msgstr "--ignore-depends 需要一个有效的软件包名。而“%.250s”却�
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%s 有一个无效的数字参数：“%.250s”"
 
-#: src/main.c:295
-#, fuzzy, c-format
-msgid "couldn't open log `%s': %s\n"
-msgstr "无法打开调试信息文件“%.255s”\n"
-
-#: src/main.c:316
+#: src/main.c:292
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2394,47 +2394,47 @@ msgstr ""
 "警告 - 使用带有[!]标记的选项可能会严重破坏您的系统安装。\n"
 "缺省情况下，是使用带有[*]标记的强制手段的。\n"
 
-#: src/main.c:361
+#: src/main.c:337
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "无法识别的 force/refuse 选项“%.*s”"
 
-#: src/main.c:464 src/main.c:468
+#: src/main.c:442 src/main.c:446
 msgid "couldn't malloc in execbackend"
 msgstr "无法在 execbackend 中 malloc"
 
-#: src/main.c:466 src/main.c:473
+#: src/main.c:444 src/main.c:451
 msgid "couldn't strdup in execbackend"
 msgstr "无法在 execbackend 中 strdup"
 
-#: src/main.c:477
+#: src/main.c:455
 #, c-format
 msgid "failed to exec %s"
 msgstr "exec %s 失败"
 
-#: src/main.c:489
+#: src/main.c:467
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd 需要带一个参数，而不是零个"
 
-#: src/main.c:490
+#: src/main.c:468
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd 只需带一个参数"
 
-#: src/main.c:492
+#: src/main.c:470
 msgid "invalid number for --command-fd"
 msgstr "--command-fd 有一个无效的数字参数"
 
-#: src/main.c:494
+#: src/main.c:472
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "无法打开“%i”，并把它作为字符流操作"
 
-#: src/main.c:519
+#: src/main.c:497
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "在第 %d 行还未结束时，发现了预料之外的 eof"
 
-#: src/main.c:563 src/main.c:578 src/query.c:565 dpkg-deb/main.c:184
+#: src/main.c:541 src/main.c:556 src/query.c:565 dpkg-deb/main.c:184
 #: dpkg-split/main.c:157
 msgid "need an action option"
 msgstr "需要一个指示操作的选项"

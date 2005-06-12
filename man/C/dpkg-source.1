@@ -7,6 +7,7 @@ dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog
 .SH SYNOPSIS
 .B dpkg\-source
 .BI "\-x " filename .dsc
+.RI [ output-directory ]
 .br
 .B dpkg\-source \-b
 .RI [ options "] " directory " [" orig-directory | orig-targz |'']
@@ -252,9 +253,15 @@ are given with relative pathnames these are interpreted starting at
 the source tree's top level directory.
 .TP
 .B \-x
-Extract a source package.  One non-option argument should be supplied,
+Extract a source package.  One non-option argument must be supplied,
 the name of the Debian source control file
 .RB ( .dsc ).
+An optional second non-option argument may be supplied to specify the
+directory to extract the source package to, this must not exist.  If
+no output directory is specified, the source package is extracted into
+a directory named \fIsource\fR-\fIversion-\fR under the current working
+directory. 
+
 No options are useful with
 .BR "dpkg\-source \-x" .
 .B dpkg\-source

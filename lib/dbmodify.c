@@ -230,7 +230,6 @@ void modstatdb_shutdown(void) {
 }
 
 struct pipef *status_pipes= NULL;
-struct pipef *log_pipes= NULL;
 
 void modstatdb_note(struct pkginfo *pkg) {
   assert(cstatus >= msdbrw_write);
@@ -252,26 +251,9 @@ void modstatdb_note(struct pkginfo *pkg) {
       pipef= pipef->next;
     }
   }
-  if (log_pipes) {
-    static struct varbuf *log= NULL;
-    struct pipef *pipef= log_pipes;
-    char time_str[20];
-    time_t now;
-    int r;
-    if (log == NULL) {
-      log = nfmalloc(sizeof(struct varbuf));
-      varbufinit(log);
-    } else
-      varbufreset(log);
-    time(&now);
-    strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", gmtime(&now));
-    r= varbufprintf(log, "%s status %s %s %s\n", time_str, statusinfos[pkg->status].name,
-		    pkg->name, versiondescribe(&pkg->installed.version, vdew_nonambig));
-    while (pipef) {
-      write(pipef->fd, log->buf, r);
-      pipef= pipef->next;
-    }
-  }
+  log_message("status %s %s %s", statusinfos[pkg->status].name, pkg->name,
+	      versiondescribe(&pkg->installed.version, vdew_nonambig));
+
   varbufreset(&uvb);
   varbufrecord(&uvb, pkg, &pkg->installed);
   if (fwrite(uvb.buf, 1, uvb.used, importanttmp) != uvb.used)
@@ -299,4 +281,42 @@ void modstatdb_note(struct pkginfo *pkg) {
   createimptmp();
 
   onerr_abort--;
+}
+
+const char *log_file= NULL;
+
+void log_message(const char *fmt, ...) {
+  static struct varbuf *log= NULL;
+  static FILE *logfd= NULL;
+  char time_str[20];
+  time_t now;
+  va_list al;
+
+  if (!log_file)
+    return;
+
+  if (!logfd) {
+    logfd= fopen(log_file, "a");
+    if (!logfd) {
+      fprintf(stderr, _("couldn't open log `%s': %s\n"), log_file,
+	      strerror(errno));
+      log_file= NULL;
+      return;
+    }
+  }
+
+  if (!log) {
+    log= nfmalloc(sizeof(struct varbuf));
+    varbufinit(log);
+  } else
+    varbufreset(log);
+
+  va_start(al,fmt);
+  varbufvprintf(log, fmt, al);
+  varbufaddc(log, 0);
+  va_end(al);
+
+  time(&now);
+  strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", gmtime(&now));
+  fprintf(logfd, "%s %s\n", time_str, log->buf);
 }

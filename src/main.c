@@ -283,30 +283,6 @@ static void setpipe(const struct cmdinfo *cip, const char *value) {
   (*lastpipe)->next= NULL;
 }
 
-static void setfile(const struct cmdinfo *cip, const char *value) {
-  static struct pipef **lastpipe;
-  int v;
-
-  v= open(value, (O_CREAT|O_APPEND|O_WRONLY), 0644);
-  if (v < 0) {
-    if (getuid() || geteuid())
-      return;
-    else
-      fprintf(stderr, _("couldn't open log `%s': %s\n"),
-	      value, strerror(errno));
-  }
-
-  lastpipe= cip->parg;
-  if (*lastpipe) {
-    (*lastpipe)->next= nfmalloc(sizeof(struct pipef));
-    *lastpipe= (*lastpipe)->next;
-  } else {
-    *lastpipe= nfmalloc(sizeof(struct pipef));
-  }
-  (*lastpipe)->fd= v;
-  (*lastpipe)->next= NULL;
-}
-
 static void setforce(const struct cmdinfo *cip, const char *value) {
   const char *comma;
   size_t l;
@@ -366,6 +342,8 @@ Forcing options marked [*] are enabled by default.\n"),
   }
 }
 
+extern const char *log_file;
+
 static const char okpassshortopts[]= "D";
 
 void execbackend(const char *const *argv) NONRETURNING;
@@ -414,7 +392,7 @@ static const struct cmdinfo cmdinfos[]= {
 */
   
   { "status-fd",	  0,   1,  0,              0,  setpipe, 0, &status_pipes },
-  { "log",	  0,   1,  0,              0,  setfile, 0, &log_pipes },
+  { "log",                0,   1,  0, &log_file,       0                             },
   { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
   { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
   { "no-act",             0,   0,  &f_noact,       0,  0,             1              },

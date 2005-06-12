@@ -54,7 +54,7 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 		const char* realnew, int useredited, int distedited,
 		enum conffopt what);
 
-extern struct pipef *status_pipes, *log_pipes;
+extern struct pipef *status_pipes;
 
 
 void deferred_configure(struct pkginfo *pkg) {
@@ -643,27 +643,8 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 
 	} while (!strchr("yino",cc));
 
-	/* if there's a log file, record conffile decision there */
-	if (log_pipes) {
-	  static struct varbuf *log= NULL;
-	  struct pipef *pipef= log_pipes;
-	  char time_str[20];
-	  time_t now;
-	  int r;
-	  if (log == NULL) {
-	    log = nfmalloc(sizeof(struct varbuf));
-	    varbufinit(log);
-	  } else
-	    varbufreset(log);
-	  time(&now);
-	  strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", gmtime(&now));
-	  r= varbufprintf(log, "%s conffile %s %s\n", time_str, cfgfile,
-			  (cc == 'i' || cc == 'y') ? "install" : "keep");
-	  while (pipef) {
-	    write(pipef->fd, log->buf, r);
-	    pipef= pipef->next;
-	  }
-	}
+	log_message("conffile %s %s", cfgfile,
+		    (cc == 'i' || cc == 'y') ? "install" : "keep");
 
 	switch (cc) {
 		case 'i':

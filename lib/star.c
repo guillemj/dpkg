@@ -11,6 +11,10 @@
 #include <errno.h>
 #include <string.h>
 #include <time.h>
+#ifdef WITH_SELINUX
+#include <selinux/selinux.h>
+static int selinux_enabled=-1;
+#endif
 
 static int
 Read(void * userData, char * buffer, int length)
@@ -68,6 +72,37 @@ ExtractFile(TarInfo * i)
 	/* fchown() and fchmod() are cheaper than chown() and chmod(). */
 	fchown(fd, i->UserID, i->GroupID);
 	fchmod(fd, i->Mode & ~S_IFMT);
+
+#ifdef WITH_SELINUX
+        /* Set selinux_enabled if it is not already set (singleton) */
+        if (selinux_enabled < 0)
+		selinux_enabled = (is_selinux_enabled() > 0);
+
+        /* Since selinux is enabled, try and set the context */
+        if (selinux_enabled == 1) {
+		security_context_t scontext = NULL;
+		/*
+		 * well, we could use
+		 *   void set_matchpathcon_printf(void (*f)(const char *fmt, ...));
+		 * to redirect the errors from the following bit, but that
+		 * seems too much effort.
+		 */
+
+		/*
+		 * Do nothing if we can't figure out what the context is,
+		 * or if it has no context; in which case the default
+		 * context shall be applied.
+		 */
+		if( ! ((matchpathcon(i->Name, i->Mode & ~S_IFMT, &scontext) != 0) ||
+		       (strcmp(scontext, "<<none>>") == 0)))
+		{
+			if(fsetfilecon(fd, scontext) < 0)
+				perror("Error setting file context:");
+		}
+		freecon(scontext);
+	}
+#endif /* WITH_SELINUX */
+
 	close(fd);
 	t.actime = time(0);
 	t.modtime = i->ModTime;
@@ -85,6 +120,37 @@ SetModes(TarInfo * i)
 	chown(i->Name, i->UserID, i->GroupID);
 #endif
 	chmod(i->Name, i->Mode & ~S_IFMT);
+
+#ifdef WITH_SELINUX
+        /* Set selinux_enabled if it is not already set (singleton) */
+        if (selinux_enabled < 0)
+		selinux_enabled = (is_selinux_enabled() > 0);
+
+        /* Since selinux is enabled, try and set the context */
+        if (selinux_enabled == 1) {
+		security_context_t scontext = NULL;
+		/*
+		 * well, we could use
+		 *   void set_matchpathcon_printf(void (*f)(const char *fmt, ...));
+		 * to redirect the errors from the following bit, but that
+		 * seems too much effort.
+		 */
+
+		/*
+		 * Do nothing if we can't figure out what the context is,
+		 * or if it has no context; in which case the default
+		 * context shall be applied.
+		 */
+		if( ! ((matchpathcon(i->Name, i->Mode & ~S_IFMT, &scontext) != 0) ||
+		       (strcmp(scontext, "<<none>>") == 0)))
+		{
+			if(lsetfilecon(i->Name, scontext) < 0)
+				perror("Error setting file context:");
+		}
+		freecon(scontext);
+	}
+#endif /* WITH_SELINUX */
+
 	t.actime = time(0);
 	t.modtime = i->ModTime;
 	utime(i->Name, &t);
