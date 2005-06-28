@@ -1,4 +1,77 @@
+2005-06-28  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Release 1.13.10.
+
+	* debian/dpkg.preinst (create_logfile): Remove from preinst.
+	* debian/dpkg.postinst (create_logfile): To postinst; I can't think
+	of any particular reason it needs to happen before configuration.
+	In addition, use numeric ids for the chown call to avoid requirement
+	that base-passwd be configured first.
+
+2005-06-28  Manoj Srivastava  <srivasta@debian.org>
+
+	* src/archives.c: Look at the security context of the final
+	destination, not the temporary file.
+
+2005-06-24  Scott James Remnant  <scott@netsplit.com>
+
+	* po/POTFILES.in: Remove lib/star.c.
+
+2005-06-24  Manoj Srivastava  <srivasta@debian.org>
+
+	* src/archives.c: Restore selinux code incorrectly placed in
+	lib/star.c, modified to fit in with tarobject.
+
+2005-06-17  Scott James Remnant  <scott@netsplit.com>
+
+	* debian/dpkg.preinst (confirm_dselect_split): When set -e,
+	following a command with "|| return" doesn't eat the exit status.
+
+	* lib/dbmodify.c (log_message): Set the log to be line-buffered.
+
+2005-06-16  Scott James Remnant  <scott@netsplit.com>
+
+	* lib/star.c: Remove, it's unused code and causes confusion.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Don't compile star.c.
+
+2005-06-15  Bastian Kleineidam  <calvin@debian.org>
+
+	* man/C/dpkg.cfg.5: Correct reference to dpkg(8) to dpkg(1).
+
+2005-06-14  Scott James Remnant  <scott@netsplit.com>
+
+	* man/C/dpkg-architecture.1: Add missing "recent" from paragraph
+	on backward compatibility.
+
+2005-06-13  Scott James Remnant  <scott@netsplit.com>
+
+	* debian/rules: Check DEB_HOST_ARCH_OS and only add the option
+	to enable SELinux if we're on Linux.
+	* debian/control (Build-Depends): Don't build-depend on
+	libselinux1-dev on hurd-i386.  The complete list is too long to
+	maintain, so wait until we can put "[linux-any]" in here.
+
+	* scripts/dpkg-source.pl: Handle native tarballs with a
+	Debian revision.
+
+	* lib/dbmodify.c (log_message): Use the local time, not UTC;
+	this is more consistent with syslog.
+
+2005-06-13  Johannes Veser  <veser@gmx.de>
+
+	* debian/dpkg.prerm (undivert_md5sum): dpkg-divert takes the
+	diverted filename, not the destination.
+
+2005-06-13  Scott James Remnant  <scott@netsplit.com>
+
+	* debian/dpkg.install: Remove start-stop-daemon rule, as that
+	copies it rather than moves it.
+	* debian/rules (binary-arch): Move start-stop-daemon into sbin
+	my hand.
+
 2005-06-12  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Bump version to 1.13.10~.
 
 	* configure.ac: Release 1.13.9.
 

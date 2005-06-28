@@ -25,6 +25,13 @@ else
 	confflags += --build=$(DEB_BUILD_GNU_TYPE) --host=$(DEB_HOST_GNU_TYPE)
 endif
 
+# Don't enable everything on all platforms
+DEB_HOST_ARCH_OS  ?= $(shell dpkg-architecture -qDEB_HOST_ARCH_OS)
+
+ifeq ($(DEB_HOST_ARCH_OS),linux)
+	confflags += --with-selinux=static
+endif
+
 
 # Create configure script if necessary, automake handles rebuilding it.
 configure:
@@ -45,8 +52,7 @@ build-tree/config.status: configure
 		--sysconfdir=/etc \
 		--localstatedir=/var/lib \
 		--with-zlib=static \
-		--with-bz2=static \
-		--with-selinux=static
+		--with-bz2=static
 
 # Build the package in build-tree
 build: build-tree/build-stamp
@@ -73,6 +79,8 @@ binary-arch: install
 	dh_install --sourcedir=debian/tmp -a
 	install -d debian/dpkg/etc/logrotate.d
 	install -m 644 debian/dpkg.logrotate debian/dpkg/etc/logrotate.d/dpkg
+	install -d debian/dpkg/sbin
+	mv debian/dpkg/usr/sbin/start-stop-daemon debian/dpkg/sbin
 
 	dh_installchangelogs -pdpkg ChangeLog
 	dh_installdocs -pdpkg

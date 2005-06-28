@@ -303,6 +303,7 @@ void log_message(const char *fmt, ...) {
       log_file= NULL;
       return;
     }
+    setlinebuf(logfd);
   }
 
   if (!log) {
@@ -317,6 +318,6 @@ void log_message(const char *fmt, ...) {
   va_end(al);
 
   time(&now);
-  strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", gmtime(&now));
+  strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", localtime(&now));
   fprintf(logfd, "%s %s\n", time_str, log->buf);
 }

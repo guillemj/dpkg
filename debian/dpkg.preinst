@@ -96,7 +96,9 @@ Are you installing only the dpkg upgrade in this dpkg run ? [y/n] "
 # Confirm that dselect got split into it's own package
 confirm_dselect_split() {
     if [ -x /bin/ps ]; then
-	ps -C dselect >/dev/null || return
+	if ! ps -C dselect >/dev/null; then
+	    return
+	fi
     fi
 
     if ! grep "^Package: *dselect$" /var/lib/dpkg/status >/dev/null; then
@@ -141,17 +143,8 @@ remove_hd_method() {
 }
 
 
-# Create log file and set default permissions
-create_logfile() {
-    touch /var/log/dpkg.log
-    chmod 640 /var/log/dpkg.log
-    chown root:adm /var/log/dpkg.log
-}
-
-
 case "$1" in
     install)
-	create_logfile
 	;;
 
     upgrade)
@@ -172,8 +165,6 @@ case "$1" in
 	        confirm_dselect_split
 		;;
 	esac
-
-	create_logfile
 	;;
 
     abort-upgrade)

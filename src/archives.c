@@ -43,6 +43,12 @@
 #include <tarfn.h>
 #include <myopt.h>
 
+#ifdef WITH_SELINUX
+#include <selinux/selinux.h>
+static int selinux_enabled=-1;
+static security_context_t scontext    = NULL;
+#endif
+
 #include "filesdb.h"
 #include "main.h"
 #include "archives.h"
@@ -515,6 +521,38 @@ int tarobject(struct TarInfo *ti) {
    */
   push_cleanup(cu_installnew,~ehflag_normaltidy, 0,0, 1,(void*)nifd);
 
+#ifdef WITH_SELINUX
+  /* Set selinux_enabled if it is not already set (singleton) */
+  if (selinux_enabled < 0)
+    selinux_enabled = (is_selinux_enabled() > 0);
+
+  /* Since selinux is enabled, try and set the context */
+  if (selinux_enabled > 0) {
+    /*
+     * well, we could use
+     *   void set_matchpathcon_printf(void (*f)(const char *fmt, ...));
+     * to redirect the errors from the following bit, but that
+     * seems too much effort.
+     */
+
+    /*
+     * Do nothing if we can't figure out what the context is,
+     * or if it has no context; in which case the default
+     * context shall be applied.
+     */
+    if( ! ((matchpathcon(fnamevb.buf,
+                         (nifd->namenode->statoverride ?
+                          nifd->namenode->statoverride->mode : ti->Mode)
+                         & ~S_IFMT, &scontext) != 0) ||
+           (strcmp(scontext, "<<none>>") == 0)))
+     {
+       if(setfscreatecon(scontext) < 0)
+	 perror("Error setting security context for file object:");
+     }
+  }
+#endif /* WITH_SELINUX */
+
+
   /* Extract whatever it is as .dpkg-new ... */
   switch (ti->Type) {
   case NormalFile0: case NormalFile1:
@@ -655,8 +693,32 @@ int tarobject(struct TarInfo *ti) {
     }
   }
 
+#ifdef WITH_SELINUX
+  /*
+   * if selinux is enabled, try and set the default security context
+   * for the renamed file
+   */
+  if (selinux_enabled > 0)
+    if(scontext) {
+       if(setfscreatecon(scontext) < 0)
+         perror("Error setting security context for next file object:");
+       freecon(scontext);
+     }
+        
+#endif /* WITH_SELINUX */
+
   if (rename(fnamenewvb.buf,fnamevb.buf))
     ohshite(_("unable to install new version of `%.255s'"),ti->Name);
+
+#ifdef WITH_SELINUX
+  /*
+   * if selinux is enabled, restore the default security context
+   */
+  if (selinux_enabled > 0)
+    if(setfscreatecon(NULL) < 0)
+      perror("Error restoring default security context:");
+#endif /* WITH_SELINUX */
+
 
   nifd->namenode->flags |= fnnf_elide_other_lists;
 

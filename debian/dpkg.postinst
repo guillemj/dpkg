@@ -149,8 +149,20 @@ divert_md5sum() {
 }
 
 
+# Create log file and set default permissions if possible
+create_logfile() {
+    logfile=/var/log/dpkg.log
+    touch $logfile
+    chmod 640 $logfile
+    chown root:adm $logfile 2>/dev/null || chown 0:4 $logfile
+}
+
+
 case "$1" in
     configure)
+	create_database
+	create_logfile
+
 	case "$2" in
 	    0.* | 1.0.* | 1.1.0 | 1.1.0[^0-9]* | '' )
 	        remove_duplicate_daemons
@@ -160,7 +172,6 @@ case "$1" in
 	        ;;
 	esac
 
-	create_database
 	move_info_directory
 	remove_info_symlink
 	divert_md5sum

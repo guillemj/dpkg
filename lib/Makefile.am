@@ -31,7 +31,6 @@ libdpkg_a_SOURCES = \
 	parsedump.h \
 	showcright.c \
 	showpkg.c \
-	star.c \
 	tarfn.c tarfn.h \
 	utils.c \
 	varbuf.c \

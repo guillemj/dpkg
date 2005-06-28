@@ -580,6 +580,10 @@ if ($opmode eq 'build') {
 		$debianfile = $file;
 		next;
 	    }
+	    if (/^\.tar$/) {
+		unshift @tarfiles, $file;
+		next;
+	    }
 	}
 
 	&error("unrecognised file suffix `$_'");
@@ -589,7 +593,8 @@ if ($opmode eq 'build') {
     my $native = !($difffile || $debianfile);
     if ($native) {
 	&warn("multiple tarfiles in native package") if @tarfiles > 1;
-	&warn("native package with .orig.tar") unless $seen{'.tar'};
+	&warn("native package with .orig.tar")
+	    unless $seen{'.tar'} or $seen{"-$revision.tar"};
     } else {
 	&warn("no upstream tarfile in Files field") unless $seen{'.orig.tar'};
 	if ($dscformat =~ /^1\./) {
