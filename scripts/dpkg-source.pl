@@ -170,7 +170,11 @@ if ($opmode eq 'build') {
         if (s/^C //) {
             if (m/^Source$/i) { &setsourcepackage; }
             elsif (m/^(Standards-Version|Origin|Maintainer|Uploaders)$/i) { $f{$_}= $v; }
-	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) { $f{$_}= $v; }
+	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
+		my $dep = parsedep(substvars($v),1);
+		&error("error occoured while parsing $_") unless defined $dep;
+		$f{$_}= showdep($dep, 1);
+	    }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
             elsif (m/^(Section|Priority|Files|Bugs)$/i || m/^X[BC]+-/i) { }
             else { &unknown('general section of control info file'); }
