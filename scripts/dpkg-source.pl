@@ -516,7 +516,7 @@ if ($opmode eq 'build') {
     }
     exit(0);
 
-} else {
+} else { # -> opmode ne 'build'
 
     $sourcestyle =~ y/X/p/;
     $sourcestyle =~ m/[pun]/ ||
@@ -533,6 +533,32 @@ if ($opmode eq 'build') {
     if (@ARGV) {
 	$newdirectory= shift(@ARGV);
 	! -e $newdirectory || &error("unpack target exists: $newdirectory");
+    }
+
+    my $is_signed = 0;
+    open(DSC,"< $dsc") || &error("cannot open .dsc file $dsc: $!");
+    while (<DSC>) {
+	next if /^\s*$/o;
+	$is_signed = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----$/o;
+	last;
+    }
+    close(DSC);
+
+    if ($is_signed) {
+	if (-x '/usr/bin/gpg') {
+	    my $gpg_command = 'gpg -q --verify '.quotemeta($dsc).' 2>&1';
+	    my @gpg_output = `$gpg_command`;
+	    my $gpg_status = $? >> 8;
+	    if ($gpg_status) {
+		print STDERR join("",@gpg_output);
+		&error("failed to verify signature on $dsc")
+		    if ($gpg_status == 1);
+	    }
+	} else {
+	    &warn("could not verify signature on $dsc since gpg isn't installed");
+	}
+    } else {
+	&warn("extracting unsigned source package ($dsc)");
     }
 
     open(CDATA,"< $dsc") || &error("cannot open .dsc file $dsc: $!");

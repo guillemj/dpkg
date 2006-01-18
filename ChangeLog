@@ -5,6 +5,16 @@
 	the .dsc when building. This also normalizes the
 	fields.
  
+2005-10-03  Matt Zimmerman  <mdz@debian.org>,
+	    Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-source.pl: If gpg is installed, check
+	the signature of the .dsc file before unpacking.
+	Allow the unpacking to suceed if the .dsc is unsigned
+	but error out if the signature is bad. If gpg exits
+	with a code >2 (e.g. missing key), show the user the gpg
+	output but continue.
+
 2005-10-03  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-source.pl: Try to chown files extracted from
