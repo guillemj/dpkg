@@ -216,6 +216,7 @@ if ($opmode eq 'build') {
             if (m/^Source$/) {
                 &setsourcepackage;
             } elsif (m/^Version$/) {
+		checkversion( $v );
                 $f{$_}= $v;
             } elsif (s/^X[BS]*C[BS]*-//i) {
                 $f{$_}= $v;
@@ -464,6 +465,12 @@ if ($opmode eq 'build') {
                 &unrepdiff("device or socket is not allowed");
             } elsif (-d _) {
                 $type{$fn}= 'directory';
+		if (!lstat("$origdir/$fn")) {
+		    $! == ENOENT
+			|| &syserr("cannot stat orig file $origdir/$fn");
+		} elsif (! -d _) {
+		    &unrepdiff2('not a directory', 'directory');
+		}
             } else {
                 &unrepdiff("unknown file type ($!)");
             }
@@ -579,14 +586,10 @@ if ($opmode eq 'build') {
     }
 
     $sourcepackage = $fi{'S Source'};
-    $sourcepackage =~ m/[^-+.0-9a-z]/ &&
-        &error("source package name contains illegal character `$&'");
-    $sourcepackage =~ m/^[0-9a-z]/ ||
-        &error("source package name starts with non-alphanum");
+    checkpackagename( $sourcepackage );
 
     $version= $fi{'S Version'};
-    $version =~ m/[^-+:.0-9a-zA-Z~]/ &&
-        &error("version number contains illegal character `$&'");
+    checkversion( $version );
     $version =~ s/^\d+://;
     if ($version =~ m/-([^-]+)$/) {
         $baseversion= $`; $revision= $1;
@@ -835,8 +838,7 @@ sub checkstats {
     (@s= stat(STDIN)) || &syserr("cannot fstat $dscdir/$f");
     $s[7] == $size{$f} || &error("file $f has size $s[7] instead of expected $size{$f}");
     $m= `md5sum`; $? && subprocerr("md5sum $f"); $m =~ s/\n$//;
-    $m =~ s/ *-$//; # Remove trailing spaces and -, to work with GNU md5sum
-    $m =~ m/^[0-9a-f]{32}$/ || &failure("md5sum of $f gave bad output `$m'");
+    $m = readmd5sum( $m );
     $m eq $md5sum{$f} || &error("file $f has md5sum $m instead of expected $md5sum{$f}");
     open(STDIN,"</dev/null") || &syserr("reopen stdin from /dev/null");
 }
@@ -1241,13 +1243,16 @@ sub reapgzip {
     close(GZIPFILE);
 }
 
+my %added_files;
 sub addfile {
     my ($filename)= @_;
+    $added_files{$filename}++ &&
+	&internerr( "tried to add file `$filename' twice" );
     stat($filename) || &syserr("could not stat output file `$filename'");
     $size= (stat _)[7];
     my $md5sum= `md5sum <$filename`;
     $? && &subprocerr("md5sum $filename");
-    $md5sum =~ s/^([0-9a-f]{32})\s*-?\s*\n$/$1/ || &failure("md5sum gave bogus output `$_'");
+    $md5sum = readmd5sum( $md5sum );
     $f{'Files'}.= "\n $md5sum $size $filename";
 }
 

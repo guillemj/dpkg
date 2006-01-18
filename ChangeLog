@@ -1,3 +1,25 @@
+2005-10-07  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/controllib.pl:
+	(checkversion) add generic check for valid version numbers
+	(checkpackagename) add generic check for valid package
+	names
+	(readmd5sum) add generic function to extract md5sum from
+	md5sum program output
+	(setsourcepackage) call checkpackagename on new value
+	* scripts/dpkg-source.pl: Use the new checks added to
+	controllib to ensure validity of version and packagename
+	on build, too. Previously this was only done on
+	unpack.
+
+	* scripts/dpkg-source.pl: Test on build if directories
+	added by diff already exist with other type in the original
+	source since we already tested that on unpack.
+
+	* scripts/dpkg-source.pl (addfile): Test if files are added
+	twice. Should not happen but as we error out on unpack
+	better make sure it doesn't.
+
 2005-10-04  Frank Lichtenheld  <djpig@debian.org>
  
 	* scripts/dpkg-source.pl: Check build relation

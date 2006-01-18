@@ -243,14 +243,35 @@ sub parsechangelog {
     $substvar{'Source-Version'}= $fi{"L Version"};
 }
 
+sub checkpackagename {
+    my $name = shift || '';
+    $name =~ m/[^-+.0-9a-z]/o &&
+        &error("source package name `$name' contains illegal character `$&'");
+    $name =~ m/^[0-9a-z]/o ||
+        &error("source package name `$name' starts with non-alphanum");
+}
+
+sub checkversion {
+    my $version = shift || '';
+    $version =~ m/[^-+:.0-9a-zA-Z~]/o &&
+        &error("version number contains illegal character `$&'");
+}
 
 sub setsourcepackage {
+    checkpackagename( $v );
     if (length($sourcepackage)) {
         $v eq $sourcepackage ||
             &error("source package has two conflicting values - $sourcepackage and $v");
     } else {
         $sourcepackage= $v;
     }
+}
+
+sub readmd5sum {
+    (my $md5sum = shift) or return;
+    $md5sum =~ s/^([0-9a-f]{32})\s*\*?-?\s*\n?$/$1/o
+	|| &failure("md5sum gave bogus output `$md5sum'");
+    return $md5sum;
 }
 
 sub parsecdata {
