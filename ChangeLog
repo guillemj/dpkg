@@ -1,7 +1,15 @@
+2005-10-03  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-source.pl: Try to chown files extracted from
+	a tar file to the uid and gid of the user. This should make
+	dpkg-source -x safer to use as root. Also create the temporary
+	directory mode 0700 to not allow anyone exploiting races
+	between the extraction and the chown.
+
 2005-08-27  Frank Lichtenheld  <djpig@debian.org>
 
-       * scripts/dpkg-gencontrol: Bail out with an error if parsedep
-       found an error while parsing a dependency field.
+	* scripts/dpkg-gencontrol: Bail out with an error if parsedep
+	found an error while parsing a dependency field.
 
 2005-08-17  Scott James Remnant  <scott@netsplit.com>
 

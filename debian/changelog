@@ -3,6 +3,11 @@ dpkg (1.13.12~) unstable; urgency=low
   [Frank Lichtenheld]
   * Let dpkg-gencontrol bail out with an error if parsedep
     found an error while parsing a dependency field. Closes: #228125
+  * dpkg-source -x now tries to chown all files extracted from
+    tar files. The temporary directory is now created with mode
+    0700, too. Together this should make it safer to run
+    dpkg-source -x as root. Based on suggestions by Marcus
+    Brinkmann and Colin Watson. Closes: #144571, #238460
 
  --
 

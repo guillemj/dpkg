@@ -642,10 +642,11 @@ if ($opmode eq 'build') {
 	my $tmp = "$target.tmp-nest";
 	(my $t = $target) =~ s!.*/!!;
 
-	mkdir($tmp,0755) || &syserr("unable to create `$tmp'");
+	mkdir($tmp,0700) || &syserr("unable to create `$tmp'");
 	system "chmod", "g-s", $tmp;
 	print("$progname: unpacking $tarfile\n");
 	extracttar("$dscdir/$tarfile",$tmp,$t);
+	system "chown", '-R', '-f', join(':',@fowner), "$tmp/$t";
 	rename("$tmp/$t",$target)
 	    || &syserr("unable to rename `$tmp/$t' to `$target'");
 	rmdir($tmp)
