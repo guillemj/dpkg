@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.10.18\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2005-08-17 04:46+0100\n"
-"PO-Revision-Date: 2004-12-31 12:07+0100\n"
+"POT-Creation-Date: 2005-10-22 18:33+0200\n"
+"PO-Revision-Date: 2005-08-23 09:55+0200\n"
 "Last-Translator: Javier Fernández-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -247,7 +247,7 @@ msgstr "no se puede instalar el estado actualizado de `%.250s'"
 #: lib/dbmodify.c:301
 #, fuzzy, c-format
 msgid "couldn't open log `%s': %s\n"
-msgstr "no se puede abrir el fichero de depuración `%.255s'\n"
+msgstr "no se puede abrir el fichero de registro `%s'"
 
 #: lib/dump.c:291
 #, c-format
@@ -988,9 +988,9 @@ msgid "Replacing files in old package %s ...\n"
 msgstr "Reemplazando ficheros del paquete antiguo %s ...\n"
 
 #: src/archives.c:470
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced by files in installed package %s ...\n"
-msgstr "Reemplazando ficheros del paquete antiguo %s ...\n"
+msgstr "Reemplazado por ficheros en el paquete instalado %s ...\n"
 
 #: src/archives.c:476
 #, c-format
@@ -1007,9 +1007,9 @@ msgstr ""
 "intentando sobreescribir `%.250s', que está también en el paquete %.250s"
 
 #: src/archives.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "gobble replaced file `%.255s'"
-msgstr "no se puede leer el fichero parte `%.250s'"
+msgstr "fichero reemplazado por consumo `%.255s'"
 
 #: src/archives.c:568 dpkg-deb/build.c:314
 #, c-format
@@ -1641,7 +1641,7 @@ msgstr " recomienda "
 
 #: src/depcon.c:156
 msgid " conflicts with "
-msgstr " hace conflicto con "
+msgstr " entra en conflicto con "
 
 #: src/depcon.c:157
 msgid " suggests "
@@ -2224,7 +2224,7 @@ msgstr "' de Debian GNU/Linux, versión "
 
 # This split is broken. It should say "See %s --licence for copyright" instead.
 # We do not translate words, we translate complete sentences. sv
-#: src/main.c:48 src/query.c:463
+#: src/main.c:48 src/query.c:462
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
@@ -2234,14 +2234,14 @@ msgstr ""
 "posterior para las condiciones de copia. No hay NINGUNA garantía.\n"
 "Vea "
 
-#: src/main.c:50 src/query.c:465
+#: src/main.c:50 src/query.c:464
 msgid " --licence for copyright and license details.\n"
 msgstr " --license para ver el copyright y más detalles sobre la licencia.\n"
 
 # FUZZY.
 # FIXME: Extra space in Usage: line.
 #: src/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2337,11 +2337,6 @@ msgstr ""
 "  dpkg -C|--audit                        verifica los paquetes rotos\n"
 "  dpkg --print-architecture              muestra la arquitectura de destino\n"
 "                                         (utiliza GCC)\n"
-"  dpkg --print-gnu-build-architecture    muestra la versión de GNU de la\n"
-"                                         arquitectura de destino\n"
-"  dpkg --print-installation-architecture muestra la arquitectura de la "
-"máquina\n"
-"                                         (para instalación)\n"
 "  dpkg --compare-versions <a> <rel> <b>  compara los números de versión\n"
 "                                         véase más adelante\n"
 "  dpkg --help | --version                muestra esta ayuda / la versión\n"
@@ -2382,6 +2377,7 @@ msgstr ""
 "debug=help\n"
 "  --status-fd <n>            Envía actualizaciones de cambios de status al\n"
 "                             descriptor de fichero <n>\n"
+"  --log=<fichero>            Registra los cambios de estado en <fichero>\n"
 "  --ignore-depends=<paquete>,... No tiene en cuenta las dependencias que\n"
 "                                 impliquen a <paquete>\n"
 "  --force-...                 Descarta problemas, véase --force-help\n"
@@ -2399,7 +2395,6 @@ msgstr ""
 "Utilice `dselect' o 'aptitude' para una gestión de paquetes más amigable.\n"
 
 #: src/main.c:119
-#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2413,7 +2408,7 @@ msgid ""
 "`more' !"
 msgstr ""
 "Escriba dpkg --help para ayuda sobre instalar y desinstalar paquetes [*];\n"
-"Use dselect para administrar los paquetes de una forma más amigable;\n"
+"Use `dselect' o `aptitude' para una gestión más amigable de los paquetes;\n"
 "Escriba dpkg -Dhelp para una lista de los valores de depuración de dpkg;\n"
 "Escriba dpkg --force-help para una lista de opciones para forzar cosas;\n"
 "Escriba dpkg-deb --help para obtener ayuda sobre manipulación de archivos ."
@@ -2424,7 +2419,7 @@ msgstr ""
 "Las opciones marcadas con ([*]) producen una salida extensa,\n"
 "¡fíltrela con `less' o con `more'!"
 
-#: src/main.c:184 src/query.c:531 dpkg-deb/main.c:162 dpkg-split/main.c:145
+#: src/main.c:184 src/query.c:530 dpkg-deb/main.c:162 dpkg-split/main.c:145
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "acciones en conflicto --%s y --%s"
@@ -2628,7 +2623,7 @@ msgstr "no se pudo abrir `%i' para un flujo"
 msgid "unexpected eof before end of line %d"
 msgstr "eof inesperado antes del fin de la línea %d"
 
-#: src/main.c:541 src/main.c:556 src/query.c:566 dpkg-deb/main.c:184
+#: src/main.c:541 src/main.c:556 src/query.c:565 dpkg-deb/main.c:184
 #: dpkg-split/main.c:157
 msgid "need an action option"
 msgstr "se necesita una opción de acción"
@@ -2855,7 +2850,7 @@ msgstr "dpkg-deb: zapea posibles ceros finales"
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr "dpkg: atención - no se puede borrar el fichero antiguo `%.250s': %s\n"
 
-#: src/processarc.c:689 src/processarc.c:929 src/remove.c:286
+#: src/processarc.c:689 src/processarc.c:926 src/remove.c:286
 msgid "cannot read info directory"
 msgstr "no se puede leer el directorio `info'"
 
@@ -2913,12 +2908,12 @@ msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 "no se puede instalar el nuevo fichero de información `%.250s' como `%.250s'"
 
-#: src/processarc.c:909
+#: src/processarc.c:906
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Note la desaparición de %s, que ha sido completamente reemplazado.)\n"
 
-#: src/processarc.c:945
+#: src/processarc.c:942
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr ""
@@ -2949,7 +2944,7 @@ msgstr "Versión"
 msgid "Description"
 msgstr "Descripción"
 
-#: src/query.c:218 src/query.c:447 src/select.c:80
+#: src/query.c:218 src/query.c:446 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "No se ha encontrado ningún paquete que corresponda con %s.\n"
@@ -3024,7 +3019,7 @@ msgstr "desviado por %s"
 msgid " to: %s\n"
 msgstr " a: %s\n"
 
-#: src/query.c:398
+#: src/query.c:397
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3034,21 +3029,21 @@ msgstr ""
 
 # This is broken. Translators do not translate words, they translate complete sentences.
 # I would suggest using %s. sv
-#: src/query.c:459 dpkg-deb/main.c:46
+#: src/query.c:458 dpkg-deb/main.c:46
 msgid "Debian `"
 msgstr "Herramienta de consulta `"
 
-#: src/query.c:461
+#: src/query.c:460
 msgid "' package management program query tool\n"
 msgstr "' del gestor de paquetes de Debian\n"
 
-#: src/query.c:473
+#: src/query.c:472
 #, c-format
 msgid "Usage: "
 msgstr "Modo de empleo: "
 
-#: src/query.c:474
-#, fuzzy, c-format
+#: src/query.c:473
+#, c-format
 msgid ""
 " [<option>] <command>\n"
 "Commands:\n"
@@ -3090,10 +3085,11 @@ msgstr ""
 "                                       uno o varios ficheros\n"
 "  --help | --version                   muestra esta ayuda / el número de "
 "versión\n"
+"  --license                            imprime los términos del copyright\n"
 "\n"
 "Opciones:\n"
 "  --admindir=<directorio>     Utiliza <directorio> en lugar de %s\n"
-"  --showformat=<formato>      Utiliza un formato alternativo para --show\n"
+"  -f|--showformat=<formato>   Utiliza un formato alternativo para --show\n"
 "\n"
 "Sintaxis del formato\n"
 "  Un formato es una cadena que se mostrará para cada paquete. El formato\n"
@@ -3102,11 +3098,12 @@ msgstr ""
 "información\n"
 "  sobre el paquete insertando referencias variables a los campos del "
 "paquete\n"
-"  usando la sintaxis ${var[;ancho]}. Los campos se alinearán a la derecha a "
-"menos\n"
-"  que el ancho sea negativo, en cuyo caso se alinearán a la izquierda.\n"
+"  usando la sintaxis ${var[;ancho]}. Los campos se alinearán a la derecha "
+"a \n"
+"  menos que el ancho sea negativo, en cuyo caso se alinearán a la "
+"izquierda.\n"
 
-#: src/query.c:501
+#: src/query.c:500
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
@@ -4699,7 +4696,7 @@ msgstr "predepende de"
 
 #: dselect/pkgdisplay.cc:75
 msgid "conflicts with"
-msgstr "hace conflicto con"
+msgstr "entra en conflicto con"
 
 #: dselect/pkgdisplay.cc:76
 msgid "provides"
@@ -5591,7 +5588,6 @@ msgstr ""
 "Véase dpkg-deb --license para más detalles.\n"
 
 #: dpkg-deb/main.c:58
-#, fuzzy
 msgid ""
 "Command:\n"
 "  -b|--build <directory> [<deb>]    build an archive.\n"
@@ -5677,10 +5673,10 @@ msgstr ""
 "  menos que el ancho sea negativo, en cuyo caso se alinearán a la "
 "izquierda.\n"
 "\n"
-"Utilice `dpkg' para instalar y desinstalar paquetes del sistema, o "
-"`dselect'\n"
-"para una gestión de paquetes amigable. ¡Los paquetes desempaquetados usando\n"
-"`dpkg-deb --extract' se instalarán incorrectamente!\n"
+"Utilice `dpkg' para instalar y desinstalar paquetes del sistema, o\n"
+"`dselect' o `aptitude' para una gestión de paquetes amigable. ¡Los\n"
+"paquetes desempaquetados usando `dpkg-deb --extract' se instalarán\n"
+"incorrectamente! \n"
 
 #: dpkg-deb/main.c:100
 msgid ""

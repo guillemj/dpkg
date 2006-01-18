@@ -4,10 +4,10 @@
 # Bartosz Feñski <fenio@debian.org>, 2004-2005
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.9.20\n"
+"Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2005-08-17 04:46+0100\n"
-"PO-Revision-Date: 2005-01-05 19:50+0100\n"
+"POT-Creation-Date: 2005-10-11 22:24+0200\n"
+"PO-Revision-Date: 2005-08-23 10:11+0200\n"
 "Last-Translator: Bartosz Fenski <fenio@debian.org>\n"
 "Language-Team: Polish <pddp@debian.linux.org.pl>\n"
 "MIME-Version: 1.0\n"
@@ -235,7 +235,7 @@ msgstr "nie mo¿na zainstalowaæ uaktualnionego pliku `%.250s'"
 #: lib/dbmodify.c:301
 #, fuzzy, c-format
 msgid "couldn't open log `%s': %s\n"
-msgstr "nie mo¿na otworzyæ pliku debuggera `%.255s'\n"
+msgstr "nie mo¿na otworzyæ pliku dziennika `%s'"
 
 #: lib/dump.c:291
 #, c-format
@@ -951,9 +951,9 @@ msgid "Replacing files in old package %s ...\n"
 msgstr "Zast±pienie plików z poprzedniego pakietu %s ...\n"
 
 #: src/archives.c:470
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced by files in installed package %s ...\n"
-msgstr "Zast±pienie plików z poprzedniego pakietu %s ...\n"
+msgstr "Zast±pienie przez pliki z instalowanego pakietu %s ...\n"
 
 #: src/archives.c:476
 #, c-format
@@ -969,9 +969,9 @@ msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr "próba nadpisania `%.250s', który istnieje tak¿e w pakiecie %.250s"
 
 #: src/archives.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "gobble replaced file `%.255s'"
-msgstr "nie mo¿na odczytaæ pliku czê¶ci `%.250s'"
+msgstr "pominiêcie zast±pionego pliku `%.255s'"
 
 #: src/archives.c:568 dpkg-deb/build.c:314
 #, c-format
@@ -2143,7 +2143,7 @@ msgstr "Debian GNU/Linux `"
 msgid "' package management program version "
 msgstr "' program do zarz±dzania pakietami, wersja "
 
-#: src/main.c:48 src/query.c:463
+#: src/main.c:48 src/query.c:462
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
@@ -2154,12 +2154,12 @@ msgstr ""
 "by dowiedzieæ siê o warunkach dystrybucji. Brak JAKIEJKOLWIEK gwarancji.\n"
 "Sprawd¼ "
 
-#: src/main.c:50 src/query.c:465
+#: src/main.c:50 src/query.c:464
 msgid " --licence for copyright and license details.\n"
 msgstr " --licence informacje o prawach autorskich i licencji.\n"
 
 #: src/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2248,15 +2248,11 @@ msgstr ""
 "  dpkg -S|--search <wzorzec> ...          szukanie pakietu zawieraj±cego "
 "plik\n"
 "  dpkg -C|--audit                         sprawdzanie uszkodzonych pakietów\n"
-"  dpkg --print-architecture               podanie docelowej architektury "
-"GCC\n"
-"  dpkg --print-gnu-build-architecture     podanie docelowej architektury "
-"GNU\n"
-"  dpkg --print-installation-architecture  podanie architektury hosta\n"
+"  dpkg --print-architecture               podanie architektury dpkg\n"
 "  dpkg --compare-versions <a> <rel> <b>   porównanie numerów wersji\n"
 "  dpkg --help | --version                 podanie opisu pomocy/numeru "
 "wersji\n"
-"  dpkg --force-help | -Dh|--debug=help    podanie opisu opcji --force\n"
+"  dpkg --force-help | -Dh|--debug=help    opis wymuszania / debugowania\n"
 "  dpkg --licence                          informacja o warunkach licencji\n"
 "\n"
 "U¿yj dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2279,11 +2275,13 @@ msgstr ""
 "  -B|--auto-deconfigure    Instaluj nawet gdy powoduje zmianê innych "
 "pakietów\n"
 "  --no-debsig              Nie próbuj sprawdzaæ podpisów pakietów\n"
-"  --no-act                 Tylko poka¿, co siê stanie - nie zmieniaj "
+"  --no-act|--dry-run|--simulate\n"
+"                           Tylko poka¿, co siê stanie - nie zmieniaj "
 "niczego\n"
 "  -D|--debug=<ósemkowo>    W³±czenie debuggera - zobacz -Dhelp lub --"
 "debug=help\n"
 "  --status-fd <n>          Wy¶lij aktualizacje zmian stanu do pliku <n>\n"
+"  --log=<plik>             Zapisuj zmiany do pliku <plik>\n"
 "  --ignore-depends=<pakiet>,... Ignoruj zale¿no¶ci dotycz±ce <pakietu>\n"
 "  --force-...                   Ignoruj problemy - zobacz --force-help\n"
 "  --no-force-...|--refuse-...   Zatrzymaj gdy wyst±pi± problemy\n"
@@ -2295,11 +2293,10 @@ msgstr ""
 " < << <= = >= >> >       (dla zachow. kompatyb. ze sk³adni± pliku "
 "kontrolnego).\n"
 "\n"
-"U¿yj `dselect' je¶li potrzebujesz wygodnego programu do zarz±dzania "
-"pakietami.\n"
+"U¿yj `dselect' lub 'aptitude je¶li potrzebujesz wygodnego programu \n"
+"do zarz±dzania pakietami.\n"
 
 #: src/main.c:119
-#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2313,17 +2310,17 @@ msgid ""
 "`more' !"
 msgstr ""
 "Wpisz dpkg --help aby dowiedzieæ siê jak (od)instalowaæ pakiety [*];\n"
-"U¿yj dselect je¶li potrzebujesz wygodnego programu do zarz±dzania "
-"pakietami;\n"
+"U¿yj 'dselect' lub 'aptitude je¶li potrzebujesz wygodnego programu \n"
+"do zarz±dzania pakietami;\n"
 "Wpisz  dpkg -Dhelp aby dowiedzieæ siê o opcjach debuggera;\n"
-"Wpisz  dpkg --force-help aby dowiedzieæ siê jak ignorowaæ problemów;\n"
+"Wpisz  dpkg --force-help aby dowiedzieæ siê jak ignorowaæ problemy;\n"
 "Wpisz  dpkg-deb --help aby dowiedzieæ siê jak operowaæ plikami *.deb;\n"
 "Wpisz  dpkg --licence aby poznaæ warunki licencji i gwarancji (GNU GPL) "
 "[*].\n"
 "\n"
 "Opcje oznaczone [*] podaj± du¿o tre¶ci - skieruj potok na `less' lub `more' !"
 
-#: src/main.c:184 src/query.c:531 dpkg-deb/main.c:162 dpkg-split/main.c:145
+#: src/main.c:184 src/query.c:530 dpkg-deb/main.c:162 dpkg-split/main.c:145
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "konflikt miêdzy dzia³aniem --%s i --%s"
@@ -2509,7 +2506,7 @@ msgstr "nie uda³o siê otworzyæ `%i' jako strumienia"
 msgid "unexpected eof before end of line %d"
 msgstr "niespodziewany EOF przed koñcem linii %d"
 
-#: src/main.c:541 src/main.c:556 src/query.c:566 dpkg-deb/main.c:184
+#: src/main.c:541 src/main.c:556 src/query.c:565 dpkg-deb/main.c:184
 #: dpkg-split/main.c:157
 msgid "need an action option"
 msgstr "nale¿y okre¶liæ dzia³anie"
@@ -2735,7 +2732,7 @@ msgstr "dpkg-deb: usuniêcie prawdopodobnych zer na koñcu"
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr "dpkg: ostrze¿enie - nie mo¿na usun±æ poprzedniego pliku `%.250s': %s\n"
 
-#: src/processarc.c:689 src/processarc.c:929 src/remove.c:286
+#: src/processarc.c:689 src/processarc.c:926 src/remove.c:286
 msgid "cannot read info directory"
 msgstr "nie mo¿na odczytaæ katalogu informacyjnego"
 
@@ -2789,12 +2786,12 @@ msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr ""
 "nie mo¿na zainstalowaæ nowego pliku informacyjnego `%.250s' jako `%.250s'"
 
-#: src/processarc.c:909
+#: src/processarc.c:906
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Stwierdzono znikniêcie %s, który zosta³ zupe³nie zast±piony.)\n"
 
-#: src/processarc.c:945
+#: src/processarc.c:942
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nie mo¿na usun±æ brakuj±cego pliku kontrolnego `%.250s'"
@@ -2824,7 +2821,7 @@ msgstr "Wersja"
 msgid "Description"
 msgstr "Opis"
 
-#: src/query.c:218 src/query.c:447 src/select.c:80
+#: src/query.c:218 src/query.c:446 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Nie znaleziono pakietu pasuj±cego do wzorca %s.\n"
@@ -2897,7 +2894,7 @@ msgstr "ominiêty przez %s"
 msgid " to: %s\n"
 msgstr " do: %s\n"
 
-#: src/query.c:398
+#: src/query.c:397
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -2905,21 +2902,21 @@ msgstr ""
 "U¿yj dpkg --info (= dpkg-deb --info) aby zobaczyæ informacje o pakiecie,\n"
 "oraz dpkg --contents (= dpkg-deb --contents) aby sprawdziæ jego zawarto¶æ.\n"
 
-#: src/query.c:459 dpkg-deb/main.c:46
+#: src/query.c:458 dpkg-deb/main.c:46
 msgid "Debian `"
 msgstr "Debian `"
 
-#: src/query.c:461
+#: src/query.c:460
 msgid "' package management program query tool\n"
 msgstr "' narzêdzie do przeszukiwania pakietów\n"
 
-#: src/query.c:473
+#: src/query.c:472
 #, c-format
 msgid "Usage: "
 msgstr "U¿ywanie: "
 
-#: src/query.c:474
-#, fuzzy, c-format
+#: src/query.c:473
+#, c-format
 msgid ""
 " [<option>] <command>\n"
 "Commands:\n"
@@ -2959,10 +2956,10 @@ msgstr ""
 "\n"
 "Opcje:\n"
 "  --admindir=<katalog>       U¿yj <katalogu> zamiast %s\n"
-"  --showformat=<format>      U¿yj alternatywnego formatu dla --show\n"
+"  -f|--showformat=<format>   U¿yj alternatywnego formatu dla --show\n"
 "\n"
 "Sk³adnia formatu:\n"
-"  Format jest ci±giem znaków, który bêdzie wyj¶ciowym dla ka¿dego pakietu,\n"
+"  Format jest ci±giem znaków, który bêdzie wyj¶ciowym dla ka¿dego pakietu.\n"
 "  Mo¿e zawieraæ standardowe sekwencje escape \\n (nowa linia), \\r \n"
 "  (powrót karetki) lub (\\\\) (zwyk³y odwrotny uko¶nik). Informacje \n"
 "  o pakietach mog± byæ zawarte poprzez wstawienie odwo³añ do zmiennych \n"
@@ -2970,7 +2967,7 @@ msgstr ""
 "  strony, chyba ¿e zmienna szeroko¶æ jest ujemna, co spowoduje \n"
 "  przesuniêcie do strony lewej.\n"
 
-#: src/query.c:501
+#: src/query.c:500
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
@@ -5395,7 +5392,6 @@ msgstr ""
 "Wiêcej szczegó³ów w dpkg-deb --license.\n"
 
 #: dpkg-deb/main.c:58
-#, fuzzy
 msgid ""
 "Command:\n"
 "  -b|--build <directory> [<deb>]    build an archive.\n"
@@ -5475,9 +5471,10 @@ msgstr ""
 "  przesuniêcie do strony lewej.\n"
 "\n"
 "U¿yj `dpkg' aby zainstalowaæ lub usun±æ pakiety z systemu, lub\n"
-"`dselect' je¶li potrzebujesz wygodnego programu do zarz±dzania pakietami. "
-"Pakiety rozpakowane poleceniem `dpkg-deb --extract' nie bêd± poprawnie\n"
-"zainstalowane !\n"
+"`dselect' lub 'aptitude' je¶li potrzebujesz wygodnego programu\n"
+"do zarz±dzania pakietami. Pakiety rozpakowane poleceniem\n"
+"`dpkg-deb --extract' nie bêd± poprawnie\n"
+" zainstalowane !\n"
 
 #: dpkg-deb/main.c:100
 msgid ""

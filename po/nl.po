@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.9.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2005-08-17 04:46+0100\n"
-"PO-Revision-Date: 2005-01-06 23:41+0100\n"
+"POT-Creation-Date: 2005-12-22 01:10+0100\n"
+"PO-Revision-Date: 2005-08-18 18:23+0100\n"
 "Last-Translator: Bart Cornelis <cobaco@linux.be>\n"
 "Language-Team: Dutch <debian-l10n-dutch@debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -235,7 +235,7 @@ msgstr "kon nieuwe status van `%.250s' niet installeren"
 #: lib/dbmodify.c:301
 #, fuzzy, c-format
 msgid "couldn't open log `%s': %s\n"
-msgstr "kon debugbestand `%.255s' niet openen\n"
+msgstr "kon logbestand `%s' niet openen"
 
 #: lib/dump.c:291
 #, c-format
@@ -948,9 +948,9 @@ msgid "Replacing files in old package %s ...\n"
 msgstr "Overschrijven van de bestanden in het oude pakket %s ...\n"
 
 #: src/archives.c:470
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced by files in installed package %s ...\n"
-msgstr "Overschrijven van de bestanden in het oude pakket %s ...\n"
+msgstr "Vervangen door bestanden in geïnstalleerd pakket %s ...\n"
 
 #: src/archives.c:476
 #, c-format
@@ -966,9 +966,9 @@ msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr "poging tot overschrijven van `%.250s', wat ook in pakket %.250s zit"
 
 #: src/archives.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "gobble replaced file `%.255s'"
-msgstr "kon deelbestand `%.250s' niet lezen"
+msgstr "eet vervangen bestand `%.255s'  op"
 
 #: src/archives.c:568 dpkg-deb/build.c:314
 #, c-format
@@ -2079,7 +2079,7 @@ msgstr "kon `%.250s' niet uitvoerbaar maken"
 #: src/help.c:299
 #, c-format
 msgid "unable to stat installed %s script `%.250s'"
-msgstr "kon de status van het geinstalleerde %s script `%.250s' niet opvragen"
+msgstr "kon de status van het geïnstalleerde %s script `%.250s' niet opvragen"
 
 #: src/help.c:301 src/help.c:357 src/help.c:377
 #, c-format
@@ -2148,7 +2148,7 @@ msgstr "Debian GNU/Linux `"
 msgid "' package management program version "
 msgstr "' beheerprogramma voor pakketten versie "
 
-#: src/main.c:48 src/query.c:463
+#: src/main.c:48 src/query.c:462
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
@@ -2158,12 +2158,12 @@ msgstr ""
 "of later voor kopieervoorwaarden.  Er is GEEN garantie.\n"
 "Zie "
 
-#: src/main.c:50 src/query.c:465
+#: src/main.c:50 src/query.c:464
 msgid " --licence for copyright and license details.\n"
 msgstr " --licence voor copyright en licentie details.\n"
 
 #: src/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2252,11 +2252,7 @@ msgstr ""
 "  dpkg -S|--search <patroon> ...           vind pakketten die bestanden "
 "bevatten\n"
 "  dpkg -C|--audit                          zoek naar kapotte pakketten\n"
-"  dpkg --print-architecture                geef doelarchitectuur (gebruikt "
-"GCC)\n"
-"  dpkg --print-gnu-build-architecture      geef GNU versie van "
-"doelarchitectuur\n"
-"  dpkg --print-installation-architecture   geef huidige architectuur\n"
+"  dpkg --print-architecture                geef dpkg-architectuur weer\n"
 "  dpkg --compare-versions <a> <rel> <b>    vergelijk versienummers (zie "
 "onder)\n"
 "  dpkg --help | --version                  geef deze hulp/versienummer\n"
@@ -2276,7 +2272,7 @@ msgstr ""
 "  -O|--selected-only         Skip pakketten not selected for install/"
 "upgrade\n"
 "  -E|--skip-same-version     Skip pakketten met dezelfde versie als "
-"geinstalleerd\n"
+"geïnstalleerd\n"
 "  -G|--refuse-downgrade      Skip pakketten met eerdere versie dan "
 "geïstalleerd\n"
 "  -B|--auto-deconfigure      Installeer zelfs als het een ander pakket "
@@ -2288,7 +2284,9 @@ msgstr ""
 "  -D|--debug=<octal>         Activeer debug - zie -Dhelp of --debug=help\n"
 "  --status-fd <n>            Stuur status change updates naar file "
 "descriptor <n>\n"
-"  --ignore-depends=<pakket>,... Negeer vereisten bij <pakket>\n"
+"  --log=<bestandsnaam>    log statusveranderingen en acties naar "
+"<bestandsnaam>\n"
+"   --ignore-depends=<pakket>,... Negeer vereisten bij <pakket>\n"
 "  --force-...                    Forceer oplossingen - zie --force-help\n"
 "  --no-force-...|--refuse-...    Stop bij problemen\n"
 "  --abort-after <n>              Breek af na <n> fouten\n"
@@ -2298,10 +2296,9 @@ msgstr ""
 " lt-nl le-nl ge-nl gt-nl (treat no version as later than any version);\n"
 " < << <= = >= >> >       (only for compatibility with control file syntax).\n"
 "\n"
-"Gebruik `dselect' voor gebruikersvriendelijk pakketbeheer.\n"
+"Gebruik `dselect' of 'aptitude' voor gebruikersvriendelijk pakketbeheer.\n"
 
 #: src/main.c:119
-#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2316,17 +2313,17 @@ msgid ""
 msgstr ""
 "Type dpkg --help voor hulp met installatie en deinstallatie van pakketten "
 "[*];\n"
-"Gebruik dselect voor gebruikersvriendelijk pakketbeheer;\n"
+"Gebruik 'dselect' of 'aptitude' voor gebruikersvriendelijk pakketbeheer;\n"
 "Type dpkg -Dhelp voor een lijst van dpkg debugvlaggen;\n"
 "Type dpkg --force-help voor een lijst met forceer-opties;\n"
 "Type dpkg-deb --help voor hulp met manipuleren van *.deb bestanden;\n"
 "Type dpkg --licence voor auteursrecht, licentie en ontbreken van garantie "
 "(GNU GPL) [*].\n"
 "\n"
-"Opties gemarkeerd met [*] produreren een hoop uitvoer - pijp het door `less' "
+"Opties gemarkeerd met [*] produceren een hoop uitvoer - pijp het door `less' "
 "of `more' !"
 
-#: src/main.c:184 src/query.c:531 dpkg-deb/main.c:162 dpkg-split/main.c:145
+#: src/main.c:184 src/query.c:530 dpkg-deb/main.c:162 dpkg-split/main.c:145
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "tegenstrijdige acties --%s en --%s"
@@ -2521,7 +2518,7 @@ msgstr "kon `%i' niet openen voor stream"
 msgid "unexpected eof before end of line %d"
 msgstr "onverwacht bestandseinde voor einde regel %d"
 
-#: src/main.c:541 src/main.c:556 src/query.c:566 dpkg-deb/main.c:184
+#: src/main.c:541 src/main.c:556 src/query.c:565 dpkg-deb/main.c:184
 #: dpkg-split/main.c:157
 msgid "need an action option"
 msgstr "heb een actie-optie nodig"
@@ -2745,7 +2742,7 @@ msgstr "dpkg-deb: zap mogelijke nakomende nullen"
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr "dpkg: waarschuwing - kon oud bestand `%.250s' niet verwijderen: %s\n"
 
-#: src/processarc.c:689 src/processarc.c:929 src/remove.c:286
+#: src/processarc.c:689 src/processarc.c:926 src/remove.c:286
 msgid "cannot read info directory"
 msgstr "kon info map niet lezen"
 
@@ -2796,12 +2793,12 @@ msgstr "dpkg: waarschuwing - pakket %s bevat een lijst als infobestand"
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "kon nieuwe infobestand `%.250s' niet installeren als `%.250s'"
 
-#: src/processarc.c:909
+#: src/processarc.c:906
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(Verdwijning van %s is opgemerkt, het is totaal vervangen is.)\n"
 
-#: src/processarc.c:945
+#: src/processarc.c:942
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "kon oude verdwijnende besturings infobestand `%.250s' niet verwijderen"
@@ -2829,7 +2826,7 @@ msgstr "Versie"
 msgid "Description"
 msgstr "Omschrijving"
 
-#: src/query.c:218 src/query.c:447 src/select.c:80
+#: src/query.c:218 src/query.c:446 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Geen pakketten gevonden overeenkomend met %s.\n"
@@ -2901,7 +2898,7 @@ msgstr "omgeleid door %s"
 msgid " to: %s\n"
 msgstr " naar: %s\n"
 
-#: src/query.c:398
+#: src/query.c:397
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -2909,21 +2906,21 @@ msgstr ""
 "Gebruik dpkg --info (= dpkg-deb --info) om archiefbestanden te bekijken,\n"
 "en dpkg --contents (= dpkg-deb --contents) om de inhoud weer te geven.\n"
 
-#: src/query.c:459 dpkg-deb/main.c:46
+#: src/query.c:458 dpkg-deb/main.c:46
 msgid "Debian `"
 msgstr "Debian GNU/Linux `"
 
-#: src/query.c:461
+#: src/query.c:460
 msgid "' package management program query tool\n"
 msgstr "' beheerprogramma voor pakketten versie\n"
 
-#: src/query.c:473
+#: src/query.c:472
 #, c-format
 msgid "Usage: "
 msgstr "Gebruik: "
 
-#: src/query.c:474
-#, fuzzy, c-format
+#: src/query.c:473
+#, c-format
 msgid ""
 " [<option>] <command>\n"
 "Commands:\n"
@@ -2961,7 +2958,7 @@ msgstr ""
 "is\n"
 "  --help | --version                  toon deze boodschap / het "
 "versienummer\n"
-"  --licence                           toon de copyricht licentie\n"
+"  --licence                           toon de copyright licentie\n"
 "\n"
 "Opties:\n"
 "  --admindir=<map>     Gebruik <map> i.p.v %s\n"
@@ -2976,7 +2973,7 @@ msgstr ""
 "  Velden worden rechts uitgelijnd tenzij de breedte negatief is, in dat\n"
 "  geval worden ze links uitgelijnd.\n"
 
-#: src/query.c:501
+#: src/query.c:500
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
@@ -5396,7 +5393,6 @@ msgstr ""
 "Zie dpkg --licence voor auteursrechten en licentiedetails.\n"
 
 #: dpkg-deb/main.c:58
-#, fuzzy
 msgid ""
 "Command:\n"
 "  -b|--build <directory> [<deb>]    build an archive.\n"
@@ -5478,7 +5474,7 @@ msgstr ""
 "  links uitgelijnd wordt.\n"
 "\n"
 "Gebruik `dpkg' om pakketten te installeren of verwijderen van uw\n"
-"systeem, of `dselect' voor gebruikersvriendelijk pakketbeheer.\n"
+"systeem, `dselect' of 'aptitude' voor gebruikersvriendelijk pakketbeheer.\n"
 "Pakketten uitgepakt met `dpkg-deb --extract' worden foutief\n"
 "geïnstalleerd!\n"
 

@@ -1,25 +1,25 @@
 # Simplified Chinese translation to dpkg.
 # Copyright (C) 2004 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Kov Tchai <chaisave@263.com>, 2004.
+# Kov Tchai <tchaikov@sjtu.edu.cn>, 2005.
 # Hiweed Leng <hiweed@163.com>, 2004.
 # Carlos Z.F. Liu <carlosliu@users.sourceforge.net>, 2004.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg\n"
+"Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2005-08-17 04:46+0100\n"
-"PO-Revision-Date: 2005-02-07 05:27+1300\n"
-"Last-Translator: Tchaikov <chaisave@263.com>\n"
-"Language-Team: Chinese (simplified) <i18n-translation@lists.linux.net.cn>\n"
+"POT-Creation-Date: 2005-10-22 01:10+0200\n"
+"PO-Revision-Date: 2005-10-23 22:28+0800\n"
+"Last-Translator: Tchaikov <tchaikov@sjtu.edu.cn>\n"
+"Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: lib/compat.c:46
 msgid "unable to open tmpfile for vsnprintf"
-msgstr "无法为 vsnprintf 打开临时文件"
+msgstr "无法为 vsnprintf 新建临时文件"
 
 #: lib/compat.c:48
 msgid "unable to rewind at start of vsnprintf"
@@ -234,9 +234,9 @@ msgid "unable to install updated status of `%.250s'"
 msgstr "无法安装“%.250s”的更新状态"
 
 #: lib/dbmodify.c:301
-#, fuzzy, c-format
+#, c-format
 msgid "couldn't open log `%s': %s\n"
-msgstr "无法打开调试信息文件“%.255s”\n"
+msgstr "无法打开日志文件“%s”：%s\n"
 
 #: lib/dump.c:291
 #, c-format
@@ -478,7 +478,7 @@ msgstr "“%s”字段，在引用软件包“%.255s”后发现语法错误"
 #: lib/fields.c:413
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
-msgstr "在 %s 字段不能有替换项(\"｜“)"
+msgstr "在 %s 字段中不能含有替换项(\"｜“)"
 
 #: lib/lock.c:45
 msgid "unable to unlock dpkg status database"
@@ -937,9 +937,9 @@ msgid "Replacing files in old package %s ...\n"
 msgstr "正在替换原软件包中的文件 %s ...\n"
 
 #: src/archives.c:470
-#, fuzzy, c-format
+#, c-format
 msgid "Replaced by files in installed package %s ...\n"
-msgstr "正在替换原软件包中的文件 %s ...\n"
+msgstr "被已安装的软件包 %s 中的文件替换了...\n"
 
 #: src/archives.c:476
 #, c-format
@@ -955,7 +955,7 @@ msgstr "正试图覆盖“%.250s”，它属于软件包 %.250s"
 #: src/archives.c:511
 #, fuzzy, c-format
 msgid "gobble replaced file `%.255s'"
-msgstr "无法读取分块文件“%.250s”"
+msgstr "大批读取替换文件“%.255s”"
 
 #: src/archives.c:568 dpkg-deb/build.c:314
 #, c-format
@@ -1192,9 +1192,9 @@ msgid "unable to restore backup version of `%.250s'"
 msgstr "无法恢复“%.250s”的备份版本"
 
 #: src/cleanup.c:94
-#, fuzzy, c-format
+#, c-format
 msgid "unable to remove newly-installed version of `%.250s'"
-msgstr "无法删除“%.250s”的新近解压的版本"
+msgstr "无法删除“%.250s”的新近安装的版本"
 
 #: src/cleanup.c:101
 #, c-format
@@ -1483,7 +1483,7 @@ msgid ""
 "      D     : show the differences between the versions\n"
 "      Z     : background this process to examine the situation\n"
 msgstr ""
-"   您现在希望怎么办呢？ 您可以有以下的选择：\n"
+"   您现在希望如何处理呢？ 您有以下几个选择：\n"
 "    Y 或 I  ：安装软件包维护者所提供的版本\n"
 "    N 或 O  ：保留您原来安装的版本\n"
 "      D     ：显示两者的区别\n"
@@ -2087,7 +2087,7 @@ msgstr "Debian GNU/Linux “"
 msgid "' package management program version "
 msgstr "”软件包管理程序，版本 "
 
-#: src/main.c:48 src/query.c:463
+#: src/main.c:48 src/query.c:462
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions.  There is NO warranty.\n"
@@ -2097,12 +2097,12 @@ msgstr ""
 "第二版或其更新的版本。该软件【不】提供任何担保。\n"
 "请通过执行 "
 
-#: src/main.c:50 src/query.c:465
+#: src/main.c:50 src/query.c:464
 msgid " --licence for copyright and license details.\n"
 msgstr " --licence 来查看版权和许可证的细节。\n"
 
 #: src/main.c:58
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: \n"
 "  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
@@ -2168,18 +2168,13 @@ msgid ""
 "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
 "用法：\n"
-"  dpkg -i|--install      <.deb 文件的文件名> ... | -R|--recursive <目录"
-"> ...\n"
-"  dpkg --unpack          <.deb 文件的文件名> ... | -R|--recursive <目录"
-"> ...\n"
-"  dpkg -A|--record-avail <.deb 文件的文件名> ... | -R|--recursive <目录"
-"> ...\n"
+"  dpkg -i|--install      <.deb 文件的文件名> ... | -R|--recursive <目录> ...\n"
+"  dpkg --unpack          <.deb 文件的文件名> ... | -R|--recursive <目录> ...\n"
+"  dpkg -A|--record-avail <.deb 文件的文件名> ... | -R|--recursive <目录> ...\n"
 "  dpkg --configure              <软件包名> ... | -a|--pending\n"
 "  dpkg -r|--remove | -P|--purge <软件包名> ... | -a|--pending\n"
-"  dpkg --get-selections [<表达式> ...]     把已选中的软件包的列表打印到标准输"
-"出\n"
-"  dpkg --set-selections                    从标准输入里读出要选择的软件包列"
-"表\n"
+"  dpkg --get-selections [<表达式> ...]     把已选中的软件包的列表打印到标准输出\n"
+"  dpkg --set-selections                    从标准输入里读出要选择的软件包列表\n"
 "  dpkg --update-avail <Packages 文件>      替换现可安装的软件包信息\n"
 "  dpkg --merge-avail <Package 文件>        把文件中的信息合并到系统中\n"
 "  dpkg --clear-avail                       清除现有的软件包信息\n"
@@ -2236,7 +2231,6 @@ msgstr ""
 "“dselect”提供了更为易用的的软件包管理工具。\n"
 
 #: src/main.c:119
-#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2249,8 +2243,8 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through `less' or "
 "`more' !"
 msgstr ""
-"输入 dpkg --help 可获得有关安装和卸载软件包的帮助 [*]；\n"
-"使用 dselect 就能进行用户友好的软件包管理；\n"
+"输入 dpkg --help 可获得安装和卸载软件包的有关帮助 [*]；\n"
+"使用“dselect”或是“aptitude”就能进行用户友好的软件包管理；\n"
 "输入 dpkg -Dhelp 可看到 dpkg 除错标志的值的列表；\n"
 "输入 dpkg --force-help 可获得所有强制操作选项的列表；\n"
 "输入 dpkg-deb --help 可获得有关操作 *.deb 文件的帮助；\n"
@@ -2258,7 +2252,7 @@ msgstr ""
 "带有[*]的选项将会输出较大篇幅的文字 - 可使用管道将其输出连接"
 "到“less”或“more”！"
 
-#: src/main.c:184 src/query.c:531 dpkg-deb/main.c:162 dpkg-split/main.c:145
+#: src/main.c:184 src/query.c:530 dpkg-deb/main.c:162 dpkg-split/main.c:145
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "操作之间有矛盾 -- %s 和 -- %s"
@@ -2439,7 +2433,7 @@ msgstr "无法打开“%i”，并把它作为字符流操作"
 msgid "unexpected eof before end of line %d"
 msgstr "在第 %d 行还未结束时，发现了预料之外的 eof"
 
-#: src/main.c:541 src/main.c:556 src/query.c:566 dpkg-deb/main.c:184
+#: src/main.c:541 src/main.c:556 src/query.c:565 dpkg-deb/main.c:184
 #: dpkg-split/main.c:157
 msgid "need an action option"
 msgstr "需要一个指示操作的选项"
@@ -2661,7 +2655,7 @@ msgstr "dpkg-deb：截去了最后的零数据(zeros)"
 msgid "dpkg: warning - unable to delete old file `%.250s': %s\n"
 msgstr "dpkg：警告 - 无法删除原有的文件“%.250s”：%s\n"
 
-#: src/processarc.c:689 src/processarc.c:929 src/remove.c:286
+#: src/processarc.c:689 src/processarc.c:926 src/remove.c:286
 msgid "cannot read info directory"
 msgstr "无法读取信息(info)目录"
 
@@ -2709,12 +2703,12 @@ msgstr "dpkg：警告 - 软件包 %s 把一个列表作为信息文件使用"
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "无法把新的信息文件“%.250s”安装到“%.250s”"
 
-#: src/processarc.c:909
+#: src/processarc.c:906
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr "(注意到 %s 已经不复存在，它已然被完全取代了。)\n"
 
-#: src/processarc.c:945
+#: src/processarc.c:942
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "无法删除已经消失了的控制信息文件“%.250s”"
@@ -2743,7 +2737,7 @@ msgstr "版本"
 msgid "Description"
 msgstr "简介"
 
-#: src/query.c:218 src/query.c:447 src/select.c:80
+#: src/query.c:218 src/query.c:446 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "没有找到与 %s 相匹配的软件包。\n"
@@ -2815,7 +2809,7 @@ msgstr "转移到了(diverted by) %s"
 msgid " to: %s\n"
 msgstr " 转移文件现指向：%s\n"
 
-#: src/query.c:398
+#: src/query.c:397
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -2823,21 +2817,21 @@ msgstr ""
 "使用 dpkg --info (= dpkg-deb --info) 来检测打包好的文件，\n"
 "还可以用过 dpkg --contents (= dpkg-deb --contents) 来列出它们的内容。\n"
 
-#: src/query.c:459 dpkg-deb/main.c:46
+#: src/query.c:458 dpkg-deb/main.c:46
 msgid "Debian `"
 msgstr "Debian “"
 
-#: src/query.c:461
+#: src/query.c:460
 msgid "' package management program query tool\n"
 msgstr "”软件包管理程序查询工具\n"
 
-#: src/query.c:473
+#: src/query.c:472
 #, c-format
 msgid "Usage: "
 msgstr "用法："
 
-#: src/query.c:474
-#, fuzzy, c-format
+#: src/query.c:473
+#, c-format
 msgid ""
 " [<option>] <command>\n"
 "Commands:\n"
@@ -2867,14 +2861,14 @@ msgstr ""
 " [<选项>] <命令>\n"
 "命令：\n"
 "  -s|--status <软件包名> ...           显示软件包详尽的状态信息\n"
-"  -p|--print-avail <软件包名> ...      显示软件包当前可供安装的版本的详细信"
+"  -p|--print-avail <软件包名> ...      显示当前可供安装的版本的详细信"
 "息\n"
 "  -L|--listfiles <软件包名> ...        列出所有“属于”该软件包(或多个软件包)的"
 "文件\n"
 "  I|--list [<表达式> ...]              简要地列出软件包\n"
 "  -W|--show <表达式> ...               显示软件包的相关信息\n"
 "  -S|--search <表达式> ...             搜寻拥有该文件(或多个文件)的软件包\n"
-"  --help | --version                   显示本帮助文档以及版本号\n"
+"  --help | --version                   显示本帮助文档/版本号\n"
 "  --licence                            显示版权和许可证的条文\n"
 "\n"
 "选项：\n"
@@ -2889,7 +2883,7 @@ msgstr ""
 "  字段一般是靠右对齐的，除非它的宽度是负数。若其宽度是负数，\n"
 "  那么字段将会靠左对齐。\n"
 
-#: src/query.c:501
+#: src/query.c:500
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
@@ -3282,7 +3276,7 @@ msgstr "请求帮助(在帮助界面周游)"
 
 #: dselect/bindings.cc:136
 msgid "Cycle through information displays"
-msgstr "在相关信息界面周游"
+msgstr "在相关信息界面里周游"
 
 #: dselect/bindings.cc:137
 msgid "Redraw display"
@@ -3485,22 +3479,22 @@ msgstr ""
 "作记号时，不仅可以对单个软件包作记号，还可以为成组\n"
 "的软件包作记号。刚开始时您会看到“所有软件包”一行被\n"
 "选中了，那么用“+”和“-”等键就可以操控被高亮显示的行\n"
-"所指的所有软件包。\n"
+"所指代的所有软件包。\n"
 "\n"
-"您作的一些选择可能会导致软件包间的冲突或依赖问题，\n"
-"这时程序会向您提交一份相关软件的子列表，这样，您就\n"
-"能解决该问题。\n"
+"您作的一些选择可能会导致软件包间出现一些的冲突或依赖\n"
+"问题，这时程序会向您提交一份相关软件的子列表，这样，\n"
+"您就能解决该问题。\n"
 "\n"
-"您应当看看按键的列表，以及有关屏幕上显示信息的解释。\n"
+"您应当看看按键的列表，以及有关屏幕上显示信息的说明。\n"
 "还有许多在线的帮助文档，只要在需要帮助的时候摁“?”\n"
 "就可调阅它们。\n"
 "\n"
 "一旦您选完软件包，请摁 <回车> 键来确认刚才的修改，\n"
 "或者用“X”退出且不保存修改内容。在这时，程序会最后\n"
-"作一次冲突和依赖性检查 - 对，您在这里可能还会看一\n"
-"次相关软件的子列表。\n"
+"作一次冲突和依赖性检查……对了，您在这里可能还会看\n"
+"一次相关软件的子列表。\n"
 "\n"
-"现在您可以通过摁 <空格> 键离开帮助并进入列表界面。\n"
+"现在您可以通过摁 <空格> 键离开本帮助，进入列表界面了。\n"
 
 #: dselect/helpmsgs.cc:57
 msgid "Introduction to read-only package list browser"
@@ -5258,7 +5252,6 @@ msgstr ""
 "请通过执行 dpkg-deb --licence 来查看版权和许可证的细节。\n"
 
 #: dpkg-deb/main.c:58
-#, fuzzy
 msgid ""
 "Command:\n"
 "  -b|--build <directory> [<deb>]    build an archive.\n"
@@ -5312,7 +5305,7 @@ msgstr ""
 "  -X|--vextract <deb> <目录>        解压缩并列出被释放的文件。\n"
 "  --fsys-tarfile <deb>              输出文件系统的 tar 打包文件。\n"
 "  -h | --help                       显示本帮助文档\n"
-"  --version | --licence             显示版本／版权信息。\n"
+"  --version | --licence             显示版本/版权信息。\n"
 "\n"
 "<deb> 是 debian 格式的包文件的文件名。\n"
 "<cfile> 是管理文件组件(administrative file component)的文件名。\n"
