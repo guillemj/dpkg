@@ -9,15 +9,15 @@
 .\"
 .\" Translated into german by Helge Kreutzmann <kreutzm@itp.uni-hannover.de>
 .hw aktua-lisiert
-.hw Prio-ritt
+.hw Prio-rität
 .SH NAME
 .\" update-alternatives \- maintain symbolic links determining default commands
-update-alternatives \- Verwaltung symbolischer Links zur Bestimmung von Standardwerten fr Kommandos
-.SH BERSICHT
+update-alternatives \- Verwaltung symbolischer Links zur Bestimmung von Standardwerten für Kommandos
+.SH ÜBERSICHT
 .B update-alternatives
 .RI [ options ]
 .B --install
-.I link name pfad prioritt
+.I link name pfad priorität
 .RB [ --slave
 .I link name
 .IR pfad ]...
@@ -62,149 +62,149 @@ update-alternatives \- Verwaltung symbolischer Links zur Bestimmung von Standard
 .I name pfad
 .SH BESCHREIBUNG
 .B update-alternatives
-erzeugt, entfernt, verwaltet und zeigt die Informationen ber die
-symbolischen Links, die das Debian Alternativ-System bilden, an.
+erzeugt, entfernt, verwaltet und zeigt die Informationen über die
+symbolischen Links, die das »Debian Alternativ-System« bilden, an.
 .PP
-Es ist mglich, mehrere Programme, die die gleiche oder hnliche
-Funktionalitt bereitstellen, gleichzeitig auf einem System zu installieren.
+Es ist möglich, mehrere Programme, die die gleiche oder ähnliche
+Funktionalität bereitstellen, gleichzeitig auf einem System zu installieren.
 Beispielsweise sind auf vielen Systemen mehrere Texteditoren gleichzeitig
-installiert. Dies gibt den Benutzern eines Systems die Mglichkeit,
-falls gewnscht, jeweils einen anderen Editor zu verwenden, allerdings wird
-es damit fr ein Programm schwierig, gut einen Editor zum Starten auszuwhlen,
+installiert. Dies gibt den Benutzern eines Systems die Möglichkeit,
+falls gewünscht, jeweils einen anderen Editor zu verwenden, allerdings wird
+es damit für ein Programm schwierig, gut einen Editor zum Starten auszuwählen,
 falls der Benutzer keine spezielle Wahl getroffen hat.
 .PP
-Debian's Alternativ-System hat das Ziel, dieses Problem zu lsen. Ein
+Debian's Alternativ-System hat das Ziel, dieses Problem zu lösen. Ein
 generischer Name im Dateisystem wird von allen Dateien, die austauschbare
-Funktionalitt bereitstellen, verwendet. Das Alternativ-System bestimmt
-zusammen mit dem Systemadministrator welche Datei tatschlich durch diesen
+Funktionalität bereitstellen, verwendet. Das Alternativ-System bestimmt
+zusammen mit dem Systemadministrator welche Datei tatsächlich durch diesen
 generischen Namen referenziert wird. Falls beispielsweise sowohl der Texteditor
 .BR ed (1)
 als auch
 .BR nvi (1)
-im System installiert sind, wird das Alternative-System dafr sorgen, dass
+im System installiert sind, wird das Alternative-System dafür sorgen, dass
 der generische Name
 .I /usr/bin/editor
-standardmig auf
+standardmäßig auf
 .I /usr/bin/nvi
-zeigt. Der Systemandministrator kann dies ndern und dafr sorgen, dass
+zeigt. Der Systemandministrator kann dies ändern und dafür sorgen, dass
 er stattdessen auf
 .I /usr/bin/ed
-zeigt, und das Alternativ-System wird diese Einstellung nicht verndern, bis
+zeigt, und das Alternativ-System wird diese Einstellung nicht verändern, bis
 es explizit dazu aufgefordert wird.
 .PP
 Der generische Name ist nicht ein direkter symbolischer Link auf die
-ausgewhlte Alternative. Stattdessen ist es ein symbolischer Link auf das
+ausgewählte Alternative. Stattdessen ist es ein symbolischer Link auf das
 .IR Alternativ-Verzeichnis ,
-welches wiederum ein symbolischer Link auf die tatschlich referenzierte
-Datei ist. Dies ist so realisiert, damit die nderungen des 
+welches wiederum ein symbolischer Link auf die tatsächlich referenzierte
+Datei ist. Dies ist so realisiert, damit die Änderungen des 
 Systemadministrators auf das
 .I /etc
-Verzeichnis beschrnkt bleiben: der FHS (siehe dort) erklrt warum dies
+Verzeichnis beschränkt bleiben: der FHS (siehe dort) erklärt warum dies
 eine Gute Idee ist.
 .PP
-Fr jedes Paket das eine Datei mit einer bestimmten Funktionalitt bereitstellt,
-wird bei der Installation, der nderung oder der Entfernung
+Für jedes Paket das eine Datei mit einer bestimmten Funktionalität bereitstellt,
+wird bei der Installation, der Änderung oder der Entfernung
 .B update-alternatives
-aufgerufen um die Informationen ber diese Datei im Alternativ-System zu
+aufgerufen um die Informationen über diese Datei im Alternativ-System zu
 aktualisieren.
 .B update-alternatives
-wird gewhnlich vom 
+wird gewöhnlich vom 
 .B postinst
 oder
 .B prerm
 eines Debian-Paketes aufgerufen.
 .PP
 Es ist oft sinnvoll, dass eine Reihe von Alternativen synchronisiert werden,
-so dass sie als Gruppe gendert werden; wenn beispielsweise mehrere Versionen
+so dass sie als Gruppe geändert werden; wenn beispielsweise mehrere Versionen
 des
 .BR vi (1)
 Editors installiert sind, sollte die Handbuchseite, die durch
 .I /usr/share/man/man1/vi.1
-referenziert wird, zu dem ausfhrbaren Programm, dass durch
+referenziert wird, zu dem ausführbaren Programm, dass durch
 .I /usr/bin/vi
-referenziert wird, gehren.
+referenziert wird, gehören.
 .B update-alternatives
 erledigt dies mit Hilfe von 
 .I Master-
 und
 .IR Slave-Links ;
-wird der Master-Link gendert, wird auch jeder zugehrige
-Slave-Link gendert.
-Ein Master-Link und seine zugehrigen Slave-Links bilden zusammen eine
+wird der Master-Link geändert, wird auch jeder zugehörige
+Slave-Link geändert.
+Ein Master-Link und seine zugehörigen Slave-Links bilden zusammen eine
 .IR Link-Gruppe .
 .PP
 Eine Linkgruppe ist zu jeder Zeit in einer der beiden Modi: automatisch
 oder manuell. Ist eine Gruppe im automatischen Modus, dann wird das
 Alternativ-System bei der Paketinstallation und -entfernung automatisch 
 entscheiden, ob und wie die Links aktualisiert werden. 
-Im manuellen Modus ndert das Alternativ-System die Links nicht; die
+Im manuellen Modus ändert das Alternativ-System die Links nicht; die
 Entscheidung verbleibt beim Systemadministrator.
 .PP
 Beim erstmaligen Auftreten im System befindet sich eine Linkgruppe im
-automatischen Modus. Fhrt der Systemadministrator nderungen an den
-automatischen Einstellungen durch, wird dies beim nchsten Aufruf von
+automatischen Modus. Führt der Systemadministrator Änderungen an den
+automatischen Einstellungen durch, wird dies beim nächsten Aufruf von
 .B update-alternatives
 auf die Linkgruppe bemerkt und die Gruppe wird automatisch in den
 manuellen Modus umgeschaltet.
 .PP
 Jede Alternative hat eine ihr zugeordnete
-.IR Prioritt .
+.IR Priorität .
 Befindet sich eine Linkgruppe im automatischen Modus, zeigen die
-Mitglieder einer Gruppe auf die Alternative mit der hchsten Prioritt.
+Mitglieder einer Gruppe auf die Alternative mit der höchsten Priorität.
 .PP
 Wird die
 .I --config
 Option verwendet, dann zeigt
 .B update-alternatives
-alle Auswahlmglichkeiten fr die 
+alle Auswahlmöglichkeiten für die 
 .I name
 der Master-Link ist an. Sie werden aufgefordert anzugeben, welche der
-Mglichkeiten fr die Linkgruppe verwendet werden soll. Sobald Sie eine
-nderung durchfhren, befindet sich die Linkgruppe nicht mehr im 
+Möglichkeiten für die Linkgruppe verwendet werden soll. Sobald Sie eine
+Änderung durchführen, befindet sich die Linkgruppe nicht mehr im 
 .I automatischen
-Modus. Sie mssen dann die
+Modus. Sie müssen dann die
 .I --auto
-Option verwenden, um wieder in den automatischen Zustand zurckzukehren.
+Option verwenden, um wieder in den automatischen Zustand zurückzukehren.
 .PP
-Falls Sie nichtinteraktiv konfigurieren mchten, knnen Sie stattdessen die
+Falls Sie nichtinteraktiv konfigurieren möchten, können Sie stattdessen die
 .I --set
 Option verwenden (siehe unten).
 .SH BEGRIFFE
-Da die Ttigkeiten von
+Da die Tätigkeiten von
 .B update-alternatives
 recht komplex sind sollen einige spezielle Begriffe helfen, seine
-Vorgehensweise zu erlutern.
+Vorgehensweise zu erläutern.
 .TP
 generische Namen
 Ein Name wie
 .IR /usr/bin/editor ,
-der sich, ber das Alternativ-System, auf eine Reihe von Dateien
-mit hnlicher Funktionalitt bezieht.
+der sich, über das Alternativ-System, auf eine Reihe von Dateien
+mit ähnlicher Funktionalität bezieht.
 .TP
 Symlink
 Ohne weitere Angabe bedeutet dies ein symbolischer Link im 
 Alternativ-Verzeichnis; einer derer, die vom Systemadministrator
-angepat werden sollen.
+angepaßt werden sollen.
 .TP
 Alternative
 Der Name einer speziellen Datei im Dateisystem, die mittels eines
-generischen Namens ber das Alternativ-System zugreifbar gemacht werden
+generischen Namens über das Alternativ-System zugreifbar gemacht werden
 kann.
 .TP
 Alternativ-Verzeichnis
-Ein Verzeichnis, standardmig
+Ein Verzeichnis, standardmäßig
 .IR /etc/alternatives ,
-das die Symlinks enthlt.
+das die Symlinks enthält.
 .TP
 administratives Verzeichnis
-Ein Verzeichnis, standardmig
+Ein Verzeichnis, standardmäßig
 .IR /var/lib/dpkg/alternatives ,
 das die
 .BR update-alternatives 
-Statusinformationen enthlt.
+Statusinformationen enthält.
 .TP
 Linkgruppe
-Ein Satz zusammengehrender Symlinks, die als Gruppe aktualisiert werden
+Ein Satz zusammengehörender Symlinks, die als Gruppe aktualisiert werden
 sollen.
 .TP
 Master-Link
@@ -217,27 +217,25 @@ wird.
 .TP
 automatischer Modus
 Ist ein Link im automatischen Modus, dann sorgt das Alternativ-System
-dafr, dass die Links in der Gruppe auf die fr die Gruppe passende
-Alternative mit der hchsten Prioritt zeigen.
+dafür, dass die Links in der Gruppe auf die für die Gruppe passende
+Alternative mit der höchsten Priorität zeigen.
 .TP
 manueller Modus
-Ist eine Linkgruppe im manuellen Modus, dann fhrt das Alternativ-System
-keine nderungen an den Einstellungen des Systemadministrators durch.
+Ist eine Linkgruppe im manuellen Modus, dann führt das Alternativ-System
+keine Änderungen an den Einstellungen des Systemadministrators durch.
 .SH BEISPIELE
 Es gibt mehrere Pakete die einen zum
 .BR vi 
 kompatiblen Texteditor bereitstellen, beispielsweise
-.BR nvi 
-und
-.BR vim .
+.BR nvi &quot; und &quot; vim .
 Welcher benutzt wird, wird durch die Linkgruppe
 .BR vi 
-eingestellt, was Links fr das Programm selber und die zugehrige Handbuchseite
+eingestellt, was Links für das Programm selber und die zugehörige Handbuchseite
 beinhaltet.
 .PP
-Um alle verfgbaren Programme anzuzeigen, die 
+Um alle verfügbaren Programme anzuzeigen, die 
 .B vi
-bereitstellen, und die dazu gehrigen Einstellungen, benutzen Sie die
+bereitstellen, und die dazu gehörigen Einstellungen, benutzen Sie die
 .I --display
 Aktion:
 .RS
@@ -247,8 +245,8 @@ update-alternatives --display vi
 .PP
 Um einen bestimmte
 .B vi
-Implementation auszuwhlen, benutzen Sie als Root den folgenden Befehl und 
-whlen dann eine Zahl aus der Liste aus:
+Implementation auszuwählen, benutzen Sie als Root den folgenden Befehl und 
+wählen dann eine Zahl aus der Liste aus:
 .RS
 .PP
 update-alternatives --config vi
@@ -256,21 +254,21 @@ update-alternatives --config vi
 .PP
 Damit die Implementation von
 .B vi
-wieder automatisch ausgewhlt wird, fhren Sie folgendes als root durch:
+wieder automatisch ausgewählt wird, führen Sie folgendes als root durch:
 .RS
 .PP
 update-alternatives --auto vi
 .RE
 .SH OPTIONEN
-Genau eine Aktion mu angegeben werden, falls
+Genau eine Aktion muß angegeben werden, falls
 .B update-alternatives
-eine sinnvolle Aufgabe erfllen soll.
+eine sinnvolle Aufgabe erfüllen soll.
 Eine beliebige Anzahl von allgemeinen Optionen kann zusammen mit jeder
 Aktion spezifiziert werden.
 .SS "ALLGEMEINE OPTIONEN"
 .TP
 .B --verbose
-Erzeugt mehr Kommentare ber die Ttigkeit von
+Erzeugt mehr Kommentare über die Tätigkeit von
 .B update-alternatives.
 .TP
 .B --quiet
@@ -278,7 +276,7 @@ Erzeugt keine Kommentare, es sei denn, ein Fehler tritt auf. Diese Option
 ist noch nicht implementiert.
 .TP
 .B --test
-Fhrt nichts durch, sondern teilt nur mit, was getan wrde. Diese Option
+Führt nichts durch, sondern teilt nur mit, was getan würde. Diese Option
 ist noch nicht implementiert.
 .TP
 .B --help
@@ -303,42 +301,42 @@ Standardwert unterscheiden soll.
 .\" in SYNOPSIS section.
 .TP
 \fB--install\fR \fIlink gen pfad pri\fR [\fB--slave\fR \fIslink sgen spfad\fR] ...
-Fgt eine Gruppe von Alternativen zum System hinzu.
+Fügt eine Gruppe von Alternativen zum System hinzu.
 .I gen
 ist der generische Name des Master-Links,
 .I link
 ist der Name seines Symlinks, und
 .I pfad
-ist die Alternative, die fr den Master-Link eingefhrt wird.
+ist die Alternative, die für den Master-Link eingeführt wird.
 .IR sgen ,
 .I slink
 und
 .I spfad
-sind der generische Name, Symlink-Name und Alternative fr den Slave-Link.
+sind der generische Name, Symlink-Name und Alternative für den Slave-Link.
 Null oder mehrere
 .B --slave
-Optionen, jede von drei Argumenten gefolgt, knnen spezifiziert werden.
+Optionen, jede von drei Argumenten gefolgt, können spezifiziert werden.
 .IP
-Falls der angegebene Master-Symlink bereits in den Datenstzen des
+Falls der angegebene Master-Symlink bereits in den Datensätzen des
 Alternativ-Systems existiert, dann wird die angegebene Information als
-neuer Satz von Alternativen fr die Gruppe hinzugefgt. Andernfalls wird
-eine neue Gruppe im automatischen Modus mit dieser Information hinzugefgt.
-Falls die Gruppe im automatischen Modus ist, und die Prioritt der 
-neu hinzugefgten Alternativen hher ist als alle installierten Alternativen
-fr diese Gruppe, dann werden die Symlinks aktualisiert, um auf die neu
-hinzugefgte Alternative zu zeigen.
+neuer Satz von Alternativen für die Gruppe hinzugefügt. Andernfalls wird
+eine neue Gruppe im automatischen Modus mit dieser Information hinzugefügt.
+Falls die Gruppe im automatischen Modus ist, und die Priorität der 
+neu hinzugefügten Alternativen höher ist als alle installierten Alternativen
+für diese Gruppe, dann werden die Symlinks aktualisiert, um auf die neu
+hinzugefügte Alternative zu zeigen.
 .TP
 \fB--set\fR \fIname pfad\fR
 Setzt das Programm
 .I pfad
-als Alternative fr
+als Alternative für
 .IR name .
 Dies ist equivalent zu
 .IB --config ,
 kann aber geskriptet werden, da es nicht-interaktiv ist.
 .TP
 \fB--remove\fR \fIname path\fR
-Entfernt eine Alternative und alle zugehrigen Slave-Links.
+Entfernt eine Alternative und alle zugehörigen Slave-Links.
 .I name
 ist der Name des Alternativ-Verzeichnisses, und
 .I pfad
@@ -346,79 +344,79 @@ ist ein absoluter Dateiname zu dem
 .I name
 gelinkt werden kann. Falls
 .I name
-tatschlich nach
+tatsächlich nach
 .IR pfad 
 gelinkt ist, dann wird
 .I name
 aktualisiert um auf eine andere geeignete Alternative zu zeigen, oder
-entfernt, falls keine solche Alternative brig bleibt. Zugehrige Slave-Links
+entfernt, falls keine solche Alternative übrig bleibt. Zugehörige Slave-Links
 werden entsprechend aktualisiert oder entfernt. Falls der Link derzeit nicht
 auf 
 .IR pfad 
-zeigt, werden keine Links gendert; nur die Information ber die Alternative
+zeigt, werden keine Links geändert; nur die Information über die Alternative
 wird entfernt.
 .TP
 \fB--remove-all\fR \fIname\fR
-Entfernt alle Alternativen und ihre zugehrigen Slave-Links.
+Entfernt alle Alternativen und ihre zugehörigen Slave-Links.
 .I name
 ist der Name des Alternativ-Verzeichnisses.
 .TP
 .B --all
-Ruft \fB--config\fP fr alle Alternativen auf.
+Ruft \fB--config\fP für alle Alternativen auf.
 .TP
 \fB--auto\fR \fIlink\fR
-befhrt den Master-Link
+Übeführt den Master-Link
 .I link
 in den automatischen Modus. 
-In diesem Proze wird dieser Symlink und seine Slave-Links aktualisiert, um
-auf die installierte Alternative mit hchster Prioritt zu zeigen.
+In diesem Prozeß wird dieser Symlink und seine Slave-Links aktualisiert, um
+auf die installierte Alternative mit höchster Priorität zu zeigen.
 .TP
 \fB--display\fR \fIlink\fR
-Zeigt Informationen ber die Linkgruppe an, von der
+Zeigt Informationen über die Linkgruppe an, von der
 .I link
 der Master-Link ist. Die angezeigten Informationen enthalten den Modus
 der Gruppe (automatisch oder manuell), auf welche Alternative der Symlink
-derzeit zeigt, welche weiteren Alternativen zur Verfgung stehen (und ihre
-zugehrigen Slave-Alternativen), und die installierte Alternative mit der
-hchsten Prioritt. 
+derzeit zeigt, welche weiteren Alternativen zur Verfügung stehen (und ihre
+zugehörigen Slave-Alternativen), und die installierte Alternative mit der
+höchsten Priorität. 
 .TP
 \fB--list\fR \fIlink\fR
 Zeigt alle Ziele der Linkgruppe an.
 .TP
 \fB--config\fR \fIlink\fR
-Zeit die verfgbaren Alternativen fr eine Linkgruppe an und erlaubt es dem
-Benutzer interaktiv auszuwhlen, welche zu benutzen ist. Die Linkgruppe
+Zeit die verfügbaren Alternativen für eine Linkgruppe an und erlaubt es dem
+Benutzer interaktiv auszuwählen, welche zu benutzen ist. Die Linkgruppe
 wird aktualisiert und aus dem 
 .I automatischen
 Modus genommen.
 .SH DATEIEN
 .TP
 .I /etc/alternatives/
-Das standardmige Alternativ-Verzeichnis. Kann mittels der
+Das standardmäßige Alternativ-Verzeichnis. Kann mittels der
 .B --altdir
-Option gendert werden.
+Option geändert werden.
 .TP
 .I /var/lib/dpkg/alternatives/
-Das standardmige administrative Verzeichnis. Kann mittels der
+Das standardmäßige administrative Verzeichnis. Kann mittels der
 .B --admindir
-Option gendert werden.
+Option geändert werden.
 .SH "EXIT-STATUS"
 .IP 0
 Die angeforderte Aktion wurde erfolgreich beendet.
 .IP 2
-Beim Lesen der Kommandozeile oder beim Ausfhren der Aktion traten
+Beim Lesen der Kommandozeile oder beim Ausführen der Aktion traten
 Probleme auf.
 .SH DIAGNOSTIK
 .B update-alternatives
-quatscht ohne Unterlass ber seine Aktivitten auf der Standardausgabe.
+quatscht ohne Unterlass über seine Aktivitäten auf der Standardausgabe.
 Falls ein Problem auftritt, gibt
 .B update-alternatives
 eine Fehlermeldung auf der Standardfehlerausgabe aus und beendet sich mit dem
-Exit-Status 2. Die Diagnostiks sollten selbsterklrend sein; falls
+Exit-Status 2. Die Diagnostiks sollten selbsterklärend sein; falls
 Sie dies nicht so empfinden, melden Sie dies bitte als Fehler.
 .SH FEHLER
-Falls Sie einen Fehler finden, melden Sie ihn bitte ber das Debian
-Fehlerverfolgungssystem, oder, falls dies nicht mglich ist, schicken Sie
+Falls Sie einen Fehler finden, melden Sie ihn bitte über das Debian
+Fehlerverfolgungssystem, oder, falls dies nicht möglich ist, schicken Sie
 eine E-Mail direkt an den Autor.
 .PP
 Falls Sie einen Unterschied zwischen der Implementation von 
@@ -428,21 +426,21 @@ Implementation oder in der Dokumentation; bitte melden Sie dies.
 .SH AUTOR
 Debian update-alternatives unterliegt dem Copyright 1995 von
 Ian Jackson. Es ist Freie Software; lesen Sie die GNU General Public
-License Version 2 oder neuer fr die Kopierbedingungen. Es gibt KEINE
+License Version 2 oder neuer für die Kopierbedingungen. Es gibt KEINE
 HAFTUNG.
 .PP
 Diese Handbuchseite unterliegt dem Copyright 1997/98 von Charles Briscoe-Smith.
 Dies ist Freie Dokumentation; lesen Sie die GNU General Public
-License Version 2 oder neuer fr die Kopierbedingungen. Es gibt KEINE
+License Version 2 oder neuer für die Kopierbedingungen. Es gibt KEINE
 HAFTUNG.
 .PP
-Die deutsche bersetzung wurde 2004 von Helge Kreutzmann 
-<kreutzm@itp.uni-hannover.de> angefertigt. Diese bersetzung
+Die deutsche Übersetzung wurde 2004 von Helge Kreutzmann 
+<kreutzm@itp.uni-hannover.de> angefertigt. Diese Übersetzung
 ist Freie Dokumentation; lesen Sie die GNU General Public
-License Version 2 oder neuer fr die Kopierbedingungen. Es gibt KEINE
+License Version 2 oder neuer für die Kopierbedingungen. Es gibt KEINE
 HAFTUNG.
 .PP
-Sie knne die GNU GPL auf Debian-Systemen unter /usr/share/common-licenses/GPL
+Sie könne die GNU GPL auf Debian-Systemen unter /usr/share/common-licenses/GPL
 finden.
 .SH "SIEHE AUCH"
 .BR ln (1),
