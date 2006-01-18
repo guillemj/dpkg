@@ -264,7 +264,7 @@ static void removal_bulk_remove_files(
          * to another file
          */
         struct stat stat_buf;
-        if (stat(fnvb.buf,&stat_buf)==0) {
+        if (lstat(fnvb.buf,&stat_buf)==0) {
           if (S_ISCHR(stat_buf.st_mode) || S_ISBLK(stat_buf.st_mode)) {
             chmod(fnvb.buf,0);
           }

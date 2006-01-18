@@ -290,6 +290,9 @@ if (!$binaryonly) {
         $origsrcmsg= "not including original source code in upload";
         @sourcefiles= grep(!m/\.orig\.tar\.gz$/,@sourcefiles);
     } else {
+	if ($sourcestyle =~ m/d/ && !grep(m/\.diff\.gz$/,@sourcefiles)) {
+	    &warn("Ignoring -sd option for native Debian package");
+	}
         $origsrcmsg= "including full source code in upload";
     }
 } else {

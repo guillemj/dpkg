@@ -41,16 +41,24 @@ local $/='';
 
 my $dep_regex=qr/[ \t]*(([^\n]+|\n[ \t])*)\s/; # allow multi-line
 if (defined($fi{"C Build-Depends"})) {
-	push @unmet, build_depends(parsedep($fi{"C Build-Depends"}, 1, 1), @status);
+	push @unmet, build_depends('Build-Depends',
+				   parsedep($fi{"C Build-Depends"}, 1, 1),
+				   @status);
 }
 if (defined($fi{"C Build-Conflicts"})) {
-	push @conflicts, build_conflicts(parsedep($fi{"C Build-Conflicts"}, 1, 1), @status);
+	push @conflicts, build_conflicts('Build-Conflicts',
+					 parsedep($fi{"C Build-Conflicts"}, 1, 1),
+					 @status);
 }
 if (! $binary_only && defined($fi{"C Build-Depends-Indep"})) {
-	push @unmet, build_depends(parsedep($fi{"C Build-Depends-Indep"}, 1, 1), @status);
+	push @unmet, build_depends('Build-Depends-Indep',
+				   parsedep($fi{"C Build-Depends-Indep"}, 1, 1),
+				   @status);
 }
 if (! $binary_only && defined($fi{"C Build-Conflicts-Indep"})) {
-	push @conflicts, build_conflicts(parsedep($fi{"C Build-Conflicts-Indep"}, 1, 1), @status);
+	push @conflicts, build_conflicts('Build-Conflicts-Indep',
+					 parsedep($fi{"C Build-Conflicts-Indep"}, 1, 1),
+					 @status);
 }
 
 if (@unmet) {
@@ -121,6 +129,7 @@ sub build_conflicts {
 # deps, and 0 to check build conflicts.
 sub check_line {
 	my $build_depends=shift;
+	my $fieldname=shift;
 	my $dep_list=shift;
 	my %version=%{shift()};
 	my %providers=%{shift()};
@@ -128,6 +137,11 @@ sub check_line {
 	chomp $host_arch;
 
 	my @unmet=();
+
+	unless(defined($dep_list)) {
+	    &error("error occurred while parsing $fieldname");
+	}
+
 	foreach my $dep_and (@$dep_list) {
 		my $ok=0;
 		my @possibles=();

@@ -23,7 +23,7 @@ echo "# ${prog} ${version} -- ${purpose}
 }
 
 stderr () {
-	echo "${prog}: $@" >/dev/stderr;
+	echo "${prog}: $@" 1>&2;
 }
 
 show_version () {

@@ -364,56 +364,56 @@ void ensure_statoverrides(void) {
 
     /* Extract the uid */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
-      ohshit("syntax error in statusoverride file ");
+      ohshit("syntax error in statoverride file ");
     *ptr=0;
     if (thisline[0]=='#') {
       fso->uid=strtol(thisline + 1, &endptr, 10);
       if (*endptr!=0)
-	ohshit("syntax error: invalid uid in statusoverride file ");
+	ohshit("syntax error: invalid uid in statoverride file ");
     } else {
       struct passwd* pw = getpwnam(thisline);
       if (pw==NULL)
-	ohshit("syntax error: unknown user `%s' in statusoverride file ", thisline);
+	ohshit("syntax error: unknown user `%s' in statoverride file ", thisline);
       fso->uid=pw->pw_uid;
     }
 
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexpected end of line in statusoverride file");
+      ohshit("unexpected end of line in statoverride file");
 
     /* Extract the gid */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
-      ohshit("syntax error in statusoverride file ");
+      ohshit("syntax error in statoverride file ");
     *ptr=0;
     if (thisline[0]=='#') {
       fso->gid=strtol(thisline + 1, &endptr, 10);
       if (*endptr!=0)
-	ohshit("syntax error: invalid gid in statusoverride file ");
+	ohshit("syntax error: invalid gid in statoverride file ");
     } else {
       struct group* gr = getgrnam(thisline);
       if (gr==NULL)
-	ohshit("syntax error: unknown group `%s' in statusoverride file ", thisline);
+	ohshit("syntax error: unknown group `%s' in statoverride file ", thisline);
       fso->gid=gr->gr_gid;
     }
 
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexecpted end of line in statusoverride file");
+      ohshit("unexecpted end of line in statoverride file");
 
     /* Extract the mode */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
-      ohshit("syntax error in statusoverride file ");
+      ohshit("syntax error in statoverride file ");
     *ptr=0;
     fso->mode=strtol(thisline, &endptr, 8);
     if (*endptr!=0)
-      ohshit("syntax error: invalid mode in statusoverride file ");
+      ohshit("syntax error: invalid mode in statoverride file ");
 
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexecpted end of line in statusoverride file");
+      ohshit("unexecpted end of line in statoverride file");
 
     fnn= findnamenode(thisline, 0);
     if (fnn->statoverride)

@@ -2,8 +2,8 @@
 #
 # dpkg-architecture
 #
-# Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>.
-# Copyright © 1999 Marcus Brinkmann <brinkmd@debian.org>,
+# Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>,
+# Copyright © 1999 Marcus Brinkmann <brinkmd@debian.org>.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -31,8 +31,8 @@ $pkgdatadir=".";
 sub usageversion {
     print STDERR
 "Debian $0 $version.
-Copyright (C) 2004-2005 Scott James Remnant <scott@netsplit.com>.
-Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd@debian.org>,
+Copyright (C) 2004-2005 Scott James Remnant <scott\@netsplit.com>,
+Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd\@debian.org>.
 This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 

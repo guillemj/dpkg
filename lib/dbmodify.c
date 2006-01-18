@@ -304,6 +304,7 @@ void log_message(const char *fmt, ...) {
       return;
     }
     setlinebuf(logfd);
+    setcloexec(fileno(logfd), log_file);
   }
 
   if (!log) {

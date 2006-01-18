@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([dpkg], [1.13.10], [debian-dpkg@lists.debian.org])
+AC_INIT([dpkg], [1.13.11], [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 

@@ -67,6 +67,7 @@ struct filenamenode {
     fnnf_old_conff=           000004, /* in the old package's conffiles list */
     fnnf_elide_other_lists=   000010, /* must remove from other packages' lists */
     fnnf_no_atomic_overwrite= 000020, /* >=1 instance is a dir, cannot rename over */
+    fnnf_placed_on_disk=      000040, /* new file has been placed on the disk */
   } flags; /* Set to zero when a new node is created. */
   const char *oldhash; /* valid iff this namenode is in the newconffiles list */
   struct stat *filestat;

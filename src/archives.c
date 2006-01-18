@@ -166,12 +166,6 @@ int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
    * installed nor part of any 3rd package (this is important so that
    * shared directories don't stop packages from disappearing).
    */
-  /* Is the file in the package being installed ?  If so then it can't save.
-   */
-  if (file->namenode->flags & fnnf_new_inarchive) {
-    debug(dbg_eachfiledetail,"filesavespackage ... in new archive -- no save");
-    return 0;
-  }
   /* If the file is a contended one and it's overridden by either
    * the package we're considering disappearing or the package
    * we're installing then they're not actually the same file, so
@@ -183,6 +177,12 @@ int filesavespackage(struct fileinlist *file, struct pkginfo *pkgtobesaved,
       debug(dbg_eachfiledetail,"filesavespackage ... diverted -- save!");
       return 1;
     }
+  }
+  /* Is the file in the package being installed ?  If so then it can't save.
+   */
+  if (file->namenode->flags & fnnf_new_inarchive) {
+    debug(dbg_eachfiledetail,"filesavespackage ... in new archive -- no save");
+    return 0;
   }
   /* Look for a 3rd package which can take over the file (in case
    * it's a directory which is shared by many packages.
@@ -517,9 +517,14 @@ int tarobject(struct TarInfo *ti) {
   }
 
   /* Now we start to do things that we need to be able to undo
-   * if something goes wrong.
+   * if something goes wrong.  Watch out for the CLEANUP comments to
+   * keep an eye on what's installed on the disk at each point.
    */
   push_cleanup(cu_installnew,~ehflag_normaltidy, 0,0, 1,(void*)nifd);
+
+  /* CLEANUP: Now we either have the old file on the disk, or not, in
+   * its original filename.
+   */
 
 #ifdef WITH_SELINUX
   /* Set selinux_enabled if it is not already set (singleton) */
@@ -620,12 +625,15 @@ int tarobject(struct TarInfo *ti) {
     debug(dbg_eachfiledetail,"tarobject SymbolicLink creating");
 #ifdef HAVE_LCHOWN
     if (lchown(fnamenewvb.buf,
-#else
-    if (chown(fnamenewvb.buf,
-#endif
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
 	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
       ohshite(_("error setting ownership of symlink `%.255s'"),ti->Name);
+#else
+    if (chown(fnamenewvb.buf,
+	    nifd->namenode->statoverride ? nifd->namenode->statoverride->uid : ti->UserID,
+	    nifd->namenode->statoverride ? nifd->namenode->statoverride->gid : ti->GroupID))
+      ohshite(_("error setting ownership of symlink `%.255s'"),ti->Name);
+#endif
     break;
   case Directory:
     /* We've already checked for an existing directory. */
@@ -637,11 +645,12 @@ int tarobject(struct TarInfo *ti) {
   default:
     internerr("bad tar type, but already checked");
   }
-  /*
-   * Now we have extracted the new object in .dpkg-new (or, if the
-   * file already exists as a directory and we were trying to extract
+  /* CLEANUP: Now we have extracted the new object in .dpkg-new (or,
+   * if the file already exists as a directory and we were trying to extract
    * a directory or symlink, we returned earlier, so we don't need
    * to worry about that here).
+   *
+   * The old file is still in the original filename,
    */
 
   /* First, check to see if it's a conffile.  If so we don't install
@@ -653,9 +662,8 @@ int tarobject(struct TarInfo *ti) {
     return 0;
   }
 
-  /* Now we install it.  If we can do an atomic overwrite we do so.
-   * If not we move aside the old file and then install the new.
-   * The backup file will be deleted later.
+  /* Now we move the old file out of the way, the backup file will
+   * be deleted later.
    */
   if (statr) { /* Don't try to back it up if it didn't exist. */
     debug(dbg_eachfiledetail,"tarobject new - no backup");
@@ -681,10 +689,11 @@ int tarobject(struct TarInfo *ti) {
         ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);
 #ifdef HAVE_LCHOWN
       if (lchown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
+        ohshite(_("unable to chown backup symlink for `%.255s'"),ti->Name);
 #else
       if (chown(fnametmpvb.buf,stab.st_uid,stab.st_gid))
-#endif
         ohshite(_("unable to chown backup symlink for `%.255s'"),ti->Name);
+#endif
     } else {
       debug(dbg_eachfiledetail,"tarobject nondirectory, `link' backup");
       if (link(fnamevb.buf,fnametmpvb.buf))
@@ -692,6 +701,10 @@ int tarobject(struct TarInfo *ti) {
                 ti->Name);
     }
   }
+
+  /* CLEANUP: now the old file is in dpkg-tmp, and the new file is still
+   * in dpkg-new.
+   */
 
 #ifdef WITH_SELINUX
   /*
@@ -709,6 +722,14 @@ int tarobject(struct TarInfo *ti) {
 
   if (rename(fnamenewvb.buf,fnamevb.buf))
     ohshite(_("unable to install new version of `%.255s'"),ti->Name);
+
+  /* CLEANUP: now the new file is in the destination file, and the
+   * old file is in dpkg-tmp to be cleaned up later.  We now need
+   * to take a different attitude to cleanup, because we need to
+   * remove the new file.
+   */
+
+  nifd->namenode->flags |= fnnf_placed_on_disk;
 
 #ifdef WITH_SELINUX
   /*

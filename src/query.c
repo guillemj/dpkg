@@ -387,8 +387,9 @@ void enqperpackage(const char *const *argv) {
     default:
       internerr("unknown action");
     }
-        
-    putchar('\n');
+
+    if (*(argv + 1) == 0)
+      putchar('\n');
     if (ferror(stdout)) werr("stdout");
   }
 

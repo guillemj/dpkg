@@ -8,7 +8,24 @@ my %dirincluded;
 my %notfileobject;
 my $fn;
 
-$diff_ignore_default_regexp = '(?:^|/)\.#.*$|(?:^|/).*~$|(?:^|/)\..*\.swp|DEADJOE|\.cvsignore|\.arch-inventory|(?:/(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|_darcs))(?:$|/.*$)';
+$diff_ignore_default_regexp = '
+# Ignore general backup files
+(?:^|/).*~$|
+# Ignore emacs recovery files
+(?:^|/)\.#.*$|
+# Ignore vi swap files
+(?:^|/)\..*\.swp$|
+# Ignore baz-style junk files or directories
+(?:^|/),,.*(?:$|/.*$)|
+# File-names that should be ignored (never directories)
+(?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory)$|
+# File or directory names that should be ignored
+(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|_darcs)(?:$|/.*$)
+';
+
+# Take out comments and newlines
+$diff_ignore_default_regexp =~ s/^#.*$//mg;
+$diff_ignore_default_regexp =~ s/\n//sg;
 
 $sourcestyle = 'X';
 $min_dscformat = 1;
@@ -346,15 +363,16 @@ if ($opmode eq 'build') {
         }
 
         $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
+	$expectprefix_dirname = $origdirname;
 # tar checking is disabled, there are too many broken tar archives out there
 # which we can still handle anyway.
 #        checktarsane($origtargz,$expectprefix);
         mkdir("$origtargz.tmp-nest",0755) ||
             &syserr("unable to create `$origtargz.tmp-nest'");
 	push @exit_handlers, sub { erasedir("$origtargz.tmp-nest") };
-        extracttar($origtargz,"$origtargz.tmp-nest",$expectprefix);
-        rename("$origtargz.tmp-nest/$expectprefix",$expectprefix) ||
-            &syserr("unable to rename `$origtargz.tmp-nest/$expectprefix' to ".
+        extracttar($origtargz,"$origtargz.tmp-nest",$expectprefix_dirname);
+        rename("$origtargz.tmp-nest/$expectprefix_dirname",$expectprefix) ||
+            &syserr("unable to rename `$origtargz.tmp-nest/$expectprefix_dirname' to ".
                     "`$expectprefix'");
         rmdir("$origtargz.tmp-nest") ||
             &syserr("unable to remove `$origtargz.tmp-nest'");
@@ -504,6 +522,8 @@ if ($opmode eq 'build') {
     @ARGV<=2 || &usageerr("-x takes no more than two arguments");
     $dsc= shift(@ARGV);
     $dsc= "./$dsc" unless $dsc =~ m:^/:;
+    ! -d $dsc
+	|| &usageerr("-x needs the .dsc file as first argument, not a directory");
     $dscdir= $dsc; $dscdir= "./$dscdir" unless $dsc =~ m,^/|^\./,;
     $dscdir =~ s,/[^/]+$,,;
     if (@ARGV) {
@@ -559,34 +579,23 @@ if ($opmode eq 'build') {
 	&error("Files field contains invalid filename `$file'")
 	    unless s/^\Q$sourcepackage\E_\Q$baseversion\E\b// and
 		   s/\.(gz|bz2)$//;
+	s/^-\Q$revision\E\b// if length $revision;
 
 	&error("repeated file type - files `$seen{$_}' and `$file'") if $seen{$_};
 	$seen{$_} = $file;
 
 	checkstats($file);
 
-	if (/^\.(orig(-\w+)?\.)?tar$/) {
-	    if ($2) { push @tarfiles, $file; } # push orig-foo.tar.gz to the end
+	if (/^\.(?:orig(-\w+)?\.)?tar$/) {
+	    if ($1) { push @tarfiles, $file; } # push orig-foo.tar.gz to the end
 	    else    { unshift @tarfiles, $file; }
-	    next;
+	} elsif (/^\.debian\.tar$/) {
+	    $debianfile = $file;
+	} elsif (/^\.diff$/) {
+	    $difffile = $file;
+	} else {
+	    &error("unrecognised file type - `$file'");
 	}
-
-	if ($revision and s/^-\Q$revision\E\b//) {
-	    if (/^\.diff$/) {
-		$difffile = $file;
-		next;
-	    }
-	    if (/^\.debian\.tar$/) {
-		$debianfile = $file;
-		next;
-	    }
-	    if (/^\.tar$/) {
-		unshift @tarfiles, $file;
-		next;
-	    }
-	}
-
-	&error("unrecognised file suffix `$_'");
     }
 
     &error("no tarfile in Files field") unless @tarfiles;

@@ -3,7 +3,6 @@
 # Global variables:
 # $v                - value parameter to function
 # $sourcepackage    - name of sourcepackage
-# %capit            - map to get properly capitilized version of fields
 # %fi               - map of fields values. keys are of the form "S# key"
 #                     where S is source (L is changelog, C is control)
 #                     and # is an index
@@ -14,9 +13,6 @@
 
 $parsechangelog= 'dpkg-parsechangelog';
 
-grep($capit{lc $_}=$_, qw(Pre-Depends Standards-Version Installed-Size
-			  Build-Depends Build-Depends-Indep 
-			  Build-Conflicts Build-Conflicts-Indep));
 @pkg_dep_fields = qw(Replaces Provides Depends Pre-Depends Recommends Suggests
                      Conflicts Enhances);
 @src_dep_fields = qw(Build-Depends Build-Depends-Indep
@@ -69,8 +65,8 @@ if (defined ($ENV{'LOGNAME'})) {
 @fowner = @fowner[2,3];
 
 sub capit {
-    return defined($capit{lc $_[0]}) ? $capit{lc $_[0]} :
-        (uc substr($_[0],0,1)).(lc substr($_[0],1));
+    my @pieces = map { ucfirst(lc) } split /-/, $_[0];
+    return join '-', @pieces;
 }
 
 sub findarch {
@@ -181,8 +177,10 @@ ALTERNATE:
         foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
             my ($package, $relation, $version);
             $package = $1 if ($dep_or =~ s/^([a-zA-Z0-9][a-zA-Z0-9+._-]*)\s*//m);
-            ($relation, $version) = ($1, $2) if ($dep_or =~ s/^\((=|<=|>=|<<?|>>?)\s*([^)]+).*\)\s*//m);
-            my @arches = split(/\s+/m, $1) if ($use_arch && $dep_or =~ s/^\[([^]]+)\]\s*//m);
+            ($relation, $version) = ($1, $2)
+		if ($dep_or =~ s/^\(\s*(=|<=|>=|<<?|>>?)\s*([^)]+).*\)\s*//m);
+	    my @arches;
+	    @arches = split(/\s+/m, $1) if ($use_arch && $dep_or =~ s/^\[([^]]+)\]\s*//m);
             if ($reduce_arch && @arches) {
 
                 my $seen_arch='';
@@ -205,7 +203,10 @@ ALTERNATE:
                     next;
                 }
             }
-            return undef if (length($dep_or));
+            if (length($dep_or)) {
+		&warn("can't parse dependency $dep_and");
+		return undef;
+	    }
 	    push @or_list, [ $package, $relation, $version, \@arches ];
         }
         push @dep_list, \@or_list;
@@ -282,7 +283,7 @@ sub parsecdata {
             if ($many>0) {
                 $index++; $cf='';
             } elsif ($many == -2) {
-                $_= <CDATA>;
+                $_= <CDATA> while defined($_) && $_ =~ /^\s*$/;
                 length($_) ||
                     &syntax("expected PGP signature, found EOF after blank line");
                 s/\n$//;
@@ -290,7 +291,10 @@ sub parsecdata {
                     &syntax("expected PGP signature, found something else \`$_'");
                 $many= -3; last;
             } else {
-                &syntax("found several \`paragraphs' where only one expected");
+		while (<CDATA>) {
+		    /^\s*$/ ||
+			&syntax("found several \`paragraphs' where only one expected");
+		}
             }
         } else {
             &syntax("line with unknown format (not field-colon-value)");

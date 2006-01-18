@@ -49,12 +49,11 @@ void cu_installnew(int argc, void **argv) {
    * We have the following possible situations for non-conffiles:
    *   <foo>.dpkg-tmp exists - in this case we want to remove
    *    <foo> if it exists and replace it with <foo>.dpkg-tmp.
-   *    This undoes the backup operation.  We also make sure
-   *    we delete <foo>.dpkg-new in case that's still hanging around.
-   *   <foo>.dpkg-tmp does not exist - in this case we haven't
-   *     got as far as creating it (or there wasn't an old version).
-   *     In this case we just delete <foo>.dpkg-new if it exists,
-   *     as it may be a half-extracted thing.
+   *    This undoes the backup operation.
+   *   <foo>.dpkg-tmp does not exist - <foo> may be on the disk,
+   *    as a new file which didn't fail, remove it if it is.
+   * In both cases, we also make sure we delete <foo>.dpkg-new in
+   * case that's still hanging around.
    * For conffiles, we simply delete <foo>.dpkg-new.  For these,
    * <foo>.dpkg-tmp shouldn't exist, as we don't make a backup
    * at this stage.  Just to be on the safe side, though, we don't
@@ -89,6 +88,11 @@ void cu_installnew(int argc, void **argv) {
     /* Either we can do an atomic restore, or we've made room: */
     if (rename(fnametmpvb.buf,fnamevb.buf))
       ohshite(_("unable to restore backup version of `%.250s'"),namenode->name);
+  } else if (namenode->flags & fnnf_placed_on_disk) {
+    debug(dbg_eachfiledetail,"cu_installnew removing new file");
+    if (unlinkorrmdir(fnamevb.buf) && errno != ENOENT && errno != ENOTDIR)
+      ohshite(_("unable to remove newly-installed version of `%.250s'"),
+	      namenode->name);
   } else {
     debug(dbg_eachfiledetail,"cu_installnew not restoring");
   }
@@ -165,6 +169,7 @@ void cu_preinstverynew(int argc, void **argv) {
                         "abort-install",(char*)0);
   pkg->status= stat_notinstalled;
   pkg->eflag &= ~eflagf_reinstreq;
+  blankpackageperfile(&pkg->installed);
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
 }

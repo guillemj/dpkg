@@ -1,3 +1,70 @@
+dpkg (1.13.11) unstable; urgency=low
+  
+  The "Good, clean fun" Release.
+
+  * Fixed the always broken error handling so that only the intended
+    cleanup handlers are run, rather than ones that we didn't expect.
+    This corrects the bug when a package's postrm fails and the package is
+    left in an installed state with no files; the package will now be left
+    in a half-installed state, as originally intended.  Found by Marga
+    Manterola while documenting the maintainer scripts.  Closes: #296026.
+  * Fixed removal of files involved in diversions during upgrade, caused by
+    checking whether the "directory" was in use by another package without
+    actually checking whether or not it was a directory.  Closes: #310390.
+  * Fixed package saving to not disappear packages who divert anything from
+    the installing package out of the way.  Closes: #113626.
+  * Improved clean-up of unpack failure during install or upgrade, to leave
+    the system in exactly the same state as it started in.
+    Closes: #47404, #82407, #121173, #170869, #201848, #236733, #268639.
+  * Fixed crash when unpacking a package which has an unversioned Replaces
+    declared on it by another package previously unpacked in the same run
+    (Colin Watson).  Closes: #322595.
+
+  * New install unwinding fixed to ensure we don't leave a version in the
+    status db for a not-installed package.
+  * Corrected error call when encountering a corrupted filesystem tarfile
+    to not print "Success".  Closes: #95570.
+  * Fixed castration of potentially unsafe devices to not follow symlinks.
+    Closes: #169928.
+  * Marked log file descriptor as close-on-exec.  Closes: #320925.
+  * Re-worked dpkg-source -x to allow all manner of strange things maintainers
+    seem to do, unpacking isn't the right place to enforce sanity; we'll
+    do it in -b later on >:-).  Closes: #316470, #317760, #318473, #318745,
+    #322359, #322361, #322362.
+
+  * Corrected dselect synopsis line to match consensus.  Closes: #318659.
+  * Changed dpkg-name to use a shell redirect rather than the /dev/stderr
+    device that may not be writable.  Closes: #318376.
+  * Adjusted various dpkg-query options to avoid outputting a trailing
+    newline.  Closes: #151651, #319781.
+  * Changed references to "statusoverride" file to just "statoverride"
+    to make it match reality.  Closes: #320952.
+  * Fixed several bugs with the default diff ignore list used by dpkg-source.
+  * Added ,,* to the list of default diff ignore list.  Closes: #322917.
+
+  * Fixes to dpkg-dev (Frank Lichtenheld):
+    - dpkg-checkbuilddeps will now exit with an error if it is unable to
+      parse a dependency field.  Closes: #171762, #302229.
+    - dpkg-genchanges will now output a warning if given -sd for a native
+      package, as it's going to ignore it.  Closes: #5571.
+    - dpkg-source fixed to give a more meaningful error message if given
+      a directory as the first argument.  Closes: #306874.
+    - dpkg-source fixed to handle being given an absolute path to -b.
+      Closes: #147574.
+    - Fix controllib.pl to allow whitespace before version operators.
+      Closes: #273489, #310306.
+    - Fix architecture dependency parsing that sometimes generated wrong
+      list of requirements.  Closes: #319816.
+    - Make the default control field name mangling behaviour "nicer" by
+      upper-casing all letters that come after a dash.  Closes: #306474.
+    - Ignore trailing newlines in single paragraph control files.
+      Closes: #57194, #156319
+  * Documentation:
+    - Fixed typo in dpkg-architecture man page.  Closes: #317770.
+    - Documented dpkg-deb -W/--show and --showformat.  Closes: #319784.
+
+ -- Scott James Remnant <scott@netsplit.com>  Wed, 17 Aug 2005 04:44:44 +0100
+
 dpkg (1.13.10) unstable; urgency=low
   
   The "Bully's Special Prize" Release.

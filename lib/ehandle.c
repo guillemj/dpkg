@@ -132,6 +132,8 @@ static void run_cleanups(struct errorcontext *econ, int flagsetin) {
         econtext= oldecontext;
       }
     }
+    flagset &= cep->cpmask;
+    flagset |= cep->cpvalue;
     ncep= cep->next;
     if (cep != &emergency.ce) free(cep);
     cep= ncep;
@@ -207,8 +209,6 @@ void pop_cleanup(int flagset) {
   for (i=0; i<NCALLS; i++) {
     if (cep->calls[i].call && cep->calls[i].mask & flagset)
       cep->calls[i].call(cep->argc,cep->argv);
-    flagset &= cep->cpmask;
-    flagset |= cep->cpvalue;
   }
   if (cep != &emergency.ce) free(cep);
 }

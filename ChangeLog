@@ -1,4 +1,152 @@
+2005-08-17  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Release 1.13.11.
+
+	* scripts/dpkg-source.pl: Re-work the logic that handles the Files
+	field when unpacking source packages; always remove the revision
+	component and thereby allow -$rev.orig.tar.gz as well as native
+	diff.gz or debian.tar.gz; improve the "unrecognised file" error to
+	give the full filename, not the mangled suffix; check whether the
+	revision has length, rather than is non-zero ("0" is false in Perl).
+
+2005-08-17  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/controllib.pl (parsedep): Correct a bug that caused wrong
+	architecture requirements in some cases, due to only "my"ing the
+	@arches list in some circumstances.
+
+2005-08-17  Colin Watson  <cjwatson@ubuntu.com>
+
+	* src/processarc.c (process_archive): When copying the forward
+	dependency tree, blank the version field of unversioned dependencies
+	rather than leaving them uninitialised.
+
+2005-08-17  Scott James Remnant  <scott@netsplit.com>
+
+	* scripts/dpkg-source.pl: Fix a few problems found with the
+	$diff_ignore_default_regexp value; it'd match any path with
+	DEADJOE in it somewhere (or .cvsignore, etc.), wouldn't match
+	an initial CVS or {arch}, etc.
+	Took the opportunity to reformat the string and add some comments,
+	which get stripped out before it's used.
+	Added tla/baz junk ",,.*" to the list of filters.
+
+	* lib/dbmodify.c (log_message): Call setcloexec() on the log
+	file descriptor, otherwise we leak it to our children.
+
+2005-08-17  Ludovic Rousseau  <rousseau@debian.org>
+
+	* src/filesdb.c: Replace all references to "statusoverride" file
+	with "statoverride".
+
+2005-08-17  Scott James Remnant  <scott@netsplit.com>
+
+	* src/query.c (enqperpackage): Only output a newline between
+	different packages and not after the last one.
+
+	* man/C/dpkg-deb.1: Document -W/--show and --showformat.
+
+2005-08-14  Bastian Kleineidam  <calvin@debian.org>
+
+	* man/C/dpkg-architecture.1: Fix typo.
+
+2005-08-14  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Give a warning when one tries
+	to use -sd on a native Debian package.
+
+	* scripts/dpkg-source.pl: Handle absolute paths in the argument
+	given for -b.
+
+	* scripts/dpkg-source.pl: give more meaningful error message
+	if first argument to dpkg-source -x is a directory
+
+	* scripts/controllib.pl (parsecdata): ignore trailing newlines
+	in single paragraph control files.
+
+	* scripts/controllib.pl (parsedep): give a warning explaining
+	the problem when failing to parse the dependency.
+	* scripts/dpkg-checkbuilddeps.pl: Pass the dependency field name
+	to all calls to &build_depends() and &build_conflicts(), which
+	both call &check_line().
+	(check_line): Take an argument specifying the field name, and
+	use it to output an error if the dependency list is not
+	defined (caused by a failure of &parsedep()).
+
+	* scripts/controllib.pl: Remove the %capit map, it's no longer
+	used and everything uses the &capit() function instead.
+	(capit): Uppercase all letters that come after a minus ('-'),
+
+2005-08-14  Moritz Muehlenhoff  <jmm@inutil.org>,
+	    Frank Lichtenheld  <djpig@debian.org>
+	* scripts/controllib.pl (parsedep): allow whitespace before
+	version operators in dependencies.
+
+2005-08-14  Goswin Brederlow  <brederlo@informatik.uni-tuebingen.de>
+
+	* scripts/dpkg-name.sh (stderr): Use shell redirect rather than
+	/dev/stderr.
+
+2005-08-14  Scott James Remnant  <scott@netsplit.com>
+
+	* debian/control ([dselect]Description): Remove "a" from the start
+	of the description synopsis line.
+	([dpkg]Description): De-capitalise description synopsis line.
+	([dpkg-dev]Description): Likewise.
+
+2005-08-14  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-architecture.pl (usageversion): Correct punctuation
+	in copyright message and escape the @ so Perl doesn't treat it as
+	an array reference.  Same for initial comment.
+
+2005-07-17  Scott James Remnant  <scott@netsplit.com>
+
+	* src/remove.c (removal_bulk_remove_files): Call lstat() rather
+	than stat() when removing a character, block or setuid file so
+	we change the thing itself and not what the symlink points to.
+	* src/processarc.c (process_archive): Likewise.
+
+	* src/processarc.c (process_archive): Call ohshit() after finding
+	out we don't have an errno, not ohshite().
+
+	* src/cleanup.c (cu_preinstverynew): Blank the status information
+	of a newly installed package that we aborted the install of,
+	to avoid having packages in a not-installed state but with a version.
+
+2005-07-16  Scott James Remnant  <scott@netsplit.com>
+
+	* src/filesdb.h (filenamenode.flags): Add fnnf_placed_on_disk flag
+	to indicate that the file is now on the disk, and thus needs to be
+	removed in cleanup if that happens.
+	* src/cleanup.c (cu_installnew): If <foo>.dpkg-tmp did not exist,
+	and the fnnf_placed_on_disk flag is set, we now remove the newly
+	created file.
+	* src/archives.c (tarobject): Set the fnnf_placed_on_disk flag once
+	the rename to the final destination succeeds.  Add additional
+	comments to the source so we know what's on the disk at each point.
+	Fix up the #ifdef syntax to not confuse emacs.
+
+	* src/archives.c (filesavespackage): Check whether the file we're
+	going to install is going to be diverted, before whether it's in the
+	new archive.
+
+	* src/processarc.c (process_archive): When removing files that
+	were in the old version of the package only, don't just call
+	isdirectoryinuse(), actually check whether it's a directory first;
+	otherwise we won't remove diverted things.
+
+2005-07-15  Scott James Remnant  <scott@netsplit.com>
+
+	* lib/ehandle.c (run_cleanups): Modify the value of flagset
+	according to the checkpoint mask and value after processing,
+	otherwise we'll run handlers we didn't mean to.
+	(pop_cleanup): Remove the flagset setting, we don't mix
+	checkpoints and calls anywhere.
+
 2005-06-28  Scott James Remnant  <scott@netsplit.com>
+
+	* configure.ac: Bump version to 1.13.11~.
 
 	* configure.ac: Release 1.13.10.
 
@@ -2987,7 +3135,6 @@ Tue May 21 17:20:12 CEST 2002 Wichert Akkerman <wichert@deephackmode.org>
 
   * debian/dpkg.postinst: remove compat stuff for ancient dpkg versions.
     This also enables the /usr/info/dir move code which was never reached
-
 
 Mon May 20 00:58:17 CDT 2002 Adam Heath <doogie@debian.org>
 

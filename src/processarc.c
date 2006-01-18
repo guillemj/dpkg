@@ -551,7 +551,7 @@ void process_archive(const char *filename) {
     if (errno) {
       ohshite(_("error reading dpkg-deb tar output"));
     } else {
-      ohshite(_("corrupted filesystem tarfile - corrupted package archive"));
+      ohshit(_("corrupted filesystem tarfile - corrupted package archive"));
     }
   }
   fd_null_copy(tc.backendpipe,-1,_("dpkg-deb: zap possible trailing zeros"));
@@ -596,7 +596,11 @@ void process_archive(const char *filename) {
         (namenode->flags & fnnf_new_conff) ||
         (namenode->flags & fnnf_new_inarchive))
       continue;
-    if (isdirectoryinuse(namenode,pkg)) continue;
+    if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
+      debug(dbg_eachfiledetail, "process_archive: %s is a directory",
+	    namenode->name);
+      if (isdirectoryinuse(namenode,pkg)) continue;
+    }
     fnamevb.used= fnameidlu;
     varbufaddstr(&fnamevb, namenodetouse(namenode,pkg)->name);
     varbufaddc(&fnamevb,0);
@@ -649,7 +653,7 @@ void process_archive(const char *filename) {
 	 * to another file.
 	 */
 	struct stat stat_buf;
-	if (stat(fnamevb.buf,&stat_buf)==0) {
+	if (lstat(fnamevb.buf,&stat_buf)==0) {
 	  if (S_ISCHR(stat_buf.st_mode) || S_ISBLK(stat_buf.st_mode))
 	    chmod(fnamevb.buf, 0);
 	  if (stat_buf.st_mode & (S_ISUID|S_ISGID))
@@ -781,7 +785,10 @@ void process_archive(const char *filename) {
       newpossi->ed= possi->ed;
       newpossi->next= 0; newpossi->nextrev= newpossi->backrev= 0;
       newpossi->verrel= possi->verrel;
-      if (possi->verrel != dvr_none) newpossi->version= possi->version;
+      if (possi->verrel != dvr_none)
+        newpossi->version= possi->version;
+      else
+        blankversion(&newpossi->version);
       newpossi->cyclebreak= 0;
       *newpossilastp= newpossi;
       newpossilastp= &newpossi->next;
