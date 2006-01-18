@@ -195,6 +195,8 @@ if ($opmode eq 'build') {
 			@sourcearch= ('any');
 		    } else {
                         for $a (split(/\s+/,$v)) {
+			    &error("`$a' is not a legal architecture string")
+				unless $a =~ /^[\w-]$/;
                             &error("architecture $a only allowed on its own".
                                    " (list for package $p is `$a')")
                                    if grep($a eq $_, 'any','all');

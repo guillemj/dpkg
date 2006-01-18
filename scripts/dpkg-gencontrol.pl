@@ -139,6 +139,11 @@ for $_ (keys %fi) {
                 $f{$_}= $arch;
             } else {
                 @archlist= split(/\s+/,$v);
+		my @invalid_archs = grep m/[^\w-]/, @archlist;
+		&warn("`".join("' `", @invalid_archs)."' are not legal ".
+		      "architecture strings.") if @invalid_archs > 1;
+		&warn("`@invalid_archs' is not a legal ".
+		      "architecture string.") if @invalid_archs == 1;
                 grep($arch eq $_, @archlist) ||
                     &error("current build architecture $arch does not".
                            " appear in package's list (@archlist)");
