@@ -182,7 +182,9 @@ for $_ (keys %fi) {
     } elsif (s/^C$myindex //) {
         if (m/^(Package|Description|Essential|Optional)$/) {
         } elsif (exists($pkg_dep_fields{$_})) {
-            $f{$_}= showdep(parsedep(substvars($v)), 0);
+           my $dep = parsedep(substvars($v));
+           &error("error occoured while parsing $_") unless defined $dep;
+            $f{$_}= showdep($dep, 0);
         } elsif (m/^Section$|^Priority$/) {
         } elsif (m/^Architecture$/) {
         } elsif (s/^X[CS]*B[CS]*-//i) {
