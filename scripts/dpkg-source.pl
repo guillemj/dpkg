@@ -34,6 +34,7 @@ $def_dscformat = "1.0"; # default format for -b
 
 use POSIX;
 use POSIX qw (:errno_h :signal_h);
+use Fcntl qw (:mode);
 
 use strict 'refs';
 
@@ -405,6 +406,7 @@ if ($opmode eq 'build') {
             next file if $fn =~ m/$diff_ignore_regexp/o;
             $fn =~ s,^\./,,;
             lstat("$dir/$fn") || &syserr("cannot stat file $dir/$fn");
+	    my $mode = S_IMODE((lstat(_))[2]);
             if (-l _) {
                 $type{$fn}= 'symlink';
                 &checktype('-l') || next;
@@ -418,6 +420,13 @@ if ($opmode eq 'build') {
                 if (!lstat("$origdir/$fn")) {
                     $! == ENOENT || &syserr("cannot stat orig file $origdir/$fn");
                     $ofnread= '/dev/null';
+		    if( $mode & ( S_IXUSR | SIXGRP | S_IXOTH ) ) {
+			&warn( sprintf( "executable mode %04o of `$fn' will not be represented in diff", $mode ) )
+			    unless $fn eq 'debian/rules';
+		    }
+		    if( $mode & ( S_ISUID | S_IGID | S_ISVTX ) ) {
+			&warn( sprintf( "special mode %04o of `$fn' will not be represented in diff", $mode ) );
+		    }
                 } elsif (-f _) {
                     $ofnread= "$origdir/$fn";
                 } else {
