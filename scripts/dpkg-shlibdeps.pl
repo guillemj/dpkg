@@ -17,6 +17,7 @@ $shlibsppext= '.shlibs';
 $varnameprefix= 'shlibs';
 $dependencyfield= 'Depends';
 $varlistfile= 'debian/substvars';
+$packagetype= 'deb';
 
 @depfields= qw(Suggests Recommends Depends Pre-Depends);
 
@@ -42,6 +43,7 @@ Overall options (have global effect no matter where placed):
        -O                     print variable settings to stdout
        -L<localshlibsfile>    shlibs override file, not debian/shlibs.local
        -T<varlistfile>        update variables here, not debian/substvars
+       -t<type>               set package type (default is deb)
 Dependency fields recognised are ".join("/",@depfields)."
 ";
 }
@@ -66,6 +68,8 @@ while (@ARGV) {
             &warn("unrecognised dependency field \`$dependencyfield'");
     } elsif (m/^-e/) {
         push(@exec,$'); push(@execf,$dependencyfield);
+    } elsif (m/^-t/) {
+        $packagetype= $';
     } elsif (m/^-/) {
         usageerr("unknown option \`$_'");
     } else {
@@ -237,33 +241,37 @@ sub scanshlibsfile {
 
     while (<SLF>) {
         s/\s*\n$//; next if m/^\#/;
-        if (!m/^\s*(\S+)\s+(\S+)/) {
+        if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)/) {
             &warn("shared libs info file \`$fn' line $.: bad line \`$_'");
             next;
         }
-        next if $1 ne $ln || $2 ne $lsn;
+        next if defined $1 && $1 ne $packagetype;
+        next if $2 ne $ln || $3 ne $lsn;
         return 1 if $fn eq "$curpackdir/DEBIAN/shlibs";
         $da= $';
-        for $dv (split(/,/,$da)) {
-            $dv =~ s/^\s+//; $dv =~ s/\s+$//;
-            if (defined($depstrength{$lf})) {
-                if (!defined($predefdepfdep{$dv}) ||
-                    $depstrength{$predefdepfdep{$dv}} < $depstrength{$lf}) {
-                    $predefdepfdep{$dv}= $lf;
-                }
-            } else {
-                $dk= "$lf: $dv";
-                if (!defined($unkdepfdone{$dk})) {
-                    $unkdepfdone{$dk}= 1;
-                    $unkdepf{$lf}.= ', ' if length($unkdepf{$lf});
-                    $unkdepf{$lf}.= $dv;
-                }
-            }
-        }
-        return 1;
+        last if defined $1; # exact match, otherwise keep looking
     }
     close(SLF);
-    return 0;
+        
+    return 0 unless defined $da;
+
+    for $dv (split(/,/,$da)) {
+        $dv =~ s/^\s+//; $dv =~ s/\s+$//;
+        if (defined($depstrength{$lf})) {
+            if (!defined($predefdepfdep{$dv}) ||
+                $depstrength{$predefdepfdep{$dv}} < $depstrength{$lf}) {
+                $predefdepfdep{$dv}= $lf;
+            }
+        } else {
+            $dk= "$lf: $dv";
+            if (!defined($unkdepfdone{$dk})) {
+                $unkdepfdone{$dk}= 1;
+                $unkdepf{$lf}.= ', ' if length($unkdepf{$lf});
+                $unkdepf{$lf}.= $dv;
+            }
+        }
+    }
+    return 1;
 }
 
 if (!$stdout) {

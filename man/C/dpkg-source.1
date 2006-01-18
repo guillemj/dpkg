@@ -516,7 +516,7 @@ are removed from the the substitution variables file.
 .TP
 .BI \-L localshlibsfile
 Causes
-.B dpkg\-shlibs
+.B dpkg\-shlibdeps
 to read overriding shared library dependency information from
 .I localshlibsfile
 instead of
@@ -527,6 +527,15 @@ Causes the substitution variable settings to be printed to standard
 output, rather than being added to the substitution variables file
 .RB ( debian/substvars
 by default).
+.TP
+.BI \-t type
+Causes
+.B dpkg\-shlibdeps
+to prefer shared library dependency information tagged for the given
+package type. If no tagged information is available, falls back to untagged
+information. The default package type is "deb". Shared library dependency
+information is tagged for a given type by prefixing it with the name of the
+type, a colon, and whitespace.
 .SH dpkg\-GENCHANGES OPTIONS
 .B dpkg\-genchanges
 does not take any non-option arguments.
