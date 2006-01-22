@@ -71,7 +71,7 @@ if test "x$with_selinux" != "xno"; then
 		[AC_DEFINE(WITH_SELINUX, 1,
 			[Define to 1 to compile in SELinux supoprt])
 		 if test "x$with_selinux" = "xstatic"; then
-			dpkg_selinux_libs="-Wl,-Bstatic -lselinux -Wl,-Bdynamic"
+			dpkg_selinux_libs="-Wl,-Bstatic -lselinux -lsepol -Wl,-Bdynamic"
 		 else
 			dpkg_selinux_libs="-lselinux"
 		 fi
