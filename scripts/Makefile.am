@@ -70,6 +70,11 @@ do_shell_subst = sed -e "s:version=\"[^\"]*\":version=\"$(PACKAGE_VERSION)\":"
 	$(do_perl_subst) <$< >$@
 	chmod +x $@
 
+%.pl: %.pl.in Makefile
+	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
+	$(do_perl_subst) <$< >$@
+	chmod +x $@
+
 %: %.sh Makefile
 	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
 	$(do_shell_subst) <$< >$@

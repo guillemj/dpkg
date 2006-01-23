@@ -168,8 +168,9 @@ for $_ (keys %fi) {
     } elsif (s/^C(\d+) //) {
 	$i=$1; $p=$fi{"C$i Package"}; $a=$fi{"C$i Architecture"};
 	if (!defined($p2f{$p}) && not $sourceonly) {
-	    if ($a eq 'any' || ($a eq 'all' && !$archspecific) ||
-		grep($_ eq $substvar{'Arch'}, split(/\s+/, $a))) {
+	    if ((debian_arch_eq('all', $a) && !$archspecific) ||
+		debian_arch_is($arch, $a) ||
+		grep(debian_arch_is($arch, $_), split(/\s+/, $a))) {
 		&warn("package $p in control file but not in files list");
 		next;
 	    }
@@ -191,9 +192,10 @@ for $_ (keys %fi) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
 		if (not $sourceonly) {
-		    if ($v eq 'any' || grep($_ eq $arch, split(/\s+/, $v))) {
+		    if (debian_arch_is($arch, $v) ||
+			grep(debian_arch_is($arch, $_), split(/\s+/, $v))) {
 			$v= $arch;
-		    } elsif ($v ne 'all') {
+		    } elsif (!debian_arch_eq('all', $v)) {
 			$v= '';
 		    }
 		} else {
@@ -318,7 +320,7 @@ $f{'Description'}= "\n ".join("\n ",sort @descriptions);
 
 $f{'Files'}= '';
 for $f (@sourcefiles,@fileslistfiles) {
-    next if ($archspecific && ($p2arch{$f2p{$f}} eq 'all'));
+    next if ($archspecific && debian_arch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     $uf= "$uploadfilesdir/$f";
     open(STDIN,"< $uf") || &syserr("cannot open upload file $uf for reading");

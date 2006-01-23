@@ -1,5 +1,41 @@
 2006-01-23  Guillem Jover  <guillem@debian.org>
 
+	Support for architecture wildcards.
+
+	* scripts/controllib.pl: Rename to ...
+	* scripts/controllib.pl.in: ... this.
+	* scripts/dpkg-architecture.pl: Add new actions '-e'  and '-i' that
+	call debian_arch_eq and debian_arch_is, to check for architecture
+	equality and identity respectively. Use debian_arch_fix instead of
+	the duplicated code.
+	(pkgdatadir, read_cputable, read_ostable): Move to ...
+	* scripts/controllib.pl.in: ... here.
+	(debian_arch_fix): New function. Fix normalized kernel-cpu input to
+	legacy Debian architecture output.
+	(debian_arch_split): New function. Normalize and split input into
+	kernel and cpu components.
+	(debian_arch_eq): New function. Compare two tuples for equality after
+	having normalized them with debian_arch_split.
+	(debian_arch_is): New function. Check two tuples for identity after
+	having normalized them with debian_arch_split.
+	(debian_arch_expand): New function. Expand the normalized input
+	into all possible legacy Debian architectures matching the wildcard.
+	(parsedep): Use debian_arch_is to check if the host architecture is
+	part of the architecture listed in the dependency relationship.
+	(showdep): Use debian_arch_expand to normalize the architectures for
+	binary and source packages, so generated packages will be backward
+	compatible in regard to architecture format.
+	* scripts/dpkg-genchanges.pl: Use new dpkg_arch_is and dpkg_arch_eq
+	instead of the hardcoded checks.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise. Use dpkg_arch_expand to fill
+	the Architecture field with the legacy Debian architecures.
+	* scripts/Makefile.am: New rule to generate .pl from .pl.in files.
+	* man/C/dpkg-architecture.1: Update. Add new options, and few words
+	about the format of the wildcards.
+
+2006-01-23  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-source.pl: Add a missing '+' in the architecture
 	validator regex.
 

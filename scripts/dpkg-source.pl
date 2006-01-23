@@ -183,9 +183,9 @@ if ($opmode eq 'build') {
             $i=$1; $p=$fi{"C$i Package"};
             push(@binarypackages,$p) unless $packageadded{$p}++;
             if (m/^Architecture$/) {
-                if ($v eq 'any') {
+                if (debian_arch_eq($v, 'any')) {
                     @sourcearch= ('any');
-                } elsif ($v eq 'all') {
+                } elsif (debian_arch_eq($v, 'all')) {
                     if (!@sourcearch || $sourcearch[0] eq 'all') {
                         @sourcearch= ('all');
                     } else {
@@ -195,7 +195,10 @@ if ($opmode eq 'build') {
 		    if (grep($sourcearch[0] eq $_, 'any','all'))  {
 			@sourcearch= ('any');
 		    } else {
-                        for $a (split(/\s+/,$v)) {
+			my @arches = map(debian_arch_expand($_),
+					 split(/\s+/, $v));
+			chomp @arches;
+			for $a (@arches) {
 			    &error("`$a' is not a legal architecture string")
 				unless $a =~ /^[\w-]+$/;
                             &error("architecture $a only allowed on its own".

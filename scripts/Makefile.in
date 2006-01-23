@@ -509,6 +509,11 @@ uninstall-am: uninstall-binSCRIPTS uninstall-changelogSCRIPTS \
 	$(do_perl_subst) <$< >$@
 	chmod +x $@
 
+%.pl: %.pl.in Makefile
+	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
+	$(do_perl_subst) <$< >$@
+	chmod +x $@
+
 %: %.sh Makefile
 	@test -d `dirname $@` || $(mkdir_p) `dirname $@`
 	$(do_shell_subst) <$< >$@

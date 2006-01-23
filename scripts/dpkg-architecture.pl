@@ -26,8 +26,6 @@ $dpkglibdir="/usr/lib/dpkg";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-$pkgdatadir=".";
-
 sub usageversion {
     print STDERR
 "Debian $0 $version.
@@ -39,43 +37,19 @@ version 2 or later for copying conditions.  There is NO warranty.
 Usage:
   $0 [<option> ...] [<action>]
 Options:
-       -a<debian-arch>    set Debian architecture
-       -t<gnu-system>     set GNU system type 
+       -a<debian-arch>    set current Debian architecture
+       -t<gnu-system>     set current GNU system type
        -L                 list valid architectures
        -f                 force flag (override variables set in environment)
 Actions:
        -l                 list variables (default)
+       -e<debian-arch>    compare with current Debian architecture
+       -i<arch-alias>     check if current Debian architecture is <arch-alias>
        -q<variable>       prints only the value of <variable>.
        -s                 print command to set environment variables
        -u                 print command to unset environment variables
        -c <command>       set environment and run the command in it.
 ";
-}
-
-sub read_cputable {
-    open CPUTABLE, "$pkgdatadir/cputable"
-	or &syserr("unable to open cputable");
-    while (<CPUTABLE>) {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
-	    $cputable{$1} = $2;
-	    $cputable_re{$1} = $3;
-	    push @cpu, $1;
-	}
-    }
-    close CPUTABLE;
-}
-
-sub read_ostable {
-    open OSTABLE, "$pkgdatadir/ostable"
-	or &syserr("unable to open ostable");
-    while (<OSTABLE>) {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
-	    $ostable{$1} = $2;
-	    $ostable_re{$1} = $3;
-	    push @os, $1;
-	}
-    }
-    close OSTABLE;
 }
 
 sub split_debian {
@@ -124,25 +98,14 @@ sub gnu_to_debian {
     }
 
     return undef if !defined($cpu) || !defined($os);
-    if ($os eq "linux") {
-	return $cpu;
-    } else {
-	return "$os-$cpu";
-    }
+    return debian_arch_fix($os, $cpu);
 }
-
-&read_cputable;
-&read_ostable;
 
 # Check for -L
 if (grep { m/^-L$/ } @ARGV) {
     foreach $os (@os) {
 	foreach $cpu (@cpu) {
-	    if ($os eq "linux") {
-		print "$cpu\n"
-	    } else {
-		print "$os-$cpu\n";
-	    }
+	    print debian_arch_fix($os, $cpu)."\n";
 	}
     }
     exit unless $#ARGV;
@@ -182,6 +145,8 @@ if (!defined($deb_host_arch)) {
 $req_host_arch = '';
 $req_host_gnu_type = '';
 $req_build_gnu_type = '';
+$req_eq_arch = '';
+$req_is_arch = '';
 $action='l';
 $force=0;
 
@@ -191,6 +156,12 @@ while (@ARGV) {
 	$req_host_arch = "$'";
     } elsif (m/^-t/) {
 	$req_host_gnu_type = "$'";
+    } elsif (m/^-e/) {
+	$req_eq_arch = "$'";
+	$action = 'e';
+    } elsif (m/^-i/) {
+	$req_is_arch = "$'";
+	$action = 'i';
     } elsif (m/^-[lsu]$/) {
 	$action = $_;
 	$action =~ s/^-//;
@@ -282,6 +253,10 @@ if ($action eq 'l') {
     print "export ".join(" ",@ordered)."\n";
 } elsif ($action eq 'u') {
     print "unset ".join(" ",@ordered)."\n";
+} elsif ($action eq 'e') {
+    exit !debian_arch_eq($deb_host_arch, $req_eq_arch);
+} elsif ($action eq 'i') {
+    exit !debian_arch_is($deb_host_arch, $req_is_arch);
 } elsif ($action eq 'c') {
     @ENV{keys %env} = values %env;
     exec @ARGV;
