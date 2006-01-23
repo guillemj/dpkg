@@ -6,6 +6,10 @@
 	not necessarily available for biarch builds). Instead
 	build an own representation of the search patch.
 
+	* scripts/dpkg-source.pl: Don't use \b to match the end
+	of the version in filenames, use (?=[.-]) and (?=\.) instead.
+	\b doesn't work in case the version ends with ~.
+
 2006-01-23  Guillem Jover  <guillem@debian.org>
 
 	Support for architecture wildcards.

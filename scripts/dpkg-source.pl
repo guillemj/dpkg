@@ -624,9 +624,9 @@ if ($opmode eq 'build') {
 	local $_ = $file;
 
 	&error("Files field contains invalid filename `$file'")
-	    unless s/^\Q$sourcepackage\E_\Q$baseversion\E\b// and
+	    unless s/^\Q$sourcepackage\E_\Q$baseversion\E(?=[.-])// and
 		   s/\.(gz|bz2)$//;
-	s/^-\Q$revision\E\b// if length $revision;
+	s/^-\Q$revision\E(?=\.)// if length $revision;
 
 	&error("repeated file type - files `$seen{$_}' and `$file'") if $seen{$_};
 	$seen{$_} = $file;
