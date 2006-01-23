@@ -1,6 +1,10 @@
 dpkg (1.13.12~) unstable; urgency=low
 
   [ Frank Lichtenheld ]
+  * Don't use the ldd output in dpkg-shlibdeps. Search for the
+    matching libraries ourself. This fixes problems with both
+    symlinked directories Closes: #103024, #145714, #164020, #285857
+    and biarch builds Closes: #317082
   * Let dpkg-gencontrol bail out with an error if parsedep
     found an error while parsing a dependency field. Closes: #228125
   * dpkg-source -x now tries to chown all files extracted from

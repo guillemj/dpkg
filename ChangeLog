@@ -1,3 +1,11 @@
+2006-01-23  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl: Rewrite of the script
+	to not use the path information from ldd anymore (which
+	is unreliable in the case of symlinked directories and
+	not necessarily available for biarch builds). Instead
+	build an own representation of the search patch.
+
 2006-01-23  Guillem Jover  <guillem@debian.org>
 
 	Support for architecture wildcards.
@@ -103,12 +111,12 @@
 	better make sure it doesn't.
 
 2005-10-04  Frank Lichtenheld  <djpig@debian.org>
- 
+
 	* scripts/dpkg-source.pl: Check build relation
 	fields for correctness before putting them into
 	the .dsc when building. This also normalizes the
 	fields.
- 
+
 2005-10-03  Matt Zimmerman  <mdz@debian.org>,
 	    Frank Lichtenheld  <djpig@debian.org>
 
