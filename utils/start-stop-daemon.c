@@ -174,7 +174,9 @@ static void check(pid_t pid);
 static void do_pidfile(const char *name);
 static void do_stop(int signal_nr, int quietmode,
 		    int *n_killed, int *n_notkilled, int retry_nr);
-#if defined(OSLinux) || defined(OShpux)
+#if defined(OSLinux)
+static int pid_is_exec(pid_t pid, const char *name);
+#elif defined(OShpux)
 static int pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
@@ -608,15 +610,29 @@ parse_options(int argc, char * const *argv)
 
 #if defined(OSLinux)
 static int
-pid_is_exec(pid_t pid, const struct stat *esb)
+pid_is_exec(pid_t pid, const char *name)
 {
-	struct stat sb;
-	char buf[32];
+	char lname[32];
+	char *lcontents;
+	int lcontlen, nread, res;
 
-	sprintf(buf, "/proc/%d/exe", pid);
-	if (stat(buf, &sb) != 0)
+	/* Allow one extra character for the link contents, which should
+	 * be enough to determine if the file names are the same. */
+	lcontlen = strlen(name) + 1;
+	lcontents = xmalloc(lcontlen);
+	sprintf(lname, "/proc/%d/exe", pid);
+	nread = readlink(lname, lcontents, lcontlen);
+	if (nread == -1) {
+		free(lcontents);
 		return 0;
-	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
+	}
+	if (nread < lcontlen)
+		lcontents[nread] = '\0';
+
+	res = (strncmp(lcontents, name, lcontlen) == 0);
+	free(lcontents);
+
+	return res;
 }
 
 
@@ -746,7 +762,9 @@ pid_is_running(pid_t pid)
 static void
 check(pid_t pid)
 {
-#if defined(OSLinux) || defined(OShpux)
+#if defined(OSLinux)
+	if (execname && !pid_is_exec(pid, execname))
+#elif defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
 #elif defined(OSHURD) || defined(OSFreeBSD) || defined(OSNetBSD)
     /* I will try this to see if it works */

@@ -1,3 +1,10 @@
+2006-01-23  Vasilis Vasaitis  <v.vasaitis@sms.ed.ac.uk>
+
+	* utils/start-stop-daemon.c (pid_is_exec) [OSLinux]: Change function
+	prototype to take a constant string instead of a struct stat. Compare
+	the filename pointed by the '/proc/<pid>/exe' symlink, instead of the
+	stat device and inode numbers. Fix all callers.
+
 2006-01-23  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-shlibdeps.pl: Rewrite of the script
