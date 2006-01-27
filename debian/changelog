@@ -5,6 +5,11 @@ dpkg (1.13.13~) unstable; urgency=low
     Correct info in the control file.
   * Bump Standards-Version to 3.6.2 (no changes).
   * Fix typo in dpkg-architecture man page. Closes: #334330
+  * Honor LD_LIBRARY_PATH in dpkg-shlibdeps. Fixes a regression
+    from 1.13.11 to .12.
+  * Don't recurse into package directories to search for local
+    shlibs files since it is obviously a waste of time. Based
+    on a suggestion by Steve Langasek. Closes: #338725
 
   [ Christian Perrier ]
   * Updated Translations:

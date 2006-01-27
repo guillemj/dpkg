@@ -105,14 +105,26 @@ sub isbin {
 }
 
 my @librarypaths = qw( /lib /usr/lib /lib64 /usr/lib64 );
-my %librarypaths = map { $_ => 1 } @librarypaths;
+my %librarypaths = map { $_ => 'default' } @librarypaths;
+
+if ($ENV{LD_LIBRARY_PATH}) {
+    foreach (reverse split( /:/, $ENV{LD_LIBRARY_PATH} )) {
+	s,/+$,,;
+	unless (exists $librarypaths{$_}) {
+	    $librarypaths{$_} = 'env';
+	    unshift @librarypaths, $_;
+	}
+    }
+}
+
 open CONF, '</etc/ld.so.conf' or
     warn( "couldn't open /etc/ld.so.conf: $!" );
 while( <CONF> ) {
     next if /^\s*$/;
     chomp;
     s,/+$,,;
-    unless ($librarypaths{$_}++) {
+    unless (exists $librarypaths{$_}) {
+	$librarypaths{$_} = 'conf';
 	push @librarypaths, $_;
     }
 }
@@ -164,7 +176,8 @@ sub searchdir {
 	    if ( -f "$dir/$_/DEBIAN/shlibs" ) {
 		push(@curshlibs, "$dir/$_/DEBIAN/shlibs");
 		next;
-	    } elsif ( $_ !~ /^\./ && -d "$dir/$_" && ! -l "$dir/$_" ) {
+	    } elsif ( $_ !~ /^\./ && ! -e "$dir/$_/DEBIAN" &&
+		      -d "$dir/$_" && ! -l "$dir/$_" ) {
 		&searchdir("$dir/$_");
 	    }
 	}
