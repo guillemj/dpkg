@@ -200,7 +200,7 @@ $deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
 
 #$gcc = `\${CC:-gcc} --print-libgcc-file-name`;
 #$gcc =~ s!^.*gcc-lib/(.*)/\d+(?:.\d+)*/libgcc.*$!$1!s;
-&warn("Specified GNU system type $deb_host_gnu_type does not match gcc system type $gcc.") if ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
+&warn("Specified GNU system type $deb_host_gnu_type does not match gcc system type $gcc.") if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
 
 # Split the Debian and GNU names
 ($deb_host_arch_os, $deb_host_arch_cpu) = &split_debian($deb_host_arch);
