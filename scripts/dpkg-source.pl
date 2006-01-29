@@ -109,6 +109,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^-x$/) {
         &setopmode('extract');
     } elsif (m/^-s([akpursnAKPUR])$/) {
+	&warn( "-s$1 option overrides earlier -s$sourcestyle option" )
+	    if $sourcestyle ne 'X';
         $sourcestyle= $1;
     } elsif (m/^-c/) {
         $controlfile= $';
