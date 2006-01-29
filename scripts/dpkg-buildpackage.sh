@@ -48,7 +48,7 @@ END
 
 rootcommand=''
 signcommand=""
-if ( [ -e $GNUPGHOME/secring.gpg ] || [ -e $HOME/.gnupg/secring.gpg ] ) && \
+if (( [ -n "$GNUPGHOME" ] && [ -e "$GNUPGHOME" ] ) || [ -e "$HOME/.gnupg" ] ) && \
 		command -v gpg > /dev/null 2>&1; then
 	signcommand=gpg
 elif command -v pgp > /dev/null 2>&1 ; then
