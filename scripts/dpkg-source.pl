@@ -33,8 +33,9 @@ $max_dscformat = 2;
 $def_dscformat = "1.0"; # default format for -b
 
 use POSIX;
-use POSIX qw (:errno_h :signal_h);
 use Fcntl qw (:mode);
+use File::Temp qw (tempfile);
+use Cwd;
 
 use strict 'refs';
 
@@ -338,7 +339,9 @@ if ($opmode eq 'build') {
 
         print("$progname: building $sourcepackage in $tarname\n")
             || &syserr("write building tar message");
-        &forkgzipwrite("$tarname.new");
+	my ($ntfh, $newtar) = tempfile( "$tarname.new.XXXXXX",
+					DIR => &getcwd, UNLINK => 0 );
+        &forkgzipwrite($newtar);
         defined($c2= fork) || &syserr("fork for tar");
         if (!$c2) {
             chdir($tardirbase) || &syserr("chdir to above (orig) source $tardirbase");
@@ -350,8 +353,10 @@ if ($opmode eq 'build') {
         &reapgzip;
         $c2 == waitpid($c2,0) || &syserr("wait for tar");
         $? && !(WIFSIGNALED($c2) && WTERMSIG($c2) == SIGPIPE) && subprocerr("tar");
-        rename("$tarname.new",$tarname) ||
-            &syserr("unable to rename `$tarname.new' (newly created) to `$tarname'");
+        rename($newtar,$tarname) ||
+            &syserr("unable to rename `$newtar' (newly created) to `$tarname'");
+	chmod(0666 &~ umask(), $tarname) ||
+	    &syserr("unable to change permission of `$tarname'");
 
     } else {
         
@@ -396,7 +401,9 @@ if ($opmode eq 'build') {
         
         print("$progname: building $sourcepackage in $basenamerev.diff.gz\n")
             || &syserr("write building diff message");
-        &forkgzipwrite("$basenamerev.diff.gz");
+	my ($ndfh, $newdiffgz) = tempfile( "$basenamerev.diff.gz.new.XXXXXX",
+					DIR => &getcwd, UNLINK => 0 );
+        &forkgzipwrite($newdiffgz);
 
         defined($c2= open(FIND,"-|")) || &syserr("fork for find");
         if (!$c2) {
@@ -494,6 +501,10 @@ if ($opmode eq 'build') {
         close(FIND); $? && subprocerr("find on $dir");
         close(GZIP) || &syserr("finish write to gzip pipe");
         &reapgzip;
+        rename($newdiffgz,"$basenamerev.diff.gz") ||
+            &syserr("unable to rename `$newdiffgz' (newly created) to `$basenamerev.diff.gz'");
+	chmod(0666 &~ umask(), "$basenamerev.diff.gz") ||
+	    &syserr("unable to change permission of `$basenamerev.diff.gz'");
 
         defined($c2= open(FIND,"-|")) || &syserr("fork for 2nd find");
         if (!$c2) {

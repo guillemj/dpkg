@@ -11,6 +11,12 @@
 	* scripts/dpkg-source.pl: Warn if more than one -sX switch
 	is specified on the command line.
 
+	* scripts/dpkg-source.pl: Make dpkg-source -b more robust
+	regarding to existing symlinks by creating all files
+	in secure temporary files and renaming them afterwards.
+	This fixes problems with packages retrieved with
+	apt-get source from local repositories.
+
 2006-01-29  Don Armstrong  <don@debian.org>
 
 	* scripts/dpkg-scanpackages.pl: Rewrite the script to support
