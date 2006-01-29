@@ -21,6 +21,7 @@ dpkg\-scanpackages - create Packages files
 .B dpkg\-scanpackages
 .RI [ \-u ]
 .RI [ \-a<arch> ]
+.RI [ \-m ]
 .I binarydir
 .I overridefile
 .RI [ pathprefix ]
@@ -59,6 +60,12 @@ is specified, then scan for *.udeb, instead of *.deb.
 .PP
 When \-a\fI<arch>\fP is specified, then instead of scanning for all debs,
 a pattern consisting of *_all.deb and *_arch.deb is used.
+.PP
+If more than one version of a package is found only the newest one
+is included in the output. If they have the same version and only
+differ in architecture only the first one found is used. You can override
+this behaviour with the \fI\-m\fP switch. If given, all found packages
+are included in the output.
 .
 .SH THE OVERRIDE FILE
 While most information about a package can be found in the control file,
