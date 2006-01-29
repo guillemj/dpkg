@@ -1132,7 +1132,7 @@ sub checkdiff
 	    # read hunk header (@@)
 	    s/\n$// or &error("diff `$diff' is missing trailing newline");
 	    next if /^\\ No newline/;
-	    /^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@ .*$/ or
+	    /^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/ or
 		&error("Expected ^\@\@ in line $. of diff `$diff'");
 	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
 	    ++$hunk;
