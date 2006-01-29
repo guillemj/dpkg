@@ -284,7 +284,7 @@ static void
 do_help(void)
 {
 	printf(
-"start-stop-daemon VERSION for Debian - small and fast C version written by\n"
+"start-stop-daemon %s for Debian - small and fast C version written by\n"
 "Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>, public domain.\n"
 "\n"
 "Usage:\n"
@@ -319,7 +319,8 @@ do_help(void)
 "or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>\n"
 "\n"
 "Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)\n"
-"              3 = trouble   2 = with --retry, processes wouldn't die\n");
+"              3 = trouble   2 = with --retry, processes wouldn't die\n",
+	       VERSION);
 }
 
 
