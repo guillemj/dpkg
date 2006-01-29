@@ -18,9 +18,9 @@ $diff_ignore_default_regexp = '
 # Ignore baz-style junk files or directories
 (?:^|/),,.*(?:$|/.*$)|
 # File-names that should be ignored (never directories)
-(?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory)$|
+(?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore)$|
 # File or directory names that should be ignored
-(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|_darcs)(?:$|/.*$)
+(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|_darcs|\.bzr(?:\.backup)?)(?:$|/.*$)
 ';
 
 # Take out comments and newlines
