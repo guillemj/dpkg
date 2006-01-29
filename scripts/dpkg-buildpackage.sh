@@ -166,8 +166,14 @@ signfile () {
 		$signcommand -u "${signkey:-$maintainer}" +clearsig=on -fast <"../$1" \
 			>"../$1.asc"
 	fi
+	status=$?
+	if [ $status -eq 0 ]; then
+		mv -- "../$1.asc" "../$1"
+	else
+		/bin/rm -f "../$1.asc"
+	fi
 	echo
-	mv -- "../$1.asc" "../$1"
+	return $status
 }
 
 withecho () {
@@ -205,8 +211,12 @@ if [ "$usepause" = "true" ] && \
     read dummy_stuff
 fi
 
+signerrors=
 if [ x$binaryonly = x ]; then
-        $signsource "$pv.dsc"
+	if ! $signsource "$pv.dsc"; then
+		signerrors="(WARNING: Failed to sign .dsc and .changes file)"
+		signchanges=:
+	fi
 fi
 chg=../"$pva.changes"
 withecho dpkg-genchanges "$@" >"$chg"
@@ -242,10 +252,16 @@ else
 	fi
 fi
 
-$signchanges "$pva.changes"
+if ! $signchanges "$pva.changes"; then
+	signerrors="(WARNING: Failed to sign .changes file)"
+fi
 
 if $cleansource; then
 	withecho $rootcommand debian/rules clean
 fi
 
 echo "dpkg-buildpackage: $srcmsg"
+if [ -n "$signerrors" ]; then
+	echo >&2 $signerrors
+	exit 1
+fi
