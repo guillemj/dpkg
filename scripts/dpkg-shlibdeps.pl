@@ -54,7 +54,7 @@ Dependency fields recognised are ".join("/",@depfields)."
 ";
 }
 
-my ($stdout, @exec, @execf);
+my ($stdout, @exec, @execfield);
 foreach (@ARGV) {
     if (m/^-T/) {
 	$varlistfile= $POSTMATCH;
@@ -71,13 +71,13 @@ foreach (@ARGV) {
 	defined($depstrength{$dependencyfield}) ||
 	    &warn("unrecognised dependency field \`$dependencyfield'");
     } elsif (m/^-e/) {
-	push(@exec,$POSTMATCH); push(@execf,$dependencyfield);
+	push(@exec,$POSTMATCH); push(@execfield,$dependencyfield);
     } elsif (m/^-t/) {
 	$packagetype= $POSTMATCH;
     } elsif (m/^-/) {
 	usageerr("unknown option \`$_'");
     } else {
-	push(@exec,$_); push(@execf,$dependencyfield);
+	push(@exec,$_); push(@execfield,$dependencyfield);
     }
 }
 
@@ -131,7 +131,7 @@ while( <CONF> ) {
 close CONF;
 
 my (%rpaths, %format);
-my (@libfiles, @libname, @libsoname, @libf);
+my (@libfiles, @libname, @libsoname, @libfield, @libexec);
 for ($i=0;$i<=$#exec;$i++) {
     if (!isbin ($exec[$i])) { next; }
 
@@ -144,22 +144,24 @@ for ($i=0;$i<=$#exec;$i++) {
     while (<P>) {
 	chomp;
 	if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
-	    $format{$execf[$i]} = $1;
+	    $format{$exec[$i]} = $1;
 	} elsif (m,^\s*NEEDED\s+,) {
 	    if (m,^\s*NEEDED\s+((\S+)\.so\.(\S+))$,) {
 		push(@libname,$2); push(@libsoname,$3);
-		push(@libf,$execf[$i]);
+		push(@libfield,$execfield[$i]);
 		push(@libfiles,$1);
+		push(@libexec,$exec[$i]);
 	    } elsif (m,^\s*NEEDED\s+((\S+)-(\S+)\.so)$,) {
 		push(@libname,$2); push(@libsoname,$3);
-		push(@libf,$execf[$i]);
+		push(@libfield,$execfield[$i]);
 		push(@libfiles,$1);
+		push(@libexec,$exec[$i]);
 	    } else {
 		m,^\s*NEEDED\s+(\S+)$,;
 		&warn("format of \`NEEDED $1' not recognized");
 	    }
 	} elsif (/^\s*RPATH\s+(\S+)\s*$/) {
-	    push @{$rpaths{$execf[$i]}}, $1;
+	    push @{$rpaths{$exec[$i]}}, $1;
 	}
     }
     close(P) or subprocerr("objdump on \`$exec[$i]'");
@@ -197,21 +199,23 @@ if ($searchdir =~ m,/,) {
 if (1 || $#curshlibs >= 0) {
   PRELIB:
     for ($i=0;$i<=$#libname;$i++) {
-	if(scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libf[$i])
-	   || scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libf[$i])) {
+	if(scanshlibsfile($shlibslocal,$libname[$i],$libsoname[$i],$libfield[$i])
+	   || scanshlibsfile($shlibsoverride,$libname[$i],$libsoname[$i],$libfield[$i])) {
 	    splice(@libname, $i, 1);
 	    splice(@libsoname, $i, 1);
-	    splice(@libf, $i, 1);
+	    splice(@libfield, $i, 1);
 	    splice(@libfiles, $i, 1);
+	    splice(@libexec, $i, 1);
 	    $i--;
 	    next PRELIB;
 	}
 	for my $shlibsfile (@curshlibs) {
-	    if(scanshlibsfile($shlibsfile, $libname[$i], $libsoname[$i], $libf[$i])) {
+	    if(scanshlibsfile($shlibsfile, $libname[$i], $libsoname[$i], $libfield[$i])) {
 		splice(@libname, $i, 1);
 		splice(@libsoname, $i, 1);
-		splice(@libf, $i, 1);
+		splice(@libfield, $i, 1);
 		splice(@libfiles, $i, 1);
+		splice(@libexec, $i, 1);
 		$i--;
 		next PRELIB;
 	    }
@@ -221,7 +225,6 @@ if (1 || $#curshlibs >= 0) {
 
 my %pathpackages;
 if ($#libfiles >= 0) {
-    # what does this line do? -- djpig
     grep(s/\[\?\*/\\$&/g, @libname);
     defined(my $c= open(P,"-|")) || syserr("cannot fork for dpkg --search");
     if (!$c) {
@@ -249,15 +252,15 @@ if ($#libfiles >= 0) {
     for ($i=0;$i<=$#libname;$i++) {
 	my $file = $libfiles[$i];
 	my @packages;
-	foreach my $rpath (@{$rpaths{$libf[$i]}}) {
+	foreach my $rpath (@{$rpaths{$libexec[$i]}}) {
 	    if (exists $pathpackages{"$rpath/$file"}
-		&& format_matches($libf[$i],"$rpath/$file")) {
+		&& format_matches($libexec[$i],"$rpath/$file")) {
 		push @packages, @{$pathpackages{"$rpath/$file"}};
 	    }
 	}
 	foreach my $path (@librarypaths) {
 	    if (exists $pathpackages{"$path/$file"}
-		&& format_matches($libf[$i],"$path/$file")) {
+		&& format_matches($libexec[$i],"$path/$file")) {
 		push @packages, @{$pathpackages{"$path/$file"}};
 	    }
 	}
@@ -266,15 +269,15 @@ if ($#libfiles >= 0) {
 	} else {
 	    for my $p (@packages) {
 		scanshlibsfile("$shlibsppdir/$p$shlibsppext",
-			       $libname[$i],$libsoname[$i],$libf[$i])
+			       $libname[$i],$libsoname[$i],$libfield[$i])
 		    && next LIB;
 	    }
 	}
-	scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libf[$i])
+	scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libfield[$i])
 	    && next;
 	&warn("unable to find dependency information for ".
 	      "shared library $libname[$i] (soname $libsoname[$i], ".
-	      "path $libfiles[$i], dependency field $libf[$i])");
+	      "path $libfiles[$i], dependency field $libfield[$i])");
     }
 
 sub format_matches {
