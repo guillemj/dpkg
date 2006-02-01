@@ -21,7 +21,6 @@ dpkg\-scanpackages - create Packages files
 .B dpkg\-scanpackages
 .RI [ \-u ]
 .RI [ \-a<arch> ]
-.RI [ \-m ]
 .I binarydir
 .I overridefile
 .RI [ pathprefix ]
@@ -32,7 +31,7 @@ dpkg\-scanpackages - create Packages files
 .B dpkg\-scanpackages
 sorts through a tree of Debian binary packages and creates a Packages
 file, used by
-.BR dselect (1),
+.BR dselect (8),
 etc, to tell the user what packages are available for installation.  These
 Packages files are the same as those found on Debian archive sites
 and CD-ROMs.  You might use
@@ -60,12 +59,6 @@ is specified, then scan for *.udeb, instead of *.deb.
 .PP
 When \-a\fI<arch>\fP is specified, then instead of scanning for all debs,
 a pattern consisting of *_all.deb and *_arch.deb is used.
-.PP
-If more than one version of a package is found only the newest one
-is included in the output. If they have the same version and only
-differ in architecture only the first one found is used. You can override
-this behaviour with the \fI\-m\fP switch. If given, all found packages
-are included in the output.
 .
 .SH THE OVERRIDE FILE
 While most information about a package can be found in the control file,
@@ -119,6 +112,6 @@ field in their control file, are missing from the override file, or have
 maintainer substitutions which do not take effect.
 .
 .SH SEE ALSO
-.BR dpkg (1),
-.BR dselect (1),
+.BR dpkg (8),
+.BR dselect (8),
 .BR dpkg\-scansources (1).

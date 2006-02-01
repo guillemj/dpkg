@@ -1,0 +1,1822 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: dpkg man pages\n"
+"POT-Creation-Date: 2005-07-03 15:04+0200\n"
+"PO-Revision-Date: 2005-07-03 15:04+0200\n"
+"Last-Translator: Unknown translator\n"
+"Language-Team: Japanese <debian-l10n-japanese@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=EUC-JP\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, fuzzy, no-wrap
+msgid "DPKG"
+msgstr "DPKG"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, fuzzy, no-wrap
+msgid "April 12, 1998"
+msgstr "April 12, 1998"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, fuzzy, no-wrap
+msgid "Debian Project"
+msgstr "Debian Project"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, fuzzy, no-wrap
+msgid "dpkg suite"
+msgstr "dpkg suite"
+
+# type: SH
+#: ../C/dpkg.1:2
+#, fuzzy, no-wrap
+msgid "NAME"
+msgstr "名前"
+
+# type: Plain text
+#: ../C/dpkg.1:4
+#, fuzzy
+msgid "dpkg - package manager for Debian"
+msgstr "dpkg - Debian 中間レベルパッケージマネージャ"
+
+# type: SH
+#: ../C/dpkg.1:5
+#, fuzzy, no-wrap
+msgid "SYNOPSIS"
+msgstr "書式"
+
+# type: Plain text
+#: ../C/dpkg.1:8
+#, fuzzy
+msgid "B<dpkg> [I<options>] I<action>"
+msgstr "B<dpkg> [I<options>] I<action>"
+
+# type: SH
+#: ../C/dpkg.1:9
+#, fuzzy, no-wrap
+msgid "WARNING"
+msgstr "警告"
+
+# type: Plain text
+#: ../C/dpkg.1:13
+#, fuzzy
+msgid ""
+"This manual is intended for users wishing to understand B<dpkg>'s command "
+"line options and package states in more detail than that provided by B<dpkg "
+"--help>."
+msgstr ""
+"このマニュアルは、B<dpkg> のコマンドライン・オプションや パッケージ状態につい"
+"て、B<dpkg --help> で得られる情報よりも さらに詳細に理解したい利用者のために"
+"書かれたものである。"
+
+# type: Plain text
+#: ../C/dpkg.1:18
+#, fuzzy
+msgid ""
+"It should I<not> be used by package maintainers wishing to understand how "
+"B<dpkg> will install their packages.  The descriptions of what B<dpkg> does "
+"when installing and removing packages are particularly inadequate."
+msgstr ""
+"パッケージ管理者は、B<dpkg> がどのようにパッケージをインストール するのかを理"
+"解するという目的では、このマニュアルをI<読まない>ほうがよい。 パッケージをイ"
+"ンストールするときや削除するときの B<dpkg> の動作に 関する記述は、特に不十分"
+"である。 B<dpkg> のよりくわしい情報については、 Gnu Info システムにある "
+"I<debian-faq> の I<Package Management System> というトピックを参照すること。 "
+"Debian パッケージの作成については、同じところにある I<Debian Package "
+"Management Tools> を参照すること。 (訳注: Gnu Info 形式の I<debian-faq> は存"
+"在しないようである。 Debian FAQ や、Debian リファレンスの Debian パッケージン"
+"グシステムに 関する章を参照)"
+
+# type: SH
+#: ../C/dpkg.1:19
+#, fuzzy, no-wrap
+msgid "DESCRIPTION"
+msgstr "説明"
+
+# type: Plain text
+#: ../C/dpkg.1:26
+#, fuzzy
+msgid ""
+"B<dpkg> is a tool to install, build, remove and manage Debian packages. The "
+"primary and more user-friendly front-end for B<dpkg> is B<dselect>(8).  "
+"B<dpkg> itself is controlled entirely via command line parameters, which "
+"consist of exactly one action and zero or more options. The action-parameter "
+"tells dpkg what to do and options control the behavior of the action in some "
+"way."
+msgstr ""
+"B<dpkg> は、Debian パッケージの、インストール、構築、 削除、管理をするための"
+"ツールである。 B<dselect>(8) は、B<dpkg> の代表的なフロントエンドで、 より"
+"ユーザフレンドリなツールである。 B<dpkg> は、コマンドライン引き数によって完全"
+"に制御することができる。 コマンドライン引き数は、1 つのアクションと、0 個以上"
+"のオプションとで構成される。 アクションは、dpkg に何をさせるのかを指定し、オ"
+"プションはそのアクションの ふるまいを制御する。"
+
+# type: Plain text
+#: ../C/dpkg.1:31
+#, fuzzy
+msgid ""
+"B<dpkg> can be also be used as a front-end to B<dpkg-deb>.  The following "
+"are B<dpkg-deb> actions, and if they are encountered, B<dpkg> just runs "
+"B<dpkg-deb> with the parameters given to it:"
+msgstr ""
+"また、B<dpkg> は B<dpkg-deb> のフロントエンドとしても使うことができる。 以下"
+"のアクションは B<dpkg-deb> のアクションであり、B<dpkg> に これらを引き数とし"
+"て与えると、B<dpkg-deb> に同じ引き数を 与えて起動する。"
+
+# type: Plain text
+#: ../C/dpkg.1:40
+#, fuzzy, no-wrap
+msgid ""
+"    B<-b>, B<--build>,\n"
+"    B<-c>, B<--contents>,\n"
+"    B<-I>, B<--info>,\n"
+"    B<-f>, B<--field>,\n"
+"    B<-e>, B<--control>,\n"
+"    B<-x>, B<--extract>,\n"
+"    B<-X>, B<--vextract>, and\n"
+"    B<--fsys-tarfile>.\n"
+msgstr ""
+"    B<-b>, B<--build>,\n"
+"    B<-c>, B<--contents>,\n"
+"    B<-I>, B<--info>,\n"
+"    B<-f>, B<--field>,\n"
+"    B<-e>, B<--control>,\n"
+"    B<-x>, B<--extract>,\n"
+"    B<-X>, B<--vextract>,\n"
+"    B<--fsys-tarfile>\n"
+
+# type: Plain text
+#: ../C/dpkg.1:42
+#, fuzzy
+msgid "Please refer to B<dpkg-deb>(1) for information about these actions."
+msgstr "これらのアクションについては、B<dpkg-deb>(1) にくわしい情報がある。"
+
+# type: SH
+#: ../C/dpkg.1:43
+#, fuzzy, no-wrap
+msgid "INFORMATION ABOUT PACKAGES"
+msgstr "パッケージに関する情報"
+
+# type: Plain text
+#: ../C/dpkg.1:48
+#, fuzzy
+msgid ""
+"B<dpkg> maintains some usable information about available packages. The "
+"information is divided in three classes: B<states>, B<selection states> and "
+"B<flags>.  These values are intended to be changed mainly with B<dselect>."
+msgstr ""
+"B<dpkg> は、いくつかの利用可能なパッケージに関する有用な情報を 管理している。"
+"この情報は、B<パッケージ状態>、B<パッケージ選択状態>、 そしてB<フラグ>の3つに"
+"分類できる。これらの値は主に B<dselect> に よって変更される。"
+
+# type: SS
+#: ../C/dpkg.1:48
+#, fuzzy, no-wrap
+msgid "PACKAGE STATES"
+msgstr "パッケージ状態"
+
+# type: TP
+#: ../C/dpkg.1:49
+#, fuzzy, no-wrap
+msgid "B<installed>"
+msgstr "B<installed>"
+
+# type: Plain text
+#: ../C/dpkg.1:52
+#, fuzzy
+msgid "The package is unpacked and configured OK."
+msgstr "パッケージの展開と設定が完了している。"
+
+# type: TP
+#: ../C/dpkg.1:52
+#, fuzzy, no-wrap
+msgid "B<half-installed>"
+msgstr "B<half-installed>"
+
+# type: Plain text
+#: ../C/dpkg.1:56
+#, fuzzy
+msgid ""
+"The installation of the package has been started, but not completed for some "
+"reason."
+msgstr ""
+"パッケージのインストールは開始しているが、何らかの理由で完了していない。"
+
+# type: TP
+#: ../C/dpkg.1:56
+#, fuzzy, no-wrap
+msgid "B<not-installed>"
+msgstr "B<not-installed>"
+
+# type: Plain text
+#: ../C/dpkg.1:59
+#, fuzzy
+msgid "The package is not installed on your system."
+msgstr "パッケージはシステムにインストールされていない。"
+
+# type: TP
+#: ../C/dpkg.1:59
+#, fuzzy, no-wrap
+msgid "B<unpacked>"
+msgstr "B<unpacked>"
+
+# type: Plain text
+#: ../C/dpkg.1:62
+#, fuzzy
+msgid "The package is unpacked, but not configured."
+msgstr "パッケージは展開されたが、設定はされていない。"
+
+# type: TP
+#: ../C/dpkg.1:62
+#, fuzzy, no-wrap
+msgid "B<half-configured>"
+msgstr "B<half-configured>"
+
+# type: Plain text
+#: ../C/dpkg.1:66
+#, fuzzy
+msgid ""
+"The package is unpacked and configuration has been started, but not yet "
+"completed for some reason."
+msgstr ""
+"パッケージは展開され、設定も開始しているが何らかの理由によって 完了していな"
+"い。"
+
+# type: TP
+#: ../C/dpkg.1:66
+#, fuzzy, no-wrap
+msgid "B<config-files>"
+msgstr "B<config-files>"
+
+# type: Plain text
+#: ../C/dpkg.1:69
+#, fuzzy
+msgid "Only the configuration files of the package exist on the system."
+msgstr "パッケージの設定ファイルだけが存在している。"
+
+# type: SS
+#: ../C/dpkg.1:69
+#, fuzzy, no-wrap
+msgid "PACKAGE SELECTION STATES"
+msgstr "パッケージ選択状態"
+
+# type: TP
+#: ../C/dpkg.1:70
+#, fuzzy, no-wrap
+msgid "B<install>"
+msgstr "B<install>"
+
+# type: Plain text
+#: ../C/dpkg.1:73
+#, fuzzy
+msgid "The package is selected for installation."
+msgstr "パッケージはインストールするように選択されている。"
+
+# type: TP
+#: ../C/dpkg.1:73
+#, fuzzy, no-wrap
+msgid "B<deinstall>"
+msgstr "B<deinstall>"
+
+# type: Plain text
+#: ../C/dpkg.1:77
+#, fuzzy
+msgid ""
+"The package is selected for deinstallation (i.e. we want to remove all "
+"files, except configuration files)."
+msgstr ""
+"パッケージは deinstallation するように選択されている (設定ファイルを除くすべ"
+"てのファイルを削除したい)。"
+
+# type: TP
+#: ../C/dpkg.1:77
+#, fuzzy, no-wrap
+msgid "B<purge>"
+msgstr "B<purge>"
+
+# type: Plain text
+#: ../C/dpkg.1:81
+#, fuzzy
+msgid ""
+"The package is selected to be purged (i.e. we want to remove everything, "
+"even configuration files)."
+msgstr ""
+"パッケージは purge するように選択されている (設定ファイルも含めたすべてのファ"
+"イルを削除したい)。"
+
+# type: SS
+#: ../C/dpkg.1:81
+#, fuzzy, no-wrap
+msgid "PACKAGE FLAGS"
+msgstr "パッケージフラグ"
+
+# type: TP
+#: ../C/dpkg.1:82
+#, fuzzy, no-wrap
+msgid "B<hold>"
+msgstr "B<hold>"
+
+# type: Plain text
+#: ../C/dpkg.1:86
+#, fuzzy
+msgid ""
+"A package marked to be on B<hold> is not handled by B<dpkg>, unless forced "
+"to do that with option B<--force-hold>."
+msgstr ""
+"パッケージは B<hold> (変更禁止)されている。これは B<--force-hold> で強制しな"
+"い限り B<dpkg> で扱わないということである。"
+
+# type: TP
+#: ../C/dpkg.1:86
+#, fuzzy, no-wrap
+msgid "B<reinst-required>"
+msgstr "B<reinst-required>"
+
+# type: Plain text
+#: ../C/dpkg.1:91
+#, fuzzy
+msgid ""
+"A package marked B<reinst-required> is broken and requires reinstallation. "
+"These packages cannot be removed, unless forced with option B<--force-remove-"
+"reinstreq>."
+msgstr ""
+"パッケージは B<reinst-required> されている。これは、壊れている 状態でインス"
+"トールされていて、再インストールが要求されていると いうことである。このパッ"
+"ケージは B<--force-reinstreq> で強制しない 限り、削除することができない。"
+
+# type: SH
+#: ../C/dpkg.1:92
+#, fuzzy, no-wrap
+msgid "ACTIONS"
+msgstr "アクション"
+
+# type: TP
+#: ../C/dpkg.1:93
+#, fuzzy, no-wrap
+msgid "B<dpkg -i> | B<--install> I<package_file>..."
+msgstr "B<dpkg -i> | B<--install> I<package_file>..."
+
+# type: Plain text
+#: ../C/dpkg.1:97
+#, fuzzy
+msgid ""
+"Install the package. If B<--recursive> or B<-R> option is specified, "
+"I<package_file> must refer to a directory instead."
+msgstr ""
+"指定したパッケージをインストールする。もし B<--recursive> または B<-R> オプ"
+"ションを指定する場合、I<package_file> に、参照するディレクトリを 指定しなけれ"
+"ばならない。"
+
+# type: Plain text
+#: ../C/dpkg.1:99
+#, fuzzy
+msgid "Installation consists of the following steps:"
+msgstr "インストールは、以下の手順で構成されている。"
+
+# type: Plain text
+#: ../C/dpkg.1:102
+#, fuzzy
+msgid "B<1.> Extract the control files of the new package."
+msgstr "B<1.> インストールするパッケージの制御ファイルを取り出す。"
+
+# type: Plain text
+#: ../C/dpkg.1:106
+#, fuzzy
+msgid ""
+"B<2.> If another version of the same package was installed before the new "
+"installation, execute I<prerm> script of the old package."
+msgstr ""
+"B<2.> もし同じパッケージの別のバージョンがすでにインストール 済みの場合、新し"
+"いパッケージのインストールの前に、インストール済みの パッケージの I<prerm> ス"
+"クリプトを実行する。"
+
+# type: Plain text
+#: ../C/dpkg.1:109
+#, fuzzy
+msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgstr ""
+"B<3.> もしパッケージが I<preinst> スクリプトを提供している場合、 それを実行す"
+"る。"
+
+# type: Plain text
+#: ../C/dpkg.1:113
+#, fuzzy
+msgid ""
+"B<4.> Unpack the new files, and at the same time back up the old files, so "
+"that if something goes wrong, they can be restored."
+msgstr ""
+"B<4.> 新しいファイルを展開する。同時に、失敗したときに元に戻せるように、 古い"
+"ファイルを保存する。"
+
+# type: Plain text
+#: ../C/dpkg.1:120
+#, fuzzy
+msgid ""
+"B<5.> If another version of the same package was installed before the new "
+"installation, execute the I<postrm> script of the old package. Note that "
+"this script is executed after the I<preinst> script of the new package, "
+"because new files are written at the same time old files are removed."
+msgstr ""
+"B<5.> もし同じパッケージの別のバージョンがすでにインストール済みの場合、 先に"
+"インストールされていたパッケージの I<postrm> を実行する。この スクリプトが、"
+"新しいパッケージの I<preinst> の後に実行されることに 注意すること。これは、新"
+"しいファイルが書き込まれるのと同時に古いファイルが 削除されるためである。"
+
+# type: Plain text
+#: ../C/dpkg.1:124
+#, fuzzy
+msgid ""
+"B<6.> Configure the package. See B<--configure> for detailed information "
+"about how this is done."
+msgstr ""
+"B<6.> パッケージの設定をする。これがどのように実行されるか、 B<--configure> "
+"の項にくわしい情報がある。"
+
+# type: TP
+#: ../C/dpkg.1:124
+#, fuzzy, no-wrap
+msgid "B<dpkg --unpack >I<package_file> ..."
+msgstr "B< dpkg --unpack >I<Package_file> ... パッケージを展開する、しかし"
+
+# type: Plain text
+#: ../C/dpkg.1:129
+#, fuzzy
+msgid ""
+"Unpack the package, but don't configure it. If B<--recursive> or B<-R> "
+"option is specified, I<package_file> must refer to a directory instead."
+msgstr ""
+"設定はしない。もし B<--recursive> または B<-R> オプションを 指定する場合、"
+"I<Package_file> に、参照するディレクトリを指定 しなければならない。"
+
+# type: TP
+#: ../C/dpkg.1:129
+#, fuzzy, no-wrap
+msgid "B<dpkg --configure >I<package> ... | B<-a> | B<--pending>"
+msgstr "B<dpkg --configure     >I<package> ... | B<-a> | B<--pending>"
+
+# type: Plain text
+#: ../C/dpkg.1:134
+#, fuzzy
+msgid ""
+"Reconfigure an unpacked package.  If B<-a> or B<--pending> is given instead "
+"of I<package>, all unpacked but unconfigured packages are configured."
+msgstr ""
+"展開済みのパッケージを再設定する。もし、B<-a> または B<--pending> を指定した"
+"場合、まだ設定されていない展開済みのすべてのパッケージを設定する。"
+
+# type: Plain text
+#: ../C/dpkg.1:136
+#, fuzzy
+msgid "Configuring consists of the following steps:"
+msgstr "設定は、以下の手順で構成されている。"
+
+# type: Plain text
+#: ../C/dpkg.1:141
+#, fuzzy
+msgid ""
+"B<1.> Unpack the configuration files, and at the same time back up the old "
+"configuration files, so that they can be restored if something goes wrong."
+msgstr ""
+"B<1.> 設定ファイルを展開する。同時に、失敗したときに元に戻せるように、 古い設"
+"定ファイルを保存する。"
+
+# type: Plain text
+#: ../C/dpkg.1:144
+#, fuzzy
+msgid "B<2.> Run I<postinst> script, if provided by the package."
+msgstr ""
+"B<2.> もしパッケージが I<postinst> スクリプトを提供している場合、それを実行す"
+"る。"
+
+# type: TP
+#: ../C/dpkg.1:144
+#, fuzzy, no-wrap
+msgid "B<dpkg -r> | B<--remove> | B<-P> | B<--purge >I<package> ... | B<-a> | B<--pending>"
+msgstr "B<dpkg -r> | B<--remove> | B<-P> | B<--purge >I<package> ... | B<-a> | B<--pending>"
+
+# type: Plain text
+#: ../C/dpkg.1:155
+#, fuzzy
+msgid ""
+"Remove an installed package.  B<-r> or B<--remove> remove everything except "
+"configuration files.  This may avoid having to reconfigure the package if it "
+"is reinstalled later.  (Configuration files are the files listed in the "
+"I<debian/conffiles> control file).  B<-P> or B<--purge> removes everything, "
+"including configuration files.  If B<-a> or B<--pending> is given instead of "
+"a package name, then all packages unpacked, but marked to be removed or "
+"purged in file I</var/lib/dpkg/status>, are removed or purged, respectively."
+msgstr ""
+"インストール済みのパッケージを削除する。 B<-P> または B<--purge> は、設定ファ"
+"イルを含むすべてを削除する。 B<--remove> は、設定ファイルを除いたすべてを削除"
+"する(設定ファイルの一覧は、 I<conffiles> コントロールファイルにある)。 引き数"
+"として、パッケージ名の代わりに B<-a> または B<--pending> が 指定された場合に"
+"は、I</var/lib/dpkg/status> ファイルに remove または purge の印を持つすべての"
+"展開済みパッケージを、それぞれ remove または purge する。"
+
+# type: Plain text
+#: ../C/dpkg.1:157
+#, fuzzy
+msgid "Removing of a package consists of the following steps:"
+msgstr "パッケージの削除は以下の手順で構成されている。"
+
+# type: Plain text
+#: ../C/dpkg.1:160
+#, fuzzy
+msgid "B<1.> Run I<prerm> script"
+msgstr "B<1.> I<prerm> スクリプトを実行する。"
+
+# type: Plain text
+#: ../C/dpkg.1:163
+#, fuzzy
+msgid "B<2.> Remove the installed files"
+msgstr "B<2.> インストールしたファイルを削除する。"
+
+# type: Plain text
+#: ../C/dpkg.1:166
+#, fuzzy
+msgid "B<3.> Run I<postrm> script"
+msgstr "B<3.> I<postrm> スクリプトを実行する。"
+
+# type: TP
+#: ../C/dpkg.1:167
+#, fuzzy, no-wrap
+msgid "B<dpkg --update-avail> | B<--merge-avail> I<Packages-file>"
+msgstr "B<dpkg --update-avail> | B<--merge-avail >I<Packages-file>"
+
+# type: Plain text
+#: ../C/dpkg.1:176
+#, fuzzy
+msgid ""
+"Update B<dpkg>'s and B<dselect>'s idea of which packages are available.  "
+"With action B<--merge-avail>, old information is combined with information "
+"from I<Packages-file>.  With action B<--update-avail>, old information is "
+"replaced with the information in the I<Packages-file>.  The I<Packages-file> "
+"distributed with Debian is simply named I<Packages>.  B<dpkg> keeps its "
+"record of available packages in I</var/lib/dpkg/available>."
+msgstr ""
+"B<dpkg> や B<dselect> が管理する利用可能なパッケージの情報を更新する。 B<--"
+"merge-avail> アクションは、古い情報に I<Packages-file> の情報を 組み合わせ"
+"る。 B<--update-avail> アクションは、古い情報を I<Packages-file> の情報で 置"
+"き換える。 Debian と一緒に配布されている I<Packages-file> の名前は簡単に "
+"I<Packages> である。B<dpkg> は、利用可能なパッケージの情報を I</var/lib/dpkg/"
+"available> に記録する。"
+
+# type: Plain text
+#: ../C/dpkg.1:179
+#, fuzzy
+msgid ""
+"A simpler one-shot command to retrieve and update the I<available> file is "
+"B<dselect update>."
+msgstr ""
+"A simpler one-shot command to retrieve and update the I<available> file is "
+"B<dselect update>."
+
+# type: TP
+#: ../C/dpkg.1:179
+#, fuzzy, no-wrap
+msgid "B<dpkg -A> | B<--record-avail> I<package_file> ..."
+msgstr "B<dpkg -A> | B<--record-avail> I<package_file> ..."
+
+# type: Plain text
+#: ../C/dpkg.1:185
+#, fuzzy
+msgid ""
+"Update B<dpkg> and B<dselect>'s idea of which packages are available with "
+"information from the package I<package_file>.  If B<--recursive> or B<-R> "
+"option is specified, I<package_file> must refer to a directory instead."
+msgstr ""
+"B<dpkg> や B<dselect> が管理する利用可能なパッケージの情報を、 "
+"I<package_file> パッケージからの情報で更新する。 もし B<--recursive> または "
+"B<-R> オプションを指定する場合、 I<Package_file> に、参照するディレクトリを指"
+"定しなければならない。"
+
+# type: TP
+#: ../C/dpkg.1:185
+#, fuzzy, no-wrap
+msgid "B<dpkg --forget-old-unavail>"
+msgstr "B<dpkg --forget-old-unavail>"
+
+# type: Plain text
+#: ../C/dpkg.1:188
+#, fuzzy
+msgid "Forget about uninstalled unavailable packages."
+msgstr "インストールされていなくて利用可能でないパッケージの情報を消去する。"
+
+# type: TP
+#: ../C/dpkg.1:188
+#, fuzzy, no-wrap
+msgid "B<dpkg --clear-avail>"
+msgstr "B<dpkg --clear-avail>"
+
+# type: Plain text
+#: ../C/dpkg.1:191
+#, fuzzy
+msgid "Erase the existing information about what packages are available."
+msgstr "利用可能なパッケージの情報を消去する。"
+
+# type: TP
+#: ../C/dpkg.1:191
+#, fuzzy, no-wrap
+msgid "B<dpkg -C> | B<--audit>"
+msgstr "B<dpkg -C> | B<--audit>"
+
+# type: Plain text
+#: ../C/dpkg.1:196
+#, fuzzy
+msgid ""
+"Searches for packages that have been installed only partially on your "
+"system.  B<dpkg> will suggest what to do with them to get them working."
+msgstr ""
+"インストールが完了していないパッケージを探す。B<dpkg> はインストールを 完了さ"
+"せるためにどうすればよいかを提案する。"
+
+# type: TP
+#: ../C/dpkg.1:196
+#, fuzzy, no-wrap
+msgid "B<dpkg --get-selections> [I<package-name-pattern>...]"
+msgstr "B<dpkg --get-selections> [I<pattern>...]"
+
+# type: Plain text
+#: ../C/dpkg.1:199
+#, fuzzy
+msgid "Get list of package selections, and write it to stdout."
+msgstr "パッケージ選択リストを標準出力に書き出す。"
+
+# type: TP
+#: ../C/dpkg.1:199
+#, fuzzy, no-wrap
+msgid "B<dpkg --set-selections>"
+msgstr "B<dpkg --set-selections>"
+
+# type: Plain text
+#: ../C/dpkg.1:205
+#, fuzzy
+msgid ""
+"Set package selections using file read from stdin.  This file should be in "
+"the format 'E<lt>packageE<gt> E<lt>stateE<gt>', where state is one of "
+"install, hold, deinstall or purge.  Blank lines and comment lines beginning "
+"with '#' are also permitted."
+msgstr "パッケージ選択リストを標準入力から読み込んで設定する。"
+
+# type: TP
+#: ../C/dpkg.1:205
+#, fuzzy, no-wrap
+msgid "B<dpkg --yet-to-unpack>"
+msgstr "B<dpkg --yet-to-unpack>"
+
+# type: Plain text
+#: ../C/dpkg.1:209
+#, fuzzy
+msgid ""
+"Searches for packages selected for installation, but which for some reason "
+"still haven't been installed."
+msgstr ""
+"インストールするために選択されたが、何らかの理由でまだインストール されていな"
+"いパッケージを探す。"
+
+# type: TP
+#: ../C/dpkg.1:210
+#, fuzzy, no-wrap
+msgid "B<dpkg --print-architecture>"
+msgstr "B<dpkg --print-architecture>"
+
+# type: Plain text
+#: ../C/dpkg.1:213
+#, fuzzy
+msgid "Print architecture of packages dpkg installs (for example, \"i386\")."
+msgstr ""
+"ターゲットアーキテクチャ(例えば、“i386”)を表示する。このオプションは "
+"B<gcc> を使用する。"
+
+# type: TP
+#: ../C/dpkg.1:213
+#, fuzzy, no-wrap
+msgid "B<dpkg --compare-versions >I<ver1 op ver2>"
+msgstr "B<dpkg --compare-versions >I<ver1 op ver2>"
+
+# type: Plain text
+#: ../C/dpkg.1:224
+#, fuzzy
+msgid ""
+"Compare version numbers, where I<op> is a binary operator.  B<dpkg> returns "
+"success (zero result) if the specified condition is satisfied, and failure "
+"(nonzero result) otherwise.  There are two groups of operators, which differ "
+"in how they treat an empty I<ver1> or I<ver2>.  These treat an empty version "
+"as earlier than any version: B<lt le eq ne ge gt>.  These treat an empty "
+"version as later than any version: B<lt-nl le-nl ge-nl gt-nl>.  These are "
+"provided only for compatibility with control file syntax: B<E<lt> E<lt>E<lt> "
+"E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
+msgstr ""
+"2項演算子 I<op> で2つのバージョンを比較する。 B<dpkg> の返り値は、指定した条"
+"件を満たすなら成功(0)、そうでなければ 失敗(0以外)となる。 演算子は2つグループ"
+"にわかれる。これは I<ver1> か I<ver2> が 欠けているときのふるまいの違いによ"
+"る。 B<lt le eq ne ge gt> は、欠けているバージョンがどれよりも古いとみなす。 "
+"B<lt-nl le-nl ge-nl gt-nl> は、欠けているバージョンがどれよりも新しい とみな"
+"す。 B<E<lt> E<lt>E<lt> E<lt>= = E<gt>= E<gt>E<gt> E<gt>> は、制御ファイルの"
+"文法との互換性のためだけに 提供されている。"
+
+# type: TP
+#: ../C/dpkg.1:224
+#, fuzzy, no-wrap
+msgid "B<dpkg --command-fd E<lt>nE<gt>>"
+msgstr "B<dpkg --command-fd E<lt>nE<gt>>"
+
+# type: Plain text
+#: ../C/dpkg.1:229
+#, fuzzy
+msgid ""
+"Accept a series of commands on input file descriptor B<E<lt>nE<gt>>.  Note: "
+"additional options set on the command line, and thru this file descriptor, "
+"are not reset for subsequent commands executed during the same run."
+msgstr ""
+"ファイル記述子 B<E<lt>nE<gt>>から一連のコマンドをうけいれる。注意: 追加のオプ"
+"ションはコマンドラインとこのファイル記述子を通じて指定でき 一回の実行を通じて"
+"それらがリセットされることはない。"
+
+# type: TP
+#: ../C/dpkg.1:229
+#, fuzzy, no-wrap
+msgid "B<dpkg --help>"
+msgstr "B<dpkg --help>"
+
+# type: Plain text
+#: ../C/dpkg.1:232
+#, fuzzy
+msgid "Display a brief help message."
+msgstr "簡単なオプション一覧を表示する。"
+
+# type: TP
+#: ../C/dpkg.1:232
+#, fuzzy, no-wrap
+msgid "B<dpkg --force-help>"
+msgstr "B<dpkg --force-help>"
+
+# type: Plain text
+#: ../C/dpkg.1:235
+#, fuzzy
+msgid "Give help about the B<--force->I<thing> options."
+msgstr "B<--force->I<thing> オプション一覧を表示する。"
+
+# type: TP
+#: ../C/dpkg.1:235
+#, fuzzy, no-wrap
+msgid "B<dpkg -Dh >|B< --debug=help>"
+msgstr "B<dpkg -Dh >|B< --debug=help>"
+
+# type: Plain text
+#: ../C/dpkg.1:238
+#, fuzzy
+msgid "Give help about debugging options."
+msgstr "デバッグ用オプション一覧を表示する。"
+
+# type: TP
+#: ../C/dpkg.1:238
+#, fuzzy, no-wrap
+msgid "B<dpkg --licence> | B<dpkg --license>"
+msgstr "B<dpkg --licence> | B<dpkg --license>"
+
+# type: Plain text
+#: ../C/dpkg.1:241
+#, fuzzy
+msgid "Display B<dpkg> licence."
+msgstr "B<dpkg> のライセンスを表示する。"
+
+# type: TP
+#: ../C/dpkg.1:241
+#, fuzzy, no-wrap
+msgid "B<dpkg --version>"
+msgstr "B<dpkg --version>"
+
+# type: Plain text
+#: ../C/dpkg.1:244
+#, fuzzy
+msgid "Display B<dpkg> version information."
+msgstr "B<dpkg> のバージョン情報を表示する。"
+
+# type: TP
+#: ../C/dpkg.1:244
+#, fuzzy, no-wrap
+msgid "B<dpkg-deb-actions>"
+msgstr "B<dpkg-deb-actions>"
+
+# type: Plain text
+#: ../C/dpkg.1:247
+#, fuzzy
+msgid "See B<dpkg-deb>(1) for more information about the following actions."
+msgstr "以下のアクションのくわしい情報は B<dpkg-deb>(1) を参照すること。"
+
+# type: Plain text
+#: ../C/dpkg.1:267
+#, fuzzy, no-wrap
+msgid ""
+"B<dpkg -b> | B<--build> I<directory> [I<filename>]\n"
+"    Build a deb package.\n"
+"B<dpkg -c> | B<--contents> I<filename>\n"
+"    List contents of a deb package.\n"
+"B<dpkg -e> | B<--control> I<filename> [I<directory>]\n"
+"    Extract control-information from a package.\n"
+"B<dpkg -x> | B<--extract> I<filename directory>\n"
+"    Extract the files contained by package.\n"
+"B<dpkg -f> | B<--field>  I<filename> [I<control-field>] ...\n"
+"    Display control field(s) of a package.\n"
+"B<dpkg --fsys-tarfile> I<filename>\n"
+"    Display the filesystem tar-file contained by a\n"
+"    Debian package.\n"
+"B<dpkg -I> | B<--info> I<filename> [I<control-file>]\n"
+"    Show information about a package.\n"
+"B<dpkg -X> | B<--vextract> I<filename> I<directory>\n"
+"    Extract and display the filenames contained by a\n"
+"    package.\n"
+msgstr ""
+"B<dpkg -b> | B<--build> I<directory> [I<filename>]\n"
+"    deb パッケージを構築する。\n"
+"B<dpkg -c> | B<--contents> I<filename>\n"
+"    deb パッケージに含まれるファイル一覧を表示する。\n"
+"B<dpkg -e> | B<--control> I<filename> [I<directory>]\n"
+"    パッケージから制御情報を取り出す。\n"
+"B<dpkg -x> | B<--extract> I<filename directory>\n"
+"    パッケージに含まれるファイルをすべて取り出す。\n"
+"B<dpkg -f> | B<--field>  I<filename> [I<control-field>] ...\n"
+"    パッケージの制御フィールドを表示する。\n"
+"B<dpkg --fsys-tarfile> I<filename>\n"
+"    Debian パッケージに含まれる tar ファイルを表示する。\n"
+"B<dpkg -I> | B<--info> I<filename> [I<control-file>]\n"
+"    パッケージに関する情報を表示する。\n"
+"B<dpkg -X> | B<--vextract> I<filename> I<directory>\n"
+"    パッケージに含まれるファイルを展開し、ファイル名を表示する。\n"
+
+# type: TP
+#: ../C/dpkg.1:269
+#, fuzzy, no-wrap
+msgid "B<dpkg-query-actions>"
+msgstr "B<dpkg-query-actions>"
+
+# type: Plain text
+#: ../C/dpkg.1:272
+#, fuzzy
+msgid "See B<dpkg-query>(1) for more information about the following actions."
+msgstr "以下のアクションの詳細は、B<dpkg-query>(1) を参照すること。"
+
+# type: Plain text
+#: ../C/dpkg.1:285
+#, fuzzy, no-wrap
+msgid ""
+"B<dpkg -l> | B<--list> I<package-name-pattern> ...\n"
+"    List packages matching given pattern.\n"
+"B<dpkg -s> | B<--status> I<package-name> ...\n"
+"    Report status of specified package.\n"
+"B<dpkg -L> | B<--listfiles> I<package> ...\n"
+"    List files installed to your system from B<package>.\n"
+"B<dpkg -S> | B<--search> I<filename-search-pattern> ...\n"
+"    Search for a filename from installed packages.\n"
+"B<dpkg -p> | B<--print-avail> I<package>\n"
+"    Display details about I<package>, as found in I</var/lib/dpkg/available>.\n"
+msgstr ""
+"B<dpkg -l> | B<--list> I<package-name-pattern> ...\n"
+"    与えられたパターンにマッチする名前のパッケージを表示する。\n"
+"B<dpkg -s> | B<--status> I<package-name> ...\n"
+"    指定したパッケージの状態を報告する。\n"
+"B<dpkg -L> | B<--listfiles> I<package> ...\n"
+"    B<package> パッケージによってシステムにインストールされたファイルを表示する。\n"
+"B<dpkg -S> | B<--search> I<filename-search-pattern> ...\n"
+"    ファイルがどのパッケージからインストールされたか検索する。\n"
+"B<dpkg -p> | B<--print-avail> I<package>\n"
+"    I</var/lib/dpkg/available> にある I<package> の詳細情報を表示する。\n"
+
+# type: SH
+#: ../C/dpkg.1:289
+#, fuzzy, no-wrap
+msgid "OPTIONS"
+msgstr "オプション"
+
+# type: Plain text
+#: ../C/dpkg.1:294
+#, fuzzy
+msgid ""
+"All options can be specified both on the commandline and in the B<dpkg> "
+"configuration file I</etc/dpkg/dpkg.cfg>. Each line in the configuration "
+"file is either an option (exactly the same as the commandline option but "
+"without leading dashes) or a comment (if it starts with a B<#>)."
+msgstr ""
+"すべてのオプションは、コマンドラインや B<dpkg> の設定ファイルで ある I</etc/"
+"dpkg/dpkg.cfg> の中で指定できる。設定ファイルは、 1 行に 1 つのオプション(コ"
+"マンドラインオプションとまったく同じ、 ただし頭のダッシュを取る)か、コメント"
+"(最初に B<#> で始まる)  で構成される。"
+
+# type: TP
+#: ../C/dpkg.1:295
+#, fuzzy, no-wrap
+msgid "B<--abort-after=>I<number>"
+msgstr "B<--abort-after=>I<number>"
+
+# type: Plain text
+#: ../C/dpkg.1:298
+#, fuzzy
+msgid "Change after how many errors dpkg will abort. The default is 50."
+msgstr "dpkg の処理を中断させるエラー数を変更する。デフォルトは 50 である。"
+
+# type: TP
+#: ../C/dpkg.1:298
+#, fuzzy, no-wrap
+msgid "B<-B>|B<--auto-deconfigure>"
+msgstr "B<-B>|B<--auto-deconfigure>"
+
+# type: Plain text
+#: ../C/dpkg.1:304
+#, fuzzy
+msgid ""
+"When a package is removed, there is a possibility that another installed "
+"package depended on the removed package. Specifying this option will cause "
+"automatic deconfiguration of the package which depended on the removed "
+"package."
+msgstr ""
+"パッケージを削除するとき、削除するパッケージに依存した別のパッケージが インス"
+"トールされて場合がある。このオプションを指定すると、削除する パッケージに依存"
+"しているパッケージの設定を取り消す。"
+
+# type: TP
+#: ../C/dpkg.1:304
+#, fuzzy, no-wrap
+msgid "B<-D>I<octal>B< | --debug=>I<octal>"
+msgstr "B<-D>I<octal>B< | --debug=>I<octal>"
+
+# type: Plain text
+#: ../C/dpkg.1:310
+#, fuzzy
+msgid ""
+"Set debugging on.  I<octal> is formed by bitwise-orring desired values "
+"together from the list below (note that these values may change in future "
+"releases).  B<-Dh> or B<--debug=help> display these debugging values."
+msgstr ""
+"デバッグモードにする。 I<octal> は、以下の一覧から望む値をビットごとの論理和"
+"で組み合わせた ものである(これらの値は、将来のリリースでは変更される可能性が"
+"あるので 注意すること)。B<-Dh> または B<--debug=help> はこれらの値を表示す"
+"る。"
+
+# type: Plain text
+#: ../C/dpkg.1:322
+#, fuzzy, no-wrap
+msgid ""
+" number  description\n"
+"    1   Generally helpful progress information\n"
+"    2   Invocation and status of maintainer scripts\n"
+"   10   Output for each file processed\n"
+"  100   Lots of output for each file processed\n"
+"   20   Output for each configuration file\n"
+"  200   Lots of output for each configuration file\n"
+"   40   Dependencies and conflicts\n"
+"  400   Lots of dependencies/conflicts output\n"
+" 1000   Lots of drivel about e.g. the dpkg/info dir\n"
+" 2000   Insane amounts of drivel\n"
+msgstr ""
+" 数値   説明\n"
+"    1   一般的に役に立つ進行状況\n"
+"    2   管理スクリプトの呼び出し状況と状態\n"
+"   10   各ファイル処理の情報\n"
+"  100   各ファイル処理の大量の情報\n"
+"   20   各設定ファイルの情報\n"
+"  200   各設定ファイルの大量の情報\n"
+"   40   依存関係、競合関係\n"
+"  400   依存関係、競合関係の大量の情報\n"
+" 1000   dpkg/info ディレクトリなどに関する大量の情報\n"
+" 2000   正気でないほどの大量の情報\n"
+
+# type: TP
+#: ../C/dpkg.1:322
+#, fuzzy, no-wrap
+msgid "B<--force->I<things> | B<--no-force->I<things> | B<--refuse->I<things>"
+msgstr "B<--force->I<things> | B<--no-force->I<things> | B<--refuse->I<things>"
+
+# type: Plain text
+#: ../C/dpkg.1:329
+#, fuzzy
+msgid ""
+"Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do some "
+"things.  I<things> is a comma separated list of things specified below.  B<--"
+"force-help> displays a message describing them.  Things marked with (*) are "
+"forced by default."
+msgstr ""
+"指定した I<things> を強制実行する(force)、または拒否する(refuse)  (B<no-"
+"force> と B<refuse> は同じ意味)。I<things> に、 以下の項目をコンマで区切って"
+"指定する。B<--force-help> オプションで これらの説明を表示する。(*)の印のもの"
+"は、デフォルトで強制実行される。"
+
+# type: Plain text
+#: ../C/dpkg.1:333
+#, fuzzy
+msgid ""
+"I<Warning: These options are mostly intended to be used by experts only. "
+"Using them without fully understanding their effects may break your whole "
+"system.>"
+msgstr ""
+"I< 警告: これらのオプションは、おもに熟練したユーザだけが使うことを意図したも"
+"のである。 影響を完全に理解しないままにこれらを使うと、システム全体を壊してし"
+"まうかも しれない。>"
+
+# type: Plain text
+#: ../C/dpkg.1:336
+#, fuzzy
+msgid "B<all>: Turns on(or off) all force options."
+msgstr "B<all>: 全ての強制オプションを指定する(noならば指定しない)。"
+
+# type: Plain text
+#: ../C/dpkg.1:339
+#, fuzzy
+msgid ""
+"B<auto-select>(*): Select packages to install them, and deselect packages to "
+"remove them."
+msgstr ""
+"B<auto-select>(*): インストールするパッケージを選択し、削除するパッケージを非"
+"選択にする。"
+
+# type: Plain text
+#: ../C/dpkg.1:342
+#, fuzzy
+msgid ""
+"B<downgrade>(*): Install a package, even if newer version of it is already "
+"installed."
+msgstr ""
+"B<downgrade>(*): インストールするパッケージよりも新しいバージョンのパッケージ"
+"がすでに インストールされていても、インストールをする。"
+
+# type: Plain text
+#: ../C/dpkg.1:349
+#, fuzzy
+msgid ""
+"I<Warning: At present dpkg does not do any dependency checking on downgrades "
+"and therefore will not warn you if the downgrade breaks the dependency of "
+"some other package.  This can have serious side effects, downgrading "
+"essential system components can even make your whole system unusable.  Use "
+"with care.>"
+msgstr ""
+"I<警告: 現在の dpkg は、ダウングレード時にいかなる依存関係のチェックもしな"
+"い。 そのため、ダウングレードすることで、ほかのパッケージの依存関係を 警告な"
+"しに壊すかもしれない。 これは深刻な副作用となる可能性があり、主要なシステム構"
+"成をダウングレード することでシステムを壊してしまうこともありうる。注意して使"
+"用すること。>"
+
+# type: Plain text
+#: ../C/dpkg.1:353
+#, fuzzy
+msgid ""
+"B<configure-any>: Configure also any unpacked but unconfigured packages on "
+"which the current package depends."
+msgstr ""
+"B<configure-any>: 指定したパッケージに依存していて、すでに展開されているが、"
+"まだ設定されて いないパッケージも一緒に設定をする。"
+
+# type: Plain text
+#: ../C/dpkg.1:356
+#, fuzzy
+msgid "B<hold>: Process packages even when marked \"hold\"."
+msgstr ""
+"B<hold>: たとえ “hold” と印されていても、そのパッケージの処理をする。"
+
+# type: Plain text
+#: ../C/dpkg.1:361
+#, fuzzy
+msgid ""
+"B<remove-reinstreq>: Remove a package, even if it's broken and marked to "
+"require reinstallation.  This may, for example, cause parts of the package "
+"to remain on the system, which will then be forgotten by B<dpkg>."
+msgstr ""
+"B<remove-reinstreq>: 壊れていて、再インストールが必要だと印をされていたとして"
+"も、パッケージを 削除する。これにより、例えば、パッケージの一部が B<dpkg> に"
+"管理されない で残るなどの問題がおこるかもしれない。"
+
+# type: Plain text
+#: ../C/dpkg.1:366
+#, fuzzy
+msgid ""
+"B<remove-essential>: Remove, even if the package is considered essential. "
+"Essential packages contain mostly very basic Unix commands. Removing them "
+"might cause the whole system to stop working, so use with caution."
+msgstr ""
+"B<remove-essential>: essential とされるパッケージであっても削除する。"
+"essential パッケージには、 たいてい最も基本的な UNIX コマンドが含まれる。これ"
+"らのパッケージを削除 すると、システム全体が動作しなくなることもあるので、注意"
+"して削除すること。"
+
+# type: Plain text
+#: ../C/dpkg.1:369
+#, fuzzy
+msgid "B<depends>: Turn all dependency problems into warnings."
+msgstr "B<depends>: すべての依存問題を警告に変える。"
+
+# type: Plain text
+#: ../C/dpkg.1:372
+#, fuzzy
+msgid ""
+"B<depends-version>: Don't care about versions when checking dependencies."
+msgstr "B<depends-version>: 依存関係の確認をするとき、バージョンを無視する。"
+
+# type: Plain text
+#: ../C/dpkg.1:376
+#, fuzzy
+msgid ""
+"B<conflicts>: Install, even if it conflicts with another package. This is "
+"dangerous, for it will usually cause overwriting of some files."
+msgstr ""
+"B<conflicts>: 他のパッケージと競合してもインストールする。たいていはいくつか"
+"ファイルを 上書きすることになるため、危険である。"
+
+# type: Plain text
+#: ../C/dpkg.1:381
+#, fuzzy
+msgid ""
+"B<confmiss>: Always install a missing configuration file. This is dangerous, "
+"since it means not preserving a change (removing) made to the file."
+msgstr ""
+"B<confmiss>: 常に、欠けている設定ファイルをインストールする。このオプション"
+"は、 変更(ファイルを削除したこと)を保存しないため、危険である。"
+
+# type: Plain text
+#: ../C/dpkg.1:386
+#, fuzzy
+msgid ""
+"B<confnew>: If a conffile has been modified always install the new version "
+"without prompting, unless the B<--force-confdef> is also specified, in which "
+"case the default action is preferred."
+msgstr ""
+"B<confnew>: 設定ファイルが変更されていた場合、問い合わせなしに新しいバージョ"
+"ンの 設定ファイルをインストールする。ただし、B<--force-confdef> を 同時に指定"
+"した場合は、デフォルトの動作が優先される。"
+
+# type: Plain text
+#: ../C/dpkg.1:391
+#, fuzzy
+msgid ""
+"B<confold>: If a conffile has been modified always keep the old version "
+"without prompting, unless the B<--force-confdef> is also specified, in which "
+"case the default action is preferred."
+msgstr ""
+"B<confold>: 設定ファイルが変更されていた場合、問い合わせなしに古いバージョン"
+"の 設定ファイルを保持する。ただし、B<--force-confdef> を同時に 指定した場合"
+"は、デフォルトの動作が優先される。"
+
+# type: Plain text
+#: ../C/dpkg.1:397
+#, fuzzy
+msgid ""
+"B<confdef>: If a conffile has been modified always choose the default "
+"action. If there is no default action it will stop to ask the user unless "
+"B<--force-confnew> or B<--force-confold> is also been given, in which case "
+"it will use that to decide the final action."
+msgstr ""
+"B<confdef>: 設定ファイルが変更されていた場合、常にデフォルトの動作をする。 デ"
+"フォルトの動作がなく、B<--force-confnew> と B<--force-confold> のどちらも同時"
+"に指定していない場合、ユーザに尋ねるために中断する。 指定している場合は、指定"
+"されたオプションによって最終的な動作が決まる。"
+
+# type: Plain text
+#: ../C/dpkg.1:400
+#, fuzzy
+msgid "B<overwrite>: Overwrite one package's file with another's file."
+msgstr ""
+"B<overwrite>: あるパッケージで提供されているファイルを、インストールするパッ"
+"ケージの ファイルで上書きする。"
+
+# type: Plain text
+#: ../C/dpkg.1:403
+#, fuzzy
+msgid "B<overwrite-dir> Overwrite one package's directory with another's file."
+msgstr ""
+"B<overwrite-dir>: あるパッケージで提供されているディレクトリをインストールす"
+"るパッケージの ファイルで上書きする。"
+
+# type: Plain text
+#: ../C/dpkg.1:406
+#, fuzzy
+msgid ""
+"B<overwrite-diverted>: Overwrite a diverted file with an undiverted version."
+msgstr ""
+"B<overwrite-diverted>: 退避(divert した)版のファイルを非退避(divert していな"
+"い)版のファイル で上書きする。"
+
+# type: Plain text
+#: ../C/dpkg.1:409
+#, fuzzy
+msgid "B<architecture>: Process even packages with the wrong architecture."
+msgstr ""
+"B<architecture>: パッケージが間違ったアーキテクチャ用であっても処理をする。"
+
+# type: Plain text
+#: ../C/dpkg.1:412
+#, fuzzy
+msgid ""
+"B<bad-path>: B<PATH> is missing important programs, so problems are likely."
+msgstr ""
+"B<bad-path>: 重要なプログラムが B<PATH> に含まれていなくても実行する。問題が"
+"起きる 可能性は高い。"
+
+# type: Plain text
+#: ../C/dpkg.1:415
+#, fuzzy
+msgid "B<not-root>: Try to (de)install things even when not root."
+msgstr ""
+"B<not-root>: root でないときでも、それをインストール(または削除)しようと試み"
+"る。"
+
+# type: Plain text
+#: ../C/dpkg.1:418
+#, fuzzy
+msgid "B<bad-verify>: Install a package even if it fails authenticity check."
+msgstr "B<bad-verify>: Install a package even if it fails authenticity check."
+
+# type: TP
+#: ../C/dpkg.1:419
+#, fuzzy, no-wrap
+msgid "B<--ignore-depends>=I<package>,..."
+msgstr "B<--ignore-depends>=I<package>,..."
+
+# type: Plain text
+#: ../C/dpkg.1:423
+#, fuzzy
+msgid ""
+"Ignore dependency-checking for specified packages (actually, checking is "
+"performed, but only warnings about conflicts are given, nothing else)."
+msgstr ""
+"指定したパッケージに関する依存関係の確認を無視する(実際は、依存関係を 確認"
+"し、競合に対して警告メッセージを出して、アクションを実行する)。"
+
+# type: TP
+#: ../C/dpkg.1:423
+#, fuzzy, no-wrap
+msgid "B<--new> | B<--old>"
+msgstr "B<--new> | B<--old>"
+
+# type: Plain text
+#: ../C/dpkg.1:427
+#, fuzzy
+msgid ""
+"Select new or old binary package format. This is a B<dpkg-deb>(1)  option."
+msgstr ""
+"パッケージのフォーマットが新しいか古いかを指定する。 これは B<dpkg-deb>(1) の"
+"オプションである。"
+
+# type: TP
+#: ../C/dpkg.1:427
+#, fuzzy, no-wrap
+msgid "B<--nocheck>"
+msgstr "B<--nocheck>"
+
+# type: Plain text
+#: ../C/dpkg.1:431
+#, fuzzy
+msgid ""
+"Don't read or check contents of control file while building a package.  This "
+"is a B<dpkg-deb>(1) option."
+msgstr ""
+"パッケージを構築するときに、制御ファイルの内容を読むことも確認もしない。 これ"
+"は B<dpkg-deb>(1) のオプションである。"
+
+# type: TP
+#: ../C/dpkg.1:431
+#, fuzzy, no-wrap
+msgid "B<--no-act> | B<--dry-run> | B<--simulate>"
+msgstr "B<--no-act> | B<--dry-run> | B<--simulate>"
+
+# type: Plain text
+#: ../C/dpkg.1:436
+#, fuzzy
+msgid ""
+"Do everything which is supposed to be done, but don't write any changes. "
+"This is used to see what would happen with the specified action, without "
+"actually modifying anything."
+msgstr ""
+"期待される動作をすべて実行するが、どのような変更も書き込まない。 これは、実際"
+"にはシステムに何の変更も加えずに、指定したアクションで 何がおこるのかを確認す"
+"るためのものである。"
+
+# type: Plain text
+#: ../C/dpkg.1:441
+#, fuzzy
+msgid ""
+"Be sure to give B<--no-act> before the action-parameter, or you might end up "
+"with undesirable results.  (e.g.  B<dpkg --purge foo --no-act> will first "
+"purge package foo and then try to purge package --no-act, even though you "
+"probably expected it to actually do nothing)"
+msgstr ""
+"オプション B<--no-act> は、必ずアクションより前に与えること。 さもなくば、望"
+"ましくない結果が起きる可能性がある。 (例えば、システムに何も変更を加えるつも"
+"りがないのに、 B<dpkg --purge foo --no-act> を実行すると、最初にパッケージ "
+"foo が 本当に purge され、次にパッケージ --no-act が purge されることになる)"
+
+# type: TP
+#: ../C/dpkg.1:441
+#, fuzzy, no-wrap
+msgid "B<-R> | B<--recursive>"
+msgstr "B<-R> | B<--recursive>"
+
+# type: Plain text
+#: ../C/dpkg.1:447
+#, fuzzy
+msgid ""
+"Recursively handle all regular files matching pattern B<*.deb> found at "
+"specified directories and all of its subdirectories. This can be used with "
+"B<-i>, B<-A>, B<--install>, B<--unpack> and B<--avail> actions."
+msgstr ""
+"指定したディレクトリを再帰的に検索し、みつけた B<*.deb> という パターンにマッ"
+"チするファイルをすべて扱う。これは、B<-i>, B<-A>, B<--install>, B<--unpack> "
+"そして B<--avail> アクションとともに使うことができる。"
+
+# type: TP
+#: ../C/dpkg.1:447
+#, fuzzy, no-wrap
+msgid "B<-G>"
+msgstr "B<-G>"
+
+# type: Plain text
+#: ../C/dpkg.1:451
+#, fuzzy
+msgid ""
+"Don't install a package if a newer version of the same package is already "
+"installed. This is an alias of B<--refuse-downgrade.>"
+msgstr ""
+"インストール済みのパッケージのほうがバージョンが新しければ、インストール しな"
+"い。これは B<--refuse-downgrade> の別名である。"
+
+# type: TP
+#: ../C/dpkg.1:451
+#, fuzzy, no-wrap
+msgid "B<--root=>I<dir> | B<--admindir=>I<dir> | B<--instdir=>I<dir>"
+msgstr "B<--root=>I<dir> | B<--admindir=>I<dir> | B<--instdir=>I<dir>"
+
+# type: Plain text
+#: ../C/dpkg.1:462
+#, fuzzy
+msgid ""
+"Change default directories.  B<admindir> defaults to I</var/lib/dpkg> and "
+"contains many files that give information about status of installed or "
+"uninstalled packages, etc.  B<instdir> defaults to I</> and refers to the "
+"directory where packages are to be installed.  B<instdir> is also the "
+"directory passed to B<chroot>(2) before running I<package>'s installation "
+"scripts, which means that the scripts see B<instdir> as a root directory.  "
+"Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+"var/lib/dpkg>."
+msgstr ""
+"デフォルトのディレクトリを変更する。B<admindir> はインストール済みの パッケー"
+"ジやインストールされていないパッケージの状態に関する情報などを 提供する、多数"
+"のファイルが格納されているディレクトリで、デフォルトは I</var/lib/dpkg> であ"
+"る。B<instdir> はパッケージがインストール するときに参照されるディレクトリ"
+"で、デフォルトは I</> である。 また、B<instdir> は、パッケージのインストール"
+"スクリプトが実行 される前に B<chroot>(2) するディレクトリのパスである。つま"
+"り、 スクリプトは B<instdir> をルートディレクトリとみなす。 B<root> を変更す"
+"ると、B<instdir> を I<dir> に、B<admindir> を I<dir>B</var/lib/dpkg> に変更す"
+"る。"
+
+# type: TP
+#: ../C/dpkg.1:462
+#, fuzzy, no-wrap
+msgid "B<-O> | B<--selected-only>"
+msgstr "B<-O> | B<--selected-only>"
+
+# type: Plain text
+#: ../C/dpkg.1:468
+#, fuzzy
+msgid ""
+"Only process the packages that are selected for installation. The actual "
+"marking is done with B<dselect> or by B<dpkg>, when it handles packages.  "
+"For example, when a package is removed, it will be marked selected for "
+"deinstallation."
+msgstr ""
+"インストール(または削除)作業をするように選択したパッケージのみを処理する。 実"
+"際の指定は、B<dselect> や B<dpkg> を使って行なう。 例えば、あるパッケージが削"
+"除されるのは、そのパッケージが削除されるよう 選択されているということである。"
+
+# type: TP
+#: ../C/dpkg.1:468
+#, fuzzy, no-wrap
+msgid "B<-E> | B<--skip-same-version>"
+msgstr "B<-E> | B<--skip-same-version>"
+
+# type: Plain text
+#: ../C/dpkg.1:472
+#, fuzzy
+msgid ""
+"Don't install the package if the same version of the package is already "
+"installed."
+msgstr ""
+"すでに同じバージョンのパッケージがインストールされていたら、インストール しな"
+"い。"
+
+# type: TP
+#: ../C/dpkg.1:472
+#, fuzzy, no-wrap
+msgid "B<--status-fd >I<E<lt>nE<gt>>"
+msgstr "B<--status-fd >I<E<lt>nE<gt>>"
+
+# type: Plain text
+#: ../C/dpkg.1:479
+#, fuzzy
+msgid ""
+"Send package status info to file descriptor I<E<lt>nE<gt>>.  This can be "
+"given multiple times.  Status updates are of the form `status: "
+"E<lt>pkgE<gt>: E<lt>pkg qstateE<gt>'.  Errors are reported as `status: "
+"E<lt>pkgE<gt>: error: extend-error-message'.  Configuration file conflicts "
+"are reported as `status: conffile-prompt: conffile : 'current-conffile' 'new-"
+"conffile' useredited distedited'"
+msgstr ""
+"ファイル記述子 I<E<lt>nE<gt>>にパッケージ状態の情報を送る。これは複数与えるこ"
+"とが できる。状態の情報は `status: E<lt>pkgE<gt>: E<lt>pkg qstateE<gt>'の形式"
+"である。"
+
+# type: TP
+#: ../C/dpkg.1:479
+#, fuzzy, no-wrap
+msgid "B<--log=>I<filename>"
+msgstr "B<--log=>I<filename>"
+
+# type: Plain text
+#: ../C/dpkg.1:489
+#, fuzzy
+msgid ""
+"Log status change updates and actions to I<filename>.  This can be given "
+"multiple times.  Log messages are of the form `YYYY-MM-DD HH:MM:SS status "
+"E<lt>stateE<gt> E<lt>pkgE<gt> E<lt>installed-versionE<gt>' for status change "
+"updates; `YYYY-MM-DD HH:MM:SS E<lt>actionE<gt> E<lt>pkgE<gt> E<lt>installed-"
+"versionE<gt> E<lt>available-versionE<gt>' for actions where "
+"I<E<lt>actionE<gt>> is one of install, upgrade, remove, purge; and `YYYY-MM-"
+"DD HH:MM:SS conffile E<lt>filenameE<gt> E<lt>decisionE<gt>' for conffile "
+"changes where I<E<lt>decision> is either install or keep."
+msgstr ""
+"Log status change updates and actions to I<filename>.  This can be given "
+"multiple times.  Log messages are of the form `YYYY-MM-DD HH:MM:SS status "
+"E<lt>stateE<gt> E<lt>pkgE<gt> E<lt>installed-versionE<gt>' for status change "
+"updates; `YYYY-MM-DD HH:MM:SS E<lt>actionE<gt> E<lt>pkgE<gt> E<lt>installed-"
+"versionE<gt> E<lt>available-versionE<gt>' for actions where "
+"I<E<lt>actionE<gt>> is one of install, upgrade, remove, purge; and `YYYY-MM-"
+"DD HH:MM:SS conffile E<lt>filenameE<gt> E<lt>decisionE<gt>' for conffile "
+"changes where I<E<lt>decision> is either install or keep."
+
+# type: SH
+#: ../C/dpkg.1:489
+#, fuzzy, no-wrap
+msgid "FILES"
+msgstr "ファイル"
+
+# type: TP
+#: ../C/dpkg.1:490
+#, fuzzy, no-wrap
+msgid "I</etc/dpkg/dpkg.cfg>"
+msgstr "I</etc/dpkg.cfg>"
+
+# type: Plain text
+#: ../C/dpkg.1:493
+#, fuzzy
+msgid "Configuration file with default options."
+msgstr "オプションのデフォルト値を記述する設定ファイル。"
+
+# type: Plain text
+#: ../C/dpkg.1:496
+#, fuzzy
+msgid ""
+"The other files listed below are in their default directories, see option "
+"B<--admindir> to see how to change locations of these files."
+msgstr ""
+"このほかの、以下に示すファイル一覧はデフォルトの値である。どのようにして ファ"
+"イルの位置を変更するかについては、B<--admindir> オプションの項を 参照するこ"
+"と。"
+
+# type: TP
+#: ../C/dpkg.1:496
+#, fuzzy, no-wrap
+msgid "I</var/lib/dpkg/available>"
+msgstr "I</var/lib/dpkg/available>"
+
+# type: Plain text
+#: ../C/dpkg.1:499
+#, fuzzy
+msgid "List of available packages."
+msgstr "使用できるパッケージの一覧。"
+
+# type: TP
+#: ../C/dpkg.1:499
+#, fuzzy, no-wrap
+msgid "I</var/lib/dpkg/status>"
+msgstr "I</var/lib/dpkg/status>"
+
+# type: Plain text
+#: ../C/dpkg.1:505
+#, fuzzy
+msgid ""
+"Statuses of available packages. This file contains information about whether "
+"a package is marked for removing or not, whether it is installed or not, "
+"etc. See section B<INFORMATION ABOUT PACKAGES> for more info."
+msgstr ""
+"使用できるパッケージの状態。このファイルは、パッケージに削除の印があるか どう"
+"か、インストール済みかどうか、などの情報が含まれている。くわしくは、 B< パッ"
+"ケージに関する情報> の項を参照すること。"
+
+# type: Plain text
+#: ../C/dpkg.1:508
+#, fuzzy
+msgid ""
+"The following files are components of a binary package.  See B<deb>(5)  for "
+"more information about them:"
+msgstr ""
+"以下のファイルはバイナリパッケージを構成するファイルである。これらの ファイル"
+"に関するくわしい情報は、B<deb>(5) を参照すること。"
+
+# type: TP
+#: ../C/dpkg.1:508
+#, fuzzy, no-wrap
+msgid "I<control>"
+msgstr "I<control>"
+
+# type: TP
+#: ../C/dpkg.1:510
+#, fuzzy, no-wrap
+msgid "I<conffiles>"
+msgstr "I<conffiles>"
+
+# type: TP
+#: ../C/dpkg.1:512
+#, fuzzy, no-wrap
+msgid "I<preinst>"
+msgstr "I<preinst>"
+
+# type: TP
+#: ../C/dpkg.1:514
+#, fuzzy, no-wrap
+msgid "I<postinst>"
+msgstr "I<postinst>"
+
+# type: TP
+#: ../C/dpkg.1:516
+#, fuzzy, no-wrap
+msgid "I<prerm>"
+msgstr "I<prerm>"
+
+# type: TP
+#: ../C/dpkg.1:518
+#, fuzzy, no-wrap
+msgid "I<postrm>"
+msgstr "I<postrm>"
+
+# type: SH
+#: ../C/dpkg.1:521
+#, fuzzy, no-wrap
+msgid "ENVIRONMENT VARIABLES"
+msgstr "環境変数"
+
+# type: TP
+#: ../C/dpkg.1:522
+#, fuzzy, no-wrap
+msgid "B<DPKG_NO_TSTP>"
+msgstr "B<DPKG_NO_TSTP>"
+
+# type: Plain text
+#: ../C/dpkg.1:526
+#, fuzzy
+msgid ""
+"Define this to something if you prefer B<dpkg> starting a new shell rather "
+"than suspending itself, while doing a shell escape."
+msgstr ""
+"任意の値で定義すると、シェルエスケープをしたときに B<dpkg>自体 を一時停止 "
+"(suspend)するのではなく、新しいシェルを起動する。"
+
+# type: TP
+#: ../C/dpkg.1:526
+#, fuzzy, no-wrap
+msgid "B<SHELL>"
+msgstr "B<SHELL>"
+
+# type: Plain text
+#: ../C/dpkg.1:529
+#, fuzzy
+msgid "The program B<dpkg> will execute while starting a new shell."
+msgstr "B<dpkg> が新しいシェルを起動するときに、実際に起動するプログラム。"
+
+# type: TP
+#: ../C/dpkg.1:529
+#, fuzzy, no-wrap
+msgid "B<COLUMNS>"
+msgstr "B<COLUMNS>"
+
+# type: Plain text
+#: ../C/dpkg.1:533
+#, fuzzy
+msgid ""
+"Sets the number of columns B<dpkg> should use when displaying formatted "
+"text.  Currently only used by -l."
+msgstr ""
+"B<dpkg>が整形テキストを表示する時に参照するコラム数。 現在は -l オプションで"
+"のみ参照されている。"
+
+# type: TP
+#: ../C/dpkg.1:533
+#, fuzzy, no-wrap
+msgid "B<DPKG_OLD_CONFFILE>"
+msgstr "B<DPKG_OLD_CONFFILE>"
+
+# type: Plain text
+#: ../C/dpkg.1:538
+#, fuzzy
+msgid ""
+"Set by B<dpkg> to the filename of the old configuration file when you start "
+"a shell to examine a changed configuration.  file."
+msgstr ""
+"変更される設定ファイルを確認するためにシェルを起動したとき、 B<dpkg> によっ"
+"て、古い設定ファイルのファイル名が設定される。"
+
+# type: TP
+#: ../C/dpkg.1:538
+#, fuzzy, no-wrap
+msgid "B<DPKG_NEW_CONFFILE>"
+msgstr "B<DPKG_NEW_CONFFILE>"
+
+# type: Plain text
+#: ../C/dpkg.1:543
+#, fuzzy
+msgid ""
+"Set by B<dpkg> to the filename of the newversion of a configuration file "
+"when you start a shell to examine a changed configuration.  file."
+msgstr ""
+"変更される設定ファイルを確認するためにシェルを起動したとき、 B<dpkg> によっ"
+"て、新しい設定ファイルのファイル名が設定される。"
+
+# type: SH
+#: ../C/dpkg.1:544
+#, fuzzy, no-wrap
+msgid "EXAMPLES"
+msgstr "例"
+
+# type: Plain text
+#: ../C/dpkg.1:546
+#, fuzzy
+msgid "To list packages related to the editor vi:"
+msgstr "vi エディタに関連のあるパッケージの一覧を表示する。"
+
+# type: Plain text
+#: ../C/dpkg.1:548
+#, fuzzy
+msgid "B< dpkg -l '*vi*'>"
+msgstr "B< dpkg -l '*vi*'>"
+
+# type: Plain text
+#: ../C/dpkg.1:551
+#, fuzzy
+msgid "To see the entries in I</var/lib/dpkg/available> on two packages:"
+msgstr "2 つのパッケージの I</var/lib/dpkg/available> にある項目を表示する。"
+
+# type: Plain text
+#: ../C/dpkg.1:553
+#, fuzzy
+msgid "B< dpkg --print-avail elvis vim | less>"
+msgstr "B< dpkg --print-avail elvis vim | less>"
+
+# type: Plain text
+#: ../C/dpkg.1:556
+#, fuzzy
+msgid "To search the listing of packages yourself:"
+msgstr "自分でパッケージのリストから検索する。"
+
+# type: Plain text
+#: ../C/dpkg.1:558
+#, fuzzy
+msgid "B< less /var/lib/dpkg/available>"
+msgstr "B< less /var/lib/dpkg/available>"
+
+# type: Plain text
+#: ../C/dpkg.1:561
+#, fuzzy
+msgid "To remove an installed elvis package:"
+msgstr "elvis パッケージを削除する。"
+
+# type: Plain text
+#: ../C/dpkg.1:563
+#, fuzzy
+msgid "B< dpkg -r elvis>"
+msgstr "B< dpkg -r elvis>"
+
+# type: Plain text
+#: ../C/dpkg.1:568
+#, fuzzy
+msgid ""
+"To install a package, you first need to find it in an archive or CDROM.  The "
+"\"available\" file shows that the vim package is in section \"editors\":"
+msgstr ""
+"パッケージをインストールするには、まずそのパッケージをアーカイブや CDROMから"
+"探す必要がある。“available” ファイルによれば、vim パッケージは “editors” "
+"セクションに属している。"
+
+# type: Plain text
+#: ../C/dpkg.1:571
+#, fuzzy
+msgid "B< cd /cdrom/hamm/hamm/binary/editors> B< dpkg -i vim_4.5-3.deb>"
+msgstr "B< cd /cdrom/hamm/hamm/binary-i386/editors> B< dpkg -i vim_4.5-3.deb>"
+
+# type: Plain text
+#: ../C/dpkg.1:574
+#, fuzzy
+msgid "To make a local copy of the package selection states:"
+msgstr "パッケージ選択状況のコピーを作成する。"
+
+# type: Plain text
+#: ../C/dpkg.1:576
+#, fuzzy
+msgid "B< dpkg --get-selections E<gt>myselections>"
+msgstr "B< dpkg --get-selections E<gt>myselections>"
+
+# type: Plain text
+#: ../C/dpkg.1:580
+#, fuzzy
+msgid ""
+"You might transfer this file to another computer, and install it there with:"
+msgstr "このファイルをほかのコンピュータに転送して、インストールする。"
+
+# type: Plain text
+#: ../C/dpkg.1:582
+#, fuzzy
+msgid "B< dpkg --set-selections E<lt>myselections>"
+msgstr "B< dpkg --set-selections E<lt>myselections>"
+
+# type: Plain text
+#: ../C/dpkg.1:587
+#, fuzzy
+msgid ""
+"Note that this will not actually install or remove anything, but just set "
+"the selection state on the requested packages.  You will need some other "
+"application to actually download and install the requested packages.  For "
+"example, run B<dselect> and choose \"Install\"."
+msgstr ""
+"これは実際にはインストールも削除もしないことに注意。これは単に 要求している"
+"パッケージの選択状態を設定するだけである。実際に 要求しているパッケージをダウ"
+"ンロードしインストールするには別の アプリケーションが必要である。 例えば、"
+"B<dselect> を起動して、“導入(Install)”を選べばよい。"
+
+# type: Plain text
+#: ../C/dpkg.1:590
+#, fuzzy
+msgid ""
+"Ordinarily, you will find that B<dselect>(8) provides a more convenient way "
+"to modify the package selection states."
+msgstr ""
+"通常、パッケージの選択状態を変更するには B<dselect>(8) を 使用するほうが便利"
+"である。"
+
+# type: SH
+#: ../C/dpkg.1:591
+#, no-wrap
+msgid "ADDITIONAL FUNCTIONALITY"
+msgstr ""
+
+# type: Plain text
+#: ../C/dpkg.1:594
+msgid ""
+"Additional functionality can be gained by installing any of the following "
+"packages: I<apt>, I<aptitude> and I<debsums>."
+msgstr ""
+
+# type: SH
+#: ../C/dpkg.1:595
+#, fuzzy, no-wrap
+msgid "SEE ALSO"
+msgstr "関連項目"
+
+# type: Plain text
+#: ../C/dpkg.1:602
+#, fuzzy
+msgid ""
+"B<dselect>(8), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), and B<dpkg-"
+"reconfigure>(8)"
+msgstr "B<dselect>(8), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5)"
+
+# type: SH
+#: ../C/dpkg.1:603
+#, fuzzy, no-wrap
+msgid "BUGS"
+msgstr "バグ"
+
+# type: Plain text
+#: ../C/dpkg.1:606
+#, fuzzy
+msgid "B<--no-act> usually gives less information than might be helpful."
+msgstr "B<--no-act> の提供する情報はたいていの場合、不充分である。"
+
+# type: SH
+#: ../C/dpkg.1:607
+#, fuzzy, no-wrap
+msgid "AUTHORS"
+msgstr "著者"
+
+# type: Plain text
+#: ../C/dpkg.1:611
+#, fuzzy, no-wrap
+msgid ""
+"See B</usr/share/doc/dpkg/THANKS.gz> for the list of people who have\n"
+"contributed to B<dpkg> .\n"
+msgstr ""
+"B<dpkg>に貢献した人のリストは B</usr/share/doc/dpkg/THANKS.gz>に\n"
+"挙げてある。\n"

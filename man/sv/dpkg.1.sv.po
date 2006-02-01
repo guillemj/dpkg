@@ -1,0 +1,1750 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: dpkg man pages\n"
+"POT-Creation-Date: 2005-07-03 15:04+0200\n"
+"PO-Revision-Date: 2005-07-03 15:04+0200\n"
+"Last-Translator: Unknown translator\n"
+"Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, no-wrap
+msgid "DPKG"
+msgstr "DPKG"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, no-wrap
+msgid "April 12, 1998"
+msgstr "12 april 1998"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, no-wrap
+msgid "Debian Project"
+msgstr "Debianprojektet"
+
+# type: TH
+#: ../C/dpkg.1:1
+#, no-wrap
+msgid "dpkg suite"
+msgstr "Dpkg-sviten"
+
+# type: SH
+#: ../C/dpkg.1:2
+#, no-wrap
+msgid "NAME"
+msgstr "NAMN"
+
+# type: Plain text
+#: ../C/dpkg.1:4
+msgid "dpkg - package manager for Debian"
+msgstr "dpkg - en mellannivåpakethanterare för Debian"
+
+# type: SH
+#: ../C/dpkg.1:5
+#, no-wrap
+msgid "SYNOPSIS"
+msgstr "SYNOPS"
+
+# type: Plain text
+#: ../C/dpkg.1:8
+msgid "B<dpkg> [I<options>] I<action>"
+msgstr "B<dpkg> [I<flaggor>] I<åtgärd>"
+
+# type: SH
+#: ../C/dpkg.1:9
+#, no-wrap
+msgid "WARNING"
+msgstr "VARNING"
+
+# type: Plain text
+#: ../C/dpkg.1:13
+msgid ""
+"This manual is intended for users wishing to understand B<dpkg>'s command "
+"line options and package states in more detail than that provided by B<dpkg "
+"--help>."
+msgstr ""
+"Denna manual är avsedd för användare som vill få en mer detaljerad "
+"förståelse för B<dpkg>s kommandoradsflaggor och pakettillstånd än vad som "
+"berättas med B<dpkg --help>."
+
+# type: Plain text
+#: ../C/dpkg.1:18
+#, fuzzy
+msgid ""
+"It should I<not> be used by package maintainers wishing to understand how "
+"B<dpkg> will install their packages.  The descriptions of what B<dpkg> does "
+"when installing and removing packages are particularly inadequate."
+msgstr ""
+"Den bör I<inte> användas av paketansvariga som vill lära sig hur B<dpkg> "
+"kommer att installera deras paket.  Beskrivningen över vad B<dpkg> gör när "
+"paket installeras och tas bort är speciellt otillräckliga."
+
+# type: SH
+#: ../C/dpkg.1:19
+#, no-wrap
+msgid "DESCRIPTION"
+msgstr "BESKRIVNING"
+
+# type: Plain text
+#: ../C/dpkg.1:26
+#, fuzzy
+msgid ""
+"B<dpkg> is a tool to install, build, remove and manage Debian packages. The "
+"primary and more user-friendly front-end for B<dpkg> is B<dselect>(8).  "
+"B<dpkg> itself is controlled entirely via command line parameters, which "
+"consist of exactly one action and zero or more options. The action-parameter "
+"tells dpkg what to do and options control the behavior of the action in some "
+"way."
+msgstr ""
+"B<dpkg> är ett mellannivåverktyg för att installera, bygga, ta bort och "
+"hantera Debianpaket.  Det primära och mer användarvänliga skalet runt "
+"B<dpkg> är B<dselect>(8).  B<dpkg> kontrolleras helt och hållet via "
+"kommandoradsflaggor, vilka består av exakt en åtgärd och noll eller fler "
+"tillval.  Åtgärdsparametern talar om för dpkg vad som skall göras, och "
+"tillvalen styr på vilket sätt åtgärden skall utföras."
+
+# type: Plain text
+#: ../C/dpkg.1:31
+msgid ""
+"B<dpkg> can be also be used as a front-end to B<dpkg-deb>.  The following "
+"are B<dpkg-deb> actions, and if they are encountered, B<dpkg> just runs "
+"B<dpkg-deb> with the parameters given to it:"
+msgstr ""
+"B<dpkg> kan även användas som ett skal runt B<dpkg-deb>.  Följande är "
+"åtgärder för B<dpkg-deb>, och om de upptäcks kör B<dpkg> helt enkelt B<dpkg-"
+"deb> med de flaggor som getts:"
+
+# type: Plain text
+#: ../C/dpkg.1:40
+#, fuzzy, no-wrap
+msgid ""
+"    B<-b>, B<--build>,\n"
+"    B<-c>, B<--contents>,\n"
+"    B<-I>, B<--info>,\n"
+"    B<-f>, B<--field>,\n"
+"    B<-e>, B<--control>,\n"
+"    B<-x>, B<--extract>,\n"
+"    B<-X>, B<--vextract>, and\n"
+"    B<--fsys-tarfile>.\n"
+msgstr ""
+"    B<-b>, B<--build>,\n"
+"    B<-c>, B<--contents>,\n"
+"    B<-I>, B<--info>,\n"
+"    B<-f>, B<--field>,\n"
+"    B<-e>, B<--control>,\n"
+"    B<-x>, B<--extract>,\n"
+"    B<-X>, B<--vextract>, och\n"
+"    B<--fsys-tarfile>.\n"
+
+# type: Plain text
+#: ../C/dpkg.1:42
+msgid "Please refer to B<dpkg-deb>(1) for information about these actions."
+msgstr "Se B<dpkg-deb>(1) för information om dessa åtgärder."
+
+# type: SH
+#: ../C/dpkg.1:43
+#, no-wrap
+msgid "INFORMATION ABOUT PACKAGES"
+msgstr "INFORMATION OM PAKET"
+
+# type: Plain text
+#: ../C/dpkg.1:48
+#, fuzzy
+msgid ""
+"B<dpkg> maintains some usable information about available packages. The "
+"information is divided in three classes: B<states>, B<selection states> and "
+"B<flags>.  These values are intended to be changed mainly with B<dselect>."
+msgstr ""
+"B<dpkg> upprätthåller viss användbar information om tillgängliga paket.  "
+"Informationen delas in i tre klasser: B<tillstånd>, B<markeringstillstånd> "
+"och B<flaggor>.  Dessa värden är avsedda att huvudsakligen ändras via "
+"B<dselect>."
+
+# type: SS
+#: ../C/dpkg.1:48
+#, no-wrap
+msgid "PACKAGE STATES"
+msgstr "PAKETTILLSTÅND"
+
+# type: TP
+#: ../C/dpkg.1:49
+#, no-wrap
+msgid "B<installed>"
+msgstr "B<installerat>"
+
+# type: Plain text
+#: ../C/dpkg.1:52
+msgid "The package is unpacked and configured OK."
+msgstr "Paketet är uppackat och korrekt inställt."
+
+# type: TP
+#: ../C/dpkg.1:52
+#, no-wrap
+msgid "B<half-installed>"
+msgstr "B<halvt installerat>"
+
+# type: Plain text
+#: ../C/dpkg.1:56
+#, fuzzy
+msgid ""
+"The installation of the package has been started, but not completed for some "
+"reason."
+msgstr ""
+"Installationen av paketet har påbörjats, men av någon orsak inte slutförts."
+
+# type: TP
+#: ../C/dpkg.1:56
+#, no-wrap
+msgid "B<not-installed>"
+msgstr "B<ej installerat>"
+
+# type: Plain text
+#: ../C/dpkg.1:59
+msgid "The package is not installed on your system."
+msgstr "Paketet är inte installerat på ditt system."
+
+# type: TP
+#: ../C/dpkg.1:59
+#, no-wrap
+msgid "B<unpacked>"
+msgstr "B<uppackat>"
+
+# type: Plain text
+#: ../C/dpkg.1:62
+#, fuzzy
+msgid "The package is unpacked, but not configured."
+msgstr "Paketet är uppackat, men inte konfigurerat."
+
+# type: TP
+#: ../C/dpkg.1:62
+#, no-wrap
+msgid "B<half-configured>"
+msgstr "B<halvt konfigurerat>"
+
+# type: Plain text
+#: ../C/dpkg.1:66
+msgid ""
+"The package is unpacked and configuration has been started, but not yet "
+"completed for some reason."
+msgstr ""
+"Paketet är uppackat och konfigurationen har påbörjats, men av någon orsak "
+"inte slutförts."
+
+# type: TP
+#: ../C/dpkg.1:66
+#, no-wrap
+msgid "B<config-files>"
+msgstr "B<konfigurationsfiler>"
+
+# type: Plain text
+#: ../C/dpkg.1:69
+msgid "Only the configuration files of the package exist on the system."
+msgstr "Endast konfigurationsfilerna för paketet finns på systemet."
+
+# type: SS
+#: ../C/dpkg.1:69
+#, no-wrap
+msgid "PACKAGE SELECTION STATES"
+msgstr "MARKERINGSTILLSTÅND FÖR PAKET"
+
+# type: TP
+#: ../C/dpkg.1:70
+#, no-wrap
+msgid "B<install>"
+msgstr "B<installera>"
+
+# type: Plain text
+#: ../C/dpkg.1:73
+msgid "The package is selected for installation."
+msgstr "Paketet är markerat för installation."
+
+# type: TP
+#: ../C/dpkg.1:73
+#, no-wrap
+msgid "B<deinstall>"
+msgstr "B<ta bort>"
+
+# type: Plain text
+#: ../C/dpkg.1:77
+#, fuzzy
+msgid ""
+"The package is selected for deinstallation (i.e. we want to remove all "
+"files, except configuration files)."
+msgstr ""
+"Paketet är markerat för avinstallation (dvs. vi vill ta bort alla filer "
+"förutom konfigurationsfilerna)."
+
+# type: TP
+#: ../C/dpkg.1:77
+#, no-wrap
+msgid "B<purge>"
+msgstr "B<rensa>"
+
+# type: Plain text
+#: ../C/dpkg.1:81
+msgid ""
+"The package is selected to be purged (i.e. we want to remove everything, "
+"even configuration files)."
+msgstr ""
+"Paketet är markerat för rensning (dvs. vi vill ta bort allting, även "
+"konfigurationsfiler)."
+
+# type: SS
+#: ../C/dpkg.1:81
+#, no-wrap
+msgid "PACKAGE FLAGS"
+msgstr "PAKETFLAGGOR"
+
+# type: TP
+#: ../C/dpkg.1:82
+#, no-wrap
+msgid "B<hold>"
+msgstr "B<håll>"
+
+# type: Plain text
+#: ../C/dpkg.1:86
+msgid ""
+"A package marked to be on B<hold> is not handled by B<dpkg>, unless forced "
+"to do that with option B<--force-hold>."
+msgstr ""
+"Ett paket som är markerat med B<håll> hanteras inte av B<dpkg> såvida inte "
+"detta framtvingas med flaggan B<--force-hold>."
+
+# type: TP
+#: ../C/dpkg.1:86
+#, no-wrap
+msgid "B<reinst-required>"
+msgstr "B<ominstallation krävs>"
+
+# type: Plain text
+#: ../C/dpkg.1:91
+#, fuzzy
+msgid ""
+"A package marked B<reinst-required> is broken and requires reinstallation. "
+"These packages cannot be removed, unless forced with option B<--force-remove-"
+"reinstreq>."
+msgstr ""
+"Ett paket markerat B<ominstallation krävs> är trasigt och kräver "
+"ominstallation.  Dessa paket kan inte tas bort, såvida inte detta "
+"framtvingas med flaggan B<--force-remove-reinstreq>."
+
+# type: SH
+#: ../C/dpkg.1:92
+#, no-wrap
+msgid "ACTIONS"
+msgstr "ÅTGÄRDER"
+
+# type: TP
+#: ../C/dpkg.1:93
+#, no-wrap
+msgid "B<dpkg -i> | B<--install> I<package_file>..."
+msgstr "B<dpkg -i> | B<--install> I<paketfil>..."
+
+# type: Plain text
+#: ../C/dpkg.1:97
+msgid ""
+"Install the package. If B<--recursive> or B<-R> option is specified, "
+"I<package_file> must refer to a directory instead."
+msgstr ""
+"Installera paketet.  Om flaggan B<--recursive> eller B<-R> anges måste "
+"I<paketfil> istället vara en katalog."
+
+# type: Plain text
+#: ../C/dpkg.1:99
+msgid "Installation consists of the following steps:"
+msgstr "Installationen består av följande steg:"
+
+# type: Plain text
+#: ../C/dpkg.1:102
+msgid "B<1.> Extract the control files of the new package."
+msgstr "B<1.> Extrahera styrfilerna ur paketet."
+
+# type: Plain text
+#: ../C/dpkg.1:106
+#, fuzzy
+msgid ""
+"B<2.> If another version of the same package was installed before the new "
+"installation, execute I<prerm> script of the old package."
+msgstr ""
+"B<2.> Om en annan version av samma paket redan fanns installerat vid "
+"nyinstallationen exekveras I<prerm>-skriptet för det gamla paketet."
+
+# type: Plain text
+#: ../C/dpkg.1:109
+msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgstr "B<3.> Kör I<preinst>-skriptet, om ett sådant medföljer paketet."
+
+# type: Plain text
+#: ../C/dpkg.1:113
+#, fuzzy
+msgid ""
+"B<4.> Unpack the new files, and at the same time back up the old files, so "
+"that if something goes wrong, they can be restored."
+msgstr ""
+"B<4.> Packa upp de nya filerna och säkerhetskopiera samtidigt de gamla "
+"filerna så att de kan återställas om någonting går fel."
+
+# type: Plain text
+#: ../C/dpkg.1:120
+#, fuzzy
+msgid ""
+"B<5.> If another version of the same package was installed before the new "
+"installation, execute the I<postrm> script of the old package. Note that "
+"this script is executed after the I<preinst> script of the new package, "
+"because new files are written at the same time old files are removed."
+msgstr ""
+"B<5.> Om en annan version av samma paket redan fanns installerat vid "
+"nyinstallationen exekveras I<postrm>-skriptet för det gamla paketet.  "
+"Observera att skriptet exekveras efter I<preinst> för det nya paketet "
+"eftersom de nya filerna skrivs samtidigt som de gamla tas bort."
+
+# type: Plain text
+#: ../C/dpkg.1:124
+#, fuzzy
+msgid ""
+"B<6.> Configure the package. See B<--configure> for detailed information "
+"about how this is done."
+msgstr ""
+"B<6.> Konfigurera paketet.  Se B<--configure> för detaljerad information om "
+"hur detta görs."
+
+# type: TP
+#: ../C/dpkg.1:124
+#, no-wrap
+msgid "B<dpkg --unpack >I<package_file> ..."
+msgstr "B<dpkg --unpack >I<paketfil> ..."
+
+# type: Plain text
+#: ../C/dpkg.1:129
+#, fuzzy
+msgid ""
+"Unpack the package, but don't configure it. If B<--recursive> or B<-R> "
+"option is specified, I<package_file> must refer to a directory instead."
+msgstr ""
+"Packa upp paketet, men konfigurera det inte.  Om flaggan B<--recursive> "
+"eller B<-R> anges måste I<paketfil> istället vara en katalog."
+
+# type: TP
+#: ../C/dpkg.1:129
+#, no-wrap
+msgid "B<dpkg --configure >I<package> ... | B<-a> | B<--pending>"
+msgstr "B<dpkg --configure >I<paket> ... | B<-a> | B<--pending>"
+
+# type: Plain text
+#: ../C/dpkg.1:134
+#, fuzzy
+msgid ""
+"Reconfigure an unpacked package.  If B<-a> or B<--pending> is given instead "
+"of I<package>, all unpacked but unconfigured packages are configured."
+msgstr ""
+"Konfigurera ett uppackat paket.  Om B<-a> eller B<--pending> anges istället "
+"för I<paket> konfigureras alla paket som har packats upp men ännu inte "
+"konfigurerats."
+
+# type: Plain text
+#: ../C/dpkg.1:136
+msgid "Configuring consists of the following steps:"
+msgstr "Konfigurering består av följande steg:"
+
+# type: Plain text
+#: ../C/dpkg.1:141
+#, fuzzy
+msgid ""
+"B<1.> Unpack the configuration files, and at the same time back up the old "
+"configuration files, so that they can be restored if something goes wrong."
+msgstr ""
+"B<1.> Packa upp konfigurationsfilerna och säkerhetskopiera samtidigt de "
+"gamla konfigurationsfilerna så att de kan återställas om någonting går fel."
+
+# type: Plain text
+#: ../C/dpkg.1:144
+msgid "B<2.> Run I<postinst> script, if provided by the package."
+msgstr "B<2.> Kör I<postinst>-skriptet, om ett sådant finns i paketet."
+
+# type: TP
+#: ../C/dpkg.1:144
+#, no-wrap
+msgid "B<dpkg -r> | B<--remove> | B<-P> | B<--purge >I<package> ... | B<-a> | B<--pending>"
+msgstr "B<dpkg -r> | B<--remove> | B<-P> | B<--purge >I<paket> ... | B<-a> | B<--pending>"
+
+# type: Plain text
+#: ../C/dpkg.1:155
+#, fuzzy
+msgid ""
+"Remove an installed package.  B<-r> or B<--remove> remove everything except "
+"configuration files.  This may avoid having to reconfigure the package if it "
+"is reinstalled later.  (Configuration files are the files listed in the "
+"I<debian/conffiles> control file).  B<-P> or B<--purge> removes everything, "
+"including configuration files.  If B<-a> or B<--pending> is given instead of "
+"a package name, then all packages unpacked, but marked to be removed or "
+"purged in file I</var/lib/dpkg/status>, are removed or purged, respectively."
+msgstr ""
+"Ta bort ett installerat paket.  B<-r> eller B<--remove> tar bort allting "
+"förutom konfigurationsfiler, vilket gör att du kan undvika att konfigurera "
+"om paketet om du senare installerar om det.  (Konfigurationsfiler listas i "
+"styrfilen I<debian/conffiles>).  B<-P> eller B<--purge> tar bort allting, "
+"inklusive konfigurationsfiler.  Om B<-a> eller B<--pending> anges istället "
+"för ett paketnamn kommer alla uppackade paket som i filen I</var/lib/dpkg/"
+"status> markerats för att tas bort eller rensas att tas bort eller rensas, "
+"respektive."
+
+# type: Plain text
+#: ../C/dpkg.1:157
+msgid "Removing of a package consists of the following steps:"
+msgstr "Borttagning av ett paket består av följande steg:"
+
+# type: Plain text
+#: ../C/dpkg.1:160
+msgid "B<1.> Run I<prerm> script"
+msgstr "B<1.> Kör I<prerm>-skriptet"
+
+# type: Plain text
+#: ../C/dpkg.1:163
+msgid "B<2.> Remove the installed files"
+msgstr "B<2.> Ta bort de installerade filerna"
+
+# type: Plain text
+#: ../C/dpkg.1:166
+msgid "B<3.> Run I<postrm> script"
+msgstr "B<3.> Kör I<postrm>-skriptet"
+
+# type: TP
+#: ../C/dpkg.1:167
+#, fuzzy, no-wrap
+msgid "B<dpkg --update-avail> | B<--merge-avail> I<Packages-file>"
+msgstr "B<dpkg --update-avail> | B<--merge-avail> I<Packages-fil>"
+
+# type: Plain text
+#: ../C/dpkg.1:176
+#, fuzzy
+msgid ""
+"Update B<dpkg>'s and B<dselect>'s idea of which packages are available.  "
+"With action B<--merge-avail>, old information is combined with information "
+"from I<Packages-file>.  With action B<--update-avail>, old information is "
+"replaced with the information in the I<Packages-file>.  The I<Packages-file> "
+"distributed with Debian is simply named I<Packages>.  B<dpkg> keeps its "
+"record of available packages in I</var/lib/dpkg/available>."
+msgstr ""
+"Uppdatera B<dpkg>s och B<dselect>s lista över vilka paket som finns "
+"tillgängliga.  Med B<--merge-avail> kombineras den gamla informationen med "
+"informationen från I<Packages-filen>.  Med B<--update-avail> ersätts den "
+"gamla informationen med informationen från I<Packages-filen>.  I<Packages-"
+"filerna> som medföljer Debian heter helt enkelt I<Packages>.  B<dpkg> "
+"behåller sin lista över tillgängliga paket i I</var/lib/dpkg/available>."
+
+# type: Plain text
+#: ../C/dpkg.1:179
+msgid ""
+"A simpler one-shot command to retrieve and update the I<available> file is "
+"B<dselect update>."
+msgstr ""
+"Ett enklare kommando för att hämta och uppdatera I<available>-filen på en "
+"gång är B<dselect update>."
+
+# type: TP
+#: ../C/dpkg.1:179
+#, no-wrap
+msgid "B<dpkg -A> | B<--record-avail> I<package_file> ..."
+msgstr "B<dpkg -A> | B<--record-avail> I<paketfil> ..."
+
+# type: Plain text
+#: ../C/dpkg.1:185
+#, fuzzy
+msgid ""
+"Update B<dpkg> and B<dselect>'s idea of which packages are available with "
+"information from the package I<package_file>.  If B<--recursive> or B<-R> "
+"option is specified, I<package_file> must refer to a directory instead."
+msgstr ""
+"Uppdatera B<dpkg>s och B<dselect>s lista över vilka paket som finns "
+"tillgängliga med information från paketet I<paketfil>.  Om flaggan B<--"
+"recursive> eller B<-R> anges måste I<paketfil> istället vara en katalog."
+
+# type: TP
+#: ../C/dpkg.1:185
+#, fuzzy, no-wrap
+msgid "B<dpkg --forget-old-unavail>"
+msgstr "B<dpkg --forget-old-unavail>"
+
+# type: Plain text
+#: ../C/dpkg.1:188
+msgid "Forget about uninstalled unavailable packages."
+msgstr "Glöm bort ej installerade ej länge tillgängliga paket."
+
+# type: TP
+#: ../C/dpkg.1:188
+#, no-wrap
+msgid "B<dpkg --clear-avail>"
+msgstr "B<dpkg --clear-avail>"
+
+# type: Plain text
+#: ../C/dpkg.1:191
+msgid "Erase the existing information about what packages are available."
+msgstr "Radera existerande information om vilka paket som är tillgängliga."
+
+# type: TP
+#: ../C/dpkg.1:191
+#, no-wrap
+msgid "B<dpkg -C> | B<--audit>"
+msgstr "B<dpkg -C> | B<--audit>"
+
+# type: Plain text
+#: ../C/dpkg.1:196
+#, fuzzy
+msgid ""
+"Searches for packages that have been installed only partially on your "
+"system.  B<dpkg> will suggest what to do with them to get them working."
+msgstr ""
+"Söker efter paket som endast installerats delvis på ditt system.  B<dpkg> "
+"kommer att föreslå vad som behöver göras för att få dem att fungera."
+
+# type: TP
+#: ../C/dpkg.1:196
+#, no-wrap
+msgid "B<dpkg --get-selections> [I<package-name-pattern>...]"
+msgstr "B<dpkg --get-selections> [I<mönster>...]"
+
+# type: Plain text
+#: ../C/dpkg.1:199
+#, fuzzy
+msgid "Get list of package selections, and write it to stdout."
+msgstr "Hämta en lista över paketval och skriv den till standard ut."
+
+# type: TP
+#: ../C/dpkg.1:199
+#, no-wrap
+msgid "B<dpkg --set-selections>"
+msgstr "B<dpkg --set-selections>"
+
+# type: Plain text
+#: ../C/dpkg.1:205
+#, fuzzy
+msgid ""
+"Set package selections using file read from stdin.  This file should be in "
+"the format 'E<lt>packageE<gt> E<lt>stateE<gt>', where state is one of "
+"install, hold, deinstall or purge.  Blank lines and comment lines beginning "
+"with '#' are also permitted."
+msgstr "Sätt paketvalslistan med den fil som läses från standard in."
+
+# type: TP
+#: ../C/dpkg.1:205
+#, no-wrap
+msgid "B<dpkg --yet-to-unpack>"
+msgstr "B<dpkg --yet-to-unpack>"
+
+# type: Plain text
+#: ../C/dpkg.1:209
+#, fuzzy
+msgid ""
+"Searches for packages selected for installation, but which for some reason "
+"still haven't been installed."
+msgstr ""
+"Söker efter paket som markerats för installation men som av någon anledning "
+"ännu inte har installerats."
+
+# type: TP
+#: ../C/dpkg.1:210
+#, no-wrap
+msgid "B<dpkg --print-architecture>"
+msgstr "B<dpkg --print-architecture>"
+
+# type: Plain text
+#: ../C/dpkg.1:213
+#, fuzzy
+msgid "Print architecture of packages dpkg installs (for example, \"i386\")."
+msgstr ""
+"Skriv målarkitekturen (till exempel \"i386\").  Detta alternativ använder "
+"B<gcc>."
+
+# type: TP
+#: ../C/dpkg.1:213
+#, no-wrap
+msgid "B<dpkg --compare-versions >I<ver1 op ver2>"
+msgstr "B<dpkg --compare-versions >I<ver1 op ver2>"
+
+# type: Plain text
+#: ../C/dpkg.1:224
+#, fuzzy
+msgid ""
+"Compare version numbers, where I<op> is a binary operator.  B<dpkg> returns "
+"success (zero result) if the specified condition is satisfied, and failure "
+"(nonzero result) otherwise.  There are two groups of operators, which differ "
+"in how they treat an empty I<ver1> or I<ver2>.  These treat an empty version "
+"as earlier than any version: B<lt le eq ne ge gt>.  These treat an empty "
+"version as later than any version: B<lt-nl le-nl ge-nl gt-nl>.  These are "
+"provided only for compatibility with control file syntax: B<E<lt> E<lt>E<lt> "
+"E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
+msgstr ""
+"Jämför versionsnummer, där I<op> är en binär operator.  B<dpkg> returnerar "
+"framgång (noll) om det angivna värdet uppfylls, och misslyckande (icke-noll) "
+"i annat fall.  Det finns två grupper operatorer, vilka endast skiljer sig i "
+"hur de hanterar när I<ver1> eller I<ver2> är tom.  Dessa hanterar tom "
+"version som om den är tidigare än alla andra versioner: B<lt le eq ne ge "
+"gt>.  Dessa hanterar tom version som om den är senare än alla andra "
+"versioner: B<lt-nl le-nl ge-nl gt-nl>.  Dessa tillhandahålls endast för "
+"kompatibilitet med styrfilssyntaxen: B<E<lt> E<lt>E<lt> E<lt>= = E<gt>= "
+"E<gt>E<gt> E<gt>>."
+
+# type: TP
+#: ../C/dpkg.1:224
+#, no-wrap
+msgid "B<dpkg --command-fd E<lt>nE<gt>>"
+msgstr "B<dpkg --command-fd E<lt>nE<gt>>"
+
+# type: Plain text
+#: ../C/dpkg.1:229
+#, fuzzy
+msgid ""
+"Accept a series of commands on input file descriptor B<E<lt>nE<gt>>.  Note: "
+"additional options set on the command line, and thru this file descriptor, "
+"are not reset for subsequent commands executed during the same run."
+msgstr ""
+"Läser en följd av kommandon från indatafilhandtag B<E<lt>nE<gt>>.  "
+"Observera: Flaggor som sätts på kommandoraden, och genom detta filhandtag, "
+"återställs inte för kommandon som körs i en följd under samma körning."
+
+# type: TP
+#: ../C/dpkg.1:229
+#, no-wrap
+msgid "B<dpkg --help>"
+msgstr "B<dpkg --help>"
+
+# type: Plain text
+#: ../C/dpkg.1:232
+msgid "Display a brief help message."
+msgstr "Visar en kortfattat hjälptext."
+
+# type: TP
+#: ../C/dpkg.1:232
+#, no-wrap
+msgid "B<dpkg --force-help>"
+msgstr "B<dpkg --force-help>"
+
+# type: Plain text
+#: ../C/dpkg.1:235
+msgid "Give help about the B<--force->I<thing> options."
+msgstr "Get hjälp om B<--force->I<nånting>-flaggorna."
+
+# type: TP
+#: ../C/dpkg.1:235
+#, no-wrap
+msgid "B<dpkg -Dh >|B< --debug=help>"
+msgstr "B<dpkg -Dh >|B< --debug=help>"
+
+# type: Plain text
+#: ../C/dpkg.1:238
+msgid "Give help about debugging options."
+msgstr "Ger hjälp om felsökningsflaggorna."
+
+# type: TP
+#: ../C/dpkg.1:238
+#, fuzzy, no-wrap
+msgid "B<dpkg --licence> | B<dpkg --license>"
+msgstr "B<dpkg --licence> | B<dpkg --license>"
+
+# type: Plain text
+#: ../C/dpkg.1:241
+#, fuzzy
+msgid "Display B<dpkg> licence."
+msgstr "Visar B<dpkg>s licensvillkor."
+
+# type: TP
+#: ../C/dpkg.1:241
+#, no-wrap
+msgid "B<dpkg --version>"
+msgstr "B<dpkg --version>"
+
+# type: Plain text
+#: ../C/dpkg.1:244
+msgid "Display B<dpkg> version information."
+msgstr "Visar B<dpkg>s versionsinformation."
+
+# type: TP
+#: ../C/dpkg.1:244
+#, no-wrap
+msgid "B<dpkg-deb-actions>"
+msgstr "B<dpkg-deb-åtgärder>"
+
+# type: Plain text
+#: ../C/dpkg.1:247
+msgid "See B<dpkg-deb>(1) for more information about the following actions."
+msgstr "Se B<dpkg-deb>(1) för ytterligare information om följande åtgärder:"
+
+# type: Plain text
+#: ../C/dpkg.1:267
+#, no-wrap
+msgid ""
+"B<dpkg -b> | B<--build> I<directory> [I<filename>]\n"
+"    Build a deb package.\n"
+"B<dpkg -c> | B<--contents> I<filename>\n"
+"    List contents of a deb package.\n"
+"B<dpkg -e> | B<--control> I<filename> [I<directory>]\n"
+"    Extract control-information from a package.\n"
+"B<dpkg -x> | B<--extract> I<filename directory>\n"
+"    Extract the files contained by package.\n"
+"B<dpkg -f> | B<--field>  I<filename> [I<control-field>] ...\n"
+"    Display control field(s) of a package.\n"
+"B<dpkg --fsys-tarfile> I<filename>\n"
+"    Display the filesystem tar-file contained by a\n"
+"    Debian package.\n"
+"B<dpkg -I> | B<--info> I<filename> [I<control-file>]\n"
+"    Show information about a package.\n"
+"B<dpkg -X> | B<--vextract> I<filename> I<directory>\n"
+"    Extract and display the filenames contained by a\n"
+"    package.\n"
+msgstr ""
+"B<dpkg -b> | B<--build> I<katalog> [I<filnamn>]\n"
+"    Bygg ett deb-paket.\n"
+"B<dpkg -c> | B<--contents> I<filnamn>\n"
+"    Visar innehållet i ett deb-paket.\n"
+"B<dpkg -e> | B<--control> I<filnamn> [I<katalog>]\n"
+"    Extraherar styrinformation från ett paket.\n"
+"B<dpkg -x> | B<--extract> I<filnamn katalog>\n"
+"    Extraherar filerna i ett paket.\n"
+"B<dpkg -f> | B<--field>  I<filnamn> [I<control-fält>] ...\n"
+"    Visar fält från paketets styrfil (control).\n"
+"B<dpkg --fsys-tarfile> I<filnamn>\n"
+"    Visar filsystems-tarfilen i Debianpaketet.\n"
+"B<dpkg -I> | B<--info> I<filnamn> [I<control-fil>]\n"
+"    Visa information om ett paket.\n"
+"B<dpkg -X> | B<--vextract> I<filnamn> I<katalog>\n"
+"    Extrahera och visa filnamnen som finns i ett paket.\n"
+
+# type: TP
+#: ../C/dpkg.1:269
+#, no-wrap
+msgid "B<dpkg-query-actions>"
+msgstr "B<dpkg-query-åtgärder>"
+
+# type: Plain text
+#: ../C/dpkg.1:272
+msgid "See B<dpkg-query>(1) for more information about the following actions."
+msgstr "Se B<dpkg-query>(1) för ytterligare information om följande åtgärder:"
+
+# type: Plain text
+#: ../C/dpkg.1:285
+#, no-wrap
+msgid ""
+"B<dpkg -l> | B<--list> I<package-name-pattern> ...\n"
+"    List packages matching given pattern.\n"
+"B<dpkg -s> | B<--status> I<package-name> ...\n"
+"    Report status of specified package.\n"
+"B<dpkg -L> | B<--listfiles> I<package> ...\n"
+"    List files installed to your system from B<package>.\n"
+"B<dpkg -S> | B<--search> I<filename-search-pattern> ...\n"
+"    Search for a filename from installed packages.\n"
+"B<dpkg -p> | B<--print-avail> I<package>\n"
+"    Display details about I<package>, as found in I</var/lib/dpkg/available>.\n"
+msgstr ""
+"B<dpkg -l> | B<--list> I<paketnamnsmönster> ...\n"
+"    Lista paket som matchar det givna mönstret.\n"
+"B<dpkg -s> | B<--status> I<paketnamn> ...\n"
+"    Rapportera status om det angivna paketet.\n"
+"B<dpkg -L> | B<--listfiles> I<paket> ...\n"
+"    Lista filer som installerats på ditt system från B<paket>.\n"
+"B<dpkg -S> | B<--search> I<filnamnssökmönster> ...\n"
+"    Sök efter filnamnet bland de installerade paketen.\n"
+"B<dpkg -p> | B<--print-avail> I<paket>\n"
+"    Visa detaljer om I<paket>, som i I</var/lib/dpkg/available/>.\n"
+
+# type: SH
+#: ../C/dpkg.1:289
+#, no-wrap
+msgid "OPTIONS"
+msgstr "FLAGGOR"
+
+# type: Plain text
+#: ../C/dpkg.1:294
+#, fuzzy
+msgid ""
+"All options can be specified both on the commandline and in the B<dpkg> "
+"configuration file I</etc/dpkg/dpkg.cfg>. Each line in the configuration "
+"file is either an option (exactly the same as the commandline option but "
+"without leading dashes) or a comment (if it starts with a B<#>)."
+msgstr ""
+"Alla flaggorna kan ges både på kommandoraden och i B<dpkg>s "
+"konfigurationsfil I</etc/dpkg/dpkg.cfg>.  En rad i konfigurationsfilen är "
+"antingen en flagga (precis samma som på kommandoraden, men utan inledande "
+"bindestreck) eller en kommentar (om den börjar med ett B<#>)."
+
+# type: TP
+#: ../C/dpkg.1:295
+#, no-wrap
+msgid "B<--abort-after=>I<number>"
+msgstr "B<--abort-after=>I<antal>"
+
+# type: Plain text
+#: ../C/dpkg.1:298
+#, fuzzy
+msgid "Change after how many errors dpkg will abort. The default is 50."
+msgstr "Ställer in efter hur många fel dpkg skall avbryta.  Förvalet är 50."
+
+# type: TP
+#: ../C/dpkg.1:298
+#, no-wrap
+msgid "B<-B>|B<--auto-deconfigure>"
+msgstr "B<-B>|B<--auto-deconfigure>"
+
+# type: Plain text
+#: ../C/dpkg.1:304
+#, fuzzy
+msgid ""
+"When a package is removed, there is a possibility that another installed "
+"package depended on the removed package. Specifying this option will cause "
+"automatic deconfiguration of the package which depended on the removed "
+"package."
+msgstr ""
+"När ett paket tas bort är det möjligt att ett annat paket beror på det "
+"borttagna paketet.  Om du anger denna flagga kommer de paket som beror på "
+"det borttagna paketet automatiskt att avkonfigureras."
+
+# type: TP
+#: ../C/dpkg.1:304
+#, no-wrap
+msgid "B<-D>I<octal>B< | --debug=>I<octal>"
+msgstr "B<-D>I<oktalvärde>B< | --debug=>I<oktalvärde>"
+
+# type: Plain text
+#: ../C/dpkg.1:310
+#, fuzzy
+msgid ""
+"Set debugging on.  I<octal> is formed by bitwise-orring desired values "
+"together from the list below (note that these values may change in future "
+"releases).  B<-Dh> or B<--debug=help> display these debugging values."
+msgstr ""
+"Aktiverar felsökning.  I<oktalvärde>t skapas genom att utföra bitvis logisk "
+"\"eller\" av de önskade värdena från listan nedan (observera att dessa "
+"värden kan ändras i framtida versioner).  B<-Dh> eller B<--debug=help> visar "
+"dessa felsökningsvärden."
+
+# type: Plain text
+#: ../C/dpkg.1:322
+#, no-wrap
+msgid ""
+" number  description\n"
+"    1   Generally helpful progress information\n"
+"    2   Invocation and status of maintainer scripts\n"
+"   10   Output for each file processed\n"
+"  100   Lots of output for each file processed\n"
+"   20   Output for each configuration file\n"
+"  200   Lots of output for each configuration file\n"
+"   40   Dependencies and conflicts\n"
+"  400   Lots of dependencies/conflicts output\n"
+" 1000   Lots of drivel about e.g. the dpkg/info dir\n"
+" 2000   Insane amounts of drivel\n"
+msgstr ""
+"  tal   beskrivning\n"
+"    1   Allmänt hjälpsam förloppsinformation\n"
+"    2   Anrop och status för utvecklarskript\n"
+"   10   Utdata för varje fil som hanteras\n"
+"  100   Massvis med utdata för varje fil som hanteras\n"
+"   20   Utdata för varje konfigurationsfil\n"
+"  200   Massvis med utdata för varje konfigurationsfil\n"
+"   40   Beroenden och konflikter\n"
+"  400   Massvis av beroende-/konfliktutdata\n"
+" 1000   Massvis av pladder om bl.a dpkg/info-katalogen\n"
+" 2000   Knäppa mängder pladder\n"
+
+# type: TP
+#: ../C/dpkg.1:322
+#, no-wrap
+msgid "B<--force->I<things> | B<--no-force->I<things> | B<--refuse->I<things>"
+msgstr "B<--force->I<nånting> | B<--no-force->I<nånting> | B<--refuse->I<nånting>"
+
+# type: Plain text
+#: ../C/dpkg.1:329
+#, fuzzy
+msgid ""
+"Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do some "
+"things.  I<things> is a comma separated list of things specified below.  B<--"
+"force-help> displays a message describing them.  Things marked with (*) are "
+"forced by default."
+msgstr ""
+"Tvinga eller vägra (B<no-force> och B<refuse> betyder detsamma) att göra "
+"vissa saker.  I<nånting> är en kommaavgränsad lista över saker enligt "
+"nedan.  B<--force-help> visar en lista med beskrivningar.  Saker som "
+"markeras med (*) är som förval tvingande."
+
+# type: Plain text
+#: ../C/dpkg.1:333
+#, fuzzy
+msgid ""
+"I<Warning: These options are mostly intended to be used by experts only. "
+"Using them without fully understanding their effects may break your whole "
+"system.>"
+msgstr ""
+"I<Varning: Dessa flaggor är huvudsakligen avsedda att endast användas av "
+"experter.  Om du använder dem utan att fullt ut förstå vad de går ut på kan "
+"du förstöra din systeminstallation.>"
+
+# type: Plain text
+#: ../C/dpkg.1:336
+msgid "B<all>: Turns on(or off) all force options."
+msgstr "B<all>: Slår på (eller av) alla tvingande parametrar."
+
+# type: Plain text
+#: ../C/dpkg.1:339
+#, fuzzy
+msgid ""
+"B<auto-select>(*): Select packages to install them, and deselect packages to "
+"remove them."
+msgstr ""
+"B<auto-select>(*): Markerar paket för att installera, och avmarkerar paket "
+"för att ta bort."
+
+# type: Plain text
+#: ../C/dpkg.1:342
+#, fuzzy
+msgid ""
+"B<downgrade>(*): Install a package, even if newer version of it is already "
+"installed."
+msgstr ""
+"B<downgrade>(*): Installera ett paket även om en nyare version redan är "
+"installerad."
+
+# type: Plain text
+#: ../C/dpkg.1:349
+#, fuzzy
+msgid ""
+"I<Warning: At present dpkg does not do any dependency checking on downgrades "
+"and therefore will not warn you if the downgrade breaks the dependency of "
+"some other package.  This can have serious side effects, downgrading "
+"essential system components can even make your whole system unusable.  Use "
+"with care.>"
+msgstr ""
+"I<Varning: För närvarande undersöker inte dpkg beroenden vid nedgradering "
+"och kommer därför inte att varna dig om nedgraderingen bryter ett beroende "
+"för något paket.  Detta kan ha allvarliga sidoeffekter, genom att nedgradera "
+"grundläggande systemkomponenter kan du riskera att göra hela systemet "
+"instabilt.  Använd med tillförsikt.>"
+
+# type: Plain text
+#: ../C/dpkg.1:353
+#, fuzzy
+msgid ""
+"B<configure-any>: Configure also any unpacked but unconfigured packages on "
+"which the current package depends."
+msgstr ""
+"B<configure-any>: Konfigurera även alla uppackade men ej konfigurerade paket "
+"på vilka det aktuella paketet beror."
+
+# type: Plain text
+#: ../C/dpkg.1:356
+msgid "B<hold>: Process packages even when marked \"hold\"."
+msgstr "B<hold>: Hantera även \"håll\"-markerade paket."
+
+# type: Plain text
+#: ../C/dpkg.1:361
+#, fuzzy
+msgid ""
+"B<remove-reinstreq>: Remove a package, even if it's broken and marked to "
+"require reinstallation.  This may, for example, cause parts of the package "
+"to remain on the system, which will then be forgotten by B<dpkg>."
+msgstr ""
+"B<remove-reinstreq>: Ta bort ett paket även om det är trasigt och markerat "
+"att vara i behov av ominstallation.  Detta kan, till exempel, göra så att "
+"delar av paketet blir kvar på systemet, men glöms bort av B<dpkg>."
+
+# type: Plain text
+#: ../C/dpkg.1:366
+#, fuzzy
+msgid ""
+"B<remove-essential>: Remove, even if the package is considered essential. "
+"Essential packages contain mostly very basic Unix commands. Removing them "
+"might cause the whole system to stop working, so use with caution."
+msgstr ""
+"B<remove-essential>: Ta bort paketet även om det anses som viktigt "
+"(essential).  Viktiga paket är huvudsakligen de mest grundläggande "
+"Unixkommandona.  Om du tar bort dem kan det göra så att hela systemet slutar "
+"fungera, så använd med tillförsikt."
+
+# type: Plain text
+#: ../C/dpkg.1:369
+msgid "B<depends>: Turn all dependency problems into warnings."
+msgstr "B<depends>: Gör alla beroendeproblem till varningar."
+
+# type: Plain text
+#: ../C/dpkg.1:372
+msgid ""
+"B<depends-version>: Don't care about versions when checking dependencies."
+msgstr ""
+"B<depends-version>: Ignorera versionsnummer när beroenden kontrolleras."
+
+# type: Plain text
+#: ../C/dpkg.1:376
+#, fuzzy
+msgid ""
+"B<conflicts>: Install, even if it conflicts with another package. This is "
+"dangerous, for it will usually cause overwriting of some files."
+msgstr ""
+"B<conflicts>: Installera även om paket som är i konflikt (krockar) med ett "
+"annat paket.  Detta är farligt, eftersom det oftast leder till att vissa "
+"filer skrivs över."
+
+# type: Plain text
+#: ../C/dpkg.1:381
+#, fuzzy
+msgid ""
+"B<confmiss>: Always install a missing configuration file. This is dangerous, "
+"since it means not preserving a change (removing) made to the file."
+msgstr ""
+"B<confmiss>: Installera alltid saknade konfigurationsfiler.  Detta är "
+"farligt, eftersom det inte bibehåller ändringar (raderingar) av filer."
+
+# type: Plain text
+#: ../C/dpkg.1:386
+#, fuzzy
+msgid ""
+"B<confnew>: If a conffile has been modified always install the new version "
+"without prompting, unless the B<--force-confdef> is also specified, in which "
+"case the default action is preferred."
+msgstr ""
+"B<confnew>: Installera alltid nya versioner av ändrade konfigurationsfiler "
+"utan att fråga, såvida inte B<--force-confdef> också anges, i vilket fall "
+"det förvalda alternativet kommer att utföras."
+
+# type: Plain text
+#: ../C/dpkg.1:391
+#, fuzzy
+msgid ""
+"B<confold>: If a conffile has been modified always keep the old version "
+"without prompting, unless the B<--force-confdef> is also specified, in which "
+"case the default action is preferred."
+msgstr ""
+"B<confold>: Installera aldrig nya versioner av ändrade konfigurationsfiler "
+"utan att fråga, såvida inte B<--force-confdef> också anges, i vilket fall "
+"det förvalda alternativet kommer att utföras."
+
+# type: Plain text
+#: ../C/dpkg.1:397
+#, fuzzy
+msgid ""
+"B<confdef>: If a conffile has been modified always choose the default "
+"action. If there is no default action it will stop to ask the user unless "
+"B<--force-confnew> or B<--force-confold> is also been given, in which case "
+"it will use that to decide the final action."
+msgstr ""
+"B<confdef>: Utför alltid förvalt alternativt för ändrade "
+"konfigurationsfiler.  Om inget förval har angivits kommer programmet stanna "
+"och fråga användaren såvida inte B<--force-confnew> eller B<--force-confold> "
+"också angetts, i så fall används den för att bestämma vad som skall utföras."
+
+# type: Plain text
+#: ../C/dpkg.1:400
+msgid "B<overwrite>: Overwrite one package's file with another's file."
+msgstr "B<overwrite>: Skriv över ett pakets filer med ett annats."
+
+# type: Plain text
+#: ../C/dpkg.1:403
+msgid "B<overwrite-dir> Overwrite one package's directory with another's file."
+msgstr "B<overwrite-dir> Skriv över ett pakets kataloger med ett annats filer."
+
+# type: Plain text
+#: ../C/dpkg.1:406
+msgid ""
+"B<overwrite-diverted>: Overwrite a diverted file with an undiverted version."
+msgstr ""
+"B<overwrite-diverted>: Skriv över en omdirigerad fil med en ej omdirigerad "
+"version."
+
+# type: Plain text
+#: ../C/dpkg.1:409
+msgid "B<architecture>: Process even packages with the wrong architecture."
+msgstr "B<architecture>: Hantera även paket med fel maskinvaruarkitektur."
+
+# type: Plain text
+#: ../C/dpkg.1:412
+msgid ""
+"B<bad-path>: B<PATH> is missing important programs, so problems are likely."
+msgstr ""
+"B<bad-path>: Sökvägen i B<PATH> saknar viktiga program, så problem är "
+"troliga."
+
+# type: Plain text
+#: ../C/dpkg.1:415
+msgid "B<not-root>: Try to (de)install things even when not root."
+msgstr "B<not-root>: Försök (av)installera saker även utan att vara root."
+
+# type: Plain text
+#: ../C/dpkg.1:418
+msgid "B<bad-verify>: Install a package even if it fails authenticity check."
+msgstr ""
+"B<bad-verify>: Installera ett paket även om det inte går att verifiera dess "
+"äkthet."
+
+# type: TP
+#: ../C/dpkg.1:419
+#, no-wrap
+msgid "B<--ignore-depends>=I<package>,..."
+msgstr "B<--ignore-depends>=I<paket>,..."
+
+# type: Plain text
+#: ../C/dpkg.1:423
+#, fuzzy
+msgid ""
+"Ignore dependency-checking for specified packages (actually, checking is "
+"performed, but only warnings about conflicts are given, nothing else)."
+msgstr ""
+"Ignorera beroendekontroll för angivna paket (i verkligheten utförs "
+"kontrollen, men det ges endast varningar, ingenting annat)."
+
+# type: TP
+#: ../C/dpkg.1:423
+#, no-wrap
+msgid "B<--new> | B<--old>"
+msgstr "B<--new> | B<--old>"
+
+# type: Plain text
+#: ../C/dpkg.1:427
+msgid ""
+"Select new or old binary package format. This is a B<dpkg-deb>(1)  option."
+msgstr ""
+"Välj det nya eller gamla binärpaketformatet.  Detta är en flagga till B<dpkg-"
+"deb>(1)."
+
+# type: TP
+#: ../C/dpkg.1:427
+#, no-wrap
+msgid "B<--nocheck>"
+msgstr "B<--nocheck>"
+
+# type: Plain text
+#: ../C/dpkg.1:431
+#, fuzzy
+msgid ""
+"Don't read or check contents of control file while building a package.  This "
+"is a B<dpkg-deb>(1) option."
+msgstr ""
+"Varken läs eller kontrollera innehållet i control-filen när paket skapas.  "
+"Detta är en flagga till B<dpkg-deb>(1)."
+
+# type: TP
+#: ../C/dpkg.1:431
+#, no-wrap
+msgid "B<--no-act> | B<--dry-run> | B<--simulate>"
+msgstr "B<--no-act> | B<--dry-run> | B<--simulate>"
+
+# type: Plain text
+#: ../C/dpkg.1:436
+#, fuzzy
+msgid ""
+"Do everything which is supposed to be done, but don't write any changes. "
+"This is used to see what would happen with the specified action, without "
+"actually modifying anything."
+msgstr ""
+"Gör allting som efterfrågas, men skriv inte några ändringar.  Detta används "
+"för att se vad som skulle ha hänt med givna parametrar utan att faktiskt "
+"ändra något."
+
+# type: Plain text
+#: ../C/dpkg.1:441
+#, fuzzy
+msgid ""
+"Be sure to give B<--no-act> before the action-parameter, or you might end up "
+"with undesirable results.  (e.g.  B<dpkg --purge foo --no-act> will first "
+"purge package foo and then try to purge package --no-act, even though you "
+"probably expected it to actually do nothing)"
+msgstr ""
+"Se till att du anger B<--no-act> före åtgärdsflaggan, annars kan du få "
+"oönskade biverkningar (t.ex så kommer B<dpkg --purge foo --no-act> först att "
+"rensa ut paketet foo för att sedan försöka rensa ut paketet --no-act, trots "
+"att du troligen förväntade dig att ingenting skulle utföras)"
+
+# type: TP
+#: ../C/dpkg.1:441
+#, no-wrap
+msgid "B<-R> | B<--recursive>"
+msgstr "B<-R> | B<--recursive>"
+
+# type: Plain text
+#: ../C/dpkg.1:447
+#, fuzzy
+msgid ""
+"Recursively handle all regular files matching pattern B<*.deb> found at "
+"specified directories and all of its subdirectories. This can be used with "
+"B<-i>, B<-A>, B<--install>, B<--unpack> and B<--avail> actions."
+msgstr ""
+"Hantera alla vanliga filer som matchar sökmönstret B<*.deb> rekursivt i de "
+"kataloger som anges, med alla sina underkataloger.  Denna flagga kan "
+"användas tillsammans med B<-i>, B<-A>, B<--install>, B<--unpack> och B<--"
+"avail>."
+
+# type: TP
+#: ../C/dpkg.1:447
+#, no-wrap
+msgid "B<-G>"
+msgstr "B<-G>"
+
+# type: Plain text
+#: ../C/dpkg.1:451
+#, fuzzy
+msgid ""
+"Don't install a package if a newer version of the same package is already "
+"installed. This is an alias of B<--refuse-downgrade.>"
+msgstr ""
+"Installera inte paketet om en nyare version av samma paket redan är "
+"installerat.  Detta är ett alias för B<--refuse-downgrade.>"
+
+# type: TP
+#: ../C/dpkg.1:451
+#, no-wrap
+msgid "B<--root=>I<dir> | B<--admindir=>I<dir> | B<--instdir=>I<dir>"
+msgstr "B<--root=>I<kat> | B<--admindir=>I<kat> | B<--instdir=>I<kat>"
+
+# type: Plain text
+#: ../C/dpkg.1:462
+#, fuzzy
+msgid ""
+"Change default directories.  B<admindir> defaults to I</var/lib/dpkg> and "
+"contains many files that give information about status of installed or "
+"uninstalled packages, etc.  B<instdir> defaults to I</> and refers to the "
+"directory where packages are to be installed.  B<instdir> is also the "
+"directory passed to B<chroot>(2) before running I<package>'s installation "
+"scripts, which means that the scripts see B<instdir> as a root directory.  "
+"Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+"var/lib/dpkg>."
+msgstr ""
+"Ändra standardkataloger.  Förval för B<admindir> är I</var/lib/dpkg>, och "
+"innehåller filer som ger information om status för installerade och ej "
+"installerade paket, osv.  Förval för B<instdir> är I</> och är den katalog "
+"som skickas som parameter till B<chroot>(2) innan paketets "
+"installationsfiler körs, vilket betyder att skripten ser B<instdir> som "
+"rotkatalog.  Om du ändrar B<root> ändrar du B<instdir> till I<kat> och "
+"B<admindir> till I<kat>B</var/lib/dpkg>."
+
+# type: TP
+#: ../C/dpkg.1:462
+#, no-wrap
+msgid "B<-O> | B<--selected-only>"
+msgstr "B<-O> | B<--selected-only>"
+
+# type: Plain text
+#: ../C/dpkg.1:468
+#, fuzzy
+msgid ""
+"Only process the packages that are selected for installation. The actual "
+"marking is done with B<dselect> or by B<dpkg>, when it handles packages.  "
+"For example, when a package is removed, it will be marked selected for "
+"deinstallation."
+msgstr ""
+"Hantera endast paket som markerats för installation.  Själva markeringen "
+"utförs med B<dselect> eller av B<dpkg> när paketen hanteras.  Till exempel "
+"kommer paket som tas bort att markeras för installation."
+
+# type: TP
+#: ../C/dpkg.1:468
+#, no-wrap
+msgid "B<-E> | B<--skip-same-version>"
+msgstr "B<-E> | B<--skip-same-version>"
+
+# type: Plain text
+#: ../C/dpkg.1:472
+#, fuzzy
+msgid ""
+"Don't install the package if the same version of the package is already "
+"installed."
+msgstr ""
+"Installera inte paketet om samma version av paketet redan är installerat."
+
+# type: TP
+#: ../C/dpkg.1:472
+#, no-wrap
+msgid "B<--status-fd >I<E<lt>nE<gt>>"
+msgstr "B<--status-fd >I<E<lt>nE<gt>>"
+
+# type: Plain text
+#: ../C/dpkg.1:479
+#, fuzzy
+msgid ""
+"Send package status info to file descriptor I<E<lt>nE<gt>>.  This can be "
+"given multiple times.  Status updates are of the form `status: "
+"E<lt>pkgE<gt>: E<lt>pkg qstateE<gt>'.  Errors are reported as `status: "
+"E<lt>pkgE<gt>: error: extend-error-message'.  Configuration file conflicts "
+"are reported as `status: conffile-prompt: conffile : 'current-conffile' 'new-"
+"conffile' useredited distedited'"
+msgstr ""
+"Sänder paketstatusinformation till filhandtag I<E<lt>nE<gt>>.  Denna flagga "
+"kan ges flera gånger.  Statusuppdateringar ges på formen \"status: "
+"E<lt>paketE<gt>: E<lt>paket qstatusE<gt>\"."
+
+# type: TP
+#: ../C/dpkg.1:479
+#, no-wrap
+msgid "B<--log=>I<filename>"
+msgstr "B<--log=>I<filename>"
+
+# type: Plain text
+#: ../C/dpkg.1:489
+msgid ""
+"Log status change updates and actions to I<filename>.  This can be given "
+"multiple times.  Log messages are of the form `YYYY-MM-DD HH:MM:SS status "
+"E<lt>stateE<gt> E<lt>pkgE<gt> E<lt>installed-versionE<gt>' for status change "
+"updates; `YYYY-MM-DD HH:MM:SS E<lt>actionE<gt> E<lt>pkgE<gt> E<lt>installed-"
+"versionE<gt> E<lt>available-versionE<gt>' for actions where "
+"I<E<lt>actionE<gt>> is one of install, upgrade, remove, purge; and `YYYY-MM-"
+"DD HH:MM:SS conffile E<lt>filenameE<gt> E<lt>decisionE<gt>' for conffile "
+"changes where I<E<lt>decision> is either install or keep."
+msgstr ""
+
+# type: SH
+#: ../C/dpkg.1:489
+#, no-wrap
+msgid "FILES"
+msgstr "FILER"
+
+# type: TP
+#: ../C/dpkg.1:490
+#, no-wrap
+msgid "I</etc/dpkg/dpkg.cfg>"
+msgstr "I</etc/dpkg/dpkg.cfg>"
+
+# type: Plain text
+#: ../C/dpkg.1:493
+msgid "Configuration file with default options."
+msgstr "Konfigurationsfil med förvalda inställningar."
+
+# type: Plain text
+#: ../C/dpkg.1:496
+#, fuzzy
+msgid ""
+"The other files listed below are in their default directories, see option "
+"B<--admindir> to see how to change locations of these files."
+msgstr ""
+"Övriga filer som listas här finns i sina förvalda kataloger, se flaggan B<--"
+"admindir> för information om hur du ändrar placeringen av dessa filer."
+
+# type: TP
+#: ../C/dpkg.1:496
+#, no-wrap
+msgid "I</var/lib/dpkg/available>"
+msgstr "I</var/lib/dpkg/available>"
+
+# type: Plain text
+#: ../C/dpkg.1:499
+msgid "List of available packages."
+msgstr "Lista över tillgängliga paket."
+
+# type: TP
+#: ../C/dpkg.1:499
+#, no-wrap
+msgid "I</var/lib/dpkg/status>"
+msgstr "I</var/lib/dpkg/status>"
+
+# type: Plain text
+#: ../C/dpkg.1:505
+#, fuzzy
+msgid ""
+"Statuses of available packages. This file contains information about whether "
+"a package is marked for removing or not, whether it is installed or not, "
+"etc. See section B<INFORMATION ABOUT PACKAGES> for more info."
+msgstr ""
+"Status för tillgängliga paket.  Denna fil innehåller information om huruvida "
+"ett paket är markerat för borttagning eller ej, om det är installerat eller "
+"ej, osv.  Se sektionen B<INFORMATION OM PAKET> för ytterligare information."
+
+# type: Plain text
+#: ../C/dpkg.1:508
+#, fuzzy
+msgid ""
+"The following files are components of a binary package.  See B<deb>(5)  for "
+"more information about them:"
+msgstr ""
+"Följande filer är komponenter i det binära paketet.  Se B<deb>(5) för "
+"ytterligare information om dem:"
+
+# type: TP
+#: ../C/dpkg.1:508
+#, no-wrap
+msgid "I<control>"
+msgstr "I<control>"
+
+# type: TP
+#: ../C/dpkg.1:510
+#, no-wrap
+msgid "I<conffiles>"
+msgstr "I<conffiles>"
+
+# type: TP
+#: ../C/dpkg.1:512
+#, no-wrap
+msgid "I<preinst>"
+msgstr "I<preinst>"
+
+# type: TP
+#: ../C/dpkg.1:514
+#, no-wrap
+msgid "I<postinst>"
+msgstr "I<postinst>"
+
+# type: TP
+#: ../C/dpkg.1:516
+#, no-wrap
+msgid "I<prerm>"
+msgstr "I<prerm>"
+
+# type: TP
+#: ../C/dpkg.1:518
+#, no-wrap
+msgid "I<postrm>"
+msgstr "I<postrm>"
+
+# type: SH
+#: ../C/dpkg.1:521
+#, no-wrap
+msgid "ENVIRONMENT VARIABLES"
+msgstr "MILJÖVARIABLER"
+
+# type: TP
+#: ../C/dpkg.1:522
+#, no-wrap
+msgid "B<DPKG_NO_TSTP>"
+msgstr "B<DPKG_NO_TSTP>"
+
+# type: Plain text
+#: ../C/dpkg.1:526
+#, fuzzy
+msgid ""
+"Define this to something if you prefer B<dpkg> starting a new shell rather "
+"than suspending itself, while doing a shell escape."
+msgstr ""
+"Definiera detta till någonting om du vill att B<dpkg> skall starta ett nytt "
+"skal istället för att lägga sig i bakgrunden när ett skal startas."
+
+# type: TP
+#: ../C/dpkg.1:526
+#, no-wrap
+msgid "B<SHELL>"
+msgstr "B<SHELL>"
+
+# type: Plain text
+#: ../C/dpkg.1:529
+msgid "The program B<dpkg> will execute while starting a new shell."
+msgstr "Programmet B<dpkg> kommer att exekvera när ett nytt skal startas."
+
+# type: TP
+#: ../C/dpkg.1:529
+#, no-wrap
+msgid "B<COLUMNS>"
+msgstr "B<COLUMNS>"
+
+# type: Plain text
+#: ../C/dpkg.1:533
+#, fuzzy
+msgid ""
+"Sets the number of columns B<dpkg> should use when displaying formatted "
+"text.  Currently only used by -l."
+msgstr ""
+"Sätter antalet kolumner B<dpkg> skall använda när formaterad text visas.  "
+"Används för närvarande enbart av -l."
+
+# type: TP
+#: ../C/dpkg.1:533
+#, no-wrap
+msgid "B<DPKG_OLD_CONFFILE>"
+msgstr "B<DPKG_OLD_CONFFILE>"
+
+# type: Plain text
+#: ../C/dpkg.1:538
+#, fuzzy
+msgid ""
+"Set by B<dpkg> to the filename of the old configuration file when you start "
+"a shell to examine a changed configuration.  file."
+msgstr ""
+"Sätts av B<dpkg> till filnamnet för den gamla konfigurationsfilen när du "
+"startar ett skal för att undersöka en ändrad konfigurationsfil."
+
+# type: TP
+#: ../C/dpkg.1:538
+#, no-wrap
+msgid "B<DPKG_NEW_CONFFILE>"
+msgstr "B<DPKG_NEW_CONFFILE>"
+
+# type: Plain text
+#: ../C/dpkg.1:543
+#, fuzzy
+msgid ""
+"Set by B<dpkg> to the filename of the newversion of a configuration file "
+"when you start a shell to examine a changed configuration.  file."
+msgstr ""
+"Sätts av B<dpkg> till filnamnet för den nya konfigurationsfilen när du "
+"startar ett skal för att undersöka en ändrad konfigurationsfil."
+
+# type: SH
+#: ../C/dpkg.1:544
+#, no-wrap
+msgid "EXAMPLES"
+msgstr "EXEMPEL"
+
+# type: Plain text
+#: ../C/dpkg.1:546
+#, fuzzy
+msgid "To list packages related to the editor vi:"
+msgstr "För att lista paket relaterade till textredigeringsprogrammet vi:"
+
+# type: Plain text
+#: ../C/dpkg.1:548
+msgid "B< dpkg -l '*vi*'>"
+msgstr "B< dpkg -l '*vi*'>"
+
+# type: Plain text
+#: ../C/dpkg.1:551
+#, fuzzy
+msgid "To see the entries in I</var/lib/dpkg/available> on two packages:"
+msgstr "För att se posterna i I</var/lib/dpkg/available> för två paket:"
+
+# type: Plain text
+#: ../C/dpkg.1:553
+msgid "B< dpkg --print-avail elvis vim | less>"
+msgstr "B< dpkg --print-avail elvis vim | less>"
+
+# type: Plain text
+#: ../C/dpkg.1:556
+msgid "To search the listing of packages yourself:"
+msgstr "För att själv söka i paketlistan:"
+
+# type: Plain text
+#: ../C/dpkg.1:558
+msgid "B< less /var/lib/dpkg/available>"
+msgstr "B< less /var/lib/dpkg/available>"
+
+# type: Plain text
+#: ../C/dpkg.1:561
+#, fuzzy
+msgid "To remove an installed elvis package:"
+msgstr "För att ta bort det installerade paketet elvis:"
+
+# type: Plain text
+#: ../C/dpkg.1:563
+msgid "B< dpkg -r elvis>"
+msgstr "B< dpkg -r elvis>"
+
+# type: Plain text
+#: ../C/dpkg.1:568
+#, fuzzy
+msgid ""
+"To install a package, you first need to find it in an archive or CDROM.  The "
+"\"available\" file shows that the vim package is in section \"editors\":"
+msgstr ""
+"För att installera ett paket måste du först leta på det i ett arkiv eller på "
+"en cd-rom.  Filen \"available\" visar att vim-paketet finns i sektionen "
+"\"editors\":"
+
+# type: Plain text
+#: ../C/dpkg.1:571
+msgid "B< cd /cdrom/hamm/hamm/binary/editors> B< dpkg -i vim_4.5-3.deb>"
+msgstr "B< cd /cdrom/hamm/hamm/binary/editors> B< dpkg -i vim_4.5-3.deb>"
+
+# type: Plain text
+#: ../C/dpkg.1:574
+msgid "To make a local copy of the package selection states:"
+msgstr "För att göra en lokal kopia av paketmarkeringarna:"
+
+# type: Plain text
+#: ../C/dpkg.1:576
+msgid "B< dpkg --get-selections E<gt>myselections>"
+msgstr "B< dpkg --get-selections E<gt>minamarkeringar>"
+
+# type: Plain text
+#: ../C/dpkg.1:580
+#, fuzzy
+msgid ""
+"You might transfer this file to another computer, and install it there with:"
+msgstr ""
+"Du kan överföra denna fil till en annan dator och installera den där genom "
+"att skriva:"
+
+# type: Plain text
+#: ../C/dpkg.1:582
+msgid "B< dpkg --set-selections E<lt>myselections>"
+msgstr "B< dpkg --set-selections E<lt>minamarkeringar>"
+
+# type: Plain text
+#: ../C/dpkg.1:587
+#, fuzzy
+msgid ""
+"Note that this will not actually install or remove anything, but just set "
+"the selection state on the requested packages.  You will need some other "
+"application to actually download and install the requested packages.  For "
+"example, run B<dselect> and choose \"Install\"."
+msgstr ""
+"Observera att detta faktiskt inte kommer installera eller ta bort något, "
+"utan bara sätta valstatus på de efterfrågade paketen.  Du måste använda "
+"något annat program för att faktiskt hämta och installera de efterfrågade "
+"paketen.  Till exempel kan du köra B<dselect> och välja \"Installera\"."
+
+# type: Plain text
+#: ../C/dpkg.1:590
+#, fuzzy
+msgid ""
+"Ordinarily, you will find that B<dselect>(8) provides a more convenient way "
+"to modify the package selection states."
+msgstr ""
+"För normalt bruk kommer du att upptäcka att B<dselect>(8) tillhandahåller "
+"ett bekvämare sätt att ändra paketmarkeringarna."
+
+# type: SH
+#: ../C/dpkg.1:591
+#, no-wrap
+msgid "ADDITIONAL FUNCTIONALITY"
+msgstr "YTTERLIGARE FUNKTIONER"
+
+# type: Plain text
+#: ../C/dpkg.1:594
+#, fuzzy
+msgid ""
+"Additional functionality can be gained by installing any of the following "
+"packages: I<apt>, I<aptitude> and I<debsums>."
+msgstr ""
+"Ytterligare funktioner kan erhållas genom att installera något av följande "
+"paket: I<apt>, I<aptitude> och I<debsums>."
+
+# type: SH
+#: ../C/dpkg.1:595
+#, no-wrap
+msgid "SEE ALSO"
+msgstr "SE ÄVEN"
+
+# type: Plain text
+#: ../C/dpkg.1:602
+msgid ""
+"B<dselect>(8), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), and B<dpkg-"
+"reconfigure>(8)"
+msgstr ""
+"B<dselect>(8), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), och B<dpkg-"
+"reconfigure>(8)"
+
+# type: SH
+#: ../C/dpkg.1:603
+#, no-wrap
+msgid "BUGS"
+msgstr "PROGRAMFEL"
+
+# type: Plain text
+#: ../C/dpkg.1:606
+#, fuzzy
+msgid "B<--no-act> usually gives less information than might be helpful."
+msgstr "B<--no-act> ger oftast mindre information än vad som vore hjälpsamt."
+
+# type: SH
+#: ../C/dpkg.1:607
+#, no-wrap
+msgid "AUTHORS"
+msgstr "FÖRFATTARE"
+
+# type: Plain text
+#: ../C/dpkg.1:611
+#, no-wrap
+msgid ""
+"See B</usr/share/doc/dpkg/THANKS.gz> for the list of people who have\n"
+"contributed to B<dpkg> .\n"
+msgstr ""
+"Se filen B</usr/share/doc/dpkg/THANKS.gz> för en lista över personer som\n"
+"bidragit till B<dpkg> .\n"

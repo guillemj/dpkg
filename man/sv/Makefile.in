@@ -13,6 +13,27 @@
 # PARTICULAR PURPOSE.
 
 @SET_MAKE@
+
+#
+# You must set the $(lang) variable when you include this makefile.
+#
+#
+# This makefile deals with the manpages generated from POs with po4a, and
+# should be included in an automake Makefile.am.
+#
+# The po must be named:
+#   <man>.$(lang).po
+# If a man page require an addendum, you must name it:
+#   <man>.$(lang).po.addendum
+# Where <man> corresponds to a filename in the C directory (which contains
+# the English man pages).
+#
+# The POs suffix is $(lang).po to allow dl10n to detect the outdated POs.
+#
+#
+# If a man page cannot be generated (it is not sufficiently translated; the
+# threshold is 80%), it won't be distributed, and the build won't fail.
+#
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 VPATH = @srcdir@
@@ -36,9 +57,9 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
+DIST_COMMON = $(dist_man_MANS) $(srcdir)/../po4a.mk \
+	$(srcdir)/Makefile.am $(srcdir)/Makefile.in
 subdir = man/sv
-DIST_COMMON = $(dist_man_MANS) $(srcdir)/Makefile.am \
-	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/arch.m4 \
 	$(top_srcdir)/m4/codeset.m4 $(top_srcdir)/m4/compiler.m4 \
@@ -189,7 +210,7 @@ install_sh = @install_sh@
 libdir = @libdir@
 libexecdir = @libexecdir@
 localstatedir = @localstatedir@
-mandir = @mandir@/sv
+mandir = @mandir@/$(lang)
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
 prefix = @prefix@
@@ -202,24 +223,30 @@ target_alias = @target_alias@
 target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
-dist_man_MANS = \
-	822-date.1 \
-	deb-control.5 \
-	deb-old.5 \
-	deb.5 \
-	dpkg-deb.1 \
-	dpkg-query.1 \
-	dpkg-split.1 \
-	dpkg.1 \
-	dpkg.cfg.5 \
-	dselect.1 \
-	dselect.cfg.5 \
-	start-stop-daemon.8
+lang = sv
 
+# List of aliases for dpkg_source.1
+# If dpkg_source.1 can be generated, this aliases are also generated
+dpkg_source_aliases = \
+	dpkg-buildpackage.1 \
+	dpkg-distaddfile.1 \
+	dpkg-genchanges.1 \
+	dpkg-gencontrol.1 \
+	dpkg-parsechangelog.1 \
+	dpkg-shlibdeps.1
+
+
+# Inform automake that we want to install some man pages in section 1, 5
+# and 8.
+# We can't simply use:
+# dist_man_MANS = $(wildcard *.[1-9])
+# Because when Makefile.in is generated, dist_man_MANS is empty, and
+# automake do not generate the install-man targets.
+dist_man_MANS = fake-page.1 fake-page.5 fake-page.8
 all: all-am
 
 .SUFFIXES:
-$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
+$(srcdir)/Makefile.in:  $(srcdir)/Makefile.am $(srcdir)/../po4a.mk $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
 	    *$$dep*) \
@@ -392,6 +419,7 @@ CTAGS:
 
 
 distdir: $(DISTFILES)
+	$(mkdir_p) $(distdir)/..
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -418,9 +446,12 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
+	$(MAKE) $(AM_MAKEFLAGS) \
+	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
+	  dist-hook
 check-am: all-am
 check: check-am
-all-am: Makefile $(MANS)
+all-am: Makefile $(MANS) all-local
 installdirs:
 	for dir in "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(man5dir)" "$(DESTDIR)$(man8dir)"; do \
 	  test -z "$$dir" || $(mkdir_p) "$$dir"; \
@@ -451,7 +482,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-generic clean-local mostlyclean-am
 
 distclean: distclean-am
 	-rm -f Makefile
@@ -472,8 +503,6 @@ install-data-am: install-man
 install-exec-am:
 
 install-info: install-info-am
-
-install-man: install-man1 install-man5 install-man8
 
 installcheck-am:
 
@@ -497,16 +526,83 @@ uninstall-am: uninstall-info-am uninstall-man
 
 uninstall-man: uninstall-man1 uninstall-man5 uninstall-man8
 
-.PHONY: all all-am check check-am clean clean-generic distclean \
-	distclean-generic distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-man1 install-man5 install-man8 install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
+.PHONY: all all-am all-local check check-am clean clean-generic \
+	clean-local dist-hook distclean distclean-generic distdir dvi \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-exec install-exec-am \
+	install-info install-info-am install-man install-man1 \
+	install-man5 install-man8 install-strip installcheck \
+	installcheck-am installdirs maintainer-clean \
 	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
 	pdf-am ps ps-am uninstall uninstall-am uninstall-info-am \
 	uninstall-man uninstall-man1 uninstall-man5 uninstall-man8
 
+
+# Do not fail if these man pages do not exist
+.PHONY: fake-page.1 fake-page.5 fake-page.8
+
+# Override the automake's install-man target.
+# And set dist_man_MANS according to the pages that could be generated
+# when this target is called.
+install-man: dist_man_MANS = $(wildcard *.[1-9])
+install-man: install-man1 install-man5 install-man8
+
+# For each .po, try to generate the man page
+all-local:
+	for po in $(srcdir)/*.$(lang).po; do \
+		$(MAKE) $$(basename $${po%.$(lang).po}); \
+	done
+# If dpkg-source.1 was generated, create the symlink
+	if [ -f dpkg-source.1 ]; then \
+		for man in $(dpkg_source_aliases); do \
+			echo ".so man1/dpkg-source.1" > $$man; \
+			chmod 644 $$man; \
+		done; \
+	fi
+
+# Remove the man pages that were generated from a .po
+clean-local:
+	for po in $(srcdir)/*.$(lang).po; do \
+		rm -f $$(basename $${po%.$(lang).po}); \
+	done
+	rm -f $(dpkg_source_aliases)
+
+.PHONY: updatepo
+# Update the PO in srcdir, according to the POT in C.
+# Based on the gettext po/Makefile.in.in
+updatepo:
+	tmpdir=`pwd`; \
+	cd $(srcdir); \
+	for po in *.$(lang).po; do \
+	  pot=../C/po/$${po%$(lang).po}pot; \
+	  echo "$(MSGMERGE) $$po $$pot -o $${po%po}new.po"; \
+	  if $(MSGMERGE) $$po $$pot -o $$tmpdir/$${po%po}new.po; then \
+	    if cmp $$po $$tmpdir/$${po%po}new.po >/dev/null 2>&1; then \
+	      rm -f $$tmpdir/$${po%po}new.po; \
+	    else \
+	      if mv -f $$tmpdir/$${po%po}new.po $$po; then \
+	        :; \
+	      else \
+	        echo "msgmerge for $$po failed: cannot move $$tmpdir/$${po%po}new.po to $$po" 1>&2; \
+	        exit 1; \
+	      fi; \
+	    fi; \
+	  else \
+	    echo "msgmerge for $$po failed!" 1>&2; \
+	    rm -f $$tmpdir/$${po%po}new.po; \
+	  fi; \
+	  msgfmt -o /dev/null --statistics $$po; \
+	done
+
+dist-hook: updatepo
+
+# Build the pages with an addendum
+%: $(srcdir)/%.$(lang).po $(srcdir)/../C/% $(srcdir)/%.$(lang).po.addendum
+	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@ -a $(srcdir)/%.$(lang).po.addendum
+
+# Build the pages without addendum
+%: $(srcdir)/%.$(lang).po $(srcdir)/../C/%
+	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

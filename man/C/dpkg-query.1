@@ -1,4 +1,4 @@
-.TH dpkg\-query 1 "2006-01-26" "Debian Project" "dpkg suite"
+.TH DPKG\-QUERY 1 "August 2001" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-query \- a tool to query the dpkg database
 
@@ -18,24 +18,17 @@ is given, list all packages in \fI/var/lib/dpkg/status\fP.  Normal
 shell wildchars are allowed in \fIpackage-name-pattern\fP. Please note
 you will probably have to quote \fIpackage-name-pattern\fP to prevent
 the shell from performing filename expansion. For example this will
-list all package names starting with \*(lqlibc6\*(rq:
+list all package names starting with \*(lqlibc5\*(rq:
 
 .T
 .nf
-  \fBdpkg\-query \-l 'libc6*'\fP
+  \fBdpkg\-query \-l 'libc5*'\fP
 .fi
-
-The output format of this option is not configurable, but varies
-automatically to fit the terminal width. It is intended for human
-readers, and is not easily machine-readable. See \fB\-W\fP (\fB\-\-show\fP)
-and \fB\-\-showformat\fP for a way to configure the output format.
 .TP
 \fB\-W\fP | \fB\-\-show\fP \fIpackage-name-pattern\fP ...
 Just like the \fB\-\-list\fP option this will list all packages matching
 the given pattern. However the output can be customized using the
 \fB\-\-showformat\fP option.
-The default output format gives one line per matching package, each line
-having the name and installed version of the package, separated by a tab.
 .TP
 \fB\-s\fP | \fB\-\-status\fP \fIpackage-name\fP ...
 Report status of specified package. This just displays the entry in
@@ -71,60 +64,11 @@ Change the location of the \fBdpkg\fR database. The default location is
 \fB-f\fP | \fB\-\-showformat=\fP\fIformat\fR
 This option is used to specify the format of the output \fB\-\-show\fP
 will produce.  The format is a string that will be output for each package
-listed.
-
-In the format string, \(lq\fB\e\fP\(rq introduces escapes:
-
-.T
-.nf
-    \fB\en\fP  newline
-    \fB\er\fP  carriage return
-    \fB\et\fP  tab
-.fi
-
-\(lq\fB\e\fP\(rq before any other character suppresses any special
-meaning of the following character, which is useful for \(lq\fB\e\fP\(rq
-and \(lq\fB$\fP\(rq.
-
-Package information can be included by inserting
-variable references to package fields using the syntax
-\(lq\fB${\fP\fIfield\fR[\fB;\fP\fIwidth\fR]\fB}\fP\(rq. Fields are
-printed right-aligned unless the width is negative in which case left
-alignment will be used. The following \fIfield\fRs are recognised:
-
-.T
-.nf
-    \fBArchitecture\fP
-    \fBBugs\fP
-    \fBConffiles\fP
-    \fBConfig\-Version\fP
-    \fBConflicts\fP
-    \fBDepends\fP
-    \fBDescription\fP
-    \fBEnhances\fP
-    \fBEssential\fP
-    \fBFilename\fP
-    \fBInstalled\-Size\fP
-    \fBMD5sum\fP
-    \fBMSDOS\-Filename\fP
-    \fBMaintainer\fP
-    \fBOrigin\fP
-    \fBPackage\fP
-    \fBPre\-Depends\fP
-    \fBPriority\fP
-    \fBProvides\fP
-    \fBRecommends\fP
-    \fBReplaces\fP
-    \fBRevision\fP
-    \fBSection\fP
-    \fBSize\fP
-    \fBSource\fP
-    \fBStatus\fP
-    \fBSuggests\fP
-    \fBVersion\fP
-.fi
-
-The default format string is \(lq\fB${Package}\et${Version}\en\fP\(rq.
+listed. It can include the standard escape sequences \en (newline), \er
+(carriage return) or \e\e (plain backslash). Package information can be
+included by inserting variable references to package fields using the
+${var[;width]} syntax. Fields are printed be right-aligned unless the
+width is negative in which case left alignment will be used. 
 
 .SH ENVIRONMENT
 .TP
@@ -143,5 +87,5 @@ later for copying conditions.  There is NO warranty.
 
 
 .SH SEE ALSO
-.BR dpkg (1)
+.BR dpkg (8)
 

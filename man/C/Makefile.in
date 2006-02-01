@@ -439,6 +439,9 @@ distdir: $(DISTFILES)
 	    || exit 1; \
 	  fi; \
 	done
+	$(MAKE) $(AM_MAKEFLAGS) \
+	  top_distdir="$(top_distdir)" distdir="$(distdir)" \
+	  dist-hook
 check-am: all-am
 check: check-am
 all-am: Makefile $(MANS)
@@ -519,20 +522,40 @@ uninstall-am: uninstall-info-am uninstall-man
 
 uninstall-man: uninstall-man1 uninstall-man5 uninstall-man8
 
-.PHONY: all all-am check check-am clean clean-generic distclean \
-	distclean-generic distdir dvi dvi-am html html-am info info-am \
-	install install-am install-data install-data-am install-exec \
-	install-exec-am install-info install-info-am install-man \
-	install-man1 install-man5 install-man8 install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am uninstall uninstall-am uninstall-info-am \
-	uninstall-man uninstall-man1 uninstall-man5 uninstall-man8
+.PHONY: all all-am check check-am clean clean-generic dist-hook \
+	distclean distclean-generic distdir dvi dvi-am html html-am \
+	info info-am install install-am install-data install-data-am \
+	install-exec install-exec-am install-info install-info-am \
+	install-man install-man1 install-man5 install-man8 \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-generic pdf pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-info-am uninstall-man uninstall-man1 uninstall-man5 \
+	uninstall-man8
 
 
 $(dpkg_source_aliases):
 	echo ".so man1/dpkg-source.1" > $@
 	chmod 644 $@
+
+.PHONY: updatepo
+# Update the POT in srcdir
+# Make sure the update does not only consist in a new POT-Creation-Date
+updatepo:
+	cd $(srcdir); \
+	for name in $(dist_man_MANS); do \
+		echo $$name; \
+		cp po/$$name.pot po/$$name.new.pot; \
+		po4a-updatepo -f man -m $$name -p po/$$name.new.pot; \
+		diff -I '^\"POT-Creation-Date: ' po/$$name.pot po/$$name.new.pot 2>&1 > /dev/null; \
+		if [ $$? ]; then \
+			mv po/$$name.new.pot po/$$name.pot; \
+		else \
+			rm -f po/$$name.new.pot; \
+		fi; \
+	done
+
+dist-hook: updatepo
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

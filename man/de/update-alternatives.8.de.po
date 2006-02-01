@@ -1,0 +1,1033 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: dpkg man pages\n"
+"POT-Creation-Date: 2005-07-03 15:04+0200\n"
+"PO-Revision-Date: 2005-07-03 15:04+0200\n"
+"Last-Translator: Unknown translator\n"
+"Language-Team: German <debian-l10n-german@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# type: TH
+#: ../C/update-alternatives.8:8
+#, no-wrap
+msgid "UPDATE-ALTERNATIVES"
+msgstr "UPDATE-ALTERNATIVES"
+
+# type: TH
+#: ../C/update-alternatives.8:8
+#, fuzzy, no-wrap
+msgid "19 January 1998"
+msgstr "3. Mai 2004"
+
+# type: TH
+#: ../C/update-alternatives.8:8
+#, no-wrap
+msgid "Debian Project"
+msgstr "Debian-Projekt"
+
+# type: TH
+#: ../C/update-alternatives.8:8
+#, no-wrap
+msgid "dpkg utilities"
+msgstr "dpkg-Werkzeuge"
+
+# type: SH
+#: ../C/update-alternatives.8:9
+#, fuzzy, no-wrap
+msgid "NAME"
+msgstr "NAME"
+
+# type: Plain text
+#: ../C/update-alternatives.8:11
+msgid ""
+"update-alternatives - maintain symbolic links determining default commands"
+msgstr ""
+"update-alternatives - Verwaltung symbolischer Links zur Bestimmung von "
+"Standardwerten fr Kommandos"
+
+# type: SH
+#: ../C/update-alternatives.8:11
+#, no-wrap
+msgid "SYNOPSIS"
+msgstr "BERSICHT"
+
+# type: Plain text
+#: ../C/update-alternatives.8:19
+#, fuzzy
+msgid ""
+"B<update-alternatives> [I<options>] B<--install> I<genname symlink altern "
+"priority> [B<--slave> I<genname symlink> I<altern>]..."
+msgstr ""
+"B<update-alternatives> [I<options>] B<--install> I<link name pfad prioritt> "
+"[B<--slave> I<link name> I<pfad>]..."
+
+# type: Plain text
+#: ../C/update-alternatives.8:24
+msgid "B<update-alternatives> [I<options>] B<--remove> I<name path>"
+msgstr "B<update-alternatives> [I<options>] B<--remove> I<name pfad>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:29
+msgid "B<update-alternatives> [I<options>] B<--remove-all> I<name>"
+msgstr "B<update-alternatives> [I<options>] B<--remove-all> I<name>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:33
+msgid "B<update-alternatives> [I<options>] B<--all>"
+msgstr "B<update-alternatives> [I<options>] B<--all>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:38
+msgid "B<update-alternatives> [I<options>] B<--auto> I<name>"
+msgstr "B<update-alternatives> [I<options>] B<--auto> I<name>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:43
+msgid "B<update-alternatives> [I<options>] B<--display> I<name>"
+msgstr "B<update-alternatives> [I<options>] B<--display> I<name>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:48
+msgid "B<update-alternatives> [I<options>] B<--list> I<name>"
+msgstr "B<update-alternatives> [I<options>] B<--list> I<name>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:53
+msgid "B<update-alternatives> [I<options>] B<--config> I<name>"
+msgstr "B<update-alternatives> [I<options>] B<--config> I<name>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:58
+msgid "B<update-alternatives> [I<options>] B<--set> I<name path>"
+msgstr "B<update-alternatives> [I<options>] B<--set> I<name pfad>"
+
+# type: SH
+#: ../C/update-alternatives.8:58
+#, no-wrap
+msgid "DESCRIPTION"
+msgstr "BESCHREIBUNG"
+
+# type: Plain text
+#: ../C/update-alternatives.8:62
+#, fuzzy
+msgid ""
+"B<update-alternatives> creates, removes, maintains and displays information "
+"about the symbolic links comprising the Debian alternatives system."
+msgstr ""
+"B<update-alternatives> erzeugt, entfernt, verwaltet und zeigt die "
+"Informationen ber die symbolischen Links, die das Debian Alternativ-System "
+"bilden, an."
+
+# type: Plain text
+#: ../C/update-alternatives.8:70
+#, fuzzy
+msgid ""
+"It is possible for several programs fulfilling the same or similar functions "
+"to be installed on a single system at the same time.  For example, many "
+"systems have several text editors installed at once.  This gives choice to "
+"the users of a system, allowing each to use a different editor, if desired, "
+"but makes it difficult for a program to make a good choice of editor to "
+"invoke if the user has not specified a particular preference."
+msgstr ""
+"Es ist mglich, mehrere Programme, die die gleiche oder hnliche Funktionalitt "
+"bereitstellen, gleichzeitig auf einem System zu installieren.  "
+"Beispielsweise sind auf vielen Systemen mehrere Texteditoren gleichzeitig "
+"installiert. Dies gibt den Benutzern eines Systems die Mglichkeit, falls "
+"gewnscht, jeweils einen anderen Editor zu verwenden, allerdings wird es "
+"damit fr ein Programm schwierig, gut einen Editor zum Starten auszuwhlen, "
+"falls der Benutzer keine spezielle Wahl getroffen hat."
+
+# type: Plain text
+#: ../C/update-alternatives.8:92
+#, fuzzy
+msgid ""
+"Debian's alternatives system aims to solve this problem.  A generic name in "
+"the filesystem is shared by all files providing interchangeable "
+"functionality.  The alternatives system and the system administrator "
+"together determine which actual file is referenced by this generic name.  "
+"For example, if the text editors B<ed>(1)  and B<nvi>(1)  are both installed "
+"on the system, the alternatives system will cause the generic name I</usr/"
+"bin/editor> to refer to I</usr/bin/nvi> by default.  The system "
+"administrator can override this and cause it to refer to I</usr/bin/ed> "
+"instead, and the alternatives system will not alter this setting until "
+"explicitly requested to do so."
+msgstr ""
+"Debian's Alternativ-System hat das Ziel, dieses Problem zu lsen. Ein "
+"generischer Name im Dateisystem wird von allen Dateien, die austauschbare "
+"Funktionalitt bereitstellen, verwendet. Das Alternativ-System bestimmt "
+"zusammen mit dem Systemadministrator welche Datei tatschlich durch diesen "
+"generischen Namen referenziert wird. Falls beispielsweise sowohl der "
+"Texteditor B<ed>(1)  als auch B<nvi>(1)  im System installiert sind, wird "
+"das Alternative-System dafr sorgen, dass der generische Name I</usr/bin/"
+"editor> standardmig auf I</usr/bin/nvi> zeigt. Der Systemandministrator kann "
+"dies ndern und dafr sorgen, dass er stattdessen auf I</usr/bin/ed> zeigt, "
+"und das Alternativ-System wird diese Einstellung nicht verndern, bis es "
+"explizit dazu aufgefordert wird."
+
+# type: Plain text
+#: ../C/update-alternatives.8:102
+#, fuzzy
+msgid ""
+"The generic name is not a direct symbolic link to the selected alternative.  "
+"Instead, it is a symbolic link to a name in the I<alternatives> "
+"I<directory>, which in turn is a symbolic link to the actual file "
+"referenced.  This is done so that the system administrator's changes can be "
+"confined within the I</etc> directory: the FHS (q.v.) gives reasons why this "
+"is a Good Thing."
+msgstr ""
+"Der generische Name ist nicht ein direkter symbolischer Link auf die "
+"ausgewhlte Alternative. Stattdessen ist es ein symbolischer Link auf das "
+"I<Alternativ-Verzeichnis>, welches wiederum ein symbolischer Link auf die "
+"tatschlich referenzierte Datei ist. Dies ist so realisiert, damit die "
+"nderungen des Systemadministrators auf das I</etc> Verzeichnis beschrnkt "
+"bleiben: der FHS (siehe dort) erklrt warum dies eine Gute Idee ist."
+
+# type: Plain text
+#: ../C/update-alternatives.8:114
+#, fuzzy
+msgid ""
+"When each package providing a file with a particular functionality is "
+"installed, changed or removed, B<update-alternatives> is called to update "
+"information about that file in the alternatives system.  B<update-"
+"alternatives> is usually called from the B<postinst> or B<prerm> scripts in "
+"Debian packages."
+msgstr ""
+"Fr jedes Paket das eine Datei mit einer bestimmten Funktionalitt "
+"bereitstellt, wird bei der Installation, der nderung oder der Entfernung "
+"B<update-alternatives> aufgerufen um die Informationen ber diese Datei im "
+"Alternativ-System zu aktualisieren.  B<update-alternatives> wird gewhnlich "
+"vom B<postinst> oder B<prerm> eines Debian-Paketes aufgerufen."
+
+# type: Plain text
+#: ../C/update-alternatives.8:133
+#, fuzzy
+msgid ""
+"It is often useful for a number of alternatives to be synchronised, so that "
+"they are changed as a group; for example, when several versions of the B<vi>"
+"(1)  editor are installed, the man page referenced by I</usr/share/man/man1/"
+"vi.1> should correspond to the executable referenced by I</usr/bin/vi>.  "
+"B<update-alternatives> handles this by means of I<master> and I<slave> "
+"links; when the master is changed, any associated slaves are changed too.  A "
+"master link and its associated slaves make up a I<link> I<group>."
+msgstr ""
+"Es ist oft sinnvoll, dass eine Reihe von Alternativen synchronisiert werden, "
+"so dass sie als Gruppe gendert werden; wenn beispielsweise mehrere Versionen "
+"des B<vi>(1)  Editors installiert sind, sollte die Handbuchseite, die durch "
+"I</usr/share/man/man1/vi.1> referenziert wird, zu dem ausfhrbaren Programm, "
+"dass durch I</usr/bin/vi> referenziert wird, gehren.  B<update-alternatives> "
+"erledigt dies mit Hilfe von I<Master-> und I<Slave-Links>; wird der Master-"
+"Link gendert, wird auch jeder zugehrige Slave-Link gendert.  Ein Master-Link "
+"und seine zugehrigen Slave-Links bilden zusammen eine I<Link-Gruppe>."
+
+# type: Plain text
+#: ../C/update-alternatives.8:141
+#, fuzzy
+msgid ""
+"Each link group is, at any given time, in one of two modes: automatic or "
+"manual.  When a group is in automatic mode, the alternatives system will "
+"automatically decide, as packages are installed and removed, whether and how "
+"to update the links.  In manual mode, the alternatives system will not "
+"change the links; it will leave all the decisions to the system "
+"administrator."
+msgstr ""
+"Eine Linkgruppe ist zu jeder Zeit in einer der beiden Modi: automatisch oder "
+"manuell. Ist eine Gruppe im automatischen Modus, dann wird das Alternativ-"
+"System bei der Paketinstallation und -entfernung automatisch entscheiden, ob "
+"und wie die Links aktualisiert werden.  Im manuellen Modus ndert das "
+"Alternativ-System die Links nicht; die Entscheidung verbleibt beim "
+"Systemadministrator."
+
+# type: Plain text
+#: ../C/update-alternatives.8:150
+#, fuzzy
+msgid ""
+"Link groups are in automatic mode when they are first introduced to the "
+"system.  If the system administrator makes changes to the system's automatic "
+"settings, this will be noticed the next time B<update-alternatives> is run "
+"on the changed link's group, and the group will automatically be switched to "
+"manual mode."
+msgstr ""
+"Beim erstmaligen Auftreten im System befindet sich eine Linkgruppe im "
+"automatischen Modus. Fhrt der Systemadministrator nderungen an den "
+"automatischen Einstellungen durch, wird dies beim nchsten Aufruf von "
+"B<update-alternatives> auf die Linkgruppe bemerkt und die Gruppe wird "
+"automatisch in den manuellen Modus umgeschaltet."
+
+# type: Plain text
+#: ../C/update-alternatives.8:157
+#, fuzzy
+msgid ""
+"Each alternative has a I<priority> associated with it.  When a link group is "
+"in automatic mode, the alternatives pointed to by members of the group will "
+"be those which have the highest priority."
+msgstr ""
+"Jede Alternative hat eine ihr zugeordnete I<Prioritt>.  Befindet sich eine "
+"Linkgruppe im automatischen Modus, zeigen die Mitglieder einer Gruppe auf "
+"die Alternative mit der hchsten Prioritt."
+
+# type: Plain text
+#: ../C/update-alternatives.8:174
+#, fuzzy
+msgid ""
+"When using the I<--config> option, B<update-alternatives> will list all of "
+"the choices for the link group of which given I<name> is the master link.  "
+"The current choice is marked with a '*' and the choice with the highest "
+"priority with a '+'.  You will then be prompted for which of the choices to "
+"use for the link group. Once you make a change, the link group will no "
+"longer be in I<auto> mode. You will need to use the I<--auto> option in "
+"order to return to the automatic state."
+msgstr ""
+"Wird die I<--config> Option verwendet, dann zeigt B<update-alternatives> "
+"alle Auswahlmglichkeiten fr die I<name> der Master-Link ist an. Sie werden "
+"aufgefordert anzugeben, welche der Mglichkeiten fr die Linkgruppe verwendet "
+"werden soll. Sobald Sie eine nderung durchfhren, befindet sich die "
+"Linkgruppe nicht mehr im I<automatischen> Modus. Sie mssen dann die I<--"
+"auto> Option verwenden, um wieder in den automatischen Zustand zurckzukehren."
+
+# type: Plain text
+#: ../C/update-alternatives.8:178
+msgid ""
+"If you want to configure non-interactivily you can use the I<--set> option "
+"instead (see below)."
+msgstr ""
+"Falls Sie nichtinteraktiv konfigurieren mchten, knnen Sie stattdessen die "
+"I<--set> Option verwenden (siehe unten)."
+
+# type: SH
+#: ../C/update-alternatives.8:178
+#, no-wrap
+msgid "TERMINOLOGY"
+msgstr "BEGRIFFE"
+
+# type: Plain text
+#: ../C/update-alternatives.8:183
+#, fuzzy
+msgid ""
+"Since the activities of B<update-alternatives> are quite involved, some "
+"specific terms will help to explain its operation."
+msgstr ""
+"Da die Ttigkeiten von B<update-alternatives> recht komplex sind sollen "
+"einige spezielle Begriffe helfen, seine Vorgehensweise zu erlutern."
+
+# type: TP
+#: ../C/update-alternatives.8:183
+#, no-wrap
+msgid "generic name"
+msgstr "generische Namen"
+
+# type: Plain text
+#: ../C/update-alternatives.8:189
+#, fuzzy
+msgid ""
+"A name, like I</usr/bin/editor>, which refers, via the alternatives system, "
+"to one of a number of files of similar function."
+msgstr ""
+"Ein Name wie I</usr/bin/editor>, der sich, ber das Alternativ-System, auf "
+"eine Reihe von Dateien mit hnlicher Funktionalitt bezieht."
+
+# type: TP
+#: ../C/update-alternatives.8:189
+#, no-wrap
+msgid "symlink"
+msgstr "Symlink"
+
+# type: Plain text
+#: ../C/update-alternatives.8:194
+#, fuzzy
+msgid ""
+"Without any further qualification, this means a symbolic link in the "
+"alternatives directory: one which the system administrator is expected to "
+"adjust."
+msgstr ""
+"Ohne weitere Angabe bedeutet dies ein symbolischer Link im Alternativ-"
+"Verzeichnis; einer derer, die vom Systemadministrator angepat werden sollen."
+
+# type: TP
+#: ../C/update-alternatives.8:194
+#, no-wrap
+msgid "alternative"
+msgstr "Alternative"
+
+# type: Plain text
+#: ../C/update-alternatives.8:198
+#, fuzzy
+msgid ""
+"The name of a specific file in the filesystem, which may be made accessible "
+"via a generic name using the alternatives system."
+msgstr ""
+"Der Name einer speziellen Datei im Dateisystem, die mittels eines "
+"generischen Namens ber das Alternativ-System zugreifbar gemacht werden kann."
+
+# type: TP
+#: ../C/update-alternatives.8:198
+#, no-wrap
+msgid "alternatives directory"
+msgstr "Alternativ-Verzeichnis"
+
+# type: Plain text
+#: ../C/update-alternatives.8:203
+msgid "A directory, by default I</etc/alternatives>, containing the symlinks."
+msgstr ""
+"Ein Verzeichnis, standardmig I</etc/alternatives>, das die Symlinks enthlt."
+
+# type: TP
+#: ../C/update-alternatives.8:203
+#, no-wrap
+msgid "administrative directory"
+msgstr "administratives Verzeichnis"
+
+# type: Plain text
+#: ../C/update-alternatives.8:210
+#, fuzzy
+msgid ""
+"A directory, by default I</var/lib/dpkg/alternatives>, containing B<update-"
+"alternatives>' state information."
+msgstr ""
+"Ein Verzeichnis, standardmig I</var/lib/dpkg/alternatives>, das die B<update-"
+"alternatives> Statusinformationen enthlt."
+
+# type: TP
+#: ../C/update-alternatives.8:210
+#, no-wrap
+msgid "link group"
+msgstr "Linkgruppe"
+
+# type: Plain text
+#: ../C/update-alternatives.8:213
+#, fuzzy
+msgid "A set of related symlinks, intended to be updated as a group."
+msgstr ""
+"Ein Satz zusammengehrender Symlinks, die als Gruppe aktualisiert werden "
+"sollen."
+
+# type: TP
+#: ../C/update-alternatives.8:213
+#, no-wrap
+msgid "master link"
+msgstr "Master-Link"
+
+# type: Plain text
+#: ../C/update-alternatives.8:217
+#, fuzzy
+msgid ""
+"The link in a link group which determines how the other links in the group "
+"are configured."
+msgstr ""
+"Der Link in einer Linkgruppe der bestimmt, wie die anderen Links in der "
+"Gruppe konfiguriert werden."
+
+# type: TP
+#: ../C/update-alternatives.8:217
+#, no-wrap
+msgid "slave link"
+msgstr "Slave-Link"
+
+# type: Plain text
+#: ../C/update-alternatives.8:221
+#, fuzzy
+msgid ""
+"A link in a link group which is controlled by the setting of the master link."
+msgstr ""
+"Ein Link in einer Gruppe der durch den Zustand des Master-Links bestimmt "
+"wird."
+
+# type: TP
+#: ../C/update-alternatives.8:221
+#, no-wrap
+msgid "automatic mode"
+msgstr "automatischer Modus"
+
+# type: Plain text
+#: ../C/update-alternatives.8:227
+#, fuzzy
+msgid ""
+"When a link group is in automatic mode, the alternatives system ensures that "
+"the links in the group point to the highest priority alternatives "
+"appropriate for the group."
+msgstr ""
+"Ist ein Link im automatischen Modus, dann sorgt das Alternativ-System dafr, "
+"dass die Links in der Gruppe auf die fr die Gruppe passende Alternative mit "
+"der hchsten Prioritt zeigen."
+
+# type: TP
+#: ../C/update-alternatives.8:227
+#, no-wrap
+msgid "manual mode"
+msgstr "manueller Modus"
+
+# type: Plain text
+#: ../C/update-alternatives.8:232
+#, fuzzy
+msgid ""
+"When a link group is in manual mode, the alternatives system will not make "
+"any changes to the system administrator's settings."
+msgstr ""
+"Ist eine Linkgruppe im manuellen Modus, dann fhrt das Alternativ-System "
+"keine nderungen an den Einstellungen des Systemadministrators durch."
+
+# type: SH
+#: ../C/update-alternatives.8:232
+#, no-wrap
+msgid "EXAMPLES"
+msgstr "BEISPIELE"
+
+# type: Plain text
+#: ../C/update-alternatives.8:243
+#, fuzzy
+msgid ""
+"There are several packages which provide a text editor compatible with "
+"B<vi>, for example B<nvi> and B<vim>.  Which one is used is controlled by "
+"the link group B<vi>, which includes links for the program itself and the "
+"associated manpage."
+msgstr ""
+"Es gibt mehrere Pakete die einen zum B<vi> kompatiblen Texteditor "
+"bereitstellen, beispielsweise B<nvi> und B<vim>.  Welcher benutzt wird, wird "
+"durch die Linkgruppe B<vi> eingestellt, was Links fr das Programm selber und "
+"die zugehrige Handbuchseite beinhaltet."
+
+# type: Plain text
+#: ../C/update-alternatives.8:249
+#, fuzzy
+msgid ""
+"To display the available packages which provide B<vi> and the current "
+"setting for it, use the I<--display> action:"
+msgstr ""
+"Um alle verfgbaren Programme anzuzeigen, die B<vi> bereitstellen, und die "
+"dazu gehrigen Einstellungen, benutzen Sie die I<--display> Aktion:"
+
+# type: Plain text
+#: ../C/update-alternatives.8:252
+msgid "update-alternatives --display vi"
+msgstr "update-alternatives --display vi"
+
+# type: Plain text
+#: ../C/update-alternatives.8:258
+#, fuzzy
+msgid ""
+"To choose a particular B<vi> implementation, use this command as root and "
+"then select a number from the list:"
+msgstr ""
+"Um einen bestimmte B<vi> Implementation auszuwhlen, benutzen Sie als Root "
+"den folgenden Befehl und whlen dann eine Zahl aus der Liste aus:"
+
+# type: Plain text
+#: ../C/update-alternatives.8:261
+msgid "update-alternatives --config vi"
+msgstr "update-alternatives --config vi"
+
+# type: Plain text
+#: ../C/update-alternatives.8:266
+#, fuzzy
+msgid ""
+"To go back to having the B<vi> implementation chosen automatically, do this "
+"as root:"
+msgstr ""
+"Damit die Implementation von B<vi> wieder automatisch ausgewhlt wird, fhren "
+"Sie folgendes als root durch:"
+
+# type: Plain text
+#: ../C/update-alternatives.8:269
+msgid "update-alternatives --auto vi"
+msgstr "update-alternatives --auto vi"
+
+# type: SH
+#: ../C/update-alternatives.8:270
+#, no-wrap
+msgid "OPTIONS"
+msgstr "OPTIONEN"
+
+# type: Plain text
+#: ../C/update-alternatives.8:275
+#, fuzzy
+msgid ""
+"Exactly one action must be specified if B<update-alternatives> is to perform "
+"any meaningful task.  Any number of the common options may be specified "
+"together with any action."
+msgstr ""
+"Genau eine Aktion mu angegeben werden, falls B<update-alternatives> eine "
+"sinnvolle Aufgabe erfllen soll.  Eine beliebige Anzahl von allgemeinen "
+"Optionen kann zusammen mit jeder Aktion spezifiziert werden."
+
+# type: SS
+#: ../C/update-alternatives.8:275
+#, no-wrap
+msgid "COMMON OPTIONS"
+msgstr "ALLGEMEINE OPTIONEN"
+
+# type: TP
+#: ../C/update-alternatives.8:276
+#, no-wrap
+msgid "B<--verbose>"
+msgstr "B<--verbose>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:281
+msgid "Generate more comments about what B<update-alternatives> is doing."
+msgstr "Erzeugt mehr Kommentare ber die Ttigkeit von B<update-alternatives.>"
+
+# type: TP
+#: ../C/update-alternatives.8:281
+#, no-wrap
+msgid "B<--quiet>"
+msgstr "B<--quiet>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:285
+#, fuzzy
+msgid ""
+"Don't generate any comments unless errors occur.  This option is not yet "
+"implemented."
+msgstr ""
+"Erzeugt keine Kommentare, es sei denn, ein Fehler tritt auf. Diese Option "
+"ist noch nicht implementiert."
+
+# type: TP
+#: ../C/update-alternatives.8:285
+#, no-wrap
+msgid "B<--test>"
+msgstr "B<--test>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:289
+#, fuzzy
+msgid ""
+"Don't actually do anything, just say what would be done.  This option is not "
+"yet implemented."
+msgstr ""
+"Fhrt nichts durch, sondern teilt nur mit, was getan wrde. Diese Option ist "
+"noch nicht implementiert."
+
+# type: TP
+#: ../C/update-alternatives.8:289
+#, no-wrap
+msgid "B<--help>"
+msgstr "B<--help>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:294
+#, fuzzy
+msgid ""
+"Give some usage information (and say which version of B<update-alternatives> "
+"this is)."
+msgstr ""
+"Gibt Hinweise zur Benutzung (und die Version von B<update-alternatives)> aus."
+
+# type: TP
+#: ../C/update-alternatives.8:294
+#, no-wrap
+msgid "B<--version>"
+msgstr "B<--version>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:299
+#, fuzzy
+msgid ""
+"Tell which version of B<update-alternatives> this is (and give some usage "
+"information)."
+msgstr ""
+"Gibt die Version von B<update-alternatives> aus (sowie Hinweise zur "
+"Benutzung)."
+
+# type: TP
+#: ../C/update-alternatives.8:299
+#, no-wrap
+msgid "B<--altdir> I<directory>"
+msgstr "B<--altdir> I<Verzeichnis>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:303
+#, fuzzy
+msgid ""
+"Specifies the alternatives directory, when this is to be different from the "
+"default."
+msgstr ""
+"Spezifiziert das Alternativ-Verzeichnis, wenn sich dieses von der "
+"Standardeinstellung unterscheidet."
+
+# type: TP
+#: ../C/update-alternatives.8:303
+#, no-wrap
+msgid "B<--admindir> I<directory>"
+msgstr "B<--admindir> I<Verzeichnis>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:307
+#, fuzzy
+msgid ""
+"Specifies the administrative directory, when this is to be different from "
+"the default."
+msgstr ""
+"Spezifiziert das administrative Verzeichnis, wenn sich dieses vom "
+"Standardwert unterscheiden soll."
+
+# type: SS
+#: ../C/update-alternatives.8:307
+#, no-wrap
+msgid "ACTIONS"
+msgstr "AKTIONEN"
+
+# type: TP
+#: ../C/update-alternatives.8:310
+#, fuzzy, no-wrap
+msgid "B<--install> I<genname symlink altern priority> [B<--slave> I<genname symlink altern>] ..."
+msgstr "B<--install> I<link gen pfad pri> [B<--slave> I<slink sgen spfad>] ..."
+
+# type: Plain text
+#: ../C/update-alternatives.8:325
+#, fuzzy
+msgid ""
+"Add a group of alternatives to the system.  I<genname> is the generic name "
+"for the master link, I<symlink> is the name of its symlink in the "
+"alternatives directory, and I<altern> is the alternative being introduced "
+"for the master link.  The arguments after B<--slave> are the generic name, "
+"symlink name in the alternatives directory and alternative for a slave "
+"link.  Zero or more B<--slave> options, each followed by three arguments, "
+"may be specified."
+msgstr ""
+"Fgt eine Gruppe von Alternativen zum System hinzu.  I<gen> ist der "
+"generische Name des Master-Links, I<link> ist der Name seines Symlinks, und "
+"I<pfad> ist die Alternative, die fr den Master-Link eingefhrt wird.  "
+"I<sgen>, I<slink> und I<spfad> sind der generische Name, Symlink-Name und "
+"Alternative fr den Slave-Link.  Null oder mehrere B<--slave> Optionen, jede "
+"von drei Argumenten gefolgt, knnen spezifiziert werden."
+
+# type: Plain text
+#: ../C/update-alternatives.8:336
+#, fuzzy
+msgid ""
+"If the master symlink specified exists already in the alternatives system's "
+"records, the information supplied will be added as a new set of alternatives "
+"for the group.  Otherwise, a new group, set to automatic mode, will be added "
+"with this information.  If the group is in automatic mode, and the newly "
+"added alternatives' priority is higher than any other installed alternatives "
+"for this group, the symlinks will be updated to point to the newly added "
+"alternatives."
+msgstr ""
+"Falls der angegebene Master-Symlink bereits in den Datenstzen des Alternativ-"
+"Systems existiert, dann wird die angegebene Information als neuer Satz von "
+"Alternativen fr die Gruppe hinzugefgt. Andernfalls wird eine neue Gruppe im "
+"automatischen Modus mit dieser Information hinzugefgt.  Falls die Gruppe im "
+"automatischen Modus ist, und die Prioritt der neu hinzugefgten Alternativen "
+"hher ist als alle installierten Alternativen fr diese Gruppe, dann werden "
+"die Symlinks aktualisiert, um auf die neu hinzugefgte Alternative zu zeigen."
+
+# type: TP
+#: ../C/update-alternatives.8:336
+#, no-wrap
+msgid "B<--set> I<name path>"
+msgstr "B<--set> I<name pfad>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:345
+#, fuzzy
+msgid ""
+"Set the program I<path> as alternative for I<name.> This is equivalent to "
+"I<--config> but is non-interactive and thus scriptable."
+msgstr ""
+"Setzt das Programm I<pfad> als Alternative fr I<name>.  Dies ist equivalent "
+"zu I<--config>B<,> kann aber geskriptet werden, da es nicht-interaktiv ist."
+
+# type: TP
+#: ../C/update-alternatives.8:345
+#, fuzzy, no-wrap
+msgid "B<--remove> I<name path>"
+msgstr "B<--remove> I<name path>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:365
+#, fuzzy
+msgid ""
+"Remove an alternative and all of its associated slave links.  I<name> is a "
+"name in the alternatives directory, and I<path> is an absolute filename to "
+"which I<name> could be linked.  If I<name> is indeed linked to I<path>, "
+"I<name> will be updated to point to another appropriate alternative, or "
+"removed if there is no such alternative left.  Associated slave links will "
+"be updated or removed, correspondingly.  If the link is not currently "
+"pointing to I<path>, no links are changed; only the information about the "
+"alternative is removed."
+msgstr ""
+"Entfernt eine Alternative und alle zugehrigen Slave-Links.  I<name> ist der "
+"Name des Alternativ-Verzeichnisses, und I<pfad> ist ein absoluter Dateiname "
+"zu dem I<name> gelinkt werden kann. Falls I<name> tatschlich nach I<pfad> "
+"gelinkt ist, dann wird I<name> aktualisiert um auf eine andere geeignete "
+"Alternative zu zeigen, oder entfernt, falls keine solche Alternative brig "
+"bleibt. Zugehrige Slave-Links werden entsprechend aktualisiert oder "
+"entfernt. Falls der Link derzeit nicht auf I<pfad> zeigt, werden keine Links "
+"gendert; nur die Information ber die Alternative wird entfernt."
+
+# type: TP
+#: ../C/update-alternatives.8:365
+#, fuzzy, no-wrap
+msgid "B<--remove-all> I<name>"
+msgstr "B<--remove-all> I<name>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:370
+#, fuzzy
+msgid ""
+"Remove all alternatives and all of their associated slave links.  I<name> is "
+"a name in the alternatives directory."
+msgstr ""
+"Entfernt alle Alternativen und ihre zugehrigen Slave-Links.  I<name> ist der "
+"Name des Alternativ-Verzeichnisses."
+
+# type: TP
+#: ../C/update-alternatives.8:370
+#, no-wrap
+msgid "B<--all>"
+msgstr "B<--all>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:373
+#, fuzzy
+msgid "Call B<--config> on all alternatives."
+msgstr "Ruft B<--config> fr alle Alternativen auf."
+
+# type: TP
+#: ../C/update-alternatives.8:373
+#, fuzzy, no-wrap
+msgid "B<--auto> I<link>"
+msgstr "B<--auto> I<link>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:380
+#, fuzzy
+msgid ""
+"Switch the master symlink I<link> to automatic mode.  In the process, this "
+"symlink and its slaves are updated to point to the highest priority "
+"installed alternatives."
+msgstr ""
+"befhrt den Master-Link I<link> in den automatischen Modus.  In diesem Proze "
+"wird dieser Symlink und seine Slave-Links aktualisiert, um auf die "
+"installierte Alternative mit hchster Prioritt zu zeigen."
+
+# type: TP
+#: ../C/update-alternatives.8:380
+#, fuzzy, no-wrap
+msgid "B<--display> I<link>"
+msgstr "B<--display> I<link>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:391
+#, fuzzy
+msgid ""
+"Display information about the link group of which I<link> is the master "
+"link.  Information displayed includes the group's mode (auto or manual), "
+"which alternative the symlink currently points to, what other alternatives "
+"are available (and their corresponding slave alternatives), and the highest "
+"priority alternative currently installed."
+msgstr ""
+"Zeigt Informationen ber die Linkgruppe an, von der I<link> der Master-Link "
+"ist. Die angezeigten Informationen enthalten den Modus der Gruppe "
+"(automatisch oder manuell), auf welche Alternative der Symlink derzeit "
+"zeigt, welche weiteren Alternativen zur Verfgung stehen (und ihre zugehrigen "
+"Slave-Alternativen), und die installierte Alternative mit der hchsten "
+"Prioritt."
+
+# type: TP
+#: ../C/update-alternatives.8:391
+#, fuzzy, no-wrap
+msgid "B<--list> I<link>"
+msgstr "B<--list> I<link>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:394
+msgid "Display all targets of the link group."
+msgstr "Zeigt alle Ziele der Linkgruppe an."
+
+# type: TP
+#: ../C/update-alternatives.8:394
+#, fuzzy, no-wrap
+msgid "B<--config> I<link>"
+msgstr "B<--config> I<link>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:401
+#, fuzzy
+msgid ""
+"Show available alternatives for a link group and allow the user to "
+"interactively select which one to use.  The link group is updated and taken "
+"out of I<auto> mode."
+msgstr ""
+"Zeit die verfgbaren Alternativen fr eine Linkgruppe an und erlaubt es dem "
+"Benutzer interaktiv auszuwhlen, welche zu benutzen ist. Die Linkgruppe wird "
+"aktualisiert und aus dem I<automatischen> Modus genommen."
+
+# type: SH
+#: ../C/update-alternatives.8:401
+#, no-wrap
+msgid "FILES"
+msgstr "DATEIEN"
+
+# type: TP
+#: ../C/update-alternatives.8:402
+#, no-wrap
+msgid "I</etc/alternatives/>"
+msgstr "I</etc/alternatives/>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:408
+msgid ""
+"The default alternatives directory.  Can be overridden by the B<--altdir> "
+"option."
+msgstr ""
+"Das standardmige Alternativ-Verzeichnis. Kann mittels der B<--altdir> Option "
+"gendert werden."
+
+# type: TP
+#: ../C/update-alternatives.8:408
+#, no-wrap
+msgid "I</var/lib/dpkg/alternatives/>"
+msgstr "I</var/lib/dpkg/alternatives/>"
+
+# type: Plain text
+#: ../C/update-alternatives.8:414
+msgid ""
+"The default administration directory.  Can be overridden by the B<--"
+"admindir> option."
+msgstr ""
+"Das standardmige administrative Verzeichnis. Kann mittels der B<--admindir> "
+"Option gendert werden."
+
+# type: SH
+#: ../C/update-alternatives.8:414
+#, no-wrap
+msgid "EXIT STATUS"
+msgstr "EXIT-STATUS"
+
+# type: IP
+#: ../C/update-alternatives.8:415
+#, no-wrap
+msgid "0"
+msgstr "0"
+
+# type: Plain text
+#: ../C/update-alternatives.8:417
+#, fuzzy
+msgid "The requested action was successfully performed."
+msgstr "Die angeforderte Aktion wurde erfolgreich beendet."
+
+# type: IP
+#: ../C/update-alternatives.8:417
+#, no-wrap
+msgid "2"
+msgstr "2"
+
+# type: Plain text
+#: ../C/update-alternatives.8:420
+#, fuzzy
+msgid ""
+"Problems were encountered whilst parsing the command line or performing the "
+"action."
+msgstr ""
+"Beim Lesen der Kommandozeile oder beim Ausfhren der Aktion traten Probleme "
+"auf."
+
+# type: SH
+#: ../C/update-alternatives.8:420
+#, no-wrap
+msgid "DIAGNOSTICS"
+msgstr "DIAGNOSTIK"
+
+# type: Plain text
+#: ../C/update-alternatives.8:429
+#, fuzzy
+msgid ""
+"B<update-alternatives> chatters incessantly about its activities on its "
+"standard output channel.  If problems occur, B<update-alternatives> outputs "
+"error messages on its standard error channel and returns an exit status of "
+"2.  These diagnostics should be self-explanatory; if you do not find them "
+"so, please report this as a bug."
+msgstr ""
+"B<update-alternatives> quatscht ohne Unterlass ber seine Aktivitten auf der "
+"Standardausgabe.  Falls ein Problem auftritt, gibt B<update-alternatives> "
+"eine Fehlermeldung auf der Standardfehlerausgabe aus und beendet sich mit "
+"dem Exit-Status 2. Die Diagnostiks sollten selbsterklrend sein; falls Sie "
+"dies nicht so empfinden, melden Sie dies bitte als Fehler."
+
+# type: SH
+#: ../C/update-alternatives.8:429
+#, no-wrap
+msgid "BUGS"
+msgstr "FEHLER"
+
+# type: Plain text
+#: ../C/update-alternatives.8:432
+#, fuzzy
+msgid ""
+"If you find a bug, please report it using the Debian bug-tracking system, "
+"or, if that is not possible, email the author directly."
+msgstr ""
+"Falls Sie einen Fehler finden, melden Sie ihn bitte ber das Debian "
+"Fehlerverfolgungssystem, oder, falls dies nicht mglich ist, schicken Sie "
+"eine E-Mail direkt an den Autor."
+
+# type: Plain text
+#: ../C/update-alternatives.8:437
+#, fuzzy
+msgid ""
+"If you find any discrepancy between the operation of B<update-alternatives> "
+"and this manual page, it is a bug, either in the implementation or the "
+"documentation; please report it."
+msgstr ""
+"Falls Sie einen Unterschied zwischen der Implementation von B<update-"
+"alternatives> und dieser Handbuchseite finden, ist dies ein Fehler, entweder "
+"in der Implementation oder in der Dokumentation; bitte melden Sie dies."
+
+# type: SH
+#: ../C/update-alternatives.8:437
+#, no-wrap
+msgid "AUTHOR"
+msgstr "AUTOR"
+
+# type: Plain text
+#: ../C/update-alternatives.8:441
+#, fuzzy
+msgid ""
+"Debian update-alternatives is copyright 1995 Ian Jackson.  It is free "
+"software; see the GNU General Public Licence version 2 or later for copying "
+"conditions.  There is NO warranty."
+msgstr ""
+"Debian update-alternatives unterliegt dem Copyright 1995 von Ian Jackson. Es "
+"ist Freie Software; lesen Sie die GNU General Public License Version 2 oder "
+"neuer fr die Kopierbedingungen. Es gibt KEINE HAFTUNG."
+
+# type: Plain text
+#: ../C/update-alternatives.8:445
+#, fuzzy
+msgid ""
+"This manual page is copyright 1997/98 Charles Briscoe-Smith.  This is free "
+"documentation; see the GNU General Public Licence version 2 or later for "
+"copying conditions.  There is NO WARRANTY."
+msgstr ""
+"Diese Handbuchseite unterliegt dem Copyright 1997/98 von Charles Briscoe-"
+"Smith.  Dies ist Freie Dokumentation; lesen Sie die GNU General Public "
+"License Version 2 oder neuer fr die Kopierbedingungen. Es gibt KEINE HAFTUNG."
+
+# type: Plain text
+#: ../C/update-alternatives.8:447
+msgid ""
+"You can find the GNU GPL in /usr/share/common-licenses/GPL on any Debian "
+"system."
+msgstr ""
+"Sie knne die GNU GPL auf Debian-Systemen unter /usr/share/common-licenses/"
+"GPL finden."
+
+# type: SH
+#: ../C/update-alternatives.8:447
+#, no-wrap
+msgid "SEE ALSO"
+msgstr "SIEHE AUCH"
+
+# type: Plain text
+#: ../C/update-alternatives.8:449
+msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
+msgstr ""
+"B<ln>(1), FHS, der Dateisystem Hierachie-Standard (Filesystem Hierarchy "
+"Standard)."
