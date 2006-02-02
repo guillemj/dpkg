@@ -19,14 +19,20 @@ dpkg\-deb - Debian package archive (.deb) manipulation tool
 .I archive
 .br
 .B dpkg\-deb
+.BR \-W | \-\-show
+.RB " [" \-\-showformat\fR=\fIformat "]"
+.I archive
+.br
+.B dpkg\-deb
 .BR \-x | \-\-extract | \-X | \-\-vextract
+.I archive directory
+.br
+.B dpkg\-deb
+.BR \-e | \-\-control
 .I archive directory
 .br
 .B dpkg\-deb \-\-fsys\-tarfile
 .I archive
-.br
-.B dpkg\-deb \-\-control
-.I archive directory
 .SH DESCRIPTION
 .B dpkg\-deb
 packs, unpacks and provides information about Debian archives.
@@ -116,6 +122,20 @@ are specified then
 will print them in the order they were specified; if any of the
 components weren't present it will print an error message to stderr
 about each one and exit with status 2.
+.TP
+.BR \-\-show ", " \-W
+Provides information about a binary package archive in the format
+specified by the
+.B \-\-showformat
+argument.
+
+This argument is a string that may reference any status field using the
+"${\fIfield-name\fR}" form, a list of the valid fields can be easily
+produced using
+.B -I
+on the same package.
+
+The default for this field is "${Package}\\t${Version}\\n".
 .TP
 .BR \-\-field ", " \-f
 Extracts control file information from a binary package archive.
@@ -236,8 +256,8 @@ package's scripts run and its status and contents recorded.
 .SH SEE ALSO
 .BR deb (5),
 .BR deb\-control (5),
-.BR dpkg (8),
-.BR dselect (8).
+.BR dpkg (1),
+.BR dselect (1).
 .SH AUTHOR
 .B dpkg\-deb
 and this manpage were written by Ian Jackson.  They are

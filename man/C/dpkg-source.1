@@ -419,6 +419,11 @@ unpacks the original source tree.
 ensures that the original source is neither copied to the current
 directory nor unpacked.  Any original source tree that was in the
 current directory is still removed.
+.PP
+All the
+.B \-sX
+options are mutually exclusive. If you specify more than one only the
+last one will be used.
 .SH dpkg\-GENCONTROL OPTIONS
 .B dpkg\-gencontrol
 does not take any non-option arguments.
@@ -516,7 +521,7 @@ are removed from the the substitution variables file.
 .TP
 .BI \-L localshlibsfile
 Causes
-.B dpkg\-shlibs
+.B dpkg\-shlibdeps
 to read overriding shared library dependency information from
 .I localshlibsfile
 instead of
@@ -527,6 +532,15 @@ Causes the substitution variable settings to be printed to standard
 output, rather than being added to the substitution variables file
 .RB ( debian/substvars
 by default).
+.TP
+.BI \-t type
+Causes
+.B dpkg\-shlibdeps
+to prefer shared library dependency information tagged for the given
+package type. If no tagged information is available, falls back to untagged
+information. The default package type is "deb". Shared library dependency
+information is tagged for a given type by prefixing it with the name of the
+type, a colon, and whitespace.
 .SH dpkg\-GENCHANGES OPTIONS
 .B dpkg\-genchanges
 does not take any non-option arguments.
@@ -621,11 +635,11 @@ Specify the Debian architecture we build for. The architecture of the
 machine we build on is determined automatically, and is also the default
 for the host machine.
 .TP
-.B \-i [<regexp>]
+.B \-i[<regexp>]
 Passed unchanged to
 .BR dpkg\-source .
 .TP
-.B \-I <filename>
+.B \-I<filename>
 Passed unchanged to
 .BR dpkg\-source .
 May be repeated multiple times.
@@ -806,8 +820,8 @@ and initial arguments for
 .IR gain-root-command " and " sign-command .
 .SH SEE ALSO
 .BR dpkg\-deb (1),
-.BR dpkg (8),
-.BR dselect (8),
+.BR dpkg (1),
+.BR dselect (1),
 .BR gpg (1),
 .BR pgp (1).
 .SH AUTHOR

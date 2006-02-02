@@ -1,4 +1,4 @@
-.TH DPKG-ARCHITECTURE 1 "2005-01-10" "Debian GNU/Linux"
+.TH DPKG-ARCHITECTURE 1 "2006-01-23" "Debian GNU/Linux"
 .SH "NAME"
 dpkg\-architecture \- set and determine the architecture for package building
 .SH "SYNOPSIS"
@@ -11,8 +11,8 @@ Valid options:
 \&\fB\-f\fR
 .PP
 Valid actions:
-\&\fB\-l\fR, \fB\-q\fRVariable\-Name, \fB\-s\fR, \fB\-u\fR, \fB\-c\fR Command,
-\fB\-L\fR
+\&\fB\-l\fR, \fB\-e\fRDebian\-Architecture, \fB\-i\fRArchitecture\-Alias,
+\fB\-q\fRVariable\-Name, \fB\-s\fR, \fB\-u\fR, \fB\-c\fR Command, \fB\-L\fR
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 dpkg-architecture does provide a facility to determine and set the build and
@@ -30,8 +30,12 @@ Indeed, it is often better to only specify one, because dpkg-architecture
 will warn you if your choice doesn't match the default.
 .PP
 The default action is \fB\-l\fR, which prints the environment variables, one each line,
-in the format VARIABLE=value. If you are only interested in the value of a
-single variable, you can use \fB\-q\fR. If you specify \fB\-s\fR, it will output an export
+in the format VARIABLE=value. If you want to check for equality between two
+Debian Architectures, you can use \fB\-e\fR, by default it will compare against
+the currect Debian Architecture, being it the host. If you want to check for
+identity of the current Debian Architecture against an Architecture Alias, you
+can use \fB\-i\fR. If you are only interested in the value of a single variable,
+you can use \fB\-q\fR. If you specify \fB\-s\fR, it will output an export
 command. This can be used to set the environment variables using eval. \fB\-u\fR
 does return a similar command to unset all variables. \fB\-c\fR does execute a
 command in an environment which has all variables set to the determined
@@ -53,8 +57,13 @@ The machine the package is built on.
 The machine the package is built for.
 .IP "Debian Architecture" 4
 .IX Item "Debian Architecture"
-The Debian archietcture string, which specifies the binary tree in the \s-1FTP\s0
+The Debian architecture string, which specifies the binary tree in the \s-1FTP\s0
 archive. Examples: i386, sparc, hurd\-i386.
+.IP "Architecture Alias" 4
+.IX Item "Architecture Alias"
+An architecture alias is a wildcard architecture that will match any real
+architecture being part of it. The general form is <kernel>\-<cpu>.
+Examples: linux\-any, linux\-alpha, any\-i386, hurd\-any.
 .IP "\s-1GNU\s0 System Type" 4
 .IX Item "GNU System Type"
 An architecture specification string consisting of two parts,
@@ -165,7 +174,7 @@ Debian architectures which don't equal a processor name.
 .SH "BACKWARD COMPATIBILITY"
 .IX Header "BACKWARD COMPATIBILITY"
 The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were only introduced
-in relatively versions of \fIdpkg-architecture\fR (since dpkg 1.13.2),
+in relatively recent versions of \fIdpkg-architecture\fR (since dpkg 1.13.2),
 before this \fIdebian/rules\fR files tended to check the values of the
 DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have been subject
 to change.
@@ -197,7 +206,7 @@ endif
 And similarly for DEB_BUILD_ARCH_CPU and DEB_BUILD_ARCH_OS.
 .PP
 If you still wish to support versions of dpkg-dev that did not include
-\fIdpkg-architetcure\fR, the following does the job:
+\fIdpkg-architecture\fR, the following does the job:
 .IP
 .nf
 \&\s-1DEB_BUILD_ARCH\s0 := $(shell dpkg \-\-print\-architecture)

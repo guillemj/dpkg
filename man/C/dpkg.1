@@ -1,4 +1,4 @@
-.TH DPKG 1 "April 12, 1998" "Debian Project" "dpkg suite"
+.TH DPKG 1 "2006-01-26" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg - package manager for Debian
 
@@ -19,7 +19,7 @@ packages are particularly inadequate.
 .SH DESCRIPTION
 \fBdpkg\fP is a tool to install, build, remove and manage
 Debian packages. The primary and more user-friendly
-front-end for \fBdpkg\fP is \fBdselect\fP(8).  \fBdpkg\fP itself is
+front-end for \fBdpkg\fP is \fBdselect\fP(1).  \fBdpkg\fP itself is
 controlled entirely via command line parameters, which consist of exactly
 one action and zero or more options. The action-parameter tells dpkg
 what to do and options control the behavior of the action in some way.
@@ -486,6 +486,9 @@ multiple times.  Log messages are of the form `YYYY-MM-DD HH:MM:SS status
 upgrade, remove, purge; and `YYYY-MM-DD HH:MM:SS conffile <filename>
 <decision>' for conffile changes where \fI<decision\fP is either install
 or keep.
+.TP
+\fB\-\-no\-debsig\fP
+Do not try to verify package signatures.
 .SH FILES
 .TP
 .I /etc/dpkg/dpkg.cfg
@@ -585,7 +588,7 @@ set the selection state on the requested packages.  You will need some
 other application to actually download and install the requested
 packages.  For example, run \fBdselect\fP and choose "Install".
 
-Ordinarily, you will find that \fBdselect\fP(8) provides a more
+Ordinarily, you will find that \fBdselect\fP(1) provides a more
 convenient way to modify the package selection states.
 .br
 .SH ADDITIONAL FUNCTIONALITY
@@ -593,7 +596,7 @@ Additional functionality can be gained by installing any of the
 following packages: \fIapt\fR, \fIaptitude\fR and \fIdebsums\fR.
 
 .SH SEE ALSO
-\fBdselect\fP(8),
+\fBdselect\fP(1),
 \fBdpkg\-deb\fP(1),
 \fBdeb\fP(5),
 \fBdeb\-control\fP(5),
