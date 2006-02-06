@@ -43,56 +43,61 @@
 const char* showformat	= "${Package}\t${Version}\n";
 
 static void printversion(void) {
-  if (fputs(_("Debian `"), stdout) < 0) werr("stdout");
-  if (fputs(BACKEND, stdout) < 0) werr("stdout");
-  if (fputs(_("' package archive backend version "), stdout) < 0) werr("stdout");
-  if (fputs(DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
-  if (fputs(_("This is free software; see the GNU General Public Licence version 2 or\n"
-	      "later for copying conditions. There is NO warranty.\n"
-	      "See dpkg-deb --licence for details.\n"),
-	    stdout) < 0) werr("stdout");
+  if (printf(_("Debian `%s' package archive backend version %s.\n"),
+	     BACKEND, DPKG_VERSION_ARCH) < 0) werr("stdout");
+  if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
+	       "later for copying conditions. There is NO warranty.\n"
+	       "See %s --license for copyright and license details.\n"),
+	     BACKEND) < 0) werr("stdout");
 }
 
 static void usage(void) {
-  if (fputs(_(
-"Command:\n"
-"  -b|--build <directory> [<deb>]    build an archive.\n"
-"  -c|--contents <deb>               list contents.\n"
-"  -I|--info <deb> [<cfile>...]      show info to stdout.\n"
-"  -W|--show <deb>                   show information on package(s)\n"
-"  -f|--field <deb> [<cfield>...]    show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>]  extract control info.\n"
-"  -x|--extract <deb> <directory>    extract files.\n"
-"  -X|--vextract <deb> <directory>   extract & list files.\n"
-"  --fsys-tarfile <deb>              output filesystem tarfile.\n"
-"  -h|--help                         display this message.\n"
-"  --version | --licence             show version/licence.\n"
+  if (printf(_(
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+"Commands:\n"
+"  -b|--build <directory> [<deb>]    Build an archive.\n"
+"  -c|--contents <deb>               List contents.\n"
+"  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
+"  -W|--show <deb>                   Show information on package(s)\n"
+"  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
+"  -e|--control <deb> [<directory>]  Extract control info.\n"
+"  -x|--extract <deb> <directory>    Extract files.\n"
+"  -X|--vextract <deb> <directory>   Extract & list files.\n"
+"  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
+"  -h|--help                         Display this message.\n"
+"  --version                         Show version.\n"
+"  --license | --licence             Show license.\n"
 "\n"
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 "Options:\n"
-"  --showformat=<format>      use alternative format for --show\n"
-"  -D                         enable debugging output\n"
-"  --old, --new               select archive format\n"
-"  --nocheck                  suppress control file check (build bad package).\n"
-"  -z# to set the compression when building\n"
-"  -Z<type>                   set the compression type to use when building.\n"
-"                             allowed values: gzip, bzip2, none\n"
-"\n"
+"  --showformat=<format>      Use alternative format for --show.\n"
+"  -D                         Enable debugging output.\n"
+"  --old, --new               Select archive format.\n"
+"  --nocheck                  Suppress control file check (build bad package).\n"
+"  -z#                        Set the compression level when building.\n"
+"  -Z<type>                   Set the compression type to use when building.\n"
+"                             Allowed values: gzip, bzip2, none.\n"
+"\n"), BACKEND) < 0) werr("stdout");
+
+  if (printf(_(
 "Format syntax:\n"
 "  A format is a string that will be output for each package. The format\n"
 "  can include the standard escape sequences \\n (newline), \\r (carriage\n"
 "  return) or \\\\ (plain backslash). Package information can be included\n"
 "  by inserting variable references to package fields using the ${var[;width]}\n"
 "  syntax. Fields will be right-aligned unless the width is negative in which\n"
-"   case left alignment will be used. \n"
+"  case left alignment will be used.\n")) < 0) werr("stdout");
+
+  if (printf(_(
 "\n"
 "Use `dpkg' to install and remove packages from your system, or\n"
 "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
-"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"),
-	    stdout) < 0) werr("stdout");
+"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n")) < 0)
+    werr("stdout");
 }
 
 const char thisname[]= BACKEND;

@@ -456,51 +456,51 @@ void showpackages(const char *const *argv) {
 }
 
 static void printversion(void) {
-  if (fputs(_("Debian `"), stdout) < 0) werr("stdout");
-  if (fputs(DPKGQUERY, stdout) < 0) werr("stdout");
-  if (fputs(_("' package management program query tool\n"), stdout) < 0)
-    werr("stdout");
-  if (fputs(_( "This is free software; see the GNU General Public Licence version 2 or\n"
-		"later for copying conditions.  There is NO warranty.\n"
-		"See " DPKGQUERY " --licence for copyright and license details.\n"),
-		 stdout) < 0) werr("stdout");
+  if (printf(_("Debian `%s' package management program query tool\n"),
+	     DPKGQUERY) < 0) werr("stdout");
+  if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
+	       "later for copying conditions. There is NO warranty.\n"
+	       "See %s --license for copyright and license details.\n"),
+	     DPKGQUERY) < 0) werr("stdout");
 }
 /*
    options that need fixing:
   dpkg --yet-to-unpack                 \n\
   */
 static void usage(void) {
-  if (fprintf (stdout, _("\
-Usage: " DPKGQUERY " [<option>] <command>\n\
-Commands:\n\
-  -s|--status <package-name> ...      display package status details\n\
-  -p|--print-avail <package-name> ... display available version details\n\
-  -L|--listfiles <package-name> ...   list files `owned' by package(s)\n\
-  -l|--list [<pattern> ...]           list packages concisely\n\
-  -W|--show <pattern> ...             show information on package(s)\n\
-  -S|--search <pattern> ...           find package(s) owning file(s)\n\
-  --help | --version                  show this help / version number\n\
-  --licence                           print copyright licensing terms\n\
-\n\
-Options:\n\
-  --admindir=<directory>     Use <directory> instead of %s\n\
-  -f|--showformat=<format>   Use alternative format for --show\n\
-\n\
-Format syntax:\n\
-  A format is a string that will be output for each package. The format\n\
-  can include the standard escape sequences \\n (newline), \\r (carriage\n\
-  return) or \\\\ (plain backslash). Package information can be included\n\
-  by inserting variable references to package fields using the ${var[;width]}\n\
-  syntax. Fields will be right-aligned unless the width is negative in which\n\
-   case left aligenment will be used. \n\
-"),
-	    ADMINDIR) < 0) werr ("stdout");
+  if (printf(_(
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+"Commands:\n"
+"  -s|--status <package-name> ...      Display package status details.\n"
+"  -p|--print-avail <package-name> ... Display available version details.\n"
+"  -L|--listfiles <package-name> ...   List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]           List packages concisely.\n"
+"  -W|--show <pattern> ...             Show information on package(s).\n"
+"  -S|--search <pattern> ...           Find package(s) owning file(s).\n"
+"  --help                              Show this help message.\n"
+"  --version                           Show the version.\n"
+"  --license | --licence               Show the copyright licensing terms.\n"
+"\n"
+"Options:\n"
+"  --admindir=<directory>              Use <directory> instead of %s.\n"
+"  -f|--showformat=<format>            Use alternative format for --show.\n"
+"\n"), DPKGQUERY, ADMINDIR) < 0) werr ("stdout");
+
+  if (printf(_(
+"Format syntax:\n"
+"  A format is a string that will be output for each package. The format\n"
+"  can include the standard escape sequences \\n (newline), \\r (carriage\n"
+"  return) or \\\\ (plain backslash). Package information can be included\n"
+"  by inserting variable references to package fields using the ${var[;width]}\n"
+"  syntax. Fields will be right-aligned unless the width is negative in which\n"
+"  case left alignment will be used.\n")) < 0) werr ("stdout");
 }
 
 const char thisname[]= "dpkg-query";
 const char printforhelp[]= N_("\
 Use --help for help about querying packages;\n\
-Use --licence for copyright licence and lack of warranty (GNU GPL).\n\
+Use --license for copyright license and lack of warranty (GNU GPL).\n\
 \n");
 
 const struct cmdinfo *cipaction= 0;

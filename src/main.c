@@ -41,77 +41,79 @@
 #include "main.h"
 
 static void printversion(void) {
-  if (fputs(_("Debian GNU/Linux `"), stdout) < 0) werr("stdout");
-  if (fputs(DPKG, stdout) < 0) werr("stdout");
-  if (fputs(_("' package management program version "), stdout) < 0) werr("stdout");
-  if (fputs( DPKG_VERSION_ARCH ".\n", stdout) < 0) werr("stdout");
-  if (fputs(_( "This is free software; see the GNU General Public Licence version 2 or\n"
-		"later for copying conditions.  There is NO warranty.\n"
-		"See " DPKG " --licence for copyright and license details.\n"),
-		 stdout) < 0) werr("stdout");
+  if (printf(_("Debian `%s' package management program version %s.\n"),
+	     DPKG, DPKG_VERSION_ARCH) < 0) werr("stdout");
+  if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
+	       "later for copying conditions. There is NO warranty.\n"
+	       "See %s --license for copyright and license details.\n"),
+	     DPKG) < 0) werr("stdout");
 }
 /*
    options that need fixing:
   dpkg --yet-to-unpack                 \n\
   */
 static void usage(void) {
-  if (fprintf (stdout, _("\
-Usage: \n\
-  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n\
-  dpkg --unpack          <.deb file name> ... | -R|--recursive <dir> ...\n\
-  dpkg -A|--record-avail <.deb file name> ... | -R|--recursive <dir> ...\n\
-  dpkg --configure              <package name> ... | -a|--pending\n\
-  dpkg -r|--remove | -P|--purge <package name> ... | -a|--pending\n\
-  dpkg --get-selections [<pattern> ...]    get list of selections to stdout\n\
-  dpkg --set-selections                    set package selections from stdin\n\
-  dpkg --update-avail <Packages-file>      replace available packages info\n\
-  dpkg --merge-avail <Packages-file>       merge with info from file\n\
-  dpkg --clear-avail                       erase existing available info\n\
-  dpkg --forget-old-unavail                forget uninstalled unavailable pkgs\n\
-  dpkg -s|--status <package-name> ...      display package status details\n\
-  dpkg -p|--print-avail <package-name> ... display available version details\n\
-  dpkg -L|--listfiles <package-name> ...   list files `owned' by package(s)\n\
-  dpkg -l|--list [<pattern> ...]           list packages concisely\n\
-  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n\
-  dpkg -C|--audit                          check for broken package(s)\n\
-  dpkg --print-architecture                print dpkg architecture\n\
-  dpkg --compare-versions <a> <rel> <b>    compare version numbers - see below\n\
-  dpkg --help | --version                  show this help / version number\n\
-  dpkg --force-help | -Dh|--debug=help     help on forcing resp. debugging\n\
-  dpkg --licence                           print copyright licensing terms\n\
-\n\
-Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n\
- -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n\
-\n\
-For internal use: dpkg --assert-support-predepends | --predep-package |\n\
-  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n\
-\n\
-Options:\n\
-  --admindir=<directory>     Use <directory> instead of %s\n\
-  --root=<directory>         Install on alternative system rooted elsewhere\n\
-  --instdir=<directory>      Change inst'n root without changing admin dir\n\
-  -O|--selected-only         Skip packages not selected for install/upgrade\n\
-  -E|--skip-same-version     Skip packages whose same version is installed\n\
-  -G|--refuse-downgrade      Skip packages with earlier version than installed\n\
-  -B|--auto-deconfigure      Install even if it would break some other package\n\
-  --no-debsig                Do not try to verify package signatures\n\
-  --no-act|--dry-run|--simulate\n\
-                             Just say what we would do - don't do it\n\
-  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n\
-  --status-fd <n>            Send status change updates to file descriptor <n>\n\
-  --log=<filename>           Log status changes and actions to <filename>\n\
-  --ignore-depends=<package>,... Ignore dependencies involving <package>\n\
-  --force-...                    Override problems - see --force-help\n\
-  --no-force-...|--refuse-...    Stop when problems encountered\n\
-  --abort-after <n>              Abort after encountering <n> errors\n\
-\n\
-Comparison operators for --compare-versions are:\n\
- lt le eq ne ge gt       (treat empty version as earlier than any version);\n\
- lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n\
- < << <= = >= >> >       (only for compatibility with control file syntax).\n\
-\n\
-Use `dselect' or `aptitude' for user-friendly package management.\n"),
-	    BACKEND, ADMINDIR) < 0) werr ("stdout");
+  if (fprintf (stdout, _(
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+"Commands:\n"
+"  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
+"  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
+"  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
+"  --configure        <package-name> ... | -a|--pending\n"
+"  -r|--remove        <package-name> ... | -a|--pending\n"
+"  -P|--purge         <package-name> ... | -a|--pending\n"
+"  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
+"  --set-selections                     Set package selections from stdin.\n"
+"  --update-avail <Packages-file>       Replace available packages info.\n"
+"  --merge-avail <Packages-file>        Merge with info from file.\n"
+"  --clear-avail                        Erase existing available info.\n"
+"  --forget-old-unavail                 Forget uninstalled unavailable pkgs.\n"
+"  -s|--status <package-name> ...       Display package status details.\n"
+"  -p|--print-avail <package-name> ...  Display available version details.\n"
+"  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]            List packages concisely.\n"
+"  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
+"  -C|--audit                           Check for broken package(s).\n"
+"  --print-architecture                 Print dpkg architecture.\n"
+"  --compare-versions <a> <rel> <b>     Compare version numbers - see below.\n"
+"  --help                               Show this help message.\n"
+"  --version                            Show the version.\n"
+"  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
+"  --license | --licence                Print copyright licensing terms.\n"
+"\n"
+"Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
+"\n"
+"For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"\n"
+"Options:\n"
+"  --admindir=<directory>     Use <directory> instead of %s.\n"
+"  --root=<directory>         Install on alternative system rooted elsewhere.\n"
+"  --instdir=<directory>      Change inst'n root without changing admin dir.\n"
+"  -O|--selected-only         Skip packages not selected for install/upgrade.\n"
+"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
+"  -G|--refuse-downgrade      Skip packages with earlier version than installed.\n"
+"  -B|--auto-deconfigure      Install even if it would break some other package.\n"
+"  --no-debsig                Do not try to verify package signatures.\n"
+"  --no-act|--dry-run|--simulate\n"
+"                             Just say what we would do - don't do it.\n"
+"  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help.\n"
+"  --status-fd <n>            Send status change updates to file descriptor <n>.\n"
+"  --log=<filename>           Log status changes and actions to <filename>.\n"
+"  --ignore-depends=<package>,... Ignore dependencies involving <package>.\n"
+"  --force-...                    Override problems - see --force-help.\n"
+"  --no-force-...|--refuse-...    Stop when problems encountered.\n"
+"  --abort-after <n>              Abort after encountering <n> errors.\n"
+"\n"
+"Comparison operators for --compare-versions are:\n"
+"  lt le eq ne ge gt       (treat empty version as earlier than any version);\n"
+"  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n"
+"  < << <= = >= >> >       (only for compatibility with control file syntax).\n"
+"\n"
+"Use `dselect' or `aptitude' for user-friendly package management.\n"),
+	    DPKG, BACKEND, ADMINDIR) < 0) werr ("stdout");
 }
 
 const char thisname[]= "dpkg";
@@ -122,7 +124,7 @@ Use `dselect' or `aptitude' for user-friendly package management;\n\
 Type dpkg -Dhelp for a list of dpkg debug flag values;\n\
 Type dpkg --force-help for a list of forcing options;\n\
 Type dpkg-deb --help for help about manipulating *.deb files;\n\
-Type dpkg --licence for copyright licence and lack of warranty (GNU GPL) [*].\n\
+Type dpkg --license for copyright license and lack of warranty (GNU GPL) [*].\n\
 \n\
 Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
 

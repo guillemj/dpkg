@@ -147,47 +147,57 @@ static const menuentry menuentries[]= {
 };
 
 static const char programdesc[]=
-      N_("Debian `%s' package handling frontend.");
+      N_("Debian `%s' package handling frontend version %s.\n");
 
 static const char copyrightstring[]= N_(
-      "Version %s.\n"
       "Copyright (C) 1994-1996 Ian Jackson.\n"
-      "Copyright (C) 2000,2001 Wichert Akkerman.\n"
-      "This is free software; see the GNU General Public Licence version 2\n"
-      "or later for copying conditions.  There is NO warranty.  See\n"
-      "dselect --licence for details.\n");
+      "Copyright (C) 2000,2001 Wichert Akkerman.\n");
+
+static const char licensestring[]= N_(
+      "This is free software; see the GNU General Public License version 2 or\n"
+      "later for copying conditions. There is NO warranty.\n"
+      "See %s --license for copyright and license details.\n");
 
 static void printversion(void) {
-  if (fprintf(stdout,gettext(programdesc),DSELECT) == EOF) werr("stdout");
-  if (fprintf(stdout,"\n") == EOF) werr("stdout");
-  if (fprintf(stdout,gettext(copyrightstring), DPKG_VERSION_ARCH) == EOF) werr("stdout");
+  if (printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH) < 0)
+    werr("stdout");
+  if (printf(gettext(copyrightstring)) < 0) werr("stdout");
+  if (printf(gettext(licensestring), DSELECT) < 0) werr("stdout");
 }
 
 static void usage(void) {
   int i;
-  if (!fputs(
-     _("Usage: dselect [options]\n"
-       "       dselect [options] action ...\n"
-       "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
-       "          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-       "          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
-       "Actions:  access update select install config remove quit\n"),
-       stdout)) werr("stdout");
+  if (printf(_(
+"Usage: %s [<option> ...] [<action> ...]\n"
+"\n"
+"Options:\n"
+"  --admindir <directory>     Use <directory> instead of %s.\n"
+"  --expert                   Turn on expert mode.\n"
+"  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
+"  --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"                             Configure screen colours.\n"
+"  --help                     Show this help message.\n"
+"  --version                  Show the version.\n"
+"  --license                  Show the license.\n"
+"\n"
+"Actions:\n"
+"  access update select install config remove quit\n"
+"\n"), DSELECT, ADMINDIR) < 0) werr("stdout");
 
   printf(_("Screenparts:\n"));
   for (i=0; screenparttable[i].name; i++)
     printf("  %s", screenparttable[i].name);
-  if (!fputs("\n", stdout)) werr("stdout");
+  if (!fputs("\n\n", stdout)) werr("stdout");
 
   printf(_("Colours:\n"));
   for (i=0; colourtable[i].name; i++)
     printf("  %s", colourtable[i].name);
-  if (!fputs("\n", stdout)) werr("stdout");
+  if (!fputs("\n\n", stdout)) werr("stdout");
 
   printf(_("Attributes:\n"));
   for (i=0; attrtable[i].name; i++)
     printf("  %s", attrtable[i].name);
-  if (!fputs("\n", stdout)) werr("stdout");
+  if (!fputs("\n\n", stdout)) werr("stdout");
 }
 
 /* These are called by C code, so need to have C calling convention */
@@ -300,9 +310,10 @@ void curseson() {
         fputs(_("Terminal does not appear to support cursor addressing.\n"),stderr);
       if (!smso)
         fputs(_("Terminal does not appear to support highlighting.\n"),stderr);
-      fputs(_("Set your TERM variable correctly, use a better terminal,\n"
-            "or make do with the per-package management tool "),stderr);
-      fputs(DPKG ".\n",stderr);
+      fprintf(stderr,
+	      _("Set your TERM variable correctly, use a better terminal,\n"
+	        "or make do with the per-package management tool %s.\n"),
+	      DPKG);
       ohshit(_("terminal lacks necessary features, giving up"));
     }
   }
@@ -372,7 +383,7 @@ int refreshmenu(void) {
 
   clear();
   attrset(A_BOLD);
-  sprintf(buf,gettext(programdesc),DSELECT);
+  sprintf(buf, gettext(programdesc), DSELECT, DPKG_VERSION_ARCH);
   mvaddnstr(0,0,buf,x-1);
 
   attrset(A_NORMAL);
@@ -386,7 +397,8 @@ int refreshmenu(void) {
          "Press <enter> to confirm selection.   ^L redraws screen.\n\n"));
 
   attrset(A_NORMAL);
-  sprintf(buf,gettext(copyrightstring),DPKG_VERSION_ARCH);
+  addstr(gettext(copyrightstring));
+  sprintf(buf, gettext(licensestring), DSELECT);
   addstr(buf);
 
   l= strlen(admindir);

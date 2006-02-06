@@ -1,5 +1,37 @@
 2006-02-06  Guillem Jover  <guillem@debian.org>
 
+	* src/main.c (printversion): Do not split strings with a macro in
+	the middle, use C format arguments. Use printf instead of fputs.
+	* src/query.c (printversion): Likewise.
+	* dpkg-deb/main.c (printversion): Likewise.
+	* dpkg-split/main.c (printversion): Likewise.
+
+	* src/main.c (usage): Use printf instead of fprintf. Uppercase initial
+	letter for commands descriptions. Quote strings per line. Standarize
+	indentation. Split globally common strings. Remove program name prefix
+	from command descriptions. Standarize 'Usage:' and 'Commands:'
+	headings. Split independent commands into different lines.
+	* src/query.c (usage): Likewise.
+	* dpkg-deb/main.c (usage): Likewise.
+	* dpkg-split/main.c (usage): Likewise.
+
+	* src/main.c (printforhelp): Use 'license' instead of 'licence'.
+	* src/query.c (printforhelp): Likewise.
+
+	* dselect/main.cc (programdesc): Add version string from ...
+	(copyrightstring): ... here. Move GPL license notice to ...
+	(licensestring): ... here. New variable.
+	(printversion): Use printf instead of fprintf. Give proper arguments
+	to the new formated strings. Print 'licensestring'.
+	(usage): Use printf instead of fprintf. Standarize indentation. Add
+	options descriptions. Add a new line after each section.
+	(curseson): Do not split strings with a macro in the middle, use
+	C format arguments.
+	(refreshmenu): Fix arguments given to 'programdesc' and
+	'copyrightstring' variables. Print 'licensestring' variable.
+
+2006-02-06  Guillem Jover  <guillem@debian.org>
+
 	* utils/start-stop-daemon.c (main): When using --chuid set the HOME
 	environment variable.
 

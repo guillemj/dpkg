@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg_po_el\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-01-23 19:31+0100\n"
+"POT-Creation-Date: 2006-02-06 23:10+0200\n"
 "PO-Revision-Date: 2005-12-22 23:26+0200\n"
 "Last-Translator: quad-nrg.net <galaxico@quad-nrg.net>\n"
 "Language-Team: Greek <debian-l10n-greek@lists.debian.org>\n"
@@ -2162,91 +2162,90 @@ msgid "failed to exec rm for cleanup"
 msgstr "σφάλμα κατά την διαγραφή κατά τον τερματισμό"
 
 #: src/main.c:44
-msgid "Debian GNU/Linux `"
-msgstr "Debian GNU/Linux `"
-
-#: src/main.c:46
-msgid "' package management program version "
+#, fuzzy, c-format
+msgid "Debian `%s' package management program version %s.\n"
 msgstr "' έκδοση προγράμματος διαχείρισης πακέτων "
 
-#: src/main.c:48 src/query.c:463
+#: src/main.c:46 src/query.c:461 dselect/main.cc:157 dpkg-deb/main.c:48
+#: dpkg-split/main.c:41
+#, fuzzy, c-format
 msgid ""
-"This is free software; see the GNU General Public Licence version 2 or\n"
-"later for copying conditions.  There is NO warranty.\n"
-"See "
+"This is free software; see the GNU General Public License version 2 or\n"
+"later for copying conditions. There is NO warranty.\n"
+"See %s --license for copyright and license details.\n"
 msgstr ""
 "Αυτό είναι ελεύθερο λογισμικό. Δείτε την GNU General Public Licence έκδοσης "
 "2 ή\n"
-"μεταγενέστερη για συνθήκες αντιγραφής.  Δεν υπάρχει ΚΑΜΙΑ εγγύηση.\n"
-"Δείτε "
+"μεταγενέστερης για συνθήκες αντιγραφής. Δεν υπάρχει ΚΑΜΙΑ εγγύηση.\n"
+"Δείτε dpkg-deb --licence για λεπτομέρειες.\n"
 
-#: src/main.c:50 src/query.c:465
-msgid " --licence for copyright and license details.\n"
-msgstr " --licence για λεπτομέρειες πνευματικών δικαιωμάτων και άδειας.\n"
-
-#: src/main.c:58
-#, c-format
+#: src/main.c:57
+#, fuzzy, c-format
 msgid ""
-"Usage: \n"
-"  dpkg -i|--install      <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  dpkg --unpack          <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  dpkg -A|--record-avail <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  dpkg --configure              <package name> ... | -a|--pending\n"
-"  dpkg -r|--remove | -P|--purge <package name> ... | -a|--pending\n"
-"  dpkg --get-selections [<pattern> ...]    get list of selections to stdout\n"
-"  dpkg --set-selections                    set package selections from "
-"stdin\n"
-"  dpkg --update-avail <Packages-file>      replace available packages info\n"
-"  dpkg --merge-avail <Packages-file>       merge with info from file\n"
-"  dpkg --clear-avail                       erase existing available info\n"
-"  dpkg --forget-old-unavail                forget uninstalled unavailable "
-"pkgs\n"
-"  dpkg -s|--status <package-name> ...      display package status details\n"
-"  dpkg -p|--print-avail <package-name> ... display available version "
-"details\n"
-"  dpkg -L|--listfiles <package-name> ...   list files `owned' by package(s)\n"
-"  dpkg -l|--list [<pattern> ...]           list packages concisely\n"
-"  dpkg -S|--search <pattern> ...           find package(s) owning file(s)\n"
-"  dpkg -C|--audit                          check for broken package(s)\n"
-"  dpkg --print-architecture                print dpkg architecture\n"
-"  dpkg --compare-versions <a> <rel> <b>    compare version numbers - see "
-"below\n"
-"  dpkg --help | --version                  show this help / version number\n"
-"  dpkg --force-help | -Dh|--debug=help     help on forcing resp. debugging\n"
-"  dpkg --licence                           print copyright licensing terms\n"
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+"Commands:\n"
+"  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
+"  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
+"  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
+"  --configure        <package-name> ... | -a|--pending\n"
+"  -r|--remove        <package-name> ... | -a|--pending\n"
+"  -P|--purge         <package-name> ... | -a|--pending\n"
+"  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
+"  --set-selections                     Set package selections from stdin.\n"
+"  --update-avail <Packages-file>       Replace available packages info.\n"
+"  --merge-avail <Packages-file>        Merge with info from file.\n"
+"  --clear-avail                        Erase existing available info.\n"
+"  --forget-old-unavail                 Forget uninstalled unavailable pkgs.\n"
+"  -s|--status <package-name> ...       Display package status details.\n"
+"  -p|--print-avail <package-name> ...  Display available version details.\n"
+"  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]            List packages concisely.\n"
+"  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
+"  -C|--audit                           Check for broken package(s).\n"
+"  --print-architecture                 Print dpkg architecture.\n"
+"  --compare-versions <a> <rel> <b>     Compare version numbers - see below.\n"
+"  --help                               Show this help message.\n"
+"  --version                            Show the version.\n"
+"  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
+"  --license | --licence                Print copyright licensing terms.\n"
 "\n"
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-" -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help.)\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 "Options:\n"
-"  --admindir=<directory>     Use <directory> instead of %s\n"
-"  --root=<directory>         Install on alternative system rooted elsewhere\n"
-"  --instdir=<directory>      Change inst'n root without changing admin dir\n"
-"  -O|--selected-only         Skip packages not selected for install/upgrade\n"
-"  -E|--skip-same-version     Skip packages whose same version is installed\n"
+"  --admindir=<directory>     Use <directory> instead of %s.\n"
+"  --root=<directory>         Install on alternative system rooted "
+"elsewhere.\n"
+"  --instdir=<directory>      Change inst'n root without changing admin dir.\n"
+"  -O|--selected-only         Skip packages not selected for install/"
+"upgrade.\n"
+"  -E|--skip-same-version     Skip packages whose same version is installed.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than "
-"installed\n"
+"installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other "
-"package\n"
-"  --no-debsig                Do not try to verify package signatures\n"
+"package.\n"
+"  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
-"                             Just say what we would do - don't do it\n"
-"  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help\n"
+"                             Just say what we would do - don't do it.\n"
+"  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help.\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
-"<n>\n"
-"  --log=<filename>           Log status changes and actions to <filename>\n"
-"  --ignore-depends=<package>,... Ignore dependencies involving <package>\n"
-"  --force-...                    Override problems - see --force-help\n"
-"  --no-force-...|--refuse-...    Stop when problems encountered\n"
-"  --abort-after <n>              Abort after encountering <n> errors\n"
+"<n>.\n"
+"  --log=<filename>           Log status changes and actions to <filename>.\n"
+"  --ignore-depends=<package>,... Ignore dependencies involving <package>.\n"
+"  --force-...                    Override problems - see --force-help.\n"
+"  --no-force-...|--refuse-...    Stop when problems encountered.\n"
+"  --abort-after <n>              Abort after encountering <n> errors.\n"
 "\n"
 "Comparison operators for --compare-versions are:\n"
-" lt le eq ne ge gt       (treat empty version as earlier than any version);\n"
-" lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n"
-" < << <= = >= >> >       (only for compatibility with control file syntax).\n"
+"  lt le eq ne ge gt       (treat empty version as earlier than any "
+"version);\n"
+"  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any version);\n"
+"  < << <= = >= >> >       (only for compatibility with control file "
+"syntax).\n"
 "\n"
 "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
@@ -2320,14 +2319,15 @@ msgstr ""
 "\n"
 "Χρησιμοποιήστε το `dselect' ή το 'aptitude' για φιλική διαχείριση πακέτων.\n"
 
-#: src/main.c:119
+#: src/main.c:121
+#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
 "Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
 "Type dpkg --force-help for a list of forcing options;\n"
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
-"Type dpkg --licence for copyright licence and lack of warranty (GNU GPL) "
+"Type dpkg --license for copyright license and lack of warranty (GNU GPL) "
 "[*].\n"
 "\n"
 "Options marked [*] produce a lot of output - pipe it through `less' or "
@@ -2343,17 +2343,17 @@ msgstr ""
 "Οι επιλογές με [*] εμφανίζουν αρκετό περιεχόμενο - χρησιμοποιήστε μια "
 "σωλήνωση με τις εντολές `less' ή `more' !"
 
-#: src/main.c:184 src/query.c:531 dpkg-deb/main.c:162 dpkg-split/main.c:145
+#: src/main.c:186 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "συγκρουόμενες δράσεις --%s και --%s"
 
-#: src/main.c:189
+#: src/main.c:191
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "Προειδοποίηση: επιλογή εκτός χρήσης `--%s'\n"
 
-#: src/main.c:197
+#: src/main.c:199
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2393,30 +2393,30 @@ msgstr ""
 "άλγεβρα).\n"
 "Σημειώστε ότι οι εξηγήσεις και οι τιμές πιθανόν να αλλάξουν.\n"
 
-#: src/main.c:216
+#: src/main.c:218
 msgid "--debug requires an octal argument"
 msgstr "--debug απαιτεί ένα οκταδικό όρισμα"
 
-#: src/main.c:240
+#: src/main.c:242
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "μη ορισμένο όνομα πακέτου στην χωρισμένη με κόμμα λίστα της --ignore-"
 "depends  `%.250s'"
 
-#: src/main.c:246
+#: src/main.c:248
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "η --ignore-depends απαιτεί ένα έγκυρο όνομα πακέτου. Το `%.250s' δεν είναι. %"
 "s"
 
-#: src/main.c:262 src/main.c:273
+#: src/main.c:264 src/main.c:275
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "μη έγκυρος ακέραιος για --%s: `%.250s'"
 
-#: src/main.c:292
+#: src/main.c:294
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2501,48 +2501,48 @@ msgstr ""
 "για το σύστημά σας. Ο εξαναγκασμός των επιλογών με σήμανση [*] είναι εξ'\n"
 "ορισμού ενεργοποιημένος.\n"
 
-#: src/main.c:337
+#: src/main.c:339
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "άγνωστη επιλογή force/refuse `%.*s'"
 
-#: src/main.c:442 src/main.c:446
+#: src/main.c:444 src/main.c:448
 msgid "couldn't malloc in execbackend"
 msgstr "αδύνατη η δέσμευση μνήμης με τη malloc στο execbackend"
 
-#: src/main.c:444 src/main.c:451
+#: src/main.c:446 src/main.c:453
 msgid "couldn't strdup in execbackend"
 msgstr "αδύνατη η αντιγραφή συμβολοσειράς με τη strdup στο execbackend"
 
-#: src/main.c:455
+#: src/main.c:457
 #, c-format
 msgid "failed to exec %s"
 msgstr "αδύνατη η εκτέλεση του %s"
 
-#: src/main.c:467
+#: src/main.c:469
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "η --command-fd παίρνει 1 όρισμα, όχι 0"
 
-#: src/main.c:468
+#: src/main.c:470
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd παίρνει μόνο 1 όρισμα"
 
-#: src/main.c:470
+#: src/main.c:472
 msgid "invalid number for --command-fd"
 msgstr "μη έγκυρος αριθμός για το --command-fd"
 
-#: src/main.c:472
+#: src/main.c:474
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "αδύνατο το άνοιγμα του `%i' ως ροή (stream)"
 
-#: src/main.c:497
+#: src/main.c:499
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "απρόσμενο eof πριν το τέλος της γραμμής %d"
 
-#: src/main.c:541 src/main.c:556 src/query.c:566 dpkg-deb/main.c:184
-#: dpkg-split/main.c:157
+#: src/main.c:543 src/main.c:558 src/query.c:566 dpkg-deb/main.c:189
+#: dpkg-split/main.c:163
 msgid "need an action option"
 msgstr "χρειάζεται μια επιλογή ενέργειας"
 
@@ -2942,46 +2942,31 @@ msgstr ""
 "και dpkg --contents (= dpkg-deb --contents) για προβολή των περιεχομένων "
 "τους.\n"
 
-#: src/query.c:459 dpkg-deb/main.c:46
-msgid "Debian `"
-msgstr "Debian `"
-
-#: src/query.c:461
-msgid "' package management program query tool\n"
+#: src/query.c:459
+#, fuzzy, c-format
+msgid "Debian `%s' package management program query tool\n"
 msgstr "' εργαλείο πληροφόρησης προγράμματος διαχείρισης πακέτων\n"
 
-#: src/query.c:473
-#, c-format
-msgid "Usage: "
-msgstr "Χρήση: "
-
-#: src/query.c:474
-#, c-format
+#: src/query.c:472
+#, fuzzy, c-format
 msgid ""
-" [<option>] <command>\n"
+"Usage: %s [<option> ...] <command>\n"
+"\n"
 "Commands:\n"
-"  -s|--status <package-name> ...      display package status details\n"
-"  -p|--print-avail <package-name> ... display available version details\n"
-"  -L|--listfiles <package-name> ...   list files `owned' by package(s)\n"
-"  -l|--list [<pattern> ...]           list packages concisely\n"
-"  -W|--show <pattern> ...             show information on package(s)\n"
-"  -S|--search <pattern> ...           find package(s) owning file(s)\n"
-"  --help | --version                  show this help / version number\n"
-"  --licence                           print copyright licensing terms\n"
+"  -s|--status <package-name> ...      Display package status details.\n"
+"  -p|--print-avail <package-name> ... Display available version details.\n"
+"  -L|--listfiles <package-name> ...   List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]           List packages concisely.\n"
+"  -W|--show <pattern> ...             Show information on package(s).\n"
+"  -S|--search <pattern> ...           Find package(s) owning file(s).\n"
+"  --help                              Show this help message.\n"
+"  --version                           Show the version.\n"
+"  --license | --licence               Show the copyright licensing terms.\n"
 "\n"
 "Options:\n"
-"  --admindir=<directory>     Use <directory> instead of %s\n"
-"  -f|--showformat=<format>   Use alternative format for --show\n"
+"  --admindir=<directory>              Use <directory> instead of %s.\n"
+"  -f|--showformat=<format>            Use alternative format for --show.\n"
 "\n"
-"Format syntax:\n"
-"  A format is a string that will be output for each package. The format\n"
-"  can include the standard escape sequences \\n (newline), \\r (carriage\n"
-"  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
-"  syntax. Fields will be right-aligned unless the width is negative in "
-"which\n"
-"   case left aligenment will be used. \n"
 msgstr ""
 " [<επιλογή>] <εντολή>\n"
 "Εντολές:\n"
@@ -3011,10 +2996,25 @@ msgstr ""
 "στοίχιση.\n"
 " \n"
 
+#: src/query.c:491 dpkg-deb/main.c:87
+#, c-format
+msgid ""
+"Format syntax:\n"
+"  A format is a string that will be output for each package. The format\n"
+"  can include the standard escape sequences \\n (newline), \\r (carriage\n"
+"  return) or \\\\ (plain backslash). Package information can be included\n"
+"  by inserting variable references to package fields using the ${var[;"
+"width]}\n"
+"  syntax. Fields will be right-aligned unless the width is negative in "
+"which\n"
+"  case left alignment will be used.\n"
+msgstr ""
+
 #: src/query.c:501
+#, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
-"Use --licence for copyright licence and lack of warranty (GNU GPL).\n"
+"Use --license for copyright license and lack of warranty (GNU GPL).\n"
 "\n"
 msgstr ""
 "Δώστε --help για βοήθεια σχετικά με πληροφόρηση πακέτων;\n"
@@ -4075,107 +4075,99 @@ msgid "menu"
 msgstr "μενού"
 
 #: dselect/main.cc:150
-#, c-format
-msgid "Debian `%s' package handling frontend."
+#, fuzzy, c-format
+msgid "Debian `%s' package handling frontend version %s.\n"
 msgstr "Πρόγραμμα διαχείρισης των πακέτων του Debian `%s'"
 
 #: dselect/main.cc:153
-#, c-format
 msgid ""
-"Version %s.\n"
 "Copyright (C) 1994-1996 Ian Jackson.\n"
 "Copyright (C) 2000,2001 Wichert Akkerman.\n"
-"This is free software; see the GNU General Public Licence version 2\n"
-"or later for copying conditions.  There is NO warranty.  See\n"
-"dselect --licence for details.\n"
 msgstr ""
-"Έκδοση %s.\n"
-"Πνευματικά δικαιώματα (C) 1994-1996 Ian Jackson.\n"
-"Πνευματικά δικαιώματα (C) 2000,2001 Wichert Akkerman.\n"
-"Αυτό είναι ελεύθερο λογισμικό. Δείτε την GNU General Public Licence έκδοσης "
-"2\n"
-"ή επόμενης για συνθήκες αντιγραφής.  Δεν υπάρχει ΚΑΜΙΑ εγγύηση.  Δείτε\n"
-"dselect --licence για λεπτομέρειες.\n"
 
-#: dselect/main.cc:169
+#: dselect/main.cc:171
+#, c-format
 msgid ""
-"Usage: dselect [options]\n"
-"       dselect [options] action ...\n"
-"Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
-"          --help  --version  --licence  --expert  --debug <file> | -D<file>\n"
-"          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
-"Actions:  access update select install config remove quit\n"
+"Usage: %s [<option> ...] [<action> ...]\n"
+"\n"
+"Options:\n"
+"  --admindir <directory>     Use <directory> instead of %s.\n"
+"  --expert                   Turn on expert mode.\n"
+"  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
+"  --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]\n"
+"                             Configure screen colours.\n"
+"  --help                     Show this help message.\n"
+"  --version                  Show the version.\n"
+"  --license                  Show the license.\n"
+"\n"
+"Actions:\n"
+"  access update select install config remove quit\n"
+"\n"
 msgstr ""
-"Χρήση: dselect [επιλογές]\n"
-"       dselect [επιλογές] δράση ...\n"
-"Επιλογές:  --admindir <directory>  (default is /var/lib/dpkg)\n"
-"           --help  --version  --licence  --expert  --debug <file> | -"
-"D<file>\n"
-"           --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
-"Δράσεις:  access update select install config remove quit\n"
 
-#: dselect/main.cc:177
+#: dselect/main.cc:187
 #, c-format
 msgid "Screenparts:\n"
 msgstr "Οθόνες:\n"
 
-#: dselect/main.cc:182
+#: dselect/main.cc:192
 #, c-format
 msgid "Colours:\n"
 msgstr "Χρώματα:\n"
 
-#: dselect/main.cc:187
+#: dselect/main.cc:197
 #, c-format
 msgid "Attributes:\n"
 msgstr "Ιδιότητες:\n"
 
-#: dselect/main.cc:207
+#: dselect/main.cc:217
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "αδύνατο το άνοιγμα του αρχείου debug `%.255s'\n"
 
-#: dselect/main.cc:222
+#: dselect/main.cc:232
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr "Μη έγκυρο %s `%s'\n"
 
-#: dselect/main.cc:239
+#: dselect/main.cc:249
 msgid "screen part"
 msgstr "τμήμα οθόνης"
 
-#: dselect/main.cc:245
+#: dselect/main.cc:255
 msgid "Null colour specification\n"
 msgstr "κενός χρωματικός προσδιορισμός\n"
 
-#: dselect/main.cc:253 dselect/main.cc:258
+#: dselect/main.cc:263 dselect/main.cc:268
 msgid "colour"
 msgstr "χρώμα"
 
-#: dselect/main.cc:266
+#: dselect/main.cc:276
 msgid "colour attribute"
 msgstr "ιδιότητα χρώματος"
 
-#: dselect/main.cc:300
+#: dselect/main.cc:310
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Το τερματικό δεν φαίνεται να υποστηρίζει κατευθυνόμενο δρομέα.\n"
 
-#: dselect/main.cc:302
+#: dselect/main.cc:312
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Το τερματικό δεν φαίνεται να υποστηρίζει τονισμό.\n"
 
-#: dselect/main.cc:303
+#: dselect/main.cc:314
+#, fuzzy, c-format
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
-"or make do with the per-package management tool "
+"or make do with the per-package management tool %s.\n"
 msgstr ""
 "Ορίστε τη μεταβλητή TERM σωστά, χρησιμοποιήστε ένα καλύτερο τερματικό,\n"
 "ή χρησιμοποιήστε με το εργαλείο διαχείρισης μεμονωμένων πακέτων "
 
-#: dselect/main.cc:306
+#: dselect/main.cc:317
 msgid "terminal lacks necessary features, giving up"
 msgstr "το τερματικό δεν υποστηρίζει απαραίτητα χαρακτηριστικά, εγκατάλειψη"
 
-#: dselect/main.cc:384
+#: dselect/main.cc:395
 msgid ""
 "\n"
 "\n"
@@ -4189,7 +4181,7 @@ msgstr ""
 "Πιέστε <enter> για αποδοχή της επιλογής.   το ^L ανανεώνει την οθόνη.\n"
 "\n"
 
-#: dselect/main.cc:398
+#: dselect/main.cc:410
 msgid ""
 "\n"
 "\n"
@@ -4200,11 +4192,11 @@ msgstr ""
 "Πρόσβαση μόνο για ανάγνωση: Μόνο η προεπισκόπηση των επιλογών είναι "
 "διαθέσιμη!"
 
-#: dselect/main.cc:417
+#: dselect/main.cc:429
 msgid "failed to getch in main menu"
 msgstr "απέτυχε η getch στο κυρίως μενού"
 
-#: dselect/main.cc:490
+#: dselect/main.cc:502
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "άγνωστη συμβολοσειρά δράσης `%.50s'"
@@ -5439,63 +5431,44 @@ msgstr "Σφάλμα στη μορφοποίηση"
 msgid "--contents takes exactly one argument"
 msgstr "η --contents παίρνει μόνο ένα όρισμα"
 
-#: dpkg-deb/main.c:48
-msgid "' package archive backend version "
+#: dpkg-deb/main.c:46
+#, fuzzy, c-format
+msgid "Debian `%s' package archive backend version %s.\n"
 msgstr " έκδοση υποδομής αρχειοθήκης πακέτου"
 
-#: dpkg-deb/main.c:50
+#: dpkg-deb/main.c:56
+#, fuzzy, c-format
 msgid ""
-"This is free software; see the GNU General Public Licence version 2 or\n"
-"later for copying conditions. There is NO warranty.\n"
-"See dpkg-deb --licence for details.\n"
-msgstr ""
-"Αυτό είναι ελεύθερο λογισμικό. Δείτε την GNU General Public Licence έκδοσης "
-"2 ή\n"
-"μεταγενέστερης για συνθήκες αντιγραφής. Δεν υπάρχει ΚΑΜΙΑ εγγύηση.\n"
-"Δείτε dpkg-deb --licence για λεπτομέρειες.\n"
-
-#: dpkg-deb/main.c:58
-msgid ""
-"Command:\n"
-"  -b|--build <directory> [<deb>]    build an archive.\n"
-"  -c|--contents <deb>               list contents.\n"
-"  -I|--info <deb> [<cfile>...]      show info to stdout.\n"
-"  -W|--show <deb>                   show information on package(s)\n"
-"  -f|--field <deb> [<cfield>...]    show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>]  extract control info.\n"
-"  -x|--extract <deb> <directory>    extract files.\n"
-"  -X|--vextract <deb> <directory>   extract & list files.\n"
-"  --fsys-tarfile <deb>              output filesystem tarfile.\n"
-"  -h|--help                         display this message.\n"
-"  --version | --licence             show version/licence.\n"
+"Usage: %s [<option> ...] <command>\n"
+"\n"
+"Commands:\n"
+"  -b|--build <directory> [<deb>]    Build an archive.\n"
+"  -c|--contents <deb>               List contents.\n"
+"  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
+"  -W|--show <deb>                   Show information on package(s)\n"
+"  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
+"  -e|--control <deb> [<directory>]  Extract control info.\n"
+"  -x|--extract <deb> <directory>    Extract files.\n"
+"  -X|--vextract <deb> <directory>   Extract & list files.\n"
+"  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
+"  -h|--help                         Display this message.\n"
+"  --version                         Show version.\n"
+"  --license | --licence             Show license.\n"
 "\n"
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 "Options:\n"
-"  --showformat=<format>      use alternative format for --show\n"
-"  -D                         enable debugging output\n"
-"  --old, --new               select archive format\n"
-"  --nocheck                  suppress control file check (build bad "
+"  --showformat=<format>      Use alternative format for --show.\n"
+"  -D                         Enable debugging output.\n"
+"  --old, --new               Select archive format.\n"
+"  --nocheck                  Suppress control file check (build bad "
 "package).\n"
-"  -z# to set the compression when building\n"
-"  -Z<type>                   set the compression type to use when building.\n"
-"                             allowed values: gzip, bzip2, none\n"
+"  -z#                        Set the compression level when building.\n"
+"  -Z<type>                   Set the compression type to use when building.\n"
+"                             Allowed values: gzip, bzip2, none.\n"
 "\n"
-"Format syntax:\n"
-"  A format is a string that will be output for each package. The format\n"
-"  can include the standard escape sequences \\n (newline), \\r (carriage\n"
-"  return) or \\\\ (plain backslash). Package information can be included\n"
-"  by inserting variable references to package fields using the ${var[;"
-"width]}\n"
-"  syntax. Fields will be right-aligned unless the width is negative in "
-"which\n"
-"   case left alignment will be used. \n"
-"\n"
-"Use `dpkg' to install and remove packages from your system, or\n"
-"`dselect' or `aptitude' for user-friendly package management.  Packages\n"
-"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
 "Εντολή:\n"
 "  -b|--build <κατάλογος> [<deb>]    δημιουργία αρχειοθήκης.\n"
@@ -5541,7 +5514,16 @@ msgstr ""
 "που αποσυμπιέζονται\n"
 "με την εντολή `dpkg-deb --extract' δε θα εγκατασταθούν σωστά!\n"
 
-#: dpkg-deb/main.c:100
+#: dpkg-deb/main.c:96
+#, c-format
+msgid ""
+"\n"
+"Use `dpkg' to install and remove packages from your system, or\n"
+"`dselect' or `aptitude' for user-friendly package management.  Packages\n"
+"unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
+msgstr ""
+
+#: dpkg-deb/main.c:105
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -5550,7 +5532,7 @@ msgstr ""
 "*.deb. Πληκτρολογήστε dpkg --help για βοήθεια σχετικά με εγκατάσταση και\n"
 "απεγκατάσταση πακέτων."
 
-#: dpkg-deb/main.c:176
+#: dpkg-deb/main.c:181
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "άγνωστος τύπος συμπίεσης '%s'!"
@@ -5727,43 +5709,41 @@ msgstr "η --join απαιτεί ένα ή περισσότερα αρχεία �
 msgid "part %d is missing"
 msgstr "λείπει το κομμάτι %d"
 
-#: dpkg-split/main.c:39
-msgid "Debian GNU/Linux `dpkg-split' package split/join tool; version "
+#: dpkg-split/main.c:38
+#, fuzzy, c-format
+msgid "Debian `%s' package split/join tool; version %s.\n"
 msgstr ""
 "Debian GNU/Linux `dpkg-split' εργαλείο χωρισμού ένωσης πακέτων. Έκδοση  "
 
-#: dpkg-split/main.c:41
-msgid ""
-"Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
-"GNU General Public Licence version 2 or later for copying conditions.\n"
-"There is NO warranty.  See dpkg-split --licence for details.\n"
-msgstr ""
-"Πνευματικά Δικαιώματα (C) 1994-1996 Ian Jackson.  Αυτό είναι ελεύθερο\n"
-"λογισμικό. Δείτε την GNU General Public Licence έκδοσης 2 ή μεταγενέστερη\n"
-"για συνθήκες αντιγραφής.\n"
-"Δεν υπάρχει ΚΑΜΙΑ εγγύηση. Δείτε dpkg-split --licence για λεπτομέρειες.\n"
-
-#: dpkg-split/main.c:48
+#: dpkg-split/main.c:40
 #, c-format
+msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
+msgstr ""
+
+#: dpkg-split/main.c:49
+#, fuzzy, c-format
 msgid ""
-"Usage: dpkg-split -s|--split <file> [<prefix>]     Split an archive.\n"
-"       dpkg-split -j|--join <part> <part> ...      Join parts together.\n"
-"       dpkg-split -I|--info <part> ...             Display info about a "
-"part.\n"
-"       dpkg-split -h|--help|--version|--licence    Show help/version/"
-"licence.\n"
+"Usage: %s [<option> ...] <command>\n"
 "\n"
-"       dpkg-split -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
-"       dpkg-split -l|--listq                       List unmatched pieces.\n"
-"       dpkg-split -d|--discard [<filename> ...]    Discard unmatched "
-"pieces.\n"
+"Commands:\n"
+"  -s|--split <file> [<prefix>]    Split an archive.\n"
+"  -j|--join <part> <part> ...     Join parts together.\n"
+"  -I|--info <part> ...            Display info about a part.\n"
+"  -h|--help                       Show this help message.\n"
+"  --version                       Show the version.\n"
+"  --license                       Show the license.\n"
 "\n"
-"Options:  --depotdir <directory>  (default is %s/%s)\n"
-"          -S|--partsize <size>    (in Kb, for -s, default is 450)\n"
-"          -o|--output <file>      (for -j, default is <package>-<version>."
-"deb)\n"
-"          -Q|--npquiet            (be quiet when -a is not a part)\n"
-"          --msdos                 (generate 8.3 filenames)\n"
+"  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
+"  -l|--listq                      List unmatched pieces.\n"
+"  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
+"\n"
+"Options:\n"
+"  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
+"  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
+"  -o|--output <file>              For -j (default is <package>-<version>."
+"deb).\n"
+"  -Q|--npquiet                    Be quiet when -a is not a part.\n"
+"  --msdos                         Generate 8.3 filenames.\n"
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
@@ -5785,30 +5765,30 @@ msgstr ""
 "\n"
 "Κατάσταση εξόδου: 0 = OK;  1 = το -a δεν είναι τμήμα;  2 = πρόβλημα!\n"
 
-#: dpkg-split/main.c:69
+#: dpkg-split/main.c:75
 msgid "Type dpkg-split --help for help."
 msgstr "Δώστε dpkg-split --help για βοήθεια."
 
-#: dpkg-split/main.c:79
+#: dpkg-split/main.c:85
 #, c-format
 msgid "error reading %s"
 msgstr "σφάλμα κατά την ανάγνωση %s"
 
-#: dpkg-split/main.c:83
+#: dpkg-split/main.c:89
 #, c-format
 msgid "error reading %.250s"
 msgstr "σφάλμα κατά την ανάγνωση %.250s"
 
-#: dpkg-split/main.c:84
+#: dpkg-split/main.c:90
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "απρόσμενο τέλος αρχείου στο %.250s"
 
-#: dpkg-split/main.c:104
+#: dpkg-split/main.c:110
 msgid "part size is far too large or is not positive"
 msgstr "το μέγεθος του τμήματος είναι πολύ μεγάλο ή μη θετικό"
 
-#: dpkg-split/main.c:108
+#: dpkg-split/main.c:114
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
 msgstr ""
@@ -5944,3 +5924,70 @@ msgstr "το αρχείο πηγής `%.250s' δεν είναι κοινό αρ�
 #: dpkg-split/split.c:70
 msgid "unable to exec mksplit"
 msgstr "αδύνατη η εκτέλεση της mksplit"
+
+#~ msgid "Debian GNU/Linux `"
+#~ msgstr "Debian GNU/Linux `"
+
+#~ msgid ""
+#~ "This is free software; see the GNU General Public Licence version 2 or\n"
+#~ "later for copying conditions.  There is NO warranty.\n"
+#~ "See "
+#~ msgstr ""
+#~ "Αυτό είναι ελεύθερο λογισμικό. Δείτε την GNU General Public Licence "
+#~ "έκδοσης 2 ή\n"
+#~ "μεταγενέστερη για συνθήκες αντιγραφής.  Δεν υπάρχει ΚΑΜΙΑ εγγύηση.\n"
+#~ "Δείτε "
+
+#~ msgid " --licence for copyright and license details.\n"
+#~ msgstr " --licence για λεπτομέρειες πνευματικών δικαιωμάτων και άδειας.\n"
+
+#~ msgid "Debian `"
+#~ msgstr "Debian `"
+
+#~ msgid "Usage: "
+#~ msgstr "Χρήση: "
+
+#~ msgid ""
+#~ "Version %s.\n"
+#~ "Copyright (C) 1994-1996 Ian Jackson.\n"
+#~ "Copyright (C) 2000,2001 Wichert Akkerman.\n"
+#~ "This is free software; see the GNU General Public Licence version 2\n"
+#~ "or later for copying conditions.  There is NO warranty.  See\n"
+#~ "dselect --licence for details.\n"
+#~ msgstr ""
+#~ "Έκδοση %s.\n"
+#~ "Πνευματικά δικαιώματα (C) 1994-1996 Ian Jackson.\n"
+#~ "Πνευματικά δικαιώματα (C) 2000,2001 Wichert Akkerman.\n"
+#~ "Αυτό είναι ελεύθερο λογισμικό. Δείτε την GNU General Public Licence "
+#~ "έκδοσης 2\n"
+#~ "ή επόμενης για συνθήκες αντιγραφής.  Δεν υπάρχει ΚΑΜΙΑ εγγύηση.  Δείτε\n"
+#~ "dselect --licence για λεπτομέρειες.\n"
+
+#~ msgid ""
+#~ "Usage: dselect [options]\n"
+#~ "       dselect [options] action ...\n"
+#~ "Options:  --admindir <directory>  (default is /var/lib/dpkg)\n"
+#~ "          --help  --version  --licence  --expert  --debug <file> | -"
+#~ "D<file>\n"
+#~ "          --colour screenpart:[foreground],[background][:attr[+attr+..]]\n"
+#~ "Actions:  access update select install config remove quit\n"
+#~ msgstr ""
+#~ "Χρήση: dselect [επιλογές]\n"
+#~ "       dselect [επιλογές] δράση ...\n"
+#~ "Επιλογές:  --admindir <directory>  (default is /var/lib/dpkg)\n"
+#~ "           --help  --version  --licence  --expert  --debug <file> | -"
+#~ "D<file>\n"
+#~ "           --colour screenpart:[foreground],[background][:attr[+attr"
+#~ "+..]]\n"
+#~ "Δράσεις:  access update select install config remove quit\n"
+
+#~ msgid ""
+#~ "Copyright (C) 1994-1996 Ian Jackson.  This is free software; see the\n"
+#~ "GNU General Public Licence version 2 or later for copying conditions.\n"
+#~ "There is NO warranty.  See dpkg-split --licence for details.\n"
+#~ msgstr ""
+#~ "Πνευματικά Δικαιώματα (C) 1994-1996 Ian Jackson.  Αυτό είναι ελεύθερο\n"
+#~ "λογισμικό. Δείτε την GNU General Public Licence έκδοσης 2 ή "
+#~ "μεταγενέστερη\n"
+#~ "για συνθήκες αντιγραφής.\n"
+#~ "Δεν υπάρχει ΚΑΜΙΑ εγγύηση. Δείτε dpkg-split --licence για λεπτομέρειες.\n"
