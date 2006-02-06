@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2006-01-25 20:55+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
@@ -252,43 +252,48 @@ msgstr "更新した `%.250s' のステータスをインストールできま�
 msgid "couldn't open log `%s': %s\n"
 msgstr "ログ `%s' をオープンできませんでした: %s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "`%2$.50s' についての %1$s レコードを `%3$.250s' に書き込めませんでした"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "%2$s 情報を書き込むための `%1$s' をオープンできません"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "ステータスファイル用のバッファを確保できません"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "`%2$.50s' についての %1$s レコードを `%3$.250s' に書き込めませんでした"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "%s 情報を `%.250s' へフラッシュできませんでした"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "%s 情報を `%.250s' へ fsync できませんでした"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "%2$s 情報を書き込んだ後に `%1$.250s' を閉じることに失敗しました"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "`%1$.250s' を `%2$.250s' にリンクできないため、%3$s 情報をバックアップできま"
 "せん"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr ""
@@ -377,50 +382,64 @@ msgstr ""
 msgid "yes/no in boolean field"
 msgstr "真偽フィールドにおける yes/no"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "`status' フィールドの値はこのコンテキストでは許可されていません"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "`status' フィールドの第 3 ワード (ステータス)"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "`status' フィールドの第 3 ワード (ステータス)"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "`status' フィールドの第 3 ワード (ステータス)"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "バージョン文字列 `%.250s' のエラー: %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "古い `Revision' あるいは `Package-Revision' フィールドが使われています"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr ""
 "`config-version' フィールドの値はこのコンテキストでは許可されていません"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "Config-Version文字 `%.250s' のエラー: %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "`conffiles' の値に空白以外の文字 `%c' で始まる行があります"
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "`conffiles' の値に不正な形式を持つ行 `%.*s' があります"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr ""
 "ルートディレクトリあるいは空のディレクトリが設定ファイルとして指定されていま"
 "す"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -428,12 +447,12 @@ msgstr ""
 "`%s' フィールド、パッケージ名が存在しないか、パッケージ名が入ると期待される場"
 "所にゴミがあります"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "`%s' フィールド、無効なパッケージ名 `%.255s': %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -442,7 +461,7 @@ msgstr ""
 "`%2$.255s' の `%1$s' フィールド:\n"
 " バージョン関係 %3$c%4$c は不正です"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -451,7 +470,7 @@ msgstr ""
 "`%2$.255s' の `%1$s' フィールド:\n"
 " `%3$c' は時代遅れです。代わりに `%4$c=' または `%5$c%6$c' を使ってください"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -461,11 +480,11 @@ msgstr ""
 " バージョン番号が厳密に一致することが明示されていません。代わりに `=' を使う"
 "ことを提案します"
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Provides には正確なバージョンのみが使用できます"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -474,32 +493,32 @@ msgstr ""
 "`%2$.255s' の `%1$s' フィールド:\n"
 " バージョン値が非英数字で始まっています。空白を加えることを提案します"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "`%2$.255s' の `%1$s' フィールド: バージョンが `(' を含んでいます"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "`%2$.255s' の `%1$s' フィールド: バージョンが ` ' を含んでいます"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "`%2$.255s' の `%1$s' フィールド: バージョンが完結していません"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "`%2$.255s' の `%1$s' フィールド: バージョンエラー: %3$.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "`%s' フィールド、パッケージ `%.255s' 参照後の構文エラー"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "選択記号 (`|') は %s フィールド内では許可されていません"
@@ -571,6 +590,10 @@ msgstr "サブプロセス %s はエラー終了ステータス %d を返しま�
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: 警告 - %s がシグナル (%s) %s によって強制終了しました\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

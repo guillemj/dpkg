@@ -119,10 +119,10 @@ int checksubprocerr(int status, const char *description, int flags) {
     n= WTERMSIG(status); if (!n || ((flags & PROCPIPE) && n==SIGPIPE)) return 0;
     if (flags & PROCWARN)
       ohshit(_("dpkg: warning - %s killed by signal (%s)%s\n"),
-           description, strsignal(n), WCOREDUMP(status) ? ", core dumped" : "");
+	     description, strsignal(n), WCOREDUMP(status) ? _(", core dumped") : "");
     else
       ohshit(_("subprocess %s killed by signal (%s)%s"),
-           description, strsignal(n), WCOREDUMP(status) ? ", core dumped" : "");
+	     description, strsignal(n), WCOREDUMP(status) ? _(", core dumped") : "");
   } else {
     ohshit(_("subprocess %s failed with wait status code %d"),description,status);
   }

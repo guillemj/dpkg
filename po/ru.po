@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg_po_ru\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2005-10-22 12:55+0400\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -241,43 +241,48 @@ msgstr "не удалось установить обновлённый файл
 msgid "couldn't open log `%s': %s\n"
 msgstr "не удалось открыть файл журнала `%s': %s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "не удалось добавить запись %s о `%.50s' в `%.250s'"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "не удалось открыть файл %s для записи информации о %s"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "не удалось начать буферизацию файла состояния"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "не удалось добавить запись %s о `%.50s' в `%.250s'"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "не удалось сбросить буфер файла информации о %s в `%.250s'"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "не удалось синхронизировать файл информации о %s в `%.250s'"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "не удалось закрыть файл `%.250s' после записи информации о %s"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "не удалось создать ссылку `%.250s' на `%.250s' в качестве резервной копии "
 "информации о %s"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "не удалось сделать файл `%.250s' файлом `%.250s' с информацией о %s"
@@ -367,50 +372,64 @@ msgstr ""
 msgid "yes/no in boolean field"
 msgstr "значение \"да\" или \"нет\" в логическом поле"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "значение поля состояния в этом контексте недопустимо"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "третье слово (состояние) в поле состояния"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "третье слово (состояние) в поле состояния"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "третье слово (состояние) в поле состояния"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "ошибка в строке версии %.250s: %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "используется устаревшее поле \"Редакция\" или \"Редакция пакета\""
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "значение поля версии файлов конфигурации в этом контексте недопустимо"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "ошибка в строке версии файлов конфигурации %.250s: %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "значение поля списка файлов конфигурации начинается не с пробела, а с "
 "символа \"%c\""
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr ""
 "значение поля списка файлов конфигурации содержит недопустимую строку %.*s"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "в качестве файла конфигурации указан корневой или пустой каталог"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -418,12 +437,12 @@ msgstr ""
 "Поле \"%s\": отсутствует имя пакета или указана строка, не могущая являться "
 "именем пакета"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "Поле \"%s\": недопустимое имя пакета %.255s -- %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -432,7 +451,7 @@ msgstr ""
 "Поле `%s', ссылка на `%.255s':\n"
 " несуществующее отношение версий %c%c"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -441,7 +460,7 @@ msgstr ""
 "Поле \"%s\", ссылка на %.255s:\n"
 " форма записи %c устарела, используйте %c= или %c%c"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -451,11 +470,11 @@ msgstr ""
 " неявная ссылка на точную версию, рекомендуется в таких случаях использовать "
 "="
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "В поле \"Предоставляет\" не может использоваться диапазон версий"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -465,33 +484,33 @@ msgstr ""
 " значение версии начинается не с латинской буквы или цифры, рекомендуется "
 "добавить пробел"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr ""
 "Поле \"%s\", ссылка на %.255s: версия содержит открывающую круглую скобку"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "Поле \"%s\", ссылка на %.255s: версия содержит пробел"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "Поле \"%s\", ссылка на %.255s: в версии нет закрывающей круглой скобки"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "Поле \"%s\", ссылка на %.255s: ошибка в поле версии -- %.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "Поле \"%s\": недопустимый текст после ссылки на пакет %.255s"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "В поле \"%s\" альтернативы (|) недопустимы"
@@ -563,6 +582,10 @@ msgstr "подпроцесс %s возвратил код ошибки %d"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: предупреждение -- %s убит сигналом (%s)%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

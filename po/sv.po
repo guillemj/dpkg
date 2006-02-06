@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13.11.0.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2005-12-19 19:11+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -239,43 +239,48 @@ msgstr "kunde inte installera uppdaterad status för \"%.250s\""
 msgid "couldn't open log `%s': %s\n"
 msgstr "kunde inte öppna logg \"%s\": %s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "kunde inte skriva %s-post om \"%.50s\" till \"%.250s\""
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "kunde inte öppna \"%s\" för att skriva %s-information"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "kunde inte sätta buffring på statusfil"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "kunde inte skriva %s-post om \"%.50s\" till \"%.250s\""
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "kunde inte tömma %s-information till \"%.250s\""
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "kunde inte synkronisera %s-information till \"%.250s\""
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "kunde inte stänga \"%.250s\" efter att ha skrivit %s-information"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "kunde inte länka \"%.250s\" till \"%.250s\" för att säkerhetskopiera %s-"
 "information"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "kunde inte installera \"%.250s\" som \"%.250s\" med %s-information"
@@ -360,48 +365,62 @@ msgstr "för få värden i fildetaljsfältet \"%s\" (jämfört med andra)"
 msgid "yes/no in boolean field"
 msgstr "yes/no i boolskt fält"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "värde för \"status\"-fältet ej tillåtet i detta sammanhang"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "tredje (status)-ordet i \"status\"-fältet"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "tredje (status)-ordet i \"status\"-fältet"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "tredje (status)-ordet i \"status\"-fältet"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "fel i Version-strängen \"%.250s\": %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "föråldrat \"Revision\"- eller \"Package-Revision\"-fält använt"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "värde för \"config-version\"-fältet ej tillåtet i detta sammanhang"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "fel i Config-Version-sträng \"%.250s\": %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "värde för \"conffiles\" innehåller rad som börjar med icke-blanksteg \"%c\""
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "värde för \"conffiles\" har fel format på raden \"%.*s\""
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "rot- eller tom katalog listas som konfigurationsfil"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -409,12 +428,12 @@ msgstr ""
 "\"%s\"-fältet: saknat paketnamn, eller skräptecken där paketnamnet "
 "förväntades"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "\"%s\"-fältet: felaktigt paketnamn \"%.255s\": %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -423,7 +442,7 @@ msgstr ""
 "\"%s\"-fältet: referens till \"%.255s\":\n"
 " felaktigt versionsberoende %c%c"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -432,7 +451,7 @@ msgstr ""
 "\"%s\"-fältet: referens till \"%.255s\":\n"
 " \"%c\" är föråldrat, använd \"%c=\" eller \"%c%c\" istället"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -441,11 +460,11 @@ msgstr ""
 "\"%s\"-fältet: referens till \"%.255s\":\n"
 " implicit exakt träff på versionsnummer, använd hellre \"=\""
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Enbart exakta versionsnummer kan användas i Provides"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -454,32 +473,32 @@ msgstr ""
 "\"%s\"-fältet: referens till \"%.255s\":\n"
 " versionsvärdet börjar med icke-alfanumeriskt tecken, lägg till ett blanksteg"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "\"%s\"-fältet: referens till \"%.255s\": versionen innehåller \"(\""
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "\"%s\"-fältet: referens till \"%.255s\": versionen innehåller \" \""
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "\"%s\"-fältet: referens till \"%.255s\": versionsnumret ej avslutat"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "\"%s\"-fältet: referens till \"%.255s\": fel i version: \"%.255s\""
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "\"%s\"-fältet: syntaktiskt fel efter referens till paket \"%.255s\""
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternativ (\"|\") tillåts inte i %s-fältet"
@@ -551,6 +570,10 @@ msgstr "underprocess %s gav felkod %d"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: varning - %s dödades av signal (%s)%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

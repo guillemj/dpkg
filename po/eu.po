@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2005-06-14 23:34+0200\n"
 "Last-Translator: Piarres Beobide\n"
 "Language-Team:  Librezale.org <librezale@librezale.org>\n"
@@ -242,43 +242,48 @@ msgstr "ezin da egoera eguneratua instalatu - `%.250s'"
 msgid "couldn't open log `%s': %s\n"
 msgstr "ezin da `%s' arazpen fitxategia ireki: %s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "huts egin du %s erregistroa idaztean `%.50s'(r)i buruz - `%.250s'"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "huts egin du `%s' irekitzean %s informazioa idazteko"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "ezin da bufferrik ezarri egoera-fitxategian"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "huts egin du %s erregistroa idaztean `%.50s'(r)i buruz - `%.250s'"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "huts egin du %s informazioa hustean - `%.250s'"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "huts egin du %s informazioa sinkronizatzean - `%.250s'"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "huts egin du `%.250s' ixtean %s informazioa idatzi ondoren"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "huts egin du `%.250s' eta `%.250s' estekatzean, %s informazioaren babeskopia "
 "egiteko"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "huts egin du `%.250s' `%.250s' gisa instalatzean %s informazioarekin"
@@ -365,60 +370,74 @@ msgstr ""
 msgid "yes/no in boolean field"
 msgstr "bai/ez eremu boolearrean"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "`status' eremuko balioa ez da onartzen testuinguru honetan"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "`status' eremuko hirugarren (egoera-)hitza"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "`status' eremuko hirugarren (egoera-)hitza"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "`status' eremuko hirugarren (egoera-)hitza"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "errorea `%.250s' bertsio-katean: %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "`Revision' edo `Package-Revision' eremu zaharkituak erabili dira"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "`config-version' eremuko balioa ez da onartzen testuinguru honetan"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "errorea `%.250s' Config-Version katean: %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "`conffiles' balioko lerroa zuriunea ez den `%c' karakterearekin hasten da"
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "`conffiles' balioak `%.*s' lerroa gaizki formateatua dauka"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "erro-direktorioa edo direktorio nulua conffile gisa zerrendatu da"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr ""
 "`%s' eremua, pakete-izena falta, edo zaborra pakete-izena espero zen lekuan"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "`%s' eremua, `%.255s' pakete-izen baliogabea: %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -427,7 +446,7 @@ msgstr ""
 "`%s' eremua, honekiko erreferentzia: `%.255s':\n"
 " %c%c bertsio-erlazio okerra"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -436,7 +455,7 @@ msgstr ""
 "`%s' eremua, honekiko erreferentzia: `%.255s':\n"
 " `%c' zaharkitua dago; horren ordez, erabili `%c=' edo `%c%c'"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -446,11 +465,11 @@ msgstr ""
 " balio zehatz inplizitua bertsio-zenbakian; horren ordez `='  erabiltzea "
 "gomendatzen da"
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Bertsio zehatzak bakarrik erabil daitezke Provides eremuan"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -460,32 +479,32 @@ msgstr ""
 " bertsio-balioa alfanumerikoa ez den batekin hasten da; zuriune  bat "
 "gehitzea gomendatzen da"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "`%s' eremua, honekiko erreferentzia: `%.255s': bertsioak `(' dauka"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "`%s' eremua, honekiko erreferentzia: `%.255s': bertsioak ` ' dauka"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "`%s' eremua, honekiko erreferentzia: `%.255s': bertsio osatugabea"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "`%s' eremua, erreferentzia: `%.255s': errorea bertsioan: %.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "`%s' eremua, sintaxi-errorea`%.255s' pakete-erreferentziaren ondoren"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "aukera alternatiborik (`|') ez da onartzen %s eremuan"
@@ -557,6 +576,10 @@ msgstr "%s azpiprozesuak %d errorea eman du irteeran"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: abisua - %s hil du (%s)%s seinaleak\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

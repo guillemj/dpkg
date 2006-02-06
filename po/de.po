@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.13.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2005-08-19 15:34+0200\n"
 "Last-Translator: Michael Piefel <piefel@debian.org>\n"
 "Language-Team: German <de@debian-l10n-german@lists.debian.org>\n"
@@ -244,44 +244,49 @@ msgstr "kann den erneuerten Status von „%.250s“ nicht installieren"
 msgid "couldn't open log `%s': %s\n"
 msgstr "konnte Log-Datei „%s“ nicht öffnen"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "konnte Datensatz %s über „%0.50s“ nicht nach „%.250s“ schreiben"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "konnte „%s“ nicht zum Schreiben der Information %s öffnen"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "kann Puffer für die Statusdatei kann nicht setzen"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "konnte Datensatz %s über „%0.50s“ nicht nach „%.250s“ schreiben"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "konnte Information %s nicht nach „%.250s“ leeren"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "konnte kein fsync für Information %s nach „%.250s“ durchführen"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr ""
 "konnte „%.250s“ nicht schließen, nachdem Information %s geschrieben wurde"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "konnte „%.250s“ nicht mit „%.250s“ verknüpfen für Sicherheitskopie der "
 "Information %s"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr ""
@@ -367,58 +372,72 @@ msgstr "zu wenige Werte in dem Dateidetailfeld „%s“ (im Vergleich zu anderen
 msgid "yes/no in boolean field"
 msgstr "yes/no in Boole'schem Feld"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "Wert für Feld „status“ ist in diesem Kontext nicht erlaubt"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "drittes (Status-)Wort im Feld „status“"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "drittes (Status-)Wort im Feld „status“"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "drittes (Status-)Wort im Feld „status“"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "Fehler in Versionszeichenkette „%.250s“: %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "veraltetes Feld „Revision“ oder „Package-Revision“ benutzt"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "Wert für Feld „config-version“ ist in diesem Kontext nicht erlaubt"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "Fehler in der Config-Version-Zeichenkette „%.250s“: %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "Wert für „conffiles“ hat Zeile, die mit Nicht-Leerzeichen „%c“ beginnt"
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "Wert für „conffiles“ enthält unsaubere Zeile „%.*s“"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "Wurzel- oder leeres Verzeichnis ist als Konfigurationsdatei aufgeführt"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr "Feld „%s“, fehlender Paketname oder Müll, wo Paketname erwartet wurde"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "Feld „%s“, ungültiger Paketname „%.255s“: %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -427,7 +446,7 @@ msgstr ""
 "Feld „%s“, Referenz auf „%.255s“:\n"
 " fehlerhafte Versionsabhängigkeit %c%c"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -436,7 +455,7 @@ msgstr ""
 "Feld „%s“, Referenz auf „%.255s“:\n"
 " „%c“ ist veraltet, benutzen Sie stattdessen „%c=“ oder „%c%c“"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -446,11 +465,11 @@ msgstr ""
 " implizite exakte Übereinstimmung mit Versionsnummer, vielleicht stattdessen "
 "„=“ benutzen"
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Nur genaue Versionen können für „Provides“ benutzt werden"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -460,32 +479,32 @@ msgstr ""
 " Versionswert beginnt mit nicht-alphanumerischem Zeichen, vielleicht ein "
 "Leerzeichen hinzufügen"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "Feld „%s“, Referenz auf „%.255s“: Version enthält „(“"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "Feld „%s“, Referenz auf „%.255s“: Version enthält „ “"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "Feld „%s“, Referenz auf „%.255s“: Version nicht abgeschlossen"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "Feld „%s“, Referenz auf „%.255s“: Fehler in Version: %.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "Feld „%s“, Syntaxfehler nach Referenz zu Paket „%.255s“"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "Alternativen („|“) sind nicht erlaubt im Feld %s"
@@ -557,6 +576,10 @@ msgstr "Unterprozess %s gab den Fehlerwert %d zurück"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: Warnung - %s wurde getötet durch Signal (%s)%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

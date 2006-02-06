@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2005-11-30 15:41+0100\n"
 "Last-Translator: Jacobo Tarrío <jtarrio@debian.org>\n"
 "Language-Team: Galician <trasno@ceu.fi.udc.es>\n"
@@ -241,44 +241,49 @@ msgstr "non se pode instalar o estado actualizado de \"%.250s\""
 msgid "couldn't open log `%s': %s\n"
 msgstr "non se puido abrir o rexistro \"%s\": %s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "non se puido gravar o rexistro de \"%s\" sobre \"%.50s\" en \"%.250s\""
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "non se puido abrir \"%s\" para gravar información de \"%s\""
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "non se pode estabrecer o buffer do ficheiro de estado"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "non se puido gravar o rexistro de \"%s\" sobre \"%.50s\" en \"%.250s\""
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "non se puido baleirar o buffer coa información de \"%s\" en \"%.250s\""
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "non se puido sincronizar a información de \"%s\" en \"%.250s\""
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr ""
 "non se puido pechar \"%.250s\" despois de gravar a información de \"%s\""
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "non se puido ligar \"%.250s\" a \"%.250s\" para copiar a información de \"%s"
 "\""
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr ""
@@ -371,49 +376,63 @@ msgstr ""
 msgid "yes/no in boolean field"
 msgstr "si/non nun campo booleano"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "non se admite o valor do campo \"status\" neste contexto"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "terceira palabra (status) no campo \"status\""
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "terceira palabra (status) no campo \"status\""
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "terceira palabra (status) no campo \"status\""
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "erro na cadea do campo Version \"%.250s\": %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "emprégase un campo obsoleto \"Revision\" ou \"Package-Revision\""
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "non se admite o valor do campo \"config-version\" neste contexto"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "erro na cadea do campo Config-VErsion \"%.250s\": %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "o valor de \"conffiles\" ten unha liña que comeza por algo distinto dun "
 "espacio \"%c\""
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "o valor de \"conffiles\" ten unha liña mal formada \"%.*s\""
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "lístase coma ficheiro de configuración o directorio raíz ou un nulo"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -421,12 +440,12 @@ msgstr ""
 "campo \"%s\", falla o nome do paquete, ou hai lixo onde se esperaba o nome "
 "dun paquete"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "campo \"%s\", nome de paquete \"%.255s\" non válido: %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -435,7 +454,7 @@ msgstr ""
 "campo \"%s\", referencia a \"%.255s\":\n"
 " relación de versións %c%c incorrecta"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -444,7 +463,7 @@ msgstr ""
 "campo \"%s\", referencia a \"%.255s\":\n"
 " \"%c\" está obsoleto, empregue \"%c=\" ou \"%c%c\" no seu canto"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -453,11 +472,11 @@ msgstr ""
 "campo \"%s\", referencia a \"%.255s\":\n"
 " coincidencia exacta implícita no número de versión, suxírese empregar \"=\""
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Só se poden empregar versións exactas no campo Provides"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -467,32 +486,32 @@ msgstr ""
 " o valor da versión comeza por un carácter non alfanumérico, suxírese "
 "engadir un espazo"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "campo \"%s\", referencia a \"%.255s\": a versión contén \"(\""
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "campo \"%s\", referencia a \"%.255s\": a versión contén \" \""
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "campo \"%s\", referencia a \"%.255s\": versión sen rematar"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "campo \"%s\", referencia a \"%.255s\": erro na versión: %.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "campo \"%s\", erro de sintaxe trala referencia ao paquete \"%.255s\""
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "non se admiten alternativas (\"|\") no campo %s"
@@ -565,6 +584,10 @@ msgstr "o subproceso %s devolveu o estado de saída de erro %d"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: aviso - %s morreu por un sinal (%s)%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

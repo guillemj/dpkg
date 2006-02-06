@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2005-12-23 18:05+0700\n"
 "Last-Translator: Parlin Imanuel <parlin_i@yahoo.com>\n"
 "Language-Team: Debian Indonesia L10N Team <debian-l10n-id@gurame.fisika.ui."
@@ -247,41 +247,46 @@ msgstr "tidak bisa memasang status terbaru dari `%.250s'"
 msgid "couldn't open log `%s': %s\n"
 msgstr "tak dapat membuka log `%s': %s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "gagal menulis rekaman %s tentang `%.50s' ke `%.250s'"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "Gagal membuka `%s' untuk menulis informasi %s"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "tidak bisa menyetel penyangga (buffer) pada berkas status"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "gagal menulis rekaman %s tentang `%.50s' ke `%.250s'"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "gagal memindahkan informasi %s ke `%.250s'"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "gagal melakukan 'fsync' informasi %s ke `%.250s'"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "gagal menutup `%.250s' setelah menulis informasi %s"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr "gagal membuat link `%.250s' ke `%.250s' untuk cadangan info %s"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "gagal memasang `%.250s' sebagai `%.250s' yang berisi info %s"
@@ -368,50 +373,64 @@ msgstr ""
 msgid "yes/no in boolean field"
 msgstr "ya/tidak dalam ruas boolean"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "nilai untuk ruas 'status' tidak diizinkan dalam konteks ini"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "kalimat (status) ketiga dalam ruas `status'"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "kalimat (status) ketiga dalam ruas `status'"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "kalimat (status) ketiga dalam ruas `status'"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "Ada kesalahan dalam string 'Version' `%.250s': %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "Ruas 'Revision' atau 'Package-Revision' yang sudah usang digunakan"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "nilai untuk ruas 'config-version' tidak diizinkan dalam konteks ini"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "Ada kesalahan dalam string 'Config-Version' `%.250s': %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "nilai untuk 'conffiles' mengandung baris yang diawali tanpa-spasi: `%c'"
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "nilai untuk 'conffiles' mengandung baris yang salah bentuk: `%.*s'"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr ""
 "direktori kosong atau root terdaftar sebagai sebuah berkas konfigurasi "
 "(conffile)"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -419,12 +438,12 @@ msgstr ""
 "ruas `%s', di tempat yang seharusnya ada nama paket, nama paket hilang atau "
 "salah"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "ruas `%s', nama paket `%.255s': %s tidak sah"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -433,7 +452,7 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s': \n"
 "memiliki hubungan versi %c%c yang buruk."
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -442,7 +461,7 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s':\n"
 "`%c' sudah usang, gunakan saja `%c=' atau `%c%c'"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -451,11 +470,11 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s':\n"
 "nomor versi cocok secara tersirat, saran: gunakan saja `='"
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Hanya versi yang tepat yang dapat digunakan untuk 'Provides'"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -464,32 +483,32 @@ msgstr ""
 "ruas `%s', yang mengacu ke `%.255s':\n"
 "nilai versi dimulai tanpa alphanumerik, saran: tambahkan sebuah spasi"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "ruas `%s', yang mengacu ke `%.255s': versi berisi '('"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "ruas `%s', yang mengacu ke `%.255s': versi berisi ' '"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "ruas `%s', yang mengacu ke `%.255s': versi tidak diakhiri"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "ruas `%s', yang mengacu ke `%.255s': kesalahan dalam versi: %.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "ruas `%s', salah syntax setelah mengacu ke paket `%.255s'"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternatif ('|') tidak diizinkan dalam ruas %s"
@@ -561,6 +580,10 @@ msgstr "subproses %s menghasilkan kesalahan status 'exit': %d"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: PERINGATAN - %s dihentikan oleh sinyal (%s)%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

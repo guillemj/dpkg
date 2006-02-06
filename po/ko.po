@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2004-11-21 03:52+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: Korean <cwryu@debian.org>\n"
@@ -238,43 +238,48 @@ msgstr "`%.250s'의 업데이트 상태를 설치할 수 없습니다"
 msgid "couldn't open log `%s': %s\n"
 msgstr "디버그 파일 `%.255s'을(를) 열 수 없습니다\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "`%3$.250s' 파일에 `%2$.50s'에 관한 %1$s 레코드를 쓰는 데 실패했습니다"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "%2$s 정보를 쓰기 위해 `%1$s' 파일을 여는 데 실패했습니다"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "상대 파일에 버퍼링을 설정할 수 없습니다"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "`%3$.250s' 파일에 `%2$.50s'에 관한 %1$s 레코드를 쓰는 데 실패했습니다"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "`%2$.250s' 파일에 `%1$s' 정보를 플러시하는 데 실패했습니다"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "`%2$.250s' 파일에 `%1$s' 정보를 동기화하는 데 실패했습니다"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "`%2$s' 정보를 쓴 다음에 `%1$.250s' 파일을 닫는 데 실패했습니다"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "%3$s 정보를 백업하기 위해 `%1$.250s' 파일을 `%2$.250s' 파일로 링크하는 데 실"
 "패했습니다"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr ""
@@ -361,49 +366,63 @@ msgstr "파일 상세 필드 `%s'에 너무 값이 적습니다 (다른 필드�
 msgid "yes/no in boolean field"
 msgstr "불리언 필드에서는 예/아니오만 가능합니다"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "`status' 필드의 값은 이 경우에 쓸 수 없습니다"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "`status' 필드 내에 세 번째 (상태) 단어가 있습니다"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "`status' 필드 내에 세 번째 (상태) 단어가 있습니다"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "`status' 필드 내에 세 번째 (상태) 단어가 있습니다"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "Version 문자열 `%.250s'에 오류가 발생했습니다: %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr ""
 "더 이상 사용하지 않는 `Revision' 이나 `Package-Revision' 필드를 사용했습니다"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "`config-version' 필드 값은 이 경우에 쓸 수 없습니다"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "Config-Version 문자열 `%.250s'에 오류가 있습니다: %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr ""
 "`conffiles' 필드의 값에 공백이 아닌 `%c'(으)로 시작하는 줄이 들어 있습니다"
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "`conffiles'의 값에 잘못된 줄, `%.*s'이(가) 있습니다"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "conffile에 루트 혹은 빈 디렉토리가 들어 있습니다"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -411,12 +430,12 @@ msgstr ""
 "`%s' 필드, 꾸러미 이름이 들어가야 할 곳에 없는 꾸러미 이름 혹은 쓰레기 문자"
 "가 들어 있습니다."
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "`%s' 필드, 꾸러미 이름(`%.255s')이 잘못되었습니다: %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -425,7 +444,7 @@ msgstr ""
 "`%s' 필드, `%.255s' 참조:\n"
 " 버전 관계(%c%c)가 틀렸습니다"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -434,7 +453,7 @@ msgstr ""
 "`%s' 필드, `%.255s' 참조:\n"
 " `%c' 형식은 이제 안 씁니다. 대신에 `%c=' 혹은 `%c%c' 형식을 사용하십시오"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -443,11 +462,11 @@ msgstr ""
 "`%s' 필드, `%.255s' 참조:\n"
 " 버전을 정확히 맞추려면 버전만 쓰지 말고 `='을 사용하십시오"
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Provides에는 정확한 버전만을 사용할 수 있습니다"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -456,32 +475,32 @@ msgstr ""
 "`%s' 필드, `%.255s' 참조:\n"
 " 버전 값이 알파벳이나 숫자로 시작하지 않습니다, 공백을 더하면 됩니다"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "`%s' 필드, `%.255s' 참조: 버전에 `('가 들어 있습니다"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "`%s' 필드, `%.255s' 참조: 버전에 ` '이 들어 있습니다"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "`%s' 필드, `%.255s' 참조: 버전이 끝나지 않았습니다"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "`%s' 필드, `%.255s' 참조: 버전에 오류가 있습니다: %.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "`%s' 필드, `%.255s' 꾸러미 참조 후 구문 오류가 있습니다"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "%s 필드에는 대안 표시 (`|')를 쓸 수 없습니다"
@@ -553,6 +572,10 @@ msgstr "%s 하위 프로세스가 오류 %d번을 리턴했습니다"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: 경고 - %s 프로세스가 시그널에 (%s) 의해 죽었습니다%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

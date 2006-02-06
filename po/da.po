@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg_1.10.19_da\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2006-01-17 20:16+0100\n"
 "Last-Translator: Claus Hindsgaul <claus_h@image.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -243,42 +243,47 @@ msgstr "kunne ikke installere opdateret status for '%.250s'"
 msgid "couldn't open log `%s': %s\n"
 msgstr "kunne ikke åbne loggen '%s': %s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "kunne ikke skrive %s-indgang om '%.50s' til '%.250s'"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "kunne ikke åbne '%s' for at skrive %s-information"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "kunne ikke aktivere mellemlagring af statusfil"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "kunne ikke skrive %s-indgang om '%.50s' til '%.250s'"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "kunne ikke tømme %s-information til '%.250s'"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "kunne ikke synkronisere %s-information til '%.250s'"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "kunne ikke lukke '%.250s' efter skrivning af %s-information"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr ""
 "kunne ikke lænke '%.250s' til '%.250s' som sikkerhedskopiering af %s-info"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "kunne ikke installere '%.250s' som '%.250s' med %s-info"
@@ -363,59 +368,73 @@ msgstr "for få værdier i fildetaljefelt '%s' (sammenlignet med andre)"
 msgid "yes/no in boolean field"
 msgstr "yes/no i boolsk felt"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "værdi i 'status'-felt er ikke tilladt i denne sammenhæng"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "tredje (status-)ord i 'status'-felt"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "tredje (status-)ord i 'status'-felt"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "tredje (status-)ord i 'status'-felt"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "fejl i versionsstreng '%.250s': %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "forældet 'Revision'- eller 'Package-Revision'-felt blev brugt"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "værdien for 'config-version'-feltet er ikke tilladt i denne sammenhæng"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "fejl i Config-Version-streng '%.250s': %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "værdien for 'conffiles' har en linje, der starter uden mellemrum '%c'"
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "værdien for 'conffiles' har en linje med ugyldigt format '%.*s'"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "root- eller null-mappen er nævnt i konfigurationsfil"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
 msgstr ""
 "'%s'-felt, manglende pakkenavn eller skrammel, hvor pakkenavnet var forventet"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "'%s'-felt, ugyldigt pakkenavn '%.255s': %s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -424,7 +443,7 @@ msgstr ""
 "'%s'-felt, henvisning til '%.255s':\n"
 " ugyldig versionsrelation %c%c"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -433,7 +452,7 @@ msgstr ""
 "'%s'-felt, henvisning til '%.255s':\n"
 " '%c' er forældet, brug '%c=' eller '%c%c' i stedet"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -442,11 +461,11 @@ msgstr ""
 "'%s'-felt, henvisning til '%.255s':\n"
 " implicit nøjagtig match på versionsnummer, foreslår brug af '=' i stedet "
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Kun eksakte versioner må benyttes til Provides"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -456,32 +475,32 @@ msgstr ""
 " versionsværdien starter med ikke-alfanumerisk tegn, foreslår at tilføje et "
 "mellemrum"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "'%s' felt, henvisning til '%.255s': version indeholder '('"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "'%s' felt, henvisning til '%.255s': version indeholder ' '"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "'%s' felt, henvisning til '%.255s': version uafsluttet"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "'%s'-felt, henvisning til '%.255s': fejl i version: %.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "'%s' felt, syntaksfejl efter henvisning til pakken '%.255s'"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "alternativer ('|') tillades ikke i %s-feltet"
@@ -553,6 +572,10 @@ msgstr "underproces %s returnerede afslutningsstatus %d"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg: advarsel - %s dræbt af signal (%s)%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format

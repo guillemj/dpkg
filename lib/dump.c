@@ -262,7 +262,8 @@ void writerecord(FILE *file, const char *filename,
   varbufrecord(&vb,pigp,pifp);
   varbufaddc(&vb,'\0');
   if (fputs(vb.buf,file) < 0)
-    ohshite("failed to write details of `%.50s' to `%.250s'", pigp->name, filename);
+    ohshite(_("failed to write details of `%.50s' to `%.250s'"), pigp->name,
+	    filename);
    varbuffree(&vb);
 }
 

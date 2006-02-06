@@ -149,9 +149,9 @@ void f_priority(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                 const char *filename, int lno, FILE *warnto, int *warncount,
                 const char *value, const struct fieldinfo *fip) {
   if (!*value) return;
-  pigp->priority= convert_string(filename,lno,"word in `priority' field", pri_other,
-                             warnto,warncount,pigp,
-                             value,priorityinfos,NULL);
+  pigp->priority = convert_string(filename, lno, _("word in `priority' field"),
+				  pri_other, warnto, warncount, pigp,
+				  value, priorityinfos, NULL);
   if (pigp->priority == pri_other) pigp->otherpriority= nfstrsave(value);
 }
 
@@ -166,9 +166,11 @@ void f_status(struct pkginfo *pigp, struct pkginfoperfile *pifp,
              _("value for `status' field not allowed in this context"));
   if (flags & pdb_recordavailable) return;
   
-  pigp->want= convert_string(filename,lno,"first (want) word in `status' field", -1,
+  pigp->want = convert_string(filename, lno,
+			     _("first (want) word in `status' field"), -1,
                              warnto,warncount,pigp, value,wantinfos,&ep);
-  pigp->eflag= convert_string(filename,lno,"second (error) word in `status' field", -1,
+  pigp->eflag = convert_string(filename, lno,
+			      _("second (error) word in `status' field"), -1,
                               warnto,warncount,pigp, ep,eflaginfos,&ep);
   if (pigp->eflag & eflagf_obsoletehold) {
     pigp->want= want_hold;

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-06 23:10+0200\n"
+"POT-Creation-Date: 2006-02-06 23:46+0200\n"
 "PO-Revision-Date: 2005-10-23 22:28+0800\n"
 "Last-Translator: Tchaikov <tchaikov@sjtu.edu.cn>\n"
 "Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
@@ -238,41 +238,46 @@ msgstr "无法安装“%.250s”的更新状态"
 msgid "couldn't open log `%s': %s\n"
 msgstr "无法打开日志文件“%s”：%s\n"
 
-#: lib/dump.c:291
+#: lib/dump.c:265
+#, fuzzy, c-format
+msgid "failed to write details of `%.50s' to `%.250s'"
+msgstr "写入 %s 记录失败(“%.50s”到“%.250s”)"
+
+#: lib/dump.c:292
 #, c-format
 msgid "failed to open `%s' for writing %s information"
 msgstr "无法打开“%s”，所以无法写入“%s”信息"
 
-#: lib/dump.c:294
+#: lib/dump.c:295
 msgid "unable to set buffering on status file"
 msgstr "无法为状态文件设置缓冲区"
 
-#: lib/dump.c:305
+#: lib/dump.c:306
 #, c-format
 msgid "failed to write %s record about `%.50s' to `%.250s'"
 msgstr "写入 %s 记录失败(“%.50s”到“%.250s”)"
 
-#: lib/dump.c:313
+#: lib/dump.c:314
 #, c-format
 msgid "failed to flush %s information to `%.250s'"
 msgstr "flush %s 信息到“%.250s”失败"
 
-#: lib/dump.c:315
+#: lib/dump.c:316
 #, c-format
 msgid "failed to fsync %s information to `%.250s'"
 msgstr "fsync %s 信息到“%.250s”失败"
 
-#: lib/dump.c:317
+#: lib/dump.c:318
 #, c-format
 msgid "failed to close `%.250s' after writing %s information"
 msgstr "写入 %s 信息后，关闭“%.250s”失败"
 
-#: lib/dump.c:321
+#: lib/dump.c:322
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
 msgstr "建立“%.250s”到“%.250s”之间的链接时失败(该链接用于备份 %s 信息)"
 
-#: lib/dump.c:324
+#: lib/dump.c:325
 #, c-format
 msgid "failed to install `%.250s' as `%.250s' containing %s info"
 msgstr "将包含 %s 信息的“%.250s”安装为“%.250s”时失败"
@@ -357,47 +362,61 @@ msgstr "文件描述字段“%s”中的值太少(和其他的相比)"
 msgid "yes/no in boolean field"
 msgstr "布尔型字段的“是/否”"
 
+#: lib/fields.c:152
+msgid "word in `priority' field"
+msgstr ""
+
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "该上下文中不接受“status”这个字段的值"
 
-#: lib/fields.c:177
+#: lib/fields.c:170
+#, fuzzy
+msgid "first (want) word in `status' field"
+msgstr "“status”字段的第三个字(status)\t"
+
+#: lib/fields.c:173
+#, fuzzy
+msgid "second (error) word in `status' field"
+msgstr "“status”字段的第三个字(status)\t"
+
+#: lib/fields.c:179
 msgid "third (status) word in `status' field"
 msgstr "“status”字段的第三个字(status)\t"
 
-#: lib/fields.c:188
+#: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
 msgstr "版本(Version)字符串“%.250s”中有错误: %.250s"
 
-#: lib/fields.c:199
+#: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
 msgstr "您使用了已经废弃不用的字段“Revision”或者“Package-Revision”"
 
-#: lib/fields.c:217
+#: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
 msgstr "“config-version”字段的值在该上下文关系中不被接受"
 
-#: lib/fields.c:221
+#: lib/fields.c:223
 #, c-format
 msgid "error in Config-Version string `%.250s': %.250s"
 msgstr "Config-Version 字符串“%.250s”中有错误: %.250s"
 
-#: lib/fields.c:238
+#: lib/fields.c:240
 #, c-format
 msgid "value for `conffiles' has line starting with non-space `%c'"
 msgstr "“conffiles”的值中，有的行是以“%c”开头的，而它不是空格"
 
-#: lib/fields.c:244
+#: lib/fields.c:246
 #, c-format
 msgid "value for `conffiles' has malformatted line `%.*s'"
 msgstr "“conffiles” 的值包含了有格式错误的行：“%.*s”"
 
-#: lib/fields.c:250
+#: lib/fields.c:252
 msgid "root or null directory is listed as a conffile"
 msgstr "根目录或是空目录也被列为了 conffile"
 
-#: lib/fields.c:305
+#: lib/fields.c:307
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
@@ -405,12 +424,12 @@ msgstr ""
 "“%s\" 字段，找不到软件包名，也可能是在本该填写软件包名的地方发现了无意义的数"
 "据"
 
-#: lib/fields.c:308
+#: lib/fields.c:310
 #, c-format
 msgid "`%s' field, invalid package name `%.255s': %s"
 msgstr "“%s”字段，无效的软件包名“%.255s”:%s"
 
-#: lib/fields.c:339
+#: lib/fields.c:341
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -419,7 +438,7 @@ msgstr ""
 "“%s”字段，于 “%.255s”:\n"
 " 错误的版本依赖关系 %c%c"
 
-#: lib/fields.c:345
+#: lib/fields.c:347
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -428,7 +447,7 @@ msgstr ""
 "“%s”字段，于“%.255s”:\n"
 "“%c” 已被废弃不用，请转而使用“%c=”或者“%c%c”"
 
-#: lib/fields.c:355
+#: lib/fields.c:357
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -437,11 +456,11 @@ msgstr ""
 "“%s”字段，于“%.255s”:\n"
 " 未明确要求版本号完全一致，建议使用“=”"
 
-#: lib/fields.c:362
+#: lib/fields.c:364
 msgid "Only exact versions may be used for Provides"
 msgstr "Provides 中只能指明具体的版本"
 
-#: lib/fields.c:366
+#: lib/fields.c:368
 #, c-format
 msgid ""
 "`%s' field, reference to `%.255s':\n"
@@ -450,32 +469,32 @@ msgstr ""
 "“%s”字段，于“%.255s”:\n"
 " 版本号以一个不是字母的字符开头了，建议加一个空格"
 
-#: lib/fields.c:381
+#: lib/fields.c:383
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains `('"
 msgstr "“%s”字段，于“%.255s”：版本号含有“(”"
 
-#: lib/fields.c:384
+#: lib/fields.c:386
 #, c-format
 msgid "`%s' field, reference to `%.255s': version contains ` '"
 msgstr "“%s”字段，于“%.255s”：版本号含有“·”"
 
-#: lib/fields.c:387
+#: lib/fields.c:389
 #, c-format
 msgid "`%s' field, reference to `%.255s': version unterminated"
 msgstr "“%s”字段，于“%.255s”：版本号不应就此终止"
 
-#: lib/fields.c:397
+#: lib/fields.c:399
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
 msgstr "“%s”字段，于“%.255s”：解析版本号时出错：%.255s"
 
-#: lib/fields.c:406
+#: lib/fields.c:408
 #, c-format
 msgid "`%s' field, syntax error after reference to package `%.255s'"
 msgstr "“%s”字段，在引用软件包“%.255s”后发现语法错误"
 
-#: lib/fields.c:413
+#: lib/fields.c:415
 #, c-format
 msgid "alternatives (`|') not allowed in %s field"
 msgstr "在 %s 字段中不能含有替换项(\"｜“)"
@@ -547,6 +566,10 @@ msgstr "子进程·%s·返回了错误号·%d"
 #, c-format
 msgid "dpkg: warning - %s killed by signal (%s)%s\n"
 msgstr "dpkg：警告 - %s 被信号(%s)终止了%s\n"
+
+#: lib/mlib.c:122 lib/mlib.c:125
+msgid ", core dumped"
+msgstr ""
 
 #: lib/mlib.c:124
 #, c-format
