@@ -1227,6 +1227,8 @@ main(int argc, char **argv)
 			changegroup = ""; /* just empty */
 			runas_gid = pw->pw_gid;
 		}
+		if (access(pw->pw_dir, F_OK) == 0)
+			setenv("HOME", pw->pw_dir, 1);
 	}
 
 	if (stop) {
