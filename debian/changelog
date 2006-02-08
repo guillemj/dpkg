@@ -9,6 +9,10 @@ dpkg (1.13.14~) UNRELEASED; urgency=low
     Thanks to Changwoo Ryu for noticing. Closes: #237915
   * Mark some strings as translatable (Changwoo Ryu). Closes: #256387
   * Remove a trailing 'C' character from update-alternatives manpage.
+  * Use pkg-config to get the proper flags to link against libselinux.
+    Add a Build-Dependency on pkg-config, thighten libselinux1-dev to
+    at least version 1.28-4 which provides a .pc file, and remove
+    libsepol1-dev as libselinux1-dev is Depending on it.
 
   [ Frank Lichtenheld ]
   * Let dpkg-source ignore comments in the hunk header as used by

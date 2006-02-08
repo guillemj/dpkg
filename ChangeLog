@@ -1,3 +1,12 @@
+2006-02-08  Guillem Jover  <guillem@debian.org>
+
+	* debian/contrl (Build-Depends): Depend on version >= 1.28-4 of
+	libselinux1-dev as it has pkg-config support. Remove libsepol1-dev,
+	now dragged by libselinux1-dev. Add pkg-config.
+	* m4/libs.m4 (DPKG_LIB_SELINUX): Use pkg-config to get the static
+	and dynamic linker flags, thus no more hardcoding the transitional
+	libraries.
+
 2006-02-07  Nicolas François  <nicolas.francois@centraliens.net>
 
 	* man/C/dselect.1: Fix a typo: replace '.sh' by '.sp'.
