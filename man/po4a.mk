@@ -99,7 +99,7 @@ dist-hook: updatepo
 
 # Build the pages with an addendum
 %: $(srcdir)/%.$(lang).po $(srcdir)/../C/% $(srcdir)/%.$(lang).po.addendum
-	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@ -a $(srcdir)/%.$(lang).po.addendum
+	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@ -a $(srcdir)/$@.$(lang).po.addendum
 
 # Build the pages without addendum
 %: $(srcdir)/%.$(lang).po $(srcdir)/../C/%
