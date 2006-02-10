@@ -1,4 +1,4 @@
-.TH DPKG 1 "2006-01-26" "Debian Project" "dpkg suite"
+.TH DPKG 1 "2006-02-10" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg - package manager for Debian
 
@@ -478,8 +478,10 @@ Configuration file conflicts are reported as
 `status: conffile-prompt: conffile : 'current-conffile' 'new-conffile' useredited distedited'
 .TP
 \fB\-\-log=\fP\fIfilename\fP
-Log status change updates and actions to \fIfilename\fP.  This can be given
-multiple times.  Log messages are of the form `YYYY-MM-DD HH:MM:SS status
+Log status change updates and actions to \fIfilename\fP, instead of
+the default \fI/var/log/dpkg.log\fP. If this option is given multiple
+times, the last filename is used. Log messages are of the form
+`YYYY-MM-DD HH:MM:SS status
 <state> <pkg> <installed-version>' for status change updates;
 `YYYY-MM-DD HH:MM:SS <action> <pkg> <installed-version>
 <available-version>' for actions where \fI<action>\fP is one of install,
@@ -493,6 +495,10 @@ Do not try to verify package signatures.
 .TP
 .I /etc/dpkg/dpkg.cfg
 Configuration file with default options.
+.TP
+.I /var/log/dpkg.log
+Default log file (see \fI/etc/dpkg/dpkg.cfg\fP(5) and option
+\fB\-\-log\fP).
 .P
 The other files listed below are in their default directories, see option
 \fB\-\-admindir\fP to see how to change locations of these files.
@@ -600,6 +606,7 @@ following packages: \fIapt\fR, \fIaptitude\fR and \fIdebsums\fR.
 \fBdpkg\-deb\fP(1),
 \fBdeb\fP(5),
 \fBdeb\-control\fP(5),
+\fBdpkg.cfg\fP(5),
 and
 \fBdpkg\-reconfigure\fP(8)
 
