@@ -1,15 +1,42 @@
-.TH dpkg\-query 1 "2006-01-26" "Debian Project" "dpkg suite"
+.TH dpkg\-query 1 "2006-02-10" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-query \- a tool to query the dpkg database
-
+.
 .SH SYNOPSIS
 .B dpkg\-query
-
+.BR \-l | \-\-list
+.IR package-name-pattern " ..."
+.br
+.B dpkg\-query
+.BR \-W | \-\-show
+.IR package-name-pattern " ..."
+.br
+.B dpkg\-query
+.BR \-s | \-\-status
+.IR package-name " ..."
+.br
+.B dpkg\-query
+.BR \-L | \-\-listfiles
+.IR package-name " ..."
+.br
+.B dpkg\-query
+.BR  \-S | \-\-search
+.IR filename-search-pattern " ..."
+.br
+.B dpkg\-query
+.BR \-p | \-\-print\-avail
+.IR package-name " ..."
+.br
+.B dpkg\-query
+.BR \-\-licence | \-\-license
+.br
+.B dpkg\-query
+.BR \-\-version
+.
 .SH DESCRIPTION
 \fBdpkg\-query\fP is a tool to show information about packages listed in
 the \fBdpkg\fP database.
-
-
+.
 .SH COMMANDS
 .TP
 \fB\-l\fP | \fB\-\-list\fP \fIpackage-name-pattern\fP ...
@@ -41,8 +68,8 @@ having the name and installed version of the package, separated by a tab.
 Report status of specified package. This just displays the entry in
 the installed package status database.
 .TP
-\fB\-L\fP | \fB\-\-listfiles\fP \fIpackage\fP ...
-List files installed to your system from \fBpackage\fP.
+\fB\-L\fP | \fB\-\-listfiles\fP \fIpackage-name\fP ...
+List files installed to your system from \fBpackage-name\fP.
 However, note that files created by package-specific
 installation-scripts are not listed.
 .TP
@@ -52,8 +79,8 @@ wildchars can be used in the pattern.  This command will not list
 extra files created by maintainer scripts, nor will it list
 alternatives.
 .TP
-\fB\-p\fP |\fB\-\-print\-avail\fP package
-Display details about \fIpackage\fP, as found in
+\fB\-p\fP |\fB\-\-print\-avail\fP \fIpackage-name\fP
+Display details about \fIpackage-name\fP, as found in
 \fI/var/lib/dpkg/available\fP.
 .TP
 \fB\-\-licence\fP | \fB\-\-license\fP
@@ -61,7 +88,7 @@ Display licence and copyright information.
 .TP
 \fB\-\-version\fP
 Display version information.
-
+.
 .SH OPTIONS
 .TP
 \fB\-\-admindir=\fIdir\fP
@@ -125,13 +152,20 @@ alignment will be used. The following \fIfield\fRs are recognised:
 .fi
 
 The default format string is \(lq\fB${Package}\et${Version}\en\fP\(rq.
+To get the name of the dpkg maintainer and the installed version, you could
+run:
 
+.T
+.nf
+  \fBdpkg\-query \-W \-f='${Package} ${Version}\\t${Maintainer}\\n' dpkg\fP
+.fi
+.
 .SH ENVIRONMENT
 .TP
 \fBCOLUMNS\fP
 This setting influences the output of the \fB\-\-list\fP option by changing
 the width of its output.
-
+.
 .SH AUTHOR
 Copyright 2001 Wichert Akkerman
 .UR mailto:wakkerma@debian.org
@@ -140,8 +174,7 @@ Copyright 2001 Wichert Akkerman
 .sp
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions.  There is NO warranty.
-
-
+.
 .SH SEE ALSO
-.BR dpkg (1)
+.BR dpkg (1).
 
