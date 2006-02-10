@@ -214,6 +214,8 @@ void deferred_configure(struct pkginfo *pkg) {
 				useredited= strcmp(conff->hash,currenthash) != 0;
 				distedited= strcmp(conff->hash,newdisthash) != 0;
 				what= conffoptcells[useredited][distedited];
+				if (!strcmp(currenthash,NONEXISTENTFLAG))
+					what |= cfof_userrmd;
 			}
 
 			debug(dbg_conff,
@@ -222,7 +224,7 @@ void deferred_configure(struct pkginfo *pkg) {
 
 			what=promptconfaction(conff->name, cdr.buf, cdr2.buf, useredited, distedited, what);
 
-			switch (what & ~cfof_isnew) {
+			switch (what & ~(cfof_isnew|cfof_userrmd)) {
 				case cfo_keep | cfof_backup:
 					strcpy(cdr2rest,DPKGOLDEXT);
 					if (unlink(cdr2.buf) && errno != ENOENT)
@@ -258,8 +260,9 @@ void deferred_configure(struct pkginfo *pkg) {
 						fprintf(stderr,
 								_("dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"),
 								pkg->name, cdr2.buf, strerror(errno));
-					if (link(cdr.buf,cdr2.buf))
-						fprintf(stderr,
+					if (!(what & cfof_userrmd))
+						if (link(cdr.buf,cdr2.buf))
+							fprintf(stderr,
 								_("dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"),
 								pkg->name, cdr.buf, cdr2.buf, strerror(errno));
 					/* fall through */
@@ -560,9 +563,11 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 						" ==> File on system created by you or by a script.\n"
 						" ==> File also in package provided by package maintainer.\n"));
 		} else {
-			fprintf(stderr, useredited ?
+			fprintf(stderr, !useredited ?
+					_("\n     Not modified since installation.\n") :
+							!(what & cfof_userrmd) ?
 					_("\n ==> Modified (by you or by a script) since installation.\n") :
-					_("\n     Not modified since installation.\n"));
+					_("\n ==> Deleted (by you or by a script) since installation.\n"));
 
 			fprintf(stderr, distedited ?
 					_(" ==> Package distributor has shipped an updated version.\n") :
@@ -646,15 +651,17 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 	log_message("conffile %s %s", cfgfile,
 		    (cc == 'i' || cc == 'y') ? "install" : "keep");
 
+	what &= cfof_userrmd;
+
 	switch (cc) {
 		case 'i':
 		case 'y':
-			what=cfof_install|cfof_backup;
+			what |= cfof_install|cfof_backup;
 			break;
 
 		case 'n':
 		case 'o':
-			what=cfof_keep|cfof_backup;
+			what |= cfof_keep|cfof_backup;
 			break;
 
 		default:
