@@ -815,8 +815,11 @@ if ($opmode eq 'build') {
 	&reapgzip if $patch =~ /\.(gz|bz2)$/;
     }
 
+    my $now = time;
     for $fn (keys %filepatched) {
-	$ftr= "$newdirectory/".substr($fn,length($expectprefix)+1).".dpkg-orig";
+	$ftr= "$newdirectory/".substr($fn,length($expectprefix)+1);
+	utime($now, $now, $ftr) || &syserr("cannot change timestamp for $ftr");
+	$ftr.= ".dpkg-orig";
 	unlink($ftr) || &syserr("remove patch backup file $ftr");
     }
 
