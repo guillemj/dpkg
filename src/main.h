@@ -61,9 +61,10 @@ enum conffopt {
   cfof_prompt        =     001,
   cfof_keep          =     002,
   cfof_install       =     004,
-  cfof_backup        =    0100,
-  cfof_newconff      =    0200,
-  cfof_isnew         =    0400,
+  cfof_backup        =   00100,
+  cfof_newconff      =   00200,
+  cfof_isnew         =   00400,
+  cfof_isold         =   01000,
   cfom_main          =     007,
   cfo_keep           =   cfof_keep,
   cfo_prompt_keep    =   cfof_keep | cfof_prompt,
@@ -103,6 +104,8 @@ void filesdbinit(void);
 void archivefiles(const char *const *argv);
 void process_archive(const char *filename);
 int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int saywhy);
+struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
+				   struct filenamenode *namenode);
 
 /* from update.c */
 
@@ -179,7 +182,9 @@ void ensure_package_clientdata(struct pkginfo *pkg);
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 void oldconffsetflags(const struct conffile *searchconff);
 void ensure_pathname_nonexisting(const char *pathname);
-int chmodsafe_unlink(const char *pathname); /* chmod 600, then unlink */
+int chmodsafe_unlink(const char *pathname, const char **failed);
+int chmodsafe_unlink_statted(const char *pathname, const struct stat *stab,
+			     const char **failed);
 void checkpath(void);
 struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 

@@ -224,13 +224,38 @@ void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                      "in Config-Version string `%.250s': %.250s"),value,emsg);
 }
 
+void conffvalue_lastword(const char *value, const char *from,
+			 const char *endent,
+			 const char **word_start_r, int *word_len_r,
+			 const char **new_from_r,
+			 const char *filename, int lno,
+			 FILE *warnto, int *warncount, struct pkginfo *pigp) {
+  /* the code in f_conffiles ensures that value[-1]==' ', which is helpful */
+  const char *lastspc;
+  
+  if (from <= value+1) goto malformed;
+  for (lastspc= from-1; *lastspc != ' '; lastspc--);
+  if (lastspc <= value+1 || lastspc >= endent-1) goto malformed;
+
+  *new_from_r= lastspc;
+  *word_start_r= lastspc + 1;
+  *word_len_r= (int)(from - *word_start_r);
+  return;
+
+malformed:
+  parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
+	   _("value for `conffiles' has malformatted line `%.*s'"),
+	   (int)(endent-value > 250 ? 250 : endent-value), value);
+}
+
 void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                  enum parsedbflags flags,
                  const char *filename, int lno, FILE *warnto, int *warncount,
                  const char *value, const struct fieldinfo *fip) {
+  static const char obsolete_str[]= "obsolete";
   struct conffile **lastp, *newlink;
-  const char *endent, *endfn;
-  int c, namelen, hashlen;
+  const char *endent, *endfn, *hashstart;
+  int c, namelen, hashlen, obsolete;
   char *newptr;
   
   lastp= &pifp->conffiles;
@@ -240,11 +265,15 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     if (c != ' ') parseerr(NULL,filename,lno, warnto,warncount,pigp,0, _("value for"
                            " `conffiles' has line starting with non-space `%c'"), c);
     for (endent= value; (c= *endent)!=0 && c != '\n'; endent++);
-    for (endfn= endent; *endfn != ' '; endfn--);
-    if (endfn <= value+1 || endfn >= endent-1)
-      parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
-               _("value for `conffiles' has malformatted line `%.*s'"),
-               (int)(endent-value > 250 ? 250 : endent-value), value);
+    conffvalue_lastword(value, endent, endent,
+			&hashstart, &hashlen, &endfn,
+			filename,lno,warnto,warncount,pigp);
+    obsolete= (hashlen == sizeof(obsolete_str)-1 &&
+	       !memcmp(hashstart, obsolete_str, hashlen));
+    if (obsolete)
+      conffvalue_lastword(value, endfn, endent,
+			  &hashstart, &hashlen, &endfn,
+			  filename,lno,warnto,warncount,pigp);
     newlink= nfmalloc(sizeof(struct conffile));
     value= skip_slash_dotslash(value);
     namelen= (int)(endfn-value);
@@ -255,9 +284,10 @@ void f_conffiles(struct pkginfo *pigp, struct pkginfoperfile *pifp,
     memcpy(newptr+1,value,namelen);
     newptr[namelen+1]= 0;
     newlink->name= newptr;
-    hashlen= (int)(endent-endfn)-1; newptr= nfmalloc(hashlen+1);
-    memcpy(newptr,endfn+1,hashlen); newptr[hashlen]= 0;
+    newptr= nfmalloc(hashlen+1);
+    memcpy(newptr,hashstart,hashlen); newptr[hashlen]= 0;
     newlink->hash= newptr;
+    newlink->obsolete= obsolete;
     newlink->next =NULL;
     *lastp= newlink;
     lastp= &newlink->next;

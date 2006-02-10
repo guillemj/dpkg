@@ -68,7 +68,7 @@ void process_archive(const char *filename) {
   struct pkginfo *pkg, *otherpkg, *divpkg;
   char *cidir, *cidirrest, *p;
   char *pfilenamebuf, conffilenamebuf[MAXCONFFILENAME];
-  const char *pfilename, *newinfofilename;
+  const char *pfilename, *newinfofilename, *failed;
   struct fileinlist *newconff, **newconffileslastp;
   struct fileinlist *cfile;
   struct reversefilelistiter rlistit;
@@ -81,7 +81,7 @@ void process_archive(const char *filename) {
   DIR *dsd;
   struct filenamenode *namenode;
   struct dirent *de;
-  struct stat stab;
+  struct stat stab, oldfs;
   struct packageinlist *deconpil, *deconpiltemp;
   
   cleanup_pkg_failed= cleanup_conflictor_failed= 0;
@@ -313,12 +313,10 @@ void process_archive(const char *filename) {
       while (p > conffilenamebuf && isspace(p[-1])) --p;
       if (p == conffilenamebuf) continue;
       *p= 0;
-      newconff= m_malloc(sizeof(struct fileinlist));
-      newconff->next= 0;
-      newconff->namenode= findnamenode(conffilenamebuf, 0);
-      *newconffileslastp= newconff;
-      newconffileslastp= &newconff->next;
-      newconff->namenode->oldhash= NEWCONFFILEFLAG;
+      namenode= findnamenode(conffilenamebuf, 0);
+      namenode->oldhash= NEWCONFFILEFLAG;
+      newconff= newconff_append(&newconffileslastp, namenode);
+      
       /* Let's see if any packages have this file.  If they do we
        * check to see if they listed it as a conffile, and if they did
        * we copy the hash across.  Since (for plain file conffiles,
@@ -356,6 +354,7 @@ void process_archive(const char *filename) {
     xit_conff_hashcopy_srch:
       if (searchconff) {
         newconff->namenode->oldhash= searchconff->hash;
+	/* we don't copy `obsolete'; it's not obsolete in the new package */
       } else {
         debug(dbg_conff,"process_archive conffile `%s' no package, no hash",
               newconff->namenode->name);
@@ -523,8 +522,10 @@ void process_archive(const char *filename) {
    * package isn't one we're already processing, and the package's
    * list becomes empty as a result, we `vanish' the package.  This
    * means that we run its postrm with the `disappear' argument, and
-   * put the package in the `not-installed' state.  Its conffiles are
-   * ignored and forgotten about.
+   * put the package in the `not-installed' state.  If it had any
+   * conffiles, their hashes and ownership will have been transferred
+   * already, so we just ignore those and forget about them from the
+   * point of view of the disappearing package.
    *
    * NOTE THAT THE OLD POSTRM IS RUN AFTER THE NEW PREINST, since the
    * files get replaced `as we go'.
@@ -592,8 +593,7 @@ void process_archive(const char *filename) {
    */
   reversefilelist_init(&rlistit,pkg->clientdata->files);
   while ((namenode= reversefilelist_next(&rlistit))) {
-    if ((namenode->flags & fnnf_old_conff) ||
-        (namenode->flags & fnnf_new_conff) ||
+    if ((namenode->flags & fnnf_new_conff) ||
         (namenode->flags & fnnf_new_inarchive))
       continue;
     if (!stat(namenode->name,&stab) && S_ISDIR(stab.st_mode)) {
@@ -604,10 +604,30 @@ void process_archive(const char *filename) {
     fnamevb.used= fnameidlu;
     varbufaddstr(&fnamevb, namenodetouse(namenode,pkg)->name);
     varbufaddc(&fnamevb,0);
-    if (!rmdir(fnamevb.buf)) continue;
-    if (errno == ENOENT || errno == ELOOP) continue;
-    if (errno == ENOTDIR) {
+
+    if (lstat(fnamevb.buf, &oldfs)) {
+      if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
+	fprintf(stderr,
+		_("dpkg: warning - could not stat old file `%.250s'"
+		  " so not deleting it: %s"),
+		fnamevb.buf, strerror(errno));
+      continue;
+    }
+    if (S_ISDIR(oldfs.st_mode)) {
+      if (rmdir(fnamevb.buf)) {
+	fprintf(stderr,
+		_("dpkg: warning - unable to delete old directory"
+		  " `%.250s': %s\n"), namenode->name, strerror(errno));
+      } else if ((namenode->flags & fnnf_old_conff)) {
+	fprintf(stderr,
+		_("dpkg: warning - old conffile `%.250s' was an empty"
+		  " directory (and has now been deleted)\n"),
+		namenode->name);
+      }
+    } else {
       /* Ok, it's an old file, but is it really not in the new package?
+       * It might be known by a different name because of symlinks.
+       *
        * We need to check to make sure, so we stat the file, then compare
        * it to the new list. If we find a dev/inode match, we assume they
        * are the same file, and leave it alone. NOTE: we don't check in
@@ -618,54 +638,76 @@ void process_archive(const char *filename) {
        * the process a little leaner. We are only worried about new ones
        * since ones that stayed the same don't really apply here.
        */
-      struct stat oldfs;
-      int donotrm = 0;
+      struct fileinlist *sameas= 0;
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code
        */
       debug(dbg_eachfile, "process_archive: checking %s for same files on "
-	  "upgrade/downgrade", fnamevb.buf);
-      if (!lstat(fnamevb.buf, &oldfs) && !S_ISDIR(oldfs.st_mode)) {
-	for (cfile = newfileslist; cfile; cfile = cfile->next) {
-	  if (!cfile->namenode->filestat) {
-	    cfile->namenode->filestat = (struct stat *) nfmalloc(sizeof(struct stat));
-	    if (lstat(cfile->namenode->name, cfile->namenode->filestat)) {
-	      cfile->namenode->filestat= 0;
-	      continue;
-	    }
-	  }
-	  if (S_ISDIR(cfile->namenode->filestat->st_mode))
+	    "upgrade/downgrade", fnamevb.buf);
+
+      for (cfile= newfileslist; cfile; cfile= cfile->next) {
+	if (!cfile->namenode->filestat) {
+	  cfile->namenode->filestat= nfmalloc(sizeof(struct stat));
+	  if (lstat(cfile->namenode->name, cfile->namenode->filestat)) {
+	    if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
+	      ohshite(_("unable to stat other new file `%.250s'"),
+		      cfile->namenode->name);
+	    memset(cfile->namenode->filestat, 0,
+		   sizeof(cfile->namenode->filestat));
 	    continue;
-          if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
-              oldfs.st_ino == cfile->namenode->filestat->st_ino) {
-	    donotrm = 1;
-	    debug(dbg_eachfile, "process_archive: not removing %s, since it matches %s",
-		fnamevb.buf, cfile->namenode->name);
 	  }
 	}
-      } else
-	debug(dbg_eachfile, "process_archive: could not stat %s, skipping", fnamevb.buf);
-      if (donotrm) continue;
-      {
-	/*
-	 * If file to remove is a device or s[gu]id, change its mode
-	 * so that a malicious user cannot use it even if it's linked
-	 * to another file.
-	 */
-	struct stat stat_buf;
-	if (lstat(fnamevb.buf,&stat_buf)==0) {
-	  if (S_ISCHR(stat_buf.st_mode) || S_ISBLK(stat_buf.st_mode))
-	    chmod(fnamevb.buf, 0);
-	  if (stat_buf.st_mode & (S_ISUID|S_ISGID))
-	    chmod(fnamevb.buf, stat_buf.st_mode & ~(S_ISUID|S_ISGID));
+	if (!cfile->namenode->filestat->st_mode) continue;
+	if (oldfs.st_dev == cfile->namenode->filestat->st_dev &&
+	    oldfs.st_ino == cfile->namenode->filestat->st_ino) {
+	  if (sameas)
+	    fprintf(stderr, _("dpkg: warning - old file `%.250s' is the same"
+		      " as several new files!  (both `%.250s' and `%.250s'"),
+		    fnamevb.buf,
+		    sameas->namenode->name, cfile->namenode->name);
+	  sameas= cfile;
+	  debug(dbg_eachfile, "process_archive: not removing %s,"
+		" since it matches %s", fnamevb.buf, cfile->namenode->name);
 	}
       }
-      if (!unlink(fnamevb.buf)) continue;
-      if (errno == ENOTDIR) continue;
-    }
-    fprintf(stderr,
-            _("dpkg: warning - unable to delete old file `%.250s': %s\n"),
-            namenode->name, strerror(errno));
+
+      if ((namenode->flags & fnnf_old_conff)) {
+	if (sameas) {
+	  if (sameas->namenode->flags & fnnf_new_conff) {
+	    if (!strcmp(sameas->namenode->oldhash, NEWCONFFILEFLAG)) {
+	      sameas->namenode->oldhash= namenode->oldhash;
+	      debug(dbg_eachfile, "process_archive: old conff %s"
+		    " is same as new conff %s, copying hash",
+		    namenode->name, sameas->namenode->name);
+	    } else {
+	      debug(dbg_eachfile, "process_archive: old conff %s"
+		    " is same as new conff %s but latter already has hash",
+		    namenode->name, sameas->namenode->name);
+	    }
+	  }
+	} else {
+	  debug(dbg_eachfile, "process_archive: old conff %s"
+		" is disappearing", namenode->name);
+	  namenode->flags |= fnnf_obs_conff;
+	  newconff_append(&newconffileslastp, namenode);
+	  addfiletolist(&tc, namenode);
+	}
+	continue;
+      }
+      
+      if (sameas)
+	continue;
+
+      failed= N_("delete");
+      if (chmodsafe_unlink_statted(fnamevb.buf, &oldfs, &failed)) {
+	char mbuf[250];
+	snprintf(mbuf, sizeof(mbuf),
+		 N_("dpkg: warning - unable to %s old file `%%.250s': %%s\n"),
+		 failed);
+	fprintf(stderr, _(mbuf), namenode->name, strerror(errno));
+      }
+
+    } /* !S_ISDIR */
   }
 
   /* OK, now we can write the updated files-in-this package list,
@@ -827,6 +869,7 @@ void process_archive(const char *filename) {
     newiconff->next= 0;
     newiconff->name= nfstrsave(cfile->namenode->name);
     newiconff->hash= nfstrsave(cfile->namenode->oldhash);
+    newiconff->obsolete= !!(cfile->namenode->flags & fnnf_obs_conff);
     *iconffileslastp= newiconff;
     iconffileslastp= &newiconff->next;
   }
@@ -1033,6 +1076,8 @@ void process_archive(const char *filename) {
    *
    * Note that we don't ever delete things that were in the old
    * package as a conffile and don't appear at all in the new.
+   * They stay recorded as obsolete conffiles and will eventually
+   * (if not taken over by another package) be forgotten.
    */
   for (cfile= newfileslist; cfile; cfile= cfile->next) {
     if (cfile->namenode->flags & fnnf_new_conff) continue;

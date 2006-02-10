@@ -315,14 +315,25 @@ int unlinkorrmdir(const char *filename) {
   errno= e; return r;
 }
 
+struct fileinlist *addfiletolist(struct tarcontext *tc,
+				 struct filenamenode *namenode) {
+  struct fileinlist *nifd;
+  
+  nifd= obstack_alloc(&tar_obs, sizeof(struct fileinlist));
+  nifd->namenode= namenode;
+  nifd->next= 0; *tc->newfilesp= nifd; tc->newfilesp= &nifd->next;
+  return nifd;
+}
+
 int tarobject(struct TarInfo *ti) {
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
   const char *usename;
-    
+
+  struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
   int statr, fd, i, existingdirectory, keepexisting;
   size_t r;
-  struct stat stab, stabd;
+  struct stat stab, stabtmp;
   char databuf[TARBLKSZ];
   struct fileinlist *nifd, **oldnifd;
   struct pkginfo *divpkg, *otherpkg;
@@ -336,9 +347,7 @@ int tarobject(struct TarInfo *ti) {
    * been stripped by TarExtractor (lib/tarfn.c).
    */
   oldnifd= tc->newfilesp;
-  nifd= obstack_alloc(&tar_obs, sizeof(struct fileinlist));
-  nifd->namenode= findnamenode(ti->Name, 0);
-  nifd->next= 0; *tc->newfilesp= nifd; tc->newfilesp= &nifd->next;
+  nifd= addfiletolist(tc, findnamenode(ti->Name, 0));
   nifd->namenode->flags |= fnnf_new_inarchive;
 
   debug(dbg_eachfile,
@@ -417,7 +426,7 @@ int tarobject(struct TarInfo *ti) {
     break;
   case Directory:
     /* If it's already an existing directory, do nothing. */
-    if (!stat(fnamevb.buf,&stabd) && S_ISDIR(stabd.st_mode)) {
+    if (!stat(fnamevb.buf,&stabtmp) && S_ISDIR(stabtmp.st_mode)) {
       debug(dbg_eachfiledetail,"tarobject Directory exists");
       existingdirectory= 1;
     }
@@ -463,6 +472,29 @@ int tarobject(struct TarInfo *ti) {
         if (otherpkg->status == stat_configfiles) continue;
         /* Perhaps we're removing a conflicting package ? */
         if (otherpkg->clientdata->istobe == itb_remove) continue;
+
+	/* Is the file an obsolete conffile in the other package
+	 * and a conffile in the new package ? */
+	if ((nifd->namenode->flags & fnnf_new_conff) &&
+	    !statr && S_ISREG(stab.st_mode)) {
+	  for (conff= otherpkg->installed.conffiles;
+	       conff;
+	       conff= conff->next) {
+	    if (!conff->obsolete)
+	      continue;
+	    if (stat(conff->name, &stabtmp))
+	      if (errno == ENOENT || errno == ENOTDIR || errno == ELOOP)
+		continue;
+	    if (stabtmp.st_dev == stab.st_dev &&
+		stabtmp.st_ino == stab.st_ino)
+	      break;
+	  }
+	  if (conff)
+	    debug(dbg_eachfiledetail,"tarobject other's obsolete conffile");
+	    /* processarc.c will have copied its hash already. */
+	    continue;
+	}
+
         if (does_replace(tc->pkg,&tc->pkg->available,otherpkg)) {
           printf(_("Replacing files in old package %s ...\n"),otherpkg->name);
           otherpkg->clientdata->replacingfilesandsaid= 1;
@@ -1101,6 +1133,18 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
       return 0;
     }
   }
+}
+
+struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
+				   struct filenamenode *namenode) {
+  struct fileinlist *newconff;
+
+  newconff= m_malloc(sizeof(struct fileinlist));
+  newconff->next= 0;
+  newconff->namenode= namenode;
+  **newconffileslastp_io= newconff;
+  *newconffileslastp_io= &newconff->next;
+  return newconff;
 }
 
 /* vi: ts=8 sw=2

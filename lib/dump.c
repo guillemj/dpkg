@@ -233,6 +233,7 @@ void w_conffiles(struct varbuf *vb,
     if (i!=pifp->conffiles) varbufaddc(vb,'\n');
     varbufaddc(vb,' '); varbufaddstr(vb,i->name); varbufaddc(vb,' ');
     varbufaddstr(vb,i->hash);
+    if (i->obsolete) varbufaddstr(vb," obsolete");
   }
   if (flags&fw_printheader)
     varbufaddc(vb,'\n');

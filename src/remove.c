@@ -429,6 +429,11 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     
     for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
     static struct varbuf fnvb, removevb;
+      if (conff->obsolete) {
+	debug(dbg_conffdetail, "removal_bulk conffile obsolete %s",
+	      conff->name);
+	continue;
+      }
       varbufreset(&fnvb);
       r= conffderef(pkg, &fnvb, conff->name);
       debug(dbg_conffdetail, "removal_bulk conffile `%s' (= `%s')",

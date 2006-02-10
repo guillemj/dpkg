@@ -84,6 +84,7 @@ struct conffile {
   struct conffile *next;
   const char *name;
   const char *hash;
+  int obsolete;
 };
 
 struct filedetails {

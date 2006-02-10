@@ -13,6 +13,43 @@
 	a warning that was produced when trying to
 	backup a non-existant file.
 
+	* lib/dpkg-db.h (conffile): Add `obsolete' field.
+	* lib/dump.c (w_conffiles): Write "obsolete" at the
+	end of conffile entry if obsolete is set.
+	* lib/fields.c (f_conffiles): Parse entries for
+	obsolete conffiles correctly.
+	* src/filesdb.h (filenamenode.flags): Add new
+	flag for obsolete conffiles.
+	* src/remove.c (removal_bulk_remove_configfiles):
+	Handle obsolete conffiles.
+	* src/archives.c (newconff_append): New function
+	to append a filenamenode to a fileinlist.
+	(addfiletolist): New function to add a filenamenode
+	to a tarcontext.
+	(tarobject): Use new addfiletolist function.
+	Handle case where a new package takes over
+	an obsolete conffile from another package.
+	* src/archives.h: Add declaration of the
+	addfiletolist function.
+	* src/processarc.c (process_archive): Use new
+	newconff_append function from archives.c.
+	Detect obsoleted conffiles and mark them as such.
+	* src/help.c (chmodsafe_unlink): Make it possible
+	to differentiate between failed chmod and failed
+	unlink by adding a new `failed' argument which
+	will be set to the name of the failed command.
+	(chmodsafe_unlink_statted): New function that
+	can be called if we already have a stat result for
+	the file/directory to be removed.
+	(ensure_pathname_nonexisting): Give better error
+	messages by utilizing the changes to
+	chmodsafe_unlink.
+	* src/main.h: Reflect changes in archives.c
+	and help.c (add declarations for newconff_append
+	and chmodsafe_unlink_statted and change the
+	one of chmodsafe_unlink).
+	(conffopt): Add new isold flag.
+
 2006-02-10  James R. Van Zandt  <jrvz@comcast.net>
 
 	* man/C/dpkg.1: Document the default log file. The behaviour in case

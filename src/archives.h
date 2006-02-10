@@ -66,6 +66,9 @@ int filesavespackage(struct fileinlist*, struct pkginfo*,
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename);
 
+struct fileinlist *addfiletolist(struct tarcontext *tc,
+				 struct filenamenode *namenode);
+
 extern int cleanup_pkg_failed, cleanup_conflictor_failed;
 
 #endif /* ARCHIVES_H */

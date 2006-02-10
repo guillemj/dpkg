@@ -430,23 +430,35 @@ void oldconffsetflags(const struct conffile *searchconff) {
   while (searchconff) {
     namenode= findnamenode(searchconff->name, 0); /* XXX */
     namenode->flags |= fnnf_old_conff;
+    if (!namenode->oldhash)
+      namenode->oldhash= searchconff->hash;
     debug(dbg_conffdetail, "oldconffsetflags `%s' namenode %p flags %o",
           searchconff->name, namenode, namenode->flags);
     searchconff= searchconff->next;
   }
 }
 
-int chmodsafe_unlink(const char *pathname) {
+int chmodsafe_unlink(const char *pathname, const char **failed) {
+  /* Sets *failed to `chmod' or `unlink' if those calls fail (which is
+   * always unexpected).  If stat fails it leaves *failed alone. */
   struct stat stab;
 
   if (lstat(pathname,&stab)) return -1;
-  if (S_ISREG(stab.st_mode) ? (stab.st_mode & 07000) :
-      !(S_ISLNK(stab.st_mode) || S_ISDIR(stab.st_mode) ||
-   S_ISFIFO(stab.st_mode) || S_ISSOCK(stab.st_mode))) {
+  *failed= N_("unlink");
+  return chmodsafe_unlink_statted(pathname, &stab, failed);
+}
+  
+int chmodsafe_unlink_statted(const char *pathname, const struct stat *stab,
+			     const char **failed) {
+  /* Sets *failed to `chmod'' if that call fails (which is always
+   * unexpected).  If unlink fails it leaves *failed alone. */
+  if (S_ISREG(stab->st_mode) ? (stab->st_mode & 07000) :
+      !(S_ISLNK(stab->st_mode) || S_ISDIR(stab->st_mode) ||
+	S_ISFIFO(stab->st_mode) || S_ISSOCK(stab->st_mode))) {
     /* We chmod it if it is 1. a sticky or set-id file, or 2. an unrecognised
-     * object (ie, not a file, link, directory, fifo or socket
+     * object (ie, not a file, link, directory, fifo or socket)
      */
-    if (chmod(pathname,0600)) return -1;
+    if (chmod(pathname,0600)) { *failed= N_("chmod"); return -1; }
   }
   if (unlink(pathname)) return -1;
   return 0;
@@ -454,7 +466,7 @@ int chmodsafe_unlink(const char *pathname) {
 
 void ensure_pathname_nonexisting(const char *pathname) {
   int c1;
-  const char *u;
+  const char *u, *failed;
 
   u= skip_slash_dotslash(pathname);
   assert(*u);
@@ -462,15 +474,19 @@ void ensure_pathname_nonexisting(const char *pathname) {
   debug(dbg_eachfile,"ensure_pathname_nonexisting `%s'",pathname);
   if (!rmdir(pathname)) return; /* Deleted it OK, it was a directory. */
   if (errno == ENOENT || errno == ELOOP) return;
+  failed= N_("delete");
   if (errno == ENOTDIR) {
     /* Either it's a file, or one of the path components is.  If one
      * of the path components is this will fail again ...
      */
-    if (!chmodsafe_unlink(pathname)) return; /* OK, it was */
+    if (!chmodsafe_unlink(pathname, &failed)) return; /* OK, it was */
     if (errno == ENOTDIR) return;
   }
-  if (errno != ENOTEMPTY) /* Huh ? */
-    ohshite(_("failed to rmdir/unlink `%.255s'"),pathname);
+  if (errno != ENOTEMPTY) { /* Huh ? */
+    char mbuf[250];
+    snprintf(mbuf, sizeof(mbuf), N_("failed to %s `%%.255s'"), failed);
+    ohshite(_(mbuf),pathname);
+  }
   c1= m_fork();
   if (!c1) {
     execlp(RM,"rm","-rf","--",pathname,(char*)0);

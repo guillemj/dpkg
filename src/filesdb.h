@@ -65,6 +65,7 @@ struct filenamenode {
     fnnf_new_conff=           000001, /* in the newconffiles list */
     fnnf_new_inarchive=       000002, /* in the new filesystem archive */
     fnnf_old_conff=           000004, /* in the old package's conffiles list */
+    fnnf_obs_conff=           000100, /* obsolete conffile */
     fnnf_elide_other_lists=   000010, /* must remove from other packages' lists */
     fnnf_no_atomic_overwrite= 000020, /* >=1 instance is a dir, cannot rename over */
     fnnf_placed_on_disk=      000040, /* new file has been placed on the disk */
