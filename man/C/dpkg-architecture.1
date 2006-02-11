@@ -1,4 +1,4 @@
-.TH DPKG-ARCHITECTURE 1 "2006-01-23" "Debian GNU/Linux"
+.TH DPKG-ARCHITECTURE 1 "2006-02-11" "Debian GNU/Linux"
 .SH "NAME"
 dpkg\-architecture \- set and determine the architecture for package building
 .SH "SYNOPSIS"
@@ -74,9 +74,9 @@ x86_64-netbsd.
 dpkg-buildpackage accepts the \fB\-a\fR option and passes it to dpkg\-architecture.
 Other examples:
 .PP
-CC=i386\-gnu\-gcc dpkg-architecture \f(CW\*(C`\-c\*(C'\fR debian/rules build
+CC=i386\-gnu\-gcc dpkg\-architecture \f(CW\*(C`\-c\*(C'\fR debian/rules build
 .PP
-eval `dpkg\-architecture \f(CW\*(C`\-u\*(C'\fR`
+eval \`dpkg\-architecture \f(CW\*(C`\-u\*(C'\fR\`
 .SH "VARIABLES"
 .IX Header "VARIABLES"
 The following variables are set by dpkg\-architecture:
@@ -130,15 +130,15 @@ package:
 Instead of:
 .IP
 .nf
-ARCH=`dpkg \-\-print\-architecture`
+ARCH=\`dpkg \-\-print\-architecture\`
 configure $(\s-1ARCH\s0)\-linux
 .fi
 .PP
 please use the following:
 .IP
 .nf
-\&\s-1DEB_BUILD_GNU_TYPE\s0 := $(shell dpkg-architecture \-qDEB_BUILD_GNU_TYPE)
-\&\s-1DEB_HOST_GNU_TYPE\s0 := $(shell dpkg-architecture \-qDEB_HOST_GNU_TYPE)
+\&\s-1DEB_BUILD_GNU_TYPE\s0 := $(shell dpkg\-architecture \-qDEB_BUILD_GNU_TYPE)
+\&\s-1DEB_HOST_GNU_TYPE\s0 := $(shell dpkg\-architecture \-qDEB_HOST_GNU_TYPE)
 
 configure \-\-build=$(\s-1DEB_BUILD_GNU_TYPE\s0) \-\-host=$(\s-1DEB_HOST_GNU_TYPE\s0)
 .fi
@@ -147,7 +147,7 @@ configure \-\-build=$(\s-1DEB_BUILD_GNU_TYPE\s0) \-\-host=$(\s-1DEB_HOST_GNU_TYP
 Instead of:
 .IP
 .nf
-ARCH=`dpkg \-\-print\-architecture`
+ARCH=\`dpkg \-\-print\-architecture\`
 ifeq ($(\s-1ARCH\s0),alpha)
   ...
 endif
@@ -156,7 +156,7 @@ endif
 please use:
 .IP
 .nf
-\&\s-1DEB_HOST_ARCH\s0 := $(shell dpkg-architecture \-qDEB_HOST_ARCH)
+\&\s-1DEB_HOST_ARCH\s0 := $(shell dpkg\-architecture \-qDEB_HOST_ARCH)
 
 ifeq ($(\s-1DEB_HOST_ARCH\s0),alpha)
   ...
@@ -229,7 +229,7 @@ default values will be overwritten if dpkg-architecture is used.
 .PP
 You don't need the full set. Choose a consistent set which contains the
 values you use in the rules file. For example, if you only need the host
-Debian architecture, `DEB_HOST_ARCH=`dpkg \-\-print\-architecture`
+Debian architecture, `DEB_HOST_ARCH=\`dpkg \-\-print\-architecture\`'
 is sufficient (this is indeed the Debian architecture of the build machine,
 but remember that we are only trying to be backward compatible with native
 compilation).
