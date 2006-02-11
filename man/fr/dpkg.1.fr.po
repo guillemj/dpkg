@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-02-05 11:09+0100\n"
-"PO-Revision-Date: 2006-02-05 11:13+0100\n"
+"POT-Creation-Date: 2006-02-11 10:39+0100\n"
+"PO-Revision-Date: 2006-02-11 11:00+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22,8 +22,8 @@ msgstr "DPKG"
 # type: TH
 #: ../C/dpkg.1:1
 #, no-wrap
-msgid "2006-01-26"
-msgstr "26-01-2006"
+msgid "2006-02-10"
+msgstr "10-02-2006"
 
 # type: TH
 #: ../C/dpkg.1:1
@@ -1374,10 +1374,11 @@ msgid "B<--log=>I<filename>"
 msgstr "B<--log=>I<fichier>"
 
 # type: Plain text
-#: ../C/dpkg.1:489
+#: ../C/dpkg.1:491
 msgid ""
-"Log status change updates and actions to I<filename>.  This can be given "
-"multiple times.  Log messages are of the form `YYYY-MM-DD HH:MM:SS status "
+"Log status change updates and actions to I<filename>, instead of the default "
+"I</var/log/dpkg.log>. If this option is given multiple times, the last "
+"filename is used. Log messages are of the form `YYYY-MM-DD HH:MM:SS status "
 "E<lt>stateE<gt> E<lt>pkgE<gt> E<lt>installed-versionE<gt>' for status change "
 "updates; `YYYY-MM-DD HH:MM:SS E<lt>actionE<gt> E<lt>pkgE<gt> E<lt>installed-"
 "versionE<gt> E<lt>available-versionE<gt>' for actions where "
@@ -1386,47 +1387,60 @@ msgid ""
 "changes where I<E<lt>decision> is either install or keep."
 msgstr ""
 "Enregistre la modification de l'état, la mise à jour ou l'action sur "
-"I<fichier>.  Peut être répété. Les messages d'enregistrement sont de la "
-"forme AAAA-MM-JJ HH:MM:SS status E<lt>étatE<gt> E<lt>paquetE<gt> "
-"E<lt>version-installéeE<gt> pour les modifications d'état et les mises à "
-"jour. Pour une action, où I<E<lt>actionE<gt>> est «\\ install\\ », «\\ "
-"upgrade\\ », «\\ remove\\ » ou «\\ purge\\ », le message est de la forme "
-"AAAA-MM-JJ HH:MM:SS E<lt>actionE<gt> E<lt>paquetE<gt> E<lt>version-"
-"installéeE<gt> E<lt>version-disponibleE<gt>.  Pour une modification de "
-"conffile, le message est de la forme AAAA-MM-JJ HH:MM:SS conffile "
-"E<lt>fichierE<gt> E<lt>décisionE<gt> ou E<lt>décisionE<gt> est soit install "
-"soit keep."
+"I<fichier> au lieu de l'habituel I</var/log/dpkg.log>. Peut être répété. Les "
+"messages d'enregistrement sont de la forme AAAA-MM-JJ HH:MM:SS status "
+"E<lt>étatE<gt> E<lt>paquetE<gt> E<lt>version-installéeE<gt> pour les "
+"modifications d'état et les mises à jour. Pour une action, où "
+"I<E<lt>actionE<gt>> est «\\ install\\ », «\\ upgrade\\ », «\\ remove\\ » ou "
+"«\\ purge\\ », le message est de la forme AAAA-MM-JJ HH:MM:SS "
+"E<lt>actionE<gt> E<lt>paquetE<gt> E<lt>version-installéeE<gt> E<lt>version-"
+"disponibleE<gt>. Pour une modification de conffile, le message est de la "
+"forme AAAA-MM-JJ HH:MM:SS conffile E<lt>fichierE<gt> E<lt>décisionE<gt> ou "
+"E<lt>décisionE<gt> est soit install soit keep."
 
 # type: TP
-#: ../C/dpkg.1:489
+#: ../C/dpkg.1:491
 #, no-wrap
 msgid "B<--no-debsig>"
 msgstr "B<--no-debsig>"
 
 # type: Plain text
-#: ../C/dpkg.1:492
+#: ../C/dpkg.1:494
 msgid "Do not try to verify package signatures."
 msgstr "Ne pas tenter de vérifier la signature des paquets."
 
 # type: SH
-#: ../C/dpkg.1:492
+#: ../C/dpkg.1:494
 #, no-wrap
 msgid "FILES"
 msgstr "FICHIERS"
 
 # type: TP
-#: ../C/dpkg.1:493
+#: ../C/dpkg.1:495
 #, no-wrap
 msgid "I</etc/dpkg/dpkg.cfg>"
 msgstr "I</etc/dpkg/dpkg.cfg>"
 
 # type: Plain text
-#: ../C/dpkg.1:496
+#: ../C/dpkg.1:498
 msgid "Configuration file with default options."
 msgstr "Fichier de configuration contenant les options par défaut."
 
+# type: TP
+#: ../C/dpkg.1:498
+#, no-wrap
+msgid "I</var/log/dpkg.log>"
+msgstr "I</var/log/dpkg.log>"
+
 # type: Plain text
-#: ../C/dpkg.1:499
+#: ../C/dpkg.1:502
+msgid "Default log file (see I</etc/dpkg/dpkg.cfg>(5) and option B<--log>)."
+msgstr ""
+"Fichier journal standard. Voyez I</etc/dpkg/dpkg.cfg>(5) et l'option  B<--"
+"log>."
+
+# type: Plain text
+#: ../C/dpkg.1:505
 msgid ""
 "The other files listed below are in their default directories, see option "
 "B<--admindir> to see how to change locations of these files."
@@ -1436,24 +1450,24 @@ msgstr ""
 "fichiers."
 
 # type: TP
-#: ../C/dpkg.1:499
+#: ../C/dpkg.1:505
 #, no-wrap
 msgid "I</var/lib/dpkg/available>"
 msgstr "I</var/lib/dpkg/available>"
 
 # type: Plain text
-#: ../C/dpkg.1:502
+#: ../C/dpkg.1:508
 msgid "List of available packages."
 msgstr "Liste des paquets disponibles."
 
 # type: TP
-#: ../C/dpkg.1:502
+#: ../C/dpkg.1:508
 #, no-wrap
 msgid "I</var/lib/dpkg/status>"
 msgstr "I</var/lib/dpkg/status>"
 
 # type: Plain text
-#: ../C/dpkg.1:508
+#: ../C/dpkg.1:514
 msgid ""
 "Statuses of available packages. This file contains information about whether "
 "a package is marked for removing or not, whether it is installed or not, "
@@ -1465,7 +1479,7 @@ msgstr ""
 "LES PAQUETS> pour des informations supplémentaires."
 
 # type: Plain text
-#: ../C/dpkg.1:511
+#: ../C/dpkg.1:517
 msgid ""
 "The following files are components of a binary package.  See B<deb>(5)  for "
 "more information about them:"
@@ -1474,55 +1488,55 @@ msgstr ""
 "des informations supplémentaires :"
 
 # type: TP
-#: ../C/dpkg.1:511
+#: ../C/dpkg.1:517
 #, no-wrap
 msgid "I<control>"
 msgstr "I<control>"
 
 # type: TP
-#: ../C/dpkg.1:513
+#: ../C/dpkg.1:519
 #, no-wrap
 msgid "I<conffiles>"
 msgstr "I<conffiles>"
 
 # type: TP
-#: ../C/dpkg.1:515
+#: ../C/dpkg.1:521
 #, no-wrap
 msgid "I<preinst>"
 msgstr "I<preinst>"
 
 # type: TP
-#: ../C/dpkg.1:517
+#: ../C/dpkg.1:523
 #, no-wrap
 msgid "I<postinst>"
 msgstr "I<postinst>"
 
 # type: TP
-#: ../C/dpkg.1:519
+#: ../C/dpkg.1:525
 #, no-wrap
 msgid "I<prerm>"
 msgstr "I<prerm>"
 
 # type: TP
-#: ../C/dpkg.1:521
+#: ../C/dpkg.1:527
 #, no-wrap
 msgid "I<postrm>"
 msgstr "I<postrm>"
 
 # type: SH
-#: ../C/dpkg.1:524
+#: ../C/dpkg.1:530
 #, no-wrap
 msgid "ENVIRONMENT VARIABLES"
 msgstr "VARIABLES D'ENVIRONNEMENT"
 
 # type: TP
-#: ../C/dpkg.1:525
+#: ../C/dpkg.1:531
 #, no-wrap
 msgid "B<DPKG_NO_TSTP>"
 msgstr "B<DPKG_NO_TSTP>"
 
 # type: Plain text
-#: ../C/dpkg.1:529
+#: ../C/dpkg.1:535
 msgid ""
 "Define this to something if you prefer B<dpkg> starting a new shell rather "
 "than suspending itself, while doing a shell escape."
@@ -1532,26 +1546,26 @@ msgstr ""
 "l'interpréteur de commandes."
 
 # type: TP
-#: ../C/dpkg.1:529
+#: ../C/dpkg.1:535
 #, no-wrap
 msgid "B<SHELL>"
 msgstr "B<SHELL>"
 
 # type: Plain text
-#: ../C/dpkg.1:532
+#: ../C/dpkg.1:538
 msgid "The program B<dpkg> will execute while starting a new shell."
 msgstr ""
 "Le programme qu'exécute B<dpkg> quand il lance un nouvel interpréteur de "
 "commandes."
 
 # type: TP
-#: ../C/dpkg.1:532
+#: ../C/dpkg.1:538
 #, no-wrap
 msgid "B<COLUMNS>"
 msgstr "B<COLUMNS>"
 
 # type: Plain text
-#: ../C/dpkg.1:536
+#: ../C/dpkg.1:542
 msgid ""
 "Sets the number of columns B<dpkg> should use when displaying formatted "
 "text.  Currently only used by -l."
@@ -1560,13 +1574,13 @@ msgstr ""
 "formaté. Seule l'action B<-l> se sert actuellement de cette variable."
 
 # type: TP
-#: ../C/dpkg.1:536
+#: ../C/dpkg.1:542
 #, no-wrap
 msgid "B<DPKG_OLD_CONFFILE>"
 msgstr "B<DPKG_OLD_CONFFILE>"
 
 # type: Plain text
-#: ../C/dpkg.1:541
+#: ../C/dpkg.1:547
 msgid ""
 "Set by B<dpkg> to the filename of the old configuration file when you start "
 "a shell to examine a changed configuration.  file."
@@ -1576,13 +1590,13 @@ msgstr ""
 "par B<dpkg>."
 
 # type: TP
-#: ../C/dpkg.1:541
+#: ../C/dpkg.1:547
 #, no-wrap
 msgid "B<DPKG_NEW_CONFFILE>"
 msgstr "B<DPKG_NEW_CONFFILE>"
 
 # type: Plain text
-#: ../C/dpkg.1:546
+#: ../C/dpkg.1:552
 msgid ""
 "Set by B<dpkg> to the filename of the newversion of a configuration file "
 "when you start a shell to examine a changed configuration.  file."
@@ -1592,55 +1606,55 @@ msgstr ""
 "configuration modifié\\ ; sa valeur est donnée par B<dpkg>."
 
 # type: SH
-#: ../C/dpkg.1:547
+#: ../C/dpkg.1:553
 #, no-wrap
 msgid "EXAMPLES"
 msgstr "EXEMPLES"
 
 # type: Plain text
-#: ../C/dpkg.1:549
+#: ../C/dpkg.1:555
 msgid "To list packages related to the editor vi:"
 msgstr "Pour afficher les paquets dont le nom contient la chaîne 'vi' :"
 
 # type: Plain text
-#: ../C/dpkg.1:551
+#: ../C/dpkg.1:557
 msgid "B< dpkg -l '*vi*'>"
 msgstr "B<dpkg -l '*vi*'>"
 
 # type: Plain text
-#: ../C/dpkg.1:554
+#: ../C/dpkg.1:560
 msgid "To see the entries in I</var/lib/dpkg/available> on two packages:"
 msgstr ""
 "Pour voir les entrées de I</var/lib/dpkg/available> concernant deux paquets"
 "\\ :"
 
 # type: Plain text
-#: ../C/dpkg.1:556
+#: ../C/dpkg.1:562
 msgid "B< dpkg --print-avail elvis vim | less>"
 msgstr "B<dpkg --print-avail elvis vim | less>"
 
 # type: Plain text
-#: ../C/dpkg.1:559
+#: ../C/dpkg.1:565
 msgid "To search the listing of packages yourself:"
 msgstr "Pour rechercher vous-même dans la liste des paquets\\ :"
 
 # type: Plain text
-#: ../C/dpkg.1:561
+#: ../C/dpkg.1:567
 msgid "B< less /var/lib/dpkg/available>"
 msgstr "B<less /var/lib/dpkg/available>"
 
 # type: Plain text
-#: ../C/dpkg.1:564
+#: ../C/dpkg.1:570
 msgid "To remove an installed elvis package:"
 msgstr "Pour supprimer le paquet installé elvis\\ :"
 
 # type: Plain text
-#: ../C/dpkg.1:566
+#: ../C/dpkg.1:572
 msgid "B< dpkg -r elvis>"
 msgstr "B<dpkg -r elvis>"
 
 # type: Plain text
-#: ../C/dpkg.1:571
+#: ../C/dpkg.1:577
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM.  The "
 "\"available\" file shows that the vim package is in section \"editors\":"
@@ -1650,22 +1664,22 @@ msgstr ""
 "trouve dans la section «\\ editors\\ » :"
 
 # type: Plain text
-#: ../C/dpkg.1:574
+#: ../C/dpkg.1:580
 msgid "B< cd /cdrom/hamm/hamm/binary/editors> B< dpkg -i vim_4.5-3.deb>"
 msgstr "B<cd /cdrom/hamm/hamm/binary/editors> B< dpkg -i vim_4.5-3.deb>"
 
 # type: Plain text
-#: ../C/dpkg.1:577
+#: ../C/dpkg.1:583
 msgid "To make a local copy of the package selection states:"
 msgstr "Pour faire une copie locale des états de sélection des paquets :"
 
 # type: Plain text
-#: ../C/dpkg.1:579
+#: ../C/dpkg.1:585
 msgid "B< dpkg --get-selections E<gt>myselections>"
 msgstr "B<dpkg --get-selections E<gt>myselections>"
 
 # type: Plain text
-#: ../C/dpkg.1:583
+#: ../C/dpkg.1:589
 msgid ""
 "You might transfer this file to another computer, and install it there with:"
 msgstr ""
@@ -1673,12 +1687,12 @@ msgstr ""
 "de cette manière :"
 
 # type: Plain text
-#: ../C/dpkg.1:585
+#: ../C/dpkg.1:591
 msgid "B< dpkg --set-selections E<lt>myselections>"
 msgstr "B<dpkg --set-selections E<lt>myselections>"
 
 # type: Plain text
-#: ../C/dpkg.1:590
+#: ../C/dpkg.1:596
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages.  You will need some other "
@@ -1691,7 +1705,7 @@ msgstr ""
 "requis. Par exemple, exécutez B<dselect> et choisissez Install."
 
 # type: Plain text
-#: ../C/dpkg.1:593
+#: ../C/dpkg.1:599
 msgid ""
 "Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
 "to modify the package selection states."
@@ -1700,13 +1714,13 @@ msgstr ""
 "aisée de modifier les états de sélection des paquets."
 
 # type: SH
-#: ../C/dpkg.1:594
+#: ../C/dpkg.1:600
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
 msgstr "FONCTIONNALITÉS SUPPLÉMENTAIRES"
 
 # type: Plain text
-#: ../C/dpkg.1:597
+#: ../C/dpkg.1:603
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: I<apt>, I<aptitude> and I<debsums>."
@@ -1715,39 +1729,39 @@ msgstr ""
 "I<apt>, I<aptitude> et I<debsums>."
 
 # type: SH
-#: ../C/dpkg.1:598
+#: ../C/dpkg.1:604
 #, no-wrap
 msgid "SEE ALSO"
 msgstr "VOIR AUSSI"
 
 # type: Plain text
-#: ../C/dpkg.1:605
+#: ../C/dpkg.1:612
 msgid ""
-"B<dselect>(1), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), and B<dpkg-"
-"reconfigure>(8)"
+"B<dselect>(1), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5), "
+"and B<dpkg-reconfigure>(8)"
 msgstr ""
-"B<dselect>(1), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), et B<dpkg-"
-"reconfigure>(8)"
+"B<dselect>(1), B<dpkg-deb>(1), B<deb>(5), B<deb-control>(5), B<dpkg.cfg>(5) "
+"et B<dpkg-reconfigure>(8)"
 
 # type: SH
-#: ../C/dpkg.1:606
+#: ../C/dpkg.1:613
 #, no-wrap
 msgid "BUGS"
 msgstr "BOGUES"
 
 # type: Plain text
-#: ../C/dpkg.1:609
+#: ../C/dpkg.1:616
 msgid "B<--no-act> usually gives less information than might be helpful."
 msgstr "L'option B<--no-act> ne donne pas assez d'informations utiles."
 
 # type: SH
-#: ../C/dpkg.1:610
+#: ../C/dpkg.1:617
 #, no-wrap
 msgid "AUTHORS"
 msgstr "AUTEURS"
 
 # type: Plain text
-#: ../C/dpkg.1:614
+#: ../C/dpkg.1:621
 #, no-wrap
 msgid ""
 "See B</usr/share/doc/dpkg/THANKS.gz> for the list of people who have\n"
