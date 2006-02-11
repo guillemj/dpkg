@@ -173,7 +173,8 @@ if ($opmode eq 'build') {
         $v= $fi{$_};
         if (s/^C //) {
             if (m/^Source$/i) { &setsourcepackage; }
-            elsif (m/^(Standards-Version|Origin|Maintainer|Uploaders)$/i) { $f{$_}= $v; }
+            elsif (m/^(Standards-Version|Origin|Maintainer)$/i) { $f{$_}= $v; }
+	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 		my $dep = parsedep(substvars($v),1);
 		&error("error occoured while parsing $_") unless defined $dep;
