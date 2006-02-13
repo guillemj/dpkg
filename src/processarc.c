@@ -662,7 +662,7 @@ void process_archive(const char *filename) {
 	    oldfs.st_ino == cfile->namenode->filestat->st_ino) {
 	  if (sameas)
 	    fprintf(stderr, _("dpkg: warning - old file `%.250s' is the same"
-		      " as several new files!  (both `%.250s' and `%.250s'"),
+		      " as several new files!  (both `%.250s' and `%.250s')"),
 		    fnamevb.buf,
 		    sameas->namenode->name, cfile->namenode->name);
 	  sameas= cfile;
