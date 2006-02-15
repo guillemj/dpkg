@@ -110,6 +110,7 @@ AC_CONFIG_FILES([ Makefile
 		  man/de/Makefile
 		  man/es/Makefile
 		  man/fr/Makefile
+		  man/hu/Makefile
 		  man/ja/Makefile
 		  man/pt_BR/Makefile
 		  man/ru/Makefile
