@@ -1,0 +1,78 @@
+Translators, when adding/updating your translation files, please follow
+the following guidelines:
+
+* Update po/ChangeLog and debian/changelog:
+
+  * beware the you should NOT update the main ChangeLog file
+    for translation updates. Use po/ChangeLog instead
+
+  * The format of entries in po/ChangeLog is strict:
+
+==========================================================
+2006-02-11  Christian Perrier  <bubulle@debian.org>
+
+	* fr.po: Updated to 1011t.
+==========================================================
+
+Note the date format AND the DOUBLE SPACE between the date end the translator's
+email address
+
+Note also the TAB character before the entry. NOT multiple spaces
+
+Also note that the update should mention the file statistics as 
+XXXtYYYfZZZu
+
+ -  "XXXt" means "XXX translated strings"
+ -  "YYYf" means "YYY fuzzy strings strings"
+ -  "ZZZt" means "ZZZ translated strings"
+
+YYY or ZZZ may be omitted if they are null
+
+This file contents MUST be encoded in UTF-8
+
+  * Format of entries in debian/changelog:
+
+Translation updates should go in a dedicated "[Updated translations]"
+section:
+
+dpkg (1.13.15) unstable; urgency=low
+
+  .../...
+
+  [ Updated Translations ]
+  * Catalan (Jordi Mallach).
+  * Portuguese (Miguel Figueiredo).
+  * Swedish (Daniel Nylander).
+
+
+New translations should go in a dedicated section named "[New translations]":
+
+  
+dpkg (1.13.15) unstable; urgency=low
+
+  .../...
+
+  [ New Translations ]
+  * Vogon (Douglas Adams).
+
+This file contents MUST be encoded in UTF-8
+
+* use of po/LINGUAS:
+
+When ADDING a new translation, don't forget adding the language to po/LINGUAS, otherwise it will not be used.
+
+
+* always CHECK your translations
+
+You MUST check your PO files for validity.
+
+The correct syntax for doing so is:
+
+msgmerge -U <file> dpkg.pot
+msgfmt -c -o /dev/null --statistics <file>
+msgcat <file> >/dev/null
+
+-msgmerge updates your file with the current POT file
+-msgfmt checks it for validity
+-msgcat may  detect encoding problems
+
