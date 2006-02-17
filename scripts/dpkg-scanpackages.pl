@@ -189,10 +189,11 @@ my $override_fh = new IO::File $override,'r'
 while (<$override_fh>) {
     s/\#.*//;
     s/\s+$//;
+    next unless $_;
     my ($p,$priority,$section,$maintainer)= split(/\s+/,$_,4);
     next unless defined($packages{$p});
     for my $package (@{$packages{$p}}) {
-	 if (defined $maintainer and length($maintainer)) {
+	 if ($maintainer) {
 	      if ($maintainer =~ m/(.+?)\s*=\>\s*(.+)/) {
 		   my $oldmaint= $1;
 		   my $newmaint= $2;
@@ -203,15 +204,15 @@ while (<$override_fh>) {
 		   } else {
 			$$package{Maintainer}= $newmaint;
 		   }
-	      }
-	 } elsif ($$package{Maintainer} eq $maintainer) {
-	      push(@samemaint,"  $p ($maintainer)\n");
-	 } else {
-	      print(STDERR " * Unconditional maintainer override for $p *\n") || die $!;
-	      $$package{Maintainer}= $maintainer;
-	 }
-	 $packages{$p}{Priority}= $priority;
-	 $packages{$p}{Section}= $section;
+	       } elsif ($$package{Maintainer} eq $maintainer) {
+		   push(@samemaint,"  $p ($maintainer)\n");
+	       } else {
+		   print(STDERR " * Unconditional maintainer override for $p *\n") || die $!;
+		   $$package{Maintainer}= $maintainer;
+	       }
+	  }
+	 $$package{Priority}= $priority;
+	 $$package{Section}= $section;
     }
     $overridden{$p} = 1;
 }
