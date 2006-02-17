@@ -103,6 +103,7 @@ AC_CONFIG_FILES([ Makefile
 		  dpkg-deb/Makefile
 		  dpkg-split/Makefile
 		  dselect/Makefile
+		  dselect/methods/Makefile
 		  getopt/Makefile
 		  intl/Makefile
 		  lib/Makefile
@@ -116,7 +117,6 @@ AC_CONFIG_FILES([ Makefile
 		  man/pt_BR/Makefile
 		  man/ru/Makefile
 		  man/sv/Makefile
-		  methods/Makefile
 		  origins/Makefile
 		  po/Makefile.in
 		  scripts/Makefile

@@ -1,5 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
+SUBDIRS = methods
+
 localedir = $(datadir)/locale
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl \

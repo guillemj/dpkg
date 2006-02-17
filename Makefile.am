@@ -15,7 +15,6 @@ SUBDIRS = \
 	utils \
 	scripts \
 	po \
-	methods \
 	origins \
 	man
 
