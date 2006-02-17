@@ -4,6 +4,7 @@ AC_PREREQ(2.59)
 AC_INIT([dpkg], [1.13.16~], [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([config])
 
 AC_CANONICAL_SYSTEM
 AC_GNU_SOURCE
