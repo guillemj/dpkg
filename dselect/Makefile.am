@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = methods
+SUBDIRS = methods po
 
 localedir = $(datadir)/locale
 INCLUDES = \

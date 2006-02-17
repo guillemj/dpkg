@@ -104,6 +104,7 @@ AC_CONFIG_FILES([ Makefile
 		  dpkg-split/Makefile
 		  dselect/Makefile
 		  dselect/methods/Makefile
+		  dselect/po/Makefile.in
 		  getopt/Makefile
 		  intl/Makefile
 		  lib/Makefile

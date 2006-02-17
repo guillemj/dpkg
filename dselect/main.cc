@@ -482,8 +482,8 @@ int main(int, const char *const *argv) {
   jmp_buf ejbuf;
 
   setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  textdomain(PACKAGE);
+  bindtextdomain(DSELECT, LOCALEDIR);
+  textdomain(DSELECT);
 
   if (setjmp(ejbuf)) { /* expect warning about possible clobbering of argv */
     cursesoff();
