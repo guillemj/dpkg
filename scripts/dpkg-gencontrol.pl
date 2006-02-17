@@ -34,9 +34,7 @@ Options:  -p<package>            print control file for package
           -P<packagebuilddir>    temporary build dir instead of debian/tmp
 	  -n<filename>           assume the package filename will be <filename>
           -O                     write to stdout, not .../DEBIAN/control
-          -is                    include section field
-          -ip                    include priority field
-          -isp|-ips              include both section and priority
+          -is, -ip, -isp, -ips   deprecated, ignored for compatibility
           -D<field>=<value>      override or add a field and value
           -U<field>              remove a field
           -V<name>=<value>       set a substitution variable
@@ -70,13 +68,8 @@ while (@ARGV) {
         $forceversion= $1;
     } elsif (m/^-O$/) {
         $stdout= 1;
-    } elsif (m/^-is$/) {
-        $spinclude{'Section'}=1;
-    } elsif (m/^-ip$/) {
-        $spinclude{'Priority'}=1;
-    } elsif (m/^-isp$/ || m/^-ips$/) {
-        $spinclude{'Section'}=1;
-        $spinclude{'Priority'}=1;
+    } elsif (m/^-i[sp][sp]?$/) {
+	# ignored for backwards compatibility
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/) {
@@ -205,7 +198,7 @@ for $_ (keys %fi) {
 
 for $f (qw(Section Priority)) {
     $spvalue{$f}= $spdefault{$f} unless length($spvalue{$f});
-    $f{$f}= $spvalue{$f} if $spinclude{$f} && length($spvalue{$f});
+    $f{$f}= $spvalue{$f} if length($spvalue{$f});
 }
 
 for $f (qw(Package Version)) {
