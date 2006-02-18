@@ -233,6 +233,9 @@ if (length($substvar{'Installed-Size'})) {
     $f{'Installed-Size'}= $substvar{'Installed-Size'};
 }
 
+for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
+for $f (keys %remove) { delete $f{&capit($f)}; }
+
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr("open new files list file");
 binmode(Y);
@@ -244,7 +247,8 @@ if (open(X,"< $fileslistfile")) {
         chomp;
         next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.deb /
                 && ($1 eq $oppackage)
-                && (debian_arch_eq($2, $arch) || debian_arch_eq($2, 'all'));
+                && (debian_arch_eq($2, $f{'Architecture'})
+		    || debian_arch_eq($2, 'all'));
         print(Y "$_\n") || &syserr("copy old entry to new files list file");
     }
     close(X) || &syserr("close old files list file");
@@ -260,9 +264,6 @@ print(Y &substvars(sprintf("%s %s %s\n", $forcefilename,
     || &syserr("write new entry to new files list file");
 close(Y) || &syserr("close new files list file");
 rename("$fileslistfile.new",$fileslistfile) || &syserr("install new files list file");
-
-for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
-for $f (keys %remove) { delete $f{&capit($f)}; }
 
 if (!$stdout) {
     $cf= "$packagebuilddir/DEBIAN/control";
