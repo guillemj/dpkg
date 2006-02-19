@@ -112,9 +112,9 @@ msgid "%s: internal bzip2 error: write: `%s'"
 msgstr "%s: erro interno de bzip2: write: `%s'"
 
 #: lib/compression.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "%s: internal bzip2 error: read(%i) != write(%i)"
-msgstr "%s: erro interno de gzip: read(%i) != write(%i)"
+msgstr "%s: erro interno de bzip2: read(%i) != write(%i)"
 
 #: lib/compression.c:200
 #, c-format
@@ -374,14 +374,12 @@ msgid "value for `status' field not allowed in this context"
 msgstr "valor para o campo `status' não é permitido neste contexto"
 
 #: lib/fields.c:170
-#, fuzzy
 msgid "first (want) word in `status' field"
-msgstr "terceira (status) palavra no campo `status'"
+msgstr "primeira (want) palavra no campo `status'"
 
 #: lib/fields.c:173
-#, fuzzy
 msgid "second (error) word in `status' field"
-msgstr "terceira (status) palavra no campo `status'"
+msgstr "segunda (error) palavra no campo `status'"
 
 #: lib/fields.c:179
 msgid "third (status) word in `status' field"
@@ -2361,7 +2359,6 @@ msgstr ""
 "Utilize `dselect' ou 'aptitude' para uma gestão de pacotes user-friendly.\n"
 
 #: src/main.c:121
-#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2374,12 +2371,11 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through `less' or "
 "`more' !"
 msgstr ""
-"Escreva dpkg --help para ajuda sobre instalação e desinstalação de pacotes "
-"[*];\n"
-"Utilize dselect para gestão de pacotes user-friendly;\n"
+"Escreva dpkg --help para ajuda sobre instalar e desinstalar pacotes [*];\n"
+"Utilize `dselect' ou `aptitude' para gestão de pacotes user-friendly;\n"
 "Escreva dpkg -Dhelp para uma lista de valores de flags de debug do dpkg;\n"
 "Escreva dpkg --force-help para uma lista de opções para forçar operações;\n"
-"Escreva dpkg-deb --help para ajuda sobre manipulação de ficheiros *.deb;\n"
+"Escreva dpkg-deb --help para ajuda sobre manipular ficheiros *.deb;\n"
 "Escreva dpkg --licence para licença de copyright e falta de garantia (GNU "
 "GPL) [*].\n"
 "\n"
@@ -2836,18 +2832,18 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "Não foi possível fazer stat a outro novo ficheiro `%.250s'"
 
 #: src/processarc.c:664
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')"
 msgstr ""
-"dpkg: %s: aviso - ficheiro de configuração `%.250s' não é um ficheiro comum "
-"ou link simbólico (= `%s')\n"
+"dpkg: aviso - ficheiro antigo `%.250s' é o mesmo que vários novos ficheiros! "
+"(ambos `%.250s' e `%.250s')"
 
 #: src/processarc.c:705
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
-msgstr "dpkg: aviso - não foi possível apagar o ficheiro antigo `%.250s': %s\n"
+msgstr "dpkg: aviso - não foi possível %s o ficheiro antigo `%%.250s': %%s\n"
 
 #: src/processarc.c:731 src/processarc.c:972 src/remove.c:286
 msgid "cannot read info directory"
@@ -3018,12 +3014,12 @@ msgstr ""
 "e dpkg --contents (= dpkg-deb --contents) para listar o seu conteúdo.\n"
 
 #: src/query.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package management program query tool\n"
-msgstr "' ferramenta de query do programa de gestão de pacotes\n"
+msgstr "Debian `%s' ferramenta de query do programa de gestão de pacotes\n"
 
 #: src/query.c:472
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -3043,35 +3039,22 @@ msgid ""
 "  -f|--showformat=<format>            Use alternative format for --show.\n"
 "\n"
 msgstr ""
-" [<opção>] <comando>\n"
-"Commands:\n"
-"  -s|--status <nome-pacote> ...       mostra detalhes de detalhe do pacote\n"
-"  -p|--print-avail <nome-pacote> ...  mostra detalhes de versões "
-"disponíveis\n"
-"  -L|--listfiles <nome-pacote> ...    lista ficheiros que pertençem ao(s) "
-"pacotes(s)\n"
-"  -l|--list [<padrão> ...]            lista pacotes de forma concisa\n"
-"  -W|--show <padrão> ...              mostra informação sobre o(s) pacote"
-"(s)\n"
-"  -S|--search <padrão> ...            mostra pacote(s) proprietário(s) do(s) "
-"ficheiro(s)\n"
-"  --help | --version                  mostra esta ajuda/ número de versão\n"
-"  --licence                           mostra termos da licença de copyright\n"
+"Utilização: %s [<opção>] <comando>\n"
+"Comandos:\n"
+"  -s|--status <nome-pacote> ...       Mostrar detalhes de estado do pacote.\n"
+"  -p|--print-avail <nome-pacote> ...  Mostrar detalhes da versão disponível.\n"
+"  -L|--listfiles <nome-pacote> ...    Listar os ficheiros que pertençem ao(s) pacotes(s).\n"
+"  -l|--list [<padrão> ...]            Listar pacotes de forma concisa.\n"
+"  -W|--show <padrão> ...              Mostrar informação sobre o(s) pacote(s).\n"
+"  -S|--search <padrão> ...            Mostrar pacote(s) dono(s) do(s) ficheiro(s).\n"
+"  --help                              Mostrar esta mensagem de ajuda.\n"
+"  --version                           Mostrar a versão.\n"
+"  --licence                           Mostrar os termos da licença de copyright\n"
 "\n"
 "Opções:\n"
-"  --admindir=<directório>     Utilizar <directório> em vez de %s\n"
-"  --showformat=<formato>      Utilizar formato alternativo para --show\n"
+"  --admindir=<directório>             Utilizar <directório> em vez de %s.\n"
+"  --showformat=<formato>              Utilizar formato alternativo para --show.\n"
 "\n"
-"Sintaxe de formato:\n"
-"  Um formato é uma string que vai ser a saída para cada pacote. O formato\n"
-"  pode incluir as sequências de escape standard \\n (newline), \\r "
-"(carriage\n"
-"  return) ou \\\\ (plain backslash). Infrmação de pacote pode ser incluída\n"
-"  inserindo referências variáveis para campos de pacotes utilizando a \n"
-"  sintaxe ${var[; width]}. Os campos serão alinhados à direita a não ser "
-"que\n"
-"  a largura seja negativa, neste caso o alinhamento à esquerda será "
-"utilizado.\n"
 
 #: src/query.c:491 dpkg-deb/main.c:87
 #, c-format
@@ -3086,9 +3069,16 @@ msgid ""
 "which\n"
 "  case left alignment will be used.\n"
 msgstr ""
+"Sintaxe de formato:\n"
+"  Um formato é uma string que vai ser a saída para cada pacote. O formato\n"
+"  pode incluir as sequências de escape standard \\n (newline), \\r\n"
+"  (carriage return) ou \\\\ (plain backslash). A informação de pacote pode\n"
+"  ser incluída inserindo referências variáveis para campos de pacotes\n"
+"  utilizando a sintaxe ${var[; width]}. Os campos serão alinhados à direita\n"
+"  a não ser que a largura seja negativa, neste caso o alinhamento à esquerda\n"
+"  será utilizado.\n"
 
 #: src/query.c:501
-#, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL).\n"
@@ -3842,9 +3832,9 @@ msgid "--contents takes exactly one argument"
 msgstr "--contents toma exactamente um argumento"
 
 #: dpkg-deb/main.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package archive backend version %s.\n"
-msgstr "' versão backend do arquivo de pacote "
+msgstr "Debian `%s'' backend do arquivo de pacote versão %s.\n"
 
 #: dpkg-deb/main.c:56
 #, fuzzy, c-format
@@ -3937,9 +3927,9 @@ msgstr ""
 "Escreva dpkg --help para ajuda sobre instalar de desinstalar pacotes."
 
 #: dpkg-deb/main.c:181
-#, fuzzy, c-format
+#, c-format
 msgid "unknown compression type `%s'!"
-msgstr "opção desconhecida --%s"
+msgstr "compressão desconhecida tipo `%s'!"
 
 #: dpkg-split/info.c:64
 #, c-format
@@ -4110,15 +4100,14 @@ msgid "part %d is missing"
 msgstr "falta a parte %d"
 
 #: dpkg-split/main.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package split/join tool; version %s.\n"
-msgstr ""
-"Pacote Debian GNU/Linux `dpkg-split' ferramenta de dividir/juntar; versão "
+msgstr "Debian `%s' ferramenta para dividir/juntar pacotes; versão %s.\n"
 
 #: dpkg-split/main.c:40
 #, c-format
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
-msgstr ""
+msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
 
 #: dpkg-split/main.c:49
 #, fuzzy, c-format
