@@ -43,7 +43,7 @@ my @fieldpri= ('Package',
 my %field_case;
 @field_case{map{lc($_)} @fieldpri} = @fieldpri;
 
-use Getopt::Long;
+use Getopt::Long qw(:config bundling);
 
 my %options = (help            => 0,
 	       udeb            => 0,
@@ -71,7 +71,7 @@ my $arch = $options{arch};
 my $ext = $options{udeb} ? 'udeb' : 'deb';
 my @find_args;
 if ($options{arch}) {
-     @find_args = ('(','-name',"*_all.$ext",'-o','-name',"_${arch}.$ext",')',);
+     @find_args = ('(','-name',"*_all.$ext",'-o','-name',"*_${arch}.$ext",')',);
 }
 else {
      @find_args = ('-name',"*.$ext");
