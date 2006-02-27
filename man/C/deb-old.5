@@ -1,17 +1,20 @@
-.TH DEB-OLD 5 "January 2000" "Debian Project" "Debian"
-.SH NAME 
-deb-old \- old style Debian binary package format
+.TH deb\-old 5 "2006-02-28" "Debian Project" "Debian"
+.SH NAME
+deb\-old \- old style Debian binary package format
+.
 .SH SYNOPSIS
 .IB filename .deb
+.
 .SH DESCRIPTION
 The
 .B .deb
-format is the Debian binary package file format.  This manual page
+format is the Debian binary package file format. This manual page
 describes the
 .B old
-format, used before Debian 0.93.  Please see
+format, used before Debian 0.93. Please see
 .BR deb (5)
 for details of the new format.
+.
 .SH FORMAT
 The file is two lines of format information as ASCII text, followed by
 two concatenated gzipped ustar files.
@@ -26,7 +29,7 @@ the length of the first gzipped tarfile.
 Each of these lines is terminated with a single newline character.
 .PP
 The first tarfile contains the control information, as a series of
-ordinary files.  The file
+ordinary files. The file
 .B control
 must be present, as it contains the core control information.
 .PP
@@ -36,14 +39,15 @@ optionally be in a
 subdirectory. In that case, the
 .B DEBIAN
 subdirectory will be in the control tarfile too, and the control
-tarfile will have only files in that directory.  Optionally the
+tarfile will have only files in that directory. Optionally the
 control tarfile may contain an entry for
 .RB ` . ',
 that is, the current directory.
 .PP
 The second gzipped tarfile is the filesystem archive, containing
 pathnames relative to the root directory of the system to be installed
-on.  The pathnames do not have leading slashes.
+on. The pathnames do not have leading slashes.
+.
 .SH SEE ALSO
 .BR deb (5),
 .BR dpkg-deb (1),

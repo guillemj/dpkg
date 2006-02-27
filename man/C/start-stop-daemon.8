@@ -1,6 +1,7 @@
-.TH START\-STOP\-DAEMON 8 "15th March 1997" "Debian Project" "dpkg utilities"
+.TH start\-stop\-daemon 8 "2006-02-28" "Debian Project" "dpkg utilities"
 .SH NAME
 start\-stop\-daemon \- start and stop system daemon programs
+.
 .SH SYNOPSIS
 .B start\-stop\-daemon
 .BR \-S | \-\-start
@@ -17,6 +18,7 @@ start\-stop\-daemon \- start and stop system daemon programs
 .HP
 .B start\-stop\-daemon
 .BR \-V | \-\-version
+.
 .SH DESCRIPTION
 .B start\-stop\-daemon
 is used to control the creation and termination of system-level processes.
@@ -33,7 +35,7 @@ If such a process exists,
 .B start\-stop\-daemon
 does nothing, and exits with error status 1 (0 if
 .BR \-\-oknodo
-is specified).  
+is specified).
 If such a process does not exist, it starts an
 instance, using either the executable specified by
 .BR \-\-exec ,
@@ -44,7 +46,7 @@ Any arguments given after
 on the command line are passed unmodified to the program being
 started.
 
-With 
+With
 .BR \-\-stop ,
 .B start\-stop\-daemon
 also checks for the existence of a specified process.
@@ -58,9 +60,9 @@ If such a process does not exist,
 exits with error status 1
 (0 if
 .BR \-\-oknodo
-is specified).  If
+is specified). If
 .B \-\-retry
-is specified then 
+is specified then
 .B start\-stop\-daemon
 will check that the process(es) have terminated.
 
@@ -72,13 +74,13 @@ behaves similarly to
 .B killall(1).
 .B start\-stop\-daemon
 will scan the process table looking for any processes which
-match the process name, uid, and/or gid (if specified).  Any
+match the process name, uid, and/or gid (if specified). Any
 matching process will prevent
 .BR \-\-start
-from starting the daemon.  All matching processes will be
+from starting the daemon. All matching processes will be
 sent the KILL signal if
 .BR \-\-stop
-is specified.  For daemons which have long-lived children
+is specified. For daemons which have long-lived children
 which need to live through a
 .BR \-\-stop
 you must specify a pidfile.
@@ -87,7 +89,7 @@ you must specify a pidfile.
 
 .TP
 \fB\-x\fP|\fB\-\-exec\fP \fIexecutable\fP
-Check for processes that are instances of this executable (according to 
+Check for processes that are instances of this executable (according to
 .B /proc/\fIpid\fB/exe\fP
 ).
 .TP
@@ -97,7 +99,7 @@ Check whether a process has created the file
 .TP
 \fB\-u\fP|\fB\-\-user\fP \fIusername\fP|\fIuid\fP
 Check for processes owned by the user specified by
-.I username 
+.I username
 or
 .IR uid .
 .TP
@@ -121,8 +123,8 @@ With
 specifies that
 .B start\-stop\-daemon
 is to check whether the process(es)
-do finish.  It will check repeatedly whether any matching processes
-are running, until none are.  If the processes do not exit it will
+do finish. It will check repeatedly whether any matching processes
+are running, until none are. If the processes do not exit it will
 then take further action as determined by the schedule.
 
 If
@@ -163,9 +165,9 @@ with
 is ignored.
 .TP
 \fB\-a\fP|\fB\-\-startas\fP \fIpathname\fP
-With 
+With
 .BR \-\-start ,
-start the process specified by 
+start the process specified by
 .IR pathname .
 If not specified, defaults to the argument given to
 .BR \-\-exec .
@@ -190,7 +192,7 @@ When using this option
 you must realize that the primary and supplemental groups are set as well,
 even if the
 .B \-\-group
-option is not specified.  The
+option is not specified. The
 .B \-\-group
 option is only for
 groups that the user isn't normally a member of (like adding per/process
@@ -207,7 +209,7 @@ after the chroot.
 Chdir to
 .I path
 before starting the process. This is done after the chroot if the
-\fB\-r\fP|\fB\-\-chroot\fP option is set.  When not specified,
+\fB\-r\fP|\fB\-\-chroot\fP option is set. When not specified,
 start\-stop\-daemon will chdir to the root directory before starting
 the process.
 .TP
@@ -223,7 +225,7 @@ reason. This is a last resort, and is only meant for programs that either
 make no sense forking on their own, or where it's not feasible to add the
 code for it to do this itself.
 .TP
-\fB\-N\fP|\fB\-\-nicelevel\fP \fIint\fP 
+\fB\-N\fP|\fB\-\-nicelevel\fP \fIint\fP
 This alters the priority of the process before starting it.
 .TP
 .BR \-m | \-\-make\-pidfile

@@ -1,5 +1,5 @@
-.TH DEB 5 "January 2000" "Debian Project" "Debian"
-.SH NAME 
+.TH deb 5 "2006-02-28" "Debian Project" "Debian"
+.SH NAME
 deb \- Debian binary package format
 .SH SYNOPSIS
 .IB filename .deb
@@ -21,9 +21,9 @@ archive with a magic number of
 .PP
 The first member is named
 .B debian-binary
-and contains a series of lines, separated by newlines.  Currently only
+and contains a series of lines, separated by newlines. Currently only
 one line is present, the format version number,
-.BR 2.0 
+.BR 2.0
 at the time this manual page was written.
 Programs which read new-format archives should be prepared for the
 minor number to be increased and new lines to be present, and should
@@ -39,7 +39,7 @@ The second required member is named
 It is a gzipped tar archive containing the package control information,
 as a series of plain files, of which the file
 .B control
-is mandatory and contains the core control information.  The control
+is mandatory and contains the core control information. The control
 tarball may optionally contain an entry for
 .RB ` . ',
 the current directory.
@@ -48,7 +48,7 @@ The third, last required member is named
 .B data.tar.gz .
 It contains the filesystem archive as a gzipped tar archive.
 .PP
-These members must occur in this exact order.  Current implementations
+These members must occur in this exact order. Current implementations
 should ignore any additional members after
 .BR data.tar.gz .
 Further members may be defined in the future, and (if possible) will be

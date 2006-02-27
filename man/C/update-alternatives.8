@@ -5,9 +5,10 @@
 .\" by the Free Software Foundation; either version 2 of the License, or
 .\" (at your option) any later version.  There is NO WARRANTY.  You can
 .\" find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
-.TH UPDATE\-ALTERNATIVES 8 "19 January 1998" "Debian Project" "dpkg utilities"
+.TH update\-alternatives 8 "2006-02-28" "Debian Project" "dpkg utilities"
 .SH NAME
 update\-alternatives - maintain symbolic links determining default commands
+.
 .SH SYNOPSIS
 .B update\-alternatives
 .RI [ options ]
@@ -55,6 +56,7 @@ update\-alternatives - maintain symbolic links determining default commands
 .RI [ options ]
 .B \-\-set
 .I name path
+.
 .SH DESCRIPTION
 .B update\-alternatives
 creates, removes, maintains and displays information about the symbolic
@@ -82,7 +84,7 @@ the generic name
 .I /usr/bin/editor
 to refer to
 .I /usr/bin/nvi
-by default.  The system administrator can override this and cause
+by default. The system administrator can override this and cause
 it
 to refer to
 .I /usr/bin/ed
@@ -162,7 +164,7 @@ option,
 will list all of the choices for the link group
 of which given
 .I name
-is the master link.  The current choice is marked with a '*' and the
+is the master link. The current choice is marked with a '*' and the
 choice with the highest priority with a '+'.
 You will then be prompted for which of the choices to use
 for the link group. Once you make a change, the link group will no
@@ -175,6 +177,7 @@ option in order to return to the automatic state.
 If you want to configure non-interactively you can use the
 .I \-\-set
 option instead (see below).
+.
 .SH TERMINOLOGY
 Since the activities of
 .B update\-alternatives
@@ -229,6 +232,7 @@ manual mode
 When a link group is in manual mode,
 the alternatives system will not make any changes
 to the system administrator's settings.
+.
 .SH EXAMPLES
 There are several packages which provide a text editor compatible
 with
@@ -267,6 +271,7 @@ implementation chosen automatically, do this as root:
 .PP
 update\-alternatives \-\-auto vi
 .RE
+.
 .SH OPTIONS
 Exactly one action must be specified if
 .B update\-alternatives
@@ -350,7 +355,7 @@ is a name in the alternatives directory, and
 .I path
 is an absolute filename to which
 .I name
-could be linked.  If
+could be linked. If
 .I name
 is indeed linked to
 .IR path ,
@@ -394,10 +399,11 @@ Display all targets of the link group.
 .TP
 \fB\-\-config\fR \fIlink\fR
 Show available alternatives for a link group and allow the user to
-interactively select which one to use.  The link group is updated
+interactively select which one to use. The link group is updated
 and taken out of
 .I auto
 mode.
+.
 .SH FILES
 .TP
 .I /etc/alternatives/
@@ -411,12 +417,14 @@ The default administration directory.
 Can be overridden by the
 .B \-\-admindir
 option.
+.
 .SH "EXIT STATUS"
 .IP 0
 The requested action was successfully performed.
 .IP 2
 Problems were encountered whilst parsing the command line
 or performing the action.
+.
 .SH DIAGNOSTICS
 .B update\-alternatives
 chatters incessantly about its activities on its standard output channel.
@@ -426,6 +434,7 @@ outputs error messages on its standard error channel and
 returns an exit status of 2.
 These diagnostics should be self-explanatory;
 if you do not find them so, please report this as a bug.
+.
 .SH BUGS
 If you find a bug, please report it using the Debian bug-tracking system,
 or, if that is not possible, email the author directly.
@@ -434,16 +443,18 @@ If you find any discrepancy between the operation of
 .B update\-alternatives
 and this manual page, it is a bug,
 either in the implementation or the documentation; please report it.
+.
 .SH AUTHOR
 Debian update\-alternatives is copyright 1995
-Ian Jackson.  It is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+Ian Jackson. It is free software; see the GNU General Public Licence
+version 2 or later for copying conditions. There is NO warranty.
 .PP
 This manual page is copyright 1997/98 Charles Briscoe-Smith.
 This is free documentation; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO WARRANTY.
+version 2 or later for copying conditions. There is NO WARRANTY.
 .PP
 You can find the GNU GPL in /usr/share/common\-licenses/GPL on any Debian system.
+.
 .SH "SEE ALSO"
 .BR ln (1),
 FHS, the Filesystem Hierarchy Standard.

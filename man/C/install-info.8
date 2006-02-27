@@ -2,43 +2,52 @@
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
-.TH INSTALL\-INFO 8 "29th November 1995" "Debian Project" "dpkg utilities"
+.TH install\-info 8 "2006-02-28 "Debian Project" "dpkg utilities"
 .SH NAME
 install\-info - create or update entry in Info directory
+.
 .SH SYNOPSIS
 .B install\-info
-[\-\-version] [\-\-help] [\-\-debug] [\-\-maxwidth=nnn]
-[\-\-section regexp title] [\-\-infodir=xxx] [\-\-align=nnn]
-[\-\-quiet] [\-\-menuentry=xxx] [\-\-description=xxx]
-[\-\-remove | \-\-remove\-exactly ]
-[\-\-] filename
+.RB [ \-\-version ]
+.RB [ \-\-help ]
+.RB [ \-\-debug ]
+.RB [ \-\-maxwidth=\fInnn\fP ]
+.RB [ "\-\-section \fIregexp\fP \fItitle\fP" ]
+.RB [ \-\-infodir=\fIxxx\fP ]
+.RB [ \-\-align=\fInnn\fP ]
+.RB [ \-\-quiet ]
+.RB [ \-\-menuentry=\fIxxx\fP ]
+.RB [ \-\-description=\fIxxx\fP ]
+.RB [ \-\-remove | \-\-remove\-exactly ]
+.RB [ \-\- ]
+.I filename
+.
 .SH DESCRIPTION
-.PP
 .B install\-info
 makes, updates or removes entries in the Info directory, the
 .B dir
-file.  When updating or creating entries, if no description is
+file. When updating or creating entries, if no description is
 specified on the command line or in the Info file it attempts to guess
 a description from the contents of the file.
-
+.PP
 See the description of the
 .B \-\-section
 option for details of where the entry will be placed and a description
 of the expected format of the
 .B dir
 file.
-.SS OPTIONS
+.SH OPTIONS
 .TP
 .BI "[\-\-] " filename
 Gives the filename of the Info file whose menu entry is to be created,
-updated or removed.  If
+updated or removed. If
 .B \-\-remove\-exactly
 is specified, then
 .I filename
 should be the exact entry name to be removed (i.e. "emacs\-20/emacs" or
 "gcc"), otherwise the basename of this filename is used as the
 referent of the menu entry which is created, unless there's an
-overriding START-INFO-DIR entry inside the given file.  This file must
+overriding START-INFO-DIR entry inside the given file. This file must
 therefore exist (or be about to be installed, or have previously
 existed when removing an entry) in the same directory as the
 .B dir
@@ -69,7 +78,7 @@ If the removal results in a section becoming empty the section heading
 (and the spare blank line) will be removed as well, unless this is the
 last section in the file or
 .B \-\-keep\-old
-is specified.  See the
+is specified. See the
 .B \-\-section
 option for details about the expected format of the
 .B dir
@@ -98,13 +107,13 @@ This option is essentially the same as
 except that
 .I filename
 is taken as the exact entry to be removed, rather than as the name
-of an existing file.  This can be important when trying to remove
+of an existing file. This can be important when trying to remove
 entries that refer to info files in subdirectories
 (i.e. "emacs\-20/emacs") because
 .B \-\-remove
 will operate on the basename of the given
 .I filename
-rather than the exact name given.  (i.e.
+rather than the exact name given. (i.e.
 .B \-\-remove
 "emacs\-20/emacs" would cause
 .B install\-info
@@ -128,10 +137,10 @@ If a new entry is to be created
 .B install\-info
 will attempt to insert it within the section according in alphabetic
 order; if the entries in the section aren't already sorted the new
-location within the section will be unpredictable.  The order of
+location within the section will be unpredictable. The order of
 existing entries will not be changed.
 
-The default is to append new entries to the end of the file.  The last
+The default is to append new entries to the end of the file. The last
 section (even if it only consists of the title line) should always
 exist, to ensure that new sections are created in the right place.
 The final section should be titled to reflect the fact that Info files
@@ -162,16 +171,16 @@ The default is
 Specifies that the first line of the description should be indented at
 least
 .I nnn
-characters; extra spaces will be added as required.  If necessary
+characters; extra spaces will be added as required. If necessary
 because of the length of the
 .B dir
-menu entry details it may be offset more.  The default is 27.
+menu entry details it may be offset more. The default is 27.
 .TP
 .BI \-\-calign= nnn " [deprecated]"
 Specifies that the second and subsequent lines of the description
 should be indented at least
 .I nnn
-characters.  The default is 29.
+characters. The default is 29.
 .TP
 .BI \-\-maxwidth= nnn " [deprecated]"
 Specifies that the maximum width for the Info file is
@@ -203,14 +212,14 @@ this is found by searching for a section of the form
 .br
 .B START\-INFO\-DIR\-ENTRY
 .br
-.B * Auto-PGP: (auto-pgp).  PGP under GNU Emacs.
+.B * Auto-PGP: (auto-pgp). PGP under GNU Emacs.
 .br
 .B END\-INFO\-DIR\-ENTRY
 
 If the entry found in the Info file itself extends across several
 lines, each giving a menu entry, the text found in the file is used
-verbatim.  In this case the alphabetic ordering scheme is turned off,
-and the entries are inserted at the top of section in question.  In
+verbatim. In this case the alphabetic ordering scheme is turned off,
+and the entries are inserted at the top of section in question. In
 this case the
 .BR \-\-menuentry ", " \-\-maxwidth ", " \-\-align ", " \-\-calign
 .RB " and " \-\-menuentry
@@ -241,7 +250,7 @@ Info file.
 When removing entries the value of the
 .B \-\-menuentry
 option must match the actual menu entry field in the menu item to be
-removed (case not significant).  If
+removed (case not significant). If
 .B \-\-menuentry
 is omitted no check on the menu entry is done.
 .TP
@@ -264,12 +273,15 @@ Enables test mode, which inhibits the update of the directory file.
 .B \-\-debug
 Enables debugging mode, in which the results of some internal
 processing steps are shown.
+.
 .SH "SEE ALSO"
-emacs(1), info(1), gzip(1)
+.BR emacs (1),
+.BR info (1),
+.BR gzip(1).
 .SH COPYRIGHT
 Copyright 1994, Ian Jackson.
 .B install\-info
 is free software; see the GNU General Public Licence version 2 or
-later for copying conditions.  There is
+later for copying conditions. There is
 .I no
 warranty.

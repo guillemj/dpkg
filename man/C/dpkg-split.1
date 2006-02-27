@@ -1,5 +1,5 @@
 .\" Authors: Ian Jackson
-.TH dpkg\-split 1 "23rd June 1996" "Debian Project" "dpkg utilities"
+.TH dpkg\-split 1 "2006-02-28" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-split \- Debian package archive split/join tool
 .SH SYNOPSIS
@@ -9,11 +9,11 @@ dpkg\-split \- Debian package archive split/join tool
 .br
 .B dpkg\-split
 .BR \-j | \-\-join
-.IR "part part " ...
+.IR part " ..."
 .br
 .B dpkg\-split
 .BR \-I | \-\-info
-.IR "part part " ...
+.IR part " ..."
 .br
 .B dpkg\-split
 .BR \-a | \-\-auto
@@ -24,7 +24,7 @@ dpkg\-split \- Debian package archive split/join tool
 .br
 .B dpkg\-split
 .BR \-d | \-\-discard
-.RI [ "package package " ...]
+.RI [ package " ...]"
 .SH DESCRIPTION
 .B dpkg\-split
 splits Debian binary package files into smaller parts and reassembles
@@ -39,7 +39,7 @@ It also has an automatic mode, invoked using the
 .B \-\-auto
 option, where it maintains a queue of parts seen but not yet
 reassembled and reassembles a package file when it has seen all of its
-parts.  The
+parts. The
 .BR \-\-listq " and " \-\-discard
 options allow the management of the queue.
 
@@ -71,7 +71,7 @@ Joins the parts of a package file together, reassembling the original
 file as it was before it was split.
 
 The part files given as arguments must be all the parts of exactly the
-same original binary file.  Each part must occur exactly once in the
+same original binary file. Each part must occur exactly once in the
 argument list, though the parts to not need to be listed in order.
 
 The parts must of course all have been generated with the same part
@@ -87,7 +87,7 @@ By default the output file is called
 .TP
 .BR \-\-info ", " \-I
 Prints information, in a human-readable format, about the part file(s)
-specified.  Arguments which are not binary package parts produce a
+specified. Arguments which are not binary package parts produce a
 message saying so instead (but still on standard output).
 .TP
 .BR \-\-auto ", " \-a
@@ -154,19 +154,19 @@ version number.
 .BR \-\-licence
 Prints information about
 .BR dpkg\-split 's
-copyright licensing and lack of warranty.  (The American spelling
+copyright licensing and lack of warranty. (The American spelling
 .B \-\-license
 is also supported.)
 .SH OTHER OPTIONS
 .TP
 .BI \-\-depotdir " directory"
 Specifies an alternative directory for the queue of parts awaiting
-automatic reassembly.  The default is
+automatic reassembly. The default is
 .BR /var/lib/dpkg .
 .TP
 .BI \-\-partsize\fR|\fB\-S " kbytes"
 Specifies the maximum part size when splitting, in kilobytes (1024
-bytes).  The default is 450Kb.
+bytes). The default is 450Kb.
 .TP
 .BI \-\-output\fR|\fB\-O " complete-output"
 Specifies the output file name for a reassembly.
@@ -181,7 +181,7 @@ When doing automatic queue-or-reassembly
 .B dpkg\-split
 usually prints a message if it is given a
 .I part
-that is not a binary package part.  This option suppresses this
+that is not a binary package part. This option suppresses this
 message, to allow programs such as
 .B dpkg
 to cope with both split and unsplit packages without producing
@@ -234,7 +234,7 @@ the control information of the contained binary package file, and it
 is not present in the filenames generated.
 .SH FILES
 .TP
-.B /var/lib/dpkg/parts
+.I /var/lib/dpkg/parts
 The default queue directory for part files awaiting automatic
 reassembly.
 
@@ -246,14 +246,15 @@ filename format should not be relied upon.
 .BR deb (5),
 .BR deb\-control (5),
 .BR dpkg\-deb (1),
-.BR dpkg (1)
+.BR dpkg (1).
+.
 .SH AUTHOR
 .B dpkg\-split
-and this manpage were written by Ian Jackson.  They are
+and this manpage were written by Ian Jackson. They are
 Copyright (C) 1995-1996
 by him and released under the GNU General Public Licence; there is NO
-WARRANTY.  See
-.B /usr/share/dpkg/copyright
+WARRANTY. See
+.I /usr/share/dpkg/copyright
 and
-.B /usr/share/common\-licenses/GPL
+.I /usr/share/common\-licenses/GPL
 for details.

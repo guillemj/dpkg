@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2006-02-17 16:48+0100\n"
+"POT-Creation-Date: 2006-02-28  1:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,19 +17,25 @@ msgstr ""
 # type: TH
 #: dpkg-architecture.1:1
 #, no-wrap
-msgid "DPKG-ARCHITECTURE"
+msgid "dpkg-architecture"
 msgstr ""
 
 # type: TH
 #: dpkg-architecture.1:1
 #, no-wrap
-msgid "2006-02-11"
+msgid "2006-02-28"
 msgstr ""
 
 # type: TH
 #: dpkg-architecture.1:1
 #, no-wrap
-msgid "Debian GNU/Linux"
+msgid "Debian Project"
+msgstr ""
+
+# type: TH
+#: dpkg-architecture.1:1
+#, no-wrap
+msgid "dpkg utililties"
 msgstr ""
 
 # type: SH
@@ -45,147 +51,244 @@ msgid ""
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:4 dpkg-architecture.1:5
+#: dpkg-architecture.1:5
 #, no-wrap
 msgid "SYNOPSIS"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:7
-msgid "dpkg-architecture [options] [action]"
-msgstr ""
-
-# type: Plain text
-#: dpkg-architecture.1:12
-msgid ""
-"Valid options: \\&B<-a>Debian-Architecture \\&B<-t>Gnu-System-Type \\&B<-f>"
-msgstr ""
-
-# type: Plain text
-#: dpkg-architecture.1:16
-msgid ""
-"Valid actions: \\&B<-l>, B<-e>Debian-Architecture, B<-i>Architecture-Alias, "
-"B<-q>Variable-Name, B<-s>, B<-u>, B<-c> Command, B<-L>"
+#: dpkg-architecture.1:9
+msgid "B<dpkg-architecture> [I<options>] [I<action>]"
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:16 dpkg-architecture.1:17
+#: dpkg-architecture.1:11
 #, no-wrap
 msgid "DESCRIPTION"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:20
+#: dpkg-architecture.1:14
 msgid ""
 "dpkg-architecture does provide a facility to determine and set the build and "
 "host architecture for package building."
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:20 dpkg-architecture.1:21
-#, no-wrap
-msgid "OVERVIEW"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:24
+#: dpkg-architecture.1:17
 msgid ""
 "The build architecture is always determined by an external call to dpkg, and "
 "can not be set at the command line."
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:31
+#: dpkg-architecture.1:25
 msgid ""
 "You can specify the host architecture by providing one or both of the "
 "options B<-a> and B<-t>. The default is determined by an external call to "
 "gcc, or the same as the build architecture if \\s-1CC\\s0 or gcc are both "
 "not available. One out of B<-a> and B<-t> is sufficient, the value of the "
-"other will be set to a usable default.  Indeed, it is often better to only "
-"specify one, because dpkg-architecture will warn you if your choice doesn't "
-"match the default."
+"other will be set to a usable default. Indeed, it is often better to only "
+"specify one, because B<dpkg-architecture> will warn you if your choice does "
+"not match the default."
+msgstr ""
+
+# type: SH
+#: dpkg-architecture.1:26
+#, no-wrap
+msgid "OPTIONS"
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:27
+#, no-wrap
+msgid "B<-a>I<debian-architecture>"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:43
+#: dpkg-architecture.1:30
+msgid "Set the Debian architecture."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:30
+#, no-wrap
+msgid "B<-t>I<gnu-system-type>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:33
+msgid "Set the GNU system type."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:33
+#, no-wrap
+msgid "B<-f>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:39
 msgid ""
-"The default action is B<-l>, which prints the environment variables, one "
-"each line, in the format VARIABLE=value. If you want to check for equality "
-"between two Debian Architectures, you can use B<-e>, by default it will "
-"compare against the currect Debian Architecture, being it the host. If you "
-"want to check for identity of the current Debian Architecture against an "
-"Architecture Alias, you can use B<-i>. If you are only interested in the "
-"value of a single variable, you can use B<-q>. If you specify B<-s>, it will "
-"output an export command. This can be used to set the environment variables "
-"using eval. B<-u> does return a similar command to unset all variables. B<-"
-"c> does execute a command in an environment which has all variables set to "
-"the determined value."
+"Existing environment variables with the same name as used by the scripts are "
+"not overwritten, except if this force flag is present. This allows the user "
+"to override a value even when the call to B<dpkg-architecture> is buried in "
+"some other script (for example B<dpkg-buildpackage>)."
+msgstr ""
+
+# type: SH
+#: dpkg-architecture.1:40
+#, no-wrap
+msgid "ACTIONS"
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:41
+#, no-wrap
+msgid "B<-l>"
 msgstr ""
 
 # type: Plain text
 #: dpkg-architecture.1:45
 msgid ""
-"A list of valid architecture names can be printed with the B<-L> action."
+"Print the environment variables, one each line, in the format "
+"I<VARIABLE=value>. This is the default action."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:45
+#, no-wrap
+msgid "B<-e>I<debian-architecture>"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:50
+#: dpkg-architecture.1:49
 msgid ""
-"Existing environment variables with the same name as used by the scripts are "
-"not overwritten, except if the B<-f> force flag is present. This allows the "
-"user to override a value even when the call to dpkg-architecture is buried "
-"in some other script (for example dpkg-buildpackage)."
+"Check for equality between two Debian Architectures, by default it will "
+"compare against the currect Debian Architecture, being it the host."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:49
+#, no-wrap
+msgid "B<-i>I<architecture-alias>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:53
+msgid ""
+"Check for identity of the current Debian Architecture against an "
+"Architecture Alias."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:53
+#, no-wrap
+msgid "B<-q>I<variable-Name>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:56
+msgid "Print the value of a single variable."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:56
+#, no-wrap
+msgid "B<-s>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:60
+msgid ""
+"Print an export command. This can be used to set the environment variables "
+"using eval."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:60
+#, no-wrap
+msgid "B<-u>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:63
+msgid "Print a similar command to B<-s> but to unset all variables."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:63
+#, no-wrap
+msgid "B<-c>I< command>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:67
+msgid ""
+"Execute a I<command> in an environment which has all variables set to the "
+"determined value."
+msgstr ""
+
+# type: TP
+#: dpkg-architecture.1:67
+#, no-wrap
+msgid "B<-L>"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:70
+msgid "Print a list of valid architecture names."
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:50 dpkg-architecture.1:51
+#: dpkg-architecture.1:71
 #, no-wrap
 msgid "TERMS"
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:52 dpkg-architecture.1:53
+#: dpkg-architecture.1:72
 #, no-wrap
 msgid "build machine"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:55
+#: dpkg-architecture.1:74
 msgid "The machine the package is built on."
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:55 dpkg-architecture.1:56
+#: dpkg-architecture.1:74
 #, no-wrap
 msgid "host machine"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:58
+#: dpkg-architecture.1:76
 msgid "The machine the package is built for."
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:58 dpkg-architecture.1:59
+#: dpkg-architecture.1:76
 #, no-wrap
 msgid "Debian Architecture"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:62
+#: dpkg-architecture.1:79
 msgid ""
 "The Debian architecture string, which specifies the binary tree in the \\s-"
 "1FTP\\s0 archive. Examples: i386, sparc, hurd-i386."
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:62 dpkg-architecture.1:63
+#: dpkg-architecture.1:79
 #, no-wrap
 msgid "Architecture Alias"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:67
+#: dpkg-architecture.1:83
 msgid ""
 "An architecture alias is a wildcard architecture that will match any real "
 "architecture being part of it. The general form is E<lt>kernelE<gt>-"
@@ -193,286 +296,208 @@ msgid ""
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:67
+#: dpkg-architecture.1:83
 #, no-wrap
 msgid "\\s-1GNU\\s0 System Type"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:68
-#, no-wrap
-msgid "GNU System Type"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:72
+#: dpkg-architecture.1:87
 msgid ""
-"An architecture specification string consisting of two parts, cpu-system.  "
+"An architecture specification string consisting of two parts, cpu-system. "
 "Examples: i386-linux-gnu, sparc-linux-gnu, i386-gnu, x86_64-netbsd."
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:72 dpkg-architecture.1:73
+#: dpkg-architecture.1:88
 #, no-wrap
 msgid "EXAMPLES"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:76
+#: dpkg-architecture.1:91
 msgid ""
-"dpkg-buildpackage accepts the B<-a> option and passes it to dpkg-"
-"architecture.  Other examples:"
+"B<dpkg-buildpackage> accepts the B<-a> option and passes it to B<dpkg-"
+"architecture>. Other examples:"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:78
+#: dpkg-architecture.1:93
 msgid "CC=i386-gnu-gcc dpkg-architecture CW<\\*(C`-c\\*(C'> debian/rules build"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:80
+#: dpkg-architecture.1:95
 msgid "eval \\`dpkg-architecture CW<\\*(C`-u\\*(C'>\\`"
-msgstr ""
-
-# type: IX
-#: dpkg-architecture.1:80 dpkg-architecture.1:81
-#, no-wrap
-msgid "VARIABLES"
-msgstr ""
-
-# type: Plain text
-#: dpkg-architecture.1:83
-msgid "The following variables are set by dpkg-architecture:"
-msgstr ""
-
-# type: IP
-#: dpkg-architecture.1:83
-#, no-wrap
-msgid "\\s-1DEB_BUILD_ARCH\\s0"
-msgstr ""
-
-# type: IX
-#: dpkg-architecture.1:84
-#, no-wrap
-msgid "DEB_BUILD_ARCH"
-msgstr ""
-
-# type: Plain text
-#: dpkg-architecture.1:86
-msgid "The Debian architecture of the build machine."
-msgstr ""
-
-# type: IP
-#: dpkg-architecture.1:86
-#, no-wrap
-msgid "\\s-1DEB_BUILD_ARCH_OS\\s0"
-msgstr ""
-
-# type: IX
-#: dpkg-architecture.1:87
-#, no-wrap
-msgid "DEB_BUILD_ARCH_OS"
-msgstr ""
-
-# type: Plain text
-#: dpkg-architecture.1:89
-msgid "The Debian system name of the build machine."
-msgstr ""
-
-# type: IP
-#: dpkg-architecture.1:89
-#, no-wrap
-msgid "\\s-1DEB_BUILD_ARCH_CPU\\s0"
-msgstr ""
-
-# type: IX
-#: dpkg-architecture.1:90
-#, no-wrap
-msgid "DEB_BUILD_ARCH_CPU"
-msgstr ""
-
-# type: Plain text
-#: dpkg-architecture.1:92
-msgid "The Debian cpu name of the build machine."
-msgstr ""
-
-# type: IP
-#: dpkg-architecture.1:92
-#, no-wrap
-msgid "\\s-1DEB_BUILD_GNU_TYPE\\s0"
-msgstr ""
-
-# type: IX
-#: dpkg-architecture.1:93
-#, no-wrap
-msgid "DEB_BUILD_GNU_TYPE"
-msgstr ""
-
-# type: Plain text
-#: dpkg-architecture.1:95
-msgid "The \\s-1GNU\\s0 system type of the build machine."
-msgstr ""
-
-# type: IP
-#: dpkg-architecture.1:95
-#, no-wrap
-msgid "\\s-1DEB_BUILD_GNU_CPU\\s0"
 msgstr ""
 
 # type: IX
 #: dpkg-architecture.1:96
 #, no-wrap
-msgid "DEB_BUILD_GNU_CPU"
+msgid "VARIABLES"
 msgstr ""
 
 # type: Plain text
 #: dpkg-architecture.1:98
+msgid "The following variables are set by B<dpkg-architecture>:"
+msgstr ""
+
+# type: IP
+#: dpkg-architecture.1:98
+#, no-wrap
+msgid "\\s-1DEB_BUILD_ARCH\\s0"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:100
+msgid "The Debian architecture of the build machine."
+msgstr ""
+
+# type: IP
+#: dpkg-architecture.1:100
+#, no-wrap
+msgid "\\s-1DEB_BUILD_ARCH_OS\\s0"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:102
+msgid "The Debian system name of the build machine."
+msgstr ""
+
+# type: IP
+#: dpkg-architecture.1:102
+#, no-wrap
+msgid "\\s-1DEB_BUILD_ARCH_CPU\\s0"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:104
+msgid "The Debian cpu name of the build machine."
+msgstr ""
+
+# type: IP
+#: dpkg-architecture.1:104
+#, no-wrap
+msgid "\\s-1DEB_BUILD_GNU_TYPE\\s0"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:106
+msgid "The \\s-1GNU\\s0 system type of the build machine."
+msgstr ""
+
+# type: IP
+#: dpkg-architecture.1:106
+#, no-wrap
+msgid "\\s-1DEB_BUILD_GNU_CPU\\s0"
+msgstr ""
+
+# type: Plain text
+#: dpkg-architecture.1:108
 msgid "The \\s-1CPU\\s0 part of \\s-1DEB_BUILD_GNU_TYPE\\s0"
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:98
+#: dpkg-architecture.1:108
 #, no-wrap
 msgid "\\s-1DEB_BUILD_GNU_SYSTEM\\s0"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:99
-#, no-wrap
-msgid "DEB_BUILD_GNU_SYSTEM"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:101
+#: dpkg-architecture.1:110
 msgid "The System part of \\s-1DEB_BUILD_GNU_TYPE\\s0"
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:101
+#: dpkg-architecture.1:110
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH\\s0"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:102
-#, no-wrap
-msgid "DEB_HOST_ARCH"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:104
+#: dpkg-architecture.1:112
 msgid "The Debian architecture of the host machine."
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:104
+#: dpkg-architecture.1:112
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH_OS\\s0"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:105
-#, no-wrap
-msgid "DEB_HOST_ARCH_OS"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:107
+#: dpkg-architecture.1:114
 msgid "The Debian system name of the host machine."
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:107
+#: dpkg-architecture.1:114
 #, no-wrap
 msgid "\\s-1DEB_HOST_ARCH_CPU\\s0"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:108
-#, no-wrap
-msgid "DEB_HOST_ARCH_CPU"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:110
+#: dpkg-architecture.1:116
 msgid "The Debian cpu name of the host machine."
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:110
+#: dpkg-architecture.1:116
 #, no-wrap
 msgid "\\s-1DEB_HOST_GNU_TYPE\\s0"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:111
-#, no-wrap
-msgid "DEB_HOST_GNU_TYPE"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:113
+#: dpkg-architecture.1:118
 msgid "The \\s-1GNU\\s0 system type of the host machine."
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:113
+#: dpkg-architecture.1:118
 #, no-wrap
 msgid "\\s-1DEB_HOST_GNU_CPU\\s0"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:114
-#, no-wrap
-msgid "DEB_HOST_GNU_CPU"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:116
+#: dpkg-architecture.1:120
 msgid "The \\s-1CPU\\s0 part of \\s-1DEB_HOST_GNU_TYPE\\s0"
 msgstr ""
 
 # type: IP
-#: dpkg-architecture.1:116
+#: dpkg-architecture.1:120
 #, no-wrap
 msgid "\\s-1DEB_HOST_GNU_SYSTEM\\s0"
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:117
-#, no-wrap
-msgid "DEB_HOST_GNU_SYSTEM"
-msgstr ""
-
 # type: Plain text
-#: dpkg-architecture.1:119
+#: dpkg-architecture.1:122
 msgid "The System part of \\s-1DEB_HOST_GNU_TYPE\\s0"
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:119 dpkg-architecture.1:120
+#: dpkg-architecture.1:123
 #, no-wrap
 msgid "DEBIAN/RULES"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:128
+#: dpkg-architecture.1:131
 msgid ""
-"The environment variables set by dpkg-architecture are passed to debian/"
-"rules as make variables (see make documentation).  However, you should not "
-"rely on them, as this breaks manual invocation of the script.  Instead, you "
-"should always initialize them using dpkg-architecture with the -q option.  "
+"The environment variables set by B<dpkg-architecture> are passed to I<debian/"
+"rules> as make variables (see make documentation). However, you should not "
+"rely on them, as this breaks manual invocation of the script. Instead, you "
+"should always initialize them using B<dpkg-architecture> with the -q option. "
 "Here are some examples, which also show how you can improve the cross "
 "compilation support in your package:"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:131 dpkg-architecture.1:148
+#: dpkg-architecture.1:134 dpkg-architecture.1:151
 msgid "Instead of:"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:135
+#: dpkg-architecture.1:138
 #, no-wrap
 msgid ""
 "ARCH=\\`dpkg --print-architecture\\`\n"
@@ -480,12 +505,12 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:138
+#: dpkg-architecture.1:141
 msgid "please use the following:"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:142
+#: dpkg-architecture.1:145
 #, no-wrap
 msgid ""
 "\\&\\s-1DEB_BUILD_GNU_TYPE\\s0 := $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)\n"
@@ -493,13 +518,13 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:144
+#: dpkg-architecture.1:147
 #, no-wrap
 msgid "configure --build=$(\\s-1DEB_BUILD_GNU_TYPE\\s0) --host=$(\\s-1DEB_HOST_GNU_TYPE\\s0)\n"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:154
+#: dpkg-architecture.1:157
 #, no-wrap
 msgid ""
 "ARCH=\\`dpkg --print-architecture\\`\n"
@@ -509,18 +534,18 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:157
+#: dpkg-architecture.1:160
 msgid "please use:"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:160
+#: dpkg-architecture.1:163
 #, no-wrap
 msgid "\\&\\s-1DEB_HOST_ARCH\\s0 := $(shell dpkg-architecture -qDEB_HOST_ARCH)\n"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:164
+#: dpkg-architecture.1:167
 #, no-wrap
 msgid ""
 "ifeq ($(\\s-1DEB_HOST_ARCH\\s0),alpha)\n"
@@ -529,14 +554,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:168
+#: dpkg-architecture.1:171
 msgid ""
 "or if you only need to check the CPU or OS type, use the DEB_HOST_ARCH_CPU "
 "or DEB_HOST_ARCH_OS variables."
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:173
+#: dpkg-architecture.1:176
 msgid ""
 "In general, calling dpkg in the rules file to get architecture information "
 "is deprecated (until you want to provide backward compatibility, see "
@@ -545,23 +570,23 @@ msgid ""
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:174 dpkg-architecture.1:175
+#: dpkg-architecture.1:177
 #, no-wrap
 msgid "BACKWARD COMPATIBILITY"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:181
+#: dpkg-architecture.1:183
 msgid ""
 "The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were only introduced in "
-"relatively recent versions of I<dpkg-architecture> (since dpkg 1.13.2), "
+"relatively recent versions of B<dpkg-architecture> (since dpkg 1.13.2), "
 "before this I<debian/rules> files tended to check the values of the "
 "DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have been subject to "
 "change."
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:186
+#: dpkg-architecture.1:188
 msgid ""
 "Where I<debian/rules> files check these variables to decide how or what to "
 "compile, this should be updated to use the new variables and values.  You "
@@ -570,7 +595,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:190
+#: dpkg-architecture.1:192
 #, no-wrap
 msgid ""
 "DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2E<gt>/dev/null)\n"
@@ -578,7 +603,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:204
+#: dpkg-architecture.1:206
 #, no-wrap
 msgid ""
 "# Take account of old dpkg-architecture output.\n"
@@ -597,19 +622,19 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:207
+#: dpkg-architecture.1:209
 msgid "And similarly for DEB_BUILD_ARCH_CPU and DEB_BUILD_ARCH_OS."
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:210
+#: dpkg-architecture.1:212
 msgid ""
 "If you still wish to support versions of dpkg-dev that did not include "
-"I<dpkg-architecture>, the following does the job:"
+"B<dpkg-architecture>, the following does the job:"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:220
+#: dpkg-architecture.1:222
 #, no-wrap
 msgid ""
 "\\&\\s-1DEB_BUILD_ARCH\\s0 := $(shell dpkg --print-architecture)\n"
@@ -623,7 +648,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:225
+#: dpkg-architecture.1:227
 #, no-wrap
 msgid ""
 "\\&\\s-1DEB_HOST_ARCH\\s0 := $(\\s-1DEB_BUILD_ARCH\\s0)\n"
@@ -633,14 +658,14 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:229
+#: dpkg-architecture.1:231
 msgid ""
 "Put a subset of these lines at the top of your debian/rules file; these "
 "default values will be overwritten if dpkg-architecture is used."
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:236
+#: dpkg-architecture.1:238
 msgid ""
 "You don't need the full set. Choose a consistent set which contains the "
 "values you use in the rules file. For example, if you only need the host "
@@ -651,26 +676,25 @@ msgid ""
 msgstr ""
 
 # type: IX
-#: dpkg-architecture.1:236 dpkg-architecture.1:237
+#: dpkg-architecture.1:239
 #, no-wrap
 msgid "SEE ALSO"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:240
-msgid "dpkg-buildpackage dpkg-cross"
+#: dpkg-architecture.1:242
+msgid "B<dpkg-buildpackage>(1), B<dpkg-cross>(1)."
 msgstr ""
 
-# type: IX
-#: dpkg-architecture.1:240 dpkg-architecture.1:241
+# type: SH
+#: dpkg-architecture.1:243
 #, no-wrap
-msgid "CONTACT"
+msgid "AUTHOR"
 msgstr ""
 
 # type: Plain text
-#: dpkg-architecture.1:244
+#: dpkg-architecture.1:247
 msgid ""
-"If you have questions about the usage of the make variables in your rules "
-"files, or about cross compilation support in your packages, please email "
-"me.  The address is Marcus Brinkmann E<lt>brinkmd@debian.orgE<gt>."
+"B<dpkg-architecture> and this man page were initially written by Marcus "
+"Brinkmann E<lt>brinkmd@debian.orgE<gt>."
 msgstr ""

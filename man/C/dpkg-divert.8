@@ -1,24 +1,28 @@
-.TH DPKG\-DIVERT 8 "December 1999" "Debian Project" "dpkg utilities"
+.TH dpkg\-divert 8 "2006-02-28" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-divert - override a package's version of a file
+.
 .SH SYNOPSIS
 .B dpkg\-divert
-[options] [\-\-add]
+.RI [ options ]
+.RB [ \-\-add ]
 .I <file>
 .br
 .B dpkg\-divert
-[options] \-\-remove
+.RI [ options ]
+.B \-\-remove
 .I <file>
 .br
 .B dpkg\-divert
-[options]
-\-\-list
+.RI [ options ]
+.B \-\-list
 .I <glob-pattern>
 .br
 .B dpkg\-divert
-[options] \-\-truename
+.RI [ options ]
+.B \-\-truename
 .I <file>
-.br
+.
 .SH DESCRIPTION
 File `diversions' are a way of forcing dpkg not to install a file into its
 location, but to a `diverted' location. Diversions can be used through the
@@ -31,49 +35,54 @@ contains those files.
 .B dpkg\-divert
 is the utility used to set up and update the list of diversions. It
 functions in three basic modes - adding, removing, and listing diversions.
-The options are \-\-add, \-\-remove, and \-\-list, respectively. Additionally,
-it can print out the real name for a diverted file with \-\-truename.
-Other options (listed below) may also be specified.
+The options are \fB\-\-add\fP, \fB\-\-remove\fP, and \fB\-\-list\fP,
+respectively. Additionally, it can print out the real name for a diverted
+file with \fB\-\-truename\fP. Other options (listed below) may also be
+specified.
 .SH OPTIONS
 .TP
-.I \-\-admindir <directory>
-Set the dpkg data directory to <directory> (default: /var/lib/dpkg).
+.BI \-\-admindir " <directory>"
+Set the dpkg data directory to \fI<directory>\fP (default: \fI/var/lib/dpkg\fP).
 .TP
-.I \-\-divert <divert-to>
-<divert-to> is the name used by other packages' versions.
+.BI \-\-divert " <divert-to>"
+\fI<divert-to>\fP is the name used by other packages' versions.
 .TP
-.I \-\-help
+.B \-\-help
 Output the version and the short usage instructions, and exit successfully.
 .TP
-.I \-\-local
+.B \-\-local
 Specifies that all packages' versions are diverted.
 .TP
-.I \-\-package <package>
-<package> is the name of a package whose copy of <file> will not be diverted.
+.BI \-\-package " <package>"
+\fI<package>\fP is the name of a package whose copy of \fI<file>\fP will not
+be diverted.
 .TP
-.I \-\-quiet
+.B \-\-quiet
 Quiet mode, i.e. no verbose output.
 .TP
-.I \-\-rename
+.B \-\-rename
 Actually move the file aside (or back). dpkg\-divert will abort operation
 in case the destination file already exists.
 .TP
-.I \-\-test
+.B \-\-test
 Test mode, i.e. don't actually perform any changes, just demonstrate.
 .TP
-.I \-\-version
+.B \-\-version
 Output program name and version and exit successfully.
+.
 .SH NOTES
-When adding, default is \-\-local and \-\-divert <original>.distrib.
-When removing, \-\-package or \-\-local and \-\-divert must match if specified.
+When adding, default is \fB\-\-local\fP and \fB\-\-divert\fP
+\fI<original>.distrib\fP. When removing, \fB\-\-package\fP or \fB\-\-local\fP
+and \fB\-\-divert\fP must match if specified.
 
-Directories can't be diverted with dpkg\-divert.
+Directories can't be diverted with \fBdpkg\-divert\fP.
 
-Care should be taken when diverting shared libraries, ldconfig (8) creates
-a symbolic link based on the DT_SONAME field embedded in the library.
+Care should be taken when diverting shared libraries, \fBldconfig\fP (8)
+creates a symbolic link based on the DT_SONAME field embedded in the library.
 Because ldconfig doesn't honour diverts (only dpkg does), if a diverted
 library has the same SONAME as the undiverted one the symlink may end up
 pointing at the diverted library.
+.
 .SH EXAMPLES
 To divert all copies of a \fI/usr/bin/example.foo\fR to \fI/usr/bin/example\fR,
 performing the rename if required:
@@ -93,6 +102,7 @@ dpkg-divert --package wibble --divert /usr/bin/example.foo --rename /usr/bin/exa
 To remove that diversion:
 .HP
 dpkg-divert --package wibble --rename --remove /usr/bin/example
+.
 .SH FILES
 .TP
 .I /var/lib/dpkg/diversions
@@ -100,12 +110,13 @@ File which contains the current list of diversions of the system. It is
 located in the dpkg administration directory, along with other files
 important to dpkg, such as `status' or `available'.
 .br
-Note: dpkg\-divert preserves the old copy of this file, with extension
+Note: \fBdpkg\-divert\fP preserves the old copy of this file, with extension
 "\-old", before replacing it with the new one.
+.
 .SH SEE ALSO
 .BR dpkg (1).
 .SH AUTHOR
 Copyright (C) 1995 Ian Jackson.
 .sp
 This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+version 2 or later for copying conditions. There is NO warranty.

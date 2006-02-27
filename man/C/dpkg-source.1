@@ -1,9 +1,10 @@
 .\" Authors: Ian Jackson
-.TH DPKG\-SOURCE 1 "January 2000" "Debian Project" "dpkg utilities"
-.SH NAME 
+.TH dpkg\-source 1 "2006-02-28" "Debian Project" "dpkg utilities"
+.SH NAME
 dpkg\-source, dpkg\-gencontrol, dpkg\-shlibdeps, dpkg\-genchanges,
 dpkg\-buildpackage, dpkg\-distaddfile, dpkg\-parsechangelog
 \- Debian source package tools
+.
 .SH SYNOPSIS
 .B dpkg\-source
 .BI "\-x " filename .dsc
@@ -41,14 +42,14 @@ it also adds an entry for the binary package to
 
 .B dpkg\-shlibdeps
 calculates shared library dependencies for executables named in its
-arguments.  The dependencies are added to the substitution
+arguments. The dependencies are added to the substitution
 variables file
 .B debian/substvars
 as variable names
 .BI shlibs: dependencyfield
 where
 .I dependencyfield
-is a dependency field name.  Any other variables starting
+is a dependency field name. Any other variables starting
 .I shlibs:
 are removed from the file.
 .B dpkg\-shlibdeps
@@ -61,7 +62,7 @@ control area file of the package containing the file which
 .B objdump
 reports as satisfying the library dependency, or
 .BR /etc/dpkg/shlibs.default .
-The first match will be used.  See
+The first match will be used. See
 .BR dpkg-shlibdeps (1)
 for details of the format of shared library dependency files.
 
@@ -93,7 +94,7 @@ together with the programs that accept them.
 .TP
 .BI \-h
 Display the particular program's version and usage message, including
-a synopsis of the options it understands.  This option is understood
+a synopsis of the options it understands. This option is understood
 by all the source package tools.
 .TP
 .BI \-v version
@@ -113,7 +114,7 @@ generated.
 Read the description of the changes from the file
 .I changesdescription
 rather than using the information from the source tree's changelog
-file.  This is understood by
+file. This is understood by
 .BR dpkg\-buildpackage " and " dpkg\-genchanges .
 .TP
 .BI \-m maintaineraddress
@@ -208,14 +209,14 @@ tells
 to build a source package (rather than to extract one) - see below.
 .TP
 .BI \-c controlfile
-Specifies the main source control file to read information from.  The
+Specifies the main source control file to read information from. The
 default is
 .BR debian/control .
 This option is understood by
 .BR dpkg\-source ", " dpkg\-gencontrol " and " dpkg\-genchanges .
 .TP
 .BI \-l changelogfile
-Specifies the change log file to read information from.  The
+Specifies the change log file to read information from. The
 default is
 .BR debian/changelog .
 This option is understood by
@@ -228,15 +229,15 @@ This option is understood by
 .BR dpkg\-gencontrol ", " dpkg\-genchanges " and " dpkg\-distaddfile .
 .TP
 .BI \-F changelogformat
-Specifies the format of the changelog.  By default the format is read
+Specifies the format of the changelog. By default the format is read
 from a special line near the bottom of the changelog or failing that
 defaults to the debian standard format.
 This option is understood by
 .BR dpkg\-source ", " dpkg\-gencontrol " and " dpkg\-genchanges .
 .TP
 .BI \-W
-This option turns certain errors into warnings.  Only dpkg\-source uses
-this, but 
+This option turns certain errors into warnings. Only dpkg\-source uses
+this, but
 .BR dpkg\-buildpackage
 recognizes it, and passes it thru to
 .BR dpkg\-source "."
@@ -253,14 +254,14 @@ are given with relative pathnames these are interpreted starting at
 the source tree's top level directory.
 .TP
 .B \-x
-Extract a source package.  One non-option argument must be supplied,
+Extract a source package. One non-option argument must be supplied,
 the name of the Debian source control file
 .RB ( .dsc ).
 An optional second non-option argument may be supplied to specify the
-directory to extract the source package to, this must not exist.  If
+directory to extract the source package to, this must not exist. If
 no output directory is specified, the source package is extracted into
 a directory named \fIsource\fR-\fIversion-\fR under the current working
-directory. 
+directory.
 
 No options are useful with
 .BR "dpkg\-source \-x" .
@@ -279,12 +280,12 @@ extracted directories will be too, and all the files and directories
 will inherit its group ownership.
 .TP
 .B \-b
-Build: pack up a source tree.  One or two non-option arguments should
-be supplied.  The first is taken as the name of the directory
-containing the unpacked source tree.  If a second argument is supplied
+Build: pack up a source tree. One or two non-option arguments should
+be supplied. The first is taken as the name of the directory
+containing the unpacked source tree. If a second argument is supplied
 it should be the name of the original source directory or tarfile or
 the empty string if the package is a Debian-specific one and so has no
-Debianisation diffs.  If no second argument is supplied then
+Debianisation diffs. If no second argument is supplied then
 .B dpkg\-source
 will look for the original source tarfile
 .IB package _ upstream-version .orig.tar.gz
@@ -302,12 +303,12 @@ most common revision control systems, backup and swap files and Libtool
 build output directories.
 
 This is very helpful in cutting out extraneous files that get included
-in the .diff.gz, (eg: "debian/BUGS_TODO/*" or "debian/RCS/*,v").  For
+in the .diff.gz, (eg: "debian/BUGS_TODO/*" or "debian/RCS/*,v"). For
 instance, if you maintain a package that you track via remote CVS,
 where you don't have access permissions for commiting the debian
 control files and making tags for \fIcvs\-buildpackage(1)\fR, it is
 necessary to perform an extra checkout/update into a directory you
-keep pristine, to generate the .orig.tar.gz from.  That directory will
+keep pristine, to generate the .orig.tar.gz from. That directory will
 have CVS/Entries files in it that will contain timestamps that differ
 from the ones in your working directory, thus causing them to be
 unnecessarily included in every .diff.gz, unless you use the \fB\-i\fR
@@ -316,7 +317,7 @@ switch.
 .B \-I<filename>
 If this option is specified, the filename will be passed to tar's \-\-exclude
 option when it is called to generate a .orig.tar.gz or .tar.gz file. For
-example, \-ICVS will make tar skip over CVS directories when generating 
+example, \-ICVS will make tar skip over CVS directories when generating
 a .tar.gz file. The option may be repeated multiple times to list multiple
 filenames to exclude.
 .TP
@@ -342,7 +343,7 @@ default
 .IB package - upstream-version .orig
 and
 .B dpkg\-source
-will create a new original source archive from it.  If
+will create a new original source archive from it. If
 .B \-sr
 is used
 .B dpkg\-source will remove that directory after it has been used.
@@ -352,7 +353,7 @@ If
 is specified
 .B dpkg\-source
 will expect that the original source is available both as a directory
-and as a tarfile.  If will use the directory to create the diff, but
+and as a tarfile. If will use the directory to create the diff, but
 the tarfile to create the
 .BR .dsc .
 This option must be used with care - if the directory and tarfile do
@@ -363,7 +364,7 @@ If
 is specified
 .B dpkg\-source
 will not look for any original source, and will not generate a diff.
-The second argument, if supplied, must be the empty string.  This is
+The second argument, if supplied, must be the empty string. This is
 used for Debian-specific packages which do not have a separate
 upstream source and therefore have no debianisation diffs.
 
@@ -396,10 +397,10 @@ was specified.
 .B \-sA
 is the default.
 
-.BR \-sa ", " \-sp ", " \-sk ", " \-su " and "  \-sr
-will not overwrite existing tarfiles or directories.  If this is
+.BR \-sa ", " \-sp ", " \-sk ", " \-su " and " \-sr
+will not overwrite existing tarfiles or directories. If this is
 desired then
-.BR \-sA ", " \-sP ", " \-sK ", " \-sU " and "  \-sR
+.BR \-sA ", " \-sP ", " \-sK ", " \-sU " and " \-sR
 should be used instead.
 .TP
 .BR \-sp , \-su , \-sn " with " \-x
@@ -408,7 +409,7 @@ In all cases any existing original source tree will be removed.
 If
 .B \-sp
 is used when extracting then the original source (if any) will be left
-as a tarfile.  If it is not already located in the current directory
+as a tarfile. If it is not already located in the current directory
 or if an existing but different file is there it will be copied there.
 This is the default.
 
@@ -417,7 +418,7 @@ unpacks the original source tree.
 
 .B \-sn
 ensures that the original source is neither copied to the current
-directory nor unpacked.  Any original source tree that was in the
+directory nor unpacked. Any original source tree that was in the
 current directory is still removed.
 .PP
 All the
@@ -651,7 +652,7 @@ Do not check build dependencies and conflicts.
 Do not clean the source tree(implies \-b).
 .SH dpkg\-DISTADDFILE ARGUMENTS
 .B dpkg\-distaddfile
-does not take any non-common options.  It takes three non-option
+does not take any non-common options. It takes three non-option
 arguments, the filename and the section and priority for the
 .B .changes
 file.
@@ -680,7 +681,7 @@ they perform some variable substitutions on the output file.
 A variable substitution has the form
 .BI ${ variable-name }\fR.
 Variable names consist of alphanumerics, hyphens and colons and start
-with an alphanumeric.  Variable substitutions are performed repeatedly
+with an alphanumeric. Variable substitutions are performed repeatedly
 until none are left; the full text of the field after the substitution
 is rescanned to look for more substitutions.
 
@@ -693,11 +694,11 @@ sign.
 
 Variables can be set using the
 .B \-V
-common option.  They can be also specified in the file
+common option. They can be also specified in the file
 .B debian/substvars
 (or whatever other file is specified using the
 .B \-T
-option).  This file consists of lines of the form
+option). This file consists of lines of the form
 .IB name = value\fR.
 Trailing whitespace on each line, blank lines, and
 lines starting with a
@@ -714,16 +715,16 @@ The current build architecture (from
 The source package version (from the changelog file).
 .TP
 .B Installed\-Size
-The total size of the package's installed files.  This value is copied
+The total size of the package's installed files. This value is copied
 into the corresponding control file field; setting it will modify the
-value of that field.  If this variable isn't set
+value of that field. If this variable isn't set
 .B dpkg\-gencontrol
 will use
 .B du \-k debian/tmp
 to find the default value.
 .TP
 .B Extra\-Size
-Additional disk space used when the package is installed.  If this
+Additional disk space used when the package is installed. If this
 variable is set its value is added to that of the
 .B Installed\-Size
 variable (whether set explicitly or using the default value) before it
@@ -734,7 +735,7 @@ control file field.
 .BI F: fieldname
 The value of the output field
 .IR fieldname
-(which must be given in the canonical capitalisation).  Setting these
+(which must be given in the canonical capitalisation). Setting these
 variables has no effect other than on places where they are expanded
 explicitly.
 .TP
@@ -742,7 +743,7 @@ explicitly.
 The
 .B .changes
 file format version generated by this version of the source packaging
-scripts.  If you set this variable the contents of the
+scripts. If you set this variable the contents of the
 .B Format
 field in the
 .B .changes
@@ -805,9 +806,9 @@ Per-system default shared library dependency information.
 The point at which field overriding occurs compared to certain
 standard output field settings is rather confused.
 
-The binary package entries in the 
+The binary package entries in the
 .B debian/files
-file will be passed through variable substitution twice.  This should
+file will be passed through variable substitution twice. This should
 not matter, since
 .BR $ ", " { " and " }
 are not legal in package names or version numbers.
@@ -829,7 +830,7 @@ Copyright (C) 1995-1996 Ian Jackson
 Copyright (C) 2000 Wichert Akkerman
 .br
 This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO WARRANTY.  See
+for copying conditions. There is NO WARRANTY. See
 .B /usr/share/doc/dpkg/copyright
 and
 .B /usr/share/common\-licenses/GPL

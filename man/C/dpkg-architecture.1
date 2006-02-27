@@ -1,129 +1,132 @@
-.TH DPKG-ARCHITECTURE 1 "2006-02-11" "Debian GNU/Linux"
+.TH dpkg\-architecture 1 "2006-02-28" "Debian Project" "dpkg utililties"
 .SH "NAME"
 dpkg\-architecture \- set and determine the architecture for package building
+.
 .SH "SYNOPSIS"
-.IX Header "SYNOPSIS"
-dpkg-architecture [options] [action]
+.B dpkg-architecture
+.RI [ options ]
+.RI [ action ]
 .PP
-Valid options:
-\&\fB\-a\fRDebian-Architecture
-\&\fB\-t\fRGnu-System-Type
-\&\fB\-f\fR
-.PP
-Valid actions:
-\&\fB\-l\fR, \fB\-e\fRDebian\-Architecture, \fB\-i\fRArchitecture\-Alias,
-\fB\-q\fRVariable\-Name, \fB\-s\fR, \fB\-u\fR, \fB\-c\fR Command, \fB\-L\fR
+.
 .SH "DESCRIPTION"
-.IX Header "DESCRIPTION"
 dpkg-architecture does provide a facility to determine and set the build and
 host architecture for package building.
-.SH "OVERVIEW"
-.IX Header "OVERVIEW"
+.PP
 The build architecture is always determined by an external call to dpkg, and
 can not be set at the command line.
 .PP
-You can specify the host architecture by providing one or both of the options \fB\-a\fR
-and \fB\-t\fR. The default is determined by an external call to gcc, or the same as
-the build architecture if \s-1CC\s0 or gcc are both not available. One out of \fB\-a\fR and \fB\-t\fR
-is sufficient, the value of the other will be set to a usable default.
-Indeed, it is often better to only specify one, because dpkg-architecture
-will warn you if your choice doesn't match the default.
-.PP
-The default action is \fB\-l\fR, which prints the environment variables, one each line,
-in the format VARIABLE=value. If you want to check for equality between two
-Debian Architectures, you can use \fB\-e\fR, by default it will compare against
-the currect Debian Architecture, being it the host. If you want to check for
-identity of the current Debian Architecture against an Architecture Alias, you
-can use \fB\-i\fR. If you are only interested in the value of a single variable,
-you can use \fB\-q\fR. If you specify \fB\-s\fR, it will output an export
-command. This can be used to set the environment variables using eval. \fB\-u\fR
-does return a similar command to unset all variables. \fB\-c\fR does execute a
-command in an environment which has all variables set to the determined
-value.
-.PP
-A list of valid architecture names can be printed with the \fB\-L\fR action.
-.PP
+You can specify the host architecture by providing one or both of the options
+\fB\-a\fR and \fB\-t\fR. The default is determined by an external call to gcc,
+or the same as the build architecture if \s-1CC\s0 or gcc are both not
+available. One out of \fB\-a\fR and \fB\-t\fR is sufficient, the value of the
+other will be set to a usable default. Indeed, it is often better to only
+specify one, because \fBdpkg\-architecture\fP will warn you if your choice
+does not match the default.
+.
+.SH OPTIONS
+.TP
+.BI \-a debian-architecture
+Set the Debian architecture.
+.TP
+.BI \-t gnu-system-type
+Set the GNU system type.
+.TP
+.B \-f
 Existing environment variables with the same name as used by the scripts are
-not overwritten, except if the \fB\-f\fR force flag is present. This allows the user
-to override a value even when the call to dpkg-architecture is buried in
-some other script (for example dpkg\-buildpackage).
+not overwritten, except if this force flag is present. This allows the user
+to override a value even when the call to \fBdpkg\-architecture\fP is buried
+in some other script (for example \fBdpkg\-buildpackage\fP).
+.
+.SH ACTIONS
+.TP
+.B \-l
+Print the environment variables, one each line, in the format
+\fIVARIABLE=value\fP. This is the default action.
+.TP
+.BI \-e debian-architecture
+Check for equality between two Debian Architectures, by default it will
+compare against the currect Debian Architecture, being it the host.
+.TP
+.BI \-i architecture-alias
+Check for identity of the current Debian Architecture against an
+Architecture Alias.
+.TP
+.BI \-q variable-Name
+Print the value of a single variable.
+.TP
+.B \-s
+Print an export command. This can be used to set the environment variables
+using eval.
+.TP
+.B \-u
+Print a similar command to \fB\-s\fP but to unset all variables.
+.TP
+.BI \-c " command"
+Execute a \fIcommand\fP in an environment which has all variables set to
+the determined value.
+.TP
+.B \-L
+Print a list of valid architecture names.
+.
 .SH "TERMS"
-.IX Header "TERMS"
 .IP "build machine" 4
-.IX Item "build machine"
 The machine the package is built on.
 .IP "host machine" 4
-.IX Item "host machine"
 The machine the package is built for.
 .IP "Debian Architecture" 4
-.IX Item "Debian Architecture"
-The Debian architecture string, which specifies the binary tree in the \s-1FTP\s0
-archive. Examples: i386, sparc, hurd\-i386.
+The Debian architecture string, which specifies the binary tree in the
+\s-1FTP\s0 archive. Examples: i386, sparc, hurd\-i386.
 .IP "Architecture Alias" 4
-.IX Item "Architecture Alias"
 An architecture alias is a wildcard architecture that will match any real
 architecture being part of it. The general form is <kernel>\-<cpu>.
 Examples: linux\-any, linux\-alpha, any\-i386, hurd\-any.
 .IP "\s-1GNU\s0 System Type" 4
-.IX Item "GNU System Type"
 An architecture specification string consisting of two parts,
-cpu-system.  Examples: i386\-linux-gnu, sparc\-linux-gnu, i386\-gnu,
-x86_64-netbsd.
+cpu-system. Examples: i386\-linux\-gnu, sparc\-linux\-gnu, i386\-gnu,
+x86_64\-netbsd.
+.
 .SH "EXAMPLES"
-.IX Header "EXAMPLES"
-dpkg-buildpackage accepts the \fB\-a\fR option and passes it to dpkg\-architecture.
-Other examples:
+\fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
+\fBdpkg\-architecture\fP. Other examples:
 .PP
 CC=i386\-gnu\-gcc dpkg\-architecture \f(CW\*(C`\-c\*(C'\fR debian/rules build
 .PP
 eval \`dpkg\-architecture \f(CW\*(C`\-u\*(C'\fR\`
+.
 .SH "VARIABLES"
-.IX Header "VARIABLES"
-The following variables are set by dpkg\-architecture:
+The following variables are set by \fBdpkg\-architecture\fP:
 .IP "\s-1DEB_BUILD_ARCH\s0" 4
-.IX Item "DEB_BUILD_ARCH"
 The Debian architecture of the build machine.
 .IP "\s-1DEB_BUILD_ARCH_OS\s0" 4
-.IX Item "DEB_BUILD_ARCH_OS"
 The Debian system name of the build machine.
 .IP "\s-1DEB_BUILD_ARCH_CPU\s0" 4
-.IX Item "DEB_BUILD_ARCH_CPU"
 The Debian cpu name of the build machine.
 .IP "\s-1DEB_BUILD_GNU_TYPE\s0" 4
-.IX Item "DEB_BUILD_GNU_TYPE"
 The \s-1GNU\s0 system type of the build machine.
 .IP "\s-1DEB_BUILD_GNU_CPU\s0" 4
-.IX Item "DEB_BUILD_GNU_CPU"
 The \s-1CPU\s0 part of \s-1DEB_BUILD_GNU_TYPE\s0
 .IP "\s-1DEB_BUILD_GNU_SYSTEM\s0" 4
-.IX Item "DEB_BUILD_GNU_SYSTEM"
 The System part of \s-1DEB_BUILD_GNU_TYPE\s0
 .IP "\s-1DEB_HOST_ARCH\s0" 4
-.IX Item "DEB_HOST_ARCH"
 The Debian architecture of the host machine.
 .IP "\s-1DEB_HOST_ARCH_OS\s0" 4
-.IX Item "DEB_HOST_ARCH_OS"
 The Debian system name of the host machine.
 .IP "\s-1DEB_HOST_ARCH_CPU\s0" 4
-.IX Item "DEB_HOST_ARCH_CPU"
 The Debian cpu name of the host machine.
 .IP "\s-1DEB_HOST_GNU_TYPE\s0" 4
-.IX Item "DEB_HOST_GNU_TYPE"
 The \s-1GNU\s0 system type of the host machine.
 .IP "\s-1DEB_HOST_GNU_CPU\s0" 4
-.IX Item "DEB_HOST_GNU_CPU"
 The \s-1CPU\s0 part of \s-1DEB_HOST_GNU_TYPE\s0
 .IP "\s-1DEB_HOST_GNU_SYSTEM\s0" 4
-.IX Item "DEB_HOST_GNU_SYSTEM"
 The System part of \s-1DEB_HOST_GNU_TYPE\s0
+.
 .SH "DEBIAN/RULES"
-.IX Header "DEBIAN/RULES"
-The environment variables set by dpkg-architecture are passed to
-debian/rules as make variables (see make documentation).  However, you
-should not rely on them, as this breaks manual invocation of the
-script.  Instead, you should always initialize them using
-dpkg-architecture with the \-q option.  Here are some examples, which
-also show how you can improve the cross compilation support in your
+The environment variables set by \fBdpkg\-architecture\fP are passed to
+\fIdebian/rules\fP as make variables (see make documentation). However,
+you should not rely on them, as this breaks manual invocation of the
+script. Instead, you should always initialize them using
+\fBdpkg\-architecture\fP with the \-q option. Here are some examples,
+which also show how you can improve the cross compilation support in your
 package:
 .PP
 
@@ -170,11 +173,10 @@ In general, calling dpkg in the rules file to get architecture information
 is deprecated (until you want to provide backward compatibility, see below).
 Especially the \-\-print\-architecture option is unreliable since we have
 Debian architectures which don't equal a processor name.
-
+.
 .SH "BACKWARD COMPATIBILITY"
-.IX Header "BACKWARD COMPATIBILITY"
 The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were only introduced
-in relatively recent versions of \fIdpkg-architecture\fR (since dpkg 1.13.2),
+in relatively recent versions of \fBdpkg-architecture\fR (since dpkg 1.13.2),
 before this \fIdebian/rules\fR files tended to check the values of the
 DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have been subject
 to change.
@@ -206,7 +208,7 @@ endif
 And similarly for DEB_BUILD_ARCH_CPU and DEB_BUILD_ARCH_OS.
 .PP
 If you still wish to support versions of dpkg-dev that did not include
-\fIdpkg-architecture\fR, the following does the job:
+\fBdpkg-architecture\fR, the following does the job:
 .IP
 .nf
 \&\s-1DEB_BUILD_ARCH\s0 := $(shell dpkg \-\-print\-architecture)
@@ -233,12 +235,13 @@ Debian architecture, `DEB_HOST_ARCH=\`dpkg \-\-print\-architecture\`'
 is sufficient (this is indeed the Debian architecture of the build machine,
 but remember that we are only trying to be backward compatible with native
 compilation).
+.
 .SH "SEE ALSO"
-.IX Header "SEE ALSO"
-dpkg-buildpackage
-dpkg-cross
-.SH "CONTACT"
-.IX Header "CONTACT"
-If you have questions about the usage of the make variables in your rules
-files, or about cross compilation support in your packages, please email me.
-The address is Marcus Brinkmann <brinkmd@debian.org>.
+.BR dpkg\-buildpackage (1),
+.BR dpkg\-cross (1).
+.
+.SH "AUTHOR"
+.B dpkg\-architecture
+and this man page were initially written by
+Marcus Brinkmann <brinkmd@debian.org>.
+
