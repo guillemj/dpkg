@@ -181,7 +181,7 @@ for $_ (keys %fi) {
         if (m/^(Package|Description|Essential|Optional)$/) {
         } elsif (exists($pkg_dep_fields{$_})) {
            my $dep = parsedep(substvars($v), 1, 1);
-           &error("error occoured while parsing $_") unless defined $dep;
+           &error("error occurred while parsing $_") unless defined $dep;
             $f{$_}= showdep($dep, 0);
         } elsif (m/^Section$|^Priority$/) {
         } elsif (m/^Architecture$/) {

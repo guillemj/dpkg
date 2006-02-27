@@ -177,7 +177,7 @@ if ($opmode eq 'build') {
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 		my $dep = parsedep(substvars($v),1);
-		&error("error occoured while parsing $_") unless defined $dep;
+		&error("error occurred while parsing $_") unless defined $dep;
 		$f{$_}= showdep($dep, 1);
 	    }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
