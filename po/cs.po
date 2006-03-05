@@ -1,7 +1,7 @@
 # Czech translation for dpkg.
 #
 # Petr Cech <cech@debian.org>, 1999, 2000, 2001.
-# Miroslav Kure <kurem@debian.cz>, 2004, 2005.
+# Miroslav Kure <kurem@debian.cz>, 2004, 2005, 2006.
 #
 # Thanks go to:
 # Milan Zamazal <pdm@debian.org>
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-02-17 08:49+0200\n"
-"PO-Revision-Date: 2006-02-17 08:51+0200\n"
+"PO-Revision-Date: 2006-03-05 18:15+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -243,9 +243,9 @@ msgid "couldn't open log `%s': %s\n"
 msgstr "nelze otevřít log `%s': %s\n"
 
 #: lib/dump.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
-msgstr "selhalo zapsání %s záznamu o `%.50s' do souboru `%.250s'"
+msgstr "selhalo zapsání podrobností o `%.50s' do souboru `%.250s'"
 
 #: lib/dump.c:293
 #, c-format
@@ -345,12 +345,12 @@ msgstr "chybné jméno balíku (%.250s)"
 #: lib/fields.c:91
 #, c-format
 msgid "empty file details field `%s'"
-msgstr "prázdné pole detailů o souboru `%s'"
+msgstr "prázdné pole podrobností o souboru `%s'"
 
 #: lib/fields.c:94
 #, c-format
 msgid "file details field `%s' not allowed in status file"
-msgstr "pole detailů o souboru `%s' není ve stavovém souboru dovoleno"
+msgstr "pole podrobností o souboru `%s' není ve stavovém souboru dovoleno"
 
 #: lib/fields.c:104
 #, c-format
@@ -364,29 +364,27 @@ msgstr "příliš málo hodnot v položce `%s' (vzhledem k ostatním)"
 
 #: lib/fields.c:133
 msgid "yes/no in boolean field"
-msgstr "yes/no v dvojhodnotovém poli"
+msgstr "yes/no v dvouhodnotovém poli"
 
 #: lib/fields.c:152
 msgid "word in `priority' field"
-msgstr ""
+msgstr "slovo v poli `priority'"
 
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "hodnota položky `status' není v tomto místě přípustná"
 
 #: lib/fields.c:170
-#, fuzzy
 msgid "first (want) word in `status' field"
-msgstr "třetí (stavové) slovo v poli `status'"
+msgstr "první slovo (want) v poli `status'"
 
 #: lib/fields.c:173
-#, fuzzy
 msgid "second (error) word in `status' field"
-msgstr "třetí (stavové) slovo v poli `status'"
+msgstr "druhé slovo (error) v poli `status'"
 
 #: lib/fields.c:179
 msgid "third (status) word in `status' field"
-msgstr "třetí (stavové) slovo v poli `status'"
+msgstr "třetí slovo (status) v poli `status'"
 
 #: lib/fields.c:190
 #, c-format
@@ -424,7 +422,7 @@ msgstr "kořenový nebo prázdný adresář uveden jako conffile"
 #, c-format
 msgid ""
 "`%s' field, missing package name, or garbage where package name expected"
-msgstr "v položce `%s' chybí název balíku nebo obsahuje šrot místo názvu"
+msgstr "v položce `%s' chybí jméno balíku, nebo místo něj obsahuje šrot"
 
 #: lib/fields.c:340
 #, c-format
@@ -489,7 +487,7 @@ msgstr "položka `%s', odkaz na `%.255s': neurčitelná verze"
 #: lib/fields.c:429
 #, c-format
 msgid "`%s' field, reference to `%.255s': error in version: %.255s"
-msgstr "položka `%s', odkaz na `%.255s': chybe ve verzi: `%.255s'"
+msgstr "položka `%s', odkaz na `%.255s': chyba ve verzi: `%.255s'"
 
 #: lib/fields.c:438
 #, c-format
@@ -571,7 +569,7 @@ msgstr "dpkg: varování - %s byl zabit signálem (%s)%s\n"
 
 #: lib/mlib.c:122 lib/mlib.c:125
 msgid ", core dumped"
-msgstr ""
+msgstr ", core dumped"
 
 #: lib/mlib.c:124
 #, c-format
@@ -965,7 +963,7 @@ msgstr "Nahrazuji soubory ve starém balíku %s ...\n"
 #: src/archives.c:502
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
-msgstr "Nahrazen soubory v nainstalovanén balíku balíku %s ...\n"
+msgstr "Nahrazen soubory v nainstalovaném balíku %s ...\n"
 
 #: src/archives.c:508
 #, c-format
@@ -1041,12 +1039,12 @@ msgstr "nelze přečíst odkaz `%.255s'"
 #: src/archives.c:721
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
-msgstr "nelze vytvořit záložní symlink pro `%.255s'"
+msgstr "nelze vytvořit záložní symbolický odkaz pro `%.255s'"
 
 #: src/archives.c:724 src/archives.c:727
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
-msgstr "nelze změnit vlastníka záložního symlinku `%.255s'"
+msgstr "nelze změnit vlastníka záložního symbolického odkazu `%.255s'"
 
 #: src/archives.c:732
 #, c-format
@@ -1295,7 +1293,7 @@ msgstr "Nastavuji balík %s (%s) ...\n"
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr ""
-"nelze zjistit stav nového distribučního konfigururačního souboru `%.250s'"
+"nelze zjistit stav nového distribučního konfiguračního souboru `%.250s'"
 
 #: src/configure.c:189 src/configure.c:430
 #, c-format
@@ -1485,16 +1483,16 @@ msgid ""
 " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
-" ==> Změněn (vámi nebo skriptem) od doby instalace.\n"
+" ==> Od doby instalace byl změněn (vámi nebo skriptem).\n"
 
 #: src/configure.c:570
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 " ==> Deleted (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
-" ==> Změněn (vámi nebo skriptem) od doby instalace.\n"
+" ==> Od doby instalace byl smazán (vámi nebo skriptem).\n"
 
 #: src/configure.c:573
 #, c-format
@@ -1519,12 +1517,12 @@ msgstr " ==> Používám starý soubor podle přání.\n"
 #: src/configure.c:595
 #, c-format
 msgid " ==> Keeping old config file as default.\n"
-msgstr " ==> Ponechávám starý konfigurační soubor jako standardní.\n"
+msgstr " ==> Ponechávám starý konfigurační soubor jako výchozí.\n"
 
 #: src/configure.c:599
 #, c-format
 msgid " ==> Using new config file as default.\n"
-msgstr " ==> Používám nový konfigurační soubor jako standardní.\n"
+msgstr " ==> Používám nový konfigurační soubor jako výchozí.\n"
 
 #: src/configure.c:607
 #, c-format
@@ -2128,33 +2126,32 @@ msgstr "dpkg: ... vypadá to, že se vše povedlo.\n"
 
 #: src/help.c:447
 msgid "unlink"
-msgstr ""
+msgstr "unlink"
 
 #: src/help.c:461
-#, fuzzy
 msgid "chmod"
-msgstr "podržet"
+msgstr "chmod"
 
 #: src/help.c:477 src/processarc.c:701
 msgid "delete"
-msgstr ""
+msgstr "smazat"
 
 #: src/help.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "failed to %s `%%.255s'"
-msgstr "nelze změnit adresář na `%.255s'"
+msgstr "selhalo volání %s `%%.255s'"
 
 #: src/help.c:493 dpkg-deb/info.c:54
 msgid "failed to exec rm for cleanup"
 msgstr "spuštění rm pro úklid selhalo"
 
 #: src/main.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package management program version %s.\n"
-msgstr "' program pro správu balíků verze "
+msgstr "Debian `%s' - program pro správu balíků verze %s.\n"
 
 #: src/main.c:46 src/query.c:461 dpkg-deb/main.c:48 dpkg-split/main.c:41
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
@@ -2163,10 +2160,10 @@ msgstr ""
 "Toto je svobodný software; podrobnosti o podmínkách kopírování naleznete\n"
 "v Obecné veřejné licenci GNU (GNU General Public Licence) verze 2 nebo\n"
 "pozdější. Toto programové vybavení je absolutně bez záruky.\n"
-"Více informací získáte použitím dpkg-deb --licence.\n"
+"Více informací získáte použitím %s --license.\n"
 
 #: src/main.c:57
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -2235,37 +2232,35 @@ msgid ""
 "\n"
 "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
-"Použití: \n"
-"  dpkg -i|--install      <.deb soubor> ... | -R|--recursive <adr> ...\n"
-"  dpkg --unpack          <.deb soubor> ... | -R|--recursive <adr> ...\n"
-"  dpkg -A|--record-avail <.deb soubor> ... | -R|--recursive <adr> ...\n"
-"  dpkg --configure              <jméno balíku> ... | -a|--pending\n"
-"  dpkg -r|--remove | -P|--purge <jméno balíku> ... | -a|--pending\n"
-"  dpkg --get-selections [<vzor> ...]      vypíše vybrané balíky na stdout\n"
-"  dpkg --set-selections                   nastaví vybrané balíky ze stdin\n"
-"  dpkg --update-avail <soubor Packages>   nahradí informace o dostupných\n"
-"                                          balících\n"
-"  dpkg --merge-avail <soubor Packages>    sloučí informace o dostupných "
-"balících\n"
-"  dpkg --clear-avail                      zruší informace o balících\n"
-"  dpkg --forget-old-unavail               zapomene nenainstalované "
-"nedostupné\n"
-"                                          balíky\n"
-"  dpkg -s|--status <název balíku> ...     zobrazí detailní stav balíku\n"
-"  dpkg -p|--print-avail <název balíku> .  zobrazí informace o dostupné "
-"verzi\n"
-"                                          balíku\n"
-"  dpkg -L|--listfiles <název balíku> ...  vypíše soubory `vlastněné' "
-"balíkem\n"
-"  dpkg -l|--list [<vzor> ...]             stručný seznam balíků\n"
-"  dpkg -S|--search <vzor> ...             nalezne balík, který vlastní\n"
-"                                          soubor(y)\n"
-"  dpkg -C|--audit                         vyhledá porušené balíky\n"
-"  dpkg --print-architecture               vypíše dpkg architekturu\n"
-"  dpkg --compare-versions <a> <rel> <b>   porovná čísla verzí - viz níže\n"
-"  dpkg --help | --version                 vypíše tuto nápovědu / verzi\n"
-"  dpkg --force-help | -Dh|--debug=help    nápověda pro force resp. ladění\n"
-"  dpkg --licence                          vypíše licenční podmínky\n"
+"Použití: %s [<volba> ...] <příkaz>\n"
+"\n"
+"Příkaz:"
+"  -i|--install      <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  --unpack          <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  -A|--record-avail <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  --configure       <jméno balíku> ... | -a|--pending\n"
+"  -r|--remove       <jméno balíku> ... | -a|--pending\n"
+"  -P|--purge        <jméno balíku> ... | -a|--pending\n"
+"  --get-selections [<vzor> ...]      vypíše vybrané balíky na stdout\n"
+"  --set-selections                   nastaví vybrané balíky ze stdin\n"
+"  --update-avail <soubor Packages>   nahradí informace o dostupných balících\n"
+"  --merge-avail <soubor Packages>    sloučí informace o dostupných balících\n"
+"  --clear-avail                      zruší informace o balících\n"
+"  --forget-old-unavail               zapomene nenainstalované nedostupné\n"
+"                                     balíky\n"
+"  -s|--status <jméno balíku> ...     zobrazí podrobný stav balíku\n"
+"  -p|--print-avail <jméno balíku> .  zobrazí informace o dostupné verzi\n"
+"                                     balíku\n"
+"  -L|--listfiles <jméno balíku> ...  vypíše soubory `vlastněné' balíkem\n"
+"  -l|--list [<vzor> ...]             stručný seznam balíků\n"
+"  -S|--search <vzor> ...             nalezne balík, který vlastní soubor(y)\n"
+"  -C|--audit                         vyhledá porušené balíky\n"
+"  --print-architecture               vypíše dpkg architekturu\n"
+"  --compare-versions <a> <rel> <b>   porovná čísla verzí - viz níže\n"
+"  --help                             vypíše tuto nápovědu\n"
+"  --version                          vypíše verzi\n"
+"  --force-help | -Dh|--debug=help    nápověda pro force resp. ladění\n"
+"  --license | --licence              vypíše licenční podmínky\n"
 "\n"
 "Použijte dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
 " -x|--extract|-X|--vextract|--fsys-tarfile  na archivy (napište %s --help.)\n"
@@ -2273,7 +2268,7 @@ msgstr ""
 "Pro vnitřní potřebu: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
 "\n"
-"Přepínače:\n"
+"Volby:\n"
 "  --admindir=<adresář>       Použije <adresář> místo %s\n"
 "  --root=<adresář>           Nainstaluje do systému s jiným kořenovým "
 "adresářem\n"
@@ -2289,7 +2284,8 @@ msgstr ""
 "                             Pouze vypisuje, co by se stalo, ale neprovádí "
 "se\n"
 "  -D|--debug=<octal>         Povolí ladění - viz -Dhelp nebo --debug==help\n"
-"  --status-fd <n>            Pošli změny stavu balíku na popisovač <n>\n"
+"  --status-fd <n>            Pošle změny stavu balíku na popisovač <n>\n"
+"  --log=<soubor>             Zaznamená změny stavu a akce do <souboru>.\n"
 "  --ignore-depends=<balík>,...   Ignoruje závislosti s <balíkem>\n"
 "  --force-...                    Ignoruje problémy - viz --force-help\n"
 "  --no-force-...|--refuse-...    Zastaví se při problémech\n"
@@ -2306,7 +2302,6 @@ msgstr ""
 "`aptitude'.\n"
 
 #: src/main.c:121
-#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2322,10 +2317,10 @@ msgstr ""
 "Napište dpkg --help k získání nápovědy pro instalaci a odinstalaci balíků "
 "[*];\n"
 "Pro uživatelsky přívětivou správu balíků použijte dselect nebo aptitude;\n"
-"Napište dpkg -Dhelp pro seznam ladících hodnot dpkg;\n"
-"Napište dpkg --force-help k získání seznamu donucovacích přepínačů;\n"
+"Napište dpkg -Dhelp pro seznam ladících příznaků dpkg;\n"
+"Napište dpkg --force-help k získání seznamu vynucovacích přepínačů;\n"
 "Napište dpkg-deb --help k získání nápovědy o zacházení se soubory *.deb;\n"
-"Napište dpkg --licence pro licenční podmínky a neexistenci záruky\n"
+"Napište dpkg --license pro licenční podmínky a neexistenci záruky\n"
 " (GNU GPL) [*].\n"
 "\n"
 "Volby označené [*] produkují obsáhlý výstup - použijte `less' nebo `more' !"
@@ -2730,49 +2725,51 @@ msgstr "chyba při čtení tar výstupu z dpkg-deb"
 
 #: src/processarc.c:555
 msgid "corrupted filesystem tarfile - corrupted package archive"
-msgstr "poškozený systémový tar sourbor - poškozený balík"
+msgstr "poškozený systémový tar soubor - poškozený balík"
 
 #: src/processarc.c:558
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: ruším možné koncové nuly"
 
 #: src/processarc.c:611
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - could not stat old file `%.250s' so not deleting it: %s"
-msgstr "dpkg: varování - nelze smazat starý soubor `%.250s': %s\n"
+msgstr ""
+"dpkg: varování - nelze zavolat stat na starý soubor `%.250s', tudíž jej "
+"nemažu: %s"
 
 #: src/processarc.c:619
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - unable to delete old directory `%.250s': %s\n"
-msgstr "dpkg: varování - nelze smazat starý soubor `%.250s': %s\n"
+msgstr "dpkg: varování - nelze smazat starý adresář `%.250s': %s\n"
 
 #: src/processarc.c:623
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
 "been deleted)\n"
 msgstr ""
-"dpkg: %s: varování - konfigurační soubor `%.250s' není souborem ani\n"
-" symbolickým odkazem (= `%s')\n"
+"dpkg: varování - starý konfigurační soubor `%.250s' byl prázdným adresářem a "
+"byl proto smazán\n"
 
 #: src/processarc.c:653
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat other new file `%.250s'"
-msgstr "nelze zjistit fstat části souboru `%.250s'"
+msgstr "nelze zavolat stat na novém souboru `%.250s'"
 
 #: src/processarc.c:664
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')"
 msgstr ""
-"dpkg: %s: varování - konfigurační soubor `%.250s' není souborem ani\n"
-" symbolickým odkazem (= `%s')\n"
+"dpkg: varování - starý soubor `%.250s' je stejný jako některé nové soubory! "
+"(`%.250s' i `%.250s')"
 
 #: src/processarc.c:705
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
-msgstr "dpkg: varování - nelze smazat starý soubor `%.250s': %s\n"
+msgstr "dpkg: varování - nelze %s starý soubor `%%.250s': %%s\n"
 
 #: src/processarc.c:731 src/processarc.c:972 src/remove.c:286
 msgid "cannot read info directory"
@@ -2811,7 +2808,7 @@ msgstr "informace o balíku obsahují adresář `%.250s'"
 #: src/processarc.c:782
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
-msgstr "informacec o balíku rmdir na `%.250s' neřekl, že to není adresář"
+msgstr "informace o balíku rmdir na `%.250s' neřekl, že to není adresář"
 
 #: src/processarc.c:788
 #, c-format
@@ -2940,12 +2937,12 @@ msgstr ""
 "a dpkg --contents (= dpkg-deb --contents) k vypsání jeho obsahu.\n"
 
 #: src/query.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package management program query tool\n"
-msgstr "' program pro správu balíků\n"
+msgstr "Debian `%s' - program pro dotazování se na balíky\n"
 
 #: src/query.c:472
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -2965,27 +2962,23 @@ msgid ""
 "  -f|--showformat=<format>            Use alternative format for --show.\n"
 "\n"
 msgstr ""
-" [<volba>] <příkaz>\n"
+"Použití: %s [<volba> ...] <příkaz>\n"
+"\n"
 "Příkazy:\n"
 "  -s|--status <jméno-balíku> ...      zobrazí podrobný stav balíku\n"
 "  -p|--print-avail <jméno-balíku> ... zobrazí dostupné verze balíku\n"
-"  -L|--listfiles <jméno-balíku> ...   vypíše soubory 'vlastněné' balíkem\n"
+"  -L|--listfiles <jméno-balíku> ...   vypíše soubory vlastněné balíkem\n"
 "  -l|--list [<vzor> ...]              vypíše balíky ve zhuštěném tvaru\n"
 "  -W|--show <vzor> ...                zobrazí informace o balíku\n"
 "  -S|--search <vzor> ...              najde balík(y) vlastnící soubor(y)\n"
-"  --help | --version                  zobrazí tuto nápovědu / verzi\n"
-"  --licence                           zobrazí licenční ujednání\n"
+"  --help                              zobrazí tuto nápovědu\n"
+"  --version                           zobrazí verzi\n"
+"  --license | --licence               zobrazí licenční ujednání\n"
 "\n"
 "Volby:\n"
 "  --admindir=<adresář>       Místo %s použije <adresář>\n"
 "  -f|--showformat=<formát>   Pro --show použije alternativní formát\n"
 "\n"
-"Formát:\n"
-"  Formát je řetězec, který bude vytištěn pro každý balík. Formát může\n"
-"  obsahovat standardní escape sekvence \\n (nový řádek), \\r (návrat\n"
-"  vozíku) nebo \\\\ (lomítko). Informace o balíku můžete zahrnout pomocí\n"
-"  odkazů na různá pole balíku dle vzoru ${proměnná[;šířka]}.\n"
-"  Pole budou zarovnaná napravo, záporná šířka je zarovná vlevo.\n"
 
 #: src/query.c:491 dpkg-deb/main.c:87
 #, c-format
@@ -3000,16 +2993,21 @@ msgid ""
 "which\n"
 "  case left alignment will be used.\n"
 msgstr ""
+"Formát:\n"
+"  Formát je řetězec, který bude vytištěn pro každý balík. Formát může\n"
+"  obsahovat standardní escape sekvence \\n (nový řádek), \\r (návrat\n"
+"  vozíku) nebo \\\\ (lomítko). Informace o balíku můžete zahrnout pomocí\n"
+"  odkazů na různá pole balíku dle vzoru ${proměnná[;šířka]}.\n"
+"  Pole budou zarovnaná napravo, záporná šířka je zarovná vlevo.\n"
 
 #: src/query.c:501
-#, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL).\n"
 "\n"
 msgstr ""
 "Pro nápovědu o dotazování balíků použijte --help;\n"
-"Pro zobrazení licenčního ujednání použijte --licence.\n"
+"Pro zobrazení licenčního ujednání použijte --license.\n"
 "\n"
 
 #: src/remove.c:92
@@ -3017,7 +3015,7 @@ msgstr ""
 msgid ""
 "dpkg - warning: ignoring request to remove %.250s which isn't installed.\n"
 msgstr ""
-"dpkg - warning: ignoruji požadavek na odstranění balíku %s, který není "
+"dpkg - varování: ignoruji požadavek na odstranění balíku %.250s, který není "
 "nainstalován.\n"
 
 #: src/remove.c:100
@@ -3027,8 +3025,8 @@ msgid ""
 " files of which are on the system.  Use --purge to remove them too.\n"
 msgstr ""
 "dpkg - varování: ignoruji požadavek pro odstranění %.250s,\n"
-"v systému zůstaly konfigurační soubory. Použijte --purge pro jejich "
-"odstranění.\n"
+"v systému zůstaly konfigurační soubory. Pro jejich odstranění použijte "
+"--purge.\n"
 
 #: src/remove.c:109
 msgid "This is an essential package - it should not be removed."
@@ -3733,12 +3731,12 @@ msgid "--contents takes exactly one argument"
 msgstr "--contents vyžaduje právě jeden parametr"
 
 #: dpkg-deb/main.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package archive backend version %s.\n"
-msgstr "' verze "
+msgstr "Debian `%s' - backend pro práci s archivy verze %s.\n"
 
 #: dpkg-deb/main.c:56
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -3771,6 +3769,8 @@ msgid ""
 "                             Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
+"Použití: %s [<volba> ...] <příkaz>\n"
+"\n"
 "Příkaz:\n"
 "  -b|--build <adresář> [<deb>]     Vytvoří archiv.\n"
 "  -c|--contents <deb>              Vypíše obsah.\n"
@@ -3782,13 +3782,14 @@ msgstr ""
 "  -X|--vextract <deb> <adresář>    Rozbalí a vypíše soubory.\n"
 "  --fsys-tarfile <deb>             Vypíše tar se soubory.\n"
 "  -h|--help                        Vypíše tuto nápovědu.\n"
-"  --version | --licence            Vypíše verzi/licenci.\n"
+"  --version                        Vypíše verzi.\n"
+"  --license | --licence            Vypíše licenci.\n"
 "\n"
 "<deb> je jméno debianího archivu.\n"
 "<csoubor> je jméno řídícího souboru.\n"
-"<cpoložka> je název položky v hlavním `control' souboru.\n"
+"<cpoložka> je název položky v hlavním souboru `control'.\n"
 "\n"
-"Přepínače:\n"
+"Volby:\n"
 "  --showformat=<formát>     Použije alternativní formát pro --show.\n"
 "  -D                        Povolí ladící výpisy.\n"
 "  --old, --new              Vybere formát archivu.\n"
@@ -3798,16 +3799,6 @@ msgstr ""
 "  -Z<typ>                   Při vytváření nastaví typ komprese.\n"
 "                            Povolené hodnoty: gzip, bzip2, none\n"
 "\n"
-"Formát:\n"
-"  Formát je řetězec, který bude vytištěn pro každý balík. Formát může\n"
-"  obsahovat standardní escape sekvence \\n (nový řádek), \\r (návrat\n"
-"  vozíku) nebo \\\\ (lomítko). Informace o balíku můžete zahrnout pomocí\n"
-"  odkazů na různá pole balíku dle vzoru ${proměnná[;šířka]}.\n"
-"  Pole budou zarovnaná napravo, záporná šířka je zarovná vlevo.\n"
-"\n"
-"Použijte buď `dpkg' k nainstalování a odinstalování balíku ze systému, nebo\n"
-"`dselect' či `aptitude' pro přívětivou správu balíčků. Balíky rozbalené\n"
-"pomocí `dpkg-deb --extract' nebudou správně nainstalované!\n"
 
 #: dpkg-deb/main.c:96
 #, c-format
@@ -3817,6 +3808,10 @@ msgid ""
 "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
 "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
+"\n"
+"K instalaci a odstranění balíků použijte buď `dpkg', nebo pro\n"
+"přívětivější správu balíků `dselect' či `aptitude'. Balíky rozbalené\n"
+"pomocí `dpkg-deb --extract' nebudou správně nainstalované!\n"
 
 #: dpkg-deb/main.c:105
 msgid ""
@@ -3990,19 +3985,17 @@ msgid "part %d is missing"
 msgstr "%d. část chybí"
 
 #: dpkg-split/main.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package split/join tool; version %s.\n"
-msgstr ""
-"Debian GNU/Linux `dpkg-split' - nástroj na dělení/slučování balíků;\n"
-" verze "
+msgstr "Debian `%s' - nástroj na dělení/slučování balíků; verze %s.\n"
 
 #: dpkg-split/main.c:40
 #, c-format
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
-msgstr ""
+msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
 
 #: dpkg-split/main.c:49
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -4028,25 +4021,26 @@ msgid ""
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
-"Použití: dpkg-split -s|--split <soubor> [<prefix>]  Rozdělí archiv.\n"
-"         dpkg-split -j|--join <část> <část> ...     Spojí části dohromady.\n"
-"         dpkg-split -I|--info <část> ...            Vypíše informaci o "
-"části.\n"
-"         dpkg-split -h|--help|--version|--licence   Vypíše nápovědu/verzi/\n"
-"                                                     licenci.\n"
-"         dpkg-split -a|--auto -o <celek> <část>     Automaticky spojí "
-"části.\n"
-"         dpkg-split -l|--listq                      Vypíše nehodící se "
-"části.\n"
-"         dpkg-split -d|--discard [<soubor> ...]     Ignoruje nehodící se "
-"části.\n"
+"Použití: %s [<volba> ...] <příkaz>\n"
 "\n"
-"Přepínače:  --depotdir <adresář>      (standardní je %s/%s)\n"
-"            -S|--partsize <velikost>  (v kB, pro -s, implicitní je 450)\n"
-"            -o|--output <soubor>      (pro -j, implicitní je\n"
-"                                       <balík>-<verze>.deb\n"
-"            -Q|--npquiet              (bez chyby, když -a není částí)\n"
-"            --msdos                   (generuje jména konvence 8.3)\n"
+"Příkaz:"
+"  -s|--split <soubor> [<prefix>]  Rozdělí archiv.\n"
+"  -j|--join <část> <část> ...     Spojí části dohromady.\n"
+"  -I|--info <část> ...            Vypíše informaci o části.\n"
+"  -h|--help                       Vypíše nápovědu.\n"
+"  --version                       Vypíše verzi.\n"
+"  --licence                       Vypíše licenci.\n"
+"\n"
+"  -a|--auto -o <celek> <část>     Automaticky spojí části.\n"
+"  -l|--listq                      Vypíše nehodící se části.\n"
+"  -d|--discard [<soubor> ...]     Ignoruje nehodící se části.\n"
+"\n"
+"Volby:\n"
+"  --depotdir <adresář>            (výchozí je %s/%s)\n"
+"  -S|--partsize <velikost>        (v kiB, pro -s, výchozí je 450)\n"
+"  -o|--output <soubor>            (pro -j, výchozí je <balík>-<verze>.deb\n"
+"  -Q|--npquiet                    (bez chyby, když -a není částí)\n"
+"  --msdos                         (generuje jména konvence 8.3)\n"
 "\n"
 "Výstupní stavy: 0 = OK;  1 = -a a není částí;  2 = problémy!\n"
 
@@ -4081,7 +4075,7 @@ msgstr "velikost části musí být alespoň %dk (kvůli hlavičce)"
 #: dpkg-split/queue.c:69
 #, c-format
 msgid "unable to read depot directory `%.250s'"
-msgstr "nelze číst skladišťní adresář `%.250s'"
+msgstr "nelze číst skladištní adresář `%.250s'"
 
 #: dpkg-split/queue.c:107
 msgid "--auto requires the use of the --output option"
@@ -4114,12 +4108,12 @@ msgstr "soubor `%.250s' má na konci nesmysly"
 #: dpkg-split/queue.c:156
 #, c-format
 msgid "unable to open new depot file `%.250s'"
-msgstr "nelze otevřít nový skladišťní soubor `%.250s'"
+msgstr "nelze otevřít nový skladištní soubor `%.250s'"
 
 #: dpkg-split/queue.c:160
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
-msgstr "nelze přejmenovat nový skladišťní soubor `%.250s' na `%.250s'"
+msgstr "nelze přejmenovat nový skladištní soubor `%.250s' na `%.250s'"
 
 #: dpkg-split/queue.c:162
 #, c-format
@@ -4133,7 +4127,7 @@ msgstr " a "
 #: dpkg-split/queue.c:179
 #, c-format
 msgid "unable to delete used-up depot file `%.250s'"
-msgstr "nelze smazat využitý skladišťní soubor `%.250s'"
+msgstr "nelze smazat využitý skladištní soubor `%.250s'"
 
 #: dpkg-split/queue.c:194
 msgid "--listq does not take any arguments"
