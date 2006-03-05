@@ -72,6 +72,7 @@ Build options:   -c<controlfile>     get control info from this file
                  -U<field>           remove a field
                  -W                  Turn certain errors into warnings. 
                  -E                  When -W is enabled, -E disables it.
+                 -q                  quiet operation, do not print warnings.
                  -sa                 auto select orig source (-sA is default)
                  -i[<regexp>]        filter out files to ignore diffs of.
                                      Defaults to: '$diff_ignore_default_regexp'
@@ -137,6 +138,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $warnable_error= 1;
     } elsif (m/^-E$/) {
         $warnable_error= 0;
+    } elsif (m/^-q$/) {
+        $quiet_warnings = 1;
     } elsif (m/^--$/) {
         last;
     } else {
