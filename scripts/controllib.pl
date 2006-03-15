@@ -11,8 +11,6 @@
 #                     "S key" where S is the source and key is the packagename
 # %substvar         - map with substitution variables
 
-$pkgdatadir=".";
-
 $parsechangelog= 'dpkg-parsechangelog';
 
 @pkg_dep_fields = qw(Replaces Provides Depends Pre-Depends Recommends Suggests
@@ -79,32 +77,6 @@ sub findarch {
     $substvar{'Arch'}= $arch;
 }
 
-sub read_cputable {
-    open CPUTABLE, "$pkgdatadir/cputable"
-	or &syserr("unable to open cputable");
-    while (<CPUTABLE>) {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
-	    $cputable{$1} = $2;
-	    $cputable_re{$1} = $3;
-	    push @cpu, $1;
-	}
-    }
-    close CPUTABLE;
-}
-
-sub read_ostable {
-    open OSTABLE, "$pkgdatadir/ostable"
-	or &syserr("unable to open ostable");
-    while (<OSTABLE>) {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
-	    $ostable{$1} = $2;
-	    $ostable_re{$1} = $3;
-	    push @os, $1;
-	}
-    }
-    close OSTABLE;
-}
-
 sub debian_arch_fix
 {
     local ($os, $cpu) = @_;
@@ -152,39 +124,6 @@ sub debian_arch_is {
     }
 
     return 0;
-}
-
-&read_cputable;
-&read_ostable;
-
-sub debian_arch_expand
-{
-    local ($_) = @_;
-
-    /^(!)?(.*)/;
-
-    local $not = $1 || '';
-    local $arch = $2;
-    local ($os, $cpu) = debian_arch_split($arch);
-    local @list;
-
-    if ("$os-$cpu" eq 'any-any') {
-	@list = 'any';
-    } elsif ($os eq 'all' or $cpu eq 'all') {
-	@list = 'all';
-    } elsif ($cpu eq 'any') {
-	foreach my $_cpu (@cpu) {
-	    push @list, $not.debian_arch_fix($os, $_cpu);
-	}
-    } elsif ($os eq 'any') {
-	foreach my $_os (@os) {
-	    push @list, $not.debian_arch_fix($_os, $cpu);
-	}
-    } else {
-	push @list, $not.debian_arch_fix($os, $cpu);
-    }
-
-    return @list;
 }
 
 sub substvars {
@@ -336,9 +275,7 @@ sub showdep {
         my @or_list = ();
         foreach my $dep_or (@$dep_and) {
             my ($package, $relation, $version, $arch_list) = @$dep_or; 
-            my @arches = map(debian_arch_expand($_), @$arch_list);
-            chomp @arches;
-            push @or_list, $package . ($relation && $version ? " ($relation $version)" : '') . ($show_arch && @arches ? " [@arches]" : '');
+            push @or_list, $package . ($relation && $version ? " ($relation $version)" : '') . ($show_arch && @$arch_list ? " [@$arch_list]" : '');
         }
         push @and_list, join(' | ', @or_list);
     }

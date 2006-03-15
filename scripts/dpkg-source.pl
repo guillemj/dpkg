@@ -202,10 +202,7 @@ if ($opmode eq 'build') {
 		    if (grep($sourcearch[0] eq $_, 'any','all'))  {
 			@sourcearch= ('any');
 		    } else {
-			my @arches = map(debian_arch_expand($_),
-					 split(/\s+/, $v));
-			chomp @arches;
-			for $a (@arches) {
+			for $a (split(/\s+/, $v)) {
 			    &error("`$a' is not a legal architecture string")
 				unless $a =~ /^[\w-]+$/;
                             &error("architecture $a only allowed on its own".

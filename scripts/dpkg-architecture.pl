@@ -26,6 +26,8 @@ $dpkglibdir="/usr/lib/dpkg";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+$pkgdatadir=".";
+
 sub usageversion {
     print STDERR
 "Debian $0 $version.
@@ -50,6 +52,32 @@ Actions:
        -u                 print command to unset environment variables
        -c <command>       set environment and run the command in it.
 ";
+}
+
+sub read_cputable {
+    open CPUTABLE, "$pkgdatadir/cputable"
+	or &syserr("unable to open cputable");
+    while (<CPUTABLE>) {
+	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
+	    $cputable{$1} = $2;
+	    $cputable_re{$1} = $3;
+	    push @cpu, $1;
+	}
+    }
+    close CPUTABLE;
+}
+
+sub read_ostable {
+    open OSTABLE, "$pkgdatadir/ostable"
+	or &syserr("unable to open ostable");
+    while (<OSTABLE>) {
+	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
+	    $ostable{$1} = $2;
+	    $ostable_re{$1} = $3;
+	    push @os, $1;
+	}
+    }
+    close OSTABLE;
 }
 
 sub split_debian {
@@ -100,6 +128,9 @@ sub gnu_to_debian {
     return undef if !defined($cpu) || !defined($os);
     return debian_arch_fix($os, $cpu);
 }
+
+&read_cputable;
+&read_ostable;
 
 # Check for -L
 if (grep { m/^-L$/ } @ARGV) {
