@@ -1,3 +1,10 @@
+2006-03-20  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c [OSLinux] (pid_is_exec): Revert back to
+	take a struct stat instead of an execname. Get the filename pointed
+	by the '/proc/<pid>/exe' symlink, strip any ' (deleted)' string, and
+	stat that filename comparing the result with the new argument.
+
 2006-03-15  Guillem Jover  <guillem@debian.org>
 
 	* scripts/controllib.pl.in: Rename to ...

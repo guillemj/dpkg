@@ -174,9 +174,7 @@ static void check(pid_t pid);
 static void do_pidfile(const char *name);
 static void do_stop(int signal_nr, int quietmode,
 		    int *n_killed, int *n_notkilled, int retry_nr);
-#if defined(OSLinux)
-static int pid_is_exec(pid_t pid, const char *name);
-#elif defined(OShpux)
+#if defined(OSLinux) || defined(OShpux)
 static int pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
@@ -611,29 +609,27 @@ parse_options(int argc, char * const *argv)
 
 #if defined(OSLinux)
 static int
-pid_is_exec(pid_t pid, const char *name)
+pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	char lname[32];
-	char *lcontents;
-	int lcontlen, nread, res;
+	char lcontents[_POSIX_PATH_MAX];
+	const char deleted[] = " (deleted)";
+	int nread;
+	struct stat sb;
 
-	/* Allow one extra character for the link contents, which should
-	 * be enough to determine if the file names are the same. */
-	lcontlen = strlen(name) + 1;
-	lcontents = xmalloc(lcontlen);
 	sprintf(lname, "/proc/%d/exe", pid);
-	nread = readlink(lname, lcontents, lcontlen);
-	if (nread == -1) {
-		free(lcontents);
+	nread = readlink(lname, lcontents, sizeof(lcontents));
+	if (nread == -1)
 		return 0;
-	}
-	if (nread < lcontlen)
-		lcontents[nread] = '\0';
 
-	res = (strncmp(lcontents, name, lcontlen) == 0);
-	free(lcontents);
+	lcontents[nread] = '\0';
+	if (strcmp(lcontents + nread - strlen(deleted), deleted) == 0)
+		lcontents[nread - strlen(deleted)] = '\0';
 
-	return res;
+	if (stat(lcontents, &sb) != 0)
+		return 0;
+
+	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
 
 
@@ -763,9 +759,7 @@ pid_is_running(pid_t pid)
 static void
 check(pid_t pid)
 {
-#if defined(OSLinux)
-	if (execname && !pid_is_exec(pid, execname))
-#elif defined(OShpux)
+#if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
 #elif defined(OSHURD) || defined(OSFreeBSD) || defined(OSNetBSD)
     /* I will try this to see if it works */
