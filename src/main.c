@@ -295,7 +295,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   warn but continue:  --force-<thing>,<thing>,...\n\
   stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n\
  Forcing things:\n\
-  all                    Set all force options\n\
+  all [!]                Set all force options\n\
   auto-select [*]        (De)select packages to install (remove) them\n\
   downgrade [*]          Replace a package with a lower version\n\
   configure-any          Configure any package which may help this one\n\
