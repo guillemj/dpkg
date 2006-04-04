@@ -301,6 +301,7 @@ do_help(void)
 "  -n|--name <process-name>      stop processes with this name\n"
 "  -s|--signal <signal>          signal to send (default TERM)\n"
 "  -a|--startas <pathname>       program to start (default is <executable>)\n"
+"  -r|--chroot <directory>       chroot to <directory> before starting\n"
 "  -d|--chdir <directory>        Change to <directory>(default is /)\n"
 "  -N|--nicelevel <incr>         add incr to the process's nice level\n"
 "  -b|--background               force the process to detach\n"
