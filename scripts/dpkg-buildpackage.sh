@@ -153,7 +153,7 @@ if [ x$sourceonly = x ]; then
 else
 	arch=source
 fi
-sversion=`echo "$version" | perl -pe 's/^\d+://'`
+mustsetvar sversion "`echo \"$version\" | perl -pe 's/^\d+://'`" "source version without epoch"
 pv="${package}_${sversion}"
 pva="${package}_${sversion}_${arch}"
 
