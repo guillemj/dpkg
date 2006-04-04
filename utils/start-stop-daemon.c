@@ -1193,8 +1193,25 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
-	if (execname && stat(execname, &exec_stat))
-		fatal("stat %s: %s", execname, strerror(errno));
+	if (execname) {
+		char *fullexecname;
+
+		if (changeroot) {
+			int fullexecname_len = strlen(changeroot) + 1 +
+					       strlen(execname) + 1;
+
+			fullexecname = xmalloc(fullexecname_len);
+			snprintf(fullexecname, fullexecname_len, "%s/%s",
+				 changeroot, execname);
+		} else
+			fullexecname = execname;
+
+		if (stat(fullexecname, &exec_stat))
+			fatal("stat %s: %s", fullexecname, strerror(errno));
+
+		if (fullexecname != execname)
+			free(fullexecname);
+	}
 
 	if (userspec && sscanf(userspec, "%d", &user_id) != 1) {
 		struct passwd *pw;
