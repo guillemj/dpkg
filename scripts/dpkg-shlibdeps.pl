@@ -117,6 +117,23 @@ if ($ENV{LD_LIBRARY_PATH}) {
     }
 }
 
+# Support system library directories.
+my $ldconfigdir = '/lib/ldconfig';
+if (opendir(DIR, $ldconfigdir)) {
+    my @dirents = readdir(DIR);
+    closedir(DIR);
+
+    for (@dirents) {
+	next if /^\./;
+	my $d = `readlink -f $ldconfigdir/$_`;
+	chomp $d;
+	unless (exists $librarypaths{$d}) {
+	    $librarypaths{$d} = 'ldconfig';
+	    push @librarypaths, $d;
+	}
+    }
+}
+
 open CONF, '</etc/ld.so.conf' or
     warn( "couldn't open /etc/ld.so.conf: $!" );
 while( <CONF> ) {
