@@ -85,7 +85,7 @@ extern int f_autodeconf, f_largemem, f_nodebsig;
 extern unsigned long f_debug;
 extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
 extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
-extern int fc_autoselect, fc_badpath, fc_overwritediverted, fc_architecture;
+extern int fc_badpath, fc_overwritediverted, fc_architecture;
 extern int fc_nonroot, fc_overwritedir, fc_conff_new, fc_conff_miss;
 extern int fc_conff_old, fc_conff_def;
 extern int fc_badverify;

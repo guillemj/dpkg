@@ -135,7 +135,7 @@ unsigned long f_debug=0;
 /* Change fc_overwrite to 1 to enable force-overwrite by default */
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
-int fc_autoselect=1, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
+int fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
 int fc_nonroot=0, fc_overwritedir=0, fc_conff_new=0, fc_conff_miss=0;
 int fc_conff_old=0, fc_conff_def=0;
 int fc_badverify = 0;
@@ -161,7 +161,6 @@ static const struct forceinfo {
   { "confmiss",            &fc_conff_miss               },
   { "depends",             &fc_depends                  },
   { "depends-version",     &fc_dependsversion           },
-  { "auto-select",         &fc_autoselect               },
   { "bad-path",            &fc_badpath                  },
   { "not-root",            &fc_nonroot                  },
   { "overwrite",           &fc_overwrite                },
@@ -169,6 +168,8 @@ static const struct forceinfo {
   { "overwrite-dir",       &fc_overwritedir             },
   { "architecture",        &fc_architecture             },
   { "bad-verify",          &fc_badverify                },
+  /* FIXME: obsolete options, remove in the future. */
+  { "auto-select",         NULL                         },
   {  0                                                  }
 };
 
@@ -296,7 +297,6 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n\
  Forcing things:\n\
   all [!]                Set all force options\n\
-  auto-select [*]        (De)select packages to install (remove) them\n\
   downgrade [*]          Replace a package with a lower version\n\
   configure-any          Configure any package which may help this one\n\
   hold                   Process incidental packages even when on hold\n\
@@ -331,14 +331,20 @@ Forcing options marked [*] are enabled by default.\n"),
     l= comma ? (int)(comma-value) : strlen(value);
     for (fip=forceinfos; fip->name; fip++)
       if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
-    if (!fip->name)
-      if(!strncmp("all",value,l))
+    if (!fip->name) {
+      if (strncmp("all", value, l) == 0) {
 	for (fip=forceinfos; fip->name; fip++)
-	  *fip->opt= cip->arg;
-      else
+	  if (fip->opt)
+	    *fip->opt= cip->arg;
+      } else
 	badusage(_("unknown force/refuse option `%.*s'"), l<250 ? (int)l : 250, value);
-    else
-      *fip->opt= cip->arg;
+    } else {
+      if (fip->opt)
+	*fip->opt= cip->arg;
+      else
+	fprintf(stderr, _("Warning: obsolete force/refuse option `%s'\n"),
+		fip->name);
+    }
     if (!comma) break;
     value= ++comma;
   }
