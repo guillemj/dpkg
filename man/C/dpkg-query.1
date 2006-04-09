@@ -1,4 +1,4 @@
-.TH dpkg\-query 1 "2006-02-28" "Debian Project" "dpkg suite"
+.TH dpkg\-query 1 "2006-04-09" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-query \- a tool to query the dpkg database
 .
@@ -41,11 +41,12 @@ the \fBdpkg\fP database.
 .TP
 \fB\-l\fP | \fB\-\-list\fP \fIpackage-name-pattern\fP ...
 List packages matching given pattern. If no \fIpackage-name-pattern\fP
-is given, list all packages in \fI/var/lib/dpkg/status\fP. Normal
-shell wildchars are allowed in \fIpackage-name-pattern\fP. Please note
-you will probably have to quote \fIpackage-name-pattern\fP to prevent
-the shell from performing filename expansion. For example this will
-list all package names starting with \*(lqlibc6\*(rq:
+is given, list all packages in \fI/var/lib/dpkg/status\fP, excluding
+the ones marked with state purge. Normal shell wildchars are allowed
+in \fIpackage-name-pattern\fP. Please note you will probably have to
+quote \fIpackage-name-pattern\fP to prevent the shell from performing
+filename expansion. For example this will list all package names starting
+with \*(lqlibc6\*(rq:
 
 .T
 .nf
