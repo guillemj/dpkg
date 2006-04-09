@@ -144,3 +144,24 @@ void setselections(const char *const *argv) {
   varbufreset(&namevb);
   varbufreset(&selvb);
 }
+
+void clearselections(const char *const *argv)
+{
+  struct pkgiterator *it;
+  struct pkginfo *pkg;
+
+  if (*argv)
+    badusage(_("--clear-selections does not take any argument"));
+
+  modstatdb_init(admindir, msdbrw_write);
+
+  it = iterpkgstart();
+  while ((pkg = iterpkgnext(it))) {
+    if (!pkg->installed.essential)
+      pkg->want = want_deinstall;
+  }
+  iterpkgend(it);
+
+  modstatdb_shutdown();
+}
+

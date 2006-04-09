@@ -65,6 +65,7 @@ static void usage(void) {
 "  -P|--purge         <package-name> ... | -a|--pending\n"
 "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
 "  --set-selections                     Set package selections from stdin.\n"
+"  --clear-selections                   Deselect every non-essential package.\n"
 "  --update-avail <Packages-file>       Replace available packages info.\n"
 "  --merge-avail <Packages-file>        Merge with info from file.\n"
 "  --clear-avail                        Erase existing available info.\n"
@@ -378,6 +379,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTIONBACKEND( "status",                  's', DPKGQUERY),
   ACTION( "get-selections",                  0,  act_getselections,        getselections   ),
   ACTION( "set-selections",                  0,  act_setselections,        setselections   ),
+  ACTION( "clear-selections",                0,  act_clearselections,      clearselections ),
   ACTIONBACKEND( "print-avail",             'p', DPKGQUERY),
   ACTION( "update-avail",                    0,  act_avreplace,            updateavailable ),
   ACTION( "merge-avail",                     0,  act_avmerge,              updateavailable ),
