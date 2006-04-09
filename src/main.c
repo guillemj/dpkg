@@ -435,27 +435,64 @@ static const struct cmdinfo cmdinfos[]= {
 };
 
 void execbackend(const char *const *argv) {
-  char **nargv;
-  int i, argc = 1;
+  char **nargv;   /* argv for backend command */
+  int i = 0;      /* index for nargv */
+  int offset = 0; /* offset for copying argv strings to nargv */
+  int argc = 1;   /* for nargv */
   const char *const *arg = argv;
-  while(*arg != 0) { arg++; argc++; }
-  nargv= malloc(sizeof(char *) * (argc + 2));
+  int pass_admindir = 0;
 
-  if (!nargv) ohshite(_("couldn't malloc in execbackend"));
-  nargv[0]= strdup(cipaction->parg);
-  if (!nargv[0]) ohshite(_("couldn't strdup in execbackend"));
-  nargv[1]= malloc(strlen(cipaction->olong) + 3);
-  if (!nargv[1]) ohshite(_("couldn't malloc in execbackend"));
-  strcpy(nargv[1], "--");
-  strcat(nargv[1], cipaction->olong);
-  for (i= 2; i <= argc; i++) {
-    nargv[i]= strdup(argv[i-2]);
-    if (!nargv[i]) ohshite(_("couldn't strdup in execbackend"));
+  while (*arg != 0) {
+    arg++; argc++;
   }
-  nargv[i]= 0;
+
+  /*
+   * Special case: dpkg-query takes the --admindir option, and if dpkg itself
+   * was given a different admin directory, we need to pass it along to it.
+   */
+  if (strcmp(cipaction->parg, DPKGQUERY) == 0 &&
+      strcmp(admindir, ADMINDIR) != 0) {
+    argc++;
+    pass_admindir = 1;
+  }
+
+  nargv = malloc(sizeof(char *) * (argc + 2));
+  if (!nargv)
+    ohshite(_("couldn't malloc in execbackend"));
+
+  nargv[i] = strdup(cipaction->parg);
+  if (!nargv[i])
+    ohshite(_("couldn't strdup in execbackend"));
+  i++, offset++;
+
+  if (pass_admindir) {
+    nargv[i] = malloc((strlen("--admindir=") + strlen(admindir) + 1));
+    if (!nargv[i])
+      ohshite(_("couldn't malloc in execbackend"));
+
+    sprintf(nargv[i], "--admindir=%s", admindir);
+    i++, offset++;
+  }
+
+  nargv[i] = malloc(2 + strlen(cipaction->olong) + 1);
+  if (!nargv[i])
+    ohshite(_("couldn't malloc in execbackend"));
+  strcpy(nargv[i], "--");
+  strcat(nargv[i], cipaction->olong);
+  i++, offset++;
+
+  /* Copy arguments from argv to nargv. */
+  for (; i <= argc; i++) {
+    nargv[i] = strdup(argv[i - offset]);
+    if (!nargv[i])
+      ohshite(_("couldn't strdup in execbackend"));
+  }
+  nargv[i] = 0;
+
   execvp(cipaction->parg, nargv);
-  ohshite(_("failed to exec %s"),(char *)cipaction->parg);
+  ohshite(_("failed to exec %s"), (char *)cipaction->parg);
 }
+
 void commandfd(const char *const *argv) {
   jmp_buf ejbuf;
   struct varbuf linevb;
