@@ -76,6 +76,7 @@ if ($options{arch}) {
 else {
      @find_args = ('-name',"*.$ext");
 }
+push @find_args, '-follow';
 my ($binarydir, $override, $pathprefix) = @ARGV;
 -d $binarydir or die "Binary dir $binarydir not found\n";
 -e $override or die "Override file $override not found\n";
