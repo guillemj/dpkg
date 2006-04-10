@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-17 08:49+0200\n"
+"POT-Creation-Date: 2006-04-10 06:33+0300\n"
 "PO-Revision-Date: 2006-02-17 08:52+0200\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
@@ -2215,6 +2215,8 @@ msgid ""
 "  -P|--purge         <package-name> ... | -a|--pending\n"
 "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
 "  --set-selections                     Set package selections from stdin.\n"
+"  --clear-selections                   Deselect every non-essential "
+"package.\n"
 "  --update-avail <Packages-file>       Replace available packages info.\n"
 "  --merge-avail <Packages-file>        Merge with info from file.\n"
 "  --clear-avail                        Erase existing available info.\n"
@@ -2358,7 +2360,7 @@ msgstr ""
 "\n"
 "Utilize `dselect' ou 'aptitude' para uma gestão de pacotes user-friendly.\n"
 
-#: src/main.c:121
+#: src/main.c:122
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2382,17 +2384,17 @@ msgstr ""
 "Opções marcadas com [*] produzem muita saída de texto - utilize pipes com "
 "`less' ou `more' !"
 
-#: src/main.c:186 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
+#: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "acções em conflito --%s e --%s"
 
-#: src/main.c:191
+#: src/main.c:193
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "aviso: opção obsoleta `--%s'\n"
 
-#: src/main.c:199
+#: src/main.c:201
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2430,37 +2432,36 @@ msgstr ""
 "Opções de debug são misturadas utilizando o bitwise-or.\n"
 "Note que os significados e valores estão sujeitos a mudar.\n"
 
-#: src/main.c:218
+#: src/main.c:220
 msgid "--debug requires an octal argument"
 msgstr "--debug requer um argumento em octal"
 
-#: src/main.c:242
+#: src/main.c:244
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "nome de pacote nulo na lista separada por virgulas de --ignore-depends`"
 "%.250s'"
 
-#: src/main.c:248
+#: src/main.c:250
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends requer um nome de pacote válido.  `%.250s' não o é; %s"
 
-#: src/main.c:264 src/main.c:275
+#: src/main.c:266 src/main.c:277
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "número inteiro inválido para --%s: `%.250s'"
 
-#: src/main.c:294
-#, c-format
+#: src/main.c:296
+#, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
-"  all                    Set all force options\n"
-"  auto-select [*]        (De)select packages to install (remove) them\n"
+"  all [!]                Set all force options\n"
 "  downgrade [*]          Replace a package with a lower version\n"
 "  configure-any          Configure any package which may help this one\n"
 "  hold                   Process incidental packages even when on hold\n"
@@ -2541,47 +2542,52 @@ msgstr ""
 "instalação.\n"
 "Opções para forçar marcadas com [*] são habilitadas por padrão.\n"
 
-#: src/main.c:339
+#: src/main.c:341
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "opção desconhecida de forçar/recusar `%.*s'"
 
-#: src/main.c:444 src/main.c:448
+#: src/main.c:346
+#, fuzzy, c-format
+msgid "Warning: obsolete force/refuse option `%s'\n"
+msgstr "aviso: opção obsoleta `--%s'\n"
+
+#: src/main.c:469 src/main.c:479 src/main.c:487
 msgid "couldn't malloc in execbackend"
 msgstr "não pode fazer malloc no execbackend"
 
-#: src/main.c:446 src/main.c:453
+#: src/main.c:473 src/main.c:496
 msgid "couldn't strdup in execbackend"
 msgstr "não pode fazer strdup no execbackend"
 
-#: src/main.c:457
+#: src/main.c:501
 #, c-format
 msgid "failed to exec %s"
 msgstr "falhou executar %s"
 
-#: src/main.c:469
+#: src/main.c:514
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd leva 1 argumento, não 0"
 
-#: src/main.c:470
+#: src/main.c:515
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-df leva apenas 1 argumento"
 
-#: src/main.c:472
+#: src/main.c:517
 msgid "invalid number for --command-fd"
 msgstr "número inválido para --command-fd"
 
-#: src/main.c:474
+#: src/main.c:519
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "não pode abrir `%i' para stream"
 
-#: src/main.c:499
+#: src/main.c:544
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "eof inesperado antes do fim da linha %d"
 
-#: src/main.c:543 src/main.c:558 src/query.c:566 dpkg-deb/main.c:189
+#: src/main.c:588 src/main.c:603 src/query.c:566 dpkg-deb/main.c:189
 #: dpkg-split/main.c:163
 msgid "need an action option"
 msgstr "é necessária uma opção de acção"
@@ -3042,18 +3048,24 @@ msgstr ""
 "Utilização: %s [<opção>] <comando>\n"
 "Comandos:\n"
 "  -s|--status <nome-pacote> ...       Mostrar detalhes de estado do pacote.\n"
-"  -p|--print-avail <nome-pacote> ...  Mostrar detalhes da versão disponível.\n"
-"  -L|--listfiles <nome-pacote> ...    Listar os ficheiros que pertençem ao(s) pacotes(s).\n"
+"  -p|--print-avail <nome-pacote> ...  Mostrar detalhes da versão "
+"disponível.\n"
+"  -L|--listfiles <nome-pacote> ...    Listar os ficheiros que pertençem ao"
+"(s) pacotes(s).\n"
 "  -l|--list [<padrão> ...]            Listar pacotes de forma concisa.\n"
-"  -W|--show <padrão> ...              Mostrar informação sobre o(s) pacote(s).\n"
-"  -S|--search <padrão> ...            Mostrar pacote(s) dono(s) do(s) ficheiro(s).\n"
+"  -W|--show <padrão> ...              Mostrar informação sobre o(s) pacote"
+"(s).\n"
+"  -S|--search <padrão> ...            Mostrar pacote(s) dono(s) do(s) "
+"ficheiro(s).\n"
 "  --help                              Mostrar esta mensagem de ajuda.\n"
 "  --version                           Mostrar a versão.\n"
-"  --licence                           Mostrar os termos da licença de copyright\n"
+"  --licence                           Mostrar os termos da licença de "
+"copyright\n"
 "\n"
 "Opções:\n"
 "  --admindir=<directório>             Utilizar <directório> em vez de %s.\n"
-"  --showformat=<formato>              Utilizar formato alternativo para --show.\n"
+"  --showformat=<formato>              Utilizar formato alternativo para --"
+"show.\n"
 "\n"
 
 #: src/query.c:491 dpkg-deb/main.c:87
@@ -3075,7 +3087,8 @@ msgstr ""
 "  (carriage return) ou \\\\ (plain backslash). A informação de pacote pode\n"
 "  ser incluída inserindo referências variáveis para campos de pacotes\n"
 "  utilizando a sintaxe ${var[; width]}. Os campos serão alinhados à direita\n"
-"  a não ser que a largura seja negativa, neste caso o alinhamento à esquerda\n"
+"  a não ser que a largura seja negativa, neste caso o alinhamento à "
+"esquerda\n"
 "  será utilizado.\n"
 
 #: src/query.c:501
@@ -3262,6 +3275,11 @@ msgstr "estado procurado desconhecido na linha %d: %.250s"
 #: src/select.c:142
 msgid "read error on standard input"
 msgstr "erro de leitura na entrada standard"
+
+#: src/select.c:154
+#, fuzzy
+msgid "--clear-selections does not take any argument"
+msgstr "--set-selections não leva nenhum argumento"
 
 #: src/update.c:44
 #, c-format
@@ -3885,7 +3903,7 @@ msgstr ""
 "tar.\n"
 "  -h|--help                         Exibir esta mensagem.\n"
 "  --version | --licence             Mostrar versão.\n"
-"  --license | --licence             Mostrar licença.\n" 
+"  --license | --licence             Mostrar licença.\n"
 "\n"
 "<deb> é o nome do ficheiro de um arquivo no formato Debian.\n"
 "<cfile> é o nome de um componente de ficheiro administrativo.\n"
@@ -4139,8 +4157,8 @@ msgstr ""
 "  -s|--split <ficheiro> [<prefixo>] Divide um arquivo.\n"
 "  -j|--join <parte> <parte> ...     Junta partes.\n"
 "  -I|--info <parte> ...             Exibe informação sobre uma parte.\n"
-"  -h|--help                         Mostrar esta mensagem de ajuda.\n" 
-"  --version                         Mostrar a versão.\n" 
+"  -h|--help                         Mostrar esta mensagem de ajuda.\n"
+"  --version                         Mostrar a versão.\n"
 "  --licence                         Mostrar a licença.\n"
 "\n"
 "  -a|--auto -o <completa> <part>    Auto-acumula partes,\n"
@@ -4150,8 +4168,10 @@ msgstr ""
 "Opções:\n"
 "  --depotdir <directório>           Usar <directório> em vez de %s/%s.\n"
 "  -S|--partsize <tamanho>           Em KiB, para -s, por omissão é 450).\n"
-"  -o|--output <ficheiro>            Para -j, (por omissão é <pacote>-<versão>.deb).\n"
-"  -Q|--npquiet                      Ficar quieto quando -a não for um bocado.\n"
+"  -o|--output <ficheiro>            Para -j, (por omissão é <pacote>-"
+"<versão>.deb).\n"
+"  -Q|--npquiet                      Ficar quieto quando -a não for um "
+"bocado.\n"
 "  --msdos                           Gerar nome de ficheiros 8.3.\n"
 "\n"
 "Estado da saída: 0 = OK; 1 = -a não é uma parte; 2 = problema!\n"

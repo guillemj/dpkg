@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-17 08:49+0200\n"
+"POT-Creation-Date: 2006-04-10 06:33+0300\n"
 "PO-Revision-Date: 2006-02-17 08:53+0200\n"
 "Last-Translator: Asho Yeh <asho@debian.org.tw>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -2151,6 +2151,8 @@ msgid ""
 "  -P|--purge         <package-name> ... | -a|--pending\n"
 "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
 "  --set-selections                     Set package selections from stdin.\n"
+"  --clear-selections                   Deselect every non-essential "
+"package.\n"
 "  --update-avail <Packages-file>       Replace available packages info.\n"
 "  --merge-avail <Packages-file>        Merge with info from file.\n"
 "  --clear-avail                        Erase existing available info.\n"
@@ -2269,7 +2271,7 @@ msgstr ""
 "\n"
 "“dselect”提供了更容易使用的套件管理工具。\n"
 
-#: src/main.c:121
+#: src/main.c:122
 #, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
@@ -2291,17 +2293,17 @@ msgstr ""
 "輸入 dpkg --licence 可閱讀版權、許可証和無擔保的說明 (GNU GPL)[*]。\n"
 "帶有[*]的選項將會輸出較大篇幅的文字 - 可使用管線將其輸出到“less”或“more”！"
 
-#: src/main.c:186 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
+#: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "操作之間有矛盾 -- %s 和 -- %s"
 
-#: src/main.c:191
+#: src/main.c:193
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "警告：已廢棄不用的選項“--%s”\n"
 
-#: src/main.c:199
+#: src/main.c:201
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2338,34 +2340,33 @@ msgstr ""
 "可以用位元運算(bitwise-or)把除錯選項組合起來使用。\n"
 "注意，意義和數值將有可能更動。\n"
 
-#: src/main.c:218
+#: src/main.c:220
 msgid "--debug requires an octal argument"
 msgstr "--debug 需要一個八進制的參數"
 
-#: src/main.c:242
+#: src/main.c:244
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr "在 --ignore-depends 的用逗號相隔的參數列表“%s”中，發現有的套件名是空的"
 
-#: src/main.c:248
+#: src/main.c:250
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "--ignore-depends 需要一個有效的套件名。而“%.250s”卻不是﹔%s"
 
-#: src/main.c:264 src/main.c:275
+#: src/main.c:266 src/main.c:277
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%s 有一個無效的數字參數：“%.250s”"
 
-#: src/main.c:294
-#, c-format
+#: src/main.c:296
+#, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
-"  all                    Set all force options\n"
-"  auto-select [*]        (De)select packages to install (remove) them\n"
+"  all [!]                Set all force options\n"
 "  downgrade [*]          Replace a package with a lower version\n"
 "  configure-any          Configure any package which may help this one\n"
 "  hold                   Process incidental packages even when on hold\n"
@@ -2430,47 +2431,52 @@ msgstr ""
 "警告 - 使用帶有[!]標記的選項可能會嚴重破壞您的系統安裝。\n"
 "預設情況下，是使用帶有[*]標記的強制方法。\n"
 
-#: src/main.c:339
+#: src/main.c:341
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "無法識別的 force/refuse 選項“%.*s”"
 
-#: src/main.c:444 src/main.c:448
+#: src/main.c:346
+#, fuzzy, c-format
+msgid "Warning: obsolete force/refuse option `%s'\n"
+msgstr "警告：已廢棄不用的選項“--%s”\n"
+
+#: src/main.c:469 src/main.c:479 src/main.c:487
 msgid "couldn't malloc in execbackend"
 msgstr "無法在 execbackend 中 malloc"
 
-#: src/main.c:446 src/main.c:453
+#: src/main.c:473 src/main.c:496
 msgid "couldn't strdup in execbackend"
 msgstr "無法在 execbackend 中 strdup"
 
-#: src/main.c:457
+#: src/main.c:501
 #, c-format
 msgid "failed to exec %s"
 msgstr "exec %s 失敗"
 
-#: src/main.c:469
+#: src/main.c:514
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd 需要帶一個參數，而不是零個"
 
-#: src/main.c:470
+#: src/main.c:515
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd 只需帶一個參數"
 
-#: src/main.c:472
+#: src/main.c:517
 msgid "invalid number for --command-fd"
 msgstr "--command-fd 有一個無效的數字參數"
 
-#: src/main.c:474
+#: src/main.c:519
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "無法打開“%i”，並把它作為串流處理"
 
-#: src/main.c:499
+#: src/main.c:544
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "在第 %d 行還未結束時，發現了預料之外的 eof"
 
-#: src/main.c:543 src/main.c:558 src/query.c:566 dpkg-deb/main.c:189
+#: src/main.c:588 src/main.c:603 src/query.c:566 dpkg-deb/main.c:189
 #: dpkg-split/main.c:163
 msgid "need an action option"
 msgstr "需要一個指示操作的選項"
@@ -3124,6 +3130,11 @@ msgstr "在第 %d 行發現無法識別的狀態：%.250s"
 #: src/select.c:142
 msgid "read error on standard input"
 msgstr "從標準輸入讀取資料時出錯"
+
+#: src/select.c:154
+#, fuzzy
+msgid "--clear-selections does not take any argument"
+msgstr "--set-selections 不需要帶任何參數"
 
 #: src/update.c:44
 #, c-format

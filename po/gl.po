@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-17 08:49+0200\n"
+"POT-Creation-Date: 2006-04-10 06:33+0300\n"
 "PO-Revision-Date: 2006-02-17 08:52+0200\n"
 "Last-Translator: Jacobo Tarrío <jtarrio@debian.org>\n"
 "Language-Team: Galician <trasno@ceu.fi.udc.es>\n"
@@ -2214,7 +2214,7 @@ msgstr ""
 "Vexa %s --license para os detalles de copyright e licencia.\n"
 
 #: src/main.c:57
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -2227,6 +2227,8 @@ msgid ""
 "  -P|--purge         <package-name> ... | -a|--pending\n"
 "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
 "  --set-selections                     Set package selections from stdin.\n"
+"  --clear-selections                   Deselect every non-essential "
+"package.\n"
 "  --update-avail <Packages-file>       Replace available packages info.\n"
 "  --merge-avail <Packages-file>        Merge with info from file.\n"
 "  --clear-avail                        Erase existing available info.\n"
@@ -2361,7 +2363,7 @@ msgstr ""
 "Empregue \"dselect\" ou \"aptitude\" para xestión de paquetes amigable co "
 "usuario.\n"
 
-#: src/main.c:121
+#: src/main.c:122
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2386,17 +2388,17 @@ msgstr ""
 "As opcións marcadas [*] producen moita saída - pásea por \"less\" ou \"more"
 "\"."
 
-#: src/main.c:186 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
+#: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "as accións --%s e --%s teñen un conflicto"
 
-#: src/main.c:191
+#: src/main.c:193
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "Aviso: opción \"--%s\" obsoleta\n"
 
-#: src/main.c:199
+#: src/main.c:201
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2434,37 +2436,36 @@ msgstr ""
 "As opcións de depuración mestúranse empregando a operación \"OR\" binaria.\n"
 "Teña en conta que os significados e valores poden cambiar.\n"
 
-#: src/main.c:218
+#: src/main.c:220
 msgid "--debug requires an octal argument"
 msgstr "--debug precisa dun argumento octal"
 
-#: src/main.c:242
+#: src/main.c:244
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "nome de paquete nulo na lista separada por comas de --ignore-depends \"%.250s"
 "\""
 
-#: src/main.c:248
+#: src/main.c:250
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends precisa dun nome válido de paquete. \"%.250s\" non o é; %s"
 
-#: src/main.c:264 src/main.c:275
+#: src/main.c:266 src/main.c:277
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "número enteiro non válido para --%s: \"%.250s\""
 
-#: src/main.c:294
-#, c-format
+#: src/main.c:296
+#, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
-"  all                    Set all force options\n"
-"  auto-select [*]        (De)select packages to install (remove) them\n"
+"  all [!]                Set all force options\n"
 "  downgrade [*]          Replace a package with a lower version\n"
 "  configure-any          Configure any package which may help this one\n"
 "  hold                   Process incidental packages even when on hold\n"
@@ -2534,47 +2535,52 @@ msgstr ""
 "AVISO - o emprego das opcións marcadas [!] pode danar gravemente a súa\n"
 "instalación. O forzado das opcións marcadas [*] está activado por defecto.\n"
 
-#: src/main.c:339
+#: src/main.c:341
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "opción de forzar/rexeitar \"%.*s\" descoñecida"
 
-#: src/main.c:444 src/main.c:448
+#: src/main.c:346
+#, fuzzy, c-format
+msgid "Warning: obsolete force/refuse option `%s'\n"
+msgstr "Aviso: opción \"--%s\" obsoleta\n"
+
+#: src/main.c:469 src/main.c:479 src/main.c:487
 msgid "couldn't malloc in execbackend"
 msgstr "non se puido facer malloc en execbackend"
 
-#: src/main.c:446 src/main.c:453
+#: src/main.c:473 src/main.c:496
 msgid "couldn't strdup in execbackend"
 msgstr "non se puido facer strdup en execbackend"
 
-#: src/main.c:457
+#: src/main.c:501
 #, c-format
 msgid "failed to exec %s"
 msgstr "non se puido executar %s"
 
-#: src/main.c:469
+#: src/main.c:514
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd toma 1 argumento, non 0"
 
-#: src/main.c:470
+#: src/main.c:515
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd só toma 1 argumento"
 
-#: src/main.c:472
+#: src/main.c:517
 msgid "invalid number for --command-fd"
 msgstr "número non válido para --command-fd"
 
-#: src/main.c:474
+#: src/main.c:519
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "non se puido abrir \"%i\" para fluxo"
 
-#: src/main.c:499
+#: src/main.c:544
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "fin de ficheiro inesperada antes da fin da liña %d"
 
-#: src/main.c:543 src/main.c:558 src/query.c:566 dpkg-deb/main.c:189
+#: src/main.c:588 src/main.c:603 src/query.c:566 dpkg-deb/main.c:189
 #: dpkg-split/main.c:163
 msgid "need an action option"
 msgstr "precísase dunha opción de acción"
@@ -3272,6 +3278,11 @@ msgstr "estado desexado non válido na liña %d: %.250s"
 #: src/select.c:142
 msgid "read error on standard input"
 msgstr "erro de lectura na entrada estándar"
+
+#: src/select.c:154
+#, fuzzy
+msgid "--clear-selections does not take any argument"
+msgstr "--set-selections non toma ningún argumento"
 
 #: src/update.c:44
 #, c-format

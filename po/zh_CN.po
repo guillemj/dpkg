@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-02-17 08:49+0200\n"
+"POT-Creation-Date: 2006-04-10 06:33+0300\n"
 "PO-Revision-Date: 2006-02-19 18:18+1300\n"
 "Last-Translator: Carlos Z.F. Liu <carlosliu@users.sourceforge.net>\n"
 "Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
@@ -2140,7 +2140,7 @@ msgstr ""
 "请查阅 %s --license 来查看版权和许可证的细节。\n"
 
 #: src/main.c:57
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -2153,6 +2153,8 @@ msgid ""
 "  -P|--purge         <package-name> ... | -a|--pending\n"
 "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
 "  --set-selections                     Set package selections from stdin.\n"
+"  --clear-selections                   Deselect every non-essential "
+"package.\n"
 "  --update-avail <Packages-file>       Replace available packages info.\n"
 "  --merge-avail <Packages-file>        Merge with info from file.\n"
 "  --clear-avail                        Erase existing available info.\n"
@@ -2275,7 +2277,7 @@ msgstr ""
 "\n"
 "“dselect”和“aptitude”提供了更为易用的的软件包管理工具。\n"
 
-#: src/main.c:121
+#: src/main.c:122
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2298,17 +2300,17 @@ msgstr ""
 "带有 [*] 的选项将会输出较大篇幅的文字 - 可使用管道将其输出连接"
 "到“less”或“more”！"
 
-#: src/main.c:186 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
+#: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "操作之间有矛盾 -- %s 和 -- %s"
 
-#: src/main.c:191
+#: src/main.c:193
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "警告：已废弃不用的选项“--%s”\n"
 
-#: src/main.c:199
+#: src/main.c:201
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2345,35 +2347,34 @@ msgstr ""
 "可以用位与(bitwise-or)把除错选项组合起来使用。\n"
 "注意，意义和数值将有可能更动。\n"
 
-#: src/main.c:218
+#: src/main.c:220
 msgid "--debug requires an octal argument"
 msgstr "--debug 需要一个八进制的参数"
 
-#: src/main.c:242
+#: src/main.c:244
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "在 --ignore-depends 的用逗号相隔的参数列表“%s”中，发现有的软件包名是空的"
 
-#: src/main.c:248
+#: src/main.c:250
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "--ignore-depends 需要一个有效的软件包名。而“%.250s”却不是；%s"
 
-#: src/main.c:264 src/main.c:275
+#: src/main.c:266 src/main.c:277
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%s 有一个无效的数字参数：“%.250s”"
 
-#: src/main.c:294
-#, c-format
+#: src/main.c:296
+#, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
 "  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
 " Forcing things:\n"
-"  all                    Set all force options\n"
-"  auto-select [*]        (De)select packages to install (remove) them\n"
+"  all [!]                Set all force options\n"
 "  downgrade [*]          Replace a package with a lower version\n"
 "  configure-any          Configure any package which may help this one\n"
 "  hold                   Process incidental packages even when on hold\n"
@@ -2439,47 +2440,52 @@ msgstr ""
 "警告 - 使用带有[!]标记的选项可能会严重破坏您的系统安装。\n"
 "缺省情况下，是使用带有[*]标记的强制手段的。\n"
 
-#: src/main.c:339
+#: src/main.c:341
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "无法识别的 force/refuse 选项“%.*s”"
 
-#: src/main.c:444 src/main.c:448
+#: src/main.c:346
+#, fuzzy, c-format
+msgid "Warning: obsolete force/refuse option `%s'\n"
+msgstr "警告：已废弃不用的选项“--%s”\n"
+
+#: src/main.c:469 src/main.c:479 src/main.c:487
 msgid "couldn't malloc in execbackend"
 msgstr "无法在 execbackend 中 malloc"
 
-#: src/main.c:446 src/main.c:453
+#: src/main.c:473 src/main.c:496
 msgid "couldn't strdup in execbackend"
 msgstr "无法在 execbackend 中 strdup"
 
-#: src/main.c:457
+#: src/main.c:501
 #, c-format
 msgid "failed to exec %s"
 msgstr "exec %s 失败"
 
-#: src/main.c:469
+#: src/main.c:514
 msgid "--command-fd takes 1 argument, not 0"
 msgstr "--command-fd 需要带一个参数，而不是零个"
 
-#: src/main.c:470
+#: src/main.c:515
 msgid "--command-fd only takes 1 argument"
 msgstr "--command-fd 只需带一个参数"
 
-#: src/main.c:472
+#: src/main.c:517
 msgid "invalid number for --command-fd"
 msgstr "--command-fd 有一个无效的数字参数"
 
-#: src/main.c:474
+#: src/main.c:519
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "无法打开“%i”，并把它作为字符流操作"
 
-#: src/main.c:499
+#: src/main.c:544
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "在第 %d 行还未结束时，发现了预料之外的 eof"
 
-#: src/main.c:543 src/main.c:558 src/query.c:566 dpkg-deb/main.c:189
+#: src/main.c:588 src/main.c:603 src/query.c:566 dpkg-deb/main.c:189
 #: dpkg-split/main.c:163
 msgid "need an action option"
 msgstr "需要一个指示操作的选项"
@@ -3134,6 +3140,11 @@ msgstr "在第 %d 行发现无法识别的状态：%.250s"
 #: src/select.c:142
 msgid "read error on standard input"
 msgstr "从标准输入读取数据时出错"
+
+#: src/select.c:154
+#, fuzzy
+msgid "--clear-selections does not take any argument"
+msgstr "--set-selections 不需要带任何参数"
 
 #: src/update.c:44
 #, c-format
