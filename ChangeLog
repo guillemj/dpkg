@@ -1,5 +1,13 @@
 2006-04-11  Frank Lichtenheld  <djpig@debian.org>
 
+	* src/archives.c (quote_filename): Fix typo in
+	variable name. If hit, this could lead to a
+	infinite loop and OOM in varbufvprintf. (A
+	good way to hit it is installing files with
+	long non-ASCII filenames in UTF-8 locales).
+	Fixed also some typos in the comment for this
+	function.
+
 	* scripts/dpkg-scanpackages.pl: Add -follow
 	to @find_args. This was lost in a previous patch
 	apparently.
