@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-04-10 06:33+0300\n"
-"PO-Revision-Date: 2006-02-17 08:52+0200\n"
+"PO-Revision-Date: 2006-04-10 21:47+0000\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
@@ -367,7 +367,7 @@ msgstr "sim/não no campo booleano"
 
 #: lib/fields.c:152
 msgid "word in `priority' field"
-msgstr ""
+msgstr "palavra no campo 'priority'"
 
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
@@ -570,7 +570,7 @@ msgstr "dpkg: aviso - %s morto pelo sinal (%s)%s\n"
 
 #: lib/mlib.c:122 lib/mlib.c:125
 msgid ", core dumped"
-msgstr ""
+msgstr ", core dumped"
 
 #: lib/mlib.c:124
 #, c-format
@@ -987,9 +987,9 @@ msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr "a tentar sobre-escrever `%.250s', que também está no pacote %.250s"
 
 #: src/archives.c:543
-#, fuzzy, c-format
+#, c-format
 msgid "gobble replaced file `%.255s'"
-msgstr "não foi possível ler o ficheiro de parte `%.250s'"
+msgstr "o ficheiro `%.255s' foi substituído"
 
 #: src/archives.c:600 dpkg-deb/build.c:314
 #, c-format
@@ -2202,7 +2202,7 @@ msgstr ""
 "Veja %s --license para detalhes de copyright e licença.\n"
 
 #: src/main.c:57
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -2274,49 +2274,51 @@ msgid ""
 "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
 "Utilização: \n"
-"  dpkg -i|--install      <.deb nome ficheiro> ... | -R|--recursive "
+"  -i|--install      <.deb nome ficheiro> ... | -R|--recursive "
 "<dir> ...\n"
-"  dpkg --unpack          <.deb nome ficheiro> ... | -R|--recursive "
+"  --unpack          <.deb nome ficheiro> ... | -R|--recursive "
 "<dir> ...\n"
-"  dpkg -A|--record-avail <.deb nome ficheiro> ... | -R|--recursive "
+"  -A|--record-avail <.deb nome ficheiro> ... | -R|--recursive "
 "<dir> ...\n"
-"  dpkg --configure              <nome pacote> ... | -a|--pending\n"
-"  dpkg -r|--remove | -P|--purge <nome pacote> ... | -a|--pending\n"
-"  dpkg --get-selections [<pattern> ...]   obter lista de selecções para "
+"  --configure              <nome pacote> ... | -a|--pending\n"
+"  -r|--remove | -P|--purge <nome pacote> ... | -a|--pending\n"
+"  --get-selections [<pattern> ...]   obter lista de selecções para "
 "stdout\n"
-"  dpkg --set-selections                   definir selecções de pacotes de "
+"  --set-selections                   definir selecções de pacotes de "
 "stdin\n"
-"  dpkg --update-avail <ficheiro-Packages> substituir informação de pacotes "
+"  --clear-selections                 deseleccionar todos os pacotes não"
+"essenciais\n"
+"  --update-avail <ficheiro-Packages> substituir informação de pacotes "
 "disponíveis\n"
-"  dpkg --merge-avail <ficheiro-Packages>  juntar com informação do ficheiro\n"
-"  dpkg --clear-avail                      apagar informação de disponíveis "
+"  --merge-avail <ficheiro-Packages>  juntar com informação do ficheiro\n"
+"  --clear-avail                      apagar informação de disponíveis "
 "existentes\n"
-"  dpkg --command-fd <n>                   passar comandos a este file "
+"  --command-fd <n>                   passar comandos a este file "
 "descriptor\n"
-"  dpkg --forget-old-unavail               esquecer pacotes não instalados "
+"  --forget-old-unavail               esquecer pacotes não instalados "
 "indísponíveis \n"
-"  dpkg -s|--status <nome-pacote> ...      mostrar detalhes de status do "
+"  -s|--status <nome-pacote> ...      mostrar detalhes de status do "
 "pacote\n"
-"  dpkg -p|--print-avail <nome-pacote> ... mostrar detalhes de versão "
+"  -p|--print-avail <nome-pacote> ... mostrar detalhes de versão "
 "disponível\n"
-"  dpkg -L|--listfiles <nome-pacote> ...   listar ficheiros 'pertencentes' "
+"  -L|--listfiles <nome-pacote> ...   listar ficheiros 'pertencentes' "
 "pelo(s) pacote(s)\n"
-"  dpkg -l|--list [<pattern> ...]          listar pacotes de forma concisa\n"
-"  dpkg -S|--search <pattern> ...          encontrar pacotes donos de ficheiro"
+"  -l|--list [<pattern> ...]          listar pacotes de forma concisa\n"
+"  -S|--search <pattern> ...          encontrar pacotes donos de ficheiro"
 "(s)\n"
-"  dpkg -C|--audit                         verificar se existem pacotes "
+"  -C|--audit                         verificar se existem pacotes "
 "estragados\n"
-"  dpkg --print-architecture               mostrar a arquitectura do alvo "
+"  --print-architecture               mostrar a arquitectura do alvo "
 "(utiliza o GCC)\n"
-"  dpkg --print-gnu-build-architecture     mostrar a versão GNU da "
+"  --print-gnu-build-architecture     mostrar a versão GNU da "
 "arquitectura alvo\n"
-"  dpkg --print-installation-architecture  mostrar arquitectura do host para "
+"  --print-installation-architecture  mostrar arquitectura do host para "
 "inst'n)\n"
-"  dpkg --compare-versions <a> <rel> <b>   comparar números de versão - veja "
+"  --compare-versions <a> <rel> <b>   comparar números de versão - veja "
 "abaixo\n"
-"  dpkg --help | --version                 mostrar esta ajuda / versão\n"
-"  dpkg --force-help | -Dh|--debug=help    ajuda em forçar debugging resp.\n"
-"  dpkg --licence                          mostrar termos da licença "
+"  --help | --version                 mostrar esta ajuda / versão\n"
+"  --force-help | -Dh|--debug=help    ajuda em forçar debugging resp.\n"
+"  --licence                          mostrar termos da licença "
 "copyright\n"
 "\n"
 "Utilize dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
@@ -2455,7 +2457,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "número inteiro inválido para --%s: `%.250s'"
 
 #: src/main.c:296
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2496,13 +2498,11 @@ msgstr ""
 "opções para forçar o %s - controla o comportamento quando são encontrados "
 "problemas:\n"
 "  avisar mas continuar:  --force-<coisa>,<coisa>,...\n"
-"  parar com erro(s):     --refuse-<coisa>,<coisa>,... | --no-force-"
+"  parar com erro:        --refuse-<coisa>,<coisa>,... | --no-force-"
 "<coisa>,...\n"
-" Forçando coisas:\n"
-"  all                    Definir todas opções de forçar\n"
-"  auto-select [*]        (De)selecionar pacotes para instalar (remover) "
-"eles\n"
-"  downgrade [*]          Substituir um pacote com uma versão mais antiga\n"
+" Forçar coisas:\n"
+"  all [!]                Definir todas opções de forçar\n"
+"  downgrade [*]          Substituir um pacote por uma versão mais anterior\n"
 "  configure-any          Configurar qualquer pacote que possa vir a ajudar "
 "este\n"
 "  hold                   Processar pacotes incidentais mesmo quando estão a "
@@ -2513,11 +2513,11 @@ msgstr ""
 "  overwrite              Sobrescrever um ficheiro de um pacote com outro\n"
 "  overwrite-diverted     Sobrescrever um ficheiro desviado com uma versão "
 "sem desvios\n"
-"  depends-version [!]    Converter problemas de dependências da versão em "
+"  bad-verify             Instalar um pacote mesmo que falhe a verificação "
+"de autenticação\n"
+"  depends-version [!]    Tornar problemas de dependências da versão em "
 "avisos\n"
-"  depends [!]            Converter todos os problemas de dependências em "
-"avisos\n"
-"  depends [!]            Converter todos os problemas de dependências em "
+"  depends [!]            Tornar todos os problemas de dependências em "
 "avisos\n"
 "  confnew [!]            Utilizar sempre os novos ficheiros de configuração, "
 "sem perguntar\n"
@@ -2540,7 +2540,7 @@ msgstr ""
 "\n"
 "AVISO - o uso das opções marcadas com [!] pode danificar seriamente a sua "
 "instalação.\n"
-"Opções para forçar marcadas com [*] são habilitadas por padrão.\n"
+"Opções para forçar marcadas com [*] estão habilitadas por omissão.\n"
 
 #: src/main.c:341
 #, c-format
@@ -2548,9 +2548,9 @@ msgid "unknown force/refuse option `%.*s'"
 msgstr "opção desconhecida de forçar/recusar `%.*s'"
 
 #: src/main.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
-msgstr "aviso: opção obsoleta `--%s'\n"
+msgstr "Aviso: opção forçar/recusar obsoleta `%s'\n"
 
 #: src/main.c:469 src/main.c:479 src/main.c:487
 msgid "couldn't malloc in execbackend"
@@ -3277,9 +3277,8 @@ msgid "read error on standard input"
 msgstr "erro de leitura na entrada standard"
 
 #: src/select.c:154
-#, fuzzy
 msgid "--clear-selections does not take any argument"
-msgstr "--set-selections não leva nenhum argumento"
+msgstr "--clear-selections não leva nenhum argumento"
 
 #: src/update.c:44
 #, c-format
@@ -3509,7 +3508,7 @@ msgstr "falhou o unlink tmpfile (data), %s"
 
 #: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
 msgid "data"
-msgstr ""
+msgstr "dados"
 
 #: dpkg-deb/build.c:416
 msgid "failed to exec find"
@@ -3522,7 +3521,7 @@ msgstr "falhou escrever o nome do ficheiro para um pipe do tar (data)"
 #: dpkg-deb/build.c:448
 #, c-format
 msgid "Internal error, compress_type `%i' unknown!"
-msgstr ""
+msgstr "Erro interno, compress_type `%i' desconhecido!"
 
 #: dpkg-deb/build.c:460
 msgid "failed to rewind tmpfile (data)"
