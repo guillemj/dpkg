@@ -1,6 +1,10 @@
 #
 # You must set the $(lang) variable when you include this makefile.
 #
+# You can use the $(po4a_translate_options) variable to specify additional
+# options to po4a.
+# For example: po4a_translate_options=-L KOI8-R -A KOI8-R
+#
 #
 # This makefile deals with the manpages generated from POs with po4a, and
 # should be included in an automake Makefile.am.
@@ -99,9 +103,9 @@ dist-hook: updatepo
 
 # Build the pages with an addendum
 %: $(srcdir)/%.$(lang).po $(srcdir)/../C/% $(srcdir)/%.$(lang).po.addendum
-	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@ -a $(srcdir)/$@.$(lang).po.addendum
+	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@ -a $(srcdir)/$@.$(lang).po.addendum $(po4a_translate_options)
 
 # Build the pages without addendum
 %: $(srcdir)/%.$(lang).po $(srcdir)/../C/%
-	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@
+	po4a-translate -f man -m $(srcdir)/../C/$@ -p $< -l $@ $(po4a_translate_options)
 
