@@ -1,6 +1,6 @@
 # Swedish translation of dpkg
 # Copyright 1999-2006 Software in the Public Interest
-# Peter Karlsson <peterk@debian.org>, 1999-2005.
+# Peter Karlsson <peterk@debian.org>, 1999-2006.
 # Daniel Nylander <po@danielnylander.se>, 2006.
 # $Id: sv.po,v 1.59.2.9 2004/10/12 18:55:27 peterk Exp $
 #
@@ -9,9 +9,9 @@ msgstr ""
 "Project-Id-Version: dpkg 1.13.11.0.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-04-10 06:33+0300\n"
-"PO-Revision-Date: 2006-02-17 08:53+0200\n"
-"Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
-"Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
+"PO-Revision-Date: 2006-04-13 10:41+0100\n"
+"Last-Translator: Peter Karlsson <po@danielnylander.se>\n"
+"Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -376,20 +376,20 @@ msgstr "värde för \"status\"-fältet ej tillåtet i detta sammanhang"
 
 #: lib/fields.c:170
 msgid "first (want) word in `status' field"
-msgstr "första (vill)-ordet i \"status\"-fältet"
+msgstr "första ordet (vill) i \"status\"-fältet"
 
 #: lib/fields.c:173
 msgid "second (error) word in `status' field"
-msgstr "andra (fel)-ordet i \"status\"-fältet"
+msgstr "andra ordet (fel) i \"status\"-fältet"
 
 #: lib/fields.c:179
 msgid "third (status) word in `status' field"
-msgstr "tredje (status)-ordet i \"status\"-fältet"
+msgstr "tredje ordet (status) i \"status\"-fältet"
 
 #: lib/fields.c:190
 #, c-format
 msgid "error in Version string `%.250s': %.250s"
-msgstr "fel i Version-strängen \"%.250s\": %.250s"
+msgstr "fel i \"Version\"-strängen \"%.250s\": %.250s"
 
 #: lib/fields.c:201
 msgid "obsolete `Revision' or `Package-Revision' field used"
@@ -572,7 +572,7 @@ msgstr "dpkg: varning - %s dödades av signal (%s)%s\n"
 
 #: lib/mlib.c:122 lib/mlib.c:125
 msgid ", core dumped"
-msgstr ", kärnminne dumpad"
+msgstr ", minnesutskrift skapad"
 
 #: lib/mlib.c:124
 #, c-format
@@ -983,6 +983,10 @@ msgstr ""
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr "försöker skriva över \"%.250s\" som också finns i paketet %.250s"
 
+# Kollas!
+# /* We need to advance the tar file to the next object, so read the
+#  * file data and set it to oblivion.
+#  */
 #: src/archives.c:543
 #, c-format
 msgid "gobble replaced file `%.255s'"
@@ -1496,7 +1500,7 @@ msgid ""
 " ==> Modified (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
-" ==> Modifierad (av dig eller ett skript) sedan installationen.\n"
+" ==> Modifierad (av dig eller en skriptfil) sedan installationen.\n"
 
 #: src/configure.c:570
 #, c-format
@@ -1505,7 +1509,7 @@ msgid ""
 " ==> Deleted (by you or by a script) since installation.\n"
 msgstr ""
 "\n"
-" ==> Borttagen (av dig eller ett skript) sedan installationen.\n"
+" ==> Borttagen (av dig eller en skriptfil) sedan installationen.\n"
 
 #: src/configure.c:573
 #, c-format
@@ -2140,9 +2144,10 @@ msgstr "dpkg: ... det verkar ha fungerat.\n"
 msgid "unlink"
 msgstr "avlänka"
 
+# Avänds i "failed to %s `%%.255s'" nedan
 #: src/help.c:461
 msgid "chmod"
-msgstr "chmod"
+msgstr "anropa chmod"
 
 #: src/help.c:477 src/processarc.c:701
 msgid "delete"
@@ -2171,7 +2176,7 @@ msgid ""
 msgstr ""
 "Detta program är fri programvara. Se GNU General Public License version 2\n"
 "eller senare för kopieringsvillkor. Det finns INGEN garanti.\n"
-"Se %s --licence för copyright och licensdetaljer.\n"
+"Se %s --licence för upphovsrättsliga och licenstekniska detaljer.\n"
 
 #: src/main.c:57
 #, fuzzy, c-format
@@ -2268,10 +2273,10 @@ msgstr ""
 "  -C|--audit                          sök trasiga paket\n"
 "  --print-architecture                visa dpkg-arkitektur\n"
 "  --compare-versions <a> <rel> <b>    jämför versionsnummer - se nedan\n"
-"  --help                               visa detta hjälpmeddelandet.\n"
-"  --version                            visa versionsnummer\n"
+"  --help                              visa detta hjälpmeddelandet.\n"
+"  --version                           visa versionsnummer\n"
 "  --force-help | -Dh|--debug=help     hjälp för tvingande resp. felsökning\n"
-"  --license | --licence                visa upphovsrättslicensvillkor\n"
+"  --license | --licence               visa upphovsrättslicensvillkor\n"
 "\n"
 "Använd dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
 " -x|--extract|-X|--vextract|--fsys-tarfile  på arkiv (skriv %s --help.)\n"
@@ -2403,7 +2408,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "ogiltigt heltal för --%s: \"%.250s\""
 
 #: src/main.c:296
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2445,8 +2450,7 @@ msgstr ""
 "  varna men fortsätt: --force-<sak>,<sak>,...\n"
 "  stanna med fel:     --refuse-<sak>,<sak> | --no-force-<sak>,<sak>,...\n"
 " Tvinga saker:\n"
-"  all                    Aktivera alla tvingande flaggor\n"
-"  auto-select [*]        (Av)markera paket för att installera (ta bort) dem\n"
+"  all [!]                Aktivera alla tvingande flaggor\n"
 "  downgrade [*]          Ersätt paket med en lägre version\n"
 "  configure-any          Konfigurera godtyckligt paket som kan hjälpa detta\n"
 "  hold                   Hantera förbundna paket även när de skulle hållts\n"
@@ -2483,9 +2487,9 @@ msgid "unknown force/refuse option `%.*s'"
 msgstr "okänd flagga för force/refuse: \"%.*s\""
 
 #: src/main.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
-msgstr "Varning: föråldrad flagga \"--%s\"\n"
+msgstr "Varning: föråldrad tvingande/vägrande flagga \"%s\"\n"
 
 #: src/main.c:469 src/main.c:479 src/main.c:487
 msgid "couldn't malloc in execbackend"
@@ -2759,13 +2763,13 @@ msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
 "been deleted)\n"
 msgstr ""
-"dpkg: varning -  gamla konfigurationfilen \"%.250s\" var en tom katalog (och "
+"dpkg: varning - gammal konfigurationfil \"%.250s\" var en tom katalog (och "
 "har nu tagits bort)\n"
 
 #: src/processarc.c:653
 #, c-format
 msgid "unable to stat other new file `%.250s'"
-msgstr "kunde inte ta status på andra nya filen \"%.250s\""
+msgstr "kunde inte ta status på andra ny fil \"%.250s\""
 
 #: src/processarc.c:664
 #, c-format
@@ -2773,7 +2777,7 @@ msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')"
 msgstr ""
-"dpkg: varning -  gamla filen \"%.250s\" är samma som ett flertal nya filer!  "
+"dpkg: varning - gammal filen \"%.250s\" är samma som ett flertal nya filer! "
 "(både \"%.250s\" och \"%.250s\")"
 
 #: src/processarc.c:705
@@ -2978,19 +2982,19 @@ msgstr ""
 "Användning: %s [<flagga> ...] <kommando>\n"
 "\n"
 "Kommandon:\n"
-"  -s|--status <paketnamn> ...      visa detaljer om paketstatus\n"
-"  -p|--print-avail <paketnamn> ... visa detaljer om tillgänglig version\n"
-"  -L|--listfiles <paketnamn> ...   visa filer \"ägda\" av paket\n"
-"  -l|--list [<mönster> ...]        visa sammanfattande paketlista\n"
-"  -W|--show <mönster> ...          visa information om paket\n"
-"  -S|--search <mönster> ...        sök paket som äver fil(er)\n"
-"  --help                              Visa detta hjälpmeddelandet.\n"
-"  --version                           visa versionsnummer.\n"
-"  --license | --licence               Visa upphovsrättslicensvillkor\n"
+"  -s|--status <paketnamn> ...      Visa detaljer om paketstatus\n"
+"  -p|--print-avail <paketnamn> ... Visa detaljer om tillgänglig version\n"
+"  -L|--listfiles <paketnamn> ...   Visa filer \"ägda\" av paket\n"
+"  -l|--list [<mönster> ...]        Visa sammanfattande paketlista\n"
+"  -W|--show <mönster> ...          Visa information om paket\n"
+"  -S|--search <mönster> ...        Sök paket som äver fil(er)\n"
+"  --help                           Visa detta hjälpmeddelandet.\n"
+"  --version                        Visa versionsnummer.\n"
+"  --license | --licence            Visa upphovsrättslicensvillkor\n"
 "\n"
 "Flaggor:\n"
-"  --admindir=<katalog>                Använd <katalog> i.st.f %s\n"
-"  -f|--showformat=<format>            Använd alternativt format för --show\n"
+"  --admindir=<katalog>             Använd <katalog> i.st.f %s\n"
+"  -f|--showformat=<format>         Använd alternativt format för --show\n"
 "\n"
 
 #: src/query.c:491 dpkg-deb/main.c:87
@@ -3198,9 +3202,8 @@ msgid "read error on standard input"
 msgstr "läsfel på standard in"
 
 #: src/select.c:154
-#, fuzzy
 msgid "--clear-selections does not take any argument"
-msgstr "--set-selection tar inget argument"
+msgstr "--clear-selections tar inget argument"
 
 #: src/update.c:44
 #, c-format
@@ -3812,8 +3815,8 @@ msgstr ""
 "  -X|--vextract <deb> <katalog>   Extrahera och lista filer.\n"
 "  --fsys-tarfile <deb>            Skapa filsystemstarfil.\n"
 "  -h|--help                       Vissa denna hjälpskärm.\n"
-"  --version                         Visa version.\n"
-"  --license | --licence             Visa licens.\n"
+"  --version                       Visa version.\n"
+"  --license | --licence           Visa licens.\n"
 "\n"
 "<deb> är filnamnet på ett arkiv i Debianformat.\n"
 "<kfil> är namnet på en administrativ filkomponent.\n"
@@ -4056,19 +4059,19 @@ msgstr ""
 "Användning: %s [<flagga> ...] <kommando>\n"
 "\n"
 "Kommandon:\n"
-"  -s|--split <fil> [<prefix>]    Dela ett arkiv.\n"
+"  -s|--split <fil> [<prefix>]     Dela ett arkiv.\n"
 "  -j|--join <del> <del> ...       Slå ihop delar.\n"
 "  -I|--info <del> ...             Visa information om en del.\n"
 "  -h|--help                       Visa detta hjälpmeddelandet.\n"
 "  --version                       Visa versionsnumret.\n"
 "  --license                       Visa licensen.\n"
 "\n"
-"  -a|--auto -o <komplett> <del>  Slå ihop delar automatiskt.\n"
-"  -l|--listq                     Visa omatchade delar.\n"
-"  -d|--discard [<filnamn> ...]   Släng bort omatchade delar.\n"
+"  -a|--auto -o <komplett> <del>   Slå ihop delar automatiskt.\n"
+"  -l|--listq                      Visa omatchade delar.\n"
+"  -d|--discard [<filnamn> ...]    Släng bort omatchade delar.\n"
 "\n"
-"Flaggor:    --depotdir <katalog>            Använd <katalog> istället för %s/"
-"%s.\n"
+"Flaggor:\n"
+"  --depotdir <katalog>            Använd <katalog> istället för %s/%s.\n"
 "  -S|--partsize <storlek>         I Kbyte, för -s (förval är 450).\n"
 "  -o|--output <fil>               För -j, förval är <paket>-<version>.deb)\n"
 "  -Q|--npquiet                    Var tyst när -a inte är en del.\n"
