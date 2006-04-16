@@ -62,9 +62,11 @@ control area file of the package containing the file which
 .B objdump
 reports as satisfying the library dependency, or
 .BR /etc/dpkg/shlibs.default .
-The first match will be used. See
-.BR dpkg-shlibdeps (1)
-for details of the format of shared library dependency files.
+The first match will be used.
+The format for a shared library dependency information entry in these
+files is:
+.br
+<library name>        <version/soname>        <dependencies>
 
 .B dpkg\-genchanges
 reads information from an unpacked and built Debian source tree and
