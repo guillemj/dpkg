@@ -119,15 +119,15 @@ static void usage(void) {
 
 const char thisname[]= "dpkg";
 const char architecture[]= ARCHITECTURE;
-const char printforhelp[]= N_("\
-Type dpkg --help for help about installing and deinstalling packages [*];\n\
-Use `dselect' or `aptitude' for user-friendly package management;\n\
-Type dpkg -Dhelp for a list of dpkg debug flag values;\n\
-Type dpkg --force-help for a list of forcing options;\n\
-Type dpkg-deb --help for help about manipulating *.deb files;\n\
-Type dpkg --license for copyright license and lack of warranty (GNU GPL) [*].\n\
-\n\
-Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
+const char printforhelp[]= N_(
+"Type dpkg --help for help about installing and deinstalling packages [*];\n"
+"Use `dselect' or `aptitude' for user-friendly package management;\n"
+"Type dpkg -Dhelp for a list of dpkg debug flag values;\n"
+"Type dpkg --force-help for a list of forcing options;\n"
+"Type dpkg-deb --help for help about manipulating *.deb files;\n"
+"Type dpkg --license for copyright license and lack of warranty (GNU GPL) [*].\n"
+"\n"
+"Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
 
 const struct cmdinfo *cipaction= 0;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
@@ -197,21 +197,23 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
   char *endp;
 
   if (*value == 'h') {
-    if (printf(
-_("%s debugging option, --debug=<octal> or -D<octal>:\n\n\
- number  ref. in source   description\n\
-      1   general           Generally helpful progress information\n\
-      2   scripts           Invocation and status of maintainer scripts\n\
-     10   eachfile          Output for each file processed\n\
-    100   eachfiledetail    Lots of output for each file processed\n\
-     20   conff             Output for each configuration file\n\
-    200   conffdetail       Lots of output for each configuration file\n\
-     40   depcon            Dependencies and conflicts\n\
-    400   depcondetail      Lots of dependencies/conflicts output\n\
-   1000   veryverbose       Lots of drivel about eg the dpkg/info directory\n\
-   2000   stupidlyverbose   Insane amounts of drivel\n\n\
-Debugging options are be mixed using bitwise-or.\n\
-Note that the meanings and values are subject to change.\n"),
+    if (printf(_(
+"%s debugging option, --debug=<octal> or -D<octal>:\n"
+"\n"
+" number  ref. in source   description\n"
+"      1   general           Generally helpful progress information\n"
+"      2   scripts           Invocation and status of maintainer scripts\n"
+"     10   eachfile          Output for each file processed\n"
+"    100   eachfiledetail    Lots of output for each file processed\n"
+"     20   conff             Output for each configuration file\n"
+"    200   conffdetail       Lots of output for each configuration file\n"
+"     40   depcon            Dependencies and conflicts\n"
+"    400   depcondetail      Lots of dependencies/conflicts output\n"
+"   1000   veryverbose       Lots of drivel about eg the dpkg/info directory\n"
+"   2000   stupidlyverbose   Insane amounts of drivel\n"
+"\n"
+"Debugging options are be mixed using bitwise-or.\n"
+"Note that the meanings and values are subject to change.\n"),
              DPKG) < 0) werr("stdout");
     exit(0);
   }
@@ -293,36 +295,37 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   const struct forceinfo *fip;
 
   if (!strcmp(value,"help")) {
-    if (printf(_("%s forcing options - control behaviour when problems found:\n\
-  warn but continue:  --force-<thing>,<thing>,...\n\
-  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n\
- Forcing things:\n\
-  all [!]                Set all force options\n\
-  downgrade [*]          Replace a package with a lower version\n\
-  configure-any          Configure any package which may help this one\n\
-  hold                   Process incidental packages even when on hold\n\
-  bad-path               PATH is missing important programs, problems likely\n\
-  not-root               Try to (de)install things even when not root\n\
-  overwrite              Overwrite a file from one package with another\n\
-  overwrite-diverted     Overwrite a diverted file with an undiverted version\n\
-  bad-verify             Install a package even if it fails authenticity check\n\
-  depends-version [!]    Turn dependency version problems into warnings\n\
-  depends [!]            Turn all dependency problems into warnings\n\
-  confnew [!]            Always use the new config files, don't prompt\n\
-  confold [!]            Always use the old config files, don't prompt\n\
-  confdef [!]            Use the default option for new config files if one\n\
-                         is available, don't prompt. If no default can be found,\n\
-                         you will be prompted unless one of the confold or\n\
-                         confnew options is also given\n\
-  confmiss [!]           Always install missing config files\n\
-  conflicts [!]          Allow installation of conflicting packages\n\
-  architecture [!]       Process even packages with wrong architecture\n\
-  overwrite-dir [!]      Overwrite one package's directory with another's file\n\
-  remove-reinstreq [!]   Remove packages which require installation\n\
-  remove-essential [!]   Remove an essential package\n\
-\n\
-WARNING - use of options marked [!] can seriously damage your installation.\n\
-Forcing options marked [*] are enabled by default.\n"),
+    if (printf(_(
+"%s forcing options - control behaviour when problems found:\n"
+"  warn but continue:  --force-<thing>,<thing>,...\n"
+"  stop with error:    --refuse-<thing>,<thing>,... | --no-force-<thing>,...\n"
+" Forcing things:\n"
+"  all [!]                Set all force options\n"
+"  downgrade [*]          Replace a package with a lower version\n"
+"  configure-any          Configure any package which may help this one\n"
+"  hold                   Process incidental packages even when on hold\n"
+"  bad-path               PATH is missing important programs, problems likely\n"
+"  not-root               Try to (de)install things even when not root\n"
+"  overwrite              Overwrite a file from one package with another\n"
+"  overwrite-diverted     Overwrite a diverted file with an undiverted version\n"
+"  bad-verify             Install a package even if it fails authenticity check\n"
+"  depends-version [!]    Turn dependency version problems into warnings\n"
+"  depends [!]            Turn all dependency problems into warnings\n"
+"  confnew [!]            Always use the new config files, don't prompt\n"
+"  confold [!]            Always use the old config files, don't prompt\n"
+"  confdef [!]            Use the default option for new config files if one\n"
+"                         is available, don't prompt. If no default can be found,\n"
+"                         you will be prompted unless one of the confold or\n"
+"                         confnew options is also given\n"
+"  confmiss [!]           Always install missing config files\n"
+"  conflicts [!]          Allow installation of conflicting packages\n"
+"  architecture [!]       Process even packages with wrong architecture\n"
+"  overwrite-dir [!]      Overwrite one package's directory with another's file\n"
+"  remove-reinstreq [!]   Remove packages which require installation\n"
+"  remove-essential [!]   Remove an essential package\n"
+"\n"
+"WARNING - use of options marked [!] can seriously damage your installation.\n"
+"Forcing options marked [*] are enabled by default.\n"),
                DPKG) < 0) werr("stdout");
     exit(0);
   }
