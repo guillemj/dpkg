@@ -514,8 +514,11 @@ void commandfd(const char *const *argv) {
   int c, lno, infd, i, skipchar;
   static void (*actionfunction)(const char *const *argv);
 
-  if ((pipein= *argv++) == NULL) badusage(_("--command-fd takes 1 argument, not 0"));
-  if (*argv) badusage(_("--command-fd only takes 1 argument"));
+  pipein = *argv++;
+  if (pipein == NULL)
+    badusage(_("--command-fd takes one argument, not zero"));
+  if (*argv)
+    badusage(_("--command-fd only takes one argument"));
   if ((infd= strtol(pipein, (char **)NULL, 10)) == -1)
     ohshite(_("invalid number for --command-fd"));
   if ((in= fdopen(infd, "r")) == NULL)

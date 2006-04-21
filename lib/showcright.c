@@ -30,7 +30,8 @@ void showcopyright(const struct cmdinfo *c, const char *v) NONRETURNING;
 void showcopyright(const struct cmdinfo *c, const char *v) {
   int fd;
   fd= open(COPYINGFILE,O_RDONLY);
-  if (fd < 0) ohshite(_("cannot open GPL file "));
+  if (fd < 0)
+    ohshite(_("cannot open GPL file"));
   fd_fd_copy(fd, 1, -1, "showcopyright");
   exit(0);
 }

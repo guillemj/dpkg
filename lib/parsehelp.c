@@ -119,9 +119,9 @@ const char *illegal_packagename(const char *p, const char **ep) {
     while (isspace(*p)) p++;
     *ep= p; return NULL;
   }
-  snprintf(buf, sizeof(buf),
-          _("character `%c' not allowed - only letters, digits and %s allowed"),
-          c, alsoallowed);
+  snprintf(buf, sizeof(buf), _(
+	   "character `%c' not allowed (only letters, digits and characters `%s')"),
+	   c, alsoallowed);
   return buf;
 }
 

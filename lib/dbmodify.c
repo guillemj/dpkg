@@ -113,9 +113,10 @@ static void createimptmp(void) {
   if (ferror(importanttmp))
     ohshite(_("unable to fill %.250s with padding"),importanttmpfile);
   if (fflush(importanttmp))
-    ohshite(_("unable flush %.250s after padding"),importanttmpfile);
+    ohshite(_("unable to flush %.250s after padding"), importanttmpfile);
   if (fseek(importanttmp,0,SEEK_SET))
-    ohshite(_("unable seek to start of %.250s after padding"),importanttmpfile);
+    ohshite(_("unable to seek to start of %.250s after padding"),
+	    importanttmpfile);
 
   onerr_abort--;
 }

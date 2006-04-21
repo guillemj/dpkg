@@ -264,13 +264,15 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   }
   thisf= 0;
   if (possdependee == removing) {
-    varbufaddstr(oemsgs,_("  Package "));
-    varbufaddstr(oemsgs,possdependee->name);
     if (providing) {
-      varbufaddstr(oemsgs,_(" which provides "));
-      varbufaddstr(oemsgs,providing->name);
+      varbufprintf(oemsgs,
+		   _("  Package %s which provides %s is to be removed.\n"),
+		   possdependee->name, providing->name);
+    } else {
+      varbufprintf(oemsgs, _("  Package %s is to be removed.\n"),
+		   possdependee->name);
     }
-    varbufaddstr(oemsgs,_(" is to be removed.\n"));
+
     *matched= 1;
     if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
     debug(dbg_depcondetail,"      removing possdependee, returning %d",thisf);
@@ -282,12 +284,10 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   case stat_halfconfigured:
     assert(possdependee->installed.valid);
     if (checkversion && !versionsatisfied(&possdependee->installed,checkversion)) {
-      varbufaddstr(oemsgs,_("  Version of "));
-      varbufaddstr(oemsgs,possdependee->name);
-      varbufaddstr(oemsgs,_(" on system is "));
-      varbufaddstr(oemsgs,versiondescribe(&possdependee->installed.version,
-                                          vdew_nonambig));
-      varbufaddstr(oemsgs,".\n");
+      varbufprintf(oemsgs, _("  Version of %s on system is %s.\n"),
+		   possdependee->name,
+		   versiondescribe(&possdependee->installed.version,
+				   vdew_nonambig));
       assert(checkversion->verrel != dvr_none);
       if (fc_depends) thisf= (dependtry >= 3) ? 2 : 1;
       debug(dbg_depcondetail,"      bad version, returning %d",thisf);
@@ -308,26 +308,30 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
               possdependee->name, requiredby->name);
       add_to_queue(possdependee); sincenothing=0; return 1;
     } else {
-      varbufaddstr(oemsgs,_("  Package "));
-      varbufaddstr(oemsgs,possdependee->name);
       if (providing) {
-        varbufaddstr(oemsgs,_(" which provides "));
-        varbufaddstr(oemsgs,providing->name);
+	varbufprintf(oemsgs,
+		     _("  Package %s which provides %s is not configured yet.\n"),
+		     possdependee->name, providing->name);
+      } else {
+	varbufprintf(oemsgs, _("  Package %s is not configured yet.\n"),
+		     possdependee->name);
       }
-      varbufaddstr(oemsgs,_(" is not configured yet.\n"));
+
       if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
       debug(dbg_depcondetail,"      not configured/able - returning %d",thisf);
       (*interestingwarnings)++;
       return thisf;
     }
   default:
-    varbufaddstr(oemsgs,_("  Package "));
-    varbufaddstr(oemsgs,possdependee->name);
     if (providing) {
-      varbufaddstr(oemsgs,_(" which provides "));
-      varbufaddstr(oemsgs,providing->name);
+      varbufprintf(oemsgs,
+		   _("  Package %s which provides %s is not installed.\n"),
+		   possdependee->name, providing->name);
+    } else {
+      varbufprintf(oemsgs, _("  Package %s is not installed.\n"),
+		   possdependee->name);
     }
-    varbufaddstr(oemsgs,_(" is not installed.\n"));
+
     if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
     debug(dbg_depcondetail,"      not installed - returning %d",thisf);
     (*interestingwarnings)++;

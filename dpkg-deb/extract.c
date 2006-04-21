@@ -56,7 +56,7 @@ static void movecontrolfiles(const char *thing) {
 static void readfail(FILE *a, const char *filename, const char *what) NONRETURNING;
 static void readfail(FILE *a, const char *filename, const char *what) {
   if (ferror(a)) {
-    ohshite(_("error reading %s from %.255s"),what,filename);
+    ohshite(_("error reading %s from file %.255s"), what, filename);
   } else {
     ohshit(_("unexpected end of file in %s in %.255s"),what,filename);
   }
@@ -192,9 +192,9 @@ void extracthalf(const char *debar, const char *directory,
     oldformat= 1;
     l= strlen(versionbuf); if (l && versionbuf[l-1]=='\n') versionbuf[l-1]=0;
     if (!fgets(ctrllenbuf,sizeof(ctrllenbuf),ar))
-      readfail(ar,debar,_("ctrl information length"));
+      readfail(ar, debar, _("control information length"));
     if (sscanf(ctrllenbuf,"%zi%c%d",&ctrllennum,&nlc,&dummy) !=2 || nlc != '\n')
-      ohshit(_("archive has malformatted ctrl len `%s'"),ctrllenbuf);
+      ohshit(_("archive has malformatted control length `%s'"), ctrllenbuf);
 
     if (admininfo >= 2)
       if (printf(_(" old debian package, version %s.\n"
@@ -203,10 +203,12 @@ void extracthalf(const char *debar, const char *directory,
                  (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l)) == EOF ||
           fflush(stdout)) werr("stdout");
     
-    ctrlarea= malloc(ctrllennum); if (!ctrlarea) ohshite("malloc ctrlarea failed");
+    ctrlarea = malloc(ctrllennum);
+    if (!ctrlarea)
+      ohshite(_("failed allocating memory for variable `ctrlarea'"));
 
     errno=0; if (fread(ctrlarea,1,ctrllennum,ar) != ctrllennum)
-      readfail(ar,debar,_("ctrlarea"));
+      readfail(ar, debar, _("control area"));
 
   } else {
     
@@ -222,18 +224,22 @@ void extracthalf(const char *debar, const char *directory,
   }
 
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  if(fgetpos(ar, &fpos)) ohshit(_("fgetpos failed"));
+  if (fgetpos(ar, &fpos))
+    ohshit(_("failed getting the current file position"));
 #endif
   fflush(ar);
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  if(fsetpos(ar, &fpos)) ohshit(_("fsetpos failed"));
+  if (fsetpos(ar, &fpos))
+    ohshit(_("failed setting the current file position"));
 #endif
   if (oldformat) {
     if (admininfo) {
       m_pipe(p1);
       if (!(c1= m_fork())) {
         close(p1[0]);
-        if (!(pi= fdopen(p1[1],"w"))) ohshite(_("failed to fdopen p1 in paste"));
+	pi = fdopen(p1[1], "w");
+	if (!pi)
+	  ohshite(_("failed to open pipe descriptor `1' in paste"));
         errno=0; if (fwrite(ctrlarea,1,ctrllennum,pi) != ctrllennum)
           ohshit(_("failed to write to gzip -dc"));
         if (fclose(pi)) ohshit(_("failed to close gzip -dc"));
