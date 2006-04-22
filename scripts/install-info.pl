@@ -92,6 +92,7 @@ while ($ARGV[0] =~ m/^--/) {
         $description=$';
     } elsif (m/^--dir-file=/) { # for compatibility with GNU install-info
 	$infodir=$';
+	$infodir=~s/\/dir$//;
     } else {
         print STDERR "$name: unknown option \`$_'\n"; &usage(STDERR); exit 1;
     }
