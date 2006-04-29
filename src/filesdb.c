@@ -400,7 +400,7 @@ void ensure_statoverrides(void) {
     /* Move to the next bit */
     thisline=ptr+1;
     if (thisline>=loaded_list_end)
-      ohshit("unexecpted end of line in statoverride file");
+      ohshit("unexpected end of line in statoverride file");
 
     /* Extract the mode */
     if (!(ptr=memchr(thisline, ' ', nextline-thisline)))
