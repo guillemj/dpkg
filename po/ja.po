@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-04-10 06:33+0300\n"
-"PO-Revision-Date: 2006-02-17 08:52+0200\n"
+"PO-Revision-Date: 2006-04-29 21:22+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -253,9 +253,9 @@ msgid "couldn't open log `%s': %s\n"
 msgstr "ログ `%s' をオープンできませんでした: %s\n"
 
 #: lib/dump.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "failed to write details of `%.50s' to `%.250s'"
-msgstr "`%2$.50s' についての %1$s レコードを `%3$.250s' に書き込めませんでした"
+msgstr "`%.50s' についての詳細を `%.250s' に書き込めませんでした"
 
 #: lib/dump.c:293
 #, c-format
@@ -384,25 +384,23 @@ msgstr "真偽フィールドにおける yes/no"
 
 #: lib/fields.c:152
 msgid "word in `priority' field"
-msgstr ""
+msgstr "`priority' フィールドのワード"
 
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
 msgstr "`status' フィールドの値はこのコンテキストでは許可されていません"
 
 #: lib/fields.c:170
-#, fuzzy
 msgid "first (want) word in `status' field"
-msgstr "`status' フィールドの第 3 ワード (ステータス)"
+msgstr "`status' フィールドの第 1 ワード (要望)"
 
 #: lib/fields.c:173
-#, fuzzy
 msgid "second (error) word in `status' field"
-msgstr "`status' フィールドの第 3 ワード (ステータス)"
+msgstr "`status' フィールドの第 2 ワード (エラー)"
 
 #: lib/fields.c:179
 msgid "third (status) word in `status' field"
-msgstr "`status' フィールドの第 3 ワード (ステータス)"
+msgstr "`status' フィールドの第 3 ワード (状態)"
 
 #: lib/fields.c:190
 #, c-format
@@ -593,7 +591,7 @@ msgstr "dpkg: 警告 - %s がシグナル (%s) %s によって強制終了しま
 
 #: lib/mlib.c:122 lib/mlib.c:125
 msgid ", core dumped"
-msgstr ""
+msgstr "、コアダンプが作成されました"
 
 #: lib/mlib.c:124
 #, c-format
@@ -1520,14 +1518,11 @@ msgstr ""
 "す。\n"
 
 #: src/configure.c:570
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 " ==> Deleted (by you or by a script) since installation.\n"
-msgstr ""
-"\n"
-" ==> これはインストールしてから (あなたかスクリプトによって) 変更されていま"
-"す。\n"
+msgstr "\n ==> これはインストールしてから (あなたかスクリプトによって) 削除されています。\n"
 
 #: src/configure.c:573
 #, c-format
@@ -2173,33 +2168,32 @@ msgstr "dpkg: ... OK のようです。\n"
 
 #: src/help.c:447
 msgid "unlink"
-msgstr ""
+msgstr "アンリンク"
 
 #: src/help.c:461
-#, fuzzy
 msgid "chmod"
-msgstr "保持"
+msgstr "モード変更"
 
 #: src/help.c:477 src/processarc.c:701
 msgid "delete"
-msgstr ""
+msgstr "削除"
 
 #: src/help.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "failed to %s `%%.255s'"
-msgstr "`%.255s' への chdir に失敗しました"
+msgstr "`%2$%.255s' への %1$s に失敗しました"
 
 #: src/help.c:493 dpkg-deb/info.c:54
 msgid "failed to exec rm for cleanup"
 msgstr "クリーンアップ用の rm の実行に失敗しました"
 
 #: src/main.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package management program version %s.\n"
-msgstr "' パッケージ管理プログラム バージョン "
+msgstr "Debian `%s' パッケージ管理プログラム バージョン %s。\n"
 
 #: src/main.c:46 src/query.c:461 dpkg-deb/main.c:48 dpkg-split/main.c:41
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
@@ -2207,10 +2201,10 @@ msgid ""
 msgstr ""
 "これはフリーソフトです; コピー条件については GNU 一般公有使用許諾書\n"
 "バージョン 2 もしくはそれ以降を参照してください。このソフトウェアは\n"
-"無保証です。詳細は dpkg-deb --licence を参照してください。\n"
+"無保証です。詳細は %s --licence を参照してください。\n"
 
 #: src/main.c:57
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -2281,43 +2275,37 @@ msgid ""
 "\n"
 "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
-"使用方法: \n"
-"  dpkg -i|--install      <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-"> ...\n"
-"  dpkg --unpack          <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-"> ...\n"
-"  dpkg -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-"> ...\n"
-"  dpkg --configure              <パッケージ名> ... | -a|--pending\n"
-"  dpkg -r|--remove | -P|--purge <パッケージ名> ... | -a|--pending\n"
-"  dpkg --get-selections [<パターン> ...]  標準出力にパッケージ選択一覧を表"
-"示\n"
-"  dpkg --set-selections                   標準入力からパッケージ選択一覧を設"
-"定\n"
-"  dpkg --update-avail <Packages ファイル> 取得可能なパッケージ情報を更新\n"
-"  dpkg --merge-avail <Packages ファイル>  ファイルからパッケージ情報を合成\n"
-"  dpkg --clear-avail                      既存の取得可能パッケージ情報を消"
-"去\n"
-"  dpkg --forget-old-unavail               未インストールの利用不可能パッケー"
-"ジ情報の破棄\n"
-"  dpkg -s|--status <パッケージ名> ...     パッケージ状態の詳細を表示\n"
-"  dpkg -p|--print-avail <パッケージ名> ...取得可能なバージョンの詳細を表示\n"
-"  dpkg -L|--listfiles <パッケージ名> ...  パッケージが「所有する」ファイル一"
-"覧を表示\n"
-"  dpkg -l|--list [<パターン> ...]         パッケージの一覧を簡潔に表示\n"
-"  dpkg -S|--search <パターン> ...         ファイルを所有するパッケージを検"
-"索\n"
-"  dpkg -C|--audit                         壊れているパッケージのチェック\n"
-"  dpkg --print-architecture               対象アーキテクチャを表示 (GCC を使"
-"用)\n"
-"  dpkg --compare-versions <a> <rel> <b>   バージョン番号を比較 - 下記参照\n"
-"  dpkg --help | --version                 このヘルプ/バージョン番号を表示\n"
-"  dpkg --force-help | -Dh|--debug=help    強制/デバッグオプションのヘルプ\n"
-"  dpkg --licence                          ライセンス条項を表示\n"
+"使用方法: %s [<オプション> ...] <コマンド>\n"
+"\n"
+"コマンド:\n"
+"  -i|--install      <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
+"  --unpack          <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
+"  -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ> ...\n"
+"  --configure       <パッケージ名> ...    | -a|--pending\n"
+"  -r|--remove       <パッケージ名> ...    | -a|--pending\n"
+"  -P|--purge        <パッケージ名> ...    | -a|--pending\n"
+"  --get-selections [<パターン> ...]  標準出力にパッケージ選択一覧を表示\n"
+"  --set-selections                   標準入力からパッケージ選択一覧を設定\n"
+"  --clear-selection                  すべての必須でないパッケージを選択解除\n"
+"  --update-avail <Packages ファイル> 取得可能なパッケージ情報を更新\n"
+"  --merge-avail <Packages ファイル>  ファイルからパッケージ情報を合成\n"
+"  --clear-avail                      既存の取得可能パッケージ情報を消去\n"
+"  --forget-old-unavail               未インストールの利用不可能パッケージ情報の破棄\n"
+"  -s|--status <パッケージ名> ...     パッケージ状態の詳細を表示\n"
+"  -p|--print-avail <パッケージ名> ...取得可能なバージョンの詳細を表示\n"
+"  -L|--listfiles <パッケージ名> ...  パッケージが「所有する」ファイル一覧を表示\n"
+"  -l|--list [<パターン> ...]         パッケージの一覧を簡潔に表示\n"
+"  -S|--search <パターン> ...         ファイルを所有するパッケージを検索\n"
+"  -C|--audit                         壊れているパッケージのチェック\n"
+"  --print-architecture               対象アーキテクチャを表示 (GCC を使用)\n"
+"  --compare-versions <a> <rel> <b>   バージョン番号を比較 - 下記参照\n"
+"  --help                             このヘルプを表示\n"
+"  --version                          バージョン番号を表示\n"
+"  --force-help | -Dh|--debug=help    強制/デバッグオプションのヘルプ\n"
+"  --licence | --licence              ライセンス条項を表示\n"
 "\n"
 "アーカイブの操作には dpkg -b|--build|-c|--contents|-e|--control|-I|--info|\n"
-"-f|--field|-x|--extract|-X|--vextract|--fsys-tarfile を使用すること (%s --"
-"help を参照)\n"
+"-f|--field|-x|--extract|-X|--vextract|--fsys-tarfile を使用すること (%s --help を参照)\n"
 "\n"
 "内部使用法: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
@@ -2325,21 +2313,17 @@ msgstr ""
 "オプション:\n"
 "  --admindir=<ディレクトリ>  %s の代わりに指定したディレクトリを使用\n"
 "  --root=<ディレクトリ>      ルートディレクトリを別の場所にしてインストール\n"
-"  --instdir=<ディレクトリ>   インストール先のディレクトリを変更 (admindir は"
-"除く)\n"
-"  -O|--selected-only         インストール/アップグレードに選択されていない"
-"パッケージをスキップ\n"
-"  -E|--skip-same-version     同バージョンがインストール済みのパッケージをス"
-"キップ\n"
-"  -G|--refuse-downgrade      インストール済みパッケージより古いバージョンの"
-"パッケージをスキップ\n"
+"  --instdir=<ディレクトリ>   インストール先のディレクトリを変更 (admindir は除く)\n"
+"  -O|--selected-only         インストール/アップグレードに選択されていないパッケージをスキップ\n"
+"  -E|--skip-same-version     同バージョンがインストール済みのパッケージをスキップ\n"
+"  -G|--refuse-downgrade      インストール済みパッケージより古いバージョンのパッケージをスキップ\n"
 "  -B|--auto-deconfigure      ほかのパッケージを壊してでもインストールする\n"
 "  --no-debsig                パッケージの署名の検証をしない\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             何をするか表示して、実際には何もしない\n"
-"  -D|--debug=<8進数>         デバッグモード (-Dhelp または --debug=help を参"
-"照)\n"
+"  -D|--debug=<8進数>         デバッグモード (-Dhelp または --debug=help を参照)\n"
 "  --status-fd <n>            状態変化の更新をファイル記述子 <n> に送る\n"
+"  --log=<ファイル名>         状態変更およびアクションを指定のファイルに記録する\n"
 "  --ignore-depends=<パッケージ>,...  必要とする依存関係を無視\n"
 "  --force-...                    問題を無視 (--force-help を参照)\n"
 "  --no-force-...|--refuse-...    問題が発生した時点で終了\n"
@@ -2347,15 +2331,12 @@ msgstr ""
 "\n"
 "--compare-versions 用比較演算子:\n"
 " lt le eq ne ge gt       (バージョンなしはどのバージョンよりも古いと見なす)\n"
-" lt-nl le-nl ge-nl gt-nl (バージョンなしはどのバージョンよりも新しいと見な"
-"す)\n"
+" lt-nl le-nl ge-nl gt-nl (バージョンなしはどのバージョンよりも新しいと見なす)\n"
 " < << <= = >= >> >       (コントロールファイルの構文の互換性のみ)\n"
 "\n"
-"ユーザ向けパッケージ管理ツールである `dselect' または `aptitude' を使いましょ"
-"う。\n"
+"ユーザ向けパッケージ管理ツールである `dselect' または `aptitude' を使いましょう。\n"
 
 #: src/main.c:122
-#, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2368,15 +2349,14 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through `less' or "
 "`more' !"
 msgstr ""
-"インストール関連についての情報は dpkg --help で参照[*];\n"
-"よりユーザ向けな `dselect' または `aptitude' を使いましょう;\n"
+"パッケージのインストールおよびアンストールについての情報は dpkg --help で参照[*];\n"
+"ユーザ向けパッケージ管理ツールである `dselect' または `aptitude' を使いましょう;\n"
 "デバッグフラグの一覧は dpkg -Dhelp で参照;\n"
 "強制オプションの一覧は dpkg --force-help で参照;\n"
 "*.deb ファイル操作のヘルプは dpkg-deb --help で参照;\n"
-"保証事項、ライセンス (GNU GPL) は dpkg --licence で参照[*]。\n"
+"著作権ライセンスおよび免責 (GNU GPL) は dpkg --licence で参照[*]。\n"
 "\n"
-"[*] のある物は大量の情報が出力されます。パイプを使い `less' や `more' で見て"
-"ください!"
+"[*] のある物は大量の情報が出力されます。パイプを使い `less' や `more' で見てください!"
 
 #: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
 #, c-format
@@ -2448,7 +2428,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%s に対する不正な整数です: `%.250s'"
 
 #: src/main.c:296
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2490,13 +2470,11 @@ msgstr ""
 "  警告するが続行:    --force-<事象>,<事象>,...\n"
 "  エラーにして終了:  --refuse-<事象>,<事象>,... | --no-force-<事象>,...\n"
 " 強制事項:\n"
-"  all                  すべての強制オプションを適用\n"
-"  auto-select [*]      問題のあるパッケージを自動的に(非)選択\n"
+"  all [!]              すべての強制オプションを適用\n"
 "  downgrade [*]         古いバージョンでパッケージを置換\n"
 "  configure-any        このパッケージに必要なパッケージの設定を行う\n"
 "  hold                 維持 (hold) されていてもパッケージを処理する\n"
-"  bad-path             重要なプログラムが PATH に見つからない、問題の可能性あ"
-"り\n"
+"  bad-path             重要なプログラムが PATH に見つからない、問題の可能性あり\n"
 "  not-root             root でなくても(アン)インストールを試みる\n"
 "  overwrite            あるパッケージのファイルを別のパッケージで上書き\n"
 "  overwrite-diverted   退避されているファイルを非退避バージョンで上書き\n"
@@ -2505,8 +2483,7 @@ msgstr ""
 "  depends [!]          すべての依存問題を警告に変更\n"
 "  confnew [!]          常に新しい設定ファイルを利用する\n"
 "  confold [!]          常に古い設定ファイルを利用する\n"
-"  confdef [!]          新しい設定ファイルに対してデフォルトの振る舞いをす"
-"る。\n"
+"  confdef [!]          新しい設定ファイルに対してデフォルトの振る舞いをする。\n"
 "                       それがあれば問い合わせない。 もしデフォルトがなく、\n"
 "                       confold か confnew オプションが指定されていないと\n"
 "                       問い合わせる\n"
@@ -2526,9 +2503,9 @@ msgid "unknown force/refuse option `%.*s'"
 msgstr "不明な強制・拒否 (force/refuse) オプション `%.*s'"
 
 #: src/main.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
-msgstr "警告: 時代遅れのオプション `--%s'\n"
+msgstr "警告: 時代遅れの強制・拒否 (force/refuse) オプション `%s'\n"
 
 #: src/main.c:469 src/main.c:479 src/main.c:487
 msgid "couldn't malloc in execbackend"
@@ -2787,42 +2764,38 @@ msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: 余計なゼロを取り除きます"
 
 #: src/processarc.c:611
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - could not stat old file `%.250s' so not deleting it: %s"
-msgstr "dpkg: 警告 - 古いファイル `%.250s' を削除できません: %s\n"
+msgstr "dpkg: 警告 - 古いファイル `%.250s' の状態を取得できないので、削除しません: %s"
 
 #: src/processarc.c:619
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - unable to delete old directory `%.250s': %s\n"
-msgstr "dpkg: 警告 - 古いファイル `%.250s' を削除できません: %s\n"
+msgstr "dpkg: 警告 - 古いディレクトリ `%.250s' を削除できません: %s\n"
 
 #: src/processarc.c:623
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
 "been deleted)\n"
-msgstr ""
-"dpkg: %s: 警告 - 設定ファイル `%.250s' がプレーンファイルでもシンボリックリン"
-"ク (= `%s') でもありません\n"
+msgstr "dpkg: 警告 - 古い設定ファイル `%.250s' が空のディレクトリでした (今削除されました)\n"
 
 #: src/processarc.c:653
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat other new file `%.250s'"
-msgstr "パートファイル `%.250s' のステータスを得られません (fstat 失敗)"
+msgstr "その他の新しいファイル `%.250s' の状態を取得できません"
 
 #: src/processarc.c:664
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')"
-msgstr ""
-"dpkg: %s: 警告 - 設定ファイル `%.250s' がプレーンファイルでもシンボリックリン"
-"ク (= `%s') でもありません\n"
+msgstr "dpkg: 警告 - 古いファイル `%.250s' がいくつかの新しいファイルと同一です (`%.250s' と `%.250s' の両方)"
 
 #: src/processarc.c:705
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
-msgstr "dpkg: 警告 - 古いファイル `%.250s' を削除できません: %s\n"
+msgstr "dpkg: 警告 - 古いファイル `%%2$.250s' を%1$sできません: %%3$s\n"
 
 #: src/processarc.c:731 src/processarc.c:972 src/remove.c:286
 msgid "cannot read info directory"
@@ -3001,12 +2974,12 @@ msgstr ""
 "す。\n"
 
 #: src/query.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package management program query tool\n"
-msgstr "' パッケージ管理プログラムクエリツール\n"
+msgstr "Debian `%s' パッケージ管理プログラムクエリツール\n"
 
 #: src/query.c:472
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -3026,29 +2999,23 @@ msgid ""
 "  -f|--showformat=<format>            Use alternative format for --show.\n"
 "\n"
 msgstr ""
-" [オプション] コマンド\n"
+"使い方: %s [オプション ...] コマンド\n"
+"\n"
 "コマンド:\n"
 "  -s|--status <パッケージ名> ...      パッケージ状態の詳細を表示\n"
 "  -p|--print-avail <パッケージ名> ... 利用可能なバージョンの詳細を表示\n"
-"  -L|--listfiles <パッケージ名> ...   パッケージが「所有する」ファイル一覧を"
-"表示\n"
+"  -L|--listfiles <パッケージ名> ...   パッケージが「所有する」ファイル一覧を表示\n"
 "  -l|--list [<パターン> ...]          パッケージの一覧を簡潔に表示\n"
 "  -W|--show <パターン> ...            パッケージの情報の表示\n"
 "  -S|--search <パターン> ...          ファイルを所有するパッケージを検索\n"
-"  --help | --version                  このヘルプ/バージョン番号を表示\n"
-"  --licence                           ライセンス条項を表示\n"
+"  --help                              このヘルプを表示\n"
+"  --version                           バージョン番号を表示\n"
+"  --license | --licence               ライセンス条項を表示\n"
 "\n"
 "オプション:\n"
 "  --admindir=<ディレクトリ>     %s の代わりに指定したディレクトリを使用\n"
 "  --f|showformat=<フォーマット> --show に別のフォーマットを使用\n"
 "\n"
-"フォーマットの文法:\n"
-"  フォーマットはそれぞれのパッケージについて出力する文字列となります。\n"
-"  フォーマットには標準のエスケープシーケンス \\n (改行)、\\r (復帰)、\n"
-"  \\\\ (バックスラッシュ) を含めることができます。パッケージ情報は、\n"
-"  ${var[;width]} 文法を使ってパッケージフィールドへの参照を示す変数\n"
-"  を挿入することで、含められます。width が負 (左寄せ) ではない場合\n"
-"  を除き、フィールドは右詰めされます。\n"
 
 #: src/query.c:491 dpkg-deb/main.c:87
 #, c-format
@@ -3063,16 +3030,22 @@ msgid ""
 "which\n"
 "  case left alignment will be used.\n"
 msgstr ""
+"フォーマットの文法:\n"
+"  フォーマットはそれぞれのパッケージについて出力する文字列となります。\n"
+"  フォーマットには標準のエスケープシーケンス \\n (改行)、\\r (復帰)、\n"
+"  \\\\ (バックスラッシュ) を含めることができます。パッケージ情報は、\n"
+"  ${var[;width]} 文法を使ってパッケージフィールドへの参照を示す変数\n"
+"  を挿入することで、含められます。width が負 (左寄せ) ではない場合\n"
+"  を除き、フィールドは右詰めされます。\n"
 
 #: src/query.c:501
-#, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL).\n"
 "\n"
 msgstr ""
 "パッケージのクエリについてのヘルプには、--help を使います。\n"
-"ライセンス条項および無保証表記 (GNU GPL) については、--license を使います。\n"
+"著作権ライセンスおよび免責 (GNU GPL) については、--license を使います。\n"
 
 #: src/remove.c:92
 #, c-format
@@ -3245,9 +3218,8 @@ msgid "read error on standard input"
 msgstr "標準入力上の読み込みエラーです"
 
 #: src/select.c:154
-#, fuzzy
 msgid "--clear-selections does not take any argument"
-msgstr "--set-selections は引数をとりません"
+msgstr "--clear-selections は引数をとりません"
 
 #: src/update.c:44
 #, c-format
@@ -3813,12 +3785,12 @@ msgid "--contents takes exactly one argument"
 msgstr "--contents は引数を 1 つだけとります"
 
 #: dpkg-deb/main.c:46
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package archive backend version %s.\n"
-msgstr "' パッケージアーカイブバックエンドバージョン "
+msgstr "Debian `%s' パッケージアーカイブバックエンドバージョン %s\n"
 
 #: dpkg-deb/main.c:56
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -3851,7 +3823,9 @@ msgid ""
 "                             Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
-"使用方法:\n"
+"使い方: %s [<オプション> ...] <コマンド>\n"
+"\n"
+"コマンド:\n"
 "   -b|--build <ディレクトリ> [<deb>] アーカイブを作成\n"
 "   -c|--contents <deb>               内容一覧を表示\n"
 "   -I|--info <deb> [<cfile>...]      情報を標準出力に表示\n"
@@ -3862,7 +3836,8 @@ msgstr ""
 "   -X|--vextract <deb> <directory>   ファイルを展開し一覧表示\n"
 "   --fsys-tarfile <deb>              ファイルシステムを tarfile に出力\n"
 "   -h|--help                         このメッセージを表示\n"
-"   --version | --licence             バージョン・ライセンスを表示\n"
+"   --version                         バージョン番号を表示\n"
+"   --license | --licence             ライセンス条項を表示\n"
 "\n"
 " <deb> は Debian 形式のアーカイブのファイル名。\n"
 " <cfile> は管理用ファイルのコンポーネント名。\n"
@@ -3872,24 +3847,11 @@ msgstr ""
 "  --showformat=<フォーマット>  --show に別のフォーマットを使用\n"
 "  -D                           デバッグ情報出力\n"
 "  --old, --new                 アーカイブの形式を制御    \n"
-"  --nocheck コントロールファイルのチェックを抑制 (不良パッケージが作成され"
-"る)\n"
+"  --nocheck コントロールファイルのチェックを抑制 (不良パッケージが作成される)\n"
 "  -z#                          構築時の圧縮レベルを設定\n"
 "  -Z<type>                     構築時の圧縮形式を設定\n"
 "                               可能な値: bzip, bzip2, none\n"
 "\n"
-"フォーマットの文法:\n"
-"  フォーマットとは、それぞれのパッケージで出力する文字列を決めるものです。\n"
-"  フォーマットには標準エスケープシーケンス \\n (改行)、\\r (復帰)、\\\\ (バッ"
-"ク\n"
-"  スラッシュ) を含めることができます。パッケージ情報には、${var[;width]} 文\n"
-"  法を使って、パッケージフィールドへの値参照を挿入することもできます。フィ\n"
-"  ールドは、幅に負の値を指定して左寄せにしない限り、右寄せになります。\n"
-"\n"
-"システムにパッケージのインストールや削除を行う場合は `dpkg' またはよりユー"
-"ザ\n"
-"向けな `dselect' または `aptitude' を使用してください。`dpkg-deb --extract'\n"
-"を使って展開されたパッケージは正しくインストールされません!\n"
 
 #: dpkg-deb/main.c:96
 #, c-format
@@ -3899,6 +3861,10 @@ msgid ""
 "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
 "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
+"\n"
+"システムにパッケージのインストールや削除を行う場合は `dpkg' またはよりユーザ\n"
+"向けな `dselect' または `aptitude' を使用してください。`dpkg-deb --extract'\n"
+"を使って展開されたパッケージは正しくインストールされません!\n"
 
 #: dpkg-deb/main.c:105
 msgid ""
@@ -4079,17 +4045,17 @@ msgid "part %d is missing"
 msgstr "パート %d がありません"
 
 #: dpkg-split/main.c:38
-#, fuzzy, c-format
+#, c-format
 msgid "Debian `%s' package split/join tool; version %s.\n"
-msgstr "Debian GNU/Linux `dpkg-split' パッケージ分割/結合ツール; バージョン "
+msgstr "Debian `%s' パッケージ分割/結合ツール; バージョン %s\n"
 
 #: dpkg-split/main.c:40
 #, c-format
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
-msgstr ""
+msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
 
 #: dpkg-split/main.c:49
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -4115,16 +4081,19 @@ msgid ""
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
-"使用方法:\n"
-"  dpkg-split -s|--split <ファイル> [<接頭辞>] アーカイブを分割\n"
-"  dpkg-split -j|--join <パート> <パート> ...  パートを結合\n"
-"  dpkg-split -I|--info <パート> ...           パート情報を表示\n"
-"  dpkg-split -h|--help|--version|--licence    ヘルプ/バージョン/ライセンスを"
-"表示\n"
+"使い方: %s [<オプション> ...] <コマンド>\n"
 "\n"
-"  dpkg-split -a|--auto -o <完成名> <パート>   パートを自動的に収集\n"
-"  dpkg-split -l|--listq                       一致しない部品を一覧表示\n"
-"  dpkg-split -d|--discard [<ファイル名> ...]  一致しない部品を廃棄\n"
+"コマンド:\n"
+"  -s|--split <ファイル> [<接頭辞>] アーカイブを分割\n"
+"  -j|--join <パート> <パート> ...  パートを結合\n"
+"  -I|--info <パート> ...           パート情報を表示\n"
+"  -h|--help                        このヘルプを表示\n"
+"  --version                        バージョン番号を表示\n"
+"  --license                        ライセンス条項を表示\n"
+"\n"
+"  -a|--auto -o <完成名> <パート>   パートを自動的に収集\n"
+"  -l|--listq                       一致しない部品を一覧表示\n"
+"  -d|--discard [<ファイル名> ...]  一致しない部品を廃棄\n"
 "\n"
 "オプション:\n"
 "  --depotdir <ディレクトリ> (デフォルトは %s/%s)\n"
