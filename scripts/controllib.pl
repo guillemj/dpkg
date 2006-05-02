@@ -294,7 +294,15 @@ sub parsechangelog {
     }
     &parsecdata('L',0,"parsed version of changelog");
     close(CDATA); $? && &subprocerr("parse changelog");
+
+    # XXX: Source-Version is now deprecated, remove in the future.
     $substvar{'Source-Version'}= $fi{"L Version"};
+    $substvar{'binary:Version'} = $fi{"L Version"};
+    $substvar{'source:Version'} = $fi{"L Version"};
+    $substvar{'source:Version'} =~ s/\+b[0-9]+$//;
+    $substvar{'source:Upstream-Version'} = $fi{"L Version"};
+    $substvar{'source:Upstream-Version'} =~ s/-[^-]*$//;
+    $substvar{'source:Upstream-Version'} =~ s/^[0-9]+://;
 }
 
 sub checkpackagename {
