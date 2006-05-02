@@ -259,10 +259,9 @@ for $p (keys %p2f) {
 # Extract version and origversion so we can add them to our fixed list
 # of substvars
 
-$version= $f{'Version'};
-$origversion= $version; $origversion =~ s/-[^-]+$//;
-$substvar{"dpkg:UpstreamVersion"}=$origversion;
-$substvar{"dpkg:Version"}=$version;
+$substvar{"dpkg:Version"} = $version;
+$substvar{"dpkg:Upstream-Version"} = $version;
+$substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;
 
 if (!$binaryonly) {
     $sec= $sourcedefault{'Section'};

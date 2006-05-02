@@ -169,10 +169,10 @@ for $_ (keys %fi) {
 }
 
 $f{'Version'}= $forceversion if length($forceversion);
-$version= $f{'Version'};
-$origversion= $version; $origversion =~ s/-[^-]+$//;
-$substvar{"dpkg:UpstreamVersion"}=$origversion;
-$substvar{"dpkg:Version"}=$version;
+
+$substvar{"dpkg:Version"} = $version;
+$substvar{"dpkg:Upstream-Version"} = $version;
+$substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;
 
 for $_ (keys %fi) {
     $v= $fi{$_};
