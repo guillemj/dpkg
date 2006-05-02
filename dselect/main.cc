@@ -169,20 +169,27 @@ static void usage(void) {
   int i;
   if (printf(_(
 "Usage: %s [<option> ...] [<action> ...]\n"
-"\n"
+"\n"), DSELECT) < 0) werr("stdout");
+
+  if (printf(_(
 "Options:\n"
 "  --admindir <directory>     Use <directory> instead of %s.\n"
 "  --expert                   Turn on expert mode.\n"
 "  --debug <file> | -D<file>  Turn on debugging, sending output to <file>.\n"
 "  --colour | --color screenpart:[foreground],[background][:attr[+attr+..]]\n"
 "                             Configure screen colours.\n"
+"\n"), ADMINDIR) < 0) werr("stdout");
+
+  if (printf(_(
 "  --help                     Show this help message.\n"
 "  --version                  Show the version.\n"
-"  --license                  Show the license.\n"
-"\n"
+"  --license | --licence      Show the license.\n"
+"\n")) < 0) werr("stdout");
+
+  if (printf(_(
 "Actions:\n"
 "  access update select install config remove quit\n"
-"\n"), DSELECT, ADMINDIR) < 0) werr("stdout");
+"\n")) < 0) werr("stdout");
 
   printf(_("Screenparts:\n"));
   for (i=0; screenparttable[i].name; i++)
