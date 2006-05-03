@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-04-10 06:33+0300\n"
+"POT-Creation-Date: 2006-05-03 11:16+0300\n"
 "PO-Revision-Date: 2006-02-17 08:51+0200\n"
 "Last-Translator: Jordi Mallach <jordi@debian.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
@@ -181,65 +181,65 @@ msgid "unable to fill %.250s with padding"
 msgstr "no es pot emplenar %.250s"
 
 #: lib/dbmodify.c:116
-#, c-format
-msgid "unable flush %.250s after padding"
+#, fuzzy, c-format
+msgid "unable to flush %.250s after padding"
 msgstr "no es pot fer «flush» en %.250s després del farciment"
 
 # FIXME original
 #: lib/dbmodify.c:118
-#, c-format
-msgid "unable seek to start of %.250s after padding"
+#, fuzzy, c-format
+msgid "unable to seek to start of %.250s after padding"
 msgstr "no es pot tornar al principi de %.250s després del farciment"
 
-#: lib/dbmodify.c:148
+#: lib/dbmodify.c:149
 msgid "requested operation requires superuser privilege"
 msgstr "la operació sol·licitada requereix privilegis de superusuari"
 
-#: lib/dbmodify.c:153
+#: lib/dbmodify.c:154
 msgid "unable to access dpkg status area"
 msgstr "no es pot accedir a l'àrea d'estat de dpkg"
 
-#: lib/dbmodify.c:155
+#: lib/dbmodify.c:156
 msgid "operation requires read/write access to dpkg status area"
 msgstr ""
 "l'operació requereix accés de lectura i escriptura a l'àrea d'estat de dpkg"
 
-#: lib/dbmodify.c:203
+#: lib/dbmodify.c:204
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "no s'ha pogut esborrar el nostre propi fitxer d'actualització %.255s"
 
-#: lib/dbmodify.c:260
+#: lib/dbmodify.c:261
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "no es pot escriure l'estat d'actualització de «%.250s»"
 
-#: lib/dbmodify.c:262
+#: lib/dbmodify.c:263
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "no es pot fer «flush» amb l'estat d'actualització de «%.250s»"
 
-#: lib/dbmodify.c:264
+#: lib/dbmodify.c:265
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "no es pot truncar l'estat actualitzat de «%.250s»"
 
-#: lib/dbmodify.c:266
+#: lib/dbmodify.c:267
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "no es pot fer «fsync» en l'estat d'actualització de «%.250s»"
 
-#: lib/dbmodify.c:268
+#: lib/dbmodify.c:269
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "no es pot tancar l'estat d'actualització de «%.250s»"
 
-#: lib/dbmodify.c:271
+#: lib/dbmodify.c:272
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "no es pot instal·lar l'estat actualització de «%.250s»"
 
-#: lib/dbmodify.c:301
+#: lib/dbmodify.c:302
 #, c-format
 msgid "couldn't open log `%s': %s\n"
 msgstr "no s'ha pogut obrir el registre «%s»: %s\n"
@@ -864,8 +864,8 @@ msgid "must start with an alphanumeric"
 msgstr "ha de començar amb un caràcter alfanumèric"
 
 #: lib/parsehelp.c:123
-#, c-format
-msgid "character `%c' not allowed - only letters, digits and %s allowed"
+#, fuzzy, c-format
+msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "el caràcter «%c» no està permés - només s'admeten lletres, dígits i %s"
 
 #: lib/parsehelp.c:178
@@ -898,8 +898,9 @@ msgstr "manca %s"
 msgid "empty value for %s"
 msgstr "valor buit per a %s"
 
-#: lib/showcright.c:33
-msgid "cannot open GPL file "
+#: lib/showcright.c:34
+#, fuzzy
+msgid "cannot open GPL file"
 msgstr "no es pot obrir el fitxer GPL "
 
 #: lib/showpkg.c:70
@@ -1624,7 +1625,7 @@ msgstr "EOF en l'entrada estàndard al preguntar sobre conffiles"
 msgid "unable to check for existence of `%.250s'"
 msgstr "no es pot comprovar l'existència de «%.250s»"
 
-#: src/depcon.c:153 src/packages.c:389
+#: src/depcon.c:153 src/packages.c:393
 msgid " depends on "
 msgstr " depèn de "
 
@@ -2215,7 +2216,7 @@ msgstr "s'ha produït un error en executar «rm» per a netejar"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Programa de gestió de paquets «%s» de Debian versió %s.\n"
 
-#: src/main.c:46 src/query.c:461 dpkg-deb/main.c:48 dpkg-split/main.c:41
+#: src/main.c:46 src/query.c:467 dpkg-deb/main.c:48 dpkg-split/main.c:41
 #, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2226,50 +2227,76 @@ msgstr ""
 "o posterior per a les condicions de còpia. No hi ha CAP garantia.\n"
 "Vegeu %s --licence per a veure més detalls sobre la llicència.\n"
 
-#: src/main.c:57
-#, fuzzy, c-format
+#: src/main.c:57 src/query.c:478 dpkg-deb/main.c:56 dpkg-split/main.c:49
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
+msgstr ""
+
+#: src/main.c:61
+#, c-format
+msgid ""
 "Commands:\n"
-"  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  --configure        <package-name> ... | -a|--pending\n"
-"  -r|--remove        <package-name> ... | -a|--pending\n"
-"  -P|--purge         <package-name> ... | -a|--pending\n"
-"  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
-"  --set-selections                     Set package selections from stdin.\n"
-"  --clear-selections                   Deselect every non-essential "
-"package.\n"
-"  --update-avail <Packages-file>       Replace available packages info.\n"
-"  --merge-avail <Packages-file>        Merge with info from file.\n"
-"  --clear-avail                        Erase existing available info.\n"
-"  --forget-old-unavail                 Forget uninstalled unavailable pkgs.\n"
-"  -s|--status <package-name> ...       Display package status details.\n"
-"  -p|--print-avail <package-name> ...  Display available version details.\n"
-"  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
-"  -l|--list [<pattern> ...]            List packages concisely.\n"
-"  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
-"  -C|--audit                           Check for broken package(s).\n"
-"  --print-architecture                 Print dpkg architecture.\n"
-"  --compare-versions <a> <rel> <b>     Compare version numbers - see below.\n"
-"  --help                               Show this help message.\n"
-"  --version                            Show the version.\n"
-"  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
-"  --license | --licence                Print copyright licensing terms.\n"
+"  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  --configure        <package> ... | -a|--pending\n"
+"  -r|--remove        <package> ... | -a|--pending\n"
+"  -P|--purge         <package> ... | -a|--pending\n"
+"  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+"  --set-selections                 Set package selections from stdin.\n"
+"  --clear-selections               Deselect every non-essential package.\n"
+"  --update-avail <Packages-file>   Replace available packages info.\n"
+"  --merge-avail <Packages-file>    Merge with info from file.\n"
+"  --clear-avail                    Erase existing available info.\n"
+"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+"  -s|--status <package> ...        Display package status details.\n"
+"  -p|--print-avail <package> ...   Display available version details.\n"
+"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]        List packages concisely.\n"
+"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"  -C|--audit                       Check for broken package(s).\n"
+"  --print-architecture             Print dpkg architecture.\n"
+"  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+"  --force-help                     Show help on forcing.\n"
+"  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
+#, c-format
+msgid ""
+"  -h|--help                        Show this help message.\n"
+"  --version                        Show the version.\n"
+"  --license|--licence              Show the copyright licensing terms.\n"
+"\n"
+msgstr ""
+
+#: src/main.c:94
+#, c-format
+msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
+msgstr ""
+
+#: src/main.c:99
+#, c-format
+msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:104
+#, c-format
+msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
-"  --root=<directory>         Install on alternative system rooted "
-"elsewhere.\n"
-"  --instdir=<directory>      Change inst'n root without changing admin dir.\n"
+"  --root=<directory>         Install on a different root directory.\n"
+"  --instdir=<directory>      Change installation dir without changing admin "
+"dir.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed.\n"
@@ -2280,15 +2307,22 @@ msgid ""
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
-"  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help.\n"
+"  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
 "<n>.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
-"  --ignore-depends=<package>,... Ignore dependencies involving <package>.\n"
-"  --force-...                    Override problems - see --force-help.\n"
-"  --no-force-...|--refuse-...    Stop when problems encountered.\n"
-"  --abort-after <n>              Abort after encountering <n> errors.\n"
+"  --ignore-depends=<package>,...\n"
+"                             Ignore dependencies involving <package>.\n"
+"  --force-...                Override problems (see --force-help).\n"
+"  --no-force-...|--refuse-...\n"
+"                             Stop when problems encountered.\n"
+"  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:127
+#, c-format
+msgid ""
 "Comparison operators for --compare-versions are:\n"
 "  lt le eq ne ge gt       (treat empty version as earlier than any "
 "version);\n"
@@ -2296,101 +2330,14 @@ msgid ""
 "  < << <= = >= >> >       (only for compatibility with control file "
 "syntax).\n"
 "\n"
-"Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
-"Forma d'ús: %s [<opció> ...] <ordre>\n"
-"\n"
-"Ordres:\n"
-"  -i|--install       <fitxer .deb> ... | -R|--recursive <dir> ...\n"
-"  --unpack           <fitxer .deb> ... | -R|--recursive <dir> ...\n"
-"  -A|--record-avail  <fitxer .deb> ... | -R|--recursive <dir> ...\n"
-"  --configure             <paquet> ... | -a|--pending\n"
-"  -r|--remove             <paquet> ... | -a|--pending\n"
-"  -P|--purge              <paquet> ... | -a|--pending\n"
-"  --get-selections [<patró> ...]       Aconsegueix la llista de seleccions\n"
-"                                       en l'eixida estàndard.\n"
-"  --set-selections                     Estableix seleccions de paquets des\n"
-"                                       de l'entrada estàndard.\n"
-"  --update-avail <fitxer-Packages>     Reemplaça la informació de paquets\n"
-"                                       disponibles.\n"
-"  --merge-avail  <fitxer-Packages>     Fusiona amb la informació del "
-"fitxer.\n"
-"  --clear-avail                        Esborra la informació actual sobre "
-"els\n"
-"                                       paquets disponibles.\n"
-"  --forget-old-unavail                 Oblida la informació sobre paquets "
-"no\n"
-"                                       instal·lats i no disponibles.\n"
-"  -s|--status <paquet> ...             Mostra detalls sobre l'estat del "
-"paquet.\n"
-"  --print-avail <paquet> ...           Mostra detalls sobre la versió\n"
-"                                       disponible.\n"
-"  -L|--listfiles <paquet> ...          Llista els fitxers que pertanyen als\n"
-"                                       paquets.\n"
-"  -l|--list [<patró> ...]              Llista breument els paquets.\n"
-"  -S|--search <patró> ...              Cerca els paquets que contenen\n"
-"                                       aquests fitxers.\n"
-"  -C|--audit                           Verifica els paquets trencats.\n"
-"  --print-architecture                 Mostra l'arquitectura de destí de "
-"dpkg.\n"
-"  --compare-versions <a> <rel> <b>     Compara els números de versió - "
-"mireu\n"
-"                                       més endavant.\n"
-"  --help                               Mostra aquesta ajuda.\n"
-"| --version                            Mostra el número de versió.\n"
-"  --force-help | -Dh|--debug=help      Mostra ajuda sobre forçar o depurar.\n"
-"  --licence                            Mostra els termes de la llicència de\n"
-"                                       copyright.\n"
-"\n"
-"Useu dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-" -x|--extract|-X|--vextract|--fsys-tarfile en arxius (vegeu %s --help.).\n"
-"\n"
-"Per a ús intern: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
-"\n"
-"Opcions:\n"
-"  --admindir=<directori>    Utilitza <directori> en comptes de %s.\n"
-"  --root=<directori>        Instal·la en un sistema alternatiu amb "
-"directori\n"
-"                            arrel en un altre lloc.\n"
-"  --instdir=<directori>     Canvia l'arrel de la instal·lació sense alterar "
-"el\n"
-"                            directori de gestió.\n"
-"  -O|--selected-only        Omet els paquets no seleccionats per a\n"
-"                            instal·lació o actualització.\n"
-"  -E|--skip-same-version    Omet els paquets en que la versió sigui la "
-"mateixa\n"
-"                            que la dels instal·lats.\n"
-"  -G=--refuse-downgrade     Omet els paquets amb una versió anterior que la\n"
-"                            instal·lada.\n"
-"  -B|--auto-deconfigure     Instal·la encara que es pugui trencar algun "
-"altre\n"
-"                            paquet.\n"
-"  --no-debsig               No verifiques les signatures dels paquets.\n"
-"  --no-act| |--dry-run|--simulate\n"
-"                            Només indica el que es faria, però no facis "
-"res.\n"
-"  -D|--debug=<octal>        Habilita la depuració, mireu -Dhelp ó --"
-"debug=help.\n"
-"  --status-fd <n>           Envia actualitzacions de canvis d'estat al\n"
-"                            descriptor de fitxer <n>.\n"
-"  --ignore-depends=<paquet>,... No tingues en compte les dependències que\n"
-"                                impliquen a <paquet>.\n"
-"  --force-...                   Descarta problemes, mireu --force-help.\n"
-"  --no-force-...|--refuse-...   Atura't quan trobes problemes.\n"
-"  --abort-after <n>             Avorta després de trobar <n> errors.\n"
-"\n"
-"Els operadors de comparació per a --compare-versions són:\n"
-"  lt le eq ne ge gt       (tracta una versió inexistent com a anterior a\n"
-"                          qualsevol versió);\n"
-"  lt-nl le-nl ge-nl gt-nl (tracta una versió inexistent com a posterior a\n"
-"                          qualsevol versió);\n"
-"  < << <= = >= >> >       (només per compatibilitat amb la sintaxi dels\n"
-"                          fitxers de control).\n"
-"\n"
-"Useu «dselect» o «aptitude» per a una gestió de paquets més amigable.\n"
 
-#: src/main.c:122
+#: src/main.c:134
+#, c-format
+msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+msgstr ""
+
+#: src/main.c:141
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2418,17 +2365,17 @@ msgstr ""
 "Les opcions marcades amb ([*]) produeixen una eixida estesa - canalitzeu-la "
 "a través de «less» o «more»!"
 
-#: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
+#: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "accions en conflicte --%s i --%s"
 
-#: src/main.c:193
+#: src/main.c:211
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "Avís: l'opció és obsoleta «--%s»\n"
 
-#: src/main.c:201
+#: src/main.c:219
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2465,29 +2412,29 @@ msgstr ""
 "Les opcions de depuració es barregen fent el OR bit a bit.\n"
 "Noteu que els significats i els valors estan subjectes a canvis.\n"
 
-#: src/main.c:220
+#: src/main.c:240
 msgid "--debug requires an octal argument"
 msgstr "--debug requereix d'un número octal com a paràmetre"
 
-#: src/main.c:244
+#: src/main.c:264
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "nom de paquet buit en la llista de --ignore-depends separats per coma "
 "«%.250s»"
 
-#: src/main.c:250
+#: src/main.c:270
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends necessita un nom de paquet legal. «%.250s» no ho és; %s"
 
-#: src/main.c:266 src/main.c:277
+#: src/main.c:286 src/main.c:297
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "enter invàlid per a --%s: «%.250s»"
 
-#: src/main.c:296
+#: src/main.c:317
 #, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2576,53 +2523,55 @@ msgstr ""
 "seriosament la instal·lació. Les opcions de forçat marcades amb [*] estan\n"
 "activades per defecte.\n"
 
-#: src/main.c:341
+#: src/main.c:362
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "opció force/refuse desconeguda «%.*s»"
 
-#: src/main.c:346
+#: src/main.c:367
 #, fuzzy, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
 msgstr "Avís: l'opció és obsoleta «--%s»\n"
 
-#: src/main.c:469 src/main.c:479 src/main.c:487
+#: src/main.c:490 src/main.c:500 src/main.c:508
 msgid "couldn't malloc in execbackend"
 msgstr "no s'ha pogut fer «malloc» en execbackend"
 
-#: src/main.c:473 src/main.c:496
+#: src/main.c:494 src/main.c:517
 msgid "couldn't strdup in execbackend"
 msgstr "no s'ha pogut fer «strdup» en execbackend"
 
-#: src/main.c:501
+#: src/main.c:522
 #, c-format
 msgid "failed to exec %s"
 msgstr "no s'ha pogut executar %s"
 
-#: src/main.c:514
-msgid "--command-fd takes 1 argument, not 0"
+#: src/main.c:537
+#, fuzzy
+msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd accepta 1 argument, no 0"
 
-#: src/main.c:515
-msgid "--command-fd only takes 1 argument"
+#: src/main.c:539
+#, fuzzy
+msgid "--command-fd only takes one argument"
 msgstr "--command-fd només accepta 1 argument"
 
-#: src/main.c:517
+#: src/main.c:541
 msgid "invalid number for --command-fd"
 msgstr "número invàlid per a --command-fd"
 
-#: src/main.c:519
+#: src/main.c:543
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "no s'ha pogut obrir «%i» per a un flux"
 
-#: src/main.c:544
+#: src/main.c:568
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "eof inesperat abans de la fí de la línia %d"
 
-#: src/main.c:588 src/main.c:603 src/query.c:566 dpkg-deb/main.c:189
-#: dpkg-split/main.c:163
+#: src/main.c:612 src/main.c:627 src/query.c:579 dpkg-deb/main.c:199
+#: dpkg-split/main.c:169
 msgid "need an action option"
 msgstr "es necessita una opció d'acció"
 
@@ -2658,40 +2607,47 @@ msgstr ""
 "S'ha desempaquetat més d'una còpia del paquet %s!\n"
 " Només es configurarà una vegada.\n"
 
-#: src/packages.c:267 src/packages.c:311 src/packages.c:324
-msgid "  Package "
-msgstr "  el paquet "
+#: src/packages.c:269
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is to be removed.\n"
+msgstr "  %.250s proveeix %.250s però serà desinstal·lat.\n"
 
-#: src/packages.c:270 src/packages.c:314 src/packages.c:327
-msgid " which provides "
-msgstr " que proveeix "
-
-#: src/packages.c:273
-msgid " is to be removed.\n"
-msgstr " serà desinstal·lat.\n"
-
-#: src/packages.c:285
-msgid "  Version of "
-msgstr "  Versió de "
+#: src/packages.c:272
+#, fuzzy, c-format
+msgid "  Package %s is to be removed.\n"
+msgstr "  %.250s serà desinstal·lat.\n"
 
 #: src/packages.c:287
-msgid " on system is "
-msgstr " en el sistema és "
+#, c-format
+msgid "  Version of %s on system is %s.\n"
+msgstr ""
 
 #: src/packages.c:307
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: també configura «%s» (requerit per «%s»)\n"
 
-#: src/packages.c:317
-msgid " is not configured yet.\n"
+#: src/packages.c:313
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is not configured yet.\n"
+msgstr "  %.250s proveeix %.250s però serà desconfigurat.\n"
+
+#: src/packages.c:316
+#, fuzzy, c-format
+msgid "  Package %s is not configured yet.\n"
 msgstr " encara no està configurat.\n"
 
-#: src/packages.c:330
-msgid " is not installed.\n"
-msgstr " no està instal·lat.\n"
+#: src/packages.c:328
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is not installed.\n"
+msgstr "El paquet «%s» no està instal·lat.\n"
 
-#: src/packages.c:395
+#: src/packages.c:331
+#, fuzzy, c-format
+msgid "  Package %s is not installed.\n"
+msgstr "El paquet «%s» no està instal·lat.\n"
+
+#: src/packages.c:399
 msgid "; however:\n"
 msgstr "; tot i així:\n"
 
@@ -2971,7 +2927,7 @@ msgstr "Versió"
 msgid "Description"
 msgstr "Descripció"
 
-#: src/query.c:218 src/query.c:447 src/select.c:80
+#: src/query.c:218 src/query.c:453 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "No s'ha trobat cap paquet que correspongui amb %s.\n"
@@ -3023,27 +2979,22 @@ msgstr "El paquet «%s» no està instal·lat.\n"
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "El paquet «%s» no conté cap fitxer (!)\n"
 
-#: src/query.c:375
-#, c-format
-msgid "locally diverted"
+#: src/query.c:376
+#, fuzzy, c-format
+msgid "locally diverted to: %s\n"
 msgstr "desviat localment"
 
-#: src/query.c:376
-#, c-format
-msgid "package diverts others"
+#: src/query.c:379
+#, fuzzy, c-format
+msgid "package diverts others to: %s\n"
 msgstr "d'altres paquets desviats"
 
-#: src/query.c:377
-#, c-format
-msgid "diverted by %s"
+#: src/query.c:382
+#, fuzzy, c-format
+msgid "diverted by %s to: %s\n"
 msgstr "desviat per %s"
 
-#: src/query.c:378
-#, c-format
-msgid " to: %s\n"
-msgstr " per a: %s\n"
-
-#: src/query.c:398
+#: src/query.c:404
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -3051,30 +3002,21 @@ msgstr ""
 "Useu dpkg --info (= dpkg-deb --info) per a examinar els fitxers d'arxiu,\n"
 "i dpkg --contents (= dpkg-deb --contents) per a llistar-ne el contingut.\n"
 
-#: src/query.c:459
+#: src/query.c:465
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Eina de consultes al programa de gestió de paquets «%s» de Debian\n"
 
-#: src/query.c:472
-#, c-format
+#: src/query.c:482
+#, fuzzy, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -s|--status <package-name> ...      Display package status details.\n"
-"  -p|--print-avail <package-name> ... Display available version details.\n"
-"  -L|--listfiles <package-name> ...   List files `owned' by package(s).\n"
-"  -l|--list [<pattern> ...]           List packages concisely.\n"
-"  -W|--show <pattern> ...             Show information on package(s).\n"
-"  -S|--search <pattern> ...           Find package(s) owning file(s).\n"
-"  --help                              Show this help message.\n"
-"  --version                           Show the version.\n"
-"  --license | --licence               Show the copyright licensing terms.\n"
-"\n"
-"Options:\n"
-"  --admindir=<directory>              Use <directory> instead of %s.\n"
-"  -f|--showformat=<format>            Use alternative format for --show.\n"
+"  -s|--status <package> ...        Display package status details.\n"
+"  -p|--print-avail <package> ...   Display available version details.\n"
+"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]        List packages concisely.\n"
+"  -W|--show <pattern> ...          Show information on package(s).\n"
+"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "\n"
 msgstr ""
 "Forma d'ús: %s [<opció> ...] <ordre>\n"
@@ -3100,7 +3042,16 @@ msgstr ""
 "  -f|--showformat=<format>            Utilitza un format alternatiu\n"
 "                                      per a --show.\n"
 
-#: src/query.c:491 dpkg-deb/main.c:87
+#: src/query.c:498
+#, c-format
+msgid ""
+"Options:\n"
+"  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  -f|--showformat=<format>         Use alternative format for --show.\n"
+"\n"
+msgstr ""
+
+#: src/query.c:504 dpkg-deb/main.c:97
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3123,7 +3074,7 @@ msgstr ""
 "  dreta a menys que l'amplada siga negativa, en aquest cas s'utilitzarà\n"
 "  alineació a l'esquerra. \n"
 
-#: src/query.c:501
+#: src/query.c:514
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL).\n"
@@ -3545,7 +3496,7 @@ msgstr "s'ha produït un error en obrir el fitxer temporal (data), %s"
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "s'ha produït un error en esborrar el fitxer temporal (data), %s"
 
-#: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
+#: dpkg-deb/build.c:404 dpkg-deb/extract.c:274
 msgid "data"
 msgstr "dades"
 
@@ -3576,8 +3527,8 @@ msgid "failed to exec sh -c mv foo/* &c"
 msgstr "s'ha produït un error a l'executar sh -c mv foo/* etc."
 
 #: dpkg-deb/extract.c:59
-#, c-format
-msgid "error reading %s from %.255s"
+#, fuzzy, c-format
+msgid "error reading %s from file %.255s"
 msgstr "s'ha produït un error en llegir %s de %.255s"
 
 #: dpkg-deb/extract.c:61
@@ -3672,13 +3623,14 @@ msgstr ""
 " mida %ld bytes: arxiu de control= %zi bytes.\n"
 
 #: dpkg-deb/extract.c:195
-msgid "ctrl information length"
+#, fuzzy
+msgid "control information length"
 msgstr "longitud de la info. de control"
 
 # FIXME original
 #: dpkg-deb/extract.c:197
-#, c-format
-msgid "archive has malformatted ctrl len `%s'"
+#, fuzzy, c-format
+msgid "archive has malformatted control length `%s'"
 msgstr "l'arxiu té una longitud de control mal formatada «%s»"
 
 #: dpkg-deb/extract.c:200
@@ -3690,11 +3642,17 @@ msgstr ""
 " paquet debian antic, versió %s.\n"
 " mida %ld bytes: arxiu de control= %zi, arxiu principal= %ld.\n"
 
-#: dpkg-deb/extract.c:209
-msgid "ctrlarea"
+#: dpkg-deb/extract.c:208
+#, fuzzy
+msgid "failed allocating memory for variable `ctrlarea'"
+msgstr "S'ha produït un error al reservar memòria per a cfgfilename"
+
+#: dpkg-deb/extract.c:211
+#, fuzzy
+msgid "control area"
 msgstr "àrea de control"
 
-#: dpkg-deb/extract.c:215
+#: dpkg-deb/extract.c:217
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3703,65 +3661,66 @@ msgstr ""
 "dpkg-deb: el fitxer té pinta de ser un arxiu que ha sigut corromput\n"
 "dpkg-deb     al ser descarregat en mode ASCII\n"
 
-#: dpkg-deb/extract.c:220
+#: dpkg-deb/extract.c:222
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "«%.255s» no és un arxiu amb el format debian"
 
-#: dpkg-deb/extract.c:225
-msgid "fgetpos failed"
-msgstr "fgetpos ha fallat"
+#: dpkg-deb/extract.c:228
+msgid "failed getting the current file position"
+msgstr ""
 
-#: dpkg-deb/extract.c:229
-msgid "fsetpos failed"
-msgstr "fsetpos ha fallat"
+#: dpkg-deb/extract.c:233
+msgid "failed setting the current file position"
+msgstr ""
 
-#: dpkg-deb/extract.c:236
-msgid "failed to fdopen p1 in paste"
+#: dpkg-deb/extract.c:242
+#, fuzzy
+msgid "failed to open pipe descriptor `1' in paste"
 msgstr "no s'ha pogut fer «fdopen» sobre p1 en «paste»"
 
-#: dpkg-deb/extract.c:238
+#: dpkg-deb/extract.c:244
 msgid "failed to write to gzip -dc"
 msgstr "no s'ha pogut escriure a gzip -dc"
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:245
 msgid "failed to close gzip -dc"
 msgstr "no s'ha pogut tancar gzip -dc"
 
-#: dpkg-deb/extract.c:246
+#: dpkg-deb/extract.c:252
 msgid "failed to syscall lseek to files archive portion"
 msgstr "no s'ha pogut fer «syscall lseek» en els fitxers porció d'arxiu"
 
-#: dpkg-deb/extract.c:254
+#: dpkg-deb/extract.c:260
 msgid "failed to write to pipe in copy"
 msgstr "s'ha produït un error en escriure al conducte en la còpia"
 
-#: dpkg-deb/extract.c:255
+#: dpkg-deb/extract.c:261
 msgid "failed to close pipe in copy"
 msgstr "s'ha produït un error en tancar el conducte en la còpia"
 
-#: dpkg-deb/extract.c:276
+#: dpkg-deb/extract.c:282
 msgid "failed to create directory"
 msgstr "no s'ha pogut crear el directori"
 
-#: dpkg-deb/extract.c:277
+#: dpkg-deb/extract.c:283
 msgid "failed to chdir to directory after creating it"
 msgstr "no s'ha pogut canviar a un directori després de crear-lo"
 
-#: dpkg-deb/extract.c:279
+#: dpkg-deb/extract.c:285
 msgid "failed to chdir to directory"
 msgstr "no s'ha pogut canviar al directori"
 
-#: dpkg-deb/extract.c:293
+#: dpkg-deb/extract.c:299
 msgid "failed to exec tar"
 msgstr "no s'ha pogut executar tar"
 
-#: dpkg-deb/extract.c:316 dpkg-deb/extract.c:331 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:322 dpkg-deb/extract.c:337 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s necessita un nom de fitxer .deb com a argument"
 
-#: dpkg-deb/extract.c:319
+#: dpkg-deb/extract.c:325
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3770,12 +3729,12 @@ msgstr ""
 "--%s necessita un directori de destí.\n"
 "Potser voleu fer dpkg --install?"
 
-#: dpkg-deb/extract.c:322
+#: dpkg-deb/extract.c:328
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s pren com a molt dos arguments (.deb i directori)"
 
-#: dpkg-deb/extract.c:333
+#: dpkg-deb/extract.c:339
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s només pren un argument (fitxer .deb)"
@@ -3890,77 +3849,48 @@ msgstr "--contents pren exactament un argument"
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Rerefons d'arxius de paquets «%s» de Debian versió %s.\n"
 
-# FIXME: Show information on package -> Lowercase "Show"
-#: dpkg-deb/main.c:56
+#: dpkg-deb/main.c:60
 #, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -b|--build <directory> [<deb>]    Build an archive.\n"
-"  -c|--contents <deb>               List contents.\n"
-"  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
-"  -W|--show <deb>                   Show information on package(s)\n"
-"  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>]  Extract control info.\n"
-"  -x|--extract <deb> <directory>    Extract files.\n"
-"  -X|--vextract <deb> <directory>   Extract & list files.\n"
-"  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
-"  -h|--help                         Display this message.\n"
-"  --version                         Show version.\n"
-"  --license | --licence             Show license.\n"
+"  -b|--build <directory> [<deb>]   Build an archive.\n"
+"  -c|--contents <deb>              List contents.\n"
+"  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
+"  -W|--show <deb>                  Show information on package(s)\n"
+"  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
+"  -e|--control <deb> [<directory>] Extract control info.\n"
+"  -x|--extract <deb> <directory>   Extract files.\n"
+"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
+msgstr ""
+
+#: dpkg-deb/main.c:79
+#, c-format
+msgid ""
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
+msgstr ""
+
+#: dpkg-deb/main.c:85
+#, c-format
+msgid ""
 "Options:\n"
-"  --showformat=<format>      Use alternative format for --show.\n"
-"  -D                         Enable debugging output.\n"
-"  --old, --new               Select archive format.\n"
-"  --nocheck                  Suppress control file check (build bad "
-"package).\n"
-"  -z#                        Set the compression level when building.\n"
-"  -Z<type>                   Set the compression type to use when building.\n"
-"                             Allowed values: gzip, bzip2, none.\n"
+"  --showformat=<format>            Use alternative format for --show.\n"
+"  -D                               Enable debugging output.\n"
+"  --old, --new                     Select archive format.\n"
+"  --nocheck                        Suppress control file check (build bad\n"
+"                                     packages).\n"
+"  -z#                              Set the compression level when building.\n"
+"  -Z<type>                         Set the compression type used when "
+"building.\n"
+"                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
-"Forma d'ús: %s [<opció> ...] <ordre>\n"
-"\n"
-"Ordre:\n"
-"  -b|--build <directori> [<deb>]    Construeix un arxiu.\n"
-"  -c|--contents <deb>               Llista els continguts.\n"
-"  -I|--info <deb> [<fitxerc>...]    Mostra la info en l'eixida estàndard.\n"
-"  -W|--show <deb>                   Mostra informació sobre el(s) paquet"
-"(s).\n"
-"  -f|--field <deb> [<campc>...]     Mostra el(s) camp(s) en l'eixida "
-"estàndard.\n"
-"  -e|--control <deb> [<directori>]  Extrau la informació de control.\n"
-"  -x|--extract <deb> <directori>    Extrau els fitxers.\n"
-"  -X|--vextract <deb> <directori>   Extrau i llista els fitxers.\n"
-"  --fsys-tarfile <deb>              Mostra el fitxer tar del sistema de "
-"fitxers.\n"
-"  -h|--help                         Mostra aquest missatge.\n"
-"  --version                         Mostra la versió.\n"
-"  --licence | --license             Mostra la llicència.\n"
-"\n"
-"<deb> és el nom de fitxer d'un arxiu en format Debian.\n"
-"<fitxerc> és el nom d'un component d'un fitxer administratiu.\n"
-"<campc> és el nom d'un camp en el fitxer de «control» principal.\n"
-"\n"
-"Opcions:\n"
-"  --showformat=<format>      Usa un format alternatiu per a --show.\n"
-"  -D                         Habilita l'eixida de depuració.\n"
-"  --old, --new               Selecciona el format de l'arxiu.\n"
-"  --nocheck                  Suprimeix la comprovació del fitxer de control\n"
-"                             (construeix un paquet erroni).\n"
-"  -z#                        Estableix el nivell de compressió durant\n"
-"                             la construcció.\n"
-"  -Z<tipus>                  Estableix el tipus de compressió a utilitzar\n"
-"                             durant la contrucció.\n"
-"                             Valors permesos: gzip, bzip2, cap.\n"
 
-#: dpkg-deb/main.c:96
+#: dpkg-deb/main.c:106
 #, c-format
 msgid ""
 "\n"
@@ -3974,7 +3904,7 @@ msgstr ""
 "amigable.  Els paquets desempaquetats fent servir «dpkg-deb --extract»\n"
 "estaran instal·lats incorrectament!\n"
 
-#: dpkg-deb/main.c:105
+#: dpkg-deb/main.c:115
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -3984,7 +3914,7 @@ msgstr ""
 "Escriviu dpkg --help per a obtindre ajuda a sobre de com instal·lar i "
 "desinstal·lar paquets."
 
-#: dpkg-deb/main.c:181
+#: dpkg-deb/main.c:191
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "el tipus de compressió «%s» és desconegut!"
@@ -4170,81 +4100,57 @@ msgstr "Eina de divisió/unió «%s» de Debian; versió %s.\n"
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
 msgstr "Copyright © 1994-1996 Ian Jackson.\n"
 
-#: dpkg-split/main.c:49
+#: dpkg-split/main.c:53
 #, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -s|--split <file> [<prefix>]    Split an archive.\n"
-"  -j|--join <part> <part> ...     Join parts together.\n"
-"  -I|--info <part> ...            Display info about a part.\n"
-"  -h|--help                       Show this help message.\n"
-"  --version                       Show the version.\n"
-"  --license                       Show the license.\n"
+"  -s|--split <file> [<prefix>]     Split an archive.\n"
+"  -j|--join <part> <part> ...      Join parts together.\n"
+"  -I|--info <part> ...             Display info about a part.\n"
+"  -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
+"  -l|--listq                       List unmatched pieces.\n"
+"  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
-"  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
-"  -l|--listq                      List unmatched pieces.\n"
-"  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
-"\n"
+msgstr ""
+
+#: dpkg-split/main.c:69
+#, c-format
+msgid ""
 "Options:\n"
-"  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
-"  -o|--output <file>              For -j (default is <package>-<version>."
+"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+"  -o|--output <file>               For -j (default is <package>-<version>."
 "deb).\n"
-"  -Q|--npquiet                    Be quiet when -a is not a part.\n"
-"  --msdos                         Generate 8.3 filenames.\n"
+"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+"  --msdos                          Generate 8.3 filenames.\n"
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
-"Forma d'ús: %s [<opció> ...] <ordre>\n"
-"\n"
-"Ordres:\n"
-"  -s|--split <fitxer> [<prefix>]  Esbozina en parts un arxiu.\n"
-"  -j|--join <part> <part> ...     Uneix parts.\n"
-"  -I|--info <part> ...            Mostra informació sobre una part.\n"
-"  -h|--help                       Mostra aquest missatge d'ajuda.\n"
-"  --version                       Mostra la versió.\n"
-"  --licence                       Mostra la llicència.\n"
-"\n"
-"  -a|--auto -o <completa> <part>  Autoacumula parts.\n"
-"  -l|--listq                      Llista els bocins desemparellats.\n"
-"  -d|--discard [<fitxer> ...]     Descarta els bocins desemparellats.\n"
-"\n"
-"Opcions:\n"
-"  --depotdir <directori>          Usa <directori> en comptes de %s/%s.\n"
-"  -S|--partsize <mida>            (en KiB, per a -s (per defecte és 450).\n"
-"  -o|--output <fitxer>            Per a -j (per defecte és\n"
-"                                  <paquet>-<versió>.deb)\n"
-"  -Q|--npquiet                    Sigues silenciós quan -a no és una part.\n"
-"  --msdos                         Genera noms de fitxer en format 8.3.\n"
-"\n"
-"Estat d'eixida: 0 = OK;  1 = -a no és una part;  2 = problemes!\n"
 
-#: dpkg-split/main.c:75
+#: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
 msgstr "Escriu dpkg-split --help per a obtindre ajuda."
 
-#: dpkg-split/main.c:85
+#: dpkg-split/main.c:91
 #, c-format
 msgid "error reading %s"
 msgstr "s'ha produït un error al llegir %s"
 
-#: dpkg-split/main.c:89
+#: dpkg-split/main.c:95
 #, c-format
 msgid "error reading %.250s"
 msgstr "s'ha produït un error al llegir %.250s"
 
-#: dpkg-split/main.c:90
+#: dpkg-split/main.c:96
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "s'ha trobat un fí de fitxer inesperat en %.250s"
 
-#: dpkg-split/main.c:110
+#: dpkg-split/main.c:116
 msgid "part size is far too large or is not positive"
 msgstr "la mida de la part és massa gran o no és positiva"
 
-#: dpkg-split/main.c:114
+#: dpkg-split/main.c:120
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
 msgstr ""
@@ -4379,3 +4285,338 @@ msgstr "el fitxer font «%.250s» no és un fitxer normal"
 #: dpkg-split/split.c:70
 msgid "unable to exec mksplit"
 msgstr "no es pot executar mksplit"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  --configure        <package-name> ... | -a|--pending\n"
+#~ "  -r|--remove        <package-name> ... | -a|--pending\n"
+#~ "  -P|--purge         <package-name> ... | -a|--pending\n"
+#~ "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
+#~ "  --set-selections                     Set package selections from "
+#~ "stdin.\n"
+#~ "  --clear-selections                   Deselect every non-essential "
+#~ "package.\n"
+#~ "  --update-avail <Packages-file>       Replace available packages info.\n"
+#~ "  --merge-avail <Packages-file>        Merge with info from file.\n"
+#~ "  --clear-avail                        Erase existing available info.\n"
+#~ "  --forget-old-unavail                 Forget uninstalled unavailable "
+#~ "pkgs.\n"
+#~ "  -s|--status <package-name> ...       Display package status details.\n"
+#~ "  -p|--print-avail <package-name> ...  Display available version "
+#~ "details.\n"
+#~ "  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
+#~ "  -l|--list [<pattern> ...]            List packages concisely.\n"
+#~ "  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
+#~ "  -C|--audit                           Check for broken package(s).\n"
+#~ "  --print-architecture                 Print dpkg architecture.\n"
+#~ "  --compare-versions <a> <rel> <b>     Compare version numbers - see "
+#~ "below.\n"
+#~ "  --help                               Show this help message.\n"
+#~ "  --version                            Show the version.\n"
+#~ "  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
+#~ "  --license | --licence                Print copyright licensing terms.\n"
+#~ "\n"
+#~ "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+#~ " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
+#~ "help).\n"
+#~ "\n"
+#~ "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --admindir=<directory>     Use <directory> instead of %s.\n"
+#~ "  --root=<directory>         Install on alternative system rooted "
+#~ "elsewhere.\n"
+#~ "  --instdir=<directory>      Change inst'n root without changing admin "
+#~ "dir.\n"
+#~ "  -O|--selected-only         Skip packages not selected for install/"
+#~ "upgrade.\n"
+#~ "  -E|--skip-same-version     Skip packages whose same version is "
+#~ "installed.\n"
+#~ "  -G|--refuse-downgrade      Skip packages with earlier version than "
+#~ "installed.\n"
+#~ "  -B|--auto-deconfigure      Install even if it would break some other "
+#~ "package.\n"
+#~ "  --no-debsig                Do not try to verify package signatures.\n"
+#~ "  --no-act|--dry-run|--simulate\n"
+#~ "                             Just say what we would do - don't do it.\n"
+#~ "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --"
+#~ "debug=help.\n"
+#~ "  --status-fd <n>            Send status change updates to file "
+#~ "descriptor <n>.\n"
+#~ "  --log=<filename>           Log status changes and actions to "
+#~ "<filename>.\n"
+#~ "  --ignore-depends=<package>,... Ignore dependencies involving "
+#~ "<package>.\n"
+#~ "  --force-...                    Override problems - see --force-help.\n"
+#~ "  --no-force-...|--refuse-...    Stop when problems encountered.\n"
+#~ "  --abort-after <n>              Abort after encountering <n> errors.\n"
+#~ "\n"
+#~ "Comparison operators for --compare-versions are:\n"
+#~ "  lt le eq ne ge gt       (treat empty version as earlier than any "
+#~ "version);\n"
+#~ "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any "
+#~ "version);\n"
+#~ "  < << <= = >= >> >       (only for compatibility with control file "
+#~ "syntax).\n"
+#~ "\n"
+#~ "Use `dselect' or `aptitude' for user-friendly package management.\n"
+#~ msgstr ""
+#~ "Forma d'ús: %s [<opció> ...] <ordre>\n"
+#~ "\n"
+#~ "Ordres:\n"
+#~ "  -i|--install       <fitxer .deb> ... | -R|--recursive <dir> ...\n"
+#~ "  --unpack           <fitxer .deb> ... | -R|--recursive <dir> ...\n"
+#~ "  -A|--record-avail  <fitxer .deb> ... | -R|--recursive <dir> ...\n"
+#~ "  --configure             <paquet> ... | -a|--pending\n"
+#~ "  -r|--remove             <paquet> ... | -a|--pending\n"
+#~ "  -P|--purge              <paquet> ... | -a|--pending\n"
+#~ "  --get-selections [<patró> ...]       Aconsegueix la llista de "
+#~ "seleccions\n"
+#~ "                                       en l'eixida estàndard.\n"
+#~ "  --set-selections                     Estableix seleccions de paquets "
+#~ "des\n"
+#~ "                                       de l'entrada estàndard.\n"
+#~ "  --update-avail <fitxer-Packages>     Reemplaça la informació de "
+#~ "paquets\n"
+#~ "                                       disponibles.\n"
+#~ "  --merge-avail  <fitxer-Packages>     Fusiona amb la informació del "
+#~ "fitxer.\n"
+#~ "  --clear-avail                        Esborra la informació actual sobre "
+#~ "els\n"
+#~ "                                       paquets disponibles.\n"
+#~ "  --forget-old-unavail                 Oblida la informació sobre paquets "
+#~ "no\n"
+#~ "                                       instal·lats i no disponibles.\n"
+#~ "  -s|--status <paquet> ...             Mostra detalls sobre l'estat del "
+#~ "paquet.\n"
+#~ "  --print-avail <paquet> ...           Mostra detalls sobre la versió\n"
+#~ "                                       disponible.\n"
+#~ "  -L|--listfiles <paquet> ...          Llista els fitxers que pertanyen "
+#~ "als\n"
+#~ "                                       paquets.\n"
+#~ "  -l|--list [<patró> ...]              Llista breument els paquets.\n"
+#~ "  -S|--search <patró> ...              Cerca els paquets que contenen\n"
+#~ "                                       aquests fitxers.\n"
+#~ "  -C|--audit                           Verifica els paquets trencats.\n"
+#~ "  --print-architecture                 Mostra l'arquitectura de destí de "
+#~ "dpkg.\n"
+#~ "  --compare-versions <a> <rel> <b>     Compara els números de versió - "
+#~ "mireu\n"
+#~ "                                       més endavant.\n"
+#~ "  --help                               Mostra aquesta ajuda.\n"
+#~ "| --version                            Mostra el número de versió.\n"
+#~ "  --force-help | -Dh|--debug=help      Mostra ajuda sobre forçar o "
+#~ "depurar.\n"
+#~ "  --licence                            Mostra els termes de la llicència "
+#~ "de\n"
+#~ "                                       copyright.\n"
+#~ "\n"
+#~ "Useu dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+#~ " -x|--extract|-X|--vextract|--fsys-tarfile en arxius (vegeu %s --help.).\n"
+#~ "\n"
+#~ "Per a ús intern: dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep.\n"
+#~ "\n"
+#~ "Opcions:\n"
+#~ "  --admindir=<directori>    Utilitza <directori> en comptes de %s.\n"
+#~ "  --root=<directori>        Instal·la en un sistema alternatiu amb "
+#~ "directori\n"
+#~ "                            arrel en un altre lloc.\n"
+#~ "  --instdir=<directori>     Canvia l'arrel de la instal·lació sense "
+#~ "alterar el\n"
+#~ "                            directori de gestió.\n"
+#~ "  -O|--selected-only        Omet els paquets no seleccionats per a\n"
+#~ "                            instal·lació o actualització.\n"
+#~ "  -E|--skip-same-version    Omet els paquets en que la versió sigui la "
+#~ "mateixa\n"
+#~ "                            que la dels instal·lats.\n"
+#~ "  -G=--refuse-downgrade     Omet els paquets amb una versió anterior que "
+#~ "la\n"
+#~ "                            instal·lada.\n"
+#~ "  -B|--auto-deconfigure     Instal·la encara que es pugui trencar algun "
+#~ "altre\n"
+#~ "                            paquet.\n"
+#~ "  --no-debsig               No verifiques les signatures dels paquets.\n"
+#~ "  --no-act| |--dry-run|--simulate\n"
+#~ "                            Només indica el que es faria, però no facis "
+#~ "res.\n"
+#~ "  -D|--debug=<octal>        Habilita la depuració, mireu -Dhelp ó --"
+#~ "debug=help.\n"
+#~ "  --status-fd <n>           Envia actualitzacions de canvis d'estat al\n"
+#~ "                            descriptor de fitxer <n>.\n"
+#~ "  --ignore-depends=<paquet>,... No tingues en compte les dependències "
+#~ "que\n"
+#~ "                                impliquen a <paquet>.\n"
+#~ "  --force-...                   Descarta problemes, mireu --force-help.\n"
+#~ "  --no-force-...|--refuse-...   Atura't quan trobes problemes.\n"
+#~ "  --abort-after <n>             Avorta després de trobar <n> errors.\n"
+#~ "\n"
+#~ "Els operadors de comparació per a --compare-versions són:\n"
+#~ "  lt le eq ne ge gt       (tracta una versió inexistent com a anterior a\n"
+#~ "                          qualsevol versió);\n"
+#~ "  lt-nl le-nl ge-nl gt-nl (tracta una versió inexistent com a posterior "
+#~ "a\n"
+#~ "                          qualsevol versió);\n"
+#~ "  < << <= = >= >> >       (només per compatibilitat amb la sintaxi dels\n"
+#~ "                          fitxers de control).\n"
+#~ "\n"
+#~ "Useu «dselect» o «aptitude» per a una gestió de paquets més amigable.\n"
+
+#~ msgid "  Package "
+#~ msgstr "  el paquet "
+
+#~ msgid " which provides "
+#~ msgstr " que proveeix "
+
+#~ msgid " is to be removed.\n"
+#~ msgstr " serà desinstal·lat.\n"
+
+#~ msgid "  Version of "
+#~ msgstr "  Versió de "
+
+#~ msgid " on system is "
+#~ msgstr " en el sistema és "
+
+#~ msgid " is not installed.\n"
+#~ msgstr " no està instal·lat.\n"
+
+#~ msgid " to: %s\n"
+#~ msgstr " per a: %s\n"
+
+#~ msgid "fgetpos failed"
+#~ msgstr "fgetpos ha fallat"
+
+#~ msgid "fsetpos failed"
+#~ msgstr "fsetpos ha fallat"
+
+# FIXME: Show information on package -> Lowercase "Show"
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -b|--build <directory> [<deb>]    Build an archive.\n"
+#~ "  -c|--contents <deb>               List contents.\n"
+#~ "  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
+#~ "  -W|--show <deb>                   Show information on package(s)\n"
+#~ "  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
+#~ "  -e|--control <deb> [<directory>]  Extract control info.\n"
+#~ "  -x|--extract <deb> <directory>    Extract files.\n"
+#~ "  -X|--vextract <deb> <directory>   Extract & list files.\n"
+#~ "  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
+#~ "  -h|--help                         Display this message.\n"
+#~ "  --version                         Show version.\n"
+#~ "  --license | --licence             Show license.\n"
+#~ "\n"
+#~ "<deb> is the filename of a Debian format archive.\n"
+#~ "<cfile> is the name of an administrative file component.\n"
+#~ "<cfield> is the name of a field in the main `control' file.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --showformat=<format>      Use alternative format for --show.\n"
+#~ "  -D                         Enable debugging output.\n"
+#~ "  --old, --new               Select archive format.\n"
+#~ "  --nocheck                  Suppress control file check (build bad "
+#~ "package).\n"
+#~ "  -z#                        Set the compression level when building.\n"
+#~ "  -Z<type>                   Set the compression type to use when "
+#~ "building.\n"
+#~ "                             Allowed values: gzip, bzip2, none.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Forma d'ús: %s [<opció> ...] <ordre>\n"
+#~ "\n"
+#~ "Ordre:\n"
+#~ "  -b|--build <directori> [<deb>]    Construeix un arxiu.\n"
+#~ "  -c|--contents <deb>               Llista els continguts.\n"
+#~ "  -I|--info <deb> [<fitxerc>...]    Mostra la info en l'eixida "
+#~ "estàndard.\n"
+#~ "  -W|--show <deb>                   Mostra informació sobre el(s) paquet"
+#~ "(s).\n"
+#~ "  -f|--field <deb> [<campc>...]     Mostra el(s) camp(s) en l'eixida "
+#~ "estàndard.\n"
+#~ "  -e|--control <deb> [<directori>]  Extrau la informació de control.\n"
+#~ "  -x|--extract <deb> <directori>    Extrau els fitxers.\n"
+#~ "  -X|--vextract <deb> <directori>   Extrau i llista els fitxers.\n"
+#~ "  --fsys-tarfile <deb>              Mostra el fitxer tar del sistema de "
+#~ "fitxers.\n"
+#~ "  -h|--help                         Mostra aquest missatge.\n"
+#~ "  --version                         Mostra la versió.\n"
+#~ "  --licence | --license             Mostra la llicència.\n"
+#~ "\n"
+#~ "<deb> és el nom de fitxer d'un arxiu en format Debian.\n"
+#~ "<fitxerc> és el nom d'un component d'un fitxer administratiu.\n"
+#~ "<campc> és el nom d'un camp en el fitxer de «control» principal.\n"
+#~ "\n"
+#~ "Opcions:\n"
+#~ "  --showformat=<format>      Usa un format alternatiu per a --show.\n"
+#~ "  -D                         Habilita l'eixida de depuració.\n"
+#~ "  --old, --new               Selecciona el format de l'arxiu.\n"
+#~ "  --nocheck                  Suprimeix la comprovació del fitxer de "
+#~ "control\n"
+#~ "                             (construeix un paquet erroni).\n"
+#~ "  -z#                        Estableix el nivell de compressió durant\n"
+#~ "                             la construcció.\n"
+#~ "  -Z<tipus>                  Estableix el tipus de compressió a "
+#~ "utilitzar\n"
+#~ "                             durant la contrucció.\n"
+#~ "                             Valors permesos: gzip, bzip2, cap.\n"
+
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -s|--split <file> [<prefix>]    Split an archive.\n"
+#~ "  -j|--join <part> <part> ...     Join parts together.\n"
+#~ "  -I|--info <part> ...            Display info about a part.\n"
+#~ "  -h|--help                       Show this help message.\n"
+#~ "  --version                       Show the version.\n"
+#~ "  --license                       Show the license.\n"
+#~ "\n"
+#~ "  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
+#~ "  -l|--listq                      List unmatched pieces.\n"
+#~ "  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
+#~ "  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
+#~ "  -o|--output <file>              For -j (default is <package>-<version>."
+#~ "deb).\n"
+#~ "  -Q|--npquiet                    Be quiet when -a is not a part.\n"
+#~ "  --msdos                         Generate 8.3 filenames.\n"
+#~ "\n"
+#~ "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
+#~ msgstr ""
+#~ "Forma d'ús: %s [<opció> ...] <ordre>\n"
+#~ "\n"
+#~ "Ordres:\n"
+#~ "  -s|--split <fitxer> [<prefix>]  Esbozina en parts un arxiu.\n"
+#~ "  -j|--join <part> <part> ...     Uneix parts.\n"
+#~ "  -I|--info <part> ...            Mostra informació sobre una part.\n"
+#~ "  -h|--help                       Mostra aquest missatge d'ajuda.\n"
+#~ "  --version                       Mostra la versió.\n"
+#~ "  --licence                       Mostra la llicència.\n"
+#~ "\n"
+#~ "  -a|--auto -o <completa> <part>  Autoacumula parts.\n"
+#~ "  -l|--listq                      Llista els bocins desemparellats.\n"
+#~ "  -d|--discard [<fitxer> ...]     Descarta els bocins desemparellats.\n"
+#~ "\n"
+#~ "Opcions:\n"
+#~ "  --depotdir <directori>          Usa <directori> en comptes de %s/%s.\n"
+#~ "  -S|--partsize <mida>            (en KiB, per a -s (per defecte és "
+#~ "450).\n"
+#~ "  -o|--output <fitxer>            Per a -j (per defecte és\n"
+#~ "                                  <paquet>-<versió>.deb)\n"
+#~ "  -Q|--npquiet                    Sigues silenciós quan -a no és una "
+#~ "part.\n"
+#~ "  --msdos                         Genera noms de fitxer en format 8.3.\n"
+#~ "\n"
+#~ "Estat d'eixida: 0 = OK;  1 = -a no és una part;  2 = problemes!\n"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-04-10 06:33+0300\n"
+"POT-Creation-Date: 2006-05-03 11:16+0300\n"
 "PO-Revision-Date: 2006-02-19 18:18+1300\n"
 "Last-Translator: Carlos Z.F. Liu <carlosliu@users.sourceforge.net>\n"
 "Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
@@ -179,63 +179,63 @@ msgid "unable to fill %.250s with padding"
 msgstr "无法填充 %.250s"
 
 #: lib/dbmodify.c:116
-#, c-format
-msgid "unable flush %.250s after padding"
+#, fuzzy, c-format
+msgid "unable to flush %.250s after padding"
 msgstr "无法 flush 填充后的 %.250s"
 
 #: lib/dbmodify.c:118
-#, c-format
-msgid "unable seek to start of %.250s after padding"
+#, fuzzy, c-format
+msgid "unable to seek to start of %.250s after padding"
 msgstr "无法在填充 %.250s 后 seek 到起始位置"
 
-#: lib/dbmodify.c:148
+#: lib/dbmodify.c:149
 msgid "requested operation requires superuser privilege"
 msgstr "该操作需要超级用户权限"
 
-#: lib/dbmodify.c:153
+#: lib/dbmodify.c:154
 msgid "unable to access dpkg status area"
 msgstr "无法 access dpkg 状态目录"
 
-#: lib/dbmodify.c:155
+#: lib/dbmodify.c:156
 msgid "operation requires read/write access to dpkg status area"
 msgstr "该操作需要用户对 dpkg 状态目录有读写权限"
 
-#: lib/dbmodify.c:203
+#: lib/dbmodify.c:204
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "删除我自己的更新文件 %.255s 失败"
 
-#: lib/dbmodify.c:260
+#: lib/dbmodify.c:261
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "无法写入“%.250s”的更新状态"
 
-#: lib/dbmodify.c:262
+#: lib/dbmodify.c:263
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "无法刷新“%.250s”的更新状态"
 
-#: lib/dbmodify.c:264
+#: lib/dbmodify.c:265
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "无法删节“%.250s”的更新状态"
 
-#: lib/dbmodify.c:266
+#: lib/dbmodify.c:267
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "无法 fsync “%.250s”的更新状态"
 
-#: lib/dbmodify.c:268
+#: lib/dbmodify.c:269
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "无法关闭“%.250s”的更新状态文件"
 
-#: lib/dbmodify.c:271
+#: lib/dbmodify.c:272
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "无法安装“%.250s”的更新状态"
 
-#: lib/dbmodify.c:301
+#: lib/dbmodify.c:302
 #, c-format
 msgid "couldn't open log `%s': %s\n"
 msgstr "无法打开日志文件“%s”：%s\n"
@@ -844,8 +844,8 @@ msgid "must start with an alphanumeric"
 msgstr "必须以字母开头"
 
 #: lib/parsehelp.c:123
-#, c-format
-msgid "character `%c' not allowed - only letters, digits and %s allowed"
+#, fuzzy, c-format
+msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "不允许有字符“%c” - 只能用字符、数字和 %s"
 
 #: lib/parsehelp.c:178
@@ -878,8 +878,9 @@ msgstr "找不到 %s"
 msgid "empty value for %s"
 msgstr "%s 的值是空的"
 
-#: lib/showcright.c:33
-msgid "cannot open GPL file "
+#: lib/showcright.c:34
+#, fuzzy
+msgid "cannot open GPL file"
 msgstr "无法打开 GPL 许可证文件"
 
 #: lib/showpkg.c:70
@@ -1560,7 +1561,7 @@ msgstr "在 conffile 提示输入时，在标准输入中读到了 EOF "
 msgid "unable to check for existence of `%.250s'"
 msgstr "无法检查“%.250s”是否存在"
 
-#: src/depcon.c:153 src/packages.c:389
+#: src/depcon.c:153 src/packages.c:393
 msgid " depends on "
 msgstr " 依赖于 "
 
@@ -2128,7 +2129,7 @@ msgstr "无法使用 exec rm 来清理现场"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian“%s”软件包管理程序 %s 版。\n"
 
-#: src/main.c:46 src/query.c:461 dpkg-deb/main.c:48 dpkg-split/main.c:41
+#: src/main.c:46 src/query.c:467 dpkg-deb/main.c:48 dpkg-split/main.c:41
 #, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2139,50 +2140,76 @@ msgstr ""
 "第二版或其更新的版本。该软件【不】提供任何担保。\n"
 "请查阅 %s --license 来查看版权和许可证的细节。\n"
 
-#: src/main.c:57
-#, fuzzy, c-format
+#: src/main.c:57 src/query.c:478 dpkg-deb/main.c:56 dpkg-split/main.c:49
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
+msgstr ""
+
+#: src/main.c:61
+#, c-format
+msgid ""
 "Commands:\n"
-"  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  --configure        <package-name> ... | -a|--pending\n"
-"  -r|--remove        <package-name> ... | -a|--pending\n"
-"  -P|--purge         <package-name> ... | -a|--pending\n"
-"  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
-"  --set-selections                     Set package selections from stdin.\n"
-"  --clear-selections                   Deselect every non-essential "
-"package.\n"
-"  --update-avail <Packages-file>       Replace available packages info.\n"
-"  --merge-avail <Packages-file>        Merge with info from file.\n"
-"  --clear-avail                        Erase existing available info.\n"
-"  --forget-old-unavail                 Forget uninstalled unavailable pkgs.\n"
-"  -s|--status <package-name> ...       Display package status details.\n"
-"  -p|--print-avail <package-name> ...  Display available version details.\n"
-"  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
-"  -l|--list [<pattern> ...]            List packages concisely.\n"
-"  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
-"  -C|--audit                           Check for broken package(s).\n"
-"  --print-architecture                 Print dpkg architecture.\n"
-"  --compare-versions <a> <rel> <b>     Compare version numbers - see below.\n"
-"  --help                               Show this help message.\n"
-"  --version                            Show the version.\n"
-"  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
-"  --license | --licence                Print copyright licensing terms.\n"
+"  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  --configure        <package> ... | -a|--pending\n"
+"  -r|--remove        <package> ... | -a|--pending\n"
+"  -P|--purge         <package> ... | -a|--pending\n"
+"  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+"  --set-selections                 Set package selections from stdin.\n"
+"  --clear-selections               Deselect every non-essential package.\n"
+"  --update-avail <Packages-file>   Replace available packages info.\n"
+"  --merge-avail <Packages-file>    Merge with info from file.\n"
+"  --clear-avail                    Erase existing available info.\n"
+"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+"  -s|--status <package> ...        Display package status details.\n"
+"  -p|--print-avail <package> ...   Display available version details.\n"
+"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]        List packages concisely.\n"
+"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"  -C|--audit                       Check for broken package(s).\n"
+"  --print-architecture             Print dpkg architecture.\n"
+"  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+"  --force-help                     Show help on forcing.\n"
+"  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
+#, c-format
+msgid ""
+"  -h|--help                        Show this help message.\n"
+"  --version                        Show the version.\n"
+"  --license|--licence              Show the copyright licensing terms.\n"
+"\n"
+msgstr ""
+
+#: src/main.c:94
+#, c-format
+msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
+msgstr ""
+
+#: src/main.c:99
+#, c-format
+msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:104
+#, c-format
+msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
-"  --root=<directory>         Install on alternative system rooted "
-"elsewhere.\n"
-"  --instdir=<directory>      Change inst'n root without changing admin dir.\n"
+"  --root=<directory>         Install on a different root directory.\n"
+"  --instdir=<directory>      Change installation dir without changing admin "
+"dir.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed.\n"
@@ -2193,15 +2220,22 @@ msgid ""
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
-"  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help.\n"
+"  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
 "<n>.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
-"  --ignore-depends=<package>,... Ignore dependencies involving <package>.\n"
-"  --force-...                    Override problems - see --force-help.\n"
-"  --no-force-...|--refuse-...    Stop when problems encountered.\n"
-"  --abort-after <n>              Abort after encountering <n> errors.\n"
+"  --ignore-depends=<package>,...\n"
+"                             Ignore dependencies involving <package>.\n"
+"  --force-...                Override problems (see --force-help).\n"
+"  --no-force-...|--refuse-...\n"
+"                             Stop when problems encountered.\n"
+"  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:127
+#, c-format
+msgid ""
 "Comparison operators for --compare-versions are:\n"
 "  lt le eq ne ge gt       (treat empty version as earlier than any "
 "version);\n"
@@ -2209,75 +2243,14 @@ msgid ""
 "  < << <= = >= >> >       (only for compatibility with control file "
 "syntax).\n"
 "\n"
-"Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
-"用法：%s [<选项> ...] <命令>\n"
-"\n"
-"命令：\n"
-"  -i|--install       <.deb 文件名> ... | -R|--recursive <目录> ...\n"
-"  --unpack           <.deb 文件名> ... | -R|--recursive <目录> ...\n"
-"  -A|--record-avail  <.deb 文件名> ... | -R|--recursive <目录> ...\n"
-"  --configure        <软件包名> ... | -a|--pending\n"
-"  -r|--remove        <软件包名> ... | -a|--pending\n"
-"  -P|--purge         <软件包名> ... | -a|--pending\n"
-"  --get-selections [<表达式> ...]     把已选中的软件包的列表打印到标准输"
-"出。\n"
-"  --set-selections                    从标准输入里读出要选择的软件包列表。\n"
-"  --update-avail <Packages 文件>      替换现有可安装的软件包信息。\n"
-"  --merge-avail <Package 文件>        把文件中的信息合并到系统中。\n"
-"  --clear-avail                       清除现有的软件包信息。\n"
-"  --forget-old-unavail                忘却已被卸载的不可安装的软件包。\n"
-"  -s|--status <软件包名> ...          显示软件包详尽的状态信息。\n"
-"  -p|--print-avail <软件包名> ...     显示可供安装的版本详情。\n"
-"  -L|--listfiles <软件包名> ...       列出所有“属于”该软件包(或多个软件包)的"
-"文件。\n"
-"  -l|--list [<表达式> ...             简明地列出软件包的状态。\n"
-"  -S|--search <表达式> ...            搜寻拥有该文件(或多个文件)的软件包。\n"
-"  -C|--audit                          检查搜寻残损的软件包。\n"
-"  --print-architecture                显示 dpkg 体系架构。\n"
-"  --compare-vesions <甲> <关系> <乙>  比较版本号 - 见下。\n"
-"  --help                              显示本帮助信息。\n"
-"  --version                           显示版本号。\n"
-"  --force-help | -Dh|--debug=help     显示强制操作帮助和有关出错调试的帮"
-"助。\n"
-"  --license | --licence               显示版权和许可证的条文。\n"
-"\n"
-"可对包文件使用 dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--"
-"field|\n"
-"·-x|--extract|-X|--vextract|--fsys-tarfile 的命令 (可输入 %s --help)。\n"
-"\n"
-"供内部调用：dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-"conrep。\n"
-"\n"
-"选项：\n"
-"  --admindir=<目录>          使用 <目录> 而非 %s。\n"
-"  --root=<目录>              安装到另一个根文件系统。\n"
-"  --instdir=<目录>           改变安装的根目录的同时保持管理(admin)目录不"
-"变。\n"
-"  -O|--selected-only         忽略没有被选中安装或升级的软件包。\n"
-"  -E|--skip-same-version     忽略版本与已安装软件版本相同的软件包。\n"
-"  -G|--refuse-downgrade      忽略版本早于已安装软件版本的的软件包。\n"
-"  -B|--auto-deconfigure      就算会影响其他软件包，也要安装。\n"
-"  --no-debsig                不去试图验证软件包的签名。\n"
-"  --no-act|--dry-run|--simulate\n"
-"                             仅仅报告我们要执行的操作 - 但是不执行。\n"
-"  -D|--debug=<八进制数字>    开启调试功能 - 参见 -Dhelp 或者 --debug=help。\n"
-"  --status-fd <n>            发送状态改变的更新信号到文件描述符<n>。\n"
-"  --log=<文件名>             记录状态的改变和操作信息至 <文件名>。\n"
-"  --ignore-depends=<软件包名>,... 忽略关于 <软件包名> 的所有依赖关系。\n"
-"  --force-...                     忽视遇到的问题 - 参见 --force-help。\n"
-"  --no-force-...|--refuse-...     当遇到问题时中止运行。\n"
-"  --abort-after <n>               当遇到<n>个问题后，中止运行。\n"
-"\n"
-"--compare-version 所使用的比较运算符有：\n"
-" lt le eq ne ge gt       (如果版本号为空，那么就认为它先于任意版本号)；\n"
-" lt-nl le-nl ge-nl gt-nl (如果版本号为空，那么就认为它后于任意版本号)；\n"
-" < << <= = >= >> >       (仅仅是为了与主控文件的语法兼容)。\n"
-"\n"
-"“dselect”和“aptitude”提供了更为易用的的软件包管理工具。\n"
 
-#: src/main.c:122
+#: src/main.c:134
+#, c-format
+msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+msgstr ""
+
+#: src/main.c:141
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
 "Use `dselect' or `aptitude' for user-friendly package management;\n"
@@ -2300,17 +2273,17 @@ msgstr ""
 "带有 [*] 的选项将会输出较大篇幅的文字 - 可使用管道将其输出连接"
 "到“less”或“more”！"
 
-#: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
+#: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "操作之间有矛盾 -- %s 和 -- %s"
 
-#: src/main.c:193
+#: src/main.c:211
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "警告：已废弃不用的选项“--%s”\n"
 
-#: src/main.c:201
+#: src/main.c:219
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2347,27 +2320,27 @@ msgstr ""
 "可以用位与(bitwise-or)把除错选项组合起来使用。\n"
 "注意，意义和数值将有可能更动。\n"
 
-#: src/main.c:220
+#: src/main.c:240
 msgid "--debug requires an octal argument"
 msgstr "--debug 需要一个八进制的参数"
 
-#: src/main.c:244
+#: src/main.c:264
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "在 --ignore-depends 的用逗号相隔的参数列表“%s”中，发现有的软件包名是空的"
 
-#: src/main.c:250
+#: src/main.c:270
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "--ignore-depends 需要一个有效的软件包名。而“%.250s”却不是；%s"
 
-#: src/main.c:266 src/main.c:277
+#: src/main.c:286 src/main.c:297
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "--%s 有一个无效的数字参数：“%.250s”"
 
-#: src/main.c:296
+#: src/main.c:317
 #, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2440,53 +2413,55 @@ msgstr ""
 "警告 - 使用带有[!]标记的选项可能会严重破坏您的系统安装。\n"
 "缺省情况下，是使用带有[*]标记的强制手段的。\n"
 
-#: src/main.c:341
+#: src/main.c:362
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "无法识别的 force/refuse 选项“%.*s”"
 
-#: src/main.c:346
+#: src/main.c:367
 #, fuzzy, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
 msgstr "警告：已废弃不用的选项“--%s”\n"
 
-#: src/main.c:469 src/main.c:479 src/main.c:487
+#: src/main.c:490 src/main.c:500 src/main.c:508
 msgid "couldn't malloc in execbackend"
 msgstr "无法在 execbackend 中 malloc"
 
-#: src/main.c:473 src/main.c:496
+#: src/main.c:494 src/main.c:517
 msgid "couldn't strdup in execbackend"
 msgstr "无法在 execbackend 中 strdup"
 
-#: src/main.c:501
+#: src/main.c:522
 #, c-format
 msgid "failed to exec %s"
 msgstr "exec %s 失败"
 
-#: src/main.c:514
-msgid "--command-fd takes 1 argument, not 0"
+#: src/main.c:537
+#, fuzzy
+msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd 需要带一个参数，而不是零个"
 
-#: src/main.c:515
-msgid "--command-fd only takes 1 argument"
+#: src/main.c:539
+#, fuzzy
+msgid "--command-fd only takes one argument"
 msgstr "--command-fd 只需带一个参数"
 
-#: src/main.c:517
+#: src/main.c:541
 msgid "invalid number for --command-fd"
 msgstr "--command-fd 有一个无效的数字参数"
 
-#: src/main.c:519
+#: src/main.c:543
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "无法打开“%i”，并把它作为字符流操作"
 
-#: src/main.c:544
+#: src/main.c:568
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "在第 %d 行还未结束时，发现了预料之外的 eof"
 
-#: src/main.c:588 src/main.c:603 src/query.c:566 dpkg-deb/main.c:189
-#: dpkg-split/main.c:163
+#: src/main.c:612 src/main.c:627 src/query.c:579 dpkg-deb/main.c:199
+#: dpkg-split/main.c:169
 msgid "need an action option"
 msgstr "需要一个指示操作的选项"
 
@@ -2521,40 +2496,47 @@ msgstr ""
 "在这此运行中，软件包 %s 有多个副本被解压缩了！\n"
 "现只配置它一次。\n"
 
-#: src/packages.c:267 src/packages.c:311 src/packages.c:324
-msgid "  Package "
-msgstr "  软件包 "
+#: src/packages.c:269
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is to be removed.\n"
+msgstr "  %.250s 提供了 %.250s，但是它即将被删除。\n"
 
-#: src/packages.c:270 src/packages.c:314 src/packages.c:327
-msgid " which provides "
-msgstr " 提供了 "
-
-#: src/packages.c:273
-msgid " is to be removed.\n"
-msgstr " 即将被删除。\n"
-
-#: src/packages.c:285
-msgid "  Version of "
-msgstr "  系统里的 "
+#: src/packages.c:272
+#, fuzzy, c-format
+msgid "  Package %s is to be removed.\n"
+msgstr "  即将删除 %.250s。\n"
 
 #: src/packages.c:287
-msgid " on system is "
-msgstr " 的版本是 "
+#, c-format
+msgid "  Version of %s on system is %s.\n"
+msgstr ""
 
 #: src/packages.c:307
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg：同时也对“%s”进行配置(“%s”需要如此)\n"
 
-#: src/packages.c:317
-msgid " is not configured yet.\n"
+#: src/packages.c:313
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is not configured yet.\n"
+msgstr "  %.250s 提供了 %.250s，但是它的配置信息将被抹去。\n"
+
+#: src/packages.c:316
+#, fuzzy, c-format
+msgid "  Package %s is not configured yet.\n"
 msgstr "还没有被配置。\n"
 
-#: src/packages.c:330
-msgid " is not installed.\n"
-msgstr "还没有被安装。\n"
+#: src/packages.c:328
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is not installed.\n"
+msgstr "未曾安装软件包“%s”。\n"
 
-#: src/packages.c:395
+#: src/packages.c:331
+#, fuzzy, c-format
+msgid "  Package %s is not installed.\n"
+msgstr "未曾安装软件包“%s”。\n"
+
+#: src/packages.c:399
 msgid "; however:\n"
 msgstr "；然而：\n"
 
@@ -2819,7 +2801,7 @@ msgstr "版本"
 msgid "Description"
 msgstr "简介"
 
-#: src/query.c:218 src/query.c:447 src/select.c:80
+#: src/query.c:218 src/query.c:453 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "没有找到与 %s 相匹配的软件包。\n"
@@ -2871,27 +2853,22 @@ msgstr "未曾安装软件包“%s”。\n"
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "软件包“%s”未含有任何文件(!)\n"
 
-#: src/query.c:375
-#, c-format
-msgid "locally diverted"
+#: src/query.c:376
+#, fuzzy, c-format
+msgid "locally diverted to: %s\n"
 msgstr "本地转移(locally diverted)"
 
-#: src/query.c:376
-#, c-format
-msgid "package diverts others"
+#: src/query.c:379
+#, fuzzy, c-format
+msgid "package diverts others to: %s\n"
 msgstr "软件包是其他软件包的转移项"
 
-#: src/query.c:377
-#, c-format
-msgid "diverted by %s"
+#: src/query.c:382
+#, fuzzy, c-format
+msgid "diverted by %s to: %s\n"
 msgstr "转移到了(diverted by) %s"
 
-#: src/query.c:378
-#, c-format
-msgid " to: %s\n"
-msgstr " 转移文件现指向：%s\n"
-
-#: src/query.c:398
+#: src/query.c:404
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -2899,30 +2876,21 @@ msgstr ""
 "使用 dpkg --info (= dpkg-deb --info) 来检测打包好的文件，\n"
 "还可以用过 dpkg --contents (= dpkg-deb --contents) 来列出它们的内容。\n"
 
-#: src/query.c:459
+#: src/query.c:465
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "”Debian“%s”软件包管理程序查询工具\n"
 
-#: src/query.c:472
-#, c-format
+#: src/query.c:482
+#, fuzzy, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -s|--status <package-name> ...      Display package status details.\n"
-"  -p|--print-avail <package-name> ... Display available version details.\n"
-"  -L|--listfiles <package-name> ...   List files `owned' by package(s).\n"
-"  -l|--list [<pattern> ...]           List packages concisely.\n"
-"  -W|--show <pattern> ...             Show information on package(s).\n"
-"  -S|--search <pattern> ...           Find package(s) owning file(s).\n"
-"  --help                              Show this help message.\n"
-"  --version                           Show the version.\n"
-"  --license | --licence               Show the copyright licensing terms.\n"
-"\n"
-"Options:\n"
-"  --admindir=<directory>              Use <directory> instead of %s.\n"
-"  -f|--showformat=<format>            Use alternative format for --show.\n"
+"  -s|--status <package> ...        Display package status details.\n"
+"  -p|--print-avail <package> ...   Display available version details.\n"
+"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]        List packages concisely.\n"
+"  -W|--show <pattern> ...          Show information on package(s).\n"
+"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "\n"
 msgstr ""
 "用法：%s [<选项> ...] <命令>\n"
@@ -2944,7 +2912,16 @@ msgstr ""
 "  -f|--showformat=<格式串>             令 --show 使用其它的格式输出。\n"
 "\n"
 
-#: src/query.c:491 dpkg-deb/main.c:87
+#: src/query.c:498
+#, c-format
+msgid ""
+"Options:\n"
+"  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  -f|--showformat=<format>         Use alternative format for --show.\n"
+"\n"
+msgstr ""
+
+#: src/query.c:504 dpkg-deb/main.c:97
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -2965,7 +2942,7 @@ msgstr ""
 "  字段一般是靠右对齐的，除非它的宽度是负数。若其宽度是负数，\n"
 "  那么字段将会靠左对齐。\n"
 
-#: src/query.c:501
+#: src/query.c:514
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL).\n"
@@ -3356,7 +3333,7 @@ msgstr "新建临时文件(数据)失败，%s"
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "unlink 临时文件(数据)失败，%s"
 
-#: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
+#: dpkg-deb/build.c:404 dpkg-deb/extract.c:274
 msgid "data"
 msgstr "数据"
 
@@ -3386,8 +3363,8 @@ msgid "failed to exec sh -c mv foo/* &c"
 msgstr "exec sh -c mv foo/* &c 失败"
 
 #: dpkg-deb/extract.c:59
-#, c-format
-msgid "error reading %s from %.255s"
+#, fuzzy, c-format
+msgid "error reading %s from file %.255s"
 msgstr "无法从 %2$.255s 读取 %1$s"
 
 #: dpkg-deb/extract.c:61
@@ -3479,12 +3456,13 @@ msgstr ""
 " 大小 %ld 字节：主控包=%zi 字节。\n"
 
 #: dpkg-deb/extract.c:195
-msgid "ctrl information length"
+#, fuzzy
+msgid "control information length"
 msgstr "控制信息的长度"
 
 #: dpkg-deb/extract.c:197
-#, c-format
-msgid "archive has malformatted ctrl len `%s'"
+#, fuzzy, c-format
+msgid "archive has malformatted control length `%s'"
 msgstr "包文件中的控制信息长度“%s”格式有误"
 
 #: dpkg-deb/extract.c:200
@@ -3496,11 +3474,17 @@ msgstr ""
 " 旧格式的 debian 软件包，格式版本 %s。\n"
 " 大小 %ld 字节：主控包= %zi 字节，数据及程序包= %ld。\n"
 
-#: dpkg-deb/extract.c:209
-msgid "ctrlarea"
+#: dpkg-deb/extract.c:208
+#, fuzzy
+msgid "failed allocating memory for variable `ctrlarea'"
+msgstr "为 cfgfilename 申请内存时出错"
+
+#: dpkg-deb/extract.c:211
+#, fuzzy
+msgid "control area"
 msgstr "控制区"
 
-#: dpkg-deb/extract.c:215
+#: dpkg-deb/extract.c:217
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3509,65 +3493,66 @@ msgstr ""
 "dpkg-deb：该文件看上去似乎原本是一个包文件，但是由于下载它时\n"
 "dpkg-deb：使用的是 ASCII 模式，从而导致了包文件被损坏\n"
 
-#: dpkg-deb/extract.c:220
+#: dpkg-deb/extract.c:222
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "“%.255s”并非 debian 格式的包文件"
 
-#: dpkg-deb/extract.c:225
-msgid "fgetpos failed"
-msgstr "fgetpos 失败"
+#: dpkg-deb/extract.c:228
+msgid "failed getting the current file position"
+msgstr ""
 
-#: dpkg-deb/extract.c:229
-msgid "fsetpos failed"
-msgstr "fsetpos 失败"
+#: dpkg-deb/extract.c:233
+msgid "failed setting the current file position"
+msgstr ""
 
-#: dpkg-deb/extract.c:236
-msgid "failed to fdopen p1 in paste"
+#: dpkg-deb/extract.c:242
+#, fuzzy
+msgid "failed to open pipe descriptor `1' in paste"
 msgstr "在粘贴时，fdopen p1 失败"
 
-#: dpkg-deb/extract.c:238
+#: dpkg-deb/extract.c:244
 msgid "failed to write to gzip -dc"
 msgstr "在写入 gzip -dc 时，操作失败"
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:245
 msgid "failed to close gzip -dc"
 msgstr "在关闭 gzip -dc 时，操作失败"
 
-#: dpkg-deb/extract.c:246
+#: dpkg-deb/extract.c:252
 msgid "failed to syscall lseek to files archive portion"
 msgstr "当通过使用系统调用 lseek，以跳到文件档开始处时失败"
 
-#: dpkg-deb/extract.c:254
+#: dpkg-deb/extract.c:260
 msgid "failed to write to pipe in copy"
 msgstr "写入通向拷贝的管道时出错"
 
-#: dpkg-deb/extract.c:255
+#: dpkg-deb/extract.c:261
 msgid "failed to close pipe in copy"
 msgstr "关闭通向拷贝的管道时出错"
 
-#: dpkg-deb/extract.c:276
+#: dpkg-deb/extract.c:282
 msgid "failed to create directory"
 msgstr "新建目录失败"
 
-#: dpkg-deb/extract.c:277
+#: dpkg-deb/extract.c:283
 msgid "failed to chdir to directory after creating it"
 msgstr "新建目录后，chdir 到该目录失败"
 
-#: dpkg-deb/extract.c:279
+#: dpkg-deb/extract.c:285
 msgid "failed to chdir to directory"
 msgstr "chdir 到目录失败"
 
-#: dpkg-deb/extract.c:293
+#: dpkg-deb/extract.c:299
 msgid "failed to exec tar"
 msgstr "exec tar 失败"
 
-#: dpkg-deb/extract.c:316 dpkg-deb/extract.c:331 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:322 dpkg-deb/extract.c:337 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s 需要一个 .deb 文件的文件名作为参数"
 
-#: dpkg-deb/extract.c:319
+#: dpkg-deb/extract.c:325
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3576,12 +3561,12 @@ msgstr ""
 "--%s 需要一个目录作为目标目录。\n"
 "或许您应该使用 dpkg --install？"
 
-#: dpkg-deb/extract.c:322
+#: dpkg-deb/extract.c:328
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s 至多能有两个参数(分别是 .deb 文件和目录)"
 
-#: dpkg-deb/extract.c:333
+#: dpkg-deb/extract.c:339
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s 只带一个参数(即 .deb 文件的文件名)"
@@ -3694,72 +3679,48 @@ msgstr "--contents 需要且仅需一个参数"
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "Debian“%s”软件包后端打包程序 %s 版。\n"
 
-#: dpkg-deb/main.c:56
+#: dpkg-deb/main.c:60
 #, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -b|--build <directory> [<deb>]    Build an archive.\n"
-"  -c|--contents <deb>               List contents.\n"
-"  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
-"  -W|--show <deb>                   Show information on package(s)\n"
-"  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>]  Extract control info.\n"
-"  -x|--extract <deb> <directory>    Extract files.\n"
-"  -X|--vextract <deb> <directory>   Extract & list files.\n"
-"  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
-"  -h|--help                         Display this message.\n"
-"  --version                         Show version.\n"
-"  --license | --licence             Show license.\n"
+"  -b|--build <directory> [<deb>]   Build an archive.\n"
+"  -c|--contents <deb>              List contents.\n"
+"  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
+"  -W|--show <deb>                  Show information on package(s)\n"
+"  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
+"  -e|--control <deb> [<directory>] Extract control info.\n"
+"  -x|--extract <deb> <directory>   Extract files.\n"
+"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
+msgstr ""
+
+#: dpkg-deb/main.c:79
+#, c-format
+msgid ""
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
+msgstr ""
+
+#: dpkg-deb/main.c:85
+#, c-format
+msgid ""
 "Options:\n"
-"  --showformat=<format>      Use alternative format for --show.\n"
-"  -D                         Enable debugging output.\n"
-"  --old, --new               Select archive format.\n"
-"  --nocheck                  Suppress control file check (build bad "
-"package).\n"
-"  -z#                        Set the compression level when building.\n"
-"  -Z<type>                   Set the compression type to use when building.\n"
-"                             Allowed values: gzip, bzip2, none.\n"
+"  --showformat=<format>            Use alternative format for --show.\n"
+"  -D                               Enable debugging output.\n"
+"  --old, --new                     Select archive format.\n"
+"  --nocheck                        Suppress control file check (build bad\n"
+"                                     packages).\n"
+"  -z#                              Set the compression level when building.\n"
+"  -Z<type>                         Set the compression type used when "
+"building.\n"
+"                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
-"用法： %s [<选项> ...] <命令>\n"
-"\n"
-"\n"
-"命令：\n"
-"  -b|--build <目录> [<deb>]         新建一个包文件。\n"
-"  -c|--contents <deb>               列出包文件的内容。\n"
-"  -l|--info <deb> [<cfile>...]      将 info 文件打印到标准输出。\n"
-"  -W|--show <deb>                   显示软件包的相关信息\n"
-"  -f|--field <deb> [<cfield>]...]   打印指定字段到标准输出。\n"
-"  -e|--control <deb> [<目录>]       解压缩控制信息。\n"
-"  -x|--extract <deb> <目录>         解压缩文件。\n"
-"  -X|--vextract <deb> <目录>        解压缩并列出被释放的文件。\n"
-"  --fsys-tarfile <deb>              输出文件系统的 tar 打包文件。\n"
-"  -h | --help                       显示本帮助文档\n"
-"  --version | --licence             显示版本/版权信息。\n"
-"\n"
-"<deb> 是 debian 格式的包文件的文件名。\n"
-"<cfile> 是管理文件组件(administrative file component)的文件名。\n"
-"<cfield> 是主“control”文件中的属性字段的名字。\n"
-"\n"
-"选项：\n"
-"  --showformat=<格式>        令 --show 使用其它的格式输出\n"
-"  -D                         开启调试信息的输出\n"
-"  --old，--new               选择包文件的格式\n"
-"  --nocheck                  关闭对主控文件的检查(可能导致生成不能使用的软件"
-"包)。\n"
-"  -z# 设置构造软件包时，使用的压缩率\n"
-"  -Z<type>                   设置建档时所使用的压缩类型。\n"
-"                             可用值：gzip、bzip2、none\n"
-"\n"
 
-#: dpkg-deb/main.c:96
+#: dpkg-deb/main.c:106
 #, c-format
 msgid ""
 "\n"
@@ -3773,7 +3734,7 @@ msgstr ""
 "通过“dpkg-deb --extract”命令解压的软件包将不\n"
 "会被正确的安装！\n"
 
-#: dpkg-deb/main.c:105
+#: dpkg-deb/main.c:115
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -3781,7 +3742,7 @@ msgstr ""
 "输入 dpkg-deb --help 可获得有关操作 *.deb 文件的帮助；\n"
 "输入 dpkg --help 可获得有关安装和卸载软件包的帮助。"
 
-#: dpkg-deb/main.c:181
+#: dpkg-deb/main.c:191
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "无法识别的压缩类型“%s”！"
@@ -3953,82 +3914,57 @@ msgstr "Debian “%s” 软件包切割/重组工具 %s 版。\n"
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
 msgstr "版权所有(C) 1994-1996 Ian Jackson。\n"
 
-#: dpkg-split/main.c:49
+#: dpkg-split/main.c:53
 #, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -s|--split <file> [<prefix>]    Split an archive.\n"
-"  -j|--join <part> <part> ...     Join parts together.\n"
-"  -I|--info <part> ...            Display info about a part.\n"
-"  -h|--help                       Show this help message.\n"
-"  --version                       Show the version.\n"
-"  --license                       Show the license.\n"
+"  -s|--split <file> [<prefix>]     Split an archive.\n"
+"  -j|--join <part> <part> ...      Join parts together.\n"
+"  -I|--info <part> ...             Display info about a part.\n"
+"  -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
+"  -l|--listq                       List unmatched pieces.\n"
+"  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
-"  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
-"  -l|--listq                      List unmatched pieces.\n"
-"  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
-"\n"
+msgstr ""
+
+#: dpkg-split/main.c:69
+#, c-format
+msgid ""
 "Options:\n"
-"  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
-"  -o|--output <file>              For -j (default is <package>-<version>."
+"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+"  -o|--output <file>               For -j (default is <package>-<version>."
 "deb).\n"
-"  -Q|--npquiet                    Be quiet when -a is not a part.\n"
-"  --msdos                         Generate 8.3 filenames.\n"
+"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+"  --msdos                          Generate 8.3 filenames.\n"
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
-"用法:%s [<选项> ...] <命令>\n"
-"\n"
-"命令：\n"
-"  -s|--split <文件> [<前缀>]          切割包文件。\n"
-"  -j|--join <分块文件> <分块文件> ... 把各个分块合并到一起。\n"
-"  -I|--info <分块文件> ...            显示分块文件的相关信息。\n"
-"  -h|--help                           显示此帮助信息。\n"
-"  --version                           显示版本。\n"
-"  --license                           显示许可证。\n"
-"\n"
-"  -a|--auto -o <完整> <分块文件>      自动累积分块文件。\n"
-"  -l|--listq                          列出不匹配的部分。\n"
-"  -d|-discard [<文件名> ...]          忽略不匹配的部分。\n"
-"\n"
-"选项：\n"
-"  --depotdir <目录名>                 使用 <目录名> 而非 %s/%s。\n"
-"  -S|--partsize <大小>                在 -s 命令中以 Kb 计 (缺省值则是 "
-"450)。\n"
-"  -o|--output <文件>                  用于 -j 命令 (缺省为 <软件包名>-<版本号"
-">.deb)。\n"
-"  -Q|--npquiet                        当 -a 不是一个分块时，也不输出信息。\n"
-"  --msdos                             生成 8.3 的文件名。\n"
-"\n"
-"返回码: 0 = OK;  1 = -a 不是一个分块;  2 = 出问题啦！\n"
 
-#: dpkg-split/main.c:75
+#: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
 msgstr "输入 dpkg-split --help 就可以阅读帮助信息。"
 
-#: dpkg-split/main.c:85
+#: dpkg-split/main.c:91
 #, c-format
 msgid "error reading %s"
 msgstr "读取 %s 时出错"
 
-#: dpkg-split/main.c:89
+#: dpkg-split/main.c:95
 #, c-format
 msgid "error reading %.250s"
 msgstr "读取 %.250s 时出错"
 
-#: dpkg-split/main.c:90
+#: dpkg-split/main.c:96
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "在 %.250s 中发现未预期的文件结束符"
 
-#: dpkg-split/main.c:110
+#: dpkg-split/main.c:116
 msgid "part size is far too large or is not positive"
 msgstr "分块文件的大小已远远超长或者不是正数"
 
-#: dpkg-split/main.c:114
+#: dpkg-split/main.c:120
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
 msgstr "分块文件的大小至少必须大于 %dk (为了容下文件头)"
@@ -4162,6 +4098,300 @@ msgstr "原始文件“%.250s”不是普通文件"
 #: dpkg-split/split.c:70
 msgid "unable to exec mksplit"
 msgstr "无法 exec mksplit"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  --configure        <package-name> ... | -a|--pending\n"
+#~ "  -r|--remove        <package-name> ... | -a|--pending\n"
+#~ "  -P|--purge         <package-name> ... | -a|--pending\n"
+#~ "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
+#~ "  --set-selections                     Set package selections from "
+#~ "stdin.\n"
+#~ "  --clear-selections                   Deselect every non-essential "
+#~ "package.\n"
+#~ "  --update-avail <Packages-file>       Replace available packages info.\n"
+#~ "  --merge-avail <Packages-file>        Merge with info from file.\n"
+#~ "  --clear-avail                        Erase existing available info.\n"
+#~ "  --forget-old-unavail                 Forget uninstalled unavailable "
+#~ "pkgs.\n"
+#~ "  -s|--status <package-name> ...       Display package status details.\n"
+#~ "  -p|--print-avail <package-name> ...  Display available version "
+#~ "details.\n"
+#~ "  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
+#~ "  -l|--list [<pattern> ...]            List packages concisely.\n"
+#~ "  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
+#~ "  -C|--audit                           Check for broken package(s).\n"
+#~ "  --print-architecture                 Print dpkg architecture.\n"
+#~ "  --compare-versions <a> <rel> <b>     Compare version numbers - see "
+#~ "below.\n"
+#~ "  --help                               Show this help message.\n"
+#~ "  --version                            Show the version.\n"
+#~ "  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
+#~ "  --license | --licence                Print copyright licensing terms.\n"
+#~ "\n"
+#~ "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+#~ " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
+#~ "help).\n"
+#~ "\n"
+#~ "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --admindir=<directory>     Use <directory> instead of %s.\n"
+#~ "  --root=<directory>         Install on alternative system rooted "
+#~ "elsewhere.\n"
+#~ "  --instdir=<directory>      Change inst'n root without changing admin "
+#~ "dir.\n"
+#~ "  -O|--selected-only         Skip packages not selected for install/"
+#~ "upgrade.\n"
+#~ "  -E|--skip-same-version     Skip packages whose same version is "
+#~ "installed.\n"
+#~ "  -G|--refuse-downgrade      Skip packages with earlier version than "
+#~ "installed.\n"
+#~ "  -B|--auto-deconfigure      Install even if it would break some other "
+#~ "package.\n"
+#~ "  --no-debsig                Do not try to verify package signatures.\n"
+#~ "  --no-act|--dry-run|--simulate\n"
+#~ "                             Just say what we would do - don't do it.\n"
+#~ "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --"
+#~ "debug=help.\n"
+#~ "  --status-fd <n>            Send status change updates to file "
+#~ "descriptor <n>.\n"
+#~ "  --log=<filename>           Log status changes and actions to "
+#~ "<filename>.\n"
+#~ "  --ignore-depends=<package>,... Ignore dependencies involving "
+#~ "<package>.\n"
+#~ "  --force-...                    Override problems - see --force-help.\n"
+#~ "  --no-force-...|--refuse-...    Stop when problems encountered.\n"
+#~ "  --abort-after <n>              Abort after encountering <n> errors.\n"
+#~ "\n"
+#~ "Comparison operators for --compare-versions are:\n"
+#~ "  lt le eq ne ge gt       (treat empty version as earlier than any "
+#~ "version);\n"
+#~ "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any "
+#~ "version);\n"
+#~ "  < << <= = >= >> >       (only for compatibility with control file "
+#~ "syntax).\n"
+#~ "\n"
+#~ "Use `dselect' or `aptitude' for user-friendly package management.\n"
+#~ msgstr ""
+#~ "用法：%s [<选项> ...] <命令>\n"
+#~ "\n"
+#~ "命令：\n"
+#~ "  -i|--install       <.deb 文件名> ... | -R|--recursive <目录> ...\n"
+#~ "  --unpack           <.deb 文件名> ... | -R|--recursive <目录> ...\n"
+#~ "  -A|--record-avail  <.deb 文件名> ... | -R|--recursive <目录> ...\n"
+#~ "  --configure        <软件包名> ... | -a|--pending\n"
+#~ "  -r|--remove        <软件包名> ... | -a|--pending\n"
+#~ "  -P|--purge         <软件包名> ... | -a|--pending\n"
+#~ "  --get-selections [<表达式> ...]     把已选中的软件包的列表打印到标准输"
+#~ "出。\n"
+#~ "  --set-selections                    从标准输入里读出要选择的软件包列"
+#~ "表。\n"
+#~ "  --update-avail <Packages 文件>      替换现有可安装的软件包信息。\n"
+#~ "  --merge-avail <Package 文件>        把文件中的信息合并到系统中。\n"
+#~ "  --clear-avail                       清除现有的软件包信息。\n"
+#~ "  --forget-old-unavail                忘却已被卸载的不可安装的软件包。\n"
+#~ "  -s|--status <软件包名> ...          显示软件包详尽的状态信息。\n"
+#~ "  -p|--print-avail <软件包名> ...     显示可供安装的版本详情。\n"
+#~ "  -L|--listfiles <软件包名> ...       列出所有“属于”该软件包(或多个软件包)"
+#~ "的文件。\n"
+#~ "  -l|--list [<表达式> ...             简明地列出软件包的状态。\n"
+#~ "  -S|--search <表达式> ...            搜寻拥有该文件(或多个文件)的软件"
+#~ "包。\n"
+#~ "  -C|--audit                          检查搜寻残损的软件包。\n"
+#~ "  --print-architecture                显示 dpkg 体系架构。\n"
+#~ "  --compare-vesions <甲> <关系> <乙>  比较版本号 - 见下。\n"
+#~ "  --help                              显示本帮助信息。\n"
+#~ "  --version                           显示版本号。\n"
+#~ "  --force-help | -Dh|--debug=help     显示强制操作帮助和有关出错调试的帮"
+#~ "助。\n"
+#~ "  --license | --licence               显示版权和许可证的条文。\n"
+#~ "\n"
+#~ "可对包文件使用 dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--"
+#~ "field|\n"
+#~ "·-x|--extract|-X|--vextract|--fsys-tarfile 的命令 (可输入 %s --help)。\n"
+#~ "\n"
+#~ "供内部调用：dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep。\n"
+#~ "\n"
+#~ "选项：\n"
+#~ "  --admindir=<目录>          使用 <目录> 而非 %s。\n"
+#~ "  --root=<目录>              安装到另一个根文件系统。\n"
+#~ "  --instdir=<目录>           改变安装的根目录的同时保持管理(admin)目录不"
+#~ "变。\n"
+#~ "  -O|--selected-only         忽略没有被选中安装或升级的软件包。\n"
+#~ "  -E|--skip-same-version     忽略版本与已安装软件版本相同的软件包。\n"
+#~ "  -G|--refuse-downgrade      忽略版本早于已安装软件版本的的软件包。\n"
+#~ "  -B|--auto-deconfigure      就算会影响其他软件包，也要安装。\n"
+#~ "  --no-debsig                不去试图验证软件包的签名。\n"
+#~ "  --no-act|--dry-run|--simulate\n"
+#~ "                             仅仅报告我们要执行的操作 - 但是不执行。\n"
+#~ "  -D|--debug=<八进制数字>    开启调试功能 - 参见 -Dhelp 或者 --"
+#~ "debug=help。\n"
+#~ "  --status-fd <n>            发送状态改变的更新信号到文件描述符<n>。\n"
+#~ "  --log=<文件名>             记录状态的改变和操作信息至 <文件名>。\n"
+#~ "  --ignore-depends=<软件包名>,... 忽略关于 <软件包名> 的所有依赖关系。\n"
+#~ "  --force-...                     忽视遇到的问题 - 参见 --force-help。\n"
+#~ "  --no-force-...|--refuse-...     当遇到问题时中止运行。\n"
+#~ "  --abort-after <n>               当遇到<n>个问题后，中止运行。\n"
+#~ "\n"
+#~ "--compare-version 所使用的比较运算符有：\n"
+#~ " lt le eq ne ge gt       (如果版本号为空，那么就认为它先于任意版本号)；\n"
+#~ " lt-nl le-nl ge-nl gt-nl (如果版本号为空，那么就认为它后于任意版本号)；\n"
+#~ " < << <= = >= >> >       (仅仅是为了与主控文件的语法兼容)。\n"
+#~ "\n"
+#~ "“dselect”和“aptitude”提供了更为易用的的软件包管理工具。\n"
+
+#~ msgid "  Package "
+#~ msgstr "  软件包 "
+
+#~ msgid " which provides "
+#~ msgstr " 提供了 "
+
+#~ msgid " is to be removed.\n"
+#~ msgstr " 即将被删除。\n"
+
+#~ msgid "  Version of "
+#~ msgstr "  系统里的 "
+
+#~ msgid " on system is "
+#~ msgstr " 的版本是 "
+
+#~ msgid " is not installed.\n"
+#~ msgstr "还没有被安装。\n"
+
+#~ msgid " to: %s\n"
+#~ msgstr " 转移文件现指向：%s\n"
+
+#~ msgid "fgetpos failed"
+#~ msgstr "fgetpos 失败"
+
+#~ msgid "fsetpos failed"
+#~ msgstr "fsetpos 失败"
+
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -b|--build <directory> [<deb>]    Build an archive.\n"
+#~ "  -c|--contents <deb>               List contents.\n"
+#~ "  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
+#~ "  -W|--show <deb>                   Show information on package(s)\n"
+#~ "  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
+#~ "  -e|--control <deb> [<directory>]  Extract control info.\n"
+#~ "  -x|--extract <deb> <directory>    Extract files.\n"
+#~ "  -X|--vextract <deb> <directory>   Extract & list files.\n"
+#~ "  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
+#~ "  -h|--help                         Display this message.\n"
+#~ "  --version                         Show version.\n"
+#~ "  --license | --licence             Show license.\n"
+#~ "\n"
+#~ "<deb> is the filename of a Debian format archive.\n"
+#~ "<cfile> is the name of an administrative file component.\n"
+#~ "<cfield> is the name of a field in the main `control' file.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --showformat=<format>      Use alternative format for --show.\n"
+#~ "  -D                         Enable debugging output.\n"
+#~ "  --old, --new               Select archive format.\n"
+#~ "  --nocheck                  Suppress control file check (build bad "
+#~ "package).\n"
+#~ "  -z#                        Set the compression level when building.\n"
+#~ "  -Z<type>                   Set the compression type to use when "
+#~ "building.\n"
+#~ "                             Allowed values: gzip, bzip2, none.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "用法： %s [<选项> ...] <命令>\n"
+#~ "\n"
+#~ "\n"
+#~ "命令：\n"
+#~ "  -b|--build <目录> [<deb>]         新建一个包文件。\n"
+#~ "  -c|--contents <deb>               列出包文件的内容。\n"
+#~ "  -l|--info <deb> [<cfile>...]      将 info 文件打印到标准输出。\n"
+#~ "  -W|--show <deb>                   显示软件包的相关信息\n"
+#~ "  -f|--field <deb> [<cfield>]...]   打印指定字段到标准输出。\n"
+#~ "  -e|--control <deb> [<目录>]       解压缩控制信息。\n"
+#~ "  -x|--extract <deb> <目录>         解压缩文件。\n"
+#~ "  -X|--vextract <deb> <目录>        解压缩并列出被释放的文件。\n"
+#~ "  --fsys-tarfile <deb>              输出文件系统的 tar 打包文件。\n"
+#~ "  -h | --help                       显示本帮助文档\n"
+#~ "  --version | --licence             显示版本/版权信息。\n"
+#~ "\n"
+#~ "<deb> 是 debian 格式的包文件的文件名。\n"
+#~ "<cfile> 是管理文件组件(administrative file component)的文件名。\n"
+#~ "<cfield> 是主“control”文件中的属性字段的名字。\n"
+#~ "\n"
+#~ "选项：\n"
+#~ "  --showformat=<格式>        令 --show 使用其它的格式输出\n"
+#~ "  -D                         开启调试信息的输出\n"
+#~ "  --old，--new               选择包文件的格式\n"
+#~ "  --nocheck                  关闭对主控文件的检查(可能导致生成不能使用的软"
+#~ "件包)。\n"
+#~ "  -z# 设置构造软件包时，使用的压缩率\n"
+#~ "  -Z<type>                   设置建档时所使用的压缩类型。\n"
+#~ "                             可用值：gzip、bzip2、none\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -s|--split <file> [<prefix>]    Split an archive.\n"
+#~ "  -j|--join <part> <part> ...     Join parts together.\n"
+#~ "  -I|--info <part> ...            Display info about a part.\n"
+#~ "  -h|--help                       Show this help message.\n"
+#~ "  --version                       Show the version.\n"
+#~ "  --license                       Show the license.\n"
+#~ "\n"
+#~ "  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
+#~ "  -l|--listq                      List unmatched pieces.\n"
+#~ "  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
+#~ "  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
+#~ "  -o|--output <file>              For -j (default is <package>-<version>."
+#~ "deb).\n"
+#~ "  -Q|--npquiet                    Be quiet when -a is not a part.\n"
+#~ "  --msdos                         Generate 8.3 filenames.\n"
+#~ "\n"
+#~ "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
+#~ msgstr ""
+#~ "用法:%s [<选项> ...] <命令>\n"
+#~ "\n"
+#~ "命令：\n"
+#~ "  -s|--split <文件> [<前缀>]          切割包文件。\n"
+#~ "  -j|--join <分块文件> <分块文件> ... 把各个分块合并到一起。\n"
+#~ "  -I|--info <分块文件> ...            显示分块文件的相关信息。\n"
+#~ "  -h|--help                           显示此帮助信息。\n"
+#~ "  --version                           显示版本。\n"
+#~ "  --license                           显示许可证。\n"
+#~ "\n"
+#~ "  -a|--auto -o <完整> <分块文件>      自动累积分块文件。\n"
+#~ "  -l|--listq                          列出不匹配的部分。\n"
+#~ "  -d|-discard [<文件名> ...]          忽略不匹配的部分。\n"
+#~ "\n"
+#~ "选项：\n"
+#~ "  --depotdir <目录名>                 使用 <目录名> 而非 %s/%s。\n"
+#~ "  -S|--partsize <大小>                在 -s 命令中以 Kb 计 (缺省值则是 "
+#~ "450)。\n"
+#~ "  -o|--output <文件>                  用于 -j 命令 (缺省为 <软件包名>-<版"
+#~ "本号>.deb)。\n"
+#~ "  -Q|--npquiet                        当 -a 不是一个分块时，也不输出信"
+#~ "息。\n"
+#~ "  --msdos                             生成 8.3 的文件名。\n"
+#~ "\n"
+#~ "返回码: 0 = OK;  1 = -a 不是一个分块;  2 = 出问题啦！\n"
 
 #~ msgid "Search for ? "
 #~ msgstr "想搜索什么？"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.13.11\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-04-10 06:33+0300\n"
+"POT-Creation-Date: 2006-05-03 11:16+0300\n"
 "PO-Revision-Date: 2006-02-17 08:50+0200\n"
 "Last-Translator: Michael Piefel <piefel@debian.org>\n"
 "Language-Team: German <de@debian-l10n-german@lists.debian.org>\n"
@@ -183,63 +183,63 @@ msgid "unable to fill %.250s with padding"
 msgstr "kann %.250s nicht mit Leerzeichen füllen"
 
 #: lib/dbmodify.c:116
-#, c-format
-msgid "unable flush %.250s after padding"
+#, fuzzy, c-format
+msgid "unable to flush %.250s after padding"
 msgstr "keine Pufferleerung von %.250s nach Auffüllen"
 
 #: lib/dbmodify.c:118
-#, c-format
-msgid "unable seek to start of %.250s after padding"
+#, fuzzy, c-format
+msgid "unable to seek to start of %.250s after padding"
 msgstr "kann nach Auffüllen nicht zum Start von %.250s springen"
 
-#: lib/dbmodify.c:148
+#: lib/dbmodify.c:149
 msgid "requested operation requires superuser privilege"
 msgstr "angeforderte Operation benötigt Superuser-Rechte"
 
-#: lib/dbmodify.c:153
+#: lib/dbmodify.c:154
 msgid "unable to access dpkg status area"
 msgstr "kann auf den Statusbereich von dpkg nicht zugreifen"
 
-#: lib/dbmodify.c:155
+#: lib/dbmodify.c:156
 msgid "operation requires read/write access to dpkg status area"
 msgstr "Operation braucht Lese/Schreibrechte für den Statusbereich von dpkg"
 
-#: lib/dbmodify.c:203
+#: lib/dbmodify.c:204
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "konnte meine eigene Update-Datei %.255s nicht löschen"
 
-#: lib/dbmodify.c:260
+#: lib/dbmodify.c:261
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "kann den erneuerten Status von „%.250s“ nicht schreiben"
 
-#: lib/dbmodify.c:262
+#: lib/dbmodify.c:263
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "kann den erneuerten Status von „%.250s“ nicht leeren"
 
-#: lib/dbmodify.c:264
+#: lib/dbmodify.c:265
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "kann für erneuerten Status von „%.250s“ nicht abschneiden"
 
-#: lib/dbmodify.c:266
+#: lib/dbmodify.c:267
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "kann kein fsync durchführen für erneuerten Status von „%.250s“"
 
-#: lib/dbmodify.c:268
+#: lib/dbmodify.c:269
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "kann den erneuerten Status von „%.250s“ nicht schließen"
 
-#: lib/dbmodify.c:271
+#: lib/dbmodify.c:272
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "kann den erneuerten Status von „%.250s“ nicht installieren"
 
-#: lib/dbmodify.c:301
+#: lib/dbmodify.c:302
 #, fuzzy, c-format
 msgid "couldn't open log `%s': %s\n"
 msgstr "konnte Log-Datei „%s“ nicht öffnen"
@@ -856,8 +856,8 @@ msgid "must start with an alphanumeric"
 msgstr "muss mit alphanumerischem Zeichen beginnen"
 
 #: lib/parsehelp.c:123
-#, c-format
-msgid "character `%c' not allowed - only letters, digits and %s allowed"
+#, fuzzy, c-format
+msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr "Zeichen „%c“ nicht erlaubt - nur Buchstaben, Ziffern und %s erlaubt"
 
 #: lib/parsehelp.c:178
@@ -890,8 +890,9 @@ msgstr "%s fehlt"
 msgid "empty value for %s"
 msgstr "leerer Wert für %s"
 
-#: lib/showcright.c:33
-msgid "cannot open GPL file "
+#: lib/showcright.c:34
+#, fuzzy
+msgid "cannot open GPL file"
 msgstr "kann GPL-Datei nicht öffnen "
 
 #: lib/showpkg.c:70
@@ -1602,7 +1603,7 @@ msgstr "EOF auf stdin am Conffile-Prompt"
 msgid "unable to check for existence of `%.250s'"
 msgstr "kann Existenz von „%.250s“ nicht prüfen"
 
-#: src/depcon.c:153 src/packages.c:389
+#: src/depcon.c:153 src/packages.c:393
 msgid " depends on "
 msgstr " hängt ab von "
 
@@ -2181,7 +2182,7 @@ msgstr "konnte rm nicht zum Aufräumen ausführen"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "“ Paketmanagement-Programm Version "
 
-#: src/main.c:46 src/query.c:461 dpkg-deb/main.c:48 dpkg-split/main.c:41
+#: src/main.c:46 src/query.c:467 dpkg-deb/main.c:48 dpkg-split/main.c:41
 #, fuzzy, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2193,50 +2194,76 @@ msgstr ""
 "übernommen.\n"
 "Siehe auch dpkg-deb --licence für Details.\n"
 
-#: src/main.c:57
-#, fuzzy, c-format
+#: src/main.c:57 src/query.c:478 dpkg-deb/main.c:56 dpkg-split/main.c:49
+#, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
+msgstr ""
+
+#: src/main.c:61
+#, c-format
+msgid ""
 "Commands:\n"
-"  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
-"  --configure        <package-name> ... | -a|--pending\n"
-"  -r|--remove        <package-name> ... | -a|--pending\n"
-"  -P|--purge         <package-name> ... | -a|--pending\n"
-"  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
-"  --set-selections                     Set package selections from stdin.\n"
-"  --clear-selections                   Deselect every non-essential "
-"package.\n"
-"  --update-avail <Packages-file>       Replace available packages info.\n"
-"  --merge-avail <Packages-file>        Merge with info from file.\n"
-"  --clear-avail                        Erase existing available info.\n"
-"  --forget-old-unavail                 Forget uninstalled unavailable pkgs.\n"
-"  -s|--status <package-name> ...       Display package status details.\n"
-"  -p|--print-avail <package-name> ...  Display available version details.\n"
-"  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
-"  -l|--list [<pattern> ...]            List packages concisely.\n"
-"  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
-"  -C|--audit                           Check for broken package(s).\n"
-"  --print-architecture                 Print dpkg architecture.\n"
-"  --compare-versions <a> <rel> <b>     Compare version numbers - see below.\n"
-"  --help                               Show this help message.\n"
-"  --version                            Show the version.\n"
-"  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
-"  --license | --licence                Print copyright licensing terms.\n"
+"  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
+"  --configure        <package> ... | -a|--pending\n"
+"  -r|--remove        <package> ... | -a|--pending\n"
+"  -P|--purge         <package> ... | -a|--pending\n"
+"  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+"  --set-selections                 Set package selections from stdin.\n"
+"  --clear-selections               Deselect every non-essential package.\n"
+"  --update-avail <Packages-file>   Replace available packages info.\n"
+"  --merge-avail <Packages-file>    Merge with info from file.\n"
+"  --clear-avail                    Erase existing available info.\n"
+"  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
+"  -s|--status <package> ...        Display package status details.\n"
+"  -p|--print-avail <package> ...   Display available version details.\n"
+"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]        List packages concisely.\n"
+"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
+"  -C|--audit                       Check for broken package(s).\n"
+"  --print-architecture             Print dpkg architecture.\n"
+"  --compare-versions <a> <op> <b>  Compare version numbers - see below.\n"
+"  --force-help                     Show help on forcing.\n"
+"  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
+#, c-format
+msgid ""
+"  -h|--help                        Show this help message.\n"
+"  --version                        Show the version.\n"
+"  --license|--licence              Show the copyright licensing terms.\n"
+"\n"
+msgstr ""
+
+#: src/main.c:94
+#, c-format
+msgid ""
 "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
+msgstr ""
+
+#: src/main.c:99
+#, c-format
+msgid ""
 "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:104
+#, c-format
+msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
-"  --root=<directory>         Install on alternative system rooted "
-"elsewhere.\n"
-"  --instdir=<directory>      Change inst'n root without changing admin dir.\n"
+"  --root=<directory>         Install on a different root directory.\n"
+"  --instdir=<directory>      Change installation dir without changing admin "
+"dir.\n"
 "  -O|--selected-only         Skip packages not selected for install/"
 "upgrade.\n"
 "  -E|--skip-same-version     Skip packages whose same version is installed.\n"
@@ -2247,15 +2274,22 @@ msgid ""
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
-"  -D|--debug=<octal>         Enable debugging - see -Dhelp or --debug=help.\n"
+"  -D|--debug=<octal>         Enable debugging (see -Dhelp or --debug=help).\n"
 "  --status-fd <n>            Send status change updates to file descriptor "
 "<n>.\n"
 "  --log=<filename>           Log status changes and actions to <filename>.\n"
-"  --ignore-depends=<package>,... Ignore dependencies involving <package>.\n"
-"  --force-...                    Override problems - see --force-help.\n"
-"  --no-force-...|--refuse-...    Stop when problems encountered.\n"
-"  --abort-after <n>              Abort after encountering <n> errors.\n"
+"  --ignore-depends=<package>,...\n"
+"                             Ignore dependencies involving <package>.\n"
+"  --force-...                Override problems (see --force-help).\n"
+"  --no-force-...|--refuse-...\n"
+"                             Stop when problems encountered.\n"
+"  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
+msgstr ""
+
+#: src/main.c:127
+#, c-format
+msgid ""
 "Comparison operators for --compare-versions are:\n"
 "  lt le eq ne ge gt       (treat empty version as earlier than any "
 "version);\n"
@@ -2263,89 +2297,14 @@ msgid ""
 "  < << <= = >= >> >       (only for compatibility with control file "
 "syntax).\n"
 "\n"
-"Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
-"Aufruf: \n"
-"  dpkg -i|--install      <.deb-Dateiname> ... | -R|--recursive <Verz.> ...\n"
-"  dpkg --unpack          <.deb-Dateiname> ... | -R|--recursive <Verz.> ...\n"
-"  dpkg -A|--record-avail <.deb-Dateiname> ... | -R|--recursive <Verz.> ...\n"
-"  dpkg --configure              <Paketname> ... | -a|--pending\n"
-"  dpkg -r|--remove | -P|--purge <Paketname> ... | -a|--pending\n"
-"  dpkg --get-selections [<Muster> ...]    Paketauswahl in Standardausg. "
-"drucken\n"
-"  dpkg --set-selections                   Paketauswahl aus Standardeing. "
-"setzen\n"
-"  dpkg --update-avail <Packages-Datei>    Liste der verfügbaren Pakete "
-"ersetzen\n"
-"  dpkg --merge-avail <Packages-Datei>     Listen zusammenführen\n"
-"  dpkg --clear-avail                      Verfügbarkeits-Informationen "
-"löschen\n"
-"  dpkg --forget-old-unavail               nichtvorh. nichtinst. Pakete "
-"vergessen\n"
-"  dpkg -s|--status <Paketname> ...        Paketstatusdetails zeigen\n"
-"  dpkg -p|--print-avail <Paketname> ...   Details zur vorhandenen Version "
-"zeigen\n"
-"  dpkg -L|--listfiles <Paketname> ...     zu Paket(en) gehörende Dateien "
-"listen\n"
-"  dpkg -l|--list [<Muster> ...]           Übersicht zu Paketen auflisten\n"
-"  dpkg -S|--search <Muster> ...           Pakete, denen Dateien gehören, "
-"suchen\n"
-"  dpkg -C|--audit                         auf kaputte(s) Paket(e) prüfen\n"
-"  dpkg --print-architecture               Zielarchitektur zeigen (benutzt "
-"GCC)\n"
-"  dpkg --compare-versions <a> <rel> <b>   Versionsnummernvergleich – siehe "
-"unten\n"
-"  dpkg --help | --version                 diese Hilfe / Versionsnummer "
-"anzeigen\n"
-"  dpkg --force-help | -Dh|--debug=help    Hilfe für Erzwingen bzw. Debuggen\n"
-"  dpkg --licence                          Copyright/Lizenzbestimmungen "
-"ausgeben\n"
-"\n"
-"Benutze dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-" -x|--extract|-X|--vextract|--fsys-tarfile  auf Archiven (tippe %s --help).\n"
-"\n"
-"Zur internen Nutzung: dpkg --assert-support-predepends | --predep-package |\n"
-"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
-"\n"
-"Optionen:\n"
-"  --admindir=<Verzeichnis>   <Verzeichnis> statt %s benutzen\n"
-"  --root=<Verzeichnis>       auf altern. System mit anderer Wurzel "
-"installieren\n"
-"  --instdir=<Verzeichnis>    Inst.-Wurzel ändern, ohne Admin.-Verz. zu "
-"ändern\n"
-"  -O|--selected-only         nicht für Install./Upgrade gewählte Pak. "
-"übergehen\n"
-"  -E|--skip-same-version     bereits installierte Pakete übergehen\n"
-"  -G|--refuse-downgrade      Pakete mit früherer Version als install. "
-"übergehen\n"
-"  -B|--auto-deconfigure      installieren, selbst wenn es andere Pakete "
-"zerstört\n"
-"  --no-debsig                nicht versuchen, Paketunterschriften zu prüfen\n"
-"  --no-act|--dry-run|--simulate\n"
-"                             nur sagen, was wir tun würden – aber nicht tun\n"
-"  -D|--debug=<oktal>         Ermgl. Debugging – siehe -Dhelp oder --"
-"debug=help\n"
-"  --status-fd <n>            Statusänderungen an Dateideskriptor <n> senden\n"
-"  --log=<Datei>              Statusänderungen und Aktionen in <Datei> "
-"protokoll.\n"
-"  --ignore-depends=<Paket>,... Abhängigkeiten ignorieren, die <Paket> "
-"betreffen\n"
-"  --force-...                  Probleme überstimmen – siehe --force-help\n"
-"  --no-force-...|--refuse-...  stoppen, wenn Probleme auftauchen\n"
-"  --abort-after <n>            abbrechen, nachdem <n> Fehler aufgetaucht "
-"sind\n"
-"\n"
-"Vergleichsoperatoren für --compare-versions sind:\n"
-" lt le eq ne ge gt       (halten _keine_ Version für jünger als "
-"_irgendeine_);\n"
-" lt-nl le-nl ge-nl gt-nl (halten _keine_ Version für älter als "
-"_irgendeine_);\n"
-" < << <= = >= >> >       (nur für Kompatibilität mit Syntax in control).\n"
-"\n"
-"Benutzen Sie „dselect“ oder „aptitude“ für benutzerfreundliches "
-"Paketmanagement.\n"
 
-#: src/main.c:122
+#: src/main.c:134
+#, c-format
+msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
+msgstr ""
+
+#: src/main.c:141
 #, fuzzy
 msgid ""
 "Type dpkg --help for help about installing and deinstalling packages [*];\n"
@@ -2369,17 +2328,17 @@ msgstr ""
 "\n"
 "Optionen mit [*] geben viel aus - schicken Sie es durch „less“ oder „more“!"
 
-#: src/main.c:188 src/query.c:531 dpkg-deb/main.c:167 dpkg-split/main.c:151
+#: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
 #, c-format
 msgid "conflicting actions --%s and --%s"
 msgstr "Aktionen --%s und --%s stehen in Konflikt"
 
-#: src/main.c:193
+#: src/main.c:211
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "Warnung: veraltete Option „--%s“\n"
 
-#: src/main.c:201
+#: src/main.c:219
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2416,27 +2375,27 @@ msgstr ""
 "Debug-Optionen werden durch bitweises Oder zusammengesetzt.\n"
 "Beachten Sie, dass sich die Werte und Bedeutungen ändern können.\n"
 
-#: src/main.c:220
+#: src/main.c:240
 msgid "--debug requires an octal argument"
 msgstr "--debug braucht ein oktales Argument"
 
-#: src/main.c:244
+#: src/main.c:264
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr "leerer Paketname in kommagetrennter --ignore-depends-Liste „%.250s“"
 
-#: src/main.c:250
+#: src/main.c:270
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr ""
 "--ignore-depends braucht einen legalen Paketnamen. „%.250s“ ist es nicht; %s"
 
-#: src/main.c:266 src/main.c:277
+#: src/main.c:286 src/main.c:297
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "ungültige Zahl für --%s: „%.250s“"
 
-#: src/main.c:296
+#: src/main.c:317
 #, fuzzy, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2525,54 +2484,56 @@ msgstr ""
 "schwer\n"
 "beschädigen. Optionen markierten mit [*] sind per Vorgabe angestellt.\n"
 
-#: src/main.c:341
+#: src/main.c:362
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "unbekannte force/refuse-Option „%.*s“"
 
-#: src/main.c:346
+#: src/main.c:367
 #, fuzzy, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
 msgstr "Warnung: veraltete Option „--%s“\n"
 
-#: src/main.c:469 src/main.c:479 src/main.c:487
+#: src/main.c:490 src/main.c:500 src/main.c:508
 msgid "couldn't malloc in execbackend"
 msgstr "konnte kein malloc durchführen in execbackend"
 
-#: src/main.c:473 src/main.c:496
+#: src/main.c:494 src/main.c:517
 msgid "couldn't strdup in execbackend"
 msgstr "konnte kein strdup durchführen in execbackend"
 
-#: src/main.c:501
+#: src/main.c:522
 #, c-format
 msgid "failed to exec %s"
 msgstr "konnte %s nicht ausführen"
 
-#: src/main.c:514
-msgid "--command-fd takes 1 argument, not 0"
+#: src/main.c:537
+#, fuzzy
+msgid "--command-fd takes one argument, not zero"
 msgstr "--command-fd nimmt 1 Argument, nicht 0"
 
 #
-#: src/main.c:515
-msgid "--command-fd only takes 1 argument"
+#: src/main.c:539
+#, fuzzy
+msgid "--command-fd only takes one argument"
 msgstr "--command-fd nimmt nur 1 Argument"
 
-#: src/main.c:517
+#: src/main.c:541
 msgid "invalid number for --command-fd"
 msgstr "ungültige Zahl für --command-fd"
 
-#: src/main.c:519
+#: src/main.c:543
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "konnte „%i“ nicht für Stream öffnen"
 
-#: src/main.c:544
+#: src/main.c:568
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "unerwartetes Dateiende vor Ende der Zeile %d"
 
-#: src/main.c:588 src/main.c:603 src/query.c:566 dpkg-deb/main.c:189
-#: dpkg-split/main.c:163
+#: src/main.c:612 src/main.c:627 src/query.c:579 dpkg-deb/main.c:199
+#: dpkg-split/main.c:169
 msgid "need an action option"
 msgstr "brauche eine Aktions-Option"
 
@@ -2608,40 +2569,47 @@ msgstr ""
 "Mehr als eine Kopie des Paketes %s wurde in diesem Durchlauf\n"
 " entpackt! Es wird nur einmal konfiguriert.\n"
 
-#: src/packages.c:267 src/packages.c:311 src/packages.c:324
-msgid "  Package "
-msgstr "  Paket "
+#: src/packages.c:269
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is to be removed.\n"
+msgstr "  %.250s liefert %.250s, soll aber entfernt werden.\n"
 
-#: src/packages.c:270 src/packages.c:314 src/packages.c:327
-msgid " which provides "
-msgstr ", welches "
-
-#: src/packages.c:273
-msgid " is to be removed.\n"
-msgstr " bereitstellt, soll gelöscht werden.\n"
-
-#: src/packages.c:285
-msgid "  Version of "
-msgstr "  Version von "
+#: src/packages.c:272
+#, fuzzy, c-format
+msgid "  Package %s is to be removed.\n"
+msgstr "  %.250s soll entfernt werden.\n"
 
 #: src/packages.c:287
-msgid " on system is "
-msgstr " auf dem System ist "
+#, c-format
+msgid "  Version of %s on system is %s.\n"
+msgstr ""
 
 #: src/packages.c:307
 #, c-format
 msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: Konfiguriere auch „%s“ (benötigt von „%s“)\n"
 
-#: src/packages.c:317
-msgid " is not configured yet.\n"
+#: src/packages.c:313
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is not configured yet.\n"
+msgstr "  %.250s liefert %.250s, soll aber dekonfiguriert werden.\n"
+
+#: src/packages.c:316
+#, fuzzy, c-format
+msgid "  Package %s is not configured yet.\n"
 msgstr " bereitstellt, ist noch nicht konfiguriert.\n"
 
-#: src/packages.c:330
-msgid " is not installed.\n"
-msgstr " bereitstellt, ist nicht installiert.\n"
+#: src/packages.c:328
+#, fuzzy, c-format
+msgid "  Package %s which provides %s is not installed.\n"
+msgstr "Paket „%s“ ist nicht installiert.\n"
 
-#: src/packages.c:395
+#: src/packages.c:331
+#, fuzzy, c-format
+msgid "  Package %s is not installed.\n"
+msgstr "Paket „%s“ ist nicht installiert.\n"
+
+#: src/packages.c:399
 msgid "; however:\n"
 msgstr "; aber:\n"
 
@@ -2918,7 +2886,7 @@ msgstr "Version"
 msgid "Description"
 msgstr "Beschreibung"
 
-#: src/query.c:218 src/query.c:447 src/select.c:80
+#: src/query.c:218 src/query.c:453 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Kein Paket gefunden, das auf %s passt.\n"
@@ -2970,27 +2938,22 @@ msgstr "Paket „%s“ ist nicht installiert.\n"
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Paket „%s“ enthält keine Dateien (!)\n"
 
-#: src/query.c:375
-#, c-format
-msgid "locally diverted"
+#: src/query.c:376
+#, fuzzy, c-format
+msgid "locally diverted to: %s\n"
 msgstr "lokal umgeleitet"
 
-#: src/query.c:376
-#, c-format
-msgid "package diverts others"
+#: src/query.c:379
+#, fuzzy, c-format
+msgid "package diverts others to: %s\n"
 msgstr "Paket leitet andere um"
 
-#: src/query.c:377
-#, c-format
-msgid "diverted by %s"
+#: src/query.c:382
+#, fuzzy, c-format
+msgid "diverted by %s to: %s\n"
 msgstr "umgeleitet durch %s"
 
-#: src/query.c:378
-#, c-format
-msgid " to: %s\n"
-msgstr " zu: %s\n"
-
-#: src/query.c:398
+#: src/query.c:404
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -2999,30 +2962,21 @@ msgstr ""
 "und     dpkg --contents (= dpkg-deb --contents) zum Auflisten ihres "
 "Inhalts.\n"
 
-#: src/query.c:459
+#: src/query.c:465
 #, fuzzy, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "“ Paketmanagement-Programm-Abfrage-Werkzeug\n"
 
-#: src/query.c:472
+#: src/query.c:482
 #, fuzzy, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -s|--status <package-name> ...      Display package status details.\n"
-"  -p|--print-avail <package-name> ... Display available version details.\n"
-"  -L|--listfiles <package-name> ...   List files `owned' by package(s).\n"
-"  -l|--list [<pattern> ...]           List packages concisely.\n"
-"  -W|--show <pattern> ...             Show information on package(s).\n"
-"  -S|--search <pattern> ...           Find package(s) owning file(s).\n"
-"  --help                              Show this help message.\n"
-"  --version                           Show the version.\n"
-"  --license | --licence               Show the copyright licensing terms.\n"
-"\n"
-"Options:\n"
-"  --admindir=<directory>              Use <directory> instead of %s.\n"
-"  -f|--showformat=<format>            Use alternative format for --show.\n"
+"  -s|--status <package> ...        Display package status details.\n"
+"  -p|--print-avail <package> ...   Display available version details.\n"
+"  -L|--listfiles <package> ...     List files `owned' by package(s).\n"
+"  -l|--list [<pattern> ...]        List packages concisely.\n"
+"  -W|--show <pattern> ...          Show information on package(s).\n"
+"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "\n"
 msgstr ""
 " [<Option>] <Befehl>\n"
@@ -3051,7 +3005,16 @@ msgstr ""
 "normalerweise\n"
 "  rechts ausgerichtet; wenn die Breite negativ ist, dann links.\n"
 
-#: src/query.c:491 dpkg-deb/main.c:87
+#: src/query.c:498
+#, c-format
+msgid ""
+"Options:\n"
+"  --admindir=<directory>           Use <directory> instead of %s.\n"
+"  -f|--showformat=<format>         Use alternative format for --show.\n"
+"\n"
+msgstr ""
+
+#: src/query.c:504 dpkg-deb/main.c:97
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3065,7 +3028,7 @@ msgid ""
 "  case left alignment will be used.\n"
 msgstr ""
 
-#: src/query.c:501
+#: src/query.c:514
 #, fuzzy
 msgid ""
 "Use --help for help about querying packages;\n"
@@ -3480,7 +3443,7 @@ msgstr "konnte Tempdatei nicht öffnen (data), %s"
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "konnte Tempdatei nicht löschen (data), %s"
 
-#: dpkg-deb/build.c:404 dpkg-deb/extract.c:268
+#: dpkg-deb/build.c:404 dpkg-deb/extract.c:274
 msgid "data"
 msgstr "Daten"
 
@@ -3510,8 +3473,8 @@ msgid "failed to exec sh -c mv foo/* &c"
 msgstr "kann sh -c mv foo/* &c nicht ausführen"
 
 #: dpkg-deb/extract.c:59
-#, c-format
-msgid "error reading %s from %.255s"
+#, fuzzy, c-format
+msgid "error reading %s from file %.255s"
 msgstr "Fehler beim Lesen von %s aus %.255s"
 
 #: dpkg-deb/extract.c:61
@@ -3605,12 +3568,13 @@ msgstr ""
 " Größe %ld Byte: control-Archiv= %zi Byte.\n"
 
 #: dpkg-deb/extract.c:195
-msgid "ctrl information length"
+#, fuzzy
+msgid "control information length"
 msgstr "ctrl-Informationslänge"
 
 #: dpkg-deb/extract.c:197
-#, c-format
-msgid "archive has malformatted ctrl len `%s'"
+#, fuzzy, c-format
+msgid "archive has malformatted control length `%s'"
 msgstr "Archiv hat falsch formatierte ctrl-Länge „%s“"
 
 #: dpkg-deb/extract.c:200
@@ -3622,11 +3586,17 @@ msgstr ""
 " altes Debian-Paket, Version %s.\n"
 " Größe %ld Byte: control-Archiv= %zi, Hauptarchiv= %ld.\n"
 
-#: dpkg-deb/extract.c:209
-msgid "ctrlarea"
+#: dpkg-deb/extract.c:208
+#, fuzzy
+msgid "failed allocating memory for variable `ctrlarea'"
+msgstr "Fehler beim Zuweisen von Speicher für cfgfilename"
+
+#: dpkg-deb/extract.c:211
+#, fuzzy
+msgid "control area"
 msgstr "ctrlarea"
 
-#: dpkg-deb/extract.c:215
+#: dpkg-deb/extract.c:217
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3635,65 +3605,66 @@ msgstr ""
 "dpkg-deb: Datei könnte ein Archiv sein, das beschädigt wurde\n"
 "dpkg-deb:    durch einen Download im ASCII-Modus\n"
 
-#: dpkg-deb/extract.c:220
+#: dpkg-deb/extract.c:222
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "„%.255s“ ist kein Archiv im Debian-Format"
 
-#: dpkg-deb/extract.c:225
-msgid "fgetpos failed"
-msgstr "fgetpos fehlgeschlagen"
+#: dpkg-deb/extract.c:228
+msgid "failed getting the current file position"
+msgstr ""
 
-#: dpkg-deb/extract.c:229
-msgid "fsetpos failed"
-msgstr "fsetpos fehlgeschlagen"
+#: dpkg-deb/extract.c:233
+msgid "failed setting the current file position"
+msgstr ""
 
-#: dpkg-deb/extract.c:236
-msgid "failed to fdopen p1 in paste"
+#: dpkg-deb/extract.c:242
+#, fuzzy
+msgid "failed to open pipe descriptor `1' in paste"
 msgstr "fdopen p1 bei paste fehlgeschlagen"
 
-#: dpkg-deb/extract.c:238
+#: dpkg-deb/extract.c:244
 msgid "failed to write to gzip -dc"
 msgstr "Fehler beim Schreiben nach gzip -dc"
 
-#: dpkg-deb/extract.c:239
+#: dpkg-deb/extract.c:245
 msgid "failed to close gzip -dc"
 msgstr "Fehler beim Schließen von gzip -dc"
 
-#: dpkg-deb/extract.c:246
+#: dpkg-deb/extract.c:252
 msgid "failed to syscall lseek to files archive portion"
 msgstr "Fehler bei lseek auf Dateiarchiv-Teil"
 
-#: dpkg-deb/extract.c:254
+#: dpkg-deb/extract.c:260
 msgid "failed to write to pipe in copy"
 msgstr "konnte nicht in die Pipe schreiben beim Kopieren"
 
-#: dpkg-deb/extract.c:255
+#: dpkg-deb/extract.c:261
 msgid "failed to close pipe in copy"
 msgstr "konnte Pipe nicht schließen beim Kopieren"
 
-#: dpkg-deb/extract.c:276
+#: dpkg-deb/extract.c:282
 msgid "failed to create directory"
 msgstr "konnte Verzeichnis nicht erstellen"
 
-#: dpkg-deb/extract.c:277
+#: dpkg-deb/extract.c:283
 msgid "failed to chdir to directory after creating it"
 msgstr "konnte nach Erstellen des Verzeichnisses nicht hineinwechseln"
 
-#: dpkg-deb/extract.c:279
+#: dpkg-deb/extract.c:285
 msgid "failed to chdir to directory"
 msgstr "konnte nicht in Verzeichnis hineinwechseln"
 
-#: dpkg-deb/extract.c:293
+#: dpkg-deb/extract.c:299
 msgid "failed to exec tar"
 msgstr "konnte tar nicht ausführen"
 
-#: dpkg-deb/extract.c:316 dpkg-deb/extract.c:331 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:322 dpkg-deb/extract.c:337 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s braucht einen .deb-Dateinamen als Argument"
 
-#: dpkg-deb/extract.c:319
+#: dpkg-deb/extract.c:325
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3702,12 +3673,12 @@ msgstr ""
 "--%s braucht ein Zielverzeichnis.\n"
 "Vielleicht sollten Sie dpkg --install verwenden?"
 
-#: dpkg-deb/extract.c:322
+#: dpkg-deb/extract.c:328
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s nimmt maximal zwei Argumente (.deb und Verzeichnis)"
 
-#: dpkg-deb/extract.c:333
+#: dpkg-deb/extract.c:339
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s nimmt nur ein Argument (.deb-Dateiname)"
@@ -3823,84 +3794,48 @@ msgstr "--contents nimmt genau ein Argument"
 msgid "Debian `%s' package archive backend version %s.\n"
 msgstr "“ Paketarchiv-Backend Version"
 
-#: dpkg-deb/main.c:56
-#, fuzzy, c-format
+#: dpkg-deb/main.c:60
+#, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -b|--build <directory> [<deb>]    Build an archive.\n"
-"  -c|--contents <deb>               List contents.\n"
-"  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
-"  -W|--show <deb>                   Show information on package(s)\n"
-"  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
-"  -e|--control <deb> [<directory>]  Extract control info.\n"
-"  -x|--extract <deb> <directory>    Extract files.\n"
-"  -X|--vextract <deb> <directory>   Extract & list files.\n"
-"  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
-"  -h|--help                         Display this message.\n"
-"  --version                         Show version.\n"
-"  --license | --licence             Show license.\n"
+"  -b|--build <directory> [<deb>]   Build an archive.\n"
+"  -c|--contents <deb>              List contents.\n"
+"  -I|--info <deb> [<cfile> ...]    Show info to stdout.\n"
+"  -W|--show <deb>                  Show information on package(s)\n"
+"  -f|--field <deb> [<cfield> ...]  Show field(s) to stdout.\n"
+"  -e|--control <deb> [<directory>] Extract control info.\n"
+"  -x|--extract <deb> <directory>   Extract files.\n"
+"  -X|--vextract <deb> <directory>  Extract & list files.\n"
+"  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
+msgstr ""
+
+#: dpkg-deb/main.c:79
+#, c-format
+msgid ""
 "<deb> is the filename of a Debian format archive.\n"
 "<cfile> is the name of an administrative file component.\n"
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
+msgstr ""
+
+#: dpkg-deb/main.c:85
+#, c-format
+msgid ""
 "Options:\n"
-"  --showformat=<format>      Use alternative format for --show.\n"
-"  -D                         Enable debugging output.\n"
-"  --old, --new               Select archive format.\n"
-"  --nocheck                  Suppress control file check (build bad "
-"package).\n"
-"  -z#                        Set the compression level when building.\n"
-"  -Z<type>                   Set the compression type to use when building.\n"
-"                             Allowed values: gzip, bzip2, none.\n"
+"  --showformat=<format>            Use alternative format for --show.\n"
+"  -D                               Enable debugging output.\n"
+"  --old, --new                     Select archive format.\n"
+"  --nocheck                        Suppress control file check (build bad\n"
+"                                     packages).\n"
+"  -z#                              Set the compression level when building.\n"
+"  -Z<type>                         Set the compression type used when "
+"building.\n"
+"                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
-"Befehl:\n"
-"  -b|--build <Verz.> [<deb>]     Archiv bauen.\n"
-"  -c|--contents <deb>            Inhalt ausgeben.\n"
-"  -I|--info <deb> [<cDatei>...]  Info auf Standardausgabe schreiben.\n"
-"  -W|--show <deb>                Informationen zu Paket(en) zeigen.\n"
-"  -f|--field <deb> [<cFeld>...]  Feld(er) auf Standardausgabe schreiben.\n"
-"  -e|--control <deb> [<Verz.>]   Control-Info extrahieren.\n"
-"  -x|--extract <deb> <Verz.>     Dateien extrahieren.\n"
-"  -X|--vextract <deb> <Verz.>    Dateien extrahieren und auflisten.\n"
-"  --fsys-tarfile <deb>           Dateisystem-Tar ausgeben.\n"
-"  -h|--help                      Diese Meldung ausgeben.\n"
-"  --version | --licence          Version/Lizenz ausgeben.\n"
-"\n"
-"<deb> ist der Dateiname eines Archivs im Debian-Format.\n"
-"<cDatei> ist der Name einer administrativen Dateikomponente.\n"
-"<cFeld> ist der Name eines Feldes aus der Haupt-„control“-Datei\n"
-"\n"
-"Optionen:\n"
-"  --showformat=<Format>   alternatives Format für --show benutzen\n"
-"  -D                      für Debug-Ausgaben\n"
-"  --old, --new            Archiv-Format bestimmen\n"
-"  --no-check              Control-Datei-Prüfung auslassen\n"
-"                            (schlechtes Paket bauen)\n"
-"  -z#                     die Komprimierungsstärke beim Bauen setzen\n"
-"  -Z<type>                den Komprimierungstyp beim Bauen setzen\n"
-"                            erlaubte Werte: gzip, bzip2, none\n"
-"\n"
-"Format-Syntax:\n"
-"  Ein Format ist eine Zeichenkette, die für jede Datei ausgegeben wird. Das\n"
-"  Format kann die Standard-Fluchtsequenzen \\n (Zeilenvorschub), \\r\n"
-"  (Wagenrücklauf) oder \\\\ (einfacher Backslash) enthalten. "
-"Paketinformationen\n"
-"  können eingefügt werden, indem man Variablenreferenzen zu Paketfeldern\n"
-"  benutzt, die Syntax hierfür ist ${var[;breite]}. Felder werden "
-"normalerweise\n"
-"  rechts ausgerichtet; wenn die Breite negativ ist, dann links.\n"
-"\n"
-"Benutzen Sie „dpkg“, um Pakete auf Ihrem System zu installieren oder zu\n"
-"entfernen, oder „dselect“ oder „aptitude“ für eine benutzerfreundliche\n"
-"Paketverwaltung. Pakete, die mit „dpkg-deb --extract“ entpackt wurden, "
-"werden\n"
-"inkorrekt installiert!\n"
 
-#: dpkg-deb/main.c:96
+#: dpkg-deb/main.c:106
 #, c-format
 msgid ""
 "\n"
@@ -3909,7 +3844,7 @@ msgid ""
 "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
 
-#: dpkg-deb/main.c:105
+#: dpkg-deb/main.c:115
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
@@ -3917,7 +3852,7 @@ msgstr ""
 "Geben Sie dpkg-deb --help ein für Hilfe zum Verändern von *.deb-Dateien;\n"
 "Geben Sie dpkg --help ein für Hilfe zum (De-)Installieren von Paketen."
 
-#: dpkg-deb/main.c:181
+#: dpkg-deb/main.c:191
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "unbekannter Komprimierungstyp „%s“!"
@@ -4097,75 +4032,57 @@ msgstr ""
 msgid "Copyright (C) 1994-1996 Ian Jackson.\n"
 msgstr ""
 
-#: dpkg-split/main.c:49
-#, fuzzy, c-format
+#: dpkg-split/main.c:53
+#, c-format
 msgid ""
-"Usage: %s [<option> ...] <command>\n"
-"\n"
 "Commands:\n"
-"  -s|--split <file> [<prefix>]    Split an archive.\n"
-"  -j|--join <part> <part> ...     Join parts together.\n"
-"  -I|--info <part> ...            Display info about a part.\n"
-"  -h|--help                       Show this help message.\n"
-"  --version                       Show the version.\n"
-"  --license                       Show the license.\n"
+"  -s|--split <file> [<prefix>]     Split an archive.\n"
+"  -j|--join <part> <part> ...      Join parts together.\n"
+"  -I|--info <part> ...             Display info about a part.\n"
+"  -a|--auto -o <complete> <part>   Auto-accumulate parts.\n"
+"  -l|--listq                       List unmatched pieces.\n"
+"  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
-"  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
-"  -l|--listq                      List unmatched pieces.\n"
-"  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
-"\n"
+msgstr ""
+
+#: dpkg-split/main.c:69
+#, c-format
+msgid ""
 "Options:\n"
-"  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
-"  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
-"  -o|--output <file>              For -j (default is <package>-<version>."
+"  --depotdir <directory>           Use <directory> instead of %s/%s.\n"
+"  -S|--partsize <size>             In KiB, for -s (default is 450).\n"
+"  -o|--output <file>               For -j (default is <package>-<version>."
 "deb).\n"
-"  -Q|--npquiet                    Be quiet when -a is not a part.\n"
-"  --msdos                         Generate 8.3 filenames.\n"
+"  -Q|--npquiet                     Be quiet when -a is not a part.\n"
+"  --msdos                          Generate 8.3 filenames.\n"
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
-"Aufruf: dpkg-split -s|--split <Datei> [<präfix>] Archiv teilen\n"
-"        dpkg-split -j|--join <teil> <teil> ...   Teile zusammenfassen.\n"
-"        dpkg-split -I|--info <teil> ...          Info anzeigen über Teil.\n"
-"        dpkg-split -h|--help|--version|--licence Hilfe/Version/Lizenz anz.\n"
-"\n"
-"        dpkg-split -a|--auto -o <ganzes> <teil>  Teile Auto-Sammeln.\n"
-"        dpkg-split -l|--listq                    Einzelne Teile anzeigen.\n"
-"        dpkg-split -d|--discard [<datei> ...]    Einzelne Teile verwerfen.\n"
-"\n"
-"Optionen: --depotdir <Verzeichn.> (Voreinstellung ist %s/%s)\n"
-"          -S|--partsize <Größe>   (in Kb, für -s, Default ist 450)\n"
-"          -o|--output <Datei>     (für -j, Default ist <Paket>-<Version>."
-"deb)\n"
-"          -Q|--npquiet            (still sein wenn -a kein Teil ist)\n"
-"          --msdos                 (8.3-Dateinamen erzeugen)\n"
-"\n"
-"Exit-Status: 0 = OK;  1 = -a ist kein Teil;  2 = Probleme!\n"
 
-#: dpkg-split/main.c:75
+#: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
 msgstr "Geben Sie dpkg-split --help ein für Hilfe."
 
-#: dpkg-split/main.c:85
+#: dpkg-split/main.c:91
 #, c-format
 msgid "error reading %s"
 msgstr "Fehler beim Lesen von %s"
 
-#: dpkg-split/main.c:89
+#: dpkg-split/main.c:95
 #, c-format
 msgid "error reading %.250s"
 msgstr "Fehler beim Lesen von %.250s"
 
-#: dpkg-split/main.c:90
+#: dpkg-split/main.c:96
 #, c-format
 msgid "unexpected end of file in %.250s"
 msgstr "Unerwartetes Ende der Datei %.250s"
 
-#: dpkg-split/main.c:110
+#: dpkg-split/main.c:116
 msgid "part size is far too large or is not positive"
 msgstr "Teilgröße ist viel zu groß oder nicht positiv."
 
-#: dpkg-split/main.c:114
+#: dpkg-split/main.c:120
 #, c-format
 msgid "part size must be at least %dk (to allow for header)"
 msgstr "Teilgröße muss mindestens %dk sein (für den Header)"
@@ -4299,3 +4216,329 @@ msgstr "Quelldatei „%.250s“ ist keine gewöhnliche Datei"
 #: dpkg-split/split.c:70
 msgid "unable to exec mksplit"
 msgstr "kann mksplit nicht ausführen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
+#~ "  --configure        <package-name> ... | -a|--pending\n"
+#~ "  -r|--remove        <package-name> ... | -a|--pending\n"
+#~ "  -P|--purge         <package-name> ... | -a|--pending\n"
+#~ "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
+#~ "  --set-selections                     Set package selections from "
+#~ "stdin.\n"
+#~ "  --clear-selections                   Deselect every non-essential "
+#~ "package.\n"
+#~ "  --update-avail <Packages-file>       Replace available packages info.\n"
+#~ "  --merge-avail <Packages-file>        Merge with info from file.\n"
+#~ "  --clear-avail                        Erase existing available info.\n"
+#~ "  --forget-old-unavail                 Forget uninstalled unavailable "
+#~ "pkgs.\n"
+#~ "  -s|--status <package-name> ...       Display package status details.\n"
+#~ "  -p|--print-avail <package-name> ...  Display available version "
+#~ "details.\n"
+#~ "  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
+#~ "  -l|--list [<pattern> ...]            List packages concisely.\n"
+#~ "  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
+#~ "  -C|--audit                           Check for broken package(s).\n"
+#~ "  --print-architecture                 Print dpkg architecture.\n"
+#~ "  --compare-versions <a> <rel> <b>     Compare version numbers - see "
+#~ "below.\n"
+#~ "  --help                               Show this help message.\n"
+#~ "  --version                            Show the version.\n"
+#~ "  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
+#~ "  --license | --licence                Print copyright licensing terms.\n"
+#~ "\n"
+#~ "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+#~ " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
+#~ "help).\n"
+#~ "\n"
+#~ "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --admindir=<directory>     Use <directory> instead of %s.\n"
+#~ "  --root=<directory>         Install on alternative system rooted "
+#~ "elsewhere.\n"
+#~ "  --instdir=<directory>      Change inst'n root without changing admin "
+#~ "dir.\n"
+#~ "  -O|--selected-only         Skip packages not selected for install/"
+#~ "upgrade.\n"
+#~ "  -E|--skip-same-version     Skip packages whose same version is "
+#~ "installed.\n"
+#~ "  -G|--refuse-downgrade      Skip packages with earlier version than "
+#~ "installed.\n"
+#~ "  -B|--auto-deconfigure      Install even if it would break some other "
+#~ "package.\n"
+#~ "  --no-debsig                Do not try to verify package signatures.\n"
+#~ "  --no-act|--dry-run|--simulate\n"
+#~ "                             Just say what we would do - don't do it.\n"
+#~ "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --"
+#~ "debug=help.\n"
+#~ "  --status-fd <n>            Send status change updates to file "
+#~ "descriptor <n>.\n"
+#~ "  --log=<filename>           Log status changes and actions to "
+#~ "<filename>.\n"
+#~ "  --ignore-depends=<package>,... Ignore dependencies involving "
+#~ "<package>.\n"
+#~ "  --force-...                    Override problems - see --force-help.\n"
+#~ "  --no-force-...|--refuse-...    Stop when problems encountered.\n"
+#~ "  --abort-after <n>              Abort after encountering <n> errors.\n"
+#~ "\n"
+#~ "Comparison operators for --compare-versions are:\n"
+#~ "  lt le eq ne ge gt       (treat empty version as earlier than any "
+#~ "version);\n"
+#~ "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any "
+#~ "version);\n"
+#~ "  < << <= = >= >> >       (only for compatibility with control file "
+#~ "syntax).\n"
+#~ "\n"
+#~ "Use `dselect' or `aptitude' for user-friendly package management.\n"
+#~ msgstr ""
+#~ "Aufruf: \n"
+#~ "  dpkg -i|--install      <.deb-Dateiname> ... | -R|--recursive <Verz."
+#~ "> ...\n"
+#~ "  dpkg --unpack          <.deb-Dateiname> ... | -R|--recursive <Verz."
+#~ "> ...\n"
+#~ "  dpkg -A|--record-avail <.deb-Dateiname> ... | -R|--recursive <Verz."
+#~ "> ...\n"
+#~ "  dpkg --configure              <Paketname> ... | -a|--pending\n"
+#~ "  dpkg -r|--remove | -P|--purge <Paketname> ... | -a|--pending\n"
+#~ "  dpkg --get-selections [<Muster> ...]    Paketauswahl in Standardausg. "
+#~ "drucken\n"
+#~ "  dpkg --set-selections                   Paketauswahl aus Standardeing. "
+#~ "setzen\n"
+#~ "  dpkg --update-avail <Packages-Datei>    Liste der verfügbaren Pakete "
+#~ "ersetzen\n"
+#~ "  dpkg --merge-avail <Packages-Datei>     Listen zusammenführen\n"
+#~ "  dpkg --clear-avail                      Verfügbarkeits-Informationen "
+#~ "löschen\n"
+#~ "  dpkg --forget-old-unavail               nichtvorh. nichtinst. Pakete "
+#~ "vergessen\n"
+#~ "  dpkg -s|--status <Paketname> ...        Paketstatusdetails zeigen\n"
+#~ "  dpkg -p|--print-avail <Paketname> ...   Details zur vorhandenen Version "
+#~ "zeigen\n"
+#~ "  dpkg -L|--listfiles <Paketname> ...     zu Paket(en) gehörende Dateien "
+#~ "listen\n"
+#~ "  dpkg -l|--list [<Muster> ...]           Übersicht zu Paketen auflisten\n"
+#~ "  dpkg -S|--search <Muster> ...           Pakete, denen Dateien gehören, "
+#~ "suchen\n"
+#~ "  dpkg -C|--audit                         auf kaputte(s) Paket(e) prüfen\n"
+#~ "  dpkg --print-architecture               Zielarchitektur zeigen (benutzt "
+#~ "GCC)\n"
+#~ "  dpkg --compare-versions <a> <rel> <b>   Versionsnummernvergleich – "
+#~ "siehe unten\n"
+#~ "  dpkg --help | --version                 diese Hilfe / Versionsnummer "
+#~ "anzeigen\n"
+#~ "  dpkg --force-help | -Dh|--debug=help    Hilfe für Erzwingen bzw. "
+#~ "Debuggen\n"
+#~ "  dpkg --licence                          Copyright/Lizenzbestimmungen "
+#~ "ausgeben\n"
+#~ "\n"
+#~ "Benutze dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+#~ " -x|--extract|-X|--vextract|--fsys-tarfile  auf Archiven (tippe %s --"
+#~ "help).\n"
+#~ "\n"
+#~ "Zur internen Nutzung: dpkg --assert-support-predepends | --predep-package "
+#~ "|\n"
+#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
+#~ "conrep\n"
+#~ "\n"
+#~ "Optionen:\n"
+#~ "  --admindir=<Verzeichnis>   <Verzeichnis> statt %s benutzen\n"
+#~ "  --root=<Verzeichnis>       auf altern. System mit anderer Wurzel "
+#~ "installieren\n"
+#~ "  --instdir=<Verzeichnis>    Inst.-Wurzel ändern, ohne Admin.-Verz. zu "
+#~ "ändern\n"
+#~ "  -O|--selected-only         nicht für Install./Upgrade gewählte Pak. "
+#~ "übergehen\n"
+#~ "  -E|--skip-same-version     bereits installierte Pakete übergehen\n"
+#~ "  -G|--refuse-downgrade      Pakete mit früherer Version als install. "
+#~ "übergehen\n"
+#~ "  -B|--auto-deconfigure      installieren, selbst wenn es andere Pakete "
+#~ "zerstört\n"
+#~ "  --no-debsig                nicht versuchen, Paketunterschriften zu "
+#~ "prüfen\n"
+#~ "  --no-act|--dry-run|--simulate\n"
+#~ "                             nur sagen, was wir tun würden – aber nicht "
+#~ "tun\n"
+#~ "  -D|--debug=<oktal>         Ermgl. Debugging – siehe -Dhelp oder --"
+#~ "debug=help\n"
+#~ "  --status-fd <n>            Statusänderungen an Dateideskriptor <n> "
+#~ "senden\n"
+#~ "  --log=<Datei>              Statusänderungen und Aktionen in <Datei> "
+#~ "protokoll.\n"
+#~ "  --ignore-depends=<Paket>,... Abhängigkeiten ignorieren, die <Paket> "
+#~ "betreffen\n"
+#~ "  --force-...                  Probleme überstimmen – siehe --force-help\n"
+#~ "  --no-force-...|--refuse-...  stoppen, wenn Probleme auftauchen\n"
+#~ "  --abort-after <n>            abbrechen, nachdem <n> Fehler aufgetaucht "
+#~ "sind\n"
+#~ "\n"
+#~ "Vergleichsoperatoren für --compare-versions sind:\n"
+#~ " lt le eq ne ge gt       (halten _keine_ Version für jünger als "
+#~ "_irgendeine_);\n"
+#~ " lt-nl le-nl ge-nl gt-nl (halten _keine_ Version für älter als "
+#~ "_irgendeine_);\n"
+#~ " < << <= = >= >> >       (nur für Kompatibilität mit Syntax in control).\n"
+#~ "\n"
+#~ "Benutzen Sie „dselect“ oder „aptitude“ für benutzerfreundliches "
+#~ "Paketmanagement.\n"
+
+#~ msgid "  Package "
+#~ msgstr "  Paket "
+
+#~ msgid " which provides "
+#~ msgstr ", welches "
+
+#~ msgid " is to be removed.\n"
+#~ msgstr " bereitstellt, soll gelöscht werden.\n"
+
+#~ msgid "  Version of "
+#~ msgstr "  Version von "
+
+#~ msgid " on system is "
+#~ msgstr " auf dem System ist "
+
+#~ msgid " is not installed.\n"
+#~ msgstr " bereitstellt, ist nicht installiert.\n"
+
+#~ msgid " to: %s\n"
+#~ msgstr " zu: %s\n"
+
+#~ msgid "fgetpos failed"
+#~ msgstr "fgetpos fehlgeschlagen"
+
+#~ msgid "fsetpos failed"
+#~ msgstr "fsetpos fehlgeschlagen"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -b|--build <directory> [<deb>]    Build an archive.\n"
+#~ "  -c|--contents <deb>               List contents.\n"
+#~ "  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
+#~ "  -W|--show <deb>                   Show information on package(s)\n"
+#~ "  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
+#~ "  -e|--control <deb> [<directory>]  Extract control info.\n"
+#~ "  -x|--extract <deb> <directory>    Extract files.\n"
+#~ "  -X|--vextract <deb> <directory>   Extract & list files.\n"
+#~ "  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
+#~ "  -h|--help                         Display this message.\n"
+#~ "  --version                         Show version.\n"
+#~ "  --license | --licence             Show license.\n"
+#~ "\n"
+#~ "<deb> is the filename of a Debian format archive.\n"
+#~ "<cfile> is the name of an administrative file component.\n"
+#~ "<cfield> is the name of a field in the main `control' file.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --showformat=<format>      Use alternative format for --show.\n"
+#~ "  -D                         Enable debugging output.\n"
+#~ "  --old, --new               Select archive format.\n"
+#~ "  --nocheck                  Suppress control file check (build bad "
+#~ "package).\n"
+#~ "  -z#                        Set the compression level when building.\n"
+#~ "  -Z<type>                   Set the compression type to use when "
+#~ "building.\n"
+#~ "                             Allowed values: gzip, bzip2, none.\n"
+#~ "\n"
+#~ msgstr ""
+#~ "Befehl:\n"
+#~ "  -b|--build <Verz.> [<deb>]     Archiv bauen.\n"
+#~ "  -c|--contents <deb>            Inhalt ausgeben.\n"
+#~ "  -I|--info <deb> [<cDatei>...]  Info auf Standardausgabe schreiben.\n"
+#~ "  -W|--show <deb>                Informationen zu Paket(en) zeigen.\n"
+#~ "  -f|--field <deb> [<cFeld>...]  Feld(er) auf Standardausgabe schreiben.\n"
+#~ "  -e|--control <deb> [<Verz.>]   Control-Info extrahieren.\n"
+#~ "  -x|--extract <deb> <Verz.>     Dateien extrahieren.\n"
+#~ "  -X|--vextract <deb> <Verz.>    Dateien extrahieren und auflisten.\n"
+#~ "  --fsys-tarfile <deb>           Dateisystem-Tar ausgeben.\n"
+#~ "  -h|--help                      Diese Meldung ausgeben.\n"
+#~ "  --version | --licence          Version/Lizenz ausgeben.\n"
+#~ "\n"
+#~ "<deb> ist der Dateiname eines Archivs im Debian-Format.\n"
+#~ "<cDatei> ist der Name einer administrativen Dateikomponente.\n"
+#~ "<cFeld> ist der Name eines Feldes aus der Haupt-„control“-Datei\n"
+#~ "\n"
+#~ "Optionen:\n"
+#~ "  --showformat=<Format>   alternatives Format für --show benutzen\n"
+#~ "  -D                      für Debug-Ausgaben\n"
+#~ "  --old, --new            Archiv-Format bestimmen\n"
+#~ "  --no-check              Control-Datei-Prüfung auslassen\n"
+#~ "                            (schlechtes Paket bauen)\n"
+#~ "  -z#                     die Komprimierungsstärke beim Bauen setzen\n"
+#~ "  -Z<type>                den Komprimierungstyp beim Bauen setzen\n"
+#~ "                            erlaubte Werte: gzip, bzip2, none\n"
+#~ "\n"
+#~ "Format-Syntax:\n"
+#~ "  Ein Format ist eine Zeichenkette, die für jede Datei ausgegeben wird. "
+#~ "Das\n"
+#~ "  Format kann die Standard-Fluchtsequenzen \\n (Zeilenvorschub), \\r\n"
+#~ "  (Wagenrücklauf) oder \\\\ (einfacher Backslash) enthalten. "
+#~ "Paketinformationen\n"
+#~ "  können eingefügt werden, indem man Variablenreferenzen zu Paketfeldern\n"
+#~ "  benutzt, die Syntax hierfür ist ${var[;breite]}. Felder werden "
+#~ "normalerweise\n"
+#~ "  rechts ausgerichtet; wenn die Breite negativ ist, dann links.\n"
+#~ "\n"
+#~ "Benutzen Sie „dpkg“, um Pakete auf Ihrem System zu installieren oder zu\n"
+#~ "entfernen, oder „dselect“ oder „aptitude“ für eine benutzerfreundliche\n"
+#~ "Paketverwaltung. Pakete, die mit „dpkg-deb --extract“ entpackt wurden, "
+#~ "werden\n"
+#~ "inkorrekt installiert!\n"
+
+#, fuzzy
+#~ msgid ""
+#~ "Usage: %s [<option> ...] <command>\n"
+#~ "\n"
+#~ "Commands:\n"
+#~ "  -s|--split <file> [<prefix>]    Split an archive.\n"
+#~ "  -j|--join <part> <part> ...     Join parts together.\n"
+#~ "  -I|--info <part> ...            Display info about a part.\n"
+#~ "  -h|--help                       Show this help message.\n"
+#~ "  --version                       Show the version.\n"
+#~ "  --license                       Show the license.\n"
+#~ "\n"
+#~ "  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
+#~ "  -l|--listq                      List unmatched pieces.\n"
+#~ "  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
+#~ "\n"
+#~ "Options:\n"
+#~ "  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
+#~ "  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
+#~ "  -o|--output <file>              For -j (default is <package>-<version>."
+#~ "deb).\n"
+#~ "  -Q|--npquiet                    Be quiet when -a is not a part.\n"
+#~ "  --msdos                         Generate 8.3 filenames.\n"
+#~ "\n"
+#~ "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
+#~ msgstr ""
+#~ "Aufruf: dpkg-split -s|--split <Datei> [<präfix>] Archiv teilen\n"
+#~ "        dpkg-split -j|--join <teil> <teil> ...   Teile zusammenfassen.\n"
+#~ "        dpkg-split -I|--info <teil> ...          Info anzeigen über "
+#~ "Teil.\n"
+#~ "        dpkg-split -h|--help|--version|--licence Hilfe/Version/Lizenz "
+#~ "anz.\n"
+#~ "\n"
+#~ "        dpkg-split -a|--auto -o <ganzes> <teil>  Teile Auto-Sammeln.\n"
+#~ "        dpkg-split -l|--listq                    Einzelne Teile "
+#~ "anzeigen.\n"
+#~ "        dpkg-split -d|--discard [<datei> ...]    Einzelne Teile "
+#~ "verwerfen.\n"
+#~ "\n"
+#~ "Optionen: --depotdir <Verzeichn.> (Voreinstellung ist %s/%s)\n"
+#~ "          -S|--partsize <Größe>   (in Kb, für -s, Default ist 450)\n"
+#~ "          -o|--output <Datei>     (für -j, Default ist <Paket>-<Version>."
+#~ "deb)\n"
+#~ "          -Q|--npquiet            (still sein wenn -a kein Teil ist)\n"
+#~ "          --msdos                 (8.3-Dateinamen erzeugen)\n"
+#~ "\n"
+#~ "Exit-Status: 0 = OK;  1 = -a ist kein Teil;  2 = Probleme!\n"
