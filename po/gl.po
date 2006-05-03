@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-05-03 11:16+0300\n"
-"PO-Revision-Date: 2006-04-10 16:35+0200\n"
+"PO-Revision-Date: 2006-05-03 11:47+0200\n"
 "Last-Translator: Jacobo Tarrío <jtarrio@debian.org>\n"
 "Language-Team: Galician <trasno@ceu.fi.udc.es>\n"
 "MIME-Version: 1.0\n"
@@ -179,12 +179,12 @@ msgid "unable to fill %.250s with padding"
 msgstr "non se pode encher %.250s con caracteres de recheo"
 
 #: lib/dbmodify.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "unable to flush %.250s after padding"
-msgstr "non se pode baleirar o buffer de %.250s despois do recheo"
+msgstr "non se pode baleirar %.250s despois do recheo"
 
 #: lib/dbmodify.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "non se pode ir ao comezo de %.250s despois do recheo"
 
@@ -871,9 +871,11 @@ msgid "must start with an alphanumeric"
 msgstr "debe comezar por un carácter alfanumérico"
 
 #: lib/parsehelp.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
-msgstr "non se admite o carácter \"%c\" - só se admiten letras, números e %s"
+msgstr ""
+"non se admite o carácter \"%c\" (só se admiten letras, números e caracteres "
+"\"%s\")"
 
 #: lib/parsehelp.c:178
 msgid "<none>"
@@ -906,9 +908,8 @@ msgid "empty value for %s"
 msgstr "valor baleiro para %s"
 
 #: lib/showcright.c:34
-#, fuzzy
 msgid "cannot open GPL file"
-msgstr "non se pode abrir o ficheiro GPL "
+msgstr "non se pode abrir o ficheiro GPL"
 
 #: lib/showpkg.c:70
 #, c-format
@@ -2220,6 +2221,8 @@ msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
 msgstr ""
+"Emprego: %s [<opción> ...] <orde>\n"
+"\n"
 
 #: src/main.c:61
 #, c-format
@@ -2250,6 +2253,35 @@ msgid ""
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
 msgstr ""
+"Ordes:\n"
+"  -i|--install       <ficheiro .deb> ... | -R|--recursive <directorio> ...\n"
+"  --unpack           <ficheiro .deb> ... | -R|--recursive <directorio> ...\n"
+"  -A|--record-avail  <ficheiro .deb> ... | -R|--recursive <directorio> ...\n"
+"  --configure        <paquete> ... | -a|--pending\n"
+"  -r|--remove        <paquete> ... | -a|--pending\n"
+"  -P|--purge         <paquete> ... | -a|--pending\n"
+"  --get-selections [<patrón> ...]  Amosa a lista de seleccións.\n"
+"  --set-selections                 Estabrece as seleccións de paquetes.\n"
+"  --clear-selections               Deselecciona os paquetes non esenciais.\n"
+"  --update-avail <ficheiro Packages>\n"
+"                                   Substitúe a información de paquetes\n"
+"                                     dispoñibles.\n"
+"  --merge-avail <ficheiro Packages>\n"
+"                                   Mestura coa información do ficheiro.\n"
+"  --clear-avail                    Borra a información de dispoñibles.\n"
+"  --forget-old-unavail             Esquece os paquetes desinstalados\n"
+"                                     e non dispoñibles.\n"
+"  -s|--status <paquete> ...        Amosa detalles do estado do paquete.\n"
+"  -p|--print-avail <paquete> ...   Amosa detalles da versión dispoñible.\n"
+"  -L|--listfiles <paquete> ...     Amosa os ficheiros do paquete.\n"
+"  -l|--list [<patrón> ...]         Amosa unha lista concisa de paquetes.\n"
+"  -S|--search <patrón> ...         Busca paquetes que conteñen o ficheiro.\n"
+"  -C|--audit                       Busca paquetes rotos.\n"
+"  --print-architecture             Amosa a arquitectura de dpkg.\n"
+"  --compare-versions <a> <op> <b>  Compara versións - mire embaixo.\n"
+"  --force-help                     Axuda sobre o forzado.\n"
+"  -Dh|--debug=help                 Axuda sobre a depuración.\n"
+"\n"
 
 #: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
 #, c-format
@@ -2259,6 +2291,10 @@ msgid ""
 "  --license|--licence              Show the copyright licensing terms.\n"
 "\n"
 msgstr ""
+"  -h|--help                        Amosa esta mensaxe de axuda.\n"
+"  --version                        Amosa a versión.\n"
+"  --license|--licence              Amosa os termos da licencia.\n"
+"\n"
 
 #: src/main.c:94
 #, c-format
@@ -2267,6 +2303,10 @@ msgid ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
 msgstr ""
+"Empregue dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile  nos arquivos (escriba %s --"
+"help).\n"
+"\n"
 
 #: src/main.c:99
 #, c-format
@@ -2275,6 +2315,9 @@ msgid ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 msgstr ""
+"Para uso interno: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --asert-multi-conrep.\n"
+"\n"
 
 #: src/main.c:104
 #, c-format
@@ -2306,6 +2349,33 @@ msgid ""
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
 msgstr ""
+"Opcións:\n"
+"  --admindir=<directorio>    Emprega o <directorio> no canto de %s.\n"
+"  --root=<directorio>        Instala nun diretorio raíz diferente.\n"
+"  --instdir=<directorio>     Cambia a raíz de instalación sen cambiar o\n"
+"                                directorio de administración.\n"
+"  -O|--selected-only         Omite os paquetes non seleccionados para inst/"
+"act.\n"
+"  -E|--skip-same-version     Omite os paquetes xa instalados na mesma "
+"versión.\n"
+"  -G|--refuse-downgrade      Omite os paquetes de versión anterior á "
+"instalada.\n"
+"  -B|--auto-deconfigure      Instala incluso se había romper outro paquete.\n"
+"  --no-debsig                Non tenta verificar as sinaturas dos paquetes.\n"
+"  --no-act|--dry-run|--simulate\n"
+"                             Só di o que había facer - non o fai.\n"
+"  -D|--debug=<octal>         Activa a depuración (vexa -Dhelp ou --"
+"debug=help).\n"
+"  --status-fd <n>            Envía cambios de estado ao descritor de "
+"ficheiros.\n"
+"  --log=<ficheiro>           Rexistra os cambios e accións no <ficheiro>.\n"
+"  --ignore-depends=<paquete>,...\n"
+"                             Ignora as dependencias relacionadas co paquete\n"
+"  --force-...                Ignora os problemas - vexa --force-help.\n"
+"  --no-force-...|--refuse-...\n"
+"                             Detense ao atopar problemas.\n"
+"  --abort-after <n>          Detense despois de atopar <n> erros.\n"
+"\n"
 
 #: src/main.c:127
 #, c-format
@@ -2318,11 +2388,21 @@ msgid ""
 "syntax).\n"
 "\n"
 msgstr ""
+"Os operadores de comparación para --compare-versions son:\n"
+"  lt le eq ne ge gt       (tratan a versión baleira coma anterior a "
+"calquera);\n"
+"  lt-nl le-nl ge-nl gt-nl (tratan a versión baleira coma posterior a "
+"calquera);\n"
+"  < << <= = >= >> >       (só por compatibilidade cos ficheiros de "
+"control).\n"
+"\n"
 
 #: src/main.c:134
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
+"Empregue \"dselect\" ou \"aptitude\" para xestión de paquetes amigable co "
+"usuario.\n"
 
 #: src/main.c:141
 msgid ""
@@ -2518,14 +2598,12 @@ msgid "failed to exec %s"
 msgstr "non se puido executar %s"
 
 #: src/main.c:537
-#, fuzzy
 msgid "--command-fd takes one argument, not zero"
-msgstr "--command-fd toma 1 argumento, non 0"
+msgstr "--command-fd toma un argumento, non cero"
 
 #: src/main.c:539
-#, fuzzy
 msgid "--command-fd only takes one argument"
-msgstr "--command-fd só toma 1 argumento"
+msgstr "--command-fd só toma un argumento"
 
 #: src/main.c:541
 msgid "invalid number for --command-fd"
@@ -2579,19 +2657,19 @@ msgstr ""
 "Só se configura unha vez.\n"
 
 #: src/packages.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
-msgstr "  %.250s fornece %.250s pero hase eliminar.\n"
+msgstr "  Hase eliminar o paquete %s, que fornece %s.\n"
 
 #: src/packages.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is to be removed.\n"
-msgstr "  %.250s hase eliminar.\n"
+msgstr "  Hase eliminar o paquete %s.\n"
 
 #: src/packages.c:287
 #, c-format
 msgid "  Version of %s on system is %s.\n"
-msgstr ""
+msgstr "  A versión de %s no sistema é %s.\n"
 
 #: src/packages.c:307
 #, c-format
@@ -2599,24 +2677,24 @@ msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: tamén se configura \"%s\" (requirido por \"%s\")\n"
 
 #: src/packages.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
-msgstr "  %.250s fornece %.250s pero hase desconfigurar.\n"
+msgstr "  O paquete %s, que fornece %s, aínda non está configurado.\n"
 
 #: src/packages.c:316
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is not configured yet.\n"
-msgstr " aínda non está configurado.\n"
+msgstr "  O paquete %s aínda non está configurado.\n"
 
 #: src/packages.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is not installed.\n"
-msgstr "O paquete \"%s\" non está instalado.\n"
+msgstr "  O paquete %s, que fornece %s, non está instalado.\n"
 
 #: src/packages.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is not installed.\n"
-msgstr "O paquete \"%s\" non está instalado.\n"
+msgstr "  O paquete %s non está instalado.\n"
 
 #: src/packages.c:399
 msgid "; however:\n"
@@ -2962,19 +3040,19 @@ msgid "Package `%s' does not contain any files (!)\n"
 msgstr "O paquete %s non contén ningún ficheiro (!)\n"
 
 #: src/query.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "locally diverted to: %s\n"
-msgstr "desviado localmente"
+msgstr "desviado localmente a: %s\n"
 
 #: src/query.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "package diverts others to: %s\n"
-msgstr "o paquete desvía outros"
+msgstr "o paquete desvía outros a: %s\n"
 
 #: src/query.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "diverted by %s to: %s\n"
-msgstr "desviado por %s"
+msgstr "desviado por %s a: %s\n"
 
 #: src/query.c:404
 msgid ""
@@ -2991,7 +3069,7 @@ msgid "Debian `%s' package management program query tool\n"
 msgstr "Ferramenta de consulta de xestión de paquetes \"%s\" de Debian\n"
 
 #: src/query.c:482
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -3002,24 +3080,13 @@ msgid ""
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "\n"
 msgstr ""
-"Emprego: %s [<opción> ...] <orde>\n"
-"\n"
 "Ordes:\n"
-"  -s|--status <paquete> ...           Amosa detalles do estado do paquete.\n"
-"  -p|--print-avail <paquete> ...      Amosa detalles da versión dispoñible.\n"
-"  -L|--listfiles <paquete> ...        Amosa os ficheiros do(s) paquete(s).\n"
-"  -l|--list [<patrón> ...]            Amosa unha lista concisa de paquetes.\n"
-"  -W|--show <patrón> ...              Amosa información do(s) paquete(s).\n"
-"  -S|--search <patrón> ...            Busca o(s) ficheiro(s) nos paquetes.\n"
-"  --help                              Amosa esta mensaxe de axuda.\n"
-"  --version                           Amosa a versión.\n"
-"  --license                           Amosa os termos de licencia do "
-"programa.\n"
-"\n"
-"Opcións:\n"
-"  --admindir=<directorio>             Emprega o <directorio> no canto de %"
-"s.\n"
-"  -f|--showformat=<formato>           Emprega outro formato para --show.\n"
+"  -s|--status <paquete> ...        Amosa detalles do estado do paquete.\n"
+"  -p|--print-avail <paquete> ...   Amosa detalles da versión dispoñible.\n"
+"  -L|--listfiles <paquete> ...     Amosa os ficheiros do(s) paquete(s).\n"
+"  -l|--list [<patrón> ...]         Amosa unha lista concisa de paquetes.\n"
+"  -W|--show <patrón> ...           Amosa información do(s) paquete(s).\n"
+"  -S|--search <patrón> ...         Busca o(s) ficheiro(s) nos paquetes.\n"
 "\n"
 
 #: src/query.c:498
@@ -3030,6 +3097,10 @@ msgid ""
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
+"Opcións:\n"
+"  --admindir=<directorio>          Emprega o <directorio> no canto de %s.\n"
+"  -f|--showformat=<formato>        Emprega outro formato para --show.\n"
+"\n"
 
 #: src/query.c:504 dpkg-deb/main.c:97
 #, c-format
@@ -3503,9 +3574,9 @@ msgid "failed to exec sh -c mv foo/* &c"
 msgstr "non se puido executar sh -c mv foo/* &c"
 
 #: dpkg-deb/extract.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "error reading %s from file %.255s"
-msgstr "erro ao ler \"%s\" de %.255s"
+msgstr "erro ao ler %s do ficheiro %.255s"
 
 #: dpkg-deb/extract.c:61
 #, c-format
@@ -3606,12 +3677,11 @@ msgstr ""
 " tamaño %ld bytes: arquivo de control= %zi bytes.\n"
 
 #: dpkg-deb/extract.c:195
-#, fuzzy
 msgid "control information length"
 msgstr "lonxitude da información de control"
 
 #: dpkg-deb/extract.c:197
-#, fuzzy, c-format
+#, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "o arquivo ten unha lonxitude de control mal formatada \"%s\""
 
@@ -3625,12 +3695,10 @@ msgstr ""
 " tamaño %ld bytes: arquivo de control= %zi, arquivo principal= %ld.\n"
 
 #: dpkg-deb/extract.c:208
-#, fuzzy
 msgid "failed allocating memory for variable `ctrlarea'"
-msgstr "Erro ao reservar memoria para cfgfilename"
+msgstr "erro ao reservar memoria para a variable \"ctrlarea\""
 
 #: dpkg-deb/extract.c:211
-#, fuzzy
 msgid "control area"
 msgstr "área de control"
 
@@ -3650,16 +3718,15 @@ msgstr "\"%.255s\" non é un arquivo de formato Debian"
 
 #: dpkg-deb/extract.c:228
 msgid "failed getting the current file position"
-msgstr ""
+msgstr "non se puido obter a posición actual no ficheiro"
 
 #: dpkg-deb/extract.c:233
 msgid "failed setting the current file position"
-msgstr ""
+msgstr "non se puido estabrecer a posición actual no ficheiro"
 
 #: dpkg-deb/extract.c:242
-#, fuzzy
 msgid "failed to open pipe descriptor `1' in paste"
-msgstr "non se puido abrir p1 para pegar"
+msgstr "non se puido abrir o descritor de canle \"1\" para pegar"
 
 #: dpkg-deb/extract.c:244
 msgid "failed to write to gzip -dc"
@@ -3845,6 +3912,19 @@ msgid ""
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
 msgstr ""
+"Ordes:\n"
+"  -b|--build <directorio> [<deb>]  Constrúe un arquivo.\n"
+"  -c|--contents <deb>              Amosa unha lista do contido.\n"
+"  -I|--info <deb> [<ficheiroc>...] Amosa información na saída estándar.\n"
+"  -W|--show <deb>                  Amosa información sobre o(s) paquete(s)\n"
+"  -f|--field <deb> [<campoc>...]   Amosa o(s) campo(s) na saída estándar.\n"
+"  -e|--control <deb> [<directorio>]\n"
+"                                   Extrae a información de control.\n"
+"  -x|--extract <deb> <directorio>  Extrae ficheiros.\n"
+"  -X|--vextract <deb> <directorio> Extrae ficheiros e amosa unha lista.\n"
+"  --fsys-tarfile <deb>             Obtén o arquivo tar do sistema de "
+"ficheiros.\n"
+"\n"
 
 #: dpkg-deb/main.c:79
 #, c-format
@@ -3854,6 +3934,10 @@ msgid ""
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 msgstr ""
+"<deb> é o nome dun arquivo de formato Debian.\n"
+"<ficheiroc> é o nome dun compoñente de ficheiro administrativo.\n"
+"<campoc> é o nome dun campo do ficheiro \"control\" principal.\n"
+"\n"
 
 #: dpkg-deb/main.c:85
 #, c-format
@@ -3870,6 +3954,16 @@ msgid ""
 "                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
+"Opcións:\n"
+"  --showformat=<formato>     Emprega un formato alternativo para --show.\n"
+"  -D                         Activa a saída de depuración.\n"
+"  --old, --new               Escolle o formato do arquivo.\n"
+"  --nocheck                  Suprime a comprobación do ficheiro de control\n"
+"                                (constrúe un paquete incorrecto).\n"
+"  -z#                        Estabrece o nivel de compresión.\n"
+"  -Z<tipo>                   Estabrece o tipo de compresión.\n"
+"                             Admítense: gzip, bzip2, none (ningún).\n"
+"\n"
 
 #: dpkg-deb/main.c:106
 #, c-format
@@ -4096,6 +4190,15 @@ msgid ""
 "  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
 msgstr ""
+"Ordes:\n"
+"  -s|--split <ficheiro> [<prefixo>]\n"
+"                                   Parte un arquivo.\n"
+"  -j|--join <parte> <parte> ...    Une varias partes.\n"
+"  -I|--info <parte> ...            Amosa información dunha parte.\n"
+"  -a|--auto -o <completo> <parte>  Autoacumula partes.\n"
+"  -l|--listq                       Lista de anacos perdidos.\n"
+"  -d|--discard [<ficheiro>]        Omite os anacos perdidos.\n"
+"\n"
 
 #: dpkg-split/main.c:69
 #, c-format
@@ -4110,6 +4213,15 @@ msgid ""
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
+"Opcións:\n"
+"  --depotdir <directorio>      Emprega o <directorio> no canto de %s/%s.\n"
+"  -S|--partsize <tamaño>       En Kib, para -s (por defecto é 450).\n"
+"  -o|--output <ficheiro>       Para -j (por defecto é <paquete>-<versión>."
+"deb).\n"
+"  -Q|--npquiet                 Cala cando -a non é unha parte.\n"
+"  --msdos                      Xera nomes de ficheiro 8.3.\n"
+"\n"
+"Estado de saída: 0 = Ok;  1 = -a non é unha parte;  2 = ¡problemas!\n"
 
 #: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
