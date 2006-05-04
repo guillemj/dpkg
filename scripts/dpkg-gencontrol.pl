@@ -212,7 +212,7 @@ $oppackage= $f{'Package'};
 $verdiff= $f{'Version'} ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
     $f{'Source'}= $sourcepackage;
-    $f{'Source'}.= " ($sourceversion)" if $verdiff;
+    $f{'Source'}.= " ($substvar{'source:Version'})" if $verdiff;
 }
 
 if (!defined($substvar{'Installed-Size'})) {
