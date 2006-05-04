@@ -5,16 +5,20 @@ Maintainer: Dpkg Developers <team@dpkg.org>
 Uploaders: Frank Lichtenheld <djpig@debian.org>, Guillem Jover <guillem@debian.org>, Brendan O'Dea <bod@debian.org>, Christian Perrier <bubulle@debian.org>
 Origin: debian
 Bugs: debbugs://bugs.debian.org
-Standards-Version: 3.6.2
-Build-Depends: debhelper (>= 4.1.81), pkg-config, libncurses5-dev | libncurses-dev, zlib1g-dev (>= 1:1.1.3-19.1), libbz2-dev, libselinux1-dev (>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64], po4a
+Standards-Version: 3.7.1
+Build-Depends: debhelper (>= 4.1.81), pkg-config, po4a,
+ libncurses5-dev | libncurses-dev, zlib1g-dev (>= 1:1.1.3-19.1), libbz2-dev,
+ libselinux1-dev (>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]
 
 Package: dpkg
 Architecture: any
 Essential: yes
 Pre-Depends: ${shlibs:Depends}
 Depends: coreutils | textutils (>= 2.0-3)
-Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch (<< 0.11), dpkg-static, dpkg-dev (<< 1.10)
-Replaces: dpkg-doc-ja, dpkg-static, manpages-de (<= 0.4-3), manpages-pl (<= 20051117-1)
+Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch (<< 0.11), dpkg-static,
+ dpkg-dev (<< 1.10)
+Replaces: dpkg-doc-ja, dpkg-static, manpages-de (<= 0.4-3),
+ manpages-pl (<= 20051117-1)
 Suggests: apt
 Description: package maintenance system for Debian
  This package contains the low-level commands for handling the installation
@@ -27,7 +31,8 @@ Package: dpkg-dev
 Section: utils
 Priority: standard
 Architecture: all
-Depends: dpkg (>= 1.13.1), perl5, perl-modules, cpio (>= 2.4.2-2), patch (>= 2.2-1), make, binutils
+Depends: dpkg (>= 1.13.1), perl5, perl-modules, cpio (>= 2.4.2-2),
+ patch (>= 2.2-1), make, binutils
 Recommends: gcc | c-compiler, bzip2
 Suggests: gnupg, debian-keyring
 Conflicts: dpkgname
