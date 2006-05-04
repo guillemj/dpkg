@@ -443,7 +443,8 @@ foreach ( @work ) {
 
 if (!$nowrite) {
     open(NEW, "> $dirfile.new") || &ulquit("create $dirfile.new: $!");
-    print(NEW @head, join("\n", @newwork)) || &ulquit("write $dirfile.new: $!");
+    print(NEW @head, join("\n", @newwork), "\n") ||
+        &ulquit("write $dirfile.new: $!");
     close(NEW) || &ulquit("close $dirfile.new: $!");
 
     unlink("$dirfile.old");
