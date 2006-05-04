@@ -1,4 +1,4 @@
-.TH dpkg\-divert 8 "2006-02-28" "Debian Project" "dpkg utilities"
+.TH dpkg\-divert 8 "2006-05-04" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-divert - override a package's version of a file
 .
@@ -87,21 +87,21 @@ pointing at the diverted library.
 To divert all copies of a \fI/usr/bin/example.foo\fR to \fI/usr/bin/example\fR,
 performing the rename if required:
 .HP
-dpkg-divert --divert /usr/bin/example --rename /usr/bin/example.foo
+dpkg-divert \-\-divert /usr/bin/example \-\-rename /usr/bin/example.foo
 .PP
 To remove that diversion:
 .HP
-dpkg-divert --rename --remove /usr/bin/example.foo
+dpkg-divert \-\-rename \-\-remove /usr/bin/example.foo
 
 .PP
 To divert any package trying to install \fI/usr/bin/example\fR to
 \fI/usr/bin/example.foo\fR, except your own \fIwibble\fR package:
 .HP
-dpkg-divert --package wibble --divert /usr/bin/example.foo --rename /usr/bin/example
+dpkg-divert \-\-package wibble \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
 .PP
 To remove that diversion:
 .HP
-dpkg-divert --package wibble --rename --remove /usr/bin/example
+dpkg-divert \-\-package wibble \-\-rename \-\-remove /usr/bin/example
 .
 .SH FILES
 .TP

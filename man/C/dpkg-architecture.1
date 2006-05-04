@@ -1,4 +1,4 @@
-.TH dpkg\-architecture 1 "2006-02-28" "Debian Project" "dpkg utilities"
+.TH dpkg\-architecture 1 "2006-05-04" "Debian Project" "dpkg utilities"
 .SH "NAME"
 dpkg\-architecture \- set and determine the architecture for package building
 .
@@ -187,18 +187,18 @@ You may wish to retain backwards compatibility with older version of
 dpkg-dev by using the following code:
 .IP
 .nf
-DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_ARCH_CPU 2>/dev/null)
-DEB_HOST_ARCH_OS := $(shell dpkg-architecture -qDEB_HOST_ARCH_OS 2>/dev/null)
+DEB_HOST_ARCH_CPU := $(shell dpkg\-architecture \-qDEB_HOST_ARCH_CPU 2>/dev/null)
+DEB_HOST_ARCH_OS := $(shell dpkg\-architecture \-qDEB_HOST_ARCH_OS 2>/dev/null)
 
-# Take account of old dpkg-architecture output.
+# Take account of old dpkg\-architecture output.
 ifeq ($(DEB_HOST_ARCH_CPU),)
-  DEB_HOST_ARCH_CPU := $(shell dpkg-architecture -qDEB_HOST_GNU_CPU)
+  DEB_HOST_ARCH_CPU := $(shell dpkg\-architecture \-qDEB_HOST_GNU_CPU)
   ifeq ($(DEB_HOST_ARCH_CPU),x86_64)
     DEB_HOST_ARCH_CPU := amd64
   endif
 endif
 ifeq ($(DEB_HOST_ARCH_OS),)
-  DEB_HOST_ARCH_OS := $(subst -gnu,,$(shell dpkg-architecture -qDEB_HOST_GNU_SYSTEM))
+  DEB_HOST_ARCH_OS := $(subst \-gnu,,$(shell dpkg\-architecture \-qDEB_HOST_GNU_SYSTEM))
   ifeq ($(DEB_HOST_ARCH_OS),gnu)
     DEB_HOST_ARCH_OS := hurd
   endif
