@@ -2,7 +2,6 @@
 
 use Text::Wrap;
 
-# fixme: --dirfile option
 # fixme: sort entries
 # fixme: send to FSF ?
 
@@ -23,13 +22,13 @@ usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
              [--section regexp title] [--infodir=xxx] [--align=nnn]
              [--calign=nnn] [--quiet] [--menuentry=xxx] [--info-dir=xxx]
              [--keep-old] [--description=xxx] [--test]
-             [--remove | --remove-exactly ] [--dir-file]
+             [--remove | --remove-exactly ] [--dir-file=xxx]
              [--]
              filename
 END
 }
 
-$infodir='/usr/share/info';
+$dirfile = '/usr/share/info/dir';
 $maxwidth=79;
 $Text::Wrap::columns=$maxwidth;
 $backup='/var/backups/infodir.bak';
@@ -80,18 +79,16 @@ while ($ARGV[0] =~ m/^--/) {
         $sectiontitle= shift(@ARGV);
     } elsif (m/^--(c?align|maxwidth)=([0-9]+)$/) {
 	warn( "$name: $1 deprecated(ignored)\n" );
-    } elsif (m/^--infodir=/) {
-        $infodir=$';
+    } elsif (m/^--info-?dir=/) {
+	$dirfile = $' . '/dir';
     } elsif (m/^--info-file=/) {
         $filename=$';
     } elsif (m/^--menuentry=/) {
         $menuentry=$';
-    } elsif (m/^--info-dir=/) {
-        $infodir=$';
     } elsif (m/^--description=/) {
         $description=$';
     } elsif (m/^--dir-file=/) { # for compatibility with GNU install-info
-	$infodir=$';
+	$dirfile = $';
     } else {
         print STDERR "$name: unknown option \`$_'\n"; &usage(STDERR); exit 1;
     }
@@ -124,7 +121,9 @@ $filename =~ m|[^/]+$|; $basename= $&; $basename =~ s/(\.info)?(\.gz)?$//;
 # The location of the info files from the dir entry, i.e. (emacs-20/emacs).
 my $fileinentry;
 
-&dprint("infodir='$infodir'  filename='$filename'  maxwidth='$maxwidth'\nmenuentry='$menuentry'  basename='$basename'\ndescription='$description'  remove=$remove");
+&dprint("dirfile='$dirfile' filename='$filename' maxwidth='$maxwidth'");
+&dprint("menuentry='$menuentry' basename='$basename'");
+&dprint("description='$description' remove=$remove");
 
 if (!$remove) {
 
@@ -250,21 +249,21 @@ $name: unable to determine description for \`dir' entry - giving up
     }
 }
 
-if (!$nowrite && ( ! -e "$infodir/dir" || ! -s "$infodir/dir" )) {
+if (!$nowrite && ( ! -e $dirfile || ! -s _ )) {
     if (-r $backup) {
-	print STDERR "$name: no file $infodir/dir, retrieving backup file $backup.\n";
-	if (system ("cp $backup $infodir/dir")) {
-	    print STDERR "$name: copying $backup to $infodir/dir failed, giving up: $!\n";
+	print STDERR "$name: no file $dirfile, retrieving backup file $backup.\n";
+	if (system ("cp $backup $dirfile")) {
+	    print STDERR "$name: copying $backup to $dirfile failed, giving up: $!\n";
 	    exit 1;
 	}
     } else {
         if (-r $default) {
 	    print STDERR "$name: no backup file $backup available, retrieving default file.\n";
 	    
-	    if (system("cp $default $infodir/dir")) {
-		print STDERR "$name: copying $default to $infodir/dir failed, giving up: $!\n";
-	exit 1;
-    }
+	    if (system("cp $default $dirfile")) {
+		print STDERR "$name: copying $default to $dirfile failed, giving up: $!\n";
+		exit 1;
+	    }
 	} else {
 	    print STDERR "$name: no backup file $backup available.\n";
 	    print STDERR "$name: no default file $default available, giving up.\n";
@@ -273,15 +272,15 @@ if (!$nowrite && ( ! -e "$infodir/dir" || ! -s "$infodir/dir" )) {
     }
 }
 
-if (!$nowrite && !link("$infodir/dir","$infodir/dir.lock")) {
+if (!$nowrite && !link($dirfile, "$dirfile.lock")) {
     print STDERR "$name: failed to lock dir for editing! $!\n".
-        ($! =~ m/exists/i ? "try deleting $infodir/dir.lock ?\n" : '');
+        ($! =~ m/exists/i ? "try deleting $dirfile.lock ?\n" : '');
 }
 
-open(OLD,"$infodir/dir") || &ulquit("open $infodir/dir: $!");
+open(OLD, $dirfile) || &ulquit("open $dirfile: $!");
 @work= <OLD>;
-eof(OLD) || &ulquit("read $infodir/dir: $!");
-close(OLD) || &ulquit("close $infodir/dir after read: $!");
+eof(OLD) || &ulquit("read $dirfile: $!");
+close(OLD) || &ulquit("close $dirfile after read: $!");
 while (($#work >= 0) && ($work[$#work] !~ m/\S/)) { $#work--; }
 
 while (@work) {
@@ -443,22 +442,22 @@ foreach ( @work ) {
 }
 
 if (!$nowrite) {
-    open(NEW,"> $infodir/dir.new") || &ulquit("create $infodir/dir.new: $!");
-    print(NEW @head,join("\n",@newwork)) || &ulquit("write $infodir/dir.new: $!");
-    close(NEW) || &ulquit("close $infodir/dir.new: $!");
+    open(NEW, "> $dirfile.new") || &ulquit("create $dirfile.new: $!");
+    print(NEW @head, join("\n", @newwork)) || &ulquit("write $dirfile.new: $!");
+    close(NEW) || &ulquit("close $dirfile.new: $!");
 
-    unlink("$infodir/dir.old");
-    link("$infodir/dir","$infodir/dir.old") ||
-        &ulquit("cannot backup old $infodir/dir, giving up: $!");
-    rename("$infodir/dir.new","$infodir/dir") ||
-        &ulquit("install new $infodir/dir: $!");
-unlink("$infodir/dir.lock") || die "$name: unlock $infodir/dir: $!\n";
-system ("cp $infodir/dir $backup") && warn "$name: couldn't backup $infodir/dir in $backup: $!\n";
+    unlink("$dirfile.old");
+    link($dirfile, "$dirfile.old") ||
+        &ulquit("cannot backup old $dirfile, giving up: $!");
+    rename("$dirfile.new", $dirfile) ||
+        &ulquit("install new $dirfile: $!");
+    unlink("$dirfile.lock") || die "$name: unlock $dirfile: $!\n";
+    system ("cp $dirfile $backup") && warn "$name: couldn't backup $dirfile in $backup: $!\n";
 }
 
 sub ulquit {
-    unlink("$infodir/dir.lock") ||
-        warn "$name: warning - unable to unlock $infodir/dir: $!\n";
+    unlink("$dirfile.lock") ||
+        warn "$name: warning - unable to unlock $dirfile: $!\n";
     die "$name: $_[0]\n";
 }
 
