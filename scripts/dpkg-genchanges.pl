@@ -269,7 +269,7 @@ if (!$binaryonly) {
     $pri= $sourcedefault{'Priority'};
     if (!length($pri)) { $pri='-'; &warn("missing Priority for source files"); }
 
-    ($sversion = $version) =~ s/^\d+://;
+    ($sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
     open(CDATA,"< $dsc") || &error("cannot open .dsc file $dsc: $!");
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
@@ -285,7 +285,7 @@ if (!$binaryonly) {
     }
     for $f (@sourcefiles) { $f2sec{$f}= $sec; $f2pri{$f}= $pri; }
     
-    if (($sourcestyle =~ m/i/ && $version !~ m/-(0|1|0\.1)$/ ||
+    if (($sourcestyle =~ m/i/ && $sversion !~ m/-(0|1|0\.1)$/ ||
          $sourcestyle =~ m/d/) &&
         grep(m/\.diff\.gz$/,@sourcefiles)) {
         $origsrcmsg= "not including original source code in upload";
