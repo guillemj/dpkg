@@ -49,6 +49,10 @@ dpkg (1.13.19~) UNRELEASED; urgency=low
   * Make install-info add a new line after adding the last entry at the
     end of the dir file, which makes the info readers able to see those
     last enties (Nicolas François). Closes: #164495
+  * Use the numerical value of errno instead of a string in install-info
+    when checking if the locking error was due to an already existing
+    file, which is locale dependent, and die accordingly. Based on a patch
+    by Nicolas François. Closes: #199204, #210781
 
  -- Jacobo Tarrio <jtarrio@debian.org>  Wed,  3 May 2006 11:50:59 +0200
 

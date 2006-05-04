@@ -273,8 +273,8 @@ if (!$nowrite && ( ! -e $dirfile || ! -s _ )) {
 }
 
 if (!$nowrite && !link($dirfile, "$dirfile.lock")) {
-    print STDERR "$name: failed to lock dir for editing! $!\n".
-        ($! =~ m/exists/i ? "try deleting $dirfile.lock ?\n" : '');
+    die "$name: failed to lock dir for editing! $!\n".
+        ($! == EEXIST ? "try deleting $dirfile.lock ?\n" : '');
 }
 
 open(OLD, $dirfile) || &ulquit("open $dirfile: $!");
