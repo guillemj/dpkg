@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-05-03 11:16+0300\n"
-"PO-Revision-Date: 2006-04-17 16:04+0200\n"
+"PO-Revision-Date: 2006-05-08 13:57+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -181,12 +181,12 @@ msgid "unable to fill %.250s with padding"
 msgstr "nemohu dorovnat %.250s"
 
 #: lib/dbmodify.c:116
-#, fuzzy, c-format
+#, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "nemohu vyprázdnit %.250s"
 
 #: lib/dbmodify.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "nemohu se přesunout na začátek %.250s"
 
@@ -844,9 +844,10 @@ msgid "must start with an alphanumeric"
 msgstr "musí začínat písmenem nebo číslicí"
 
 #: lib/parsehelp.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
-msgstr "znak `%c' není povolen - povolena jsou pouze písmena, čísla a %s"
+msgstr ""
+"znak `%c' není povolen - povolena jsou pouze písmena, čísla a znaky `%s'"
 
 #: lib/parsehelp.c:178
 msgid "<none>"
@@ -879,9 +880,8 @@ msgid "empty value for %s"
 msgstr "položka `%s' je prázdná"
 
 #: lib/showcright.c:34
-#, fuzzy
 msgid "cannot open GPL file"
-msgstr "nelze otevřít soubor s GPL "
+msgstr "nelze otevřít soubor s GPL"
 
 #: lib/showpkg.c:70
 #, c-format
@@ -926,7 +926,7 @@ msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
 "%.100s%.10s"
 msgstr ""
-"zkouším přepsat `%.250s', což je odsunutá verze `%.250s'%.10s%.100s%.10s"
+"zkouším přepsat `%.250s', což je odkloněná verze `%.250s'%.10s%.100s%.10s"
 
 #: src/archives.c:371
 msgid " (package: "
@@ -2169,6 +2169,8 @@ msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
 msgstr ""
+"Použití: %s [<volba> ...] <příkaz>\n"
+"\n"
 
 #: src/main.c:61
 #, c-format
@@ -2199,6 +2201,37 @@ msgid ""
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
 msgstr ""
+"Příkazy:\n"
+"  -i|--install      <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  --unpack          <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  -A|--record-avail <.deb soubor> ... | -R|--recursive <adr> ...\n"
+"  --configure       <jméno balíku> ... | -a|--pending\n"
+"  -r|--remove       <jméno balíku> ... | -a|--pending\n"
+"  -P|--purge        <jméno balíku> ... | -a|--pending\n"
+"  --get-selections [<vzor> ...]      vypíše vybrané balíky na stdout\n"
+"  --set-selections                   nastaví vybrané balíky ze stdin\n"
+"  --clear-selections                 odznačí všechny balíky krom "
+"nezbytných\n"
+"  --update-avail <soubor Packages>   nahradí informace o dostupných "
+"balících\n"
+"  --merge-avail <soubor Packages>    sloučí informace o dostupných "
+"balících\n"
+"  --clear-avail                      zruší informace o balících\n"
+"  --forget-old-unavail               zapomene nenainstalované nedostupné\n"
+"                                     balíky\n"
+"  -s|--status <jméno balíku> ...     zobrazí podrobný stav balíku\n"
+"  -p|--print-avail <jméno balíku> .  zobrazí informace o dostupné verzi\n"
+"                                     balíku\n"
+"  -L|--listfiles <jméno balíku> ...  vypíše soubory `vlastněné' balíkem\n"
+"  -l|--list [<vzor> ...]             stručný seznam balíků\n"
+"  -S|--search <vzor> ...             nalezne balík, který vlastní soubor"
+"(y)\n"
+"  -C|--audit                         vyhledá porušené balíky\n"
+"  --print-architecture               vypíše dpkg architekturu\n"
+"  --compare-versions <a> <rel> <b>   porovná čísla verzí - viz níže\n"
+"  --force-help                       zobrazí nápovědu pro donucování\n"
+"  -Dh|--debug=help                   zobrazí nápovědu pro ladění\n"
+"\n"
 
 #: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
 #, c-format
@@ -2208,6 +2241,10 @@ msgid ""
 "  --license|--licence              Show the copyright licensing terms.\n"
 "\n"
 msgstr ""
+"  -h|--help                        zobrazí tuto nápovědu\n"
+"  --version                        zobrazí verzi\n"
+"  --license | --licence            zobrazí licenční ujednání\n"
+"\n"
 
 #: src/main.c:94
 #, c-format
@@ -2216,6 +2253,9 @@ msgid ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
 msgstr ""
+"Na archivy použijte dpkg -b|--build|-c|--contents|-e|--control|-I|--info|\n"
+"-f|--field| -x|--extract|-X|--vextract|--fsys-tarfile  (napište %s --help).\n"
+"\n"
 
 #: src/main.c:99
 #, c-format
@@ -2224,6 +2264,9 @@ msgid ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 msgstr ""
+"Pro vnitřní potřebu: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep\n"
+"\n"
 
 #: src/main.c:104
 #, c-format
@@ -2255,6 +2298,30 @@ msgid ""
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
 msgstr ""
+"Volby:\n"
+"  --admindir=<adresář>       místo %s použije <adresář>\n"
+"  --root=<adresář>           instaluje do systému s jiným kořenovým "
+"adresářem\n"
+"  --instdir=<adresář>        změní instalační kořen bez změny admindir\n"
+"  -O|--selected-only         přeskočí balíky, které nejsou vybrány pro "
+"instalaci/aktualizaci\n"
+"  -E|--skip-same-version     neinstaluje znovu stejnou verzi balíku\n"
+"  -G|--refuse-downgrade      neinstaluje starší verze balíku\n"
+"  -B|--auto-deconfigure      nainstaluje balík, i když se poruší závislosti "
+"jiného\n"
+"  --no-debsig                nebude se pokoušet ověřit podpis balíku\n"
+"  --no-act|--dry-run|--simulate\n"
+"                             pouze vypisuje, co by se stalo, ale "
+"neprovádí se\n"
+"  -D|--debug=<octal>         povolí ladění - viz -Dhelp nebo --"
+"debug==help\n"
+"  --status-fd <n>            pošle změny stavu balíku na popisovač <n>\n"
+"  --log=<soubor>             zaznamená změny stavu a akce do <souboru>\n"
+"  --ignore-depends=<balík>,...   ignoruje závislosti s <balíkem>\n"
+"  --force-...                    ignoruje problémy - viz --force-help\n"
+"  --no-force-...|--refuse-...    při problémech se zastaví\n"
+"  --abort-after <n>              zastaví po nalezení <n> chyb\n"
+"\n"
 
 #: src/main.c:127
 #, c-format
@@ -2267,11 +2334,18 @@ msgid ""
 "syntax).\n"
 "\n"
 msgstr ""
+"Operátory porovnání pro --compare-versions jsou:\n"
+" lt le eq ne ge gt        (neexistenci verze považuje za starší než cokoli);\n"
+" lt-nl le-nl ge-nl gt-nl  (neexistenci verze považuje za novější než cokoli);\n"
+" < << <= = >= >> >        (pro kompatibilitu se syntaxí souboru control).\n"
+"\n"
 
 #: src/main.c:134
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
+"Pro uživatelsky přívětivou správu balíků použijte `dselect' nebo "
+"`aptitude'.\n"
 
 #: src/main.c:141
 msgid ""
@@ -2416,7 +2490,7 @@ msgstr ""
 "                           problémy\n"
 "  not-root                 Zkusí (od|na)instalovat balík, i když není root\n"
 "  overwrite                Přepisuje soubory patřící jinému balíku\n"
-"  overwrite-diverted       Přepíše odsunuté soubory normální verzí\n"
+"  overwrite-diverted       Přepíše odkloněné soubory normální verzí\n"
 "  bad-verify               Nainstaluje balík, i když selže kontrola "
 "autenticity\n"
 "  depends-version [!]      Změní problémy se závislostmi verzí na varování\n"
@@ -2467,14 +2541,12 @@ msgid "failed to exec %s"
 msgstr "nelze spustit %s"
 
 #: src/main.c:537
-#, fuzzy
 msgid "--command-fd takes one argument, not zero"
-msgstr "--command-fd vyžaduje jeden parametr"
+msgstr "--command-fd vyžaduje jeden argument"
 
 #: src/main.c:539
-#, fuzzy
 msgid "--command-fd only takes one argument"
-msgstr "--command-fd vyžaduje pouze jeden parametr"
+msgstr "--command-fd vyžaduje pouze jeden argument"
 
 #: src/main.c:541
 msgid "invalid number for --command-fd"
@@ -2528,19 +2600,19 @@ msgstr ""
 " v tomto běhu ! Konfiguruji jen jednou.\n"
 
 #: src/packages.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
-msgstr "  %.250s poskytuje %.250s, ale bude odstraněn.\n"
+msgstr "  Balík %s poskytující %s bude odstraněn.\n"
 
 #: src/packages.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is to be removed.\n"
-msgstr "  %.250s bude odstraněn.\n"
+msgstr "  Balík %s bude odstraněn.\n"
 
 #: src/packages.c:287
 #, c-format
 msgid "  Version of %s on system is %s.\n"
-msgstr ""
+msgstr "  Verze %s v systému je %s.\n"
 
 #: src/packages.c:307
 #, c-format
@@ -2548,24 +2620,24 @@ msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: také konfiguruji `%s' (vyžadováno balíkem `%s')\n"
 
 #: src/packages.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
-msgstr "  %.250s poskytuje %.250s, ale bude dekonfigurován.\n"
+msgstr "  Balík %s poskytující %s zatím není zkonfigurován.\n"
 
 #: src/packages.c:316
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is not configured yet.\n"
-msgstr " ještě není zkonfigurován.\n"
+msgstr "  Balík %s zatím není zkonfigurován.\n"
 
 #: src/packages.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is not installed.\n"
-msgstr "Balík `%s' není nainstalován.\n"
+msgstr "  Balík %s poskytující %s není nainstalován.\n"
 
 #: src/packages.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is not installed.\n"
-msgstr "Balík `%s' není nainstalován.\n"
+msgstr "  Balík %s není nainstalován.\n"
 
 #: src/packages.c:399
 msgid "; however:\n"
@@ -2893,19 +2965,19 @@ msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Balík `%s' neobsahuje žádné soubory (!)\n"
 
 #: src/query.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "locally diverted to: %s\n"
-msgstr "místní odsunutí"
+msgstr "lokálně odkloněno do: %s\n"
 
 #: src/query.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "package diverts others to: %s\n"
-msgstr "balík odsouvá ostatní"
+msgstr "balík odklání ostatní do: %s\n"
 
 #: src/query.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "diverted by %s to: %s\n"
-msgstr "odsunuto balíkem %s"
+msgstr "odkloněno balíkem %s do: %s\n"
 
 #: src/query.c:404
 msgid ""
@@ -2921,7 +2993,7 @@ msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian `%s' - program pro dotazování se na balíky\n"
 
 #: src/query.c:482
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -2932,23 +3004,13 @@ msgid ""
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "\n"
 msgstr ""
-"Použití: %s [<volba> ...] <příkaz>\n"
-"\n"
 "Příkazy:\n"
 "  -s|--status <jméno-balíku> ...      zobrazí podrobný stav balíku\n"
 "  -p|--print-avail <jméno-balíku> ... zobrazí dostupné verze balíku\n"
 "  -L|--listfiles <jméno-balíku> ...   vypíše soubory vlastněné balíkem\n"
 "  -l|--list [<vzor> ...]              vypíše balíky ve zhuštěném tvaru\n"
-"  -W|--show <vzor> ...                zobrazí informace o balíku\n"
+"  -W|--show <vzor> ...                zobrazí informace o balíku/balících\n"
 "  -S|--search <vzor> ...              najde balík(y) vlastnící soubor(y)\n"
-"  --help                              zobrazí tuto nápovědu\n"
-"  --version                           zobrazí verzi\n"
-"  --license | --licence               zobrazí licenční ujednání\n"
-"\n"
-"Volby:\n"
-"  --admindir=<adresář>       Místo %s použije <adresář>\n"
-"  -f|--showformat=<formát>   Pro --show použije alternativní formát\n"
-"\n"
 
 #: src/query.c:498
 #, c-format
@@ -2958,6 +3020,10 @@ msgid ""
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
+"Volby:\n"
+"  --admindir=<adresář>       místo %s použije <adresář>\n"
+"  -f|--showformat=<formát>   pro --show použije alternativní formát\n"
+"\n"
 
 #: src/query.c:504 dpkg-deb/main.c:97
 #, c-format
@@ -3409,9 +3475,9 @@ msgid "failed to exec sh -c mv foo/* &c"
 msgstr "nelze spustit sh -c mv foo/* &c"
 
 #: dpkg-deb/extract.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "error reading %s from file %.255s"
-msgstr "chyba při čtení %s z %.255s"
+msgstr "chyba při čtení %s ze souboru %.255s"
 
 #: dpkg-deb/extract.c:61
 #, c-format
@@ -3502,12 +3568,11 @@ msgstr ""
 " velikost %ld bajtů, řídící archiv= %zi bajtů.\n"
 
 #: dpkg-deb/extract.c:195
-#, fuzzy
 msgid "control information length"
 msgstr "délka kontrolní informace"
 
 #: dpkg-deb/extract.c:197
-#, fuzzy, c-format
+#, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "archiv má chybně formátovanou kontrolní délku `%s'"
 
@@ -3521,14 +3586,12 @@ msgstr ""
 " velikost %ld bajtů: kontrolní archiv= %zi, hlavní archiv= %ld.\n"
 
 #: dpkg-deb/extract.c:208
-#, fuzzy
 msgid "failed allocating memory for variable `ctrlarea'"
-msgstr "Chyba při alokaci paměti pro cfgfilename"
+msgstr "chyba při alokaci paměti pro proměnnou `ctrlarea'"
 
 #: dpkg-deb/extract.c:211
-#, fuzzy
 msgid "control area"
-msgstr "ctrlarea"
+msgstr "kontrolní oblast"
 
 #: dpkg-deb/extract.c:217
 #, c-format
@@ -3546,16 +3609,15 @@ msgstr "`%.255s' nemá formát balíku debian"
 
 #: dpkg-deb/extract.c:228
 msgid "failed getting the current file position"
-msgstr ""
+msgstr "nelze získat aktuální pozici v souboru"
 
 #: dpkg-deb/extract.c:233
 msgid "failed setting the current file position"
-msgstr ""
+msgstr "nelze nastavit aktuální pozici v souboru"
 
 #: dpkg-deb/extract.c:242
-#, fuzzy
 msgid "failed to open pipe descriptor `1' in paste"
-msgstr "selhal fdopen p1"
+msgstr "nelze otevřít popisovač `1' roury"
 
 #: dpkg-deb/extract.c:244
 msgid "failed to write to gzip -dc"
@@ -3741,6 +3803,17 @@ msgid ""
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
 msgstr ""
+"Příkazy:\n"
+"  -b|--build <adresář> [<deb>]     vytvoří archiv\n"
+"  -c|--contents <deb>              vypíše obsah\n"
+"  -I|--info <deb> [<csoubor>...]   vypíše informace na standardní výstup\n"
+"  -W|--show <deb>                  vypíše informace o balíku\n"
+"  -f|--field <deb> [<cpoložka>...] vypíše položku na standardní výstup\n"
+"  -e|--control <deb> [<adresář>]   rozbalí řídící informace\n"
+"  -x|--extract <deb> <adresář>     rozbalí soubory\n"
+"  -X|--vextract <deb> <adresář>    rozbalí a vypíše soubory\n"
+"  --fsys-tarfile <deb>             vypíše tar se soubory\n"
+"\n"
 
 #: dpkg-deb/main.c:79
 #, c-format
@@ -3750,6 +3823,10 @@ msgid ""
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 msgstr ""
+"<deb> je jméno debianího archivu.\n"
+"<csoubor> je jméno řídícího souboru.\n"
+"<cpoložka> je název položky v hlavním souboru `control'.\n"
+"\n"
 
 #: dpkg-deb/main.c:85
 #, c-format
@@ -3766,6 +3843,16 @@ msgid ""
 "                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
+"Volby:\n"
+"  --showformat=<formát>     použije alternativní formát pro --show\n"
+"  -D                        povolí ladící výpisy\n"
+"  --old, --new              vybere formát archivu\n"
+"  --nocheck                 potlačí kontrolu souboru control (vytváření\n"
+"                            chybných balíků)\n"
+"  -z#                       při vytváření nastaví kompresi\n"
+"  -Z<typ>                   při vytváření nastaví typ komprese\n"
+"                            povolené hodnoty: gzip, bzip2, none\n"
+"\n"
 
 #: dpkg-deb/main.c:106
 #, c-format
@@ -3973,6 +4060,14 @@ msgid ""
 "  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
 msgstr ""
+"Příkazy:\n"
+"  -s|--split <soubor> [<prefix>]  rozdělí archiv\n"
+"  -j|--join <část> <část> ...     spojí části dohromady\n"
+"  -I|--info <část> ...            vypíše informaci o části\n"
+"  -a|--auto -o <celek> <část>     automaticky spojí části\n"
+"  -l|--listq                      vypíše nehodící se části\n"
+"  -d|--discard [<soubor> ...]     ignoruje nehodící se části\n"
+"\n"
 
 #: dpkg-split/main.c:69
 #, c-format
@@ -3987,6 +4082,14 @@ msgid ""
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
+"Volby:\n"
+"  --depotdir <adresář>            místo %s/%s použije <adresář>\n"
+"  -S|--partsize <velikost>        v kiB, pro -s, výchozí je 450)\n"
+"  -o|--output <soubor>            pro -j, výchozí je <balík>-<verze>.deb\n"
+"  -Q|--npquiet                    nestěžuje si pokud -a není částí\n"
+"  --msdos                         generuje jména konvence 8.3\n"
+"\n"
+"Výstupní stavy: 0 = OK;  1 = -a a není částí;  2 = problémy!\n"
 
 #: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
@@ -4146,168 +4249,6 @@ msgstr "zdrojový soubor `%.250s' není obyčejným souborem"
 msgid "unable to exec mksplit"
 msgstr "nelze spustit mksplit"
 
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  --configure        <package-name> ... | -a|--pending\n"
-#~ "  -r|--remove        <package-name> ... | -a|--pending\n"
-#~ "  -P|--purge         <package-name> ... | -a|--pending\n"
-#~ "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
-#~ "  --set-selections                     Set package selections from "
-#~ "stdin.\n"
-#~ "  --clear-selections                   Deselect every non-essential "
-#~ "package.\n"
-#~ "  --update-avail <Packages-file>       Replace available packages info.\n"
-#~ "  --merge-avail <Packages-file>        Merge with info from file.\n"
-#~ "  --clear-avail                        Erase existing available info.\n"
-#~ "  --forget-old-unavail                 Forget uninstalled unavailable "
-#~ "pkgs.\n"
-#~ "  -s|--status <package-name> ...       Display package status details.\n"
-#~ "  -p|--print-avail <package-name> ...  Display available version "
-#~ "details.\n"
-#~ "  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
-#~ "  -l|--list [<pattern> ...]            List packages concisely.\n"
-#~ "  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
-#~ "  -C|--audit                           Check for broken package(s).\n"
-#~ "  --print-architecture                 Print dpkg architecture.\n"
-#~ "  --compare-versions <a> <rel> <b>     Compare version numbers - see "
-#~ "below.\n"
-#~ "  --help                               Show this help message.\n"
-#~ "  --version                            Show the version.\n"
-#~ "  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
-#~ "  --license | --licence                Print copyright licensing terms.\n"
-#~ "\n"
-#~ "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-#~ " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
-#~ "help).\n"
-#~ "\n"
-#~ "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#~ "conrep.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --admindir=<directory>     Use <directory> instead of %s.\n"
-#~ "  --root=<directory>         Install on alternative system rooted "
-#~ "elsewhe1re.\n"
-#~ "  --instdir=<directory>      Change inst'n root without changing admin "
-#~ "dir.\n"
-#~ "  -O|--selected-only         Skip packages not selected for install/"
-#~ "upgrade.\n"
-#~ "  -E|--skip-same-version     Skip packages whose same version is "
-#~ "installed.\n"
-#~ "  -G|--refuse-downgrade      Skip packages with earlier version than "
-#~ "installed.\n"
-#~ "  -B|--auto-deconfigure      Install even if it would break some other "
-#~ "package.\n"
-#~ "  --no-debsig                Do not try to verify package signatures.\n"
-#~ "  --no-act|--dry-run|--simulate\n"
-#~ "                             Just say what we would do - don't do it.\n"
-#~ "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --"
-#~ "debug=help.\n"
-#~ "  --status-fd <n>            Send status change updates to file "
-#~ "descriptor <n>.\n"
-#~ "  --log=<filename>           Log status changes and actions to "
-#~ "<filename>.\n"
-#~ "  --ignore-depends=<package>,... Ignore dependencies involving "
-#~ "<package>.\n"
-#~ "  --force-...                    Override problems - see --force-help.\n"
-#~ "  --no-force-...|--refuse-...    Stop when problems encountered.\n"
-#~ "  --abort-after <n>              Abort after encountering <n> errors.\n"
-#~ "\n"
-#~ "Comparison operators for --compare-versions are:\n"
-#~ "  lt le eq ne ge gt       (treat empty version as earlier than any "
-#~ "version);\n"
-#~ "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any "
-#~ "version);\n"
-#~ "  < << <= = >= >> >       (only for compatibility with control file "
-#~ "syntax).\n"
-#~ "\n"
-#~ "Use `dselect' or `aptitude' for user-friendly package management.\n"
-#~ msgstr ""
-#~ "Použití: %s [<volba> ...] <příkaz>\n"
-#~ "\n"
-#~ "Příkazy:\n"
-#~ "  -i|--install      <.deb soubor> ... | -R|--recursive <adr> ...\n"
-#~ "  --unpack          <.deb soubor> ... | -R|--recursive <adr> ...\n"
-#~ "  -A|--record-avail <.deb soubor> ... | -R|--recursive <adr> ...\n"
-#~ "  --configure       <jméno balíku> ... | -a|--pending\n"
-#~ "  -r|--remove       <jméno balíku> ... | -a|--pending\n"
-#~ "  -P|--purge        <jméno balíku> ... | -a|--pending\n"
-#~ "  --get-selections [<vzor> ...]      vypíše vybrané balíky na stdout\n"
-#~ "  --set-selections                   nastaví vybrané balíky ze stdin\n"
-#~ "  --clear-selections                 odznačí všechny balíky krom "
-#~ "nezbytných\n"
-#~ "  --update-avail <soubor Packages>   nahradí informace o dostupných "
-#~ "balících\n"
-#~ "  --merge-avail <soubor Packages>    sloučí informace o dostupných "
-#~ "balících\n"
-#~ "  --clear-avail                      zruší informace o balících\n"
-#~ "  --forget-old-unavail               zapomene nenainstalované nedostupné\n"
-#~ "                                     balíky\n"
-#~ "  -s|--status <jméno balíku> ...     zobrazí podrobný stav balíku\n"
-#~ "  -p|--print-avail <jméno balíku> .  zobrazí informace o dostupné verzi\n"
-#~ "                                     balíku\n"
-#~ "  -L|--listfiles <jméno balíku> ...  vypíše soubory `vlastněné' balíkem\n"
-#~ "  -l|--list [<vzor> ...]             stručný seznam balíků\n"
-#~ "  -S|--search <vzor> ...             nalezne balík, který vlastní soubor"
-#~ "(y)\n"
-#~ "  -C|--audit                         vyhledá porušené balíky\n"
-#~ "  --print-architecture               vypíše dpkg architekturu\n"
-#~ "  --compare-versions <a> <rel> <b>   porovná čísla verzí - viz níže\n"
-#~ "  --help                             vypíše tuto nápovědu\n"
-#~ "  --version                          vypíše verzi\n"
-#~ "  --force-help | -Dh|--debug=help    nápověda pro force resp. ladění\n"
-#~ "  --license | --licence              vypíše licenční podmínky\n"
-#~ "\n"
-#~ "Použijte dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--"
-#~ "field|\n"
-#~ " -x|--extract|-X|--vextract|--fsys-tarfile  na archivy (napište %s --"
-#~ "help).\n"
-#~ "\n"
-#~ "Pro vnitřní potřebu: dpkg --assert-support-predepends | --predep-package "
-#~ "|\n"
-#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#~ "conrep\n"
-#~ "\n"
-#~ "Volby:\n"
-#~ "  --admindir=<adresář>       Použije <adresář> místo %s\n"
-#~ "  --root=<adresář>           Instaluje do systému s jiným kořenovým "
-#~ "adresářem\n"
-#~ "  --instdir=<adresář>        Změní instalační kořen bez změny admindir\n"
-#~ "  -O|--selected-only         Přeskočí balíky, které nejsou vybrány pro "
-#~ "instalaci/aktualizaci\n"
-#~ "  -E|--skip-same-version     Neinstaluje znovu stejnou verzi balíku\n"
-#~ "  -G|--refuse-downgrade      Neinstaluje starší verze balíku\n"
-#~ "  -B|--auto-deconfigure      Nainstaluje balík, i když se poruší "
-#~ "závislosti jiného\n"
-#~ "  --no-debsig                Nepokoušej se ověřit podpis balíku\n"
-#~ "  --no-act|--dry-run|--simulate\n"
-#~ "                             Pouze vypisuje, co by se stalo, ale "
-#~ "neprovádí se\n"
-#~ "  -D|--debug=<octal>         Povolí ladění - viz -Dhelp nebo --"
-#~ "debug==help\n"
-#~ "  --status-fd <n>            Pošle změny stavu balíku na popisovač <n>\n"
-#~ "  --log=<soubor>             Zaznamená změny stavu a akce do <souboru>.\n"
-#~ "  --ignore-depends=<balík>,...   Ignoruje závislosti s <balíkem>\n"
-#~ "  --force-...                    Ignoruje problémy - viz --force-help\n"
-#~ "  --no-force-...|--refuse-...    Zastaví se při problémech\n"
-#~ "  --abort-after <n>              Zastaví po nalezení <n> chyb\n"
-#~ "\n"
-#~ "Operátory porovnání pro --compare-versions jsou:\n"
-#~ " lt le eq ne ge gt        (neexistenci verze považuje za starší než "
-#~ "cokoli);\n"
-#~ " lt-nl le-nl ge-nl gt-nl  (neexistenci verze považuje za novější než "
-#~ "cokoli);\n"
-#~ " < << <= = >= >> >        (pro kompatibilitu se syntaxí souboru "
-#~ "control).\n"
-#~ "\n"
-#~ "Pro uživatelsky přívětivou správu balíků použijte `dselect' nebo "
-#~ "`aptitude'.\n"
-
 #~ msgid "  Package "
 #~ msgstr "  Balík "
 
@@ -4328,122 +4269,3 @@ msgstr "nelze spustit mksplit"
 
 #~ msgid " to: %s\n"
 #~ msgstr " na: %s\n"
-
-#~ msgid "fgetpos failed"
-#~ msgstr "fgetpos selhal"
-
-#~ msgid "fsetpos failed"
-#~ msgstr "fsetpos selhal"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -b|--build <directory> [<deb>]    Build an archive.\n"
-#~ "  -c|--contents <deb>               List contents.\n"
-#~ "  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
-#~ "  -W|--show <deb>                   Show information on package(s)\n"
-#~ "  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
-#~ "  -e|--control <deb> [<directory>]  Extract control info.\n"
-#~ "  -x|--extract <deb> <directory>    Extract files.\n"
-#~ "  -X|--vextract <deb> <directory>   Extract & list files.\n"
-#~ "  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
-#~ "  -h|--help                         Display this message.\n"
-#~ "  --version                         Show version.\n"
-#~ "  --license | --licence             Show license.\n"
-#~ "\n"
-#~ "<deb> is the filename of a Debian format archive.\n"
-#~ "<cfile> is the name of an administrative file component.\n"
-#~ "<cfield> is the name of a field in the main `control' file.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --showformat=<format>      Use alternative format for --show.\n"
-#~ "  -D                         Enable debugging output.\n"
-#~ "  --old, --new               Select archive format.\n"
-#~ "  --nocheck                  Suppress control file check (build bad "
-#~ "package).\n"
-#~ "  -z#                        Set the compression level when building.\n"
-#~ "  -Z<type>                   Set the compression type to use when "
-#~ "building.\n"
-#~ "                             Allowed values: gzip, bzip2, none.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Použití: %s [<volba> ...] <příkaz>\n"
-#~ "\n"
-#~ "Příkaz:\n"
-#~ "  -b|--build <adresář> [<deb>]     Vytvoří archiv.\n"
-#~ "  -c|--contents <deb>              Vypíše obsah.\n"
-#~ "  -I|--info <deb> [<csoubor>...]   Vypíše informace na standardní "
-#~ "výstup.\n"
-#~ "  -W|--show <deb>                  Vypíše informace o balíku\n"
-#~ "  -f|--field <deb> [<cpoložka>...] Vypíše položku na standardní výstup.\n"
-#~ "  -e|--control <deb> [<adresář>]   Rozbalí řídící informace.\n"
-#~ "  -x|--extract <deb> <adresář>     Rozbalí soubory.\n"
-#~ "  -X|--vextract <deb> <adresář>    Rozbalí a vypíše soubory.\n"
-#~ "  --fsys-tarfile <deb>             Vypíše tar se soubory.\n"
-#~ "  -h|--help                        Vypíše tuto nápovědu.\n"
-#~ "  --version                        Vypíše verzi.\n"
-#~ "  --license | --licence            Vypíše licenci.\n"
-#~ "\n"
-#~ "<deb> je jméno debianího archivu.\n"
-#~ "<csoubor> je jméno řídícího souboru.\n"
-#~ "<cpoložka> je název položky v hlavním souboru `control'.\n"
-#~ "\n"
-#~ "Volby:\n"
-#~ "  --showformat=<formát>     Použije alternativní formát pro --show.\n"
-#~ "  -D                        Povolí ladící výpisy.\n"
-#~ "  --old, --new              Vybere formát archivu.\n"
-#~ "  --nocheck                 Potlačí kontrolu souboru control (vytváření\n"
-#~ "                            chybného balíku).\n"
-#~ "  -z#                       Při vytváření nastaví kompresi.\n"
-#~ "  -Z<typ>                   Při vytváření nastaví typ komprese.\n"
-#~ "                            Povolené hodnoty: gzip, bzip2, none\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -s|--split <file> [<prefix>]    Split an archive.\n"
-#~ "  -j|--join <part> <part> ...     Join parts together.\n"
-#~ "  -I|--info <part> ...            Display info about a part.\n"
-#~ "  -h|--help                       Show this help message.\n"
-#~ "  --version                       Show the version.\n"
-#~ "  --license                       Show the license.\n"
-#~ "\n"
-#~ "  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
-#~ "  -l|--listq                      List unmatched pieces.\n"
-#~ "  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
-#~ "  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
-#~ "  -o|--output <file>              For -j (default is <package>-<version>."
-#~ "deb).\n"
-#~ "  -Q|--npquiet                    Be quiet when -a is not a part.\n"
-#~ "  --msdos                         Generate 8.3 filenames.\n"
-#~ "\n"
-#~ "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
-#~ msgstr ""
-#~ "Použití: %s [<volba> ...] <příkaz>\n"
-#~ "\n"
-#~ "Příkaz:  -s|--split <soubor> [<prefix>]  Rozdělí archiv.\n"
-#~ "  -j|--join <část> <část> ...     Spojí části dohromady.\n"
-#~ "  -I|--info <část> ...            Vypíše informaci o části.\n"
-#~ "  -h|--help                       Vypíše nápovědu.\n"
-#~ "  --version                       Vypíše verzi.\n"
-#~ "  --licence                       Vypíše licenci.\n"
-#~ "\n"
-#~ "  -a|--auto -o <celek> <část>     Automaticky spojí části.\n"
-#~ "  -l|--listq                      Vypíše nehodící se části.\n"
-#~ "  -d|--discard [<soubor> ...]     Ignoruje nehodící se části.\n"
-#~ "\n"
-#~ "Volby:\n"
-#~ "  --depotdir <adresář>            (výchozí je %s/%s)\n"
-#~ "  -S|--partsize <velikost>        (v kiB, pro -s, výchozí je 450)\n"
-#~ "  -o|--output <soubor>            (pro -j, výchozí je <balík>-<verze>."
-#~ "deb\n"
-#~ "  -Q|--npquiet                    (bez chyby, když -a není částí)\n"
-#~ "  --msdos                         (generuje jména konvence 8.3)\n"
-#~ "\n"
-#~ "Výstupní stavy: 0 = OK;  1 = -a a není částí;  2 = problémy!\n"
