@@ -1,3 +1,46 @@
+2006-05-12  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-scanpackages.pl: Print usage
+	information on stderr instead of stdout in
+	case of error. Only print it on stdout if
+	requested via -h.
+
+	* scripts/dpkg-architecture.pl: Convert encoding
+	of the file from iso-8859-1 to utf-8.
+
+2006-05-12  Nicolas François  <nicolas.francois@centraliens.net>,
+	    Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-gettext.pl: New module. Acts like a
+	wrapper around Locale::gettext so that the scripts
+	are usable without it, too.
+	* debian/dpkg.install: Install dpkg-gettext.pl.
+	* scripts/Makefile.am (dist_pkglib_SCRIPTS): Add dpkg-gettext.pl.
+
+	* po/POTFILES.in: Add scripts installed with dpkg
+	to the list.
+	* po/Makevars (XGETTEXT_OPTIONS): Add _g to list of keywords.
+	* debian/dpkg-dev.install: Install .mo files.
+	* debian/control (dpkg-dev[Depends]): Bump dependency on dpkg
+	to 1.13.20 since it needs dpkg-gettext.pl.
+	* scripts/cleanup-info.pl: Add gettext support.
+	* scripts/controllib.pl: Likewise.
+	* scripts/dpkg-architecture.pl: Likewise.
+	* scripts/dpkg-checkbuilddeps.pl: Likewise.
+	* scripts/dpkg-distaddfile.pl: Likewise.
+	* scripts/dpkg-divert.pl: Likewise.
+	* scripts/dpkg-genchanges.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-parsechangelog.pl: Likewise.
+	* scripts/debian/changelog.pl: Likewise.
+	* scripts/dpkg-scanpackages.pl: Likewise.
+	* scripts/dpkg-scansources.pl: Likewise.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+	* scripts/dpkg-statoverride.pl: Likewise.
+	* scripts/install-info.pl: Likewise.
+	* scripts/update-alternatives.pl: Likewise.
+
 2006-05-10  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-buildpackage.sh: Pass all

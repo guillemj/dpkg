@@ -26,12 +26,15 @@ my $i=0; grep($depstrength{$_}= ++$i, @depfields);
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+require 'dpkg-gettext.pl';
+textdomain("dpkg-dev");
+
 #use strict;
 #use warnings;
 
 sub usageversion {
-    print STDERR
-"Debian dpkg-shlibdeps $version.
+    printf STDERR _g(
+"Debian dpkg-shlibdeps %s.
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2000 Wichert Akkerman.
 Copyright (C) 2006 Frank Lichtenheld.
@@ -50,8 +53,8 @@ Overall options (have global effect no matter where placed):
        -L<localshlibsfile>    shlibs override file, not debian/shlibs.local
        -T<varlistfile>        update variables here, not debian/substvars
        -t<type>               set package type (default is deb)
-Dependency fields recognised are ".join("/",@depfields)."
-";
+Dependency fields recognised are %s
+"), $version, join("/",@depfields);
 }
 
 my ($stdout, @exec, @execfield);
@@ -69,25 +72,25 @@ foreach (@ARGV) {
     } elsif (m/^-d/) {
 	$dependencyfield= capit($POSTMATCH);
 	defined($depstrength{$dependencyfield}) ||
-	    &warn("unrecognised dependency field \`$dependencyfield'");
+	    &warn(sprintf(_g("unrecognised dependency field \`%s'"), $dependencyfield));
     } elsif (m/^-e/) {
 	push(@exec,$POSTMATCH); push(@execfield,$dependencyfield);
     } elsif (m/^-t/) {
 	$packagetype= $POSTMATCH;
     } elsif (m/^-/) {
-	usageerr("unknown option \`$_'");
+	usageerr(sprintf(_g("unknown option \`%s'"), $_));
     } else {
 	push(@exec,$_); push(@execfield,$dependencyfield);
     }
 }
 
-@exec || usageerr("need at least one executable");
+@exec || usageerr(_g("need at least one executable"));
 
 sub isbin {
-    open (F, $_[0]) || die("unable to open '$_[0]' for test");
+    open (F, $_[0]) || die(sprintf(_g("unable to open '%s' for test"), $_[0]));
     my $d;
     if (read (F, $d, 4) != 4) {
-       die ("unable to read first four bytes of '$_[0]' as magic number");
+       die (sprintf(_g("unable to read first four bytes of '%s' as magic number"), $_[0]));
     }
     if ($d =~ /^\177ELF$/) { # ELF binary
        return 1;
@@ -100,7 +103,7 @@ sub isbin {
     } elsif (unpack ('N', $d) == 0xcafebabe) { # JAVA binary
        return 0;
     } else {
-       die("unrecognized file type for '$_[0]'");
+       die(sprintf(_g("unrecognized file type for '%s'"), $_[0]));
     }
 }
 
@@ -135,7 +138,7 @@ if (opendir(DIR, $ldconfigdir)) {
 }
 
 open CONF, '</etc/ld.so.conf' or
-    warn( "couldn't open /etc/ld.so.conf: $!" );
+    warn( sprintf(_g("couldn't open /etc/ld.so.conf: %s" ), $!));
 while( <CONF> ) {
     next if /^\s*$/;
     chomp;
@@ -153,10 +156,10 @@ for ($i=0;$i<=$#exec;$i++) {
     if (!isbin ($exec[$i])) { next; }
 
     # Now we get the direct deps of the program
-    defined(my $c= open(P,"-|")) || syserr("cannot fork for objdump");
+    defined(my $c= open(P,"-|")) || syserr(_g("cannot fork for objdump"));
     if (!$c) {
 	exec("objdump","-p","--",$exec[$i]);
-	syserr("cannot exec objdump");
+	syserr(_g("cannot exec objdump"));
     }
     while (<P>) {
 	chomp;
@@ -175,13 +178,13 @@ for ($i=0;$i<=$#exec;$i++) {
 		push(@libexec,$exec[$i]);
 	    } else {
 		m,^\s*NEEDED\s+(\S+)$,;
-		&warn("format of \`NEEDED $1' not recognized");
+		&warn(sprintf(_g("format of \`NEEDED %s' not recognized"), $1));
 	    }
 	} elsif (/^\s*RPATH\s+(\S+)\s*$/) {
 	    push @{$rpaths{$exec[$i]}}, $1;
 	}
     }
-    close(P) or subprocerr("objdump on \`$exec[$i]'");
+    close(P) or subprocerr(sprintf(_g("objdump on \`%s'"), $exec[$i]));
 }
 
 # Now: See if it is in this package.  See if it is in any other package.
@@ -243,23 +246,23 @@ if (1 || $#curshlibs >= 0) {
 my %pathpackages;
 if ($#libfiles >= 0) {
     grep(s/\[\?\*/\\$&/g, @libname);
-    defined(my $c= open(P,"-|")) || syserr("cannot fork for dpkg --search");
+    defined(my $c= open(P,"-|")) || syserr(_g("cannot fork for dpkg --search"));
     if (!$c) {
 	close STDERR; # we don't need to see dpkg's errors
 	open STDERR, "> /dev/null";
 	$ENV{LC_ALL} = "C";
 	exec("dpkg","--search","--",@libfiles);
-	syserr("cannot exec dpkg");
+	syserr(_g("cannot exec dpkg"));
     }
     while (<P>) {
 	chomp;
 	if (m/^local diversion |^diversion by/) {
-	    &warn("diversions involved - output may be incorrect");
-	    print(STDERR " $_\n") || syserr("write diversion info to stderr");
+	    &warn(_g("diversions involved - output may be incorrect"));
+	    print(STDERR " $_\n") || syserr(_g("write diversion info to stderr"));
 	} elsif (m=^(\S+(, \S+)*): (\S+)$=) {
 	    push @{$pathpackages{$LAST_PAREN_MATCH}}, split(/, /, $1);
 	} else {
-	    &warn("unknown output from dpkg --search: \`$_'");
+	    &warn(sprintf(_g("unknown output from dpkg --search: \`%s'"), $_));
 	}
     }
     close(P);
@@ -282,7 +285,7 @@ if ($#libfiles >= 0) {
 	    }
 	}
 	if (!@packages) {
-	    &warn("could not find any packages for $libfiles[$i]");
+	    &warn(sprintf(_g("could not find any packages for %s"), $libfiles[$i]));
 	} else {
 	    for my $p (@packages) {
 		scanshlibsfile("$shlibsppdir/$p$shlibsppext",
@@ -292,9 +295,11 @@ if ($#libfiles >= 0) {
 	}
 	scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libfield[$i])
 	    && next;
-	&warn("unable to find dependency information for ".
-	      "shared library $libname[$i] (soname $libsoname[$i], ".
-	      "path $libfiles[$i], dependency field $libfield[$i])");
+	&warn(sprintf(_g("unable to find dependency information for ".
+	                 "shared library %s (soname %s, ".
+	                 "path %s, dependency field %s)"),
+	              $libname[$i], $libsoname[$i],
+	              $libfiles[$i], $libfield[$i]));
     }
 
 sub format_matches {
@@ -309,10 +314,10 @@ sub get_format {
     if ($format{$file}) {
 	return $format{$file};
     } else {
-	defined(my $c= open(P,"-|")) || syserr("cannot fork for objdump");
+	defined(my $c= open(P,"-|")) || syserr(_g("cannot fork for objdump"));
 	if (!$c) {
 	    exec("objdump","-a","--",$file);
-	    syserr("cannot exec objdump");
+	    syserr(_g("cannot exec objdump"));
 	}
 	while (<P>) {
 	    chomp;
@@ -321,7 +326,7 @@ sub get_format {
 		return $format{$file};
 	    }
 	}
-	close(P) or subprocerr("objdump on \`$file'");
+	close(P) or subprocerr(sprintf(_g("objdump on \`%s'"), $file));
     }
 }
 
@@ -331,14 +336,14 @@ sub scanshlibsfile {
     my ($da,$dk);
     $fn= "./$fn" if $fn =~ m/^\s/;
     if (!open(SLF,"< $fn")) {
-        $! == ENOENT || syserr("unable to open shared libs info file \`$fn'");
+        $! == ENOENT || syserr(sprintf(_g("unable to open shared libs info file \`%s'"), $fn));
         return 0;
     }
 
     while (<SLF>) {
         s/\s*\n$//; next if m/^\#/;
         if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)/) {
-            &warn("shared libs info file \`$fn' line $.: bad line \`$_'");
+            &warn(sprintf(_g("shared libs info file \`%s' line %d: bad line \`%s'"), $fn, $., $_));
             next;
         }
         next if defined $1 && $1 ne $packagetype;
@@ -373,20 +378,20 @@ sub scanshlibsfile {
 my $fh;
 if (!$stdout) {
     open(Y,"> $varlistfile.new") ||
-        syserr("open new substvars file \`$varlistfile.new'");
+        syserr(sprintf(_g("open new substvars file \`%s'"), "$varlistfile.new"));
     unless ($REAL_USER_ID) {
 	chown(@fowner, "$varlistfile.new") ||
-	    syserr("chown of \`$varlistfile.new'");
+	    syserr(sprintf(_g("chown of \`%s'"), "$varlistfile.new"));
     }
     if (open(X,"< $varlistfile")) {
         while (<X>) {
             s/\n$//;
             next if m/^(\w[-:0-9A-Za-z]*):/ && $1 eq $varnameprefix;
             print(Y "$_\n") ||
-                syserr("copy old entry to new varlist file \`$varlistfile.new'");
+                syserr(sprintf(_g("copy old entry to new varlist file \`%s'"), "$varlistfile.new"));
         }
     } elsif ($! != ENOENT) {
-        syserr("open old varlist file \`$varlistfile' for reading");
+        syserr(sprintf(_g("open old varlist file \`%s' for reading"), $varlistfile));
     }
     $fh= 'Y';
 } else {
@@ -401,14 +406,14 @@ for my $dv (sort keys %predefdepfdep) {
 for my $lf (reverse @depfields) {
     next unless defined($defdepf{$lf});
     print($fh "$varnameprefix:$lf=$defdepf{$lf}\n")
-        || syserr("write output entry");
+        || syserr(_g("write output entry"));
 }
 for my $lf (sort keys %unkdepf) {
     print($fh "$varnameprefix:$lf=$unkdepf{$lf}\n")
-        || syserr("write userdef output entry");
+        || syserr(_g("write userdef output entry"));
 }
-close($fh) || syserr("close output");
+close($fh) || syserr(_g("close output"));
 if (!$stdout) {
     rename("$varlistfile.new",$varlistfile) ||
-        syserr("install new varlist file \`$varlistfile'");
+        syserr(sprintf(_g("install new varlist file \`%s'"), $varlistfile));
 }

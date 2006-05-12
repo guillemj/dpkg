@@ -53,7 +53,8 @@ CLEANFILES = \
 
 
 dist_pkglib_SCRIPTS = \
-	controllib.pl
+	controllib.pl \
+	dpkg-gettext.pl
 
 
 do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \

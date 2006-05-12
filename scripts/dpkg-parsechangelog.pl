@@ -14,9 +14,12 @@ use POSIX qw(:errno_h);
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+require 'dpkg-gettext.pl';
+textdomain("dpkg-dev");
+
 sub usageversion {
-    print STDERR
-"Debian dpkg-parsechangelog $version.
+    printf STDERR _g(
+"Debian dpkg-parsechangelog %s.
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2001 Wichert Akkerman
 This is free software; see the GNU General Public Licence
@@ -28,7 +31,7 @@ Options:  -l<changelogfile>      get per-version info from this file
           -F<changelogformat>    force change log format
           -L<libdir>             look for change log parsers in <libdir>
           -h                     print this message
-";
+"), $version;
 }
 
 @ap=();
@@ -45,37 +48,37 @@ while (@ARGV) {
     &usageerr("unknown option \`$_'");
 }
 
-@ARGV && &usageerr("$progname takes no non-option arguments");
+@ARGV && &usageerr(sprintf(_g("%s takes no non-option arguments"), $progname));
 $changelogfile= "./$changelogfile" if $changelogfile =~ m/^\s/;
 
 if (not $force and $changelogfile ne "-") {
     open(STDIN,"< $changelogfile") ||
-        &error("cannot open $changelogfile to find format: $!");
-    open(P,"tail -n 40 |") || die "cannot fork: $!\n";
+        &error(sprintf(_g("cannot open %s to find format: %s"), $changelogfile, $!));
+    open(P,"tail -n 40 |") || die sprintf(_g("cannot fork: %s"), $!)."\n";
     while(<P>) {
         next unless m/\schangelog-format:\s+([0-9a-z]+)\W/;
         $format=$1;
     }
-    close(P); $? && &subprocerr("tail of $changelogfile");
+    close(P); $? && &subprocerr(sprintf(_g("tail of %s"), $changelogfile));
 }
 
 
 for $pd (@parserpath) {
     $pa= "$pd/$format";
     if (!stat("$pa")) {
-        $! == ENOENT || &syserr("failed to check for format parser $pa");
+        $! == ENOENT || &syserr(sprintf(_g("failed to check for format parser %s"), $pa));
     } elsif (!-x _) {
-        &warn("format parser $pa not executable");
+        &warn(sprintf(_g("format parser %s not executable"), $pa));
     } else {
         $pf= $pa;
 	last;
     }
 }
         
-defined($pf) || &error("format $pa unknown");
+defined($pf) || &error(sprintf(_g("format %s unknown"), $pa));
 
 if ($changelogfile ne "-") {
-    open(STDIN,"< $changelogfile") || die "cannot open $changelogfile: $!\n";
+    open(STDIN,"< $changelogfile") || die sprintf(_g("cannot open %s: %s"), $changelogfile, $!)."\n";
 }
-exec($pf,@ap); die "cannot exec format parser: $!\n";
+exec($pf,@ap); die sprintf(_g("cannot exec format parser: %s"), $!)."\n";
 

@@ -1,6 +1,12 @@
 #!/usr/bin/perl --
 
 use Text::Wrap;
+use English;
+
+my $dpkglibdir = "."; # This line modified by Makefile
+push (@INC, $dpkglibdir);
+require 'dpkg-gettext.pl';
+textdomain("dpkg");
 
 # fixme: sort entries
 # fixme: send to FSF ?
@@ -8,8 +14,8 @@ use Text::Wrap;
 $version= '0.93.42.2'; # This line modified by Makefile
 sub version {
         $file = $_[0];
-        print $file <<END;
-Debian install-info $version.  Copyright (C) 1994,1995
+        printf $file _g(<<END), $version;
+Debian install-info %s.  Copyright (C) 1994,1995
 Ian Jackson.  This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 END
@@ -17,7 +23,7 @@ END
 
 sub usage {
     $file = $_[0];
-    print $file <<END;
+    print $file _g(<<END);
 usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
              [--section regexp title] [--infodir=xxx] [--align=nnn]
              [--calign=nnn] [--quiet] [--menuentry=xxx] [--info-dir=xxx]
@@ -68,29 +74,31 @@ while ($ARGV[0] =~ m/^--/) {
     } elsif ($_ eq '--help') {
         &usage(STDOUT); exit 0;
     } elsif ($_ eq '--debug') {
-        open(DEBUG,">&STDERR") || die "Could not open stderr for output! $!\n";
+	open(DEBUG,">&STDERR")
+	    || die sprintf(_g("Could not open stderr for output! %s"), $!)."\n";
 	$debug=1;
     } elsif ($_ eq '--section') {
         if (@ARGV < 2) {
-            print STDERR "$name: --section needs two more args\n";
+	    printf STDERR _g("%s: --section needs two more args")."\n", $name;
             &usage(STDERR); exit 1;
         }
         $sectionre= shift(@ARGV);
         $sectiontitle= shift(@ARGV);
     } elsif (m/^--(c?align|maxwidth)=([0-9]+)$/) {
-	warn( "$name: $1 deprecated(ignored)\n" );
+	warn( sprintf(_g("%s: %s deprecated(ignored)"), $name, $1)."\n" );
     } elsif (m/^--info-?dir=/) {
-	$dirfile = $' . '/dir';
+	$dirfile = $POSTMATCH . '/dir';
     } elsif (m/^--info-file=/) {
-        $filename=$';
+        $filename=$POSTMATCH;
     } elsif (m/^--menuentry=/) {
-        $menuentry=$';
+        $menuentry=$POSTMATCH;
     } elsif (m/^--description=/) {
-        $description=$';
+        $description=$POSTMATCH;
     } elsif (m/^--dir-file=/) { # for compatibility with GNU install-info
-	$dirfile = $';
+	$dirfile = $POSTMATCH;
     } else {
-        print STDERR "$name: unknown option \`$_'\n"; &usage(STDERR); exit 1;
+        printf STDERR _g("%s: unknown option \`%s'")."\n", $name, $_;
+        &usage(STDERR); exit 1;
     }
 }
 
@@ -100,14 +108,14 @@ if ( !$filename ) {
 	$filename= shift(@ARGV);
 	$name = "$name($filename)";
 }
-if (@ARGV) { print STDERR "$name: too many arguments\n"; &usage(STDERR); exit 1; }
+if (@ARGV) { printf STDERR _g("%s: too many arguments")."\n", $name; &usage(STDERR); exit 1; }
 
 if ($remove) {
-    print STDERR "$name: --section ignored with --remove\n" if length($sectiontitle);
-    print STDERR "$name: --description ignored with --remove\n" if length($description);
+    printf(STDERR _g("%s: --section ignored with --remove")."\n", $name) if length($sectiontitle);
+    printf(STDERR _g("%s: --description ignored with --remove")."\n", $name) if length($description);
 }
 
-print STDERR "$name: test mode - dir file will not be updated\n"
+printf(STDERR _g("%s: test mode - dir file will not be updated")."\n", $name)
     if $nowrite && !$quiet;
 
 umask(umask(0777) & ~0444);
@@ -135,7 +143,7 @@ if (!$remove) {
 
     if (!length($description)) {
         
-        open(IF,"$filename") || die "$name: read $filename: $!\n";
+        open(IF,"$filename") || die sprintf(_g("%s: read %s: %s"), $name, $filename, $!)."\n";
         $asread='';
         while(<IF>) {
 	    m/^START-INFO-DIR-ENTRY$/ && last;
@@ -157,13 +165,11 @@ if (!$remove) {
             &dprint("multiline '$asread'");
         } elsif ($asread =~ m/^\*\s*([^:]+):(\s*\(([^\)]+)\)\.|:)\s*/) {
             $menuentry= $1;
-            $description= $';
+            $description= $POSTMATCH;
             $fileinentry = $3;
             &dprint("infile menuentry '$menuentry' description '$description'");
         } elsif (length($asread)) {
-            print STDERR <<END;
-$name: warning, ignoring confusing INFO-DIR-ENTRY in file.
-END
+            printf STDERR _g("%s: warning, ignoring confusing INFO-DIR-ENTRY in file.")."\n", $name;
         }
     }
 
@@ -172,18 +178,18 @@ END
         $infoentry =~ m/\n/;
         print "$`\n" unless $quiet;
         $infoentry =~ m/^\*\s*([^:]+):\s*\(([^\)]+)\)/ || 
-            die "$name: Invalid info entry\n"; # internal error
+            die sprintf(_g("%s: Invalid info entry"), $name)."\n"; # internal error
         $sortby= $1;
         $fileinentry= $2;
 
     } else {
-        
+
         if (!length($description)) {
-            open(IF,"$filename") || die "$name: read $filename: $!\n";
+            open(IF,"$filename") || die sprintf(_g("%s: read %s: %s"), $name, $filename, $!)."\n";
             $asread='';
             while(<IF>) {
                 if (m/^\s*[Tt]his file documents/) {
-                    $asread=$';
+                    $asread=$POSTMATCH;
                     last;
                 }
             }
@@ -198,10 +204,10 @@ END
         }
 
         if (!length($description)) {
-            print STDERR "
+            printf STDERR _g("
 No \`START-INFO-DIR-ENTRY' and no \`This file documents'.
-$name: unable to determine description for \`dir' entry - giving up
-";
+%s: unable to determine description for \`dir' entry - giving up
+"), $name;
             exit 1;
         }
 
@@ -251,36 +257,43 @@ $name: unable to determine description for \`dir' entry - giving up
 
 if (!$nowrite && ( ! -e $dirfile || ! -s _ )) {
     if (-r $backup) {
-	print STDERR "$name: no file $dirfile, retrieving backup file $backup.\n";
-	if (system ("cp $backup $dirfile")) {
-	    print STDERR "$name: copying $backup to $dirfile failed, giving up: $!\n";
+	printf( STDERR _g("%s: no file %s, retrieving backup file %s.")."\n",
+		$name, $dirfile, "$backup" );
+	if (system ('cp', $backup, $dirfile)) {
+	    printf( STDERR _g("%s: copying %s to %s failed, giving up: %s")."\n",
+		    $name, $backup, $dirfile, $! );
 	    exit 1;
 	}
     } else {
         if (-r $default) {
-	    print STDERR "$name: no backup file $backup available, retrieving default file.\n";
-	    
-	    if (system("cp $default $dirfile")) {
-		print STDERR "$name: copying $default to $dirfile failed, giving up: $!\n";
+	    printf( STDERR _g("%s: no backup file %s available, retrieving default file.")."\n",
+		    $name, $backup );
+
+	    if (system('cp', $default, $dirfile)) {
+		printf( STDERR _g("%s: copying %s to %s failed, giving up: %s")."\n",
+			$name, $default, $dirfile, $! );
 		exit 1;
 	    }
 	} else {
-	    print STDERR "$name: no backup file $backup available.\n";
-	    print STDERR "$name: no default file $default available, giving up.\n";
+	    printf STDERR _g("%s: no backup file %s available.")."\n", $name, $backup;
+	    printf STDERR _g("%s: no default file %s available, giving up.")."\n", $name, $default;
 	    exit 1;
 	}
     }
 }
 
 if (!$nowrite && !link($dirfile, "$dirfile.lock")) {
-    die "$name: failed to lock dir for editing! $!\n".
-        ($! == EEXIST ? "try deleting $dirfile.lock ?\n" : '');
+    printf( STDERR _g("%s: failed to lock dir for editing! %s")."\n",
+	    $name, $! );
+    printf( STDERR _g("try deleting %s?")."\n", "$dirfile.lock")
+	if $! == EEXIST;
 }
 
-open(OLD, $dirfile) || &ulquit("open $dirfile: $!");
+open(OLD,$dirfile) || &ulquit(sprintf(_g("open %s: %s"), $dirfile, $!));
 @work= <OLD>;
-eof(OLD) || &ulquit("read $dirfile: $!");
-close(OLD) || &ulquit("close $dirfile after read: $!");
+eof(OLD) || &ulquit(sprintf(_g("read %s: %s"), $dirfile, $!));
+close(OLD) || &ulquit(sprintf(_g("close %s after read: %s"), $dirfile, $!));
+
 while (($#work >= 0) && ($work[$#work] !~ m/\S/)) { $#work--; }
 
 while (@work) {
@@ -311,10 +324,10 @@ if (!$remove) {
 
     if ($i < $j) {
         if ($keepold) {
-            print "$name: existing entry for \`$target_entry' not replaced\n" unless $quiet;
+            printf(_g("%s: existing entry for \`%s' not replaced")."\n", $name, $target_entry) unless $quiet;
             $nowrite=1;
         } else {
-            print "$name: replacing existing dir entry for \`$target_entry'\n" unless $quiet;
+            printf(_g("%s: replacing existing dir entry for \`%s'")."\n", $name, $target_entry) unless $quiet;
         }
         $mss= $i;
         @work= (@work[0..$i-1], @work[$j..$#work]);
@@ -327,10 +340,10 @@ if (!$remove) {
             $mss= $i+1; last;
         }
         if ($mss < 0) {
-            print "$name: creating new section \`$sectiontitle'\n" unless $quiet;
+            printf(_g("%s: creating new section \`%s'")."\n", $name, $sectiontitle) unless $quiet;
             for ($i= $#work; $i>=0 && $work[$i] =~ m/\S/; $i--) { }
             if ($i <= 0) { # We ran off the top, make this section and Misc.
-                print "$name: no sections yet, creating Miscellaneous section too.\n"
+                printf(_g("%s: no sections yet, creating Miscellaneous section too.")."\n", $name)
                     unless $quiet;
                 @work= ("\n", "$sectiontitle\n", "\n", "Miscellaneous:\n", @work);
                 $mss= 1;
@@ -348,7 +361,7 @@ if (!$remove) {
             $mss++;
         }
     } else {
-        print "$name: no section specified for new entry, placing at end\n"
+        printf(_g("%s: no section specified for new entry, placing at end")."\n", $name)
             unless $quiet;
         $mss= $#work+1;
     }
@@ -385,24 +398,27 @@ if (!$remove) {
 
     if ($i < $j) {
         &dprint("i=$i \$work[\$i]='$work[$i]' j=$j \$work[\$j]='$work[$j]'");
-        print "$name: deleting entry \`$match ...'\n" unless $quiet;
+        printf(_g("%s: deleting entry \`%s ...'")."\n", $name, $match) unless $quiet;
         $_= $work[$i-1];
         unless (m/^\s/ || m/^\*/ || m/^$/ ||
                 $j > $#work || $work[$j] !~ m/^\s*$/) {
             s/:?\s+$//;
             if ($keepold) {
-                print "$name: empty section \`$_' not removed\n" unless $quiet;
+                printf(_g("%s: empty section \`%s' not removed")."\n", $name, $_) unless $quiet;
             } else {
                 $i--; $j++;
-                print "$name: deleting empty section \`$_'\n" unless $quiet;
+                printf(_g("%s: deleting empty section \`%s'")."\n", $name, $_) unless $quiet;
             }
         }
         @work= (@work[0..$i-1], @work[$j..$#work]);
     } else {
-        print "$name: no entry for file \`$target_entry'".
-              (length($menuentry) ? " and menu entry \`$menuentry'": '').
-              ".\n"
-            unless $quiet;
+        unless ($quiet) {
+            if (length($menuentry)) {
+                printf _g("%s: no entry for file \`%s' and menu entry \`%s'")."\n", $name, $target_entry, $menuentry;
+            } else {
+                printf _g("%s: no entry for file \`%s'")."\n", $name, $target_entry;
+            }
+        }
     }
 }
 $length = 0;
@@ -442,33 +458,37 @@ foreach ( @work ) {
 }
 
 if (!$nowrite) {
-    open(NEW, "> $dirfile.new") || &ulquit("create $dirfile.new: $!");
-    print(NEW @head, join("\n", @newwork), "\n") ||
-        &ulquit("write $dirfile.new: $!");
-    close(NEW) || &ulquit("close $dirfile.new: $!");
+    open(NEW,"> $dirfile.new") || &ulquit(sprintf(_g("create %s: %s"), "$dirfile.new", $!));
+    print(NEW @head,join("\n",@newwork)) ||
+	&ulquit(sprintf(_g("write %s: %s"), "$dirfile.new", $!));
+    close(NEW) || &ulquit(sprintf(_g("close %s: %s"), "$dirfile.new", $!));
 
     unlink("$dirfile.old");
     link($dirfile, "$dirfile.old") ||
-        &ulquit("cannot backup old $dirfile, giving up: $!");
+	&ulquit(sprintf(_g("cannot backup old %s, giving up: %s"), $dirfile, $!));
     rename("$dirfile.new", $dirfile) ||
-        &ulquit("install new $dirfile: $!");
-    unlink("$dirfile.lock") || die "$name: unlock $dirfile: $!\n";
-    system ("cp $dirfile $backup") && warn "$name: couldn't backup $dirfile in $backup: $!\n";
+	&ulquit(sprintf(_g("install new %s: %s"), $dirfile, $!));
+
+    unlink("$dirfile.lock") ||
+	die sprintf(_g("%s: unlock %s: %s"), $name, $dirfile, $!)."\n";
+    system ('cp', $dirfile, $backup) &&
+	warn sprintf(_g("%s: couldn't backup %s in %s: %s"), $name, $dirfile, $backup, $!)."\n";
 }
 
 sub ulquit {
     unlink("$dirfile.lock") ||
-        warn "$name: warning - unable to unlock $dirfile: $!\n";
+	warn sprintf(_g("%s: warning - unable to unlock %s: %s"),
+		     $name, $dirfile, $!)."\n";
     die "$name: $_[0]\n";
 }
 
 sub checkpipe {
     return if !$pipeit || !$? || $?==0x8D00 || $?==0x0D;
-    die "$name: read $filename: $?\n";
+    die sprintf(_g("%s: read %s: %d"), $name, $filename, $?)."\n";
 }
 
 sub dprint {
-    print DEBUG "dbg: $_[0]\n" if ($debug);
+    printf(DEBUG _g("dbg: %s")."\n", $_[0]) if ($debug);
 }
 
 exit 0;

@@ -9,8 +9,11 @@ push(@INC,$dpkglibdir);
 #my $controlfile;
 require 'controllib.pl';
 
+require 'dpkg-gettext.pl';
+textdomain("dpkg-dev");
+
 sub usage {
-	print STDERR <<EOF;
+	print STDERR _g(<<EOF);
 Usage: dpkg-checkbuilddeps [-B] [control-file]
 	-B		binary-only, ignore -Indep
 	control-file	control file to process [Default: debian/control]
@@ -62,11 +65,11 @@ if (! $binary_only && defined($fi{"C Build-Conflicts-Indep"})) {
 }
 
 if (@unmet) {
-	print STDERR "$me: Unmet build dependencies: ";
+	printf STDERR _g("%s: Unmet build dependencies: "), $me;
 	print STDERR join(" ", @unmet), "\n";
 }
 if (@conflicts) {
-	print STDERR "$me: Build conflicts: ";
+	printf STDERR _g("%s: Build conflicts: "), $me;
 	print STDERR join(" ", @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;
@@ -139,7 +142,8 @@ sub check_line {
 	my @unmet=();
 
 	unless(defined($dep_list)) {
-	    &error("error occurred while parsing $fieldname");
+	    &error(sprintf(_g("error occurred while parsing %s"),
+	                   $fieldname));
 	}
 
 	foreach my $dep_and (@$dep_list) {

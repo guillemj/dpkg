@@ -28,9 +28,12 @@ use POSIX qw(:errno_h :signal_h);
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+require 'dpkg-gettext.pl';
+textdomain("dpkg-dev");
+
 sub usageversion {
-    print STDERR
-"Debian dpkg-genchanges $version. 
+    printf STDERR _g(
+"Debian dpkg-genchanges %s. 
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2000,2001 Wichert Akkerman.
 This is free software; see the GNU General Public Licence version 2 or later
@@ -59,7 +62,7 @@ Options:  -b                     binary-only build - no source files
           -D<field>=<value>      override or add a field and value
           -U<field>              remove a field
           -h                     print this message
-";
+"), $version;
 }
 
 $i=100;grep($fieldimps{$_}=$i--,
@@ -70,15 +73,15 @@ $i=100;grep($fieldimps{$_}=$i--,
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-    	$sourceonly && &usageerr("cannot combine -b or -B and -S");
+	$sourceonly && &usageerr(_g("cannot combine -b or -B and -S"));
         $binaryonly= 1;
     } elsif (m/^-B$/) {
-    	$sourceonly && &usageerr("cannot combine -b or -B and -S");
+	$sourceonly && &usageerr(_g("cannot combine -b or -B and -S"));
 	$archspecific=1;
 	$binaryonly= 1;
-	print STDERR "$progname: arch-specific upload - not including arch-independent packages\n";
+	printf STDERR _g("%s: arch-specific upload - not including arch-independent packages")."\n", $progname;
     } elsif (m/^-S$/) {
-    	$binaryonly && &usageerr("cannot combine -b or -B and -S");
+	$binaryonly && &usageerr(_g("cannot combine -b or -B and -S"));
 	$sourceonly= 1;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
@@ -113,7 +116,7 @@ while (@ARGV) {
     } elsif (m/^-h$/) {
         &usageversion; exit(0);
     } else {
-        &usageerr("unknown option \`$_'");
+        &usageerr(sprintf(_g("unknown option \`%s'"), $_));
     }
 }
 
@@ -123,17 +126,17 @@ while (@ARGV) {
 
 if (not $sourceonly) {
     $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-    open(FL,"< $fileslistfile") || &syserr("cannot read files list file");
+    open(FL,"< $fileslistfile") || &syserr(_g("cannot read files list file"));
     while(<FL>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
-		&warn("duplicate files list entry for package $2 (line $.)");
+		&warn(sprintf(_g("duplicate files list entry for package %s (line %d)"), $2, $.));
 	    $f2p{$1}= $2;
 	    $p2f{"$2 $4"}= $1;
 	    $p2f{$2}= $1;
 	    $p2ver{$2}= $3;
 	    defined($f2sec{$1}) &&
-		&warn("duplicate files list entry for file $1 (line $.)");
+		&warn(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
 	    push(@fileslistfiles,$1);
@@ -145,12 +148,12 @@ if (not $sourceonly) {
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	    defined($f2sec{$1}) &&
-		&warn("duplicate files list entry for file $1 (line $.)");
+		&warn(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
 	    $f2sec{$1}= $2;
 	    $f2pri{$1}= $3;
 	    push(@fileslistfiles,$1);
 	} else {
-	    &error("badly formed line in files list file, line $.");
+	    &error(sprintf(_g("badly formed line in files list file, line %d"), $.));
 	}
     }
     close(FL);
@@ -164,14 +167,14 @@ for $_ (keys %fi) {
 	elsif (m/^Maintainer$/i) { $f{$_}= $v; }
 	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
 	elsif (m/|^X[BS]+-|^Standards-Version$/i) { }
-	else { &unknown('general section of control info file'); }
+	else { &unknown(_g('general section of control info file')); }
     } elsif (s/^C(\d+) //) {
 	$i=$1; $p=$fi{"C$i Package"}; $a=$fi{"C$i Architecture"};
 	if (!defined($p2f{$p}) && not $sourceonly) {
 	    if ((debian_arch_eq('all', $a) && !$archspecific) ||
 		debian_arch_is($arch, $a) ||
 		grep(debian_arch_is($arch, $_), split(/\s+/, $a))) {
-		&warn("package $p in control file but not in files list");
+		&warn(sprintf(_g("package %s in control file but not in files list"), $p));
 		next;
 	    }
 	} else {
@@ -206,7 +209,7 @@ for $_ (keys %fi) {
 		     m/^(Recommends|Suggests|Enhances|Optional|Conflicts|Replaces)$/ ||
 		     m/^X[CS]+-/i) {
 	    } else {
-		&unknown("package's section of control info file");
+		&unknown(_g("package's section of control info file"));
 	    }
 	}
     } elsif (s/^L //) {
@@ -219,18 +222,18 @@ for $_ (keys %fi) {
         } elsif (s/^X[BS]*C[BS]*-//i) {
             $f{$_}= $v;
         } elsif (!m/^X[BS]+-/i) {
-            &unknown("parsed version of changelog");
+            &unknown(_g("parsed version of changelog"));
         }
     } elsif (m/^o:.*/) {
     } else {
-        &internerr("value from nowhere, with key >$_< and value >$v<");
+        &internerr(sprintf(_g("value from nowhere, with key >%s< and value >%s<"), $_, $v));
     }
 }
 
 if ($changesdescription) {
     $changesdescription="./$changesdescription" if $changesdescription =~ m/^\s/;
     $f{'Changes'}= '';
-    open(X,"< $changesdescription") || &syserr("read changesdescription");
+    open(X,"< $changesdescription") || &syserr(_g("read changesdescription"));
     while(<X>) {
         s/\s*\n$//;
         $_= '.' unless m/\S/;
@@ -241,19 +244,21 @@ if ($changesdescription) {
 for $p (keys %p2f) {
     my ($pp, $aa) = (split / /, $p);
     defined($p2i{"C $pp"}) ||
-        &warn("package $pp listed in files list but not in control info");
+        &warn(sprintf(_g("package %s listed in files list but not in control info"), $pp));
 }
 
 for $p (keys %p2f) {
     $f= $p2f{$p};
     $sec= $f2seccf{$f}; $sec= $sourcedefault{'Section'} if !length($sec);
-    if (!length($sec)) { $sec='-'; &warn("missing Section for binary package $p; using '-'"); }
-    $sec eq $f2sec{$f} || &error("package $p has section $sec in control file".
-                                 " but $f2sec{$f} in files list");
+    if (!length($sec)) { $sec='-'; &warn(sprintf(_g("missing Section for binary package %s; using '-'"), $p)); }
+    $sec eq $f2sec{$f} || &error(sprintf(_g("package %s has section %s in ".
+                                           "control file but %s in files list"),
+                                 $p, $sec, $f2sec{$f}));
     $pri= $f2pricf{$f}; $pri= $sourcedefault{'Priority'} if !length($pri);
     if (!length($pri)) { $pri='-'; &warn("missing Priority for binary package $p; using '-'"); }
-    $pri eq $f2pri{$f} || &error("package $p has priority $pri in control".
-                                 " file but $f2pri{$f} in files list");
+    $pri eq $f2pri{$f} || &error(sprintf(_g("package %s has priority %s in ".
+                                           "control file but %s in files list"),
+                                 $p, $pri, $f2pri{$f}));
 }
 
 # Extract version and origversion so we can add them to our fixed list
@@ -265,13 +270,13 @@ $substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;
 
 if (!$binaryonly) {
     $sec= $sourcedefault{'Section'};
-    if (!length($sec)) { $sec='-'; &warn("missing Section for source files"); }
+    if (!length($sec)) { $sec='-'; &warn(_g("missing Section for source files")); }
     $pri= $sourcedefault{'Priority'};
-    if (!length($pri)) { $pri='-'; &warn("missing Priority for source files"); }
+    if (!length($pri)) { $pri='-'; &warn(_g("missing Priority for source files")); }
 
     ($sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    open(CDATA,"< $dsc") || &error("cannot open .dsc file $dsc: $!");
+    open(CDATA,"< $dsc") || &error(sprintf(_g("cannot open .dsc file %s: %s"), $dsc, $!));
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
     
     &parsecdata('S',-1,"source control file $dsc");
@@ -279,7 +284,7 @@ if (!$binaryonly) {
     for $file (split(/\n /,$files)) {
         next if $file eq '';
         $file =~ m/^([0-9a-f]{32})[ \t]+\d+[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
-            || &error("Files field contains bad line \`$file'");
+            || &error(sprintf(_g("Files field contains bad line \`%s'"), $file));
         ($md5sum{$2},$file) = ($1,$2);
         push(@sourcefiles,$file);
     }
@@ -288,25 +293,25 @@ if (!$binaryonly) {
     if (($sourcestyle =~ m/i/ && $sversion !~ m/-(0|1|0\.1)$/ ||
          $sourcestyle =~ m/d/) &&
         grep(m/\.diff\.gz$/,@sourcefiles)) {
-        $origsrcmsg= "not including original source code in upload";
+        $origsrcmsg= _g("not including original source code in upload");
         @sourcefiles= grep(!m/\.orig\.tar\.gz$/,@sourcefiles);
     } else {
 	if ($sourcestyle =~ m/d/ && !grep(m/\.diff\.gz$/,@sourcefiles)) {
-	    &warn("Ignoring -sd option for native Debian package");
+	    &warn(_g("Ignoring -sd option for native Debian package"));
 	}
-        $origsrcmsg= "including full source code in upload";
+        $origsrcmsg= _g("including full source code in upload");
     }
 } else {
-    $origsrcmsg= "binary-only upload - not including any source code";
+    $origsrcmsg= _g("binary-only upload - not including any source code");
 }
 
 print(STDERR "$progname: $origsrcmsg\n") ||
-    &syserr("write original source message") unless $quiet;
+    &syserr(_g("write original source message")) unless $quiet;
 
 $f{'Format'}= $substvar{'Format'};
 
 if (!length($f{'Date'})) {
-    chop($date822=`822-date`); $? && subprocerr("822-date");
+    chop($date822=`date -R`); $? && subprocerr("date -R");
     $f{'Date'}= $date822;
 }
 
@@ -322,16 +327,17 @@ for $f (@sourcefiles,@fileslistfiles) {
     next if ($archspecific && debian_arch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     $uf= "$uploadfilesdir/$f";
-    open(STDIN,"< $uf") || &syserr("cannot open upload file $uf for reading");
-    (@s=stat(STDIN)) || &syserr("cannot fstat upload file $uf");
-    $size= $s[7]; $size || &warn("upload file $uf is empty");
-    $md5sum=`md5sum`; $? && subprocerr("md5sum upload file $uf");
+    open(STDIN,"< $uf") || &syserr(sprintf(_g("cannot open upload file %s for reading"), $uf));
+    (@s=stat(STDIN)) || &syserr(sprintf(_g("cannot fstat upload file %s"), $uf));
+    $size= $s[7]; $size || &warn(sprintf(_g("upload file %s is empty"), $uf));
+    $md5sum=`md5sum`; $? && subprocerr(sprintf(_g("md5sum upload file %s"), $uf));
     $md5sum =~ m/^([0-9a-f]{32})\s*-?\s*$/i ||
-        &failure("md5sum upload file $uf gave strange output \`$md5sum'");
+        &failure(sprintf(_g("md5sum upload file %s gave strange output \`%s'"), $uf, $md5sum));
     $md5sum= $1;
     defined($md5sum{$f}) && $md5sum{$f} ne $md5sum &&
-        &error("md5sum of source file $uf ($md5sum) is different from md5sum in $dsc".
-               " ($md5sum{$f})");
+        &error(sprintf(_g("md5sum of source file %s (%s) is different ".
+                          "from md5sum in %s (%s)"),
+                       $uf, $md5sum, $dsc, $md5sum{$f}));
     $f{'Files'}.= "\n $md5sum $size $f2sec{$f} $f2pri{$f} $f";
 }    
 
@@ -341,11 +347,11 @@ $f{'Maintainer'}= $forcemaint if length($forcemaint);
 $f{'Changed-By'}= $forcechangedby if length($forcechangedby);
 
 for $f (qw(Version Distribution Maintainer Changes)) {
-    defined($f{$f}) || &error("missing information for critical output field $f");
+    defined($f{$f}) || &error(sprintf(_g("missing information for critical output field %s"), $f));
 }
 
 for $f (qw(Urgency)) {
-    defined($f{$f}) || &warn("missing information for output field $f");
+    defined($f{$f}) || &warn(sprintf(_g("missing information for output field %s"), $f));
 }
 
 for $f (keys %override) { $f{&capit($f)}= $override{$f}; }

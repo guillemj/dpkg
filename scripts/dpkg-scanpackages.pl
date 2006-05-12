@@ -7,6 +7,11 @@ use IO::Handle;
 use IO::File;
 
 my $version= '1.2.6'; # This line modified by Makefile
+my $dpkglibdir= "."; # This line modified by Makefile
+
+push(@INC,$dpkglibdir);
+require 'dpkg-gettext.pl';
+textdomain("dpkg-dev");
 
 my %kmap= (optional         => 'suggests',
 	   recommended      => 'recommends',
@@ -53,8 +58,8 @@ my %options = (help            => 0,
 
 my $result = GetOptions(\%options,'help|h|?','udeb|u!','arch|a=s','multiversion|m!');
 
-print <<END and exit 1 if not $result or $options{help} or @ARGV < 2;
-dpkg-scanpackages [-u] [-a<arch>] [-m] binarypath overridefile [pathprefix] > Packages
+my $usage = _g(
+"dpkg-scanpackages [-u] [-a<arch>] [-m] binarypath overridefile [pathprefix] > Packages
 
  Options:
  --udeb, -u scan for udebs
@@ -62,8 +67,9 @@ dpkg-scanpackages [-u] [-a<arch>] [-m] binarypath overridefile [pathprefix] > Pa
  --multiversion, -m allow multiple versions of a single package
  --help, -h show this help
 
-END
-
+");
+print( STDERR $usage ) and exit 1 if not $result or (@ARGV < 2);
+print($usage) and exit if $options{help};
 
 my $udeb = $options{udeb};
 my $arch = $options{arch};
@@ -78,8 +84,10 @@ else {
 }
 push @find_args, '-follow';
 my ($binarydir, $override, $pathprefix) = @ARGV;
--d $binarydir or die "Binary dir $binarydir not found\n";
--e $override or die "Override file $override not found\n";
+-d $binarydir or die sprintf(_g("Binary dir %s not found"),
+                             $binarydir)."\n";
+-e $override or die sprintf(_g("Override file %s not found"),
+                            $override)."\n";
 
 $pathprefix = '' if not defined $pathprefix;
 
@@ -95,18 +103,19 @@ sub vercmp {
 my %packages;
 my $find_h = new IO::Handle;
 open($find_h,'-|','find',"$binarydir/",@find_args,'-print')
-     or die "Couldn't open $binarydir for reading: $!\n";
+     or die sprintf(_g("Couldn't open %s for reading: %s"),
+                    $binarydir, $!)."\n";
 FILE:
     while (<$find_h>) {
 	chomp;
 	my $fn = $_;
 	my $control = `dpkg-deb -I $fn control`;
 	if ($control eq "") {
-	    warn "Couldn't call dpkg-deb on $fn: $!, skipping package\n";
+	    warn sprintf(_g("Couldn't call dpkg-deb on %s: %s, skipping package"), $fn, $!)."\n";
 	    next;
 	}
 	if ($?) {
-	    warn "\`dpkg-deb -I $fn control' exited with $?, skipping package\n";
+	    warn sprintf(_g("\`dpkg-deb -I %s control' exited with %d, skipping package"), $fn, $?)."\n";
 	    next;
 	}
 	
@@ -120,39 +129,41 @@ FILE:
 	    $tv{$key}= $value;
 	}
 	$temp =~ /^\n*$/
-	    or die "Unprocessed text from $fn control file; info:\n$control / $temp\n";
+	    or die sprintf(_g("Unprocessed text from %s control file; info:\n%s / %s\n"), $fn, $control, $temp);
 	
 	defined($tv{'Package'})
-	    or die "No Package field in control file of $fn\n";
+	    or die sprintf(_g("No Package field in control file of %s"), $fn)."\n";
 	my $p= $tv{'Package'}; delete $tv{'Package'};
 	
 	if (defined($packages{$p}) and not $options{multiversion}) {
 	    foreach (@{$packages{$p}}) {
 		if (&vercmp($tv{'Version'}, $_->{'Version'})) {
-		    print(STDERR " ! Package $p (filename $fn) is repeat but newer version;\n".
-			  "   used that one and ignored data from $_->{Filename} !\n")
+		    printf(STDERR _g(
+			  " ! Package %s (filename %s) is repeat but newer version;\n".
+			  "   used that one and ignored data from %s !\n"), $p, $fn, $_->{Filename})
 			|| die $!;
 		    $packages{$p} = [];
 		} else {
-		    print(STDERR " ! Package $p (filename $fn) is repeat;\n".
-			  "   ignored that one and using data from $_->{Filename} !\n")
+		    printf(STDERR _g(
+			  " ! Package %s (filename %s) is repeat;\n".
+			  "   ignored that one and using data from %s !\n"), $p, $fn, $_->{Filename})
 			or die $!;
 		    next FILE;
 		}
 	    }
 	}
-	print(STDERR " ! Package $p (filename $fn) has Filename field!\n") || die $!
+	printf(STDERR _g(" ! Package %s (filename %s) has Filename field!\n"), $p, $fn) || die $!
 	    if defined($tv{'Filename'});
 	
 	$tv{'Filename'}= "$pathprefix$fn";
 	
 	open(C,"md5sum <$fn |") || die "$fn $!";
-	chop($_=<C>); close(C); $? and die "\`md5sum < $fn' exited with $?\n";
-	/^([0-9a-f]{32})\s*-?\s*$/ or die "Strange text from \`md5sum < $fn': \`$_'\n";
+	chop($_=<C>); close(C); $? and die sprintf(_g("\`md5sum < %s' exited with %d"), $fn, $?)."\n";
+	/^([0-9a-f]{32})\s*-?\s*$/ or die sprintf(_g("Strange text from \`md5sum < %s': \`%s'"), $fn, $_)."\n";
 	$tv{'MD5sum'}= $1;
 	
-	my @stat= stat($fn) or die "Couldn't stat $fn: $!\n";
-	$stat[7] or die "$fn is empty\n";
+	my @stat= stat($fn) or die sprintf(_g("Couldn't stat %s: %s"), $fn, $!)."\n";
+	$stat[7] or die sprintf(_g("%s is empty"), $fn)."\n";
 	$tv{'Size'}= $stat[7];
 	
 	if (defined $tv{Revision} and length($tv{Revision})) {
@@ -186,7 +197,7 @@ my (@samemaint,@changedmaint);
 
 my %overridden;
 my $override_fh = new IO::File $override,'r'
-    or die "Couldn't open override file $override: $!\n";
+    or die sprintf(_g("Couldn't open override file %s: %s"), $override, $!)."\n";
 while (<$override_fh>) {
     s/\#.*//;
     s/\s+$//;
@@ -208,7 +219,7 @@ while (<$override_fh>) {
 	       } elsif ($$package{Maintainer} eq $maintainer) {
 		   push(@samemaint,"  $p ($maintainer)\n");
 	       } else {
-		   print(STDERR " * Unconditional maintainer override for $p *\n") || die $!;
+		   printf(STDERR _g(" * Unconditional maintainer override for %s *")."\n", $p) || die $!;
 		   $$package{Maintainer}= $maintainer;
 	       }
 	  }
@@ -234,32 +245,32 @@ for my $p (sort keys %packages) {
 	 }
 	 $record .= "\n";
 	 $records_written++;
-	 print(STDOUT $record) or die "Failed when writing stdout: $!\n";
+	 print(STDOUT $record) or die sprintf(_g("Failed when writing stdout: %s"), $!)."\n";
     }
 }
-close(STDOUT) or die "Couldn't close stdout: $!\n";
+close(STDOUT) or die sprintf(_g("Couldn't close stdout: %s"), $!)."\n";
 
 my @spuriousover= grep(!defined($packages{$_}),sort keys %overridden);
 
-&writelist("** Packages in archive but missing from override file: **",
+&writelist(_g("** Packages in archive but missing from override file: **"),
            @missingover);
 if (@changedmaint) {
     print(STDERR
-          " ++ Packages in override file with incorrect old maintainer value: ++\n",
+          _g(" ++ Packages in override file with incorrect old maintainer value: ++")."\n",
           @changedmaint,
           "\n") || die $!;
 }
 if (@samemaint) {
     print(STDERR
-          " -- Packages specifying same maintainer as override file: --\n",
+          _g(" -- Packages specifying same maintainer as override file: --")."\n",
           @samemaint,
           "\n") || die $!;
 }
 if (@spuriousover) {
     print(STDERR
-          " -- Packages in override file but not in archive: --\n",
+          _g(" -- Packages in override file but not in archive: --")."\n",
           @spuriousover,
           "\n") || die $!;
 }
 
-print(STDERR " Wrote $records_written entries to output Packages file.\n") || die $!;
+printf(STDERR _g(" Wrote %s entries to output Packages file.")."\n", $records_written) || die $!;

@@ -2,8 +2,8 @@
 #
 # dpkg-architecture
 #
-# Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>,
-# Copyright © 1999 Marcus Brinkmann <brinkmd@debian.org>.
+# Copyright Â© 2004-2005 Scott James Remnant <scott@netsplit.com>,
+# Copyright Â© 1999 Marcus Brinkmann <brinkmd@debian.org>.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -26,18 +26,21 @@ $dpkglibdir="/usr/lib/dpkg";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+require 'dpkg-gettext.pl';
+textdomain("dpkg-dev");
+
 $pkgdatadir=".";
 
 sub usageversion {
-    print STDERR
-"Debian $0 $version.
+    printf STDERR _g(
+"Debian %s %s.
 Copyright (C) 2004-2005 Scott James Remnant <scott\@netsplit.com>,
 Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd\@debian.org>.
 This is free software; see the GNU General Public Licence
 version 2 or later for copying conditions.  There is NO warranty.
 
 Usage:
-  $0 [<option> ...] [<action>]
+  %s [<option> ...] [<action>]
 Options:
        -a<debian-arch>    set current Debian architecture
        -t<gnu-system>     set current GNU system type
@@ -51,12 +54,12 @@ Actions:
        -s                 print command to set environment variables
        -u                 print command to unset environment variables
        -c <command>       set environment and run the command in it.
-";
+"), $0, $version, $0;
 }
 
 sub read_cputable {
     open CPUTABLE, "$pkgdatadir/cputable"
-	or &syserr("unable to open cputable");
+	or &syserr(_g("unable to open cputable"));
     while (<CPUTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $cputable{$1} = $2;
@@ -69,7 +72,7 @@ sub read_cputable {
 
 sub read_ostable {
     open OSTABLE, "$pkgdatadir/ostable"
-	or &syserr("unable to open ostable");
+	or &syserr(_g("unable to open ostable"));
     while (<OSTABLE>) {
 	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
 	    $ostable{$1} = $2;
@@ -151,7 +154,7 @@ $deb_build_gnu_type = &debian_to_gnu($deb_build_arch);
 # Default host: Current gcc.
 $gcc = `\${CC:-gcc} -dumpmachine`;
 if ($?>>8) {
-    &warn("Couldn't determine gcc system type, falling back to default (native compilation)");
+    &warn(_g("Couldn't determine gcc system type, falling back to default (native compilation)"));
     $gcc = '';
 } else {
     chomp $gcc;
@@ -160,7 +163,7 @@ if ($?>>8) {
 if ($gcc ne '') {
     $deb_host_arch = &gnu_to_debian($gcc);
     unless (defined $deb_host_arch) {
-	&warn ("Unknown gcc system type $gcc, falling back to default (native compilation)");
+	&warn (sprintf(_g("Unknown gcc system type %s, falling back to default (native compilation)"), $gcc));
 	$gcc = '';
     } else {
 	$gcc = $deb_host_gnu_type = &debian_to_gnu($deb_host_arch);
@@ -207,23 +210,23 @@ while (@ARGV) {
     } elsif (m/^-L$/) {
        # Handled already
     } else {
-	usageerr("unknown option \`$_'");
+	usageerr(sprintf(_g("unknown option \`%s'"), $_));
     }
 }
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
     $req_host_gnu_type = &debian_to_gnu ($req_host_arch);
-    die ("unknown Debian architecture $req_host_arch, you must specify \GNU system type, too") unless defined $req_host_gnu_type;
+    die (sprintf(_g("unknown Debian architecture %s, you must specify GNU system type, too"), $req_host_arch)) unless defined $req_host_gnu_type;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
     $req_host_arch = &gnu_to_debian ($req_host_gnu_type);
-    die ("unknown GNU system type $req_host_gnu_type, you must specify Debian architecture, too") unless defined $req_host_arch;
+    die (sprintf(_g("unknown GNU system type %s, you must specify Debian architecture, too"), $req_host_gnu_type)) unless defined $req_host_arch;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
     $dfl_host_gnu_type = &debian_to_gnu ($req_host_arch);
-    &warn("Default GNU system type $dfl_host_gnu_type for Debian arch $req_host_arch does not match specified GNU system type $req_host_gnu_type") if $dfl_host_gnu_type ne $req_host_gnu_type;
+    &warn(sprintf(_g("Default GNU system type %s for Debian arch %s does not match specified GNU system type %s"), $dfl_host_gnu_type, $req_host_arch, $req_host_gnu_type)) if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
 $deb_host_arch = $req_host_arch if $req_host_arch ne '';
@@ -231,7 +234,7 @@ $deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
 
 #$gcc = `\${CC:-gcc} --print-libgcc-file-name`;
 #$gcc =~ s!^.*gcc-lib/(.*)/\d+(?:.\d+)*/libgcc.*$!$1!s;
-&warn("Specified GNU system type $deb_host_gnu_type does not match gcc system type $gcc.") if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
+&warn(sprintf(_g("Specified GNU system type %s does not match gcc system type %s."), $deb_host_gnu_type, $gcc)) if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
 
 # Split the Debian and GNU names
 ($deb_host_arch_os, $deb_host_arch_cpu) = &split_debian($deb_host_arch);
@@ -295,6 +298,6 @@ if ($action eq 'l') {
     if (exists $env{$req_variable_to_print}) {
         print "$env{$req_variable_to_print}\n";
     } else {
-        die "$req_variable_to_print is not a supported variable name";
+        die sprintf(_g("%s is not a supported variable name"), $req_variable_to_print);
     }
 }
