@@ -86,22 +86,35 @@ static int ilist_select(const struct dirent *de) {
 static void info_spew(const char *debar, const char *directory,
                       const char *const *argv) {
   const char *component;
+  size_t pathlen;
+  char *controlfile = NULL;
   FILE *co;
   int re= 0;
 
   while ((component= *argv++) != 0) {
-    co= fopen(component,"r");
+    pathlen = strlen(directory) + strlen(component) + 2;
+    controlfile = (void *) realloc((void *) controlfile, pathlen);
+    if (!controlfile)
+      ohshite(_("realloc failed (%ld bytes)"), pathlen);
+    memset(controlfile, 0, sizeof(controlfile));
+
+    strcat(controlfile, directory);
+    strcat(controlfile, "/");
+    strcat(controlfile, component);
+    co= fopen(controlfile,"r");
+
     if (co) {
       stream_fd_copy(co, 1, -1, _("info_spew"));
     } else if (errno == ENOENT) {
       if (fprintf(stderr, _("dpkg-deb: `%.255s' contains no control component `%.255s'\n"),
-                  debar, component) == EOF) werr("stderr");
+		  debar, component) == EOF) werr("stderr");
       re++;
     } else {
       ohshite(_("open component `%.255s' (in %.255s) failed in an unexpected way"),
-              component, directory);
+	      component, directory);
     }
   }
+  free(controlfile);
   if (re==1)
     ohshit(_("One requested control component is missing"));
   else if (re>1)
