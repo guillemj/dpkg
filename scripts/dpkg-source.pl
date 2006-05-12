@@ -581,7 +581,12 @@ if ($opmode eq 'build') {
 
     if ($is_signed) {
 	if (-x '/usr/bin/gpg') {
-	    my $gpg_command = 'gpg -q --verify '.quotemeta($dsc).' 2>&1';
+	    my $gpg_command = 'gpg -q --verify ';
+	    if (-r '/usr/share/keyrings/debian-keyring.gpg') {
+		$gpg_command = $gpg_command.'--keyring /usr/share/keyrings/debian-keyring.gpg ';
+	    }
+	    $gpg_command = $gpg_command.quotemeta($dsc).' 2>&1';
+
 	    my @gpg_output = `$gpg_command`;
 	    my $gpg_status = $? >> 8;
 	    if ($gpg_status) {
