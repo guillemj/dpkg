@@ -35,6 +35,8 @@ Options: -r<gain-root-command>
          -si (default) src includes orig for rev. 0 or 1    } genchanges
          -sa           uploaded src always includes orig    }
          -sd           uploaded src is diff and .dsc only   }
+         -sn           force Debian native source format } only passed
+         -s[sAkurKUR]  see dpkg-source for explanation   } to dpkg-source
          -nc           do not clean source tree (implies -b)
          -tc           clean source tree when finished
          -ap           add pause before starting signature process
@@ -90,6 +92,7 @@ do
 	-si)	sourcestyle=-si ;;
 	-sa)	sourcestyle=-sa ;;
 	-sd)	sourcestyle=-sd ;;
+	-s[nsAkurKUR])    passopts="$passopts $1";; # passed to dpkg-source
         -i*)    diffignore=$1;;
 	-I*)	tarignore="$tarignore $1";;
 	-tc)	cleansource=true ;;
@@ -106,7 +109,7 @@ do
 	-e*)	changedby="$value" ;;
 	-C*)	desc="$value" ;;
 	-W)	warnable_error=1; passopts="$passopts -W";;
-	-E)	warnable_error=0; passopts="$passopts -E";;	
+	-E)	warnable_error=0; passopts="$passopts -E";;
 	*)	echo >&2 "$progname: unknown option or argument $1"
 		usageversion; exit 2 ;;
 	esac
