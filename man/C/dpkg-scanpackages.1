@@ -13,7 +13,7 @@
 .\" You should have received a copy of the GNU General Public
 .\" License along with dpkg; if not, write to the Free Software
 .\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-.TH dpkg\-scanpackages 1 "2006-02-28" "Debian Project" "dpkg utilities"
+.TH dpkg\-scanpackages 1 "2006-05-10" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-scanpackages - create Packages files
 .
@@ -32,6 +32,7 @@ dpkg\-scanpackages - create Packages files
 .B dpkg\-scanpackages
 sorts through a tree of Debian binary packages and creates a Packages
 file, used by
+.BR apt (8),
 .BR dselect (1),
 etc, to tell the user what packages are available for installation. These
 Packages files are the same as those found on Debian archive sites
@@ -39,6 +40,16 @@ and CD-ROMs. You might use
 .B dpkg\-scanpackages
 yourself if making a directory of local packages to install on a cluster
 of machines.
+.PP
+.B Note:
+If you want to access the generated Packages file with
+.B apt
+you will probably need to compress the file with
+.BR gzip (1)
+(generating a Packages.gz file). apt ignores uncompressed Packages
+files except on local access (i.e.
+.B file://
+sources).
 .PP
 .I binarydir
 is the name of the binary tree to process (for example,

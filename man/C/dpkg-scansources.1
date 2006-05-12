@@ -1,4 +1,4 @@
-.TH dpkg\-scansources 1 "2006-02-28" "Debian Project" "dpkg utilities"
+.TH dpkg\-scansources 1 "2006-05-10" "Debian Project" "dpkg utilities"
 .SH "NAME"
 dpkg\-scansources \- search for '.dsc' files and build the 'Sources' index
 .
@@ -29,6 +29,16 @@ The \fIpath-prefix\fR, if given, is prepended to the directory field in the
 generated source index. You generally use this to make the directory
 fields contain the path from the top of the Debian archive hierarchy.
 .
+.PP
+.B Note:
+If you want to access the generated Sources file with
+.B apt
+you will probably need to compress the file with
+.BR gzip (1)
+(generating a Source.gz file). apt ignores uncompressed Sources files
+except on local access (i.e.
+.B file://
+sources).
 .SH "OPTIONS"
 .IP "\fB\-\-debug\fR" 4
 Turn debugging on.
