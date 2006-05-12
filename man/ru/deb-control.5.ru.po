@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2006-02-28  1:40+0200\n"
+"POT-Creation-Date: 2006-05-11 23:08-0500\n"
 "PO-Revision-Date: 2006-04-08 15:06+0300\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -16,32 +16,24 @@ msgstr ""
 "X-Generator: KBabel 1.9.1\n"
 
 # type: Plain text
-#.  Author: Raul Miller
-#.  Includes text from the debian Guidelines by Ian Jackson, Ian Murdock
 #: deb-control.5:3
 #, no-wrap
 msgid "deb-control"
 msgstr "deb-control"
 
 # type: TH
-#.  Author: Raul Miller
-#.  Includes text from the debian Guidelines by Ian Jackson, Ian Murdock
 #: deb-control.5:3
 #, no-wrap
 msgid "2006-02-28"
 msgstr "2006-02-28"
 
 # type: TH
-#.  Author: Raul Miller
-#.  Includes text from the debian Guidelines by Ian Jackson, Ian Murdock
 #: deb-control.5:3
 #, no-wrap
 msgid "Debian Project"
 msgstr "Проект Debian"
 
 # type: TH
-#.  Author: Raul Miller
-#.  Includes text from the debian Guidelines by Ian Jackson, Ian Murdock
 #: deb-control.5:3
 #, no-wrap
 msgid "Debian"
@@ -86,10 +78,10 @@ msgid ""
 "join lines when processing the body of the field (except in the case of the "
 "B<Description> field, see below)."
 msgstr ""
-"Каждый пакет Debian содержит мастер файл `control', состоящий из "
-"нескольких полей. Каждое поле начинается с тега, например B<Package> или "
-"B<Version> (регистр значения не имеет), затем двоеточие и содержимое поля. "
-"Поля разделяются только тегами. Другими словами, текст поля может занимать "
+"Каждый пакет Debian содержит мастер файл `control', состоящий из нескольких "
+"полей. Каждое поле начинается с тега, например B<Package> или B<Version> "
+"(регистр значения не имеет), затем двоеточие и содержимое поля. Поля "
+"разделяются только тегами. Другими словами, текст поля может занимать "
 "несколько строк, но утилиты установки обычно объединяют эти строки при "
 "обработке содержимого поля (кроме поля B<Description>, описанного ниже)."
 
@@ -122,11 +114,12 @@ msgstr "B<Version:> E<lt>строка с версиейE<gt>"
 
 # type: Plain text
 #: deb-control.5:36
+#, fuzzy
 msgid ""
 "Typically, this is the original package's version number in whatever form "
 "the program's author uses. It may also include a Debian revision number (for "
 "non-native packages). If both version and revision are supplied, they are "
-"seperated by a hyphen, `-'. For this reason, the original version may not "
+"separated by a hyphen, `-'. For this reason, the original version may not "
 "have a hyphen in its version number."
 msgstr ""
 "Обычно в этом поле указывается оригинальный номер версии пакета в той форме, "
@@ -165,15 +158,16 @@ msgstr "B< >E<lt>длинное описаниеE<gt>"
 
 # type: Plain text
 #: deb-control.5:50
+#, fuzzy
 msgid ""
 "The format for the package description is a short brief summary on the first "
 "line (after the \"Description\" field). The following lines can be used as a "
 "longer, more detailed description. Each line of the long description must be "
-"preceded by a space, and blank lines in the long desription must contain a "
+"preceded by a space, and blank lines in the long description must contain a "
 "single '.' following the preceding space."
 msgstr ""
-"Формат описания пакета -- это краткое и ёмкое описание в первой строке (после "
-"поля \"Description\"). Последующие строки могут быть использованы как "
+"Формат описания пакета -- это краткое и ёмкое описание в первой строке "
+"(после поля \"Description\"). Последующие строки могут быть использованы как "
 "длинное, более детальное описание. В начале каждой строки длинного описания "
 "должен находиться пробел, а пустые строки в длинном описании должны "
 "содержать одну точку '.', следующую сразу после начального пробела."
@@ -198,8 +192,8 @@ msgid ""
 "`text', `x11' etc."
 msgstr ""
 "Это обобщающее поле, в котором пакету присваивается категория, в зависимости "
-"от типа программного обеспечения, которое он содержит. Примерами секций могут "
-"служить `utils', `net', `mail', `text', `x11' и т.д."
+"от типа программного обеспечения, которое он содержит. Примерами секций "
+"могут служить `utils', `net', `mail', `text', `x11' и т.д."
 
 # type: TP
 #: deb-control.5:57
@@ -225,8 +219,8 @@ msgid ""
 "packages are layed out in the archive.  A list of these can be obtained from "
 "the latest version of B<debian-policy> package."
 msgstr ""
-"Поля B<Section> и B<Priority> могут принимать только значения из "
-"списка, который определен в политике Debian. Они используются для того, чтобы "
+"Поля B<Section> и B<Priority> могут принимать только значения из списка, "
+"который определен в политике Debian. Они используются для того, чтобы "
 "решить, как пакеты будут размещены в архиве. Список возможных значений можно "
 "узнать из последней версии пакета B<debian-policy>."
 
@@ -244,11 +238,10 @@ msgid ""
 "other installation tool will not allow an B<Essential> package to be removed "
 "(at least not without using one of the force options)."
 msgstr ""
-"Данное поле обычно необходимо только когда ответ - `yes' (да). Это "
-"означает, что данный пакет требуется для нормального функционирования "
-"системы. Dpkg и другие программы установки не разрешают удаление пакетов, "
-"помеченных как B<Essential> (по крайней мере, без указания специальных "
-"флагов)."
+"Данное поле обычно необходимо только когда ответ - `yes' (да). Это означает, "
+"что данный пакет требуется для нормального функционирования системы. Dpkg и "
+"другие программы установки не разрешают удаление пакетов, помеченных как "
+"B<Essential> (по крайней мере, без указания специальных флагов)."
 
 # type: TP
 #: deb-control.5:78
@@ -267,8 +260,8 @@ msgid ""
 msgstr ""
 "Архитектура определяет, для какого типа аппаратной платформы был "
 "скомпилирован пакет. Архитектуры бывают такие: `i386', `m68k', `sparc', "
-"`alpha', `powerpc' и т.д. Заметим, что значение B<all> означает, что "
-"пакет не зависит от архитектуры: например, он написан на Perl или содержит "
+"`alpha', `powerpc' и т.д. Заметим, что значение B<all> означает, что пакет "
+"не зависит от архитектуры: например, он написан на Perl или содержит "
 "документацию."
 
 # type: TP
@@ -341,8 +334,8 @@ msgid ""
 "install a package without those listed in its B<Recommends> field."
 msgstr ""
 "Список пакетов, которые рекомендуется установить вместе с данным пакетом. "
-"Программа установки предупредит пользователя, если он устанавливает "
-"пакет без пакетов, которые перечислены в поле B<Recommends>."
+"Программа установки предупредит пользователя, если он устанавливает пакет "
+"без пакетов, которые перечислены в поле B<Recommends>."
 
 # type: TP
 #: deb-control.5:114
@@ -370,11 +363,12 @@ msgid ""
 "pipes binding more tightly. Each item is a package name optionally followed "
 "by a version number specification in parentheses."
 msgstr ""
-"Синтаксис полей B<Depends>, B<Pre-Depends>, B<Recommends> и B<Suggests> позволяет описать группу альтернативных пакетов. Каждая такая "
-"группа -- это список пакетов, разделённых символом вертикальной черты `|'. "
-"Группы разделяются запятыми. Запятые можно читать как `И', а вертикальные "
-"чёрточки как `ИЛИ'. Каждый элемент является именем пакета, причём в круглых "
-"скобках можно указать его версию."
+"Синтаксис полей B<Depends>, B<Pre-Depends>, B<Recommends> и B<Suggests> "
+"позволяет описать группу альтернативных пакетов. Каждая такая группа -- это "
+"список пакетов, разделённых символом вертикальной черты `|'. Группы "
+"разделяются запятыми. Запятые можно читать как `И', а вертикальные чёрточки "
+"как `ИЛИ'. Каждый элемент является именем пакета, причём в круглых скобках "
+"можно указать его версию."
 
 # type: Plain text
 #: deb-control.5:137
@@ -385,13 +379,12 @@ msgid ""
 "for greater than, \"E<lt>E<lt>\" for less than, \"E<gt>=\" for greater than "
 "or equal to, \"E<lt>=\" for less than or equal to, and \"=\" for equal to."
 msgstr ""
-"Если номер версии начинается с `E<gt>E<gt>', то это означает любую "
-"более позднюю версию, при чём также может быть задан или пропущен номер "
-"ревизии Debian (который отделен от версии дефисом). Таким образом: "
-"\"E<gt>E<gt>\" означает \"больше чем\", \"E<lt>E<lt>\" -- \"меньше чем\", "
-"\"E<gt>=\" -- \"больше или равно чем\", "
-"\"E<lt>=\" -- \"меньше или равно чем\", а "
-"\"=\" -- \"только версия, которая указана\"."
+"Если номер версии начинается с `E<gt>E<gt>', то это означает любую более "
+"позднюю версию, при чём также может быть задан или пропущен номер ревизии "
+"Debian (который отделен от версии дефисом). Таким образом: \"E<gt>E<gt>\" "
+"означает \"больше чем\", \"E<lt>E<lt>\" -- \"меньше чем\", \"E<gt>=\" -- "
+"\"больше или равно чем\", \"E<lt>=\" -- \"меньше или равно чем\", а \"=\" -- "
+"\"только версия, которая указана\"."
 
 # type: TP
 #: deb-control.5:137
@@ -409,8 +402,8 @@ msgid ""
 msgstr ""
 "Список пакетов, которые конфликтуют с пакетом; например, если в них "
 "содержатся файлы с теми же именами. Программа установки не позволит "
-"установить в систему два конфликтующих пакета. Каждый из двух "
-"конфликтующих пакетов должен указать в строке B<Conflicts> имя другого."
+"установить в систему два конфликтующих пакета. Каждый из двух конфликтующих "
+"пакетов должен указать в строке B<Conflicts> имя другого."
 
 # type: TP
 #: deb-control.5:145
@@ -440,24 +433,25 @@ msgstr "B<Provides:> E<lt>список пакетовE<gt>"
 
 # type: Plain text
 #: deb-control.5:163
+#, fuzzy
 msgid ""
 "This is a list of virtual packages that this one provides. Usually this is "
 "used in the case of several packages all providing the same service.  For "
 "example, sendmail and exim can serve as a mail server, so they provide a "
 "common package (`mail-transport-agent') on which other packages can depend. "
-"This will allow sendmail or exim to serve as a valid option to satisy the "
+"This will allow sendmail or exim to serve as a valid option to satisfy the "
 "dependency. This prevents the packages that depend on a mail server from "
 "having to know the package names for all of them, and using `|' to separate "
 "the list."
 msgstr ""
-"Список виртуальных пакетов, которые предоставляет данный пакет. Обычно "
-"он используется, если несколько разных пакетов предоставляют один и тот же "
+"Список виртуальных пакетов, которые предоставляет данный пакет. Обычно он "
+"используется, если несколько разных пакетов предоставляют один и тот же "
 "сервис. Например, sendmail и exim могут работать как почтовые серверы, "
 "поэтому они предоставляют общий пакет (`mail-transport-agent') для тех "
-"пакетов, которые могут от него зависеть. Это позволяет использовать "
-"sendmail или exim в тех пакетах, которые зависят от `mail-transport-agent'. "
-"Это устраняет необходимость указывать в пакетах, которые зависят от "
-"почтового сервера, список через `|' всех пакетов почтовых серверов."
+"пакетов, которые могут от него зависеть. Это позволяет использовать sendmail "
+"или exim в тех пакетах, которые зависят от `mail-transport-agent'. Это "
+"устраняет необходимость указывать в пакетах, которые зависят от почтового "
+"сервера, список через `|' всех пакетов почтовых серверов."
 
 # type: Plain text
 #: deb-control.5:178
@@ -533,4 +527,3 @@ msgstr "СМОТРИТЕ ТАКЖЕ"
 #: deb-control.5:207
 msgid "B<deb>(5), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr "B<deb>(5), B<dpkg>(1), B<dpkg-deb>(1)."
-
