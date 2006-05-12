@@ -230,8 +230,6 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 			for (fip=fieldinfos; fip->name; fip++) 
 				if (strcasecmp(head->data, fip->name)==0)  {
 					fip->wcall(&wb,pkg,&pkg->installed,0,fip);
-					if (!wb.used)
-						break;
 
 					varbufaddc(&wb, '\0');
 					varbufprintf(&fb, fmt, wb.buf);

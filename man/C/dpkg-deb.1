@@ -1,4 +1,4 @@
-.TH dpkg\-deb 1 "2006-02-28" "Debian Project" "dpkg suite"
+.TH dpkg\-deb 1 "2006-05-10" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-deb - Debian package archive (.deb) manipulation tool
 .SH SYNOPSIS
@@ -127,15 +127,8 @@ about each one and exit with status 2.
 Provides information about a binary package archive in the format
 specified by the
 .B \-\-showformat
-argument.
-
-This argument is a string that may reference any status field using the
-"${\fIfield-name\fR}" form, a list of the valid fields can be easily
-produced using
-.B -I
-on the same package.
-
-The default for this field is "${Package}\\t${Version}\\n".
+argument. The default format displays the package's name and version
+on one line, seperated by a tabulator.
 .TP
 .BR \-\-field ", " \-f
 Extracts control file information from a binary package archive.
@@ -215,6 +208,22 @@ copyright licensing and lack of warranty. (The American spelling
 .B \-\-license
 is also supported).
 .SH OTHER OPTIONS
+.TP
+\fB\-\-show\-format=\fP\fIformat\fR
+This option is used to specify the format of the output \fB\-\-show\fP
+will produce. The format is a string that will be output for each package
+listed.
+
+The string may reference any status field using the
+"${\fIfield-name\fR}" form, a list of the valid fields can be easily
+produced using
+.B \-I
+on the same package. A complete explanation of the formatting options
+(including escape sequences and field tabbing) can be found in the
+explanation of the \fB\-\-showformat\fP option in
+.BR dpkg-query (1).
+
+The default for this field is "${Package}\\t${Version}\\n".
 .TP
 .BR \-\-new
 Ensures that
