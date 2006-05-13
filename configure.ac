@@ -122,6 +122,7 @@ AC_CONFIG_FILES([ Makefile
 		  origins/Makefile
 		  po/Makefile.in
 		  scripts/Makefile
+		  scripts/po/Makefile.in
 		  src/Makefile
 		  utils/Makefile ])
 AC_CONFIG_HEADERS([config.h])
