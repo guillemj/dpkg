@@ -1,16 +1,16 @@
-# SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Manual page for start-stop-daemon(8)
+# By Peter Karlsson <peterk@debian.org>, 1999-2006.
+# Copyright 1999-2006 Software in the Public Interest
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2006-02-28  1:40+0200\n"
-"PO-Revision-Date: 2005-07-03 15:04+0200\n"
-"Last-Translator: Unknown translator\n"
+"PO-Revision-Date: 2006-05-14 16:18+0100\n"
+"Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 # type: Plain text
@@ -94,10 +94,10 @@ msgid ""
 "B<--name> options, B<start-stop-daemon> can be configured to find existing "
 "instances of a running process."
 msgstr ""
-"B<start-stop-daemon> anvÃ¤nds fÃ¶r att kontrollera skapande och avslutande av "
-"processer pÃ¥ systemnivÃ¥.  Med hjÃ¤lp av flaggorna B<--exec>, B<--pidfile>, "
-"B<--user> och B<--name> kan B<start-stop-daemon> stÃ¤llas in att hitta "
-"existerande instanser av en kÃ¶rande process."
+"B<start-stop-daemon> används för att kontrollera skapande och avslutande av "
+"processer på systemnivå.  Med hjälp av flaggorna B<--exec>, B<--pidfile>, "
+"B<--user> och B<--name> kan B<start-stop-daemon> ställas in att hitta "
+"existerande instanser av en körande process."
 
 # type: Plain text
 #: start-stop-daemon.8:48
@@ -112,11 +112,11 @@ msgid ""
 "program being started."
 msgstr ""
 "Med B<--start> letar B<start-stop-daemon> efter om en angiven process "
-"existerar, och om sÃ¥ Ã¤r fallet gÃ¶r B<start-stop-daemon> ingenting och "
-"avslutar med status 1 (0 om B<--oknodo> anges).  Om en sÃ¥dan process inte "
+"existerar, och om så är fallet gör B<start-stop-daemon> ingenting och "
+"avslutar med status 1 (0 om B<--oknodo> anges).  Om en sådan process inte "
 "existerar startas en instans, antingen med programfilen som anges med B<--"
 "exec>, (eller, om den anges, med B<--startas>).  Eventuella parametrar som "
-"ges efter B<--> pÃ¥ kommandoraden skickas omodiferade till programmet som "
+"ges efter B<--> på kommandoraden skickas omodiferade till programmet som "
 "startas."
 
 # type: Plain text
@@ -130,9 +130,9 @@ msgid ""
 "if B<--oknodo> is specified). If B<--retry> is specified then B<start-stop-"
 "daemon> will check that the process(es) have terminated."
 msgstr ""
-"Med B<--stop> testar B<start-stop-daemon> ocksÃ¥ om den angivna processen "
-"existerar, och om sÃ¥ Ã¤r fallet sÃ¤nder B<start-stop-daemon> den signal som "
-"anges av B<--signal> till den, och avslutar med status 0.  Om en sÃ¥dan "
+"Med B<--stop> testar B<start-stop-daemon> också om den angivna processen "
+"existerar, och om så är fallet sänder B<start-stop-daemon> den signal som "
+"anges av B<--signal> till den, och avslutar med status 0.  Om en sådan "
 "process inte existerar avslutar B<start-stop-daemon> med status 1 (0 om B<--"
 "oknodo> anges).  Om B<--retry> anges kommer B<start-stop-daemon> kontrollera "
 "att processen har avslutats."
@@ -150,13 +150,13 @@ msgid ""
 "need to live through a B<--stop> you must specify a pidfile."
 msgstr ""
 "Observera att om inte B<--pidfile> anges kommer B<start-stop-daemon> att "
-"jobba pÃ¥ ett sÃ¤tt som liknar B<killall(1).> B<start-stop-daemon> kommer att "
-"sÃ¶ka i processtabellen efter processer med motsvarande namn pÃ¥ processen, "
-"anvÃ¤ndar-id och/eller grupp-id (om sÃ¥dant anges).  Alla processer som "
-"stÃ¤mmer Ã¶verens kommer hindra B<--start> frÃ¥n att starta processen.  Alla "
-"processer som stÃ¤mmer Ã¶verens kommer att sÃ¤nda KILL-signalen om B<--stop> "
-"anges.  FÃ¶r processer som har lÃ¥nglivade barn som mÃ¥ste Ã¶verleva en B<--"
-"stop> mÃ¥ste du ange en pidfil."
+"jobba på ett sätt som liknar B<killall(1).> B<start-stop-daemon> kommer att "
+"söka i processtabellen efter processer med motsvarande namn på processen, "
+"användar-id och/eller grupp-id (om sådant anges).  Alla processer som "
+"stämmer överens kommer hindra B<--start> från att starta processen.  Alla "
+"processer som stämmer överens kommer att sända KILL-signalen om B<--stop> "
+"anges.  För processer som har långlivade barn som måste överleva en B<--"
+"stop> måste du ange en pidfil."
 
 # type: SH
 #: start-stop-daemon.8:88
@@ -177,7 +177,7 @@ msgid ""
 "Check for processes that are instances of this executable (according to B</"
 "proc/>I<pid>B</exe> )."
 msgstr ""
-"SÃ¶k efter processer som Ã¤r instanser av denna programfil (enligt B</proc/"
+"Sök efter processer som är instanser av denna programfil (enligt B</proc/"
 ">I<pid>B</exe> )."
 
 # type: TP
@@ -190,13 +190,13 @@ msgstr "B<-p>|B<--pidfile> I<pidfil>"
 #: start-stop-daemon.8:99
 #, fuzzy
 msgid "Check whether a process has created the file I<pid-file>."
-msgstr "SÃ¶k efter processer vars process-id anges i I<pidfil>."
+msgstr "Sök efter processer vars process-id anges i I<pidfil>."
 
 # type: TP
 #: start-stop-daemon.8:99
 #, fuzzy, no-wrap
 msgid "B<-u>|B<--user> I<username>|I<uid>"
-msgstr "B<-u>|B<--user> I<anvÃ¤ndarnamn>|I<anvÃ¤ndar-id>"
+msgstr "B<-u>|B<--user> I<användarnamn>|I<användar-id>"
 
 # type: Plain text
 #: start-stop-daemon.8:105
@@ -204,8 +204,8 @@ msgstr "B<-u>|B<--user> I<anvÃ¤ndarnamn>|I<anvÃ¤ndar-id>"
 msgid ""
 "Check for processes owned by the user specified by I<username> or I<uid>."
 msgstr ""
-"SÃ¶k efter processer som Ã¤gs av den anvÃ¤ndare som anges med I<anvÃ¤ndarnamn> "
-"eller I<anvÃ¤ndar-id>."
+"Sök efter processer som ägs av den användare som anges med I<användarnamn> "
+"eller I<användar-id>."
 
 # type: TP
 #: start-stop-daemon.8:105
@@ -217,7 +217,7 @@ msgstr "B<-g>|B<--group> I<grupp>|I<grupp-id>"
 #: start-stop-daemon.8:108
 #, fuzzy
 msgid "Change to I<group> or I<gid> when starting the process."
-msgstr "Byt till I<grupp> eller I<grupp-id> nÃ¤r processen startas."
+msgstr "Byt till I<grupp> eller I<grupp-id> när processen startas."
 
 # type: TP
 #: start-stop-daemon.8:108
@@ -232,7 +232,7 @@ msgid ""
 "Check for processes with the name I<process-name> (according to B</proc/"
 ">I<pid>B</stat>)."
 msgstr ""
-"SÃ¶k efter processer med namnet I<processnamn> (enligt B</proc/>I<pid>B</"
+"Sök efter processer med namnet I<processnamn> (enligt B</proc/>I<pid>B</"
 "stat>)."
 
 # type: TP
@@ -248,14 +248,14 @@ msgid ""
 "With B<--stop>, specifies the signal to send to processes being stopped "
 "(default 15)."
 msgstr ""
-"Tillsammans med B<--stop> anger detta den signal som skall sÃ¤ndas till "
-"processen som stoppas (fÃ¶rval Ã¤r 15)."
+"Tillsammans med B<--stop> anger detta den signal som skall sändas till "
+"processen som stoppas (förval är 15)."
 
 # type: TP
 #: start-stop-daemon.8:119
 #, fuzzy, no-wrap
 msgid "B<-R>|B<--retry> I<timeout>|I<schedule>"
-msgstr "B<-R>|B<--retry> I<tidsgrÃ¤ns>|I<schema>"
+msgstr "B<-R>|B<--retry> I<tidsgräns>|I<schema>"
 
 # type: Plain text
 #: start-stop-daemon.8:129
@@ -267,9 +267,9 @@ msgid ""
 "then take further action as determined by the schedule."
 msgstr ""
 "Tillsammans med B<--stop> anger detta att B<start-stop-daemon> skall "
-"kontrollera att processen avslutas.  Den testar flera gÃ¥nger efter matchande "
-"processer som kÃ¶rs, tills ingen lÃ¤ngrefinns kvar.  Om processerna inte "
-"avslutar kommer programmet utfÃ¶ra ytterligare kommandon enligt schemat."
+"kontrollera att processen avslutas.  Den testar flera gånger efter matchande "
+"processer som körs, tills ingen längrefinns kvar.  Om processerna inte "
+"avslutar kommer programmet utföra ytterligare kommandon enligt schemat."
 
 # type: Plain text
 #: start-stop-daemon.8:140
@@ -279,8 +279,8 @@ msgid ""
 "I<signal>B</>I<timeout>B</KILL/>I<timeout> is used, where I<signal> is the "
 "signal specified with B<--signal>."
 msgstr ""
-"Om I<tidsgrÃ¤ns> anges istÃ¤llet fÃ¶r I<schema> kommer schemat I<signal>B</"
-">I<timeout>B</KILL/>I<timeout> att anvÃ¤ndas, dÃ¤r I<signal> Ã¤r den signal som "
+"Om I<tidsgräns> anges istället för I<schema> kommer schemat I<signal>B</"
+">I<timeout>B</KILL/>I<timeout> att användas, där I<signal> är den signal som "
 "anges med B<--signal>."
 
 # type: Plain text
@@ -293,12 +293,12 @@ msgid ""
 "for processes to exit, or B<forever>, which means to repeat the rest of the "
 "schedule forever if necessary."
 msgstr ""
-"I<schema> Ã¤r den lista med Ã¥tminstone tvÃ¥ poster avdelade med snedstreck (B</"
-">); varje post Ã¤r antingen B<->I<signalnummer> eller [B<->]I<signalnamn>, "
-"vilket betyder att signalen skall sÃ¤ndas, eller I<timeout>, vilket anger det "
-"antal sekunder programmet skall vÃ¤nta pÃ¥ att processen avslutar, eller "
-"B<forever>, vilket betyder att resten av schemat skall repetera fÃ¶r evigt om "
-"sÃ¥ behÃ¶vs."
+"I<schema> är den lista med åtminstone två poster avdelade med snedstreck (B</"
+">); varje post är antingen B<->I<signalnummer> eller [B<->]I<signalnamn>, "
+"vilket betyder att signalen skall sändas, eller I<timeout>, vilket anger det "
+"antal sekunder programmet skall vänta på att processen avslutar, eller "
+"B<forever>, vilket betyder att resten av schemat skall repetera för evigt om "
+"så behövs."
 
 # type: Plain text
 #: start-stop-daemon.8:166
@@ -308,7 +308,7 @@ msgid ""
 "B<start-stop-daemon> exits with error status 2.  If a schedule is specified, "
 "then any signal specified with B<--signal> is ignored."
 msgstr ""
-"Om slutet pÃ¥ schemat nÃ¥s och B<forever> inte anges kommer B<start-stop-"
+"Om slutet på schemat nås och B<forever> inte anges kommer B<start-stop-"
 "daemon> avslutas med felkod 2.  Om ett schema anges kommer eventuell signal "
 "angiven med B<--signal> att ignoreras."
 
@@ -316,7 +316,7 @@ msgstr ""
 #: start-stop-daemon.8:166
 #, fuzzy, no-wrap
 msgid "B<-a>|B<--startas> I<pathname>"
-msgstr "B<-a>|B<--startas> I<sÃ¶kvÃ¤g>"
+msgstr "B<-a>|B<--startas> I<sökväg>"
 
 # type: Plain text
 #: start-stop-daemon.8:174
@@ -325,8 +325,8 @@ msgid ""
 "With B<--start>, start the process specified by I<pathname>.  If not "
 "specified, defaults to the argument given to B<--exec>."
 msgstr ""
-"Tillsammans med B<--start> anger detta att processen som anges med I<sÃ¶kvÃ¤g> "
-"skall startas.  Om den inte anges anvÃ¤nds parametern som gavs till B<--exec>."
+"Tillsammans med B<--start> anger detta att processen som anges med I<sökväg> "
+"skall startas.  Om den inte anges används parametern som gavs till B<--exec>."
 
 # type: TP
 #: start-stop-daemon.8:174
@@ -341,7 +341,7 @@ msgid ""
 "Print actions that would be taken and set appropriate return value, but take "
 "no action."
 msgstr ""
-"Skriver ut vad som skulle ha utfÃ¶rts och sÃ¤tter returvÃ¤rdet, men utfÃ¶r "
+"Skriver ut vad som skulle ha utförts och sätter returvärdet, men utför "
 "ingenting."
 
 # type: TP
@@ -355,7 +355,7 @@ msgstr "B<-o>|B<--oknodo>"
 #, fuzzy
 msgid "Return exit status 0 instead of 1 if no actions are (would be) taken."
 msgstr ""
-"Returnerar felstatus 0 i stÃ¤llet fÃ¶r 1 om ingen Ã¥tgÃ¤rd utfÃ¶rs/skulle utfÃ¶rts."
+"Returnerar felstatus 0 i stället för 1 om ingen åtgärd utförs/skulle utförts."
 
 # type: TP
 #: start-stop-daemon.8:181
@@ -373,7 +373,7 @@ msgstr "Skriv inte informationsmeddelanden; visa endast felmeddelanden."
 #: start-stop-daemon.8:184
 #, fuzzy, no-wrap
 msgid "B<-c>|B<--chuid> I<username>|I<uid>"
-msgstr "B<-c>|B<--chuid> I<anvÃ¤ndarnamn>|I<anvÃ¤ndar-id>"
+msgstr "B<-c>|B<--chuid> I<användarnamn>|I<användar-id>"
 
 # type: Plain text
 #: start-stop-daemon.8:201
@@ -387,14 +387,14 @@ msgid ""
 "is only for groups that the user isn't normally a member of (like adding per/"
 "process group membership for generic users like B<nobody>)."
 msgstr ""
-"Byt till detta anvÃ¤ndarnamn/anvÃ¤ndar-id innan processen startas.  Du kan "
-"Ã¤ven ange en grupp genom att lÃ¤gga till ett kolontecken, B<:>, fÃ¶ljt av "
-"gruppnamnet eller grupp-id pÃ¥ samma sÃ¤tt som du skull gjort till \"chown\"-"
-"kommandot (I<anvÃ¤ndarefP>B<:>I<grupp).  NÃ¤r du anvÃ¤nder detta alternativ "
-"mÃ¥ste du ha i Ã¥tanke att Ã¤ven bÃ¥de primÃ¤r och tillÃ¤ggs-grupp sÃ¤tts, Ã¤ven om "
-">B<--group>-flaggan inte anges.  B<--group>-flaggan Ã¤r bara till fÃ¶r grupper "
-"som anvÃ¤ndaren normalt inte Ã¤r en medlem i (t.ex fÃ¶r att lÃ¤gga till "
-"gruppmedlemskap fÃ¶r enskilda processer fÃ¶r standardanvÃ¤ndare sÃ¥som \"nobody"
+"Byt till detta användarnamn/användar-id innan processen startas.  Du kan "
+"även ange en grupp genom att lägga till ett kolontecken, B<:>, följt av "
+"gruppnamnet eller grupp-id på samma sätt som du skull gjort till \"chown\"-"
+"kommandot (I<användarefP>B<:>I<grupp).  När du använder detta alternativ "
+"måste du ha i åtanke att även både primär och tilläggs-grupp sätts, även om "
+">B<--group>-flaggan inte anges.  B<--group>-flaggan är bara till för grupper "
+"som användaren normalt inte är en medlem i (t.ex för att lägga till "
+"gruppmedlemskap för enskilda processer för standardanvändare såsom \"nobody"
 "\")."
 
 # type: TP
@@ -410,14 +410,14 @@ msgid ""
 "Chdir and chroot to I<root> before starting the process. Please note that "
 "the pidfile is also written after the chroot."
 msgstr ""
-"Byt katalog och rot till B<rot> innan processen startas.  Observera att Ã¤ven "
-"pidfilen skrivs efter chroot har utfÃ¶rts."
+"Byt katalog och rot till B<rot> innan processen startas.  Observera att även "
+"pidfilen skrivs efter chroot har utförts."
 
 # type: TP
 #: start-stop-daemon.8:207
 #, fuzzy, no-wrap
 msgid "B<-d>|B<--chdir> I<path>"
-msgstr "+B<-d>|B<--chdir> I<sÃ¶kvÃ¤g>"
+msgstr "+B<-d>|B<--chdir> I<sökväg>"
 
 # type: Plain text
 #: start-stop-daemon.8:215
@@ -427,7 +427,7 @@ msgid ""
 "if the B<-r>|B<--chroot> option is set. When not specified, start-stop-"
 "daemon will chdir to the root directory before starting the process."
 msgstr ""
-"Byt katalog till I<sÃ¶kvÃ¤g> innan processen startas.  Detta gÃ¶rs efter byte "
+"Byt katalog till I<sökväg> innan processen startas.  Detta görs efter byte "
 "av rot om B<-r>|B<--chroot>-flaggan anges.  Om flaggan inte anges kommer "
 "start-stop-daemon byta till rotkatalogen innan processen startas."
 
@@ -449,14 +449,14 @@ msgid ""
 "forking on their own, or where it's not feasible to add the code for it to "
 "do this itself."
 msgstr ""
-"AnvÃ¤nds typiskt med program som inte kopplar loss sig av sig sjÃ¤lva.  Denna "
-"flagga kommer tvinga B<start-stop-daemon> att fÃ¶rgrena sig (fork) innan "
-"processen startar, och tvinga den grenen att kÃ¶ra i bakgrunden.  B<VARNING: "
-"start-stop-daemon> kan inte kontrollera felstatus fÃ¶r processer som av "
-"B<nÃ¥gon som helst> anledning misslyckas med att exekvera.  Detta Ã¤r en sista "
-"utvÃ¤g, och Ã¤r endast avsett fÃ¶r program som det normalt sett inte Ã¤r nÃ¥gon "
-"idÃ© att pÃ¥ egen hand fÃ¶rgrena, eller dÃ¤r det inte Ã¤r mÃ¶jligt att lÃ¤gga till "
-"koden fÃ¶r detta pÃ¥ egen hand."
+"Används typiskt med program som inte kopplar loss sig av sig själva.  Denna "
+"flagga kommer tvinga B<start-stop-daemon> att förgrena sig (fork) innan "
+"processen startar, och tvinga den grenen att köra i bakgrunden.  B<VARNING: "
+"start-stop-daemon> kan inte kontrollera felstatus för processer som av "
+"B<någon som helst> anledning misslyckas med att exekvera.  Detta är en sista "
+"utväg, och är endast avsett för program som det normalt sett inte är någon "
+"idé att på egen hand förgrena, eller där det inte är möjligt att lägga till "
+"koden för detta på egen hand."
 
 # type: TP
 #: start-stop-daemon.8:227
@@ -468,7 +468,7 @@ msgstr "B<-N>|B<--nicelevel> I<heltal>"
 #: start-stop-daemon.8:230
 #, fuzzy
 msgid "This alters the priority of the process before starting it."
-msgstr "Detta Ã¤ndrar prioriteten pÃ¥ processen innan den startas."
+msgstr "Detta ändrar prioriteten på processen innan den startas."
 
 # type: TP
 #: start-stop-daemon.8:230
@@ -488,13 +488,13 @@ msgid ""
 "from its main process. Because of this it is usually only useful when "
 "combined with the B<--background> option."
 msgstr ""
-"AnvÃ¤nds nÃ¤r ett program startas som inte skapar sin egen pidfil.  Denna "
-"flagga kommer att gÃ¶ra sÃ¥ att B<start-stop-daemon> skapar filen som anges "
-"med B<--pidfile> och lÃ¤gga process-id i den precis innan processen startas.  "
-"Observera att den inte kommer att tas bort nÃ¤r programmet stoppas.  "
-"B<OBSERVERA:> Denna funktion kanske inte alltid fungerar, nÃ¥got som "
-"huvudsakligen gÃ¤ller nÃ¤r programmet som startas fÃ¶rgrenar sig (fork) frÃ¥n "
-"sin huvudprocess, och den Ã¤r dÃ¤rfÃ¶r bara anvÃ¤ndbar i samband med flaggan B<--"
+"Används när ett program startas som inte skapar sin egen pidfil.  Denna "
+"flagga kommer att göra så att B<start-stop-daemon> skapar filen som anges "
+"med B<--pidfile> och lägga process-id i den precis innan processen startas.  "
+"Observera att den inte kommer att tas bort när programmet stoppas.  "
+"B<OBSERVERA:> Denna funktion kanske inte alltid fungerar, något som "
+"huvudsakligen gäller när programmet som startas förgrenar sig (fork) från "
+"sin huvudprocess, och den är därför bara användbar i samband med flaggan B<--"
 "background>."
 
 # type: TP
@@ -519,7 +519,7 @@ msgstr "B<-H>|B<--help>"
 #: start-stop-daemon.8:251
 #, fuzzy
 msgid "Print help information; then exit."
-msgstr "Skriv ut hjÃ¤lpinformation och avsluta sedan."
+msgstr "Skriv ut hjälpinformation och avsluta sedan."
 
 # type: TP
 #: start-stop-daemon.8:251
@@ -537,7 +537,7 @@ msgstr "Skriv ut versionsinformation och avsluta sedan."
 #: start-stop-daemon.8:255
 #, fuzzy, no-wrap
 msgid "AUTHORS"
-msgstr "FÃ–RFATTARE"
+msgstr "FÖRFATTARE"
 
 # type: Plain text
 #: start-stop-daemon.8:258
@@ -546,7 +546,7 @@ msgid ""
 "Marek Michalkiewicz E<lt>marekm@i17linuxb.ists.pwr.wroc.plE<gt> based on a "
 "previous version by Ian Jackson E<lt>ian@chiark.greenend.org.ukE<gt>."
 msgstr ""
-"Marek Michalkiewicz E<lt>marekm@i17linuxb.ists.pwr.wroc.plE<gt>, baserat pÃ¥ "
+"Marek Michalkiewicz E<lt>marekm@i17linuxb.ists.pwr.wroc.plE<gt>, baserat på "
 "en tidigare version av Ian Jackson E<lt>ian@chiark.greenend.org.ukE<gt>."
 
 # type: Plain text
@@ -557,7 +557,7 @@ msgid ""
 "Ian Jackson."
 msgstr ""
 "Manualsida av Klee Dienes E<lt>klee@mit.eduE<gt>, delvis omformaterad av Ian "
-"Jackson, Ã¶versatt av Peter Karlsson E<lt>peterk@debian.orgE<gt>."
+"Jackson, översatt av Peter Karlsson E<lt>peterk@debian.orgE<gt>."
 
 # type: TH
 #, fuzzy
