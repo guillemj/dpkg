@@ -1,3 +1,16 @@
+2006-05-15  Ian Jackson  <iwj@ubuntu.com>
+
+	* debian/control (dpkg[Depends]): Move
+	coreutils dependency to Pre-Depends and
+	depend on >= 5.93-1 to ensure that md5sum
+	is present.
+	* debian/dpkg.postinst: Don't create a
+	diversion from coreutil's md5sum.
+	* debian/dpkg.prerm: Delete the code
+	that removed the diversion generated
+	in the postinst. We rely on coreutils
+	to clean up the mess we created.
+
 2006-05-12  Frank Lichtenheld  <djpig@debian.org>
 
 	* src/main.c (ignoredepends): Fix parsing of the

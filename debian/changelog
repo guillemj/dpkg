@@ -24,6 +24,10 @@ dpkg (1.13.20~) UNRELEASED; urgency=low
     to -I is a absolute filename. Based on a patch by Ian Eure.
     Closes: #35573
   * Fix --ignore-depends argument value parsing. Closes: #169125
+  * Completely remove md5sum diversion madness.  Instead, we Pre-Depend
+    on a version of textutils which provides /usr/bin/md5sum.  We rely on
+    the logic in coreutils to remove our diversions. Patch by
+    Ian Jackson. Closes: #315784, #313605
 
   [ Nicolas François ]
   * fix typos in the Russian man pages. Thanks to Stepan Golosunov.

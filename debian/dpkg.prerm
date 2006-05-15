@@ -17,31 +17,5 @@
 # Before the package is replaced due to conflict:
 #	<prerm> remove in-favour <new-package> <version>
 
-
-# Remove the md5sum diversion on removal or downgrade
-undivert_md5sum() {
-    dpkg-divert --rename --remove /usr/bin/md5sum.textutils
-    dpkg-divert --rename --remove /usr/share/man/man1/md5sum.textutils.1.gz
-}
-
-
-case "$1" in
-    remove|upgrade)
-	case "$2" in
-	    0.* | 1.[0123456789].* | 1.10 | 1.10.* | 1.13.[01234] | '')
-	        undivert_md5sum
-		;;
-	esac
-	;;
-
-    failed-upgrade|deconfigure)
-	;;
-
-    *)
-	echo "$0 called with unknown argument \`$1'" 1>&2
-	exit 1
-	;;
-esac
-
 #DEBHELPER#
 exit 0
