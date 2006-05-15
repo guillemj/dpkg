@@ -127,6 +127,7 @@ static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *s
          */
         if (foundcyclebroken(&thislink,sofar,provider,possi)) return 1;
 	if (foundcyclebroken(&thislink,sofar,possi->ed,provider->installed.depended)) return 1;
+	if (findbreakcyclerecursive(provider,&thislink)) return 1;
       }
     }
   }
