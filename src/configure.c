@@ -37,6 +37,7 @@
 #include <assert.h>
 #include <sys/wait.h>
 #include <time.h>
+#include <sys/termios.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>
@@ -553,6 +554,10 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 	}
 
 	do {
+		/* Flush the terminal's input in case the user
+		 * involuntarily typed some characters.
+		 */
+		tcflush(STDIN_FILENO, TCIFLUSH);
 		fprintf(stderr, _("\nConfiguration file `%s'"), cfgfile);
 		if (strcmp(cfgfile, realold))
 			fprintf(stderr,_(" (actually `%s')"), realold);
