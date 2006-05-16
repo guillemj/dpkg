@@ -289,7 +289,7 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
 		   versiondescribe(&possdependee->installed.version,
 				   vdew_nonambig));
       assert(checkversion->verrel != dvr_none);
-      if (fc_depends) thisf= (dependtry >= 3) ? 2 : 1;
+      if (fc_depends || fc_dependsversion) thisf= (dependtry >= 3) ? 2 : 1;
       debug(dbg_depcondetail,"      bad version, returning %d",thisf);
       (*interestingwarnings)++;
       return thisf;
