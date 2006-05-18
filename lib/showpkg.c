@@ -238,7 +238,7 @@ void show1package(const struct lstitem* head, struct pkginfo *pkg) {
 					break;
 				}
 
-			if (!fip && pkg->installed.valid) {
+			if (!fip->name && pkg->installed.valid) {
 				const struct arbitraryfield* afp;
 
 				for (afp=pkg->installed.arbs; afp; afp=afp->next)
