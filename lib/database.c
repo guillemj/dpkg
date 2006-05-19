@@ -110,7 +110,6 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
       nes(info->bugs) ||
       nes(info->installedsize) ||
       nes(info->source) ||
-      nes(info->architecture) ||
       informativeversion(&info->version) ||
       info->conffiles ||
       info->arbs) return 1;

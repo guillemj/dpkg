@@ -998,6 +998,8 @@ void process_archive(const char *filename) {
     otherpkg->installed.essential= 0;
     otherpkg->installed.description= otherpkg->installed.maintainer= 0;
     otherpkg->installed.installedsize= otherpkg->installed.source= 0;
+    otherpkg->installed.origin= otherpkg->installed.bugs= 0;
+    otherpkg->installed.architecture= 0;
     otherpkg->installed.conffiles= 0;
     blankversion(&otherpkg->installed.version);
     otherpkg->installed.arbs= 0;

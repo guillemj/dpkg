@@ -245,6 +245,8 @@ static void removal_bulk_remove_files(
       debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
       if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
       if (errno == ENOTEMPTY) {
+	debug(dbg_eachfiledetail, "removal_bulk `%s' was not empty, will try again later",
+	      fnvb.buf);
         push_leftover(&leftover,namenode);
         continue;
       } else if (errno == EBUSY || errno == EPERM) {
@@ -579,6 +581,8 @@ void removal_bulk(struct pkginfo *pkg) {
     pkg->installed.essential= 0;
     pkg->installed.description= pkg->installed.maintainer= 0;
     pkg->installed.source= pkg->installed.installedsize= 0;
+    pkg->installed.origin= pkg->installed.bugs= 0;
+    pkg->installed.architecture= 0;
     blankversion(&pkg->installed.version);
     pkg->installed.arbs= 0;
   }
