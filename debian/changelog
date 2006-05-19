@@ -42,6 +42,10 @@ dpkg (1.13.20~) UNRELEASED; urgency=low
   * When building packages with dpkg-deb give a more useful error
     message in case a conffile entry has leading whitespace. Patch
     by David Lopez Moreno. Closes: #281562
+  * Don't drop directories that contain our conffiles too early from
+    our file listing. Otherwise we might leave them behind on purge
+    if we share them with other packages.
+    Closes: #174180, #198128, #198522, #318825, #366178
   
   [ Nicolas François ]
   * fix typos in the Russian man pages. Thanks to Stepan Golosunov.

@@ -403,6 +403,26 @@ void debug(int which, const char *fmt, ...) {
   putc('\n',stderr);
 }
 
+int hasdirectoryconffiles(struct filenamenode *file, struct pkginfo *pkg) {
+  /* Returns 1 if the directory contains conffiles belonging to pkg, 0 otherwise. */
+  struct conffile *conff;
+  size_t namelen;
+
+  debug(dbg_veryverbose, "hasdirectoryconffiles `%s' (from %s)", file->name,
+	pkg->name);
+  namelen = strlen(file->name);
+  for (conff= pkg->installed.conffiles; conff; conff= conff->next) {
+      if (!strncmp(file->name,conff->name,namelen)) {
+	debug(dbg_veryverbose, "directory %s has conffile %s from %s",
+	      file->name, conff->name, pkg->name);
+	return 1;
+      }
+  }
+  debug(dbg_veryverbose, "hasdirectoryconffiles no");
+  return 0;
+}
+
+
 int isdirectoryinuse(struct filenamenode *file, struct pkginfo *pkg) {
   /* Returns 1 if the file is used by packages other than pkg, 0 otherwise. */
   struct filepackages *packageslump;

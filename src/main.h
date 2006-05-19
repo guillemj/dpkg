@@ -203,6 +203,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *ifok, const char *iffallback);
 void clear_istobes(void);
 int isdirectoryinuse(struct filenamenode *namenode, struct pkginfo *pkg);
+int hasdirectoryconffiles(struct filenamenode *namenode, struct pkginfo *pkg);
 
 enum debugflags {
   dbg_general=           00001,

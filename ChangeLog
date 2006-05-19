@@ -16,6 +16,15 @@
 
 2006-05-19  Frank Lichtenheld  <djpig@debian.org>
 
+	* src/help.c (hasdirectoryconffiles): New function
+	to test wether a directory contains conffiles of
+	a given package.
+	* src/main.h: Add declaration of hasdirectoryconffiles.
+	* src/remove.c (removal_bulk_remove_files): Don't
+	drop directories from our file list that hold
+	our conffiles.
+	(removal_bulk_remove_leftover_dirs) Likewise.
+
 	* utils/enoent.c: Add a comment at the top of the
 	file explaining why we use this odd program at all.
 

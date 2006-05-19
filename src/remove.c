@@ -240,7 +240,11 @@ static void removal_bulk_remove_files(
          * package which uses it.  Other files should only be listed
          * in this package (but we don't check).
          */
-        if (isdirectoryinuse(namenode,pkg)) continue;
+	if (hasdirectoryconffiles(namenode,pkg)) {
+	  push_leftover(&leftover,namenode);
+	  continue;
+	}
+	if (isdirectoryinuse(namenode,pkg)) continue;
       }
       debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
       if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
@@ -350,6 +354,10 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
        * package which uses it.  Other files should only be listed
        * in this package (but we don't check).
        */
+      if (hasdirectoryconffiles(namenode,pkg)) {
+	push_leftover(&leftover,namenode);
+	continue;
+      }
       if (isdirectoryinuse(namenode,pkg)) continue;
     }
 
