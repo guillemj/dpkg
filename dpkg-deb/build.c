@@ -286,10 +286,13 @@ void do_build(const char *const *argv) {
         strcat(controlfile, "/");
         strcat(controlfile, conffilename);
         if (lstat(controlfile,&controlstab)) {
-          if (errno == ENOENT)
-            ohshit(_("conffile `%.250s' does not appear in package"),conffilename);
-          else
-            ohshite(_("conffile `%.250s' is not stattable"),conffilename);
+	  if (errno == ENOENT) {
+	    if((n > 1) && isspace(conffilename[n-2]))
+	      fprintf(stderr, _("warning, "
+				"conffile filename `%s' contains trailing white spaces\n"), conffilename);
+	    ohshit(_("conffile `%.250s' does not appear in package"), conffilename);
+	  } else
+	    ohshite(_("conffile `%.250s' is not stattable"), conffilename);
         } else if (!S_ISREG(controlstab.st_mode)) {
           fprintf(stderr, _("warning, conffile `%s'"
                   " is not a plain file\n"), conffilename);
