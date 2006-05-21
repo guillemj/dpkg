@@ -119,6 +119,7 @@ AC_CONFIG_FILES([ Makefile
 		  man/pt_BR/Makefile
 		  man/ru/Makefile
 		  man/sv/Makefile
+		  man/po4a/Makefile
 		  origins/Makefile
 		  po/Makefile.in
 		  scripts/Makefile
