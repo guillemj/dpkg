@@ -312,7 +312,6 @@ sub parsechangelog {
     $substvar{'source:Version'} =~ s/\+b[0-9]+$//;
     $substvar{'source:Upstream-Version'} = $fi{"L Version"};
     $substvar{'source:Upstream-Version'} =~ s/-[^-]*$//;
-    $substvar{'source:Upstream-Version'} =~ s/^[0-9]+://;
 }
 
 sub checkpackagename {
