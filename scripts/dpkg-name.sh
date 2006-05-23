@@ -31,16 +31,21 @@ show_version () {
 }
 
 usage () {
-	echo "Usage: ${prog} file[s]
-  ${purpose}
-  file.deb changes to <package>_<version>_<architecture>.deb 
-  according to the ``underscores convention''.
-  -a|--no-architecture  No architecture part in filename
-  -o|--overwrite        Overwrite if file exists
-  -k|--symlink          Don't create a new file, but a symlink
-  -s|--subdir [dir]     Move file into subdir (Use with care)
-  -c|--create-dir       Create target dir if not there (Use with care)
-  -h|--help|-v|--version|-l|--license  Show help/version/license"
+	echo "Usage: ${prog} <file>...
+
+${purpose}
+file.deb changes to <package>_<version>_<architecture>.deb
+according to the ``underscores convention''.
+
+Options:
+  -a, --no-architecture    no architecture part in filename.
+  -o, --overwrite          overwrite if file exists.
+  -k, --symlink            don't create a new file, but a symlink.
+  -s, --subdir [dir]       move file into subdir (Use with care).
+  -c, --create-dir         create target dir if not there (Use with care).
+  -h, --help               show this help message.
+  -v, --version            show the version.
+  -l, --license            show license."
 }
 
 fileexists () {

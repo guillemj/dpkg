@@ -8,30 +8,48 @@ push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
+($0) = $0 =~ m:.*/(.+):;
+
 # fixme: sort entries
 # fixme: send to FSF ?
 
 $version= '0.93.42.2'; # This line modified by Makefile
 sub version {
-        $file = $_[0];
-        printf $file _g(<<END), $version;
-Debian install-info %s.  Copyright (C) 1994,1995
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
-END
+    printf _g("Debian %s version %s.\n"), $0, $version;
+
+    printf _g("
+Copyright (C) 1994,1995 Ian Jackson.");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
 }
 
 sub usage {
     $file = $_[0];
-    print $file _g(<<END);
-usage: install-info [--version] [--help] [--debug] [--maxwidth=nnn]
-             [--section regexp title] [--infodir=xxx] [--align=nnn]
-             [--calign=nnn] [--quiet] [--menuentry=xxx] [--info-dir=xxx]
-             [--keep-old] [--description=xxx] [--test]
-             [--remove | --remove-exactly ] [--dir-file=xxx]
-             [--]
-             filename
-END
+    printf $file _g(
+"Usage: %s [<options> ...] [--] <filename>
+
+Options:
+  --section <regexp> <title>
+                           put the new entry in the <regex> matched section
+                           or create a new one with <title> if non-existent.
+  --menuentry=<text>       set the menu entry.
+  --description=<text>     set the description to be used in the menu entry.
+  --info-file=<path>       specify info file to install in the directory.
+  --dir-file=<path>        specify file name of info directory file.
+  --infodir=<directory>    same as '--dir-file=<directory>/dir'.
+  --info-dir=<directory>   likewise.
+  --keep-old               do not replace entries nor remove empty ones.
+  --remove                 remove the entry specified by <filename> basename.
+  --remove-exactly         remove the exact <filename> entry.
+  --test                   enables test mode (no actions taken).
+  --debug                  enables debug mode (show more information).
+  --quiet                  do not show output messages.
+  --help                   show this help message.
+  --version                show the version.
+"), $0;
 }
 
 $dirfile = '/usr/share/info/dir';
@@ -73,6 +91,8 @@ while ($ARGV[0] =~ m/^--/) {
         $remove_exactly=1;
     } elsif ($_ eq '--help') {
         &usage(STDOUT); exit 0;
+    } elsif ($_ eq '--version') {
+        &version; exit 0;
     } elsif ($_ eq '--debug') {
 	open(DEBUG,">&STDERR")
 	    || die sprintf(_g("Could not open stderr for output! %s"), $!)."\n";
@@ -102,7 +122,7 @@ while ($ARGV[0] =~ m/^--/) {
     }
 }
 
-if (!@ARGV) { &version(STDERR); print STDERR "\n"; &usage(STDERR); exit 1; }
+if (!@ARGV) { &usage(STDERR); exit 1; }
 
 if ( !$filename ) {
 	$filename= shift(@ARGV);

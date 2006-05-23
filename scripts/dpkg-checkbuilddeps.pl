@@ -13,14 +13,15 @@ require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 sub usage {
-	print STDERR _g(<<EOF);
-Usage: dpkg-checkbuilddeps [-B] [control-file]
-	-B		binary-only, ignore -Indep
-	control-file	control file to process [Default: debian/control]
-EOF
-}
+	printf _g(
+"Usage: %s [<option> ...] [<control-file>]
 
-my ($me)=$0=~m:.*/(.+):;
+Options:
+  control-file   control file to process (default: debian/control).
+  -B             binary-only, ignore -Indep.
+  -h             show this help message.
+"), $progname;
+}
 
 my $binary_only=0;
 my $want_help=0;
@@ -65,11 +66,11 @@ if (! $binary_only && defined($fi{"C Build-Conflicts-Indep"})) {
 }
 
 if (@unmet) {
-	printf STDERR _g("%s: Unmet build dependencies: "), $me;
+	printf STDERR _g("%s: Unmet build dependencies: "), $progname;
 	print STDERR join(" ", @unmet), "\n";
 }
 if (@conflicts) {
-	printf STDERR _g("%s: Build conflicts: "), $me;
+	printf STDERR _g("%s: Build conflicts: "), $progname;
 	print STDERR join(" ", @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;

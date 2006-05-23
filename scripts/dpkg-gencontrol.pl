@@ -18,32 +18,41 @@ require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-sub usageversion {
-    printf STDERR _g(
-"Debian dpkg-gencontrol %s. 
-Copyright 1996 Ian Jackson.
-Copyright 2000,2002 Wichert Akkerman.
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions.  There is NO warranty.
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
-Usage: dpkg-gencontrol [options ...]
+    printf _g("
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2000,2002 Wichert Akkerman.");
 
-Options:  -p<package>            print control file for package
-          -c<controlfile>        get control info from this file
-          -l<changelogfile>      get per-version info from this file
-          -F<changelogformat>    force change log format
-          -v<forceversion>       set version of binary package
-          -f<fileslistfile>      write files here instead of debian/files
-          -P<packagebuilddir>    temporary build dir instead of debian/tmp
-          -n<filename>           assume the package filename will be <filename>
-          -O                     write to stdout, not .../DEBIAN/control
-          -is, -ip, -isp, -ips   deprecated, ignored for compatibility
-          -D<field>=<value>      override or add a field and value
-          -U<field>              remove a field
-          -V<name>=<value>       set a substitution variable
-          -T<varlistfile>        read variables here, not debian/substvars
-          -h                     print this message
-"), $version;
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...]
+
+Options:
+  -p<package>              print control file for package.
+  -c<controlfile>          get control info from this file.
+  -l<changelogfile>        get per-version info from this file.
+  -F<changelogformat>      force change log format.
+  -v<forceversion>         set version of binary package.
+  -f<fileslistfile>        write files here instead of debian/files.
+  -P<packagebuilddir>      temporary build dir instead of debian/tmp.
+  -n<filename>             assume the package filename will be <filename>.
+  -O                       write to stdout, not .../DEBIAN/control.
+  -is, -ip, -isp, -ips     deprecated, ignored for compatibility.
+  -D<field>=<value>        override or add a field and value.
+  -U<field>                remove a field.
+  -V<name>=<value>         set a substitution variable.
+  -T<varlistfile>          read variables here, not debian/substvars.
+  -h, --help               show this help message.
+      --version            show the version.
+"), $progname;
 }
 
 $i=100;grep($fieldimps{$_}=$i--,
@@ -85,8 +94,10 @@ while (@ARGV) {
         $varlistfile= $';
     } elsif (m/^-n/) {
         $forcefilename= $';
-    } elsif (m/^-h$/) {
-        &usageversion; exit(0);
+    } elsif (m/^-(h|-help)$/) {
+        &usage; exit(0);
+    } elsif (m/^--version$/) {
+        &version; exit(0);
     } else {
         &usageerr(sprintf(_g("unknown option \`%s'"), $_));
     }

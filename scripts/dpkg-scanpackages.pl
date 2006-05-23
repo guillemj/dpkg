@@ -9,6 +9,8 @@ use IO::File;
 my $version= '1.2.6'; # This line modified by Makefile
 my $dpkglibdir= "."; # This line modified by Makefile
 
+($0) = $0 =~ m:.*/(.+):;
+
 push(@INC,$dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
@@ -50,26 +52,34 @@ my %field_case;
 
 use Getopt::Long qw(:config bundling);
 
-my %options = (help            => 0,
+my %options = (help            => sub { &usage; exit 0; },
+	       version         => \&version,
 	       udeb            => 0,
 	       arch            => undef,
 	       multiversion    => 0,
 	      );
 
-my $result = GetOptions(\%options,'help|h|?','udeb|u!','arch|a=s','multiversion|m!');
+my $result = GetOptions(\%options,'help|h|?','version','udeb|u!','arch|a=s','multiversion|m!');
 
-my $usage = _g(
-"dpkg-scanpackages [-u] [-a<arch>] [-m] binarypath overridefile [pathprefix] > Packages
+sub version {
+    printf _g("Debian %s version %s.\n"), $0, $version;
+    exit;
+}
 
- Options:
- --udeb, -u scan for udebs
- --arch, -a architecture to scan for
- --multiversion, -m allow multiple versions of a single package
- --help, -h show this help
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...] <binarypath> <overridefile> [<pathprefix>] > Packages
 
-");
-print( STDERR $usage ) and exit 1 if not $result or (@ARGV < 2);
-print($usage) and exit if $options{help};
+Options:
+  -u, --udeb               scan for udebs.
+  -a, --arch <arch>        architecture to scan for.
+  -m, --multiversion       allow multiple versions of a single package.
+  -h, --help               show this help message.
+      --version            show the version.
+"), $0;
+}
+
+&usage and exit 1 if not $result and (@ARGV < 2);
 
 my $udeb = $options{udeb};
 my $arch = $options{arch};

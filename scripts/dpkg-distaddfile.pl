@@ -14,25 +14,37 @@ require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-sub usageversion {
-    printf STDERR _g(
-"Debian dpkg-distaddfile %s.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
-Usage:
-  dpkg-distaddfile <filename> <section> <priority>
-Options:  -f<fileslistfile>      write files here instead of debian/files
-          -h                     print this message
-"), $version;
+    printf _g("
+Copyright (C) 1996 Ian Jackson.");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option>...] <filename> <section> <priority>
+
+Options:
+  -f<fileslistfile>        write files here instead of debian/files.
+  -h, --help               show this help message.
+      --version            show the version.
+"), $progname;
 }
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
     if (m/^-f/) {
         $fileslistfile= $';
-    } elsif (m/^-h$/) {
-        &usageversion; exit(0);
+    } elsif (m/^-(h|-help)$/) {
+        &usage; exit(0);
+    } elsif (m/^--version$/) {
+        &version; exit(0);
     } elsif (m/^--$/) {
         last;
     } else {

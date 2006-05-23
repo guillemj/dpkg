@@ -1,3 +1,59 @@
+2006-05-23  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (usageerr): Use usage instead of
+	usageversion.
+	* scripts/dpkg-statoverride.pl (UsageVersion): Rename to ...
+	(usageversion): ... this.
+	* scripts/dpkg-parsechangelog.pl (usageversion): Split into usage
+	and version functions. Print to stdout. Standarize output format.
+	Add '--help' and '--version'.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+	* scripts/dpkg-distaddfile.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-genchanges.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+	* scripts/changelog/debian.pl: Likewise.
+	* scripts/dpkg-statoverride.pl: Likewise. Basename $0.
+	* scripts/dpkg-architecture.pl: Likewise. Do not basename $0,
+	use $progname instead.
+	* scripts/dpkg-checkbuilddeps.pl: Use $progname instead of $me.
+	(me): Remove variable.
+	(usage): Standarize output format. Print to stdout. Add '-h' option.
+	* scripts/dpkg-buildpackage.sh (usageversion): Split into
+	showversion and usage functions. Print to stdout. Standarize output
+	format. Add '--help' and '--version'.
+	(version): Rename variable to ...
+	(changesversion): ... this, otherwise there was no program version
+	shown on output.
+	* scripts/dpkg-scanpackages.pl: Basename $0.
+	(options): Pass a sub to the help option calling usage and exit.
+	Add '--version'.
+	(usage): Switch variable to a function. Print to stdout. Standarize
+	output.
+	(version): New function.
+	* scripts/dpkg-scansources.pl (Version): Rename variable to ...
+	(version): ... this (so it will be automaitcally updated by the
+	Makefile).
+	(Option_spec): Pass \&usage to help option and \&version to version.
+	(Usage): Remove variable.
+	(version): New function.
+	(usage): Move xwarn call to where the actual check is made. Replace
+	the die call with a printf and an exit.
+	* scripts/dpkg-name.sh: Standarize output format.
+	* scripts/dpkg-divert.pl: Basename $0.
+	(showversion): Rename to ...
+	(version): ... this. Print to stdout. Standarize output format.
+	* scripts/update-alternatives.pl: Basename $0.
+	(usageversion): Split into usage and version functions. Print to
+	stdout. Standarize output format.
+	* scripts/cleanup-info.pl: Basename $0.
+	(version): Print to stdout. Standarize output format.
+	(usage): Likewise. Print option descriptions.
+	* scripts/install-info.pl: Basename $0. Add '--version'. On
+	argument error print only usage.
+	(version): Print to stdout. Standarize output format.
+	(usage): Likewise. Print option descriptions.
+
 2006-05-19  David Lopez Moreno  <david.lopez.moreno@hispalinux.es>
 
 	* dpkg-deb/build.c (do_build): If failing to stat a

@@ -36,7 +36,7 @@ use Getopt::Long ();
 
 my $Exit = 0;
 (my $Me = $0) =~ s-.*/--;
-my $Version = q$Revision: 1.6.2.1 $ =~ /(\d\S+)/ ? $1 : '?';
+my $version= '1.6.2.1'; # This line modified by Makefile
 
 # %Override is a hash of lists.  The subs following describe what's in
 # the lists.
@@ -63,26 +63,11 @@ my $Src_override = undef;
 
 my @Option_spec = (
     'debug!'		=> \$Debug,
-    'help!'		=> sub { usage() },
+    'help!'		=> \&usage,
     'no-sort|n'		=> \$No_sort,
     'source-override|s=s' => \$Src_override,
-    'version'		=> sub { print "$Me version $Version\n"; exit },
+    'version'		=> \&version,
 );
-
-my $Usage = sprintf(_g(<<EOF), $Me, $Me);
-usage: %s [switch]... binary-dir [override-file [path-prefix]] > Sources
-
-switches:
-        --debug		turn debugging on
-        --help		show this and then die
-    -n, --no-sort	don\'t sort by package before outputting
-    -s, --source-override file
-			use file for additional source overrides, default
-			is regular override file with .src appended
-        --version	show the version and exit
-
-See the man page or \`perldoc %s\' for the full documentation.
-EOF
 
 sub debug {
     print @_, "\n" if $Debug;
@@ -107,9 +92,28 @@ sub xwarn_noerror {
     warn xwarndie_mess @_;
 }
 
+sub version {
+    printf _g("Debian %s version %s.\n"), $Me, $version;
+    exit;
+}
+
 sub usage {
-    xwarn @_ if @_;
-    die $Usage;
+    printf _g(
+"Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > Sources
+
+Options:
+  -n, --no-sort            don't sort by package before outputting.
+  -s, --source-override <file>
+                           use file for additional source overrides, default
+                           is regular override file with .src appended.
+      --debug              turn debugging on.
+      --help               show this help message.
+      --version            show the version.
+
+See the man page for the full documentation.
+"), $Me;
+
+    exit;
 }
 
 # Getopt::Long has some really awful defaults.  This function loads it
@@ -500,7 +504,7 @@ sub main {
     my (@out);
 
     init;
-    @ARGV >= 1 && @ARGV <= 3 or usage _g("1 to 3 args expected")."\n";
+    @ARGV >= 1 && @ARGV <= 3 or xwarn _g("1 to 3 args expected\n") and usage;
 
     push @ARGV, undef		if @ARGV < 2;
     push @ARGV, ''		if @ARGV < 3;

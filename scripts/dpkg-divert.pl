@@ -3,6 +3,7 @@
 $version= '1.0.11'; # This line modified by Makefile
 $admindir= "/var/lib/dpkg"; # This line modified by Makefile
 $dpkglibdir= "../utils"; # This line modified by Makefile
+($0) = $0 =~ m:.*/(.+):;
 
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
@@ -11,43 +12,45 @@ textdomain("dpkg");
 $enoent=`$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
 sub ENOENT { $enoent; }
 
-sub showversion {
-    printf(_g("Debian dpkg-divert %s")."\n", $version) || &quit(sprintf(_g("failed to write version: %s"), $!));
+sub version {
+    printf _g("Debian %s version %s.\n"), $0, $version;
+
+    printf _g("
+Copyright (C) 1995 Ian Jackson.
+Copyright (C) 2000,2001 Wichert Akkerman.");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
 }
 
 sub usage {
-    &showversion;
-    print STDERR _g(<<EOF)
-Copyright (C) 1995 Ian Jackson.
-Copyright (C) 2000,2001 Wichert Akkerman.
+    printf(_g(
+"Usage: %s [<option> ...] <command>
 
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions. There is NO warranty.
+Commands:
+  [--add] <file>           add a diversion.
+  --remove <file>          remove the diversion.
+  --list [<glob-pattern>]  show file diversions.
+  --truename <file>        return the diverted file.
 
-Usage:
-
- dpkg-divert [options] [--add] <file>               - add a diversion
- dpkg-divert [options] --remove <file>              - remove the diversion
- dpkg-divert [options] --list [<glob-pattern>]      - show file diversions
- dpkg-divert [options] --truename <file>            - return the diverted file
-
-Options: 
-    --package <package>        name of the package whose copy of <file>
-                               will not be diverted.
-    --local                    all packages' versions are diverted.
-    --divert <divert-to>       the name used by other packages' versions.
-    --rename                   actually move the file aside (or back).
-    --quiet                    quiet operation, minimal output
-    --test                     don't do anything, just demonstrate
-    --help                     print this help screen and exit
-    --version                  output version and exit
-    --admindir <directory>     set the directory with the diversions file
+Options:
+  --package <package>      name of the package whose copy of <file> will not
+                             be diverted.
+  --local                  all packages' versions are diverted.
+  --divert <divert-to>     the name used by other packages' versions.
+  --rename                 actually move the file aside (or back).
+  --admindir <directory>   set the directory with the diversions file.
+  --test                   don't do anything, just demonstrate.
+  --quiet                  quiet operation, minimal output.
+  --help                   show this help message.
+  --version                show the version.
 
 When adding, default is --local and --divert <original>.distrib.
 When removing, --package or --local and --divert must match if specified.
 Package preinst/postrm scripts should always specify --package and --divert.
-EOF
-        || &quit(sprintf(_g("failed to write usage: %s"), $!));
+"), $0);
 }
 
 $testmode= 0;
@@ -69,7 +72,7 @@ while (@ARGV) {
     } elsif (m/^--help$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
-        &showversion; exit(0);
+        &version; exit(0);
     } elsif (m/^--test$/) {
         $testmode= 1;
     } elsif (m/^--rename$/) {

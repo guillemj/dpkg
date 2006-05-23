@@ -29,20 +29,31 @@ push(@INC,$dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
+($0) = $0 =~ m:.*/(.+):;
+
 my $version = '1.1.6'; # This line modified by Makefile
 sub version {
-    printf STDERR _g(<<END), $version;
-Debian cleanup-info %s.  Copyright (C)1996 Kim-Minh Kaplan.
-This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
-END
+    printf _g("Debian %s version %s.\n"), $0, $version;
+
+    printf _g("
+Copyright (C) 1996 Kim-Minh Kaplan.");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
 }
 
 sub usage {
-    print STDERR _g(<<'EOF');
-usage: cleanup-info [--version] [--help] [--unsafe] [--] [<dirname>]
-Warning: the ``--unsafe'' option may garble an otherwise correct file
-EOF
+    printf _g(
+"Usage: %s [<option> ...] [--] [<dirname>]
+
+Options:
+  --unsafe     set some additional possibly useful options.
+               warning: this option may garble an otherwise correct file.
+  --help       show this help message.
+  --version    show the version.
+"), $0;
 }
 
 my $infodir = '/usr/info';

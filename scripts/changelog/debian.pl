@@ -22,22 +22,36 @@ $progname= "parsechangelog/$progname";
 
 $since='';
 
-sub usageversion {
-    print STDERR _g(
-"Debian %s %s.  Copyright (C) 1996
-Ian Jackson.  This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
-Usage: %s [-v<versionsince>] | -h
-"), $progname, $version, $progname;
+    printf _g("
+Copyright (C) 1996 Ian Jackson.");
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option>]
+
+Options:
+  -v<versionsince>    print changes since <versionsince>.
+  -h, --help          print this help message.
+      --version       print program version.
+"), $progname;
 }
 
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-v(.+)$/) {
         $since= $1;
-    } elsif (m/^-h$/) {
-        &usageversion; exit(0);
+    } elsif (m/^-(h|-help)$/) {
+        &usage; exit(0);
+    } elsif (m/^--version$/) {
+        &version; exit(0);
     } else {
         &usageerr(sprintf(_g("unknown option or argument \`%s'"), $_));
     }

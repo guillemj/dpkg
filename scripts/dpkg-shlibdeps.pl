@@ -32,29 +32,41 @@ textdomain("dpkg-dev");
 #use strict;
 #use warnings;
 
-sub usageversion {
-    printf STDERR _g(
-"Debian dpkg-shlibdeps %s.
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
+
+    printf _g("
 Copyright (C) 1996 Ian Jackson.
 Copyright (C) 2000 Wichert Akkerman.
-Copyright (C) 2006 Frank Lichtenheld.
-This is free software; see the GNU General Public Licence version 2 or
-later for copying conditions.  There is NO warranty.
+Copyright (C) 2006 Frank Lichtenheld.");
 
-Usage:
-  dpkg-shlibdeps [<option> ...] <executable>|-e<executable> [<option>] ...
-Positional arguments/options (order is significant):
-       <executable>           } include dependencies for <executable>
-       -e<executable>         }  (use -e if <executable> starts with \`-')
-       -d<dependencyfield>    next executable(s) set shlibs:<dependencyfield>
-Overall options (have global effect no matter where placed):
-       -p<varnameprefix>      set <varnameprefix>:* instead of shlibs:*.
-       -O                     print variable settings to stdout
-       -L<localshlibsfile>    shlibs override file, not debian/shlibs.local
-       -T<varlistfile>        update variables here, not debian/substvars
-       -t<type>               set package type (default is deb)
-Dependency fields recognised are %s
-"), $version, join("/",@depfields);
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...] <executable>|-e<executable> [<option> ...]
+
+Positional options (order is significant):
+  <executable>             include dependencies for <executable>,
+  -e<executable>           (use -e if <executable> starts with \`-')
+  -d<dependencyfield>      next executable(s) set shlibs:<dependencyfield>.
+
+Options:
+  -p<varnameprefix>        set <varnameprefix>:* instead of shlibs:*.
+  -O                       print variable settings to stdout.
+  -L<localshlibsfile>      shlibs override file, not debian/shlibs.local.
+  -T<varlistfile>          update variables here, not debian/substvars.
+  -t<type>                 set package type (default is deb).
+  -h, --help               show this help message.
+      --version            show the version.
+
+Dependency fields recognised are:
+  %s
+"), $progname, join("/",@depfields);
 }
 
 my ($stdout, @exec, @execfield);
@@ -67,8 +79,10 @@ foreach (@ARGV) {
 	$shlibslocal= $POSTMATCH;
     } elsif (m/^-O$/) {
 	$stdout= 1;
-    } elsif (m/^-h$/) {
-	usageversion; exit(0);
+    } elsif (m/^-(h|-help)$/) {
+	usage; exit(0);
+    } elsif (m/^--version$/) {
+	version; exit(0);
     } elsif (m/^-d/) {
 	$dependencyfield= capit($POSTMATCH);
 	defined($depstrength{$dependencyfield}) ||

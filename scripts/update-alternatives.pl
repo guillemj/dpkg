@@ -7,6 +7,8 @@ push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
+($0) = $0 =~ m:.*/(.+):;
+
 # Global variables:
 #  $alink            Alternative we are managing (ie the symlink we're making/removing) (install only)
 #  $name             Name of the alternative (the symlink) we are processing
@@ -31,36 +33,54 @@ textdomain("dpkg");
 $enoent=`$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
 sub ENOENT { $enoent; }
 
-sub usageversion {
-    printf(STDERR _g(<<END), $version)
-Debian update-alternatives %s.
-Copyright (C) 1995 Ian Jackson.
-Copyright (C) 2000-2002 Wichert Akkerman
-This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+sub version {
+    printf _g("Debian %s version %s.\n"), $0, $version;
 
-Usage: update-alternatives --install <link> <name> <path> <priority>
-                          [--slave <link> <name> <path>] ...
-       update-alternatives --remove <name> <path>
-       update-alternatives --remove-all <name>
-       update-alternatives --auto <name>
-       update-alternatives --display <name>
-       update-alternatives --list <name>
-       update-alternatives --config <name>
-       update-alternatives --set <name> <path>
-       update-alternatives --all
+    printf _g("
+Copyright (C) 1995 Ian Jackson.
+Copyright (C) 2000-2002 Wichert Akkerman.");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...] <command>
+
+Commands:
+  --install <link> <name> <path> <priority>
+    [--slave <link> <name> <path>] ...
+                           add a group of alternativse to the system.
+  --remove <name> <path>   remove <path> from the <name> group alternative.
+  --remove-all <name>      remove <name> group from the alternatives system.
+  --auto <name>            switch the master link <name> to automatic mode.
+  --display <name>         display information about the <name> group.
+  --list <name>            display all targets of the <name> group.
+  --config <name>          show alternatives for the <name> group and ask the
+                           user to select which one to use.
+  --set <name> <path>      set <path> as alternative for <name>.
+  --all                    call --config on all alternatives.
+
 <name> is the name in /etc/alternatives.
 <path> is the name referred to.
 <link> is the link pointing to /etc/alternatives/<name>.
 <priority> is an integer; options with higher numbers are chosen.
 
-Options:  --verbose|--quiet  --test  --help  --version
-          --altdir <directory>  --admindir <directory>
-END
-        || &quit(sprintf(_g("failed to write usage: %s"), $!));
+Options:
+  --altdir <directory>     change the alternatives directory.
+  --admindir <directory>   change the administrative directory.
+  --test                   don't do anything, just demonstrate.
+  --verbose                verbose operation, more output.
+  --quiet                  quiet operation, minimal output.
+  --help                   show this help message.
+  --version                show the version.
+"), $0;
 }
 sub quit {printf STDERR _g("update-alternatives: %s")."\n", "@_"; exit(2);}
-sub badusage { printf STDERR _g("update-alternatives: %s")."\n\n", "@_"; &usageversion; exit(2); }
+sub badusage { printf STDERR _g("update-alternatives: %s")."\n\n", "@_"; &usage; exit(2); }
 
 $altdir= '/etc/alternatives';
 $admindir= $admindir . '/alternatives';
@@ -80,8 +100,10 @@ while (@ARGV) {
     last if m/^--$/;
     if (!m/^--/) {
         &quit(sprintf(_g("unknown argument \`%s'"), $_));
-    } elsif (m/^--(help|version)$/) {
-        &usageversion; exit(0);
+    } elsif (m/^--help$/) {
+        &usage; exit(0);
+    } elsif (m/^--version$/) {
+        &version; exit(0);
     } elsif (m/^--test$/) {
         $testmode= 1;
     } elsif (m/^--verbose$/) {

@@ -31,38 +31,47 @@ require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-sub usageversion {
-    printf STDERR _g(
-"Debian dpkg-genchanges %s. 
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
+
+    printf _g("
 Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2000,2001 Wichert Akkerman.
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions.  There is NO warranty.
+Copyright (C) 2000,2001 Wichert Akkerman.");
 
-Usage: dpkg-genchanges [options ...]
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
 
-Options:  -b                     binary-only build - no source files
-          -B                     arch-specific - no source or arch-indep files
-          -S                     source-only upload
-          -c<controlfile>        get control info from this file
-          -l<changelogfile>      get per-version info from this file
-          -f<fileslistfile>      get .deb files list from this file
-          -v<sinceversion>       include all changes later than version
-          -C<changesdescription> use change description from this file
-          -m<maintainer>         override control's maintainer value
-          -e<maintainer>         override changelog's maintainer value
-          -u<uploadfilesdir>     directory with files (default is \`..')
-          -si (default)          src includes orig for debian-revision 0 or 1
-          -sa                    source includes orig src
-          -sd                    source is diff and .dsc only
-          -q                     quiet - no informational messages on stderr
-          -F<changelogformat>    force change log format
-          -V<name>=<value>       set a substitution variable
-          -T<varlistfile>        read variables here, not debian/substvars
-          -D<field>=<value>      override or add a field and value
-          -U<field>              remove a field
-          -h                     print this message
-"), $version;
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...]
+
+Options:
+  -b                       binary-only build - no source files.
+  -B                       arch-specific - no source or arch-indep files.
+  -S                       source-only upload.
+  -c<controlfile>          get control info from this file.
+  -l<changelogfile>        get per-version info from this file.
+  -f<fileslistfile>        get .deb files list from this file.
+  -v<sinceversion>         include all changes later than version.
+  -C<changesdescription>   use change description from this file.
+  -m<maintainer>           override control's maintainer value.
+  -e<maintainer>           override changelog's maintainer value.
+  -u<uploadfilesdir>       directory with files (default is \`..').
+  -si (default)            src includes orig for debian-revision 0 or 1.
+  -sa                      source includes orig src.
+  -sd                      source is diff and .dsc only.
+  -q                       quiet - no informational messages on stderr.
+  -F<changelogformat>      force change log format.
+  -V<name>=<value>         set a substitution variable.
+  -T<varlistfile>          read variables here, not debian/substvars.
+  -D<field>=<value>        override or add a field and value.
+  -U<field>                remove a field.
+  -h, --help               show this help message.
+      --version            show the version.
+"), $progname;
 }
 
 $i=100;grep($fieldimps{$_}=$i--,
@@ -113,8 +122,10 @@ while (@ARGV) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= $';
-    } elsif (m/^-h$/) {
-        &usageversion; exit(0);
+    } elsif (m/^-(h|-help)$/) {
+        &usage; exit(0);
+    } elsif (m/^--version$/) {
+        &version; exit(0);
     } else {
         &usageerr(sprintf(_g("unknown option \`%s'"), $_));
     }

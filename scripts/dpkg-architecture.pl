@@ -20,7 +20,6 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
 $version="1.0.0"; # This line modified by Makefile
-$0 = `basename $0`; chomp $0;
 
 $dpkglibdir="/usr/lib/dpkg";
 push(@INC,$dpkglibdir);
@@ -31,30 +30,40 @@ textdomain("dpkg-dev");
 
 $pkgdatadir=".";
 
-sub usageversion {
-    printf STDERR _g(
-"Debian %s %s.
-Copyright (C) 2004-2005 Scott James Remnant <scott\@netsplit.com>,
-Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd\@debian.org>.
-This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
-Usage:
-  %s [<option> ...] [<action>]
+    printf _g("
+Copyright (C) 1999-2001 Marcus Brinkmann <brinkmd\@debian.org>.
+Copyright (C) 2004-2005 Scott James Remnant <scott\@netsplit.com>.");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...] [<action>]
+
 Options:
-       -a<debian-arch>    set current Debian architecture
-       -t<gnu-system>     set current GNU system type
-       -L                 list valid architectures
-       -f                 force flag (override variables set in environment)
+  -a<debian-arch>    set current Debian architecture.
+  -t<gnu-system>     set current GNU system type.
+  -L                 list valid architectures.
+  -f                 force flag (override variables set in environment).
+
 Actions:
-       -l                 list variables (default)
-       -e<debian-arch>    compare with current Debian architecture
-       -i<arch-alias>     check if current Debian architecture is <arch-alias>
-       -q<variable>       prints only the value of <variable>.
-       -s                 print command to set environment variables
-       -u                 print command to unset environment variables
-       -c <command>       set environment and run the command in it.
-"), $0, $version, $0;
+  -l                 list variables (default).
+  -e<debian-arch>    compare with current Debian architecture.
+  -i<arch-alias>     check if current Debian architecture is <arch-alias>.
+  -q<variable>       prints only the value of <variable>.
+  -s                 print command to set environment variables.
+  -u                 print command to unset environment variables.
+  -c <command>       set environment and run the command in it.
+  --help             show this help message.
+  --version          show the version.
+"), $progname;
 }
 
 sub read_cputable {
@@ -209,6 +218,12 @@ while (@ARGV) {
        last;
     } elsif (m/^-L$/) {
        # Handled already
+    } elsif (m/^-(h|-help)$/) {
+       &usage;
+       exit 0;
+    } elsif (m/^--version$/) {
+       &version;
+       exit 0;
     } else {
 	usageerr(sprintf(_g("unknown option \`%s'"), $_));
     }

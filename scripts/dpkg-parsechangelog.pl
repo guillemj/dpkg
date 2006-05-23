@@ -17,21 +17,31 @@ require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-sub usageversion {
-    printf STDERR _g(
-"Debian dpkg-parsechangelog %s.
-Copyright (C) 1996 Ian Jackson.
-Copyright (C) 2001 Wichert Akkerman
-This is free software; see the GNU General Public Licence
-version 2 or later for copying conditions.  There is NO warranty.
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
-Usage: dpkg-parsechangelog [<option> ...]
-Options:  -l<changelogfile>      get per-version info from this file
-          -v<sinceversion>       include all changes later than version
-          -F<changelogformat>    force change log format
-          -L<libdir>             look for change log parsers in <libdir>
-          -h                     print this message
-"), $version;
+    printf _g("
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2001 Wichert Akkerman");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...]
+
+Options:
+  -l<changelogfile>        get per-version info from this file.
+  -v<sinceversion>         include all changes later than version.
+  -F<changelogformat>      force change log format.
+  -L<libdir>               look for change log parsers in <libdir>.
+  -h, --help               show this help message.
+      --version            show the version.
+"), $progname;
 }
 
 @ap=();
@@ -44,7 +54,8 @@ while (@ARGV) {
     push(@ap,$_);
     m/^--$/ && last;
     m/^-v/ && next;
-    if (m/^-h$/) { &usageversion; exit(0); }
+    if (m/^-(h|-help)$/) { &usage; exit(0); }
+    if (m/^--version$/) { &version; exit(0); }
     &usageerr("unknown option \`$_'");
 }
 

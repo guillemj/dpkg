@@ -413,7 +413,7 @@ sub syserr { die sprintf(_g("%s: failure: %s: %s"), $progname, $_[0], $!)."\n"; 
 sub error { die sprintf(_g("%s: error: %s"), $progname, $_[0])."\n"; }
 sub internerr { die sprintf(_g("%s: internal error: %s"), $progname, $_[0])."\n"; }
 sub warn { if (!$quiet_warnings) { warn sprintf(_g("%s: warning: %s"), $progname, $_[0])."\n"; } }
-sub usageerr { printf(STDERR _g("%s: %s")."\n\n", $progname, "@_"); &usageversion; exit(2); }
+sub usageerr { printf(STDERR _g("%s: %s")."\n\n", $progname, "@_"); &usage; exit(2); }
 sub warnerror { if ($warnable_error) { &warn( @_ ); } else { &error( @_ ); } }
 
 sub subprocerr {

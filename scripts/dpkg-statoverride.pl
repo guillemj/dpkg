@@ -6,6 +6,8 @@ use POSIX qw(:errno_h :signal_h);
 $admindir= "/var/lib/dpkg"; # This line modified by Makefile
 $version= '1.3.0'; # This line modified by Makefile
 
+($0) = $0 =~ m:.*/(.+):;
+
 my $dpkglibdir= "."; # This line modified by Makefile
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
@@ -16,27 +18,36 @@ $doforce= 0;
 $doupdate= 0;
 $mode= "";
 
-sub UsageVersion {
-	printf(STDERR _g(<<EOF), $version) || &quit(sprintf(_g("failed to write usage: %s"), $!));
-Debian dpkg-statoverride %s.
-Copyright (C) 2000 Wichert Akkerman.
+sub version {
+	printf _g("Debian %s version %s.\n"), $0, $version;
 
-This is free software; see the GNU General Public Licence version 2 or later
-for copying conditions.  There is NO warranty.
+	printf _g("
+Copyright (C) 2000 Wichert Akkerman.");
 
-Usage:
+	printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
 
-  dpkg-statoverride [options] --add <owner> <group> <mode> <file>
-  dpkg-statoverride [options] --remove <file>
-  dpkg-statoverride [options] --list [<glob-pattern>]
+sub usage {
+	printf _g(
+"Usage: %s [<option> ...] <command>
+
+Commands:
+  --add <owner> <group> <mode> <file>
+                           add a new entry into the database.
+  --remove <file>          remove file from the database.
+  --list [<glob-pattern>]  list current overrides in the database.
 
 Options:
-  --update                 immediately update file permissions
-  --force                  force an action even if a sanity check fails
-  --quiet                  quiet operation, minimal output
-  --help                   print this help screen and exit
-  --admindir <directory>   set the directory with the statoverride file
-EOF
+  --admindir <directory>   set the directory with the statoverride file.
+  --update                 immediately update file permissions.
+  --force                  force an action even if a sanity check fails.
+  --quiet                  quiet operation, minimal output.
+  --help                   show this help message.
+  --version                show the version.
+"), $0;
 }
 
 sub CheckModeConflict {
@@ -50,7 +61,9 @@ while (@ARGV) {
 	if (!m/^-/) {
 		unshift(@ARGV,$_); last;
 	} elsif (m/^--help$/) {
-		&UsageVersion; exit(0);
+		&usage; exit(0);
+	} elsif (m/^--version$/) {
+		&version; exit(0);
 	} elsif (m/^--update$/) {
 		$doupdate=1;
 	} elsif (m/^--quiet$/) {

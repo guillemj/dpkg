@@ -57,41 +57,60 @@ $SIG{'INT'} = \&exit_handler;
 $SIG{'HUP'} = \&exit_handler;
 $SIG{'QUIT'} = \&exit_handler;
 
-sub usageversion {
-    printf STDERR _g(
-"Debian dpkg-source %s.  Copyright (C) 1996
-Ian Jackson and Klee Dienes.  This is free software; see the GNU
-General Public Licence version 2 or later for copying conditions.
-There is NO warranty.
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
-Usage:  dpkg-source -x <filename>.dsc [<output-directory>]
-        dpkg-source -b <directory> [<orig-directory>|<orig-targz>|\'\']
-Build options:   -c<controlfile>     get control info from this file
-                 -l<changelogfile>   get per-version info from this file
-                 -F<changelogformat> force change log format
-                 -V<name>=<value>    set a substitution variable
-                 -T<varlistfile>     read variables here, not debian/substvars
-                 -D<field>=<value>   override or add a .dsc field and value
-                 -U<field>           remove a field
-                 -W                  Turn certain errors into warnings. 
-                 -E                  When -W is enabled, -E disables it.
-                 -q                  quiet operation, do not print warnings.
-                 -sa                 auto select orig source (-sA is default)
-                 -i[<regexp>]        filter out files to ignore diffs of.
-                                     Defaults to: '%s'
-                 -I<filename>        filter out files when building tarballs.
-                 -sk                 use packed orig source (unpack & keep)
-                 -sp                 use packed orig source (unpack & remove)
-                 -su                 use unpacked orig source (pack & keep)
-                 -sr                 use unpacked orig source (pack & remove)
-                 -ss                 trust packed & unpacked orig src are same
-                 -sn                 there is no diff, do main tarfile only
-                 -sA,-sK,-sP,-sU,-sR like -sa,-sp,-sk,-su,-sr but may overwrite
-Extract options: -sp (default)       leave orig source packed in current dir
-                 -sn                 do not copy original source to current dir
-                 -su                 unpack original source tree too
-General options: -h                  print this message
-"), $version, $diff_ignore_default_regexp;
+    printf _g("
+Copyright (C) 1996 Ian Jackson and Klee Dienes.");
+
+    printf _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...] <command>
+
+Commands:
+  -x <filename>.dsc [<output-dir>]
+                           extract source package.
+  -b <dir> [<orig-dir>|<orig-targz>|\'\']
+                           build source package.
+
+Build options:
+  -c<controlfile>          get control info from this file.
+  -l<changelogfile>        get per-version info from this file.
+  -F<changelogformat>      force change log format.
+  -V<name>=<value>         set a substitution variable.
+  -T<varlistfile>          read variables here, not debian/substvars.
+  -D<field>=<value>        override or add a .dsc field and value.
+  -U<field>                remove a field.
+  -W                       turn certain errors into warnings.
+  -E                       when -W is enabled, -E disables it.
+  -q                       quiet operation, do not print warnings.
+  -i[<regexp>]             filter out files to ignore diffs of
+                             (defaults to: '%s').
+  -I<filename>             filter out files when building tarballs.
+  -sa                      auto select orig source (-sA is default).
+  -sk                      use packed orig source (unpack & keep).
+  -sp                      use packed orig source (unpack & remove).
+  -su                      use unpacked orig source (pack & keep).
+  -sr                      use unpacked orig source (pack & remove).
+  -ss                      trust packed & unpacked orig src are same.
+  -sn                      there is no diff, do main tarfile only.
+  -sA,-sK,-sP,-sU,-sR      like -sa,-sk,-sp,-su,-sr but may overwrite.
+
+Extract options:
+  -sp (default)            leave orig source packed in current dir.
+  -sn                      do not copy original source to current dir.
+  -su                      unpack original source tree too.
+
+General options:
+  -h, --help               show this help message.
+      --version            show the version.
+"), $progname, $diff_ignore_default_regexp;
 }
 
 sub handleformat {
@@ -135,8 +154,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $substvar{$1}= "$'";
     } elsif (m/^-T/) {
         $varlistfile= "$'";
-    } elsif (m/^-h$/) {
-        &usageversion; exit(0);
+    } elsif (m/^-(h|-help)$/) {
+        &usage; exit(0);
+    } elsif (m/^--version$/) {
+        &version; exit(0);
     } elsif (m/^-W$/) {
         $warnable_error= 1;
     } elsif (m/^-E$/) {
