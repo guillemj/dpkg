@@ -307,6 +307,7 @@ if (!$nowrite && !link($dirfile, "$dirfile.lock")) {
 	    $name, $! );
     printf( STDERR _g("try deleting %s?")."\n", "$dirfile.lock")
 	if $!{EEXIST};
+    exit 1;
 }
 
 open(OLD,$dirfile) || &ulquit(sprintf(_g("open %s: %s"), $dirfile, $!));
