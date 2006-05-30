@@ -426,7 +426,8 @@ void cmpversions(const char *const *argv) {
   if (*argv[0] && strcmp(argv[0],"<unknown>")) {
     emsg= parseversion(&a,argv[0]);
     if (emsg) {
-      if (printf(_("version a has bad syntax: %s\n"),emsg) == EOF) werr("stdout");
+      if (printf(_("dpkg: version '%s' has bad syntax: %s\n"), argv[0], emsg) == EOF)
+        werr("stdout");
       if (fflush(stdout)) werr("stdout");
       exit(1);
     }
@@ -436,7 +437,8 @@ void cmpversions(const char *const *argv) {
   if (*argv[2] && strcmp(argv[2],"<unknown>")) {
     emsg= parseversion(&b,argv[2]);
     if (emsg) {
-      if (printf(_("version b has bad syntax: %s\n"),emsg) == EOF) werr("stdout");
+      if (printf(_("dpkg: version '%s' has bad syntax: %s\n"), argv[2], emsg) == EOF)
+        werr("stdout");
       if (fflush(stdout)) werr("stdout");
       exit(1);
     }
