@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-05-23 06:44+0300\n"
+"POT-Creation-Date: 2006-05-31 06:03+0300\n"
 "PO-Revision-Date: 2006-05-30 11:58+0200\n"
 "Last-Translator: Peter Mann <Peter.Mann@tuke.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -850,7 +850,8 @@ msgstr "musí začať alfanumerickým znakom"
 #: lib/parsehelp.c:123
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
-msgstr "znak `%c' nie je prípustný (prípustné sú len písmená, čísla a znaky `%s')"
+msgstr ""
+"znak `%c' nie je prípustný (prípustné sú len písmená, čísla a znaky `%s')"
 
 #: lib/parsehelp.c:178
 msgid "<none>"
@@ -1826,14 +1827,9 @@ msgstr "--compare-versions vyžaduje tri argumenty: <verzia> <vzťah> <verzia>"
 msgid "--compare-versions bad relation"
 msgstr "--compare-versions zlá relácia"
 
-#: src/enquiry.c:429
-#, c-format
-msgid "version a has bad syntax: %s\n"
-msgstr "verzia a má zlú syntax: %s\n"
-
-#: src/enquiry.c:439
-#, c-format
-msgid "version b has bad syntax: %s\n"
+#: src/enquiry.c:429 src/enquiry.c:440
+#, fuzzy, c-format
+msgid "dpkg: version '%s' has bad syntax: %s\n"
 msgstr "verzia b má zlú syntax: %s\n"
 
 #: src/errors.c:58
@@ -2429,35 +2425,49 @@ msgid ""
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
-"%s vynucovacie voľby - kontrolujú správanie v prípade, že sa objaví problém:\n"
+"%s vynucovacie voľby - kontrolujú správanie v prípade, že sa objaví "
+"problém:\n"
 "  varuje, ale pokračuje:  --force-<predmet>,<predmet>,...\n"
-"  skončí s chybou:        --refuse-<predmet>,<predmet>,... | --no-force-<predmet>,...\n"
+"  skončí s chybou:        --refuse-<predmet>,<predmet>,... | --no-force-"
+"<predmet>,...\n"
 " Vynucovacie predmety:\n"
 "  all [!]                Nastaví všetky vynucovacie voľby\n"
 "  downgrade [*]          Nahradí balík nižšou verziou\n"
-"  configure-any          Nastaví ľubovolný balík, ktorý tomuto konkrétnemu môže pomôcť\n"
+"  configure-any          Nastaví ľubovolný balík, ktorý tomuto konkrétnemu "
+"môže pomôcť\n"
 "  hold                   Spracuje súvisiace balíky, aj keď sú pozdržané\n"
-"  bad-path               Premenná PATH neobsahuje dôležité programy, dajú sa očakávať problémy\n"
-"  not-root               Skúsi (od)inštalovať predmety aj bez rootovských privilégií\n"
+"  bad-path               Premenná PATH neobsahuje dôležité programy, dajú sa "
+"očakávať problémy\n"
+"  not-root               Skúsi (od)inštalovať predmety aj bez rootovských "
+"privilégií\n"
 "  overwrite              Prepíše súbor z jedného balíku iným\n"
 "  overwrite-diverted     Prepíše odklonený balík neodklonenou verziou\n"
-"  bad-verify             Nainštaluje balík aj napriek zlyhaniu kontroly autenticity\n"
-"  depends-version [!]    Zmení problémy so závislosťami verzií na upozornenia\n"
-"  depends [!]            Zmení všetky problémy so závislosťami na upozornenia\n"
+"  bad-verify             Nainštaluje balík aj napriek zlyhaniu kontroly "
+"autenticity\n"
+"  depends-version [!]    Zmení problémy so závislosťami verzií na "
+"upozornenia\n"
+"  depends [!]            Zmení všetky problémy so závislosťami na "
+"upozornenia\n"
 "  confnew [!]            Vždy použije nový konfiguračný súbor, bez opýtania\n"
-"  confold [!]            Vždy použije starý konfiguračný súbor, bez opýtania\n"
-"  confdef [!]            Na nové konfiguračné súbory použije predvolené nastavenie,\n"
-"                         ak existuje, bez opýtania. Ak neexistuje žiadne predvolené\n"
-"                         nastavenie, budete vyzvaní na jeho potvrdenie voľbou confold\n"
+"  confold [!]            Vždy použije starý konfiguračný súbor, bez "
+"opýtania\n"
+"  confdef [!]            Na nové konfiguračné súbory použije predvolené "
+"nastavenie,\n"
+"                         ak existuje, bez opýtania. Ak neexistuje žiadne "
+"predvolené\n"
+"                         nastavenie, budete vyzvaní na jeho potvrdenie "
+"voľbou confold\n"
 "                         alebo voľbou confnew\n"
 "  confmiss [!]           Vždy nainštaluje chýbajúce konfiguračné súbory\n"
 "  conflicts [!]          Umožní inštaláciu balíkov, ktoré sú v konflikte\n"
-"  architecture [!]       Spracuje balík aj v prípade, že má zlú architektúru\n"
+"  architecture [!]       Spracuje balík aj v prípade, že má zlú "
+"architektúru\n"
 "  overwrite-dir [!]      Prepíše adresár balíka súborom z iného balíka\n"
 "  remove-reinstreq [!]   Odstráni balíky, ktoré vyžadujú inštaláciu\n"
 "  remove-essential [!]   Odstráni nevyhnutné balíky\n"
 "\n"
-"UPOZORNENIE - použitie voľby označenej [!] môže vážne poškodiť Vašu inštaláciu.\n"
+"UPOZORNENIE - použitie voľby označenej [!] môže vážne poškodiť Vašu "
+"inštaláciu.\n"
 "Vynútenie volieb označených [*] je štandartne povolené.\n"
 
 #: src/main.c:362
@@ -3315,7 +3325,8 @@ msgstr ""
 #: dpkg-deb/build.c:291
 #, c-format
 msgid "warning, conffile filename `%s' contains trailing white spaces\n"
-msgstr "upozornenie, názov konfiguračného súboru `%s' obsahuje na konci medzery\n"
+msgstr ""
+"upozornenie, názov konfiguračného súboru `%s' obsahuje na konci medzery\n"
 
 #: dpkg-deb/build.c:293
 #, c-format
@@ -4168,7 +4179,7 @@ msgid "unable to exec mksplit"
 msgstr "nie je možné spustiť funkciu mksplit"
 
 #: scripts/cleanup-info.pl:36 scripts/dpkg-divert.pl:16
-#: scripts/dpkg-statoverride.pl:20 scripts/install-info.pl:18
+#: scripts/dpkg-statoverride.pl:22 scripts/install-info.pl:18
 #: scripts/update-alternatives.pl:37
 #, perl-format
 msgid "Debian %s version %s.\n"
@@ -4183,7 +4194,7 @@ msgstr ""
 "Copyright (C) 1996 Kim-Minh Kaplan."
 
 #: scripts/cleanup-info.pl:41 scripts/dpkg-divert.pl:22
-#: scripts/dpkg-statoverride.pl:25 scripts/install-info.pl:23
+#: scripts/dpkg-statoverride.pl:27 scripts/install-info.pl:23
 #: scripts/update-alternatives.pl:43
 msgid ""
 "\n"
@@ -4207,7 +4218,7 @@ msgid ""
 "  --version    show the version.\n"
 msgstr ""
 
-#: scripts/cleanup-info.pl:66 scripts/install-info.pl:500
+#: scripts/cleanup-info.pl:66 scripts/install-info.pl:501
 #, perl-format
 msgid "%s: warning - unable to unlock %s: %s"
 msgstr "%s: upozornenie - nie je možné odomknúť %s: %s"
@@ -4344,11 +4355,11 @@ msgstr "--package vyžaduje názov balíka ako argument"
 msgid "package may not contain newlines"
 msgstr "názov balíka nemôže obsahovať znaky nového riadku"
 
-#: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:72
+#: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
 msgid "--admindir needs a directory argument"
 msgstr "--admindir vyžaduje adresár ako argument"
 
-#: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:84
+#: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:86
 #: scripts/update-alternatives.pl:145
 #, perl-format
 msgid "unknown option `%s'"
@@ -4376,7 +4387,7 @@ msgstr "--add vyžaduje jedniný parameter"
 msgid "filename \"%s\" is not absolute"
 msgstr "názov súboru \"%s\" nie je absolútny"
 
-#: scripts/dpkg-divert.pl:128 scripts/dpkg-statoverride.pl:116
+#: scripts/dpkg-divert.pl:128 scripts/dpkg-statoverride.pl:118
 msgid "file may not contain newlines"
 msgstr "názov súboru nemôže obsahovať znaky nového riadku"
 
@@ -4514,7 +4525,7 @@ msgstr "Potrebujete --help"
 msgid "internal error: %s corrupt: %s"
 msgstr "interná chyba: %s poškodenie: %s"
 
-#: scripts/dpkg-statoverride.pl:22
+#: scripts/dpkg-statoverride.pl:24
 msgid ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
@@ -4522,7 +4533,7 @@ msgstr ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
 
-#: scripts/dpkg-statoverride.pl:33
+#: scripts/dpkg-statoverride.pl:35
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -4542,120 +4553,120 @@ msgid ""
 "  --version                show the version.\n"
 msgstr ""
 
-#: scripts/dpkg-statoverride.pl:91
+#: scripts/dpkg-statoverride.pl:93
 msgid "no mode specified"
 msgstr "nie je uvedený žiaden spôsob"
 
-#: scripts/dpkg-statoverride.pl:95
+#: scripts/dpkg-statoverride.pl:97
 msgid "--add needs four arguments"
 msgstr "--add vyžaduje štyri parametre"
 
-#: scripts/dpkg-statoverride.pl:100
+#: scripts/dpkg-statoverride.pl:102
 #, perl-format
 msgid "illegal user %s"
 msgstr "chybný používateľ %s"
 
-#: scripts/dpkg-statoverride.pl:102
+#: scripts/dpkg-statoverride.pl:104
 #, perl-format
 msgid "non-existing user %s"
 msgstr "neexistujúci používateľ %s"
 
-#: scripts/dpkg-statoverride.pl:108
+#: scripts/dpkg-statoverride.pl:110
 #, perl-format
 msgid "illegal group %s"
 msgstr "chybná skupina %s"
 
-#: scripts/dpkg-statoverride.pl:110
+#: scripts/dpkg-statoverride.pl:112
 #, perl-format
 msgid "non-existing group %s"
 msgstr "neexistujúca skupina %s"
 
-#: scripts/dpkg-statoverride.pl:114
+#: scripts/dpkg-statoverride.pl:116
 #, perl-format
 msgid "illegal mode %s"
 msgstr "chybný spôsob %s"
 
-#: scripts/dpkg-statoverride.pl:117 scripts/dpkg-statoverride.pl:144
-#: scripts/dpkg-statoverride.pl:163
+#: scripts/dpkg-statoverride.pl:119 scripts/dpkg-statoverride.pl:146
+#: scripts/dpkg-statoverride.pl:165
 msgid "stripping trailing /"
 msgstr ""
 
-#: scripts/dpkg-statoverride.pl:120
+#: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "An override for \"%s\" already exists, "
 msgstr ""
 
-#: scripts/dpkg-statoverride.pl:122
+#: scripts/dpkg-statoverride.pl:124
 msgid "but --force specified so lets ignore it."
 msgstr ""
 
-#: scripts/dpkg-statoverride.pl:124
+#: scripts/dpkg-statoverride.pl:126
 msgid "aborting"
 msgstr "prerušuje sa"
 
-#: scripts/dpkg-statoverride.pl:135
+#: scripts/dpkg-statoverride.pl:137
 #, perl-format
 msgid "warning: --update given but %s does not exist"
 msgstr "upozornenie: bolo zadané --update, ale %s neexistuje"
 
-#: scripts/dpkg-statoverride.pl:137
+#: scripts/dpkg-statoverride.pl:139
 #, perl-format
 msgid "failed to chown %s: %s"
 msgstr "zlyhala zmena vlastníka %s: %s"
 
-#: scripts/dpkg-statoverride.pl:138
+#: scripts/dpkg-statoverride.pl:140
 #, perl-format
 msgid "failed to chmod %s: %s"
 msgstr "zlyhala zmena atribútov %s: %s"
 
-#: scripts/dpkg-statoverride.pl:142
+#: scripts/dpkg-statoverride.pl:144
 msgid "--remove needs one arguments"
 msgstr "--remove vyžaduje jediný parameter"
 
-#: scripts/dpkg-statoverride.pl:146
+#: scripts/dpkg-statoverride.pl:148
 msgid "No override present."
 msgstr ""
 
-#: scripts/dpkg-statoverride.pl:154
+#: scripts/dpkg-statoverride.pl:156
 msgid "warning: --update is useless for --remove"
 msgstr "upozornenie: --update je nepoužiteľný pri --remove"
 
-#: scripts/dpkg-statoverride.pl:180
+#: scripts/dpkg-statoverride.pl:182
 #, perl-format
 msgid "cannot open statoverride: %s"
 msgstr "nedá sa otvoriť súbor statoverride: %s"
 
-#: scripts/dpkg-statoverride.pl:186
+#: scripts/dpkg-statoverride.pl:188
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
 msgstr ""
 
-#: scripts/dpkg-statoverride.pl:199
+#: scripts/dpkg-statoverride.pl:201
 #, perl-format
 msgid "cannot open new statoverride file: %s"
 msgstr "nedá sa otvoriť nový súbor statoverride: %s"
 
-#: scripts/dpkg-statoverride.pl:206
+#: scripts/dpkg-statoverride.pl:208
 #, perl-format
 msgid "error removing statoverride-old: %s"
 msgstr "chyba pri odstraňovaní súboru statoverride-old: %s"
 
-#: scripts/dpkg-statoverride.pl:208
+#: scripts/dpkg-statoverride.pl:210
 #, perl-format
 msgid "error creating new statoverride-old: %s"
 msgstr "chyba pri vytváraní nového súboru statoverride-old: %s"
 
-#: scripts/dpkg-statoverride.pl:210
+#: scripts/dpkg-statoverride.pl:212
 #, perl-format
 msgid "error installing new statoverride: %s"
 msgstr "chyba pri inštalovaní nového súboru statoverride-old: %s"
 
-#: scripts/dpkg-statoverride.pl:214 scripts/dpkg-statoverride.pl:215
+#: scripts/dpkg-statoverride.pl:216 scripts/dpkg-statoverride.pl:217
 #, perl-format
 msgid "dpkg-statoverride: %s"
 msgstr "dpkg-statoverride: %s"
 
-#: scripts/dpkg-statoverride.pl:215
+#: scripts/dpkg-statoverride.pl:217
 msgid "You need --help."
 msgstr "Potrebujete --help."
 
@@ -4773,112 +4784,112 @@ msgstr ""
 msgid "try deleting %s?"
 msgstr ""
 
-#: scripts/install-info.pl:312
+#: scripts/install-info.pl:313
 #, perl-format
 msgid "open %s: %s"
 msgstr ""
 
-#: scripts/install-info.pl:314
+#: scripts/install-info.pl:315
 #, perl-format
 msgid "read %s: %s"
 msgstr "čítanie %s: %s"
 
-#: scripts/install-info.pl:315
+#: scripts/install-info.pl:316
 #, perl-format
 msgid "close %s after read: %s"
 msgstr "zatvorenie %s po načítaní: %s"
 
-#: scripts/install-info.pl:347
+#: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
 msgstr ""
 
-#: scripts/install-info.pl:350
+#: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
 msgstr ""
 
-#: scripts/install-info.pl:363
+#: scripts/install-info.pl:364
 #, perl-format
 msgid "%s: creating new section `%s'"
 msgstr "%s: vytvorenie novej sekcie `%s'"
 
-#: scripts/install-info.pl:366
+#: scripts/install-info.pl:367
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
 msgstr ""
 
-#: scripts/install-info.pl:384
+#: scripts/install-info.pl:385
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
 msgstr ""
 
-#: scripts/install-info.pl:421
+#: scripts/install-info.pl:422
 #, perl-format
 msgid "%s: deleting entry `%s ...'"
 msgstr ""
 
-#: scripts/install-info.pl:427
+#: scripts/install-info.pl:428
 #, perl-format
 msgid "%s: empty section `%s' not removed"
 msgstr ""
 
-#: scripts/install-info.pl:430
+#: scripts/install-info.pl:431
 #, perl-format
 msgid "%s: deleting empty section `%s'"
 msgstr ""
 
-#: scripts/install-info.pl:437
+#: scripts/install-info.pl:438
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
 msgstr ""
 
-#: scripts/install-info.pl:439
+#: scripts/install-info.pl:440
 #, perl-format
 msgid "%s: no entry for file `%s'"
 msgstr "%s: žiadna položka pre súbor `%s'"
 
-#: scripts/install-info.pl:481
+#: scripts/install-info.pl:482
 #, perl-format
 msgid "create %s: %s"
 msgstr "vytvorenie %s: %s"
 
-#: scripts/install-info.pl:483
+#: scripts/install-info.pl:484
 #, perl-format
 msgid "write %s: %s"
 msgstr "zápis: %s: %s"
 
-#: scripts/install-info.pl:484
+#: scripts/install-info.pl:485
 #, perl-format
 msgid "close %s: %s"
 msgstr "zatvorenie %s: %s"
 
-#: scripts/install-info.pl:488
+#: scripts/install-info.pl:489
 #, perl-format
 msgid "cannot backup old %s, giving up: %s"
 msgstr ""
 
-#: scripts/install-info.pl:490
+#: scripts/install-info.pl:491
 #, perl-format
 msgid "install new %s: %s"
 msgstr "inštalácia nového %s: %s"
 
-#: scripts/install-info.pl:493
+#: scripts/install-info.pl:494
 #, perl-format
 msgid "%s: unlock %s: %s"
 msgstr "%s: odomknutie %s: %s"
 
-#: scripts/install-info.pl:495
+#: scripts/install-info.pl:496
 #, perl-format
 msgid "%s: couldn't backup %s in %s: %s"
 msgstr "%s: nedá sa zálohovať %s v %s: %s"
 
-#: scripts/install-info.pl:507
+#: scripts/install-info.pl:508
 #, perl-format
 msgid "%s: read %s: %d"
 msgstr "%s: čítanie %s: %d"
 
-#: scripts/install-info.pl:511
+#: scripts/install-info.pl:512
 #, perl-format
 msgid "dbg: %s"
 msgstr "dbg: %s"
@@ -4994,8 +5005,8 @@ msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
 msgstr ""
-"potrebujete --display, --config, --set, --install, --remove, --all, --remove-all "
-"alebo --auto"
+"potrebujete --display, --config, --set, --install, --remove, --all, --remove-"
+"all alebo --auto"
 
 #: scripts/update-alternatives.pl:153
 msgid "--slave only allowed with --install"
@@ -5290,3 +5301,5 @@ msgstr "chýbajúci nový riadok za %s"
 msgid "Serious problem: %s"
 msgstr "Vážny problém: %s"
 
+#~ msgid "version a has bad syntax: %s\n"
+#~ msgstr "verzia a má zlú syntax: %s\n"
