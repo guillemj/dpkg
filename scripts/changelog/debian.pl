@@ -92,7 +92,7 @@ while (<STDIN>) {
             $kvdone{$k}++ && &clwarn(sprintf(_g("repeated key-value %s"), $k));
             if ($k eq 'Urgency') {
                 $v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i ||
-                    &clerror(_g("badly formatted urgency value, at changelog "));
+                    &clerror(_g("badly formatted urgency value"));
                 $newurg= lc $1;
                 $newurgn= $urgencies{lc $1}; $newcomment= $2;
                 $newurgn ||
