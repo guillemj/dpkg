@@ -190,7 +190,7 @@ void process_archive(const char *filename) {
   waitsubproc(c1,BACKEND " --control",0);
   strcpy(cidirrest,CONTROLFILE);
 
-  parsedb(cidir, pdb_recordavailable|pdb_rejectstatus|pdb_ignorefiles|pdb_weakclassification,
+  parsedb(cidir, pdb_recordavailable | pdb_rejectstatus | pdb_ignorefiles,
           &pkg,NULL,NULL);
   if (!pkg->files) {
     pkg->files= nfmalloc(sizeof(struct filedetails));
