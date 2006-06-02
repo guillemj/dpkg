@@ -1,7 +1,6 @@
 #!/usr/bin/perl --
 
 use Text::Wrap;
-use English;
 
 my $dpkglibdir = "."; # This line modified by Makefile
 push (@INC, $dpkglibdir);
@@ -107,15 +106,15 @@ while ($ARGV[0] =~ m/^--/) {
     } elsif (m/^--(c?align|maxwidth)=([0-9]+)$/) {
 	warn( sprintf(_g("%s: %s deprecated(ignored)"), $name, $1)."\n" );
     } elsif (m/^--info-?dir=/) {
-	$dirfile = $POSTMATCH . '/dir';
+	$dirfile = $' . '/dir';
     } elsif (m/^--info-file=/) {
-        $filename=$POSTMATCH;
+	$filename = $';
     } elsif (m/^--menuentry=/) {
-        $menuentry=$POSTMATCH;
+	$menuentry = $';
     } elsif (m/^--description=/) {
-        $description=$POSTMATCH;
+	$description = $';
     } elsif (m/^--dir-file=/) { # for compatibility with GNU install-info
-	$dirfile = $POSTMATCH;
+	$dirfile = $';
     } else {
         printf STDERR _g("%s: unknown option \`%s'")."\n", $name, $_;
         &usage(STDERR); exit 1;
@@ -185,7 +184,7 @@ if (!$remove) {
             &dprint("multiline '$asread'");
         } elsif ($asread =~ m/^\*\s*([^:]+):(\s*\(([^\)]+)\)\.|:)\s*/) {
             $menuentry= $1;
-            $description= $POSTMATCH;
+            $description = $';
             $fileinentry = $3;
             &dprint("infile menuentry '$menuentry' description '$description'");
         } elsif (length($asread)) {
@@ -209,7 +208,7 @@ if (!$remove) {
             $asread='';
             while(<IF>) {
                 if (m/^\s*[Tt]his file documents/) {
-                    $asread=$POSTMATCH;
+                    $asread = $';
                     last;
                 }
             }
