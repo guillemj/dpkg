@@ -121,7 +121,7 @@ sub isbin {
     }
 }
 
-my @librarypaths = qw( /lib /usr/lib /lib64 /usr/lib64 );
+my @librarypaths = qw( /lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64 );
 my %librarypaths = map { $_ => 'default' } @librarypaths;
 
 if ($ENV{LD_LIBRARY_PATH}) {
