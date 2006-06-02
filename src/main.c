@@ -203,7 +203,8 @@ static void versiononly(const struct cmdinfo *cip, const char *value) {
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)
-    badusage(_("conflicting actions --%s and --%s"),cip->olong,cipaction->olong);
+    badusage(_("conflicting actions -%c (--%s) and -%c (--%s)"),
+             cip->oshort, cip->olong, cipaction->oshort, cipaction->olong);
   cipaction= cip;
 }
 
