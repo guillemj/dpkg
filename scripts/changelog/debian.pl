@@ -38,6 +38,7 @@ sub usage {
 "Usage: %s [<option>]
 
 Options:
+  -l<changelog>       use <changelog> as the file name when reporting.
   -v<versionsince>    print changes since <versionsince>.
   -h, --help          print this help message.
       --version       print program version.
@@ -48,6 +49,8 @@ while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-v(.+)$/) {
         $since= $1;
+    } elsif (m/^-l(.+)$/) {
+        $changelogfile = $1;
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
@@ -162,5 +165,13 @@ $f{'Closes'} = join(' ',sort { $a <=> $b} @closes);
 
 &outputclose(0);
 
-sub clerror { &error(sprintf(_g("%s, at changelog line %d"), $_[0], $.)); }
-sub clwarn { &warn(sprintf(_g("%s, at changelog line %d"), $_[0], $.)); }
+sub clerror
+{
+    &error(sprintf(_g("%s, at file %s line %d"), $_[0], $changelogfile, $.));
+}
+
+sub clwarn
+{
+    &warn(sprintf(_g("%s, at file %s line %d"), $_[0], $changelogfile, $.));
+}
+

@@ -50,8 +50,8 @@ while (@ARGV) {
     $_= shift(@ARGV);
     if (m/^-L/ && length($_)>2) { $libdir=$'; next; }
     if (m/^-F([0-9a-z]+)$/) { $force=1; $format=$1; next; }
-    if (m/^-l/ && length($_)>2) { $changelogfile=$'; next; }
     push(@ap,$_);
+    if (m/^-l/ && length($_)>2) { $changelogfile=$'; next; }
     m/^--$/ && last;
     m/^-v/ && next;
     if (m/^-(h|-help)$/) { &usage; exit(0); }
