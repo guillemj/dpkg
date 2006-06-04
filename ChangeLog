@@ -1,3 +1,12 @@
+2006-06-04  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* src/depcon.c (foundcyclebroken): Replace possi->ed argument to
+	findbreakcyclerecursive call with dependedon.
+	(findbreakcyclerecursive): Remove the last foundcyclebroken call
+	which was wrongly using the unrelated provider->installed.depended
+	linked list. Remove findbreakcyclerecursive call which may lead to
+	infinite recursion.
+
 2006-06-04  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-parsechangelog.pl: Pass forward the '-l' option to

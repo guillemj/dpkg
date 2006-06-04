@@ -56,7 +56,8 @@ static int foundcyclebroken(struct cyclesofarlink *thislink,
   for (sol=sofar; sol && sol->pkg != dependedon; sol=sol->back);
 
   /* If not, we do a recursive search on it to see what we find. */
-  if (!sol) return findbreakcyclerecursive(possi->ed,thislink);
+  if (!sol)
+    return findbreakcyclerecursive(dependedon, thislink);
   
   debug(dbg_depcon,"found cycle");
   /* Right, we now break one of the links.  We prefer to break
@@ -126,8 +127,6 @@ static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *s
          * still the one we use.
          */
         if (foundcyclebroken(&thislink,sofar,provider,possi)) return 1;
-	if (foundcyclebroken(&thislink,sofar,possi->ed,provider->installed.depended)) return 1;
-	if (findbreakcyclerecursive(provider,&thislink)) return 1;
       }
     }
   }
