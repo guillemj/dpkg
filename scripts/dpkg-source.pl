@@ -20,7 +20,7 @@ $diff_ignore_default_regexp = '
 # File-names that should be ignored (never directories)
 (?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore)$|
 # File or directory names that should be ignored
-(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|_darcs|\.git|\.bzr(?:\.backup)?)(?:$|/.*$)
+(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|_darcs|\.git|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 
 # Take out comments and newlines
