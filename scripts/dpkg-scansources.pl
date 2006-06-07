@@ -19,13 +19,13 @@ use strict;
 # For a copy of the GNU General Public License write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-# User documentation is at the __END__.
-#
+
 # Errors with a single package are warned about but don't affect the
 # exit code.  Only errors which affect everything cause a non-zero exit.
 #
 # Dependencies are by request non-existant.  I used to use the MD5 and
 # Proc::WaitStat modules.
+
 
 my $dpkglibdir= "."; # This line modified by Makefile
 push(@INC,$dpkglibdir);
