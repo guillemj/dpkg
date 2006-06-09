@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.13.11.0.1\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-06-02 03:58+0300\n"
-"PO-Revision-Date: 2006-06-09 07:26+0100\n"
+"PO-Revision-Date: 2006-06-09 20:15+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -4305,6 +4305,13 @@ msgid ""
 "  --help       show this help message.\n"
 "  --version    show the version.\n"
 msgstr ""
+"Använd: %s [<flagga> ...] [--] [<katalognamn>]\n"
+"\n"
+"Flaggor:\n"
+"  --unsafe     välj några ytterligare möjligen användbara alternativ.\n"
+"               varning: detta alternativ kan förstöra en i övrigt korrekt fil.\n"
+"  --help       visa detta hjälpmeddelande.\n"
+"  --version    visa versionen.\n"
 
 #: scripts/cleanup-info.pl:66 scripts/install-info.pl:501
 #, perl-format
@@ -4388,6 +4395,9 @@ msgid ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000,2001 Wichert Akkerman."
 msgstr ""
+"\n"
+"Copyright © 1995 Ian Jackson.\n"
+"Copyright © 2000,2001 Wichert Akkerman."
 
 #: scripts/dpkg-divert.pl:30
 #, perl-format
@@ -4454,7 +4464,7 @@ msgstr "--divert behöver ett mål som argument"
 
 #: scripts/dpkg-divert.pl:99
 msgid "divert-to may not contain newlines"
-msgstr "målet kan inte innehålla radbrytningar"
+msgstr "målet kan inte innehålla nyradstecken"
 
 #: scripts/dpkg-divert.pl:101
 msgid "--package needs a package argument"
@@ -4462,7 +4472,7 @@ msgstr "--package behöver ett paket som argument"
 
 #: scripts/dpkg-divert.pl:103
 msgid "package may not contain newlines"
-msgstr "paket kan inte innehålla radbrytningar"
+msgstr "paket kan inte innehålla nyradstecken"
 
 #: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
 msgid "--admindir needs a directory argument"
@@ -4498,7 +4508,7 @@ msgstr "filnamnet \"%s\" är inte absolut"
 
 #: scripts/dpkg-divert.pl:128 scripts/dpkg-statoverride.pl:118
 msgid "file may not contain newlines"
-msgstr "filnamnet kan inte innehålla radbrytningar"
+msgstr "filnamnet kan inte innehålla nyradstecken"
 
 #: scripts/dpkg-divert.pl:129
 msgid "Cannot divert directories"
@@ -4530,6 +4540,9 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"sammanblandning i divert-to\n"
+"  vid borttagning av \"%s\"\n"
+"  hittade \"%s\""
 
 #: scripts/dpkg-divert.pl:159
 #, perl-format
@@ -4538,41 +4551,43 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"sammanblandning av paket\n"
+"  vid borttagning av \"%s\"\n"
+"  hittade \"%s\""
 
 #: scripts/dpkg-divert.pl:161
-#, fuzzy, perl-format
+#, perl-format
 msgid "Removing `%s'"
-msgstr "Tar bort %s ...\n"
+msgstr "Tar bort \"%s\""
 
 #: scripts/dpkg-divert.pl:176
 #, perl-format
 msgid "No diversion `%s', none removed"
-msgstr ""
+msgstr "Ingen omdirigering \"%s\", ingen borttagen"
 
 #: scripts/dpkg-divert.pl:195
-#, fuzzy
 msgid "--truename needs a single argument"
-msgstr "--build behöver ett katalogargument"
+msgstr "--truename behöver ett ensamt argument"
 
 #: scripts/dpkg-divert.pl:205
-#, fuzzy, perl-format
+#, perl-format
 msgid "internal error - bad mode `%s'"
-msgstr "%s: internt gzip-fel: läsning: \"%s\""
+msgstr "internt fel - fel läge \"%s\""
 
 #: scripts/dpkg-divert.pl:219
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot stat old name `%s': %s"
-msgstr "kan inte ta status på \"%.255s\" (i \"%.255s\")"
+msgstr "kan inte ta status på gammalt namn \"%s\": %s"
 
 #: scripts/dpkg-divert.pl:221
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot stat new name `%s': %s"
-msgstr "kan inte ta status på \"%.255s\" (i \"%.255s\")"
+msgstr "kan inte ta status på nytt namn \"%s\": %s"
 
 #: scripts/dpkg-divert.pl:236
-#, fuzzy, perl-format
+#, perl-format
 msgid "error checking `%s': %s"
-msgstr "fel vid skrivning av \"%s\""
+msgstr "fel vid kontroll av \"%s\": %s"
 
 #: scripts/dpkg-divert.pl:241
 #, perl-format
@@ -4580,68 +4595,70 @@ msgid ""
 "rename involves overwriting `%s' with\n"
 "  different file `%s', not allowed"
 msgstr ""
+"namnbyte innebär överskrivning av \"%s\" med\n"
+"  annan fil \"%s\", ej tillåtet"
 
 #: scripts/dpkg-divert.pl:251
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
-msgstr ""
+msgstr "namnbyte: ta bort duplicerad gammal länk \"%s\": %s"
 
 #: scripts/dpkg-divert.pl:253
-#, fuzzy, perl-format
+#, perl-format
 msgid "rename: rename `%s' to `%s': %s"
-msgstr ""
-"dpkg: %s: varning - misslyckades att namnändra \"%.250s\" till \"%.250s\": %"
-"s\n"
+msgstr "namnbyte: namnbyte på \"%s\" till \"%s\": %s"
 
 #: scripts/dpkg-divert.pl:260
-#, fuzzy, perl-format
+#, perl-format
 msgid "create diversions-new: %s"
-msgstr "läsfel i omdirigeringsfil [i]"
+msgstr "skapa diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:264
-#, fuzzy, perl-format
+#, perl-format
 msgid "write diversions-new: %s"
-msgstr "omdirigerat av %s"
+msgstr "skriva ny diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:266
-#, fuzzy, perl-format
+#, perl-format
 msgid "close diversions-new: %s"
-msgstr "omdirigerat av %s"
+msgstr "stänga diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:268
 #, perl-format
 msgid "remove old diversions-old: %s"
-msgstr ""
+msgstr "ta bort gammal diversions-old: %s"
 
 #: scripts/dpkg-divert.pl:270
-#, fuzzy, perl-format
+#, perl-format
 msgid "create new diversions-old: %s"
-msgstr "läsfel i omdirigeringsfil [i]"
+msgstr "skapa ny diversions-old: %s"
 
 #: scripts/dpkg-divert.pl:272
-#, fuzzy, perl-format
+#, perl-format
 msgid "install new diversions: %s"
-msgstr "kunde inte installera ny version av \"%.255s\""
+msgstr "installera ny diversions: %s"
 
 #: scripts/dpkg-divert.pl:278 scripts/dpkg-divert.pl:279
 #, perl-format
 msgid "dpkg-divert: %s"
-msgstr ""
+msgstr "dpkg-divert: %s"
 
 #: scripts/dpkg-divert.pl:279
 msgid "You need --help"
-msgstr ""
+msgstr "Skriv --help för hjälp"
 
 #: scripts/dpkg-divert.pl:280 scripts/update-alternatives.pl:647
-#, fuzzy, perl-format
+#, perl-format
 msgid "internal error: %s corrupt: %s"
-msgstr "%s: internt gzip-fel: skrivning: \"%s\""
+msgstr "internt fel: %s förstörd: %s"
 
 #: scripts/dpkg-statoverride.pl:24
 msgid ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
 msgstr ""
+"\n"
+"Copyright © 2000 Wichert Akkerman."
 
 #: scripts/dpkg-statoverride.pl:35
 #, perl-format
@@ -4662,133 +4679,151 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Använd: %s [<flagga> ...] <kommando>\n"
+"\n"
+"Kommandon:\n"
+"  --add <ägare> <grupp> <läge> <fil>\n"
+"                           lägg till ny post i databasen.\n"
+"  --remove <fil>           ta bort fil från databasen.\n"
+"  --list [<jokertecken>]   visar nuvarande överskrivningar i databasen.\n"
+"\n"
+"Flaggor:\n"
+"  --admindir <katalog>     väljer katalog för statoverride-filen.\n"
+"  --update                 uppdatera filläge med en gång.\n"
+"  --force                  tvinga ett kommando även om sundhetstestet misslyckas.\n"
+"  --quiet                  arbeta tyst, minimal utdata.\n"
+"  --help                   visa detta hjälpmmeddelande.\n"
+"  --version                visa versionen.\n"
 
 #: scripts/dpkg-statoverride.pl:93
 msgid "no mode specified"
-msgstr ""
+msgstr "inget läge angavs"
 
 #: scripts/dpkg-statoverride.pl:97
-#, fuzzy
 msgid "--add needs four arguments"
-msgstr "--build behöver ett katalogargument"
+msgstr "--add behöver fyra argument"
 
 #: scripts/dpkg-statoverride.pl:102
 #, perl-format
 msgid "illegal user %s"
-msgstr ""
+msgstr "ogiltig användare %s"
 
 #: scripts/dpkg-statoverride.pl:104
 #, perl-format
 msgid "non-existing user %s"
-msgstr ""
+msgstr "icke-existerande användare %s"
 
 #: scripts/dpkg-statoverride.pl:110
 #, perl-format
 msgid "illegal group %s"
-msgstr ""
+msgstr "ogiltig grupp %s"
 
 #: scripts/dpkg-statoverride.pl:112
 #, perl-format
 msgid "non-existing group %s"
-msgstr ""
+msgstr "icke-existerande grupp %s"
 
 #: scripts/dpkg-statoverride.pl:116
 #, perl-format
 msgid "illegal mode %s"
-msgstr ""
+msgstr "ogiltigt läge %s"
 
 #: scripts/dpkg-statoverride.pl:119 scripts/dpkg-statoverride.pl:146
 #: scripts/dpkg-statoverride.pl:165
 msgid "stripping trailing /"
-msgstr ""
+msgstr "tar bort avslutande /"
 
 #: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "An override for \"%s\" already exists, "
-msgstr ""
+msgstr "Det finns redan en överskrivning för \"%s\", "
 
 #: scripts/dpkg-statoverride.pl:124
 msgid "but --force specified so lets ignore it."
-msgstr ""
+msgstr "men --force angavs, så vi ignorerar den."
 
 #: scripts/dpkg-statoverride.pl:126
-#, fuzzy
 msgid "aborting"
-msgstr "varning"
+msgstr "avbryter"
 
 #: scripts/dpkg-statoverride.pl:137
 #, perl-format
 msgid "warning: --update given but %s does not exist"
-msgstr ""
+msgstr "varning: --upgrade angavs med %s finns inte"
 
 #: scripts/dpkg-statoverride.pl:139
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to chown %s: %s"
-msgstr "kunde inte starta %s (%.250s)"
+msgstr "kunde inte byta ägare %s: %s"
 
 #: scripts/dpkg-statoverride.pl:140
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to chmod %s: %s"
-msgstr "kunde inte exekvera %s"
+msgstr "kunde inte byta läge %s: %s"
 
 #: scripts/dpkg-statoverride.pl:144
-#, fuzzy
 msgid "--remove needs one arguments"
-msgstr "--%s tar inget argument"
+msgstr "--remove behöver ett argument"
+
+#: scripts/dpkg-statoverride.pl:144
+msgid "--remove needs one argument"
+msgstr "--remove behöver ett argument"
 
 #: scripts/dpkg-statoverride.pl:148
 msgid "No override present."
-msgstr ""
+msgstr "Det finns inga överskrivningar."
 
 #: scripts/dpkg-statoverride.pl:156
 msgid "warning: --update is useless for --remove"
-msgstr ""
+msgstr "varning: --update är oandvändbar tillsammans med --remove"
 
 #: scripts/dpkg-statoverride.pl:182
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open statoverride: %s"
-msgstr "kunde inte öppna statoverride-fil"
+msgstr "kunde inte öppna statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:188
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
-msgstr ""
+msgstr "Flera överskrivningar för \"%s\", avbryter"
 
 #: scripts/dpkg-statoverride.pl:201
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open new statoverride file: %s"
-msgstr "kunde inte öppna statoverride-fil"
+msgstr "kunde inte öppna ny statoverride-fil: %s"
 
 #: scripts/dpkg-statoverride.pl:208
 #, perl-format
 msgid "error removing statoverride-old: %s"
-msgstr ""
+msgstr "fel vid borttagning av statoverride-old: %s"
 
 #: scripts/dpkg-statoverride.pl:210
-#, fuzzy, perl-format
+#, perl-format
 msgid "error creating new statoverride-old: %s"
-msgstr "fel vid skapande av enhet \"%.255s\""
+msgstr "fel vid skapande av ny statoverride-old: %s"
 
 #: scripts/dpkg-statoverride.pl:212
 #, perl-format
 msgid "error installing new statoverride: %s"
-msgstr ""
+msgstr "fel vid installation av ny statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:216 scripts/dpkg-statoverride.pl:217
-#, fuzzy, perl-format
+#, perl-format
 msgid "dpkg-statoverride: %s"
 msgstr "statoverride-fil \"%.250s\""
 
 #: scripts/dpkg-statoverride.pl:217
 msgid "You need --help."
-msgstr ""
+msgstr "Skriv --help för hjälp."
 
 #: scripts/install-info.pl:20
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
-msgstr "Copyright © 1994-1996 Ian Jackson.\n"
+msgstr ""
+"\n"
+"Copyright © 1994,1995 Ian Jackson."
+
 
 #: scripts/install-info.pl:32
 #, perl-format
@@ -4817,46 +4852,67 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Använd: %s [<flaggor> ...] [--] <filnamn>\n"
+"\n"
+"Flaggor:\n"
+"  --section <reguttr> <titel>\n"
+"                           lägger den nya posten i avdelningen som träffas av\n"
+"                           <reguttr> eller skapar en ny med <titel> om den inte\n"
+"                           finns.\n"
+"  --menuentry=<text>       sätt menyvalet.\n"
+"  --description=<text>     sätt beskrivningen som skall användas i menyvalet.\n"
+"  --info-file=<sökväg>     ange infofil att installera i katalogen.\n"
+"  --dir-file=<sökväg>      ange filnamn till en directory-fil.\n"
+"  --infodir=<katalog>      samma som \"--dir-file=<katalog>/dir\".\n"
+"  --info-dir=<katalog>     dito.\n"
+"  --keep-old               ersätt inte poster eller ta bort tomma.\n"
+"  --remove                 ta bort posten som anges med basnamnet <filnamn>.\n"
+"  --remove-exactly         ta bort den exakta posten <filnamn>.\n"
+"  --test                   aktiverar testläge (inga funktioner utförs).\n"
+"  --debug                  aktiverar felsökningsläge (visar mer information).\n"
+"  --quiet                  visa inte utdatameddelanden.\n"
+"  --help                   visar detta hjälpmeddelande.\n"
+"  --version                visar versionen.\n"
 
 #: scripts/install-info.pl:98
-#, fuzzy, perl-format
+#, perl-format
 msgid "Could not open stderr for output! %s"
-msgstr "kunde inte öppna kontrollkomponenten"
+msgstr "Kunde inte öppna stderr för utdata! %s"
 
 #: scripts/install-info.pl:102
 #, perl-format
 msgid "%s: --section needs two more args"
-msgstr ""
+msgstr "%s: --section behöver ytterligare två argument"
 
 #: scripts/install-info.pl:108
 #, perl-format
 msgid "%s: %s deprecated(ignored)"
-msgstr ""
+msgstr "%s: %s avrådes(ignorerad)"
 
 #: scripts/install-info.pl:134
 #, perl-format
 msgid "%s: --section ignored with --remove"
-msgstr ""
+msgstr "%s: --sectio ignoreras vid --remove"
 
 #: scripts/install-info.pl:135
 #, perl-format
 msgid "%s: --description ignored with --remove"
-msgstr ""
+msgstr "%s: --description ignoreras vid --remove"
 
 #: scripts/install-info.pl:138
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
-msgstr ""
+msgstr "%s: testläge - dir-filen uppdateras inte"
 
 #: scripts/install-info.pl:192
 #, perl-format
 msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
+msgstr "%s: varning, ignorerar förvirrande INFO-DIR-ENTRY i filen."
 
 #: scripts/install-info.pl:201
 #, perl-format
 msgid "%s: Invalid info entry"
-msgstr ""
+msgstr "%s: felaktig info-post"
 
 #: scripts/install-info.pl:227
 #, perl-format
@@ -4865,146 +4921,149 @@ msgid ""
 "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
 "%s: unable to determine description for `dir' entry - giving up\n"
 msgstr ""
+"\n"
+"\"START-INFO-DIR-ENTRY\" och \"This file documents\" saknas.\n"
+"%s: kan inte hitta beskrivning för \"dir\"-post - ger upp\n"
 
 #: scripts/install-info.pl:280
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
-msgstr ""
+msgstr "%s: filen %s finns inte, hämtar säkerhetskopia %s."
 
 #: scripts/install-info.pl:283 scripts/install-info.pl:293
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr ""
+msgstr "%s: misslyckades kopiera %s till %s, ger upp: %s"
 
 #: scripts/install-info.pl:289
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
-msgstr ""
+msgstr "%s: säkerhetskopia %s saknas, hämtar standardfilen."
 
 #: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no backup file %s available."
-msgstr ""
+msgstr "%s: säkerhetskopia %s saknas."
 
 #: scripts/install-info.pl:299
 #, perl-format
 msgid "%s: no default file %s available, giving up."
-msgstr ""
+msgstr "%s: standardfilen %s saknas, ger upp."
 
 #: scripts/install-info.pl:308
 #, perl-format
 msgid "try deleting %s?"
-msgstr ""
+msgstr "försöka ta bort %s?"
 
 #: scripts/install-info.pl:313
 #, perl-format
 msgid "open %s: %s"
-msgstr ""
+msgstr "öppna %s: %s"
 
 #: scripts/install-info.pl:315
-#, fuzzy, perl-format
+#, perl-format
 msgid "read %s: %s"
-msgstr "omdirigerat av %s till: %s\n"
+msgstr "läsa %s: %s"
 
 #: scripts/install-info.pl:316
-#, fuzzy, perl-format
+#, perl-format
 msgid "close %s after read: %s"
-msgstr "kunde inte stänga efter läsning: \"%.255s\""
+msgstr "stänga %s efter läsning: %s"
 
 #: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
+msgstr "%s: nuvarande post för \"%s\" inte ersatt"
 
 #: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
+msgstr "%s: ersätter existerande dir-post för \"%s\""
 
 #: scripts/install-info.pl:364
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: creating new section `%s'"
-msgstr "fel vid skapande av katalog \"%.255s\""
+msgstr "%s: skapar ny sektion \"%s\""
 
 #: scripts/install-info.pl:367
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr ""
+msgstr "%s: inga sektioner ännu, skapar även Miscellaneous-sektion."
 
 #: scripts/install-info.pl:385
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
-msgstr ""
+msgstr "%s: ingen sektion angiven för ny post, lägger till i slutet"
 
 #: scripts/install-info.pl:422
 #, perl-format
 msgid "%s: deleting entry `%s ...'"
-msgstr ""
+msgstr "%s: tar bort post \"%s ...\""
 
 #: scripts/install-info.pl:428
 #, perl-format
 msgid "%s: empty section `%s' not removed"
-msgstr ""
+msgstr "%s: tom sektion \"%s\" inte borttagen"
 
 #: scripts/install-info.pl:431
 #, perl-format
 msgid "%s: deleting empty section `%s'"
-msgstr ""
+msgstr "%s: tar bort tom sektion \"%s\""
 
 #: scripts/install-info.pl:438
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr ""
+msgstr "%s: ingen post för filen \"%s\" och menyposten \"%s\""
 
 #: scripts/install-info.pl:440
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: no entry for file `%s'"
-msgstr "kopiera informationsfil \"%.255s\""
+msgstr "%s: ingen post för filen \"%s\""
 
 #: scripts/install-info.pl:482
 #, perl-format
 msgid "create %s: %s"
-msgstr ""
+msgstr "skapa %s: %s"
 
 #: scripts/install-info.pl:484
 #, perl-format
 msgid "write %s: %s"
-msgstr ""
+msgstr "skriva %s: %s"
 
 #: scripts/install-info.pl:485
 #, perl-format
 msgid "close %s: %s"
-msgstr ""
+msgstr "stänga %s: %s"
 
 #: scripts/install-info.pl:489
 #, perl-format
 msgid "cannot backup old %s, giving up: %s"
-msgstr ""
+msgstr "kan inte säkerhetskopiera gammal %s, ger upp: %s"
 
 #: scripts/install-info.pl:491
 #, perl-format
 msgid "install new %s: %s"
-msgstr ""
+msgstr "installera ny %s: %s"
 
 #: scripts/install-info.pl:494
 #, perl-format
 msgid "%s: unlock %s: %s"
-msgstr ""
+msgstr "%s: låsa upp %s: %s"
 
 #: scripts/install-info.pl:496
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: couldn't backup %s in %s: %s"
-msgstr "kunde inte öppna logg \"%s\": %s\n"
+msgstr "%s: kunde inte säkerhetskopiera %s i %s: %s"
 
 #: scripts/install-info.pl:508
 #, perl-format
 msgid "%s: read %s: %d"
-msgstr ""
+msgstr "%s: läs %s: %d"
 
 #: scripts/install-info.pl:512
 #, perl-format
 msgid "dbg: %s"
-msgstr ""
+msgstr "dbg: %s"
 
 #: scripts/update-alternatives.pl:39
 msgid ""
@@ -5012,6 +5071,9 @@ msgid ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000-2002 Wichert Akkerman."
 msgstr ""
+"\n"
+"Copyright © 1995 Ian Jackson.\n"
+"Copyright © 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:51
 #, perl-format
@@ -5048,107 +5110,136 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Använd: %s [<flagga> ...] <kommando>\n"
+"\n"
+"Kommandon:\n"
+"  --install <länk> <namn> <sökväg> <prioritet>\n"
+"    [--slave <länk> <namn> <sökväg>] ...\n"
+"                           lägg till en alternativgrupp till systemet.\n"
+"  --remove <namn> <sökväg> ta bort <sökväg> från alternativgruppen <namn>.\n"
+"  --remove-all <namn>      ta bort gruppen <namn> från alternativsystemet.\n"
+"  --auto <namn>            växla huvudlängen <namn> till automatiskt läge.\n"
+"  --display <namn>         visa information om gruppen <namn>.\n"
+"  --list <namn>            visa alla mål för gruppen <namn>.\n"
+"  --config <namn>          visa alternativ för gruppen <namn> och be användaren\n"
+"                           välja vilken som skall användas.\n"
+"  --set <namn> <sökväg>    lägg till <sökväg> som alternativ för <namn>.\n"
+"  --all                    anropa --config på samtliga alternativ.\n"
+"\n"
+"<namn> är namnet i /etc/alternatives.\n"
+"<sökväg> är namnet som refereras till.\n"
+"<länk> är länken som pekar till /etc/alternatives/<namn>.\n"
+"<prioritet> är ett heltal; alternativ med högre värde väljs.\n"
+"\n"
+"Flaggor:\n"
+"  --altdir <katalog>       ändra alternatives-katalogen.\n"
+"  --admindir <katalog>     ändra administrativ katalog.\n"
+"  --test                   gör ingenting, bara demonstrera.\n"
+"  --verbose                pratsam funktion, mer utdata.\n"
+"  --quiet                  tyst funktion, minimal utdata.\n"
+"  --help                   visa dette hjälpmeddelande.\n"
+"  --version                visa versionen.\n"
 
 #: scripts/update-alternatives.pl:82 scripts/update-alternatives.pl:83
 #, perl-format
 msgid "update-alternatives: %s"
-msgstr ""
+msgstr "update-alternatives: %s"
 
 #: scripts/update-alternatives.pl:102
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown argument `%s'"
-msgstr "okänd komprimeringstyp \"%s\"."
+msgstr "okänt argument \"%s\""
 
 #: scripts/update-alternatives.pl:115
 msgid "--install needs <link> <name> <path> <priority>"
-msgstr ""
+msgstr "--install behöver <länk> <namn> <sökväg> <prioritet>"
 
 #: scripts/update-alternatives.pl:117
 msgid "priority must be an integer"
-msgstr ""
+msgstr "prioritet måste vara ett heltal"
 
 #: scripts/update-alternatives.pl:121
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs <name> <path>"
-msgstr "--%s behöver ett .deb-filnamn som argument"
+msgstr "--%s behöver <namn> <sökväg>"
 
 #: scripts/update-alternatives.pl:126
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs <name>"
-msgstr "--%s tar inget argument"
+msgstr "--%s behöver <namn>"
 
 #: scripts/update-alternatives.pl:130
 msgid "--slave needs <link> <name> <path>"
-msgstr ""
+msgstr "--slave behöver <länk> <namn> <sökväg>"
 
 #: scripts/update-alternatives.pl:132
 #, perl-format
 msgid "slave name %s duplicated"
-msgstr ""
+msgstr "slavnamnet %s duplicerat"
 
 #: scripts/update-alternatives.pl:133
 #, perl-format
 msgid "slave link %s duplicated"
-msgstr ""
+msgstr "slavlänken %s duplicerad"
 
 #: scripts/update-alternatives.pl:137
-#, fuzzy
 msgid "--altdir needs a <directory> argument"
-msgstr "--build behöver ett katalogargument"
+msgstr "--altdir behöver ett katalogargument"
 
 #: scripts/update-alternatives.pl:140
-#, fuzzy
 msgid "--admindir needs a <directory> argument"
-msgstr "--build behöver ett katalogargument"
+msgstr "--admindir behöver ett katalogargument"
 
 #: scripts/update-alternatives.pl:149
 #, perl-format
 msgid "name %s is both primary and slave"
-msgstr ""
+msgstr "namnet %s är både primär och slav"
 
 #: scripts/update-alternatives.pl:150
 #, perl-format
 msgid "link %s is both primary and slave"
-msgstr ""
+msgstr "länken %s är både primär och slav"
 
 #: scripts/update-alternatives.pl:152
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
 msgstr ""
+"behöver --display, --config, --set, --install, --remove, --all, --remove-all "
+"eller --auto"
 
 #: scripts/update-alternatives.pl:153
 msgid "--slave only allowed with --install"
-msgstr ""
+msgstr "--slave tillåts endast tillsammans med --install"
 
 #: scripts/update-alternatives.pl:161
 msgid "manflag"
-msgstr ""
+msgstr "manflagga"
 
 #: scripts/update-alternatives.pl:165
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate slave %s"
-msgstr "dubblerat värde för \"%s\"-fältet"
+msgstr "duplicerad slav %s"
 
 #: scripts/update-alternatives.pl:168
 #, perl-format
 msgid "slave link same as main link %s"
-msgstr ""
+msgstr "slavlänken är samma som huvudlänken %s"
 
 #: scripts/update-alternatives.pl:169
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate slave link %s"
-msgstr "dubblerat värde för \"%s\"-fältet"
+msgstr "duplicerad slavlänk %s"
 
 #: scripts/update-alternatives.pl:173
 #, perl-format
 msgid "duplicate path %s"
-msgstr ""
+msgstr "duplicerad sökväg %s"
 
 #: scripts/update-alternatives.pl:178
 #, perl-format
 msgid "priority %s %s"
-msgstr ""
+msgstr "prioritet %s %s"
 
 #: scripts/update-alternatives.pl:185
 #, perl-format
@@ -5156,61 +5247,62 @@ msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
 "alternatives."
 msgstr ""
+"Alternativet för %s pekar till %s - vilket inte hittades. Tar bort från "
+"listan över alternativ."
 
 #: scripts/update-alternatives.pl:196
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to open %s: %s"
-msgstr "kunde inte starta %s (%.250s)"
+msgstr "kunde inte öppna %s: %s"
 
 #: scripts/update-alternatives.pl:201 scripts/update-alternatives.pl:250
 #: scripts/update-alternatives.pl:258
 #, perl-format
 msgid "No alternatives for %s."
-msgstr ""
+msgstr "Inga alternativ för %s."
 
 #: scripts/update-alternatives.pl:204
 #, perl-format
 msgid "%s - status is %s."
-msgstr ""
+msgstr "%s - status är %s."
 
 #: scripts/update-alternatives.pl:206
 #, perl-format
 msgid " link currently points to %s"
-msgstr ""
+msgstr " länk pekar för närvarande på %s"
 
 #: scripts/update-alternatives.pl:208
 msgid " link currently absent"
-msgstr ""
+msgstr " länk saknas för närvarande"
 
 #: scripts/update-alternatives.pl:210
 #, perl-format
 msgid " link unreadable - %s"
-msgstr ""
+msgstr " länk oläslig - %s"
 
 #: scripts/update-alternatives.pl:217
 #, perl-format
 msgid "%s - priority %s"
-msgstr ""
+msgstr "%s - prioritet %s"
 
 #: scripts/update-alternatives.pl:220
 #, perl-format
 msgid " slave %s: %s"
-msgstr ""
+msgstr " slav %s: %s"
 
 #: scripts/update-alternatives.pl:224
-#, fuzzy
 msgid "No versions available."
-msgstr "(beskrivning saknas)"
+msgstr "Inga versioner tillgängliga."
 
 #: scripts/update-alternatives.pl:226
 #, perl-format
 msgid "Current `best' version is %s."
-msgstr ""
+msgstr "Nuvarande \"bästa\" version är %s."
 
 #: scripts/update-alternatives.pl:285
 #, perl-format
 msgid "Setting up automatic selection of %s."
-msgstr ""
+msgstr "Aktiverar automatiskt val av %s."
 
 #: scripts/update-alternatives.pl:288 scripts/update-alternatives.pl:290
 #: scripts/update-alternatives.pl:398 scripts/update-alternatives.pl:400
@@ -5218,9 +5310,9 @@ msgstr ""
 #: scripts/update-alternatives.pl:468 scripts/update-alternatives.pl:470
 #: scripts/update-alternatives.pl:526 scripts/update-alternatives.pl:528
 #: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:630
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to remove %s: %s"
-msgstr "kunde inte exekvera %s"
+msgstr "kunde inte ta bort %s: %s"
 
 #: scripts/update-alternatives.pl:301
 #, perl-format
@@ -5228,6 +5320,8 @@ msgid ""
 "%s has been changed (manually or by a script).\n"
 "Switching to manual updates only."
 msgstr ""
+"%s har ändrats (manuellt eller av ett skript).\n"
+"Växlar till enbart manuella uppdateringar."
 
 #: scripts/update-alternatives.pl:313
 #, perl-format
@@ -5235,71 +5329,75 @@ msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
 "(You may modify the symlinks there yourself if desired - see `man ln'.)"
 msgstr ""
+"Kontrollerar tillgängliga versioner av %s, uppdaterar länkar i %s ...\n"
+"(Du kan ändra de symboliska länkarna själv om du vill - se \"man ln\".)"
 
 #: scripts/update-alternatives.pl:319
-#, fuzzy, perl-format
+#, perl-format
 msgid "Renaming %s link from %s to %s."
-msgstr "Packar upp %s (från %s) ...\n"
+msgstr "Byter namn på länken %s från %s till %s."
 
 #: scripts/update-alternatives.pl:322 scripts/update-alternatives.pl:344
 #: scripts/update-alternatives.pl:424 scripts/update-alternatives.pl:499
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to rename %s to %s: %s"
-msgstr "kunde inte ta status på %s \"%.250s\""
+msgstr "kunde inte byta namn på %s till %s: %s"
 
 #: scripts/update-alternatives.pl:339
 #, perl-format
 msgid "slave link name %s duplicated"
-msgstr ""
+msgstr "slavlänknamnet %s duplicerat"
 
 #: scripts/update-alternatives.pl:341
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
-msgstr ""
+msgstr "Byter namn på slavlänken %s från %s till %s."
 
 #: scripts/update-alternatives.pl:355
 msgid "Removing manually selected alternative - switching to auto mode"
-msgstr ""
+msgstr "Tar bort manuellt valda alternativ - växlar till autoläge"
 
 #: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
-msgstr ""
+msgstr "Alternativet %s för %s har inte registrerats, tar inte bort."
 
 #: scripts/update-alternatives.pl:395
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
-msgstr ""
+msgstr "Kastar bort föråldrad slavlänk %s (%s)."
 
 #: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
-msgstr ""
+msgstr "Automatiska uppdateringar av %s är inaktiverad, låter den vara."
 
 #: scripts/update-alternatives.pl:418
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
+"För att återgå till automatiska uppdateringar, använd "
+"\"update-alternatives --auto %s\"."
 
 #: scripts/update-alternatives.pl:422
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
-msgstr ""
+msgstr "Återhämtar från tidigare misslyckad uppdatering av %s ..."
 
 #: scripts/update-alternatives.pl:437
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to open %s for write: %s"
-msgstr "kunde inte öppna källfil \"%.250s\""
+msgstr "kunde inte öppna %s för skrivning: %s"
 
 #: scripts/update-alternatives.pl:457
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to close %s: %s"
-msgstr "kunde inte exekvera %s"
+msgstr "kunde inte stänga %s: %s"
 
 #: scripts/update-alternatives.pl:461
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
-msgstr ""
+msgstr "Det sista paketet som tillhandahöll %s (%s) avinstallerades, tar bort."
 
 #: scripts/update-alternatives.pl:474
 #, perl-format
@@ -5307,41 +5405,43 @@ msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
 " (or nonexistent); however, readlink failed: %s"
 msgstr ""
+"varning: %s skulle vara en symbolisk länk till %s\n"
+" (eller inte finnas); readlink misslyckades dock: %s"
 
 #: scripts/update-alternatives.pl:479 scripts/update-alternatives.pl:493
 #: scripts/update-alternatives.pl:513 scripts/update-alternatives.pl:521
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to ensure %s nonexistent: %s"
-msgstr "kunde inte exekvera ny %s"
+msgstr "kunde inte försäkra att %s inte finns: %s"
 
 #: scripts/update-alternatives.pl:481 scripts/update-alternatives.pl:515
 #: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:580
 #: scripts/update-alternatives.pl:616 scripts/update-alternatives.pl:655
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to make %s a symlink to %s: %s"
-msgstr "kunde inte säkerhetskopiera symbolisk länk för \"%.255s\""
+msgstr "kunde inte göra %s till en symbolisk länk till %s: %s"
 
 #: scripts/update-alternatives.pl:483 scripts/update-alternatives.pl:517
 #: scripts/update-alternatives.pl:540 scripts/update-alternatives.pl:582
 #: scripts/update-alternatives.pl:618 scripts/update-alternatives.pl:660
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install %s as %s: %s"
-msgstr "kunde inte installera \"%.250s\" som \"%.250s\""
+msgstr "kunde inte installera %s som %s: %s"
 
 #: scripts/update-alternatives.pl:486 scripts/update-alternatives.pl:531
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
-msgstr ""
+msgstr "Lämnar %s (%s) att peka på %s."
 
 #: scripts/update-alternatives.pl:489 scripts/update-alternatives.pl:534
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
-msgstr ""
+msgstr "Uppdaterar %s (%s) att peka på %s."
 
 #: scripts/update-alternatives.pl:503
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install %s as %s"
-msgstr "kunde inte installera \"%.250s\" som \"%.250s\""
+msgstr "kunde inte installera %s som %s"
 
 #: scripts/update-alternatives.pl:508
 #, perl-format
@@ -5349,12 +5449,15 @@ msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
 " %s, or nonexistent; however, readlink failed: %s"
 msgstr ""
+"varning: %s skulle vara en slav-symbolisk länk till\n"
+" %s, eller inte finnas; readlink misslyckades dock: %s"
+
 
 #: scripts/update-alternatives.pl:523 scripts/update-alternatives.pl:591
 #: scripts/update-alternatives.pl:627
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
-msgstr ""
+msgstr "Tar bort %s (%s), inte lämplig med %s."
 
 #: scripts/update-alternatives.pl:548
 #, perl-format
@@ -5362,6 +5465,8 @@ msgid ""
 "There is only 1 program which provides %s\n"
 "(%s). Nothing to configure.\n"
 msgstr ""
+"Endast ett program tillhandahåller %s\n"
+"(%s). Inget att konfigurera.\n"
 
 #: scripts/update-alternatives.pl:553
 #, perl-format
@@ -5371,45 +5476,50 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
+"%s alternativ tillhandahåller \"%s\".\n"
+"\n"
+"    Urval      Alternativ\n"
+"-----------------------------------------------\n"
 
 #: scripts/update-alternatives.pl:563
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr ""
+"Tryck Enter för att behålla standardvärdet[*], eller ange ett urvalsnummer: "
 
 #: scripts/update-alternatives.pl:577 scripts/update-alternatives.pl:614
 #, perl-format
 msgid "Using `%s' to provide `%s'."
-msgstr ""
+msgstr "Låter \"%s\" tillhandahålla \"%s\"."
 
 #: scripts/update-alternatives.pl:612
 #, perl-format
 msgid "Cannot find alternative `%s'."
-msgstr ""
+msgstr "Hittar inte alternativet \"%s\"."
 
 #: scripts/update-alternatives.pl:635 scripts/update-alternatives.pl:638
-#, fuzzy, perl-format
+#, perl-format
 msgid "error writing stdout: %s"
-msgstr "fel vid skrivning av \"%s\""
+msgstr "fel vid skrivning till stdout: %s"
 
 #: scripts/update-alternatives.pl:637
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
-msgstr ""
+msgstr "nyradstecken tillåts inte i update-alternatives-file (%s)"
 
 #: scripts/update-alternatives.pl:642
-#, fuzzy, perl-format
+#, perl-format
 msgid "error or eof reading %s for %s (%s)"
-msgstr "fel vid läsning av %s från filen %.255s"
+msgstr "fel eller filslut vid läsning av %s för %s (%s)"
 
 #: scripts/update-alternatives.pl:643
-#, fuzzy, perl-format
+#, perl-format
 msgid "missing newline after %s"
-msgstr "filen \"%.250s\" är trasig - nyradstecken saknas efter %.250s"
+msgstr "saknat nyradstecken efter %s"
 
 #: scripts/update-alternatives.pl:663
 #, perl-format
 msgid "Serious problem: %s"
-msgstr ""
+msgstr "Allvarligt problem: %s"
 
 #~ msgid "version a has bad syntax: %s\n"
 #~ msgstr "version a har felaktig syntax: %s\n"
