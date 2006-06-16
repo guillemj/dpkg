@@ -555,7 +555,7 @@ sub config_message {
                      "-----------------------------------------------\n"),
                   $#versions+1, $name);
     for ($i=0; $i<=$#versions; $i++) {
-	printf(STDOUT "%s%s    %s        %s\n", 
+	printf(STDOUT "%s%s %8s    %s\n",
 	    (readlink("$altdir/$name") eq $versions[$i]) ? '*' : ' ',
 	    ($best eq $versions[$i]) ? '+' : ' ',
 	    $i+1, $versions[$i]);
