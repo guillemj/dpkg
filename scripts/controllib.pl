@@ -304,7 +304,10 @@ sub parsechangelog {
     }
     &parsecdata('L',0,_g("parsed version of changelog"));
     close(CDATA); $? && &subprocerr(_g("parse changelog"));
+}
 
+sub init_substvars
+{
     # XXX: Source-Version is now deprecated, remove in the future.
     $substvar{'Source-Version'}= $fi{"L Version"};
     $substvar{'binary:Version'} = $fi{"L Version"};
@@ -312,6 +315,11 @@ sub parsechangelog {
     $substvar{'source:Version'} =~ s/\+b[0-9]+$//;
     $substvar{'source:Upstream-Version'} = $fi{"L Version"};
     $substvar{'source:Upstream-Version'} =~ s/-[^-]*$//;
+
+    # We expect the calling program to set $version.
+    $substvar{"dpkg:Version"} = $version;
+    $substvar{"dpkg:Upstream-Version"} = $version;
+    $substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;
 }
 
 sub checkpackagename {

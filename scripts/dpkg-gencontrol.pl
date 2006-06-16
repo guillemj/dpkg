@@ -187,9 +187,7 @@ for $_ (keys %fi) {
 
 $f{'Version'}= $forceversion if length($forceversion);
 
-$substvar{"dpkg:Version"} = $version;
-$substvar{"dpkg:Upstream-Version"} = $version;
-$substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;
+&init_substvars;
 
 for $_ (keys %fi) {
     $v= $fi{$_};
@@ -226,7 +224,8 @@ for $f (qw(Maintainer Description Architecture)) {
 }
 $oppackage= $f{'Package'};
 
-$verdiff= $f{'Version'} ne $sourceversion;
+$verdiff = $f{'Version'} ne $substvar{'source:Version'} or
+           $f{'Version'} ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
     $f{'Source'}= $sourcepackage;
     $f{'Source'}.= " ($substvar{'source:Version'})" if $verdiff;

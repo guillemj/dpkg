@@ -1,3 +1,16 @@
+2006-06-16  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (parsechangelog): Move substvar initialization
+	to ...
+	(init_substvars): ... here. New function. Move the dpkg substvars
+	initialization to this function.
+	* scripts/dpkg-source.pl: Call init_substvars after parsechangelog.
+	* scripts/dpkg-genchanges.pl: Replace setting dpkg substvars with
+	init_substvars. If the version field or the one forced from command
+	line differs from the substvar, add the later to the output Source
+	field inside parenthesis.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+
 2006-06-16  Andrew Ferrier  <andrew@new-destiny.co.uk>
 	    Guillem Jover  <guillem@debian.org>
 

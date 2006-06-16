@@ -272,12 +272,7 @@ for $p (keys %p2f) {
                                  $p, $pri, $f2pri{$f}));
 }
 
-# Extract version and origversion so we can add them to our fixed list
-# of substvars
-
-$substvar{"dpkg:Version"} = $version;
-$substvar{"dpkg:Upstream-Version"} = $version;
-$substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;
+&init_substvars;
 
 if (!$binaryonly) {
     $sec= $sourcedefault{'Section'};
@@ -353,6 +348,9 @@ for $f (@sourcefiles,@fileslistfiles) {
 }    
 
 $f{'Source'}= $sourcepackage;
+if ($f{'Version'} ne $substvar{'source:Version'}) {
+    $f{'Source'} .= " ($substvar{'source:Version'})";
+}
 
 $f{'Maintainer'}= $forcemaint if length($forcemaint);
 $f{'Changed-By'}= $forcechangedby if length($forcechangedby);

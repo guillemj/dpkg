@@ -194,6 +194,7 @@ if ($opmode eq 'build') {
     &parsechangelog;
     &parsecontrolfile;
     $f{"Format"}=$def_dscformat;
+    &init_substvars;
 
     $archspecific=0;
     for $_ (keys %fi) {
