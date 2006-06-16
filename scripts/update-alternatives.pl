@@ -64,10 +64,14 @@ Commands:
   --set <name> <path>      set <path> as alternative for <name>.
   --all                    call --config on all alternatives.
 
-<name> is the name in /etc/alternatives.
-<path> is the name referred to.
-<link> is the link pointing to /etc/alternatives/<name>.
-<priority> is an integer; options with higher numbers are chosen.
+<link> is the symlink pointing to /etc/alternatives/<name>.
+  (e.g. /usr/bin/pager)
+<name> is the master name for this link group.
+  (e.g. pager)
+<path> is the location of one of the alternative target files.
+  (e.g. /usr/bin/less)
+<priority> is an integer; options with higher numbers have higher priority in
+  automatic mode.
 
 Options:
   --altdir <directory>     change the alternatives directory.
