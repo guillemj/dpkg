@@ -243,7 +243,7 @@ if ($opmode eq 'build') {
             } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
                      m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/i ||
                      m/^(Enhances|Description|Section|Priority)$/i ||
-                     m/^X[CS]+-/i) {
+                     m/^X[BC]+-/i) {
             } else {
                 &unknown(_g("package's section of control info file"));
             }
