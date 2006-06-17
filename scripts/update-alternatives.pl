@@ -53,7 +53,7 @@ sub usage {
 Commands:
   --install <link> <name> <path> <priority>
     [--slave <link> <name> <path>] ...
-                           add a group of alternativse to the system.
+                           add a group of alternatives to the system.
   --remove <name> <path>   remove <path> from the <name> group alternative.
   --remove-all <name>      remove <name> group from the alternatives system.
   --auto <name>            switch the master link <name> to automatic mode.
