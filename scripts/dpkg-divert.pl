@@ -276,5 +276,5 @@ sub infoa { &infol($file,$divertto,$package); }
 sub infon { &infol($contest[$i],$altname[$i],$package[$i]); }
 
 sub quit { printf STDERR _g("dpkg-divert: %s")."\n", "@_"; exit(2); }
-sub badusage { printf STDERR _g("dpkg-divert: %s")."\n\n", "@_"; print(_g("You need --help").".\n"); exit(2); }
+sub badusage { printf STDERR _g("dpkg-divert: %s")."\n\n", "@_"; print(_g("You need --help.")."\n"); exit(2); }
 sub badfmt { &quit(sprintf(_g("internal error: %s corrupt: %s"), "$admindir/diversions", $_[0])); }

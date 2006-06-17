@@ -141,7 +141,7 @@ if ($mode eq "add") {
 	    }
 	}
 } elsif ($mode eq "remove") {
-	@ARGV==1 || &badusage(_g("--remove needs one arguments"));
+	@ARGV==1 || &badusage(_g("--remove needs a single argument"));
 	$file=$ARGV[0];
 	$file =~ s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 	if (not defined $owner{$file}) {
