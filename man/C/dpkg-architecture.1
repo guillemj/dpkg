@@ -1,4 +1,4 @@
-.TH dpkg\-architecture 1 "2006-05-23" "Debian Project" "dpkg utilities"
+.TH dpkg\-architecture 1 "2006-06-17" "Debian Project" "dpkg utilities"
 .SH "NAME"
 dpkg\-architecture \- set and determine the architecture for package building
 .
@@ -44,12 +44,16 @@ Print the environment variables, one each line, in the format
 \fIVARIABLE=value\fP. This is the default action.
 .TP
 .BI \-e debian-architecture
-Check for equality between two Debian Architectures, by default it will
-compare against the current Debian Architecture, being it the host.
+Check for equality of architecture. By default \fIdebian-architecture\fP
+is compared against the current Debian architecture, being the host.
+This option will not expand the architecture wildcards. Command finishes
+with an exit status of 0 if matched, 1 if not matched.
 .TP
-.BI \-i architecture-alias
-Check for identity of the current Debian Architecture against an
-Architecture Alias.
+.BI \-i architecture-wildcard
+Check for identity of architecture by expanding \fIarchitecture-wildcard\fP
+as an architecture wildcard and comparing against the current Debian
+architecture. Command finishes with an exit status of 0 if matched, 1 if
+not matched.
 .TP
 .BI \-q variable-Name
 Print the value of a single variable.
@@ -79,14 +83,14 @@ Print program version.
 The machine the package is built on.
 .IP "host machine" 4
 The machine the package is built for.
-.IP "Debian Architecture" 4
+.IP "Debian architecture" 4
 The Debian architecture string, which specifies the binary tree in the
 \s-1FTP\s0 archive. Examples: i386, sparc, hurd\-i386.
-.IP "Architecture Alias" 4
-An architecture alias is a wildcard architecture that will match any real
-architecture being part of it. The general form is <kernel>\-<cpu>.
+.IP "architecture wildcard" 4
+An architecture wildcard is a special architecture string that will match
+any real architecture being part of it. The general form is <kernel>\-<cpu>.
 Examples: linux\-any, linux\-alpha, any\-i386, hurd\-any.
-.IP "\s-1GNU\s0 System Type" 4
+.IP "\s-1GNU\s0 system type" 4
 An architecture specification string consisting of two parts,
 cpu-system. Examples: i386\-linux\-gnu, sparc\-linux\-gnu, i386\-gnu,
 x86_64\-netbsd.
@@ -98,6 +102,18 @@ x86_64\-netbsd.
 CC=i386\-gnu\-gcc dpkg\-architecture \f(CW\*(C`\-c\*(C'\fR debian/rules build
 .PP
 eval \`dpkg\-architecture \f(CW\*(C`\-u\*(C'\fR\`
+.PP
+Check if the current architecture or a given one are equal:
+.PP
+dpkg\-architecture \-elinux\-alpha
+.PP
+dpkg\-architecture \-amips \-elinux\-mips
+.PP
+Check if the current architecture or a given one are Linux systems:
+.PP
+dpkg\-architecture \-ilinux\-any
+.PP
+dpkg\-architecture \-ai386 \-ilinux\-any
 .
 .SH "VARIABLES"
 The following variables are set by \fBdpkg\-architecture\fP:
@@ -182,7 +198,7 @@ Debian architectures which don't equal a processor name.
 .
 .SH "BACKWARD COMPATIBILITY"
 The DEB_HOST_ARCH_CPU and DEB_HOST_ARCH_OS variables were only introduced
-in relatively recent versions of \fBdpkg-architecture\fR (since dpkg 1.13.2),
+in relatively recent versions of \fBdpkg\-architecture\fR (since dpkg 1.13.2),
 before this \fIdebian/rules\fR files tended to check the values of the
 DEB_HOST_GNU_CPU or DEB_HOST_GNU_TYPE variables which have been subject
 to change.
@@ -241,6 +257,9 @@ Debian architecture, `DEB_HOST_ARCH=\`dpkg \-\-print\-architecture\`'
 is sufficient (this is indeed the Debian architecture of the build machine,
 but remember that we are only trying to be backward compatible with native
 compilation).
+.PP
+The \fB\-e\fP and \fB\-i\fP options were only introduced in relatively recent
+versions of \fBdpkg\-architecture\fR (since dpkg 1.13.13),
 .
 .SH "SEE ALSO"
 .BR dpkg\-buildpackage (1),
