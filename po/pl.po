@@ -3,10 +3,10 @@
 # Piotr Roszatycki <dexter@debian.org>, 1999.
 # Bartosz Feñski <fenio@debian.org>, 2004-2005
 msgid ""
-msgstr "Project-Id-Version: dpkg 1.13.19\n"
+msgstr "Project-Id-Version: dpkg 1.13.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-06-02 03:58+0300\n"
-"PO-Revision-Date: 2006-06-17 21:14+0300\n"
+"PO-Revision-Date: 2006-06-18 20:30+0200\n"
 "Last-Translator: Robert Luberda <robert@debian.org>\n"
 "Language-Team: Polish <pddp@debian.linux.org.pl>\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
@@ -4345,7 +4345,7 @@ msgstr "\n"
 "Brak JAKIEJKOLWIEK gwarancji.\n"
 
 #: scripts/cleanup-info.pl:49
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] [--] [<dirname>]\n"
 "\n"
@@ -4358,8 +4358,8 @@ msgstr ""
 "U¿ycie: %s [<opcja> ...] [--] [<katalog>]\n"
 "\n"
 "Opcje:\n"
-"  --unsafe     set some additional possibly useful options.\n"
-"               warning: this option may garble an otherwise correct file.\n"
+"  --unsafe     ustawia kilka dodatkowych opcji, które mog± byæ u¿yteczne.\n"
+"               uwaga: ta opcja mo¿e zniszczyæ poprawny plik.\n"
 "  --help       pokazuje ten komunikat pomocy.\n"
 "  --version    pokazuje informacje o wersji programu.\n"
 
@@ -4481,21 +4481,20 @@ msgstr ""
 "U¿ycie: %s [<opcja> ...] <polecenie>\n"
 "\n"
 "Polecenia:\n"
-"  [--add] <plik>           add a diversion.\n"
-"  --remove <plik>          remove the diversion.\n"
-"  --list [<wzorzec-glob>]  show file diversions.\n"
-"  --truename <plik>        return the diverted file.\n"
+"  [--add] <plik>           dodaje ominiêcie.\n"
+"  --remove <plik>          usuwa ominiêcie.\n"
+"  --list [<wzorzec-glob>]  pokazuje ominiêcia pliku.\n"
+"  --truename <plik>        zwraca ominiêty plik.\n"
 "\n"
 "Opcje:\n"
-"  --package <pakiet>       name of the package whose copy of <file> will "
-"not\n"
-"                             be diverted.\n"
-"  --local                  all packages' versions are diverted.\n"
-"  --divert <divert-to>     the name used by other packages' versions.\n"
-"  --rename                 actually move the file aside (or back).\n"
+"  --package <pakiet>       nazwa pakietu, którego kopia <pliku> nie\n"
+"                            bêdzie ominiêta.\n"
+"  --local                  wszystkie wersje pakietu s± omijane.\n"
+"  --divert <divert-to>     nazwa u¿ywane przez wersje innych pakietów.\n"
+"  --rename                 actually move the file aside (or back).\n.\n"
 "  --admindir <katalog>     set the directory with the diversions file.\n"
 "  --test                   nic nie robi, tylko pokazuje, co by³oby zrobione.\n"
-"  --quiet                  quiet operation, minimal output.\n"
+"  --quiet                  tryb cichy, komunikaty ograniczone do minimum.\n"
 "  --help                   wy¶wietla ten komunikat pomocy\n"
 "  --version                wy¶wietla informacje o wersji.\n"
 "\n"
@@ -4562,9 +4561,8 @@ msgid "file may not contain newlines"
 msgstr "plik nie mo¿e zawieraæ znaków nowej linii"
 
 #: scripts/dpkg-divert.pl:129
-#, fuzzy
 msgid "Cannot divert directories"
-msgstr "nie mo¿na odczytaæ katalogu informacyjnego"
+msgstr "Nie mo¿na omijaæ katalogów"
 
 #: scripts/dpkg-divert.pl:138
 #, perl-format
@@ -4613,7 +4611,7 @@ msgstr "Usuwanie `%s'"
 #: scripts/dpkg-divert.pl:176
 #, perl-format
 msgid "No diversion `%s', none removed"
-msgstr ""
+msgstr "Brak ominiêcia `%s', nic nie usuniêto"
 
 #: scripts/dpkg-divert.pl:195
 msgid "--truename needs a single argument"
@@ -4644,7 +4642,8 @@ msgstr "b³±d sprawdzania `%s': %s"
 msgid ""
 "rename involves overwriting `%s' with\n"
 "  different file `%s', not allowed"
-msgstr ""
+msgstr "zmiana nazwy oznacza nadpisanie `%s' \n"
+"  innym plikiem `%s', co nie jest dozwolone"
 
 #: scripts/dpkg-divert.pl:251
 #, perl-format
@@ -4674,7 +4673,7 @@ msgstr "zamykanie pliku diversions-new: %s"
 #: scripts/dpkg-divert.pl:268
 #, perl-format
 msgid "remove old diversions-old: %s"
-msgstr ""
+msgstr "usuwanie starego pliku diversions-old: %s"
 
 #: scripts/dpkg-divert.pl:270
 #, perl-format
@@ -4727,6 +4726,21 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"U¿ycie: %s [<opcja> ...] <polecenie>\n"
+"\n"
+"Polecenia:\n"
+"  --add <w³a¶ciciel> <grupa> <tryb> <plik>\n"
+"                           dodaje nowy wpis do bazy danych.\n"
+"  --remove <plik>          usuwa plik z bazy danych.\n"
+"  --list [<wzorzec-glob>]  wy¶wietla bie¿±ce nadpisania z bazy danych.\n"
+"\n"
+"Opcje:\n"
+"  --admindir <katalog>     ustawia katalog zawieraj±cy plik statoverride.\n"
+"  --update                 natychmiast aktualizuje prawa do pliku.\n"
+"  --force                  wymusza akcjê, nawet je¿eli testy by zabroni³y.\n"
+"  --quiet                  tryb cichy, komunikaty ograniczone do minimum.\n"
+"  --help                   wy¶wietla ten komunikat pomocy\n"
+"  --version                wy¶wietla informacje o wersji.\n"
 
 #: scripts/dpkg-statoverride.pl:93
 msgid "no mode specified"
@@ -4854,7 +4868,7 @@ msgstr ""
 "Copyright (C) 1994,1995 Ian Jackson."
 
 #: scripts/install-info.pl:32
-#, perl-format
+#, fuzzy perl-format
 msgid ""
 "Usage: %s [<options> ...] [--] <filename>\n"
 "\n"
@@ -4880,6 +4894,28 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"U¿ycie: %s [<opcje> ...] [--] <nazwa_pliku>\n"
+"\n"
+"Opcje:\n"
+"  --section <regexp> <tytu³>\n"
+"                           wstawia nowy wpis w sekcji pasuj±cej do <regex> lub\n"
+"                           tworzy nowy o zadanym <tytule>, je¶li nie istnieje.\n"
+""
+"  --menuentry=<tekst>      ustawia wpis w menu.\n"
+"  --description=<tekst>    ustawia opis u¿ywany w wpisie w menu "
+"  --info-file=<¶cie¿ka>    okre¶la plik info do zainstalowanie w katalogu.\n"
+"  --dir-file=<¶cie¿ka>     okre¶la nazwê pliku katalogu info.\n"
+"  --infodir=<katalog>      to samo co '--dir-file=<katalog>/dir'.\n"
+"  --info-dir=<katalog>     jak wy¿ej.\n"
+"  --keep-old               do not replace entries nor remove empty ones.\n"
+"  --remove                 remove the entry specified by <filename> "
+"basename.\n"
+"  --remove-exactly         remove the exact <filename> entry.\n"
+"  --test                   w³±cza tryb testowy (nie wykonuje ¿adnych akcji).\n"
+"  --debug                  w³±cza tryb debugowania (pokazuje wiêcej info).\n"
+"  --quiet                  nie wy¶wietla ¿adnych komunikatów na wyj¶ciu.\n"
+"  --help                   wy¶wietla ten komunikat pomocy\n"
+"  --version                wy¶wietla informacje o wersji.\n"
 
 #: scripts/install-info.pl:98
 #, fuzzy, perl-format
@@ -4909,7 +4945,7 @@ msgstr "%s: --description ignorowany, bo podano --remove"
 #: scripts/install-info.pl:138
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
-msgstr ""
+msgstr "%s: tryb testowy - plik dir nie zostanie zaktualizowany"
 
 #: scripts/install-info.pl:192
 #, perl-format
@@ -4927,7 +4963,9 @@ msgid ""
 "\n"
 "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
 "%s: unable to determine description for `dir' entry - giving up\n"
-msgstr ""
+msgstr "\n"
+"Brak `START-INFO-DIR-ENTRY' oraz brak `This file documents'.\n"
+"%s: nie mo¿na znale¼æ opisu dla wpisu `dir' - przerywanie\n"
 
 #: scripts/install-info.pl:280
 #, perl-format
@@ -4947,12 +4985,12 @@ msgstr ""
 #: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no backup file %s available."
-msgstr ""
+msgstr "%s: brak pliku kopii zapasowej %s"
 
 #: scripts/install-info.pl:299
-#, perl-format
+#, fuzzy perl-format
 msgid "%s: no default file %s available, giving up."
-msgstr ""
+msgstr "%s: brak domy¶lnego pliku %s, podda"
 
 #: scripts/install-info.pl:308
 #, perl-format
@@ -4977,12 +5015,12 @@ msgstr "zamykanie %s po czytaniu: %s"
 #: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
+msgstr "%s: istniej±cy wpis dla `%s' nie zosta³ zast±piony"
 
 #: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
+msgstr "%s: zastêpowanie istniej±cego wpisu w pliku dir dla `%s'"
 
 #: scripts/install-info.pl:364
 #, perl-format
@@ -4997,7 +5035,7 @@ msgstr ""
 #: scripts/install-info.pl:385
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
-msgstr ""
+msgstr "%s: nie podano sekcji dla nowego wpisu, umieszczanie z ty³u"
 
 #: scripts/install-info.pl:422
 #, perl-format
@@ -5017,7 +5055,7 @@ msgstr "%s: usuwanie pustej sekcji `%s'"
 #: scripts/install-info.pl:438
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr ""
+msgstr "%s: brak wpisu dla pliku `%s' i wpisu w menu `%s'"
 
 #: scripts/install-info.pl:440
 #, perl-format
@@ -5040,9 +5078,9 @@ msgid "close %s: %s"
 msgstr "zamykanie %s: %s"
 
 #: scripts/install-info.pl:489
-#, perl-format
+#, fuzzy perl-format
 msgid "cannot backup old %s, giving up: %s"
-msgstr ""
+msgstr "nie mo¿na "
 
 #: scripts/install-info.pl:491
 #, perl-format
@@ -5055,9 +5093,9 @@ msgid "%s: unlock %s: %s"
 msgstr "%s: odblokowanie %s: %s"
 
 #: scripts/install-info.pl:496
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: couldn't backup %s in %s: %s"
-msgstr "nie mo¿na otworzyæ pliku dziennika `%s': %s\n"
+msgstr "%s: nie mo¿na utworzyæ kopii zapasowej %s w %s : %s"
 
 #: scripts/install-info.pl:508
 #, perl-format
@@ -5080,7 +5118,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:51
-#, fuzzy perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5119,31 +5157,30 @@ msgstr ""
 "Polecenia:\n"
 "  --install <link> <nazwa> <¶cie¿ka> <priorytet>\n"
 "    [--slave <link> <nazwa> <¶cie¿ka>] ...\n"
-"                             dodaje grupê alternatyw do systemu.\n"
+"                           dodaje grupê alternatyw do systemu.\n"
 "  --remove <nazwa> <¶cie¿ka> usuwa <¶cie¿kê> z grup alternatyw <nazwa>.\n"
-"  --remove-all <nazwa>       usuwa grupê <nazwa> z systemu alternatyw.\n "
-"  --auto <nazwa>             prze³±cza link g³ówny <nazwy> w tryb automat.\n"
-"  --display <nazwa>         display information about the <name> group.\n"
-"  --list <nazwa>            display all targets of the <name> group.\n"
-"  --config <nazwa>          show alternatives for the <name> group and ask "
-"the\n"
-"                           user to select which one to use.\n"
-"  --set <nazwa> <¶cie¿ka>      set <path> as alternative for <name>.\n"
-"  --all                    call --config on all alternatives.\n"
+"  --remove-all <nazwa>     usuwa grupê <nazwa> z systemu alternatyw.\n "
+"  --auto <nazwa>           prze³±cza link g³ówny <nazwy> w tryb automat.\n"
+"  --display <nazwa>        wy¶wietla informacje o grupie <nazwa>.\n"
+"  --list <nazwa>           wy¶wietla wszystkie cele w grupie <nazwa>.\n"
+"  --config <nazwa>         pokazuje alternatywy w grupie <nazwa > i prosi\n "
+"                            u¿ytkownika o wybranie jednej z nich.\n"
+"  --set <nazwa> <¶cie¿ka>  ustawia <¶cie¿kê> jako alternatywê dla <nazwy>.\n"
+"  --all                    wywo³uje --config dla wszystkich alternatyw.\n"
 "\n"
 "<nazwa> jest nazw± w /etc/alternatives.\n"
-"<¶cie¿ka> is the name referred to.\n.\n"
-"<link> is the link pointing to /etc/alternatives/<nazwa>.\n"
-"<priorytet> is an integer; options with higher numbers are chosen.\n"
+"<¶cie¿ka> jest nazw±, do której siê odnosi.\n"
+"<link> jest dowi±zanie prowadz±cym do /etc/alternatives/<nazwa>.\n"
+"<priorytet> jest liczb±, wybierane s± opcje o wiêkszym priorytecie\n"
 "\n"
 "Opcje:\n"
-"  --altdir <katalog>       change the alternatives directory.\n"
-"  --admindir <katalog>     change the administrative directory.\n"
-"  --test                   don't do anything, just demonstrate.\n"
-"  --verbose                verbose operation, more output.\n"
-"  --quiet                  quiet operation, minimal output.\n"
-"  --help                   show this help message.\n"
-"  --version                show the version.\n"
+"  --altdir <katalog>       zmienia katalog alternatyw.\n"
+"  --admindir <katalog>     zmienia katalog administracyjny.\n"
+"  --test                   nic nie robi, pokazuje, co zosta³oby zrobione.\n"
+"  --verbose                tryb g³o¶ny, wiêcej komunikatów na wyj¶ciu.\n"
+"  --quiet                  tryb cichy, komunikaty ograniczone do minimum.\n"
+"  --help                   wy¶wietla ten komunikat pomocy\n"
+"  --version                wy¶wietla informacje o wersji.\n"
 
 #: scripts/update-alternatives.pl:82 scripts/update-alternatives.pl:83
 #, perl-format
@@ -5276,12 +5313,12 @@ msgstr " link obecnie wskazuje na %s"
 
 #: scripts/update-alternatives.pl:208
 msgid " link currently absent"
-msgstr ""
+msgstr " obecnie brak dowi±zania"
 
 #: scripts/update-alternatives.pl:210
-#, fuzzy perl-format
+#, perl-format
 msgid " link unreadable - %s"
-msgstr " link"
+msgstr " nie mo¿na odczytaæ dowi±zania - %s"
 
 #: scripts/update-alternatives.pl:217
 #, perl-format
@@ -5294,9 +5331,8 @@ msgid " slave %s: %s"
 msgstr ""
 
 #: scripts/update-alternatives.pl:224
-#, fuzzy
 msgid "No versions available."
-msgstr "(brak dostêpnego opisu)"
+msgstr "¯adna wersja nie jest dostêpna."
 
 #: scripts/update-alternatives.pl:226
 #, perl-format
@@ -5306,7 +5342,7 @@ msgstr "Obecnie `najlepsz±' wersj± jest %s."
 #: scripts/update-alternatives.pl:285
 #, perl-format
 msgid "Setting up automatic selection of %s."
-msgstr ""
+msgstr "Ustawianie automatycznego wybierania %s"
 
 #: scripts/update-alternatives.pl:288 scripts/update-alternatives.pl:290
 #: scripts/update-alternatives.pl:398 scripts/update-alternatives.pl:400
@@ -5314,24 +5350,25 @@ msgstr ""
 #: scripts/update-alternatives.pl:468 scripts/update-alternatives.pl:470
 #: scripts/update-alternatives.pl:526 scripts/update-alternatives.pl:528
 #: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:630
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to remove %s: %s"
 msgstr "nie mo¿na usun±æ %s: %s"
 
 #: scripts/update-alternatives.pl:301
-#, fuzzy perl-format
+#, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
 "Switching to manual updates only."
 msgstr "%s zosta³ zmieniony (rêcznie lub przez skrypt).\n"
-"Prze³±czanie do trybu rêcznych aktualizacji"
+"Prze³±czanie do trybu rêcznych aktualizacji."
 
 #: scripts/update-alternatives.pl:313
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
 "(You may modify the symlinks there yourself if desired - see `man ln'.)"
-msgstr ""
+msgstr "Sprawdzanie dostêpnych wersji %s, aktualizowanie dowi±zañ w %s...\n"
+"(Mo¿esz zmieniæ dowi±zania symboliczne samemu, je¶li chcesz - patrz `man ln')."
 
 #: scripts/update-alternatives.pl:319
 #, fuzzy perl-format
@@ -5371,12 +5408,12 @@ msgstr ""
 #: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
-msgstr ""
+msgstr "Automatyczne aktualizacje %s s± wy³±czone, zostawianie go bez zmian."
 
 #: scripts/update-alternatives.pl:418
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
-msgstr ""
+msgstr "Aby powróciæ do aktualizacji automatycznych, u¿yj `update-alternatives --auto %s'."
 
 #: scripts/update-alternatives.pl:422
 #, perl-format
@@ -5403,13 +5440,14 @@ msgstr "Usuniêto ostatni pakiet dostarczaj±cy %s (%s), usuwanie jej."
 msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
 " (or nonexistent); however, readlink failed: %s"
-msgstr ""
+msgstr "ostrze¿enie: %s powinien byæ dowi±zaniem symbolicznym do %s\n"
+" (lub powinien nie istnieæ); jednak¿e readlink zwróci³ b³±d: %s"
 
 #: scripts/update-alternatives.pl:479 scripts/update-alternatives.pl:493
 #: scripts/update-alternatives.pl:513 scripts/update-alternatives.pl:521
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to ensure %s nonexistent: %s"
-msgstr "nie mo¿na wykonaæ nowego %s"
+msgstr "nie mo¿na usun±æ %s: %s"
 
 #: scripts/update-alternatives.pl:481 scripts/update-alternatives.pl:515
 #: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:580
@@ -5421,7 +5459,7 @@ msgstr "nie mo¿na zrobiæ %s dowi±zaniem symbolicznym do %s: %s"
 #: scripts/update-alternatives.pl:483 scripts/update-alternatives.pl:517
 #: scripts/update-alternatives.pl:540 scripts/update-alternatives.pl:582
 #: scripts/update-alternatives.pl:618 scripts/update-alternatives.pl:660
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install %s as %s: %s"
 msgstr "nie mo¿na zainstalowaæ %s jako %s: %s"
 
@@ -5467,7 +5505,8 @@ msgid ""
 "There are %s alternatives which provide `%s'.\n"
 "\n"
 " "
-msgstr ""
+msgstr "Istnieje %s alternatyw, które dostarczaj± `%s'.\n"
+"\n "
 
 #: scripts/update-alternatives.pl:563
 msgid "Press enter to keep the default[*], or type selection number: "
