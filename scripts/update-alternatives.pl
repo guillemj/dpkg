@@ -83,8 +83,19 @@ Options:
   --version                show the version.
 "), $0;
 }
-sub quit {printf STDERR _g("update-alternatives: %s")."\n", "@_"; exit(2);}
-sub badusage { printf STDERR _g("update-alternatives: %s")."\n\n", "@_"; &usage; exit(2); }
+
+sub quit
+{
+    printf STDERR "%s: %s\n", $0, "@_";
+    exit(2);
+}
+
+sub badusage
+{
+    printf STDERR "%s: %s\n\n", $0, "@_";
+    &usage;
+    exit(2);
+}
 
 $altdir= '/etc/alternatives';
 $admindir= $admindir . '/alternatives';
@@ -138,10 +149,10 @@ while (@ARGV) {
         $aslavelink{$sname}= $slink;
         $aslavepath{$sname}= $spath;
     } elsif (m/^--altdir$/) {
-        @ARGV || &badusage(_g("--altdir needs a <directory> argument"));
+        @ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "altdir"));
         $altdir= shift(@ARGV);
     } elsif (m/^--admindir$/) {
-        @ARGV || &badusage(_g("--admindir needs a <directory> argument"));
+        @ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
         $admindir= shift(@ARGV);
     } elsif (m/^--all$/) {
         $mode = 'all';
@@ -197,7 +208,7 @@ if (open(AF,"$admindir/$name")) {
     close(AF);
     $dataread=1;
 } elsif ($! != &ENOENT) {
-    &quit(sprintf(_g("failed to open %s: %s"), "$admindir/$name", $!));
+    &quit(sprintf(_g("unable to open %s: %s"), "$admindir/$name", $!));
 }
 
 if ($mode eq 'display') {
@@ -504,7 +515,7 @@ rename_mv("$admindir/$name.dpkg-new","$admindir/$name") ||
 
 if ($manual eq 'auto') {
     rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-        &quit(sprintf(_g("unable to install %s as %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name"));
+        &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
     for ($j=0; $j<=$#slavenames; $j++) {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];

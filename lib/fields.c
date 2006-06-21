@@ -411,10 +411,10 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
         while (isspace(*p)) p++;
         if (*p == '(') parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
-                                "version contains `('"),fip->name,depname);
+                                "version contains `%c'"), fip->name,depname, ')');
 	else if (*p != ')') parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                 _("`%s' field, reference to `%.255s': "
-                                "version contains ` '"),fip->name,depname);
+                                "version contains `%c'"), fip->name,depname, ' ');
         else if (*p == 0) parseerr(NULL,filename,lno, warnto,warncount,pigp,0,
                                    _("`%s' field, reference to `%.255s': "
                                    "version unterminated"),fip->name,depname);

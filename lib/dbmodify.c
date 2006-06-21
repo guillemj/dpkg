@@ -107,7 +107,8 @@ static void createimptmp(void) {
   onerr_abort++;
   
   importanttmp= fopen(importanttmpfile,"w");
-  if (!importanttmp) ohshite(_("unable to create %.250s"),importanttmpfile);
+  if (!importanttmp)
+    ohshite(_("unable to create `%.255s'"), importanttmpfile);
   setcloexec(fileno(importanttmp),importanttmpfile);
   for (i=0; i<512; i++) fputs("#padding\n",importanttmp);
   if (ferror(importanttmp))

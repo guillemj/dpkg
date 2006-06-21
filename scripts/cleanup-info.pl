@@ -65,7 +65,7 @@ sub ulquit {
     unlink "$infodir/dir.lock"
 	or warn sprintf(_g("%s: warning - unable to unlock %s: %s"),
 	                $name, "$infodir/dir", $!)."\n";
-    die $_[0];
+    die "$name: $_[0]";
 }
 
 while (scalar @ARGV > 0 && $ARGV[0] =~ /^--/) {
@@ -104,11 +104,9 @@ if (!link "$infodir/dir", "$infodir/dir.lock") {
                                   "$infodir/dir.lock")."\n" : '');
 }
 open OLD, "$infodir/dir"
-    or ulquit sprintf(_g("%s: can't open %s: %s"),
-                      $name, "$infodir/dir", $!)."\n";
+    or ulquit sprintf(_g("unable to open %s: %s"), "$infodir/dir", $!)."\n";
 open OUT, ">$infodir/dir.new"
-    or ulquit sprintf(_g("%s: can't create %s: %s"),
-                      $name, "$infodir/dir.new", $!)."\n";
+    or ulquit sprintf(_g("unable to create %s: %s"), "$infodir/dir.new", $!)."\n";
 
 my (%sections, @section_list, $lastline);
 my $section="Miscellaneous";	# default section
@@ -119,8 +117,8 @@ while (<OLD>) {				# dump the non entries part
     last if (/$waitfor/oi);
     if (defined $lastline) {
 	print OUT $lastline
-	    or ulquit sprintf(_g("%s: error writing %s: %s"),
-	                      $name, "$infodir/dir.new", $!)."\n";
+	    or ulquit sprintf(_g("unable to write %s: %s"),
+				 "$infodir/dir.new", $!)."\n";
     }
     $lastline = $_;
 };
@@ -159,26 +157,25 @@ foreach (<OLD>) {		# collect sections
     }
 }
 
-eof OLD or ulquit sprintf(_g("%s: read %s: %s"),
-                          $name, "$infodir/dir", $!)."\n";
-close OLD or ulquit sprintf(_g("%s: close %s after read: %s"),
-                            $name, "$infodir/dir", $!)."\n";
+eof OLD or ulquit sprintf(_g("unable to read %s: %s"), "$infodir/dir", $!)."\n";
+close OLD or ulquit sprintf(_g("unable to close %s after read: %s"),
+                               "$infodir/dir", $!)."\n";
 
 print OUT @sections{@section_list};
-close OUT or ulquit sprintf(_g("%s: error closing %s: %s"),
-                            $name, "$infodir/dir.new", $!)."\n";
+close OUT or ulquit sprintf(_g("unable to close %s: %s"),
+                               "$infodir/dir.new", $!)."\n";
 
 # install clean version
 unlink "$infodir/dir.old";
 link "$infodir/dir", "$infodir/dir.old"
-    or ulquit sprintf(_g("%s: can't backup old %s, giving up: %s"),
-                      $name, "$infodir/dir", $!)."\n";
+    or ulquit sprintf(_g("unable to backup old %s, giving up: %s"),
+                         "$infodir/dir", $!)."\n";
 rename "$infodir/dir.new", "$infodir/dir"
-    or ulquit sprintf(_g("%s: failed to install %s; I'll leave it as %s: %s"),
-                      $name, "$infodir/dir", "$infodir/dir.new", $!)."\n";
+    or ulquit sprintf(_g("failed to install %s; it will be left as %s: %s"),
+                         "$infodir/dir", "$infodir/dir.new", $!)."\n";
 
 unlink "$infodir/dir.lock"
-    or die sprintf(_g("%s: failed to unlock %s: %s"),
+    or die sprintf(_g("%s: unable to unlock %s: %s"),
                    $name, "$infodir/dir", $!)."\n";
 
 exit 0;

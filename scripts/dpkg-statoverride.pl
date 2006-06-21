@@ -71,7 +71,7 @@ while (@ARGV) {
 	} elsif (m/^--force$/) {
 		$doforce=1;
 	} elsif (m/^--admindir$/) {
-		@ARGV || &badusage(_g("--admindir needs a directory argument"));
+		@ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
 		$admindir= shift(@ARGV);
 	} elsif (m/^--add$/) {
 		&CheckModeConflict;
@@ -121,7 +121,7 @@ if ($mode eq "add") {
 	if (defined $owner{$file}) {
 		printf STDERR _g("An override for \"%s\" already exists, "), $file;
 		if ($doforce) {
-			print STDERR _g("but --force specified so lets ignore it.")."\n";
+			print STDERR _g("but --force specified so will be ignored.")."\n";
 		} else {
 			print STDERR _g("aborting")."\n";
 			exit(3);
@@ -141,7 +141,7 @@ if ($mode eq "add") {
 	    }
 	}
 } elsif ($mode eq "remove") {
-	@ARGV==1 || &badusage(_g("--remove needs a single argument"));
+	@ARGV==1 || &badusage(sprintf(_g("--%s needs a single argument"), "remove"));
 	$file=$ARGV[0];
 	$file =~ s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 	if (not defined $owner{$file}) {
@@ -213,7 +213,17 @@ sub WriteOverrides {
 }
 
 
-sub quit { printf STDERR _g("dpkg-statoverride: %s")."\n", "@_"; exit(2); }
-sub badusage { printf STDERR _g("dpkg-statoverride: %s")."\n\n", "@_"; print(_g("You need --help.")."\n"); exit(2); }
+sub quit
+{
+	printf STDERR "%s: %s\n", $0, "@_";
+	exit(2);
+}
+
+sub badusage
+{
+	printf STDERR "%s: %s\n\n", $0, "@_";
+	&usage;
+	exit(2);
+}
 
 # vi: ts=8 sw=8 ai si cindent

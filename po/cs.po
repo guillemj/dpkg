@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-06-02 03:58+0300\n"
+"POT-Creation-Date: 2006-06-21 07:26+0300\n"
 "PO-Revision-Date: 2006-06-02 14:35+0200\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
@@ -170,74 +170,74 @@ msgstr "nelze zjistit obsah adresáře s aktualizacemi `%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "selhalo odstranění spojeného aktualizačního souboru %.255s"
 
-#: lib/dbmodify.c:110
+#: lib/dbmodify.c:111 src/archives.c:600 dpkg-deb/build.c:317
 #, c-format
-msgid "unable to create %.250s"
-msgstr "nelze vytvořit %.250s"
+msgid "unable to create `%.255s'"
+msgstr "nelze vytvořit `%.255s'"
 
-#: lib/dbmodify.c:114
+#: lib/dbmodify.c:115
 #, c-format
 msgid "unable to fill %.250s with padding"
 msgstr "nemohu dorovnat %.250s"
 
-#: lib/dbmodify.c:116
+#: lib/dbmodify.c:117
 #, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "nemohu vyprázdnit %.250s"
 
-#: lib/dbmodify.c:118
+#: lib/dbmodify.c:119
 #, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "nemohu se přesunout na začátek %.250s"
 
-#: lib/dbmodify.c:149
+#: lib/dbmodify.c:150
 msgid "requested operation requires superuser privilege"
 msgstr "požadovaná operace vyžaduje superuživatelská práva"
 
-#: lib/dbmodify.c:154
+#: lib/dbmodify.c:155
 msgid "unable to access dpkg status area"
 msgstr "ke stavové oblasti dpkg nelze přistoupit"
 
-#: lib/dbmodify.c:156
+#: lib/dbmodify.c:157
 msgid "operation requires read/write access to dpkg status area"
 msgstr "operace požaduje zápisová práva do stavové oblasti dpkg"
 
-#: lib/dbmodify.c:204
+#: lib/dbmodify.c:205
 #, c-format
 msgid "failed to remove my own update file %.255s"
 msgstr "nemohu odstranit svůj vlastní soubor s aktualizacemi %.255s"
 
-#: lib/dbmodify.c:261
+#: lib/dbmodify.c:262
 #, c-format
 msgid "unable to write updated status of `%.250s'"
 msgstr "nelze zapsat změněný stav balíku `%.250s'"
 
-#: lib/dbmodify.c:263
+#: lib/dbmodify.c:264
 #, c-format
 msgid "unable to flush updated status of `%.250s'"
 msgstr "nemohu vyprázdnit aktualizovaný stav `%.250s'"
 
-#: lib/dbmodify.c:265
+#: lib/dbmodify.c:266
 #, c-format
 msgid "unable to truncate for updated status of `%.250s'"
 msgstr "nelze zkrátit pro aktualizovaný stav `%.250s'"
 
-#: lib/dbmodify.c:267
+#: lib/dbmodify.c:268
 #, c-format
 msgid "unable to fsync updated status of `%.250s'"
 msgstr "nelze synchronizovat aktualizovaný stav `%.250s'"
 
-#: lib/dbmodify.c:269
+#: lib/dbmodify.c:270
 #, c-format
 msgid "unable to close updated status of `%.250s'"
 msgstr "nelze uzavřít změněný stav balíku `%.250s'"
 
-#: lib/dbmodify.c:272
+#: lib/dbmodify.c:273
 #, c-format
 msgid "unable to install updated status of `%.250s'"
 msgstr "nelze nainstalovat změněný stav balíku `%.250s'"
 
-#: lib/dbmodify.c:302
+#: lib/dbmodify.c:303
 #, c-format
 msgid "couldn't open log `%s': %s\n"
 msgstr "nelze otevřít log `%s': %s\n"
@@ -469,15 +469,10 @@ msgstr ""
 "položka `%s', odkaz na `%.255s':\n"
 " číslo verze nezačíná alfanumerickým znakem, doporučuji přidat mezeru"
 
-#: lib/fields.c:413
-#, c-format
-msgid "`%s' field, reference to `%.255s': version contains `('"
+#: lib/fields.c:413 lib/fields.c:416
+#, fuzzy, c-format
+msgid "`%s' field, reference to `%.255s': version contains `%c'"
 msgstr "položka `%s', odkaz na `%.255s': verze obsahuje `('"
-
-#: lib/fields.c:416
-#, c-format
-msgid "`%s' field, reference to `%.255s': version contains ` '"
-msgstr "položka `%s', odkaz na `%.255s': verze obsahuje ` '"
 
 #: lib/fields.c:419
 #, c-format
@@ -981,11 +976,6 @@ msgstr "zkouším přepsat soubor `%.250s', který je také v balíku %.250s"
 #, c-format
 msgid "gobble replaced file `%.255s'"
 msgstr "zpracování nahradilo soubor `%.255s'"
-
-#: src/archives.c:600 dpkg-deb/build.c:317
-#, c-format
-msgid "unable to create `%.255s'"
-msgstr "nelze vytvořit `%.255s'"
 
 #: src/archives.c:605
 #, c-format
@@ -1575,111 +1565,111 @@ msgstr "chyba čtení na stdin při otázce na konfigurační soubory"
 msgid "EOF on stdin at conffile prompt"
 msgstr "EOF na stdin při otázce na konfigurační soubor"
 
-#: src/depcon.c:76
+#: src/depcon.c:77
 #, c-format
 msgid "unable to check for existence of `%.250s'"
 msgstr "existenci `%.250s' nelze zkontrolovat"
 
-#: src/depcon.c:154 src/packages.c:393
+#: src/depcon.c:153 src/packages.c:393
 msgid " depends on "
 msgstr " závisí na "
 
-#: src/depcon.c:155
+#: src/depcon.c:154
 msgid " pre-depends on "
 msgstr " před-závisí na "
 
-#: src/depcon.c:156
+#: src/depcon.c:155
 msgid " recommends "
 msgstr " doporučuje "
 
-#: src/depcon.c:157
+#: src/depcon.c:156
 msgid " conflicts with "
 msgstr " je v konfliktu s "
 
-#: src/depcon.c:158
+#: src/depcon.c:157
 msgid " suggests "
 msgstr "navrhuje "
 
-#: src/depcon.c:159
+#: src/depcon.c:158
 msgid " enhances "
 msgstr " rozšiřuje "
 
-#: src/depcon.c:235
+#: src/depcon.c:234
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s bude odstraněn.\n"
 
-#: src/depcon.c:238
+#: src/depcon.c:237
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s bude dekonfigurován.\n"
 
-#: src/depcon.c:242
+#: src/depcon.c:241
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr "  %.250s bude nainstalován, ale je verze %.250s.\n"
 
-#: src/depcon.c:250
+#: src/depcon.c:249
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s je nainstalován, ale je verze %.250s.\n"
 
-#: src/depcon.c:265
+#: src/depcon.c:264
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s je rozbalen, ale ještě nebyl zkonfigurován.\n"
 
-#: src/depcon.c:269
+#: src/depcon.c:268
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s je rozbalen, ale je verze %.250s.\n"
 
-#: src/depcon.c:275
+#: src/depcon.c:274
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s poslední zkonfigurovaná verze je %.250s.\n"
 
-#: src/depcon.c:284
+#: src/depcon.c:283
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s je %s.\n"
 
-#: src/depcon.c:320
+#: src/depcon.c:319
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s poskytuje %.250s, ale bude odstraněn.\n"
 
-#: src/depcon.c:324
+#: src/depcon.c:323
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s poskytuje %.250s, ale bude dekonfigurován.\n"
 
-#: src/depcon.c:329
+#: src/depcon.c:328
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s poskytuje %.250s, ale je %s.\n"
 
-#: src/depcon.c:343
+#: src/depcon.c:342
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr " %250s není nainstalován.\n"
 
-#: src/depcon.c:374
+#: src/depcon.c:373
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (verze %.250s) bude nainstalován.\n"
 
-#: src/depcon.c:388
+#: src/depcon.c:387
 #, c-format
 msgid "  %.250s (version %.250s) is %s.\n"
 msgstr "  %.250s (verze %.250s) je %s.\n"
 
-#: src/depcon.c:413
+#: src/depcon.c:412
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s poskytuje %.250s a bude nainstalován.\n"
 
-#: src/depcon.c:444
+#: src/depcon.c:443
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %.250s poskytuje %.250s a je %s.\n"
@@ -4248,7 +4238,7 @@ msgid "unable to exec mksplit"
 msgstr "nelze spustit mksplit"
 
 #: scripts/cleanup-info.pl:36 scripts/dpkg-divert.pl:16
-#: scripts/dpkg-statoverride.pl:22 scripts/install-info.pl:18
+#: scripts/dpkg-statoverride.pl:22 scripts/install-info.pl:17
 #: scripts/update-alternatives.pl:37
 #, perl-format
 msgid "Debian %s version %s.\n"
@@ -4263,7 +4253,7 @@ msgstr ""
 "Copyright (C) 1996 Kim-Minh Kaplan."
 
 #: scripts/cleanup-info.pl:41 scripts/dpkg-divert.pl:22
-#: scripts/dpkg-statoverride.pl:27 scripts/install-info.pl:23
+#: scripts/dpkg-statoverride.pl:27 scripts/install-info.pl:22
 #: scripts/update-alternatives.pl:43
 msgid ""
 "\n"
@@ -4294,22 +4284,22 @@ msgstr ""
 "  --help       zobrazí tuto nápovědu\n"
 "  --version    zobrazí verzi\n"
 
-#: scripts/cleanup-info.pl:66 scripts/install-info.pl:501
+#: scripts/cleanup-info.pl:66 scripts/install-info.pl:508
 #, perl-format
 msgid "%s: warning - unable to unlock %s: %s"
 msgstr "%s: varování - nelze odemknout %s: %s"
 
-#: scripts/cleanup-info.pl:86 scripts/install-info.pl:120
+#: scripts/cleanup-info.pl:86 scripts/install-info.pl:119
 #, perl-format
 msgid "%s: unknown option `%s'"
 msgstr "%s: neznámý přepínač `%s'"
 
-#: scripts/cleanup-info.pl:94 scripts/install-info.pl:131
+#: scripts/cleanup-info.pl:94 scripts/install-info.pl:130
 #, perl-format
 msgid "%s: too many arguments"
 msgstr "%s: příliš mnoho argumentů"
 
-#: scripts/cleanup-info.pl:101 scripts/install-info.pl:306
+#: scripts/cleanup-info.pl:101 scripts/install-info.pl:305
 #, perl-format
 msgid "%s: failed to lock dir for editing! %s"
 msgstr "%s: selhalo zamknutí adresáře pro úpravy! %s"
@@ -4319,50 +4309,52 @@ msgstr "%s: selhalo zamknutí adresáře pro úpravy! %s"
 msgid "try deleting %s"
 msgstr "zkuste smazat %s"
 
-#: scripts/cleanup-info.pl:107
-#, perl-format
-msgid "%s: can't open %s: %s"
-msgstr "%s: nelze otevřít %s: %s"
+#: scripts/cleanup-info.pl:107 scripts/install-info.pl:312
+#: scripts/update-alternatives.pl:211
+#, fuzzy, perl-format
+msgid "unable to open %s: %s"
+msgstr "nelze zavřít %s: %s"
 
-#: scripts/cleanup-info.pl:110
-#, perl-format
-msgid "%s: can't create %s: %s"
-msgstr "%s: nelze vytvořit %s: %s"
+#: scripts/cleanup-info.pl:109 scripts/install-info.pl:482
+#, fuzzy, perl-format
+msgid "unable to create %s: %s"
+msgstr "nelze odstranit %s: %s"
 
-#: scripts/cleanup-info.pl:122
-#, perl-format
-msgid "%s: error writing %s: %s"
-msgstr "%s: chyba při zápisu %s: %s"
+#: scripts/cleanup-info.pl:120 scripts/install-info.pl:485
+#, fuzzy, perl-format
+msgid "unable to write %s: %s"
+msgstr "nelze odstranit %s: %s"
 
-#: scripts/cleanup-info.pl:162 scripts/install-info.pl:166
-#: scripts/install-info.pl:208
-#, perl-format
-msgid "%s: read %s: %s"
-msgstr "%s: čtení %s: %s"
+#: scripts/cleanup-info.pl:160 scripts/install-info.pl:165
+#: scripts/install-info.pl:207 scripts/install-info.pl:314
+#, fuzzy, perl-format
+msgid "unable to read %s: %s"
+msgstr "nelze odstranit %s: %s"
 
-#: scripts/cleanup-info.pl:164
-#, perl-format
-msgid "%s: close %s after read: %s"
-msgstr "%s: uzavření %s po čtení: %s"
+#: scripts/cleanup-info.pl:161 scripts/install-info.pl:315
+#, fuzzy, perl-format
+msgid "unable to close %s after read: %s"
+msgstr "zavírání %s po čtení: %s"
 
-#: scripts/cleanup-info.pl:168
+#: scripts/cleanup-info.pl:165 scripts/install-info.pl:486
+#: scripts/update-alternatives.pl:472
 #, perl-format
-msgid "%s: error closing %s: %s"
-msgstr "%s: chyba při zavírání %s: %s"
+msgid "unable to close %s: %s"
+msgstr "nelze zavřít %s: %s"
+
+#: scripts/cleanup-info.pl:171 scripts/install-info.pl:490
+#, fuzzy, perl-format
+msgid "unable to backup old %s, giving up: %s"
+msgstr "nemohu zálohovat starý %s, vzdávám se: %s"
 
 #: scripts/cleanup-info.pl:174
-#, perl-format
-msgid "%s: can't backup old %s, giving up: %s"
-msgstr "%s: nelze zálohovat starý %s, rezignuji: %s"
-
-#: scripts/cleanup-info.pl:177
-#, perl-format
-msgid "%s: failed to install %s; I'll leave it as %s: %s"
+#, fuzzy, perl-format
+msgid "failed to install %s; it will be left as %s: %s"
 msgstr "%s: instalace %s selhala; ponechám jej jako %s: %s"
 
-#: scripts/cleanup-info.pl:181
-#, perl-format
-msgid "%s: failed to unlock %s: %s"
+#: scripts/cleanup-info.pl:178
+#, fuzzy, perl-format
+msgid "%s: unable to unlock %s: %s"
 msgstr "%s: selhalo odemčení %s: %s"
 
 #: scripts/dpkg-divert.pl:12 scripts/update-alternatives.pl:33
@@ -4434,13 +4426,14 @@ msgstr ""
 "Před/poinstalační skripty balíku by měly vždy používat --package a --"
 "divert.\n"
 
-#: scripts/dpkg-divert.pl:64 scripts/update-alternatives.pl:95
+#: scripts/dpkg-divert.pl:64 scripts/update-alternatives.pl:110
 #, perl-format
 msgid "two modes specified: %s and --%s"
 msgstr "zadány dva režimy: %s a --%s"
 
 #: scripts/dpkg-divert.pl:97
-msgid "--divert needs a divert-to argument"
+#, fuzzy, perl-format
+msgid "--%s needs a divert-to argument"
 msgstr "--divert vyžaduje argument kam-odklonit"
 
 #: scripts/dpkg-divert.pl:99
@@ -4448,7 +4441,8 @@ msgid "divert-to may not contain newlines"
 msgstr "kam-odklonit nemůže obsahovat znak nového řádku"
 
 #: scripts/dpkg-divert.pl:101
-msgid "--package needs a package argument"
+#, fuzzy, perl-format
+msgid "--%s needs a <package> argument"
 msgstr "--package vyžaduje jako argument jméno balíku"
 
 #: scripts/dpkg-divert.pl:103
@@ -4456,11 +4450,13 @@ msgid "package may not contain newlines"
 msgstr "jméno balíku nemůže obsahovat znak nového řádku"
 
 #: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
-msgid "--admindir needs a directory argument"
-msgstr "--admindir vyžaduje jako argument jméno adresáře"
+#: scripts/update-alternatives.pl:152 scripts/update-alternatives.pl:155
+#, fuzzy, perl-format
+msgid "--%s needs a <directory> argument"
+msgstr "--altdir vyžaduje jako argument <adresář>"
 
 #: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:86
-#: scripts/update-alternatives.pl:145
+#: scripts/update-alternatives.pl:160
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "neznámá volba \"%s\""
@@ -4478,8 +4474,10 @@ msgstr "chybí alternativní jméno"
 msgid "missing package"
 msgstr "chybí balík"
 
-#: scripts/dpkg-divert.pl:125
-msgid "--add needs a single argument"
+#: scripts/dpkg-divert.pl:125 scripts/dpkg-divert.pl:153
+#: scripts/dpkg-divert.pl:195 scripts/dpkg-statoverride.pl:144
+#, fuzzy, perl-format
+msgid "--%s needs a single argument"
 msgstr "--add potřebuje jeden argument"
 
 #: scripts/dpkg-divert.pl:127 scripts/dpkg-divert.pl:131
@@ -4509,10 +4507,6 @@ msgstr "`%s' koliduje s `%s'"
 #, perl-format
 msgid "Adding `%s'"
 msgstr "Přidávám `%s'"
-
-#: scripts/dpkg-divert.pl:153
-msgid "--remove needs a single argument"
-msgstr "--remove potřebuje jediný argument"
 
 #: scripts/dpkg-divert.pl:157
 #, perl-format
@@ -4545,10 +4539,6 @@ msgstr "Odstraňuji `%s'"
 #, perl-format
 msgid "No diversion `%s', none removed"
 msgstr "Odklonění `%s' neexistuje, tedy nebylo odstraněno"
-
-#: scripts/dpkg-divert.pl:195
-msgid "--truename needs a single argument"
-msgstr "--truename potřebuje jediný argument"
 
 #: scripts/dpkg-divert.pl:205
 #, perl-format
@@ -4619,16 +4609,7 @@ msgstr "vytvoření nového souboru diversions-old: %s"
 msgid "install new diversions: %s"
 msgstr "instalace nového souboru diversions: %s"
 
-#: scripts/dpkg-divert.pl:278 scripts/dpkg-divert.pl:279
-#, perl-format
-msgid "dpkg-divert: %s"
-msgstr "dpkg-divert: %s"
-
-#: scripts/dpkg-divert.pl:279
-msgid "You need --help"
-msgstr "Hledáte --help"
-
-#: scripts/dpkg-divert.pl:280 scripts/update-alternatives.pl:647
+#: scripts/dpkg-divert.pl:291 scripts/update-alternatives.pl:662
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "vnitřní chyba: %s porušeno: %s"
@@ -4720,7 +4701,8 @@ msgid "An override for \"%s\" already exists, "
 msgstr "Přepis \"%s\" již existuje, "
 
 #: scripts/dpkg-statoverride.pl:124
-msgid "but --force specified so lets ignore it."
+#, fuzzy
+msgid "but --force specified so will be ignored."
 msgstr "ale kvůli --force to budeme ignorovat."
 
 #: scripts/dpkg-statoverride.pl:126
@@ -4741,10 +4723,6 @@ msgstr "selhala změna vlastníka %s: %s"
 #, perl-format
 msgid "failed to chmod %s: %s"
 msgstr "selhala změna oprávnění %s: %s"
-
-#: scripts/dpkg-statoverride.pl:144
-msgid "--remove needs one arguments"
-msgstr "--remove potřebuje jeden argument"
 
 #: scripts/dpkg-statoverride.pl:148
 msgid "No override present."
@@ -4784,16 +4762,7 @@ msgstr "chyba při vytváření souboru statoverride-old: %s"
 msgid "error installing new statoverride: %s"
 msgstr "chyba při instalaci nového souboru statoverride: %s"
 
-#: scripts/dpkg-statoverride.pl:216 scripts/dpkg-statoverride.pl:217
-#, perl-format
-msgid "dpkg-statoverride: %s"
-msgstr "dpkg-statoverride: %s"
-
-#: scripts/dpkg-statoverride.pl:217
-msgid "You need --help."
-msgstr "Hledáte --help."
-
-#: scripts/install-info.pl:20
+#: scripts/install-info.pl:19
 msgid ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
@@ -4801,7 +4770,7 @@ msgstr ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
 
-#: scripts/install-info.pl:32
+#: scripts/install-info.pl:31
 #, perl-format
 msgid ""
 "Usage: %s [<options> ...] [--] <filename>\n"
@@ -4853,47 +4822,47 @@ msgstr ""
 "  --help                   zobrazí tuto nápovědu\n"
 "  --version                zobrazí verzi\n"
 
-#: scripts/install-info.pl:98
-#, perl-format
-msgid "Could not open stderr for output! %s"
+#: scripts/install-info.pl:97
+#, fuzzy, perl-format
+msgid "could not open stderr for output! %s"
 msgstr "Nelze otevřít chybový výstup! %s"
 
-#: scripts/install-info.pl:102
+#: scripts/install-info.pl:101
 #, perl-format
 msgid "%s: --section needs two more args"
 msgstr "%s: --section vyžaduje dva další argumenty"
 
-#: scripts/install-info.pl:108
-#, perl-format
-msgid "%s: %s deprecated(ignored)"
+#: scripts/install-info.pl:107
+#, fuzzy, perl-format
+msgid "%s: option --%s is deprecated (ignored)"
 msgstr "%s: %s překonáno(ignorováno)"
 
-#: scripts/install-info.pl:134
+#: scripts/install-info.pl:133
 #, perl-format
 msgid "%s: --section ignored with --remove"
 msgstr "%s: u --remove je --section ignorováno"
 
-#: scripts/install-info.pl:135
+#: scripts/install-info.pl:134
 #, perl-format
 msgid "%s: --description ignored with --remove"
 msgstr "%s: u --remove je --description ignorováno"
 
-#: scripts/install-info.pl:138
+#: scripts/install-info.pl:137
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
 msgstr "%s: testovací režim - adr. soubor nebude aktualizován"
 
-#: scripts/install-info.pl:192
+#: scripts/install-info.pl:191
 #, perl-format
 msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
 msgstr "%s: varování, ignoruji matoucí INFO-DIR-ENTRY v souboru."
 
-#: scripts/install-info.pl:201
-#, perl-format
-msgid "%s: Invalid info entry"
+#: scripts/install-info.pl:200
+#, fuzzy
+msgid "invalid info entry"
 msgstr "%s: Neplatný Info záznam"
 
-#: scripts/install-info.pl:227
+#: scripts/install-info.pl:226
 #, perl-format
 msgid ""
 "\n"
@@ -4904,50 +4873,35 @@ msgstr ""
 "`START-INFO-DIR-ENTRY' ani `This file documents' neexistují.\n"
 "%s: nemohu zjistit popis položky `dir' - vzdávám se\n"
 
-#: scripts/install-info.pl:280
+#: scripts/install-info.pl:279
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
 msgstr "%s: soubor %s neexistuje, vyvolávám záložní soubor %s."
 
-#: scripts/install-info.pl:283 scripts/install-info.pl:293
+#: scripts/install-info.pl:282 scripts/install-info.pl:292
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
 msgstr "%s: kopírování %s na %s selhalo, vzdávám se: %s"
 
-#: scripts/install-info.pl:289
+#: scripts/install-info.pl:288
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
 msgstr "%s: záložní soubor %s není dostupný, vyvolávám výchozí soubor."
 
-#: scripts/install-info.pl:298
+#: scripts/install-info.pl:297
 #, perl-format
 msgid "%s: no backup file %s available."
 msgstr "%s: záložní soubor %s neexistuje."
 
-#: scripts/install-info.pl:299
+#: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no default file %s available, giving up."
 msgstr "%s: záložní soubor %s neexistuje, vzdávám se."
 
-#: scripts/install-info.pl:308
+#: scripts/install-info.pl:307
 #, perl-format
 msgid "try deleting %s?"
 msgstr "zkuste smazat %s?"
-
-#: scripts/install-info.pl:313
-#, perl-format
-msgid "open %s: %s"
-msgstr "otevírání %s: %s"
-
-#: scripts/install-info.pl:315
-#, perl-format
-msgid "read %s: %s"
-msgstr "čtení %s: %s"
-
-#: scripts/install-info.pl:316
-#, perl-format
-msgid "close %s after read: %s"
-msgstr "zavírání %s po čtení: %s"
 
 #: scripts/install-info.pl:348
 #, perl-format
@@ -4999,47 +4953,27 @@ msgstr "%s: záznam pro soubor `%s' a menu `%s' neexistuje"
 msgid "%s: no entry for file `%s'"
 msgstr "%s: žádný záznam pro soubor `%s'"
 
-#: scripts/install-info.pl:482
-#, perl-format
-msgid "create %s: %s"
-msgstr "vytváření %s: %s"
-
-#: scripts/install-info.pl:484
-#, perl-format
-msgid "write %s: %s"
-msgstr "zápis %s: %s"
-
-#: scripts/install-info.pl:485
-#, perl-format
-msgid "close %s: %s"
-msgstr "zavírání %s: %s"
-
-#: scripts/install-info.pl:489
-#, perl-format
-msgid "cannot backup old %s, giving up: %s"
-msgstr "nemohu zálohovat starý %s, vzdávám se: %s"
-
-#: scripts/install-info.pl:491
-#, perl-format
-msgid "install new %s: %s"
-msgstr "instalace nového %s: %s"
-
-#: scripts/install-info.pl:494
-#, perl-format
-msgid "%s: unlock %s: %s"
-msgstr "%s: odemykání %s: %s"
+#: scripts/install-info.pl:493
+#, fuzzy, perl-format
+msgid "unable to install new %s: %s"
+msgstr "nelze nainstalovat %s jako %s: %s"
 
 #: scripts/install-info.pl:496
-#, perl-format
-msgid "%s: couldn't backup %s in %s: %s"
+#, fuzzy, perl-format
+msgid "unable to unlock %s: %s"
+msgstr "nelze zavřít %s: %s"
+
+#: scripts/install-info.pl:498
+#, fuzzy, perl-format
+msgid "%s: could not backup %s in %s: %s"
 msgstr "%s: nemohu zálohovat %s v %s: %s"
 
-#: scripts/install-info.pl:508
-#, perl-format
-msgid "%s: read %s: %d"
-msgstr "%s: čtení %s: %d"
+#: scripts/install-info.pl:515
+#, fuzzy, perl-format
+msgid "unable to read %s: %d"
+msgstr "nelze odstranit %s: %s"
 
-#: scripts/install-info.pl:512
+#: scripts/install-info.pl:519
 #, perl-format
 msgid "dbg: %s"
 msgstr "dbg: %s"
@@ -5055,7 +4989,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:51
-#, perl-format
+#, fuzzy, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5075,10 +5009,15 @@ msgid ""
 "  --set <name> <path>      set <path> as alternative for <name>.\n"
 "  --all                    call --config on all alternatives.\n"
 "\n"
-"<name> is the name in /etc/alternatives.\n"
-"<path> is the name referred to.\n"
-"<link> is the link pointing to /etc/alternatives/<name>.\n"
-"<priority> is an integer; options with higher numbers are chosen.\n"
+"<link> is the symlink pointing to /etc/alternatives/<name>.\n"
+"  (e.g. /usr/bin/pager)\n"
+"<name> is the master name for this link group.\n"
+"  (e.g. pager)\n"
+"<path> is the location of one of the alternative target files.\n"
+"  (e.g. /usr/bin/less)\n"
+"<priority> is an integer; options with higher numbers have higher priority "
+"in\n"
+"  automatic mode.\n"
 "\n"
 "Options:\n"
 "  --altdir <directory>     change the alternatives directory.\n"
@@ -5119,67 +5058,54 @@ msgstr ""
 "  --help                   zobrazí tuto nápovědu\n"
 "  --version                zobrazí verzi\n"
 
-#: scripts/update-alternatives.pl:82 scripts/update-alternatives.pl:83
-#, perl-format
-msgid "update-alternatives: %s"
-msgstr "update-alternatives: %s"
-
-#: scripts/update-alternatives.pl:102
+#: scripts/update-alternatives.pl:117
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "neznámý argument `%s'"
 
-#: scripts/update-alternatives.pl:115
+#: scripts/update-alternatives.pl:130
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install vyžaduje <odkaz> <jméno> <cesta> <priorita>"
 
-#: scripts/update-alternatives.pl:117
+#: scripts/update-alternatives.pl:132
 msgid "priority must be an integer"
 msgstr "priorita musí být celé číslo"
 
-#: scripts/update-alternatives.pl:121
+#: scripts/update-alternatives.pl:136
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s vyžaduje <jméno> <cesta>"
 
-#: scripts/update-alternatives.pl:126
+#: scripts/update-alternatives.pl:141
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s vyžaduje <jméno>"
 
-#: scripts/update-alternatives.pl:130
+#: scripts/update-alternatives.pl:145
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave vyžaduje <odkaz> <jméno> <cesta>"
 
-#: scripts/update-alternatives.pl:132
+#: scripts/update-alternatives.pl:147
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "závislé jméno %s je duplicitní"
 
-#: scripts/update-alternatives.pl:133
+#: scripts/update-alternatives.pl:148
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "závislý odkaz %s je duplicitní"
 
-#: scripts/update-alternatives.pl:137
-msgid "--altdir needs a <directory> argument"
-msgstr "--altdir vyžaduje jako argument <adresář>"
-
-#: scripts/update-alternatives.pl:140
-msgid "--admindir needs a <directory> argument"
-msgstr "--admindir vyžaduje jako argument <adresář>"
-
-#: scripts/update-alternatives.pl:149
+#: scripts/update-alternatives.pl:164
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "jméno %s je jak primární, tak závislé"
 
-#: scripts/update-alternatives.pl:150
+#: scripts/update-alternatives.pl:165
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "odkaz %s je jak primární, tak závislý"
 
-#: scripts/update-alternatives.pl:152
+#: scripts/update-alternatives.pl:167
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5187,40 +5113,40 @@ msgstr ""
 "vyžaduji --display, --config, --set, --install, --remove, --all, --remove-"
 "all nebo --auto"
 
-#: scripts/update-alternatives.pl:153
+#: scripts/update-alternatives.pl:168
 msgid "--slave only allowed with --install"
 msgstr "--slave je povoleno jen současně s --install"
 
-#: scripts/update-alternatives.pl:161
+#: scripts/update-alternatives.pl:176
 msgid "manflag"
 msgstr "ruční příznak"
 
-#: scripts/update-alternatives.pl:165
+#: scripts/update-alternatives.pl:180
 #, perl-format
 msgid "duplicate slave %s"
 msgstr "duplicitní závislost %s"
 
-#: scripts/update-alternatives.pl:168
+#: scripts/update-alternatives.pl:183
 #, perl-format
 msgid "slave link same as main link %s"
 msgstr "závislý odkaz je stejný nako hlavní odkaz %s"
 
-#: scripts/update-alternatives.pl:169
+#: scripts/update-alternatives.pl:184
 #, perl-format
 msgid "duplicate slave link %s"
 msgstr "duplicitní závislý odkaz %s"
 
-#: scripts/update-alternatives.pl:173
+#: scripts/update-alternatives.pl:188
 #, perl-format
 msgid "duplicate path %s"
 msgstr "duplicitní cesta %s"
 
-#: scripts/update-alternatives.pl:178
+#: scripts/update-alternatives.pl:193
 #, perl-format
 msgid "priority %s %s"
 msgstr "priorita %s %s"
 
-#: scripts/update-alternatives.pl:185
+#: scripts/update-alternatives.pl:200
 #, perl-format
 msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
@@ -5229,71 +5155,66 @@ msgstr ""
 "Alternativa pro %s ukazuje na verzi %s, která nebyla nalezena. Odstraňuji ze "
 "systému alternativ."
 
-#: scripts/update-alternatives.pl:196
-#, perl-format
-msgid "failed to open %s: %s"
-msgstr "selhalo otevření %s: %s"
-
-#: scripts/update-alternatives.pl:201 scripts/update-alternatives.pl:250
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:216 scripts/update-alternatives.pl:265
+#: scripts/update-alternatives.pl:273
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "Pro %s neexistují žádné alternativy."
 
-#: scripts/update-alternatives.pl:204
+#: scripts/update-alternatives.pl:219
 #, perl-format
 msgid "%s - status is %s."
 msgstr "%s - stav je %s."
 
-#: scripts/update-alternatives.pl:206
+#: scripts/update-alternatives.pl:221
 #, perl-format
 msgid " link currently points to %s"
 msgstr " odkaz momentálně ukazuje na %s"
 
-#: scripts/update-alternatives.pl:208
+#: scripts/update-alternatives.pl:223
 msgid " link currently absent"
 msgstr " odkaz momentálně chybí"
 
-#: scripts/update-alternatives.pl:210
+#: scripts/update-alternatives.pl:225
 #, perl-format
 msgid " link unreadable - %s"
 msgstr " odkaz není čitelný - %s"
 
-#: scripts/update-alternatives.pl:217
+#: scripts/update-alternatives.pl:232
 #, perl-format
 msgid "%s - priority %s"
 msgstr "%s - priorita %s"
 
-#: scripts/update-alternatives.pl:220
+#: scripts/update-alternatives.pl:235
 #, perl-format
 msgid " slave %s: %s"
 msgstr " závislost %s: %s"
 
-#: scripts/update-alternatives.pl:224
+#: scripts/update-alternatives.pl:239
 msgid "No versions available."
 msgstr "Nejsou k dispozici žádné verze."
 
-#: scripts/update-alternatives.pl:226
+#: scripts/update-alternatives.pl:241
 #, perl-format
 msgid "Current `best' version is %s."
 msgstr "Momentálně \"nejlepší\" verze je \"%s\"."
 
-#: scripts/update-alternatives.pl:285
+#: scripts/update-alternatives.pl:300
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "Nastavuji automatický výběr %s."
 
-#: scripts/update-alternatives.pl:288 scripts/update-alternatives.pl:290
-#: scripts/update-alternatives.pl:398 scripts/update-alternatives.pl:400
-#: scripts/update-alternatives.pl:464 scripts/update-alternatives.pl:466
-#: scripts/update-alternatives.pl:468 scripts/update-alternatives.pl:470
-#: scripts/update-alternatives.pl:526 scripts/update-alternatives.pl:528
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:630
+#: scripts/update-alternatives.pl:303 scripts/update-alternatives.pl:305
+#: scripts/update-alternatives.pl:413 scripts/update-alternatives.pl:415
+#: scripts/update-alternatives.pl:479 scripts/update-alternatives.pl:481
+#: scripts/update-alternatives.pl:483 scripts/update-alternatives.pl:485
+#: scripts/update-alternatives.pl:541 scripts/update-alternatives.pl:543
+#: scripts/update-alternatives.pl:609 scripts/update-alternatives.pl:645
 #, perl-format
 msgid "unable to remove %s: %s"
 msgstr "nelze odstranit %s: %s"
 
-#: scripts/update-alternatives.pl:301
+#: scripts/update-alternatives.pl:316
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5302,7 +5223,7 @@ msgstr ""
 "%s byl změněn (vámi nebo skriptem).\n"
 "Přepínám pouze na ruční aktualizace."
 
-#: scripts/update-alternatives.pl:313
+#: scripts/update-alternatives.pl:328
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5311,75 +5232,70 @@ msgstr ""
 "Kontroluji dostupné verze %s, aktualizuji odkazy v %s ...\n"
 "(Symbolické odkazy můžete měnit i ručně - viz `man ln'.)"
 
-#: scripts/update-alternatives.pl:319
+#: scripts/update-alternatives.pl:334
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "Přejmenovávám odkaz %s z %s na %s."
 
-#: scripts/update-alternatives.pl:322 scripts/update-alternatives.pl:344
-#: scripts/update-alternatives.pl:424 scripts/update-alternatives.pl:499
+#: scripts/update-alternatives.pl:337 scripts/update-alternatives.pl:359
+#: scripts/update-alternatives.pl:439 scripts/update-alternatives.pl:514
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "nelze přejmenovat %s na %s: %s"
 
-#: scripts/update-alternatives.pl:339
+#: scripts/update-alternatives.pl:354
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "závislý odkaz jménem %s byl duplikován"
 
-#: scripts/update-alternatives.pl:341
+#: scripts/update-alternatives.pl:356
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "Přejmenovávám závislý odkaz %s z %s na %s."
 
-#: scripts/update-alternatives.pl:355
+#: scripts/update-alternatives.pl:370
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr ""
 "Odstraňuji ručně zvolenou alternativu - přepínám do automatického režimu"
 
-#: scripts/update-alternatives.pl:369
+#: scripts/update-alternatives.pl:384
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "Alternativa %s pro %s není registrována, neodstraňuji."
 
-#: scripts/update-alternatives.pl:395
+#: scripts/update-alternatives.pl:410
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "Zahazuji zastaralý závislý odkaz %s (%s)."
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:431
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "Automatické aktualizace %s jsou zakázány, ponechávám bez změn."
 
-#: scripts/update-alternatives.pl:418
+#: scripts/update-alternatives.pl:433
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "K automatickým aktualizacím se vrátíte příkazem `update-alternatives --auto %"
 "s'."
 
-#: scripts/update-alternatives.pl:422
+#: scripts/update-alternatives.pl:437
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "Obnovuji z předchozí nefunkční aktualizace %s ..."
 
-#: scripts/update-alternatives.pl:437
+#: scripts/update-alternatives.pl:452
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "nelze otevřít %s pro zápis: %s"
 
-#: scripts/update-alternatives.pl:457
-#, perl-format
-msgid "unable to close %s: %s"
-msgstr "nelze zavřít %s: %s"
-
-#: scripts/update-alternatives.pl:461
+#: scripts/update-alternatives.pl:476
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "Poslední balík pokytující %s (%s) byl odstraněn, mažu."
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:489
 #, perl-format
 msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
@@ -5388,42 +5304,38 @@ msgstr ""
 "varování: %s má být symbolický odkaz na %s,\n"
 " avšak volání readlink selhalo: %s"
 
-#: scripts/update-alternatives.pl:479 scripts/update-alternatives.pl:493
-#: scripts/update-alternatives.pl:513 scripts/update-alternatives.pl:521
+#: scripts/update-alternatives.pl:494 scripts/update-alternatives.pl:508
+#: scripts/update-alternatives.pl:528 scripts/update-alternatives.pl:536
 #, perl-format
 msgid "unable to ensure %s nonexistent: %s"
 msgstr "nelze se přesvědčit, že %s neexistuje: %s"
 
-#: scripts/update-alternatives.pl:481 scripts/update-alternatives.pl:515
-#: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:580
-#: scripts/update-alternatives.pl:616 scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:496 scripts/update-alternatives.pl:530
+#: scripts/update-alternatives.pl:553 scripts/update-alternatives.pl:595
+#: scripts/update-alternatives.pl:631 scripts/update-alternatives.pl:670
 #, perl-format
 msgid "unable to make %s a symlink to %s: %s"
 msgstr "nelze vytvořit symbolický odkaz %s na %s: %s"
 
-#: scripts/update-alternatives.pl:483 scripts/update-alternatives.pl:517
-#: scripts/update-alternatives.pl:540 scripts/update-alternatives.pl:582
-#: scripts/update-alternatives.pl:618 scripts/update-alternatives.pl:660
+#: scripts/update-alternatives.pl:498 scripts/update-alternatives.pl:518
+#: scripts/update-alternatives.pl:532 scripts/update-alternatives.pl:555
+#: scripts/update-alternatives.pl:597 scripts/update-alternatives.pl:633
+#: scripts/update-alternatives.pl:675
 #, perl-format
 msgid "unable to install %s as %s: %s"
 msgstr "nelze nainstalovat %s jako %s: %s"
 
-#: scripts/update-alternatives.pl:486 scripts/update-alternatives.pl:531
+#: scripts/update-alternatives.pl:501 scripts/update-alternatives.pl:546
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
 msgstr "Ponechávám %s (%s), aby ukazoval na %s."
 
-#: scripts/update-alternatives.pl:489 scripts/update-alternatives.pl:534
+#: scripts/update-alternatives.pl:504 scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
 msgstr "Aktualizuji %s (%s), aby ukazoval na %s."
 
-#: scripts/update-alternatives.pl:503
-#, perl-format
-msgid "unable to install %s as %s"
-msgstr "nelze nainstalovat %s jako %s"
-
-#: scripts/update-alternatives.pl:508
+#: scripts/update-alternatives.pl:523
 #, perl-format
 msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
@@ -5432,13 +5344,13 @@ msgstr ""
 "varování: %s má být záviský symbolický odkaz na\n"
 " %s, avšak volání readlink selhalo: %s"
 
-#: scripts/update-alternatives.pl:523 scripts/update-alternatives.pl:591
-#: scripts/update-alternatives.pl:627
+#: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:606
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
 msgstr "Odstraňuji %s (%s), neodpovídá %s."
 
-#: scripts/update-alternatives.pl:548
+#: scripts/update-alternatives.pl:563
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5447,7 +5359,7 @@ msgstr ""
 "Existuje pouze jediný program poskytující %s\n"
 "(%s). Nemám nic k nastavení.\n"
 
-#: scripts/update-alternatives.pl:553
+#: scripts/update-alternatives.pl:568
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5460,44 +5372,131 @@ msgstr ""
 "  Výběr        Alternativa\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:563
+#: scripts/update-alternatives.pl:578
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr "Pro výchozí možnost[*] stiskněte enter, jinak zadejte číslo: "
 
-#: scripts/update-alternatives.pl:577 scripts/update-alternatives.pl:614
+#: scripts/update-alternatives.pl:592 scripts/update-alternatives.pl:629
 #, perl-format
 msgid "Using `%s' to provide `%s'."
 msgstr "Používám '%s' pro poskytnutí `%s'. "
 
-#: scripts/update-alternatives.pl:612
+#: scripts/update-alternatives.pl:627
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "Nemohu najít alternativu `%s'."
 
-#: scripts/update-alternatives.pl:635 scripts/update-alternatives.pl:638
+#: scripts/update-alternatives.pl:650 scripts/update-alternatives.pl:653
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "chyba při zápisu na standardní výstup: %s"
 
-#: scripts/update-alternatives.pl:637
+#: scripts/update-alternatives.pl:652
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "nové řádky jsou v souborech update-alternatives zakázány (%s)"
 
-#: scripts/update-alternatives.pl:642
+#: scripts/update-alternatives.pl:657
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "chyba nebo konec souboru při čtení %s pro %s (%s)"
 
-#: scripts/update-alternatives.pl:643
+#: scripts/update-alternatives.pl:658
 #, perl-format
 msgid "missing newline after %s"
 msgstr "chybí nový řádek za %s"
 
-#: scripts/update-alternatives.pl:663
+#: scripts/update-alternatives.pl:678
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "Vážný problém: %s"
+
+#~ msgid "unable to create %.250s"
+#~ msgstr "nelze vytvořit %.250s"
+
+#~ msgid "`%s' field, reference to `%.255s': version contains ` '"
+#~ msgstr "položka `%s', odkaz na `%.255s': verze obsahuje ` '"
+
+#~ msgid "%s: can't open %s: %s"
+#~ msgstr "%s: nelze otevřít %s: %s"
+
+#~ msgid "%s: can't create %s: %s"
+#~ msgstr "%s: nelze vytvořit %s: %s"
+
+#~ msgid "%s: error writing %s: %s"
+#~ msgstr "%s: chyba při zápisu %s: %s"
+
+#~ msgid "%s: read %s: %s"
+#~ msgstr "%s: čtení %s: %s"
+
+#~ msgid "%s: close %s after read: %s"
+#~ msgstr "%s: uzavření %s po čtení: %s"
+
+#~ msgid "%s: error closing %s: %s"
+#~ msgstr "%s: chyba při zavírání %s: %s"
+
+#~ msgid "%s: can't backup old %s, giving up: %s"
+#~ msgstr "%s: nelze zálohovat starý %s, rezignuji: %s"
+
+#~ msgid "--admindir needs a directory argument"
+#~ msgstr "--admindir vyžaduje jako argument jméno adresáře"
+
+#~ msgid "--remove needs a single argument"
+#~ msgstr "--remove potřebuje jediný argument"
+
+#~ msgid "--truename needs a single argument"
+#~ msgstr "--truename potřebuje jediný argument"
+
+#~ msgid "dpkg-divert: %s"
+#~ msgstr "dpkg-divert: %s"
+
+#~ msgid "You need --help"
+#~ msgstr "Hledáte --help"
+
+#~ msgid "--remove needs one arguments"
+#~ msgstr "--remove potřebuje jeden argument"
+
+#~ msgid "dpkg-statoverride: %s"
+#~ msgstr "dpkg-statoverride: %s"
+
+#~ msgid "You need --help."
+#~ msgstr "Hledáte --help."
+
+#~ msgid "open %s: %s"
+#~ msgstr "otevírání %s: %s"
+
+#~ msgid "read %s: %s"
+#~ msgstr "čtení %s: %s"
+
+#~ msgid "create %s: %s"
+#~ msgstr "vytváření %s: %s"
+
+#~ msgid "write %s: %s"
+#~ msgstr "zápis %s: %s"
+
+#~ msgid "close %s: %s"
+#~ msgstr "zavírání %s: %s"
+
+#~ msgid "install new %s: %s"
+#~ msgstr "instalace nového %s: %s"
+
+#~ msgid "%s: unlock %s: %s"
+#~ msgstr "%s: odemykání %s: %s"
+
+#~ msgid "%s: read %s: %d"
+#~ msgstr "%s: čtení %s: %d"
+
+#~ msgid "update-alternatives: %s"
+#~ msgstr "update-alternatives: %s"
+
+#~ msgid "--admindir needs a <directory> argument"
+#~ msgstr "--admindir vyžaduje jako argument <adresář>"
+
+#~ msgid "failed to open %s: %s"
+#~ msgstr "selhalo otevření %s: %s"
+
+#~ msgid "unable to install %s as %s"
+#~ msgstr "nelze nainstalovat %s jako %s"
 
 #~ msgid "version a has bad syntax: %s\n"
 #~ msgstr "verze a má špatnou syntaxi: %s\n"

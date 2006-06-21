@@ -56,7 +56,7 @@ while (@ARGV) {
     } elsif (m/^--version$/) {
         &version; exit(0);
     } else {
-        &usageerr(sprintf(_g("unknown option or argument \`%s'"), $_));
+        &usageerr(sprintf(_g("unknown option \`%s'"), $_));
     }
 }
 

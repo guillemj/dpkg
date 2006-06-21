@@ -94,7 +94,7 @@ while ($ARGV[0] =~ m/^--/) {
         &version; exit 0;
     } elsif ($_ eq '--debug') {
 	open(DEBUG,">&STDERR")
-	    || die sprintf(_g("Could not open stderr for output! %s"), $!)."\n";
+	    || &quit(sprintf(_g("could not open stderr for output! %s"), $!));
 	$debug=1;
     } elsif ($_ eq '--section') {
         if (@ARGV < 2) {
@@ -104,7 +104,7 @@ while ($ARGV[0] =~ m/^--/) {
         $sectionre= shift(@ARGV);
         $sectiontitle= shift(@ARGV);
     } elsif (m/^--(c?align|maxwidth)=([0-9]+)$/) {
-	warn( sprintf(_g("%s: %s deprecated(ignored)"), $name, $1)."\n" );
+	warn(sprintf(_g("%s: option --%s is deprecated (ignored)"), $name, $1)."\n");
     } elsif (m/^--info-?dir=/) {
 	$dirfile = $' . '/dir';
     } elsif (m/^--info-file=/) {
@@ -162,7 +162,7 @@ if (!$remove) {
 
     if (!length($description)) {
         
-        open(IF,"$filename") || die sprintf(_g("%s: read %s: %s"), $name, $filename, $!)."\n";
+        open(IF,"$filename") || &quit(sprintf(_g("unable to read %s: %s"), $filename, $!));
         $asread='';
         while(<IF>) {
 	    m/^START-INFO-DIR-ENTRY$/ && last;
@@ -197,14 +197,14 @@ if (!$remove) {
         $infoentry =~ m/\n/;
         print "$`\n" unless $quiet;
         $infoentry =~ m/^\*\s*([^:]+):\s*\(([^\)]+)\)/ || 
-            die sprintf(_g("%s: Invalid info entry"), $name)."\n"; # internal error
+            &quit(_g("invalid info entry")); # internal error
         $sortby= $1;
         $fileinentry= $2;
 
     } else {
 
         if (!length($description)) {
-            open(IF,"$filename") || die sprintf(_g("%s: read %s: %s"), $name, $filename, $!)."\n";
+            open(IF,"$filename") || &quit(_g("unable to read %s: %s"), $filename, $!);
             $asread='';
             while(<IF>) {
                 if (m/^\s*[Tt]his file documents/) {
@@ -309,10 +309,11 @@ if (!$nowrite && !link($dirfile, "$dirfile.lock")) {
     exit 1;
 }
 
-open(OLD,$dirfile) || &ulquit(sprintf(_g("open %s: %s"), $dirfile, $!));
+open(OLD, $dirfile) || &ulquit(sprintf(_g("unable to open %s: %s"), $dirfile, $!));
 @work= <OLD>;
-eof(OLD) || &ulquit(sprintf(_g("read %s: %s"), $dirfile, $!));
-close(OLD) || &ulquit(sprintf(_g("close %s after read: %s"), $dirfile, $!));
+eof(OLD) || &ulquit(sprintf(_g("unable to read %s: %s"), $dirfile, $!));
+close(OLD) || &ulquit(sprintf(_g("unable to close %s after read: %s"),
+				 $dirfile, $!));
 
 while (($#work >= 0) && ($work[$#work] !~ m/\S/)) { $#work--; }
 
@@ -478,33 +479,40 @@ foreach ( @work ) {
 }
 
 if (!$nowrite) {
-    open(NEW,"> $dirfile.new") || &ulquit(sprintf(_g("create %s: %s"), "$dirfile.new", $!));
+    open(NEW,"> $dirfile.new") || &ulquit(sprintf(_g("unable to create %s: %s"),
+						     "$dirfile.new", $!));
     print(NEW @head,join("\n",@newwork)) ||
-	&ulquit(sprintf(_g("write %s: %s"), "$dirfile.new", $!));
-    close(NEW) || &ulquit(sprintf(_g("close %s: %s"), "$dirfile.new", $!));
+	&ulquit(sprintf(_g("unable to write %s: %s"), "$dirfile.new", $!));
+    close(NEW) || &ulquit(sprintf(_g("unable to close %s: %s"), "$dirfile.new", $!));
 
     unlink("$dirfile.old");
     link($dirfile, "$dirfile.old") ||
-	&ulquit(sprintf(_g("cannot backup old %s, giving up: %s"), $dirfile, $!));
+	&ulquit(sprintf(_g("unable to backup old %s, giving up: %s"),
+			   $dirfile, $!));
     rename("$dirfile.new", $dirfile) ||
-	&ulquit(sprintf(_g("install new %s: %s"), $dirfile, $!));
+	&ulquit(sprintf(_g("unable to install new %s: %s"), $dirfile, $!));
 
     unlink("$dirfile.lock") ||
-	die sprintf(_g("%s: unlock %s: %s"), $name, $dirfile, $!)."\n";
+	&quit(sprintf(_g("unable to unlock %s: %s"), $dirfile, $!));
     system ('cp', $dirfile, $backup) &&
-	warn sprintf(_g("%s: couldn't backup %s in %s: %s"), $name, $dirfile, $backup, $!)."\n";
+	warn sprintf(_g("%s: could not backup %s in %s: %s"), $name, $dirfile, $backup, $!)."\n";
+}
+
+sub quit
+{
+    die "$name: $@\n";
 }
 
 sub ulquit {
     unlink("$dirfile.lock") ||
 	warn sprintf(_g("%s: warning - unable to unlock %s: %s"),
 		     $name, $dirfile, $!)."\n";
-    die "$name: $_[0]\n";
+    &quit($_[0]);
 }
 
 sub checkpipe {
     return if !$pipeit || !$? || $?==0x8D00 || $?==0x0D;
-    die sprintf(_g("%s: read %s: %d"), $name, $filename, $?)."\n";
+    &quit(sprintf(_g("unable to read %s: %d"), $filename, $?));
 }
 
 sub dprint {

@@ -1,3 +1,34 @@
+2006-06-21  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (usageerr): Do not mark "%s: %s" for
+	translation.
+	* scripts/changelog/debian.pl: Remove "or argument" from the
+	"unkown option" string to merge it with other similar ones.
+	* scripts/dpkg-distaddfile.pl: Quote '%s' in the "unknown option"
+	string.
+	* scripts/dpkg-source.pl: Likewise.
+	* scripts/cleanup-info.pl (ulquit): Print the program name.
+	Change all callers to not print the program name, and modify the
+	strings to merge them with similar ones.
+	* scripts/dpkg-divert.pl: Change strings referring to command line
+	argument to use '%s' instead of such argument, thus merging them.
+	(quit): Do not mark the string for translation. Do not hardcode the
+	program name and use '$0' instead.
+	(badusage): Likewise. Make it call usage.
+	* scripts/dpkg-statoverride.pl: Likewise.
+	* scripts/update-alternatives.pl: Likewise.
+	* scripts/install-info.pl: Call quit instead of die and do not print
+	the program name. Prepend "unable to" to most of those strings to
+	merge them with similar ones. Fix other strings to merge them.
+	(ulquit): Make it call quit instead of die and do not print the
+	program name.
+	(checkpipe): Likewise.
+	(quit): New function.
+	* lib/fields.c (f_dependency): Make strings use '%s' instead of
+	hardcoded character, to merge both.
+	* lib/dbmodify.c (createimptmp): Quote and increase to 255 the
+	parameter '%.250s' to merge the string with the other ones.
+
 2006-06-18  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-buildpackage.sh: Fix testing

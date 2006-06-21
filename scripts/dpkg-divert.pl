@@ -94,15 +94,15 @@ while (@ARGV) {
         &checkmanymodes;
         $mode= 'truename';
     } elsif (m/^--divert$/) {
-        @ARGV || &badusage(_g("--divert needs a divert-to argument"));
+        @ARGV || &badusage(sprintf(_g("--%s needs a divert-to argument"), "divert"));
         $divertto= shift(@ARGV);
         $divertto =~ m/\n/ && &badusage(_g("divert-to may not contain newlines"));
     } elsif (m/^--package$/) {
-        @ARGV || &badusage(_g("--package needs a package argument"));
+        @ARGV || &badusage(sprintf(_g("--%s needs a <package> argument"), "package"));
         $package= shift(@ARGV);
         $package =~ m/\n/ && &badusage(_g("package may not contain newlines"));
     } elsif (m/^--admindir$/) {
-        @ARGV || &badusage(_g("--admindir needs a directory argument"));
+        @ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
         $admindir= shift(@ARGV);
     } else {
         &badusage(sprintf(_g("unknown option \`%s'"), $_));
@@ -122,7 +122,7 @@ while(<O>) {
 close(O);
 
 if ($mode eq 'add') {
-    @ARGV == 1 || &badusage(_g("--add needs a single argument"));
+    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "add"));
     $file= $ARGV[0];
     $file =~ m#^/# || &badusage(sprintf(_g("filename \"%s\" is not absolute"), $file));
     $file =~ m/\n/ && &badusage(_g("file may not contain newlines"));
@@ -150,7 +150,7 @@ if ($mode eq 'add') {
     &dorename($file,$divertto);
     exit(0);
 } elsif ($mode eq 'remove') {
-    @ARGV == 1 || &badusage(_g("--remove needs a single argument"));
+    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "remove"));
     $file= $ARGV[0];
     for ($i=0; $i<=$#contest; $i++) {
         next unless $file eq $contest[$i];
@@ -192,7 +192,7 @@ if ($mode eq 'add') {
     }
     exit(0);
 } elsif ($mode eq 'truename') {
-    @ARGV == 1 || &badusage(_g("--truename needs a single argument"));
+    @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "truename"));
     $file= $ARGV[0];
     for ($i=0; $i<=$#contest; $i++) {
 	next unless $file eq $contest[$i];
@@ -275,6 +275,17 @@ sub save {
 sub infoa { &infol($file,$divertto,$package); }
 sub infon { &infol($contest[$i],$altname[$i],$package[$i]); }
 
-sub quit { printf STDERR _g("dpkg-divert: %s")."\n", "@_"; exit(2); }
-sub badusage { printf STDERR _g("dpkg-divert: %s")."\n\n", "@_"; print(_g("You need --help.")."\n"); exit(2); }
+sub quit
+{
+    printf STDERR "%s: %s\n", $0, "@_";
+    exit(2);
+}
+
+sub badusage
+{
+    printf STDERR "%s: %s\n\n", $0, "@_";
+    &usage;
+    exit(2);
+}
+
 sub badfmt { &quit(sprintf(_g("internal error: %s corrupt: %s"), "$admindir/diversions", $_[0])); }
