@@ -1,5 +1,14 @@
 2006-06-21  Guillem Jover  <guillem@debian.org>
 
+	* utils/start-stop-daemon.c (umask_value): New variable.
+	(do_help): Print information about the new '--umask' option.
+	(parse_umask): New function.
+	(parse_options): Parse the new option using parse_umask.
+	(main): Set umask, and do not set for the background case if we set
+	it previously.
+
+2006-06-21  Guillem Jover  <guillem@debian.org>
+
 	* scripts/controllib.pl (usageerr): Do not mark "%s: %s" for
 	translation.
 	* scripts/changelog/debian.pl: Remove "or argument" from the

@@ -140,6 +140,7 @@ static char what_stop[1024];
 static const char *schedule_str = NULL;
 static const char *progname = "";
 static int nicelevel = 0;
+static int umask_value = -1;
 
 static struct stat exec_stat;
 #if defined(OSHURD)
@@ -307,6 +308,7 @@ do_help(void)
 "  -r|--chroot <directory>       chroot to <directory> before starting\n"
 "  -d|--chdir <directory>        change to <directory> (default is /)\n"
 "  -N|--nicelevel <incr>         add incr to the process's nice level\n"
+"  -k|--umask <mask>             change the umask to <mask> before starting\n"
 "  -b|--background               force the process to detach\n"
 "  -m|--make-pidfile             create the pidfile before starting\n"
 "  -R|--retry <schedule>         check whether processes die, and retry\n"
@@ -392,6 +394,20 @@ static int parse_signal(const char *signal_str, int *signal_nr)
 		}
 	}
 	return -1;
+}
+
+static int
+parse_umask(const char *string, int *value_r)
+{
+	if (!string[0])
+		return -1;
+
+	errno = 0;
+	*value_r = strtoul(string, NULL, 0);
+	if (errno)
+		return -1;
+	else
+		return 0;
 }
 
 static void
@@ -493,16 +509,18 @@ parse_options(int argc, char * const *argv)
 		{ "exec",	  1, NULL, 'x'},
 		{ "chuid",	  1, NULL, 'c'},
 		{ "nicelevel",	  1, NULL, 'N'},
+		{ "umask",	  1, NULL, 'k'},
 		{ "background",   0, NULL, 'b'},
 		{ "make-pidfile", 0, NULL, 'm'},
  		{ "retry",        1, NULL, 'R'},
 		{ "chdir",        1, NULL, 'd'},
 		{ NULL,		0, NULL, 0}
 	};
+	const char *umask_str = NULL;
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:bmR:g:d:",
+		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:k:bmR:g:d:",
 				longopts, (int *) 0);
 		if (c == -1)
 			break;
@@ -565,6 +583,9 @@ parse_options(int argc, char * const *argv)
 		case 'N':  /* --nice */
 			nicelevel = atoi(optarg);
 			break;
+		case 'k':  /* --umask <mask> */
+			umask_str = optarg;
+			break;
 		case 'b':  /* --background */
 			background = 1;
 			break;
@@ -590,6 +611,11 @@ parse_options(int argc, char * const *argv)
 
 	if (schedule_str != NULL) {
 		parse_schedule(schedule_str);
+	}
+
+	if (umask_str != NULL) {
+		if (parse_umask(umask_str, &umask_value) != 0)
+			badusage("umask value must be a positive number");
 	}
 
 	if (start == stop)
@@ -1306,6 +1332,8 @@ main(int argc, char **argv)
 			fatal("Unable to alter nice level by %i: %s", nicelevel,
 				strerror(errno));
 	}
+	if (umask_value >= 0)
+		umask(umask_value);
 	if (mpidfile && pidfile != NULL) { /* user wants _us_ to make the pidfile :) */
 		FILE *pidf = fopen(pidfile, "w");
 		pid_t pidt = getpid();
@@ -1338,7 +1366,8 @@ main(int argc, char **argv)
 		ioctl(tty_fd, TIOCNOTTY, 0);
 		close(tty_fd);
 #endif
-		umask(022); /* set a default for dumb programs */
+		if (umask_value < 0)
+			umask(022); /* set a default for dumb programs */
 		dup2(devnull_fd,0); /* stdin */
 		dup2(devnull_fd,1); /* stdout */
 		dup2(devnull_fd,2); /* stderr */
