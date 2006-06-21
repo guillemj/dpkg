@@ -123,7 +123,6 @@ static int stop = 0;
 static int background = 0;
 static int mpidfile = 0;
 static int signal_nr = 15;
-static const char *signal_str = NULL;
 static int user_id = -1;
 static int runas_uid = -1;
 static int runas_gid = -1;
@@ -137,7 +136,6 @@ static char *execname = NULL;
 static char *startas = NULL;
 static const char *pidfile = NULL;
 static char what_stop[1024];
-static const char *schedule_str = NULL;
 static const char *progname = "";
 static int nicelevel = 0;
 static int umask_value = -1;
@@ -517,6 +515,8 @@ parse_options(int argc, char * const *argv)
 		{ NULL,		0, NULL, 0}
 	};
 	const char *umask_str = NULL;
+	const char *signal_str = NULL;
+	const char *schedule_str = NULL;
 	int c;
 
 	for (;;) {
