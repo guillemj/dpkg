@@ -7,12 +7,12 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-06-21 07:26+0300\n"
-"PO-Revision-Date: 2006-07-05 23:27+0000\n"
+"PO-Revision-Date: 2006-07-11 00:42+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: lib/compat.c:46
 msgid "unable to open tmpfile for vsnprintf"
@@ -4377,6 +4377,13 @@ msgid ""
 "  --help       show this help message.\n"
 "  --version    show the version.\n"
 msgstr ""
+"Modo de Utilização: %s [<opções> ...] [--] [<nome do directório>]\n"
+"\n"
+"Opções:\n"
+"  --unsafe     inclui algumas opções extras para possível uso futuro.\n"
+"               atenção: esta opção pode corromper um possível ficheiro saudável.\n"
+"  --help       mostra esta mensagem de ajuda.\n"
+"  --version    indica a versão.\n"
 
 #: scripts/cleanup-info.pl:66 scripts/install-info.pl:508
 #, perl-format
@@ -4454,7 +4461,7 @@ msgstr "%s: não foi possível libertar %s: %s"
 #: scripts/dpkg-divert.pl:12 scripts/update-alternatives.pl:33
 #, perl-format
 msgid "Cannot get ENOENT value from %s: %s"
-msgstr ""
+msgstr "Impossível obter o valor de ENOENT a partir de %s:·%s"
 
 #: scripts/dpkg-divert.pl:18
 msgid ""
@@ -4462,6 +4469,9 @@ msgid ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000,2001 Wichert Akkerman."
 msgstr ""
+"\n"
+"Copyright (C) 1995 Ian Jackson.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman."
 
 #: scripts/dpkg-divert.pl:30
 #, perl-format
@@ -4492,52 +4502,75 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
+"Utilização: %s [<opções> ...] <comando>\n"
+"\n"
+"Comandos:\n"
+"  [--add] <ficheiro>           adicionar um desvio.\n"
+"  --remove <ficheiro>          remover um desvio.\n"
+"  --list [<glob-pattern>]  mostrar os desvios do ficheiro.\n"
+"  --truename <ficheiro>        devolve o ficheiro desviado.\n"
+"\n"
+"Opções:\n"
+"  --package <pacote>      nome do pacote cuja cópia de <ficheiro> não \n"
+"                             será desviada.\n"
+"  --local                  todas as versões do pacotes estão desviadas.\n"
+"  --divert <desviar para>     o nome usado pelas outras versões do pacote.\n"
+"  --rename                 actualmente move o ficheiro para o lado (ou para trás).\n"
+"  --admindir <directório>   configura o directório com os ficheiros desviados.\n"
+"  --test                   não faz nada, apenas exemplifica.\n"
+"  --quiet                  operação em modo silencioso, 'output' mínimo.\n"
+"  --help                   mostra esta mensagem de ajuda.\n"
+"  --version                indica a versão.\n"
+"\n"
+"Quando se adiciona, a omissão é --local e --divert <original>.distrib.\n"
+"Quando se remove e se específicado --package ou --local and --divert têm que "
+"coincidir.\n"
+"'Scripts' preinst/postrm do pacote devem sempre especificar --package e --"
+"divert.\n"
 
 #: scripts/dpkg-divert.pl:64 scripts/update-alternatives.pl:110
 #, perl-format
 msgid "two modes specified: %s and --%s"
-msgstr ""
+msgstr "dois modos específicados: %s·e·--%s"
 
 #: scripts/dpkg-divert.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a divert-to argument"
-msgstr "--build necessita de um directório como argumento"
+msgstr "--%s necessita de um desvio-para como argumento"
 
 #: scripts/dpkg-divert.pl:99
 msgid "divert-to may not contain newlines"
-msgstr ""
+msgstr "o desvio não pode conter novas linhas"
 
 #: scripts/dpkg-divert.pl:101
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <package> argument"
-msgstr "--%s necessita de pelo menos um argumento de nome de pacote"
+msgstr "--%s necessita de um argumento <nome de pacote>"
 
 #: scripts/dpkg-divert.pl:103
-#, fuzzy
 msgid "package may not contain newlines"
-msgstr "O pacote `%s' não contém qualquer ficheiro (!)\n"
+msgstr "o pacote não pode conter novas linhas"
 
 #: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
 #: scripts/update-alternatives.pl:152 scripts/update-alternatives.pl:155
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <directory> argument"
-msgstr "--build necessita de um directório como argumento"
+msgstr "--%s necessita de um argumento <directório>"
 
 #: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:86
 #: scripts/update-alternatives.pl:160
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown option `%s'"
-msgstr "opção desconhecida --%s"
+msgstr "opção desconhecida `%s'"
 
 #: scripts/dpkg-divert.pl:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open diversions: %s"
-msgstr "falhou abrir ficheiro diversions"
+msgstr "falhou ao abrir desvios: %s"
 
 #: scripts/dpkg-divert.pl:117
-#, fuzzy
 msgid "missing altname"
-msgstr "falta %s"
+msgstr "falta nome alternativo (altname)"
 
 #: scripts/dpkg-divert.pl:119
 msgid "missing package"
@@ -4545,9 +4578,9 @@ msgstr "falta pacote"
 
 #: scripts/dpkg-divert.pl:125 scripts/dpkg-divert.pl:153
 #: scripts/dpkg-divert.pl:195 scripts/dpkg-statoverride.pl:144
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a single argument"
-msgstr "--build necessita de um directório como argumento"
+msgstr "--%s necessita de um único argumento"
 
 #: scripts/dpkg-divert.pl:127 scripts/dpkg-divert.pl:131
 #, perl-format
@@ -4559,9 +4592,8 @@ msgid "file may not contain newlines"
 msgstr "o ficheiro não pode conter quebras de linha"
 
 #: scripts/dpkg-divert.pl:129
-#, fuzzy
 msgid "Cannot divert directories"
-msgstr "não pode ler directório info"
+msgstr "Não é possível desviar directórios"
 
 #: scripts/dpkg-divert.pl:138
 #, perl-format
@@ -4584,7 +4616,9 @@ msgid ""
 "mismatch on divert-to\n"
 "  when removing `%s'\n"
 "  found `%s'"
-msgstr ""
+msgstr "erro ao tentar desviar\n"
+"  quando a remover `%s'\n"
+"  foi encontrado·`%s'"
 
 #: scripts/dpkg-divert.pl:159
 #, perl-format
@@ -4592,7 +4626,9 @@ msgid ""
 "mismatch on package\n"
 "  when removing `%s'\n"
 "  found `%s'"
-msgstr ""
+msgstr "erro no pacote\n"
+"  quando a remover `%s'\n"
+"  foi encontrado·`%s'"
 
 #: scripts/dpkg-divert.pl:161
 #, perl-format
@@ -4602,7 +4638,7 @@ msgstr "A remover `%s'"
 #: scripts/dpkg-divert.pl:176
 #, perl-format
 msgid "No diversion `%s', none removed"
-msgstr ""
+msgstr "Nenhum desvio `%s',·nenhum removido"
 
 #: scripts/dpkg-divert.pl:205
 #, perl-format
@@ -4620,9 +4656,9 @@ msgid "cannot stat new name `%s': %s"
 msgstr "Não pode fazer stat ao novo nome `%s': %s"
 
 #: scripts/dpkg-divert.pl:236
-#, fuzzy, perl-format
+#, perl-format
 msgid "error checking `%s': %s"
-msgstr "erro escrevendo `%s'"
+msgstr "erro ao verificar `%s':·%s"
 
 #: scripts/dpkg-divert.pl:241
 #, perl-format
@@ -4630,48 +4666,48 @@ msgid ""
 "rename involves overwriting `%s' with\n"
 "  different file `%s', not allowed"
 msgstr ""
-"renomear involve sobre-escrever `%s' com\n"
+"renomear envolve sobre-escrever `%s' com\n"
 "  um ficheiro diferente `%s', não permitido"
 
 #: scripts/dpkg-divert.pl:251
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
-msgstr ""
+msgstr "renomear: remove o link antigo duplicado `%s':·%s"
 
 #: scripts/dpkg-divert.pl:253
-#, fuzzy, perl-format
+#, perl-format
 msgid "rename: rename `%s' to `%s': %s"
-msgstr "dpkg: %s: aviso - falho renomear `%.250s' para `%.250s': %s\n"
+msgstr "renomear: renomear `%s' para `%s': %s"
 
 #: scripts/dpkg-divert.pl:260
-#, fuzzy, perl-format
+#, perl-format
 msgid "create diversions-new: %s"
-msgstr "erro de leitura em diversions [i]"
+msgstr "criar diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:264
-#, fuzzy, perl-format
+#, perl-format
 msgid "write diversions-new: %s"
-msgstr "desvio por %s"
+msgstr "escrever diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:266
-#, fuzzy, perl-format
+#, perl-format
 msgid "close diversions-new: %s"
-msgstr "desvio por %s"
+msgstr "fechar diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:268
 #, perl-format
 msgid "remove old diversions-old: %s"
-msgstr ""
+msgstr "remover diversions-old antigo: %s"
 
 #: scripts/dpkg-divert.pl:270
-#, fuzzy, perl-format
+#, perl-format
 msgid "create new diversions-old: %s"
-msgstr "erro de leitura em diversions [i]"
+msgstr "criar novo diversions-old: %s"
 
 #: scripts/dpkg-divert.pl:272
-#, fuzzy, perl-format
+#, perl-format
 msgid "install new diversions: %s"
-msgstr "não foi possível instalar nova versão de `%.255s'"
+msgstr "instalar novos desvios: %s"
 
 #: scripts/dpkg-divert.pl:291 scripts/update-alternatives.pl:662
 #, perl-format
@@ -4705,119 +4741,133 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Utilização: %s [<opção> ...] <comando>\n"
+"\n"
+"Comandos:\n"
+"  --add <dono> <grupo> <modo> <ficheiro>\n"
+"                           adiciona uma nova entrada na base de dados.\n"
+"  --remove <ficheiro>          remove o ficheiro da base de dados.\n"
+"  --list [<glob-pattern>]  lista sobreposições currentes na base de dados.\n"
+"\n"
+"Opções:\n"
+"  --admindir <directório>   configura o directório com o ficheiro sobreposto.\n"
+"  --update                 actualiza imediatamente as permissões do ficheiro.\n"
+"  --force                  força uma acção mesmo se o teste de \"sanidade\" falha.\n"
+"  --quiet                  tornar a operação silenciosa, output.mínimo\n"
+"  --help                   mostra esta mensagem de ajuda.\n"
+"  --version                indica a versão.\n"
 
 #: scripts/dpkg-statoverride.pl:93
 msgid "no mode specified"
-msgstr ""
+msgstr "nenhum modo especificado"
 
 #: scripts/dpkg-statoverride.pl:97
-#, fuzzy
 msgid "--add needs four arguments"
-msgstr "--build necessita de um directório como argumento"
+msgstr "--add necessita de quatro argumentos"
 
 #: scripts/dpkg-statoverride.pl:102
 #, perl-format
 msgid "illegal user %s"
-msgstr ""
+msgstr "utilizador ilegal %s"
 
 #: scripts/dpkg-statoverride.pl:104
 #, perl-format
 msgid "non-existing user %s"
-msgstr ""
+msgstr "utilizador não existente %s"
 
 #: scripts/dpkg-statoverride.pl:110
 #, perl-format
 msgid "illegal group %s"
-msgstr ""
+msgstr "grupo ilegal %s"
 
 #: scripts/dpkg-statoverride.pl:112
 #, perl-format
 msgid "non-existing group %s"
-msgstr ""
+msgstr "grupo não existente %s"
 
 #: scripts/dpkg-statoverride.pl:116
 #, perl-format
 msgid "illegal mode %s"
-msgstr ""
+msgstr "modo ilegal %s"
 
 #: scripts/dpkg-statoverride.pl:119 scripts/dpkg-statoverride.pl:146
 #: scripts/dpkg-statoverride.pl:165
 msgid "stripping trailing /"
-msgstr ""
+msgstr "a cortar o caminho /"
 
 #: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "An override for \"%s\" already exists, "
-msgstr ""
+msgstr "Já existe um modo de 'override' para \"%s\""
 
 #: scripts/dpkg-statoverride.pl:124
 msgid "but --force specified so will be ignored."
-msgstr ""
+msgstr "por isso a opção --force será agora ignorada."
 
 #: scripts/dpkg-statoverride.pl:126
-#, fuzzy
 msgid "aborting"
-msgstr "aviso"
+msgstr "a abortar"
 
 #: scripts/dpkg-statoverride.pl:137
 #, perl-format
 msgid "warning: --update given but %s does not exist"
-msgstr ""
+msgstr "aviso: a opção --update foi dada mas o %s não existe"
 
 #: scripts/dpkg-statoverride.pl:139
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to chown %s: %s"
-msgstr "falhou correr %s (%.250s)"
+msgstr "falha ao tentar fazer o 'chwon' %s:·%s"
 
 #: scripts/dpkg-statoverride.pl:140
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to chmod %s: %s"
-msgstr "falhou executar %s"
+msgstr "falhou ao executar chmod %s:·%s"
 
 #: scripts/dpkg-statoverride.pl:148
 msgid "No override present."
-msgstr ""
+msgstr "Não está presente nenhum 'override'."
 
 #: scripts/dpkg-statoverride.pl:156
 msgid "warning: --update is useless for --remove"
-msgstr ""
+msgstr "atenção: a opção --update é inútil para --remove"
 
 #: scripts/dpkg-statoverride.pl:182
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open statoverride: %s"
-msgstr "falhou abrir ficheiro statoverride"
+msgstr "falhou ao abrir ficheiro statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:188
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
-msgstr ""
+msgstr "'Overrides' múltiplos para \"%s\", a abortar a operação"
 
 #: scripts/dpkg-statoverride.pl:201
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open new statoverride file: %s"
-msgstr "falhou abrir ficheiro statoverride"
+msgstr "falhou ao abrir o ficheiro statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:208
 #, perl-format
 msgid "error removing statoverride-old: %s"
-msgstr ""
+msgstr "erro ao remover statoverride-old:·%s"
 
 #: scripts/dpkg-statoverride.pl:210
-#, fuzzy, perl-format
+#, perl-format
 msgid "error creating new statoverride-old: %s"
-msgstr "erro ao criar dispositivo `%.255s'"
+msgstr "erro ao criar novo statoverride-old: %s"
 
 #: scripts/dpkg-statoverride.pl:212
 #, perl-format
 msgid "error installing new statoverride: %s"
-msgstr ""
+msgstr "erro ao instalar novo statoverride:·%s"
 
 #: scripts/install-info.pl:19
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
-msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
+msgstr ""
+"\n"
+"Copyright (C) 1994,1995 Ian Jackson."
 
 #: scripts/install-info.pl:31
 #, perl-format
@@ -4846,45 +4896,67 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Utilização: %s [<opções> ...] [--] <nome do ficheiro>\n"
+"\n"
+"Opções:\n"
+"  --section <expressão regular> <titulo>\n"
+"                           coloque a nova entrada na secção que corresponde a esta "
+"                           <expressão regular> ou cria uma nova com o <title> se não"
+"existir.\n"
+"  --menuentry=<texto>       configura a entrada de menu.\n"
+"  --description=<texto>     configura a descrição a ser utilizada na entrada de menu.\n"
+"  --info-file=<caminho>       especifica o ficheiro a ser instalado no directório.\n"
+"  --dir-file=<caminho>        especifica o nome de ficheiro do ficheiro de informação do "
+"directório.\n"
+"  --infodir=<directório>    o mesmo que '--dir-file=<directório>/dir'.\n"
+"  --info-dir=<directory>   do mesmo modo.\n"
+"  --keep-old               não substituir entradas nem remover vazias.\n"
+"  --remove                 remover a entrada especificada pelo nome baseado em <filename>.\n"
+"  --remove-exactly         remover a entrada exacta de <filename>.\n"
+"  --test                   activa o modo de teste (não executa nenhuma acção).\n"
+"  --debug                  activa o modo de depuração (mostra mais informação).\n"
+"  --quiet                  não mostra mensagens de saída.\n"
+"  --help                   mostra esta mensagem de ajuda.\n"
+"  --version                indica a versão.\n"
 
 #: scripts/install-info.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "could not open stderr for output! %s"
-msgstr "não pode abrir o componente `control'"
+msgstr "não foi possível abrir stderr para 'output'! %s"
 
 #: scripts/install-info.pl:101
 #, perl-format
 msgid "%s: --section needs two more args"
-msgstr ""
+msgstr "%s: --section necessita de mais dois 'args'"
 
 #: scripts/install-info.pl:107
 #, perl-format
 msgid "%s: option --%s is deprecated (ignored)"
-msgstr ""
+msgstr "%s: a opção --%s está ultrapassada (ignorada)"
 
 #: scripts/install-info.pl:133
 #, perl-format
 msgid "%s: --section ignored with --remove"
-msgstr ""
+msgstr "%s: --section ignorada com --remove"
 
 #: scripts/install-info.pl:134
 #, perl-format
 msgid "%s: --description ignored with --remove"
-msgstr ""
+msgstr "%s: --description ignorada com --remove"
 
 #: scripts/install-info.pl:137
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
-msgstr ""
+msgstr "%s: modo de teste - o ficheiro de directório não será actualizado"
 
 #: scripts/install-info.pl:191
 #, perl-format
 msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
+msgstr "%s: atenção, a ignorar entrada confusa INFO-DIR-ENTRY no ficheiro."
 
 #: scripts/install-info.pl:200
 msgid "invalid info entry"
-msgstr ""
+msgstr "entrada de informação errada"
 
 #: scripts/install-info.pl:226
 #, perl-format
@@ -4893,61 +4965,65 @@ msgid ""
 "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
 "%s: unable to determine description for `dir' entry - giving up\n"
 msgstr ""
+"\n"
+"Não existe `START-INFO-DIR-ENTRY' nem `This file documents'.\n"
+"%s: impossível determinar descrição para a entrada `dir' - a desistir\n"
 
 #: scripts/install-info.pl:279
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
-msgstr ""
+msgstr "%s: não existed o ficheiro %s, a recuperar ficheiro de cópia de segurança %s."
 
 #: scripts/install-info.pl:282 scripts/install-info.pl:292
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr ""
+msgstr "%s: a cópia de %s para %s falhou, a desistir: %s"
 
 #: scripts/install-info.pl:288
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
-msgstr ""
+msgstr "%s: nenhuma cópia de segurança do ficheiro %s disponível %s, a recuperar o "
+"ficheiro por omissão."
 
 #: scripts/install-info.pl:297
 #, perl-format
 msgid "%s: no backup file %s available."
-msgstr ""
+msgstr "%s: nenhuma cópia de segurança do ficheiro %s disponível."
 
 #: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no default file %s available, giving up."
-msgstr ""
+msgstr "%s: nenhum fichiero por omissão %s disponível, a desistir."
 
 #: scripts/install-info.pl:307
 #, perl-format
 msgid "try deleting %s?"
-msgstr ""
+msgstr "experimente apagar %s?"
 
 #: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
+msgstr "%s: entrada existente para `%s' não substituído"
 
 #: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
+msgstr "%s: a substituir a entrada existente do directório para `%s'"
 
 #: scripts/install-info.pl:364
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: creating new section `%s'"
-msgstr "erro ao criar o directório `%.255s'"
+msgstr "%s: a criar nova secção `%s'"
 
 #: scripts/install-info.pl:367
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr ""
+msgstr "%s: nenhuma secção neste momento, a criar secção Miscellaneous do mesmo modo."
 
 #: scripts/install-info.pl:385
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
-msgstr ""
+msgstr "%s: nenhuma secção especificada para a nova entrada, a colocar no fim"
 
 #: scripts/install-info.pl:422
 #, perl-format
@@ -4967,7 +5043,7 @@ msgstr "%s: a apagar secção vazia `%s'"
 #: scripts/install-info.pl:438
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr ""
+msgstr "%s: nenhuma entrada para o ficheiro `%s' e para a entrada de menu `%s'"
 
 #: scripts/install-info.pl:440
 #, perl-format
@@ -4990,7 +5066,7 @@ msgid "%s: could not backup %s in %s: %s"
 msgstr "%s: não pode salvaguardar %s em %s: %s"
 
 #: scripts/install-info.pl:515
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to read %s: %d"
 msgstr "não foi possível ler %s: %d"
 
@@ -5049,6 +5125,42 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Utilização: %s [<opção> ...] <comando>\n"
+"\n"
+"Comandos:\n"
+"  --install <link> <nome> <caminho> <prioridade>\n"
+"    [--slave <link> <nome> <caminho>] ...\n"
+"                           adicionar um grupo de alternativas para o sistema.\n"
+"  --remove <nome> <caminho>   remover <caminho> do grupo alternativo <nome>.\n"
+"  --remove-all <nome>      remove grupo <nome> de alternativas de "
+"sistema.\n"
+"  --auto <nome>            comuta o link principal <nome> para o modo automático.\n"
+"  --display <nome>         visualiza informação sobre o grupo <nome>.\n"
+"  --list <nome>            mostra todos os alvos do grupo <nome>.\n"
+"  --config <nome>          mostra alternativas para o grupo <nome> e pede "
+"ao\n"
+"                           utilizador para seleccionar um para usar.\n"
+"  --set <nome> <caminho>      configura o <caminho> como alternativa para <nome>.\n"
+"  --all                    chama --config para todas as alternativas.\n"
+"\n"
+"<link> link simbólico que aponta para /etc/alternatives/<nome>.\n"
+"  (e.g. /usr/bin/pager)\n"
+"<nome> nome primário para este grupo de link.\n"
+"  (e.g. pager)\n"
+"<caminho> local de um dos ficheiros alvo alternativos.\n"
+"  (e.g. /usr/bin/less)\n"
+"<prioridade> é um inteiro; opções com maior numero tem prioridade mais elevada "
+"em\n"
+"  modo automático.\n"
+"\n"
+"Opções:\n"
+"  --altdir <directório>     altera o directório de alternativas.\n"
+"  --admindir <directório>   altera o directório de administração.\n"
+"  --test                   não executa nada, apenas demonstra.\n"
+"  --verbose                lista todas as operações, mais 'output'.\n"
+"  --quiet                  operação silenciosa, output mínimo.\n"
+"  --help                   mostra esta mensagem de ajuda.\n"
+"  --version                indica a versão.\n"
 
 #: scripts/update-alternatives.pl:117
 #, perl-format
@@ -5107,11 +5219,11 @@ msgstr ""
 
 #: scripts/update-alternatives.pl:168
 msgid "--slave only allowed with --install"
-msgstr "--slave apenas é permitodo com --install"
+msgstr "--slave apenas é permito com --install"
 
 #: scripts/update-alternatives.pl:176
 msgid "manflag"
-msgstr ""
+msgstr "manflag"
 
 #: scripts/update-alternatives.pl:180
 #, perl-format
@@ -5121,12 +5233,12 @@ msgstr "slave duplicado %s"
 #: scripts/update-alternatives.pl:183
 #, perl-format
 msgid "slave link same as main link %s"
-msgstr ""
+msgstr "link slave igual ao link principal %s"
 
 #: scripts/update-alternatives.pl:184
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate slave link %s"
-msgstr "valor duplicado para o campo `%s'"
+msgstr "'slave link' duplicado %s"
 
 #: scripts/update-alternatives.pl:188
 #, perl-format
@@ -5144,6 +5256,8 @@ msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
 "alternatives."
 msgstr ""
+"Alternativa para %s aponta para %s - a qual não foi encontrada.  A remover "
+"da lista de alternativas."
 
 #: scripts/update-alternatives.pl:216 scripts/update-alternatives.pl:265
 #: scripts/update-alternatives.pl:273
@@ -5159,16 +5273,16 @@ msgstr "%s - o status é %s."
 #: scripts/update-alternatives.pl:221
 #, perl-format
 msgid " link currently points to %s"
-msgstr ""
+msgstr " o link actualmente aponta para %s"
 
 #: scripts/update-alternatives.pl:223
 msgid " link currently absent"
-msgstr ""
+msgstr " link actualmente inexistente"
 
 #: scripts/update-alternatives.pl:225
 #, perl-format
 msgid " link unreadable - %s"
-msgstr ""
+msgstr " link não funcional - %s"
 
 #: scripts/update-alternatives.pl:232
 #, perl-format
@@ -5187,12 +5301,12 @@ msgstr "Sem versões disponíveis."
 #: scripts/update-alternatives.pl:241
 #, perl-format
 msgid "Current `best' version is %s."
-msgstr ""
+msgstr "A `melhor' versão corrente é %s."
 
 #: scripts/update-alternatives.pl:300
 #, perl-format
 msgid "Setting up automatic selection of %s."
-msgstr ""
+msgstr "A configurar a selecção automática de %s."
 
 #: scripts/update-alternatives.pl:303 scripts/update-alternatives.pl:305
 #: scripts/update-alternatives.pl:413 scripts/update-alternatives.pl:415
@@ -5210,6 +5324,8 @@ msgid ""
 "%s has been changed (manually or by a script).\n"
 "Switching to manual updates only."
 msgstr ""
+"%s foi alterado (manualmente ou por um script).\n"
+"A passar para actualizações manuais apenas."
 
 #: scripts/update-alternatives.pl:328
 #, perl-format
@@ -5217,66 +5333,68 @@ msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
 "(You may modify the symlinks there yourself if desired - see `man ln'.)"
 msgstr ""
+"A verificar versões disponíveis de %s, a actualizar os links em %s ...\n"
+"(Pode modificar os links simbólicos se desejar - veja `man ln'.)"
 
 #: scripts/update-alternatives.pl:334
-#, fuzzy, perl-format
+#, perl-format
 msgid "Renaming %s link from %s to %s."
-msgstr "A descompactar %s (desde %s) ...\n"
+msgstr "A renomear o link %s de %s para %s."
 
 #: scripts/update-alternatives.pl:337 scripts/update-alternatives.pl:359
 #: scripts/update-alternatives.pl:439 scripts/update-alternatives.pl:514
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to rename %s to %s: %s"
-msgstr "não foi possível o stat a %s `%.250s'"
+msgstr "não foi possível renomear %s para %s: %s"
 
 #: scripts/update-alternatives.pl:354
 #, perl-format
 msgid "slave link name %s duplicated"
-msgstr ""
+msgstr "nome de link slave %s duplicado"
 
 #: scripts/update-alternatives.pl:356
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
-msgstr ""
+msgstr "A renomear o link slave %s de %s para %s."
 
 #: scripts/update-alternatives.pl:370
 msgid "Removing manually selected alternative - switching to auto mode"
-msgstr ""
+msgstr "A remover alternativa seleccionada manualmente - a passar para modo automático"
 
 #: scripts/update-alternatives.pl:384
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
-msgstr ""
+msgstr "Alternativa %s para %s não registada, não removida."
 
 #: scripts/update-alternatives.pl:410
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
-msgstr ""
+msgstr "A descartar links slave obsoletos %s (%s)."
 
 #: scripts/update-alternatives.pl:431
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
-msgstr ""
+msgstr "Actualizações automáticas de %s desactivadas, abandonando."
 
 #: scripts/update-alternatives.pl:433
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
-msgstr ""
+msgstr "Para voltar às actualizações automáticas digite `update-alternatives·--auto·%s'."
 
 #: scripts/update-alternatives.pl:437
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
-msgstr ""
+msgstr "A recuperar da actualização anterior falhada de %s·..."
 
 #: scripts/update-alternatives.pl:452
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to open %s for write: %s"
-msgstr "não foi possível abrir o ficheiro fonte `%.250s'"
+msgstr "não foi possível abrir %s para escrever: %s"
 
 #: scripts/update-alternatives.pl:476
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
-msgstr ""
+msgstr "Último pacote a fornecer %s (%s) removido. a apagar."
 
 #: scripts/update-alternatives.pl:489
 #, perl-format
@@ -5284,37 +5402,39 @@ msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
 " (or nonexistent); however, readlink failed: %s"
 msgstr ""
+"aviso: %s é suposto ser um link simbólico para %s\n"
+" (ou não-existente); no entanto, a sua leitura falhou: %s"
 
 #: scripts/update-alternatives.pl:494 scripts/update-alternatives.pl:508
 #: scripts/update-alternatives.pl:528 scripts/update-alternatives.pl:536
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to ensure %s nonexistent: %s"
-msgstr "não foi possível executar novo %s"
+msgstr "impossível averiguar a não existência de %s: %s"
 
 #: scripts/update-alternatives.pl:496 scripts/update-alternatives.pl:530
 #: scripts/update-alternatives.pl:553 scripts/update-alternatives.pl:595
 #: scripts/update-alternatives.pl:631 scripts/update-alternatives.pl:670
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to make %s a symlink to %s: %s"
-msgstr "não foi possível criar backup do link simbólico para `%.255s'"
+msgstr "não foi possível criar %s como link simbólico para %s:·%s"
 
 #: scripts/update-alternatives.pl:498 scripts/update-alternatives.pl:518
 #: scripts/update-alternatives.pl:532 scripts/update-alternatives.pl:555
 #: scripts/update-alternatives.pl:597 scripts/update-alternatives.pl:633
 #: scripts/update-alternatives.pl:675
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install %s as %s: %s"
-msgstr "Não foi possível instalar `%.250s' como `%.250s'"
+msgstr "não foi possível instalar %s·como·%s:·%s"
 
 #: scripts/update-alternatives.pl:501 scripts/update-alternatives.pl:546
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
-msgstr ""
+msgstr "A deixar %s (%s) a apontar para %s."
 
 #: scripts/update-alternatives.pl:504 scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
-msgstr ""
+msgstr "A actualizar %s (%s) de modo a apontar para %s."
 
 #: scripts/update-alternatives.pl:523
 #, perl-format
@@ -5322,12 +5442,14 @@ msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
 " %s, or nonexistent; however, readlink failed: %s"
 msgstr ""
+"aviso:·%s·é·suposto·ser·um·link·simbólico·slave para·\n"
+" %s (ou não-existente);·no·entanto,·a·sua·leitura·falhou:·%s"
 
 #: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:606
 #: scripts/update-alternatives.pl:642
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
-msgstr ""
+msgstr "A remover %s (%s), não apropriado com %s."
 
 #: scripts/update-alternatives.pl:563
 #, perl-format
@@ -5335,6 +5457,8 @@ msgid ""
 "There is only 1 program which provides %s\n"
 "(%s). Nothing to configure.\n"
 msgstr ""
+"Existe apenas um programa que fornece %s\n"
+"(%s). Nada para configurar.\n"
 
 #: scripts/update-alternatives.pl:568
 #, perl-format
@@ -5344,45 +5468,49 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
+"Existem %s alternativas que fornecem `%s'.\n"
+"\n"
+"  Selecção    Alternativa\n"
+"-----------------------------------------------\n"
 
 #: scripts/update-alternatives.pl:578
 msgid "Press enter to keep the default[*], or type selection number: "
-msgstr ""
+msgstr "Pressione enter para manter a omissão[*], ou digite o numero seleccionado: "
 
 #: scripts/update-alternatives.pl:592 scripts/update-alternatives.pl:629
 #, perl-format
 msgid "Using `%s' to provide `%s'."
-msgstr ""
+msgstr "A usar `%s' para fornecer `%s'."
 
 #: scripts/update-alternatives.pl:627
 #, perl-format
 msgid "Cannot find alternative `%s'."
-msgstr ""
+msgstr "Impossível encontrar alternativa `%s'."
 
 #: scripts/update-alternatives.pl:650 scripts/update-alternatives.pl:653
-#, fuzzy, perl-format
+#, perl-format
 msgid "error writing stdout: %s"
-msgstr "erro escrevendo `%s'"
+msgstr "erro ao escrever stdout: %s"
 
 #: scripts/update-alternatives.pl:652
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
-msgstr ""
+msgstr "newlines proibidas em ficheiros update-alternatives (%s)"
 
 #: scripts/update-alternatives.pl:657
-#, fuzzy, perl-format
+#, perl-format
 msgid "error or eof reading %s for %s (%s)"
-msgstr "erro ao ler %s do ficheiro %.255s"
+msgstr "erro ou leitura de fim de ficheiro %s para %s·(%s)"
 
 #: scripts/update-alternatives.pl:658
-#, fuzzy, perl-format
+#, perl-format
 msgid "missing newline after %s"
-msgstr "o ficheiro `%.250s' está corrompido - falta newline após %.250s"
+msgstr "falta nova linha após %s"
 
 #: scripts/update-alternatives.pl:678
 #, perl-format
 msgid "Serious problem: %s"
-msgstr ""
+msgstr "Problema sério: %s"
 
 #~ msgid "unable to create %.250s"
 #~ msgstr "não foi possível criar %.250s"
