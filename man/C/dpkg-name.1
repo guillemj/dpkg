@@ -28,7 +28,7 @@ sh script which provides an easy way to rename
 packages into their full package names. A full package name consists
 of <package>_<version>_<architecture>.deb as specified in the control
 file of the package. The <version> part of the filename consists of
-the mainstream version information optionally followed by a hyphen and
+the upstream version information optionally followed by a hyphen and
 the revision information.
 .SH OPTIONS
 .TP
@@ -43,13 +43,13 @@ Existing files will be overwritten if they have the same name as the
 destination filename.
 .TP
 .BR "\-s, \-\-subdir" " [\fIdir\fP]"
-Files will be moved into subdir. If directory given as argument exists
+Files will be moved into a subdirectory. If the directory given as argument exists
 the files will be moved into that directory otherwise the name of
 the target directory is extracted from the section field in the
 control part of the package. The target directory will be
 `unstable/binary\-<architecture>/<section>'. If the section is
-`non-free', `contrib' or no section information is found in the
-control file the target directory is
+not found in the control, then `no-section' is assumed, and in this case,
+as well as for sections `non-free' and `contrib' the target directory is
 `<section>/binary\-<architecture>'. The section field isn't required so
 a lot of packages will find their way to the `no\-section' area. Use
 this option with care, it's messy.
@@ -92,7 +92,10 @@ This can be used when building new packages.
 Some packages don't follow the name structure
 <package>_<version>_<architecture>.deb. Packages renamed by dpkg\-name
 will follow this structure. Generally this will have no impact on how
-packages are installed by dselect/dpkg, but other installation tools
+packages are installed by
+.BR dselect (1)/
+.BR dpkg (1),
+but other installation tools
 might depend on this naming structure.
 .SH SEE ALSO
 .BR deb (5),
