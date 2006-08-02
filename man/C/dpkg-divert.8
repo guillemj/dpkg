@@ -24,7 +24,9 @@ dpkg\-divert - override a package's version of a file
 .I <file>
 .
 .SH DESCRIPTION
-File `diversions' are a way of forcing dpkg not to install a file into its
+File `diversions' are a way of forcing
+.BR dpkg (1)
+not to install a file into its
 location, but to a `diverted' location. Diversions can be used through the
 Debian package scripts to move a file away when it causes a conflict. System
 administrators can also use it to override some package's configuration
@@ -45,14 +47,19 @@ specified.
 Set the dpkg data directory to \fI<directory>\fP (default: \fI/var/lib/dpkg\fP).
 .TP
 .BI \-\-divert " <divert-to>"
-\fI<divert-to>\fP is the name used by other packages' versions.
+\fI<divert-to>\fP is the location where the versions of \fI<file>\fP, as
+provided by other packages, will be diverted.
 .TP
 .B \-\-local
-Specifies that all packages' versions are diverted.
+Specifies that all packages' versions of this file are diverted.
+This means, that there are no exceptions, and whatever package is installed,
+the file is diverted. This can be used by an admin to install a locally
+modified version.
 .TP
 .BI \-\-package " <package>"
 \fI<package>\fP is the name of a package whose copy of \fI<file>\fP will not
-be diverted.
+be diverted. i.e. \fI<file>\fP will be diverted for all packages except
+\fI<package>\fP.
 .TP
 .B \-\-quiet
 Quiet mode, i.e. no verbose output.
@@ -77,21 +84,22 @@ and \fB\-\-divert\fP must match if specified.
 
 Directories can't be diverted with \fBdpkg\-divert\fP.
 
-Care should be taken when diverting shared libraries, \fBldconfig\fP (8)
+Care should be taken when diverting shared libraries, \fBldconfig\fP(8)
 creates a symbolic link based on the DT_SONAME field embedded in the library.
-Because ldconfig doesn't honour diverts (only dpkg does), if a diverted
-library has the same SONAME as the undiverted one the symlink may end up
-pointing at the diverted library.
+Because ldconfig doesn't honour diverts (only dpkg does), the symlink may
+end up pointing at the diverted library, if a diverted library has the
+same SONAME as the undiverted one.
 .
 .SH EXAMPLES
-To divert all copies of a \fI/usr/bin/example.foo\fR to \fI/usr/bin/example\fR,
-performing the rename if required:
+To divert all copies of a \fI/usr/bin/example\fR to \fI/usr/bin/example.foo\fR,
+i.e. directs all packages providing \fI/usr/bin/example\fR to install it as
+\fI/usr/bin/example.foo\fR, performing the rename if required:
 .HP
-dpkg-divert \-\-divert /usr/bin/example \-\-rename /usr/bin/example.foo
+dpkg-divert \-\-divert /usr/bin/example.foo \-\-rename /usr/bin/example
 .PP
 To remove that diversion:
 .HP
-dpkg-divert \-\-rename \-\-remove /usr/bin/example.foo
+dpkg-divert \-\-rename \-\-remove /usr/bin/example
 
 .PP
 To divert any package trying to install \fI/usr/bin/example\fR to

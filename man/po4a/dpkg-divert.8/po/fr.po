@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2006-06-20 21:07+0200\n"
+"POT-Creation-Date: 2006-08-02 21:53+0200\n"
 "PO-Revision-Date: 2006-06-24 10:26+0200\n"
 "Last-Translator: Philippe Batailler <philippe.batailler@free.fr>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -82,15 +82,16 @@ msgid "DESCRIPTION"
 msgstr "DESCRIPTION"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:34
+#: ../../../man/po4a/../C/dpkg-divert.8:36
+#, fuzzy
 msgid ""
-"File `diversions' are a way of forcing dpkg not to install a file into its "
-"location, but to a `diverted' location. Diversions can be used through the "
-"Debian package scripts to move a file away when it causes a conflict. System "
-"administrators can also use it to override some package's configuration "
-"file, or whenever some files (which aren't marked as 'conffiles') need to be "
-"preserved by dpkg, when installing a newer version of a package which "
-"contains those files."
+"File `diversions' are a way of forcing B<dpkg>(1)  not to install a file "
+"into its location, but to a `diverted' location. Diversions can be used "
+"through the Debian package scripts to move a file away when it causes a "
+"conflict. System administrators can also use it to override some package's "
+"configuration file, or whenever some files (which aren't marked as "
+"'conffiles') need to be preserved by dpkg, when installing a newer version "
+"of a package which contains those files."
 msgstr ""
 "Le «\\ détournement\\ » de fichier est un moyen d'obliger dpkg à installer "
 "un fichier non pas dans l'emplacement prévu mais dans un autre. Les scripts "
@@ -102,7 +103,7 @@ msgstr ""
 "Dpkg."
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:42
+#: ../../../man/po4a/../C/dpkg-divert.8:44
 msgid ""
 "B<dpkg-divert> is the utility used to set up and update the list of "
 "diversions. It functions in three basic modes - adding, removing, and "
@@ -117,19 +118,19 @@ msgstr ""
 "B<--truename>. On peut indiquer d'autres options (voyez la liste ci-dessous)."
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:42
+#: ../../../man/po4a/../C/dpkg-divert.8:44
 #, no-wrap
 msgid "OPTIONS"
 msgstr "OPTIONS"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:43
+#: ../../../man/po4a/../C/dpkg-divert.8:45
 #, no-wrap
 msgid "B<--admindir>I< E<lt>directoryE<gt>>"
 msgstr "B<--admindir>I< E<lt>répertoireE<gt>>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:46
+#: ../../../man/po4a/../C/dpkg-divert.8:48
 msgid ""
 "Set the dpkg data directory to I<E<lt>directoryE<gt>> (default: I</var/lib/"
 "dpkg>)."
@@ -138,63 +139,72 @@ msgstr ""
 "défaut c'est I</var/lib/dpkg>)."
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:46
+#: ../../../man/po4a/../C/dpkg-divert.8:48
 #, no-wrap
 msgid "B<--divert>I< E<lt>divert-toE<gt>>"
 msgstr "B<--divert>I< E<lt>détourner-dansE<gt>>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:49
-msgid "I<E<lt>divert-toE<gt>> is the name used by other packages' versions."
-msgstr ""
-"I<E<lt>détourner-dansE<gt>> est le nom utilisé pour les autres versions des "
-"paquets."
-
-# type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:49
-#, no-wrap
-msgid "B<--local>"
-msgstr "B<--local>"
-
-# type: Plain text
 #: ../../../man/po4a/../C/dpkg-divert.8:52
-msgid "Specifies that all packages' versions are diverted."
-msgstr "Indique que toutes les versions des paquets sont détournées."
-
-# type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:52
-#, no-wrap
-msgid "B<--package>I< E<lt>packageE<gt>>"
-msgstr "B<--package>I< E<lt>paquetE<gt>>"
-
-# type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:56
+#, fuzzy
 msgid ""
-"I<E<lt>packageE<gt>> is the name of a package whose copy of "
-"I<E<lt>fileE<gt>> will not be diverted."
+"I<E<lt>divert-toE<gt>> is the location where the versions of "
+"I<E<lt>fileE<gt>>, as provided by other packages, will be diverted."
 msgstr ""
 "I<E<lt>paquetE<gt>> est le nom du paquet dont la copie de "
 "I<E<lt>fichierE<gt>> ne sera pas détournée."
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:56
+#: ../../../man/po4a/../C/dpkg-divert.8:52
+#, no-wrap
+msgid "B<--local>"
+msgstr "B<--local>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg-divert.8:58
+msgid ""
+"Specifies that all packages' versions of this file are diverted.  This "
+"means, that there are no exceptions, and whatever package is installed, the "
+"file is diverted. This can be used by an admin to install a locally modified "
+"version."
+msgstr ""
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg-divert.8:58
+#, no-wrap
+msgid "B<--package>I< E<lt>packageE<gt>>"
+msgstr "B<--package>I< E<lt>paquetE<gt>>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg-divert.8:63
+#, fuzzy
+msgid ""
+"I<E<lt>packageE<gt>> is the name of a package whose copy of "
+"I<E<lt>fileE<gt>> will not be diverted. i.e. I<E<lt>fileE<gt>> will be "
+"diverted for all packages except I<E<lt>packageE<gt>>."
+msgstr ""
+"I<E<lt>paquetE<gt>> est le nom du paquet dont la copie de "
+"I<E<lt>fichierE<gt>> ne sera pas détournée."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg-divert.8:63
 #, no-wrap
 msgid "B<--quiet>"
 msgstr "B<--quiet>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:59
+#: ../../../man/po4a/../C/dpkg-divert.8:66
 msgid "Quiet mode, i.e. no verbose output."
 msgstr "Mode silencieux, pas de bavardage."
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:59
+#: ../../../man/po4a/../C/dpkg-divert.8:66
 #, no-wrap
 msgid "B<--rename>"
 msgstr "B<--rename>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:63
+#: ../../../man/po4a/../C/dpkg-divert.8:70
 msgid ""
 "Actually move the file aside (or back). dpkg-divert will abort operation in "
 "case the destination file already exists."
@@ -203,46 +213,46 @@ msgstr ""
 "divert interrompt l'opération."
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:63
+#: ../../../man/po4a/../C/dpkg-divert.8:70
 #, no-wrap
 msgid "B<--test>"
 msgstr "B<--test>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:66
+#: ../../../man/po4a/../C/dpkg-divert.8:73
 msgid "Test mode, i.e. don't actually perform any changes, just demonstrate."
 msgstr "Mode de test, ne rien modifier réellement, seulement montrer."
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:66
+#: ../../../man/po4a/../C/dpkg-divert.8:73
 #, no-wrap
 msgid "B<--help>"
 msgstr "B<--help>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:69
+#: ../../../man/po4a/../C/dpkg-divert.8:76
 msgid "Output short usage instructions, and exit successfully."
 msgstr "Affiche quelques instructions d'aide, et se termine normalement."
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:69
+#: ../../../man/po4a/../C/dpkg-divert.8:76
 #, no-wrap
 msgid "B<--version>"
 msgstr "B<--version>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:72
+#: ../../../man/po4a/../C/dpkg-divert.8:79
 msgid "Output program name and version and exit successfully."
 msgstr "Affiche le nom du programme et sa version puis se termine normalement."
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:73
+#: ../../../man/po4a/../C/dpkg-divert.8:80
 #, no-wrap
 msgid "NOTES"
 msgstr "NOTES"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:77
+#: ../../../man/po4a/../C/dpkg-divert.8:84
 msgid ""
 "When adding, default is B<--local> and B<--divert> I<E<lt>originalE<gt>."
 "distrib>. When removing, B<--package> or B<--local> and B<--divert> must "
@@ -253,18 +263,19 @@ msgstr ""
 "doivent correspondre quand ils sont précisés."
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:79
+#: ../../../man/po4a/../C/dpkg-divert.8:86
 msgid "Directories can't be diverted with B<dpkg-divert>."
 msgstr "On ne peut pas détourner des répertoires avec B<dpkg-divert>."
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:85
+#: ../../../man/po4a/../C/dpkg-divert.8:92
+#, fuzzy
 msgid ""
-"Care should be taken when diverting shared libraries, B<ldconfig> (8)  "
+"Care should be taken when diverting shared libraries, B<ldconfig>(8)  "
 "creates a symbolic link based on the DT_SONAME field embedded in the "
-"library.  Because ldconfig doesn't honour diverts (only dpkg does), if a "
-"diverted library has the same SONAME as the undiverted one the symlink may "
-"end up pointing at the diverted library."
+"library.  Because ldconfig doesn't honour diverts (only dpkg does), the "
+"symlink may end up pointing at the diverted library, if a diverted library "
+"has the same SONAME as the undiverted one."
 msgstr ""
 "Il faut faire attention quand une bibliothèque partagée est détournée. "
 "B<ldconfig> (8) crée un lien symbolique à partir du champ DT_SONAME embarqué "
@@ -274,38 +285,42 @@ msgstr ""
 "sur la bibliothèque détournée."
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:86
+#: ../../../man/po4a/../C/dpkg-divert.8:93
 #, no-wrap
 msgid "EXAMPLES"
 msgstr "EXEMPLES"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:89
+#: ../../../man/po4a/../C/dpkg-divert.8:97
+#, fuzzy
 msgid ""
-"To divert all copies of a I</usr/bin/example.foo> to I</usr/bin/example>, "
-"performing the rename if required:"
+"To divert all copies of a I</usr/bin/example> to I</usr/bin/example.foo>, i."
+"e. directs all packages providing I</usr/bin/example> to install it as I</"
+"usr/bin/example.foo>, performing the rename if required:"
 msgstr ""
 "Pour détourner toutes les copies de I</usr/bin/example.foo> vers I</usr/bin/"
 "example>, il faut modifier le nom si c'est demandé\\ :"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:91
-msgid "dpkg-divert --divert /usr/bin/example --rename /usr/bin/example.foo"
+#: ../../../man/po4a/../C/dpkg-divert.8:99
+#, fuzzy
+msgid "dpkg-divert --divert /usr/bin/example.foo --rename /usr/bin/example"
 msgstr "dpkg-divert --divert /usr/bin/example --rename /usr/bin/example.foo"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:93
-#: ../../../man/po4a/../C/dpkg-divert.8:103
+#: ../../../man/po4a/../C/dpkg-divert.8:101
+#: ../../../man/po4a/../C/dpkg-divert.8:111
 msgid "To remove that diversion:"
 msgstr "Pour supprimer ce détournement\\ :"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:95
-msgid "dpkg-divert --rename --remove /usr/bin/example.foo"
+#: ../../../man/po4a/../C/dpkg-divert.8:103
+#, fuzzy
+msgid "dpkg-divert --rename --remove /usr/bin/example"
 msgstr "dpkg-divert --rename --remove /usr/bin/example.foo"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:99
+#: ../../../man/po4a/../C/dpkg-divert.8:107
 msgid ""
 "To divert any package trying to install I</usr/bin/example> to I</usr/bin/"
 "example.foo>, except your own I<wibble> package:"
@@ -314,7 +329,7 @@ msgstr ""
 "bin/example.foo>, sauf votre propre paquet I<wibble>\\ :"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:101
+#: ../../../man/po4a/../C/dpkg-divert.8:109
 msgid ""
 "dpkg-divert --package wibble --divert /usr/bin/example.foo --rename /usr/bin/"
 "example"
@@ -323,24 +338,24 @@ msgstr ""
 "example"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:105
+#: ../../../man/po4a/../C/dpkg-divert.8:113
 msgid "dpkg-divert --package wibble --rename --remove /usr/bin/example"
 msgstr "dpkg-divert --package wibble --rename --remove /usr/bin/example"
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:106
+#: ../../../man/po4a/../C/dpkg-divert.8:114
 #, no-wrap
 msgid "FILES"
 msgstr "FICHIERS"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:107
+#: ../../../man/po4a/../C/dpkg-divert.8:115
 #, no-wrap
 msgid "I</var/lib/dpkg/diversions>"
 msgstr "I</var/lib/dpkg/diversions>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:112
+#: ../../../man/po4a/../C/dpkg-divert.8:120
 msgid ""
 "File which contains the current list of diversions of the system. It is "
 "located in the dpkg administration directory, along with other files "
@@ -351,7 +366,7 @@ msgstr ""
 "fichiers importants comme «\\ status\\ » ou «\\ available\\ »."
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:115
+#: ../../../man/po4a/../C/dpkg-divert.8:123
 msgid ""
 "Note: B<dpkg-divert> preserves the old copy of this file, with extension \"-"
 "old\", before replacing it with the new one."
@@ -360,35 +375,46 @@ msgstr ""
 "l'extension «\\ -old\\ », avant de la remplacer par la nouvelle."
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:116
+#: ../../../man/po4a/../C/dpkg-divert.8:124
 #, no-wrap
 msgid "SEE ALSO"
 msgstr "VOIR AUSSI"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:118
+#: ../../../man/po4a/../C/dpkg-divert.8:126
 msgid "B<dpkg>(1)."
 msgstr "B<dpkg>(1)."
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:118
+#: ../../../man/po4a/../C/dpkg-divert.8:126
 #, no-wrap
 msgid "AUTHOR"
 msgstr "AUTEUR"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:120
+#: ../../../man/po4a/../C/dpkg-divert.8:128
 msgid "Copyright (C) 1995 Ian Jackson."
 msgstr "Copyright (C) 1995 Ian Jackson."
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:122
+#: ../../../man/po4a/../C/dpkg-divert.8:130
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or later "
 "for copying conditions. There is NO warranty."
 msgstr ""
-"Ce programme est un logiciel libre\\ ; voyez la «\\ GNU General Public Licence\\ » "
-"version 2 ou supérieure pour le copyright. Il n'y a PAS de garantie."
+"Ce programme est un logiciel libre\\ ; voyez la «\\ GNU General Public "
+"Licence\\ » version 2 ou supérieure pour le copyright. Il n'y a PAS de "
+"garantie."
+
+# type: Plain text
+#~ msgid "I<E<lt>divert-toE<gt>> is the name used by other packages' versions."
+#~ msgstr ""
+#~ "I<E<lt>détourner-dansE<gt>> est le nom utilisé pour les autres versions "
+#~ "des paquets."
+
+# type: Plain text
+#~ msgid "Specifies that all packages' versions are diverted."
+#~ msgstr "Indique que toutes les versions des paquets sont détournées."
 
 # type: TH
 #~ msgid "DPKG-DIVERT"

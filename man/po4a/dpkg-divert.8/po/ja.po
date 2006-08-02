@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2006-06-20 21:07+0200\n"
+"POT-Creation-Date: 2006-08-02 21:53+0200\n"
 "PO-Revision-Date: 2005-07-03 15:04+0200\n"
 "Last-Translator: Unknown translator\n"
 "Language-Team: Japanese <debian-l10n-japanese@lists.debian.org>\n"
@@ -86,16 +86,16 @@ msgid "DESCRIPTION"
 msgstr "説明"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:34
+#: ../../../man/po4a/../C/dpkg-divert.8:36
 #, fuzzy
 msgid ""
-"File `diversions' are a way of forcing dpkg not to install a file into its "
-"location, but to a `diverted' location. Diversions can be used through the "
-"Debian package scripts to move a file away when it causes a conflict. System "
-"administrators can also use it to override some package's configuration "
-"file, or whenever some files (which aren't marked as 'conffiles') need to be "
-"preserved by dpkg, when installing a newer version of a package which "
-"contains those files."
+"File `diversions' are a way of forcing B<dpkg>(1)  not to install a file "
+"into its location, but to a `diverted' location. Diversions can be used "
+"through the Debian package scripts to move a file away when it causes a "
+"conflict. System administrators can also use it to override some package's "
+"configuration file, or whenever some files (which aren't marked as "
+"'conffiles') need to be preserved by dpkg, when installing a newer version "
+"of a package which contains those files."
 msgstr ""
 "`diversions' というファイルにより、dpkg はファイルをインストールする時に 本来"
 "意図していた場所ではなく退避した(`diverted')場所にインストールする ようにな"
@@ -106,7 +106,7 @@ msgstr ""
 "うにするために diversion を 使うことができる。"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:42
+#: ../../../man/po4a/../C/dpkg-divert.8:44
 #, fuzzy
 msgid ""
 "B<dpkg-divert> is the utility used to set up and update the list of "
@@ -122,19 +122,19 @@ msgstr ""
 "ションも指定することができる。"
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:42
+#: ../../../man/po4a/../C/dpkg-divert.8:44
 #, fuzzy, no-wrap
 msgid "OPTIONS"
 msgstr "オプション"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:43
+#: ../../../man/po4a/../C/dpkg-divert.8:45
 #, fuzzy, no-wrap
 msgid "B<--admindir>I< E<lt>directoryE<gt>>"
 msgstr "I<--admindir E<lt>directoryE<gt>>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:46
+#: ../../../man/po4a/../C/dpkg-divert.8:48
 #, fuzzy
 msgid ""
 "Set the dpkg data directory to I<E<lt>directoryE<gt>> (default: I</var/lib/"
@@ -144,65 +144,73 @@ msgstr ""
 "lib/dpkg)"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:46
+#: ../../../man/po4a/../C/dpkg-divert.8:48
 #, fuzzy, no-wrap
 msgid "B<--divert>I< E<lt>divert-toE<gt>>"
 msgstr "I<--divert E<lt>divert-toE<gt>>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:49
-#, fuzzy
-msgid "I<E<lt>divert-toE<gt>> is the name used by other packages' versions."
-msgstr "E<lt>divert-toE<gt> は他のパッケージで使われる名前である。"
-
-# type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:49
-#, fuzzy, no-wrap
-msgid "B<--local>"
-msgstr "I<--local>"
-
-# type: Plain text
 #: ../../../man/po4a/../C/dpkg-divert.8:52
-#, fuzzy
-msgid "Specifies that all packages' versions are diverted."
-msgstr "全てのパッケージを退避する対象にする。"
-
-# type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:52
-#, fuzzy, no-wrap
-msgid "B<--package>I< E<lt>packageE<gt>>"
-msgstr "I<--package E<lt>packageE<gt>>"
-
-# type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:56
 #, fuzzy
 msgid ""
-"I<E<lt>packageE<gt>> is the name of a package whose copy of "
-"I<E<lt>fileE<gt>> will not be diverted."
+"I<E<lt>divert-toE<gt>> is the location where the versions of "
+"I<E<lt>fileE<gt>>, as provided by other packages, will be diverted."
 msgstr ""
 "E<lt>packageE<gt> は E<lt>fileE<gt> が退避されることのないパッケージの名前で"
 "ある。"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:56
+#: ../../../man/po4a/../C/dpkg-divert.8:52
+#, fuzzy, no-wrap
+msgid "B<--local>"
+msgstr "I<--local>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg-divert.8:58
+msgid ""
+"Specifies that all packages' versions of this file are diverted.  This "
+"means, that there are no exceptions, and whatever package is installed, the "
+"file is diverted. This can be used by an admin to install a locally modified "
+"version."
+msgstr ""
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg-divert.8:58
+#, fuzzy, no-wrap
+msgid "B<--package>I< E<lt>packageE<gt>>"
+msgstr "I<--package E<lt>packageE<gt>>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg-divert.8:63
+#, fuzzy
+msgid ""
+"I<E<lt>packageE<gt>> is the name of a package whose copy of "
+"I<E<lt>fileE<gt>> will not be diverted. i.e. I<E<lt>fileE<gt>> will be "
+"diverted for all packages except I<E<lt>packageE<gt>>."
+msgstr ""
+"E<lt>packageE<gt> は E<lt>fileE<gt> が退避されることのないパッケージの名前で"
+"ある。"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg-divert.8:63
 #, fuzzy, no-wrap
 msgid "B<--quiet>"
 msgstr "I<--quiet>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:59
+#: ../../../man/po4a/../C/dpkg-divert.8:66
 #, fuzzy
 msgid "Quiet mode, i.e. no verbose output."
 msgstr "静かなモード。つまり無駄な出力をしない。"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:59
+#: ../../../man/po4a/../C/dpkg-divert.8:66
 #, fuzzy, no-wrap
 msgid "B<--rename>"
 msgstr "I<--rename>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:63
+#: ../../../man/po4a/../C/dpkg-divert.8:70
 #, fuzzy
 msgid ""
 "Actually move the file aside (or back). dpkg-divert will abort operation in "
@@ -212,13 +220,13 @@ msgstr ""
 "存在していると動作を中断する。"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:63
+#: ../../../man/po4a/../C/dpkg-divert.8:70
 #, fuzzy, no-wrap
 msgid "B<--test>"
 msgstr "I<--test>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:66
+#: ../../../man/po4a/../C/dpkg-divert.8:73
 #, fuzzy
 msgid "Test mode, i.e. don't actually perform any changes, just demonstrate."
 msgstr ""
@@ -226,37 +234,37 @@ msgstr ""
 "る。"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:66
+#: ../../../man/po4a/../C/dpkg-divert.8:73
 #, fuzzy, no-wrap
 msgid "B<--help>"
 msgstr "I<--help>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:69
+#: ../../../man/po4a/../C/dpkg-divert.8:76
 #, fuzzy
 msgid "Output short usage instructions, and exit successfully."
 msgstr "バージョンと簡単な利用法を表示して正常終了する。"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:69
+#: ../../../man/po4a/../C/dpkg-divert.8:76
 #, fuzzy, no-wrap
 msgid "B<--version>"
 msgstr "I<--version>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:72
+#: ../../../man/po4a/../C/dpkg-divert.8:79
 #, fuzzy
 msgid "Output program name and version and exit successfully."
 msgstr "プログラム名とバージョンを表示して正常終了する。"
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:73
+#: ../../../man/po4a/../C/dpkg-divert.8:80
 #, fuzzy, no-wrap
 msgid "NOTES"
 msgstr "注意"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:77
+#: ../../../man/po4a/../C/dpkg-divert.8:84
 #, fuzzy
 msgid ""
 "When adding, default is B<--local> and B<--divert> I<E<lt>originalE<gt>."
@@ -268,20 +276,20 @@ msgstr ""
 "ば 追加した時と一致していなければいけない。"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:79
+#: ../../../man/po4a/../C/dpkg-divert.8:86
 #, fuzzy
 msgid "Directories can't be diverted with B<dpkg-divert>."
 msgstr "dpkg-divert ではディレクトリは退避できない。"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:85
+#: ../../../man/po4a/../C/dpkg-divert.8:92
 #, fuzzy
 msgid ""
-"Care should be taken when diverting shared libraries, B<ldconfig> (8)  "
+"Care should be taken when diverting shared libraries, B<ldconfig>(8)  "
 "creates a symbolic link based on the DT_SONAME field embedded in the "
-"library.  Because ldconfig doesn't honour diverts (only dpkg does), if a "
-"diverted library has the same SONAME as the undiverted one the symlink may "
-"end up pointing at the diverted library."
+"library.  Because ldconfig doesn't honour diverts (only dpkg does), the "
+"symlink may end up pointing at the diverted library, if a diverted library "
+"has the same SONAME as the undiverted one."
 msgstr ""
 "共有ライブラリを退避する場合、注意すべきである。ldconfig(8)は ライブラリに埋"
 "め込まれている DT_SONAME フィールドに基づいて、 シンボリックリンクを作成す"
@@ -290,67 +298,68 @@ msgstr ""
 "ンボリックリンクは退避した ライブラリを指す。"
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:86
+#: ../../../man/po4a/../C/dpkg-divert.8:93
 #, fuzzy, no-wrap
 msgid "EXAMPLES"
 msgstr "EXAMPLES"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:89
+#: ../../../man/po4a/../C/dpkg-divert.8:97
 msgid ""
-"To divert all copies of a I</usr/bin/example.foo> to I</usr/bin/example>, "
-"performing the rename if required:"
-msgstr ""
-
-# type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:91
-msgid "dpkg-divert --divert /usr/bin/example --rename /usr/bin/example.foo"
-msgstr ""
-
-# type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:93
-#: ../../../man/po4a/../C/dpkg-divert.8:103
-msgid "To remove that diversion:"
-msgstr ""
-
-# type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:95
-msgid "dpkg-divert --rename --remove /usr/bin/example.foo"
+"To divert all copies of a I</usr/bin/example> to I</usr/bin/example.foo>, i."
+"e. directs all packages providing I</usr/bin/example> to install it as I</"
+"usr/bin/example.foo>, performing the rename if required:"
 msgstr ""
 
 # type: Plain text
 #: ../../../man/po4a/../C/dpkg-divert.8:99
+msgid "dpkg-divert --divert /usr/bin/example.foo --rename /usr/bin/example"
+msgstr ""
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg-divert.8:101
+#: ../../../man/po4a/../C/dpkg-divert.8:111
+msgid "To remove that diversion:"
+msgstr ""
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg-divert.8:103
+msgid "dpkg-divert --rename --remove /usr/bin/example"
+msgstr ""
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg-divert.8:107
 msgid ""
 "To divert any package trying to install I</usr/bin/example> to I</usr/bin/"
 "example.foo>, except your own I<wibble> package:"
 msgstr ""
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:101
+#: ../../../man/po4a/../C/dpkg-divert.8:109
 msgid ""
 "dpkg-divert --package wibble --divert /usr/bin/example.foo --rename /usr/bin/"
 "example"
 msgstr ""
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:105
+#: ../../../man/po4a/../C/dpkg-divert.8:113
 msgid "dpkg-divert --package wibble --rename --remove /usr/bin/example"
 msgstr ""
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:106
+#: ../../../man/po4a/../C/dpkg-divert.8:114
 #, fuzzy, no-wrap
 msgid "FILES"
 msgstr "ファイル"
 
 # type: TP
-#: ../../../man/po4a/../C/dpkg-divert.8:107
+#: ../../../man/po4a/../C/dpkg-divert.8:115
 #, fuzzy, no-wrap
 msgid "I</var/lib/dpkg/diversions>"
 msgstr "I</var/lib/dpkg/diversions>"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:112
+#: ../../../man/po4a/../C/dpkg-divert.8:120
 #, fuzzy
 msgid ""
 "File which contains the current list of diversions of the system. It is "
@@ -361,7 +370,7 @@ msgstr ""
 "ル `status' や `available' がある dpkg の管理ディレクトリにある。"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:115
+#: ../../../man/po4a/../C/dpkg-divert.8:123
 #, fuzzy
 msgid ""
 "Note: B<dpkg-divert> preserves the old copy of this file, with extension \"-"
@@ -371,31 +380,31 @@ msgstr ""
 "いう名前をつけたファイルにコピーしておく。"
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:116
+#: ../../../man/po4a/../C/dpkg-divert.8:124
 #, fuzzy, no-wrap
 msgid "SEE ALSO"
 msgstr "関連項目"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:118
+#: ../../../man/po4a/../C/dpkg-divert.8:126
 #, fuzzy
 msgid "B<dpkg>(1)."
 msgstr "B<dpkg>(8)."
 
 # type: SH
-#: ../../../man/po4a/../C/dpkg-divert.8:118
+#: ../../../man/po4a/../C/dpkg-divert.8:126
 #, fuzzy, no-wrap
 msgid "AUTHOR"
 msgstr "著者"
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:120
+#: ../../../man/po4a/../C/dpkg-divert.8:128
 #, fuzzy
 msgid "Copyright (C) 1995 Ian Jackson."
 msgstr "Copyright (C) 1995 Ian Jackson."
 
 # type: Plain text
-#: ../../../man/po4a/../C/dpkg-divert.8:122
+#: ../../../man/po4a/../C/dpkg-divert.8:130
 #, fuzzy
 msgid ""
 "This is free software; see the GNU General Public Licence version 2 or later "
@@ -403,6 +412,16 @@ msgid ""
 msgstr ""
 "This is free software; see the GNU General Public Licence version 2 or later "
 "for copying conditions.  There is NO warranty."
+
+# type: Plain text
+#, fuzzy
+#~ msgid "I<E<lt>divert-toE<gt>> is the name used by other packages' versions."
+#~ msgstr "E<lt>divert-toE<gt> は他のパッケージで使われる名前である。"
+
+# type: Plain text
+#, fuzzy
+#~ msgid "Specifies that all packages' versions are diverted."
+#~ msgstr "全てのパッケージを退避する対象にする。"
 
 # type: TH
 #, fuzzy

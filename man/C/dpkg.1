@@ -21,10 +21,10 @@ packages are particularly inadequate.
 Debian packages. The primary and more user-friendly
 front-end for \fBdpkg\fP is \fBdselect\fP(1). \fBdpkg\fP itself is
 controlled entirely via command line parameters, which consist of exactly
-one action and zero or more options. The action-parameter tells dpkg
+one action and zero or more options. The action-parameter tells \fBdpkg\fP
 what to do and options control the behavior of the action in some way.
 
-\fBdpkg\fP can be also be used as a front-end to \fBdpkg\-deb\fP.
+\fBdpkg\fP can be also be used as a front-end to \fBdpkg\-deb\fP(1).
 The following
 are \fBdpkg\-deb\fP actions, and if they are encountered, \fBdpkg\fP
 just runs \fBdpkg\-deb\fP with the parameters given to it:
@@ -215,7 +215,7 @@ reason still haven't been installed.
 .TP
 .TP
 .B dpkg \-\-print\-architecture
-Print architecture of packages dpkg installs (for example, "i386").
+Print architecture of packages \fBdpkg\fP installs (for example, "i386").
 .TP
 .B dpkg \-\-compare\-versions \fIver1 op ver2\fP
 Compare version numbers, where \fIop\fP is a binary operator. \fBdpkg\fP
@@ -248,7 +248,7 @@ Display \fBdpkg\fP licence.
 \fBdpkg \-\-version\fP
 Display \fBdpkg\fP version information.
 .TP
-\fBdpkg\-deb\-actions\fP
+\fBdpkg\-deb actions\fP
 See \fBdpkg\-deb\fP(1) for more information about the following actions.
 
 .nf
@@ -273,7 +273,7 @@ See \fBdpkg\-deb\fP(1) for more information about the following actions.
 .fi
 
 .TP
-\fBdpkg\-query\-actions\fP
+\fBdpkg\-query actions\fP
 See \fBdpkg\-query\fP(1) for more information about the following actions.
 
 .nf
@@ -298,7 +298,7 @@ without leading dashes) or a comment (if it starts with a \fB#\fR).
 .br
 .TP
 \fB\-\-abort\-after=\fP\fInumber\fP
-Change after how many errors dpkg will abort. The default is 50.
+Change after how many errors \fBdpkg\fP will abort. The default is 50.
 .TP
 .BR \-B | \-\-auto\-deconfigure
 When a package is removed, there is a possibility that another
@@ -307,7 +307,7 @@ option will cause automatic deconfiguration of the package which
 depended on the removed package.
 .TP
 \fB\-D\fIoctal\fP | \fB\-\-debug=\fP\fIoctal\fP
-Set debugging on. \fIoctal\fP is formed by bitwise-orring desired
+Switch debugging on. \fIoctal\fP is formed by bitwise-orring desired
 values together from the list below (note that these values may change
 in future releases). \fB\-Dh\fP or \fB\-\-debug=help\fP display these
 debugging values.
@@ -336,7 +336,7 @@ only. Using them without fully understanding their effects may break
 your whole system.\fP
 
 \fBall\fP:
-Turns on(or off) all force options.
+Turns on (or off) all force options.
 
 \fBdowngrade\fP(*):
 Install a package, even if newer version of it is already installed.
@@ -448,7 +448,7 @@ be used with \fB\-i\fP, \fB\-A\fP, \fB\-\-install\fP, \fB\-\-unpack\fP and
 .TP
 \fB\-G\fP
 Don't install a package if a newer version of the same package is already
-installed. This is an alias of \fB\-\-refuse\-downgrade.\fP
+installed. This is an alias of \fB\-\-refuse\-downgrade\fP.
 .TP
 \fB\-\-root=\fP\fIdir\fP | \fB\-\-admindir=\fP\fIdir\fP | \fB\-\-instdir=\fP\fIdir\fP
 Change default directories. \fBadmindir\fP defaults to
@@ -456,7 +456,7 @@ Change default directories. \fBadmindir\fP defaults to
 about status of installed or uninstalled packages, etc. \fBinstdir\fP
 defaults to \fI/\fP and refers to the directory where packages are to
 be installed. \fBinstdir\fP is also the directory passed to
-\fBchroot\fP(2) before running \fIpackage\fP's installation scripts, which
+\fBchroot\fP(2) before running package's installation scripts, which
 means that the scripts see \fBinstdir\fP as a root directory.
 Changing \fBroot\fP changes \fBinstdir\fP to \fIdir\fP and
 \fBadmindir\fP to \fIdir\fP\fB/var/lib/dpkg\fP.
@@ -473,10 +473,10 @@ installed.
 .TP
 \fB\-\-status\-fd \fP\fI<n>\fP
 Send package status info to file descriptor \fI<n>\fP. This can be given
-multiple times. Status updates are of the form `status: <pkg>: <pkg qstate>'.
+multiple times. Status updates are of the form `status: <pkg>: <pkg state>'.
 Errors are reported as `status: <pkg>: error: extend-error-message'.
 Configuration file conflicts are reported as 
-`status: conffile-prompt: conffile : 'current-conffile' 'new-conffile' useredited distedited'
+`status: conffile-prompt: conffile : 'current-conffile' 'new-conffile' useredited distedited'.
 .TP
 \fB\-\-log=\fP\fIfilename\fP
 Log status change updates and actions to \fIfilename\fP, instead of
@@ -487,7 +487,7 @@ times, the last filename is used. Log messages are of the form
 `YYYY-MM-DD HH:MM:SS <action> <pkg> <installed-version>
 <available-version>' for actions where \fI<action>\fP is one of install,
 upgrade, remove, purge; and `YYYY-MM-DD HH:MM:SS conffile <filename>
-<decision>' for conffile changes where \fI<decision\fP is either install
+<decision>' for conffile changes where \fI<decision>\fP is either install
 or keep.
 .TP
 \fB\-\-no\-debsig\fP
@@ -536,19 +536,19 @@ Define this to something if you prefer \fBdpkg\fP starting a new
 shell rather than suspending itself, while doing a shell escape.
 .TP
 .B SHELL
-The program \fBdpkg\fP will execute while starting a new shell.
+The program \fBdpkg\fP will execute when starting a new shell.
 .TP
 .B COLUMNS
 Sets the number of columns \fBdpkg\fP should use when displaying formatted
 text. Currently only used by \-l.
 .
 .SH EXAMPLES
-To list packages related to the editor vi:
+To list packages related to the editor \fBvi\fP(1):
 .br
 \fB     dpkg \-l \(aq*vi*\(aq\fP
 .br
 
-To see the entries in \fI/var/lib/dpkg/available\fP on two packages:
+To see the entries in \fI/var/lib/dpkg/available\fP of two packages:
 .br
 \fB     dpkg \-\-print\-avail elvis vim | less\fP
 .br
@@ -611,6 +611,6 @@ and
 .
 .SH AUTHORS
 .nf
-See \fI/usr/share/doc/dpkg/THANKS.gz\fP for the list of people who have
-contributed to \fBdpkg\fP .
+See \fI/usr/share/doc/dpkg/THANKS\fP for the list of people who have
+contributed to \fBdpkg\fP.
 .fi
