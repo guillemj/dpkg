@@ -1,0 +1,1774 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: dpkg man pages\n"
+"POT-Creation-Date: 2006-08-02 22:21+0200\n"
+"PO-Revision-Date: 2006-08-02 19:03+0200\n"
+"Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
+"Language-Team: German <debian-l10n-german@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# type: TH
+#: ../../../man/po4a/../C/dpkg.1:1
+#, no-wrap
+msgid "dpkg"
+msgstr "dpkg"
+
+# type: TH
+#: ../../../man/po4a/../C/dpkg.1:1
+#, no-wrap
+msgid "2006-04-09"
+msgstr "2006-04-09"
+
+# type: TH
+#: ../../../man/po4a/../C/dpkg.1:1
+#, no-wrap
+msgid "Debian Project"
+msgstr "Debian-Projekt"
+
+# type: TH
+#: ../../../man/po4a/../C/dpkg.1:1
+#, no-wrap
+msgid "dpkg suite"
+msgstr "dpkg-Programmsammlung"
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:2
+#, no-wrap
+msgid "NAME"
+msgstr "NAME"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:4
+msgid "dpkg - package manager for Debian"
+msgstr "dpkg - Paketverwalter für Debian"
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:5
+#, no-wrap
+msgid "SYNOPSIS"
+msgstr "SYNOPSIS"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:8
+msgid "B<dpkg> [I<options>] I<action>"
+msgstr "B<dpkg> [I<Optionen>] I<Aktionen>"
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:9
+#, no-wrap
+msgid "WARNING"
+msgstr "WARNUNG"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:13
+msgid ""
+"This manual is intended for users wishing to understand B<dpkg>'s command "
+"line options and package states in more detail than that provided by B<dpkg "
+"--help>."
+msgstr ""
+"Dieses Handbuch ist für Benutzer gedacht, die die Kommandozeilenoptionen und "
+"Paketzustände von B<dpkg> detaillierter verstehen wollen, als durch B<dpkg --"
+"help> beschrieben ist."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:18
+msgid ""
+"It should I<not> be used by package maintainers wishing to understand how "
+"B<dpkg> will install their packages. The descriptions of what B<dpkg> does "
+"when installing and removing packages are particularly inadequate."
+msgstr ""
+"Es sollte I<nicht> von Paketbetreuern verwendet werden, die verstehen "
+"wollen, wie B<dpkg> ihr Paket installieren wird. Die Beschreibung von den "
+"Tätigkeiten von B<dpkg> beim Installieren und Entfernen von Paketen sind "
+"besonders in unzulänglich."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:19
+#, no-wrap
+msgid "DESCRIPTION"
+msgstr "BESCHREIBUNG"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:26
+msgid ""
+"B<dpkg> is a tool to install, build, remove and manage Debian packages. The "
+"primary and more user-friendly front-end for B<dpkg> is B<dselect>(1). "
+"B<dpkg> itself is controlled entirely via command line parameters, which "
+"consist of exactly one action and zero or more options. The action-parameter "
+"tells B<dpkg> what to do and options control the behavior of the action in "
+"some way."
+msgstr ""
+"B<dpkg> ist ein Werkzeug, um Debian-Pakete zu installieren, zu bauen und zu "
+"verwalten. Die primäre und benutzerfreundlichere Oberfläche für B<dpkg> ist "
+"B<dselect>(1). B<dpkg> selbst wird komplett über Kommandozeilenoptionen "
+"kontrolliert, die aus genau einer Aktion und Null oder mehreren Optionen "
+"bestehen. Der Aktionsparameter teilt B<dpkg> mit, was zu tun ist, und die "
+"Optionen kontrollieren die Aktionen in irgendeiner Weise."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:31
+msgid ""
+"B<dpkg> can be also be used as a front-end to B<dpkg-deb>(1).  The following "
+"are B<dpkg-deb> actions, and if they are encountered, B<dpkg> just runs "
+"B<dpkg-deb> with the parameters given to it:"
+msgstr ""
+"B<dpkg> kann auch als Oberfläche für B<dpkg-deb>(1) verwendet werden. Die "
+"folgenden Aktionen gehören zu B<dpkg-deb>, und wenn sie angetroffen werden, "
+"startet B<dpkg> einfach B<dpkg-deb> mit den übergebenen Parametern:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:40
+#, no-wrap
+msgid ""
+"    B<-b>, B<--build>,\n"
+"    B<-c>, B<--contents>,\n"
+"    B<-I>, B<--info>,\n"
+"    B<-f>, B<--field>,\n"
+"    B<-e>, B<--control>,\n"
+"    B<-x>, B<--extract>,\n"
+"    B<-X>, B<--vextract>, and\n"
+"    B<--fsys-tarfile>.\n"
+msgstr ""
+"    B<-b>, B<--build>,\n"
+"    B<-c>, B<--contents>,\n"
+"    B<-I>, B<--info>,\n"
+"    B<-f>, B<--field>,\n"
+"    B<-e>, B<--control>,\n"
+"    B<-x>, B<--extract>,\n"
+"    B<-X>, B<--vextract> und\n"
+"    B<--fsys-tarfile>.\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:42
+msgid "Please refer to B<dpkg-deb>(1) for information about these actions."
+msgstr ""
+"Bitte lesen Sie B<dpkg-deb>(1) für weitere Informationen über diese Aktionen."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:43
+#, no-wrap
+msgid "INFORMATION ABOUT PACKAGES"
+msgstr "INFORMATIONEN ÜBER PAKETE"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:48
+msgid ""
+"B<dpkg> maintains some usable information about available packages. The "
+"information is divided in three classes: B<states>, B<selection states> and "
+"B<flags>. These values are intended to be changed mainly with B<dselect>."
+msgstr ""
+"B<dpkg> verwaltet einige nützliche Informationen über verfügbare Pakete. Die "
+"Informationen sind in drei Klassen unterteilt: B<Status>, <Auswahlstatus> "
+"und B<Schalter>. Diese Werte sind Hauptsächlich zur Änderung durch "
+"B<dselect> gedacht."
+
+# type: SS
+#: ../../../man/po4a/../C/dpkg.1:48
+#, no-wrap
+msgid "PACKAGE STATES"
+msgstr "PAKETZUSTÄNDE"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:49
+#, no-wrap
+msgid "B<installed>"
+msgstr "B<installiert>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:52
+msgid "The package is unpacked and configured OK."
+msgstr "Das Paket ist entpackt und konfigurierte korrekt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:52
+#, no-wrap
+msgid "B<half-installed>"
+msgstr "B<halb-installiert>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:56
+msgid ""
+"The installation of the package has been started, but not completed for some "
+"reason."
+msgstr ""
+"Die Installation des Paketes wurde begonnen, aber aus irgendeinem Grund "
+"nicht abgeschlossen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:56
+#, no-wrap
+msgid "B<not-installed>"
+msgstr "B<nicht-installiert>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:59
+msgid "The package is not installed on your system."
+msgstr "Das Paket ist nicht auf Ihrem System installiert."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:59
+#, no-wrap
+msgid "B<unpacked>"
+msgstr "B<entpackt>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:62
+msgid "The package is unpacked, but not configured."
+msgstr "Das Paket ist entpackt, aber nicht konfiguriert."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:62
+#, no-wrap
+msgid "B<half-configured>"
+msgstr "B<halb-konfiguriert>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:66
+msgid ""
+"The package is unpacked and configuration has been started, but not yet "
+"completed for some reason."
+msgstr ""
+"Das Paket ist entpackt und die Konfiguration wurde begonnen, aber aus "
+"irgendeinem Grund nicht abgeschlossen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:66
+#, no-wrap
+msgid "B<config-files>"
+msgstr "B<Config-Dateien>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:69
+msgid "Only the configuration files of the package exist on the system."
+msgstr "Nur die Konfigurationsdateien des Pakets existieren auf dem System."
+
+# type: SS
+#: ../../../man/po4a/../C/dpkg.1:69
+#, no-wrap
+msgid "PACKAGE SELECTION STATES"
+msgstr "PAKETAUSWAHL-STATUS"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:70
+#, no-wrap
+msgid "B<install>"
+msgstr "B<installiere>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:73
+msgid "The package is selected for installation."
+msgstr "Das Paket ist zur Installation ausgewählt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:73
+#, no-wrap
+msgid "B<deinstall>"
+msgstr "B<deinstalliere>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:77
+msgid ""
+"The package is selected for deinstallation (i.e. we want to remove all "
+"files, except configuration files)."
+msgstr ""
+"Das Paket ist zur Deinstallation ausgewählt (d.h. wir wollen alle Dateien "
+"außer den Konfigurationsdateien entfernen)."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:77
+#, no-wrap
+msgid "B<purge>"
+msgstr "B<säubern>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:81
+msgid ""
+"The package is selected to be purged (i.e. we want to remove everything, "
+"even configuration files)."
+msgstr ""
+"Das Paket ist zum Säubern ausgewählt (d.h. wir wollen alle Dateien inklusive "
+"der Konfigurationsdateien entfernen)."
+
+# type: SS
+#: ../../../man/po4a/../C/dpkg.1:81
+#, no-wrap
+msgid "PACKAGE FLAGS"
+msgstr "PAKET-SCHALTER"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:82
+#, no-wrap
+msgid "B<hold>"
+msgstr "B<halten>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:86
+msgid ""
+"A package marked to be on B<hold> is not handled by B<dpkg>, unless forced "
+"to do that with option B<--force-hold>."
+msgstr ""
+"Ein Paket das mit B<halten> markiert ist, wird von B<dpkg> nicht behandelt, "
+"es sei denn Sie erzwingen dies mit der Option B<--force-hold>."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:86
+#, no-wrap
+msgid "B<reinst-required>"
+msgstr "B<Neuinst. notw>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:91
+msgid ""
+"A package marked B<reinst-required> is broken and requires reinstallation. "
+"These packages cannot be removed, unless forced with option B<--force-remove-"
+"reinstreq>."
+msgstr ""
+"Ein mit B<Neuinst. notw> markiertes Paket ist defekt und muss erneut "
+"installiert werden. Diese Pakete können nicht entfernt werden, es sei denn, "
+"Sie erzwingen dies mit der Option B<--force-remove-reinstreq>."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:92
+#, no-wrap
+msgid "ACTIONS"
+msgstr "AKTIONEN"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:93
+#, no-wrap
+msgid "B<dpkg -i> | B<--install> I<package_file>..."
+msgstr "B<dpkg -i> | B<--install> I<Paketdatei>..."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:97
+msgid ""
+"Install the package. If B<--recursive> or B<-R> option is specified, "
+"I<package_file> must refer to a directory instead."
+msgstr ""
+"Installiere das Paket. Falls die B<--recursive> oder B<-R>-Option angegeben "
+"ist, muss sich I<Paketdatei> stattdessen auf ein Verzeichnis beziehen."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:99
+msgid "Installation consists of the following steps:"
+msgstr "Die Installation besteht aus folgenden Schritten:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:102
+msgid "B<1.> Extract the control files of the new package."
+msgstr "B<1.> Extrahiere die Kontrolldateien aus dem neuen Paket."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:106
+msgid ""
+"B<2.> If another version of the same package was installed before the new "
+"installation, execute I<prerm> script of the old package."
+msgstr ""
+"B<2.> Falls eine andere Version des gleichen Pakets vor der der neuen "
+"Installation installiert war, dann führe das I<prerm>-Skript des alten "
+"Paketes aus."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:109
+msgid "B<3.> Run I<preinst> script, if provided by the package."
+msgstr ""
+"B<3.> Führe das I<preinst>-Skript aus, falls dies vom Paket bereitgestellt "
+"wird."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:113
+msgid ""
+"B<4.> Unpack the new files, and at the same time back up the old files, so "
+"that if something goes wrong, they can be restored."
+msgstr ""
+"B<4.> Entpacke die neuen Dateien und sichere gleichzeitig die alten Dateien, "
+"so dass diese, falls etwas schief geht, wiederhergestellt werden können."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:120
+msgid ""
+"B<5.> If another version of the same package was installed before the new "
+"installation, execute the I<postrm> script of the old package. Note that "
+"this script is executed after the I<preinst> script of the new package, "
+"because new files are written at the same time old files are removed."
+msgstr ""
+"B<5.> Falls eine andere Version des gleichen Pakets vor der der neuen "
+"Installation installiert war, dann führe das I<postrm>-Skript des alten "
+"Paketes aus. Beachten Sie, dass dieses Skript nach dem I<preinst>-Skript des "
+"neuen Pakets ausgeführt wird, da neue Dateien zeitgleich zu der Entfernung "
+"alter Dateien geschrieben werden."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:124
+msgid ""
+"B<6.> Configure the package. See B<--configure> for detailed information "
+"about how this is done."
+msgstr ""
+"B<6.> Konfiguriere das Paket. Lesen Sie B<--configure> für detaillierte "
+"Informationen wie dies geschieht."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:124
+#, no-wrap
+msgid "B<dpkg --unpack >I<package_file> ..."
+msgstr "B<dpkg --unpack >I<Paketdatei> ..."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:129
+msgid ""
+"Unpack the package, but don't configure it. If B<--recursive> or B<-R> "
+"option is specified, I<package_file> must refer to a directory instead."
+msgstr ""
+"Entpacke das Paket, aber konfiguriere es nicht. Falls die B<--recursive> "
+"oder B<-R>-Option angegeben ist, muss sich I<Paketdatei> stattdessen auf ein "
+"Verzeichnis beziehen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:129
+#, no-wrap
+msgid "B<dpkg --configure >I<package> ... | B<-a> | B<--pending>"
+msgstr "B<dpkg --configure >I<Paket> ... | B<-a> | B<--pending>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:134
+msgid ""
+"Reconfigure an unpacked package. If B<-a> or B<--pending> is given instead "
+"of I<package>, all unpacked but unconfigured packages are configured."
+msgstr ""
+"Rekonfiguriere ein entpacktes Paket. Falls B<-a> oder B<--pending> anstelle "
+"von I<Paket> angegeben ist, werden alle entpackten aber nicht konfigurierten "
+"Pakete konfiguriert."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:136
+msgid "Configuring consists of the following steps:"
+msgstr "Die Konfiguration besteht aus folgenden Schritten:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:141
+msgid ""
+"B<1.> Unpack the configuration files, and at the same time back up the old "
+"configuration files, so that they can be restored if something goes wrong."
+msgstr ""
+"B<1.> entpacke die Konfigurationsdateien und sichere gleichzeitig die alten "
+"Konfigurationsdateien, so dass diese, falls etwas schief geht, "
+"wiederhergestellt werden können."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:144
+msgid "B<2.> Run I<postinst> script, if provided by the package."
+msgstr ""
+"B<2.> Führe das I<postinst>-Skript aus, falls dies vom Paket bereitgestellt "
+"wird."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:144
+#, no-wrap
+msgid "B<dpkg -r> | B<--remove> | B<-P> | B<--purge >I<package> ... | B<-a> | B<--pending>"
+msgstr "B<dpkg -r> | B<--remove> | B<-P> | B<--purge >I<Paket> ... | B<-a> | B<--pending>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:155
+msgid ""
+"Remove an installed package. B<-r> or B<--remove> remove everything except "
+"configuration files. This may avoid having to reconfigure the package if it "
+"is reinstalled later. (Configuration files are the files listed in the "
+"I<debian/conffiles> control file). B<-P> or B<--purge> removes everything, "
+"including configuration files. If B<-a> or B<--pending> is given instead of "
+"a package name, then all packages unpacked, but marked to be removed or "
+"purged in file I</var/lib/dpkg/status>, are removed or purged, respectively."
+msgstr ""
+"Entferne ein installiertes Paket. B<-r> oder B<--remove> entfernen alles "
+"außer Konfigurationsdateien. Dies könnte die Rekonfiguration vermeiden, "
+"falls das Paket später wieder reinstalliert wird. (Konfigurationsdateien "
+"sind die Dateien, die in der I<debian/conffiles>-Kontrolldatei aufgeführt "
+"sind). B<-P> oder B<--purge> entfernt alles, auch Konfigurationsdateien. "
+"Falls B<-a> oder B<--pending> anstatt eines Paketnamens angegeben werden, "
+"dann werden alle Pakete, die entpackt aber zur Entfernung oder Säuberung in "
+"der Datei I</var/lib/dpkg/status> markiert sind, entfernt oder respektive "
+"gesäubert."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:157
+msgid "Removing of a package consists of the following steps:"
+msgstr "Entfernung eines Paketes besteht aus den folgenden Schritte:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:160
+msgid "B<1.> Run I<prerm> script"
+msgstr "B<1.> Führe das I<prerm>-Skript aus"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:163
+msgid "B<2.> Remove the installed files"
+msgstr "B<2.> Entferne die installierten Dateien"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:166
+msgid "B<3.> Run I<postrm> script"
+msgstr "B<3.> Führe das I<postrm>-Skript aus"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:167
+#, no-wrap
+msgid "B<dpkg --update-avail> | B<--merge-avail> I<Packages-file>"
+msgstr "B<dpkg --update-avail> | B<--merge-avail> I<Packages-Datei>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:176
+msgid ""
+"Update B<dpkg>'s and B<dselect>'s idea of which packages are available. With "
+"action B<--merge-avail>, old information is combined with information from "
+"I<Packages-file>. With action B<--update-avail>, old information is replaced "
+"with the information in the I<Packages-file>. The I<Packages-file> "
+"distributed with Debian is simply named I<Packages>. B<dpkg> keeps its "
+"record of available packages in I</var/lib/dpkg/available>."
+msgstr ""
+"Aktualisiere B<dpkg>s und B<dselect>s Verständnis darüber, welche Pakete "
+"verfügbar sind. Mit der Aktion B<--merge-avail> wird alte Information mit "
+"der Information aus der I<Packages-Datei> zusammengeführt. Mit der Aktion "
+"B<--update-avail> wird die alte Information durch die Information aus der "
+"I<Packages-Datei> ersetzt. Die mit Debian vertriebene I<Packages-Datei> "
+"heißt einfach I<Packages>. B<dpkg> hält seine Aufzeichnungen über die "
+"verfügbaren Pakete in I</var/lib/dpkg/available>."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:179
+msgid ""
+"A simpler one-shot command to retrieve and update the I<available> file is "
+"B<dselect update>."
+msgstr ""
+"Ein einfacheres Kommando um die I<available>-Datei in einem Aufruf abzurufen "
+"und zu aktualisieren ist B<dselect update>."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:179
+#, no-wrap
+msgid "B<dpkg -A> | B<--record-avail> I<package_file> ..."
+msgstr "B<dpkg -A> | B<--record-avail> I<Paketdatei> ..."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:185
+msgid ""
+"Update B<dpkg> and B<dselect>'s idea of which packages are available with "
+"information from the package I<package_file>. If B<--recursive> or B<-R> "
+"option is specified, I<package_file> must refer to a directory instead."
+msgstr ""
+"Aktualisiere mit den Informationen aus dem Paket I<Paketdatei> B<dpkg>s und "
+"B<dselect>s Verständnis darüber, welche Pakete verfügbar sind. Falls die B<--"
+"recursive> oder B<-R>-Option angegeben ist, muss sich I<Paketdatei> "
+"stattdessen auf ein Verzeichnis beziehen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:185
+#, no-wrap
+msgid "B<dpkg --forget-old-unavail>"
+msgstr "B<dpkg --forget-old-unavail>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:188
+msgid "Forget about uninstalled unavailable packages."
+msgstr ""
+"Vergiss Informationen über nicht-installierte, nicht-verfügbare Pakete."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:188
+#, no-wrap
+msgid "B<dpkg --clear-avail>"
+msgstr "B<dpkg --clear-avail>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:191
+msgid "Erase the existing information about what packages are available."
+msgstr ""
+"Lösche die existierenden Informationen darüber, welche Pakete verfügbar sind."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:191
+#, no-wrap
+msgid "B<dpkg -C> | B<--audit>"
+msgstr "B<dpkg -C> | B<--audit>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:196
+msgid ""
+"Searches for packages that have been installed only partially on your "
+"system. B<dpkg> will suggest what to do with them to get them working."
+msgstr ""
+"Suche nach Pakete, die in Ihrem System nur teilweise installiert wurden. "
+"B<dpkg> wird Vorschläge machen, was mit ihnen geschehen soll, um sie in "
+"Funktion zu bringen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:196
+#, no-wrap
+msgid "B<dpkg --get-selections> [I<package-name-pattern>...]"
+msgstr "B<dpkg --get-selections> [I<Paket-Name-Muster>...]"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:200
+msgid ""
+"Get list of package selections, and write it to stdout. Without a pattern, "
+"packages marked with state purge will not be shown."
+msgstr ""
+"Hole eine Liste von Paketauswahlen und schreibe sie auf die Standardausgabe. "
+"Ohne Muster werden Pakete im Zustand »Säubern« nicht angezeigt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:200
+#, no-wrap
+msgid "B<dpkg --set-selections>"
+msgstr "B<dpkg --set-selections>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:206
+msgid ""
+"Set package selections using file read from stdin. This file should be in "
+"the format 'E<lt>packageE<gt> E<lt>stateE<gt>', where state is one of "
+"install, hold, deinstall or purge. Blank lines and comment lines beginning "
+"with '#' are also permitted."
+msgstr ""
+"Setze die Paketauswahl durch Einlesen einer Datei von der Standardeingabe. "
+"Diese Datei sollte im Format »E<lt>PaketE<gt> E<lt>ZustandE<gt>« sein, wobei "
+"Zustand einer aus »install«, »hold«, »deinstall« oder »purge« ist. "
+"Leerzeilen und Kommentarzeilen (beginnend mit »#«) sind auch erlaubt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:206
+#, no-wrap
+msgid "B<dpkg --clear-selections>"
+msgstr "B<dpkg --clear-selections>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:211
+msgid ""
+"Set the requested state of every non-essential package to deinstall.  This "
+"is intended to be used immediately before --set-selections, to deinstall any "
+"packages not in list given to --set-selections."
+msgstr ""
+"Setze den erbetenen Zustand von jedem nicht-essenziellen Paket auf "
+"»Deinstallation«. Dies ist dazu gedacht, direkt vor --set-selections "
+"verwendet zu werden, um jedes Paket, dass nicht in der Liste von --set-"
+"selections vorkommt, zu deinstallieren."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:211
+#, no-wrap
+msgid "B<dpkg --yet-to-unpack>"
+msgstr "B<dpkg --yet-to-unpack>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:215
+msgid ""
+"Searches for packages selected for installation, but which for some reason "
+"still haven't been installed."
+msgstr ""
+"Sucht nach Paketen dir zur Installation ausgewählt wurden, die aber aus "
+"irgendeinem Grund noch nicht installiert wurden."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:216
+#, no-wrap
+msgid "B<dpkg --print-architecture>"
+msgstr "B<dpkg --print-architecture>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:219
+msgid ""
+"Print architecture of packages B<dpkg> installs (for example, \"i386\")."
+msgstr ""
+"Gebe die Architektur der Pakete aus, die B<dpkg> installiert (beispielsweise "
+"»i386«)."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:219
+#, no-wrap
+msgid "B<dpkg --compare-versions >I<ver1 op ver2>"
+msgstr "B<dpkg --compare-versions >I<Ver1 Op Ver2>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:230
+msgid ""
+"Compare version numbers, where I<op> is a binary operator. B<dpkg> returns "
+"success (zero result) if the specified condition is satisfied, and failure "
+"(nonzero result) otherwise. There are two groups of operators, which differ "
+"in how they treat an empty I<ver1> or I<ver2>. These treat an empty version "
+"as earlier than any version: B<lt le eq ne ge gt>. These treat an empty "
+"version as later than any version: B<lt-nl le-nl ge-nl gt-nl>. These are "
+"provided only for compatibility with control file syntax: B<E<lt> E<lt>E<lt> "
+"E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
+msgstr ""
+"Vergleiche Versionsnummern, wobei I<op> ein binärer Operator ist. B<dpkg> "
+"liefert Erfolg (Nullergebnis) falls die angegebene Bedingung erfüllt ist und "
+"einen Fehler (Nicht-Null-Ergebnis) andernfalls. Es gibt zwei Gruppen von "
+"Operatoren, die sich in der Behandlung von leeren I<ver1> oder I<ver2> "
+"unterscheiden. Die folgenden behandeln leere Versionen als jünger als jede "
+"andere Version: B<lt le eq ne ge gt>. Die folgenden behandeln eine leere "
+"Version als älter als jede Version: B<lt-nl le-nl ge-nl gt-nl>. Die "
+"folgenden sind nur aus Kompatibilität mit der Kontrolldateisyntax "
+"bereitgestellt: B<E<lt> E<lt>E<lt> E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:230
+#, no-wrap
+msgid "B<dpkg --command-fd E<lt>nE<gt>>"
+msgstr "B<dpkg --command-fd E<lt>nE<gt>>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:235
+msgid ""
+"Accept a series of commands on input file descriptor B<E<lt>nE<gt>>. Note: "
+"additional options set on the command line, and thru this file descriptor, "
+"are not reset for subsequent commands executed during the same run."
+msgstr ""
+"Akzeptiert eine Reihe von Befehlen an Eingabe-Dateideskriptoren "
+"B<E<lt>nE<gt>>. Hinweis: Zusätzliche auf der Kommandozeile und durch diesen "
+"Datei-Deskriptor gesetzte Optionen werden nicht für nachfolgende Befehle, "
+"die im gleichen Lauf ausgeführt werden, zurückgesetzt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:235
+#, no-wrap
+msgid "B<dpkg --help>"
+msgstr "B<dpkg --help>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:238
+msgid "Display a brief help message."
+msgstr "Zeige eine kurze Hilfenachricht an."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:238
+#, no-wrap
+msgid "B<dpkg --force-help>"
+msgstr "B<dpkg --force-help>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:241
+msgid "Give help about the B<--force->I<thing> options."
+msgstr "Gebe Hilfe über die B<--force->I<Sache>-Optionen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:241
+#, no-wrap
+msgid "B<dpkg -Dh >|B< --debug=help>"
+msgstr "B<dpkg -Dh >|B< --debug=help>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:244
+msgid "Give help about debugging options."
+msgstr "Gib Hilfe über Debugging-Optionen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:244
+#, no-wrap
+msgid "B<dpkg --licence> | B<dpkg --license>"
+msgstr "B<dpkg --licence> | B<dpkg --license>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:247
+msgid "Display B<dpkg> licence."
+msgstr "Zeige die B<dpkg>-Lizenz an."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:247
+#, no-wrap
+msgid "B<dpkg --version>"
+msgstr "B<dpkg --version>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:250
+msgid "Display B<dpkg> version information."
+msgstr "Zeige B<dpkg> Versionsinformationen an."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:250
+#, no-wrap
+msgid "B<dpkg-deb actions>"
+msgstr "B<dpkg-deb-Aktionen>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:253
+msgid "See B<dpkg-deb>(1) for more information about the following actions."
+msgstr ""
+"Lesen Sie B<dpkg-deb>(1) für weitere Informationen über die folgenden "
+"Aktionen."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:273
+#, no-wrap
+msgid ""
+"B<dpkg -b> | B<--build> I<directory> [I<filename>]\n"
+"    Build a deb package.\n"
+"B<dpkg -c> | B<--contents> I<filename>\n"
+"    List contents of a deb package.\n"
+"B<dpkg -e> | B<--control> I<filename> [I<directory>]\n"
+"    Extract control-information from a package.\n"
+"B<dpkg -x> | B<--extract> I<filename directory>\n"
+"    Extract the files contained by package.\n"
+"B<dpkg -f> | B<--field>  I<filename> [I<control-field>] ...\n"
+"    Display control field(s) of a package.\n"
+"B<dpkg --fsys-tarfile> I<filename>\n"
+"    Display the filesystem tar-file contained by a\n"
+"    Debian package.\n"
+"B<dpkg -I> | B<--info> I<filename> [I<control-file>]\n"
+"    Show information about a package.\n"
+"B<dpkg -X> | B<--vextract> I<filename> I<directory>\n"
+"    Extract and display the filenames contained by a\n"
+"    package.\n"
+msgstr ""
+"B<dpkg -b> | B<--build> I<Verzeichnis> [I<Dateiname>]\n"
+"    Baue ein deb-Paket.\n"
+"B<dpkg -c> | B<--contents> I<Dateiname>\n"
+"    Liste den Inhalt eines deb-Paketes auf.\n"
+"B<dpkg -e> | B<--control> I<Dateiname> [I<Verzeichnis>]\n"
+"    Extrahiere Kontrollinformationen von einem Paket.\n"
+"B<dpkg -x> | B<--extract> I<Dateiname Verzeichnis>\n"
+"    Extrahiere die vom Paket enthaltenen Dateien.\n"
+"B<dpkg -f> | B<--field>  I<Dateiname> [I<Kontrollfeld>] ...\n"
+"    Zeige das/die Kontrollfeld(er) eines Paketes an.\n"
+"B<dpkg --fsys-tarfile> I<Dateiname>\n"
+"    Zeige die von einem Debian-Paket enthaltene Dateisystem-Tardatei an.\n"
+"B<dpkg -I> | B<--info> I<Dateiname> [I<Kontrolldatei>]\n"
+"    Zeige Informationen über ein Paket.\n"
+"B<dpkg -X> | B<--vextract> I<Dateiname> I<Verzeichnis>\n"
+"    Extrahiere und zeige die von einem Paket enthaltenen Dateinamen.\n"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:275
+#, no-wrap
+msgid "B<dpkg-query actions>"
+msgstr "B<dpkg-query-Aktionen>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:278
+msgid "See B<dpkg-query>(1) for more information about the following actions."
+msgstr ""
+"Lesen Sie B<dpkg-query>(1) für weitere Informationen über die folgenden "
+"Aktionen."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:291
+#, no-wrap
+msgid ""
+"B<dpkg -l> | B<--list> I<package-name-pattern> ...\n"
+"    List packages matching given pattern.\n"
+"B<dpkg -s> | B<--status> I<package-name> ...\n"
+"    Report status of specified package.\n"
+"B<dpkg -L> | B<--listfiles> I<package> ...\n"
+"    List files installed to your system from B<package>.\n"
+"B<dpkg -S> | B<--search> I<filename-search-pattern> ...\n"
+"    Search for a filename from installed packages.\n"
+"B<dpkg -p> | B<--print-avail> I<package>\n"
+"    Display details about I<package>, as found in I</var/lib/dpkg/available>.\n"
+msgstr ""
+"B<dpkg -l> | B<--list> I<Paketnamen-Muster> ...\n"
+"    Liste auf das übergebene Suchmuster passende Pakete auf.\n"
+"B<dpkg -s> | B<--status> I<Paketname> ...\n"
+"    Berichte den Status der spezifizierten Pakete.\n"
+"B<dpkg -L> | B<--listfiles> I<Paket> ...\n"
+"    Liste die aus B<Paket> auf Ihrem System installierten Pakete auf.\n"
+"B<dpkg -S> | B<--search> I<Dateinamen-Suchmuster> ...\n"
+"    Suche nach einem Dateinamen in installierten Paketen.\n"
+"B<dpkg -p> | B<--print-avail> I<Paket>\n"
+"    Zeige Details über I<Paket>, wie in I</var/lib/dpkg/available> gefunden.\n"
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:293
+#, no-wrap
+msgid "OPTIONS"
+msgstr "OPTIONEN"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:298
+msgid ""
+"All options can be specified both on the command line and in the B<dpkg> "
+"configuration file I</etc/dpkg/dpkg.cfg>. Each line in the configuration "
+"file is either an option (exactly the same as the command line option but "
+"without leading dashes) or a comment (if it starts with a B<#>)."
+msgstr ""
+"Alle Optionen können auf der Kommandozeile oder in der B<dpkg>-"
+"Konfigurationsdatei I</etc/dpkg/dpkg.cfg> angegeben werden. Jede Zeile in "
+"der Konfigurationsdatei ist entweder eine Option (exakt die gleiche wie die "
+"Befehlszeilenoption nur ohne führende Gedankenstriche) oder ein Kommentar "
+"(falls es mit B<#> beginnt)."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:299
+#, no-wrap
+msgid "B<--abort-after=>I<number>"
+msgstr "B<--abort-after=>I<Zahl>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:302
+msgid "Change after how many errors B<dpkg> will abort. The default is 50."
+msgstr ""
+"Ändere nach wie vielen Fehlern B<dpkg> abbrechen wird. Der Standardwert ist "
+"50."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:302
+#, no-wrap
+msgid "B<-B>|B<--auto-deconfigure>"
+msgstr "B<-B>|B<--auto-deconfigure>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:308
+msgid ""
+"When a package is removed, there is a possibility that another installed "
+"package depended on the removed package. Specifying this option will cause "
+"automatic deconfiguration of the package which depended on the removed "
+"package."
+msgstr ""
+"Wenn ein Paket entfernt wird besteht die Möglichkeit, dass ein andere "
+"installierte Paket von dem entfernten Paket abhängt. Die Angabe dieser "
+"Option führt zur automatischen Dekonfiguration des Paketes, das von dem "
+"entfernten Paket abhängt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:308
+#, no-wrap
+msgid "B<-D>I<octal>B< | --debug=>I<octal>"
+msgstr "B<-D>I<Oktal>B< | --debug=>I<Oktal>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:314
+msgid ""
+"Switch debugging on. I<octal> is formed by bitwise-orring desired values "
+"together from the list below (note that these values may change in future "
+"releases). B<-Dh> or B<--debug=help> display these debugging values."
+msgstr ""
+"Schalte Debugging ein. I<Oktal> wird durch bitweise Oder-Verknüpfung der "
+"gewünschten Werte von der nachfolgenden Liste gebildet (beachten Sie, dass "
+"sich diese Werte in zukünftigen Veröffentlichungen verändern können). B<-Dh> "
+"oder B<--debug=help> zeigen diese Debugging-Werte an."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:326
+#, no-wrap
+msgid ""
+" number  description\n"
+"    1   Generally helpful progress information\n"
+"    2   Invocation and status of maintainer scripts\n"
+"   10   Output for each file processed\n"
+"  100   Lots of output for each file processed\n"
+"   20   Output for each configuration file\n"
+"  200   Lots of output for each configuration file\n"
+"   40   Dependencies and conflicts\n"
+"  400   Lots of dependencies/conflicts output\n"
+" 1000   Lots of drivel about e.g. the dpkg/info dir\n"
+" 2000   Insane amounts of drivel\n"
+msgstr ""
+" Nummer  Beschreibung\n"
+"    1   Allgemein-hilfreiche Fortschrittsinformationen\n"
+"    2   Aufruf und Status der Betreuerskripte\n"
+"   10   Ausgabe für jede verarbeitete Datei\n"
+"  100   Umfangreiche Ausgabe für jede verarbeitete Datei\n"
+"   20   Ausgabe für jede Konfigurationsdatei\n"
+"  200   Umfangreiche Ausgabe für jede Konfigurationsdatei\n"
+"   40   Abhängigkeiten und Konflikte\n"
+"  400   Umfangreiche Abhängigkeiten/Konflikte-Ausgabe\n"
+" 1000   Umfangreiches Gelaber beispielsweise über das dpkg/info Verzeichnis\n"
+" 2000   Verrückte Mengen an Gelaber\n"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:326
+#, no-wrap
+msgid "B<--force->I<things> | B<--no-force->I<things> | B<--refuse->I<things>"
+msgstr "B<--force->I<Sachen> | B<--no-force->I<Sachen> | B<--refuse->I<Sachen>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:333
+msgid ""
+"Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do some "
+"things. I<things> is a comma separated list of things specified below. B<--"
+"force-help> displays a message describing them.  Things marked with (*) are "
+"forced by default."
+msgstr ""
+"Erzwinge oder verweigere (B<no-force> und B<refuse> bedeuten das gleiche) "
+"bestimmte Sachen. I<Sachen> ist eine Komma-separierte Liste von Dingen, die "
+"im folgenden beschrieben sind. B<--force-help> zeigt eine Nachricht an, die "
+"diese beschreibt. Mit (*) markierte Dinge werden standardmäßig erzwungen."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:337
+msgid ""
+"I<Warning: These options are mostly intended to be used by experts only. "
+"Using them without fully understanding their effects may break your whole "
+"system.>"
+msgstr ""
+"I<Warnung. Diese Optionen sind hauptsächlich für den Einsatz durch Experten "
+"gedacht. Der Einsatz ohne komplettes Verständnis der Effekte kann Ihr "
+"gesamtes System zerstören.>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:340
+msgid "B<all>: Turns on (or off) all force options."
+msgstr "B<all>: Schaltet alle »force«-Optionen ein (oder aus)."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:343
+msgid ""
+"B<downgrade>(*): Install a package, even if newer version of it is already "
+"installed."
+msgstr ""
+"B<downgrade>(*): Installiere ein Paket, selbst wenn eine neuere Version "
+"davon bereits installiert ist."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:350
+msgid ""
+"I<Warning: At present dpkg does not do any dependency checking on downgrades "
+"and therefore will not warn you if the downgrade breaks the dependency of "
+"some other package. This can have serious side effects, downgrading "
+"essential system components can even make your whole system unusable. Use "
+"with care.>"
+msgstr ""
+"I<Warnung: Derzeit führt Dpkg keine Abhängigkeitsüberprüfung bei der "
+"Installation älterer Versionen (als bereits installiert) durch (sog. "
+"Downgrade) und wird Sie daher nicht warnen, falls dadurch die Abhängigkeit "
+"eines anderen Pakets nicht mehr erfüllt ist. Dies kann ernsthafte "
+"Seiteneffekte haben, ein Downgrade einer essenziellen Systemkomponente kann "
+"ihr gesamtes System unbrauchbar machen. Verwenden Sie diese Option mit "
+"Vorsicht.>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:354
+msgid ""
+"B<configure-any>: Configure also any unpacked but unconfigured packages on "
+"which the current package depends."
+msgstr ""
+"B<configure-any>: Konfiguriere auch jedes entpackte, aber unkonfigurierte "
+"Paket von dem das aktuelle Paket abhängt."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:357
+msgid "B<hold>: Process packages even when marked \"hold\"."
+msgstr "B<hold>: Verarbeite auch Pakete, die mit »halten« markiert sind."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:362
+msgid ""
+"B<remove-reinstreq>: Remove a package, even if it's broken and marked to "
+"require reinstallation. This may, for example, cause parts of the package to "
+"remain on the system, which will then be forgotten by B<dpkg>."
+msgstr ""
+"B<remove-reinstreq>: Entferne ein Paket, selbst falls es defekt ist und zur "
+"Neuinstallation markiert ist. Dies kann beispielsweise dazu führen, dass "
+"Teile des Pakets auf dem System bleiben und von B<dpkg> vergessen werden."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:367
+msgid ""
+"B<remove-essential>: Remove, even if the package is considered essential. "
+"Essential packages contain mostly very basic Unix commands. Removing them "
+"might cause the whole system to stop working, so use with caution."
+msgstr ""
+"B<remove-essential>: Entferne, selbst falls das Paket als essenziell "
+"betrachtet wird. Essenzielle Pakete enthalten hauptsächlich sehr "
+"grundlegende Unix-Befehle. Diese zu entfernen kann dazu führen, dass das "
+"gesamte System nicht mehr arbeitet - verwenden Sie dies Option daher mit "
+"Vorsicht."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:370
+msgid "B<depends>: Turn all dependency problems into warnings."
+msgstr "B<depends>: Verwandle alle Abhängigkeitsprobleme in Warnungen."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:373
+msgid ""
+"B<depends-version>: Don't care about versions when checking dependencies."
+msgstr ""
+"B<depends-version>: Ignoriere Versionen bei der Prüfung von Abhängigkeiten."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:377
+msgid ""
+"B<conflicts>: Install, even if it conflicts with another package. This is "
+"dangerous, for it will usually cause overwriting of some files."
+msgstr ""
+"B<conflicts>: Installiere, selbst wenn es mit einem anderen Paket in "
+"Konflikt steht. Dies ist gefährlich, da dies gewöhnlich dazu führt, dass "
+"einige Dateien überschrieben werden."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:382
+msgid ""
+"B<confmiss>: Always install a missing configuration file. This is dangerous, "
+"since it means not preserving a change (removing) made to the file."
+msgstr ""
+"B<confmiss>: Installiere immer fehlende Konfigurationsdateien. Dies ist "
+"gefährlich, da es bedeutet, dass eine Änderung (die Entfernung) an der Datei "
+"nicht erhalten wird."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:387
+msgid ""
+"B<confnew>: If a conffile has been modified always install the new version "
+"without prompting, unless the B<--force-confdef> is also specified, in which "
+"case the default action is preferred."
+msgstr ""
+"B<confnew>: Falls eine Conffile modifiziert wurde, installiere immer die "
+"neue Version ohne Rückfrage, es sei denn, B<--force-confdef> ist ebenfalls "
+"angegeben, in welchem Falle die Standardaktion bevorzugt wird."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:392
+msgid ""
+"B<confold>: If a conffile has been modified always keep the old version "
+"without prompting, unless the B<--force-confdef> is also specified, in which "
+"case the default action is preferred."
+msgstr ""
+"B<confold>: Falls eine Conffile modifiziert wurde, behalte immer die alte "
+"Version ohne Rückfrage, es sei denn, B<--force-confdef> ist ebenfalls "
+"angegeben, in welchem Falle die Standardaktion bevorzugt wird."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:398
+msgid ""
+"B<confdef>: If a conffile has been modified always choose the default "
+"action. If there is no default action it will stop to ask the user unless "
+"B<--force-confnew> or B<--force-confold> is also been given, in which case "
+"it will use that to decide the final action."
+msgstr ""
+"B<confdef>: Falls eine Conffile verändert wurde, wähle immer die "
+"Standardaktion. Falls es keine Standardaktion gibt, halte an um den Benutzer "
+"zu fragen, es sei denn, B<--force-confnew> oder B<--force-confold> sind "
+"ebenfalls angegeben, in welchem Falle dies verwendet wird, um die endgültige "
+"Aktion zu bestimmen."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:401
+msgid "B<overwrite>: Overwrite one package's file with another's file."
+msgstr ""
+"B<overwrite>: Überschreibe die Datei aus einem Paket mit einer Datei aus "
+"einem anderen Paket."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:404
+msgid "B<overwrite-dir> Overwrite one package's directory with another's file."
+msgstr ""
+"B<overwrite-dir> Überschreibe das Verzeichnis aus einem Paket mit einer "
+"Datei aus einem anderen Paket."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:407
+msgid ""
+"B<overwrite-diverted>: Overwrite a diverted file with an undiverted version."
+msgstr ""
+"B<overwrite-diverted>: Überschreibe eine umgelenkte (»diverted«) Datei mit "
+"einer nicht-umgelenkten."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:410
+msgid "B<architecture>: Process even packages with the wrong architecture."
+msgstr "B<architecture>: Verarbeite sogar Pakete mit der falschen Architektur."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:413
+msgid ""
+"B<bad-path>: B<PATH> is missing important programs, so problems are likely."
+msgstr ""
+"B<bad-path>: Im B<PATH> fehlen wichtige Programme, daher sind Probleme "
+"wahrscheinlich."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:416
+msgid "B<not-root>: Try to (de)install things even when not root."
+msgstr ""
+"B<not-root>: Versuche Sachen zu (de)installieren, selbst falls nicht root."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:419
+msgid "B<bad-verify>: Install a package even if it fails authenticity check."
+msgstr ""
+"B<bad-verify>: Installiere ein Paket selbst wenn die Authentizitätsprüfung "
+"fehlschlägt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:420
+#, no-wrap
+msgid "B<--ignore-depends>=I<package>,..."
+msgstr "B<--ignore-depends>=I<Paket>,..."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:424
+msgid ""
+"Ignore dependency-checking for specified packages (actually, checking is "
+"performed, but only warnings about conflicts are given, nothing else)."
+msgstr ""
+"Ignoriere Abhängigkeitsüberprüfungen für ein bestimmtes Paket (tatsächlich "
+"wird die Überprüfung durchgeführt, aber nur Warnungen über Konflikte werden "
+"angezeigt, sonst nichts)."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:424
+#, no-wrap
+msgid "B<--new> | B<--old>"
+msgstr "B<--new> | B<--old>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:428
+msgid ""
+"Select new or old binary package format. This is a B<dpkg-deb>(1)  option."
+msgstr ""
+"Wähle das alte oder neue Binärpaketformat. Dies ist eine B<dpkg-deb>(1)-"
+"Option."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:428
+#, no-wrap
+msgid "B<--nocheck>"
+msgstr "B<--nocheck>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:432
+msgid ""
+"Don't read or check contents of control file while building a package.  This "
+"is a B<dpkg-deb>(1) option."
+msgstr ""
+"Lese oder überprüfe den Inhalt der Kontrolldatei beim Paketbau nicht. Dies "
+"ist eine B<dpkg-deb>(1)-Option."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:432
+#, no-wrap
+msgid "B<--no-act> | B<--dry-run> | B<--simulate>"
+msgstr "B<--no-act> | B<--dry-run> | B<--simulate>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:437
+msgid ""
+"Do everything which is supposed to be done, but don't write any changes. "
+"This is used to see what would happen with the specified action, without "
+"actually modifying anything."
+msgstr ""
+"Erledige alles, was gemacht werden soll, aber schreibe keine Änderungen. "
+"Dies wird verwendet um zu sehen, was mit der spezifizierten Änderung "
+"passieren würde ohne tatsächlich etwas zu modifizieren."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:442
+msgid ""
+"Be sure to give B<--no-act> before the action-parameter, or you might end up "
+"with undesirable results. (e.g. B<dpkg --purge foo --no-act> will first "
+"purge package foo and then try to purge package --no-act, even though you "
+"probably expected it to actually do nothing)"
+msgstr ""
+"Stellen Sie sicher, dass B<--no-act> vor dem Aktions-Parameter steht, oder "
+"Sie könnten mit unerwünschten Ergebnissen enden. (Beispielsweise wird B<dpkg "
+"--purge foo --no-act> zuerst das Paket foo bereinigen und dann versuchen, "
+"das Paket --no-act zu bereinigen, obwohl Sie wahrscheinlich davon ausgingen, "
+"dass tatsächlich gar nichts passieren sollte)"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:442
+#, no-wrap
+msgid "B<-R> | B<--recursive>"
+msgstr "B<-R> | B<--recursive>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:448
+msgid ""
+"Recursively handle all regular files matching pattern B<*.deb> found at "
+"specified directories and all of its subdirectories. This can be used with "
+"B<-i>, B<-A>, B<--install>, B<--unpack> and B<--avail> actions."
+msgstr ""
+"Behandle rekursiv alle regulären Dateien, die auf das Muster B<*.deb> passen "
+"und im angegeben Verzeichnis sowie allen Unterverzeichnis liegen. Dies kann "
+"mit den Aktionen B<-i>, B<-A>, B<--install>, B<--unpack> und B<--avail> "
+"verwendet werden."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:448
+#, no-wrap
+msgid "B<-G>"
+msgstr "B<-G>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:452
+msgid ""
+"Don't install a package if a newer version of the same package is already "
+"installed. This is an alias of B<--refuse-downgrade>."
+msgstr ""
+"Installiere ein Paket nicht, falls bereits eine neuere Version des gleichen "
+"Paketes installiert ist. Dies ist ein Alias für B<--refuse-downgrade>."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:452
+#, no-wrap
+msgid "B<--root=>I<dir> | B<--admindir=>I<dir> | B<--instdir=>I<dir>"
+msgstr "B<--root=>I<Verz> | B<--admindir=>I<Verz> | B<--instdir=>I<Verz>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:463
+msgid ""
+"Change default directories. B<admindir> defaults to I</var/lib/dpkg> and "
+"contains many files that give information about status of installed or "
+"uninstalled packages, etc. B<instdir> defaults to I</> and refers to the "
+"directory where packages are to be installed. B<instdir> is also the "
+"directory passed to B<chroot>(2) before running package's installation "
+"scripts, which means that the scripts see B<instdir> as a root directory.  "
+"Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
+"var/lib/dpkg>."
+msgstr ""
+"Ändere die Standardverzeichnisse. B<admindir> ist standardmäßig I</var/lib/"
+"dpkg> und enthält viele Dateien, die Informationen über den Status von "
+"installierten oder nicht-installierten Paketen enthalten usw. B<instdir> ist "
+"standardmäßig I</> und bezieht sich auf das Verzeichnis, wo Pakete hin "
+"installiert werden. B<instdir> ist auch das Verzeichnis, das an B<chroot>(2) "
+"vor dem Aufruf der Installationsskripte des Paketes übergeben wird, was "
+"bedeutet, dass die Skripte B<instdir> als ein Wurzelverzeichnis sehen. Eine "
+"Änderung von B<root> ändert B<instdir> auf I<Verz> und B<admindir> auf "
+"I<dir>B</var/lib/dpkg>."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:463
+#, no-wrap
+msgid "B<-O> | B<--selected-only>"
+msgstr "B<-O> | B<--selected-only>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:469
+msgid ""
+"Only process the packages that are selected for installation. The actual "
+"marking is done with B<dselect> or by B<dpkg>, when it handles packages. For "
+"example, when a package is removed, it will be marked selected for "
+"deinstallation."
+msgstr ""
+"Bearbeite nur die Pakete, die zur Installation ausgewählt sind. Die "
+"eigentliche Markierung erfolgt mit B<dselect> oder durch B<dpkg>, wenn es "
+"Pakete bearbeitet. Beispielsweise wird ein Paket bei der Entfernung als für "
+"die Deinstallation-ausgewählt markiert."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:469
+#, no-wrap
+msgid "B<-E> | B<--skip-same-version>"
+msgstr "B<-E> | B<--skip-same-version>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:473
+msgid ""
+"Don't install the package if the same version of the package is already "
+"installed."
+msgstr ""
+"Installiere das Paket nicht, falls die gleiche Version des Pakets bereits "
+"installiert ist."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:473
+#, no-wrap
+msgid "B<--status-fd >I<E<lt>nE<gt>>"
+msgstr "B<--status-fd >I<E<lt>nE<gt>>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:480
+msgid ""
+"Send package status info to file descriptor I<E<lt>nE<gt>>. This can be "
+"given multiple times. Status updates are of the form `status: E<lt>pkgE<gt>: "
+"E<lt>pkg stateE<gt>'.  Errors are reported as `status: E<lt>pkgE<gt>: error: "
+"extend-error-message'.  Configuration file conflicts are reported as "
+"`status: conffile-prompt: conffile : 'current-conffile' 'new-conffile' "
+"useredited distedited'."
+msgstr ""
+"Sende Paketstatusinformationen an den Dateideskriptor I<E<lt>nE<gt>>. Diese "
+"Option kann mehrfach angegeben werden. Statusaktualisierungen sind von der "
+"Form: »status: E<lt>PktE<gt>: E<lt>Pkt StatusE<gt>«. Fehler werden als "
+"»status: E<lt>PktE<gt>: error: Ausführliche-Fehlermeldung« berichtet. "
+"Konfigurationsdateikonflikte werden als »status: Conffile-"
+"Eingabeaufforderung: conffile : »aktuelle-conffile« »neue-conffile« "
+"useredited distedited« berichtet."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:480
+#, no-wrap
+msgid "B<--log=>I<filename>"
+msgstr "B<--log=>I<Dateiname>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:492
+msgid ""
+"Log status change updates and actions to I<filename>, instead of the default "
+"I</var/log/dpkg.log>. If this option is given multiple times, the last "
+"filename is used. Log messages are of the form `YYYY-MM-DD HH:MM:SS status "
+"E<lt>stateE<gt> E<lt>pkgE<gt> E<lt>installed-versionE<gt>' for status change "
+"updates; `YYYY-MM-DD HH:MM:SS E<lt>actionE<gt> E<lt>pkgE<gt> E<lt>installed-"
+"versionE<gt> E<lt>available-versionE<gt>' for actions where "
+"I<E<lt>actionE<gt>> is one of install, upgrade, remove, purge; and `YYYY-MM-"
+"DD HH:MM:SS conffile E<lt>filenameE<gt> E<lt>decisionE<gt>' for conffile "
+"changes where I<E<lt>decisionE<gt>> is either install or keep."
+msgstr ""
+"Protokollierstatus-Änderungsaktualisierungen und -Aktionen in I<Dateiname> "
+"anstatt in die Standard-Datei I</var/log/dpkg.log>. Falls diese Option "
+"mehrfach übergeben wird, wird der letzte Dateiname verwendet. "
+"Protokollnachrichten sind von der Form »YYYY-MM-DD HH:MM:SS status "
+"E<lt>ZustandE<gt> E<lt>PktE<gt> E<lt>installierte-VersionE<gt>« für "
+"Statusänderungsaktualisierungen; »YYYY-MM-DD HH:MM:SS E<lt>AktionE<gt> "
+"E<lt>PktE<gt> E<lt>installierte-VersionE<gt> E<lt>verfügbare-VersionE<gt>« "
+"für Aktionen wobei I<E<lt>AktionE<gt>> entweder install, upgrade, remove "
+"oder purge ist; und »YYYY-MM-DD HH:MM:SS conffile E<lt>DateinameE<gt> "
+"E<lt>EntscheidungE<gt>« für Conffile-Änderungen ist, wobei "
+"I<E<lt>EntscheidungE<gt>> entweder install oder keep ist."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:492
+#, no-wrap
+msgid "B<--no-debsig>"
+msgstr "B<--no-debsig>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:495
+msgid "Do not try to verify package signatures."
+msgstr "Versuche nicht, Paketsignaturen zu überprüfen."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:496
+#, no-wrap
+msgid "FILES"
+msgstr "DATEIEN"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:497
+#, no-wrap
+msgid "I</etc/dpkg/dpkg.cfg>"
+msgstr "I</etc/dpkg/dpkg.cfg>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:500
+msgid "Configuration file with default options."
+msgstr "Konfigurationsdatei mit Standardeinstellungen der Optionen."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:500
+#, no-wrap
+msgid "I</var/log/dpkg.log>"
+msgstr "I</var/log/dpkg.log>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:504
+msgid "Default log file (see I</etc/dpkg/dpkg.cfg>(5) and option B<--log>)."
+msgstr ""
+"Standard-Protokolldatei (lesen Sie I</etc/dpkg/dpkg.cfg>(5) und die Option "
+"B<--log>)."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:507
+msgid ""
+"The other files listed below are in their default directories, see option "
+"B<--admindir> to see how to change locations of these files."
+msgstr ""
+"Die anderen unten aufgeführten Dateien sind in ihrem Standardverzeichnis, "
+"lesen Sie den Text zur Option B<--admindir> um zu sehen, wie sie den Ort "
+"dieser Dateien ändern können."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:507
+#, no-wrap
+msgid "I</var/lib/dpkg/available>"
+msgstr "I</var/lib/dpkg/available>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:510
+msgid "List of available packages."
+msgstr "Liste der verfügbaren Pakete."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:510
+#, no-wrap
+msgid "I</var/lib/dpkg/status>"
+msgstr "I</var/lib/dpkg/status>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:516
+msgid ""
+"Statuses of available packages. This file contains information about whether "
+"a package is marked for removing or not, whether it is installed or not, "
+"etc. See section B<INFORMATION ABOUT PACKAGES> for more info."
+msgstr ""
+"Statusse der verfügbaren Pakete. Diese Datei enthält Informationen darüber, "
+"ob ein Paket zur Entfernung markiert ist oder nicht, ob es installiert ist "
+"oder nicht usw. Lesen Sie den Abschnitt B<INFORMATIONEN ÜBER PAKETE> für "
+"weitere Informationen."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:519
+msgid ""
+"The following files are components of a binary package. See B<deb>(5)  for "
+"more information about them:"
+msgstr ""
+"Die folgenden Dateien sind Komponenten von Binärpaketen. Lesen Sie B<deb>(5) "
+"für weitere Informationen über sie:"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:519
+#, no-wrap
+msgid "I<control>"
+msgstr "I<control>"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:521
+#, no-wrap
+msgid "I<conffiles>"
+msgstr "I<conffiles>"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:523
+#, no-wrap
+msgid "I<preinst>"
+msgstr "I<preinst>"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:525
+#, no-wrap
+msgid "I<postinst>"
+msgstr "I<postinst>"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:527
+#, no-wrap
+msgid "I<prerm>"
+msgstr "I<prerm>"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:529
+#, no-wrap
+msgid "I<postrm>"
+msgstr "I<postrm>"
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:532
+#, no-wrap
+msgid "ENVIRONMENT VARIABLES"
+msgstr "UMGEBUNGSVARIABLEN"
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:533
+#, no-wrap
+msgid "B<DPKG_NO_TSTP>"
+msgstr "B<DPKG_NO_TSTP>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:537
+msgid ""
+"Define this to something if you prefer B<dpkg> starting a new shell rather "
+"than suspending itself, while doing a shell escape."
+msgstr ""
+"Definieren sie diese zu irgendetwas, falls Sie es bevorzugen, dass B<dpkg> "
+"eine neue Shell startet statt sich selber zu suspendieren, während es einen "
+"»Shell-Escape« durchführt."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:537
+#, no-wrap
+msgid "B<SHELL>"
+msgstr "B<SHELL>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:540
+msgid "The program B<dpkg> will execute when starting a new shell."
+msgstr ""
+"Das Programm, das B<dpkg> ausführen wird, wenn es eine neue Shell startet."
+
+# type: TP
+#: ../../../man/po4a/../C/dpkg.1:540
+#, no-wrap
+msgid "B<COLUMNS>"
+msgstr "B<COLUMNS>"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:544
+msgid ""
+"Sets the number of columns B<dpkg> should use when displaying formatted "
+"text. Currently only used by -l."
+msgstr ""
+"Setzt die Anzahl von Spalten die B<dpkg> verwenden soll, wenn es "
+"formatierten Text anzeigt. Derzeit nur von -l verwendet."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:545
+#, no-wrap
+msgid "EXAMPLES"
+msgstr "BEISPIELE"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:547
+msgid "To list packages related to the editor B<vi>(1):"
+msgstr "Um Pakete mit Bezug zum B<vi>(1)-Editor aufzulisten:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:549
+#, no-wrap
+msgid "     B<dpkg -l \\(aq*vi*\\(aq>\n"
+msgstr "     B<dpkg -l \\(aq*vi*\\(aq>\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:552
+msgid "To see the entries in I</var/lib/dpkg/available> of two packages:"
+msgstr ""
+"Um die Einträge von zwei Pakete in I</var/lib/dpkg/available> zu sehen:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:554
+#, no-wrap
+msgid "     B<dpkg --print-avail elvis vim | less>\n"
+msgstr "     B<dpkg --print-avail elvis vim | less>\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:557
+msgid "To search the listing of packages yourself:"
+msgstr "Wenn Sie die Liste der Pakete selbst durchsuchen wollen:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:559
+#, no-wrap
+msgid "     B<less /var/lib/dpkg/available>\n"
+msgstr "     B<less /var/lib/dpkg/available>\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:562
+msgid "To remove an installed elvis package:"
+msgstr "Um ein installiertes Elvis-Paket zu entfernen:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:564
+#, no-wrap
+msgid "     B<dpkg -r elvis>\n"
+msgstr "     B<dpkg -r elvis>\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:569
+msgid ""
+"To install a package, you first need to find it in an archive or CDROM. The "
+"\"available\" file shows that the vim package is in section \"editors\":"
+msgstr ""
+"Um ein Paket zu installieren, müssen Sie es erst in einem Archiv oder auf "
+"einer CD-ROM finden. Die »available«-Datei zeigt, dass das vim-Paket im "
+"Bereich »editors« ist:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:572
+#, no-wrap
+msgid ""
+"     B<cd /cdrom/hamm/hamm/binary/editors>\n"
+"     B<dpkg -i vim_4.5-3.deb>\n"
+msgstr ""
+"     B<cd /cdrom/hamm/hamm/binary/editors>\n"
+"     B<dpkg -i vim_4.5-3.deb>\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:575
+msgid "To make a local copy of the package selection states:"
+msgstr "Um eine lokale Kopie der Paketauswahl-Zustände zu erstellen:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:577
+#, no-wrap
+msgid "     B<dpkg --get-selections E<gt>myselections>\n"
+msgstr "     B<dpkg --get-selections E<gt>meine_auswahl>\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:581
+msgid ""
+"You might transfer this file to another computer, and install it there with:"
+msgstr ""
+"Sie können diese Datei zu einem anderen Computer bringen und sie dort mit "
+"folgenden Befehlen installieren:"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:584
+#, no-wrap
+msgid ""
+"     B<dpkg --clear-selections>\n"
+"     B<dpkg --set-selections E<lt>myselections>\n"
+msgstr ""
+"     B<dpkg --clear-selections>\n"
+"     B<dpkg --set-selections E<lt>myselections>\n"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:590
+msgid ""
+"Note that this will not actually install or remove anything, but just set "
+"the selection state on the requested packages. You will need some other "
+"application to actually download and install the requested packages. For "
+"example, run B<dselect> and choose \"Install\"."
+msgstr ""
+"Beachten Sie, dass dies nichts wirklich installiert oder entfernt, sondern "
+"lediglich den Auswahlzustand der angeforderten Pakete setzt. Sie werden eine "
+"andere Anwendung benötigen, um die angeforderten Pakete tatsächlich "
+"herunterzuladen und zu installieren. Starten Sie beispielsweise B<dselect> "
+"und wählen Sie »Installieren«."
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:593
+msgid ""
+"Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
+"to modify the package selection states."
+msgstr ""
+"Gewöhnlich werden Sie feststellen, dass B<dselect>(1) eine bequemere Art "
+"ist, den Paketauswahlzustand zu ändern."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:595
+#, no-wrap
+msgid "ADDITIONAL FUNCTIONALITY"
+msgstr "ZUSÄTZLICHE FUNKTIONALITÄT"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:598
+msgid ""
+"Additional functionality can be gained by installing any of the following "
+"packages: I<apt>, I<aptitude> and I<debsums>."
+msgstr ""
+"Zusätzliche Funktionalität kann durch die Installation jedes der folgenden "
+"Pakete erhalten werden: I<apt>, I<aptitude> und I<debsums>."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:599
+#, no-wrap
+msgid "SEE ALSO"
+msgstr "SIEHE AUCH"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:608
+msgid ""
+"B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), B<deb>(5), B<deb-control>"
+"(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
+msgstr ""
+"B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), B<deb>(5), B<deb-control>"
+"(5), B<dpkg.cfg>(5) und B<dpkg-reconfigure>(8)."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:609
+#, no-wrap
+msgid "BUGS"
+msgstr "FEHLER"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:611
+msgid "B<--no-act> usually gives less information than might be helpful."
+msgstr ""
+"B<--no-act> gibt gewöhnlich weniger Informationen als hilfreich sein könnten."
+
+# type: SH
+#: ../../../man/po4a/../C/dpkg.1:612
+#, no-wrap
+msgid "AUTHORS"
+msgstr "AUTOREN"
+
+# type: Plain text
+#: ../../../man/po4a/../C/dpkg.1:616
+#, no-wrap
+msgid ""
+"See I</usr/share/doc/dpkg/THANKS> for the list of people who have\n"
+"contributed to B<dpkg>.\n"
+msgstr ""
+"Lesen Sie I</usr/share/doc/dpkg/THANKS> für die Liste der Leute, die zu\n"
+"B<dpkg> beigetragen haben.\n"
