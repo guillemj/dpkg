@@ -12,11 +12,12 @@ dpkg\-architecture \- set and determine the architecture for package building
 dpkg-architecture does provide a facility to determine and set the build and
 host architecture for package building.
 .PP
-The build architecture is always determined by an external call to dpkg, and
-can not be set at the command line.
+The build architecture is always determined by an external call to
+\fBdpkg\fP(1), and can not be set at the command line.
 .PP
 You can specify the host architecture by providing one or both of the options
-\fB\-a\fR and \fB\-t\fR. The default is determined by an external call to gcc,
+\fB\-a\fR and \fB\-t\fR. The default is determined by an external call to
+.BR gcc (1),
 or the same as the build architecture if \s-1CC\s0 or gcc are both not
 available. One out of \fB\-a\fR and \fB\-t\fR is sufficient, the value of the
 other will be set to a usable default. Indeed, it is often better to only
@@ -32,10 +33,11 @@ Set the Debian architecture.
 Set the GNU system type.
 .TP
 .B \-f
-Existing environment variables with the same name as used by the scripts are
-not overwritten, except if this force flag is present. This allows the user
+Values set by existing environment variables with the same name as used by
+the scripts are honored (i.e. used by B<dpkg-architecture>), except if
+this force flag is present. This allows the user
 to override a value even when the call to \fBdpkg\-architecture\fP is buried
-in some other script (for example \fBdpkg\-buildpackage\fP).
+in some other script (for example \fBdpkg\-buildpackage\fP(1)).
 .
 .SH ACTIONS
 .TP
@@ -46,7 +48,7 @@ Print the environment variables, one each line, in the format
 .BI \-e debian-architecture
 Check for equality of architecture. By default \fIdebian-architecture\fP
 is compared against the current Debian architecture, being the host.
-This option will not expand the architecture wildcards. Command finishes
+This action will not expand the architecture wildcards. Command finishes
 with an exit status of 0 if matched, 1 if not matched.
 .TP
 .BI \-i architecture-wildcard
@@ -55,7 +57,7 @@ as an architecture wildcard and comparing against the current Debian
 architecture. Command finishes with an exit status of 0 if matched, 1 if
 not matched.
 .TP
-.BI \-q variable-Name
+.BI \-q variable-name
 Print the value of a single variable.
 .TP
 .B \-s
@@ -91,9 +93,9 @@ An architecture wildcard is a special architecture string that will match
 any real architecture being part of it. The general form is <kernel>\-<cpu>.
 Examples: linux\-any, linux\-alpha, any\-i386, hurd\-any.
 .IP "\s-1GNU\s0 system type" 4
-An architecture specification string consisting of two parts,
-cpu-system. Examples: i386\-linux\-gnu, sparc\-linux\-gnu, i386\-gnu,
-x86_64\-netbsd.
+An architecture specification string consisting of two parts separated by
+a dash: cpu and system. Examples: i386\-linux\-gnu, sparc\-linux\-gnu,
+i386\-gnu, x86_64\-netbsd.
 .
 .SH "EXAMPLES"
 \fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
@@ -103,13 +105,15 @@ CC=i386\-gnu\-gcc dpkg\-architecture \f(CW\*(C`\-c\*(C'\fR debian/rules build
 .PP
 eval \`dpkg\-architecture \f(CW\*(C`\-u\*(C'\fR\`
 .PP
-Check if the current architecture or a given one are equal:
+Check if an architecture is equal to the current architecture or a given
+one:
 .PP
 dpkg\-architecture \-elinux\-alpha
 .PP
 dpkg\-architecture \-amips \-elinux\-mips
 .PP
-Check if the current architecture or a given one are Linux systems:
+Check if the current architecture or an architecture provided with -a are
+Linux systems:
 .PP
 dpkg\-architecture \-ilinux\-any
 .PP
@@ -128,7 +132,7 @@ The \s-1GNU\s0 system type of the build machine.
 .IP "\s-1DEB_BUILD_GNU_CPU\s0" 4
 The \s-1CPU\s0 part of \s-1DEB_BUILD_GNU_TYPE\s0
 .IP "\s-1DEB_BUILD_GNU_SYSTEM\s0" 4
-The System part of \s-1DEB_BUILD_GNU_TYPE\s0
+The System part of \s-1DEB_BUILD_GNU_TYPE\s0.
 .IP "\s-1DEB_HOST_ARCH\s0" 4
 The Debian architecture of the host machine.
 .IP "\s-1DEB_HOST_ARCH_OS\s0" 4
@@ -138,9 +142,9 @@ The Debian cpu name of the host machine.
 .IP "\s-1DEB_HOST_GNU_TYPE\s0" 4
 The \s-1GNU\s0 system type of the host machine.
 .IP "\s-1DEB_HOST_GNU_CPU\s0" 4
-The \s-1CPU\s0 part of \s-1DEB_HOST_GNU_TYPE\s0
+The \s-1CPU\s0 part of \s-1DEB_HOST_GNU_TYPE\s0.
 .IP "\s-1DEB_HOST_GNU_SYSTEM\s0" 4
-The System part of \s-1DEB_HOST_GNU_TYPE\s0
+The System part of \s-1DEB_HOST_GNU_TYPE\s0.
 .
 .SH "DEBIAN/RULES"
 The environment variables set by \fBdpkg\-architecture\fP are passed to
@@ -192,7 +196,7 @@ or if you only need to check the CPU or OS type, use the DEB_HOST_ARCH_CPU
 or DEB_HOST_ARCH_OS variables.
 .PP
 In general, calling dpkg in the rules file to get architecture information
-is deprecated (until you want to provide backward compatibility, see below).
+is deprecated (unless you want to provide backward compatibility, see below).
 Especially the \-\-print\-architecture option is unreliable since we have
 Debian architectures which don't equal a processor name.
 .
