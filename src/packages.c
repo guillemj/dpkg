@@ -352,6 +352,9 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
   debug(dbg_depcon,"checking dependencies of %s (- %s)",
         pkg->name, removing ? removing->name : "<none>");
   assert(pkg->installed.valid);
+  /* To implement Breaks we need to add code here which prevents
+   * configuration of Broken packages.
+   * FIXME: implement Breaks */
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_depends && dep->type != dep_predepends) continue;
     debug(dbg_depcondetail,"  checking group ...");

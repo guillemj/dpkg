@@ -153,6 +153,7 @@ void describedepcon(struct varbuf *addto, struct dependency *dep) {
   case dep_depends:     varbufaddstr(addto, _(" depends on "));     break;
   case dep_predepends:  varbufaddstr(addto, _(" pre-depends on ")); break;
   case dep_recommends:  varbufaddstr(addto, _(" recommends "));     break;
+  case dep_breaks:      varbufaddstr(addto, _(" breaks "));         break;
   case dep_conflicts:   varbufaddstr(addto, _(" conflicts with ")); break;
   case dep_suggests:    varbufaddstr(addto, _(" suggests ")); break;
   case dep_enhances:    varbufaddstr(addto, _(" enhances "));       break;
@@ -185,8 +186,9 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
   char linebuf[1024];
 
   assert(dep->type == dep_depends || dep->type == dep_predepends ||
-         dep->type == dep_conflicts || dep->type == dep_recommends ||
-	 dep->type == dep_suggests || dep->type == dep_enhances );
+	 dep->type == dep_breaks || dep->type == dep_conflicts ||
+	 dep->type == dep_recommends || dep->type == dep_suggests ||
+	 dep->type == dep_enhances);
   
   /* The dependency is always OK if we're trying to remove the depend*ing*
    * package.
@@ -211,6 +213,16 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
   default:
     internerr("unknown istobe depending");
   }
+
+  if (dep->type == dep_breaks)
+    /* We don't implement this and we can only be in this state
+     * if either a Breaks-ignorant or a Breaks-supporting dpkg
+     * installed the package.  In both cases it's probably too
+     * late to do anything useful about it now in this version
+     * so we just ignore it and hope.
+     * FIXME: implement Breaks
+     */
+    return 1;
 
   /* Describe the dependency, in case we have to moan about it. */
   varbufreset(whynot);

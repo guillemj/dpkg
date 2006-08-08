@@ -439,6 +439,7 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                  " error after reference to package `%.255s'"),
                  fip->name, dop->ed->name);
       if (fip->integer == dep_conflicts ||
+          fip->integer == dep_breaks ||
           fip->integer == dep_provides ||
           fip->integer == dep_replaces)
         parseerr(NULL,filename,lno, warnto,warncount,pigp,0,

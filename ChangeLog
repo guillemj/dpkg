@@ -1,3 +1,20 @@
+2006-08-08  Ian Jackson  <iwj@ubuntu.com>
+
+	* lib/dpkg-db.h (deptype): Add dep_breaks.
+	* lib/fields.c (f_dependency): Bail out if the Breaks field has an
+	alternative through a '|'.
+	* lib/parse.c (fieldinfos): Add support for the Breaks field when
+	parsing them as a depedency field.
+	* src/depcon.c (describedepcon): Support displaying the Breaks
+	relationship.
+	(depisok): Ignore the Breaks field by adding dep_breaks to the assert
+	and returning as succeeded.
+	* src/processarc.c (process_archive): Print a message stating that
+	current dpkg does not support the Breaks field. Do not bail out in
+	case the Breaks references packages to ignore for dependency handling.
+	* src/packages.c (dependencies_ok): Add a place holder comment to
+	be replaced by the code to prevent configuration of Broken packages.
+
 2006-07-07  Nicolas François  <nicolas.francois@centraliens.net>
 
 	* dpkg-deb/build.c: Specify --null before the -T option to avoid

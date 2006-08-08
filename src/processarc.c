@@ -252,6 +252,16 @@ void process_archive(const char *filename) {
         }
       }
       break;
+    case dep_breaks:
+      fprintf(stderr, _("dpkg: regarding %s containing %s:\n"
+			" package uses Breaks; not supported in this dpkg\n"),
+	      pfilename, pkg->name);
+      if (!force_depends(dsearch->list))
+	ohshit(_("unsupported dependency problem - not installing %.250s"),
+	       pkg->name);
+      fprintf(stderr, _("dpkg: warning - ignoring Breaks !\n"));
+      /* FIXME: implement Breaks */
+      break;
     case dep_suggests:
     case dep_recommends:
     case dep_depends:

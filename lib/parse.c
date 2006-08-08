@@ -61,6 +61,7 @@ const struct fieldinfo fieldinfos[]= {
   { "Pre-Depends",      f_dependency,      w_dependency,     dep_predepends           },
   { "Recommends",       f_dependency,      w_dependency,     dep_recommends           },
   { "Suggests",         f_dependency,      w_dependency,     dep_suggests             },
+  { "Breaks",           f_dependency,      w_dependency,     dep_breaks               },
   { "Conflicts",        f_dependency,      w_dependency,     dep_conflicts            },
   { "Enhances",         f_dependency,      w_dependency,     dep_enhances             },
   { "Conffiles",        f_conffiles,       w_conffiles                                },
