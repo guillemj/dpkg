@@ -1,3 +1,14 @@
+2006-08-08  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-architecture.pl (dpkglibdir): Set to '.' where
+	controllib.pl is located.
+	(pkgdatadir): Set to '..' where cputable and ostable are located.
+	* m4/arch.m4 (_DPKG_ARCHITECTURE): New macro.
+	(DPKG_CPU_TYPE): Use _DPKG_ARCHITECTURE instead of parsing cputable.
+	(DPKG_OS_TYPE): Use _DPKG_ARCHITECTURE instead of parsing ostable.
+	(DPKG_ARCHITECTURE): Use _DPKG_ARCHITECTURE instead of constructing
+	the value from cpu_type and os_type.
+
 2006-08-08  Ian Jackson  <iwj@ubuntu.com>
 
 	* lib/dpkg-db.h (deptype): Add dep_breaks.

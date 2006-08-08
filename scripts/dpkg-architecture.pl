@@ -21,14 +21,14 @@
 
 $version="1.0.0"; # This line modified by Makefile
 
-$dpkglibdir="/usr/lib/dpkg";
+$dpkglibdir = ".";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-$pkgdatadir=".";
+$pkgdatadir = "..";
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;

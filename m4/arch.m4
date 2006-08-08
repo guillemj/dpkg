@@ -1,10 +1,19 @@
+# _DPKG_ARCHITECTURE([DEB_VAR], [sh_var])
+# ---------------------------------------
+# Use dpkg-architecture from the source tree to set sh_var using DEB_VAR for
+# the target architecture, to avoid duplicating its logic.
+AC_DEFUN([_DPKG_ARCHITECTURE], [
+AC_REQUIRE([AC_CANONICAL_SYSTEM])dnl
+$2="`cd $srcdir/scripts; ./dpkg-architecture.pl -t$target -q$1 2>/dev/null`"
+])# _DPKG_ARCHITECURE
+
 # DPKG_CPU_TYPE
 # -------------
 # Parse the target cpu name and check it against the cputable to determine
 # the Debian name for it.  Sets ARCHITECTURE_CPU.
 AC_DEFUN([DPKG_CPU_TYPE],
 [AC_MSG_CHECKING([dpkg cpu type])
-[cpu_type="`awk \"! /^(#.*)?\\$/ { if (match(\\\"$target_cpu\\\", \\\"^\\\"\\$][3\\\"\\$\\\")) { print \\$][1; exit; } }\" $srcdir/cputable`"]
+_DPKG_ARCHITECTURE([DEB_HOST_ARCH_CPU], [cpu_type])
 if test "x$cpu_type" = "x"; then
 	cpu_type=$target_cpu
 	AC_MSG_RESULT([$cpu_type])
@@ -22,7 +31,7 @@ AC_DEFINE_UNQUOTED(ARCHITECTURE_CPU, "${cpu_type}",
 # special cases to determine what type it is.  Sets ARCHITECTURE_OS.
 AC_DEFUN([DPKG_OS_TYPE],
 [AC_MSG_CHECKING([dpkg operating system type])
-[os_type="`awk \"! /^(#.*)?\\$/ { if (match(\\\"$target_os\\\", \\\"^(.*-)?\\\"\\$][3\\\"\\$\\\")) { print \\$][1; exit; } }\" $srcdir/ostable`"]
+_DPKG_ARCHITECTURE([DEB_HOST_ARCH_OS], [os_type])
 if test "x$os_type" = "x"; then
 	os_type=$target_os
 	AC_MSG_RESULT([$os_type])
@@ -42,11 +51,7 @@ AC_DEFUN([DPKG_ARCHITECTURE],
 [DPKG_CPU_TYPE
 DPKG_OS_TYPE
 AC_MSG_CHECKING([dpkg architecture name])
-if test "x$os_type" = "xlinux"; then
-	dpkg_arch=$cpu_type
-else
-	dpkg_arch="$os_type-$cpu_type"
-fi
+_DPKG_ARCHITECTURE([DEB_HOST_ARCH], [dpkg_arch])
 AC_MSG_RESULT([$dpkg_arch])
 AC_DEFINE_UNQUOTED(ARCHITECTURE, "${dpkg_arch}",
 	[Set this to the canonical dpkg architecture name.])
