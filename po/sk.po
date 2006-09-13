@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-08-17 16:02+0200\n"
-"PO-Revision-Date: 2006-05-30 11:58+0200\n"
+"PO-Revision-Date: 2006-09-13 13:13+0200\n"
 "Last-Translator: Peter Mann <Peter.Mann@tuke.sk>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -472,9 +472,9 @@ msgstr ""
 " číslo verzie začína nealfanumerickým znakom, doporučujem pridať medzeru"
 
 #: lib/fields.c:413 lib/fields.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
-msgstr "pole `%s' odkazujúce na `%.255s': verzia obsahuje `('"
+msgstr "pole `%s' odkazujúce na `%.255s': verzia obsahuje `%c'"
 
 #: lib/fields.c:419
 #, c-format
@@ -1605,7 +1605,7 @@ msgstr " odporúča "
 
 #: src/depcon.c:156
 msgid " breaks "
-msgstr ""
+msgstr " porušuje "
 
 #: src/depcon.c:157
 msgid " conflicts with "
@@ -1622,17 +1622,17 @@ msgstr " rozširuje "
 #: src/depcon.c:246
 #, c-format
 msgid "  %.250s is to be removed.\n"
-msgstr "  %.250s bude odstránený.\n"
+msgstr "  %.250s sa odstráni.\n"
 
 #: src/depcon.c:249
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
-msgstr "  %.250s bude dekonfigurovaný.\n"
+msgstr "  zruší sa nastavenie %.250s.\n"
 
 #: src/depcon.c:253
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
-msgstr "  %.250s bude nainštalovaný, ale vo verzii %.250s.\n"
+msgstr "  %.250s sa nainštaluje, ale vo verzii %.250s.\n"
 
 #: src/depcon.c:261
 #, c-format
@@ -1642,7 +1642,7 @@ msgstr "  %.250s je nainštalovaný, ale vo verzii %.250s.\n"
 #: src/depcon.c:276
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
-msgstr "  %.250s je rozbalený, ale nebol ešte nakonfigurovaný.\n"
+msgstr "  %.250s je rozbalený, ale sa ešte nenastavil.\n"
 
 #: src/depcon.c:280
 #, c-format
@@ -1652,7 +1652,7 @@ msgstr "  %.250s je rozbalený, ale vo verzii %.250s.\n"
 #: src/depcon.c:286
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
-msgstr "  %.250s naposledy nakonfigurovaná verzia je %.250s.\n"
+msgstr "  %.250s naposledy nastavená verzia je %.250s.\n"
 
 #: src/depcon.c:295
 #, c-format
@@ -1662,12 +1662,12 @@ msgstr "  %.250s je %s.\n"
 #: src/depcon.c:331
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
-msgstr "  %.250s poskytuje %.250s, ale bude odstránený.\n"
+msgstr "  %.250s poskytuje %.250s, ale sa odstráni.\n"
 
 #: src/depcon.c:335
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
-msgstr "  %.250s poskytuje %.250s, ale bude dekonfigurovaný.\n"
+msgstr "  %.250s poskytuje %.250s, ale jeho nastavenie sa zruší.\n"
 
 #: src/depcon.c:340
 #, c-format
@@ -1682,7 +1682,7 @@ msgstr "  %.250s nie je nainštalovaný.\n"
 #: src/depcon.c:385
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
-msgstr "  %.250s (verzia %.250s) bude nainštalovaný.\n"
+msgstr "  %.250s (verzia %.250s) sa nainštaluje.\n"
 
 #: src/depcon.c:399
 #, c-format
@@ -1692,7 +1692,7 @@ msgstr "  %.250s (verzia %.250s) je %s.\n"
 #: src/depcon.c:424
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
-msgstr "  %.250s poskytuje %.250s a bude nainštalovaný.\n"
+msgstr "  %.250s poskytuje %.250s a bude sa inštalovať.\n"
 
 #: src/depcon.c:455
 #, c-format
@@ -1822,9 +1822,9 @@ msgid "--compare-versions bad relation"
 msgstr "--compare-versions zlá relácia"
 
 #: src/enquiry.c:429 src/enquiry.c:440
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: version '%s' has bad syntax: %s\n"
-msgstr "verzia b má zlú syntax: %s\n"
+msgstr "dpkg: verzia '%s' má zlú syntax: %s\n"
 
 #: src/errors.c:58
 #, c-format
@@ -2185,6 +2185,8 @@ msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
 msgstr ""
+"Použitie: %s [<option> ...] <command>\n"
+"\n"
 
 #: src/main.c:61
 #, c-format
@@ -2215,6 +2217,31 @@ msgid ""
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
 msgstr ""
+"Príkazy:\n"
+"  -i|--install       <.deb súbor> ... | -R|--recursive <adresár> ...\n"
+"  --unpack           <.deb súbor> ... | -R|--recursive <adresár> ...\n"
+"  -A|--record-avail  <.deb súbor> ... | -R|--recursive <adresár> ...\n"
+"  --configure        <balík> ... | -a|--pending\n"
+"  -r|--remove        <balík> ... | -a|--pending\n"
+"  -P|--purge         <balík> ... | -a|--pending\n"
+"  --get-selections [<vzor> ...]    vypíše zvolené balíky na štandartný výstup.\n"
+"  --set-selections                 nastaví zvolené balíky zo štandartného vstupu.\n"
+"  --clear-selections               zruší označenie všetkých balíov okrem nutných.\n"
+"  --update-avail <súbor Packages>  nahradí údaje o dostupných balíkoch.\n"
+"  --merge-avail <súbor Packages>   zlúči údaje o dostupných balíkoch.\n"
+"  --clear-avail                    odstráni údaje o dostupných balíkoch.\n"
+"  --forget-old-unavail             zabudne nenainštalované nedostupné balíky.\n"
+"  -s|--status <balík> ...          zobrazí podrobný stav balíka.\n"
+"  -p|--print-avail <balík> ...     zobrazí údaje o dostupných verziách balíka.\n"
+"  -L|--listfiles <balík> ...       zobrazí súbory `patriace' balíku.\n"
+"  -l|--list [<vzor> ...]           zobrazí stručný zoznam balíkov.\n"
+"  -S|--search <vzor> ...           nájde balík vlastniaci súbor(y).\n"
+"  -C|--audit                       nájde porušené balíky.\n"
+"  --print-architecture             zobrazí dpkg architektúru.\n"
+"  --compare-versions <a> <op> <b>  porovná čísla verzií - viď nižšie.\n"
+"  --force-help                     zobrazí pomocníka na donucovanie.\n"
+"  -Dh|--debug=help                 zobrazí pomocníka na ladenie.\n"
+"\n"
 
 #: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
 #, c-format
@@ -2224,6 +2251,10 @@ msgid ""
 "  --license|--licence              Show the copyright licensing terms.\n"
 "\n"
 msgstr ""
+"  -h|--help                        Zobrazí tohto pomocníka.\n"
+"  --version                        Zobrazí verziu.\n"
+"  --license|--licence              Zobrazí licenčné podmienky.\n"
+"\n"
 
 #: src/main.c:94
 #, c-format
@@ -2232,6 +2263,9 @@ msgid ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
 msgstr ""
+"Na archívy použijte dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile  (napíšte %s --help).\n"
+"\n"
 
 #: src/main.c:99
 #, c-format
@@ -2240,6 +2274,9 @@ msgid ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 msgstr ""
+"Na vnútorné účely: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"\n"
 
 #: src/main.c:104
 #, c-format
@@ -2271,6 +2308,27 @@ msgid ""
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
 msgstr ""
+"Voľby:\n"
+"  --admindir=<adresár>       použije <adresár> namiesto %s.\n"
+"  --root=<adresár>           inštaluje do systému s iným koreňovým adresárom.\n"
+"  --instdir=<adresár>        zmení inštalačný koreň bez zmeny admindir.\n"
+"  -O|--selected-only         preskočí balíky, ktoré nie sú zvolené na inštaláciu/aktualizáciu.\n"
+"  -E|--skip-same-version     preskočí balíky s totožnou verziou.\n"
+"  -G|--refuse-downgrade      nenainštaluje staršiu verziu balíka.\n"
+"  -B|--auto-deconfigure      nainštaluje aj napriek možnému poškodeniu iného balíka.\n"
+"  --no-debsig                nebude sa pokúšať o overenie podpisu balíka.\n"
+"  --no-act|--dry-run|--simulate\n"
+"                             iba vypíše, čo sa bude vykonávať, ale nič nevykonáva.\n"
+"  -D|--debug=<octal>         povolí ladenie (viď -Dhelp alebo --debug=help).\n"
+"  --status-fd <n>            pošle zmeny stavu balíka na popisovač súboru <n>.\n"
+"  --log=<súbor>              zaznamená zmeny stavu a akcie do <súboru>.\n"
+"  --ignore-depends=<balík>,...\n"
+"                             ignoruje závislosti s <balíkom>.\n"
+"  --force-...                ignoruje problémy (viď --force-help).\n"
+"  --no-force-...|--refuse-...\n"
+"                             zastaví sa pri problémoch.\n"
+"  --abort-after <n>          preruší sa po nájdení <n> chýb.\n"
+"\n"
 
 #: src/main.c:127
 #, c-format
@@ -2283,11 +2341,16 @@ msgid ""
 "syntax).\n"
 "\n"
 msgstr ""
+"Operátory porovnania pre --compare-versions sú:\n"
+"  lt le eq ne ge gt       (neexistenciu verzie považuje za staršiu ako čokoľvek);\n"
+"  lt-nl le-nl ge-nl gt-nl (neexistenciu verzie považuje za novšiu ako čokoľvek);\n"
+"  < << <= = >= >> >       (iba kvôli kompatibilite so syntaxou súboru control).\n"
+"\n"
 
 #: src/main.c:134
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
-msgstr ""
+msgstr "Skúste používateľsky prívetivú správu balíkov pomocou `dselect' alebo `aptitude'.\n"
 
 #: src/main.c:141
 msgid ""
@@ -2302,21 +2365,21 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through `less' or "
 "`more' !"
 msgstr ""
-"Napíšte dpkg --help pre nápovedu o inštalácii a odstraňovaní balíkov [*];\n"
+"Napíšte dpkg --help pre pomocníka o inštalácii a odstraňovaní balíkov [*];\n"
 "Použite 'dselect' alebo 'aptitude' pre používateľsky prívetivú správu "
 "balíkov;\n"
 "Napíšte dpkg -Dhelp pre zoznam ladiacich hodnôt dpkg;\n"
 "Napíšte dpkg --force-help pre zoznam donucovacích volieb;\n"
-"Napíšte dpkg-deb --help pre nápovedu o zaobchádzaní s *.deb súbormi;\n"
+"Napíšte dpkg-deb --help pre pomocníka o zaobchádzaní s *.deb súbormi;\n"
 "Napíšte dpkg --licence pre licenčné podmienky a neexistenciu záruky (GNU "
 "GPL) [*].\n"
 "\n"
 "Voľby označené [*] produkujú rozsiahly výstup - použite `less' alebo `more' !"
 
 #: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
-msgstr "odporujúce si akcie --%s a --%s"
+msgstr "odporujúce si akcie -%c (--%s) a -%c (--%s)"
 
 #: src/main.c:212
 #, c-format
@@ -2661,23 +2724,23 @@ msgid "package architecture (%s) does not match system (%s)"
 msgstr "architektúra baliku (%s) nezodpovedá systému (%s)"
 
 #: src/processarc.c:256
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
 " package uses Breaks; not supported in this dpkg\n"
 msgstr ""
-"dpkg: problém s pred-závislosťami v súvislosti s %s, obsahujúcim %s:\n"
-"%s"
+"dpkg: v súvislosti s %s, obsahujúcim %s:\n"
+" balík používa Breaks; nie je to podporované v tomto dpkg\n"
 
 #: src/processarc.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "unsupported dependency problem - not installing %.250s"
-msgstr "problém s pred-závislosťami - neinštalujem %.250s"
+msgstr "nepodporovaný problém so závislosťami - %.250s sa neinštaluje"
 
 #: src/processarc.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - ignoring Breaks !\n"
-msgstr "dpkg: upozornenie - ignorujem problém s pred-závislosťami !\n"
+msgstr "dpkg: upozornenie - Breaks sa ignorujú !\n"
 
 #: src/processarc.c:275
 #, c-format
@@ -3024,7 +3087,7 @@ msgid ""
 "Use --license for copyright license and lack of warranty (GNU GPL).\n"
 "\n"
 msgstr ""
-"Použite --help pre nápovedu o dopytovaných balíkoch.\n"
+"Použite --help pre pomocníka o dopytovaných balíkoch.\n"
 "Použite --licence pre licenčné podmienky a neexistenciu záruky (GNU GPL).\n"
 "\n"
 
@@ -3591,27 +3654,27 @@ msgstr "`%.255s' nemá formát debianovského archívu"
 
 #: dpkg-deb/extract.c:228
 msgid "failed getting the current file position"
-msgstr ""
+msgstr "nedá sa získať aktuálna pozícia v súbore"
 
 #: dpkg-deb/extract.c:233
 msgid "failed setting the current file position"
-msgstr ""
+msgstr "nedá sa nastaviť aktuálna pozícia v súbore"
 
 #: dpkg-deb/extract.c:242
 msgid "failed to open pipe descriptor `1' in paste"
-msgstr "nie je možné otvoriť deskriptor rúry `1' v paste"
+msgstr "nedá sa otvoriť deskriptor rúry `1' v paste"
 
 #: dpkg-deb/extract.c:244
 msgid "failed to write to gzip -dc"
-msgstr "nie je možné zapísať do gzip -dc"
+msgstr "nedá sa zapísať do gzip -dc"
 
 #: dpkg-deb/extract.c:245
 msgid "failed to close gzip -dc"
-msgstr "nie je možné zatvoriť gzip -dc"
+msgstr "nedá sa zatvoriť gzip -dc"
 
 #: dpkg-deb/extract.c:252
 msgid "failed to syscall lseek to files archive portion"
-msgstr "nie je možné vykonať syscall lseek na časť archívu súborov"
+msgstr "nedá sa vykonať syscall lseek na časť archívu súborov"
 
 #: dpkg-deb/extract.c:260
 msgid "failed to write to pipe in copy"
@@ -3784,6 +3847,17 @@ msgid ""
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
 msgstr ""
+"Príkazy:\n"
+"  -b|--build <adresár> [<deb>]      vytvorí archív\n"
+"  -c|--contents <deb>               vypíše obsah\n"
+"  -I|--info <deb> [<csúbor> ...]    vypíše informácie na štandartný výstup\n"
+"  -W|--show <deb>                   vypíše informácie o balíku\n"
+"  -f|--field <deb> [<cpoložka> ...] vypíše položku na štandartný výstup\n"
+"  -e|--control <deb> [<adresár>]    rozbalí riadiace informácie\n"
+"  -x|--extract <deb> <adresár>      rozbalí súbory\n"
+"  -X|--vextract <deb> <adresár>     rozbalí a vypíše súbory\n"
+"  --fsys-tarfile <deb>              vypíše tar so súbormi\n"
+"\n"
 
 #: dpkg-deb/main.c:79
 #, c-format
@@ -3793,6 +3867,10 @@ msgid ""
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 msgstr ""
+"<deb> je názov debianovského formátu archívu.\n"
+"<csúbor> je názov riadiaceho súboru.\n"
+"<cpoložka> je názov položky v hlavnom súbore `control'.\n"
+"\n"
 
 #: dpkg-deb/main.c:85
 #, c-format
@@ -3809,6 +3887,16 @@ msgid ""
 "                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
+"Voľby:\n"
+"  --showformat=<formát>            použije alternatívny formát pre --show\n"
+"  -D                               povolí ladiace výpisy\n"
+"  --old, --new                     zvolí formát archívu\n"
+"  --nocheck                        potlačí kontrolu súboru control\n"
+"                                   (vytváranie chybných balíkov)\n"
+"  -z#                              pri vytváraní nastaví kompresiu\n"
+"  -Z<type>                         pri vytváraní nastaví typ kompresie\n"
+"                                   (povolené hodnoty: gzip, bzip2, none)\n"
+"\n"
 
 #: dpkg-deb/main.c:106
 #, c-format
@@ -3829,8 +3917,8 @@ msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
-"Napíšte dpkg-deb --help pre nápovedu o manipulácii s *.deb súbormi;\n"
-"Napíšte dpkg --help pre nápovedu o inštalácii a deinštalácii balíkov."
+"Napíšte dpkg-deb --help pre pomocníka o manipulácii s *.deb súbormi;\n"
+"Napíšte dpkg --help pre pomocníka o inštalácii a deinštalácii balíkov."
 
 #: dpkg-deb/main.c:192
 #, c-format
@@ -4016,6 +4104,14 @@ msgid ""
 "  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
 msgstr ""
+"Príkazy:\n"
+"  -s|--split <súbor> [<prefix>]  rozdelí archív\n"
+"  -j|--join <časť> <časť> ...    spojí dohromady časti\n"
+"  -I|--info <časť> ...           zobrazí údaje o časti\n"
+"  -a|--auto -o <celok> <časť>    automaticky spojí časti\n"
+"  -l|--listq                     vypíše nehodiace sa časti\n"
+"  -d|--discard [<súbor> ...]     ignoruje nehodiace sa časti\n"
+"\n"
 
 #: dpkg-split/main.c:69
 #, c-format
@@ -4030,10 +4126,18 @@ msgid ""
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
+"Voľby:\n"
+"  --depotdir <adresár>             použije <adresár> namiesto %s/%s\n"
+"  -S|--partsize <veľkosť>          v KiB, pre -s (predvolená je 450)\n"
+"  -o|--output <súbor>              pre -j (predvolený je <balík>-<verzia>.deb)\n"
+"  -Q|--npquiet                     nič nevypisuje, pokiaľ -a nie je časťou\n"
+"  --msdos                          generuje názvy 8.3\n"
+"\n"
+"Výstupný stav: 0 = OK;  1 = -a nie je časťou;  2 = problém!\n"
 
 #: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
-msgstr "Napíšte dpkg-split --help pre nápovedu."
+msgstr "Napíšte dpkg-split --help pre pomocníka."
 
 #: dpkg-split/main.c:91
 #, c-format
@@ -4230,6 +4334,13 @@ msgid ""
 "  --help       show this help message.\n"
 "  --version    show the version.\n"
 msgstr ""
+"Použitie: %s [<voľba> ...] [--] [<adresár>]\n"
+"\n"
+"Voľby:\n"
+"  --unsafe     nastaví niektoré užitočné voľby\n"
+"               upozornenie: táto voľba môže poškodiť aj správny súbor\n"
+"  --help       zobrazí tohto pomocníka\n"
+"  --version    zobrazí verziu\n"
 
 #: scripts/cleanup-info.pl:66 scripts/install-info.pl:508
 #, perl-format
@@ -4258,30 +4369,30 @@ msgstr "skúste zmazať %s"
 
 #: scripts/cleanup-info.pl:107 scripts/install-info.pl:312
 #: scripts/update-alternatives.pl:211
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to open %s: %s"
-msgstr "nedá sa zatvoriť %s: %s"
+msgstr "nedá sa otvoriť %s: %s"
 
 #: scripts/cleanup-info.pl:109 scripts/install-info.pl:482
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to create %s: %s"
-msgstr "nedá sa odstrániť %s: %s"
+msgstr "nedá sa vytvoriť %s: %s"
 
 #: scripts/cleanup-info.pl:120 scripts/install-info.pl:485
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to write %s: %s"
-msgstr "nedá sa odstrániť %s: %s"
+msgstr "nedá sa zapísať %s: %s"
 
 #: scripts/cleanup-info.pl:160 scripts/install-info.pl:165
 #: scripts/install-info.pl:207 scripts/install-info.pl:314
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to read %s: %s"
-msgstr "nedá sa odstrániť %s: %s"
+msgstr "nedá sa načítať %s: %s"
 
 #: scripts/cleanup-info.pl:161 scripts/install-info.pl:315
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to close %s after read: %s"
-msgstr "zatvorenie %s po načítaní: %s"
+msgstr "nedá sa zatvoriť %s po načítaní: %s"
 
 #: scripts/cleanup-info.pl:165 scripts/install-info.pl:486
 #: scripts/update-alternatives.pl:472
@@ -4290,17 +4401,17 @@ msgid "unable to close %s: %s"
 msgstr "nedá sa zatvoriť %s: %s"
 
 #: scripts/cleanup-info.pl:171 scripts/install-info.pl:490
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to backup old %s, giving up: %s"
-msgstr "%s: nedá sa zálohovať starý %s, vzdávam sa: %s"
+msgstr "nedá sa zálohovať starý %s, vzdávam sa: %s"
 
 #: scripts/cleanup-info.pl:174
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to install %s; it will be left as %s: %s"
-msgstr "%s: inštalácia %s zlyhala; ponechá sa to ako %s: %s"
+msgstr "inštalácia %s zlyhala; ponechá sa to ako %s: %s"
 
 #: scripts/cleanup-info.pl:178
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: unable to unlock %s: %s"
 msgstr "%s: nedá sa odomknúť %s: %s"
 
@@ -4348,25 +4459,48 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
+"Použitie: %s [<voľby> ...] <príkaz>\n"
+"\n"
+"Príkazy:\n"
+"  [--add] <súbor>           pridá odklonenie\n"
+"  --remove <súbor>          odstráni odklonenie\n"
+"  --list [<vzor-glob>]      zobrazí odklonenie súboru\n"
+"  --truename <súbor>        vráti odklonený súbor\n"
+"\n"
+"Voľby:\n"
+"  --package <balík>         názov balíka, ktorému sa neodkloní kópia <súboru>\n"
+"  --local                   odklonené budú všetky verzie balíka\n"
+"  --divert <kam-odkloniť>   názov používaný zvyšnými verziami balíka\n"
+"  --rename                  skutočne presunie súbor do ústrania (alebo späť)\n"
+"  --admindir <adresár>      určí adresár so súborom diversions\n"
+"  --test                    nič nevykonáva, len simuluje\n"
+"  --quiet                   stručný režim, minimálny výstup\n"
+"  --help                    zobrazí tohto pomocníka\n"
+"  --version                 zobrazí verziu\n"
+"\n"
+"Pri pridávaní je predvolené --local a --divert <original>.distrib.\n"
+"Pri odstraňovaní musí byť zadané --package alebo --local a --divert.\n"
+"Predinštalačné a poinštalačné skripty by mali vždy používať --package\n"
+"a --divert.\n"
 
 #: scripts/dpkg-divert.pl:64 scripts/update-alternatives.pl:110
 #, perl-format
 msgid "two modes specified: %s and --%s"
-msgstr ""
+msgstr "zadané dva režimy: %s a --%s"
 
 #: scripts/dpkg-divert.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a divert-to argument"
-msgstr "--divert vyžaduje parameter kam-odkloniť"
+msgstr "--%s vyžaduje parameter kam-odkloniť"
 
 #: scripts/dpkg-divert.pl:99
 msgid "divert-to may not contain newlines"
 msgstr "kam-odkloniť nemôže obsahovať znaky nového riadku"
 
 #: scripts/dpkg-divert.pl:101
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <package> argument"
-msgstr "--package vyžaduje názov balíka ako argument"
+msgstr "--%s vyžaduje názov balíka ako argument"
 
 #: scripts/dpkg-divert.pl:103
 msgid "package may not contain newlines"
@@ -4374,9 +4508,9 @@ msgstr "názov balíka nemôže obsahovať znaky nového riadku"
 
 #: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
 #: scripts/update-alternatives.pl:152 scripts/update-alternatives.pl:155
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <directory> argument"
-msgstr "--altdir vyžaduje parameter <adresár>"
+msgstr "--%s vyžaduje parameter <adresár>"
 
 #: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:86
 #: scripts/update-alternatives.pl:160
@@ -4399,9 +4533,9 @@ msgstr "chýba názov balíka"
 
 #: scripts/dpkg-divert.pl:125 scripts/dpkg-divert.pl:153
 #: scripts/dpkg-divert.pl:195 scripts/dpkg-statoverride.pl:144
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a single argument"
-msgstr "--add vyžaduje jedniný parameter"
+msgstr "--%s vyžaduje jediný parameter"
 
 #: scripts/dpkg-divert.pl:127 scripts/dpkg-divert.pl:131
 #, perl-format
@@ -4424,12 +4558,12 @@ msgstr "Opúšťa sa `%s'"
 #: scripts/dpkg-divert.pl:141
 #, perl-format
 msgid "`%s' clashes with `%s'"
-msgstr ""
+msgstr "`%s' je v kolízii s `%s'"
 
 #: scripts/dpkg-divert.pl:147
 #, perl-format
 msgid "Adding `%s'"
-msgstr ""
+msgstr "Pridáva sa `%s'"
 
 #: scripts/dpkg-divert.pl:157
 #, perl-format
@@ -4438,6 +4572,9 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"nezhoda v kam-odkloniť\n"
+"  pri odstraňovaní `%s'\n"
+"  nájdené `%s'"
 
 #: scripts/dpkg-divert.pl:159
 #, perl-format
@@ -4446,6 +4583,9 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"nezhoda v balíku\n"
+"  pri odstraňovaní `%s'\n"
+"  nájdené `%s'"
 
 #: scripts/dpkg-divert.pl:161
 #, perl-format
@@ -4455,7 +4595,7 @@ msgstr "Odstraňuje sa `%s'"
 #: scripts/dpkg-divert.pl:176
 #, perl-format
 msgid "No diversion `%s', none removed"
-msgstr ""
+msgstr "Odklonenie `%s' neexistuje, takže sa neodstránilo"
 
 #: scripts/dpkg-divert.pl:205
 #, perl-format
@@ -4483,11 +4623,13 @@ msgid ""
 "rename involves overwriting `%s' with\n"
 "  different file `%s', not allowed"
 msgstr ""
+"premenovanie znamená prepísanie `%s'\n"
+"  súborom `%s', čo nie je povolené"
 
 #: scripts/dpkg-divert.pl:251
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
-msgstr ""
+msgstr "premenovanie: odstránenie duplicitného starého odkazu `%s': %s"
 
 #: scripts/dpkg-divert.pl:253
 #, perl-format
@@ -4556,6 +4698,21 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Použitie: %s [<voľby> ...] <príkaz>\n"
+"\n"
+"Príkazy:\n"
+"  --add <vlastník> <skupina> <režim> <súbor>\n"
+"                           pridá do databázy nový záznam\n"
+"  --remove <súbor>         odstráni súbor z databázy\n"
+"  --list [<vzor-glob>]     vypíše aktuálny zoznam povýšení\n"
+"\n"
+"Voľby:\n"
+"  --admindir <adresár>     nastaví adresár so súborom statoverride\n"
+"  --update                 okamžite aktualizuje prístupové práva k súborom\n"
+"  --force                  vynúti akciu aj napriek zlyhaniu kontroly\n"
+"  --quiet                  stručný režim, minimálny výstup\n"
+"  --help                   zobrazí tohto pomocníka\n"
+"  --version                zobrazí verziu\n"
 
 #: scripts/dpkg-statoverride.pl:93
 msgid "no mode specified"
@@ -4593,16 +4750,16 @@ msgstr "chybný spôsob %s"
 #: scripts/dpkg-statoverride.pl:119 scripts/dpkg-statoverride.pl:146
 #: scripts/dpkg-statoverride.pl:165
 msgid "stripping trailing /"
-msgstr ""
+msgstr "odstraňujú sa koncové /"
 
 #: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "An override for \"%s\" already exists, "
-msgstr ""
+msgstr "Prepísanie \"%s\" už existuje, "
 
 #: scripts/dpkg-statoverride.pl:124
 msgid "but --force specified so will be ignored."
-msgstr ""
+msgstr "ale kvôli --force ho budeme ignorovať."
 
 #: scripts/dpkg-statoverride.pl:126
 msgid "aborting"
@@ -4625,7 +4782,7 @@ msgstr "zlyhala zmena atribútov %s: %s"
 
 #: scripts/dpkg-statoverride.pl:148
 msgid "No override present."
-msgstr ""
+msgstr "Neexistuje žiadne povýšenie."
 
 #: scripts/dpkg-statoverride.pl:156
 msgid "warning: --update is useless for --remove"
@@ -4639,7 +4796,7 @@ msgstr "nedá sa otvoriť súbor statoverride: %s"
 #: scripts/dpkg-statoverride.pl:188
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
-msgstr ""
+msgstr "Viacero povýšení pre \"%s\", prerušuje sa"
 
 #: scripts/dpkg-statoverride.pl:201
 #, perl-format
@@ -4696,45 +4853,65 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Použitie: %s [<voľby> ...] [--] <súbor>\n"
+"\n"
+"Voľby:\n"
+"  --section <reg.výraz> <nadpis>\n"
+"                           vloží nový záznam do sekcie určenej <reg.výrazom>,\n"
+"                           alebo vytvorí novú sekciu s názvom <nadpis> ak neexistuje\n"
+"  --menuentry=<text>       nastaví položku menu\n"
+"  --description=<text>     nastaví popis, ktorý sa použije pre položku menu\n"
+"  --info-file=<cesta>      určí info súbor, ktorý sa nainštaluje do adresára\n"
+"  --dir-file=<cesta>       určí súbor, ktorý slúži ako adresár pre info\n"
+"  --infodir=<adresár>      rovnako ako '--dir-file=<adresár>/dir'\n"
+"  --info-dir=<adresár>     rovnako ako '--dir-file=<adresár>/dir'\n"
+"  --keep-old               neprepíše staré záznamy ani neodstráni nové\n"
+"  --remove                 odstráni záznam zadaný ako basename <súbor>\n"
+"  --remove-exactly         odstráni presne záznam <súbor>\n"
+"  --test                   povolí testovací režim (nevykonajú sa žiadne akcie)\n"
+"  --debug                  povolí ladiaci režim (zobrazí podrobnejšie informácie)\n"
+"  --quiet                  nevypisuje žiadne správy\n"
+"  --help                   zobrazí tohto pomocníka\n"
+"  --version                zobrazí verziu\n"
 
 #: scripts/install-info.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "could not open stderr for output! %s"
-msgstr "Nedá sa otvoriť chybový výstup! %s"
+msgstr "nedá sa otvoriť chybový výstup! %s"
 
 #: scripts/install-info.pl:101
 #, perl-format
 msgid "%s: --section needs two more args"
-msgstr ""
+msgstr "%s: --section vyžaduje ďalšie dva parametre"
 
 #: scripts/install-info.pl:107
 #, perl-format
 msgid "%s: option --%s is deprecated (ignored)"
-msgstr ""
+msgstr "%s: option --%s je zastaralá (ignoruje sa)"
 
 #: scripts/install-info.pl:133
 #, perl-format
 msgid "%s: --section ignored with --remove"
-msgstr ""
+msgstr "%s: --section sa ignoruje pri použití s --remove"
 
 #: scripts/install-info.pl:134
 #, perl-format
 msgid "%s: --description ignored with --remove"
-msgstr ""
+msgstr "%s: --description sa ignoruje pri použití s --remove"
 
 #: scripts/install-info.pl:137
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
-msgstr ""
+msgstr "%s: testovací režim - adr. súbor sa nebude aktualizovať"
 
 #: scripts/install-info.pl:191
 #, perl-format
 msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
+msgstr "%s: upozornenie, ignoruje sa zmätený INFO-DIR-ENTRY v súbore." 
 
 #: scripts/install-info.pl:200
 msgid "invalid info entry"
-msgstr ""
+msgstr "neplatný info záznam"
 
 #: scripts/install-info.pl:226
 #, perl-format
@@ -4743,81 +4920,84 @@ msgid ""
 "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
 "%s: unable to determine description for `dir' entry - giving up\n"
 msgstr ""
+"\n"
+"Neexistujú položky `START-INFO-DIR-ENTRY' ani `This file documents'.\n"
+"%s: nedá sa zistiť popis položky `dir' - akcia sa ukončuje\n"
 
 #: scripts/install-info.pl:279
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
-msgstr ""
+msgstr "%s: súbor %s neexistuje, načítava sa záložný súbor %s."
 
 #: scripts/install-info.pl:282 scripts/install-info.pl:292
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr ""
+msgstr "%s: kopírovanie %s do %s zlyhalo, akcia sa ukončuje: %s"
 
 #: scripts/install-info.pl:288
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
-msgstr ""
+msgstr "%s: nie je dostupný záložný súbor %s, načítava sa predvolený súbor."
 
 #: scripts/install-info.pl:297
 #, perl-format
 msgid "%s: no backup file %s available."
-msgstr ""
+msgstr "%s: nie je dostupný záložný súbor %s."
 
 #: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no default file %s available, giving up."
-msgstr ""
+msgstr "%s: nie je dostupný predvolený súbor %s, akcia sa ukončuje"
 
 #: scripts/install-info.pl:307
 #, perl-format
 msgid "try deleting %s?"
-msgstr ""
+msgstr "skúsite zmazať %s?"
 
 #: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
+msgstr "%s: existujúci záznam pre `%s' sa nenahradil"
 
 #: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
+msgstr "%s: nahradzuje sa existujúci záznam dir pre `%s'"
 
 #: scripts/install-info.pl:364
 #, perl-format
 msgid "%s: creating new section `%s'"
-msgstr "%s: vytvorenie novej sekcie `%s'"
+msgstr "%s: vytvára sa nová sekcia `%s'"
 
 #: scripts/install-info.pl:367
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr ""
+msgstr "%s: zatiaľ žiadne sekcie, vytvára sa aj sekcia Miscellaneous."
 
 #: scripts/install-info.pl:385
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
-msgstr ""
+msgstr "%s: k novému záznamu nebola určená žiadna sekcia, pridáva sa na koniec"
 
 #: scripts/install-info.pl:422
 #, perl-format
 msgid "%s: deleting entry `%s ...'"
-msgstr ""
+msgstr "%s: odstraňuje sa záznam `%s ...'"
 
 #: scripts/install-info.pl:428
 #, perl-format
 msgid "%s: empty section `%s' not removed"
-msgstr ""
+msgstr "%s: prázdna sekcia `%s' sa neodstránila"
 
 #: scripts/install-info.pl:431
 #, perl-format
 msgid "%s: deleting empty section `%s'"
-msgstr ""
+msgstr "%s: odstraňuje sa prázdna sekcia `%s'"
 
 #: scripts/install-info.pl:438
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr ""
+msgstr "%s: neexistuje žiaden záznam k súboru `%s' a k menu `%s'"
 
 #: scripts/install-info.pl:440
 #, perl-format
@@ -4825,24 +5005,24 @@ msgid "%s: no entry for file `%s'"
 msgstr "%s: žiadna položka pre súbor `%s'"
 
 #: scripts/install-info.pl:493
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install new %s: %s"
-msgstr "nedá sa nainštalovať %s ako %s: %s"
+msgstr "nedá sa nainštalovať nový %s: %s"
 
 #: scripts/install-info.pl:496
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to unlock %s: %s"
-msgstr "nedá sa zatvoriť %s: %s"
+msgstr "nedá sa odomknúť %s: %s"
 
 #: scripts/install-info.pl:498
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: could not backup %s in %s: %s"
 msgstr "%s: nedá sa zálohovať %s v %s: %s"
 
 #: scripts/install-info.pl:515
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to read %s: %d"
-msgstr "nedá sa odstrániť %s: %s"
+msgstr "nedá sa načítať %s: %d"
 
 #: scripts/install-info.pl:519
 #, perl-format
@@ -4899,6 +5079,38 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Použitie: %s [<voľby> ...] <príkaz>\n"
+"\n"
+"Príkazy:\n"
+"  --install <odkaz> <názov> <cesta> <priorita>\n"
+"    [--slave <odkaz> <názov> <cesta>] ...\n"
+"                            pridá skupinu do systému alternatív\n"
+"  --remove <názov> <cesta>  odstráni <cestu> zo skupiny alternatív <názov>\n"
+"  --remove-all <názov>      odstráni skupinu <názov> zo systému alternatív\n"
+"  --auto <názov>            prepne odkaz <názov> do automatického režimu\n"
+"  --display <názov>         zobrazí informácie o skupine <názov>\n"
+"  --list <názov>            zobrazí všetky ciele skupiny <názov>\n"
+"  --config <názov>          zobrazí alternatívy skupiny <názov> a požiada\n"
+"                            používateľa o voľbu tej, ktorá sa použije\n"
+"  --set <názov> <cesta>     nastaví <cestu> ako alternatívu pre <názov>\n"
+"  --all                     zavolá --config na všetky alternatívy\n"
+"\n"
+"<odkaz> je symbolický odkaz ukazujúci na /etc/alternatives/<názov>\n"
+"  (napr. /usr/bin/pager)\n"
+"<názov> je hlavný názov pre túto skupinu odkazov\n"
+"  (napr. pager)\n"
+"<cesta> je umiestnenie jedného z cieľových súborov\n"
+"  (napr. /usr/bin/less)\n"
+"<priorita> je celé číslo; pri automatickom režime sa vyberú voľby s vyššími číslami\n"
+"\n"
+"Voľby:\n"
+"  --altdir <adresár>       zmení adresár pre alternatívy\n"
+"  --admindir <adresár>     zmení administratívny adresár\n"
+"  --test                   nič nevykonáva, iba simuluje\n"
+"  --verbose                podrobný režim, viac informácií\n"
+"  --quiet                  stručný režim, minimálny výstup\n"
+"  --help                   zobrazí tohto pomocníka\n"
+"  --version                zobrazí verziu\n"
 
 #: scripts/update-alternatives.pl:117
 #, perl-format
@@ -4930,22 +5142,22 @@ msgstr "--slave vyžaduje <linku> <názov> <cestu>"
 #: scripts/update-alternatives.pl:147
 #, perl-format
 msgid "slave name %s duplicated"
-msgstr ""
+msgstr "závislý názov %s je duplicitný"
 
 #: scripts/update-alternatives.pl:148
 #, perl-format
 msgid "slave link %s duplicated"
-msgstr ""
+msgstr "závislý odkaz %s je duplicitný"
 
 #: scripts/update-alternatives.pl:164
 #, perl-format
 msgid "name %s is both primary and slave"
-msgstr ""
+msgstr "názov %s je primárny aj závislý"
 
 #: scripts/update-alternatives.pl:165
 #, perl-format
 msgid "link %s is both primary and slave"
-msgstr ""
+msgstr "odkaz %s je primárny aj závislý"
 
 #: scripts/update-alternatives.pl:167
 msgid ""
@@ -4971,12 +5183,12 @@ msgstr "duplicitná závislosť %s"
 #: scripts/update-alternatives.pl:183
 #, perl-format
 msgid "slave link same as main link %s"
-msgstr ""
+msgstr "závislý odkaz je totožný s hlavným odkazom %s"
 
 #: scripts/update-alternatives.pl:184
 #, perl-format
 msgid "duplicate slave link %s"
-msgstr "duplicitná závislá linka %s"
+msgstr "duplicitný závislý odkaz %s"
 
 #: scripts/update-alternatives.pl:188
 #, perl-format
@@ -4994,12 +5206,14 @@ msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
 "alternatives."
 msgstr ""
+"Alternatíva %s ukazuje na verziu %s, ktorá sa nenašla. Odstraňuje sa zo "
+"zoznamu alternatív."
 
 #: scripts/update-alternatives.pl:216 scripts/update-alternatives.pl:265
 #: scripts/update-alternatives.pl:273
 #, perl-format
 msgid "No alternatives for %s."
-msgstr ""
+msgstr "Žiadne alternatívy pre %s"
 
 #: scripts/update-alternatives.pl:219
 #, perl-format
@@ -5013,12 +5227,12 @@ msgstr " linka práve ukazuje na %s"
 
 #: scripts/update-alternatives.pl:223
 msgid " link currently absent"
-msgstr ""
+msgstr " odkaz momentálne chýba"
 
 #: scripts/update-alternatives.pl:225
 #, perl-format
 msgid " link unreadable - %s"
-msgstr ""
+msgstr " odkaz sa nedá načítať = %s"
 
 #: scripts/update-alternatives.pl:232
 #, perl-format
@@ -5028,7 +5242,7 @@ msgstr "%s - priorita %s"
 #: scripts/update-alternatives.pl:235
 #, perl-format
 msgid " slave %s: %s"
-msgstr ""
+msgstr " závislosť %s: %s"
 
 #: scripts/update-alternatives.pl:239
 msgid "No versions available."
@@ -5037,12 +5251,12 @@ msgstr "Nie sú dostupné žiadne verzie."
 #: scripts/update-alternatives.pl:241
 #, perl-format
 msgid "Current `best' version is %s."
-msgstr ""
+msgstr "Momentálne je `najlepšia' verzia %s."
 
 #: scripts/update-alternatives.pl:300
 #, perl-format
 msgid "Setting up automatic selection of %s."
-msgstr ""
+msgstr "Nastavuje sa automatický výber %s"
 
 #: scripts/update-alternatives.pl:303 scripts/update-alternatives.pl:305
 #: scripts/update-alternatives.pl:413 scripts/update-alternatives.pl:415
@@ -5060,6 +5274,8 @@ msgid ""
 "%s has been changed (manually or by a script).\n"
 "Switching to manual updates only."
 msgstr ""
+"%s sa zmenil (manuálne alebo skriptom).\n"
+"Prepína sa len na manuálne aktualizácie."
 
 #: scripts/update-alternatives.pl:328
 #, perl-format
@@ -5067,6 +5283,8 @@ msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
 "(You may modify the symlinks there yourself if desired - see `man ln'.)"
 msgstr ""
+"Kontrolujú sa dostupné verzie %s, aktualizujú sa odkazy v %s ...\n"
+"(Odkazy môžete zmeniť podľa vašich potrieb - pozrite si `man ln'.)"
 
 #: scripts/update-alternatives.pl:334
 #, perl-format
@@ -5082,41 +5300,41 @@ msgstr "nedá sa premenovať %s na %s: %s"
 #: scripts/update-alternatives.pl:354
 #, perl-format
 msgid "slave link name %s duplicated"
-msgstr ""
+msgstr "názov závislého odkazu %s je duplicitný"
 
 #: scripts/update-alternatives.pl:356
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
-msgstr ""
+msgstr "Závislý odkaz %s sa premenuje z %s na %s."
 
 #: scripts/update-alternatives.pl:370
 msgid "Removing manually selected alternative - switching to auto mode"
-msgstr ""
+msgstr "Odstraňuje sa manuálne zvolená alternatíva - prepína sa na automatický režim"
 
 #: scripts/update-alternatives.pl:384
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
-msgstr ""
+msgstr "Alternatíva %s pre %s nie je registrovaná, takže sa neodstraňuje."
 
 #: scripts/update-alternatives.pl:410
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
-msgstr ""
+msgstr "Zahadzuje sa zastaralý závislý odkaz %s (%s)."
 
 #: scripts/update-alternatives.pl:431
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
-msgstr ""
+msgstr "Automatické aktualizácie %s sú zakázané, zmeny sa nevykonajú."
 
 #: scripts/update-alternatives.pl:433
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
-msgstr ""
+msgstr "Použitím `update-alternatives --auto %s' sa prepnete na automatické aktualizácie."
 
 #: scripts/update-alternatives.pl:437
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
-msgstr ""
+msgstr "Obnovuje sa predchádzajúca nefunkčná aktualizácia %s ..."
 
 #: scripts/update-alternatives.pl:452
 #, perl-format
@@ -5126,7 +5344,7 @@ msgstr "%s sa nedá otvoriť na zápis: %s"
 #: scripts/update-alternatives.pl:476
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
-msgstr ""
+msgstr "Posledný balík poskytujúci %s (%s) sa odstránil, maže sa."
 
 #: scripts/update-alternatives.pl:489
 #, perl-format
@@ -5134,6 +5352,8 @@ msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
 " (or nonexistent); however, readlink failed: %s"
 msgstr ""
+"upozornenie: %s by mal byť symbolický odkaz na %s,\n"
+" (alebo odkaz neexistuje), ale volanie readlink zlyhalo: %s"
 
 #: scripts/update-alternatives.pl:494 scripts/update-alternatives.pl:508
 #: scripts/update-alternatives.pl:528 scripts/update-alternatives.pl:536
@@ -5159,12 +5379,12 @@ msgstr "nedá sa nainštalovať %s ako %s: %s"
 #: scripts/update-alternatives.pl:501 scripts/update-alternatives.pl:546
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
-msgstr ""
+msgstr "%s (%s) sa ponecháva, aby ukazoval na %s."
 
 #: scripts/update-alternatives.pl:504 scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
-msgstr ""
+msgstr "%s (%s) sa aktualizuje, aby ukazoval na %s."
 
 #: scripts/update-alternatives.pl:523
 #, perl-format
@@ -5172,12 +5392,14 @@ msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
 " %s, or nonexistent; however, readlink failed: %s"
 msgstr ""
+"upozornenie: %s by mal byť závislý symbolický odkaz na %s,\n"
+" (alebo odkaz neexistuje), ale volanie readlink zlyhalo: %s"
 
 #: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:606
 #: scripts/update-alternatives.pl:642
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
-msgstr ""
+msgstr "%s (%s) sa odstraňuje, nepatrí k %s."
 
 #: scripts/update-alternatives.pl:563
 #, perl-format
@@ -5185,6 +5407,8 @@ msgid ""
 "There is only 1 program which provides %s\n"
 "(%s). Nothing to configure.\n"
 msgstr ""
+"Existuje len jeden program poskytujúci %s\n"
+"(%s). Nie je čo nastavovať.\n"
 
 #: scripts/update-alternatives.pl:568
 #, perl-format
@@ -5194,20 +5418,24 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
+"Existuje niekoľko alternatív %s, ktoré poskytujú `%s'.\n"
+"\n"
+"  Výber        Alternatíva\n"
+"-----------------------------------------------\n"
 
 #: scripts/update-alternatives.pl:578
 msgid "Press enter to keep the default[*], or type selection number: "
-msgstr ""
+msgstr "Stlačením enter zvolíte predvolenú možnosť[*], ináč zadajte číslo výberu: "
 
 #: scripts/update-alternatives.pl:592 scripts/update-alternatives.pl:629
 #, perl-format
 msgid "Using `%s' to provide `%s'."
-msgstr ""
+msgstr "Použije sa `%s' na poskytnutie `%s'."
 
 #: scripts/update-alternatives.pl:627
 #, perl-format
 msgid "Cannot find alternative `%s'."
-msgstr ""
+msgstr "Nedá sa nájsť alternatíva `%s'."
 
 #: scripts/update-alternatives.pl:650 scripts/update-alternatives.pl:653
 #, perl-format
@@ -5217,7 +5445,7 @@ msgstr "chyba pri zápise na štandartný výstup: %s"
 #: scripts/update-alternatives.pl:652
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
-msgstr ""
+msgstr "nové riadky sú zakázané v súboroch update-alternatives (%s)"
 
 #: scripts/update-alternatives.pl:657
 #, perl-format
@@ -5234,86 +5462,3 @@ msgstr "chýbajúci nový riadok za %s"
 msgid "Serious problem: %s"
 msgstr "Vážny problém: %s"
 
-#~ msgid "unable to create %.250s"
-#~ msgstr "nie je možné vytvoriť %.250s"
-
-#~ msgid "`%s' field, reference to `%.255s': version contains ` '"
-#~ msgstr "pole `%s' odkazujúce na `%.255s': verzia obsahuje ` '"
-
-#~ msgid "%s: can't open %s: %s"
-#~ msgstr "%s: nedá sa otvoriť %s: %s"
-
-#~ msgid "%s: can't create %s: %s"
-#~ msgstr "%s: nedá sa vytvoriť %s: %s"
-
-#~ msgid "%s: error writing %s: %s"
-#~ msgstr "%s: nedá sa zapísať %s: %s"
-
-#~ msgid "%s: read %s: %s"
-#~ msgstr "%s: čítanie %s: %s"
-
-#~ msgid "%s: close %s after read: %s"
-#~ msgstr "%s: zatvorenie %s po čítaní: %s"
-
-#~ msgid "%s: error closing %s: %s"
-#~ msgstr "%s: chyba pri zatváraní %s: %s"
-
-#~ msgid "--admindir needs a directory argument"
-#~ msgstr "--admindir vyžaduje adresár ako argument"
-
-#~ msgid "--remove needs a single argument"
-#~ msgstr "--remove vyžaduje jediný parameter"
-
-#~ msgid "--truename needs a single argument"
-#~ msgstr "--truename vyžaduje jediný parameter"
-
-#~ msgid "dpkg-divert: %s"
-#~ msgstr "dpkg-divert: %s"
-
-#~ msgid "You need --help"
-#~ msgstr "Potrebujete --help"
-
-#~ msgid "--remove needs one arguments"
-#~ msgstr "--remove vyžaduje jediný parameter"
-
-#~ msgid "dpkg-statoverride: %s"
-#~ msgstr "dpkg-statoverride: %s"
-
-#~ msgid "You need --help."
-#~ msgstr "Potrebujete --help."
-
-#~ msgid "read %s: %s"
-#~ msgstr "čítanie %s: %s"
-
-#~ msgid "create %s: %s"
-#~ msgstr "vytvorenie %s: %s"
-
-#~ msgid "write %s: %s"
-#~ msgstr "zápis: %s: %s"
-
-#~ msgid "close %s: %s"
-#~ msgstr "zatvorenie %s: %s"
-
-#~ msgid "install new %s: %s"
-#~ msgstr "inštalácia nového %s: %s"
-
-#~ msgid "%s: unlock %s: %s"
-#~ msgstr "%s: odomknutie %s: %s"
-
-#~ msgid "%s: read %s: %d"
-#~ msgstr "%s: čítanie %s: %d"
-
-#~ msgid "update-alternatives: %s"
-#~ msgstr "update-alternatives: %s"
-
-#~ msgid "--admindir needs a <directory> argument"
-#~ msgstr "--admindir vyžaduje parameter <adresár>"
-
-#~ msgid "failed to open %s: %s"
-#~ msgstr "nedá sa otvoriť %s: %s"
-
-#~ msgid "unable to install %s as %s"
-#~ msgstr "nedá sa nainštalovať %s ako %s"
-
-#~ msgid "version a has bad syntax: %s\n"
-#~ msgstr "verzia a má zlú syntax: %s\n"
