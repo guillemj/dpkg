@@ -41,7 +41,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.10.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-08-17 16:02+0200\n"
-"PO-Revision-Date: 2006-03-02 12:24+0100\n"
+"PO-Revision-Date: 2006-09-09 15:11+0200\n"
 "Last-Translator: Stefano Canepa <sc@linux.it>\n"
 "Language-Team: italian <debian-l10n-italian@debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -212,12 +212,12 @@ msgid "unable to fill %.250s with padding"
 msgstr "impossibile completare il riempimento di %.250s"
 
 #: lib/dbmodify.c:117
-#, fuzzy, c-format
+#, c-format
 msgid "unable to flush %.250s after padding"
 msgstr "impossibile fare il flush di %.250s dopo il riempimento"
 
 #: lib/dbmodify.c:119
-#, fuzzy, c-format
+#, c-format
 msgid "unable to seek to start of %.250s after padding"
 msgstr "impossibile spostarsi all'inizio di %.250s dopo il riempimento"
 
@@ -513,9 +513,9 @@ msgstr ""
 " suggerita l'aggiunta di uno spazio"
 
 #: lib/fields.c:413 lib/fields.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
-msgstr "campo `%s', riferimento a `%.255s': la versione contiene `('"
+msgstr "campo `%s', riferimento a `%.255s': la versione contiene `%c'"
 
 #: lib/fields.c:419
 #, c-format
@@ -884,10 +884,9 @@ msgid "must start with an alphanumeric"
 msgstr "deve iniziare con un carattere alfanumerico"
 
 #: lib/parsehelp.c:123
-#, fuzzy, c-format
+#, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
-msgstr ""
-"il carattere `%c' non è consentito - sono consentite solo lettere, cifre e %s"
+msgstr "il carattere `%c' non è consentito (sono consentite solo lettere, cifre e i caratteri `%s'"
 
 #: lib/parsehelp.c:178
 msgid "<none>"
@@ -920,7 +919,6 @@ msgid "empty value for %s"
 msgstr "valore vuoto per %s"
 
 #: lib/showcright.c:34
-#, fuzzy
 msgid "cannot open GPL file"
 msgstr "impossibile aprire il file contenente la GPL "
 
@@ -1662,7 +1660,7 @@ msgstr " raccomanda "
 
 #: src/depcon.c:156
 msgid " breaks "
-msgstr ""
+msgstr " corrompe "
 
 #: src/depcon.c:157
 msgid " conflicts with "
@@ -1879,9 +1877,9 @@ msgid "--compare-versions bad relation"
 msgstr "--compare-versions relazione errata"
 
 #: src/enquiry.c:429 src/enquiry.c:440
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: version '%s' has bad syntax: %s\n"
-msgstr "la sintassi della versione b è errata: %s\n"
+msgstr "dpkg: la sintassi della versione `%s' è errata: %s\n"
 
 #: src/errors.c:58
 #, c-format
@@ -2256,7 +2254,7 @@ msgstr ""
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
-msgstr ""
+msgstr "Uso: %s [<opzione> ...] <comando>\n\n"
 
 #: src/main.c:61
 #, c-format
@@ -2287,6 +2285,31 @@ msgid ""
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
 msgstr ""
+"Commands:\n"
+"  -i|--install       <nome file .deb> ... | -R|--recursive <directory> ...\n"
+"  --unpack           <nome file .deb> ... | -R|--recursive <directory> ...\n"
+"  -A|--record-avail  <nome file .deb> ... | -R|--recursive <directory> ...\n"
+"  --configure        <pacchetto> ... | -a|--pending\n"
+"  -r|--remove        <pacchetto> ... | -a|--pending\n"
+"  -P|--purge         <pacchetto> ... | -a|--pending\n"
+"  --get-selections [<modello> ...] Ottieni lista selezioni su stdout.\n"
+"  --set-selections                 Imposta selezioni da stdin.\n"
+"  --clear-selections               Deselezioni tutti i pacchetti non essenziali.\n"
+"  --update-avail <file Packages>   Rimpiazza info pacchetti disponibili.\n"
+"  --merge-avail <file Packages>    Aggiorna le info dal file.\n"
+"  --clear-avail                    Cancella info sulla disponibilità.\n"
+"  --forget-old-unavail             Dimentica vecchi pacchetti non più dispon.\n"
+"  -s|--status <pacchetto> ...      Mostra stato dettagliato del pacchetto.\n"
+"  -p|--print-avail <pacchetto> ... Mostra dettagli delle versioni disponibili.\n"
+"  -L|--listfiles <pacchetto> ...   Lista file contenuti nel pacchetto.\n"
+"  -l|--list [<modello> ...]        Lista concisa dei pacchetti.\n"
+"  -S|--search <modello> ...        Trova i pacchetti che contengono un file.\n"
+"  -C|--audit                       Verifica presenza pacchetti difettosi.\n"
+"  --print-architecture             Mostra l'architettura usata da dpkg.\n"
+"  --compare-versions <a> <op> <b>  Confronta i numeri di versione - vedi sotto.\n"
+"  --force-help                     Mostra l'aiuto sulle opzioni di forzatura.\n"
+"  -Dh|--debug=help                 Mostra l'aiuto sulle opzioni di debug.\n"
+"\n"
 
 #: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
 #, c-format
@@ -2296,6 +2319,10 @@ msgid ""
 "  --license|--licence              Show the copyright licensing terms.\n"
 "\n"
 msgstr ""
+"  -h|--help                        Mostra questo aiuto.\n"
+"  --version                        Mostra la versione.\n"
+"  --license|--licence              Mostra il copyright e i termini di licenza.\n"
+"\n"
 
 #: src/main.c:94
 #, c-format
@@ -2304,6 +2331,9 @@ msgid ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
 msgstr ""
+"Usa dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile  sugli archivi (vedi %s --help).\n"
+"\n"
 
 #: src/main.c:99
 #, c-format
@@ -2312,6 +2342,9 @@ msgid ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 msgstr ""
+"Per uso interno: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"\n"
 
 #: src/main.c:104
 #, c-format
@@ -2343,6 +2376,27 @@ msgid ""
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
 msgstr ""
+"Options:\n"
+"  --admindir=<directory>     Usa <directory> anziché %s.\n"
+"  --root=<directory>         Installa in una gerarchia differente da '/'.\n"
+"  --instdir=<directory>      Cambia la dir. di installazione non quella admin.\n"
+"  -O|--selected-only         Salta pacchetti non selezionati per inst./aggiorn.\n"
+"  -E|--skip-same-version     Salta pacchetti se stessa versione già presente.\n"
+"  -G|--refuse-downgrade      Salta pacch. di versione precedente alla corrente.\n"
+"  -B|--auto-deconfigure      Installa anche se causa problemi ad altri pacch.\n"
+"  --no-debsig                Non controllare le firme dei pacchetti.\n"
+"  --no-act|--dry-run|--simulate\n"
+"                             Dì solo quello che verrebbe svolto - non farlo.\n"
+"  -D|--debug=<ottale>        Abilita il debug (vedi -Dhelp o --debug=help).\n"
+"  --status-fd <n>            Invia le modifiche allo stato al descrittore <n>.\n"
+"  --log=<nomefile>           Annota modifiche e azioni svolte in <nomefile>.\n"
+"  --ignore-depends=<pacchetto>,...\n"
+"                             Ignora dipendenze relative a <pacchetto>.\n"
+"  --force-...                Aggira i problemi (vedi --force-help).\n"
+"  --no-force-...|--refuse-...\n"
+"                             Fermati quando incontri dei problemi.\n"
+"  --abort-after <n>          Fermati dopo aver incontrato <n> errori.\n"
+"\n"
 
 #: src/main.c:127
 #, c-format
@@ -2355,11 +2409,18 @@ msgid ""
 "syntax).\n"
 "\n"
 msgstr ""
+"Gli operatori di confronto usabili con --compare-versions sono:\n"
+"  lt le eq ne ge gt       (se manca la versione, intendi come precedente a\n"
+"                           qualsiasi versione);\n"
+"  lt-nl le-nl ge-nl gt-nl (se manca la versione, intendi come successiva a\n"
+"                           qualsiasi versione);\n"
+"  < << <= = >= >> >       (solo per compatibilità con il file di controllo).\n"
+"\n"
 
 #: src/main.c:134
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
-msgstr ""
+msgstr "Usa `dselect' o `aptitude' per una gestione più amichevole dei pacchetti.\n"
 
 #: src/main.c:141
 msgid ""
@@ -2387,9 +2448,9 @@ msgstr ""
 "`less' o `more' per leggerlo!"
 
 #: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
-msgstr "le azioni --%s e --%s sono in conflitto"
+msgstr "le azioni %c (--%s) e %c (--%s) sono in conflitto"
 
 #: src/main.c:212
 #, c-format
@@ -2456,7 +2517,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "numero intero non valido per l'opzione --%s: `%.250s'"
 
 #: src/main.c:318
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2494,49 +2555,32 @@ msgid ""
 "WARNING - use of options marked [!] can seriously damage your installation.\n"
 "Forcing options marked [*] are enabled by default.\n"
 msgstr ""
-"opzioni di forzatura di %s - come comportarsi di fronte ai problemi:\n"
+"opzioni di forzatura per %s - come comportarsi di fronte ai problemi:\n"
 "  avvisa ma continua: --force-<cosa>,<cosa>,...\n"
 "  fermati con errore: --refuse-<cosa>,<cosa>,... | --no-force-<cosa>,...\n"
 " Cosa si può forzare:\n"
-"  all                    Seleziona tutte le opzioni di forzatura\n"
-"  auto-select [*]        (De)seleziona i pacchetti per installarli "
-"(rimuoverli)\n"
+"  all [!]                Seleziona tutte le opzioni di forzatura\n"
 "  downgrade [*]          Rimpiazza un pacchetto con una versione precedente\n"
 "  configure-any          Configura qualsiasi pacchetto se può essere utile\n"
-"  hold                   Process incidental packages even when on hold\n"
-"  bad-path               PATH manca di programmi importanti, probabili "
-"errori\n"
-"  not-root               Cerca di (dis)installare pacchetti anche se non "
-"root\n"
-"  overwrite              Sovrascrivi file di un pacchetto con quello di un "
-"altro\n"
-"  overwrite-diverted     Overwrite a diverted file with an undiverted "
-"version\n"
-"  bad-verify             Installa un pacchetto anche se dà errore di\n"
-"                         autenticazione\n"
-"  depends-version [!]    Trasforma i problemi con le dipendenze sulle "
-"versioni in avvisi\n"
-"  depends [!]            Trasforma tutti i problemi con le dipendenze in "
-"avvisi\n"
-"  confnew [!]            Usa sempre i nuovi file di configurazione, senza "
-"chiedere\n"
-"  confold [!]            Usa sempre i vecchi file di configurazione, senza "
-"chiedere\n"
-"  confdef [!]            Usa la scelta di defalt per i nuovi file di "
-"configurazione\n"
-"                         se disponibili, senza chiedere. Se non esiste il "
-"default\n"
-"                         sarà richiesta conferma a meno che sia specificata "
-"anche\n"
+"  hold                   Agisci sui pacchetti coinvolti anche se sono bloccati\n"
+"  bad-path               PATH manca di programmi importanti, probabili errori\n"
+"  not-root               Cerca di (dis)installare pacchetti anche se non root\n"
+"  overwrite              Sovrascrivi file di un pacchetto con quello di un altro\n"
+"  overwrite-diverted     Sovrascrivi un file diversificato con una versione originale.\n"
+"  bad-verify             Installa un pacchetto anche se dà errore di autenticazione\n"
+"  depends-version [!]    Trasforma i problemi con le dipendenze sulle versioni in avvisi\n"
+"  depends [!]            Trasforma tutti i problemi con le dipendenze in avvisi\n"
+"  confnew [!]            Usa sempre i nuovi file di configurazione, senza chiedere\n"
+"  confold [!]            Usa sempre i vecchi file di configurazione, senza chiedere\n"
+"  confdef [!]            Usa la scelta di defalt per i nuovi file di configurazione\n"
+"                         se disponibili, senza chiedere. Se non esiste il default\n"
+"                         sarà richiesta conferma a meno che sia specificata anche\n"
 "                         l'opzione confold oppure confnew\n"
 "  confmiss [!]           Installa sempre i file di configurazione mancanti\n"
-"  conflicts [!]          Consenti l'installazione di pacchetti anche se "
-"generano conflitti\n"
+"  conflicts [!]          Consenti l'installazione di pacchetti anche se generano conflitti\n"
 "  architecture [!]       Processa anche pacchetti con l'architettura errata\n"
-"  overwrite-dir [!]      Sovrascrivi la directory di un pacchetto con un "
-"file di un altro\n"
-"  remove-reinstreq [!]   Rimuovi i pacchetti che richiedono la "
-"reinstallazione\n"
+"  overwrite-dir [!]      Sovrascrivi la directory di un pacchetto con un file di un altro\n"
+"  remove-reinstreq [!]   Rimuovi i pacchetti che richiedono la reinstallazione\n"
 "  remove-essential [!]   Rimuovi un pacchetto essenziale\n"
 "\n"
 "ATTENZIONE - l'uso delle opzioni contrassegnate da [!] può danneggiare\n"
@@ -2549,9 +2593,9 @@ msgid "unknown force/refuse option `%.*s'"
 msgstr "opzione force/refuse sconosciuta: `%.*s'"
 
 #: src/main.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
-msgstr "Attenzione: opzione obsoleta `--%s'\n"
+msgstr "Attenzione: opzione di force/refuse obsoleta `--%s'\n"
 
 #: src/main.c:491 src/main.c:501 src/main.c:509
 msgid "couldn't malloc in execbackend"
@@ -2567,12 +2611,10 @@ msgid "failed to exec %s"
 msgstr "impossibile eseguire %s"
 
 #: src/main.c:538
-#, fuzzy
 msgid "--command-fd takes one argument, not zero"
-msgstr "--command-fd accetta un parametro, non nessuno"
+msgstr "--command-fd accetta un parametro, che non è stato specificato"
 
 #: src/main.c:540
-#, fuzzy
 msgid "--command-fd only takes one argument"
 msgstr "--command-fd accetta un solo parametro"
 
@@ -2628,19 +2670,19 @@ msgstr ""
 " durante questa sessione !  Viene configurato una sola volta.\n"
 
 #: src/packages.c:269
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is to be removed.\n"
-msgstr "  %.250s fornisce %.250s ma sta per essere rimosso.\n"
+msgstr "  Il pacchetto %s che fornisce %s sta per essere rimosso.\n"
 
 #: src/packages.c:272
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is to be removed.\n"
-msgstr "  %.250s sta per essere rimosso.\n"
+msgstr "  Il pacchetto %s sta per essere rimosso.\n"
 
 #: src/packages.c:287
 #, c-format
 msgid "  Version of %s on system is %s.\n"
-msgstr ""
+msgstr "  La versione di %s presente sul sistema è %s.\n"
 
 #: src/packages.c:307
 #, c-format
@@ -2648,24 +2690,24 @@ msgid "dpkg: also configuring `%s' (required by `%s')\n"
 msgstr "dpkg: verrà configurato anche `%s' (richiesto da `%s')\n"
 
 #: src/packages.c:313
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
-msgstr "  %.250s fornisce %.250s ma sta per essere deconfigurato.\n"
+msgstr "  Il pacchetto %s che fornisce %s non è ancora configurato.\n"
 
 #: src/packages.c:316
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is not configured yet.\n"
-msgstr " non è ancora configurato.\n"
+msgstr "  Il pacchetto %s non è ancora configurato.\n"
 
 #: src/packages.c:328
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s is not installed.\n"
-msgstr "Il pacchetto `%s' non è installato.\n"
+msgstr "  Il pacchetto %s che fornisce %s non è installato.\n"
 
 #: src/packages.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s is not installed.\n"
-msgstr "Il pacchetto `%s' non è installato.\n"
+msgstr "  Il pacchetto %s non è installato.\n"
 
 #: src/packages.c:402
 msgid "; however:\n"
@@ -2743,23 +2785,23 @@ msgstr ""
 "il pacchetto è per una architettura (%s) diversa da quella del sistema (%s)"
 
 #: src/processarc.c:256
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
 " package uses Breaks; not supported in this dpkg\n"
 msgstr ""
-"dpkg: problemi con le pre-dipendenze di %s, contenente %s:\n"
-"%s"
+"dpkg: a proposito di %s, contenente %s:\n"
+" il pacchetto usa Breaks; non supportato da questo dpkg\n"
 
 #: src/processarc.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "unsupported dependency problem - not installing %.250s"
-msgstr "problemi con le pre-dipendenze - non installerò %.250s"
+msgstr "problema con le dipendenze non gestito - non installo %.250s"
 
 #: src/processarc.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - ignoring Breaks !\n"
-msgstr "dpkg: attenzione - problemi con le pre-dipendenze ignorati !\n"
+msgstr "dpkg: attenzione - ignoro Breaks !\n\n"
 
 #: src/processarc.c:275
 #, c-format
@@ -3026,19 +3068,19 @@ msgid "Package `%s' does not contain any files (!)\n"
 msgstr "Il pacchetto `%s' non contiene nessun file (!)\n"
 
 #: src/query.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "locally diverted to: %s\n"
-msgstr "diversificato localmente"
+msgstr "diversificato localmente a: %s\n"
 
 #: src/query.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "package diverts others to: %s\n"
-msgstr "diversifica altri"
+msgstr "il pacchetto diversifica altri a: %s\n"
 
 #: src/query.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "diverted by %s to: %s\n"
-msgstr "diversificato da %s"
+msgstr "diversificato da %s verso: %s\n"
 
 #: src/query.c:404
 msgid ""
@@ -3054,7 +3096,7 @@ msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian `%s' strumento di interrogazione della gestione dei pacchetti\n"
 
 #: src/query.c:482
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -3065,25 +3107,14 @@ msgid ""
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "\n"
 msgstr ""
-"Uso: %s [<opzione> ...] <comando>\n"
-"\n"
 "Comandi:\n"
-"  -s|--status <pacchetto> ...      Mostra nel dettaglio lo stato del "
-"pacchetto.\n"
-"  -p|--print-avail <pacchetto> ... Mostra dettagli sulle versioni "
-"disponibili.\n"
+"  -s|--status <pacchetto> ...      Mostra nel dettaglio lo stato del pacchetto.\n"
+"  -p|--print-avail <pacchetto> ... Mostra dettagli sulle versioni disponibili.\n"
 "  -L|--listfiles <pacchetto> ...   Mostra i file 'posseduti' dal pacchetto.\n"
 "  -l|--list [<modello> ...]        Lista concisa dei pacchetti.\n"
 "  -W|--show <modello> ...          Mostra informazioni sui pacchetti.\n"
 "  -S|--search <modello> ...        Cerca i pacchetti contenenti i file.\n"
-"  --help                           Mostra questo messaggio.\n"
-"  --version                        Mostra la versione.\n"
-"  --licence                        Mostra i termini della licenza.\n"
 "\n"
-"Opzioni:\n"
-"  --admindir=<directory>           Usa <directory> anziché %s.\n"
-"  -f|--showformat=<formato>        Imposta un formato alternativo per --"
-"show.\n"
 
 #: src/query.c:498
 #, c-format
@@ -3093,6 +3124,10 @@ msgid ""
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
+"Opzioni:\n"
+"  --admindir=<directory>           Usa <directory> al posto di %s.\n"
+"  -f|--showformat=<formato>        Usa un formato alternativo per --show.\n"
+"\n"
 
 #: src/query.c:504 dpkg-deb/main.c:97
 #, c-format
@@ -3305,9 +3340,8 @@ msgid "read error on standard input"
 msgstr "errore di lettura da standard input"
 
 #: src/select.c:154
-#, fuzzy
 msgid "--clear-selections does not take any argument"
-msgstr "--set-selections non accetta alcun parametro"
+msgstr "--clear-selections non accetta alcun parametro"
 
 #: src/update.c:44
 #, c-format
@@ -3453,9 +3487,9 @@ msgstr ""
 "manca l'a-capo finale\n"
 
 #: dpkg-deb/build.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "warning, conffile filename `%s' contains trailing white spaces\n"
-msgstr "attenzione, il file di configurazione `%s' non è un file normale\n"
+msgstr "attenzione, il file di configurazione `%s' contiene della spaziatura inutile in fondo\n"
 
 #: dpkg-deb/build.c:293
 #, c-format
@@ -3573,9 +3607,9 @@ msgid "failed to exec sh -c mv foo/* &c"
 msgstr "impossibile eseguire sh -c mv foo/* &c"
 
 #: dpkg-deb/extract.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "error reading %s from file %.255s"
-msgstr "errore leggendo \"%s\" da %.255s"
+msgstr "errore leggendo %s da %.255s"
 
 #: dpkg-deb/extract.c:61
 #, c-format
@@ -3676,12 +3710,11 @@ msgstr ""
 " dimensione %ld byte: archivio di controllo= %zi byte.\n"
 
 #: dpkg-deb/extract.c:195
-#, fuzzy
 msgid "control information length"
 msgstr "lunghezza info controllo"
 
 #: dpkg-deb/extract.c:197
-#, fuzzy, c-format
+#, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "l'archivio ha la lunghezza di controllo formattata male `%s'"
 
@@ -3695,14 +3728,12 @@ msgstr ""
 " dimensione %ld byte: archivio di controllo= %zi, archivio principale= %ld.\n"
 
 #: dpkg-deb/extract.c:208
-#, fuzzy
 msgid "failed allocating memory for variable `ctrlarea'"
-msgstr "Errore allocando memoria per cfgfilename"
+msgstr "impossibile allocare memoria per la variabile `ctrlarea'"
 
 #: dpkg-deb/extract.c:211
-#, fuzzy
 msgid "control area"
-msgstr "ctrlarea"
+msgstr "area di controllo"
 
 #: dpkg-deb/extract.c:217
 #, c-format
@@ -3720,16 +3751,15 @@ msgstr "`%.255s' non è un archivio in formato debian"
 
 #: dpkg-deb/extract.c:228
 msgid "failed getting the current file position"
-msgstr ""
+msgstr "impossibile ottenere la posizione corrente nel file"
 
 #: dpkg-deb/extract.c:233
 msgid "failed setting the current file position"
-msgstr ""
+msgstr "impossibile impostare la posizione corrente nel file"
 
 #: dpkg-deb/extract.c:242
-#, fuzzy
 msgid "failed to open pipe descriptor `1' in paste"
-msgstr "impossibile eseguire fdopen p1 in \"paste\""
+msgstr "impossibile aprire il descrittore di pipe `1' nel paste"
 
 #: dpkg-deb/extract.c:244
 msgid "failed to write to gzip -dc"
@@ -3919,6 +3949,17 @@ msgid ""
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
 msgstr ""
+"Commands:\n"
+"  -b|--build <directory> [<deb>]   Costruisci un archivio.\n"
+"  -c|--contents <deb>              Elenca i contenuti.\n"
+"  -I|--info <deb> [<cfile> ...]    Mostra informazioni su stdout.\n"
+"  -W|--show <deb>                  Mostra informazioni sul pacchetto.\n"
+"  -f|--field <deb> [<cfield> ...]  Mostra i campi su stdout.\n"
+"  -e|--control <deb> [<directory>] Estrai le informazioni di controllo.\n"
+"  -x|--extract <deb> <directory>   Estrai i file.\n"
+"  -X|--vextract <deb> <directory>  Estrai i file mostrandone il nome.\n"
+"  --fsys-tarfile <deb>             Trasmigra in un archivio tar.\n"
+"\n"
 
 #: dpkg-deb/main.c:79
 #, c-format
@@ -3928,6 +3969,10 @@ msgid ""
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 msgstr ""
+"<deb> è il nome file contenente un archivio in formato Debian.\n"
+"<cfile> è il nome di uno dei file di amministrazione.\n"
+"<cfield> è il nome di un campo nel file `control' principale.\n"
+"\n"
 
 #: dpkg-deb/main.c:85
 #, c-format
@@ -3944,6 +3989,17 @@ msgid ""
 "                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
+"Opzioni:\n"
+"  --showformat=<formato>           Usa un formato alternativo per --show.\n"
+"  -D                               Abilita l'output di debug.\n"
+"  --old, --new                     Seleziona il formato di archiviazione.\n"
+"  --nocheck                        Disattiva la verifica del file di controllo\n"
+"                                     (produce pacchetti scadenti).\n"
+"  -z#                              Imposta il livello di compressione usato\n"
+"                                     nella costruzione del pacchetto.\n"
+"  -Z<tipo>                         Imposta il tipo di compressione; valori\n"
+"                                     consentiti: gzip, bzip2, none.\n"
+"\n"
 
 #: dpkg-deb/main.c:106
 #, c-format
@@ -4165,6 +4221,14 @@ msgid ""
 "  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
 msgstr ""
+"Comandi:\n"
+"  -s|--split <file> [<prefisso>]   Suddividi un archivio.\n"
+"  -j|--join <parte> <parte> ...    Ricomponi le porzioni.\n"
+"  -I|--info <parte> ...            Mostra info su una porzione.\n"
+"  -a|--auto -o <completo> <parte>  Accumula automaticamente le porzioni.\n"
+"  -l|--listq                       Elenca le porzioni che non corrispondono.\n"
+"  -d|--discard [<filename> ...]    Scarta le porzioni che non corrispondono.\n"
+"\n"
 
 #: dpkg-split/main.c:69
 #, c-format
@@ -4179,6 +4243,14 @@ msgid ""
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
+"Opzioni:\n"
+"  --depotdir <directory>           Usa <directory> invece di %s/%s.\n"
+"  -S|--partsize <dimensione>       In kilobyte, per -s (default è 450).\n"
+"  -o|--output <file>               Per -j (default è <pacchetto>-<versione>.deb).\n"
+"  -Q|--npquiet                     Stai quieto quando -a non è una porzione.\n"
+"  --msdos                          Genera nomi dei file corti ala msdos (8.3)\n"
+"\n"
+"Status di uscita: 0 = OK;  1 = -a non è una porzione;  2 = problema!\n"
 
 #: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
@@ -4346,30 +4418,27 @@ msgstr "impossibile eseguire mksplit"
 #: scripts/cleanup-info.pl:36 scripts/dpkg-divert.pl:16
 #: scripts/dpkg-statoverride.pl:22 scripts/install-info.pl:17
 #: scripts/update-alternatives.pl:37
-#, fuzzy, perl-format
+#, perl-format
 msgid "Debian %s version %s.\n"
-msgstr ""
-"Debian `%s' programma di gestione degli archivi di pacchetti versione %s.\n"
+msgstr "Debian %s versione %s.\n"
 
 #: scripts/cleanup-info.pl:38
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1996 Kim-Minh Kaplan."
-msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
+msgstr "\nCopyright (C) 1996 Kim-Minh Kaplan."
 
 #: scripts/cleanup-info.pl:41 scripts/dpkg-divert.pl:22
 #: scripts/dpkg-statoverride.pl:27 scripts/install-info.pl:22
 #: scripts/update-alternatives.pl:43
-#, fuzzy
 msgid ""
 "\n"
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 msgstr ""
+"\n"
 "Questo è software libero; vedi la GNU General Public Licence versione 2\n"
 "o successiva per le condizioni di copia. NON c'è alcuna garanzia.\n"
-"Vedi %s --license per il copyright e i dettagli sulla licenza.\n"
 
 #: scripts/cleanup-info.pl:49
 #, perl-format
@@ -4382,84 +4451,91 @@ msgid ""
 "  --help       show this help message.\n"
 "  --version    show the version.\n"
 msgstr ""
+"Uso: %s [<opzione> ...] [--] [<dirname>]\n"
+"\n"
+"Opzioni:\n"
+"  --unsafe     imposta qualche altra opzione utile.\n"
+"               attenzione: questa opzione può rovinare un file corretto.\n"
+"  --help       mostra questo testo di aiuto.\n"
+"  --version    mostra la versione.\n"
 
 #: scripts/cleanup-info.pl:66 scripts/install-info.pl:508
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: warning - unable to unlock %s: %s"
-msgstr "dpkg: attenzione - impossibile fare stat() sul %s `%.250s': %s\n"
+msgstr "%s: attenzione - impossibile fare l'unlock di %s: %s"
 
 #: scripts/cleanup-info.pl:86 scripts/install-info.pl:119
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: unknown option `%s'"
-msgstr "opzione --%s non riconosciuta"
+msgstr "%s: opzione `%s' non riconosciuta"
 
 #: scripts/cleanup-info.pl:94 scripts/install-info.pl:130
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: too many arguments"
-msgstr "--%s non accetta parametri"
+msgstr "%s: troppi parametri"
 
 #: scripts/cleanup-info.pl:101 scripts/install-info.pl:305
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: failed to lock dir for editing! %s"
-msgstr "%s: impossibile eseguire gzip %s"
+msgstr "%s: impossibile fare il lock di dir per la modifica! %s"
 
 #: scripts/cleanup-info.pl:103
 #, perl-format
 msgid "try deleting %s"
-msgstr ""
+msgstr "provo a cancellare %s"
 
 #: scripts/cleanup-info.pl:107 scripts/install-info.pl:312
 #: scripts/update-alternatives.pl:211
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to open %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile aprire %s: %s"
 
 #: scripts/cleanup-info.pl:109 scripts/install-info.pl:482
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to create %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile creare %s: %s"
 
 #: scripts/cleanup-info.pl:120 scripts/install-info.pl:485
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to write %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile scrivere %s: %s"
 
 #: scripts/cleanup-info.pl:160 scripts/install-info.pl:165
 #: scripts/install-info.pl:207 scripts/install-info.pl:314
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to read %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile leggere %s: %s"
 
 #: scripts/cleanup-info.pl:161 scripts/install-info.pl:315
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to close %s after read: %s"
-msgstr "impossibile chiudere `%.255s' dopo la lettura"
+msgstr "impossibile chiudere %s dopo la lettura: %s"
 
 #: scripts/cleanup-info.pl:165 scripts/install-info.pl:486
 #: scripts/update-alternatives.pl:472
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to close %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile chiudere %s: %s"
 
 #: scripts/cleanup-info.pl:171 scripts/install-info.pl:490
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to backup old %s, giving up: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile fare il backup di %s precedente, lascio perdere: %s"
 
 #: scripts/cleanup-info.pl:174
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to install %s; it will be left as %s: %s"
-msgstr "impossibile installare `%.250s' come `%.250s'"
+msgstr "impossibile installare %s; verrà lasciato come %s: %s"
 
 #: scripts/cleanup-info.pl:178
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: unable to unlock %s: %s"
-msgstr "%s: impossibile eseguire gzip %s"
+msgstr "%s: impossibile fare l'unlock di %s: %s"
 
 #: scripts/dpkg-divert.pl:12 scripts/update-alternatives.pl:33
 #, perl-format
 msgid "Cannot get ENOENT value from %s: %s"
-msgstr ""
+msgstr "Impossibile ottenere il valore di ENOENT da %s: %s"
 
 #: scripts/dpkg-divert.pl:18
 msgid ""
@@ -4467,6 +4543,9 @@ msgid ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000,2001 Wichert Akkerman."
 msgstr ""
+"\n"
+"Copyright (C) 1995 Ian Jackson.\n"
+"Copyright (C) 2000,2001 Wichert Akkerman."
 
 #: scripts/dpkg-divert.pl:30
 #, perl-format
@@ -4497,92 +4576,111 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
+"Uso: %s [<opzione> ...] <comando>\n"
+"\n"
+"Comandi:\n"
+"  [--add] <file>           aggiungi una diversione.\n"
+"  --remove <file>          rimuovi una diversione.\n"
+"  --list [<modello-glob>]  mostra le diversioni sui file.\n"
+"  --truename <file>        ritorna il file diversificato.\n"
+"\n"
+"Options:\n"
+"  --package <pacchetto>    nome del pacchetto la cui copia di <file> non\n"
+"                             verrà diversificata.\n"
+"  --local                  tutte le versioni dei pacchetti sono diversificate.\n"
+"  --divert <divers-a>      il nome usato dalla versione nell'altro pacchetto.\n"
+"  --rename                 cambia effettivamente il nome al file (o ripristinalo).\n"
+"  --admindir <directory>   imposta la directory con le diversioni ai file.\n"
+"  --test                   non fare nulla, mostra solo cosa succederebbe.\n"
+"  --quiet                  modalità quieta, output minimale.\n"
+"  --help                   mostra questo messaggio di aiuto.\n"
+"  --version                mostra la versione.\n"
+"\n"
+"Quando si aggiunge, il default è --local e --divert <originale>.distrib.\n"
+"Quando si rimuove, --package o --local e --divert devono corrispondere se specificati.\n"
+"Gli script preinst/postrm del pacchetto devono sempre specificare --package e --divert.\n"
 
 #: scripts/dpkg-divert.pl:64 scripts/update-alternatives.pl:110
 #, perl-format
 msgid "two modes specified: %s and --%s"
-msgstr ""
+msgstr "sono state specificate due modalità: %s e --%s"
 
 #: scripts/dpkg-divert.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a divert-to argument"
-msgstr "--build richiede il nome di una directory come parametro"
+msgstr "--%s richiede il parametro <divers-a>"
 
 #: scripts/dpkg-divert.pl:99
 msgid "divert-to may not contain newlines"
-msgstr ""
+msgstr "divert-to non può contenere a-capo"
 
 #: scripts/dpkg-divert.pl:101
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <package> argument"
-msgstr "--%s richiede il nome di almeno un pacchetto come parametro"
+msgstr "--%s richiede il nome di un pacchetto come parametro"
 
 #: scripts/dpkg-divert.pl:103
-#, fuzzy
 msgid "package may not contain newlines"
-msgstr "Il pacchetto `%s' non contiene nessun file (!)\n"
+msgstr "pacchetto non può contenere a-capo"
 
 #: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
 #: scripts/update-alternatives.pl:152 scripts/update-alternatives.pl:155
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <directory> argument"
-msgstr "--build richiede il nome di una directory come parametro"
+msgstr "--%s richiede il nome di una directory come parametro"
 
 #: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:86
 #: scripts/update-alternatives.pl:160
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown option `%s'"
-msgstr "opzione --%s non riconosciuta"
+msgstr "opzione `%s' non riconosciuta"
 
 #: scripts/dpkg-divert.pl:114
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open diversions: %s"
-msgstr "impossibile aprire il file con le diversioni"
+msgstr "impossibile aprire il file con le diversioni: %s"
 
 #: scripts/dpkg-divert.pl:117
-#, fuzzy
 msgid "missing altname"
-msgstr "manca %s"
+msgstr "manca il nome alternativo"
 
 #: scripts/dpkg-divert.pl:119
-#, fuzzy
 msgid "missing package"
-msgstr "manca %s"
+msgstr "manca il pacchetto"
 
 #: scripts/dpkg-divert.pl:125 scripts/dpkg-divert.pl:153
 #: scripts/dpkg-divert.pl:195 scripts/dpkg-statoverride.pl:144
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a single argument"
-msgstr "--build richiede il nome di una directory come parametro"
+msgstr "--%s accetta un singolo parametro"
 
 #: scripts/dpkg-divert.pl:127 scripts/dpkg-divert.pl:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "filename \"%s\" is not absolute"
-msgstr "impossibile eseguire stat sul file di configurazione `%.250s'"
+msgstr "il nome di file \"%s\" non è assoluto"
 
 #: scripts/dpkg-divert.pl:128 scripts/dpkg-statoverride.pl:118
 msgid "file may not contain newlines"
-msgstr ""
+msgstr "il file non può contenere a-capo"
 
 #: scripts/dpkg-divert.pl:129
-#, fuzzy
 msgid "Cannot divert directories"
-msgstr "impossibile leggere la directory info"
+msgstr "Impossibile diversionare una directory"
 
 #: scripts/dpkg-divert.pl:138
-#, fuzzy, perl-format
+#, perl-format
 msgid "Leaving `%s'"
-msgstr "errore nella scrittura di `%s'"
+msgstr "Lascio `%s'"
 
 #: scripts/dpkg-divert.pl:141
 #, perl-format
 msgid "`%s' clashes with `%s'"
-msgstr ""
+msgstr "`%s' è in conflitto con `%s'"
 
 #: scripts/dpkg-divert.pl:147
 #, perl-format
 msgid "Adding `%s'"
-msgstr ""
+msgstr "Aggiungo `%s'"
 
 #: scripts/dpkg-divert.pl:157
 #, perl-format
@@ -4591,6 +4689,9 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"mancata corrispondenza in divert-to\n"
+"  durante la rimozione di `%s'\n"
+"  è stato trovato `%s'"
 
 #: scripts/dpkg-divert.pl:159
 #, perl-format
@@ -4599,36 +4700,39 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"mancata corrispondenza nel pacchetto\n"
+"  durante la rimozione di `%s'\n"
+"  è stato trovato `%s'"
 
 #: scripts/dpkg-divert.pl:161
-#, fuzzy, perl-format
+#, perl-format
 msgid "Removing `%s'"
-msgstr "Rimuovo %s ...\n"
+msgstr "Rimuovo `%s'"
 
 #: scripts/dpkg-divert.pl:176
 #, perl-format
 msgid "No diversion `%s', none removed"
-msgstr ""
+msgstr "Nessuna diversione per `%s', non rimuovo nulla"
 
 #: scripts/dpkg-divert.pl:205
-#, fuzzy, perl-format
+#, perl-format
 msgid "internal error - bad mode `%s'"
-msgstr "%s: errore interno di gzip: read: `%s'"
+msgstr "errore interno - modalità errata `%s'"
 
 #: scripts/dpkg-divert.pl:219
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot stat old name `%s': %s"
-msgstr "impossibile eseguire stat su `%.255s' (in `%.255s')"
+msgstr "impossibile eseguire stat sul nome precedente `%s': %s"
 
 #: scripts/dpkg-divert.pl:221
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot stat new name `%s': %s"
-msgstr "impossibile eseguire stat su `%.255s' (in `%.255s')"
+msgstr "impossibile eseguire stat sul nuovo nome `%s': %s"
 
 #: scripts/dpkg-divert.pl:236
-#, fuzzy, perl-format
+#, perl-format
 msgid "error checking `%s': %s"
-msgstr "errore nella scrittura di `%s'"
+msgstr "errore controllando `%s': %s"
 
 #: scripts/dpkg-divert.pl:241
 #, perl-format
@@ -4636,58 +4740,59 @@ msgid ""
 "rename involves overwriting `%s' with\n"
 "  different file `%s', not allowed"
 msgstr ""
+"il cambio del nome comporta la sovrascrittura di `%s' con\n"
+"  un file diverso `%s', che non è consentito"
 
 #: scripts/dpkg-divert.pl:251
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
-msgstr ""
+msgstr "rename: rimozione duplicato del vecchio collegamento `%s': %s"
 
 #: scripts/dpkg-divert.pl:253
-#, fuzzy, perl-format
+#, perl-format
 msgid "rename: rename `%s' to `%s': %s"
-msgstr ""
-"dpkg: %s: attenzione - impossibile rinominare `%.250s' a `%.250s': %s\n"
+msgstr "rename: cambiando il nome da `%s' a `%s': %s"
 
 #: scripts/dpkg-divert.pl:260
-#, fuzzy, perl-format
+#, perl-format
 msgid "create diversions-new: %s"
-msgstr "errore di lettura nelle diversioni [i]"
+msgstr "creazione di diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:264
-#, fuzzy, perl-format
+#, perl-format
 msgid "write diversions-new: %s"
-msgstr "diversificato da %s"
+msgstr "scrittura di diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:266
-#, fuzzy, perl-format
+#, perl-format
 msgid "close diversions-new: %s"
-msgstr "diversificato da %s"
+msgstr "chiusura di diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:268
 #, perl-format
 msgid "remove old diversions-old: %s"
-msgstr ""
+msgstr "rimozione del diversions-old precedente: %s"
 
 #: scripts/dpkg-divert.pl:270
-#, fuzzy, perl-format
+#, perl-format
 msgid "create new diversions-old: %s"
-msgstr "errore di lettura nelle diversioni [i]"
+msgstr "creazione nuovo diversions-old: %s"
 
 #: scripts/dpkg-divert.pl:272
-#, fuzzy, perl-format
+#, perl-format
 msgid "install new diversions: %s"
-msgstr "impossibile installare la nuova versione di `%.255s'"
+msgstr "installazione nuovo diversions: %s"
 
 #: scripts/dpkg-divert.pl:291 scripts/update-alternatives.pl:662
-#, fuzzy, perl-format
+#, perl-format
 msgid "internal error: %s corrupt: %s"
-msgstr "%s: errore interno: write: `%s'"
+msgstr "errore interno: %s è corrotto: %s"
 
 #: scripts/dpkg-statoverride.pl:24
 msgid ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
-msgstr ""
+msgstr "\nCopyright (C) 2000 Wichert Akkerman."
 
 #: scripts/dpkg-statoverride.pl:35
 #, perl-format
@@ -4708,119 +4813,131 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Uso: %s [<opzione> ...] <comando>\n"
+"\n"
+"Comandi:\n"
+"  --add <possessore> <gruppo> <modo> <file>\n"
+"                           aggiungi una nuova entry nel database.\n"
+"  --remove <file>          rimuovi il file dal database.\n"
+"  --list [<glob-pattern>]  elenca gli override attualmente nel database.\n"
+"\n"
+"Opzioni:\n"
+"  --admindir <directory>   imposta la directory che contiene il file statoverride.\n"
+"  --update                 aggiorna i permessi dei file immediatamente.\n"
+"  --force                  forza un'azione anche se uno dei controlli di integrità fallisce.\n"
+"  --quiet                  modalità quieta, output minimale.\n"
+"  --help                   mostra questo messaggio di aiuto.\n"
+"  --version                mostra la versione.\n"
 
 #: scripts/dpkg-statoverride.pl:93
 msgid "no mode specified"
-msgstr ""
+msgstr "nessuna modalità specificata"
 
 #: scripts/dpkg-statoverride.pl:97
-#, fuzzy
 msgid "--add needs four arguments"
-msgstr "--build richiede il nome di una directory come parametro"
+msgstr "--add richiede quattro parametri"
 
 #: scripts/dpkg-statoverride.pl:102
 #, perl-format
 msgid "illegal user %s"
-msgstr ""
+msgstr "utente %s non valido"
 
 #: scripts/dpkg-statoverride.pl:104
 #, perl-format
 msgid "non-existing user %s"
-msgstr ""
+msgstr "utente %s inesistente"
 
 #: scripts/dpkg-statoverride.pl:110
 #, perl-format
 msgid "illegal group %s"
-msgstr ""
+msgstr "gruppo %s non consentito"
 
 #: scripts/dpkg-statoverride.pl:112
 #, perl-format
 msgid "non-existing group %s"
-msgstr ""
+msgstr "gruppo %s inesistente"
 
 #: scripts/dpkg-statoverride.pl:116
 #, perl-format
 msgid "illegal mode %s"
-msgstr ""
+msgstr "modalità %s non consentita"
 
 #: scripts/dpkg-statoverride.pl:119 scripts/dpkg-statoverride.pl:146
 #: scripts/dpkg-statoverride.pl:165
 msgid "stripping trailing /"
-msgstr ""
+msgstr "rimuovo lo / terminale"
 
 #: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "An override for \"%s\" already exists, "
-msgstr ""
+msgstr "Un override per \"%s\" esiste già, "
 
 #: scripts/dpkg-statoverride.pl:124
 msgid "but --force specified so will be ignored."
-msgstr ""
+msgstr "ma --force specificato così verrà ignorato."
 
 #: scripts/dpkg-statoverride.pl:126
-#, fuzzy
 msgid "aborting"
-msgstr "attenzione"
+msgstr "termino"
 
 #: scripts/dpkg-statoverride.pl:137
 #, perl-format
 msgid "warning: --update given but %s does not exist"
-msgstr ""
+msgstr "attenzione: si è specificato --update ma %s non esiste"
 
 #: scripts/dpkg-statoverride.pl:139
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to chown %s: %s"
-msgstr "impossibile eseguire %s (%.250s)"
+msgstr "impossibile eseguire chown %s: %s"
 
 #: scripts/dpkg-statoverride.pl:140
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to chmod %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile eseguire chmod %s: %s"
 
 #: scripts/dpkg-statoverride.pl:148
 msgid "No override present."
-msgstr ""
+msgstr "Nessun override presente."
 
 #: scripts/dpkg-statoverride.pl:156
 msgid "warning: --update is useless for --remove"
-msgstr ""
+msgstr "attenzione: --update è inutile con --remove"
 
 #: scripts/dpkg-statoverride.pl:182
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open statoverride: %s"
-msgstr "impossibile aprire il file statoverride"
+msgstr "impossibile aprire il file statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:188
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
-msgstr ""
+msgstr "Più di un override per \"%s\", mi fermo"
 
 #: scripts/dpkg-statoverride.pl:201
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open new statoverride file: %s"
-msgstr "impossibile aprire il file statoverride"
+msgstr "impossibile aprire il nuovo file statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:208
 #, perl-format
 msgid "error removing statoverride-old: %s"
-msgstr ""
+msgstr "errore rimuovendo statoverride-old: %s"
 
 #: scripts/dpkg-statoverride.pl:210
-#, fuzzy, perl-format
+#, perl-format
 msgid "error creating new statoverride-old: %s"
-msgstr "impossibile creare il device `%.255s'"
+msgstr "impossibile creare il nuovo statoverride-old: %s"
 
 #: scripts/dpkg-statoverride.pl:212
 #, perl-format
 msgid "error installing new statoverride: %s"
-msgstr ""
+msgstr "errore installando il nuovo statoverride: %s"
 
 #: scripts/install-info.pl:19
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
-msgstr "Copyright (C) 1994-1996 Ian Jackson.\n"
+msgstr "\nCopyright (C) 1994-1996 Ian Jackson."
 
 #: scripts/install-info.pl:31
 #, perl-format
@@ -4849,45 +4966,65 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Uso: %s [<opzioni> ...] [--] <filename>\n"
+"\n"
+"Opzioni:\n"
+"  --section <regexp> <titolo>\n"
+"                           metti la nuova entry nella sezione che corrisponde alla\n"
+"                           regexp o creane una nuova <titolo> se non esiste.\n"
+"  --menuentry=<text>       imposta la voce del menu.\n"
+"  --description=<text>     imposta la descrizione da usare nel menu.\n"
+"  --info-file=<path>       specifica il file info da installare nella directory.\n"
+"  --dir-file=<path>        specifica il nome del file delle info sulle directory.\n"
+"  --infodir=<directory>    stessa cosa di '--dir-file=<directory>/dir'.\n"
+"  --info-dir=<directory>   idem.\n"
+"  --keep-old               non sostiture le entry e non rimuovere quelle vuote.\n"
+"  --remove                 rimuovi la entri specificata dal basename di <filename>.\n"
+"  --remove-exactly         rimuovi esattamente la entry <filename>.\n"
+"  --test                   abilita la modalità di test (le azioni non vengono svolte).\n"
+"  --debug                  abilita la modalità di debug (mostra più informazioni).\n"
+"  --quiet                  non mostrare alcun messaggio di output.\n"
+"  --help                   mostra questo messaggio di aiuto.\n"
+"  --version                mostra la versione.\n"
 
 #: scripts/install-info.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "could not open stderr for output! %s"
-msgstr "impossibile aprire la componente `control'"
+msgstr "impossibile aprire lo stderr in output! %s"
 
 #: scripts/install-info.pl:101
 #, perl-format
 msgid "%s: --section needs two more args"
-msgstr ""
+msgstr "%s: --section necessita di due ulteriori parametri"
 
 #: scripts/install-info.pl:107
 #, perl-format
 msgid "%s: option --%s is deprecated (ignored)"
-msgstr ""
+msgstr "%s: l'opzione --%s è deprecata (ignorata)"
 
 #: scripts/install-info.pl:133
 #, perl-format
 msgid "%s: --section ignored with --remove"
-msgstr ""
+msgstr "%s: --section viene ignorata con --remove"
 
 #: scripts/install-info.pl:134
 #, perl-format
 msgid "%s: --description ignored with --remove"
-msgstr ""
+msgstr "%s: --description viene ignorata con --remove"
 
 #: scripts/install-info.pl:137
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
-msgstr ""
+msgstr "%s: modalità test - il file dir non verrà aggiornato"
 
 #: scripts/install-info.pl:191
 #, perl-format
 msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
+msgstr "%s: attenzione, ignoro INFO-DIR-ENTRY nel file perché mi confonde."
 
 #: scripts/install-info.pl:200
 msgid "invalid info entry"
-msgstr ""
+msgstr "info entry non valida"
 
 #: scripts/install-info.pl:226
 #, perl-format
@@ -4896,111 +5033,114 @@ msgid ""
 "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
 "%s: unable to determine description for `dir' entry - giving up\n"
 msgstr ""
+"\n"
+"Nessuna `START-INFO-DIR-ENTRY' e non trovo `This file documents'.\n"
+"%s: impossibile determinare la descrizione per la entry `dir' - lascio perdere\n"
 
 #: scripts/install-info.pl:279
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
-msgstr ""
+msgstr "%s: nessun file %s, recupero il file di backup %s."
 
 #: scripts/install-info.pl:282 scripts/install-info.pl:292
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr ""
+msgstr "%s: la copia da %s a %s è fallita, lascio perdere: %s"
 
 #: scripts/install-info.pl:288
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
-msgstr ""
+msgstr "%s: il file di backup %s non c'è, recupero il file di default."
 
 #: scripts/install-info.pl:297
 #, perl-format
 msgid "%s: no backup file %s available."
-msgstr ""
+msgstr "%s: il file di backup %s non c'è."
 
 #: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no default file %s available, giving up."
-msgstr ""
+msgstr "%s: il file di default %s non c'è, lascio perdere."
 
 #: scripts/install-info.pl:307
 #, perl-format
 msgid "try deleting %s?"
-msgstr ""
+msgstr "provo a cancellare %s?"
 
 #: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
+msgstr "%s: la entry attuale per `%s' non è stata sostituita"
 
 #: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
+msgstr "%s: sostituisco la dir entry per `%s'"
 
 #: scripts/install-info.pl:364
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: creating new section `%s'"
-msgstr "impossibile creare la directory `%.255s'"
+msgstr "%s: creo una nuova sezione `%s'"
 
 #: scripts/install-info.pl:367
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr ""
+msgstr "%s: non c'è ancora nessuna sezione, creo anche un sezione Miscellaneous."
 
 #: scripts/install-info.pl:385
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
-msgstr ""
+msgstr "%s: non è stata specificata la sezione per la nuova entry, la metto in fondo"
 
 #: scripts/install-info.pl:422
 #, perl-format
 msgid "%s: deleting entry `%s ...'"
-msgstr ""
+msgstr "%s: cancello la entry `%s ...'"
 
 #: scripts/install-info.pl:428
 #, perl-format
 msgid "%s: empty section `%s' not removed"
-msgstr ""
+msgstr "%s: la sezione vuota `%s' non è stata rimossa"
 
 #: scripts/install-info.pl:431
 #, perl-format
 msgid "%s: deleting empty section `%s'"
-msgstr ""
+msgstr "%s: cancello la sezione vuota `%s'"
 
 #: scripts/install-info.pl:438
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr ""
+msgstr "%s: nessuna entry per il file `%s' e per la entry del menu `%s'"
 
 #: scripts/install-info.pl:440
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: no entry for file `%s'"
-msgstr "copiare il file di informazioni `%.255s'"
+msgstr "%s: nessuna entry per il file `%s'"
 
 #: scripts/install-info.pl:493
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install new %s: %s"
-msgstr "impossibile installare `%.250s' come `%.250s'"
+msgstr "impossibile installare il nuovo %s: %s"
 
 #: scripts/install-info.pl:496
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to unlock %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile fare l'unlock di %s: %s"
 
 #: scripts/install-info.pl:498
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: could not backup %s in %s: %s"
-msgstr "impossibile aprire il log `%s': %s\n"
+msgstr "%s: impossibile fare il backup di %s in %s: %s"
 
 #: scripts/install-info.pl:515
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to read %s: %d"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile leggere %s: %d"
 
 #: scripts/install-info.pl:519
 #, perl-format
 msgid "dbg: %s"
-msgstr ""
+msgstr "dbg: %s"
 
 #: scripts/update-alternatives.pl:39
 msgid ""
@@ -5008,6 +5148,9 @@ msgid ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000-2002 Wichert Akkerman."
 msgstr ""
+"\n"
+"Copyright (C) 1995 Ian Jackson.\n"
+"Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:51
 #, perl-format
@@ -5049,149 +5192,181 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Uso: %s [<opzione> ...] <comando>\n"
+"\n"
+"Comandi:\n"
+"  --install <link> <nome> <percorso> <priorità>\n"
+"    [--slave <link> <nome> <percorso>] ...\n"
+"                             aggiungi un gruppo di alternative al sistema.\n"
+"  --remove <nome> <percorso> rimuovi <percorso> dal gruppo di alternative <nome>.\n"
+"  --remove-all <nome>        rimuovi il gruppo  <nome> dal sistema.\n"
+"  --auto <nome>              metti il link primario <nome> in modalità automatica.\n"
+"  --display <nome>           mostra informazioni sul gruppo <nome>.\n"
+"  --list <nome>              elenca tutti gli obbiettivi del gruppo <nome>.\n"
+"  --config <nome>            mostra le alternative per il gruppo <nome> e chiedi\n"
+"                             all'utente quale usare.\n"
+"  --set <nome> <percorso>    imposta <percorso> come alternativa di <nome>.\n"
+"  --all                      eseguio --config su tutte le alternative.\n"
+"\n"
+"<link> è un link simbolico che punta a /etc/alternatives/<nome>.\n"
+"  (ad esempio /usr/bin/pager)\n"
+"<nome> è il nome primario di un gruppo di link.\n"
+"  (ad esempio pager)\n"
+"<percorso> è la locazione di uno del file alternativi.\n"
+"  (ad esempio /usr/bin/less)\n"
+"<priorità> è un numero intero; opzioni con numero maggiore hanno una priorità\n"
+"  più alta in modalità automatica.\n"
+"\n"
+"Opzioni:\n"
+"  --altdir <directory>     usa una directory di alternative diversa.\n"
+"  --admindir <directory>   cambia la directory amministrativa.\n"
+"  --test                   non fare nulla, mostra quello che succederebbe.\n"
+"  --verbose                modalità verbose, maggior output.\n"
+"  --quiet                  modalità quieta, output minimale.\n"
+"  --help                   mostra questo messaggio di aiuto.\n"
+"  --version                mostra la versione.\n"
 
 #: scripts/update-alternatives.pl:117
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown argument `%s'"
-msgstr "tipo di compressione sconosciuto `%s'!"
+msgstr "parametro sconosciuto `%s'"
 
 #: scripts/update-alternatives.pl:130
 msgid "--install needs <link> <name> <path> <priority>"
-msgstr ""
+msgstr "--install necessita di <link> <nome> <percorso> <priorità>"
 
 #: scripts/update-alternatives.pl:132
 msgid "priority must be an integer"
-msgstr ""
+msgstr "la priorità deve essere un numero intero"
 
 #: scripts/update-alternatives.pl:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs <name> <path>"
-msgstr "--%s richiede il nome di un file .deb come parametro"
+msgstr "--%s richiede <nome> e <percorso>"
 
 #: scripts/update-alternatives.pl:141
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs <name>"
-msgstr "--%s non accetta parametri"
+msgstr "--%s necessita di <nome>"
 
 #: scripts/update-alternatives.pl:145
 msgid "--slave needs <link> <name> <path>"
-msgstr ""
+msgstr "--slave necessita di <link> <nome> <percorso>"
 
 #: scripts/update-alternatives.pl:147
 #, perl-format
 msgid "slave name %s duplicated"
-msgstr ""
+msgstr "nome slave %s duplicato"
 
 #: scripts/update-alternatives.pl:148
 #, perl-format
 msgid "slave link %s duplicated"
-msgstr ""
+msgstr "link slave %s duplicato"
 
 #: scripts/update-alternatives.pl:164
 #, perl-format
 msgid "name %s is both primary and slave"
-msgstr ""
+msgstr "il nome %s è sia primario che slave"
 
 #: scripts/update-alternatives.pl:165
 #, perl-format
 msgid "link %s is both primary and slave"
-msgstr ""
+msgstr "il link %s è sia primario che slave"
 
 #: scripts/update-alternatives.pl:167
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
-msgstr ""
+msgstr "necessita --display, --config, --set, --install, --remove, --all, --remove-all o --auto"
 
 #: scripts/update-alternatives.pl:168
 msgid "--slave only allowed with --install"
-msgstr ""
+msgstr "--slave è consentito solo con --install"
 
 #: scripts/update-alternatives.pl:176
 msgid "manflag"
-msgstr ""
+msgstr "manflag"
 
 #: scripts/update-alternatives.pl:180
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate slave %s"
-msgstr "valore duplicato per il campo `%s'"
+msgstr "slave duplicato %s"
 
 #: scripts/update-alternatives.pl:183
 #, perl-format
 msgid "slave link same as main link %s"
-msgstr ""
+msgstr "link slave uguale a quello principale %s"
 
 #: scripts/update-alternatives.pl:184
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate slave link %s"
-msgstr "valore duplicato per il campo `%s'"
+msgstr "link slave duplicato %s"
 
 #: scripts/update-alternatives.pl:188
 #, perl-format
 msgid "duplicate path %s"
-msgstr ""
+msgstr "percorso duplicato %s"
 
 #: scripts/update-alternatives.pl:193
 #, perl-format
 msgid "priority %s %s"
-msgstr ""
+msgstr "priorità %s %s"
 
 #: scripts/update-alternatives.pl:200
 #, perl-format
 msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
 "alternatives."
-msgstr ""
+msgstr "L'alternativa per %s punta a %s, che non è stato trovato.  La rimuovo dalla lista delle alternative."
 
 #: scripts/update-alternatives.pl:216 scripts/update-alternatives.pl:265
 #: scripts/update-alternatives.pl:273
 #, perl-format
 msgid "No alternatives for %s."
-msgstr ""
+msgstr "Nessuna alternativa per %s."
 
 #: scripts/update-alternatives.pl:219
 #, perl-format
 msgid "%s - status is %s."
-msgstr ""
+msgstr "%s - lo status è %s."
 
 #: scripts/update-alternatives.pl:221
 #, perl-format
 msgid " link currently points to %s"
-msgstr ""
+msgstr " il link attualmente punta a %s"
 
 #: scripts/update-alternatives.pl:223
 msgid " link currently absent"
-msgstr ""
+msgstr " il link attualmente non c'è"
 
 #: scripts/update-alternatives.pl:225
 #, perl-format
 msgid " link unreadable - %s"
-msgstr ""
+msgstr " link illeggibile - %s"
 
 #: scripts/update-alternatives.pl:232
 #, perl-format
 msgid "%s - priority %s"
-msgstr ""
+msgstr "%s - priorità %s"
 
 #: scripts/update-alternatives.pl:235
 #, perl-format
 msgid " slave %s: %s"
-msgstr ""
+msgstr " slave %s: %s"
 
 #: scripts/update-alternatives.pl:239
-#, fuzzy
 msgid "No versions available."
-msgstr "(descrizione non disponibile)"
+msgstr "Nessuna versione disponibile."
 
 #: scripts/update-alternatives.pl:241
 #, perl-format
 msgid "Current `best' version is %s."
-msgstr ""
+msgstr "La `migliore' versione attualmente è %s."
 
 #: scripts/update-alternatives.pl:300
 #, perl-format
 msgid "Setting up automatic selection of %s."
-msgstr ""
+msgstr "Imposto la selezione automatica di %s."
 
 #: scripts/update-alternatives.pl:303 scripts/update-alternatives.pl:305
 #: scripts/update-alternatives.pl:413 scripts/update-alternatives.pl:415
@@ -5199,9 +5374,9 @@ msgstr ""
 #: scripts/update-alternatives.pl:483 scripts/update-alternatives.pl:485
 #: scripts/update-alternatives.pl:541 scripts/update-alternatives.pl:543
 #: scripts/update-alternatives.pl:609 scripts/update-alternatives.pl:645
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to remove %s: %s"
-msgstr "impossibile eseguire %s"
+msgstr "impossibile rimuovere %s: %s"
 
 #: scripts/update-alternatives.pl:316
 #, perl-format
@@ -5209,6 +5384,8 @@ msgid ""
 "%s has been changed (manually or by a script).\n"
 "Switching to manual updates only."
 msgstr ""
+"%s è stato modificato (da te o da uno script).\n"
+"Passo all'aggiornamento esclusivamente manuale."
 
 #: scripts/update-alternatives.pl:328
 #, perl-format
@@ -5216,66 +5393,68 @@ msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
 "(You may modify the symlinks there yourself if desired - see `man ln'.)"
 msgstr ""
+"Controllo le versioni disponibili di %s, aggiorno i link in %s ...\n"
+"(Se desideri puoi modificare direttamente quei link simbolici, vedi `man ln'.)"
 
 #: scripts/update-alternatives.pl:334
-#, fuzzy, perl-format
+#, perl-format
 msgid "Renaming %s link from %s to %s."
-msgstr "Spacchetto %s (da %s) ...\n"
+msgstr "Rinomino il link %s da %s a %s."
 
 #: scripts/update-alternatives.pl:337 scripts/update-alternatives.pl:359
 #: scripts/update-alternatives.pl:439 scripts/update-alternatives.pl:514
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to rename %s to %s: %s"
-msgstr "impossibile fare stat() sul %s `%.250s'"
+msgstr "impossibile rinominare %s a %s: %s"
 
 #: scripts/update-alternatives.pl:354
 #, perl-format
 msgid "slave link name %s duplicated"
-msgstr ""
+msgstr "nome link slave %s duplicato"
 
 #: scripts/update-alternatives.pl:356
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
-msgstr ""
+msgstr "Rinomino il link slave %s da %s a %s."
 
 #: scripts/update-alternatives.pl:370
 msgid "Removing manually selected alternative - switching to auto mode"
-msgstr ""
+msgstr "Rimuovo le alternative selezionte manualmente, passo alla modalità automatica"
 
 #: scripts/update-alternatives.pl:384
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
-msgstr ""
+msgstr "L'alternativa %s per %s non è registrata, non la rimuovo."
 
 #: scripts/update-alternatives.pl:410
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
-msgstr ""
+msgstr "Scarto il link slave obsoleto %s (%s)."
 
 #: scripts/update-alternatives.pl:431
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
-msgstr ""
+msgstr "L'aggiornamento automatico di %s è disattivato, lo lascio stare."
 
 #: scripts/update-alternatives.pl:433
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
-msgstr ""
+msgstr "Per tornare all'aggiornamento automatico usa `update-alternatives --auto %s'."
 
 #: scripts/update-alternatives.pl:437
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
-msgstr ""
+msgstr "Ripristino da un precedente aggiornamento fallito di %s ..."
 
 #: scripts/update-alternatives.pl:452
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to open %s for write: %s"
-msgstr "impossibile aprire il file sorgente `%.250s'"
+msgstr "impossibile aprire %s in scrittura: %s"
 
 #: scripts/update-alternatives.pl:476
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
-msgstr ""
+msgstr "L'ultimo pacchetto che fornisce %s (%s) è stato rimosso, lo elimino."
 
 #: scripts/update-alternatives.pl:489
 #, perl-format
@@ -5283,39 +5462,39 @@ msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
 " (or nonexistent); however, readlink failed: %s"
 msgstr ""
+"attenzione: %s dovrebbe essere un symlink a %s\n"
+" (o non esistere affatto); invece, readlink è fallita: %s"
 
 #: scripts/update-alternatives.pl:494 scripts/update-alternatives.pl:508
 #: scripts/update-alternatives.pl:528 scripts/update-alternatives.pl:536
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to ensure %s nonexistent: %s"
-msgstr "impossibile eseguire il nuovo %s"
+msgstr "impossibile assicurare che %s non esiste: %s"
 
 #: scripts/update-alternatives.pl:496 scripts/update-alternatives.pl:530
 #: scripts/update-alternatives.pl:553 scripts/update-alternatives.pl:595
 #: scripts/update-alternatives.pl:631 scripts/update-alternatives.pl:670
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to make %s a symlink to %s: %s"
-msgstr ""
-"impossibile creare il collegamento simbolico alla copia di sicurezza di `"
-"%.255s'"
+msgstr "impossibile creare il collegamento simbolico %s a %s: %s"
 
 #: scripts/update-alternatives.pl:498 scripts/update-alternatives.pl:518
 #: scripts/update-alternatives.pl:532 scripts/update-alternatives.pl:555
 #: scripts/update-alternatives.pl:597 scripts/update-alternatives.pl:633
 #: scripts/update-alternatives.pl:675
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install %s as %s: %s"
-msgstr "impossibile installare `%.250s' come `%.250s'"
+msgstr "impossibile installare %s come %s: %s"
 
 #: scripts/update-alternatives.pl:501 scripts/update-alternatives.pl:546
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
-msgstr ""
+msgstr "Lascio %s (%s) puntare a %s."
 
 #: scripts/update-alternatives.pl:504 scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
-msgstr ""
+msgstr "Aggiorno %s (%s) che punti a %s."
 
 #: scripts/update-alternatives.pl:523
 #, perl-format
@@ -5323,12 +5502,14 @@ msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
 " %s, or nonexistent; however, readlink failed: %s"
 msgstr ""
+"attenzione: %s dovrebbe essere un symlink slave a %s,\n"
+" o non esistere; invece, readlink è fallita: %s"
 
 #: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:606
 #: scripts/update-alternatives.pl:642
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
-msgstr ""
+msgstr "Rimuovo %s (%s), non appropriato con %s."
 
 #: scripts/update-alternatives.pl:563
 #, perl-format
@@ -5336,6 +5517,8 @@ msgid ""
 "There is only 1 program which provides %s\n"
 "(%s). Nothing to configure.\n"
 msgstr ""
+"C'è un solo programma che fornisce %s\n"
+"(%s). Non c'è nulla da configurare.\n"
 
 #: scripts/update-alternatives.pl:568
 #, perl-format
@@ -5345,429 +5528,46 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
+"Ci sono %s alternative che forniscono `%s'.\n"
+"\n"
+"  Selezione    Alternativa\n"
+"-----------------------------------------------\n"
 
 #: scripts/update-alternatives.pl:578
 msgid "Press enter to keep the default[*], or type selection number: "
-msgstr ""
+msgstr "Premi invio per mantenere il default[*], o inserisci il numero da selezionare:"
 
 #: scripts/update-alternatives.pl:592 scripts/update-alternatives.pl:629
 #, perl-format
 msgid "Using `%s' to provide `%s'."
-msgstr ""
+msgstr "Uso `%s' per fornire `%s'."
 
 #: scripts/update-alternatives.pl:627
 #, perl-format
 msgid "Cannot find alternative `%s'."
-msgstr ""
+msgstr "Non riesco a trovare l'alternativa `%s'."
 
 #: scripts/update-alternatives.pl:650 scripts/update-alternatives.pl:653
-#, fuzzy, perl-format
+#, perl-format
 msgid "error writing stdout: %s"
-msgstr "errore nella scrittura di `%s'"
+msgstr "errore scrivendo su stdout: %s"
 
 #: scripts/update-alternatives.pl:652
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
-msgstr ""
+msgstr "gli a-capo non sono consentiti nei file update-alternatives (%s)"
 
 #: scripts/update-alternatives.pl:657
-#, fuzzy, perl-format
+#, perl-format
 msgid "error or eof reading %s for %s (%s)"
-msgstr "errore leggendo \"%s\" da %.255s"
+msgstr "errore o eof leggendo %s per %s (%s)"
 
 #: scripts/update-alternatives.pl:658
-#, fuzzy, perl-format
+#, perl-format
 msgid "missing newline after %s"
-msgstr "il file `%.250s' è rovinato - manca l'a-capo dopo %.250s"
+msgstr "manca un a-capo dopo %s"
 
 #: scripts/update-alternatives.pl:678
 #, perl-format
 msgid "Serious problem: %s"
-msgstr ""
-
-#~ msgid "unable to create %.250s"
-#~ msgstr "impossibile creare %.250s"
-
-#~ msgid "`%s' field, reference to `%.255s': version contains ` '"
-#~ msgstr "campo `%s', riferimento a `%.255s': la versione contiene ` '"
-
-#, fuzzy
-#~ msgid "%s: can't open %s: %s"
-#~ msgstr "impossibile aprire il log `%s': %s\n"
-
-#, fuzzy
-#~ msgid "%s: error writing %s: %s"
-#~ msgstr "errore nella scrittura di `%s'"
-
-#, fuzzy
-#~ msgid "%s: close %s after read: %s"
-#~ msgstr "impossibile chiudere `%.255s' dopo la lettura"
-
-#, fuzzy
-#~ msgid "%s: error closing %s: %s"
-#~ msgstr ""
-#~ "%s: errore processando %s (--%s):\n"
-#~ " %s\n"
-
-#, fuzzy
-#~ msgid "--admindir needs a directory argument"
-#~ msgstr "--build richiede il nome di una directory come parametro"
-
-#, fuzzy
-#~ msgid "--remove needs a single argument"
-#~ msgstr "--%s richiede il nome di un file .deb come parametro"
-
-#, fuzzy
-#~ msgid "--truename needs a single argument"
-#~ msgstr "--build richiede il nome di una directory come parametro"
-
-#, fuzzy
-#~ msgid "--remove needs one arguments"
-#~ msgstr "--%s non accetta parametri"
-
-#, fuzzy
-#~ msgid "dpkg-statoverride: %s"
-#~ msgstr "il file statoverride `%.250s'"
-
-#, fuzzy
-#~ msgid "read %s: %s"
-#~ msgstr "diversificato da %s"
-
-#, fuzzy
-#~ msgid "--admindir needs a <directory> argument"
-#~ msgstr "--build richiede il nome di una directory come parametro"
-
-#, fuzzy
-#~ msgid "failed to open %s: %s"
-#~ msgstr "impossibile eseguire %s (%.250s)"
-
-#, fuzzy
-#~ msgid "unable to install %s as %s"
-#~ msgstr "impossibile installare `%.250s' come `%.250s'"
-
-#~ msgid "version a has bad syntax: %s\n"
-#~ msgstr "la sintassi della versione a è errata: %s\n"
-
-#, fuzzy
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  --configure        <package-name> ... | -a|--pending\n"
-#~ "  -r|--remove        <package-name> ... | -a|--pending\n"
-#~ "  -P|--purge         <package-name> ... | -a|--pending\n"
-#~ "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
-#~ "  --set-selections                     Set package selections from "
-#~ "stdin.\n"
-#~ "  --clear-selections                   Deselect every non-essential "
-#~ "package.\n"
-#~ "  --update-avail <Packages-file>       Replace available packages info.\n"
-#~ "  --merge-avail <Packages-file>        Merge with info from file.\n"
-#~ "  --clear-avail                        Erase existing available info.\n"
-#~ "  --forget-old-unavail                 Forget uninstalled unavailable "
-#~ "pkgs.\n"
-#~ "  -s|--status <package-name> ...       Display package status details.\n"
-#~ "  -p|--print-avail <package-name> ...  Display available version "
-#~ "details.\n"
-#~ "  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
-#~ "  -l|--list [<pattern> ...]            List packages concisely.\n"
-#~ "  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
-#~ "  -C|--audit                           Check for broken package(s).\n"
-#~ "  --print-architecture                 Print dpkg architecture.\n"
-#~ "  --compare-versions <a> <rel> <b>     Compare version numbers - see "
-#~ "below.\n"
-#~ "  --help                               Show this help message.\n"
-#~ "  --version                            Show the version.\n"
-#~ "  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
-#~ "  --license | --licence                Print copyright licensing terms.\n"
-#~ "\n"
-#~ "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-#~ " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
-#~ "help).\n"
-#~ "\n"
-#~ "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#~ "conrep.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --admindir=<directory>     Use <directory> instead of %s.\n"
-#~ "  --root=<directory>         Install on alternative system rooted "
-#~ "elsewhere.\n"
-#~ "  --instdir=<directory>      Change inst'n root without changing admin "
-#~ "dir.\n"
-#~ "  -O|--selected-only         Skip packages not selected for install/"
-#~ "upgrade.\n"
-#~ "  -E|--skip-same-version     Skip packages whose same version is "
-#~ "installed.\n"
-#~ "  -G|--refuse-downgrade      Skip packages with earlier version than "
-#~ "installed.\n"
-#~ "  -B|--auto-deconfigure      Install even if it would break some other "
-#~ "package.\n"
-#~ "  --no-debsig                Do not try to verify package signatures.\n"
-#~ "  --no-act|--dry-run|--simulate\n"
-#~ "                             Just say what we would do - don't do it.\n"
-#~ "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --"
-#~ "debug=help.\n"
-#~ "  --status-fd <n>            Send status change updates to file "
-#~ "descriptor <n>.\n"
-#~ "  --log=<filename>           Log status changes and actions to "
-#~ "<filename>.\n"
-#~ "  --ignore-depends=<package>,... Ignore dependencies involving "
-#~ "<package>.\n"
-#~ "  --force-...                    Override problems - see --force-help.\n"
-#~ "  --no-force-...|--refuse-...    Stop when problems encountered.\n"
-#~ "  --abort-after <n>              Abort after encountering <n> errors.\n"
-#~ "\n"
-#~ "Comparison operators for --compare-versions are:\n"
-#~ "  lt le eq ne ge gt       (treat empty version as earlier than any "
-#~ "version);\n"
-#~ "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any "
-#~ "version);\n"
-#~ "  < << <= = >= >> >       (only for compatibility with control file "
-#~ "syntax).\n"
-#~ "\n"
-#~ "Use `dselect' or `aptitude' for user-friendly package management.\n"
-#~ msgstr ""
-#~ "Uso %s [<opzione> ...] <comando>\n"
-#~ "\n"
-#~ "Comandi:\n"
-#~ "  -i|--install      <nome file .deb> ... | -R|--recursive <dir> ...\n"
-#~ "  --unpack          <nome file .deb> ... | -R|--recursive <dir> ...\n"
-#~ "  -A|--record-avail <nome file .deb> ... | -R|--recursive <dir> ...\n"
-#~ "  --configure       <nome pacchetto> ... | -a|--pending\n"
-#~ "  -r|--remove       <nome pacchetto> ... | -a|--pending\n"
-#~ "  -P|--purge        <nome pacchetto> ... | -a|--pending\n"
-#~ "  --get-selections [<modello> ...]    Ottieni lista selezioni su stdout.\n"
-#~ "  --set-selections                    Imposta selezioni da stdin.\n"
-#~ "  --update-avail <file Packages>      Rimpiazza info pacchetti "
-#~ "disponibili.\n"
-#~ "  --merge-avail <file Packages>       Aggiorna con le info dal file.\n"
-#~ "  --clear-avail                       Cancella info sulla disponibilità.\n"
-#~ "  --forget-old-unavail                Dimentica non install. non più "
-#~ "disponib.\n"
-#~ "  -s|--status <nome pacchetto> ...    Mostra stato dettagliato del "
-#~ "pacch.\n"
-#~ "  -p|--print-avail <nome pacchetto> ... Mostra dettagli versioni "
-#~ "disponib.\n"
-#~ "  -L|--listfiles <nome pacchetto> ... Lista file contenuti nei "
-#~ "pacchetti.\n"
-#~ "  -l|--list [<modello> ...]           Lista concisa dei i pacchetti.\n"
-#~ "  -S|--search <modello> ...           Trova i pacchetti contenenti i "
-#~ "file.\n"
-#~ "  -C|--audit                          Verifica presenza pacch. "
-#~ "difettosi.\n"
-#~ "  --print-architecture                Mostra architettura target.\n"
-#~ "  --compare-versions <a> <rel> <b>    Confronta numeri versione - vedi "
-#~ "sotto.\n"
-#~ "  --help                              Mostra questo aiuto.\n"
-#~ "  --version                           Mostra la versione.\n"
-#~ "  --force-help | -Dh|--debug=help     Aiuto sulle opzioni di force/"
-#~ "debug.\n"
-#~ "  --license | --licence               Mostra i termini della licenza "
-#~ "d'uso.\n"
-#~ "\n"
-#~ "Usa dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-#~ " -x|--extract|-X|--vextract|--fsys-tarfile  sugli archivi (vedi %s --"
-#~ "help).\n"
-#~ "\n"
-#~ "Per uso interno: dpkg --assert-support-predepends | --predep-package |\n"
-#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#~ "conrep.\n"
-#~ "\n"
-#~ "Opzioni:\n"
-#~ "  --admindir=<directory>     Usa <directory> al posto di %s.\n"
-#~ "  --root=<directory>         Installa in una gerarchia alternativa, non "
-#~ "'/'.\n"
-#~ "  --instdir=<directory>      Cambia dir. di install. ma non quella di "
-#~ "admin.\n"
-#~ "  -O|--selected-only         Salta pacchetti non selezionati per inst./"
-#~ "aggiorn.\n"
-#~ "  -E|--skip-same-version     Salta pacchetti se stessa versione già "
-#~ "installata.\n"
-#~ "  -G|--refuse-downgrade      Salta pacchetti se versione + vecchia della "
-#~ "corr.\n"
-#~ "  -B|--auto-deconfigure      Installa anche se causa problemi ad altri "
-#~ "pacch.\n"
-#~ "  --no-debsig                Non controllare le firme dei pacchetti.\n"
-#~ "  --no-act|--dry-run|--simulate\n"
-#~ "                             Dì solo quello che verrebbe svolto - non "
-#~ "farlo.\n"
-#~ "  -D|--debug=<octal>         Abilita il debug - vedi -Dhelp o --"
-#~ "debug=help.\n"
-#~ "  --status-fd <n>            Invia le modifiche allo stato al "
-#~ "descrittore \n"
-#~ "                             del file <n>.\n"
-#~ "  --log=<nome file>          Annota modifiche e azioni svolte in <nome "
-#~ "file>.\\n\n"
-#~ "  --ignore-depends=<pacchetto>,... Ignora dipendenze relative a "
-#~ "<pacchetto>.\n"
-#~ "  --force-...                      Aggira i problemi - vedi --force-"
-#~ "help.\n"
-#~ "  --no-force-...|--refuse-...      Fermati quando incontri dei problemi.\n"
-#~ "  --abort-after <n>                Fermati dopo aver incontrato <n> "
-#~ "errori.\n"
-#~ "\n"
-#~ "Gli operatori di comparazione per --compare-versions sono:\n"
-#~ " lt le eq ne ge gt       (se manca la versione, intendi come precedente\n"
-#~ "                          a qualsiasi versione);\n"
-#~ " lt-nl le-nl ge-nl gt-nl (se manca la versione, intendi come successiva\n"
-#~ "                          a qualsiasi versione);\n"
-#~ " < << <= = >= >> >       (solo per compatibilità con il file di "
-#~ "controllo).\n"
-#~ "\n"
-#~ "Usa `dselect' o `aptitude' se vuoi un'interfaccia semplice per la "
-#~ "gestione\n"
-#~ "dei pacchetti.\n"
-
-#~ msgid "  Package "
-#~ msgstr "  Il pacchetto "
-
-#~ msgid " which provides "
-#~ msgstr " che fornisce "
-
-#~ msgid " is to be removed.\n"
-#~ msgstr " sta per essere rimosso.\n"
-
-#~ msgid "  Version of "
-#~ msgstr "  La versione di "
-
-#~ msgid " on system is "
-#~ msgstr " nel sistema è "
-
-#~ msgid " is not installed.\n"
-#~ msgstr " non è installato.\n"
-
-#~ msgid " to: %s\n"
-#~ msgstr " a: %s\n"
-
-#~ msgid "fgetpos failed"
-#~ msgstr "fgetpos fallita"
-
-#~ msgid "fsetpos failed"
-#~ msgstr "fsetpos fallita"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -b|--build <directory> [<deb>]    Build an archive.\n"
-#~ "  -c|--contents <deb>               List contents.\n"
-#~ "  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
-#~ "  -W|--show <deb>                   Show information on package(s)\n"
-#~ "  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
-#~ "  -e|--control <deb> [<directory>]  Extract control info.\n"
-#~ "  -x|--extract <deb> <directory>    Extract files.\n"
-#~ "  -X|--vextract <deb> <directory>   Extract & list files.\n"
-#~ "  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
-#~ "  -h|--help                         Display this message.\n"
-#~ "  --version                         Show version.\n"
-#~ "  --license | --licence             Show license.\n"
-#~ "\n"
-#~ "<deb> is the filename of a Debian format archive.\n"
-#~ "<cfile> is the name of an administrative file component.\n"
-#~ "<cfield> is the name of a field in the main `control' file.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --showformat=<format>      Use alternative format for --show.\n"
-#~ "  -D                         Enable debugging output.\n"
-#~ "  --old, --new               Select archive format.\n"
-#~ "  --nocheck                  Suppress control file check (build bad "
-#~ "package).\n"
-#~ "  -z#                        Set the compression level when building.\n"
-#~ "  -Z<type>                   Set the compression type to use when "
-#~ "building.\n"
-#~ "                             Allowed values: gzip, bzip2, none.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Uso: %s [<opzione] ...] <comando>\n"
-#~ "\n"
-#~ "Comandi:\n"
-#~ "  -b|--build <directory> [<deb>]    Costruisce un archivio.\n"
-#~ "  -c|--contents <deb>               Mostra il contenuto.\n"
-#~ "  -I|--info <deb> [<cfile>...]      Mostra le info su stdout.\n"
-#~ "  -W|--show <deb>                   Mostra le info del pacchetto.\n"
-#~ "  -f|--field <deb> [<cfield>...]    Mostra i campi su stdout.\n"
-#~ "  -e|--control <deb> [<directory>]  Estrai le info di controllo.\n"
-#~ "  -x|--extract <deb> <directory>    Estrai i file.\n"
-#~ "  -X|--vextract <deb> <directory>   Estrai e lista i file.\n"
-#~ "  --fsys-tarfile <deb>              Trasmigra in un archivio tar.\n"
-#~ "  -h|--help                         Mostra questo messaggio.\n"
-#~ "  --version                         Mostra la versione.\n"
-#~ "  --license | --licence             Mostra la licenza.\n"
-#~ "\n"
-#~ "<deb> è il nome di file contenente un archivio in formato Debian.\n"
-#~ "<cfile> è il nome di uno dei file di amministrazione.\n"
-#~ "<cfield> è il nome di un campo nel file `control' principale.\n"
-#~ "\n"
-#~ "Opzioni:\n"
-#~ "  --showformat=<formato>            Usa un formato alternativo per --"
-#~ "show.\n"
-#~ "  -D                                Abilita output di debug.\n"
-#~ "  --old, --new                      Seleziona il formato di "
-#~ "archiviazione.\n"
-#~ "  --nocheck                         Disattiva la verifica del file di\n"
-#~ "                                    controllo (produce un pacchetto "
-#~ "scadente).\n"
-#~ "  -z#                               Imposta il livello di compressione\n"
-#~ "                                    usato nella costruzione del "
-#~ "pacchetto.\n"
-#~ "  -Z<ztype>                         Imposta il tipo di compressione; "
-#~ "valori\n"
-#~ "                                    consentiti: gzip, bzip2, none.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -s|--split <file> [<prefix>]    Split an archive.\n"
-#~ "  -j|--join <part> <part> ...     Join parts together.\n"
-#~ "  -I|--info <part> ...            Display info about a part.\n"
-#~ "  -h|--help                       Show this help message.\n"
-#~ "  --version                       Show the version.\n"
-#~ "  --license                       Show the license.\n"
-#~ "\n"
-#~ "  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
-#~ "  -l|--listq                      List unmatched pieces.\n"
-#~ "  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
-#~ "  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
-#~ "  -o|--output <file>              For -j (default is <package>-<version>."
-#~ "deb).\n"
-#~ "  -Q|--npquiet                    Be quiet when -a is not a part.\n"
-#~ "  --msdos                         Generate 8.3 filenames.\n"
-#~ "\n"
-#~ "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
-#~ msgstr ""
-#~ "Uso: %s [<opzione> ...] <comando>\n"
-#~ "\n"
-#~ "Comandi:\n"
-#~ "  -s|--split <file> [<prefisso>]      Suddividi un archivio.\n"
-#~ "  -j|--join <porzione> <porzione>...  Ricomponi le porzioni.\n"
-#~ "  -I|--info <porzione> ...            Mostra info su una porzione.\n"
-#~ "  -h|--help                           Mostra questo messaggio d'aiuto.\n"
-#~ "  --version                           Mostra la versione.\n"
-#~ "  --license                           Mostra la licenza.\n"
-#~ "\n"
-#~ "  -a|--auto -o <completo> <porzione>  Accumula automaticamente le "
-#~ "porzioni.\n"
-#~ "  -l|--listq                          Lista le porzioni che non "
-#~ "corrispondono.\n"
-#~ "  -d|--discard [<porzione> ...]       Scarta le porzioni che non "
-#~ "corrispondono.\n"
-#~ "\n"
-#~ "Opzioni:\n"
-#~ "  --depotdir <directory>              Usa <directory> invece di %s/%s.\n"
-#~ "  -S|--partsize <dim>                 In Kb, per -s (di default è 450).\n"
-#~ "  -o|--output <file>                  Per -j (di default è\n"
-#~ "                                      <pacchetto>-<versione>.deb).\n"
-#~ "  -Q|--npquiet                        Ignora quando -a non è una "
-#~ "porzione.\n"
-#~ "  --msdos                             Genera filenames in formato 8.3.\n"
-#~ "\n"
-#~ "Stato di uscita: 0 = OK;  1 = -a non è una porzione;  2 = problemi!\n"
+msgstr "Problema grave: %s"
