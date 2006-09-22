@@ -1,14 +1,15 @@
+# translation of dpkg.1.ja.po to Japanese
 # SOME DESCRIPTIVE TITLE
-# Copyright (C) YEAR Free Software Foundation, Inc.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# KISE Hiroshi <kise@fuyuneko.jp>, 2006.
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2006-08-02 22:21+0200\n"
-"PO-Revision-Date: 2006-09-08 19:22+0900\n"
+"PO-Revision-Date: 2006-09-19 21:18+0900\n"
 "Last-Translator: KISE Hiroshi <kise@fuyuneko.jp>\n"
-"Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
+"Language-Team: Debian Japanese List <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -480,14 +481,14 @@ msgid ""
 "purged in file I</var/lib/dpkg/status>, are removed or purged, respectively."
 msgstr ""
 "インストール済みのパッケージを削除する。"
-"B<--remove> は、設定ファイルを除いたすべてを削除"
+"B<-r> または B<--remove> は、設定ファイルを除いたすべてを削除"
 "する。"
 "こうすることで、後で再インストールしたときに再設定をしなくてよくなる"
-"(設定ファイルの一覧は、I<conffiles> コントロールファイルにある)。"
+"(設定ファイルの一覧は、I<debian/conffiles> コントロールファイルにある)。"
 "B<-P> または B<--purge> は、設定ファイルを含むすべてを削除する。"
 "引き数"
 "として、パッケージ名の代わりに B<-a> または B<--pending> が指定された場合に"
-"は、I</var/lib/dpkg/status> ファイルに remove または purge の印を持つすべての"
+"は、I</var/lib/dpkg/status> ファイルで remove または purge のマークを持つすべての"
 "展開済みパッケージを、それぞれ remove または purge する。"
 
 # type: Plain text
@@ -539,7 +540,7 @@ msgid ""
 "A simpler one-shot command to retrieve and update the I<available> file is "
 "B<dselect update>."
 msgstr ""
-"I<available> ファイルの取得と更新を行なう、もっとも簡単な一発コマンドは "
+"I<available> ファイルの取得と更新を行なう、もっとも簡単なコマンドは "
 "B<dselect update> である。"
 
 # type: TP
@@ -692,7 +693,7 @@ msgid ""
 "E<lt>= = E<gt>= E<gt>E<gt> E<gt>>."
 msgstr ""
 "二項演算子 I<op> で 2 つのバージョンを比較する。B<dpkg> の返り値は、指定した条"
-"件を満たすなら成功(0)、そうでなければ失敗(0 以外)となる。演算子は 2 つグループ"
+"件を満たすなら成功(0)、そうでなければ失敗(0 以外)となる。演算子は 2 つのグループ"
 "に分かれる。これは I<ver1> か I<ver2> が欠けているときのふるまいの違いによ"
 "る。B<lt le eq ne ge gt> は、欠けているバージョンがどれよりも古いとみなす。"
 "B<lt-nl le-nl ge-nl gt-nl> は、欠けているバージョンがどれよりも新しいとみな"
@@ -873,10 +874,10 @@ msgid ""
 "file is either an option (exactly the same as the command line option but "
 "without leading dashes) or a comment (if it starts with a B<#>)."
 msgstr ""
-"すべてのオプションは、コマンドラインや B<dpkg> の設定ファイルである I</etc/"
-"dpkg/dpkg.cfg> の中で指定できる。設定ファイルは、1 行に 1 つのオプション(コ"
-"マンドラインオプションとまったく同じ、ただし頭のダッシュを取る)か、コメント"
-"(最初に B<#> で始まる)で構成される。"
+"すべてのオプションは、コマンドラインや、B<dpkg> の設定ファイルである I</etc/"
+"dpkg/dpkg.cfg> で指定できる。"
+"設定ファイルの各行は、(先頭のダッシュが無いこと以外はコマンドライン"
+"オプションと全く同じ)オプションか、(行頭が B<#> の)コメントである。"
 
 # type: TP
 #: ../../../man/po4a/../C/dpkg.1:299
@@ -904,7 +905,7 @@ msgid ""
 "package."
 msgstr ""
 "パッケージを削除するとき、削除するパッケージに依存した別のパッケージがインス"
-"トールされて場合がある。このオプションを指定すると、削除するパッケージに依存"
+"トールされている場合がある。このオプションを指定すると、削除するパッケージに依存"
 "しているパッケージの設定を取り消す。"
 
 # type: TP
@@ -969,7 +970,7 @@ msgid ""
 msgstr ""
 "指定した I<things> を強制実行する(force)、または拒否する(refuse) (B<no-"
 "force> と B<refuse> は同じ意味)。I<things> に、以下の項目をコンマで区切って"
-"指定する。B<--force-help> オプションでこれらの説明を表示する。(*)の印のもの"
+"指定する。B<--force-help> オプションでこれらの説明を表示する。(*)マークのあるもの"
 "は、デフォルトで強制実行される。"
 
 # type: Plain text
@@ -986,7 +987,7 @@ msgstr ""
 # type: Plain text
 #: ../../../man/po4a/../C/dpkg.1:340
 msgid "B<all>: Turns on (or off) all force options."
-msgstr "B<all>: 全ての強制オプションを指定する(no ならば指定しない)。"
+msgstr "B<all>: 全ての強制オプションを指定する(または打ち消す)。"
 
 # type: Plain text
 #: ../../../man/po4a/../C/dpkg.1:343
@@ -994,8 +995,8 @@ msgid ""
 "B<downgrade>(*): Install a package, even if newer version of it is already "
 "installed."
 msgstr ""
-"B<downgrade>(*): インストールするパッケージよりも新しいバージョンのパッケージ"
-"がすでにインストールされていても、インストールをする。"
+"B<downgrade>(*): より新しいバージョンがすでにインストールされていたとしても、"
+"指定したパッケージをインストールする。"
 
 # type: Plain text
 #: ../../../man/po4a/../C/dpkg.1:350
@@ -1025,7 +1026,7 @@ msgstr ""
 #: ../../../man/po4a/../C/dpkg.1:357
 msgid "B<hold>: Process packages even when marked \"hold\"."
 msgstr ""
-"B<hold>: たとえ \"hold\" と印されていても、そのパッケージの処理をする。"
+"B<hold>: たとえ \"hold\" とマークされていても、そのパッケージの処理をする。"
 
 # type: Plain text
 #: ../../../man/po4a/../C/dpkg.1:362
@@ -1034,7 +1035,7 @@ msgid ""
 "require reinstallation. This may, for example, cause parts of the package to "
 "remain on the system, which will then be forgotten by B<dpkg>."
 msgstr ""
-"B<remove-reinstreq>: 壊れていて、再インストールが必要だと印をされていたとして"
+"B<remove-reinstreq>: 壊れていて、再インストールが必要だとマークされていたとして"
 "も、パッケージを削除する。これにより、例えば、パッケージの一部が B<dpkg> に"
 "管理されないで残るなどの問題がおこるかもしれない。"
 
@@ -1203,7 +1204,7 @@ msgid ""
 "Don't read or check contents of control file while building a package.  This "
 "is a B<dpkg-deb>(1) option."
 msgstr ""
-"パッケージを構築するときに、制御ファイルの内容を読むことも確認もしない。これ"
+"パッケージを構築するときに、制御ファイルの内容も読まず、確認もしない。これ"
 "は B<dpkg-deb>(1) のオプションである。"
 
 # type: TP
@@ -1233,8 +1234,9 @@ msgid ""
 msgstr ""
 "オプション B<--no-act> は、必ずアクションパラメータより前に与えること。さもなくば、望"
 "ましくない結果が起きる可能性がある(例えば、システムに何も変更を加えるつも"
-"りがないのに、 B<dpkg --purge foo --no-act> を実行すると、最初にパッケージ "
-"foo が本当に purge され、次にパッケージ --no-act が purge されることになる)。"
+"りがないのに、 B<dpkg --purge foo --no-act> を実行すると、"
+"最初にパッケージ foo を本当に purge し、次にパッケージ --no-act を "
+"purge しようとする、ということになる)。"
 
 # type: TP
 #: ../../../man/po4a/../C/dpkg.1:442
@@ -1289,7 +1291,7 @@ msgstr ""
 "デフォルトのディレクトリを変更する。B<admindir> はインストール済みのパッケー"
 "ジやインストールされていないパッケージの状態に関する情報などを提供する、多数"
 "のファイルが格納されているディレクトリで、デフォルトは I</var/lib/dpkg> であ"
-"る。B<instdir> はパッケージがインストールするときに参照されるディレクトリ"
+"る。B<instdir> はパッケージをインストールするときに参照されるディレクトリ"
 "で、デフォルトは I</> である。また、B<instdir> は、パッケージのインストール"
 "スクリプトが実行される前に B<chroot>(2) するディレクトリのパスである。つま"
 "り、スクリプトは B<instdir> をルートディレクトリとみなす。B<root> を変更す"
@@ -1422,7 +1424,7 @@ msgid ""
 "The other files listed below are in their default directories, see option "
 "B<--admindir> to see how to change locations of these files."
 msgstr ""
-"このほかの、以下に示すファイル一覧はデフォルトの値である。どのようにしてファ"
+"以下に示すファイルはデフォルトの値である。どのようにしてファ"
 "イルの位置を変更するかについては、B<--admindir> オプションの項を参照するこ"
 "と。"
 
@@ -1450,7 +1452,7 @@ msgid ""
 "a package is marked for removing or not, whether it is installed or not, "
 "etc. See section B<INFORMATION ABOUT PACKAGES> for more info."
 msgstr ""
-"使用できるパッケージの状態。このファイルは、パッケージに削除の印があるかどう"
+"使用できるパッケージの状態。このファイルは、パッケージに削除のマークがあるかどう"
 "か、インストール済みかどうか、などの情報が含まれている。くわしくは、B<パッ"
 "ケージに関する情報>の項を参照すること。"
 
@@ -1669,14 +1671,14 @@ msgstr ""
 #: ../../../man/po4a/../C/dpkg.1:595
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
-msgstr "追加機能性"
+msgstr "機能の追加"
 
 # type: Plain text
 #: ../../../man/po4a/../C/dpkg.1:598
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: I<apt>, I<aptitude> and I<debsums>."
-msgstr "追加機能性は次のパッケージをインストールすることで得ることができる。I<apt>、I<aptitude> そして I<debsums>。"
+msgstr "I<apt>、I<aptitude>、I<debsums> パッケージをインストールすると便利な機能を追加できる。"
 
 # type: SH
 #: ../../../man/po4a/../C/dpkg.1:599
