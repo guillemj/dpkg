@@ -221,6 +221,7 @@ int packagelist::resolvedepcon(dependency *depends) {
 
   case dep_provides:
   case dep_replaces:
+  case dep_breaks: /* FIXME: implement Breaks */
     return 0;
 
   case dep_enhances:
