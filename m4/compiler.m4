@@ -102,3 +102,4 @@ AS_IF([test "x$dpkg_cv_c99" = "xyes"],
 	       [CC="$CC $dpkg_cv_c99_arg"
 		AC_DEFINE([HAVE_C99], 1)])])[]dnl
 ])# DPKG_C_C99
+
