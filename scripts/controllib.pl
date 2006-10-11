@@ -430,13 +430,12 @@ sub warnerror { if ($warnable_error) { &warn( @_ ); } else { &error( @_ ); } }
 
 sub subprocerr {
     local ($p) = @_;
-    require POSIX;
-    if (POSIX::WIFEXITED($?)) {
+    if (WIFEXITED($?)) {
         die sprintf(_g("%s: failure: %s gave error exit status %s"),
-                    $progname, $p, POSIX::WEXITSTATUS($?))."\n";
-    } elsif (POSIX::WIFSIGNALED($?)) {
+                    $progname, $p, WEXITSTATUS($?))."\n";
+    } elsif (WIFSIGNALED($?)) {
         die sprintf(_g("%s: failure: %s died from signal %s"),
-                    $progname, $p, POSIX::WTERMSIG($?))."\n";
+                    $progname, $p, WTERMSIG($?))."\n";
     } else {
         die sprintf(_g("%s: failure: %s failed with unknown exit code %d"),
                     $progname, $p, $?)."\n";
