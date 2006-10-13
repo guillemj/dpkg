@@ -72,6 +72,7 @@ const char
 			    N_("recommends"),
 			    N_("depends on"),
 			    N_("pre-depends on"),
+			    N_("breaks with"),
 			    N_("conflicts with"),
 			    N_("provides"),
 			    N_("replaces"),
