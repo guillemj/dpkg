@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-08-17 16:02+0200\n"
-"PO-Revision-Date: 2006-10-21 17:04+0100\n"
+"PO-Revision-Date: 2006-10-21 23:19+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
 "MIME-Version: 1.0\n"
@@ -708,17 +708,17 @@ msgstr "A -%c opció nem vár értéket"
 #: lib/parse.c:106
 #, c-format
 msgid "failed to open package info file `%.255s' for reading"
-msgstr ""
+msgstr "nem tudtam megnyitni `%.255s' csomag info fájlt olvasásra"
 
 #: lib/parse.c:111
 #, c-format
 msgid "can't stat package info file `%.255s'"
-msgstr ""
+msgstr "nem lelem `%.255s' csomag info fájlt"
 
 #: lib/parse.c:116
 #, c-format
 msgid "can't mmap package info file `%.255s'"
-msgstr ""
+msgstr "nem tudom mmapolni `%.255s' csomag info fájlt"
 
 #: lib/parse.c:119
 #, c-format
@@ -888,7 +888,7 @@ msgstr "A lezáró kapocs hiányzik a formátumban\n"
 
 #: lib/varbuf.c:105
 msgid "failed to realloc for variable buffer"
-msgstr ""
+msgstr "nem tudtam újrafoglalni a változó puffer számára"
 
 #: src/archives.c:208
 msgid "process_archive ...  already disappeared !"
@@ -942,7 +942,7 @@ msgstr ""
 #: src/archives.c:439
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
-msgstr ""
+msgstr "az archívum `%.255s' objektuma ismeretlen 0x%x típusú"
 
 #: src/archives.c:499
 #, c-format
@@ -1014,7 +1014,7 @@ msgstr "hiba az alábbi könyvtár létrehozásakor: `%.255s'"
 #: src/archives.c:708
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
-msgstr ""
+msgstr "nem tudom elmozdítani `%.255s'-t az új változat telepítéséhez"
 
 #: src/archives.c:717
 #, c-format
@@ -1035,7 +1035,7 @@ msgstr ""
 #: src/archives.c:732
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
-msgstr ""
+msgstr "nem tudom elkészíteni `%.255s' mentő láncát az új változat telepítése előtt"
 
 #: src/archives.c:756
 #, c-format
@@ -1286,7 +1286,7 @@ msgstr ""
 #: src/configure.c:233
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
-msgstr ""
+msgstr "dpkg: %s: figyelem - a régi `%.250s' mentés törlése meghiúsult: %s\n"
 
 #: src/configure.c:241
 #, c-format
@@ -4752,6 +4752,26 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Használat: %s [<lehetőségek> ...] [--] <fájlnév>\n"
+"\n"
+"Lehetőségek:\n"
+"  --section <regexp> <cím>\n"
+"                           új bejegyzést helyez a <regex> szakaszba\n"
+"                           vagy létrehoz egy <cím> nevűt, ha nem létezik.\n"
+"  --menuentry=<szöveg>     beállítja a menü bejegyzést.\n"
+"  --description=<szöveg>   beállítja a menü bejegyzés leírását.\n"
+"  --info-file=<ösvény>     megadja az info fájl telepítő könyvtárát.\n"
+"  --dir-file=<ösvény>      megadja az info könyvtár fájl nevét.\n"
+"  --infodir=<könyvtár>     ugyanaz, mint a '--dir-file=<könyvtár>/dir'.\n"
+"  --info-dir=<könyvtár>    hasonló.\n"
+"  --keep-old               nem cserél bejegyzést és nem töröl üreseket.\n"
+"  --remove                 törli a <fájlnév> alapnévvel megadott bejegyzést.\n"
+"  --remove-exactly         törli a <fájlnév> bejegyzést.\n"
+"  --test                   teszt mód (nem végez műveletet).\n"
+"  --debug                  hiba mód (több információt mutat).\n"
+"  --quiet                  nem mutat üzeneteket.\n"
+"  --help                   e súgó.\n"
+"  --version                verzió megjelenítése.\n"
 
 #: scripts/install-info.pl:97
 #, perl-format
@@ -4799,47 +4819,50 @@ msgid ""
 "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
 "%s: unable to determine description for `dir' entry - giving up\n"
 msgstr ""
+"\n"
+"Nincs `START-INFO-DIR-ENTRY' sem `This file documents'.\n"
+"%s: nem tudom meghatározni a leírást a `dir' bejegyzéshez - feladom\n"
 
 #: scripts/install-info.pl:279
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
-msgstr ""
+msgstr "%s: nincs %s fájl, %s másolat fájlt használom."
 
 #: scripts/install-info.pl:282
 #: scripts/install-info.pl:292
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr ""
+msgstr "%s: %s másolása ide: %s sikertelen, feladom: %s"
 
 #: scripts/install-info.pl:288
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
-msgstr ""
+msgstr "%s: nincs %s másolat fájl, az alapértelmezettet használom."
 
 #: scripts/install-info.pl:297
 #, perl-format
 msgid "%s: no backup file %s available."
-msgstr ""
+msgstr "%s: nincs %s másolat fájl."
 
 #: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no default file %s available, giving up."
-msgstr ""
+msgstr "%s: nincs alap %s fájl, feladom."
 
 #: scripts/install-info.pl:307
 #, perl-format
 msgid "try deleting %s?"
-msgstr ""
+msgstr "törlöd %s-t?"
 
 #: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
+msgstr "%s: nem cseréltem `%s' bejegyzését"
 
 #: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
+msgstr "%s: cserélem `%s' könyvtár bejegyzését"
 
 #: scripts/install-info.pl:364
 #, perl-format
@@ -4849,7 +4872,7 @@ msgstr "%s: új `%s' szakasz létrehozása"
 #: scripts/install-info.pl:367
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
-msgstr ""
+msgstr "%s: nincsenek még szakaszok, a Miscellaneous szakaszt is létrehozom."
 
 #: scripts/install-info.pl:385
 #, perl-format
@@ -4894,7 +4917,7 @@ msgstr "nem tudom kioldani %s-t: %s"
 #: scripts/install-info.pl:498
 #, perl-format
 msgid "%s: could not backup %s in %s: %s"
-msgstr ""
+msgstr "%s: nem tudom menteni %s-t itt: %s: %s"
 
 #: scripts/install-info.pl:515
 #, perl-format
@@ -4904,7 +4927,7 @@ msgstr "%s olvasása sikertelen: %d"
 #: scripts/install-info.pl:519
 #, perl-format
 msgid "dbg: %s"
-msgstr ""
+msgstr "hbk: %s"
 
 #: scripts/update-alternatives.pl:39
 msgid ""
@@ -4961,11 +4984,11 @@ msgstr "ismeretlen %s argumentum"
 
 #: scripts/update-alternatives.pl:130
 msgid "--install needs <link> <name> <path> <priority>"
-msgstr ""
+msgstr "a --install követelményei: <lánc> <név> <ösvény> <elsőbbség>"
 
 #: scripts/update-alternatives.pl:132
 msgid "priority must be an integer"
-msgstr ""
+msgstr "az elsőbbség egész szám kell legyen"
 
 #: scripts/update-alternatives.pl:136
 #, perl-format
@@ -4979,76 +5002,76 @@ msgstr "--%s számára <név> kell"
 
 #: scripts/update-alternatives.pl:145
 msgid "--slave needs <link> <name> <path>"
-msgstr ""
+msgstr "a --slave követelményei: <lánc> <név> <ösvény>"
 
 #: scripts/update-alternatives.pl:147
 #, perl-format
 msgid "slave name %s duplicated"
-msgstr ""
+msgstr "%s szolga név megkettőzött"
 
 #: scripts/update-alternatives.pl:148
 #, perl-format
 msgid "slave link %s duplicated"
-msgstr ""
+msgstr "%s szolga lánc megkettőzött"
 
 #: scripts/update-alternatives.pl:164
 #, perl-format
 msgid "name %s is both primary and slave"
-msgstr ""
+msgstr "%s elsődleges és szolga név is"
 
 #: scripts/update-alternatives.pl:165
 #, perl-format
 msgid "link %s is both primary and slave"
-msgstr ""
+msgstr "%s elsődleges és szolga lánc is"
 
 #: scripts/update-alternatives.pl:167
 msgid "need --display, --config, --set, --install, --remove, --all, --remove-all or --auto"
-msgstr ""
+msgstr "igénye --display, --config, --set, --install, --remove, --all, --remove-all vagy --auto"
 
 #: scripts/update-alternatives.pl:168
 msgid "--slave only allowed with --install"
-msgstr ""
+msgstr "a --slave csak --install mellett engedélyezett"
 
 #: scripts/update-alternatives.pl:176
 msgid "manflag"
-msgstr ""
+msgstr "manflag"
 
 #: scripts/update-alternatives.pl:180
 #, perl-format
 msgid "duplicate slave %s"
-msgstr ""
+msgstr "kettős %s szolga"
 
 #: scripts/update-alternatives.pl:183
 #, perl-format
 msgid "slave link same as main link %s"
-msgstr ""
+msgstr "szolga lánc és %s fő lánc azonos"
 
 #: scripts/update-alternatives.pl:184
 #, perl-format
 msgid "duplicate slave link %s"
-msgstr ""
+msgstr "kettős %s szolga lánc"
 
 #: scripts/update-alternatives.pl:188
 #, perl-format
 msgid "duplicate path %s"
-msgstr ""
+msgstr "kettős %s ösvény"
 
 #: scripts/update-alternatives.pl:193
 #, perl-format
 msgid "priority %s %s"
-msgstr ""
+msgstr "%s elsőbbség %s"
 
 #: scripts/update-alternatives.pl:200
 #, perl-format
 msgid "Alternative for %s points to %s - which wasn't found.  Removing from list of alternatives."
-msgstr ""
+msgstr "%s választása erre mutat: %s - melyet nem leltem. Eltávolítom a választási listából."
 
 #: scripts/update-alternatives.pl:216
 #: scripts/update-alternatives.pl:265
 #: scripts/update-alternatives.pl:273
 #, perl-format
 msgid "No alternatives for %s."
-msgstr ""
+msgstr "Nincs kiválasztás erre: %s."
 
 #: scripts/update-alternatives.pl:219
 #, perl-format
@@ -5077,7 +5100,7 @@ msgstr "%s - %s elsőbbség"
 #: scripts/update-alternatives.pl:235
 #, perl-format
 msgid " slave %s: %s"
-msgstr ""
+msgstr " %s szolga: %s"
 
 #: scripts/update-alternatives.pl:239
 msgid "No versions available."
@@ -5143,31 +5166,31 @@ msgstr "nem tudom átnevezni %s-t erre: %s: %s"
 #: scripts/update-alternatives.pl:354
 #, perl-format
 msgid "slave link name %s duplicated"
-msgstr ""
+msgstr "%s szolga lánc név megkettőzött"
 
 #: scripts/update-alternatives.pl:356
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
-msgstr ""
+msgstr "%s szolga lánc név átnevezése innen: %s ide: %s"
 
 #: scripts/update-alternatives.pl:370
 msgid "Removing manually selected alternative - switching to auto mode"
-msgstr ""
+msgstr "Kézi kiválasztás törlése - automata módra váltok"
 
 #: scripts/update-alternatives.pl:384
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
-msgstr ""
+msgstr "%s kiválasztása ehhez: %s nincs bejegyezve, nem törlöm"
 
 #: scripts/update-alternatives.pl:410
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
-msgstr ""
+msgstr "Elavult %s szolga lánc átugrása (%s)."
 
 #: scripts/update-alternatives.pl:431
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
-msgstr ""
+msgstr "%s automata frissítései kikapcsolva, magára hagyom."
 
 #: scripts/update-alternatives.pl:433
 #, perl-format
@@ -5187,7 +5210,7 @@ msgstr "nem tudom megnyitni %s-t írásra: %s"
 #: scripts/update-alternatives.pl:476
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
-msgstr ""
+msgstr "Utolsó %s-t (%s) adó csomag eltávolítva, törlöm."
 
 #: scripts/update-alternatives.pl:489
 #, perl-format
@@ -5229,13 +5252,13 @@ msgstr "nem sikerült telepíteni %s-t mint %s: %s"
 #: scripts/update-alternatives.pl:546
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
-msgstr ""
+msgstr "Meghagyom %s (%s)-t ezen: %s"
 
 #: scripts/update-alternatives.pl:504
 #: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
-msgstr ""
+msgstr "Frissítem %s (%s)-t erre: %s"
 
 #: scripts/update-alternatives.pl:523
 #, perl-format
@@ -5249,7 +5272,7 @@ msgstr ""
 #: scripts/update-alternatives.pl:642
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
-msgstr ""
+msgstr "Törlöm %s (%s)-t, nem illik ehhez: %s."
 
 #: scripts/update-alternatives.pl:563
 #, perl-format
@@ -5257,6 +5280,8 @@ msgid ""
 "There is only 1 program which provides %s\n"
 "(%s). Nothing to configure.\n"
 msgstr ""
+"Csak 1 program adja ezt: %s\n"
+"(%s). Nincs beállítandó.\n"
 
 #: scripts/update-alternatives.pl:568
 #, perl-format
@@ -5266,6 +5291,10 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
+"%s választás adja ezt: `%s'.\n"
+"\n"
+"  Kijelölés    Választás\n"
+"-----------------------------------------------\n"
 
 #: scripts/update-alternatives.pl:578
 msgid "Press enter to keep the default[*], or type selection number: "
@@ -5280,7 +5309,7 @@ msgstr "`%s' használata `%s' számára."
 #: scripts/update-alternatives.pl:627
 #, perl-format
 msgid "Cannot find alternative `%s'."
-msgstr ""
+msgstr "Nem találom a `%s' kiválasztást"
 
 #: scripts/update-alternatives.pl:650
 #: scripts/update-alternatives.pl:653
