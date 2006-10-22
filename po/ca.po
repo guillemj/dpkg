@@ -2,14 +2,15 @@
 # Copyright © 2001, 2002, 2003, 2004, 2005, 2006 Software in the Public Interest, Inc.
 # Antoni Bella <bella5@teleline.es>, 2001, 2002.
 # Jordi Mallach <jordi@debian.org>, 2002, 2003, 2004, 2005, 2006.
+# Jordà Polo <jorda@ettin.org>, 2006.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2006-08-17 16:02+0200\n"
-"PO-Revision-Date: 2006-10-06 21:12+0200\n"
-"Last-Translator: Jordi Mallach <jordi@debian.org>\n"
+"PO-Revision-Date: 2006-10-22 21:31+0200\n"
+"Last-Translator: Jordà Polo <jorda@ettin.org>\n"
 "Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -484,9 +485,9 @@ msgstr ""
 "afegir un espai"
 
 #: lib/fields.c:413 lib/fields.c:416
-#, fuzzy, c-format
+#, c-format
 msgid "`%s' field, reference to `%.255s': version contains `%c'"
-msgstr "camp «%s», referència a «%.255s»: la versió conté un «(»"
+msgstr "camp «%s», referència a «%.255s»: la versió conté un «%c»"
 
 #: lib/fields.c:419
 #, c-format
@@ -585,7 +586,7 @@ msgstr ", s'ha generat un fitxer «core»"
 #: lib/mlib.c:124
 #, c-format
 msgid "subprocess %s killed by signal (%s)%s"
-msgstr "el subprocés %s fou finalitzat pel senyal (%s)%s"
+msgstr "el subprocés %s ha estat finalitzat pel senyal (%s)%s"
 
 #: lib/mlib.c:127
 #, c-format
@@ -803,7 +804,7 @@ msgstr "valor duplicat pel camp definit pel usuari «%.*s»"
 #: lib/parse.c:234
 msgid "several package info entries found, only one allowed"
 msgstr ""
-"s'han trobat diverses entrades d'informació de paquets, només s'en permet una"
+"s'han trobat diverses entrades d'informació de paquets, només se'n permet una"
 
 #: lib/parse.c:260
 msgid "Configured-Version for package with inappropriate Status"
@@ -862,7 +863,7 @@ msgstr "ha de començar amb un caràcter alfanumèric"
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr ""
-"el caràcter «%c» no està permés (només s'admeten lletres, dígits i caràcters "
+"el caràcter «%c» no està permès (només s'admeten lletres, dígits i caràcters "
 "«%s»"
 
 #: lib/parsehelp.c:178
@@ -2255,6 +2256,45 @@ msgid ""
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
 msgstr ""
+"Ordres:\n"
+"  -i|--install       <fitxer .deb> ... | -R|--recursive <dir> ...\n"
+"  --unpack           <fitxer .deb> ... | -R|--recursive <dir> ...\n"
+"  -A|--record-avail  <fitxer .deb> ... | -R|--recursive <dir> ...\n"
+"  --configure             <paquet> ... | -a|--pending\n"
+"  -r|--remove             <paquet> ... | -a|--pending\n"
+"  -P|--purge              <paquet> ... | -a|--pending\n"
+"  --get-selections [<patró> ...]       Aconsegueix la llista de seleccions\n"
+"                                       en l'eixida estàndard.\n"
+"  --set-selections                     Estableix seleccions de paquets des\n"
+"                                       de l'entrada estàndard.\n"
+"  --update-avail <fitxer-Packages>     Reemplaça la informació de paquets\n"
+"                                       disponibles.\n"
+"  --merge-avail  <fitxer-Packages>     Fusiona amb la informació del "
+"fitxer.\n"
+"  --clear-avail                        Esborra la informació actual sobre "
+"els\n"
+"                                       paquets disponibles.\n"
+"  --forget-old-unavail                 Oblida la informació sobre paquets "
+"no\n"
+"                                       instal·lats i no disponibles.\n"
+"  -s|--status <paquet> ...             Mostra detalls sobre l'estat del "
+"paquet.\n"
+"  -p|--print-avail <paquet> ...        Mostra detalls sobre la versió\n"
+"                                       disponible.\n"
+"  -L|--listfiles <paquet> ...          Llista els fitxers que pertanyen als\n"
+"                                       paquets.\n"
+"  -l|--list [<patró> ...]              Llista breument els paquets.\n"
+"  -S|--search <patró> ...              Cerca els paquets que contenen\n"
+"                                       aquests fitxers.\n"
+"  -C|--audit                           Verifica els paquets trencats.\n"
+"  --print-architecture                 Mostra l'arquitectura de destí de "
+"dpkg.\n"
+"  --compare-versions <a> <rel> <b>     Compara els números de versió - "
+"mireu\n"
+"                                       més endavant.\n"
+"  --force-help                         Mostra l'ajuda sobre forçar.\n"
+"  -Dh|--debug=help                     Mostra l'ajuda sobre la depuració.\n"
+"\n"
 
 #: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
 #, c-format
@@ -2276,6 +2316,9 @@ msgid ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
 msgstr ""
+"Useu dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
+" -x|--extract|-X|--vextract|--fsys-tarfile  en arxius (vegeu %s --help).\n"
+"\n"
 
 #: src/main.c:99
 #, c-format
@@ -2284,6 +2327,9 @@ msgid ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 msgstr ""
+"Per a ús intern: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"\n"
 
 #: src/main.c:104
 #, c-format
@@ -2315,6 +2361,42 @@ msgid ""
 "  --abort-after <n>          Abort after encountering <n> errors.\n"
 "\n"
 msgstr ""
+"Opcions:\n"
+"  --admindir=<directori>     Utilitza <directori> en comptes de %s.\n"
+"  --root=<directori>         Instal·la en un sistema alternatiu amb "
+"directori\n"
+"                             arrel en un altre lloc.\n"
+"  --instdir=<directori>      Canvia l'arrel de la instal·lació sense alterar "
+"el\n"
+"                             directori de gestió.\n"
+"  -O|--selected-only         Omet els paquets no seleccionats per a\n"
+"                             instal·lació o actualització.\n"
+"  -E|--skip-same-version     Omet els paquets en que la versió sigui la "
+"mateixa\n"
+"                             que la dels instal·lats.\n"
+"  -G=--refuse-downgrade      Omet els paquets amb una versió anterior que "
+"la\n"
+"                             instal·lada.\n"
+"  -B|--auto-deconfigure      Instal·la encara que es pugui trencar algun "
+"altre\n"
+"                             paquet.\n"
+"  --no-debsig                No verifiques les signatures dels paquets.\n"
+"  --no-act|--dry-run|--simulate\n"
+"                             Només indica el que es faria, però no facis "
+"res.\n"
+"  -D|--debug=<octal>         Habilita la depuració, mireu -Dhelp ó --"
+"debug=help.\n"
+"  --status-fd <n>            Envia actualitzacions de canvis d'estat al\n"
+"                             descriptor de fitxer <n>.\n"
+"  --log=<fitxer>             Registra canvis d'estat i accions a <fitxer>.\n"
+"  --ignore-depends=<paquet>,...\n"
+"                             No tingues en compte les dependències que\n"
+"                             impliquen a <paquet>.\n"
+"  --force-...                Descarta problemes, mireu --force-help.\n"
+"  --no-force-...|--refuse-...\n"
+"                             Atura't quan trobes problemes.\n"
+"  --abort-after <n>          Avorta després de trobar <n> errors.\n"
+"\n"
 
 #: src/main.c:127
 #, c-format
@@ -2327,11 +2409,24 @@ msgid ""
 "syntax).\n"
 "\n"
 msgstr ""
+"Els operadors de comparació per a --compare-versions són:\n"
+"  lt le eq ne ge gt       (tracta la versió en blanc com anterior a "
+"qualsevol\n"
+"                          altra versió);\n"
+"  lt-nl le-nl ge-nl gt-nl (tracta la versió en blanc com posterior a "
+"qualsevol\n"
+"                          altra versió);\n"
+"  < << <= = >= >> >       (només per motius de compatibilitat amb la "
+"sintaxi\n"
+"                          del fitxer de control).\n"
+"\n"
 
 #: src/main.c:134
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
 msgstr ""
+"Utilitzeu «dselect» o «aptitude» si voleu un programa de gestió de paquets "
+"més amigable.\n"
 
 #: src/main.c:141
 msgid ""
@@ -2362,9 +2457,9 @@ msgstr ""
 "a través de «less» o «more»!"
 
 #: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
-#, fuzzy, c-format
+#, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
-msgstr "accions en conflicte --%s i --%s"
+msgstr "accions en conflicte -%c (--%s) i -%c (--%s)"
 
 #: src/main.c:212
 #, c-format
@@ -2431,7 +2526,7 @@ msgid "invalid integer for --%s: `%.250s'"
 msgstr "enter invàlid per a --%s: «%.250s»"
 
 #: src/main.c:318
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
 "  warn but continue:  --force-<thing>,<thing>,...\n"
@@ -2476,9 +2571,6 @@ msgstr ""
 "<cosa>,...\n"
 " Coses que es poden forçar:\n"
 "  all                   Activa totes les opcions de forçat\n"
-"  auto-select [*]       (De)selecciona paquets per a instal·lar-los (o per "
-"a\n"
-"                        desinstal·larlos)\n"
 "  downgrade [*]         Reemplaça un paquet amb una versió menor\n"
 "  configure-any         Configura qualsevol paquet que pugui ajudar a "
 "aquest\n"
@@ -2515,7 +2607,7 @@ msgstr ""
 "  remove-reinstreq [!]  Desinstal·la els paquets que precisen instal·lació\n"
 "  remove-essential [!]  Desinstal·la un paquet essencial\n"
 "\n"
-"AVÍS - forçar l'us de les opcions marcades amb [!] poden malmetre\n"
+"AVÍS - forçar l'ús de les opcions marcades amb [!] poden malmetre\n"
 "seriosament la instal·lació. Les opcions de forçat marcades amb [*] estan\n"
 "activades per defecte.\n"
 
@@ -2714,24 +2806,26 @@ msgstr "S'ha registrat la informació sobre %s a partir de %s.\n"
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "l'arquitectura del paquet (%s) no correspon amb la del sistema (%s)"
 
+# Millor traducció de "support"? -- Jordà
 #: src/processarc.c:256
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
 " package uses Breaks; not supported in this dpkg\n"
 msgstr ""
-"dpkg: referent a %s que conté %s, problema de predependència:\n"
-"%s"
+"dpkg: referent a %s que conté %s:\n"
+" el paquet utilitza Breaks; no està implementat en aquest dpkg\n"
 
+# Millor traducció de "support"? -- Jordà
 #: src/processarc.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "unsupported dependency problem - not installing %.250s"
-msgstr "problema de predependència - no s'instal·la %.250s"
+msgstr "problema de dependència no implementada - no s'instal·larà %.250s"
 
 #: src/processarc.c:262
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - ignoring Breaks !\n"
-msgstr "dpkg: avís - ignorant problema de predependència!\n"
+msgstr "dpkg: avís - s'està ignorant Breaks!\n"
 
 #: src/processarc.c:275
 #, c-format
@@ -2745,7 +2839,7 @@ msgstr ""
 #: src/processarc.c:278
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
-msgstr "problema de predependència - no s'instal·la %.250s"
+msgstr "problema de predependència - no s'instal·larà %.250s"
 
 #: src/processarc.c:279
 #, c-format
@@ -2993,19 +3087,19 @@ msgid "Package `%s' does not contain any files (!)\n"
 msgstr "El paquet «%s» no conté cap fitxer (!)\n"
 
 #: src/query.c:376
-#, fuzzy, c-format
+#, c-format
 msgid "locally diverted to: %s\n"
-msgstr "desviat localment"
+msgstr "desviat localment cap a: %s\n"
 
 #: src/query.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "package diverts others to: %s\n"
-msgstr "d'altres paquets desviats"
+msgstr "el paquet desvia a d'altres cap a %s\n"
 
 #: src/query.c:382
-#, fuzzy, c-format
+#, c-format
 msgid "diverted by %s to: %s\n"
-msgstr "desviat per %s"
+msgstr "desviat per %s cap a: %s\n"
 
 #: src/query.c:404
 msgid ""
@@ -3021,7 +3115,7 @@ msgid "Debian `%s' package management program query tool\n"
 msgstr "Eina de consultes al programa de gestió de paquets «%s» de Debian\n"
 
 #: src/query.c:482
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -s|--status <package> ...        Display package status details.\n"
@@ -3032,28 +3126,16 @@ msgid ""
 "  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
 "\n"
 msgstr ""
-"Forma d'ús: %s [<opció> ...] <ordre>\n"
-"\n"
 "Ordres:\n"
-"  -s|--status <paquet> ...            Mostra detalls de l'estat del paquet.\n"
-"  -p|--print-avail <paquet> ...       Mostra detalls de la versió "
-"disponible.\n"
-"  -L|--listfiles <paquet> ...         Llista els fitxers que pertanyen als\n"
-"                                      paquets.\n"
-"  -l|--list [<patró> ...]             Llista els paquets sense massa "
-"detalls.\n"
-"  -W|--show <patró> ...               Mostra informació sobre els paquets.\n"
-"  -S|--search <patró> ...             Cerca els paquets als que pertanyen\n"
-"                                      els fitxers.\n"
-"  --help                              Mostra aquesta ajuda.\n"
-"  --version                           Mostra el número de versió.\n"
-"  --license | --licence               Mostra els termes de la llicència de\n"
-"                                      copyright.\n"
+"  -s|--status <paquet> ...         Mostra detalls de l'estat del paquet.\n"
+"  -p|--print-avail <paquet> ...    Mostra detalls de la versió disponible.\n"
+"  -L|--listfiles <paquet> ...      Llista els fitxers que pertanyen als\n"
+"                                   paquets.\n"
+"  -l|--list [<patró> ...]          Llista els paquets sense massa detalls.\n"
+"  -W|--show <patró> ...            Mostra informació sobre els paquets.\n"
+"  -S|--search <patró> ...          Cerca els paquets als que pertanyen\n"
+"                                   els fitxers.\n"
 "\n"
-"Opcions:\n"
-"  --admindir=<directori>              Utilitza <directori> en lloc de %s.\n"
-"  -f|--showformat=<format>            Utilitza un format alternatiu\n"
-"                                      per a --show.\n"
 
 #: src/query.c:498
 #, c-format
@@ -3063,6 +3145,11 @@ msgid ""
 "  -f|--showformat=<format>         Use alternative format for --show.\n"
 "\n"
 msgstr ""
+"Opcions:\n"
+"  --admindir=<directori>           Utilitza <directori> en lloc de %s.\n"
+"  -f|--showformat=<format>         Utilitza un format alternatiu per\n"
+"                                   a --show.\n"
+"\n"
 
 #: src/query.c:504 dpkg-deb/main.c:97
 #, c-format
@@ -3244,7 +3331,7 @@ msgstr "s'ha trobat un eof inesperat en el nom del paquet en la línia %d"
 #, c-format
 msgid "unexpected end of line in package name at line %d"
 msgstr ""
-"s'ha trobat un fí de línia inesperada en el nom del paquet en la línia %d"
+"s'ha trobat un fi de línia inesperada en el nom del paquet en la línia %d"
 
 #: src/select.c:119
 #, c-format
@@ -3255,7 +3342,7 @@ msgstr "s'ha trobat un eof inesperat després del nom del paquet en la línia %d
 #, c-format
 msgid "unexpected end of line after package name at line %d"
 msgstr ""
-"s'ha trobat un fí de línia inesperada després del nom del paquet en la línia "
+"s'ha trobat un fi de línia inesperada després del nom del paquet en la línia "
 "%d"
 
 #: src/select.c:129
@@ -3267,7 +3354,7 @@ msgstr ""
 #: src/select.c:134
 #, c-format
 msgid "illegal package name at line %d: %.250s"
-msgstr "s'ha trobat un nom de paquet ilegal en la línia %d: %.250s"
+msgstr "s'ha trobat un nom de paquet il·legal en la línia %d: %.250s"
 
 #: src/select.c:136
 #, c-format
@@ -3279,9 +3366,8 @@ msgid "read error on standard input"
 msgstr "error de lectura en l'entrada estàndard"
 
 #: src/select.c:154
-#, fuzzy
 msgid "--clear-selections does not take any argument"
-msgstr "--set-selections no accepta cap argument"
+msgstr "--clear-selections no accepta cap argument"
 
 #: src/update.c:44
 #, c-format
@@ -3297,7 +3383,7 @@ msgstr "--%s necessita exactament un fitxer Packages com a argument"
 msgid "unable to access dpkg status area for bulk available update"
 msgstr ""
 "no es pot accedir a l'àrea d'estat de dpkg per a una actualització de "
-"`available'"
+"«available»"
 
 #: src/update.c:59
 msgid "bulk available update requires write access to dpkg status area"
@@ -3421,9 +3507,9 @@ msgstr ""
 "de nova línia final\n"
 
 #: dpkg-deb/build.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "warning, conffile filename `%s' contains trailing white spaces\n"
-msgstr "avís, el conffile «%s» no és un fitxer normal\n"
+msgstr "avís, el nom del conffile «%s» conté espais en blanc al final\n"
 
 #: dpkg-deb/build.c:293
 #, c-format
@@ -3545,9 +3631,9 @@ msgid "failed to exec sh -c mv foo/* &c"
 msgstr "s'ha produït un error a l'executar sh -c mv foo/* etc."
 
 #: dpkg-deb/extract.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "error reading %s from file %.255s"
-msgstr "s'ha produït un error en llegir %s de %.255s"
+msgstr "s'ha produït un error en llegir %s del fitxer %.255s"
 
 #: dpkg-deb/extract.c:61
 #, c-format
@@ -3614,7 +3700,7 @@ msgstr "l'arxiu no té cap punt en el número de versió"
 #: dpkg-deb/extract.c:137
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
-msgstr "no s'enten la versió %.250s de l'arxiu, aconseguiu un dpkg-deb més nou"
+msgstr "no s'entén la versió %.250s de l'arxiu, aconseguiu un dpkg-deb més nou"
 
 #: dpkg-deb/extract.c:146 dpkg-deb/extract.c:175
 #, c-format
@@ -3641,13 +3727,12 @@ msgstr ""
 " mida %ld bytes: arxiu de control= %zi bytes.\n"
 
 #: dpkg-deb/extract.c:195
-#, fuzzy
 msgid "control information length"
-msgstr "longitud de la info. de control"
+msgstr "longitud de la informació de control"
 
 # FIXME original
 #: dpkg-deb/extract.c:197
-#, fuzzy, c-format
+#, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "l'arxiu té una longitud de control mal formatada «%s»"
 
@@ -3661,12 +3746,10 @@ msgstr ""
 " mida %ld bytes: arxiu de control= %zi, arxiu principal= %ld.\n"
 
 #: dpkg-deb/extract.c:208
-#, fuzzy
 msgid "failed allocating memory for variable `ctrlarea'"
-msgstr "S'ha produït un error al reservar memòria per a cfgfilename"
+msgstr "no s'ha produït reservar memòria per a la variable «ctrlarea»"
 
 #: dpkg-deb/extract.c:211
-#, fuzzy
 msgid "control area"
 msgstr "àrea de control"
 
@@ -3881,6 +3964,19 @@ msgid ""
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
 msgstr ""
+"Ordres:\n"
+"  -b|--build <directori> [<deb>]   Construeix un arxiu.\n"
+"  -c|--contents <deb>              Llista els continguts.\n"
+"  -I|--info <deb> [<fitxerc> ...]  Mostra la info per la sortida estàndard.\n"
+"  -W|--show <deb>                  Mostra informació sobre el(s) paquet(s).\n"
+"  -f|--field <deb> [<campc> ...]   Mostra el(s) camp(s) per la sortida\n"
+"                                   estàndard.\n"
+"  -e|--control <deb> [<directori>] Extreu la informació de control.\n"
+"  -x|--extract <deb> <directori>   Extreu els fitxers.\n"
+"  -X|--vextract <deb> <directori>  Extreu i llista els fitxers.\n"
+"  --fsys-tarfile <deb>             Mostra el fitxer tar del sistema de\n"
+"                                   fitxers.\n"
+"\n"
 
 #: dpkg-deb/main.c:79
 #, c-format
@@ -3890,6 +3986,10 @@ msgid ""
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 msgstr ""
+"<deb> és el nom de fitxer d'un arxiu en format Debian.\n"
+"<fitxerc> és el nom d'un component d'un fitxer administratiu.\n"
+"<campc> és el nom d'un camp en el fitxer de «control» principal.\n"
+"\n"
 
 #: dpkg-deb/main.c:85
 #, c-format
@@ -3906,6 +4006,18 @@ msgid ""
 "                                     Allowed values: gzip, bzip2, none.\n"
 "\n"
 msgstr ""
+"Opcions:\n"
+"  --showformat=<format>      Usa un format alternatiu per a --show.\n"
+"  -D                         Habilita l'eixida de depuració.\n"
+"  --old, --new               Selecciona el format de l'arxiu.\n"
+"  --nocheck                  Suprimeix la comprovació del fitxer de control\n"
+"                             (construeix un paquet erroni).\n"
+"  -z#                        Estableix el nivell de compressió durant\n"
+"                             la construcció.\n"
+"  -Z<tipus>                  Estableix el tipus de compressió a utilitzar\n"
+"                             durant la construcció.\n"
+"                             Valors permesos: gzip, bzip2, none.\n"
+"\n"
 
 #: dpkg-deb/main.c:106
 #, c-format
@@ -4129,6 +4241,14 @@ msgid ""
 "  -d|--discard [<filename> ...]    Discard unmatched pieces.\n"
 "\n"
 msgstr ""
+"Ordres:\n"
+"  -s|--split <fitxer> [<prefix>]   Separa un arxiu en parts.\n"
+"  -j|--join <part> <part> ...      Uneix parts.\n"
+"  -I|--info <part> ...             Mostra informació sobre una part.\n"
+"  -a|--auto -o <completa> <part>   Acumula les parts automàticament.\n"
+"  -l|--listq                       Llista els bocins desaparellats.\n"
+"  -d|--discard [<fitxer> ...]      Descarta els bocins desaparellats.\n"
+"\n"
 
 #: dpkg-split/main.c:69
 #, c-format
@@ -4143,6 +4263,15 @@ msgid ""
 "\n"
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
+"Opcions:\n"
+"  --depotdir <directori>           Empra <directori> en comptes de %s/%s.\n"
+"  -S|--partsize <mida>             En KiB, per a -s (per defecte és 450).\n"
+"  -o|--output <fitxer>             Per a -j (per defecte és\n"
+"                                   <paquet>-<versió>.deb)\n"
+"  -Q|--npquiet                     Sigues silenciós quan -a no és una part.\n"
+"  --msdos                          Genera noms de fitxer en format 8.3.\n"
+"\n"
+"Estat d'eixida: 0 = OK;  1 = -a no és una part;  2 = problemes!\n"
 
 #: dpkg-split/main.c:81
 msgid "Type dpkg-split --help for help."
@@ -4161,7 +4290,7 @@ msgstr "s'ha produït un error al llegir %.250s"
 #: dpkg-split/main.c:96
 #, c-format
 msgid "unexpected end of file in %.250s"
-msgstr "s'ha trobat un fí de fitxer inesperat en %.250s"
+msgstr "s'ha trobat un fi de fitxer inesperat en %.250s"
 
 #: dpkg-split/main.c:116
 msgid "part size is far too large or is not positive"
@@ -4306,29 +4435,29 @@ msgstr "no es pot executar mksplit"
 #: scripts/cleanup-info.pl:36 scripts/dpkg-divert.pl:16
 #: scripts/dpkg-statoverride.pl:22 scripts/install-info.pl:17
 #: scripts/update-alternatives.pl:37
-#, fuzzy, perl-format
+#, perl-format
 msgid "Debian %s version %s.\n"
-msgstr "Rerefons d'arxius de paquets «%s» de Debian versió %s.\n"
+msgstr "Debian %s versió %s.\n"
 
 #: scripts/cleanup-info.pl:38
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1996 Kim-Minh Kaplan."
-msgstr "Copyright © 1994-1996 Ian Jackson.\n"
+msgstr ""
+"\n"
+"Copyright © 1996 Kim-Minh Kaplan."
 
 #: scripts/cleanup-info.pl:41 scripts/dpkg-divert.pl:22
 #: scripts/dpkg-statoverride.pl:27 scripts/install-info.pl:22
 #: scripts/update-alternatives.pl:43
-#, fuzzy
 msgid ""
 "\n"
 "This is free software; see the GNU General Public Licence version 2 or\n"
 "later for copying conditions. There is NO warranty.\n"
 msgstr ""
+"\n"
 "Això és programari lliure, vegeu la Llicència Publica General GNU versió 2\n"
 "o posterior per a les condicions de còpia. No hi ha CAP garantia.\n"
-"Vegeu %s --licence per a veure més detalls sobre la llicència.\n"
 
 #: scripts/cleanup-info.pl:49
 #, perl-format
@@ -4341,79 +4470,89 @@ msgid ""
 "  --help       show this help message.\n"
 "  --version    show the version.\n"
 msgstr ""
+"Forma d'ús: %s [<opció> ...] [--] [<nom directori>]\n"
+"\n"
+"Opcions:\n"
+"  --unsafe     Estableix algunes opcions addicionals que poden ser útils.\n"
+"               Avís: aquesta opció pot espatllar fitxers en bon estat.\n"
+"  --help       Mostra aquest missatge d'ajuda.\n"
+"  --version    Mostra la versió.\n"
 
 #: scripts/cleanup-info.pl:66 scripts/install-info.pl:508
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: warning - unable to unlock %s: %s"
-msgstr "dpkg: avís - no es pot fer «stat» sobre %s «%.250s»: %s\n"
+msgstr "%s: avís - no es pot fer blocar %s: %s"
 
 #: scripts/cleanup-info.pl:86 scripts/install-info.pl:119
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: unknown option `%s'"
-msgstr "l'opció --%s és desconeguda"
+msgstr "%s: l'opció «%s» és desconeguda"
 
 #: scripts/cleanup-info.pl:94 scripts/install-info.pl:130
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: too many arguments"
-msgstr "--%s no accepta cap argument"
+msgstr "%s: hi ha massa argument"
 
 #: scripts/cleanup-info.pl:101 scripts/install-info.pl:305
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: failed to lock dir for editing! %s"
-msgstr "%s: no s'ha pogut executar gzip %s"
+msgstr "%s: no s'ha pogut blocar el directori per editar-lo! %s"
 
 #: scripts/cleanup-info.pl:103
 #, perl-format
 msgid "try deleting %s"
 msgstr "proveu a suprimir %s"
 
+# No es pot vs No s'ha pogut? -- Jordà
+# Normalment pose "no es pot" si diu "unable" (present, i com que mai ho
+# pot fer, i "no s'ha pogut" per a casos concrets com "failed to". jm
 #: scripts/cleanup-info.pl:107 scripts/install-info.pl:312
 #: scripts/update-alternatives.pl:211
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to open %s: %s"
-msgstr "no es pot executar %s"
+msgstr "no es pot obrir %s: %s"
 
 #: scripts/cleanup-info.pl:109 scripts/install-info.pl:482
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to create %s: %s"
-msgstr "no es pot executar %s"
+msgstr "no es pot crear %s: %s"
 
 #: scripts/cleanup-info.pl:120 scripts/install-info.pl:485
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to write %s: %s"
-msgstr "no es pot executar %s"
+msgstr "no es pot escriure %s: %s"
 
 #: scripts/cleanup-info.pl:160 scripts/install-info.pl:165
 #: scripts/install-info.pl:207 scripts/install-info.pl:314
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to read %s: %s"
-msgstr "no es pot executar %s"
+msgstr "no es pot llegir %s: %s"
 
 #: scripts/cleanup-info.pl:161 scripts/install-info.pl:315
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to close %s after read: %s"
-msgstr "s'ha produït un error en tancar després de la lectura: «%.255s»"
+msgstr "no es pot tancar %s després de la lectura: %s"
 
 #: scripts/cleanup-info.pl:165 scripts/install-info.pl:486
 #: scripts/update-alternatives.pl:472
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to close %s: %s"
-msgstr "no es pot executar %s"
+msgstr "no es pot tancar %s"
 
 #: scripts/cleanup-info.pl:171 scripts/install-info.pl:490
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to backup old %s, giving up: %s"
-msgstr "%s: no es pot fer una còpia de seguretat de %s, s'està abandonant: %s"
+msgstr "no es pot fer una còpia de seguretat de %s, s'està abandonant: %s"
 
 #: scripts/cleanup-info.pl:174
-#, fuzzy, perl-format
+#, perl-format
 msgid "failed to install %s; it will be left as %s: %s"
-msgstr "%s: no s'ha pogut instal·lar %s, es deixarà com a %s: %s"
+msgstr "no s'ha pogut instal·lar %s, es deixarà com a %s: %s"
 
 #: scripts/cleanup-info.pl:178
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: unable to unlock %s: %s"
-msgstr "%s: no s'ha pogut desblocar %s: %s"
+msgstr "%s: no es pot desblocar %s: %s"
 
 #: scripts/dpkg-divert.pl:12 scripts/update-alternatives.pl:33
 #, perl-format
@@ -4430,6 +4569,7 @@ msgstr ""
 "Copyright © 1995 Ian Jackson.\n"
 "Copyright © 2000, 2001 Wichert Akkerman."
 
+# Move the file aside (or back) ? -- Jordà
 #: scripts/dpkg-divert.pl:30
 #, perl-format
 msgid ""
@@ -4459,6 +4599,32 @@ msgid ""
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
 msgstr ""
+"Forma d'ús: %s [<opció> ...] <ordre>\n"
+"\n"
+"Ordre:\n"
+"  [--add] <fitxer>         afegeix una desviació.\n"
+"  --remove <fitxer>        elimina una desviació.\n"
+"  --list [<patró-glob>]    mostra les desviacions de fitxers.\n"
+"  --truename <fitxer>      retorna el fitxer desviat.\n"
+"\n"
+"Opció:\n"
+"  --package <paquet>       nom del paquet que no desviarà la seva còpia de\n"
+"                           <fitxer>.\n"
+"  --local                  desvia totes les versions del paquet.\n"
+"  --divert <desviació>     nom utilitzat per altres versions dels paquets.\n"
+"  --rename                 mou el fitxer a un costat (o el torna enrere)\n"
+"  --admindir <directori>   estableix el directori amb les desviacions.\n"
+"  --test                   no facis res, només demostra.\n"
+"  --quiet                  opera silenciosament, amb la sortida mínima.\n"
+"  --help                   mostra aquest missatge d'ajuda\n"
+"  --version                mostra la versió.\n"
+"\n"
+"En afegir, les opcions per defecte són --local i --divert <original>."
+"distrib.\n"
+"En esborrar, --package o --local i --divert han de coincidir en cas\n"
+"d'especificar-se.\n"
+"Els guions de preinst/postrm sempre haurien d'especificar --package i --"
+"divert.\n"
 
 #: scripts/dpkg-divert.pl:64 scripts/update-alternatives.pl:110
 #, perl-format
@@ -4466,18 +4632,18 @@ msgid "two modes specified: %s and --%s"
 msgstr "s'ha especificat dos modes: %s i --%s"
 
 #: scripts/dpkg-divert.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a divert-to argument"
-msgstr "--divert necessita un argument amb la desviació"
+msgstr "--%s necessita un argument amb la desviació"
 
 #: scripts/dpkg-divert.pl:99
 msgid "divert-to may not contain newlines"
 msgstr "la desviació no pot contenir salts de línia"
 
 #: scripts/dpkg-divert.pl:101
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <package> argument"
-msgstr "--package necessita un nom de paquet com a argument"
+msgstr "--%s necessita un <paquet> com a paràmetre"
 
 #: scripts/dpkg-divert.pl:103
 msgid "package may not contain newlines"
@@ -4485,9 +4651,9 @@ msgstr "el paquet no pot contenir salts de línia"
 
 #: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
 #: scripts/update-alternatives.pl:152 scripts/update-alternatives.pl:155
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a <directory> argument"
-msgstr "--build necessita un directori amb paràmetre"
+msgstr "--%s necessita un <directori> com a paràmetre"
 
 #: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:86
 #: scripts/update-alternatives.pl:160
@@ -4505,20 +4671,19 @@ msgid "missing altname"
 msgstr "manca el nom alternatiu"
 
 #: scripts/dpkg-divert.pl:119
-#, fuzzy
 msgid "missing package"
-msgstr "manca %s"
+msgstr "manca el paquet"
 
 #: scripts/dpkg-divert.pl:125 scripts/dpkg-divert.pl:153
 #: scripts/dpkg-divert.pl:195 scripts/dpkg-statoverride.pl:144
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs a single argument"
-msgstr "--build necessita un directori amb paràmetre"
+msgstr "--%s necessita un sol paràmetre"
 
 #: scripts/dpkg-divert.pl:127 scripts/dpkg-divert.pl:131
-#, fuzzy, perl-format
+#, perl-format
 msgid "filename \"%s\" is not absolute"
-msgstr "no es pot fer «stat» sobre el conffile «%.250s»"
+msgstr "el nom de fitxer «%s» no és absolut"
 
 #: scripts/dpkg-divert.pl:128 scripts/dpkg-statoverride.pl:118
 msgid "file may not contain newlines"
@@ -4543,6 +4708,7 @@ msgstr "«%s» té un conflicte amb «%s»"
 msgid "Adding `%s'"
 msgstr "S'està afegint «%s»"
 
+# Discrepància? -- Jordà
 #: scripts/dpkg-divert.pl:157
 #, perl-format
 msgid ""
@@ -4550,7 +4716,11 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"discrepància a la desviació\n"
+"  en eliminar «%s»\n"
+"  s'ha trobat «%s»"
 
+# Discrepància? -- Jordà
 #: scripts/dpkg-divert.pl:159
 #, perl-format
 msgid ""
@@ -4558,11 +4728,14 @@ msgid ""
 "  when removing `%s'\n"
 "  found `%s'"
 msgstr ""
+"discrepància al paquet\n"
+"  en eliminar «%s»\n"
+"  s'ha trobat «%s»"
 
 #: scripts/dpkg-divert.pl:161
-#, fuzzy, perl-format
+#, perl-format
 msgid "Removing `%s'"
-msgstr "S'està desinstal·lant %s ...\n"
+msgstr "S'està desinstal·lant «%s»"
 
 #: scripts/dpkg-divert.pl:176
 #, perl-format
@@ -4604,46 +4777,44 @@ msgid "rename: remove duplicate old link `%s': %s"
 msgstr "canvi de nom: suprimeix l'enllaç vell duplicat «%s»: %s"
 
 #: scripts/dpkg-divert.pl:253
-#, fuzzy, perl-format
+#, perl-format
 msgid "rename: rename `%s' to `%s': %s"
-msgstr ""
-"dpkg: %s: avís - s'ha produït un error en reanomenar «%.250s» a «%.250s»: %"
-"s\n"
+msgstr "canvi de nom: canvia el nom de «%s» a «%s»: %s"
 
 #: scripts/dpkg-divert.pl:260
-#, fuzzy, perl-format
+#, perl-format
 msgid "create diversions-new: %s"
-msgstr "s'ha produït un error de lectura en les desviacions [i]"
+msgstr "crea el diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:264
-#, fuzzy, perl-format
+#, perl-format
 msgid "write diversions-new: %s"
-msgstr "desviat per %s"
+msgstr "escriu el diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:266
-#, fuzzy, perl-format
+#, perl-format
 msgid "close diversions-new: %s"
-msgstr "desviat per %s"
+msgstr "tanca el diversions-new: %s"
 
 #: scripts/dpkg-divert.pl:268
 #, perl-format
 msgid "remove old diversions-old: %s"
-msgstr ""
+msgstr "esborra l'antic diversions-old: %s"
 
 #: scripts/dpkg-divert.pl:270
-#, fuzzy, perl-format
+#, perl-format
 msgid "create new diversions-old: %s"
-msgstr "s'ha produït un error de lectura en les desviacions [i]"
+msgstr "crea el nou diversions-old: %s"
 
 #: scripts/dpkg-divert.pl:272
-#, fuzzy, perl-format
+#, perl-format
 msgid "install new diversions: %s"
-msgstr "no es pot instal·lar una versió nova de «%.255s»"
+msgstr "instal·la el nou diversions: %s"
 
 #: scripts/dpkg-divert.pl:291 scripts/update-alternatives.pl:662
-#, fuzzy, perl-format
+#, perl-format
 msgid "internal error: %s corrupt: %s"
-msgstr "%s: s'ha produït un error intern de gzip: escriptura «%s»"
+msgstr "s'ha produït un error intern: %s està corromput: %s"
 
 #: scripts/dpkg-statoverride.pl:24
 msgid ""
@@ -4672,6 +4843,25 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Forma d'ús: %s [<opció> ...] <ordre>\n"
+"\n"
+"Ordres:\n"
+"  --add <propietari> <grup> <mode> <fitxer>\n"
+"                           afegeix una nova entrada a la base de dades.\n"
+"  --remove <fitxer>        esborra un fitxer de la base de dades.\n"
+"  --list [<patró-glob>]    llista de les substitucions actuals a la base de\n"
+"                           dades.\n"
+"\n"
+"Opcions:\n"
+"  --admindir <directori>   defineix el directori amb el fitxer "
+"statoverride.\n"
+"  --update                 actualitza els permisos dels fitxers de forma\n"
+"                           immediata.\n"
+"  --force                  força una acció fins i tot si fallen les\n"
+"                           comprovacions d'integritat.\n"
+"  --quiet                  opera silenciosament, amb la sortida mínima.\n"
+"  --help                   mostra aquest missatge d'ajuda.\n"
+"  --version                mostra la versió.\n"
 
 #: scripts/dpkg-statoverride.pl:93
 msgid "no mode specified"
@@ -4711,14 +4901,15 @@ msgstr "el mode %s és il·legal"
 msgid "stripping trailing /"
 msgstr "s'està suprimint la / de davant"
 
+# Override -> substitució? -- Jordà
 #: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "An override for \"%s\" already exists, "
-msgstr ""
+msgstr "Ja existeix una substitució per a «%s», "
 
 #: scripts/dpkg-statoverride.pl:124
 msgid "but --force specified so will be ignored."
-msgstr ""
+msgstr "però com s'ha especificat --force, s'ignorarà."
 
 #: scripts/dpkg-statoverride.pl:126
 msgid "aborting"
@@ -4739,50 +4930,52 @@ msgstr "no s'ha pogut fer chown %s: %s"
 msgid "failed to chmod %s: %s"
 msgstr "no s'ha pogut fer chmod %s: %s"
 
+# Override -> substitució? -- Jordà
 #: scripts/dpkg-statoverride.pl:148
 msgid "No override present."
-msgstr ""
+msgstr "No hi ha cap substitució present."
 
 #: scripts/dpkg-statoverride.pl:156
 msgid "warning: --update is useless for --remove"
-msgstr ""
+msgstr "avís: no té sentit utilitzar --update amb --remove"
 
 #: scripts/dpkg-statoverride.pl:182
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open statoverride: %s"
-msgstr "no s'ha pogut obrir el fitxer de statoverride"
+msgstr "no s'ha pogut obrir el fitxer de statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:188
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
-msgstr ""
+msgstr "Hi ha múltiples substitucions per a «%s», s'està avortant"
 
 #: scripts/dpkg-statoverride.pl:201
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open new statoverride file: %s"
-msgstr "no s'ha pogut obrir el fitxer de statoverride"
+msgstr "no s'ha pogut obrir el nou fitxer de statoverride: %s"
 
 #: scripts/dpkg-statoverride.pl:208
 #, perl-format
 msgid "error removing statoverride-old: %s"
-msgstr ""
+msgstr "s'ha produït un error en esborrar statoverride-old: %s"
 
 #: scripts/dpkg-statoverride.pl:210
-#, fuzzy, perl-format
+#, perl-format
 msgid "error creating new statoverride-old: %s"
-msgstr "s'ha produït un error en crear el dispositiu «%.255s»"
+msgstr "s'ha produït un error en crear el nou statoverride-old: %s"
 
 #: scripts/dpkg-statoverride.pl:212
 #, perl-format
 msgid "error installing new statoverride: %s"
-msgstr ""
+msgstr "s'ha produït un error en instal·lar el nou statoverride: %s"
 
 #: scripts/install-info.pl:19
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
-msgstr "Copyright © 1994-1996 Ian Jackson.\n"
+msgstr ""
+"\n"
+"Copyright © 1994,1995 Ian Jackson."
 
 #: scripts/install-info.pl:31
 #, perl-format
@@ -4811,45 +5004,75 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Forma d'ús: %s [<opcions> ...] [--] <fitxer>\n"
+"\n"
+"Opcions:\n"
+"  --section <exp-reg> <títol>\n"
+"                           posa la nova entrada en la secció que "
+"coincideixi\n"
+"                           amb l'<exp-reg>, o en crea una de nova amb el "
+"nom\n"
+"                           <títol> si no existeix.\n"
+"  --menuentry=<text>       defineix l'entrada del menú.\n"
+"  --description=<text>     defineix la descripció a utilitzar en l'entrada\n"
+"                           del menú.\n"
+"  --info-file=<camí>       especifica el fitxer info que s'instal·larà al\n"
+"                           directori.\n"
+"  --dir-file=<camí>        especifica el nom del fitxer de directori info.\n"
+"  --infodir=<directori>    equival a '--dir-file=<directori>/dir'.\n"
+"  --info-dir=<directori>   similar a l'anterior.\n"
+"  --keep-old               no reemplaçar entrades ni esborrar les que "
+"siguin\n"
+"                           buides.\n"
+"  --remove                 esborra l'entrada especificada pel nom base de\n"
+"                           <fitxer>.\n"
+"  --remove-exactly         esborra exactament l'entrada <fitxer>.\n"
+"  --test                   habilita el mode de proves (no es realitzarà\n"
+"                           cap acció).\n"
+"  --debug                  habilita el mode de depuració (mostra més\n"
+"                           informació).\n"
+"  --quiet                  no mostrar missatges per la sortida estàndard.\n"
+"  --help                   mostra aquest missatge d'ajuda.\n"
+"  --version                mostra la versió.\n"
 
 #: scripts/install-info.pl:97
-#, fuzzy, perl-format
+#, perl-format
 msgid "could not open stderr for output! %s"
-msgstr "no s'ha pogut obrir el component «control»"
+msgstr "no s'ha pogut obrir la sortida d'error! %s"
 
 #: scripts/install-info.pl:101
 #, perl-format
 msgid "%s: --section needs two more args"
-msgstr ""
+msgstr "%s: --section necessita dos arguments més"
 
 #: scripts/install-info.pl:107
 #, perl-format
 msgid "%s: option --%s is deprecated (ignored)"
-msgstr ""
+msgstr "%s: l'opció --%s és obsoleta (s'ignorarà)"
 
 #: scripts/install-info.pl:133
 #, perl-format
 msgid "%s: --section ignored with --remove"
-msgstr ""
+msgstr "%s: --section s'ignora amb --remove"
 
 #: scripts/install-info.pl:134
 #, perl-format
 msgid "%s: --description ignored with --remove"
-msgstr ""
+msgstr "%s: --description s'ignora amb --remove"
 
 #: scripts/install-info.pl:137
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
-msgstr ""
+msgstr "%s: mode de proves - no s'actualitzarà el fitxer dir"
 
 #: scripts/install-info.pl:191
 #, perl-format
 msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
-msgstr ""
+msgstr "%s: avís, s'està ignorant l'INFO-DIR-ENTRY confús al fitxer."
 
 #: scripts/install-info.pl:200
 msgid "invalid info entry"
-msgstr ""
+msgstr "L'entrada info no és vàlida"
 
 #: scripts/install-info.pl:226
 #, perl-format
@@ -4858,111 +5081,121 @@ msgid ""
 "No `START-INFO-DIR-ENTRY' and no `This file documents'.\n"
 "%s: unable to determine description for `dir' entry - giving up\n"
 msgstr ""
+"\n"
+"No hi ha «START-INFO-DIR-ENTRY» ni «This file documents».\n"
+"%s: no es pot determinar la descripció per a l'entrada «dir», s'està "
+"abandonant\n"
 
 #: scripts/install-info.pl:279
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
-msgstr ""
+msgstr "%s: no existeix el fitxer %s, es recuperarà la còpia de seguretat %s."
 
 #: scripts/install-info.pl:282 scripts/install-info.pl:292
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
-msgstr ""
+msgstr "%s: ha fallat la còpia de %s a %s, s'abandona: %s "
 
 #: scripts/install-info.pl:288
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
 msgstr ""
+"%s: la còpia de seguretat del fitxer %s no està disponible, es recuperarà el "
+"fitxer per defecte."
 
 #: scripts/install-info.pl:297
 #, perl-format
 msgid "%s: no backup file %s available."
-msgstr ""
+msgstr "%s: la còpia de seguretat del fitxer %s no està disponible."
 
 #: scripts/install-info.pl:298
 #, perl-format
 msgid "%s: no default file %s available, giving up."
-msgstr ""
+msgstr "%s: el fitxer per defecte %s no està disponible, s'abandona."
 
 #: scripts/install-info.pl:307
 #, perl-format
 msgid "try deleting %s?"
-msgstr ""
+msgstr "voleu provar d'esborrar %s?"
 
+# per/per a? -- Jordà
 #: scripts/install-info.pl:348
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
-msgstr ""
+msgstr "%s: no s'ha reemplaçat l'entrada existent per a «%s»"
 
 #: scripts/install-info.pl:351
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
-msgstr ""
+msgstr "%s: s'està reemplaçant l'entrada dir existent per a «%s»"
 
 #: scripts/install-info.pl:364
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: creating new section `%s'"
-msgstr "s'ha produït un error en crear el directori «%.255s»"
+msgstr "%s: s'està creant la nova secció «%s»"
 
 #: scripts/install-info.pl:367
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
 msgstr ""
+"%s: encara no hi ha seccions, es crearà també la secció «Miscellaneous»."
 
 #: scripts/install-info.pl:385
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
 msgstr ""
+"%s: no s'ha especificat cap secció per a la nova entrada, s'emplaçarà al "
+"final"
 
 #: scripts/install-info.pl:422
 #, perl-format
 msgid "%s: deleting entry `%s ...'"
-msgstr ""
+msgstr "%s: s'està esborrant l'entrada «%s ...»"
 
 #: scripts/install-info.pl:428
 #, perl-format
 msgid "%s: empty section `%s' not removed"
-msgstr ""
+msgstr "%s: no s'ha eliminat la secció buida «%s»"
 
 #: scripts/install-info.pl:431
 #, perl-format
 msgid "%s: deleting empty section `%s'"
-msgstr ""
+msgstr "%s: s'està esborrant la secció buida «%s»"
 
 #: scripts/install-info.pl:438
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
-msgstr ""
+msgstr "%s: no hi ha cap entrada per al fitxer «%s» i l'entrada de menú «%s»"
 
 #: scripts/install-info.pl:440
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: no entry for file `%s'"
-msgstr "còpia el fitxer d'info. «%.250s»"
+msgstr "%s: no hi ha cap entrada per al fitxer «%s»"
 
 #: scripts/install-info.pl:493
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install new %s: %s"
-msgstr "no es pot instal·lar «%.250s» com a «%.250s»"
+msgstr "no es pot instal·lar el nou %s: %s"
 
 #: scripts/install-info.pl:496
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to unlock %s: %s"
-msgstr "no es pot executar %s"
+msgstr "no es pot desblocar %s: %s"
 
 #: scripts/install-info.pl:498
-#, fuzzy, perl-format
+#, perl-format
 msgid "%s: could not backup %s in %s: %s"
-msgstr "no s'ha pogut obrir el registre «%s»: %s\n"
+msgstr "%s: no s'ha pogut fer la còpia de seguretat %s a %s: %s"
 
 #: scripts/install-info.pl:515
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to read %s: %d"
-msgstr "no es pot executar %s"
+msgstr "no es pot llegir %s: %d"
 
 #: scripts/install-info.pl:519
 #, perl-format
 msgid "dbg: %s"
-msgstr ""
+msgstr "dbg: %s"
 
 #: scripts/update-alternatives.pl:39
 msgid ""
@@ -4970,6 +5203,9 @@ msgid ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000-2002 Wichert Akkerman."
 msgstr ""
+"\n"
+"Copyright © 1995 Ian Jackson.\n"
+"Copyright © 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:51
 #, perl-format
@@ -5011,92 +5247,128 @@ msgid ""
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
+"Forma d'ús: %s [<opció> ...] <ordre>\n"
+"\n"
+"Ordres:\n"
+"  --install <enllaç> <nom> <camí> <prioritat>\n"
+"    [--slave <enllaç> <nom> <camí>] ...\n"
+"                           afegeix un grup d'alternatives al sistema.\n"
+"  --remove <nom> <camí>    esborra <camí> del grup d'alternatives <nom>.\n"
+"  --remove-all <nom>       esborra del sistema el grup d'alternatives "
+"<nom>.\n"
+"  --auto <nom>             canvia l'enllaç mestre <nom> a mode automàtic.\n"
+"  --display <nom>          mostra informació sobre el grup <nom>.\n"
+"  --list <nom>             mostra tots els objectius del grup <nom>.\n"
+"  --config <nom>           mostra les alternatives per al grup <nom> i\n"
+"                           pregunta a l'usuari quina prefereix utilitzar.\n"
+"  --set <nom> <camí>       defineix <camí> com a alternativa per a <nom>.\n"
+"  --all                    crida --config sobre totes les alternatives.\n"
+"\n"
+"<enllaç> és un enllaç simbòlic que apunta a /etc/alternatives/<nom>.\n"
+"  (p.ex. /usr/bin/pager)\n"
+"<nom> és el nom mestre del grup d'enllaços.\n"
+"  (p.ex. pager)\n"
+"<camí> és la ubicació dels fitxers objectiu de les alternatives.\n"
+"  (p.ex. /usr/bin/less)\n"
+"<prioritat> és un enter; les opcions amb un valor més gran tenen major\n"
+"  prioritat en el mode automàtic.\n"
+"\n"
+"Options:\n"
+"  --altdir <directori>     canvia el directori d'alternatives.\n"
+"  --admindir <directori>   canvia el directori administratiu.\n"
+"  --test                   no realitza res, només demostra.\n"
+"  --verbose                opera detalladament, amb més sortida.\n"
+"  --quiet                  opera silenciosament, amb la sortida mínima.\n"
+"  --help                   mostra aquest missatge d'ajuda.\n"
+"  --version                mostra la versió.\n"
 
 #: scripts/update-alternatives.pl:117
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown argument `%s'"
-msgstr "el tipus de compressió «%s» és desconegut!"
+msgstr "l'argument «%s» és desconegut"
 
 #: scripts/update-alternatives.pl:130
 msgid "--install needs <link> <name> <path> <priority>"
-msgstr ""
+msgstr "--install necessita <enllaç> <nom> <camí> <prioritat>"
 
 #: scripts/update-alternatives.pl:132
 msgid "priority must be an integer"
-msgstr ""
+msgstr "la prioritat ha de ser un enter"
 
 #: scripts/update-alternatives.pl:136
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs <name> <path>"
-msgstr "--%s necessita un nom de fitxer .deb com a argument"
+msgstr "--%s necessita <nom> <camí>"
 
 #: scripts/update-alternatives.pl:141
-#, fuzzy, perl-format
+#, perl-format
 msgid "--%s needs <name>"
-msgstr "--%s no accepta cap argument"
+msgstr "--%s necessita <nom>"
 
 #: scripts/update-alternatives.pl:145
 msgid "--slave needs <link> <name> <path>"
-msgstr ""
+msgstr "--slave necessita <enllaç> <nom> <camí>"
 
 #: scripts/update-alternatives.pl:147
 #, perl-format
 msgid "slave name %s duplicated"
-msgstr ""
+msgstr "el nom de l'esclau està duplicat"
 
 #: scripts/update-alternatives.pl:148
 #, perl-format
 msgid "slave link %s duplicated"
-msgstr ""
+msgstr "l'enllaç duplicat %s està duplicat"
 
 #: scripts/update-alternatives.pl:164
 #, perl-format
 msgid "name %s is both primary and slave"
-msgstr ""
+msgstr "el nom %s és alhora primari i esclau"
 
 #: scripts/update-alternatives.pl:165
 #, perl-format
 msgid "link %s is both primary and slave"
-msgstr ""
+msgstr "l'enllaç %s és alhora primari i esclau"
 
 #: scripts/update-alternatives.pl:167
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
 msgstr ""
+"es necessita --display, --config, --set, --install, --remove, --all, --"
+"remove-all o --auto"
 
 #: scripts/update-alternatives.pl:168
 msgid "--slave only allowed with --install"
-msgstr ""
+msgstr "--slave només es pot especificar junt amb --install"
 
 #: scripts/update-alternatives.pl:176
 msgid "manflag"
-msgstr ""
+msgstr "manflag"
 
 #: scripts/update-alternatives.pl:180
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate slave %s"
-msgstr "valor duplicat en el camp «%s»"
+msgstr "esclau duplicat %s"
 
 #: scripts/update-alternatives.pl:183
 #, perl-format
 msgid "slave link same as main link %s"
-msgstr ""
+msgstr "l'enllaç esclau és el mateix que l'enllaç principal %s"
 
 #: scripts/update-alternatives.pl:184
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate slave link %s"
-msgstr "valor duplicat en el camp «%s»"
+msgstr "enllaç esclau duplicat %s"
 
 #: scripts/update-alternatives.pl:188
 #, perl-format
 msgid "duplicate path %s"
-msgstr ""
+msgstr "camí duplicat %s"
 
 #: scripts/update-alternatives.pl:193
 #, perl-format
 msgid "priority %s %s"
-msgstr ""
+msgstr "prioritat %s %s"
 
 #: scripts/update-alternatives.pl:200
 #, perl-format
@@ -5104,56 +5376,57 @@ msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
 "alternatives."
 msgstr ""
+"L'alternativa per %s apunta a %s, però no ha estat possible trobar-la. "
+"S'està esborrant de la llista d'alternatives."
 
 #: scripts/update-alternatives.pl:216 scripts/update-alternatives.pl:265
 #: scripts/update-alternatives.pl:273
 #, perl-format
 msgid "No alternatives for %s."
-msgstr ""
+msgstr "No hi ha alternatives per a %s."
 
 #: scripts/update-alternatives.pl:219
 #, perl-format
 msgid "%s - status is %s."
-msgstr ""
+msgstr "%s - l'estat és %s."
 
 #: scripts/update-alternatives.pl:221
 #, perl-format
 msgid " link currently points to %s"
-msgstr ""
+msgstr " l'enllaç apunta actualment cap a %s"
 
 #: scripts/update-alternatives.pl:223
 msgid " link currently absent"
-msgstr ""
+msgstr " l'enllaç està actualment absent"
 
 #: scripts/update-alternatives.pl:225
 #, perl-format
 msgid " link unreadable - %s"
-msgstr ""
+msgstr " no es pot llegir l'enllaç - %s"
 
 #: scripts/update-alternatives.pl:232
 #, perl-format
 msgid "%s - priority %s"
-msgstr ""
+msgstr "%s - prioritat %s"
 
 #: scripts/update-alternatives.pl:235
 #, perl-format
 msgid " slave %s: %s"
-msgstr ""
+msgstr " esclau %s: %s"
 
 #: scripts/update-alternatives.pl:239
-#, fuzzy
 msgid "No versions available."
-msgstr "(no hi ha cap descripció disponible)"
+msgstr "No hi ha cap versió disponible."
 
 #: scripts/update-alternatives.pl:241
 #, perl-format
 msgid "Current `best' version is %s."
-msgstr ""
+msgstr "Actualment la «millor» versió és %s."
 
 #: scripts/update-alternatives.pl:300
 #, perl-format
 msgid "Setting up automatic selection of %s."
-msgstr ""
+msgstr "S'està configurant la selecció automàtica de %s."
 
 #: scripts/update-alternatives.pl:303 scripts/update-alternatives.pl:305
 #: scripts/update-alternatives.pl:413 scripts/update-alternatives.pl:415
@@ -5161,9 +5434,9 @@ msgstr ""
 #: scripts/update-alternatives.pl:483 scripts/update-alternatives.pl:485
 #: scripts/update-alternatives.pl:541 scripts/update-alternatives.pl:543
 #: scripts/update-alternatives.pl:609 scripts/update-alternatives.pl:645
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to remove %s: %s"
-msgstr "no es pot executar %s"
+msgstr "no es pot esborrar %s: %s"
 
 #: scripts/update-alternatives.pl:316
 #, perl-format
@@ -5171,6 +5444,8 @@ msgid ""
 "%s has been changed (manually or by a script).\n"
 "Switching to manual updates only."
 msgstr ""
+"%s ha estat modificat (manualment o per alguna seqüència).\n"
+"S'està canviant a modificacions manuals únicament."
 
 #: scripts/update-alternatives.pl:328
 #, perl-format
@@ -5178,66 +5453,77 @@ msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
 "(You may modify the symlinks there yourself if desired - see `man ln'.)"
 msgstr ""
+"Comprovant les versions disponibles de %s, s'estan actualitzant els enllaços "
+"a %s ...\n"
+"(Si ho voleu, podeu modificar els enllaços simbòlics - vegeu «man ln».)"
 
 #: scripts/update-alternatives.pl:334
-#, fuzzy, perl-format
+#, perl-format
 msgid "Renaming %s link from %s to %s."
-msgstr "S'està desempaquetant %s (de %s) ...\n"
+msgstr "S'està tornant a anomenar l'enllaç %s de %s a %s.n"
 
+# Reanomenar - Canviar el nom - Tornar a anomenar? -- Jordà
+# Jo personalment preferisc "canvia el nom", però per exemple al Termcat
+# van més amb reanomena, i el GNOME ho està seguint.
 #: scripts/update-alternatives.pl:337 scripts/update-alternatives.pl:359
 #: scripts/update-alternatives.pl:439 scripts/update-alternatives.pl:514
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to rename %s to %s: %s"
-msgstr "no es pot fer «stat» sobre %s «%.250s»"
+msgstr "no es pot reanomenar %s a %s: %s"
 
 #: scripts/update-alternatives.pl:354
 #, perl-format
 msgid "slave link name %s duplicated"
-msgstr ""
+msgstr "nom d'enllaç esclau %s duplicat"
 
 #: scripts/update-alternatives.pl:356
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
-msgstr ""
+msgstr "S'està tornant a anomenar l'enllaç esclau %s de %s a %s."
 
 #: scripts/update-alternatives.pl:370
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr ""
+"S'està suprimint l'alternativa seleccionada manualment - s'està canviant a "
+"mode automàtic"
 
 #: scripts/update-alternatives.pl:384
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
-msgstr ""
+msgstr "L'alternativa %s per a %s no està registrada, no s'esborrarà."
 
 #: scripts/update-alternatives.pl:410
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
-msgstr ""
+msgstr "S'està descartant l'enllaç esclau obsolet %s (%s)."
 
 #: scripts/update-alternatives.pl:431
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr ""
+"Les actualitacions automàtiques de %s estan desactivades, no hi haurà canvis."
 
 #: scripts/update-alternatives.pl:433
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
+"Per tornar a activar les actualitzacions automàtiques, utilitzeu «update-"
+"alternatives --auto %s»."
 
 #: scripts/update-alternatives.pl:437
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
-msgstr ""
+msgstr "S'està restablint d'una actualització prèvia fallida de %s ..."
 
 #: scripts/update-alternatives.pl:452
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to open %s for write: %s"
-msgstr "no es pot obrir el fitxer font «%.250s»"
+msgstr "no es pot obrir %s per a l'escriptura: %s"
 
 #: scripts/update-alternatives.pl:476
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
-msgstr ""
+msgstr "S'ha desinstal·lat el darrer paquet que proveeix %s (%s), s'esborrarà."
 
 #: scripts/update-alternatives.pl:489
 #, perl-format
@@ -5245,38 +5531,39 @@ msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
 " (or nonexistent); however, readlink failed: %s"
 msgstr ""
+"avís: %s hauria de ser un enllaç simbòlic a %s\n"
+" (o no existent); tanmateix, readlink ha fallat: %s"
 
 #: scripts/update-alternatives.pl:494 scripts/update-alternatives.pl:508
 #: scripts/update-alternatives.pl:528 scripts/update-alternatives.pl:536
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to ensure %s nonexistent: %s"
-msgstr "no es pot executar el %s nou"
+msgstr "no es pot garantir que %s sigui no existent: %s"
 
 #: scripts/update-alternatives.pl:496 scripts/update-alternatives.pl:530
 #: scripts/update-alternatives.pl:553 scripts/update-alternatives.pl:595
 #: scripts/update-alternatives.pl:631 scripts/update-alternatives.pl:670
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to make %s a symlink to %s: %s"
-msgstr ""
-"no es pot fer una còpia de seguretat de l'enllaç simbòlic per a «%.255s»"
+msgstr "no es pot fer l'enllaç simbòlic de %s a %s: %s"
 
 #: scripts/update-alternatives.pl:498 scripts/update-alternatives.pl:518
 #: scripts/update-alternatives.pl:532 scripts/update-alternatives.pl:555
 #: scripts/update-alternatives.pl:597 scripts/update-alternatives.pl:633
 #: scripts/update-alternatives.pl:675
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to install %s as %s: %s"
-msgstr "no es pot instal·lar «%.250s» com a «%.250s»"
+msgstr "no es pot instal·lar %s com a %s: %s"
 
 #: scripts/update-alternatives.pl:501 scripts/update-alternatives.pl:546
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
-msgstr ""
+msgstr "S'està deixant %s (%s) apuntant cap a %s."
 
 #: scripts/update-alternatives.pl:504 scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
-msgstr ""
+msgstr "S'està actualitzant %s (%s) per apuntar cap a %s."
 
 #: scripts/update-alternatives.pl:523
 #, perl-format
@@ -5284,12 +5571,14 @@ msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
 " %s, or nonexistent; however, readlink failed: %s"
 msgstr ""
+"avís: %s hauria de ser un enllaç simbòlic esclau a\n"
+" %s, o no existent; tanmateix, readlink ha fallat: %s"
 
 #: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:606
 #: scripts/update-alternatives.pl:642
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
-msgstr ""
+msgstr "S'està esborrant %s (%s), no és apropiat amb %s."
 
 #: scripts/update-alternatives.pl:563
 #, perl-format
@@ -5297,6 +5586,8 @@ msgid ""
 "There is only 1 program which provides %s\n"
 "(%s). Nothing to configure.\n"
 msgstr ""
+"Només hi ha 1 programa que proveeixi %s\n"
+"(%s). No hi ha res a configurar.\n"
 
 #: scripts/update-alternatives.pl:568
 #, perl-format
@@ -5306,46 +5597,52 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
+"Hi ha %s alternatives que proveeixin «%s».\n"
+"\n"
+"  Selecció     Alternativa\n"
+"-----------------------------------------------\n"
 
 #: scripts/update-alternatives.pl:578
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr ""
+"Premeu retorn per a mantenir l'opció per defecte[*], o introduïu un número "
+"de selecció: "
 
 #: scripts/update-alternatives.pl:592 scripts/update-alternatives.pl:629
 #, perl-format
 msgid "Using `%s' to provide `%s'."
-msgstr ""
+msgstr "S'utilitzarà «%s» per proveir «%s»."
 
 #: scripts/update-alternatives.pl:627
 #, perl-format
 msgid "Cannot find alternative `%s'."
-msgstr ""
+msgstr "No es pot trobar l'alternativa «%s»."
 
 #: scripts/update-alternatives.pl:650 scripts/update-alternatives.pl:653
-#, fuzzy, perl-format
+#, perl-format
 msgid "error writing stdout: %s"
-msgstr "s'ha produït un error en escriure «%s»"
+msgstr "s'ha produït un error en escriure la sortida estàndard: %s"
 
 #: scripts/update-alternatives.pl:652
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr ""
+"els salts de línia no estan permesos als fitxers d'update-alternatives (%s)"
 
 #: scripts/update-alternatives.pl:657
-#, fuzzy, perl-format
+#, perl-format
 msgid "error or eof reading %s for %s (%s)"
-msgstr "s'ha produït un error en llegir %s de %.255s"
+msgstr "s'ha produït un error o final de fitxer en llegir %s per %s (%s)"
 
 #: scripts/update-alternatives.pl:658
-#, fuzzy, perl-format
+#, perl-format
 msgid "missing newline after %s"
-msgstr ""
-"el fitxer «%.250s» està corromput - falta una línia nova després de %.250s"
+msgstr "falta un salt de línia després de %s"
 
 #: scripts/update-alternatives.pl:678
 #, perl-format
 msgid "Serious problem: %s"
-msgstr ""
+msgstr "Problema seriós: %s"
 
 #~ msgid "unable to create %.250s"
 #~ msgstr "no es pot crear %.250s"
