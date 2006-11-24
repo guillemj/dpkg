@@ -5,7 +5,7 @@
 .\" by the Free Software Foundation; either version 2 of the License, or
 .\" (at your option) any later version.  There is NO WARRANTY.  You can
 .\" find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
-.TH update\-alternatives 8 "2006-05-23" "Debian Project" "dpkg utilities"
+.TH update\-alternatives 8 "2006-11-24" "Debian Project" "dpkg utilities"
 .SH NAME
 update\-alternatives - maintain symbolic links determining default commands
 .
@@ -176,6 +176,17 @@ option in order to return to the automatic mode.
 If you want to configure non-interactively you can use the
 .I \-\-set
 option instead (see below).
+.PP
+Different packages providing the same file need to do so
+.BR cooperatively .
+That is - the usage of
+.B update\-alternatives
+is
+.B mandatory
+for all involved packages in such case - it is not possible to
+override some file in a package that does not employ the
+.B update\-alternatives
+mechanism.
 .
 .SH TERMINOLOGY
 Since the activities of
