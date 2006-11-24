@@ -90,6 +90,17 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
       }
       execlp(BZIP2,"bzip2","-dc",(char*)0); ohshite(_("%s: failed to exec bzip2 -dc"), v.buf);
 #endif
+    case compress_type_lzma:
+      if (fd_in != 0) {
+        m_dup2(fd_in, 0);
+        close(fd_in);
+      }
+      if (fd_out != 1) {
+        m_dup2(fd_out, 1);
+        close(fd_out);
+      }
+      execlp(LZMA, "lzma", "-dc", (char *)0);
+      ohshite(_("%s: failed to exec %s"), v.buf, "lzma -dc");
     case CAT:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), v.buf);
       exit(0);

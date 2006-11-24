@@ -157,6 +157,10 @@ void extracthalf(const char *debar, const char *directory,
 		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_BZ2,sizeof(arh.ar_name))) {
 	    adminmember= 0;
 	    compress_type= BZ2;
+	  } else if (!memcmp(arh.ar_name, DATAMEMBER_LZMA, sizeof(arh.ar_name)) ||
+		     !memcmp(arh.ar_name, DATAMEMBER_COMPAT_LZMA, sizeof(arh.ar_name))) {
+	    adminmember = 0;
+	    compress_type = compress_type_lzma;
 	  } else if (!memcmp(arh.ar_name,DATAMEMBER_CAT,sizeof(arh.ar_name)) ||
 		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_CAT,sizeof(arh.ar_name))) {
 	    adminmember= 0;

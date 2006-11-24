@@ -1,3 +1,17 @@
+2006-11-24  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-source.pl: Add lzma extracting support.
+	(checkdiff): Likewise.
+	(forkgzipread): Likewise.
+	* lib/dpkg.h (LZMA): New macro.
+	(compression_type): Add compress_type_lzma.
+	* lib/compression.c (decompress_cat): Handle compress_type_lzma
+	decompression.
+	* dpkg-deb/dpkg-deb.h (DATAMEMBER_LZMA): New macro.
+	(DATAMEMBER_COMPAT_LZMA): Likewise.
+	* dpkg-deb/extract.c (extracthalf): Handle DATAMEMBER_LZMA and
+	DATAMEMBER_COMPAT_LZMA members.
+
 2006-11-24  Brendan O'Dea  <bod@debian.org>
 
 	* scripts/controllib.pl (subprocerr): Require POSIX for WIFEXITED,

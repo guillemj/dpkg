@@ -45,6 +45,8 @@ extern enum compression_type compress_type;
 #define DATAMEMBER_COMPAT_GZ	"data.tar.gz/    "
 #define DATAMEMBER_BZ2   	"data.tar.bz2    "
 #define DATAMEMBER_COMPAT_BZ2  	"data.tar.bz2/   "
+#define DATAMEMBER_LZMA		"data.tar.lzma   "
+#define DATAMEMBER_COMPAT_LZMA	"data.tar.lzma/  "
 #define DATAMEMBER_CAT   	"data.tar        "
 #define DATAMEMBER_COMPAT_CAT  	"data.tar/       "
 

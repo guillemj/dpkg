@@ -139,6 +139,7 @@
 #define TAR		"tar"
 #define GZIP		"gzip"
 #define BZIP2		"bzip2"
+#define LZMA		"lzma"
 #define RM		"rm"
 #define FIND		"find"
 #define SHELL		"sh"
@@ -373,7 +374,7 @@ int cisalpha(int c);
 
 /*** from compression.c ***/
 
-enum compression_type { CAT, GZ, BZ2 };
+enum compression_type { CAT, GZ, BZ2, compress_type_lzma };
 
 void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *desc, ...) NONRETURNING;
 void compress_cat(enum compression_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) NONRETURNING;

@@ -680,7 +680,7 @@ if ($opmode eq 'build') {
 
 	&error(sprintf(_g("Files field contains invalid filename `%s'"), $file))
 	    unless s/^\Q$sourcepackage\E_\Q$baseversion\E(?=[.-])// and
-		   s/\.(gz|bz2)$//;
+		   s/\.(gz|bz2|lzma)$//;
 	s/^-\Q$revision\E(?=\.)// if length $revision;
 
 	&error(sprintf(_g("repeated file type - files `%s' and `%s'"), $seen{$_}, $file)) if $seen{$_};
@@ -835,7 +835,7 @@ if ($opmode eq 'build') {
 
     for my $patch (@patches) {
 	printf(_g("%s: applying %s")."\n", $progname, $patch);
-	if ($patch =~ /\.(gz|bz2)$/) {
+	if ($patch =~ /\.(gz|bz2|lzma)$/) {
 	    &forkgzipread($patch);
 	    *DIFF = *GZIP;
 	} else {
@@ -855,7 +855,7 @@ if ($opmode eq 'build') {
         $c2 == waitpid($c2,0) || &syserr(_g("wait for patch"));
         $? && subprocerr("patch");
 
-	&reapgzip if $patch =~ /\.(gz|bz2)$/;
+	&reapgzip if $patch =~ /\.(gz|bz2|lzma)$/;
     }
 
     my $now = time;
@@ -1138,7 +1138,7 @@ no strict 'vars';
 sub checkdiff
 {
     my $diff = shift;
-    if ($diff =~ /\.(gz|bz2)$/) {
+    if ($diff =~ /\.(gz|bz2|lzma)$/) {
 	&forkgzipread($diff);
 	*DIFF = *GZIP;
     } else {
@@ -1212,7 +1212,7 @@ sub checkdiff
     }
     close(DIFF);
     
-    &reapgzip if $diff =~ /\.(gz|bz2)$/;
+    &reapgzip if $diff =~ /\.(gz|bz2|lzma)$/;
 }
 
 sub extracttar {
@@ -1307,7 +1307,18 @@ sub forkgzipwrite {
 
 sub forkgzipread {
     local $SIG{PIPE} = 'DEFAULT';
-    my $prog = $_[0] =~ /\.gz$/ ? 'gunzip' : 'bunzip2';
+    my $prog;
+
+    if ($_[0] =~ /\.gz$/) {
+      $prog = 'gunzip';
+    } elsif ($_[0] =~ /\.bz2$/) {
+      $prog = 'bunzip2';
+    } elsif ($_[0] =~ /\.lzma$/) {
+      $prog = 'unlzma';
+    } else {
+      &error(sprintf(_g("unknown compression type on file %s"), $_[0]));
+    }
+
     open(GZIPFILE,"< $_[0]") || &syserr(sprintf(_g("read file %s"), $_[0]));
     pipe(GZIP,GZIPWRITE) || &syserr(sprintf(_g("pipe for %s"), $prog));
     defined($cgz= fork) || &syserr(sprintf(_g("fork for %s"), $prog));
