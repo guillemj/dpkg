@@ -143,6 +143,19 @@ remove_hd_method() {
 }
 
 
+# Handle upgrades from pre-conffile dpkg.cfg
+upgrade_dpkg_non_conffile()
+{
+    if [ -r /etc/dpkg/dpkg.cfg ]; then
+	dpkg_cfg_md5="535552ad5ee9145dbc7a34c264df4e59  /etc/dpkg/dpkg.cfg"
+	if echo "$dpkg_cfg_md5" | md5sum -c >/dev/null 2>&1; then
+	    echo "Removing non-modified dpkg.cfg to be replaced by a conffile ..."
+	    rm -f /etc/dpkg/dpkg.cfg
+	fi
+    fi
+}
+
+
 case "$1" in
     install)
 	;;
@@ -163,6 +176,12 @@ case "$1" in
 	    # Upgrade from pre-dselect split
 	    0.93.[5678][0-9]* | 1.[023456789]* | 1.1.* | 1.10 | 1.10.[12] )
 	        confirm_dselect_split
+		;;
+	esac
+	case "$2" in
+	    # Upgrade from pre-conffile dpkg.cfg
+	    1.9.21 | 1.10.* )
+		upgrade_dpkg_non_conffile
 		;;
 	esac
 	;;
