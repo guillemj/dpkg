@@ -109,7 +109,10 @@ do
 	-tc)	cleansource=true ;;
 	-t*)    targetgnusystem="$value" ;;          # Order DOES matter!
 	-nc)	noclean=true; if [ -z "$binaryonly" ]; then binaryonly=-b; fi ;;
-	-b)	binaryonly=-b; [ "$sourceonly" ] && \
+	-b)	binaryonly=-b;
+		checkbuilddep_args='';
+		binarytarget=binary;
+		[ "$sourceonly" ] && \
 			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
 	-B)	binaryonly=-B; checkbuilddep_args=-B; binarytarget=binary-arch; [ "$sourceonly" ] && \
 			{ echo >&2 "$progname: cannot combine $1 and -S" ; exit 2 ; } ;;
