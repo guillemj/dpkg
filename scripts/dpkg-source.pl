@@ -749,7 +749,7 @@ if ($opmode eq 'build') {
 	system "chmod", "g-s", $tmp;
 	printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
 	extracttar("$dscdir/$tarfile",$tmp,$t);
-	system "chown", '-R', '-f', join(':',@fowner), "$tmp/$t";
+	system "chown", '-R', '-f', join(':', getfowner()), "$tmp/$t";
 	rename("$tmp/$t",$target)
 	    || &syserr(sprintf(_g("unable to rename `%s' to `%s'"), "$tmp/$t", $target));
 	rmdir($tmp)

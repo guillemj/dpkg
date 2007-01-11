@@ -60,7 +60,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
-chown(@fowner, "$fileslistfile.new") 
+chown(getfowner(), "$fileslistfile.new") 
 		|| &syserr(_g("chown new files list file"));
 if (open(X,"< $fileslistfile")) {
     while (<X>) {

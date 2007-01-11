@@ -35,8 +35,10 @@ $quiet_warnings = 0;
 
 $progname= $0; $progname= $& if $progname =~ m,[^/]+$,;
 
-$getlogin = getlogin();
-if(!defined($getlogin)) {
+sub getfowner
+{
+    $getlogin = getlogin();
+    if (!defined($getlogin)) {
 	open(SAVEIN, "<&STDIN");
 	close(STDIN);
 	open(STDIN, "<&STDERR");
@@ -46,8 +48,8 @@ if(!defined($getlogin)) {
 	close(STDIN);
 	open(STDIN, "<&SAVEIN");
 	close(SAVEIN);
-}
-if(!defined($getlogin)) {
+    }
+    if (!defined($getlogin)) {
 	open(SAVEIN, "<&STDIN");
 	close(STDIN);
 	open(STDIN, "<&STDOUT");
@@ -57,20 +59,29 @@ if(!defined($getlogin)) {
 	close(STDIN);
 	open(STDIN, "<&SAVEIN");
 	close(SAVEIN);
-}
+    }
 
-if (defined ($ENV{'LOGNAME'})) {
-    @fowner = getpwnam ($ENV{'LOGNAME'});
-    if (! @fowner) { die (sprintf (_g('unable to get login information for username "%s"'), $ENV{'LOGNAME'})); }
-} elsif (defined ($getlogin)) {
-    @fowner = getpwnam ($getlogin);
-    if (! @fowner) { die (sprintf (_g('unable to get login information for username "%s"'), $getlogin)); }
-} else {
-    &warn (sprintf (_g('no utmp entry available and LOGNAME not defined; using uid of process (%d)'), $<));
-    @fowner = getpwuid ($<);
-    if (! @fowner) { die (sprintf (_g('unable to get login information for uid %d'), $<)); }
+    if (defined($ENV{'LOGNAME'})) {
+	@fowner = getpwnam($ENV{'LOGNAME'});
+	if (!@fowner) {
+	    die(sprintf(_g('unable to get login information for username "%s"'), $ENV{'LOGNAME'}));
+	}
+    } elsif (defined($getlogin)) {
+	@fowner = getpwnam($getlogin);
+	if (!@fowner) {
+	    die(sprintf(_g('unable to get login information for username "%s"'), $getlogin));
+	}
+    } else {
+	&warn (sprintf(_g('no utmp entry available and LOGNAME not defined; using uid of process (%d)'), $<));
+	@fowner = getpwuid($<);
+	if (!@fowner) {
+	    die (sprintf(_g('unable to get login information for uid %d'), $<));
+	}
+    }
+    @fowner = @fowner[2,3];
+
+    return @fowner;
 }
-@fowner = @fowner[2,3];
 
 sub capit {
     my @pieces = map { ucfirst(lc) } split /-/, $_[0];

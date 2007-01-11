@@ -395,7 +395,7 @@ if (!$stdout) {
     open(Y,"> $varlistfile.new") ||
         syserr(sprintf(_g("open new substvars file \`%s'"), "$varlistfile.new"));
     unless ($REAL_USER_ID) {
-	chown(@fowner, "$varlistfile.new") ||
+	chown(getfowner(), "$varlistfile.new") ||
 	    syserr(sprintf(_g("chown of \`%s'"), "$varlistfile.new"));
     }
     if (open(X,"< $varlistfile")) {

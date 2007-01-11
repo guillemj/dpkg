@@ -255,7 +255,7 @@ for $f (keys %remove) { delete $f{&capit($f)}; }
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
 binmode(Y);
-chown(@fowner, "$fileslistfile.new") 
+chown(getfowner(), "$fileslistfile.new") 
 		|| &syserr(_g("chown new files list file"));
 if (open(X,"< $fileslistfile")) {
     binmode(X);
