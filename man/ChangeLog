@@ -1,3 +1,24 @@
+2007-01-16  Nicolas Francois  <nicolas.francois@centraliens.net>
+
+	* po/: New directory.
+	* po/dpkg-man.pot, po/de.po, po/es.po, po/fr.po, po/hu.po,
+	po/ja.po, po/pl.po, po/pt_BR.po, po/ru.po, po/sv.po: Merge the POs
+	which used to be in po4a/. When multiple translations appeared for
+	a string, the string was marked as fuzzy. Also the POs now contain
+	the strings of all the man pages.
+	* po/add_de/, po/add_es, po/add_fr, po/add_hu, po/add_ja,
+	po/add_pl, po/add_pt_BR, po/add_ru, po/add_sv: Move the add_<lang>
+	directories from po4a/ to po/.
+	* po4a/: Removed.
+	* C/: Move the manpages to the root of the man/ directory.
+	* C/Makefile.am, de/Makefile.am es/Makefile.am, fr/Makefile.am,
+	hu/Makefile.am, ja/Makefile.am, pl/Makefile.am, pt_BR/Makefile.am,
+	ru/Makefile.am, sv/Makefile.am, po4a.mk: The languages makefiles
+	are no more needed. Also remove the language directories.
+	* Makefile.am: New build system.
+	The goal of these changes is to simplify the build system (less
+	files, less Makefiles, lower the depth of the file hierarchy).
+
 2007-01-09  Nicolas Francois  <nicolas.francois@centraliens.net>
 
 	* C/dpkg-deb.1: Make the copyright match the one from the source.

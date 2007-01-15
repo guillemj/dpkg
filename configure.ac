@@ -109,17 +109,6 @@ AC_CONFIG_FILES([ Makefile
 		  intl/Makefile
 		  lib/Makefile
 		  man/Makefile
-		  man/C/Makefile
-		  man/de/Makefile
-		  man/es/Makefile
-		  man/fr/Makefile
-		  man/hu/Makefile
-		  man/ja/Makefile
-		  man/pl/Makefile
-		  man/pt_BR/Makefile
-		  man/ru/Makefile
-		  man/sv/Makefile
-		  man/po4a/Makefile
 		  origins/Makefile
 		  po/Makefile.in
 		  scripts/Makefile
