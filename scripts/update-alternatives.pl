@@ -1,8 +1,11 @@
 #!/usr/bin/perl --
 
-$admindir= "/var/lib/dpkg"; # This line modified by Makefile
-$dpkglibdir= "../utils"; # This line modified by Makefile
-$version= '0.93.80'; # This line modified by Makefile
+use strict;
+use warnings;
+
+my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
+my $dpkglibdir = "../utils"; # This line modified by Makefile
+my $version = '0.93.80'; # This line modified by Makefile
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
@@ -10,27 +13,44 @@ textdomain("dpkg");
 ($0) = $0 =~ m:.*/(.+):;
 
 # Global variables:
-#  $alink            Alternative we are managing (ie the symlink we're making/removing) (install only)
-#  $name             Name of the alternative (the symlink) we are processing
-#  $apath            Path of alternative we are offering            
-#  $apriority        Priority of link (only when we are installing an alternative)
-#  $mode             action to perform (display / install / remove / display / auto / config)
-#  $manual           update-mode for alternative (manual / auto)
-#  $state            State of alternative:
-#                       expected: alternative with highest priority is the active alternative
-#                       expected-inprogress: busy selecting alternative with highest priority
-#                       unexpected: alternative another alternative is active / error during readlink
-#                       nonexistent: alternative-symlink does not exist
-#  $link             Link we are working with
-#  @slavenames       List with names of slavelinks
-#  %slavenum         Map from name of slavelink to slave-index (into @slavelinks)
-#  @slavelinks       List of slavelinks (indexed by slave-index)
-#  %versionnum       Map from currently available versions into @versions and @priorities
-#  @versions         List of available versions for alternative
-#  %priorities       Map from @version-index to priority
-#  %slavepath        Map from (@version-index,slavename) to slave-path
+my $mode = '';        # Action to perform (display / install / remove / display / auto / config)
+my $manual = 'auto';  # Update mode for alternative (manual / auto)
+my $state;            # State of alternative:
+                      #   expected: alternative with highest priority is the active alternative
+                      #   expected-inprogress: busy selecting alternative with highest priority
+                      #   unexpected: alternative another alternative is active / error during readlink
+                      #   nonexistent: alternative-symlink does not exist
+my $dataread;
 
-$enoent=`$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
+my %versionnum;       # Map from currently available versions into @versions and @priorities
+my @versions;         # List of available versions for alternative
+my @priorities;       # Map from @version-index to priority
+
+my $best;
+my $bestpri;
+my $bestnum;
+
+my $link;             # Link we are working with
+my $linkname;
+
+my $alink;            # Alternative we are managing (ie the symlink we're making/removing) (install only)
+my $name;             # Name of the alternative (the symlink) we are processing
+my $apath;            # Path of alternative we are offering
+my $apriority;        # Priority of link (only when we are installing an alternative)
+my %aslavelink;
+my %aslavepath;
+my %aslavelinkcount;
+
+my $slink;
+my $sname;
+my $spath;
+my @slavenames;       # List with names of slavelinks
+my %slavenum;         # Map from name of slavelink to slave-index (into @slavelinks)
+my @slavelinks;       # List of slavelinks (indexed by slave-index)
+my %slavepath;        # Map from (@version-index,slavename) to slave-path
+my %slavelinkcount;
+
+my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
 sub ENOENT { $enoent; }
 
 sub version {
@@ -97,12 +117,11 @@ sub badusage
     exit(2);
 }
 
-$altdir= '/etc/alternatives';
-$admindir= $admindir . '/alternatives';
-$testmode= 0;
-$verbosemode= 0;
-$mode='';
-$manual= 'auto';
+my $altdir = '/etc/alternatives';
+# FIXME: this should not override the previous assignment.
+$admindir = $admindir . '/alternatives';
+my $testmode = 0;
+my $verbosemode = 0;
 $|=1;
 
 sub checkmanymodes {
@@ -188,11 +207,12 @@ if (open(AF,"$admindir/$name")) {
         defined($versionnum{$version}) && &badfmt(sprintf(_g("duplicate path %s"), $version));
        if ( -r $version ) {
            push(@versions,$version);
+           my $i;
            $versionnum{$version}= $i= $#versions;
-           $priority= &gl("priority");
+           my $priority = &gl("priority");
            $priority =~ m/^[-+]?\d+$/ || &badfmt(sprintf(_g("priority %s %s"), $version, $priority));
            $priorities[$i]= $priority;
-           for ($j=0; $j<=$#slavenames; $j++) {
+           for (my $j = 0; $j <= $#slavenames; $j++) {
                $slavepath{$i,$j}= &gl("spath");
            }
        } else {
@@ -200,7 +220,7 @@ if (open(AF,"$admindir/$name")) {
            &pr(sprintf(_g("Alternative for %s points to %s - which wasn't found.  Removing from list of alternatives."), $name, $version))
              if $verbosemode > 0;
            &gl("priority");
-           for ($j=0; $j<=$#slavenames; $j++) {
+           for (my $j = 0; $j <= $#slavenames; $j++) {
                &gl("spath");
            }
        }
@@ -225,13 +245,14 @@ if ($mode eq 'display') {
             &pr(sprintf(_g(" link unreadable - %s"), $!));
         }
         $best= '';
-        for ($i=0; $i<=$#versions; $i++) {
+        for (my $i = 0; $i <= $#versions; $i++) {
             if ($best eq '' || $priorities[$i] > $bestpri) {
                 $best= $versions[$i]; $bestpri= $priorities[$i];
             }
             &pr(sprintf(_g("%s - priority %s"), $versions[$i], $priorities[$i]));
-            for ($j=0; $j<=$#slavenames; $j++) {
-                next unless length($tspath= $slavepath{$i,$j});
+            for (my $j = 0; $j <= $#slavenames; $j++) {
+                my $tspath = $slavepath{$i, $j};
+                next unless length($tspath);
                 &pr(sprintf(_g(" slave %s: %s"), $slavenames[$j], $tspath));
             }
         }
@@ -246,7 +267,7 @@ if ($mode eq 'display') {
 
 if ($mode eq 'list') {
     if ($dataread) {
-	for ($i = 0; $i<=$#versions; $i++) {
+	for (my $i = 0; $i <= $#versions; $i++) {
 	    &pr("$versions[$i]");
 	}
     }
@@ -254,7 +275,7 @@ if ($mode eq 'list') {
 }
 
 $best= '';
-for ($i=0; $i<=$#versions; $i++) {
+for (my $i = 0; $i <= $#versions; $i++) {
     if ($best eq '' || $priorities[$i] > $bestpri) {
         $best= $versions[$i]; $bestpri= $priorities[$i];
     }
@@ -337,18 +358,20 @@ if ($mode eq 'install') {
             &quit(sprintf(_g("unable to rename %s to %s: %s"), $link, $alink, $!));
     }
     $link= $alink;
+    my $i;
     if (!defined($i= $versionnum{$apath})) {
         push(@versions,$apath);
         $versionnum{$apath}= $i= $#versions;
     }
     $priorities[$i]= $apriority;
     for $sname (keys %aslavelink) {
+        my $j;
         if (!defined($j= $slavenum{$sname})) {
             push(@slavenames,$sname);
             $slavenum{$sname}= $j= $#slavenames;
         }
-        $oldslavelink= $slavelinks[$j];
-        $newslavelink= $aslavelink{$sname};
+        my $oldslavelink = $slavelinks[$j];
+        my $newslavelink = $aslavelink{$sname};
         $slavelinkcount{$oldslavelink}-- if $oldslavelink ne '';
         $slavelinkcount{$newslavelink}++ &&
             &quit(sprintf(_g("slave link name %s duplicated"), $newslavelink));
@@ -360,23 +383,24 @@ if ($mode eq 'install') {
         }
         $slavelinks[$j]= $newslavelink;
     }
-    for ($j=0; $j<=$#slavenames; $j++) {
+    for (my $j = 0; $j <= $#slavenames; $j++) {
         $slavepath{$i,$j}= $aslavepath{$slavenames[$j]};
     }
 }
 
 if ($mode eq 'remove') {
+    my $hits = 0;
     if ($manual eq "manual" and $state ne "expected" and (map { $hits += $apath eq $_ } @versions) and $hits and $linkname eq $apath) {
 	&pr(_g("Removing manually selected alternative - switching to auto mode"));
 	$manual= "auto";
     }
-    if (defined($i= $versionnum{$apath})) {
-        $k= $#versions;
+    if (defined(my $i = $versionnum{$apath})) {
+        my $k = $#versions;
         $versionnum{$versions[$k]}= $i;
         delete $versionnum{$versions[$i]};
         $versions[$i]= $versions[$k]; $#versions--;
         $priorities[$i]= $priorities[$k]; $#priorities--;
-        for ($j=0; $j<=$#slavenames; $j++) {
+        for (my $j = 0; $j <= $#slavenames; $j++) {
             $slavepath{$i,$j}= $slavepath{$k,$j};
             delete $slavepath{$k,$j};
         }
@@ -388,12 +412,12 @@ if ($mode eq 'remove') {
 
 if ($mode eq 'remove-all') {
    $manual= "auto";
-   $k= $#versions;
-   for ($i=0; $i<=$#versions; $i++) {
+   my $k = $#versions;
+   for (my $i = 0; $i <= $#versions; $i++) {
         $k--;
         delete $versionnum{$versions[$i]};
 	$#priorities--;
-        for ($j=0; $j<=$#slavenames; $j++) {
+        for (my $j = 0; $j <= $#slavenames; $j++) {
             $slavepath{$i,$j}= $slavepath{$k,$j};
             delete $slavepath{$k,$j};
         }
@@ -402,8 +426,9 @@ if ($mode eq 'remove-all') {
  }
 
 
-for ($j=0; $j<=$#slavenames; $j++) {
-    for ($i=0; $i<=$#versions; $i++) {
+for (my $j = 0; $j <= $#slavenames; $j++) {
+    my $i;
+    for ($i = 0; $i <= $#versions; $i++) {
         last if $slavepath{$i,$j} ne '';
     }
     if ($i > $#versions) {
@@ -413,13 +438,13 @@ for ($j=0; $j<=$#slavenames; $j++) {
             &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$slavenames[$j]", $!));
         unlink($slavelinks[$j]) || $! == &ENOENT ||
             &quit(sprintf(_g("unable to remove %s: %s"), $slavelinks[$j], $!));
-        $k= $#slavenames;
+        my $k = $#slavenames;
         $slavenum{$slavenames[$k]}= $j;
         delete $slavenum{$slavenames[$j]};
         $slavelinkcount{$slavelinks[$j]}--;
         $slavenames[$j]= $slavenames[$k]; $#slavenames--;
         $slavelinks[$j]= $slavelinks[$k]; $#slavelinks--;
-        for ($i=0; $i<=$#versions; $i++) {
+        for (my $i = 0; $i <= $#versions; $i++) {
             $slavepath{$i,$j}= $slavepath{$i,$k};
             delete $slavepath{$i,$k};
         }
@@ -452,19 +477,19 @@ open(AF,">$admindir/$name.dpkg-new") ||
     &quit(sprintf(_g("unable to open %s for write: %s"), "$admindir/$name.dpkg-new", $!));
 &paf($manual);
 &paf($link);
-for ($j=0; $j<=$#slavenames; $j++) {
+for (my $j = 0; $j <= $#slavenames; $j++) {
     &paf($slavenames[$j]);
     &paf($slavelinks[$j]);
 }
 &paf('');
 $best= '';
-for ($i=0; $i<=$#versions; $i++) {
+for (my $i = 0; $i <= $#versions; $i++) {
     if ($best eq '' || $priorities[$i] > $bestpri) {
         $best= $versions[$i]; $bestpri= $priorities[$i]; $bestnum= $i;
     }
     &paf($versions[$i]);
     &paf($priorities[$i]);
-    for ($j=0; $j<=$#slavenames; $j++) {
+    for (my $j = 0; $j <= $#slavenames; $j++) {
         &paf($slavepath{$i,$j});
     }
 }
@@ -516,7 +541,7 @@ rename_mv("$admindir/$name.dpkg-new","$admindir/$name") ||
 if ($manual eq 'auto') {
     rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
         &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
-    for ($j=0; $j<=$#slavenames; $j++) {
+    for (my $j = 0; $j <= $#slavenames; $j++) {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];
         if (!defined($linkname= readlink($slink)) && $! != &ENOENT) {
@@ -569,7 +594,7 @@ sub config_message {
                      "  Selection    Alternative\n".
                      "-----------------------------------------------\n"),
                   $#versions+1, $name);
-    for ($i=0; $i<=$#versions; $i++) {
+    for (my $i = 0; $i <= $#versions; $i++) {
 	printf(STDOUT "%s%s %8s    %s\n",
 	    (readlink("$altdir/$name") eq $versions[$i]) ? '*' : ' ',
 	    ($best eq $versions[$i]) ? '+' : ' ',
@@ -579,6 +604,7 @@ sub config_message {
 }
 
 sub config_alternatives {
+    my $preferred;
     do {
 	&config_message;
 	if ($#versions == 0) { return; }
@@ -616,8 +642,8 @@ sub config_alternatives {
 sub set_alternatives {
    $manual = "manual";
    # Get prefered number
-   $preferred = -1;
-   for ($i=0; $i<=$#versions; $i++) {
+   my $preferred = -1;
+   for (my $i = 0; $i <= $#versions; $i++) {
      if($versions[$i] eq $apath) {
        $preferred = $i;
        last;
@@ -632,8 +658,8 @@ sub set_alternatives {
    rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
      &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
    # Link slaves...
-   for( $slnum = 0; $slnum < @slavenames; $slnum++ ) {
-     $slave = $slavenames[$slnum];
+   for (my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
+     my $slave = $slavenames[$slnum];
      if ($slavepath{$preferred,$slnum} ne '') {
        checked_symlink($slavepath{$preferred,$slnum},
 		       "$altdir/$slave.dpkg-tmp");

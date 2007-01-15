@@ -1,9 +1,8 @@
 #!/usr/bin/perl -w
-use strict;
-use warnings;
 # Copied from /usr/share/perl5/Debconf/Gettext.pm
 
 use strict;
+use warnings;
 
 BEGIN {
 	eval 'use Locale::gettext';

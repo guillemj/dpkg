@@ -21,8 +21,8 @@
 # using the man pages.  Hopefully this is a short enough program to
 # debug.
 
-# don't put that in for production.
-# use strict;
+use strict;
+use warnings;
 
 my $dpkglibdir = "."; # This line modified by Makefile
 push(@INC,$dpkglibdir);

@@ -1,15 +1,18 @@
 #!/usr/bin/perl --
 
-$version= '1.0.11'; # This line modified by Makefile
-$admindir= "/var/lib/dpkg"; # This line modified by Makefile
-$dpkglibdir= "../utils"; # This line modified by Makefile
+use strict;
+use warnings;
+
+my $version = '1.0.11'; # This line modified by Makefile
+my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
+my $dpkglibdir = "../utils"; # This line modified by Makefile
 ($0) = $0 =~ m:.*/(.+):;
 
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
-$enoent=`$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
+my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
 sub ENOENT { $enoent; }
 
 sub version {
@@ -53,11 +56,22 @@ Package preinst/postrm scripts should always specify --package and --divert.
 "), $0);
 }
 
-$testmode= 0;
-$dorename= 0;
-$verbose= 1;
-$mode='';
+my $testmode = 0;
+my $dorename = 0;
+my $verbose = 1;
+my $mode = '';
+my $package = '';
+my $divertto = '';
+my @contest;
+my @altname;
+my @package;
+my $file;
 $|=1;
+
+
+# FIXME: those should be local.
+my ($rsrc, $rdest);
+my (@ssrc, @sdest);
 
 sub checkmanymodes {
     return unless $mode;
@@ -130,7 +144,7 @@ if ($mode eq 'add') {
     $divertto= "$file.distrib" unless defined($divertto);
     $divertto =~ m#^/# || &badusage(sprintf(_g("filename \"%s\" is not absolute"), $divertto));
     $package= ':' unless defined($package);
-    for ($i=0; $i<=$#contest; $i++) {
+    for (my $i = 0; $i <= $#contest; $i++) {
         if ($contest[$i] eq $file || $altname[$i] eq $file ||
             $contest[$i] eq $divertto || $altname[$i] eq $divertto) {
             if ($contest[$i] eq $file && $altname[$i] eq $divertto &&
@@ -152,15 +166,15 @@ if ($mode eq 'add') {
 } elsif ($mode eq 'remove') {
     @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "remove"));
     $file= $ARGV[0];
-    for ($i=0; $i<=$#contest; $i++) {
+    for (my $i = 0; $i <= $#contest; $i++) {
         next unless $file eq $contest[$i];
         &quit(sprintf(_g("mismatch on divert-to\n  when removing \`%s'\n  found \`%s'"), &infoa, &infon($i)))
               if defined($divertto) && $altname[$i] ne $divertto;
         &quit(sprintf(_g("mismatch on package\n  when removing \`%s'\n  found \`%s'"), &infoa, &infon($i)))
               if defined($package) && $package[$i] ne $package;
         printf(_g("Removing \`%s'")."\n", &infon($i)) if $verbose > 0;
-        $orgfile= $contest[$i];
-        $orgdivertto= $altname[$i];
+        my $orgfile = $contest[$i];
+        my $orgdivertto = $altname[$i];
         @contest= (($i > 0 ? @contest[0..$i-1] : ()),
                    ($i < $#contest ? @contest[$i+1..$#contest] : ()));
         @altname= (($i > 0 ? @altname[0..$i-1] : ()),
@@ -176,15 +190,16 @@ if ($mode eq 'add') {
     printf(_g("No diversion \`%s', none removed")."\n", &infoa) if $verbose > 0;
     exit(0);
 } elsif ($mode eq 'list') {
-    @ilist= @ARGV ? @ARGV : ('*');
+    my @list;
+    my @ilist = @ARGV ? @ARGV : ('*');
     while (defined($_=shift(@ilist))) {
         s/\W/\\$&/g;
         s/\\\?/./g;
         s/\\\*/.*/g;
         push(@list,"^$_\$");
     }
-    $pat= join('|',@list);
-    for ($i=0; $i<=$#contest; $i++) {
+    my $pat = join('|', @list);
+    for (my $i = 0; $i <= $#contest; $i++) {
         next unless ($contest[$i] =~ m/$pat/o ||
                      $altname[$i] =~ m/$pat/o ||
                      $package[$i] =~ m/$pat/o);
@@ -194,7 +209,7 @@ if ($mode eq 'add') {
 } elsif ($mode eq 'truename') {
     @ARGV == 1 || &badusage(sprintf(_g("--%s needs a single argument"), "truename"));
     $file= $ARGV[0];
-    for ($i=0; $i<=$#contest; $i++) {
+    for (my $i = 0; $i <= $#contest; $i++) {
 	next unless $file eq $contest[$i];
 	print $altname[$i], "\n";
 	exit(0);
@@ -226,7 +241,7 @@ sub checkrename {
     # same name as the diversions but with an extension that
     # (hopefully) wont overwrite anything. If it succeeds, we
     # assume a writable filesystem.
-    foreach $file ($rsrc,$rdest) {
+    foreach my $file ($rsrc, $rdest) {
 	if (open (TMP, ">> ${file}.dpkg-devert.tmp")) {
 		close TMP;
 		unlink ("${file}.dpkg-devert.tmp");
@@ -259,7 +274,7 @@ sub save {
     return if $testmode;
     open(N,"> $admindir/diversions-new") || &quit(sprintf(_g("create diversions-new: %s"), $!));
     chmod 0644, "$admindir/diversions-new";
-    for ($i=0; $i<=$#contest; $i++) {
+    for (my $i = 0; $i <= $#contest; $i++) {
         print(N "$contest[$i]\n$altname[$i]\n$package[$i]\n")
             || &quit(sprintf(_g("write diversions-new: %s"), $!));
     }
@@ -273,7 +288,11 @@ sub save {
 }
 
 sub infoa { &infol($file,$divertto,$package); }
-sub infon { &infol($contest[$i],$altname[$i],$package[$i]); }
+sub infon
+{
+    my $i = shift;
+    &infol($contest[$i], $altname[$i], $package[$i]);
+}
 
 sub quit
 {

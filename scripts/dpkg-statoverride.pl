@@ -1,10 +1,13 @@
 #! /usr/bin/perl
 
+use strict;
+use warnings;
+
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 
-$admindir= "/var/lib/dpkg"; # This line modified by Makefile
-$version= '1.3.0'; # This line modified by Makefile
+my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
+my $version = '1.3.0'; # This line modified by Makefile
 
 ($0) = $0 =~ m:.*/(.+):;
 
@@ -13,10 +16,14 @@ push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
-$verbose= 1;
-$doforce= 0;
-$doupdate= 0;
-$mode= "";
+my $verbose = 1;
+my $doforce = 0;
+my $doupdate = 0;
+my $mode = "";
+
+my %owner;
+my %group;
+my %mode;
 
 sub version {
 	printf _g("Debian %s version %s.\n"), $0, $version;
@@ -87,8 +94,8 @@ while (@ARGV) {
 	}
 }
 
-$dowrite=0;
-$exitcode=0;
+my $dowrite = 0;
+my $exitcode = 0;
 
 &badusage(_g("no mode specified")) unless $mode;
 &ReadOverrides;
@@ -96,25 +103,30 @@ $exitcode=0;
 if ($mode eq "add") {
 	@ARGV==4 || &badusage(_g("--add needs four arguments"));
 
-	$user=$ARGV[0];
+	my $user = $ARGV[0];
+	my $uid = 0;
+	my $gid = 0;
+
 	if ($user =~ m/^#([0-9]+)$/) {
 	    $uid=$1;
 	    &badusage(sprintf(_g("illegal user %s"), $user)) if ($uid<0);
 	} else {
+	    my ($name, $pw);
 	    (($name,$pw,$uid)=getpwnam($user)) || &badusage(sprintf(_g("non-existing user %s"), $user));
 	}
 
-	$group=$ARGV[1];
+	my $group = $ARGV[1];
 	if ($group =~ m/^#([0-9]+)$/) {
 	    $gid=$1;
 	    &badusage(sprintf(_g("illegal group %s"), $group)) if ($gid<0);
 	} else {
+	    my ($name, $pw);
 	    (($name,$pw,$gid)=getgrnam($group)) || &badusage(sprintf(_g("non-existing group %s"), $group));
 	}
 
-	$mode= $ARGV[2];
+	my $mode = $ARGV[2];
 	(($mode<0) or (oct($mode)>07777) or ($mode !~ m/\d+/)) && &badusage(sprintf(_g("illegal mode %s"), $mode));
-	$file= $ARGV[3];
+	my $file = $ARGV[3];
 	$file =~ m/\n/ && &badusage(_g("file may not contain newlines"));
 	$file =~ s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 
@@ -142,7 +154,7 @@ if ($mode eq "add") {
 	}
 } elsif ($mode eq "remove") {
 	@ARGV==1 || &badusage(sprintf(_g("--%s needs a single argument"), "remove"));
-	$file=$ARGV[0];
+	my $file = $ARGV[0];
 	$file =~ s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 	if (not defined $owner{$file}) {
 		print STDERR _g("No override present.")."\n";
@@ -165,7 +177,7 @@ if ($mode eq "add") {
 		s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 		push(@list,"^$_\$");
 	}
-	$pat= join('|',@list);
+	my $pat = join('|', @list);
 	$exitcode=1;
 	for $file (keys %owner) {
 		next unless ($file =~ m/$pat/o);
