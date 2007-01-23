@@ -808,8 +808,8 @@ if ($opmode eq 'build') {
 
     for $dircreate (keys %dirtocreate) {
 	$dircreatem= "";
-	for $dircreatep (split("/",$dirc)) {
-	    $dircreatem.= $dircreatep;
+	for $dircreatep (split("/", $dircreate)) {
+	    $dircreatem .= $dircreatep . "/";
 	    if (!lstat($dircreatem)) {
 		$! == ENOENT || &syserr(sprintf(_g("cannot stat %s"), $dircreatem));
 		mkdir($dircreatem,0777)
