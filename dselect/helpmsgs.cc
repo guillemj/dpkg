@@ -24,7 +24,7 @@
 const struct helpmessage hlp_listkeys = {
   N_("Keystrokes"), N_("\
 Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
-  Down-arrow, j         Up-arrow, k             move highlight\n\
+  j, Down-arrow         k, Up-arrow             move highlight\n\
   N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n\
   ^n                    ^p                      scroll list by 1 line\n\
   t, Home               e, End                  jump to top/end of list\n\
@@ -190,7 +190,7 @@ menu reachable by pressing `?'.\n")
 const struct helpmessage hlp_methkeys = {
   N_("Keystrokes for method selection"), N_("\
 Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n\
-  n, Down-arrow         p, Up-arrow             move highlight\n\
+  j, Down-arrow         k, Up-arrow             move highlight\n\
   N, Page-down, Space   P, Page-up, Backspace   scroll list by 1 page\n\
   ^n                    ^p                      scroll list by 1 line\n\
   t, Home               e, End                  jump to top/end of list\n\
