@@ -25,10 +25,6 @@ $parsechangelog= 'dpkg-parsechangelog';
 @src_dep_fields = qw(Build-Depends Build-Depends-Indep
                      Build-Conflicts Build-Conflicts-Indep);
 
-$substvar{'Format'}= 1.7;
-$substvar{'Newline'}= "\n";
-$substvar{'Space'}= " ";
-$substvar{'Tab'}= "\t";
 $maxsubsts=50;
 $warnable_error= 1;
 $quiet_warnings = 0;
@@ -319,6 +315,11 @@ sub parsechangelog {
 
 sub init_substvars
 {
+    $substvar{'Format'} = 1.7;
+    $substvar{'Newline'} = "\n";
+    $substvar{'Space'} = " ";
+    $substvar{'Tab'} = "\t";
+
     # XXX: Source-Version is now deprecated, remove in the future.
     $substvar{'Source-Version'}= $fi{"L Version"};
     $substvar{'binary:Version'} = $fi{"L Version"};
