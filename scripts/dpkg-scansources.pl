@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 use strict;
 
-# $Id: dpkg-scansources.pl,v 1.6.2.1 2003/09/14 01:49:08 doogie Exp $
+# $Id$
 
 # Copyright 1999 Roderick Schertler
 # Copyright 2002 Wichert Akkerman <wakkerma@debian.org>

@@ -1,7 +1,7 @@
 #! /usr/bin/perl
 #
 # dpkg-shlibdeps
-# $Id: dpkg-shlibdeps.pl,v 1.19.2.2 2004/04/25 17:11:41 keybuk Exp $
+# $Id$
 
 my $dpkglibdir="/usr/lib/dpkg";
 my $version="1.4.1.19"; # This line modified by Makefile
