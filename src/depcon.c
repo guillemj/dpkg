@@ -148,18 +148,41 @@ int findbreakcycle(struct pkginfo *pkg) {
 }
 
 void describedepcon(struct varbuf *addto, struct dependency *dep) {
-  varbufaddstr(addto,dep->up->name);
+  const char *fmt;
+  struct varbuf depstr;
+
   switch (dep->type) {
-  case dep_depends:     varbufaddstr(addto, _(" depends on "));     break;
-  case dep_predepends:  varbufaddstr(addto, _(" pre-depends on ")); break;
-  case dep_recommends:  varbufaddstr(addto, _(" recommends "));     break;
-  case dep_breaks:      varbufaddstr(addto, _(" breaks "));         break;
-  case dep_conflicts:   varbufaddstr(addto, _(" conflicts with ")); break;
-  case dep_suggests:    varbufaddstr(addto, _(" suggests ")); break;
-  case dep_enhances:    varbufaddstr(addto, _(" enhances "));       break;
-  default:              internerr("unknown deptype");
+  case dep_depends:
+    fmt = _("%s depends on %s");
+    break;
+  case dep_predepends:
+    fmt = _("%s pre-depends on %s");
+    break;
+  case dep_recommends:
+    fmt = _("%s recommends %s");
+    break;
+  case dep_suggests:
+    fmt = _("%s suggests %s");
+    break;
+  case dep_breaks:
+    fmt = _("%s breaks %s");
+    break;
+  case dep_conflicts:
+    fmt = _("%s conflicts with %s");
+    break;
+  case dep_enhances:
+    fmt = _("%s enhances %s");
+    break;
+  default:
+    internerr("unknown deptype");
   }
-  varbufdependency(addto, dep);
+
+  varbufinit(&depstr);
+  varbufdependency(&depstr, dep);
+  varbufaddc(&depstr, 0);
+
+  varbufprintf(addto, fmt, dep->up->name, depstr.buf);
+  varbuffree(&depstr);
 }
   
 int depisok(struct dependency *dep, struct varbuf *whynot,
