@@ -38,7 +38,8 @@ if ($want_help) {
 my $control=shift || "debian/control";
 $controlfile=$control;
 
-&parsecontrolfile;
+parsecontrolfile($controlfile);
+
 my @status=parse_status();
 my (@unmet, @conflicts);
 local $/='';

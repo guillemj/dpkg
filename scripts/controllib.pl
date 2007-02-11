@@ -164,19 +164,22 @@ sub substvars {
 }
 
 sub outputclose {
-    my ($dosubstvars) = @_;
+    my ($varlistfile) = @_;
+
     for $f (keys %f) { $substvar{"F:$f"}= $f{$f}; }
-    &parsesubstvars if ($dosubstvars);
+
+    &parsesubstvars($varlistfile) if (defined($varlistfile));
+
     for $f (sort { $fieldimps{$b} <=> $fieldimps{$a} } keys %f) {
         $v= $f{$f};
-        if ($dosubstvars) {
+	if (defined($varlistfile)) {
 	    $v= &substvars($v);
 	}
         $v =~ m/\S/ || next; # delete whitespace-only fields
         $v =~ m/\n\S/ && &internerr(sprintf(_g("field %s has newline then non whitespace >%s<"), $f, $v));
         $v =~ m/\n[ \t]*\n/ && &internerr(sprintf(_g("field %s has blank lines >%s<"), $f, $v));
         $v =~ m/\n$/ && &internerr(sprintf(_g("field %s has trailing newline >%s<"), $f, $v));
-	if ($dosubstvars) {
+	if (defined($varlistfile)) {
 	   $v =~ s/,[\s,]*,/,/g;
 	   $v =~ s/^\s*,\s*//;
 	   $v =~ s/\s*,\s*$//;
@@ -189,6 +192,8 @@ sub outputclose {
 }
 
 sub parsecontrolfile {
+    my $controlfile = shift;
+
     $controlfile="./$controlfile" if $controlfile =~ m/^\s/;
 
     open(CDATA,"< $controlfile") || &error(sprintf(_g("cannot read control file %s: %s"), $controlfile, $!));
@@ -210,6 +215,8 @@ sub parsecontrolfile {
 
 my $substvarsparsed = 0;
 sub parsesubstvars {
+    my $varlistfile = shift;
+
     if (length($varlistfile) && !$substvarsparsed) {
         $varlistfile="./$varlistfile" if $varlistfile =~ m/\s/;
         if (open(SV,"< $varlistfile")) {
@@ -300,13 +307,15 @@ sub showdep {
 }
 
 sub parsechangelog {
+    my ($changelogfile, $changelogformat, $since) = @_;
+
     defined($c=open(CDATA,"-|")) || &syserr(_g("fork for parse changelog"));
     binmode(CDATA);
     if (!$c) {
         @al=($parsechangelog);
-        push(@al,"-F$changelogformat") if length($changelogformat);
-        push(@al,"-v$since") if length($since);
         push(@al,"-l$changelogfile");
+        push(@al, "-F$changelogformat") if defined($changelogformat);
+        push(@al, "-v$since") if defined($since);
         exec(@al) || &syserr("exec parsechangelog $parsechangelog");
     }
     &parsecdata('L',0,_g("parsed version of changelog"));
@@ -349,6 +358,8 @@ sub checkversion {
 }
 
 sub setsourcepackage {
+    my $v = shift;
+
     checkpackagename( $v );
     if (length($sourcepackage)) {
         $v eq $sourcepackage ||

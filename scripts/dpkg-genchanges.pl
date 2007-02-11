@@ -132,8 +132,8 @@ while (@ARGV) {
 }
 
 &findarch;
-&parsechangelog;
-&parsecontrolfile;
+parsechangelog($changelogfile, $changelogformat, $since);
+parsecontrolfile($controlfile);
 
 if (not $sourceonly) {
     $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
@@ -173,7 +173,9 @@ if (not $sourceonly) {
 for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
-	if (m/^Source$/) { &setsourcepackage; }
+	if (m/^Source$/) {
+	    setsourcepackage($v);
+	}
 	elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
 	elsif (m/^Maintainer$/i) { $f{$_}= $v; }
 	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
@@ -225,7 +227,7 @@ for $_ (keys %fi) {
 	}
     } elsif (s/^L //) {
         if (m/^Source$/i) {
-            &setsourcepackage;
+	    setsourcepackage($v);
         } elsif (m/^Maintainer$/i) {
 	    $f{"Changed-By"}=$v;
         } elsif (m/^(Version|Changes|Urgency|Distribution|Date|Closes)$/i) {
@@ -366,4 +368,5 @@ for $f (qw(Urgency)) {
 for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
 for $f (keys %remove) { delete $f{&capit($f)}; }
 
-&outputclose(0);
+outputclose();
+

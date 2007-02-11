@@ -191,8 +191,8 @@ if ($opmode eq 'build') {
     $changelogfile= "$dir/debian/changelog" unless defined($changelogfile);
     $controlfile= "$dir/debian/control" unless defined($controlfile);
     
-    &parsechangelog;
-    &parsecontrolfile;
+    parsechangelog($changelogfile, $changelogformat);
+    parsecontrolfile($controlfile);
     $f{"Format"}=$def_dscformat;
     &init_substvars;
 
@@ -200,7 +200,9 @@ if ($opmode eq 'build') {
     for $_ (keys %fi) {
         $v= $fi{$_};
         if (s/^C //) {
-            if (m/^Source$/i) { &setsourcepackage; }
+	    if (m/^Source$/i) {
+		setsourcepackage($v);
+	    }
             elsif (m/^(Standards-Version|Origin|Maintainer)$/i) { $f{$_}= $v; }
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
@@ -249,7 +251,7 @@ if ($opmode eq 'build') {
             }
         } elsif (s/^L //) {
             if (m/^Source$/) {
-                &setsourcepackage;
+		setsourcepackage($v);
             } elsif (m/^Version$/) {
 		checkversion( $v );
                 $f{$_}= $v;
@@ -577,7 +579,8 @@ if ($opmode eq 'build') {
            $progname, $sourcepackage, "$basenamerev.dsc")
         || &syserr(_g("write building message"));
     open(STDOUT,"> $basenamerev.dsc") || &syserr(sprintf(_g("create %s"), "$basenamerev.dsc"));
-    &outputclose(1);
+
+    outputclose($varlistfile);
 
     if ($ur) {
         printf(STDERR _g("%s: unrepresentable changes to source")."\n",

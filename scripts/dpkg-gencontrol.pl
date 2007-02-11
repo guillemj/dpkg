@@ -104,10 +104,10 @@ while (@ARGV) {
 }
 
 &findarch;
-&parsechangelog;
-&parsesubstvars;
-&parsecontrolfile;
-            
+parsechangelog($changelogfile, $changelogformat);
+parsesubstvars($varlistfile);
+parsecontrolfile($controlfile);
+
 if (length($oppackage)) {
     defined($p2i{"C $oppackage"}) || &error(sprintf(_g("package %s not in control info"), $oppackage));
     $myindex= $p2i{"C $oppackage"};
@@ -127,7 +127,9 @@ for $_ (keys %fi) {
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
         if (m/^Origin|Bugs|Maintainer$/) { $f{$_}=$v; }
-        elsif (m/^Source$/) { &setsourcepackage; }
+	elsif (m/^Source$/) {
+	    setsourcepackage($v);
+	}
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
 	elsif (m/^X[CS]+-|^(Standards-Version|Uploaders)$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
 	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
@@ -169,7 +171,7 @@ for $_ (keys %fi) {
     } elsif (s/^L //) {
 #print STDERR "L key >$_< value >$v<\n";
         if (m/^Source$/) {
-            &setsourcepackage;
+	    setsourcepackage($v);
         } elsif (m/^Version$/) {
             $sourceversion= $v;
             $f{$_}= $v unless length($forceversion);
@@ -288,7 +290,9 @@ if (!$stdout) {
         &syserr(sprintf(_g("cannot open new output control file \`%s'"), "$cf.new"));
     binmode(STDOUT);
 }
-&outputclose(1);
+
+outputclose($varlistfile);
+
 if (!$stdout) {
     rename("$cf.new","$cf") || &syserr(sprintf(_g("cannot install output control file \`%s'"), $cf));
 }
