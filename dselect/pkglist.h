@@ -121,7 +121,7 @@ protected:
   static const infotype *const baseinfo;
   int itr_recursive();
   int itr_nonrecursive();
-  void severalinfoblurb(const char *whatinfoline);
+  void severalinfoblurb();
   void itd_mainwelcome();
   void itd_explaindisplay();
   void itd_recurwelcome();

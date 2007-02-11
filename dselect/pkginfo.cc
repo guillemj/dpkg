@@ -76,8 +76,8 @@ const packagelist::infotype packagelist::infoinfos[]= {
 
 const packagelist::infotype *const packagelist::baseinfo= infoinfos;
 
-void packagelist::severalinfoblurb(const char *whatinfoline) {
-  whatinfovb(whatinfoline);
+void packagelist::severalinfoblurb()
+{
   varbuf vb;
   vb(_("The line you have highlighted represents many packages; "
      "if you ask to install, remove, hold, etc. it you will affect all "
@@ -92,24 +92,24 @@ void packagelist::severalinfoblurb(const char *whatinfoline) {
 }
 
 void packagelist::itd_relations() {
+  whatinfovb(_("Interrelationships"));
+
   if (table[cursorline]->pkg->name) {
-    whatinfovb(_("interrelationships affecting "));
-    whatinfovb(table[cursorline]->pkg->name);
     if (debug) fprintf(debug,"packagelist[%p]::idt_relations(); `%s'\n",
                        this,table[cursorline]->relations.string());
     waddstr(infopad,table[cursorline]->relations.string());
   } else {
-    severalinfoblurb(_("interrelationships"));
+    severalinfoblurb();
   }
 }
 
 void packagelist::itd_description() {
-  if (table[cursorline]->pkg->name) {
-    whatinfovb(_("description of "));
-    whatinfovb(table[cursorline]->pkg->name);
+  whatinfovb(_("Description"));
 
+  if (table[cursorline]->pkg->name) {
     const char *m= table[cursorline]->pkg->available.description;
-    if (!m || !*m) m= _("no description available.");
+    if (!m || !*m)
+      m = _("No description available.");
     const char *p= strchr(m,'\n');
     int l= p ? (int)(p-m) : strlen(m);
     wattrset(infopad,info_headattr);
@@ -122,17 +122,17 @@ void packagelist::itd_description() {
       wordwrapinfo(1,++p);
     }
   } else {
-    severalinfoblurb(_("description"));
+    severalinfoblurb();
   }
 }
 
 void packagelist::itd_statuscontrol() {
+  whatinfovb(_("Installed control file information"));
+
   werase(infopad);
   if (!table[cursorline]->pkg->name) {
-    severalinfoblurb(_("currently installed control info"));
+    severalinfoblurb();
   } else {
-    whatinfovb(_("installed control info for "));
-    whatinfovb(table[cursorline]->pkg->name);
     varbuf vb;
     varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->installed);
     vb.terminate();
@@ -143,12 +143,12 @@ void packagelist::itd_statuscontrol() {
 }
 
 void packagelist::itd_availablecontrol() {
+  whatinfovb(_("Available control file information"));
+
   werase(infopad);
   if (!table[cursorline]->pkg->name) {
-    severalinfoblurb(_("available version of control file info"));
+    severalinfoblurb();
   } else {
-    whatinfovb(_("available version of control info for "));
-    whatinfovb(table[cursorline]->pkg->name);
     varbuf vb;
     varbufrecord(&vb,table[cursorline]->pkg,&table[cursorline]->pkg->available);
     vb.terminate();
