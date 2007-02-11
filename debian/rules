@@ -55,13 +55,10 @@ build-tree/config.status: configure
 		--with-bz2=static
 
 # Build the package in build-tree
-build: build-tree/build-stamp
-build-tree/build-stamp: build-tree/config.status
+build: build-tree/config.status
 	dh_testdir
 
 	cd build-tree && $(MAKE)
-	touch $@
-
 
 # Install the package underneath debian/tmp
 install: build
