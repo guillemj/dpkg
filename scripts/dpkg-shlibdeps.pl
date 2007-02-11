@@ -173,8 +173,8 @@ for ($i=0;$i<=$#exec;$i++) {
     # Now we get the direct deps of the program
     defined(my $c= open(P,"-|")) || syserr(_g("cannot fork for objdump"));
     if (!$c) {
-	exec("objdump","-p","--",$exec[$i]);
-	syserr(_g("cannot exec objdump"));
+	exec("objdump", "-p", "--", $exec[$i]) or
+	    syserr(_g("cannot exec objdump"));
     }
     while (<P>) {
 	chomp;
@@ -266,8 +266,8 @@ if ($#libfiles >= 0) {
 	close STDERR; # we don't need to see dpkg's errors
 	open STDERR, "> /dev/null";
 	$ENV{LC_ALL} = "C";
-	exec("dpkg","--search","--",@libfiles);
-	syserr(_g("cannot exec dpkg"));
+	exec("dpkg", "--search", "--", @libfiles) or
+	    syserr(_g("cannot exec dpkg"));
     }
     while (<P>) {
 	chomp;
@@ -331,8 +331,8 @@ sub get_format {
     } else {
 	defined(my $c= open(P,"-|")) || syserr(_g("cannot fork for objdump"));
 	if (!$c) {
-	    exec("objdump","-a","--",$file);
-	    syserr(_g("cannot exec objdump"));
+	    exec("objdump", "-a", "--", $file) or
+		syserr(_g("cannot exec objdump"));
 	}
 	while (<P>) {
 	    chomp;
