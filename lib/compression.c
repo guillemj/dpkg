@@ -69,7 +69,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
           if (actualread < 0 ) {
             int err = 0;
             const char *errmsg = BZ2_bzerror(bzfile, &err);
-            if (err == Z_ERRNO) {
+            if (err == BZ_IO_ERROR) {
               if (errno == EINTR) continue;
               errmsg= strerror(errno);
             }
