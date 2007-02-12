@@ -50,4 +50,6 @@ extern enum compression_type compress_type;
 #define DATAMEMBER_CAT   	"data.tar        "
 #define DATAMEMBER_COMPAT_CAT  	"data.tar/       "
 
+#define MAXFILENAME 2048
+
 #endif /* DPKG_DEB_H */

@@ -80,10 +80,10 @@ static struct _finfo* getfi(const char* root, int fd) {
   size_t rl = strlen(root);
 
   if (fn == NULL) {
-    fnlen=rl+2048;
+    fnlen = rl + MAXFILENAME;
     fn=(char*)malloc(fnlen);
-  } else if (fnlen < (rl+2048)) {
-    fnlen=rl+2048;
+  } else if (fnlen < (rl + MAXFILENAME)) {
+    fnlen = rl + MAXFILENAME;
     fn=(char*)realloc(fn,fnlen);
   }
   i=sprintf(fn,"%s/",root);
@@ -91,7 +91,7 @@ static struct _finfo* getfi(const char* root, int fd) {
   while (1) {
     int	res;
     if (i>=fnlen) {
-      fnlen+=2048;
+      fnlen += MAXFILENAME;
       fn=(char*)realloc(fn,fnlen);
     }
     if ((res=read(fd, (fn+i), sizeof(*fn)))<0) {
@@ -106,7 +106,7 @@ static struct _finfo* getfi(const char* root, int fd) {
       break;
 
     i++;
-    assert(i<2048);
+    assert(i < MAXFILENAME);
   }
 
   fi=(struct _finfo*)malloc(sizeof(struct _finfo));
