@@ -53,8 +53,9 @@ static security_context_t scontext    = NULL;
 #include "main.h"
 #include "archives.h"
 
-/* We shouldn't need anymore than 10 conflictors */
-struct pkginfo *conflictor[20];
+#define MAXCONFLICTORS 20
+
+struct pkginfo *conflictor[MAXCONFLICTORS];
 int cflict_index = 0;
 
 /* snprintf(3) doesn't work if format contains %.<nnn>s and an argument has
@@ -898,10 +899,10 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         }
       }
       if (!pdep) {
-	/* if this gets triggered, it means a package has > 10 conflicts/replaces
-	 * pairs, which is the package's fault
-	 */
-	assert(cflict_index < (int)sizeof(conflictor));
+	if (cflict_index >= MAXCONFLICTORS)
+	  ohshit(_("package %s has too many Conflicts/Replaces pairs"),
+		 pkg->name);
+
         /* This conflict is OK - we'll remove the conflictor. */
 	conflictor[cflict_index++]= fixbyrm;
         varbuffree(&conflictwhy); varbuffree(&removalwhy);
