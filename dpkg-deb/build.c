@@ -106,7 +106,9 @@ static struct _finfo* getfi(const char* root, int fd) {
       break;
 
     i++;
-    assert(i < MAXFILENAME);
+
+    if (i >= MAXFILENAME)
+      ohshit(_("file name '%.50s...' is too long"), fn + rl + 1);
   }
 
   fi=(struct _finfo*)malloc(sizeof(struct _finfo));
