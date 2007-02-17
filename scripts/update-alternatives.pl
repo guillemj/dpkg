@@ -13,6 +13,14 @@ textdomain("dpkg");
 ($0) = $0 =~ m:.*/(.+):;
 
 # Global variables:
+
+my $altdir = '/etc/alternatives';
+# FIXME: this should not override the previous assignment.
+$admindir = $admindir . '/alternatives';
+
+my $testmode = 0;
+my $verbosemode = 0;
+
 my $mode = '';        # Action to perform (display / install / remove / display / auto / config)
 my $manual = 'auto';  # Update mode for alternative (manual / auto)
 my $state;            # State of alternative:
@@ -20,7 +28,6 @@ my $state;            # State of alternative:
                       #   expected-inprogress: busy selecting alternative with highest priority
                       #   unexpected: alternative another alternative is active / error during readlink
                       #   nonexistent: alternative-symlink does not exist
-my $dataread;
 
 my %versionnum;       # Map from currently available versions into @versions and @priorities
 my @versions;         # List of available versions for alternative
@@ -117,17 +124,111 @@ sub badusage
     exit(2);
 }
 
-my $altdir = '/etc/alternatives';
-# FIXME: this should not override the previous assignment.
-$admindir = $admindir . '/alternatives';
-my $testmode = 0;
-my $verbosemode = 0;
-$|=1;
+sub read_link_group
+{
+    if (open(AF, "$admindir/$name")) {
+	$manual = gl("manflag");
+	$manual eq 'auto' || $manual eq 'manual' || badfmt(_g("manflag"));
+	$link = gl("link");
+	while (($sname = gl("sname")) ne '') {
+	    push(@slavenames, $sname);
+	    defined($slavenum{$sname}) && badfmt(sprintf(_g("duplicate slave %s"), $sname));
+	    $slavenum{$sname} = $#slavenames;
+	    $slink = gl("slink");
+	    $slink eq $link && badfmt(sprintf(_g("slave link same as main link %s"), $link));
+	    $slavelinkcount{$slink}++ && badfmt(sprintf(_g("duplicate slave link %s"), $slink));
+	    push(@slavelinks, $slink);
+	}
+	while (($version = gl("version")) ne '') {
+	    defined($versionnum{$version}) && badfmt(sprintf(_g("duplicate path %s"), $version));
+	    if (-r $version) {
+		push(@versions, $version);
+		my $i;
+		$versionnum{$version} = $i = $#versions;
+		my $priority = gl("priority");
+		$priority =~ m/^[-+]?\d+$/ || badfmt(sprintf(_g("priority %s %s"), $version, $priority));
+		$priorities[$i] = $priority;
+		for (my $j = 0; $j <= $#slavenames; $j++) {
+		    $slavepath{$i,$j} = gl("spath");
+		}
+	    } else {
+		# File not found - remove
+		pr(sprintf(_g("Alternative for %s points to %s - which wasn't found.  Removing from list of alternatives."), $name, $version))
+		    if $verbosemode > 0;
+		gl("priority");
+		for (my $j = 0; $j <= $#slavenames; $j++) {
+		    gl("spath");
+		}
+	    }
+	}
+	close(AF);
+    } elsif ($! != ENOENT) {
+	quit(sprintf(_g("unable to open %s: %s"), "$admindir/$name", $!));
+    } elsif ($! == ENOENT) {
+	pr(sprintf(_g("No alternatives for %s."), $name));
+	exit 1;
+    }
+}
+
+sub find_best_version
+{
+    $best = '';
+    for (my $i = 0; $i <= $#versions; $i++) {
+	if ($best eq '' || $priorities[$i] > $bestpri) {
+	    $best = $versions[$i];
+	    $bestpri = $priorities[$i];
+	    $bestnum = $i;
+	}
+    }
+}
+
+sub display_link_group
+{
+    pr(sprintf(_g("%s - status is %s."), $name, $manual));
+    $linkname = readlink("$altdir/$name");
+
+    if (defined($linkname)) {
+	pr(sprintf(_g(" link currently points to %s"), $linkname));
+    } elsif ($! == ENOENT) {
+	pr(_g(" link currently absent"));
+    } else {
+	pr(sprintf(_g(" link unreadable - %s"), $!));
+    }
+
+    for (my $i = 0; $i <= $#versions; $i++) {
+	pr(sprintf(_g("%s - priority %s"), $versions[$i], $priorities[$i]));
+	for (my $j = 0; $j <= $#slavenames; $j++) {
+	    my $tspath = $slavepath{$i, $j};
+	    next unless length($tspath);
+	    pr(sprintf(_g(" slave %s: %s"), $slavenames[$j], $tspath));
+	}
+    }
+
+    if ($best eq '') {
+	pr(_g("No versions available."));
+    } else {
+	pr(sprintf(_g("Current \`best' version is %s."), $best));
+    }
+}
+
+sub list_link_group
+{
+    for (my $i = 0; $i <= $#versions; $i++) {
+	pr("$versions[$i]");
+    }
+}
 
 sub checkmanymodes {
     return unless $mode;
     &badusage(sprintf(_g("two modes specified: %s and --%s"), $_, $mode));
 }
+
+
+#
+# Main program
+#
+
+$| = 1;
 
 while (@ARGV) {
     $_= shift(@ARGV);
@@ -181,120 +282,40 @@ while (@ARGV) {
 }
 
 defined($aslavelink{$name}) && &badusage(sprintf(_g("name %s is both primary and slave"), $name));
-$aslavelinkcount{$alink} && &badusage(sprintf(_g("link %s is both primary and slave"), $alink));
+defined($alink) && $aslavelinkcount{$alink} &&
+  badusage(sprintf(_g("link %s is both primary and slave"), $alink));
 
 $mode || &badusage(_g("need --display, --config, --set, --install, --remove, --all, --remove-all or --auto"));
 $mode eq 'install' || !%aslavelink || &badusage(_g("--slave only allowed with --install"));
 
 if ($mode eq 'all') {
     &config_all();
+    exit 0;
 }
 
-if (open(AF,"$admindir/$name")) {
-    $manual= &gl("manflag");
-    $manual eq 'auto' || $manual eq 'manual' || &badfmt(_g("manflag"));
-    $link= &gl("link");
-    while (($sname= &gl("sname")) ne '') {
-        push(@slavenames,$sname);
-        defined($slavenum{$sname}) && &badfmt(sprintf(_g("duplicate slave %s"), $sname));
-        $slavenum{$sname}= $#slavenames;
-        $slink= &gl("slink");
-        $slink eq $link && &badfmt(sprintf(_g("slave link same as main link %s"), $link));
-        $slavelinkcount{$slink}++ && &badfmt(sprintf(_g("duplicate slave link %s"), $slink));
-        push(@slavelinks,$slink);
-    }
-    while (($version= &gl("version")) ne '') {
-        defined($versionnum{$version}) && &badfmt(sprintf(_g("duplicate path %s"), $version));
-       if ( -r $version ) {
-           push(@versions,$version);
-           my $i;
-           $versionnum{$version}= $i= $#versions;
-           my $priority = &gl("priority");
-           $priority =~ m/^[-+]?\d+$/ || &badfmt(sprintf(_g("priority %s %s"), $version, $priority));
-           $priorities[$i]= $priority;
-           for (my $j = 0; $j <= $#slavenames; $j++) {
-               $slavepath{$i,$j}= &gl("spath");
-           }
-       } else {
-           # File not found - remove
-           &pr(sprintf(_g("Alternative for %s points to %s - which wasn't found.  Removing from list of alternatives."), $name, $version))
-             if $verbosemode > 0;
-           &gl("priority");
-           for (my $j = 0; $j <= $#slavenames; $j++) {
-               &gl("spath");
-           }
-       }
-    }
-    close(AF);
-    $dataread=1;
-} elsif ($! != &ENOENT) {
-    &quit(sprintf(_g("unable to open %s: %s"), "$admindir/$name", $!));
+if ($mode ne 'install') {
+    read_link_group();
 }
 
 if ($mode eq 'display') {
-    if (!$dataread) {
-        &pr(sprintf(_g("No alternatives for %s."), $name));
-	exit 1;
-    } else {
-        &pr(sprintf(_g("%s - status is %s."), $name, $manual));
-        if (defined($linkname= readlink("$altdir/$name"))) {
-            &pr(sprintf(_g(" link currently points to %s"), $linkname));
-        } elsif ($! == &ENOENT) {
-            &pr(_g(" link currently absent"));
-        } else {
-            &pr(sprintf(_g(" link unreadable - %s"), $!));
-        }
-        $best= '';
-        for (my $i = 0; $i <= $#versions; $i++) {
-            if ($best eq '' || $priorities[$i] > $bestpri) {
-                $best= $versions[$i]; $bestpri= $priorities[$i];
-            }
-            &pr(sprintf(_g("%s - priority %s"), $versions[$i], $priorities[$i]));
-            for (my $j = 0; $j <= $#slavenames; $j++) {
-                my $tspath = $slavepath{$i, $j};
-                next unless length($tspath);
-                &pr(sprintf(_g(" slave %s: %s"), $slavenames[$j], $tspath));
-            }
-        }
-        if ($best eq '') {
-            &pr(_g("No versions available."));
-        } else {
-            &pr(sprintf(_g("Current \`best' version is %s."), $best));
-        }
-    }
+    find_best_version();
+    display_link_group();
     exit 0;
 }
 
 if ($mode eq 'list') {
-    if ($dataread) {
-	for (my $i = 0; $i <= $#versions; $i++) {
-	    &pr("$versions[$i]");
-	}
-    }
+    list_link_group();
     exit 0;
 }
 
-$best= '';
-for (my $i = 0; $i <= $#versions; $i++) {
-    if ($best eq '' || $priorities[$i] > $bestpri) {
-        $best= $versions[$i]; $bestpri= $priorities[$i];
-    }
-}
+find_best_version();
 
 if ($mode eq 'config') {
-    if (!$dataread) {
-	&pr(sprintf(_g("No alternatives for %s."), $name));
-    } else {
-	&config_alternatives($name);
-    }
+    config_alternatives($name);
 }
 
 if ($mode eq 'set') {
-    if (!$dataread) {
-	&pr(sprintf(_g("No alternatives for %s."), $name));
-    } else {
-	&set_alternatives($name);
-    }
+    set_alternatives($name);
 }
 
 if (defined($linkname= readlink("$altdir/$name"))) {
@@ -481,12 +502,11 @@ for (my $j = 0; $j <= $#slavenames; $j++) {
     &paf($slavenames[$j]);
     &paf($slavelinks[$j]);
 }
+
+find_best_version();
+
 &paf('');
-$best= '';
 for (my $i = 0; $i <= $#versions; $i++) {
-    if ($best eq '' || $priorities[$i] > $bestpri) {
-        $best= $versions[$i]; $bestpri= $priorities[$i]; $bestnum= $i;
-    }
     &paf($versions[$i]);
     &paf($priorities[$i]);
     for (my $j = 0; $j <= $#slavenames; $j++) {
@@ -708,7 +728,6 @@ sub config_all {
         system "$0 --config $name";
         exit $? if $?;
     }
-    exit(0);
 }
 exit(0);
 

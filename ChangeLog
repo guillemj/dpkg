@@ -1,5 +1,17 @@
 2007-02-17  Guillem Jover  <guillem@debian.org>
 
+	* scripts/update-alternatives.pl: Check if '$alink' is defined before
+	using '$aslavelinkcount{$alink}'. Only read_link_group if '$mode' is
+	not 'install'.
+	($dataread): Remove now unused variable.
+	(read_link_group): New function (refactored).
+	(find_best_version): Likewise.
+	(display_link_group): Likewise.
+	(list_link_group): Likewise.
+	(config_all): Move exit to outside the function.
+
+2007-02-17  Guillem Jover  <guillem@debian.org>
+
 	* scripts/controllib.pl (parsecdata): Change CDATA to a reference
 	taken from the arguments. Fix all callers.
 
