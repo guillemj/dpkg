@@ -454,7 +454,7 @@ if ($opmode eq 'build') {
 	    my $mode = S_IMODE((lstat(_))[2]);
             if (-l _) {
                 $type{$fn}= 'symlink';
-                &checktype('-l') || next;
+		checktype($origdir, $fn, '-l') || next;
                 defined($n= readlink("$dir/$fn")) ||
                     &syserr(sprintf(_g("cannot read link %s"), "$dir/$fn"));
                 defined($n2= readlink("$origdir/$fn")) ||
@@ -518,7 +518,7 @@ if ($opmode eq 'build') {
                 }
             } elsif (-p _) {
                 $type{$fn}= 'pipe';
-                &checktype('-p');
+		checktype($origdir, $fn, '-p');
             } elsif (-b _ || -c _ || -S _) {
                 &unrepdiff(_g("device or socket is not allowed"));
             } elsif (-d _) {
@@ -689,7 +689,7 @@ if ($opmode eq 'build') {
 	&error(sprintf(_g("repeated file type - files `%s' and `%s'"), $seen{$_}, $file)) if $seen{$_};
 	$seen{$_} = $file;
 
-	checkstats($file);
+	checkstats($dscdir, $file);
 
 	if (/^\.(?:orig(-\w+)?\.)?tar$/) {
 	    if ($1) { push @tarfiles, $file; } # push orig-foo.tar.gz to the end
@@ -906,6 +906,7 @@ if ($opmode eq 'build') {
 }
 
 sub checkstats {
+    my $dscdir = shift;
     my ($f) = @_;
     my @s;
     my $m;
@@ -1264,7 +1265,9 @@ sub cpiostderr {
 }
 
 sub checktype {
-    if (!lstat("$origdir/$fn")) {
+    my ($dir, $fn, $type) = @_;
+
+    if (!lstat("$dir/$fn")) {
         &unrepdiff2(_g("nonexistent"),$type{$fn});
     } else {
         $v= eval("$_[0] _ ? 2 : 1"); $v || &internerr(sprintf(_g("checktype %s (%s)"), "$@", $_[0]));
