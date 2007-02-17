@@ -286,8 +286,9 @@ if (!$binaryonly) {
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
     open(CDATA,"< $dsc") || &error(sprintf(_g("cannot open .dsc file %s: %s"), $dsc, $!));
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
-    
-    &parsecdata('S',-1,"source control file $dsc");
+
+    parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
+
     $files= $fi{'S Files'};
     for $file (split(/\n /,$files)) {
         next if $file eq '';

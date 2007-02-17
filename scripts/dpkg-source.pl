@@ -641,7 +641,7 @@ if ($opmode eq 'build') {
     }
 
     open(CDATA,"< $dsc") || &error(sprintf(_g("cannot open .dsc file %s: %s"), $dsc, $!));
-    &parsecdata('S',-1,sprintf(_g("source control file %s"),$dsc));
+    parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
     close(CDATA);
 
     for $f (qw(Source Version Files)) {

@@ -198,7 +198,8 @@ sub parsecontrolfile {
 
     open(CDATA,"< $controlfile") || &error(sprintf(_g("cannot read control file %s: %s"), $controlfile, $!));
     binmode(CDATA);
-    $indices= &parsecdata('C',1,sprintf(_g("control file %s"),$controlfile));
+    my $indices = parsecdata(\*CDATA, 'C', 1,
+			     sprintf(_g("control file %s"), $controlfile));
     $indices >= 2 || &error(_g("control file must have at least one binary package part"));
 
     for ($i=1;$i<$indices;$i++) {
@@ -318,7 +319,7 @@ sub parsechangelog {
         push(@al, "-v$since") if defined($since);
         exec(@al) || &syserr("exec parsechangelog $parsechangelog");
     }
-    &parsecdata('L',0,_g("parsed version of changelog"));
+    parsecdata(\*CDATA, 'L', 0, _g("parsed version of changelog"));
     close(CDATA); $? && &subprocerr(_g("parse changelog"));
 }
 
@@ -377,13 +378,13 @@ sub readmd5sum {
 }
 
 sub parsecdata {
-    local ($source,$many,$whatmsg) = @_;
+    local ($cdata, $source, $many, $whatmsg) = @_;
     # many=0: ordinary control data like output from dpkg-parsechangelog
     # many=1: many paragraphs like in source control file
     # many=-1: single paragraph of control data optionally signed
     local ($index,$cf,$paraborder);
     $index=''; $cf=''; $paraborder=1;
-    while (<CDATA>) {
+    while (<$cdata>) {
         s/\s*\n$//;
 	next if (m/^$/ and $paraborder);
 	next if (m/^#/);
@@ -399,14 +400,16 @@ sub parsecdata {
             $fi{"$source$index $cf"}.= "\n$_";
         } elsif (m/^-----BEGIN PGP/ && $many<0) {
             $many == -2 && syntax(_g("expected blank line before PGP signature"));
-            while (<CDATA>) { last if m/^$/; }
+	    while (<$cdata>) {
+		last if m/^$/;
+	    }
             $many= -2;
         } elsif (m/^$/) {
 	    $paraborder = 1;
             if ($many>0) {
                 $index++; $cf='';
             } elsif ($many == -2) {
-                $_= <CDATA> while defined($_) && $_ =~ /^\s*$/;
+		$_ = <$cdata> while defined($_) && $_ =~ /^\s*$/;
                 length($_) ||
                     &syntax(_g("expected PGP signature, found EOF after blank line"));
                 s/\n$//;
@@ -414,7 +417,7 @@ sub parsecdata {
                     &syntax(sprintf(_g("expected PGP signature, found something else \`%s'"), $_));
                 $many= -3; last;
             } else {
-		while (<CDATA>) {
+		while (<$cdata>) {
 		    /^\s*$/ ||
 			&syntax(_g("found several \`paragraphs' where only one expected"));
 		}
