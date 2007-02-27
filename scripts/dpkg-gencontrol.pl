@@ -126,8 +126,9 @@ for $_ (keys %fi) {
     $v= $fi{$_};
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
-        if (m/^Origin|Bugs|Maintainer$/) { $f{$_}=$v; }
-	elsif (m/^Source$/) {
+	if (m/^(Origin|Bugs|Maintainer)$/) {
+	    $f{$_} = $v;
+	} elsif (m/^Source$/) {
 	    setsourcepackage($v);
 	}
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
