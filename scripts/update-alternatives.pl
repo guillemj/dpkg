@@ -91,7 +91,7 @@ Commands:
   --set <name> <path>      set <path> as alternative for <name>.
   --all                    call --config on all alternatives.
 
-<link> is the symlink pointing to /etc/alternatives/<name>.
+<link> is the symlink pointing to %s/<name>.
   (e.g. /usr/bin/pager)
 <name> is the master name for this link group.
   (e.g. pager)
@@ -108,7 +108,7 @@ Options:
   --quiet                  quiet operation, minimal output.
   --help                   show this help message.
   --version                show the version.
-"), $0;
+"), $0, $altdir;
 }
 
 sub quit
