@@ -51,6 +51,8 @@ Options:
   -E             when -W is turned on, -E turned it off.  } dpkg-source
   -i[<regex>]    ignore diffs of files matching regex.    } only passed
   -I<filename>   filter out files when building tarballs. } to dpkg-source
+  --admindir=<directory>
+                 change the administrative directory.
   -h, --help     show this help message.
       --version  show the version.
 END
@@ -80,15 +82,18 @@ noclean=false
 usepause=false
 warnable_error=0
 passopts=''
+admindir=''
 
 while [ $# != 0 ]
 do
-	value="`echo x\"$1\" | sed -e 's/^x-.//'`"
+	value="`echo x\"$1\" | sed -e 's/x--.*=//;s/^x-.//'`"
 	case "$1" in
 	-h|--help)
 		usage; exit 0 ;;
 	--version)
 		showversion; exit 0 ;;
+	--admindir=*)
+		admindir="$value" ;;
 	-r*)	rootcommand="$value" ;;
 	-p*)	signcommand="$value" ;;
 	-k*)	signkey="$value" ;;
@@ -197,6 +202,10 @@ withecho () {
 }
 
 if [ "$checkbuilddep" = "true" ]; then
+	if [ -n "$admindir" ]; then
+		checkbuilddep_args="$checkbuilddep_args --admindir=$admindir"
+	fi
+
 	if ! dpkg-checkbuilddeps $checkbuilddep_args; then
 		echo >&2 "$progname: Build dependencies/conflicts unsatisfied; aborting."
 		echo >&2 "$progname: (Use -d flag to override.)"

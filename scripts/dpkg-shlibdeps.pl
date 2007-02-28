@@ -4,6 +4,7 @@
 # $Id$
 
 my $dpkglibdir="/usr/lib/dpkg";
+my $admindir = "/var/lib/dpkg";
 my $version="1.4.1.19"; # This line modified by Makefile
 
 use English;
@@ -12,7 +13,7 @@ use POSIX qw(:errno_h :signal_h);
 my $shlibsoverride= '/etc/dpkg/shlibs.override';
 my $shlibsdefault= '/etc/dpkg/shlibs.default';
 my $shlibslocal= 'debian/shlibs.local';
-my $shlibsppdir= '/var/lib/dpkg/info';
+my $shlibsppdir;
 my $shlibsppext= '.shlibs';
 my $varnameprefix= 'shlibs';
 my $dependencyfield= 'Depends';
@@ -61,6 +62,7 @@ Options:
   -L<localshlibsfile>      shlibs override file, not debian/shlibs.local.
   -T<varlistfile>          update variables here, not debian/substvars.
   -t<type>                 set package type (default is deb).
+  --admindir=<directory>   change the administrative directory.
   -h, --help               show this help message.
       --version            show the version.
 
@@ -83,6 +85,11 @@ foreach (@ARGV) {
 	usage; exit(0);
     } elsif (m/^--version$/) {
 	version; exit(0);
+    } elsif (m/^--admindir=/) {
+	$admindir = $POSTMATCH;
+	-d $admindir ||
+	    error(sprintf(_g("administrative directory '%s' does not exist"),
+			     $admindir));
     } elsif (m/^-d/) {
 	$dependencyfield= capit($POSTMATCH);
 	defined($depstrength{$dependencyfield}) ||
@@ -97,6 +104,8 @@ foreach (@ARGV) {
 	push(@exec,$_); push(@execfield,$dependencyfield);
     }
 }
+
+$shlibsppdir = "$admindir/info";
 
 @exec || usageerr(_g("need at least one executable"));
 

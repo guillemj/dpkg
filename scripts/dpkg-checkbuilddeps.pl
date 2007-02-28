@@ -5,6 +5,7 @@
 use Getopt::Long;
 
 my $dpkglibdir="/usr/lib/dpkg";
+my $admindir = "/var/lib/dpkg";
 push(@INC,$dpkglibdir);
 #my $controlfile;
 require 'controllib.pl';
@@ -19,6 +20,8 @@ sub usage {
 Options:
   control-file   control file to process (default: debian/control).
   -B             binary-only, ignore -Indep.
+  --admindir=<directory>
+                 change the administrative directory.
   -h             show this help message.
 "), $progname;
 }
@@ -26,7 +29,8 @@ Options:
 my $binary_only=0;
 my $want_help=0;
 if (! GetOptions('-B' => \$binary_only,
-		 '-h' => \$want_help)) {
+		 '-h' => \$want_help,
+		 '--admindir=s' => \$admindir)) {
 	usage();
 	exit(2);
 }
@@ -40,7 +44,7 @@ $controlfile=$control;
 
 parsecontrolfile($controlfile);
 
-my @status=parse_status();
+my @status = parse_status("$admindir/status");
 my (@unmet, @conflicts);
 local $/='';
 
@@ -80,7 +84,7 @@ exit 1 if @unmet || @conflicts;
 # thanks to Matt Zimmerman. Returns two hash references that
 # are exactly what the other functions need...
 sub parse_status {
-	my $status=shift || "/var/lib/dpkg/status";
+	my $status = shift;
 	
 	my %providers;
 	my %version;
