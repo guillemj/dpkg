@@ -17,6 +17,23 @@
 #include "dpkg.h"
 #include "dpkg-db.h"
 
+static void
+fd_fd_filter(int fd_in, int fd_out,
+	     const char *file, const char *cmd, const char *args,
+	     const char *desc)
+{
+  if (fd_in != 0) {
+    m_dup2(fd_in, 0);
+    close(fd_in);
+  }
+  if (fd_out != 1) {
+    m_dup2(fd_out, 1);
+    close(fd_out);
+  }
+  execlp(file, cmd, args, NULL);
+  ohshite(_("%s: failed to exec '%s %s'"), desc, cmd, args);
+}
+
 void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *desc, ...) {
   va_list al;
   struct varbuf v;
@@ -49,15 +66,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
       }
       exit(0);
 #else
-      if (fd_in != 0) {
-        m_dup2(fd_in, 0);
-        close(fd_in);
-      }
-      if (fd_out != 1) {
-        m_dup2(fd_out, 1);
-        close(fd_out);
-      }
-      execlp(GZIP,"gzip","-dc",(char*)0); ohshite(_("%s: failed to exec gzip -dc"), v.buf);
+      fd_fd_filter(fd_in, fd_out, GZIP, "gzip", "-dc", v.buf);
 #endif
     case BZ2:
 #ifdef WITH_BZ2
@@ -80,27 +89,10 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
       }
       exit(0);
 #else
-      if (fd_in != 0) {
-        m_dup2(fd_in, 0);
-        close(fd_in);
-      }
-      if (fd_out != 1) {
-        m_dup2(fd_out, 1);
-        close(fd_out);
-      }
-      execlp(BZIP2,"bzip2","-dc",(char*)0); ohshite(_("%s: failed to exec bzip2 -dc"), v.buf);
+      fd_fd_filter(fd_in, fd_out, BZIP2, "bzip2", "-dc", v.buf);
 #endif
     case compress_type_lzma:
-      if (fd_in != 0) {
-        m_dup2(fd_in, 0);
-        close(fd_in);
-      }
-      if (fd_out != 1) {
-        m_dup2(fd_out, 1);
-        close(fd_out);
-      }
-      execlp(LZMA, "lzma", "-dc", (char *)0);
-      ohshite(_("%s: failed to exec %s"), v.buf, "lzma -dc");
+      fd_fd_filter(fd_in, fd_out, LZMA, "lzma", "-dc", v.buf);
     case CAT:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), v.buf);
       exit(0);
@@ -155,17 +147,9 @@ void compress_cat(enum compression_type type, int fd_in, int fd_out, const char 
         exit(0);
       }
 #else
-      if (fd_in != 0) {
-        m_dup2(fd_in, 0);
-        close(fd_in);
-      }
-      if (fd_out != 1) {
-        m_dup2(fd_out, 1);
-        close(fd_out);
-      }
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1]= *compression;
-      execlp(GZIP,"gzip",combuf,(char*)0); ohshit(_("%s: failed to exec gzip %s"), v.buf, combuf);
+      fd_fd_filter(fd_in, fd_out, GZIP, "gzip", combuf, v.buf);
 #endif
     case BZ2:
 #ifdef WITH_BZ2
@@ -198,17 +182,9 @@ void compress_cat(enum compression_type type, int fd_in, int fd_out, const char 
         exit(0);
       }
 #else
-      if (fd_in != 0) {
-        m_dup2(fd_in, 0);
-        close(fd_in);
-      }
-      if (fd_out != 1) {
-        m_dup2(fd_out, 1);
-        close(fd_out);
-      }
       strncpy(combuf, "-9c", sizeof(combuf));
       combuf[1]= *compression;
-      execlp(BZIP2,"bzip2",combuf,(char*)0); ohshit(_("%s: failed to exec bzip2 %s"), v.buf, combuf);
+      fd_fd_filter(fd_in, fd_out, BZIP2, "bzip2", combuf, v.buf);
 #endif
     case CAT:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);

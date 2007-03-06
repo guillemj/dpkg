@@ -1,5 +1,13 @@
 2007-03-06  Guillem Jover  <guillem@debian.org>
 
+	* lib/compression.c (fd_fd_filter): New function, refactored. As
+	a side effect the 'failed to exec' string gets unified, and all
+	commands use oshite now.
+	(decompress_cat): Use fd_fd_filter instead of the duped code.
+	(compress_cat): Likewise.
+
+2007-03-06  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-scanpackages.pl (usage): Documemt that the override
 	file is now optional.
 	(load_override): New function, refactored. Handle the case where
