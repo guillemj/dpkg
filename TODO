@@ -1,3 +1,66 @@
+ROADMAP
+=======
+
+lenny
+~~~~~
+
+ * Review this file and remove or update the old entries.
+
+ * Send patch to debian-policy deprecating Source-Version substvar.
+
+ * Triage as much bugs as possible to get the bug count below 300 ;) and
+   merge as much patches as possible.
+
+1.14.0
+
+ * All perl scripts using strict and warnings, I've a patch already for this,
+   just needs some review.
+
+ * Support udeb natively:
+   - Add field Package-Type and friends.
+
+ * Support Tag field.
+
+ * Add armel support and by extension uclibc and other variants to be easily
+   allowed or added. The main problem I'm facing with this one is and nice a
+   clean implementation, the PoC and the idea how to fix it is present already.
+
+1.14.x
+
+ * Get rid of install-info.
+
+ * Add multiarch support.
+
+ * Merge back support for Breaks field from Ubuntu.
+
+ * Convert controllib.pl to a new style perl module(s).
+
+ * Fix tied field enum with its dselect description (pkgdisplay.cc).
+
+ * Add example to dpkg-scanfoo manpages?
+
+ * The cleverer conffile support bug fixed.
+
+ * Add UTF-8 support to all programs.
+
+ * Add md5sums and/or sha1sums package support.
+
+ * Allow packages to register additional files.
+
+ * Some kind of test-suite (Esteban).
+
+ * Parse the dependencies and coalesce them: controllib.pl (parsedep).
+
+ * Make dpkg-checkbuilddeps easier to use by other programs such as pbuilder
+   or sbuild, so that they can start using the new architecture wildcards
+   automatically.
+
+
+TODO
+====
+
+Old TODO entries from Scott:
+
 libdpkg:
 * cut compat.c into little pieces and move them to optlib
 * modify database to store per-file flags
@@ -96,29 +159,9 @@ other stuff unlikely to get done soon
  * `fake' or `null' packages
  * dpkg --query | -Q
 
-done
- * highlight or pre-sort or something new or changed packages,
-   during upgrade selection.
- * side-by-side version display
- * version number comparison option
- * Pre-Depends installation ordering
- * a.out version
- * uncomment ELF preinst modification
- * Replaces (auto-deselect for conflicts)
- * Replaces (don't overwrite otherwise)
- * compile with ELF GCC out of the box
- * dpkg --print-architecture
- * Architecture field check
- * symlink rename change
- * dpkg --listfiles should do better for multi-package files  (pkg, pkg: ...)
- * --purge remove empty directories which used too contain conffiles
- * conffiles handling options, including `replace removed files'
- * `diff' option at conffile prompt
- * check description in dpkg-deb
- * update-alternatives prompting.
-
 obsoleted so not done
  * version numbers not starting digit early.
  * dselect bottom window too large, and/or resize
  * md5sum component in new .deb files
  * `template' file giving default selections of dselect.
+
