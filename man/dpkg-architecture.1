@@ -1,14 +1,14 @@
-.TH dpkg\-architecture 1 "2006-06-17" "Debian Project" "dpkg utilities"
+.TH dpkg\-architecture 1 "2007-03-06" "Debian Project" "dpkg utilities"
 .SH "NAME"
 dpkg\-architecture \- set and determine the architecture for package building
 .
-.SH "SYNOPSIS"
+.SH SYNOPSIS
 .B dpkg-architecture
 .RI [ options ]
-.RI [ action ]
+.RI [ commands ]
 .PP
 .
-.SH "DESCRIPTION"
+.SH DESCRIPTION
 dpkg-architecture does provide a facility to determine and set the build and
 host architecture for package building.
 .PP
@@ -24,22 +24,7 @@ other will be set to a usable default. Indeed, it is often better to only
 specify one, because \fBdpkg\-architecture\fP will warn you if your choice
 does not match the default.
 .
-.SH OPTIONS
-.TP
-.BI \-a debian-architecture
-Set the Debian architecture.
-.TP
-.BI \-t gnu-system-type
-Set the GNU system type.
-.TP
-.B \-f
-Values set by existing environment variables with the same name as used by
-the scripts are honored (i.e. used by \fBdpkg-architecture\fP), except if
-this force flag is present. This allows the user
-to override a value even when the call to \fBdpkg\-architecture\fP is buried
-in some other script (for example \fBdpkg\-buildpackage\fP(1)).
-.
-.SH ACTIONS
+.SH COMMANDS
 .TP
 .B \-l
 Print the environment variables, one each line, in the format
@@ -74,13 +59,28 @@ the determined value.
 .B \-L
 Print a list of valid architecture names.
 .TP
-.BR \-\-help
-Print a usage message.
+.B \-\-help
+Show the usage message and exit.
 .TP
 .B \-\-version
-Print program version.
+Show the version and exit.
 .
-.SH "TERMS"
+.SH OPTIONS
+.TP
+.BI \-a debian-architecture
+Set the Debian architecture.
+.TP
+.BI \-t gnu-system-type
+Set the GNU system type.
+.TP
+.B \-f
+Values set by existing environment variables with the same name as used by
+the scripts are honored (i.e. used by \fBdpkg-architecture\fP), except if
+this force flag is present. This allows the user
+to override a value even when the call to \fBdpkg\-architecture\fP is buried
+in some other script (for example \fBdpkg\-buildpackage\fP(1)).
+.
+.SH TERMS
 .IP "build machine" 4
 The machine the package is built on.
 .IP "host machine" 4
@@ -97,29 +97,7 @@ An architecture specification string consisting of two parts separated by
 a dash: cpu and system. Examples: i386\-linux\-gnu, sparc\-linux\-gnu,
 i386\-gnu, x86_64\-netbsd.
 .
-.SH "EXAMPLES"
-\fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
-\fBdpkg\-architecture\fP. Other examples:
-.PP
-CC=i386\-gnu\-gcc dpkg\-architecture \f(CW\*(C`\-c\*(C'\fR debian/rules build
-.PP
-eval \`dpkg\-architecture \f(CW\*(C`\-u\*(C'\fR\`
-.PP
-Check if an architecture is equal to the current architecture or a given
-one:
-.PP
-dpkg\-architecture \-elinux\-alpha
-.PP
-dpkg\-architecture \-amips \-elinux\-mips
-.PP
-Check if the current architecture or an architecture provided with -a are
-Linux systems:
-.PP
-dpkg\-architecture \-ilinux\-any
-.PP
-dpkg\-architecture \-ai386 \-ilinux\-any
-.
-.SH "VARIABLES"
+.SH VARIABLES
 The following variables are set by \fBdpkg\-architecture\fP:
 .IP "\s-1DEB_BUILD_ARCH\s0" 4
 The Debian architecture of the build machine.
@@ -265,11 +243,33 @@ compilation).
 The \fB\-e\fP and \fB\-i\fP options were only introduced in relatively recent
 versions of \fBdpkg\-architecture\fR (since dpkg 1.13.13).
 .
+.SH EXAMPLES
+\fBdpkg\-buildpackage\fP accepts the \fB\-a\fR option and passes it to
+\fBdpkg\-architecture\fP. Other examples:
+.IP
+CC=i386\-gnu\-gcc dpkg\-architecture \f(CW\*(C`\-c\*(C'\fR debian/rules build
+.IP
+eval \`dpkg\-architecture \f(CW\*(C`\-u\*(C'\fR\`
+.PP
+Check if an architecture is equal to the current architecture or a given
+one:
+.IP
+dpkg\-architecture \-elinux\-alpha
+.IP
+dpkg\-architecture \-amips \-elinux\-mips
+.PP
+Check if the current architecture or an architecture provided with -a are
+Linux systems:
+.IP
+dpkg\-architecture \-ilinux\-any
+.IP
+dpkg\-architecture \-ai386 \-ilinux\-any
+.
 .SH "SEE ALSO"
 .BR dpkg\-buildpackage (1),
 .BR dpkg\-cross (1).
 .
-.SH "AUTHOR"
+.SH AUTHOR
 .B dpkg\-architecture
 and this man page were initially written by
 Marcus Brinkmann <brinkmd@debian.org>.

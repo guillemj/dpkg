@@ -1,29 +1,16 @@
-.TH dpkg\-divert 8 "2006-05-23" "Debian Project" "dpkg utilities"
+.TH dpkg\-divert 8 "2007-03-06" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-divert - override a package's version of a file
 .
 .SH SYNOPSIS
 .B dpkg\-divert
 .RI [ options ]
-.RB [ \-\-add ]
-.I <file>
-.br
-.B dpkg\-divert
-.RI [ options ]
-.B \-\-remove
-.I <file>
-.br
-.B dpkg\-divert
-.RI [ options ]
-.B \-\-list
-.I <glob-pattern>
-.br
-.B dpkg\-divert
-.RI [ options ]
-.B \-\-truename
-.I <file>
+.I command
 .
 .SH DESCRIPTION
+.B dpkg\-divert
+is the utility used to set up and update the list of diversions.
+.PP
 File `diversions' are a way of forcing
 .BR dpkg (1)
 not to install a file into its
@@ -34,20 +21,27 @@ file, or whenever some files (which aren't marked as 'conffiles') need to be
 preserved by dpkg, when installing a newer version of a package which
 contains those files.
 .sp
-.B dpkg\-divert
-is the utility used to set up and update the list of diversions. It
-functions in three basic modes - adding, removing, and listing diversions.
-The options are \fB\-\-add\fP, \fB\-\-remove\fP, and \fB\-\-list\fP,
-respectively. Additionally, it can print out the real name for a diverted
-file with \fB\-\-truename\fP. Other options (listed below) may also be
-specified.
+.SH COMMANDS
+.TP
+.RB [ \-\-add "] \fIfile\fP"
+Add a diversion for \fIfile\fP.
+.TP
+.BI \-\-remove " file"
+Remove a diversion for \fIfile\fP.
+.TP
+.BI \-\-list " glob-pattern"
+List diversions matching \fIglob-pattern\fP.
+.TP
+.BI \-\-truename " file"
+Print the real name for a diverted file.
+.
 .SH OPTIONS
 .TP
-.BI \-\-admindir " <directory>"
-Set the dpkg data directory to \fI<directory>\fP (default: \fI/var/lib/dpkg\fP).
+.BI \-\-admindir " directory"
+Set the dpkg data directory to \fIdirectory\fP (default: \fI/var/lib/dpkg\fP).
 .TP
-.BI \-\-divert " <divert-to>"
-\fI<divert-to>\fP is the location where the versions of \fI<file>\fP, as
+.BI \-\-divert " divert-to"
+\fIdivert-to\fP is the location where the versions of \fIfile\fP, as
 provided by other packages, will be diverted.
 .TP
 .B \-\-local
@@ -56,10 +50,10 @@ This means, that there are no exceptions, and whatever package is installed,
 the file is diverted. This can be used by an admin to install a locally
 modified version.
 .TP
-.BI \-\-package " <package>"
-\fI<package>\fP is the name of a package whose copy of \fI<file>\fP will not
-be diverted. i.e. \fI<file>\fP will be diverted for all packages except
-\fI<package>\fP.
+.BI \-\-package " package"
+\fIpackage\fP is the name of a package whose copy of \fIfile\fP will not
+be diverted. i.e. \fIfile\fP will be diverted for all packages except
+\fIpackage\fP.
 .TP
 .B \-\-quiet
 Quiet mode, i.e. no verbose output.
@@ -72,10 +66,10 @@ in case the destination file already exists.
 Test mode, i.e. don't actually perform any changes, just demonstrate.
 .TP
 .B \-\-help
-Output short usage instructions, and exit successfully.
+Show the usage message and exit.
 .TP
 .B \-\-version
-Output program name and version and exit successfully.
+Show the version and exit.
 .
 .SH NOTES
 When adding, default is \fB\-\-local\fP and \fB\-\-divert\fP
@@ -123,6 +117,7 @@ Note: \fBdpkg\-divert\fP preserves the old copy of this file, with extension
 .
 .SH SEE ALSO
 .BR dpkg (1).
+.
 .SH AUTHOR
 Copyright (C) 1995 Ian Jackson.
 .sp

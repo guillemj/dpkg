@@ -1,20 +1,11 @@
-.TH dpkg\-statoverride 8 "2006-05-23" "Debian project" "dpkg utilities"
+.TH dpkg\-statoverride 8 "2007-03-06" "Debian project" "dpkg utilities"
 .SH NAME
 dpkg\-statoverride - override ownership and mode of files
 .
 .SH SYNOPSIS
 .B dpkg\-statoverride
 .RI [ options ]
-.BI \-\-add " <user> <group> <mode> <file>"
-.br
-.B dpkg\-statoverride
-.RI [ options ]
-.BI \-\-remove " <file>"
-.br
-.B dpkg\-statoverride
-.RI [ options ]
-.B \-\-list
-.RI [ <glob-pattern> ]
+.I command
 .
 .SH DESCRIPTION
 `\fBstat overrides\fR' are a way to tell
@@ -30,26 +21,38 @@ flag, or only executable by a certain group.
 overrides. It has three basic functions: adding, removing and listing
 overrides.
 .
-.SH OPTIONS
+.SH COMMANDS
 .TP
-.BI \-\-add " <user> <group> <mode> <file>"
-Add an override for \fB<file>\fR. \fB<file>\fR does not need to exist
+.BI \-\-add " user group mode file"
+Add an override for \fBfile\fR. \fBfile\fR does not need to exist
 when this command is used; the override will be stored and used later.
 Users and groups can be specified by their name (for example \fBroot\fR
 or \fBnobody\fR), or by their number by prepending the number with a
 `\fB#\fR' (for example \fB#0\fR or \fB#65534\fR).
 
-If \-\-update is specified and \fB<file>\fR exists, it is immediately
+If \-\-update is specified and \fBfile\fR exists, it is immediately
 set to the new owner and mode.
 .TP
-.BI \-\-remove " <file>"
-Remove an override for \fB<file>\fR, the status of \fB<file>\fR is left
+.BI \-\-remove " file"
+Remove an override for \fBfile\fR, the status of \fBfile\fR is left
 unchanged by this command.
 .TP
-.BR \-\-list " [\fI<glob-pattern>\fP]"
+.BR \-\-list " [\fIglob-pattern\fP]"
 List all overrides. If a glob pattern is specified restrict the output
 to overrides which match the glob. If there are no overrides or none
 match the glob \fBdpkg\-statoverride\fR will exit with an exitcode of 1.
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH OPTIONS
+.TP
+.BI \-\-admindir " directory"
+Change the directory of the dpkg database where the statoverride file is
+also stored. Defaults to \fI/var/lib/dpkg\fP.
 .TP
 .B \-\-force
 Force an action, even if a sanity check would otherwise prohibit it.
@@ -61,16 +64,6 @@ exists.
 .TP
 .B \-\-quiet
 Be less verbose about what we do.
-.TP
-.B \-\-help
-Show usage information.
-.TP
-.B \-\-version
-Show program version and copyright.
-.TP
-.B \-\-admindir
-Change the directory of the dpkg database where the statoverride file is
-also stored. Defaults to \fI/var/lib/dpkg\fP.
 .
 .SH FILES
 .TP

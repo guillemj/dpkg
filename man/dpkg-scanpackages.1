@@ -13,18 +13,16 @@
 .\" You should have received a copy of the GNU General Public
 .\" License along with dpkg; if not, write to the Free Software
 .\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-.TH dpkg\-scanpackages 1 "2006-05-10" "Debian Project" "dpkg utilities"
+.TH dpkg\-scanpackages 1 "2007-03-06" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-scanpackages - create Packages files
 .
 .SH SYNOPSIS
 .B dpkg\-scanpackages
-.RB [ \-u "] [" \-a
-.I <arch>
-.RB "] [" \-m ]
-.I binarydir
-.I overridefile
-.RI [ pathprefix ]
+.RI [ options ]
+.I binary-dir
+.I override-file
+.RI [ path-prefix ]
 .B >
 .I Packages
 .
@@ -65,18 +63,27 @@ package fits into the distribution; see below.
 .I pathprefix
 is an optional string to be prepended to the Filename fields.
 .PP
-If
-.B \-u
-is specified, then scan for *.udeb, instead of *.deb.
-.PP
-When \fB\-a\fP\fI<arch>\fP is specified, then instead of scanning for all
-debs, a pattern consisting of *_all.deb and *_arch.deb is used.
-.PP
 If more than one version of a package is found only the newest one
 is included in the output. If they have the same version and only
-differ in architecture only the first one found is used. You can override
-this behaviour with the \fB\-m\fP switch. If given, all found packages
-are included in the output.
+differ in architecture only the first one found is used.
+.
+.SH OPTIONS
+.TP
+.BR \-u ", " \-\-udeb
+Scan for \fI*.udeb\fP, instead of \fI*.deb\fP.
+.TP
+.BR \-a ", " \-\-arch " \fIarch\fP"
+Use a pattern consisting of \fI*_all.deb\fP and \fI*_arch.deb\fP instead of
+scanning for all debs,
+.TP
+.BR \-m ", " \-\-multiversion
+Include all found packages in the output.
+.TP
+.BR \-h ", " \-\-help
+Show the usage message and exit.
+.TP
+.BR \-\-version
+Show the version and exit.
 .
 .SH THE OVERRIDE FILE
 While most information about a package can be found in the control file,

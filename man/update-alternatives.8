@@ -5,57 +5,14 @@
 .\" by the Free Software Foundation; either version 2 of the License, or
 .\" (at your option) any later version.  There is NO WARRANTY.  You can
 .\" find the GNU GPL in /usr/share/common-licenses/GPL on any Debian system.
-.TH update\-alternatives 8 "2006-11-24" "Debian Project" "dpkg utilities"
+.TH update\-alternatives 8 "2007-03-06" "Debian Project" "dpkg utilities"
 .SH NAME
 update\-alternatives - maintain symbolic links determining default commands
 .
 .SH SYNOPSIS
 .B update\-alternatives
 .RI [ options ]
-.B \-\-install
-.I genname symlink altern priority
-.RB [ \-\-slave
-.I genname symlink
-.IR altern ]...
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-remove
-.I name path
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-remove\-all
-.I name
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-all
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-auto
-.I name
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-display
-.I name
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-list
-.I name
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-config
-.I name
-.PP
-.B update\-alternatives
-.RI [ options ]
-.B \-\-set
-.I name path
+.I command
 .
 .SH DESCRIPTION
 .B update\-alternatives
@@ -262,7 +219,7 @@ and the current setting for it, use the
 action:
 .RS
 .PP
-update\-alternatives \-\-display vi
+.BR "update\-alternatives \-\-display" vi
 .RE
 .PP
 To choose a particular
@@ -271,7 +228,7 @@ implementation, use this command as root and then select a number
 from the list:
 .RS
 .PP
-update\-alternatives \-\-config vi
+.BR "update\-alternatives \-\-config" vi
 .RE
 .PP
 To go back to having the
@@ -279,47 +236,10 @@ To go back to having the
 implementation chosen automatically, do this as root:
 .RS
 .PP
-update\-alternatives \-\-auto vi
+.BR "update\-alternatives \-\-auto" vi
 .RE
 .
-.SH OPTIONS
-Exactly one action must be specified if
-.B update\-alternatives
-is to perform any meaningful task.
-Any number of the common options may be specified together with any action.
-.SS "COMMON OPTIONS"
-.TP
-.B \-\-verbose
-Generate more comments about what
-.B update\-alternatives
-is doing.
-.TP
-.B \-\-quiet
-Don't generate any comments unless errors occur.
-This option is not yet implemented.
-.TP
-.B \-\-test
-Don't actually do anything, just say what would be done.
-This option is not yet implemented.
-.TP
-.B \-\-help
-Give some usage information.
-.TP
-.B \-\-version
-Tell which version of
-.B update\-alternatives
-this is.
-.TP
-\fB\-\-altdir\fR \fIdirectory\fR
-Specifies the alternatives directory, when this is to be
-different from the default.
-.TP
-\fB\-\-admindir\fR \fIdirectory\fR
-Specifies the administrative directory, when this is to be
-different from the default.
-.SS ACTIONS
-.\" The names of the arguments should be identical with the ones
-.\" in SYNOPSIS section.
+.SH COMMANDS
 .TP
 \fB\-\-install\fR \fIgenname symlink altern priority\fR [\fB\-\-slave\fR \fIgenname symlink altern\fR] ...
 Add a group of alternatives to the system.
@@ -411,6 +331,35 @@ interactively select which one to use. The link group is updated
 and taken out of
 .I auto
 mode.
+.TP
+.B \-\-help
+Show the usage message and exit.
+.TP
+.B \-\-version
+Show the version and exit.
+.
+.SH OPTIONS
+.TP
+.BI \-\-altdir " directory"
+Specifies the alternatives directory, when this is to be
+different from the default.
+.TP
+.BI \-\-admindir " directory"
+Specifies the administrative directory, when this is to be
+different from the default.
+.TP
+.B \-\-verbose
+Generate more comments about what
+.B update\-alternatives
+is doing.
+.TP
+.B \-\-quiet
+Don't generate any comments unless errors occur.
+This option is not yet implemented.
+.TP
+.B \-\-test
+Don't actually do anything, just say what would be done.
+This option is not yet implemented.
 .
 .SH FILES
 .TP

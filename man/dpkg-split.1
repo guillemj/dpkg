@@ -1,30 +1,13 @@
 .\" Authors: Ian Jackson
-.TH dpkg\-split 1 "2006-02-28" "Debian Project" "dpkg utilities"
+.TH dpkg\-split 1 "2007-03-06" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-split \- Debian package archive split/join tool
+.
 .SH SYNOPSIS
 .B dpkg\-split
-.BR \-s | \-\-split
-.IR complete-archive " [" prefix ]
-.br
-.B dpkg\-split
-.BR \-j | \-\-join
-.IR part " ..."
-.br
-.B dpkg\-split
-.BR \-I | \-\-info
-.IR part " ..."
-.br
-.B dpkg\-split
-.BR \-a | \-\-auto
-.BI \-o " complete-output part"
-.br
-.B dpkg\-split
-.BR \-l | \-\-listq
-.br
-.B dpkg\-split
-.BR \-d | \-\-discard
-.RI [ package " ...]"
+.RI [ options ]
+.I command
+.
 .SH DESCRIPTION
 .B dpkg\-split
 splits Debian binary package files into smaller parts and reassembles
@@ -45,9 +28,10 @@ options allow the management of the queue.
 
 All splitting, joining and queueing operations produce informative
 messages on standard output; these may safely be ignored.
-.SH ACTION OPTIONS
+.
+.SH COMMANDS
 .TP
-.BR \-\-split ", " \-s
+.BR \-s ", " \-\-split " \fIcomplete-archive\fP [\fIprefix\fP]"
 Splits a single Debian binary package into several parts.
 
 The parts are named
@@ -66,7 +50,7 @@ filename is taken, including directory, with any trailing
 .B .deb
 removed.
 .TP
-.BR \-\-join ", " \-j
+.BR \-j ", " \-\-join " \fIpart\fP..."
 Joins the parts of a package file together, reassembling the original
 file as it was before it was split.
 
@@ -85,12 +69,12 @@ By default the output file is called
 .IB package \- version .deb\fR.
 
 .TP
-.BR \-\-info ", " \-I
+.BR \-I ", " \-\-info " \fIpart\fP..."
 Prints information, in a human-readable format, about the part file(s)
 specified. Arguments which are not binary package parts produce a
 message saying so instead (but still on standard output).
 .TP
-.BR \-\-auto ", " \-a
+.BR \-a ", " "\-\-auto \-o" " \fIcomplete-output part\fP"
 Automatically queue parts and reassemble a package if possible.
 
 The
@@ -125,14 +109,14 @@ option must be supplied when using
 (If this were not mandatory the calling program would not know what
 output file to expect.)
 .TP
-.BR \-\-listq ", " \-l
+.BR \-l ", " \-\-listq
 Lists the contents of the queue of packages to be reassembled.
 
 For each package file of which parts are in the queue the output gives
 the name of the package, the parts in the queue, and the total number
 of bytes stored in the queue.
 .TP
-.BR \-\-discard ", " \-d
+.BR \-d ", " \-\-discard " [\fIpackage\fP...]"
 This discards parts from the queue of those waiting for the remaining
 parts of their packages.
 
@@ -141,34 +125,27 @@ If no
 is specified then the queue is cleared completely; if any are
 specified then only parts of the relevant package(s) are deleted.
 .TP
-.BR \-\-help ", " \-h
-Prints
-.BR dpkg\-split 's
-usage message, giving a summary of its options and their uses.
+.BR \-h ", " \-\-help
+Show the usage message and exit.
 .TP
 .BR \-\-version
-Prints
-.BR dpkg\-split 's
-version number.
+Show the version and exit.
 .TP
-.BR \-\-licence
-Prints information about
-.BR dpkg\-split 's
-copyright licensing and lack of warranty. (The American spelling
-.B \-\-license
-is also supported.)
-.SH OTHER OPTIONS
+.BR \-\-license ", " \-\-licence
+Show the copyright licensing terms and exit.
+.
+.SH OPTIONS
 .TP
 .BI \-\-depotdir " directory"
 Specifies an alternative directory for the queue of parts awaiting
 automatic reassembly. The default is
 .BR /var/lib/dpkg .
 .TP
-.BI \-\-partsize\fR|\fB\-S " kbytes"
+.BR \-S ", " \-\-partsize " \fIkbytes\fP"
 Specifies the maximum part size when splitting, in kilobytes (1024
-bytes). The default is 450Kb.
+bytes). The default is 450 KiB.
 .TP
-.BI \-\-output\fR|\fB\-O " complete-output"
+.BR \-o ", " \-\-output " \fIcomplete-output\fP"
 Specifies the output file name for a reassembly.
 
 This overrides the default for a manual reassembly
@@ -176,7 +153,7 @@ This overrides the default for a manual reassembly
 and is mandatory for an automatic queue-or-reassemble
 .RB ( \-\-auto ).
 .TP
-.BR \-\-npquiet ", " \-Q
+.BR \-Q ", " \-\-npquiet
 When doing automatic queue-or-reassembly
 .B dpkg\-split
 usually prints a message if it is given a
@@ -202,6 +179,7 @@ The result is then truncated as much as is necessary, and filenames of
 the form
 .IB "prefixN" of M .deb
 are generated.
+.
 .SH EXIT STATUS
 An exit status of 0 indicates that the requested split, merge, or
 other command succeeded.
@@ -218,6 +196,7 @@ file was not a binary package part.
 An exit status of 2 indicates some kind of trouble, such as a system
 call failure, a file that looked like a package part file but was
 corrupted, a usage error or some other problem.
+.
 .SH BUGS
 .B dpkg\-split
 uses some rather out-of-date conventions for the the filenames of
@@ -232,6 +211,7 @@ package part is one.
 The architecture is not represented in the part files' header, only in
 the control information of the contained binary package file, and it
 is not present in the filenames generated.
+.
 .SH FILES
 .TP
 .I /var/lib/dpkg/parts
@@ -242,7 +222,8 @@ The filenames used in this directory are in a format internal to
 .B dpkg\-split
 and are unlikely to be useful to other programs, and in any case the
 filename format should not be relied upon.
-.SH SEE ALSO
+.
+.SH "SEE ALSO"
 .BR deb (5),
 .BR deb\-control (5),
 .BR dpkg\-deb (1),
