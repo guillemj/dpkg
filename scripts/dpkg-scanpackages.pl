@@ -15,6 +15,10 @@ push(@INC,$dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
+my (@samemaint, @changedmaint);
+my %packages;
+my %overridden;
+
 my %kmap= (optional         => 'suggests',
 	   recommended      => 'recommends',
 	   class            => 'priority',
@@ -68,7 +72,7 @@ sub version {
 
 sub usage {
     printf _g(
-"Usage: %s [<option> ...] <binarypath> <overridefile> [<pathprefix>] > Packages
+"Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > Packages
 
 Options:
   -u, --udeb               scan for udebs.
@@ -79,7 +83,64 @@ Options:
 "), $0;
 }
 
-&usage and exit 1 if not $result and (@ARGV < 2);
+sub load_override
+{
+    my $override = shift;
+
+    if (defined $override) {
+	-e $override or
+	    die sprintf(_g("Override file %s not found"), $override)."\n";
+    } else {
+	return;
+    }
+
+    my $override_fh = new IO::File $override, 'r' or
+	die sprintf(_g("Couldn't open override file %s: %s"), $override, $!)."\n";
+
+    while (<$override_fh>) {
+	s/\#.*//;
+	s/\s+$//;
+	next unless $_;
+
+	my ($p, $priority, $section, $maintainer) = split(/\s+/, $_, 4);
+
+	next unless defined($packages{$p});
+
+	for my $package (@{$packages{$p}}) {
+	    if ($maintainer) {
+		if ($maintainer =~ m/(.+?)\s*=\>\s*(.+)/) {
+		    my $oldmaint = $1;
+		    my $newmaint = $2;
+		    my $debmaint = $$package{Maintainer};
+		    if (!grep($debmaint eq $_, split(m:\s*//\s*:, $oldmaint))) {
+			push(@changedmaint,
+			     "  $p (package says $$package{Maintainer}, not $oldmaint)\n");
+		    } else {
+			$$package{Maintainer} = $newmaint;
+		    }
+		} elsif ($$package{Maintainer} eq $maintainer) {
+		    push(@samemaint, "  $p ($maintainer)\n");
+		} else {
+		    printf(STDERR _g(" * Unconditional maintainer override for %s *")."\n", $p) || die $!;
+		    $$package{Maintainer} = $maintainer;
+		}
+	    }
+	    $$package{Priority} = $priority;
+	    $$package{Section} = $section;
+	}
+	$overridden{$p} = 1;
+    }
+
+    close($override_fh);
+}
+
+usage() and exit 1 if not $result;
+
+if (not @ARGV >= 1 && @ARGV <= 3) {
+    warn _g("1 to 3 args expected\n");
+    usage();
+    exit 1;
+}
 
 my $udeb = $options{udeb};
 my $arch = $options{arch};
@@ -93,11 +154,15 @@ else {
      @find_args = ('-name',"*.$ext");
 }
 push @find_args, '-follow';
+
+#push @ARGV, undef	if @ARGV < 2;
+#push @ARGV, ''		if @ARGV < 3;
 my ($binarydir, $override, $pathprefix) = @ARGV;
+
 -d $binarydir or die sprintf(_g("Binary dir %s not found"),
                              $binarydir)."\n";
--e $override or die sprintf(_g("Override file %s not found"),
-                            $override)."\n";
+
+load_override($override);
 
 $pathprefix = '' if not defined $pathprefix;
 
@@ -110,7 +175,6 @@ sub vercmp {
      return $?;
 }
 
-my %packages;
 my $find_h = new IO::Handle;
 open($find_h,'-|','find',"$binarydir/",@find_args,'-print')
      or die sprintf(_g("Couldn't open %s for reading: %s"),
@@ -201,44 +265,6 @@ $packages
     while (length($packages)) { write(STDERR) || die $!; }
     print(STDERR "\n") || die $!;
 }
-
-my (@samemaint,@changedmaint);
-
-
-my %overridden;
-my $override_fh = new IO::File $override,'r'
-    or die sprintf(_g("Couldn't open override file %s: %s"), $override, $!)."\n";
-while (<$override_fh>) {
-    s/\#.*//;
-    s/\s+$//;
-    next unless $_;
-    my ($p,$priority,$section,$maintainer)= split(/\s+/,$_,4);
-    next unless defined($packages{$p});
-    for my $package (@{$packages{$p}}) {
-	 if ($maintainer) {
-	      if ($maintainer =~ m/(.+?)\s*=\>\s*(.+)/) {
-		   my $oldmaint= $1;
-		   my $newmaint= $2;
-		   my $debmaint= $$package{Maintainer};
-		   if (!grep($debmaint eq $_, split(m:\s*//\s*:, $oldmaint))) {
-			push(@changedmaint,
-			     "  $p (package says $$package{Maintainer}, not $oldmaint)\n");
-		   } else {
-			$$package{Maintainer}= $newmaint;
-		   }
-	       } elsif ($$package{Maintainer} eq $maintainer) {
-		   push(@samemaint,"  $p ($maintainer)\n");
-	       } else {
-		   printf(STDERR _g(" * Unconditional maintainer override for %s *")."\n", $p) || die $!;
-		   $$package{Maintainer}= $maintainer;
-	       }
-	  }
-	 $$package{Priority}= $priority;
-	 $$package{Section}= $section;
-    }
-    $overridden{$p} = 1;
-}
-close($override_fh);
 
 my @missingover=();
 
