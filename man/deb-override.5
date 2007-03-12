@@ -1,0 +1,70 @@
+.\" This manpage is copyright (C) 1996 Michael Shields <shields@crosslink.net>.
+.\" 
+.\" This is free software; you may redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as
+.\" published by the Free Software Foundation; either version 2,
+.\" or (at your option) any later version.
+.\"
+.\" This is distributed in the hope that it will be useful, but
+.\" WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public
+.\" License along with dpkg; if not, write to the Free Software
+.\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+.TH deb\-override 5 "2007-03-07" "Debian Project" "dpkg utilities"
+.SH NAME
+deb\-override \- Debian archive override file
+.
+.SH SYNOPSIS
+override
+.
+.SH DESCRIPTION
+While most information about a package can be found in the control file,
+some must be filled in by the distribution czars rather than by the
+maintainer, because they relate to the arrangement of files for release
+rather than the actual dependencies and description of the package.
+This information is found in the override file.
+.PP
+The override file has a simple whitespace-delimited format. Comments are
+allowed (denoted with a
+.BR # ).
+.PP
+.in +5
+.I package
+.I priority
+.I section
+.RI [ maintainerinfo ]
+.in -5
+.PP
+.I package
+is the name of the package. Entries in the override file for packages
+not found in the tree of binary packages are ignored.
+.PP
+.I priority
+and
+.I section
+place the package within the release tree; these ought not to be found
+in the control file. If the package is found in a subdirectory of
+.IR binarydir ,
+that will be checked against
+.IR section .
+.PP
+.IR maintainerinfo ,
+if present, can be either the name of a maintainer for an unconditional
+override, or else
+.I oldmaintainer
+.B =>
+.I newmaintainer
+to perform a substitution.
+.PP
+The override files used to make the official Packages lists may be found
+in the
+.I indices
+directory on any Debian mirror.
+.
+.SH SEE ALSO
+.BR dpkg\-packages (1),
+.BR dpkg\-scansources (1),
+.BR apt\-ftparchive (1).
