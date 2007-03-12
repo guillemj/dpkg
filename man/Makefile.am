@@ -36,6 +36,7 @@ dist_man_MANS = \
 	cleanup-info.8 \
 	deb-control.5 \
 	deb-old.5 \
+	deb-override.5 \
 	deb.5 \
 	dpkg-architecture.1 \
 	dpkg-checkbuilddeps.1 \
