@@ -374,10 +374,15 @@ int cisalpha(int c);
 
 /*** from compression.c ***/
 
-enum compression_type { CAT, GZ, BZ2, compress_type_lzma };
+enum compress_type {
+  compress_type_cat,
+  compress_type_gzip,
+  compress_type_bzip2,
+  compress_type_lzma,
+};
 
-void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *desc, ...) NONRETURNING;
-void compress_cat(enum compression_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) NONRETURNING;
+void decompress_cat(enum compress_type type, int fd_in, int fd_out, char *desc, ...) NONRETURNING;
+void compress_cat(enum compress_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) NONRETURNING;
 
 /*** from compat.c ***/
 

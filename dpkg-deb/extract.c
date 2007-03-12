@@ -99,7 +99,7 @@ void extracthalf(const char *debar, const char *directory,
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
   fpos_t fpos;
 #endif
-  enum compression_type compress_type = GZ;
+  enum compress_type compress_type = compress_type_gzip;
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
   if (fstat(fileno(ar),&stab)) ohshite(_("failed to fstat archive"));
@@ -152,11 +152,11 @@ void extracthalf(const char *debar, const char *directory,
 	  if (!memcmp(arh.ar_name,DATAMEMBER_GZ,sizeof(arh.ar_name)) ||
 	      !memcmp(arh.ar_name,DATAMEMBER_COMPAT_GZ,sizeof(arh.ar_name))) {
 	    adminmember= 0;
-	    compress_type= GZ;
+	    compress_type = compress_type_gzip;
 	  } else if (!memcmp(arh.ar_name,DATAMEMBER_BZ2,sizeof(arh.ar_name)) ||
 		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_BZ2,sizeof(arh.ar_name))) {
 	    adminmember= 0;
-	    compress_type= BZ2;
+	    compress_type = compress_type_bzip2;
 	  } else if (!memcmp(arh.ar_name, DATAMEMBER_LZMA, sizeof(arh.ar_name)) ||
 		     !memcmp(arh.ar_name, DATAMEMBER_COMPAT_LZMA, sizeof(arh.ar_name))) {
 	    adminmember = 0;
@@ -164,7 +164,7 @@ void extracthalf(const char *debar, const char *directory,
 	  } else if (!memcmp(arh.ar_name,DATAMEMBER_CAT,sizeof(arh.ar_name)) ||
 		     !memcmp(arh.ar_name,DATAMEMBER_COMPAT_CAT,sizeof(arh.ar_name))) {
 	    adminmember= 0;
-	    compress_type= CAT;
+	    compress_type = compress_type_cat;
 	  } else {
             ohshit(_("file `%.250s' contains ununderstood data member %.*s, giving up"),
                    debar, (int)sizeof(arh.ar_name), arh.ar_name);

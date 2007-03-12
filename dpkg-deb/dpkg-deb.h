@@ -36,7 +36,7 @@ void extracthalf(const char *debar, const char *directory,
 
 extern const char *compression;
 extern const char* showformat;
-extern enum compression_type compress_type;
+extern enum compress_type compress_type;
 
 #define DEBMAGIC     "!<arch>\ndebian-binary   "
 #define ADMINMEMBER		"control.tar.gz  "

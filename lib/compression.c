@@ -34,7 +34,7 @@ fd_fd_filter(int fd_in, int fd_out,
   ohshite(_("%s: failed to exec '%s %s'"), desc, cmd, args);
 }
 
-void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *desc, ...) {
+void decompress_cat(enum compress_type type, int fd_in, int fd_out, char *desc, ...) {
   va_list al;
   struct varbuf v;
 
@@ -45,7 +45,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
   va_end(al);
 
   switch(type) {
-    case GZ:
+    case compress_type_gzip:
 #ifdef WITH_ZLIB
       {
         char buffer[4096];
@@ -68,7 +68,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
 #else
       fd_fd_filter(fd_in, fd_out, GZIP, "gzip", "-dc", v.buf);
 #endif
-    case BZ2:
+    case compress_type_bzip2:
 #ifdef WITH_BZ2
       {   
         char buffer[4096];
@@ -93,7 +93,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
 #endif
     case compress_type_lzma:
       fd_fd_filter(fd_in, fd_out, LZMA, "lzma", "-dc", v.buf);
-    case CAT:
+    case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: decompression"), v.buf);
       exit(0);
     default:
@@ -101,7 +101,7 @@ void decompress_cat(enum compression_type type, int fd_in, int fd_out, char *des
   }
 }
 
-void compress_cat(enum compression_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) {
+void compress_cat(enum compress_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) {
   va_list al;
   struct varbuf v;
   char combuf[6];
@@ -113,10 +113,11 @@ void compress_cat(enum compression_type type, int fd_in, int fd_out, const char 
   va_end(al);
 
   if(compression == NULL) compression= "9";
-  else if(*compression == '0') type = CAT;
+  else if (*compression == '0')
+    type = compress_type_cat;
 
   switch(type) {
-    case GZ:
+    case compress_type_gzip:
 #ifdef WITH_ZLIB
       {
         int actualread, actualwrite;
@@ -151,7 +152,7 @@ void compress_cat(enum compression_type type, int fd_in, int fd_out, const char 
       combuf[1]= *compression;
       fd_fd_filter(fd_in, fd_out, GZIP, "gzip", combuf, v.buf);
 #endif
-    case BZ2:
+    case compress_type_bzip2:
 #ifdef WITH_BZ2
       {
         int actualread, actualwrite;
@@ -186,7 +187,7 @@ void compress_cat(enum compression_type type, int fd_in, int fd_out, const char 
       combuf[1]= *compression;
       fd_fd_filter(fd_in, fd_out, BZIP2, "bzip2", combuf, v.buf);
 #endif
-    case CAT:
+    case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);
       exit(0);
     default:

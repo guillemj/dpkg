@@ -342,7 +342,7 @@ void do_build(const char *const *argv) {
   /* And run gzip to compress our control archive */
   if (!(c2= m_fork())) {
     m_dup2(p1[0],0); m_dup2(gzfd,1); close(p1[0]); close(gzfd);
-    compress_cat(GZ, 0, 1, "9", _("control"));
+    compress_cat(compress_type_gzip, 0, 1, "9", _("control"));
   }
   close(p1[0]);
   waitsubproc(c2,"gzip -9c",0);
@@ -446,11 +446,17 @@ void do_build(const char *const *argv) {
   if (!oldformatflag) {
     const char *datamember;
     switch (compress_type) {
-      case GZ: datamember= DATAMEMBER_GZ; break;
-      case BZ2: datamember= DATAMEMBER_BZ2; break;
-      case CAT: datamember= DATAMEMBER_CAT; break;
-      default:
-        ohshit(_("Internal error, compress_type `%i' unknown!"), compress_type);
+    case compress_type_gzip:
+      datamember = DATAMEMBER_GZ;
+      break;
+    case compress_type_bzip2:
+      datamember = DATAMEMBER_BZ2;
+      break;
+    case compress_type_cat:
+      datamember = DATAMEMBER_CAT;
+      break;
+    default:
+      ohshit(_("Internal error, compress_type `%i' unknown!"), compress_type);
     }
     if (fstat(gzfd,&datastab)) ohshite("_(failed to fstat tmpfile (data))");
     if (fprintf(ar,

@@ -117,7 +117,7 @@ const char printforhelp[]=
 
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
 const char* compression=NULL;
-enum compression_type compress_type = GZ;
+enum compress_type compress_type = compress_type_gzip;
 const struct cmdinfo *cipaction=0;
 dofunction *action=0;
 
@@ -183,11 +183,11 @@ static void setaction(const struct cmdinfo *cip, const char *value) {
 
 static void setcompresstype(const struct cmdinfo *cip, const char *value) {
   if (!strcmp(value, "gzip"))
-    compress_type= GZ;
+    compress_type = compress_type_gzip;
   else if (!strcmp(value, "bzip2"))
-    compress_type= BZ2;
+    compress_type = compress_type_bzip2;
   else if (!strcmp(value, "none"))
-    compress_type= CAT;
+    compress_type = compress_type_cat;
   else
     ohshit(_("unknown compression type `%s'!"), value);
 }
