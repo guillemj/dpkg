@@ -163,7 +163,7 @@ while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/i
 }
 $f{'Closes'} = join(' ',sort { $a <=> $b} @closes);
 
-&outputclose(0);
+outputclose($varlistfile);
 
 sub clerror
 {
