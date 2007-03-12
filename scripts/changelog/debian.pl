@@ -10,7 +10,6 @@ $version= '1.3.0'; # This line modified by Makefile
 $controlfile= 'debian/control';
 $changelogfile= 'debian/changelog';
 $fileslistfile= 'debian/files';
-$varlistfile= 'debian/substvars';
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
@@ -163,7 +162,7 @@ while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/i
 }
 $f{'Closes'} = join(' ',sort { $a <=> $b} @closes);
 
-outputclose($varlistfile);
+outputclose();
 
 sub clerror
 {
