@@ -1,0 +1,54 @@
+.TH dpkg\-parsechangelog 1 "2007-03-07" "Debian Project" "dpkg utilities"
+.SH NAME
+dpkg\-parsechangelog \- parse Debian changelog files
+.
+.SH SYNOPSIS
+.B dpkg\-parsechangelog
+.RI [ options ]
+.
+.SH DESCRIPTION
+.B dpkg\-parsechangelog
+reads and parses the changelog of an unpacked Debian source tree and
+outputs the information in it to standard output in a machine-readable
+form.
+.
+.SH OPTIONS
+.TP
+.BI \-l changelogfile
+Specifies the change log file to read information from. The
+default is
+.BR debian/changelog .
+.TP
+.BI \-F changelogformat
+Specifies the format of the changelog. By default the format is read
+from a special line near the bottom of the changelog or failing that
+defaults to the debian standard format.
+.TP
+.BI \-L libdir
+FIXME not used in the source!?
+.TP
+.BI \-v version
+Use changelog information from all versions strictly later than
+.IR version .
+.TP
+.BR \-h ", " \-\-help
+Show the usage message and exit.
+.TP
+.BR \-\-version
+Show the version and exit.
+.
+.SH FILES
+.TP
+.B debian/changelog
+The changelog file, used to obtain version-dependent information about
+the source package, such as the urgency and distribution of an upload,
+the changes made since a particular release, and the source version
+number itself.
+.
+.SH AUTHORS
+Copyright (C) 1995-1996 Ian Jackson
+.br
+Copyright (C) 2000 Wichert Akkerman
+.sp
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions. There is NO WARRANTY.
