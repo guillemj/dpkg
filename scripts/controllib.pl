@@ -311,16 +311,19 @@ sub parsechangelog {
     my ($changelogfile, $changelogformat, $since) = @_;
 
     defined($c=open(CDATA,"-|")) || &syserr(_g("fork for parse changelog"));
-    binmode(CDATA);
-    if (!$c) {
+    if ($c) {
+	binmode(CDATA);
+	parsecdata(\*CDATA, 'L', 0, _g("parsed version of changelog"));
+	close(CDATA);
+	$? && subprocerr(_g("parse changelog"));
+    } else {
+	binmode(STDOUT);
         @al=($parsechangelog);
         push(@al,"-l$changelogfile");
         push(@al, "-F$changelogformat") if defined($changelogformat);
         push(@al, "-v$since") if defined($since);
         exec(@al) || &syserr("exec parsechangelog $parsechangelog");
     }
-    parsecdata(\*CDATA, 'L', 0, _g("parsed version of changelog"));
-    close(CDATA); $? && &subprocerr(_g("parse changelog"));
 }
 
 sub init_substvars
