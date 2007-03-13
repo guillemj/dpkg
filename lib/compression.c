@@ -187,6 +187,10 @@ void compress_cat(enum compress_type type, int fd_in, int fd_out, const char *co
       combuf[1]= *compression;
       fd_fd_filter(fd_in, fd_out, BZIP2, "bzip2", combuf, v.buf);
 #endif
+    case compress_type_lzma:
+      strncpy(combuf, "-9c", sizeof(combuf));
+      combuf[1] = *compression;
+      fd_fd_filter(fd_in, fd_out, LZMA, "lzma", combuf, v.buf);
     case compress_type_cat:
       fd_fd_copy(fd_in, fd_out, -1, _("%s: compression"), v.buf);
       exit(0);

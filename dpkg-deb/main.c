@@ -90,7 +90,7 @@ static void usage(void) {
 "                                     packages).\n"
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when building.\n"
-"                                     Allowed values: gzip, bzip2, none.\n"
+"                                     Allowed values: gzip, bzip2, lzma, none.\n"
 "\n")) < 0) werr("stdout");
 
   if (printf(_(
@@ -186,6 +186,8 @@ static void setcompresstype(const struct cmdinfo *cip, const char *value) {
     compress_type = compress_type_gzip;
   else if (!strcmp(value, "bzip2"))
     compress_type = compress_type_bzip2;
+  else if (!strcmp(value, "lzma"))
+    compress_type = compress_type_lzma;
   else if (!strcmp(value, "none"))
     compress_type = compress_type_cat;
   else

@@ -452,6 +452,9 @@ void do_build(const char *const *argv) {
     case compress_type_bzip2:
       datamember = DATAMEMBER_BZ2;
       break;
+    case compress_type_lzma:
+      datamember = DATAMEMBER_LZMA;
+      break;
     case compress_type_cat:
       datamember = DATAMEMBER_CAT;
       break;

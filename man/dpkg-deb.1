@@ -1,4 +1,4 @@
-.TH dpkg\-deb 1 "2003-03-06" "Debian Project" "dpkg suite"
+.TH dpkg\-deb 1 "2007-03-13" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg\-deb - Debian package archive (.deb) manipulation tool
 .
@@ -38,12 +38,6 @@ as the control file itself. This directory will
 appear in the binary package's filesystem archive, but instead
 the files in it will be put in the binary package's control
 information area.
-
-You can specify the compression level used by adding a
-.B \-z#
-option.
-.B dpkg\-deb
-will pass that option on to gzip.
 
 Unless you specify
 .BR \-\-nocheck ", " dpkg\-deb "
@@ -192,6 +186,15 @@ explanation of the \fB\-\-showformat\fP option in
 .BR dpkg-query (1).
 
 The default for this field is "${Package}\\t${Version}\\n".
+.TP
+.BI \-z compress_level
+Specify which compression level to pass to the compressor backend program,
+when building a package.
+.TP
+.BI \-Z compress_type
+Specify which compression type to use when building a package. Allowed
+values are \fIgzip\fP, \fIbzip2\fP, \fIlzma\fP, and \fInone\fP (default
+is \fIgzip\fP).
 .TP
 .BR \-\-new
 Ensures that
