@@ -417,9 +417,9 @@ if (!$stdout) {
     } elsif ($! != ENOENT) {
         syserr(sprintf(_g("open old varlist file \`%s' for reading"), $varlistfile));
     }
-    $fh= 'Y';
+    $fh = \*Y;
 } else {
-    $fh= 'STDOUT';
+    $fh = \*STDOUT;
 }
 my %defdepf;
 for my $dv (sort keys %predefdepfdep) {
