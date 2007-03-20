@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Debian dpkg 1.13.23\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2006-08-17 16:02+0200\n"
+"POT-Creation-Date: 2007-03-20 23:55+0200\n"
 "PO-Revision-Date: 2006-10-07 15:46+0200\n"
 "Last-Translator: Sven Joachim <svenjoac@gmx.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
@@ -62,72 +62,57 @@ msgstr "Systemfehler Nr. %d"
 msgid "Signal no.%d"
 msgstr "Signal Nr. %d"
 
-#: lib/compression.c:45
+#: lib/compression.c:34
+#, fuzzy, c-format
+msgid "%s: failed to exec '%s %s'"
+msgstr "%s: Konnte »gzip %s« nicht ausführen"
+
+#: lib/compression.c:62
 #, c-format
 msgid "%s: internal gzip error: `%s'"
 msgstr "%s: interner gzip-Fehler: »%s«"
 
-#: lib/compression.c:60
-#, c-format
-msgid "%s: failed to exec gzip -dc"
-msgstr "%s: Konnte »gzip -dc« nicht ausführen"
-
-#: lib/compression.c:76
+#: lib/compression.c:85
 #, c-format
 msgid "%s: internal bzip2 error: `%s'"
 msgstr "%s: interner bzip2-Fehler: »%s«"
 
-#: lib/compression.c:91
-#, c-format
-msgid "%s: failed to exec bzip2 -dc"
-msgstr "%s: Konnte »bzip2 -dc« nicht ausführen"
-
-#: lib/compression.c:94
+#: lib/compression.c:97
 #, c-format
 msgid "%s: decompression"
 msgstr "%s: Dekomprimierung"
 
-#: lib/compression.c:128
+#: lib/compression.c:132
 #, c-format
 msgid "%s: internal gzip error: read: `%s'"
 msgstr "%s: interner gzip-Fehler beim Lesen: »%s«"
 
-#: lib/compression.c:138
+#: lib/compression.c:142
 #, c-format
 msgid "%s: internal gzip error: write: `%s'"
 msgstr "%s: interner gzip-Fehler beim Schreiben: »%s«"
 
-#: lib/compression.c:141
+#: lib/compression.c:145
 #, c-format
 msgid "%s: internal gzip error: read(%i) != write(%i)"
 msgstr "%s: interner gzip-Fehler: read(%i) != write(%i)"
 
-#: lib/compression.c:157
-#, c-format
-msgid "%s: failed to exec gzip %s"
-msgstr "%s: Konnte »gzip %s« nicht ausführen"
-
-#: lib/compression.c:171
+#: lib/compression.c:167
 #, c-format
 msgid "%s: internal bzip2 error: read: `%s'"
 msgstr "%s: interner bzip2-Fehler beim Lesen: »%s«"
 
-#: lib/compression.c:181
+#: lib/compression.c:177
 #, c-format
 msgid "%s: internal bzip2 error: write: `%s'"
 msgstr "%s: interner bzip2-Fehler beim Schreiben: »%s«"
 
-#: lib/compression.c:184
+#: lib/compression.c:180
 #, c-format
 msgid "%s: internal bzip2 error: read(%i) != write(%i)"
 msgstr "%s: interner bzip2-Fehler: read(%i) != write(%i)"
 
-#: lib/compression.c:200
-#, c-format
-msgid "%s: failed to exec bzip2 %s"
-msgstr "%s: Konnte »bzip2 %s« nicht ausführen"
-
-#: lib/compression.c:203
+#: lib/compression.c:195
 #, c-format
 msgid "%s: compression"
 msgstr "%s: Komprimierung"
@@ -173,7 +158,7 @@ msgstr "Kann das Updates-Verzeichnis »%.255s« nicht einlesen"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "Konnte die eingebundene Update-Datei %.255s nicht löschen"
 
-#: lib/dbmodify.c:111 src/archives.c:600 dpkg-deb/build.c:317
+#: lib/dbmodify.c:111 src/archives.c:601 dpkg-deb/build.c:319
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "Kann »%.255s« nicht erzeugen"
@@ -902,30 +887,30 @@ msgstr "Schließende Klammer fehlt in Format\n"
 msgid "failed to realloc for variable buffer"
 msgstr "Konnte kein realloc für Variablenpuffer durchführen"
 
-#: src/archives.c:208
+#: src/archives.c:209
 msgid "process_archive ...  already disappeared !"
 msgstr "process_archive ...  schon verschwunden!"
 
-#: src/archives.c:228
+#: src/archives.c:229
 msgid "error reading from dpkg-deb pipe"
 msgstr "Fehler beim Lesen aus der dpkg-deb-Pipe"
 
-#: src/archives.c:265
+#: src/archives.c:266
 #, c-format
 msgid "error setting timestamps of `%.255s'"
 msgstr "Fehler beim Setzen des Zeitstempels von »%.255s«"
 
-#: src/archives.c:272 src/archives.c:617
+#: src/archives.c:273 src/archives.c:618
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "Fehler beim Setzen des Eigentümers von »%.255s«"
 
-#: src/archives.c:274 src/archives.c:620
+#: src/archives.c:275 src/archives.c:621
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "Fehler beim Setzen der Zugriffsrechte von »%.255s«"
 
-#: src/archives.c:367
+#: src/archives.c:368
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
@@ -934,17 +919,17 @@ msgstr ""
 "Versuche, »%.250s« zu überschreiben, welches die umgeleitete Version von "
 "»%.250s«%.10s%.100s%.10s ist"
 
-#: src/archives.c:371
+#: src/archives.c:372
 msgid " (package: "
 msgstr " (Paket: "
 
-#: src/archives.c:393
+#: src/archives.c:394
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr ""
 "Kann kein stat auf »%.255s« durchführen (was ich gerade installieren wollte)"
 
-#: src/archives.c:401
+#: src/archives.c:402
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
@@ -953,29 +938,29 @@ msgstr ""
 "Kann Unordnung um »%.255s« vor der Installation einer anderen Version nicht "
 "aufräumen"
 
-#: src/archives.c:407
+#: src/archives.c:408
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 "Kann kein stat auf wiederhergestelltes »%.255s« vor der Installation einer "
 "anderen Version durchführen"
 
-#: src/archives.c:439
+#: src/archives.c:440
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "Archiv enthielt Objekt »%.255s« von unbekanntem Typ 0x%x"
 
-#: src/archives.c:499
+#: src/archives.c:500
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Ersetze die Dateien im alten Paket %s ...\n"
 
-#: src/archives.c:502
+#: src/archives.c:503
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "Ersetzt durch Dateien in installiertem Paket %s ...\n"
 
-#: src/archives.c:508
+#: src/archives.c:509
 #, c-format
 msgid ""
 "trying to overwrite directory `%.250s' in package %.250s with nondirectory"
@@ -983,92 +968,92 @@ msgstr ""
 "Versuche, Verzeichnis »%.250s« in Paket %.250s mit Nichtverzeichnis zu "
 "überschreiben"
 
-#: src/archives.c:518
+#: src/archives.c:519
 #, c-format
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr "Versuche, »%.250s« zu überschreiben, welches auch in Paket %.250s ist"
 
-#: src/archives.c:543
+#: src/archives.c:544
 #, c-format
 msgid "gobble replaced file `%.255s'"
 msgstr "verschlinge ersetzte Datei »%.255s«"
 
-#: src/archives.c:605
+#: src/archives.c:606
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "Backend dpkg-deb während »%.255s«"
 
-#: src/archives.c:623
+#: src/archives.c:624
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "Fehler beim Schließen/Schreiben von »%.255s«"
 
-#: src/archives.c:628
+#: src/archives.c:629
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "Fehler beim Erzeugen der Pipe »%.255s«"
 
-#: src/archives.c:634 src/archives.c:640
+#: src/archives.c:635 src/archives.c:641
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "Fehler beim Erzeugen des Geräts »%.255s«"
 
-#: src/archives.c:649
+#: src/archives.c:650
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "Fehler beim Erzeugen des festen Verweises »%.255s«"
 
-#: src/archives.c:656
+#: src/archives.c:657
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "Fehler beim Erzeugen des symbolischen Verweises »%.255s«"
 
-#: src/archives.c:662 src/archives.c:667
+#: src/archives.c:663 src/archives.c:668
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "Fehler beim Setzen des Eigentümers des symbolischen Verweises »%.255s«"
 
-#: src/archives.c:673
+#: src/archives.c:674
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "Fehler beim Erstellen des Verzeichnisses »%.255s«"
 
-#: src/archives.c:708
+#: src/archives.c:709
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr ""
 "Kann »%.255s« nicht aus dem Weg räumen, um neue Version zu installieren"
 
-#: src/archives.c:717
+#: src/archives.c:718
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "Kann Verweis »%.255s« nicht lesen"
 
-#: src/archives.c:721
+#: src/archives.c:722
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr "Kann keinen symbolischen Verweis zur Sicherung von »%.255s« anlegen"
 
-#: src/archives.c:724 src/archives.c:727
+#: src/archives.c:725 src/archives.c:728
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 "Kann Eigentümer des symbolischen Verweises zur Sicherung von »%.255s« nicht "
 "setzen"
 
-#: src/archives.c:732
+#: src/archives.c:733
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "Kann keinen Verweis zur Sicherung von »%.255s« vor Installation der neuen "
 "Version anlegen"
 
-#: src/archives.c:756
+#: src/archives.c:757
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "Kann neue Version von »%.255s« nicht installieren"
 
-#: src/archives.c:788
+#: src/archives.c:789
 #, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with removal of %s:\n"
@@ -1077,7 +1062,7 @@ msgstr ""
 "dpkg: Warnung - Ignoriere Abhängigkeitsproblem beim Entfernen von %s:\n"
 "%s"
 
-#: src/archives.c:795
+#: src/archives.c:796
 #, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
@@ -1086,7 +1071,7 @@ msgstr ""
 "dpkg: Warnung - Ziehe Dekonfiguration des essenziellen Paketes\n"
 " %s in Betracht, um %s entfernen zu können.\n"
 
-#: src/archives.c:799
+#: src/archives.c:800
 #, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
@@ -1095,7 +1080,7 @@ msgstr ""
 "dpkg: Nein, %s ist essenziell, werde es nicht dekonfigurieren,\n"
 " um %s entfernen zu können.\n"
 
-#: src/archives.c:812
+#: src/archives.c:813
 #, c-format
 msgid ""
 "dpkg: no, cannot remove %s (--auto-deconfigure will help):\n"
@@ -1104,24 +1089,24 @@ msgstr ""
 "dpkg: Nein, kann %s nicht entfernen (--auto-deconfigure wird helfen):\n"
 "%s"
 
-#: src/archives.c:846
+#: src/archives.c:847
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
 msgstr "dpkg: Ziehe Entfernen von %s zugunsten von %s in Betracht ...\n"
 
-#: src/archives.c:850
+#: src/archives.c:851
 #, c-format
 msgid "%s is not properly installed - ignoring any dependencies on it.\n"
 msgstr ""
 "%s ist nicht sauber installiert - ignoriere alle Abhängigkeiten darauf.\n"
 
-#: src/archives.c:877
+#: src/archives.c:878
 #, c-format
 msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
 msgstr ""
 "dpkg: Könnte Probleme haben, %s zu entfernen, da es %s bereitstellt ...\n"
 
-#: src/archives.c:892
+#: src/archives.c:893
 #, c-format
 msgid ""
 "dpkg: package %s requires reinstallation, but will remove anyway as you "
@@ -1130,18 +1115,23 @@ msgstr ""
 "dpkg: Paket %s erfordert Neuinstallation, wird aber auf Ihren Wunsch hin "
 "trotzdem entfernt.\n"
 
-#: src/archives.c:895
+#: src/archives.c:896
 #, c-format
 msgid "dpkg: package %s requires reinstallation, will not remove.\n"
 msgstr ""
 "dpkg: Paket %s muss neu installiert werden, werde es nicht entfernen.\n"
 
-#: src/archives.c:908
+#: src/archives.c:903
+#, c-format
+msgid "package %s has too many Conflicts/Replaces pairs"
+msgstr ""
+
+#: src/archives.c:909
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
 msgstr "dpkg: Ja, werde %s zugunsten von %s entfernen.\n"
 
-#: src/archives.c:916
+#: src/archives.c:917
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1150,72 +1140,72 @@ msgstr ""
 "dpkg: Betreffend %s, welches %s enthält:\n"
 "%s"
 
-#: src/archives.c:919
+#: src/archives.c:920
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "Kollidierende Pakete - installiere %.250s nicht"
 
-#: src/archives.c:920
+#: src/archives.c:921
 #, c-format
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
 msgstr "dpkg: Warnung - ignoriere Kollision, kann trotzdem weitermachen!\n"
 
-#: src/archives.c:958
+#: src/archives.c:959
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive benötigt mindestens einen Pfad als Argument"
 
-#: src/archives.c:988
+#: src/archives.c:989
 msgid "failed to exec find for --recursive"
 msgstr "Konnte find für --recursive nicht ausführen"
 
-#: src/archives.c:993
+#: src/archives.c:994
 msgid "failed to fdopen find's pipe"
 msgstr "Konnte kein fdopen auf die Pipe von find durchführen"
 
-#: src/archives.c:999
+#: src/archives.c:1000
 msgid "error reading find's pipe"
 msgstr "Fehler beim Lesen der Pipe von find"
 
-#: src/archives.c:1000
+#: src/archives.c:1001
 msgid "error closing find's pipe"
 msgstr "Fehler beim Schließen der Pipe von find"
 
-#: src/archives.c:1003
+#: src/archives.c:1004
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "Suche für --recursive gab unbehandelten Fehler %i zurück"
 
-#: src/archives.c:1006
+#: src/archives.c:1007
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "durchsucht, aber keine Pakete (auf *.deb passende Dateien) gefunden"
 
-#: src/archives.c:1022
+#: src/archives.c:1023
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s benötigt mindestens eine Paket-Archivdatei als Argument"
 
-#: src/archives.c:1092
+#: src/archives.c:1093
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Wähle vormals abgewähltes Paket %s.\n"
 
-#: src/archives.c:1097
+#: src/archives.c:1098
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Überspringe abgewähltes Paket %s.\n"
 
-#: src/archives.c:1111
+#: src/archives.c:1112
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "Version %.250s von %.250s ist bereits installiert, übergehe es.\n"
 
-#: src/archives.c:1123
+#: src/archives.c:1124
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr "%s - Warnung: deaktualisiere %.250s von %.250s zu %.250s.\n"
 
-#: src/archives.c:1129
+#: src/archives.c:1130
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1595,110 +1585,117 @@ msgstr "EOF auf Standardeingabe an der Conffile-Eingabeaufforderung"
 msgid "unable to check for existence of `%.250s'"
 msgstr "Kann Existenz von »%.250s« nicht prüfen"
 
-#: src/depcon.c:153 src/packages.c:396
-msgid " depends on "
+#: src/depcon.c:156
+#, fuzzy, c-format
+msgid "%s depends on %s"
 msgstr " hängt ab von "
 
-#: src/depcon.c:154
-msgid " pre-depends on "
+#: src/depcon.c:159
+#, fuzzy, c-format
+msgid "%s pre-depends on %s"
 msgstr " hängt ab (vorher) von "
 
-#: src/depcon.c:155
-msgid " recommends "
+#: src/depcon.c:162
+#, fuzzy, c-format
+msgid "%s recommends %s"
 msgstr " empfiehlt "
 
-#: src/depcon.c:156
-msgid " breaks "
-msgstr " deaktiviert "
-
-#: src/depcon.c:157
-msgid " conflicts with "
-msgstr " kollidiert mit "
-
-#: src/depcon.c:158
-msgid " suggests "
+#: src/depcon.c:165
+#, fuzzy, c-format
+msgid "%s suggests %s"
 msgstr " befürwortet "
 
-#: src/depcon.c:159
-msgid " enhances "
+#: src/depcon.c:168
+#, fuzzy, c-format
+msgid "%s breaks %s"
+msgstr " deaktiviert "
+
+#: src/depcon.c:171
+#, fuzzy, c-format
+msgid "%s conflicts with %s"
+msgstr " kollidiert mit "
+
+#: src/depcon.c:174
+#, fuzzy, c-format
+msgid "%s enhances %s"
 msgstr " erweitert "
 
-#: src/depcon.c:246
+#: src/depcon.c:269
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s soll entfernt werden.\n"
 
-#: src/depcon.c:249
+#: src/depcon.c:272
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s soll dekonfiguriert werden.\n"
 
-#: src/depcon.c:253
+#: src/depcon.c:276
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr "  %.250s soll installiert werden, ist aber Version %.250s.\n"
 
-#: src/depcon.c:261
+#: src/depcon.c:284
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s ist installiert, ist aber Version %.250s.\n"
 
-#: src/depcon.c:276
+#: src/depcon.c:299
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s ist entpackt, wurde aber nie konfiguriert.\n"
 
-#: src/depcon.c:280
+#: src/depcon.c:303
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s ist entpackt, ist aber Version %.250s.\n"
 
-#: src/depcon.c:286
+#: src/depcon.c:309
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s letzte konfigurierte Version ist %.250s.\n"
 
-#: src/depcon.c:295
+#: src/depcon.c:318
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s ist %s.\n"
 
-#: src/depcon.c:331
+#: src/depcon.c:354
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s liefert %.250s, soll aber entfernt werden.\n"
 
-#: src/depcon.c:335
+#: src/depcon.c:358
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s liefert %.250s, soll aber dekonfiguriert werden.\n"
 
-#: src/depcon.c:340
+#: src/depcon.c:363
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s liefert %.250s, ist aber %s.\n"
 
-#: src/depcon.c:354
+#: src/depcon.c:377
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s ist nicht installiert.\n"
 
-#: src/depcon.c:385
+#: src/depcon.c:408
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (Version %.250s) soll installiert werden.\n"
 
-#: src/depcon.c:399
+#: src/depcon.c:422
 #, c-format
 msgid "  %.250s (version %.250s) is %s.\n"
 msgstr "  %.250s (Version %.250s) ist %s.\n"
 
-#: src/depcon.c:424
+#: src/depcon.c:447
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s liefert %.250s und wird installiert.\n"
 
-#: src/depcon.c:455
+#: src/depcon.c:478
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %.250s liefert %.250s und ist %s.\n"
@@ -2605,7 +2602,7 @@ msgstr "Konnte »%i« nicht für Datenstrom öffnen"
 msgid "unexpected eof before end of line %d"
 msgstr "unerwartetes EOF vor Ende der Zeile %d"
 
-#: src/main.c:613 src/main.c:628 src/query.c:580 dpkg-deb/main.c:200
+#: src/main.c:613 src/main.c:628 src/query.c:580 dpkg-deb/main.c:202
 #: dpkg-split/main.c:170
 msgid "need an action option"
 msgstr "brauche eine Aktions-Option"
@@ -2681,6 +2678,10 @@ msgstr "  Paket %s, das %s bereitstellt, ist nicht installiert.\n"
 #, c-format
 msgid "  Package %s is not installed.\n"
 msgstr "  Paket %s ist nicht installiert.\n"
+
+#: src/packages.c:396
+msgid " depends on "
+msgstr " hängt ab von "
 
 #: src/packages.c:402
 msgid "; however:\n"
@@ -2878,10 +2879,10 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "Kann kein stat auf andere neue Datei »%.250s« durchführen"
 
 #: src/processarc.c:674
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
-"%.250s' and `%.250s')"
+"%.250s' and `%.250s')\n"
 msgstr ""
 "dpkg: Warnung - alte Datei »%.250s« ist die gleiche wie mehrere neue "
 "Dateien! (sowohl »%.250s« als auch »%.250s«)"
@@ -3356,25 +3357,30 @@ msgstr "--forget-old-unavail akzeptiert keine Argumente"
 msgid "dpkg-deb - error: %s (`%s') doesn't contain any digits\n"
 msgstr "dpkg-deb - Fehler: %s (»%s«) enthält keine Ziffern\n"
 
-#: dpkg-deb/build.c:170
+#: dpkg-deb/build.c:111
+#, c-format
+msgid "file name '%.50s...' is too long"
+msgstr ""
+
+#: dpkg-deb/build.c:172
 msgid "--build needs a directory argument"
 msgstr "--build braucht ein Verzeichnis als Argument"
 
-#: dpkg-deb/build.c:179
+#: dpkg-deb/build.c:181
 msgid "--build takes at most two arguments"
 msgstr "--build akzeptiert maximal zwei Argumente"
 
-#: dpkg-deb/build.c:183
+#: dpkg-deb/build.c:185
 #, c-format
 msgid "unable to check for existence of archive `%.250s'"
 msgstr "Kann Existenz des Archivs »%.250s« nicht überprüfen"
 
-#: dpkg-deb/build.c:198
+#: dpkg-deb/build.c:200
 msgid "target is directory - cannot skip control file check"
 msgstr ""
 "Ziel ist ein Verzeichnis - kann Control-Datei-Überprüfung nicht übergehen"
 
-#: dpkg-deb/build.c:199
+#: dpkg-deb/build.c:201
 #, c-format
 msgid ""
 "dpkg-deb: warning, not checking contents of control area.\n"
@@ -3383,45 +3389,45 @@ msgstr ""
 "dpkg-deb: Warnung, prüfe Inhalt des control-Bereichs nicht.\n"
 "dpkg-deb: Baue ein unbekanntes Paket in »%s«.\n"
 
-#: dpkg-deb/build.c:217
+#: dpkg-deb/build.c:219
 msgid "package name has characters that aren't lowercase alphanums or `-+.'"
 msgstr ""
 "Paketname hat Zeichen, die keine Kleinbuchstaben, Ziffern oder »-+.« sind"
 
-#: dpkg-deb/build.c:219
+#: dpkg-deb/build.c:221
 #, c-format
 msgid "warning, `%s' contains user-defined Priority value `%s'\n"
 msgstr "Warnung, »%s« enthält benutzerdefinierten Prioritätswert »%s«\n"
 
-#: dpkg-deb/build.c:224
+#: dpkg-deb/build.c:226
 #, c-format
 msgid "warning, `%s' contains user-defined field `%s'\n"
 msgstr "Warnung, »%s« enthält benutzerdefiniertes Feld »%s«\n"
 
-#: dpkg-deb/build.c:230
+#: dpkg-deb/build.c:232
 #, c-format
 msgid "%d errors in control file"
 msgstr "%d Fehler in Control-Datei"
 
-#: dpkg-deb/build.c:241
+#: dpkg-deb/build.c:243
 #, c-format
 msgid "dpkg-deb: building package `%s' in `%s'.\n"
 msgstr "dpkg-deb: Baue Paket »%s« in »%s«.\n"
 
-#: dpkg-deb/build.c:249
+#: dpkg-deb/build.c:251
 #, c-format
 msgid "control directory has bad permissions %03lo (must be >=0755 and <=0775)"
 msgstr ""
 "Control-Verzeichnis hat falsche Zugriffsrechte %03lo (muss >=0755 und <=0775 "
 "sein)"
 
-#: dpkg-deb/build.c:260
+#: dpkg-deb/build.c:262
 #, c-format
 msgid "maintainer script `%.50s' is not a plain file or symlink"
 msgstr ""
 "Betreuerskript »%.50s« ist keine gewöhnliche Datei oder symbolischer Verweis"
 
-#: dpkg-deb/build.c:262
+#: dpkg-deb/build.c:264
 #, c-format
 msgid ""
 "maintainer script `%.50s' has bad permissions %03lo (must be >=0555 and "
@@ -3430,16 +3436,16 @@ msgstr ""
 "Betreuerskript »%.50s« hat falsche Zugriffsrechte %03lo (muss >=0555 und "
 "<=0775 sein)"
 
-#: dpkg-deb/build.c:266
+#: dpkg-deb/build.c:268
 #, c-format
 msgid "maintainer script `%.50s' is not stattable"
 msgstr "Auf Betreuerskript »%.50s« kann kein stat durchgeführt werden"
 
-#: dpkg-deb/build.c:276
+#: dpkg-deb/build.c:278
 msgid "empty string from fgets reading conffiles"
 msgstr "leere Zeichenkette von fgets beim Lesen aus conffiles"
 
-#: dpkg-deb/build.c:278
+#: dpkg-deb/build.c:280
 #, c-format
 msgid ""
 "warning, conffile name `%.50s...' is too long, or missing final newline\n"
@@ -3447,119 +3453,119 @@ msgstr ""
 "Warnung, Conffile-Name »%.50s...« ist zu lang oder Zeilenvorschub am Ende "
 "fehlt\n"
 
-#: dpkg-deb/build.c:291
+#: dpkg-deb/build.c:293
 #, c-format
 msgid "warning, conffile filename `%s' contains trailing white spaces\n"
 msgstr "Warnung, Conffile-Dateiname »%s« enthält Leerzeichen am Ende\n"
 
-#: dpkg-deb/build.c:293
+#: dpkg-deb/build.c:295
 #, c-format
 msgid "conffile `%.250s' does not appear in package"
 msgstr "Conffile »%.250s« kommt nicht im Paket vor"
 
-#: dpkg-deb/build.c:295
+#: dpkg-deb/build.c:297
 #, c-format
 msgid "conffile `%.250s' is not stattable"
 msgstr "Auf Conffile »%.250s« kann kein stat durchgeführt werden"
 
-#: dpkg-deb/build.c:297
+#: dpkg-deb/build.c:299
 #, c-format
 msgid "warning, conffile `%s' is not a plain file\n"
 msgstr "Warnung, Conffile »%s« ist keine gewöhnliche Datei\n"
 
-#: dpkg-deb/build.c:302
+#: dpkg-deb/build.c:304
 msgid "error reading conffiles file"
 msgstr "Fehler beim Lesen der conffiles-Datei"
 
-#: dpkg-deb/build.c:305
+#: dpkg-deb/build.c:307
 msgid "error opening conffiles file"
 msgstr "Fehler beim Öffnen der conffiles-Datei"
 
-#: dpkg-deb/build.c:308
+#: dpkg-deb/build.c:310
 #, c-format
 msgid "dpkg-deb: ignoring %d warnings about the control file(s)\n"
 msgstr "dpkg-deb: Ignoriere %d Warnungen wegen der control-Datei(en)\n"
 
-#: dpkg-deb/build.c:318
+#: dpkg-deb/build.c:320
 #, c-format
 msgid "unable to unbuffer `%.255s'"
 msgstr "Kann »%.255s« nicht entpuffern"
 
-#: dpkg-deb/build.c:323 dpkg-deb/build.c:396 dpkg-deb/build.c:417
+#: dpkg-deb/build.c:325 dpkg-deb/build.c:398 dpkg-deb/build.c:419
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "Konnte nicht in das Verzeichnis »%.255s« wechseln"
 
-#: dpkg-deb/build.c:324
+#: dpkg-deb/build.c:326
 msgid "failed to chdir to .../DEBIAN"
 msgstr "Konnte nicht in das Verzeichnis .../DEBIAN wechseln"
 
-#: dpkg-deb/build.c:325 dpkg-deb/build.c:398
+#: dpkg-deb/build.c:327 dpkg-deb/build.c:400
 msgid "failed to exec tar -cf"
 msgstr "Konnte »tar -cf« nicht ausführen"
 
-#: dpkg-deb/build.c:331
+#: dpkg-deb/build.c:333
 msgid "failed to make tmpfile (control)"
 msgstr "Konnte temporäre Datei nicht erstellen (control)"
 
-#: dpkg-deb/build.c:332
+#: dpkg-deb/build.c:334
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "Konnte temporäre Datei nicht öffnen (control), %s"
 
-#: dpkg-deb/build.c:335
+#: dpkg-deb/build.c:337
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "unlink von temporärer Datei fehlgeschlagen (control), %s"
 
-#: dpkg-deb/build.c:343 dpkg-deb/build.c:372
+#: dpkg-deb/build.c:345 dpkg-deb/build.c:374
 msgid "control"
 msgstr "control"
 
-#: dpkg-deb/build.c:348
+#: dpkg-deb/build.c:350
 msgid "failed to fstat tmpfile (control)"
 msgstr "Konnte kein fstat auf temporäre Datei durchführen (control)"
 
-#: dpkg-deb/build.c:371
+#: dpkg-deb/build.c:373
 msgid "failed to rewind tmpfile (control)"
 msgstr "Konnte temporäre Datei nicht zurücksetzen (control)"
 
-#: dpkg-deb/build.c:379
+#: dpkg-deb/build.c:381
 msgid "failed to make tmpfile (data)"
 msgstr "Konnte temporäre Datei nicht erstellen (data)"
 
-#: dpkg-deb/build.c:380
+#: dpkg-deb/build.c:382
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "Konnte temporäre Datei nicht öffnen (data), %s"
 
-#: dpkg-deb/build.c:383
+#: dpkg-deb/build.c:385
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "unlink von temporärer Datei fehlgeschlagen (data), %s"
 
-#: dpkg-deb/build.c:407 dpkg-deb/extract.c:274
+#: dpkg-deb/build.c:409 dpkg-deb/extract.c:278
 msgid "data"
 msgstr "data"
 
-#: dpkg-deb/build.c:419
+#: dpkg-deb/build.c:421
 msgid "failed to exec find"
 msgstr "Konnte find nicht ausführen"
 
-#: dpkg-deb/build.c:430 dpkg-deb/build.c:437
+#: dpkg-deb/build.c:432 dpkg-deb/build.c:439
 msgid "failed to write filename to tar pipe (data)"
 msgstr "Konnte Dateinamen nicht in tar-Pipe schreiben (data)"
 
-#: dpkg-deb/build.c:451
+#: dpkg-deb/build.c:462
 #, c-format
 msgid "Internal error, compress_type `%i' unknown!"
 msgstr "Interner Fehler, compress_type »%i« unbekannt!"
 
-#: dpkg-deb/build.c:463
+#: dpkg-deb/build.c:474
 msgid "failed to rewind tmpfile (data)"
 msgstr "Konnte temporäre Datei nicht zurücksetzen (data)"
 
-#: dpkg-deb/build.c:464
+#: dpkg-deb/build.c:475
 msgid "cat (data)"
 msgstr "cat (data)"
 
@@ -3639,22 +3645,22 @@ msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr ""
 "Archiv-Version %.250s nicht verstanden, installieren Sie ein neueres dpkg-deb"
 
-#: dpkg-deb/extract.c:146 dpkg-deb/extract.c:175
+#: dpkg-deb/extract.c:146 dpkg-deb/extract.c:179
 #, c-format
 msgid "skipped member data from %s"
 msgstr "Elementdaten von %s ausgelassen"
 
-#: dpkg-deb/extract.c:165
+#: dpkg-deb/extract.c:169
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "Datei »%.250s« enthält nicht verstandene Datenelemente %.*s, gebe auf"
 
-#: dpkg-deb/extract.c:171
+#: dpkg-deb/extract.c:175
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "Datei »%.250s« enthält zwei Control-Elemente, gebe auf"
 
-#: dpkg-deb/extract.c:183
+#: dpkg-deb/extract.c:187
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3663,16 +3669,16 @@ msgstr ""
 " neues Debian-Paket, Version %s.\n"
 " Größe %ld Byte: control-Archiv= %zi Byte.\n"
 
-#: dpkg-deb/extract.c:195
+#: dpkg-deb/extract.c:199
 msgid "control information length"
 msgstr "control-Informationslänge"
 
-#: dpkg-deb/extract.c:197
+#: dpkg-deb/extract.c:201
 #, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "Archiv hat falsch formatierte control-Länge »%s«"
 
-#: dpkg-deb/extract.c:200
+#: dpkg-deb/extract.c:204
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -3681,15 +3687,15 @@ msgstr ""
 " altes Debian-Paket, Version %s.\n"
 " Größe %ld Byte: control-Archiv= %zi, Hauptarchiv= %ld.\n"
 
-#: dpkg-deb/extract.c:208
+#: dpkg-deb/extract.c:212
 msgid "failed allocating memory for variable `ctrlarea'"
 msgstr "Fehler beim Zuweisen von Speicher für Variable »ctrlarea«"
 
-#: dpkg-deb/extract.c:211
+#: dpkg-deb/extract.c:215
 msgid "control area"
 msgstr "control-Bereich"
 
-#: dpkg-deb/extract.c:217
+#: dpkg-deb/extract.c:221
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3698,65 +3704,65 @@ msgstr ""
 "dpkg-deb: Datei könnte ein Archiv sein, das\n"
 "dpkg-deb:    durch einen Download im ASCII-Modus beschädigt wurde\n"
 
-#: dpkg-deb/extract.c:222
+#: dpkg-deb/extract.c:226
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "»%.255s« ist kein Archiv im Debian-Format"
 
-#: dpkg-deb/extract.c:228
+#: dpkg-deb/extract.c:232
 msgid "failed getting the current file position"
 msgstr "Konnte aktuelle Position in der Datei nicht erhalten"
 
-#: dpkg-deb/extract.c:233
+#: dpkg-deb/extract.c:237
 msgid "failed setting the current file position"
 msgstr "Konnte aktuelle Position in der Datei nicht setzen"
 
-#: dpkg-deb/extract.c:242
+#: dpkg-deb/extract.c:246
 msgid "failed to open pipe descriptor `1' in paste"
 msgstr "Konnte Pipe-Deskriptor »1« bei paste nicht öffnen"
 
-#: dpkg-deb/extract.c:244
+#: dpkg-deb/extract.c:248
 msgid "failed to write to gzip -dc"
 msgstr "Fehler beim Schreiben nach gzip -dc"
 
-#: dpkg-deb/extract.c:245
+#: dpkg-deb/extract.c:249
 msgid "failed to close gzip -dc"
 msgstr "Fehler beim Schließen von gzip -dc"
 
-#: dpkg-deb/extract.c:252
+#: dpkg-deb/extract.c:256
 msgid "failed to syscall lseek to files archive portion"
 msgstr "Fehler bei lseek auf Dateiarchiv-Teil"
 
-#: dpkg-deb/extract.c:260
+#: dpkg-deb/extract.c:264
 msgid "failed to write to pipe in copy"
 msgstr "Konnte beim Kopieren nicht in die Pipe schreiben"
 
-#: dpkg-deb/extract.c:261
+#: dpkg-deb/extract.c:265
 msgid "failed to close pipe in copy"
 msgstr "Konnte Pipe beim Kopieren nicht schließen"
 
-#: dpkg-deb/extract.c:282
+#: dpkg-deb/extract.c:286
 msgid "failed to create directory"
 msgstr "Konnte Verzeichnis nicht erstellen"
 
-#: dpkg-deb/extract.c:283
+#: dpkg-deb/extract.c:287
 msgid "failed to chdir to directory after creating it"
 msgstr "Konnte nach Erstellen des Verzeichnisses nicht hineinwechseln"
 
-#: dpkg-deb/extract.c:285
+#: dpkg-deb/extract.c:289
 msgid "failed to chdir to directory"
 msgstr "Konnte nicht in Verzeichnis hineinwechseln"
 
-#: dpkg-deb/extract.c:299
+#: dpkg-deb/extract.c:303
 msgid "failed to exec tar"
 msgstr "Konnte tar nicht ausführen"
 
-#: dpkg-deb/extract.c:322 dpkg-deb/extract.c:337 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:326 dpkg-deb/extract.c:341 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s braucht einen .deb-Dateinamen als Argument"
 
-#: dpkg-deb/extract.c:325
+#: dpkg-deb/extract.c:329
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3765,12 +3771,12 @@ msgstr ""
 "--%s braucht ein Zielverzeichnis.\n"
 "Vielleicht sollten Sie dpkg --install verwenden?"
 
-#: dpkg-deb/extract.c:328
+#: dpkg-deb/extract.c:332
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s akzeptiert maximal zwei Argumente (.deb und Verzeichnis)"
 
-#: dpkg-deb/extract.c:339
+#: dpkg-deb/extract.c:343
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s akzeptiert nur ein Argument (.deb-Dateiname)"
@@ -3927,7 +3933,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:85
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -3938,7 +3944,8 @@ msgid ""
 "  -z#                              Set the compression level when building.\n"
 "  -Z<type>                         Set the compression type used when "
 "building.\n"
-"                                     Allowed values: gzip, bzip2, none.\n"
+"                                     Allowed values: gzip, bzip2, lzma, "
+"none.\n"
 "\n"
 msgstr ""
 "Optionen:\n"
@@ -3976,7 +3983,7 @@ msgstr ""
 "Geben Sie dpkg-deb --help für Hilfe zum Verändern von *.deb-Dateien ein;\n"
 "Geben Sie dpkg --help für Hilfe zum (De-)Installieren von Paketen ein."
 
-#: dpkg-deb/main.c:192
+#: dpkg-deb/main.c:194
 #, c-format
 msgid "unknown compression type `%s'!"
 msgstr "unbekannter Komprimierungstyp »%s«!"
@@ -4359,9 +4366,9 @@ msgid "unable to exec mksplit"
 msgstr "Kann mksplit nicht ausführen"
 
 #
-#: scripts/cleanup-info.pl:36 scripts/dpkg-divert.pl:16
-#: scripts/dpkg-statoverride.pl:22 scripts/install-info.pl:17
-#: scripts/update-alternatives.pl:37
+#: scripts/cleanup-info.pl:36 scripts/dpkg-divert.pl:19
+#: scripts/dpkg-statoverride.pl:29 scripts/install-info.pl:17
+#: scripts/update-alternatives.pl:64
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s Version %s.\n"
@@ -4374,9 +4381,9 @@ msgstr ""
 "\n"
 "Copyright (C) 1996 Kim-Minh Kaplan."
 
-#: scripts/cleanup-info.pl:41 scripts/dpkg-divert.pl:22
-#: scripts/dpkg-statoverride.pl:27 scripts/install-info.pl:22
-#: scripts/update-alternatives.pl:43
+#: scripts/cleanup-info.pl:41 scripts/dpkg-divert.pl:25
+#: scripts/dpkg-statoverride.pl:34 scripts/install-info.pl:22
+#: scripts/update-alternatives.pl:70
 msgid ""
 "\n"
 "This is free software; see the GNU General Public Licence version 2 or\n"
@@ -4433,7 +4440,7 @@ msgid "try deleting %s"
 msgstr "Versuchen Sie, %s zu löschen"
 
 #: scripts/cleanup-info.pl:107 scripts/install-info.pl:312
-#: scripts/update-alternatives.pl:211
+#: scripts/update-alternatives.pl:166
 #, perl-format
 msgid "unable to open %s: %s"
 msgstr "Kann %s nicht öffnen: %s"
@@ -4460,7 +4467,7 @@ msgid "unable to close %s after read: %s"
 msgstr "Kann %s nach dem Lesen nicht schließen: %s"
 
 #: scripts/cleanup-info.pl:165 scripts/install-info.pl:486
-#: scripts/update-alternatives.pl:472
+#: scripts/update-alternatives.pl:517
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "Kann %s nicht schließen: %s"
@@ -4480,12 +4487,12 @@ msgstr "Konnte Datei %s nicht installieren; sie wird als %s übrig bleiben: %s"
 msgid "%s: unable to unlock %s: %s"
 msgstr "%s: Kann Sperre von %s nicht aufheben: %s"
 
-#: scripts/dpkg-divert.pl:12 scripts/update-alternatives.pl:33
+#: scripts/dpkg-divert.pl:15 scripts/update-alternatives.pl:60
 #, perl-format
 msgid "Cannot get ENOENT value from %s: %s"
 msgstr "Kann ENOENT-Wert nicht von %s erhalten: %s"
 
-#: scripts/dpkg-divert.pl:18
+#: scripts/dpkg-divert.pl:21
 msgid ""
 "\n"
 "Copyright (C) 1995 Ian Jackson.\n"
@@ -4495,7 +4502,7 @@ msgstr ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000,2001 Wichert Akkerman."
 
-#: scripts/dpkg-divert.pl:30
+#: scripts/dpkg-divert.pl:33
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -4551,89 +4558,89 @@ msgstr ""
 "falls angegeben. Paket-preinst/postrm-Skripte sollten immer --package\n"
 "und --divert angeben.\n"
 
-#: scripts/dpkg-divert.pl:64 scripts/update-alternatives.pl:110
+#: scripts/dpkg-divert.pl:78 scripts/update-alternatives.pl:223
 #, perl-format
 msgid "two modes specified: %s and --%s"
 msgstr "Zwei Modi angegeben: %s und --%s"
 
-#: scripts/dpkg-divert.pl:97
+#: scripts/dpkg-divert.pl:111
 #, perl-format
 msgid "--%s needs a divert-to argument"
 msgstr "--%s benötigt ein Argument, wohin umgeleitet wird"
 
-#: scripts/dpkg-divert.pl:99
+#: scripts/dpkg-divert.pl:113
 msgid "divert-to may not contain newlines"
 msgstr "Name der Umleitung darf keine Zeilenvorschübe enthalten"
 
-#: scripts/dpkg-divert.pl:101
+#: scripts/dpkg-divert.pl:115
 #, perl-format
 msgid "--%s needs a <package> argument"
 msgstr "--%s benötigt einen Paketnamen als Argument"
 
-#: scripts/dpkg-divert.pl:103
+#: scripts/dpkg-divert.pl:117
 msgid "package may not contain newlines"
 msgstr "Paketname darf keine Zeilenvorschübe enthalten"
 
-#: scripts/dpkg-divert.pl:105 scripts/dpkg-statoverride.pl:74
-#: scripts/update-alternatives.pl:152 scripts/update-alternatives.pl:155
+#: scripts/dpkg-divert.pl:119 scripts/dpkg-statoverride.pl:81
+#: scripts/update-alternatives.pl:272 scripts/update-alternatives.pl:275
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s benötigt ein Verzeichnis als Argument"
 
-#: scripts/dpkg-divert.pl:108 scripts/dpkg-statoverride.pl:86
-#: scripts/update-alternatives.pl:160
+#: scripts/dpkg-divert.pl:122 scripts/dpkg-statoverride.pl:93
+#: scripts/update-alternatives.pl:280
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "unbekannte Option »%s«"
 
-#: scripts/dpkg-divert.pl:114
+#: scripts/dpkg-divert.pl:128
 #, perl-format
 msgid "cannot open diversions: %s"
 msgstr "Kann diversions nicht öffnen: %s"
 
-#: scripts/dpkg-divert.pl:117
+#: scripts/dpkg-divert.pl:131
 msgid "missing altname"
 msgstr "fehlender Alternativname"
 
-#: scripts/dpkg-divert.pl:119
+#: scripts/dpkg-divert.pl:133
 msgid "missing package"
 msgstr "fehlendes Paket"
 
-#: scripts/dpkg-divert.pl:125 scripts/dpkg-divert.pl:153
-#: scripts/dpkg-divert.pl:195 scripts/dpkg-statoverride.pl:144
+#: scripts/dpkg-divert.pl:139 scripts/dpkg-divert.pl:167
+#: scripts/dpkg-divert.pl:210 scripts/dpkg-statoverride.pl:156
 #, perl-format
 msgid "--%s needs a single argument"
 msgstr "--%s braucht ein einzelnes Argument"
 
-#: scripts/dpkg-divert.pl:127 scripts/dpkg-divert.pl:131
+#: scripts/dpkg-divert.pl:141 scripts/dpkg-divert.pl:145
 #, perl-format
 msgid "filename \"%s\" is not absolute"
 msgstr "Dateiname »%s« ist nicht absolut"
 
-#: scripts/dpkg-divert.pl:128 scripts/dpkg-statoverride.pl:118
+#: scripts/dpkg-divert.pl:142 scripts/dpkg-statoverride.pl:130
 msgid "file may not contain newlines"
 msgstr "Dateiname darf keine Zeilenvorschübe enthalten"
 
-#: scripts/dpkg-divert.pl:129
+#: scripts/dpkg-divert.pl:143
 msgid "Cannot divert directories"
 msgstr "Kann keine Verzeichnisse umleiten"
 
-#: scripts/dpkg-divert.pl:138
+#: scripts/dpkg-divert.pl:152
 #, perl-format
 msgid "Leaving `%s'"
 msgstr "Behalte »%s« bei"
 
-#: scripts/dpkg-divert.pl:141
+#: scripts/dpkg-divert.pl:155
 #, perl-format
 msgid "`%s' clashes with `%s'"
 msgstr "»%s« kollidiert mit »%s«"
 
-#: scripts/dpkg-divert.pl:147
+#: scripts/dpkg-divert.pl:161
 #, perl-format
 msgid "Adding `%s'"
 msgstr "Füge »%s« hinzu"
 
-#: scripts/dpkg-divert.pl:157
+#: scripts/dpkg-divert.pl:171
 #, perl-format
 msgid ""
 "mismatch on divert-to\n"
@@ -4644,7 +4651,7 @@ msgstr ""
 "  beim Entfernen von »%s«\n"
 "  »%s« gefunden"
 
-#: scripts/dpkg-divert.pl:159
+#: scripts/dpkg-divert.pl:173
 #, perl-format
 msgid ""
 "mismatch on package\n"
@@ -4655,37 +4662,37 @@ msgstr ""
 "  beim Entfernen von »%s«\n"
 "  »%s« gefunden"
 
-#: scripts/dpkg-divert.pl:161
+#: scripts/dpkg-divert.pl:175
 #, perl-format
 msgid "Removing `%s'"
 msgstr "Entferne »%s«"
 
-#: scripts/dpkg-divert.pl:176
+#: scripts/dpkg-divert.pl:190
 #, perl-format
 msgid "No diversion `%s', none removed"
 msgstr "Keine Umleitung »%s«, keine entfernt"
 
-#: scripts/dpkg-divert.pl:205
+#: scripts/dpkg-divert.pl:220
 #, perl-format
 msgid "internal error - bad mode `%s'"
 msgstr "interner Fehler - falscher Modus »%s«"
 
-#: scripts/dpkg-divert.pl:219
+#: scripts/dpkg-divert.pl:234
 #, perl-format
 msgid "cannot stat old name `%s': %s"
 msgstr "Kann kein stat auf alten Namen »%s« durchführen: %s"
 
-#: scripts/dpkg-divert.pl:221
+#: scripts/dpkg-divert.pl:236
 #, perl-format
 msgid "cannot stat new name `%s': %s"
 msgstr "Kann kein stat auf neuen Namen »%s« durchführen: %s"
 
-#: scripts/dpkg-divert.pl:236
+#: scripts/dpkg-divert.pl:251
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "Fehler beim Überprüfen von »%s«: %s"
 
-#: scripts/dpkg-divert.pl:241
+#: scripts/dpkg-divert.pl:256
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4694,52 +4701,52 @@ msgstr ""
 "Umbenennen beinhaltet Überschreiben von »%s« mit\n"
 "  anderer Datei »%s«, nicht erlaubt"
 
-#: scripts/dpkg-divert.pl:251
+#: scripts/dpkg-divert.pl:266
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "rename: Entfernen des doppelten alten Links »%s«: %s"
 
-#: scripts/dpkg-divert.pl:253
+#: scripts/dpkg-divert.pl:268
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "rename: Umbenennen von »%s« nach »%s«: %s"
 
-#: scripts/dpkg-divert.pl:260
+#: scripts/dpkg-divert.pl:275
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "Anlegen von diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:279
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "Schreiben von diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:266
+#: scripts/dpkg-divert.pl:281
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "Schließen von diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:268
+#: scripts/dpkg-divert.pl:283
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "Entfernen von alter diversions-old: %s"
 
-#: scripts/dpkg-divert.pl:270
+#: scripts/dpkg-divert.pl:285
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "Anlegen von neuer diversions-old: %s"
 
-#: scripts/dpkg-divert.pl:272
+#: scripts/dpkg-divert.pl:287
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "Installieren von neuer diversions: %s"
 
-#: scripts/dpkg-divert.pl:291 scripts/update-alternatives.pl:662
+#: scripts/dpkg-divert.pl:310 scripts/update-alternatives.pl:708
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "interner Fehler: %s defekt: %s"
 
-#: scripts/dpkg-statoverride.pl:24
+#: scripts/dpkg-statoverride.pl:31
 msgid ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
@@ -4747,7 +4754,7 @@ msgstr ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
 
-#: scripts/dpkg-statoverride.pl:35
+#: scripts/dpkg-statoverride.pl:42
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -4783,106 +4790,106 @@ msgstr ""
 "  --help                   diesen Hilfetext anzeigen.\n"
 "  --version                Version anzeigen.\n"
 
-#: scripts/dpkg-statoverride.pl:93
+#: scripts/dpkg-statoverride.pl:100
 msgid "no mode specified"
 msgstr "kein Modus angegeben"
 
-#: scripts/dpkg-statoverride.pl:97
+#: scripts/dpkg-statoverride.pl:104
 msgid "--add needs four arguments"
 msgstr "--add benötigt vier Argumente"
 
-#: scripts/dpkg-statoverride.pl:102
+#: scripts/dpkg-statoverride.pl:112
 #, perl-format
 msgid "illegal user %s"
 msgstr "ungültiger Benutzer %s"
 
-#: scripts/dpkg-statoverride.pl:104
+#: scripts/dpkg-statoverride.pl:115
 #, perl-format
 msgid "non-existing user %s"
 msgstr "nicht existenter Benutzer %s"
 
-#: scripts/dpkg-statoverride.pl:110
+#: scripts/dpkg-statoverride.pl:121
 #, perl-format
 msgid "illegal group %s"
 msgstr "ungültige Gruppe %s"
 
-#: scripts/dpkg-statoverride.pl:112
+#: scripts/dpkg-statoverride.pl:124
 #, perl-format
 msgid "non-existing group %s"
 msgstr "nicht existente Gruppe %s"
 
-#: scripts/dpkg-statoverride.pl:116
+#: scripts/dpkg-statoverride.pl:128
 #, perl-format
 msgid "illegal mode %s"
 msgstr "ungültiger Modus %s"
 
-#: scripts/dpkg-statoverride.pl:119 scripts/dpkg-statoverride.pl:146
-#: scripts/dpkg-statoverride.pl:165
+#: scripts/dpkg-statoverride.pl:131 scripts/dpkg-statoverride.pl:158
+#: scripts/dpkg-statoverride.pl:177
 msgid "stripping trailing /"
 msgstr "entferne abschließende(n) /"
 
-#: scripts/dpkg-statoverride.pl:122
+#: scripts/dpkg-statoverride.pl:134
 #, perl-format
 msgid "An override for \"%s\" already exists, "
 msgstr "Ein Override für »%s« existiert bereits, "
 
-#: scripts/dpkg-statoverride.pl:124
+#: scripts/dpkg-statoverride.pl:136
 msgid "but --force specified so will be ignored."
 msgstr "wird aber ignoriert, da --force angegeben ist."
 
-#: scripts/dpkg-statoverride.pl:126
+#: scripts/dpkg-statoverride.pl:138
 msgid "aborting"
 msgstr "Abbruch"
 
-#: scripts/dpkg-statoverride.pl:137
+#: scripts/dpkg-statoverride.pl:149
 #, perl-format
 msgid "warning: --update given but %s does not exist"
 msgstr "Warnung: --update angegeben, aber %s existiert nicht"
 
-#: scripts/dpkg-statoverride.pl:139
+#: scripts/dpkg-statoverride.pl:151
 #, perl-format
 msgid "failed to chown %s: %s"
 msgstr "Konnte Eigentümer von %s nicht ändern: %s"
 
-#: scripts/dpkg-statoverride.pl:140
+#: scripts/dpkg-statoverride.pl:152
 #, perl-format
 msgid "failed to chmod %s: %s"
 msgstr "Konnte Zugriffsrechte von %s nicht ändern: %s"
 
-#: scripts/dpkg-statoverride.pl:148
+#: scripts/dpkg-statoverride.pl:160
 msgid "No override present."
 msgstr "Kein Override vorhanden."
 
-#: scripts/dpkg-statoverride.pl:156
+#: scripts/dpkg-statoverride.pl:168
 msgid "warning: --update is useless for --remove"
 msgstr "Warnung: --update ist sinnlos für --remove"
 
-#: scripts/dpkg-statoverride.pl:182
+#: scripts/dpkg-statoverride.pl:194
 #, perl-format
 msgid "cannot open statoverride: %s"
 msgstr "Kann statoverride nicht öffnen: %s"
 
-#: scripts/dpkg-statoverride.pl:188
+#: scripts/dpkg-statoverride.pl:200
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
 msgstr "Mehrere Overrides für »%s«, Abbruch"
 
-#: scripts/dpkg-statoverride.pl:201
+#: scripts/dpkg-statoverride.pl:213
 #, perl-format
 msgid "cannot open new statoverride file: %s"
 msgstr "Kann neue statoverride-Datei nicht öffnen: %s"
 
-#: scripts/dpkg-statoverride.pl:208
+#: scripts/dpkg-statoverride.pl:220
 #, perl-format
 msgid "error removing statoverride-old: %s"
 msgstr "Fehler beim Entfernen von statoverride-old: %s"
 
-#: scripts/dpkg-statoverride.pl:210
+#: scripts/dpkg-statoverride.pl:222
 #, perl-format
 msgid "error creating new statoverride-old: %s"
 msgstr "Fehler beim Anlegen der neuen statoverride-old:%s"
 
-#: scripts/dpkg-statoverride.pl:212
+#: scripts/dpkg-statoverride.pl:224
 #, perl-format
 msgid "error installing new statoverride: %s"
 msgstr "Fehler beim Installieren der neuen statoverride: %s"
@@ -5103,7 +5110,7 @@ msgstr "Kann %s nicht lesen: %d"
 msgid "dbg: %s"
 msgstr "dbg: %s"
 
-#: scripts/update-alternatives.pl:39
+#: scripts/update-alternatives.pl:66
 msgid ""
 "\n"
 "Copyright (C) 1995 Ian Jackson.\n"
@@ -5113,8 +5120,8 @@ msgstr ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
-#: scripts/update-alternatives.pl:51
-#, perl-format
+#: scripts/update-alternatives.pl:78
+#, fuzzy, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5134,7 +5141,7 @@ msgid ""
 "  --set <name> <path>      set <path> as alternative for <name>.\n"
 "  --all                    call --config on all alternatives.\n"
 "\n"
-"<link> is the symlink pointing to /etc/alternatives/<name>.\n"
+"<link> is the symlink pointing to %s/<name>.\n"
 "  (e.g. /usr/bin/pager)\n"
 "<name> is the master name for this link group.\n"
 "  (e.g. pager)\n"
@@ -5191,95 +5198,36 @@ msgstr ""
 "  --help                   diesen Hilfetext anzeigen.\n"
 "  --version                Version anzeigen.\n"
 
-#: scripts/update-alternatives.pl:117
-#, perl-format
-msgid "unknown argument `%s'"
-msgstr "unbekanntes Argument »%s«"
-
-#: scripts/update-alternatives.pl:130
-msgid "--install needs <link> <name> <path> <priority>"
-msgstr "--install benötigt <Link> <Name> <Pfad> <Priorität>"
-
-#: scripts/update-alternatives.pl:132
-msgid "priority must be an integer"
-msgstr "Priorität muss eine Ganzzahl sein"
-
-#: scripts/update-alternatives.pl:136
-#, perl-format
-msgid "--%s needs <name> <path>"
-msgstr "--%s benötigt <Name> <Pfad>"
-
-#: scripts/update-alternatives.pl:141
-#, perl-format
-msgid "--%s needs <name>"
-msgstr "--%s benötigt <Name>"
-
-#: scripts/update-alternatives.pl:145
-msgid "--slave needs <link> <name> <path>"
-msgstr "--slave benötigt <Link> <Name> <Pfad>"
-
-#: scripts/update-alternatives.pl:147
-#, perl-format
-msgid "slave name %s duplicated"
-msgstr "doppelter Slave-Name %s"
-
-#: scripts/update-alternatives.pl:148
-#, perl-format
-msgid "slave link %s duplicated"
-msgstr "doppelter Slave-Link %s"
-
-#: scripts/update-alternatives.pl:164
-#, perl-format
-msgid "name %s is both primary and slave"
-msgstr "Name %s ist sowohl primär als auch slave"
-
-#: scripts/update-alternatives.pl:165
-#, perl-format
-msgid "link %s is both primary and slave"
-msgstr "Link %s ist sowohl primär als auch slave"
-
-#: scripts/update-alternatives.pl:167
-msgid ""
-"need --display, --config, --set, --install, --remove, --all, --remove-all or "
-"--auto"
-msgstr ""
-"brauche --display, --config, --set, --install, --remove, --all, --remove-all "
-"oder --auto"
-
-#: scripts/update-alternatives.pl:168
-msgid "--slave only allowed with --install"
-msgstr "--slave ist nur mit --install erlaubt"
-
-#: scripts/update-alternatives.pl:176
+#: scripts/update-alternatives.pl:131
 msgid "manflag"
 msgstr "manflag"
 
-#: scripts/update-alternatives.pl:180
+#: scripts/update-alternatives.pl:135
 #, perl-format
 msgid "duplicate slave %s"
 msgstr "doppelter Slave %s"
 
-#: scripts/update-alternatives.pl:183
+#: scripts/update-alternatives.pl:138
 #, perl-format
 msgid "slave link same as main link %s"
 msgstr "Slave-Link ist derselbe wie Haupt-Link %s"
 
-#: scripts/update-alternatives.pl:184
+#: scripts/update-alternatives.pl:139
 #, perl-format
 msgid "duplicate slave link %s"
 msgstr "doppelter Slave-Link %s"
 
-#: scripts/update-alternatives.pl:188
+#: scripts/update-alternatives.pl:143
 #, perl-format
 msgid "duplicate path %s"
 msgstr "doppelter Pfad %s"
 
-#: scripts/update-alternatives.pl:193
+#: scripts/update-alternatives.pl:149
 #, perl-format
 msgid "priority %s %s"
 msgstr "Priorität %s %s"
 
-#: scripts/update-alternatives.pl:200
+#: scripts/update-alternatives.pl:156
 #, perl-format
 msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
@@ -5288,66 +5236,124 @@ msgstr ""
 "Alternative für %s verweist auf %s - was nicht gefunden wurde. Entferne es "
 "aus der Liste der Alternativen."
 
-#: scripts/update-alternatives.pl:216 scripts/update-alternatives.pl:265
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:168
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "Keine Alternativen für %s."
 
-#: scripts/update-alternatives.pl:219
+#: scripts/update-alternatives.pl:187
 #, perl-format
 msgid "%s - status is %s."
 msgstr "%s - Status ist %s."
 
-#: scripts/update-alternatives.pl:221
+#: scripts/update-alternatives.pl:191
 #, perl-format
 msgid " link currently points to %s"
 msgstr " Link verweist zur Zeit auf %s"
 
-#: scripts/update-alternatives.pl:223
+#: scripts/update-alternatives.pl:193
 msgid " link currently absent"
 msgstr " Link zur Zeit nicht vorhanden"
 
-#: scripts/update-alternatives.pl:225
+#: scripts/update-alternatives.pl:195
 #, perl-format
 msgid " link unreadable - %s"
 msgstr " Link unlesbar - %s"
 
-#: scripts/update-alternatives.pl:232
+#: scripts/update-alternatives.pl:199
 #, perl-format
 msgid "%s - priority %s"
 msgstr "%s - Priorität %s"
 
-#: scripts/update-alternatives.pl:235
+#: scripts/update-alternatives.pl:203
 #, perl-format
 msgid " slave %s: %s"
 msgstr " Slave %s: %s"
 
-#: scripts/update-alternatives.pl:239
+#: scripts/update-alternatives.pl:208
 msgid "No versions available."
 msgstr "Keine Versionen verfügbar."
 
-#: scripts/update-alternatives.pl:241
+#: scripts/update-alternatives.pl:210
 #, perl-format
 msgid "Current `best' version is %s."
 msgstr "Gegenwärtig »beste« Version ist %s."
 
-#: scripts/update-alternatives.pl:300
+#: scripts/update-alternatives.pl:237
+#, perl-format
+msgid "unknown argument `%s'"
+msgstr "unbekanntes Argument »%s«"
+
+#: scripts/update-alternatives.pl:250
+msgid "--install needs <link> <name> <path> <priority>"
+msgstr "--install benötigt <Link> <Name> <Pfad> <Priorität>"
+
+#: scripts/update-alternatives.pl:252
+msgid "priority must be an integer"
+msgstr "Priorität muss eine Ganzzahl sein"
+
+#: scripts/update-alternatives.pl:256
+#, perl-format
+msgid "--%s needs <name> <path>"
+msgstr "--%s benötigt <Name> <Pfad>"
+
+#: scripts/update-alternatives.pl:261
+#, perl-format
+msgid "--%s needs <name>"
+msgstr "--%s benötigt <Name>"
+
+#: scripts/update-alternatives.pl:265
+msgid "--slave needs <link> <name> <path>"
+msgstr "--slave benötigt <Link> <Name> <Pfad>"
+
+#: scripts/update-alternatives.pl:267
+#, perl-format
+msgid "slave name %s duplicated"
+msgstr "doppelter Slave-Name %s"
+
+#: scripts/update-alternatives.pl:268
+#, perl-format
+msgid "slave link %s duplicated"
+msgstr "doppelter Slave-Link %s"
+
+#: scripts/update-alternatives.pl:284
+#, perl-format
+msgid "name %s is both primary and slave"
+msgstr "Name %s ist sowohl primär als auch slave"
+
+#: scripts/update-alternatives.pl:286
+#, perl-format
+msgid "link %s is both primary and slave"
+msgstr "Link %s ist sowohl primär als auch slave"
+
+#: scripts/update-alternatives.pl:288
+msgid ""
+"need --display, --config, --set, --install, --remove, --all, --remove-all or "
+"--auto"
+msgstr ""
+"brauche --display, --config, --set, --install, --remove, --all, --remove-all "
+"oder --auto"
+
+#: scripts/update-alternatives.pl:289
+msgid "--slave only allowed with --install"
+msgstr "--slave ist nur mit --install erlaubt"
+
+#: scripts/update-alternatives.pl:342
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "Richte automatische Auswahl von %s ein."
 
-#: scripts/update-alternatives.pl:303 scripts/update-alternatives.pl:305
-#: scripts/update-alternatives.pl:413 scripts/update-alternatives.pl:415
-#: scripts/update-alternatives.pl:479 scripts/update-alternatives.pl:481
-#: scripts/update-alternatives.pl:483 scripts/update-alternatives.pl:485
-#: scripts/update-alternatives.pl:541 scripts/update-alternatives.pl:543
-#: scripts/update-alternatives.pl:609 scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:345 scripts/update-alternatives.pl:347
+#: scripts/update-alternatives.pl:459 scripts/update-alternatives.pl:461
+#: scripts/update-alternatives.pl:524 scripts/update-alternatives.pl:526
+#: scripts/update-alternatives.pl:528 scripts/update-alternatives.pl:530
+#: scripts/update-alternatives.pl:586 scripts/update-alternatives.pl:588
+#: scripts/update-alternatives.pl:655 scripts/update-alternatives.pl:691
 #, perl-format
 msgid "unable to remove %s: %s"
 msgstr "Kann %s nicht entfernen: %s"
 
-#: scripts/update-alternatives.pl:316
+#: scripts/update-alternatives.pl:358
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5356,7 +5362,7 @@ msgstr ""
 "%s wurde geändert (manuell oder von einem Skript).\n"
 "Wechsle zu ausschließlich manuellen Aktualisierungen."
 
-#: scripts/update-alternatives.pl:328
+#: scripts/update-alternatives.pl:370
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5366,70 +5372,70 @@ msgstr ""
 "(Sie können die symbolischen Links dort selbst ändern, falls gewünscht - "
 "siehe »man ln«.)"
 
-#: scripts/update-alternatives.pl:334
+#: scripts/update-alternatives.pl:376
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "Benenne %s-Link von %s in %s um."
 
-#: scripts/update-alternatives.pl:337 scripts/update-alternatives.pl:359
-#: scripts/update-alternatives.pl:439 scripts/update-alternatives.pl:514
+#: scripts/update-alternatives.pl:379 scripts/update-alternatives.pl:403
+#: scripts/update-alternatives.pl:485 scripts/update-alternatives.pl:559
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "Kann %s nicht in %s umbenennen: %s"
 
-#: scripts/update-alternatives.pl:354
+#: scripts/update-alternatives.pl:398
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "Slave-Link Name %s doppelt"
 
-#: scripts/update-alternatives.pl:356
+#: scripts/update-alternatives.pl:400
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "Benenne %s-Slave-Link von %s in %s um."
 
-#: scripts/update-alternatives.pl:370
+#: scripts/update-alternatives.pl:415
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr "Entferne manuell ausgewählte Alternative - wechsle zu Auto-Modus"
 
-#: scripts/update-alternatives.pl:384
+#: scripts/update-alternatives.pl:429
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "Alternative %s für %s ist nicht registriert, wird nicht entfernt."
 
-#: scripts/update-alternatives.pl:410
+#: scripts/update-alternatives.pl:456
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "Verwerfe veralteten Slave-Link %s (%s)."
 
-#: scripts/update-alternatives.pl:431
+#: scripts/update-alternatives.pl:477
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr ""
 "Automatische Aktualisierungen von %s sind deaktiviert, lasse es in Ruhe."
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:479
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "Um zu automatischen Aktualisierungen zurückzukehren,\n"
 "verwenden Sie »update-alternatives --auto %s«."
 
-#: scripts/update-alternatives.pl:437
+#: scripts/update-alternatives.pl:483
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "Behebe zuvor fehlgeschlagene Aktualisierung von %s ..."
 
-#: scripts/update-alternatives.pl:452
+#: scripts/update-alternatives.pl:498
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "Kann %s nicht zum Schreiben öffnen: %s"
 
-#: scripts/update-alternatives.pl:476
+#: scripts/update-alternatives.pl:521
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "Letztes Paket entfernt, das %s (%s) bereitstellte, lösche Alternative."
 
-#: scripts/update-alternatives.pl:489
+#: scripts/update-alternatives.pl:534
 #, perl-format
 msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
@@ -5438,38 +5444,38 @@ msgstr ""
 "Warnung: %s sollte ein symbolischer Link auf %s sein\n"
 " (oder nicht existent); jedoch schlug readlink fehl: %s"
 
-#: scripts/update-alternatives.pl:494 scripts/update-alternatives.pl:508
-#: scripts/update-alternatives.pl:528 scripts/update-alternatives.pl:536
+#: scripts/update-alternatives.pl:539 scripts/update-alternatives.pl:553
+#: scripts/update-alternatives.pl:573 scripts/update-alternatives.pl:581
 #, perl-format
 msgid "unable to ensure %s nonexistent: %s"
 msgstr "Kann nicht sicherstellen, dass %s nicht existiert: %s"
 
-#: scripts/update-alternatives.pl:496 scripts/update-alternatives.pl:530
-#: scripts/update-alternatives.pl:553 scripts/update-alternatives.pl:595
-#: scripts/update-alternatives.pl:631 scripts/update-alternatives.pl:670
+#: scripts/update-alternatives.pl:541 scripts/update-alternatives.pl:575
+#: scripts/update-alternatives.pl:598 scripts/update-alternatives.pl:641
+#: scripts/update-alternatives.pl:677 scripts/update-alternatives.pl:716
 #, perl-format
 msgid "unable to make %s a symlink to %s: %s"
 msgstr "Kann %s nicht zu symbolischem Link auf %s machen: %s"
 
-#: scripts/update-alternatives.pl:498 scripts/update-alternatives.pl:518
-#: scripts/update-alternatives.pl:532 scripts/update-alternatives.pl:555
-#: scripts/update-alternatives.pl:597 scripts/update-alternatives.pl:633
-#: scripts/update-alternatives.pl:675
+#: scripts/update-alternatives.pl:543 scripts/update-alternatives.pl:563
+#: scripts/update-alternatives.pl:577 scripts/update-alternatives.pl:600
+#: scripts/update-alternatives.pl:643 scripts/update-alternatives.pl:679
+#: scripts/update-alternatives.pl:721
 #, perl-format
 msgid "unable to install %s as %s: %s"
 msgstr "Kann %s nicht als %s installieren: %s"
 
-#: scripts/update-alternatives.pl:501 scripts/update-alternatives.pl:546
+#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:591
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
 msgstr "Lasse %s (%s) weiterhin auf %s verweisen."
 
-#: scripts/update-alternatives.pl:504 scripts/update-alternatives.pl:549
+#: scripts/update-alternatives.pl:549 scripts/update-alternatives.pl:594
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
 msgstr "Aktualisiere %s (%s), auf %s zu verweisen."
 
-#: scripts/update-alternatives.pl:523
+#: scripts/update-alternatives.pl:568
 #, perl-format
 msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
@@ -5478,13 +5484,13 @@ msgstr ""
 "Warnung: %s sollte ein symbolischer Slave-Link auf\n"
 " %s sein oder nicht existieren; jedoch schlug readlink fehl: %s"
 
-#: scripts/update-alternatives.pl:538 scripts/update-alternatives.pl:606
-#: scripts/update-alternatives.pl:642
+#: scripts/update-alternatives.pl:583 scripts/update-alternatives.pl:652
+#: scripts/update-alternatives.pl:688
 #, perl-format
 msgid "Removing %s (%s), not appropriate with %s."
 msgstr "Entferne %s (%s), nicht angebracht mit %s."
 
-#: scripts/update-alternatives.pl:563
+#: scripts/update-alternatives.pl:608
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5493,7 +5499,7 @@ msgstr ""
 "Es gibt nur 1 Programm, welches %s bereitstellt\n"
 "(%s). Nichts zu konfigurieren.\n"
 
-#: scripts/update-alternatives.pl:568
+#: scripts/update-alternatives.pl:613
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5506,43 +5512,52 @@ msgstr ""
 "  Auswahl      Alternative\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:578
+#: scripts/update-alternatives.pl:623
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr ""
 "Drücken Sie die Eingabetaste, um die Vorgabe[*] beizubehalten,\n"
 "oder geben Sie die Auswahlnummer ein: "
 
-#: scripts/update-alternatives.pl:592 scripts/update-alternatives.pl:629
+#: scripts/update-alternatives.pl:638 scripts/update-alternatives.pl:675
 #, perl-format
 msgid "Using `%s' to provide `%s'."
 msgstr "Verwende »%s«, um »%s« bereitzustellen."
 
-#: scripts/update-alternatives.pl:627
+#: scripts/update-alternatives.pl:673
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "Kann Alternative »%s« nicht finden."
 
-#: scripts/update-alternatives.pl:650 scripts/update-alternatives.pl:653
+#: scripts/update-alternatives.pl:696 scripts/update-alternatives.pl:699
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "Fehler beim Schreiben auf Standardausgabe: %s"
 
-#: scripts/update-alternatives.pl:652
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "Zeilenvorschübe sind in update-alternatives-Dateien (%s) verboten"
 
-#: scripts/update-alternatives.pl:657
+#: scripts/update-alternatives.pl:703
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "Fehler oder EOF beim Lesen von %s für %s (%s)"
 
-#: scripts/update-alternatives.pl:658
+#: scripts/update-alternatives.pl:704
 #, perl-format
 msgid "missing newline after %s"
 msgstr "fehlender Zeilenvorschub nach %s"
 
-#: scripts/update-alternatives.pl:678
+#: scripts/update-alternatives.pl:724
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "Schwerwiegendes Problem: %s"
+
+#~ msgid "%s: failed to exec gzip -dc"
+#~ msgstr "%s: Konnte »gzip -dc« nicht ausführen"
+
+#~ msgid "%s: failed to exec bzip2 -dc"
+#~ msgstr "%s: Konnte »bzip2 -dc« nicht ausführen"
+
+#~ msgid "%s: failed to exec bzip2 %s"
+#~ msgstr "%s: Konnte »bzip2 %s« nicht ausführen"
