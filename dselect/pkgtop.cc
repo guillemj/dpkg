@@ -208,14 +208,14 @@ void packagelist::redraw1itemsel(int index, int selected) {
     if (versioninstalled_width)
       mvwprintw(listpad,index,versioninstalled_column, "%-*.*s ",
                 versioninstalled_width, versioninstalled_width,
-                versiondescribe(&pkg->installed.version,vdew_never));
+                versiondescribe(&pkg->installed.version, vdew_nonambig));
     if (versionavailable_width) {
       if (informativeversion(&pkg->available.version) &&
           versioncompare(&pkg->available.version,&pkg->installed.version) > 0)
         wattrset(listpad, selected ? selstatesel_attr : selstate_attr);
       mvwprintw(listpad,index,versionavailable_column, "%-*.*s",
                 versionavailable_width, versionavailable_width,
-                versiondescribe(&pkg->available.version,vdew_never));
+                versiondescribe(&pkg->available.version, vdew_nonambig));
       wattrset(listpad, selected ? listsel_attr : list_attr);
       waddch(listpad,' ');
     }

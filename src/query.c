@@ -139,7 +139,7 @@ static void list1package(struct pkginfo *pkg, int *head,
 	if (!pdesc) pdesc= _("(no description available)");
 
 	plen= strlen(pkgl[i]->name);
-	vlen= strlen(versiondescribe(&pkgl[i]->installed.version,vdew_never));
+	vlen = strlen(versiondescribe(&pkgl[i]->installed.version, vdew_nonambig));
 	dlen= strcspn(pdesc, "\n");
 	if (plen > nw) nw = plen;
 	if (vlen > vw) vw = vlen;
@@ -176,7 +176,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
          "nUFiHc"[pkg->status],
          " R?#"[pkg->eflag],
          pkg->name,
-         versiondescribe(&pkg->installed.version,vdew_never),
+         versiondescribe(&pkg->installed.version, vdew_nonambig),
          l, pdesc);
 }
 

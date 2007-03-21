@@ -1084,7 +1084,6 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
    * also return -1 to mean it doesn't know because it would depend on
    * the version number.
    */
-  enum versiondisplayepochwhen needepochs;
   int r;
 
   if (pkg->want != want_install && pkg->want != want_hold) {
@@ -1111,26 +1110,24 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
    pkg->status == stat_installed && !(pkg->eflag &= eflagf_reinstreq)) {
       if (saywhy) fprintf(stderr, _("Version %.250s of %.250s already installed, "
              "skipping.\n"),
-             versiondescribe(&pkg->installed.version,vdew_never),
+             versiondescribe(&pkg->installed.version, vdew_nonambig),
              pkg->name);
       return 0;
     } else {
       return 1;
     }
   } else {
-    needepochs= epochsdiffer(&pkg->available.version,&pkg->installed.version) ?
-      vdew_always : vdew_never;
     if (fc_downgrade) {
       if (saywhy) fprintf(stderr, _("%s - warning: downgrading %.250s "
              "from %.250s to %.250s.\n"), DPKG, pkg->name,
-             versiondescribe(&pkg->installed.version,needepochs),
-             versiondescribe(&pkg->available.version,needepochs));
+             versiondescribe(&pkg->installed.version, vdew_nonambig),
+             versiondescribe(&pkg->available.version, vdew_nonambig));
       return 1;
     } else {
       if (saywhy) fprintf(stderr, _("Will not downgrade %.250s from version %.250s "
              "to %.250s, skipping.\n"), pkg->name,
-             versiondescribe(&pkg->installed.version,needepochs),
-             versiondescribe(&pkg->available.version,needepochs));
+             versiondescribe(&pkg->installed.version, vdew_nonambig),
+             versiondescribe(&pkg->available.version, vdew_nonambig));
       return 0;
     }
   }

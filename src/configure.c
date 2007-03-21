@@ -131,7 +131,7 @@ void deferred_configure(struct pkginfo *pkg) {
 					" reinstall it before attempting configuration."));
 
 	printf(_("Setting up %s (%s) ...\n"),pkg->name,
-			versiondescribe(&pkg->installed.version,vdew_never));
+	       versiondescribe(&pkg->installed.version, vdew_nonambig));
 
 	if (f_noact) {
 		pkg->status= stat_installed;
