@@ -29,6 +29,7 @@ extern "C" {
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include <errno.h>
 #include <unistd.h>
 #include <dirent.h>
@@ -46,10 +47,6 @@ extern "C" {
 #include "dselect.h"
 #include "bindings.h"
 #include "pkglist.h"
-
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 const char thisname[]= DSELECT;
 const char printforhelp[]= N_("Type dselect --help for help.");
