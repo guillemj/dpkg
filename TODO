@@ -11,6 +11,8 @@ lenny
  * Triage as much bugs as possible to get the bug count below 300 ;) and
    merge as much patches as possible.
 
+ * Change the BTS pages to use usertags instead of pseudo-tags.
+
 1.14.0
 ------
 
@@ -19,6 +21,7 @@ lenny
 
  * Support udeb natively:
    - Add field Package-Type and friends.
+   - Generate proper Packages files. (#383916)
 
  * Support Tag field.
 
@@ -57,7 +60,7 @@ lenny
 
  * Add UTF-8 support to all programs.
 
- * Add md5sums and/or sha1sums package support.
+ * Add md5sums and/or sha1sums package support. (#155676)
 
  * Allow packages to register additional files, declare ownership of files for
    dpkg -S and -L without having dpkg act on this (.psuedolist?).
@@ -69,6 +72,24 @@ lenny
  * Make dpkg-checkbuilddeps easier to use by other programs such as pbuilder
    or sbuild, so that they can start using the new architecture wildcards
    automatically.
+   - New command line arguments to retrieve Build-Depends. (#114774)
+   - Support for output format. (#214566)
+
+ * Remove conffile background support? (#38334)
+
+ * Make dpkg-build --build check for duped conffiles. (#131633)
+
+ * Make update-alternatives --display support --quiet. (#336091)
+
+ * Add PAM support to start-stop-daemon. (#406942)
+
+ * Make dpkg-checkbuilddeps check build-essential. (#402901)
+
+ * Fix pointless use of strdup. (#379027)
+
+ * Propagate --admindir to programs run from maintainer scritpts. (#97076)
+
+ * Fix quotes? <http://www.cl.cam.ac.uk/~mgk25/ucs/quotes.html>
 
 
 TODO
