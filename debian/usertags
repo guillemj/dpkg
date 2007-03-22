@@ -1,0 +1,130 @@
+To make management of bugs against the dpkg suite easier we add as many of
+the following usertags as apply to the bug.
+
+When filing bugs, please do the same to aid triage, by including in the
+bug report pseudo-header:
+
+	User: dpkg@packages.debian.org
+	Usertags: <usertag...>
+
+Those are the currently used usertags (and the matchings against the old
+“pseudo-tags”, which were encoded in the bug title):
+
+Generic tags
+============
+
+usertag		pseudo-tag	description
+-------		----------	-----------
+
+assert		[ASSERT]	Errors caused by assert().
+segfault	[SEGFAULT]	Errors that cause segmentation faults.
+conffile	[CONFFILE]	Issues with configuration file handling.
+		[DEPENDS]	Issues with dependency relationship handling.
+trivial		[TRIVIAL]	Bug should be trivial to fix.
+perf		[PERF]		Performance problems.
+wig-and-pen			Wig&Pen (aka dpkg-source v2).
+not-debian			Errors not affecting Debian systems.
+		[ARCH]		Updates to ‘cputable’, ‘ostable’ and porting
+				patches.
+utf-8		[UTF-8]		Conversion to the UTF-8 encoding.
+doc		[DOC]		Documentation bugs, including --help and manpages.
+l10n		[INTL]		New or updated translations and bugs affecting
+				translation. Include the language code in the
+				tag, e.g. [INTL:cy_GB].
+
+after-etch			Bugs to be fixed after this release.
+apt-feature			??
+
+Program tags
+============
+
+usertag			pseudo-tag		description
+-------			----------		-----------
+
+dpkg			[DPKG]
+dpkg-architecture	[DPKG-ARCHITECTURE]
+dpkg-buildpackage	[DPKG-BUILDPACKAGE]
+dpkg-checkbuilddeps	[DPKG-CHECKBUILDDEPS]
+dpkg-deb		[DPKG-DEB]
+dpkg-distaddfile	[DPKG-DISTADDFILE]
+dpkg-divert		[DPKG-DIVERT]
+dpkg-genchanges		[DPKG-GENCHANGES]
+dpkg-gencontrol		[DPKG-GENCONTROL]
+dpkg-name		[DPKG-NAME]
+dpkg-parsechangelog	[DPKG-PARSECHANGELOG]
+dpkg-query		[DPKG-QUERY]
+dpkg-scanpackages	[DPKG-SCANPACKAGES]
+dpkg-scansources	[DPKG-SCANSOURCES]
+dpkg-shlibdeps		[DPKG-SHLIBDEPS]
+dpkg-source		[DPKG-SOURCE]
+dpkg-split		[DPKG-SPLIT]
+dpkg-statoverride	[DPKG-STATOVERRIDE]
+s-s-d			[S-S-D]			start-stop-daemon
+u-a			[U-A]			update-alternatives
+
+cleanup-info		[CLEANUP-INFO]
+install-info		[INSTALL-INFO]
+822-date		[822-DATE]
+
+dpkg-dev					Those should be reassigned to
+						the dpkg-dev package.
+			[DSELECT]		Those should be reassigned to
+						the dselect package.
+
+Current classification
+======================
+
+dpkg
+----
+
+  <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dpkg;ordering=dpkg-maint>
+
+,--- Definition ---
+user dpkg@packages.debian.org
+
+usercategory dpkg-maint
+ * dpkg-class
+ * status
+ * severity
+ * classification
+
+usercategory dpkg-class
+ * Classification [tag=]
+  + Conffile handling [conffile]
+  + Performance issues [perf]
+  + Assertion failures [assert]
+  + Segfaults [segfault]
+  + dpkg-deb [dpkg-deb]
+  + dpkg-query [dpkg-query]
+  + start-stop-daemon [s-s-d]
+  + update-alternatives [u-a]
+  + install-info [install-info]
+  + dpkg-divert [dpkg-divert]
+  + Documentation [doc]
+  + Others []
+`---
+
+dpkg-dev
+--------
+
+ <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dpkg-dev;users=team@dpkg.org;ordering=dpkg-dev-maint>
+
+,--- Definition ---
+user dpkg@packages.debian.org
+
+usercategory dpkg-dev-maint
+ * dpkg-dev-program
+ * status
+ * severity
+ * classification
+
+usercategory dpkg-dev-program
+ * Program [tag=]
+  + dpkg-source [dpkg-source]
+  + dpkg-buildpackage [dpkg-buildpackage]
+  + dpkg-gencontrol [dpkg-gencontrol]
+  + dpkg-shlibdeps [dpkg-shlibdeps]
+  + dpkg-parsechangelog [dpkg-parsechangelog]
+  + Others []
+`---
+
