@@ -22,6 +22,7 @@ conffile	[CONFFILE]	Issues with configuration file handling.
 		[DEPENDS]	Issues with dependency relationship handling.
 trivial		[TRIVIAL]	Bug should be trivial to fix.
 perf		[PERF]		Performance problems.
+new-field			Requests for new control file fields.
 wig-and-pen			Wig&Pen (aka dpkg-source v2).
 not-debian			Errors not affecting Debian systems.
 		[ARCH]		Updates to ‘cputable’, ‘ostable’ and porting
@@ -71,60 +72,71 @@ dpkg-dev					Those should be reassigned to
 			[DSELECT]		Those should be reassigned to
 						the dselect package.
 
-Current classification
-======================
-
-dpkg
-----
-
-  <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dpkg;ordering=dpkg-maint>
+Current categories
+==================
 
 ,--- Definition ---
 user dpkg@packages.debian.org
 
-usercategory dpkg-maint
- * dpkg-class
+usercategory dpkg-program
+ * Program [tag=]
+  + dpkg [dpkg]
+  + dpkg-architecture [dpkg-architecture]
+  + dpkg-buildpackage [dpkg-buildpackage]
+  + dpkg-checkbuilddeps [dpkg-checkbuilddeps]
+  + dpkg-deb [dpkg-deb]
+  + dpkg-distaddfile [dpkg-distaddfile]
+  + dpkg-divert [dpkg-divert]
+  + dpkg-genchanges [dpkg-genchanges]
+  + dpkg-gencontrol [dpkg-gencontrol]
+  + dpkg-name [dpkg-name]
+  + dpkg-parsechangelog [dpkg-parsechangelog]
+  + dpkg-query [dpkg-query]
+  + dpkg-scanpackages [dpkg-scanpackages]
+  + dpkg-scansources [dpkg-scansources]
+  + dpkg-shlibdeps [dpkg-shlibdeps]
+  + dpkg-source [dpkg-source]
+  + dpkg-split [dpkg-split]
+  + dpkg-statoverride [dpkg-statoverride]
+  + start-stop-daemon [s-s-d]
+  + update-alternatives [u-a]
+  + 822-date [822-date]
+  + cleanup-info [cleanup-info]
+  + install-info [install-info]
+  + Other []
+
+usercategory dpkg-program-maint
+ * dpkg-program
  * status
  * severity
  * classification
 
 usercategory dpkg-class
- * Classification [tag=]
+ * Dpkg-Class [tag=]
+  + Segfault [segfault]
+  + Assertion failure [assert]
   + Conffile handling [conffile]
-  + Performance issues [perf]
-  + Assertion failures [assert]
-  + Segfaults [segfault]
-  + dpkg-deb [dpkg-deb]
-  + dpkg-query [dpkg-query]
-  + start-stop-daemon [s-s-d]
-  + update-alternatives [u-a]
-  + install-info [install-info]
-  + dpkg-divert [dpkg-divert]
+  + Performance issue [perf]
+  + Trivial fix [trivial]
+  + New control field [new-field]
+  + Wig and Pen [wig-and-pen]
+  + Non-Debian issue [not-debian]
+  + UTF-8 encoding [utf-8]
   + Documentation [doc]
-  + Others []
-`---
+  + Localization [l10n]
+  + Other []
 
-dpkg-dev
---------
-
- <http://bugs.debian.org/cgi-bin/pkgreport.cgi?pkg=dpkg-dev;users=team@dpkg.org;ordering=dpkg-dev-maint>
-
-,--- Definition ---
-user dpkg@packages.debian.org
-
-usercategory dpkg-dev-maint
- * dpkg-dev-program
+usercategory dpkg-class-maint
+ * dpkg-class
  * status
  * severity
  * classification
 
-usercategory dpkg-dev-program
- * Program [tag=]
-  + dpkg-source [dpkg-source]
-  + dpkg-buildpackage [dpkg-buildpackage]
-  + dpkg-gencontrol [dpkg-gencontrol]
-  + dpkg-shlibdeps [dpkg-shlibdeps]
-  + dpkg-parsechangelog [dpkg-parsechangelog]
-  + Others []
+usercategory dpkg-maint
+ * dpkg-program
+ * dpkg-class
+ * status
+ * severity
+ * classification
 `---
 
