@@ -108,3 +108,34 @@ AC_CHECK_LIB([ps], [proc_stat_list_create], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-l
 AC_CHECK_LIB([shouldbeinlibc], [fmt_past_time], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lshouldbeinlibc"])
 AC_CHECK_LIB([kvm], [kvm_openfiles], [SSD_LIBS="${SSD_LIBS:+$SSD_LIBS }-lkvm"])
 ])# DPKG_LIB_SSD
+
+# DPKG_LIB_PAM
+# ------------
+# Check for pam library.
+AC_DEFUN([DPKG_LIB_PAM],
+[AC_ARG_VAR([PAM_LIBS], [linker flags for pam library])dnl
+AC_ARG_WITH(pam,
+	AS_HELP_STRING([--with-pam],
+		       [use pam library for opening PAM sessions with start-stop-daemon]))
+if test "x$with_pam" != "xno"; then
+	AC_CHECK_LIB([pam], [pam_start],
+		[AC_DEFINE(WITH_PAM, 1,
+			[Define to 1 to use PAM sessions in start-stop-daemon])
+		 if test "x$with_pam" = "xstatic"; then
+			dpkg_pam_libs="-Wl,-Bstatic -lpam -lpam_misc -Wl,-Bdynamic"
+		 else
+			dpkg_pam_libs="-lpam -lpam_misc"
+		 fi
+		 PAM_LIBS="${PAM_LIBS:+$PAM_LIBS }$dpkg_pam_libs"
+		 with_pam="yes"],
+		[if test -n "$with_pam"; then
+			AC_MSG_FAILURE([pam library not found])
+		 fi])
+
+	AC_CHECK_HEADER([security/pam_appl.h],,
+		[if test -n "$with_pam"; then
+			AC_MSG_FAILURE([pam header not found])
+		 fi])
+fi
+])# DPKG_LIB_PAM
+

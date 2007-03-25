@@ -68,6 +68,7 @@ if test "x$build_dselect" = "xyes"; then
 fi
 if test "x$build_start_stop_daemon" = "xyes"; then
    DPKG_LIB_SSD
+   DPKG_LIB_PAM
 fi
 
 # Checks for header files.

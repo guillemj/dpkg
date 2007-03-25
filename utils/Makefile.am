@@ -13,7 +13,7 @@ if WITH_START_STOP_DAEMON
   start_stop_daemon_SOURCES = \
 	start-stop-daemon.c
 
-  start_stop_daemon_LDADD = ../getopt/libopt.a $(SSD_LIBS)
+  start_stop_daemon_LDADD = ../getopt/libopt.a $(SSD_LIBS) $(PAM_LIBS)
 endif
 
 
