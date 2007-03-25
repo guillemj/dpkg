@@ -19,22 +19,33 @@ usertag		pseudo-tag	description
 assert		[ASSERT]	Errors caused by assert().
 segfault	[SEGFAULT]	Errors that cause segmentation faults.
 conffile	[CONFFILE]	Issues with configuration file handling.
-		[DEPENDS]	Issues with dependency relationship handling.
+depends		[DEPENDS]	Issues with dependency relationship handling.
+maint-script			Errors related to maintainer scripts.
+db				Issues handling the database.
 trivial		[TRIVIAL]	Bug should be trivial to fix.
 perf		[PERF]		Performance problems.
 new-field			Requests for new control file fields.
 wig-and-pen			Wig&Pen (aka dpkg-source v2).
-not-debian			Errors not affecting Debian systems.
-		[ARCH]		Updates to ‘cputable’, ‘ostable’ and porting
+arch		[ARCH]		Updates to ‘cputable’, ‘ostable’ and porting
 				patches.
-utf-8		[UTF-8]		Conversion to the UTF-8 encoding.
-doc		[DOC]		Documentation bugs, including --help and manpages.
+not-debian			Errors not affecting Debian systems.
+i18n		[UTF-8]		Conversion to the UTF-8 encoding.
+i18n		[INTL]		Internationalization problems.
 l10n		[INTL]		New or updated translations and bugs affecting
 				translation. Include the language code in the
 				tag, e.g. [INTL:cy_GB].
+doc		[DOC]		Documentation bugs, including --help and manpages.
 
-after-etch			Bugs to be fixed after this release.
-apt-feature			??
+Being considered tags
+=====================
+
+usertag			description
+-------			-----------
+
+integrity/audit		Integrity support (sign, hash, stat tracking).
+new-option		Request for new command-line option.
+after-etch		Bugs to be fixed after this release.
+apt-feature		??
 
 Program tags
 ============
@@ -106,8 +117,8 @@ usercategory dpkg-program
   + Other []
 
 usercategory dpkg-program-maint
- * dpkg-program
  * status
+ * dpkg-program
  * severity
  * classification
 
@@ -115,27 +126,31 @@ usercategory dpkg-class
  * Dpkg-Class [tag=]
   + Segfault [segfault]
   + Assertion failure [assert]
+  + Dependency relationship handling [depends]
   + Conffile handling [conffile]
+  + Database handling [db]
+  + Maintainer script handling [maint-script]
   + Performance issue [perf]
   + Trivial fix [trivial]
   + New control field [new-field]
   + Wig and Pen [wig-and-pen]
+  + Architecture specific issue [arch]
   + Non-Debian issue [not-debian]
-  + UTF-8 encoding [utf-8]
-  + Documentation [doc]
+  + Internationalization [i18n]
   + Localization [l10n]
+  + Documentation [doc]
   + Other []
 
 usercategory dpkg-class-maint
- * dpkg-class
  * status
+ * dpkg-class
  * severity
  * classification
 
 usercategory dpkg-maint
+ * status
  * dpkg-program
  * dpkg-class
- * status
  * severity
  * classification
 `---
