@@ -140,20 +140,6 @@ static const char *progname = "";
 static int nicelevel = 0;
 static int umask_value = -1;
 
-#ifdef WITH_PAM
-#include <sys/wait.h>
-#include <security/pam_appl.h>
-#include <security/pam_misc.h>
-
-static pam_handle_t *pamh = NULL;
-static char *pam = NULL;
-
-static struct pam_conv conv = {
-	misc_conv,
-	NULL
-};
-#endif
-
 static struct stat exec_stat;
 #if defined(OSHURD)
 static struct proc_stat_list *procset = NULL;
@@ -238,13 +224,6 @@ fatal(const char *format, ...)
 {
 	va_list arglist;
 
-#ifdef WITH_PAM
-	if (pamh) {
-		int retcode = pam_close_session(pamh,0);
-		pam_end(pamh,retcode);
-	}
-#endif
-
 	fprintf(stderr, "%s: ", progname);
 	va_start(arglist, format);
 	vfprintf(stderr, format, arglist);
@@ -327,9 +306,6 @@ do_help(void)
 "  -r|--chroot <directory>       chroot to <directory> before starting\n"
 "  -d|--chdir <directory>        change to <directory> (default is /)\n"
 "  -N|--nicelevel <incr>         add incr to the process's nice level\n"
-#ifdef WITH_PAM
-"  -P|--pam <service>            open a session with this PAM service\n"
-#endif
 "  -k|--umask <mask>             change the umask to <mask> before starting\n"
 "  -b|--background               force the process to detach\n"
 "  -m|--make-pidfile             create the pidfile before starting\n"
@@ -534,11 +510,8 @@ parse_options(int argc, char * const *argv)
 		{ "umask",	  1, NULL, 'k'},
 		{ "background",   0, NULL, 'b'},
 		{ "make-pidfile", 0, NULL, 'm'},
-		{ "retry",        1, NULL, 'R'},
+ 		{ "retry",        1, NULL, 'R'},
 		{ "chdir",        1, NULL, 'd'},
-#ifdef WITH_PAM
-		{ "pam",	  1, NULL, 'P'},
-#endif
 		{ NULL,		0, NULL, 0}
 	};
 	const char *umask_str = NULL;
@@ -625,11 +598,6 @@ parse_options(int argc, char * const *argv)
 		case 'd':  /* --chdir /new/dir */
 			changedir = optarg;
 			break;
-#ifdef WITH_PAM
-		case 'P':  /* --pam <service> */
-			pam = optarg;
-			break;
-#endif
 		default:
 			badusage(NULL);  /* message printed by getopt */
 		}
@@ -1358,68 +1326,6 @@ main(int argc, char **argv)
 #endif
 		devnull_fd=open("/dev/null", O_RDWR);
 	}
-#ifdef WITH_PAM
-	/*
-	 * If PAM is enabled, start the PAM library, and open a PAM
-	 * session.
-	 * Set the environment variable set by the PAM modules for the
-	 * daemon.
-	 */
-	if (pam) {
-		int retcode;
-		char **envcp;
-
-		char *pam_user;
-		struct passwd *pw;
-		pw = getpwuid((-1==runas_uid)?getuid():runas_uid);
-		if (!pw) {
-			fatal("user ID `%d' not found\n",
-			      (-1==runas_uid)?getuid():runas_uid);
-		}
-		else {
-			pam_user = strdup(pw->pw_name);
-			if (!pam_user)
-				fatal("Unable to allocate memory: %s", strerror(errno));
-		}
-
-		retcode = pam_start (pam, pam_user, &conv, &pamh);
-		if (PAM_SUCCESS != retcode) {
-			fprintf(stderr, "%s\n", pam_strerror(pamh, retcode));
-			pam_end(pamh, retcode);
-			exit(2);
-		}
-
-		/* Some PAM modules may rely on PAM_RUSER */
-		if (pam_user) {
-			int retcode = pam_set_item(pamh, PAM_RUSER, pam_user);
-			if (PAM_SUCCESS != retcode) {
-				fprintf(stderr,
-				        "%s\n",
-				        pam_strerror(pamh, retcode));
-				pam_end(pamh, retcode);
-				exit(2);
-			}
-		}
-
-		retcode = pam_open_session(pamh, 0);
-		if (PAM_SUCCESS != retcode) {
-			fprintf(stderr, "%s\n", pam_strerror(pamh, retcode));
-			pam_end(pamh, retcode);
-			exit(2);
-		}
-
-		/* Copy the environment variables set by the PAM modules. */
-		envcp = pam_getenvlist (pamh);
-		if (envcp) {
-			while (*envcp) {
-				int err = putenv(*envcp);
-				if (err)
-					fatal("Unable to set the '%s' environment variable: %s", *envcp, strerror(errno));
-				envcp++;
-			}
-		}
-	}
-#endif
 	if (nicelevel) {
 		errno=0;
 		if ((nice(nicelevel)==-1) && (errno!=0))
@@ -1480,37 +1386,6 @@ main(int argc, char **argv)
 		setpgid(0,0);
 #endif
 	}
-#ifdef WITH_PAM
-	/*
-	 * If PAM is enabled, fork.
-	 *   The parent keeps the PAM session (and will do the cleanup).
-	 *   The child will start the daemon.
-	 */
-	if (pam) {
-		int parent = fork();
-		if (parent < 0) {
-			fatal("Unable to fork.\n");
-		}
-		if (parent) {
-			/* parent: wait for child to finish,
-			 *         then cleanup the PAM session.
-			 */
-			int retcode;
-			int status = 1;
-			wait(&status);
-
-			retcode = pam_close_session(pamh,0);
-			pam_end(pamh,retcode);
-
-			if (WIFSIGNALED(status))
-				status = 1;
-			else
-				status = WEXITSTATUS(status);
-			exit(status);
-		}
-		/* Only child continue */
-	}
-#endif
 	execv(startas, argv);
 	fatal("Unable to start %s: %s", startas, strerror(errno));
 }
