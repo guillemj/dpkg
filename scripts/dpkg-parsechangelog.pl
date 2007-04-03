@@ -79,7 +79,7 @@ for $pd (@parserpath) {
     if (!stat("$pa")) {
         $! == ENOENT || &syserr(sprintf(_g("failed to check for format parser %s"), $pa));
     } elsif (!-x _) {
-        &warn(sprintf(_g("format parser %s not executable"), $pa));
+	warning(sprintf(_g("format parser %s not executable"), $pa));
     } else {
         $pf= $pa;
 	last;

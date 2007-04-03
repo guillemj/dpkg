@@ -12,7 +12,7 @@ require 'controllib.pl';
 
 @ARGV && die _g("Usage: 822-date")."\n";
 
-&warn(_g("This program is deprecated. Please use 'date -R' instead."));
+warning(_g("This program is deprecated. Please use 'date -R' instead."));
 
 print `date -R`;
 

@@ -133,7 +133,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^-x$/) {
         &setopmode('extract');
     } elsif (m/^-s([akpursnAKPUR])$/) {
-	&warn( sprintf(_g("-s%s option overrides earlier -s%s option" ), $1, $sourcestyle))
+	warning(sprintf(_g("-s%s option overrides earlier -s%s option"), $1, $sourcestyle))
 	    if $sourcestyle ne 'X';
         $sourcestyle= $1;
     } elsif (m/^-c/) {
@@ -275,7 +275,8 @@ if ($opmode eq 'build') {
         defined($f{$f}) || &error(sprintf(_g("missing information for critical output field %s"), $f));
     }
     for $f (qw(Maintainer Architecture Standards-Version)) {
-        defined($f{$f}) || &warn(sprintf(_g("missing information for output field %s"), $f));
+	defined($f{$f}) ||
+	    warning(sprintf(_g("missing information for output field %s"), $f));
     }
     defined($sourcepackage) || &error(_g("unable to determine source package name !"));
     $f{'Source'}= $sourcepackage;
@@ -334,23 +335,24 @@ if ($opmode eq 'build') {
         }
     }
     $dirbase= $dir; $dirbase =~ s,/?$,,; $dirbase =~ s,[^/]+$,,; $dirname= $&;
-    $dirname eq $basedirname || &warn(sprintf(_g("source directory `%s' is not <sourcepackage>".
-                                      "-<upstreamversion> `%s'"), $dir, $basedirname));
-    
+    $dirname eq $basedirname ||
+	warning(sprintf(_g("source directory '%s' is not <sourcepackage>" .
+	                   "-<upstreamversion> '%s'"), $dir, $basedirname));
+
     if ($sourcestyle ne 'n') {
         $origdirbase= $origdir; $origdirbase =~ s,/?$,,;
         $origdirbase =~ s,[^/]+$,,; $origdirname= $&;
 
         $origdirname eq "$basedirname.orig" ||
-            &warn(sprintf(_g(".orig directory name %s is not <package>".
-                             "-<upstreamversion> (wanted %s)"),
-                          $origdirname, "$basedirname.orig"));
+	    warning(sprintf(_g(".orig directory name %s is not <package>" .
+	                       "-<upstreamversion> (wanted %s)"),
+	                       $origdirname, "$basedirname.orig"));
         $tardirbase= $origdirbase; $tardirname= $origdirname;
 
         $tarname= $origtargz;
         $tarname eq "$basename.orig.tar.gz" ||
-            &warn(sprintf(_g(".orig.tar.gz name %s is not <package>_<upstreamversion>".
-                  ".orig.tar.gz (wanted %s)"), $tarname, "$basename.orig.tar.gz"));
+	    warning(sprintf(_g(".orig.tar.gz name %s is not <package>_<upstreamversion>" .
+	                       ".orig.tar.gz (wanted %s)"), $tarname, "$basename.orig.tar.gz"));
     } else {
         $tardirbase= $dirbase; $tardirname= $dirname;
         $tarname= "$basenamerev.tar.gz";
@@ -467,11 +469,11 @@ if ($opmode eq 'build') {
                     $! == ENOENT || &syserr(sprintf(_g("cannot stat orig file %s"), "$origdir/$fn"));
                     $ofnread= '/dev/null';
 		    if( $mode & ( S_IXUSR | S_IXGRP | S_IXOTH ) ) {
-			&warn( sprintf( _g("executable mode %04o of `%s' will not be represented in diff"), $mode, $fn ) )
+			warning(sprintf(_g("executable mode %04o of '%s' will not be represented in diff"), $mode, $fn))
 			    unless $fn eq 'debian/rules';
 		    }
 		    if( $mode & ( S_ISUID | S_ISGID | S_ISVTX ) ) {
-			&warn( sprintf( _g("special mode %04o of `%s' will not be represented in diff"), $mode, $fn ) );
+			warning(sprintf(_g("special mode %04o of '%s' will not be represented in diff"), $mode, $fn));
 		    }
                 } elsif (-f _) {
                     $ofnread= "$origdir/$fn";
@@ -500,8 +502,8 @@ if ($opmode eq 'build') {
                     } elsif (m/^[-+\@ ]/) {
                         $difflinefound=1;
                     } elsif (m/^\\ No newline at end of file$/) {
-                        &warn(sprintf(_g("file %s has no final newline ".
-                              "(either original or modified version)"), $fn));
+			warning(sprintf(_g("file %s has no final newline " .
+			                   "(either original or modified version)"), $fn));
                     } else {
                         s/\n$//;
                         &internerr(sprintf(_g("unknown line from diff -u on %s: `%s'"), $fn, $_));
@@ -555,11 +557,11 @@ if ($opmode eq 'build') {
             next if defined($type{$fn});
             lstat("$origdir/$fn") || &syserr(sprintf(_g("cannot check orig file %s"), "$origdir/$fn"));
             if (-f _) {
-                &warn(sprintf(_g("ignoring deletion of file %s"), $fn));
+		warning(sprintf(_g("ignoring deletion of file %s"), $fn));
             } elsif (-d _) {
-                &warn(sprintf(_g("ignoring deletion of directory %s"), $fn));
+		warning(sprintf(_g("ignoring deletion of directory %s"), $fn));
             } elsif (-l _) {
-                &warn(sprintf(_g("ignoring deletion of symlink %s"), $fn));
+		warning(sprintf(_g("ignoring deletion of symlink %s"), $fn));
             } else {
                 &unrepdiff2(_g('not a file, directory or link'),
                             _g('nonexistent'));
@@ -634,10 +636,10 @@ if ($opmode eq 'build') {
 		    if ($gpg_status == 1);
 	    }
 	} else {
-	    &warn(sprintf(_g("could not verify signature on %s since gpg isn't installed"), $dsc));
+	    warning(sprintf(_g("could not verify signature on %s since gpg isn't installed"), $dsc));
 	}
     } else {
-	&warn(sprintf(_g("extracting unsigned source package (%s)"), $dsc));
+	warning(sprintf(_g("extracting unsigned source package (%s)"), $dsc));
     }
 
     open(CDATA,"< $dsc") || &error(sprintf(_g("cannot open .dsc file %s: %s"), $dsc, $!));
@@ -706,14 +708,14 @@ if ($opmode eq 'build') {
     &error(_g("no tarfile in Files field")) unless @tarfiles;
     my $native = !($difffile || $debianfile);
     if ($native) {
-	&warn(_g("multiple tarfiles in native package")) if @tarfiles > 1;
-	&warn(_g("native package with .orig.tar"))
+	warning(_g("multiple tarfiles in native package")) if @tarfiles > 1;
+	warning(_g("native package with .orig.tar"))
 	    unless $seen{'.tar'} or $seen{"-$revision.tar"};
     } else {
-	&warn(_g("no upstream tarfile in Files field")) unless $seen{'.orig.tar'};
+	warning(_g("no upstream tarfile in Files field")) unless $seen{'.orig.tar'};
 	if ($dscformat =~ /^1\./) {
-	    &warn(sprintf(_g("multiple upstream tarballs in %s format dsc"), $dscformat)) if @tarfiles > 1;
-	    &warn(sprintf(_g("debian.tar in %s format dsc"), $dscformat)) if $debianfile;
+	    warning(sprintf(_g("multiple upstream tarballs in %s format dsc"), $dscformat)) if @tarfiles > 1;
+	    warning(sprintf(_g("debian.tar in %s format dsc"), $dscformat)) if $debianfile;
 	}
     }
 
@@ -871,12 +873,12 @@ if ($opmode eq 'build') {
 
     if (!(@s= lstat("$newdirectory/debian/rules"))) {
 	$! == ENOENT || &syserr(sprintf(_g("cannot stat %s"), "$newdirectory/debian/rules"));
-	&warn(sprintf(_g("%s does not exist"), "$newdirectory/debian/rules"));
+	warning(sprintf(_g("%s does not exist"), "$newdirectory/debian/rules"));
     } elsif (-f _) {
 	chmod($s[2] | 0111, "$newdirectory/debian/rules") ||
 	    &syserr(sprintf(_g("cannot make %s executable"), "$newdirectory/debian/rules"));
     } else {
-	&warn(sprintf(_g("%s is not a plain file"), "$newdirectory/debian/rules"));
+	warning(sprintf(_g("%s is not a plain file"), "$newdirectory/debian/rules"));
     }
 
     $execmode= 0777 & ~umask;
@@ -1080,8 +1082,8 @@ sub checktarsane {
 		&& (substr ($fn, 0, 99) eq substr ($tarfn, 0, 99))) {
 		# this file doesn't match because cpio truncated the name
 		# to the first 100 characters.  let it slide for now.
-		&warn (sprintf(_g("filename `%s' was truncated by cpio;" .
-		                  " unable to check full pathname"), $pname));
+		warning(sprintf(_g("filename '%s' was truncated by cpio;" .
+		                   " unable to check full pathname"), $pname));
 		# Since it didn't match, later checks will not be able
 		# to stat this file, so we replace it with the filename
 		# fetched from tar.

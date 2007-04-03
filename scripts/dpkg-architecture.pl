@@ -163,7 +163,7 @@ $deb_build_gnu_type = &debian_to_gnu($deb_build_arch);
 # Default host: Current gcc.
 $gcc = `\${CC:-gcc} -dumpmachine`;
 if ($?>>8) {
-    &warn(_g("Couldn't determine gcc system type, falling back to default (native compilation)"));
+    warning(_g("Couldn't determine gcc system type, falling back to default (native compilation)"));
     $gcc = '';
 } else {
     chomp $gcc;
@@ -172,7 +172,7 @@ if ($?>>8) {
 if ($gcc ne '') {
     $deb_host_arch = &gnu_to_debian($gcc);
     unless (defined $deb_host_arch) {
-	&warn (sprintf(_g("Unknown gcc system type %s, falling back to default (native compilation)"), $gcc));
+	warning(sprintf(_g("Unknown gcc system type %s, falling back to default (native compilation)"), $gcc));
 	$gcc = '';
     } else {
 	$gcc = $deb_host_gnu_type = &debian_to_gnu($deb_host_arch);
@@ -241,7 +241,7 @@ if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
     $dfl_host_gnu_type = &debian_to_gnu ($req_host_arch);
-    &warn(sprintf(_g("Default GNU system type %s for Debian arch %s does not match specified GNU system type %s"), $dfl_host_gnu_type, $req_host_arch, $req_host_gnu_type)) if $dfl_host_gnu_type ne $req_host_gnu_type;
+    warning(sprintf(_g("Default GNU system type %s for Debian arch %s does not match specified GNU system type %s"), $dfl_host_gnu_type, $req_host_arch, $req_host_gnu_type)) if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
 $deb_host_arch = $req_host_arch if $req_host_arch ne '';
@@ -249,7 +249,7 @@ $deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
 
 #$gcc = `\${CC:-gcc} --print-libgcc-file-name`;
 #$gcc =~ s!^.*gcc-lib/(.*)/\d+(?:.\d+)*/libgcc.*$!$1!s;
-&warn(sprintf(_g("Specified GNU system type %s does not match gcc system type %s."), $deb_host_gnu_type, $gcc)) if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
+warning(sprintf(_g("Specified GNU system type %s does not match gcc system type %s."), $deb_host_gnu_type, $gcc)) if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
 
 # Split the Debian and GNU names
 ($deb_host_arch_os, $deb_host_arch_cpu) = &split_debian($deb_host_arch);

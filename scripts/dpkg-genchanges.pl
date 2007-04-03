@@ -141,13 +141,13 @@ if (not $sourceonly) {
     while(<FL>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
-		&warn(sprintf(_g("duplicate files list entry for package %s (line %d)"), $2, $.));
+		warning(sprintf(_g("duplicate files list entry for package %s (line %d)"), $2, $.));
 	    $f2p{$1}= $2;
 	    $p2f{"$2 $4"}= $1;
 	    $p2f{$2}= $1;
 	    $p2ver{$2}= $3;
 	    defined($f2sec{$1}) &&
-		&warn(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
+		warning(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
 	    push(@fileslistfiles,$1);
@@ -159,7 +159,7 @@ if (not $sourceonly) {
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	    defined($f2sec{$1}) &&
-		&warn(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
+		warning(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
 	    $f2sec{$1}= $2;
 	    $f2pri{$1}= $3;
 	    push(@fileslistfiles,$1);
@@ -187,7 +187,7 @@ for $_ (keys %fi) {
 	    if ((debian_arch_eq('all', $a) && !$archspecific) ||
 		debian_arch_is($arch, $a) ||
 		grep(debian_arch_is($arch, $_), split(/\s+/, $a))) {
-		&warn(sprintf(_g("package %s in control file but not in files list"), $p));
+		warning(sprintf(_g("package %s in control file but not in files list"), $p));
 		next;
 	    }
 	} else {
@@ -257,7 +257,7 @@ if ($changesdescription) {
 for $p (keys %p2f) {
     my ($pp, $aa) = (split / /, $p);
     defined($p2i{"C $pp"}) ||
-        &warn(sprintf(_g("package %s listed in files list but not in control info"), $pp));
+	warning(sprintf(_g("package %s listed in files list but not in control info"), $pp));
 }
 
 for $p (keys %p2f) {
@@ -266,7 +266,7 @@ for $p (keys %p2f) {
     $sec = $sourcedefault{'Section'} if !defined($sec);
     if (!defined($sec)) {
 	$sec = '-';
-	&warn(sprintf(_g("missing Section for binary package %s; using '-'"), $p));
+	warning(sprintf(_g("missing Section for binary package %s; using '-'"), $p));
     }
     $sec eq $f2sec{$f} || &error(sprintf(_g("package %s has section %s in ".
                                            "control file but %s in files list"),
@@ -275,7 +275,7 @@ for $p (keys %p2f) {
     $pri = $sourcedefault{'Priority'} if !defined($pri);
     if (!defined($pri)) {
 	$pri = '-';
-	&warn("missing Priority for binary package $p; using '-'");
+	warning("missing Priority for binary package $p; using '-'");
     }
     $pri eq $f2pri{$f} || &error(sprintf(_g("package %s has priority %s in ".
                                            "control file but %s in files list"),
@@ -288,12 +288,12 @@ if (!$binaryonly) {
     $sec= $sourcedefault{'Section'};
     if (!defined($sec)) {
 	$sec = '-';
-	&warn(_g("missing Section for source files"));
+	warning(_g("missing Section for source files"));
     }
     $pri= $sourcedefault{'Priority'};
     if (!defined($pri)) {
 	$pri = '-';
-	&warn(_g("missing Priority for source files"));
+	warning(_g("missing Priority for source files"));
     }
 
     ($sversion = $substvar{'source:Version'}) =~ s/^\d+://;
@@ -320,7 +320,7 @@ if (!$binaryonly) {
         @sourcefiles= grep(!m/\.orig\.tar\.gz$/,@sourcefiles);
     } else {
 	if ($sourcestyle =~ m/d/ && !grep(m/\.diff\.gz$/,@sourcefiles)) {
-	    &warn(_g("Ignoring -sd option for native Debian package"));
+	    warning(_g("ignoring -sd option for native Debian package"));
 	}
         $origsrcmsg= _g("including full source code in upload");
     }
@@ -352,7 +352,7 @@ for $f (@sourcefiles,@fileslistfiles) {
     $uf= "$uploadfilesdir/$f";
     open(STDIN,"< $uf") || &syserr(sprintf(_g("cannot open upload file %s for reading"), $uf));
     (@s=stat(STDIN)) || &syserr(sprintf(_g("cannot fstat upload file %s"), $uf));
-    $size= $s[7]; $size || &warn(sprintf(_g("upload file %s is empty"), $uf));
+    $size= $s[7]; $size || warning(sprintf(_g("upload file %s is empty"), $uf));
     $md5sum=`md5sum`; $? && subprocerr(sprintf(_g("md5sum upload file %s"), $uf));
     $md5sum =~ m/^([0-9a-f]{32})\s*-?\s*$/i ||
         &failure(sprintf(_g("md5sum upload file %s gave strange output \`%s'"), $uf, $md5sum));
@@ -377,7 +377,7 @@ for $f (qw(Version Distribution Maintainer Changes)) {
 }
 
 for $f (qw(Urgency)) {
-    defined($f{$f}) || &warn(sprintf(_g("missing information for output field %s"), $f));
+    defined($f{$f}) || warning(sprintf(_g("missing information for output field %s"), $f));
 }
 
 for $f (keys %override) { $f{&capit($f)}= $override{$f}; }

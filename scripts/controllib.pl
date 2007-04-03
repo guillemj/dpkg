@@ -68,7 +68,7 @@ sub getfowner
 	    die(sprintf(_g('unable to get login information for username "%s"'), $getlogin));
 	}
     } else {
-	&warn (sprintf(_g('no utmp entry available and LOGNAME not defined; using uid of process (%d)'), $<));
+	warning(sprintf(_g('no utmp entry available and LOGNAME not defined; using uid of process (%d)'), $<));
 	@fowner = getpwuid($<);
 	if (!@fowner) {
 	    die (sprintf(_g('unable to get login information for uid %d'), $<));
@@ -156,7 +156,7 @@ sub substvars {
             $v= $lhs.$substvar{$vn}.$rhs;
             $count++;
         } else {
-            &warn(sprintf(_g("unknown substitution variable \${%s}"), $vn));
+	    warning(sprintf(_g("unknown substitution variable \${%s}"), $vn));
             $v= $lhs.$rhs;
         }
     }
@@ -283,7 +283,7 @@ ALTERNATE:
                 }
             }
             if (length($dep_or)) {
-		&warn(sprintf(_g("can't parse dependency %s"),$dep_and));
+		warning(sprintf(_g("can't parse dependency %s"), $dep_and));
 		return undef;
 	    }
 	    push @or_list, [ $package, $relation, $version, \@arches ];
@@ -437,7 +437,8 @@ sub parsecdata {
 
 sub unknown {
     my $field = $_;
-    &warn(sprintf(_g("unknown information field \`%s\' in input data in %s"), $field, $_[0]));
+    warning(sprintf(_g("unknown information field '%s' in input data in %s"),
+                    $field, $_[0]));
 }
 
 sub syntax {
@@ -448,14 +449,29 @@ sub failure { die sprintf(_g("%s: failure: %s"), $progname, $_[0])."\n"; }
 sub syserr { die sprintf(_g("%s: failure: %s: %s"), $progname, $_[0], $!)."\n"; }
 sub error { die sprintf(_g("%s: error: %s"), $progname, $_[0])."\n"; }
 sub internerr { die sprintf(_g("%s: internal error: %s"), $progname, $_[0])."\n"; }
-sub warn { if (!$quiet_warnings) { warn sprintf(_g("%s: warning: %s"), $progname, $_[0])."\n"; } }
+
+sub warning
+{
+    if (!$quiet_warnings) {
+	warn sprintf(_g("%s: warning: %s"), $progname, $_[0])."\n";
+    }
+}
+
 sub usageerr
 {
     printf(STDERR "%s: %s\n\n", $progname, "@_");
     &usage;
     exit(2);
 }
-sub warnerror { if ($warnable_error) { &warn( @_ ); } else { &error( @_ ); } }
+
+sub warnerror
+{
+    if ($warnable_error) {
+	warning(@_);
+    } else {
+	error(@_);
+    }
+}
 
 sub subprocerr {
     local ($p) = @_;

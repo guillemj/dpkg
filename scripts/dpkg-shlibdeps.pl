@@ -93,7 +93,7 @@ foreach (@ARGV) {
     } elsif (m/^-d/) {
 	$dependencyfield= capit($POSTMATCH);
 	defined($depstrength{$dependencyfield}) ||
-	    &warn(sprintf(_g("unrecognised dependency field \`%s'"), $dependencyfield));
+	    warning(sprintf(_g("unrecognised dependency field '%s'"), $dependencyfield));
     } elsif (m/^-e/) {
 	push(@exec,$POSTMATCH); push(@execfield,$dependencyfield);
     } elsif (m/^-t/) {
@@ -162,7 +162,7 @@ if (opendir(DIR, $ldconfigdir)) {
 }
 
 open CONF, '</etc/ld.so.conf' or
-    warn( sprintf(_g("couldn't open /etc/ld.so.conf: %s" ), $!));
+    warning(sprintf(_g("couldn't open /etc/ld.so.conf: %s"), $!));
 while( <CONF> ) {
     next if /^\s*$/;
     chomp;
@@ -202,7 +202,7 @@ for ($i=0;$i<=$#exec;$i++) {
 		push(@libexec,$exec[$i]);
 	    } else {
 		m,^\s*NEEDED\s+(\S+)$,;
-		&warn(sprintf(_g("format of \`NEEDED %s' not recognized"), $1));
+		warning(sprintf(_g("format of 'NEEDED %s' not recognized"), $1));
 	    }
 	} elsif (/^\s*RPATH\s+(\S+)\s*$/) {
 	    push @{$rpaths{$exec[$i]}}, $1;
@@ -281,12 +281,12 @@ if ($#libfiles >= 0) {
     while (<P>) {
 	chomp;
 	if (m/^local diversion |^diversion by/) {
-	    &warn(_g("diversions involved - output may be incorrect"));
+	    warning(_g("diversions involved - output may be incorrect"));
 	    print(STDERR " $_\n") || syserr(_g("write diversion info to stderr"));
 	} elsif (m=^(\S+(, \S+)*): (\S+)$=) {
 	    push @{$pathpackages{$LAST_PAREN_MATCH}}, split(/, /, $1);
 	} else {
-	    &warn(sprintf(_g("unknown output from dpkg --search: \`%s'"), $_));
+	    warning(sprintf(_g("unknown output from dpkg --search: '%s'"), $_));
 	}
     }
     close(P);
@@ -309,7 +309,7 @@ if ($#libfiles >= 0) {
 	    }
 	}
 	if (!@packages) {
-	    &warn(sprintf(_g("could not find any packages for %s"), $libfiles[$i]));
+	    warning(sprintf(_g("could not find any packages for %s"), $libfiles[$i]));
 	} else {
 	    for my $p (@packages) {
 		scanshlibsfile("$shlibsppdir/$p$shlibsppext",
@@ -319,11 +319,11 @@ if ($#libfiles >= 0) {
 	}
 	scanshlibsfile($shlibsdefault,$libname[$i],$libsoname[$i],$libfield[$i])
 	    && next;
-	&warn(sprintf(_g("unable to find dependency information for ".
-	                 "shared library %s (soname %s, ".
-	                 "path %s, dependency field %s)"),
-	              $libname[$i], $libsoname[$i],
-	              $libfiles[$i], $libfield[$i]));
+	warning(sprintf(_g("unable to find dependency information for ".
+	                   "shared library %s (soname %s, ".
+	                   "path %s, dependency field %s)"),
+	                $libname[$i], $libsoname[$i],
+	                $libfiles[$i], $libfield[$i]));
     }
 
 sub format_matches {
@@ -367,7 +367,7 @@ sub scanshlibsfile {
     while (<SLF>) {
         s/\s*\n$//; next if m/^\#/;
         if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)/) {
-            &warn(sprintf(_g("shared libs info file \`%s' line %d: bad line \`%s'"), $fn, $., $_));
+	    warning(sprintf(_g("shared libs info file '%s' line %d: bad line '%s'"), $fn, $., $_));
             next;
         }
         next if defined $1 && $1 ne $packagetype;

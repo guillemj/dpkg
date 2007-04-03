@@ -150,7 +150,7 @@ for $_ (keys %fi) {
             } else {
                 @archlist= split(/\s+/,$v);
 		my @invalid_archs = grep m/[^\w-]/, @archlist;
-		&warn(sprintf(ngettext(
+		warning(sprintf(ngettext(
 		                  "`%s' is not a legal architecture string.",
 		                  "`%s' are not legal architecture strings.",
 		                  scalar(@invalid_archs)),
@@ -223,7 +223,7 @@ for $f (qw(Package Version)) {
     defined($f{$f}) || &error(sprintf(_g("missing information for output field %s"), $f));
 }
 for $f (qw(Maintainer Description Architecture)) {
-    defined($f{$f}) || &warn(sprintf(_g("missing information for output field %s"), $f));
+    defined($f{$f}) || warning(sprintf(_g("missing information for output field %s"), $f));
 }
 $oppackage= $f{'Package'};
 
