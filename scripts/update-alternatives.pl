@@ -372,7 +372,7 @@ if ($state eq 'unexpected' && $manual eq 'auto') {
   if $verbosemode > 0;
 
 if ($mode eq 'install') {
-    if ($link ne $alink && $link ne '') {
+    if (defined($link) && $link ne $alink) {
         &pr(sprintf(_g("Renaming %s link from %s to %s."), $name, $link, $alink))
           if $verbosemode > 0;
         rename_mv($link,$alink) || $! == &ENOENT ||
@@ -393,10 +393,10 @@ if ($mode eq 'install') {
         }
         my $oldslavelink = $slavelinks[$j];
         my $newslavelink = $aslavelink{$sname};
-        $slavelinkcount{$oldslavelink}-- if $oldslavelink ne '';
+	$slavelinkcount{$oldslavelink}-- if defined($oldslavelink);
         $slavelinkcount{$newslavelink}++ &&
             &quit(sprintf(_g("slave link name %s duplicated"), $newslavelink));
-        if ($newslavelink ne $oldslavelink && $oldslavelink ne '') {
+	if (defined($oldslavelink) && $newslavelink ne $oldslavelink) {
             &pr(sprintf(_g("Renaming %s slave link from %s to %s."), $sname, $oldslavelink, $newslavelink))
               if $verbosemode > 0;
             rename_mv($oldslavelink,$newslavelink) || $! == &ENOENT ||

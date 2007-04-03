@@ -262,13 +262,21 @@ for $p (keys %p2f) {
 
 for $p (keys %p2f) {
     $f= $p2f{$p};
-    $sec= $f2seccf{$f}; $sec= $sourcedefault{'Section'} if !length($sec);
-    if (!length($sec)) { $sec='-'; &warn(sprintf(_g("missing Section for binary package %s; using '-'"), $p)); }
+    $sec = $f2seccf{$f};
+    $sec = $sourcedefault{'Section'} if !defined($sec);
+    if (!defined($sec)) {
+	$sec = '-';
+	&warn(sprintf(_g("missing Section for binary package %s; using '-'"), $p));
+    }
     $sec eq $f2sec{$f} || &error(sprintf(_g("package %s has section %s in ".
                                            "control file but %s in files list"),
                                  $p, $sec, $f2sec{$f}));
-    $pri= $f2pricf{$f}; $pri= $sourcedefault{'Priority'} if !length($pri);
-    if (!length($pri)) { $pri='-'; &warn("missing Priority for binary package $p; using '-'"); }
+    $pri = $f2pricf{$f};
+    $pri = $sourcedefault{'Priority'} if !defined($pri);
+    if (!defined($pri)) {
+	$pri = '-';
+	&warn("missing Priority for binary package $p; using '-'");
+    }
     $pri eq $f2pri{$f} || &error(sprintf(_g("package %s has priority %s in ".
                                            "control file but %s in files list"),
                                  $p, $pri, $f2pri{$f}));
@@ -278,9 +286,15 @@ for $p (keys %p2f) {
 
 if (!$binaryonly) {
     $sec= $sourcedefault{'Section'};
-    if (!length($sec)) { $sec='-'; &warn(_g("missing Section for source files")); }
+    if (!defined($sec)) {
+	$sec = '-';
+	&warn(_g("missing Section for source files"));
+    }
     $pri= $sourcedefault{'Priority'};
-    if (!length($pri)) { $pri='-'; &warn(_g("missing Priority for source files")); }
+    if (!defined($pri)) {
+	$pri = '-';
+	&warn(_g("missing Priority for source files"));
+    }
 
     ($sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
@@ -319,7 +333,7 @@ print(STDERR "$progname: $origsrcmsg\n") ||
 
 $f{'Format'}= $substvar{'Format'};
 
-if (!length($f{'Date'})) {
+if (!defined($f{'Date'})) {
     chop($date822=`date -R`); $? && subprocerr("date -R");
     $f{'Date'}= $date822;
 }
@@ -355,8 +369,8 @@ if ($f{'Version'} ne $substvar{'source:Version'}) {
     $f{'Source'} .= " ($substvar{'source:Version'})";
 }
 
-$f{'Maintainer'}= $forcemaint if length($forcemaint);
-$f{'Changed-By'}= $forcechangedby if length($forcechangedby);
+$f{'Maintainer'} = $forcemaint if defined($forcemaint);
+$f{'Changed-By'} = $forcechangedby if defined($forcechangedby);
 
 for $f (qw(Version Distribution Maintainer Changes)) {
     defined($f{$f}) || &error(sprintf(_g("missing information for critical output field %s"), $f));

@@ -108,7 +108,7 @@ parsechangelog($changelogfile, $changelogformat);
 parsesubstvars($varlistfile);
 parsecontrolfile($controlfile);
 
-if (length($oppackage)) {
+if (defined($oppackage)) {
     defined($p2i{"C $oppackage"}) || &error(sprintf(_g("package %s not in control info"), $oppackage));
     $myindex= $p2i{"C $oppackage"};
 } else {
@@ -175,7 +175,7 @@ for $_ (keys %fi) {
 	    setsourcepackage($v);
         } elsif (m/^Version$/) {
             $sourceversion= $v;
-            $f{$_}= $v unless length($forceversion);
+	    $f{$_} = $v unless defined($forceversion);
         } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
         } elsif (s/^X[CS]*B[CS]*-//i) {
             $f{$_}= $v;
@@ -188,7 +188,7 @@ for $_ (keys %fi) {
     }
 }
 
-$f{'Version'}= $forceversion if length($forceversion);
+$f{'Version'} = $forceversion if defined($forceversion);
 
 &init_substvars;
 
@@ -215,8 +215,8 @@ for $_ (keys %fi) {
 
 
 for $f (qw(Section Priority)) {
-    $spvalue{$f}= $spdefault{$f} unless length($spvalue{$f});
-    $f{$f}= $spvalue{$f} if length($spvalue{$f});
+    $spvalue{$f} = $spdefault{$f} unless defined($spvalue{$f});
+    $f{$f} = $spvalue{$f} if defined($spvalue{$f});
 }
 
 for $f (qw(Package Version)) {
@@ -248,7 +248,7 @@ if (!defined($substvar{'Installed-Size'})) {
 if (defined($substvar{'Extra-Size'})) {
     $substvar{'Installed-Size'} += $substvar{'Extra-Size'};
 }
-if (length($substvar{'Installed-Size'})) {
+if (defined($substvar{'Installed-Size'})) {
     $f{'Installed-Size'}= $substvar{'Installed-Size'};
 }
 
@@ -300,6 +300,6 @@ if (!$stdout) {
 
 sub spfileslistvalue {
     $r= $spvalue{$_[0]};
-    $r= '-' if !length($r);
+    $r = '-' if !defined($r);
     return $r;
 }

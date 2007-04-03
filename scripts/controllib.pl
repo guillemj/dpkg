@@ -365,7 +365,7 @@ sub setsourcepackage {
     my $v = shift;
 
     checkpackagename( $v );
-    if (length($sourcepackage)) {
+    if (defined($sourcepackage)) {
         $v eq $sourcepackage ||
             &error(sprintf(_g("source package has two conflicting values - %s and %s"), $sourcepackage, $v));
     } else {

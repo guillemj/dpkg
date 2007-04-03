@@ -391,7 +391,7 @@ sub scanshlibsfile {
             $dk= "$lf: $dv";
             if (!defined($unkdepfdone{$dk})) {
                 $unkdepfdone{$dk}= 1;
-                $unkdepf{$lf}.= ', ' if length($unkdepf{$lf});
+                $unkdepf{$lf} .= ', ' if defined($unkdepf{$lf});
                 $unkdepf{$lf}.= $dv;
             }
         }
@@ -424,7 +424,7 @@ if (!$stdout) {
 my %defdepf;
 for my $dv (sort keys %predefdepfdep) {
     my $lf= $predefdepfdep{$dv};
-    $defdepf{$lf}.= ', ' if length($defdepf{$lf});
+    $defdepf{$lf} .= ', ' if defined($defdepf{$lf});
     $defdepf{$lf}.= $dv;
 }
 for my $lf (reverse @depfields) {

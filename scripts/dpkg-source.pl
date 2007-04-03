@@ -1188,7 +1188,9 @@ sub checkdiff
 	defined($notfileobject{$fn}) &&
 	    &error(sprintf(_g("diff `%s' patches something which is not a plain file"), $diff));
 
-	$filepatched{$fn} eq $diff && &error(sprintf(_g("diff patches file %s twice"), $fn));
+	defined($filepatched{$fn}) &&
+	    $filepatched{$fn} eq $diff &&
+	    error(sprintf(_g("diff patches file %s twice"), $fn));
 	$filepatched{$fn} = $diff;
 
 	# read hunks
