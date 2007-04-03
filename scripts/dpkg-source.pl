@@ -122,7 +122,7 @@ sub handleformat {
 
 $i = 100;
 grep ($fieldimps {$_} = $i--,
-      qw (Format Source Version Binary Origin Maintainer Architecture
+      qw(Format Source Version Binary Origin Maintainer Uploaders Architecture
       Standards-Version Build-Depends Build-Depends-Indep Build-Conflicts
       Build-Conflicts-Indep));
 
