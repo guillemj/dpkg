@@ -7,7 +7,6 @@ use Getopt::Long;
 my $dpkglibdir="/usr/lib/dpkg";
 my $admindir = "/var/lib/dpkg";
 push(@INC,$dpkglibdir);
-#my $controlfile;
 require 'controllib.pl';
 
 require 'dpkg-gettext.pl';
@@ -39,8 +38,7 @@ if ($want_help) {
 	exit(0);
 }
 
-my $control=shift || "debian/control";
-$controlfile=$control;
+my $controlfile = shift || "debian/control";
 
 parsecontrolfile($controlfile);
 
