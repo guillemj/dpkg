@@ -103,7 +103,6 @@ while (@ARGV) {
     }
 }
 
-&findarch;
 parsechangelog($changelogfile, $changelogformat);
 parsesubstvars($varlistfile);
 parsecontrolfile($controlfile);
@@ -143,10 +142,12 @@ for $_ (keys %fi) {
         } elsif (m/^Section$|^Priority$/) {
             $spvalue{$_}= $v;
         } elsif (m/^Architecture$/) {
+	    my $host_arch = get_host_arch();
+
             if (debian_arch_eq('all', $v)) {
                 $f{$_}= $v;
-            } elsif (debian_arch_is($arch, $v)) {
-                $f{$_}= $arch;
+	    } elsif (debian_arch_is($host_arch, $v)) {
+		$f{$_} = $host_arch;
             } else {
                 @archlist= split(/\s+/,$v);
 		my @invalid_archs = grep m/[^\w-]/, @archlist;
@@ -156,11 +157,11 @@ for $_ (keys %fi) {
 		                  scalar(@invalid_archs)),
 		              join("' `", @invalid_archs)))
 		    if @invalid_archs >= 1;
-                grep(debian_arch_is($arch, $_), @archlist) ||
+		grep(debian_arch_is($host_arch, $_), @archlist) ||
                     &error(sprintf(_g("current build architecture %s does not".
                                       " appear in package's list (%s)"),
-                                   $arch, "@archlist"));
-                $f{$_}= $arch;
+		                   $host_arch, "@archlist"));
+		$f{$_} = $host_arch;
             }
         } elsif (s/^X[CS]*B[CS]*-//i) {
             $f{$_}= $v;
@@ -191,6 +192,7 @@ for $_ (keys %fi) {
 $f{'Version'} = $forceversion if defined($forceversion);
 
 &init_substvars;
+init_substvar_arch();
 
 for $_ (keys %fi) {
     $v= $fi{$_};

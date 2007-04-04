@@ -84,11 +84,18 @@ sub capit {
     return join '-', @pieces;
 }
 
-sub findarch {
-    $arch=`dpkg-architecture -qDEB_HOST_ARCH`;
-    $? && &subprocerr("dpkg-architecture -qDEB_HOST_ARCH");
-    chomp $arch;
-    $substvar{'Arch'}= $arch;
+{
+    my $host_arch;
+
+    sub get_host_arch()
+    {
+	return $host_arch if defined $host_arch;
+
+	$host_arch = `dpkg-architecture -qDEB_HOST_ARCH`;
+	$? && subprocerr("dpkg-architecture -qDEB_HOST_ARCH");
+	chomp $host_arch;
+	return $host_arch;
+    }
 }
 
 sub debian_arch_fix
@@ -242,10 +249,8 @@ sub parsesubstvars {
 sub parsedep {
     my ($dep_line, $use_arch, $reduce_arch) = @_;
     my @dep_list;
-    if (!$host_arch) {
-        $host_arch = `dpkg-architecture -qDEB_HOST_ARCH`;
-        chomp $host_arch;
-    }
+    my $host_arch = get_host_arch();
+
     foreach my $dep_and (split(/,\s*/m, $dep_line)) {
         my @or_list = ();
 ALTERNATE:
@@ -345,6 +350,11 @@ sub init_substvars
     $substvar{"dpkg:Version"} = $version;
     $substvar{"dpkg:Upstream-Version"} = $version;
     $substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;
+}
+
+sub init_substvar_arch()
+{
+    $substvar{'Arch'} = get_host_arch();
 }
 
 sub checkpackagename {

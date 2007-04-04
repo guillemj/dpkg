@@ -1,3 +1,15 @@
+2007-04-05  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (get_host_arch): New function.
+	(findarch): Rename to ...
+	(init_substvar_arch): ... this. Use get_host_arch to set the substvar.
+	Fix all callers.
+	(parsedep): Use get_host_arch instead of directly calling
+	dpkg-architecture.
+	* scripts/dpkg-genchanges.pl: Use '$host_arch' instead of '$arch'.
+	(init_substvar_arch): Delay call until after init_substvars.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+
 2007-04-03  Guillem Jover  <guillem@debian.org>
 
 	* dpkg-genchanges.pl: Mark string for translation.

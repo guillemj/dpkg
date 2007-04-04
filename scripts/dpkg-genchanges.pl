@@ -131,7 +131,6 @@ while (@ARGV) {
     }
 }
 
-&findarch;
 parsechangelog($changelogfile, $changelogformat, $since);
 parsecontrolfile($controlfile);
 
@@ -182,11 +181,12 @@ for $_ (keys %fi) {
 	elsif (m/|^X[BS]+-|^Standards-Version$/i) { }
 	else { &unknown(_g('general section of control info file')); }
     } elsif (s/^C(\d+) //) {
+	my $host_arch = get_host_arch();
 	$i=$1; $p=$fi{"C$i Package"}; $a=$fi{"C$i Architecture"};
 	if (!defined($p2f{$p}) && not $sourceonly) {
 	    if ((debian_arch_eq('all', $a) && !$archspecific) ||
-		debian_arch_is($arch, $a) ||
-		grep(debian_arch_is($arch, $_), split(/\s+/, $a))) {
+		debian_arch_is($host_arch, $a) ||
+		grep(debian_arch_is($host_arch, $_), split(/\s+/, $a))) {
 		warning(sprintf(_g("package %s in control file but not in files list"), $p));
 		next;
 	    }
@@ -208,9 +208,9 @@ for $_ (keys %fi) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
 		if (not $sourceonly) {
-		    if (debian_arch_is($arch, $v) ||
-			grep(debian_arch_is($arch, $_), split(/\s+/, $v))) {
-			$v= $arch;
+		    if (debian_arch_is($host_arch, $v) ||
+		        grep(debian_arch_is($host_arch, $_), split(/\s+/, $v))) {
+			$v = $host_arch;
 		    } elsif (!debian_arch_eq('all', $v)) {
 			$v= '';
 		    }
@@ -283,6 +283,7 @@ for $p (keys %p2f) {
 }
 
 &init_substvars;
+init_substvar_arch();
 
 if (!$binaryonly) {
     $sec= $sourcedefault{'Section'};
