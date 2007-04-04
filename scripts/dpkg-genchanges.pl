@@ -275,7 +275,7 @@ for $p (keys %p2f) {
     $pri = $sourcedefault{'Priority'} if !defined($pri);
     if (!defined($pri)) {
 	$pri = '-';
-	warning(sprintf(_g("missing Priority for binary package %s; using '-'"), $p);
+	warning(sprintf(_g("missing Priority for binary package %s; using '-'"), $p));
     }
     $pri eq $f2pri{$f} || &error(sprintf(_g("package %s has priority %s in ".
                                            "control file but %s in files list"),
