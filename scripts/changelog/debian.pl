@@ -22,7 +22,7 @@ $progname= "parsechangelog/$progname";
 $since='';
 
 my @changelog_fields = qw(Source Version Distribution Urgency Maintainer
-                          Date Closes Changes));
+                          Date Closes Changes);
 
 
 sub version {
