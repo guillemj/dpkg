@@ -1,13 +1,10 @@
 #!/usr/bin/perl
 
-$dpkglibdir= "."; # This line modified by Makefile
-$version= '1.3.0'; # This line modified by Makefile
+use strict;
+use warnings;
 
-$controlfile= 'debian/control';
-$changelogfile= 'debian/changelog';
-$fileslistfile= 'debian/files';
-$varlistfile= 'debian/substvars';
-$packagebuilddir= 'debian/tmp';
+our $dpkglibdir = "."; # This line modified by Makefile
+our $version = '1.3.0'; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h);
@@ -15,12 +12,37 @@ use POSIX qw(:errno_h);
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+our $progname;
+our %substvar;
+our (%f, %fi);
+our %fieldimps;
+our %p2i;
+our @pkg_dep_fields;
+our $sourcepackage;
+our $host_arch;
+
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @control_fields = (qw(Package Source Version Architecture Essential Origin
                          Bugs Maintainer Installed-Size), @pkg_dep_fields,
                       qw(Section Priority Description));
+
+my $controlfile = 'debian/control';
+my $changelogfile = 'debian/changelog';
+my $changelogformat;
+my $fileslistfile = 'debian/files';
+my $varlistfile = 'debian/substvars';
+my $packagebuilddir = 'debian/tmp';
+
+my $sourceversion;
+my $forceversion;
+my $forcefilename;
+my $stdout;
+my %remove;
+my %override;
+my (%spvalue, %spdefault);
+my $oppackage;
 
 
 sub version {
@@ -106,11 +128,13 @@ parsechangelog($changelogfile, $changelogformat);
 parsesubstvars($varlistfile);
 parsecontrolfile($controlfile);
 
+my $myindex;
+
 if (defined($oppackage)) {
     defined($p2i{"C $oppackage"}) || &error(sprintf(_g("package %s not in control info"), $oppackage));
     $myindex= $p2i{"C $oppackage"};
 } else {
-    @packages= grep(m/^C /,keys %p2i);
+    my @packages = grep(m/^C /, keys %p2i);
     @packages==1 ||
         &error(sprintf(_g("must specify package since control info has many (%s)"), "@packages"));
     $myindex=1;
@@ -121,7 +145,8 @@ if (defined($oppackage)) {
 my %pkg_dep_fields = map { $_ => 1 } @pkg_dep_fields;
 
 for $_ (keys %fi) {
-    $v= $fi{$_};
+    my $v = $fi{$_};
+
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
 	if (m/^(Origin|Bugs|Maintainer)$/) {
@@ -148,7 +173,7 @@ for $_ (keys %fi) {
 	    } elsif (debian_arch_is($host_arch, $v)) {
 		$f{$_} = $host_arch;
             } else {
-                @archlist= split(/\s+/,$v);
+		my @archlist = split(/\s+/, $v);
 		my @invalid_archs = grep m/[^\w-]/, @archlist;
 		warning(sprintf(ngettext(
 		                  "`%s' is not a legal architecture string.",
@@ -194,7 +219,8 @@ $f{'Version'} = $forceversion if defined($forceversion);
 init_substvar_arch();
 
 for $_ (keys %fi) {
-    $v= $fi{$_};
+    my $v = $fi{$_};
+
     if (s/^C //) {
     } elsif (s/^C$myindex //) {
         if (m/^(Package|Description|Essential|Optional)$/) {
@@ -215,33 +241,36 @@ for $_ (keys %fi) {
 }
 
 
-for $f (qw(Section Priority)) {
+for my $f (qw(Section Priority)) {
     $spvalue{$f} = $spdefault{$f} unless defined($spvalue{$f});
     $f{$f} = $spvalue{$f} if defined($spvalue{$f});
 }
 
-for $f (qw(Package Version)) {
+for my $f (qw(Package Version)) {
     defined($f{$f}) || &error(sprintf(_g("missing information for output field %s"), $f));
 }
-for $f (qw(Maintainer Description Architecture)) {
+for my $f (qw(Maintainer Description Architecture)) {
     defined($f{$f}) || warning(sprintf(_g("missing information for output field %s"), $f));
 }
 $oppackage= $f{'Package'};
 
-$verdiff = $f{'Version'} ne $substvar{'source:Version'} or
-           $f{'Version'} ne $sourceversion;
+my $verdiff = $f{'Version'} ne $substvar{'source:Version'} ||
+              $f{'Version'} ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
     $f{'Source'}= $sourcepackage;
     $f{'Source'}.= " ($substvar{'source:Version'})" if $verdiff;
 }
 
 if (!defined($substvar{'Installed-Size'})) {
-    defined($c= open(DU,"-|")) || &syserr(_g("fork for du"));
+    defined(my $c = open(DU, "-|")) || syserr(_g("fork for du"));
     if (!$c) {
         chdir("$packagebuilddir") || &syserr(sprintf(_g("chdir for du to \`%s'"), $packagebuilddir));
         exec("du","-k","-s",".") or &syserr(_g("exec du"));
     }
-    $duo=''; while (<DU>) { $duo.=$_; }
+    my $duo = '';
+    while (<DU>) {
+	$duo .= $_;
+    }
     close(DU); $? && &subprocerr(sprintf(_g("du in \`%s'"), $packagebuilddir));
     $duo =~ m/^(\d+)\s+\.$/ || &failure(sprintf(_g("du gave unexpected output \`%s'"), $duo));
     $substvar{'Installed-Size'}= $1;
@@ -253,8 +282,12 @@ if (defined($substvar{'Installed-Size'})) {
     $f{'Installed-Size'}= $substvar{'Installed-Size'};
 }
 
-for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
-for $f (keys %remove) { delete $f{&capit($f)}; }
+for my $f (keys %override) {
+    $f{capit($f)} = $override{$f};
+}
+for my $f (keys %remove) {
+    delete $f{capit($f)};
+}
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
@@ -275,7 +308,7 @@ if (open(X,"< $fileslistfile")) {
 } elsif ($! != ENOENT) {
     &syserr(_g("read old files list file"));
 }
-$sversion=$f{'Version'};
+my $sversion = $f{'Version'};
 $sversion =~ s/^\d+://;
 $forcefilename=sprintf("%s_%s_%s.deb", $oppackage,$sversion,$f{'Architecture'})
 	   unless ($forcefilename);
@@ -285,6 +318,7 @@ print(Y &substvars(sprintf("%s %s %s\n", $forcefilename,
 close(Y) || &syserr(_g("close new files list file"));
 rename("$fileslistfile.new",$fileslistfile) || &syserr(_g("install new files list file"));
 
+my $cf;
 if (!$stdout) {
     $cf= "$packagebuilddir/DEBIAN/control";
     $cf= "./$cf" if $cf =~ m/^\s/;
@@ -301,7 +335,7 @@ if (!$stdout) {
 }
 
 sub spfileslistvalue {
-    $r= $spvalue{$_[0]};
+    my $r = $spvalue{$_[0]};
     $r = '-' if !defined($r);
     return $r;
 }

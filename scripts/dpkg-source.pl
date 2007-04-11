@@ -1,14 +1,25 @@
 #! /usr/bin/perl
 
-my $dpkglibdir = ".";
-my $version = "1.3.0"; # This line modified by Makefile
+use strict;
+use warnings;
+
+our $progname;
+our $version = "1.3.0"; # This line modified by Makefile
+our $dpkglibdir = "."; # This line modified by Makefile
 
 my @filesinarchive;
 my %dirincluded;
 my %notfileobject;
 my $fn;
+my $ur;
 
-$diff_ignore_default_regexp = '
+my $varlistfile;
+my $controlfile;
+my $changelogfile;
+my $changelogformat;
+
+my $diff_ignore_regexp = '';
+my $diff_ignore_default_regexp = '
 # Ignore general backup files
 (?:^|/).*~$|
 # Ignore emacs recovery files
@@ -27,20 +38,40 @@ $diff_ignore_default_regexp = '
 $diff_ignore_default_regexp =~ s/^#.*$//mg;
 $diff_ignore_default_regexp =~ s/\n//sg;
 
-$sourcestyle = 'X';
-$min_dscformat = 1;
-$max_dscformat = 2;
-$def_dscformat = "1.0"; # default format for -b
+my $sourcestyle = 'X';
+my $min_dscformat = 1;
+my $max_dscformat = 2;
+my $def_dscformat = "1.0"; # default format for -b
+
+my $expectprefix;
+
+# Packages
+my %remove;
+my %override;
+
+# Files
+my %md5sum;
+my %size;
+my %type;		 # used by checktype
+my %filepatched;	 # used by checkdiff
+my %dirtocreate;	 # used by checkdiff
+
+my @tar_ignore;
 
 use POSIX;
 use Fcntl qw (:mode);
 use File::Temp qw (tempfile);
 use Cwd;
 
-use strict 'refs';
-
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
+
+our (%f, %fi, %fieldimps);
+our $sourcepackage;
+our $warnable_error;
+our $quiet_warnings;
+our %substvar;
+our @src_dep_fields;
 
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
@@ -124,6 +155,8 @@ sub handleformat {
 }
 
 
+my $opmode;
+
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
@@ -181,7 +214,7 @@ if ($opmode eq 'build') {
 
     @ARGV || &usageerr(_g("-b needs a directory"));
     @ARGV<=2 || &usageerr(_g("-b takes at most a directory and an orig source argument"));
-    $dir= shift(@ARGV);
+    my $dir = shift(@ARGV);
     $dir= "./$dir" unless $dir =~ m:^/:; $dir =~ s,/*$,,;
     stat($dir) || &error(sprintf(_g("cannot stat directory %s: %s"), $dir, $!));
     -d $dir || &error(sprintf(_g("directory argument %s is not a directory"), $dir));
@@ -194,9 +227,14 @@ if ($opmode eq 'build') {
     $f{"Format"}=$def_dscformat;
     &init_substvars;
 
-    $archspecific=0;
+    my @sourcearch;
+    my $archspecific = 0; # XXX: Not used?!
+    my %packageadded;
+    my @binarypackages;
+
     for $_ (keys %fi) {
-        $v= $fi{$_};
+        my $v = $fi{$_};
+
         if (s/^C //) {
 	    if (m/^Source$/i) {
 		setsourcepackage($v);
@@ -212,7 +250,8 @@ if ($opmode eq 'build') {
             elsif (m/^(Section|Priority|Files|Bugs)$/i || m/^X[BC]+-/i) { }
             else { &unknown(_g('general section of control info file')); }
         } elsif (s/^C(\d+) //) {
-            $i=$1; $p=$fi{"C$i Package"};
+	    my $i = $1;
+	    my $p = $fi{"C$i Package"};
             push(@binarypackages,$p) unless $packageadded{$p}++;
             if (m/^Architecture$/) {
                 if (debian_arch_eq($v, 'any')) {
@@ -224,10 +263,12 @@ if ($opmode eq 'build') {
                         @sourcearch= ('any');
                     }
                 } else {
-		    if (grep($sourcearch[0] eq $_, 'any','all'))  {
+		    if (@sourcearch && grep($sourcearch[0] eq $_, 'any', 'all')) {
 			@sourcearch= ('any');
 		    } else {
-			for $a (split(/\s+/, $v)) {
+			my %archadded;
+
+			for my $a (split(/\s+/, $v)) {
 			    &error(sprintf(_g("`%s' is not a legal architecture string"), $a))
 				unless $a =~ /^[\w-]+$/;
                             &error(sprintf(_g("architecture %s only allowed on its own".
@@ -267,30 +308,36 @@ if ($opmode eq 'build') {
     }
 
     $f{'Binary'}= join(', ',@binarypackages);
-    for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
+    for my $f (keys %override) {
+	$f{capit($f)} = $override{$f};
+    }
 
-    for $f (qw(Version)) {
+    for my $f (qw(Version)) {
         defined($f{$f}) || &error(sprintf(_g("missing information for critical output field %s"), $f));
     }
-    for $f (qw(Maintainer Architecture Standards-Version)) {
+    for my $f (qw(Maintainer Architecture Standards-Version)) {
 	defined($f{$f}) ||
 	    warning(sprintf(_g("missing information for output field %s"), $f));
     }
     defined($sourcepackage) || &error(_g("unable to determine source package name !"));
     $f{'Source'}= $sourcepackage;
-    for $f (keys %remove) { delete $f{&capit($f)}; }
+    for my $f (keys %remove) {
+	delete $f{capit($f)};
+    }
 
-    $version= $f{'Version'};
-    $version =~ s/^\d+://; $upstreamversion= $version; $upstreamversion =~ s/-[^-]*$//;
-    $basenamerev= $sourcepackage.'_'.$version;
-    $basename= $sourcepackage.'_'.$upstreamversion;
-    $basedirname= $basename;
+    my $version = $f{'Version'};
+    $version =~ s/^\d+://;
+    my $upstreamversion = $version;
+    $upstreamversion =~ s/-[^-]*$//;
+    my $basenamerev = $sourcepackage.'_'.$version;
+    my $basename = $sourcepackage.'_'.$upstreamversion;
+    my $basedirname = $basename;
     $basedirname =~ s/_/-/;
 
-    $origdir= "$dir.orig";
-    $origtargz= "$basename.orig.tar.gz";
+    my $origdir = "$dir.orig";
+    my $origtargz = "$basename.orig.tar.gz";
     if (@ARGV) {
-        $origarg= shift(@ARGV);
+        my $origarg = shift(@ARGV);
         if (length($origarg)) {
             stat($origarg) || &error(sprintf(_g("cannot stat orig argument %s: %s"), $origarg, $!));
             if (-d _) {
@@ -332,13 +379,23 @@ if ($opmode eq 'build') {
             $sourcestyle =~ y/aA/nn/;
         }
     }
-    $dirbase= $dir; $dirbase =~ s,/?$,,; $dirbase =~ s,[^/]+$,,; $dirname= $&;
+
+    my $dirbase = $dir;
+    $dirbase =~ s,/?$,,;
+    $dirbase =~ s,[^/]+$,,;
+    my $dirname = $&;
     $dirname eq $basedirname ||
 	warning(sprintf(_g("source directory '%s' is not <sourcepackage>" .
 	                   "-<upstreamversion> '%s'"), $dir, $basedirname));
 
+    my $tarname;
+    my $tardirname;
+    my $tardirbase;
+    my $origdirname;
+
     if ($sourcestyle ne 'n') {
-        $origdirbase= $origdir; $origdirbase =~ s,/?$,,;
+	my $origdirbase = $origdir;
+	$origdirbase =~ s,/?$,,;
         $origdirbase =~ s,[^/]+$,,; $origdirname= $&;
 
         $origdirname eq "$basedirname.orig" ||
@@ -372,7 +429,7 @@ if ($opmode eq 'build') {
 	my ($ntfh, $newtar) = tempfile( "$tarname.new.XXXXXX",
 					DIR => &getcwd, UNLINK => 0 );
         &forkgzipwrite($newtar);
-        defined($c2= fork) || &syserr(_g("fork for tar"));
+	defined(my $c2 = fork) || syserr(_g("fork for tar"));
         if (!$c2) {
             chdir($tardirbase) || &syserr(sprintf(_g("chdir to above (orig) source %s"), $tardirbase));
             open(STDOUT,">&GZIP") || &syserr(_g("reopen gzip for tar"));
@@ -412,7 +469,7 @@ if ($opmode eq 'build') {
         }
 
         $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
-	$expectprefix_dirname = $origdirname;
+	my $expectprefix_dirname = $origdirname;
 # tar checking is disabled, there are too many broken tar archives out there
 # which we can still handle anyway.
 #        checktarsane($origtargz,$expectprefix);
@@ -438,7 +495,7 @@ if ($opmode eq 'build') {
 					DIR => &getcwd, UNLINK => 0 );
         &forkgzipwrite($newdiffgz);
 
-        defined($c2= open(FIND,"-|")) || &syserr(_g("fork for find"));
+	defined(my $c2 = open(FIND, "-|")) || syserr(_g("fork for find"));
         if (!$c2) {
             chdir($dir) || &syserr(sprintf(_g("chdir to %s for find"), $dir));
             exec('find','.','-print0') or &syserr(_g("exec find"));
@@ -455,13 +512,15 @@ if ($opmode eq 'build') {
             if (-l _) {
                 $type{$fn}= 'symlink';
 		checktype($origdir, $fn, '-l') || next;
-                defined($n= readlink("$dir/$fn")) ||
+		defined(my $n = readlink("$dir/$fn")) ||
                     &syserr(sprintf(_g("cannot read link %s"), "$dir/$fn"));
-                defined($n2= readlink("$origdir/$fn")) ||
+		defined(my $n2 = readlink("$origdir/$fn")) ||
                     &syserr(sprintf(_g("cannot read orig link %s"), "$origdir/$fn"));
                 $n eq $n2 || &unrepdiff2(sprintf(_g("symlink to %s"), $n2),
                                          sprintf(_g("symlink to %s"), $n));
             } elsif (-f _) {
+		my $ofnread;
+
                 $type{$fn}= 'plain file';
                 if (!lstat("$origdir/$fn")) {
                     $! == ENOENT || &syserr(sprintf(_g("cannot stat orig file %s"), "$origdir/$fn"));
@@ -480,7 +539,7 @@ if ($opmode eq 'build') {
                                 _g("plain file"));
                     next;
                 }
-                defined($c3= open(DIFFGEN,"-|")) || &syserr(_g("fork for diff"));
+		defined(my $c3 = open(DIFFGEN, "-|")) || syserr(_g("fork for diff"));
                 if (!$c3) {
 		    $ENV{'LC_ALL'}= 'C';
 		    $ENV{'LANG'}= 'C';
@@ -490,7 +549,7 @@ if ($opmode eq 'build') {
                          '-L',"$basedirname/$fn",
                          '--',"$ofnread","$dir/$fn") or &syserr(_g("exec diff"));
                 }
-                $difflinefound= 0;
+		my $difflinefound = 0;
                 $/= "\n";
                 while (<DIFFGEN>) {
                     if (m/^binary/i) {
@@ -509,6 +568,7 @@ if ($opmode eq 'build') {
                     print(GZIP $_) || &syserr(_g("failed to write to gzip"));
                 }
                 close(DIFFGEN); $/= "\0";
+		my $es;
                 if (WIFEXITED($?) && (($es=WEXITSTATUS($?))==0 || $es==1)) {
                     if ($es==1 && !$difflinefound) {
                         &unrepdiff(_g("diff gave 1 but no diff lines found"));
@@ -599,12 +659,15 @@ if ($opmode eq 'build') {
 
     @ARGV>=1 || &usageerr(_g("-x needs at least one argument, the .dsc"));
     @ARGV<=2 || &usageerr(_g("-x takes no more than two arguments"));
-    $dsc= shift(@ARGV);
+    my $dsc = shift(@ARGV);
     $dsc= "./$dsc" unless $dsc =~ m:^/:;
     ! -d $dsc
 	|| &usageerr(_g("-x needs the .dsc file as first argument, not a directory"));
-    $dscdir= $dsc; $dscdir= "./$dscdir" unless $dsc =~ m,^/|^\./,;
+    my $dscdir = $dsc;
+    $dscdir = "./$dscdir" unless $dsc =~ m,^/|^\./,;
     $dscdir =~ s,/[^/]+$,,;
+
+    my $newdirectory;
     if (@ARGV) {
 	$newdirectory= shift(@ARGV);
 	! -e $newdirectory || &error(sprintf(_g("unpack target exists: %s"), $newdirectory));
@@ -645,7 +708,7 @@ if ($opmode eq 'build') {
     parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
     close(CDATA);
 
-    for $f (qw(Source Version Files)) {
+    for my $f (qw(Source Version Files)) {
         defined($fi{"S $f"}) ||
             &error(sprintf(_g("missing critical source control field %s"), $f));
     }
@@ -658,10 +721,13 @@ if ($opmode eq 'build') {
         $dscformat=$fi{'S Format'};
     }
 
-    $sourcepackage = $fi{'S Source'};
+    $sourcepackage = $fi{'S Source'}; # XXX: should use setsourcepackage??
     checkpackagename( $sourcepackage );
 
-    $version= $fi{'S Version'};
+    my $version = $fi{'S Version'};
+    my $baseversion;
+    my $revision;
+
     checkversion( $version );
     $version =~ s/^\d+://;
     if ($version =~ m/-([^-]+)$/) {
@@ -670,12 +736,12 @@ if ($opmode eq 'build') {
         $baseversion= $version; $revision= '';
     }
 
-    $files = $fi{'S Files'};
+    my $files = $fi{'S Files'};
     my @tarfiles;
     my $difffile;
     my $debianfile;
     my %seen;
-    for $file (split(/\n /,$files)) {
+    for my $file (split(/\n /, $files)) {
         next if $file eq '';
         $file =~ m/^([0-9a-f]{32})[ \t]+(\d+)[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
             || &error(sprintf(_g("Files field contains bad line `%s'"), $file));
@@ -766,7 +832,10 @@ if ($opmode eq 'build') {
 	    if ($sourcestyle =~ /p/) {
 		stat("$dscdir/$tarfile") ||
 		    &syserr(sprintf(_g("failed to stat `%s' to see if need to copy"), "$dscdir/$tarfile"));
-		($dsctardev,$dsctarino) = stat _;
+
+		my ($dsctardev, $dsctarino) = stat _;
+		my ($dumptardev, $dumptarino);
+
 		if (!stat($tarfile)) {
 		    $! == ENOENT || &syserr(sprintf(_g("failed to check destination `%s'".
 					    " to see if need to copy"), $tarfile));
@@ -810,9 +879,9 @@ if ($opmode eq 'build') {
 	push @patches, map "$newdirectory/debian/patches/$_", sort @p;
     }
 
-    for $dircreate (keys %dirtocreate) {
-	$dircreatem= "";
-	for $dircreatep (split("/", $dircreate)) {
+    for my $dircreate (keys %dirtocreate) {
+	my $dircreatem = "";
+	for my $dircreatep (split("/", $dircreate)) {
 	    $dircreatem .= $dircreatep . "/";
 	    if (!lstat($dircreatem)) {
 		$! == ENOENT || &syserr(sprintf(_g("cannot stat %s"), $dircreatem));
@@ -846,7 +915,7 @@ if ($opmode eq 'build') {
 	    open DIFF, $patch or &error(sprintf(_g("can't open diff `%s'"), $patch));
 	}
 
-        defined($c2= fork) || &syserr(_g("fork for patch"));
+	defined(my $c2 = fork) || syserr(_g("fork for patch"));
         if (!$c2) {
             open(STDIN,"<&DIFF") || &syserr(_g("reopen gzip for patch"));
             chdir($newdirectory) || &syserr(sprintf(_g("chdir to %s for patch"), $newdirectory));
@@ -864,13 +933,13 @@ if ($opmode eq 'build') {
 
     my $now = time;
     for $fn (keys %filepatched) {
-	$ftr= "$newdirectory/".substr($fn,length($expectprefix)+1);
+	my $ftr = "$newdirectory/" . substr($fn, length($expectprefix) + 1);
 	utime($now, $now, $ftr) || &syserr(sprintf(_g("cannot change timestamp for %s"), $ftr));
 	$ftr.= ".dpkg-orig";
 	unlink($ftr) || &syserr(sprintf(_g("remove patch backup file %s"), $ftr));
     }
 
-    if (!(@s= lstat("$newdirectory/debian/rules"))) {
+    if (!(my @s = lstat("$newdirectory/debian/rules"))) {
 	$! == ENOENT || &syserr(sprintf(_g("cannot stat %s"), "$newdirectory/debian/rules"));
 	warning(sprintf(_g("%s does not exist"), "$newdirectory/debian/rules"));
     } elsif (-f _) {
@@ -880,15 +949,18 @@ if ($opmode eq 'build') {
 	warning(sprintf(_g("%s is not a plain file"), "$newdirectory/debian/rules"));
     }
 
-    $execmode= 0777 & ~umask;
-    (@s= stat('.')) || &syserr(_g("cannot stat `.'"));
-    $dirmode= $execmode | ($s[2] & 02000);
-    $plainmode= $execmode & ~0111;
-    $fifomode= ($plainmode & 0222) | (($plainmode & 0222) << 1);
+    my $execmode = 0777 & ~umask;
+    (my @s = stat('.')) || syserr(_g("cannot stat `.'"));
+    my $dirmode = $execmode | ($s[2] & 02000);
+    my $plainmode = $execmode & ~0111;
+    my $fifomode = ($plainmode & 0222) | (($plainmode & 0222) << 1);
+
     for $fn (@filesinarchive) {
 	$fn=~ s,^$expectprefix,$newdirectory,;
-        (@s= lstat($fn)) || &syserr(sprintf(_g("cannot stat extracted object `%s'"), $fn));
-        $mode= $s[2];
+	(my @s = lstat($fn)) || syserr(sprintf(_g("cannot stat extracted object `%s'"), $fn));
+	my $mode = $s[2];
+	my $newmode;
+
         if (-d _) {
             $newmode= $dirmode;
         } elsif (-f _) {
@@ -934,8 +1006,6 @@ sub erasedir {
     }
     &failure(sprintf(_g("rm -rf failed to remove `%s'"), $dir));
 }
-
-use strict 'vars';
 
 sub checktarcpio {
 
@@ -1137,8 +1207,6 @@ sub checktarsane {
     %notfileobject = map { s/^$tarsubst/$wpfx/; $_=>1 } (keys %notfileobject);
 }
 
-no strict 'vars';
-
 # check diff for sanity, find directories to create as a side effect
 sub checkdiff
 {
@@ -1182,7 +1250,7 @@ sub checkdiff
 		or &error(sprintf(_g("line after --- isn't as expected in diff `%s' (line %d)"), $diff, $.));
 	}
 
-	$dirname = $fn;
+	my $dirname = $fn;
 	if ($dirname =~ s,/[^/]+$,, && !defined($dirincluded{$dirname})) {
 	    $dirtocreate{$dirname} = 1;
 	}
@@ -1225,7 +1293,7 @@ sub checkdiff
 sub extracttar {
     my ($tarfileread,$dirchdir,$newtopdir) = @_;
     &forkgzipread("$tarfileread");
-    defined($c2= fork) || &syserr(_g("fork for tar -xkf -"));
+    defined(my $c2 = fork) || syserr(_g("fork for tar -xkf -"));
     if (!$c2) {
         open(STDIN,"<&GZIP") || &syserr(_g("reopen gzip for tar -xkf -"));
         &cpiostderr;
@@ -1238,7 +1306,7 @@ sub extracttar {
     &reapgzip;
 
     opendir(D,"$dirchdir") || &syserr(sprintf(_g("Unable to open dir %s"), $dirchdir));
-    @dirchdirfiles = grep($_ ne "." && $_ ne "..",readdir(D));
+    my @dirchdirfiles = grep($_ ne "." && $_ ne "..", readdir(D));
     closedir(D) || &syserr(sprintf(_g("Unable to close dir %s"), $dirchdir));
     if (@dirchdirfiles==1 && -d "$dirchdir/$dirchdirfiles[0]") {
 	rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
@@ -1273,7 +1341,8 @@ sub checktype {
     if (!lstat("$dir/$fn")) {
         &unrepdiff2(_g("nonexistent"),$type{$fn});
     } else {
-        $v= eval("$_[0] _ ? 2 : 1"); $v || &internerr(sprintf(_g("checktype %s (%s)"), "$@", $_[0]));
+	my $v = eval("$type _ ? 2 : 1");
+	$v || internerr(sprintf(_g("checktype %s (%s)"), "$@", $type));
         return 1 if $v == 2;
         &unrepdiff2(_g("something else"),$type{$fn});
     }
@@ -1300,6 +1369,10 @@ sub unrepdiff2 {
         || &syserr(_g("write syserr unrep"));
     $ur++;
 }
+
+# FIXME: Local to *gzip* funcs
+my $cgz;
+my $gzipsigpipeok;
 
 sub forkgzipwrite {
     open(GZIPFILE,"> $_[0]") || &syserr(sprintf(_g("create file %s"), $_[0]));
@@ -1353,7 +1426,7 @@ sub addfile {
     $added_files{$filename}++ &&
 	&internerr( sprintf(_g("tried to add file `%s' twice"), $filename));
     stat($filename) || &syserr(sprintf(_g("could not stat output file `%s'"), $filename));
-    $size= (stat _)[7];
+    my $size = (stat _)[7];
     my $md5sum= `md5sum <$filename`;
     $? && &subprocerr("md5sum $filename");
     $md5sum = readmd5sum( $md5sum );

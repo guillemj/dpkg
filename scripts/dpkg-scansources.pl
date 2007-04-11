@@ -1,8 +1,7 @@
-#!/usr/bin/perl -w
-use strict;
-
+#!/usr/bin/perl
+#
 # $Id$
-
+#
 # Copyright 1999 Roderick Schertler
 # Copyright 2002 Wichert Akkerman <wakkerma@debian.org>
 #
@@ -26,6 +25,9 @@ use strict;
 # Dependencies are by request non-existant.  I used to use the MD5 and
 # Proc::WaitStat modules.
 
+
+use strict;
+use warnings;
 
 my $dpkglibdir= "."; # This line modified by Makefile
 push(@INC,$dpkglibdir);

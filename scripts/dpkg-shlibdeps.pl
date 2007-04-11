@@ -3,9 +3,13 @@
 # dpkg-shlibdeps
 # $Id$
 
-my $dpkglibdir="/usr/lib/dpkg";
+use strict;
+use warnings;
+
+our $progname;
+our $version = "1.4.1.19"; # This line modified by Makefile
+our $dpkglibdir = "/usr/lib/dpkg";
 my $admindir = "/var/lib/dpkg";
-my $version="1.4.1.19"; # This line modified by Makefile
 
 use English;
 use POSIX qw(:errno_h :signal_h);

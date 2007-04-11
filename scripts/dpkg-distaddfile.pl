@@ -1,18 +1,23 @@
 #!/usr/bin/perl
 
-$dpkglibdir= ".";
-$version= '1.3.0'; # This line modified by Makefile
+use strict;
+use warnings;
+
+our $progname;
+our $version = '1.3.0'; # This line modified by Makefile
+our $dpkglibdir = "."; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
-
-$fileslistfile= 'debian/files';
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
+
+my $fileslistfile = 'debian/files';
+
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -53,7 +58,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 }
 
 @ARGV==3 || &usageerr(_g("need exactly a filename, section and priority"));
-($file,$section,$priority)= @ARGV;
+my ($file, $section, $priority) = @ARGV;
 
 ($file =~ m/\s/ || $section =~ m/\s/ || $priority =~ m/\s/) &&
     &error(_g("filename, section and priority may contain no whitespace"));

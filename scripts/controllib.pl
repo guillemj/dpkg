@@ -1,42 +1,50 @@
 #!/usr/bin/perl
 
-use English;
+use strict;
+use warnings;
 
-$dpkglibdir= "."; # This line modified by Makefile
+use English;
+use POSIX qw(:errno_h);
+
+our $dpkglibdir;
+
 push(@INC,$dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-# Global variables:
-# $v                - value parameter to function
-# $sourcepackage    - name of sourcepackage
-# %fi               - map of fields values. keys are of the form "S# key"
-#                     where S is source (L is changelog, C is control)
-#                     and # is an index
-# %p2i              - map from datafile+packagename to index in controlfile
-#                     (used if multiple packages can be listed). Key is
-#                     "S key" where S is the source and key is the packagename
-# %substvar         - map with substitution variables
+our $sourcepackage; # - name of sourcepackage
+our %f;             # - fields ???
+our %fi;            # - map of fields values. keys are of the form "S# key"
+                    #   where S is source (L is changelog, C is control)
+                    #   and # is an index
+our %fieldimps;
+our %p2i;           # - map from datafile+packagename to index in controlfile
+                    #   (used if multiple packages can be listed). Key is
+                    #   "S key" where S is the source and key is the packagename
 
-$parsechangelog= 'dpkg-parsechangelog';
+my $maxsubsts = 50;
+our %substvar;      # - map with substitution variables
 
-@pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
-                     Conflicts Replaces Provides);
-@src_dep_fields = qw(Build-Depends Build-Depends-Indep
-                     Build-Conflicts Build-Conflicts-Indep);
+my $parsechangelog = 'dpkg-parsechangelog';
 
-$maxsubsts=50;
-$warnable_error= 1;
-$quiet_warnings = 0;
+our @pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
+                         Conflicts Replaces Provides);
+our @src_dep_fields = qw(Build-Depends Build-Depends-Indep
+                         Build-Conflicts Build-Conflicts-Indep);
 
-$progname= $0; $progname= $& if $progname =~ m,[^/]+$,;
+our $warnable_error = 1;
+our $quiet_warnings = 0;
+
+our $version;
+our $progname = $0;
+$progname = $& if $progname =~ m,[^/]+$,;
+
 
 sub getfowner
 {
-    $getlogin = getlogin();
+    my $getlogin = getlogin();
     if (!defined($getlogin)) {
 	open(SAVEIN, "<&STDIN");
-	close(STDIN);
 	open(STDIN, "<&STDERR");
 
 	$getlogin = getlogin();
@@ -47,7 +55,6 @@ sub getfowner
     }
     if (!defined($getlogin)) {
 	open(SAVEIN, "<&STDIN");
-	close(STDIN);
 	open(STDIN, "<&STDOUT");
 
 	$getlogin = getlogin();
@@ -57,6 +64,7 @@ sub getfowner
 	close(SAVEIN);
     }
 
+    my @fowner;
     if (defined($ENV{'LOGNAME'})) {
 	@fowner = getpwnam($ENV{'LOGNAME'});
 	if (!@fowner) {
@@ -100,7 +108,7 @@ sub capit {
 
 sub debian_arch_fix
 {
-    local ($os, $cpu) = @_;
+    my ($os, $cpu) = @_;
 
     if ($os eq "linux") {
 	return $cpu;
@@ -149,8 +157,11 @@ sub debian_arch_is {
 
 sub substvars {
     my ($v) = @_;
-    my ($lhs,$vn,$rhs,$count);
-    $count=0;
+    my $lhs;
+    my $vn;
+    my $rhs = '';
+    my $count = 0;
+
     while ($v =~ m/\$\{([-:0-9a-z]+)\}/i) {
         # If we have consumed more from the leftover data, then
         # reset the recursive counter.
@@ -196,12 +207,14 @@ sub sort_field_by_importance($$)
 sub outputclose {
     my ($varlistfile) = @_;
 
-    for $f (keys %f) { $substvar{"F:$f"}= $f{$f}; }
+    for my $f (keys %f) {
+	$substvar{"F:$f"} = $f{$f};
+    }
 
     &parsesubstvars($varlistfile) if (defined($varlistfile));
 
-    for $f (sort sort_field_by_importance keys %f) {
-        $v= $f{$f};
+    for my $f (sort sort_field_by_importance keys %f) {
+	my $v = $f{$f};
 	if (defined($varlistfile)) {
 	    $v= &substvars($v);
 	}
@@ -232,7 +245,7 @@ sub parsecontrolfile {
 			     sprintf(_g("control file %s"), $controlfile));
     $indices >= 2 || &error(_g("control file must have at least one binary package part"));
 
-    for ($i=1;$i<$indices;$i++) {
+    for (my $i = 1; $i < $indices; $i++) {
         defined($fi{"C$i Package"}) ||
             &error(sprintf(_g("per-package paragraph %d in control ".
                                    "info file is missing Package line"),
@@ -293,6 +306,7 @@ ALTERNATE:
                         $seen_arch=1;
                         next;
                     } elsif ($arch =~ /^!/) {
+			my $not_arch;
 			($not_arch = $arch) =~ s/^!//;
 
 			if (debian_arch_is($host_arch, $not_arch)) {
@@ -338,7 +352,7 @@ sub showdep {
 sub parsechangelog {
     my ($changelogfile, $changelogformat, $since) = @_;
 
-    defined($c=open(CDATA,"-|")) || &syserr(_g("fork for parse changelog"));
+    defined(my $c = open(CDATA, "-|")) || syserr(_g("fork for parse changelog"));
     if ($c) {
 	binmode(CDATA);
 	parsecdata(\*CDATA, 'L', 0, _g("parsed version of changelog"));
@@ -346,7 +360,7 @@ sub parsechangelog {
 	$? && subprocerr(_g("parse changelog"));
     } else {
 	binmode(STDOUT);
-        @al=($parsechangelog);
+	my @al = ($parsechangelog);
         push(@al,"-l$changelogfile");
         push(@al, "-F$changelogformat") if defined($changelogformat);
         push(@al, "-v$since") if defined($since);
@@ -369,6 +383,7 @@ sub init_substvars
     $substvar{'source:Upstream-Version'} = $fi{"L Version"};
     $substvar{'source:Upstream-Version'} =~ s/-[^-]*$//;
 
+    # FIXME: this needs all progs using controllib to set $version as 'our'.
     # We expect the calling program to set $version.
     $substvar{"dpkg:Version"} = $version;
     $substvar{"dpkg:Upstream-Version"} = $version;
@@ -413,20 +428,29 @@ sub readmd5sum {
     return $md5sum;
 }
 
+# XXX: Should not be a global!!
+my $whatmsg;
+
 sub parsecdata {
-    local ($cdata, $source, $many, $whatmsg) = @_;
+    my ($cdata, $source, $many);
+    ($cdata, $source, $many, $whatmsg) = @_;
+
     # many=0: ordinary control data like output from dpkg-parsechangelog
     # many=1: many paragraphs like in source control file
     # many=-1: single paragraph of control data optionally signed
-    local ($index,$cf,$paraborder);
-    $index=''; $cf=''; $paraborder=1;
+
+    my $index = '';
+    my $cf = '';
+    my $paraborder = 1;
+
     while (<$cdata>) {
         s/\s*\n$//;
 	next if (m/^$/ and $paraborder);
 	next if (m/^#/);
 	$paraborder=0;
         if (m/^(\S+)\s*:\s*(.*)$/) {
-            $cf=$1; $v=$2;
+	    $cf = $1;
+	    my $v = $2;
             $cf= &capit($cf);
             $fi{"$source$index $cf"}= $v;
             $fi{"o:$source$index $cf"}= $1;
@@ -507,7 +531,7 @@ sub warnerror
 }
 
 sub subprocerr {
-    local ($p) = @_;
+    my ($p) = @_;
     require POSIX;
     if (POSIX::WIFEXITED($?)) {
         die sprintf(_g("%s: failure: %s gave error exit status %s"),

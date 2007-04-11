@@ -1,13 +1,19 @@
 #!/usr/bin/perl
 # GPL copyright 2001 by Joey Hess <joeyh@debian.org>
 
-#use strict;
+use strict;
+use warnings;
+
+our $progname;
+our $dpkglibdir = "/usr/lib/dpkg"; # This line modified by Makefile
+
 use Getopt::Long;
 
-my $dpkglibdir="/usr/lib/dpkg";
 my $admindir = "/var/lib/dpkg";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
+
+our %fi;
 
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");

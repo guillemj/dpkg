@@ -19,16 +19,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 
-$version="1.0.0"; # This line modified by Makefile
+use strict;
+use warnings;
 
-$dpkglibdir = ".";
+our $progname;
+our $version = "1.0.0"; # This line modified by Makefile
+our $dpkglibdir = "."; # This line modified by Makefile
+
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-$pkgdatadir = "..";
+my $pkgdatadir = "..";
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -65,6 +69,10 @@ Actions:
   --version          show the version.
 "), $progname;
 }
+
+my (@cpu, @os);
+my (%cputable, %ostable);
+my (%cputable_re, %ostable_re);
 
 sub read_cputable {
     open CPUTABLE, "$pkgdatadir/cputable"
@@ -103,8 +111,8 @@ sub split_debian {
 }
 
 sub debian_to_gnu {
-    local ($arch) = @_;
-    local ($os, $cpu) = &split_debian($arch);
+    my ($arch) = @_;
+    my ($os, $cpu) = split_debian($arch);
 
     return undef unless exists($cputable{$cpu}) && exists($ostable{$os});
     return join("-", $cputable{$cpu}, $ostable{$os});
@@ -118,19 +126,18 @@ sub split_gnu {
 }
 
 sub gnu_to_debian {
-    local ($gnu) = @_;
-    local ($cpu, $os);
-    local ($a);
+    my ($gnu) = @_;
+    my ($cpu, $os);
 
-    local ($gnu_cpu, $gnu_os) = &split_gnu($gnu);
-    foreach $_cpu (@cpu) {
+    my ($gnu_cpu, $gnu_os) = split_gnu($gnu);
+    foreach my $_cpu (@cpu) {
 	if ($gnu_cpu =~ /^$cputable_re{$_cpu}$/) {
 	    $cpu = $_cpu;
 	    last;
 	}
     }
 
-    foreach $_os (@os) {
+    foreach my $_os (@os) {
 	if ($gnu_os =~ /^(.*-)?$ostable_re{$_os}$/) {
 	    $os = $_os;
 	    last;
@@ -146,8 +153,8 @@ sub gnu_to_debian {
 
 # Check for -L
 if (grep { m/^-L$/ } @ARGV) {
-    foreach $os (@os) {
-	foreach $cpu (@cpu) {
+    foreach my $os (@os) {
+	foreach my $cpu (@cpu) {
 	    print debian_arch_fix($os, $cpu)."\n";
 	}
     }
@@ -156,18 +163,21 @@ if (grep { m/^-L$/ } @ARGV) {
 
 # Set default values:
 
-chomp ($deb_build_arch = `dpkg --print-architecture`);
+chomp (my $deb_build_arch = `dpkg --print-architecture`);
 &syserr("dpkg --print-architecture failed") if $?>>8;
-$deb_build_gnu_type = &debian_to_gnu($deb_build_arch);
+my $deb_build_gnu_type = debian_to_gnu($deb_build_arch);
 
 # Default host: Current gcc.
-$gcc = `\${CC:-gcc} -dumpmachine`;
+my $gcc = `\${CC:-gcc} -dumpmachine`;
 if ($?>>8) {
     warning(_g("Couldn't determine gcc system type, falling back to default (native compilation)"));
     $gcc = '';
 } else {
     chomp $gcc;
 }
+
+my $deb_host_arch = undef;
+my $deb_host_gnu_type;
 
 if ($gcc ne '') {
     $deb_host_arch = &gnu_to_debian($gcc);
@@ -185,13 +195,14 @@ if (!defined($deb_host_arch)) {
 }
 
 
-$req_host_arch = '';
-$req_host_gnu_type = '';
-$req_build_gnu_type = '';
-$req_eq_arch = '';
-$req_is_arch = '';
-$action='l';
-$force=0;
+my $req_host_arch = '';
+my $req_host_gnu_type = '';
+my $req_build_gnu_type = '';
+my $req_eq_arch = '';
+my $req_is_arch = '';
+my $req_variable_to_print;
+my $action = 'l';
+my $force = 0;
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -240,7 +251,7 @@ if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
-    $dfl_host_gnu_type = &debian_to_gnu ($req_host_arch);
+    my $dfl_host_gnu_type = debian_to_gnu($req_host_arch);
     warning(sprintf(_g("Default GNU system type %s for Debian arch %s does not match specified GNU system type %s"), $dfl_host_gnu_type, $req_host_arch, $req_host_gnu_type)) if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
@@ -252,12 +263,12 @@ $deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
 warning(sprintf(_g("Specified GNU system type %s does not match gcc system type %s."), $deb_host_gnu_type, $gcc)) if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
 
 # Split the Debian and GNU names
-($deb_host_arch_os, $deb_host_arch_cpu) = &split_debian($deb_host_arch);
-($deb_build_arch_os, $deb_build_arch_cpu) = &split_debian($deb_build_arch);
-($deb_host_gnu_cpu, $deb_host_gnu_system) = &split_gnu($deb_host_gnu_type);
-($deb_build_gnu_cpu, $deb_build_gnu_system) = &split_gnu($deb_build_gnu_type);
+my ($deb_host_arch_os, $deb_host_arch_cpu) = split_debian($deb_host_arch);
+my ($deb_build_arch_os, $deb_build_arch_cpu) = split_debian($deb_build_arch);
+my ($deb_host_gnu_cpu, $deb_host_gnu_system) = split_gnu($deb_host_gnu_type);
+my ($deb_build_gnu_cpu, $deb_build_gnu_system) = split_gnu($deb_build_gnu_type);
 
-%env = ();
+my %env = ();
 if (!$force) {
     $deb_build_arch = $ENV{DEB_BUILD_ARCH} if (exists $ENV{DEB_BUILD_ARCH});
     $deb_build_arch_os = $ENV{DEB_BUILD_ARCH_OS} if (exists $ENV{DEB_BUILD_ARCH_OS});
@@ -273,10 +284,10 @@ if (!$force) {
     $deb_host_gnu_type = $ENV{DEB_HOST_GNU_TYPE} if (exists $ENV{DEB_HOST_GNU_TYPE});
 }
 
-@ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
-	      DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
-	      DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
-	      DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
+my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
+                 DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
+                 DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
+                 DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
 
 $env{'DEB_BUILD_ARCH'}=$deb_build_arch;
 $env{'DEB_BUILD_ARCH_OS'}=$deb_build_arch_os;
@@ -292,11 +303,11 @@ $env{'DEB_HOST_GNU_SYSTEM'}=$deb_host_gnu_system;
 $env{'DEB_HOST_GNU_TYPE'}=$deb_host_gnu_type;
 
 if ($action eq 'l') {
-    foreach $k (@ordered) {
+    foreach my $k (@ordered) {
 	print "$k=$env{$k}\n";
     }
 } elsif ($action eq 's') {
-    foreach $k (@ordered) {
+    foreach my $k (@ordered) {
 	print "$k=$env{$k}; ";
     }
     print "export ".join(" ",@ordered)."\n";

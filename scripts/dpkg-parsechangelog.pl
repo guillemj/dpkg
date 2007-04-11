@@ -1,12 +1,11 @@
 #!/usr/bin/perl
 
-$dpkglibdir= "/usr/lib/dpkg";
-$version= '1.3.0'; # This line modified by Makefile
+use strict;
+use warnings;
 
-$format='debian';
-$changelogfile='debian/changelog';
-@parserpath= ("/usr/local/lib/dpkg/parsechangelog",
-              "$dpkglibdir/parsechangelog");
+our $progname;
+our $version = '1.3.0'; # This line modified by Makefile
+our $dpkglibdir = "/usr/lib/dpkg"; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h);
@@ -16,6 +15,15 @@ require 'controllib.pl';
 
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
+
+my $format ='debian';
+my $changelogfile = 'debian/changelog';
+my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
+                  "$dpkglibdir/parsechangelog");
+
+my $libdir;	# XXX: Not used!?
+my $force;
+
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -44,7 +52,7 @@ Options:
 "), $progname;
 }
 
-@ap=();
+my @ap = ();
 while (@ARGV) {
     last unless $ARGV[0] =~ m/^-/;
     $_= shift(@ARGV);
@@ -73,8 +81,9 @@ if (not $force and $changelogfile ne "-") {
     close(P); $? && &subprocerr(sprintf(_g("tail of %s"), $changelogfile));
 }
 
+my ($pa, $pf);
 
-for $pd (@parserpath) {
+for my $pd (@parserpath) {
     $pa= "$pd/$format";
     if (!stat("$pa")) {
         $! == ENOENT || &syserr(sprintf(_g("failed to check for format parser %s"), $pa));

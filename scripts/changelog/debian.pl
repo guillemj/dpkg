@@ -4,25 +4,31 @@
 #  -v<version>
 #   changes since <version>
 
-$dpkglibdir= ".";
-$version= '1.3.0'; # This line modified by Makefile
+use strict;
+use warnings;
 
-$controlfile= 'debian/control';
-$changelogfile= 'debian/changelog';
-$fileslistfile= 'debian/files';
+our $progname;
+our $version = '1.3.0'; # This line modified by Makefile
+our $dpkglibdir = "."; # This line modified by Makefile
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+our %f;
+
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
-$progname= "parsechangelog/$progname";
-
-$since='';
+my $controlfile = 'debian/control';
+my $changelogfile = 'debian/changelog';
+my $fileslistfile = 'debian/files';
+my $since = '';
+my %mapkv = (); # XXX: for future use
 
 my @changelog_fields = qw(Source Version Distribution Urgency Maintainer
                           Date Closes Changes);
+
+$progname = "parsechangelog/$progname";
 
 
 sub version {
@@ -63,11 +69,12 @@ while (@ARGV) {
     }
 }
 
-%mapkv=(); # for future use
-$i=1;grep($urgencies{$_}=$i++,
-          qw(low medium high critical emergency));
+my %urgencies;
+my $i = 1;
+grep($urgencies{$_} = $i++, qw(low medium high critical emergency));
 
-$expect='first heading';
+my $expect = 'first heading';
+my $blanklines;
 
 while (<STDIN>) {
     s/\s*\n$//;
@@ -86,18 +93,26 @@ while (<STDIN>) {
         } else {
             &clerror(sprintf(_g("found start of entry where expected %s"), $expect));
         }
-        $rhs= $'; $rhs =~ s/^\s+//;
-        undef %kvdone;
-        for $kv (split(/\s*,\s*/,$rhs)) {
+	my $rhs = $';
+	$rhs =~ s/^\s+//;
+	my %kvdone;
+	for my $kv (split(/\s*,\s*/, $rhs)) {
             $kv =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i ||
                 &clerror(sprintf(_g("bad key-value after \`;': \`%s'"), $kv));
-            $k=(uc substr($1,0,1)).(lc substr($1,1)); $v=$2;
+	    my $k = (uc substr($1, 0, 1)).(lc substr($1, 1));
+	    my $v = $2;
             $kvdone{$k}++ && &clwarn(sprintf(_g("repeated key-value %s"), $k));
             if ($k eq 'Urgency') {
                 $v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i ||
                     &clerror(_g("badly formatted urgency value"));
-                $newurg= lc $1;
-                $newurgn= $urgencies{lc $1}; $newcomment= $2;
+
+		my $newurg = lc $1;
+		my $oldurg;
+		my $newurgn = $urgencies{lc $1};
+		my $oldurgn;
+		my $newcomment = $2;
+		my $oldcomment;
+
                 $newurgn ||
                     &clwarn(sprintf(_g("unknown urgency value %s - comparing very low"), $newurg));
                 if (defined($f{'Urgency'})) {
@@ -157,6 +172,8 @@ $expect eq 'next heading or eof' || die sprintf(_g("found eof where expected %s"
 
 $f{'Changes'} =~ s/\n$//;
 $f{'Changes'} =~ s/^/\n/;
+
+my @closes;
 
 while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig) {
   push(@closes, $& =~ /\#?\s?(\d+)/g);

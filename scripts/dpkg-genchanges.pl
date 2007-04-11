@@ -1,26 +1,11 @@
 #!/usr/bin/perl
 
-$dpkglibdir= "."; # This line modified by Makefile
-$version= '1.3.0'; # This line modified by Makefile
+use strict;
+use warnings;
 
-$controlfile= 'debian/control';
-$changelogfile= 'debian/changelog';
-$fileslistfile= 'debian/files';
-$varlistfile= 'debian/substvars';
-$uploadfilesdir= '..';
-$sourcestyle= 'i';
-$quiet= 0;
-
-# Other global variables used:
-# %f2p             - file to package map
-# %p2f             - package to file map
-#                    has entries for both "packagename" and "packagename architecture"
-# %p2ver           - package to version map
-# %f2sec           - file to section map
-# %f2pri           - file to priority map
-# %sourcedefault   - default values as taken from source (used for Section,
-#                    Priority and Maintainer)
-# $changedby       - person who created this package (as listed in changelog)
+our $progname;
+our $version = '1.3.0'; # This line modified by Makefile
+our $dpkglibdir = "."; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
@@ -28,12 +13,58 @@ use POSIX qw(:errno_h :signal_h);
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
+our (%f, %fi);
+our %p2i;
+our %fieldimps;
+our %substvar;
+our $sourcepackage;
+our $host_arch;
+
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @changes_fields = qw(Format Date Source Binary Architecture Version
                         Distribution Urgency Maintainer Changed-By
                         Description Closes Changes Files);
+
+my $controlfile = 'debian/control';
+my $changelogfile = 'debian/changelog';
+my $changelogformat;
+my $fileslistfile = 'debian/files';
+my $varlistfile = 'debian/substvars';
+my $uploadfilesdir = '..';
+my $sourcestyle = 'i';
+my $quiet = 0;
+
+my %f2p;           # - file to package map
+my %p2f;           # - package to file map, has entries for both "packagename"
+                   #   and "packagename architecture"
+my %p2ver;         # - package to version map
+my %p2arch;
+my %f2sec;         # - file to section map
+my %f2seccf;
+my %f2pri;         # - file to priority map
+my %f2pricf;
+my %sourcedefault; # - default values as taken from source (used for Section,
+                   #   Priority and Maintainer)
+
+my @descriptions;
+my @sourcefiles;
+my @fileslistfiles;
+
+my %md5sum;        # - md5sum to file map
+my %remove;        # - fields to remove
+my %override;
+my %archadded;
+my @archvalues;
+my $dsc;
+my $changesdescription;
+my $sourceonly;
+my $binaryonly;
+my $archspecific;
+my $forcemaint;
+my $forcechangedby;
+my $since;
 
 
 sub version {
@@ -171,7 +202,8 @@ if (not $sourceonly) {
 }
 
 for $_ (keys %fi) {
-    $v= $fi{$_};
+    my $v = $fi{$_};
+
     if (s/^C //) {
 	if (m/^Source$/) {
 	    setsourcepackage($v);
@@ -182,8 +214,11 @@ for $_ (keys %fi) {
 	elsif (m/|^X[BS]+-|^Standards-Version$/i) { }
 	else { &unknown(_g('general section of control info file')); }
     } elsif (s/^C(\d+) //) {
+	my $i = $1;
+	my $p = $fi{"C$i Package"};
+	my $a = $fi{"C$i Architecture"};
 	my $host_arch = get_host_arch();
-	$i=$1; $p=$fi{"C$i Package"}; $a=$fi{"C$i Architecture"};
+
 	if (!defined($p2f{$p}) && not $sourceonly) {
 	    if ((debian_arch_eq('all', $a) && !$archspecific) ||
 		debian_arch_is($host_arch, $a) ||
@@ -192,8 +227,9 @@ for $_ (keys %fi) {
 		next;
 	    }
 	} else {
+	    my $f = $p2f{$p};
 	    $p2arch{$p}=$a;
-	    $f=$p2f{$p};
+
 	    if (m/^Description$/) {
 		$v=$` if $v =~ m/\n/;
 		if ($f =~ m/\.udeb$/) {
@@ -255,15 +291,16 @@ if ($changesdescription) {
     }
 }
 
-for $p (keys %p2f) {
+for my $p (keys %p2f) {
     my ($pp, $aa) = (split / /, $p);
     defined($p2i{"C $pp"}) ||
 	warning(sprintf(_g("package %s listed in files list but not in control info"), $pp));
 }
 
-for $p (keys %p2f) {
-    $f= $p2f{$p};
-    $sec = $f2seccf{$f};
+for my $p (keys %p2f) {
+    my $f = $p2f{$p};
+
+    my $sec = $f2seccf{$f};
     $sec = $sourcedefault{'Section'} if !defined($sec);
     if (!defined($sec)) {
 	$sec = '-';
@@ -272,7 +309,7 @@ for $p (keys %p2f) {
     $sec eq $f2sec{$f} || &error(sprintf(_g("package %s has section %s in ".
                                            "control file but %s in files list"),
                                  $p, $sec, $f2sec{$f}));
-    $pri = $f2pricf{$f};
+    my $pri = $f2pricf{$f};
     $pri = $sourcedefault{'Priority'} if !defined($pri);
     if (!defined($pri)) {
 	$pri = '-';
@@ -286,35 +323,40 @@ for $p (keys %p2f) {
 &init_substvars;
 init_substvar_arch();
 
+my $origsrcmsg;
+
 if (!$binaryonly) {
-    $sec= $sourcedefault{'Section'};
+    my $sec = $sourcedefault{'Section'};
     if (!defined($sec)) {
 	$sec = '-';
 	warning(_g("missing Section for source files"));
     }
-    $pri= $sourcedefault{'Priority'};
+    my $pri = $sourcedefault{'Priority'};
     if (!defined($pri)) {
 	$pri = '-';
 	warning(_g("missing Priority for source files"));
     }
 
-    ($sversion = $substvar{'source:Version'}) =~ s/^\d+://;
+    (my $sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
     open(CDATA,"< $dsc") || &error(sprintf(_g("cannot open .dsc file %s: %s"), $dsc, $!));
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
 
-    $files= $fi{'S Files'};
-    for $file (split(/\n /,$files)) {
+    my $files = $fi{'S Files'};
+    for my $file (split(/\n /, $files)) {
         next if $file eq '';
         $file =~ m/^([0-9a-f]{32})[ \t]+\d+[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
             || &error(sprintf(_g("Files field contains bad line \`%s'"), $file));
         ($md5sum{$2},$file) = ($1,$2);
         push(@sourcefiles,$file);
     }
-    for $f (@sourcefiles) { $f2sec{$f}= $sec; $f2pri{$f}= $pri; }
-    
+    for my $f (@sourcefiles) {
+	$f2sec{$f} = $sec;
+	$f2pri{$f} = $pri;
+    }
+
     if (($sourcestyle =~ m/i/ && $sversion !~ m/-(0|1|0\.1)$/ ||
          $sourcestyle =~ m/d/) &&
         grep(m/\.diff\.gz$/,@sourcefiles)) {
@@ -336,7 +378,8 @@ print(STDERR "$progname: $origsrcmsg\n") ||
 $f{'Format'}= $substvar{'Format'};
 
 if (!defined($f{'Date'})) {
-    chop($date822=`date -R`); $? && subprocerr("date -R");
+    chop(my $date822 = `date -R`);
+    $? && subprocerr("date -R");
     $f{'Date'}= $date822;
 }
 
@@ -348,14 +391,19 @@ $f{'Architecture'}= join(' ',@archvalues);
 $f{'Description'}= "\n ".join("\n ",sort @descriptions);
 
 $f{'Files'}= '';
-for $f (@sourcefiles,@fileslistfiles) {
+
+my %filedone;
+
+for my $f (@sourcefiles, @fileslistfiles) {
     next if ($archspecific && debian_arch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
-    $uf= "$uploadfilesdir/$f";
+    my $uf = "$uploadfilesdir/$f";
     open(STDIN,"< $uf") || &syserr(sprintf(_g("cannot open upload file %s for reading"), $uf));
-    (@s=stat(STDIN)) || &syserr(sprintf(_g("cannot fstat upload file %s"), $uf));
-    $size= $s[7]; $size || warning(sprintf(_g("upload file %s is empty"), $uf));
-    $md5sum=`md5sum`; $? && subprocerr(sprintf(_g("md5sum upload file %s"), $uf));
+    (my @s = stat(STDIN)) || syserr(sprintf(_g("cannot fstat upload file %s"), $uf));
+    my $size = $s[7];
+    $size || warn(sprintf(_g("upload file %s is empty"), $uf));
+    my $md5sum = `md5sum`;
+    $? && subprocerr(sprintf(_g("md5sum upload file %s"), $uf));
     $md5sum =~ m/^([0-9a-f]{32})\s*-?\s*$/i ||
         &failure(sprintf(_g("md5sum upload file %s gave strange output \`%s'"), $uf, $md5sum));
     $md5sum= $1;
@@ -374,16 +422,20 @@ if ($f{'Version'} ne $substvar{'source:Version'}) {
 $f{'Maintainer'} = $forcemaint if defined($forcemaint);
 $f{'Changed-By'} = $forcechangedby if defined($forcechangedby);
 
-for $f (qw(Version Distribution Maintainer Changes)) {
+for my $f (qw(Version Distribution Maintainer Changes)) {
     defined($f{$f}) || &error(sprintf(_g("missing information for critical output field %s"), $f));
 }
 
-for $f (qw(Urgency)) {
+for my $f (qw(Urgency)) {
     defined($f{$f}) || warning(sprintf(_g("missing information for output field %s"), $f));
 }
 
-for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
-for $f (keys %remove) { delete $f{&capit($f)}; }
+for my $f (keys %override) {
+    $f{capit($f)} = $override{$f};
+}
+for my $f (keys %remove) {
+    delete $f{capit($f)};
+}
 
 set_field_importance(@changes_fields);
 outputclose();
