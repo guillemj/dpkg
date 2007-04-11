@@ -21,6 +21,10 @@ $progname= "parsechangelog/$progname";
 
 $since='';
 
+my @changelog_fields = qw(Source Version Distribution Urgency Maintainer
+                          Date Closes Changes));
+
+
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
@@ -60,9 +64,6 @@ while (@ARGV) {
 }
 
 %mapkv=(); # for future use
-$i=100;grep($fieldimps{$_}=$i--,
-          qw(Source Version Distribution Urgency Maintainer Date Closes
-	     Changes));
 $i=1;grep($urgencies{$_}=$i++,
           qw(low medium high critical emergency));
 
@@ -162,6 +163,7 @@ while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/i
 }
 $f{'Closes'} = join(' ',sort { $a <=> $b} @closes);
 
+set_field_importance(@changelog_fields);
 outputclose();
 
 sub clerror

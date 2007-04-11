@@ -45,6 +45,10 @@ require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
+my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
+                     Maintainer Uploaders Standards-Version), @src_dep_fields);
+
+
 # Make sure patch doesn't get any funny ideas
 delete $ENV{'POSIXLY_CORRECT'};
 
@@ -119,12 +123,6 @@ sub handleformat {
 	return $1 >= $min_dscformat && $1 <= $max_dscformat;
 }
 
-
-$i = 100;
-grep ($fieldimps {$_} = $i--,
-      qw(Format Source Version Binary Origin Maintainer Uploaders Architecture
-      Standards-Version Build-Depends Build-Depends-Indep Build-Conflicts
-      Build-Conflicts-Indep));
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
@@ -582,6 +580,7 @@ if ($opmode eq 'build') {
         || &syserr(_g("write building message"));
     open(STDOUT,"> $basenamerev.dsc") || &syserr(sprintf(_g("create %s"), "$basenamerev.dsc"));
 
+    set_field_importance(@dsc_fields);
     outputclose($varlistfile);
 
     if ($ur) {

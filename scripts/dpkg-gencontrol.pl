@@ -18,6 +18,11 @@ require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
+my @control_fields = (qw(Package Source Version Architecture Essential Origin
+                         Bugs Maintainer Installed-Size), @pkg_dep_fields,
+                      qw(Section Priority Description));
+
+
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
@@ -55,12 +60,6 @@ Options:
 "), $progname;
 }
 
-$i=100;grep($fieldimps{$_}=$i--,
-          qw(Package Version Section Priority Architecture Essential
-             Pre-Depends Depends Recommends Suggests Enhances Optional 
-	     Conflicts Replaces Provides Installed-Size Origin Maintainer
-	     Bugs Source Description Build-Depends Build-Depends-Indep
-	     Build-Conflicts Build-Conflicts-Indep ));
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -294,6 +293,7 @@ if (!$stdout) {
     binmode(STDOUT);
 }
 
+set_field_importance(@control_fields);
 outputclose($varlistfile);
 
 if (!$stdout) {

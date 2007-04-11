@@ -31,6 +31,11 @@ require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
+my @changes_fields = qw(Format Date Source Binary Architecture Version
+                        Distribution Urgency Maintainer Changed-By
+                        Description Closes Changes Files);
+
+
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
@@ -74,10 +79,6 @@ Options:
 "), $progname;
 }
 
-$i=100;grep($fieldimps{$_}=$i--,
-          qw(Format Date Source Binary Architecture Version
-             Distribution Urgency Maintainer Changed-By Description 
-	     Closes Changes Files));
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -384,5 +385,6 @@ for $f (qw(Urgency)) {
 for $f (keys %override) { $f{&capit($f)}= $override{$f}; }
 for $f (keys %remove) { delete $f{&capit($f)}; }
 
+set_field_importance(@changes_fields);
 outputclose();
 

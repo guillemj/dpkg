@@ -20,8 +20,8 @@ textdomain("dpkg-dev");
 
 $parsechangelog= 'dpkg-parsechangelog';
 
-@pkg_dep_fields = qw(Replaces Provides Depends Pre-Depends Recommends Suggests
-                     Conflicts Enhances);
+@pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
+                     Conflicts Replaces Provides);
 @src_dep_fields = qw(Build-Depends Build-Depends-Indep
                      Build-Conflicts Build-Conflicts-Indep);
 
@@ -170,6 +170,29 @@ sub substvars {
     return $v;
 }
 
+sub set_field_importance(@)
+{
+    my @fields = @_;
+    my $i = 1;
+
+    grep($fieldimps{$_} = $i++, @fields);
+}
+
+sub sort_field_by_importance($$)
+{
+    my ($a, $b) = @_;
+
+    if (defined $fieldimps{$a} && defined $fieldimps{$b}) {
+	$fieldimps{$a} <=> $fieldimps{$b};
+    } elsif (defined($fieldimps{$a})) {
+	-1;
+    } elsif (defined($fieldimps{$b})) {
+	1;
+    } else {
+	$a cmp $b;
+    }
+}
+
 sub outputclose {
     my ($varlistfile) = @_;
 
@@ -177,7 +200,7 @@ sub outputclose {
 
     &parsesubstvars($varlistfile) if (defined($varlistfile));
 
-    for $f (sort { $fieldimps{$b} <=> $fieldimps{$a} } keys %f) {
+    for $f (sort sort_field_by_importance keys %f) {
         $v= $f{$f};
 	if (defined($varlistfile)) {
 	    $v= &substvars($v);

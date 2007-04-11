@@ -1,3 +1,24 @@
+2007-04-11  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (@pkg_dep_fields): Reorder fields by
+	importance.
+	(set_field_importance): New function.
+	(sort_field_by_importance): Likewise.
+	(outputclose): Use sort_field_by_importance instead of direct sorting.
+	* scripts/changelog/debian.pl (%fieldimps): Do not set directly, use
+	set_field_importance instead.
+	* scripts/dpkg-genchanges.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+	* scripts/changelog/debian.pl (@changelog_fields): New variable.
+	* scripts/dpkg-genchanges.pl (@changes_fields): New variable.
+	* scripts/dpkg-gencontrol.pl (@control_fields): New variable.
+	* scripts/dpkg-source.pl (@dsc_fields): New variable.
+	* scripts/dpkg-scanpackages.pl: Require 'controllib.pl'.
+	(@pkg_dep_fields): Declare as 'our'.
+	(@fieldpri): Reorder fields, use '@pkg_dep_fields' instead of
+	hardcoded list.
+
 2007-04-05  Guillem Jover  <guillem@debian.org>
 
 	* scripts/controllib.pl (get_host_arch): New function.

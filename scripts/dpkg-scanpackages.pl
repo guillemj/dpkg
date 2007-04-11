@@ -12,8 +12,11 @@ my $dpkglibdir= "."; # This line modified by Makefile
 ($0) = $0 =~ m:.*/(.+):;
 
 push(@INC,$dpkglibdir);
+require 'controllib.pl';
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
+
+our @pkg_dep_fields;
 
 my (@samemaint, @changedmaint);
 my %packages;
@@ -25,30 +28,9 @@ my %kmap= (optional         => 'suggests',
 	   package_revision => 'revision',
 	  );
 
-my @fieldpri= ('Package',
-	       'Source',
-	       'Version',
-	       'Priority',
-	       'Section',
-	       'Essential',
-	       'Maintainer',
-	       'Pre-Depends',
-	       'Depends',
-	       'Recommends',
-	       'Suggests',
-	       'Conflicts',
-	       'Provides',
-	       'Replaces',
-	       'Enhances',
-	       'Architecture',
-	       'Filename',
-	       'Size',
-	       'Installed-Size',
-	       'MD5sum',
-	       'Description',
-	       'Origin',
-	       'Bugs'
-	      );
+my @fieldpri = (qw(Package Source Version Architecture Essential Origin Bugs
+                   Maintainer Installed-Size), @pkg_dep_fields, qw(Filename
+                   Size MD5sum Section Priority Description));
 
 # This maps the fields into the proper case
 my %field_case;
