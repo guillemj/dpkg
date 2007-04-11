@@ -1,12 +1,17 @@
 ## Process this file with automake to produce Makefile.in
 
-all-local:
+all-local: man.stamp
+
+# FIXME: Use a stamp file until po4a supports them internally.
+man.stamp:
 	po4a --no-backups --variable srcdir=$(srcdir) \
 		$(srcdir)/po/po4a.cfg
+	touch $@
 
 clean-local:
 	po4a --rm-backups --rm-translations --variable srcdir=$(srcdir) \
 		$(srcdir)/po/po4a.cfg
+	rm -f man.stamp
 
 # Extract the list of languages from the po4a config file.
 LINGUAS = $(shell sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg)
