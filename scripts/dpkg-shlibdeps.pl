@@ -178,7 +178,7 @@ while( <CONF> ) {
 }
 close CONF;
 
-my (%rpaths, %format);
+my (%rpaths, %format, %unique_libfiles);
 my (@libfiles, @libname, @libsoname, @libfield, @libexec);
 for ($i=0;$i<=$#exec;$i++) {
     if (!isbin ($exec[$i])) { next; }
@@ -195,15 +195,19 @@ for ($i=0;$i<=$#exec;$i++) {
 	    $format{$exec[$i]} = $1;
 	} elsif (m,^\s*NEEDED\s+,) {
 	    if (m,^\s*NEEDED\s+((\S+)\.so\.(\S+))$,) {
+		next if exists $unique_libfiles{$1};
 		push(@libname,$2); push(@libsoname,$3);
 		push(@libfield,$execfield[$i]);
 		push(@libfiles,$1);
 		push(@libexec,$exec[$i]);
+		$unique_libfiles{$1} = 1;
 	    } elsif (m,^\s*NEEDED\s+((\S+)-(\S+)\.so)$,) {
+		next if exists $unique_libfiles{$1};
 		push(@libname,$2); push(@libsoname,$3);
 		push(@libfield,$execfield[$i]);
 		push(@libfiles,$1);
 		push(@libexec,$exec[$i]);
+		$unique_libfiles{$1} = 1;
 	    } else {
 		m,^\s*NEEDED\s+(\S+)$,;
 		warning(sprintf(_g("format of 'NEEDED %s' not recognized"), $1));
