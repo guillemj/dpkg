@@ -530,10 +530,10 @@ if ($manual eq 'auto') {
             &quit(sprintf(_g("unable to remove %s: %s"), "$admindir/$name", $!));
         exit(0);
     } else {
-        if (!defined($linkname= readlink($link)) && $! != &ENOENT) {
+        if (!defined($linkname = readlink($link))) {
             &pr(sprintf(_g("warning: %s is supposed to be a symlink to %s\n".
                 " (or nonexistent); however, readlink failed: %s"), $link, "$altdir/$name", $!))
-              if $verbosemode > 0;
+		if  $! != ENOENT && $verbosemode > 0;
         } elsif ($linkname ne "$altdir/$name") {
             unlink("$link.dpkg-tmp") || $! == &ENOENT ||
                 &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$link.dpkg-tmp", $!));
@@ -564,10 +564,10 @@ if ($manual eq 'auto') {
     for (my $j = 0; $j <= $#slavenames; $j++) {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];
-        if (!defined($linkname= readlink($slink)) && $! != &ENOENT) {
+        if (!defined($linkname = readlink($slink))) {
             &pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
                 " %s, or nonexistent; however, readlink failed: %s"), $slink, "$altdir/$sname", $!))
-              if $verbosemode > 0;
+		if  $! != ENOENT && $verbosemode > 0;
         } elsif ($linkname ne "$altdir/$sname") {
             unlink("$slink.dpkg-tmp") || $! == &ENOENT ||
                 &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$slink.dpkg-tmp", $!));
