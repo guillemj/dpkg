@@ -25,14 +25,13 @@ use warnings;
 our $progname;
 our $version = "1.0.0"; # This line modified by Makefile
 our $dpkglibdir = "."; # This line modified by Makefile
+our $pkgdatadir = ".."; # This line modified by Makefile
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
-
-my $pkgdatadir = "..";
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -70,93 +69,13 @@ Actions:
 "), $progname;
 }
 
-my (@cpu, @os);
-my (%cputable, %ostable);
-my (%cputable_re, %ostable_re);
-
-sub read_cputable {
-    open CPUTABLE, "$pkgdatadir/cputable"
-	or &syserr(_g("unable to open cputable"));
-    while (<CPUTABLE>) {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
-	    $cputable{$1} = $2;
-	    $cputable_re{$1} = $3;
-	    push @cpu, $1;
-	}
-    }
-    close CPUTABLE;
-}
-
-sub read_ostable {
-    open OSTABLE, "$pkgdatadir/ostable"
-	or &syserr(_g("unable to open ostable"));
-    while (<OSTABLE>) {
-	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
-	    $ostable{$1} = $2;
-	    $ostable_re{$1} = $3;
-	    push @os, $1;
-	}
-    }
-    close OSTABLE;
-}
-
-sub split_debian {
-    local ($_) = @_;
-    
-    if (/^([^-]*)-(.*)/) {
-	return ($1, $2);
-    } else {
-	return ("linux", $_);
-    }
-}
-
-sub debian_to_gnu {
-    my ($arch) = @_;
-    my ($os, $cpu) = split_debian($arch);
-
-    return undef unless exists($cputable{$cpu}) && exists($ostable{$os});
-    return join("-", $cputable{$cpu}, $ostable{$os});
-}
-
-sub split_gnu {
-    local ($_) = @_;
-
-    /^([^-]*)-(.*)/;
-    return ($1, $2);
-}
-
-sub gnu_to_debian {
-    my ($gnu) = @_;
-    my ($cpu, $os);
-
-    my ($gnu_cpu, $gnu_os) = split_gnu($gnu);
-    foreach my $_cpu (@cpu) {
-	if ($gnu_cpu =~ /^$cputable_re{$_cpu}$/) {
-	    $cpu = $_cpu;
-	    last;
-	}
-    }
-
-    foreach my $_os (@os) {
-	if ($gnu_os =~ /^(.*-)?$ostable_re{$_os}$/) {
-	    $os = $_os;
-	    last;
-	}
-    }
-
-    return undef if !defined($cpu) || !defined($os);
-    return debian_arch_fix($os, $cpu);
-}
-
 &read_cputable;
 &read_ostable;
 
 # Check for -L
 if (grep { m/^-L$/ } @ARGV) {
-    foreach my $os (@os) {
-	foreach my $cpu (@cpu) {
-	    print debian_arch_fix($os, $cpu)."\n";
-	}
+    foreach my $arch (get_valid_arches()) {
+	print "$arch\n";
     }
     exit unless $#ARGV;
 }

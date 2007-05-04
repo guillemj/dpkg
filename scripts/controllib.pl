@@ -7,6 +7,7 @@ use English;
 use POSIX qw(:errno_h);
 
 our $dpkglibdir;
+our $pkgdatadir;
 
 push(@INC,$dpkglibdir);
 require 'dpkg-gettext.pl';
@@ -92,6 +93,14 @@ sub capit {
     return join '-', @pieces;
 }
 
+#
+# Architecture library
+#
+
+my (@cpu, @os);
+my (%cputable, %ostable);
+my (%cputable_re, %ostable_re);
+
 {
     my $host_arch;
 
@@ -105,6 +114,96 @@ sub capit {
 	return $host_arch;
     }
 }
+
+sub get_valid_arches()
+{
+    foreach my $os (@os) {
+	foreach my $cpu (@cpu) {
+	    print debian_arch_fix($os, $cpu)."\n";
+	}
+    }
+}
+
+sub read_cputable
+{
+    open CPUTABLE, "$pkgdatadir/cputable"
+	or syserr(_g("unable to open cputable"));
+    while (<CPUTABLE>) {
+	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
+	    $cputable{$1} = $2;
+	    $cputable_re{$1} = $3;
+	    push @cpu, $1;
+	}
+    }
+    close CPUTABLE;
+}
+
+sub read_ostable
+{
+    open OSTABLE, "$pkgdatadir/ostable"
+	or syserr(_g("unable to open ostable"));
+    while (<OSTABLE>) {
+	if (m/^(?!\#)(\S+)\s+(\S+)\s+(\S+)/) {
+	    $ostable{$1} = $2;
+	    $ostable_re{$1} = $3;
+	    push @os, $1;
+	}
+    }
+    close OSTABLE;
+}
+
+sub split_debian
+{
+    local ($_) = @_;
+
+    if (/^([^-]*)-(.*)/) {
+	return ($1, $2);
+    } else {
+	return ("linux", $_);
+    }
+}
+
+sub debian_to_gnu
+{
+    my ($arch) = @_;
+    my ($os, $cpu) = split_debian($arch);
+
+    return undef unless exists($cputable{$cpu}) && exists($ostable{$os});
+    return join("-", $cputable{$cpu}, $ostable{$os});
+}
+
+sub split_gnu
+{
+    local ($_) = @_;
+
+    /^([^-]*)-(.*)/;
+    return ($1, $2);
+}
+
+sub gnu_to_debian
+{
+    my ($gnu) = @_;
+    my ($cpu, $os);
+
+    my ($gnu_cpu, $gnu_os) = split_gnu($gnu);
+    foreach my $_cpu (@cpu) {
+	if ($gnu_cpu =~ /^$cputable_re{$_cpu}$/) {
+	    $cpu = $_cpu;
+	    last;
+	}
+    }
+
+    foreach my $_os (@os) {
+	if ($gnu_os =~ /^(.*-)?$ostable_re{$_os}$/) {
+	    $os = $_os;
+	    last;
+	}
+    }
+
+    return undef if !defined($cpu) || !defined($os);
+    return debian_arch_fix($os, $cpu);
+}
+
 
 sub debian_arch_fix
 {

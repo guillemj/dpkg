@@ -1,5 +1,17 @@
 2007-05-04  Guillem Jover  <guillem@debian.org>
 
+	* scripts/dpkg-architecture.pl: Use get_valid_arches instead of
+	directly using @os and @cpu variables.
+	($pkgdatadir): Change from a 'my' to an 'our' variable.
+	(@cpu, @os, %cputable, %ostable, %cputable_re, %ostable_re,
+	read_cputable, read_ostable, split_debian, debian_to_gnu,
+	split_gnu, gnu_to_debian): Move to ...
+	* scripts/controllib.pl: ... here.
+	($pkgdatadir): Declare as 'our'.
+	(get_valid_arches): New function.
+
+2007-05-04  Guillem Jover  <guillem@debian.org>
+
 	* scripts/update-alternatives.pl: Call read_link_group also in
 	'install' mode, but do not exit nor print an error if the link goup
 	file does not exist.
