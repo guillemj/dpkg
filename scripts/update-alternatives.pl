@@ -162,11 +162,11 @@ sub read_link_group
 	    }
 	}
 	close(AF);
+	return 0;
     } elsif ($! != ENOENT) {
 	quit(sprintf(_g("unable to open %s: %s"), "$admindir/$name", $!));
     } elsif ($! == ENOENT) {
-	pr(sprintf(_g("No alternatives for %s."), $name));
-	exit 1;
+	return 1;
     }
 }
 
@@ -293,8 +293,9 @@ if ($mode eq 'all') {
     exit 0;
 }
 
-if ($mode ne 'install') {
-    read_link_group();
+if (read_link_group() && $mode ne 'install') {
+    pr(sprintf(_g("No alternatives for %s."), $name));
+    exit 1;
 }
 
 if ($mode eq 'display') {
