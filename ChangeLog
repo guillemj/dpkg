@@ -1,3 +1,28 @@
+2007-05-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (%debtriplet_to_debarch): New variable.
+	(%debarch_to_debtriplet): Likewise.
+	(split_gnu, split_debian): Remove functions.
+	(debian_arch_fix, debian_arch_split): Likewise.
+	(debian_to_gnu, gnu_to_debian): Likewise.
+	(read_triplettable): New function.
+	(gnutriplet_to_debtriplet, debtriplet_to_gnutriplet): Likewise.
+	(debtriplet_to_debarch, debarch_to_debtriplet): Likewise.
+	(get_valid_arches): Call read_cputable and read_ostable if @cpu or @os
+	are empty. Use debtriplet_to_debarch instead of debian_arch_fix.
+	(debian_arch_eq): Use debarch_to_debtriplet instead of
+	debian_arch_split. Compare the whole Debian triplet.
+	(debian_arch_is): Likewise.
+	* scripts/dpkg-architecture.pl: Do not call the now internal functions
+	read_cputable and read_ostable. Use debtriplet_to_gnutriplet,
+	gnutriplet_to_debtriplet, debarch_to_debtriplet and
+	debtriplet_to_debarch instead of debian_to_gnu, gnu_to_debian.
+	* debian/archtable: Update comment to reflect the new Debian triplet.
+	* cputable: Likewise.
+	* ostable: Likewise. Include the ABI information in the Debian name.
+	* triplettable: New file.
+	* Makefile.am (dist_pkgdata_DATA): Add triplettable.
+
 2007-05-04  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-architecture.pl: Use get_valid_arches instead of

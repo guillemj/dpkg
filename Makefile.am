@@ -21,7 +21,7 @@ SUBDIRS = \
 ACLOCAL_AMFLAGS = -I m4
 
 
-dist_pkgdata_DATA = cputable ostable
+dist_pkgdata_DATA = cputable ostable triplettable
 
 EXTRA_DIST = \
 	debian/archtable \

@@ -69,9 +69,6 @@ Actions:
 "), $progname;
 }
 
-&read_cputable;
-&read_ostable;
-
 # Check for -L
 if (grep { m/^-L$/ } @ARGV) {
     foreach my $arch (get_valid_arches()) {
@@ -84,7 +81,7 @@ if (grep { m/^-L$/ } @ARGV) {
 
 chomp (my $deb_build_arch = `dpkg --print-architecture`);
 &syserr("dpkg --print-architecture failed") if $?>>8;
-my $deb_build_gnu_type = debian_to_gnu($deb_build_arch);
+my $deb_build_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($deb_build_arch));
 
 # Default host: Current gcc.
 my $gcc = `\${CC:-gcc} -dumpmachine`;
@@ -99,12 +96,13 @@ my $deb_host_arch = undef;
 my $deb_host_gnu_type;
 
 if ($gcc ne '') {
-    $deb_host_arch = &gnu_to_debian($gcc);
+    my (@deb_host_archtriplet) = gnutriplet_to_debtriplet($gcc);
+    $deb_host_arch = debtriplet_to_debarch(@deb_host_archtriplet);
     unless (defined $deb_host_arch) {
 	warning(sprintf(_g("Unknown gcc system type %s, falling back to default (native compilation)"), $gcc));
 	$gcc = '';
     } else {
-	$gcc = $deb_host_gnu_type = &debian_to_gnu($deb_host_arch);
+	$gcc = $deb_host_gnu_type = debtriplet_to_gnutriplet(@deb_host_archtriplet);
     }
 }
 if (!defined($deb_host_arch)) {
@@ -160,17 +158,20 @@ while (@ARGV) {
 }
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
-    $req_host_gnu_type = &debian_to_gnu ($req_host_arch);
+    $req_host_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($req_host_arch));
     die (sprintf(_g("unknown Debian architecture %s, you must specify GNU system type, too"), $req_host_arch)) unless defined $req_host_gnu_type;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
-    $req_host_arch = &gnu_to_debian ($req_host_gnu_type);
+    $req_host_arch = debtriplet_to_debarch(gnutriplet_to_debtriplet($req_host_gnu_type));
     die (sprintf(_g("unknown GNU system type %s, you must specify Debian architecture, too"), $req_host_gnu_type)) unless defined $req_host_arch;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
-    my $dfl_host_gnu_type = debian_to_gnu($req_host_arch);
+    my $dfl_host_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($req_host_arch));
+    die (sprintf(_g("unknown default GNU system type for Debian architecture %s"),
+                 $req_host_arch))
+	unless defined $dfl_host_gnu_type;
     warning(sprintf(_g("Default GNU system type %s for Debian arch %s does not match specified GNU system type %s"), $dfl_host_gnu_type, $req_host_arch, $req_host_gnu_type)) if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
@@ -182,10 +183,10 @@ $deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
 warning(sprintf(_g("Specified GNU system type %s does not match gcc system type %s."), $deb_host_gnu_type, $gcc)) if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
 
 # Split the Debian and GNU names
-my ($deb_host_arch_os, $deb_host_arch_cpu) = split_debian($deb_host_arch);
-my ($deb_build_arch_os, $deb_build_arch_cpu) = split_debian($deb_build_arch);
-my ($deb_host_gnu_cpu, $deb_host_gnu_system) = split_gnu($deb_host_gnu_type);
-my ($deb_build_gnu_cpu, $deb_build_gnu_system) = split_gnu($deb_build_gnu_type);
+my ($deb_host_arch_abi, $deb_host_arch_os, $deb_host_arch_cpu) = debarch_to_debtriplet($deb_host_arch);
+my ($deb_build_arch_abi, $deb_build_arch_os, $deb_build_arch_cpu) = debarch_to_debtriplet($deb_build_arch);
+my ($deb_host_gnu_cpu, $deb_host_gnu_system) = split(/-/, $deb_host_gnu_type, 2);
+my ($deb_build_gnu_cpu, $deb_build_gnu_system) = split(/-/, $deb_build_gnu_type, 2);
 
 my %env = ();
 if (!$force) {

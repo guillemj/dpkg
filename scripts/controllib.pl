@@ -101,6 +101,9 @@ my (@cpu, @os);
 my (%cputable, %ostable);
 my (%cputable_re, %ostable_re);
 
+my %debtriplet_to_debarch;
+my %debarch_to_debtriplet;
+
 {
     my $host_arch;
 
@@ -117,9 +120,13 @@ my (%cputable_re, %ostable_re);
 
 sub get_valid_arches()
 {
+    read_cputable() if (!@cpu);
+    read_ostable() if (!@os);
+
     foreach my $os (@os) {
 	foreach my $cpu (@cpu) {
-	    print debian_arch_fix($os, $cpu)."\n";
+	    my $arch = debtriplet_to_debarch(split(/-/, $os, 2), $cpu);
+	    print $arch."\n" if defined($arch);
 	}
     }
 }
@@ -152,40 +159,58 @@ sub read_ostable
     close OSTABLE;
 }
 
-sub split_debian
+sub read_triplettable()
 {
-    local ($_) = @_;
+    read_cputable() if (!@cpu);
 
-    if (/^([^-]*)-(.*)/) {
-	return ($1, $2);
-    } else {
-	return ("linux", $_);
+    open TRIPLETTABLE, "$pkgdatadir/triplettable"
+	or syserr(_g("unable to open triplettable"));
+    while (<TRIPLETTABLE>) {
+	if (m/^(?!\#)(\S+)\s+(\S+)/) {
+	    my $debtriplet = $1;
+	    my $debarch = $2;
+
+	    if ($debtriplet =~ /<cpu>/) {
+		foreach my $_cpu (@cpu) {
+		    (my $dt = $debtriplet) =~ s/<cpu>/$_cpu/;
+		    (my $da = $debarch) =~ s/<cpu>/$_cpu/;
+
+		    $debarch_to_debtriplet{$da} = $dt;
+		    $debtriplet_to_debarch{$dt} = $da;
+		}
+	    } else {
+		$debarch_to_debtriplet{$2} = $1;
+		$debtriplet_to_debarch{$1} = $2;
+	    }
+	}
     }
+    close TRIPLETTABLE;
 }
 
-sub debian_to_gnu
+sub debtriplet_to_gnutriplet(@)
 {
-    my ($arch) = @_;
-    my ($os, $cpu) = split_debian($arch);
+    read_cputable() if (!@cpu);
+    read_ostable() if (!@os);
 
-    return undef unless exists($cputable{$cpu}) && exists($ostable{$os});
-    return join("-", $cputable{$cpu}, $ostable{$os});
+    my ($abi, $os, $cpu) = @_;
+
+    return undef unless defined($abi) && defined($os) && defined($cpu) &&
+        exists($cputable{$cpu}) && exists($ostable{"$abi-$os"});
+    return join("-", $cputable{$cpu}, $ostable{"$abi-$os"});
 }
 
-sub split_gnu
-{
-    local ($_) = @_;
-
-    /^([^-]*)-(.*)/;
-    return ($1, $2);
-}
-
-sub gnu_to_debian
+sub gnutriplet_to_debtriplet($)
 {
     my ($gnu) = @_;
-    my ($cpu, $os);
+    return undef unless defined($gnu);
+    my ($gnu_cpu, $gnu_os) = split(/-/, $gnu, 2);
+    return undef unless defined($gnu_cpu) && defined($gnu_os);
 
-    my ($gnu_cpu, $gnu_os) = split_gnu($gnu);
+    read_cputable() if (!@cpu);
+    read_ostable() if (!@os);
+
+    my ($os, $cpu);
+
     foreach my $_cpu (@cpu) {
 	if ($gnu_cpu =~ /^$cputable_re{$_cpu}$/) {
 	    $cpu = $_cpu;
@@ -201,53 +226,65 @@ sub gnu_to_debian
     }
 
     return undef if !defined($cpu) || !defined($os);
-    return debian_arch_fix($os, $cpu);
+    return (split(/-/, $os, 2), $cpu);
 }
 
-
-sub debian_arch_fix
+sub debtriplet_to_debarch(@)
 {
-    my ($os, $cpu) = @_;
+    read_triplettable() if (!%debtriplet_to_debarch);
 
-    if ($os eq "linux") {
-	return $cpu;
+    my ($abi, $os, $cpu) = @_;
+
+    if (!defined($abi) || !defined($os) || !defined($cpu)) {
+	return undef;
+    } elsif (exists $debtriplet_to_debarch{"$abi-$os-$cpu"}) {
+	return $debtriplet_to_debarch{"$abi-$os-$cpu"};
     } else {
-	return "$os-$cpu";
+	return undef;
     }
 }
 
-sub debian_arch_split {
+sub debarch_to_debtriplet($)
+{
+    read_triplettable() if (!%debarch_to_debtriplet);
+
     local ($_) = @_;
 
-    if (/^([^-]*)-(.*)/) {
-	return ($1, $2);
-    } elsif (/any/ || /all/) {
-	return ($_, $_);
+    if (/any/ || /all/) {
+	return ($_, $_, $_);
+    } elsif (/^([^-]*)-([^-]*)-(.*)/) {
+	return ($1, $2, $3);
     } else {
-	return ("linux", $_);
+	my $triplet = $debarch_to_debtriplet{$_};
+
+	if (defined($triplet)) {
+	    return split('-', $triplet, 3);
+	} else {
+	    return undef;
+	}
     }
 }
 
 sub debian_arch_eq {
     my ($a, $b) = @_;
-    my ($a_os, $a_cpu) = debian_arch_split($a);
-    my ($b_os, $b_cpu) = debian_arch_split($b);
+    my ($a_abi, $a_os, $a_cpu) = debarch_to_debtriplet($a);
+    my ($b_abi, $b_os, $b_cpu) = debarch_to_debtriplet($b);
 
-    return ("$a_os-$a_cpu" eq "$b_os-$b_cpu");
+    return ("$a_abi-$a_os-$a_cpu" eq "$b_abi-$b_os-$b_cpu");
 }
 
 sub debian_arch_is {
     my ($real, $alias) = @_;
-    my ($real_os, $real_cpu) = debian_arch_split($real);
-    my ($alias_os, $alias_cpu) = debian_arch_split($alias);
+    my ($real_abi, $real_os, $real_cpu) = debarch_to_debtriplet($real);
+    my ($alias_abi, $alias_os, $alias_cpu) = debarch_to_debtriplet($alias);
 
-    if ("$real_os-$real_cpu" eq "$alias_os-$alias_cpu") {
+    if ("$real_abi-$real_os-$real_cpu" eq "$alias_abi-$alias_os-$alias_cpu") {
 	return 1;
-    } elsif ("$alias_os-$alias_cpu" eq "any-any") {
+    } elsif ("$alias_abi-$alias_os-$alias_cpu" eq "any-any-any") {
 	return 1;
-    } elsif ("$alias_os-$alias_cpu" eq "any-$real_cpu") {
+    } elsif ("$alias_abi-$alias_os-$alias_cpu" eq "$real_abi-any-$real_cpu") {
 	return 1;
-    } elsif ("$alias_os-$alias_cpu" eq "$real_os-any") {
+    } elsif ("$alias_abi-$alias_os-$alias_cpu" eq "$real_abi-$real_os-any") {
 	return 1;
     }
 
