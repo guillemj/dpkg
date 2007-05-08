@@ -5,7 +5,8 @@ use strict;
 use warnings;
 
 our $progname;
-our $dpkglibdir = "/usr/lib/dpkg"; # This line modified by Makefile
+our $dpkglibdir = "."; # This line modified by Makefile
+our $pkgdatadir = ".."; # This line modified by Makefile
 
 use Getopt::Long;
 

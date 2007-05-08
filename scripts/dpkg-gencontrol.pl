@@ -3,8 +3,9 @@
 use strict;
 use warnings;
 
-our $dpkglibdir = "."; # This line modified by Makefile
 our $version = '1.3.0'; # This line modified by Makefile
+our $dpkglibdir = "."; # This line modified by Makefile
+our $pkgdatadir = ".."; # This line modified by Makefile
 
 use POSIX;
 use POSIX qw(:errno_h);
