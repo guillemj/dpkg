@@ -281,7 +281,8 @@ while (@ARGV) {
     }
 }
 
-defined($aslavelink{$name}) && &badusage(sprintf(_g("name %s is both primary and slave"), $name));
+defined($name) && defined($aslavelink{$name}) &&
+  badusage(sprintf(_g("name %s is both primary and slave"), $name));
 defined($alink) && $aslavelinkcount{$alink} &&
   badusage(sprintf(_g("link %s is both primary and slave"), $alink));
 
