@@ -294,9 +294,15 @@ if ($mode eq 'all') {
     exit 0;
 }
 
-if (read_link_group() && $mode ne 'install') {
-    pr(sprintf(_g("No alternatives for %s."), $name));
-    exit 1;
+if (read_link_group()) {
+    if ($mode eq 'remove') {
+	# FIXME: Be consistent for now with the case when we try to remove a
+	# non-existing path from an existing link group file.
+	exit 0;
+    } elsif ($mode ne 'install') {
+	pr(sprintf(_g("No alternatives for %s."), $name));
+	exit 1;
+    }
 }
 
 if ($mode eq 'display') {
