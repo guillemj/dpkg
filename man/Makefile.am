@@ -29,6 +29,15 @@ install-data-local:
 		fi \
 	done
 
+dist-hook: man.stamp
+	cp $(srcdir)/man.stamp $(distdir)/
+	for lang in $(LINGUAS); do \
+		cp $(srcdir)/po/$$lang.po $(distdir)/po; \
+		cp $(srcdir)/po/$$lang.add $(distdir)/po; \
+		$(mkdir_p) $(distdir)/$$lang; \
+		cp -r $(srcdir)/$$lang $(distdir)/; \
+	done
+
 dist_man_MANS = \
 	822-date.1 \
 	cleanup-info.8 \
@@ -62,4 +71,8 @@ dist_man_MANS = \
 	install-info.8 \
 	start-stop-daemon.8 \
 	update-alternatives.8
+
+EXTRA_DIST = \
+	po/po4a.cfg \
+	po/dpkg-man.pot
 

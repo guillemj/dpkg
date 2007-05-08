@@ -40,7 +40,7 @@ EXTRA_DIST = \
 	debian/dpkg.logrotate \
 	debian/dselect.cfg \
 	debian/dselect.install \
-	debian/pseudo-tags \
+	debian/usertags \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override
