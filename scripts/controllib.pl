@@ -133,6 +133,8 @@ sub get_valid_arches()
 
 sub read_cputable
 {
+    local $_;
+
     open CPUTABLE, "$pkgdatadir/cputable"
 	or syserr(_g("unable to open cputable"));
     while (<CPUTABLE>) {
@@ -147,6 +149,8 @@ sub read_cputable
 
 sub read_ostable
 {
+    local $_;
+
     open OSTABLE, "$pkgdatadir/ostable"
 	or syserr(_g("unable to open ostable"));
     while (<OSTABLE>) {
@@ -162,6 +166,8 @@ sub read_ostable
 sub read_triplettable()
 {
     read_cputable() if (!@cpu);
+
+    local $_;
 
     open TRIPLETTABLE, "$pkgdatadir/triplettable"
 	or syserr(_g("unable to open triplettable"));
@@ -438,10 +444,8 @@ ALTERNATE:
                 my $seen_arch='';
                 foreach my $arch (@arches) {
                     $arch=lc($arch);
-                    if (debian_arch_is($host_arch, $arch)) {
-                        $seen_arch=1;
-                        next;
-                    } elsif ($arch =~ /^!/) {
+
+		    if ($arch =~ /^!/) {
 			my $not_arch;
 			($not_arch = $arch) =~ s/^!//;
 
@@ -454,7 +458,11 @@ ALTERNATE:
 			    # is also listed..
 			    $seen_arch=1;
 			}
-                    }
+		    } elsif (debian_arch_is($host_arch, $arch)) {
+			$seen_arch=1;
+			next;
+		    }
+
                 }
                 if (! $seen_arch) {
                     next;

@@ -51,7 +51,6 @@ parsecontrolfile($controlfile);
 
 my @status = parse_status("$admindir/status");
 my (@unmet, @conflicts);
-local $/='';
 
 my $dep_regex=qr/[ \t]*(([^\n]+|\n[ \t])*)\s/; # allow multi-line
 if (defined($fi{"C Build-Depends"})) {
@@ -147,7 +146,7 @@ sub check_line {
 	my $dep_list=shift;
 	my %version=%{shift()};
 	my %providers=%{shift()};
-	my $host_arch=shift || `dpkg-architecture -qDEB_HOST_ARCH`;
+	my $host_arch = shift || get_host_arch();
 	chomp $host_arch;
 
 	my @unmet=();
