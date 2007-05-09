@@ -30,6 +30,7 @@ EXTRA_DIST = \
 	debian/control \
 	debian/copyright \
 	debian/dpkg-dev.install \
+	debian/dpkg-dev.lintian-overrides \
 	debian/dpkg.cfg \
 	debian/dpkg.docs \
 	debian/dpkg.install \
@@ -38,8 +39,11 @@ EXTRA_DIST = \
 	debian/dpkg.preinst \
 	debian/dpkg.prerm \
 	debian/dpkg.logrotate \
+	debian/dpkg.lintian-overrides \
 	debian/dselect.cfg \
 	debian/dselect.install \
+	debian/dselect.lintian-overrides \
+	debian/source.lintian-overrides \
 	debian/usertags \
 	debian/rules \
 	debian/shlibs.default \
