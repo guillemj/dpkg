@@ -18,14 +18,12 @@ LINGUAS = $(shell sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.
 
 install-data-local:
 	for lang in $(LINGUAS); do \
-		if [ -d $$lang ]; then \
-			cd $$lang; \
-			files=$$(echo *.[1-9]); \
-			$(MAKE) -f ../Makefile install-man \
+		if [ -d $(srcdir)/$$lang ]; then \
+			files=$$(echo $(srcdir)/$$lang/*.[1-9]); \
+			$(MAKE) install-man \
 				mandir="$(mandir)/$$lang" \
 				man_MANS="" \
 				dist_man_MANS="$$files"; \
-			cd ..; \
 		fi \
 	done
 
