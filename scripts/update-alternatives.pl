@@ -611,11 +611,17 @@ if ($manual eq 'auto') {
 }
 
 sub config_message {
+    if ($#versions < 0) {
+	print "\n";
+	printf _g("There is no program which provides %s.\n".
+	          "Nothing to configure.\n"), $name;
+	return -1;
+    }
     if ($#versions == 0) {
 	print "\n";
 	printf _g("There is only 1 program which provides %s\n".
 	          "(%s). Nothing to configure.\n"), $name, $versions[0];
-	return;
+	return -1;
     }
     print STDOUT "\n";
     printf(STDOUT _g("There are %s alternatives which provide \`%s'.\n\n".
@@ -629,13 +635,13 @@ sub config_message {
 	    $i+1, $versions[$i]);
     }
     printf(STDOUT "\n"._g("Press enter to keep the default[*], or type selection number: "));
+    return 0;
 }
 
 sub config_alternatives {
     my $preferred;
     do {
-	&config_message;
-	if ($#versions == 0) { return; }
+	return if config_message() < 0;
 	$preferred=<STDIN>;
 	chop($preferred);
     } until $preferred eq '' || $preferred>=1 && $preferred<=$#versions+1 &&
