@@ -21,7 +21,7 @@ $admindir = $admindir . '/alternatives';
 my $testmode = 0;
 my $verbosemode = 0;
 
-my $mode = '';        # Action to perform (display / install / remove / display / auto / config)
+my $action = '';      # Action to perform (display / install / remove / display / auto / config)
 my $manual = 'auto';  # Update mode for alternative (manual / auto)
 my $state;            # State of alternative:
                       #   expected: alternative with highest priority is the active alternative
@@ -218,9 +218,10 @@ sub list_link_group
     }
 }
 
-sub checkmanymodes {
-    return unless $mode;
-    &badusage(sprintf(_g("two modes specified: %s and --%s"), $_, $mode));
+sub check_many_actions()
+{
+    return unless $action;
+    badusage(sprintf(_g("two commands specified: %s and --%s"), $_, $action));
 }
 
 
@@ -246,20 +247,20 @@ while (@ARGV) {
     } elsif (m/^--quiet$/) {
         $verbosemode= -1;
     } elsif (m/^--install$/) {
-        &checkmanymodes;
+	check_many_actions();
         @ARGV >= 4 || &badusage(_g("--install needs <link> <name> <path> <priority>"));
         ($alink,$name,$apath,$apriority,@ARGV) = @ARGV;
         $apriority =~ m/^[-+]?\d+/ || &badusage(_g("priority must be an integer"));
-        $mode= 'install';
+	$action = 'install';
     } elsif (m/^--(remove|set)$/) {
-        &checkmanymodes;
+	check_many_actions();
         @ARGV >= 2 || &badusage(sprintf(_g("--%s needs <name> <path>"), $1));
         ($name,$apath,@ARGV) = @ARGV;
-        $mode= $1;
+	$action = $1;
     } elsif (m/^--(display|auto|config|list|remove-all)$/) {
-        &checkmanymodes;
+	check_many_actions();
         @ARGV || &badusage(sprintf(_g("--%s needs <name>"), $1));
-        $mode= $1;
+	$action = $1;
         $name= shift(@ARGV);
     } elsif (m/^--slave$/) {
         @ARGV >= 3 || &badusage(_g("--slave needs <link> <name> <path>"));
@@ -275,7 +276,7 @@ while (@ARGV) {
         @ARGV || &badusage(sprintf(_g("--%s needs a <directory> argument"), "admindir"));
         $admindir= shift(@ARGV);
     } elsif (m/^--all$/) {
-        $mode = 'all';
+	$action = 'all';
     } else {
         &badusage(sprintf(_g("unknown option \`%s'"), $_));
     }
@@ -286,43 +287,45 @@ defined($name) && defined($aslavelink{$name}) &&
 defined($alink) && $aslavelinkcount{$alink} &&
   badusage(sprintf(_g("link %s is both primary and slave"), $alink));
 
-$mode || &badusage(_g("need --display, --config, --set, --install, --remove, --all, --remove-all or --auto"));
-$mode eq 'install' || !%aslavelink || &badusage(_g("--slave only allowed with --install"));
+$action ||
+  badusage(_g("need --display, --config, --set, --install, --remove, --all, --remove-all or --auto"));
+$action eq 'install' || !%aslavelink ||
+  badusage(_g("--slave only allowed with --install"));
 
-if ($mode eq 'all') {
+if ($action eq 'all') {
     &config_all();
     exit 0;
 }
 
 if (read_link_group()) {
-    if ($mode eq 'remove') {
+    if ($action eq 'remove') {
 	# FIXME: Be consistent for now with the case when we try to remove a
 	# non-existing path from an existing link group file.
 	exit 0;
-    } elsif ($mode ne 'install') {
+    } elsif ($action ne 'install') {
 	pr(sprintf(_g("No alternatives for %s."), $name));
 	exit 1;
     }
 }
 
-if ($mode eq 'display') {
+if ($action eq 'display') {
     find_best_version();
     display_link_group();
     exit 0;
 }
 
-if ($mode eq 'list') {
+if ($action eq 'list') {
     list_link_group();
     exit 0;
 }
 
 find_best_version();
 
-if ($mode eq 'config') {
+if ($action eq 'config') {
     config_alternatives($name);
 }
 
-if ($mode eq 'set') {
+if ($action eq 'set') {
     set_alternatives($name);
 }
 
@@ -343,10 +346,10 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 # Possible values for:
 #   $manual      manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
-#   $mode        auto, install, remove, remove-all
+#   $action      auto, install, remove, remove-all
 # all independent
 
-if ($mode eq 'auto') {
+if ($action eq 'auto') {
     &pr(sprintf(_g("Setting up automatic selection of %s."), $name))
       if $verbosemode > 0;
     unlink("$altdir/$name.dpkg-tmp") || $! == &ENOENT ||
@@ -359,8 +362,8 @@ if ($mode eq 'auto') {
 
 #   $manual      manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
-#   $mode        auto, install, remove
-# mode=auto <=> state=nonexistent
+#   $action      auto, install, remove
+# action=auto <=> state=nonexistent
 
 if ($state eq 'unexpected' && $manual eq 'auto') {
     &pr(sprintf(_g("%s has been changed (manually or by a script).\n".
@@ -371,15 +374,15 @@ if ($state eq 'unexpected' && $manual eq 'auto') {
 
 #   $manual      manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
-#   $mode        auto, install, remove
-# mode=auto <=> state=nonexistent
+#   $action      auto, install, remove
+# action=auto <=> state=nonexistent
 # state=unexpected => manual=manual
 
 &pr(sprintf(_g("Checking available versions of %s, updating links in %s ...\n".
     "(You may modify the symlinks there yourself if desired - see \`man ln'.)"), $name, $altdir))
   if $verbosemode > 0;
 
-if ($mode eq 'install') {
+if ($action eq 'install') {
     if (defined($link) && $link ne $alink) {
         &pr(sprintf(_g("Renaming %s link from %s to %s."), $name, $link, $alink))
           if $verbosemode > 0;
@@ -417,7 +420,7 @@ if ($mode eq 'install') {
     }
 }
 
-if ($mode eq 'remove') {
+if ($action eq 'remove') {
     my $hits = 0;
     if ($manual eq "manual" and $state ne "expected" and (map { $hits += $apath eq $_ } @versions) and $hits and $linkname eq $apath) {
 	&pr(_g("Removing manually selected alternative - switching to auto mode"));
@@ -439,7 +442,7 @@ if ($mode eq 'remove') {
     }
 }
 
-if ($mode eq 'remove-all') {
+if ($action eq 'remove-all') {
    $manual= "auto";
    my $k = $#versions;
    for (my $i = 0; $i <= $#versions; $i++) {
@@ -497,8 +500,8 @@ if ($manual eq 'manual') {
 
 #   $manual      manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
-#   $mode        auto, install, remove
-# mode=auto <=> state=nonexistent
+#   $action      auto, install, remove
+# action=auto <=> state=nonexistent
 # state=unexpected => manual=manual
 # manual=auto => state!=expected-inprogress && state!=unexpected
 
