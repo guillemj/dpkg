@@ -22,7 +22,7 @@ my $testmode = 0;
 my $verbosemode = 0;
 
 my $action = '';      # Action to perform (display / install / remove / display / auto / config)
-my $manual = 'auto';  # Update mode for alternative (manual / auto)
+my $mode = 'auto';    # Update mode for alternative (manual / auto)
 my $state;            # State of alternative:
                       #   expected: alternative with highest priority is the active alternative
                       #   expected-inprogress: busy selecting alternative with highest priority
@@ -127,8 +127,8 @@ sub badusage
 sub read_link_group
 {
     if (open(AF, "$admindir/$name")) {
-	$manual = gl("manflag");
-	$manual eq 'auto' || $manual eq 'manual' || badfmt(_g("manflag"));
+	$mode = gl("update_mode");
+	$mode eq 'auto' || $mode eq 'manual' || badfmt(_g("invalid update mode"));
 	$link = gl("link");
 	while (($sname = gl("sname")) ne '') {
 	    push(@slavenames, $sname);
@@ -184,7 +184,7 @@ sub find_best_version
 
 sub display_link_group
 {
-    pr(sprintf(_g("%s - status is %s."), $name, $manual));
+    pr(sprintf(_g("%s - status is %s."), $name, $mode));
     $linkname = readlink("$altdir/$name");
 
     if (defined($linkname)) {
@@ -344,7 +344,7 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 }
 
 # Possible values for:
-#   $manual      manual, auto
+#   $mode        manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
 #   $action      auto, install, remove, remove-all
 # all independent
@@ -357,26 +357,26 @@ if ($action eq 'auto') {
     unlink("$altdir/$name") || $! == &ENOENT ||
         &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$name", $!));
     $state= 'nonexistent';
-    $manual= 'auto';
+    $mode = 'auto';
 }
 
-#   $manual      manual, auto
+#   $mode        manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
 #   $action      auto, install, remove
 # action=auto <=> state=nonexistent
 
-if ($state eq 'unexpected' && $manual eq 'auto') {
+if ($state eq 'unexpected' && $mode eq 'auto') {
     &pr(sprintf(_g("%s has been changed (manually or by a script).\n".
                    "Switching to manual updates only."), "$altdir/$name"))
       if $verbosemode > 0;
-    $manual= 'manual';
+    $mode = 'manual';
 }
 
-#   $manual      manual, auto
+#   $mode        manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
 #   $action      auto, install, remove
 # action=auto <=> state=nonexistent
-# state=unexpected => manual=manual
+# state=unexpected => mode=manual
 
 &pr(sprintf(_g("Checking available versions of %s, updating links in %s ...\n".
     "(You may modify the symlinks there yourself if desired - see \`man ln'.)"), $name, $altdir))
@@ -422,9 +422,9 @@ if ($action eq 'install') {
 
 if ($action eq 'remove') {
     my $hits = 0;
-    if ($manual eq "manual" and $state ne "expected" and (map { $hits += $apath eq $_ } @versions) and $hits and $linkname eq $apath) {
+    if ($mode eq "manual" and $state ne "expected" and (map { $hits += $apath eq $_ } @versions) and $hits and $linkname eq $apath) {
 	&pr(_g("Removing manually selected alternative - switching to auto mode"));
-	$manual= "auto";
+	$mode = "auto";
     }
     if (defined(my $i = $versionnum{$apath})) {
         my $k = $#versions;
@@ -443,7 +443,7 @@ if ($action eq 'remove') {
 }
 
 if ($action eq 'remove-all') {
-   $manual= "auto";
+   $mode = "auto";
    my $k = $#versions;
    for (my $i = 0; $i <= $#versions; $i++) {
         $k--;
@@ -484,7 +484,7 @@ for (my $j = 0; $j <= $#slavenames; $j++) {
     }
 }
         
-if ($manual eq 'manual') {
+if ($mode eq 'manual') {
     &pr(sprintf(_g("Automatic updates of %s are disabled, leaving it alone."), "$altdir/$name"))
       if $verbosemode > 0;
     &pr(sprintf(_g("To return to automatic updates use \`update-alternatives --auto %s'."), $name))
@@ -498,16 +498,16 @@ if ($manual eq 'manual') {
     }
 }
 
-#   $manual      manual, auto
+#   $mode        manual, auto
 #   $state       expected, expected-inprogress, unexpected, nonexistent
 #   $action      auto, install, remove
 # action=auto <=> state=nonexistent
-# state=unexpected => manual=manual
-# manual=auto => state!=expected-inprogress && state!=unexpected
+# state=unexpected => mode=manual
+# mode=auto => state!=expected-inprogress && state!=unexpected
 
 open(AF,">$admindir/$name.dpkg-new") ||
     &quit(sprintf(_g("unable to open %s for write: %s"), "$admindir/$name.dpkg-new", $!));
-&paf($manual);
+paf($mode);
 &paf($link);
 for (my $j = 0; $j <= $#slavenames; $j++) {
     &paf($slavenames[$j]);
@@ -527,7 +527,7 @@ for (my $i = 0; $i <= $#versions; $i++) {
 &paf('');
 close(AF) || &quit(sprintf(_g("unable to close %s: %s"), "$admindir/$name.dpkg-new", $!));
 
-if ($manual eq 'auto') {
+if ($mode eq 'auto') {
     if ($best eq '') {
         &pr(sprintf(_g("Last package providing %s (%s) removed, deleting it."), $name, $link))
           if $verbosemode > 0;
@@ -571,7 +571,7 @@ if ($manual eq 'auto') {
 rename_mv("$admindir/$name.dpkg-new","$admindir/$name") ||
     &quit(sprintf(_g("unable to rename %s to %s: %s"), "$admindir/$name.dpkg-new", "$admindir/$name", $!));
 
-if ($manual eq 'auto') {
+if ($mode eq 'auto') {
     rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
         &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
     for (my $j = 0; $j <= $#slavenames; $j++) {
@@ -655,7 +655,7 @@ sub config_alternatives {
     } until $preferred eq '' || $preferred>=1 && $preferred<=$#versions+1 &&
 	($preferred =~ m/[0-9]*/);
     if ($preferred ne '') {
-    	$manual = "manual";
+	$mode = "manual";
 	$preferred--;
 	printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $versions[$preferred], $name;
 	my $spath = $versions[$preferred];
@@ -682,7 +682,7 @@ sub config_alternatives {
 }
 
 sub set_alternatives {
-   $manual = "manual";
+   $mode = "manual";
    # Get prefered number
    my $preferred = -1;
    for (my $i = 0; $i <= $#versions; $i++) {
