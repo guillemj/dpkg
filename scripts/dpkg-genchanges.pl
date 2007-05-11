@@ -233,15 +233,15 @@ for $_ (keys %fi) {
 
 	    if (m/^Description$/) {
 		$v=$` if $v =~ m/\n/;
-		if ($f =~ m/\.udeb$/) {
+		if (defined($f) && $f =~ m/\.udeb$/) {
 			push(@descriptions,sprintf("%-10s - %-.65s (udeb)",$p,$v));
 		} else {
 			push(@descriptions,sprintf("%-10s - %-.65s",$p,$v));
 		}
 	    } elsif (m/^Section$/) {
-		$f2seccf{$f}= $v;
+		$f2seccf{$f} = $v if defined($f);
 	    } elsif (m/^Priority$/) {
-		$f2pricf{$f}= $v;
+		$f2pricf{$f} = $v if defined($f);
 	    } elsif (s/^X[BS]*C[BS]*-//i) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
