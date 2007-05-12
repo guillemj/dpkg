@@ -255,9 +255,9 @@ if ($opmode eq 'build') {
 	    my $p = $fi{"C$i Package"};
             push(@binarypackages,$p) unless $packageadded{$p}++;
             if (m/^Architecture$/) {
-                if (debian_arch_eq($v, 'any')) {
+		if (debarch_eq($v, 'any')) {
                     @sourcearch= ('any');
-                } elsif (debian_arch_eq($v, 'all')) {
+		} elsif (debarch_eq($v, 'all')) {
                     if (!@sourcearch || $sourcearch[0] eq 'all') {
                         @sourcearch= ('all');
                     } else {

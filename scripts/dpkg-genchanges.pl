@@ -221,9 +221,9 @@ for $_ (keys %fi) {
 	my $host_arch = get_host_arch();
 
 	if (!defined($p2f{$p}) && not $sourceonly) {
-	    if ((debian_arch_eq('all', $a) && !$archspecific) ||
-		debian_arch_is($host_arch, $a) ||
-		grep(debian_arch_is($host_arch, $_), split(/\s+/, $a))) {
+	    if ((debarch_eq('all', $a) && !$archspecific) ||
+		debarch_is($host_arch, $a) ||
+		grep(debarch_is($host_arch, $_), split(/\s+/, $a))) {
 		warning(sprintf(_g("package %s in control file but not in files list"), $p));
 		next;
 	    }
@@ -246,10 +246,10 @@ for $_ (keys %fi) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
 		if (not $sourceonly) {
-		    if (debian_arch_is($host_arch, $v) ||
-		        grep(debian_arch_is($host_arch, $_), split(/\s+/, $v))) {
+		    if (debarch_is($host_arch, $v) ||
+		        grep(debarch_is($host_arch, $_), split(/\s+/, $v))) {
 			$v = $host_arch;
-		    } elsif (!debian_arch_eq('all', $v)) {
+		    } elsif (!debarch_eq('all', $v)) {
 			$v= '';
 		    }
 		} else {
@@ -396,7 +396,7 @@ $f{'Files'}= '';
 my %filedone;
 
 for my $f (@sourcefiles, @fileslistfiles) {
-    next if ($archspecific && debian_arch_eq('all', $p2arch{$f2p{$f}}));
+    next if ($archspecific && debarch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
     open(STDIN,"< $uf") || &syserr(sprintf(_g("cannot open upload file %s for reading"), $uf));

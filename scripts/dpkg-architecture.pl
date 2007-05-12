@@ -234,9 +234,9 @@ if ($action eq 'l') {
 } elsif ($action eq 'u') {
     print "unset ".join(" ",@ordered)."\n";
 } elsif ($action eq 'e') {
-    exit !debian_arch_eq($deb_host_arch, $req_eq_arch);
+    exit !debarch_eq($deb_host_arch, $req_eq_arch);
 } elsif ($action eq 'i') {
-    exit !debian_arch_is($deb_host_arch, $req_is_arch);
+    exit !debarch_is($deb_host_arch, $req_is_arch);
 } elsif ($action eq 'c') {
     @ENV{keys %env} = values %env;
     exec @ARGV;

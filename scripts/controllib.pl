@@ -271,7 +271,8 @@ sub debarch_to_debtriplet($)
     }
 }
 
-sub debian_arch_eq {
+sub debarch_eq($$)
+{
     my ($a, $b) = @_;
     my ($a_abi, $a_os, $a_cpu) = debarch_to_debtriplet($a);
     my ($b_abi, $b_os, $b_cpu) = debarch_to_debtriplet($b);
@@ -279,7 +280,8 @@ sub debian_arch_eq {
     return ("$a_abi-$a_os-$a_cpu" eq "$b_abi-$b_os-$b_cpu");
 }
 
-sub debian_arch_is {
+sub debarch_is($$)
+{
     my ($real, $alias) = @_;
     my ($real_abi, $real_os, $real_cpu) = debarch_to_debtriplet($real);
     my ($alias_abi, $alias_os, $alias_cpu) = debarch_to_debtriplet($alias);
@@ -449,7 +451,7 @@ ALTERNATE:
 			my $not_arch;
 			($not_arch = $arch) =~ s/^!//;
 
-			if (debian_arch_is($host_arch, $not_arch)) {
+			if (debarch_is($host_arch, $not_arch)) {
 			    next ALTERNATE;
 			} else {
 			    # This is equivilant to
@@ -458,7 +460,7 @@ ALTERNATE:
 			    # is also listed..
 			    $seen_arch=1;
 			}
-		    } elsif (debian_arch_is($host_arch, $arch)) {
+		    } elsif (debarch_is($host_arch, $arch)) {
 			$seen_arch=1;
 			next;
 		    }

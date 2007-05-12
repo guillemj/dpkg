@@ -169,9 +169,9 @@ for $_ (keys %fi) {
         } elsif (m/^Architecture$/) {
 	    my $host_arch = get_host_arch();
 
-            if (debian_arch_eq('all', $v)) {
+            if (debarch_eq('all', $v)) {
                 $f{$_}= $v;
-	    } elsif (debian_arch_is($host_arch, $v)) {
+	    } elsif (debarch_is($host_arch, $v)) {
 		$f{$_} = $host_arch;
             } else {
 		my @archlist = split(/\s+/, $v);
@@ -182,7 +182,7 @@ for $_ (keys %fi) {
 		                  scalar(@invalid_archs)),
 		              join("' `", @invalid_archs)))
 		    if @invalid_archs >= 1;
-		grep(debian_arch_is($host_arch, $_), @archlist) ||
+		grep(debarch_is($host_arch, $_), @archlist) ||
                     &error(sprintf(_g("current build architecture %s does not".
                                       " appear in package's list (%s)"),
 		                   $host_arch, "@archlist"));
@@ -301,8 +301,8 @@ if (open(X,"< $fileslistfile")) {
         chomp;
         next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.deb /
                 && ($1 eq $oppackage)
-                && (debian_arch_eq($2, $f{'Architecture'})
-		    || debian_arch_eq($2, 'all'));
+	        && (debarch_eq($2, $f{'Architecture'})
+		    || debarch_eq($2, 'all'));
         print(Y "$_\n") || &syserr(_g("copy old entry to new files list file"));
     }
     close(X) || &syserr(_g("close old files list file"));
