@@ -222,7 +222,6 @@ for $_ (keys %fi) {
 
 	if (!defined($p2f{$p}) && not $sourceonly) {
 	    if ((debarch_eq('all', $a) && !$archspecific) ||
-		debarch_is($host_arch, $a) ||
 		grep(debarch_is($host_arch, $_), split(/\s+/, $a))) {
 		warning(sprintf(_g("package %s in control file but not in files list"), $p));
 		next;
@@ -246,8 +245,7 @@ for $_ (keys %fi) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
 		if (not $sourceonly) {
-		    if (debarch_is($host_arch, $v) ||
-		        grep(debarch_is($host_arch, $_), split(/\s+/, $v))) {
+		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))) {
 			$v = $host_arch;
 		    } elsif (!debarch_eq('all', $v)) {
 			$v= '';

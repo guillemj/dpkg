@@ -171,8 +171,6 @@ for $_ (keys %fi) {
 
             if (debarch_eq('all', $v)) {
                 $f{$_}= $v;
-	    } elsif (debarch_is($host_arch, $v)) {
-		$f{$_} = $host_arch;
             } else {
 		my @archlist = split(/\s+/, $v);
 		my @invalid_archs = grep m/[^\w-]/, @archlist;

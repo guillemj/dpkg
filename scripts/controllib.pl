@@ -274,25 +274,25 @@ sub debarch_to_debtriplet($)
 sub debarch_eq($$)
 {
     my ($a, $b) = @_;
-    my ($a_abi, $a_os, $a_cpu) = debarch_to_debtriplet($a);
-    my ($b_abi, $b_os, $b_cpu) = debarch_to_debtriplet($b);
+    my @a = debarch_to_debtriplet($a);
+    my @b = debarch_to_debtriplet($b);
 
-    return ("$a_abi-$a_os-$a_cpu" eq "$b_abi-$b_os-$b_cpu");
+    return 0 if grep(!defined, (@a, @b));
+
+    return ($a[0] eq $b[0] && $a[1] eq $b[1] && $a[2] eq $b[2]);
 }
 
 sub debarch_is($$)
 {
     my ($real, $alias) = @_;
-    my ($real_abi, $real_os, $real_cpu) = debarch_to_debtriplet($real);
-    my ($alias_abi, $alias_os, $alias_cpu) = debarch_to_debtriplet($alias);
+    my @real = debarch_to_debtriplet($real);
+    my @alias = debarch_to_debtriplet($alias);
 
-    if ("$real_abi-$real_os-$real_cpu" eq "$alias_abi-$alias_os-$alias_cpu") {
-	return 1;
-    } elsif ("$alias_abi-$alias_os-$alias_cpu" eq "any-any-any") {
-	return 1;
-    } elsif ("$alias_abi-$alias_os-$alias_cpu" eq "$real_abi-any-$real_cpu") {
-	return 1;
-    } elsif ("$alias_abi-$alias_os-$alias_cpu" eq "$real_abi-$real_os-any") {
+    return 0 if grep(!defined, (@real, @alias));
+
+    if (($alias[0] eq $real[0] || $alias[0] eq 'any') &&
+        ($alias[1] eq $real[1] || $alias[1] eq 'any') &&
+        ($alias[2] eq $real[2] || $alias[2] eq 'any')) {
 	return 1;
     }
 

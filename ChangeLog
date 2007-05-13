@@ -1,4 +1,15 @@
-2007-05-11  Guillem Jover  <guillem@debian.org>
+2007-05-13  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (debarch_eq): Return 0 if
+	debarch_to_debtriplet returns any undef value.
+	(debarch_is): Likewise. As a side effect of changing to use arrays for
+	the real and alias architectures, all parts of the triplet are now
+	compared against 'any' as well.
+	* scripts/dpkg-genchanges.pl: Remove redundant debarch_is being
+	handled already in the grep.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+
+2007-05-12  Guillem Jover  <guillem@debian.org>
 
 	* scripts/controllib.pl (debian_arch_eq): Rename to ...
 	(debarch_eq): ... this. Add prototype. Fix all callers.
