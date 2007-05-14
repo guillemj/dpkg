@@ -170,6 +170,15 @@ sub read_link_group
     }
 }
 
+sub fill_missing_slavepaths()
+{
+    for (my $j = 0; $j <= $#slavenames; $j++) {
+	for (my $i = 0; $i <= $#versions; $i++) {
+	    $slavepath{$i,$j} = '' if !defined $slavepath{$i,$j};
+	}
+    }
+}
+
 sub find_best_version
 {
     $best = '';
@@ -418,6 +427,8 @@ if ($action eq 'install') {
     for (my $j = 0; $j <= $#slavenames; $j++) {
         $slavepath{$i,$j}= $aslavepath{$slavenames[$j]};
     }
+
+    fill_missing_slavepaths();
 }
 
 if ($action eq 'remove') {
