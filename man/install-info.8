@@ -2,7 +2,7 @@
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
-.TH install\-info 8 "2006-02-28" "Debian Project" "dpkg utilities"
+.TH install\-info 8 "2007-05-15" "Debian Project" "dpkg utilities"
 .SH NAME
 install\-info - create or update entry in Info directory
 .
@@ -27,7 +27,7 @@ install\-info - create or update entry in Info directory
 makes, updates or removes entries in the Info directory, the
 .B dir
 file. When updating or creating entries, if no description is
-specified on the command line or in the Info file it attempts to guess
+specified on the command line or in the Info file, it attempts to guess
 a description from the contents of the file.
 .PP
 See the description of the
@@ -59,12 +59,12 @@ If
 .I filename
 ends in
 .B .gz
-it is taken to refer to a file compressed with GNU gzip; if it doesn't
+, it is taken to refer to a file compressed with GNU gzip; if it doesn't
 exist, but a corresponding
 .IB filename .gz
 does, the latter is used instead.
 
-When adding or updating entries the file must exist at the path
+When adding or updating entries, the file must exist at the path
 specified (possibly with an additional
 .B .gz
 extension).
@@ -74,7 +74,7 @@ Specifies that the entry for the file
 .I filename
 is to be removed; by default entries are created or updated.
 
-If the removal results in a section becoming empty the section heading
+If the removal results in a section becoming empty, the section heading
 (and the spare blank line) will be removed as well, unless this is the
 last section in the file or
 .B \-\-keep\-old
@@ -86,7 +86,7 @@ file.
 
 If there are several suitable entries in the
 .B dir
-file only those in the first matching contiguous group will be removed
+file, only those in the first matching contiguous group will be removed
 and the others silently ignored.
 
 It is not an error for no suitable entry to be found, though
@@ -120,40 +120,52 @@ rather than the exact name given. (i.e.
 to look for "emacs", not "emacs\-20/emacs").
 .TP
 .BI "\-\-section " "regexp title"
-Specifies that, if a new entry is to be made, it should be placed in a
+Specifies that if a new entry is to be made, it should be placed in a
 section of the
 .B dir
 file whose title matches
 .IR regexp .
-If no such section exists one will be created as the second last
-section in the file (see below), with title
+If no such section exists, one will be created as the second to last
+section in the file (see below) with title
 .IR title .
 A section is a part of the
 .B dir
 menu delimited by blank lines; the first line is assumed to be the
 title.
 
-If a new entry is to be created
+If a new entry is to be created,
 .B install\-info
-will attempt to insert it within the section according in alphabetic
-order; if the entries in the section aren't already sorted the new
-location within the section will be unpredictable. The order of
-existing entries will not be changed.
+will attempt to insert it within the section in alphabetic order. If
+the entries in the section aren't already sorted, the new location
+within the section will be unpredictable. The order of existing
+entries will not be changed.
 
-The default is to append new entries to the end of the file. The last
-section (even if it only consists of the title line) should always
-exist, to ensure that new sections are created in the right place.
-The final section should be titled to reflect the fact that Info files
-with no more well specified location are appended to it.
+If the
+.B \-\-section
+option is not specified,
+.B install\-info
+will look for a title in the Info file itself by looking for an entry
+of the form
 
-If there is already an entry for the Info file being installed it is
+.br
+.BI "INFO\-DIR\-SECTION" " title"
+.br
+
+If no section title is found, the default is to append new entries to
+the end of the file. The last section (even if it only consists of the
+title line) should always exist to ensure that new sections are
+created in the right place. The final section should be titled to
+reflect the fact that Info files with no better specified location
+are appended to it.
+
+If there is already an entry for the Info file being installed, it is
 replaced in situ with the new entry.
 
-If a section is specified when removing an entry the section is
+If a section is specified when removing an entry, the section is
 ignored and a warning is issued.
 
-If a section is requested when adding an entry but the file contains
-no section headings at all then
+If a section is requested when adding an entry, but the file contains
+no section headings at all, then
 .B install\-info
 will create both the requested section and a Miscellaneous section at
 the end of the file.
@@ -174,7 +186,7 @@ least
 characters; extra spaces will be added as required. If necessary
 because of the length of the
 .B dir
-menu entry details it may be offset more. The default is 27.
+menu entry details, it may be offset more. The default is 27.
 .TP
 .BI \-\-calign= nnn " [deprecated]"
 Specifies that the second and subsequent lines of the description
@@ -190,7 +202,7 @@ The default is 79.
 .TP
 .B \-\-quiet
 Prevents the usual display of the new menu entry just before it is
-inserted, and of the messages announcing the replacement and removal
+inserted and of the messages announcing the replacement and removal
 of existing entries and the creation and deletion of sections.
 .TP
 .B \-\-help
@@ -218,16 +230,16 @@ this is found by searching for a section of the form
 
 If the entry found in the Info file itself extends across several
 lines, each giving a menu entry, the text found in the file is used
-verbatim. In this case the alphabetic ordering scheme is turned off,
+verbatim. In this case, the alphabetic ordering scheme is turned off,
 and the entries are inserted at the top of section in question. In
-this case the
+this case, the
 .BR \-\-menuentry ", " \-\-maxwidth ", " \-\-align ", " \-\-calign
 .RB " and " \-\-menuentry
 options are ignored.
 
 If there is no
 .B dir
-entry in the file the program will try to find a paragraph early in
+entry in the file, the program will try to find a paragraph early in
 the file starting
 .BR "this file documents" .
 It will capitalise the first character of the remainder, and use that.
@@ -236,34 +248,34 @@ It is an error for none of these methods to yield a description.
 
 If a description argument is given when
 .B \-\-remove
-is specified it is ignored and a warning is issued.
+is specified, it is ignored and a warning is issued.
 .TP
 .BI \-\-menuentry= xxx
 Specifies that the entry in the menu should be
 .IR xxx .
 The default is to use the the value specified in the Info file itself.
-If this is not present the basename of the Info file is used
+If this is not present, the basename of the Info file is used
 .RB "(any " ".info " "is deleted, and the entry is made mixed case)."
 See above for details of the format expected for the menu entry in the
 Info file.
 
-When removing entries the value of the
+When removing entries, the value of the
 .B \-\-menuentry
 option must match the actual menu entry field in the menu item to be
 removed (case not significant). If
 .B \-\-menuentry
-is omitted no check on the menu entry is done.
+is omitted, no check on the menu entry is done.
 .TP
 .B \-\-keep\-old
 Inhibits the replacement of existing entries and the removal of empty
 sections.
 
-If the file being installed already has an entry in the directory the
+If the file being installed already has an entry in the directory, the
 old entry will be left alone instead of being replaced; the default is
 to overwrite any old entry found with the newly generated one.
 
 If
-.BR \-\-remove " is specified " \-\-keep\-old
+.BR \-\-remove " is specified, " \-\-keep\-old
 will prevent the removal of the section heading which would otherwise
 happen if the section is made empty by the removal.
 .TP
