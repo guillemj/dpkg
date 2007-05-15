@@ -252,6 +252,36 @@ xgettimeofday(struct timeval *tv)
 		fatal("gettimeofday failed: %s", strerror(errno));
 }
 
+static void
+daemonize(void)
+{
+	pid_t pid;
+
+	if (quietmode < 0)
+		printf("Detaching to start %s...", startas);
+
+	pid = fork();
+	if (pid < 0)
+		fatal("Unable to do first fork.\n");
+	else if (pid) /* Parent */
+		exit(0);
+
+	/* Create a new session */
+#ifdef HAVE_SETSID
+	setsid();
+#else
+	setpgid(0, 0);
+#endif
+
+	pid = fork();
+	if (pid < 0)
+		fatal("Unable to do second fork.\n");
+	else if (pid) /* Parent */
+		exit(0);
+
+	if (quietmode < 0)
+		printf("done.\n");
+}
 
 static void
 push(struct pid_list **list, pid_t pid)
@@ -1307,19 +1337,7 @@ main(int argc, char **argv)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
 	if (background) { /* ok, we need to detach this process */
-		int i;
-		if (quietmode < 0)
-			printf("Detaching to start %s...", startas);
-		i = fork();
-		if (i<0) {
-			fatal("Unable to fork.\n");
-		}
-		if (i) { /* parent */
-			if (quietmode < 0)
-				printf("done.\n");
-			exit(0);
-		}
-		 /* child continues here */
+		daemonize();
 
 #ifdef HAVE_TIOCNOTTY
 		tty_fd=open("/dev/tty", O_RDWR);
@@ -1377,13 +1395,6 @@ main(int argc, char **argv)
 #else
 		 /* now close all extra fds */
 		for (i=getdtablesize()-1; i>=3; --i) close(i);
-#endif
-
-		/* create a new session */
-#ifdef HAVE_SETSID
-		setsid();
-#else
-		setpgid(0,0);
 #endif
 	}
 	execv(startas, argv);
