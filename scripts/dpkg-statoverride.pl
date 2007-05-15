@@ -59,7 +59,7 @@ Options:
 
 sub CheckModeConflict {
 	return unless $mode;
-	&badusage("two modes specified: $_ and --$mode");
+	badusage(sprintf(_g("two commands specified: %s and --%s"), $_, $mode));
 }
 
 while (@ARGV) {

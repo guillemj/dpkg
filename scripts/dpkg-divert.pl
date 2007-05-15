@@ -75,7 +75,7 @@ my (@ssrc, @sdest);
 
 sub checkmanymodes {
     return unless $mode;
-    &badusage(sprintf(_g("two modes specified: %s and --%s"), $_, $mode));
+    badusage(sprintf(_g("two commands specified: %s and --%s"), $_, $mode));
 }
 
 while (@ARGV) {
