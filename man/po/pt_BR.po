@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2007-03-20 23:52+0200\n"
+"POT-Creation-Date: 2007-05-15 16:14+0300\n"
 "PO-Revision-Date: 2005-07-03 15:04+0200\n"
 "Last-Translator: Unknown translator\n"
 "Language-Team: Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
@@ -149,13 +149,13 @@ msgid "This facility really ought to be part of B<date>(1)."
 msgstr ""
 
 # type: SH
-#: 822-date.1:28 cleanup-info.8:51 deb.5:67 deb-control.5:204 deb-old.5:51
+#: 822-date.1:28 cleanup-info.8:51 deb.5:67 deb-control.5:206 deb-old.5:51
 #: deb-override.5:67 deb-shlibs.5:29 deb-substvars.5:130 dpkg.1:599
 #: dpkg-architecture.1:268 dpkg.cfg.5:21 dpkg-deb.1:238 dpkg-divert.8:118
 #: dpkg-name.1:97 dpkg-query.1:158 dpkg-scanpackages.1:95
 #: dpkg-scansources.1:65 dpkg-shlibdeps.1:127 dpkg-source.1:275
 #: dpkg-split.1:226 dpkg-statoverride.8:78 dselect.1:443 dselect.cfg.5:21
-#: install-info.8:277 update-alternatives.8:403
+#: install-info.8:289 update-alternatives.8:403
 #, no-wrap
 msgid "SEE ALSO"
 msgstr "VEJA TAMBÉM"
@@ -191,10 +191,10 @@ msgid "cleanup-info"
 msgstr ""
 
 # type: TH
-#: cleanup-info.8:1 deb-substvars.5:2 dpkg-architecture.1:1
-#: dpkg-checkbuilddeps.1:1 dpkg-divert.8:1 dpkg-name.1:6 dpkg-query.1:1
-#: dpkg-scanpackages.1:16 dpkg-scansources.1:1 dpkg-split.1:2
-#: dpkg-statoverride.8:1 start-stop-daemon.8:1 update-alternatives.8:8
+#: cleanup-info.8:1 dpkg-architecture.1:1 dpkg-checkbuilddeps.1:1
+#: dpkg-divert.8:1 dpkg-name.1:6 dpkg-query.1:1 dpkg-scanpackages.1:16
+#: dpkg-scansources.1:1 dpkg-split.1:2 dpkg-statoverride.8:1
+#: start-stop-daemon.8:1 update-alternatives.8:8
 #, fuzzy, no-wrap
 msgid "2007-03-06"
 msgstr "2006-04-09"
@@ -261,7 +261,7 @@ msgstr ""
 # type: TP
 #: cleanup-info.8:36 dpkg-architecture.1:61 dpkg-divert.8:67
 #: dpkg-scansources.1:60 dpkg-statoverride.8:44 dselect.1:121
-#: install-info.8:195 update-alternatives.8:295
+#: install-info.8:207 update-alternatives.8:295
 #, fuzzy, no-wrap
 msgid "B<--help>"
 msgstr "B<--help>"
@@ -282,7 +282,7 @@ msgstr ""
 #: dpkg-gencontrol.1:101 dpkg-parsechangelog.1:36 dpkg-query.1:62
 #: dpkg-scanpackages.1:84 dpkg-scansources.1:62 dpkg-shlibdeps.1:112
 #: dpkg-source.1:63 dpkg-split.1:130 dpkg-statoverride.8:47 dselect.1:128
-#: install-info.8:200 update-alternatives.8:298
+#: install-info.8:212 update-alternatives.8:298
 #, fuzzy, no-wrap
 msgid "B<--version>"
 msgstr "B<--version>"
@@ -354,8 +354,7 @@ msgid "deb"
 msgstr ""
 
 # type: TH
-#: deb.5:1 deb-control.5:3 deb-old.5:1 dpkg.cfg.5:1 dselect.1:1
-#: dselect.cfg.5:1 install-info.8:5
+#: deb.5:1 deb-old.5:1 dpkg.cfg.5:1 dselect.1:1 dselect.cfg.5:1
 #, fuzzy, no-wrap
 msgid "2006-02-28"
 msgstr "2006-04-09"
@@ -470,6 +469,12 @@ msgstr ""
 msgid "deb-control"
 msgstr "I<control>"
 
+# type: TH
+#: deb-control.5:3 install-info.8:5
+#, fuzzy, no-wrap
+msgid "2007-05-15"
+msgstr "2006-04-09"
+
 # type: Plain text
 #: deb-control.5:6
 msgid "deb-control - Debian packages' master control file format"
@@ -482,44 +487,45 @@ msgid "control"
 msgstr "I<control>"
 
 # type: Plain text
-#: deb-control.5:23
+#: deb-control.5:24
 msgid ""
 "Each Debian package contains the master `control' file, which contains a "
-"number of fields. Each field begins with a tag, such as B<Package> or "
-"B<Version> (case insensitive), followed by a colon, and the body of the "
-"field.  Fields are delimited only by field tags. In other words, field text "
-"may be multiple lines in length, but the installation tools will generally "
-"join lines when processing the body of the field (except in the case of the "
-"B<Description> field, see below)."
+"number of fields, or comments when the line starts with B<'#'>. Each field "
+"begins with a tag, such as B<Package> or B<Version> (case insensitive), "
+"followed by a colon, and the body of the field.  Fields are delimited only "
+"by field tags. In other words, field text may be multiple lines in length, "
+"but the installation tools will generally join lines when processing the "
+"body of the field (except in the case of the B<Description> field, see "
+"below)."
 msgstr ""
 
 # type: SH
-#: deb-control.5:24
+#: deb-control.5:25
 #, no-wrap
 msgid "REQUIRED FIELDS"
 msgstr ""
 
 # type: TP
-#: deb-control.5:25
+#: deb-control.5:26
 #, no-wrap
 msgid "B<Package:> E<lt>package nameE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:29
+#: deb-control.5:30
 msgid ""
 "The value of this field determines the package name, and is used to generate "
 "file names by most installation tools."
 msgstr ""
 
 # type: TP
-#: deb-control.5:29
+#: deb-control.5:30
 #, no-wrap
 msgid "B<Version:> E<lt>version stringE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:36
+#: deb-control.5:37
 msgid ""
 "Typically, this is the original package's version number in whatever form "
 "the program's author uses. It may also include a Debian revision number (for "
@@ -529,13 +535,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:36
+#: deb-control.5:37
 #, no-wrap
 msgid "B<Maintainer:> E<lt>fullname emailE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:41
+#: deb-control.5:42
 msgid ""
 "Should be in the format `Joe Bloggs E<lt>jbloggs@foo.comE<gt>', and is "
 "typically the person who created the package, as opposed to the author of "
@@ -543,18 +549,18 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:41
+#: deb-control.5:42
 #, no-wrap
 msgid "B<Description:> E<lt>short descriptionE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:44
+#: deb-control.5:45
 msgid "B< >E<lt>long descriptionE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:50
+#: deb-control.5:51
 msgid ""
 "The format for the package description is a short brief summary on the first "
 "line (after the \"Description\" field). The following lines should be used "
@@ -564,19 +570,19 @@ msgid ""
 msgstr ""
 
 # type: SH
-#: deb-control.5:51
+#: deb-control.5:52
 #, fuzzy, no-wrap
 msgid "OPTIONAL FIELDS"
 msgstr "OPÇÕES"
 
 # type: TP
-#: deb-control.5:52
+#: deb-control.5:53
 #, no-wrap
 msgid "B<Section:> E<lt>sectionE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:57
+#: deb-control.5:58
 msgid ""
 "This is a general field that gives the package a category based on the "
 "software that it installs. Some common sections are `utils', `net', `mail', "
@@ -584,20 +590,20 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:57
+#: deb-control.5:58
 #, no-wrap
 msgid "B<Priority:> E<lt>priorityE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:61
+#: deb-control.5:62
 msgid ""
 "Sets the importance of this package in relation to the system as a whole.  "
 "Common priorities are `required', `standard', `optional', `extra' etc."
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:71
+#: deb-control.5:72
 msgid ""
 "In Debian, the B<Section> and B<Priority> fields have a defined set of "
 "accepted values based on the Policy Manual.  They are used to decide how the "
@@ -606,13 +612,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:71
+#: deb-control.5:72
 #, no-wrap
 msgid "B<Essential:> E<lt>yes|noE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:78
+#: deb-control.5:79
 msgid ""
 "This field is usually only needed when the answer is `yes'. It denotes a "
 "package that is required for proper operation of the system. Dpkg or any "
@@ -621,13 +627,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:78
+#: deb-control.5:79
 #, no-wrap
 msgid "B<Architecture:> E<lt>arch|allE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:86
+#: deb-control.5:87
 msgid ""
 "The architecture specifies which type of hardware this package was compiled "
 "for. Common architectures are `i386', `m68k', `sparc', `alpha', `powerpc' "
@@ -637,26 +643,26 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:86
+#: deb-control.5:87
 #, no-wrap
 msgid "B<Source:> E<lt>source nameE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:90
+#: deb-control.5:91
 msgid ""
 "The name of the source package that this binary package came from, if "
 "different than the name of the package itself."
 msgstr ""
 
 # type: TP
-#: deb-control.5:90
+#: deb-control.5:91
 #, no-wrap
 msgid "B<Depends:> E<lt>package listE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:100
+#: deb-control.5:101
 msgid ""
 "List of packages that are required for this package to provide a non-trivial "
 "amount of functionality. The package maintenance software will not allow a "
@@ -667,13 +673,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:100
+#: deb-control.5:101
 #, no-wrap
 msgid "B<Pre-Depends:> E<lt>package listE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:107
+#: deb-control.5:108
 msgid ""
 "List of packages that must be installed B<and> configured before this one "
 "can be installed. This is usually used in the case where this package "
@@ -681,13 +687,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:107
+#: deb-control.5:108
 #, no-wrap
 msgid "B<Recommends:> E<lt>package listE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:114
+#: deb-control.5:115
 msgid ""
 "Lists packages that would be found together with this one in all but unusual "
 "installations. The package maintenance software will warn the user if they "
@@ -695,13 +701,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:114
+#: deb-control.5:115
 #, no-wrap
 msgid "B<Suggests:> E<lt>package listE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:119
+#: deb-control.5:120
 msgid ""
 "Lists packages that are related to this one and can perhaps enhance its "
 "usefulness, but without which installing this package is perfectly "
@@ -709,7 +715,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:131
+#: deb-control.5:132
 msgid ""
 "The syntax of B<Depends>, B<Pre-Depends>, B<Recommends> and B<Suggests> "
 "fields is a list of groups of alternative packages. Each group is a list of "
@@ -720,7 +726,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:137
+#: deb-control.5:138
 msgid ""
 "A version number may start with a `E<gt>E<gt>', in which case any later "
 "version will match, and may specify or omit the Debian packaging revision "
@@ -730,13 +736,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:137
+#: deb-control.5:138
 #, no-wrap
 msgid "B<Conflicts:> E<lt>package listE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:145
+#: deb-control.5:146
 msgid ""
 "Lists packages that conflict with this one, for example by containing files "
 "with the same names. The package maintenance software will not allow "
@@ -745,13 +751,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:145
+#: deb-control.5:146
 #, no-wrap
 msgid "B<Replaces:> E<lt>package listE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:153
+#: deb-control.5:154
 msgid ""
 "List of packages files from which this one replaces. This is used for "
 "allowing this package to overwrite the files of another package and is "
@@ -760,13 +766,13 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: deb-control.5:153
+#: deb-control.5:154
 #, no-wrap
 msgid "B<Provides:> E<lt>package listE<gt>"
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:163
+#: deb-control.5:164
 msgid ""
 "This is a list of virtual packages that this one provides. Usually this is "
 "used in the case of several packages all providing the same service.  For "
@@ -779,7 +785,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:178
+#: deb-control.5:179
 msgid ""
 "The syntax of B<Conflicts>, B<Replaces> and B<Provides> is a list of package "
 "names, separated by commas (and optional whitespace).  In the B<Conflicts> "
@@ -789,15 +795,16 @@ msgid ""
 msgstr ""
 
 # type: SH
-#: deb-control.5:179
+#: deb-control.5:180
 #, fuzzy, no-wrap
 msgid "EXAMPLE"
 msgstr "EXEMPLOS"
 
 # type: Plain text
-#: deb-control.5:201
+#: deb-control.5:203
 #, no-wrap
 msgid ""
+"# Comment\n"
 "Package: grep\n"
 "Essential: yes\n"
 "Priority: required\n"
@@ -820,7 +827,7 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: deb-control.5:207
+#: deb-control.5:209
 msgid "B<deb>(5), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr ""
 
@@ -1026,6 +1033,12 @@ msgstr "B<dpkg-deb-actions>"
 #, fuzzy, no-wrap
 msgid "deb-substvars"
 msgstr "B<deinstall>"
+
+# type: TH
+#: deb-substvars.5:2
+#, fuzzy, no-wrap
+msgid "2007-05-12"
+msgstr "2006-04-09"
 
 # type: Plain text
 #: deb-substvars.5:6
@@ -1286,7 +1299,7 @@ msgid "The utilities and this manpage were written by Ian Jackson."
 msgstr ""
 
 # type: SH
-#: deb-substvars.5:140 dpkg-name.1:105 install-info.8:281
+#: deb-substvars.5:140 dpkg-name.1:105 install-info.8:293
 #, no-wrap
 msgid "COPYRIGHT"
 msgstr ""
@@ -4788,7 +4801,7 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: dpkg-divert.8:57 dpkg-statoverride.8:64 install-info.8:190
+#: dpkg-divert.8:57 dpkg-statoverride.8:64 install-info.8:202
 #: update-alternatives.8:316
 #, fuzzy, no-wrap
 msgid "B<--quiet>"
@@ -4813,7 +4826,7 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: dpkg-divert.8:64 install-info.8:269 update-alternatives.8:320
+#: dpkg-divert.8:64 install-info.8:281 update-alternatives.8:320
 #, fuzzy, no-wrap
 msgid "B<--test>"
 msgstr "B<--test>"
@@ -5968,7 +5981,7 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: dpkg-scansources.1:58 install-info.8:272
+#: dpkg-scansources.1:58 install-info.8:284
 #, fuzzy, no-wrap
 msgid "B<--debug>"
 msgstr "B<--nocheck>"
@@ -7913,7 +7926,7 @@ msgstr "B<install>"
 
 # type: Plain text
 #: install-info.8:8
-msgid "install-info - create or update entry in Info directory"
+msgid "install-info - create or update entry in Info dir file"
 msgstr ""
 
 # type: Plain text
@@ -7928,10 +7941,10 @@ msgstr ""
 # type: Plain text
 #: install-info.8:32
 msgid ""
-"B<install-info> makes, updates or removes entries in the Info directory, the "
-"B<dir> file. When updating or creating entries, if no description is "
-"specified on the command line or in the Info file it attempts to guess a "
-"description from the contents of the file."
+"B<install-info> creates, updates or removes entries in the Info B<dir> file. "
+"When updating or creating entries, if no description is specified on the "
+"command line or in the Info file, it attempts to guess a description from "
+"the contents of the file."
 msgstr ""
 
 # type: Plain text
@@ -7964,15 +7977,15 @@ msgstr ""
 # type: Plain text
 #: install-info.8:66
 msgid ""
-"If I<filename> ends in B<.gz> it is taken to refer to a file compressed with "
-"GNU gzip; if it doesn't exist, but a corresponding I<filename>B<.gz> does, "
-"the latter is used instead."
+"If I<filename> ends in B<.gz> , it is taken to refer to a file compressed "
+"with GNU gzip; if it doesn't exist, but a corresponding I<filename>B<.gz> "
+"does, the latter is used instead."
 msgstr ""
 
 # type: Plain text
 #: install-info.8:71
 msgid ""
-"When adding or updating entries the file must exist at the path specified "
+"When adding or updating entries, the file must exist at the path specified "
 "(possibly with an additional B<.gz> extension)."
 msgstr ""
 
@@ -7992,7 +8005,7 @@ msgstr ""
 # type: Plain text
 #: install-info.8:86
 msgid ""
-"If the removal results in a section becoming empty the section heading (and "
+"If the removal results in a section becoming empty, the section heading (and "
 "the spare blank line) will be removed as well, unless this is the last "
 "section in the file or B<--keep-old> is specified. See the B<--section> "
 "option for details about the expected format of the B<dir> file."
@@ -8001,7 +8014,7 @@ msgstr ""
 # type: Plain text
 #: install-info.8:91
 msgid ""
-"If there are several suitable entries in the B<dir> file only those in the "
+"If there are several suitable entries in the B<dir> file, only those in the "
 "first matching contiguous group will be removed and the others silently "
 "ignored."
 msgstr ""
@@ -8047,62 +8060,74 @@ msgstr ""
 # type: Plain text
 #: install-info.8:135
 msgid ""
-"Specifies that, if a new entry is to be made, it should be placed in a "
+"Specifies that if a new entry is to be made, it should be placed in a "
 "section of the B<dir> file whose title matches I<regexp>.  If no such "
-"section exists one will be created as the second last section in the file "
-"(see below), with title I<title>.  A section is a part of the B<dir> menu "
-"delimited by blank lines; the first line is assumed to be the title."
+"section exists, one will be created as the second to last section in the "
+"file (see below) with title I<title>.  A section is a part of the B<dir> "
+"menu delimited by blank lines; the first line is assumed to be the title."
 msgstr ""
 
 # type: Plain text
 #: install-info.8:142
 msgid ""
-"If a new entry is to be created B<install-info> will attempt to insert it "
-"within the section according in alphabetic order; if the entries in the "
-"section aren't already sorted the new location within the section will be "
-"unpredictable. The order of existing entries will not be changed."
+"If a new entry is to be created, B<install-info> will attempt to insert it "
+"within the section in alphabetic order. If the entries in the section aren't "
+"already sorted, the new location within the section will be unpredictable. "
+"The order of existing entries will not be changed."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:148
+#: install-info.8:149
 msgid ""
-"The default is to append new entries to the end of the file. The last "
-"section (even if it only consists of the title line) should always exist, to "
-"ensure that new sections are created in the right place.  The final section "
-"should be titled to reflect the fact that Info files with no more well "
-"specified location are appended to it."
+"If the B<--section> option is not specified, B<install-info> will look for a "
+"title in the Info file itself by looking for an entry of the form"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:151
+#: install-info.8:152
+msgid "B<INFO-DIR-SECTION>I< title>"
+msgstr ""
+
+# type: Plain text
+#: install-info.8:160
 msgid ""
-"If there is already an entry for the Info file being installed it is "
+"If no section title is found, the default is to append new entries to the "
+"end of the file. The last section (even if it only consists of the title "
+"line) should always exist to ensure that new sections are created in the "
+"right place. The final section should be titled to reflect the fact that "
+"Info files with no better specified location are appended to it."
+msgstr ""
+
+# type: Plain text
+#: install-info.8:163
+msgid ""
+"If there is already an entry for the Info file being installed, it is "
 "replaced in situ with the new entry."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:154
+#: install-info.8:166
 msgid ""
-"If a section is specified when removing an entry the section is ignored and "
+"If a section is specified when removing an entry, the section is ignored and "
 "a warning is issued."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:160
+#: install-info.8:172
 msgid ""
-"If a section is requested when adding an entry but the file contains no "
-"section headings at all then B<install-info> will create both the requested "
+"If a section is requested when adding an entry, but the file contains no "
+"section headings at all, then B<install-info> will create both the requested "
 "section and a Miscellaneous section at the end of the file."
 msgstr ""
 
 # type: TP
-#: install-info.8:160
+#: install-info.8:172
 #, fuzzy, no-wrap
 msgid "B<--infodir=>I<infodir>"
 msgstr "B<--admindir> I<diretório>"
 
 # type: Plain text
-#: install-info.8:169
+#: install-info.8:181
 msgid ""
 "Specifies that the B<dir> file is, and the installed copy of the new Info "
 "file was, is or will be located in I<infodir>.  The default is B</usr/share/"
@@ -8110,74 +8135,74 @@ msgid ""
 msgstr ""
 
 # type: TP
-#: install-info.8:169
+#: install-info.8:181
 #, no-wrap
 msgid "B<--align=>I<nnn>B< [deprecated]>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:178
+#: install-info.8:190
 msgid ""
 "Specifies that the first line of the description should be indented at least "
 "I<nnn> characters; extra spaces will be added as required. If necessary "
-"because of the length of the B<dir> menu entry details it may be offset "
+"because of the length of the B<dir> menu entry details, it may be offset "
 "more. The default is 27."
 msgstr ""
 
 # type: TP
-#: install-info.8:178
+#: install-info.8:190
 #, no-wrap
 msgid "B<--calign=>I<nnn>B< [deprecated]>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:184
+#: install-info.8:196
 msgid ""
 "Specifies that the second and subsequent lines of the description should be "
 "indented at least I<nnn> characters. The default is 29."
 msgstr ""
 
 # type: TP
-#: install-info.8:184
+#: install-info.8:196
 #, no-wrap
 msgid "B<--maxwidth=>I<nnn>B< [deprecated]>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:190
+#: install-info.8:202
 msgid ""
 "Specifies that the maximum width for the Info file is I<nnn>.  This is used "
 "when word-wrapping the descriptive text.  The default is 79."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:195
+#: install-info.8:207
 msgid ""
-"Prevents the usual display of the new menu entry just before it is inserted, "
+"Prevents the usual display of the new menu entry just before it is inserted "
 "and of the messages announcing the replacement and removal of existing "
 "entries and the creation and deletion of sections."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:200
+#: install-info.8:212
 msgid "Causes B<install-info> to display its usage information and exit."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:205
+#: install-info.8:217
 msgid ""
 "Causes B<install-info> to display its version and copyright information and "
 "exit."
 msgstr ""
 
 # type: TP
-#: install-info.8:205
+#: install-info.8:217
 #, no-wrap
 msgid "B<--description=>I<xxx>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:212
+#: install-info.8:224
 msgid ""
 "Specifies that the description to use after the menu entry in new or updated "
 "entries be I<xxx>.  The default is to use the the value specified in the "
@@ -8185,124 +8210,124 @@ msgid ""
 msgstr ""
 
 # type: Plain text
-#: install-info.8:214
+#: install-info.8:226
 msgid "B<START-INFO-DIR-ENTRY>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:216
+#: install-info.8:228
 msgid "B<* Auto-PGP: (auto-pgp). PGP under GNU Emacs.>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:218
+#: install-info.8:230
 msgid "B<END-INFO-DIR-ENTRY>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:227
+#: install-info.8:239
 msgid ""
 "If the entry found in the Info file itself extends across several lines, "
 "each giving a menu entry, the text found in the file is used verbatim. In "
-"this case the alphabetic ordering scheme is turned off, and the entries are "
-"inserted at the top of section in question. In this case the B<--menuentry>, "
-"B<--maxwidth>, B<--align>, B<--calign> and B<--menuentry> options are "
-"ignored."
+"this case, the alphabetic ordering scheme is turned off, and the entries are "
+"inserted at the top of section in question. In this case, the B<--"
+"menuentry>, B<--maxwidth>, B<--align>, B<--calign> and B<--menuentry> "
+"options are ignored."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:234
+#: install-info.8:246
 msgid ""
-"If there is no B<dir> entry in the file the program will try to find a "
+"If there is no B<dir> entry in the file, the program will try to find a "
 "paragraph early in the file starting B<this file documents>.  It will "
 "capitalise the first character of the remainder, and use that."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:236
+#: install-info.8:248
 msgid "It is an error for none of these methods to yield a description."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:240
+#: install-info.8:252
 msgid ""
-"If a description argument is given when B<--remove> is specified it is "
+"If a description argument is given when B<--remove> is specified, it is "
 "ignored and a warning is issued."
 msgstr ""
 
 # type: TP
-#: install-info.8:240
+#: install-info.8:252
 #, no-wrap
 msgid "B<--menuentry=>I<xxx>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:249
+#: install-info.8:261
 msgid ""
 "Specifies that the entry in the menu should be I<xxx>.  The default is to "
-"use the the value specified in the Info file itself.  If this is not present "
-"the basename of the Info file is used (any B<.info >is deleted, and the "
-"entry is made mixed case).  See above for details of the format expected for "
-"the menu entry in the Info file."
+"use the the value specified in the Info file itself.  If this is not "
+"present, the basename of the Info file is used (any B<.info >is deleted, and "
+"the entry is made mixed case).  See above for details of the format expected "
+"for the menu entry in the Info file."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:256
+#: install-info.8:268
 msgid ""
-"When removing entries the value of the B<--menuentry> option must match the "
+"When removing entries, the value of the B<--menuentry> option must match the "
 "actual menu entry field in the menu item to be removed (case not "
-"significant). If B<--menuentry> is omitted no check on the menu entry is "
+"significant). If B<--menuentry> is omitted, no check on the menu entry is "
 "done."
 msgstr ""
 
 # type: TP
-#: install-info.8:256
+#: install-info.8:268
 #, fuzzy, no-wrap
 msgid "B<--keep-old>"
 msgstr "B<--help>"
 
 # type: Plain text
-#: install-info.8:260
+#: install-info.8:272
 msgid ""
 "Inhibits the replacement of existing entries and the removal of empty "
 "sections."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:264
+#: install-info.8:276
 msgid ""
-"If the file being installed already has an entry in the directory the old "
-"entry will be left alone instead of being replaced; the default is to "
-"overwrite any old entry found with the newly generated one."
+"If the file being installed already has an entry in the Info B<dir> file, "
+"the old entry will be left alone instead of being replaced; the default is "
+"to overwrite any old entry found with the newly generated one."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:269
+#: install-info.8:281
 msgid ""
-"If B<--remove> is specified B<--keep-old> will prevent the removal of the "
+"If B<--remove> is specified, B<--keep-old> will prevent the removal of the "
 "section heading which would otherwise happen if the section is made empty by "
 "the removal."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:272
-msgid "Enables test mode, which inhibits the update of the directory file."
+#: install-info.8:284
+msgid "Enables test mode, which inhibits the update of the Info B<dir> file."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:276
+#: install-info.8:288
 msgid ""
 "Enables debugging mode, in which the results of some internal processing "
 "steps are shown."
 msgstr ""
 
 # type: Plain text
-#: install-info.8:281
+#: install-info.8:293
 msgid "B<emacs>(1), B<info>(1), B<gzip(1).>"
 msgstr ""
 
 # type: Plain text
-#: install-info.8:287
+#: install-info.8:299
 #, fuzzy
 msgid ""
 "Copyright 1994, Ian Jackson.  B<install-info> is free software; see the GNU "
