@@ -264,7 +264,7 @@ daemonize(void)
 	if (pid < 0)
 		fatal("Unable to do first fork.\n");
 	else if (pid) /* Parent */
-		exit(0);
+		_exit(0);
 
 	/* Create a new session */
 #ifdef HAVE_SETSID
@@ -277,7 +277,7 @@ daemonize(void)
 	if (pid < 0)
 		fatal("Unable to do second fork.\n");
 	else if (pid) /* Parent */
-		exit(0);
+		_exit(0);
 
 	if (quietmode < 0)
 		printf("done.\n");
