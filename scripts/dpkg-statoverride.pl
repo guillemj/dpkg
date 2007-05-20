@@ -167,8 +167,8 @@ if ($mode eq "add") {
 	$dowrite=1;
 	print(STDERR _g("warning: --update is useless for --remove")."\n") if ($doupdate);
 } elsif ($mode eq "list") {
-	my (@list,@ilist,$pattern,$file);
-	
+	my (@list, @ilist);
+
 	@ilist= @ARGV ? @ARGV : ('*');
 	while (defined($_=shift(@ilist))) {
 		s/\W/\\$&/g;
@@ -177,10 +177,11 @@ if ($mode eq "add") {
 		s,/+$,, && print STDERR _g("stripping trailing /")."\n";
 		push(@list,"^$_\$");
 	}
-	my $pat = join('|', @list);
+
+	my $pattern = join('|', @list);
 	$exitcode=1;
-	for $file (keys %owner) {
-		next unless ($file =~ m/$pat/o);
+	for my $file (keys %owner) {
+		next unless ($file =~ m/$pattern/o);
 		$exitcode=0;
 		print "$owner{$file} $group{$file} $mode{$file} $file\n";
 	}
