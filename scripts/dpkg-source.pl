@@ -835,15 +835,20 @@ if ($opmode eq 'build') {
 		    &syserr(sprintf(_g("failed to stat `%s' to see if need to copy"), "$dscdir/$tarfile"));
 
 		my ($dsctardev, $dsctarino) = stat _;
-		my ($dumptardev, $dumptarino);
+		my $copy_required;
 
-		if (!stat($tarfile)) {
-		    $! == ENOENT || &syserr(sprintf(_g("failed to check destination `%s'".
-					    " to see if need to copy"), $tarfile));
+		if (stat($tarfile)) {
+		    my ($dumptardev, $dumptarino) = stat _;
+		    $copy_required = ($dumptardev != $dsctardev ||
+		                      $dumptarino != $dsctarino);
 		} else {
-		    ($dumptardev,$dumptarino) = stat _;
+		    $! == ENOENT ||
+			syserr(sprintf(_g("failed to check destination `%s'".
+			       " to see if need to copy"), $tarfile));
+		    $copy_required = 1;
 		}
-		unless ($dumptardev == $dsctardev && $dumptarino == $dsctarino) {
+
+		if ($copy_required) {
 		    system('cp','--',"$dscdir/$tarfile", $tarfile);
 		    $? && subprocerr("cp $dscdir/$tarfile to $tarfile");
 		}
