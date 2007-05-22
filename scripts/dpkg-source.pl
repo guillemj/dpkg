@@ -807,7 +807,7 @@ if ($opmode eq 'build') {
 	    my $sub = $1;
 	    $sub =~ s/\d+$// if $sub =~ /\D/;
 	    $target = "$expectprefix/$sub";
-	} elsif ($tarfile =~ /\.debian.tar/) {
+	} elsif ($tarfile =~ /\.debian\.tar/) {
 	    $target = "$expectprefix/debian";
 	} else {
 	    $target = $expectprefix;
