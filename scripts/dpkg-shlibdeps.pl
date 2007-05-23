@@ -178,7 +178,7 @@ while( <CONF> ) {
 }
 close CONF;
 
-my (%rpaths, %format, %unique_libfiles);
+my (%rpaths, %format);
 my (@libfiles, @libname, @libsoname, @libfield, @libexec);
 for ($i=0;$i<=$#exec;$i++) {
     if (!isbin ($exec[$i])) { next; }
@@ -195,19 +195,15 @@ for ($i=0;$i<=$#exec;$i++) {
 	    $format{$exec[$i]} = $1;
 	} elsif (m,^\s*NEEDED\s+,) {
 	    if (m,^\s*NEEDED\s+((\S+)\.so\.(\S+))$,) {
-		next if exists $unique_libfiles{$1};
 		push(@libname,$2); push(@libsoname,$3);
 		push(@libfield,$execfield[$i]);
 		push(@libfiles,$1);
 		push(@libexec,$exec[$i]);
-		$unique_libfiles{$1} = 1;
 	    } elsif (m,^\s*NEEDED\s+((\S+)-(\S+)\.so)$,) {
-		next if exists $unique_libfiles{$1};
 		push(@libname,$2); push(@libsoname,$3);
 		push(@libfield,$execfield[$i]);
 		push(@libfiles,$1);
 		push(@libexec,$exec[$i]);
-		$unique_libfiles{$1} = 1;
 	    } else {
 		m,^\s*NEEDED\s+(\S+)$,;
 		warning(sprintf(_g("format of 'NEEDED %s' not recognized"), $1));
@@ -280,10 +276,13 @@ if ($#libfiles >= 0) {
     grep(s/\[\?\*/\\$&/g, @libname);
     defined(my $c= open(P,"-|")) || syserr(_g("cannot fork for dpkg --search"));
     if (!$c) {
+	my %seen_libfiles;
+	my @uniq_libfiles = grep !$seen_libfiles{$_}++, @libfiles;
+
 	close STDERR; # we don't need to see dpkg's errors
 	open STDERR, "> /dev/null";
 	$ENV{LC_ALL} = "C";
-	exec("dpkg", "--search", "--", @libfiles) or
+	exec("dpkg", "--search", "--", @uniq_libfiles) or
 	    syserr(_g("cannot exec dpkg"));
     }
     while (<P>) {
