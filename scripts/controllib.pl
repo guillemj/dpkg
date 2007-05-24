@@ -255,19 +255,41 @@ sub debarch_to_debtriplet($)
     read_triplettable() if (!%debarch_to_debtriplet);
 
     local ($_) = @_;
+    my $arch;
 
-    if (/any/ || /all/) {
+    # FIXME: 'any' is handled here, to be able to do debarch_eq('any', foo).
+    if (/^any$/ || /^all$/) {
 	return ($_, $_, $_);
-    } elsif (/^([^-]*)-([^-]*)-(.*)/) {
-	return ($1, $2, $3);
+    } elsif (/^linux-([^-]*)/) {
+	# XXX: Might disappear in the future, not sure yet.
+	$arch = $1;
     } else {
-	my $triplet = $debarch_to_debtriplet{$_};
+	$arch = $_;
+    }
 
-	if (defined($triplet)) {
-	    return split('-', $triplet, 3);
+    my $triplet = $debarch_to_debtriplet{$arch};
+
+    if (defined($triplet)) {
+	return split('-', $triplet, 3);
+    } else {
+	return undef;
+    }
+}
+
+sub debwildcard_to_debtriplet($)
+{
+    local ($_) = @_;
+
+    if (/any/) {
+	if (/^([^-]*)-([^-]*)-(.*)/) {
+	    return ($1, $2, $3);
+	} elsif (/^([^-]*)-([^-]*)$/) {
+	    return ('any', $1, $2);
 	} else {
-	    return undef;
+	    return ($_, $_, $_);
 	}
+    } else {
+	return debarch_to_debtriplet($_);
     }
 }
 
@@ -286,7 +308,7 @@ sub debarch_is($$)
 {
     my ($real, $alias) = @_;
     my @real = debarch_to_debtriplet($real);
-    my @alias = debarch_to_debtriplet($alias);
+    my @alias = debwildcard_to_debtriplet($alias);
 
     return 0 if grep(!defined, (@real, @alias));
 
