@@ -229,6 +229,7 @@ if ($opmode eq 'build') {
     &init_substvars;
 
     my @sourcearch;
+    my %archadded;
     my $archspecific = 0; # XXX: Not used?!
     my %packageadded;
     my @binarypackages;
@@ -267,8 +268,6 @@ if ($opmode eq 'build') {
 		    if (@sourcearch && grep($sourcearch[0] eq $_, 'any', 'all')) {
 			@sourcearch= ('any');
 		    } else {
-			my %archadded;
-
 			for my $a (split(/\s+/, $v)) {
 			    &error(sprintf(_g("`%s' is not a legal architecture string"), $a))
 				unless $a =~ /^[\w-]+$/;
