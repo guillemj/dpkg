@@ -209,7 +209,7 @@ for ($i=0;$i<=$#exec;$i++) {
 		warning(sprintf(_g("format of 'NEEDED %s' not recognized"), $1));
 	    }
 	} elsif (/^\s*RPATH\s+(\S+)\s*$/) {
-	    push @{$rpaths{$exec[$i]}}, $1;
+	    push @{$rpaths{$exec[$i]}}, split(/:/, $1);
 	}
     }
     close(P) or subprocerr(sprintf(_g("objdump on \`%s'"), $exec[$i]));
