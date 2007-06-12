@@ -68,14 +68,6 @@ Options:
 sub load_override
 {
     my $override = shift;
-
-    if (defined $override) {
-	-e $override or
-	    die sprintf(_g("Override file %s not found"), $override)."\n";
-    } else {
-	return;
-    }
-
     my $override_fh = new IO::File $override, 'r' or
 	die sprintf(_g("Couldn't open override file %s: %s"), $override, $!)."\n";
 
@@ -143,8 +135,8 @@ my ($binarydir, $override, $pathprefix) = @ARGV;
 
 -d $binarydir or die sprintf(_g("Binary dir %s not found"),
                              $binarydir)."\n";
-
-load_override($override);
+defined $override and -e $override or
+    die sprintf(_g("Override file %s not found"), $override)."\n";
 
 $pathprefix = '' if not defined $pathprefix;
 
@@ -247,6 +239,8 @@ $packages
     while (length($packages)) { write(STDERR) || die $!; }
     print(STDERR "\n") || die $!;
 }
+
+load_override($override) if defined $override;
 
 my @missingover=();
 
