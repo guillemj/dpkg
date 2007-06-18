@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-05-24 19:33+0300\n"
-"PO-Revision-Date: 2007-06-05 09:00+0300\n"
+"PO-Revision-Date: 2007-06-17 19:48+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -995,27 +995,31 @@ msgstr ""
 #: src/archives.c:718
 #, c-format
 msgid "unable to read link `%.255s'"
-msgstr ""
+msgstr "viita `%.255s' pole võimalik lugeda"
 
 #: src/archives.c:722
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
+"failist `%.255s' pole võimalik enne uue versiooni paigaldamist varukoopia "
+"nimeviita luua"
 
 #: src/archives.c:725 src/archives.c:728
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
-msgstr ""
+msgstr "faili `%.255s' nimeviidale pole võimalik pääsuõigusi määrata (chown)"
 
 #: src/archives.c:733
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
+"failist `%.255s' pole võimalik enne uue versiooni paigaldamist varukoopia "
+"viita luua"
 
 #: src/archives.c:757
 #, c-format
 msgid "unable to install new version of `%.255s'"
-msgstr ""
+msgstr "failist `%.255s' pole võimalik uut versiooni paigaldada"
 
 #: src/archives.c:789
 #, c-format
@@ -2560,7 +2564,7 @@ msgstr ""
 #: src/processarc.c:469
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
-msgstr "%.250s asenduse lahtipakkimine ...\n"
+msgstr "Paki %.250s asenduse lahtipakkimine ...\n"
 
 #: src/processarc.c:550
 msgid "unable to exec dpkg-deb to get filesystem archive"
@@ -2879,6 +2883,8 @@ msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
 msgstr ""
+"Pakk on väga halvas seisundis - enne eemaldamist peaksid\n"
+" sa paki uuesti paigaldama."
 
 #: src/remove.c:156
 #, c-format
@@ -3271,7 +3277,7 @@ msgstr ""
 #: dpkg-deb/extract.c:104
 #, c-format
 msgid "failed to read archive `%.255s'"
-msgstr "tõrge arhiiv `%.255s' lugemisel"
+msgstr "tõrge arhiivi `%.255s' lugemisel"
 
 #: dpkg-deb/extract.c:105
 msgid "failed to fstat archive"
@@ -3445,12 +3451,12 @@ msgstr ""
 #: dpkg-deb/extract.c:332
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
-msgstr "--%s vajab vähemalt kahte argumenti (.deb ja kataloog)"
+msgstr "--%s vajab kõige rohkem kahte argumenti (.deb ja kataloog)"
 
 #: dpkg-deb/extract.c:343
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
-msgstr "--%s vajab vähemalt ühte argumenti (.deb failinimi)"
+msgstr "--%s vajab ainult ühte argumenti (.deb failinimi)"
 
 #: dpkg-deb/info.c:49
 msgid "failed to chdir to `/' for cleanup"
@@ -3553,12 +3559,12 @@ msgstr "Vormingu viga"
 
 #: dpkg-deb/info.c:268
 msgid "--contents takes exactly one argument"
-msgstr ""
+msgstr "--contents vajab täpselt ühte argumenti"
 
 #: dpkg-deb/main.c:46
 #, c-format
 msgid "Debian `%s' package archive backend version %s.\n"
-msgstr ""
+msgstr "Debiani `%s' pakiarhiivi taustaprogrammi versioon %s.\n"
 
 #: dpkg-deb/main.c:60
 #, c-format
@@ -3575,6 +3581,20 @@ msgid ""
 "  --fsys-tarfile <deb>             Output filesystem tarfile.\n"
 "\n"
 msgstr ""
+"Käsud:\n"
+"  -b|--build <kataloog> [<deb>]    Arhiivi ehitamine.\n"
+"  -c|--contents <deb>              Sisu kuvamine.\n"
+"  -I|--info <deb> [<jfail> ...]    Andmete väljastamine "
+"standardväljundisse.\n"
+"  -W|--show <deb>                  Paki (või pakkide) andmete näitamine\n"
+"  -f|--field <deb> [<jväli> ...]   Välja(de) väljastamine "
+"standardväljundisse.\n"
+"  -e|--control <deb> [<kataloog>]  Juhtandmete eraldamine.\n"
+"  -x|--extract <deb> <kataloog>    Failide eraldamine.\n"
+"  -X|--vextract <deb> <kataloog>   Failide eraldamine ja nende nimekirja\n"
+"                                   kuvamine.\n"
+"  --fsys-tarfile <deb>             Failisüsteemi tar-arhiivi väljastamine.\n"
+"\n"
 
 #: dpkg-deb/main.c:79
 #, c-format
@@ -3584,6 +3604,10 @@ msgid ""
 "<cfield> is the name of a field in the main `control' file.\n"
 "\n"
 msgstr ""
+"<deb> on Debiani vormingus arhiivifaili nimi.\n"
+"<jfail> on administratiivse failikomponendi nimi.\n"
+"<jväli> on peamises `control' failis oleva välja nimi.\n"
+"\n"
 
 #: dpkg-deb/main.c:85
 #, c-format
@@ -3601,6 +3625,18 @@ msgid ""
 "none.\n"
 "\n"
 msgstr ""
+"Võtmed:\n"
+"  --showformat=<vorming>           --show jaoks alternatiivse vormingu\n"
+"                                     kasutamine.\n"
+"  -D                               Silumisväljundi lubamine.\n"
+"  --old, --new                     Arhiivivormingu valimine.\n"
+"  --nocheck                        Juhtfaili kontrollimise vahelejätmine.\n"
+"                                     (pahade pakkide ehitamine).\n"
+"  -z#                              Pakkimistaseme määramine ehitamisel.\n"
+"  -Z<type>                         Pakkimisliigi määramine paki ehitamisel.\n"
+"                                     Lubatud väärtused: gzip, bzip2, lzma, "
+"none.\n"
+"\n"
 
 #: dpkg-deb/main.c:106
 #, c-format
@@ -3610,12 +3646,19 @@ msgid ""
 "`dselect' or `aptitude' for user-friendly package management.  Packages\n"
 "unpacked using `dpkg-deb --extract' will be incorrectly installed !\n"
 msgstr ""
+"\n"
+"Pakkide süsteemi paigaldamiseks ja eemaldamiseks kasuta programmi `dpkg' "
+"või\n"
+"kasutajasõbralikke pakihaldusvahendeid `dselect' või `aptitude'.  Pakkide\n"
+"lahtipakkimine `dpkg-deb --extract' abil ei ole korrektne paigaldamine!\n"
 
 #: dpkg-deb/main.c:115
 msgid ""
 "Type dpkg-deb --help for help about manipulating *.deb files;\n"
 "Type dpkg --help for help about installing and deinstalling packages."
 msgstr ""
+"Käsu dpkg-deb --help väljund räägib *.deb failidega ümberkäimisest;\n"
+"Käsu dpkg --help väljund räägib pakkide paigaldamisest ja eemaldamisest."
 
 #: dpkg-deb/main.c:194
 #, c-format
@@ -4128,11 +4171,37 @@ msgid ""
 "divert.\n"
 msgstr ""
 
+# "Kasutamine: %s [<võti> ...] <käsk>\n"
+# "\n"
+# "Käsud:\n"
+# "  [--add] <fail>             diversiooni lisamine.\n"
+# "  --remove <fail>            diversiooni eemaldamine.\n"
+# "  --list [<globaalmuster>]   failidiversioonide näitamine.\n"
+# "  --truename <fail>          diversiooniga kõrvale juhitud faili nime\n"
+# "                             tagastamine.\n"
+# "Võtmed:\n"
+# "  --package <pakk>           name of the package whose copy of <file> will not be diverted.\n"
+# "  --local                    kõigi paki versioonide kõrvalejuhtimine.\n"
+# "  --divert <kuhu-juhitakse>  paki teiste versioonide poolt kasutatav nimi.\n"
+# "  --rename                   faili tegelik kõrvale- (või tagasi)tõstmine.\n"
+# "  --admindir <kataloog>      diversioonifaili kataloogi määramine.\n"
+# "  --test                     toimingu demonstratsioon, tegelikult midagi ei\n"
+# "                             tehta.\n"
+# "  --quiet                    toimingute läbiviimine võimalikult vähese\n"
+# "                             väljundiga.\n"
+# "  --help                     selle abiteate näitamine.\n"
+# "  --version                  versiooni näitamine.\n"
+# "\n"
+# "When adding, default is --local and --divert <original>.distrib.\n"
+# "When removing, --package or --local and --divert must match if specified.\n"
+# "Pakkide preinst ja postrm skriptid peaks alati kasutama --package ja "
+# "--divert\n"
+# "võtmeid.\n"
 #: scripts/dpkg-divert.pl:78 scripts/dpkg-statoverride.pl:62
 #: scripts/update-alternatives.pl:233
 #, perl-format
 msgid "two commands specified: %s and --%s"
-msgstr ""
+msgstr "korraga on määratud kaks käsku: %s ja --%s"
 
 #: scripts/dpkg-divert.pl:111
 #, perl-format
@@ -4150,7 +4219,7 @@ msgstr "--%s vajab argumenti <pakk>"
 
 #: scripts/dpkg-divert.pl:117
 msgid "package may not contain newlines"
-msgstr ""
+msgstr "pakk ei tohi sisaldada reavahetusi"
 
 #: scripts/dpkg-divert.pl:119 scripts/dpkg-statoverride.pl:81
 #: scripts/update-alternatives.pl:282 scripts/update-alternatives.pl:285
@@ -4190,7 +4259,7 @@ msgstr "failinimi \"%s\" pole absoluutne"
 
 #: scripts/dpkg-divert.pl:142 scripts/dpkg-statoverride.pl:130
 msgid "file may not contain newlines"
-msgstr ""
+msgstr "fail ei tohi sisaldada reavahetusi"
 
 #: scripts/dpkg-divert.pl:143
 msgid "Cannot divert directories"
@@ -4339,7 +4408,7 @@ msgstr ""
 
 #: scripts/dpkg-statoverride.pl:100
 msgid "no mode specified"
-msgstr ""
+msgstr "režiimi pole määratud"
 
 #: scripts/dpkg-statoverride.pl:104
 msgid "--add needs four arguments"
@@ -4373,7 +4442,7 @@ msgstr ""
 #: scripts/dpkg-statoverride.pl:131 scripts/dpkg-statoverride.pl:158
 #: scripts/dpkg-statoverride.pl:177
 msgid "stripping trailing /"
-msgstr ""
+msgstr "lõpus olev kaldkriips eemaldatakse"
 
 #: scripts/dpkg-statoverride.pl:134
 #, perl-format
@@ -4831,7 +4900,7 @@ msgstr "Automaatse valiku seadmine %s jaoks."
 #: scripts/update-alternatives.pl:688 scripts/update-alternatives.pl:724
 #, perl-format
 msgid "unable to remove %s: %s"
-msgstr ""
+msgstr "faili %s pole võimalik eemaldada: %s"
 
 #: scripts/update-alternatives.pl:378
 #, perl-format
@@ -4939,17 +5008,17 @@ msgstr "nimeviita %s pole võimalik %s peale viitama panna: %s"
 #: scripts/update-alternatives.pl:754
 #, perl-format
 msgid "unable to install %s as %s: %s"
-msgstr ""
+msgstr "faili %s pole võimalik asukohale %s paigaldada: %s"
 
 #: scripts/update-alternatives.pl:570 scripts/update-alternatives.pl:618
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
-msgstr ""
+msgstr "%s (%s) jäetakse viitama failile %s."
 
 #: scripts/update-alternatives.pl:573 scripts/update-alternatives.pl:621
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
-msgstr ""
+msgstr "Viita %s (%s) uuendatakse viitamaks failile %s."
 
 #: scripts/update-alternatives.pl:594
 #, perl-format
@@ -4990,7 +5059,7 @@ msgid ""
 "  Selection    Alternative\n"
 "-----------------------------------------------\n"
 msgstr ""
-"Hetkel on %s alternatiivi, mis tagavad `%s'.\n"
+"Hetkel on `%2$s' tagamiseks %s alternatiivi.\n"
 "\n"
 "      Valik    Alternatiiv\n"
 "-----------------------------------------------\n"
