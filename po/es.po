@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Debian dpkg 1.13.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-05-24 19:33+0300\n"
-"PO-Revision-Date: 2006-09-14 02:25+0200\n"
+"PO-Revision-Date: 2007-06-21 15:28+0200\n"
 "Last-Translator: Javier Fernandez-Sanguino <jfs@debian.org>\n"
 "Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -62,9 +62,9 @@ msgid "Signal no.%d"
 msgstr "Señal nº%d"
 
 #: lib/compression.c:34
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to exec '%s %s'"
-msgstr "%s: fallo al ejecutar gzip %s"
+msgstr "%s: fallo al ejecutar '%s %s'"
 
 #: lib/compression.c:62
 #, c-format
@@ -1158,7 +1158,7 @@ msgstr "dpkg: el paquete %s requiere ser reinstalado, no se desinstalará.\n"
 #: src/archives.c:903
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr ""
+msgstr "el paquete %s tiene demasiadas parejas de Conflictos/Reemplazos"
 
 #: src/archives.c:909
 #, c-format
@@ -1637,39 +1637,39 @@ msgid "unable to check for existence of `%.250s'"
 msgstr "no se puede comprobar la existencia de `%.250s'"
 
 #: src/depcon.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s depends on %s"
-msgstr " depende de "
+msgstr "%s depende de %s"
 
 #: src/depcon.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s pre-depends on %s"
-msgstr " predepende de "
+msgstr "%s predepende de %s"
 
 #: src/depcon.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "%s recommends %s"
-msgstr " recomienda "
+msgstr "%s recomienda %s"
 
 #: src/depcon.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "%s suggests %s"
-msgstr " sugiere "
+msgstr "%s sugiere %s"
 
 #: src/depcon.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%s breaks %s"
-msgstr " rompe "
+msgstr "%s rompe %s"
 
 #: src/depcon.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s conflicts with %s"
-msgstr " entra en conflicto con "
+msgstr "%s entra en conflicto con %s"
 
 #: src/depcon.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%s enhances %s"
-msgstr " mejora "
+msgstr "%s mejora %s"
 
 #: src/depcon.c:269
 #, c-format
@@ -2973,13 +2973,13 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "no se puede efectuar `stat' otro fichero nuevo `%.250s'"
 
 #: src/processarc.c:674
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')\n"
 msgstr ""
-"dpkg: atención - el fichero antiguo `%.250s' es el mismo que varios de los  "
-"nuevos ficheros (tanto `%.250s' como `%.250s')"
+"dpkg: atención - ¡el fichero antiguo `%.250s' es el mismo que algunos de los "
+"nuevos ficheros! (tanto `%.250s' como `%.250s')\n"
 
 #: src/processarc.c:715
 #, c-format
@@ -3469,7 +3469,7 @@ msgstr "dpkg-deb - error: %s (`%s') no contiene ningún dígito\n"
 #: dpkg-deb/build.c:111
 #, c-format
 msgid "file name '%.50s...' is too long"
-msgstr ""
+msgstr "el nombre de fichero '%.50s...' es demasiado largo"
 
 #: dpkg-deb/build.c:172
 msgid "--build needs a directory argument"
@@ -4053,7 +4053,7 @@ msgstr ""
 "<ccampo> es el nombre de un campo en el fichero de `control' principal.\n"
 
 #: dpkg-deb/main.c:85
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -4078,7 +4078,7 @@ msgstr ""
 "                           paquete.\n"
 "  -Z<tipo>                 Establece el tipo de compresión a usar cuando\n"
 "                           se construye un paquete. Valores permitidos:\n"
-"                           «gzip», «bzip2», «none» (ninguna)\n"
+"                           «gzip», «bzip2», «lzma», «none» (ninguna)\n"
 "\n"
 
 #: dpkg-deb/main.c:106
@@ -4691,9 +4691,9 @@ msgstr ""
 
 #: scripts/dpkg-divert.pl:78 scripts/dpkg-statoverride.pl:62
 #: scripts/update-alternatives.pl:233
-#, fuzzy, perl-format
+#, perl-format
 msgid "two commands specified: %s and --%s"
-msgstr "se han especificado dos modos: %s y --%s"
+msgstr "se han especificado dos órdenes: %s y --%s"
 
 #: scripts/dpkg-divert.pl:111
 #, perl-format
@@ -5273,7 +5273,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:78
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5314,7 +5314,7 @@ msgid ""
 msgstr ""
 "Modo de uso: %s [<opción> ...] <orden>\n"
 "\n"
-"Commands:\n"
+"Órdenes:\n"
 "  --install <enlace> <nombre> <ruta> <prioridad>\n"
 "    [--slave <enlace> <nombre> <ruta>] ...\n"
 "                             añade un grupo de alternativas al sistema.\n"
@@ -5333,7 +5333,7 @@ msgstr ""
 "<nombre>.\n"
 "  --all                      llama --config para todas las alternativas.\n"
 "\n"
-"<enlace> es el enlace simbólico que apunta a /etc/alternatives/<nombre>.\n"
+"<enlace> es el enlace simbólico que apunta a %s/<nombre>.\n"
 "  (p.ej. /usr/bin/pager)\n"
 "<nombre> es el nombre principal para este grupo de enlaces.\n"
 "  (p.ej. pager)\n"
@@ -5354,7 +5354,7 @@ msgstr ""
 
 #: scripts/update-alternatives.pl:131
 msgid "invalid update mode"
-msgstr ""
+msgstr "modo de actualización no váido"
 
 #: scripts/update-alternatives.pl:135
 #, perl-format
@@ -5647,13 +5647,13 @@ msgid "Removing %s (%s), not appropriate with %s."
 msgstr "Eliminando %s (%s), no es apropiado para %s."
 
 #: scripts/update-alternatives.pl:635
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "There is no program which provides %s.\n"
 "Nothing to configure.\n"
 msgstr ""
-"Sólo hay un programa que provee %s\n"
-"(%s). No se configurará nada.\n"
+"No hay un programa que provea %s\n"
+"No hay nada que configurar.\n"
 
 #: scripts/update-alternatives.pl:641
 #, perl-format
@@ -5741,59 +5741,44 @@ msgstr "Problema grave: %s"
 #~ msgid "`%s' field, reference to `%.255s': version contains ` '"
 #~ msgstr "campo `%s', referencia a `%.255s': la versión contiene un ` '"
 
-#, fuzzy
 #~ msgid "%s: can't open %s: %s"
-#~ msgstr "no se puede abrir el fichero de registro `%s': %s\n"
+#~ msgstr "%s: no se puede abrir %s: %s"
 
-#, fuzzy
 #~ msgid "%s: error writing %s: %s"
-#~ msgstr "error al escribir `%s'"
+#~ msgstr "%s: error al escribir %s: %s"
 
-#, fuzzy
 #~ msgid "%s: close %s after read: %s"
-#~ msgstr "fallo al cerrar después de la lectura: `%.255s'"
+#~ msgstr "%s: cierre de %s después de la lectura: %s"
 
-#, fuzzy
 #~ msgid "%s: error closing %s: %s"
-#~ msgstr ""
-#~ "%s: error al procesar %s (--%s):\n"
-#~ " %s\n"
+#~ msgstr "%s: error al cerrar %s: %s"
 
-#, fuzzy
 #~ msgid "--admindir needs a directory argument"
-#~ msgstr "--build necesita un directorio como parámetro"
+#~ msgstr "--admindir necesita un directorio como parámetro"
 
-#, fuzzy
 #~ msgid "--remove needs a single argument"
-#~ msgstr "--%s necesita un nombre de fichero .deb como argumento"
+#~ msgstr "--remove necesita un solo argumento"
 
-#, fuzzy
 #~ msgid "--truename needs a single argument"
-#~ msgstr "--build necesita un directorio como parámetro"
+#~ msgstr "--truename necesita un solo argumento"
 
-#, fuzzy
 #~ msgid "--remove needs one arguments"
-#~ msgstr "--%s no toma ningún argumento"
+#~ msgstr "--remove necesita un argumento"
 
-#, fuzzy
 #~ msgid "dpkg-statoverride: %s"
-#~ msgstr "fichero statoverride `%.250s'"
+#~ msgstr "dpkg-statoverride: %s"
 
-#, fuzzy
 #~ msgid "read %s: %s"
-#~ msgstr "desviado por %s"
+#~ msgstr "leído %s: %s"
 
-#, fuzzy
 #~ msgid "--admindir needs a <directory> argument"
-#~ msgstr "--build necesita un directorio como parámetro"
+#~ msgstr "--admindir necesita un parametro <directorio>"
 
-#, fuzzy
 #~ msgid "failed to open %s: %s"
-#~ msgstr "fallo al ejecutar %s (%.250s)"
+#~ msgstr "fallo al abrir %s: %s"
 
-#, fuzzy
 #~ msgid "unable to install %s as %s"
-#~ msgstr "no se puede instalar `%.250s' como `%.250s'"
+#~ msgstr "no se puede instalar `%s' como `%s'"
 
 #~ msgid "version a has bad syntax: %s\n"
 #~ msgstr "la versión `a' tiene una sintaxis errónea: %s\n"
