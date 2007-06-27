@@ -1,6 +1,8 @@
 # dpkg eesti keele tõlge.
 # Estonian translation of dpkg.
 # 
+# This file is distributed under the same license as the dpkg package.
+#
 # Copyright (C) 2006, 2007 Free Software Foundation, Inc.
 # Ivar Smolin <okul at linux ee>, 2006, 2007.
 #
@@ -9,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-05-24 19:33+0300\n"
-"PO-Revision-Date: 2007-06-17 19:48+0300\n"
+"PO-Revision-Date: 2007-06-27 12:31+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -802,7 +804,7 @@ msgstr " pakk `%.255s'"
 
 #: lib/parsehelp.c:53
 msgid "failed to write parsing warning"
-msgstr ""
+msgstr "tõrge parsimishoiatuse kirjutamisel"
 
 #: lib/parsehelp.c:113
 msgid "may not be empty string"
@@ -1573,7 +1575,7 @@ msgstr ""
 #: src/depcon.c:299
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
-msgstr ""
+msgstr "  %.250s on lahti pakitud, kuid seda pole kunagi seadistatud.\n"
 
 #: src/depcon.c:303
 #, c-format
@@ -1588,12 +1590,12 @@ msgstr ""
 #: src/depcon.c:318
 #, c-format
 msgid "  %.250s is %s.\n"
-msgstr ""
+msgstr "  %.250s on %s.\n"
 
 #: src/depcon.c:354
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
-msgstr ""
+msgstr "  %.250s tagab paki %.250s, kuid see on määratud eemaldamiseks.\n"
 
 #: src/depcon.c:358
 #, c-format
@@ -2598,6 +2600,8 @@ msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
 "been deleted)\n"
 msgstr ""
+"dpkg: hoiatus - vana seadistusfail `%.250s' oli tühi kataloog (ja on "
+"nüüdseks kustutatud)\n"
 
 #: src/processarc.c:663
 #, c-format
@@ -2647,7 +2651,7 @@ msgstr ""
 #: src/processarc.c:790
 #, c-format
 msgid "package control info contained directory `%.250s'"
-msgstr ""
+msgstr "paki juhtandmed sisaldavad kataloogi `%.250s'"
 
 #: src/processarc.c:792
 #, c-format
@@ -2672,7 +2676,7 @@ msgstr ""
 #: src/processarc.c:998
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
-msgstr ""
+msgstr "juhtandmete kadunud faili `%.250s' pole võimalik kustutada"
 
 #: src/query.c:160
 msgid ""
@@ -2734,7 +2738,7 @@ msgstr "Pakk `%s' pole paigaldatud ja andmeid pole saadaval.\n"
 #: src/query.c:350
 #, c-format
 msgid "Package `%s' is not available.\n"
-msgstr ""
+msgstr "Pakk `%s' pole saadaval.\n"
 
 #: src/query.c:360
 #, c-format
@@ -2744,7 +2748,7 @@ msgstr "Pakk `%s' pole paigaldatud.\n"
 #: src/query.c:369
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
-msgstr ""
+msgstr "Pakk `%s' ei sisalda ühtki faili (!)\n"
 
 #: src/query.c:376
 #, c-format
@@ -2916,7 +2920,7 @@ msgstr "faili `%.250s' pole võimalik eemaldada"
 #: src/remove.c:315
 #, c-format
 msgid "unable to delete control info file `%.250s'"
-msgstr ""
+msgstr "juhtandmete faili `%.250s' pole võimalik kustutada"
 
 #: src/remove.c:368
 #, c-format
@@ -3350,7 +3354,7 @@ msgstr ""
 
 #: dpkg-deb/extract.c:199
 msgid "control information length"
-msgstr ""
+msgstr "juhtandmete pikkus"
 
 #: dpkg-deb/extract.c:201
 #, c-format
@@ -4171,32 +4175,6 @@ msgid ""
 "divert.\n"
 msgstr ""
 
-# "Kasutamine: %s [<võti> ...] <käsk>\n"
-# "\n"
-# "Käsud:\n"
-# "  [--add] <fail>             diversiooni lisamine.\n"
-# "  --remove <fail>            diversiooni eemaldamine.\n"
-# "  --list [<globaalmuster>]   failidiversioonide näitamine.\n"
-# "  --truename <fail>          diversiooniga kõrvale juhitud faili nime\n"
-# "                             tagastamine.\n"
-# "Võtmed:\n"
-# "  --package <pakk>           name of the package whose copy of <file> will not be diverted.\n"
-# "  --local                    kõigi paki versioonide kõrvalejuhtimine.\n"
-# "  --divert <kuhu-juhitakse>  paki teiste versioonide poolt kasutatav nimi.\n"
-# "  --rename                   faili tegelik kõrvale- (või tagasi)tõstmine.\n"
-# "  --admindir <kataloog>      diversioonifaili kataloogi määramine.\n"
-# "  --test                     toimingu demonstratsioon, tegelikult midagi ei\n"
-# "                             tehta.\n"
-# "  --quiet                    toimingute läbiviimine võimalikult vähese\n"
-# "                             väljundiga.\n"
-# "  --help                     selle abiteate näitamine.\n"
-# "  --version                  versiooni näitamine.\n"
-# "\n"
-# "When adding, default is --local and --divert <original>.distrib.\n"
-# "When removing, --package or --local and --divert must match if specified.\n"
-# "Pakkide preinst ja postrm skriptid peaks alati kasutama --package ja "
-# "--divert\n"
-# "võtmeid.\n"
 #: scripts/dpkg-divert.pl:78 scripts/dpkg-statoverride.pl:62
 #: scripts/update-alternatives.pl:233
 #, perl-format
