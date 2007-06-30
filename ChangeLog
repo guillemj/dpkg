@@ -1,3 +1,19 @@
+2007-07-01  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* scripts/dpkg-source.pl: Don't remove setgid bits
+	on directories when extracting the .orig tarball
+	since the user might prefer to have them. Also don't
+	manually override user and group for extracted
+	directories. Instead we will take tar take of most
+	of that.
+	(extracttar): Explicetly specify --no-same-owner
+	and --no-same-permissions. They are default anyway
+	for non-root users, but no need to handle the source
+	differently (i.e. more carelessly) if working as root.
+	Since tar still insists on honoring the file permissions in the
+	tar ball, fix them up so that they match what the user would
+	expect according to his umask.
+
 2007-06-12  Jiří Paleček  <jpalecek@web.de>
 
 	* dpkg-shlibdeps.pl: Support colon separated list of paths in the

@@ -817,10 +817,8 @@ if ($opmode eq 'build') {
 	(my $t = $target) =~ s!.*/!!;
 
 	mkdir($tmp,0700) || &syserr(sprintf(_g("unable to create `%s'"), $tmp));
-	system "chmod", "g-s", $tmp;
 	printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
 	extracttar("$dscdir/$tarfile",$tmp,$t);
-	system "chown", '-R', '-f', join(':', getfowner()), "$tmp/$t";
 	rename("$tmp/$t",$target)
 	    || &syserr(sprintf(_g("unable to rename `%s' to `%s'"), "$tmp/$t", $target));
 	rmdir($tmp)
@@ -1298,18 +1296,48 @@ sub checkdiff
 
 sub extracttar {
     my ($tarfileread,$dirchdir,$newtopdir) = @_;
+    my ($mode, $modes_set, $i, $j);
     &forkgzipread("$tarfileread");
     defined(my $c2 = fork) || syserr(_g("fork for tar -xkf -"));
     if (!$c2) {
         open(STDIN,"<&GZIP") || &syserr(_g("reopen gzip for tar -xkf -"));
         &cpiostderr;
         chdir($dirchdir) || &syserr(sprintf(_g("cannot chdir to `%s' for tar extract"), $dirchdir));
-        exec('tar','-xkf','-') or &syserr(_g("exec tar -xkf -"));
+	exec('tar','--no-same-owner','--no-same-permissions',
+	     '-xkf','-') or &syserr(_g("exec tar -xkf -"));
     }
     close(GZIP);
     $c2 == waitpid($c2,0) || &syserr(_g("wait for tar -xkf -"));
     $? && subprocerr("tar -xkf -");
     &reapgzip;
+
+    # Unfortunately tar insists on applying our umask _to the original
+    # permissions_ rather than mostly-ignoring the original
+    # permissions.  We fix it up with chmod -R (which saves us some
+    # work) but we have to construct a u+/- string which is a bit
+    # of a palaver.  (Numeric doesn't work because we need [ugo]+X
+    # and [ugo]=<stuff> doesn't work because that unsets sgid on dirs.)
+    #
+    # We still need --no-same-permissions because otherwise tar might
+    # extract directory setgid (which we want inherited, not
+    # extracted); we need --no-same-owner because putting the owner
+    # back is tedious - in particular, correct group ownership would
+    # have to be calculated using mount options and other madness.
+    #
+    # It would be nice if tar could do it right, or if pax could cope
+    # with GNU format tarfiles with long filenames.
+    #
+    $mode= 0777 & ~umask;
+    for ($i=0; $i<9; $i+=3) {
+	$modes_set.= ',' if $i;
+	$modes_set.= qw(u g o)[$i/3];
+	for ($j=0; $j<3; $j++) {
+	    $modes_set.= $mode & (0400 >> ($i+$j)) ? '+' : '-';
+	    $modes_set.= qw(r w X)[$j];
+	}
+    }
+    system 'chmod','-R',$modes_set,'--',$dirchdir;
+    $? && subprocerr("chmod -R $modes_set $dirchdir");
 
     opendir(D,"$dirchdir") || &syserr(sprintf(_g("Unable to open dir %s"), $dirchdir));
     my @dirchdirfiles = grep($_ ne "." && $_ ne "..", readdir(D));
