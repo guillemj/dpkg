@@ -510,6 +510,7 @@ if ($opmode eq 'build') {
             $fn =~ s,^\./,,;
             lstat("$dir/$fn") || &syserr(sprintf(_g("cannot stat file %s"), "$dir/$fn"));
 	    my $mode = S_IMODE((lstat(_))[2]);
+	    my $size = (lstat(_))[7];
             if (-l _) {
                 $type{$fn}= 'symlink';
 		checktype($origdir, $fn, '-l') || next;
@@ -526,12 +527,16 @@ if ($opmode eq 'build') {
                 if (!lstat("$origdir/$fn")) {
                     $! == ENOENT || &syserr(sprintf(_g("cannot stat orig file %s"), "$origdir/$fn"));
                     $ofnread= '/dev/null';
-		    if( $mode & ( S_IXUSR | S_IXGRP | S_IXOTH ) ) {
-			warning(sprintf(_g("executable mode %04o of '%s' will not be represented in diff"), $mode, $fn))
-			    unless $fn eq 'debian/rules';
-		    }
-		    if( $mode & ( S_ISUID | S_ISGID | S_ISVTX ) ) {
-			warning(sprintf(_g("special mode %04o of '%s' will not be represented in diff"), $mode, $fn));
+		    if( !$size ) {
+			warning(sprintf(_g("newly created empty file '%s' will not be represented in diff"), $fn));
+		    } else {
+			if( $mode & ( S_IXUSR | S_IXGRP | S_IXOTH ) ) {
+			    warning(sprintf(_g("executable mode %04o of '%s' will not be represented in diff"), $mode, $fn))
+				unless $fn eq 'debian/rules';
+			}
+			if( $mode & ( S_ISUID | S_ISGID | S_ISVTX ) ) {
+			    warning(sprintf(_g("special mode %04o of '%s' will not be represented in diff"), $mode, $fn));
+			}
 		    }
                 } elsif (-f _) {
                     $ofnread= "$origdir/$fn";
