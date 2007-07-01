@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = po
+SUBDIRS = po modules
 
 bin_SCRIPTS = \
 	822-date \
@@ -10,6 +10,7 @@ bin_SCRIPTS = \
 	dpkg-distaddfile \
 	dpkg-genchanges \
 	dpkg-gencontrol \
+	dpkg-gensymbols \
 	dpkg-name \
 	dpkg-parsechangelog \
 	dpkg-scanpackages \
@@ -36,6 +37,7 @@ EXTRA_DIST = \
 	dpkg-distaddfile.pl \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
+	dpkg-gensymbols.pl \
 	dpkg-name.sh \
 	dpkg-parsechangelog.pl \
 	dpkg-scanpackages.pl \
