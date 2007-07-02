@@ -29,7 +29,7 @@ parse_ldso_conf("/etc/ld.so.conf") if -e "/etc/ld.so.conf";
 sub parse_ldso_conf {
     my $file = shift;
     my $fh = new IO::File;
-    $fh->open("< $file")
+    $fh->open($file, "<")
 	or main::syserr(sprintf(_g("couldn't open %s: %s"), $file, $!));
     while (<$fh>) {
 	next if /^\s*$/;

@@ -34,7 +34,7 @@ sub clear_except {
 sub load {
     my ($self, $file) = @_;
     $self->{file} = $file;
-    open(SYM_FILE, "< $file") || main::syserr(sprintf(_g("Can't open %s: %s"), $file));
+    open(SYM_FILE, "<", $file) || main::syserr(sprintf(_g("Can't open %s: %s"), $file));
     my ($object);
     while (defined($_ = <SYM_FILE>)) {
 	chomp($_);

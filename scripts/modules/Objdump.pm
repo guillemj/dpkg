@@ -13,7 +13,8 @@ sub new {
 sub parse {
     my ($self, $file) = @_;
     local $ENV{LC_ALL} = 'C';
-    open(OBJDUMP, "objdump -w -p -T $file |") || syserr(sprintf(_g("Can't execute objdump: %s"), $!));
+    open(OBJDUMP, "-|", "objdump", "-w", "-p", "-T", $file) || 
+	    syserr(sprintf(_g("Can't execute objdump: %s"), $!));
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
     my $section = "none";
     while (defined($_ = <OBJDUMP>)) {
@@ -171,7 +172,7 @@ sub get_object {
 
 sub is_elf {
     my ($file) = @_;
-    open(FILE, "< $file") || main::syserr(sprintf(_g("Can't open %s for test: %s"), $file, $!));
+    open(FILE, "<", $file) || main::syserr(sprintf(_g("Can't open %s for test: %s"), $file, $!));
     my ($header, $result) = ("", 0);
     if (read(FILE, $header, 4) == 4) {
 	$result = 1 if ($header =~ /^\177ELF$/);

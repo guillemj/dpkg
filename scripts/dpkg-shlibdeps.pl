@@ -202,10 +202,10 @@ my $fh;
 if ($stdout) {
     $fh = \*STDOUT;
 } else {
-    open(NEW,"> $varlistfile.new") ||
+    open(NEW, ">", "$varlistfile.new") ||
         syserr(sprintf(_g("open new substvars file \`%s'"), "$varlistfile.new"));
     if (-e $varlistfile) {
-	open(OLD,"< $varlistfile") || 
+	open(OLD, "<", $varlistfile) || 
 	    syserr(sprintf(_g("open old varlist file \`%s' for reading"), $varlistfile));
 	foreach my $entry (grep { not /^\Q$varnameprefix\E:/ } (<OLD>)) {
 	    print(NEW $entry) ||
@@ -336,7 +336,7 @@ sub extract_from_shlibs {
     }
     # Open shlibs file
     $shlibfile = "./$shlibfile" if $shlibfile =~ m/^\s/;
-    open(SHLIBS, "< $shlibfile") || syserr(sprintf(_g("unable to open shared libs info file \`%s'"), $shlibfile));
+    open(SHLIBS, "<", $shlibfile) || syserr(sprintf(_g("unable to open shared libs info file \`%s'"), $shlibfile));
     my $dep;
     while (<SHLIBS>) {
 	s/\s*\n$//; next if m/^\#/;
@@ -371,7 +371,7 @@ sub find_symbols_file {
 
 sub symfile_has_soname {
     my ($file, $soname) = @_;
-    open(SYM_FILE, "< $file") || syserr("can't open file $file");
+    open(SYM_FILE, "<", $file) || syserr("can't open file $file");
     my $result = 0;
     while (<SYM_FILE>) {
 	if (/^\Q$soname\E /) {
@@ -403,8 +403,14 @@ sub my_find_library {
 sub find_packages {
     my @files = (@_);
     my $pkgmatch = {};
-    open(DPKG, "dpkg --search -- @files 2>/dev/null |") ||
-	syserr(sprintf(_g("Can't execute dpkg --search: %s"), $!));
+    my $pid = open(DPKG, "-|") || syserr(_g("cannot fork for dpkg --search"));;
+    if (!$pid) {
+	# Child process running dpkg --search and discarding errors
+	close STDERR;
+	open STDERR, ">", "/dev/null";
+	$ENV{LC_ALL} = "C";
+	exec("dpkg", "--search", "--", @files) or syserr(_g("cannot exec dpkg"));;
+    }
     while(defined($_ = <DPKG>)) {
 	chomp($_);
 	if (m/^local diversion |^diversion by/) {
