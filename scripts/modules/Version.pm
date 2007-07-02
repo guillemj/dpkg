@@ -14,3 +14,4 @@ sub compare_versions {
     return 1;
 }
 
+1;

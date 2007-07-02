@@ -67,3 +67,4 @@ sub find_library {
     return undef;
 }
 
+1;
