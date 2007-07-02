@@ -403,7 +403,8 @@ sub my_find_library {
 sub find_packages {
     my @files = (@_);
     my $pkgmatch = {};
-    my $pid = open(DPKG, "-|") || syserr(_g("cannot fork for dpkg --search"));;
+    my $pid = open(DPKG, "-|");
+    syserr(_g("cannot fork for dpkg --search")) unless defined($pid);
     if (!$pid) {
 	# Child process running dpkg --search and discarding errors
 	close STDERR;
