@@ -27,6 +27,17 @@ install-data-local:
 		fi \
 	done
 
+uninstall-local:
+	for lang in $(LINGUAS); do \
+		if [ -d $(srcdir)/$$lang ]; then \
+			files=$$(echo $(srcdir)/$$lang/*.[1-9]); \
+			$(MAKE) uninstall-man \
+				mandir="$(mandir)/$$lang" \
+				man_MANS="" \
+				dist_man_MANS="$$files"; \
+		fi \
+	done
+
 dist-hook: man.stamp
 	cp $(srcdir)/man.stamp $(distdir)/
 	for lang in $(LINGUAS); do \
