@@ -1,3 +1,19 @@
+# Copyright (C) 2007  Raphael Hertzog
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 package Dpkg::Shlibs::Objdump;
 
 require 'dpkg-gettext.pl';
@@ -70,7 +86,7 @@ sub parse {
 
 # Output format of objdump -w -T
 #
-# /lib/libc.so.6:     format de fichier elf32-i386
+# /lib/libc.so.6:     file format elf32-i386
 # 
 # DYNAMIC SYMBOL TABLE:
 # 00056ef0 g    DF .text  000000db  GLIBC_2.2   getwchar
