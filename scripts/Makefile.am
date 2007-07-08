@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = po modules
+SUBDIRS = po Dpkg
 
 bin_SCRIPTS = \
 	822-date \
