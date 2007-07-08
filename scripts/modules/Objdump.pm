@@ -29,14 +29,14 @@ sub new {
 sub parse {
     my ($self, $file) = @_;
     local $ENV{LC_ALL} = 'C';
-    open(OBJDUMP, "-|", "objdump", "-w", "-p", "-T", $file) || 
+    open(OBJDUMP, "-|", "objdump", "-w", "-p", "-T", $file) ||
 	    syserr(sprintf(_g("Can't execute objdump: %s"), $!));
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
     my $section = "none";
     while (defined($_ = <OBJDUMP>)) {
 	chomp($_);
 	next if (/^\s*$/);
-	
+
 	if ($_ =~ /^DYNAMIC SYMBOL TABLE:/) {
 	    $section = "dynsym";
 	    next;
@@ -87,7 +87,7 @@ sub parse {
 # Output format of objdump -w -T
 #
 # /lib/libc.so.6:     file format elf32-i386
-# 
+#
 # DYNAMIC SYMBOL TABLE:
 # 00056ef0 g    DF .text  000000db  GLIBC_2.2   getwchar
 # 00000000 g    DO *ABS*  00000000  GCC_3.0     GCC_3.0
@@ -96,7 +96,7 @@ sub parse {
 # 0000b788 g    DF .text  0000008e  Base        .protected xine_close
 # |        ||||||| |      |         |           |
 # |        ||||||| |      |         Version str (.visibility) + Symbol name
-# |        ||||||| |      Alignment           
+# |        ||||||| |      Alignment
 # |        ||||||| Section name (or *UND* for an undefined symbol)
 # |        ||||||F=Function,f=file,O=object
 # |        |||||d=debugging,D=dynamic
@@ -104,7 +104,7 @@ sub parse {
 # |        |||W=warning
 # |        ||C=constructor
 # |        |w=weak
-# |        g=global,l=local,!=both global/local   
+# |        g=global,l=local,!=both global/local
 # Size of the symbol
 #
 # GLIBC_2.2 is the version string associated to the symbol
@@ -128,7 +128,7 @@ sub parse_dynamic_symbol {
 		'hidden' => 0,
 		'defined' => $sect ne '*UND*'
 	    };
-	
+
 	# Handle hidden symbols
 	if (defined($ver) and $ver =~ /^\((.*)\)$/) {
 	    $ver = $1;
@@ -167,22 +167,22 @@ sub get_object {
 {
     my %format; # Cache of result
     sub get_format {
-        my ($file) = @_;
+	my ($file) = @_;
 
-        if (exists $format{$file}) {
-            return $format{$file};
-        } else {
-            local $ENV{LC_ALL} = "C";
-            open(P, "objdump -a -- $file |") || syserr(_g("cannot fork for objdump"));
-            while (<P>) {
-                chomp;
-                if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
-                    $format{$file} = $1;
-                    return $format{$file};
-                }
-            }
-            close(P) or main::subprocerr(sprintf(_g("objdump on \`%s'"), $file));
-        }
+	if (exists $format{$file}) {
+	    return $format{$file};
+	} else {
+	    local $ENV{LC_ALL} = "C";
+	    open(P, "objdump -a -- $file |") || syserr(_g("cannot fork for objdump"));
+	    while (<P>) {
+		chomp;
+		if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
+		    $format{$file} = $1;
+		    return $format{$file};
+		}
+	    }
+	    close(P) or main::subprocerr(sprintf(_g("objdump on \`%s'"), $file));
+	}
     }
 }
 
@@ -234,13 +234,13 @@ sub get_symbol {
 
 sub get_exported_dynamic_symbols {
     my ($self) = @_;
-    return grep { $_->{defined} && $_->{dynamic} } 
+    return grep { $_->{defined} && $_->{dynamic} }
 	    values %{$self->{dynsyms}};
 }
 
 sub get_undefined_dynamic_symbols {
     my ($self) = @_;
-    return grep { (!$_->{defined}) && $_->{dynamic} } 
+    return grep { (!$_->{defined}) && $_->{dynamic} }
 	    values %{$self->{dynsyms}};
 }
 

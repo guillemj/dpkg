@@ -120,8 +120,8 @@ sub dump {
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
     my $soname = $object->{SONAME} || main::error(_g("Can't merge symbols from objects without SONAME."));
-    my %dynsyms = map { $_ => $object->{dynsyms}{$_} } 
-	grep { local $a = $object->{dynsyms}{$_}; $a->{dynamic} && $a->{defined} } 
+    my %dynsyms = map { $_ => $object->{dynsyms}{$_} }
+	grep { local $a = $object->{dynsyms}{$_}; $a->{dynamic} && $a->{defined} }
 	keys %{$object->{dynsyms}};
     # Scan all symbols provided by the objects
     foreach my $sym (keys %dynsyms) {
@@ -183,7 +183,7 @@ sub lookup_symbol {
     foreach my $so (@{$sonames}) {
 	next if (! exists $self->{objects}{$so});
 	if (exists $self->{objects}{$so}{syms}{$name} and
-	    not $self->{objects}{$so}{syms}{$name}{deprecated}) 
+	    not $self->{objects}{$so}{syms}{$name}{deprecated})
 	{
 	    my $dep_id = $self->{objects}{$so}{syms}{$name}{dep_id};
 	    return {
@@ -202,11 +202,11 @@ sub has_lost_symbols {
 	my $mysyms = $self->{objects}{$soname}{syms};
 	next if not exists $ref->{objects}{$soname};
 	my $refsyms = $ref->{objects}{$soname}{syms};
-	foreach my $sym (grep { not $refsyms->{$_}{deprecated} } 
-	    keys %{$refsyms}) 
+	foreach my $sym (grep { not $refsyms->{$_}{deprecated} }
+	    keys %{$refsyms})
 	{
-	    if ((not exists $mysyms->{$sym}) or 
-		$mysyms->{$sym}{deprecated}) 
+	    if ((not exists $mysyms->{$sym}) or
+		$mysyms->{$sym}{deprecated})
 	    {
 		return 1;
 	    }
@@ -221,11 +221,11 @@ sub has_new_symbols {
 	my $mysyms = $self->{objects}{$soname}{syms};
 	next if not exists $ref->{objects}{$soname};
 	my $refsyms = $ref->{objects}{$soname}{syms};
-	foreach my $sym (grep { not $mysyms->{$_}{deprecated} } 
-	    keys %{$mysyms}) 
+	foreach my $sym (grep { not $mysyms->{$_}{deprecated} }
+	    keys %{$mysyms})
 	{
-	    if ((not exists $refsyms->{$sym}) or 
-		$refsyms->{$sym}{deprecated}) 
+	    if ((not exists $refsyms->{$sym}) or
+		$refsyms->{$sym}{deprecated})
 	    {
 		return 1;
 	    }

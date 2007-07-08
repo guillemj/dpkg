@@ -30,10 +30,10 @@ our @librarypaths = qw(/lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64
 # Update library paths with LD_LIBRARY_PATH
 if ($ENV{LD_LIBRARY_PATH}) {
     foreach my $path (reverse split( /:/, $ENV{LD_LIBRARY_PATH} )) {
-        $path =~ s{/+$}{};
-        unless (scalar grep { $_ eq $path } @librarypaths) {
-            unshift @librarypaths, $path;
-        }
+	$path =~ s{/+$}{};
+	unless (scalar grep { $_ eq $path } @librarypaths) {
+	    unshift @librarypaths, $path;
+	}
     }
 }
 
@@ -47,7 +47,7 @@ sub parse_ldso_conf {
 	or main::syserr(sprintf(_g("couldn't open %s: %s"), $file, $!));
     while (<$fh>) {
 	next if /^\s*$/;
-        chomp;
+	chomp;
 	s{/+$}{};
 	if (/^include\s+(\S.*\S)\s*$/) {
 	    foreach my $include (glob($1)) {
