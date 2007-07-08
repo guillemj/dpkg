@@ -99,3 +99,9 @@ install-data-local:
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
 	rm -f $(DESTDIR)$(sbindir)/install-info
+
+TEST_FILES= t/*.t
+TEST_VERBOSE= 0
+
+test:
+	PERL_DL_NONLAZY=1 $(PERL) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)
