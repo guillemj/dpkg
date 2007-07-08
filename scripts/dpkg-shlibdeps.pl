@@ -16,7 +16,7 @@ BEGIN {
     push(@INC,$dpkglibdir);
 }
 
-use Dpkg::Version qw(compare_versions);
+use Dpkg::Version qw(vercmp);
 use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
@@ -166,7 +166,7 @@ foreach my $file (keys %exec) {
 		    defined($dependencies{$cur_field}{$subdep})) 
 		{
 		    if ($dependencies{$cur_field}{$subdep} eq '' or 
-			compare_versions($m, "gt", $dependencies{$cur_field}{$subdep})) 
+			vercmp($m, $dependencies{$cur_field}{$subdep}) > 0)
 		    {
 			$dependencies{$cur_field}{$subdep} = $m;
 		    }
@@ -240,8 +240,7 @@ foreach my $field (reverse @depfields) {
 		    # Since dependencies can be versionned, we have to
 		    # verify if the dependency is stronger than the
 		    # previously seen one
-		    if (compare_versions($depseen{$_}, "gt",
-			$dependencies{$field}{$_})) {
+		    if (vercmp($depseen{$_}, $dependencies{$field}{$_}) > 0) {
 			0;
 		    } else {
 			$depseen{$_} = $dependencies{$field}{$_};

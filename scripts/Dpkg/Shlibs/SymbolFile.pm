@@ -18,7 +18,7 @@ package Dpkg::Shlibs::SymbolFile;
 
 require 'dpkg-gettext.pl';
 
-use Dpkg::Version qw(compare_versions);
+use Dpkg::Version qw(vercmp);
 
 sub new {
     my $this = shift;
@@ -136,7 +136,7 @@ sub merge_symbols {
 	    }
 	    # We assume that the right dependency information is already
 	    # there.
-	    if (compare_versions($minver, "lt", $info->{minver})) {
+	    if (vercmp($minver, $info->{minver}) < 0) {
 		$info->{minver} = $minver;
 	    }
 	} else {

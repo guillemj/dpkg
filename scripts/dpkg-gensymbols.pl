@@ -12,7 +12,6 @@ BEGIN {
 }
 require 'controllib.pl';
 
-use Dpkg::Version qw(compare_versions);
 use Dpkg::Shlibs qw(@librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
