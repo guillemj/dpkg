@@ -5,9 +5,6 @@ use Test::More;
 use warnings;
 use strict;
 
-use utf8;
-use Encode;
-
 # Default cmp '>'
 my @versions = ({a      => '1.0-1',
 		 b      => '2.0-2',
