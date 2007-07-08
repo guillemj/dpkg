@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2007-07-01 15:48+0200\n"
-"PO-Revision-Date: 2007-06-09 17:04+0200\n"
+"PO-Revision-Date: 2007-07-08 13:01+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -1331,9 +1331,9 @@ msgstr "deb-substvars"
 #: ../../man/dpkg-shlibdeps.1:1 ../../man/dpkg-source.1:2
 #: ../../man/dpkg-statoverride.8:1 ../../man/install-info.8:5
 #: ../../man/update-alternatives.8:8
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-06-12"
-msgstr "2007-05-12"
+msgstr "2007-06-12"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:5
@@ -1394,11 +1394,16 @@ msgid ""
 "I<name>B<=>I<value>.  Trailing whitespace on each line, blank lines, and "
 "lines starting with a B<#> symbol (comments) are ignored."
 msgstr ""
+"Variablen können über die allgemeine B<-V>-Option gesetzt werden. Sie können "
+"auch in der B<debian/substvars> (bzw. in der über die Option B<-T> gesetzten "
+"Datei) angegeben werden. Diese Datei besteht auch Zeilen der Form I<Name>B<=>"
+"I<Wert>. Leerzeichen am Zeilenende, leere Zeilen und Zeilen, die mit dem B<#>-"
+"Symbol starten (Kommentare) werden ignoriert."
 
 # type: Plain text
 #: ../../man/deb-substvars.5:48
 msgid "Additionally, the following standard variables are available:"
-msgstr ""
+msgstr "Zusätzlich sind die folgenden Standardvariablen verfügbar:"
 
 # type: TP
 #: ../../man/deb-substvars.5:48
@@ -1434,6 +1439,8 @@ msgid ""
 "The upstream source package version, including the Debian version epoch if "
 "any."
 msgstr ""
+"Die Paketversion der Originalautoren, einschließlich der Epoche der Debian-"
+"Version, falls vorhanden."
 
 # type: TP
 #: ../../man/deb-substvars.5:59
@@ -1447,6 +1454,8 @@ msgid ""
 "The binary package version (which may differ from source:Version in a binNMU "
 "for example)."
 msgstr ""
+"Die Binärpaketversion (die z.B. von source:Version in einem binNMU abweichen "
+"kann)."
 
 # type: TP
 #: ../../man/deb-substvars.5:63
@@ -1461,12 +1470,15 @@ msgid ""
 "B<deprecated> as its meaning is different from its function, please use the "
 "B<source:Version> or B<binary:Version> as appropriate."
 msgstr ""
+"Die Quellpaketversion (aus der changelog-Datei)A. Diese Variable ist jetzt "
+"B<veraltet>, da ihre Bedeutung von ihrer Funktion abweicht, bitte verwenden "
+"Sie B<source:Version> oder B<binary:Version> wo zutreffend."
 
 # type: TP
 #: ../../man/deb-substvars.5:68
 #, no-wrap
 msgid "B<Installed-Size>"
-msgstr ""
+msgstr "B<Installed-Size>"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:77
@@ -1476,12 +1488,17 @@ msgid ""
 "that field. If this variable isn't set B<dpkg-gencontrol> will use B<du -k "
 "debian/tmp> to find the default value."
 msgstr ""
+"Die Gesamtgröße der vom Paket installierten Dateien. Dieser Wert wird in das "
+"entsprechende Feld der »control«-Datei kopiert; wird es gesetzt, verändert "
+"es den Wert dieses Feldes. Falls diese Variable nicht gesetzt ist, wird "
+"B<dpkg-gencontrol> »B<du -k debian/tmp>« verwenden, um den Standardwert zu "
+"ermitteln."
 
 # type: TP
 #: ../../man/deb-substvars.5:77
 #, no-wrap
 msgid "B<Extra-Size>"
-msgstr ""
+msgstr "B<Extra-Size>"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:86
@@ -1491,12 +1508,17 @@ msgid ""
 "set explicitly or using the default value) before it is copied into the "
 "B<Installed-Size> control file field."
 msgstr ""
+"Zusätzlicher Plattenplatz, der verwendet wird, wenn das Paket installiert "
+"ist. Falls diese Variable gesetzt ist, wird dieser Wert zu der B<Installed-"
+"Size>-Variablen hinzuaddiert (egal ob sie explizit gesetzt oder der "
+"Standardwert verwendet wird), bevor sie in das Feld B<Installed-Size> der "
+"»control«-Datei kopiert wird."
 
 # type: TP
 #: ../../man/deb-substvars.5:86
 #, no-wrap
 msgid "B<F:>I<fieldname>"
-msgstr ""
+msgstr "B<F:>I<Feldname>"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:93
@@ -1505,6 +1527,9 @@ msgid ""
 "canonical capitalisation). Setting these variables has no effect other than "
 "on places where they are expanded explicitly."
 msgstr ""
+"Der Wert des Ausgabefeldes I<Feldname> (der in der kanonischen Groß-/"
+"Kleinschreibung angegeben werden muss). Das Setzten dieser Variablen hat "
+"nur einen Effekt an den Stellen, wo diese explizit expandiert werden."
 
 # type: TP
 #: ../../man/deb-substvars.5:93
@@ -1519,29 +1544,36 @@ msgid ""
 "packaging scripts. If you set this variable the contents of the B<Format> "
 "field in the B<.changes> file will change too."
 msgstr ""
+"Die Formatversion der B<.changes> -Datei, die von dieser Version der "
+"Quellpaketierskripte erstellt wird. Falls Sie diese Variable setzten, werden "
+"die Inhalte des B<Format>-Feldes in der B<.changes>-Datei auch geändert."
 
 # type: TP
 #: ../../man/deb-substvars.5:103
 #, no-wrap
 msgid "B<Newline>, B<Space>, B<Tab>"
-msgstr ""
+msgstr "B<Newline>, B<Space>, B<Tab>"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:106
 msgid "These variables each hold the corresponding character."
 msgstr ""
+"Diese Variablen enthalten das jeweils korresponideren Zeichen "
+"(B<Zeilenumbruch>, B<Leerzeichen> und B<Tabulator> in dieser Reihenfolge)."
 
 # type: TP
 #: ../../man/deb-substvars.5:106
 #, no-wrap
 msgid "B<shlibs:>I<dependencyfield>"
-msgstr ""
+msgstr "B<shlibs:>I<dependencyfield>"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:110
 msgid ""
 "Variable settings with names of this form are generated by B<dpkg-shlibdeps>."
 msgstr ""
+"Variableneinstellungen mit Namen dieser Form werden von B<dpkg-shlibdeps> "
+"erstellt."
 
 # type: TP
 #: ../../man/deb-substvars.5:110
@@ -1552,7 +1584,7 @@ msgstr "B<dpkg:Upstream-Version>"
 # type: Plain text
 #: ../../man/deb-substvars.5:113
 msgid "The upstream version of dpkg."
-msgstr ""
+msgstr "Die Original- (Upstream-)Version von Dpkg."
 
 # type: TP
 #: ../../man/deb-substvars.5:113
@@ -1563,7 +1595,7 @@ msgstr "B<dpkg:Version>"
 # type: Plain text
 #: ../../man/deb-substvars.5:116
 msgid "The full version of dpkg."
-msgstr ""
+msgstr "Die komplette Version von Dpkg."
 
 # type: Plain text
 #: ../../man/deb-substvars.5:119
@@ -1571,6 +1603,8 @@ msgid ""
 "If a variable is referred to but not defined it generates a warning and an "
 "empty value is assumed."
 msgstr ""
+"Falls auf eine Variable Bezug genommen wird, diese aber nicht definiert ist, "
+"wird es eine Warnung erstellen und ein leerer Wert wird angenommen."
 
 # type: TP
 #: ../../man/deb-substvars.5:121
@@ -1581,7 +1615,7 @@ msgstr "B<debian/substvars>"
 # type: Plain text
 #: ../../man/deb-substvars.5:124
 msgid "List of substitution variables and values."
-msgstr ""
+msgstr "Liste von Substitutionsvariablen und -werte."
 
 # type: Plain text
 #: ../../man/deb-substvars.5:128 ../../man/dpkg-source.1:244
@@ -1589,6 +1623,8 @@ msgid ""
 "The point at which field overriding occurs compared to certain standard "
 "output field settings is rather confused."
 msgstr ""
+"Die Stelle, an der das Überschreiben von Feldern passiert, verglichen mit "
+"bestimmten Standard-Ausgabe-Feldeinstellungen, ist eher konfus."
 
 # type: Plain text
 #: ../../man/deb-substvars.5:135
@@ -2628,7 +2664,7 @@ msgstr ""
 "Downgrade) und wird Sie daher nicht warnen, falls dadurch die Abhängigkeit "
 "eines anderen Pakets nicht mehr erfüllt ist. Dies kann ernsthafte "
 "Seiteneffekte haben, ein Downgrade einer essenziellen Systemkomponente kann "
-"ihr gesamtes System unbrauchbar machen. Verwenden Sie diese Option mit "
+"Ihr gesamtes System unbrauchbar machen. Verwenden Sie diese Option mit "
 "Vorsicht.>"
 
 # type: Plain text
@@ -4208,9 +4244,8 @@ msgstr "dpkg-buildpackage"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:4
-#, fuzzy
 msgid "dpkg-buildpackage - build binary or source packages from sources"
-msgstr "dpkg-buildpackage - baue Quellpakete"
+msgstr "dpkg-buildpackage - baue Binär- oder Quellpakete aus Quellen"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:8
@@ -4238,6 +4273,8 @@ msgid ""
 "Specifies a binary-only build, no source files are to be built and/or "
 "distributed, and"
 msgstr ""
+"Spezifiziert einen rein binären Bau, keine Quelldateien sollen gebaut und "
+"oder vertrieben werden, und"
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:19 ../../man/dpkg-checkbuilddeps.1:23
@@ -4383,7 +4420,6 @@ msgstr "B<-e>I<Betreueradresse>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:72 ../../man/dpkg-genchanges.1:41
-#, fuzzy
 msgid ""
 "Use I<maintaineraddress> as the name and email address of the maintainer for "
 "this upload, rather than using the information from the source tree's "
@@ -4391,8 +4427,7 @@ msgid ""
 msgstr ""
 "Verwende I<Betreueradresse> als Namen und E-Mail-Adresse des Betreuers für "
 "diesen Upload anstatt die Informationen aus der »changelog« des Quellbaums "
-"zu verwenden. Dies wird von B<dpkg-buildpackage> und B<dpkg-genchanges> "
-"verstanden."
+"zu verwenden."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:72
@@ -4425,12 +4460,11 @@ msgstr "B<-W>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:84
-#, fuzzy
 msgid ""
 "Turn certain errors into warnings. Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
-"Berichte bestimmte Fehler nur als Warnung. Nur dpkg-source verwendet dies, "
+"Berichte bestimmte Fehler nur als Warnung. Nur B<dpkg-source> verwendet dies, "
 "aber B<dpkg-buildpackage> erkennt es und leitet es an B<dpkg-source> weiter."
 
 # type: TP
@@ -4441,12 +4475,11 @@ msgstr "B<-E>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:92
-#, fuzzy
 msgid ""
 "Negates a previously set B<-W>.  Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
-"Berichte bestimmte Fehler nur als Warnung. Nur dpkg-source verwendet dies, "
+"Verneint vorher gesetzte B<-W>. Nur B<dpkg-source> verwendet dies, "
 "aber B<dpkg-buildpackage> erkennt es und leitet es an B<dpkg-source> weiter."
 
 # type: TP
@@ -5300,14 +5333,12 @@ msgstr "B<--package>I< Paket>"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:57
-#, fuzzy
 msgid ""
 "I<package> is the name of a package whose copy of I<file> will not be "
 "diverted. i.e. I<file> will be diverted for all packages except I<package>."
 msgstr ""
-"I<E<lt>PaketE<gt>> ist der Name des Pakets, dessen Kopie von "
-"I<E<lt>DateiE<gt>> nicht umgeleitet wird, d.h. I<E<lt>DateiE<gt>> wird für "
-"alle Pakete außer I<E<lt>PaketE<gt>> umgeleitet."
+"I<Paket> ist der Name des Pakets, dessen Kopie von I<Datei> nicht umgeleitet "
+"wird, d.h. I<Datei> wird für alle Pakete außer I<Paket> umgeleitet."
 
 # type: TP
 #: ../../man/dpkg-divert.8:57 ../../man/dpkg-statoverride.8:64
@@ -5329,13 +5360,12 @@ msgstr "B<--rename>"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:64
-#, fuzzy
 msgid ""
 "Actually move the file aside (or back). B<dpkg-divert> will abort operation "
 "in case the destination file already exists."
 msgstr ""
-"Schiebe die Dateien tatsächlich beiseite (oder zurück). dpkg-divert wird den "
-"Arbeitsvorgang abbrechen, falls die Zieldatei bereits existiert."
+"Schiebe die Dateien tatsächlich beiseite (oder zurück). B<dpkg-divert> wird "
+"den Arbeitsvorgang abbrechen, falls die Zieldatei bereits existiert."
 
 # type: TP
 #: ../../man/dpkg-divert.8:64 ../../man/install-info.8:279
@@ -5552,12 +5582,11 @@ msgstr "B<-V>I<Name>B<=>I<Wert>"
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:66 ../../man/dpkg-source.1:89
-#, fuzzy
 msgid ""
 "Set an output substitution variable.  See B<deb-substvars>(5) for a "
 "discussion of output substitution."
 msgstr ""
-"Setzt eine Ausgabesubstitutionsvariable. Lesen Sie B<dpkg-substvars>(5) für "
+"Setzt eine Ausgabesubstitutionsvariable. Lesen Sie B<deb-substvars>(5) für "
 "eine Besprechung des Ausgabesubstitution."
 
 # type: TP
@@ -5745,12 +5774,11 @@ msgstr "Setzt die Versionsnummer des zu generierenden Binärpaketes."
 
 # type: Plain text
 #: ../../man/dpkg-gencontrol.1:24
-#, fuzzy
 msgid ""
 "Set an output substitution variable. See B<deb-substvars>(5) for discussion "
 "of output substitution."
 msgstr ""
-"Setzt eine Ausgabesubstitutionsvariable. Lesen Sie B<dpkg-substvars>(5) für "
+"Setzt eine Ausgabesubstitutionsvariable. Lesen Sie B<deb-substvars>(5) für "
 "eine Besprechung des Ausgabesubstitution."
 
 # type: TP
@@ -6446,9 +6474,8 @@ msgstr "dpkg-scanpackages"
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:19
-#, fuzzy
 msgid "dpkg-scanpackages - create Packages index files"
-msgstr "dpkg-scanpackages - erstelle Packages-Dateien"
+msgstr "dpkg-scanpackages - erstelle Packages-Index-Dateien"
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:28
@@ -6602,9 +6629,8 @@ msgstr "dpkg-scansources"
 
 # type: Plain text
 #: ../../man/dpkg-scansources.1:4
-#, fuzzy
 msgid "dpkg-scansources - create Sources index files"
-msgstr "dpkg-scanpackages - erstelle Packages-Dateien"
+msgstr "dpkg-scanpackages - erstelle Quell-Index-Dateien"
 
 # type: Plain text
 #: ../../man/dpkg-scansources.1:13
@@ -6931,9 +6957,8 @@ msgstr "dpkg-source"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:5
-#, fuzzy
 msgid "dpkg-source - Debian source package (.dsc) manipulation tool"
-msgstr "dpkg-source - Debian Quellpaket-Werkzeuge"
+msgstr "dpkg-source - Debian Quellpaket- (.dsc) Manipulations-Werkzeuge"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:10
@@ -6958,9 +6983,9 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:20
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-x >I<filename>B<.dsc >[I<output-directory>]"
-msgstr "B<dpkg-source> B<-x >I<Dateiname>B<.dsc> [I<Ausgabe-Verzeichnis>]"
+msgstr "B<-x >I<Dateiname>B<.dsc> [I<Ausgabe-Verzeichnis>]"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:30
@@ -7017,7 +7042,6 @@ msgstr "B<-b> [I<Optionen>] I<Verzeichnis> [I<Orig-Verzeichnis>|I<Orig-targz>|''
 
 # type: Plain text
 #: ../../man/dpkg-source.1:58
-#, fuzzy
 msgid ""
 "Build a source package. One or two non-option arguments should be supplied. "
 "The first is taken as the name of the directory containing the unpacked "
@@ -7029,15 +7053,14 @@ msgid ""
 "directory I<directory>B<.orig> depending on the B<-sX> arguments."
 msgstr ""
 "Baue ein Quellpaket. Ein oder zwei nicht-Options-Argumente sollten angegeben "
-"werden. Der erste wird als Name des Verzeichnisses verwendet, in dem der "
+"werden. Das erste wird als Name des Verzeichnisses verwendet, in dem der "
 "entpackte Quellbaum liegt. Falls ein zweites Argument angegeben ist, sollte "
 "es der Namen des Originalquellverzeichnisses oder der Tardatei sein. Falls "
 "das Paket Debian-spezifisch ist, dann sollte dieses Argument die leere "
-"Zeichenkette sein, a es kein Debianisierungs-Diff gibt. Falls kein zweites "
+"Zeichenkette sein, da es kein Debianisierungs-Diff gibt. Falls kein zweites "
 "Argument übergeben wird, dann schaut B<dpkg-source> nach der original "
 "Tardatei I<package>B<_>I<Upstream-version>B<.orig.tar.gz> oder dem original "
-"Quellverzeichnis I<directory>B<.orig> oder der leeren Zeichenkette (keine "
-"originalen Quellen und daher kein Diff), abhängig von den Argumenten."
+"Quellverzeichnis I<directory>B<.orig>, abhängig von dem B<-sX>-Argumenten."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:73
@@ -7046,6 +7069,10 @@ msgid ""
 "is B<debian/control>.  If given with relative pathname this is interpreted "
 "starting at the source tree's top level directory."
 msgstr ""
+"Bestimmt die Hauptquell-»control«-Datei, aus der Informationen ausgelesen "
+"werden sollen. Der Standardwert ist B<debian/control>. Falls der Pfadname "
+"relativ ist, wird dieser relativ zum obersten Verzeichnis des Quellbaums "
+"interpretiert."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:80
@@ -7054,11 +7081,15 @@ msgid ""
 "B<debian/changelog>.  If given with relative pathname this is interpreted "
 "starting at the source tree's top level directory."
 msgstr ""
+"Bestimmt die »change log«-Datei, aus der Informationen ausgelesen werden "
+"sollen. Der Standardwert ist B<debian/changelog>. Falls der Pfadname relativ "
+"ist, wird dieser relativ zum obersten Verzeichnis des Quellbaums "
+"interpretiert."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:104
 msgid "This option turns certain errors into warnings."
-msgstr ""
+msgstr "Diese Option ändert bestimmte Fehler in Warnungen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:108
@@ -7880,13 +7911,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:77
-#, fuzzy
 msgid ""
 "Note: B<dpkg-statoverride> preserves the old copy of this file, with "
 "extension \"-old\", before replacing it with the new one."
 msgstr ""
-"Hinweis: dpkg-statoverride erhält die alte Kopie dieser Datei mit der Endung "
-"»-old« bevor es sie mit einer neuen ersetzt."
+"Hinweis: B<dpkg-statoverride> erhält die alte Kopie dieser Datei mit der "
+"Endung »-old« bevor es sie mit einer neuen ersetzt."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:83
@@ -8936,14 +8966,13 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/install-info.8:64
-#, fuzzy
 msgid ""
 "If I<filename> ends in B<.gz>, it is taken to refer to a file compressed "
 "with B<gzip>; if it doesn't exist, but a corresponding I<filename>B<.gz> "
 "does, the latter is used instead."
 msgstr ""
-"Falls I<Dateiname> auf B<.gz> endet, wird er als Verweis auf eine mit GNU "
-"gzip komprimierte Datei genommen; falls er nicht existiert, aber eine "
+"Falls I<Dateiname> auf B<.gz> endet, wird er als Verweis auf eine mit B<gzip> "
+"komprimierte Datei genommen; falls er nicht existiert, aber eine "
 "entsprechende I<Dateiname>B<.gz> existiert, wird stattdessen letztere "
 "benutzt."
 
@@ -9033,6 +9062,14 @@ msgid ""
 "the exact name given. (i.e.  B<--remove> \"emacs-20/emacs\" would cause "
 "B<install-info> to look for \"emacs\", not \"emacs-20/emacs\")."
 msgstr ""
+"Diese Option ist im Prinzip die gleiche wie B<--remove>, abgesehen davon, "
+"dass I<Dateiname> als exakter Eintrag angesehen wird, der entfernt werden "
+"soll, statt als Name einer existierenden Datei. Dies kann wichtig sein, wenn "
+"Einträge entfernt werden sollen, die sich auf Info-Dateien in "
+"Unterverzeichnisssen beziehen (z.B. »emacs-20/emacs«), da B<--remove> mit dem "
+"Basisnamen (»basename«) des übergebenen I<Dateiname>ns, statt des exakten "
+"Namens, arbeiten wird (d.h. B<--remove> »emacs-20/emacs« würde dazu führen, "
+"dass B<install-info> nach »emacs« und nicht »emacs-20/emacs« sucht)."
 
 # type: TP
 #: ../../man/install-info.8:119
@@ -9103,7 +9140,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/install-info.8:164
-#, fuzzy
 msgid ""
 "If a section is specified when removing an entry, the section is ignored and "
 "a warning is issued."
@@ -9113,7 +9149,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/install-info.8:170
-#, fuzzy
 msgid ""
 "If a section is requested when adding an entry, but the file contains no "
 "section headings at all, then B<install-info> will create both the requested "
@@ -9155,6 +9190,10 @@ msgid ""
 "because of the length of the B<dir> menu entry details, it may be offset "
 "more. The default is 27."
 msgstr ""
+"Bestimmt, dass die erste Zeile der Beschreibung mindestens I<nnn>-Zeichen "
+"weit eingezogen werden soll; zusätzliche Zeichen werden nach Bedarf "
+"hinzugefügt. Falls notwendig aufgrund der Länge des Details des B<dir>-"
+"Menüeintrages, könnte der Ausgleich größer sein. Der Standardwert beträgt 27."
 
 # type: TP
 #: ../../man/install-info.8:188
@@ -9259,7 +9298,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/install-info.8:244
-#, fuzzy
 msgid ""
 "If there is no B<dir> entry in the file, the program will try to find a "
 "paragraph early in the file starting B<this file documents>.  It will "
@@ -9278,13 +9316,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/install-info.8:250
-#, fuzzy
 msgid ""
 "If a description argument is given when B<--remove> is specified, it is "
 "ignored and a warning is issued."
 msgstr ""
-"Falls eine Beschreibung gegeben wird, wenn B<--remove> angegeben ist, wird "
-"diese ignoriert und eine Warnung ausgegeben."
+"Falls eine Beschreibungs-Argument zusammen mit B<--remove> angegeben ist, "
+"wird dieses ignoriert und eine Warnung ausgegeben."
 
 # type: TP
 #: ../../man/install-info.8:250
@@ -9294,7 +9331,6 @@ msgstr "B<--menuentry=>I<xxx>"
 
 # type: Plain text
 #: ../../man/install-info.8:259
-#, fuzzy
 msgid ""
 "Specifies that the entry in the menu should be I<xxx>.  The default is to "
 "use the the value specified in the Info file itself.  If this is not "
@@ -9343,22 +9379,20 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/install-info.8:279
-#, fuzzy
 msgid ""
 "If B<--remove> is specified, B<--keep-old> will prevent the removal of the "
 "section heading which would otherwise happen if the section is made empty by "
 "the removal."
 msgstr ""
 "Falls B<--remove> angegeben ist, verhindert B<--keep-old> das Entfernen der "
-"Abschnittsüberschrift, was sonst passieren würde, wenn der Abschnitt durch "
-"das Entfernen leer würde."
+"Abschnittsüberschrift, was andernfalls passieren würde, falls der Abschnitt "
+"durch das Entfernen leer werden würde."
 
 # type: Plain text
 #: ../../man/install-info.8:282
-#, fuzzy
 msgid "Enables test mode, which inhibits the update of the Info B<dir> file."
 msgstr ""
-"Aktiviert den Testmodus, womit das Aktualisieren der Verzeichnis-Datei "
+"Aktiviert den Testmodus, in dem das Aktualisieren der Info B<dir>-Datei "
 "verhindert wird."
 
 # type: Plain text
@@ -9444,7 +9478,6 @@ msgstr "B<-S>, B<--start> [B<-->] I<Argumente>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:55
-#, fuzzy
 msgid ""
 "Check for the existence of a specified process.  If such a process exists, "
 "B<start-stop-daemon> does nothing, and exits with error status 1 (0 if B<--"
@@ -9453,15 +9486,14 @@ msgid ""
 "specified, by B<--startas>).  Any arguments given after B<--> on the command "
 "line are passed unmodified to the program being started."
 msgstr ""
-"Mittels B<--start> überprüft B<start-stop-daemon> auf die Existenz eines "
-"speziellen Prozesses. Falls ein solcher Prozess existiert, dann macht "
-"B<start-stop-daemon> nichts, und beendet sich mit Fehlerstatus 1 (0, falls "
-"B<--oknodo> angegeben wurde). Falls ein solcher Prozess nicht existiert, "
-"dann startet es eine Instanz, entweder unter Verwendung des ausführbaren "
-"Programms, das mittels B<--exec> (oder, falls angegeben, mittels B<--"
-"startas>) spezifiziert wurde. Jedes weitere auf der Kommandozeile angegebene "
-"Argument nach B<--> wird unverändert an das zu startende Programm "
-"weitergegeben."
+"Prüfe auf Existenz des angegebenen Prozesses. Falls ein solcher Prozess "
+"existiert, dann macht B<start-stop-daemon> nichts, und beendet sich mit "
+"Fehlerstatus 1 (0, falls B<--oknodo> angegeben wurde). Falls ein solcher "
+"Prozess nicht existiert, dann startet es eine Instanz, entweder unter "
+"Verwendung des ausführbaren Programms, das mittels B<--exec> (oder, falls "
+"angegeben, mittels B<--startas>) spezifiziert wurde. Jedes weitere auf der "
+"Kommandozeile angegebene Argument nach B<--> wird unverändert an das zu "
+"startende Programm weitergegeben."
 
 # type: IP
 #: ../../man/start-stop-daemon.8:55
@@ -9496,9 +9528,8 @@ msgstr "B<-H>, B<--help>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:76
-#, fuzzy
 msgid "Show usage information and exit."
-msgstr "Zeige Bedienungsinformationen."
+msgstr "Zeige Bedienungsinformationen und beendet sich."
 
 # type: TP
 #: ../../man/start-stop-daemon.8:76
@@ -9508,15 +9539,14 @@ msgstr "B<-V>, B<--version>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:79
-#, fuzzy
 msgid "Show the program version and exit."
-msgstr "Zeige Programmversion und Copyright."
+msgstr "Zeige die Programmversion und beendet sich."
 
 # type: TP
 #: ../../man/start-stop-daemon.8:81
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-x>, B<--exec> I<executable>"
-msgstr "B<-x>|B<--exec> I<Programm>"
+msgstr "B<-x>, B<--exec> I<Programm>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:85
@@ -9595,9 +9625,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/start-stop-daemon.8:109
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-R>, B<--retry> I<timeout>|I<schedule>"
-msgstr "B<-R>|B<--retry> I<Zeitüberschreitung>|I<Plan>"
+msgstr "B<-R>, B<--retry> I<Zeitüberschreitung>|I<Plan>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:119
@@ -10717,13 +10747,9 @@ msgstr ""
 #~ msgstr "Gebe die Version aus und beende sich erfolgreich"
 
 # type: Plain text
-#, fuzzy
 #~ msgid "Print a usage message."
 #~ msgstr ""
-#~ "#-#-#-#-#  de.po (dpkg man pages)  #-#-#-#-#\n"
 #~ "Gebe einen Bedienungshinweis aus.\n"
-#~ "#-#-#-#-#  de.po (dpkg man pages)  #-#-#-#-#\n"
-#~ "Zeige eine Verwendungsmitteilung."
 
 # type: Plain text
 #~ msgid "Print program version."
