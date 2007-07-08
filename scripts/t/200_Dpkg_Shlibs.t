@@ -1,9 +1,9 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 2;
+use Test::More tests => 4;
 
-use warnings;
 use strict;
+use warnings;
 
 use_ok('Dpkg::Shlibs');
 
@@ -16,3 +16,6 @@ use Data::Dumper;
 is_deeply([qw(/nonexistant32 /nonexistant/lib64
 	     /usr/local/lib /nonexistant/lib128 )],
 	  \@Dpkg::Shlibs::librarypaths, "parsed library paths");
+
+use_ok('Dpkg::Shlibs::Objdump');
+use_ok('Dpkg::Shlibs::SymbolFile');

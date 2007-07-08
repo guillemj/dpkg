@@ -16,9 +16,10 @@
 
 package Dpkg::Shlibs::SymbolFile;
 
-require 'dpkg-gettext.pl';
-
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(syserr warning);
 use Dpkg::Version qw(vercmp);
+textdomain("dpkg-dev");
 
 sub new {
     my $this = shift;
@@ -50,7 +51,8 @@ sub clear_except {
 sub load {
     my ($self, $file) = @_;
     $self->{file} = $file;
-    open(SYM_FILE, "<", $file) || main::syserr(sprintf(_g("Can't open %s: %s"), $file));
+    open(SYM_FILE, "<", $file)
+	|| syserr(sprintf(_g("Can't open %s: %s"), $file));
     my ($object);
     while (defined($_ = <SYM_FILE>)) {
 	chomp($_);
@@ -80,7 +82,7 @@ sub load {
 		'deps' => [ "$2" ]
 	    };
 	} else {
-	    main::warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
+	    warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
 	}
     }
     close(SYM_FILE);
@@ -93,7 +95,8 @@ sub save {
     if ($file eq "-") {
 	$fh = \*STDOUT;
     } else {
-	open(SYM_FILE, "> $file") || main::syserr(sprintf(_g("Can't open %s for writing: %s"), $file, $!));
+	open(SYM_FILE, "> $file")
+	    || syserr(sprintf(_g("Can't open %s for writing: %s"), $file, $!));
 	$fh = \*SYM_FILE;
     }
     $self->dump($fh);

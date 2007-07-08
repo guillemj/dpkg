@@ -16,7 +16,9 @@
 
 package Dpkg::Shlibs::Objdump;
 
-require 'dpkg-gettext.pl';
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(syserr subprocerr warning);
+textdomain("dpkg-dev");
 
 sub new {
     my $this = shift;
@@ -30,7 +32,7 @@ sub parse {
     my ($self, $file) = @_;
     local $ENV{LC_ALL} = 'C';
     open(OBJDUMP, "-|", "objdump", "-w", "-p", "-T", $file) ||
-	    syserr(sprintf(_g("Can't execute objdump: %s"), $!));
+	syserr(sprintf(_g("Can't execute objdump: %s"), $!));
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
     my $section = "none";
     while (defined($_ = <OBJDUMP>)) {
@@ -141,7 +143,7 @@ sub parse_dynamic_symbol {
     } elsif ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+/) {
 	# Same start but no version and no symbol ... just ignore
     } else {
-	main::warning(sprintf(_g("Couldn't parse one line of objdump's output: %s"), $line));
+	warning(sprintf(_g("Couldn't parse one line of objdump's output: %s"), $line));
     }
 }
 
@@ -173,7 +175,8 @@ sub get_object {
 	    return $format{$file};
 	} else {
 	    local $ENV{LC_ALL} = "C";
-	    open(P, "objdump -a -- $file |") || syserr(_g("cannot fork for objdump"));
+	    open(P, "-|", "objdump", "-a", "--", $file)
+		|| syserr(_g("cannot fork for objdump"));
 	    while (<P>) {
 		chomp;
 		if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
@@ -181,14 +184,15 @@ sub get_object {
 		    return $format{$file};
 		}
 	    }
-	    close(P) or main::subprocerr(sprintf(_g("objdump on \`%s'"), $file));
+	    close(P) or subprocerr(sprintf(_g("objdump on \`%s'"), $file));
 	}
     }
 }
 
 sub is_elf {
     my ($file) = @_;
-    open(FILE, "<", $file) || main::syserr(sprintf(_g("Can't open %s for test: %s"), $file, $!));
+    open(FILE, "<", $file) ||
+	syserr(sprintf(_g("Can't open %s for test: %s"), $file, $!));
     my ($header, $result) = ("", 0);
     if (read(FILE, $header, 4) == 4) {
 	$result = 1 if ($header =~ /^\177ELF$/);

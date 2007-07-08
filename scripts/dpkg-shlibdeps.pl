@@ -12,7 +12,7 @@ my $admindir = "/var/lib/dpkg";
 
 BEGIN {
     $version="1.14.4"; # This line modified by Makefile
-    $dpkglibdir="/usr/lib/dpkg"; # This line modified by Makefile
+    $dpkglibdir="."; # This line modified by Makefile
     push(@INC,$dpkglibdir);
 }
 
