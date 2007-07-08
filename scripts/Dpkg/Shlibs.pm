@@ -14,18 +14,24 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+package Dpkg::Shlibs;
+
 use strict;
 use warnings;
 
-require 'dpkg-gettext.pl';
-
-use IO::File;
-
-use Exporter 'import';
+use base qw(Exporter);
 our @EXPORT_OK = qw(@librarypaths find_library);
 
-our @librarypaths = qw(/lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64
-                       /emul/ia32-linux/lib /emul/ia32-linux/usr/lib);
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(syserr);
+use Dpkg::Shlibs::Objdump;
+
+textdomain("dpkg-dev");
+
+use constant DEFAULT_LIBRARY_PATH =>
+    qw(/lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64
+       /emul/ia32-linux/lib /emul/ia32-linux/usr/lib);
+our @librarypaths = (DEFAULT_LIBRARY_PATH);
 
 # Update library paths with LD_LIBRARY_PATH
 if ($ENV{LD_LIBRARY_PATH}) {
@@ -40,18 +46,20 @@ if ($ENV{LD_LIBRARY_PATH}) {
 # Update library paths with ld.so config
 parse_ldso_conf("/etc/ld.so.conf") if -e "/etc/ld.so.conf";
 
+my %visited;
 sub parse_ldso_conf {
     my $file = shift;
-    my $fh = new IO::File;
-    $fh->open($file, "<")
-	or main::syserr(sprintf(_g("couldn't open %s: %s"), $file, $!));
+    open my $fh, "<", $file
+	or syserr(sprintf(_g("couldn't open %s"), $file));
+    $visited{$file}++;
     while (<$fh>) {
 	next if /^\s*$/;
 	chomp;
 	s{/+$}{};
 	if (/^include\s+(\S.*\S)\s*$/) {
 	    foreach my $include (glob($1)) {
-		parse_ldso_conf($include) if -e $include;
+		parse_ldso_conf($include) if -e $include
+		    && !$visited{$include};
 	    }
 	} elsif (m{^\s*/}) {
 	    s/^\s+//;
@@ -61,7 +69,7 @@ sub parse_ldso_conf {
 	    }
 	}
     }
-    $fh->close;
+    close $fh or syserr(sprintf(_g("couldn't close %s"), $file));;
 }
 
 # find_library ($soname, \@rpath, $format, $root)
