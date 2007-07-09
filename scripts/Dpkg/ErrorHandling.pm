@@ -1,5 +1,7 @@
 package Dpkg::ErrorHandling;
 
+use Dpkg::Gettext;
+
 use base qw(Exporter);
 our @EXPORT_OK = qw( failure syserr error internerr warning
                      warnerror subprocerr );
