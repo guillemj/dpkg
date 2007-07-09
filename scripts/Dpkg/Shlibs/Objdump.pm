@@ -36,22 +36,22 @@ sub parse {
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
     my $section = "none";
     while (defined($_ = <OBJDUMP>)) {
-	chomp($_);
+	chomp;
 	next if (/^\s*$/);
 
-	if ($_ =~ /^DYNAMIC SYMBOL TABLE:/) {
+	if (/^DYNAMIC SYMBOL TABLE:/) {
 	    $section = "dynsym";
 	    next;
-	} elsif ($_ =~ /^Dynamic Section:/) {
+	} elsif (/^Dynamic Section:/) {
 	    $section = "dyninfo";
 	    next;
-	} elsif ($_ =~ /^Program Header:/) {
+	} elsif (/^Program Header:/) {
 	    $section = "header";
 	    next;
-	} elsif ($_ =~ /^Version definitions:/) {
+	} elsif (/^Version definitions:/) {
 	    $section = "verdef";
 	    next;
-	} elsif ($_ =~ /^Version References:/) {
+	} elsif (/^Version References:/) {
 	    $section = "verref";
 	    next;
 	}
@@ -59,19 +59,19 @@ sub parse {
 	if ($section eq "dynsym") {
 	    $self->parse_dynamic_symbol($_, $obj);
 	} elsif ($section eq "dyninfo") {
-	    if ($_ =~ /^\s*NEEDED\s+(\S+)/) {
+	    if (/^\s*NEEDED\s+(\S+)/) {
 		push @{$obj->{NEEDED}}, $1;
-	    } elsif ($_ =~ /^\s*SONAME\s+(\S+)/) {
+	    } elsif (/^\s*SONAME\s+(\S+)/) {
 		$obj->{SONAME} = $1;
-	    } elsif ($_ =~ /^\s*HASH\s+(\S+)/) {
+	    } elsif (/^\s*HASH\s+(\S+)/) {
 		$obj->{HASH} = $1;
-	    } elsif ($_ =~ /^\s*GNU_HASH\s+(\S+)/) {
+	    } elsif (/^\s*GNU_HASH\s+(\S+)/) {
 		$obj->{GNU_HASH} = $1;
-	    } elsif ($_ =~ /^\s*RPATH\s+(\S+)/) {
+	    } elsif (/^\s*RPATH\s+(\S+)/) {
 		push @{$obj->{RPATH}}, split (/:/, $1);
 	    }
 	} elsif ($section eq "none") {
-	    if ($_ =~ /^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
+	    if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
 		$obj->{format} = $1;
 	    }
 	}
@@ -120,22 +120,22 @@ sub parse_dynamic_symbol {
 
 	my ($flags, $sect, $ver, $name) = ($1, $2, $3, $4);
 	my $symbol = {
-		'name' => $name,
-		'version' => defined($ver) ? $ver : '',
-		'section' => $sect,
-		'dynamic' => substr($flags, 5, 1) eq "D",
-		'debug' => substr($flags, 5, 1) eq "d",
-		'type' => substr($flags, 6, 1),
-		'weak' => substr($flags, 1, 1) eq "w",
-		'hidden' => 0,
-		'defined' => $sect ne '*UND*'
+		name => $name,
+		version => defined($ver) ? $ver : '',
+		section => $sect,
+		dynamic => substr($flags, 5, 1) eq "D",
+		debug => substr($flags, 5, 1) eq "d",
+		type => substr($flags, 6, 1),
+		weak => substr($flags, 1, 1) eq "w",
+		hidden => 0,
+		defined => $sect ne '*UND*'
 	    };
 
-	# Handle hidden symbols
+	# Handle hidden symbols
 	if (defined($ver) and $ver =~ /^\((.*)\)$/) {
 	    $ver = $1;
-	    $symbol->{'version'} = $1;
-	    $symbol->{'hidden'} = 1;
+	    $symbol->{version} = $1;
+	    $symbol->{hidden} = 1;
 	}
 
 	# Register symbol
@@ -208,11 +208,11 @@ sub new {
     my $file = shift || '';
     my $class = ref($this) || $this;
     my $self = {
-	'file' => $file,
-	'SONAME' => '',
-	'NEEDED' => [],
-	'RPATH' => [],
-	'dynsyms' => {}
+	file => $file,
+	SONAME => '',
+	NEEDED => [],
+	RPATH => [],
+	dynsyms => {}
     };
     bless $self, $class;
     return $self;
