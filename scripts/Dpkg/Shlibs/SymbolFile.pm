@@ -17,7 +17,7 @@
 package Dpkg::Shlibs::SymbolFile;
 
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(syserr warning);
+use Dpkg::ErrorHandling qw(syserr warning error);
 use Dpkg::Version qw(vercmp);
 textdomain("dpkg-dev");
 
@@ -59,16 +59,16 @@ sub load {
 	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    # New symbol
 	    my $sym = {
-		'minver' => $2,
-		'dep_id' => defined($3) ? $3 : 0,
-		'deprecated' => 0
+		minver => $2,
+		dep_id => defined($3) ? $3 : 0,
+		deprecated => 0
 	    };
 	    $self->{objects}{$object}{syms}{$1} = $sym;
 	} elsif (/^#DEPRECATED: ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    my $sym = {
-		'minver' => $3,
-		'dep_id' => defined($4) ? $4 : 0,
-		'deprecated' => $1
+		minver => $3,
+		dep_id => defined($4) ? $4 : 0,
+		deprecated => $1
 	    };
 	    $self->{objects}{$object}{syms}{$2} = $sym;
 	} elsif (/^\|\s*(.*)$/) {
@@ -78,8 +78,8 @@ sub load {
 	    # New object and dependency template
 	    $object = $1;
 	    $self->{objects}{$object} = {
-		'syms' => {},
-		'deps' => [ "$2" ]
+		syms => {},
+		deps => [ "$2" ]
 	    };
 	} else {
 	    warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
@@ -95,9 +95,8 @@ sub save {
     if ($file eq "-") {
 	$fh = \*STDOUT;
     } else {
-	open(SYM_FILE, "> $file")
+	open($fh, ">", $file)
 	    || syserr(sprintf(_g("Can't open %s for writing: %s"), $file, $!));
-	$fh = \*SYM_FILE;
     }
     $self->dump($fh);
     close($fh) if ($file ne "-");
@@ -122,7 +121,7 @@ sub dump {
 # Needs $Objdump->get_object($soname) as parameter
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
-    my $soname = $object->{SONAME} || main::error(_g("Can't merge symbols from objects without SONAME."));
+    my $soname = $object->{SONAME} || error(_g("Can't merge symbols from objects without SONAME."));
     my %dynsyms = map { $_ => $object->{dynsyms}{$_} }
 	grep { local $a = $object->{dynsyms}{$_}; $a->{dynamic} && $a->{defined} }
 	keys %{$object->{dynsyms}};
@@ -145,9 +144,9 @@ sub merge_symbols {
 	} else {
 	    # The symbol is new and not present in the file
 	    my $info = {
-		'minver' => $minver,
-		'deprecated' => 0,
-		'dep_id' => 0
+		minver => $minver,
+		deprecated => 0,
+		dep_id => 0
 	    };
 	    $self->{objects}{$soname}{syms}{$sym} = $info;
 	}
@@ -170,8 +169,8 @@ sub has_object {
 sub create_object {
     my ($self, $soname, @deps) = @_;
     $self->{objects}{$soname} = {
-	"syms" => {},
-	"deps" => [ @deps ]
+	syms => {},
+	deps => [ @deps ]
     };
 }
 
