@@ -252,24 +252,24 @@ Display \fBdpkg\fP version information.
 See \fBdpkg\-deb\fP(1) for more information about the following actions.
 
 .nf
-\fBdpkg \-b\fP | \fB\-\-build\fP \fIdirectory\fP [\fIfilename\fP]
+\fBdpkg \-b\fP | \fB\-\-build\fP \fIdirectory\fP [\fIarchive\fP|\fIdirectory\fP]
     Build a deb package.
-\fBdpkg \-c\fP | \fB\-\-contents\fP \fIfilename\fP
+\fBdpkg \-c\fP | \fB\-\-contents\fP \fIarchive\fP
     List contents of a deb package.
 \fBdpkg \-e\fP | \fB\-\-control\fP \fIfilename\fP [\fIdirectory\fP]
     Extract control-information from a package.
-\fBdpkg \-x\fP | \fB\-\-extract\fP \fIfilename directory\fP
+\fBdpkg \-x\fP | \fB\-\-extract\fP \fIarchive directory\fP
     Extract the files contained by package.
-\fBdpkg \-f\fP | \fB\-\-field\fP  \fIfilename\fP [\fIcontrol-field\fP] ...
-    Display control field(s) of a package.
-\fBdpkg \-\-fsys\-tarfile\fP \fIfilename\fP
-    Display the filesystem tar-file contained by a
-    Debian package.
-\fBdpkg \-I\fP | \fB\-\-info\fP \fIfilename\fP [\fIcontrol-file\fP]
-    Show information about a package.
-\fBdpkg \-X\fP | \fB\-\-vextract\fP \fIfilename\fP \fIdirectory\fP
+\fBdpkg \-X\fP | \fB\-\-vextract\fP \fIarchive directory\fP
     Extract and display the filenames contained by a
     package.
+\fBdpkg \-f\fP | \fB\-\-field\fP  \fIarchive\fP [\fIcontrol-field\fP ...]
+    Display control field(s) of a package.
+\fBdpkg \-\-fsys\-tarfile\fP \fIarchive\fP
+    Display the filesystem tar-file contained by a
+    Debian package.
+\fBdpkg \-I\fP | \fB\-\-info\fP \fIarchive\fP [\fIcontrol-file\fP ...]
+    Show information about a package.
 .fi
 
 .TP
@@ -282,12 +282,13 @@ See \fBdpkg\-query\fP(1) for more information about the following actions.
     List packages matching given pattern.
 \fBdpkg \-s\fP | \fB\-\-status\fP \fIpackage-name\fP ...
     Report status of specified package.
-\fBdpkg \-L\fP | \fB\-\-listfiles\fP \fIpackage\fP ...
-    List files installed to your system from \fBpackage\fP.
+\fBdpkg \-L\fP | \fB\-\-listfiles\fP \fIpackage-name\fP ...
+    List files installed to your system from \fIpackage-name\fP.
 \fBdpkg \-S\fP | \fB\-\-search\fP \fIfilename-search-pattern\fP ...
     Search for a filename from installed packages.
-\fBdpkg \-p\fP | \fB\-\-print\-avail\fP \fIpackage\fP
-    Display details about \fIpackage\fP, as found in \fI/var/lib/dpkg/available\fP.
+\fBdpkg \-p\fP | \fB\-\-print\-avail\fP \fIpackage-name\fP ...
+    Display details about \fIpackage-name\fP, as found in
+    \fI/var/lib/dpkg/available\fP.
 .fi
 .
 .SH OPTIONS
