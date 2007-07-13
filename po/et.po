@@ -8,10 +8,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.14.4\n"
+"Project-Id-Version: dpkg 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-05-24 19:33+0300\n"
-"PO-Revision-Date: 2007-06-27 12:31+0300\n"
+"PO-Revision-Date: 2007-07-12 22:06+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -616,7 +616,7 @@ msgstr "tõrge funktsioonis buffer_copy (%s)"
 #: lib/mlib.c:338
 #, c-format
 msgid "short read in buffer_copy (%s)"
-msgstr ""
+msgstr "lühike lugemine funktsioonis buffer_copy (%s)"
 
 #: lib/myopt.c:40
 #, c-format
@@ -730,17 +730,18 @@ msgstr "väljanimele `%.*s' peab järgnema koolon"
 #: lib/parse.c:170
 #, c-format
 msgid "EOF before value of field `%.*s' (missing final newline)"
-msgstr ""
+msgstr "enne välja `%.*s' väärtust on faililõputunnus (puudub lõpu reavahetus)"
 
 #: lib/parse.c:174
 #, c-format
 msgid "MSDOS EOF char in value of field `%.*s' (missing newline?)"
 msgstr ""
+"välja `%.*s' väärtuses on MSDOS-i faililõputunnuse märk (puudub reavahetus?)"
 
 #: lib/parse.c:188
 #, c-format
 msgid "EOF during value of field `%.*s' (missing final newline)"
-msgstr ""
+msgstr "välja `%.*s' väärtuses on faililõputunnus (puudub lõpu reavahetus)"
 
 #: lib/parse.c:211
 #, c-format
@@ -1054,7 +1055,7 @@ msgstr ""
 #: src/archives.c:847
 #, c-format
 msgid "dpkg: considering removing %s in favour of %s ...\n"
-msgstr ""
+msgstr "dpkg: %s eemaldamise otsustamine %s kasuks ...\n"
 
 #: src/archives.c:851
 #, c-format
@@ -1081,12 +1082,12 @@ msgstr "dpkg: pakki %s ei eemaldata, see vajab taaspaigaldamist.\n"
 #: src/archives.c:903
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr ""
+msgstr "pakil %s on liiga palju vastuolude/asenduste paare"
 
 #: src/archives.c:909
 #, c-format
 msgid "dpkg: yes, will remove %s in favour of %s.\n"
-msgstr ""
+msgstr "dpkg: jah, %s eemaldatakse %s kasuks.\n"
 
 #: src/archives.c:917
 #, c-format
@@ -1105,7 +1106,7 @@ msgstr "vastuolulised pakid, %.250s jäetakse paigaldamata"
 #: src/archives.c:921
 #, c-format
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
-msgstr ""
+msgstr "dpkg: hoiatus - vastuolu eiratakse, jätkamine on võimalik !\n"
 
 #: src/archives.c:959
 #, c-format
@@ -1114,11 +1115,11 @@ msgstr ""
 
 #: src/archives.c:989
 msgid "failed to exec find for --recursive"
-msgstr ""
+msgstr "tõrge --recursive jaoks käsu `find' käivitamisel"
 
 #: src/archives.c:994
 msgid "failed to fdopen find's pipe"
-msgstr ""
+msgstr "tõrge käsu `find' toru avamisel funktsiooniga fdopen"
 
 #: src/archives.c:1000
 msgid "error reading find's pipe"
@@ -1132,6 +1133,7 @@ msgstr "viga find'i toru sulgemisel"
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr ""
+"--recursive jaoks kasutatav käsk `find' tagastas käsitlematu veakoodi %i"
 
 #: src/archives.c:1007
 msgid "searched, but found no packages (files matching *.deb)"
@@ -1140,7 +1142,7 @@ msgstr ""
 #: src/archives.c:1023
 #, c-format
 msgid "--%s needs at least one package archive file argument"
-msgstr ""
+msgstr "--%s vajab argumendiks vähemalt ühte pakiarhiivi nime"
 
 #: src/archives.c:1092
 #, c-format
@@ -1150,7 +1152,7 @@ msgstr "Varem valimata paki %s valimine.\n"
 #: src/archives.c:1097
 #, c-format
 msgid "Skipping deselected package %s.\n"
-msgstr ""
+msgstr "Valimata paki %s vahelejätmine.\n"
 
 #: src/archives.c:1111
 #, c-format
@@ -1742,7 +1744,7 @@ msgid ""
 "%s: error processing %s (--%s):\n"
 " %s\n"
 msgstr ""
-"%s: viga %s töötlemisel (--%s):\n"
+"%s: viga paki %s töötlemisel (--%s):\n"
 " %s\n"
 
 #: src/errors.c:81
@@ -2138,6 +2140,10 @@ msgid ""
 " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --help).\n"
 "\n"
 msgstr ""
+"Arhiivide korral kasuta dpkg -b|--build|-c|--contents|-e|--control|-I|--info|"
+"\n"
+"-f|--field|-x|--extract|-X|--vextract|--fsys-tarfile  (sisesta %s --help).\n"
+"\n"
 
 #: src/main.c:99
 #, c-format
@@ -2146,6 +2152,9 @@ msgid ""
 "  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
 "\n"
 msgstr ""
+"Sisemiseks kasutuseks: dpkg --assert-support-predepends | --predep-package |\n"
+"  --assert-working-epoch | --assert-long-filenames | --assert-multi-conrep.\n"
+"\n"
 
 #: src/main.c:104
 #, c-format
@@ -2210,6 +2219,19 @@ msgid ""
 "Options marked [*] produce a lot of output - pipe it through `less' or "
 "`more' !"
 msgstr ""
+"Pakkide paigaldamise ja eemaldamise kohta teabe saamiseks sisesta\n"
+"  dpkg --help [*];\n"
+"Kasutajasõbralikuks pakkide haldamiseks kasuta programme `dselect' või\n"
+"  `aptitude';\n"
+"dpkg silumisvõtmete ja nende väärtuste vaatamiseks sisesta dpkg -Dhelp;\n"
+"Jõuga pealesurutavate valikute vaatamiseks sisesta dpkg --force-help;\n"
+"*.deb failidega manipuleerimise kohta käiva teabe vaatamiseks sisesta\n"
+"  dpkg-deb --help;\n"
+"Garantii puudumise, programmide litsentsi (GNU GPL) ja autoriõiguste\n"
+"  teabe vaatamiseks sisesta dpkg --license [*].\n"
+"\n"
+"Märgiga [*] märgitud valikud väljastavad väga palju infot - suuna nende\n"
+"  käskude väljund programmidele `less' või `more' !"
 
 #: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
 #, c-format
@@ -2753,7 +2775,7 @@ msgstr "Pakk `%s' ei sisalda ühtki faili (!)\n"
 #: src/query.c:376
 #, c-format
 msgid "locally diverted to: %s\n"
-msgstr ""
+msgstr "kohalik ümbersuunamine failile: %s\n"
 
 #: src/query.c:379
 #, c-format
@@ -3231,7 +3253,7 @@ msgstr ""
 
 #: dpkg-deb/build.c:409 dpkg-deb/extract.c:278
 msgid "data"
-msgstr ""
+msgstr "andmed"
 
 #: dpkg-deb/build.c:421
 msgid "failed to exec find"
@@ -3256,7 +3278,7 @@ msgstr ""
 
 #: dpkg-deb/extract.c:51
 msgid "failed to exec sh -c mv foo/* &c"
-msgstr ""
+msgstr "tõrge `sh -c mv foo/* &c' käivitamisel"
 
 #: dpkg-deb/extract.c:59
 #, c-format
@@ -3266,17 +3288,17 @@ msgstr "viga %s lugemisel failist %.255s"
 #: dpkg-deb/extract.c:61
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
-msgstr ""
+msgstr "ootamatu %s lõpp failis %.255s"
 
 #: dpkg-deb/extract.c:72 dpkg-split/info.c:52
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
-msgstr ""
+msgstr "fail `%.250s' on rikutud - %.250s pikkus sisaldab nulle"
 
 #: dpkg-deb/extract.c:79 dpkg-split/info.c:43
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
-msgstr ""
+msgstr "fail `%.250s' on rikutud - vigane number (kood %d) väljal %s"
 
 #: dpkg-deb/extract.c:104
 #, c-format
@@ -3298,7 +3320,7 @@ msgstr ""
 #: dpkg-deb/extract.c:117 dpkg-split/info.c:95
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
-msgstr ""
+msgstr "fail `%.250s' on rikutud - esimese päise lõpus on vigane maagia"
 
 #: dpkg-deb/extract.c:121
 #, c-format
@@ -3309,7 +3331,7 @@ msgstr "fail `%.250s' on rikutud - negatiivne liikme pikkus %zi"
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr ""
-"fail `%.250s' pole debianu binaararhiiv (võib-olla proovida dpkg-split'i?)"
+"fail `%.250s' pole debiani binaararhiiv (võib-olla proovida dpkg-split'i?)"
 
 #: dpkg-deb/extract.c:128
 msgid "header info member"
@@ -3384,6 +3406,8 @@ msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
 "dpkg-deb:    corrupted by being downloaded in ASCII mode\n"
 msgstr ""
+"dpkg-deb: fail paistab olevat arhiiv, mis on ASCII-režiimis\n"
+"dpkg-deb:    allalaadimise tõttu kahjustada saanud\n"
 
 #: dpkg-deb/extract.c:226
 #, c-format
@@ -3392,11 +3416,11 @@ msgstr "`%.255s' pole debiani vormingus arhiiv"
 
 #: dpkg-deb/extract.c:232
 msgid "failed getting the current file position"
-msgstr ""
+msgstr "tõrge käesolevas failis asukohta hankimisel"
 
 #: dpkg-deb/extract.c:237
 msgid "failed setting the current file position"
-msgstr ""
+msgstr "tõrge käesolevas failis asukohta määramisel"
 
 #: dpkg-deb/extract.c:246
 msgid "failed to open pipe descriptor `1' in paste"
@@ -3404,11 +3428,11 @@ msgstr ""
 
 #: dpkg-deb/extract.c:248
 msgid "failed to write to gzip -dc"
-msgstr ""
+msgstr "tõrge protsessile gzip -dc kirjutamisel"
 
 #: dpkg-deb/extract.c:249
 msgid "failed to close gzip -dc"
-msgstr "tõrge gzip -dc sulgemisel"
+msgstr "tõrge protsessi gzip -dc sulgemisel"
 
 #: dpkg-deb/extract.c:256
 msgid "failed to syscall lseek to files archive portion"
@@ -3416,11 +3440,11 @@ msgstr ""
 
 #: dpkg-deb/extract.c:264
 msgid "failed to write to pipe in copy"
-msgstr ""
+msgstr "tõrge kopeerimise ajal torusse kirjutamisel"
 
 #: dpkg-deb/extract.c:265
 msgid "failed to close pipe in copy"
-msgstr ""
+msgstr "tõrge kopeerimise järel toru sulgemisel"
 
 #: dpkg-deb/extract.c:286
 msgid "failed to create directory"
@@ -4314,12 +4338,12 @@ msgstr ""
 #: scripts/dpkg-divert.pl:266
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
-msgstr ""
+msgstr "ümbernimetamine: korduva vana viida `%s' eemaldamine: %s"
 
 #: scripts/dpkg-divert.pl:268
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
-msgstr "`%s' ümbernimetamine nimega `%s': %s"
+msgstr "ümbernimetamine: `%s' ümbernimetamine nimega `%s': %s"
 
 #: scripts/dpkg-divert.pl:275
 #, perl-format
@@ -4349,7 +4373,7 @@ msgstr ""
 #: scripts/dpkg-divert.pl:287
 #, perl-format
 msgid "install new diversions: %s"
-msgstr ""
+msgstr "uute diversioonide paigaldamine: %s"
 
 #: scripts/dpkg-divert.pl:310 scripts/update-alternatives.pl:741
 #, perl-format
