@@ -368,7 +368,8 @@ sub find_symbols_file {
 
 sub symfile_has_soname {
     my ($file, $soname) = @_;
-    open(SYM_FILE, "<", $file) || syserr("can't open file $file");
+    open(SYM_FILE, "<", $file)
+	|| syserr(sprintf(_g("cannot open file %s"), $file));
     my $result = 0;
     while (<SYM_FILE>) {
 	if (/^\Q$soname\E /) {
