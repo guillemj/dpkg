@@ -94,9 +94,7 @@ foreach my $file (keys %exec) {
     $cur_field = $exec{$file};
     print "Scanning $file (for $cur_field field)\n" if $debug;
 
-    my $dump = Dpkg::Shlibs::Objdump->new();
-    my $id = $dump->parse($file);
-    my $obj = $dump->get_object($id);
+    my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
 
     # Load symbols files for all needed libraries (identified by SONAME)
     my %libfiles;

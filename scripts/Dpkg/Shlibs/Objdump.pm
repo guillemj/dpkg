@@ -14,6 +14,9 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+use strict;
+use warnings;
+
 package Dpkg::Shlibs::Objdump;
 
 use Dpkg::Gettext;
@@ -30,122 +33,15 @@ sub new {
 
 sub parse {
     my ($self, $file) = @_;
-    local $ENV{LC_ALL} = 'C';
-    open(OBJDUMP, "-|", "objdump", "-w", "-p", "-T", $file) ||
-	syserr(sprintf(_g("Can't execute objdump: %s"), $!));
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
-    my $section = "none";
-    while (defined($_ = <OBJDUMP>)) {
-	chomp;
-	next if (/^\s*$/);
 
-	if (/^DYNAMIC SYMBOL TABLE:/) {
-	    $section = "dynsym";
-	    next;
-	} elsif (/^Dynamic Section:/) {
-	    $section = "dyninfo";
-	    next;
-	} elsif (/^Program Header:/) {
-	    $section = "header";
-	    next;
-	} elsif (/^Version definitions:/) {
-	    $section = "verdef";
-	    next;
-	} elsif (/^Version References:/) {
-	    $section = "verref";
-	    next;
-	}
-
-	if ($section eq "dynsym") {
-	    $self->parse_dynamic_symbol($_, $obj);
-	} elsif ($section eq "dyninfo") {
-	    if (/^\s*NEEDED\s+(\S+)/) {
-		push @{$obj->{NEEDED}}, $1;
-	    } elsif (/^\s*SONAME\s+(\S+)/) {
-		$obj->{SONAME} = $1;
-	    } elsif (/^\s*HASH\s+(\S+)/) {
-		$obj->{HASH} = $1;
-	    } elsif (/^\s*GNU_HASH\s+(\S+)/) {
-		$obj->{GNU_HASH} = $1;
-	    } elsif (/^\s*RPATH\s+(\S+)/) {
-		push @{$obj->{RPATH}}, split (/:/, $1);
-	    }
-	} elsif ($section eq "none") {
-	    if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
-		$obj->{format} = $1;
-	    }
-	}
-    }
-    close(OBJDUMP);
-    if ($section eq "none") {
-	return undef;
-    } else {
-	my $id = $obj->{SONAME} || $obj->{file};
+    my $id = $obj->get_id;
+    if ($id) {
 	$self->{objects}{$id} = $obj;
-	return $id;
     }
+    return $id;
 }
 
-# Output format of objdump -w -T
-#
-# /lib/libc.so.6:     file format elf32-i386
-#
-# DYNAMIC SYMBOL TABLE:
-# 00056ef0 g    DF .text  000000db  GLIBC_2.2   getwchar
-# 00000000 g    DO *ABS*  00000000  GCC_3.0     GCC_3.0
-# 00069960  w   DF .text  0000001e  GLIBC_2.0   bcmp
-# 00000000  w   D  *UND*  00000000              _pthread_cleanup_pop_restore
-# 0000b788 g    DF .text  0000008e  Base        .protected xine_close
-# |        ||||||| |      |         |           |
-# |        ||||||| |      |         Version str (.visibility) + Symbol name
-# |        ||||||| |      Alignment
-# |        ||||||| Section name (or *UND* for an undefined symbol)
-# |        ||||||F=Function,f=file,O=object
-# |        |||||d=debugging,D=dynamic
-# |        ||||I=Indirect
-# |        |||W=warning
-# |        ||C=constructor
-# |        |w=weak
-# |        g=global,l=local,!=both global/local
-# Size of the symbol
-#
-# GLIBC_2.2 is the version string associated to the symbol
-# (GLIBC_2.2) is the same but the symbol is hidden, a newer version of the
-# symbol exist
-
-sub parse_dynamic_symbol {
-    my ($self, $line, $obj) = @_;
-    my $vis = '(?:\s+(?:\.protected|\.hidden|\.internal|0x\S+))?';
-    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+\s+(\S+)?(?:$vis\s+(\S+))/) {
-
-	my ($flags, $sect, $ver, $name) = ($1, $2, $3, $4);
-	my $symbol = {
-		name => $name,
-		version => defined($ver) ? $ver : '',
-		section => $sect,
-		dynamic => substr($flags, 5, 1) eq "D",
-		debug => substr($flags, 5, 1) eq "d",
-		type => substr($flags, 6, 1),
-		weak => substr($flags, 1, 1) eq "w",
-		hidden => 0,
-		defined => $sect ne '*UND*'
-	    };
-
-	# Handle hidden symbols
-	if (defined($ver) and $ver =~ /^\((.*)\)$/) {
-	    $ver = $1;
-	    $symbol->{version} = $1;
-	    $symbol->{hidden} = 1;
-	}
-
-	# Register symbol
-	$obj->add_dynamic_symbol($symbol);
-    } elsif ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+/) {
-	# Same start but no version and no symbol ... just ignore
-    } else {
-	warning(sprintf(_g("Couldn't parse one line of objdump's output: %s"), $line));
-    }
-}
 
 sub locate_symbol {
     my ($self, $name) = @_;
@@ -207,16 +103,158 @@ sub new {
     my $this = shift;
     my $file = shift || '';
     my $class = ref($this) || $this;
-    my $self = {
-	file => $file,
-	SONAME => '',
-	NEEDED => [],
-	RPATH => [],
-	dynsyms => {}
-    };
+    my $self = {};
     bless $self, $class;
+
+    $self->reset;
+    if ($file) {
+	$self->_read;
+    }
+
     return $self;
 }
+
+sub reset {
+    my ($self) = @_;
+
+    $self->{file} = '';
+    $self->{id} = '';
+    $self->{SONAME} = '';
+    $self->{NEEDED} = [];
+    $self->{RPATH} = [];
+    $self->{dynsyms} = {};
+
+    return $self;
+}
+
+
+sub _read {
+    my ($self, $file) = @_;
+
+    $file ||= $self->{file};
+    return unless $file;
+
+    $self->reset;
+    $self->{file} = $file;
+
+    local $ENV{LC_ALL} = 'C';
+    open(my $objdump, "-|", "objdump", "-w", "-p", "-T", $file)
+	|| syserr(sprintf(_g("Can't execute objdump: %s"), $!));
+    my $ret = $self->_parse($objdump);
+    close($objdump);
+    return $ret;
+}
+
+sub _parse {
+    my ($self, $fh) = @_;
+
+    my $section = "none";
+    while (defined($_ = <$fh>)) {
+	chomp;
+	next if /^\s*$/;
+
+	if (/^DYNAMIC SYMBOL TABLE:/) {
+	    $section = "dynsym";
+	    next;
+	} elsif (/^Dynamic Section:/) {
+	    $section = "dyninfo";
+	    next;
+	} elsif (/^Program Header:/) {
+	    $section = "header";
+	    next;
+	} elsif (/^Version definitions:/) {
+	    $section = "verdef";
+	    next;
+	} elsif (/^Version References:/) {
+	    $section = "verref";
+	    next;
+	}
+
+	if ($section eq "dynsym") {
+	    $self->parse_dynamic_symbol($_);
+	} elsif ($section eq "dyninfo") {
+	    if (/^\s*NEEDED\s+(\S+)/) {
+		push @{$self->{NEEDED}}, $1;
+	    } elsif (/^\s*SONAME\s+(\S+)/) {
+		$self->{SONAME} = $1;
+	    } elsif (/^\s*HASH\s+(\S+)/) {
+		$self->{HASH} = $1;
+	    } elsif (/^\s*GNU_HASH\s+(\S+)/) {
+		$self->{GNU_HASH} = $1;
+	    } elsif (/^\s*RPATH\s+(\S+)/) {
+		push @{$self->{RPATH}}, split (/:/, $1);
+	    }
+	} elsif ($section eq "none") {
+	    if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
+		$self->{format} = $1;
+	    }
+	}
+    }
+
+    return $section ne "none";
+}
+
+# Output format of objdump -w -T
+#
+# /lib/libc.so.6:     file format elf32-i386
+#
+# DYNAMIC SYMBOL TABLE:
+# 00056ef0 g    DF .text  000000db  GLIBC_2.2   getwchar
+# 00000000 g    DO *ABS*  00000000  GCC_3.0     GCC_3.0
+# 00069960  w   DF .text  0000001e  GLIBC_2.0   bcmp
+# 00000000  w   D  *UND*  00000000              _pthread_cleanup_pop_restore
+# 0000b788 g    DF .text  0000008e  Base        .protected xine_close
+# |        ||||||| |      |         |           |
+# |        ||||||| |      |         Version str (.visibility) + Symbol name
+# |        ||||||| |      Alignment
+# |        ||||||| Section name (or *UND* for an undefined symbol)
+# |        ||||||F=Function,f=file,O=object
+# |        |||||d=debugging,D=dynamic
+# |        ||||I=Indirect
+# |        |||W=warning
+# |        ||C=constructor
+# |        |w=weak
+# |        g=global,l=local,!=both global/local
+# Size of the symbol
+#
+# GLIBC_2.2 is the version string associated to the symbol
+# (GLIBC_2.2) is the same but the symbol is hidden, a newer version of the
+# symbol exist
+
+sub parse_dynamic_symbol {
+    my ($self, $line) = @_;
+    my $vis = '(?:\s+(?:\.protected|\.hidden|\.internal|0x\S+))?';
+    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+\s+(\S+)?(?:$vis\s+(\S+))/) {
+
+	my ($flags, $sect, $ver, $name) = ($1, $2, $3, $4);
+	my $symbol = {
+		name => $name,
+		version => defined($ver) ? $ver : '',
+		section => $sect,
+		dynamic => substr($flags, 5, 1) eq "D",
+		debug => substr($flags, 5, 1) eq "d",
+		type => substr($flags, 6, 1),
+		weak => substr($flags, 1, 1) eq "w",
+		hidden => '',
+		defined => $sect ne '*UND*'
+	    };
+
+	# Handle hidden symbols
+	if (defined($ver) and $ver =~ /^\((.*)\)$/) {
+	    $ver = $1;
+	    $symbol->{version} = $1;
+	    $symbol->{hidden} = 1;
+	}
+
+	# Register symbol
+	$self->add_dynamic_symbol($symbol);
+    } elsif ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+/) {
+	# Same start but no version and no symbol ... just ignore
+    } else {
+	warning(sprintf(_g("Couldn't parse dynamic symbol definition: %s"), $line));
+    }
+}
+
 
 sub add_dynamic_symbol {
     my ($self, $symbol) = @_;
@@ -226,6 +264,11 @@ sub add_dynamic_symbol {
     } else {
 	$self->{dynsyms}{$symbol->{name}} = $symbol;
     }
+}
+
+sub get_id {
+    my $self = shift;
+    return $self->{SONAME} || $self->{file};
 }
 
 sub get_symbol {
