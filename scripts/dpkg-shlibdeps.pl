@@ -24,7 +24,8 @@ use Dpkg::Shlibs::SymbolFile;
 our $host_arch= `dpkg-architecture -qDEB_HOST_ARCH`;
 chomp $host_arch;
 
-my @depfields= qw(Suggests Recommends Depends Pre-Depends); # By increasing importance
+# By increasing importance
+my @depfields= qw(Suggests Recommends Depends Pre-Depends);
 my $i=0; my %depstrength = map { $_ => $i++ } @depfields;
 
 require 'controllib.pl';
@@ -43,42 +44,44 @@ my $debug= 0;
 my (@pkg_shlibs, @pkg_symbols);
 if (-d "debian") {
     find sub {
-	push @pkg_shlibs, $File::Find::name if ($File::Find::name =~ m{/DEBIAN/shlibs$});
-	push @pkg_symbols, $File::Find::name if ($File::Find::name =~ m{/DEBIAN/symbols$});
+	push @pkg_shlibs, $File::Find::name
+	    if ($File::Find::name =~ m{/DEBIAN/shlibs$});
+	push @pkg_symbols, $File::Find::name
+	    if ($File::Find::name =~ m{/DEBIAN/symbols$});
     }, "debian";
 }
 
 my ($stdout, %exec);
 foreach (@ARGV) {
     if (m/^-T(.*)$/) {
-        $varlistfile= $1;
+	$varlistfile= $1;
     } elsif (m/^-p(\w[-:0-9A-Za-z]*)$/) {
-        $varnameprefix= $1;
+	$varnameprefix= $1;
     } elsif (m/^-L(.*)$/) {
-        $shlibslocal= $1;
+	$shlibslocal= $1;
     } elsif (m/^-O$/) {
-        $stdout= 1;
+	$stdout= 1;
     } elsif (m/^-(h|-help)$/) {
-        usage(); exit(0);
+	usage(); exit(0);
     } elsif (m/^--version$/) {
-        version(); exit(0);
+	version(); exit(0);
     } elsif (m/^--admindir=(.*)$/) {
-        $admindir = $1;
-        -d $admindir ||
-            error(sprintf(_g("administrative directory '%s' does not exist"),
-                             $admindir));
+	$admindir = $1;
+	-d $admindir ||
+	    error(sprintf(_g("administrative directory '%s' does not exist"),
+			  $admindir));
     } elsif (m/^-d(.*)$/) {
-        $dependencyfield= capit($1);
-        defined($depstrength{$dependencyfield}) ||
-            warning(sprintf(_g("unrecognised dependency field \`%s'"), $dependencyfield));
+	$dependencyfield= capit($1);
+	defined($depstrength{$dependencyfield}) ||
+	    warning(sprintf(_g("unrecognised dependency field \`%s'"), $dependencyfield));
     } elsif (m/^-e(.*)$/) {
 	$exec{$1} = $dependencyfield;
     } elsif (m/^-t(.*)$/) {
-        $packagetype = $1;
+	$packagetype = $1;
     } elsif (m/-v$/) {
 	$debug = 1;
     } elsif (m/^-/) {
-        usageerr(sprintf(_g("unknown option \`%s'"), $_));
+	usageerr(sprintf(_g("unknown option \`%s'"), $_));
     } else {
 	$exec{$_} = $dependencyfield;
     }
@@ -161,9 +164,9 @@ foreach my $file (keys %exec) {
 	    $used_sonames{$symdep->{soname}}++;
 	    foreach my $subdep (split /\s*,\s*/, $d) {
 		if (exists $dependencies{$cur_field}{$subdep} and
-		    defined($dependencies{$cur_field}{$subdep})) 
+		    defined($dependencies{$cur_field}{$subdep}))
 		{
-		    if ($dependencies{$cur_field}{$subdep} eq '' or 
+		    if ($dependencies{$cur_field}{$subdep} eq '' or
 			vercmp($m, $dependencies{$cur_field}{$subdep}) > 0)
 		    {
 			$dependencies{$cur_field}{$subdep} = $m;
@@ -176,9 +179,10 @@ foreach my $file (keys %exec) {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
 		my $print_name = $name;
-		$print_name =~ s/\@Base$//; # Drop the default suffix for readability
+		# Drop the default suffix for readability
+		$print_name =~ s/\@Base$//;
 		warning(sprintf(
-		    _g("symbol %s used by %s found in none of the libraries."), 
+		    _g("symbol %s used by %s found in none of the libraries."),
 		    $print_name, $file)) unless $sym->{weak};
 	    } else {
 		$used_sonames{$syminfo->{soname}}++;
@@ -201,24 +205,24 @@ if ($stdout) {
     $fh = \*STDOUT;
 } else {
     open(NEW, ">", "$varlistfile.new") ||
-        syserr(sprintf(_g("open new substvars file \`%s'"), "$varlistfile.new"));
+	syserr(sprintf(_g("open new substvars file \`%s'"), "$varlistfile.new"));
     if (-e $varlistfile) {
-	open(OLD, "<", $varlistfile) || 
+	open(OLD, "<", $varlistfile) ||
 	    syserr(sprintf(_g("open old varlist file \`%s' for reading"), $varlistfile));
-	foreach my $entry (grep { not /^\Q$varnameprefix\E:/ } (<OLD>)) {
+	foreach my $entry (grep { not m/^\Q$varnameprefix\E:/ } (<OLD>)) {
 	    print(NEW $entry) ||
 		syserr(sprintf(_g("copy old entry to new varlist file \`%s'"), "$varlistfile.new"));
 	}
     }
     $fh = \*NEW;
-} 
+}
 
-# Write out the shlibs substvars 
+# Write out the shlibs substvars
 my %depseen;
 foreach my $field (reverse @depfields) {
     my $dep = "";
     if (exists $dependencies{$field} and scalar keys %{$dependencies{$field}}) {
-	$dep = join ", ", 
+	$dep = join ", ",
 	    map {
 		# Translate dependency templates into real dependencies
 		if ($dependencies{$field}{$_}) {
@@ -228,14 +232,14 @@ foreach my $field (reverse @depfields) {
 		}
 		s/\s+/ /g;
 		$_;
-	    } grep { 
+	    } grep {
 		# Don't include dependencies if they are already
 		# mentionned in a higher priority field
 		if (not defined($depseen{$_})) {
 		    $depseen{$_} = $dependencies{$field}{$_};
 		    1;
 		} else {
-		    # Since dependencies can be versionned, we have to
+		    # Since dependencies can be versionned, we have to
 		    # verify if the dependency is stronger than the
 		    # previously seen one
 		    if (vercmp($depseen{$_}, $dependencies{$field}{$_}) > 0) {
@@ -256,7 +260,7 @@ foreach my $field (reverse @depfields) {
 if (!$stdout) {
     close($fh);
     rename("$varlistfile.new",$varlistfile) ||
-        syserr(sprintf(_g("install new varlist file \`%s'"), $varlistfile));
+	syserr(sprintf(_g("install new varlist file \`%s'"), $varlistfile));
 }
 
 ##
@@ -306,7 +310,7 @@ Dependency fields recognised are:
 sub add_shlibs_dep {
     my ($soname, $pkg) = @_;
     foreach my $file ($shlibslocal, $shlibsoverride, @pkg_shlibs,
-			"$admindir/info/$pkg.shlibs") 
+			"$admindir/info/$pkg.shlibs")
     {
 	next if not -e $file;
 	my $dep = extract_from_shlibs($soname, $file);
@@ -333,14 +337,16 @@ sub extract_from_shlibs {
     }
     # Open shlibs file
     $shlibfile = "./$shlibfile" if $shlibfile =~ m/^\s/;
-    open(SHLIBS, "<", $shlibfile) || syserr(sprintf(_g("unable to open shared libs info file \`%s'"), $shlibfile));
+    open(SHLIBS, "<", $shlibfile)
+	|| syserr(sprintf(_g("unable to open shared libs info file \`%s'"), $shlibfile));
     my $dep;
     while (<SHLIBS>) {
-	s/\s*\n$//; next if m/^\#/;
-        if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)\s+(\S.*\S)\s*$/) {
-            warning(sprintf(_g("shared libs info file \`%s' line %d: bad line \`%s'"), $shlibfile, $., $_));
-            next;
-        }
+	s/\s*\n$//;
+	next if m/^\#/;
+	if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)\s+(\S.*\S)\s*$/) {
+	    warning(sprintf(_g("shared libs info file \`%s' line %d: bad line \`%s'"), $shlibfile, $., $_));
+	    next;
+	}
 	my $type = defined($1) ? $1 : "deb";
 	next if $type ne $packagetype;
 	if (($libname eq $2) && ($libversion eq $3)) {
@@ -357,7 +363,7 @@ sub find_symbols_file {
     foreach my $file (@pkg_symbols,
 	"/etc/dpkg/symbols/$pkg.symbols.$host_arch",
 	"/etc/dpkg/symbols/$pkg.symbols",
-	"$admindir/info/$pkg.symbols") 
+	"$admindir/info/$pkg.symbols")
     {
 	if (-e $file and symfile_has_soname($file, $soname)) {
 	    return $file;
@@ -408,13 +414,15 @@ sub find_packages {
 	close STDERR;
 	open STDERR, ">", "/dev/null";
 	$ENV{LC_ALL} = "C";
-	exec("dpkg", "--search", "--", @files) or syserr(_g("cannot exec dpkg"));;
+	exec("dpkg", "--search", "--", @files)
+	    || syserr(_g("cannot exec dpkg"));
     }
     while(defined($_ = <DPKG>)) {
 	chomp($_);
 	if (m/^local diversion |^diversion by/) {
 	    warning(_g("diversions involved - output may be incorrect"));
-	    print(STDERR " $_\n") || syserr(_g("write diversion info to stderr"));
+	    print(STDERR " $_\n")
+		|| syserr(_g("write diversion info to stderr"));
 	} elsif (m/^([^:]+): (\S+)$/) {
 	    $pkgmatch->{$2} = [ split(/, /, $1) ];
 	} else {

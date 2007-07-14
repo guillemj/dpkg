@@ -7,7 +7,7 @@ our $version;
 our $dpkglibdir;
 BEGIN {
     $version="1.14.4"; # This line modified by Makefile
-    $dpkglibdir="/usr/lib/dpkg"; # This line modified by Makefile
+    $dpkglibdir="."; # This line modified by Makefile
     push(@INC,$dpkglibdir);
 }
 require 'controllib.pl';
@@ -79,7 +79,7 @@ my @files;
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-p([-+0-9a-z.]+)$/) {
-        $oppackage= $1;
+	$oppackage= $1;
     } elsif (m/^-c(\d)?$/) {
 	$compare = defined($1) ? $1 : 1;
     } elsif (m/^-d$/) {
@@ -94,20 +94,20 @@ while (@ARGV) {
 	    push @files, glob($file);
 	}
     } elsif (m/^-p(.*)/) {
-        &error(sprintf(_g("Illegal package name \`%s'"), $1));
+	&error(sprintf(_g("Illegal package name \`%s'"), $1));
     } elsif (m/^-P(.*)$/) {
-        $packagebuilddir = $1;
-        $packagebuilddir =~ s{/+$}{};
+	$packagebuilddir = $1;
+	$packagebuilddir =~ s{/+$}{};
     } elsif (m/^-O$/) {
-        $stdout= 1;
+	$stdout= 1;
     } elsif (m/^-O(.+)$/) {
-        $output= $1;
+	$output= $1;
     } elsif (m/^-(h|-help)$/) {
-        &usage; exit(0);
+	&usage; exit(0);
     } elsif (m/^--version$/) {
-        &version; exit(0);
+	&version; exit(0);
     } else {
-        &usageerr(sprintf(_g("unknown option \`%s'"), $_));
+	&usageerr(sprintf(_g("unknown option \`%s'"), $_));
     }
 }
 
@@ -119,7 +119,7 @@ if (not defined($oppackage)) {
     parsecontrolfile($controlfile);
     my @packages = grep(m/^C /, keys %p2i);
     @packages==1 ||
-        &error(sprintf(_g("must specify package since control info has many (%s)"), "@packages"));
+	&error(sprintf(_g("must specify package since control info has many (%s)"), "@packages"));
     $oppackage = $packages[0];
     $oppackage =~ s/^C //;
 }
@@ -145,7 +145,7 @@ if (not scalar @files) {
 	my $libdir = "$packagebuilddir$path";
 	$libdir =~ s{/+}{/}g;
 	next if not -d $libdir;
-	opendir(DIR, "$libdir") || 
+	opendir(DIR, "$libdir") ||
 	    syserr(sprintf(_g("Can't read directory %s: %s"), $libdir, $!));
 	push @files, grep {
 	    /(\.so\.|\.so$)/ &&
@@ -195,7 +195,7 @@ my $exitcode = 0;
 if ($compare) {
     use File::Temp;
     use Digest::MD5;
-    # Compare 
+    # Compare
     if ($symfile->has_new_libs($ref_symfile)) {
 	warning(_g("new libraries appeared in the symbols file."));
 	$exitcode = 4 if ($compare >= 4);
@@ -222,7 +222,7 @@ if ($compare) {
     $md5_after->addfile($after);
     if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
 	if (defined($ref_symfile->{file})) {
-	    warning(sprintf(_g("%s doesn't match completely %s\n"), 
+	    warning(sprintf(_g("%s doesn't match completely %s\n"),
 		    $output, $ref_symfile->{file}));
 	} else {
 	    warning(sprintf(_g("no debian/symbols file used as basis for generating %s\n"), $output));
