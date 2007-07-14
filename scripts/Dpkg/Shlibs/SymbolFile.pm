@@ -125,6 +125,9 @@ sub merge_symbols {
     my %dynsyms = map { $_ => $object->{dynsyms}{$_} }
 	grep { local $a = $object->{dynsyms}{$_}; $a->{dynamic} && $a->{defined} }
 	keys %{$object->{dynsyms}};
+    unless ($self->{objects}{$soname}) {
+	$self->create_object($soname, '');
+    }
     # Scan all symbols provided by the objects
     foreach my $sym (keys %dynsyms) {
 	if (exists $self->{objects}{$soname}{syms}{$sym}) {

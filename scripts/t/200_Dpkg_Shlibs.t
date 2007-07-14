@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 14;
+use Test::More tests => 18;
 
 use strict;
 use warnings;
@@ -21,8 +21,8 @@ use_ok('Dpkg::Shlibs::Objdump');
 
 my $obj = Dpkg::Shlibs::Objdump::Object->new;
 
-open my $objdump, '<', "t/200_Dpkg_Shlibs/objdump.libc6"
-  or die "t/200_Dpkg_Shlibs/objdump.libc6: $!";
+open my $objdump, '<', "t/200_Dpkg_Shlibs/objdump.libc6-2.6"
+  or die "t/200_Dpkg_Shlibs/objdump.libc6-2.6: $!";
 $obj->_parse($objdump);
 close $objdump;
 
@@ -50,4 +50,37 @@ is( scalar @syms, 2231, 'defined && dynamic' );
 is( scalar @syms, 9, 'undefined && dynamic' );
 
 
+my $obj_old = Dpkg::Shlibs::Objdump::Object->new;
+
+open $objdump, '<', "t/200_Dpkg_Shlibs/objdump.libc6-2.3"
+  or die "t/200_Dpkg_Shlibs/objdump.libc6-2.3: $!";
+$obj_old->_parse($objdump);
+close $objdump;
+
+
 use_ok('Dpkg::Shlibs::SymbolFile');
+
+my $sym_file = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbol_file.tmp");
+my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbol_file.tmp");
+my $sym_file_old = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbol_file.tmp");
+
+$sym_file->merge_symbols($obj_old, "2.3.6.ds1-13");
+$sym_file_old->merge_symbols($obj_old, "2.3.6.ds1-13");
+
+ok( $sym_file->has_object('libc.so.6'), 'SONAME in sym file' );
+
+$sym_file->merge_symbols($obj, "2.6-1");
+
+ok( $sym_file->has_new_symbols($sym_file_old), 'has new symbols' );
+ok( $sym_file_old->has_lost_symbols($sym_file), 'has lost symbols' );
+
+use File::Temp;
+
+my $save_file = new File::Temp;
+
+$sym_file->save($save_file);
+
+$sym_file_dup->load($save_file);
+$sym_file_dup->{file} = "t/200_Dpkg_Shlibs/symbol_file.tmp";
+
+is_deeply($sym_file_dup, $sym_file, 'save -> load' );
