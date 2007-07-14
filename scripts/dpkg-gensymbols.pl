@@ -228,7 +228,7 @@ if ($compare) {
 	    warning(sprintf(_g("no debian/symbols file used as basis for generating %s\n"), $output));
 	}
 	my ($a, $b) = ($before->filename, $after->filename);
-	system("diff -u $a $b") if -x "/usr/bin/diff";
+	system("diff", "-u", $a, $b) if -x "/usr/bin/diff";
     }
 }
 exit($exitcode);

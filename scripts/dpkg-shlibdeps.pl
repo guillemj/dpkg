@@ -95,10 +95,11 @@ foreach my $file (keys %exec) {
     print "Scanning $file (for $cur_field field)\n" if $debug;
 
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
+    my @sonames = $obj->get_needed_libraries;
 
     # Load symbols files for all needed libraries (identified by SONAME)
     my %libfiles;
-    foreach my $soname ($obj->get_needed_libraries) {
+    foreach my $soname (@sonames) {
 	my $file = my_find_library($soname, $obj->{RPATH}, $obj->{format});
 	warning("Couldn't find library $soname.") unless defined($file);
 	$libfiles{$file} = $soname if defined($file);
@@ -146,7 +147,6 @@ foreach my $file (keys %exec) {
 
     # Scan all undefined symbols of the binary and resolve to a
     # dependency
-    my @sonames = $obj->get_needed_libraries;
     my %used_sonames = map { $_ => 0 } @sonames;
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
 	my $name = $sym->{name};
