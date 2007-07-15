@@ -78,9 +78,9 @@ use File::Temp;
 
 my $save_file = new File::Temp;
 
-$sym_file->save($save_file);
+$sym_file->save($save_file->filename);
 
-$sym_file_dup->load($save_file);
+$sym_file_dup->load($save_file->filename);
 $sym_file_dup->{file} = "t/200_Dpkg_Shlibs/symbol_file.tmp";
 
 is_deeply($sym_file_dup, $sym_file, 'save -> load' );

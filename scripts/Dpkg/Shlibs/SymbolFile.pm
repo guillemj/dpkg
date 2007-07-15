@@ -201,25 +201,6 @@ sub lookup_symbol {
     return undef;
 }
 
-sub has_lost_symbols {
-    my ($self, $ref) = @_;
-    foreach my $soname (keys %{$self->{objects}}) {
-	my $mysyms = $self->{objects}{$soname}{syms};
-	next if not exists $ref->{objects}{$soname};
-	my $refsyms = $ref->{objects}{$soname}{syms};
-	foreach my $sym (grep { not $refsyms->{$_}{deprecated} }
-	    keys %{$refsyms})
-	{
-	    if ((not exists $mysyms->{$sym}) or
-		$mysyms->{$sym}{deprecated})
-	    {
-		return 1;
-	    }
-	}
-    }
-    return 0;
-}
-
 sub has_new_symbols {
     my ($self, $ref) = @_;
     foreach my $soname (keys %{$self->{objects}}) {
@@ -239,6 +220,12 @@ sub has_new_symbols {
     return 0;
 }
 
+sub has_lost_symbols {
+    my ($self, $ref) = @_;
+    return $ref->has_new_symbols($self);
+}
+
+
 sub has_new_libs {
     my ($self, $ref) = @_;
     foreach my $soname (keys %{$self->{objects}}) {
@@ -249,10 +236,7 @@ sub has_new_libs {
 
 sub has_lost_libs {
     my ($self, $ref) = @_;
-    foreach my $soname (keys %{$ref->{objects}}) {
-	return 1 if not exists $self->{objects}{$soname};
-    }
-    return 0;
+    return $ref->has_new_libs($self);
 }
 
 1;
