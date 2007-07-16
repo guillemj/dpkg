@@ -3,8 +3,6 @@
 use strict;
 use warnings;
 
-use File::Find;
-
 our $progname;
 our $version;
 our $dpkglibdir;
