@@ -1,0 +1,99 @@
+.\" Author: Raphael Hertzog
+.TH dpkg\-gensymbols 1 "2007-07-16" "Debian Project" "dpkg utilities"
+.SH NAME
+dpkg\-gensymbols \- generate symbols files (shared library dependency information)
+.
+.SH SYNOPSIS
+.B dpkg\-gensymbols
+.RI [ options ]
+.
+.SH DESCRIPTION
+.B dpkg\-gensymbols
+scans a temporary build tree (debian/tmp by default) looking for libraries
+and generate a \fIsymbols\fR file describing them. This file is then
+installed in the DEBIAN subdirectory of the build tree so that it ends up
+included in the control information of the package.
+.P
+When generating those files, it uses as input some symbols files
+provided by the maintainer. It looks for the following files (and use the
+first that is found):
+.IP \(bu 4
+debian/\fIpackage\fR.symbols.\fIarch\fR
+.IP \(bu 4
+debian/symbols.\fIarch\fR
+.IP \(bu 4
+debian/\fIpackage\fR.symbols
+.IP \(bu 4
+debian/symbols
+.P
+The main interest of those files is to provide the minimal version
+associated to each symbol provided by the libraries. Usually it
+corresponds to the first version of that package that provided the symbol,
+but it can be manually incremented by the maintainer if the ABI of the
+symbol is extended without breaking backwards compatibility. It's the
+responsibility of the maintainer to keep those files up-to-date and
+accurate, but \fBdpkg\-gensymbols\fR helps him.
+.P
+When the generated symbols files differ from the maintainer supplied
+one, \fBdpkg\-gensymbols\fR will print a diff between the two versions.
+Furthermore if the difference are too significant, it will even fail (you
+can customize how much difference you can tolerate, see the \fB\-c\fR
+option).
+.SH OPTIONS
+.TP
+.BI \-P package-build-dir
+Scan \fIpackage-build-dir\fR instead of debian/tmp.
+.TP
+.BI \-p package
+Define the package name. Required if more than one binary package is listed in
+debian/control (or if there's no debian/control file).
+.TP
+.BI \-v version
+Define the package version. Defaults to the version extracted from
+debian/changelog. Required if called outside of a source package tree.
+.TP
+.BI \-e library-file
+Only analyze libraries explicitely listed instead of finding all public
+libraries. You can use a regular expression in \fIlibrary-file\fR to match
+multiple libraries with a single argument (otherwise you need multiple
+\fB\-e\fR).
+.TP
+.B \-O
+Print the generated symbols file to standard output, rather than being
+stored in the package build tree.
+.TP 
+.BI \-O filename
+Store the generated symbols file as \fIfilename\fR. If \fIfilename\fR is
+pre-existing, its content is used as basis for the generated symbols file.
+You can use this feature to update a symbols file so that it matches a
+newer upstream version of your library.
+.TP
+.BI \-c [0-4]
+Define the checks to do when comparing the generated symbols file
+with the file used as starting point. By default the level is 1.
+Increasing levels do more checks and include all checks of lower levels.
+Level 0 disables all checks. Level 1 fails if some symbols have
+disappeared. Level 2 fails if some new symbols have been introduced.
+Level 3 fails if some libraries have disappeared. Level 4 fails if some
+libraries have been introduced.
+.TP
+.BI \-d
+Enable debug mode. Numerous messages are displayed to explain what 
+.B dpkg\-gensymbols
+does.
+.TP
+.BR \-h ", " \-\-help
+Show the usage message and exit.
+.TP
+.BR \-\-version
+Show the version and exit.
+.
+.SH "SEE ALSO"
+.BR deb\-symbols (5),
+.BR dpkg\-shlibdeps (1).
+.
+.SH AUTHORS
+Copyright (C) 2007 Raphaël Hertzog
+.sp
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions. There is NO WARRANTY.

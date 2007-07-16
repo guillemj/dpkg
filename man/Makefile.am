@@ -42,6 +42,7 @@ dist_man_MANS = \
 	deb-control.5 \
 	deb-shlibs.5 \
 	deb-substvars.5 \
+	deb-symbols.5 \
 	deb-old.5 \
 	deb-override.5 \
 	deb.5 \
@@ -53,6 +54,7 @@ dist_man_MANS = \
 	dpkg-divert.8 \
 	dpkg-genchanges.1 \
 	dpkg-gencontrol.1 \
+	dpkg-gensymbols.1 \
 	dpkg-name.1 \
 	dpkg-parsechangelog.1 \
 	dpkg-query.1 \
