@@ -43,12 +43,8 @@ my $debug= 0;
 
 my (@pkg_shlibs, @pkg_symbols);
 if (-d "debian") {
-    find sub {
-	push @pkg_shlibs, $File::Find::name
-	    if ($File::Find::name =~ m{/DEBIAN/shlibs$});
-	push @pkg_symbols, $File::Find::name
-	    if ($File::Find::name =~ m{/DEBIAN/symbols$});
-    }, "debian";
+    push @pkg_symbols, <debian/*/DEBIAN/symbols>;
+    push @pkg_shlibs, <debian/*/DEBIAN/shlibs>;
 }
 
 my ($stdout, %exec);
@@ -310,7 +306,8 @@ Dependency fields recognised are:
 sub add_shlibs_dep {
     my ($soname, $pkg) = @_;
     foreach my $file ($shlibslocal, $shlibsoverride, @pkg_shlibs,
-			"$admindir/info/$pkg.shlibs")
+			"$admindir/info/$pkg.shlibs",
+			$shlibsdefault)
     {
 	next if not -e $file;
 	my $dep = extract_from_shlibs($soname, $file);
