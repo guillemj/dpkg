@@ -91,7 +91,7 @@ option \fB\-\-force\-remove\-reinstreq\fP.
 .
 .SH ACTIONS
 .TP
-\fBdpkg \-i\fP | \fB\-\-install\fP \fIpackage_file\fP...
+\fB\-i\fP, \fB\-\-install\fP \fIpackage_file\fP...
 Install the package. If \fB\-\-recursive\fP or \fB\-R\fP option is
 specified, \fIpackage_file\fP must refer to a directory instead.
 
@@ -122,12 +122,12 @@ time old files are removed.
 \fB6.\fP Configure the package. See \fB\-\-configure\fP for detailed
 information about how this is done.
 .TP
-\fBdpkg \-\-unpack \fP\fIpackage_file\fP ...
+\fB\-\-unpack \fP\fIpackage_file\fP...
 Unpack the package, but don't configure it. If \fB\-\-recursive\fP or
 \fB\-R\fP option is specified, \fIpackage_file\fP must refer to a
 directory instead.
 .TP
-\fBdpkg \-\-configure \fP\fIpackage\fP ... | \fB\-a\fP | \fB\-\-pending\fP
+\fB\-\-configure \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
 Reconfigure an unpacked package. If \fB\-a\fP or \fB\-\-pending\fP is
 given instead of \fIpackage\fP, all unpacked but unconfigured
 packages are configured.
@@ -142,7 +142,7 @@ something goes wrong.
 
 \fB2.\fP Run \fIpostinst\fP script, if provided by the package.
 .TP
-\fBdpkg \-r\fP | \fB\-\-remove\fP | \fB\-P\fP | \fB\-\-purge \fP\fIpackage\fP ... | \fB\-a\fP | \fB\-\-pending\fP
+\fB\-r\fP, \fB\-\-remove\fP, \fB\-P\fP, \fB\-\-purge \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
 Remove an installed package. \fB\-r\fP or \fB\-\-remove\fP remove
 everything except configuration files. This may avoid having to
 reconfigure the package if it is reinstalled later. (Configuration
@@ -165,7 +165,7 @@ Removing of a package consists of the following steps:
 \fB3.\fP Run \fIpostrm\fP script
 .br
 .TP
-\fBdpkg \-\-update\-avail\fP | \fB\-\-merge\-avail\fP \fIPackages-file\fP
+\fB\-\-update\-avail\fP, \fB\-\-merge\-avail\fP \fIPackages-file\fP
 Update \fBdpkg\fP's and \fBdselect\fP's idea of which packages are
 available. With action \fB\-\-merge\-avail\fP, old information is
 combined with information from \fIPackages-file\fP. With action
@@ -177,47 +177,47 @@ record of available packages in \fI/var/lib/dpkg/available\fP.
 A simpler one-shot command to retrieve and update the \fIavailable\fR
 file is \fBdselect update\fR.
 .TP
-\fBdpkg \-A\fP | \fB\-\-record\-avail\fP \fIpackage_file\fP ...
+\fB\-A\fP, \fB\-\-record\-avail\fP \fIpackage_file\fP...
 Update \fBdpkg\fP and \fBdselect\fP's idea of which packages are
 available with information from the package \fIpackage_file\fP. If
 \fB\-\-recursive\fP or \fB\-R\fP option is specified, \fIpackage_file\fP
 must refer to a directory instead.
 .TP
-.B dpkg \-\-forget\-old\-unavail
+.B \-\-forget\-old\-unavail
 Forget about uninstalled unavailable packages.
 .TP
-.B dpkg \-\-clear\-avail
+.B \-\-clear\-avail
 Erase the existing information about what packages are available.
 .TP
-\fBdpkg \-C\fP | \fB\-\-audit\fP
+\fB \-C\fP, \fB\-\-audit\fP
 Searches for packages that have been installed only partially on your
 system. \fBdpkg\fP will suggest what to do with them to get them
 working.
 .TP
-\fBdpkg \-\-get\-selections\fP [\fIpackage-name-pattern\fP...]
+\fB\-\-get\-selections\fP [\fIpackage-name-pattern\fP...]
 Get list of package selections, and write it to stdout. Without a pattern,
 packages marked with state purge will not be shown.
 .TP
-.B dpkg \-\-set\-selections
+.B \-\-set\-selections
 Set package selections using file read from stdin. This file should be
 in the format '<package> <state>', where state is one of install, hold,
 deinstall or purge. Blank lines and comment lines beginning with '#'
 are also permitted.
 .TP
-.B dpkg \-\-clear\-selections
+.B \-\-clear\-selections
 Set the requested state of every non-essential package to deinstall.
 This is intended to be used immediately before \-\-set\-selections, to
 deinstall any packages not in list given to \-\-set\-selections.
 .TP
-.B dpkg \-\-yet\-to\-unpack
+.B \-\-yet\-to\-unpack
 Searches for packages selected for installation, but which for some
 reason still haven't been installed.
 .TP
 .TP
-.B dpkg \-\-print\-architecture
+.B \-\-print\-architecture
 Print architecture of packages \fBdpkg\fP installs (for example, "i386").
 .TP
-.B dpkg \-\-compare\-versions \fIver1 op ver2\fP
+.B \-\-compare\-versions \fIver1 op ver2\fP
 Compare version numbers, where \fIop\fP is a binary operator. \fBdpkg\fP
 returns success (zero result) if the specified condition is satisfied,
 and failure (nonzero result) otherwise. There are
@@ -228,47 +228,47 @@ than any version: \fBlt\-nl le\-nl ge\-nl gt\-nl\fP. These are provided
 only for compatibility with control file syntax: \fB< << <= = >= >>
 >\fP.
 .TP
-.B dpkg \-\-command\-fd \fI<n>\fP
+.B \-\-command\-fd \fI<n>\fP
 Accept a series of commands on input file descriptor \fI<n>\fP. Note:
 additional options set on the command line, and thru this file descriptor,
 are not reset for subsequent commands executed during the same run.
 .TP
-.B dpkg \-\-help
+.B \-\-help
 Display a brief help message.
 .TP
-.B dpkg \-\-force\-help
+.B \-\-force\-help
 Give help about the \fB\-\-force\-\fP\fIthing\fP options.
 .TP
-.BR "dpkg \-Dh " | " \-\-debug=help"
+.BR \-Dh  ", " \-\-debug=help
 Give help about debugging options.
 .TP
-\fBdpkg \-\-licence\fP | \fBdpkg \-\-license\fP
+\fB\-\-licence\fP, \fB\-\-license\fP
 Display \fBdpkg\fP licence.
 .TP
-\fBdpkg \-\-version\fP
+\fB\-\-version\fP
 Display \fBdpkg\fP version information.
 .TP
 \fBdpkg\-deb actions\fP
 See \fBdpkg\-deb\fP(1) for more information about the following actions.
 
 .nf
-\fBdpkg \-b\fP | \fB\-\-build\fP \fIdirectory\fP [\fIarchive\fP|\fIdirectory\fP]
+\fB\-b\fP, \fB\-\-build\fP \fIdirectory\fP [\fIarchive\fP|\fIdirectory\fP]
     Build a deb package.
-\fBdpkg \-c\fP | \fB\-\-contents\fP \fIarchive\fP
+\fB\-c\fP, \fB\-\-contents\fP \fIarchive\fP
     List contents of a deb package.
-\fBdpkg \-e\fP | \fB\-\-control\fP \fIfilename\fP [\fIdirectory\fP]
+\fB\-e\fP, \fB\-\-control\fP \fIfilename\fP [\fIdirectory\fP]
     Extract control-information from a package.
-\fBdpkg \-x\fP | \fB\-\-extract\fP \fIarchive directory\fP
+\fB\-x\fP, \fB\-\-extract\fP \fIarchive directory\fP
     Extract the files contained by package.
-\fBdpkg \-X\fP | \fB\-\-vextract\fP \fIarchive directory\fP
+\fB\-X\fP, \fB\-\-vextract\fP \fIarchive directory\fP
     Extract and display the filenames contained by a
     package.
-\fBdpkg \-f\fP | \fB\-\-field\fP  \fIarchive\fP [\fIcontrol-field\fP ...]
+\fB\-f\fP, \fB\-\-field\fP  \fIarchive\fP [\fIcontrol-field\fP...]
     Display control field(s) of a package.
-\fBdpkg \-\-fsys\-tarfile\fP \fIarchive\fP
+\fB\-\-fsys\-tarfile\fP \fIarchive\fP
     Display the filesystem tar-file contained by a
     Debian package.
-\fBdpkg \-I\fP | \fB\-\-info\fP \fIarchive\fP [\fIcontrol-file\fP ...]
+\fB\-I\fP, \fB\-\-info\fP \fIarchive\fP [\fIcontrol-file\fP...]
     Show information about a package.
 .fi
 
@@ -278,15 +278,15 @@ See \fBdpkg\-query\fP(1) for more information about the following actions.
 
 .nf
 
-\fBdpkg \-l\fP | \fB\-\-list\fP \fIpackage-name-pattern\fP ...
+\fB\-l\fP, \fB\-\-list\fP \fIpackage-name-pattern\fP...
     List packages matching given pattern.
-\fBdpkg \-s\fP | \fB\-\-status\fP \fIpackage-name\fP ...
+\fB\-s\fP, \fB\-\-status\fP \fIpackage-name\fP...
     Report status of specified package.
-\fBdpkg \-L\fP | \fB\-\-listfiles\fP \fIpackage-name\fP ...
+\fB\-L\fP, \fB\-\-listfiles\fP \fIpackage-name\fP...
     List files installed to your system from \fIpackage-name\fP.
-\fBdpkg \-S\fP | \fB\-\-search\fP \fIfilename-search-pattern\fP ...
+\fB\-S\fP, \fB\-\-search\fP \fIfilename-search-pattern\fP...
     Search for a filename from installed packages.
-\fBdpkg \-p\fP | \fB\-\-print\-avail\fP \fIpackage-name\fP ...
+\fB\-p\fP, \fB\-\-print\-avail\fP \fIpackage-name\fP...
     Display details about \fIpackage-name\fP, as found in
     \fI/var/lib/dpkg/available\fP.
 .fi
@@ -301,13 +301,13 @@ without leading dashes) or a comment (if it starts with a \fB#\fR).
 \fB\-\-abort\-after=\fP\fInumber\fP
 Change after how many errors \fBdpkg\fP will abort. The default is 50.
 .TP
-.BR \-B | \-\-auto\-deconfigure
+.BR \-B ", " \-\-auto\-deconfigure
 When a package is removed, there is a possibility that another
 installed package depended on the removed package. Specifying this
 option will cause automatic deconfiguration of the package which
 depended on the removed package.
 .TP
-\fB\-D\fIoctal\fP | \fB\-\-debug=\fP\fIoctal\fP
+\fB\-D\fIoctal\fP, \fB\-\-debug=\fP\fIoctal\fP
 Switch debugging on. \fIoctal\fP is formed by bitwise-orring desired
 values together from the list below (note that these values may change
 in future releases). \fB\-Dh\fP or \fB\-\-debug=help\fP display these
@@ -325,7 +325,7 @@ debugging values.
  1000   Lots of drivel about e.g. the dpkg/info dir
  2000   Insane amounts of drivel
 .TP
-\fB\-\-force\-\fP\fIthings\fP | \fB\-\-no\-force\-\fP\fIthings\fP | \fB\-\-refuse\-\fP\fIthings\fP
+\fB\-\-force\-\fP\fIthings\fP, \fB\-\-no\-force\-\fP\fIthings\fP, \fB\-\-refuse\-\fP\fIthings\fP
 
 Force or refuse (\fBno\-force\fP and \fBrefuse\fP mean the same thing)
 to do some things. \fIthings\fP is a comma separated list of things
@@ -423,7 +423,7 @@ Install a package even if it fails authenticity check.
 Ignore dependency-checking for specified packages (actually, checking is
 performed, but only warnings about conflicts are given, nothing else).
 .TP
-\fB\-\-new\fP | \fB\-\-old\fP
+\fB\-\-new\fP, \fB\-\-old\fP
 Select new or old binary package format. This is a \fBdpkg\-deb\fP(1)
 option.
 .TP
@@ -431,7 +431,7 @@ option.
 Don't read or check contents of control file while building a package.
 This is a \fBdpkg\-deb\fP(1) option.
 .TP
-\fB\-\-no\-act\fP | \fB\-\-dry\-run\fP | \fB\-\-simulate\fP
+\fB\-\-no\-act\fP, \fB\-\-dry\-run\fP, \fB\-\-simulate\fP
 Do everything which is supposed to be done, but don't write any
 changes. This is used to see what would happen with the specified
 action, without actually modifying anything.
@@ -441,7 +441,7 @@ end up with undesirable results. (e.g. \fBdpkg \-\-purge foo
 \-\-no\-act\fP will first purge package foo and then try to purge package
 \-\-no\-act, even though you probably expected it to actually do nothing)
 .TP
-\fB\-R\fP | \fB\-\-recursive\fP
+\fB\-R\fP, \fB\-\-recursive\fP
 Recursively handle all regular files matching pattern \fB*.deb\fP
 found at specified directories and all of its subdirectories. This can
 be used with \fB\-i\fP, \fB\-A\fP, \fB\-\-install\fP, \fB\-\-unpack\fP and
@@ -451,7 +451,7 @@ be used with \fB\-i\fP, \fB\-A\fP, \fB\-\-install\fP, \fB\-\-unpack\fP and
 Don't install a package if a newer version of the same package is already
 installed. This is an alias of \fB\-\-refuse\-downgrade\fP.
 .TP
-\fB\-\-root=\fP\fIdir\fP | \fB\-\-admindir=\fP\fIdir\fP | \fB\-\-instdir=\fP\fIdir\fP
+\fB\-\-root=\fP\fIdir\fP, \fB\-\-admindir=\fP\fIdir\fP, \fB\-\-instdir=\fP\fIdir\fP
 Change default directories. \fBadmindir\fP defaults to
 \fI/var/lib/dpkg\fP and contains many files that give information
 about status of installed or uninstalled packages, etc. \fBinstdir\fP
@@ -462,13 +462,13 @@ means that the scripts see \fBinstdir\fP as a root directory.
 Changing \fBroot\fP changes \fBinstdir\fP to \fIdir\fP and
 \fBadmindir\fP to \fIdir\fP\fB/var/lib/dpkg\fP.
 .TP
-\fB\-O\fP | \fB\-\-selected\-only\fP
+\fB\-O\fP, \fB\-\-selected\-only\fP
 Only process the packages that are selected for installation. The
 actual marking is done with \fBdselect\fP or by \fBdpkg\fP, when it
 handles packages. For example, when a package is removed, it will
 be marked selected for deinstallation.
 .TP
-.BR \-E " | " \-\-skip\-same\-version
+.BR \-E ", " \-\-skip\-same\-version
 Don't install the package if the same version of the package is already
 installed.
 .TP
