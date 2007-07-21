@@ -53,6 +53,9 @@ CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
 	install-info install-info-stamp
 
+perllibdir = $(PERL_LIBDIR)
+nobase_dist_perllib_DATA = \
+	Dpkg.pm
 
 dist_pkglib_SCRIPTS = \
 	controllib.pl \
@@ -93,6 +96,14 @@ install-exec-local: install-info-stamp
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(sysconfdir)/alternatives
 	$(INSTALL_DATA) $(srcdir)/README.alternatives $(DESTDIR)$(sysconfdir)/alternatives/README
+
+# Ideally we'd use 'sed -i', but unfortunately that's not portable.
+install-data-hook:
+	cp -p $(DESTDIR)$(perllibdir)/Dpkg.pm \
+	      $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
+	$(do_perl_subst) <$(DESTDIR)$(perllibdir)/Dpkg.pm.tmp \
+	                 >$(DESTDIR)$(perllibdir)/Dpkg.pm
+	rm $(DESTDIR)$(perllibdir)/Dpkg.pm.tmp
 
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
