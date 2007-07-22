@@ -1,20 +1,17 @@
 #!/usr/bin/perl --
 
 use Text::Wrap;
+use Dpkg;
 
-my $dpkglibdir = "."; # This line modified by Makefile
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
-($0) = $0 =~ m:.*/(.+):;
-
 # fixme: sort entries
 # fixme: send to FSF ?
 
-$version= '0.93.42.2'; # This line modified by Makefile
 sub version {
-    printf _g("Debian %s version %s.\n"), $0, $version;
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
 Copyright (C) 1994,1995 Ian Jackson.");
@@ -48,7 +45,7 @@ Options:
   --quiet                  do not show output messages.
   --help                   show this help message.
   --version                show the version.
-"), $0;
+"), $progname;
 }
 
 $dirfile = '/usr/share/info/dir';

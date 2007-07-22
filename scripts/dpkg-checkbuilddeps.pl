@@ -4,13 +4,9 @@
 use strict;
 use warnings;
 
-our $progname;
-our $dpkglibdir = "."; # This line modified by Makefile
-our $pkgdatadir = ".."; # This line modified by Makefile
-
 use Getopt::Long;
+use Dpkg;
 
-my $admindir = "/var/lib/dpkg";
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 

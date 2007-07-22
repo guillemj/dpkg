@@ -5,11 +5,7 @@ use strict;
 
 use IO::Handle;
 use IO::File;
-
-my $version= '1.2.6'; # This line modified by Makefile
-my $dpkglibdir= "."; # This line modified by Makefile
-
-($0) = $0 =~ m:.*/(.+):;
+use Dpkg;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
@@ -48,7 +44,7 @@ my %options = (help            => sub { &usage; exit 0; },
 my $result = GetOptions(\%options,'help|h|?','version','udeb|u!','arch|a=s','multiversion|m!');
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $0, $version;
+    printf _g("Debian %s version %s.\n"), $progname, $version;
     exit;
 }
 
@@ -62,7 +58,7 @@ Options:
   -m, --multiversion       allow multiple versions of a single package.
   -h, --help               show this help message.
       --version            show the version.
-"), $0;
+"), $progname;
 }
 
 sub load_override

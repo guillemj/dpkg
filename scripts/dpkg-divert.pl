@@ -3,10 +3,7 @@
 use strict;
 use warnings;
 
-my $version = '1.0.11'; # This line modified by Makefile
-my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
-my $dpkglibdir = "../utils"; # This line modified by Makefile
-($0) = $0 =~ m:.*/(.+):;
+use Dpkg;
 
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
@@ -16,7 +13,7 @@ my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value fro
 sub ENOENT { $enoent; }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $0, $version;
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
 Copyright (C) 1995 Ian Jackson.
@@ -53,7 +50,7 @@ Options:
 When adding, default is --local and --divert <original>.distrib.
 When removing, --package or --local and --divert must match if specified.
 Package preinst/postrm scripts should always specify --package and --divert.
-"), $0);
+"), $progname);
 }
 
 my $testmode = 0;
@@ -296,13 +293,13 @@ sub infon
 
 sub quit
 {
-    printf STDERR "%s: %s\n", $0, "@_";
+    printf STDERR "%s: %s\n", $progname, "@_";
     exit(2);
 }
 
 sub badusage
 {
-    printf STDERR "%s: %s\n\n", $0, "@_";
+    printf STDERR "%s: %s\n\n", $progname, "@_";
     &usage;
     exit(2);
 }

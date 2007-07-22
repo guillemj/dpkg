@@ -29,7 +29,8 @@
 use strict;
 use warnings;
 
-my $dpkglibdir= "."; # This line modified by Makefile
+use Dpkg;
+
 push(@INC,$dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
@@ -37,8 +38,6 @@ textdomain("dpkg-dev");
 use Getopt::Long ();
 
 my $Exit = 0;
-(my $Me = $0) =~ s-.*/--;
-my $version= '1.6.2.1'; # This line modified by Makefile
 
 # %Override is a hash of lists.  The subs following describe what's in
 # the lists.
@@ -76,7 +75,7 @@ sub debug {
 }
 
 sub xwarndie_mess {
-    my @mess = ("$Me: ", @_);
+    my @mess = ("$progname: ", @_);
     $mess[$#mess] =~ s/:$/: $!\n/;	# XXX loses if it's really /:\n/
     return @mess;
 }
@@ -95,7 +94,7 @@ sub xwarn_noerror {
 }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $Me, $version;
+    printf _g("Debian %s version %s.\n"), $progname, $version;
     exit;
 }
 
@@ -113,7 +112,7 @@ Options:
       --version            show the version.
 
 See the man page for the full documentation.
-"), $Me;
+"), $progname;
 
     exit;
 }

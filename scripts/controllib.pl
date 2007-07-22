@@ -5,9 +5,7 @@ use warnings;
 
 use English;
 use POSIX qw(:errno_h);
-
-our $dpkglibdir;
-our $pkgdatadir;
+use Dpkg;
 
 push(@INC,$dpkglibdir);
 require 'dpkg-gettext.pl';
@@ -35,10 +33,6 @@ our @src_dep_fields = qw(Build-Depends Build-Depends-Indep
 
 our $warnable_error = 1;
 our $quiet_warnings = 0;
-
-our $version;
-our $progname = $0;
-$progname = $& if $progname =~ m,[^/]+$,;
 
 
 sub getfowner
@@ -551,8 +545,6 @@ sub init_substvars
     $substvar{'source:Upstream-Version'} = $fi{"L Version"};
     $substvar{'source:Upstream-Version'} =~ s/-[^-]*$//;
 
-    # FIXME: this needs all progs using controllib to set $version as 'our'.
-    # We expect the calling program to set $version.
     $substvar{"dpkg:Version"} = $version;
     $substvar{"dpkg:Upstream-Version"} = $version;
     $substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;

@@ -6,13 +6,9 @@
 use strict;
 use warnings;
 
-our $progname;
-our $version = "1.4.1.19"; # This line modified by Makefile
-our $dpkglibdir = "/usr/lib/dpkg";
-my $admindir = "/var/lib/dpkg";
-
 use English;
 use POSIX qw(:errno_h :signal_h);
+use Dpkg;
 
 my $shlibsoverride= '/etc/dpkg/shlibs.override';
 my $shlibsdefault= '/etc/dpkg/shlibs.default';

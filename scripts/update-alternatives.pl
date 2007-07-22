@@ -3,14 +3,11 @@
 use strict;
 use warnings;
 
-my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
-my $dpkglibdir = "../utils"; # This line modified by Makefile
-my $version = '0.93.80'; # This line modified by Makefile
+use Dpkg;
+
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
-
-($0) = $0 =~ m:.*/(.+):;
 
 # Global variables:
 
@@ -61,7 +58,7 @@ my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value fro
 sub ENOENT { $enoent; }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $0, $version;
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
 Copyright (C) 1995 Ian Jackson.
@@ -108,18 +105,18 @@ Options:
   --quiet                  quiet operation, minimal output.
   --help                   show this help message.
   --version                show the version.
-"), $0, $altdir;
+"), $progname, $altdir;
 }
 
 sub quit
 {
-    printf STDERR "%s: %s\n", $0, "@_";
+    printf STDERR "%s: %s\n", $progname, "@_";
     exit(2);
 }
 
 sub badusage
 {
-    printf STDERR "%s: %s\n\n", $0, "@_";
+    printf STDERR "%s: %s\n\n", $progname, "@_";
     &usage;
     exit(2);
 }

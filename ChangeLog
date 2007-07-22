@@ -1,3 +1,36 @@
+2007-07-22  Guillem Jover  <guillem@debian.org>
+
+	* scripts/cleanup-info.pl: Use new Dpkg module, and remove variable
+	declarations already done in the module.
+	* scripts/controllib.pl: Likewise.
+	* scripts/dpkg-architecture.pl: Likewise.
+	* scripts/dpkg-checkbuilddeps.pl: Likewise.
+	* scripts/dpkg-distaddfile.pl: Likewise.
+	* scripts/dpkg-divert.pl: Likewise.
+	* scripts/dpkg-genchanges.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-parsechangelog.pl: Likewise.
+	* scripts/dpkg-scanpackages.pl: Likewise.
+	* scripts/dpkg-scansources.pl: Likewise.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+	* scripts/dpkg-statoverride.pl: Likewise.
+	* scripts/install-info.pl: Likewise.
+	* scripts/update-alternatives.pl: Likewise.
+
+	* scripts/controllib.pl (init_substvars): Remove comment about
+	$version needing to be a global variable set elsewhere.
+
+	* scripts/dpkg-scanpackages.pl: Remove $0 mangling.
+	(version, usage): Use $progname instead of $0.
+	* scripts/dpkg-statoverride.pl: Likewise.
+	* scripts/install-info.pl: Likewise.
+	* scripts/dpkg-divert.pl: Likewise.
+	(quit, badusage): Use $progname instead of $0.
+	* scripts/update-alternatives.pl: Likewise.
+	* scripts/dpkg-scansources.pl ($Me): Remove declaration.
+	(xwarndie_mess, version, usage): Use $progname instead of $Me.
+
 2007-07-21  Guillem Jover  <guillem@debian.org>
 
 	* m4/perl.m4 (DPKG_PROG_PERL): Add support for user overridable

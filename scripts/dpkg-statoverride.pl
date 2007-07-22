@@ -5,13 +5,8 @@ use warnings;
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
+use Dpkg;
 
-my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
-my $version = '1.3.0'; # This line modified by Makefile
-
-($0) = $0 =~ m:.*/(.+):;
-
-my $dpkglibdir= "."; # This line modified by Makefile
 push (@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg");
@@ -26,7 +21,7 @@ my %group;
 my %mode;
 
 sub version {
-	printf _g("Debian %s version %s.\n"), $0, $version;
+	printf _g("Debian %s version %s.\n"), $progname, $version;
 
 	printf _g("
 Copyright (C) 2000 Wichert Akkerman.");
@@ -54,7 +49,7 @@ Options:
   --quiet                  quiet operation, minimal output.
   --help                   show this help message.
   --version                show the version.
-"), $0;
+"), $progname;
 }
 
 sub CheckModeConflict {
