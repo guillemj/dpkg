@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Dpkg;
+use Dpkg::Gettext;
 
 my @filesinarchive;
 my %dirincluded;
@@ -72,7 +73,6 @@ our $quiet_warnings;
 our %substvar;
 our @src_dep_fields;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin

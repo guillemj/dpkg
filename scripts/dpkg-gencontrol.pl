@@ -6,6 +6,7 @@ use warnings;
 use POSIX;
 use POSIX qw(:errno_h);
 use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
@@ -18,7 +19,6 @@ our @pkg_dep_fields;
 our $sourcepackage;
 our $host_arch;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @control_fields = (qw(Package Source Version Architecture Essential Origin

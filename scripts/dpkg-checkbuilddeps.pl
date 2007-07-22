@@ -6,13 +6,13 @@ use warnings;
 
 use Getopt::Long;
 use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 our %fi;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 sub usage {

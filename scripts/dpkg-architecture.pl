@@ -23,11 +23,11 @@ use strict;
 use warnings;
 
 use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 sub version {

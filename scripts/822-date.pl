@@ -4,9 +4,8 @@ use strict;
 use warnings;
 
 use Dpkg;
+use Dpkg::Gettext;
 
-push(@INC, $dpkglibdir);
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 require 'controllib.pl';

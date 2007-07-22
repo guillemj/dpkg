@@ -6,9 +6,8 @@ use warnings;
 use English;
 use POSIX qw(:errno_h);
 use Dpkg;
+use Dpkg::Gettext;
 
-push(@INC,$dpkglibdir);
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 our $sourcepackage; # - name of sourcepackage

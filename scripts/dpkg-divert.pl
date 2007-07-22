@@ -4,9 +4,8 @@ use strict;
 use warnings;
 
 use Dpkg;
+use Dpkg::Gettext;
 
-push (@INC, $dpkglibdir);
-require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
 my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);

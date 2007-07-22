@@ -25,9 +25,8 @@ use strict;
 use warnings;
 
 use Dpkg;
+use Dpkg::Gettext;
 
-push(@INC,$dpkglibdir);
-require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
 ($0) = $0 =~ m:.*/(.+):;

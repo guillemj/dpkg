@@ -55,11 +55,11 @@ CLEANFILES = \
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
+	Dpkg/Gettext.pm \
 	Dpkg.pm
 
 dist_pkglib_SCRIPTS = \
-	controllib.pl \
-	dpkg-gettext.pl
+	controllib.pl
 
 
 do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \

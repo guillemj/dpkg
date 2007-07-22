@@ -9,6 +9,7 @@ use warnings;
 use English;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
+use Dpkg::Gettext;
 
 my $shlibsoverride= '/etc/dpkg/shlibs.override';
 my $shlibsdefault= '/etc/dpkg/shlibs.default';
@@ -27,7 +28,6 @@ my $i=0; grep($depstrength{$_}= ++$i, @depfields);
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 #use strict;

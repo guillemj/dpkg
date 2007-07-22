@@ -1,6 +1,8 @@
 #!/usr/bin/perl -w
 # Copied from /usr/share/perl5/Debconf/Gettext.pm
 
+package Dpkg::Gettext;
+
 use strict;
 use warnings;
 

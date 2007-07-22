@@ -6,6 +6,7 @@ use warnings;
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
@@ -17,7 +18,6 @@ our %substvar;
 our $sourcepackage;
 our $host_arch;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @changes_fields = qw(Format Date Source Binary Architecture Version

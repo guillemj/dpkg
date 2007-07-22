@@ -2,9 +2,8 @@
 
 use Text::Wrap;
 use Dpkg;
+use Dpkg::Gettext;
 
-push (@INC, $dpkglibdir);
-require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
 # fixme: sort entries

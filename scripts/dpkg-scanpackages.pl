@@ -6,10 +6,10 @@ use strict;
 use IO::Handle;
 use IO::File;
 use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 our @pkg_dep_fields;
