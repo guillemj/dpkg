@@ -7,9 +7,7 @@
 use strict;
 use warnings;
 
-our $progname;
-our $version = '1.3.0'; # This line modified by Makefile
-our $dpkglibdir = "."; # This line modified by Makefile
+use Dpkg;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';

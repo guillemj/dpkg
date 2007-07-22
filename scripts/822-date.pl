@@ -3,7 +3,8 @@
 use strict;
 use warnings;
 
-our $dpkglibdir = "."; # This line modified by Makefile
+use Dpkg;
+
 push(@INC, $dpkglibdir);
 require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
