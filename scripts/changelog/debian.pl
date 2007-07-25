@@ -8,13 +8,13 @@ use strict;
 use warnings;
 
 use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 our %f;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my $controlfile = 'debian/control';
