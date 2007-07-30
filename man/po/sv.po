@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-07-30 11:10+0100\n"
+"PO-Revision-Date: 2007-07-30 11:42+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -4159,6 +4159,8 @@ msgid ""
 "B<dpkg-buildpackage> is a control script which can be used to help automate "
 "the building of a package."
 msgstr ""
+"B<dpkg-buildpackage> är ett styrskript som kan användas för att göra "
+"det enklare att automatisera paketbyggning."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:15
@@ -4187,6 +4189,8 @@ msgid ""
 "Specifies a binary-only build, no architecture independent binary package "
 "files are to be distributed either."
 msgstr ""
+"Anger ett rent binärbygge, inte heller kommer några arkitekturoberoende "
+"binärpaket att skapas."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:23 ../../man/dpkg-genchanges.1:27
@@ -4206,6 +4210,9 @@ msgid ""
 "included in the upload if any source is being generated (i.e.  B<-b> or B<-"
 "B> haven't been used)."
 msgstr ""
+"Flaggorna B<-s>I<x> styr huruvida det ursprungliga källkodsarkivet skall "
+"inkluderas i insändningen om källkod genereras (dvs. B<-b> eller "
+"B<-B> inte har använts)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:31 ../../man/dpkg-genchanges.1:36
@@ -4220,6 +4227,9 @@ msgid ""
 "version number ends in B<-0> or B<-1>, i.e. if the Debian revision part of "
 "the version number is B<0> or B<1>."
 msgstr ""
+"Som standard, eller om den anges, kommer originalkällkoden att inkluderas "
+"om versionsnumret avslutas med B<-0> eller B<-1>, dvs. om "
+"Debianversionsdelen av versionsnumret är B<0> eller B<1>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:38 ../../man/dpkg-genchanges.1:43
@@ -4230,7 +4240,7 @@ msgstr "B<-sa>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:41 ../../man/dpkg-genchanges.1:46
 msgid "Forces the inclusion of the original source."
-msgstr ""
+msgstr "Bifogar alltid originalkällkoden."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:41 ../../man/dpkg-genchanges.1:46
@@ -4241,7 +4251,7 @@ msgstr "B<-sd>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:44 ../../man/dpkg-genchanges.1:49
 msgid "Forces the exclusion of the original source and includes only the diff."
-msgstr ""
+msgstr "Bifogar inte originalkällkoden, utan enbart differensfilen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:44
@@ -4256,6 +4266,8 @@ msgid ""
 "machine we build on is determined automatically, and is also the default for "
 "the host machine."
 msgstr ""
+"Ange Debianarkitekturen vi bygger för. Arkitekturen för maskinen vi "
+"bygger på bestäms automatiskt, och är även standard för värdmaskinen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:49 ../../man/dpkg-genchanges.1:50
@@ -4269,6 +4281,8 @@ msgstr "B<-v>I<version>"
 msgid ""
 "Use changelog information from all versions strictly later than I<version>."
 msgstr ""
+"Använd ändringsloggsinformation för alla versioner som är strikt senare än "
+"I<version>."
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:53 ../../man/dpkg-genchanges.1:55
@@ -4282,12 +4296,14 @@ msgid ""
 "Read the description of the changes from the file I<changesdescription> "
 "rather than using the information from the source tree's changelog file."
 msgstr ""
+"Läs beskrivningen av ändringarna från filen I<ändringsbeskrivning> istället "
+"för att använda information från källkodsträdets changelog-fil."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:58 ../../man/dpkg-genchanges.1:61
 #, no-wrap
 msgid "B<-m>I<maintaineraddress>"
-msgstr ""
+msgstr "B<-m>I<paketansvarige-adress>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:64 ../../man/dpkg-genchanges.1:67
@@ -4296,12 +4312,15 @@ msgid ""
 "this package, rather than using the information from the source tree's "
 "control file."
 msgstr ""
+"Använd I<paketansvarige-adress> som namn och e-postadress till ansvarig "
+"för detta paket, istället för att använda informationen från källkodsträdets "
+"control-fil."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:64 ../../man/dpkg-genchanges.1:67
 #, no-wrap
 msgid "B<-e>I<maintaineraddress>"
-msgstr ""
+msgstr "B<-e>I<paketansvarige-adress>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:70 ../../man/dpkg-genchanges.1:73
@@ -4310,6 +4329,9 @@ msgid ""
 "this upload, rather than using the information from the source tree's "
 "changelog."
 msgstr ""
+"Använd I<paketansvarige-adress> som namn och e-postadress till ansvarig "
+"för denna insändning, istället för att använda informationen från källkodsträdets "
+"changelog-fil."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:70
@@ -4320,7 +4342,7 @@ msgstr "B<-D>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:73
 msgid "Check build dependencies and conflicts; abort if unsatisfied."
-msgstr ""
+msgstr "Kontrollera beroenden och konflikter, avbryt om de inte uppfylls."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:73
@@ -4345,6 +4367,9 @@ msgid ""
 "Turn certain errors into warnings. Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
+"Gör vissa fel till varningar. Används endast av B<dpkg-source>, men "
+"B<dpkg-buildpackage> känner igen det och sänder det vidare till "
+"B<dpkg-source>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:82 ../../man/dpkg-source.1:104
@@ -4358,6 +4383,9 @@ msgid ""
 "Negates a previously set B<-W>.  Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
+"Slår av tidigare satt B<-W>. Används endast av B<dpkg-source>, men "
+"B<dpkg-buildpackage> känner igen det och sänder det vidare till "
+"B<dpkg-source>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:90
@@ -4368,7 +4396,7 @@ msgstr "B<-nc>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:93
 msgid "Do not clean the source tree (implies B<-b>)."
-msgstr ""
+msgstr "Städa inte källkodsträdet (implicerar B<-b>)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:93
@@ -4382,12 +4410,14 @@ msgid ""
 "Clean the source tree (using I<gain-root-command> B<debian/rules clean>)  "
 "after the package has been built."
 msgstr ""
+"Städa källkodsträdet (använder I<få-root-kommando> B<debian/rules clean>) "
+"efter att paketet har byggts."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:99
 #, no-wrap
 msgid "B<-r>I<gain-root-command>"
-msgstr ""
+msgstr "B<-r>I<få-root-kommando>"
 
 # type: Plain text
 #.  what happens, if it contains spaces? (hs)
@@ -4404,12 +4434,22 @@ msgid ""
 "can only invoke the user's shell with B<-c> instead of passing arguments "
 "individually to the command to be run."
 msgstr ""
+"När B<dpkg-buildpackages> behöver exekvera delar av byggprocessen som "
+"root sätter den kommandot som skall exekveras efter I<få-root-kommando> "
+"om ett sådant har angivitis. I<få-root-kommando> måste vara namnet på "
+"ett program i B<PATH> och namnet på det faktiska kommando som skall "
+"anropas och dess argument sänds som argument. I<få-root-kommando> "
+"får inte innehålla blanksteg eller andra skalmetatecken. I<få-root-kommando> "
+"kan typiskt vara B<fakeroot>, B<sudo>, B<super> eller B<really>. B<su> "
+"är inte lämpligt eftersom det kräver flaggan B<-c> för att köra ett kommando "
+"och även då kan det bara starta användarens skal med B<-c> istället för "
+"att sända flaggor individuellt till kommandot som skall startas."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:125
 #, no-wrap
 msgid "B<-p>I<sign-command>"
-msgstr ""
+msgstr "B<-p>I<signeringskommando>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:150
@@ -4422,12 +4462,18 @@ msgid ""
 "sgpg> option.  I<sign-command> should not contain spaces or any other shell "
 "metacharacters."
 msgstr ""
+"När B<dpkg-buildpackage> måste exekvera GPG eller PGP för att signera ett "
+"källkodsstyrfil (B<.dsc>) eller en B<.changes>-fil kör det I<signeringskommando> "
+"(det letar i B<PATH> om så behövs) istället för B<pgp>. I<signeringskommando> "
+"får de argument B<pgp> skulle ha fått. Om I<signeringskommando> tar kommandon "
+"enligt GPG- istället för PGP-stil måste du ge flaggan B<-sgpg>. "
+"I<signeringskommando> får inte innehålla blanksteg eller andra skalmetatecken."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:150
 #, no-wrap
 msgid "B<-k>I<key-id>"
-msgstr ""
+msgstr "B<-k>I<nyckel-id>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:153
@@ -4454,18 +4500,18 @@ msgstr "B<-uc>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:159
 msgid "Do not sign the .changes file."
-msgstr ""
+msgstr "Signera inte .changes-filen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:159 ../../man/dpkg-source.1:108
 #, no-wrap
 msgid "B<-i>[I<regexp>]"
-msgstr ""
+msgstr "B<-i>[I<reguljärt-uttryck>]"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:163
 msgid "Passed unchanged to B<dpkg-source>."
-msgstr ""
+msgstr "Sänds vidare utan ändringar till B<dpkg-source>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:163 ../../man/dpkg-source.1:128
@@ -4476,7 +4522,7 @@ msgstr "B<-I>I<filnamn>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:168
 msgid "Passed unchanged to B<dpkg-source>.  May be repeated multiple times."
-msgstr ""
+msgstr "Sänds vidare utan ändringar till B<dpkg-source>. Kan repeteras flera gånger."
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:172 ../../man/dpkg-checkbuilddeps.1:23
@@ -4503,6 +4549,8 @@ msgid ""
 "It should be possible to specify spaces and shell metacharacters in and "
 "initial arguments for I<gain-root-command> and I<sign-command>."
 msgstr ""
+"Det borde vara möjligt att ange blanksteg och skalmetatecken i, och "
+"inledande argument för, I<få-root-kommando> och I<signeringskommando>."
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:190
