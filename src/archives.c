@@ -81,39 +81,39 @@ int cflict_index = 0;
 static char *
 quote_filename(char *buf, int size, char *s)
 {
-       char *r = buf;
-       while (size > 0) {
-               switch (*s) {
-               case '\0':
-                       *buf = '\0';
-                       return r;
-               case '\\':
-                       *buf++ = '\\';
-                       *buf++ = '\\';
-                       size -= 2;
-                       break;
-               default:
-                       if (((*s)&0x80) == 0) {
-                               *buf++ = *s++;
-                               --size;
-                       } else {
-                               if (size > 4) {
-                                       sprintf(buf, "\\%03o",
-                                               *(unsigned char *)s);
-                                       size -= 4;
-                                       buf += 4;
-                                       s++;
-                               } else {
-                                       /* buffer full */
-                                       *buf = '\0'; /* XXX */
-                                       return r;
-                               }
-                       }
-               }
-       }
-       *buf = '\0'; /* XXX */
-       return r;
+  char *r = buf;
 
+  while (size > 0) {
+    switch (*s) {
+    case '\0':
+      *buf = '\0';
+      return r;
+    case '\\':
+      *buf++ = '\\';
+      *buf++ = '\\';
+      size -= 2;
+      break;
+    default:
+      if (((*s) & 0x80) == 0) {
+        *buf++ = *s++;
+        --size;
+      } else {
+        if (size > 4) {
+          sprintf(buf, "\\%03o", *(unsigned char *)s);
+          size -= 4;
+          buf += 4;
+          s++;
+        } else {
+          /* buffer full */
+          *buf = '\0'; /* XXX */
+          return r;
+        }
+      }
+    }
+  }
+  *buf = '\0'; /* XXX */
+
+  return r;
 }
 
 /* special routine to handle partial reads from the tarfile */
