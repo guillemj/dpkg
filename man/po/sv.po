@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-07-31 06:04+0100\n"
+"PO-Revision-Date: 2007-07-31 19:51+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -5193,6 +5193,8 @@ msgid ""
 "B<dpkg-divert> is the utility used to set up and update the list of "
 "diversions."
 msgstr ""
+"B<dpkg-divert> är verktyget som används för att ställa in och uppdatera "
+"listan över omdirigeringar."
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:23
@@ -5205,6 +5207,13 @@ msgid ""
 "'conffiles') need to be preserved by dpkg, when installing a newer version "
 "of a package which contains those files."
 msgstr ""
+"Filen I<diversions> är ett sätt att tvinga B<dpkg>(1) att inte installera "
+"en fil på sin plats, utan på en I<omdirigerad> plats. Omdirigeringar kan "
+"användas i skript i Debianpaket för att flytta bort en fil när den orsakar "
+"en konflikt. Systemadministratörer kan också använda det för att "
+"överstyra några pakets konfigurationsfiler, eller när några filer (som "
+"inte markerats som konfigurationsfiler) måste bibehållas av dpkg när "
+"en nyare version av ett paket som innehåller de filerna installeras."
 
 # type: TP
 #: ../../man/dpkg-divert.8:25
@@ -5215,7 +5224,7 @@ msgstr "[B<--add>] I<fil>"
 # type: Plain text
 #: ../../man/dpkg-divert.8:28
 msgid "Add a diversion for I<file>."
-msgstr ""
+msgstr "Lägg till en omdirigering för I<fil>."
 
 # type: TP
 #: ../../man/dpkg-divert.8:28 ../../man/dpkg-statoverride.8:35
@@ -5226,7 +5235,7 @@ msgstr "B<--remove>I< fil>"
 # type: Plain text
 #: ../../man/dpkg-divert.8:31
 msgid "Remove a diversion for I<file>."
-msgstr ""
+msgstr "Ta bort en omdirigering för I<fil>."
 
 # type: TP
 #: ../../man/dpkg-divert.8:31
@@ -5237,7 +5246,7 @@ msgstr "B<--list>I< filnamnsmönster>"
 # type: Plain text
 #: ../../man/dpkg-divert.8:34
 msgid "List diversions matching I<glob-pattern>."
-msgstr ""
+msgstr "Visa omdirigeringar som matchar I<sökmönster>."
 
 # type: TP
 #: ../../man/dpkg-divert.8:34
@@ -5248,7 +5257,7 @@ msgstr "B<--truename>I< fil>"
 # type: Plain text
 #: ../../man/dpkg-divert.8:37
 msgid "Print the real name for a diverted file."
-msgstr ""
+msgstr "Visa det riktiga namnet på en omdirigerad fil."
 
 # type: TP
 #: ../../man/dpkg-divert.8:39 ../../man/dpkg-statoverride.8:52
@@ -5262,12 +5271,13 @@ msgstr "B<--admindir>I< katalog>"
 msgid ""
 "Set the dpkg data directory to I<directory> (default: I</var/lib/dpkg>)."
 msgstr ""
+"Ställ dpkg:s datakatalog till I<katalog> (standard: I</var/lib/dpkg>)."
 
 # type: TP
 #: ../../man/dpkg-divert.8:42
 #, no-wrap
 msgid "B<--divert>I< divert-to>"
-msgstr "B<--divert>I< överstyrningsmål>"
+msgstr "B<--divert>I< omdirigera-till>"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:46
@@ -5275,6 +5285,8 @@ msgid ""
 "I<divert-to> is the location where the versions of I<file>, as provided by "
 "other packages, will be diverted."
 msgstr ""
+"I<omdirigera-till> är platsen där de versioner av I<fil> som tillhandahålls "
+"av andra paket kommer omdirigeras till."
 
 # type: TP
 #: ../../man/dpkg-divert.8:46
@@ -5290,6 +5302,10 @@ msgid ""
 "file is diverted. This can be used by an admin to install a locally modified "
 "version."
 msgstr ""
+"Anger att alla pakets versioner av denna fil skall omdirigeras. Det "
+"innebär att det inte finns några undantag, och att oavsett vilket paket "
+"som installeras så omdirigeras filen. Detta kan användas av en "
+"administratör för att installera en lokalt modifierad version."
 
 # type: TP
 #: ../../man/dpkg-divert.8:52
@@ -5303,6 +5319,9 @@ msgid ""
 "I<package> is the name of a package whose copy of I<file> will not be "
 "diverted. i.e. I<file> will be diverted for all packages except I<package>."
 msgstr ""
+"I<paket> är namnet på ett paket vars kopia av I<fil> inte kommer att "
+"omdirigeras, dvs. I<fil> kommer omdirigeras för alla paket förutom "
+"I<paket>."
 
 # type: TP
 #: ../../man/dpkg-divert.8:57 ../../man/dpkg-statoverride.8:64
@@ -5314,7 +5333,7 @@ msgstr "B<--quiet>"
 # type: Plain text
 #: ../../man/dpkg-divert.8:60
 msgid "Quiet mode, i.e. no verbose output."
-msgstr ""
+msgstr "Tyst läge, dvs. ingen pratsam utdata."
 
 # type: TP
 #: ../../man/dpkg-divert.8:60
@@ -5328,6 +5347,8 @@ msgid ""
 "Actually move the file aside (or back). B<dpkg-divert> will abort operation "
 "in case the destination file already exists."
 msgstr ""
+"Flytta faktiskt filen åt sidan (eller tillbaka). B<dpkg-divert> kommer att avbryta "
+"körningen om destinationsfilen redan existerar."
 
 # type: TP
 #: ../../man/dpkg-divert.8:64 ../../man/install-info.8:279
@@ -5339,13 +5360,13 @@ msgstr "B<--test>"
 # type: Plain text
 #: ../../man/dpkg-divert.8:67
 msgid "Test mode, i.e. don't actually perform any changes, just demonstrate."
-msgstr ""
+msgstr "Testläge, dvs. utför inga faktiska ändringar, bara visa vad som skulle hända."
 
 # type: SH
 #: ../../man/dpkg-divert.8:74
 #, no-wrap
 msgid "NOTES"
-msgstr ""
+msgstr "ANTECKNINGAR"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:78
@@ -5354,11 +5375,14 @@ msgid ""
 "distrib>. When removing, B<--package> or B<--local> and B<--divert> must "
 "match if specified."
 msgstr ""
+"Vid tillägg är standard B<--local> och B<--divert> I<E<lt>originalE<gt>."
+"distrib>. Vid borttagning måste B<--package> eller B<--local> och B<--divert> "
+"matcha om de anges."
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:80
 msgid "Directories can't be diverted with B<dpkg-divert>."
-msgstr ""
+msgstr "Kataloger kan inte omdirigeras med B<dpkg-divert>."
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:86
@@ -5369,6 +5393,12 @@ msgid ""
 "symlink may end up pointing at the diverted library, if a diverted library "
 "has the same SONAME as the undiverted one."
 msgstr ""
+"Se upp när du omdirigerar delade bibliotek. B<ldconfig>(8) skapar "
+"en symbolisk länk baserad på DT_SONAME-fältet som är inbyggt i "
+"biblioteket. Eftersom ldconfig inte följer omdirigeringar (bara dpkg "
+"gör det) kan den symboliska länken komma att peka på det omdirigerade "
+"biblioteket om ett omdirigerat bibliotek har samma SONAMN som "
+"det ej omdirigerade."
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:91
@@ -5377,21 +5407,25 @@ msgid ""
 "e. directs all packages providing I</usr/bin/example> to install it as I</"
 "usr/bin/example.foo>, performing the rename if required:"
 msgstr ""
+"För att omdirigera alla exemplar av en I</usr/bin/exempel> till "
+"I</usr/bin/exempel.foo>, dvs. omdirigera samtliga paket som "
+"tillhandahåller I</usr/bin/exempel> så att de installerar den som "
+"I</usr/bin/exempel.foo>, och utför namnbytet om det behövs:"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:93
 msgid "dpkg-divert --divert /usr/bin/example.foo --rename /usr/bin/example"
-msgstr ""
+msgstr "dpkg-divert --divert /usr/bin/exempel.foo --rename /usr/bin/exempel"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:95 ../../man/dpkg-divert.8:105
 msgid "To remove that diversion:"
-msgstr ""
+msgstr "För att ta bort omdirigeringen:"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:97
 msgid "dpkg-divert --rename --remove /usr/bin/example"
-msgstr ""
+msgstr "dpkg-divert --rename --remove /usr/bin/exempel"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:101
@@ -5399,6 +5433,8 @@ msgid ""
 "To divert any package trying to install I</usr/bin/example> to I</usr/bin/"
 "example.foo>, except your own I<wibble> package:"
 msgstr ""
+"För att omdirigera samtliga paket som försöker installera I</usr/bin/exempel> "
+"till I</usr/bin/exempel.foo>, förutom i det egna paketet I<wibble>:"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:103
@@ -5406,11 +5442,13 @@ msgid ""
 "dpkg-divert --package wibble --divert /usr/bin/example.foo --rename /usr/bin/"
 "example"
 msgstr ""
+"dpkg-divert --package wibble --divert /usr/bin/exempel.foo --rename "
+"/usr/bin/exempel"
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:107
 msgid "dpkg-divert --package wibble --rename --remove /usr/bin/example"
-msgstr ""
+msgstr "dpkg-divert --package wibble --rename --remove /usr/bin/exempel"
 
 # type: TP
 #: ../../man/dpkg-divert.8:109
@@ -5425,6 +5463,9 @@ msgid ""
 "located in the dpkg administration directory, along with other files "
 "important to dpkg, such as I<status> or I<available>."
 msgstr ""
+"Filen som innehåller den aktuella listan med systemets omdirigeringar. "
+"Den är placerad i dpkg:s administrativa katalog, tillsammans med andra "
+"filer som är viktiga för dpkg, till exempel I<status> och I<available>."
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:117
@@ -5432,11 +5473,13 @@ msgid ""
 "Note: B<dpkg-divert> preserves the old copy of this file, with extension I<-"
 "old>, before replacing it with the new one."
 msgstr ""
+"Observera: B<dpkg-divert> behåller den gamla versionen av filen, med "
+"filtillägget I<old>, innan den ersätter den med den nya."
 
 # type: Plain text
 #: ../../man/dpkg-divert.8:123 ../../man/update-alternatives.8:394
 msgid "Copyright (C) 1995 Ian Jackson"
-msgstr ""
+msgstr "Upphovsrättsskyddad © 1995 Ian Jackson."
 
 # type: TH
 #: ../../man/dpkg-genchanges.1:1
