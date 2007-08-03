@@ -108,7 +108,7 @@ sub new {
 
     $self->reset;
     if ($file) {
-	$self->_read;
+	$self->_read($file);
     }
 
     return $self;
