@@ -148,7 +148,7 @@ if (not scalar @files) {
 	opendir(DIR, "$libdir") ||
 	    syserr(sprintf(_g("Can't read directory %s: %s"), $libdir, $!));
 	push @files, grep {
-	    /(\.so\.|\.so$)/ &&
+	    /(\.so\.|\.so$)/ && -f $_ &&
 	    Dpkg::Shlibs::Objdump::is_elf($_);
 	} map { "$libdir/$_" } readdir(DIR);
 	close(DIR);
@@ -160,7 +160,7 @@ my $od = Dpkg::Shlibs::Objdump->new();
 foreach my $file (@files) {
     print "Scanning $file for symbol information\n" if $debug;
     my $objid = $od->parse($file);
-    unless (defined($objid)) {
+    unless (defined($objid) && $objid) {
 	warning(sprintf(_g("Objdump couldn't parse %s\n"), $file));
 	next;
     }
