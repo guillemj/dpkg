@@ -183,11 +183,17 @@ if ($stdout) {
     $symfile->save("-");
 } else {
     unless (defined($output)) {
-	$output = "$packagebuilddir/DEBIAN/symbols";
-	mkdir("$packagebuilddir/DEBIAN") if not -e "$packagebuilddir/DEBIAN";
+	unless($symfile->is_empty()) {
+	    $output = "$packagebuilddir/DEBIAN/symbols";
+	    mkdir("$packagebuilddir/DEBIAN") if not -e "$packagebuilddir/DEBIAN";
+	}
     }
-    print "Storing symbols in $output.\n" if $debug;
-    $symfile->save($output);
+    if (defined($output)) {
+	print "Storing symbols in $output.\n" if $debug;
+	$symfile->save($output);
+    } else {
+	print "No symbol information to store.\n" if $debug;
+    }
 }
 
 # Check if generated files differs from reference file

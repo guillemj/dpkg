@@ -164,6 +164,11 @@ sub merge_symbols {
     }
 }
 
+sub is_empty {
+    my ($self) = @_;
+    return scalar(keys %{$self->{objects}}) ? 0 : 1;
+}
+
 sub has_object {
     my ($self, $soname) = @_;
     return exists $self->{objects}{$soname};
