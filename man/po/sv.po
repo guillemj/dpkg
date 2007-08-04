@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-07-31 20:16+0100\n"
+"PO-Revision-Date: 2007-08-04 18:39+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -5879,7 +5879,7 @@ msgstr "dpkg-name"
 # type: Plain text
 #: ../../man/dpkg-name.1:9
 msgid "dpkg-name - rename Debian packages to full package names"
-msgstr ""
+msgstr "dpkg-name - byt namnet på Debianpaket till det fullständiga paketnamnet"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:15
@@ -5897,6 +5897,13 @@ msgid ""
 "of the filename consists of the upstream version information optionally "
 "followed by a hyphen and the revision information."
 msgstr ""
+"Manualsidan dokumenterar programmet B<dpkg-name>, vilket tillhandahåller ett "
+"enkelt sätt att byta namn på B<Debian>paket till deras fullständiga paketnamn. Ett "
+"fullständigt paketnamn består av "
+"I<E<lt>paketE<gt>_E<lt>versionE<gt>_E<lt>arkitekturE<gt>.deb> och "
+"anges av control-filen i paketet. I<E<lt>VersionE<gt>>-delen av filnamnet "
+"består av uppströmsversionsinformation och kan eventuellt följas av ett "
+"bindestreck och revisionsinformationen."
 
 # type: TP
 #: ../../man/dpkg-name.1:29
@@ -5907,7 +5914,7 @@ msgstr "B<-a>, B<--no-architecture>"
 # type: Plain text
 #: ../../man/dpkg-name.1:32
 msgid "The destination filename will not have the architecture information."
-msgstr ""
+msgstr "Destinationsfilnamnet kommer inte att innehålla information om arkitektur."
 
 # type: TP
 #: ../../man/dpkg-name.1:32
@@ -5918,7 +5925,7 @@ msgstr "B<-k>, B<--symlink>"
 # type: Plain text
 #: ../../man/dpkg-name.1:35
 msgid "Create a symlink, instead of moving."
-msgstr ""
+msgstr "Skapa en symbolisk länk istället för att flytta."
 
 # type: TP
 #: ../../man/dpkg-name.1:35
@@ -5932,6 +5939,8 @@ msgid ""
 "Existing files will be overwritten if they have the same name as the "
 "destination filename."
 msgstr ""
+"Befintliga filer kommer att skrivas över om de har samma namn som "
+"destinationsfilnamnet."
 
 # type: TP
 #: ../../man/dpkg-name.1:39
@@ -5953,6 +5962,15 @@ msgid ""
 "packages will find their way to the `no-section' area. Use this option with "
 "care, it's messy."
 msgstr ""
+"Filerna kommer att flyttas till en underkatalog. Om katalogen i argumentet "
+"existerar kommer filerna att flyttas in i den katalogen, om inte kommer "
+"namnet på målkatalogen att hämtas från sektionsfältet i styrdelen av "
+"paketet. Målkatalogen kommer vara \"unstable/binary-"
+"E<lt>arkitekurE<gt>/E<lt>sektionE<gt>\". Om sektionen inte hittas i "
+"styrfilen antas \"no-section\", och i så fall, samt för sektionerna \"non-free\" "
+"och \"contrib\", är målkatalogen \"E<lt>sektionE<gt>/binary-E<lt>arkitekturE<gt>\". "
+"Sektionsfältet är inte nödvändigt, så flera paket hamnar i katalogen \"no-section\". "
+"Använd den här flaggan med tillförsikt, den kan vara rörig."
 
 # type: TP
 #: ../../man/dpkg-name.1:51
@@ -5966,6 +5984,9 @@ msgid ""
 "This option can used together with the -s option. If a target directory "
 "isn't found it will be created automatically.  B<Use this option with care.>"
 msgstr ""
+"Flaggan kan användas tillsammans med -s-flaggan. Om en målkatalog "
+"inte existerar kommer den att skapas automatiskt. B<Använd denna "
+"flagga försiktigt.>"
 
 # type: TP
 #: ../../man/dpkg-name.1:59
@@ -5983,7 +6004,7 @@ msgstr "B<-l>, B<--license>"
 #: ../../man/dpkg-name.1:67
 #, no-wrap
 msgid "B<dpkg-name bar-foo.deb>"
-msgstr ""
+msgstr "B<dpkg-name bar-foo.deb>"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:72
@@ -5992,12 +6013,15 @@ msgid ""
 "something similar (depending on whatever information is in the control part "
 "of `bar-foo.deb')."
 msgstr ""
+"Filen \"bar-foo.deb\" kommer att få det nya namnet bar-foo_1.0-2_i386.deb "
+"eller något liknande (beroende på vilken information som hittas i styrdelen "
+"av \"bar-foo.deb\")."
 
 # type: TP
 #: ../../man/dpkg-name.1:72
 #, no-wrap
 msgid "B<find /root/debian/ -name \\(aq*.deb\\(aq | xargs -n 1 dpkg-name -a>"
-msgstr ""
+msgstr "B<find /root/debian/ -name \\(aq*.deb\\(aq | xargs -n 1 dpkg-name -a>"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:77
@@ -6006,12 +6030,15 @@ msgid ""
 "subdirectory's will be renamed by dpkg-name if required into names with no "
 "architecture information."
 msgstr ""
+"Alla filer med ändelsen \"deb\" i katalogen /root/debian och dess underkataloger "
+"kommer att få sina namn ersatta mede dpkg-name, om så behövs, till namn "
+"utan arkitekturinformation."
 
 # type: TP
 #: ../../man/dpkg-name.1:77
 #, no-wrap
 msgid "B<find -name \\(aq*.deb\\(aq | xargs -n 1 dpkg-name -a -o -s -c>"
-msgstr ""
+msgstr "B<find -name \\(aq*.deb\\(aq | xargs -n 1 dpkg-name -a -o -s -c>"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:83
@@ -6019,12 +6046,14 @@ msgid ""
 "B<Don't do this.> Your archive will be messed up completely because a lot of "
 "packages don't come with section information.  B<Don't do this.>"
 msgstr ""
+"B<Gör inte så här.> Ditt arkiv kommer att röras till helt och hållet eftersom "
+"många paket inte har någon sektionsinformation. B<Gör inte så här.>"
 
 # type: TP
 #: ../../man/dpkg-name.1:83
 #, no-wrap
 msgid "B<dpkg --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb>"
-msgstr ""
+msgstr "B<dpkg --build debian-tmp && dpkg-name -o -s .. debian-tmp.deb>"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:86
@@ -6040,6 +6069,12 @@ msgid ""
 "impact on how packages are installed by B<dselect>(1)/ B<dpkg>(1), but other "
 "installation tools might depend on this naming structure."
 msgstr ""
+"Vissa paket följer inte namnstrukturen "
+"E<lt>paketE<gt>_E<lt>versionE<gt>_E<lt>arckitekturE<gt>.deb. "
+"Paket vars namn ändrats med dpkg-name kommer följa denna struktur. "
+"Normalt påverkar detta inte hur B<dselect>(1)/B<dpkg>(1) installerar "
+"paket, men vissa andra installationsverktyg kan vara beroende av denna "
+"namngivningsstruktur."
 
 # type: Plain text
 #: ../../man/dpkg-name.1:104
@@ -6053,7 +6088,7 @@ msgstr ""
 # type: Plain text
 #: ../../man/dpkg-name.1:107
 msgid "Copyright 1995,1996 Erick Branderhorst"
-msgstr ""
+msgstr "Upphovsrättsskyddat © 1995, 1996 Erick Branderhorst"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:1
