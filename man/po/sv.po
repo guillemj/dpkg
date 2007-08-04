@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-08-04 18:39+0100\n"
+"PO-Revision-Date: 2007-08-04 19:04+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -6099,7 +6099,7 @@ msgstr "dpkg-parsechangelog"
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:4
 msgid "dpkg-parsechangelog - parse Debian changelog files"
-msgstr ""
+msgstr "dpkg-parsechangelog - tolka Debians ändringsloggar"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:8
@@ -6113,6 +6113,9 @@ msgid ""
 "source tree and outputs the information in it to standard output in a "
 "machine-readable form."
 msgstr ""
+"B<dpkg-parsechangelog> läser och tolkar ändringsloggen i ett uppackat "
+"Debiankällkodsträd och visar informationen i den på standard ut i en "
+"maskinläsbar form."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:26
@@ -6123,13 +6126,13 @@ msgstr "B<-L>I<bibliotekskatalog>"
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:29
 msgid "FIXME not used in the source!?"
-msgstr ""
+msgstr "FIXME används inte i källkoden!?"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:41
 #, no-wrap
 msgid "B<debian/changelog>"
-msgstr ""
+msgstr "B<debian/changelog>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:47
@@ -6139,6 +6142,10 @@ msgid ""
 "changes made since a particular release, and the source version number "
 "itself."
 msgstr ""
+"Ändringsloggsfilen, används för att hämta versionsberoende information om "
+"källkodspaketet, till exempel brådska och utgåva för en insändning, ändringarna "
+"som utförts sedan en specifik version och själva versionsnumret på "
+"källkoden."
 
 # type: Plain text
 #: ../../man/dpkg-query.1:1
@@ -6454,12 +6461,12 @@ msgstr "E<lt>wakkerma@debian.orgE<gt>"
 #: ../../man/dpkg-scanpackages.1:16
 #, no-wrap
 msgid "dpkg-scanpackages"
-msgstr ""
+msgstr "dpkg-scanpackages"
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:19
 msgid "dpkg-scanpackages - create Packages index files"
-msgstr ""
+msgstr "dpkg-scanpackages - skapar indexfilerna Packages"
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:28
@@ -6467,6 +6474,8 @@ msgid ""
 "B<dpkg-scanpackages> [I<options>] I<binary-dir> [I<override-file> [I<path-"
 "prefix>]] B<E<gt>> I<Packages>"
 msgstr ""
+"B<dpkg-scanpackages> [I<flaggor>] I<binärkatalog> [I<överstyrningsfil> "
+"[I<sökvägsprefix>]] B<E<gt>> I<Packages>"
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:41
@@ -6478,6 +6487,12 @@ msgid ""
 "B<dpkg-scanpackages> yourself if making a directory of local packages to "
 "install on a cluster of machines."
 msgstr ""
+"B<dpkg-scanpackages> går genom ett träd av Debianbinärpaket och skapar "
+"en Packages-fil, som B<apt>(8), B<dselect>(8) osv. använder för att berätta "
+"för användaren vilka paket som kan installeras. Dessa Packages-filer är desamma "
+"som de som finns på Debianarkivspeglar och cd-rom:ar. Du kan använda "
+"B<dpkg-scanpackages> själv för att skapa en katalog med lokala paket att "
+"installera på en klase maskiner."
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:51
@@ -6487,6 +6502,10 @@ msgid ""
 "Packages.gz file). apt ignores uncompressed Packages files except on local "
 "access (i.e.  B<file://> sources)."
 msgstr ""
+"B<Observera:> Om du vill läsa den skapade Packages-filen med B<apt> "
+"måste du antagligen komprimera filen med B<gzip>(1) (vilket skapar "
+"filen Packages.gz). apt ignorerar okomprimerade Packages-filer, förutom "
+"vid lokal åtkomst (dvs. B<file://>-källor)."
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:58
@@ -6496,6 +6515,10 @@ msgid ""
 "root of the Debian archive, because every Filename field in the new Packages "
 "file will start with this string."
 msgstr ""
+"I<binärkatalog> är namnet på trädet med binärpaketen som skall hanteras "
+"(till exempel B<contrib/binary-i386>). Det är bäst att skapa den relativt till "
+"roten på Debianarkivet eftersom all filnamnsfält i den skapade Packages-filen "
+"kommer inledas med strängen."
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:62
@@ -6503,12 +6526,15 @@ msgid ""
 "I<overridefile> is the name of a file to read which contains information "
 "about how the package fits into the distribution; see below."
 msgstr ""
+"I<överstyrningsfil> är namnet på en fil som skall läsas in och som innehåller "
+"information om hur paketet passar in i distributionen; se nedan."
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:65
 msgid ""
 "I<pathprefix> is an optional string to be prepended to the Filename fields."
 msgstr ""
+"I<sökvägsprfix> är en frivillig sträng som läggs till i början i filnamnsfältet."
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:69
@@ -6517,6 +6543,9 @@ msgid ""
 "included in the output. If they have the same version and only differ in "
 "architecture only the first one found is used."
 msgstr ""
+"Om mer än en version av ett paket upptäcks kommer endast den senaste "
+"att tas mede i utdata. Om de har samma version och bara skiljer i "
+"arkitektur kommer bara den första som hittas att användas."
 
 # type: TP
 #: ../../man/dpkg-scanpackages.1:71
@@ -6527,7 +6556,7 @@ msgstr "B<-u>, B<--udeb>"
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:74
 msgid "Scan for I<*.udeb>, instead of I<*.deb>."
-msgstr ""
+msgstr "Sök efter I<*.udeb>, i stället för I<*.deb>."
 
 # type: TP
 #: ../../man/dpkg-scanpackages.1:74
@@ -6541,6 +6570,8 @@ msgid ""
 "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
 "scanning for all debs,"
 msgstr ""
+"Använd ett mönster som består av I<*_all.deb> och I<*_arkitektur.deb> "
+"istället för att söka efter alla deb-arkiv."
 
 # type: TP
 #: ../../man/dpkg-scanpackages.1:78
@@ -6551,13 +6582,13 @@ msgstr "B<-m>, B<--multiversion>"
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:81
 msgid "Include all found packages in the output."
-msgstr ""
+msgstr "Ta med alla paket som hittas i utdata."
 
 # type: SH
 #: ../../man/dpkg-scanpackages.1:88 ../../man/update-alternatives.8:346
 #, no-wrap
 msgid "DIAGNOSTICS"
-msgstr ""
+msgstr "DIAGNOSTIK"
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:94
@@ -6567,6 +6598,10 @@ msgid ""
 "have a Filename field in their control file, are missing from the override "
 "file, or have maintainer substitutions which do not take effect."
 msgstr ""
+"B<dpkg-scanpackages> skriver ut de vanliga självförklarande felen. Det "
+"varnar även om paket ligger i fel katalog har dubletter, har ett Filename-fält "
+"i sin control-fil, saknas från överstyrningsfilen, eller har substitueringar utan "
+"effekt skrivna av paketansvariga."
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:99
