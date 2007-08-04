@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-08-04 19:33+0100\n"
+"PO-Revision-Date: 2007-08-04 20:22+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -7022,6 +7022,12 @@ msgid ""
 "source package is extracted into a directory named I<source>-I<version> "
 "under the current working directory."
 msgstr ""
+"Extrahera ett källkodspaket. Ett argument som inte är en flagga måste anges, "
+"namnet på debiankällkodsstyrfilen (B<.dsc>). Ett valfritt andra argument som "
+"inte är en flagga kan anges för att bestämma vilken katalog källkoden "
+"skall packas upp i, det får inte existera. Om du inte anger någon "
+"utdatakatalog extraheras källkodspaketet till en katalog som heter "
+"I<källkod>-I<version> i den aktuella arbetskatalogen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:36
@@ -7030,6 +7036,8 @@ msgid ""
 "package from the control file; they are assumed to be in the same directory "
 "as the B<.dsc>."
 msgstr ""
+"B<dpkg-source> läser namnen på de övriga filer som ingår i källkodspaketet "
+"från styrfilen; de antas vara i samma katalog som B<.dsc>-filen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:44
@@ -7041,6 +7049,13 @@ msgid ""
 "umask; if the parent directory is setgid then the extracted directories will "
 "be too, and all the files and directories will inherit its group ownership."
 msgstr ""
+"Filerna i det extraherade paketet kommer att ha behörighet och "
+"ägare satta till det som kunde förväntas om filerna och katalogerna "
+"bara hade skapats - kataloger och körbara filer kommer ha 0777 och "
+"enkla filer 0666, båda modifierade av uppackaerns umask; om "
+"föräldrakatalogen är setgid kommer de extraherade katalogerna "
+"också att vara det, och samtliga filer och kataloger kommer ärva "
+"dess gruppägarskap."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:44
@@ -7060,6 +7075,15 @@ msgid ""
 "I<package>B<_>I<upstream-version>B<.orig.tar.gz> or the original source "
 "directory I<directory>B<.orig> depending on the B<-sX> arguments."
 msgstr ""
+"Bygg ett källkodspaket. Ett eller två argument som inte är flaggor skall "
+"anges. Det första är namnet på katalogen som innehåller det uppackade "
+"källkodsträdete. Om ett andra argument anges skall det vara namnet på "
+"den ursprungliga källkodskatalogen eller tarfilen eller den tomma strängen "
+"om paketet är Debianspecifikt och därför inte har någon Debianiserings-diff. "
+"Om inget andra argument anges letar B<dpkg-source> efter "
+"originalkällkods-tarfilen I<paket>B<_>I<uppströmsverion>B<.orig.tar.gz> "
+"eller originalkällkodskatalogen I<katalog>B<.orig> beroende på flaggorna"
+"B<-sX>."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:73
@@ -7068,6 +7092,9 @@ msgid ""
 "is B<debian/control>.  If given with relative pathname this is interpreted "
 "starting at the source tree's top level directory."
 msgstr ""
+"Anger huvudkällkodsstyrfil som information skall läsas från. Standardvärde "
+"är B<debian/control>. Om ett relativt sökvägsnamn anges tolkas det från "
+"källkodsträdets toppnivåkatalog."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:80
@@ -7076,16 +7103,19 @@ msgid ""
 "B<debian/changelog>.  If given with relative pathname this is interpreted "
 "starting at the source tree's top level directory."
 msgstr ""
+"Anger ändringsloggsfil som information skall läsas från. Standardvärde "
+"är B<debian/changelog>. Om ett relativt sökvägsnamn anges tolkas det från "
+"källkodsträdets toppnivåkatalog."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:104
 msgid "This option turns certain errors into warnings."
-msgstr ""
+msgstr "Denna flagga gör fel till varningar."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:108
 msgid "This option negates a previously set B<-W>."
-msgstr ""
+msgstr "Denna flagga negerar en tidigare satt B<-W>."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:116
@@ -7096,6 +7126,11 @@ msgid ""
 "filter out control files and directories of the most common revision control "
 "systems, backup and swap files and Libtool build output directories."
 msgstr ""
+"Du kan ange ett reguljärt uttryck i perlformat för att matcha filer som du vill "
+"skall filtreras ut ur listan över filer för diffen. (Listan skapas av ett find-kommando.) "
+"B<-i> ensamt aktiverar funktionen, med ett standardvärde som filtrerar ut "
+"styrfilere och kataloger från de flesta vanliga versionshanteringssystem, "
+"säkerhetskopior, växlingsfiler och Libtool-byggutdatakataloger."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:128
@@ -7111,6 +7146,16 @@ msgid ""
 "causing them to be unnecessarily included in every .diff.gz, unless you use "
 "the B<-i> switch."
 msgstr ""
+"Detta är väldigt bra för att ta bort överflödiga filer som dyker upp i .diff.gz-filen, "
+"t.ex \"debian/BUGS_TODO/*\" eller \"debian/RCS/*,v\". Om du, till exempel, "
+"underhåller ett paket som du spårar via en fjärr-CVS, där du inte har "
+"åtkomstbehörighet för att sända in debianstyrfilerna och märka upp dem för "
+"I<cvs-buildpackage>(1) är det nödvändigt att utföra en ytterligare "
+"utcheckning/uppdatering i en katalog för att hålla den ren, till att generera "
+".orig.tar.gz från. Den katalogen kommer att ha en CVS/Entries-fil som "
+"innehåller tidsstämplingar som skiljer sig från dem i din arbetskatalog, vilket "
+"innebär att de kommer inkluderas i alla .diff.gz-filer utan att det behövs, "
+"såvida du inte använder flaggan B<-i>."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:135
@@ -7121,6 +7166,11 @@ msgid ""
 "tar.gz file. The option may be repeated multiple times to list multiple "
 "filenames to exclude."
 msgstr ""
+"Om flaggan anges kommer filnamnet att sändas vidare till tar:s "
+"--exclude-flagga när det anropas för att skapa en .orig.tar.gz eller "
+".tar.gz-fil. Till exempel kommer -ICVS att hoppa över CVS-kataloger "
+"när tar.gz-filen skapas. Flaggan kan upprepas flera gånger för att "
+"lista flera filnamn som skall uteslutas."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:140
@@ -7128,12 +7178,14 @@ msgid ""
 "All the B<-s>I<X> options are mutually exclusive. If you specify more than "
 "one only the last one will be used."
 msgstr ""
+"Alla B<-s>I<X>-flaggor är ömsesidigt uteslutande. Om du anger mer än en "
+"kommer endast den sista att användas."
 
 # type: TP
 #: ../../man/dpkg-source.1:140
 #, no-wrap
 msgid "B<Build options (with -b):>"
-msgstr ""
+msgstr "B<Byggflaggor (med -b):>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:148
@@ -7142,6 +7194,9 @@ msgid ""
 "tarfiles or directories. If this is desired then B<-sA>, B<-sP>, B<-sK>, B<-"
 "sU> and B<-sR> should be used instead."
 msgstr ""
+"B<-sa>, B<-sp>, B<-sk>, B<-su> och B<-sr> skriver inte över befintliga "
+"tar-filer och kataloger. Om det önskas bör  B<-sA>, B<-sP>, B<-sK>, B<-"
+"sU> och B<-sR> anges i stället."
 
 # type: TP
 #: ../../man/dpkg-source.1:148
@@ -7157,6 +7212,10 @@ msgid ""
 "original source in place as a tarfile, or copy it to the current directory "
 "if it isn't already there."
 msgstr ""
+"Anger att den ursprungliga källkoden är en tar-fil, som standard "
+"I<paket>B<_>I<uppströmsversion>B<.orig.tar.gz>. Den kommer "
+"låta originalkällkodsfilen ligga kvar som en tarfil, eller kopiera den "
+"till den aktuella katalogen om den inte redan är där."
 
 # type: TP
 #: ../../man/dpkg-source.1:154 ../../man/dpkg-source.1:216
@@ -7167,7 +7226,7 @@ msgstr "B<-sp>"
 # type: Plain text
 #: ../../man/dpkg-source.1:159
 msgid "Like B<-sk> but will remove that tarball again afterwards."
-msgstr ""
+msgstr "Som B<-sk>, men tar bort tarbollen igen efteråt."
 
 # type: TP
 #: ../../man/dpkg-source.1:159 ../../man/dpkg-source.1:222
@@ -7182,6 +7241,9 @@ msgid ""
 "I<package>B<->I<upstream-version>B<.orig> and B<dpkg-source> will create a "
 "new original source archive from it."
 msgstr ""
+"Anger att originalkällkoden är en katalog, som standard "
+"I<paket>B<->I<uppströmsversion>B<.orig> och att B<dpkg-source> "
+"skall skapa ett nytt originalkällkodsarkiv från den."
 
 # type: TP
 #: ../../man/dpkg-source.1:167
@@ -7192,7 +7254,7 @@ msgstr "B<-sr>"
 # type: Plain text
 #: ../../man/dpkg-source.1:172
 msgid "Like B<-su> but will remove that directory after it has been used."
-msgstr ""
+msgstr "Som B<-su>, men tar bort katalogen när den har använts."
 
 # type: TP
 #: ../../man/dpkg-source.1:172
@@ -7208,6 +7270,11 @@ msgid ""
 "create the B<.dsc>.  This option must be used with care - if the directory "
 "and tarfile do not match a bad source archive will be generated."
 msgstr ""
+"Anger att originalkällkoden finns både som en katalog och en tarfil. "
+"Katalogen kommer att användas för att skapa diffen, men tarfilen för "
+"att skapa B<.dsc>-filen. Flaggan måste använas med tillförsikt - "
+"om katalogen och tarfilen inte stämmer överens kommer ett trasigt "
+"källkodsarkiv att skapas."
 
 # type: TP
 #: ../../man/dpkg-source.1:180 ../../man/dpkg-source.1:225
@@ -7223,6 +7290,10 @@ msgid ""
 "Debian-specific packages which do not have a separate upstream source and "
 "therefore have no debianisation diffs."
 msgstr ""
+"Anger att dpkg-source inte skall leta efter något källkodsarkiv och att ingen diff "
+"skall skapas. Det andra argumentet, om det anges, måste vara den tomma "
+"strängen. Flaggan används för Debianspecifika paket som inte har en separat "
+"uppströmskällkod och därför inte har någon debianiseringsdiff."
 
 # type: TP
 #: ../../man/dpkg-source.1:186
@@ -7245,17 +7316,27 @@ msgid ""
 "sA> was specified (this is equivalent to B<-sP>)  or raise an error if B<-"
 "sa> was specified.  B<-sA> is the default."
 msgstr ""
+"Anger att originalkällkoden finns som en katalog eller en tarfil - "
+"det andra argumentet, om det anges, kan vara det ena eller det andra, "
+"eller den tomma strängen (motsvarar att använda B<-sn>). Om en "
+"tarfil hittas kommer programmet att packa upp den för att skapa en "
+"diff och ta bort den efteråt (motsvarar B<-sp>). Om en katalog "
+"hittas kommer den att packas för att skapa originalkällkoden och ta "
+"bort den efteråt (motsvarar B<-sn>). Om båda hittas kommer "
+"B<dpkg-source> att ignorera katalogen, och skriva över den om "
+"B<-sA> angavs (detta motsvarar B<-sP>) eller ge ett felmeddelande "
+"om B<-sa> angavs. B<-sA> är standard."
 
 # type: TP
 #: ../../man/dpkg-source.1:212
 #, no-wrap
 msgid "B<Extract options (with -x):>"
-msgstr ""
+msgstr "B<Extraheringsflaggor (med -x):>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:216
 msgid "In all cases any existing original source tree will be removed."
-msgstr ""
+msgstr "Oavsett kommer ett befintligt källkodsträd att tas bort."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:222
@@ -7265,11 +7346,15 @@ msgid ""
 "existing but different file is there it will be copied there.  (B<This is "
 "the default>)."
 msgstr ""
+"Används när originalkällkoden som extraheras (om sådan finns) skall "
+"lämnas kvar som en tarfil. Om den inte redan finns i den aktuella katalogen, "
+"eller om en befintlig men annan fil finns där, kommer den att kopieras "
+"dit. (B<Detta är standard.>)"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:225
 msgid "Unpacks the original source tree."
-msgstr ""
+msgstr "Packar upp originalkällkodsträdete."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:230
@@ -7278,6 +7363,9 @@ msgid ""
 "nor unpacked. Any original source tree that was in the current directory is "
 "still removed."
 msgstr ""
+"Försäkrar att originalkällkoden varken kopieras till en aktuella katalogen "
+"eller packas upp. Eventuella originalkällkodsträd som finns i den aktuella "
+"katalogen tas fortfarande bort."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:241
@@ -7286,6 +7374,10 @@ msgid ""
 "through variable substitution twice. This should not matter, since B<$>, B<"
 "{> and B<}> are not legal in package names or version numbers."
 msgstr ""
+"Binärpaketposter i filen B<debian/files> kommer sändas genom "
+"variabelsubstituering två gånger. Detta bör inte spela någon roll "
+"eftersom B<$>, B<{> och B<}> inte är giltiga i paketnamn eller "
+"versionsnummer."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:246
