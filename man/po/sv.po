@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-08-04 21:43+0100\n"
+"PO-Revision-Date: 2007-08-04 22:24+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -10211,13 +10211,14 @@ msgstr ""
 #: ../../man/update-alternatives.8:8
 #, no-wrap
 msgid "update-alternatives"
-msgstr ""
+msgstr "update-alternatives"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:11
 msgid ""
 "update-alternatives - maintain symbolic links determining default commands"
 msgstr ""
+"update-alternatives - underhåller symboliska länkar för att bestämma standardkommandon"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:16
@@ -10230,6 +10231,8 @@ msgid ""
 "B<update-alternatives> creates, removes, maintains and displays information "
 "about the symbolic links comprising the Debian alternatives system."
 msgstr ""
+"B<update-alternatives> skapar, tar bort, underhåller och visar information "
+"om de symboliska länkar som ingår i Debians alternativsystem."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:29
@@ -10241,6 +10244,13 @@ msgid ""
 "but makes it difficult for a program to make a good choice for an editor to "
 "invoke if the user has not specified a particular preference."
 msgstr ""
+"Det är möjligt för flera kommandon som tillhandahåller identisk eller liknande "
+"funktionalitet att vara installerade på ett system samtidigt. Till exempel har "
+"många system flera textredigeringsprogram installerade samtidigt, vilket "
+"ger användarna på systemet valmöjligheter, var och en kan använda olika "
+"textredigeringsprogram om de så önskar, men det gör det svårt för ett "
+"program att göra ett bra val av textredigerare att anropa om en användare "
+"inte har gjort ett specifikt val."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:51
@@ -10256,6 +10266,16 @@ msgid ""
 "alternatives system will not alter this setting until explicitly requested "
 "to do so."
 msgstr ""
+"Debians alternativsystem försöker lösa detta problem. Ett generiskt namn i "
+"filsystemet delas av alla filer som tillhandahåller utbytbar funktionalitet. "
+"Alternativsystemet och systemadministratören anger tillsammans vilken "
+"specifik fil som skall refereras av sitt generiska namn. Till exempel kan "
+"alternativsystemet låta det generiska namnet I</usr/bin/editor> att "
+"peka mot I</usr/bin/nvi> som standard om både textredigeringsprogrammet "
+"B<ed>(1) och B<nvi>(1) båda är installerade på systemet. "
+"Systemadministratören kan överstyra detta och låta det peka på "
+"I</usr/bin/ed> istället, och alternativsystemet kommer inte ändra denna "
+"inställning förrän det ombeds att göra det."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:61
@@ -10267,6 +10287,11 @@ msgid ""
 "confined within the I</etc> directory: the FHS (q.v.) gives reasons why this "
 "is a Good Thing."
 msgstr ""
+"Det generiska namnet är inte en direkt symbolisk länk till det valda alternativet. "
+"Istället är det en symbolisk länk till ett namn i katalogen I<alternatives>, "
+"vilket i sin tur är en symbolisk länk till den faktiska fil det pekar mot. "
+"Detta görs så att systemadministratörens ändringar kan begränsas till "
+"katalogen I</etc>: FHS (se detta) ger orsaker till varför detta är Bra."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:73
@@ -10277,6 +10302,10 @@ msgid ""
 "alternatives> is usually called from the B<postinst> or B<prerm> scripts in "
 "Debian packages."
 msgstr ""
+"När ett paket som tillhandahåller en fil med en specifik funktionalitet "
+"installeras, ändras eller tas bort, anropas B<update-alternatives> för att "
+"uppdatera information om filen i alternativsystemet. B<update-alternatives> "
+"anropas normalt från B<postinst>- eller B<prerm>-skripten i Debianpaket."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:92
@@ -10289,6 +10318,13 @@ msgid ""
 "links; when the master is changed, any associated slaves are changed too.  A "
 "master link and its associated slaves make up a I<link> I<group>."
 msgstr ""
+"Det är ofta lämpligt för ett antal alternativ att vara synkroniserade, så att "
+"de ändras i grupp. Till exempel, om det är flera versioner av textredigeraren "
+"B<vi>(1) installerade bör manualsidan som refereras till av I</usr/share/man/man1/vi.1> "
+"motsvara den binär som refereras till av I</usr/bin/vi>. B<update-alternatives> "
+"hanterar detta genom I<huvud>- och I<slav>-länkar. När huvudlänken "
+"uppdateras ändras även anslutna slavlänkar. En huvudlänk och dess "
+"anslutna slavar utgör en I<länkgrupp>."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:100
