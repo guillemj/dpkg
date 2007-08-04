@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-08-04 20:22+0100\n"
+"PO-Revision-Date: 2007-08-04 20:37+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -7854,7 +7854,7 @@ msgstr "B<deb>(5), B<deb-control>(5), B<dpkg-deb>(1), B<dpkg>(1)."
 #: ../../man/dpkg-statoverride.8:1
 #, no-wrap
 msgid "dpkg-statoverride"
-msgstr ""
+msgstr "dpkg-statoverride"
 
 # type: TH
 #: ../../man/dpkg-statoverride.8:1
@@ -7865,7 +7865,7 @@ msgstr "Debianprojektet"
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:4
 msgid "dpkg-statoverride - override ownership and mode of files"
-msgstr ""
+msgstr "dpkg-statoverride - överstyr ägarskap och läge för filer"
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:9
@@ -7882,6 +7882,13 @@ msgid ""
 "that are normally setuid to be install without a setuid flag, or only "
 "executable by a certain group."
 msgstr ""
+"\"B<stat-överstyrningar>\" är ett sätt att tala om för B<dpkg>(1) att en "
+"annan ägare eller ett annat läge skall användas för en fil är ett paket "
+"installeras. (Observera att ordet \"fil\" används här, men att det kan vara "
+"alla sorters filsystemsobjekt som hanteras av dpkg, till exempel kataloger, "
+"enheter osv.). Detta kan användas för att tvinga program som normalt "
+"är setuid att installeras som en setuid-flagga, eller bara exekverbar av "
+"en specifik grupp."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:23
@@ -7889,6 +7896,9 @@ msgid ""
 "B<dpkg-statoverride> is a utility to manage the list of stat overrides. It "
 "has three basic functions: adding, removing and listing overrides."
 msgstr ""
+"B<dpkg-statoverride> är ett verktyg för att hantera listan över "
+"stat-överstyrningar. Det har tre grundläggande funktioner: lägga till, "
+"ta bort och visa överstyrningar."
 
 # type: TP
 #: ../../man/dpkg-statoverride.8:25
@@ -7905,6 +7915,11 @@ msgid ""
 "by their number by prepending the number with a `B<#>' (for example B<#0> or "
 "B<#65534>)."
 msgstr ""
+"Lägg till en överstyrning för B<fil>. B<Fil> behöver inte existera när "
+"kommandot körs; överstyrningen kommer lagras och användas senare. "
+"Användare och grupper kan anges med namn (till exempel B<root> "
+"eller B<nobody>), eller med deras nummer med ett \"B<#>\" (till "
+"exempel B<#0> eller B<#65534>)."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:35
@@ -7912,6 +7927,8 @@ msgid ""
 "If --update is specified and B<file> exists, it is immediately set to the "
 "new owner and mode."
 msgstr ""
+"Om --update anges och B<fil> existerar kommer den omedelbart att sättas "
+"till den nya användaren och läget."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:39
@@ -7919,6 +7936,8 @@ msgid ""
 "Remove an override for B<file>, the status of B<file> is left unchanged by "
 "this command."
 msgstr ""
+"Ta bort en överstyrning för B<fil>, status för B<fil> ändras inte av "
+"detta kommando."
 
 # type: TP
 #: ../../man/dpkg-statoverride.8:39
@@ -7933,6 +7952,10 @@ msgid ""
 "overrides which match the glob. If there are no overrides or none match the "
 "glob B<dpkg-statoverride> will exit with an exitcode of 1."
 msgstr ""
+"Visa alla överstyrningar. Om ett sökmönster anges kommer utdata att "
+"begränsas till överstyrningar som motsvarar mönstret. Om det inte finns "
+"några överstyrningar, eller inga motsvarar mönstret, kommer "
+"B<dpkg-statoverride> avslutas med statuskod 1."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:56
@@ -7955,6 +7978,8 @@ msgid ""
 "Force an action, even if a sanity check would otherwise prohibit it.  This "
 "is necessary to override an existing override."
 msgstr ""
+"Tvinga ett kommando, även om en säkerhetskontroll annars skulle förhindra "
+"det. Detta behövs för att överstyra en befintlig överstyrning."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:60
@@ -7967,11 +7992,12 @@ msgstr "B<--update>"
 msgid ""
 "Immediately try to change the file to the new owner and mode if it exists."
 msgstr ""
+"Försök att omedelbart ändra filen·om·den·finns till den nya ägaren och läget."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:67
 msgid "Be less verbose about what we do."
-msgstr ""
+msgstr "Var mindre pratsom om vad som görs."
 
 # type: TP
 #: ../../man/dpkg-statoverride.8:69
@@ -7986,6 +8012,9 @@ msgid ""
 "located in the dpkg administration directory, along with other files "
 "important to dpkg, such as `status' or `available'."
 msgstr ""
+"Fil som innehåller den aktuella listan över statöverstyrningar på systemet. Den "
+"finns i dpkg:s administrationskatalog, tillsammans med andra filer som "
+"är viktiga för dpkg, som \"status\" och \"available\"."
 
 # type: Plain text
 #: ../../man/dpkg-statoverride.8:77
@@ -7993,6 +8022,8 @@ msgid ""
 "Note: B<dpkg-statoverride> preserves the old copy of this file, with "
 "extension \"-old\", before replacing it with the new one."
 msgstr ""
+"Observera: B<dpkg-statoverride> bevarar den gamla upplagan av filen, "
+"med tillägget \"-old\" innan den ersätts med den nya."
 
 # type: SS
 #: ../../man/dselect.1:1
