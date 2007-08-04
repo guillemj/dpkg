@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-08-04 20:37+0100\n"
+"PO-Revision-Date: 2007-08-04 21:43+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -9219,7 +9219,7 @@ msgstr "install-info"
 # type: Plain text
 #: ../../man/install-info.8:8
 msgid "install-info - create or update entry in Info dir file"
-msgstr ""
+msgstr "install-info - skapa eller uppdatera post i en info-katalogfil"
 
 # type: Plain text
 #: ../../man/install-info.8:24
@@ -9229,6 +9229,10 @@ msgid ""
 "[B<--align=>I<nnn>] [B<--quiet>] [B<--menuentry=>I<xxx>] [B<--"
 "description=>I<xxx>] [B<--remove>|B<--remove-exactly>] [B<-->] I<filename>"
 msgstr ""
+"B<install-info> [B<--version>] [B<--help>] [B<--debug>] [B<--"
+"maxwidth=>I<nnn>] [B<--section >I<reguljärt-uttryck>B< >I<titel>] [B<--infodir=>I<xxx>] "
+"[B<--align=>I<nnn>] [B<--quiet>] [B<--menuentry=>I<xxx>] [B<--"
+"description=>I<xxx>] [B<--remove>|B<--remove-exactly>] [B<-->] I<filnamn>"
 
 # type: Plain text
 #: ../../man/install-info.8:32
@@ -9238,6 +9242,10 @@ msgid ""
 "command line or in the Info file, it attempts to guess a description from "
 "the contents of the file."
 msgstr ""
+"B<install-info> skapar, uppdaterar eller tar bort poster Infos B<dir>-fil. "
+"När poster uppdateras eller skapas försöker den gissa en beskrivning "
+"från innehållet i filen om ingen beskrivning anges på kommandoraden "
+"eller i Info-filen."
 
 # type: Plain text
 #: ../../man/install-info.8:39
@@ -9246,6 +9254,8 @@ msgid ""
 "entry will be placed and a description of the expected format of the B<dir> "
 "file."
 msgstr ""
+"Se beskrivningen för flaggan B<--section> för detaljer om var posten "
+"skapas och en beskrivning av det format som förväntas på B<dir>-filen."
 
 # type: TP
 #: ../../man/install-info.8:40
@@ -9265,6 +9275,14 @@ msgid ""
 "be installed, or have previously existed when removing an entry) in the same "
 "directory as the B<dir> file (see the B<--infodir> option)."
 msgstr ""
+"Anger filnamnet på den Infofil vars menypost skall skapas, uppdateras "
+"eller tas bort. Om B<--remove-exactly> anges måste I<filnamn> vara "
+"det exakta namnet på den post som skall tas bort (dvs. \"emacs-20/emacs\" "
+"eller \"gcc\"), annars används basnamnet för filnamnet till att referera till "
+"manyposten som skapas, såvida inte det finns ett överstyrande "
+"START-INFO-DIR-post i den givna filen. Filen måste därför finnas (eller "
+"vara på väg att installeras, eller ha existerat tidigare, om en post tas "
+"bort) i samma katalog som B<dir>-filen (se flaggan B<--infodir>)."
 
 # type: Plain text
 #: ../../man/install-info.8:64
@@ -9273,6 +9291,9 @@ msgid ""
 "with B<gzip>; if it doesn't exist, but a corresponding I<filename>B<.gz> "
 "does, the latter is used instead."
 msgstr ""
+"Om I<filnamn> slutar på B<.gz>, anses den referera till en fil som komprimerats "
+"med B<gzip>. Om den inte finns, men det finns en motsvarande I<filnamn>B<.gz> "
+"används den senare i stället."
 
 # type: Plain text
 #: ../../man/install-info.8:69
@@ -9280,6 +9301,8 @@ msgid ""
 "When adding or updating entries, the file must exist at the path specified "
 "(possibly with an additional B<.gz> extension)."
 msgstr ""
+"När poster läggs till eller uppdateras måste filen existera på den sökväg som "
+"angavs (eventuellt med en ytterligare B<.gz>-filändelse)."
 
 # type: SS
 #: ../../man/install-info.8:69
@@ -9293,6 +9316,8 @@ msgid ""
 "Specifies that the entry for the file I<filename> is to be removed; by "
 "default entries are created or updated."
 msgstr ""
+"Anger att posten för filen I<filnamn> skall tas bort. Standard är att "
+"poster läggs till eller uppdateras."
 
 # type: Plain text
 #: ../../man/install-info.8:84
@@ -9302,6 +9327,10 @@ msgid ""
 "section in the file or B<--keep-old> is specified. See the B<--section> "
 "option for details about the expected format of the B<dir> file."
 msgstr ""
+"Om borttagningen leder till att en sektion blir tom kommer även rubriken "
+"för sektionen (och den extra blanka raden) att as bort, såvida inte detta "
+"är den sista sektionen i filen eller B<--keep-old> anges. Se flaggan "
+"B<--section> för detaljer om det förväntade formatet på B<dir>-filen."
 
 # type: Plain text
 #: ../../man/install-info.8:89
@@ -9310,6 +9339,9 @@ msgid ""
 "first matching contiguous group will be removed and the others silently "
 "ignored."
 msgstr ""
+"Om det är flera poster i B<dir>-filen som passar, kommer bara de "
+"i den första träffande intilliggande gruppen att tas bort och de andra "
+"tyst att ignoreras."
 
 # type: Plain text
 #: ../../man/install-info.8:95
@@ -9317,6 +9349,8 @@ msgid ""
 "It is not an error for no suitable entry to be found, though B<install-info> "
 "will issue a warning unless the B<--quiet> option was specified."
 msgstr ""
+"Det är inte ett fel om det inte finns någon motsvarande post, även om "
+"B<install-info> kommer varna om inte flaggan B<--quiet> angavs."
 
 # type: Plain text
 #: ../../man/install-info.8:101
@@ -9324,12 +9358,14 @@ msgid ""
 "When B<--remove> is specified the B<--maxwidth>, B<--align> and B<--calign> "
 "formatting options are silently ignored."
 msgstr ""
+"När B<--remove> anges kommer formateringsflaggorna B<--maxwidth>, "
+"B<--align> och B<--calign> att tyst ignoreras."
 
 # type: TP
 #: ../../man/install-info.8:101
 #, no-wrap
 msgid "B<--remove-exactly>"
-msgstr ""
+msgstr "B<--remove-exactly>"
 
 # type: Plain text
 #: ../../man/install-info.8:119
@@ -9342,12 +9378,19 @@ msgid ""
 "the exact name given. (i.e.  B<--remove> \"emacs-20/emacs\" would cause "
 "B<install-info> to look for \"emacs\", not \"emacs-20/emacs\")."
 msgstr ""
+"Den här flaggan är i stort sett samma som B<--remove>, förutom att I<filnamn> "
+"tas som den exakta posten som skall tas bort, snarare än namnet på en "
+"befintlig fil. Det kan vara viktigt när man försöker ta bort poster som motsvarar "
+"info-filer i underkataloger (t.ex \"emacs-20/emacs\") eftersom B<--remove> "
+"kommer använda basnamnet på det givna I<filnamnet> i stället för det "
+"exakta namn som ges (dvs. B<--remove> \"emacs-20/emacs\" gör att "
+"B<install-info> letar efter \"emacs\", inte \"emacs-20/emacs\")."
 
 # type: TP
 #: ../../man/install-info.8:119
 #, no-wrap
 msgid "B<--section >I<regexp title>"
-msgstr ""
+msgstr "B<--section >I<reguljärt-uttryck titel>"
 
 # type: Plain text
 #: ../../man/install-info.8:133
@@ -9358,6 +9401,11 @@ msgid ""
 "file (see below) with title I<title>.  A section is a part of the B<dir> "
 "menu delimited by blank lines; the first line is assumed to be the title."
 msgstr ""
+"Anger att om en ny post skall skapas, så skall den placeras i en sektion "
+"i B<dir>-filen vars titel motsvarar I<reguljärt-uttryck>. Om det inte "
+"finns någon sådan sektion kommer en skapas som den nästa sista "
+"sektionen i filen (se nedan) med titeln I<titel>. En sektion är en del av "
+"B<dir>-filen avdelad av tomma rader. Den första raden antas vara titeln."
 
 # type: Plain text
 #: ../../man/install-info.8:140
@@ -9367,6 +9415,10 @@ msgid ""
 "already sorted, the new location within the section will be unpredictable. "
 "The order of existing entries will not be changed."
 msgstr ""
+"Om en ny post skall skapas kommer B<install-info> att försöka att lägga "
+"in den i sektionen i bokstavsordning. Om posterna i sektionen inte redan är "
+"i bokstavsordning går det inte att förutse var den kommer att hamna. "
+"Ordningen på befintliga poster kommer inte att ändras."
 
 # type: Plain text
 #: ../../man/install-info.8:147
@@ -9374,11 +9426,13 @@ msgid ""
 "If the B<--section> option is not specified, B<install-info> will look for a "
 "title in the Info file itself by looking for an entry of the form"
 msgstr ""
+"Om flaggan B<--section> inte anges kommer B<install-info> att leta "
+"efter en titel i själva Info-filen genom att leta efter en post på formen"
 
 # type: Plain text
 #: ../../man/install-info.8:150
 msgid "B<INFO-DIR-SECTION>I< title>"
-msgstr ""
+msgstr "B<INFO-DIR-SECTION>I< titel>"
 
 # type: Plain text
 #: ../../man/install-info.8:158
@@ -9389,6 +9443,12 @@ msgid ""
 "right place. The final section should be titled to reflect the fact that "
 "Info files with no better specified location are appended to it."
 msgstr ""
+"Om ingen titel hittas är den förvalda funktionen att lägga till nya poster "
+"i slutet av filen. Den sista sektionen (även om den bara består av "
+"titelraden) skall alltid finnas för att se till att nya sektioner skapas på "
+"rätt plats. Den sista sektionen kommer att få en titel som beskriver "
+"det faktum att Info-filer som inte har någon bättre placering angiven "
+"läggs in där."
 
 # type: Plain text
 #: ../../man/install-info.8:161
@@ -9396,6 +9456,8 @@ msgid ""
 "If there is already an entry for the Info file being installed, it is "
 "replaced in situ with the new entry."
 msgstr ""
+"Om det redan finns en post för Info-filen som installeras kommer den "
+"nya posten att ersätta den på samma plats."
 
 # type: Plain text
 #: ../../man/install-info.8:164
@@ -9403,6 +9465,8 @@ msgid ""
 "If a section is specified when removing an entry, the section is ignored and "
 "a warning is issued."
 msgstr ""
+"Om en sektion anges när du tar bort en post kommer sektionen att ignoreras "
+"och en varning att ges."
 
 # type: Plain text
 #: ../../man/install-info.8:170
@@ -9411,6 +9475,10 @@ msgid ""
 "section headings at all, then B<install-info> will create both the requested "
 "section and a Miscellaneous section at the end of the file."
 msgstr ""
+"Om en sektion anges när du lägger till en post, men filen inte innehåller "
+"några sektionsrubriker över huvud taget, så kommer B<install-info> att "
+"skapa både den önskade sektionen och en blandat-sektion i slutet av "
+"filen."
 
 # type: TP
 #: ../../man/install-info.8:170
@@ -9425,12 +9493,15 @@ msgid ""
 "file was, is or will be located in I<infodir>.  The default is B</usr/share/"
 "info/>."
 msgstr ""
+"Anger att B<dir>-filen är, och att den installerade kopian av den nya "
+"Info-filen var, är eller kommer att placeras i I<infodir>. Standard är "
+"B</usr/share/info/>."
 
 # type: TP
 #: ../../man/install-info.8:179
 #, no-wrap
 msgid "B<--align=>I<nnn>B< [deprecated]>"
-msgstr ""
+msgstr "B<--align=>I<nnn>B< [gammalt]>"
 
 # type: Plain text
 #: ../../man/install-info.8:188
@@ -9440,12 +9511,16 @@ msgid ""
 "because of the length of the B<dir> menu entry details, it may be offset "
 "more. The default is 27."
 msgstr ""
+"Anger att den första raden i beskrivningen skall få ett indrag på I<nnn> "
+"tecken. Nya blanksteg läggs till om så behövs. Om dete behövs på grund "
+"av längden på detaljer i B<dir>-menyposten kan den få ett större "
+"indrag. Standardvärde är 27."
 
 # type: TP
 #: ../../man/install-info.8:188
 #, no-wrap
 msgid "B<--calign=>I<nnn>B< [deprecated]>"
-msgstr ""
+msgstr "B<--calign=>I<nnn>B< [gammalt]>"
 
 # type: Plain text
 #: ../../man/install-info.8:194
@@ -9453,12 +9528,14 @@ msgid ""
 "Specifies that the second and subsequent lines of the description should be "
 "indented at least I<nnn> characters. The default is 29."
 msgstr ""
+"Anger att den andra och följande rader i beskrivningen skall få ett indrag på "
+"åtminstone I<nnn> tecken. Standardvärde är 29."
 
 # type: TP
 #: ../../man/install-info.8:194
 #, no-wrap
 msgid "B<--maxwidth=>I<nnn>B< [deprecated]>"
-msgstr ""
+msgstr "B<--maxwidth=>I<nnn>B< [gammalt]>"
 
 # type: Plain text
 #: ../../man/install-info.8:200
@@ -9466,6 +9543,8 @@ msgid ""
 "Specifies that the maximum width for the Info file is I<nnn>.  This is used "
 "when word-wrapping the descriptive text.  The default is 79."
 msgstr ""
+"Anger att maxbredd för Info-filen är I<nnn>. Används för att "
+"ordbryta beskrivningen. Standardvärde är 79."
 
 # type: Plain text
 #: ../../man/install-info.8:205
@@ -9474,11 +9553,14 @@ msgid ""
 "and of the messages announcing the replacement and removal of existing "
 "entries and the creation and deletion of sections."
 msgstr ""
+"Förhindrar den vanliga visningen av den nya menyposten precis innan den "
+"sätts in och av meddelanden som beskriver ersättning eller borttagning av "
+"befintliga poster och skapande och borttagning av sektioner."
 
 # type: Plain text
 #: ../../man/install-info.8:210
 msgid "Causes B<install-info> to display its usage information and exit."
-msgstr ""
+msgstr "Får B<install-info> att visa sin hjälpskärm och avsluta."
 
 # type: Plain text
 #: ../../man/install-info.8:215
@@ -9493,7 +9575,7 @@ msgstr ""
 #: ../../man/install-info.8:215
 #, no-wrap
 msgid "B<--description=>I<xxx>"
-msgstr ""
+msgstr "B<--description=>I<xxx>"
 
 # type: Plain text
 #: ../../man/install-info.8:222
@@ -9502,21 +9584,25 @@ msgid ""
 "entries be I<xxx>.  The default is to use the the value specified in the "
 "Info file itself; this is found by searching for a section of the form"
 msgstr ""
+"Anger att den beskrivning som skall användas efter menyposten i de nya "
+"eller uppdaterade posterna skall vara I<xxx>. Som standard är den "
+"värdet som anges i själva Info-filen. Den hittas genom att leta efter en post "
+"på formen"
 
 # type: Plain text
 #: ../../man/install-info.8:224
 msgid "B<START-INFO-DIR-ENTRY>"
-msgstr ""
+msgstr "B<START-INFO-DIR-ENTRY>"
 
 # type: Plain text
 #: ../../man/install-info.8:226
 msgid "B<* Auto-PGP: (auto-pgp). PGP under GNU Emacs.>"
-msgstr ""
+msgstr "B<* Auto-PGP: (auto-pgp). PGP under GNU Emacs.>"
 
 # type: Plain text
 #: ../../man/install-info.8:228
 msgid "B<END-INFO-DIR-ENTRY>"
-msgstr ""
+msgstr "B<END-INFO-DIR-ENTRY>"
 
 # type: Plain text
 #: ../../man/install-info.8:237
@@ -9528,6 +9614,11 @@ msgid ""
 "menuentry>, B<--maxwidth>, B<--align>, B<--calign> and B<--menuentry> "
 "options are ignored."
 msgstr ""
+"Om posten som finns i själva Info-filen spänner över flera rader, där varje "
+"rad anger en menypost, kommer texten i filen att användas ordagrannt. "
+"I detta fall stängs bokstavssorteringen av, och posterna läggs in överst i "
+"den önskade sektionen. I detta fall ignoreras flaggorna B<--menuentry>, "
+"B<--maxwidth>, B<--align>, B<--calign> och B<--menuentry> "
 
 # type: Plain text
 #: ../../man/install-info.8:244
@@ -9536,11 +9627,15 @@ msgid ""
 "paragraph early in the file starting B<this file documents>.  It will "
 "capitalise the first character of the remainder, and use that."
 msgstr ""
+"Om det inte finns någon B<dir>-post i filen kommer programmet att "
+"försöka hitta ett stycke tidigt i filen som börjar med B<this file "
+"documents>. Den kommer att göra den första bokstaven i resten av "
+"texten stor och använda det."
 
 # type: Plain text
 #: ../../man/install-info.8:246
 msgid "It is an error for none of these methods to yield a description."
-msgstr ""
+msgstr "Det innebär ett fel om ingen av dessa metoder hittar en beskrivning."
 
 # type: Plain text
 #: ../../man/install-info.8:250
@@ -9548,12 +9643,14 @@ msgid ""
 "If a description argument is given when B<--remove> is specified, it is "
 "ignored and a warning is issued."
 msgstr ""
+"Om ett beskrivningsargument ges när B<--remove> anges kommer det "
+"att ignoreras och en varning visas."
 
 # type: TP
 #: ../../man/install-info.8:250
 #, no-wrap
 msgid "B<--menuentry=>I<xxx>"
-msgstr ""
+msgstr "B<--menuentry=>I<xxx>"
 
 # type: Plain text
 #: ../../man/install-info.8:259
@@ -9564,6 +9661,11 @@ msgid ""
 "the entry is made mixed case).  See above for details of the format expected "
 "for the menu entry in the Info file."
 msgstr ""
+"Anger att posten i menyn skall vara I<xxx>. Standard är att använda "
+"värdet som finns i själva Info-filen. Om det inte finns någon används "
+"basnamnet på Info-filen (eventuellt B<.info> tas bort och posten görs "
+"om till blandat skiftläge). Se ovan för detaljer om vilket format som "
+"förväntas på menyposten i Info-filen."
 
 # type: Plain text
 #: ../../man/install-info.8:266
@@ -9573,6 +9675,9 @@ msgid ""
 "significant). If B<--menuentry> is omitted, no check on the menu entry is "
 "done."
 msgstr ""
+"När poster tas bort måste värdet på flaggan B<--menuentry> stämma överens "
+"med den faktiska menyposten som skall tas bort (skiftläge är inte relevant). "
+"Om B<--menuentry> utesluts kontrolleras inte menyposten."
 
 # type: TP
 #: ../../man/install-info.8:266
@@ -9586,6 +9691,7 @@ msgid ""
 "Inhibits the replacement of existing entries and the removal of empty "
 "sections."
 msgstr ""
+"Förhindrar att befintliga poster ersätts och att tomma sektioner tas bort."
 
 # type: Plain text
 #: ../../man/install-info.8:274
@@ -9594,6 +9700,9 @@ msgid ""
 "the old entry will be left alone instead of being replaced; the default is "
 "to overwrite any old entry found with the newly generated one."
 msgstr ""
+"Om filen som installeras redan har en post i Info-B<dir>-filen kommer "
+"dene gamla posten att lämnas kvar istället för att ersättas. Standard "
+"är att skriva över en gammal post med den nya som skapas."
 
 # type: Plain text
 #: ../../man/install-info.8:279
@@ -9602,11 +9711,14 @@ msgid ""
 "section heading which would otherwise happen if the section is made empty by "
 "the removal."
 msgstr ""
+"Om B<--remove> anges kommer B<--keep-old> att förhindra att sektionsrubriken "
+"tas bort, vilket annars skulle ha hänt om sektionen blir tom på grund av "
+"borttagningen."
 
 # type: Plain text
 #: ../../man/install-info.8:282
 msgid "Enables test mode, which inhibits the update of the Info B<dir> file."
-msgstr ""
+msgstr "Aktiverar testläge, vilket förhindrar att Info-B<dir>-filen uppdateras."
 
 # type: Plain text
 #: ../../man/install-info.8:286
@@ -9614,6 +9726,8 @@ msgid ""
 "Enables debugging mode, in which the results of some internal processing "
 "steps are shown."
 msgstr ""
+"Aktiverar felsökningsläge, vilket gör att resultatet av vissa interna "
+"behandlingssteg visas."
 
 # type: Plain text
 #: ../../man/install-info.8:291
@@ -9623,7 +9737,7 @@ msgstr "B<emacs>(1), B<info>(1), B<gzip(1).>"
 # type: Plain text
 #: ../../man/install-info.8:293
 msgid "Copyright 1994 Ian Jackson"
-msgstr ""
+msgstr "Upphovsrättsskyddat © 1994 Ian Jackson"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:1
