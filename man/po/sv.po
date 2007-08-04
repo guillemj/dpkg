@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-08-04 19:17+0100\n"
+"PO-Revision-Date: 2007-08-04 19:33+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -6762,13 +6762,14 @@ msgstr "dpkg-shlibdeps"
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:4
 msgid "dpkg-shlibdeps - generate shared library substvar dependencies"
-msgstr ""
+msgstr "dpkg-shlibdeps - skapar substvar-beroenden för delade bibliotek"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:10
 msgid ""
 "B<dpkg-shlibdeps> [I<options>] I<executable>|B<-e>I<executable> [I<options>]"
 msgstr ""
+"B<dpkg-shlibdeps> [I<flaggor>] I<programfil>|B<-e>I<programfil> [I<flaggor>]"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:35
@@ -6784,6 +6785,16 @@ msgid ""
 "the library dependency, or B</etc/dpkg/shlibs.default>.  The first match "
 "will be used."
 msgstr ""
+"B<dpkg-shlibdeps> beräknar beroenden mellan exekverbara filer som anges "
+"som argument och delade bibliotek. Beroendena läggs till i substitueringsvariabelfilen "
+"B<debian/substvars> som variabler med namnen B<shlibs:>I<beroendefält> "
+"där I<beroendeefält> är ett beroendefältsnamn. Alla andra variabler som "
+"börjar på I<shlibs:> tas bort ur filen. B<dpkg-shlibdeps> läser information om "
+"beroenden för delade bibliotek från B<debian/shlibs.local>, "
+"B</etc/dpkg/shlibs.override>, B<shlibs>-området i control-filen för paketet "
+"som innehåller filn som B<objdump> rapporterar att det uppfyller "
+"biblioteksberoendet, eller B</etc/dpkg/shlibs.default>. Den första träffen "
+"används."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:41
@@ -6791,6 +6802,8 @@ msgid ""
 "B<dpkg-shlibdeps> interprets non-option arguments as executable names, just "
 "as if they'd been supplied as B<-e>I<executable>."
 msgstr ""
+"B<dpkg-shlibdeps> tolkar argument som inte är flaggor som namn på körbara "
+"filer, precis som om de angivits som B<-e>I<programfil>."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:41
@@ -6804,12 +6817,14 @@ msgid ""
 "Include dependencies appropriate for the shared libraries required by "
 "I<executable>."
 msgstr ""
+"Ta med beroenden som är passar för delade bibliotek som krävs för "
+"I<programfil>."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:45
 #, no-wrap
 msgid "B<-d>I<dependencyfield>"
-msgstr ""
+msgstr "B<-d>I<beroendefält>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:51
@@ -6818,6 +6833,9 @@ msgid ""
 "I<dependencyfield>.  (The dependencies for this field are placed in the "
 "variable B<shlibs:>I<dependencyfield>.)"
 msgstr ""
+"Lägg till beroenden som skall läggas till till control-filens beroendefält "
+"I<beroendefält>. (Beroenden för detta fält läggs in i variabeln "
+"B<shlibs:>I<beroendefält>.)"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:61
@@ -6826,6 +6844,9 @@ msgid ""
 "the option, until the next B<-d>I<dependencyfield>.  The default "
 "I<dependencyfield> is B<Depends>."
 msgstr ""
+"Flaggan B<-d>I<beroendefält> gäller för samtliga binärer efter flaggan, "
+"fram till nästa B<-d>I<beroendefält>. Standardvärdet för "
+"I<beroendefält> är B<Depends>."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:69
@@ -6836,12 +6857,17 @@ msgid ""
 "automatically remove the dependency from all fields except the one "
 "representing the most important dependencies."
 msgstr ""
+"Om samma katalogpost (eller en uppsättning alternativ) förekommer i "
+"mer än ett av de kända beroendefältnamnen B<Pre-Depends>, "
+"B<Depends>, B<Recommends>, B<Enhances> eller B<Suggests> så "
+"kommer B<dpkg-shlibdeps> att automatiskt ta bort beroendet från samtliga "
+"fält förutom det som anger de viktigaste beroendena."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:69
 #, no-wrap
 msgid "B<-p>I<varnameprefix>"
-msgstr ""
+msgstr "B<-p>I<variabelnamnsprefix>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:80
@@ -6851,6 +6877,10 @@ msgid ""
 "I<varnameprefix>B<:> (rather than B<shlibs:>)  are removed from the the "
 "substitution variables file."
 msgstr ""
+"Inled substitueringsvariabler med I<variabelnamnsprefix>B<:> i stället för "
+"B<shlibs:>. På samma sätt kommer befintliga substitueringsvariabler som "
+"inleds med I<variabelnamnsprefix>B<:> (i stället för B<shlibs:>) att tas "
+"bort från substitueringsvariabelfilen."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:86
@@ -6858,6 +6888,9 @@ msgid ""
 "Print substitution variable settings to standard output, rather than being "
 "added to the substitution variables file (B<debian/substvars> by default)."
 msgstr ""
+"Skriv substitueringsvariabelinställningar på standard ut, i stället för att "
+"försöka lägga till dem i substitueringsvariabelfilen (som standard "
+"B<debian/substvars>)."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:86
@@ -6874,12 +6907,17 @@ msgid ""
 "information is tagged for a given type by prefixing it with the name of the "
 "type, a colon, and whitespace."
 msgstr ""
+"Föredra information om delade bibliotek som märkts för den givna "
+"pakettypen. Om det inte finns någon märkt information används omärkt. "
+"Standardpakettypen är \"deb\". Beroendeinformation för delade bibliotek "
+"märks för en given typ genom att inleda det med namnet på typen, "
+"ett kolon, samt blanktecken."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:93
 #, no-wrap
 msgid "B<-L>I<localshlibsfile>"
-msgstr ""
+msgstr "B<-L>I<lokal-shlibs-fil>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:99
@@ -6887,6 +6925,8 @@ msgid ""
 "Read overriding shared library dependency information from "
 "I<localshlibsfile> instead of B<debian/shlibs.local>."
 msgstr ""
+"Läs överstyrande beroendeinformation om delade bibliotek från "
+"I<lokal-shlibs-fil> i stället för B<debian/shlibs.local>."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:105
@@ -6894,28 +6934,30 @@ msgid ""
 "Write substitution variables in I<substvarsfile>; the default is B<debian/"
 "substvars>."
 msgstr ""
+"Skriv substitueringsvariabler i I<substvars-fil>; standard är "
+"B<debian/substvars>."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:117
 #, no-wrap
 msgid "B<debian/shlibs.local>"
-msgstr ""
+msgstr "B<debian/shlibs.local>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:120
 msgid "Package-local overriding shared library dependency information."
-msgstr ""
+msgstr "Paketlokal överstyrande beroendeinformation för delade bibliotek."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:120
 #, no-wrap
 msgid "B</etc/dpkg/shlibs.override>"
-msgstr ""
+msgstr "B</etc/dpkg/shlibs.override>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:123
 msgid "Per-system overriding shared library dependency information."
-msgstr ""
+msgstr "Systemspecifik överstyrande beroendeinformation för delade bibliotek."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:123
@@ -6926,12 +6968,12 @@ msgstr "B</etc/dpkg/shlibs.default>"
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:126
 msgid "Per-system default shared library dependency information."
-msgstr ""
+msgstr "Systemspecifik standardberoendeinformation för delade bibliotek."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:129
 msgid "B<deb-shlibs>(5)."
-msgstr ""
+msgstr "B<deb-shlibs>(5)."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:2
@@ -6961,12 +7003,14 @@ msgid ""
 "they do not allow the value for an option to be specified in a separate "
 "argument."
 msgstr ""
+"Inga av dessa kommandon tillåter att flera flaggor kombineras till ett, och de "
+"tillåter inte att värdet på en flagga anges som ett separat argument."
 
 # type: TP
 #: ../../man/dpkg-source.1:20
 #, no-wrap
 msgid "B<-x >I<filename>B<.dsc >[I<output-directory>]"
-msgstr ""
+msgstr "B<-x >I<filnamn>B<.dsc >[I<utdatakatalog>]"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:30
