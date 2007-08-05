@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-07-21 16:13+0300\n"
-"PO-Revision-Date: 2007-08-04 22:24+0100\n"
+"PO-Revision-Date: 2007-08-05 21:22+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -10336,6 +10336,11 @@ msgid ""
 "change the links; it will leave all the decisions to the system "
 "administrator."
 msgstr ""
+"En länkgrupp kan vid varje given tidpunkt vara i ett av två lägen: automatisk "
+"eller manuell. När en grupp är i automatiskt läge kommer alternativsystemet "
+"automatiskt att bestämma när och hur länkar skall uppdateras då paket "
+"installeras eller tas bort. I manuellt läge kommer alternativsystemet inte att "
+"ändra länkarna, utan lämnar alla beslut till systemadministratören."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:109
@@ -10346,6 +10351,11 @@ msgid ""
 "on the changed link's group, and the group will automatically be switched to "
 "manual mode."
 msgstr ""
+"Länkgrupper är i automatiskt läge när de först introduceras på systemet. "
+"Om systemadministratören gör ändringar till systemets automatiska "
+"inställningar kommer detta att noteras nästa gång B<update-alternatives> "
+"körs på den ändrade länkens grupp och gruppen kommer automatiskt att "
+"växlas till manuellt läge."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:116
@@ -10354,6 +10364,9 @@ msgid ""
 "in automatic mode, the alternatives pointed to by members of the group will "
 "be those which have the highest priority."
 msgstr ""
+"Varje alternativ har en I<prioritet> kopplad till sig. När en länkgrupp är i "
+"automatiskt läge kommer det alternativ som medlemmar i gruppen pekar "
+"mot vara den med den högsta prioriteten."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:132
@@ -10366,6 +10379,13 @@ msgid ""
 "in I<auto> mode. You will need to use the I<--auto> option in order to "
 "return to the automatic mode."
 msgstr ""
+"När flaggan I<--config> används kommer B<update-alternatives> att visa "
+"alla val för länkgruppen där I<namn> är huvudlänken. Det aktuella valet "
+"är markerat med en \"*\" och valet med högsta prioritet med ett \"+\". Du "
+"kommer därefter att få välja vad som skall göras med länkgruppen. När "
+"du har gjort en ändring kommer länkgruppen inte längre att vara i "
+"I<auto>-läge. Du måste använda flaggan I<--auto> för att återgå till "
+"automatiskt läge."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:136
@@ -10373,6 +10393,8 @@ msgid ""
 "If you want to configure non-interactively you can use the I<--set> option "
 "instead (see below)."
 msgstr ""
+"Om du vill konfigurera icke-interaktivt kan du använda flaggan I<--set> "
+"i stället (se nedan)."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:147
@@ -10382,12 +10404,16 @@ msgid ""
 "involved packages in such case - it is not possible to override some file in "
 "a package that does not employ the B<update-alternatives> mechanism."
 msgstr ""
+"Olika paket som tillhandahåller samma fil måste göra så i B<samförstånd>. "
+"Det betyder att det är ett B<krav> att alla involverade paket använder sig av "
+"B<update-alternatives>. Det är inte möjligt att överstyra en fil ett paket som "
+"inte använder B<update-alternatives>-mekanismen."
 
 # type: SH
 #: ../../man/update-alternatives.8:148
 #, no-wrap
 msgid "TERMINOLOGY"
-msgstr ""
+msgstr "TERMINOLOGI"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:153
@@ -10395,12 +10421,14 @@ msgid ""
 "Since the activities of B<update-alternatives> are quite involved, some "
 "specific terms will help to explain its operation."
 msgstr ""
+"Efter B<update-alternatives> aktiviteter är ganska komplexa blir det enklare "
+"att förstå hur det fungerar genom att vi förklarar några specifika termer."
 
 # type: TP
 #: ../../man/update-alternatives.8:153
 #, no-wrap
 msgid "generic name"
-msgstr ""
+msgstr "generiskt namn"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:159
@@ -10408,12 +10436,14 @@ msgid ""
 "A name, like I</usr/bin/editor>, which refers, via the alternatives system, "
 "to one of a number of files of similar function."
 msgstr ""
+"Ett namn, till exempel I</usr/bin/editor>, som via alternativsystemet pekar på "
+"en av flera filer med liknande funktionalitet."
 
 # type: TP
 #: ../../man/update-alternatives.8:159
 #, no-wrap
 msgid "symlink"
-msgstr ""
+msgstr "symbolisk länk"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:164
@@ -10422,12 +10452,14 @@ msgid ""
 "alternatives directory: one which the system administrator is expected to "
 "adjust."
 msgstr ""
+"Utan ytterligare beskrivning menas en symbolisk länk i alternativkatalogen: "
+"en som systemadministratören förväntas justera."
 
 # type: TP
 #: ../../man/update-alternatives.8:164
 #, no-wrap
 msgid "alternative"
-msgstr ""
+msgstr "alternativ"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:168
@@ -10435,23 +10467,25 @@ msgid ""
 "The name of a specific file in the filesystem, which may be made accessible "
 "via a generic name using the alternatives system."
 msgstr ""
+"Namnet på en specifik fil i filsystemet, som kan vara tillgänglig via ett "
+"generiskt namn med hjälp av alternativsystemet."
 
 # type: TP
 #: ../../man/update-alternatives.8:168
 #, no-wrap
 msgid "alternatives directory"
-msgstr ""
+msgstr "alternativkatalogen"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:173
 msgid "A directory, by default I</etc/alternatives>, containing the symlinks."
-msgstr ""
+msgstr "En katalog, som standard I</etc/alternatives>, som innehåller de symboliska länkarna."
 
 # type: TP
 #: ../../man/update-alternatives.8:173
 #, no-wrap
 msgid "administrative directory"
-msgstr ""
+msgstr "administrativ katalog"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:180
@@ -10459,23 +10493,25 @@ msgid ""
 "A directory, by default I</var/lib/dpkg/alternatives>, containing B<update-"
 "alternatives>' state information."
 msgstr ""
+"En katalog, som standard I</var/lib/dpkg/alternatives>, som innehåller "
+"tillståndsinformation för <update-alternatives>."
 
 # type: TP
 #: ../../man/update-alternatives.8:180
 #, no-wrap
 msgid "link group"
-msgstr ""
+msgstr "länkgrupp"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:183
 msgid "A set of related symlinks, intended to be updated as a group."
-msgstr ""
+msgstr "En uppsättning relaterade symboliska länkar, avsedda att uppdateras som en grupp."
 
 # type: TP
 #: ../../man/update-alternatives.8:183
 #, no-wrap
 msgid "master link"
-msgstr ""
+msgstr "huvudlänk"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:187
@@ -10483,24 +10519,27 @@ msgid ""
 "The link in a link group which determines how the other links in the group "
 "are configured."
 msgstr ""
+"Länken i en länkgrupp som bestämmer hur de andra länkarna i gruppen "
+"ställs in."
 
 # type: TP
 #: ../../man/update-alternatives.8:187
 #, no-wrap
 msgid "slave link"
-msgstr ""
+msgstr "slavlänk"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:191
 msgid ""
 "A link in a link group which is controlled by the setting of the master link."
 msgstr ""
+"En länk i en länkgrupp som styrs av hur huvudlänken ställs in."
 
 # type: TP
 #: ../../man/update-alternatives.8:191
 #, no-wrap
 msgid "automatic mode"
-msgstr ""
+msgstr "automatiskt läge"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:197
@@ -10509,12 +10548,15 @@ msgid ""
 "the links in the group point to the highest priority alternative appropriate "
 "for the group."
 msgstr ""
+"När en länkgrupp är i automatiskt läge försäkrar alternativsystemet att "
+"länkarna i gruppen pekar på det högstprioriterade alternativet som "
+"är lämpligt för gruppen."
 
 # type: TP
 #: ../../man/update-alternatives.8:197
 #, no-wrap
 msgid "manual mode"
-msgstr ""
+msgstr "manuellt läge"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:202
@@ -10522,12 +10564,14 @@ msgid ""
 "When a link group is in manual mode, the alternatives system will not make "
 "any changes to the system administrator's settings."
 msgstr ""
+"När en grupp är i manuellt läge kommer inte alternativsystemet att utföra "
+"några ändringar till systemadministratörens inställningar."
 
 # type: TP
 #: ../../man/update-alternatives.8:204
 #, no-wrap
 msgid "B<--install> I<genname symlink altern priority> [B<--slave> I<genname symlink altern>]..."
-msgstr ""
+msgstr "B<--install> I<gennamn symlänk altern prioritet> [B<--slave> I<gennamn symlänk altern>]..."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:219
@@ -10540,6 +10584,12 @@ msgid ""
 "link.  Zero or more B<--slave> options, each followed by three arguments, "
 "may be specified."
 msgstr ""
+"Lägg till en grupp med alternativ till systemet. I<gennamn> är det generiska namnet "
+"för huvudlänken, I<symlänk> är namnet på dess symboliska länk i alternativkatalogen "
+"och I<altern> är alternativet som introduceras för huvudlänken. Argumenten "
+"efter B<--slave> är det generiska namnet, namnet på den symboliska länken i "
+"alternativkatalogen och alternativet för slavlänken. Noll eller flera B<--slave>-"
+"flaggor kan anges, där alla följs av tre argument."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:230
@@ -10552,12 +10602,20 @@ msgid ""
 "for this group, the symlinks will be updated to point to the newly added "
 "alternatives."
 msgstr ""
+"Om den huvudsakliga symboliska länken redan finns i alternativsystemets "
+"databas kommer informationen som anges att läggas in som en ny "
+"uppsättning av alternativ för gruppen. Om inte kommer en ny grupp, "
+"inställd på automatiskt läge, att läggas till med given information. Om "
+"gruppen är i automatiskt läge och det alternativ som läggs in har högre "
+"prioritet än alla andra installerade alternativ för gruppen kommer de "
+"symboliska länkarna att uppdateras så att de pekar på de nyligen "
+"tillagda alternativen."
 
 # type: TP
 #: ../../man/update-alternatives.8:230
 #, no-wrap
 msgid "B<--set> I<name path>"
-msgstr ""
+msgstr "B<--set> I<namn sökväg>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:239
@@ -10565,12 +10623,14 @@ msgid ""
 "Set the program I<path> as alternative for I<name.> This is equivalent to "
 "I<--config> but is non-interactive and thus scriptable."
 msgstr ""
+"Sätt programmet I<sökväg> som ett alternativ till I<namn>. Detta motsvarar "
+"I<--config> men är icke-interaktivt och kan därmed användas i ett skript."
 
 # type: TP
 #: ../../man/update-alternatives.8:239
 #, no-wrap
 msgid "B<--remove> I<name path>"
-msgstr ""
+msgstr "B<--remove> I<namn sökväg>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:259
@@ -10584,6 +10644,15 @@ msgid ""
 "pointing to I<path>, no links are changed; only the information about the "
 "alternative is removed."
 msgstr ""
+"Ta bort ett alternativ och alla dess anknutna slavlänkar. I<namn> är ett "
+"namn i alternativkatalogen och I<sökväg> är ett absolut filnamn till "
+"vilket I<namn> kunde länkas. Om I<namn> faktiskt är länkat till "
+"I<sökväg> kommer I<namn> att uppdateras till att peka på ett annat "
+"lämpligt alternativ, eller att tas bort om det inte finns något alternativ "
+"kvar. Anknutna slavlänkar kommer uppdateras eller tas bort på "
+"motsvarande vis. Om länken inte för tillfället pekar på I<sökväg> kommer "
+"inga länkar att uppdateras utan bara informationen om alternativet "
+"att tas bort."
 
 # type: TP
 #: ../../man/update-alternatives.8:259
@@ -10597,6 +10666,8 @@ msgid ""
 "Remove all alternatives and all of their associated slave links.  I<name> is "
 "a name in the alternatives directory."
 msgstr ""
+"Tar bort alla alternativ och alla deras anslutna slavlänkar. I<namn> är "
+"ett namn i alternativkatalogen."
 
 # type: TP
 #: ../../man/update-alternatives.8:264
@@ -10607,7 +10678,7 @@ msgstr "B<--all>"
 # type: Plain text
 #: ../../man/update-alternatives.8:267
 msgid "Call B<--config> on all alternatives."
-msgstr ""
+msgstr "Anropa B<--config> på alla alternativ."
 
 # type: TP
 #: ../../man/update-alternatives.8:267
@@ -10622,6 +10693,9 @@ msgid ""
 "symlink and its slaves are updated to point to the highest priority "
 "installed alternatives."
 msgstr ""
+"Ställ in den huvudsakliga symboliska länken till automatiskt läge. Detta "
+"får till följd att den symboliska länken och dess slavar uppdateras till att "
+"peka på det högst prioriterade installerade alternativet."
 
 # type: TP
 #: ../../man/update-alternatives.8:274
@@ -10638,6 +10712,11 @@ msgid ""
 "are available (and their corresponding slave alternatives), and the highest "
 "priority alternative currently installed."
 msgstr ""
+"Visa information om länkgruppen i vilken I<länk> är huvudlänken. Information "
+"som visas är gruppens läge (automatiskt eller manuellt), vilket alternativ "
+"den symboliska länken just nu pekar på, vilka andra alternativ som är "
+"tillgängliga (och deras motsvarande slavalternativ), samt det högst "
+"prioriterade alternativ som för närvarande är installerat."
 
 # type: TP
 #: ../../man/update-alternatives.8:285
@@ -10648,7 +10727,7 @@ msgstr "B<--list> I<länk>"
 # type: Plain text
 #: ../../man/update-alternatives.8:288
 msgid "Display all targets of the link group."
-msgstr ""
+msgstr "Visar alla mål för länkgruppen."
 
 # type: TP
 #: ../../man/update-alternatives.8:288
@@ -10663,6 +10742,9 @@ msgid ""
 "interactively select which one to use. The link group is updated and taken "
 "out of I<auto> mode."
 msgstr ""
+"Visa tillgängliga alternativ för en länkgrupp och låt användaren att "
+"interaktivt välja vilken som skall användas. Länkgruppen uppdateras och "
+"tas ut ur det I<automatiska> läget."
 
 # type: TP
 #: ../../man/update-alternatives.8:303
@@ -10676,6 +10758,7 @@ msgid ""
 "Specifies the alternatives directory, when this is to be different from the "
 "default."
 msgstr ""
+"Anger alternativkatalogen om detta inte skall vara standardvärdet."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:311
@@ -10683,6 +10766,7 @@ msgid ""
 "Specifies the administrative directory, when this is to be different from "
 "the default."
 msgstr ""
+"Anger den administrativa katalogen om detta inte skall vara standardvärdet."
 
 # type: TP
 #: ../../man/update-alternatives.8:311
@@ -10693,7 +10777,7 @@ msgstr "B<--verbose>"
 # type: Plain text
 #: ../../man/update-alternatives.8:316
 msgid "Generate more comments about what B<update-alternatives> is doing."
-msgstr ""
+msgstr "Visa fler kommentarer om vad B<update-alternatives> gör."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:320
@@ -10701,6 +10785,8 @@ msgid ""
 "Don't generate any comments unless errors occur.  This option is not yet "
 "implemented."
 msgstr ""
+"Skriv inte några kommentarer såvida det inte uppstår ett fel. Denna flagga "
+"har ännu inte implementerats."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:324
@@ -10708,12 +10794,14 @@ msgid ""
 "Don't actually do anything, just say what would be done.  This option is not "
 "yet implemented."
 msgstr ""
+"Gör ingenting, utan visa bara vad som skulle ha gjorts. Denna flagga "
+"har ännu inte implementerats."
 
 # type: TP
 #: ../../man/update-alternatives.8:326
 #, no-wrap
 msgid "I</etc/alternatives/>"
-msgstr ""
+msgstr "I</etc/alternatives/>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:332
@@ -10721,6 +10809,7 @@ msgid ""
 "The default alternatives directory.  Can be overridden by the B<--altdir> "
 "option."
 msgstr ""
+"Den förvalda alternativkatalogen. Kan överstyras med flaggan B<--altdir>."
 
 # type: TP
 #: ../../man/update-alternatives.8:332
@@ -10734,23 +10823,25 @@ msgid ""
 "The default administration directory.  Can be overridden by the B<--"
 "admindir> option."
 msgstr ""
+"Den förvalda administrativa katalogen. Kan överstyras med flaggan "
+"B<--admindir>."
 
 # type: IP
 #: ../../man/update-alternatives.8:340
 #, no-wrap
 msgid "0"
-msgstr ""
+msgstr "0"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:342
 msgid "The requested action was successfully performed."
-msgstr ""
+msgstr "Den önskade funktionen utfördes utan fel."
 
 # type: IP
 #: ../../man/update-alternatives.8:342
 #, no-wrap
 msgid "2"
-msgstr ""
+msgstr "2"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:345
@@ -10758,6 +10849,8 @@ msgid ""
 "Problems were encountered whilst parsing the command line or performing the "
 "action."
 msgstr ""
+"Problem uppstod vid tolkning av kommandoraden eller när funktionen "
+"skulle utföras."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:355
@@ -10768,6 +10861,11 @@ msgid ""
 "2.  These diagnostics should be self-explanatory; if you do not find them "
 "so, please report this as a bug."
 msgstr ""
+"B<update-alternatives> beskriver i det oändliga vad det gör på dess "
+"standard ut-kanal. Om ett fel uppstår skriver B<update-alternatives> ut "
+"felmeddelanden på sin standard fel-kanal och avslutar med felkoden 2. "
+"Denna diagnostik bör vara självförklarande, sänd in en felrapport om du "
+"inte tycker att den är det."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:361
@@ -10777,6 +10875,10 @@ msgid ""
 "link group B<vi>, which includes links for the program itself and the "
 "associated manpage."
 msgstr ""
+"Det är flera paket som tillhandahåler en textredigerare kompatibel med "
+"B<vi>, till exempel B<nvi> och B<vim>. Vilken bestäms via länkgruppen "
+"B<vi>, vilken innehåller länkar både för själva programmet och dessa "
+"anknutna manualsida."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:364
@@ -10784,11 +10886,13 @@ msgid ""
 "To display the available packages which provide B<vi> and the current "
 "setting for it, use the I<--display> action:"
 msgstr ""
+"För att visa vilka tillgängliga paket som tillhandahåller B<vi>, samt dess "
+"aktuella inställning, använd kommandot I<--display>:"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:367
 msgid "B<update-alternatives --display vi>"
-msgstr ""
+msgstr "B<update-alternatives --display vi>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:371
@@ -10796,11 +10900,13 @@ msgid ""
 "To choose a particular B<vi> implementation, use this command as root and "
 "then select a number from the list:"
 msgstr ""
+"För att välja en specifik implementation av B<vi>, utför detta kommando som root "
+"och välj sedan ett tal från listan:"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:374
 msgid "B<update-alternatives --config vi>"
-msgstr ""
+msgstr "B<update-alternatives --config vi>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:378
@@ -10808,11 +10914,13 @@ msgid ""
 "To go back to having the B<vi> implementation chosen automatically, do this "
 "as root:"
 msgstr ""
+"För att återgå till att B<vi>-implementationen väljs automatiskt, utför detta "
+"som root:"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:381
 msgid "B<update-alternatives --auto vi>"
-msgstr ""
+msgstr "B<update-alternatives --auto vi>"
 
 # type: Plain text
 #: ../../man/update-alternatives.8:386
@@ -10820,6 +10928,8 @@ msgid ""
 "If you find a bug, please report it using the Debian bug-tracking system, "
 "or, if that is not possible, email the author directly."
 msgstr ""
+"Om du hittar ett fel ber vi dig rapportera det via Debians felrapporteringssystem, "
+"eller, om det inte är möjligt, sända e-post direkt till författaren."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:391
@@ -10828,11 +10938,14 @@ msgid ""
 "and this manual page, it is a bug, either in the implementation or the "
 "documentation; please report it."
 msgstr ""
+"Om du hittar några diskrepanser mellan vad B<update-alternatives> gör "
+"och vad som står i manualsidan så är detta ett fel, antingen i "
+"implementationen eller i dokumentationen; rapportera det."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:399
 msgid "This manual page is copyright 1997,1998 Charles Briscoe-Smith."
-msgstr ""
+msgstr "Manualsidan är upphovsrättsskyddad © 1997,1998 Charles Briscoe-Smith."
 
 # type: Plain text
 #: ../../man/update-alternatives.8:402
@@ -10846,5 +10959,5 @@ msgstr ""
 # type: Plain text
 #: ../../man/update-alternatives.8:405
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
-msgstr ""
+msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 
