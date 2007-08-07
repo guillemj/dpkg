@@ -196,6 +196,10 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
    * before a package is unpacked, when it is sufficient for the package
    * to be unpacked provided that both the unpacked and previously-configured
    * versions are acceptable.
+   * On 0 return (`not OK'), *canfixbyremove refers to a package which
+   * if removed (dep_conflicts) or deconfigured (dep_breaks) will fix
+   * the problem.  Caller may pass 0 for canfixbyremove and need not
+   * initialise *canfixbyremove.
    */
   struct deppossi *possi;
   struct deppossi *provider;
@@ -213,6 +217,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
 	 dep->type == dep_recommends || dep->type == dep_suggests ||
 	 dep->type == dep_enhances);
   
+  if (canfixbyremove) *canfixbyremove= 0;
+
   /* The dependency is always OK if we're trying to remove the depend*ing*
    * package.
    */
@@ -380,12 +386,11 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       }
     }
 
-    if (canfixbyremove) *canfixbyremove= 0;
     return 0;
 
   } else {
     
-    /* It's a conflict.  There's only one main alternative,
+    /* It's conflicts or breaks.  There's only one main alternative,
      * but we also have to consider Providers.  We return `0' as soon
      * as we find something that matches the conflict, and only describe
      * it then.  If we get to the end without finding anything we return `1'.
@@ -395,9 +400,10 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
     nconflicts= 0;
 
     if (possi->ed != possi->up->up) {
-      /* If the package conflicts with itself it must mean that it conflicts
-       * with other packages which provide the same virtual name.  We therefore
-       * don't look at the real package and go on to the virtual ones.
+      /* If the package conflicts with or breaks itself it must mean
+       * other packages which provide the same virtual name.  We
+       * therefore don't look at the real package and go on to the
+       * virtual ones.
        */
       
       switch (possi->ed->clientdata->istobe) {
@@ -413,11 +419,17 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         nconflicts++;
         *canfixbyremove= possi->ed;
         break;
-      case itb_normal: case itb_deconfigure: case itb_preinstall:
+      case itb_deconfigure:
+        if (dep->type == dep_breaks) break; /* already deconfiguring this */
+        /* fall through */
+      case itb_normal: case itb_preinstall:
         switch (possi->ed->status) {
         case stat_notinstalled: case stat_configfiles:
           break;
-        default:
+        case stat_halfinstalled: case stat_unpacked:
+        case stat_halfconfigured:
+          if (dep->type == dep_breaks) break; /* no problem */
+        case stat_installed:
           if (!versionsatisfied(&possi->ed->installed, possi)) break;
           sprintf(linebuf, _("  %.250s (version %.250s) is %s.\n"),
                   possi->ed->name,
@@ -470,11 +482,16 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           continue; 
         case itb_remove:
           continue;
-        case itb_normal: case itb_deconfigure: case itb_preinstall:
+        case itb_deconfigure:
+          if (dep->type == dep_breaks) continue; /* already deconfiguring */
+        case itb_normal: case itb_preinstall:
           switch (provider->up->up->status) {
           case stat_notinstalled: case stat_configfiles:
             continue;
-          default:
+          case stat_halfinstalled: case stat_unpacked:
+          case stat_halfconfigured:
+            if (dep->type == dep_breaks) break; /* no problem */
+          case stat_installed:
             sprintf(linebuf, _("  %.250s provides %.250s and is %s.\n"),
                     provider->up->up->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));

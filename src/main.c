@@ -154,7 +154,7 @@ unsigned long f_debug=0;
 /* Change fc_overwrite to 1 to enable force-overwrite by default */
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
 int fc_removeessential=0, fc_conflicts=0, fc_depends=0, fc_dependsversion=0;
-int fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
+int fc_breaks=0, fc_badpath=0, fc_overwritediverted=0, fc_architecture=0;
 int fc_nonroot=0, fc_overwritedir=0, fc_conff_new=0, fc_conff_miss=0;
 int fc_conff_old=0, fc_conff_def=0;
 int fc_badverify = 0;
@@ -180,6 +180,7 @@ static const struct forceinfo {
   { "confmiss",            &fc_conff_miss               },
   { "depends",             &fc_depends                  },
   { "depends-version",     &fc_dependsversion           },
+  { "breaks",              &fc_breaks                   },
   { "bad-path",            &fc_badpath                  },
   { "not-root",            &fc_nonroot                  },
   { "overwrite",           &fc_overwrite                },

@@ -26,7 +26,7 @@ our %substvar;      # - map with substitution variables
 my $parsechangelog = 'dpkg-parsechangelog';
 
 our @pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
-                         Conflicts Replaces Provides);
+                         Conflicts Breaks Replaces Provides);
 our @src_dep_fields = qw(Build-Depends Build-Depends-Indep
                          Build-Conflicts Build-Conflicts-Indep);
 

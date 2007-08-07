@@ -46,6 +46,7 @@ struct perpackagestate {
 struct packageinlist {
   struct packageinlist *next;
   struct pkginfo *pkg;
+  void *xinfo;
 };
 
 enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
@@ -86,7 +87,7 @@ extern int f_autodeconf, f_largemem, f_nodebsig;
 extern unsigned long f_debug;
 extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
 extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
-extern int fc_badpath, fc_overwritediverted, fc_architecture;
+extern int fc_breaks, fc_badpath, fc_overwritediverted, fc_architecture;
 extern int fc_nonroot, fc_overwritedir, fc_conff_new, fc_conff_miss;
 extern int fc_conff_old, fc_conff_def;
 extern int fc_badverify;
@@ -150,7 +151,8 @@ void packages(const char *const *argv);
 void removal_bulk(struct pkginfo *pkg);
 int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in);
 int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
-                    struct varbuf *aemsgs);
+                    struct varbuf *aemsgs); /* checks [Pre]-Depends only */
+int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
 
 void deferred_remove(struct pkginfo *pkg);
 void deferred_configure(struct pkginfo *pkg);
@@ -177,6 +179,7 @@ void cu_closedir(int argc, void **argv);
 void cu_closefd(int argc, void **argv);
 
 int ignore_depends(struct pkginfo *pkg);
+int force_breaks(struct deppossi *possi);
 int force_depends(struct deppossi *possi);
 int force_conff_new(struct deppossi *possi);
 int force_conff_miss(struct deppossi *possi);

@@ -339,6 +339,79 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
   }
 }
 
+static void breaks_check_one(struct varbuf *aemsgs, int *ok,
+                             struct deppossi *breaks,
+                             struct pkginfo *broken,
+                             struct pkginfo *breaker,
+                             struct pkginfo *virtbroken) {
+  struct varbuf depmsg;
+
+  debug(dbg_depcondetail, "      checking breaker %s virtbroken %s",
+        breaker->name, virtbroken ? virtbroken->name : "<none>");
+
+  if (breaker->status == stat_notinstalled ||
+      breaker->status == stat_configfiles) return;
+  if (broken == breaker) return;
+  if (!versionsatisfied(&broken->installed, breaks)) return;
+  if (ignore_depends(breaker)) return;
+  if (virtbroken && ignore_depends(virtbroken)) return;
+
+  varbufinit(&depmsg);
+  varbufdependency(&depmsg, breaks->up);
+  varbufaddc(&depmsg, 0);
+  varbufprintf(aemsgs, _(" %s (%s) breaks %s and is %s.\n"),
+               breaker->name,
+               versiondescribe(&breaker->installed.version, vdew_nonambig),
+               depmsg.buf,
+               gettext(statusstrings[breaker->status]));
+  varbuffree(&depmsg);
+
+  if (virtbroken) {
+    varbufprintf(aemsgs, _("  %s (%s) provides %s.\n"),
+                 broken->name,
+                 versiondescribe(&broken->installed.version, vdew_nonambig),
+                 virtbroken->name);
+  } else if (breaks->verrel != dvr_none) {
+    varbufprintf(aemsgs, _("  Version of %s to be configured is %s.\n"),
+                 broken->name,
+                 versiondescribe(&broken->installed.version, vdew_nonambig));
+    if (fc_dependsversion) return;
+  }
+  if (force_breaks(breaks)) return;
+  *ok= 0;
+}
+
+void breaks_check_target(struct varbuf *aemsgs, int *ok,
+                         struct pkginfo *broken,
+                         struct pkginfo *target,
+                         struct pkginfo *virtbroken) {
+  struct deppossi *possi;
+
+  for (possi= target->installed.depended; possi; possi= possi->nextrev) {
+    if (possi->up->type != dep_breaks) continue;
+    if (virtbroken && possi->verrel != dvr_none) continue;
+    breaks_check_one(aemsgs, ok, possi, broken, possi->up->up, virtbroken);
+  }
+}
+
+int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs) {
+  struct dependency *dep;
+  struct pkginfo *virtbroken;
+  int ok= 2;
+
+  debug(dbg_depcon, "    checking Breaks");
+
+  breaks_check_target(aemsgs, &ok, pkg, pkg, 0);
+
+  for (dep= pkg->installed.depends; dep; dep= dep->next) {
+    if (dep->type != dep_provides) continue;
+    virtbroken= dep->list->ed;
+    debug(dbg_depcondetail, "     checking virtbroken %s", virtbroken->name);
+    breaks_check_target(aemsgs, &ok, pkg, virtbroken, virtbroken);
+  }
+  return ok;
+}
+
 int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
                     struct varbuf *aemsgs) {
   int ok, matched, found, thisf, interestingwarnings;

@@ -780,39 +780,121 @@ int tarobject(struct TarInfo *ti) {
   return 0;
 }
 
-static int try_remove_can(struct deppossi *pdep,
-                          struct pkginfo *fixbyrm,
+static int try_deconfigure_can(int (*force_p)(struct deppossi*),
+                               struct pkginfo *pkg,
+                               struct deppossi *pdep,
+                               const char *action,
+                               struct pkginfo *removal,
                           const char *why) {
+  /* Also checks whether the pdep is forced, first, according to force_p.
+   * force_p may be 0 in which case nothing is considered forced.
+   *
+   * Action is a string describing the action which causes the
+   * deconfiguration:
+   *     removal of <package>         (due to Conflicts+Depends   removal!=0)
+   *     installation of <package>    (due to Breaks              removal==0)
+   *
+   * Return values:  2: forced (no deconfiguration needed, why is printed)
+   *                 1: deconfiguration queued ok (no message printed)
+   *                 0: not possible (why is printed)
+   */
   struct packageinlist *newdeconf;
   
-  if (force_depends(pdep)) {
+  if (force_p && force_p(pdep)) {
     fprintf(stderr, _("dpkg: warning - "
-            "ignoring dependency problem with removal of %s:\n%s"),
-            fixbyrm->name, why);
-    return 1;
+                      "ignoring dependency problem with %s:\n%s"),
+            action, why);
+    return 2;
   } else if (f_autodeconf) {
-    if (pdep->up->up->installed.essential) {
+    if (pkg->installed.essential) {
       if (fc_removeessential) {
         fprintf(stderr, _("dpkg: warning - considering deconfiguration of essential\n"
-                " package %s, to enable removal of %s.\n"),
-                pdep->up->up->name,fixbyrm->name);
+                          " package %s, to enable %s.\n"),
+                pkg->name, action);
       } else {
         fprintf(stderr, _("dpkg: no, %s is essential, will not deconfigure\n"
-                " it in order to enable removal of %s.\n"),
-                pdep->up->up->name,fixbyrm->name);
+                          " it in order to enable %s.\n"),
+                pkg->name, action);
         return 0;
       }
     }
-    pdep->up->up->clientdata->istobe= itb_deconfigure;
+    pkg->clientdata->istobe= itb_deconfigure;
     newdeconf= malloc(sizeof(struct packageinlist));
     newdeconf->next= deconfigure;
-    newdeconf->pkg= pdep->up->up;
+    newdeconf->pkg= pkg;
+    newdeconf->xinfo= removal;
     deconfigure= newdeconf;
     return 1;
   } else {
-    fprintf(stderr, _("dpkg: no, cannot remove %s (--auto-deconfigure will help):\n%s"),
-            fixbyrm->name, why);
+    fprintf(stderr, _("dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n%s"),
+            action, why);
     return 0;
+  }
+}
+
+static int try_remove_can(struct deppossi *pdep,
+                          struct pkginfo *fixbyrm,
+                          const char *why) {
+  char action[512];
+  sprintf(action, _("removal of %.250s"), fixbyrm->name);
+  return try_deconfigure_can(force_depends, pdep->up->up, pdep,
+                             action, fixbyrm, why);
+}
+
+void check_breaks(struct dependency *dep, struct pkginfo *pkg,
+                  const char *pfilename) {
+  struct pkginfo *fixbydeconf;
+  struct varbuf why;
+  int ok;
+
+  varbufinit(&why);
+
+  fixbydeconf= 0;
+  if (depisok(dep, &why, &fixbydeconf, 0)) {
+    varbuffree(&why);
+    return;
+  }
+
+  varbufaddc(&why, 0);
+
+  if (fixbydeconf && f_autodeconf) {
+    char action[512];
+
+    ensure_package_clientdata(fixbydeconf);
+    assert(fixbydeconf->clientdata->istobe == itb_normal);
+
+    sprintf(action, _("installation of %.250s"), pkg->name);
+    fprintf(stderr, _("dpkg: considering deconfiguration of %s,"
+                      " which would be broken by %s ...\n"),
+            fixbydeconf->name, action);
+
+    ok= try_deconfigure_can(force_breaks, fixbydeconf, dep->list,
+                            action, 0, why.buf);
+    if (ok == 1) {
+      fprintf(stderr, _("dpkg: yes, will deconfigure %s (broken by %s).\n"),
+              fixbydeconf->name, pkg->name);
+    }
+  } else {
+    fprintf(stderr, _("dpkg: regarding %s containing %s:\n%s"),
+            pfilename, pkg->name, why.buf);
+    ok= 0;
+  }
+  varbuffree(&why);
+  if (ok > 0) return;
+
+  if (force_breaks(dep->list)) {
+    fprintf(stderr, _("dpkg: warning - ignoring breakage,"
+                      " may proceed anyway !\n"));
+    return;
+  }
+
+  if (fixbydeconf && !f_autodeconf) {
+    ohshit(_("installing %.250s would break %.250s, and\n"
+             " deconfiguration is not permitted (--auto-deconfigure might help)"),
+           pkg->name, fixbydeconf->name);
+  } else {
+    ohshit(_("installing %.250s would break existing software"),
+           pkg->name);
   }
 }
 

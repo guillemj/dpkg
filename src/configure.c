@@ -108,7 +108,9 @@ void deferred_configure(struct pkginfo *pkg) {
 		pkg->clientdata->istobe= itb_installnew;
 		add_to_queue(pkg);
 		return;
-	} else if (ok == 0) {
+	}
+	ok = breakses_ok(pkg, &aemsgs) ? ok : 0;
+	if (ok == 0) {
 		sincenothing= 0;
 		varbufaddc(&aemsgs,0);
 		fprintf(stderr,

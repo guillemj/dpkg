@@ -1,3 +1,40 @@
+2007-08-07  Ian Jackson  <iwj@ubuntu.com>
+
+	* man/deb-control.5: Document Breaks field.
+	* man/dpkg-query.1: Document Breaks as a recognized field.
+	* man/dpkg.1: Add description of '--force-breaks'.
+	* scripts/controllib.pl (@pkg_dep_fields): Add 'Breaks'.
+	* scripts/dpkg-genchanges.pl: Ignore Breaks field.
+	* scripts/dpkg-source.pl: Likewise.
+	* src/archives.c (try_remove_can): Rename to ...
+	(try_deconfigure_can): ... this. Generalize dependency force check
+	by taking a function as argument. Store the possible package removal
+	which caused the deconfiguration in the xinfo member of the package
+	to be deconfigured.
+	(try_remove_can): New function.
+	(check_breaks): Likewise.
+	* src/archives.h (check_breaks): New prototype.
+	* src/cleanup.c (cu_prermdeconfigure): Handle case when argv[1]
+	might be 0, if deconfigure was due to Breaks.
+	* src/configure.c (deferred_configure): Call breakses_ok.
+	* src/depcon.c (depisok): Add Breaks support.
+	* src/help.c (force_breaks): New function.
+	* src/main.c (fc_breaks): New variable.
+	(forceinfo): Add 'breaks' as a supported option for '--force-...'.
+	* src/main.h (struct perpackagestate): Add xinfo member.
+	(fc_breaks): New variable definition.
+	(breakses_ok): New prototype.
+	(force_depends): Likewise.
+	* src/packages.c (breaks_check_one): New function.
+	(breaks_check_target): Likewise.
+	(breakses_ok): Likewise.
+	* src/processarc.c (process_archive): Check for Breaks dependencies,
+	instead of bailing out if field found. Distinguish between deconfigure
+	due to a removal due to Conflicts or Depends, and deconfigure due to
+	an installation due to Breaks. Run the deconfiguration of each
+	package to be deconfigured once, instead of once per each conflicting
+	package being removed.
+
 2007-07-31  Ian Jackson  <iwj@ubuntu.com>
 
 	* src/archives.c (quote_filename): Change formatting to match the

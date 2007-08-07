@@ -120,7 +120,8 @@ void cu_prermupgrade(int argc, void **argv) {
 
 void ok_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
-  /* also has conflictor in argv[1] and infavour in argv[2] */
+  /* also has conflictor in argv[1] and infavour in argv[2].
+   * conflictor may be 0 if deconfigure was due to Breaks */
   
   if (cipaction->arg == act_install)
     add_to_queue(deconf);
@@ -128,16 +129,17 @@ void ok_prermdeconfigure(int argc, void **argv) {
 
 void cu_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *deconf= (struct pkginfo*)argv[0];
-  struct pkginfo *conflictor= (struct pkginfo*)argv[1];
+  struct pkginfo *conflictor= (struct pkginfo*)argv[1]; /* may be 0 */
   struct pkginfo *infavour= (struct pkginfo*)argv[2];
 
   maintainer_script_installed(deconf,POSTINSTFILE,"post-installation",
                               "abort-deconfigure", "in-favour", infavour->name,
                               versiondescribe(&infavour->available.version,
                                               vdew_nonambig),
-                              "removing", conflictor->name,
-                              versiondescribe(&conflictor->installed.version,
-                                              vdew_nonambig),
+                              conflictor ? "removing" : (char*)0,
+                              conflictor ? conflictor->name : (char*)0,
+                              conflictor ? versiondescribe(&conflictor->installed.version,
+                                                           vdew_nonambig) : (char*)0,
                               (char*)0);
   deconf->status= stat_installed;
   modstatdb_note(deconf);

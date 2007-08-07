@@ -241,6 +241,10 @@ void process_archive(const char *filename) {
       /* Look for things we conflict with. */
       check_conflict(dsearch, pkg, pfilename);
       break;
+    case dep_breaks:
+      /* Look for things we break. */
+      check_breaks(dsearch, pkg, pfilename);
+      break;
     case dep_provides:
       /* Look for things that conflict with what we provide. */
       if (dsearch->list->ed->installed.valid) {
@@ -251,16 +255,6 @@ void process_archive(const char *filename) {
           check_conflict(psearch->up, pkg, pfilename);
         }
       }
-      break;
-    case dep_breaks:
-      fprintf(stderr, _("dpkg: regarding %s containing %s:\n"
-			" package uses Breaks; not supported in this dpkg\n"),
-	      pfilename, pkg->name);
-      if (!force_depends(dsearch->list))
-	ohshit(_("unsupported dependency problem - not installing %.250s"),
-	       pkg->name);
-      fprintf(stderr, _("dpkg: warning - ignoring Breaks !\n"));
-      /* FIXME: implement Breaks */
       break;
     case dep_suggests:
     case dep_recommends:
@@ -404,12 +398,14 @@ void process_archive(const char *filename) {
     modstatdb_note(pkg);
   }
 
-  for (i = 0 ; i < cflict_index ; i++) {
-    if (!(conflictor[i]->status == stat_halfconfigured ||
-	  conflictor[i]->status == stat_installed)) continue;
     for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
-      printf(_("De-configuring %s, so that we can remove %s ...\n"),
-             deconpil->pkg->name, conflictor[i]->name);
+      struct pkginfo *removing= deconpil->xinfo;
+
+      printf(removing ?
+             _("De-configuring %s, to allow removal of %s ...\n") :
+             _("De-configuring %s ...\n"),
+             deconpil->pkg->name, removing ? removing->name : 0);
+
       deconpil->pkg->status= stat_halfconfigured;
       modstatdb_note(deconpil->pkg);
       /* This means that we *either* go and run postinst abort-deconfigure,
@@ -419,16 +415,21 @@ void process_archive(const char *filename) {
       push_cleanup(cu_prermdeconfigure,~ehflag_normaltidy,
                    ok_prermdeconfigure,ehflag_normaltidy,
                    3,(void*)deconpil->pkg,
-		   (void*)conflictor[i],(void*)pkg);
+                   (void*)removing, (void*)pkg);
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
                                   "deconfigure", "in-favour", pkg->name,
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
-                                  "removing", conflictor[i]->name,
-                                  versiondescribe(&conflictor[i]->installed.version,
-                                                  vdew_nonambig),
+                                  removing ? "removing" : (char*)0,
+                                  removing ? removing->name : (char*)0,
+                                  removing ? versiondescribe(&removing->installed.version,
+                                                             vdew_nonambig) : (char*)0,
                                   (char*)0);
     }
+
+  for (i = 0 ; i < cflict_index; i++) {
+    if (!(conflictor[i]->status == stat_halfconfigured ||
+          conflictor[i]->status == stat_installed)) continue;
     conflictor[i]->status= stat_halfconfigured;
     modstatdb_note(conflictor[i]);
     push_cleanup(cu_prerminfavour,~ehflag_normaltidy, 0,0,
