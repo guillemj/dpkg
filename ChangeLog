@@ -1,3 +1,13 @@
+2007-08-07  Guillem Jover  <guillem@debian.org>
+
+	* src/query.c (listpackages): Instead of allocating an additional
+	packages array with room for the the current amount of packages,
+	sort the existing one, and print the packages matching the pattern,
+	which fixes segfaults when the resulting array was bigger than the
+	current amount of packages.
+	(showpackages): For each package show it only once it matches any
+	of the patterns, so we avoid duplicated results.
+
 2007-08-07  Ian Jackson  <iwj@ubuntu.com>
 
 	* man/deb-control.5: Document Breaks field.

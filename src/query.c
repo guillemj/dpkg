@@ -183,9 +183,8 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
 void listpackages(const char *const *argv) {
   struct pkgiterator *it;
   struct pkginfo *pkg;
-  struct pkginfo **pkgl, **pkgf;
-  const char *thisarg;
-  int np, nf, i, head, found;
+  struct pkginfo **pkgl;
+  int np, i, head;
 
   modstatdb_init(admindir,msdbrw_readonly);
 
@@ -199,32 +198,42 @@ void listpackages(const char *const *argv) {
   iterpkgend(it);
   assert(i==np);
 
-  pkgf= m_malloc(sizeof(struct pkginfo*)*np); nf=0;
+  qsort(pkgl, np, sizeof(struct pkginfo*), pkglistqsortcmp);
+  head = 0;
+
   if (!*argv) {
     for (i=0; i<np; i++) {
       pkg= pkgl[i];
       if (pkg->status == stat_notinstalled) continue;
-      pkgf[nf++] = pkg;
+      list1package(pkg, &head, pkgl, np);
     }
   } else {
-    while ((thisarg= *argv++)) {
-      found= 0;
-      for (i=0; i<np; i++) {
-        pkg= pkgl[i];
-        if (fnmatch(thisarg,pkg->name,0)) continue;
-	pkgf[nf++] = pkg; found++;
+    int argc, ip, *found;
+
+    for (argc = 0; argv[argc]; argc++);
+    found = m_malloc(sizeof(int) * argc);
+    memset(found, 0, sizeof(int) * argc);
+
+    for (i = 0; i < np; i++) {
+      pkg = pkgl[i];
+      for (ip = 0; ip < argc; ip++) {
+        if (!fnmatch(argv[ip], pkg->name, 0)) {
+          list1package(pkg, &head, pkgl, np);
+          found[ip]++;
+          break;
+        }
       }
-      if (!found) {
-        fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
-	nerrs++;
+    }
+
+    /* FIXME: we might get non-matching messages for sub-patterns specified
+     * after their super-patterns, due to us skipping on first match. */
+    for (ip = 0; ip < argc; ip++) {
+      if (!found[ip]) {
+        fprintf(stderr, _("No packages found matching %s.\n"), argv[ip]);
+        nerrs++;
       }
     }
   }
-
-  qsort(pkgf,nf,sizeof(struct pkginfo*),pkglistqsortcmp);
-  head=0;
-  for (i=0; i<nf; i++)
-    list1package(pkgf[i],&head,pkgf,nf);
 
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");  
@@ -412,8 +421,7 @@ void showpackages(const char *const *argv) {
   struct pkgiterator *it;
   struct pkginfo *pkg;
   struct pkginfo **pkgl;
-  const char *thisarg;
-  int np, i, found;
+  int np, i;
   struct lstitem* fmt = parseformat(showformat);
 
   if (!fmt) {
@@ -442,19 +450,33 @@ void showpackages(const char *const *argv) {
       show1package(fmt,pkg);
     }
   } else {
-    while ((thisarg= *argv++)) {
-      found= 0;
-      for (i=0; i<np; i++) {
-        pkg= pkgl[i];
-        if (fnmatch(thisarg,pkg->name,0)) continue;
-        show1package(fmt,pkg); found++;
+    int argc, ip, *found;
+
+    for (argc = 0; argv[argc]; argc++);
+    found = m_malloc(sizeof(int) * argc);
+    memset(found, 0, sizeof(int) * argc);
+
+    for (i = 0; i < np; i++) {
+      pkg = pkgl[i];
+      for (ip = 0; ip < argc; ip++) {
+        if (!fnmatch(argv[ip], pkg->name, 0)) {
+          show1package(fmt, pkg);
+          found[ip]++;
+          break;
+        }
       }
-      if (!found) {
-        fprintf(stderr,_("No packages found matching %s.\n"),thisarg);
-	nerrs++;
+    }
+
+    /* FIXME: we might get non-matching messages for sub-patterns specified
+     * after their super-patterns, due to us skipping on first match. */
+    for (ip = 0; ip < argc; ip++) {
+      if (!found[ip]) {
+        fprintf(stderr, _("No packages found matching %s.\n"), argv[ip]);
+        nerrs++;
       }
     }
   }
+
   if (ferror(stdout)) werr("stdout");
   if (ferror(stderr)) werr("stderr");  
   freeformat(fmt);
