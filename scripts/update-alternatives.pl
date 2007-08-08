@@ -584,21 +584,6 @@ if ($mode eq 'auto') {
     for (my $j = 0; $j <= $#slavenames; $j++) {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];
-
-	$linkname = readlink($slink);
-	if (!defined($linkname) && $! != ENOENT) {
-            &pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
-                " %s, or nonexistent; however, readlink failed: %s"), $slink, "$altdir/$sname", $!))
-		if $verbosemode > 0;
-	} elsif (!defined($linkname) ||
-		 (defined($linkname) && $linkname ne "$altdir/$sname")) {
-            unlink("$slink.dpkg-tmp") || $! == &ENOENT ||
-                &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$slink.dpkg-tmp", $!));
-            symlink("$altdir/$sname","$slink.dpkg-tmp") ||
-                &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$slink.dpkg-tmp", "$altdir/$sname", $!));
-            rename_mv("$slink.dpkg-tmp",$slink) ||
-                &quit(sprintf(_g("unable to install %s as %s: %s"), "$slink.dpkg-tmp", $slink, $!));
-        }
         $spath= $slavepath{$bestnum,$j};
         unlink("$altdir/$sname.dpkg-tmp") || $! == &ENOENT ||
             &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$altdir/$sname.dpkg-tmp", $!));
@@ -610,6 +595,22 @@ if ($mode eq 'auto') {
 	    unlink("$slink") || $! == &ENOENT ||
 	        &quit(sprintf(_g("unable to remove %s: %s"), $slink, $!));
         } else {
+	    if (!defined($linkname= readlink($slink)) && $! != ENOENT) {
+		pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
+		              " %s, or nonexistent; however, readlink failed: %s"),
+		           $slink, "$altdir/$sname", $!))
+		    if $verbosemode > 0;
+	    } elsif ($linkname ne "$altdir/$sname") {
+		unlink("$slink.dpkg-tmp") || $! == ENOENT ||
+		    quit(sprintf(_g("unable to ensure %s nonexistent: %s"),
+		                 "$slink.dpkg-tmp", $!));
+		symlink("$altdir/$sname","$slink.dpkg-tmp") ||
+		    quit(sprintf(_g("unable to make %s a symlink to %s: %s"),
+		                 "$slink.dpkg-tmp", "$altdir/$sname", $!));
+		rename_mv("$slink.dpkg-tmp",$slink) ||
+		    quit(sprintf(_g("unable to install %s as %s: %s"),
+		                 "$slink.dpkg-tmp", $slink, $!));
+	    }
             if (defined($linkname= readlink("$altdir/$sname")) && $linkname eq $spath) {
                 &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $sname, $slink, $spath))
                   if $verbosemode > 0;
