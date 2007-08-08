@@ -1,5 +1,20 @@
 2007-08-08  Guillem Jover  <guillem@debian.org>
 
+	* dpkg-deb/build.c (do_build): Use NULL instead of '(char *)0'.
+	* dpkg-deb/extract.c (movecontrolfiles, extracthalf): Likewise.
+	* dpkg-deb/info.c (cu_info_prepare, info_prepare): Likewise.
+	* src/cleanup.c (cu_prermupgrade, cu_prermdeconfigure)
+	(cu_prerminfavour, cu_preinstverynew, cu_preinstnew)
+	(cu_preinstupgrade, cu_postrmupgrade, cu_prermremove): Likewise.
+	* src/configure.c (deferred_configure, suspend): Likewise.
+	* src/help.c (maintainer_script_alternative)
+	(ensure_pathname_nonexisting): Likewise.
+	* src/processarc.c (process_archive): Likewise.
+	* src/remove.c (deferred_remove, removal_bulk_remove_files)
+	(removal_bulk_remove_configfiles): Likewise.
+
+2007-08-08  Guillem Jover  <guillem@debian.org>
+
 	* src/cleanup.c (cu_prermdeconfigure): Split call to
 	maintainer_script_installed depending on the conflictor variable.
 	* src/packages.c (dependencies_ok): Remove comment stating that

@@ -303,7 +303,7 @@ void deferred_configure(struct pkginfo *pkg) {
 				? versiondescribe(&pkg->configversion,
 					vdew_nonambig)
 				: "",
-				(char*)0))
+				NULL))
 		putchar('\n');
 
 	pkg->status= stat_installed;
@@ -504,7 +504,7 @@ static void suspend(void) {
 			if (!s || !*s)
 				s=DEFAULTSHELL;
 
-			execlp(s,s,"-i",(char*)0);
+			execlp(s, s, "-i", NULL);
 			ohshite(_("failed to exec shell (%.250s)"),s);
 		}
 

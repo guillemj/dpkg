@@ -111,7 +111,7 @@ void cu_prermupgrade(int argc, void **argv) {
                               "abort-upgrade",
                               versiondescribe(&pkg->available.version,
                                               vdew_nonambig),
-                              (char*)0);
+                              NULL);
   pkg->status= stat_installed;
   pkg->eflag &= ~eflagf_reinstreq;
   modstatdb_note(pkg);
@@ -141,14 +141,14 @@ void cu_prermdeconfigure(int argc, void **argv) {
                                 "removing", conflictor->name,
                                 versiondescribe(&conflictor->installed.version,
                                                 vdew_nonambig),
-                                (char*)0);
+                                NULL);
   } else {
     maintainer_script_installed(deconf, POSTINSTFILE, "post-installation",
                                 "abort-deconfigure",
                                 "in-favour", infavour->name,
                                 versiondescribe(&infavour->available.version,
                                                 vdew_nonambig),
-                                (char*)0);
+                                NULL);
   }
 
   deconf->status= stat_installed;
@@ -164,7 +164,7 @@ void cu_prerminfavour(int argc, void **argv) {
                               "abort-remove", "in-favour", infavour->name,
                               versiondescribe(&infavour->available.version,
                                               vdew_nonambig),
-                              (char*)0);
+                              NULL);
   conflictor->status= stat_installed;
   conflictor->eflag &= ~eflagf_reinstreq;
   modstatdb_note(conflictor);
@@ -178,7 +178,7 @@ void cu_preinstverynew(int argc, void **argv) {
 
   if (cleanup_pkg_failed++) return;
   maintainer_script_new(pkg->name, POSTRMFILE,"post-removal",cidir,cidirrest,
-                        "abort-install",(char*)0);
+                        "abort-install", NULL);
   pkg->status= stat_notinstalled;
   pkg->eflag &= ~eflagf_reinstreq;
   blankpackageperfile(&pkg->installed);
@@ -195,7 +195,7 @@ void cu_preinstnew(int argc, void **argv) {
   maintainer_script_new(pkg->name, POSTRMFILE,"post-removal",cidir,cidirrest,
                         "abort-install", versiondescribe(&pkg->installed.version,
                                                          vdew_nonambig),
-                        (char*)0);
+                        NULL);
   pkg->status= stat_configfiles;
   pkg->eflag &= ~eflagf_reinstreq;
   modstatdb_note(pkg);
@@ -213,7 +213,7 @@ void cu_preinstupgrade(int argc, void **argv) {
                         "abort-upgrade",
                         versiondescribe(&pkg->installed.version,
                                         vdew_nonambig),
-                        (char*)0);
+                        NULL);
   pkg->status= *oldstatusp;
   pkg->eflag &= ~eflagf_reinstreq;
   modstatdb_note(pkg);
@@ -227,7 +227,7 @@ void cu_postrmupgrade(int argc, void **argv) {
   maintainer_script_installed(pkg,PREINSTFILE,"pre-installation",
                               "abort-upgrade", versiondescribe(&pkg->available.version,
                                                                vdew_nonambig),
-                              (char*)0);
+                              NULL);
   cleanup_pkg_failed--;
 }
 
@@ -236,7 +236,7 @@ void cu_prermremove(int argc, void **argv) {
 
   if (cleanup_pkg_failed++) return;
   maintainer_script_installed(pkg,POSTINSTFILE,"post-installation",
-                              "abort-remove", (char*)0);
+                              "abort-remove", NULL);
   pkg->status= stat_installed;
   pkg->eflag &= ~eflagf_reinstreq;
   modstatdb_note(pkg);

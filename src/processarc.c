@@ -113,7 +113,7 @@ void process_archive(const char *filename) {
     push_cleanup(cu_pathname,~0, 0,0, 1,(void*)reasmbuf);
     c1= m_fork();
     if (!c1) {
-      execlp(SPLITTER, SPLITTER,"-Qao",reasmbuf,filename,(char*)0);
+      execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, filename, NULL);
       ohshite(_("failed to exec dpkg-split to see if it's part of a multiparter"));
     }
     while ((r= waitpid(c1,&status,0)) == -1 && errno == EINTR);
@@ -184,7 +184,7 @@ void process_archive(const char *filename) {
   c1= m_fork();
   if (!c1) {
     cidirrest[-1]= 0;
-    execlp(BACKEND, BACKEND,"--control",filename,cidir,(char*)0);
+    execlp(BACKEND, BACKEND, "--control", filename, cidir, NULL);
     ohshite(_("failed to exec dpkg-deb to extract control information"));
   }
   waitsubproc(c1,BACKEND " --control",0);
@@ -426,13 +426,13 @@ void process_archive(const char *filename) {
                                   "removing", removing->name,
                                   versiondescribe(&removing->installed.version,
                                                   vdew_nonambig),
-                                  (char*)0);
+                                  NULL);
     } else {
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
                                   "deconfigure", "in-favour", pkg->name,
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
-                                  (char*)0);
+                                  NULL);
     }
   }
 
@@ -447,7 +447,7 @@ void process_archive(const char *filename) {
                                 "remove", "in-favour", pkg->name,
                                 versiondescribe(&pkg->available.version,
                                                 vdew_nonambig),
-                                (char*)0);
+                                NULL);
     conflictor[i]->status= stat_halfinstalled;
     modstatdb_note(conflictor[i]);
   }
@@ -461,21 +461,21 @@ void process_archive(const char *filename) {
     push_cleanup(cu_preinstverynew,~ehflag_normaltidy, 0,0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
-                          "install", (char*)0);
+                          "install", NULL);
   } else if (oldversionstatus == stat_configfiles) {
     push_cleanup(cu_preinstnew,~ehflag_normaltidy, 0,0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "install", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
-                          (char*)0);
+                          NULL);
   } else {
     push_cleanup(cu_preinstupgrade,~ehflag_normaltidy, 0,0,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
     maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "upgrade", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
-                          (char*)0);
+                          NULL);
     printf(_("Unpacking replacement %.250s ...\n"),pkg->name);
   }
   
@@ -556,7 +556,7 @@ void process_archive(const char *filename) {
   c1= m_fork();
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
-    execlp(BACKEND, BACKEND, "--fsys-tarfile", filename, (char*)0);
+    execlp(BACKEND, BACKEND, "--fsys-tarfile", filename, NULL);
     ohshite(_("unable to exec dpkg-deb to get filesystem archive"));
   }
   close(p1[1]);
@@ -981,7 +981,7 @@ void process_archive(const char *filename) {
                                 "disappear", pkg->name, 
                                 versiondescribe(&pkg->available.version,
                                                 vdew_nonambig),
-                                (char*)0);
+                                NULL);
 
     /* OK, now we delete all the stuff in the `info' directory .. */
     varbufreset(&fnvb);

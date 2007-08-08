@@ -50,7 +50,7 @@ static void cu_info_prepare(int argc, void **argv) {
   if (lstat(directory,&stab) && errno==ENOENT) return;
   if ((c1= fork()) == -1) { perror(_("failed to fork for cleanup")); return; }
   if (!c1) {
-    execlp(RM,"rm","-rf",directory,(char*)0);
+    execlp(RM, "rm", "-rf", directory, NULL);
     perror(_("failed to exec rm for cleanup")); _exit(1);
   }
   if (waitpid(c1,&status,0) != c1) { perror(_("failed to wait for rm cleanup")); return; }
@@ -72,7 +72,8 @@ static void info_prepare(const char *const **argvp,
   *directoryp= dbuf;
 
   if (!(c1= m_fork())) {
-    execlp(RM,"rm","-rf",dbuf,(char*)0); ohshite(_("failed to exec rm -rf"));
+    execlp(RM, "rm", "-rf", dbuf, NULL);
+    ohshite(_("failed to exec rm -rf"));
   }
   waitsubproc(c1,"rm -rf",0);
   push_cleanup(cu_info_prepare,-1, 0,0, 1, (void*)dbuf);

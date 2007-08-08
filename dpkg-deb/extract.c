@@ -48,7 +48,8 @@ static void movecontrolfiles(const char *thing) {
   
   sprintf(buf, "mv %s/* . && rmdir %s", thing, thing);
   if (!(c1= m_fork())) {
-    execlp("sh","sh","-c",buf,(char*)0); ohshite(_("failed to exec sh -c mv foo/* &c"));
+    execlp("sh", "sh", "-c", buf, NULL);
+    ohshite(_("failed to exec sh -c mv foo/* &c"));
   }
   waitsubproc(c1,"sh -c mv foo/* &c",0);
 }
@@ -299,7 +300,7 @@ void extracthalf(const char *debar, const char *directory,
       strcat(buffer, "f");
       m_dup2(p2[0],0);
       close(p2[0]);
-      execlp(TAR,"tar",buffer,"-",(char*)0);
+      execlp(TAR, "tar", buffer, "-", NULL);
       ohshite(_("failed to exec tar"));
     }
     close(p2[0]);
