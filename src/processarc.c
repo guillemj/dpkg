@@ -398,34 +398,43 @@ void process_archive(const char *filename) {
     modstatdb_note(pkg);
   }
 
-    for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
-      struct pkginfo *removing= deconpil->xinfo;
+  for (deconpil= deconfigure; deconpil; deconpil= deconpil->next) {
+    struct pkginfo *removing= deconpil->xinfo;
 
-      printf(removing ?
-             _("De-configuring %s, to allow removal of %s ...\n") :
-             _("De-configuring %s ...\n"),
-             deconpil->pkg->name, removing ? removing->name : 0);
+    if (removing)
+      printf(_("De-configuring %s, to allow removal of %s ...\n"),
+             deconpil->pkg->name, removing->name);
+    else
+      printf(_("De-configuring %s ...\n"), deconpil->pkg->name);
 
-      deconpil->pkg->status= stat_halfconfigured;
-      modstatdb_note(deconpil->pkg);
-      /* This means that we *either* go and run postinst abort-deconfigure,
-       * *or* queue the package for later configure processing, depending
-       * on which error cleanup route gets taken.
-       */
-      push_cleanup(cu_prermdeconfigure,~ehflag_normaltidy,
-                   ok_prermdeconfigure,ehflag_normaltidy,
-                   3,(void*)deconpil->pkg,
-                   (void*)removing, (void*)pkg);
+    deconpil->pkg->status= stat_halfconfigured;
+    modstatdb_note(deconpil->pkg);
+
+    /* This means that we *either* go and run postinst abort-deconfigure,
+     * *or* queue the package for later configure processing, depending
+     * on which error cleanup route gets taken.
+     */
+    push_cleanup(cu_prermdeconfigure, ~ehflag_normaltidy,
+                 ok_prermdeconfigure, ehflag_normaltidy,
+                 3, (void*)deconpil->pkg, (void*)removing, (void*)pkg);
+
+    if (removing) {
       maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
                                   "deconfigure", "in-favour", pkg->name,
                                   versiondescribe(&pkg->available.version,
                                                   vdew_nonambig),
-                                  removing ? "removing" : (char*)0,
-                                  removing ? removing->name : (char*)0,
-                                  removing ? versiondescribe(&removing->installed.version,
-                                                             vdew_nonambig) : (char*)0,
+                                  "removing", removing->name,
+                                  versiondescribe(&removing->installed.version,
+                                                  vdew_nonambig),
+                                  (char*)0);
+    } else {
+      maintainer_script_installed(deconpil->pkg, PRERMFILE, "pre-removal",
+                                  "deconfigure", "in-favour", pkg->name,
+                                  versiondescribe(&pkg->available.version,
+                                                  vdew_nonambig),
                                   (char*)0);
     }
+  }
 
   for (i = 0 ; i < cflict_index; i++) {
     if (!(conflictor[i]->status == stat_halfconfigured ||

@@ -132,15 +132,25 @@ void cu_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *conflictor= (struct pkginfo*)argv[1]; /* may be 0 */
   struct pkginfo *infavour= (struct pkginfo*)argv[2];
 
-  maintainer_script_installed(deconf,POSTINSTFILE,"post-installation",
-                              "abort-deconfigure", "in-favour", infavour->name,
-                              versiondescribe(&infavour->available.version,
-                                              vdew_nonambig),
-                              conflictor ? "removing" : (char*)0,
-                              conflictor ? conflictor->name : (char*)0,
-                              conflictor ? versiondescribe(&conflictor->installed.version,
-                                                           vdew_nonambig) : (char*)0,
-                              (char*)0);
+  if (conflictor) {
+    maintainer_script_installed(deconf, POSTINSTFILE, "post-installation",
+                                "abort-deconfigure",
+                                "in-favour", infavour->name,
+                                versiondescribe(&infavour->available.version,
+                                                vdew_nonambig),
+                                "removing", conflictor->name,
+                                versiondescribe(&conflictor->installed.version,
+                                                vdew_nonambig),
+                                (char*)0);
+  } else {
+    maintainer_script_installed(deconf, POSTINSTFILE, "post-installation",
+                                "abort-deconfigure",
+                                "in-favour", infavour->name,
+                                versiondescribe(&infavour->available.version,
+                                                vdew_nonambig),
+                                (char*)0);
+  }
+
   deconf->status= stat_installed;
   modstatdb_note(deconf);
 }

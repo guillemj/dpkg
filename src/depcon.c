@@ -243,16 +243,6 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
     internerr("unknown istobe depending");
   }
 
-  if (dep->type == dep_breaks)
-    /* We don't implement this and we can only be in this state
-     * if either a Breaks-ignorant or a Breaks-supporting dpkg
-     * installed the package.  In both cases it's probably too
-     * late to do anything useful about it now in this version
-     * so we just ignore it and hope.
-     * FIXME: implement Breaks
-     */
-    return 1;
-
   /* Describe the dependency, in case we have to moan about it. */
   varbufreset(whynot);
   varbufaddc(whynot, ' ');

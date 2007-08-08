@@ -1,3 +1,16 @@
+2007-08-08  Guillem Jover  <guillem@debian.org>
+
+	* src/cleanup.c (cu_prermdeconfigure): Split call to
+	maintainer_script_installed depending on the conflictor variable.
+	* src/packages.c (dependencies_ok): Remove comment stating that
+	Breaks needs to be implemented.
+	* src/depcon.c (depisok): Likewise. Remove return at the beggining
+	of the function checking for a Breaks dependency, that was
+	efectively making it a no-op in that case.
+	* src/processarc.c (process_archive): Fix indentation. Split calls
+	in deconfigure code to printf and maintainer_script_installed
+	depending on the removing variable.
+
 2007-08-07  Guillem Jover  <guillem@debian.org>
 
 	* src/query.c (listpackages): Instead of allocating an additional
