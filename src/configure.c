@@ -297,14 +297,12 @@ void deferred_configure(struct pkginfo *pkg) {
 
 	modstatdb_note(pkg);
 
-	if (maintainer_script_installed(pkg, POSTINSTFILE, "post-installation",
-				"configure",
-				informativeversion(&pkg->configversion)
-				? versiondescribe(&pkg->configversion,
-					vdew_nonambig)
-				: "",
-				NULL))
-		putchar('\n');
+	maintainer_script_installed(pkg, POSTINSTFILE, "post-installation",
+	                            "configure",
+	                            informativeversion(&pkg->configversion) ?
+	                            versiondescribe(&pkg->configversion,
+	                                            vdew_nonambig) : "",
+	                            NULL);
 
 	pkg->status= stat_installed;
 	pkg->eflag= eflagv_ok;
