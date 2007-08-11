@@ -326,6 +326,46 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
   return nifd;
 }
 
+static int linktosameexistingdir(const struct TarInfo *ti,
+                                 const char *fname,
+                                 struct varbuf *symlinkfn) {
+  struct stat oldstab, newstab;
+  int statr;
+  const char *lastslash;
+
+  statr= stat(fname, &oldstab);
+  if (statr) {
+    if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
+      ohshite("failed to stat (dereference) existing symlink `%.250s'", fname);
+    return 0;
+  }
+  if (!S_ISDIR(oldstab.st_mode)) return 0;
+
+  /* But is it to the same dir ? */
+  varbufreset(symlinkfn);
+  if (ti->LinkName[0] == '/') {
+    varbufaddstr(symlinkfn, instdir);
+  } else {
+    lastslash= strrchr(fname, '/');
+    assert(lastslash);
+    varbufaddbuf(symlinkfn, fname, (lastslash - fname) + 1);
+  }
+  varbufaddstr(symlinkfn, ti->LinkName);
+  varbufaddc(symlinkfn, 0);
+
+  statr= stat(symlinkfn->buf, &newstab);
+  if (statr) {
+    if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
+      ohshite("failed to stat (dereference) proposed new symlink target"
+              " `%.250s' for symlink `%.250s'", symlinkfn->buf, fname);
+    return 0;
+  }
+  if (!S_ISDIR(newstab.st_mode)) return 0;
+  if (newstab.st_dev != oldstab.st_dev ||
+      newstab.st_ino != oldstab.st_ino) return 0;
+  return 1;
+}
+
 int tarobject(struct TarInfo *ti) {
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
   const char *usename;
@@ -423,6 +463,9 @@ int tarobject(struct TarInfo *ti) {
     if (!statr && S_ISDIR(stab.st_mode)) {
       debug(dbg_eachfiledetail,"tarobject SymbolicLink exists as directory");
       existingdirectory= 1;
+    } else if (!statr && S_ISLNK(stab.st_mode)) {
+      if (linktosameexistingdir(ti, fnamevb.buf, &symlinkfn))
+        existingdirectory= 1;
     }
     break;
   case Directory:
