@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 18;
+use Test::More tests => 23;
 
 use strict;
 use warnings;
@@ -84,3 +84,34 @@ $sym_file_dup->load($save_file->filename);
 $sym_file_dup->{file} = "t/200_Dpkg_Shlibs/symbol_file.tmp";
 
 is_deeply($sym_file_dup, $sym_file, 'save -> load' );
+
+# Test include mechanism of SymbolFile
+$sym_file = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbols.include-1");
+
+$sym = $sym_file->lookup_symbol('symbol_before@Base', ['libfake.so.1']);
+is_deeply($sym, { 'minver' => '0.9', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+	    'symbol before include not lost');
+
+$sym = $sym_file->lookup_symbol('symbol_after@Base', ['libfake.so.1']);
+is_deeply($sym, {'minver' => '1.1', 'dep_id' => 0, 'deprecated' => 0, 
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+	    'symbol after include not lost');
+
+$sym = $sym_file->lookup_symbol('symbol1_fake1@Base', ['libfake.so.1']);
+is_deeply($sym, {'minver' => '1.0', 'dep_id' => 0, 'deprecated' => 0, 
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+	    'overrides order with #include');
+
+$sym = $sym_file->lookup_symbol('symbol3_fake1@Base', ['libfake.so.1']);
+is_deeply($sym, { 'minver' => '1.1', 'dep_id' => 0, 'deprecated' => 0,
+		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
+	    'overrides order with #include');
+
+$sym_file = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbols.include-2");
+
+$sym = $sym_file->lookup_symbol('symbol1_fake2@Base', ['libfake.so.1']);
+is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
+		  'depends' => 'libvirtualfake', 'soname' => 'libfake.so.1' }, 
+	    'overrides order with circular #include');
+

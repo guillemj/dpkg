@@ -48,15 +48,27 @@ sub clear_except {
     }
 }
 
+# Parameter seen is only used for recursive calls
 sub load {
-    my ($self, $file) = @_;
-    $self->{file} = $file;
-    open(SYM_FILE, "<", $file)
+    my ($self, $file, $seen) = @_;
+
+    if (defined($seen)) {
+	return if exists $seen->{$file}; # Avoid include loops
+    } else {
+	$self->{file} = $file;
+	$seen = {};
+    }
+    $seen->{$file} = 1;
+
+    open(my $sym_file, "<", $file)
 	|| syserr(sprintf(_g("Can't open %s: %s"), $file));
     my ($object);
-    while (defined($_ = <SYM_FILE>)) {
+    while (defined($_ = <$sym_file>)) {
 	chomp($_);
 	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
+	    if (not defined ($object)) {
+		error(sprintf(_g("Symbol information must be preceded by a header (file %s, line %s).", $file, $.)));
+	    }
 	    # New symbol
 	    my $sym = {
 		minver => $2,
@@ -64,6 +76,11 @@ sub load {
 		deprecated => 0
 	    };
 	    $self->{objects}{$object}{syms}{$1} = $sym;
+	} elsif (/^#include\s+"([^"]+)"/) {
+	    my $filename = $1;
+	    my $dir = $file;
+	    $dir =~ s{[^/]+$}{}; # Strip filename
+	    $self->load("$dir$filename", $seen);
 	} elsif (/^#DEPRECATED: ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    my $sym = {
 		minver => $3,
@@ -71,21 +88,29 @@ sub load {
 		deprecated => $1
 	    };
 	    $self->{objects}{$object}{syms}{$2} = $sym;
+	} elsif (/^#/) {
+	    # Skip possible comments
 	} elsif (/^\|\s*(.*)$/) {
 	    # Alternative dependency template
 	    push @{$self->{objects}{$object}{deps}}, "$1";
 	} elsif (/^(\S+)\s+(.*)$/) {
 	    # New object and dependency template
 	    $object = $1;
-	    $self->{objects}{$object} = {
-		syms => {},
-		deps => [ "$2" ]
-	    };
+	    if (exists $self->{objects}{$object}) {
+		# Update/override infos only
+		$self->{objects}{$object}{deps} = [ "$2" ];
+	    } else {
+		# Create a new object
+		$self->{objects}{$object} = {
+		    syms => {},
+		    deps => [ "$2" ]
+		};
+	    }
 	} else {
 	    warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
 	}
     }
-    close(SYM_FILE);
+    close($sym_file);
 }
 
 sub save {
