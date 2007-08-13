@@ -21,6 +21,39 @@ use Dpkg::ErrorHandling qw(syserr warning error);
 use Dpkg::Version qw(vercmp);
 textdomain("dpkg-dev");
 
+my %blacklist = (
+    '__bss_end__' => 1,		# arm
+    '__bss_end' => 1,		# arm
+    '_bss_end__' => 1,		# arm
+    '__bss_start' => 1,		# ALL
+    '__bss_start__' => 1,	# arm
+    '__data_start' => 1,	# arm
+    '__do_global_ctors_aux' => 1,   # ia64
+    '__do_global_dtors_aux' => 1,   # ia64
+    '__do_jv_register_classes' => 1,# ia64
+    '_edata' => 1,		# ALL
+    '_end' => 1,		# ALL
+    '__end__' => 1,		# arm
+    '_fbss' => 1,		# mips, mipsel
+    '_fdata' => 1,		# mips, mipsel
+    '_fini' => 1,		# ALL
+    '_ftext' => 1,		# mips, mipsel
+    '_GLOBAL_OFFSET_TABLE_' => 1,   # hppa, mips, mipsel
+    '__gmon_start__' => 1,	# hppa
+    '_gp' => 1,			# mips, mipsel
+    '_init' => 1,		# ALL
+);
+
+for (my $i = 14; $i <= 31; $i++) {
+    # Many powerpc specific symbols
+    $blacklist{"_restfpr_$i"} = 1;
+    $blacklist{"_restfpr_$i\_x"} = 1;
+    $blacklist{"_restgpr_$i"} = 1;
+    $blacklist{"_restgpr_$i\_x"} = 1;
+    $blacklist{"_savefpr_$i"} = 1;
+    $blacklist{"_savegpr_$i"} = 1;
+}
+
 sub new {
     my $this = shift;
     my $file = shift;
@@ -144,12 +177,18 @@ sub dump {
 
 # merge_symbols($object, $minver)
 # Needs $Objdump->get_object($soname) as parameter
+# Don't merge blacklisted symbols related to the internal (arch-specific)
+# machinery
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
     my $soname = $object->{SONAME} || error(_g("Can't merge symbols from objects without SONAME."));
     my %dynsyms = map { $_ => $object->{dynsyms}{$_} }
-	grep { local $a = $object->{dynsyms}{$_}; $a->{dynamic} && $a->{defined} }
+	grep { 
+	    local $a = $object->{dynsyms}{$_}; 
+	    $a->{dynamic} && $a->{defined} && not exists $blacklist{$a->{name}}
+	}
 	keys %{$object->{dynsyms}};
+
     unless ($self->{objects}{$soname}) {
 	$self->create_object($soname, '');
     }
