@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 24;
+use Test::More tests => 25;
 
 use strict;
 use warnings;
@@ -118,4 +118,20 @@ $sym = $sym_file->lookup_symbol('symbol1_fake2@Base', ['libfake.so.1']);
 is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
 		  'depends' => 'libvirtualfake', 'soname' => 'libfake.so.1' }, 
 	    'overrides order with circular #include');
+
+# Check parsing of objdump output on ia64 (local symbols
+# without versions and with visibility attribute)
+$obj = Dpkg::Shlibs::Objdump::Object->new;
+
+open $objdump, '<', "t/200_Dpkg_Shlibs/objdump.glib-ia64"
+  or die "t/200_Dpkg_Shlibs/objdump.glib-ia64: $!";
+$obj->_parse($objdump);
+close $objdump;
+
+$sym = $obj->get_symbol('IA__g_free');
+is_deeply( $sym, { name => 'IA__g_free', version => '',
+		   soname => 'libglib-2.0.so.0', section => '.text', dynamic => 1,
+		   debug => '', type => 'F', weak => '',
+		   hidden => '', defined => 1 }, 
+		   'symbol with visibility without version' );
 

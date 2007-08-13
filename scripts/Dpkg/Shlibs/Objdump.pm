@@ -204,6 +204,7 @@ sub _parse {
 # 00069960  w   DF .text  0000001e  GLIBC_2.0   bcmp
 # 00000000  w   D  *UND*  00000000              _pthread_cleanup_pop_restore
 # 0000b788 g    DF .text  0000008e  Base        .protected xine_close
+# 0000b788 g    DF .text  0000008e              .hidden IA__g_free
 # |        ||||||| |      |         |           |
 # |        ||||||| |      |         Version str (.visibility) + Symbol name
 # |        ||||||| |      Alignment
@@ -223,10 +224,15 @@ sub _parse {
 
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
-    my $vis = '(?:\s+(?:\.protected|\.hidden|\.internal|0x\S+))?';
-    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+\s+(\S+)?(?:$vis\s+(\S+))/) {
+    my $vis = '(?:\.protected|\.hidden|\.internal|0x\S+)';
+    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+\s+(\S+)?(?:(?:\s+$vis)?\s+(\S+))/) {
 
 	my ($flags, $sect, $ver, $name) = ($1, $2, $3, $4);
+
+	# Special case if version is missing but extra visibility
+	# attribute replaces it in the match
+	$ver = '' if defined($ver) and $ver =~ /^$vis$/; 
+
 	my $symbol = {
 		name => $name,
 		version => defined($ver) ? $ver : '',
