@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 25;
+use Test::More tests => 26;
 
 use strict;
 use warnings;
@@ -79,6 +79,10 @@ ok( $sym_file_old->has_lost_symbols($sym_file), 'has lost symbols' );
 is( $sym_file_old->lookup_symbol('__bss_start@Base', ['libc.so.6']),
     undef, 'internal symbols are blacklisted');
 
+$sym = $sym_file->lookup_symbol('_errno@GLIBC_2.0', ['libc.so.6'], 1);
+is_deeply($sym, { 'minver' => '2.3.6.ds1-13', 'dep_id' => 0, 
+		  'deprecated' => '2.6-1', 'depends' => '', 
+		  'soname' => 'libc.so.6' }, 'deprecated symbol');
 
 use File::Temp;
 

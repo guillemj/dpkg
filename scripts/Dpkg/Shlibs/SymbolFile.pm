@@ -223,10 +223,14 @@ sub merge_symbols {
     }
 
     # Scan all symbols in the file and mark as deprecated those that are
-    # no more provided
+    # no more provided (only if the minver is bigger than the version where
+    # the symbol was introduced)
     foreach my $sym (keys %{$self->{objects}{$soname}{syms}}) {
 	if (! exists $dynsyms{$sym}) {
-	    $self->{objects}{$soname}{syms}{$sym}{deprecated} = $minver;
+	    my $info = $self->{objects}{$soname}{syms}{$sym};
+	    if (vercmp($minver, $info->{minver}) > 0) {
+		$self->{objects}{$soname}{syms}{$sym}{deprecated} = $minver;
+	    }
 	}
     }
 }
@@ -256,11 +260,13 @@ sub get_dependency {
 }
 
 sub lookup_symbol {
-    my ($self, $name, $sonames) = @_;
+    my ($self, $name, $sonames, $inc_deprecated) = @_;
+    $inc_deprecated = 0 unless defined($inc_deprecated);
     foreach my $so (@{$sonames}) {
 	next if (! exists $self->{objects}{$so});
 	if (exists $self->{objects}{$so}{syms}{$name} and
-	    not $self->{objects}{$so}{syms}{$name}{deprecated})
+	    ($inc_deprecated or not
+	    $self->{objects}{$so}{syms}{$name}{deprecated}))
 	{
 	    my $dep_id = $self->{objects}{$so}{syms}{$name}{dep_id};
 	    return {
