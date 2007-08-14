@@ -99,6 +99,8 @@ sub is_elf {
 
 package Dpkg::Shlibs::Objdump::Object;
 
+use Dpkg::Gettext;
+
 sub new {
     my $this = shift;
     my $file = shift || '';
