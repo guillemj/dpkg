@@ -88,7 +88,7 @@ struct partqueue *queue= NULL;
 int npquiet= 0, msdos= 0;
 
 void rerr(const char *fn) {
-  ohshite(_("error reading %s"),fn);
+  ohshite(_("error reading %.250s"), fn);
 }
 
 void rerreof(FILE *f, const char *fn) {
