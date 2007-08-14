@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.6\n"
 "POT-Creation-Date: 2007-08-14 00:45+0200\n"
-"PO-Revision-Date: 2007-08-14 00:00+0100\n"
+"PO-Revision-Date: 2007-08-14 23:42+0100\n"
 "Last-Translator: Robert Luberda <robert@debian.org>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -281,6 +281,10 @@ msgid ""
 "heading into a single one.  It tries to be smart about cases and trailing "
 "colon/spaces."
 msgstr ""
+"B<cleanup-info> jest skryptem Perla, który stara siê uporz±dkowaæ ba³agan, "
+"który móg³ stworzyæ fa³szywy B<install-info>(8).  £±czy wszystkie sekcje "
+"maj±ce ten sam nag³ówek w jedn±. Stara siê m±drze wychwyciæ ró¿ne przypadki "
+"oraz koñcowe dwukropki/spacje."
 
 # type: Plain text
 #: ../../man/cleanup-info.8:21
@@ -288,6 +292,8 @@ msgid ""
 "Other clean-ups include removing of empty sections, and squeezing the blank "
 "lines (in entries part only)."
 msgstr ""
+"Inne porz±dki dotycz± usuwania pustych sekcji i ³±czenie pustych linii "
+"(tylko w czê¶ciach wpisów)."
 
 # type: Plain text
 #: ../../man/cleanup-info.8:24
@@ -295,6 +301,8 @@ msgid ""
 "Order of sections is preserved (the first encountered section counts).  "
 "Order of entries within a section is preserved."
 msgstr ""
+"Zachowywany jest porz±dek sekcji (liczy siê tylko pierwsze napotkanie "
+"sekcji). Zachowywany jest równie¿ porz±dek wpisów w danej sekcji."
 
 # type: Plain text
 #: ../../man/cleanup-info.8:29
@@ -304,6 +312,10 @@ msgid ""
 "only until it writes it. You should back the file up prior to using this "
 "script."
 msgstr ""
+"Proszê zachowaæ B<szczególn± ostro¿no¶æ>, u¿ywaj±c tego programu - mo¿e nie "
+"byæ ca³kiem bezpieczny. cleanup-info stara siê ostro¿nie obchodziæ siê z "
+"plikiem dir, ale tylko do czasu, gdy go zapisze. Przed u¿yciem tego skrypt,  "
+"powinno siê zrobiæ kopiê zapasow± pliku dir."
 
 # type: TP
 #: ../../man/cleanup-info.8:31
@@ -398,6 +410,8 @@ msgid ""
 "The info directory file. The lock file is named the same, with \".lock\" "
 "suffix."
 msgstr ""
+"Plik z katalogiem info. Plik blokady ma tê sam± nazwê z do³±czonym sufiksem "
+"\".lock\"."
 
 # type: Plain text
 #: ../../man/cleanup-info.8:50
@@ -526,6 +540,11 @@ msgid ""
 "control information. The control tarball may optionally contain an entry for "
 "`B<.>', the current directory."
 msgstr ""
+"Drugi wymagany sk³adnik nazywa siê B<control.tar.gz>. Jest to spakowane "
+"archiwum tar zawieraj±ce informacje kontrolne pakietu, jako seriê plików "
+"tekstowych, w¶ród których wymaganym plikiem jest B<control>, zawieraj±cy "
+"podstawowe informacje kontrolne. Archiwum tar mo¿e zawieraæ opcjonalny wpis "
+"dotycz±cy bie¿±cego katalogu `B<.>'."
 
 # type: Plain text
 #: ../../man/deb.5:50
@@ -533,6 +552,8 @@ msgid ""
 "The third, last required member is named B<data.tar.gz>.  It contains the "
 "filesystem archive as a gzipped tar archive."
 msgstr ""
+"Trzeci, ostatni wymagany, cz³onek nazywa siê B<data.tar.gz>. Zawiera "
+"archiwum systemu plików w postaci spakowanego gzipem archiwum tar."
 
 # type: Plain text
 #: ../../man/deb.5:61
@@ -544,6 +565,13 @@ msgid ""
 "and which should be safely ignored by older programs, will have names "
 "starting with an underscore, `B<_>'."
 msgstr ""
+"Cz³onkowie ci musz± wystêpowaæ w tym powy¿szym porz±dku. Implementacje "
+"powinny ignorowaæ jakiekolwiek dodatkowe sk³adniki wystêpuj±ce po B<data.tar."
+"gz>. Kolejne sk³adniki mog± zostaæ zdefiniowane w przysz³o¶ci i (je¿eli "
+"bêdzie to mo¿liwe) bêd± umieszczone po trzech wy¿ej wymienionych. Dodatkowe "
+"sk³adniki, dla których wymagane by by³o ich umieszczenie przed B<data.tar."
+"gz> i które powinny byæ ignorowane przez starsze programy, bêd± mia³y nazwy "
+"zaczynaj±ce siê od znaku podkre¶lenia `B<_>'."
 
 # type: Plain text
 #: ../../man/deb.5:67
@@ -553,6 +581,10 @@ msgid ""
 "underscores, or will (more likely) cause the major version number to be "
 "increased."
 msgstr ""
+"Te nowe sk³adniki, które nie bêd± mog³y zostaæ zignorowane, zostan± "
+"umieszczone przed B<data.tar.gz>, a  ich nazwy bêd± siê zaczynaæ od znaku "
+"innego ni¿ podkre¶lenie, lub (co jest bardziej prawdopodobne) spowoduj± "
+"zwiêkszenie g³ównej (major) wersji formatu pliku deb."
 
 # type: Plain text
 #
@@ -595,6 +627,14 @@ msgid ""
 "body of the field (except in the case of the B<Description> field, see "
 "below)."
 msgstr ""
+"Ka¿dy pakiet Debiana zawiera g³ówny plik `control', sk³adaj±cy siê z pewnej "
+"liczby pól lub linii komentarza, czyli linii zaczynaj±cych siê znakiem "
+"`B<#>'. Ka¿de pole zaczyna siê od identyfikatora, takiego jak B<Package> lub "
+"B<Version> (wielko¶æ liter nie ma znaczenia), po którym nastêpuj± dwukropek "
+"oraz warto¶æ pola. Pola s± rozdzielane od siebie identyfikatorami pól. "
+"Innymi s³owy, tekst pola mo¿e siê sk³adaæ z wielu linii, jednak¿e narzêdzia "
+"instalacyjne po³±cz± te linie podczas przetwarzania warto¶ci pola (z "
+"wyj±tkiem pola B<Description>, patrz ni¿ej)."
 
 # type: SH
 #: ../../man/deb-control.5:25
@@ -614,6 +654,8 @@ msgid ""
 "The value of this field determines the package name, and is used to generate "
 "file names by most installation tools."
 msgstr ""
+"Warto¶æ tego pola okre¶la nazwê pakietu i przez wiêkszo¶æ narzêdzi "
+"instalacyjnych jest u¿ywana do generowania nazw plików."
 
 # type: TP
 #: ../../man/deb-control.5:30
@@ -630,6 +672,11 @@ msgid ""
 "separated by a hyphen, `-'. For this reason, the original version may not "
 "have a hyphen in its version number."
 msgstr ""
+"Zazwyczaj, jest to oryginalna wersja pakietu w takiej postaci, jakiej u¿ywa "
+"autor pakietu. Mo¿e tak¿e zwieraæ wersjê zmian pakietu Debiana (dla pakietów "
+"nienatywnych). Je¶li u¿ywane s± obie wersje (autora oraz pakietu Debiana), "
+"to s± one oddzielane od siebie my¶lnikiem `-'. Z tego powodu oryginalna "
+"wersja (autora) nie mo¿e zawieraæ znaku my¶lnika."
 
 # type: TP
 #: ../../man/deb-control.5:37
@@ -837,9 +884,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/deb-control.5:138
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Breaks:> E<lt>package listE<gt>"
-msgstr "B<Replaces:> E<lt>lista pakietówE<gt>"
+msgstr "B<Breaks:> E<lt>lista pakietówE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:146
@@ -1355,9 +1402,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/deb-substvars.5:106
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "B<shlibs:>I<dependencyfield>"
-msgstr ""
+msgstr "deb-shlibs"
 
 # type: Plain text
 #: ../../man/deb-substvars.5:110
@@ -1375,7 +1422,7 @@ msgstr "B<dpkg:Upstream-Version>"
 #: ../../man/deb-substvars.5:113
 #, fuzzy
 msgid "The upstream version of dpkg."
-msgstr "B<dpkg-query> B<--version>"
+msgstr "B<dpkg:Upstream-Version>"
 
 # type: TP
 #: ../../man/deb-substvars.5:113
@@ -3483,13 +3530,13 @@ msgstr ""
 #: ../../man/dpkg-architecture.1:83
 #, no-wrap
 msgid "TERMS"
-msgstr ""
+msgstr "WARUNKI"
 
 # type: IP
 #: ../../man/dpkg-architecture.1:84
 #, fuzzy, no-wrap
 msgid "build machine"
-msgstr "Komputer niewieloprocesorowy...\n"
+msgstr "Architektura wg Debiana komputera, na którym budowany jest pakiet."
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:86
@@ -3524,7 +3571,7 @@ msgstr ""
 #: ../../man/dpkg-architecture.1:91
 #, fuzzy, no-wrap
 msgid "architecture wildcard"
-msgstr "B<dpkg --print-architecture>"
+msgstr "B<-i>I<architecture-wildcard>"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:95
@@ -3538,7 +3585,7 @@ msgstr ""
 #: ../../man/dpkg-architecture.1:95
 #, no-wrap
 msgid "\\s-1GNU\\s0 system type"
-msgstr ""
+msgstr "typ systemu \\s-1GNU\\s0"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:99
@@ -3568,7 +3615,7 @@ msgstr "\\s-1DEB_BUILD_ARCH\\s0"
 # type: Plain text
 #: ../../man/dpkg-architecture.1:104
 msgid "The Debian architecture of the build machine."
-msgstr ""
+msgstr "Architektura wg Debiana komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:104
@@ -3579,7 +3626,7 @@ msgstr "\\s-1DEB_BUILD_ARCH_OS\\s0"
 # type: Plain text
 #: ../../man/dpkg-architecture.1:106
 msgid "The Debian system name of the build machine."
-msgstr ""
+msgstr "Nazwa systemu wg Debiana komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:106
@@ -3590,7 +3637,7 @@ msgstr "\\s-1DEB_BUILD_ARCH_CPU\\s0"
 # type: Plain text
 #: ../../man/dpkg-architecture.1:108
 msgid "The Debian cpu name of the build machine."
-msgstr ""
+msgstr "Nazwa procesora wg Debiana komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:108
@@ -3601,7 +3648,7 @@ msgstr "\\s-1DEB_BUILD_GNU_TYPE\\s0"
 # type: Plain text
 #: ../../man/dpkg-architecture.1:110
 msgid "The \\s-1GNU\\s0 system type of the build machine."
-msgstr ""
+msgstr "Typ systemu \\s-1GNU\\s0 komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:110
@@ -3633,8 +3680,9 @@ msgstr "\\s-1DEB_HOST_ARCH\\s0"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:116
+#, fuzzy
 msgid "The Debian architecture of the host machine."
-msgstr ""
+msgstr "Architektura wg Debiana komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:116
@@ -3644,8 +3692,9 @@ msgstr "\\s-1DEB_BUILD_ARCH_OS\\s0"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:118
+#, fuzzy
 msgid "The Debian system name of the host machine."
-msgstr ""
+msgstr "Nazwa systemu wg Debiana komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:118
@@ -3655,8 +3704,9 @@ msgstr "\\s-1DEB_HOST_ARCH_CPU\\s0"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:120
+#, fuzzy
 msgid "The Debian cpu name of the host machine."
-msgstr ""
+msgstr "Nazwa procesora wg Debiana komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:120
@@ -3666,8 +3716,9 @@ msgstr "\\s-1DEB_HOST_GNU_TYPE\\s0"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:122
+#, fuzzy
 msgid "The \\s-1GNU\\s0 system type of the host machine."
-msgstr ""
+msgstr "Typ systemu \\s-1GNU\\s0 komputera, na którym budowany jest pakiet."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:122
@@ -3677,8 +3728,9 @@ msgstr "\\s-1DEB_HOST_GNU_CPU\\s0"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:124
+#, fuzzy
 msgid "The \\s-1CPU\\s0 part of \\s-1DEB_HOST_GNU_TYPE\\s0."
-msgstr ""
+msgstr "Czê¶æ dotycz±ca systemu z \\s-1DEB_HOST_GNU_TYPE\\s0."
 
 # type: IP
 #: ../../man/dpkg-architecture.1:124
@@ -3936,6 +3988,8 @@ msgid ""
 "The B<-e> and B<-i> options were only introduced in relatively recent "
 "versions of B<dpkg-architecture> (since dpkg 1.13.13)."
 msgstr ""
+"Opcje B<-e> i B<-i> zosta³y wprowadzone w miarê nowych wersjach B<dpkg-"
+"architecture> (od wersji dpkg 1.13.13)."
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:249
@@ -3943,6 +3997,8 @@ msgid ""
 "B<dpkg-buildpackage> accepts the B<-a> option and passes it to B<dpkg-"
 "architecture>. Other examples:"
 msgstr ""
+"B<dpkg-buildpackage> akceptuje opcjê B<-a> i przekazuje j± do B<dpkg-"
+"architecture>. Inne przyk³ady:"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:251
@@ -3960,6 +4016,7 @@ msgstr "eval \\`dpkg-architecture CW<\\*(C`-u\\*(C'>\\`"
 msgid ""
 "Check if an architecture is equal to the current architecture or a given one:"
 msgstr ""
+"Sprawdzanie, czy architektura jest równa architekturze bie¿±cej lub podanej:"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:258
@@ -3977,6 +4034,7 @@ msgid ""
 "Check if the current architecture or an architecture provided with -a are "
 "Linux systems:"
 msgstr ""
+"Sprawdzanie, czy architektura bie¿±ca podana przez -a jest systemem Linuksa:"
 
 # type: Plain text
 #: ../../man/dpkg-architecture.1:265
@@ -3999,6 +4057,8 @@ msgid ""
 "B<dpkg-architecture> and this man page were initially written by Marcus "
 "Brinkmann E<lt>brinkmd@debian.orgE<gt>."
 msgstr ""
+"B<dpkg-architecture> i ta strona podrêcznika ekranowego zosta³y napisane  "
+"Marcusa Brinkmanna E<lt>brinkmd@debian.orgE<gt>."
 
 # type: TH
 #: ../../man/dpkg.cfg.5:1
@@ -4067,6 +4127,8 @@ msgid ""
 "B<dpkg-buildpackage> is a control script which can be used to help automate "
 "the building of a package."
 msgstr ""
+"B<dpkg-buildpackage> jest skryptem kontrolnym, którego mo¿na u¿yæ do "
+"zautomatyzowania budowania pakietu."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:15
@@ -4156,7 +4218,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:44
 #, no-wrap
 msgid "B<-a>I<architecture>"
-msgstr "B<-a>I<architecture>"
+msgstr "B<-a>I<architektura>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:49
@@ -4171,19 +4233,20 @@ msgstr ""
 #: ../../man/dpkg-gencontrol.1:17 ../../man/dpkg-parsechangelog.1:29
 #, no-wrap
 msgid "B<-v>I<version>"
-msgstr "B<-v>I<version>"
+msgstr "B<-v>I<wersja>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:53 ../../man/dpkg-parsechangelog.1:33
 msgid ""
 "Use changelog information from all versions strictly later than I<version>."
 msgstr ""
+"U¿ywa informacji o zmianach ze wszystkich wersji pó¼niejszych ni¿ I<wersja>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:53 ../../man/dpkg-genchanges.1:55
 #, no-wrap
 msgid "B<-C>I<changesdescription>"
-msgstr ""
+msgstr "B<-C>I<opis_zmian>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:58 ../../man/dpkg-genchanges.1:61
@@ -4191,12 +4254,14 @@ msgid ""
 "Read the description of the changes from the file I<changesdescription> "
 "rather than using the information from the source tree's changelog file."
 msgstr ""
+"Czyta opis zmian z pliku I<opis_zmian>, zamiast u¿ywaæ informacji z pliku "
+"zmian z pakietu ¼ród³owego."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:58 ../../man/dpkg-genchanges.1:61
 #, no-wrap
 msgid "B<-m>I<maintaineraddress>"
-msgstr ""
+msgstr "B<-m>I<adres opiekuna>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:64 ../../man/dpkg-genchanges.1:67
@@ -4205,12 +4270,14 @@ msgid ""
 "this package, rather than using the information from the source tree's "
 "control file."
 msgstr ""
+"U¿ywa I<adresu_opiekuna> jako nazwy i adresu e-mail opiekuna tego pakietu, "
+"zamiast pobieraæ te warto¶ci z pliku kontrolnego pakietu ¼ród³owego."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:64 ../../man/dpkg-genchanges.1:67
 #, no-wrap
 msgid "B<-e>I<maintaineraddress>"
-msgstr ""
+msgstr "B<-e>I<adres_opiekuna>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:70 ../../man/dpkg-genchanges.1:73
@@ -4219,6 +4286,8 @@ msgid ""
 "this upload, rather than using the information from the source tree's "
 "changelog."
 msgstr ""
+"U¿ywa I<adresu_opiekuna> jako nazwy i adresu e-mail opiekuna tego wydania, "
+"zamiast pobieraæ te warto¶ci z pliku zmian w pakiecie ¼ród³owym."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:70
@@ -4230,6 +4299,8 @@ msgstr "B<-D>"
 #: ../../man/dpkg-buildpackage.1:73
 msgid "Check build dependencies and conflicts; abort if unsatisfied."
 msgstr ""
+"Sprawdza zale¿no¶ci i konflikty czasu budowania, przerywa dzia³anie z "
+"b³êdem, je¿eli  nie bêd± spe³nione."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:73
@@ -4254,6 +4325,9 @@ msgid ""
 "Turn certain errors into warnings. Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
+"Przekszta³ca pewne b³êdy w ostrze¿enia. Tylko B<dpkg-source> u¿ywa tej "
+"opcji, jednak¿e B<dpkg-buildpackage> rozpoznaje j± i przekazuje niezmienion± "
+"do B<dpkg-source>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:82 ../../man/dpkg-source.1:104
@@ -4267,6 +4341,9 @@ msgid ""
 "Negates a previously set B<-W>.  Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
+"Neguje poprzednio ustawione B<-W>. Tylko B<dpkg-source> u¿ywa tej opcji, "
+"jednak¿e B<dpkg-buildpackage> rozpoznaje j± i przekazuje niezmienion± do "
+"B<dpkg-source>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:90
@@ -4277,7 +4354,7 @@ msgstr "B<-nc>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:93
 msgid "Do not clean the source tree (implies B<-b>)."
-msgstr ""
+msgstr "Nie czy¶ci katalogu ze ¼ród³ami (implikuje B<-b>)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:93
@@ -4291,6 +4368,8 @@ msgid ""
 "Clean the source tree (using I<gain-root-command> B<debian/rules clean>)  "
 "after the package has been built."
 msgstr ""
+"Po zbudowaniu pakietu czy¶ci katalog ¼róde³ (u¿ywaj±c I<gain-root-command> "
+"B<debian/rules clean>)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:99
@@ -4364,8 +4443,9 @@ msgstr "B<-uc>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:159
+#, fuzzy
 msgid "Do not sign the .changes file."
-msgstr ""
+msgstr "Nie próbuje podpisywaæ pakietów."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:159 ../../man/dpkg-source.1:108
@@ -4376,7 +4456,7 @@ msgstr "B<-i>[I<wyra¿-regul>]"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:163
 msgid "Passed unchanged to B<dpkg-source>."
-msgstr ""
+msgstr "Przekazywana bez zmian do B<dpkg-source>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:163 ../../man/dpkg-source.1:128
@@ -4388,6 +4468,7 @@ msgstr "B<-I>I<nazwa_pliku>"
 #: ../../man/dpkg-buildpackage.1:168
 msgid "Passed unchanged to B<dpkg-source>.  May be repeated multiple times."
 msgstr ""
+"Przekazywana bez zmian do B<dpkg-source>. Mo¿e byæ powtórzona wiele razy."
 
 # type: Plain text
 #
@@ -4501,7 +4582,7 @@ msgstr "dpkg-distaddfile"
 # type: Plain text
 #: ../../man/dpkg-distaddfile.1:4
 msgid "dpkg-distaddfile - add entries to debian/files"
-msgstr ""
+msgstr "dpkg-distaddfile - dodaje wpisy do debian/files"
 
 # type: Plain text
 #
@@ -4513,6 +4594,7 @@ msgstr "B<dpkg-distaddfile> [I<opcje>] I<plik sekcja priorytet>"
 #: ../../man/dpkg-distaddfile.1:13
 msgid "B<dpkg-distaddfile> adds an entry for a named file to B<debian/files>."
 msgstr ""
+"B<dpkg-distaddfile> dodaje wpis dotycz±cy podanego pliku do  B<debian/files>."
 
 # type: Plain text
 #: ../../man/dpkg-distaddfile.1:18
@@ -4520,6 +4602,8 @@ msgid ""
 "It takes three non-option arguments, the filename and the section and "
 "priority for the B<.changes> file."
 msgstr ""
+"Pobiera trzy argumenty nie bêd±ce opcjami: nazwê pliku oraz sekcjê i "
+"priorytet dla pliku B<.changes>."
 
 # type: Plain text
 #: ../../man/dpkg-distaddfile.1:26
@@ -5477,7 +5561,7 @@ msgstr "B<-D>I<pole>B<=>I<warto¶æ>"
 #: ../../man/dpkg-genchanges.1:86 ../../man/dpkg-gencontrol.1:33
 #: ../../man/dpkg-source.1:98
 msgid "Override or add an output control file field."
-msgstr ""
+msgstr "Nadpisuje lub dodaje wyj¶ciowe pole pliku kontrolnego."
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:86 ../../man/dpkg-gencontrol.1:33
@@ -5490,14 +5574,14 @@ msgstr "B<-U>I<pole>"
 #: ../../man/dpkg-genchanges.1:89 ../../man/dpkg-gencontrol.1:36
 #: ../../man/dpkg-source.1:101
 msgid "Remove an output control file field."
-msgstr ""
+msgstr "Usuwa wyj¶ciowe pole pliku kontrolnego."
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:89 ../../man/dpkg-gencontrol.1:36
 #: ../../man/dpkg-source.1:66
 #, no-wrap
 msgid "B<-c>I<controlfile>"
-msgstr ""
+msgstr "B<-c>I<plik_kontrolny>"
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:94 ../../man/dpkg-gencontrol.1:41
@@ -5505,13 +5589,15 @@ msgid ""
 "Specifies the main source control file to read information from. The default "
 "is B<debian/control>."
 msgstr ""
+"Okre¶la g³ówny plik kontrolny, z którego bêd± czytane informacje. Domy¶lnie "
+"jest to B<debian/control>."
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:94 ../../man/dpkg-gencontrol.1:41
 #: ../../man/dpkg-parsechangelog.1:16 ../../man/dpkg-source.1:73
 #, no-wrap
 msgid "B<-l>I<changelogfile>"
-msgstr ""
+msgstr "B<-l>I<plik_zmian>"
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:99 ../../man/dpkg-gencontrol.1:46
@@ -5520,20 +5606,23 @@ msgid ""
 "Specifies the change log file to read information from. The default is "
 "B<debian/changelog>."
 msgstr ""
+"Okre¶la plik zmian, z którego bêd± czytane informacje. Domy¶lnym plikiem "
+"jest B<debian/changelog>."
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:103
+#, fuzzy
 msgid ""
 "Read the list of files to be uploaded here, rather than using B<debian/"
 "files>."
-msgstr ""
+msgstr "Czyta z tego pliku listê plików do "
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:103 ../../man/dpkg-gencontrol.1:50
 #: ../../man/dpkg-parsechangelog.1:21 ../../man/dpkg-source.1:80
 #, no-wrap
 msgid "B<-F>I<changelogformat>"
-msgstr ""
+msgstr "B<-F>I<format_pliku_zmian>"
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:108 ../../man/dpkg-gencontrol.1:55
@@ -5543,6 +5632,9 @@ msgid ""
 "special line near the bottom of the changelog or failing that defaults to "
 "the debian standard format."
 msgstr ""
+"Okre¶la format pliku zmian. Domy¶lnie format jest czytany ze specjalnej "
+"linii znajduj±cej siê przy koñcu pliku lub - je¶li taka linia nie istnieje - "
+"u¿ywany jest standardowy format Debiana."
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:108
@@ -5594,8 +5686,9 @@ msgstr "2007-06-12"
 
 # type: Plain text
 #: ../../man/dpkg-gencontrol.1:4
+#, fuzzy
 msgid "dpkg-gencontrol - generate Debian control files"
-msgstr ""
+msgstr "dpkg-genchanges  - tworzy pliki .changes"
 
 # type: Plain text
 #
@@ -5614,7 +5707,7 @@ msgstr ""
 # type: Plain text
 #: ../../man/dpkg-gencontrol.1:20
 msgid "Sets the version number of the binary package which will be generated."
-msgstr ""
+msgstr "Ustawia numer wersji generowanego pakietu binarnego."
 
 # type: Plain text
 #: ../../man/dpkg-gencontrol.1:24
@@ -5650,6 +5743,8 @@ msgid ""
 "Assume the filename of the package will be I<filename> instead of the normal "
 "package_version_arch.deb filename."
 msgstr ""
+"Okre¶la ¿e nazw± pliku pakietu bêdzie I<nazwa_pliku> zamiast normalnej nazwy "
+"pliku w postaci  pakiet_wersja_architektura.deb"
 
 # type: TP
 #: ../../man/dpkg-gencontrol.1:67
@@ -5725,7 +5820,7 @@ msgstr "dpkg-name"
 # type: Plain text
 #: ../../man/dpkg-name.1:9
 msgid "dpkg-name - rename Debian packages to full package names"
-msgstr ""
+msgstr "dpkg-name - zmienia nazwy pakietów Debiana na pe³ne"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:15
@@ -5743,6 +5838,13 @@ msgid ""
 "of the filename consists of the upstream version information optionally "
 "followed by a hyphen and the revision information."
 msgstr ""
+"Ta strona podrêcznika dokumentuje program B<dpkg-name>, który dostarcza "
+"prostego sposobu na zmianê nazw pakietów B<Debiana> na pe³ne nazwy pakietów. "
+"Pe³na nazwa pakietu jest w postaci "
+"<E<lt>pakietE<gt>_E<lt>wersjaE<gt>_E<lt>architektuaE<gt>.deb>, jak to "
+"okre¶lono w pliku kontrolnym pakietu. Czê¶æ <E<lt>wersja<gt>> nazwy pliku "
+"zawiera oryginaln± wersjê nadan± przez autora, po której opcjonalnie  "
+"nastêpuje my¶lnik oraz informacje o wersji zmian pakietu w Debianie."
 
 # type: TP
 #: ../../man/dpkg-name.1:29
@@ -5753,7 +5855,7 @@ msgstr "B<-a>, B<--no-architecture>"
 # type: Plain text
 #: ../../man/dpkg-name.1:32
 msgid "The destination filename will not have the architecture information."
-msgstr ""
+msgstr "Wynikowy plik nie bêdzie mia³ informacji o architekturze."
 
 # type: TP
 #: ../../man/dpkg-name.1:32
@@ -5778,6 +5880,8 @@ msgid ""
 "Existing files will be overwritten if they have the same name as the "
 "destination filename."
 msgstr ""
+"Istniej±ce pliki bêd± nadpisane, je¿eli ich nazwy s± takie same jak nazwy "
+"plików wynikowych."
 
 # type: TP
 #: ../../man/dpkg-name.1:39
@@ -5838,6 +5942,9 @@ msgid ""
 "something similar (depending on whatever information is in the control part "
 "of `bar-foo.deb')."
 msgstr ""
+"Nazwa pliku `bar-foo.deb' zostanie zmieniona na bar-foo_1.0-2_i386.deb lub "
+"co¶ podobnego (w zale¿no¶ci od informacji zawartych w pliku kontrolnym "
+"pakietu `bar-foo.deb')."
 
 # type: TP
 #: ../../man/dpkg-name.1:72
@@ -5865,6 +5972,8 @@ msgid ""
 "B<Don't do this.> Your archive will be messed up completely because a lot of "
 "packages don't come with section information.  B<Don't do this.>"
 msgstr ""
+"B<Nie rób tego>. Twoje archiwum zostanie kompletnie zepsute, poniewa¿ wiele "
+"pakietów nie bêdzie mia³o informacji o sekcji. B<Nie rób tego>."
 
 # type: TP
 #: ../../man/dpkg-name.1:83
@@ -6169,7 +6278,7 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-query.1:130
-#, fuzzy, no-wrap
+#, no-wrap
 msgid ""
 "    B<Architecture>\n"
 "    B<Bugs>\n"
@@ -6206,6 +6315,7 @@ msgstr ""
 "    B<Conffiles>\n"
 "    B<Config-Version>\n"
 "    B<Conflicts>\n"
+"    B<Breaks>\n"
 "    B<Depends>\n"
 "    B<Description>\n"
 "    B<Enhances>\n"
@@ -6299,6 +6409,8 @@ msgid ""
 "B<dpkg-scanpackages> [I<options>] I<binary-dir> [I<override-file> [I<path-"
 "prefix>]] B<E<gt>> I<Packages>"
 msgstr ""
+"B<dpkg-scanpackages> [I<opcje>] I<katalog-binarny> [I<plik-nadpisañ> "
+"[I<prefiks-¶cie¿ki>]] B<E<gt>> I<Packages>"
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:41
@@ -6319,6 +6431,10 @@ msgid ""
 "Packages.gz file). apt ignores uncompressed Packages files except on local "
 "access (i.e.  B<file://> sources)."
 msgstr ""
+"B<Uwaga>: Aby B<apt>(8) mog³o u¿yæ wygenerowanego pliku Packages, nale¿y go "
+"skompresowaæ programem B<gzip>(1) (tworz±c plik PAckages.gz). apt ignoruje "
+"nieskompresowane pliki Packages z wyj±tkiem lokalnego dostêpu (tj. "
+"pochodz±cego z B<file://>)."
 
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:58
@@ -6359,7 +6475,7 @@ msgstr "B<-u>, B<--udeb>"
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:74
 msgid "Scan for I<*.udeb>, instead of I<*.deb>."
-msgstr ""
+msgstr "Szuka plików I<*.udeb> zamiast I<*.deb>."
 
 # type: TP
 #: ../../man/dpkg-scanpackages.1:74
@@ -6373,6 +6489,8 @@ msgid ""
 "Use a pattern consisting of I<*_all.deb> and I<*_arch.deb> instead of "
 "scanning for all debs,"
 msgstr ""
+"U¿ywa wzorca zawieraj±cego I<*_all.deb> i I<*_arch.deb> zamiast poszukiwaæ "
+"wszystkich plików deb,"
 
 # type: TP
 #: ../../man/dpkg-scanpackages.1:78
@@ -6383,7 +6501,7 @@ msgstr "B<-m>, B<--multiversion>"
 # type: Plain text
 #: ../../man/dpkg-scanpackages.1:81
 msgid "Include all found packages in the output."
-msgstr ""
+msgstr "Wypisuje wszystkie znalezione pakiety."
 
 # type: SH
 #: ../../man/dpkg-scanpackages.1:88 ../../man/update-alternatives.8:346
@@ -6419,10 +6537,13 @@ msgstr "dpkg-scanpackages - tworzy pliki indeksowe Sources"
 
 # type: Plain text
 #: ../../man/dpkg-scansources.1:13
+#, fuzzy
 msgid ""
 "B<dpkg-scansources> [I<options>] I<binary-dir> [I<override-file> [I<path-"
 "prefix>]] B<E<gt>> I<Sources>"
 msgstr ""
+"B<dpkg-scanpackages> [I<opcje>] I<katalog-binarny> [I<plik-nadpisañ> "
+"[I<prefiks-¶cie¿ki>]] B<E<gt>> I<Packages>"
 
 # type: Plain text
 #: ../../man/dpkg-scansources.1:18
@@ -6461,6 +6582,10 @@ msgid ""
 "Sources.gz file). apt ignores uncompressed Sources files except on local "
 "access (i.e.  B<file://> sources)."
 msgstr ""
+"B<Uwaga>: Aby B<apt>(8) mog³o u¿yæ wygenerowanego pliku Sources, nale¿y go "
+"skompresowaæ programem B<gzip>(1) (tworz±c plik Sources.gz). apt ignoruje "
+"nieskompresowane pliki Sources z wyj±tkiem lokalnego dostêpu (tj. "
+"pochodz±cego z B<file://>)."
 
 # type: TP
 #: ../../man/dpkg-scansources.1:46
@@ -6816,7 +6941,7 @@ msgstr "Ta opcja w³±cza traktowanie niektórych b³êdów jako ostrze¿enia."
 # type: Plain text
 #: ../../man/dpkg-source.1:108
 msgid "This option negates a previously set B<-W>."
-msgstr ""
+msgstr "Ta opcja neguje poprzednio ustawione B<-W>."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:116
@@ -6873,6 +6998,9 @@ msgid ""
 "tarfiles or directories. If this is desired then B<-sA>, B<-sP>, B<-sK>, B<-"
 "sU> and B<-sR> should be used instead."
 msgstr ""
+"B<-sa>, B<-sp>, B<-sk>, B<-su> oraz B<-sr> nie nadpisz± istniej±cych "
+"archiwów tar lub katalogów. Je¶li jest to wymagane, nale¿y u¿yæ B<-sA>, B<-"
+"sP>, B<-sK>, B<-sU> i B<-sR>."
 
 # type: TP
 #: ../../man/dpkg-source.1:148
@@ -6897,8 +7025,9 @@ msgstr "B<-sp>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:159
+#, fuzzy
 msgid "Like B<-sk> but will remove that tarball again afterwards."
-msgstr ""
+msgstr "Jak B<-sk>, ale ponownie usunie "
 
 # type: TP
 #: ../../man/dpkg-source.1:159 ../../man/dpkg-source.1:222
@@ -6923,7 +7052,7 @@ msgstr "B<-sr>"
 # type: Plain text
 #: ../../man/dpkg-source.1:172
 msgid "Like B<-su> but will remove that directory after it has been used."
-msgstr ""
+msgstr "Jak B<-su>, jednak¿e usunie katalog po jego u¿yciu."
 
 # type: TP
 #: ../../man/dpkg-source.1:172
@@ -6979,9 +7108,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-source.1:212
-#, no-wrap
+#, fuzzy, no-wrap
 msgid "B<Extract options (with -x):>"
-msgstr ""
+msgstr "B<Opcje budowania (z -b):>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:216
@@ -9110,6 +9239,8 @@ msgid ""
 "When B<--remove> is specified the B<--maxwidth>, B<--align> and B<--calign> "
 "formatting options are silently ignored."
 msgstr ""
+"Je¿eli podano B<--remove>, to opcje formatowania B<--maxwidth>, B<--align> "
+"oraz B<--calign> zostan± zignorowane bez ¿adnego ostrze¿enia."
 
 # type: TP
 #: ../../man/install-info.8:101
