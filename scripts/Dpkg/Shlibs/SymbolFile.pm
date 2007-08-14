@@ -182,12 +182,15 @@ sub dump {
 sub merge_symbols {
     my ($self, $object, $minver) = @_;
     my $soname = $object->{SONAME} || error(_g("Can't merge symbols from objects without SONAME."));
-    my %dynsyms = map { $_ => $object->{dynsyms}{$_} }
-	grep { 
-	    local $a = $object->{dynsyms}{$_}; 
-	    $a->{dynamic} && $a->{defined} && not exists $blacklist{$a->{name}}
+    my %dynsyms;
+    foreach my $sym ($object->get_exported_dynamic_symbols()) {
+	next if exists $blacklist{$sym->{name}};
+	if ($sym->{version}) {
+	    $dynsyms{$sym->{name} . '@' . $sym->{version}} = $sym;
+	} else {
+	    $dynsyms{$sym->{name}} = $sym;
 	}
-	keys %{$object->{dynsyms}};
+    }
 
     unless ($self->{objects}{$soname}) {
 	$self->create_object($soname, '');
