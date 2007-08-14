@@ -336,7 +336,8 @@ static int linktosameexistingdir(const struct TarInfo *ti,
   statr= stat(fname, &oldstab);
   if (statr) {
     if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-      ohshite("failed to stat (dereference) existing symlink `%.250s'", fname);
+      ohshite(_("failed to stat (dereference) existing symlink `%.250s'"),
+              fname);
     return 0;
   }
   if (!S_ISDIR(oldstab.st_mode)) return 0;
@@ -356,8 +357,8 @@ static int linktosameexistingdir(const struct TarInfo *ti,
   statr= stat(symlinkfn->buf, &newstab);
   if (statr) {
     if (!(errno == ENOENT || errno == ELOOP || errno == ENOTDIR))
-      ohshite("failed to stat (dereference) proposed new symlink target"
-              " `%.250s' for symlink `%.250s'", symlinkfn->buf, fname);
+      ohshite(_("failed to stat (dereference) proposed new symlink target"
+                " `%.250s' for symlink `%.250s'"), symlinkfn->buf, fname);
     return 0;
   }
   if (!S_ISDIR(newstab.st_mode)) return 0;
