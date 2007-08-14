@@ -36,8 +36,14 @@ void parseerr
   va_list al;
   char buf1[768], buf2[1000], *p, *q;
   if (file && ferror(file)) ohshite(_("failed to read `%s' at line %d"),filename,lno);
-  sprintf(buf1, _("%s, in file `%.255s' near line %d"),
-          warnonly ? _("warning") : _("parse error"), filename, lno);
+
+  if (warnonly)
+    sprintf(buf1, _("warning, in file `%.255s' near line %d"),
+            filename, lno);
+  else
+    sprintf(buf1, _("parse error, in file `%.255s' near line %d"),
+            filename, lno);
+
   if (pigp && pigp->name) {
     sprintf(buf2, _(" package `%.255s'"), pigp->name);
     strcat(buf1,buf2);

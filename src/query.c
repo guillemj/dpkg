@@ -245,18 +245,19 @@ static int searchoutput(struct filenamenode *namenode) {
   struct filepackages *packageslump;
 
   if (namenode->divert) {
-    for (i=0; i<2; i++) {
-      if (namenode->divert->pkg) printf(_("diversion by %s"),namenode->divert->pkg->name);
-      else printf(_("local diversion"));
-      printf(" %s: %s\n", i ? _("to") : _("from"),
-             i ?
-             (namenode->divert->useinstead
-              ? namenode->divert->useinstead->name
-              : namenode->name)
-             :
-             (namenode->divert->camefrom
-              ? namenode->divert->camefrom->name
-              : namenode->name));
+    const char *name_from = namenode->divert->camefrom ?
+                            namenode->divert->camefrom->name : namenode->name;
+    const char *name_to = namenode->divert->useinstead ?
+                          namenode->divert->useinstead->name : namenode->name;
+
+    if (namenode->divert->pkg) {
+      printf(_("diversion by %s from: %s\n"),
+             namenode->divert->pkg->name, name_from);
+      printf(_("diversion by %s to: %s\n"),
+             namenode->divert->pkg->name, name_to);
+    } else {
+      printf(_("local diversion from: %s\n"), name_from);
+      printf(_("local diversion to: %s\n"), name_to);
     }
   }
   found= 0;

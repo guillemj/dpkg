@@ -405,14 +405,19 @@ int tarobject(struct TarInfo *ti) {
 
   if (nifd->namenode->divert && nifd->namenode->divert->camefrom) {
     divpkg= nifd->namenode->divert->pkg;
-    forcibleerr(fc_overwritediverted,
-                _("trying to overwrite `%.250s', which is the "
-                "diverted version of `%.250s'%.10s%.100s%.10s"),
-                nifd->namenode->name,
-                nifd->namenode->divert->camefrom->name,
-                divpkg ? _(" (package: ") : "",
-                divpkg ? divpkg->name : "",
-                divpkg ? ")" : "");
+
+    if (divpkg) {
+      forcibleerr(fc_overwritediverted,
+                  _("trying to overwrite `%.250s', which is the "
+                    "diverted version of `%.250s' (package: %.100s)"),
+                  nifd->namenode->name, nifd->namenode->divert->camefrom->name,
+                  divpkg->name);
+    } else {
+      forcibleerr(fc_overwritediverted,
+                  _("trying to overwrite `%.250s', which is the "
+                    "diverted version of `%.250s'"),
+                  nifd->namenode->name, nifd->namenode->divert->camefrom->name);
+    }
   }
 
   usename= namenodetouse(nifd->namenode,tc->pkg)->name + 1; /* Skip the leading `/' */
