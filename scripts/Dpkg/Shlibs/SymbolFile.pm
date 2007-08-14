@@ -122,7 +122,7 @@ sub load {
 	    };
 	    $self->{objects}{$object}{syms}{$2} = $sym;
 	} elsif (/^#/) {
-	    # Skip possible comments
+	    # Skip possible comments
 	} elsif (/^\|\s*(.*)$/) {
 	    # Alternative dependency template
 	    push @{$self->{objects}{$object}{deps}}, "$1";

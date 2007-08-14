@@ -224,14 +224,20 @@ sub _parse {
 
 sub parse_dynamic_symbol {
     my ($self, $line) = @_;
-    my $vis = '(?:\.protected|\.hidden|\.internal|0x\S+)';
-    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+\s+(\S+)?(?:(?:\s+$vis)?\s+(\S+))/) {
+    my $vis_re = '(\.protected|\.hidden|\.internal|0x\S+)';
+    if ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+\s+(\S+)?(?:(?:\s+$vis_re)?\s+(\S+))/) {
 
-	my ($flags, $sect, $ver, $name) = ($1, $2, $3, $4);
+	my ($flags, $sect, $ver, $vis, $name) = ($1, $2, $3, $4, $5);
 
 	# Special case if version is missing but extra visibility
 	# attribute replaces it in the match
-	$ver = '' if defined($ver) and $ver =~ /^$vis$/; 
+	if (defined($ver) and $ver =~ /^$vis_re$/) {
+	    $vis = $ver;
+	    $ver = '';
+	}
+
+	# Cleanup visibility field
+	$vis =~ s/^\.// if defined($vis);
 
 	my $symbol = {
 		name => $name,
@@ -241,6 +247,9 @@ sub parse_dynamic_symbol {
 		debug => substr($flags, 5, 1) eq "d",
 		type => substr($flags, 6, 1),
 		weak => substr($flags, 1, 1) eq "w",
+		local => substr($flags, 0, 1) eq "l",
+		global => substr($flags, 0, 1) eq "g",
+		visibility => defined($vis) ? $vis : '',
 		hidden => '',
 		defined => $sect ne '*UND*'
 	    };
