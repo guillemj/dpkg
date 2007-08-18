@@ -217,10 +217,10 @@ if ($mode eq 'add') {
 }
 
 sub infol {
-    return (($_[2] eq ':' ? "local " : length($_[2]) ? "" : "any ").
+    return ((defined($_[2]) ? ($_[2] eq ':' ? "local " : "") : "any ").
             "diversion of $_[0]".
-            (length($_[1]) ? " to $_[1]" : "").
-            (length($_[2]) && $_[2] ne ':' ? " by $_[2]" : ""));
+            (defined($_[1]) ? " to $_[1]" : "").
+            (defined($_[2]) && $_[2] ne ':' ? " by $_[2]" : ""));
 }
 
 sub checkrename {
