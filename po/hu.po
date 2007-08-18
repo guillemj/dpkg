@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-05-24 19:33+0300\n"
+"POT-Creation-Date: 2007-08-18 03:58+0300\n"
 "PO-Revision-Date: 2006-10-21 23:19+0100\n"
 "Last-Translator: SZERVÁC Attila <sas@321.hu>\n"
 "Language-Team: hu\n"
@@ -154,7 +154,7 @@ msgstr "nem tudom átnézni az updates könyvtárat: `%.255s'"
 msgid "failed to remove incorporated update file %.255s"
 msgstr "nem tudom törölni a beépített %.255s fájlt"
 
-#: lib/dbmodify.c:111 src/archives.c:601 dpkg-deb/build.c:319
+#: lib/dbmodify.c:111 src/archives.c:650 dpkg-deb/build.c:319
 #, c-format
 msgid "unable to create `%.255s'"
 msgstr "`%.255s' nem hozható létre"
@@ -504,7 +504,7 @@ msgstr "a dpkg állapot adatbázis lezárása sikertelen"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc hiba (%ld bytes)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:98
+#: lib/mlib.c:64 dpkg-deb/info.c:99
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc hiba (%ld bytes)"
@@ -792,68 +792,65 @@ msgstr "nem találok csomag infót ebben: `%.255s'"
 msgid "failed to read `%s' at line %d"
 msgstr "sikertelen `%s' olvasás a%d. sorban"
 
-#: lib/parsehelp.c:39
-#, c-format
-msgid "%s, in file `%.255s' near line %d"
+#: lib/parsehelp.c:41
+#, fuzzy, c-format
+msgid "warning, in file `%.255s' near line %d"
 msgstr "%s, e fájl `%.255s' %d. soránál"
 
-#: lib/parsehelp.c:40
-msgid "warning"
-msgstr "figyelj!"
+#: lib/parsehelp.c:44
+#, fuzzy, c-format
+msgid "parse error, in file `%.255s' near line %d"
+msgstr "%s, e fájl `%.255s' %d. soránál"
 
-#: lib/parsehelp.c:40
-msgid "parse error"
-msgstr "elemzési hiba"
-
-#: lib/parsehelp.c:42
+#: lib/parsehelp.c:48
 #, c-format
 msgid " package `%.255s'"
 msgstr " `%.255s' csomag"
 
-#: lib/parsehelp.c:53
+#: lib/parsehelp.c:59
 msgid "failed to write parsing warning"
 msgstr "az elemzési értesítés kiírása sikertelen"
 
-#: lib/parsehelp.c:113
+#: lib/parsehelp.c:119
 msgid "may not be empty string"
 msgstr "nem lehet üres szöveg"
 
-#: lib/parsehelp.c:114
+#: lib/parsehelp.c:120
 msgid "must start with an alphanumeric"
 msgstr "alfanumerikussal kell kezdődnie"
 
-#: lib/parsehelp.c:123
+#: lib/parsehelp.c:129
 #, c-format
 msgid "character `%c' not allowed (only letters, digits and characters `%s')"
 msgstr ""
 "`%c' karakter tilos (csak betűk, számok és `%s' karakterek adhatók meg)"
 
-#: lib/parsehelp.c:178
+#: lib/parsehelp.c:184
 msgid "<none>"
 msgstr "<nincs>"
 
-#: lib/parsehelp.c:193
+#: lib/parsehelp.c:199
 msgid "version string is empty"
 msgstr "a verzió helye üres"
 
-#: lib/parsehelp.c:204
+#: lib/parsehelp.c:210
 msgid "version string has embedded spaces"
 msgstr "a verziószámban szóközök vannak"
 
-#: lib/parsehelp.c:209
+#: lib/parsehelp.c:215
 msgid "epoch in version is not number"
 msgstr "hiányzó szám a verzióban"
 
-#: lib/parsehelp.c:210
+#: lib/parsehelp.c:216
 msgid "nothing after colon in version number"
 msgstr "nincs semmi a : után a verziószámban"
 
-#: lib/parsehelp.c:232
+#: lib/parsehelp.c:238
 #, c-format
 msgid "missing %s"
 msgstr "hiányzik: %s"
 
-#: lib/parsehelp.c:236
+#: lib/parsehelp.c:242
 #, c-format
 msgid "empty value for %s"
 msgstr "üres érték ehhez: %s"
@@ -889,225 +886,224 @@ msgstr "hiba a dpkg-deb cső olvasásakor"
 msgid "error setting timestamps of `%.255s'"
 msgstr "nem sikerült beállítani `%.255s' időpecsétjét"
 
-#: src/archives.c:273 src/archives.c:618
+#: src/archives.c:273 src/archives.c:667
 #, c-format
 msgid "error setting ownership of `%.255s'"
 msgstr "nem sikerült beállítani `%.255s' tulajdonosát"
 
-#: src/archives.c:275 src/archives.c:621
+#: src/archives.c:275 src/archives.c:670
 #, c-format
 msgid "error setting permissions of `%.255s'"
 msgstr "nem sikerült beállítani `%.255s' jogait"
 
-#: src/archives.c:368
+#: src/archives.c:339
+#, fuzzy, c-format
+msgid "failed to stat (dereference) existing symlink `%.250s'"
+msgstr "`%.250s' futtatási jogainak beállítása sikertelen"
+
+#: src/archives.c:360
 #, c-format
 msgid ""
-"trying to overwrite `%.250s', which is the diverted version of `%.250s'%.10s"
-"%.100s%.10s"
+"failed to stat (dereference) proposed new symlink target `%.250s' for "
+"symlink `%.250s'"
+msgstr ""
+
+#: src/archives.c:411
+#, fuzzy, c-format
+msgid ""
+"trying to overwrite `%.250s', which is the diverted version of `"
+"%.250s' (package: %.100s)"
 msgstr ""
 "kísérlet `%.255s' felülírására, ami a(z) `%.250s'%.10s%.100s%.10s eltérített "
 "verziója."
 
-#: src/archives.c:372
-msgid " (package: "
-msgstr " (csomag: "
+#: src/archives.c:417
+#, fuzzy, c-format
+msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
+msgstr ""
+"kísérlet `%.255s' felülírására, ami a(z) `%.250s'%.10s%.100s%.10s eltérített "
+"verziója."
 
-#: src/archives.c:394
+#: src/archives.c:440
 #, c-format
 msgid "unable to stat `%.255s' (which I was about to install)"
 msgstr "nem találom `%.255s'-t (melyet telepítenem kéne)"
 
-#: src/archives.c:402
+#: src/archives.c:448
 #, c-format
 msgid ""
 "unable to clean up mess surrounding `%.255s' before installing another "
 "version"
 msgstr ""
 
-#: src/archives.c:408
+#: src/archives.c:454
 #, c-format
 msgid "unable to stat restored `%.255s' before installing another version"
 msgstr ""
 
-#: src/archives.c:440
+#: src/archives.c:489
 #, c-format
 msgid "archive contained object `%.255s' of unknown type 0x%x"
 msgstr "az archívum `%.255s' objektuma ismeretlen 0x%x típusú"
 
-#: src/archives.c:500
+#: src/archives.c:549
 #, c-format
 msgid "Replacing files in old package %s ...\n"
 msgstr "Fájlok cseréje a régi %s csomagban...\n"
 
-#: src/archives.c:503
+#: src/archives.c:552
 #, c-format
 msgid "Replaced by files in installed package %s ...\n"
 msgstr "A telepített %s csomag fájljai cserélték ...\n"
 
-#: src/archives.c:509
+#: src/archives.c:558
 #, c-format
 msgid ""
 "trying to overwrite directory `%.250s' in package %.250s with nondirectory"
 msgstr ""
 "`%.250s' könyvtár felülírási kísérlete a csomagban: %.250s más fájltípussal"
 
-#: src/archives.c:519
+#: src/archives.c:568
 #, c-format
 msgid "trying to overwrite `%.250s', which is also in package %.250s"
 msgstr ""
 "`%.250s' felülírási kísérlete, mely az alábbi csomagban is szerepel: %.250s"
 
-#: src/archives.c:544
+#: src/archives.c:593
 #, c-format
 msgid "gobble replaced file `%.255s'"
 msgstr ""
 
-#: src/archives.c:606
+#: src/archives.c:655
 #, c-format
 msgid "backend dpkg-deb during `%.255s'"
 msgstr "háttér dpkg-deb `%.255s' során"
 
-#: src/archives.c:624
+#: src/archives.c:673
 #, c-format
 msgid "error closing/writing `%.255s'"
 msgstr "hiba az alábbi lezárásakor/írásakor: `%.255s'"
 
-#: src/archives.c:629
+#: src/archives.c:678
 #, c-format
 msgid "error creating pipe `%.255s'"
 msgstr "hiba az alábbi cső létrehozásakor: `%.255s'"
 
-#: src/archives.c:635 src/archives.c:641
+#: src/archives.c:684 src/archives.c:690
 #, c-format
 msgid "error creating device `%.255s'"
 msgstr "hiba az alábbi eszköz létrehozásakor: `%.255s'"
 
-#: src/archives.c:650
+#: src/archives.c:699
 #, c-format
 msgid "error creating hard link `%.255s'"
 msgstr "hiba az alábbi merev lánc létrehozásakor: `%.255s'"
 
-#: src/archives.c:657
+#: src/archives.c:706
 #, c-format
 msgid "error creating symbolic link `%.255s'"
 msgstr "hiba az alábbi jelképes lánc létrehozásakor: `%.255s'"
 
-#: src/archives.c:663 src/archives.c:668
+#: src/archives.c:712 src/archives.c:717
 #, c-format
 msgid "error setting ownership of symlink `%.255s'"
 msgstr "hiba az alábbi jlánc tulajdonosának beállításakor: `%.255s'"
 
-#: src/archives.c:674
+#: src/archives.c:723
 #, c-format
 msgid "error creating directory `%.255s'"
 msgstr "hiba az alábbi könyvtár létrehozásakor: `%.255s'"
 
-#: src/archives.c:709
+#: src/archives.c:758
 #, c-format
 msgid "unable to move aside `%.255s' to install new version"
 msgstr "nem tudom elmozdítani `%.255s'-t az új változat telepítéséhez"
 
-#: src/archives.c:718
+#: src/archives.c:767
 #, c-format
 msgid "unable to read link `%.255s'"
 msgstr "meghiúsult e lánc olvasása: `%.255s'"
 
-#: src/archives.c:722
+#: src/archives.c:771
 #, c-format
 msgid "unable to make backup symlink for `%.255s'"
 msgstr ""
 
-#: src/archives.c:725 src/archives.c:728
+#: src/archives.c:774 src/archives.c:777
 #, c-format
 msgid "unable to chown backup symlink for `%.255s'"
 msgstr ""
 
-#: src/archives.c:733
+#: src/archives.c:782
 #, c-format
 msgid "unable to make backup link of `%.255s' before installing new version"
 msgstr ""
 "nem tudom elkészíteni `%.255s' mentő láncát az új változat telepítése előtt"
 
-#: src/archives.c:757
+#: src/archives.c:806
 #, c-format
 msgid "unable to install new version of `%.255s'"
 msgstr "nem tudom telepíteni `%.255s' új verzióját"
 
-#: src/archives.c:789
-#, c-format
+#: src/archives.c:853
+#, fuzzy, c-format
 msgid ""
-"dpkg: warning - ignoring dependency problem with removal of %s:\n"
+"dpkg: warning - ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
 "dpkg: figyelem - nem veszem figyelembe a(z) %s eltávolításával járó "
 "függőségi gondokat:\n"
 "%s"
 
-#: src/archives.c:796
-#, c-format
+#: src/archives.c:860
+#, fuzzy, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
-" package %s, to enable removal of %s.\n"
+" package %s, to enable %s.\n"
 msgstr ""
 "dpkg: figyelem - egy lényeges csomag: %s dekonfigurálását\n"
 " választottad %s eltávolításáért.\n"
 
-#: src/archives.c:800
-#, c-format
+#: src/archives.c:864
+#, fuzzy, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
-" it in order to enable removal of %s.\n"
+" it in order to enable %s.\n"
 msgstr ""
 "dpkg: nem, %s lényeges, nem dekonfigurálom\n"
 " %s eltávolításáért.\n"
 
-#: src/archives.c:813
-#, c-format
+#: src/archives.c:878
+#, fuzzy, c-format
 msgid ""
-"dpkg: no, cannot remove %s (--auto-deconfigure will help):\n"
+"dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
 "dpkg: nem, nem tudom törölni %s-t (--auto-deconfigure segít):\n"
 "%s"
 
-#: src/archives.c:847
-#, c-format
-msgid "dpkg: considering removing %s in favour of %s ...\n"
+#: src/archives.c:888
+#, fuzzy, c-format
+msgid "removal of %.250s"
+msgstr "olvasási hiba itt: %.250s"
+
+#: src/archives.c:915
+#, fuzzy, c-format
+msgid "installation of %.250s"
+msgstr "nem tudom telepíteni `%.255s' új verzióját"
+
+#: src/archives.c:916
+#, fuzzy, c-format
+msgid ""
+"dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
 msgstr "dpkg: %s törlése %s javára...\n"
 
-#: src/archives.c:851
-#, c-format
-msgid "%s is not properly installed - ignoring any dependencies on it.\n"
-msgstr "%s nincs rendben telepítve - kihagyom, amik tőle függenek.\n"
-
-#: src/archives.c:878
-#, c-format
-msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
-msgstr "dpkg: gond lehet %s törlésekor, mivel %s-t adja ...\n"
-
-#: src/archives.c:893
-#, c-format
-msgid ""
-"dpkg: package %s requires reinstallation, but will remove anyway as you "
-"request.\n"
-msgstr "dpkg %s újratelepítést kíván, de kérésedre törlöm.\n"
-
-#: src/archives.c:896
-#, c-format
-msgid "dpkg: package %s requires reinstallation, will not remove.\n"
-msgstr "dpkg %s újratelepítést kíván, nem törlöm.\n"
-
-#: src/archives.c:903
-#, c-format
-msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr ""
-
-#: src/archives.c:909
-#, c-format
-msgid "dpkg: yes, will remove %s in favour of %s.\n"
+#: src/archives.c:923
+#, fuzzy, c-format
+msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
 msgstr "dpkg: igen, törlöm %s-t %s javára.\n"
 
-#: src/archives.c:917
+#: src/archives.c:927 src/archives.c:1048
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s:\n"
@@ -1116,72 +1112,126 @@ msgstr ""
 "dpkg: %s miatt %s-t is tartalmazza:\n"
 "%s"
 
-#: src/archives.c:920
+#: src/archives.c:935
+#, fuzzy, c-format
+msgid "dpkg: warning - ignoring breakage, may proceed anyway !\n"
+msgstr "dpkg: figyelem - az ütközések figyelmen kívül hagyásával folytatom !\n"
+
+#: src/archives.c:941
+#, c-format
+msgid ""
+"installing %.250s would break %.250s, and\n"
+" deconfiguration is not permitted (--auto-deconfigure might help)"
+msgstr ""
+
+#: src/archives.c:945
+#, c-format
+msgid "installing %.250s would break existing software"
+msgstr ""
+
+#: src/archives.c:978
+#, c-format
+msgid "dpkg: considering removing %s in favour of %s ...\n"
+msgstr "dpkg: %s törlése %s javára...\n"
+
+#: src/archives.c:982
+#, c-format
+msgid "%s is not properly installed - ignoring any dependencies on it.\n"
+msgstr "%s nincs rendben telepítve - kihagyom, amik tőle függenek.\n"
+
+#: src/archives.c:1009
+#, c-format
+msgid "dpkg: may have trouble removing %s, as it provides %s ...\n"
+msgstr "dpkg: gond lehet %s törlésekor, mivel %s-t adja ...\n"
+
+#: src/archives.c:1024
+#, c-format
+msgid ""
+"dpkg: package %s requires reinstallation, but will remove anyway as you "
+"request.\n"
+msgstr "dpkg %s újratelepítést kíván, de kérésedre törlöm.\n"
+
+#: src/archives.c:1027
+#, c-format
+msgid "dpkg: package %s requires reinstallation, will not remove.\n"
+msgstr "dpkg %s újratelepítést kíván, nem törlöm.\n"
+
+#: src/archives.c:1034
+#, c-format
+msgid "package %s has too many Conflicts/Replaces pairs"
+msgstr ""
+
+#: src/archives.c:1040
+#, c-format
+msgid "dpkg: yes, will remove %s in favour of %s.\n"
+msgstr "dpkg: igen, törlöm %s-t %s javára.\n"
+
+#: src/archives.c:1051
 #, c-format
 msgid "conflicting packages - not installing %.250s"
 msgstr "ütköző csomagok - nem telepítem %.250s-t"
 
-#: src/archives.c:921
+#: src/archives.c:1052
 #, c-format
 msgid "dpkg: warning - ignoring conflict, may proceed anyway !\n"
 msgstr "dpkg: figyelem - az ütközések figyelmen kívül hagyásával folytatom !\n"
 
-#: src/archives.c:959
+#: src/archives.c:1090
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
 msgstr "--%s --recursive legalább 1 ösvény argumentumot vár"
 
-#: src/archives.c:989
+#: src/archives.c:1120
 msgid "failed to exec find for --recursive"
 msgstr "find futtatása a --recursive-hoz sikertelen"
 
-#: src/archives.c:994
+#: src/archives.c:1125
 msgid "failed to fdopen find's pipe"
 msgstr "sikertelen fdopen a find csőhöz"
 
-#: src/archives.c:1000
+#: src/archives.c:1131
 msgid "error reading find's pipe"
 msgstr "hiba a find cső olvasásakor"
 
-#: src/archives.c:1001
+#: src/archives.c:1132
 msgid "error closing find's pipe"
 msgstr "hiba a find cső lezárásakor"
 
-#: src/archives.c:1004
+#: src/archives.c:1135
 #, c-format
 msgid "find for --recursive returned unhandled error %i"
 msgstr "a find a --recursive-hoz kezeletlen hibával tért vissza: %i"
 
-#: src/archives.c:1007
+#: src/archives.c:1138
 msgid "searched, but found no packages (files matching *.deb)"
 msgstr "kerestem, de nem leltem csomagokat (*.deb fájlokat)"
 
-#: src/archives.c:1023
+#: src/archives.c:1154
 #, c-format
 msgid "--%s needs at least one package archive file argument"
 msgstr "--%s legalább 1 csomagarchívum fájl argumentumot vár"
 
-#: src/archives.c:1092
+#: src/archives.c:1223
 #, c-format
 msgid "Selecting previously deselected package %s.\n"
 msgstr "Új csomag kiválasztása: %s.\n"
 
-#: src/archives.c:1097
+#: src/archives.c:1228
 #, c-format
 msgid "Skipping deselected package %s.\n"
 msgstr "Kijelöletlen %s csomag átugrása.\n"
 
-#: src/archives.c:1111
+#: src/archives.c:1242
 #, c-format
 msgid "Version %.250s of %.250s already installed, skipping.\n"
 msgstr "E csomag %.250s veziója: %.250s már telepített, átugrom.\n"
 
-#: src/archives.c:1121
+#: src/archives.c:1252
 #, c-format
 msgid "%s - warning: downgrading %.250s from %.250s to %.250s.\n"
 msgstr "%s - figyelem: %.250s öregbítése innen: %.250s ide: %.250s.\n"
 
-#: src/archives.c:1127
+#: src/archives.c:1258
 #, c-format
 msgid "Will not downgrade %.250s from version %.250s to %.250s, skipping.\n"
 msgstr ""
@@ -1230,7 +1280,7 @@ msgstr ""
 "A(z) %.250s csomag nem beállítható\n"
 " (jelenlegi állapota: `%.250s')"
 
-#: src/configure.c:115
+#: src/configure.c:117
 #, c-format
 msgid ""
 "dpkg: dependency problems prevent configuration of %s:\n"
@@ -1239,11 +1289,11 @@ msgstr ""
 "dpkg: függőségi gondok miatt nem beállítható e csomag: %s:\n"
 "%s"
 
-#: src/configure.c:118
+#: src/configure.c:120
 msgid "dependency problems - leaving unconfigured"
 msgstr "függőségi hibák - e csomag beállítatlan maradt"
 
-#: src/configure.c:122
+#: src/configure.c:124
 #, c-format
 msgid ""
 "dpkg: %s: dependency problems, but configuring anyway as you request:\n"
@@ -1252,7 +1302,7 @@ msgstr ""
 "dpkg: %s: függőségi hibák, mégis konfigurálom, mert ezt akartad:\n"
 "%s"
 
-#: src/configure.c:130
+#: src/configure.c:132
 msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting configuration."
@@ -1260,22 +1310,22 @@ msgstr ""
 "E csomag nagyon rossz, következetlen állapotban van - újra kell \n"
 " telepítened a beállítás előtt."
 
-#: src/configure.c:133
+#: src/configure.c:135
 #, c-format
 msgid "Setting up %s (%s) ...\n"
 msgstr "Beállítás: %s (%s) ...\n"
 
-#: src/configure.c:180
+#: src/configure.c:182
 #, c-format
 msgid "unable to stat new dist conffile `%.250s'"
 msgstr "nem érhető el az új terjesztési beállítófájl: %.250s"
 
-#: src/configure.c:190 src/configure.c:431
+#: src/configure.c:192 src/configure.c:431
 #, c-format
 msgid "unable to stat current installed conffile `%.250s'"
 msgstr "nem érhető el a jelenleg telepített beállítófájl: %.250s"
 
-#: src/configure.c:199
+#: src/configure.c:201
 #, c-format
 msgid ""
 "\n"
@@ -1286,45 +1336,45 @@ msgstr ""
 "Nincs `%s' beállító fájl a rendszeren.\n"
 "Kérésedre újat telepítek.\n"
 
-#: src/configure.c:233
+#: src/configure.c:235
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old backup `%.250s': %s\n"
 msgstr "dpkg: %s: figyelem - a régi `%.250s' mentés törlése meghiúsult: %s\n"
 
-#: src/configure.c:241
+#: src/configure.c:243
 #, c-format
 msgid "dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"
 msgstr ""
 "dpkg: %s: figyelem - nem sikerült átnevezni `%.250s'-t erre: `%.250s': %s\n"
 
-#: src/configure.c:249
+#: src/configure.c:251
 #, c-format
 msgid "dpkg: %s: warning - failed to remove `%.250s': %s\n"
 msgstr "dpkg: %s: figyelem - `%.250s' eltávolítása meghiúsult: %s\n"
 
-#: src/configure.c:257
+#: src/configure.c:259
 #, c-format
 msgid "dpkg: %s: warning - failed to remove old distrib version `%.250s': %s\n"
 msgstr ""
 
-#: src/configure.c:262
+#: src/configure.c:264
 #, c-format
 msgid "dpkg: %s: warning - failed to remove `%.250s' (before overwrite): %s\n"
 msgstr ""
 "dpkg: %s: figyelem - nem sikerült `%.250s' eltávolítása (felülírás előtt): %"
 "s\n"
 
-#: src/configure.c:267
+#: src/configure.c:269
 #, c-format
 msgid "dpkg: %s: warning - failed to link `%.250s' to `%.250s': %s\n"
 msgstr "dpkg: %s: figyelem - meghiúsult `%.250s' láncolása ide: `%.250s': %s\n"
 
-#: src/configure.c:271
+#: src/configure.c:273
 #, c-format
 msgid "Installing new version of config file %s ...\n"
 msgstr "Új beállító fájl telepítése %s ...\n"
 
-#: src/configure.c:275
+#: src/configure.c:277
 #, c-format
 msgid "unable to install `%.250s' as `%.250s'"
 msgstr "nem sikerült telepíteni `%.250s'-t `%.250s'-ként"
@@ -1583,82 +1633,82 @@ msgstr " ütközések:"
 msgid "%s enhances %s"
 msgstr " kiterjeszti "
 
-#: src/depcon.c:269
+#: src/depcon.c:265
 #, c-format
 msgid "  %.250s is to be removed.\n"
 msgstr "  %.250s eltávolításra jelölt.\n"
 
-#: src/depcon.c:272
+#: src/depcon.c:268
 #, c-format
 msgid "  %.250s is to be deconfigured.\n"
 msgstr "  %.250s dekonfigurálásra jelölt.\n"
 
-#: src/depcon.c:276
+#: src/depcon.c:272
 #, c-format
 msgid "  %.250s is to be installed, but is version %.250s.\n"
 msgstr "  %.250s telepítésre jelölt, de verziója %.250s.\n"
 
-#: src/depcon.c:284
+#: src/depcon.c:280
 #, c-format
 msgid "  %.250s is installed, but is version %.250s.\n"
 msgstr "  %.250s telepített, de verziója %.250s.\n"
 
-#: src/depcon.c:299
+#: src/depcon.c:295
 #, c-format
 msgid "  %.250s is unpacked, but has never been configured.\n"
 msgstr "  %.250s is kibontva, de sosem került konfigurálásra.\n"
 
-#: src/depcon.c:303
+#: src/depcon.c:299
 #, c-format
 msgid "  %.250s is unpacked, but is version %.250s.\n"
 msgstr "  %.250s kibontva, de verziója %.250s.\n"
 
-#: src/depcon.c:309
+#: src/depcon.c:305
 #, c-format
 msgid "  %.250s latest configured version is %.250s.\n"
 msgstr "  %.250s legutolsó beállított verziója %.250s.\n"
 
-#: src/depcon.c:318
+#: src/depcon.c:314
 #, c-format
 msgid "  %.250s is %s.\n"
 msgstr "  %.250s %s.\n"
 
-#: src/depcon.c:354
+#: src/depcon.c:350
 #, c-format
 msgid "  %.250s provides %.250s but is to be removed.\n"
 msgstr "  %.250s adja %.250s-t de törlésre jelölt.\n"
 
-#: src/depcon.c:358
+#: src/depcon.c:354
 #, c-format
 msgid "  %.250s provides %.250s but is to be deconfigured.\n"
 msgstr "  %.250s adja %.250s-t de dekonfra jelölt.\n"
 
-#: src/depcon.c:363
+#: src/depcon.c:359
 #, c-format
 msgid "  %.250s provides %.250s but is %s.\n"
 msgstr "  %.250s adja %.250s-t de %s.\n"
 
-#: src/depcon.c:377
+#: src/depcon.c:373
 #, c-format
 msgid "  %.250s is not installed.\n"
 msgstr "  %.250s nincs telepítve.\n"
 
-#: src/depcon.c:408
+#: src/depcon.c:404
 #, c-format
 msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (%.250s verzió) telepítésre jelölt.\n"
 
-#: src/depcon.c:422
+#: src/depcon.c:424
 #, c-format
 msgid "  %.250s (version %.250s) is %s.\n"
 msgstr "  %.250s (%.250s verzió) %s.\n"
 
-#: src/depcon.c:447
+#: src/depcon.c:449
 #, c-format
 msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s adja %.250s-t és telepítésre jelölt.\n"
 
-#: src/depcon.c:478
+#: src/depcon.c:485
 #, c-format
 msgid "  %.250s provides %.250s and is %s.\n"
 msgstr "  %.250s adja %.250s-t és %s.\n"
@@ -2029,98 +2079,98 @@ msgstr ""
 "Megj.: a root felhasználó PATH változója általában tartalmazza a /usr/local/"
 "sbin, a /usr/sbin és a /sbin könyvtárakat."
 
-#: src/help.c:179
+#: src/help.c:185
 #, c-format
 msgid "failed to chroot to `%.250s'"
 msgstr "meghiúsult a chroot ide: `%.250s'"
 
-#: src/help.c:227
+#: src/help.c:233
 #, c-format
 msgid "error un-catching signal %s: %s\n"
 msgstr "hiba a %s jel elengedésekor: %s\n"
 
-#: src/help.c:245
+#: src/help.c:251
 #, c-format
 msgid "unable to ignore signal %s before running script"
 msgstr "nem tudom eldobni a %s jelet a szkript futtatása előtt"
 
-#: src/help.c:254
+#: src/help.c:260
 #, c-format
 msgid "unable to set execute permissions on `%.250s'"
 msgstr "`%.250s' futtatási jogainak beállítása sikertelen"
 
-#: src/help.c:299
+#: src/help.c:305
 #, c-format
 msgid "unable to stat installed %s script `%.250s'"
 msgstr "nem lelem telepített %s `%.250s' szkriptjét"
 
-#: src/help.c:301 src/help.c:357 src/help.c:377
+#: src/help.c:307 src/help.c:363 src/help.c:383
 #, c-format
 msgid "unable to execute %s"
 msgstr "sikertelen futtatás: %s"
 
-#: src/help.c:325
+#: src/help.c:331
 #, c-format
 msgid "unable to stat new %s script `%.250s'"
 msgstr "nem lelem az új %s `%.250s' szkriptjét"
 
-#: src/help.c:327
+#: src/help.c:333
 #, c-format
 msgid "unable to execute new %s"
 msgstr "az új %s futtatása meghiúsult"
 
-#: src/help.c:346
+#: src/help.c:352
 #, c-format
 msgid "old %s script"
 msgstr "régi %s szkript"
 
-#: src/help.c:354
+#: src/help.c:360
 #, c-format
 msgid "dpkg: warning - unable to stat %s `%.250s': %s\n"
 msgstr "dpkg: figyelem - nem lelem %s `%.250s'-t: %s\n"
 
-#: src/help.c:361
+#: src/help.c:367
 #, c-format
 msgid "dpkg - trying script from the new package instead ...\n"
 msgstr "dpkg - inkább megnézem az új csomag szkriptjét ...\n"
 
-#: src/help.c:368
+#: src/help.c:374
 #, c-format
 msgid "new %s script"
 msgstr "új %s szkript"
 
-#: src/help.c:372
+#: src/help.c:378
 msgid "there is no script in the new version of the package - giving up"
 msgstr "nincs új szkript a csomag új változatában - feladom"
 
-#: src/help.c:374
+#: src/help.c:380
 #, c-format
 msgid "unable to stat %s `%.250s'"
 msgstr "nem lelem %s `%.250s'-t"
 
-#: src/help.c:378
+#: src/help.c:384
 #, c-format
 msgid "dpkg: ... it looks like that went OK.\n"
 msgstr "dpkg: ... úgy fest, rendben ment.\n"
 
-#: src/help.c:467
+#: src/help.c:473
 msgid "unlink"
 msgstr "elláncolás"
 
-#: src/help.c:481
+#: src/help.c:487
 msgid "chmod"
 msgstr "chmod"
 
-#: src/help.c:497 src/processarc.c:711
+#: src/help.c:503 src/processarc.c:721
 msgid "delete"
 msgstr "törlés"
 
-#: src/help.c:507
+#: src/help.c:513
 #, c-format
 msgid "failed to %s `%%.255s'"
 msgstr "meghiúsult ehhez: %s `%%.250s'"
 
-#: src/help.c:513 dpkg-deb/info.c:54
+#: src/help.c:519 dpkg-deb/info.c:54
 msgid "failed to exec rm for cleanup"
 msgstr "az rm futtatása a tisztításhoz nem sikerült"
 
@@ -2129,7 +2179,7 @@ msgstr "az rm futtatása a tisztításhoz nem sikerült"
 msgid "Debian `%s' package management program version %s.\n"
 msgstr "Debian `%s' csomagkezelő program %s verzió.\n"
 
-#: src/main.c:46 src/query.c:467 dpkg-deb/main.c:48 dpkg-split/main.c:41
+#: src/main.c:46 src/query.c:490 dpkg-deb/main.c:48 dpkg-split/main.c:41
 #, c-format
 msgid ""
 "This is free software; see the GNU General Public License version 2 or\n"
@@ -2140,7 +2190,7 @@ msgstr ""
 "változatát a másolási feltételekért.  NINCS garancia.\n"
 "L. a %s  --licence opciót a szerzői jogi és licenc részletekért.\n"
 
-#: src/main.c:57 src/query.c:478 dpkg-deb/main.c:56 dpkg-split/main.c:49
+#: src/main.c:57 src/query.c:501 dpkg-deb/main.c:56 dpkg-split/main.c:49
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -2206,7 +2256,7 @@ msgstr ""
 "  -Dh|--debug=help                 Súgó mutatása hibakereséskor.\n"
 "\n"
 
-#: src/main.c:88 src/query.c:492 dpkg-deb/main.c:73 dpkg-split/main.c:63
+#: src/main.c:88 src/query.c:515 dpkg-deb/main.c:73 dpkg-split/main.c:63
 #, c-format
 msgid ""
 "  -h|--help                        Show this help message.\n"
@@ -2349,17 +2399,17 @@ msgstr ""
 "A [*]-gal jelölt lehetőségek nagy kimenetet írnak - használd a pipát a "
 "`less' vagy `more' parancson keresztül!"
 
-#: src/main.c:206 src/query.c:544 dpkg-deb/main.c:177 dpkg-split/main.c:157
+#: src/main.c:207 src/query.c:567 dpkg-deb/main.c:177 dpkg-split/main.c:157
 #, c-format
 msgid "conflicting actions -%c (--%s) and -%c (--%s)"
 msgstr "ütköző műveletek -%c (--%s) and -%c (--%s)"
 
-#: src/main.c:212
+#: src/main.c:213
 #, c-format
 msgid "Warning: obsolete option `--%s'\n"
 msgstr "Figyelem: elavult lehetőség `--%s'\n"
 
-#: src/main.c:220
+#: src/main.c:221
 #, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
@@ -2398,28 +2448,28 @@ msgstr ""
 "A hibakeresési kapcsolók keverhetők bitenkénti vagy segítségével.\n"
 "Ne feledd, hogy a jelentések és értékek változhatnak.\n"
 
-#: src/main.c:241
+#: src/main.c:242
 msgid "--debug requires an octal argument"
 msgstr "a --debug egy oktális argumentumot igényel"
 
-#: src/main.c:265
+#: src/main.c:266
 #, c-format
 msgid "null package name in --ignore-depends comma-separated list `%.250s'"
 msgstr ""
 "nincs csomagnév az --ignore-depends vesszővel elválasztott listájában: `"
 "%.250s'"
 
-#: src/main.c:271
+#: src/main.c:272
 #, c-format
 msgid "--ignore-depends requires a legal package name. `%.250s' is not; %s"
 msgstr "Az --ignore-depends helyes csomagnevet követel. `%.250s' nem az; %s"
 
-#: src/main.c:287 src/main.c:298
+#: src/main.c:288 src/main.c:299
 #, c-format
 msgid "invalid integer for --%s: `%.250s'"
 msgstr "érvénytelem egész a --%s számára: `%.250s'"
 
-#: src/main.c:318
+#: src/main.c:319
 #, c-format
 msgid ""
 "%s forcing options - control behaviour when problems found:\n"
@@ -2507,52 +2557,52 @@ msgstr ""
 "FIGYELMEZTETÉS - a [!] jelű kapcsolók használata súlyosan károsíthatja a\n"
 "telepítést. A [*] jelű kapcsolók alapértelmezésben engedélyezettek.\n"
 
-#: src/main.c:363
+#: src/main.c:364
 #, c-format
 msgid "unknown force/refuse option `%.*s'"
 msgstr "ismeretlen `%.*s' kényszerítő/elutasító opció"
 
-#: src/main.c:368
+#: src/main.c:369
 #, c-format
 msgid "Warning: obsolete force/refuse option `%s'\n"
 msgstr "Figyelem: elavult `--%s' kényszerítő/elutasító opció\n"
 
-#: src/main.c:491 src/main.c:501 src/main.c:509
+#: src/main.c:492 src/main.c:502 src/main.c:510
 msgid "couldn't malloc in execbackend"
 msgstr "sikertelen malloc az execbackend-ben"
 
-#: src/main.c:495 src/main.c:518
+#: src/main.c:496 src/main.c:519
 msgid "couldn't strdup in execbackend"
 msgstr "sikertelen strdup az execbackend-ben"
 
-#: src/main.c:523
+#: src/main.c:524
 #, c-format
 msgid "failed to exec %s"
 msgstr "sikertelen futtatás: %s"
 
-#: src/main.c:538
+#: src/main.c:539
 msgid "--command-fd takes one argument, not zero"
 msgstr "a --command-fd 1 argumentumot vár"
 
-#: src/main.c:540
+#: src/main.c:541
 msgid "--command-fd only takes one argument"
 msgstr "a --command-fd csak 1 argumentumot vár"
 
-#: src/main.c:542
+#: src/main.c:543
 msgid "invalid number for --command-fd"
 msgstr "érvénytelen szám a --command-fd számára"
 
-#: src/main.c:544
+#: src/main.c:545
 #, c-format
 msgid "couldn't open `%i' for stream"
 msgstr "`%i' nem nyitható meg az áramoltatásra"
 
-#: src/main.c:569
+#: src/main.c:570
 #, c-format
 msgid "unexpected eof before end of line %d"
 msgstr "váratlan eof e sor vége előtt: %d"
 
-#: src/main.c:613 src/main.c:628 src/query.c:580 dpkg-deb/main.c:202
+#: src/main.c:614 src/main.c:629 src/query.c:603 dpkg-deb/main.c:202
 #: dpkg-split/main.c:170
 msgid "need an action option"
 msgstr "egy művelet opciót igényel"
@@ -2562,7 +2612,7 @@ msgstr "egy művelet opciót igényel"
 msgid "--%s --pending does not take any non-option arguments"
 msgstr "a --%s --pending nem fogad non-opcionális argumentumot"
 
-#: src/packages.c:109 src/query.c:321
+#: src/packages.c:109 src/query.c:331
 #, c-format
 msgid "--%s needs at least one package name argument"
 msgstr "a --%s legalább 1 csomagnév argumentot vár"
@@ -2627,11 +2677,26 @@ msgstr "  `%s' csomag, mely %s-t adja nincs telepítve.\n"
 msgid "  Package %s is not installed.\n"
 msgstr "   `%s' csomag nincs telepítve.\n"
 
-#: src/packages.c:396
+#: src/packages.c:362
+#, fuzzy, c-format
+msgid " %s (%s) breaks %s and is %s.\n"
+msgstr "  %.250s adja %.250s-t és %s.\n"
+
+#: src/packages.c:370
+#, fuzzy, c-format
+msgid "  %s (%s) provides %s.\n"
+msgstr "%s (alfolyamat): %s\n"
+
+#: src/packages.c:375
+#, fuzzy, c-format
+msgid "  Version of %s to be configured is %s.\n"
+msgstr "  %s rendszeren lévő verziója %s.\n"
+
+#: src/packages.c:467
 msgid " depends on "
 msgstr " függőségek: "
 
-#: src/packages.c:402
+#: src/packages.c:473
 msgid "; however:\n"
 msgstr "; ám:\n"
 
@@ -2702,107 +2767,95 @@ msgstr "%s információit rögzítettem innen: %s.\n"
 msgid "package architecture (%s) does not match system (%s)"
 msgstr "a csomag géptípusa (%s) eltér a rendszertől (%s)"
 
-#: src/processarc.c:256
-#, c-format
-msgid ""
-"dpkg: regarding %s containing %s:\n"
-" package uses Breaks; not supported in this dpkg\n"
-msgstr ""
-
-#: src/processarc.c:260
-#, c-format
-msgid "unsupported dependency problem - not installing %.250s"
-msgstr "nem támogatott függőségi gond - %.250s nem települ"
-
-#: src/processarc.c:262
-#, c-format
-msgid "dpkg: warning - ignoring Breaks !\n"
-msgstr ""
-
-#: src/processarc.c:275
+#: src/processarc.c:269
 #, c-format
 msgid ""
 "dpkg: regarding %s containing %s, pre-dependency problem:\n"
 "%s"
 msgstr ""
 
-#: src/processarc.c:278
+#: src/processarc.c:272
 #, c-format
 msgid "pre-dependency problem - not installing %.250s"
 msgstr "elő-függőségi gond - %.250s nem települ"
 
-#: src/processarc.c:279
+#: src/processarc.c:273
 #, c-format
 msgid "dpkg: warning - ignoring pre-dependency problem !\n"
 msgstr "dpkg: figyelem - elő-függőségi gondok átlépése !\n"
 
-#: src/processarc.c:294
+#: src/processarc.c:288
 #, c-format
 msgid "Preparing to replace %s %s (using %s) ...\n"
 msgstr "%s %s cseréjének előkészítése (e csomaggal: %s) ...\n"
 
-#: src/processarc.c:299
+#: src/processarc.c:293
 #, c-format
 msgid "Unpacking %s (from %s) ...\n"
 msgstr "Kicsomagolás: %s innen: %s ...\n"
 
-#: src/processarc.c:321
+#: src/processarc.c:315
 #, c-format
 msgid "name of conffile (starting `%.250s') is too long (>%d characters)"
 msgstr "a konffájl neve (kezdete: `%.250s') túl hosszú (>%d karakter)"
 
-#: src/processarc.c:374
+#: src/processarc.c:368
 #, c-format
 msgid "read error in %.250s"
 msgstr "olvasási hiba itt: %.250s"
 
-#: src/processarc.c:376
+#: src/processarc.c:370
 #, c-format
 msgid "error closing %.250s"
 msgstr "hiba %.250s bezárásakor"
 
-#: src/processarc.c:378
+#: src/processarc.c:372
 #, c-format
 msgid "error trying to open %.250s"
 msgstr "hiba %.250s megnyitásakor"
 
-#: src/processarc.c:411
-#, c-format
-msgid "De-configuring %s, so that we can remove %s ...\n"
+#: src/processarc.c:405
+#, fuzzy, c-format
+msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "%s dekonfigurálása, így %s eltávolíthatóvá válik...\n"
 
-#: src/processarc.c:469
+#: src/processarc.c:408
+#, fuzzy, c-format
+msgid "De-configuring %s ...\n"
+msgstr "Eltávolítás: %s ...\n"
+
+#: src/processarc.c:479
 #, c-format
 msgid "Unpacking replacement %.250s ...\n"
 msgstr "Csere kicsomagolása: %.250s ...\n"
 
-#: src/processarc.c:550
+#: src/processarc.c:560
 msgid "unable to exec dpkg-deb to get filesystem archive"
 msgstr "nem futtatható a dpkg-deb a fájlrendszer archívum eléréséhez"
 
-#: src/processarc.c:563
+#: src/processarc.c:573
 msgid "error reading dpkg-deb tar output"
 msgstr "hiba a dpkg-deb tar kimenet olvasásakor"
 
-#: src/processarc.c:565
+#: src/processarc.c:575
 msgid "corrupted filesystem tarfile - corrupted package archive"
 msgstr "hibás fájlrendszer tarfájl -- hibás csomag archívum"
 
-#: src/processarc.c:568
+#: src/processarc.c:578
 msgid "dpkg-deb: zap possible trailing zeros"
 msgstr "dpkg-deb: lehetséges vezető 0-ák levágása"
 
-#: src/processarc.c:621
+#: src/processarc.c:631
 #, c-format
 msgid "dpkg: warning - could not stat old file `%.250s' so not deleting it: %s"
 msgstr "dpkg: figyelem - nem lelem a régi fájlt: `%.250s' így nem törlöm: %s"
 
-#: src/processarc.c:629
+#: src/processarc.c:639
 #, c-format
 msgid "dpkg: warning - unable to delete old directory `%.250s': %s\n"
 msgstr "dpkg: figyelem - nem törölhető a régi könyvtár: `%.250s': %s\n"
 
-#: src/processarc.c:633
+#: src/processarc.c:643
 #, c-format
 msgid ""
 "dpkg: warning - old conffile `%.250s' was an empty directory (and has now "
@@ -2811,12 +2864,12 @@ msgstr ""
 "dpkg: figyelem - a régi konffájl: `%.250s' egy üres könyvtár volt (ezt most "
 "törlöm)\n"
 
-#: src/processarc.c:663
+#: src/processarc.c:673
 #, c-format
 msgid "unable to stat other new file `%.250s'"
 msgstr "nem találom a másik `%.250s' új fájlt"
 
-#: src/processarc.c:674
+#: src/processarc.c:684
 #, fuzzy, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
@@ -2825,66 +2878,66 @@ msgstr ""
 "dpkg: figyelem - `%.250s' régi fájl új fájlokkal egyezik!  (`%.250s' és `"
 "%.250s')"
 
-#: src/processarc.c:715
+#: src/processarc.c:725
 #, c-format
 msgid "dpkg: warning - unable to %s old file `%%.250s': %%s\n"
 msgstr "dpkg: figyelem - nem tudom %s a régi fájlt `%%.250s': %%s\n"
 
-#: src/processarc.c:741 src/processarc.c:982 src/remove.c:292
+#: src/processarc.c:751 src/processarc.c:992 src/remove.c:292
 msgid "cannot read info directory"
 msgstr "az info könyvtár nem olvasható"
 
-#: src/processarc.c:754
+#: src/processarc.c:764
 #, c-format
 msgid "old version of package has overly-long info file name starting `%.250s'"
 msgstr ""
 "a csomag régi verziójában túl hosszú info fájlnév van, kezdete: `%.250s'"
 
-#: src/processarc.c:766
+#: src/processarc.c:776
 #, c-format
 msgid "unable to remove obsolete info file `%.250s'"
 msgstr "nem tudom eltávolítani az elavult `%.250s' info fájlt"
 
-#: src/processarc.c:769
+#: src/processarc.c:779
 #, c-format
 msgid "unable to install (supposed) new info file `%.250s'"
 msgstr "nem tudom telepíteni az (állítólagos) új `%.250s' info fájlt"
 
-#: src/processarc.c:776
+#: src/processarc.c:786
 msgid "unable to open temp control directory"
 msgstr "nem tudom megnyitni az átmeneti ellenőrző könyvtárat"
 
-#: src/processarc.c:785
+#: src/processarc.c:795
 #, c-format
 msgid "package contains overly-long control info file name (starting `%.50s')"
 msgstr "a csomagban túl hosszú control info fájlnév van (kezdete: `%.50s')"
 
-#: src/processarc.c:790
+#: src/processarc.c:800
 #, c-format
 msgid "package control info contained directory `%.250s'"
 msgstr ""
 
-#: src/processarc.c:792
+#: src/processarc.c:802
 #, c-format
 msgid "package control info rmdir of `%.250s' didn't say not a dir"
 msgstr ""
 
-#: src/processarc.c:798
+#: src/processarc.c:808
 #, c-format
 msgid "dpkg: warning - package %s contained list as info file"
 msgstr "dpkg: figyelem - %s csomag listát tartalmazott info fájlként"
 
-#: src/processarc.c:805
+#: src/processarc.c:815
 #, c-format
 msgid "unable to install new info file `%.250s' as `%.250s'"
 msgstr "nem tudom telepíteni az új `%.250s' info fájlt, mint `%.250s'"
 
-#: src/processarc.c:962
+#: src/processarc.c:972
 #, c-format
 msgid "(Noting disappearance of %s, which has been completely replaced.)\n"
 msgstr ""
 
-#: src/processarc.c:998
+#: src/processarc.c:1008
 #, c-format
 msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "nem tudom törölni az eltűnt `%.250s' kontroll info fájlt"
@@ -2914,74 +2967,76 @@ msgstr "Verzió"
 msgid "Description"
 msgstr "Leírás"
 
-#: src/query.c:218 src/query.c:453 src/select.c:80
+#: src/query.c:232 src/query.c:475 src/select.c:80
 #, c-format
 msgid "No packages found matching %s.\n"
 msgstr "Nincs ilyen csomag: %s.\n"
 
-#: src/query.c:240
-#, c-format
-msgid "diversion by %s"
-msgstr "%s általi eltérítések"
+#: src/query.c:254
+#, fuzzy, c-format
+msgid "diversion by %s from: %s\n"
+msgstr "eltérítve %s által ide: %s\n"
 
-#: src/query.c:241
-#, c-format
-msgid "local diversion"
+#: src/query.c:256
+#, fuzzy, c-format
+msgid "diversion by %s to: %s\n"
+msgstr "eltérítve %s által ide: %s\n"
+
+#: src/query.c:259
+#, fuzzy, c-format
+msgid "local diversion from: %s\n"
 msgstr "helyi eltérítés"
 
-#: src/query.c:242
-msgid "to"
-msgstr "ide:"
+#: src/query.c:260
+#, fuzzy, c-format
+msgid "local diversion to: %s\n"
+msgstr "helyben eltérítve ide: %s\n"
 
-#: src/query.c:242
-msgid "from"
-msgstr "innen:"
-
-#: src/query.c:275
+#: src/query.c:285
 msgid "--search needs at least one file name pattern argument"
 msgstr "A --search legalább 1 fájlnév mintát vár argumentumként"
 
-#: src/query.c:303
+#: src/query.c:313
 #, c-format
 msgid "dpkg: %s not found.\n"
 msgstr "dpkg: %s nem található.\n"
 
-#: src/query.c:341
+#: src/query.c:351
 #, c-format
 msgid "Package `%s' is not installed and no info is available.\n"
 msgstr "Az alábbi csomag: `%s' nincs telepítve és nincs információ róla.\n"
 
-#: src/query.c:350
+#: src/query.c:360
 #, c-format
 msgid "Package `%s' is not available.\n"
 msgstr "A(z) `%s' csomag nem elérhető.\n"
 
-#: src/query.c:360
+#: src/query.c:370
 #, c-format
 msgid "Package `%s' is not installed.\n"
 msgstr "A(z) `%s' csomag nincs telepítve.\n"
 
-#: src/query.c:369
+#: src/query.c:379
 #, c-format
 msgid "Package `%s' does not contain any files (!)\n"
 msgstr "A(z) `%s' csomag nem tartalmaz semmilyen fájlt (!).\n"
 
-#: src/query.c:376
+#: src/query.c:386
 #, c-format
 msgid "locally diverted to: %s\n"
 msgstr "helyben eltérítve ide: %s\n"
 
-#: src/query.c:379
+#: src/query.c:389
 #, c-format
 msgid "package diverts others to: %s\n"
 msgstr "csomag eltérít másokat ide: %s\n"
 
-#: src/query.c:382
+#: src/query.c:392
 #, c-format
 msgid "diverted by %s to: %s\n"
 msgstr "eltérítve %s által ide: %s\n"
 
-#: src/query.c:404
+#: src/query.c:414
 msgid ""
 "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
 "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
@@ -2989,12 +3044,12 @@ msgstr ""
 "A dpkg --info (= dpkg-deb --info) kiírja az archívum fájlokat,\n"
 "a dpkg --contents (= dpkg-deb --contents) a tartalmukat.\n"
 
-#: src/query.c:465
+#: src/query.c:488
 #, c-format
 msgid "Debian `%s' package management program query tool\n"
 msgstr "Debian `%s' csomagkezelő program lekérdező eszköz\n"
 
-#: src/query.c:482
+#: src/query.c:505
 #, c-format
 msgid ""
 "Commands:\n"
@@ -3015,7 +3070,7 @@ msgstr ""
 "  -S|--search <minta> ...          Csomag(ok) adta fájl(ok) keresése.\n"
 "\n"
 
-#: src/query.c:498
+#: src/query.c:521
 #, c-format
 msgid ""
 "Options:\n"
@@ -3028,7 +3083,7 @@ msgstr ""
 "  -f|--showformat=<forma>          Más forma a --show opcióhoz.\n"
 "\n"
 
-#: src/query.c:504 dpkg-deb/main.c:97
+#: src/query.c:527 dpkg-deb/main.c:97
 #, c-format
 msgid ""
 "Format syntax:\n"
@@ -3049,7 +3104,7 @@ msgstr ""
 "  által. A mezők jobbra igazítottak, ha a szélesség negatív, akkor\n"
 "  balra.\n"
 
-#: src/query.c:514
+#: src/query.c:537
 msgid ""
 "Use --help for help about querying packages;\n"
 "Use --license for copyright license and lack of warranty (GNU GPL).\n"
@@ -3409,7 +3464,7 @@ msgstr "dpkg-deb: %d figyelmeztetés átlépése az ellenőrző fájl(ok)ról\n"
 msgid "unable to unbuffer `%.255s'"
 msgstr ""
 
-#: dpkg-deb/build.c:325 dpkg-deb/build.c:398 dpkg-deb/build.c:419
+#: dpkg-deb/build.c:325 dpkg-deb/build.c:399 dpkg-deb/build.c:420
 #, c-format
 msgid "failed to chdir to `%.255s'"
 msgstr "sikertelen chdir ide: `%.255s'"
@@ -3418,164 +3473,164 @@ msgstr "sikertelen chdir ide: `%.255s'"
 msgid "failed to chdir to .../DEBIAN"
 msgstr "nem tudtam a ../DEBIAN könyvtárba váltani"
 
-#: dpkg-deb/build.c:327 dpkg-deb/build.c:400
+#: dpkg-deb/build.c:328 dpkg-deb/build.c:401
 msgid "failed to exec tar -cf"
 msgstr "sikertelen tar -d futtatás"
 
-#: dpkg-deb/build.c:333
+#: dpkg-deb/build.c:334
 msgid "failed to make tmpfile (control)"
 msgstr "az ideiglenes fájl (vezérlő) létrehozása meghiúsult"
 
-#: dpkg-deb/build.c:334
+#: dpkg-deb/build.c:335
 #, c-format
 msgid "failed to open tmpfile (control), %s"
 msgstr "az ideiglenes fájl (vezérlő) megnyitása meghiúsult, %s"
 
-#: dpkg-deb/build.c:337
+#: dpkg-deb/build.c:338
 #, c-format
 msgid "failed to unlink tmpfile (control), %s"
 msgstr "az ideiglenes fájl (vezérlő) törlése meghiúsult, %s"
 
-#: dpkg-deb/build.c:345 dpkg-deb/build.c:374
+#: dpkg-deb/build.c:346 dpkg-deb/build.c:375
 msgid "control"
 msgstr "vezérlés"
 
-#: dpkg-deb/build.c:350
+#: dpkg-deb/build.c:351
 msgid "failed to fstat tmpfile (control)"
 msgstr "az ideiglenes fájl (vezérlő) fstat-olása meghiúsult"
 
-#: dpkg-deb/build.c:373
+#: dpkg-deb/build.c:374
 msgid "failed to rewind tmpfile (control)"
 msgstr "az ideiglenes fájl (vezérlő) visszaállítása meghiúsult"
 
-#: dpkg-deb/build.c:381
+#: dpkg-deb/build.c:382
 msgid "failed to make tmpfile (data)"
 msgstr "tmpfájl létrehozása sikertelen (adat)"
 
-#: dpkg-deb/build.c:382
+#: dpkg-deb/build.c:383
 #, c-format
 msgid "failed to open tmpfile (data), %s"
 msgstr "tmpfájl megnyitása sikertelen (adat), %s"
 
-#: dpkg-deb/build.c:385
+#: dpkg-deb/build.c:386
 #, c-format
 msgid "failed to unlink tmpfile (data), %s"
 msgstr "tmpfájl elláncolása sikertelen (adat), %s"
 
-#: dpkg-deb/build.c:409 dpkg-deb/extract.c:278
+#: dpkg-deb/build.c:410 dpkg-deb/extract.c:279
 msgid "data"
 msgstr "adatok"
 
-#: dpkg-deb/build.c:421
+#: dpkg-deb/build.c:423
 msgid "failed to exec find"
 msgstr "sikertelen find futtatás"
 
-#: dpkg-deb/build.c:432 dpkg-deb/build.c:439
+#: dpkg-deb/build.c:434 dpkg-deb/build.c:441
 msgid "failed to write filename to tar pipe (data)"
 msgstr "fájlnév írás a tar csőbe (adatok) meghiúsult"
 
-#: dpkg-deb/build.c:462
+#: dpkg-deb/build.c:464
 #, c-format
 msgid "Internal error, compress_type `%i' unknown!"
 msgstr "Belső hiba, `%i' tömörítő típus ismeretlen!"
 
-#: dpkg-deb/build.c:474
+#: dpkg-deb/build.c:476
 msgid "failed to rewind tmpfile (data)"
 msgstr "az ideiglenes fájl (adatok) visszaállítása meghiúsult"
 
-#: dpkg-deb/build.c:475
+#: dpkg-deb/build.c:477
 msgid "cat (data)"
 msgstr "cat (adatok)"
 
-#: dpkg-deb/extract.c:51
+#: dpkg-deb/extract.c:52
 msgid "failed to exec sh -c mv foo/* &c"
 msgstr "sikertelen futtatás: sh -c mv foo/* &c"
 
-#: dpkg-deb/extract.c:59
+#: dpkg-deb/extract.c:60
 #, c-format
 msgid "error reading %s from file %.255s"
 msgstr "hibás %s olvasás e fájlból: %.255s"
 
-#: dpkg-deb/extract.c:61
+#: dpkg-deb/extract.c:62
 #, c-format
 msgid "unexpected end of file in %s in %.255s"
 msgstr ""
 
-#: dpkg-deb/extract.c:72 dpkg-split/info.c:52
+#: dpkg-deb/extract.c:73 dpkg-split/info.c:52
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s length contains nulls"
 msgstr "`%.250s' hibás - %.250s hossz 0-kat tartalmaz"
 
-#: dpkg-deb/extract.c:79 dpkg-split/info.c:43
+#: dpkg-deb/extract.c:80 dpkg-split/info.c:43
 #, c-format
 msgid "file `%.250s' is corrupt - bad digit (code %d) in %s"
 msgstr "`%.250s' hibás - rossz szám (%d kód) ebben: %s"
 
-#: dpkg-deb/extract.c:104
+#: dpkg-deb/extract.c:105
 #, c-format
 msgid "failed to read archive `%.255s'"
 msgstr "sikertelen archívum olvasás: `%.255s'"
 
-#: dpkg-deb/extract.c:105
+#: dpkg-deb/extract.c:106
 msgid "failed to fstat archive"
 msgstr "sikertelen archívum fstat"
 
-#: dpkg-deb/extract.c:106
+#: dpkg-deb/extract.c:107
 msgid "version number"
 msgstr "verziószám"
 
-#: dpkg-deb/extract.c:115
+#: dpkg-deb/extract.c:116
 msgid "between members"
 msgstr "tagok közt"
 
-#: dpkg-deb/extract.c:117 dpkg-split/info.c:95
+#: dpkg-deb/extract.c:118 dpkg-split/info.c:95
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of first header"
 msgstr "`%.250s' hibás - rossz bűvös szám az 1. fejléc végén"
 
-#: dpkg-deb/extract.c:121
+#: dpkg-deb/extract.c:122
 #, c-format
 msgid "file `%.250s' is corrupt - negative member length %zi"
 msgstr "`%.250s' hibás - negatív %zi tag hossz"
 
-#: dpkg-deb/extract.c:125
+#: dpkg-deb/extract.c:126
 #, c-format
 msgid "file `%.250s' is not a debian binary archive (try dpkg-split?)"
 msgstr "`%.250s' nem egy Debian bináris archívum (dpkg-split?)"
 
-#: dpkg-deb/extract.c:128
+#: dpkg-deb/extract.c:129
 msgid "header info member"
 msgstr "fejléc info tag"
 
-#: dpkg-deb/extract.c:131
+#: dpkg-deb/extract.c:132
 msgid "archive has no newlines in header"
 msgstr "nincs újsor az archívum fejlécében"
 
-#: dpkg-deb/extract.c:134
+#: dpkg-deb/extract.c:135
 msgid "archive has no dot in version number"
 msgstr "nincs . az archívum verziószámában"
 
-#: dpkg-deb/extract.c:137
+#: dpkg-deb/extract.c:138
 #, c-format
 msgid "archive version %.250s not understood, get newer dpkg-deb"
 msgstr "érthetetlen %.250s formájú archívum, újabb dpkg-deb kell"
 
-#: dpkg-deb/extract.c:146 dpkg-deb/extract.c:179
+#: dpkg-deb/extract.c:147 dpkg-deb/extract.c:180
 #, c-format
 msgid "skipped member data from %s"
 msgstr "kihagyott tag adat innen: %s"
 
-#: dpkg-deb/extract.c:169
+#: dpkg-deb/extract.c:170
 #, c-format
 msgid "file `%.250s' contains ununderstood data member %.*s, giving up"
 msgstr "A(z) `%.250s' fájl érthetetlen %.*s adattagot tartalmaz, feladom"
 
-#: dpkg-deb/extract.c:175
+#: dpkg-deb/extract.c:176
 #, c-format
 msgid "file `%.250s' contains two control members, giving up"
 msgstr "A(z) `%.250s' fájl 2 ellenőrző tagot tartalmaz, feladom"
 
-#: dpkg-deb/extract.c:187
+#: dpkg-deb/extract.c:188
 #, c-format
 msgid ""
 " new debian package, version %s.\n"
@@ -3584,16 +3639,16 @@ msgstr ""
 " új Debian csomag, %s verzió.\n"
 " méret: %ld bájt: ellenőrző archívum= %zi bájt.\n"
 
-#: dpkg-deb/extract.c:199
+#: dpkg-deb/extract.c:200
 msgid "control information length"
 msgstr "ellenőrző információ hossz"
 
-#: dpkg-deb/extract.c:201
+#: dpkg-deb/extract.c:202
 #, c-format
 msgid "archive has malformatted control length `%s'"
 msgstr "az archívum `%s' ellenőrző hossza rossz"
 
-#: dpkg-deb/extract.c:204
+#: dpkg-deb/extract.c:205
 #, c-format
 msgid ""
 " old debian package, version %s.\n"
@@ -3602,15 +3657,15 @@ msgstr ""
 " régi Debian csomag, %s verzió.\n"
 " méret: %ld bájt: ellenőrző archívum= %zi, fő archívum: %ld.\n"
 
-#: dpkg-deb/extract.c:212
+#: dpkg-deb/extract.c:213
 msgid "failed allocating memory for variable `ctrlarea'"
 msgstr "a `ctrlarea' változó memória lefoglalása sikertelen"
 
-#: dpkg-deb/extract.c:215
+#: dpkg-deb/extract.c:216
 msgid "control area"
 msgstr "ellenőrző terület"
 
-#: dpkg-deb/extract.c:221
+#: dpkg-deb/extract.c:222
 #, c-format
 msgid ""
 "dpkg-deb: file looks like it might be an archive which has been\n"
@@ -3619,65 +3674,65 @@ msgstr ""
 "dpkg-deb: úgy fest ez egy olyan archívum, amely az\n"
 "dpkg-deb:    ASCII módú letöltéstől megsérült\n"
 
-#: dpkg-deb/extract.c:226
+#: dpkg-deb/extract.c:227
 #, c-format
 msgid "`%.255s' is not a debian format archive"
 msgstr "`%.255s' nem Debian archívum"
 
-#: dpkg-deb/extract.c:232
+#: dpkg-deb/extract.c:233
 msgid "failed getting the current file position"
 msgstr "az adott fájl pozíció nem olvasható"
 
-#: dpkg-deb/extract.c:237
+#: dpkg-deb/extract.c:238
 msgid "failed setting the current file position"
 msgstr "az adott fájl pozíció nem állítható be"
 
-#: dpkg-deb/extract.c:246
+#: dpkg-deb/extract.c:247
 msgid "failed to open pipe descriptor `1' in paste"
 msgstr "az `1' csőleíró megnyitása sikertelen a beszúrásban"
 
-#: dpkg-deb/extract.c:248
+#: dpkg-deb/extract.c:249
 msgid "failed to write to gzip -dc"
 msgstr "írási hiba gzip -dc-be"
 
-#: dpkg-deb/extract.c:249
+#: dpkg-deb/extract.c:250
 msgid "failed to close gzip -dc"
 msgstr "sikertelen gzip -dc bezárás"
 
-#: dpkg-deb/extract.c:256
+#: dpkg-deb/extract.c:257
 msgid "failed to syscall lseek to files archive portion"
 msgstr "sikertelen lseek rendszerhívás az archív részfájlokra"
 
-#: dpkg-deb/extract.c:264
+#: dpkg-deb/extract.c:265
 msgid "failed to write to pipe in copy"
 msgstr "hiba a pipába íráskor másolásnál"
 
-#: dpkg-deb/extract.c:265
+#: dpkg-deb/extract.c:266
 msgid "failed to close pipe in copy"
 msgstr "pipa bezárás hiba a másoláskor"
 
-#: dpkg-deb/extract.c:286
+#: dpkg-deb/extract.c:287
 msgid "failed to create directory"
 msgstr "sikertelen könyvtár létrehozás"
 
-#: dpkg-deb/extract.c:287
+#: dpkg-deb/extract.c:288
 msgid "failed to chdir to directory after creating it"
 msgstr "hiba a könyvtárba lépéskor létrehozása után"
 
-#: dpkg-deb/extract.c:289
+#: dpkg-deb/extract.c:290
 msgid "failed to chdir to directory"
 msgstr "hiba a könyvtárváltáskor"
 
-#: dpkg-deb/extract.c:303
+#: dpkg-deb/extract.c:304
 msgid "failed to exec tar"
 msgstr "hiba a tar futtatásakor"
 
-#: dpkg-deb/extract.c:326 dpkg-deb/extract.c:341 dpkg-deb/info.c:68
+#: dpkg-deb/extract.c:327 dpkg-deb/extract.c:342 dpkg-deb/info.c:68
 #, c-format
 msgid "--%s needs a .deb filename argument"
 msgstr "--%s egy .deb fájlnév argumentmot vár"
 
-#: dpkg-deb/extract.c:329
+#: dpkg-deb/extract.c:330
 #, c-format
 msgid ""
 "--%s needs a target directory.\n"
@@ -3686,12 +3741,12 @@ msgstr ""
 "--%s egy célkönyvtárat igényel.\n"
 "Lehet, hogy a dpkg --install-t kell használnod ?"
 
-#: dpkg-deb/extract.c:332
+#: dpkg-deb/extract.c:333
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
 msgstr "--%s 2 argumentumot fogad (.deb és könyvtár)"
 
-#: dpkg-deb/extract.c:343
+#: dpkg-deb/extract.c:344
 #, c-format
 msgid "--%s takes only one argument (.deb filename)"
 msgstr "--%s csak 1 argumentumot fogad (.deb fájlnév)"
@@ -3717,86 +3772,86 @@ msgstr "az rm tisztítás sikertelen, kód: %d\n"
 msgid "failed to make temporary directoryname"
 msgstr "hiba az átmeneti könyvtárnév létrehozásakor"
 
-#: dpkg-deb/info.c:75
+#: dpkg-deb/info.c:76
 msgid "failed to exec rm -rf"
 msgstr "nem futtatható rm -rf"
 
-#: dpkg-deb/info.c:107
+#: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr ""
 
-#: dpkg-deb/info.c:109
+#: dpkg-deb/info.c:110
 #, c-format
 msgid "dpkg-deb: `%.255s' contains no control component `%.255s'\n"
 msgstr "dpkg-deb: `%.255s' nem tartalmaz `%.255s' ellenőrző összetevőt\n"
 
-#: dpkg-deb/info.c:113
+#: dpkg-deb/info.c:114
 #, c-format
 msgid "open component `%.255s' (in %.255s) failed in an unexpected way"
 msgstr ""
 "`%.255s' összetevő megnyitása (ebben: %.255s) váratlan módon meghiúsult"
 
-#: dpkg-deb/info.c:119
+#: dpkg-deb/info.c:120
 msgid "One requested control component is missing"
 msgstr "1 kért ellenőrző összetevő hiányzik"
 
-#: dpkg-deb/info.c:121
+#: dpkg-deb/info.c:122
 #, c-format
 msgid "%d requested control components are missing"
 msgstr "%d kért ellenőrző összetevő hiányzik"
 
-#: dpkg-deb/info.c:134
+#: dpkg-deb/info.c:135
 #, c-format
 msgid "cannot scan directory `%.255s'"
 msgstr "`%.255s' könyvtár nem nézhető át"
 
-#: dpkg-deb/info.c:139
+#: dpkg-deb/info.c:140
 #, c-format
 msgid "cannot stat `%.255s' (in `%.255s')"
 msgstr "`%.255s' nem található (ebben: `%.255s')"
 
-#: dpkg-deb/info.c:142
+#: dpkg-deb/info.c:143
 #, c-format
 msgid "cannot open `%.255s' (in `%.255s')"
 msgstr "`%.255s' nem nyitható meg (ebben: `%.255s')"
 
-#: dpkg-deb/info.c:156
+#: dpkg-deb/info.c:157
 #, c-format
 msgid "failed to read `%.255s' (in `%.255s')"
 msgstr "`%.255s' olvasási hiba (itt: `%.255s')"
 
-#: dpkg-deb/info.c:159
+#: dpkg-deb/info.c:160
 #, c-format
 msgid " %7ld bytes, %5d lines   %c  %-20.127s %.127s\n"
 msgstr " %7ld bájt, %5d sor   %c  %-20.127s %.127s\n"
 
-#: dpkg-deb/info.c:165
+#: dpkg-deb/info.c:166
 #, c-format
 msgid "     not a plain file          %.255s\n"
 msgstr "     nem sima fájl             %.255s\n"
 
-#: dpkg-deb/info.c:170
+#: dpkg-deb/info.c:171
 #, c-format
 msgid "failed to read `control' (in `%.255s')"
 msgstr "`control' olvasási hiba (itt: `%.255s')"
 
-#: dpkg-deb/info.c:171
+#: dpkg-deb/info.c:172
 msgid "(no `control' file in control archive!)\n"
 msgstr "(nincs `control' fájl az ellenőrző archívumban!)\n"
 
-#: dpkg-deb/info.c:191
+#: dpkg-deb/info.c:192
 msgid "could not open the `control' component"
 msgstr "a `control' összetevő nem nyitható meg"
 
-#: dpkg-deb/info.c:221
+#: dpkg-deb/info.c:222
 msgid "failed during read of `control' component"
 msgstr "hiba a `control' összetevő olvasásakor"
 
-#: dpkg-deb/info.c:232
+#: dpkg-deb/info.c:233
 msgid "Error in format"
 msgstr "Hibás forma"
 
-#: dpkg-deb/info.c:268
+#: dpkg-deb/info.c:269
 msgid "--contents takes exactly one argument"
 msgstr "a --contents 1 argumentumot vár"
 
@@ -4115,12 +4170,7 @@ msgstr ""
 msgid "Type dpkg-split --help for help."
 msgstr "A dpkg-split --help parancs segít"
 
-#: dpkg-split/main.c:91
-#, c-format
-msgid "error reading %s"
-msgstr "olvasási hiba: %s"
-
-#: dpkg-split/main.c:95
+#: dpkg-split/main.c:91 dpkg-split/main.c:95
 #, c-format
 msgid "error reading %.250s"
 msgstr "olvasási hiba: %.250s"
@@ -4269,14 +4319,14 @@ msgstr "`%.250s' forrás fájl nem sima fájl"
 msgid "unable to exec mksplit"
 msgstr "a mksplit nem futtatható"
 
-#: scripts/cleanup-info.pl:36 scripts/dpkg-divert.pl:19
-#: scripts/dpkg-statoverride.pl:29 scripts/install-info.pl:17
-#: scripts/update-alternatives.pl:64
+#: scripts/cleanup-info.pl:35 scripts/dpkg-divert.pl:15
+#: scripts/dpkg-statoverride.pl:23 scripts/install-info.pl:13
+#: scripts/update-alternatives.pl:60
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s %s verzió.\n"
 
-#: scripts/cleanup-info.pl:38
+#: scripts/cleanup-info.pl:37
 msgid ""
 "\n"
 "Copyright (C) 1996 Kim-Minh Kaplan."
@@ -4284,9 +4334,9 @@ msgstr ""
 "\n"
 "Copyright (C) 1996 Kim-Minh Kaplan."
 
-#: scripts/cleanup-info.pl:41 scripts/dpkg-divert.pl:25
-#: scripts/dpkg-statoverride.pl:34 scripts/install-info.pl:22
-#: scripts/update-alternatives.pl:70
+#: scripts/cleanup-info.pl:40 scripts/dpkg-divert.pl:21
+#: scripts/dpkg-statoverride.pl:28 scripts/install-info.pl:18
+#: scripts/update-alternatives.pl:66
 msgid ""
 "\n"
 "This is free software; see the GNU General Public Licence version 2 or\n"
@@ -4296,7 +4346,7 @@ msgstr ""
 "Ez egy Szabad Szoftver; l. a GNU General Public Licence 2-es vagy nagyobb\n"
 "változatát a másolási feltételekért. NINCS garancia.\n"
 
-#: scripts/cleanup-info.pl:49
+#: scripts/cleanup-info.pl:48
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] [--] [<dirname>]\n"
@@ -4315,85 +4365,85 @@ msgstr ""
 "  --help       e súgó mutatása.\n"
 "  --version    verzió mutatása.\n"
 
-#: scripts/cleanup-info.pl:66 scripts/install-info.pl:508
+#: scripts/cleanup-info.pl:65 scripts/install-info.pl:504
 #, perl-format
 msgid "%s: warning - unable to unlock %s: %s"
 msgstr "%s: figyelem - nem tudom kioldani %s-t: %s"
 
-#: scripts/cleanup-info.pl:86 scripts/install-info.pl:119
+#: scripts/cleanup-info.pl:85 scripts/install-info.pl:115
 #, perl-format
 msgid "%s: unknown option `%s'"
 msgstr "%s: ismeretlen `%s' lehetőség"
 
-#: scripts/cleanup-info.pl:94 scripts/install-info.pl:130
+#: scripts/cleanup-info.pl:93 scripts/install-info.pl:126
 #, perl-format
 msgid "%s: too many arguments"
 msgstr "%s: túl sok argumentum"
 
-#: scripts/cleanup-info.pl:101 scripts/install-info.pl:305
+#: scripts/cleanup-info.pl:100 scripts/install-info.pl:301
 #, perl-format
 msgid "%s: failed to lock dir for editing! %s"
 msgstr "%s: sikertelen könyvtár zárás szerkesztéshez! %s"
 
-#: scripts/cleanup-info.pl:103
+#: scripts/cleanup-info.pl:102
 #, perl-format
 msgid "try deleting %s"
 msgstr ""
 
-#: scripts/cleanup-info.pl:107 scripts/install-info.pl:312
-#: scripts/update-alternatives.pl:167
+#: scripts/cleanup-info.pl:106 scripts/install-info.pl:308
+#: scripts/update-alternatives.pl:163
 #, perl-format
 msgid "unable to open %s: %s"
 msgstr "%s megnyitása sikertelen: %s"
 
-#: scripts/cleanup-info.pl:109 scripts/install-info.pl:482
+#: scripts/cleanup-info.pl:108 scripts/install-info.pl:478
 #, perl-format
 msgid "unable to create %s: %s"
 msgstr "%s létrehozása sikertelen: %s"
 
-#: scripts/cleanup-info.pl:120 scripts/install-info.pl:485
+#: scripts/cleanup-info.pl:119 scripts/install-info.pl:481
 #, perl-format
 msgid "unable to write %s: %s"
 msgstr "%s írása sikertelen: %s"
 
-#: scripts/cleanup-info.pl:160 scripts/install-info.pl:165
-#: scripts/install-info.pl:207 scripts/install-info.pl:314
+#: scripts/cleanup-info.pl:159 scripts/install-info.pl:161
+#: scripts/install-info.pl:203 scripts/install-info.pl:310
 #, perl-format
 msgid "unable to read %s: %s"
 msgstr "%s olvasása sikertelen: %s"
 
-#: scripts/cleanup-info.pl:161 scripts/install-info.pl:315
+#: scripts/cleanup-info.pl:160 scripts/install-info.pl:311
 #, perl-format
 msgid "unable to close %s after read: %s"
 msgstr "nem tudom lezárni %s-t olvasás után: %s"
 
-#: scripts/cleanup-info.pl:165 scripts/install-info.pl:486
-#: scripts/update-alternatives.pl:539
+#: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
+#: scripts/update-alternatives.pl:535
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "nem tudom lezárni %s-t: %s"
 
-#: scripts/cleanup-info.pl:171 scripts/install-info.pl:490
+#: scripts/cleanup-info.pl:170 scripts/install-info.pl:486
 #, perl-format
 msgid "unable to backup old %s, giving up: %s"
 msgstr "nem tudom menteni a régi %s-t, feladom: %s"
 
-#: scripts/cleanup-info.pl:174
+#: scripts/cleanup-info.pl:173
 #, perl-format
 msgid "failed to install %s; it will be left as %s: %s"
 msgstr "%s telepítése sikertelen; marad mint %s: %s"
 
-#: scripts/cleanup-info.pl:178
+#: scripts/cleanup-info.pl:177
 #, perl-format
 msgid "%s: unable to unlock %s: %s"
 msgstr "%s: nem tudom kioldani %s-t: %s"
 
-#: scripts/dpkg-divert.pl:15 scripts/update-alternatives.pl:60
+#: scripts/dpkg-divert.pl:11 scripts/update-alternatives.pl:56
 #, perl-format
 msgid "Cannot get ENOENT value from %s: %s"
 msgstr "Nem kapok ENOENT értéket innen: %s: %s"
 
-#: scripts/dpkg-divert.pl:21
+#: scripts/dpkg-divert.pl:17
 msgid ""
 "\n"
 "Copyright (C) 1995 Ian Jackson.\n"
@@ -4403,7 +4453,7 @@ msgstr ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000,2001 Wichert Akkerman."
 
-#: scripts/dpkg-divert.pl:33
+#: scripts/dpkg-divert.pl:29
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -4433,90 +4483,90 @@ msgid ""
 "divert.\n"
 msgstr ""
 
-#: scripts/dpkg-divert.pl:78 scripts/dpkg-statoverride.pl:62
-#: scripts/update-alternatives.pl:233
+#: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
+#: scripts/update-alternatives.pl:229
 #, fuzzy, perl-format
 msgid "two commands specified: %s and --%s"
 msgstr "2 mód megadva: %s és --%s"
 
-#: scripts/dpkg-divert.pl:111
+#: scripts/dpkg-divert.pl:107
 #, perl-format
 msgid "--%s needs a divert-to argument"
 msgstr "--%s egy divert-to argumentumot vár"
 
-#: scripts/dpkg-divert.pl:113
+#: scripts/dpkg-divert.pl:109
 msgid "divert-to may not contain newlines"
 msgstr "divert-to nem tartalmazhat újsorokat"
 
-#: scripts/dpkg-divert.pl:115
+#: scripts/dpkg-divert.pl:111
 #, perl-format
 msgid "--%s needs a <package> argument"
 msgstr "--%s egy <csomag> argumentumot vár"
 
-#: scripts/dpkg-divert.pl:117
+#: scripts/dpkg-divert.pl:113
 msgid "package may not contain newlines"
 msgstr "csomag nem tartalmazhat újsorokat"
 
-#: scripts/dpkg-divert.pl:119 scripts/dpkg-statoverride.pl:81
-#: scripts/update-alternatives.pl:282 scripts/update-alternatives.pl:285
+#: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
+#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s egy <könyvtár> argumentumot vár"
 
-#: scripts/dpkg-divert.pl:122 scripts/dpkg-statoverride.pl:93
-#: scripts/update-alternatives.pl:290
+#: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
+#: scripts/update-alternatives.pl:286
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "ismeretlen `%s' lehetőség"
 
-#: scripts/dpkg-divert.pl:128
+#: scripts/dpkg-divert.pl:124
 #, perl-format
 msgid "cannot open diversions: %s"
 msgstr "nem megnyitható eltérítések: %s"
 
-#: scripts/dpkg-divert.pl:131
+#: scripts/dpkg-divert.pl:127
 msgid "missing altname"
 msgstr "hiányzó altname"
 
-#: scripts/dpkg-divert.pl:133
+#: scripts/dpkg-divert.pl:129
 msgid "missing package"
 msgstr "hiányzó csomag"
 
-#: scripts/dpkg-divert.pl:139 scripts/dpkg-divert.pl:167
-#: scripts/dpkg-divert.pl:210 scripts/dpkg-statoverride.pl:156
+#: scripts/dpkg-divert.pl:135 scripts/dpkg-divert.pl:163
+#: scripts/dpkg-divert.pl:206 scripts/dpkg-statoverride.pl:150
 #, perl-format
 msgid "--%s needs a single argument"
 msgstr "--%s 1 argumentumot vár"
 
-#: scripts/dpkg-divert.pl:141 scripts/dpkg-divert.pl:145
+#: scripts/dpkg-divert.pl:137 scripts/dpkg-divert.pl:141
 #, perl-format
 msgid "filename \"%s\" is not absolute"
 msgstr "\"%s\" fájlnév nem abszolút"
 
-#: scripts/dpkg-divert.pl:142 scripts/dpkg-statoverride.pl:130
+#: scripts/dpkg-divert.pl:138 scripts/dpkg-statoverride.pl:124
 msgid "file may not contain newlines"
 msgstr "fájl nem tartalmazhat újsorokat"
 
-#: scripts/dpkg-divert.pl:143
+#: scripts/dpkg-divert.pl:139
 msgid "Cannot divert directories"
 msgstr "Könyvtárak eltérítése sikertelen"
 
-#: scripts/dpkg-divert.pl:152
+#: scripts/dpkg-divert.pl:148
 #, perl-format
 msgid "Leaving `%s'"
 msgstr "`%s' elhagyása"
 
-#: scripts/dpkg-divert.pl:155
+#: scripts/dpkg-divert.pl:151
 #, perl-format
 msgid "`%s' clashes with `%s'"
 msgstr "`%s' ütközik ezzel: `%s'"
 
-#: scripts/dpkg-divert.pl:161
+#: scripts/dpkg-divert.pl:157
 #, perl-format
 msgid "Adding `%s'"
 msgstr "`%s' hozzáadása"
 
-#: scripts/dpkg-divert.pl:171
+#: scripts/dpkg-divert.pl:167
 #, perl-format
 msgid ""
 "mismatch on divert-to\n"
@@ -4527,7 +4577,7 @@ msgstr ""
 "  `%s' eltávolításakor\n"
 "  `%s'-t találtam"
 
-#: scripts/dpkg-divert.pl:173
+#: scripts/dpkg-divert.pl:169
 #, perl-format
 msgid ""
 "mismatch on package\n"
@@ -4538,37 +4588,37 @@ msgstr ""
 "  `%s' eltávolításakor\n"
 "  `%s'-t találtam"
 
-#: scripts/dpkg-divert.pl:175
+#: scripts/dpkg-divert.pl:171
 #, perl-format
 msgid "Removing `%s'"
 msgstr "%s eltávolítása"
 
-#: scripts/dpkg-divert.pl:190
+#: scripts/dpkg-divert.pl:186
 #, perl-format
 msgid "No diversion `%s', none removed"
 msgstr "Nincs `%s' eltérítés, nem volt eltávolítás"
 
-#: scripts/dpkg-divert.pl:220
+#: scripts/dpkg-divert.pl:216
 #, perl-format
 msgid "internal error - bad mode `%s'"
 msgstr "belső hiba - rossz `%s' mód"
 
-#: scripts/dpkg-divert.pl:234
+#: scripts/dpkg-divert.pl:230
 #, perl-format
 msgid "cannot stat old name `%s': %s"
 msgstr "a régi `%s' név nem található: %s"
 
-#: scripts/dpkg-divert.pl:236
+#: scripts/dpkg-divert.pl:232
 #, perl-format
 msgid "cannot stat new name `%s': %s"
 msgstr "az új `%s' név nem behatárolható: %s"
 
-#: scripts/dpkg-divert.pl:251
+#: scripts/dpkg-divert.pl:247
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "hiba `%s' ellenőrzésekor: %s"
 
-#: scripts/dpkg-divert.pl:256
+#: scripts/dpkg-divert.pl:252
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4577,52 +4627,52 @@ msgstr ""
 "átnevezés `%s' felülírásával járna\n"
 "  `%s' eltérő fájllal, ez nem engedélyezett"
 
-#: scripts/dpkg-divert.pl:266
+#: scripts/dpkg-divert.pl:262
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "átnevezés: kettős régi `%s' lánc törlése: %s"
 
-#: scripts/dpkg-divert.pl:268
+#: scripts/dpkg-divert.pl:264
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "átnevezés: `%s' átnevezése erre: `%s': %s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:271
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "diversions-new létrehozása: %s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:275
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "diversions-new írása: %s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:277
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "diversions-new lezárása: %s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:279
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "régi diversions-old eltávoltása: %s"
 
-#: scripts/dpkg-divert.pl:285
+#: scripts/dpkg-divert.pl:281
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "új diversions-old létrehozása: %s"
 
-#: scripts/dpkg-divert.pl:287
+#: scripts/dpkg-divert.pl:283
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "új eltérítések telepítése: %s"
 
-#: scripts/dpkg-divert.pl:310 scripts/update-alternatives.pl:741
+#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:738
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "belső hiba: %s rossz: %s"
 
-#: scripts/dpkg-statoverride.pl:31
+#: scripts/dpkg-statoverride.pl:25
 msgid ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
@@ -4630,7 +4680,7 @@ msgstr ""
 "\n"
 "Copyright (C) 2000 Wichert Akkerman."
 
-#: scripts/dpkg-statoverride.pl:42
+#: scripts/dpkg-statoverride.pl:36
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -4665,111 +4715,111 @@ msgstr ""
 "  --help                   e súgó üzenet mutatása.\n"
 "  --version                verzió mutatása.\n"
 
-#: scripts/dpkg-statoverride.pl:100
+#: scripts/dpkg-statoverride.pl:94
 msgid "no mode specified"
 msgstr "nincs mód megadva"
 
-#: scripts/dpkg-statoverride.pl:104
+#: scripts/dpkg-statoverride.pl:98
 msgid "--add needs four arguments"
 msgstr "a --add 4 argumentumot vár"
 
-#: scripts/dpkg-statoverride.pl:112
+#: scripts/dpkg-statoverride.pl:106
 #, perl-format
 msgid "illegal user %s"
 msgstr "szabálytalan %s felhasználó"
 
-#: scripts/dpkg-statoverride.pl:115
+#: scripts/dpkg-statoverride.pl:109
 #, perl-format
 msgid "non-existing user %s"
 msgstr "nem létező %s felhasználó"
 
-#: scripts/dpkg-statoverride.pl:121
+#: scripts/dpkg-statoverride.pl:115
 #, perl-format
 msgid "illegal group %s"
 msgstr "szabálytalan %s csoport"
 
-#: scripts/dpkg-statoverride.pl:124
+#: scripts/dpkg-statoverride.pl:118
 #, perl-format
 msgid "non-existing group %s"
 msgstr "nem létező %s csoport"
 
-#: scripts/dpkg-statoverride.pl:128
+#: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "illegal mode %s"
 msgstr "tilos %s mód"
 
-#: scripts/dpkg-statoverride.pl:131 scripts/dpkg-statoverride.pl:158
-#: scripts/dpkg-statoverride.pl:177
+#: scripts/dpkg-statoverride.pl:125 scripts/dpkg-statoverride.pl:152
+#: scripts/dpkg-statoverride.pl:171
 msgid "stripping trailing /"
 msgstr "/ leszedése"
 
-#: scripts/dpkg-statoverride.pl:134
+#: scripts/dpkg-statoverride.pl:128
 #, perl-format
 msgid "An override for \"%s\" already exists, "
 msgstr "\"%s\" egy felülbírálása már létezik, "
 
-#: scripts/dpkg-statoverride.pl:136
+#: scripts/dpkg-statoverride.pl:130
 msgid "but --force specified so will be ignored."
 msgstr "de --force miatt figyelmen kívül hagyom"
 
-#: scripts/dpkg-statoverride.pl:138
+#: scripts/dpkg-statoverride.pl:132
 msgid "aborting"
 msgstr "törlés"
 
-#: scripts/dpkg-statoverride.pl:149
+#: scripts/dpkg-statoverride.pl:143
 #, perl-format
 msgid "warning: --update given but %s does not exist"
 msgstr "figyelem: --update megadva, de %s nem létezik"
 
-#: scripts/dpkg-statoverride.pl:151
+#: scripts/dpkg-statoverride.pl:145
 #, perl-format
 msgid "failed to chown %s: %s"
 msgstr "sikertelen %s chown: %s"
 
-#: scripts/dpkg-statoverride.pl:152
+#: scripts/dpkg-statoverride.pl:146
 #, perl-format
 msgid "failed to chmod %s: %s"
 msgstr "sikertelen %s chmod: %s"
 
-#: scripts/dpkg-statoverride.pl:160
+#: scripts/dpkg-statoverride.pl:154
 msgid "No override present."
 msgstr "Nincs felülbírálás."
 
-#: scripts/dpkg-statoverride.pl:168
+#: scripts/dpkg-statoverride.pl:162
 msgid "warning: --update is useless for --remove"
 msgstr "figyelem: a --update értelmetlen --remove esetén"
 
-#: scripts/dpkg-statoverride.pl:195
+#: scripts/dpkg-statoverride.pl:189
 #, perl-format
 msgid "cannot open statoverride: %s"
 msgstr "nem megnyitható statoverride: %s"
 
-#: scripts/dpkg-statoverride.pl:201
+#: scripts/dpkg-statoverride.pl:195
 #, perl-format
 msgid "Multiple overrides for \"%s\", aborting"
 msgstr "\"%s\" többszöri felülbírálása, megszakítva"
 
-#: scripts/dpkg-statoverride.pl:214
+#: scripts/dpkg-statoverride.pl:208
 #, perl-format
 msgid "cannot open new statoverride file: %s"
 msgstr "nem megnyitható új statoverride fájl: %s"
 
-#: scripts/dpkg-statoverride.pl:221
+#: scripts/dpkg-statoverride.pl:215
 #, perl-format
 msgid "error removing statoverride-old: %s"
 msgstr "hiba a statoverride-old törlésekor: %s"
 
-#: scripts/dpkg-statoverride.pl:223
+#: scripts/dpkg-statoverride.pl:217
 #, perl-format
 msgid "error creating new statoverride-old: %s"
 msgstr "hiba az új statoverride-old létrehozásakor: %s"
 
-#: scripts/dpkg-statoverride.pl:225
+#: scripts/dpkg-statoverride.pl:219
 #, perl-format
 msgid "error installing new statoverride: %s"
 msgstr "hiba az új statoverride telepítésekor: %s"
 
-#: scripts/install-info.pl:19
+#: scripts/install-info.pl:15
 msgid ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
@@ -4777,7 +4827,7 @@ msgstr ""
 "\n"
 "Copyright (C) 1994,1995 Ian Jackson."
 
-#: scripts/install-info.pl:31
+#: scripts/install-info.pl:27
 #, perl-format
 msgid ""
 "Usage: %s [<options> ...] [--] <filename>\n"
@@ -4826,46 +4876,46 @@ msgstr ""
 "  --help                   e súgó.\n"
 "  --version                verzió megjelenítése.\n"
 
-#: scripts/install-info.pl:97
+#: scripts/install-info.pl:93
 #, perl-format
 msgid "could not open stderr for output! %s"
 msgstr "stderr nem nyitható meg a kimenethez! %s"
 
-#: scripts/install-info.pl:101
+#: scripts/install-info.pl:97
 #, perl-format
 msgid "%s: --section needs two more args"
 msgstr "%s: a --section még 2 arg.-ot vár"
 
-#: scripts/install-info.pl:107
+#: scripts/install-info.pl:103
 #, perl-format
 msgid "%s: option --%s is deprecated (ignored)"
 msgstr "%s: --%s lehetőség elavult (kihagyva)"
 
-#: scripts/install-info.pl:133
+#: scripts/install-info.pl:129
 #, perl-format
 msgid "%s: --section ignored with --remove"
 msgstr "%s: --section kihagyva --remove-val"
 
-#: scripts/install-info.pl:134
+#: scripts/install-info.pl:130
 #, perl-format
 msgid "%s: --description ignored with --remove"
 msgstr "%s: --description kihagyva --remove-val"
 
-#: scripts/install-info.pl:137
+#: scripts/install-info.pl:133
 #, perl-format
 msgid "%s: test mode - dir file will not be updated"
 msgstr "%s: próba mód - a kvtr. fájl nem lesz frissítve"
 
-#: scripts/install-info.pl:191
+#: scripts/install-info.pl:187
 #, perl-format
 msgid "%s: warning, ignoring confusing INFO-DIR-ENTRY in file."
 msgstr "%s: figyelem, kihagyom a zavaros INFO-DIR-ENTRY-t a fájlban."
 
-#: scripts/install-info.pl:200
+#: scripts/install-info.pl:196
 msgid "invalid info entry"
 msgstr "rossz info bejegyzés"
 
-#: scripts/install-info.pl:226
+#: scripts/install-info.pl:222
 #, perl-format
 msgid ""
 "\n"
@@ -4876,112 +4926,112 @@ msgstr ""
 "Nincs `START-INFO-DIR-ENTRY' sem `This file documents'.\n"
 "%s: nem tudom meghatározni a leírást a `dir' bejegyzéshez - feladom\n"
 
-#: scripts/install-info.pl:279
+#: scripts/install-info.pl:275
 #, perl-format
 msgid "%s: no file %s, retrieving backup file %s."
 msgstr "%s: nincs %s fájl, %s másolat fájlt használom."
 
-#: scripts/install-info.pl:282 scripts/install-info.pl:292
+#: scripts/install-info.pl:278 scripts/install-info.pl:288
 #, perl-format
 msgid "%s: copying %s to %s failed, giving up: %s"
 msgstr "%s: %s másolása ide: %s sikertelen, feladom: %s"
 
-#: scripts/install-info.pl:288
+#: scripts/install-info.pl:284
 #, perl-format
 msgid "%s: no backup file %s available, retrieving default file."
 msgstr "%s: nincs %s másolat fájl, az alapértelmezettet használom."
 
-#: scripts/install-info.pl:297
+#: scripts/install-info.pl:293
 #, perl-format
 msgid "%s: no backup file %s available."
 msgstr "%s: nincs %s másolat fájl."
 
-#: scripts/install-info.pl:298
+#: scripts/install-info.pl:294
 #, perl-format
 msgid "%s: no default file %s available, giving up."
 msgstr "%s: nincs alap %s fájl, feladom."
 
-#: scripts/install-info.pl:307
+#: scripts/install-info.pl:303
 #, perl-format
 msgid "try deleting %s?"
 msgstr "törlöd %s-t?"
 
-#: scripts/install-info.pl:348
+#: scripts/install-info.pl:344
 #, perl-format
 msgid "%s: existing entry for `%s' not replaced"
 msgstr "%s: nem cseréltem `%s' bejegyzését"
 
-#: scripts/install-info.pl:351
+#: scripts/install-info.pl:347
 #, perl-format
 msgid "%s: replacing existing dir entry for `%s'"
 msgstr "%s: cserélem `%s' könyvtár bejegyzését"
 
-#: scripts/install-info.pl:364
+#: scripts/install-info.pl:360
 #, perl-format
 msgid "%s: creating new section `%s'"
 msgstr "%s: új `%s' szakasz létrehozása"
 
-#: scripts/install-info.pl:367
+#: scripts/install-info.pl:363
 #, perl-format
 msgid "%s: no sections yet, creating Miscellaneous section too."
 msgstr "%s: nincsenek még szakaszok, a Miscellaneous szakaszt is létrehozom."
 
-#: scripts/install-info.pl:385
+#: scripts/install-info.pl:381
 #, perl-format
 msgid "%s: no section specified for new entry, placing at end"
 msgstr "%s: nincs megadva szakad az új bejegyzéshez, a végére rakom"
 
-#: scripts/install-info.pl:422
+#: scripts/install-info.pl:418
 #, perl-format
 msgid "%s: deleting entry `%s ...'"
 msgstr "%s: `%s ...' bejegyzés törlése"
 
-#: scripts/install-info.pl:428
+#: scripts/install-info.pl:424
 #, perl-format
 msgid "%s: empty section `%s' not removed"
 msgstr "%s: `%s' üres szakasz nincs eltávolítva"
 
-#: scripts/install-info.pl:431
+#: scripts/install-info.pl:427
 #, perl-format
 msgid "%s: deleting empty section `%s'"
 msgstr "%s: `%s' üres szakasz törlése"
 
-#: scripts/install-info.pl:438
+#: scripts/install-info.pl:434
 #, perl-format
 msgid "%s: no entry for file `%s' and menu entry `%s'"
 msgstr "%s: nincs bejegyzés `%s' fájlhoz és `%s' menü bejegyzés"
 
-#: scripts/install-info.pl:440
+#: scripts/install-info.pl:436
 #, perl-format
 msgid "%s: no entry for file `%s'"
 msgstr "%s nincs bejegyzés e fájlhoz: `%s'"
 
-#: scripts/install-info.pl:493
+#: scripts/install-info.pl:489
 #, perl-format
 msgid "unable to install new %s: %s"
 msgstr "nem tudom telepíteni az új %s-t: %s"
 
-#: scripts/install-info.pl:496
+#: scripts/install-info.pl:492
 #, perl-format
 msgid "unable to unlock %s: %s"
 msgstr "nem tudom kioldani %s-t: %s"
 
-#: scripts/install-info.pl:498
+#: scripts/install-info.pl:494
 #, perl-format
 msgid "%s: could not backup %s in %s: %s"
 msgstr "%s: nem tudom menteni %s-t itt: %s: %s"
 
-#: scripts/install-info.pl:515
+#: scripts/install-info.pl:511
 #, perl-format
 msgid "unable to read %s: %d"
 msgstr "%s olvasása sikertelen: %d"
 
-#: scripts/install-info.pl:519
+#: scripts/install-info.pl:515
 #, perl-format
 msgid "dbg: %s"
 msgstr "hbk: %s"
 
-#: scripts/update-alternatives.pl:66
+#: scripts/update-alternatives.pl:62
 msgid ""
 "\n"
 "Copyright (C) 1995 Ian Jackson.\n"
@@ -4991,7 +5041,7 @@ msgstr ""
 "Copyright (C) 1995 Ian Jackson.\n"
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
-#: scripts/update-alternatives.pl:78
+#: scripts/update-alternatives.pl:74
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -5032,36 +5082,36 @@ msgid ""
 "  --version                show the version.\n"
 msgstr ""
 
-#: scripts/update-alternatives.pl:131
+#: scripts/update-alternatives.pl:127
 msgid "invalid update mode"
 msgstr ""
 
-#: scripts/update-alternatives.pl:135
+#: scripts/update-alternatives.pl:131
 #, perl-format
 msgid "duplicate slave %s"
 msgstr "kettős %s szolga"
 
-#: scripts/update-alternatives.pl:138
+#: scripts/update-alternatives.pl:134
 #, perl-format
 msgid "slave link same as main link %s"
 msgstr "szolga lánc és %s fő lánc azonos"
 
-#: scripts/update-alternatives.pl:139
+#: scripts/update-alternatives.pl:135
 #, perl-format
 msgid "duplicate slave link %s"
 msgstr "kettős %s szolga lánc"
 
-#: scripts/update-alternatives.pl:143
+#: scripts/update-alternatives.pl:139
 #, perl-format
 msgid "duplicate path %s"
 msgstr "kettős %s ösvény"
 
-#: scripts/update-alternatives.pl:149
+#: scripts/update-alternatives.pl:145
 #, perl-format
 msgid "priority %s %s"
 msgstr "%s elsőbbség %s"
 
-#: scripts/update-alternatives.pl:156
+#: scripts/update-alternatives.pl:152
 #, perl-format
 msgid ""
 "Alternative for %s points to %s - which wasn't found.  Removing from list of "
@@ -5070,92 +5120,92 @@ msgstr ""
 "%s választása erre mutat: %s - melyet nem leltem. Eltávolítom a választási "
 "listából."
 
-#: scripts/update-alternatives.pl:196
+#: scripts/update-alternatives.pl:192
 #, perl-format
 msgid "%s - status is %s."
 msgstr "%s - állapot: %s."
 
-#: scripts/update-alternatives.pl:200
+#: scripts/update-alternatives.pl:196
 #, perl-format
 msgid " link currently points to %s"
 msgstr " lánc most ide mutat: %s"
 
-#: scripts/update-alternatives.pl:202
+#: scripts/update-alternatives.pl:198
 msgid " link currently absent"
 msgstr " lánc most hiányzik"
 
-#: scripts/update-alternatives.pl:204
+#: scripts/update-alternatives.pl:200
 #, perl-format
 msgid " link unreadable - %s"
 msgstr " lánc olvashatatlan - %s"
 
-#: scripts/update-alternatives.pl:208
+#: scripts/update-alternatives.pl:204
 #, perl-format
 msgid "%s - priority %s"
 msgstr "%s - %s elsőbbség"
 
-#: scripts/update-alternatives.pl:212
+#: scripts/update-alternatives.pl:208
 #, perl-format
 msgid " slave %s: %s"
 msgstr " %s szolga: %s"
 
-#: scripts/update-alternatives.pl:217
+#: scripts/update-alternatives.pl:213
 msgid "No versions available."
 msgstr "Nincs elérhető verzió."
 
-#: scripts/update-alternatives.pl:219
+#: scripts/update-alternatives.pl:215
 #, perl-format
 msgid "Current `best' version is %s."
 msgstr "A jelenlegi `legjobb' verzió: %s"
 
-#: scripts/update-alternatives.pl:247
+#: scripts/update-alternatives.pl:243
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "ismeretlen %s argumentum"
 
-#: scripts/update-alternatives.pl:260
+#: scripts/update-alternatives.pl:256
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "a --install követelményei: <lánc> <név> <ösvény> <elsőbbség>"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:258
 msgid "priority must be an integer"
 msgstr "az elsőbbség egész szám kell legyen"
 
-#: scripts/update-alternatives.pl:266
+#: scripts/update-alternatives.pl:262
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s számára <név> és <ösvény> kell"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:267
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s számára <név> kell"
 
-#: scripts/update-alternatives.pl:275
+#: scripts/update-alternatives.pl:271
 msgid "--slave needs <link> <name> <path>"
 msgstr "a --slave követelményei: <lánc> <név> <ösvény>"
 
-#: scripts/update-alternatives.pl:277
+#: scripts/update-alternatives.pl:273
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "%s szolga név megkettőzött"
 
-#: scripts/update-alternatives.pl:278
+#: scripts/update-alternatives.pl:274
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "%s szolga lánc megkettőzött"
 
-#: scripts/update-alternatives.pl:295
+#: scripts/update-alternatives.pl:291
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "%s elsődleges és szolga név is"
 
-#: scripts/update-alternatives.pl:297
+#: scripts/update-alternatives.pl:293
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "%s elsődleges és szolga lánc is"
 
-#: scripts/update-alternatives.pl:300
+#: scripts/update-alternatives.pl:296
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5163,31 +5213,31 @@ msgstr ""
 "igénye --display, --config, --set, --install, --remove, --all, --remove-all "
 "vagy --auto"
 
-#: scripts/update-alternatives.pl:302
+#: scripts/update-alternatives.pl:298
 msgid "--slave only allowed with --install"
 msgstr "a --slave csak --install mellett engedélyezett"
 
-#: scripts/update-alternatives.pl:315
+#: scripts/update-alternatives.pl:311
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "Nincs kiválasztás erre: %s."
 
-#: scripts/update-alternatives.pl:362
+#: scripts/update-alternatives.pl:358
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "%s automata kijelölésének beállítása."
 
-#: scripts/update-alternatives.pl:365 scripts/update-alternatives.pl:367
-#: scripts/update-alternatives.pl:481 scripts/update-alternatives.pl:483
+#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
+#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
+#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
 #: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:550 scripts/update-alternatives.pl:552
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:615
-#: scripts/update-alternatives.pl:688 scripts/update-alternatives.pl:724
+#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
+#: scripts/update-alternatives.pl:685 scripts/update-alternatives.pl:721
 #, perl-format
 msgid "unable to remove %s: %s"
 msgstr "nem tudom törölni %s-t: %s"
 
-#: scripts/update-alternatives.pl:378
+#: scripts/update-alternatives.pl:374
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5196,7 +5246,7 @@ msgstr ""
 "%s-t módosítottad (kézzel vagy egy parancsfájllal).\n"
 "Csak-kézi-frissítésre váltok."
 
-#: scripts/update-alternatives.pl:390
+#: scripts/update-alternatives.pl:386
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5205,120 +5255,120 @@ msgstr ""
 "%s elérhető verziói ellenőrzése, láncok frissítése itt: %s ...\n"
 "(Magad is módosíthatod ezeket - lásd a `man ln'-t.)"
 
-#: scripts/update-alternatives.pl:396
+#: scripts/update-alternatives.pl:392
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "%s lánc átnevezése erről: %s erre: %s."
 
-#: scripts/update-alternatives.pl:399 scripts/update-alternatives.pl:423
-#: scripts/update-alternatives.pl:507 scripts/update-alternatives.pl:583
+#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
+#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "nem tudom átnevezni %s-t erre: %s: %s"
 
-#: scripts/update-alternatives.pl:418
+#: scripts/update-alternatives.pl:414
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "%s szolga lánc név megkettőzött"
 
-#: scripts/update-alternatives.pl:420
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "%s szolga lánc név átnevezése innen: %s ide: %s"
 
-#: scripts/update-alternatives.pl:437
+#: scripts/update-alternatives.pl:433
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr "Kézi kiválasztás törlése - automata módra váltok"
 
-#: scripts/update-alternatives.pl:451
+#: scripts/update-alternatives.pl:447
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "%s kiválasztása ehhez: %s nincs bejegyezve, nem törlöm"
 
-#: scripts/update-alternatives.pl:478
+#: scripts/update-alternatives.pl:474
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "Elavult %s szolga lánc átugrása (%s)."
 
-#: scripts/update-alternatives.pl:499
+#: scripts/update-alternatives.pl:495
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "%s automata frissítései kikapcsolva, magára hagyom."
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:497
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "Az automatikus frissítésekhez való visszatéréshez használd az `update-"
 "alternatives --auto %s'-t"
 
-#: scripts/update-alternatives.pl:505
+#: scripts/update-alternatives.pl:501
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "%s előző sikertelen frissítésének visszaállítása..."
 
-#: scripts/update-alternatives.pl:520
+#: scripts/update-alternatives.pl:516
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "nem tudom megnyitni %s-t írásra: %s"
 
-#: scripts/update-alternatives.pl:543
+#: scripts/update-alternatives.pl:539
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "Utolsó %s-t (%s) adó csomag eltávolítva, törlöm."
 
-#: scripts/update-alternatives.pl:557
+#: scripts/update-alternatives.pl:553
 #, perl-format
 msgid ""
 "warning: %s is supposed to be a symlink to %s\n"
 " (or nonexistent); however, readlink failed: %s"
 msgstr ""
 
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:577
-#: scripts/update-alternatives.pl:600 scripts/update-alternatives.pl:608
+#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
+#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:605
 #, perl-format
 msgid "unable to ensure %s nonexistent: %s"
 msgstr "nem biztos, hogy %s nem létezik: %s"
 
-#: scripts/update-alternatives.pl:565 scripts/update-alternatives.pl:602
-#: scripts/update-alternatives.pl:625 scripts/update-alternatives.pl:674
-#: scripts/update-alternatives.pl:710 scripts/update-alternatives.pl:749
+#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:608
+#: scripts/update-alternatives.pl:622 scripts/update-alternatives.pl:671
+#: scripts/update-alternatives.pl:707 scripts/update-alternatives.pl:746
 #, perl-format
 msgid "unable to make %s a symlink to %s: %s"
 msgstr "%s jlánc készítése ide: %s nem sikerült: %s"
 
-#: scripts/update-alternatives.pl:567 scripts/update-alternatives.pl:587
-#: scripts/update-alternatives.pl:604 scripts/update-alternatives.pl:627
-#: scripts/update-alternatives.pl:676 scripts/update-alternatives.pl:712
-#: scripts/update-alternatives.pl:754
+#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
+#: scripts/update-alternatives.pl:611 scripts/update-alternatives.pl:624
+#: scripts/update-alternatives.pl:673 scripts/update-alternatives.pl:709
+#: scripts/update-alternatives.pl:751
 #, perl-format
 msgid "unable to install %s as %s: %s"
 msgstr "nem sikerült telepíteni %s-t mint %s: %s"
 
-#: scripts/update-alternatives.pl:570 scripts/update-alternatives.pl:618
+#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:615
 #, perl-format
 msgid "Leaving %s (%s) pointing to %s."
 msgstr "Meghagyom %s (%s)-t ezen: %s"
 
-#: scripts/update-alternatives.pl:573 scripts/update-alternatives.pl:621
+#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:618
 #, perl-format
 msgid "Updating %s (%s) to point to %s."
 msgstr "Frissítem %s (%s)-t erre: %s"
 
-#: scripts/update-alternatives.pl:594
+#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:682
+#: scripts/update-alternatives.pl:718
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "Törlöm %s (%s)-t, nem illik ehhez: %s."
+
+#: scripts/update-alternatives.pl:599
 #, perl-format
 msgid ""
 "warning: %s is supposed to be a slave symlink to\n"
 " %s, or nonexistent; however, readlink failed: %s"
 msgstr ""
 
-#: scripts/update-alternatives.pl:610 scripts/update-alternatives.pl:685
-#: scripts/update-alternatives.pl:721
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "Törlöm %s (%s)-t, nem illik ehhez: %s."
-
-#: scripts/update-alternatives.pl:635
+#: scripts/update-alternatives.pl:632
 #, fuzzy, perl-format
 msgid ""
 "There is no program which provides %s.\n"
@@ -5327,7 +5377,7 @@ msgstr ""
 "Csak 1 program adja ezt: %s\n"
 "(%s). Nincs beállítandó.\n"
 
-#: scripts/update-alternatives.pl:641
+#: scripts/update-alternatives.pl:638
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5336,7 +5386,7 @@ msgstr ""
 "Csak 1 program adja ezt: %s\n"
 "(%s). Nincs beállítandó.\n"
 
-#: scripts/update-alternatives.pl:646
+#: scripts/update-alternatives.pl:643
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5349,44 +5399,68 @@ msgstr ""
 "  Kijelölés    Választás\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:656
+#: scripts/update-alternatives.pl:653
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr "Üss entert az alap[*]-hoz, vagy a választás számát: "
 
-#: scripts/update-alternatives.pl:671 scripts/update-alternatives.pl:708
+#: scripts/update-alternatives.pl:668 scripts/update-alternatives.pl:705
 #, perl-format
 msgid "Using `%s' to provide `%s'."
 msgstr "`%s' használata `%s' számára."
 
-#: scripts/update-alternatives.pl:706
+#: scripts/update-alternatives.pl:703
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "Nem találom a `%s' kiválasztást"
 
-#: scripts/update-alternatives.pl:729 scripts/update-alternatives.pl:732
+#: scripts/update-alternatives.pl:726 scripts/update-alternatives.pl:729
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "hiba stdout íráskor: %s"
 
-#: scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:728
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "újsorok tilosak az update-alternatives fájlokban (%s)"
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:733
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "eof hiba %s olvasásakor ehhez: %s (%s)"
 
-#: scripts/update-alternatives.pl:737
+#: scripts/update-alternatives.pl:734
 #, perl-format
 msgid "missing newline after %s"
 msgstr "hiányzó új sor ezután: %s"
 
-#: scripts/update-alternatives.pl:757
+#: scripts/update-alternatives.pl:754
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "Komoly gond: %s"
+
+#~ msgid "warning"
+#~ msgstr "figyelj!"
+
+#~ msgid "parse error"
+#~ msgstr "elemzési hiba"
+
+#~ msgid " (package: "
+#~ msgstr " (csomag: "
+
+#~ msgid "unsupported dependency problem - not installing %.250s"
+#~ msgstr "nem támogatott függőségi gond - %.250s nem települ"
+
+#~ msgid "diversion by %s"
+#~ msgstr "%s általi eltérítések"
+
+#~ msgid "to"
+#~ msgstr "ide:"
+
+#~ msgid "from"
+#~ msgstr "innen:"
+
+#~ msgid "error reading %s"
+#~ msgstr "olvasási hiba: %s"
 
 #~ msgid "two modes specified: %s and --%s"
 #~ msgstr "2 mód megadva: %s és --%s"
