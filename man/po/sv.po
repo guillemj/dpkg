@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-07-21 16:13+0300\n"
+"POT-Creation-Date: 2007-08-18 04:22+0300\n"
 "PO-Revision-Date: 2007-08-05 21:52+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -173,7 +173,7 @@ msgstr "B<822-date> tar inga argument eller flaggor."
 
 # type: SH
 #: ../../man/822-date.1:24 ../../man/cleanup-info.8:48
-#: ../../man/deb-substvars.5:125 ../../man/dpkg.1:615
+#: ../../man/deb-substvars.5:125 ../../man/dpkg.1:618
 #: ../../man/dpkg-buildpackage.1:179 ../../man/dpkg-deb.1:221
 #: ../../man/dpkg-name.1:87 ../../man/dpkg-source.1:231
 #: ../../man/dpkg-split.1:200 ../../man/dselect.1:427
@@ -189,13 +189,13 @@ msgstr "Funktionen borde ingå i B<date>(1)."
 
 # type: SH
 #: ../../man/822-date.1:28 ../../man/cleanup-info.8:51 ../../man/deb.5:67
-#: ../../man/deb-control.5:206 ../../man/deb-old.5:51
+#: ../../man/deb-control.5:214 ../../man/deb-old.5:51
 #: ../../man/deb-override.5:67 ../../man/deb-shlibs.5:29
-#: ../../man/deb-substvars.5:129 ../../man/dpkg.1:605
+#: ../../man/deb-substvars.5:129 ../../man/dpkg.1:608
 #: ../../man/dpkg-architecture.1:268 ../../man/dpkg.cfg.5:21
 #: ../../man/dpkg-buildpackage.1:184 ../../man/dpkg-deb.1:238
 #: ../../man/dpkg-divert.8:118 ../../man/dpkg-name.1:97
-#: ../../man/dpkg-query.1:158 ../../man/dpkg-scanpackages.1:95
+#: ../../man/dpkg-query.1:159 ../../man/dpkg-scanpackages.1:95
 #: ../../man/dpkg-scansources.1:65 ../../man/dpkg-shlibdeps.1:127
 #: ../../man/dpkg-source.1:242 ../../man/dpkg-split.1:226
 #: ../../man/dpkg-statoverride.8:78 ../../man/dselect.1:443
@@ -215,7 +215,7 @@ msgstr "I<Internet Message Format> (RFC2822), B<date>(1)."
 #: ../../man/deb-substvars.5:136 ../../man/dpkg-architecture.1:272
 #: ../../man/dpkg.cfg.5:17 ../../man/dpkg-checkbuilddeps.1:31
 #: ../../man/dpkg-deb.1:244 ../../man/dpkg-divert.8:121
-#: ../../man/dpkg-name.1:105 ../../man/dpkg-query.1:149
+#: ../../man/dpkg-name.1:105 ../../man/dpkg-query.1:150
 #: ../../man/dpkg-scansources.1:69 ../../man/dpkg-split.1:232
 #: ../../man/dpkg-statoverride.8:81 ../../man/dselect.cfg.5:17
 #: ../../man/install-info.8:291 ../../man/update-alternatives.8:392
@@ -381,7 +381,7 @@ msgstr "Visar version och avslutar."
 
 # type: SH
 #: ../../man/cleanup-info.8:43 ../../man/deb-substvars.5:120
-#: ../../man/dpkg.1:502 ../../man/dpkg.cfg.5:12
+#: ../../man/dpkg.1:505 ../../man/dpkg.cfg.5:12
 #: ../../man/dpkg-distaddfile.1:39 ../../man/dpkg-divert.8:108
 #: ../../man/dpkg-genchanges.1:134 ../../man/dpkg-gencontrol.1:105
 #: ../../man/dpkg-parsechangelog.1:40 ../../man/dpkg-shlibdeps.1:116
@@ -425,7 +425,7 @@ msgstr "Upphovsrättsskyddat © 1996 Kim-Minh Kaplan"
 #: ../../man/dpkg-distaddfile.1:53 ../../man/dpkg-deb.1:248
 #: ../../man/dpkg-divert.8:125 ../../man/dpkg-genchanges.1:150
 #: ../../man/dpkg-gencontrol.1:125 ../../man/dpkg-name.1:109
-#: ../../man/dpkg-parsechangelog.1:54 ../../man/dpkg-query.1:157
+#: ../../man/dpkg-parsechangelog.1:54 ../../man/dpkg-query.1:158
 #: ../../man/dpkg-shlibdeps.1:136 ../../man/dpkg-source.1:253
 #: ../../man/dpkg-split.1:236 ../../man/dpkg-statoverride.8:88
 #: ../../man/install-info.8:295 ../../man/update-alternatives.8:397
@@ -928,12 +928,32 @@ msgstr ""
 
 # type: TP
 #: ../../man/deb-control.5:138
+#, fuzzy, no-wrap
+msgid "B<Breaks:> E<lt>package listE<gt>"
+msgstr "B<Replaces:> E<lt>paketlistaE<gt>"
+
+# type: Plain text
+#: ../../man/deb-control.5:146
+#, fuzzy
+msgid ""
+"Lists packages that this one breaks, for example by exposing bugs when the "
+"named packages rely on this one. The package maintenance software will not "
+"allow broken packages to be configured; generally the resolution is to "
+"upgrade the packages named in a B<Breaks> field."
+msgstr ""
+"Listar paket som är i konflikt (krockar) med detta, till exempel genom att "
+"innehålla filer med samma namn. Pakethanteringsprogramvaran tillåter inte "
+"två sådana paket att vara installerade samtidigt. Två paket med inbördes "
+"konflikt bör innehålla en B<Conflicts>-rad med varandras namn."
+
+# type: TP
+#: ../../man/deb-control.5:146
 #, no-wrap
 msgid "B<Conflicts:> E<lt>package listE<gt>"
 msgstr "B<Conflicts:> E<lt>paketlistaE<gt>"
 
 # type: Plain text
-#: ../../man/deb-control.5:146
+#: ../../man/deb-control.5:154
 msgid ""
 "Lists packages that conflict with this one, for example by containing files "
 "with the same names. The package maintenance software will not allow "
@@ -946,13 +966,13 @@ msgstr ""
 "konflikt bör innehålla en B<Conflicts>-rad med varandras namn."
 
 # type: TP
-#: ../../man/deb-control.5:146
+#: ../../man/deb-control.5:154
 #, no-wrap
 msgid "B<Replaces:> E<lt>package listE<gt>"
 msgstr "B<Replaces:> E<lt>paketlistaE<gt>"
 
 # type: Plain text
-#: ../../man/deb-control.5:154
+#: ../../man/deb-control.5:162
 msgid ""
 "List of packages files from which this one replaces. This is used for "
 "allowing this package to overwrite the files of another package and is "
@@ -966,13 +986,13 @@ msgstr ""
 "paketet det står i konflikt med."
 
 # type: TP
-#: ../../man/deb-control.5:154
+#: ../../man/deb-control.5:162
 #, no-wrap
 msgid "B<Provides:> E<lt>package listE<gt>"
 msgstr "B<Provides:> E<lt>paketlistaE<gt>"
 
 # type: Plain text
-#: ../../man/deb-control.5:164
+#: ../../man/deb-control.5:172
 msgid ""
 "This is a list of virtual packages that this one provides. Usually this is "
 "used in the case of several packages all providing the same service.  For "
@@ -993,7 +1013,7 @@ msgstr ""
 "och använda \"|\" för att dela av listan."
 
 # type: Plain text
-#: ../../man/deb-control.5:179
+#: ../../man/deb-control.5:187
 msgid ""
 "The syntax of B<Conflicts>, B<Replaces> and B<Provides> is a list of package "
 "names, separated by commas (and optional whitespace).  In the B<Conflicts> "
@@ -1008,13 +1028,13 @@ msgstr ""
 "fälten."
 
 # type: SH
-#: ../../man/deb-control.5:180
+#: ../../man/deb-control.5:188
 #, no-wrap
 msgid "EXAMPLE"
 msgstr "EXEMPEL"
 
 # type: Plain text
-#: ../../man/deb-control.5:203
+#: ../../man/deb-control.5:211
 #, no-wrap
 msgid ""
 "# Comment\n"
@@ -1060,7 +1080,7 @@ msgstr ""
 " will run more slowly, however.)\n"
 
 # type: Plain text
-#: ../../man/deb-control.5:209
+#: ../../man/deb-control.5:217
 msgid "B<deb>(5), B<dpkg>(1), B<dpkg-deb>(1)."
 msgstr "B<deb>(5), B<dpkg>(8), B<dpkg-deb>(1)."
 
@@ -2615,7 +2635,12 @@ msgstr ""
 "B<depends-version>: Ignorera versionsnummer när beroenden kontrolleras."
 
 # type: Plain text
-#: ../../man/dpkg.1:378
+#: ../../man/dpkg.1:377
+msgid "B<breaks>: Install, even if this would break another package."
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg.1:381
 msgid ""
 "B<conflicts>: Install, even if it conflicts with another package. This is "
 "dangerous, for it will usually cause overwriting of some files."
@@ -2625,7 +2650,7 @@ msgstr ""
 "filer skrivs över."
 
 # type: Plain text
-#: ../../man/dpkg.1:383
+#: ../../man/dpkg.1:386
 msgid ""
 "B<confmiss>: Always install a missing configuration file. This is dangerous, "
 "since it means not preserving a change (removing) made to the file."
@@ -2634,7 +2659,7 @@ msgstr ""
 "farligt, eftersom det inte bibehåller ändringar (raderingar) av filer."
 
 # type: Plain text
-#: ../../man/dpkg.1:388
+#: ../../man/dpkg.1:391
 msgid ""
 "B<confnew>: If a conffile has been modified always install the new version "
 "without prompting, unless the B<--force-confdef> is also specified, in which "
@@ -2645,7 +2670,7 @@ msgstr ""
 "det förvalda alternativet kommer att utföras."
 
 # type: Plain text
-#: ../../man/dpkg.1:393
+#: ../../man/dpkg.1:396
 msgid ""
 "B<confold>: If a conffile has been modified always keep the old version "
 "without prompting, unless the B<--force-confdef> is also specified, in which "
@@ -2656,7 +2681,7 @@ msgstr ""
 "det förvalda alternativet kommer att utföras."
 
 # type: Plain text
-#: ../../man/dpkg.1:399
+#: ../../man/dpkg.1:402
 msgid ""
 "B<confdef>: If a conffile has been modified always choose the default "
 "action. If there is no default action it will stop to ask the user unless "
@@ -2669,17 +2694,17 @@ msgstr ""
 "också angetts, i så fall används den för att bestämma vad som skall utföras."
 
 # type: Plain text
-#: ../../man/dpkg.1:402
+#: ../../man/dpkg.1:405
 msgid "B<overwrite>: Overwrite one package's file with another's file."
 msgstr "B<overwrite>: Skriv över ett pakets filer med ett annats."
 
 # type: Plain text
-#: ../../man/dpkg.1:405
+#: ../../man/dpkg.1:408
 msgid "B<overwrite-dir> Overwrite one package's directory with another's file."
 msgstr "B<overwrite-dir> Skriv över ett pakets kataloger med ett annats filer."
 
 # type: Plain text
-#: ../../man/dpkg.1:408
+#: ../../man/dpkg.1:411
 msgid ""
 "B<overwrite-diverted>: Overwrite a diverted file with an undiverted version."
 msgstr ""
@@ -2687,12 +2712,12 @@ msgstr ""
 "version."
 
 # type: Plain text
-#: ../../man/dpkg.1:411
+#: ../../man/dpkg.1:414
 msgid "B<architecture>: Process even packages with the wrong architecture."
 msgstr "B<architecture>: Hantera även paket med fel maskinvaruarkitektur."
 
 # type: Plain text
-#: ../../man/dpkg.1:414
+#: ../../man/dpkg.1:417
 msgid ""
 "B<bad-path>: B<PATH> is missing important programs, so problems are likely."
 msgstr ""
@@ -2700,25 +2725,25 @@ msgstr ""
 "troliga."
 
 # type: Plain text
-#: ../../man/dpkg.1:417
+#: ../../man/dpkg.1:420
 msgid "B<not-root>: Try to (de)install things even when not root."
 msgstr "B<not-root>: Försök (av)installera saker även utan att vara root."
 
 # type: Plain text
-#: ../../man/dpkg.1:420
+#: ../../man/dpkg.1:423
 msgid "B<bad-verify>: Install a package even if it fails authenticity check."
 msgstr ""
 "B<bad-verify>: Installera ett paket även om det inte går att verifiera dess "
 "äkthet."
 
 # type: TP
-#: ../../man/dpkg.1:421
+#: ../../man/dpkg.1:424
 #, no-wrap
 msgid "B<--ignore-depends>=I<package>,..."
 msgstr "B<--ignore-depends>=I<paket>,..."
 
 # type: Plain text
-#: ../../man/dpkg.1:425
+#: ../../man/dpkg.1:428
 msgid ""
 "Ignore dependency-checking for specified packages (actually, checking is "
 "performed, but only warnings about conflicts are given, nothing else)."
@@ -2727,13 +2752,13 @@ msgstr ""
 "kontrollen, men det ges endast varningar, ingenting annat)."
 
 # type: TP
-#: ../../man/dpkg.1:425
+#: ../../man/dpkg.1:428
 #, no-wrap
 msgid "B<--new>, B<--old>"
 msgstr "B<--new>, B<--old>"
 
 # type: Plain text
-#: ../../man/dpkg.1:429
+#: ../../man/dpkg.1:432
 msgid ""
 "Select new or old binary package format. This is a B<dpkg-deb>(1)  option."
 msgstr ""
@@ -2741,13 +2766,13 @@ msgstr ""
 "deb>(1)."
 
 # type: TP
-#: ../../man/dpkg.1:429 ../../man/dpkg-deb.1:211
+#: ../../man/dpkg.1:432 ../../man/dpkg-deb.1:211
 #, no-wrap
 msgid "B<--nocheck>"
 msgstr "B<--nocheck>"
 
 # type: Plain text
-#: ../../man/dpkg.1:433
+#: ../../man/dpkg.1:436
 msgid ""
 "Don't read or check contents of control file while building a package.  This "
 "is a B<dpkg-deb>(1) option."
@@ -2756,13 +2781,13 @@ msgstr ""
 "Detta är en flagga till B<dpkg-deb>(1)."
 
 # type: TP
-#: ../../man/dpkg.1:433
+#: ../../man/dpkg.1:436
 #, no-wrap
 msgid "B<--no-act>, B<--dry-run>, B<--simulate>"
 msgstr "B<--no-act>, B<--dry-run>, B<--simulate>"
 
 # type: Plain text
-#: ../../man/dpkg.1:438
+#: ../../man/dpkg.1:441
 msgid ""
 "Do everything which is supposed to be done, but don't write any changes. "
 "This is used to see what would happen with the specified action, without "
@@ -2772,7 +2797,7 @@ msgstr ""
 "för att se vad som skulle ha hänt med åtgärden utan att faktiskt ändra något."
 
 # type: Plain text
-#: ../../man/dpkg.1:443
+#: ../../man/dpkg.1:446
 msgid ""
 "Be sure to give B<--no-act> before the action-parameter, or you might end up "
 "with undesirable results. (e.g. B<dpkg --purge foo --no-act> will first "
@@ -2785,13 +2810,13 @@ msgstr ""
 "att du troligen förväntade dig att ingenting skulle utföras)"
 
 # type: TP
-#: ../../man/dpkg.1:443
+#: ../../man/dpkg.1:446
 #, no-wrap
 msgid "B<-R>, B<--recursive>"
 msgstr "B<-R>, B<--recursive>"
 
 # type: Plain text
-#: ../../man/dpkg.1:449
+#: ../../man/dpkg.1:452
 msgid ""
 "Recursively handle all regular files matching pattern B<*.deb> found at "
 "specified directories and all of its subdirectories. This can be used with "
@@ -2802,13 +2827,13 @@ msgstr ""
 "tillsammans med B<-i>, B<-A>, B<--install>, B<--unpack> och B<--avail>."
 
 # type: TP
-#: ../../man/dpkg.1:449
+#: ../../man/dpkg.1:452
 #, no-wrap
 msgid "B<-G>"
 msgstr "B<-G>"
 
 # type: Plain text
-#: ../../man/dpkg.1:453
+#: ../../man/dpkg.1:456
 msgid ""
 "Don't install a package if a newer version of the same package is already "
 "installed. This is an alias of B<--refuse-downgrade>."
@@ -2817,7 +2842,7 @@ msgstr ""
 "installerat. Detta är ett alias för B<--refuse-downgrade>."
 
 # type: TP
-#: ../../man/dpkg.1:453 ../../man/dpkg-buildpackage.1:168
+#: ../../man/dpkg.1:456 ../../man/dpkg-buildpackage.1:168
 #: ../../man/dpkg-checkbuilddeps.1:19 ../../man/dpkg-query.1:70
 #: ../../man/dpkg-shlibdeps.1:105
 #, no-wrap
@@ -2825,7 +2850,7 @@ msgid "B<--admindir=>I<dir>"
 msgstr "B<--admindir=>I<kat>"
 
 # type: Plain text
-#: ../../man/dpkg.1:458
+#: ../../man/dpkg.1:461
 msgid ""
 "Change default administrative directory, which contains many files that give "
 "information about status of installed or uninstalled packages, etc.  "
@@ -2836,13 +2861,13 @@ msgstr ""
 "(standardvärde är I</var/lib/dpkg>)"
 
 # type: TP
-#: ../../man/dpkg.1:458
+#: ../../man/dpkg.1:461
 #, no-wrap
 msgid "B<--instdir=>I<dir>"
 msgstr "B<--instdir=>I<katalog>"
 
 # type: Plain text
-#: ../../man/dpkg.1:465
+#: ../../man/dpkg.1:468
 msgid ""
 "Change default installation directory which refers to the directory where "
 "packages are to be installed. B<instdir> is also the directory passed to "
@@ -2855,13 +2880,13 @@ msgstr ""
 "skripten ser B<instdir> som rotkatalog. (Förval är I</>)"
 
 # type: TP
-#: ../../man/dpkg.1:465
+#: ../../man/dpkg.1:468
 #, no-wrap
 msgid "B<--root=>I<dir>"
 msgstr "B<--root=>I<katalog>"
 
 # type: Plain text
-#: ../../man/dpkg.1:469
+#: ../../man/dpkg.1:472
 msgid ""
 "Changing B<root> changes B<instdir> to I<dir> and B<admindir> to I<dir>B</"
 "var/lib/dpkg>."
@@ -2870,13 +2895,13 @@ msgstr ""
 "B<administrationskatalog> till I<katalog>B</var/lib/dpkg>."
 
 # type: TP
-#: ../../man/dpkg.1:469
+#: ../../man/dpkg.1:472
 #, no-wrap
 msgid "B<-O>, B<--selected-only>"
 msgstr "B<-O>, B<--selected-only>"
 
 # type: Plain text
-#: ../../man/dpkg.1:475
+#: ../../man/dpkg.1:478
 msgid ""
 "Only process the packages that are selected for installation. The actual "
 "marking is done with B<dselect> or by B<dpkg>, when it handles packages. For "
@@ -2888,13 +2913,13 @@ msgstr ""
 "kommer paket som tas bort att markeras för installation."
 
 # type: TP
-#: ../../man/dpkg.1:475
+#: ../../man/dpkg.1:478
 #, no-wrap
 msgid "B<-E>, B<--skip-same-version>"
 msgstr "B<-E>, B<--skip-same-version>"
 
 # type: Plain text
-#: ../../man/dpkg.1:479
+#: ../../man/dpkg.1:482
 msgid ""
 "Don't install the package if the same version of the package is already "
 "installed."
@@ -2902,13 +2927,13 @@ msgstr ""
 "Installera inte paketet om samma version av paketet redan är installerat."
 
 # type: TP
-#: ../../man/dpkg.1:479
+#: ../../man/dpkg.1:482
 #, no-wrap
 msgid "B<--status-fd >I<E<lt>nE<gt>>"
 msgstr "B<--status-fd >I<E<lt>nE<gt>>"
 
 # type: Plain text
-#: ../../man/dpkg.1:486
+#: ../../man/dpkg.1:489
 msgid ""
 "Send package status info to file descriptor I<E<lt>nE<gt>>. This can be "
 "given multiple times. Status updates are of the form `status: E<lt>pkgE<gt>: "
@@ -2925,13 +2950,13 @@ msgstr ""
 "prompt: conffile : \"nuvarande-fil\" \"ny-fil\" useredited distedited\""
 
 # type: TP
-#: ../../man/dpkg.1:486
+#: ../../man/dpkg.1:489
 #, no-wrap
 msgid "B<--log=>I<filename>"
 msgstr "B<--log=>I<filename>"
 
 # type: Plain text
-#: ../../man/dpkg.1:498
+#: ../../man/dpkg.1:501
 msgid ""
 "Log status change updates and actions to I<filename>, instead of the default "
 "I</var/log/dpkg.log>. If this option is given multiple times, the last "
@@ -2954,40 +2979,40 @@ msgstr ""
 "konfigurationsfilsändringar där I<E<lt>val> antingen är install eller keep."
 
 # type: TP
-#: ../../man/dpkg.1:498
+#: ../../man/dpkg.1:501
 #, no-wrap
 msgid "B<--no-debsig>"
 msgstr "B<--no-debsig>"
 
 # type: Plain text
-#: ../../man/dpkg.1:501
+#: ../../man/dpkg.1:504
 msgid "Do not try to verify package signatures."
 msgstr "Försök inte verifiera paketsignaturer."
 
 # type: TP
-#: ../../man/dpkg.1:503 ../../man/dpkg.cfg.5:14
+#: ../../man/dpkg.1:506 ../../man/dpkg.cfg.5:14
 #, no-wrap
 msgid "I</etc/dpkg/dpkg.cfg>"
 msgstr "I</etc/dpkg/dpkg.cfg>"
 
 # type: Plain text
-#: ../../man/dpkg.1:506
+#: ../../man/dpkg.1:509
 msgid "Configuration file with default options."
 msgstr "Konfigurationsfil med förvalda inställningar."
 
 # type: TP
-#: ../../man/dpkg.1:506
+#: ../../man/dpkg.1:509
 #, no-wrap
 msgid "I</var/log/dpkg.log>"
 msgstr "I</var/log/dpkg.log>"
 
 # type: Plain text
-#: ../../man/dpkg.1:510
+#: ../../man/dpkg.1:513
 msgid "Default log file (see I</etc/dpkg/dpkg.cfg>(5) and option B<--log>)."
 msgstr "Förvald loggfil (se I</etc/dpkg/dpkg.cfg>(5) och flaggan B<--log>)."
 
 # type: Plain text
-#: ../../man/dpkg.1:513
+#: ../../man/dpkg.1:516
 msgid ""
 "The other files listed below are in their default directories, see option "
 "B<--admindir> to see how to change locations of these files."
@@ -2996,24 +3021,24 @@ msgstr ""
 "admindir> för information om hur du ändrar placeringen av dessa filer."
 
 # type: TP
-#: ../../man/dpkg.1:513
+#: ../../man/dpkg.1:516
 #, no-wrap
 msgid "I</var/lib/dpkg/available>"
 msgstr "I</var/lib/dpkg/available>"
 
 # type: Plain text
-#: ../../man/dpkg.1:516
+#: ../../man/dpkg.1:519
 msgid "List of available packages."
 msgstr "Lista över tillgängliga paket."
 
 # type: TP
-#: ../../man/dpkg.1:516
+#: ../../man/dpkg.1:519
 #, no-wrap
 msgid "I</var/lib/dpkg/status>"
 msgstr "I</var/lib/dpkg/status>"
 
 # type: Plain text
-#: ../../man/dpkg.1:522
+#: ../../man/dpkg.1:525
 msgid ""
 "Statuses of available packages. This file contains information about whether "
 "a package is marked for removing or not, whether it is installed or not, "
@@ -3024,7 +3049,7 @@ msgstr ""
 "osv. Se sektionen B<INFORMATION OM PAKET> för ytterligare information."
 
 # type: Plain text
-#: ../../man/dpkg.1:525
+#: ../../man/dpkg.1:528
 msgid ""
 "The following files are components of a binary package. See B<deb>(5)  for "
 "more information about them:"
@@ -3033,55 +3058,55 @@ msgstr ""
 "ytterligare information om dem:"
 
 # type: TP
-#: ../../man/dpkg.1:525
+#: ../../man/dpkg.1:528
 #, no-wrap
 msgid "I<control>"
 msgstr "I<control>"
 
 # type: TP
-#: ../../man/dpkg.1:527
+#: ../../man/dpkg.1:530
 #, no-wrap
 msgid "I<conffiles>"
 msgstr "I<conffiles>"
 
 # type: TP
-#: ../../man/dpkg.1:529
+#: ../../man/dpkg.1:532
 #, no-wrap
 msgid "I<preinst>"
 msgstr "I<preinst>"
 
 # type: TP
-#: ../../man/dpkg.1:531
+#: ../../man/dpkg.1:534
 #, no-wrap
 msgid "I<postinst>"
 msgstr "I<postinst>"
 
 # type: TP
-#: ../../man/dpkg.1:533
+#: ../../man/dpkg.1:536
 #, no-wrap
 msgid "I<prerm>"
 msgstr "I<prerm>"
 
 # type: TP
-#: ../../man/dpkg.1:535
+#: ../../man/dpkg.1:538
 #, no-wrap
 msgid "I<postrm>"
 msgstr "I<postrm>"
 
 # type: SH
-#: ../../man/dpkg.1:538
+#: ../../man/dpkg.1:541
 #, no-wrap
 msgid "ENVIRONMENT VARIABLES"
 msgstr "MILJÖVARIABLER"
 
 # type: TP
-#: ../../man/dpkg.1:539
+#: ../../man/dpkg.1:542
 #, no-wrap
 msgid "B<DPKG_NO_TSTP>"
 msgstr "B<DPKG_NO_TSTP>"
 
 # type: Plain text
-#: ../../man/dpkg.1:543
+#: ../../man/dpkg.1:546
 msgid ""
 "Define this to something if you prefer B<dpkg> starting a new shell rather "
 "than suspending itself, while doing a shell escape."
@@ -3090,24 +3115,24 @@ msgstr ""
 "skal istället för att lägga sig i bakgrunden när ett skal startas."
 
 # type: TP
-#: ../../man/dpkg.1:543
+#: ../../man/dpkg.1:546
 #, no-wrap
 msgid "B<SHELL>"
 msgstr "B<SHELL>"
 
 # type: Plain text
-#: ../../man/dpkg.1:546
+#: ../../man/dpkg.1:549
 msgid "The program B<dpkg> will execute when starting a new shell."
 msgstr "Programmet B<dpkg> kommer att exekveras när ett nytt skal startas."
 
 # type: TP
-#: ../../man/dpkg.1:546 ../../man/dpkg-query.1:144
+#: ../../man/dpkg.1:549 ../../man/dpkg-query.1:145
 #, no-wrap
 msgid "B<COLUMNS>"
 msgstr "B<COLUMNS>"
 
 # type: Plain text
-#: ../../man/dpkg.1:550
+#: ../../man/dpkg.1:553
 msgid ""
 "Sets the number of columns B<dpkg> should use when displaying formatted "
 "text. Currently only used by -l."
@@ -3116,7 +3141,7 @@ msgstr ""
 "Används för närvarande enbart av -l."
 
 # type: SH
-#: ../../man/dpkg.1:551 ../../man/dpkg-architecture.1:246
+#: ../../man/dpkg.1:554 ../../man/dpkg-architecture.1:246
 #: ../../man/dpkg-divert.8:87 ../../man/dpkg-name.1:66
 #: ../../man/update-alternatives.8:356
 #, no-wrap
@@ -3124,52 +3149,52 @@ msgid "EXAMPLES"
 msgstr "EXEMPEL"
 
 # type: Plain text
-#: ../../man/dpkg.1:553
+#: ../../man/dpkg.1:556
 msgid "To list packages related to the editor B<vi>(1):"
 msgstr ""
 "För att lista paket relaterade till textredigeringsprogrammet B<vi>(1):"
 
 # type: Plain text
-#: ../../man/dpkg.1:555
+#: ../../man/dpkg.1:558
 #, no-wrap
 msgid "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 msgstr "     B<dpkg -l \\(aq*vi*\\(aq>\n"
 
 # type: Plain text
-#: ../../man/dpkg.1:558
+#: ../../man/dpkg.1:561
 msgid "To see the entries in I</var/lib/dpkg/available> of two packages:"
 msgstr "För att se posterna i I</var/lib/dpkg/available> för två paket:"
 
 # type: Plain text
-#: ../../man/dpkg.1:560
+#: ../../man/dpkg.1:563
 #, no-wrap
 msgid "     B<dpkg --print-avail elvis vim | less>\n"
 msgstr "     B<dpkg --print-avail elvis vim | less>\n"
 
 # type: Plain text
-#: ../../man/dpkg.1:563
+#: ../../man/dpkg.1:566
 msgid "To search the listing of packages yourself:"
 msgstr "För att själv söka i paketlistan:"
 
 # type: Plain text
-#: ../../man/dpkg.1:565
+#: ../../man/dpkg.1:568
 #, no-wrap
 msgid "     B<less /var/lib/dpkg/available>\n"
 msgstr "     B<less /var/lib/dpkg/available>\n"
 
 # type: Plain text
-#: ../../man/dpkg.1:568
+#: ../../man/dpkg.1:571
 msgid "To remove an installed elvis package:"
 msgstr "För att ta bort det installerade paketet elvis:"
 
 # type: Plain text
-#: ../../man/dpkg.1:570
+#: ../../man/dpkg.1:573
 #, no-wrap
 msgid "     B<dpkg -r elvis>\n"
 msgstr "     B<dpkg -r elvis>\n"
 
 # type: Plain text
-#: ../../man/dpkg.1:575
+#: ../../man/dpkg.1:578
 msgid ""
 "To install a package, you first need to find it in an archive or CDROM. The "
 "\"available\" file shows that the vim package is in section \"editors\":"
@@ -3179,7 +3204,7 @@ msgstr ""
 "\"editors\":"
 
 # type: Plain text
-#: ../../man/dpkg.1:578
+#: ../../man/dpkg.1:581
 #, no-wrap
 msgid ""
 "     B<cd /cdrom/hamm/hamm/binary/editors>\n"
@@ -3189,18 +3214,18 @@ msgstr ""
 "     B<dpkg -i vim_4.5-3.deb>\n"
 
 # type: Plain text
-#: ../../man/dpkg.1:581
+#: ../../man/dpkg.1:584
 msgid "To make a local copy of the package selection states:"
 msgstr "För att göra en lokal kopia av paketmarkeringarna:"
 
 # type: Plain text
-#: ../../man/dpkg.1:583
+#: ../../man/dpkg.1:586
 #, no-wrap
 msgid "     B<dpkg --get-selections E<gt>myselections>\n"
 msgstr "     B<dpkg --get-selections E<gt>mitturval>\n"
 
 # type: Plain text
-#: ../../man/dpkg.1:587
+#: ../../man/dpkg.1:590
 msgid ""
 "You might transfer this file to another computer, and install it there with:"
 msgstr ""
@@ -3208,7 +3233,7 @@ msgstr ""
 "skriva:"
 
 # type: Plain text
-#: ../../man/dpkg.1:590
+#: ../../man/dpkg.1:593
 #, no-wrap
 msgid ""
 "     B<dpkg --clear-selections>\n"
@@ -3218,7 +3243,7 @@ msgstr ""
 "     B<dpkg --set-selections E<lt>mitturval>\n"
 
 # type: Plain text
-#: ../../man/dpkg.1:596
+#: ../../man/dpkg.1:599
 msgid ""
 "Note that this will not actually install or remove anything, but just set "
 "the selection state on the requested packages. You will need some other "
@@ -3231,7 +3256,7 @@ msgstr ""
 "Till exempel kan du köra B<dselect> och välja I<Installera>."
 
 # type: Plain text
-#: ../../man/dpkg.1:599
+#: ../../man/dpkg.1:602
 msgid ""
 "Ordinarily, you will find that B<dselect>(1) provides a more convenient way "
 "to modify the package selection states."
@@ -3240,13 +3265,13 @@ msgstr ""
 "ett bekvämare sätt att ändra paketmarkeringarna."
 
 # type: SH
-#: ../../man/dpkg.1:601
+#: ../../man/dpkg.1:604
 #, no-wrap
 msgid "ADDITIONAL FUNCTIONALITY"
 msgstr "YTTERLIGARE FUNKTIONER"
 
 # type: Plain text
-#: ../../man/dpkg.1:604
+#: ../../man/dpkg.1:607
 msgid ""
 "Additional functionality can be gained by installing any of the following "
 "packages: B<apt>, B<aptitude> and B<debsums>."
@@ -3255,7 +3280,7 @@ msgstr ""
 "paket: B<apt>, B<aptitude> och B<debsums>."
 
 # type: Plain text
-#: ../../man/dpkg.1:614
+#: ../../man/dpkg.1:617
 msgid ""
 "B<dselect>(1), B<dpkg-deb>(1), B<dpkg-query>(1), B<deb>(5), B<deb-control>"
 "(5), B<dpkg.cfg>(5), and B<dpkg-reconfigure>(8)."
@@ -3264,12 +3289,12 @@ msgstr ""
 "(5), B<dpkg.cfg>(5) och B<dpkg-reconfigure>(8)."
 
 # type: Plain text
-#: ../../man/dpkg.1:617
+#: ../../man/dpkg.1:620
 msgid "B<--no-act> usually gives less information than might be helpful."
 msgstr "B<--no-act> ger oftast mindre information än vad som vore hjälpsamt."
 
 # type: SH
-#: ../../man/dpkg.1:618 ../../man/dpkg-buildpackage.1:191
+#: ../../man/dpkg.1:621 ../../man/dpkg-buildpackage.1:191
 #: ../../man/dpkg-distaddfile.1:47 ../../man/dpkg-genchanges.1:144
 #: ../../man/dpkg-gencontrol.1:119 ../../man/dpkg-parsechangelog.1:48
 #: ../../man/dpkg-shlibdeps.1:130 ../../man/dpkg-source.1:247
@@ -3279,7 +3304,7 @@ msgid "AUTHORS"
 msgstr "FÖRFATTARE"
 
 # type: Plain text
-#: ../../man/dpkg.1:622
+#: ../../man/dpkg.1:625
 #, no-wrap
 msgid ""
 "See I</usr/share/doc/dpkg/THANKS> for the list of people who have\n"
@@ -4127,7 +4152,7 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg.cfg.5:22 ../../man/dpkg-divert.8:120
-#: ../../man/dpkg-query.1:160 ../../man/dpkg-statoverride.8:80
+#: ../../man/dpkg-query.1:161 ../../man/dpkg-statoverride.8:80
 msgid "B<dpkg>(1)."
 msgstr "B<dpkg>(1)."
 
@@ -6334,14 +6359,15 @@ msgstr ""
 "vänsterjustering kommer att användas. Följande I<fält> stöds:"
 
 # type: Plain text
-#: ../../man/dpkg-query.1:129
-#, no-wrap
+#: ../../man/dpkg-query.1:130
+#, fuzzy, no-wrap
 msgid ""
 "    B<Architecture>\n"
 "    B<Bugs>\n"
 "    B<Conffiles>\n"
 "    B<Config-Version>\n"
 "    B<Conflicts>\n"
+"    B<Breaks>\n"
 "    B<Depends>\n"
 "    B<Description>\n"
 "    B<Enhances>\n"
@@ -6396,7 +6422,7 @@ msgstr ""
 "    B<Version>\n"
 
 # type: Plain text
-#: ../../man/dpkg-query.1:137
+#: ../../man/dpkg-query.1:138
 msgid ""
 "The default format string is \\(lqB<${Package}\\et${Version}\\en>\\(rq.  "
 "Actually, all other fields found in the status file (i.e. user defined "
@@ -6411,19 +6437,19 @@ msgstr ""
 "av dpkg och kan du köra:"
 
 # type: Plain text
-#: ../../man/dpkg-query.1:141
+#: ../../man/dpkg-query.1:142
 #, no-wrap
 msgid "  B<dpkg-query -W -f='${Package} ${Version}\\et${Maintainer}\\en' dpkg>\n"
 msgstr "  B<dpkg-query -W -f='${Package} ${Version}\\et${Maintainer}\\en' dpkg>\n"
 
 # type: SH
-#: ../../man/dpkg-query.1:143
+#: ../../man/dpkg-query.1:144
 #, no-wrap
 msgid "ENVIRONMENT"
 msgstr "MILJÖVARIABLER"
 
 # type: Plain text
-#: ../../man/dpkg-query.1:148
+#: ../../man/dpkg-query.1:149
 msgid ""
 "This setting influences the output of the B<--list> option by changing the "
 "width of its output."
@@ -6432,18 +6458,18 @@ msgstr ""
 "bredden på dess utdata."
 
 # type: Plain text
-#: ../../man/dpkg-query.1:151
+#: ../../man/dpkg-query.1:152
 msgid "Copyright (C) 2001 Wichert Akkerman"
 msgstr "Upphovsrättsskyddat © 2001 Wichert Akkerman"
 
 # type: UR
-#: ../../man/dpkg-query.1:151 ../../man/dpkg-statoverride.8:83
+#: ../../man/dpkg-query.1:152 ../../man/dpkg-statoverride.8:83
 #, no-wrap
 msgid "mailto:wakkerma@debian.org"
 msgstr "mailto:wakkerma@debian.org"
 
 # type: Plain text
-#: ../../man/dpkg-query.1:153 ../../man/dpkg-statoverride.8:85
+#: ../../man/dpkg-query.1:154 ../../man/dpkg-statoverride.8:85
 msgid "E<lt>wakkerma@debian.orgE<gt>"
 msgstr "E<lt>wakkerma@debian.orgE<gt>"
 
