@@ -208,7 +208,7 @@ for $_ (keys %fi) {
 	elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
 	elsif (m/^Maintainer$/i) { $f{$_}= $v; }
 	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
-	elsif (m/|^X[BS]+-|^Standards-Version$/i) { }
+	elsif (m/|^X[BS]+-|^Standards-Version$|^Homepage$/i) { }
 	else { &unknown(_g('general section of control info file')); }
     } elsif (s/^C(\d+) //) {
 	my $i = $1;
