@@ -100,6 +100,7 @@ sub is_elf {
 package Dpkg::Shlibs::Objdump::Object;
 
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(syserr warning);
 
 sub new {
     my $this = shift;
