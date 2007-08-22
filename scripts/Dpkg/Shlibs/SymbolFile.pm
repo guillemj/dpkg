@@ -31,6 +31,7 @@ my %blacklist = (
     '__do_global_ctors_aux' => 1,   # ia64
     '__do_global_dtors_aux' => 1,   # ia64
     '__do_jv_register_classes' => 1,# ia64
+    '_DYNAMIC' => 1,		# ALL
     '_edata' => 1,		# ALL
     '_end' => 1,		# ALL
     '__end__' => 1,		# arm
@@ -42,6 +43,9 @@ my %blacklist = (
     '__gmon_start__' => 1,	# hppa
     '_gp' => 1,			# mips, mipsel
     '_init' => 1,		# ALL
+    '_PROCEDURE_LINKAGE_TABLE_' => 1, # sparc, alpha
+    '_SDA2_BASE_' => 1,		# powerpc
+    '_SDA_BASE_' => 1,		# powerpc
 );
 
 for (my $i = 14; $i <= 31; $i++) {
