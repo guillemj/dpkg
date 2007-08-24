@@ -157,7 +157,7 @@ for $_ (keys %fi) {
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Essential|Optional)$/) {
+        if (m/^(Package|Description|Homepage|Essential|Optional)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
         } elsif (m/^Section$|^Priority$/) {
