@@ -56,6 +56,21 @@ struct _finfo {
   struct _finfo* next;
 };
 
+const char *arbitrary_fields[]= {
+  "Homepage",
+  NULL
+};
+
+static int known_arbitrary_field(const struct arbitraryfield *field) {
+  const char **known;
+
+  for (known= arbitrary_fields; *known; known++)
+    if (strcasecmp(field->name, *known) == 0)
+      return 1;
+
+  return 0;
+}
+
 /* Do a quick check if vstring is a valid versionnumber. Valid in this case
  * means it contains at least one digit. If an error is found increment
  * *errs.
@@ -223,6 +238,9 @@ void do_build(const char *const *argv) {
       warns++;
     }
     for (field= checkedinfo->available.arbs; field; field= field->next) {
+      if (known_arbitrary_field(field))
+        continue;
+
       fprintf(stderr, _("warning, `%s' contains user-defined field `%s'\n"),
               controlfile, field->name);
       warns++;

@@ -23,7 +23,7 @@ textdomain("dpkg-dev");
 
 my @control_fields = (qw(Package Source Version Architecture Essential Origin
                          Bugs Maintainer Installed-Size), @pkg_dep_fields,
-                      qw(Section Priority Description));
+                      qw(Section Priority Homepage Description));
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
@@ -146,7 +146,7 @@ for $_ (keys %fi) {
 
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
-	if (m/^(Origin|Bugs|Maintainer)$/) {
+	if (m/^(Origin|Bugs|Maintainer|Homepage)$/) {
 	    $f{$_} = $v;
 	} elsif (m/^Source$/) {
 	    setsourcepackage($v);
@@ -157,7 +157,7 @@ for $_ (keys %fi) {
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Essential|Optional)$/) {
+        if (m/^(Package|Description|Homepage|Essential|Optional)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
         } elsif (m/^Section$|^Priority$/) {

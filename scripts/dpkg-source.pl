@@ -76,7 +76,8 @@ our @src_dep_fields;
 textdomain("dpkg-dev");
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-                     Maintainer Uploaders Standards-Version), @src_dep_fields);
+                     Maintainer Uploaders Homepage Standards-Version),
+                  @src_dep_fields);
 
 
 # Make sure patch doesn't get any funny ideas
@@ -238,8 +239,9 @@ if ($opmode eq 'build') {
         if (s/^C //) {
 	    if (m/^Source$/i) {
 		setsourcepackage($v);
+	    } elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i) {
+		$f{$_}= $v;
 	    }
-            elsif (m/^(Standards-Version|Origin|Maintainer)$/i) { $f{$_}= $v; }
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 		my $dep = parsedep(substvars($v),1);
