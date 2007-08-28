@@ -595,12 +595,14 @@ if ($mode eq 'auto') {
 	    unlink("$slink") || $! == &ENOENT ||
 	        &quit(sprintf(_g("unable to remove %s: %s"), $slink, $!));
         } else {
-	    if (!defined($linkname= readlink($slink)) && $! != ENOENT) {
+	    $linkname = readlink($slink);
+	    if (!defined($linkname) && $! != ENOENT) {
 		pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
 		              " %s, or nonexistent; however, readlink failed: %s"),
 		           $slink, "$altdir/$sname", $!))
 		    if $verbosemode > 0;
-	    } elsif ($linkname ne "$altdir/$sname") {
+	    } elsif (!defined($linkname) ||
+	            (defined($linkname) && $linkname ne "$altdir/$sname")) {
 		unlink("$slink.dpkg-tmp") || $! == ENOENT ||
 		    quit(sprintf(_g("unable to ensure %s nonexistent: %s"),
 		                 "$slink.dpkg-tmp", $!));
