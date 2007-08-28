@@ -160,6 +160,7 @@ for $_ (keys %fi) {
         if (m/^(Package|Description|Homepage|Essential|Optional)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
+	    # Delay the parsing until later
         } elsif (m/^Section$|^Priority$/) {
             $spvalue{$_}= $v;
         } elsif (m/^Architecture$/) {
@@ -213,25 +214,18 @@ $f{'Version'} = $forceversion if defined($forceversion);
 &init_substvars;
 init_substvar_arch();
 
+# Process dependency fields in a second pass, now that substvars have been
+# initialized.
+
 for $_ (keys %fi) {
     my $v = $fi{$_};
 
-    if (s/^C //) {
-    } elsif (s/^C$myindex //) {
-        if (m/^(Package|Description|Essential|Optional)$/) {
-        } elsif (exists($pkg_dep_fields{$_})) {
+    if (s/^C$myindex //) {
+        if (exists($pkg_dep_fields{$_})) {
            my $dep = parsedep(substvars($v), 1, 1);
            &error(sprintf(_g("error occurred while parsing %s"), $_)) unless defined $dep;
             $f{$_}= showdep($dep, 0);
-        } elsif (m/^Section$|^Priority$/) {
-        } elsif (m/^Architecture$/) {
-        } elsif (s/^X[CS]*B[CS]*-//i) {
-        } elsif (!m/^X[CS]+-/i) {
         }
-    } elsif (m/^C\d+ /) {
-    } elsif (s/^L //) {
-    } elsif (m/o:/) {
-    } else {
     }
 }
 
