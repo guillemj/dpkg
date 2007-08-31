@@ -76,7 +76,9 @@ our @src_dep_fields;
 textdomain("dpkg-dev");
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-                     Maintainer Uploaders Homepage Standards-Version),
+                     Maintainer Uploaders Homepage Standards-Version
+                     Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs
+                     Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
                   @src_dep_fields);
 
 
@@ -239,7 +241,8 @@ if ($opmode eq 'build') {
         if (s/^C //) {
 	    if (m/^Source$/i) {
 		setsourcepackage($v);
-	    } elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i) {
+	    } elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
+	             m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 		$f{$_}= $v;
 	    }
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }

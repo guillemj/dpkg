@@ -152,7 +152,11 @@ for $_ (keys %fi) {
 	    setsourcepackage($v);
 	}
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
-	elsif (m/^X[CS]+-|^(Standards-Version|Uploaders)$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
+	elsif (m/^X[CS]+-/i ||
+	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
+	       m/^(Standards-Version|Uploaders)$/i ||
+	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+	}
 	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {

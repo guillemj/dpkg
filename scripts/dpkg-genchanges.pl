@@ -210,7 +210,8 @@ for $_ (keys %fi) {
 	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
 	elsif (m/^X[BS]+-/i ||
 	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
-	       m/^(Standards-Version|Uploaders|Homepage|Origin|Bugs)$/i) {
+	       m/^(Standards-Version|Uploaders|Homepage|Origin|Bugs)$/i ||
+	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 	}
 	else { &unknown(_g('general section of control info file')); }
     } elsif (s/^C(\d+) //) {
