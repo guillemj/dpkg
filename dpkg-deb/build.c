@@ -58,6 +58,7 @@ struct _finfo {
 
 const char *arbitrary_fields[]= {
   "Homepage",
+  "Tag",
   NULL
 };
 
