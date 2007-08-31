@@ -208,7 +208,10 @@ for $_ (keys %fi) {
 	elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
 	elsif (m/^Maintainer$/i) { $f{$_}= $v; }
 	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
-	elsif (m/|^X[BS]+-|^Standards-Version$|^Homepage$/i) { }
+	elsif (m/^X[BS]+-/i ||
+	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
+	       m/^(Standards-Version|Uploaders|Homepage|Origin|Bugs)$/i) {
+	}
 	else { &unknown(_g('general section of control info file')); }
     } elsif (s/^C(\d+) //) {
 	my $i = $1;
