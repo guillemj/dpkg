@@ -23,7 +23,7 @@ textdomain("dpkg-dev");
 
 my @control_fields = (qw(Package Source Version Architecture Essential Origin
                          Bugs Maintainer Installed-Size), @pkg_dep_fields,
-                      qw(Section Priority Homepage Description));
+                      qw(Section Priority Homepage Description Tag));
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
@@ -152,12 +152,16 @@ for $_ (keys %fi) {
 	    setsourcepackage($v);
 	}
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
-	elsif (m/^X[CS]+-|^(Standards-Version|Uploaders)$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
+	elsif (m/^X[CS]+-/i ||
+	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
+	       m/^(Standards-Version|Uploaders)$/i ||
+	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+	}
 	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Homepage|Essential|Optional)$/) {
+        if (m/^(Package|Description|Homepage|Tag|Essential|Optional)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
 	    # Delay the parsing until later

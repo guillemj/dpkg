@@ -1,3 +1,32 @@
+2007-08-31  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (arbitrary_fields): Add Tag.
+	* scripts/dpkg-genchanges.pl: Ignore Tag field.
+	* scripts/dpkg-gencontrol.pl: Parse Tag from binary package stanza.
+	(@control_fields): Add Tag.
+	* scripts/dpkg-scanpackages.pl (@fieldpri): Add Tag.
+	* scripts/dpkg-source.pl: Ignore Tag field from binary package stanza.
+
+2007-08-31  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Ignore Vcs-Browser, Vcs-Arch, Vcs-Bzr,
+	Vcs-Cvs, Vcs-Darcs, Vcs-Git, Vcs-Hg, Vcs-Mtn and Vcs-Svn fields
+	from control file source stanza.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Parse them instead.
+	(@dsc_fields): Add them here.
+
+2007-08-31  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Do not leave unknown fields unwarned
+	and explicitely ignore all known ones from control file source
+	package stanza.
+
+2007-08-30  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Ignore XB- fields instead of XC- fields
+	from control file binary package stanzas.
+
 2007-08-28  Guillem Jover  <guillem@debian.org>
 
 	* scripts/update-alternatives.pl: Fix regression introduced on commit
