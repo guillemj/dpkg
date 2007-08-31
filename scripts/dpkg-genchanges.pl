@@ -252,7 +252,7 @@ for $_ (keys %fi) {
 		push(@archvalues,$v) unless !$v || $archadded{$v}++;
 	    } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
 		     m/^(Recommends|Suggests|Enhances|Optional|Conflicts|Breaks|Replaces)$/ ||
-		     m/^X[CS]+-/i) {
+		     m/^X[BS]+-/i) {
 	    } else {
 		&unknown(_g("package's section of control info file"));
 	    }
