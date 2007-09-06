@@ -4,7 +4,7 @@ set -e
 
 version="1.10.10"; # This line modified by Makefile
 
-progname="`basename \"$0\"`"
+progname="$(basename "$0")"
 
 showversion () {
 	echo "Debian $progname version $version."
@@ -86,7 +86,7 @@ admindir=''
 
 while [ $# != 0 ]
 do
-	value="`echo x\"$1\" | sed -e 's/x--.*=//;s/^x-.//'`"
+	value="$(echo x"$1" | sed -e 's/x--.*=//;s/^x-.//')"
 	case "$1" in
 	-h|--help)
 		usage; exit 0 ;;
@@ -160,7 +160,7 @@ mustsetvar () {
 }
 
 curd="`pwd`"
-dirn="`basename \"$curd\"`"
+dirn="$(basename "$curd")"
 mustsetvar package "`dpkg-parsechangelog | sed -n 's/^Source: //p'`" "source package is"
 mustsetvar changesversion "`dpkg-parsechangelog | sed -n 's/^Version: //p'`" "source version is"
 if [ -n "$changedby" ]; then maintainer="$changedby";
@@ -173,7 +173,7 @@ if [ x$sourceonly = x ]; then
 else
 	arch=source
 fi
-mustsetvar sversion "`echo \"$changesversion\" | perl -pe 's/^\d+://'`" "source version without epoch"
+mustsetvar sversion "$(echo "$changesversion" | perl -pe 's/^\d+://')" "source version without epoch"
 pv="${package}_${sversion}"
 pva="${package}_${sversion}_${arch}"
 
