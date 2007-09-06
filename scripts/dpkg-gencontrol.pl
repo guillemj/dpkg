@@ -162,7 +162,7 @@ for $_ (keys %fi) {
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Homepage|Tag|Essential|Optional)$/) {
+        if (m/^(Package|Description|Homepage|Tag|Essential)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
 	    # Delay the parsing until later
