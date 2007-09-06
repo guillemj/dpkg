@@ -15,7 +15,6 @@ our %f;             # - fields ???
 our %fi;            # - map of fields values. keys are of the form "S# key"
                     #   where S is source (L is changelog, C is control)
                     #   and # is an index
-our %fieldimps;
 our %p2i;           # - map from datafile+packagename to index in controlfile
                     #   (used if multiple packages can be listed). Key is
                     #   "S key" where S is the source and key is the packagename
@@ -339,6 +338,8 @@ sub substvars {
     }
     return $v;
 }
+
+my %fieldimps;
 
 sub set_field_importance(@)
 {

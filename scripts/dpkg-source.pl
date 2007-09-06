@@ -66,7 +66,7 @@ use Cwd;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
-our (%f, %fi, %fieldimps);
+our (%f, %fi);
 our $sourcepackage;
 our $warnable_error;
 our $quiet_warnings;
