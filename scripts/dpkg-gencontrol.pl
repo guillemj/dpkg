@@ -13,7 +13,6 @@ require 'controllib.pl';
 
 our %substvar;
 our (%f, %fi);
-our %fieldimps;
 our %p2i;
 our @pkg_dep_fields;
 our $sourcepackage;

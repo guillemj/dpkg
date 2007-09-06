@@ -13,7 +13,6 @@ require 'controllib.pl';
 
 our (%f, %fi);
 our %p2i;
-our %fieldimps;
 our %substvar;
 our $sourcepackage;
 our $host_arch;
