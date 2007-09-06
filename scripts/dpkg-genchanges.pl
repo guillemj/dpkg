@@ -15,7 +15,6 @@ our (%f, %fi);
 our %p2i;
 our %substvar;
 our $sourcepackage;
-our $host_arch;
 
 textdomain("dpkg-dev");
 
