@@ -22,6 +22,8 @@ Usage: $progname [<options> ...]
 
 Options:
   -r<gain-root-command>
+                 command to gain root privileges (default is fakeroot if it
+                 exists).
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
@@ -59,6 +61,10 @@ END
 }
 
 rootcommand=''
+if command -v fakeroot >/dev/null 2>&1; then
+	rootcommand=fakeroot
+fi
+
 signcommand=""
 if [ -e "$GNUPGHOME" ] || [ -e "$HOME/.gnupg" ] && \
 		command -v gpg > /dev/null 2>&1; then
