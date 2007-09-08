@@ -285,7 +285,7 @@ if ($opmode eq 'build') {
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
             } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
-                     m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/i ||
+                     m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
                      m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
                      m/^X[BC]+-/i) {
             } else {
