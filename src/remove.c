@@ -166,9 +166,13 @@ void deferred_remove(struct pkginfo *pkg) {
   if (pkg->status == stat_halfconfigured || pkg->status == stat_installed) {
 
     if (pkg->status == stat_installed || pkg->status == stat_halfconfigured) {
+      static enum pkgstatus oldpkgstatus;
+
+      oldpkgstatus= pkg->status;
       pkg->status= stat_halfconfigured;
       modstatdb_note(pkg);
-      push_cleanup(cu_prermremove,~ehflag_normaltidy, 0,0, 1,(void*)pkg);
+      push_cleanup(cu_prermremove, ~ehflag_normaltidy, 0, 0, 2,
+                   (void *)pkg, (void *)&oldpkgstatus);
       maintainer_script_installed(pkg, PRERMFILE, "pre-removal",
                                   "remove", NULL);
     }

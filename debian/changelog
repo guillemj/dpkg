@@ -10,6 +10,10 @@ dpkg (1.14.7) UNRELEASED; urgency=low
     dpkg-buildpackage.
   * Fix typos in dpkg-deb.1 and start-stop-daemon.8. Closes: #441051
     Thanks to A. Costa.
+  * After '<prerm> remove' fails and while doing the error unwinding, if
+    the '<postinst> abort-remove' call succeeds, preserve the old status
+    instead of unconditionally setting it to 'Installed'. Closes: #432893
+    Thanks to Brian M. Carlson.
 
   [ Updated dpkg translations ]
   * Portuguese (Miguel Figueiredo). Closes: #441113

@@ -233,11 +233,12 @@ void cu_postrmupgrade(int argc, void **argv) {
 
 void cu_prermremove(int argc, void **argv) {
   struct pkginfo *pkg= (struct pkginfo*)argv[0];
+  enum pkgstatus *oldpkgstatus= (enum pkgstatus*)argv[1];
 
   if (cleanup_pkg_failed++) return;
   maintainer_script_installed(pkg,POSTINSTFILE,"post-installation",
                               "abort-remove", NULL);
-  pkg->status= stat_installed;
+  pkg->status= *oldpkgstatus;
   pkg->eflag &= ~eflagf_reinstreq;
   modstatdb_note(pkg);
   cleanup_pkg_failed--;
