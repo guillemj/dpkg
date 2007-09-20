@@ -97,10 +97,10 @@ $SIG{'QUIT'} = \&exit_handler;
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    print _g("
 Copyright (C) 1996 Ian Jackson and Klee Dienes.");
 
-    printf _g("
+    print _g("
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO warranty.
 ");
