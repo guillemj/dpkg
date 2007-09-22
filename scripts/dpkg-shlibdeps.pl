@@ -336,8 +336,7 @@ sub extract_from_shlibs {
 	    warning(sprintf(_g("shared libs info file \`%s' line %d: bad line \`%s'"), $shlibfile, $., $_));
 	    next;
 	}
-	my $type = defined($1) ? $1 : "deb";
-	next if $type ne $packagetype;
+	next if defined($1) and $1 ne $packagetype;
 	if (($libname eq $2) && ($libversion eq $3)) {
 	    $dep = $4;
 	    last;
