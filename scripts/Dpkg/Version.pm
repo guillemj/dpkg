@@ -162,6 +162,36 @@ sub vercmp ($$)
     return verrevcmp($version{revision}, $refversion{revision});
 }
 
+=item compare_versions
+
+Emulates dpkg --compare-versions. Takes two versions as arguments
+one and three and one operator as argument two. Supports the following
+operators: 'gt', 'ge', 'eq', 'le', 'lt', and '>>', '>=', '=', '<=', '<<'.
+Returns a true value if the specified condition is true, a false value
+otherwise.
+
+=cut
+
+sub compare_versions ($$$)
+{
+    my $rel = $_[1];
+    my $res = vercmp($_[0], $_[2]);
+
+    if ($rel eq 'gt' or $rel =~ />?>/) {
+	return $res > 0;
+    } elsif ($rel eq 'ge' or $rel eq '>=') {
+	return $res >= 0;
+    } elsif ($rel eq 'eq' or $rel eq '=') {
+	return $res == 0;
+    } elsif ($rel eq 'le' or $rel eq '<=') {
+	return $res <= 0;
+    } elsif ($rel eq 'lt' or $rel =~ /<?</) {
+	return $res < 0;
+    } else {
+	die "bad relation '$rel'";
+    }
+}
+
 =back
 
 =head1 AUTHOR
