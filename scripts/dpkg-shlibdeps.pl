@@ -200,6 +200,7 @@ if ($stdout) {
 	    print(NEW $entry) ||
 		syserr(sprintf(_g("copy old entry to new varlist file \`%s'"), "$varlistfile.new"));
 	}
+	close(OLD);
     }
     $fh = \*NEW;
 }
