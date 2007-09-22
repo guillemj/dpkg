@@ -1,22 +1,16 @@
 #!/usr/bin/perl
-#
-# Options:
-#  -v<version>
-#   changes since <version>
 
 use strict;
 use warnings;
 
-our $progname;
-our $version = '1.3.0'; # This line modified by Makefile
-our $dpkglibdir = "."; # This line modified by Makefile
+use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 our %f;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my $controlfile = 'debian/control';

@@ -3,31 +3,25 @@
 use strict;
 use warnings;
 
-our $version = '1.3.0'; # This line modified by Makefile
-our $dpkglibdir = "."; # This line modified by Makefile
-our $pkgdatadir = ".."; # This line modified by Makefile
-
 use POSIX;
 use POSIX qw(:errno_h);
+use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-our $progname;
 our %substvar;
 our (%f, %fi);
-our %fieldimps;
 our %p2i;
 our @pkg_dep_fields;
 our $sourcepackage;
-our $host_arch;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @control_fields = (qw(Package Source Version Architecture Essential Origin
                          Bugs Maintainer Installed-Size), @pkg_dep_fields,
-                      qw(Section Priority Description));
+                      qw(Section Priority Homepage Description Tag));
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
@@ -152,18 +146,26 @@ for $_ (keys %fi) {
 #print STDERR "G key >$_< value >$v<\n";
 	if (m/^(Origin|Bugs|Maintainer)$/) {
 	    $f{$_} = $v;
+	} elsif (m/^Homepage$/) {
+	    # Binary package stanzas can override these fields
+	    $f{$_} = $v if !defined($f{$_});
 	} elsif (m/^Source$/) {
 	    setsourcepackage($v);
 	}
         elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
-	elsif (m/^X[CS]+-|^(Standards-Version|Uploaders)$|^Build-(Depends|Conflicts)(-Indep)?$/i) { }
+	elsif (m/^X[CS]+-/i ||
+	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
+	       m/^(Standards-Version|Uploaders)$/i ||
+	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+	}
 	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Essential|Optional)$/) {
+        if (m/^(Package|Description|Homepage|Tag|Essential)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
+	    # Delay the parsing until later
         } elsif (m/^Section$|^Priority$/) {
             $spvalue{$_}= $v;
         } elsif (m/^Architecture$/) {
@@ -217,25 +219,18 @@ $f{'Version'} = $forceversion if defined($forceversion);
 &init_substvars;
 init_substvar_arch();
 
+# Process dependency fields in a second pass, now that substvars have been
+# initialized.
+
 for $_ (keys %fi) {
     my $v = $fi{$_};
 
-    if (s/^C //) {
-    } elsif (s/^C$myindex //) {
-        if (m/^(Package|Description|Essential|Optional)$/) {
-        } elsif (exists($pkg_dep_fields{$_})) {
+    if (s/^C$myindex //) {
+        if (exists($pkg_dep_fields{$_})) {
            my $dep = parsedep(substvars($v), 1, 1);
            &error(sprintf(_g("error occurred while parsing %s"), $_)) unless defined $dep;
             $f{$_}= showdep($dep, 0);
-        } elsif (m/^Section$|^Priority$/) {
-        } elsif (m/^Architecture$/) {
-        } elsif (s/^X[CS]*B[CS]*-//i) {
-        } elsif (!m/^X[CS]+-/i) {
         }
-    } elsif (m/^C\d+ /) {
-    } elsif (s/^L //) {
-    } elsif (m/o:/) {
-    } else {
     }
 }
 

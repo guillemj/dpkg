@@ -3,17 +3,14 @@
 use strict;
 use warnings;
 
-our $progname;
-our $version = '1.3.0'; # This line modified by Makefile
-our $dpkglibdir = "/usr/lib/dpkg"; # This line modified by Makefile
-
 use POSIX;
 use POSIX qw(:errno_h);
+use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my $format ='debian';

@@ -1,3 +1,339 @@
+2007-09-20  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-sources.pl (version): Don't use
+	printf if we don't need it, use print instead.
+
+	* scripts/dpkg-buildpackage.sh (usage): Fix typo
+	s/dpkg-genchangs/dpkg-genchanges/
+
+	* scripts/Dpkg.pm: Make the regex for determining
+	$progname more robust.
+
+2007-09-18  Guillem Jover  <guillem@debian.org>
+
+	* lib/mlib.c (checksubprocerr): Warn instead of erroring out in case
+	of receiving a signal and having been asked to only warn.
+
+2007-09-18  Guillem Jover  <guillem@debian.org>
+
+	* src/remove.c (deferred_remove): Remove duplicate nested conditional,
+	and move its contents to the outer one.
+
+2007-09-14  Brian M. Carlson  <sandals@crustytoothpaste.ath.cx>
+
+	* src/remove.c (deferred_remove): Store the previous package status
+	when calling '<prerm> remove' and pass it to push_cleanup.
+	* src/cleanup.c (cu_prermremove): Restore previous stored status if
+	the '<postinst> abort-remove' call succeeds.
+
+2007-09-08  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.sh: Use fakeroot, if present, as default
+	value for the '-r' option.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Stop recognizing the obsolete Optional
+	field.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-name.sh: Avoid escaped quotes messing with syntax
+	highlighting by using $() instead of backticks.
+	* scripts/dpkg-buildpackage.sh: Likewise.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl ($host_arch): Do not declare as 'our'.
+	* scripts/dpkg-gencontrol.pl ($host_arch): Likewise.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl (%fieldimps): Remove unused variable.
+	* scripts/dpkg-gencontrol.pl (%fieldimps): Likewise.
+	* scripts/dpkg-source.pl (%fieldimps): Likewise.
+	* scripts/controllib.pl (%fieldimps): Switch from 'our' to 'my'.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/822-date.pl: Add $dpkglib into @INC, needed by the
+	controllib.pl require.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.7~.
+
+2007-09-05  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.6.
+
+2007-09-05  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Properly override Homepage field from
+	binary package stanzas.
+
+2007-08-31  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (arbitrary_fields): Add Tag.
+	* scripts/dpkg-genchanges.pl: Ignore Tag field.
+	* scripts/dpkg-gencontrol.pl: Parse Tag from binary package stanza.
+	(@control_fields): Add Tag.
+	* scripts/dpkg-scanpackages.pl (@fieldpri): Add Tag.
+	* scripts/dpkg-source.pl: Ignore Tag field from binary package stanza.
+
+2007-08-31  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Ignore Vcs-Browser, Vcs-Arch, Vcs-Bzr,
+	Vcs-Cvs, Vcs-Darcs, Vcs-Git, Vcs-Hg, Vcs-Mtn and Vcs-Svn fields
+	from control file source stanza.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Parse them instead.
+	(@dsc_fields): Add them here.
+
+2007-08-31  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Do not leave unknown fields unwarned
+	and explicitely ignore all known ones from control file source
+	package stanza.
+
+2007-08-30  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Ignore XB- fields instead of XC- fields
+	from control file binary package stanzas.
+
+2007-08-28  Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl: Fix regression introduced on commit
+	from 2007-08-08, which was producing a warning due to usage of
+	uninitialized variables.
+
+2007-08-28  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Add comments about the second pass
+	parsing for dependency fields. Remove handling of uninteresting fields
+	in the second pass parsing.
+
+2007-08-24  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Allow a package stanza to override the
+	Homepage field from the source stanza.
+
+2007-08-20  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (arbitrary_fields): New variable.
+	(known_arbitrary_field): New function.
+	(do_build): Call known_arbitrary_field to not warn on known arbitrary
+	fields.
+	* scripts/dpkg-genchanges.pl: Ignore Homepage field.
+	* scripts/dpkg-gencontrol.pl: Parse Homepage from source package
+	stanza.
+	(@control_fields): Add Homepage.
+	* scripts/dpkg-scanpackages.pl (@fieldpri): Add Homepage.
+	* scripts/dpkg-source.pl: Parse Homepage from source package stanza.
+	(@dsc_fields): Add Homepage.
+
+2007-08-18  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-divert.pl (infol): Check if parameters are defined
+	before using them. Use defined instead of length to check for undef
+	variables.
+
+2007-08-14  Guillem Jover  <guillem@debian.org>
+
+	* lib/parsehelp.c (parseerr): Switch from ternary operator to compose
+	a string to a conditional call to the function with two different
+	strings, making life easier for translators.
+	* src/archives.c (tarobject): Likewise.
+	* src/query.c (searchoutput): Switch from a loop with two iterations
+	and ternary operators to compose strings to a conditional with two
+	sequential calls with different strings, making life easier for
+	translators.
+
+2007-08-14  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-split/main.c (rerr): Adjust string so that it gets merged by
+	gettext with a similar one.
+
+2007-08-14  Guillem Jover  <guillem@debian.org>
+
+	* src/archives.c (linktosameexistingdir): Mark strings for translation.
+
+2007-08-11  Ian Jackson  <iwj@ubuntu.com>
+
+	* src/archives.c (linktosameexistingdir): New function.
+	(tarobject): Call linktosameexistingdir if the tarball and the on-disk
+	files are symlinks and ignore the symlink if it returns true.
+
+2007-08-08  Ian Jackson  <iwj@ubuntu.com>
+
+	* scripts/update-alternatives.pl: In the case where the slave is
+	inapplicable do not attempt to create the slave link before
+	removing it again.
+
+2007-08-08  Guillem Jover  <guillem@debian.org>
+
+	* src/configure.c (deferred_configure): Do not print a new line
+	if maintainer_script_installed returned true.
+
+2007-08-08  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (do_build): Use NULL instead of '(char *)0'.
+	* dpkg-deb/extract.c (movecontrolfiles, extracthalf): Likewise.
+	* dpkg-deb/info.c (cu_info_prepare, info_prepare): Likewise.
+	* src/cleanup.c (cu_prermupgrade, cu_prermdeconfigure)
+	(cu_prerminfavour, cu_preinstverynew, cu_preinstnew)
+	(cu_preinstupgrade, cu_postrmupgrade, cu_prermremove): Likewise.
+	* src/configure.c (deferred_configure, suspend): Likewise.
+	* src/help.c (maintainer_script_alternative)
+	(ensure_pathname_nonexisting): Likewise.
+	* src/processarc.c (process_archive): Likewise.
+	* src/remove.c (deferred_remove, removal_bulk_remove_files)
+	(removal_bulk_remove_configfiles): Likewise.
+
+2007-08-08  Guillem Jover  <guillem@debian.org>
+
+	* src/cleanup.c (cu_prermdeconfigure): Split call to
+	maintainer_script_installed depending on the conflictor variable.
+	* src/packages.c (dependencies_ok): Remove comment stating that
+	Breaks needs to be implemented.
+	* src/depcon.c (depisok): Likewise. Remove return at the beggining
+	of the function checking for a Breaks dependency, that was
+	efectively making it a no-op in that case.
+	* src/processarc.c (process_archive): Fix indentation. Split calls
+	in deconfigure code to printf and maintainer_script_installed
+	depending on the removing variable.
+
+2007-08-07  Guillem Jover  <guillem@debian.org>
+
+	* src/query.c (listpackages): Instead of allocating an additional
+	packages array with room for the the current amount of packages,
+	sort the existing one, and print the packages matching the pattern,
+	which fixes segfaults when the resulting array was bigger than the
+	current amount of packages.
+	(showpackages): For each package show it only once it matches any
+	of the patterns, so we avoid duplicated results.
+
+2007-08-07  Ian Jackson  <iwj@ubuntu.com>
+
+	* man/deb-control.5: Document Breaks field.
+	* man/dpkg-query.1: Document Breaks as a recognized field.
+	* man/dpkg.1: Add description of '--force-breaks'.
+	* scripts/controllib.pl (@pkg_dep_fields): Add 'Breaks'.
+	* scripts/dpkg-genchanges.pl: Ignore Breaks field.
+	* scripts/dpkg-source.pl: Likewise.
+	* src/archives.c (try_remove_can): Rename to ...
+	(try_deconfigure_can): ... this. Generalize dependency force check
+	by taking a function as argument. Store the possible package removal
+	which caused the deconfiguration in the xinfo member of the package
+	to be deconfigured.
+	(try_remove_can): New function.
+	(check_breaks): Likewise.
+	* src/archives.h (check_breaks): New prototype.
+	* src/cleanup.c (cu_prermdeconfigure): Handle case when argv[1]
+	might be 0, if deconfigure was due to Breaks.
+	* src/configure.c (deferred_configure): Call breakses_ok.
+	* src/depcon.c (depisok): Add Breaks support.
+	* src/help.c (force_breaks): New function.
+	* src/main.c (fc_breaks): New variable.
+	(forceinfo): Add 'breaks' as a supported option for '--force-...'.
+	* src/main.h (struct perpackagestate): Add xinfo member.
+	(fc_breaks): New variable definition.
+	(breakses_ok): New prototype.
+	(force_depends): Likewise.
+	* src/packages.c (breaks_check_one): New function.
+	(breaks_check_target): Likewise.
+	(breakses_ok): Likewise.
+	* src/processarc.c (process_archive): Check for Breaks dependencies,
+	instead of bailing out if field found. Distinguish between deconfigure
+	due to a removal due to Conflicts or Depends, and deconfigure due to
+	an installation due to Breaks. Run the deconfiguration of each
+	package to be deconfigured once, instead of once per each conflicting
+	package being removed.
+
+2007-07-31  Ian Jackson  <iwj@ubuntu.com>
+
+	* src/archives.c (quote_filename): Change formatting to match the
+	rest of the file (tab -> 2 spaces).
+
+2007-07-25  Guillem Jover  <guillem@debian.org>
+
+	* scripts/changelog/debian.pl: Switch from 'dpkg-gettext.pl' to
+	Dpkg::Gettext.
+
+2007-07-22  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gettext.pl: Move ...
+	* scripts/Dpkg/Gettext.pm: ... here. Add a package statement.
+	Fix all users.
+	* scripts/Makefile.am (dist_pkglib_SCRIPTS): Remove 'dpkg-gettext.pl'.
+	(nobase_dist_perllib_DATA): Add 'Dpkg/Gettext.pm'.
+
+	* scripts/822-date.pl: Do not push $dpkglibdir into @INC anymore.
+	* scripts/cleanup-info.pl: Likewise.
+	* scripts/controllib.pl: Likewise.
+	* scripts/dpkg-divert.pl: Likewise.
+	* scripts/dpkg-scansources.pl: Likewise.
+	* scripts/dpkg-statoverride.pl: Likewise.
+	* scripts/install-info.pl: Likewise.
+	* scripts/update-alternatives.pl: Likewise.
+
+2007-07-22  Guillem Jover  <guillem@debian.org>
+
+	* scripts/cleanup-info.pl: Use new Dpkg module, and remove variable
+	declarations already present in the module.
+	* scripts/controllib.pl: Likewise.
+	* scripts/dpkg-architecture.pl: Likewise.
+	* scripts/dpkg-checkbuilddeps.pl: Likewise.
+	* scripts/dpkg-distaddfile.pl: Likewise.
+	* scripts/dpkg-divert.pl: Likewise.
+	* scripts/dpkg-genchanges.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-parsechangelog.pl: Likewise.
+	* scripts/dpkg-scanpackages.pl: Likewise.
+	* scripts/dpkg-scansources.pl: Likewise.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+	* scripts/dpkg-statoverride.pl: Likewise.
+	* scripts/install-info.pl: Likewise.
+	* scripts/update-alternatives.pl: Likewise.
+	* scripts/822-date.pl: Likewise.
+	* changelog/debian.pl: Likewise.
+
+	* scripts/controllib.pl (init_substvars): Remove comment about
+	$version needing to be a global variable set elsewhere.
+
+	* scripts/dpkg-scanpackages.pl: Remove $0 mangling.
+	(version, usage): Use $progname instead of $0.
+	* scripts/dpkg-statoverride.pl: Likewise.
+	* scripts/install-info.pl: Likewise.
+	* scripts/dpkg-divert.pl: Likewise.
+	(quit, badusage): Use $progname instead of $0.
+	* scripts/update-alternatives.pl: Likewise.
+	* scripts/dpkg-scansources.pl ($Me): Remove declaration.
+	(xwarndie_mess, version, usage): Use $progname instead of $Me.
+
+2007-07-21  Guillem Jover  <guillem@debian.org>
+
+	* m4/perl.m4 (DPKG_PROG_PERL): Add support for user overridable
+	PERL_LIBDIR variable, autodetected from the system installation.
+	* scripts/Makefile.am (perllibdir): New variable.
+	(nobase_dist_perllib_DATA): Likewise.
+	(install-data-hook): New target.
+	* scripts/Dpkg.pm: New file.
+
+2007-07-03  Frank Lichtenheld  <djpig@debian.org>
+
+	* configure.ac: Bump version to 1.14.6~.
+
+	* configure.ac: Release 1.14.5.
+
+2007-07-02  Frank Lichtenheld  <djpig@debian.org>
+
+	* COPYING: Update to current version of GPL v2
+	text. Updates FSF address and LGPL name.
+
 2007-07-01  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-source.pl: Warn that newly created empty files are

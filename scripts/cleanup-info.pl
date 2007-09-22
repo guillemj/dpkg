@@ -24,14 +24,13 @@
 use strict;
 use warnings;
 
-my $dpkglibdir = "."; # This line modified by Makefile
-push(@INC,$dpkglibdir);
-require 'dpkg-gettext.pl';
+use Dpkg;
+use Dpkg::Gettext;
+
 textdomain("dpkg");
 
 ($0) = $0 =~ m:.*/(.+):;
 
-my $version = '1.1.6'; # This line modified by Makefile
 sub version {
     printf _g("Debian %s version %s.\n"), $0, $version;
 

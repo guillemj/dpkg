@@ -1,4 +1,111 @@
-dpkg (1.14.5) UNRELEASED; urgency=low
+dpkg (1.14.7) UNRELEASED; urgency=low
+
+  [ Guillem Jover ]
+  * Add back $dpkglib into @INC, needed by the controllib.pl require in
+    822-date. Closes: #440962
+  * Document in dpkg-scanpackages that apt now requires Packages.bz2 in
+    preference to Packages.gz. Closes: #440973
+  * Stop recognizing the obsolete Optional field when building packages.
+  * Use fakeroot, if present, by default to gain root privileges in
+    dpkg-buildpackage.
+  * Fix typos in dpkg-deb.1 and start-stop-daemon.8. Closes: #441051
+    Thanks to A. Costa.
+  * After '<prerm> remove' fails and while doing the error unwinding, if
+    the '<postinst> abort-remove' call succeeds, preserve the old status
+    instead of unconditionally setting it to 'Installed'. Closes: #432893
+    Thanks to Brian M. Carlson.
+  * Add Vcs-Browser and Vcs-Git fields to debian/control.
+
+  [ Updated dpkg translations ]
+  * Basque (Piarres Beobide). Closes: #440859
+  * Danish (Claus Hindsgaul). Closes: #441106
+  * French (Frédéric Bothamy).
+  * German (Sven Joachim). Closes: #440537
+  * Nepali (Shiva Prasad Pokharel). Closes: #437825
+  * Portuguese (Miguel Figueiredo). Closes: #441113
+  * Romanian (Eddy Petri?or).
+  * Vietnamese (Clytie Siddall). Closes: #440502
+  * Korean (Sunjae Park). Closes: #443190
+
+  [ Updated man pages translations ]
+  * German (Helge Kreutzmann).
+  * Swedish (Peter Karlsson).
+  * Korean (Sunjae Park). Closes: #443191
+
+ -- Guillem Jover <guillem@debian.org>  Thu, 06 Sep 2007 03:42:40 +0300
+
+dpkg (1.14.6) unstable; urgency=low
+
+  [ Frank Lichtenheld ]
+  * Synchronise usage information of dpkg, dpkg-deb, and
+    dpkg-query man pages. This fixes some small mistakes
+    and also Closes: #321520
+
+  [ Guillem Jover ]
+  * Man pages cleanup:
+    - Some italics and bold fixes.
+    - Unify ellipsis, argument separator, and remove redundant program name
+      preceding the options.
+    - Substitute 'FILES' header with 'SEE ALSO' in dpkg-buildpackage(1),
+      and remove leftover string from man page split. Closes: #439306
+    - Split option descriptions so that it gets easier to distinguish.
+    - Unify author and copyright information formatting.
+  * Move variables automatically modified at build time for the perl scripts
+    to a new style perl module (Dpkg) and make all programs use it.
+  * Switch 'dpkg-gettext.pl' to a new style perl module (Dpkg::Gettext).
+  * Implement support for Breaks field. Closes: #379140
+    Thanks to Ian Jackson.
+  * Run the deconfiguration of each package to be deconfigured once, instead
+    of once per each conflicting package being removed. Closes: #378003
+    Thanks to Ian Jackson.
+  * Do not segfault when the result from a 'dpkg-query -l' is bigger than
+    the total number of current packages, and do not produce repeated
+    results with overlapping patterns on 'dpkg-query -W'. Closes: #428427
+  * Tightening dpkg-dev versioned Depends to dpkg 1.14.6, and dpkg Conflicts
+    against << dpkg-dev 1.14.6, where the perl modularization started.
+  * Do not print empty lines after 'Setting up ...' output. Closes: #392317
+  * When a slave alternative is inapplicable do not attempt to create the
+    slave link before removing it again. Closes: #411699
+    Thanks to Ian Jackson.
+  * Do not consider it a file conflict if the package contains a symlink
+    to a directory where the existing symlink on-disk points to the
+    same place. Closes: #377682
+    Thanks to Ian Jackson.
+  * Fix perl warnings:
+    - When removing a non diverted file with dpkg-divert. Closes: #438416
+  * Implement support for Homepage field. Closes: #142324
+  * Ignore XB- fields instead of XC- fields from control file binary package
+    stanzas in dpkg-genchanges.
+  * Explicitely ignore all known fields from the control file source package
+    stanza in dpkg-genchanges, instead of leaving unknown fields unwarned.
+  * Implement support for Vcs-Browser, Vcs-Arch, Vcs-Bzr, Vcs-Cvs, Vcs-Darcs,
+    Vcs-Git, Vcs-Hg, Vcs-Mtn and Vcs-Svn fields in control file source
+    package stanza.
+  * Implement support for Tag field.
+
+  [ Updated scripts translations ]
+  * French (Frédéric Bothamy, Christian Perrier).
+  * Swedish (Peter Karlsson).
+
+  [ Updated dpkg translations ]
+  * Dzongkha (Tshewang Norbu). Closes: #430931
+  * Nepali (Shiva Prasad Pokharel). Closes: #435353
+  * Polish (Robert Luberda).
+  * Russian (Yuri Kozlov). Closes: #436147
+  * Swedish (Peter Karlsson).
+
+  [ Updated dselect translations ]
+  * Russian (Yuri Kozlov). Closes: #436149
+  * Swedish (Peter Karlsson).
+
+  [ Updated man pages translations ]
+  * German (Helge Kreutzmann).
+  * Polish (Robert Luberda).
+  * Swedish (Peter Karlsson).
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 05 Sep 2007 07:36:02 +0300
+
+dpkg (1.14.5) unstable; urgency=low
 
   [ Guillem Jover ]
   * Add lpia support to ostable and triplettable.
@@ -31,22 +138,21 @@ dpkg (1.14.5) UNRELEASED; urgency=low
     by Ian Jackson. Closes: #390915, #207289
   * dpkg-source warns now about new empty files since those will
     not be represented in the diff. Closes: #383394
-  
+
   [ Updated dselect translations ]
-  * French (Christian Perrier)
-  * Romanian - updated and converted to use correct diacritics
+  * French (Christian Perrier).
+  * Romanian (Eddy Petrişor).
 
   [ Updated dpkg translations ]
-  * Portuguese (Miguel Figueiredo).
   * Estonian (Ivar Smolin). Closes: #427589
-  * Romanian - updated and converted to use correct diacritics
+  * Portuguese (Miguel Figueiredo).
+  * Romanian (Eddy Petrişor).
   * Spanish (Javier Fernandez-Sanguino). Closes: #429958
 
   [ Updated man pages translations ]
   * German (Helge Kreutzmann).
 
-
- -- Frank Lichtenheld <djpig@debian.org>  Sat, 23 Jun 2007 11:27:55 +0200
+ -- Frank Lichtenheld <djpig@debian.org>  Tue, 03 Jul 2007 00:27:07 +0200
 
 dpkg (1.14.4) unstable; urgency=low
 
@@ -203,7 +309,7 @@ dpkg (1.14.0) unstable; urgency=low
   * Dutch (Bart Cornelis).
   * French (Frédéric Bothamy).
   * Polish (Robert Luberda).
-  * Romanian (Eddy Petri?or).
+  * Romanian (Eddy Petrişor).
   * Simplified Chinese (Anthony Wong). Closes: #415320
   * Traditional Chinese (Anthony Wong). Closes: #415230
 
@@ -244,7 +350,7 @@ dpkg (1.13.25) unstable; urgency=low
   * Korean (Sunjae Park). Closes: #394135, #404938
   * Norwegian Bokmal (Hans Fredrik Nordhaug). Closes: #391143
   * Nepali (Shiva Prasad Pokharel).
-  * Romanian (Eddy Petri?or).
+  * Romanian (Eddy Petrişor).
   * Catalan (Jordà Polo).
   * Swedish (Peter Karlsson).
   * Vietnamese (Clytie Siddall). Closes: #399343

@@ -22,15 +22,12 @@
 use strict;
 use warnings;
 
-our $progname;
-our $version = "1.0.0"; # This line modified by Makefile
-our $dpkglibdir = "."; # This line modified by Makefile
-our $pkgdatadir = ".."; # This line modified by Makefile
+use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 sub version {

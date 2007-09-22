@@ -3,11 +3,12 @@
 use strict;
 use warnings;
 
-our $dpkglibdir = "."; # This line modified by Makefile
-push(@INC, $dpkglibdir);
-require 'dpkg-gettext.pl';
+use Dpkg;
+use Dpkg::Gettext;
+
 textdomain("dpkg-dev");
 
+push(@INC, $dpkglibdir);
 require 'controllib.pl';
 
 @ARGV && die _g("Usage: 822-date")."\n";

@@ -5,12 +5,9 @@ use warnings;
 
 use English;
 use POSIX qw(:errno_h);
+use Dpkg;
+use Dpkg::Gettext;
 
-our $dpkglibdir;
-our $pkgdatadir;
-
-push(@INC,$dpkglibdir);
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 our $sourcepackage; # - name of sourcepackage
@@ -18,7 +15,6 @@ our %f;             # - fields ???
 our %fi;            # - map of fields values. keys are of the form "S# key"
                     #   where S is source (L is changelog, C is control)
                     #   and # is an index
-our %fieldimps;
 our %p2i;           # - map from datafile+packagename to index in controlfile
                     #   (used if multiple packages can be listed). Key is
                     #   "S key" where S is the source and key is the packagename
@@ -29,16 +25,12 @@ our %substvar;      # - map with substitution variables
 my $parsechangelog = 'dpkg-parsechangelog';
 
 our @pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
-                         Conflicts Replaces Provides);
+                         Conflicts Breaks Replaces Provides);
 our @src_dep_fields = qw(Build-Depends Build-Depends-Indep
                          Build-Conflicts Build-Conflicts-Indep);
 
 our $warnable_error = 1;
 our $quiet_warnings = 0;
-
-our $version;
-our $progname = $0;
-$progname = $& if $progname =~ m,[^/]+$,;
 
 
 sub getfowner
@@ -347,6 +339,8 @@ sub substvars {
     return $v;
 }
 
+my %fieldimps;
+
 sub set_field_importance(@)
 {
     my @fields = @_;
@@ -551,8 +545,6 @@ sub init_substvars
     $substvar{'source:Upstream-Version'} = $fi{"L Version"};
     $substvar{'source:Upstream-Version'} =~ s/-[^-]*$//;
 
-    # FIXME: this needs all progs using controllib to set $version as 'our'.
-    # We expect the calling program to set $version.
     $substvar{"dpkg:Version"} = $version;
     $substvar{"dpkg:Upstream-Version"} = $version;
     $substvar{"dpkg:Upstream-Version"} =~ s/-[^-]+$//;

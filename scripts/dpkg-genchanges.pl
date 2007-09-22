@@ -3,25 +3,19 @@
 use strict;
 use warnings;
 
-our $progname;
-our $version = '1.3.0'; # This line modified by Makefile
-our $dpkglibdir = "."; # This line modified by Makefile
-our $pkgdatadir = ".."; # This line modified by Makefile
-
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
+use Dpkg;
+use Dpkg::Gettext;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 our (%f, %fi);
 our %p2i;
-our %fieldimps;
 our %substvar;
 our $sourcepackage;
-our $host_arch;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @changes_fields = qw(Format Date Source Binary Architecture Version
@@ -212,7 +206,11 @@ for $_ (keys %fi) {
 	elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
 	elsif (m/^Maintainer$/i) { $f{$_}= $v; }
 	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
-	elsif (m/|^X[BS]+-|^Standards-Version$/i) { }
+	elsif (m/^X[BS]+-/i ||
+	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
+	       m/^(Standards-Version|Uploaders|Homepage|Origin|Bugs)$/i ||
+	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+	}
 	else { &unknown(_g('general section of control info file')); }
     } elsif (s/^C(\d+) //) {
 	my $i = $1;
@@ -255,8 +253,9 @@ for $_ (keys %fi) {
 		}
 		push(@archvalues,$v) unless !$v || $archadded{$v}++;
 	    } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
-		     m/^(Recommends|Suggests|Enhances|Optional|Conflicts|Replaces)$/ ||
-		     m/^X[CS]+-/i) {
+		     m/^(Recommends|Suggests|Enhances|Conflicts|Breaks|Replaces)$/ ||
+		     m/^Tag$/i ||
+		     m/^X[BS]+-/i) {
 	    } else {
 		&unknown(_g("package's section of control info file"));
 	    }

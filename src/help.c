@@ -152,6 +152,12 @@ int force_depends(struct deppossi *possi) {
          ignore_depends(possi->up->up);
 }
 
+int force_breaks(struct deppossi *possi) {
+  return fc_breaks ||
+         ignore_depends(possi->ed) ||
+         ignore_depends(possi->up->up);
+}
+
 int force_conflicts(struct deppossi *possi) {
   return fc_conflicts;
 }
@@ -342,7 +348,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   arglist= buildarglist(scriptname,
                         ifok,versiondescribe(&pkg->available.version,
                                              vdew_nonambig),
-                        (char*)0);
+                        NULL);
   sprintf(buf,_("old %s script"),description);
   if (stat(oldscriptpath,&stab)) {
     if (errno == ENOENT) {
@@ -363,7 +369,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   arglist= buildarglist(scriptname,
                         iffallback,versiondescribe(&pkg->installed.version,
                                                    vdew_nonambig),
-                        (char*)0);
+                        NULL);
   strcpy(cidirrest,scriptname);
   sprintf(buf,_("new %s script"),description);
 
@@ -509,7 +515,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
   }
   c1= m_fork();
   if (!c1) {
-    execlp(RM,"rm","-rf","--",pathname,(char*)0);
+    execlp(RM, "rm", "-rf", "--", pathname, NULL);
     ohshite(_("failed to exec rm for cleanup"));
   }
   debug(dbg_eachfile,"ensure_pathname_nonexisting running rm -rf");

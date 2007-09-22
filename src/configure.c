@@ -108,7 +108,9 @@ void deferred_configure(struct pkginfo *pkg) {
 		pkg->clientdata->istobe= itb_installnew;
 		add_to_queue(pkg);
 		return;
-	} else if (ok == 0) {
+	}
+	ok = breakses_ok(pkg, &aemsgs) ? ok : 0;
+	if (ok == 0) {
 		sincenothing= 0;
 		varbufaddc(&aemsgs,0);
 		fprintf(stderr,
@@ -295,14 +297,12 @@ void deferred_configure(struct pkginfo *pkg) {
 
 	modstatdb_note(pkg);
 
-	if (maintainer_script_installed(pkg, POSTINSTFILE, "post-installation",
-				"configure",
-				informativeversion(&pkg->configversion)
-				? versiondescribe(&pkg->configversion,
-					vdew_nonambig)
-				: "",
-				(char*)0))
-		putchar('\n');
+	maintainer_script_installed(pkg, POSTINSTFILE, "post-installation",
+	                            "configure",
+	                            informativeversion(&pkg->configversion) ?
+	                            versiondescribe(&pkg->configversion,
+	                                            vdew_nonambig) : "",
+	                            NULL);
 
 	pkg->status= stat_installed;
 	pkg->eflag= eflagv_ok;
@@ -502,7 +502,7 @@ static void suspend(void) {
 			if (!s || !*s)
 				s=DEFAULTSHELL;
 
-			execlp(s,s,"-i",(char*)0);
+			execlp(s, s, "-i", NULL);
 			ohshite(_("failed to exec shell (%.250s)"),s);
 		}
 

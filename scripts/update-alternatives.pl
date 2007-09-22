@@ -3,14 +3,10 @@
 use strict;
 use warnings;
 
-my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
-my $dpkglibdir = "../utils"; # This line modified by Makefile
-my $version = '0.93.80'; # This line modified by Makefile
-push (@INC, $dpkglibdir);
-require 'dpkg-gettext.pl';
-textdomain("dpkg");
+use Dpkg;
+use Dpkg::Gettext;
 
-($0) = $0 =~ m:.*/(.+):;
+textdomain("dpkg");
 
 # Global variables:
 
@@ -61,7 +57,7 @@ my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value fro
 sub ENOENT { $enoent; }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $0, $version;
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
 Copyright (C) 1995 Ian Jackson.
@@ -108,18 +104,18 @@ Options:
   --quiet                  quiet operation, minimal output.
   --help                   show this help message.
   --version                show the version.
-"), $0, $altdir;
+"), $progname, $altdir;
 }
 
 sub quit
 {
-    printf STDERR "%s: %s\n", $0, "@_";
+    printf STDERR "%s: %s\n", $progname, "@_";
     exit(2);
 }
 
 sub badusage
 {
-    printf STDERR "%s: %s\n\n", $0, "@_";
+    printf STDERR "%s: %s\n\n", $progname, "@_";
     &usage;
     exit(2);
 }
@@ -588,21 +584,6 @@ if ($mode eq 'auto') {
     for (my $j = 0; $j <= $#slavenames; $j++) {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];
-
-	$linkname = readlink($slink);
-	if (!defined($linkname) && $! != ENOENT) {
-            &pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
-                " %s, or nonexistent; however, readlink failed: %s"), $slink, "$altdir/$sname", $!))
-		if $verbosemode > 0;
-	} elsif (!defined($linkname) ||
-		 (defined($linkname) && $linkname ne "$altdir/$sname")) {
-            unlink("$slink.dpkg-tmp") || $! == &ENOENT ||
-                &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$slink.dpkg-tmp", $!));
-            symlink("$altdir/$sname","$slink.dpkg-tmp") ||
-                &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$slink.dpkg-tmp", "$altdir/$sname", $!));
-            rename_mv("$slink.dpkg-tmp",$slink) ||
-                &quit(sprintf(_g("unable to install %s as %s: %s"), "$slink.dpkg-tmp", $slink, $!));
-        }
         $spath= $slavepath{$bestnum,$j};
         unlink("$altdir/$sname.dpkg-tmp") || $! == &ENOENT ||
             &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$altdir/$sname.dpkg-tmp", $!));
@@ -614,6 +595,24 @@ if ($mode eq 'auto') {
 	    unlink("$slink") || $! == &ENOENT ||
 	        &quit(sprintf(_g("unable to remove %s: %s"), $slink, $!));
         } else {
+	    $linkname = readlink($slink);
+	    if (!defined($linkname) && $! != ENOENT) {
+		pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
+		              " %s, or nonexistent; however, readlink failed: %s"),
+		           $slink, "$altdir/$sname", $!))
+		    if $verbosemode > 0;
+	    } elsif (!defined($linkname) ||
+	            (defined($linkname) && $linkname ne "$altdir/$sname")) {
+		unlink("$slink.dpkg-tmp") || $! == ENOENT ||
+		    quit(sprintf(_g("unable to ensure %s nonexistent: %s"),
+		                 "$slink.dpkg-tmp", $!));
+		symlink("$altdir/$sname","$slink.dpkg-tmp") ||
+		    quit(sprintf(_g("unable to make %s a symlink to %s: %s"),
+		                 "$slink.dpkg-tmp", "$altdir/$sname", $!));
+		rename_mv("$slink.dpkg-tmp",$slink) ||
+		    quit(sprintf(_g("unable to install %s as %s: %s"),
+		                 "$slink.dpkg-tmp", $slink, $!));
+	    }
             if (defined($linkname= readlink("$altdir/$sname")) && $linkname eq $spath) {
                 &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $sname, $slink, $spath))
                   if $verbosemode > 0;

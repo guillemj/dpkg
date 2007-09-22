@@ -3,20 +3,16 @@
 use strict;
 use warnings;
 
-my $version = '1.0.11'; # This line modified by Makefile
-my $admindir = "/var/lib/dpkg"; # This line modified by Makefile
-my $dpkglibdir = "../utils"; # This line modified by Makefile
-($0) = $0 =~ m:.*/(.+):;
+use Dpkg;
+use Dpkg::Gettext;
 
-push (@INC, $dpkglibdir);
-require 'dpkg-gettext.pl';
 textdomain("dpkg");
 
 my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
 sub ENOENT { $enoent; }
 
 sub version {
-    printf _g("Debian %s version %s.\n"), $0, $version;
+    printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
 Copyright (C) 1995 Ian Jackson.
@@ -53,7 +49,7 @@ Options:
 When adding, default is --local and --divert <original>.distrib.
 When removing, --package or --local and --divert must match if specified.
 Package preinst/postrm scripts should always specify --package and --divert.
-"), $0);
+"), $progname);
 }
 
 my $testmode = 0;
@@ -221,10 +217,10 @@ if ($mode eq 'add') {
 }
 
 sub infol {
-    return (($_[2] eq ':' ? "local " : length($_[2]) ? "" : "any ").
+    return ((defined($_[2]) ? ($_[2] eq ':' ? "local " : "") : "any ").
             "diversion of $_[0]".
-            (length($_[1]) ? " to $_[1]" : "").
-            (length($_[2]) && $_[2] ne ':' ? " by $_[2]" : ""));
+            (defined($_[1]) ? " to $_[1]" : "").
+            (defined($_[2]) && $_[2] ne ':' ? " by $_[2]" : ""));
 }
 
 sub checkrename {
@@ -296,13 +292,13 @@ sub infon
 
 sub quit
 {
-    printf STDERR "%s: %s\n", $0, "@_";
+    printf STDERR "%s: %s\n", $progname, "@_";
     exit(2);
 }
 
 sub badusage
 {
-    printf STDERR "%s: %s\n\n", $0, "@_";
+    printf STDERR "%s: %s\n\n", $progname, "@_";
     &usage;
     exit(2);
 }

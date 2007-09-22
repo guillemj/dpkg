@@ -3,17 +3,10 @@
 use strict;
 use warnings;
 
-our $progname;
-our $version;
-our $dpkglibdir;
-my $admindir = "/var/lib/dpkg";
-
-BEGIN {
-    $version="1.14.4"; # This line modified by Makefile
-    $dpkglibdir="."; # This line modified by Makefile
-    push(@INC,$dpkglibdir);
-}
-
+use English;
+use POSIX qw(:errno_h :signal_h);
+use Dpkg;
+use Dpkg::Gettext;
 use Dpkg::Version qw(vercmp);
 use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
@@ -26,8 +19,8 @@ chomp $host_arch;
 my @depfields= qw(Suggests Recommends Depends Pre-Depends);
 my $i=0; my %depstrength = map { $_ => $i++ } @depfields;
 
+push(@INC, $dpkglibdir);
 require 'controllib.pl';
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my $shlibsoverride= '/etc/dpkg/shlibs.override';

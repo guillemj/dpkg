@@ -56,6 +56,22 @@ struct _finfo {
   struct _finfo* next;
 };
 
+const char *arbitrary_fields[]= {
+  "Homepage",
+  "Tag",
+  NULL
+};
+
+static int known_arbitrary_field(const struct arbitraryfield *field) {
+  const char **known;
+
+  for (known= arbitrary_fields; *known; known++)
+    if (strcasecmp(field->name, *known) == 0)
+      return 1;
+
+  return 0;
+}
+
 /* Do a quick check if vstring is a valid versionnumber. Valid in this case
  * means it contains at least one digit. If an error is found increment
  * *errs.
@@ -223,6 +239,9 @@ void do_build(const char *const *argv) {
       warns++;
     }
     for (field= checkedinfo->available.arbs; field; field= field->next) {
+      if (known_arbitrary_field(field))
+        continue;
+
       fprintf(stderr, _("warning, `%s' contains user-defined field `%s'\n"),
               controlfile, field->name);
       warns++;
@@ -324,7 +343,8 @@ void do_build(const char *const *argv) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
     if (chdir(BUILDCONTROLDIR)) ohshite(_("failed to chdir to .../DEBIAN"));
-    execlp(TAR,"tar","-cf","-",".",(char*)0); ohshite(_("failed to exec tar -cf"));
+    execlp(TAR, "tar", "-cf", "-", ".", NULL);
+    ohshite(_("failed to exec tar -cf"));
   }
   close(p1[1]);
   /* Create a temporary file to store the control data in. Immediately unlink
@@ -396,7 +416,7 @@ void do_build(const char *const *argv) {
     m_dup2(p1[0],0); close(p1[0]); close(p1[1]);
     m_dup2(p2[1],1); close(p2[0]); close(p2[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
-    execlp(TAR,"tar","-cf", "-", "--null", "-T", "-", "--no-recursion", (char*)0);
+    execlp(TAR, "tar", "-cf", "-", "--null", "-T", "-", "--no-recursion", NULL);
     ohshite(_("failed to exec tar -cf"));
   }
   close(p1[0]);
@@ -417,7 +437,8 @@ void do_build(const char *const *argv) {
   if (!(c3= m_fork())) {
     m_dup2(p3[1],1); close(p3[0]); close(p3[1]);
     if (chdir(directory)) ohshite(_("failed to chdir to `%.255s'"),directory);
-    execlp(FIND,"find",".","-path","./" BUILDCONTROLDIR,"-prune","-o","-print0",(char*)0);
+    execlp(FIND, "find", ".", "-path", "./" BUILDCONTROLDIR, "-prune", "-o",
+           "-print0", NULL);
     ohshite(_("failed to exec find"));
   }
   close(p3[1]);

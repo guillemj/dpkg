@@ -1,6 +1,6 @@
 .\" Author: Raul Miller
 .\" Includes text from the debian Guidelines by Ian Jackson, Ian Murdock
-.TH deb\-control 5 "2007-05-15" "Debian Project" "Debian"
+.TH deb\-control 5 "2007-08-31" "Debian Project" "Debian"
 .SH NAME
 deb\-control \- Debian packages' master control file format
 .
@@ -85,6 +85,13 @@ etc. Note that the
 option is meant for packages that are architecture independent. Some examples
 of this are shell and Perl scripts, and documentation.
 .TP
+.BR Homepage: " <url>"
+The upstream project home page URL.
+.TP
+.BR Tag: " <tag list>"
+List of tags describing the qualities of the package. The description and
+list of supported tags can be found in the \fBdebtags\fP package.
+.TP
 .BR Source: " <source name>"
 The name of the source package that this binary package came from, if
 different than the name of the package itself.
@@ -135,6 +142,14 @@ will match, and may specify or omit the Debian packaging revision (separated
 by a hyphen). Accepted version relationships are ">>" for greater than,
 "<<" for less than, ">=" for greater than or equal to, "<=" for less than
 or equal to, and "=" for equal to.
+.TP
+.BR Breaks: " <package list>"
+Lists packages that this one breaks, for example by exposing bugs
+when the named packages rely on this one. The package maintenance
+software will not allow broken packages to be configured; generally
+the resolution is to upgrade the packages named in a
+.B Breaks
+field.
 .TP
 .BR Conflicts: " <package list>"
 Lists packages that conflict with this one, for example by containing
@@ -205,5 +220,6 @@ Description: GNU grep, egrep and fgrep.
 .
 .SH SEE ALSO
 .BR deb (5),
+.BR debtags (1),
 .BR dpkg (1),
 .BR dpkg-deb (1).

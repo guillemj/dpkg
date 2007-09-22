@@ -65,6 +65,8 @@ int filesavespackage(struct fileinlist*, struct pkginfo*,
 
 void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                     const char *pfilename);
+void check_breaks(struct dependency *dep, struct pkginfo *pkg,
+                  const char *pfilename);
 
 struct fileinlist *addfiletolist(struct tarcontext *tc,
 				 struct filenamenode *namenode);

@@ -3,10 +3,8 @@
 use strict;
 use warnings;
 
-our $progname;
-our $version = "1.3.0"; # This line modified by Makefile
-our $dpkglibdir = "."; # This line modified by Makefile
-our $pkgdatadir = ".."; # This line modified by Makefile
+use Dpkg;
+use Dpkg::Gettext;
 
 my @filesinarchive;
 my %dirincluded;
@@ -68,18 +66,20 @@ use Cwd;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
-our (%f, %fi, %fieldimps);
+our (%f, %fi);
 our $sourcepackage;
 our $warnable_error;
 our $quiet_warnings;
 our %substvar;
 our @src_dep_fields;
 
-require 'dpkg-gettext.pl';
 textdomain("dpkg-dev");
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-                     Maintainer Uploaders Standards-Version), @src_dep_fields);
+                     Maintainer Uploaders Homepage Standards-Version
+                     Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs
+                     Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
+                  @src_dep_fields);
 
 
 # Make sure patch doesn't get any funny ideas
@@ -97,10 +97,10 @@ $SIG{'QUIT'} = \&exit_handler;
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    print _g("
 Copyright (C) 1996 Ian Jackson and Klee Dienes.");
 
-    printf _g("
+    print _g("
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -241,8 +241,10 @@ if ($opmode eq 'build') {
         if (s/^C //) {
 	    if (m/^Source$/i) {
 		setsourcepackage($v);
+	    } elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
+	             m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+		$f{$_}= $v;
 	    }
-            elsif (m/^(Standards-Version|Origin|Maintainer)$/i) { $f{$_}= $v; }
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 		my $dep = parsedep(substvars($v),1);
@@ -283,8 +285,8 @@ if ($opmode eq 'build') {
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
             } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
-                     m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/i ||
-                     m/^(Enhances|Description|Section|Priority)$/i ||
+                     m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
+                     m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
                      m/^X[BC]+-/i) {
             } else {
                 &unknown(_g("package's section of control info file"));

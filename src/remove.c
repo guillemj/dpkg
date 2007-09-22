@@ -164,14 +164,15 @@ void deferred_remove(struct pkginfo *pkg) {
   printf(_("Removing %s ...\n"),pkg->name);
   log_action("remove", pkg);
   if (pkg->status == stat_halfconfigured || pkg->status == stat_installed) {
+    static enum pkgstatus oldpkgstatus;
 
-    if (pkg->status == stat_installed || pkg->status == stat_halfconfigured) {
-      pkg->status= stat_halfconfigured;
-      modstatdb_note(pkg);
-      push_cleanup(cu_prermremove,~ehflag_normaltidy, 0,0, 1,(void*)pkg);
-      maintainer_script_installed(pkg, PRERMFILE, "pre-removal",
-                                  "remove", (char*)0);
-    }
+    oldpkgstatus= pkg->status;
+    pkg->status= stat_halfconfigured;
+    modstatdb_note(pkg);
+    push_cleanup(cu_prermremove, ~ehflag_normaltidy, 0, 0, 2,
+                 (void *)pkg, (void *)&oldpkgstatus);
+    maintainer_script_installed(pkg, PRERMFILE, "pre-removal",
+                                "remove", NULL);
 
     pkg->status= stat_unpacked; /* Will turn into halfinstalled soon ... */
   }
@@ -283,7 +284,7 @@ static void removal_bulk_remove_files(
     }
     write_filelist_except(pkg,leftover,0);
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
-                                "remove", (char*)0);
+                                "remove", NULL);
     varbufreset(&fnvb);
     varbufaddstr(&fnvb,admindir);
     varbufaddstr(&fnvb,"/" INFODIR);
@@ -512,7 +513,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     modstatdb_note(pkg);
         
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
-                                "purge", (char*)0);
+                                "purge", NULL);
 }
 
 void removal_bulk(struct pkginfo *pkg) {
