@@ -112,7 +112,6 @@ AC_CONFIG_FILES([ Makefile
 		  origins/Makefile
 		  po/Makefile.in
 		  scripts/Makefile
-		  scripts/Dpkg/Makefile
 		  scripts/po/Makefile.in
 		  src/Makefile
 		  utils/Makefile ])

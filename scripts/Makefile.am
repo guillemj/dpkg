@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-SUBDIRS = po Dpkg
+SUBDIRS = po
 
 bin_SCRIPTS = \
 	822-date \
@@ -57,7 +57,12 @@ CLEANFILES = \
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
+	Dpkg/Shlibs.pm \
+	Dpkg/Shlibs/Objdump.pm \
+	Dpkg/Shlibs/SymbolFile.pm \
+	Dpkg/ErrorHandling.pm \
 	Dpkg/Gettext.pm \
+	Dpkg/Version.pm \
 	Dpkg.pm
 
 dist_pkglib_SCRIPTS = \
