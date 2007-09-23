@@ -19,6 +19,10 @@ dpkg (1.14.7) UNRELEASED; urgency=low
   [ Frank Lichtenheld ]
   * Add _MTN to dpkg-source -i default regex. Suggested by Jari Aalto.
   * Convert dpkg-buildpackage to a Perl script.
+  * dpkg-buildpackage accepts a -j<n> option now which will set
+    MAKEFLAGS(-j<n>) and DEB_BUILD_OPTIONS(parallel=<n>) accordingly.
+    parallel=<n> in DEB_BUILD_OPTIONS will be passed to MAKEFLAGS as
+    well. Based on an idea by Robert Millan. Closes: #440636
 
   [ Updated dpkg translations ]
   * Basque (Piarres Beobide). Closes: #440859

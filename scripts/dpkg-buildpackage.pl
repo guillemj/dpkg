@@ -8,6 +8,7 @@ use File::Basename;
 
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::BuildOptions;
 
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
@@ -39,6 +40,7 @@ Options:
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
+  -j[<number>]   specify jobs to run simultaniously } passed to debian/rules
   -k<keyid>      the key to use for signing.
   -sgpg          the sign-command is called like GPG.
   -spgp          the sign-command is called like PGP.
@@ -95,7 +97,7 @@ if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
 my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
     $warnable_errors, $sourcestyle, $cleansource,
     $binaryonly, $sourceonly, $since, $maint,
-    $changedby, $desc);
+    $changedby, $desc, $parallel);
 my (@checkbuilddep_args, @passopts, @tarignore);
 my $checkbuilddep = 1;
 my $signsource = 1;
@@ -115,6 +117,8 @@ while (@ARGV) {
 	exit 0;
     } elsif (/^--admindir=(.*)$/) {
 	$admindir = $1;
+    } elsif (/^-j(\d*)$/) {
+	$parallel = $1 || '-1';
     } elsif (/^-r(.*)$/) {
 	$rootcommand = $1;
     } elsif (/^-p(.*)$/) {
@@ -207,6 +211,22 @@ if ($forcesigninterface) {
 
 if ($signcommand && ($signinterface !~ /^(gpg|pgp)$/)) {
     warning(_g("unknown sign command, assuming pgp style interface"));
+}
+
+if ($parallel || $ENV{DEB_BUILD_OPTIONS}) {
+    my $build_opts = Dpkg::BuildOptions::parse();
+
+    $parallel ||= $build_opts->{parallel};
+    if (defined $parallel) {
+	$ENV{MAKEFLAGS} ||= '';
+	if ($parallel eq '-1') {
+	    $ENV{MAKEFLAGS} .= " -j";
+	} else {
+	    $ENV{MAKEFLAGS} .= " -j$parallel";
+	}
+    }
+    $build_opts->{parallel} = $parallel;
+    Dpkg::BuildOptions::set($build_opts);
 }
 
 my $cwd = cwd();
@@ -309,7 +329,7 @@ if ($checkbuilddep) {
     }
 
     if (system('dpkg-checkbuilddeps', @checkbuilddep_args)) {
-	warning(_g("Build dependencies/conflicts unsatisfied; aborting.\n"));
+	warning(_g("Build dependencies/conflicts unsatisfied; aborting."));
 	warning(_g("(Use -d flag to override.)"));
 	exit 3;
     }
