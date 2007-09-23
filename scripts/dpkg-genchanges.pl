@@ -13,10 +13,8 @@ require 'controllib.pl';
 
 our (%f, %fi);
 our %p2i;
-our %fieldimps;
 our %substvar;
 our $sourcepackage;
-our $host_arch;
 
 textdomain("dpkg-dev");
 
@@ -255,7 +253,7 @@ for $_ (keys %fi) {
 		}
 		push(@archvalues,$v) unless !$v || $archadded{$v}++;
 	    } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
-		     m/^(Recommends|Suggests|Enhances|Optional|Conflicts|Breaks|Replaces)$/ ||
+		     m/^(Recommends|Suggests|Enhances|Conflicts|Breaks|Replaces)$/ ||
 		     m/^Tag$/i ||
 		     m/^X[BS]+-/i) {
 	    } else {

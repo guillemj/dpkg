@@ -31,7 +31,7 @@ EXTRA_DIST = \
 	README.alternatives \
 	822-date.pl \
 	dpkg-architecture.pl \
-	dpkg-buildpackage.sh \
+	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \
 	dpkg-genchanges.pl \

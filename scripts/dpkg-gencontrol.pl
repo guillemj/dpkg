@@ -13,11 +13,9 @@ require 'controllib.pl';
 
 our %substvar;
 our (%f, %fi);
-our %fieldimps;
 our %p2i;
 our @pkg_dep_fields;
 our $sourcepackage;
-our $host_arch;
 
 textdomain("dpkg-dev");
 
@@ -146,8 +144,11 @@ for $_ (keys %fi) {
 
     if (s/^C //) {
 #print STDERR "G key >$_< value >$v<\n";
-	if (m/^(Origin|Bugs|Maintainer|Homepage)$/) {
+	if (m/^(Origin|Bugs|Maintainer)$/) {
 	    $f{$_} = $v;
+	} elsif (m/^Homepage$/) {
+	    # Binary package stanzas can override these fields
+	    $f{$_} = $v if !defined($f{$_});
 	} elsif (m/^Source$/) {
 	    setsourcepackage($v);
 	}
@@ -161,7 +162,7 @@ for $_ (keys %fi) {
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Homepage|Tag|Essential|Optional)$/) {
+        if (m/^(Package|Description|Homepage|Tag|Essential)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
 	    # Delay the parsing until later

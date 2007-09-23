@@ -1,3 +1,90 @@
+2007-09-23  Jari Aalto  <jari.aalto@cante.net>
+
+	* scripts/dpkg-source.pl ($diff_ignore_default_regexp): Add
+	_MTN for monotone.
+
+2007-09-20  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-sources.pl (version): Don't use
+	printf if we don't need it, use print instead.
+
+	* scripts/dpkg-buildpackage.sh (usage): Fix typo
+	s/dpkg-genchangs/dpkg-genchanges/
+
+	* scripts/Dpkg.pm: Make the regex for determining
+	$progname more robust.
+	
+	* scripts/dpkg-buildpackage.sh: Move to...
+	* scripts/dpkg-buildpackage.pl: Convert from
+	Shell to Perl.
+	* scripts/Makefile.am: Adapt to move.
+	* scripts/po/POTFILES.in: Add dpkg-buildpackage.pl.
+
+2007-09-18  Guillem Jover  <guillem@debian.org>
+
+	* lib/mlib.c (checksubprocerr): Warn instead of erroring out in case
+	of receiving a signal and having been asked to only warn.
+
+2007-09-18  Guillem Jover  <guillem@debian.org>
+
+	* src/remove.c (deferred_remove): Remove duplicate nested conditional,
+	and move its contents to the outer one.
+
+2007-09-14  Brian M. Carlson  <sandals@crustytoothpaste.ath.cx>
+
+	* src/remove.c (deferred_remove): Store the previous package status
+	when calling '<prerm> remove' and pass it to push_cleanup.
+	* src/cleanup.c (cu_prermremove): Restore previous stored status if
+	the '<postinst> abort-remove' call succeeds.
+
+2007-09-08  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.sh: Use fakeroot, if present, as default
+	value for the '-r' option.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Stop recognizing the obsolete Optional
+	field.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-name.sh: Avoid escaped quotes messing with syntax
+	highlighting by using $() instead of backticks.
+	* scripts/dpkg-buildpackage.sh: Likewise.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl ($host_arch): Do not declare as 'our'.
+	* scripts/dpkg-gencontrol.pl ($host_arch): Likewise.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl (%fieldimps): Remove unused variable.
+	* scripts/dpkg-gencontrol.pl (%fieldimps): Likewise.
+	* scripts/dpkg-source.pl (%fieldimps): Likewise.
+	* scripts/controllib.pl (%fieldimps): Switch from 'our' to 'my'.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* scripts/822-date.pl: Add $dpkglib into @INC, needed by the
+	controllib.pl require.
+
+2007-09-06  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.7~.
+
+2007-09-05  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.6.
+
+2007-09-05  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Properly override Homepage field from
+	binary package stanzas.
+
 2007-08-31  Guillem Jover  <guillem@debian.org>
 
 	* dpkg-deb/build.c (arbitrary_fields): Add Tag.

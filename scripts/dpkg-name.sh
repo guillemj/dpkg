@@ -3,7 +3,7 @@
 set -e
 
 # Time-stamp: <96/05/03 13:59:41 root>
-prog="`basename \"${0}\"`"
+prog="$(basename "${0}")"
 version="1.2.3"; # This line modified by Makefile
 purpose="rename Debian packages to full package names"
 

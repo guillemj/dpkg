@@ -31,7 +31,7 @@ my $diff_ignore_default_regexp = '
 (?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore|\.gitignore)$|
 # File or directory names that should be ignored
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
-\.shelf|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
+\.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 
 # Take out comments and newlines
@@ -66,7 +66,7 @@ use Cwd;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
-our (%f, %fi, %fieldimps);
+our (%f, %fi);
 our $sourcepackage;
 our $warnable_error;
 our $quiet_warnings;
@@ -97,10 +97,10 @@ $SIG{'QUIT'} = \&exit_handler;
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    print _g("
 Copyright (C) 1996 Ian Jackson and Klee Dienes.");
 
-    printf _g("
+    print _g("
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -285,7 +285,7 @@ if ($opmode eq 'build') {
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
             } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
-                     m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/i ||
+                     m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
                      m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
                      m/^X[BC]+-/i) {
             } else {

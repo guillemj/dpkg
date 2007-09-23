@@ -1,4 +1,44 @@
-dpkg (1.14.6) UNRELEASED; urgency=low
+dpkg (1.14.7) UNRELEASED; urgency=low
+
+  [ Guillem Jover ]
+  * Add back $dpkglib into @INC, needed by the controllib.pl require in
+    822-date. Closes: #440962
+  * Document in dpkg-scanpackages that apt now requires Packages.bz2 in
+    preference to Packages.gz. Closes: #440973
+  * Stop recognizing the obsolete Optional field when building packages.
+  * Use fakeroot, if present, by default to gain root privileges in
+    dpkg-buildpackage.
+  * Fix typos in dpkg-deb.1 and start-stop-daemon.8. Closes: #441051
+    Thanks to A. Costa.
+  * After '<prerm> remove' fails and while doing the error unwinding, if
+    the '<postinst> abort-remove' call succeeds, preserve the old status
+    instead of unconditionally setting it to 'Installed'. Closes: #432893
+    Thanks to Brian M. Carlson.
+  * Add Vcs-Browser and Vcs-Git fields to debian/control.
+
+  [ Frank Lichtenheld ]
+  * Add _MTN to dpkg-source -i default regex. Suggested by Jari Aalto.
+  * Convert dpkg-buildpackage to a Perl script.
+
+  [ Updated dpkg translations ]
+  * Basque (Piarres Beobide). Closes: #440859
+  * Danish (Claus Hindsgaul). Closes: #441106
+  * French (Frédéric Bothamy).
+  * German (Sven Joachim). Closes: #440537
+  * Nepali (Shiva Prasad Pokharel). Closes: #437825
+  * Portuguese (Miguel Figueiredo). Closes: #441113
+  * Romanian (Eddy Petri?or).
+  * Vietnamese (Clytie Siddall). Closes: #440502
+  * Korean (Sunjae Park). Closes: #443190
+
+  [ Updated man pages translations ]
+  * German (Helge Kreutzmann).
+  * Swedish (Peter Karlsson).
+  * Korean (Sunjae Park). Closes: #443191
+
+ -- Frank Lichtenheld <djpig@debian.org>  Sun, 23 Sep 2007 02:40:20 +0200
+
+dpkg (1.14.6) unstable; urgency=low
 
   [ Frank Lichtenheld ]
   * Synchronise usage information of dpkg, dpkg-deb, and
@@ -53,22 +93,21 @@ dpkg (1.14.6) UNRELEASED; urgency=low
 
   [ Updated dpkg translations ]
   * Dzongkha (Tshewang Norbu). Closes: #430931
-  * Swedish (Peter Karlsson).
-  * Nepali (Shiva Prasad Pokharel). Closes: #435353, #437825
-  * Russian (Yuri Kozlov). Closes: #436147
+  * Nepali (Shiva Prasad Pokharel). Closes: #435353
   * Polish (Robert Luberda).
-  * Vietnamese (Clytie Siddall). Closes: #440502
+  * Russian (Yuri Kozlov). Closes: #436147
+  * Swedish (Peter Karlsson).
 
   [ Updated dselect translations ]
-  * Swedish (Peter Karlsson).
   * Russian (Yuri Kozlov). Closes: #436149
+  * Swedish (Peter Karlsson).
 
   [ Updated man pages translations ]
   * German (Helge Kreutzmann).
-  * Swedish (Peter Karlsson).
   * Polish (Robert Luberda).
+  * Swedish (Peter Karlsson).
 
- -- Frank Lichtenheld <djpig@debian.org>  Tue, 03 Jul 2007 01:47:56 +0200
+ -- Guillem Jover <guillem@debian.org>  Wed, 05 Sep 2007 07:36:02 +0300
 
 dpkg (1.14.5) unstable; urgency=low
 
