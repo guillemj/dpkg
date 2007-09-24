@@ -40,7 +40,7 @@ Options:
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
-  -j[<number>]   specify jobs to run simultaniously } passed to debian/rules
+  -j[<number>]   specify jobs to run simultaneously } passed to debian/rules
   -k<keyid>      the key to use for signing.
   -sgpg          the sign-command is called like GPG.
   -spgp          the sign-command is called like PGP.
