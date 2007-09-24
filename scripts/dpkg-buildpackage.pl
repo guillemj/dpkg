@@ -68,7 +68,7 @@ Options:
   -W             turn certain errors into warnings.       } passed to
   -E             when -W is turned on, -E turns it off.   } dpkg-source
   -i[<regex>]    ignore diffs of files matching regex.    } only passed
-  -I<filename>   filter out files when building tarballs. } to dpkg-source
+  -I[<pattern>]  filter out files when building tarballs. } to dpkg-source
   --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
