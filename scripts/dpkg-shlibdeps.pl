@@ -177,12 +177,16 @@ foreach my $file (keys %exec) {
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
-		my $print_name = $name;
-		# Drop the default suffix for readability
-		$print_name =~ s/\@Base$//;
-		warning(sprintf(
-		    _g("symbol %s used by %s found in none of the libraries."),
-		    $print_name, $file)) unless $sym->{weak};
+		# Complain about missing symbols only for executables
+		# and public libraries
+		if ($obj->is_executable() or $obj->is_public_library()) {
+		    my $print_name = $name;
+		    # Drop the default suffix for readability
+		    $print_name =~ s/\@Base$//;
+		    warning(sprintf(
+			_g("symbol %s used by %s found in none of the libraries."),
+			$print_name, $file)) unless $sym->{weak};
+		}
 	    } else {
 		$used_sonames{$syminfo->{soname}}++;
 	    }

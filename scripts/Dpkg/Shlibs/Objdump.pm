@@ -141,7 +141,7 @@ sub _read {
     $self->{file} = $file;
 
     local $ENV{LC_ALL} = 'C';
-    open(my $objdump, "-|", "objdump", "-w", "-p", "-T", $file)
+    open(my $objdump, "-|", "objdump", "-w", "-f", "-p", "-T", $file)
 	|| syserr(sprintf(_g("Can't execute objdump: %s"), $!));
     my $ret = $self->_parse($objdump);
     close($objdump);
@@ -190,6 +190,12 @@ sub _parse {
 	} elsif ($section eq "none") {
 	    if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
 		$self->{format} = $1;
+	    } elsif (/^architecture:\s*\S+,\s*flags:\s*\S+\s*$/) {
+		# Parse 2 lines of "-f"
+		# architecture: i386, flags 0x00000112:
+		# EXEC_P, HAS_SYMS, D_PAGED
+		# start address 0x08049b50
+		$self->{flags}{$_} = 1 foreach (split(/,\s*/, <$fh>));
 	    }
 	}
     }
@@ -312,6 +318,17 @@ sub get_undefined_dynamic_symbols {
 sub get_needed_libraries {
     my $self = shift;
     return @{$self->{NEEDED}};
+}
+
+sub is_executable {
+    my $self = shift;
+    return exists $self->{flags}{EXEC_P} and $self->{flags}{EXEC_P};
+}
+
+sub is_public_library {
+    my $self = shift;
+    return exists $self->{flags}{DYNAMIC} and $self->{flags}{DYNAMIC}
+	and exists $self->{SONAME} and $self->{SONAME};
 }
 
 1;
