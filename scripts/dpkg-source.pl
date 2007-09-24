@@ -34,6 +34,37 @@ my $diff_ignore_default_regexp = '
 \.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
 
+no warnings 'qw';
+my @tar_ignore_default_pattern = qw(
+*.a
+*.la
+*.o
+*.so
+*.swp
+*~
+,,*
+.[#~]*
+.arch-ids
+.arch-inventory
+.bzr
+.bzr.backup
+.bzr.tags
+.bzrignore
+.cvsignore
+.deps
+.git
+.gitignore
+.hg
+.shelf
+.svn
+CVS
+DEADJOE
+RCS
+_MTN
+_darcs
+{arch}
+);
+
 # Take out comments and newlines
 $diff_ignore_default_regexp =~ s/^#.*$//mg;
 $diff_ignore_default_regexp =~ s/\n//sg;
@@ -129,7 +160,8 @@ Build options:
   -q                       quiet operation, do not print warnings.
   -i[<regexp>]             filter out files to ignore diffs of
                              (defaults to: '%s').
-  -I<filename>             filter out files when building tarballs.
+  -I[<pattern>]            filter out files when building tarballs
+                             (defaults to: %s).
   -sa                      auto select orig source (-sA is default).
   -sk                      use packed orig source (unpack & keep).
   -sp                      use packed orig source (unpack & remove).
@@ -147,7 +179,9 @@ Extract options:
 General options:
   -h, --help               show this help message.
       --version            show the version.
-"), $progname, $diff_ignore_default_regexp;
+"), $progname,
+    $diff_ignore_default_regexp,
+    join('', map { " -I$_" } @tar_ignore_default_pattern);
 }
 
 sub handleformat {
@@ -158,6 +192,7 @@ sub handleformat {
 
 
 my $opmode;
+my $tar_ignore_default_pattern_done;
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
@@ -183,6 +218,13 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $diff_ignore_regexp = $1 ? $1 : $diff_ignore_default_regexp;
     } elsif (m/^-I(.+)$/) {
         push @tar_ignore, "--exclude=$1";
+    } elsif (m/^-I$/) {
+        unless ($tar_ignore_default_pattern_done) {
+            push @tar_ignore,
+                 map { "--exclude=$_" } @tar_ignore_default_pattern;
+            # Prevent adding multiple times
+            $tar_ignore_default_pattern_done = 1;
+        }
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= "$'";
     } elsif (m/^-T/) {

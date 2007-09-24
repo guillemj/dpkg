@@ -126,12 +126,18 @@ from the ones in your working directory, thus causing them to be
 unnecessarily included in every .diff.gz, unless you use the \fB\-i\fR
 switch.
 .TP
-.BI \-I filename
-If this option is specified, the filename will be passed to tar's \-\-exclude
+.BI \-I[\fIfile-pattern\fP]
+
+If this option is specified, the pattern will be passed to tar's \-\-exclude
 option when it is called to generate a .orig.tar.gz or .tar.gz file. For
 example, \-ICVS will make tar skip over CVS directories when generating
 a .tar.gz file. The option may be repeated multiple times to list multiple
-filenames to exclude.
+patterns to exclude.
+
+\fB\-I\fR by itself adds default tar(1) \-\-exclude options that will
+filter out control files and directories of the most common revision
+control systems, backup and swap files and Libtool build output
+directories.
 .PP
 All the
 .BI \-s X
