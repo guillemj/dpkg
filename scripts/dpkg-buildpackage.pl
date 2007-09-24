@@ -56,7 +56,7 @@ Options:
   -v<version>    changes since version <version>.      }
   -m<maint>      maintainer for package is <maint>.    }
   -e<maint>      maintainer for release is <maint>.    } only passed
-  -C<descfile>   changes are described in <descfile>.  } to dpkg-genchangs
+  -C<descfile>   changes are described in <descfile>.  } to dpkg-genchanges
   -si (default)  src includes orig for rev. 0 or 1.    }
   -sa            uploaded src always includes orig.    }
   -sd            uploaded src is diff and .dsc only.   }
