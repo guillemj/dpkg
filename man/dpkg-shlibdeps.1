@@ -166,6 +166,13 @@ Enable verbose mode. Numerous messages are displayed to explain what
 .B dpkg\-shlibdeps
 does.
 .TP
+.BI \-x package
+Exclude the package from the generated dependencies. This is useful to
+avoid self-dependencies for packages which provide ELF binaries
+(executables or library plugins) using a library contained in the same
+package. This option can be used multiple times to exclude several
+packages.
+.TP
 .BI \-\-admindir= dir
 Change the location of the \fBdpkg\fR database. The default location is
 \fI/var/lib/dpkg\fP.

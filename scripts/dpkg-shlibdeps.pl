@@ -31,6 +31,7 @@ my $dependencyfield= 'Depends';
 my $varlistfile= 'debian/substvars';
 my $varnameprefix= 'shlibs';
 my $debug= 0;
+my @exclude = ();
 
 my (@pkg_shlibs, @pkg_symbols);
 if (-d "debian") {
@@ -67,6 +68,8 @@ foreach (@ARGV) {
 	$packagetype = $1;
     } elsif (m/-v$/) {
 	$debug = 1;
+    } elsif (m/-x(.*)$/) {
+	push @exclude, $1;
     } elsif (m/^-/) {
 	usageerr(sprintf(_g("unknown option \`%s'"), $_));
     } else {
@@ -207,6 +210,31 @@ if ($stdout) {
 
 # Write out the shlibs substvars
 my %depseen;
+
+sub filter_deps {
+    my ($dep, $field) = @_;
+    # Skip dependencies on excluded packages
+    foreach my $exc (@exclude) {
+	return 0 if $dep =~ /^\s*\Q$exc\E\b/;
+    }
+    # Don't include dependencies if they are already
+    # mentionned in a higher priority field
+    if (not defined($depseen{$dep})) {
+	$depseen{$dep} = $dependencies{$field}{$dep};
+	return 1;
+    } else {
+	# Since dependencies can be versionned, we have to
+	# verify if the dependency is stronger than the
+	# previously seen one
+	if (vercmp($depseen{$dep}, $dependencies{$field}{$dep}) > 0) {
+	    return 0;
+	} else {
+	    $depseen{$dep} = $dependencies{$field}{$dep};
+	    return 1;
+	}
+    }
+}
+
 foreach my $field (reverse @depfields) {
     my $dep = "";
     if (exists $dependencies{$field} and scalar keys %{$dependencies{$field}}) {
@@ -220,24 +248,8 @@ foreach my $field (reverse @depfields) {
 		}
 		s/\s+/ /g;
 		$_;
-	    } grep {
-		# Don't include dependencies if they are already
-		# mentionned in a higher priority field
-		if (not defined($depseen{$_})) {
-		    $depseen{$_} = $dependencies{$field}{$_};
-		    1;
-		} else {
-		    # Since dependencies can be versionned, we have to
-		    # verify if the dependency is stronger than the
-		    # previously seen one
-		    if (vercmp($depseen{$_}, $dependencies{$field}{$_}) > 0) {
-			0;
-		    } else {
-			$depseen{$_} = $dependencies{$field}{$_};
-			1;
-		    }
-		}
-	    } keys %{$dependencies{$field}};
+	    } grep { filter_deps($_, $field) }
+	    keys %{$dependencies{$field}};
     }
     if ($dep) {
 	print $fh "$varnameprefix:$field=$dep\n";
@@ -286,6 +298,7 @@ Options:
   -L<localshlibsfile>      shlibs override file, not debian/shlibs.local.
   -T<varlistfile>          update variables here, not debian/substvars.
   -t<type>                 set package type (default is deb).
+  -x<package>              exclude package from the generated dependencies.
   --admindir=<directory>   change the administrative directory.
   -h, --help               show this help message.
       --version            show the version.
