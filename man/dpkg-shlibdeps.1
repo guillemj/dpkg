@@ -173,6 +173,12 @@ avoid self-dependencies for packages which provide ELF binaries
 package. This option can be used multiple times to exclude several
 packages.
 .TP
+.BI \-\-ignore\-missing\-info
+Do not fail if dependency information can't be found for a shared library.
+Usage of this option is discouraged, all libraries should provide
+dependency information (either with shlibs files, or with symbols files)
+even if they are not yet used by other packages.  
+.TP
 .BI \-\-admindir= dir
 Change the location of the \fBdpkg\fR database. The default location is
 \fI/var/lib/dpkg\fP.

@@ -30,6 +30,7 @@ my $packagetype= 'deb';
 my $dependencyfield= 'Depends';
 my $varlistfile= 'debian/substvars';
 my $varnameprefix= 'shlibs';
+my $ignore_missing_info= 0;
 my $debug= 0;
 my @exclude = ();
 
@@ -64,6 +65,8 @@ foreach (@ARGV) {
 	    warning(sprintf(_g("unrecognised dependency field \`%s'"), $dependencyfield));
     } elsif (m/^-e(.*)$/) {
 	$exec{$1} = $dependencyfield;
+    } elsif (m/^--ignore-missing-info$/) {
+	$ignore_missing_info = 1;
     } elsif (m/^-t(.*)$/) {
 	$packagetype = $1;
     } elsif (m/-v$/) {
@@ -101,27 +104,29 @@ foreach my $file (keys %exec) {
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
     my $dumplibs_wo_symfile = Dpkg::Shlibs::Objdump->new();
     my @soname_wo_symfile;
-    foreach my $file (keys %libfiles) {
-	my $soname = $libfiles{$file};
-	if (not exists $file2pkg->{$file}) {
+    foreach my $lib (keys %libfiles) {
+	my $soname = $libfiles{$lib};
+	if (not exists $file2pkg->{$lib}) {
 	    # If the library is not available in an installed package,
 	    # it's because it's in the process of being built
 	    # Empty package name will lead to consideration of symbols
 	    # file from the package being built only
-	    $file2pkg->{$file} = [""];
+	    $file2pkg->{$lib} = [""];
 	}
 
 	# Load symbols/shlibs files from packages providing libraries
-	foreach my $pkg (@{$file2pkg->{$file}}) {
+	foreach my $pkg (@{$file2pkg->{$lib}}) {
 	    my $dpkg_symfile;
 	    if ($packagetype eq "deb") {
 		# Use fine-grained dependencies only on real deb
 		$dpkg_symfile = find_symbols_file($pkg, $soname);
+		if (defined $dpkg_symfile) {
+		    # Load symbol information
+		    print "Using symbols file $dpkg_symfile for $soname\n" if $debug;
+		    $symfile->load($dpkg_symfile);
+		}
 	    }
-	    if (defined $dpkg_symfile) {
-		# Load symbol information
-		print "Using symbols file $dpkg_symfile for $soname\n" if $debug;
-		$symfile->load($dpkg_symfile);
+	    if (defined($dpkg_symfile) && $symfile->has_object($soname)) {
 		# Initialize dependencies as an unversioned dependency
 		my $dep = $symfile->get_dependency($soname);
 		foreach my $subdep (split /\s*,\s*/, $dep) {
@@ -131,9 +136,13 @@ foreach my $file (keys %exec) {
 		}
 	    } else {
 		# No symbol file found, fall back to standard shlibs
-		$dumplibs_wo_symfile->parse($file);
+		$dumplibs_wo_symfile->parse($lib);
 		push @soname_wo_symfile, $soname;
-		add_shlibs_dep($soname, $pkg);
+		if (not add_shlibs_dep($soname, $pkg)) {
+		    failure(sprintf(
+			_g("No dependency information found for %s (used by %s)."),
+			$soname, $file)) unless $ignore_missing_info;
+		}
 	    }
 	}
     }
@@ -320,9 +329,10 @@ sub add_shlibs_dep {
 	    foreach (split(/,\s*/, $dep)) {
 		$dependencies{$cur_field}{$_} = 1;
 	    }
-	    last;
+	    return 1;
 	}
     }
+    return 0;
 }
 
 sub extract_from_shlibs {
