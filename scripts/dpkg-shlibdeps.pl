@@ -97,7 +97,7 @@ foreach my $file (keys %exec) {
     my %libfiles;
     foreach my $soname (@sonames) {
 	my $file = my_find_library($soname, $obj->{RPATH}, $obj->{format});
-	warning("Couldn't find library $soname.") unless defined($file);
+	failure(sprintf(_g("couldn't find library %s (note: only packages with 'shlibs' files are looked into)."), $soname)) unless defined($file);
 	$libfiles{$file} = $soname if defined($file);
     }
     my $file2pkg = find_packages(keys %libfiles);
