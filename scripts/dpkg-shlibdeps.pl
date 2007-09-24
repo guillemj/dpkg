@@ -336,10 +336,19 @@ sub extract_from_shlibs {
 	    warning(sprintf(_g("shared libs info file \`%s' line %d: bad line \`%s'"), $shlibfile, $., $_));
 	    next;
 	}
-	next if defined($1) and $1 ne $packagetype;
 	if (($libname eq $2) && ($libversion eq $3)) {
-	    $dep = $4;
-	    last;
+	    # Define dep and end here if the package type explicitely
+	    # matches. Otherwise if the packagetype is not specified, use
+	    # the dep only as a default that can be overriden by a later
+	    # line
+	    if (defined($1)) {
+		if ($1 eq $packagetype) {
+		    $dep = $4;
+		    last;
+		}
+	    } else {
+		$dep = $4 unless defined $dep;
+	    }
 	}
     }
     close(SHLIBS);
