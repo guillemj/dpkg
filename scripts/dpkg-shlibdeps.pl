@@ -69,9 +69,9 @@ foreach (@ARGV) {
 	$ignore_missing_info = 1;
     } elsif (m/^-t(.*)$/) {
 	$packagetype = $1;
-    } elsif (m/-v$/) {
+    } elsif (m/^-v$/) {
 	$debug = 1;
-    } elsif (m/-x(.*)$/) {
+    } elsif (m/^-x(.*)$/) {
 	push @exclude, $1;
     } elsif (m/^-/) {
 	usageerr(sprintf(_g("unknown option \`%s'"), $_));
