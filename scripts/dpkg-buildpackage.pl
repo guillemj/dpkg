@@ -311,7 +311,7 @@ sub signfile {
 	system('mv', '--', "../$file.asc", "../$file")
 	    and subprocerr('mv');
     } else {
-	system('/bin/rm', '-f', "../$file.asc")
+	system('rm', '-f', "../$file.asc")
 	    and subprocerr('rm -f');
     }
     print "\n";
