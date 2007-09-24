@@ -13,6 +13,8 @@ use Dpkg::BuildOptions;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
+our $warnable_error;
+
 textdomain("dpkg-dev");
 
 sub showversion {
@@ -95,7 +97,7 @@ if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
 }
 
 my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
-    $warnable_errors, $sourcestyle, $cleansource,
+    $sourcestyle, $cleansource,
     $binaryonly, $sourceonly, $since, $maint,
     $changedby, $desc, $parallel);
 my (@checkbuilddep_args, @passopts, @tarignore);
@@ -187,10 +189,10 @@ while (@ARGV) {
     } elsif (/^-C(.*)$/) {
 	$desc = $1;
     } elsif (/^-W$/) {
-	$warnable_errors = 1;
+	$warnable_error = 1;
 	push @passopts, '-W';
     } elsif (/^-E$/) {
-	$warnable_errors = 0;
+	$warnable_error = 0;
 	push @passopts, '-E';
     } else {
 	usageerr(sprintf(_g("unknown option or argument %s"), $_));
