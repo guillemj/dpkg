@@ -1,3 +1,22 @@
+2007-09-23  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Add new option
+	-j[<number>] that works like the make option of
+	the same name. It will be passed to debian/rules in
+	the MAKEFLAGS environment variable. Also the
+	parallel=<n> DEB_BUILD_OPTIONS option will be honored
+	and set correctly. The finally used value is determined by the
+	following order: -j > DEB_BUILD_OPTIONS > MAKEFLAGS.
+	Based on an idea by Robert Millan <rmh@aybabtu.com>.
+	* scripts/Dpkg/BuildOptions.pm: Added. Support code
+	for DEB_BUILD_OPTIONS handling by dpkg-buildpackage.
+	* scripts/Makefile.am: Adapt.
+
+2007-09-23  Jari Aalto  <jari.aalto@cante.net>
+
+	* scripts/dpkg-source.pl ($diff_ignore_default_regexp): Add
+	_MTN for monotone.
+
 2007-09-20  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-sources.pl (version): Don't use
@@ -8,6 +27,12 @@
 
 	* scripts/Dpkg.pm: Make the regex for determining
 	$progname more robust.
+
+	* scripts/dpkg-buildpackage.sh: Move to...
+	* scripts/dpkg-buildpackage.pl: Convert from
+	Shell to Perl.
+	* scripts/Makefile.am: Adapt to move.
+	* scripts/po/POTFILES.in: Add dpkg-buildpackage.pl.
 
 2007-09-18  Guillem Jover  <guillem@debian.org>
 

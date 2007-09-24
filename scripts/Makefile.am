@@ -32,7 +32,7 @@ EXTRA_DIST = \
 	README.alternatives \
 	822-date.pl \
 	dpkg-architecture.pl \
-	dpkg-buildpackage.sh \
+	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \
 	dpkg-genchanges.pl \
@@ -61,6 +61,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs/Objdump.pm \
 	Dpkg/Shlibs/SymbolFile.pm \
 	Dpkg/ErrorHandling.pm \
+	Dpkg/BuildOptions.pm \
 	Dpkg/Gettext.pm \
 	Dpkg/Version.pm \
 	Dpkg.pm
