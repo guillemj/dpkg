@@ -49,7 +49,21 @@ EXTRA_DIST = \
 	dpkg-statoverride.pl \
 	install-info.pl \
 	update-alternatives.pl \
-	changelog/debian.pl
+	changelog/debian.pl \
+	t/100_Dpkg_Version.t \
+	t/200_Dpkg_Shlibs.t \
+	t/200_Dpkg_Shlibs/symbols.fake-1 \
+	t/200_Dpkg_Shlibs/symbols.fake-2 \
+	t/200_Dpkg_Shlibs/symbols.include-1 \
+	t/200_Dpkg_Shlibs/symbols.include-2 \
+	t/200_Dpkg_Shlibs/ld.so.conf \
+	t/200_Dpkg_Shlibs/ld.so.conf_2 \
+	t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf \
+	t/200_Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf \
+	t/200_Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
+	t/200_Dpkg_Shlibs/objdump.glib-ia64 \
+	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
+	t/200_Dpkg_Shlibs/objdump.libc6-2.6
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
