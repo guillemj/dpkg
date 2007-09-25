@@ -13,6 +13,8 @@ use Dpkg::BuildOptions;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
+our $warnable_error;
+
 textdomain("dpkg-dev");
 
 sub showversion {
@@ -54,7 +56,7 @@ Options:
   -v<version>    changes since version <version>.      }
   -m<maint>      maintainer for package is <maint>.    }
   -e<maint>      maintainer for release is <maint>.    } only passed
-  -C<descfile>   changes are described in <descfile>.  } to dpkg-genchangs
+  -C<descfile>   changes are described in <descfile>.  } to dpkg-genchanges
   -si (default)  src includes orig for rev. 0 or 1.    }
   -sa            uploaded src always includes orig.    }
   -sd            uploaded src is diff and .dsc only.   }
@@ -66,7 +68,7 @@ Options:
   -W             turn certain errors into warnings.       } passed to
   -E             when -W is turned on, -E turns it off.   } dpkg-source
   -i[<regex>]    ignore diffs of files matching regex.    } only passed
-  -I<filename>   filter out files when building tarballs. } to dpkg-source
+  -I[<pattern>]  filter out files when building tarballs. } to dpkg-source
   --admindir=<directory>
                  change the administrative directory.
   -h, --help     show this help message.
@@ -95,7 +97,7 @@ if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
 }
 
 my ($admindir, $signkey, $forcesigninterface, $usepause, $noclean,
-    $warnable_errors, $sourcestyle, $cleansource,
+    $sourcestyle, $cleansource,
     $binaryonly, $sourceonly, $since, $maint,
     $changedby, $desc, $parallel);
 my (@checkbuilddep_args, @passopts, @tarignore);
@@ -187,10 +189,10 @@ while (@ARGV) {
     } elsif (/^-C(.*)$/) {
 	$desc = $1;
     } elsif (/^-W$/) {
-	$warnable_errors = 1;
+	$warnable_error = 1;
 	push @passopts, '-W';
     } elsif (/^-E$/) {
-	$warnable_errors = 0;
+	$warnable_error = 0;
 	push @passopts, '-E';
     } else {
 	usageerr(sprintf(_g("unknown option or argument %s"), $_));
@@ -309,7 +311,7 @@ sub signfile {
 	system('mv', '--', "../$file.asc", "../$file")
 	    and subprocerr('mv');
     } else {
-	system('/bin/rm', '-f', "../$file.asc")
+	system('rm', '-f', "../$file.asc")
 	    and subprocerr('rm -f');
     }
     print "\n";
