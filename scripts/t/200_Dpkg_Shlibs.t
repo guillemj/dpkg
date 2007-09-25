@@ -10,7 +10,10 @@ use_ok('Dpkg::Shlibs');
 my @save_paths = @Dpkg::Shlibs::librarypaths;
 @Dpkg::Shlibs::librarypaths = ();
 
-Dpkg::Shlibs::parse_ldso_conf("t/200_Dpkg_Shlibs/ld.so.conf");
+my $srcdir = $ENV{srcdir} || '.';
+$srcdir .= '/t/200_Dpkg_Shlibs';
+
+Dpkg::Shlibs::parse_ldso_conf("t.tmp/ld.so.conf");
 
 use Data::Dumper;
 is_deeply([qw(/nonexistant32 /nonexistant/lib64
@@ -21,8 +24,8 @@ use_ok('Dpkg::Shlibs::Objdump');
 
 my $obj = Dpkg::Shlibs::Objdump::Object->new;
 
-open my $objdump, '<', "t/200_Dpkg_Shlibs/objdump.libc6-2.6"
-  or die "t/200_Dpkg_Shlibs/objdump.libc6-2.6: $!";
+open my $objdump, '<', "$srcdir/objdump.libc6-2.6"
+  or die "$srcdir/objdump.libc6-2.6: $!";
 $obj->_parse($objdump);
 close $objdump;
 
@@ -55,17 +58,17 @@ is( scalar @syms, 9, 'undefined && dynamic' );
 
 my $obj_old = Dpkg::Shlibs::Objdump::Object->new;
 
-open $objdump, '<', "t/200_Dpkg_Shlibs/objdump.libc6-2.3"
-  or die "t/200_Dpkg_Shlibs/objdump.libc6-2.3: $!";
+open $objdump, '<', "$srcdir/objdump.libc6-2.3"
+  or die "$srcdir/objdump.libc6-2.3: $!";
 $obj_old->_parse($objdump);
 close $objdump;
 
 
 use_ok('Dpkg::Shlibs::SymbolFile');
 
-my $sym_file = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbol_file.tmp");
-my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbol_file.tmp");
-my $sym_file_old = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbol_file.tmp");
+my $sym_file = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbol_file.tmp");
+my $sym_file_dup = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbol_file.tmp");
+my $sym_file_old = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbol_file.tmp");
 
 $sym_file->merge_symbols($obj_old, "2.3.6.ds1-13");
 $sym_file_old->merge_symbols($obj_old, "2.3.6.ds1-13");
@@ -92,12 +95,12 @@ my $save_file = new File::Temp;
 $sym_file->save($save_file->filename);
 
 $sym_file_dup->load($save_file->filename);
-$sym_file_dup->{file} = "t/200_Dpkg_Shlibs/symbol_file.tmp";
+$sym_file_dup->{file} = "$srcdir/symbol_file.tmp";
 
 is_deeply($sym_file_dup, $sym_file, 'save -> load' );
 
 # Test include mechanism of SymbolFile
-$sym_file = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbols.include-1");
+$sym_file = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbols.include-1");
 
 $sym = $sym_file->lookup_symbol('symbol_before@Base', ['libfake.so.1']);
 is_deeply($sym, { 'minver' => '0.9', 'dep_id' => 0, 'deprecated' => 0,
@@ -119,7 +122,7 @@ is_deeply($sym, { 'minver' => '1.1', 'dep_id' => 0, 'deprecated' => 0,
 		  'depends' => 'libfake1 #MINVER#', 'soname' => 'libfake.so.1' }, 
 	    'overrides order with #include');
 
-$sym_file = Dpkg::Shlibs::SymbolFile->new("t/200_Dpkg_Shlibs/symbols.include-2");
+$sym_file = Dpkg::Shlibs::SymbolFile->new("$srcdir/symbols.include-2");
 
 $sym = $sym_file->lookup_symbol('symbol1_fake2@Base', ['libfake.so.1']);
 is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
@@ -130,8 +133,8 @@ is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
 # without versions and with visibility attribute)
 $obj = Dpkg::Shlibs::Objdump::Object->new;
 
-open $objdump, '<', "t/200_Dpkg_Shlibs/objdump.glib-ia64"
-  or die "t/200_Dpkg_Shlibs/objdump.glib-ia64: $!";
+open $objdump, '<', "$srcdir/objdump.glib-ia64"
+  or die "$srcdir/objdump.glib-ia64: $!";
 $obj->_parse($objdump);
 close $objdump;
 

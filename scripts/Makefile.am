@@ -132,8 +132,15 @@ uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
 	rm -f $(DESTDIR)$(sbindir)/install-info
 
-TEST_FILES= t/*.t
+TEST_FILES= $(srcdir)/t/*.t
 TEST_VERBOSE= 0
 
-test:
-	PERL_DL_NONLAZY=1 $(PERL) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)
+clean-local:
+	chmod -R +w t.tmp
+	rm -fr t.tmp
+
+check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*)
+# a bit hacky...
+	$(mkdir_p) t.tmp
+	cp -dRl $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf* t.tmp/
+	srcdir=$(srcdir) PERL_DL_NONLAZY=1 $(PERL) -I$(srcdir) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)
