@@ -15,6 +15,9 @@ require 'controllib.pl';
 use Dpkg::Shlibs qw(@librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
+use Dpkg::Gettext;
+
+textdomain("dpkg-dev");
 
 our $progname;
 our (%f, %fi);
@@ -23,9 +26,6 @@ our @librarypaths;
 
 our $host_arch= `dpkg-architecture -qDEB_HOST_ARCH`;
 chomp $host_arch;
-
-require 'dpkg-gettext.pl';
-textdomain("dpkg-dev");
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
