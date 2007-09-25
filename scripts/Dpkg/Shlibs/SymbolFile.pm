@@ -151,7 +151,7 @@ sub load {
 }
 
 sub save {
-    my ($self, $file) = @_;
+    my ($self, $file, $with_deprecated) = @_;
     $file = $self->{file} unless defined($file);
     my $fh;
     if ($file eq "-") {
@@ -160,17 +160,19 @@ sub save {
 	open($fh, ">", $file)
 	    || syserr(sprintf(_g("Can't open %s for writing: %s"), $file, $!));
     }
-    $self->dump($fh);
+    $self->dump($fh, $with_deprecated);
     close($fh) if ($file ne "-");
 }
 
 sub dump {
-    my ($self, $fh) = @_;
+    my ($self, $fh, $with_deprecated) = @_;
+    $with_deprecated = 1 unless defined($with_deprecated);
     foreach my $soname (sort keys %{$self->{objects}}) {
 	print $fh "$soname $self->{objects}{$soname}{deps}[0]\n";
 	print $fh "| $_" foreach (@{$self->{objects}{$soname}{deps}}[ 1 .. -1 ]);
 	foreach my $sym (sort keys %{$self->{objects}{$soname}{syms}}) {
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
+	    next if $info->{deprecated} and not $with_deprecated;
 	    print $fh "#DEPRECATED: $info->{deprecated}#" if $info->{deprecated};
 	    print $fh " $sym $info->{minver}";
 	    print $fh " $info->{dep_id}" if $info->{dep_id};
