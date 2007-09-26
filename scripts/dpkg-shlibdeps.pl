@@ -7,6 +7,7 @@ use English;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::Path qw(relative_to_pkg_root);
 use Dpkg::Version qw(vercmp);
 use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
@@ -96,9 +97,9 @@ foreach my $file (keys %exec) {
     # Load symbols files for all needed libraries (identified by SONAME)
     my %libfiles;
     foreach my $soname (@sonames) {
-	my $file = my_find_library($soname, $obj->{RPATH}, $obj->{format});
-	failure(sprintf(_g("couldn't find library %s (note: only packages with 'shlibs' files are looked into)."), $soname)) unless defined($file);
-	$libfiles{$file} = $soname if defined($file);
+	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
+	failure(sprintf(_g("couldn't find library %s (note: only packages with 'shlibs' files are looked into)."), $soname)) unless defined($lib);
+	$libfiles{$lib} = $soname if defined($lib);
     }
     my $file2pkg = find_packages(keys %libfiles);
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
@@ -413,21 +414,33 @@ sub symfile_has_soname {
 
 # find_library ($soname, \@rpath, $format)
 sub my_find_library {
-    my ($lib, $rpath, $format) = @_;
+    my ($lib, $rpath, $format, $execfile) = @_;
     my $file;
+
+    # Create real RPATH in case $ORIGIN is used
+    # Note: ld.so also supports $PLATFORM and $LIB but they are
+    # used in real case (yet)
+    my $origin = "/" . relative_to_pkg_root($execfile);
+    $origin =~ s{/+[^/]*$}{};
+    my @RPATH = ();
+    foreach my $path (@{$rpath}) {
+	$path =~ s/\$ORIGIN/$origin/g;
+	$path =~ s/\$\{ORIGIN\}/$origin/g;
+	push @RPATH, $path;
+    }
 
     # Look into the packages we're currently building (but only those
     # that provides shlibs file...)
     # TODO: we should probably replace that by a cleaner way to look into
     # the various temporary build directories...
     foreach my $builddir (map { s{/DEBIAN/shlibs$}{}; $_ } @pkg_shlibs) {
-	$file = find_library($lib, $rpath, $format, $builddir);
+	$file = find_library($lib, \@RPATH, $format, $builddir);
 	return $file if defined($file);
     }
 
     # Fallback in the root directory if we have not found what we were
     # looking for in the packages
-    $file = find_library($lib, $rpath, $format, "");
+    $file = find_library($lib, \@RPATH, $format, "");
     return $file if defined($file);
 
     return undef;
