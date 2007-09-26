@@ -274,6 +274,9 @@ sub parse_dynamic_symbol {
 	$self->add_dynamic_symbol($symbol);
     } elsif ($line =~ /^[0-9a-f]+ (.{7})\s+(\S+)\s+[0-9a-f]+/) {
 	# Same start but no version and no symbol ... just ignore
+    } elsif ($line =~ /^REG_G\d+\s+/) {
+	# Ignore some s390-specific output like
+	# REG_G6           g     R *UND*      0000000000000000              #scratch
     } else {
 	warning(sprintf(_g("Couldn't parse dynamic symbol definition: %s"), $line));
     }
