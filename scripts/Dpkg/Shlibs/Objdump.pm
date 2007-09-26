@@ -190,12 +190,14 @@ sub _parse {
 	} elsif ($section eq "none") {
 	    if (/^\s*\S+:\s*file\s+format\s+(\S+)\s*$/) {
 		$self->{format} = $1;
-	    } elsif (/^architecture:\s*\S+,\s*flags:\s*\S+\s*$/) {
+	    } elsif (/^architecture:\s*\S+,\s*flags\s*\S+:\s*$/) {
 		# Parse 2 lines of "-f"
 		# architecture: i386, flags 0x00000112:
 		# EXEC_P, HAS_SYMS, D_PAGED
 		# start address 0x08049b50
-		$self->{flags}{$_} = 1 foreach (split(/,\s*/, <$fh>));
+		$_ = <$fh>;
+		chomp;
+		$self->{flags}{$_} = 1 foreach (split(/,\s*/));
 	    }
 	}
     }

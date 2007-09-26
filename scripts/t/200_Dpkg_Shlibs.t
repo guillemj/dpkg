@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 26;
+use Test::More tests => 27;
 
 use strict;
 use warnings;
@@ -30,6 +30,7 @@ is($obj->{SONAME}, 'libc.so.6', 'SONAME');
 is($obj->{HASH}, '0x13d99c', 'HASH');
 is($obj->{GNU_HASH}, '0x194', 'GNU_HASH');
 is($obj->{format}, 'elf32-i386', 'format');
+is_deeply($obj->{flags}, { DYNAMIC => 1, HAS_SYMS => 1, D_PAGED => 1 }, 'flags');
 is_deeply($obj->{NEEDED}, [ 'ld-linux.so.2' ], 'NEEDED');
 is_deeply([ $obj->get_needed_libraries ], [ 'ld-linux.so.2' ], 'NEEDED');
 
