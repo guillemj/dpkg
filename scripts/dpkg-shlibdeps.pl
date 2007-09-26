@@ -414,8 +414,7 @@ sub symfile_has_soname {
 # find_library ($soname, \@rpath, $format)
 sub my_find_library {
     my ($lib, $rpath, $format) = @_;
-    my $file = find_library($lib, $rpath, $format, "");
-    return $file if defined($file);
+    my $file;
 
     # Look into the packages we're currently building (but only those
     # that provides shlibs file...)
@@ -425,6 +424,12 @@ sub my_find_library {
 	$file = find_library($lib, $rpath, $format, $builddir);
 	return $file if defined($file);
     }
+
+    # Fallback in the root directory if we have not found what we were
+    # looking for in the packages
+    $file = find_library($lib, $rpath, $format, "");
+    return $file if defined($file);
+
     return undef;
 }
 
