@@ -137,9 +137,11 @@ foreach my $file (keys %exec) {
 		}
 	    } else {
 		# No symbol file found, fall back to standard shlibs
-		$dumplibs_wo_symfile->parse($lib);
+		my $id = $dumplibs_wo_symfile->parse($lib);
 		push @soname_wo_symfile, $soname;
-		if (not add_shlibs_dep($soname, $pkg)) {
+		my $libobj = $dumplibs_wo_symfile->get_object($id);
+		# Only try to generate a dependency for libraries with a SONAME
+		if ($libobj->is_public_library() and not add_shlibs_dep($soname, $pkg)) {
 		    failure(sprintf(
 			_g("No dependency information found for %s (used by %s)."),
 			$soname, $file)) unless $ignore_missing_info;
