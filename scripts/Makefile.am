@@ -50,6 +50,7 @@ EXTRA_DIST = \
 	install-info.pl \
 	update-alternatives.pl \
 	changelog/debian.pl \
+	t/000_pod.t \
 	t/100_Dpkg_Version.t \
 	t/200_Dpkg_Shlibs.t \
 	t/200_Dpkg_Shlibs/symbols.fake-1 \
