@@ -31,8 +31,39 @@ my $diff_ignore_default_regexp = '
 (?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore|\.gitignore)$|
 # File or directory names that should be ignored
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
-\.shelf|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
+\.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
+
+no warnings 'qw';
+my @tar_ignore_default_pattern = qw(
+*.a
+*.la
+*.o
+*.so
+*.swp
+*~
+,,*
+.[#~]*
+.arch-ids
+.arch-inventory
+.bzr
+.bzr.backup
+.bzr.tags
+.bzrignore
+.cvsignore
+.deps
+.git
+.gitignore
+.hg
+.shelf
+.svn
+CVS
+DEADJOE
+RCS
+_MTN
+_darcs
+{arch}
+);
 
 # Take out comments and newlines
 $diff_ignore_default_regexp =~ s/^#.*$//mg;
@@ -66,7 +97,7 @@ use Cwd;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
-our (%f, %fi, %fieldimps);
+our (%f, %fi);
 our $sourcepackage;
 our $warnable_error;
 our $quiet_warnings;
@@ -76,7 +107,10 @@ our @src_dep_fields;
 textdomain("dpkg-dev");
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-                     Maintainer Uploaders Standards-Version), @src_dep_fields);
+                     Maintainer Uploaders Homepage Standards-Version
+                     Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs
+                     Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
+                  @src_dep_fields);
 
 
 # Make sure patch doesn't get any funny ideas
@@ -94,10 +128,10 @@ $SIG{'QUIT'} = \&exit_handler;
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
-    printf _g("
+    print _g("
 Copyright (C) 1996 Ian Jackson and Klee Dienes.");
 
-    printf _g("
+    print _g("
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO warranty.
 ");
@@ -126,7 +160,8 @@ Build options:
   -q                       quiet operation, do not print warnings.
   -i[<regexp>]             filter out files to ignore diffs of
                              (defaults to: '%s').
-  -I<filename>             filter out files when building tarballs.
+  -I[<pattern>]            filter out files when building tarballs
+                             (defaults to: %s).
   -sa                      auto select orig source (-sA is default).
   -sk                      use packed orig source (unpack & keep).
   -sp                      use packed orig source (unpack & remove).
@@ -144,7 +179,9 @@ Extract options:
 General options:
   -h, --help               show this help message.
       --version            show the version.
-"), $progname, $diff_ignore_default_regexp;
+"), $progname,
+    $diff_ignore_default_regexp,
+    join('', map { " -I$_" } @tar_ignore_default_pattern);
 }
 
 sub handleformat {
@@ -155,6 +192,7 @@ sub handleformat {
 
 
 my $opmode;
+my $tar_ignore_default_pattern_done;
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_=shift(@ARGV);
@@ -180,6 +218,13 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $diff_ignore_regexp = $1 ? $1 : $diff_ignore_default_regexp;
     } elsif (m/^-I(.+)$/) {
         push @tar_ignore, "--exclude=$1";
+    } elsif (m/^-I$/) {
+        unless ($tar_ignore_default_pattern_done) {
+            push @tar_ignore,
+                 map { "--exclude=$_" } @tar_ignore_default_pattern;
+            # Prevent adding multiple times
+            $tar_ignore_default_pattern_done = 1;
+        }
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvar{$1}= "$'";
     } elsif (m/^-T/) {
@@ -238,8 +283,10 @@ if ($opmode eq 'build') {
         if (s/^C //) {
 	    if (m/^Source$/i) {
 		setsourcepackage($v);
+	    } elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
+	             m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+		$f{$_}= $v;
 	    }
-            elsif (m/^(Standards-Version|Origin|Maintainer)$/i) { $f{$_}= $v; }
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 		my $dep = parsedep(substvars($v),1);
@@ -280,8 +327,8 @@ if ($opmode eq 'build') {
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
             } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
-                     m/^(Recommends|Suggests|Optional|Conflicts|Replaces)$/i ||
-                     m/^(Breaks|Enhances|Description|Section|Priority)$/i ||
+                     m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
+                     m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
                      m/^X[BC]+-/i) {
             } else {
                 &unknown(_g("package's section of control info file"));

@@ -47,6 +47,17 @@ Specify the Debian architecture we build for. The architecture of the
 machine we build on is determined automatically, and is also the default
 for the host machine.
 .TP
+.BI \-j jobs
+Number of jobs allowed to be run simultaneously, equivalent to the
+.BR make (1)
+option of the same name. Will add itself to the MAKEFLAGS
+environment variable, which should cause all subsequent make
+invocations to inherit the option. Also adds \fBparallel=\fP\fIjobs\fP
+to the DEB_BUILD_OPTIONS environment variable which allows
+debian/rules files to use this information for their own purposes.
+If no \fB-j\fP option is given, an existing value for \fBparallel\fP will be
+honoured and added to MAKEFLAGS.
+.TP
 .BI \-v version
 Use changelog information from all versions strictly later than
 .IR version .
@@ -161,7 +172,7 @@ Do not sign the .changes file.
 Passed unchanged to
 .BR dpkg\-source .
 .TP
-.BI \-I filename
+.BI \-I [\fIpattern\fP]
 Passed unchanged to
 .BR dpkg\-source .
 May be repeated multiple times.
@@ -192,6 +203,8 @@ and initial arguments for
 Copyright (C) 1995-1996 Ian Jackson
 .br
 Copyright (C) 2000 Wichert Akkerman
+.br
+Copyright (C) 2007 Frank Lichtenheld
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.

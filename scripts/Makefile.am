@@ -31,7 +31,7 @@ EXTRA_DIST = \
 	README.alternatives \
 	822-date.pl \
 	dpkg-architecture.pl \
-	dpkg-buildpackage.sh \
+	dpkg-buildpackage.pl \
 	dpkg-checkbuilddeps.pl \
 	dpkg-distaddfile.pl \
 	dpkg-genchanges.pl \
@@ -55,6 +55,7 @@ CLEANFILES = \
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
+	Dpkg/BuildOptions.pm \
 	Dpkg/Gettext.pm \
 	Dpkg.pm
 

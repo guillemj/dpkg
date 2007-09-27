@@ -26,7 +26,7 @@ my %kmap= (optional         => 'suggests',
 
 my @fieldpri = (qw(Package Source Version Architecture Essential Origin Bugs
                    Maintainer Installed-Size), @pkg_dep_fields, qw(Filename
-                   Size MD5sum Section Priority Description));
+                   Size MD5sum Section Priority Homepage Description Tag));
 
 # This maps the fields into the proper case
 my %field_case;

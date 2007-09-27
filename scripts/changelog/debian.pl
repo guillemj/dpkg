@@ -1,8 +1,4 @@
 #!/usr/bin/perl
-#
-# Options:
-#  -v<version>
-#   changes since <version>
 
 use strict;
 use warnings;
