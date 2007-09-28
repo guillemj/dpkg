@@ -84,10 +84,6 @@ sub testcommand {
 }
 
 my $rootcommand = '';
-if (testcommand('fakeroot')) {
-    $rootcommand = 'fakeroot';
-}
-
 my $signcommand = '';
 if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
        || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
@@ -197,6 +193,22 @@ while (@ARGV) {
 	push @passopts, '-E';
     } else {
 	usageerr(sprintf(_g("unknown option or argument %s"), $_));
+    }
+}
+
+if ($< == 0) {
+    warning(_g("using a gain-root-command while being root")) if ($rootcommand);
+} else {
+    $rootcommand ||= 'fakeroot';
+
+    if (!testcommand($rootcommand)) {
+	if ($rootcommand eq 'fakeroot') {
+	    error(_g("fakeroot not found, either install the fakeroot\n" .
+	             "package, specify a command with the -r option, " .
+	             "or run this as root"));
+	} else {
+	    error(sprintf(_g("gain-root-commmand '%s' not found"), $rootcommand));
+	}
     }
 }
 
