@@ -37,8 +37,7 @@ Usage: %s [<options> ...]
 
 Options:
   -r<gain-root-command>
-                 command to gain root privileges (default is fakeroot if it
-                 exists).
+                 command to gain root privileges (default is fakeroot).
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
