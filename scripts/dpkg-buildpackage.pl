@@ -320,6 +320,7 @@ sub signfile {
 
 
 sub withecho {
+    shift while !$_[0];
     print STDERR " @_\n";
     system(@_)
 	and subprocerr("@_");
