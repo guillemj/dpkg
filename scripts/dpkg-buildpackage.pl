@@ -79,7 +79,9 @@ Options:
 sub testcommand {
     my ($cmd) = @_;
 
-    return -x "/usr/bin/$cmd";
+    my $fullcmd = `which $cmd`;
+    chomp $fullcmd;
+    return $fullcmd && -x $fullcmd;
 }
 
 my $rootcommand = '';
