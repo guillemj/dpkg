@@ -300,7 +300,8 @@ sub signfile {
 
     if ($signinterface eq 'gpg') {
 	system("(cat ../$qfile ; echo '') | ".
-	       "$signcommand --local-user ".quotemeta($signkey||$maintainer).
+	       "$signcommand --utf8-strings --local-user "
+	       .quotemeta($signkey||$maintainer).
 	       " --clearsign --armor --textmode  > ../$qfile.asc");
     } else {
 	system("$signcommand -u ".quotemeta($signkey||$maintainer).
