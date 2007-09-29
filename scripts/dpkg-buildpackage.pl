@@ -260,6 +260,7 @@ sub mustsetvar {
 
 my $pkg = mustsetvar($changes{source}, _g('source package'));
 my $version = mustsetvar($changes{version}, _g('source version'));
+checkversion($version);
 
 my $maintainer;
 if ($changedby) {

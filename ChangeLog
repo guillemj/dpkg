@@ -1,5 +1,10 @@
 2007-09-29  Frank Lichtenheld  <djpig@debian.org>
 
+	* scripts/dpkg-buildpackage.pl: Call checkversion()
+	on version extracted from changelog. Since other
+	program we call later will do the same there is
+	really no reason not to fail early.
+
 	* scripts/dpkg-buildpackage.pl (testcommand):
 	Make the check more sensible. Instead of testing
 	/usr/bin/$cmd, test `which $cmd`.
