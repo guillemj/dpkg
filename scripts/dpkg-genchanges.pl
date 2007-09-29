@@ -59,13 +59,24 @@ my %archadded;
 my @archvalues;
 my $dsc;
 my $changesdescription;
-my $sourceonly;
-my $binaryonly;
-my $archspecific;
 my $forcemaint;
 my $forcechangedby;
 my $since;
 
+use constant SOURCE     => 1;
+use constant ARCH_DEP   => 2;
+use constant ARCH_INDEP => 4;
+use constant BIN        => ARCH_DEP | ARCH_INDEP;
+use constant ALL        => BIN | SOURCE;
+my $include = ALL;
+
+sub is_sourceonly() { return $include == SOURCE; }
+sub is_binaryonly() { return !($include & SOURCE); }
+sub binary_opt() { return (($include == BIN) ? '-b' :
+			   (($include == ARCH_DEP) ? '-B' :
+			    (($include == ARCH_INDEP) ? '-A' :
+			     internerr("binary_opt called with include=$include"))));
+}
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -87,6 +98,7 @@ sub usage {
 Options:
   -b                       binary-only build - no source files.
   -B                       arch-specific - no source or arch-indep files.
+  -A                       only arch-indep - no source or arch-specific files.
   -S                       source-only upload.
   -c<controlfile>          get control info from this file.
   -l<changelogfile>        get per-version info from this file.
@@ -114,16 +126,19 @@ Options:
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-	$sourceonly && &usageerr(_g("cannot combine -b or -B and -S"));
-        $binaryonly= 1;
+	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	$include = BIN;
     } elsif (m/^-B$/) {
-	$sourceonly && &usageerr(_g("cannot combine -b or -B and -S"));
-	$archspecific=1;
-	$binaryonly= 1;
+	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	$include = ARCH_DEP;
 	printf STDERR _g("%s: arch-specific upload - not including arch-independent packages")."\n", $progname;
+    } elsif (m/^-A$/) {
+	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	$include = ARCH_INDEP;
+	printf STDERR _g("%s: arch-indep upload - not including arch-specific packages")."\n", $progname;
     } elsif (m/^-S$/) {
-	$binaryonly && &usageerr(_g("cannot combine -b or -B and -S"));
-	$sourceonly= 1;
+	is_binaryonly && &usageerr(_g("cannot combine %s and -S"), binary_opt);
+	$include = SOURCE;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
@@ -166,7 +181,7 @@ while (@ARGV) {
 parsechangelog($changelogfile, $changelogformat, $since);
 parsecontrolfile($controlfile);
 
-if (not $sourceonly) {
+if (not is_sourceonly) {
     open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
     while(<FL>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
@@ -227,9 +242,10 @@ for $_ (keys %fi) {
 	my $a = $fi{"C$i Architecture"};
 	my $host_arch = get_host_arch();
 
-	if (!defined($p2f{$p}) && not $sourceonly) {
-	    if ((debarch_eq('all', $a) && !$archspecific) ||
-		grep(debarch_is($host_arch, $_), split(/\s+/, $a))) {
+	if (!defined($p2f{$p}) && not is_sourceonly) {
+	    if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
+		(grep(debarch_is($host_arch, $_), split(/\s+/, $a))
+		      and ($include & ARCH_DEP))) {
 		warning(_g("package %s in control file but not in files list"),
 		        $p);
 		next;
@@ -256,8 +272,9 @@ for $_ (keys %fi) {
 	    } elsif (s/^X[BS]*C[BS]*-//i) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
-		if (not $sourceonly) {
-		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))) {
+		if (not is_sourceonly) {
+		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
+			and ($include & ARCH_DEP)) {
 			$v = $host_arch;
 		    } elsif (!debarch_eq('all', $v)) {
 			$v= '';
@@ -341,7 +358,7 @@ init_substvar_arch();
 
 my $origsrcmsg;
 
-if (!$binaryonly) {
+if (!is_binaryonly) {
     my $sec = $sourcedefault{'Section'};
     if (!defined($sec)) {
 	$sec = '-';
@@ -402,7 +419,7 @@ if (!defined($f{'Date'})) {
 
 $f{'Binary'}= join(' ',grep(s/C //,keys %p2i));
 
-unshift(@archvalues,'source') unless $binaryonly;
+unshift(@archvalues,'source') unless is_binaryonly;
 $f{'Architecture'}= join(' ',@archvalues);
 
 $f{'Description'}= "\n ".join("\n ",sort @descriptions);
@@ -412,7 +429,8 @@ $f{'Files'}= '';
 my %filedone;
 
 for my $f (@sourcefiles, @fileslistfiles) {
-    next if ($archspecific && debarch_eq('all', $p2arch{$f2p{$f}}));
+    next if ($include == ARCH_DEP and debarch_eq('all', $p2arch{$f2p{$f}}));
+    next if ($include == ARCH_INDEP and not debarch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
     open(STDIN, "<", $uf) ||

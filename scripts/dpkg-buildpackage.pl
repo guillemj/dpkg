@@ -48,8 +48,9 @@ Options:
   -us            unsigned source.
   -uc            unsigned changes.
   -a<arch>       Debian architecture we build for (implies -d).
-  -b             binary-only, do not build source. } also passed to
-  -B             binary-only, no arch-indep files. } dpkg-genchanges
+  -b             binary-only, do not build source.   } also passed to
+  -B             binary-only, no arch-indep files.   } dpkg-genchanges
+  -A             binary-only, only arch-indep files. }
   -S             source only, no binary files.     }
   -t<system>     set GNU system type.           } passed to dpkg-architecture
   -v<version>    changes since version <version>.      }
@@ -174,6 +175,13 @@ while (@ARGV) {
 	$binarytarget = 'binary-arch';
 	if ($sourceonly) {
 	    usageerr(_g("cannot combine %s and %s"), '-B', '-S');
+	}
+    } elsif (/^-A$/) {
+	$binaryonly = '-A';
+	@checkbuilddep_args = ();
+	$binarytarget = 'binary-indep';
+	if ($sourceonly) {
+	    usageerr(_g("cannot combine %s and %s"), '-A', '-S');
 	}
     } elsif (/^-S$/) {
 	$sourceonly = '-S';
