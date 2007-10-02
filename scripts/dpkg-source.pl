@@ -377,7 +377,7 @@ if ($opmode eq 'build') {
 	    loadvcs($2)
 	    	|| error(sprintf(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2));
             
-	    if ($sourcestyle !~ /[anxANX]/) {
+	    if ($sourcestyle !~ /[akpursnAKPURv]/) {
 		warning(sprintf(_g("source handling style -s%s not supported when generating %s format source package"), $sourcestyle, $vcs));
             }
             $sourcestyle='v';

@@ -16,6 +16,7 @@ sub populate_tarball {
 	my $tardir=shift;
 
 	# TODO check for uncommitted files
+	# TODO git-gc?
 	system("cp -a $srcdir/.git $tardir");
 	$? && subprocerr("cp -a $srcdir/.git $tardir");
 }
