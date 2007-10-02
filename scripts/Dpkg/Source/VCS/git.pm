@@ -16,7 +16,9 @@ sub populate_tarball {
 	my $tardir=shift;
 
 	# TODO check for uncommitted files
-	# TODO git-gc?
+	# TODO run git-gc --prune first
+	# TODO support for creating a shallow clone for those cases where
+	# uploading the whole repo history is not desired
 	system("cp -a $srcdir/.git $tardir");
 	$? && subprocerr("cp -a $srcdir/.git $tardir");
 }
@@ -25,7 +27,6 @@ sub initialize_repo {
 	my $srcdir=shift;
 	
 	# TODO disable git hooks
-	# TODO git-fsck?
 	# XXX git should be made to run in quiet mode here, but
 	# lacks a good way to do it. Bug filed.
 	system("cd $srcdir && git-reset --hard");
