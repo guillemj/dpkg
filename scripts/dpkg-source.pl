@@ -190,6 +190,13 @@ sub handleformat {
 	return $1 >= $min_dscformat && $1 <= $max_dscformat;
 }
 
+sub loadvcs {
+	my $vcs = shift;
+	my $mod = "Dpkg::Source::VCS::$vcs";
+	eval qq{use $mod};
+	return ! $@;
+}
+
 
 my $opmode;
 my $tar_ignore_default_pattern_done;
@@ -366,13 +373,9 @@ if ($opmode eq 'build') {
 	        error(sprintf(_g("unsupported control info file 'Format' value \"%s\""), $1));
             }
 
-            # XXX should load a vcs module
-            if ($2 eq 'git') {
-		$vcs='git';
-            }
-            else {
-	        error(sprintf(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2));
-            }
+	    $vcs=$2;
+	    loadvcs($2)
+	    	|| error(sprintf(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2));
             
 	    if ($sourcestyle !~ /[anxANX]/) {
 		warning(sprintf(_g("source handling style -s%s not supported when generating %s format source package"), $sourcestyle, $vcs));
@@ -478,12 +481,11 @@ if ($opmode eq 'build') {
         mkdir($tardirname,0755) ||
             &syserr(sprintf(_g("unable to create `%s'"), $tardirname));
 	push @exit_handlers, sub { erasedir($tardirname) };
-            
-	# XXX should use a vcs module
-	if ($vcs eq 'git') {
-            system("cp -a $dir/.git $tardirname");
-            $? && subprocerr("cp -a $dir/.git $tardirname");
-        }
+        
+	eval qq{Dpkg::Source::VCS::${vcs}::populate_tarball($dir, \$tardirname)};
+	if ($@) {
+            &syserr($@);
+	}
     }
     elsif ($sourcestyle ne 'n') {
 	my $origdirbase = $origdir;
@@ -970,16 +972,13 @@ if ($opmode eq 'build') {
 	}
 
         if (exists $vcsfiles{$tarfile}) {
-            # TODO: this should be in a git vcs module
-            if ($vcsfiles{$tarfile} eq 'git') {
-	        printf(_g("%s: extracting source from git repository")."\n", $progname, $tarfile);
-		# TODO disable git hooks
-		# TODO git-fsck?
-		# XXX git should be made to run in quiet mode here, but
-		# lacks a good way to do it. Bug filed.
-		system("cd $target && git-reset --hard");
-		$? && subprocerr("cd $target && git-reset --hard");
-            }
+	    printf(_g("%s: extracting source from %s repository")."\n", $progname, $vcsfiles{$tarfile});
+	    loadvcs($vcsfiles{$tarfile})
+	    	|| error(sprintf(_g("unsupported vcs \"%s\""), $vcsfiles{$tarfile}));
+	    eval qq{Dpkg::Source::VCS::$vcsfiles{$tarfile}::initialize_repo(\$target)};
+	    if ($@) {
+                &syserr($@);
+	    }
         }
     }
 

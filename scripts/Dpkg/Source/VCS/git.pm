@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 # git support for dpkg-source
+package Dpkg::Source::VCS::git;
+
 use strict;
 use warnings;
 
@@ -28,3 +30,5 @@ sub initialize_repo {
 	system("cd $srcdir && git-reset --hard");
 	$? && subprocerr("cd $srcdir && git-reset --hard");
 }
+
+1
