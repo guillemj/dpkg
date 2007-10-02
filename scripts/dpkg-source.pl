@@ -71,7 +71,7 @@ $diff_ignore_default_regexp =~ s/\n//sg;
 
 my $sourcestyle = 'X';
 my $min_dscformat = 1;
-my $max_dscformat = 2;
+my $max_dscformat = 3;
 my $def_dscformat = "1.0"; # default format for -b
 
 my $expectprefix;
@@ -252,10 +252,6 @@ $SIG{'PIPE'} = 'DEFAULT';
 
 if ($opmode eq 'build') {
 
-    $sourcestyle =~ y/X/A/;
-    $sourcestyle =~ m/[akpursnAKPUR]/ ||
-        &usageerr(sprintf(_g("source handling style -s%s not allowed with -b"), $sourcestyle));
-
     @ARGV || &usageerr(_g("-b needs a directory"));
     @ARGV<=2 || &usageerr(_g("-b takes at most a directory and an orig source argument"));
     my $dir = shift(@ARGV);
@@ -283,7 +279,7 @@ if ($opmode eq 'build') {
         if (s/^C //) {
 	    if (m/^Source$/i) {
 		setsourcepackage($v);
-	    } elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
+	    } elsif (m/^(Format|Standards-Version|Origin|Maintainer|Homepage)$/i ||
 	             m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 		$f{$_}= $v;
 	    }
@@ -351,6 +347,43 @@ if ($opmode eq 'build') {
             &internerr(sprintf(_g("value from nowhere, with key >%s< and value >%s<"), $_, $v));
         }
     }
+    
+    my $vcs;
+    if ($f{Format} =~ /^\s*(\d+\.\d+)\s*$/) {
+	    if ($1 >= 3.0) {
+	        error(sprintf(_g("don't know how to generate %s format source package (missing vcs specifier in Format field?)"), $1));
+	    }
+	    if ($1 > 1.0) {
+	        error(sprintf(_g("don't know how to generate %s format source package"), $1));
+	    }
+    }
+    elsif ($f{Format} =~ /^\s*(\d+(?:\.\d+)?)\s+\((\w+)\)\s*$/) {
+	    $f{Format}=$1;
+	    if ($1 < 3.0) {
+	        error(sprintf(_g("control info file 'Format' field for version %s does not support vcs specifier \"%s\""), $1, $2));
+	    }
+            if ($1 >= 4) {
+	        error(sprintf(_g("unsupported control info file 'Format' value \"%s\""), $1));
+            }
+
+            # XXX should load a vcs module
+            if ($2 eq 'git') {
+		$vcs='git';
+            }
+            else {
+	        error(sprintf(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2));
+            }
+            
+	    if ($sourcestyle !~ /[anxANX]/) {
+		warning(sprintf(_g("source handling style -s%s not supported when generating %s format source package"), $sourcestyle, $vcs));
+            }
+            $sourcestyle='v';
+    }
+    
+    $sourcestyle =~ y/X/A/;
+    $sourcestyle =~ m/[akpursnAKPURv]/ ||
+        &usageerr(sprintf(_g("source handling style -s%s not allowed with -b"), $sourcestyle));
+
 
     $f{'Binary'}= join(', ',@binarypackages);
     for my $f (keys %override) {
@@ -438,7 +471,21 @@ if ($opmode eq 'build') {
     my $tardirbase;
     my $origdirname;
 
-    if ($sourcestyle ne 'n') {
+    if ($sourcestyle eq 'v') {
+	$tarname="$basenamerev.$vcs.tar.gz";
+        $tardirbase= $dirbase; $tardirname= "$tarname.tmp";
+
+        mkdir($tardirname,0755) ||
+            &syserr(sprintf(_g("unable to create `%s'"), $tardirname));
+	push @exit_handlers, sub { erasedir($tardirname) };
+            
+	# XXX should use a vcs module
+	if ($vcs eq 'git') {
+            system("cp -a $dir/.git $tardirname");
+            $? && subprocerr("cp -a $dir/.git $tardirname");
+        }
+    }
+    elsif ($sourcestyle ne 'n') {
 	my $origdirbase = $origdir;
 	$origdirbase =~ s,/?$,,;
         $origdirbase =~ s,[^/]+$,,; $origdirname= $&;
@@ -458,10 +505,10 @@ if ($opmode eq 'build') {
         $tarname= "$basenamerev.tar.gz";
     }
 
-    if ($sourcestyle =~ m/[nurUR]/) {
+    if ($sourcestyle =~ m/[nurURv]/) {
 
         if (stat($tarname)) {
-            $sourcestyle =~ m/[nUR]/ ||
+            $sourcestyle =~ m/[nURv]/ ||
                 &error(sprintf(_g("tarfile `%s' already exists, not overwriting,".
                        " giving up; use -sU or -sR to override"), $tarname));
         } elsif ($! != ENOENT) {
@@ -489,7 +536,7 @@ if ($opmode eq 'build') {
             &syserr(sprintf(_g("unable to rename `%s' (newly created) to `%s'"), $newtar, $tarname));
 	chmod(0666 &~ umask(), $tarname) ||
 	    &syserr(sprintf(_g("unable to change permission of `%s'"), $tarname));
-
+	
     } else {
         
         printf(_g("%s: building %s using existing %s")."\n",
@@ -529,6 +576,10 @@ if ($opmode eq 'build') {
         rmdir("$origtargz.tmp-nest") ||
             &syserr(sprintf(_g("unable to remove `%s'"), "$origtargz.tmp-nest"));
 	    pop @exit_handlers;
+    }
+
+    if ($sourcestyle eq 'v') {
+        erasedir($tardirname)
     }
         
     if ($sourcestyle =~ m/[kpursKPUR]/) {
@@ -790,6 +841,7 @@ if ($opmode eq 'build') {
     my @tarfiles;
     my $difffile;
     my $debianfile;
+    my %vcsfiles;
     my %seen;
     for my $file (split(/\n /, $files)) {
         next if $file eq '';
@@ -813,6 +865,11 @@ if ($opmode eq 'build') {
 	    else    { unshift @tarfiles, $file; }
 	} elsif (/^\.debian\.tar$/) {
 	    $debianfile = $file;
+	} elsif (/^\.(\w+)\.tar$/) {
+            my $vcs=$1;
+            # TODO try to load vcs module
+            push @tarfiles, $file;
+            $vcsfiles{$file}=$vcs;
 	} elsif (/^\.diff$/) {
 	    $difffile = $file;
 	} else {
@@ -825,13 +882,16 @@ if ($opmode eq 'build') {
     if ($native) {
 	warning(_g("multiple tarfiles in native package")) if @tarfiles > 1;
 	warning(_g("native package with .orig.tar"))
-	    unless $seen{'.tar'} or $seen{"-$revision.tar"};
+	    unless $seen{'.tar'} or $seen{"-$revision.tar"} or %vcsfiles;
     } else {
-	warning(_g("no upstream tarfile in Files field")) unless $seen{'.orig.tar'};
+	warning(_g("no upstream tarfile in Files field")) unless $seen{'.orig.tar'} or %vcsfiles;
 	if ($dscformat =~ /^1\./) {
 	    warning(sprintf(_g("multiple upstream tarballs in %s format dsc"), $dscformat)) if @tarfiles > 1;
 	    warning(sprintf(_g("debian.tar in %s format dsc"), $dscformat)) if $debianfile;
 	}
+    }
+    if (%vcsfiles && $dscformat !~ /^3\./) {
+	warning(sprintf(_g("<rc>.tar file in %s format dsc"), $dscformat));
     }
 
     $newdirectory = $sourcepackage.'-'.$baseversion unless defined($newdirectory);
@@ -908,6 +968,19 @@ if ($opmode eq 'build') {
 		$? && subprocerr("cp $expectprefix to $newdirectory.tmp-keep");
 	    }
 	}
+
+        if (exists $vcsfiles{$tarfile}) {
+            # TODO: this should be in a git vcs module
+            if ($vcsfiles{$tarfile} eq 'git') {
+	        printf(_g("%s: extracting source from git repository")."\n", $progname, $tarfile);
+		# TODO disable git hooks
+		# TODO git-fsck?
+		# XXX git should be made to run in quiet mode here, but
+		# lacks a good way to do it. Bug filed.
+		system("cd $target && git-reset --hard");
+		$? && subprocerr("cd $target && git-reset --hard");
+            }
+        }
     }
 
     my @patches;
