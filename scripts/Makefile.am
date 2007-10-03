@@ -55,6 +55,7 @@ CLEANFILES = \
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
+	Dpkg/Source/VCS/git.pm \
 	Dpkg/BuildOptions.pm \
 	Dpkg/Gettext.pm \
 	Dpkg.pm
