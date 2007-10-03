@@ -1,5 +1,22 @@
 #!/usr/bin/perl
+#
 # git support for dpkg-source
+#
+# Copyright © 2007 Joey Hess <joeyh@debian.org>.
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
 package Dpkg::Source::VCS::git;
 
 use strict;
@@ -11,8 +28,7 @@ use Dpkg::Gettext;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
-# Called before a tarball is created, must add all files that should be in
-# it.
+# Called before a tarball is created, to prepate the tar directory.
 sub prep_tar {
 	my $srcdir=shift;
 	my $tardir=shift;
@@ -36,7 +52,9 @@ sub prep_tar {
 	# git-status exits 1 if there are uncommitted changes or if
 	# the repo is clean, and 0 if there are uncommitted changes
 	# listed in the index.
-	main::subprocerr("cd $srcdir && git status") if ($? && $? >> 8 != 1);
+	if ($? && $? >> 8 != 1) {
+		main::subprocerr("cd $srcdir && git status");
+	}
 	if (! $clean) {
 		print $status;
 		main::warnerror(_g("working directory is not clean"));
