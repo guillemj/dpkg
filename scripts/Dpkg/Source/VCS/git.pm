@@ -46,7 +46,9 @@ sub prep_tar {
 		if (/^\Qnothing to commit (working directory clean)\E$/) {
 			$clean=1;
 		}
-		$status.="git-status: $_";
+		else {
+			$status.="git-status: $_";
+		}
 	}
 	close GIT_STATUS;
 	# git-status exits 1 if there are uncommitted changes or if
