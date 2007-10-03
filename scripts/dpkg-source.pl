@@ -377,7 +377,7 @@ if ($opmode eq 'build') {
 	    loadvcs($2)
 	    	|| error(sprintf(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2));
             
-	    if ($sourcestyle !~ /[akpursnAKPURv]/) {
+	    if ($sourcestyle =~ /[akpursKPUR]/) {
 		warning(sprintf(_g("source handling style -s%s not supported when generating %s format source package"), $sourcestyle, $vcs));
             }
             $sourcestyle='v';
@@ -482,7 +482,7 @@ if ($opmode eq 'build') {
             &syserr(sprintf(_g("unable to create `%s'"), $tardirname));
 	push @exit_handlers, sub { erasedir($tardirname) };
         
-	eval qq{Dpkg::Source::VCS::${vcs}::prep_tar($dir, \$tardirname)};
+	eval qq{Dpkg::Source::VCS::${vcs}::prep_tar(\$dir, \$tardirname)};
 	if ($@) {
             &syserr($@);
 	}
