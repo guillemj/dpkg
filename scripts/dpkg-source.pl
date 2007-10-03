@@ -482,7 +482,7 @@ if ($opmode eq 'build') {
             &syserr(sprintf(_g("unable to create `%s'"), $tardirname));
 	push @exit_handlers, sub { erasedir($tardirname) };
         
-	eval qq{Dpkg::Source::VCS::${vcs}::populate_tarball($dir, \$tardirname)};
+	eval qq{Dpkg::Source::VCS::${vcs}::prep_tar($dir, \$tardirname)};
 	if ($@) {
             &syserr($@);
 	}
@@ -975,7 +975,7 @@ if ($opmode eq 'build') {
 	    printf(_g("%s: extracting source from %s repository")."\n", $progname, $vcsfiles{$tarfile});
 	    loadvcs($vcsfiles{$tarfile})
 	    	|| error(sprintf(_g("unsupported vcs \"%s\""), $vcsfiles{$tarfile}));
-	    eval qq{Dpkg::Source::VCS::$vcsfiles{$tarfile}::initialize_repo(\$target)};
+	    eval qq{Dpkg::Source::VCS::$vcsfiles{$tarfile}::post_unpack_tar(\$target)};
 	    if ($@) {
                 &syserr($@);
 	    }
