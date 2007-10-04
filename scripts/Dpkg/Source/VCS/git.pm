@@ -28,6 +28,14 @@ use Dpkg::Gettext;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
+# Remove variables from the environment that might cause git to do
+# something unexpected.
+delete $ENV{GIT_DIR};
+delete $ENV{GIT_INDEX_FILE};
+delete $ENV{GIT_OBJECT_DIRECTORY};
+delete $ENV{GIT_ALTERNATE_OBJECT_DIRECTORIES};
+delete $ENV{GIT_WORK_TREE};
+
 # Called before a tarball is created, to prepare the tar directory.
 sub prep_tar {
 	my $srcdir=shift;
