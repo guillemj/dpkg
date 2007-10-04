@@ -39,8 +39,8 @@ delete $ENV{GIT_WORK_TREE};
 sub sanity_check {
 	my $srcdir=shift;
 
-	if (! -e "$srcdir/.git") {
-		main::error(sprintf(_g("%s is not a git repository, but Format git was specified"), $srcdir));
+	if (! -s "$srcdir/.git") {
+		main::error(sprintf(_g("%s is not the top directory of a git repository (%s/.git not present), but Format git was specified"), $srcdir, $srcdir));
 	}
 	if (-s "$srcdir/.gitmodules") {
 		main::error(sprintf(_g("git repository %s uses submodules. This is not yet supported."), $srcdir));
