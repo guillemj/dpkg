@@ -83,8 +83,11 @@ sub prep_tar {
 		main::subprocerr("cd $srcdir && git status");
 	}
 	if (! $clean) {
+		# TODO support dpkg-buildpackage -i and allow building with
+		# modified ignored files. This requires a way to get a list
+		# of files, and git-status's output is too evil to parse.
 		print $status;
-		main::error(_g("uncommitted changed in working directory"));
+		main::error(_g("uncommitted changes in working directory"));
 	}
 
 	# garbage collect the repo
