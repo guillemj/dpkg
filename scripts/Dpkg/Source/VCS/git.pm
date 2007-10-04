@@ -28,7 +28,7 @@ use Dpkg::Gettext;
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
-# Called before a tarball is created, to prepate the tar directory.
+# Called before a tarball is created, to prepare the tar directory.
 sub prep_tar {
 	my $srcdir=shift;
 	my $tardir=shift;
@@ -59,7 +59,7 @@ sub prep_tar {
 	}
 	if (! $clean) {
 		print $status;
-		main::warnerror(_g("working directory is not clean"));
+		main::error(_g("uncommitted changed in working directory"));
 	}
 
 	# garbage collect the repo
