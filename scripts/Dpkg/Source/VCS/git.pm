@@ -36,13 +36,30 @@ delete $ENV{GIT_OBJECT_DIRECTORY};
 delete $ENV{GIT_ALTERNATE_OBJECT_DIRECTORIES};
 delete $ENV{GIT_WORK_TREE};
 
+sub sanity_check {
+	my $srcdir=shift;
+
+	if (! -e "$srcdir/.git") {
+		main::error(sprintf(_g("%s is not a git repository, but Format git was specified"), $srcdir));
+	}
+	if (-s "$srcdir/.gitmodules") {
+		main::error(sprintf(_g("git repository %s uses submodules. This is not yet supported."), $srcdir));
+	}
+
+}
+
 # Called before a tarball is created, to prepare the tar directory.
 sub prep_tar {
 	my $srcdir=shift;
 	my $tardir=shift;
 	
+	sanity_check($srcdir);
+
 	if (! -e "$srcdir/.git") {
 		main::error(sprintf(_g("%s is not a git repository, but Format git was specified"), $srcdir));
+	}
+	if (-e "$srcdir/.gitmodules") {
+		main::error(sprintf(_g("git repository %s uses submodules. This is not yet supported."), $srcdir));
 	}
 
 	# Check for uncommitted files.
@@ -90,9 +107,7 @@ sub prep_tar {
 sub post_unpack_tar {
 	my $srcdir=shift;
 	
-	if (! -e "$srcdir/.git") {
-		main::error(sprintf(_g("%s is not a git repository"), $srcdir));
-	}
+	sanity_check($srcdir);
 
 	# Disable git hooks, as unpacking a source package should not
 	# involve running code.
