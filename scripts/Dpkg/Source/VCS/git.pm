@@ -63,8 +63,8 @@ sub prep_tar {
 	}
 
 	# Check for uncommitted files.
-	open(GIT_STATUS, "LANG=C cd $srcdir && git status |") ||
-		main::subprocerr("cd $srcdir && git status");
+	open(GIT_STATUS, "LANG=C cd $srcdir && git-status |") ||
+		main::subprocerr("cd $srcdir && git-status");
 	my $clean=0;
 	my $status="";
 	while (<GIT_STATUS>) {
@@ -83,11 +83,36 @@ sub prep_tar {
 		main::subprocerr("cd $srcdir && git status");
 	}
 	if (! $clean) {
-		# TODO support dpkg-buildpackage -i and allow building with
-		# modified ignored files. This requires a way to get a list
-		# of files, and git-status's output is too evil to parse.
-		print $status;
-		main::error(_g("uncommitted changes in working directory"));
+		# To support dpkg-buildpackage -i, get a list of files
+		# eqivilant to the ones git-status finds, and remove any
+		# ignored files from it.
+		my $core_excludesfile=`cd $srcdir && git-config --get core.excludesfile`;
+		chomp $core_excludesfile;
+		my @ignores="--exclude-per-directory=.gitignore";
+		if (-e "$srcdir/$core_excludesfile") {
+			push @ignores, "--exclude-from='$core_excludesfile'";
+		}
+		if (-e "$srcdir/.git/info/exclude") {
+			push @ignores, "--exclude-from=.git/info/exclude";
+		}
+		open(GIT_LS_FILES, "cd $srcdir && git-ls-files -m -d -o @ignores |") ||
+			main::subprocerr("cd $srcdir && git-ls-files");
+		my @files;
+		while (<GIT_LS_FILES>) {
+			chomp;
+			if (! defined $main::diff_ignore_regexp ||
+			    ! length $main::diff_ignore_regexp ||
+			    ! m/$main::diff_ignore_regexp/o) {
+				push @files, $_;
+			}
+		}
+		close(GIT_LS_FILES) || main::syserr("git-ls-files exited nonzero");
+
+		if (@files) {
+			print $status;
+			main::error(_g("uncommitted, not-ignored changes in working directory: %s"),
+				join(" ", @files));
+		}
 	}
 
 	# garbage collect the repo
@@ -123,7 +148,7 @@ sub post_unpack_tar {
 	}
 	
 	# This is a paranoia measure, since the index is not normally
-	# provided by possible-untrusted third parties, remove it if
+	# provided by possibly-untrusted third parties, remove it if
 	# present (git-rebase will recreate it).
 	unlink("$srcdir/.git/index") ||
 		main::syserr(sprintf(_g("unable to remove `%s'"), "$srcdir/.git/index"));

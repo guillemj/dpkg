@@ -17,7 +17,7 @@ my $controlfile;
 my $changelogfile;
 my $changelogformat;
 
-my $diff_ignore_regexp = '';
+our $diff_ignore_regexp = '';
 my $diff_ignore_default_regexp = '
 # Ignore general backup files
 (?:^|/).*~$|
