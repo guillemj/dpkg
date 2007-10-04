@@ -79,6 +79,11 @@ sub prep_tar {
 	
 	system("cp -a $srcdir/.git $tardir");
 	$? && main::subprocerr("cp -a $srcdir/.git $tardir");
+
+	# As an optimisation, remove the index. It will be recreated by git
+	# reset during unpack. It's probably small, but you never know, this
+	# might save a lot of space.
+	unlink("$tardir/.git/index"); # error intentionally ignored
 }
 
 # Called after a tarball is unpacked, to check out the working copy.
@@ -98,6 +103,12 @@ sub post_unpack_tar {
 				main::syserr(sprintf(_g("unable to change permission of `%s'"), $hook));
 		}
 	}
+	
+	# This is a paranoia measure, since the index is not normally
+	# provided by possible-untrusted third parties, remove it if
+	# present (git-rebase will recreate it).
+	unlink("$srcdir/.git/index") ||
+		main::syserr(sprintf(_g("unable to remove `%s'"), "$srcdir/.git/index"));
 
 	# Comment out potentially probamatic or annoying stuff in
 	# .git/config.
@@ -137,7 +148,7 @@ sub post_unpack_tar {
 
 	# Note that git-reset is used to repopulate the WC with files.
 	# git-clone isn't used because the repo might be an unclonable
-	# shallow copy.
+	# shallow copy. git-reset also recreates the index.
 	# XXX git-reset should be made to run in quiet mode here, but
 	# lacks a good way to do it. Bug filed.
 	system("cd $srcdir && git-reset --hard");
