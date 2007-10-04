@@ -86,10 +86,10 @@ sub prep_tar {
 		# To support dpkg-buildpackage -i, get a list of files
 		# eqivilant to the ones git-status finds, and remove any
 		# ignored files from it.
+		my @ignores="--exclude-per-directory=.gitignore";
 		my $core_excludesfile=`cd $srcdir && git-config --get core.excludesfile`;
 		chomp $core_excludesfile;
-		my @ignores="--exclude-per-directory=.gitignore";
-		if (-e "$srcdir/$core_excludesfile") {
+		if (length $core_excludesfile && -e "$srcdir/$core_excludesfile") {
 			push @ignores, "--exclude-from='$core_excludesfile'";
 		}
 		if (-e "$srcdir/.git/info/exclude") {
@@ -100,8 +100,7 @@ sub prep_tar {
 		my @files;
 		while (<GIT_LS_FILES>) {
 			chomp;
-			if (! defined $main::diff_ignore_regexp ||
-			    ! length $main::diff_ignore_regexp ||
+			if (! length $main::diff_ignore_regexp ||
 			    ! m/$main::diff_ignore_regexp/o) {
 				push @files, $_;
 			}
@@ -110,8 +109,8 @@ sub prep_tar {
 
 		if (@files) {
 			print $status;
-			main::error(_g("uncommitted, not-ignored changes in working directory: %s"),
-				join(" ", @files));
+			main::error(sprintf(_g("uncommitted, not-ignored changes in working directory: %s"),
+				join(" ", @files)));
 		}
 	}
 
@@ -150,8 +149,10 @@ sub post_unpack_tar {
 	# This is a paranoia measure, since the index is not normally
 	# provided by possibly-untrusted third parties, remove it if
 	# present (git-rebase will recreate it).
-	unlink("$srcdir/.git/index") ||
-		main::syserr(sprintf(_g("unable to remove `%s'"), "$srcdir/.git/index"));
+	if (-e "$srcdir/.git/index" || -l "$srcdir/.git/index") {
+		unlink("$srcdir/.git/index") ||
+			main::syserr(sprintf(_g("unable to remove `%s'"), "$srcdir/.git/index"));
+	}
 
 	# Comment out potentially probamatic or annoying stuff in
 	# .git/config.
@@ -164,28 +165,34 @@ sub post_unpack_tar {
 		core\.logallrefupdates		|
 		core\.bare
 		)$/x;
-	my $removed="";
 	# This needs to be an absolute path, for some reason.
 	my $configfile=Cwd::abs_path("$srcdir/.git/config");
 	open(GIT_CONFIG, "git-config --file $configfile -l |") ||
 		main::subprocerr("git-config");
 	my @config=<GIT_CONFIG>;
 	close(GIT_CONFIG) || main::syserr("git-config exited nonzero");
+	my %removed_fields;
 	foreach (@config) {
 		chomp;
 		my ($field, $value)=split(/=/, $_, 2);
 		if ($field !~ /$safe_fields/) {
-			system("git-config", "--file", $configfile,
-				"--unset-all", $field);
-			$? && main::subprocerr("git-config --file $configfile --unset-all $field");
-			$removed.="# $_\n";
+			if (! exists $removed_fields{$field}) {
+				system("git-config", "--file", $configfile,
+					"--unset-all", $field);
+				$? && main::subprocerr("git-config --file $configfile --unset-all $field");
+			}
+			push @{$removed_fields{$field}}, $value;
 		}
 	}
-	if ($removed) {
+	if (%removed_fields) {
 		open(GIT_CONFIG, ">>", $configfile) ||
 			main::syserr(sprintf(_g("unstable to append to %s", $configfile)));
 		print GIT_CONFIG "\n# "._g("The following setting(s) were disabled by dpkg-source").":\n";
-		print GIT_CONFIG $removed;
+		foreach my $field (sort keys %removed_fields) {
+			foreach my $value (@{$removed_fields{$field}}) {
+				print GIT_CONFIG "# $field=$value\n";
+			}
+		}
 		close GIT_CONFIG;
 		main::warning(_g(_g("modifying .git/config to comment out some settings")));
 	}
