@@ -21,7 +21,7 @@ package Dpkg::Source::VCS::git;
 
 use strict;
 use warnings;
-
+use Cwd;
 use Dpkg;
 use Dpkg::Gettext;
 
@@ -45,7 +45,7 @@ sub prep_tar {
 		main::error(sprintf(_g("%s is not a git repository, but Format git was specified"), $srcdir));
 	}
 
-	# check for uncommitted files
+	# Check for uncommitted files.
 	open(GIT_STATUS, "LANG=C cd $srcdir && git status |") ||
 		main::subprocerr("cd $srcdir && git status");
 	my $clean=0;
@@ -89,16 +89,55 @@ sub post_unpack_tar {
 		main::error(sprintf(_g("%s is not a git repository"), $srcdir));
 	}
 
-	# disable git hooks, as unpacking a source package should not
-	# involve running code
+	# Disable git hooks, as unpacking a source package should not
+	# involve running code.
 	foreach my $hook (glob("$srcdir/.git/hooks/*")) {
 		if (-x $hook) {
 			main::warning(sprintf(_g("executable bit set on %s; clearing"), $hook));
 			chmod(0644 &~ umask(), $hook) ||
-				&syserr(sprintf(_g("unable to change permission of `%s'"), $hook));
+				main::syserr(sprintf(_g("unable to change permission of `%s'"), $hook));
 		}
 	}
 
+	# Comment out potentially probamatic or annoying stuff in
+	# .git/config.
+	my $safe_fields=qr/^(
+		core\.autocrlf			|
+		branch\..*			|
+		remote\..*			|
+		core\.repositoryformatversion	|
+		core.filemode			|
+		core.bare
+		)$/x;
+	my $removed="";
+	# This needs to be an absolute path, for some reason.
+	my $configfile=Cwd::abs_path("$srcdir/.git/config");
+	open(GIT_CONFIG, "git-config --file $configfile -l |") ||
+		main::subprocerr("git-config");
+	my @config=<GIT_CONFIG>;
+	close(GIT_CONFIG) || main::syserr("git-config exited nonzero");
+	foreach (@config) {
+		chomp;
+		my ($field, $value)=split(/=/, $_, 2);
+		if ($field !~ /$safe_fields/) {
+			system("git-config", "--file", $configfile,
+				"--unset-all", $field);
+			$? && main::subprocerr("git-config --file $configfile --unset-all $field");
+			$removed.="# $_\n";
+		}
+	}
+	if ($removed) {
+		open(GIT_CONFIG, ">>", $configfile) ||
+			main::syserr(sprintf(_g("unstable to append to %s", $configfile)));
+		print GIT_CONFIG "\n# "._g("The following setting(s) were disabled by dpkg-source").":\n";
+		print GIT_CONFIG $removed;
+		close GIT_CONFIG;
+		main::warning(_g(_g("modifying .git/config to comment out some settings")));
+	}
+
+	# Note that git-reset is used to repopulate the WC with files.
+	# git-clone isn't used because the repo might be an unclonable
+	# shallow copy.
 	# XXX git-reset should be made to run in quiet mode here, but
 	# lacks a good way to do it. Bug filed.
 	system("cd $srcdir && git-reset --hard");
