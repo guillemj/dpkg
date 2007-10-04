@@ -135,8 +135,9 @@ sub post_unpack_tar {
 		branch\..*			|
 		remote\..*			|
 		core\.repositoryformatversion	|
-		core.filemode			|
-		core.bare
+		core\.filemode			|
+		core\.logallrefupdates		|
+		core\.bare
 		)$/x;
 	my $removed="";
 	# This needs to be an absolute path, for some reason.
