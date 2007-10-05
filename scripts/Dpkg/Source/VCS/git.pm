@@ -22,6 +22,7 @@ package Dpkg::Source::VCS::git;
 use strict;
 use warnings;
 use Cwd;
+use File::Find;
 use Dpkg;
 use Dpkg::Gettext;
 
@@ -45,6 +46,20 @@ sub sanity_check {
 	if (-s "$srcdir/.gitmodules") {
 		main::error(sprintf(_g("git repository %s uses submodules. This is not yet supported."), $srcdir));
 	}
+
+	# Symlinks from .git to outside could cause unpack failures, or
+	# point to files they shouldn't, so check for and don't allow.
+	if (-l "$srcdir/.git") {
+		main::error(sprintf(_g("%s is a symlink"), "$srcdir/.git"));
+	}
+	my $abs_srcdir=Cwd::abs_path($srcdir);
+	find(sub {
+		if (-l $_) {
+			if (Cwd::abs_path(readlink($_)) !~ /^\Q$abs_srcdir\E(\/|$)/) {
+				main::error(sprintf(_g("%s is a symlink to outside %s"), $File::Find::name, $srcdir));
+			}
+		}
+	}, "$srcdir/.git");
 
 }
 
