@@ -135,7 +135,9 @@ sub prep_tar {
 
 	# TODO support for creating a shallow clone for those cases where
 	# uploading the whole repo history is not desired
-	
+
+	mkdir($tardir,0755) ||
+            &syserr(sprintf(_g("unable to create `%s'"), $tardir));
 	system("cp -a $srcdir/.git $tardir");
 	$? && main::subprocerr("cp -a $srcdir/.git $tardir");
 

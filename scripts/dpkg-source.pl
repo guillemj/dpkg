@@ -478,14 +478,11 @@ if ($opmode eq 'build') {
 	$tarname="$basenamerev.$vcs.tar.gz";
         $tardirbase= $dirbase; $tardirname= "$tarname.tmp";
 
-        mkdir($tardirname,0755) ||
-            &syserr(sprintf(_g("unable to create `%s'"), $tardirname));
-	push @exit_handlers, sub { erasedir($tardirname) };
-        
 	eval qq{Dpkg::Source::VCS::${vcs}::prep_tar(\$dir, \$tardirname)};
 	if ($@) {
             &syserr($@);
 	}
+	push @exit_handlers, sub { erasedir($tardirname) };
     }
     elsif ($sourcestyle ne 'n') {
 	my $origdirbase = $origdir;
