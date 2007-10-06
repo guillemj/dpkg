@@ -246,7 +246,7 @@ sub post_unpack_tar {
 	# git-checkout is used to repopulate the WC with files
 	# and recreate the index.
 	system("git-checkout", "-f");
-	$? && main::subprocerr("git-clone -f");
+	$? && main::subprocerr("git-checkout -f");
 	
 	chdir($old_cwd) ||
 		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
