@@ -40,8 +40,8 @@ delete $ENV{GIT_WORK_TREE};
 sub sanity_check {
 	my $srcdir=shift;
 
-	if (! -s "$srcdir/.git") {
-		main::error(sprintf(_g("%s is not the top directory of a git repository (%s/.git not present), but Format git was specified"), $srcdir, $srcdir));
+	if (! -d "$srcdir/.git") {
+		main::error(sprintf(_g("source directory is not the top directory of a git repository (%s/.git not present), but Format git was specified"), $srcdir));
 	}
 	if (-s "$srcdir/.gitmodules") {
 		main::error(sprintf(_g("git repository %s uses submodules. This is not yet supported."), $srcdir));
@@ -98,8 +98,8 @@ sub prep_tar {
 		main::subprocerr("cd $srcdir && git status");
 	}
 	if (! $clean) {
-		# To support dpkg-buildpackage -i, get a list of files
-		# eqivilant to the ones git-status finds, and remove any
+		# To support dpkg-source -i, get a list of files
+		# equivalent to the ones git-status finds, and remove any
 		# ignored files from it.
 		my @ignores="--exclude-per-directory=.gitignore";
 		my $core_excludesfile=`cd $srcdir && git-config --get core.excludesfile`;
@@ -110,7 +110,7 @@ sub prep_tar {
 		if (-e "$srcdir/.git/info/exclude") {
 			push @ignores, "--exclude-from=.git/info/exclude";
 		}
-		open(GIT_LS_FILES, "cd $srcdir && git-ls-files -m -d -o @ignores |") ||
+		open(GIT_LS_FILES, "cd $srcdir && git-ls-files --modified --deleted --others @ignores |") ||
 			main::subprocerr("cd $srcdir && git-ls-files");
 		my @files;
 		while (<GIT_LS_FILES>) {
@@ -125,21 +125,21 @@ sub prep_tar {
 		if (@files) {
 			print $status;
 			main::error(sprintf(_g("uncommitted, not-ignored changes in working directory: %s"),
-				join(" ", @files)));
+			            join(" ", @files)));
 		}
 	}
-
-	# garbage collect the repo
-	system("cd $srcdir && git-gc --prune");
-	$? && main::subprocerr("cd $srcdir && git-gc --prune");
 
 	# TODO support for creating a shallow clone for those cases where
 	# uploading the whole repo history is not desired
 
 	mkdir($tardir,0755) ||
             &syserr(sprintf(_g("unable to create `%s'"), $tardir));
-	system("cp -a $srcdir/.git $tardir");
+	system("cp", "-a", "$srcdir/.git", $tardir);
 	$? && main::subprocerr("cp -a $srcdir/.git $tardir");
+
+	# garbage collect the new repo
+	system("cd $tardir && git-gc --prune");
+	$? && main::subprocerr("cd $tardir && git-gc --prune");
 
 	# As an optimisation, remove the index. It will be recreated by git
 	# reset during unpack. It's probably small, but you never know, this
@@ -158,7 +158,7 @@ sub post_unpack_tar {
 	foreach my $hook (glob("$srcdir/.git/hooks/*")) {
 		if (-x $hook) {
 			main::warning(sprintf(_g("executable bit set on %s; clearing"), $hook));
-			chmod(0644 &~ umask(), $hook) ||
+			chmod(0666 &~ umask(), $hook) ||
 				main::syserr(sprintf(_g("unable to change permission of `%s'"), $hook));
 		}
 	}
@@ -211,16 +211,15 @@ sub post_unpack_tar {
 			}
 		}
 		close GIT_CONFIG;
-		main::warning(_g(_g("modifying .git/config to comment out some settings")));
+		main::warning(_g("modifying .git/config to comment out some settings"));
 	}
 
-	# Note that git-reset is used to repopulate the WC with files.
-	# git-clone isn't used because the repo might be an unclonable
-	# shallow copy. git-reset also recreates the index.
-	# XXX git-reset should be made to run in quiet mode here, but
-	# lacks a good way to do it. Bug filed.
-	system("cd $srcdir && git-reset --hard");
-	$? && main::subprocerr("cd $srcdir && git-reset --hard");
+	# git-checkout is used to repopulate the WC with files
+	# and recreate the index.
+	# (git-clone isn't used because the repo might be an unclonable
+	# shallow copy.)
+	system("cd $srcdir && git-clone -f");
+	$? && main::subprocerr("cd $srcdir && git-clone -f");
 }
 
 1

@@ -193,7 +193,7 @@ sub handleformat {
 sub loadvcs {
 	my $vcs = shift;
 	my $mod = "Dpkg::Source::VCS::$vcs";
-	eval qq{use $mod};
+	eval qq{require $mod};
 	return ! $@;
 }
 
@@ -535,7 +535,7 @@ if ($opmode eq 'build') {
             &syserr(sprintf(_g("unable to rename `%s' (newly created) to `%s'"), $newtar, $tarname));
 	chmod(0666 &~ umask(), $tarname) ||
 	    &syserr(sprintf(_g("unable to change permission of `%s'"), $tarname));
-	
+
     } else {
         
         printf(_g("%s: building %s using existing %s")."\n",
