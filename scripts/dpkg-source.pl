@@ -91,6 +91,7 @@ my @tar_ignore;
 
 use POSIX;
 use Fcntl qw (:mode);
+use English;
 use File::Temp qw (tempfile);
 use Cwd;
 
@@ -205,13 +206,13 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 	    if $sourcestyle ne 'X';
         $sourcestyle= $1;
     } elsif (m/^-c/) {
-        $controlfile= $';
+        $controlfile= $POSTMATCH;
     } elsif (m/^-l/) {
-        $changelogfile= $';
+        $changelogfile= $POSTMATCH;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/) {
-        $override{$1}= "$'";
+        $override{$1}= $POSTMATCH;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-i(.*)$/) {
@@ -226,9 +227,9 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
             $tar_ignore_default_pattern_done = 1;
         }
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvar{$1}= "$'";
+        $substvar{$1}= $POSTMATCH;
     } elsif (m/^-T/) {
-        $varlistfile= "$'";
+        $varlistfile= $POSTMATCH;
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
@@ -1529,9 +1530,10 @@ sub deoctify {
     @_= split(/\\/, $fn);
 
     foreach (@_) {
-        /^(\d{3})/ or next;
-        &failure(sprintf(_g("bogus character `\\%s' in `%s'"), $1, $fn)."\n") if oct($1) > 255;
-        $_= pack("c", oct($1)) . $';
+	/^(\d{3})/ or next;
+	&failure(sprintf(_g("bogus character `\\%s' in `%s'"), $1, $fn)."\n")
+	    if oct($1) > 255;
+	$_= pack("c", oct($1)) . $POSTMATCH;
     }
     return join("", @_);
 } }
