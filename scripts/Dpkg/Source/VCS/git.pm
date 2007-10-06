@@ -168,6 +168,11 @@ sub prep_tar {
 	$? && main::subprocerr("rm -rf .git/logs");
 	system("git-gc", "--prune");
 	$? && main::subprocerr("git-gc --prune");
+	
+	# .git/gitweb is created and used by git-instaweb and should not be
+	# transferwed by source package.
+	system("rm", "-rf", ".git/gitweb");
+	$? && main::subprocerr("rm -rf .git/gitweb");
 
 	# As an optimisation, remove the index. It will be recreated by git
 	# reset during unpack. It's probably small, but you never know, this
@@ -242,6 +247,11 @@ sub post_unpack_tar {
 		}
 		close GIT_CONFIG;
 	}
+
+	# .git/gitweb is created and used by git-instaweb and should not be
+	# transferwed by source package.
+	system("rm", "-rf", ".git/gitweb");
+	$? && main::subprocerr("rm -rf .git/gitweb");
 
 	# git-checkout is used to repopulate the WC with files
 	# and recreate the index.
