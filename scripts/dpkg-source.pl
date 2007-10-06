@@ -75,6 +75,10 @@ my $max_dscformat = 2;
 my $def_dscformat = "1.0"; # default format for -b
 
 my $expectprefix;
+my $compression = 'gz';
+my @comp_supported = qw(gz bz2 lzma);
+my %comp_supported = map { $_ => 1 } @comp_supported;
+my $comp_regex = '(?:gz|bz2|lzma)';
 
 # Packages
 my %remove;
@@ -171,6 +175,8 @@ Build options:
   -ss                      trust packed & unpacked orig src are same.
   -sn                      there is no diff, do main tarfile only.
   -sA,-sK,-sP,-sU,-sR      like -sa,-sk,-sp,-su,-sr but may overwrite.
+  -C<compression>          select compression to use (defaults to 'gz',
+                             supported are: %s).
 
 Extract options:
   -sp (default)            leave orig source packed in current dir.
@@ -182,7 +188,8 @@ General options:
       --version            show the version.
 "), $progname,
     $diff_ignore_default_regexp,
-    join('', map { " -I$_" } @tar_ignore_default_pattern);
+    join('', map { " -I$_" } @tar_ignore_default_pattern),
+    "@comp_supported" ;
 }
 
 sub handleformat {
@@ -201,6 +208,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         &setopmode('build');
     } elsif (m/^-x$/) {
         &setopmode('extract');
+    } elsif (m/^-C/) {
+	$compression = $POSTMATCH;
+	usageerr(sprintf(_g("%s is not a supported compression"), $compression))
+	    unless $comp_supported{$compression};
     } elsif (m/^-s([akpursnAKPUR])$/) {
 	warning(sprintf(_g("-s%s option overrides earlier -s%s option"), $1, $sourcestyle))
 	    if $sourcestyle ne 'X';
@@ -269,7 +280,7 @@ if ($opmode eq 'build') {
     
     parsechangelog($changelogfile, $changelogformat);
     parsecontrolfile($controlfile);
-    $f{"Format"}=$def_dscformat;
+    $f{"Format"}= $compression eq 'gz' ? $def_dscformat : '2.0';
     &init_substvars;
 
     my @sourcearch;
@@ -381,7 +392,7 @@ if ($opmode eq 'build') {
     $basedirname =~ s/_/-/;
 
     my $origdir = "$dir.orig";
-    my $origtargz = "$basename.orig.tar.gz";
+    my $origtargz;
     if (@ARGV) {
         my $origarg = shift(@ARGV);
         if (length($origarg)) {
@@ -392,7 +403,7 @@ if ($opmode eq 'build') {
                 $sourcestyle =~ y/aA/rR/;
                 $sourcestyle =~ m/[ursURS]/ ||
                     &error(sprintf(_g("orig argument is unpacked but source handling style".
-                           " -s%s calls for packed (.orig.tar.gz)"), $sourcestyle));
+                           " -s%s calls for packed (.orig.tar.<ext>)"), $sourcestyle));
             } elsif (-f _) {
                 $origtargz= $origarg;
                 $sourcestyle =~ y/aA/pP/;
@@ -408,22 +419,28 @@ if ($opmode eq 'build') {
                 &error(sprintf(_g("orig argument is empty (means no orig, no diff)".
                        " but source handling style -s%s wants something"), $sourcestyle));
         }
-    }
-
-    if ($sourcestyle =~ m/[aA]/) {
-        if (stat("$origtargz")) {
-            -f _ || &error(sprintf(_g("packed orig `%s' exists but is not a plain file"), $origtargz));
-            $sourcestyle =~ y/aA/pP/;
-        } elsif ($! != ENOENT) {
-            &syserr(sprintf(_g("unable to stat putative packed orig `%s'"), $origtargz));
-        } elsif (stat("$origdir")) {
-            -d _ || &error(sprintf(_g("unpacked orig `%s' exists but is not a directory"), $origdir));
-            $sourcestyle =~ y/aA/rR/;
-        } elsif ($! != ENOENT) {
-            &syserr(sprintf(_g("unable to stat putative unpacked orig `%s'"), $origdir));
-        } else {
-            $sourcestyle =~ y/aA/nn/;
-        }
+    } elsif ($sourcestyle =~ m/[aA]/) {
+	my @origtargz = map { "$basename.orig.tar.$_" } ($compression, @comp_supported);
+	foreach my $origtar (@origtargz) {
+	    if (stat($origtar)) {
+		-f _ || &error(sprintf(_g("packed orig `%s' exists but is not a plain file"), $origtar));
+		$sourcestyle =~ y/aA/pP/;
+		$origtargz = $origtar;
+		last;
+	    } elsif ($! != ENOENT) {
+		&syserr(sprintf(_g("unable to stat putative packed orig `%s'"), $origtar));
+	    }
+	}
+	if (!$origtargz) {
+	    if (stat($origdir)) {
+		-d _ || &error(sprintf(_g("unpacked orig `%s' exists but is not a directory"), $origdir));
+		$sourcestyle =~ y/aA/rR/;
+	    } elsif ($! != ENOENT) {
+		&syserr(sprintf(_g("unable to stat putative unpacked orig `%s'"), $origdir));
+	    } else {
+		$sourcestyle =~ y/aA/nn/;
+	    }
+	}
     }
 
     my $dirbase = $dir;
@@ -450,13 +467,14 @@ if ($opmode eq 'build') {
 	                       $origdirname, "$basedirname.orig"));
         $tardirbase= $origdirbase; $tardirname= $origdirname;
 
-        $tarname= $origtargz;
-        $tarname eq "$basename.orig.tar.gz" ||
-	    warning(sprintf(_g(".orig.tar.gz name %s is not <package>_<upstreamversion>" .
-	                       ".orig.tar.gz (wanted %s)"), $tarname, "$basename.orig.tar.gz"));
+	$tarname= $origtargz || "$basename.orig.tar.$compression";
+	$tarname =~ /$basename.orig.tar.($comp_regex)/ ||
+	    warning(sprintf(_g(".orig.tar name %s is not <package>_<upstreamversion>" .
+			       ".orig.tar (wanted %s)"), $tarname, "$basename.orig.tar.$comp_regex"));
+	if (($1 ne 'gz') && ($f{'Format'} < 2)) { $f{'Format'} = '2.0' };
     } else {
-        $tardirbase= $dirbase; $tardirname= $dirname;
-        $tarname= "$basenamerev.tar.gz";
+	$tardirbase= $dirbase; $tardirname= $dirname;
+	$tarname= "$basenamerev.tar.$compression";
     }
 
     if ($sourcestyle =~ m/[nurUR]/) {
@@ -533,11 +551,12 @@ if ($opmode eq 'build') {
     }
         
     if ($sourcestyle =~ m/[kpursKPUR]/) {
-        
+
+	my $diffname = "$basenamerev.diff.$compression";
         printf(_g("%s: building %s in %s")."\n",
-               $progname, $sourcepackage, "$basenamerev.diff.gz")
+               $progname, $sourcepackage, $diffname)
             || &syserr(_g("write building diff message"));
-	my ($ndfh, $newdiffgz) = tempfile( "$basenamerev.diff.gz.new.XXXXXX",
+	my ($ndfh, $newdiffgz) = tempfile( "$diffname.new.XXXXXX",
 					DIR => &getcwd, UNLINK => 0 );
         &forkgzipwrite($newdiffgz);
 
@@ -617,7 +636,7 @@ if ($opmode eq 'build') {
                         s/\n$//;
                         &internerr(sprintf(_g("unknown line from diff -u on %s: `%s'"), $fn, $_));
                     }
-                    print(GZIP $_) || &syserr(_g("failed to write to gzip"));
+		    print(GZIP $_) || &syserr(_g("failed to write to compression pipe"));
                 }
                 close(DIFFGEN); $/= "\0";
 		my $es;
@@ -647,12 +666,12 @@ if ($opmode eq 'build') {
             }
         }
         close(FIND); $? && subprocerr("find on $dir");
-        close(GZIP) || &syserr(_g("finish write to gzip pipe"));
+	close(GZIP) || &syserr(_g("finish write to compression pipe"));
         &reapgzip;
-        rename($newdiffgz,"$basenamerev.diff.gz") ||
-            &syserr(sprintf(_g("unable to rename `%s' (newly created) to `%s'"), $newdiffgz, "$basenamerev.diff.gz"));
-	chmod(0666 &~ umask(), "$basenamerev.diff.gz") ||
-	    &syserr(sprintf(_g("unable to change permission of `%s'"), "$basenamerev.diff.gz"));
+	rename($newdiffgz, $diffname) ||
+	    &syserr(sprintf(_g("unable to rename `%s' (newly created) to `%s'"), $newdiffgz, $diffname));
+	chmod(0666 &~ umask(), $diffname) ||
+	    &syserr(sprintf(_g("unable to change permission of `%s'"), $diffname));
 
         defined($c2= open(FIND,"-|")) || &syserr(_g("fork for 2nd find"));
         if (!$c2) {
@@ -679,7 +698,7 @@ if ($opmode eq 'build') {
         }
         close(FIND); $? && subprocerr("find on $dirname");
 
-        &addfile("$basenamerev.diff.gz");
+	&addfile($diffname);
 
     }
 
@@ -1460,13 +1479,26 @@ my $cgz;
 my $gzipsigpipeok;
 
 sub forkgzipwrite {
-    open(GZIPFILE,"> $_[0]") || &syserr(sprintf(_g("create file %s"), $_[0]));
+    my @prog;
+
+    if ($_[0] =~ /\.gz\.new\..{6}$/) {
+	@prog = qw(gzip -9);
+    } elsif ($_[0] =~ /\.bz2\.new\..{6}$/) {
+	@prog = qw(bzip2);
+    } elsif ($_[0] =~ /\.lzma\.new\..{6}$/) {
+	@prog = qw(lzma);
+    } else {
+	&error(sprintf(_g("unknown compression type on file %s"), $_[0]));
+    }
+
+    open(GZIPFILE,">", $_[0]) || &syserr(sprintf(_g("create file %s"), $_[0]));
     pipe(GZIPREAD,GZIP) || &syserr(_g("pipe for gzip"));
     defined($cgz= fork) || &syserr(_g("fork for gzip"));
     if (!$cgz) {
-        open(STDIN,"<&GZIPREAD") || &syserr(_g("reopen gzip pipe")); close(GZIPREAD);
-        close(GZIP); open(STDOUT,">&GZIPFILE") || &syserr(_g("reopen tar.gz"));
-        exec('gzip','-9') or &syserr(_g("exec gzip"));
+	open(STDIN,"<&",\*GZIPREAD) || &syserr(_g("reopen gzip pipe"));
+	close(GZIPREAD); close(GZIP);
+	open(STDOUT,">&",\*GZIPFILE) || &syserr(_g("reopen tar"));
+	exec({ $prog[0] } @prog) or &syserr(_g("exec gzip"));
     }
     close(GZIPREAD);
     $gzipsigpipeok= 0;
@@ -1486,13 +1518,14 @@ sub forkgzipread {
       &error(sprintf(_g("unknown compression type on file %s"), $_[0]));
     }
 
-    open(GZIPFILE,"< $_[0]") || &syserr(sprintf(_g("read file %s"), $_[0]));
+    open(GZIPFILE,"<", $_[0]) || &syserr(sprintf(_g("read file %s"), $_[0]));
     pipe(GZIP,GZIPWRITE) || &syserr(sprintf(_g("pipe for %s"), $prog));
     defined($cgz= fork) || &syserr(sprintf(_g("fork for %s"), $prog));
     if (!$cgz) {
-        open(STDOUT,">&GZIPWRITE") || &syserr(sprintf(_g("reopen %s pipe"), $prog)); close(GZIPWRITE);
-        close(GZIP); open(STDIN,"<&GZIPFILE") || &syserr(_g("reopen input file"));
-        exec($prog) or &syserr(sprintf(_g("exec %s"), $prog));
+	open(STDOUT,">&",\*GZIPWRITE) || &syserr(sprintf(_g("reopen %s pipe"), $prog));
+	close(GZIPWRITE); close(GZIP);
+	open(STDIN,"<&",\*GZIPFILE) || &syserr(_g("reopen input file"));
+	exec({ $prog } $prog) or &syserr(sprintf(_g("exec %s"), $prog));
     }
     close(GZIPWRITE);
     $gzipsigpipeok= 1;
