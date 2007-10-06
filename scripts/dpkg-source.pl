@@ -194,7 +194,7 @@ sub loadvcs {
 	my $vcs = shift;
 	my $mod = "Dpkg::Source::VCS::$vcs";
 	eval qq{require $mod};
-	return ! $@;
+	return $@ || import $mod;
 }
 
 

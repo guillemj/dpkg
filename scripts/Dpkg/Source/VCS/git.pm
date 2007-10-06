@@ -37,6 +37,15 @@ delete $ENV{GIT_OBJECT_DIRECTORY};
 delete $ENV{GIT_ALTERNATE_OBJECT_DIRECTORIES};
 delete $ENV{GIT_WORK_TREE};
 
+sub import {
+	foreach my $dir (split(/:/, $ENV{PATH})) {
+		if (-x "$dir/git") {
+			return 1;
+		}
+	}
+	main::error(sprintf(_g("This source package can only be unpacked using git, which is not in the PATH.")));
+}
+
 sub sanity_check {
 	my $srcdir=shift;
 
@@ -61,6 +70,7 @@ sub sanity_check {
 		}
 	}, "$srcdir/.git");
 
+	return 1;
 }
 
 # Called before a tarball is created, to prepare the tar directory.
