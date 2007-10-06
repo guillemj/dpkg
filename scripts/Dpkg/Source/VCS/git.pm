@@ -186,9 +186,7 @@ sub post_unpack_tar {
 		core\.logallrefupdates		|
 		core\.bare
 		)$/x;
-	# This needs to be an absolute path, for some reason.
-	my $configfile=Cwd::abs_path(".git/config");
-	open(GIT_CONFIG, '-|', "git-config", "--file", $configfile, "-l") ||
+	open(GIT_CONFIG, '-|', "git-config", "--file", ".git/config", "-l") ||
 		main::subprocerr("git-config");
 	my @config=<GIT_CONFIG>;
 	close(GIT_CONFIG) || main::syserr("git-config exited nonzero");
@@ -198,16 +196,16 @@ sub post_unpack_tar {
 		my ($field, $value)=split(/=/, $_, 2);
 		if ($field !~ /$safe_fields/) {
 			if (! exists $removed_fields{$field}) {
-				system("git-config", "--file", $configfile,
+				system("git-config", "--file", ".git/config",
 					"--unset-all", $field);
-				$? && main::subprocerr("git-config --file $configfile --unset-all $field");
+				$? && main::subprocerr("git-config --file .git/config --unset-all $field");
 			}
 			push @{$removed_fields{$field}}, $value;
 		}
 	}
 	if (%removed_fields) {
-		open(GIT_CONFIG, ">>", $configfile) ||
-			main::syserr(sprintf(_g("unstable to append to %s", $configfile)));
+		open(GIT_CONFIG, ">>", ".git/config") ||
+			main::syserr(sprintf(_g("unstable to append to %s", ".git/config")));
 		print GIT_CONFIG "\n# "._g("The following setting(s) were disabled by dpkg-source").":\n";
 		foreach my $field (sort keys %removed_fields) {
 			foreach my $value (@{$removed_fields{$field}}) {
