@@ -137,7 +137,11 @@ sub prep_tar {
 	system("cp", "-a", "$srcdir/.git", $tardir);
 	$? && main::subprocerr("cp -a $srcdir/.git $tardir");
 
-	# garbage collect the new repo
+	# Clean up the new repo to save space.
+	# First, delete the whole reflog, which is not needed in a
+	# distributed source package.
+	system("rm", "-rf", "$tardir/.git/logs");
+	$? && main::subprocerr("rm -rf $tardir/.git/logs");
 	system("cd $tardir && git-gc --prune");
 	$? && main::subprocerr("cd $tardir && git-gc --prune");
 
