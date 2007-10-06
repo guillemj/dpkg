@@ -73,6 +73,39 @@ sub sanity_check {
 	return 1;
 }
 
+# Returns a hash of arrays of git config values.
+sub read_git_config {
+	my $file=shift;
+
+	my %ret;
+	open(GIT_CONFIG, '-|', "git-config", "--file", $file, "--null", "-l") ||
+		main::subprocerr("git-config");
+	my ($key, $value);
+	while (<GIT_CONFIG>) {
+		if (! defined $key) {
+			$key=$_;
+			chomp $key;
+			$value="";
+		}
+		elsif (/(.*)\0(.*)/) {
+			$value.=$1;
+			push @{$ret{$key}}, $value;
+			$key=$2;
+			chomp $key;
+			$value="";
+		}
+		else {
+			$value.=$1;
+		}
+	}
+	if (defined $key && length $key) {
+		push @{$ret{$key}}, $value;
+	}
+	close(GIT_CONFIG) || main::syserr("git-config exited nonzero");
+
+	return \%ret;
+}
+
 # Called before a tarball is created, to prepare the tar directory.
 sub prep_tar {
 	my $srcdir=shift;
@@ -169,7 +202,7 @@ sub post_unpack_tar {
 	
 	# This is a paranoia measure, since the index is not normally
 	# provided by possibly-untrusted third parties, remove it if
-	# present (git-rebase will recreate it).
+	# present (git will recreate it as needed).
 	if (-e ".git/index" || -l ".git/index") {
 		unlink(".git/index") ||
 			main::syserr(sprintf(_g("unable to remove `%s'"), ".git/index"));
@@ -186,34 +219,28 @@ sub post_unpack_tar {
 		core\.logallrefupdates		|
 		core\.bare
 		)$/x;
-	open(GIT_CONFIG, '-|', "git-config", "--file", ".git/config", "-l") ||
-		main::subprocerr("git-config");
-	my @config=<GIT_CONFIG>;
-	close(GIT_CONFIG) || main::syserr("git-config exited nonzero");
-	my %removed_fields;
-	foreach (@config) {
-		chomp;
-		my ($field, $value)=split(/=/, $_, 2);
-		if ($field !~ /$safe_fields/) {
-			if (! exists $removed_fields{$field}) {
-				system("git-config", "--file", ".git/config",
-					"--unset-all", $field);
+	my %config=%{read_git_config(".git/config")};
+	foreach my $field (keys %config) {
+		if ($field =~ /$safe_fields/) {
+			delete $config{$field};
+		}
+		else {
+			system("git-config", "--file", ".git/config",
+			       "--unset-all", $field);
 				$? && main::subprocerr("git-config --file .git/config --unset-all $field");
-			}
-			push @{$removed_fields{$field}}, $value;
 		}
 	}
-	if (%removed_fields) {
+	if (%config) {
+		main::warning(_g("modifying .git/config to comment out some settings"));
 		open(GIT_CONFIG, ">>", ".git/config") ||
 			main::syserr(sprintf(_g("unstable to append to %s", ".git/config")));
 		print GIT_CONFIG "\n# "._g("The following setting(s) were disabled by dpkg-source").":\n";
-		foreach my $field (sort keys %removed_fields) {
-			foreach my $value (@{$removed_fields{$field}}) {
+		foreach my $field (sort keys %config) {
+			foreach my $value (@{$config{$field}}) {
 				print GIT_CONFIG "# $field=$value\n";
 			}
 		}
 		close GIT_CONFIG;
-		main::warning(_g("modifying .git/config to comment out some settings"));
 	}
 
 	# git-checkout is used to repopulate the WC with files
