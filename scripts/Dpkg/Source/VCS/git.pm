@@ -69,86 +69,72 @@ sub prep_tar {
 	my $tardir=shift;
 	
 	sanity_check($srcdir);
-
-	if (! -e "$srcdir/.git") {
-		main::error(sprintf(_g("%s is not a git repository, but Format git was specified"), $srcdir));
-	}
-	if (-e "$srcdir/.gitmodules") {
-		main::error(sprintf(_g("git repository %s uses submodules. This is not yet supported."), $srcdir));
-	}
+	
+	my $old_cwd=getcwd();
+	chdir($srcdir) ||
+		main::syserr(sprintf(_g("unable to chdir to `%s'"), $srcdir));
 
 	# Check for uncommitted files.
-	open(GIT_STATUS, "LANG=C cd $srcdir && git-status |") ||
-		main::subprocerr("cd $srcdir && git-status");
-	my $clean=0;
-	my $status="";
-	while (<GIT_STATUS>) {
-		if (/^\Qnothing to commit (working directory clean)\E$/) {
-			$clean=1;
-		}
-		else {
-			$status.="git-status: $_";
+	# To support dpkg-source -i, get a list of files
+	# equivalent to the ones git-status finds, and remove any
+	# ignored files from it.
+	my @ignores="--exclude-per-directory=.gitignore";
+	my $core_excludesfile=`git-config --get core.excludesfile`;
+	chomp $core_excludesfile;
+	if (length $core_excludesfile && -e $core_excludesfile) {
+		push @ignores, "--exclude-from='$core_excludesfile'";
+	}
+	if (-e ".git/info/exclude") {
+		push @ignores, "--exclude-from=.git/info/exclude";
+	}
+	open(GIT_LS_FILES, '-|', "git-ls-files", "--modified", "--deleted",
+	                                         "--others", @ignores) ||
+		main::subprocerr("git-ls-files");
+	my @files;
+	while (<GIT_LS_FILES>) {
+		chomp;
+		if (! length $main::diff_ignore_regexp ||
+		    ! m/$main::diff_ignore_regexp/o) {
+			push @files, $_;
 		}
 	}
-	close GIT_STATUS;
-	# git-status exits 1 if there are uncommitted changes or if
-	# the repo is clean, and 0 if there are uncommitted changes
-	# listed in the index.
-	if ($? && $? >> 8 != 1) {
-		main::subprocerr("cd $srcdir && git status");
-	}
-	if (! $clean) {
-		# To support dpkg-source -i, get a list of files
-		# equivalent to the ones git-status finds, and remove any
-		# ignored files from it.
-		my @ignores="--exclude-per-directory=.gitignore";
-		my $core_excludesfile=`cd $srcdir && git-config --get core.excludesfile`;
-		chomp $core_excludesfile;
-		if (length $core_excludesfile && -e "$srcdir/$core_excludesfile") {
-			push @ignores, "--exclude-from='$core_excludesfile'";
-		}
-		if (-e "$srcdir/.git/info/exclude") {
-			push @ignores, "--exclude-from=.git/info/exclude";
-		}
-		open(GIT_LS_FILES, "cd $srcdir && git-ls-files --modified --deleted --others @ignores |") ||
-			main::subprocerr("cd $srcdir && git-ls-files");
-		my @files;
-		while (<GIT_LS_FILES>) {
-			chomp;
-			if (! length $main::diff_ignore_regexp ||
-			    ! m/$main::diff_ignore_regexp/o) {
-				push @files, $_;
-			}
-		}
-		close(GIT_LS_FILES) || main::syserr("git-ls-files exited nonzero");
-
-		if (@files) {
-			print $status;
-			main::error(sprintf(_g("uncommitted, not-ignored changes in working directory: %s"),
-			            join(" ", @files)));
-		}
+	close(GIT_LS_FILES) || main::syserr("git-ls-files exited nonzero");
+	if (@files) {
+		main::error(sprintf(_g("uncommitted, not-ignored changes in working directory: %s"),
+		            join(" ", @files)));
 	}
 
-	# TODO support for creating a shallow clone for those cases where
-	# uploading the whole repo history is not desired
-
+	# git-clone isn't used to copy the repo because the it might be an
+	# unclonable shallow copy.
+	chdir($old_cwd) ||
+		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
 	mkdir($tardir,0755) ||
-            &syserr(sprintf(_g("unable to create `%s'"), $tardir));
+		main::syserr(sprintf(_g("unable to create `%s'"), $tardir));
 	system("cp", "-a", "$srcdir/.git", $tardir);
 	$? && main::subprocerr("cp -a $srcdir/.git $tardir");
+	chdir($tardir) ||
+		main::syserr(sprintf(_g("unable to chdir to `%s'"), $tardir));
+	
+	# TODO support for creating a shallow clone for those cases where
+	# uploading the whole repo history is not desired
 
 	# Clean up the new repo to save space.
 	# First, delete the whole reflog, which is not needed in a
 	# distributed source package.
-	system("rm", "-rf", "$tardir/.git/logs");
-	$? && main::subprocerr("rm -rf $tardir/.git/logs");
-	system("cd $tardir && git-gc --prune");
-	$? && main::subprocerr("cd $tardir && git-gc --prune");
+	system("rm", "-rf", ".git/logs");
+	$? && main::subprocerr("rm -rf .git/logs");
+	system("git-gc", "--prune");
+	$? && main::subprocerr("git-gc --prune");
 
 	# As an optimisation, remove the index. It will be recreated by git
 	# reset during unpack. It's probably small, but you never know, this
 	# might save a lot of space.
-	unlink("$tardir/.git/index"); # error intentionally ignored
+	unlink(".git/index"); # error intentionally ignored
+	
+	chdir($old_cwd) ||
+		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
+
+	return 1;
 }
 
 # Called after a tarball is unpacked, to check out the working copy.
@@ -157,9 +143,13 @@ sub post_unpack_tar {
 	
 	sanity_check($srcdir);
 
+	my $old_cwd=getcwd();
+	chdir($srcdir) ||
+		main::syserr(sprintf(_g("unable to chdir to `%s'"), $srcdir));
+
 	# Disable git hooks, as unpacking a source package should not
 	# involve running code.
-	foreach my $hook (glob("$srcdir/.git/hooks/*")) {
+	foreach my $hook (glob("./.git/hooks/*")) {
 		if (-x $hook) {
 			main::warning(sprintf(_g("executable bit set on %s; clearing"), $hook));
 			chmod(0666 &~ umask(), $hook) ||
@@ -170,9 +160,9 @@ sub post_unpack_tar {
 	# This is a paranoia measure, since the index is not normally
 	# provided by possibly-untrusted third parties, remove it if
 	# present (git-rebase will recreate it).
-	if (-e "$srcdir/.git/index" || -l "$srcdir/.git/index") {
-		unlink("$srcdir/.git/index") ||
-			main::syserr(sprintf(_g("unable to remove `%s'"), "$srcdir/.git/index"));
+	if (-e ".git/index" || -l ".git/index") {
+		unlink(".git/index") ||
+			main::syserr(sprintf(_g("unable to remove `%s'"), ".git/index"));
 	}
 
 	# Comment out potentially probamatic or annoying stuff in
@@ -187,8 +177,8 @@ sub post_unpack_tar {
 		core\.bare
 		)$/x;
 	# This needs to be an absolute path, for some reason.
-	my $configfile=Cwd::abs_path("$srcdir/.git/config");
-	open(GIT_CONFIG, "git-config --file $configfile -l |") ||
+	my $configfile=Cwd::abs_path(".git/config");
+	open(GIT_CONFIG, '-|', "git-config", "--file", $configfile, "-l") ||
 		main::subprocerr("git-config");
 	my @config=<GIT_CONFIG>;
 	close(GIT_CONFIG) || main::syserr("git-config exited nonzero");
@@ -220,10 +210,13 @@ sub post_unpack_tar {
 
 	# git-checkout is used to repopulate the WC with files
 	# and recreate the index.
-	# (git-clone isn't used because the repo might be an unclonable
-	# shallow copy.)
-	system("cd $srcdir && git-clone -f");
-	$? && main::subprocerr("cd $srcdir && git-clone -f");
+	system("git-checkout", "-f");
+	$? && main::subprocerr("git-clone -f");
+	
+	chdir($old_cwd) ||
+		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
+
+	return 1;
 }
 
 1
