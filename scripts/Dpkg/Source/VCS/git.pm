@@ -43,7 +43,7 @@ sub import {
 			return 1;
 		}
 	}
-	main::error(sprintf(_g("This source package can only be unpacked using git, which is not in the PATH.")));
+	main::error(sprintf(_g("This source package can only be manipulated using git, which is not in the PATH.")));
 }
 
 sub sanity_check {
