@@ -476,7 +476,7 @@ if ($opmode eq 'build') {
 
     if ($sourcestyle eq 'v') {
 	$tarname="$basenamerev.$vcs.tar.gz";
-        $tardirbase= $dirbase; $tardirname= "$tarname.tmp";
+        $tardirbase= $dirbase; $tardirname= "$dirbase/$tarname.tmp";
 
 	eval qq{Dpkg::Source::VCS::${vcs}::prep_tar(\$dir, \$tardirname)};
 	if ($@) {
