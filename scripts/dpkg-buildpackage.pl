@@ -79,7 +79,9 @@ Options:
 sub testcommand {
     my ($cmd) = @_;
 
-    return -x "/usr/bin/$cmd";
+    my $fullcmd = `which $cmd`;
+    chomp $fullcmd;
+    return $fullcmd && -x $fullcmd;
 }
 
 my $rootcommand = '';
@@ -258,6 +260,7 @@ sub mustsetvar {
 
 my $pkg = mustsetvar($changes{source}, _g('source package'));
 my $version = mustsetvar($changes{version}, _g('source version'));
+checkversion($version);
 
 my $maintainer;
 if ($changedby) {
@@ -300,7 +303,8 @@ sub signfile {
 
     if ($signinterface eq 'gpg') {
 	system("(cat ../$qfile ; echo '') | ".
-	       "$signcommand --local-user ".quotemeta($signkey||$maintainer).
+	       "$signcommand --utf8-strings --local-user "
+	       .quotemeta($signkey||$maintainer).
 	       " --clearsign --armor --textmode  > ../$qfile.asc");
     } else {
 	system("$signcommand -u ".quotemeta($signkey||$maintainer).
