@@ -106,6 +106,19 @@ This option turns certain errors into warnings.
 This option negates a previously set
 .BR \-W "."
 .TP
+.BR \-Z \fIcompression\fP
+Specify the compression to use for created files (tarballs and diffs).
+Note that this option will not cause existing tarballs to be recompressed,
+it only affects new files. Supported values are:
+.IR gz ", " bz2 ", and " lzma .
+\fIgz\fP is the default.
+.TP
+.BR \-z \fIlevel\fP
+Compression level to use. As with \fB\-Z\fP it only affects newly created
+files. Supported values are:
+.IR 1 " to " 9 ", " best ", and " fast .
+\fI9\fP is the default.
+.TP
 .BR \-i [\fIregexp\fP]
 You may specify a perl regular expression to match files you want
 filtered out of the list of files for the diff. (This list is
