@@ -19,6 +19,8 @@ dpkg (1.14.7) UNRELEASED; urgency=low
   [ Frank Lichtenheld ]
   * Add _MTN to dpkg-source -i default regex. Suggested by Jari Aalto.
   * Convert dpkg-buildpackage to a Perl script.
+    Fix some bugs in the new script detected in experimental:
+    Closes: #444362
   * dpkg-buildpackage accepts a -j<n> option now which will set
     MAKEFLAGS(-j<n>) and DEB_BUILD_OPTIONS(parallel=<n>) accordingly.
     parallel=<n> in DEB_BUILD_OPTIONS will be passed to MAKEFLAGS as
@@ -28,6 +30,14 @@ dpkg (1.14.7) UNRELEASED; urgency=low
     Jari Aalto. Closes: #440972
   * Rework documentation of dpkg-source's -i and -I options.
     Closes: #323911, #440956
+  * Add --utf8-strings to gpg call in dpkg-buildpackage since
+    that seems to be the better default. Suggested by Székelyi Szabolcs.
+    Closes: #379418
+  * Let dpkg-buildpackage error out early if the version number from
+    the changelog is not a valid Debian version. Closes: #216075
+  * Fix dpkg-source to create correct diffs for files with spaces in
+    their name (apparantly we don't have many of those ;).
+    Based on a patch by Marcel Toele. Closes: #445380
 
   [ Updated dpkg translations ]
   * Basque (Piarres Beobide). Closes: #440859
@@ -47,6 +57,7 @@ dpkg (1.14.7) UNRELEASED; urgency=low
 
   [ Updated scripts translations ]
   * Correct a typo in the French translation. Closes: #443276
+  * Swedish (Peter Karlsson).
 
  -- Frank Lichtenheld <djpig@debian.org>  Sun, 23 Sep 2007 02:40:20 +0200
 
