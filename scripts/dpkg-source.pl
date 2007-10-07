@@ -594,10 +594,11 @@ if ($opmode eq 'build') {
 		    $ENV{'LC_ALL'}= 'C';
 		    $ENV{'LANG'}= 'C';
 		    $ENV{'TZ'}= 'UTC0';
-                    exec('diff','-u',
-                         '-L',"$basedirname.orig/$fn",
-                         '-L',"$basedirname/$fn",
-                         '--',"$ofnread","$dir/$fn") or &syserr(_g("exec diff"));
+		    my $tab = ("$basedirname/$fn" =~ / /) ? "\t" : '';
+		    exec('diff','-u',
+			 '-L',"$basedirname.orig/$fn$tab",
+			 '-L',"$basedirname/$fn$tab",
+			 '--',"$ofnread","$dir/$fn") or &syserr(_g("exec diff"));
                 }
 		my $difflinefound = 0;
                 $/= "\n";
