@@ -76,6 +76,7 @@ my $def_dscformat = "1.0"; # default format for -b
 
 my $expectprefix;
 my $compression = 'gz';
+my $comp_level = '9';
 my @comp_supported = qw(gz bz2 lzma);
 my %comp_supported = map { $_ => 1 } @comp_supported;
 my $comp_regex = '(?:gz|bz2|lzma)';
@@ -175,8 +176,10 @@ Build options:
   -ss                      trust packed & unpacked orig src are same.
   -sn                      there is no diff, do main tarfile only.
   -sA,-sK,-sP,-sU,-sR      like -sa,-sk,-sp,-su,-sr but may overwrite.
-  -C<compression>          select compression to use (defaults to 'gz',
+  -Z<compression>          select compression to use (defaults to 'gz',
                              supported are: %s).
+  -z<level>                compression level to use (defaults to '9',
+                             supported are: '1'-'9', 'best', 'fast')
 
 Extract options:
   -sp (default)            leave orig source packed in current dir.
@@ -208,10 +211,14 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         &setopmode('build');
     } elsif (m/^-x$/) {
         &setopmode('extract');
-    } elsif (m/^-C/) {
+    } elsif (m/^-Z/) {
 	$compression = $POSTMATCH;
 	usageerr(sprintf(_g("%s is not a supported compression"), $compression))
 	    unless $comp_supported{$compression};
+    } elsif (m/^-z/) {
+	$comp_level = $POSTMATCH;
+	usageerr(sprintf(_g("%s is not a compression level"), $comp_level))
+	    unless $comp_level =~ /^([1-9]|fast|best)$/;
     } elsif (m/^-s([akpursnAKPUR])$/) {
 	warning(sprintf(_g("-s%s option overrides earlier -s%s option"), $1, $sourcestyle))
 	    if $sourcestyle ne 'X';
@@ -821,7 +828,7 @@ if ($opmode eq 'build') {
 
 	&error(sprintf(_g("Files field contains invalid filename `%s'"), $file))
 	    unless s/^\Q$sourcepackage\E_\Q$baseversion\E(?=[.-])// and
-		   s/\.(gz|bz2|lzma)$//;
+		   s/\.$comp_regex$//;
 	s/^-\Q$revision\E(?=\.)// if length $revision;
 
 	&error(sprintf(_g("repeated file type - files `%s' and `%s'"), $seen{$_}, $file)) if $seen{$_};
@@ -982,7 +989,7 @@ if ($opmode eq 'build') {
 
     for my $patch (@patches) {
 	printf(_g("%s: applying %s")."\n", $progname, $patch);
-	if ($patch =~ /\.(gz|bz2|lzma)$/) {
+	if ($patch =~ /\.$comp_regex$/) {
 	    &forkgzipread($patch);
 	    *DIFF = *GZIP;
 	} else {
@@ -1002,7 +1009,7 @@ if ($opmode eq 'build') {
         $c2 == waitpid($c2,0) || &syserr(_g("wait for patch"));
         $? && subprocerr("patch");
 
-	&reapgzip if $patch =~ /\.(gz|bz2|lzma)$/;
+	&reapgzip if $patch =~ /\.$comp_regex$/;
     }
 
     my $now = time;
@@ -1285,7 +1292,7 @@ sub checktarsane {
 sub checkdiff
 {
     my $diff = shift;
-    if ($diff =~ /\.(gz|bz2|lzma)$/) {
+    if ($diff =~ /\.$comp_regex$/) {
 	&forkgzipread($diff);
 	*DIFF = *GZIP;
     } else {
@@ -1361,7 +1368,7 @@ sub checkdiff
     }
     close(DIFF);
     
-    &reapgzip if $diff =~ /\.(gz|bz2|lzma)$/;
+    &reapgzip if $diff =~ /\.$comp_regex$/;
 }
 
 sub extracttar {
@@ -1482,7 +1489,7 @@ sub forkgzipwrite {
     my @prog;
 
     if ($_[0] =~ /\.gz\.new\..{6}$/) {
-	@prog = qw(gzip -9);
+	@prog = qw(gzip);
     } elsif ($_[0] =~ /\.bz2\.new\..{6}$/) {
 	@prog = qw(bzip2);
     } elsif ($_[0] =~ /\.lzma\.new\..{6}$/) {
@@ -1490,6 +1497,10 @@ sub forkgzipwrite {
     } else {
 	&error(sprintf(_g("unknown compression type on file %s"), $_[0]));
     }
+    my $level = "-$comp_level";
+    $level = "--$comp_level"
+	if $comp_level =~ /best|fast/;
+    push @prog, $level;
 
     open(GZIPFILE,">", $_[0]) || &syserr(sprintf(_g("create file %s"), $_[0]));
     pipe(GZIPREAD,GZIP) || &syserr(_g("pipe for gzip"));
