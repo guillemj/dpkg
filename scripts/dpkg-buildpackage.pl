@@ -59,8 +59,10 @@ Options:
   -si (default)  src includes orig for rev. 0 or 1.    }
   -sa            uploaded src always includes orig.    }
   -sd            uploaded src is diff and .dsc only.   }
-  -sn            force Debian native source format.      } only passed
-  -s[sAkurKUR]   see dpkg-source for explanation.        } to dpkg-source
+  -sn            force Debian native source format.      }
+  -s[sAkurKUR]   see dpkg-source for explanation.        } only passed
+  -z<level>      compression level of source             } to dpkg-source
+  -Z(gz|bz2|lzma) compression to use for source          }
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
   -ap            add pause before starting signature process.
@@ -140,6 +142,8 @@ while (@ARGV) {
     } elsif (/^-s[iad]$/) {
 	$sourcestyle = $_;
     } elsif (/^-s[nsAkurKUR]$/) {
+	push @passopts, $_; # passed to dpkg-source
+    } elsif (/^-[zZ]/) {
 	push @passopts, $_; # passed to dpkg-source
     } elsif (/^-i.*$/) {
 	$diffignore = $_;
