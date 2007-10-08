@@ -3,15 +3,7 @@
 use strict;
 use warnings;
 
-our $version;
-our $dpkglibdir;
-BEGIN {
-    $version="1.14.4"; # This line modified by Makefile
-    $dpkglibdir="."; # This line modified by Makefile
-    push(@INC,$dpkglibdir);
-}
-require 'controllib.pl';
-
+use Dpkg;
 use Dpkg::Shlibs qw(@librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
@@ -19,7 +11,9 @@ use Dpkg::Gettext;
 
 textdomain("dpkg-dev");
 
-our $progname;
+push(@INC, $dpkglibdir);
+require 'controllib.pl';
+
 our (%f, %fi);
 our %p2i;
 our @librarypaths;
