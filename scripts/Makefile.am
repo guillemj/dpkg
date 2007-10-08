@@ -10,6 +10,7 @@ bin_SCRIPTS = \
 	dpkg-distaddfile \
 	dpkg-genchanges \
 	dpkg-gencontrol \
+	dpkg-gensymbols \
 	dpkg-name \
 	dpkg-parsechangelog \
 	dpkg-scanpackages \
@@ -36,6 +37,7 @@ EXTRA_DIST = \
 	dpkg-distaddfile.pl \
 	dpkg-genchanges.pl \
 	dpkg-gencontrol.pl \
+	dpkg-gensymbols.pl \
 	dpkg-name.sh \
 	dpkg-parsechangelog.pl \
 	dpkg-scanpackages.pl \
@@ -47,7 +49,22 @@ EXTRA_DIST = \
 	dpkg-statoverride.pl \
 	install-info.pl \
 	update-alternatives.pl \
-	changelog/debian.pl
+	changelog/debian.pl \
+	t/000_pod.t \
+	t/100_Dpkg_Version.t \
+	t/200_Dpkg_Shlibs.t \
+	t/200_Dpkg_Shlibs/symbols.fake-1 \
+	t/200_Dpkg_Shlibs/symbols.fake-2 \
+	t/200_Dpkg_Shlibs/symbols.include-1 \
+	t/200_Dpkg_Shlibs/symbols.include-2 \
+	t/200_Dpkg_Shlibs/ld.so.conf \
+	t/200_Dpkg_Shlibs/ld.so.conf_2 \
+	t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf \
+	t/200_Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf \
+	t/200_Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
+	t/200_Dpkg_Shlibs/objdump.glib-ia64 \
+	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
+	t/200_Dpkg_Shlibs/objdump.libc6-2.6
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
@@ -55,8 +72,14 @@ CLEANFILES = \
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
+	Dpkg/Shlibs.pm \
+	Dpkg/Shlibs/Objdump.pm \
+	Dpkg/Shlibs/SymbolFile.pm \
+	Dpkg/ErrorHandling.pm \
 	Dpkg/BuildOptions.pm \
 	Dpkg/Gettext.pm \
+	Dpkg/Path.pm \
+	Dpkg/Version.pm \
 	Dpkg.pm
 
 dist_pkglib_SCRIPTS = \
@@ -109,3 +132,16 @@ install-data-hook:
 uninstall-local:
 	rm -f $(DESTDIR)$(sysconfdir)/alternatives/README
 	rm -f $(DESTDIR)$(sbindir)/install-info
+
+TEST_FILES= $(srcdir)/t/*.t
+TEST_VERBOSE= 0
+
+clean-local:
+	chmod -R +w t.tmp
+	rm -fr t.tmp
+
+check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*)
+# a bit hacky...
+	$(mkdir_p) t.tmp
+	cp -dRl $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf* t.tmp/
+	srcdir=$(srcdir) PERL_DL_NONLAZY=1 $(PERL) -I$(srcdir) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)

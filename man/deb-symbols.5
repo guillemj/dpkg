@@ -1,0 +1,52 @@
+.\" Author: Raphael Hertzog
+.TH deb\-symbols 5 "2007-07-16" "Debian Project" "dpkg utilities"
+.SH NAME
+deb\-symbols \- Debian's extended shared library information file
+.
+.SH SYNOPSIS
+symbols
+.
+.SH DESCRIPTION
+The format for an extended shared library dependency information entry
+in these files is:
+.PP
+<library soname> <main dependency template>
+.br
+[ | <alternative dependency template> ]
+.br
+[ ... ]
+ <symbol> <mininal version>[ <id of dependency template> ]
+.P
+The \fIlibrary soname\fR is exactly the value of the SONAME field
+as exported by \fBobjdump\fR. A \fIdependency template\fR is a
+dependency where \fI#MINVER#\fR is dynamically replaced either by
+a version check like "(>= \fIminimal version\fR)" or by nothing (if
+an unversionned dependency is deemed sufficient). 
+.P
+Each exported \fIsymbol\fR (listed as \fIname\fR@\fIversion\fR, with
+\fIversion\fR being "Base" if the library is not versioned) is associated
+to a \fIminimal version\fR of its dependency template (the main dependency
+template is used if \fIid of dependency template\fR is not present). The
+first alternative dependency template is numbered 1, the second one 2,
+etc.
+.SH EXAMPLES
+.SS Simple symbols file
+.PP 
+libftp.so.3 libftp3 #MINVER#
+ DefaultNetbuf@Base 3.1-1-6
+ FtpAccess@Base 3.1-1-6
+ [...]
+.SS Advanced symbols file
+.PP 
+libGL.so.1 libgl1
+.br
+| libgl1-mesa-glx #MINVER#
+ publicGlSymbol@Base 6.3-1
+ [...]
+ implementationSpecificSymbol@Base 6.5.2-7 1
+ [...]
+.SH SEE ALSO
+.BR http://wiki.debian.org/Projects/ImprovedDpkgShlibdeps
+.br
+.BR dpkg\-shlibdeps (1),
+.BR dpkg\-gensymbols (1).

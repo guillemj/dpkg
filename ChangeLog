@@ -1,3 +1,59 @@
+2007-10-08  Raphael Hertzog  <hertzog@debian.org>,
+	    Frank Lichtenheld <djpig@debian.org>
+
+	* Merge dpkg-shlibdeps-buxy branch.
+
+	* scripts/dpkg-shlibdeps.pl: heavily reworked to support "symbols"
+	files. Lots of the code has been modularized in perl modules
+	Dpkg::Shlibs::*.
+
+	* scripts/dpkg-gensymbols.pl: new script used to generated symbols
+	files at package build time. It shall be used by packages of libraries.
+
+	* man/dpkg-{shlibdeps,gensymbols}.1: updated and created manual
+	pages documenting the changes above.
+
+	* scripts/t/*: Added some non-regression test on many parts of the
+	newly introduced perl modules.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.8~.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.7.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-source.pl: Do not replace substvars for build
+	dependencies.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Refer to host architecture (instead of
+	build) in error string, and quote architecture name.
+
+2007-10-08  Frank Lichtenheld  <djpig@debian.org>,
+            Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (debarch_is): Check if $alias is equal to
+	$real or 'any' before mapping them to debtriplets.
+	(debarch_to_debtriplet): Do not special case 'any' nor 'all'.
+	(debarch_eq): Check if $a and $b are equal before mapping them to
+	debtriplets.
+
+2007-10-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Warn if run as root and $rootcommand
+	has been specified. Error if run as non-root and $rootcommand is not
+	found.
+
+2007-10-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl (usage): Remove details about running
+	fakeroot only if it's available.
+
 2007-10-07  Frank Lichtenheld  <djpig@debian.org>
 	    Marcel Toele  <mtoele@kern.nl>
 

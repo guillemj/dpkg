@@ -289,7 +289,7 @@ if ($opmode eq 'build') {
 	    }
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
-		my $dep = parsedep(substvars($v),1);
+		my $dep = parsedep($v, 1);
 		&error(sprintf(_g("error occurred while parsing %s"), $_)) unless defined $dep;
 		$f{$_}= showdep($dep, 1);
 	    }

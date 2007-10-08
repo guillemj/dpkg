@@ -1,4 +1,49 @@
-dpkg (1.14.7) UNRELEASED; urgency=low
+dpkg (1.14.8) UNRELEASED; urgency=low
+
+  [ Raphael Hertzog ]
+  * Merge dpkg-shlibdeps-buxy branch, dpkg-shlibdeps has been heavily
+    reworked:
+    * it supports "symbols" files to generate finer-grained
+      dependencies. Closes: #430367
+      Those files can be created by the new dpkg-gensymbols
+      command.
+    * it uses now all paths in RPATH (instead of only the first).
+      Closes: #395942
+    * it's now able to parse include directives in /etc/ld.so.conf.
+      Closes: #431597
+    * libraries are also searched in the public directories of packages
+      being built and thus debian/shlibs.local can effectively define
+      dependencies for libraries that are being built. Closes: #80340
+    * "symbols" files use the full SONAME as key instead of splitting it in
+      (name, version) like the "shlibs" format requires it. This allows
+      binaries to be linked with unversioned libraries and not fail.
+      Closes: #48208
+      Note that unversioned libraries are still a very bad idea.
+    * dpkg-shlibdeps now supports "-x<package>" options that can be used
+      to exclude packages from generated dependencies. This is
+      particalularly useful to avoid dependencies on ourselves when a
+      package contains a binary and a library (without requiring an
+      shlibs.local file to override the usual shlibs file). It might also
+      be used to avoid other unwanted dependencies (use with care though).
+      Closes: #41907, #109954
+    * If dpkg-shlibdeps doesn't find any dependency information for a
+      shared library that is actively used, then it will fail. This can be
+      disabled with the option --ignore-missing-info. Closes: #10807
+
+ -- Raphael Hertzog <hertzog@debian.org>  Mon, 08 Oct 2007 20:49:51 +0200
+
+dpkg (1.14.8~newshlib) experimental; urgency=low
+
+  [ Raphael Hertzog ]
+  * Snapshot of upcoming dpkg 1.14.8 with improved dpkg-shlibdeps
+    supporting symbols files.
+
+  [ Updated man pages translations ]
+  * German (Helge Kreutzmann).
+
+ -- Raphael Hertzog <hertzog@debian.org>  Mon, 08 Oct 2007 20:22:57 +0200
+
+dpkg (1.14.7) unstable; urgency=low
 
   [ Guillem Jover ]
   * Add back $dpkglib into @INC, needed by the controllib.pl require in
@@ -15,6 +60,13 @@ dpkg (1.14.7) UNRELEASED; urgency=low
     instead of unconditionally setting it to 'Installed'. Closes: #432893
     Thanks to Brian M. Carlson.
   * Add Vcs-Browser and Vcs-Git fields to debian/control.
+  * Add a Homepage field to debian/control (to be changed later when
+    there's a more formal site).
+  * Allow comparing unsupported architectures for equality and identity.
+    Based on a patch by Frank Lichtenheld. Closes: #427210
+  * Document Origin and Bugs fields in deb-control.5. Closes: #173463
+  * Do not replace substvars for build dependencies (it was not supported
+    anyway).
 
   [ Frank Lichtenheld ]
   * Add _MTN to dpkg-source -i default regex. Suggested by Jari Aalto.
@@ -59,7 +111,7 @@ dpkg (1.14.7) UNRELEASED; urgency=low
   * Correct a typo in the French translation. Closes: #443276
   * Swedish (Peter Karlsson).
 
- -- Frank Lichtenheld <djpig@debian.org>  Sun, 23 Sep 2007 02:40:20 +0200
+ -- Guillem Jover <guillem@debian.org>  Mon, 08 Oct 2007 07:31:34 +0300
 
 dpkg (1.14.6) unstable; urgency=low
 

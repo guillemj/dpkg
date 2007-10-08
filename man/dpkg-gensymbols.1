@@ -1,0 +1,164 @@
+.\" Author: Raphael Hertzog
+.TH dpkg\-gensymbols 1 "2007-07-16" "Debian Project" "dpkg utilities"
+.SH NAME
+dpkg\-gensymbols \- generate symbols files (shared library dependency information)
+.
+.SH SYNOPSIS
+.B dpkg\-gensymbols
+.RI [ options ]
+.
+.SH DESCRIPTION
+.B dpkg\-gensymbols
+scans a temporary build tree (debian/tmp by default) looking for libraries
+and generate a \fIsymbols\fR file describing them. This file, if
+non-empty, is then installed in the DEBIAN subdirectory of the build tree
+so that it ends up included in the control information of the package.
+.P
+When generating those files, it uses as input some symbols files
+provided by the maintainer. It looks for the following files (and use the
+first that is found):
+.IP \(bu 4
+debian/\fIpackage\fR.symbols.\fIarch\fR
+.IP \(bu 4
+debian/symbols.\fIarch\fR
+.IP \(bu 4
+debian/\fIpackage\fR.symbols
+.IP \(bu 4
+debian/symbols
+.P
+The main interest of those files is to provide the minimal version
+associated to each symbol provided by the libraries. Usually it
+corresponds to the first version of that package that provided the symbol,
+but it can be manually incremented by the maintainer if the ABI of the
+symbol is extended without breaking backwards compatibility. It's the
+responsibility of the maintainer to keep those files up-to-date and
+accurate, but \fBdpkg\-gensymbols\fR helps him.
+.P
+When the generated symbols files differ from the maintainer supplied
+one, \fBdpkg\-gensymbols\fR will print a diff between the two versions.
+Furthermore if the difference are too significant, it will even fail (you
+can customize how much difference you can tolerate, see the \fB\-c\fR
+option).
+.SH MAINTAINING SYMBOLS FILES
+The symbols files are really useful only if they reflect the evolution of
+the package through several releases. Thus the maintainer has to update
+them every time that a new symbol is added so that its associated minimal
+version matches reality. To do this properly he can use the diffs contained
+in the build logs. In most cases, the diff can be directly applied to his
+debian/\fIpackage\fR.symbols file.
+.P
+Before applying any patch to the symbols file, the maintainer should
+double-check that it's sane. Public symbols are not supposed to disappear,
+so the patch should ideally only add new lines.
+.SS Using includes
+.P 
+When the set of exported symbols differ between architectures, it's no
+more possible to use a common symbols file. Using one file per
+architecture works, but it can also lead to duplication of information.
+In those cases, you can factorize the common part in some external file
+and include that file in your \fIpackage\fR.symbols.\fIarch\fR file by
+using an include directive like this:
+.PP
+#include "\fIpackages\fR.symbols.common"
+.P
+The symbols files are read line by line, and include directives
+are processed as soon as they are encountered. This means that
+the content of the included file can override any content that appeared
+before the include directive and that any content after the
+directive can override anything contained in the included file.
+.P
+An included file must be a valid symbols file on its own. Thus you have
+to repeat the header line containing the SONAME of the library and the
+dependency template. Remember that those lines might override the header
+defined previously in the main symbols file. Thus the recommended way to
+handle architecture specific information is to put include directives
+directly at the beginning of the symbols file:
+.PP
+#include "libsomething1.symbols.common"
+.br
+libsomething.so.1 libsomething1 #MINVER#
+ arch_specific_symbol@Base 1.0
+.SS Good library management
+.P
+A well-maintained library has the following features:
+.IP \(bu 4
+its API is stable (public symbols are never dropped, only new public
+symbols are added) and changes in incompatible ways only when the SONAME
+changes;
+.IP \(bu 4
+ideally, it uses symbol versioning to achieve ABI stability despite
+internal changes and API extension;
+.IP \(bu 4
+it doesn't export private symbols.
+.P
+While maintaining the symbols file, it's easy to notice appearance and
+disappearance of symbols. But it's more difficult to catch incompatible
+API and ABI change. Thus the maintainer should read thoroughly the
+upstream changelog looking for cases where the rules of good library
+management have been broken. If potential problems are discovered,
+the upstream author should be notified as an upstream fix is always better
+than a Debian specific work-around.
+.SH OPTIONS
+.TP
+.BI \-P package-build-dir
+Scan \fIpackage-build-dir\fR instead of debian/tmp.
+.TP
+.BI \-p package
+Define the package name. Required if more than one binary package is listed in
+debian/control (or if there's no debian/control file).
+.TP
+.BI \-v version
+Define the package version. Defaults to the version extracted from
+debian/changelog. Required if called outside of a source package tree.
+.TP
+.BI \-e library-file
+Only analyze libraries explicitely listed instead of finding all public
+libraries. You can use a regular expression in \fIlibrary-file\fR to match
+multiple libraries with a single argument (otherwise you need multiple
+\fB\-e\fR).
+.TP
+.B \-O
+Print the generated symbols file to standard output, rather than being
+stored in the package build tree.
+.TP 
+.BI \-O filename
+Store the generated symbols file as \fIfilename\fR. If \fIfilename\fR is
+pre-existing, its content is used as basis for the generated symbols file.
+You can use this feature to update a symbols file so that it matches a
+newer upstream version of your library.
+.TP
+.BI \-c [0-4]
+Define the checks to do when comparing the generated symbols file
+with the file used as starting point. By default the level is 1.
+Increasing levels do more checks and include all checks of lower levels.
+Level 0 disables all checks. Level 1 fails if some symbols have
+disappeared. Level 2 fails if some new symbols have been introduced.
+Level 3 fails if some libraries have disappeared. Level 4 fails if some
+libraries have been introduced.
+.TP
+.BI \-d
+Enable debug mode. Numerous messages are displayed to explain what 
+.B dpkg\-gensymbols
+does.
+.TP
+.BR \-h ", " \-\-help
+Show the usage message and exit.
+.TP
+.BR \-\-version
+Show the version and exit.
+.
+.SH "SEE ALSO"
+.BR http://people.redhat.com/drepper/symbol-versioning
+.br
+.BR http://people.redhat.com/drepper/goodpractice.pdf
+.br
+.BR http://people.redhat.com/drepper/dsohowto.pdf
+.br
+.BR deb\-symbols (5),
+.BR dpkg\-shlibdeps (1).
+.
+.SH AUTHORS
+Copyright (C) 2007 Rapha\[:e]l Hertzog
+.sp
+This is free software; see the GNU General Public Licence version 2 or later
+for copying conditions. There is NO WARRANTY.
