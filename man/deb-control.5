@@ -1,6 +1,6 @@
 .\" Author: Raul Miller
 .\" Includes text from the debian Guidelines by Ian Jackson, Ian Murdock
-.TH deb\-control 5 "2007-08-31" "Debian Project" "Debian"
+.TH deb\-control 5 "2007-10-08" "Debian Project" "Debian"
 .SH NAME
 deb\-control \- Debian packages' master control file format
 .
@@ -65,7 +65,6 @@ In Debian, the
 and
 .B Priority
 fields have a defined set of accepted values based on the Policy Manual.
-They are used to decide how the packages are layed out in the archive.
 A list of these values can be obtained from the latest version of the
 .B debian-policy
 package.
@@ -84,6 +83,13 @@ etc. Note that the
 .B all
 option is meant for packages that are architecture independent. Some examples
 of this are shell and Perl scripts, and documentation.
+.TP
+.BR Origin: " <name>"
+The name of the distribution this package is originating from.
+.TP
+.BR Bugs: " <url>"
+The url of the bug tracking system for this package. The current used format
+is \fB<bts_type>://<bts_address>\fP, like \fBdebbugs://bugs.debian.org\fP.
 .TP
 .BR Homepage: " <url>"
 The upstream project home page URL.

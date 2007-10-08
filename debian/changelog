@@ -1,3 +1,84 @@
+dpkg (1.14.8~newshlib) experimental; urgency=low
+
+  [ Raphael Hertzog ]
+  * Snapshot of upcoming dpkg 1.14.8 with improved dpkg-shlibdeps
+    supporting symbols files.
+
+  [ Updated man pages translations ]
+  * German (Helge Kreutzmann).
+
+ -- Raphael Hertzog <hertzog@debian.org>  Mon, 08 Oct 2007 20:22:57 +0200
+
+dpkg (1.14.7) unstable; urgency=low
+
+  [ Guillem Jover ]
+  * Add back $dpkglib into @INC, needed by the controllib.pl require in
+    822-date. Closes: #440962
+  * Document in dpkg-scanpackages that apt now requires Packages.bz2 in
+    preference to Packages.gz. Closes: #440973
+  * Stop recognizing the obsolete Optional field when building packages.
+  * Use fakeroot, if present, by default to gain root privileges in
+    dpkg-buildpackage.
+  * Fix typos in dpkg-deb.1 and start-stop-daemon.8. Closes: #441051
+    Thanks to A. Costa.
+  * After '<prerm> remove' fails and while doing the error unwinding, if
+    the '<postinst> abort-remove' call succeeds, preserve the old status
+    instead of unconditionally setting it to 'Installed'. Closes: #432893
+    Thanks to Brian M. Carlson.
+  * Add Vcs-Browser and Vcs-Git fields to debian/control.
+  * Add a Homepage field to debian/control (to be changed later when
+    there's a more formal site).
+  * Allow comparing unsupported architectures for equality and identity.
+    Based on a patch by Frank Lichtenheld. Closes: #427210
+  * Document Origin and Bugs fields in deb-control.5. Closes: #173463
+  * Do not replace substvars for build dependencies (it was not supported
+    anyway).
+
+  [ Frank Lichtenheld ]
+  * Add _MTN to dpkg-source -i default regex. Suggested by Jari Aalto.
+  * Convert dpkg-buildpackage to a Perl script.
+    Fix some bugs in the new script detected in experimental:
+    Closes: #444362
+  * dpkg-buildpackage accepts a -j<n> option now which will set
+    MAKEFLAGS(-j<n>) and DEB_BUILD_OPTIONS(parallel=<n>) accordingly.
+    parallel=<n> in DEB_BUILD_OPTIONS will be passed to MAKEFLAGS as
+    well. Based on an idea by Robert Millan. Closes: #440636
+  * Allow dpkg-source -I without a pattern which will load a default
+    list of pattern similar to -i without regexp. Patch by
+    Jari Aalto. Closes: #440972
+  * Rework documentation of dpkg-source's -i and -I options.
+    Closes: #323911, #440956
+  * Add --utf8-strings to gpg call in dpkg-buildpackage since
+    that seems to be the better default. Suggested by Székelyi Szabolcs.
+    Closes: #379418
+  * Let dpkg-buildpackage error out early if the version number from
+    the changelog is not a valid Debian version. Closes: #216075
+  * Fix dpkg-source to create correct diffs for files with spaces in
+    their name (apparantly we don't have many of those ;).
+    Based on a patch by Marcel Toele. Closes: #445380
+
+  [ Updated dpkg translations ]
+  * Basque (Piarres Beobide). Closes: #440859
+  * Danish (Claus Hindsgaul). Closes: #441106
+  * French (Frédéric Bothamy).
+  * German (Sven Joachim). Closes: #440537
+  * Nepali (Shiva Prasad Pokharel). Closes: #437825
+  * Portuguese (Miguel Figueiredo). Closes: #441113
+  * Romanian (Eddy Petri?or).
+  * Vietnamese (Clytie Siddall). Closes: #440502
+  * Korean (Sunjae Park). Closes: #443190
+
+  [ Updated man pages translations ]
+  * German (Helge Kreutzmann).
+  * Swedish (Peter Karlsson).
+  * Korean (Sunjae Park). Closes: #443191
+
+  [ Updated scripts translations ]
+  * Correct a typo in the French translation. Closes: #443276
+  * Swedish (Peter Karlsson).
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 08 Oct 2007 07:31:34 +0300
+
 dpkg (1.14.7~newshlib.1) experimental; urgency=low
 
   * Fixes dpkg-gensymbols to use Dpkg::Gettext instead of recently
@@ -35,54 +116,6 @@ dpkg (1.14.7~newshlib) experimental; urgency=low
     * If dpkg-shlibdeps doesn't find any dependency information for a
       shared library that is actively used, then it will fail. This can be
       disabled with the option --ignore-missing-info. Closes: #10807
-
-  [ Guillem Jover ]
-  * Add back $dpkglib into @INC, needed by the controllib.pl require in
-    822-date. Closes: #440962
-  * Document in dpkg-scanpackages that apt now requires Packages.bz2 in
-    preference to Packages.gz. Closes: #440973
-  * Stop recognizing the obsolete Optional field when building packages.
-  * Use fakeroot, if present, by default to gain root privileges in
-    dpkg-buildpackage.
-  * Fix typos in dpkg-deb.1 and start-stop-daemon.8. Closes: #441051
-    Thanks to A. Costa.
-  * After '<prerm> remove' fails and while doing the error unwinding, if
-    the '<postinst> abort-remove' call succeeds, preserve the old status
-    instead of unconditionally setting it to 'Installed'. Closes: #432893
-    Thanks to Brian M. Carlson.
-  * Add Vcs-Browser and Vcs-Git fields to debian/control.
-
-  [ Frank Lichtenheld ]
-  * Add _MTN to dpkg-source -i default regex. Suggested by Jari Aalto.
-  * Convert dpkg-buildpackage to a Perl script.
-  * dpkg-buildpackage accepts a -j<n> option now which will set
-    MAKEFLAGS(-j<n>) and DEB_BUILD_OPTIONS(parallel=<n>) accordingly.
-    parallel=<n> in DEB_BUILD_OPTIONS will be passed to MAKEFLAGS as
-    well. Based on an idea by Robert Millan. Closes: #440636
-  * Allow dpkg-source -I without a pattern which will load a default
-    list of pattern similar to -i without regexp. Patch by
-    Jari Aalto. Closes: #440972
-  * Rework documentation of dpkg-source's -i and -I options.
-    Closes: #323911, #440956
-
-  [ Updated dpkg translations ]
-  * Basque (Piarres Beobide). Closes: #440859
-  * Danish (Claus Hindsgaul). Closes: #441106
-  * French (Frédéric Bothamy).
-  * German (Sven Joachim). Closes: #440537
-  * Nepali (Shiva Prasad Pokharel). Closes: #437825
-  * Portuguese (Miguel Figueiredo). Closes: #441113
-  * Romanian (Eddy Petri?or).
-  * Vietnamese (Clytie Siddall). Closes: #440502
-  * Korean (Sunjae Park). Closes: #443190
-
-  [ Updated man pages translations ]
-  * German (Helge Kreutzmann).
-  * Swedish (Peter Karlsson).
-  * Korean (Sunjae Park). Closes: #443191
-
-  [ Updated scripts translations ]
-  * Correct a typo in the French translation. Closes: #443276
 
  -- Raphael Hertzog <hertzog@debian.org>  Tue, 25 Sep 2007 08:43:45 +0200
 

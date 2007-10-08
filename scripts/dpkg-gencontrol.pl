@@ -183,8 +183,9 @@ for $_ (keys %fi) {
 		              join("' `", @invalid_archs)))
 		    if @invalid_archs >= 1;
 		grep(debarch_is($host_arch, $_), @archlist) ||
-                    &error(sprintf(_g("current build architecture %s does not".
-                                      " appear in package's list (%s)"),
+		    error(sprintf(_g("current host architecture '%s' does " .
+		                     "not appear in package's architecture " .
+		                     "list (%s)"),
 		                   $host_arch, "@archlist"));
 		$f{$_} = $host_arch;
             }

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14.6\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-09-23 02:59+0200\n"
-"PO-Revision-Date: 2007-08-30 19:55+0100\n"
+"PO-Revision-Date: 2007-09-28 14:18+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -381,7 +381,6 @@ msgid "%s is not a supported variable name"
 msgstr "%s är inte ett variabelnamn som stöds"
 
 #: scripts/dpkg-buildpackage.pl:20
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson.\n"
@@ -391,7 +390,7 @@ msgstr ""
 "\n"
 "Copyright © 1996 Ian Jackson.\n"
 "Copyright © 2000 Wichert Akkerman.\n"
-"Copyright © 2006 Frank Lichtenheld."
+"Copyright © 2007 Frank Lichtenheld."
 
 #: scripts/dpkg-buildpackage.pl:32
 #, perl-format
@@ -438,103 +437,140 @@ msgid ""
 "  -h, --help     show this help message.\n"
 "      --version  show the version.\n"
 msgstr ""
+"\n"
+"Använd: %s [<flaggor> ...]\n"
+"\n"
+"Flaggor:\n"
+"  -r<få-root-kommando>\n"
+"                 kommando för att få root-behörighet (standard är fakeroot\n"
+"                 om det finns).\n"
+"  -p<signeringskommando>\n"
+"  -d             kontrollera inte byggberoenden och -konflikter.\n"
+"  -D             kontrollera byggberoenden och -konflikter.\n"
+"  -k<nyckelid>   nyckeln som skall användas vid signering.\n"
+"  -sgpg          signeringskommandot anropas som GPG.\n"
+"  -spgp          signeringskommandot anropas som PGP.\n"
+"  -us            osignerad källkod.\n"
+"  -uc            osignerad changes-fil.\n"
+"  -a<arch>       Debianarkitektur vi bygger för (implicerar -d).\n"
+"  -b             endast binär, bygger inte källkod.  } sänds även till\n"
+"  -B             endast binär, inga ark-ober. filer. } dpkg-genchanges\n"
+"  -S             endast källkod, inga binärfiler     }\n"
+"  -t<system>     välj GNU-systemtyp.           } sänds till dpkg-"
+"architecture\n"
+"  -v<version>    ändringar sedan version <version>.     }\n"
+"  -m<ansvarig>   ansvarig för paketet är <ansvarig>.   }\n"
+"  -e<ansvarig>   ansvarig för utgivningen är <maint>.  } sänds bara\n"
+"  -C<ändrfil>    ändringar beskrivs i <ändrfil>.       } till dpkg-genchangs\n"
+"  -si (standard) källk innehåller orig. för rev. 0/1.  }\n"
+"  -sa            insänd källkod innehåller alltid orig.}\n"
+"  -sd            insänd källkod är endast diff och .dsc}\n"
+"  -sn            force Debian native source format.      } only passed\n"
+"  -s[sAkurKUR]   see dpkg-source for explanation.        } to dpkg-source\n"
+"  -nc            do not clean source tree (implies -b).\n"
+"  -tc            clean source tree when finished.\n"
+"  -ap            add pause before starting signature process.\n"
+"  -W             turn certain errors into warnings.       } passed to\n"
+"  -E             when -W is turned on, -E turns it off.   } dpkg-source\n"
+"  -i[<regex>]    ignore diffs of files matching regex.    } only passed\n"
+"  -I<filename>   filter out files when building tarballs. } to dpkg-source\n"
+"  --admindir=<directory>\n"
+"                 change the administrative directory.\n"
+"  -h, --help     show this help message.\n"
+"      --version  show the version.\n"
 
 #: scripts/dpkg-buildpackage.pl:152 scripts/dpkg-buildpackage.pl:162
 #: scripts/dpkg-buildpackage.pl:169 scripts/dpkg-buildpackage.pl:175
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot combine %s and %s"
-msgstr "kan inte kombinera -b eller -B och -S"
+msgstr "kan inte kombinera %s och %s"
 
 #: scripts/dpkg-buildpackage.pl:192
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown option or argument %s"
-msgstr "okänd flagga \"%s\""
+msgstr "okänd flagga eller argument %s"
 
 #: scripts/dpkg-buildpackage.pl:209
 msgid "unknown sign command, assuming pgp style interface"
-msgstr ""
+msgstr "okänt signeringskommando, antar pgp-gränssnittstyp"
 
 #: scripts/dpkg-buildpackage.pl:230
-#, fuzzy, perl-format
+#, perl-format
 msgid "unable to determine %s"
-msgstr "kan inte skapa \"%s\""
+msgstr "kan inte bestämma %s"
 
 #: scripts/dpkg-buildpackage.pl:237
 msgid "source package"
-msgstr ""
+msgstr "källkodspaket"
 
 #: scripts/dpkg-buildpackage.pl:238
 msgid "source version"
-msgstr ""
+msgstr "källkodsversion"
 
 #: scripts/dpkg-buildpackage.pl:246
 msgid "source changed by"
-msgstr ""
+msgstr "källkod ändrad av"
 
 #: scripts/dpkg-buildpackage.pl:264
 msgid "host architecture"
-msgstr ""
+msgstr "värdarkitektur"
 
 #: scripts/dpkg-buildpackage.pl:312
 msgid "Build dependencies/conflicts unsatisfied; aborting.\n"
-msgstr ""
+msgstr "Byggberoenden/-konflikter ej uppfyllda; avbryter.\n"
 
 #: scripts/dpkg-buildpackage.pl:313
 msgid "(Use -d flag to override.)"
-msgstr ""
+msgstr "(Använd flaggan -d för att överstyra.)"
 
 #: scripts/dpkg-buildpackage.pl:335
 msgid "Press the return key to start signing process\n"
-msgstr ""
+msgstr "Tryck på Enter för att inleda signeringsproceduren\n"
 
 #: scripts/dpkg-buildpackage.pl:342
 msgid "Failed to sign .dsc and .changes file"
-msgstr ""
+msgstr "Misslyckades att signera .dsc- och .changes-filerna"
 
 #: scripts/dpkg-buildpackage.pl:363 scripts/dpkg-buildpackage.pl:367
 #: scripts/dpkg-buildpackage.pl:380
-#, fuzzy
 msgid "write changes file"
-msgstr "tolkar ändringslogg"
+msgstr "skriv ändringsfil"
 
 #: scripts/dpkg-buildpackage.pl:379
 msgid "dpkg-genchanges"
-msgstr ""
+msgstr "dpkg-genchanges"
 
 #: scripts/dpkg-buildpackage.pl:392
 msgid "source only upload: Debian-native package"
-msgstr ""
+msgstr "insändning med endast källkod: Debianeget paket"
 
 #: scripts/dpkg-buildpackage.pl:394
 msgid "source only, diff-only upload (original source NOT included)"
-msgstr ""
+msgstr "insändning enbart med källkod, enbart med diff (originalkällkod tas EJ med)"
 
 #: scripts/dpkg-buildpackage.pl:396
-#, fuzzy
 msgid "source only upload (original source is included)"
-msgstr "tar inte med ursprunglig källkod i denna insändning"
+msgstr "insändning enbart med källkod (originalkällkod tas med)"
 
 #: scripts/dpkg-buildpackage.pl:399 scripts/dpkg-buildpackage.pl:407
 msgid "full upload (original source is included)"
-msgstr ""
+msgstr "komplett insändning (originalkällkod tas med)"
 
 #: scripts/dpkg-buildpackage.pl:401
-#, fuzzy
 msgid "binary only upload (no source included)"
-msgstr "endast binär insändning - tar inte med någon källkod"
+msgstr "endast binär insändning (ingen källkod tas med)"
 
 #: scripts/dpkg-buildpackage.pl:403
 msgid "full upload; Debian-native package (full source is included)"
-msgstr ""
+msgstr "komplett insändnig; Debianeget paket (komplett källkod tas med)"
 
 #: scripts/dpkg-buildpackage.pl:405
-#, fuzzy
 msgid "binary and diff upload (original source NOT included)"
-msgstr "endast binär insändning - tar inte med någon källkod"
+msgstr "binär- och diffinsändning (originalkällkod tas EJ med)"
 
 #: scripts/dpkg-buildpackage.pl:412
 msgid "Failed to sign .changes file"
-msgstr ""
+msgstr "Misslyckades att signera .changes-fil"
 
 #: scripts/dpkg-checkbuilddeps.pl:20
 #, perl-format
@@ -932,11 +968,11 @@ msgid "must specify package since control info has many (%s)"
 msgstr "måste ange paket eftersom styrinfo har flera (%s)"
 
 #: scripts/dpkg-gencontrol.pl:180
-#, fuzzy, perl-format
+#, perl-format
 msgid "`%s' is not a legal architecture string."
 msgid_plural "`%s' are not legal architecture strings."
 msgstr[0] "\"%s\" är inte en giltig arkitektursträng."
-msgstr[1] "\"%s\" är inte en giltig arkitektursträng."
+msgstr[1] "\"%s\" är inte giltiga arkitektursträngar."
 
 #: scripts/dpkg-gencontrol.pl:186
 #, perl-format

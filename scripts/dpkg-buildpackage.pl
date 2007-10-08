@@ -37,8 +37,7 @@ Usage: %s [<options> ...]
 
 Options:
   -r<gain-root-command>
-                 command to gain root privileges (default is fakeroot if it
-                 exists).
+                 command to gain root privileges (default is fakeroot).
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
@@ -79,14 +78,12 @@ Options:
 sub testcommand {
     my ($cmd) = @_;
 
-    return -x "/usr/bin/$cmd";
+    my $fullcmd = `which $cmd`;
+    chomp $fullcmd;
+    return $fullcmd && -x $fullcmd;
 }
 
 my $rootcommand = '';
-if (testcommand('fakeroot')) {
-    $rootcommand = 'fakeroot';
-}
-
 my $signcommand = '';
 if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
        || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
@@ -199,6 +196,22 @@ while (@ARGV) {
     }
 }
 
+if ($< == 0) {
+    warning(_g("using a gain-root-command while being root")) if ($rootcommand);
+} else {
+    $rootcommand ||= 'fakeroot';
+
+    if (!testcommand($rootcommand)) {
+	if ($rootcommand eq 'fakeroot') {
+	    error(_g("fakeroot not found, either install the fakeroot\n" .
+	             "package, specify a command with the -r option, " .
+	             "or run this as root"));
+	} else {
+	    error(sprintf(_g("gain-root-commmand '%s' not found"), $rootcommand));
+	}
+    }
+}
+
 unless ($signcommand) {
     $signsource = 0;
     $signchanges = 0;
@@ -258,6 +271,7 @@ sub mustsetvar {
 
 my $pkg = mustsetvar($changes{source}, _g('source package'));
 my $version = mustsetvar($changes{version}, _g('source version'));
+checkversion($version);
 
 my $maintainer;
 if ($changedby) {
@@ -300,7 +314,8 @@ sub signfile {
 
     if ($signinterface eq 'gpg') {
 	system("(cat ../$qfile ; echo '') | ".
-	       "$signcommand --local-user ".quotemeta($signkey||$maintainer).
+	       "$signcommand --utf8-strings --local-user "
+	       .quotemeta($signkey||$maintainer).
 	       " --clearsign --armor --textmode  > ../$qfile.asc");
     } else {
 	system("$signcommand -u ".quotemeta($signkey||$maintainer).
@@ -320,6 +335,7 @@ sub signfile {
 
 
 sub withecho {
+    shift while !$_[0];
     print STDERR " @_\n";
     system(@_)
 	and subprocerr("@_");
