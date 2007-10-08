@@ -1,3 +1,37 @@
+dpkg (1.14.8) UNRELEASED; urgency=low
+
+  [ Raphael Hertzog ]
+  * Merge dpkg-shlibdeps-buxy branch, dpkg-shlibdeps has been heavily
+    reworked:
+    * it supports "symbols" files to generate finer-grained
+      dependencies. Closes: #430367
+      Those files can be created by the new dpkg-gensymbols
+      command.
+    * it uses now all paths in RPATH (instead of only the first).
+      Closes: #395942
+    * it's now able to parse include directives in /etc/ld.so.conf.
+      Closes: #431597
+    * libraries are also searched in the public directories of packages
+      being built and thus debian/shlibs.local can effectively define
+      dependencies for libraries that are being built. Closes: #80340
+    * "symbols" files use the full SONAME as key instead of splitting it in
+      (name, version) like the "shlibs" format requires it. This allows
+      binaries to be linked with unversioned libraries and not fail.
+      Closes: #48208
+      Note that unversioned libraries are still a very bad idea.
+    * dpkg-shlibdeps now supports "-x<package>" options that can be used
+      to exclude packages from generated dependencies. This is
+      particalularly useful to avoid dependencies on ourselves when a
+      package contains a binary and a library (without requiring an
+      shlibs.local file to override the usual shlibs file). It might also
+      be used to avoid other unwanted dependencies (use with care though).
+      Closes: #41907, #109954
+    * If dpkg-shlibdeps doesn't find any dependency information for a
+      shared library that is actively used, then it will fail. This can be
+      disabled with the option --ignore-missing-info. Closes: #10807
+
+ -- Raphael Hertzog <hertzog@debian.org>  Mon, 08 Oct 2007 20:49:51 +0200
+
 dpkg (1.14.8~newshlib) experimental; urgency=low
 
   [ Raphael Hertzog ]
@@ -78,46 +112,6 @@ dpkg (1.14.7) unstable; urgency=low
   * Swedish (Peter Karlsson).
 
  -- Guillem Jover <guillem@debian.org>  Mon, 08 Oct 2007 07:31:34 +0300
-
-dpkg (1.14.7~newshlib.1) experimental; urgency=low
-
-  * Fixes dpkg-gensymbols to use Dpkg::Gettext instead of recently
-    removed dpkg-gettext.pl.
-
- -- Raphael Hertzog <hertzog@debian.org>  Tue, 25 Sep 2007 13:42:20 +0200
-
-dpkg (1.14.7~newshlib) experimental; urgency=low
-
-  [ Raphael Hertzog ]
-  * dpkg-shlibdeps has been heavily reworked:
-    * it supports "symbols" files to generate finer-grained
-      dependencies. Closes: #430367
-      Those files can be created by the new dpkg-gensymbols
-      command.
-    * it uses now all paths in RPATH (instead of only the first).
-      Closes: #395942
-    * it's now able to parse include directives in /etc/ld.so.conf.
-      Closes: #431597
-    * libraries are also searched in the public directories of packages
-      being built and thus debian/shlibs.local can effectively define
-      dependencies for libraries that are being built. Closes: #80340
-    * "symbols" files use the full SONAME as key instead of splitting it in
-      (name, version) like the "shlibs" format requires it. This allows
-      binaries to be linked with unversioned libraries and not fail.
-      Closes: #48208
-      Note that unversioned libraries are still a very bad idea.
-    * dpkg-shlibdeps now supports "-x<package>" options that can be used
-      to exclude packages from generated dependencies. This is
-      particalularly useful to avoid dependencies on ourselves when a
-      package contains a binary and a library (without requiring an
-      shlibs.local file to override the usual shlibs file). It might also
-      be used to avoid other unwanted dependencies (use with care though).
-      Closes: #41907, #109954
-    * If dpkg-shlibdeps doesn't find any dependency information for a
-      shared library that is actively used, then it will fail. This can be
-      disabled with the option --ignore-missing-info. Closes: #10807
-
- -- Raphael Hertzog <hertzog@debian.org>  Tue, 25 Sep 2007 08:43:45 +0200
 
 dpkg (1.14.6) unstable; urgency=low
 
