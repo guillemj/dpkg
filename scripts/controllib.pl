@@ -249,10 +249,7 @@ sub debarch_to_debtriplet($)
     local ($_) = @_;
     my $arch;
 
-    # FIXME: 'any' is handled here, to be able to do debarch_eq('any', foo).
-    if (/^any$/ || /^all$/) {
-	return ($_, $_, $_);
-    } elsif (/^linux-([^-]*)/) {
+    if (/^linux-([^-]*)/) {
 	# XXX: Might disappear in the future, not sure yet.
 	$arch = $1;
     } else {
@@ -288,6 +285,9 @@ sub debwildcard_to_debtriplet($)
 sub debarch_eq($$)
 {
     my ($a, $b) = @_;
+
+    return 1 if ($a eq $b);
+
     my @a = debarch_to_debtriplet($a);
     my @b = debarch_to_debtriplet($b);
 
@@ -299,6 +299,9 @@ sub debarch_eq($$)
 sub debarch_is($$)
 {
     my ($real, $alias) = @_;
+
+    return 1 if ($alias eq $real or $alias eq 'any');
+
     my @real = debarch_to_debtriplet($real);
     my @alias = debwildcard_to_debtriplet($alias);
 

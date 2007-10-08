@@ -1,4 +1,4 @@
-dpkg (1.14.7) UNRELEASED; urgency=low
+dpkg (1.14.7) unstable; urgency=low
 
   [ Guillem Jover ]
   * Add back $dpkglib into @INC, needed by the controllib.pl require in
@@ -15,6 +15,13 @@ dpkg (1.14.7) UNRELEASED; urgency=low
     instead of unconditionally setting it to 'Installed'. Closes: #432893
     Thanks to Brian M. Carlson.
   * Add Vcs-Browser and Vcs-Git fields to debian/control.
+  * Add a Homepage field to debian/control (to be changed later when
+    there's a more formal site).
+  * Allow comparing unsupported architectures for equality and identity.
+    Based on a patch by Frank Lichtenheld. Closes: #427210
+  * Document Origin and Bugs fields in deb-control.5. Closes: #173463
+  * Do not replace substvars for build dependencies (it was not supported
+    anyway).
 
   [ Frank Lichtenheld ]
   * Add _MTN to dpkg-source -i default regex. Suggested by Jari Aalto.
@@ -35,6 +42,9 @@ dpkg (1.14.7) UNRELEASED; urgency=low
     Closes: #379418
   * Let dpkg-buildpackage error out early if the version number from
     the changelog is not a valid Debian version. Closes: #216075
+  * Fix dpkg-source to create correct diffs for files with spaces in
+    their name (apparantly we don't have many of those ;).
+    Based on a patch by Marcel Toele. Closes: #445380
 
   [ Updated dpkg translations ]
   * Basque (Piarres Beobide). Closes: #440859
@@ -56,7 +66,7 @@ dpkg (1.14.7) UNRELEASED; urgency=low
   * Correct a typo in the French translation. Closes: #443276
   * Swedish (Peter Karlsson).
 
- -- Frank Lichtenheld <djpig@debian.org>  Sun, 23 Sep 2007 02:40:20 +0200
+ -- Guillem Jover <guillem@debian.org>  Mon, 08 Oct 2007 07:31:34 +0300
 
 dpkg (1.14.6) unstable; urgency=low
 

@@ -1,3 +1,45 @@
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.7.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-source.pl: Do not replace substvars for build
+	dependencies.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Refer to host architecture (instead of
+	build) in error string, and quote architecture name.
+
+2007-10-08  Frank Lichtenheld  <djpig@debian.org>,
+            Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl (debarch_is): Check if $alias is equal to
+	$real or 'any' before mapping them to debtriplets.
+	(debarch_to_debtriplet): Do not special case 'any' nor 'all'.
+	(debarch_eq): Check if $a and $b are equal before mapping them to
+	debtriplets.
+
+2007-10-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Warn if run as root and $rootcommand
+	has been specified. Error if run as non-root and $rootcommand is not
+	found.
+
+2007-10-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl (usage): Remove details about running
+	fakeroot only if it's available.
+
+2007-10-07  Frank Lichtenheld  <djpig@debian.org>
+	    Marcel Toele  <mtoele@kern.nl>
+
+	* scripts/dpkg-source.pl (handleformat): Include
+	a trailing HT character in the diff labels if
+	the filename contains spaces. Apparantly this is
+	standard but undocumented diff behaviour.
+
 2007-09-29  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-buildpackage.pl: Call checkversion()
