@@ -75,11 +75,15 @@ my $max_dscformat = 2;
 my $def_dscformat = "1.0"; # default format for -b
 
 my $expectprefix;
-my $compression = 'gz';
-my $comp_level = '9';
-my @comp_supported = qw(gz bz2 lzma);
+
+# Compression
+my @comp_supported = qw(gzip bzip2 lzma);
 my %comp_supported = map { $_ => 1 } @comp_supported;
+my %comp_ext = ( gzip => 'gz', bzip2 => 'bz2', lzma => 'lzma' );
 my $comp_regex = '(?:gz|bz2|lzma)';
+my $compression = 'gzip';
+my $comp_level = '9';
+my $comp_ext = $comp_ext{$compression};
 
 # Packages
 my %remove;
@@ -176,7 +180,7 @@ Build options:
   -ss                      trust packed & unpacked orig src are same.
   -sn                      there is no diff, do main tarfile only.
   -sA,-sK,-sP,-sU,-sR      like -sa,-sk,-sp,-su,-sr but may overwrite.
-  -Z<compression>          select compression to use (defaults to 'gz',
+  -Z<compression>          select compression to use (defaults to 'gzip',
                              supported are: %s).
   -z<level>                compression level to use (defaults to '9',
                              supported are: '1'-'9', 'best', 'fast')
@@ -213,6 +217,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         &setopmode('extract');
     } elsif (m/^-Z/) {
 	$compression = $POSTMATCH;
+	$comp_ext = $comp_ext{$compression};
 	usageerr(sprintf(_g("%s is not a supported compression"), $compression))
 	    unless $comp_supported{$compression};
     } elsif (m/^-z/) {
@@ -287,7 +292,7 @@ if ($opmode eq 'build') {
     
     parsechangelog($changelogfile, $changelogformat);
     parsecontrolfile($controlfile);
-    $f{"Format"}= $compression eq 'gz' ? $def_dscformat : '2.0';
+    $f{"Format"}= $compression eq 'gzip' ? $def_dscformat : '2.0';
     &init_substvars;
 
     my @sourcearch;
@@ -427,7 +432,7 @@ if ($opmode eq 'build') {
                        " but source handling style -s%s wants something"), $sourcestyle));
         }
     } elsif ($sourcestyle =~ m/[aA]/) {
-	my @origtargz = map { "$basename.orig.tar.$_" } ($compression, @comp_supported);
+	my @origtargz = map { "$basename.orig.tar.$comp_ext{$_}" } ($compression, @comp_supported);
 	foreach my $origtar (@origtargz) {
 	    if (stat($origtar)) {
 		-f _ || &error(sprintf(_g("packed orig `%s' exists but is not a plain file"), $origtar));
@@ -474,14 +479,14 @@ if ($opmode eq 'build') {
 	                       $origdirname, "$basedirname.orig"));
         $tardirbase= $origdirbase; $tardirname= $origdirname;
 
-	$tarname= $origtargz || "$basename.orig.tar.$compression";
+	$tarname= $origtargz || "$basename.orig.tar.$comp_ext";
 	$tarname =~ /$basename.orig.tar.($comp_regex)/ ||
 	    warning(sprintf(_g(".orig.tar name %s is not <package>_<upstreamversion>" .
 			       ".orig.tar (wanted %s)"), $tarname, "$basename.orig.tar.$comp_regex"));
 	if (($1 ne 'gz') && ($f{'Format'} < 2)) { $f{'Format'} = '2.0' };
     } else {
 	$tardirbase= $dirbase; $tardirname= $dirname;
-	$tarname= "$basenamerev.tar.$compression";
+	$tarname= "$basenamerev.tar.$comp_ext";
     }
 
     if ($sourcestyle =~ m/[nurUR]/) {
@@ -559,7 +564,7 @@ if ($opmode eq 'build') {
         
     if ($sourcestyle =~ m/[kpursKPUR]/) {
 
-	my $diffname = "$basenamerev.diff.$compression";
+	my $diffname = "$basenamerev.diff.$comp_ext";
         printf(_g("%s: building %s in %s")."\n",
                $progname, $sourcepackage, $diffname)
             || &syserr(_g("write building diff message"));

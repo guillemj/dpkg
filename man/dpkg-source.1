@@ -51,7 +51,9 @@ the empty string if the package is a Debian-specific one and so has no
 Debianisation diffs. If no second argument is supplied then
 .B dpkg\-source
 will look for the original source tarfile
-.IB package _ upstream-version .orig.tar.gz
+.IB package _ upstream-version .orig.tar. extension
+(where \fIextension\fP is one of
+.BR gz ", " bz2 ", and " lzma )
 or the original source directory
 .IB directory .orig
 depending on the \fB\-sX\fP arguments.
@@ -110,8 +112,8 @@ This option negates a previously set
 Specify the compression to use for created files (tarballs and diffs).
 Note that this option will not cause existing tarballs to be recompressed,
 it only affects new files. Supported values are:
-.IR gz ", " bz2 ", and " lzma .
-\fIgz\fP is the default.
+.IR gzip ", " bzip2 ", and " lzma .
+\fIgzip\fP is the default.
 .TP
 .BR \-z \fIlevel\fP
 Compression level to use. As with \fB\-Z\fP it only affects newly created
@@ -130,7 +132,7 @@ build output directories. There can only be one active regexp, of multiple
 
 
 This is very helpful in cutting out extraneous files that get included
-in the .diff.gz, e.g. if you maintain your source in a revision control
+in the diff, e.g. if you maintain your source in a revision control
 system and want to use a checkout to build a source package without
 including the additional files and directories that it will usually
 contain (e.g. CVS/, .cvsignore, .svn/). The default regexp is already
@@ -143,7 +145,7 @@ the neccessary anchors (e.g. '(^|/)', '($|/)') yourself.
 If this option is specified, the pattern will be passed to
 .BR tar (1)'s
 \-\-exclude
-option when it is called to generate a .orig.tar.gz or .tar.gz file. For
+option when it is called to generate a .orig.tar or .tar file. For
 example, \-ICVS will make tar skip over CVS directories when generating
 a .tar.gz file. The option may be repeated multiple times to list multiple
 patterns to exclude.
@@ -178,7 +180,7 @@ should be used instead.
 .TP
 .BR \-sk
 Specifies to expect the original source as a tarfile, by default
-.IB package _ upstream-version .orig.tar.gz\fR.
+.IB package _ upstream-version .orig.tar. extension \fR.
 It will leave this original source in place as a tarfile, or copy it
 to the current directory if it isn't already there.
 .TP
