@@ -66,8 +66,8 @@ Options:
   -nc            do not clean source tree (implies -b).
   -tc            clean source tree when finished.
   -ap            add pause before starting signature process.
-  -W             turn certain errors into warnings.       } passed to
-  -E             when -W is turned on, -E turns it off.   } dpkg-source
+  -E             turn certain warnings into errors.       } passed to
+  -W             when -E is turned on, -W turns it off.   } dpkg-source
   -i[<regex>]    ignore diffs of files matching regex.    } only passed
   -I[<pattern>]  filter out files when building tarballs. } to dpkg-source
   --admindir=<directory>

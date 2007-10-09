@@ -165,8 +165,8 @@ Build options:
   -T<varlistfile>          read variables here, not debian/substvars.
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
-  -W                       turn certain errors into warnings.
-  -E                       when -W is enabled, -E disables it.
+  -E                       turn certain warnings into errors.
+  -W                       when -E is enabled, -W disables it.
   -q                       quiet operation, do not print warnings.
   -i[<regexp>]             filter out files to ignore diffs of
                              (defaults to: '%s').
