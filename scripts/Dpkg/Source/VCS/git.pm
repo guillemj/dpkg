@@ -176,7 +176,8 @@ sub prep_tar {
 
 	# As an optimisation, remove the index. It will be recreated by git
 	# reset during unpack. It's probably small, but you never know, this
-	# might save a lot of space.
+	# might save a lot of space. (Also, the index file may not be
+	# portable.)
 	unlink(".git/index"); # error intentionally ignored
 	
 	chdir($old_cwd) ||

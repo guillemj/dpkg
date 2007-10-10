@@ -1,3 +1,49 @@
+2007-10-09  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gensymbols.pl: Use new Dpkg module. Do not declare
+	nor initialize $version, $dpkglibdir and $progname anymore.
+
+2007-10-09  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-source.pl (usage): -W is the default
+	for quite some time already. Adapt the description of
+	-W and -E.
+	* scripts/dpkg-buildpackage.pl (usage): likewise.
+
+	* scripts/dpkg-buildpackage.pl: Add -z/-Z to
+	passthrough opts (will be passed to dpkg-source).
+
+	* scripts/dpkg-source.pl: Support a subset of
+	wig&pen (aka Format: 2.0) on build:
+	Use .orig.tar.(bz2|lzma) if they are available
+	and no .gz can be found. Also let the user specify
+	via -Z(gzip|bzip2|lzma) how files that need to be
+	generated should be compressed. -z([1-9]|best|fast)
+	can be used to specify the compression level
+	to use.
+
+2007-10-08  Raphael Hertzog  <hertzog@debian.org>
+	    Frank Lichtenheld  <djpig@debian.org>
+
+	* Merge dpkg-shlibdeps-buxy branch.
+
+	* scripts/dpkg-shlibdeps.pl: heavily reworked to support "symbols"
+	files. Lots of the code has been modularized in perl modules
+	Dpkg::Shlibs::*.
+
+	* scripts/dpkg-gensymbols.pl: new script used to generated symbols
+	files at package build time. It shall be used by packages of libraries.
+
+	* man/dpkg-{shlibdeps,gensymbols}.1: updated and created manual
+	pages documenting the changes above.
+
+	* scripts/t/*: Added some non-regression test on many parts of the
+	newly introduced perl modules.
+
+2007-10-08  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.8~.
+
 2007-10-08  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Release 1.14.7.
