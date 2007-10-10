@@ -6,7 +6,7 @@ use base qw(Exporter);
 our @EXPORT_OK = qw( failure syserr error internerr warning
                      warnerror subprocerr );
 
-our $warnable_error = 0;
+our $warnable_error = 1;
 our $quiet_warnings = 0;
 our $progname = "unknown";
 
