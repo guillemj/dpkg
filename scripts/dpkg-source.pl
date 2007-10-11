@@ -5,6 +5,9 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
+                           internerr syserr subprocerr usageerr
+                           $warnable_error $quiet_warnings);
 
 my @filesinarchive;
 my %dirincluded;
@@ -109,8 +112,6 @@ require 'controllib.pl';
 
 our (%f, %fi);
 our $sourcepackage;
-our $warnable_error;
-our $quiet_warnings;
 our %substvar;
 our @src_dep_fields;
 

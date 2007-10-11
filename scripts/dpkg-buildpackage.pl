@@ -8,12 +8,12 @@ use File::Basename;
 
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
+                           $warnable_error);
 use Dpkg::BuildOptions;
 
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
-
-our $warnable_error;
 
 textdomain("dpkg-dev");
 

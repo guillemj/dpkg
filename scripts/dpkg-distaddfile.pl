@@ -7,6 +7,7 @@ use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(error syserr usageerr);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';

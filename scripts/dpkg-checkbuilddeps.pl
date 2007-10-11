@@ -7,6 +7,7 @@ use warnings;
 use Getopt::Long;
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(error);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
