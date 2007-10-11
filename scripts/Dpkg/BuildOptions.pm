@@ -11,7 +11,7 @@ sub parse {
     unless ($env) { return {}; }
 
     my %opts;
-    if ($env =~ s/(noopt|nostrip),?//ig) {
+    if ($env =~ s/(noopt|nostrip|nocheck),?//ig) {
 	$opts{lc $1} = '';
     } elsif ($env =~ s/(parallel)=(-?\d+),?//ig) {
 	$opts{lc $1} = $2;
