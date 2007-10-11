@@ -33,6 +33,8 @@ sub set {
 	    $env .= "$k,";
 	}
     }
+
+    $ENV{DEB_BUILD_OPTIONS} = $env if $env;
 }
 
 1;
