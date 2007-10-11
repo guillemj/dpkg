@@ -5,11 +5,9 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning);
 
 textdomain("dpkg-dev");
-
-push(@INC, $dpkglibdir);
-require 'controllib.pl';
 
 @ARGV && die _g("Usage: 822-date")."\n";
 

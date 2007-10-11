@@ -7,6 +7,8 @@ use POSIX;
 use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
+                           subprocerr usageerr);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';

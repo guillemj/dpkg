@@ -24,6 +24,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning syserr usageerr);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';

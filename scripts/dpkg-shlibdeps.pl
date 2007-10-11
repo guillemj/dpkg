@@ -7,6 +7,7 @@ use English;
 use POSIX qw(:errno_h :signal_h);
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning error failure syserr usageerr);
 use Dpkg::Path qw(relative_to_pkg_root);
 use Dpkg::Version qw(vercmp);
 use Dpkg::Shlibs qw(find_library);
@@ -20,8 +21,6 @@ chomp $host_arch;
 my @depfields= qw(Suggests Recommends Depends Pre-Depends);
 my $i=0; my %depstrength = map { $_ => $i++ } @depfields;
 
-push(@INC, $dpkglibdir);
-require 'controllib.pl';
 textdomain("dpkg-dev");
 
 my $shlibsoverride= '/etc/dpkg/shlibs.override';

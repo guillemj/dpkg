@@ -1,3 +1,52 @@
+2007-10-11  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl ($warnable_error, $quiet_warnings): Remove
+	variable declarations.
+	(failure, syserr, error, internerr, warning, warnerror)
+	(subprocerr): Remove functions.
+	(unknown, usageerr): Move functions to ...
+	* scripts/Dpkg/ErrorHandling.pm: ... here.
+	(usageerr): Call usage from main::.
+	(@EXPORT_OK): Add usageerr and unknown.
+
+	* scripts/822-date.pl: Use Dpkg::ErrorHandling.
+	* scripts/changelog/debian.pl: Likewise.
+	* scripts/controllib.pl: Likewise.
+	* scripts/dpkg-architecture.pl: Likewise.
+	* scripts/dpkg-buildpackage.pl: Likewise.
+	* scripts/dpkg-checkbuilddeps.pl: Likewise.
+	* scripts/dpkg-distaddfile.pl: Likewise.
+	* scripts/dpkg-genchanges.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-gensymbols.pl: Likewise.
+	* scripts/dpkg-parsechangelog.pl: Likewise.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+
+	* scripts/dpkg-buildpackage.pl ($warnable_error): Import from
+	Dpkg::ErrorHandling instead of declaring as our.
+	* scripts/dpkg-source.pl ($warnable_error, $quiet_warnings): Likewise.
+
+	* scripts/822-date.pl: Do not require controllib.pl anymore.
+	* scripts/dpkg-parsechangelog.pl: Likewise.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+
+2007-10-10  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/ErrorHandling.pm: Use Dpkg.
+	($progname): Do not set nor declare it.
+
+2007-10-10  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/ErrorHandling.pm ($warnable_error): Set to 1 to match
+	controllib.pl.
+
+2007-10-10  Guillem Jover  <guillem@debian.org>
+
+	* m4/arch.m4(_DPKG_ARCHITECTURE): Set PERL5LIB when calling
+	dpkg-architecture.pl to use the shipped perl modules instead of
+	the system ones.
+
 2007-10-09  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-gensymbols.pl: Use new Dpkg module. Do not declare

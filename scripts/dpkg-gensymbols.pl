@@ -8,6 +8,7 @@ use Dpkg::Shlibs qw(@librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(warning error syserr usageerr);
 
 textdomain("dpkg-dev");
 

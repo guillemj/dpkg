@@ -1,14 +1,14 @@
 package Dpkg::ErrorHandling;
 
+use Dpkg;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT_OK = qw( failure syserr error internerr warning
-                     warnerror subprocerr );
+our @EXPORT_OK = qw(warning warnerror error failure unknown syserr internerr
+                    subprocerr usageerr $warnable_error $quiet_warnings);
 
-our $warnable_error = 0;
+our $warnable_error = 1;
 our $quiet_warnings = 0;
-our $progname = "unknown";
 
 sub failure { die sprintf(_g("%s: failure: %s"), $progname, $_[0])."\n"; }
 sub syserr { die sprintf(_g("%s: failure: %s: %s"), $progname, $_[0], $!)."\n"; }
@@ -31,6 +31,12 @@ sub warnerror
     }
 }
 
+sub unknown {
+    my $field = $_;
+    warning(sprintf(_g("unknown information field '%s' in input data in %s"),
+                    $field, $_[0]));
+}
+
 sub subprocerr {
     my ($p) = @_;
     require POSIX;
@@ -46,5 +52,12 @@ sub subprocerr {
     }
 }
 
+sub usageerr
+{
+    printf(STDERR "%s: %s\n\n", $progname, "@_");
+    # XXX: access to main namespace
+    main::usage();
+    exit(2);
+}
 
 1;

@@ -7,9 +7,7 @@ use POSIX;
 use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
-
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
+use Dpkg::ErrorHandling qw(warning error syserr subprocerr usageerr);
 
 textdomain("dpkg-dev");
 
