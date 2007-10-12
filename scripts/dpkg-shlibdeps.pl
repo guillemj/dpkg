@@ -13,9 +13,9 @@ use Dpkg::Version qw(vercmp);
 use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
+use Dpkg::Arch qw(get_host_arch);
 
-our $host_arch= `dpkg-architecture -qDEB_HOST_ARCH`;
-chomp $host_arch;
+our $host_arch= get_host_arch();
 
 # By increasing importance
 my @depfields= qw(Suggests Recommends Depends Pre-Depends);

@@ -8,6 +8,7 @@ use Getopt::Long;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error);
+use Dpkg::Arch qw(get_host_arch);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';

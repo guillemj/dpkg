@@ -72,6 +72,7 @@ CLEANFILES = \
 
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
+	Dpkg/Arch.pm \
 	Dpkg/Shlibs.pm \
 	Dpkg/Shlibs/Objdump.pm \
 	Dpkg/Shlibs/SymbolFile.pm \

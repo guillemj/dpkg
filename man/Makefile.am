@@ -13,6 +13,11 @@ clean-local:
 		$(srcdir)/po/po4a.cfg
 	rm -f man.stamp
 
+update-po:
+	cd $(srcdir)/po && \
+		po4a --no-backups --force --variable srcdir=../../man \
+			./po4a.cfg 
+
 # Extract the list of languages from the po4a config file.
 LINGUAS = $(shell sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg)
 
@@ -87,3 +92,4 @@ EXTRA_DIST = \
 	po/po4a.cfg \
 	po/dpkg-man.pot
 
+.PHONY: update-po
