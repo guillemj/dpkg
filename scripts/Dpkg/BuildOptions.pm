@@ -11,9 +11,10 @@ sub parse {
     unless ($env) { return {}; }
 
     my %opts;
-    if ($env =~ s/(noopt|nostrip),?//ig) {
+    while ($env =~ s/(noopt|nostrip|nocheck),?//i) {
 	$opts{lc $1} = '';
-    } elsif ($env =~ s/(parallel)=(-?\d+),?//ig) {
+    }
+    while ($env =~ s/(parallel)=(-?\d+),?//i) {
 	$opts{lc $1} = $2;
     }
 
@@ -33,6 +34,9 @@ sub set {
 	    $env .= "$k,";
 	}
     }
+
+    $ENV{DEB_BUILD_OPTIONS} = $env if $env;
+    return $env;
 }
 
 1;

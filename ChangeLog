@@ -1,3 +1,34 @@
+2007-10-12  Guillem Jover  <guillem@debian.org>
+
+	* scripts/controllib.pl ($host_arch, get_host_arch, get_valid_arches)
+	(@cpu, @os, %cputable, %ostable, %cputable_re, %ostable_re)
+	(%debtriplet_to_debarch, %debarch_to_debtriplet, read_cputable)
+	(read_ostable, read_triplettable, debtriplet_to_gnutriplet)
+	(gnutriplet_to_debtriplet, debtriplet_to_debarch)
+	(debarch_to_debtriplet, debwildcard_to_debtriplet)
+	(debarch_eq, debarch_is): Move to ...
+	* scripts/Dpkg/Arch.pm: ... here. New file.
+	* scripts/Makefile.am (nobase_dist_perllib_DATA): Add 'Dpkg/Arch.pm'.
+	* scripts/po/POTFILES.in: Add 'scripts/Dpkg/Arch.pm'.
+
+	* scripts/controllib.pl: Use new Dpkg::Arch module.
+	* scripts/dpkg-architecture.pl: Likewise.
+	* scripts/dpkg-checkbuilddeps.pl: Likewise.
+	* scripts/dpkg-genchanges.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+
+	* scripts/dpkg-architecture.pl: Do not require controllib.pl anymore.
+
+2007-10-12  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/t/300_Dpkg_BuildOptions.t: New file.
+	Leads to the following fixes:
+	* scripts/Dpkg/BuildOptions.pm (parse): Add
+	support for nocheck and make it actually work.
+	(set): Really set DEB_BUILD_OPTIONS. Discovered
+	by Daniel Shepler.
+
 2007-10-11  Guillem Jover  <guillem@debian.org>
 
 	* scripts/controllib.pl ($warnable_error, $quiet_warnings): Remove
