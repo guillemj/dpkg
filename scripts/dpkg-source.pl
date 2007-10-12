@@ -8,6 +8,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            internerr syserr subprocerr usageerr
                            $warnable_error $quiet_warnings);
+use Dpkg::Arch qw(debarch_eq);
 
 my @filesinarchive;
 my %dirincluded;

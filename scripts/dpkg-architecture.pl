@@ -25,9 +25,9 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning syserr usageerr);
-
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
+use Dpkg::Arch qw(get_valid_arches debarch_eq debarch_is
+                  debtriplet_to_gnutriplet gnutriplet_to_debtriplet
+                  debtriplet_to_debarch debarch_to_debtriplet);
 
 textdomain("dpkg-dev");
 
