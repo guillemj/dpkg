@@ -19,7 +19,6 @@ package Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syserr warning error);
 use Dpkg::Version qw(vercmp);
-textdomain("dpkg-dev");
 
 my %blacklist = (
     '__bss_end__' => 1,		# arm
