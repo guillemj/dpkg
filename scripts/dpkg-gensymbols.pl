@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Dpkg;
+use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Shlibs qw(@librarypaths);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
@@ -19,9 +20,6 @@ our (%f, %fi);
 our %p2i;
 our @librarypaths;
 
-our $host_arch= `dpkg-architecture -qDEB_HOST_ARCH`;
-chomp $host_arch;
-
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
 my $packagebuilddir = 'debian/tmp';
@@ -32,6 +30,7 @@ my $oppackage;
 my $compare = 1; # Bail on missing symbols by default
 my $output;
 my $debug = 0;
+my $host_arch = get_host_arch();
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
