@@ -23,7 +23,7 @@ use warnings;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(vercmp);
+our @EXPORT_OK = qw(vercmp compare_versions);
 
 =head1 NAME
 
