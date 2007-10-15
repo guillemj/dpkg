@@ -21,6 +21,12 @@
 	exports ".." as $pkgdatadir during tests).
 	* scripts/dpkg-shlibdeps.pl: bugfix, avoid unwanted modification
 	of @pkg_shlibs by my_find_library.
+	* scripts/dpkg-{checkbuilddeps.pl,gencontrol.pl,source.pl}:
+	adapted to use the new Dpkg::Deps module. dpkg-gencontrol gains
+	new features such as automatic simplification of dependencies.
+	* scripts/controllib.pl: remove unused parsedep() and showdep().
+	* man/dpkg-gencontrol.1: document the new behaviour with
+	dependency fields.
 
 2007-10-14  Raphael Hertzog  <hertzog@debian.org>
 
