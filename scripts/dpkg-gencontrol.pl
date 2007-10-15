@@ -10,6 +10,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
+use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
@@ -17,7 +18,6 @@ require 'controllib.pl';
 our %substvar;
 our (%f, %fi);
 our %p2i;
-our @pkg_dep_fields;
 our $sourcepackage;
 
 textdomain("dpkg-dev");
@@ -226,16 +226,43 @@ init_substvar_arch();
 # Process dependency fields in a second pass, now that substvars have been
 # initialized.
 
-for $_ (keys %fi) {
-    my $v = $fi{$_};
+my $facts = Dpkg::Deps::KnownFacts->new();
+$facts->add_installed_package($f{'Package'}, $f{'Version'});
+if (exists $fi{"C$myindex Provides"}) {
+    my $provides = Dpkg::Deps::parse(substvars($fi{"C$myindex Provides"}),
+                                     reduce_arch => 1, union => 1);
+    if (defined $provides) {
+	foreach my $subdep ($provides->get_deps()) {
+	    if ($subdep->isa('Dpkg::Deps::Simple')) {
+		$facts->add_provided_package($subdep->{package},
+                        $subdep->{relation}, $subdep->{version},
+                        $f{'Package'});
+	    }
+	}
+    }
+}
 
-    if (s/^C$myindex //) {
-        if (exists($pkg_dep_fields{$_})) {
-           my $dep = parsedep(substvars($v), 1, 1);
-            error(_g("error occurred while parsing %s"), $_)
-                unless defined $dep;
-            $f{$_}= showdep($dep, 0);
-        }
+my (@seen_deps);
+foreach my $field (@pkg_dep_fields) {
+    my $key = "C$myindex $field";
+    if (exists $fi{$key}) {
+	my $dep;
+	if ($dep_field_type{$field} eq 'normal') {
+	    $dep = Dpkg::Deps::parse(substvars($fi{$key}), use_arch => 1,
+                                     reduce_arch => 1);
+	    error(_g("error occurred while parsing %s"), $_) unless defined $dep;
+	    $dep->simplify_deps($facts, @seen_deps);
+	    # Remember normal deps to simplify even further weaker deps
+	    push @seen_deps, $dep if $dep_field_type{$field} eq 'normal';
+	} else {
+	    $dep = Dpkg::Deps::parse(substvars($fi{$key}), use_arch => 1,
+                                     reduce_arch => 1, union => 1);
+	    error(_g("error occurred while parsing %s"), $_) unless defined $dep;
+	    $dep->simplify_deps($facts);
+	}
+	$dep->sort();
+	$f{$field} = $dep->dump();
+	delete $f{$field} unless $f{$field}; # Delete empty field
     }
 }
 
