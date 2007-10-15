@@ -26,12 +26,6 @@ our %substvar;      # - map with substitution variables
 
 my $parsechangelog = 'dpkg-parsechangelog';
 
-our @pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
-                         Conflicts Breaks Replaces Provides);
-our @src_dep_fields = qw(Build-Depends Build-Depends-Indep
-                         Build-Conflicts Build-Conflicts-Indep);
-
-
 sub getfowner
 {
     my $getlogin = getlogin();
@@ -215,75 +209,6 @@ sub parsesubstvars {
         }
         $substvarsparsed = 1;
     }
-}
-
-sub parsedep {
-    my ($dep_line, $use_arch, $reduce_arch) = @_;
-    my @dep_list;
-    my $host_arch = get_host_arch();
-
-    foreach my $dep_and (split(/,\s*/m, $dep_line)) {
-        my @or_list = ();
-ALTERNATE:
-        foreach my $dep_or (split(/\s*\|\s*/m, $dep_and)) {
-            my ($package, $relation, $version);
-            $package = $1 if ($dep_or =~ s/^([a-zA-Z0-9][a-zA-Z0-9+._-]*)\s*//m);
-            ($relation, $version) = ($1, $2)
-		if ($dep_or =~ s/^\(\s*(=|<=|>=|<<?|>>?)\s*([^)]+).*\)\s*//m);
-	    my @arches;
-	    @arches = split(/\s+/m, $1) if ($use_arch && $dep_or =~ s/^\[([^]]+)\]\s*//m);
-            if ($reduce_arch && @arches) {
-
-                my $seen_arch='';
-                foreach my $arch (@arches) {
-                    $arch=lc($arch);
-
-		    if ($arch =~ /^!/) {
-			my $not_arch;
-			($not_arch = $arch) =~ s/^!//;
-
-			if (debarch_is($host_arch, $not_arch)) {
-			    next ALTERNATE;
-			} else {
-			    # This is equivilant to
-			    # having seen the current arch,
-			    # unless the current arch
-			    # is also listed..
-			    $seen_arch=1;
-			}
-		    } elsif (debarch_is($host_arch, $arch)) {
-			$seen_arch=1;
-			next;
-		    }
-
-                }
-                if (! $seen_arch) {
-                    next;
-                }
-            }
-            if (length($dep_or)) {
-		warning(_g("can't parse dependency %s"), $dep_and);
-		return undef;
-	    }
-	    push @or_list, [ $package, $relation, $version, \@arches ];
-        }
-        push @dep_list, \@or_list;
-    }
-    \@dep_list;
-}
-
-sub showdep {
-    my ($dep_list, $show_arch) = @_;
-    my @and_list;
-    foreach my $dep_and (@$dep_list) {
-        my @or_list = ();
-        foreach my $dep_or (@$dep_and) {
-            my ($package, $relation, $version, $arch_list) = @$dep_or; 
-            push @or_list, $package . ($relation && $version ? " ($relation $version)" : '') . ($show_arch && @$arch_list ? " [@$arch_list]" : '');
-        }
-        push @and_list, join(' | ', @or_list);
-    }
-    join(', ', @and_list);
 }
 
 sub parsechangelog {
