@@ -9,6 +9,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error);
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Deps;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
@@ -47,67 +48,71 @@ my $controlfile = shift || "debian/control";
 
 parsecontrolfile($controlfile);
 
-my @status = parse_status("$admindir/status");
+my $facts = parse_status("$admindir/status");
 my (@unmet, @conflicts);
 
 my $dep_regex=qr/[ \t]*(([^\n]+|\n[ \t])*)\s/; # allow multi-line
 if (defined($fi{"C Build-Depends"})) {
 	push @unmet, build_depends('Build-Depends',
-				   parsedep($fi{"C Build-Depends"}, 1, 1),
-				   @status);
+                                   Dpkg::Deps::parse($fi{"C Build-Depends"},
+                                        reduce_arch => 1), $facts);
 }
 if (defined($fi{"C Build-Conflicts"})) {
 	push @conflicts, build_conflicts('Build-Conflicts',
-					 parsedep($fi{"C Build-Conflicts"}, 1, 1),
-					 @status);
+                                         Dpkg::Deps::parse($fi{"C Build-Conflicts"},
+                                            reduce_arch => 1, union => 1), $facts);
 }
 if (! $binary_only && defined($fi{"C Build-Depends-Indep"})) {
 	push @unmet, build_depends('Build-Depends-Indep',
-				   parsedep($fi{"C Build-Depends-Indep"}, 1, 1),
-				   @status);
+                                   Dpkg::Deps::parse($fi{"C Build-Depends-Indep"},
+                                        reduce_arch => 1), $facts);
 }
 if (! $binary_only && defined($fi{"C Build-Conflicts-Indep"})) {
 	push @conflicts, build_conflicts('Build-Conflicts-Indep',
-					 parsedep($fi{"C Build-Conflicts-Indep"}, 1, 1),
-					 @status);
+                                         Dpkg::Deps::parse($fi{"C Build-Conflicts-Indep"},
+                                            reduce_arch => 1, union => 1), $facts);
 }
 
 if (@unmet) {
 	printf STDERR _g("%s: Unmet build dependencies: "), $progname;
-	print STDERR join(" ", @unmet), "\n";
+	print STDERR join(" ", map { $_->dump() } @unmet), "\n";
 }
 if (@conflicts) {
 	printf STDERR _g("%s: Build conflicts: "), $progname;
-	print STDERR join(" ", @conflicts), "\n";
+	print STDERR join(" ", map { $_->dump() } @conflicts), "\n";
 }
 exit 1 if @unmet || @conflicts;
 
-# This part could be replaced. Silly little status file parser.
-# thanks to Matt Zimmerman. Returns two hash references that
-# are exactly what the other functions need...
+# Silly little status file parser that returns a Dpkg::Deps::KnownFacts
 sub parse_status {
 	my $status = shift;
 	
-	my %providers;
-	my %version;
+	my $facts = Dpkg::Deps::KnownFacts->new();
 	local $/ = '';
 	open(STATUS, "<$status") || die "$status: $!\n";
 	while (<STATUS>) {
 		next unless /^Status: .*ok installed$/m;
 	
 		my ($package) = /^Package: (.*)$/m;
-		push @{$providers{$package}}, $package;
-		($version{$package}) = /^Version: (.*)$/m;
+		my ($version) = /^Version: (.*)$/m;
+		$facts->add_installed_package($package, $version);
 	
 		if (/^Provides: (.*)$/m) {
-			foreach (split(/,\s*/, $1)) {
-				push @{$providers{$_}}, $package;
+			my $provides = Dpkg::Deps::parse($1,
+                            reduce_arch => 1, union => 1);
+			next if not defined $provides;
+			foreach (grep { $_->isa('Dpkg::Deps::Simple') }
+                                 $provides->get_deps())
+			{
+				$facts->add_provided_package($_->{package},
+                                    $_->{relation}, $_->{version},
+                                    $package);
 			}
 		}
 	}
 	close STATUS;
 
-	return \%version, \%providers;
+	return $facts;
 }
 
 # This function checks the build dependencies passed in as the first
@@ -142,8 +147,7 @@ sub check_line {
 	my $build_depends=shift;
 	my $fieldname=shift;
 	my $dep_list=shift;
-	my %version=%{shift()};
-	my %providers=%{shift()};
+	my $facts=shift;
 	my $host_arch = shift || get_host_arch();
 	chomp $host_arch;
 
@@ -153,48 +157,20 @@ sub check_line {
 	    error(_g("error occurred while parsing %s"), $fieldname);
 	}
 
-	foreach my $dep_and (@$dep_list) {
-		my $ok=0;
-		my @possibles=();
-ALTERNATE:	foreach my $alternate (@$dep_and) {
-			my ($package, $relation, $version, $arch_list)= @{$alternate};
-
-			# This is a possibile way to meet the dependency.
-			# Remove the arch stuff from $alternate.
-			push @possibles, $package . ($relation && $version ? " ($relation $version)" : '');
-	
-			if ($relation && $version) {
-				if (! exists $version{$package}) {
-					# Not installed at all, so fail.
-					next;
-				}
-				else {
-					# Compare installed and needed
-					# version number.
-					system("dpkg", "--compare-versions",
-						$version{$package}, $relation,
-						 $version);
-					if (($? >> 8) != 0) {
-						next; # fail
-					}
-				}
-			}
-			elsif (! defined $providers{$package}) {
-				# It's not a versioned dependency, and
-				# nothing provides it, so fail.
-				next;
-			}
-			# If we get to here, the dependency was met.
-			$ok=1;
+	if ($build_depends) {
+		$dep_list->simplify_deps($facts);
+		if ($dep_list->is_empty()) {
+			return ();
+		} else {
+			return $dep_list->get_deps();
 		}
-	
-		if (@possibles && (($build_depends && ! $ok) ||
-		                   (! $build_depends && $ok))) {
-			# TODO: this could return a more complex
-			# data structure instead to save re-parsing.
-			push @unmet, join (" | ", @possibles);
+	} else { # Build-Conflicts
+		my @conflicts = ();
+		foreach my $dep ($dep_list->get_deps()) {
+			if ($dep->get_evaluation($facts)) {
+				push @conflicts, $dep;
+			}
 		}
+		return @conflicts;
 	}
-
-	return @unmet;
 }
