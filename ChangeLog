@@ -1,3 +1,13 @@
+2007-10-15  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Version.pm: fix compare_versions to handle properly
+	  the >= cases (it was improperly handled like >> due to a bad regexp).
+	* debian/rules: include cputable ostable triplettable in
+	build-tree so that they are available during make check (Dpkg.pm
+	exports ".." as $pkgdatadir during tests).
+	* scripts/dpkg-shlibdeps.pl: bugfix, avoid unwanted modification
+	of @pkg_shlibs by my_find_library.
+
 2007-10-14  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Version.pm: mark compare_versions as exportable.

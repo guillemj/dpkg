@@ -434,7 +434,8 @@ sub my_find_library {
     # that provides shlibs file...)
     # TODO: we should probably replace that by a cleaner way to look into
     # the various temporary build directories...
-    foreach my $builddir (map { s{/DEBIAN/shlibs$}{}; $_ } @pkg_shlibs) {
+    my @copy = (@pkg_shlibs);
+    foreach my $builddir (map { s{/DEBIAN/shlibs$}{}; $_ } @copy) {
 	$file = find_library($lib, \@RPATH, $format, $builddir);
 	return $file if defined($file);
     }
