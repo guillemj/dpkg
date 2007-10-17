@@ -266,7 +266,7 @@ close CHANGELOG or subprocerr('dpkg-parsechangelog');
 sub mustsetvar {
     my ($var, $text) = @_;
 
-    error(sprintf(_g("unable to determine %s", $text)))
+    error(sprintf(_g("unable to determine %s"), $text))
 	unless defined($var);
 
     print "$progname: $text $var\n";
