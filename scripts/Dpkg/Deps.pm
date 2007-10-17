@@ -26,6 +26,45 @@
 
 package Dpkg::Deps;
 
+=head1 NAME
+
+Dpkg::Deps - parse and manipulate dependencies of Debian packages
+
+=head1 DESCRIPTION
+
+The Dpkg::Deps module provides one generic Dpkg::Deps::parse() function
+to turn a dependency line in a set of Dpkg::Deps::{Simple,AND,OR,Union}
+objects depending on the case.
+
+It also provides some constants:
+
+=over 4
+
+=item @pkg_dep_fields
+
+List of fields that contains dependency-like information in a binary
+Debian package. The fields that express real dependencies are sorted from
+the stronger to the weaker.
+
+=item @src_dep_fields
+
+List of fields that contains dependencies-like information in a binary
+Debian package.
+
+=item %dep_field_type
+
+Associate to each field a type, either "normal" for a real dependency field
+(Pre-Depends, Depends, ...) or "union" for other relation fields sharing
+the same syntax (Conflicts, Breaks, etc.).
+
+=back
+
+=head1 FUNCTIONS
+
+=over 4
+
+=cut
+
 use strict;
 use warnings;
 
@@ -60,13 +99,19 @@ our %dep_field_type = (
 
 # Some factorized function
 
-# Returns true if the arch list $p is a superset of arch list $q
+=item Dpkg::Deps::arch_is_superset(\@p, \@q)
+
+Returns true if the arch list @p is a superset of arch list @q.
+The arguments can also be undef in case there's no explicit architecture
+restriction.
+
+=cut
 sub arch_is_superset {
     my ($p, $q) = @_;
     my $p_arch_neg = defined($p) && $p->[0] =~ /^!/;
     my $q_arch_neg = defined($q) && $q->[0] =~ /^!/;
 
-    # If "a" has no arches, it is a superset of q and we should fall through
+    # If "p" has no arches, it is a superset of q and we should fall through
     # to the version check.
     if (not defined $p) {
 	return 1;
@@ -120,6 +165,17 @@ sub arch_is_superset {
     return 1;
 }
 
+=item Dpkg::Deps::version_implies($rel_p, $v_p, $rel_q, $v_q)
+
+($rel_p, $v_p) and ($rel_q, $v_q) express two dependencies as (relation,
+version). The relation variable can have the following values: '=', '<<',
+'<=', '>=', '>>'.
+
+This functions returns 1 if the "p" dependency implies the "q"
+dependency. It returns 0 if the "p" dependency implies that "q" is
+not satisfied. It returns undef when there's no implication.
+
+=cut
 sub version_implies {
     my ($rel_p, $v_p, $rel_q, $v_q) = @_;
 
@@ -195,6 +251,41 @@ sub version_implies {
     return undef;
 }
 
+=item Dpkg::Deps::parse($line, %options)
+
+This function parse the dependency line and returns an object, either a
+Dpkg::Deps::AND or a Dpkg::Deps::Union. Various options can alter the
+behaviour of that function.
+
+=over 4
+
+=item use_arch (defaults to 1)
+
+Take into account the architecture restriction part of the dependencies.
+Set to 0 to completely ignore that information.
+
+=item host_arch (defaults to the current architecture)
+
+Define the host architecture. Needed only if the reduce_arch option is
+set to 1. By default it uses Dpkg::Arch::get_host_arch() to identify
+the proper architecture.
+
+=item reduce_arch (defaults to 0)
+
+If set to 1, ignore dependencies that do not concern the current host
+architecture. This implicitely strips off the architecture restriction
+list so that the resulting dependencies are directly applicable to the
+current architecture.
+
+=item union (defaults to 0)
+
+If set to 1, returns a Dpkg::Deps::Union instead of a Dpkg::Deps::AND. Use
+this when parsing non-dependency fields like Conflicts (see
+%dep_field_type).
+
+=back
+
+=cut
 sub parse {
     my $dep_line = shift;
     my %options = (@_);
@@ -240,6 +331,137 @@ sub parse {
 }
 
 package Dpkg::Deps::Simple;
+
+=head1 OBJECTS - Dpkg::Deps::*
+
+There are several kind of dependencies. A Dpkg::Deps::Simple dependency
+represents a single dependency statement (it relates to one package only).
+Dpkg::Deps::Multiple dependencies are built on top of this object
+and combine several dependencies in a different manners. Dpkg::Deps::AND
+represents the logical "AND" between dependencies while Dpkg::Deps::OR
+represents the logical "OR". Dpkg::Deps::Multiple objects can contain
+Dpkg::Deps::Simple object as well as other Dpkg::Deps::Multiple objects.
+
+In practice, the code is only meant to handle the realistic cases which,
+given Debian's dependencies structure, imply those restrictions: AND can
+contain Simple or OR objects, OR can only contain Simple objects.
+
+Dpkg::Deps::KnowFacts is a special object that is used while evaluating
+dependencies and while trying to simplify them. It represents a set of
+installed packages along with the virtual packages that they might
+provide.
+
+=head2 Common functions
+
+=over 4
+
+=item $dep->is_empty()
+
+Returns true if the dependency is empty and doesn't contain any useful
+information. This is true when a Dpkg::Deps::Simple object has not yet
+been initialized or when a (descendant of) Dpkg::Deps::Multiple contains
+an empty list of dependencies.
+
+=item $dep->get_deps()
+
+Return a list of sub-dependencies. For Dpkg::Deps::Simple it returns
+itself.
+
+=item $dep->dump()
+
+Return a string representing the dependency.
+
+=item $dep->implies($other_dep)
+
+Returns 1 when $dep implies $other_dep. Returns 0 when $dep implies
+NOT($other_dep). Returns undef when there's no implication. $dep and
+$other_dep do not need to be of the same type.
+
+=item $dep->sort()
+
+Sort alphabetically the internal list of dependencies. It's a no-op for
+Dpkg::Deps::Simple objects.
+
+=item $dep->arch_is_concerned($arch)
+
+Returns true if the dependency applies to the indicated architecture. For
+multiple dependencies, it returns true if at least one of the
+sub-dependencies apply to this architecture.
+
+=item $dep->reduce_arch($arch)
+
+Simplify the dependency to contain only information relevant to the given
+architecture. A Dpkg::Deps::Simple object can be left empty after this
+operation. For Dpkg::Deps::Multiple objects, the non-relevant
+sub-dependencies are simply removed.
+
+This trims off the architecture restriction list of Dpkg::Deps::Simple
+objects.
+
+=item $dep->get_evaluation($facts)
+
+Evaluates the dependency given a list of installed packages and a list of
+virtual packages provided. Those lists are part of the
+Dpkg::Deps::KnownFacts object given as parameters.
+
+Returns 1 when it's true, 0 when it's false, undef when some information
+is lacking to conclude.
+
+=item $dep->simplify_deps($facts, @assumed_deps)
+
+Simplify the dependency as much as possible given the list of facts (see
+object Dpkg::Deps::KnownFacts) and a list of other dependencies that we
+know to be true.
+
+=back
+
+=head2 Dpkg::Deps::Simple
+
+Such an object has four interesting properties:
+
+=over 4
+
+=item package
+
+The package name (can be undef if the dependency has not been initialized
+or if the simplification of the dependency lead to its removal).
+
+=item relation
+
+The relational operator: "=", "<<", "<=", ">=" or ">>". It can be
+undefined if the dependency had no version restriction. In that case the
+following field is also undefined.
+
+=item version
+
+The version.
+
+=item arches
+
+The list of architectures where this dependency is applicable. It's
+undefined when there's no restriction, otherwise it's an
+array ref. It can contain an exclusion list, in that case each
+architecture is prefixed with an exclamation mark.
+
+=back
+
+=head3 Methods
+
+=over 4
+
+=item $simple_dep->parse("dpkg-dev (>= 1.14.8) [!hurd-i386]")
+
+Parse the dependency and modify internal properties to match the parsed
+dependency.
+
+=item $simple_dep->merge_union($other_dep)
+
+Returns true if $simple_dep could be modified to represent the union of
+both dependencies. Otherwise returns false.
+
+=back
+
+=cut
 
 use strict;
 use warnings;
@@ -443,7 +665,7 @@ sub get_evaluation {
 	    return 1;
 	}
     }
-    return undef;
+    return 0;
 }
 
 sub simplify_deps {
@@ -500,6 +722,19 @@ sub merge_union {
 
 package Dpkg::Deps::Multiple;
 
+=head2 Dpkg::Deps::Multiple
+
+This the base class for Dpkg::Deps::{AND,OR,Union}. It contains the
+
+=over 4
+
+=item $mul->add($dep)
+
+Add a new dependency object at the end of the list.
+
+=back
+
+=cut
 use strict;
 use warnings;
 
@@ -520,7 +755,7 @@ sub add {
 
 sub get_deps {
     my $self = shift;
-    return @{$self->{list}};
+    return grep { not $_->is_empty() } @{$self->{list}};
 }
 
 sub sort {
@@ -560,6 +795,21 @@ sub merge_union {
 
 package Dpkg::Deps::AND;
 
+=head2 Dpkg::Deps::AND
+
+This object represents a list of dependencies who must be met at the same
+time.
+
+=over 4
+
+=item $and->dump()
+
+The dump method uses ", " to join the list of sub-dependencies.
+
+=back
+
+=cut
+
 use strict;
 use warnings;
 
@@ -596,12 +846,14 @@ sub implies {
 
 sub get_evaluation {
     my ($self, $facts) = @_;
+    # Return 1 only if all members evaluates to true
+    # Return 0 if at least one member evaluates to false
+    # Return undef otherwise
     my $result = 1;
     foreach my $dep ($self->get_deps()) {
 	my $eval = $dep->get_evaluation($facts);
 	if (not defined $eval) {
 	    $result = undef;
-	    last;
 	} elsif ($eval == 0) {
 	    $result = 0;
 	    last;
@@ -631,6 +883,21 @@ WHILELOOP:
 
 
 package Dpkg::Deps::OR;
+
+=head2 Dpkg::Deps::OR
+
+This object represents a list of dependencies of which only one must be met
+for the dependency to be true.
+
+=over 4
+
+=item $or->dump()
+
+The dump method uses " | " to join the list of sub-dependencies.
+
+=back
+
+=cut
 
 use strict;
 use warnings;
@@ -671,12 +938,14 @@ sub implies {
 
 sub get_evaluation {
     my ($self, $facts) = @_;
+    # Returns false if all members evaluates to 0
+    # Returns true if at least one member evaluates to true
+    # Returns undef otherwise
     my $result = 0;
     foreach my $dep ($self->get_deps()) {
 	my $eval = $dep->get_evaluation($facts);
 	if (not defined $eval) {
 	    $result = undef;
-	    last;
 	} elsif ($eval == 1) {
 	    $result = 1;
 	    last;
@@ -708,6 +977,30 @@ WHILELOOP:
 }
 
 package Dpkg::Deps::Union;
+
+=head2 Dpkg::Deps::Union
+
+This object represents a list of relationships.
+
+=over 4
+
+=item $union->dump()
+
+The dump method uses ", " to join the list of relationships.
+
+=item $union->implies($other_dep)
+=item $union->get_evaluation($other_dep)
+
+Those methods are not meaningful for this object and always return undef.
+
+=item $union->simplify_deps($facts)
+
+The simplication is done to generate an union of all the relationships.
+It uses $simple_dep->merge_union($other_dep) to get the its job done.
+
+=back
+
+=cut
 
 use strict;
 use warnings;
@@ -746,6 +1039,18 @@ WHILELOOP:
 
 package Dpkg::Deps::KnownFacts;
 
+=head2 Dpkg::Deps::KnowFacts
+
+This object represents a list of installed packages and a list of virtual
+packages provided (by the set of installed packages).
+
+=over 4
+
+=item my $facts = Dpkg::Deps::KnownFacts->new();
+
+Create a new object.
+
+=cut
 use strict;
 use warnings;
 
@@ -757,11 +1062,25 @@ sub new {
     return $self;
 }
 
+=item $facts->add_installed_package($package, $version)
+
+Record that the given version of the package is installed. If $version is
+undefined we know that the package is installed but we don't know which
+version it is.
+
+=cut
 sub add_installed_package {
     my ($self, $pkg, $ver) = @_;
     $self->{pkg}{$pkg} = $ver;
 }
 
+=item $facts->add_provided_package($virtual, $relation, $version, $by)
+
+Record that the "$by" package provides the $virtual package. $relation
+and $version correspond to the associated relation given in the Provides
+field. This might be used in the future for versioned provides.
+
+=cut
 sub add_provided_package {
     my ($self, $pkg, $rel, $ver, $by) = @_;
     if (not exists $self->{virtualpkg}{$pkg}) {
@@ -770,6 +1089,16 @@ sub add_provided_package {
     push @{$self->{virtualpkg}{$pkg}}, [ $by, $rel, $ver ];
 }
 
+=item my ($check, $param) = $facts->check_package($package)
+
+$check is one when the package is found. For a real package, $param
+contains the version. For a virtual package, $param contains an array
+reference containing the list of packages that provide it (each package is
+listed as [ $provider, $relation, $version ]).
+
+=back
+
+=cut
 sub check_package {
     my ($self, $pkg) = @_;
     if (exists $self->{pkg}{$pkg}) {
