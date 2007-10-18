@@ -21,7 +21,6 @@ package Dpkg::Shlibs::Objdump;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syserr subprocerr warning);
-textdomain("dpkg-dev");
 
 sub new {
     my $this = shift;

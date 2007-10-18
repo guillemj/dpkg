@@ -97,7 +97,8 @@ if ($gcc ne '') {
     my (@deb_host_archtriplet) = gnutriplet_to_debtriplet($gcc);
     $deb_host_arch = debtriplet_to_debarch(@deb_host_archtriplet);
     unless (defined $deb_host_arch) {
-	warning(sprintf(_g("Unknown gcc system type %s, falling back to default (native compilation)"), $gcc));
+	warning(_g("Unknown gcc system type %s, falling back to default " .
+	           "(native compilation)"), $gcc);
 	$gcc = '';
     } else {
 	$gcc = $deb_host_gnu_type = debtriplet_to_gnutriplet(@deb_host_archtriplet);
@@ -151,7 +152,7 @@ while (@ARGV) {
        &version;
        exit 0;
     } else {
-	usageerr(sprintf(_g("unknown option \`%s'"), $_));
+	usageerr(_g("unknown option \`%s'"), $_);
     }
 }
 
@@ -170,7 +171,10 @@ if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
     die (sprintf(_g("unknown default GNU system type for Debian architecture %s"),
                  $req_host_arch))
 	unless defined $dfl_host_gnu_type;
-    warning(sprintf(_g("Default GNU system type %s for Debian arch %s does not match specified GNU system type %s"), $dfl_host_gnu_type, $req_host_arch, $req_host_gnu_type)) if $dfl_host_gnu_type ne $req_host_gnu_type;
+    warning(_g("Default GNU system type %s for Debian arch %s does not " .
+               "match specified GNU system type %s"), $dfl_host_gnu_type,
+            $req_host_arch, $req_host_gnu_type)
+        if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
 $deb_host_arch = $req_host_arch if $req_host_arch ne '';
@@ -178,7 +182,10 @@ $deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
 
 #$gcc = `\${CC:-gcc} --print-libgcc-file-name`;
 #$gcc =~ s!^.*gcc-lib/(.*)/\d+(?:.\d+)*/libgcc.*$!$1!s;
-warning(sprintf(_g("Specified GNU system type %s does not match gcc system type %s."), $deb_host_gnu_type, $gcc)) if !($req_is_arch or $req_eq_arch) && ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
+warning(_g("Specified GNU system type %s does not match gcc system type %s."),
+        $deb_host_gnu_type, $gcc)
+    if !($req_is_arch or $req_eq_arch) &&
+       ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
 
 # Split the Debian and GNU names
 my ($deb_host_arch_abi, $deb_host_arch_os, $deb_host_arch_cpu) = debarch_to_debtriplet($deb_host_arch);

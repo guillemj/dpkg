@@ -26,8 +26,6 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syserr);
 use Dpkg::Shlibs::Objdump;
 
-textdomain("dpkg-dev");
-
 use constant DEFAULT_LIBRARY_PATH =>
     qw(/lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64
        /emul/ia32-linux/lib /emul/ia32-linux/usr/lib);

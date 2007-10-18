@@ -57,12 +57,11 @@ foreach (@ARGV) {
     } elsif (m/^--admindir=(.*)$/) {
 	$admindir = $1;
 	-d $admindir ||
-	    error(sprintf(_g("administrative directory '%s' does not exist"),
-			  $admindir));
+	    error(_g("administrative directory '%s' does not exist"), $admindir);
     } elsif (m/^-d(.*)$/) {
 	$dependencyfield= capit($1);
 	defined($depstrength{$dependencyfield}) ||
-	    warning(sprintf(_g("unrecognised dependency field \`%s'"), $dependencyfield));
+	    warning(_g("unrecognised dependency field \`%s'"), $dependencyfield);
     } elsif (m/^-e(.*)$/) {
 	$exec{$1} = $dependencyfield;
     } elsif (m/^--ignore-missing-info$/) {
@@ -74,7 +73,7 @@ foreach (@ARGV) {
     } elsif (m/^-x(.*)$/) {
 	push @exclude, $1;
     } elsif (m/^-/) {
-	usageerr(sprintf(_g("unknown option \`%s'"), $_));
+	usageerr(_g("unknown option \`%s'"), $_);
     } else {
 	$exec{$_} = $dependencyfield;
     }
@@ -97,7 +96,9 @@ foreach my $file (keys %exec) {
     my %libfiles;
     foreach my $soname (@sonames) {
 	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
-	failure(sprintf(_g("couldn't find library %s (note: only packages with 'shlibs' files are looked into)."), $soname)) unless defined($lib);
+	failure(_g("couldn't find library %s (note: only packages with " .
+	           "'shlibs' files are looked into)."), $soname)
+	    unless defined($lib);
 	$libfiles{$lib} = $soname if defined($lib);
     }
     my $file2pkg = find_packages(keys %libfiles);
@@ -141,9 +142,9 @@ foreach my $file (keys %exec) {
 		my $libobj = $dumplibs_wo_symfile->get_object($id);
 		# Only try to generate a dependency for libraries with a SONAME
 		if ($libobj->is_public_library() and not add_shlibs_dep($soname, $pkg)) {
-		    failure(sprintf(
-			_g("No dependency information found for %s (used by %s)."),
-			$soname, $file)) unless $ignore_missing_info;
+		    failure(_g("No dependency information found for %s " .
+		               "(used by %s)."), $soname, $file)
+		        unless $ignore_missing_info;
 		}
 	    }
 	}
@@ -185,9 +186,9 @@ foreach my $file (keys %exec) {
 		    my $print_name = $name;
 		    # Drop the default suffix for readability
 		    $print_name =~ s/\@Base$//;
-		    warning(sprintf(
-			_g("symbol %s used by %s found in none of the libraries."),
-			$print_name, $file)) unless $sym->{weak};
+		    warning(_g("symbol %s used by %s found in none of the " .
+		               "libraries."), $print_name, $file)
+		        unless $sym->{weak};
 		}
 	    } else {
 		$used_sonames{$syminfo->{soname}}++;
@@ -197,9 +198,8 @@ foreach my $file (keys %exec) {
     # Warn about un-NEEDED libraries
     foreach my $soname (@sonames) {
 	unless ($used_sonames{$soname}) {
-	    warning(sprintf(
-		_g("%s shouldn't be linked with %s (it uses none of its symbols)."),
-		$file, $soname));
+	    warning(_g("%s shouldn't be linked with %s (it uses none of its " .
+	               "symbols)."), $file, $soname);
 	}
     }
 }
@@ -210,13 +210,14 @@ if ($stdout) {
     $fh = \*STDOUT;
 } else {
     open(NEW, ">", "$varlistfile.new") ||
-	syserr(sprintf(_g("open new substvars file \`%s'"), "$varlistfile.new"));
+	syserr(_g("open new substvars file \`%s'"), "$varlistfile.new");
     if (-e $varlistfile) {
 	open(OLD, "<", $varlistfile) ||
-	    syserr(sprintf(_g("open old varlist file \`%s' for reading"), $varlistfile));
+	    syserr(_g("open old varlist file \`%s' for reading"), $varlistfile);
 	foreach my $entry (grep { not m/^\Q$varnameprefix\E:/ } (<OLD>)) {
 	    print(NEW $entry) ||
-		syserr(sprintf(_g("copy old entry to new varlist file \`%s'"), "$varlistfile.new"));
+	        syserr(_g("copy old entry to new varlist file \`%s'"),
+	               "$varlistfile.new");
 	}
 	close(OLD);
     }
@@ -275,7 +276,7 @@ foreach my $field (reverse @depfields) {
 if (!$stdout) {
     close($fh);
     rename("$varlistfile.new",$varlistfile) ||
-	syserr(sprintf(_g("install new varlist file \`%s'"), $varlistfile));
+	syserr(_g("install new varlist file \`%s'"), $varlistfile);
 }
 
 ##
@@ -350,19 +351,21 @@ sub extract_from_shlibs {
     } elsif ($soname =~ /^(.*)-(.*)\.so$/) {
 	$libname = $1; $libversion = $2;
     } else {
-	warning(sprintf(_g("Can't extract name and version from library name \`%s'"), $soname));
+	warning(_g("Can't extract name and version from library name \`%s'"),
+	        $soname);
 	return;
     }
     # Open shlibs file
     $shlibfile = "./$shlibfile" if $shlibfile =~ m/^\s/;
-    open(SHLIBS, "<", $shlibfile)
-	|| syserr(sprintf(_g("unable to open shared libs info file \`%s'"), $shlibfile));
+    open(SHLIBS, "<", $shlibfile) ||
+        syserr(_g("unable to open shared libs info file \`%s'"), $shlibfile);
     my $dep;
     while (<SHLIBS>) {
 	s/\s*\n$//;
 	next if m/^\#/;
 	if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)\s+(\S.*\S)\s*$/) {
-	    warning(sprintf(_g("shared libs info file \`%s' line %d: bad line \`%s'"), $shlibfile, $., $_));
+	    warning(_g("shared libs info file \`%s' line %d: bad line \`%s'"),
+	            $shlibfile, $., $_);
 	    next;
 	}
 	if (($libname eq $2) && ($libversion eq $3)) {
@@ -400,8 +403,8 @@ sub find_symbols_file {
 
 sub symfile_has_soname {
     my ($file, $soname) = @_;
-    open(SYM_FILE, "<", $file)
-	|| syserr(sprintf(_g("cannot open file %s"), $file));
+    open(SYM_FILE, "<", $file) ||
+        syserr(_g("cannot open file %s"), $file);
     my $result = 0;
     while (<SYM_FILE>) {
 	if (/^\Q$soname\E /) {
@@ -470,7 +473,7 @@ sub find_packages {
 	} elsif (m/^([^:]+): (\S+)$/) {
 	    $pkgmatch->{$2} = [ split(/, /, $1) ];
 	} else {
-	    warning(sprintf(_g("unknown output from dpkg --search: '%s'"), $_));
+	    warning(_g("unknown output from dpkg --search: '%s'"), $_);
 	}
     }
     close(DPKG);

@@ -157,7 +157,7 @@ while (@ARGV) {
     } elsif (m/^--version$/) {
         &version; exit(0);
     } else {
-        &usageerr(sprintf(_g("unknown option \`%s'"), $_));
+        usageerr(_g("unknown option \`%s'"), $_);
     }
 }
 
@@ -170,13 +170,15 @@ if (not $sourceonly) {
     while(<FL>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
-		warning(sprintf(_g("duplicate files list entry for package %s (line %d)"), $2, $.));
+		warning(_g("duplicate files list entry for package %s (line %d)"),
+		        $2, $.);
 	    $f2p{$1}= $2;
 	    $p2f{"$2 $4"}= $1;
 	    $p2f{$2}= $1;
 	    $p2ver{$2}= $3;
 	    defined($f2sec{$1}) &&
-		warning(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
+		warning(_g("duplicate files list entry for file %s (line %d)"),
+		        $1, $.);
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
 	    push(@fileslistfiles,$1);
@@ -188,12 +190,13 @@ if (not $sourceonly) {
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	    defined($f2sec{$1}) &&
-		warning(sprintf(_g("duplicate files list entry for file %s (line %d)"), $1, $.));
+		warning(_g("duplicate files list entry for file %s (line %d)"),
+		        $1, $.);
 	    $f2sec{$1}= $2;
 	    $f2pri{$1}= $3;
 	    push(@fileslistfiles,$1);
 	} else {
-	    &error(sprintf(_g("badly formed line in files list file, line %d"), $.));
+	    error(_g("badly formed line in files list file, line %d"), $.);
 	}
     }
     close(FL);
@@ -224,7 +227,8 @@ for $_ (keys %fi) {
 	if (!defined($p2f{$p}) && not $sourceonly) {
 	    if ((debarch_eq('all', $a) && !$archspecific) ||
 		grep(debarch_is($host_arch, $_), split(/\s+/, $a))) {
-		warning(sprintf(_g("package %s in control file but not in files list"), $p));
+		warning(_g("package %s in control file but not in files list"),
+		        $p);
 		next;
 	    }
 	} else {
@@ -277,7 +281,8 @@ for $_ (keys %fi) {
         }
     } elsif (m/^o:.*/) {
     } else {
-        &internerr(sprintf(_g("value from nowhere, with key >%s< and value >%s<"), $_, $v));
+        internerr(_g("value from nowhere, with key >%s< and value >%s<"),
+                  $_, $v);
     }
 }
 
@@ -295,7 +300,8 @@ if ($changesdescription) {
 for my $p (keys %p2f) {
     my ($pp, $aa) = (split / /, $p);
     defined($p2i{"C $pp"}) ||
-	warning(sprintf(_g("package %s listed in files list but not in control info"), $pp));
+	warning(_g("package %s listed in files list but not in control info"),
+	        $pp);
 }
 
 for my $p (keys %p2f) {
@@ -305,20 +311,20 @@ for my $p (keys %p2f) {
     $sec = $sourcedefault{'Section'} if !defined($sec);
     if (!defined($sec)) {
 	$sec = '-';
-	warning(sprintf(_g("missing Section for binary package %s; using '-'"), $p));
+	warning(_g("missing Section for binary package %s; using '-'"), $p);
     }
-    $sec eq $f2sec{$f} || &error(sprintf(_g("package %s has section %s in ".
-                                           "control file but %s in files list"),
-                                 $p, $sec, $f2sec{$f}));
+    $sec eq $f2sec{$f} || error(_g("package %s has section %s in " .
+                                   "control file but %s in files list"),
+                                $p, $sec, $f2sec{$f});
     my $pri = $f2pricf{$f};
     $pri = $sourcedefault{'Priority'} if !defined($pri);
     if (!defined($pri)) {
 	$pri = '-';
-	warning(sprintf(_g("missing Priority for binary package %s; using '-'"), $p));
+	warning(_g("missing Priority for binary package %s; using '-'"), $p);
     }
-    $pri eq $f2pri{$f} || &error(sprintf(_g("package %s has priority %s in ".
-                                           "control file but %s in files list"),
-                                 $p, $pri, $f2pri{$f}));
+    $pri eq $f2pri{$f} || error(_g("package %s has priority %s in " .
+                                   "control file but %s in files list"),
+                                $p, $pri, $f2pri{$f});
 }
 
 &init_substvars;
@@ -340,7 +346,7 @@ if (!$binaryonly) {
 
     (my $sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    open(CDATA,"< $dsc") || &error(sprintf(_g("cannot open .dsc file %s: %s"), $dsc, $!));
+    open(CDATA,"< $dsc") || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
@@ -349,7 +355,7 @@ if (!$binaryonly) {
     for my $file (split(/\n /, $files)) {
         next if $file eq '';
         $file =~ m/^([0-9a-f]{32})[ \t]+\d+[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
-            || &error(sprintf(_g("Files field contains bad line \`%s'"), $file));
+            || error(_g("Files field contains bad line \`%s'"), $file);
         ($md5sum{$2},$file) = ($1,$2);
         push(@sourcefiles,$file);
     }
@@ -399,19 +405,20 @@ for my $f (@sourcefiles, @fileslistfiles) {
     next if ($archspecific && debarch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
-    open(STDIN,"< $uf") || &syserr(sprintf(_g("cannot open upload file %s for reading"), $uf));
-    (my @s = stat(STDIN)) || syserr(sprintf(_g("cannot fstat upload file %s"), $uf));
+    open(STDIN, "< $uf") ||
+        syserr(_g("cannot open upload file %s for reading"), $uf);
+    (my @s = stat(STDIN)) || syserr(_g("cannot fstat upload file %s"), $uf);
     my $size = $s[7];
-    $size || warn(sprintf(_g("upload file %s is empty"), $uf));
+    $size || warning(_g("upload file %s is empty"), $uf);
     my $md5sum = `md5sum`;
-    $? && subprocerr(sprintf(_g("md5sum upload file %s"), $uf));
+    $? && subprocerr(_g("md5sum upload file %s"), $uf);
     $md5sum =~ m/^([0-9a-f]{32})\s*-?\s*$/i ||
-        &failure(sprintf(_g("md5sum upload file %s gave strange output \`%s'"), $uf, $md5sum));
+        failure(_g("md5sum upload file %s gave strange output \`%s'"),
+                $uf, $md5sum);
     $md5sum= $1;
     defined($md5sum{$f}) && $md5sum{$f} ne $md5sum &&
-        &error(sprintf(_g("md5sum of source file %s (%s) is different ".
-                          "from md5sum in %s (%s)"),
-                       $uf, $md5sum, $dsc, $md5sum{$f}));
+        error(_g("md5sum of source file %s (%s) is different from md5sum " .
+                 "in %s (%s)"), $uf, $md5sum, $dsc, $md5sum{$f});
     $f{'Files'}.= "\n $md5sum $size $f2sec{$f} $f2pri{$f} $f";
 }    
 
@@ -424,11 +431,13 @@ $f{'Maintainer'} = $forcemaint if defined($forcemaint);
 $f{'Changed-By'} = $forcechangedby if defined($forcechangedby);
 
 for my $f (qw(Version Distribution Maintainer Changes)) {
-    defined($f{$f}) || &error(sprintf(_g("missing information for critical output field %s"), $f));
+    defined($f{$f}) ||
+        error(_g("missing information for critical output field %s"), $f);
 }
 
 for my $f (qw(Urgency)) {
-    defined($f{$f}) || warning(sprintf(_g("missing information for output field %s"), $f));
+    defined($f{$f}) ||
+        warning(_g("missing information for output field %s"), $f);
 }
 
 for my $f (keys %override) {

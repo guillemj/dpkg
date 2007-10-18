@@ -62,18 +62,19 @@ while (@ARGV) {
     &usageerr("unknown option \`$_'");
 }
 
-@ARGV && &usageerr(sprintf(_g("%s takes no non-option arguments"), $progname));
+@ARGV && usageerr(_g("%s takes no non-option arguments"), $progname);
 $changelogfile= "./$changelogfile" if $changelogfile =~ m/^\s/;
 
 if (not $force and $changelogfile ne "-") {
     open(STDIN,"< $changelogfile") ||
-        &error(sprintf(_g("cannot open %s to find format: %s"), $changelogfile, $!));
+        error(_g("cannot open %s to find format: %s"), $changelogfile, $!);
     open(P,"tail -n 40 |") || die sprintf(_g("cannot fork: %s"), $!)."\n";
     while(<P>) {
         next unless m/\schangelog-format:\s+([0-9a-z]+)\W/;
         $format=$1;
     }
-    close(P); $? && &subprocerr(sprintf(_g("tail of %s"), $changelogfile));
+    close(P);
+    $? && subprocerr(_g("tail of %s"), $changelogfile);
 }
 
 my ($pa, $pf);
@@ -81,16 +82,16 @@ my ($pa, $pf);
 for my $pd (@parserpath) {
     $pa= "$pd/$format";
     if (!stat("$pa")) {
-        $! == ENOENT || &syserr(sprintf(_g("failed to check for format parser %s"), $pa));
+        $! == ENOENT || syserr(_g("failed to check for format parser %s"), $pa);
     } elsif (!-x _) {
-	warning(sprintf(_g("format parser %s not executable"), $pa));
+	warning(_g("format parser %s not executable"), $pa);
     } else {
         $pf= $pa;
 	last;
     }
 }
         
-defined($pf) || &error(sprintf(_g("format %s unknown"), $pa));
+defined($pf) || error(_g("format %s unknown"), $pa);
 
 if ($changelogfile ne "-") {
     open(STDIN,"< $changelogfile") || die sprintf(_g("cannot open %s: %s"), $changelogfile, $!)."\n";

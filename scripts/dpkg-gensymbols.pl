@@ -88,7 +88,7 @@ while (@ARGV) {
 	    push @files, glob($file);
 	}
     } elsif (m/^-p(.*)/) {
-	&error(sprintf(_g("Illegal package name \`%s'"), $1));
+	error(_g("Illegal package name \`%s'"), $1);
     } elsif (m/^-P(.*)$/) {
 	$packagebuilddir = $1;
 	$packagebuilddir =~ s{/+$}{};
@@ -101,7 +101,7 @@ while (@ARGV) {
     } elsif (m/^--version$/) {
 	&version; exit(0);
     } else {
-	&usageerr(sprintf(_g("unknown option \`%s'"), $_));
+	usageerr(_g("unknown option \`%s'"), $_);
     }
 }
 
@@ -113,7 +113,8 @@ if (not defined($oppackage)) {
     parsecontrolfile($controlfile);
     my @packages = grep(m/^C /, keys %p2i);
     @packages==1 ||
-	&error(sprintf(_g("must specify package since control info has many (%s)"), "@packages"));
+	error(_g("must specify package since control info has many (%s)"),
+	      "@packages");
     $oppackage = $packages[0];
     $oppackage =~ s/^C //;
 }
@@ -140,7 +141,7 @@ if (not scalar @files) {
 	$libdir =~ s{/+}{/}g;
 	next if not -d $libdir;
 	opendir(DIR, "$libdir") ||
-	    syserr(sprintf(_g("Can't read directory %s: %s"), $libdir, $!));
+	    syserr(_g("Can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {
 	    /(\.so\.|\.so$)/ && -f $_ &&
 	    Dpkg::Shlibs::Objdump::is_elf($_);
@@ -155,7 +156,7 @@ foreach my $file (@files) {
     print "Scanning $file for symbol information\n" if $debug;
     my $objid = $od->parse($file);
     unless (defined($objid) && $objid) {
-	warning(sprintf(_g("Objdump couldn't parse %s\n"), $file));
+	warning(_g("Objdump couldn't parse %s\n"), $file);
 	next;
     }
     my $object = $od->get_object($objid);
@@ -222,10 +223,11 @@ if ($compare) {
     $md5_after->addfile($after);
     if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
 	if (defined($ref_symfile->{file})) {
-	    warning(sprintf(_g("%s doesn't match completely %s\n"),
-		    $output, $ref_symfile->{file}));
+	    warning(_g("%s doesn't match completely %s\n"),
+		    $output, $ref_symfile->{file});
 	} else {
-	    warning(sprintf(_g("no debian/symbols file used as basis for generating %s\n"), $output));
+	    warning(_g("no debian/symbols file used as basis for generating %s\n"),
+	            $output);
 	}
 	my ($a, $b) = ($before->filename, $after->filename);
 	system("diff", "-u", $a, $b) if -x "/usr/bin/diff";

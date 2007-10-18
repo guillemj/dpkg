@@ -51,7 +51,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^--$/) {
         last;
     } else {
-        &usageerr(sprintf(_g("unknown option \`%s'"), $_));
+        usageerr(_g("unknown option \`%s'"), $_);
     }
 }
 

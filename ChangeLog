@@ -1,3 +1,17 @@
+2007-10-18  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/ErrorHandling.pm (report): New function.
+	(warning, warnerror, failure, syserr, error, internerr, unknown)
+	(usageerr): Use report instead of sprintf. Accept a format string
+	with variable number of arguments. Fix all callers.
+	(subprocerr): Use failure instead of die and sprintf. Accept a
+	format string with variable number of arguments. Fix all callers.
+
+2007-10-18  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl (mustsetvar): Pass $text to sprintf
+	instead of _g.
+
 2007-10-15  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Version.pm: fix compare_versions to handle properly
@@ -11,6 +25,12 @@
 2007-10-14  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Version.pm: mark compare_versions as exportable.
+
+2007-10-13  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/Shlibs.pm: Do not call textdomain.
+	* scripts/Dpkg/Shlibs/Objdump.pm: Likewise.
+	* scripts/Dpkg/Shlibs/SymbolFile.pm: Likewise.
 
 2007-10-13  Guillem Jover  <guillem@debian.org>
 

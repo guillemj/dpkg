@@ -156,7 +156,7 @@ while (@ARGV) {
     } elsif (/^-nc$/) {
 	$noclean = 1;
 	if ($sourceonly) {
-	    usageerr(sprintf(_g("cannot combine %s and %s"), '-nc', '-S'));
+	    usageerr(_g("cannot combine %s and %s"), '-nc', '-S');
 	}
 	unless ($binaryonly) {
 	    $binaryonly = '-b';
@@ -166,20 +166,20 @@ while (@ARGV) {
 	@checkbuilddep_args = ();
 	$binarytarget = 'binary';
 	if ($sourceonly) {
-	    usageerr(sprintf(_g("cannot combine %s and %s"), '-b', '-S'));
+	    usageerr(_g("cannot combine %s and %s"), '-b', '-S');
 	}
     } elsif (/^-B$/) {
 	$binaryonly = '-B';
 	@checkbuilddep_args = ('-B');
 	$binarytarget = 'binary-arch';
 	if ($sourceonly) {
-	    usageerr(sprintf(_g("cannot combine %s and %s"), '-B', '-S'));
+	    usageerr(_g("cannot combine %s and %s"), '-B', '-S');
 	}
     } elsif (/^-S$/) {
 	$sourceonly = '-S';
 	$checkbuilddep = 0;
 	if ($binaryonly) {
-	    usageerr(sprintf(_g("cannot combine %s and %s"), $binaryonly, '-S'));
+	    usageerr(_g("cannot combine %s and %s"), $binaryonly, '-S');
 	}
     } elsif (/^-v(.*)$/) {
 	$since = $1;
@@ -196,7 +196,7 @@ while (@ARGV) {
 	$warnable_error = 0;
 	push @passopts, '-E';
     } else {
-	usageerr(sprintf(_g("unknown option or argument %s"), $_));
+	usageerr(_g("unknown option or argument %s"), $_);
     }
 }
 
@@ -211,7 +211,7 @@ if ($< == 0) {
 	             "package, specify a command with the -r option, " .
 	             "or run this as root"));
 	} else {
-	    error(sprintf(_g("gain-root-commmand '%s' not found"), $rootcommand));
+	    error(_g("gain-root-commmand '%s' not found"), $rootcommand);
 	}
     }
 }
@@ -266,7 +266,7 @@ close CHANGELOG or subprocerr('dpkg-parsechangelog');
 sub mustsetvar {
     my ($var, $text) = @_;
 
-    error(sprintf(_g("unable to determine %s", $text)))
+    error(_g("unable to determine %s"), $text)
 	unless defined($var);
 
     print "$progname: $text $var\n";
