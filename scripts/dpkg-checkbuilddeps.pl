@@ -150,8 +150,7 @@ sub check_line {
 	my @unmet=();
 
 	unless(defined($dep_list)) {
-	    &error(sprintf(_g("error occurred while parsing %s"),
-	                   $fieldname));
+	    error(_g("error occurred while parsing %s"), $fieldname);
 	}
 
 	foreach my $dep_and (@$dep_list) {

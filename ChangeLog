@@ -1,5 +1,14 @@
 2007-10-18  Guillem Jover  <guillem@debian.org>
 
+	* scripts/Dpkg/ErrorHandling.pm (report): New function.
+	(warning, warnerror, failure, syserr, error, internerr, unknown)
+	(usageerr): Use report instead of sprintf. Accept a format string
+	with variable number of arguments. Fix all callers.
+	(subprocerr): Use failure instead of die and sprintf. Accept a
+	format string with variable number of arguments. Fix all callers.
+
+2007-10-18  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-buildpackage.pl (mustsetvar): Pass $text to sprintf
 	instead of _g.
 

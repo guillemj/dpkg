@@ -68,7 +68,8 @@ sub getfowner
 	    die(sprintf(_g('unable to get login information for username "%s"'), $getlogin));
 	}
     } else {
-	warning(sprintf(_g('no utmp entry available and LOGNAME not defined; using uid of process (%d)'), $<));
+	warning(_g('no utmp entry available and LOGNAME not defined; ' .
+	           'using uid of process (%d)'), $<);
 	@fowner = getpwuid($<);
 	if (!@fowner) {
 	    die (sprintf(_g('unable to get login information for uid %d'), $<));
@@ -97,13 +98,13 @@ sub substvars {
         $count= 0 if (length($POSTMATCH) < length($rhs));
 
         $count < $maxsubsts ||
-            &error(sprintf(_g("too many substitutions - recursive ? - in \`%s'"), $v));
+            error(_g("too many substitutions - recursive ? - in \`%s'"), $v);
         $lhs=$`; $vn=$1; $rhs=$';
         if (defined($substvar{$vn})) {
             $v= $lhs.$substvar{$vn}.$rhs;
             $count++;
         } else {
-	    warning(sprintf(_g("unknown substitution variable \${%s}"), $vn));
+	    warning(_g("unknown substitution variable \${%s}"), $vn);
             $v= $lhs.$rhs;
         }
     }
@@ -150,9 +151,13 @@ sub outputclose {
 	    $v= &substvars($v);
 	}
         $v =~ m/\S/ || next; # delete whitespace-only fields
-        $v =~ m/\n\S/ && &internerr(sprintf(_g("field %s has newline then non whitespace >%s<"), $f, $v));
-        $v =~ m/\n[ \t]*\n/ && &internerr(sprintf(_g("field %s has blank lines >%s<"), $f, $v));
-        $v =~ m/\n$/ && &internerr(sprintf(_g("field %s has trailing newline >%s<"), $f, $v));
+	$v =~ m/\n\S/ &&
+	    internerr(_g("field %s has newline then non whitespace >%s<"),
+	              $f, $v);
+	$v =~ m/\n[ \t]*\n/ &&
+	    internerr(_g("field %s has blank lines >%s<"), $f, $v);
+	$v =~ m/\n$/ &&
+	    internerr(_g("field %s has trailing newline >%s<"), $f, $v);
 	if (defined($varlistfile)) {
 	   $v =~ s/,[\s,]*,/,/g;
 	   $v =~ s/^\s*,\s*//;
@@ -170,7 +175,8 @@ sub parsecontrolfile {
 
     $controlfile="./$controlfile" if $controlfile =~ m/^\s/;
 
-    open(CDATA,"< $controlfile") || &error(sprintf(_g("cannot read control file %s: %s"), $controlfile, $!));
+    open(CDATA, "< $controlfile") ||
+        error(_g("cannot read control file %s: %s"), $controlfile, $!);
     binmode(CDATA);
     my $indices = parsecdata(\*CDATA, 'C', 1,
 			     sprintf(_g("control file %s"), $controlfile));
@@ -178,9 +184,8 @@ sub parsecontrolfile {
 
     for (my $i = 1; $i < $indices; $i++) {
         defined($fi{"C$i Package"}) ||
-            &error(sprintf(_g("per-package paragraph %d in control ".
-                                   "info file is missing Package line"),
-                           $i));
+            error(_g("per-package paragraph %d in control " .
+                     "info file is missing Package line"), $i);
     }
     defined($fi{"C Source"}) ||
         &error(_g("source paragraph in control info file is ".
@@ -200,14 +205,13 @@ sub parsesubstvars {
                 next if m/^\#/ || !m/\S/;
                 s/\s*\n$//;
                 m/^(\w[-:0-9A-Za-z]*)\=/ ||
-                    &error(sprintf(_g("bad line in substvars file %s at line %d"),
-                                   $varlistfile, $.));
+                    error(_g("bad line in substvars file %s at line %d"),
+                          $varlistfile, $.);
                 $substvar{$1}= $';
             }
             close(SV);
         } elsif ($! != ENOENT ) {
-            &error(sprintf(_g("unable to open substvars file %s: %s"),
-                           $varlistfile, $!));
+            error(_g("unable to open substvars file %s: %s"), $varlistfile, $!);
         }
         $substvarsparsed = 1;
     }
@@ -258,7 +262,7 @@ ALTERNATE:
                 }
             }
             if (length($dep_or)) {
-		warning(sprintf(_g("can't parse dependency %s"), $dep_and));
+		warning(_g("can't parse dependency %s"), $dep_and);
 		return undef;
 	    }
 	    push @or_list, [ $package, $relation, $version, \@arches ];
@@ -329,15 +333,16 @@ sub init_substvar_arch()
 sub checkpackagename {
     my $name = shift || '';
     $name =~ m/[^-+.0-9a-z]/o &&
-        &error(sprintf(_g("source package name `%s' contains illegal character `%s'"), $name, $&));
+        error(_g("source package name `%s' contains illegal character `%s'"),
+              $name, $&);
     $name =~ m/^[0-9a-z]/o ||
-        &error(sprintf(_g("source package name `%s' starts with non-alphanum"), $name));
+        error(_g("source package name `%s' starts with non-alphanum"), $name);
 }
 
 sub checkversion {
     my $version = shift || '';
     $version =~ m/[^-+:.0-9a-zA-Z~]/o &&
-        &error(sprintf(_g("version number contains illegal character `%s'"), $&));
+        error(_g("version number contains illegal character `%s'"), $&);
 }
 
 sub setsourcepackage {
@@ -346,7 +351,8 @@ sub setsourcepackage {
     checkpackagename( $v );
     if (defined($sourcepackage)) {
         $v eq $sourcepackage ||
-            &error(sprintf(_g("source package has two conflicting values - %s and %s"), $sourcepackage, $v));
+            error(_g("source package has two conflicting values - %s and %s"),
+                  $sourcepackage, $v);
     } else {
         $sourcepackage= $v;
     }
@@ -355,7 +361,7 @@ sub setsourcepackage {
 sub readmd5sum {
     (my $md5sum = shift) or return;
     $md5sum =~ s/^([0-9a-f]{32})\s*\*?-?\s*\n?$/$1/o
-	|| &failure(sprintf(_g("md5sum gave bogus output `%s'"), $md5sum));
+        || failure(_g("md5sum gave bogus output `%s'"), $md5sum);
     return $md5sum;
 }
 
@@ -424,7 +430,7 @@ sub parsecdata {
 }
 
 sub syntax {
-    &error(sprintf(_g("syntax error in %s at line %d: %s"), $whatmsg, $., $_[0]));
+    error(_g("syntax error in %s at line %d: %s"), $whatmsg, $., $_[0]);
 }
 
 1;

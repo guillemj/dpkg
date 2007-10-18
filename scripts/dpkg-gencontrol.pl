@@ -86,7 +86,7 @@ while (@ARGV) {
     if (m/^-p([-+0-9a-z.]+)$/) {
         $oppackage= $1;
     } elsif (m/^-p(.*)/) {
-        &error(sprintf(_g("Illegal package name \`%s'"), $1));
+        error(_g("Illegal package name \`%s'"), $1);
     } elsif (m/^-c/) {
         $controlfile= $';
     } elsif (m/^-l/) {
@@ -118,7 +118,7 @@ while (@ARGV) {
     } elsif (m/^--version$/) {
         &version; exit(0);
     } else {
-        &usageerr(sprintf(_g("unknown option \`%s'"), $_));
+        usageerr(_g("unknown option \`%s'"), $_);
     }
 }
 
@@ -129,12 +129,14 @@ parsecontrolfile($controlfile);
 my $myindex;
 
 if (defined($oppackage)) {
-    defined($p2i{"C $oppackage"}) || &error(sprintf(_g("package %s not in control info"), $oppackage));
+    defined($p2i{"C $oppackage"}) ||
+        error(_g("package %s not in control info"), $oppackage);
     $myindex= $p2i{"C $oppackage"};
 } else {
     my @packages = grep(m/^C /, keys %p2i);
     @packages==1 ||
-        &error(sprintf(_g("must specify package since control info has many (%s)"), "@packages"));
+        error(_g("must specify package since control info has many (%s)"),
+              "@packages");
     $myindex=1;
 }
 
@@ -179,17 +181,15 @@ for $_ (keys %fi) {
             } else {
 		my @archlist = split(/\s+/, $v);
 		my @invalid_archs = grep m/[^\w-]/, @archlist;
-		warning(sprintf(ngettext(
-		                  "`%s' is not a legal architecture string.",
-		                  "`%s' are not legal architecture strings.",
-		                  scalar(@invalid_archs)),
-		              join("' `", @invalid_archs)))
+		warning(ngettext("`%s' is not a legal architecture string.",
+		                 "`%s' are not legal architecture strings.",
+		                 scalar(@invalid_archs)),
+		        join("' `", @invalid_archs))
 		    if @invalid_archs >= 1;
 		grep(debarch_is($host_arch, $_), @archlist) ||
-		    error(sprintf(_g("current host architecture '%s' does " .
-		                     "not appear in package's architecture " .
-		                     "list (%s)"),
-		                   $host_arch, "@archlist"));
+		    error(_g("current host architecture '%s' does not " .
+		             "appear in package's architecture list (%s)"),
+		          $host_arch, "@archlist");
 		$f{$_} = $host_arch;
             }
         } elsif (s/^X[CS]*B[CS]*-//i) {
@@ -214,7 +214,7 @@ for $_ (keys %fi) {
         }
     } elsif (m/o:/) {
     } else {
-        &internerr(sprintf(_g("value from nowhere, with key >%s< and value >%s<"), $_, $v));
+        internerr(_g("value from nowhere, with key >%s< and value >%s<"), $_, $v);
     }
 }
 
@@ -232,7 +232,8 @@ for $_ (keys %fi) {
     if (s/^C$myindex //) {
         if (exists($pkg_dep_fields{$_})) {
            my $dep = parsedep(substvars($v), 1, 1);
-           &error(sprintf(_g("error occurred while parsing %s"), $_)) unless defined $dep;
+            error(_g("error occurred while parsing %s"), $_)
+                unless defined $dep;
             $f{$_}= showdep($dep, 0);
         }
     }
@@ -245,10 +246,10 @@ for my $f (qw(Section Priority)) {
 }
 
 for my $f (qw(Package Version)) {
-    defined($f{$f}) || &error(sprintf(_g("missing information for output field %s"), $f));
+    defined($f{$f}) || error(_g("missing information for output field %s"), $f);
 }
 for my $f (qw(Maintainer Description Architecture)) {
-    defined($f{$f}) || warning(sprintf(_g("missing information for output field %s"), $f));
+    defined($f{$f}) || warning(_g("missing information for output field %s"), $f);
 }
 $oppackage= $f{'Package'};
 
@@ -262,15 +263,18 @@ if ($oppackage ne $sourcepackage || $verdiff) {
 if (!defined($substvar{'Installed-Size'})) {
     defined(my $c = open(DU, "-|")) || syserr(_g("fork for du"));
     if (!$c) {
-        chdir("$packagebuilddir") || &syserr(sprintf(_g("chdir for du to \`%s'"), $packagebuilddir));
+        chdir("$packagebuilddir") ||
+            syserr(_g("chdir for du to \`%s'"), $packagebuilddir);
         exec("du","-k","-s",".") or &syserr(_g("exec du"));
     }
     my $duo = '';
     while (<DU>) {
 	$duo .= $_;
     }
-    close(DU); $? && &subprocerr(sprintf(_g("du in \`%s'"), $packagebuilddir));
-    $duo =~ m/^(\d+)\s+\.$/ || &failure(sprintf(_g("du gave unexpected output \`%s'"), $duo));
+    close(DU);
+    $? && subprocerr(_g("du in \`%s'"), $packagebuilddir);
+    $duo =~ m/^(\d+)\s+\.$/ ||
+        failure(_g("du gave unexpected output \`%s'"), $duo);
     $substvar{'Installed-Size'}= $1;
 }
 if (defined($substvar{'Extra-Size'})) {
@@ -321,7 +325,7 @@ if (!$stdout) {
     $cf= "$packagebuilddir/DEBIAN/control";
     $cf= "./$cf" if $cf =~ m/^\s/;
     open(STDOUT,"> $cf.new") ||
-        &syserr(sprintf(_g("cannot open new output control file \`%s'"), "$cf.new"));
+        syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
     binmode(STDOUT);
 }
 
@@ -329,7 +333,8 @@ set_field_importance(@control_fields);
 outputclose($varlistfile);
 
 if (!$stdout) {
-    rename("$cf.new","$cf") || &syserr(sprintf(_g("cannot install output control file \`%s'"), $cf));
+    rename("$cf.new", "$cf") ||
+        syserr(_g("cannot install output control file \`%s'"), $cf);
 }
 
 sub spfileslistvalue {

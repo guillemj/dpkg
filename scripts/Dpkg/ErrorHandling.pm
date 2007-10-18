@@ -10,19 +10,20 @@ our @EXPORT_OK = qw(warning warnerror error failure unknown syserr internerr
 our $warnable_error = 1;
 our $quiet_warnings = 0;
 
-sub failure { die sprintf(_g("%s: failure: %s"), $progname, $_[0])."\n"; }
-sub syserr { die sprintf(_g("%s: failure: %s: %s"), $progname, $_[0], $!)."\n"; }
-sub error { die sprintf(_g("%s: error: %s"), $progname, $_[0])."\n"; }
-sub internerr { die sprintf(_g("%s: internal error: %s"), $progname, $_[0])."\n"; }
-
-sub warning
+sub report(@)
 {
-    if (!$quiet_warnings) {
-	warn sprintf(_g("%s: warning: %s"), $progname, $_[0])."\n";
-    }
+    my ($type, $msg) = (shift, shift);
+
+    $msg = sprintf($msg, @_) if (@_);
+    return "$progname: $type: $msg\n";
 }
 
-sub warnerror
+sub warning($;@)
+{
+    warn report(_g("warning"), @_) if (!$quiet_warnings);
+}
+
+sub warnerror(@)
 {
     if ($warnable_error) {
 	warning(@_);
@@ -31,28 +32,53 @@ sub warnerror
     }
 }
 
-sub unknown {
-    my $field = $_;
-    warning(sprintf(_g("unknown information field '%s' in input data in %s"),
-                    $field, $_[0]));
+sub failure($;@)
+{
+    die report(_g("failure"), @_);
 }
 
-sub subprocerr {
-    my ($p) = @_;
+sub syserr($;@)
+{
+    my $msg = shift;
+    die report(_g("failure"), "$msg: $!", @_);
+}
+
+sub error($;@)
+{
+    die report(_g("error"), @_);
+}
+
+sub internerr($;@)
+{
+    die report(_g("internal error"), @_);
+}
+
+sub unknown($)
+{
+    # XXX: implicit argument
+    my $field = $_;
+    warning(_g("unknown information field '%s' in input data in %s"),
+            $field, $_[0]);
+}
+
+sub subprocerr(@)
+{
+    my ($p) = (shift);
+
+    $p = sprintf($p, @_) if (@_);
+
     require POSIX;
+
     if (POSIX::WIFEXITED($?)) {
-	die sprintf(_g("%s: failure: %s gave error exit status %s"),
-		    $progname, $p, POSIX::WEXITSTATUS($?))."\n";
+	failure(_g("%s gave error exit status %s"), $p, POSIX::WEXITSTATUS($?));
     } elsif (POSIX::WIFSIGNALED($?)) {
-	die sprintf(_g("%s: failure: %s died from signal %s"),
-		    $progname, $p, POSIX::WTERMSIG($?))."\n";
+	failure(_g("%s died from signal %s"), $p, POSIX::WTERMSIG($?));
     } else {
-	die sprintf(_g("%s: failure: %s failed with unknown exit code %d"),
-		    $progname, $p, $?)."\n";
+	failure(_g("%s failed with unknown exit code %d"), $p, $?);
     }
 }
 
-sub usageerr
+sub usageerr(@)
 {
     printf(STDERR "%s: %s\n\n", $progname, "@_");
     # XXX: access to main namespace
