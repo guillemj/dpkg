@@ -7,12 +7,11 @@ use IO::Handle;
 use IO::File;
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::Deps qw(@pkg_dep_fields);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 textdomain("dpkg-dev");
-
-our @pkg_dep_fields;
 
 my (@samemaint, @changedmaint);
 my %packages;

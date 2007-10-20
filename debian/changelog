@@ -29,6 +29,12 @@ dpkg (1.14.8) UNRELEASED; urgency=low
     * If dpkg-shlibdeps doesn't find any dependency information for a
       shared library that is actively used, then it will fail. This can be
       disabled with the option --ignore-missing-info. Closes: #10807
+  * Switch perl programs to use the new Dpkg/Deps module. This changes the
+    behaviour of dpkg-gencontrol which will rewrite and simplify dependencies
+    as possible.
+    Multiple dependencies on the same package are replaced by their
+    intersection. Closes: #178203, #186809, #222652
+    This applies to dependencies as well as build dependencies.
 
   [ Frank Lichtenheld ]
   * Add $(MAKE) check to build target

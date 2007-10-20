@@ -1,3 +1,19 @@
+2007-10-18  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Deps.pm: new module to handle dependencies, to
+	evaluate them and check implications between them.
+	* scripts/t/400_Dpkg_Deps.t: non-regression tests for Dpkg::Deps.
+	* scripts/dpkg-checkbuilddeps.pl: adapted to use the new
+	Dpkg::Deps module.
+	* scripts/dpkg-source.pl: Likewise.
+	* scripts/dpkg-scanpackages.pl: Likewise.
+	* scripts/dpkg-gencontrol.pl: Likewise. Also gains new features
+	such as automatic simplification of dependencies.
+	* scripts/controllib.pl: remove unused parsedep(), showdep(),
+	@pkg_dep_fields and @src_dep_fields.
+	* man/dpkg-gencontrol.1: document the new behaviour with
+	dependency fields.
+
 2007-10-18  Guillem Jover  <guillem@debian.org>
 
 	* scripts/Dpkg/ErrorHandling.pm (report): New function.

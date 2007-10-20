@@ -9,6 +9,7 @@ use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            internerr syserr subprocerr usageerr
                            $warnable_error $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
+use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
 
 my @filesinarchive;
 my %dirincluded;
@@ -318,10 +319,21 @@ if ($opmode eq 'build') {
 	    }
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
-		my $dep = parsedep($v, 1);
-		error(_g("error occurred while parsing %s"), $_)
-		    unless defined $dep;
-		$f{$_}= showdep($dep, 1);
+		my $dep;
+		# XXX: Should use %dep_field_type to decide if we parse
+		# as union or not but since case-insensitive matching is
+		# used, I can't rely on $_ to have the very same
+		# capitalization...
+		if (lc($1) eq "depends") {
+		    $dep = Dpkg::Deps::parse($v);
+		} else {
+		    $dep = Dpkg::Deps::parse($v, union => 1);
+		}
+		error(_g("error occurred while parsing %s"), $_) unless defined $dep;
+		my $facts = Dpkg::Deps::KnownFacts->new();
+		$dep->simplify_deps($facts);
+		$dep->sort();
+		$f{$_}= $dep->dump();
 	    }
             elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
             elsif (m/^(Section|Priority|Files|Bugs)$/i || m/^X[BC]+-/i) { }

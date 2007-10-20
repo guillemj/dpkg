@@ -73,13 +73,14 @@ CLEANFILES = \
 perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
+	Dpkg/BuildOptions.pm \
+	Dpkg/ErrorHandling.pm \
+	Dpkg/Deps.pm \
+	Dpkg/Gettext.pm \
+	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \
 	Dpkg/Shlibs/Objdump.pm \
 	Dpkg/Shlibs/SymbolFile.pm \
-	Dpkg/ErrorHandling.pm \
-	Dpkg/BuildOptions.pm \
-	Dpkg/Gettext.pm \
-	Dpkg/Path.pm \
 	Dpkg/Version.pm \
 	Dpkg/Source/VCS/git.pm \
 	Dpkg.pm
