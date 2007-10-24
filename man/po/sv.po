@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-11 01:01+0200\n"
-"PO-Revision-Date: 2007-09-28 07:47+0100\n"
+"PO-Revision-Date: 2007-10-24 15:13+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -591,9 +591,9 @@ msgstr "deb-control"
 
 # type: TH
 #: ../../man/deb-control.5:3
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-10-08"
-msgstr "2007-03-08"
+msgstr "2007-10-08"
 
 # type: Plain text
 #: ../../man/deb-control.5:6
@@ -752,15 +752,14 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/deb-control.5:71
-#, fuzzy
 msgid ""
 "In Debian, the B<Section> and B<Priority> fields have a defined set of "
 "accepted values based on the Policy Manual.  A list of these values can be "
 "obtained from the latest version of the B<debian-policy> package."
 msgstr ""
 "I Debian har fälten B<Section> och B<Priority> en definierad uppsättning "
-"accepterade värden baserade på policymanualen. Dessa används för att "
-"bestämma hur paketen placeras i arkivet. En lista över dessa värden finns i "
+"accepterade värden baserade på policymanualen. En förteckning över dessa "
+"värden finns i "
 "den senaste versionen av paketet B<debian-policy>."
 
 # type: TP
@@ -804,20 +803,20 @@ msgstr ""
 
 # type: TP
 #: ../../man/deb-control.5:86
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Origin:> E<lt>nameE<gt>"
-msgstr "B<Source:> E<lt>källkodsnamnE<gt>"
+msgstr "B<Origin:> E<lt>namnE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:89
 msgid "The name of the distribution this package is originating from."
-msgstr ""
+msgstr "Namnet på den distribution paketet härstammar från."
 
 # type: TP
 #: ../../man/deb-control.5:89
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Bugs:> E<lt>urlE<gt>"
-msgstr "B<Homepage:> E<lt>urlE<gt>"
+msgstr "B<Bugs:> E<lt>urlE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:93
@@ -826,6 +825,9 @@ msgid ""
 "is B<E<lt>bts_typeE<gt>://E<lt>bts_addressE<gt>>, like B<debbugs://bugs."
 "debian.org>."
 msgstr ""
+"URL:en till felrapporteringssystemet för detta paket. Det nuvarande formatet "
+"är B<E<lt>systemtypE<gt>://E<lt>addressE<gt>>, till exempel B<debbugs://bugs."
+"debian.org>."
 
 # type: TP
 #: ../../man/deb-control.5:93
@@ -4213,9 +4215,9 @@ msgstr "dpkg-buildpackage"
 
 # type: TH
 #: ../../man/dpkg-buildpackage.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-09-28"
-msgstr "2007-09-08"
+msgstr "2007-09-28"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:4
@@ -4345,9 +4347,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:49
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-j>I<jobs>"
-msgstr "B<-L>I<bibliotekskatalog>"
+msgstr "B<-j>I<jobb>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:60
@@ -4360,6 +4362,13 @@ msgid ""
 "own purposes.  If no B<-j> option is given, an existing value for "
 "B<parallel> will be honoured and added to MAKEFLAGS."
 msgstr ""
+"Antalet jobb som tillåts att köras samtidigt, motsvarar B<make>(1)-"
+"flaggan med samma namn. Lägger till sig själv i miljövariabeln MAKEFLAGS, "
+"vilket får alla påföljande make-anrop att ärva flaggan. Lägger även till "
+"flaggan B<parallel=>I<jobb> till miljövariabeln DEB_BUILD_OPTIONS, vilket "
+"gör det möjligt för debian/rules-filer att använda informationen för "
+"egna ändamål. Om flaggan B<-j> inte anges kommer ett befintligt värde "
+"för B<parallel> att tas hänsyn till och läggas till i MAKEFLAGS."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:60 ../../man/dpkg-genchanges.1:50
@@ -4455,12 +4464,11 @@ msgstr "B<-E>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:93
-#, fuzzy
 msgid ""
 "Turn certain warnings into errors. Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
-"Gör vissa fel till varningar. Används endast av B<dpkg-source>, men B<dpkg-"
+"Gör vissa varningar till fel. Används endast av B<dpkg-source>, men B<dpkg-"
 "buildpackage> känner igen det och sänder det vidare till B<dpkg-source>."
 
 # type: TP
@@ -4471,12 +4479,11 @@ msgstr "B<-W>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:101
-#, fuzzy
 msgid ""
 "Negates a previously set B<-E>.  Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
-"Slår av tidigare satt B<-W>. Används endast av B<dpkg-source>, men B<dpkg-"
+"Slår av tidigare satt B<-E>. Används endast av B<dpkg-source>, men B<dpkg-"
 "buildpackage> känner igen det och sänder det vidare till B<dpkg-source>."
 
 # type: TP
@@ -4514,7 +4521,6 @@ msgstr "B<-r>I<få-root-kommando>"
 # type: Plain text
 #.  what happens, if it contains spaces? (hs)
 #: ../../man/dpkg-buildpackage.1:137
-#, fuzzy
 msgid ""
 "When B<dpkg-buildpackage> needs to execute part of the build process as "
 "root, it prefixes the command it executes with I<gain-root-command> if one "
@@ -4530,7 +4536,8 @@ msgid ""
 msgstr ""
 "När B<dpkg-buildpackages> behöver exekvera delar av byggprocessen som root "
 "sätter den kommandot som skall exekveras efter I<få-root-kommando> om ett "
-"sådant har angivits. I<få-root-kommando> måste vara namnet på ett program i "
+"sådant har angivits. Om inte kommer B<fakeroot> att användas som standard, "
+"om kommandot existerar. I<få-root-kommando> måste vara namnet på ett program i "
 "B<PATH> och namnet på det faktiska kommando som skall anropas och dess "
 "argument sänds som argument. I<få-root-kommando> får inte innehålla "
 "blanksteg eller andra skalmetatecken. I<få-root-kommando> kan typiskt vara "
@@ -4611,9 +4618,9 @@ msgstr "Sänds vidare utan ändringar till B<dpkg-source>."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:175
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-I>I<[pattern]>"
-msgstr "B<--list>I< filnamnsmönster>"
+msgstr "B<-I>I<[mönster]>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:180
@@ -4625,13 +4632,13 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:180
 #, no-wrap
 msgid "B<-s>[B<nsAkurKUR>]"
-msgstr ""
+msgstr "B<-s>[B<nsAkurKUR>]"
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:184
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-z>, B<-Z>"
-msgstr "B<-b>, B<-B>"
+msgstr "B<-z>, B<-Z>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:192 ../../man/dpkg-checkbuilddeps.1:23
@@ -4672,9 +4679,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:217
-#, fuzzy
 msgid "Copyright (C) 2007 Frank Lichtenheld"
-msgstr "Upphovsrättsskyddat © 2000 Wichert Akkerman"
+msgstr "Upphovsrättsskyddat © 2007 Frank Lichtenheld"
 
 # type: TH
 #: ../../man/dpkg-checkbuilddeps.1:1
@@ -5977,7 +5983,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-gencontrol.1:118
-#, fuzzy
 msgid ""
 "The list of generated files which are part of the upload being prepared.  "
 "B<dpkg-gencontrol> adds the presumed filenames of binary packages whose "
@@ -5985,7 +5990,7 @@ msgid ""
 msgstr ""
 "Listan över genererade filer som ingår i insändningen som skapas. B<dpkg-"
 "gencontrol> lägger till de förutsatta filnamnen på binärpaketen vars control-"
-"filer det genererar här;"
+"filer det genererar här."
 
 # type: TH
 #: ../../man/dpkg-name.1:6
@@ -6886,9 +6891,9 @@ msgstr "dpkg-shlibdeps"
 
 # type: TH
 #: ../../man/dpkg-shlibdeps.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-07-16"
-msgstr "2007-07-18"
+msgstr "2007-07-16"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:4
@@ -6904,7 +6909,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:24
-#, fuzzy
 msgid ""
 "B<dpkg-shlibdeps> calculates shared library dependencies for executables "
 "named in its arguments. The dependencies are added to the substitution "
@@ -6916,12 +6920,7 @@ msgstr ""
 "argument och delade bibliotek. Beroendena läggs till i "
 "substitueringsvariabelfilen B<debian/substvars> som variabler med namnen "
 "B<shlibs:>I<beroendefält> där I<beroendeefält> är ett beroendefältsnamn. "
-"Alla andra variabler som börjar på I<shlibs:> tas bort ur filen. B<dpkg-"
-"shlibdeps> läser information om beroenden för delade bibliotek från B<debian/"
-"shlibs.local>, B</etc/dpkg/shlibs.override>, B<shlibs>-området i control-"
-"filen för paketet som innehåller filen som B<objdump> rapporterar att det "
-"uppfyller biblioteksberoendet, eller B</etc/dpkg/shlibs.default>. Den första "
-"träffen används."
+"Alla andra variabler som börjar på I<shlibs:> tas bort ur filen."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:46
@@ -6938,12 +6937,23 @@ msgid ""
 "would use), then use B<dpkg -S >I<library-file> to lookup the package "
 "providing the library."
 msgstr ""
+"B<dpkg-shlibdeps> kan generera beroendeinformation från två "
+"informationskällor, antingen filen I<symbols> eller filen I<shlibs>. "
+"För varje binärfil som analyseras av B<dpkg-shlibdeps> tas en lista fram "
+"över vilka bibliotek de är länkade mot. Programmet slår sedan upp varje "
+"bibliotek i filen I<symbols>, eller i filen I<shlibs> (om den förstnämnda "
+"inte existerar). De båda filerna skall tillhandahållas av bibliotekspaketet "
+"och borde därför vara tillgängliga som /var/lib/dpkg/info/I<paket>.I<symbols> "
+"eller /var/lib/dpkg/info/I<paket>.I<shlibs>. Paketnamnet identifieras i "
+"två steg: biblioteksfilen lokaliseras på systemet (genom att slå upp i "
+"de kataloger B<ld.so> skulle använt), och därefter används B<dpkg -S> "
+"I<biblioteksfil> för att slå upp vilket paket biblioteket kommer från."
 
 # type: SS
 #: ../../man/dpkg-shlibdeps.1:46
 #, no-wrap
 msgid "Symbols files"
-msgstr ""
+msgstr "Symbolfiler"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:51
@@ -6953,12 +6963,16 @@ msgid ""
 "tries to find a symbols file associated to a library package in the "
 "following places (first match is used):"
 msgstr ""
+"Symbolfiler innehåller mer finkornig beroendeinformation genom att ange "
+"det minsta beroendet för varje symbol som exporteras av biblioteket. Skriptet "
+"försöker hitta de symboler som är associerade med ett bibliotek på följande "
+"platser (den första träffen används):"
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:51
 #, no-wrap
 msgid "debian/*/DEBIAN/symbols"
-msgstr ""
+msgstr "debian/*/DEBIAN/symbols"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:56
@@ -6966,18 +6980,20 @@ msgid ""
 "Shared library information generated by the current build process that also "
 "invoked B<dpkg-shlibdeps>.  They are generated by B<dpkg-gensymbols>(1)."
 msgstr ""
+"Information om delade bibliotek som skapats av den aktuella byggproceduren "
+"som också anropade B<dpkg-shlibdeps>. De genereras av B<dpkg-gensymbols>(1)."
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:56
 #, no-wrap
 msgid "/etc/dpkg/symbols/I<package>.symbols.I<arch>"
-msgstr ""
+msgstr "/etc/dpkg/symbols/I<package>.symbols.I<arkitektur>"
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:57
 #, no-wrap
 msgid "/etc/dpkg/symbols/I<package>.symbols"
-msgstr ""
+msgstr "/etc/dpkg/symbols/I<paket>.symbols"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:61
@@ -6986,20 +7002,24 @@ msgid ""
 "architecture of the current system (obtained by B<dpkg-architecture -"
 "qDEB_HOST_ARCH>)."
 msgstr ""
+"Överstyrningsfil för beroendeinformation för delade bibliotek, per system. "
+"I<arkitektur> är det aktuella systemets arkitektur (hämtas från "
+"B<dpkg-architecture -qDEB_HOST_ARCH>)."
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:61
 #, no-wrap
 msgid "I<admindir>/info/I<package>.symbols"
-msgstr ""
+msgstr "I<adminkat>/info/I<paket>.symbols"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:64 ../../man/dpkg-shlibdeps.1:88
-#, fuzzy
 msgid ""
 "Package-provided shared library dependency information.  Unless overriden, "
 "I<admindir> is /var/lib/dpkg."
-msgstr "Paketlokal överstyrande beroendeinformation för delade bibliotek."
+msgstr ""
+"Paketlokal överstyrande beroendeinformation för delade bibliotek. Normalt "
+"är I<adminkat> /var/lib/dpkg."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:71
@@ -7009,12 +7029,17 @@ msgid ""
 "process, it is able to write out the minimal dependency for every library "
 "used (provided that the information of the I<symbols> files are accurate)."
 msgstr ""
+"B<dpkg-shlibs> kommer ihåg den (största) minimala version som behövs av "
+"varje bibliotek när den söker genom de symboler som används av alla "
+"binärfilerna. När proceduren är avslutad kan den visa det minsta beroende "
+"som behövs av alla bibliotek som används (såtillvida informationen i "
+"I<symbols>-filerna är korrekt)."
 
 # type: SS
 #: ../../man/dpkg-shlibdeps.1:71
 #, no-wrap
 msgid "Shlibs files"
-msgstr ""
+msgstr "Shlibs-filer"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:75
@@ -7023,6 +7048,9 @@ msgid ""
 "at the symbols). It's thus often stronger than really needed but very safe "
 "and easy to handle."
 msgstr ""
+"Shlibs-filer associerar ett bibliotek direkt till ett beroende (utan att "
+"se på symbolerna). Det är därför oftare starkare än vad som egentligen "
+"behövs, men mycket säkert och enkelt att hantera."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:78
@@ -7030,12 +7058,14 @@ msgid ""
 "The dependencies for a library are looked up in several places. The first "
 "file providing informations for the library of interest is used:"
 msgstr ""
+"Beroenden för ett bibliotek slås upp på flera platser. Den första filen "
+"som innehåller information om det intressanta biblioteket används:"
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:78
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "debian/shlibs.local"
-msgstr "B<debian/shlibs.local>"
+msgstr "debian/shlibs.local"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:80
@@ -7044,9 +7074,9 @@ msgstr "Paketlokal överstyrande beroendeinformation för delade bibliotek."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:80
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "/etc/dpkg/shlibs.override"
-msgstr "B</etc/dpkg/shlibs.override>"
+msgstr "/etc/dpkg/shlibs.override"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:82
@@ -7057,7 +7087,7 @@ msgstr "Systemspecifik överstyrande beroendeinformation för delade bibliotek."
 #: ../../man/dpkg-shlibdeps.1:82
 #, no-wrap
 msgid "debian/*/DEBIAN/shlibs"
-msgstr ""
+msgstr "debian/*/DEBIAN/shlibs"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:85
@@ -7065,18 +7095,20 @@ msgid ""
 "Shared library information generated by the current build process that also "
 "invoked B<dpkg-shlibdeps>."
 msgstr ""
+"Information om delade bibliotek som skapats av den aktuella byggproceduren "
+"som också anropade B<dpkg-shlibdeps>."
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:85
 #, no-wrap
 msgid "I<admindir>/info/I<package>.shlibs"
-msgstr ""
+msgstr "I<adminkat>/info/I<paket>.shlibs"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:88
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "/etc/dpkg/shlibs.default"
-msgstr "B</etc/dpkg/shlibs.default>"
+msgstr "/etc/dpkg/shlibs.default"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:90
@@ -7090,6 +7122,9 @@ msgid ""
 "filtered out because they have been identified as duplicate, or as weaker "
 "than another dependency)."
 msgstr ""
+"De utökade beroendena används sedan direkt (förutom om de filtrerats bort "
+"för att de identifierats som dubletter, eller svagare än ett annat "
+"beroende)."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:99
@@ -7233,9 +7268,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:163
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-v>"
-msgstr "B<-G>"
+msgstr "B<-V>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:168
@@ -7243,12 +7278,14 @@ msgid ""
 "Enable verbose mode. Numerous messages are displayed to explain what B<dpkg-"
 "shlibdeps> does."
 msgstr ""
+"Aktiverar pratsamt läge. Flera meddelanden visas för att förklara vad "
+"B<dpkg-shlibs> håller på med."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:168
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-x>I<package>"
-msgstr "B<-p>I<paket>"
+msgstr "B<-x>I<paket>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:175
@@ -7258,12 +7295,16 @@ msgid ""
 "library plugins) using a library contained in the same package. This option "
 "can be used multiple times to exclude several packages."
 msgstr ""
+"Uteslut paketet från de genererade beroendena. Flaggan är användbar för att "
+"undvika självberoenden för paket som innehåller ELF-binärer (exekverbara eller "
+"biblioteksinsticksprogram) som använder ett bibliotek som ligger i samma "
+"paket. Flaggan kan användas flera gånger för att utesluta flera paket."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:175
 #, no-wrap
 msgid "B<--ignore-missing-info>"
-msgstr ""
+msgstr "B<--ignore-missing-info>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:181
@@ -7273,12 +7314,16 @@ msgid ""
 "information (either with shlibs files, or with symbols files)  even if they "
 "are not yet used by other packages."
 msgstr ""
+"Misslyckas inte om det inte upptäcks någon beroendeinformation för ett "
+"delat bibliotek. Alla bibliotek bör tillhandahålla beroendeinformation "
+"(antingen med shlibs-filer eller med symbols-filer), även om de ännu "
+"inte används av andra paket."
 
 # type: SH
 #: ../../man/dpkg-shlibdeps.1:192
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "WARNINGS"
-msgstr "VARNING"
+msgstr "VARNINGAR"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:200
@@ -7289,6 +7334,11 @@ msgid ""
 "those improvements concern the upstream sources directly. By order of "
 "decreasing importance, here are the various warnings that you can encounter:"
 msgstr ""
+"Eftersom B<dpkg-shlibdeps> analyserar mängden symboler som används av "
+"varje binärfil i det genererade paketet, kan det i flera fall skriva ut "
+"varningsmeddelanden. De visar på saker som kan förbättras i paketet. I "
+"de flesta fall gäller förbättringarna direkt uppströmskällkoden. Här är "
+"de varningar du kan stöta på, i fallande allvarlighetsgrad:"
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:200
@@ -7333,21 +7383,18 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:223
-#, fuzzy
 msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
-msgstr "B<deb>(5), B<deb-control>(5), B<dpkg-deb>(1), B<dpkg>(1)."
+msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:230
-#, fuzzy
 msgid "Copyright (C) 2006 Frank Lichtenheld"
-msgstr "Upphovsrättsskyddat © 2000 Wichert Akkerman"
+msgstr "Upphovsrättsskyddat © 2006 Frank Lichtenheld"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:232
-#, fuzzy
 msgid "Copyright (C) 2007 Rapha\\[:e]l Hertzog"
-msgstr "Upphovsrättsskyddat © 2001 Joey Hess"
+msgstr "Upphovsrättsskyddat © 2001 Raphaël Hertzog"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:2
@@ -7357,9 +7404,9 @@ msgstr "dpkg-source"
 
 # type: TH
 #: ../../man/dpkg-source.1:2
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-09-24"
-msgstr "2007-01-24"
+msgstr "2007-09-24"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:5
@@ -7438,13 +7485,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:44
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-b> I<directory> [I<orig-directory>|I<orig-targz>|'']"
-msgstr "B<-b> [I<flaggor>] I<katalog> [I<originalkatalog>|I<original-targz>|'']"
+msgstr "B<-b> I<katalog> [I<originalkatalog>|I<original-targz>|'']"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:60
-#, fuzzy
 msgid ""
 "Build a source package. One or two non-option arguments should be supplied. "
 "The first is taken as the name of the directory containing the unpacked "
@@ -7462,7 +7508,8 @@ msgstr ""
 "ursprungliga källkodskatalogen eller tarfilen eller den tomma strängen om "
 "paketet är Debianspecifikt och därför inte har någon Debianiserings-diff. Om "
 "inget andra argument anges letar B<dpkg-source> efter originalkällkods-"
-"tarfilen I<paket>B<_>I<uppströmsverion>B<.orig.tar.gz> eller "
+"tarfilen I<paket>B<_>I<uppströmsverion>B<.orig.tar.>I<filändelse> (där "
+"I<filändelse> är en av B<gz>, B<bz2> eller b<lzma>) eller "
 "originalkällkodskatalogen I<katalog>B<.orig> beroende på flaggornaB<-sX>."
 
 # type: Plain text
@@ -7489,19 +7536,17 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:106
-#, fuzzy
 msgid "This option turns certain warnings into errors."
-msgstr "Denna flagga gör fel till varningar."
+msgstr "Denna flagga gör vissa varningar till fel."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:110
-#, fuzzy
 msgid "This option negates a previously set B<-E>."
-msgstr "Denna flagga negerar en tidigare satt B<-W>."
+msgstr "Denna flagga negerar en tidigare satt B<-E>."
 
 # type: TP
 #: ../../man/dpkg-source.1:110
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-Z>I<compression>"
 msgstr "B<-Z>I<komprimeringstyp>"
 
@@ -7513,10 +7558,14 @@ msgid ""
 "only affects new files. Supported values are: I<gzip>, I<bzip2>, and "
 "I<lzma>.  I<gzip> is the default."
 msgstr ""
+"Anger vilken komprimering som skall användas för de skapade filerna "
+"(tar-bollar och diffar). Observera att flaggan inte gör att befintliga "
+"tar-bollar packas om, utan enbart påverkar nya filer. Värden som stöds är: "
+"I<gzip>, I<bzip2> samt I<lzma>. I<gzip> är förvalet."
 
 # type: TP
 #: ../../man/dpkg-source.1:117
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-z>I<level>"
 msgstr "B<-z>I<komprimeringsnivå>"
 
@@ -7527,10 +7576,12 @@ msgid ""
 "Supported values are: I<1> to I<9>, I<best>, and I<fast>.  I<9> is the "
 "default."
 msgstr ""
+"Komprimeringsnivå att använda. Som med B<-Z> påverkas bara filer som "
+"nyskapas. Värden som stöds är: I<1> till I<9>, I<best> (bäst) och I<fast> "
+"(snabb). I<9> är förval."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:132
-#, fuzzy
 msgid ""
 "You may specify a perl regular expression to match files you want filtered "
 "out of the list of files for the diff. (This list is generated by a find "
@@ -7545,7 +7596,8 @@ msgstr ""
 "ett find-kommando.) B<-i> ensamt aktiverar funktionen, med ett standardvärde "
 "som filtrerar ut styrfiler och kataloger från de flesta vanliga "
 "versionshanteringssystem, säkerhetskopior, växlingsfiler och Libtool-"
-"byggutdatakataloger."
+"byggutdatakataloger. Endast ett reguljärt kan vara aktivt, om du anger flera "
+"B<-i>-flaggor är det den sista på kommandoraden som gäller."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:142
@@ -7560,16 +7612,24 @@ msgid ""
 "filenames, you will need to provide the neccessary anchors (e.g. '(^|/)', "
 "'($|/)') yourself."
 msgstr ""
+"Flaggan är mycket användbar för att utesluta extrafiler som kommer med i "
+"diffen, t.ex om du underhåller din källkod i ett versionshanteringssystem "
+"och vill använda en utcheckning för att bygga ett källkodspaket utan att "
+"ta med de ytterligare filer och det normalt innehåller (t.ex CVS/, "
+".cvsignore, .svn/). Det förvalda reguljära uttrycket täcker redan in "
+"många av dessa, men om du ändrar det, kom ihåg att det som standard kan "
+"träffa alla delar av filnamnet. Så, om du träffa bara början av ett "
+"filnamn eller hela filnamn måste du själv lägga till de förankringar som "
+"är nödvändiga (t.ex '(^|/)', '($|/)')."
 
 # type: TP
 #: ../../man/dpkg-source.1:142
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-I>[I<file-pattern>]"
-msgstr "B<-I>I<filnamn>"
+msgstr "B<-I>[I<filnamnsmönster>]"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:151
-#, fuzzy
 msgid ""
 "If this option is specified, the pattern will be passed to B<tar>(1)'s --"
 "exclude option when it is called to generate a .orig.tar or .tar file. For "
@@ -7577,7 +7637,7 @@ msgid ""
 "tar.gz file. The option may be repeated multiple times to list multiple "
 "patterns to exclude."
 msgstr ""
-"Om flaggan anges kommer filnamnet att sändas vidare till tar:s --exclude-"
+"Om flaggan anges kommer filnamnet att sändas vidare till B<tar>(1):s --exclude-"
 "flagga när det anropas för att skapa en .orig.tar.gz eller .tar.gz-fil. Till "
 "exempel kommer -ICVS att hoppa över CVS-kataloger när tar.gz-filen skapas. "
 "Flaggan kan upprepas flera gånger för att lista flera filnamn som skall "
@@ -7585,15 +7645,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:156
-#, fuzzy
 msgid ""
 "B<-I> by itself adds default --exclude options that will filter out control "
 "files and directories of the most common revision control systems, backup "
 "and swap files and Libtool build output directories."
 msgstr ""
-"Du kan ange ett reguljärt uttryck i perlformat för att matcha filer som du "
-"vill skall filtreras ut ur listan över filer för diffen. (Listan skapas av "
-"ett find-kommando.) B<-i> ensamt aktiverar funktionen, med ett standardvärde "
+"B<-i> ensamt aktiverar funktionen, med ett standardvärde "
 "som filtrerar ut styrfiler och kataloger från de flesta vanliga "
 "versionshanteringssystem, säkerhetskopior, växlingsfiler och Libtool-"
 "byggutdatakataloger."
@@ -7610,6 +7667,15 @@ msgid ""
 "semantic of tar's --exclude option is somewhat complicated, see http://www."
 "gnu.org/software/tar/manual/tar.html#wildcards for a full documentation."
 msgstr ""
+"B<Observera:> Även om de används till liknande ändamål, så har B<-i> "
+"och B<-I> väldigt olika syntax och semantik. B<-i> kan endast anges en "
+"gång och tar ett perl-kompatibelt reguljärt uttryck, vilket matchas mot "
+"den kompletta relativa sökvägen för varje fil. B<-I> kan anges flera "
+"gånger och tar ett filnamnssökmänster med skaljokertecken. Mönstret "
+"matchas mot den kompletta relativa sökvägen, men även individuellt mot "
+"varje komponent i sökvägen. Den exakta semantiken för tar:s --exclude-"
+"flagga är något komplicerad, se http://www.gnu.org/software/tar/manual/tar.html#wildcards "
+"för fullständig dokumentation."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:171
@@ -7617,6 +7683,8 @@ msgid ""
 "The default regexp and patterns for both options can be seen in the output "
 "of the B<--help> command."
 msgstr ""
+"Förvalt reguljärt uttryck och sökmönster för de bägge flaggorna kan ses i "
+"utdata för B<--help>-kommandot."
 
 # type: TP
 #: ../../man/dpkg-source.1:171
@@ -7643,7 +7711,6 @@ msgstr "B<-sk>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:185
-#, fuzzy
 msgid ""
 "Specifies to expect the original source as a tarfile, by default "
 "I<package>B<_>I<upstream-version>B<.orig.tar.>I<extension>.  It will leave "
@@ -7651,7 +7718,7 @@ msgid ""
 "directory if it isn't already there."
 msgstr ""
 "Anger att den ursprungliga källkoden är en tar-fil, som standard "
-"I<paket>B<_>I<uppströmsversion>B<.orig.tar.gz>. Den kommer låta "
+"I<paket>B<_>I<uppströmsversion>B<.orig.tar.>I<filändelse>. Den kommer låta "
 "originalkällkodsfilen ligga kvar som en tarfil, eller kopiera den till den "
 "aktuella katalogen om den inte redan är där."
 
@@ -7702,15 +7769,15 @@ msgstr "B<-ss>"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:211
-#, fuzzy
 msgid ""
 "Specifies that the original source is available both as a directory and as a "
 "tarfile. dpkg-source will use the directory to create the diff, but the "
 "tarfile to create the B<.dsc>.  This option must be used with care - if the "
 "directory and tarfile do not match a bad source archive will be generated."
 msgstr ""
-"Anger att originalkällkoden finns både som en katalog och en tarfil. "
-"Katalogen kommer att användas för att skapa diffen, men tarfilen för att "
+"Anger att originalkällkoden finns både som en katalog och en tar-fil. "
+"Katalogen kommer att användas av dpkg-source för att skapa diffen, men "
+"tarfilen för att "
 "skapa B<.dsc>-filen. Flaggan måste användas med tillförsikt - om katalogen "
 "och tarfilen inte stämmer överens kommer ett trasigt källkodsarkiv att "
 "skapas."
@@ -9709,7 +9776,6 @@ msgstr "B<[--] >I<filnamn>"
 
 # type: Plain text
 #: ../../man/install-info.8:57
-#, fuzzy
 msgid ""
 "Gives the filename of the Info file whose menu entry is to be created, "
 "updated or removed. If B<--remove-exactly> is specified, then I<filename> "
@@ -9722,7 +9788,7 @@ msgid ""
 msgstr ""
 "Anger filnamnet på den Infofil vars menypost skall skapas, uppdateras eller "
 "tas bort. Om B<--remove-exactly> anges måste I<filnamn> vara det exakta "
-"namnet på den post som skall tas bort (dvs. \"emacs-20/emacs\" eller \"gcc"
+"namnet på den post som skall tas bort (t.ex \"emacs-20/emacs\" eller \"gcc"
 "\"), annars används basnamnet för filnamnet till att referera till "
 "menyposten som skapas, såvida inte det finns ett överstyrande START-INFO-DIR-"
 "post i den givna filen. Filen måste därför finnas (eller vara på väg att "
@@ -9814,7 +9880,6 @@ msgstr "B<--remove-exactly>"
 
 # type: Plain text
 #: ../../man/install-info.8:119
-#, fuzzy
 msgid ""
 "This option is essentially the same as B<--remove> except that I<filename> "
 "is taken as the exact entry to be removed, rather than as the name of an "
