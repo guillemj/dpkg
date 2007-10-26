@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-10-11 01:01+0200\n"
-"PO-Revision-Date: 2007-10-24 15:13+0100\n"
+"PO-Revision-Date: 2007-10-26 10:28+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -7344,7 +7344,7 @@ msgstr ""
 #: ../../man/dpkg-shlibdeps.1:200
 #, no-wrap
 msgid "B<symbol>I< sym>B< used by >I<binary>B< found in none of the libraries.>"
-msgstr ""
+msgstr "B<symbolen> I<sym>B<, som används av> I<binär>B<, hittades inte i något av biblioteken.>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:206
@@ -7354,12 +7354,15 @@ msgid ""
 "with an additional library during the build process (option B<-l>I<library> "
 "of the linker)."
 msgstr ""
+"Den nämnda symbolen hittades inte i biblioteken som länkas mot binären. "
+"I<Binär> är antagligen ett bibliotek och måste länkas mot ett annat "
+"bibliotek under byggproceduren (länkarflaggan B<-l>I<bibliotek>)."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:206
 #, no-wrap
 msgid "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
-msgstr ""
+msgstr "I<binär> B<borde inte vara länkat mot> I<bibliotek> B<(inga av symbolerna används).>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:211
@@ -7368,6 +7371,9 @@ msgid ""
 "problem but some small performance improvements in binary load time can be "
 "obtained by not linking this library to this binary."
 msgstr ""
+"I<Binär> länkar mot ett bibliotek den inte behöver. Det är inte ett problem, "
+"Men genom att inte länka biblioteket mot binären kan man uppnå en mindre "
+"prestandaförbättring."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:219
@@ -7380,6 +7386,13 @@ msgid ""
 "binaries, but the set of libraries needed at the package level is the same "
 "whether you fix the binaries or not."
 msgstr ""
+"Dessutom kan detta i vissa fall leda till ett icke-versionsstyrt beroende "
+"på biblioteket som kunde ha undvikits om binären endast länkats mot de "
+"bibliotek den faktiskt använder. Undantaget från regeln är när flera "
+"binärer länkats mot samma uppsättning bibliotek, men de enskilda binärerna "
+"bara använder en delmängd av dem. Du kommer få varningar på de enskilda "
+"binärerna, men uppsättningen bibliotek som behövs på paketnivå är desamma "
+"oavsett om du fixar binärerna eller inte."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:223
