@@ -285,6 +285,8 @@ this when parsing non-dependency fields like Conflicts (see
 
 =back
 
+=back
+
 =cut
 sub parse {
     my $dep_line = shift;
