@@ -1,14 +1,14 @@
 # SOME DESCRIPTIVE TITLE
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006, 2007.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2007-10-11 01:01+0200\n"
-"PO-Revision-Date: 2007-10-12 17:56+0200\n"
+"PO-Revision-Date: 2007-10-27 17:53+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
-"Language-Team: German <debian-l10n-german@lists.debian.org>\n"
+"Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1349,8 +1349,8 @@ msgid ""
 "The override files used to make the official Packages lists may be found in "
 "the I<indices> directory on any Debian mirror."
 msgstr ""
-"Die override-Datei, die für die Erstellung der offiziellen Paketliste "
-"verwendet wird, kann im I<indices>-Verzeichnis auf jedem Debian-Spiegel "
+"Die override-Dateien, die für die Erstellung der offiziellen Paketliste "
+"verwendet werden, können im I<indices>-Verzeichnis auf jedem Debian-Spiegel "
 "gefunden werden."
 
 # type: Plain text
@@ -7173,12 +7173,15 @@ msgid ""
 "architecture of the current system (obtained by B<dpkg-architecture -"
 "qDEB_HOST_ARCH>)."
 msgstr ""
+"Systemabhängige Überschreibung der Abhängigkeitsinformationen von "
+"Laufzeitbibliotheken. I<Architektur> ist die Architektur des aktuellen "
+"Systems (ermittelt wie B<dpkg-architecture -qDEB_HOST_ARCH>)."
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:61
 #, no-wrap
 msgid "I<admindir>/info/I<package>.symbols"
-msgstr ""
+msgstr "I<adminverz>/info/I<Paket>.symbols"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:64 ../../man/dpkg-shlibdeps.1:88
@@ -7186,6 +7189,9 @@ msgid ""
 "Package-provided shared library dependency information.  Unless overriden, "
 "I<admindir> is /var/lib/dpkg."
 msgstr ""
+"Vom Paket bereitgestellte Abhängigkeitsinformationen für "
+"Laufzeitbibliotheken. Falls nicht überschrieben, ist das I<adminverz> /var/"
+"lib/dpkg."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:71
@@ -7214,6 +7220,9 @@ msgid ""
 "at the symbols). It's thus often stronger than really needed but very safe "
 "and easy to handle."
 msgstr ""
+"Shilbs-Dateien ordnen Bibliothken direkt Abhängigkeiten zu (ohne auf die "
+"Symbole zu schauen). Daher ist dies oft stärker als benötigt, aber dafür "
+"sicher und leicht zu handhaben."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:78
@@ -7235,6 +7244,8 @@ msgstr "debian/shlibs.local"
 #: ../../man/dpkg-shlibdeps.1:80
 msgid "Package-local overriding shared library dependency information."
 msgstr ""
+"Paket-beschränkte Überschreibung der Abhängigkeitsinformationen von "
+"Laufzeitbibliotheken."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:80
@@ -7246,7 +7257,7 @@ msgstr "/etc/dpkg/shlibs.override"
 #: ../../man/dpkg-shlibdeps.1:82
 msgid "Per-system overriding shared library dependency information."
 msgstr ""
-"Systemabhängige Hinwegsetz-Abhängigkeitsinformationen von "
+"Systemabhängige Überschreibung der Abhängigkeitsinformationen von "
 "Laufzeitbibliotheken."
 
 # type: IP
@@ -7268,7 +7279,7 @@ msgstr ""
 #: ../../man/dpkg-shlibdeps.1:85
 #, no-wrap
 msgid "I<admindir>/info/I<package>.shlibs"
-msgstr ""
+msgstr "I<Adminverz>/info/I<Paket>.shlibs"
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:88
@@ -7406,6 +7417,12 @@ msgid ""
 "information is tagged for a given type by prefixing it with the name of the "
 "type, a colon, and whitespace."
 msgstr ""
+"Bevorzuge Abhängigkeitsinformationen für Laufzeitbibliotheken, die für ein "
+"vorgegebenes Paket markiert sind. Falls keine Markierungsinformation "
+"verfügbar ist, fällt dies auf unmarkierte Informationen zurück. Der "
+"Standard-Pakettyp ist »deb«. Abhängigkeitsinformationen für "
+"Laufzeitbibliotheken werden für einen vorgegebenen Typ markiert, indem vor "
+"sie der Namen des Typs, ein Doppelpunkt und ein Leerzeichen gesetzt wird."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:151
@@ -7480,6 +7497,11 @@ msgid ""
 "information (either with shlibs files, or with symbols files)  even if they "
 "are not yet used by other packages."
 msgstr ""
+"Falls keine Abhängigkeitsinformationen für die Laufzeitbibliothek gefunden "
+"werden kann, erfolgt kein Fehlschlag. Von der Verwendung dieser Option wird "
+"abgearten, da alle Bibliotheken Abhängigkeitsinformationen bereitstellen "
+"sollten (entweder über shlibs-Dateien oder über symbols-Dateien), selbst "
+"falls diese noch nicht von anderen Paketen verwendet werden."
 
 # type: SH
 #: ../../man/dpkg-shlibdeps.1:192
@@ -7496,12 +7518,20 @@ msgid ""
 "those improvements concern the upstream sources directly. By order of "
 "decreasing importance, here are the various warnings that you can encounter:"
 msgstr ""
+"Da B<dpkg-shlibdeps> den Symbolsatz, der von jedem Programm des erstellten "
+"Pakets verwendet wird, analysiert, ist es in mehreren Fällen in der Lage, "
+"Warnungen auszugeben. Sie informieren Sie über Dinge, die im Paket verbessert "
+"werden können. Meistens betreffen diese Verbesserungen dierekt die Quellen "
+"der Originalautoren. In der Reihenfolge abnehmender Wichtigkeit folgen hier "
+"die relevanten Warnungen, die auftauchen könnten:"
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:200
 #, no-wrap
 msgid "B<symbol>I< sym>B< used by >I<binary>B< found in none of the libraries.>"
 msgstr ""
+"B<Symbol> I< Symbol>B<, verwendet von >I<Programm>B<, in keiner der "
+"Bibliotheken gefunden.>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:206
@@ -7511,12 +7541,18 @@ msgid ""
 "with an additional library during the build process (option B<-l>I<library> "
 "of the linker)."
 msgstr ""
+"Das angegebene Symbol wurde nicht in den Bibliotheken gefunden, gegen die "
+"das Programm gelinkt wurde. I<Programm> ist höchstwahrscheinlich eine "
+"Bibliothek und muss mit zusätzlichen Bibliotheken während des Bau-Prozesses "
+"gelinkt werden (Option B<-l>I<Bibliothek> des Linkers)."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:206
 #, no-wrap
 msgid "I<binary>B< shouldn't be linked with >I<library>B< (it uses none of its symbols).>"
 msgstr ""
+"I<Programm>B< sollte nicht gegen >I<Bibliothek>B< gelinkt werden (es "
+"verwendet keine seiner Symbole).>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:211
@@ -7540,6 +7576,14 @@ msgid ""
 "binaries, but the set of libraries needed at the package level is the same "
 "whether you fix the binaries or not."
 msgstr ""
+"Desweiteren führt dies in einigen Fällen zu einer unversionierten "
+"Abhängigkeit auf diese Bibliothek, die vermieden werden könnte, falls das "
+"Programm nur gegen Bibliotheken gelint wäre, die es wirklich verwendet. Die "
+"Ausnahme dieser Regel liegt dann vor, wenn mehrere Programme gegen den "
+"gleichen Satz an Bibliotheken gelinkt sind, aber jedes Programm nur eine "
+"Teilmenge davon verwendet. Sie werden für die einzelnen Programme "
+"individuelle Warnungen erhalten, aber der benötigte Satz an Bibliotheken ist "
+"auf der Paketebene identisch, ob sie die Programme korrigieren oder nicht."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:223
@@ -7782,6 +7826,16 @@ msgid ""
 "filenames, you will need to provide the neccessary anchors (e.g. '(^|/)', "
 "'($|/)') yourself."
 msgstr ""
+"Dies ist sehr hilfreich, um irrelevante Dateien, die im Diff aufgenommen "
+"werden, zu entferen. Falls Sie zum Beispiel Ihre Quellen in einem "
+"Revisionskontrollsystem speichern und »Checkout« verwenden möchten, um Ihr "
+"Quellpaket zu bauen, ohne die zusätzlichen Dateien und Verzeichnisse, die "
+"darin typischerweise enthalten sind (z.B. CVS/, .cvsignore, .svn/), mit "
+"aufzunehmen. Der voreingestellte reguläre Ausdruck ist bereits sehr "
+"erschöpfend, aber falls Sie ihn ersetzen müssen, beachten Sie, dass er "
+"standardmäßig auf alle Teile des Pfades passen kann. Falls Sie daher nur den "
+"Anfang eines Pfades oder komplette Dateinamen vergleichen wollen, müssen Sie "
+"die notwendigen Anker (z.B. »(^|/)«, »($|/)«) selbst bereitstellen."
 
 # type: TP
 #: ../../man/dpkg-source.1:142
@@ -8403,6 +8457,11 @@ msgid ""
 "option suppresses this message, to allow programs such as B<dpkg> to cope "
 "with both split and unsplit packages without producing spurious messages."
 msgstr ""
+"Falls Sie ein automatisches Einreihen oder Wiederzusammensetzen durchführen, "
+"gibt B<dpkg-split> normalerweise eine Meldung aus, falls ein übergebener "
+"I<Teil> kein Binärpaketteil ist. Diese Option unterdrückt diese Meldung um "
+"Programmen wie B<dpkg> zu erlauben, sowohl mit geteilten als auch ungeteilten "
+"Paketen umzugehen, ohne störende Meldungen zu erzeugen."
 
 # type: TP
 #: ../../man/dpkg-split.1:166
