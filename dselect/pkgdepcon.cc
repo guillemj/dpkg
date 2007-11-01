@@ -221,7 +221,6 @@ int packagelist::resolvedepcon(dependency *depends) {
 
   case dep_provides:
   case dep_replaces:
-  case dep_breaks: /* FIXME: implement Breaks */
     return 0;
 
   case dep_enhances:
@@ -312,6 +311,7 @@ int packagelist::resolvedepcon(dependency *depends) {
     return r ? 2 : 0;
     
   case dep_conflicts:
+  case dep_breaks:
 
     if (depdebug && debug)
       fprintf(debug,"packagelist[%p]::resolvedepcon([%p]): conflict\n",
@@ -365,7 +365,7 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
     would= 0;
   }
   
-  if (possi->up->type == dep_conflicts
+  if ((possi->up->type == dep_conflicts || possi->up->type == dep_breaks)
       ? possi->up->up != possi->ed && would != 0
       : would > 0) {
     // If it's to be installed or left installed, then either it's of

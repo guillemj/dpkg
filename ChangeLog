@@ -1,5 +1,12 @@
 2008-03-09  Ian Jackson  <ian@davenant.greenend.org.uk>
 
+	* dselect/pkgdepcon.cc (packagelist::resolvedepcon): Move dep_breaks
+	case after dep_conflicts so that it falls through.
+	(packagelist::deppossatisfied): Handle dep_breaks in the same way as
+	dep_conflicts.
+
+2008-03-09  Ian Jackson  <ian@davenant.greenend.org.uk>
+
 	* dselect/pkgdepcon.cc (packagelist::deppossatisfied): The new rule
 	is that a Conflicts is violated if the target package is installed
 	or to be error-preserved ie would_like_to_install() != 0 - except
