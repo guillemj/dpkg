@@ -1,3 +1,10 @@
+2008-03-09  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* dselect/pkgdepcon.cc (packagelist::deppossatisfied): The new rule
+	is that a Conflicts is violated if the target package is installed
+	or to be error-preserved ie would_like_to_install() != 0 - except
+	that we disregard packages which directly Conflict with themselves.
+
 2008-03-07  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Fields.pm: Import Dpkg::Gettext since we use _g().
