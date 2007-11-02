@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-02 14:01+0100\n"
-"PO-Revision-Date: 2007-10-26 10:28+0100\n"
+"PO-Revision-Date: 2007-11-02 14:10+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -5747,7 +5747,6 @@ msgstr "B<dpkg-gencontrol> [I<flaggor>]"
 
 # type: Plain text
 #: dpkg-gencontrol.1:15
-#, fuzzy
 msgid ""
 "B<dpkg-gencontrol> reads information from an unpacked Debian source tree and "
 "generates a binary package control file (which defaults to debian/tmp/DEBIAN/"
@@ -5755,8 +5754,8 @@ msgid ""
 "rewrite them in a sorted manner."
 msgstr ""
 "B<dpkg-gencontrol> läser information från ett uppackat Debiankällkodsträd "
-"och genererar en control-fil för binärpaketet (som standard debian/tmp/"
-"DEBIAN/control). Dessutom skapas en post för binärpaketet i B<debian/files>."
+"och genererar en binärpaketsstyrfil (som standard debian/tmp/DEBIAN/"
+"control). Relationsfälten kommer att förenklas och skrivas om, sorterade."
 
 # type: Plain text
 #: dpkg-gencontrol.1:24
@@ -5768,6 +5767,12 @@ msgid ""
 "to true given the current version of the package as installed). Logically it "
 "keeps the intersection of multiple dependencies on the same package."
 msgstr ""
+"Fälten I<Pre-Depends>, I<Depends>, I<Recommends> och I<Suggests> "
+"förenklas därmed, i den följden, genom att ta bort beroenden som programmet "
+"vet tillhandahålls av starkare beroenden som redan tolkats. Det kommer även "
+"ta bort eventuella egenberoenden (programmet tar bort alla beroenden som "
+"är uppfyllda när den nuvarande versionen av paketet är installerat). "
+"Logiskt behålls snittet av multipla beroenden på samma paket."
 
 # type: Plain text
 #: dpkg-gencontrol.1:29
@@ -5777,15 +5782,17 @@ msgid ""
 "the various dependencies when a package is listed multiple times in the "
 "field."
 msgstr ""
+"Övriga relationsfält (I<Enhances>, I<Conflicts>, I<Breaks>, I<Replaces> "
+"och I<Provides>) förenklas även individuellt genom att beräkna unionen av "
+"de olika beorendena när ett paket förekommer flera gånger i samma fält."
 
 # type: Plain text
 #: dpkg-gencontrol.1:33
-#, fuzzy
 msgid ""
 "B<dpkg-gencontrol> also adds an entry for the binary package to B<debian/"
 "files>."
 msgstr ""
-"B<dpkg-distaddfile> lägger till en post för en namngiven fil i B<debian/"
+"B<dpkg-gencontrol> lägger dessutom till en post för binärpaketet i B<debian/"
 "files>."
 
 # type: Plain text
@@ -6480,9 +6487,9 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-query.1:144
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
-msgstr "  B<dpkg-query -W -f='${Package} ${Version}\\et${Maintainer}\\en' dpkg>\n"
+msgstr "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 # type: SH
 #: dpkg-query.1:146
@@ -7421,9 +7428,9 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-source.1:44
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-b> I<directory> [I<orig-directory>|I<orig-targz>|\\(aq\\(aq]"
-msgstr "B<-b> I<katalog> [I<originalkatalog>|I<original-targz>|'']"
+msgstr "B<-b> I<katalog> [I<originalkatalog>|I<original-targz>|\\(aq\\(aq]"
 
 # type: Plain text
 #: dpkg-source.1:60
