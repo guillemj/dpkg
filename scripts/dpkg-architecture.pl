@@ -25,9 +25,8 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning syserr usageerr);
-use Dpkg::Arch qw(get_valid_arches debarch_eq debarch_is
-                  debtriplet_to_gnutriplet gnutriplet_to_debtriplet
-                  debtriplet_to_debarch debarch_to_debtriplet
+use Dpkg::Arch qw(get_build_arch get_host_arch get_gcc_host_gnu_type
+                  get_valid_arches debarch_eq debarch_is debarch_to_debtriplet
                   debarch_to_gnutriplet gnutriplet_to_debarch);
 
 textdomain("dpkg-dev");
@@ -124,38 +123,13 @@ while (@ARGV) {
 
 # Set default values:
 
-chomp (my $deb_build_arch = `dpkg --print-architecture`);
-&syserr("dpkg --print-architecture failed") if $?>>8;
+my $deb_build_arch = get_build_arch();
 my $deb_build_gnu_type = debarch_to_gnutriplet($deb_build_arch);
 
-# Default host: Current gcc.
-my $gcc = `\${CC:-gcc} -dumpmachine`;
-if ($?>>8) {
-    warning(_g("Couldn't determine gcc system type, falling back to default (native compilation)"));
-    $gcc = '';
-} else {
-    chomp $gcc;
-}
+my $deb_host_arch = get_host_arch();
+my $deb_host_gnu_type = debarch_to_gnutriplet($deb_host_arch);
 
-my $deb_host_arch = undef;
-my $deb_host_gnu_type;
-
-if ($gcc ne '') {
-    my (@deb_host_archtriplet) = gnutriplet_to_debtriplet($gcc);
-    $deb_host_arch = debtriplet_to_debarch(@deb_host_archtriplet);
-    unless (defined $deb_host_arch) {
-	warning(_g("Unknown gcc system type %s, falling back to default " .
-	           "(native compilation)"), $gcc);
-	$gcc = '';
-    } else {
-	$gcc = $deb_host_gnu_type = debtriplet_to_gnutriplet(@deb_host_archtriplet);
-    }
-}
-if (!defined($deb_host_arch)) {
-    # Default host: Native compilation.
-    $deb_host_arch = $deb_build_arch;
-    $deb_host_gnu_type = $deb_build_gnu_type;
-}
+# Set user values:
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
     $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
@@ -185,8 +159,8 @@ if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
 $deb_host_arch = $req_host_arch if $req_host_arch ne '';
 $deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
 
-#$gcc = `\${CC:-gcc} --print-libgcc-file-name`;
-#$gcc =~ s!^.*gcc-lib/(.*)/\d+(?:.\d+)*/libgcc.*$!$1!s;
+my $gcc = get_gcc_host_gnu_type();
+
 warning(_g("Specified GNU system type %s does not match gcc system type %s."),
         $deb_host_gnu_type, $gcc)
     if !($req_is_arch or $req_eq_arch) &&
