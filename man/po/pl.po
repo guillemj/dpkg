@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.17\n"
 "POT-Creation-Date: 2007-11-02 14:01+0100\n"
-"PO-Revision-Date: 2007-10-08 22:53+0200\n"
+"PO-Revision-Date: 2007-11-04 11:58+0100\n"
 "Last-Translator: Robert Luberda <robert@debian.org>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -726,7 +726,7 @@ msgid ""
 "other installation tool will not allow an B<Essential> package to be removed "
 "(at least not without using one of the force options)."
 msgstr ""
-"To pole jest u¿yteczne tylko gdy jego warto¶ci± jest `yes'. Oznacza ono, ¿e "
+"To pole jest u¿yteczne tylko, gdy jego warto¶ci± jest `yes'. Oznacza ono, ¿e "
 "pakiet jest niezbêdny do poprawnego dzia³ania systemu. Ani dpkg, ani ¿adne "
 "inne narzêdzie instalacyjne nie pozwol± usun±æ pakietu oznaczonego jako "
 "B<Essential> (chyba ¿e u¿yje siê specjalnej opcji wymuszaj±cej usuniêcie "
@@ -908,7 +908,7 @@ msgid ""
 "pipes binding more tightly. Each package name is optionally followed by a "
 "version number specification in parentheses."
 msgstr ""
-"Warto¶ci± pól B<Depends>, B<Pre-Depends>, B<Recommends> i B<Suggests>jest "
+"Warto¶ci± pól B<Depends>, B<Pre-Depends>, B<Recommends> i B<Suggests> jest "
 "lista grup alternatywnych pakietów. Ka¿da grupa jest list± pakietów "
 "oddzielonych symbolami pionowej kreski (`|'). Grupy oddzielone s± od siebie "
 "przecinkami. Przecinki maj± znaczenie `I' (koniunkcja), a kreski - "
@@ -1008,6 +1008,14 @@ msgid ""
 "having to know the package names for all of them, and using `|' to separate "
 "the list."
 msgstr ""
+"Jest to lista pakietów wirtualnych dostarczanych przez ten pakiet. Zazwyczaj "
+"jest to u¿ywane w przypadku, gdy kilka pakietów dostarcza tej samej us³ugi. "
+"Na przyk³ad sendmail i exim s±  serwerami poczty, dlatego dostarczaj± "
+"wspólnego pakietu (`mail-transport-agent'), od którego inne pakiety mog± "
+"zale¿eæ. Pozwala to zarówno sendmailowi, jak i eximowi spe³niæ tê zale¿no¶æ. "
+"Ponadto w ten sposób pakiety, które zale¿± od serwera poczty, nie musz± znaæ "
+"nazw wszystkich pakietów dostarczaj±cych tej us³ugi ani u¿ywaæ `|' do "
+"rozdzielenia listy takich pakietów."
 
 # type: Plain text
 #: deb-control.5:200
@@ -1120,8 +1128,8 @@ msgid ""
 "The first line is the format version number padded to 8 digits, and is "
 "B<0.939000> for all old-format archives."
 msgstr ""
-"Pierwsz± lini± jest numer wersji formatu, wyrównany do 8 cB<0.939000>yfr. "
-"Dla starego formatu numer ten wynosi B<0.939000>."
+"Pierwsz± lini± jest numer wersji formatu, wyrównany do 8 cyfr. Dla starego "
+"formatu numer ten wynosi B<0.939000>."
 
 # type: Plain text
 #: deb-old.5:28
@@ -4825,7 +4833,6 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-distaddfile.1:26
-#, fuzzy
 msgid ""
 "The filename should be specified relative to the directory where B<dpkg-"
 "genchanges> will expect to find the files, usually B<..>, rather than being "
@@ -4833,6 +4840,8 @@ msgid ""
 msgstr ""
 "Nazwa pliku powinna byæ podana relatywnie w stosunku do katalogu, w którym "
 "B<dpkg-genchanges> bêdzie szuka³ plików, zazwyczaj jako B<..>, raczej ni¿ "
+"byæ ¶cie¿k± relatywn± do bie¿±cego katalogu, podczas dzia³ania B<dpkg-"
+"distaddfile>."
 
 # type: TP
 #: dpkg-distaddfile.1:28 dpkg-genchanges.1:99 dpkg-gencontrol.1:64
@@ -5351,7 +5360,7 @@ msgstr "W³±cza opcjê debuggera. Nie jest to zbyt interesuj±ce."
 msgid ""
 "B<dpkg-deb -I> I<package1>B<.deb> I<package2>B<.deb> does the wrong thing."
 msgstr ""
-"B<dpkg-deb -I> I<package1>B<.deb> I<package2>B<.deb> dzia³a niepoprawnie."
+"B<dpkg-deb -I> I<pakiet1>B<.deb> I<pakiet2>B<.deb> dzia³a niepoprawnie."
 
 # type: Plain text
 #
@@ -5507,13 +5516,16 @@ msgstr "B<--local>"
 
 # type: Plain text
 #: dpkg-divert.8:52
-#, fuzzy
 msgid ""
 "Specifies that all packages' versions of this file are diverted.  This "
 "means, that there are no exceptions, and whatever package is installed, the "
 "file is diverted. This can be used by an admin to install a locally modified "
 "version."
-msgstr "Okre¶la, ¿e zostan± nadpisane wszystkie wersje pakietów "
+msgstr ""
+"Okre¶la, ¿e zostan± nadpisane wszystkie wersje tego pliku. Oznacza to ,¿e "
+"bez ¿adnych wyj±tków, plik jest nadpisywany, niezale¿nie od tego, który "
+"pakiet jest instalowany. Administrator mo¿e tego u¿yæ do zainstalowania "
+"lokalnie zmodyfikowanej wersji pliku."
 
 # type: TP
 #: dpkg-divert.8:52
@@ -5624,7 +5636,7 @@ msgstr ""
 # type: Plain text
 #: dpkg-divert.8:93
 msgid "dpkg-divert --divert /usr/bin/example.foo --rename /usr/bin/example"
-msgstr "dpkg-divert --divert /usr/bin/przyk³ad.foo --rename /usr/bin/przyk³ad"
+msgstr "dpkg-divert --divert /usr/bin/przyk³ad.bla --rename /usr/bin/przyk³ad"
 
 # type: Plain text
 #: dpkg-divert.8:95 dpkg-divert.8:105
@@ -11441,15 +11453,3 @@ msgstr ""
 #: update-alternatives.8:405
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS - standard hierarchii systemu plików."
-
-# type: Plain text
-#~ msgid ""
-#~ "See I</usr/share/doc/dpkg/THANKS> for the list of people who have\n"
-#~ "contributed to B<dpkg>.\n"
-#~ msgstr ""
-#~ "Plik I</usr/share/doc/dpkg/THANKS> zawiera listê osób, które przyczyni³y\n"
-#~ "siê do rozwoju programu B<dpkg>.\n"
-
-# type: TP
-#~ msgid "B<deb-shlibs>(5)."
-#~ msgstr "B<deb-shlibs>(5)."
