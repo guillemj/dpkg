@@ -159,12 +159,16 @@ if (!defined($deb_host_arch)) {
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
     $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
-    die (sprintf(_g("unknown Debian architecture %s, you must specify GNU system type, too"), $req_host_arch)) unless defined $req_host_gnu_type;
+    die (sprintf(_g("unknown Debian architecture %s, you must specify " .
+                    "GNU system type, too"), $req_host_arch))
+        unless defined $req_host_gnu_type;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
     $req_host_arch = gnutriplet_to_debarch($req_host_gnu_type);
-    die (sprintf(_g("unknown GNU system type %s, you must specify Debian architecture, too"), $req_host_gnu_type)) unless defined $req_host_arch;
+    die (sprintf(_g("unknown GNU system type %s, you must specify " .
+                    "Debian architecture, too"), $req_host_gnu_type))
+        unless defined $req_host_arch;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
