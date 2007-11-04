@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-10-26 08:47+0100\n"
-"PO-Revision-Date: 2007-10-27 17:36+0200\n"
+"PO-Revision-Date: 2007-11-04 09:09+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -93,62 +93,64 @@ msgstr "Steuerdatei muss mindestens einen Binärpaket-Anteil haben"
 #, perl-format
 msgid "per-package paragraph %d in control info file is missing Package line"
 msgstr ""
+"die »Package«-Zeile im pro-Paket Absatz %d in der Steuerinformationsdatei "
+"fehlt"
 
 #: scripts/controllib.pl:185
 msgid "source paragraph in control info file is missing Source line"
-msgstr ""
+msgstr "die »Source«-Zeile im Quell-Absatz der Steuerinformationsdatei fehlt"
 
 #: scripts/controllib.pl:202
 #, perl-format
 msgid "bad line in substvars file %s at line %d"
-msgstr ""
+msgstr "ungültige Zeile in der substvars-Datei %s in Zeile %d"
 
 #: scripts/controllib.pl:208
 #, perl-format
 msgid "unable to open substvars file %s: %s"
-msgstr ""
+msgstr "kann substvars-Datei %s nicht öffnen: %s"
 
 #: scripts/controllib.pl:217
 msgid "fork for parse changelog"
-msgstr ""
+msgstr "forke zum auswerten des changelogs"
 
 #: scripts/controllib.pl:220 scripts/dpkg-genchanges.pl:280
 #: scripts/dpkg-gencontrol.pl:213 scripts/dpkg-source.pl:389
 msgid "parsed version of changelog"
-msgstr ""
+msgstr "ausgewertete Version des changelogs"
 
 #: scripts/controllib.pl:222
 msgid "parse changelog"
-msgstr ""
+msgstr "werte changelog aus"
 
 #: scripts/controllib.pl:261
 #, perl-format
 msgid "source package name `%s' contains illegal character `%s'"
-msgstr ""
+msgstr "Quellpaketname »%s« enthält ungültiges Zeichen »%s«"
 
 #: scripts/controllib.pl:264
 #, perl-format
 msgid "source package name `%s' starts with non-alphanum"
-msgstr ""
+msgstr "Quellpaketname »%s« beginnt mit einem nicht alphanumerischen Zeichen"
 
 #: scripts/controllib.pl:270
 #, perl-format
 msgid "version number contains illegal character `%s'"
-msgstr ""
+msgstr "Versionsnummer enthält ungültiges Zeichen »%s«"
 
 #: scripts/controllib.pl:279
 #, perl-format
 msgid "source package has two conflicting values - %s and %s"
-msgstr ""
+msgstr "Quellpaket hat zwei widersprüchliche Werte - %s und %s"
 
 #: scripts/controllib.pl:289
 #, perl-format
 msgid "md5sum gave bogus output `%s'"
-msgstr ""
+msgstr "md5sum gab falsche Ausgabe »%s«"
 
 #: scripts/controllib.pl:321
 msgid "continued value line not in field"
-msgstr ""
+msgstr "fortgeführte Wertzeile nicht im Feld"
 
 #: scripts/controllib.pl:324
 msgid "expected blank line before PGP signature"
@@ -165,19 +167,19 @@ msgstr "erwartete PGP-Signatur, fand etwas anderes »%s«"
 
 #: scripts/controllib.pl:344
 msgid "found several `paragraphs' where only one expected"
-msgstr ""
+msgstr "fand mehrere »Absätze« wo nur einer erwartet wurde"
 
 #: scripts/controllib.pl:348
 msgid "line with unknown format (not field-colon-value)"
-msgstr ""
+msgstr "Zeile mit unbekanntem Format (nicht Feld-Doppelpunkt-Wert)"
 
 #: scripts/controllib.pl:351
 msgid "found start of PGP body but no signature"
-msgstr ""
+msgstr "fand Anfang des PGP-Körpers aber keine Signatur"
 
 #: scripts/controllib.pl:353
 msgid "empty file"
-msgstr ""
+msgstr "leere Datei"
 
 #: scripts/controllib.pl:358
 #, perl-format
@@ -240,18 +242,40 @@ msgid ""
 "  --help             show this help message.\n"
 "  --version          show the version.\n"
 msgstr ""
+"Verwendung: %s [<Option> ...] [<Aktion>]\n"
+"\n"
+"Optionen:\n"
+"  -a<Debian-Arch>    setzte die aktuelle Debian-Architektur.\n"
+"  -t<GNU-System>     setze den aktuellen GNU-Systemtyp.\n"
+"  -L                 liste gültige Architekturen auf.\n"
+"  -f                 Zwang-Schalter (überschreibe in der Umgebung gesetzte\n"
+"                     Variablen).\n"
+"\n"
+"Aktionen:\n"
+"  -l                 liste Variablen auf (voreingestellt).\n"
+"  -e<Debian-Arch>    vergleiche mit aktueller Debian-Architektur.\n"
+"  -i<Arch-Alias>     prüfe, ob aktuelle Debian-Architektur <Arch-Alias> ist.\n"
+"  -q<Variable>       gibt nur den Wert der von <Variable> aus.\n"
+"  -s                 gibt den Befehl zum Setzen von Umgebungsvariablen aus.\n"
+"  -u                 gibt den Befehl um Löschen von Umgebungsvariablen aus.\n"
+"  -c <Befehl>        setzt Umgebung und führt darin den Befehl aus.\n"
+"  --help             zeigt diese Hilfemeldung.\n"
+"  --version          zeigt die Version.\n"
 
 #: scripts/dpkg-architecture.pl:87
 msgid ""
 "Couldn't determine gcc system type, falling back to default (native "
 "compilation)"
 msgstr ""
+"Lpmmte gcc-Systemtyp nicht ermitteln, falle auf Standardwerte (native "
+"Übersetzung) zurück"
 
 #: scripts/dpkg-architecture.pl:100
 #, perl-format
 msgid ""
 "Unknown gcc system type %s, falling back to default (native compilation)"
 msgstr ""
+"Unbekannter gcc-Systemtyp %s, falle auf Standard (native Übersetzung) zurück"
 
 #: scripts/dpkg-architecture.pl:155 scripts/dpkg-distaddfile.pl:54
 #: scripts/dpkg-genchanges.pl:160 scripts/dpkg-gencontrol.pl:121
@@ -271,11 +295,12 @@ msgstr ""
 #, perl-format
 msgid "unknown GNU system type %s, you must specify Debian architecture, too"
 msgstr ""
+"unbekannter GNU-Systemtyp %s, Sie müssen auch die Debian-Architektur angeben"
 
 #: scripts/dpkg-architecture.pl:171
 #, perl-format
 msgid "unknown default GNU system type for Debian architecture %s"
-msgstr ""
+msgstr "unbekannter Standard-GNU-Systemtyp für Debian-Architektur %s"
 
 #: scripts/dpkg-architecture.pl:174
 #, perl-format
@@ -283,11 +308,13 @@ msgid ""
 "Default GNU system type %s for Debian arch %s does not match specified GNU "
 "system type %s"
 msgstr ""
+"Standard GNU-Systemtyp %s für Debian-Architektur %s passt nicht auf "
+"angegebenen GNU-Systemtyp %s"
 
 #: scripts/dpkg-architecture.pl:185
 #, perl-format
 msgid "Specified GNU system type %s does not match gcc system type %s."
-msgstr ""
+msgstr "Angegebener GNU-Systemtyp %s passt nicht auf gcc-Systemtyp %s."
 
 #: scripts/dpkg-architecture.pl:252
 #, perl-format
@@ -359,48 +386,51 @@ msgstr ""
 #: scripts/dpkg-buildpackage.pl:176 scripts/dpkg-buildpackage.pl:182
 #, perl-format
 msgid "cannot combine %s and %s"
-msgstr ""
+msgstr "kann %s und %s nicht kombinieren"
 
 #: scripts/dpkg-buildpackage.pl:199
 #, perl-format
 msgid "unknown option or argument %s"
-msgstr ""
+msgstr "unbekannte Option oder Argument %s"
 
 #: scripts/dpkg-buildpackage.pl:204
 msgid "using a gain-root-command while being root"
-msgstr ""
+msgstr "verwende ein root-werde-Befehl obwohl bereits root"
 
 #: scripts/dpkg-buildpackage.pl:210
 msgid ""
 "fakeroot not found, either install the fakeroot\n"
 "package, specify a command with the -r option, or run this as root"
 msgstr ""
+"Fakeroot nicht gefunden, installieren Sie entweder das Fakeroot-Paket,\n"
+"geben Sie einen Befehl mit der Option -r an\n"
+"oder führen Sie dies als root aus"
 
 #: scripts/dpkg-buildpackage.pl:214
 #, perl-format
 msgid "gain-root-commmand '%s' not found"
-msgstr ""
+msgstr "root-werde-Befehl »%s« nicht gefunden"
 
 #: scripts/dpkg-buildpackage.pl:232
 msgid "unknown sign command, assuming pgp style interface"
-msgstr ""
+msgstr "unbekannter Signier-Befehl, nehme PGP-artige Schnittstelle an"
 
 #: scripts/dpkg-buildpackage.pl:269
 #, perl-format
 msgid "unable to determine %s"
-msgstr ""
+msgstr "kann %s nicht bestimmen"
 
 #: scripts/dpkg-buildpackage.pl:276
 msgid "source package"
-msgstr ""
+msgstr "Quellpaket"
 
 #: scripts/dpkg-buildpackage.pl:277
 msgid "source version"
-msgstr ""
+msgstr "Quellversion"
 
 #: scripts/dpkg-buildpackage.pl:286
 msgid "source changed by"
-msgstr ""
+msgstr "Quellen geändert durch"
 
 #: scripts/dpkg-buildpackage.pl:304
 msgid "host architecture"
@@ -416,20 +446,20 @@ msgstr ""
 
 #: scripts/dpkg-buildpackage.pl:377
 msgid "Press the return key to start signing process\n"
-msgstr ""
+msgstr "Drücken Sie die Eingabetaste um den Signaturporzess zu starten\n"
 
 #: scripts/dpkg-buildpackage.pl:384
 msgid "Failed to sign .dsc and .changes file"
-msgstr ""
+msgstr "Konnte .dsc- und .changes-Datei nicht signieren"
 
 #: scripts/dpkg-buildpackage.pl:405 scripts/dpkg-buildpackage.pl:409
 #: scripts/dpkg-buildpackage.pl:422
 msgid "write changes file"
-msgstr ""
+msgstr "schreibe changes-Datei"
 
 #: scripts/dpkg-buildpackage.pl:421
 msgid "dpkg-genchanges"
-msgstr ""
+msgstr "dpkg-genchanges"
 
 #: scripts/dpkg-buildpackage.pl:434
 msgid "source only upload: Debian-native package"
@@ -517,7 +547,7 @@ msgstr ""
 
 #: scripts/dpkg-distaddfile.pl:62
 msgid "filename, section and priority may contain no whitespace"
-msgstr ""
+msgstr "Dateiname, Bereich und Priorität dürfen keine Leerzeichen enthalten"
 
 #: scripts/dpkg-distaddfile.pl:65 scripts/dpkg-gencontrol.pl:322
 msgid "open new files list file"
@@ -586,7 +616,7 @@ msgstr ""
 #: scripts/dpkg-genchanges.pl:115 scripts/dpkg-genchanges.pl:118
 #: scripts/dpkg-genchanges.pl:123
 msgid "cannot combine -b or -B and -S"
-msgstr ""
+msgstr "kann -b oder -B nicht mit -S kombinieren"
 
 #: scripts/dpkg-genchanges.pl:121
 #, perl-format
@@ -631,7 +661,7 @@ msgstr ""
 #: scripts/dpkg-source.pl:393
 #, perl-format
 msgid "value from nowhere, with key >%s< and value >%s<"
-msgstr ""
+msgstr "Wert von nirgendwo, mit Schlüssel >%s< und Wert >%s<"
 
 #: scripts/dpkg-genchanges.pl:292
 msgid "read changesdescription"
@@ -674,17 +704,17 @@ msgstr ""
 #: scripts/dpkg-source.pl:830
 #, perl-format
 msgid "cannot open .dsc file %s: %s"
-msgstr ""
+msgstr "kann .dsc-Datei %s nicht öffnen: %s"
 
 #: scripts/dpkg-genchanges.pl:352 scripts/dpkg-source.pl:831
 #, perl-format
 msgid "source control file %s"
-msgstr ""
+msgstr "Quell-Steuerdatei %s"
 
 #: scripts/dpkg-genchanges.pl:358 scripts/dpkg-source.pl:870
 #, perl-format
 msgid "Files field contains bad line `%s'"
-msgstr ""
+msgstr "Files-Feld enthält ungültige Zeile »%s«"
 
 #: scripts/dpkg-genchanges.pl:370
 msgid "not including original source code in upload"
@@ -784,7 +814,7 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl:89 scripts/dpkg-gensymbols.pl:91
 #, perl-format
 msgid "Illegal package name `%s'"
-msgstr ""
+msgstr "Ungültiger Paketname »%s«"
 
 #: scripts/dpkg-gencontrol.pl:133
 #, perl-format
@@ -800,8 +830,8 @@ msgstr ""
 #, perl-format
 msgid "`%s' is not a legal architecture string."
 msgid_plural "`%s' are not legal architecture strings."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "»%s« ist keine gültige Architektur-Zeichenkette"
+msgstr[1] "»%s« sind keine gültigen Architektur-Zeichenketten"
 
 #: scripts/dpkg-gencontrol.pl:190
 #, perl-format
@@ -2315,28 +2345,28 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:1460
 msgid "wait for tar -xkf -"
-msgstr ""
+msgstr "Warte auf tar -xkf -"
 
 #: scripts/dpkg-source.pl:1492
 #, perl-format
 msgid "Unable to open dir %s"
-msgstr ""
+msgstr "Kann Verzeichnis %s nicht öffnen"
 
 #: scripts/dpkg-source.pl:1494
 #, perl-format
 msgid "Unable to close dir %s"
-msgstr ""
+msgstr "Kann Verzeichnis %s nicht schließen"
 
 #: scripts/dpkg-source.pl:1497 scripts/dpkg-source.pl:1505
 #: scripts/dpkg-source.pl:1510
 #, perl-format
 msgid "Unable to rename %s to %s"
-msgstr ""
+msgstr "Kann %s nicht in %s umbenennen"
 
 #: scripts/dpkg-source.pl:1502
 #, perl-format
 msgid "Unable to mkdir %s"
-msgstr ""
+msgstr "Kann %s nicht erstellen"
 
 #: scripts/dpkg-source.pl:1518
 msgid "reopen stderr for tar to grep out blocks message"
@@ -2376,7 +2406,7 @@ msgstr ""
 #: scripts/dpkg-source.pl:1577
 #, perl-format
 msgid "create file %s"
-msgstr ""
+msgstr "erstelle Datei %s"
 
 #: scripts/dpkg-source.pl:1578
 msgid "pipe for gzip"
@@ -2517,7 +2547,7 @@ msgstr ""
 #: scripts/changelog/debian.pl:159
 #, perl-format
 msgid "found blank line where expected %s"
-msgstr ""
+msgstr "fand Leerzeile wo %s erwartet wurde"
 
 #: scripts/changelog/debian.pl:162
 msgid "unrecognised line"
@@ -2526,7 +2556,7 @@ msgstr ""
 #: scripts/changelog/debian.pl:166
 #, perl-format
 msgid "found eof where expected %s"
-msgstr ""
+msgstr "fand EOF wo %s erwartet wurde"
 
 #: scripts/changelog/debian.pl:183 scripts/changelog/debian.pl:188
 #, perl-format
@@ -2557,27 +2587,27 @@ msgstr "konnte %s nicht schließen"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:74
 msgid "cannot fork for objdump"
-msgstr ""
+msgstr "kann nicht für objdump Fork ausführen"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:82
 #, perl-format
 msgid "objdump on `%s'"
-msgstr ""
+msgstr "objdump auf »%s«"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:90
 #, perl-format
 msgid "Can't open %s for test: %s"
-msgstr ""
+msgstr "Kann %s nicht zum Testen öffnen: %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:144
 #, perl-format
 msgid "Can't execute objdump: %s"
-msgstr ""
+msgstr "Kann objdump nicht ausführen: %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:282
 #, perl-format
 msgid "Couldn't parse dynamic symbol definition: %s"
-msgstr ""
+msgstr "Konnte die Definition der dynamischen Symbole nicht auswerten: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:100
 #, perl-format
@@ -2592,7 +2622,7 @@ msgstr ""
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:146
 #, perl-format
 msgid "Failed to parse a line in %s: %s"
-msgstr ""
+msgstr "Konnte eine Zeile in %s nicht auswerten: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:160
 #, perl-format
@@ -2627,7 +2657,7 @@ msgstr "unbekanntes Informationsfeld »%s« in den Eingabedateien in %s"
 #: scripts/Dpkg/ErrorHandling.pm:73
 #, perl-format
 msgid "%s gave error exit status %s"
-msgstr ""
+msgstr "%s gab Fehler-Exitstatus %s"
 
 #: scripts/Dpkg/ErrorHandling.pm:75
 #, perl-format
