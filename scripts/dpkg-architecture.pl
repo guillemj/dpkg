@@ -67,47 +67,11 @@ Actions:
 "), $progname;
 }
 
-# Check for -L
-if (grep { m/^-L$/ } @ARGV) {
+sub list_arches()
+{
     foreach my $arch (get_valid_arches()) {
 	print "$arch\n";
     }
-    exit unless $#ARGV;
-}
-
-# Set default values:
-
-chomp (my $deb_build_arch = `dpkg --print-architecture`);
-&syserr("dpkg --print-architecture failed") if $?>>8;
-my $deb_build_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($deb_build_arch));
-
-# Default host: Current gcc.
-my $gcc = `\${CC:-gcc} -dumpmachine`;
-if ($?>>8) {
-    warning(_g("Couldn't determine gcc system type, falling back to default (native compilation)"));
-    $gcc = '';
-} else {
-    chomp $gcc;
-}
-
-my $deb_host_arch = undef;
-my $deb_host_gnu_type;
-
-if ($gcc ne '') {
-    my (@deb_host_archtriplet) = gnutriplet_to_debtriplet($gcc);
-    $deb_host_arch = debtriplet_to_debarch(@deb_host_archtriplet);
-    unless (defined $deb_host_arch) {
-	warning(_g("Unknown gcc system type %s, falling back to default " .
-	           "(native compilation)"), $gcc);
-	$gcc = '';
-    } else {
-	$gcc = $deb_host_gnu_type = debtriplet_to_gnutriplet(@deb_host_archtriplet);
-    }
-}
-if (!defined($deb_host_arch)) {
-    # Default host: Native compilation.
-    $deb_host_arch = $deb_build_arch;
-    $deb_host_gnu_type = $deb_build_gnu_type;
 }
 
 
@@ -144,7 +108,8 @@ while (@ARGV) {
        $action = 'c';
        last;
     } elsif (m/^-L$/) {
-       # Handled already
+        list_arches();
+        exit unless @ARGV;
     } elsif (m/^-(h|-help)$/) {
        &usage;
        exit 0;
@@ -154,6 +119,41 @@ while (@ARGV) {
     } else {
 	usageerr(_g("unknown option \`%s'"), $_);
     }
+}
+
+# Set default values:
+
+chomp (my $deb_build_arch = `dpkg --print-architecture`);
+&syserr("dpkg --print-architecture failed") if $?>>8;
+my $deb_build_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($deb_build_arch));
+
+# Default host: Current gcc.
+my $gcc = `\${CC:-gcc} -dumpmachine`;
+if ($?>>8) {
+    warning(_g("Couldn't determine gcc system type, falling back to default (native compilation)"));
+    $gcc = '';
+} else {
+    chomp $gcc;
+}
+
+my $deb_host_arch = undef;
+my $deb_host_gnu_type;
+
+if ($gcc ne '') {
+    my (@deb_host_archtriplet) = gnutriplet_to_debtriplet($gcc);
+    $deb_host_arch = debtriplet_to_debarch(@deb_host_archtriplet);
+    unless (defined $deb_host_arch) {
+	warning(_g("Unknown gcc system type %s, falling back to default " .
+	           "(native compilation)"), $gcc);
+	$gcc = '';
+    } else {
+	$gcc = $deb_host_gnu_type = debtriplet_to_gnutriplet(@deb_host_archtriplet);
+    }
+}
+if (!defined($deb_host_arch)) {
+    # Default host: Native compilation.
+    $deb_host_arch = $deb_build_arch;
+    $deb_host_gnu_type = $deb_build_gnu_type;
 }
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
