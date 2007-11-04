@@ -27,7 +27,8 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning syserr usageerr);
 use Dpkg::Arch qw(get_valid_arches debarch_eq debarch_is
                   debtriplet_to_gnutriplet gnutriplet_to_debtriplet
-                  debtriplet_to_debarch debarch_to_debtriplet);
+                  debtriplet_to_debarch debarch_to_debtriplet
+                  debarch_to_gnutriplet gnutriplet_to_debarch);
 
 textdomain("dpkg-dev");
 
@@ -125,7 +126,7 @@ while (@ARGV) {
 
 chomp (my $deb_build_arch = `dpkg --print-architecture`);
 &syserr("dpkg --print-architecture failed") if $?>>8;
-my $deb_build_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($deb_build_arch));
+my $deb_build_gnu_type = debarch_to_gnutriplet($deb_build_arch);
 
 # Default host: Current gcc.
 my $gcc = `\${CC:-gcc} -dumpmachine`;
@@ -157,17 +158,17 @@ if (!defined($deb_host_arch)) {
 }
 
 if ($req_host_arch ne '' && $req_host_gnu_type eq '') {
-    $req_host_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($req_host_arch));
+    $req_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
     die (sprintf(_g("unknown Debian architecture %s, you must specify GNU system type, too"), $req_host_arch)) unless defined $req_host_gnu_type;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch eq '') {
-    $req_host_arch = debtriplet_to_debarch(gnutriplet_to_debtriplet($req_host_gnu_type));
+    $req_host_arch = gnutriplet_to_debarch($req_host_gnu_type);
     die (sprintf(_g("unknown GNU system type %s, you must specify Debian architecture, too"), $req_host_gnu_type)) unless defined $req_host_arch;
 }
 
 if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
-    my $dfl_host_gnu_type = debtriplet_to_gnutriplet(debarch_to_debtriplet($req_host_arch));
+    my $dfl_host_gnu_type = debarch_to_gnutriplet($req_host_arch);
     die (sprintf(_g("unknown default GNU system type for Debian architecture %s"),
                  $req_host_arch))
 	unless defined $dfl_host_gnu_type;

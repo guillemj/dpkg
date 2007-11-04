@@ -1,5 +1,14 @@
 2007-11-04  Guillem Jover  <guillem@debian.org>
 
+	* scripts/Dpkg/Arch.pm (debarch_to_gnutriplet): New function.
+	(gnutriplet_to_debarch): Likewise.
+	* scripts/dpkg-architecture.pl: Use debarch_to_gnutriplet and
+	gnutriplet_to_debarch instead of nested calls to
+	debtriplet_to_gnutriplet and debarch_to_debtriplet,
+	debtriplet_to_debarch and gnutriplet_to_debtriplet.
+
+2007-11-04  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-architecture.pl: Move setting of host and build arch
 	variables after argument processing. Call list_arches from argument
 	processing loop. Move architecture listing to ...

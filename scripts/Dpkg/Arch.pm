@@ -6,6 +6,7 @@ use warnings;
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(get_host_arch get_valid_arches debarch_eq debarch_is
+                    debarch_to_gnutriplet gnutriplet_to_debarch
                     debtriplet_to_gnutriplet gnutriplet_to_debtriplet
                     debtriplet_to_debarch debarch_to_debtriplet);
 
@@ -190,6 +191,20 @@ sub debarch_to_debtriplet($)
     } else {
 	return undef;
     }
+}
+
+sub debarch_to_gnutriplet($)
+{
+    my ($arch) = @_;
+
+    return debtriplet_to_gnutriplet(debarch_to_debtriplet($arch));
+}
+
+sub gnutriplet_to_debarch($)
+{
+    my ($gnu) = @_;
+
+    return debtriplet_to_debarch(gnutriplet_to_debtriplet($gnu));
 }
 
 sub debwildcard_to_debtriplet($)
