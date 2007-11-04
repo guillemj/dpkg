@@ -38,12 +38,16 @@ sub get_valid_arches()
     read_cputable() if (!@cpu);
     read_ostable() if (!@os);
 
+    my @arches;
+
     foreach my $os (@os) {
 	foreach my $cpu (@cpu) {
 	    my $arch = debtriplet_to_debarch(split(/-/, $os, 2), $cpu);
-	    print $arch."\n" if defined($arch);
+	    push @arches, $arch if defined($arch);
 	}
     }
+
+    return @arches;
 }
 
 sub read_cputable
