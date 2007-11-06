@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2007-11-02 14:01+0100\n"
-"PO-Revision-Date: 2007-10-27 17:53+0200\n"
+"PO-Revision-Date: 2007-11-04 08:47+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -4791,7 +4791,7 @@ msgstr "B<dpkg-distaddfile> [I<Optionen>]I< Dateiname Bereich Priorität>"
 #: dpkg-distaddfile.1:13
 msgid "B<dpkg-distaddfile> adds an entry for a named file to B<debian/files>."
 msgstr ""
-"B<dpkg-distaddfile> fügte einen Eintag für eine benannte Datei in B<debian/"
+"B<dpkg-distaddfile> fügt einen Eintrag für eine benannte Datei in B<debian/"
 "files> hinzu."
 
 # type: Plain text
@@ -5893,7 +5893,6 @@ msgstr "B<dpkg-gencontrol> [I<Optionen>]"
 
 # type: Plain text
 #: dpkg-gencontrol.1:15
-#, fuzzy
 msgid ""
 "B<dpkg-gencontrol> reads information from an unpacked Debian source tree and "
 "generates a binary package control file (which defaults to debian/tmp/DEBIAN/"
@@ -5902,8 +5901,8 @@ msgid ""
 msgstr ""
 "B<dpkg-gencontrol> liest Informationen aus einem entpackten Debian-"
 "Quellcodebaum und erzeugt eine binäre Paketsteuerdatei (standardmäßig debian/"
-"tmp/DEBIAN/control); es fügt auch einen Eintrag für das Binärpaket zu "
-"B<debian/files> hinzu."
+"tmp/DEBIAN/control); dabei vereinfacht es die Felder mit Paketbeziehungen und "
+"schreibt sie sortiert neu."
 
 # type: Plain text
 #: dpkg-gencontrol.1:24
@@ -5915,6 +5914,13 @@ msgid ""
 "to true given the current version of the package as installed). Logically it "
 "keeps the intersection of multiple dependencies on the same package."
 msgstr ""
+"Daher werden I<Pre-Depends>, I<Depends>, I<Recommends> und I<Suggests> in "
+"dieser Reihenfolge vereinfacht, indem Abhängigkeiten, die aufgrund der "
+"jeweils ermittelten stärkeren Abhängigkeit bereits erfüllt sind, entfernt "
+"werden. Es wird auch alle Selbstabhängigkeite entfernen (tatsächlich werden "
+"alle Abhängigkeiten entfernt, die aufgrund der installierten Version des "
+"aktuellen Pakets automatisch erfüllt werden). Logisch betrachtet behält es "
+"den Durchschnitt von mehrfachen Abhängigkeiten auf das gleiche Paket."
 
 # type: Plain text
 #: dpkg-gencontrol.1:29
@@ -5924,15 +5930,18 @@ msgid ""
 "the various dependencies when a package is listed multiple times in the "
 "field."
 msgstr ""
+"Die anderen Paketbeziehungsfelder (I<Enhances>, I<Conflicts>, I<Breaks>, "
+"I<Replaces> und I<Provides>) werden auch individuell vereinfacht, indem die "
+"Vereinigung der verschiedenen Abhängigkeiten berechnet wird, wenn ein Paket "
+"mehrfach in dem Feld aufgeführt ist."
 
 # type: Plain text
 #: dpkg-gencontrol.1:33
-#, fuzzy
 msgid ""
 "B<dpkg-gencontrol> also adds an entry for the binary package to B<debian/"
 "files>."
 msgstr ""
-"B<dpkg-distaddfile> fügte einen Eintag für eine benannte Datei in B<debian/"
+"B<dpkg-gencontrol> fügt auch einen Eintrag für das Binärpaket in B<debian/"
 "files> hinzu."
 
 # type: Plain text
@@ -6637,13 +6646,13 @@ msgstr ""
 "gefunden werden können (d.h. benutzerdefinierte Felder), abgefragt werden. "
 "Sie werden so dargestellt, wie sie gefunden werden, es erfolgt keine "
 "Umwandlung oder Fehlerüberprüfung. Um den Namen des Dpkg-Betreuers und die "
-"installierte Version zu erhalten, könnten Sie folgendes ausgeben:"
+"installierte Version zu erhalten, könnten Sie folgendes ausführen:"
 
 # type: Plain text
 #: dpkg-query.1:144
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
-msgstr "  B<dpkg-query -W -f='${Package} ${Version}\\et${Maintainer}\\en' dpkg>\n"
+msgstr "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 # type: SH
 #: dpkg-query.1:146
@@ -7615,9 +7624,9 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-source.1:44
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-b> I<directory> [I<orig-directory>|I<orig-targz>|\\(aq\\(aq]"
-msgstr "B<-b> I<Verzeichnis> [I<Orig-Verzeichnis>|I<Orig-targz>|'']"
+msgstr "B<-b> I<Verzeichnis> [I<Orig-Verzeichnis>|I<Orig-targz>|\\(aq\\(aq]"
 
 # type: Plain text
 #: dpkg-source.1:60
@@ -9087,7 +9096,7 @@ msgstr ""
 # type: Plain text
 #: dselect.1:139
 msgid "Choose and configure an access method to access package repositories."
-msgstr ""
+msgstr "Wähle und konfiguriere eine Zugriffsmethode für Paketdepots."
 
 # type: Plain text
 #: dselect.1:145
@@ -9226,6 +9235,8 @@ msgstr ""
 #: dselect.1:206
 msgid "Configures any previously installed, but not fully configured packages."
 msgstr ""
+"Konfiguriert alle bisher installierten, aber noch nicht voll-konfigurierten "
+"Pakete."
 
 # type: SS
 #: dselect.1:207
@@ -9472,6 +9483,8 @@ msgid ""
 "Where not listed above explicitly, alphabetic order is used as the final "
 "subordering sort key."
 msgstr ""
+"Wo dies oben nicht explizit aufgeführt ist, wird alphabetische Reihenfolge "
+"als abschließender Unterordnungs-Sortierschlüssel verwendet."
 
 # type: SS
 #: dselect.1:353

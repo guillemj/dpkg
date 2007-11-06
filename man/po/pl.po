@@ -2,16 +2,15 @@
 # This file is distributed under the same license as the dpkg package.
 #
 msgid ""
-msgstr ""
-"Project-Id-Version: dpkg 1.14.17\n"
+msgstr "Project-Id-Version: dpkg 1.14.17\n"
 "POT-Creation-Date: 2007-11-02 14:01+0100\n"
-"PO-Revision-Date: 2007-10-08 22:53+0200\n"
+"PO-Revision-Date: 2007-11-04 23:19+0100\n"
 "Last-Translator: Robert Luberda <robert@debian.org>\n"
 "Language-Team: Polish <debian-l10n-polish@lists.debian.org>\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
-"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
 
 # type: Plain text
 #
@@ -338,7 +337,7 @@ msgstr "PLIKI"
 #: cleanup-info.8:44
 #, no-wrap
 msgid "I</usr/info/dir> or I<E<lt>dirnameE<gt>/dir>"
-msgstr "I</usr/info/dir> lub I<E<lt>katalogE<gt>/dir>"
+msgstr "I</usr/info/dir> lub I<E<lt>nazwa_kataloguE<gt>/dir>"
 
 # type: Plain text
 #: cleanup-info.8:47
@@ -726,7 +725,7 @@ msgid ""
 "other installation tool will not allow an B<Essential> package to be removed "
 "(at least not without using one of the force options)."
 msgstr ""
-"To pole jest u¿yteczne tylko gdy jego warto¶ci± jest `yes'. Oznacza ono, ¿e "
+"To pole jest u¿yteczne tylko, gdy jego warto¶ci± jest `yes'. Oznacza ono, ¿e "
 "pakiet jest niezbêdny do poprawnego dzia³ania systemu. Ani dpkg, ani ¿adne "
 "inne narzêdzie instalacyjne nie pozwol± usun±æ pakietu oznaczonego jako "
 "B<Essential> (chyba ¿e u¿yje siê specjalnej opcji wymuszaj±cej usuniêcie "
@@ -908,7 +907,7 @@ msgid ""
 "pipes binding more tightly. Each package name is optionally followed by a "
 "version number specification in parentheses."
 msgstr ""
-"Warto¶ci± pól B<Depends>, B<Pre-Depends>, B<Recommends> i B<Suggests>jest "
+"Warto¶ci± pól B<Depends>, B<Pre-Depends>, B<Recommends> i B<Suggests> jest "
 "lista grup alternatywnych pakietów. Ka¿da grupa jest list± pakietów "
 "oddzielonych symbolami pionowej kreski (`|'). Grupy oddzielone s± od siebie "
 "przecinkami. Przecinki maj± znaczenie `I' (koniunkcja), a kreski - "
@@ -1008,6 +1007,14 @@ msgid ""
 "having to know the package names for all of them, and using `|' to separate "
 "the list."
 msgstr ""
+"Jest to lista pakietów wirtualnych dostarczanych przez ten pakiet. Zazwyczaj "
+"jest to u¿ywane w przypadku, gdy kilka pakietów dostarcza tej samej us³ugi. "
+"Na przyk³ad sendmail i exim s±  serwerami poczty, dlatego dostarczaj± "
+"wspólnego pakietu (`mail-transport-agent'), od którego inne pakiety mog± "
+"zale¿eæ. Pozwala to zarówno sendmailowi, jak i eximowi spe³niæ tê zale¿no¶æ. "
+"Ponadto w ten sposób pakiety, które zale¿± od serwera poczty, nie musz± znaæ "
+"nazw wszystkich pakietów dostarczaj±cych tej us³ugi ani u¿ywaæ `|' do "
+"rozdzielenia listy takich pakietów."
 
 # type: Plain text
 #: deb-control.5:200
@@ -1120,8 +1127,8 @@ msgid ""
 "The first line is the format version number padded to 8 digits, and is "
 "B<0.939000> for all old-format archives."
 msgstr ""
-"Pierwsz± lini± jest numer wersji formatu, wyrównany do 8 cB<0.939000>yfr. "
-"Dla starego formatu numer ten wynosi B<0.939000>."
+"Pierwsz± lini± jest numer wersji formatu, wyrównany do 8 cyfr. Dla starego "
+"formatu numer ten wynosi B<0.939000>."
 
 # type: Plain text
 #: deb-old.5:28
@@ -1211,6 +1218,10 @@ msgid ""
 "rather than the actual dependencies and description of the package.  This "
 "information is found in the override file."
 msgstr ""
+"Chocia¿ wiêkszo¶æ informacji o pakiecie mo¿na znale¼æ w pliku kontrolnym, to "
+"niektóre z nich, zwi±zane z umiejscowieniem plików w dystrybucji, a nie z "
+"zale¿no¶ciami i opisem pakietu, musz± byæ wype³nione przez carów "
+"dystrybucji, a nie przez opiekuna. Do tego s³u¿y plik nadpisañ."
 
 # type: Plain text
 #: deb-override.5:33
@@ -1237,14 +1248,14 @@ msgstr ""
 
 # type: Plain text
 #: deb-override.5:53
-#, fuzzy
 msgid ""
 "I<priority> and I<section> place the package within the release tree; these "
 "ought not to be found in the control file. If the package is found in a "
 "subdirectory of I<binarydir>, that will be checked against I<section>."
 msgstr ""
 "I<priorytet> i I<sekcja> umiejscawiaj± pakiet w drzewie wydania; nie powinny "
-"siê znajdowaæ w pliku kontrolnym. "
+"siê znajdowaæ w pliku kontrolnym. Je¿eli pakiet zostanie znaleziony w "
+"podkatalogu I<katalogu_bin>, to bêdzie sprawdzony wzglêdem I<sekcji>."
 
 # type: Plain text
 #: deb-override.5:61
@@ -4353,12 +4364,14 @@ msgstr "B<-si>"
 
 # type: Plain text
 #: dpkg-buildpackage.1:38 dpkg-genchanges.1:43
-#, fuzzy
 msgid ""
 "By default, or if specified, the original source will be included if the "
 "version number ends in B<-0> or B<-1>, i.e. if the Debian revision part of "
 "the version number is B<0> or B<1>."
-msgstr "Domy¶lnie, "
+msgstr ""
+"Domy¶lnie, kub je¶li to okre¶lono, oryginalne ¼ród³a bêd± do³±czone, je¶li "
+"numer wersji koñczy siê na B<-0> lub B<-1>, czyli je¶li wersj± Debiana "
+"pakietu jest B<0> lub B<1>."
 
 # type: TP
 #: dpkg-buildpackage.1:38 dpkg-genchanges.1:43
@@ -4392,11 +4405,14 @@ msgstr "B<-a>I<architektura>"
 
 # type: Plain text
 #: dpkg-buildpackage.1:49
+#, fuzzy
 msgid ""
 "Specify the Debian architecture we build for. The architecture of the "
 "machine we build on is determined automatically, and is also the default for "
 "the host machine."
 msgstr ""
+"Okre¶la architekturê Debiana dla której jest budowany pakiet. Architektura "
+"komputera, na której jest budowany pakiet, jest okre¶lana automatycznie"
 
 # type: TP
 #: dpkg-buildpackage.1:49
@@ -4517,12 +4533,11 @@ msgstr "B<-E>"
 
 # type: Plain text
 #: dpkg-buildpackage.1:93
-#, fuzzy
 msgid ""
 "Turn certain warnings into errors. Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
-"Przekszta³ca pewne b³êdy w ostrze¿enia. Tylko B<dpkg-source> u¿ywa tej "
+"Przekszta³ca pewne ostrze¿enia w b³êdy. Tylko B<dpkg-source> u¿ywa tej "
 "opcji, jednak¿e B<dpkg-buildpackage> rozpoznaje j± i przekazuje niezmienion± "
 "do B<dpkg-source>."
 
@@ -4534,12 +4549,11 @@ msgstr "B<-W>"
 
 # type: Plain text
 #: dpkg-buildpackage.1:101
-#, fuzzy
 msgid ""
 "Negates a previously set B<-E>.  Only B<dpkg-source> uses this, but B<dpkg-"
 "buildpackage> recognizes it, and passes it thru to B<dpkg-source>."
 msgstr ""
-"Neguje poprzednio ustawione B<-W>. Tylko B<dpkg-source> u¿ywa tej opcji, "
+"Neguje poprzednio ustawione B<-E>. Tylko B<dpkg-source> u¿ywa tej opcji, "
 "jednak¿e B<dpkg-buildpackage> rozpoznaje j± i przekazuje niezmienion± do "
 "B<dpkg-source>."
 
@@ -4672,13 +4686,13 @@ msgstr ""
 #: dpkg-buildpackage.1:180
 #, no-wrap
 msgid "B<-s>[B<nsAkurKUR>]"
-msgstr ""
+msgstr "B<-s>[B<nsAkurKUR>]"
 
 # type: TP
 #: dpkg-buildpackage.1:184
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-z>, B<-Z>"
-msgstr "B<-b>, B<-B>"
+msgstr "B<-z>, B<-Z>"
 
 # type: Plain text
 #
@@ -4825,7 +4839,6 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-distaddfile.1:26
-#, fuzzy
 msgid ""
 "The filename should be specified relative to the directory where B<dpkg-"
 "genchanges> will expect to find the files, usually B<..>, rather than being "
@@ -4833,6 +4846,8 @@ msgid ""
 msgstr ""
 "Nazwa pliku powinna byæ podana relatywnie w stosunku do katalogu, w którym "
 "B<dpkg-genchanges> bêdzie szuka³ plików, zazwyczaj jako B<..>, raczej ni¿ "
+"byæ ¶cie¿k± relatywn± do bie¿±cego katalogu, podczas dzia³ania B<dpkg-"
+"distaddfile>."
 
 # type: TP
 #: dpkg-distaddfile.1:28 dpkg-genchanges.1:99 dpkg-gencontrol.1:64
@@ -5351,7 +5366,7 @@ msgstr "W³±cza opcjê debuggera. Nie jest to zbyt interesuj±ce."
 msgid ""
 "B<dpkg-deb -I> I<package1>B<.deb> I<package2>B<.deb> does the wrong thing."
 msgstr ""
-"B<dpkg-deb -I> I<package1>B<.deb> I<package2>B<.deb> dzia³a niepoprawnie."
+"B<dpkg-deb -I> I<pakiet1>B<.deb> I<pakiet2>B<.deb> dzia³a niepoprawnie."
 
 # type: Plain text
 #
@@ -5418,7 +5433,7 @@ msgid ""
 "'conffiles') need to be preserved by dpkg, when installing a newer version "
 "of a package which contains those files."
 msgstr ""
-"\"Nadpisania\" plików s± sposobem na wymuszenie na programie B<dpkg>(1) "
+"\"I<Nadpisania>\" plików s± sposobem na wymuszenie na programie B<dpkg>(1) "
 "instalowania pliku nie w domy¶lnej lokalizacji, lecz w nowej, I<nadpisanej> "
 "lokalizacji. Nadpisania mog± byæ u¿ywane w skryptach pakietów Debiana do "
 "przeniesienia plików, które powoduj± konflikty. Administrator systemu mo¿e "
@@ -5507,13 +5522,16 @@ msgstr "B<--local>"
 
 # type: Plain text
 #: dpkg-divert.8:52
-#, fuzzy
 msgid ""
 "Specifies that all packages' versions of this file are diverted.  This "
 "means, that there are no exceptions, and whatever package is installed, the "
 "file is diverted. This can be used by an admin to install a locally modified "
 "version."
-msgstr "Okre¶la, ¿e zostan± nadpisane wszystkie wersje pakietów "
+msgstr ""
+"Okre¶la, ¿e zostan± nadpisane wszystkie wersje tego pliku. Oznacza to ,¿e "
+"bez ¿adnych wyj±tków, plik jest nadpisywany, niezale¿nie od tego, który "
+"pakiet jest instalowany. Administrator mo¿e tego u¿yæ do zainstalowania "
+"lokalnie zmodyfikowanej wersji pliku."
 
 # type: TP
 #: dpkg-divert.8:52
@@ -5624,7 +5642,7 @@ msgstr ""
 # type: Plain text
 #: dpkg-divert.8:93
 msgid "dpkg-divert --divert /usr/bin/example.foo --rename /usr/bin/example"
-msgstr "dpkg-divert --divert /usr/bin/przyk³ad.foo --rename /usr/bin/przyk³ad"
+msgstr "dpkg-divert --divert /usr/bin/przyk³ad.bla --rename /usr/bin/przyk³ad"
 
 # type: Plain text
 #: dpkg-divert.8:95 dpkg-divert.8:105
@@ -5726,7 +5744,6 @@ msgstr "B<-b>, B<-B>"
 
 # type: Plain text
 #: dpkg-genchanges.1:27
-#, fuzzy
 msgid ""
 "Specifies that a binary-only build is taking place (no source files are to "
 "be included). There's no distinction between B<-b> and B<-B>, the produced "
@@ -5734,16 +5751,17 @@ msgid ""
 "target(s) of the package being built."
 msgstr ""
 "Okre¶la, ¿e wykonywane jest budowanie tylko pakietów binarnych (bez "
-"w³±czania jakichkolwiek plików ¼ród³owych). "
+"w³±czania jakichkolwiek plików ¼ród³owych). Nie ma ró¿nicy miêdzy B<-b> i B<-"
+"B>, wygenerowany plik B<.changes> bêdzie zawieraæ wszystkie pliki utworzone "
+"przez regu³y B<binary-*> budowanych w³a¶nie pakietów."
 
 # type: Plain text
 #
 #: dpkg-genchanges.1:31
-#, fuzzy
 msgid ""
 "Specifies that only the source should be uploaded (no binary packages will "
 "be included)."
-msgstr "Okre¶la "
+msgstr ""
 
 # type: Plain text
 #: dpkg-genchanges.1:55
@@ -5762,18 +5780,19 @@ msgstr "B<-V>I<nazwa>B<=>I<warto¶æ>"
 
 # type: Plain text
 #: dpkg-genchanges.1:77 dpkg-source.1:91
-#, fuzzy
 msgid ""
 "Set an output substitution variable.  See B<deb-substvars>(5) for a "
 "discussion of output substitution."
-msgstr "Ustawia zmienn± podstawienia wyj¶cia"
+msgstr ""
+"Ustawia zmienn± podstawienia wyj¶cia. Szczegó³owy opis podstawiania "
+"zmiennych wyj¶ciowych znajduje siê w B<deb-substvars>(5)."
 
 # type: TP
 #: dpkg-genchanges.1:77 dpkg-gencontrol.1:42 dpkg-shlibdeps.1:157
 #: dpkg-source.1:91
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-T>I<substvarsfile>"
-msgstr "B<--fsys-tarfile>"
+msgstr "B<-T>I<plikzmiennychpodst>"
 
 # type: Plain text
 #: dpkg-genchanges.1:83 dpkg-gencontrol.1:48 dpkg-source.1:97
@@ -5781,6 +5800,8 @@ msgid ""
 "Read substitution variables in I<substvarsfile>; the default is B<debian/"
 "substvars>."
 msgstr ""
+"Czyta zmienne podstawiania z I<plikuzmiennychpodst>; domy¶lnie jest to "
+"B<debian/substvars>."
 
 # type: TP
 #: dpkg-genchanges.1:83 dpkg-gencontrol.1:48 dpkg-source.1:97
@@ -5889,6 +5910,9 @@ msgid ""
 "error, for example about how many of the package's source files are being "
 "uploaded.  B<-q> suppresses these messages."
 msgstr ""
+"Zazwyczaj B<dpkg-genchanges> na standardowym wyj¶ciu b³êdów wypisze "
+"komunikaty informuj±ce na przyk³ad o liczbie plików wygenerowanych "
+"¼ród³owych pakietu. B<-q> powstrzymuje wypisywanie takich komunikatów"
 
 # type: Plain text
 #: dpkg-genchanges.1:143
@@ -5896,6 +5920,8 @@ msgid ""
 "The list of generated files which are part of the upload being prepared.  "
 "B<dpkg-genchanges> reads the data here when producing a B<.changes> file."
 msgstr ""
+"Lista wygenerowanych plików, które s± czê¶ci± przygotowywanego wydania. "
+"B<dpkg-genchanges> czyta st±d dane podczas tworzenia pliku <.changes>."
 
 # type: TP
 #: dpkg-gencontrol.1:1
@@ -5928,6 +5954,10 @@ msgid ""
 "control); during this process it will simplify the relation fields and "
 "rewrite them in a sorted manner."
 msgstr ""
+"B<dpkg-gencontrol> czyta informacje z rozpakowanego zdebianizowanego drzewa "
+"¼róde³ i generuje plik kontrolny pakietu binarnego (domy¶lnie jest to debian/"
+"tmp/DEBIAN/control), upraszczaj±c i sortuj±c podczas tego proces pola "
+"dotycz±ce zale¿no¶ci."
 
 # type: Plain text
 #: dpkg-gencontrol.1:24
@@ -5939,6 +5969,14 @@ msgid ""
 "to true given the current version of the package as installed). Logically it "
 "keeps the intersection of multiple dependencies on the same package."
 msgstr ""
+"Tak wiêc I<Pre-Depends>, I<Depends>, I<Recommends> oraz I<Suggests> s± "
+"upraszczane w tej w³a¶nie kolejno¶ci przez usuwanie zale¿no¶ci, o których "
+"wiadomo, ¿e s± prawdziwe, poniewa¿ wynikaj± z innych mocniejszych "
+"zale¿no¶ci. Usuniête tak¿e bêd± wszelkie zale¿no¶ci pakietu od samego siebie "
+"(w zasadzie, usuniête bêd± wszystkie zale¿no¶ci, które bêd± prawdziwe, gdy "
+"bêdzie instalowana bie¿±ca wersja pakietu). Mówi±c jêzykiem logiki, "
+"zachowana bêdzie cze¶æ wspólna ze zbioru wszystkich zale¿no¶ci dotycz±cych "
+"tego samego pakietu."
 
 # type: Plain text
 #: dpkg-gencontrol.1:29
@@ -5948,15 +5986,18 @@ msgid ""
 "the various dependencies when a package is listed multiple times in the "
 "field."
 msgstr ""
+"Pozosta³e pola relacyjne (I<Enhances>, I<Conflicts>, I<Breaks>, I<Replaces> "
+"oraz I<Provides>) tak¿e s± indywidualnie upraszczane przez wyliczanie sumy "
+"ró¿nych zale¿no¶ci, je¶li w danym polu pakiet jest wymieniony wiele razy."
 
 # type: Plain text
 #: dpkg-gencontrol.1:33
-#, fuzzy
 msgid ""
 "B<dpkg-gencontrol> also adds an entry for the binary package to B<debian/"
 "files>."
 msgstr ""
-"B<dpkg-distaddfile> dodaje wpis dotycz±cy podanego pliku do  B<debian/files>."
+"B<dpkg-gencontrol> tak¿e dodaje wpis dotycz±cy pakietu binarnego do  "
+"B<debian/files>."
 
 # type: Plain text
 #: dpkg-gencontrol.1:38
@@ -5969,6 +6010,8 @@ msgid ""
 "Set an output substitution variable. See B<deb-substvars>(5) for discussion "
 "of output substitution."
 msgstr ""
+"Ustawia zmienn± podstawienia wyj¶cia. Szczegó³owy opis podstawiania "
+"zmiennych wyj¶ciowych znajduje siê w B<deb-substvars>(5)."
 
 # type: TP
 #: dpkg-gencontrol.1:73
@@ -5984,6 +6027,10 @@ msgid ""
 "otherwise it is essential to select which binary package's information to "
 "generate."
 msgstr ""
+"Generuje informacje o pakiecie binarnym I<pakiet>. Je¿eli plik kontrolny "
+"pakietu ¼ród³owego wymienia tylko jeden pakiet binarny, to opcjê tê mo¿na "
+"pomin±æ; w przeciwnym wypadku wymagane jest wskazanie, dla którego pakietu "
+"binarnego wygenerowaæ informacje."
 
 # type: TP
 #: dpkg-gencontrol.1:80
@@ -6015,6 +6062,12 @@ msgid ""
 "default behaviour. If you want to get the old behaviour you can use the B<-"
 "U> option to delete the fields from the control file."
 msgstr ""
+"Te opcje s± ignorowane w celu zachowania kompatybilno¶ci ze starszymi "
+"wersjami dpkg-dev, a teraz s± uznawane za przestarza³e, Poprzednio by³y "
+"u¿ywane do nakazania programowi dpkg-gencontrol w³±czenie pól Section i "
+"Priority do pliku kontrolnego. Obecnie jest to domy¶lne zachowanie. Aby "
+"uzyskaæ poprzednie zachowanie, mo¿na u¿yæ opcji B<-U>, za której pomoc± "
+"mo¿na usun±æ powy¿sze pola z pliku kontrolnego."
 
 # type: TP
 #: dpkg-gencontrol.1:94
@@ -6078,9 +6131,8 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-gencontrol.1:143 dpkg-shlibdeps.1:232
-#, fuzzy
 msgid "Copyright (C) 2007 Rapha\\[:e]l Hertzog"
-msgstr "Copyright (C) 2001 Joey Hess"
+msgstr "Copyright (C) 2007 Rapha\\[:e]l Hertzog"
 
 # type: TH
 #: dpkg-name.1:6
@@ -6645,9 +6697,9 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-query.1:144
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
-msgstr "  B<dpkg-query -W -f='${Package} ${Version}\\et${Maintainer}\\en' dpkg>\n"
+msgstr "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 
 # type: SH
 #: dpkg-query.1:146
@@ -6739,6 +6791,8 @@ msgid ""
 "I<overridefile> is the name of a file to read which contains information "
 "about how the package fits into the distribution; see below."
 msgstr ""
+"I<plik_nadpisañ> jest nazw± pliku, z którego bêd± odczytane informacje o "
+"tym, jak umiejscowiæ pakiet w dystrybucji; patrz ni¿ej."
 
 # type: Plain text
 #: dpkg-scanpackages.1:67
@@ -6811,6 +6865,11 @@ msgid ""
 "have a Filename field in their control file, are missing from the override "
 "file, or have maintainer substitutions which do not take effect."
 msgstr ""
+"B<dpkg-scanpackages> wy¶wietla zwyk³e, samowyja¶niaj±ce siê komunikaty "
+"b³edów. Wypisuje tak¿e ostrze¿enia o pakietach umiejscowionych w "
+"niepoprawnych podkatalogach, s± zduplikowane, maj± w pliku kontrolnym pole "
+"Filename, nie s± wymienione w pliku nadpisañ lub maj± zdefiniowane "
+"podstawienia opiekunów, które nie maj± zastosowania."
 
 # type: Plain text
 #
@@ -6844,6 +6903,9 @@ msgid ""
 "B<dpkg-scansources> scans the given I<binary-dir> for I<.dsc> files.  These "
 "are used to create a Debian source index, which is output to stdout."
 msgstr ""
+"B<dpkg-scansources> skanuje podany I<katalog-bin> w poszukiwaniu plików I<."
+"dsc>, u¿ywanych do utworzenia indeksu ¼ród³owych pakietów Debiana, który "
+"nastêpnie jest wypisywany na standardowe wyj¶cie."
 
 # type: Plain text
 #: dpkg-scansources.1:29
@@ -6947,9 +7009,9 @@ msgstr "dpkg-shlibdeps"
 
 # type: TH
 #: dpkg-shlibdeps.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-07-16"
-msgstr "2007-07-18"
+msgstr "2007-07-16"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:4
@@ -6994,7 +7056,7 @@ msgstr ""
 #: dpkg-shlibdeps.1:46
 #, no-wrap
 msgid "Symbols files"
-msgstr ""
+msgstr "Pliki symboli"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:51
@@ -7009,7 +7071,7 @@ msgstr ""
 #: dpkg-shlibdeps.1:51
 #, no-wrap
 msgid "debian/*/DEBIAN/symbols"
-msgstr ""
+msgstr "debian/*/DEBIAN/symbols"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:56
@@ -7022,13 +7084,13 @@ msgstr ""
 #: dpkg-shlibdeps.1:56
 #, no-wrap
 msgid "/etc/dpkg/symbols/I<package>.symbols.I<arch>"
-msgstr ""
+msgstr "/etc/dpkg/symbols/I<pakiet>.symbols.I<arch>"
 
 # type: IP
 #: dpkg-shlibdeps.1:57
 #, no-wrap
 msgid "/etc/dpkg/symbols/I<package>.symbols"
-msgstr ""
+msgstr "/etc/dpkg/symbols/I<pakiet>.symbols"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:61
@@ -7042,7 +7104,7 @@ msgstr ""
 #: dpkg-shlibdeps.1:61
 #, no-wrap
 msgid "I<admindir>/info/I<package>.symbols"
-msgstr ""
+msgstr "I<katalog_admin>/info/I<pakiet>.symbols"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:64 dpkg-shlibdeps.1:88
@@ -7083,9 +7145,9 @@ msgstr ""
 
 # type: TP
 #: dpkg-shlibdeps.1:78
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "debian/shlibs.local"
-msgstr "B<debian/shlibs.local>"
+msgstr "debian/shlibs.local"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:80
@@ -7094,9 +7156,9 @@ msgstr ""
 
 # type: TP
 #: dpkg-shlibdeps.1:80
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "/etc/dpkg/shlibs.override"
-msgstr "B</etc/dpkg/shlibs.override>"
+msgstr "/etc/dpkg/shlibs.override"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:82
@@ -7107,7 +7169,7 @@ msgstr ""
 #: dpkg-shlibdeps.1:82
 #, no-wrap
 msgid "debian/*/DEBIAN/shlibs"
-msgstr ""
+msgstr "debian/*/DEBIAN/shlibs"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:85
@@ -7120,13 +7182,13 @@ msgstr ""
 #: dpkg-shlibdeps.1:85
 #, no-wrap
 msgid "I<admindir>/info/I<package>.shlibs"
-msgstr ""
+msgstr "I<katalog_admin>/info/I<package>.shlibs"
 
 # type: TP
 #: dpkg-shlibdeps.1:88
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "/etc/dpkg/shlibs.default"
-msgstr "B</etc/dpkg/shlibs.default>"
+msgstr "/etc/dpkg/shlibs.default"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:90
@@ -7253,9 +7315,9 @@ msgstr ""
 
 # type: TP
 #: dpkg-shlibdeps.1:163
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-v>"
-msgstr "B<-G>"
+msgstr "B<-v>"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:168
@@ -7266,9 +7328,9 @@ msgstr ""
 
 # type: TP
 #: dpkg-shlibdeps.1:168
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-x>I<package>"
-msgstr "B<-p>I<pakiet>"
+msgstr "B<-x>I<pakiet>"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:175
@@ -7283,7 +7345,7 @@ msgstr ""
 #: dpkg-shlibdeps.1:175
 #, no-wrap
 msgid "B<--ignore-missing-info>"
-msgstr ""
+msgstr "B<--ignore-missing-info>"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:181
@@ -7296,9 +7358,9 @@ msgstr ""
 
 # type: SH
 #: dpkg-shlibdeps.1:192
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "WARNINGS"
-msgstr "UWAGA"
+msgstr "UWAGI"
 
 # type: Plain text
 #: dpkg-shlibdeps.1:200
@@ -7354,15 +7416,13 @@ msgstr ""
 # type: Plain text
 #
 #: dpkg-shlibdeps.1:223
-#, fuzzy
 msgid "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
-msgstr "B<deb>(5), B<deb-control>(5), B<dpkg-deb>(1), B<dpkg>(1)."
+msgstr "B<deb-shlibs>(5), B<deb-symbols>(5), B<dpkg-gensymbols>(1)."
 
 # type: Plain text
 #: dpkg-shlibdeps.1:230
-#, fuzzy
 msgid "Copyright (C) 2006 Frank Lichtenheld"
-msgstr "Copyright (C) 2007 Frank Lichtenheld"
+msgstr "Copyright (C) 2006 Frank Lichtenheld"
 
 # type: Plain text
 #
@@ -7493,21 +7553,19 @@ msgstr ""
 
 # type: Plain text
 #: dpkg-source.1:106
-#, fuzzy
 msgid "This option turns certain warnings into errors."
-msgstr "Ta opcja w³±cza traktowanie niektórych b³êdów jako ostrze¿enia."
+msgstr "Ta opcja w³±cza traktowanie ostrze¿eñ b³êdów jako b³êdy."
 
 # type: Plain text
 #: dpkg-source.1:110
-#, fuzzy
 msgid "This option negates a previously set B<-E>."
-msgstr "Ta opcja neguje poprzednio ustawione B<-W>."
+msgstr "Ta opcja neguje poprzednio ustawione B<-E>."
 
 # type: TP
 #: dpkg-source.1:110
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-Z>I<compression>"
-msgstr "B<-Z>I<typ_kompresowania>"
+msgstr "B<-Z>I<kompresja>"
 
 # type: Plain text
 #: dpkg-source.1:117
@@ -7520,9 +7578,9 @@ msgstr ""
 
 # type: TP
 #: dpkg-source.1:117
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-z>I<level>"
-msgstr "B<-z>I<poziom_kompresji>"
+msgstr "B<-z>I<poziom>"
 
 # type: Plain text
 #: dpkg-source.1:123
@@ -7531,6 +7589,9 @@ msgid ""
 "Supported values are: I<1> to I<9>, I<best>, and I<fast>.  I<9> is the "
 "default."
 msgstr ""
+"U¿ywany poziom kompresowania. Podobnie jak w wypadki B<-Z>, dotyczy tylko "
+"nowo tworzonych plików. Obs³ugiwane warto¶ci: I<1> do I<9>, I<best> oraz "
+"I<fast>. I<9> jest warto¶ci± domy¶ln±."
 
 # type: Plain text
 #: dpkg-source.1:132
@@ -10007,10 +10068,11 @@ msgstr "B<--maxwidth=>I<nnn>B< [przestarza³e]>"
 
 # type: Plain text
 #: install-info.8:200
+#, fuzzy
 msgid ""
 "Specifies that the maximum width for the Info file is I<nnn>.  This is used "
 "when word-wrapping the descriptive text.  The default is 79."
-msgstr ""
+msgstr "Okre¶la, ¿e maksymalna szeroko¶æ dla "
 
 # type: Plain text
 #: install-info.8:205
@@ -11442,14 +11504,3 @@ msgstr ""
 msgid "B<ln>(1), FHS, the Filesystem Hierarchy Standard."
 msgstr "B<ln>(1), FHS - standard hierarchii systemu plików."
 
-# type: Plain text
-#~ msgid ""
-#~ "See I</usr/share/doc/dpkg/THANKS> for the list of people who have\n"
-#~ "contributed to B<dpkg>.\n"
-#~ msgstr ""
-#~ "Plik I</usr/share/doc/dpkg/THANKS> zawiera listê osób, które przyczyni³y\n"
-#~ "siê do rozwoju programu B<dpkg>.\n"
-
-# type: TP
-#~ msgid "B<deb-shlibs>(5)."
-#~ msgstr "B<deb-shlibs>(5)."
