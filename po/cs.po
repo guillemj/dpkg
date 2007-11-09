@@ -1,7 +1,7 @@
 # Czech translation for dpkg.
 #
 # Petr Cech <cech@debian.org>, 1999, 2000, 2001.
-# Miroslav Kure <kurem@debian.cz>, 2004, 2005, 2006.
+# Miroslav Kure <kurem@debian.cz>, 2004, 2005, 2006, 2007.
 #
 # Thanks go to:
 # Milan Zamazal <pdm@debian.org>
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-08-18 03:58+0300\n"
-"PO-Revision-Date: 2006-08-18 17:12+0200\n"
+"PO-Revision-Date: 2007-11-09 18:34+0100\n"
 "Last-Translator: Miroslav Kure <kurem@debian.cz>\n"
 "Language-Team: Czech <debian-l10n-czech@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -61,9 +61,9 @@ msgid "Signal no.%d"
 msgstr "Signál číslo %d"
 
 #: lib/compression.c:34
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to exec '%s %s'"
-msgstr "%s: nelze spustit gzip %s"
+msgstr "%s: nelze spustit '%s %s'"
 
 #: lib/compression.c:62
 #, c-format
@@ -794,14 +794,14 @@ msgid "failed to read `%s' at line %d"
 msgstr "nelze přečíst `%s' na řádku %d"
 
 #: lib/parsehelp.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "warning, in file `%.255s' near line %d"
-msgstr "%s, v souboru `%.255s' okolo řádku %d"
+msgstr "varování, v souboru `%.255s' okolo řádku %d"
 
 #: lib/parsehelp.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "parse error, in file `%.255s' near line %d"
-msgstr "%s, v souboru `%.255s' okolo řádku %d"
+msgstr "chybná syntaxe v souboru `%.255s' okolo řádku %d"
 
 #: lib/parsehelp.c:48
 #, c-format
@@ -898,9 +898,9 @@ msgid "error setting permissions of `%.255s'"
 msgstr "chyba při nastavování práv `%.255s'"
 
 #: src/archives.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr "nelze nastavit spustitelné právo na `%.250s'"
+msgstr "selhalo dereferencování stávajícího symbolického odkazu `%.250s'"
 
 #: src/archives.c:360
 #, c-format
@@ -908,20 +908,20 @@ msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
+"selhalo dereferencování nového cíle (`%.250s') symbolického odkazu `%.250s'"
 
 #: src/archives.c:411
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
 msgstr ""
-"zkouším přepsat `%.250s', což je odkloněná verze `%.250s'%.10s%.100s%.10s"
+"zkouším přepsat `%.250s', což je odkloněná verze `%.250s' (balík: %.100s)"
 
 #: src/archives.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
-msgstr ""
-"zkouším přepsat `%.250s', což je odkloněná verze `%.250s'%.10s%.100s%.10s"
+msgstr "zkouším přepsat `%.250s', což je odkloněná verze `%.250s'"
 
 #: src/archives.c:440
 #, c-format
@@ -1044,61 +1044,62 @@ msgid "unable to install new version of `%.255s'"
 msgstr "nelze nainstalovat novou verzi `%.255s'"
 
 #: src/archives.c:853
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
-"dpkg: pozor - ignoruji problém se závislostmi při odstranění balíku %s:\n"
+"dpkg: varování - ignoruji problém se závislostmi akce „%s“:\n"
 "%s"
 
 #: src/archives.c:860
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
 " package %s, to enable %s.\n"
 msgstr ""
 "dpkg: varování - uvažuji o dekonfiguaci nezbytného balíku\n"
-"%s, která umožní odstranění balíku %s.\n"
+" %s, což by umožnilo akci „%s“.\n"
 
 #: src/archives.c:864
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
 " it in order to enable %s.\n"
 msgstr ""
-"dpkg: balík %s je nezbytný, neprovedu dekonfiguraci\n"
-" pro odstranění balíku %s\n"
+"dpkg: ne, balík %s je nezbytný, neprovedu jeho dekonfiguraci,\n"
+" která by umožnila akci „%s“.\n"
 
 #: src/archives.c:878
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"dpkg: nelze odstranit balík %s (--auto-deconfigure pomůže):\n"
+"dpkg: ne, nelze pokračovat s akcí „%s“ (pomůže --auto-deconfigure):\n"
 "%s"
 
 #: src/archives.c:888
-#, fuzzy, c-format
+#, c-format
 msgid "removal of %.250s"
-msgstr "chyba čtení v %.250s"
+msgstr "odstranění %.250s"
 
 #: src/archives.c:915
-#, fuzzy, c-format
+#, c-format
 msgid "installation of %.250s"
-msgstr "nelze nainstalovat novou verzi `%.255s'"
+msgstr "instalace %.250s"
 
 #: src/archives.c:916
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgstr "dpkg: zvažuji odstranění %s ve prospěch %s ...\n"
+msgstr ""
+"dpkg: zvažuji dekonfiguraci balíku %s, který by byl porušen akcí „%s“...\n"
 
 #: src/archives.c:923
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
-msgstr "dpkg: ano, odstraním %s ve prospěch %s.\n"
+msgstr "dpkg: ano, dekonfiguruji %s (porušen balíkem %s).\n"
 
 #: src/archives.c:927 src/archives.c:1048
 #, c-format
@@ -1110,9 +1111,9 @@ msgstr ""
 "%s"
 
 #: src/archives.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - ignoring breakage, may proceed anyway !\n"
-msgstr "dpkg: pozor - ignoruji konflikt, pokračuji dál !\n"
+msgstr "dpkg: varování - ignoruji porušení, pokračuji dál !\n"
 
 #: src/archives.c:941
 #, c-format
@@ -1120,11 +1121,13 @@ msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
+"instalace balíku %.250s by porušila balík %.250s a\n"
+" dekonfigurace není povolena (mohlo by pomoci --auto-deconfigure)"
 
 #: src/archives.c:945
 #, c-format
 msgid "installing %.250s would break existing software"
-msgstr ""
+msgstr "instalace balíku %.250s by porušila stávající software"
 
 #: src/archives.c:978
 #, c-format
@@ -1161,7 +1164,7 @@ msgstr ""
 #: src/archives.c:1034
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr ""
+msgstr "balík %s má příliš mnoho dvojic Koliduje/Nahrazuje"
 
 #: src/archives.c:1040
 #, c-format
@@ -1610,39 +1613,39 @@ msgid "unable to check for existence of `%.250s'"
 msgstr "existenci `%.250s' nelze zkontrolovat"
 
 #: src/depcon.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s depends on %s"
-msgstr " závisí na "
+msgstr "%s závisí na %s"
 
 #: src/depcon.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s pre-depends on %s"
-msgstr " před-závisí na "
+msgstr "%s před-závisí na %s"
 
 #: src/depcon.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "%s recommends %s"
-msgstr " doporučuje "
+msgstr "%s doporučuje %s"
 
 #: src/depcon.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "%s suggests %s"
-msgstr "navrhuje "
+msgstr "%s navrhuje %s"
 
 #: src/depcon.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%s breaks %s"
-msgstr " porušuje "
+msgstr "%s porušuje %s"
 
 #: src/depcon.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s conflicts with %s"
-msgstr " je v konfliktu s "
+msgstr "%s je v konfliktu s %s"
 
 #: src/depcon.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%s enhances %s"
-msgstr " rozšiřuje "
+msgstr "%s rozšiřuje %s"
 
 #: src/depcon.c:265
 #, c-format
@@ -2673,19 +2676,19 @@ msgid "  Package %s is not installed.\n"
 msgstr "  Balík %s není nainstalován.\n"
 
 #: src/packages.c:362
-#, fuzzy, c-format
+#, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
-msgstr "  %.250s poskytuje %.250s a je %s.\n"
+msgstr " %s (%s) porušuje %s a je %s.\n"
 
 #: src/packages.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "  %s (%s) provides %s.\n"
-msgstr "%s (podproces): %s\n"
+msgstr "  %s (%s) poskytuje %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Version of %s to be configured is %s.\n"
-msgstr "  Verze %s v systému je %s.\n"
+msgstr "  Verze %s pro konfiguraci je %s.\n"
 
 #: src/packages.c:467
 msgid " depends on "
@@ -2814,14 +2817,14 @@ msgid "error trying to open %.250s"
 msgstr "chyba při pokusu o otevření %.250s"
 
 #: src/processarc.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "Dekonfiguruji %s, aby mohl být odstraněn %s ...\n"
 
 #: src/processarc.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s ...\n"
-msgstr "Odinstalování balíku %s ...\n"
+msgstr "Dekonfiguruji %s ...\n"
 
 #: src/processarc.c:479
 #, c-format
@@ -2871,13 +2874,13 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "nelze zavolat stat na novém souboru `%.250s'"
 
 #: src/processarc.c:684
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')\n"
 msgstr ""
 "dpkg: varování - starý soubor `%.250s' je stejný jako některé nové soubory! "
-"(`%.250s' i `%.250s')"
+"(`%.250s' i `%.250s')\n"
 
 #: src/processarc.c:725
 #, c-format
@@ -2975,22 +2978,22 @@ msgid "No packages found matching %s.\n"
 msgstr "%s nevyhovuje žádný balík.\n"
 
 #: src/query.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s from: %s\n"
-msgstr "odkloněno balíkem %s do: %s\n"
+msgstr "odkloněno balíkem %s z: %s\n"
 
 #: src/query.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s to: %s\n"
 msgstr "odkloněno balíkem %s do: %s\n"
 
 #: src/query.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion from: %s\n"
-msgstr "místní odsunutí"
+msgstr "lokálně odkloněno z: %s\n"
 
 #: src/query.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion to: %s\n"
 msgstr "lokálně odkloněno do: %s\n"
 
@@ -3147,7 +3150,7 @@ msgstr ""
 
 #: src/remove.c:137
 msgid "dependency problems - not removing"
-msgstr "problém se závislostmi - neodinstalováván"
+msgstr "problém se závislostmi - neodinstalovávám"
 
 #: src/remove.c:141
 #, c-format
@@ -3163,13 +3166,13 @@ msgid ""
 "Package is in a very bad inconsistent state - you should\n"
 " reinstall it before attempting a removal."
 msgstr ""
-"Balík je ve velmi špatném, nekonzistentním stavu - raději\n"
-" ho přeinstalujte před pokusem o odstranění."
+"Balík je ve velmi špatném, nekonzistentním stavu - před\n"
+" pokusem o odstranění ho raději přeinstalujte."
 
 #: src/remove.c:156
 #, c-format
 msgid "Would remove or purge %s ...\n"
-msgstr "Chcete odinstalovat nebo odstranit balík %s ...\n"
+msgstr "Chcete odstranit nebo vyčistit balík %s ...\n"
 
 #: src/remove.c:164
 #, c-format
@@ -3188,7 +3191,7 @@ msgstr ""
 #: src/remove.c:264 src/remove.c:381
 #, c-format
 msgid "cannot remove `%.250s'"
-msgstr "nelze odstranit `%s.250s'"
+msgstr "nelze odstranit `%.250s'"
 
 #: src/remove.c:282
 #, c-format
@@ -3336,7 +3339,7 @@ msgstr "dpkg-deb - chyba: %s (`%s') neobsahuje čísla\n"
 #: dpkg-deb/build.c:111
 #, c-format
 msgid "file name '%.50s...' is too long"
-msgstr ""
+msgstr "jméno souboru '%.50s...' je příliš dlouhé"
 
 #: dpkg-deb/build.c:172
 msgid "--build needs a directory argument"
@@ -3738,7 +3741,6 @@ msgstr ""
 "--%s vyžaduje cílový adresář.\n"
 "Nechtěli jste použít dpkg --install ?"
 
-# nemá tak být ) na konci ?
 #: dpkg-deb/extract.c:333
 #, c-format
 msgid "--%s takes at most two arguments (.deb and directory)"
@@ -3834,7 +3836,7 @@ msgstr "selhalo čtení `control' (v `%.255s')"
 
 #: dpkg-deb/info.c:172
 msgid "(no `control' file in control archive!)\n"
-msgstr "(soubor `control' chybí v řídícím archivu!)\n"
+msgstr "(v řídícím archivu chybí soubor `control'!)\n"
 
 #: dpkg-deb/info.c:192
 msgid "could not open the `control' component"
@@ -3898,7 +3900,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:85
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -3914,14 +3916,14 @@ msgid ""
 "\n"
 msgstr ""
 "Volby:\n"
-"  --showformat=<formát>     použije alternativní formát pro --show\n"
+"  --showformat=<formát>     použije pro --show alternativní formát\n"
 "  -D                        povolí ladící výpisy\n"
 "  --old, --new              vybere formát archivu\n"
 "  --nocheck                 potlačí kontrolu souboru control (vytváření\n"
 "                            chybných balíků)\n"
-"  -z#                       při vytváření nastaví kompresi\n"
+"  -z#                       při vytváření nastaví míru komprese\n"
 "  -Z<typ>                   při vytváření nastaví typ komprese\n"
-"                            povolené hodnoty: gzip, bzip2, none\n"
+"                            povolené hodnoty: gzip, bzip2, lzma, none\n"
 "\n"
 
 #: dpkg-deb/main.c:106
@@ -3953,7 +3955,7 @@ msgstr "neznámý typ komprese `%s'!"
 #: dpkg-split/info.c:64
 #, c-format
 msgid "file `%.250s' is corrupt - %.250s missing"
-msgstr "soubor `%.250s' je poškozen - %250s chybí"
+msgstr "soubor `%.250s' je poškozen - %.250s chybí"
 
 #: dpkg-split/info.c:67
 #, c-format
@@ -4247,7 +4249,7 @@ msgstr "--listq musí být zadán bez argumentu"
 
 #: dpkg-split/queue.c:197
 msgid "Junk files left around in the depot directory:\n"
-msgstr "Přebytečné soubory ponechánu v odkladišti:\n"
+msgstr "Přebytečné soubory ponechány v odkladišti:\n"
 
 #: dpkg-split/queue.c:202 dpkg-split/queue.c:226
 #, c-format
@@ -4505,9 +4507,9 @@ msgstr ""
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
 #: scripts/update-alternatives.pl:229
-#, fuzzy, perl-format
+#, perl-format
 msgid "two commands specified: %s and --%s"
-msgstr "zadány dva režimy: %s a --%s"
+msgstr "zadány dva příkazy: %s a --%s"
 
 #: scripts/dpkg-divert.pl:107
 #, perl-format
@@ -5065,7 +5067,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:74
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5120,7 +5122,7 @@ msgstr ""
 "  --set <jméno> <cesta>    nastaví <cestu> jako alternativu pro <jméno>\n"
 "  --all                    zavolá --config na všechny alternativy\n"
 "\n"
-"<odkaz> je odkaz je odkaz ukazující na /etc/alternatives/<jméno>.\n"
+"<odkaz> je odkaz je odkaz ukazující na %s/<jméno>.\n"
 "  (např. /usr/bin/pager)\n"
 "<jméno> je hlavní jméno pro tuto skupinu odkazů.\n"
 "  (např. pager)\n"
@@ -5140,7 +5142,7 @@ msgstr ""
 
 #: scripts/update-alternatives.pl:127
 msgid "invalid update mode"
-msgstr ""
+msgstr "neplatný režim aktualizace"
 
 #: scripts/update-alternatives.pl:131
 #, perl-format
@@ -5430,13 +5432,13 @@ msgstr ""
 " %s, avšak volání readlink selhalo: %s"
 
 #: scripts/update-alternatives.pl:632
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "There is no program which provides %s.\n"
 "Nothing to configure.\n"
 msgstr ""
-"Existuje pouze jediný program poskytující %s\n"
-"(%s). Nemám nic k nastavení.\n"
+"Neexistuje program poskytující %s.\n"
+"Nemám nic k nastavení.\n"
 
 #: scripts/update-alternatives.pl:638
 #, perl-format
