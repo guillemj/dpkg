@@ -104,6 +104,7 @@ sub get_valid_arches()
 sub read_cputable
 {
     local $_;
+    local $/ = "\n";
 
     open CPUTABLE, "$pkgdatadir/cputable"
 	or syserr(_g("unable to open cputable"));
@@ -120,6 +121,7 @@ sub read_cputable
 sub read_ostable
 {
     local $_;
+    local $/ = "\n";
 
     open OSTABLE, "$pkgdatadir/ostable"
 	or syserr(_g("unable to open ostable"));
@@ -138,6 +140,7 @@ sub read_triplettable()
     read_cputable() if (!@cpu);
 
     local $_;
+    local $/ = "\n";
 
     open TRIPLETTABLE, "$pkgdatadir/triplettable"
 	or syserr(_g("unable to open triplettable"));
