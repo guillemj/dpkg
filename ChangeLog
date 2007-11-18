@@ -1,3 +1,48 @@
+2007-11-15  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/Arch.pm (read_cputable): Force a sane input record
+	separator.
+	(read_ostable): Likewise.
+	(read_triplettable): Likewise.
+
+2007-11-04  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Makefile.am (clean): Set PERL5LIB to force use of shipped
+	modules instead of system ones.
+
+2007-11-04  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-architecture.pl: Move host and build arch detection
+	to ...
+	* scripts/Dpkg/Arch.pm (get_host_arch): ... here.
+	(get_build_arch, get_gcc_host_gnu_type): Likewise. New function.
+
+2007-11-04  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-architecture.pl: Wrap long strings for die calls
+	at less than 80 chars.
+
+2007-11-04  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/Arch.pm (debarch_to_gnutriplet): New function.
+	(gnutriplet_to_debarch): Likewise.
+	* scripts/dpkg-architecture.pl: Use debarch_to_gnutriplet and
+	gnutriplet_to_debarch instead of nested calls to
+	debtriplet_to_gnutriplet and debarch_to_debtriplet,
+	debtriplet_to_debarch and gnutriplet_to_debtriplet.
+
+2007-11-04  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-architecture.pl: Move setting of host and build arch
+	variables after argument processing. Call list_arches from argument
+	processing loop. Move architecture listing to ...
+	(list_arches): ... here. New function.
+
+2007-11-04  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/Arch.pm (get_valid_arches): Return an array instead of
+	printing the architectures.
+
 2007-10-18  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Deps.pm: new module to handle dependencies, to

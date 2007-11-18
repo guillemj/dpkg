@@ -5,12 +5,15 @@ use warnings;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(get_host_arch get_valid_arches debarch_eq debarch_is
+our @EXPORT_OK = qw(get_build_arch get_host_arch get_gcc_host_gnu_type
+                    get_valid_arches debarch_eq debarch_is
+                    debarch_to_gnutriplet gnutriplet_to_debarch
                     debtriplet_to_gnutriplet gnutriplet_to_debtriplet
                     debtriplet_to_debarch debarch_to_debtriplet);
 
 use Dpkg;
-use Dpkg::ErrorHandling qw(syserr subprocerr);
+use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(syserr subprocerr warning);
 
 my (@cpu, @os);
 my (%cputable, %ostable);
@@ -20,15 +23,63 @@ my %debtriplet_to_debarch;
 my %debarch_to_debtriplet;
 
 {
+    my $build_arch;
     my $host_arch;
+    my $gcc_host_gnu_type;
+
+    sub get_build_arch()
+    {
+	return $build_arch if defined $build_arch;
+
+	my $build_arch = `dpkg --print-architecture`;
+	# FIXME: Handle bootstrapping
+	syserr("dpkg --print-architecture failed") if $? >> 8;
+
+	chomp $build_arch;
+	return $build_arch;
+    }
+
+    sub get_gcc_host_gnu_type()
+    {
+	return $gcc_host_gnu_type if defined $gcc_host_gnu_type;
+
+	my $gcc_host_gnu_type = `\${CC:-gcc} -dumpmachine`;
+	if ($? >> 8) {
+	    $gcc_host_gnu_type = '';
+	} else {
+	    chomp $gcc_host_gnu_type;
+	}
+
+	return $gcc_host_gnu_type;
+    }
 
     sub get_host_arch()
     {
 	return $host_arch if defined $host_arch;
 
-	$host_arch = `dpkg-architecture -qDEB_HOST_ARCH`;
-	$? && subprocerr("dpkg-architecture -qDEB_HOST_ARCH");
-	chomp $host_arch;
+	my $gcc_host_gnu_type = get_gcc_host_gnu_type();
+
+	if ($gcc_host_gnu_type eq '') {
+	    warning(_g("Couldn't determine gcc system type, falling back to " .
+	               "default (native compilation)"));
+	} else {
+	    my (@host_archtriplet) = gnutriplet_to_debtriplet($gcc_host_gnu_type);
+	    $host_arch = debtriplet_to_debarch(@host_archtriplet);
+
+	    if (defined $host_arch) {
+		$gcc_host_gnu_type = debtriplet_to_gnutriplet(@host_archtriplet);
+	    } else {
+		warning(_g("Unknown gcc system type %s, falling back to " .
+		           "default (native compilation)"), $gcc_host_gnu_type);
+		$gcc_host_gnu_type = '';
+	    }
+	}
+
+	if (!defined($host_arch)) {
+	    # Switch to native compilation.
+	    $host_arch = get_build_arch();
+	}
+
 	return $host_arch;
     }
 }
@@ -38,17 +89,22 @@ sub get_valid_arches()
     read_cputable() if (!@cpu);
     read_ostable() if (!@os);
 
+    my @arches;
+
     foreach my $os (@os) {
 	foreach my $cpu (@cpu) {
 	    my $arch = debtriplet_to_debarch(split(/-/, $os, 2), $cpu);
-	    print $arch."\n" if defined($arch);
+	    push @arches, $arch if defined($arch);
 	}
     }
+
+    return @arches;
 }
 
 sub read_cputable
 {
     local $_;
+    local $/ = "\n";
 
     open CPUTABLE, "$pkgdatadir/cputable"
 	or syserr(_g("unable to open cputable"));
@@ -65,6 +121,7 @@ sub read_cputable
 sub read_ostable
 {
     local $_;
+    local $/ = "\n";
 
     open OSTABLE, "$pkgdatadir/ostable"
 	or syserr(_g("unable to open ostable"));
@@ -83,6 +140,7 @@ sub read_triplettable()
     read_cputable() if (!@cpu);
 
     local $_;
+    local $/ = "\n";
 
     open TRIPLETTABLE, "$pkgdatadir/triplettable"
 	or syserr(_g("unable to open triplettable"));
@@ -186,6 +244,20 @@ sub debarch_to_debtriplet($)
     } else {
 	return undef;
     }
+}
+
+sub debarch_to_gnutriplet($)
+{
+    my ($arch) = @_;
+
+    return debtriplet_to_gnutriplet(debarch_to_debtriplet($arch));
+}
+
+sub gnutriplet_to_debarch($)
+{
+    my ($gnu) = @_;
+
+    return debtriplet_to_debarch(gnutriplet_to_debtriplet($gnu));
 }
 
 sub debwildcard_to_debtriplet($)
