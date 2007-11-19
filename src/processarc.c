@@ -675,7 +675,7 @@ void process_archive(const char *filename) {
 	      ohshite(_("unable to stat other new file `%.250s'"),
 		      cfile->namenode->name);
 	    memset(cfile->namenode->filestat, 0,
-		   sizeof(cfile->namenode->filestat));
+		   sizeof(*cfile->namenode->filestat));
 	    continue;
 	  }
 	}
