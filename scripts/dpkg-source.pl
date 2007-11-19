@@ -320,15 +320,8 @@ if ($opmode eq 'build') {
 	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
 	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 		my $dep;
-		# XXX: Should use %dep_field_type to decide if we parse
-		# as union or not but since case-insensitive matching is
-		# used, I can't rely on $_ to have the very same
-		# capitalization...
-		if (lc($1) eq "depends") {
-		    $dep = Dpkg::Deps::parse($v);
-		} else {
-		    $dep = Dpkg::Deps::parse($v, union => 1);
-		}
+		my $type = $dep_field_type{capit($_)};
+		$dep = Dpkg::Deps::parse($v, union =>  $type eq 'union');
 		error(_g("error occurred while parsing %s"), $_) unless defined $dep;
 		my $facts = Dpkg::Deps::KnownFacts->new();
 		$dep->simplify_deps($facts);
@@ -370,7 +363,9 @@ if ($opmode eq 'build') {
                 $f{'Architecture'}= join(' ',@sourcearch);
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
-            } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
+            } elsif (m/^(Package|Package-Type|Essential|Kernel-Version)$/ ||
+                     m/^(Subarchitecture|Installer-Menu-Item)$/i ||
+                     m/^(Pre-Depends|Depends|Provides)$/i ||
                      m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
                      m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
                      m/^X[BC]+-/i) {

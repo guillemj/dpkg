@@ -22,8 +22,10 @@ our $sourcepackage;
 
 textdomain("dpkg-dev");
 
-my @control_fields = (qw(Package Source Version Architecture Essential Origin
-                         Bugs Maintainer Installed-Size), @pkg_dep_fields,
+my @control_fields = (qw(Package Package-Type Source Version Kernel-Version
+                         Architecture Subarchitecture Installer-Menu-Item
+                         Essential Origin Bugs Maintainer Installed-Size),
+                      @pkg_dep_fields,
                       qw(Section Priority Homepage Description Tag));
 
 my $controlfile = 'debian/control';
@@ -41,6 +43,7 @@ my %remove;
 my %override;
 my (%spvalue, %spdefault);
 my $oppackage;
+my $package_type = 'deb';
 
 
 sub version {
@@ -167,7 +170,8 @@ for $_ (keys %fi) {
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Description|Homepage|Tag|Essential)$/) {
+        if (m/^(Package|Package-Type|Description|Homepage|Tag|Essential)$/ ||
+            m/^(Subarchitecture|Kernel-Version|Installer-Menu-Item)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
 	    # Delay the parsing until later
@@ -280,6 +284,15 @@ for my $f (qw(Maintainer Description Architecture)) {
 }
 $oppackage= $f{'Package'};
 
+$package_type = $f{'Package-Type'} if (defined($f{'Package-Type'}));
+
+if ($package_type ne 'udeb') {
+    for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
+        warning(_g("%s package with udeb specific field %s"), $package_type, $f)
+            if defined($f{$f});
+    }
+}
+
 my $verdiff = $f{'Version'} ne $substvar{'source:Version'} ||
               $f{'Version'} ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
@@ -327,8 +340,9 @@ if (open(X,"< $fileslistfile")) {
     binmode(X);
     while (<X>) {
         chomp;
-        next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.deb /
+        next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.(a-z+) /
                 && ($1 eq $oppackage)
+	        && ($3 eq $package_type)
 	        && (debarch_eq($2, $f{'Architecture'})
 		    || debarch_eq($2, 'all'));
         print(Y "$_\n") || &syserr(_g("copy old entry to new files list file"));
@@ -339,7 +353,8 @@ if (open(X,"< $fileslistfile")) {
 }
 my $sversion = $f{'Version'};
 $sversion =~ s/^\d+://;
-$forcefilename=sprintf("%s_%s_%s.deb", $oppackage,$sversion,$f{'Architecture'})
+$forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion, $f{'Architecture'},
+			 $package_type)
 	   unless ($forcefilename);
 print(Y &substvars(sprintf("%s %s %s\n", $forcefilename, 
                            &spfileslistvalue('Section'), &spfileslistvalue('Priority'))))

@@ -57,6 +57,10 @@ struct _finfo {
 };
 
 const char *arbitrary_fields[]= {
+  "Package-Type",
+  "Subarchitecture",
+  "Kernel-Version",
+  "Installer-Menu-Item",
   "Homepage",
   "Tag",
   NULL

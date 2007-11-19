@@ -23,9 +23,11 @@ my %kmap= (optional         => 'suggests',
 	   package_revision => 'revision',
 	  );
 
-my @fieldpri = (qw(Package Source Version Architecture Essential Origin Bugs
-                   Maintainer Installed-Size), @pkg_dep_fields, qw(Filename
-                   Size MD5sum Section Priority Homepage Description Tag));
+my @fieldpri = (qw(Package Package-Type Source Version Kernel-Version
+                   Architecture Subarchitecture Essential Origin Bugs
+                   Maintainer Installed-Size Installer-Menu-Item),
+                @pkg_dep_fields, qw(Filename Size MD5sum Section Priority
+                   Homepage Description Tag));
 
 # This maps the fields into the proper case
 my %field_case;
@@ -35,12 +37,15 @@ use Getopt::Long qw(:config bundling);
 
 my %options = (help            => sub { &usage; exit 0; },
 	       version         => \&version,
+	       type            => undef,
 	       udeb            => 0,
 	       arch            => undef,
 	       multiversion    => 0,
 	      );
 
-my $result = GetOptions(\%options,'help|h|?','version','udeb|u!','arch|a=s','multiversion|m!');
+my $result = GetOptions(\%options,
+                        'help|h|?', 'version', 'type|t=s', 'udeb|u!',
+                        'arch|a=s', 'multiversion|m!');
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -52,7 +57,8 @@ sub usage {
 "Usage: %s [<option> ...] <binarypath> [<overridefile> [<pathprefix>]] > Packages
 
 Options:
-  -u, --udeb               scan for udebs.
+  -t, --type <type>        scan for <type> packages (default is 'deb').
+  -u, --udeb               scan for udebs (obsolete alias for -tudeb).
   -a, --arch <arch>        architecture to scan for.
   -m, --multiversion       allow multiple versions of a single package.
   -h, --help               show this help message.
@@ -111,16 +117,17 @@ if (not @ARGV >= 1 && @ARGV <= 3) {
     exit 1;
 }
 
-my $udeb = $options{udeb};
+my $type = defined($options{type}) ? $options{type} :
+				     $options{udeb} ? 'udeb' : 'deb';
 my $arch = $options{arch};
 
-my $ext = $options{udeb} ? 'udeb' : 'deb';
 my @find_args;
 if ($options{arch}) {
-     @find_args = ('(','-name',"*_all.$ext",'-o','-name',"*_${arch}.$ext",')',);
+     @find_args = ('(', '-name', "*_all.$type", '-o',
+			'-name', "*_${arch}.$type", ')');
 }
 else {
-     @find_args = ('-name',"*.$ext");
+     @find_args = ('-name', "*.$type");
 }
 push @find_args, '-follow';
 
