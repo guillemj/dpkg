@@ -249,7 +249,7 @@ if (exists $fi{"C$myindex Provides"}) {
 my (@seen_deps);
 foreach my $field (@pkg_dep_fields) {
     my $key = "C$myindex $field";
-    if (exists $fi{$key}) {
+    if (exists $fi{$key} and $fi{$key}) {
 	my $dep;
 	if ($dep_field_type{$field} eq 'normal') {
 	    $dep = Dpkg::Deps::parse(substvars($fi{$key}), use_arch => 1,

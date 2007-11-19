@@ -1,3 +1,14 @@
+2007-11-19  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Path.pm: Fix behaviour of get_pkg_root_dir() when
+	there's no DEBIAN subdirectory in none of the parent directories.
+	* scripts/dpkg-shlibdeps.pl: Handle undef values returned by
+	get_pkg_root_dir() and complain when it's likely to create a
+	problem (when a RPATH contains $ORIGIN and when the value of
+	this variable can't be determined because we don't know what
+	is the root directory of the temporary tree).
+	* scripts/dpkg-gencontrol.pl: Don't try to parse empty fields.
+
 2007-11-19  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Bump version to 1.14.9~.

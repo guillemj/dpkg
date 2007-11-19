@@ -424,12 +424,24 @@ sub my_find_library {
     # Create real RPATH in case $ORIGIN is used
     # Note: ld.so also supports $PLATFORM and $LIB but they are
     # used in real case (yet)
-    my $origin = "/" . relative_to_pkg_root($execfile);
-    $origin =~ s{/+[^/]*$}{};
+    my $libdir = relative_to_pkg_root($execfile);
+    my $origin;
+    if (defined $libdir) {
+	$origin = "/$libdir";
+	$origin =~ s{/+[^/]*$}{};
+    }
     my @RPATH = ();
     foreach my $path (@{$rpath}) {
-	$path =~ s/\$ORIGIN/$origin/g;
-	$path =~ s/\$\{ORIGIN\}/$origin/g;
+	if ($path =~ /\$ORIGIN|\$\{ORIGIN\}/) {
+	    if (defined $origin) {
+		$path =~ s/\$ORIGIN/$origin/g;
+		$path =~ s/\$\{ORIGIN\}/$origin/g;
+	    } else {
+		warning(_g("\$ORIGIN is used in RPATH of %s and the corresponding " .
+		"directory could not be identified due to lack of DEBIAN " .
+		"sub-directory in the root of package's build tree"), $execfile);
+	    }
+	}
 	push @RPATH, $path;
     }
 
