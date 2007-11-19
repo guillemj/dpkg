@@ -41,17 +41,19 @@ This function will scan upwards the hierarchy of directory to find out
 the directory which contains the "DEBIAN" sub-directory and it will return
 its path. This directory is the root directory of a package being built.
 
+If no DEBIAN subdirectory is found, it will return undef.
+
 =cut
 
 sub get_pkg_root_dir($) {
     my $file = shift;
     $file =~ s{/+$}{};
     $file =~ s{/+[^/]+$}{} if not -d $file;
-    do {
+    while ($file) {
 	return $file if -d "$file/DEBIAN";
 	last if $file !~ m{/};
 	$file =~ s{/+[^/]+$}{};
-    } while ($file);
+    }
     return undef;
 }
 
