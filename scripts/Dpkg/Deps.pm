@@ -321,7 +321,6 @@ sub parse {
 	    push @dep_list, $dep_or;
 	}
     }
-    return undef if not @dep_list;
     my $dep_and;
     if ($options{union}) {
 	$dep_and = Dpkg::Deps::Union->new();
