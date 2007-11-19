@@ -1,3 +1,21 @@
+2007-11-19  Guillem Jover  <guillem@debian.org>
+
+	* pkg-deb/build.c (arbitrary_fields): Add Package-Type,
+	Subarchitecture, Kernel-Version and Installer-Menu-Item.
+	* scripts/dpkg-scanpackages.pl (@fieldpri): Likewise.
+	(%field_case): Add type argument.
+	(usage): Document --type argument, and mark --udeb as obsolete.
+	* scripts/dpkg-gencontrol.pl: Parse Package-Type, Subarchitecture,
+	Kernel-Version and Installer-Menu-Item from control file binary
+	stanza. Warn if udeb specific fields are used on non-udeb packages.
+	Add package with proper extension to the files list file.
+	(@control_fields): Add Package-Type, Subarchitecture, Kernel-Version
+	and Installer-Menu-Item.
+	($package_type): New variable.
+	* scripts/dpkg-genchanges.pl: Ignore Package-Type, Subarchitecture,
+	Kernel-Version and Installer-Menu-Item fields.
+	* scripts/dpkg-source.pl: Likewise.
+
 2007-11-15  Guillem Jover  <guillem@debian.org>
 
 	* scripts/Dpkg/Arch.pm (read_cputable): Force a sane input record

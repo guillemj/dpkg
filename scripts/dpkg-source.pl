@@ -368,7 +368,9 @@ if ($opmode eq 'build') {
                 $f{'Architecture'}= join(' ',@sourcearch);
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
-            } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/i ||
+            } elsif (m/^(Package|Package-Type|Essential|Kernel-Version)$/ ||
+                     m/^(Subarchitecture|Installer-Menu-Item)$/i ||
+                     m/^(Pre-Depends|Depends|Provides)$/i ||
                      m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
                      m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
                      m/^X[BC]+-/i) {

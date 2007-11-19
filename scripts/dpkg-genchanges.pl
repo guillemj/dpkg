@@ -259,9 +259,10 @@ for $_ (keys %fi) {
 		    $v = '';
 		}
 		push(@archvalues,$v) unless !$v || $archadded{$v}++;
-	    } elsif (m/^(Package|Essential|Pre-Depends|Depends|Provides)$/ ||
-		     m/^(Recommends|Suggests|Enhances|Conflicts|Breaks|Replaces)$/ ||
-		     m/^Tag$/i ||
+	    } elsif (m/^(Package|Package-Type|Kernel-Version|Essential)$/ ||
+	             m/^(Tag|Installer-Menu-Item|Subarchitecture)$/i ||
+	             m/^(Pre-Depends|Depends|Recommends|Suggests|Provides)$/ ||
+	             m/^(Enhances|Conflicts|Breaks|Replaces)$/ ||
 		     m/^X[BS]+-/i) {
 	    } else {
 		&unknown(_g("package's section of control info file"));
