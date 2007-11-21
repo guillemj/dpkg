@@ -326,13 +326,13 @@ sub get_needed_libraries {
 
 sub is_executable {
     my $self = shift;
-    return exists $self->{flags}{EXEC_P} and $self->{flags}{EXEC_P};
+    return exists $self->{flags}{EXEC_P} && $self->{flags}{EXEC_P});
 }
 
 sub is_public_library {
     my $self = shift;
-    return exists $self->{flags}{DYNAMIC} and $self->{flags}{DYNAMIC}
-	and exists $self->{SONAME} and $self->{SONAME};
+    return exists $self->{flags}{DYNAMIC} && $self->{flags}{DYNAMIC}
+	&& exists $self->{SONAME} && $self->{SONAME});
 }
 
 1;
