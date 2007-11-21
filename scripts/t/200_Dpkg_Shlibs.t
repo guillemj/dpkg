@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 27;
+use Test::More tests => 33;
 
 use strict;
 use warnings;
@@ -24,10 +24,29 @@ use_ok('Dpkg::Shlibs::Objdump');
 
 my $obj = Dpkg::Shlibs::Objdump::Object->new;
 
-open my $objdump, '<', "$srcdir/objdump.libc6-2.6"
-  or die "$srcdir/objdump.libc6-2.6: $!";
+open my $objdump, '<', "$srcdir/objdump.dbd-pg"
+  or die "$srcdir/objdump.dbd-pg: $!";
 $obj->_parse($objdump);
 close $objdump;
+ok(!$obj->is_public_library(), 'Pg.so is not a public library');
+ok(!$obj->is_executable(), 'Pg.so is not an executable');
+
+open $objdump, '<', "$srcdir/objdump.ls"
+  or die "$srcdir/objdump.ls: $!";
+$obj->reset();
+$obj->_parse($objdump);
+close $objdump;
+ok(!$obj->is_public_library(), 'ls is not a public library');
+ok($obj->is_executable(), 'ls is an executable');
+
+open $objdump, '<', "$srcdir/objdump.libc6-2.6"
+  or die "$srcdir/objdump.libc6-2.6: $!";
+$obj->reset();
+$obj->_parse($objdump);
+close $objdump;
+
+ok($obj->is_public_library(), 'libc6 is a public library');
+ok(!$obj->is_executable(), 'libc6 is not an executable');
 
 is($obj->{SONAME}, 'libc.so.6', 'SONAME');
 is($obj->{HASH}, '0x13d99c', 'HASH');

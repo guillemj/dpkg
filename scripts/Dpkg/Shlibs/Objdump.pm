@@ -122,9 +122,13 @@ sub reset {
     $self->{file} = '';
     $self->{id} = '';
     $self->{SONAME} = '';
+    $self->{HASH} = '';
+    $self->{GNU_HASH} = '';
+    $self->{SONAME} = '';
     $self->{NEEDED} = [];
     $self->{RPATH} = [];
     $self->{dynsyms} = {};
+    $self->{flags} = {};
 
     return $self;
 }
@@ -326,13 +330,13 @@ sub get_needed_libraries {
 
 sub is_executable {
     my $self = shift;
-    return exists $self->{flags}{EXEC_P} && $self->{flags}{EXEC_P});
+    return exists $self->{flags}{EXEC_P} && $self->{flags}{EXEC_P};
 }
 
 sub is_public_library {
     my $self = shift;
     return exists $self->{flags}{DYNAMIC} && $self->{flags}{DYNAMIC}
-	&& exists $self->{SONAME} && $self->{SONAME});
+	&& exists $self->{SONAME} && $self->{SONAME};
 }
 
 1;
