@@ -8,6 +8,15 @@
 	empty dependency fields are correctly handled.
 	* scripts/Makefile.am: Include the new data files required by the
 	tests above.
+	* scrips/Dpkg/Fields.pm: New module containing 3 functions moved
+	out of controllib.pl (capit(), set_field_importance(),
+	sort_by_field_importance()).
+	* scripts/controllib.pl: Removed the 3 functions above.
+	* scripts/dpkg-shlibdeps.pl: Use Dpkg::Fields for capit().
+	* scripts/dpkg-genchanges.pl: Use Dpkg::Fields for capit() and
+	set_field_importance().
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
 
 2007-11-20  Guillem Jover  <guillem@debian.org>
 

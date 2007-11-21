@@ -11,6 +11,7 @@ use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
+use Dpkg::Fields qw(capit set_field_importance);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';

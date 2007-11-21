@@ -6,6 +6,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error internerr usageerr);
+use Dpkg::Fields qw(set_field_importance);
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
