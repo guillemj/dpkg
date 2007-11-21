@@ -1,16 +1,16 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 12;
+use Test::More tests => 14;
 
 use strict;
 use warnings;
 
 use_ok('Dpkg::Deps');
 
-my $field_multiline = "libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=
+my $field_multiline = " , , libgtk2.0-common (= 2.10.13-1)  , libatk1.0-0 (>=
 1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7),
 libfontconfig1 (>= 2.4.0), libglib2.0-0  (  >= 2.12.9), libgnutls13 (>=
-1.6.3-0), libjpeg62, python (<< 2.5)";
+1.6.3-0), libjpeg62, python (<< 2.5) , , ";
 my $field_multiline_sorted = "libatk1.0-0 (>= 1.13.2), libc6 (>= 2.5-5), libcairo2 (>= 1.4.0), libcupsys2 (>= 1.2.7), libfontconfig1 (>= 2.4.0), libglib2.0-0 (>= 2.12.9), libgnutls13 (>= 1.6.3-0), libgtk2.0-common (= 2.10.13-1), libjpeg62, python (<< 2.5)";
 
 my $dep_multiline = Dpkg::Deps::parse($field_multiline);
@@ -53,4 +53,9 @@ my $dep_dup_union = Dpkg::Deps::parse($field_dup_union, union => 1);
 $dep_dup_union->simplify_deps($facts);
 is($dep_dup_union->dump(), "libc6 (>> 2.3), fake (<< 2.0), fake (>> 3.0), fake (= 2.5), python (<< 2.5)", "Simplify union deps");
 
+my $dep_empty1 = Dpkg::Deps::parse("");
+is($dep_empty1->dump(), "", "Empty dependency");
+
+my $dep_empty2 = Dpkg::Deps::parse(" , , ", union => 1);
+is($dep_empty2->dump(), "", "' , , ' is also an empty dependency");
 
