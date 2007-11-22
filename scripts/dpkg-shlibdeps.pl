@@ -369,11 +369,12 @@ sub extract_from_shlibs {
     while (<SHLIBS>) {
 	s/\s*\n$//;
 	next if m/^\#/;
-	if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)\s+(\S.*\S)\s*$/) {
+	if (!m/^\s*(?:(\S+):\s+)?(\S+)\s+(\S+)(?:\s+(\S.*\S))?\s*$/) {
 	    warning(_g("shared libs info file \`%s' line %d: bad line \`%s'"),
 	            $shlibfile, $., $_);
 	    next;
 	}
+	my $depread = defined($4) ? $4 : '';
 	if (($libname eq $2) && ($libversion eq $3)) {
 	    # Define dep and end here if the package type explicitely
 	    # matches. Otherwise if the packagetype is not specified, use
@@ -381,11 +382,11 @@ sub extract_from_shlibs {
 	    # line
 	    if (defined($1)) {
 		if ($1 eq $packagetype) {
-		    $dep = $4;
+		    $dep = $depread;
 		    last;
 		}
 	    } else {
-		$dep = $4 unless defined $dep;
+		$dep = $depread unless defined $dep;
 	    }
 	}
     }
