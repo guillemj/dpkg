@@ -5,6 +5,7 @@ use warnings;
 
 use English;
 use POSIX qw(:errno_h :signal_h);
+use Cwd qw(realpath);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr usageerr);
@@ -95,22 +96,34 @@ foreach my $file (keys %exec) {
 
     # Load symbols files for all needed libraries (identified by SONAME)
     my %libfiles;
+    my %altlibfiles;
     foreach my $soname (@sonames) {
 	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
 	failure(_g("couldn't find library %s (note: only packages with " .
 	           "'shlibs' files are looked into)."), $soname)
 	    unless defined($lib);
 	$libfiles{$lib} = $soname;
+	if (-l $lib) {
+	    $altlibfiles{realpath($lib)} = $soname;
+	}
 	print "Library $soname found in $lib\n" if $debug;
     }
-    my $file2pkg = find_packages(keys %libfiles);
+    my $file2pkg = find_packages(keys %libfiles, keys %altlibfiles);
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
     my $dumplibs_wo_symfile = Dpkg::Shlibs::Objdump->new();
     my @soname_wo_symfile;
     foreach my $lib (keys %libfiles) {
 	my $soname = $libfiles{$lib};
+	if (not exists $file2pkg->{$lib} and -l $lib) {
+	    # If the lib found is an unpackaged symlink, we try a fallback
+	    # on the realpath() first, maybe this one is part of a package
+	    my $reallib = realpath($lib);
+	    if (exists $file2pkg->{$reallib}) {
+		$file2pkg->{$lib} = $file2pkg->{$reallib};
+	    }
+	}
 	if (not exists $file2pkg->{$lib}) {
-	    # If the library is not available in an installed package,
+	    # If the library is really not available in an installed package,
 	    # it's because it's in the process of being built
 	    # Empty package name will lead to consideration of symbols
 	    # file from the package being built only

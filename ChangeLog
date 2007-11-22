@@ -1,7 +1,11 @@
 2007-11-22  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-shlibdeps.pl: Add more debug messages. Accept empty
-	dependencies in shlibs files again.
+	dependencies in shlibs files again. When symlinks to libraries are
+	not found by "dpkg -S", try the same on the realpath of the
+	library as fallback before deciding that it's a library being
+	built.
+
 
 2007-11-21  Raphael Hertzog  <hertzog@debian.org>
 
