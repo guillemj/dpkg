@@ -34,7 +34,7 @@ usage () {
 	echo "Usage: ${prog} <file>...
 
 ${purpose}
-file.deb changes to <package>_<version>_<architecture>.deb
+file.deb changes to <package>_<version>_<architecture>.<package_type>
 according to the ``underscores convention''.
 
 Options:
@@ -80,11 +80,16 @@ getname () {
 			a=`dpkg --print-architecture`;
 			stderr "assuming architecture \`"$a"' for \`"$1"'";
 		fi
+		t=`dpkg-deb -f -- "$1" package-type`
+		if [ -z "$t" ];
+		then
+			t=deb
+		fi
 		if [ -z "$noarchitecture" ];
 		then
-			tname=$p\_$v\_$a.deb;
+			tname=$p\_$v\_$a.$t;
 		else
-			tname=$p\_$v.deb
+			tname=$p\_$v.$t
 		fi
 	
 		name=`echo $tname|sed -e 's/ //g'`
