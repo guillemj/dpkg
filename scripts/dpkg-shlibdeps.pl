@@ -100,7 +100,8 @@ foreach my $file (keys %exec) {
 	failure(_g("couldn't find library %s (note: only packages with " .
 	           "'shlibs' files are looked into)."), $soname)
 	    unless defined($lib);
-	$libfiles{$lib} = $soname if defined($lib);
+	$libfiles{$lib} = $soname;
+	print "Library $soname found in $lib\n" if $debug;
     }
     my $file2pkg = find_packages(keys %libfiles);
     my $symfile = Dpkg::Shlibs::SymbolFile->new();
@@ -114,6 +115,7 @@ foreach my $file (keys %exec) {
 	    # Empty package name will lead to consideration of symbols
 	    # file from the package being built only
 	    $file2pkg->{$lib} = [""];
+	    print "No associated package found for $lib\n" if $debug;
 	}
 
 	# Load symbols/shlibs files from packages providing libraries
@@ -327,6 +329,7 @@ Dependency fields recognised are:
 
 sub add_shlibs_dep {
     my ($soname, $pkg) = @_;
+    print "Looking up shlibs dependency of $soname provided by '$pkg'\n" if $debug;
     foreach my $file ($shlibslocal, $shlibsoverride, @pkg_shlibs,
 			"$admindir/info/$pkg.shlibs",
 			$shlibsdefault)
@@ -334,12 +337,14 @@ sub add_shlibs_dep {
 	next if not -e $file;
 	my $dep = extract_from_shlibs($soname, $file);
 	if (defined($dep)) {
+	    print "Found $dep in $file\n" if $debug;
 	    foreach (split(/,\s*/, $dep)) {
 		$dependencies{$cur_field}{$_} = 1;
 	    }
 	    return 1;
 	}
     }
+    print "Found nothing\n" if $debug;
     return 0;
 }
 
