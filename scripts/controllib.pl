@@ -9,6 +9,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure internerr syserr subprocerr);
 use Dpkg::Arch qw(get_host_arch debarch_is);
+use Dpkg::Fields qw(capit sort_field_by_importance);
 
 textdomain("dpkg-dev");
 
@@ -74,11 +75,6 @@ sub getfowner
     return @fowner;
 }
 
-sub capit {
-    my @pieces = map { ucfirst(lc) } split /-/, $_[0];
-    return join '-', @pieces;
-}
-
 sub substvars {
     my ($v) = @_;
     my $lhs;
@@ -103,31 +99,6 @@ sub substvars {
         }
     }
     return $v;
-}
-
-my %fieldimps;
-
-sub set_field_importance(@)
-{
-    my @fields = @_;
-    my $i = 1;
-
-    grep($fieldimps{$_} = $i++, @fields);
-}
-
-sub sort_field_by_importance($$)
-{
-    my ($a, $b) = @_;
-
-    if (defined $fieldimps{$a} && defined $fieldimps{$b}) {
-	$fieldimps{$a} <=> $fieldimps{$b};
-    } elsif (defined($fieldimps{$a})) {
-	-1;
-    } elsif (defined($fieldimps{$b})) {
-	1;
-    } else {
-	$a cmp $b;
-    }
 }
 
 sub outputclose {

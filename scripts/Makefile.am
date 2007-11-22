@@ -64,7 +64,9 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/ld.so.conf.d/recursive.conf \
 	t/200_Dpkg_Shlibs/objdump.glib-ia64 \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
-	t/200_Dpkg_Shlibs/objdump.libc6-2.6
+	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
+	t/200_Dpkg_Shlibs/objdump.dbd-pg \
+	t/200_Dpkg_Shlibs/objdump.ls
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
@@ -76,6 +78,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/BuildOptions.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Deps.pm \
+	Dpkg/Fields.pm \
 	Dpkg/Gettext.pm \
 	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \

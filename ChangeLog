@@ -1,3 +1,31 @@
+2007-11-21  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/Objdump.pm: Fix the checks in is_executable() and
+	is_public_library().
+	* scripts/t/200_Dpkg_Shlibs.t: Add some more tests to make sure
+	the above functions behave as expected.
+	* scripts/t/400_Dpkg_Deps.t: Add some more tests to make sure that
+	empty dependency fields are correctly handled.
+	* scripts/Makefile.am: Include the new data files required by the
+	tests above.
+	* scrips/Dpkg/Fields.pm: New module containing 3 functions moved
+	out of controllib.pl (capit(), set_field_importance(),
+	sort_by_field_importance()).
+	* scripts/controllib.pl: Removed the 3 functions above.
+	* scripts/dpkg-shlibdeps.pl: Use Dpkg::Fields for capit().
+	* scripts/dpkg-genchanges.pl: Use Dpkg::Fields for capit() and
+	set_field_importance().
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/dpkg-source.pl: Likewise.
+
+2007-11-20  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.10~.
+
+2007-11-20  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.9.
+
 2007-11-19  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Path.pm: Fix behaviour of get_pkg_root_dir() when

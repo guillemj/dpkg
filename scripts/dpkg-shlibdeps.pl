@@ -14,6 +14,7 @@ use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
+use Dpkg::Fields qw(capit);
 
 our $host_arch= get_host_arch();
 

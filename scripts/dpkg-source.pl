@@ -10,6 +10,7 @@ use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            $warnable_error $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
+use Dpkg::Fields qw(capit set_field_importance);
 
 my @filesinarchive;
 my %dirincluded;
