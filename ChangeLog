@@ -5,7 +5,10 @@
 	not found by "dpkg -S", try the same on the realpath of the
 	library as fallback before deciding that it's a library being
 	built.
-
+	* scripts/Dpkg/Shlibs.pm: Always add paths from LD_LIBRARY_PATH
+	at the beginning of the list of path to search, even if they
+	are already listed (one might want to use LD_LIBRARY_PATH to
+	change the search order).
 
 2007-11-21  Raphael Hertzog  <hertzog@debian.org>
 
