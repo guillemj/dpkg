@@ -18,7 +18,6 @@ require 'controllib.pl';
 
 our (%f, %fi);
 our %p2i;
-our @librarypaths;
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
