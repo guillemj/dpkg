@@ -9,7 +9,8 @@ use Cwd qw(realpath);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr usageerr);
-use Dpkg::Path qw(relative_to_pkg_root);
+use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
+		  check_files_are_the_same);
 use Dpkg::Version qw(vercmp);
 use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
@@ -158,9 +159,23 @@ foreach my $file (keys %exec) {
 		my $libobj = $dumplibs_wo_symfile->get_object($id);
 		# Only try to generate a dependency for libraries with a SONAME
 		if ($libobj->is_public_library() and not add_shlibs_dep($soname, $pkg)) {
+		    # This failure is fairly new, try to be kind by
+		    # ignoring as many cases that can be safely ignored
+		    my $ignore = 0;
+		    # 1/ when the lib and the binary are in the same
+		    # package
+		    my $root_file = guess_pkg_root_dir($file);
+		    my $root_lib = guess_pkg_root_dir($lib);
+		    $ignore++ if defined $root_file and defined $root_lib
+			and check_files_are_the_same($root_file, $root_lib);
+		    # 2/ when the lib is not versioned and can't be
+		    # handled by shlibs
+		    $ignore++ unless scalar(split_soname($soname));
+		    # 3/ when we have been asked to do so
+		    $ignore++ if $ignore_missing_info;
 		    failure(_g("No dependency information found for %s " .
 		               "(used by %s)."), $soname, $file)
-		        unless $ignore_missing_info;
+		        unless $ignore;
 		}
 	    }
 	}
@@ -361,15 +376,22 @@ sub add_shlibs_dep {
     return 0;
 }
 
+sub split_soname {
+    my $soname = shift;
+    if ($soname =~ /^(.*)\.so\.(.*)$/) {
+	return wantarray ? ($1, $2) : 1;
+    } elsif ($soname =~ /^(.*)-(\d.*)\.so$/) {
+	return wantarray ? ($1, $2) : 1;
+    } else {
+	return wantarray ? () : 0;
+    }
+}
+
 sub extract_from_shlibs {
     my ($soname, $shlibfile) = @_;
-    my ($libname, $libversion);
     # Split soname in name/version
-    if ($soname =~ /^(.*)\.so\.(.*)$/) {
-	$libname = $1; $libversion = $2;
-    } elsif ($soname =~ /^(.*)-(.*)\.so$/) {
-	$libname = $1; $libversion = $2;
-    } else {
+    my ($libname, $libversion) = split_soname($soname);
+    unless (defined $libname) {
 	warning(_g("Can't extract name and version from library name \`%s'"),
 	        $soname);
 	return;
@@ -466,10 +488,13 @@ sub my_find_library {
     }
 
     # Look into the packages we're currently building (but only those
-    # that provides shlibs file...)
+    # that provides shlibs file and the one that contains the binary being
+    # anlyzed...)
     # TODO: we should probably replace that by a cleaner way to look into
     # the various temporary build directories...
     my @copy = (@pkg_shlibs);
+    my $pkg_root = guess_pkg_root_dir($execfile);
+    unshift @copy, $pkg_root if defined $pkg_root;
     foreach my $builddir (map { s{/DEBIAN/shlibs$}{}; $_ } @copy) {
 	$file = find_library($lib, \@RPATH, $format, $builddir);
 	return $file if defined($file);

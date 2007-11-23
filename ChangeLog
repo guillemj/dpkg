@@ -1,3 +1,13 @@
+2007-11-23  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl: Look for libs in the package's build
+	tree even if that package doesn't contain an shlibs file. Then
+	don't complain about missing dependency information if the lib is in
+	the same package than the binary. Also ignore it if the library is
+	not versionned and can't have an shlibs file.
+	* scripts/Dpkg/Path.pm (guess_pkg_root_dir,
+	check_files_are_the_same): Add new helper functions.
+
 2007-11-23  Guillem Jover  <guillem@debian.org>
 
 	* configure.ac: Bump version to 1.14.11~.
