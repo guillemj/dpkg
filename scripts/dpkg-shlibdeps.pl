@@ -184,6 +184,8 @@ foreach my $file (keys %exec) {
     # Scan all undefined symbols of the binary and resolve to a
     # dependency
     my %used_sonames = map { $_ => 0 } @sonames;
+    my $nb_warnings = 0;
+    my $nb_skipped_warnings = 0;
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
 	my $name = $sym->{name};
 	if ($sym->{version}) {
@@ -217,15 +219,23 @@ foreach my $file (keys %exec) {
 		    my $print_name = $name;
 		    # Drop the default suffix for readability
 		    $print_name =~ s/\@Base$//;
-		    warning(_g("symbol %s used by %s found in none of the " .
-		               "libraries."), $print_name, $file)
-		        unless $sym->{weak};
+		    unless ($sym->{weak}) {
+			if ($debug or $nb_warnings < 10) {
+			    warning(_g("symbol %s used by %s found in none of the " .
+				       "libraries."), $print_name, $file);
+			    $nb_warnings++;
+			} else {
+			    $nb_skipped_warnings++;
+			}
+		    }
 		}
 	    } else {
 		$used_sonames{$syminfo->{soname}}++;
 	    }
 	}
     }
+    warning(_g("%d other similar warnings have been skipped (use -v to see " .
+	    "them all)."), $nb_skipped_warnings) if $nb_skipped_warnings;
     # Warn about un-NEEDED libraries
     foreach my $soname (@sonames) {
 	unless ($used_sonames{$soname}) {
