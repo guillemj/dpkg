@@ -518,9 +518,22 @@ sub my_find_library {
     return undef;
 }
 
+my %cached_pkgmatch = ();
+
 sub find_packages {
-    my @files = (@_);
+    my @files;
     my $pkgmatch = {};
+
+    foreach (@_) {
+	if (exists $cached_pkgmatch{$_}) {
+	    $pkgmatch->{$_} = $cached_pkgmatch{$_};
+	} else {
+	    push @files, $_;
+	    $cached_pkgmatch{$_} = [""]; # placeholder to cache misses too.
+	}
+    }
+    return $pkgmatch unless scalar(@files);
+
     my $pid = open(DPKG, "-|");
     syserr(_g("cannot fork for dpkg --search")) unless defined($pid);
     if (!$pid) {
@@ -538,7 +551,7 @@ sub find_packages {
 	    print(STDERR " $_\n")
 		|| syserr(_g("write diversion info to stderr"));
 	} elsif (m/^([^:]+): (\S+)$/) {
-	    $pkgmatch->{$2} = [ split(/, /, $1) ];
+	    $cached_pkgmatch{$2} = $pkgmatch->{$2} = [ split(/, /, $1) ];
 	} else {
 	    warning(_g("unknown output from dpkg --search: '%s'"), $_);
 	}
