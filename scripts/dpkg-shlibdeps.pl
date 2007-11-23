@@ -174,7 +174,7 @@ foreach my $file (keys %exec) {
 		    # 3/ when we have been asked to do so
 		    $ignore++ if $ignore_missing_info;
 		    failure(_g("No dependency information found for %s " .
-		               "(used by %s)."), $soname, $file)
+		               "(used by %s)."), $lib, $file)
 		        unless $ignore;
 		}
 	    }
