@@ -25,7 +25,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning syserr usageerr);
-use Dpkg::Arch qw(get_build_arch get_host_arch get_gcc_host_gnu_type
+use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
                   get_valid_arches debarch_eq debarch_is debarch_to_debtriplet
                   debarch_to_gnutriplet gnutriplet_to_debarch);
 
@@ -130,10 +130,10 @@ my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
                  DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
                  DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
 
-$v{DEB_BUILD_ARCH} = get_build_arch();
+$v{DEB_BUILD_ARCH} = get_raw_build_arch();
 $v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
 
-$v{DEB_HOST_ARCH} = get_host_arch();
+$v{DEB_HOST_ARCH} = get_raw_host_arch();
 $v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
 
 # Set user values:

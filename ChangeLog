@@ -1,5 +1,19 @@
 2007-11-23  Guillem Jover  <guillem@debian.org>
 
+	* scripts/Dpkg/Arch.pm (get_build_arch): Rename to ...
+	(get_raw_build_arch): ... this.
+	(get_build_arch): New function.
+	(get_host_arch): Rename to ...
+	(get_raw_host_arch): ... this. Use get_raw_build_arch instead of
+	get_build_arch.
+	(get_host_arch): New function.
+	(@EXPORT_OK): Add get_raw_build_arch and get_raw_host_arch.
+	* scripts/dpkg-architecture.pl: Import get_raw_build_arch and
+	get_raw_host_arch instead of get_build_arch and get_host_arch.
+	Fix all callers.
+
+2007-11-23  Guillem Jover  <guillem@debian.org>
+
 	* scripts/dpkg-architecture.pl (%env): Rename to ...
 	(%v): ... this.
 	($deb_build_arch, $deb_build_arch_os, $deb_build_arch_cpu)

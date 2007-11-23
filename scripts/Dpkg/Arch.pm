@@ -5,7 +5,8 @@ use warnings;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(get_build_arch get_host_arch get_gcc_host_gnu_type
+our @EXPORT_OK = qw(get_raw_build_arch get_raw_host_arch
+                    get_build_arch get_host_arch get_gcc_host_gnu_type
                     get_valid_arches debarch_eq debarch_is
                     debarch_to_gnutriplet gnutriplet_to_debarch
                     debtriplet_to_gnutriplet gnutriplet_to_debtriplet
@@ -27,7 +28,7 @@ my %debarch_to_debtriplet;
     my $host_arch;
     my $gcc_host_gnu_type;
 
-    sub get_build_arch()
+    sub get_raw_build_arch()
     {
 	return $build_arch if defined $build_arch;
 
@@ -37,6 +38,11 @@ my %debarch_to_debtriplet;
 
 	chomp $build_arch;
 	return $build_arch;
+    }
+
+    sub get_build_arch()
+    {
+	return $ENV{DEB_BUILD_ARCH} || get_raw_build_arch();
     }
 
     sub get_gcc_host_gnu_type()
@@ -53,7 +59,7 @@ my %debarch_to_debtriplet;
 	return $gcc_host_gnu_type;
     }
 
-    sub get_host_arch()
+    sub get_raw_host_arch()
     {
 	return $host_arch if defined $host_arch;
 
@@ -77,10 +83,15 @@ my %debarch_to_debtriplet;
 
 	if (!defined($host_arch)) {
 	    # Switch to native compilation.
-	    $host_arch = get_build_arch();
+	    $host_arch = get_raw_build_arch();
 	}
 
 	return $host_arch;
+    }
+
+    sub get_host_arch()
+    {
+	return $ENV{DEB_HOST_ARCH} || get_raw_host_arch();
     }
 }
 
