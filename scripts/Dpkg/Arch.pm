@@ -63,7 +63,7 @@ my %debarch_to_debtriplet;
     {
 	return $host_arch if defined $host_arch;
 
-	my $gcc_host_gnu_type = get_gcc_host_gnu_type();
+	$gcc_host_gnu_type = get_gcc_host_gnu_type();
 
 	if ($gcc_host_gnu_type eq '') {
 	    warning(_g("Couldn't determine gcc system type, falling back to " .
