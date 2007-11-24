@@ -35,8 +35,8 @@
 	don't complain about missing dependency information if the lib is in
 	the same package than the binary. Also ignore it if the library is
 	not versionned and can't have an shlibs file.
-	* scripts/Dpkg/Path.pm (guess_pkg_root_dir,
-	check_files_are_the_same): Add new helper functions.
+	* scripts/Dpkg/Path.pm (guess_pkg_root_dir)
+	(check_files_are_the_same): New helper functions.
 
 2007-11-23  Guillem Jover  <guillem@debian.org>
 
@@ -103,18 +103,20 @@
 
 2007-11-21  Raphael Hertzog  <hertzog@debian.org>
 
-	* scripts/Dpkg/Shlibs/Objdump.pm: Fix the checks in is_executable() and
-	is_public_library().
+	* scripts/Dpkg/Shlibs/Objdump.pm (reset): Initialize HASH, GNU_HASH,
+	SONAME and flags.
+	(is_executable, is_public_library): Fix the checks.
 	* scripts/t/200_Dpkg_Shlibs.t: Add some more tests to make sure
 	the above functions behave as expected.
 	* scripts/t/400_Dpkg_Deps.t: Add some more tests to make sure that
 	empty dependency fields are correctly handled.
-	* scripts/Makefile.am: Include the new data files required by the
-	tests above.
-	* scrips/Dpkg/Fields.pm: New module containing 3 functions moved
-	out of controllib.pl (capit(), set_field_importance(),
-	sort_by_field_importance()).
-	* scripts/controllib.pl: Removed the 3 functions above.
+	* scripts/t/200_Dpkg_Shlibs/objdump.dbd-pg: New file.
+	* scripts/t/200_Dpkg_Shlibs/objdump.ls: Likewise.
+	* scripts/Makefile.am (EXTRA_DIST): Include
+	't/200_Dpkg_Shlibs/objdump.dbd-pg' and 't/200_Dpkg_Shlibs/objdump.ls'.
+	* scripts/controllib.pl (capit, set_field_importance)
+	(sort_by_field_importance): Move functions to ...
+	* scrips/Dpkg/Fields.pm: ... here. New file.
 	* scripts/dpkg-shlibdeps.pl: Use Dpkg::Fields for capit().
 	* scripts/dpkg-genchanges.pl: Use Dpkg::Fields for capit() and
 	set_field_importance().
@@ -220,18 +222,17 @@
 
 2007-10-18  Raphael Hertzog  <hertzog@debian.org>
 
-	* scripts/Dpkg/Deps.pm: new module to handle dependencies, to
-	evaluate them and check implications between them.
-	* scripts/t/400_Dpkg_Deps.t: non-regression tests for Dpkg::Deps.
-	* scripts/dpkg-checkbuilddeps.pl: adapted to use the new
+	* scripts/controllib.pl (parsedep, showdep): Remove unused functions.
+	(@pkg_dep_fields, @src_dep_fields): Move variables to ...
+	* scripts/Dpkg/Deps.pm: ... here. New file.
+	* scripts/t/400_Dpkg_Deps.t: New file.
+	* scripts/dpkg-checkbuilddeps.pl: Adapted to use the new
 	Dpkg::Deps module.
 	* scripts/dpkg-source.pl: Likewise.
 	* scripts/dpkg-scanpackages.pl: Likewise.
 	* scripts/dpkg-gencontrol.pl: Likewise. Also gains new features
 	such as automatic simplification of dependencies.
-	* scripts/controllib.pl: remove unused parsedep(), showdep(),
-	@pkg_dep_fields and @src_dep_fields.
-	* man/dpkg-gencontrol.1: document the new behaviour with
+	* man/dpkg-gencontrol.1: Document the new behaviour with
 	dependency fields.
 
 2007-10-18  Guillem Jover  <guillem@debian.org>
@@ -250,17 +251,17 @@
 
 2007-10-15  Raphael Hertzog  <hertzog@debian.org>
 
-	* scripts/Dpkg/Version.pm: fix compare_versions to handle properly
-	  the >= cases (it was improperly handled like >> due to a bad regexp).
-	* debian/rules: include cputable ostable triplettable in
+	* scripts/Dpkg/Version.pm: Fix compare_versions to handle properly
+	the >= cases (it was improperly handled like >> due to a bad regexp).
+	* debian/rules: Include cputable ostable triplettable in
 	build-tree so that they are available during make check (Dpkg.pm
 	exports ".." as $pkgdatadir during tests).
-	* scripts/dpkg-shlibdeps.pl: bugfix, avoid unwanted modification
-	of @pkg_shlibs by my_find_library.
+	* scripts/dpkg-shlibdeps.pl (my_find_library): Avoid unwanted
+	modification of @pkg_shlibs.
 
 2007-10-14  Raphael Hertzog  <hertzog@debian.org>
 
-	* scripts/Dpkg/Version.pm: mark compare_versions as exportable.
+	* scripts/Dpkg/Version.pm: Mark compare_versions as exportable.
 
 2007-10-13  Guillem Jover  <guillem@debian.org>
 
@@ -368,7 +369,7 @@
 	* scripts/dpkg-source.pl (usage): -W is the default
 	for quite some time already. Adapt the description of
 	-W and -E.
-	* scripts/dpkg-buildpackage.pl (usage): likewise.
+	* scripts/dpkg-buildpackage.pl (usage): Likewise.
 
 	* scripts/dpkg-buildpackage.pl: Add -z/-Z to
 	passthrough opts (will be passed to dpkg-source).
@@ -385,20 +386,37 @@
 2007-10-08  Raphael Hertzog  <hertzog@debian.org>
 	    Frank Lichtenheld  <djpig@debian.org>
 
-	* Merge dpkg-shlibdeps-buxy branch.
+	Merge dpkg-shlibdeps-buxy branch.
 
-	* scripts/dpkg-shlibdeps.pl: heavily reworked to support "symbols"
-	files. Lots of the code has been modularized in perl modules
-	Dpkg::Shlibs::*.
+	* scripts/Dpkg/ErrorHandling.pm: New file.
+	* scripts/Dpkg/Gettext.pm: Likewise.
+	* scripts/Dpkg/Path.pm: Likewise.
+	* scripts/Dpkg/Shlibs.pm: Likewise.
+	* scripts/Dpkg/Shlibs/Objdump.pm: Likewise.
+	* scripts/Dpkh/Shlibs/SymbolFile.pm: Likewise.
+	* scripts/Dpkg/Version.pm: Likewise.
 
-	* scripts/dpkg-gensymbols.pl: new script used to generated symbols
-	files at package build time. It shall be used by packages of libraries.
+	* scripts/dpkg-shlibdeps.pl: Add support for "symbols" files.
+	* man/dpkg-shlibdeps.1: Document "symbols" files support.
 
-	* man/dpkg-{shlibdeps,gensymbols}.1: updated and created manual
-	pages documenting the changes above.
+	* scripts/dpkg-gensymbols.pl: New file.
+	* man/dpkg-gensymbols.1: Likewise.
 
-	* scripts/t/*: Added some non-regression test on many parts of the
-	newly introduced perl modules.
+	* scripts/t/000_pod.t: New file.
+	* scripts/t/100_Dpkg_Version.t: Likewise.
+	* scripts/t/200_Dpkg_Shlibs.t: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/ld.so.conf: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/ld.so.conf_2: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/ld.so.conf.d/inf_recurse.conf: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/ld.so.conf.d/normal.conf: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/ld.so.conf.d/recursive.conf: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/objdump.glib-ia64: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/objdump.libc6-2.3: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/objdump.libc6-2.6: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/symbols.fake-1: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/symbols.fake-2: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/symbols.include-1: Likewise.
+	* scripts/t/200_Dpkg_Shlibs/symbols.include-2: Likewise.
 
 2007-10-08  Guillem Jover  <guillem@debian.org>
 
