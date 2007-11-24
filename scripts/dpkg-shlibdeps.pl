@@ -18,8 +18,6 @@ use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
 
-our $host_arch= get_host_arch();
-
 # By increasing importance
 my @depfields= qw(Suggests Recommends Depends Pre-Depends);
 my $i=0; my %depstrength = map { $_ => $i++ } @depfields;
@@ -36,6 +34,7 @@ my $varnameprefix= 'shlibs';
 my $ignore_missing_info= 0;
 my $debug= 0;
 my @exclude = ();
+my $host_arch = get_host_arch();
 
 my (@pkg_shlibs, @pkg_symbols);
 if (-d "debian") {

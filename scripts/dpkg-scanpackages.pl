@@ -140,7 +140,7 @@ defined($override) and (-e $override or
 
 $pathprefix = '' if not defined $pathprefix;
 
-our %vercache;
+my %vercache;
 sub vercmp {
      my ($a,$b)=@_;
      return $vercache{$a}{$b} if exists $vercache{$a}{$b};
