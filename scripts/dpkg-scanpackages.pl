@@ -135,8 +135,8 @@ my ($binarydir, $override, $pathprefix) = @ARGV;
 
 -d $binarydir or die sprintf(_g("Binary dir %s not found"),
                              $binarydir)."\n";
-defined $override and -e $override or
-    die sprintf(_g("Override file %s not found"), $override)."\n";
+defined($override) and (-e $override or
+    die(sprintf(_g("Override file %s not found"), $override) . "\n"));
 
 $pathprefix = '' if not defined $pathprefix;
 
