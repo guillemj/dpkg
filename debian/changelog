@@ -1,10 +1,48 @@
-dpkg (1.14.10) UNRELEASED; urgency=low
+dpkg (1.14.12) UNRELEASED; urgency=low
+
+  *
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 24 Nov 2007 07:38:13 +0200
+
+dpkg (1.14.11) unstable; urgency=low
+
+  [ Raphael Hertzog ]
+  * dpkg-shlibdeps now ignores the lack of dependency information in some
+    specific cases (instead of failing):
+    - when the library is in the same package than the binary analyzed
+    - when the library is not versionned and can't have a shlibs file
+  * dpkg-shlibdeps now only displays 10 warnings about symbols not found for
+    each binary and a count of skipped warnings. Closes: #452318
+  * dpkg-shlibdeps: optimize "dpkg -S" lookups by caching results, patch
+    from Aaron M. Ucko <ucko@debian.org>. Closes: #452577
+
+  [ Guillem Jover ]
+  * Fix dpkg-scanpackages to properly support an optional override file.
+    Closes: #452621
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 24 Nov 2007 07:19:02 +0200
+
+dpkg (1.14.10) unstable; urgency=low
 
   [ Raphael Hertzog ]
   * dpkg-shlibdeps now correctly identify private libraries (avoid many
-    warnings with perl/python modules).
+    warnings with perl/python modules). Closes: #452338
   * Move capit() to a Dpkg::Fields module and use it in dpkg-shlibdeps.
     Closes: #452262
+  * Add more debug messages to dpkg-shlibdeps to ease collecting information
+    in case of problems.
+  * dpkg-shlibdeps now accepts again empty dependencies in shlibs files.
+  * dpkg-shlibdeps will try harder to identify packages providing a library
+    by looking up dpkg -S on the realpath of any symlink to a library.
+    Closes: #452339
+  * dpkg-source now correctly identifies the extension of the
+    orig.tar.{gz,bz2,lzma} file and won't unexpectedly create "Format: 2.0"
+    .dsc files.
+
+  [ Guillem Jover ]
+  * Add support for Package-Type in dpkg-name.
+  * Restore cross compilation support by honouring the environment host and
+    arch variables to override the default values on the dpkg-dev scripts.
 
   [ Updated man pages translations ]
   * Swedish (Peter Karlsson)
@@ -12,7 +50,7 @@ dpkg (1.14.10) UNRELEASED; urgency=low
   [ Added scripts translations ]
   * Swedish (Peter Karlsson)
 
- -- Guillem Jover <guillem@debian.org>  Tue, 20 Nov 2007 07:27:44 +0200
+ -- Guillem Jover <guillem@debian.org>  Fri, 23 Nov 2007 06:32:27 +0200
 
 dpkg (1.14.9) unstable; urgency=low
 

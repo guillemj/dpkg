@@ -9,8 +9,6 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Deps qw(@pkg_dep_fields);
 
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
 textdomain("dpkg-dev");
 
 my (@samemaint, @changedmaint);
@@ -137,12 +135,12 @@ my ($binarydir, $override, $pathprefix) = @ARGV;
 
 -d $binarydir or die sprintf(_g("Binary dir %s not found"),
                              $binarydir)."\n";
-defined $override and -e $override or
-    die sprintf(_g("Override file %s not found"), $override)."\n";
+defined($override) and (-e $override or
+    die(sprintf(_g("Override file %s not found"), $override) . "\n"));
 
 $pathprefix = '' if not defined $pathprefix;
 
-our %vercache;
+my %vercache;
 sub vercmp {
      my ($a,$b)=@_;
      return $vercache{$a}{$b} if exists $vercache{$a}{$b};

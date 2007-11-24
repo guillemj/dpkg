@@ -3,7 +3,7 @@
 .\"
 .\" This is free software; see the GNU General Public Licence version 2
 .\" or later for copying conditions.  There is NO warranty.
-.TH dpkg\-name 1 "2007-07-18" "Debian Project" "dpkg utilities"
+.TH dpkg\-name 1 "2007-11-22" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-name \- rename Debian packages to full package names
 .
@@ -20,10 +20,11 @@ This manual page documents the
 program which provides an easy way to rename
 .B Debian
 packages into their full package names. A full package name consists
-of \fI<package>_<version>_<architecture>.deb\fP as specified in the control
-file of the package. The \fI<version>\fP part of the filename consists of
-the upstream version information optionally followed by a hyphen and
-the revision information.
+of \fI<package>_<version>_<architecture>.<package_type>\fP as specified in
+the control file of the package. The \fI<version>\fP part of the filename
+consists of the upstream version information optionally followed by a
+hyphen and the revision information. The \fI<package_type>\fP part comes
+from that field if present or fallbacks to \fBdeb\fP.
 .
 .SH OPTIONS
 .TP

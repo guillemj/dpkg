@@ -35,9 +35,7 @@ our @librarypaths = (DEFAULT_LIBRARY_PATH);
 if ($ENV{LD_LIBRARY_PATH}) {
     foreach my $path (reverse split( /:/, $ENV{LD_LIBRARY_PATH} )) {
 	$path =~ s{/+$}{};
-	unless (scalar grep { $_ eq $path } @librarypaths) {
-	    unshift @librarypaths, $path;
-	}
+	unshift @librarypaths, $path;
     }
 }
 

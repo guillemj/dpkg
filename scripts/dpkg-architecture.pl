@@ -25,7 +25,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning syserr usageerr);
-use Dpkg::Arch qw(get_build_arch get_host_arch get_gcc_host_gnu_type
+use Dpkg::Arch qw(get_raw_build_arch get_raw_host_arch get_gcc_host_gnu_type
                   get_valid_arches debarch_eq debarch_is debarch_to_debtriplet
                   debarch_to_gnutriplet gnutriplet_to_debarch);
 
@@ -123,11 +123,18 @@ while (@ARGV) {
 
 # Set default values:
 
-my $deb_build_arch = get_build_arch();
-my $deb_build_gnu_type = debarch_to_gnutriplet($deb_build_arch);
+my %v;
 
-my $deb_host_arch = get_host_arch();
-my $deb_host_gnu_type = debarch_to_gnutriplet($deb_host_arch);
+my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
+                 DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
+                 DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
+                 DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
+
+$v{DEB_BUILD_ARCH} = get_raw_build_arch();
+$v{DEB_BUILD_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_BUILD_ARCH});
+
+$v{DEB_HOST_ARCH} = get_raw_host_arch();
+$v{DEB_HOST_GNU_TYPE} = debarch_to_gnutriplet($v{DEB_HOST_ARCH});
 
 # Set user values:
 
@@ -156,77 +163,49 @@ if ($req_host_gnu_type ne '' && $req_host_arch ne '') {
         if $dfl_host_gnu_type ne $req_host_gnu_type;
 }
 
-$deb_host_arch = $req_host_arch if $req_host_arch ne '';
-$deb_host_gnu_type = $req_host_gnu_type if $req_host_gnu_type ne '';
+$v{DEB_HOST_ARCH} = $req_host_arch if $req_host_arch ne '';
+$v{DEB_HOST_GNU_TYPE} = $req_host_gnu_type if $req_host_gnu_type ne '';
 
 my $gcc = get_gcc_host_gnu_type();
 
 warning(_g("Specified GNU system type %s does not match gcc system type %s."),
-        $deb_host_gnu_type, $gcc)
+        $v{DEB_HOST_GNU_TYPE}, $gcc)
     if !($req_is_arch or $req_eq_arch) &&
-       ($gcc ne '') && ($gcc ne $deb_host_gnu_type);
+       ($gcc ne '') && ($gcc ne $v{DEB_HOST_GNU_TYPE});
 
 # Split the Debian and GNU names
-my ($deb_host_arch_abi, $deb_host_arch_os, $deb_host_arch_cpu) = debarch_to_debtriplet($deb_host_arch);
-my ($deb_build_arch_abi, $deb_build_arch_os, $deb_build_arch_cpu) = debarch_to_debtriplet($deb_build_arch);
-my ($deb_host_gnu_cpu, $deb_host_gnu_system) = split(/-/, $deb_host_gnu_type, 2);
-my ($deb_build_gnu_cpu, $deb_build_gnu_system) = split(/-/, $deb_build_gnu_type, 2);
+my $abi;
 
-my %env = ();
-if (!$force) {
-    $deb_build_arch = $ENV{DEB_BUILD_ARCH} if (exists $ENV{DEB_BUILD_ARCH});
-    $deb_build_arch_os = $ENV{DEB_BUILD_ARCH_OS} if (exists $ENV{DEB_BUILD_ARCH_OS});
-    $deb_build_arch_cpu = $ENV{DEB_BUILD_ARCH_CPU} if (exists $ENV{DEB_BUILD_ARCH_CPU});
-    $deb_build_gnu_cpu = $ENV{DEB_BUILD_GNU_CPU} if (exists $ENV{DEB_BUILD_GNU_CPU});
-    $deb_build_gnu_system = $ENV{DEB_BUILD_GNU_SYSTEM} if (exists $ENV{DEB_BUILD_GNU_SYSTEM});
-    $deb_build_gnu_type = $ENV{DEB_BUILD_GNU_TYPE} if (exists $ENV{DEB_BUILD_GNU_TYPE});
-    $deb_host_arch = $ENV{DEB_HOST_ARCH} if (exists $ENV{DEB_HOST_ARCH});
-    $deb_host_arch_os = $ENV{DEB_HOST_ARCH_OS} if (exists $ENV{DEB_HOST_ARCH_OS});
-    $deb_host_arch_cpu = $ENV{DEB_HOST_ARCH_CPU} if (exists $ENV{DEB_HOST_ARCH_CPU});
-    $deb_host_gnu_cpu = $ENV{DEB_HOST_GNU_CPU} if (exists $ENV{DEB_HOST_GNU_CPU});
-    $deb_host_gnu_system = $ENV{DEB_HOST_GNU_SYSTEM} if (exists $ENV{DEB_HOST_GNU_SYSTEM});
-    $deb_host_gnu_type = $ENV{DEB_HOST_GNU_TYPE} if (exists $ENV{DEB_HOST_GNU_TYPE});
+($abi, $v{DEB_HOST_ARCH_OS}, $v{DEB_HOST_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_HOST_ARCH});
+($abi, $v{DEB_BUILD_ARCH_OS}, $v{DEB_BUILD_ARCH_CPU}) = debarch_to_debtriplet($v{DEB_BUILD_ARCH});
+($v{DEB_HOST_GNU_CPU}, $v{DEB_HOST_GNU_SYSTEM}) = split(/-/, $v{DEB_HOST_GNU_TYPE}, 2);
+($v{DEB_BUILD_GNU_CPU}, $v{DEB_BUILD_GNU_SYSTEM}) = split(/-/, $v{DEB_BUILD_GNU_TYPE}, 2);
+
+for my $k (@ordered) {
+    $v{$k} = $ENV{$k} if (defined ($ENV{$k}) && !$force);
 }
-
-my @ordered = qw(DEB_BUILD_ARCH DEB_BUILD_ARCH_OS DEB_BUILD_ARCH_CPU
-                 DEB_BUILD_GNU_CPU DEB_BUILD_GNU_SYSTEM DEB_BUILD_GNU_TYPE
-                 DEB_HOST_ARCH DEB_HOST_ARCH_OS DEB_HOST_ARCH_CPU
-                 DEB_HOST_GNU_CPU DEB_HOST_GNU_SYSTEM DEB_HOST_GNU_TYPE);
-
-$env{'DEB_BUILD_ARCH'}=$deb_build_arch;
-$env{'DEB_BUILD_ARCH_OS'}=$deb_build_arch_os;
-$env{'DEB_BUILD_ARCH_CPU'}=$deb_build_arch_cpu;
-$env{'DEB_BUILD_GNU_CPU'}=$deb_build_gnu_cpu;
-$env{'DEB_BUILD_GNU_SYSTEM'}=$deb_build_gnu_system;
-$env{'DEB_BUILD_GNU_TYPE'}=$deb_build_gnu_type;
-$env{'DEB_HOST_ARCH'}=$deb_host_arch;
-$env{'DEB_HOST_ARCH_OS'}=$deb_host_arch_os;
-$env{'DEB_HOST_ARCH_CPU'}=$deb_host_arch_cpu;
-$env{'DEB_HOST_GNU_CPU'}=$deb_host_gnu_cpu;
-$env{'DEB_HOST_GNU_SYSTEM'}=$deb_host_gnu_system;
-$env{'DEB_HOST_GNU_TYPE'}=$deb_host_gnu_type;
 
 if ($action eq 'l') {
     foreach my $k (@ordered) {
-	print "$k=$env{$k}\n";
+	print "$k=$v{$k}\n";
     }
 } elsif ($action eq 's') {
     foreach my $k (@ordered) {
-	print "$k=$env{$k}; ";
+	print "$k=$v{$k}; ";
     }
     print "export ".join(" ",@ordered)."\n";
 } elsif ($action eq 'u') {
     print "unset ".join(" ",@ordered)."\n";
 } elsif ($action eq 'e') {
-    exit !debarch_eq($deb_host_arch, $req_eq_arch);
+    exit !debarch_eq($v{DEB_HOST_ARCH}, $req_eq_arch);
 } elsif ($action eq 'i') {
-    exit !debarch_is($deb_host_arch, $req_is_arch);
+    exit !debarch_is($v{DEB_HOST_ARCH}, $req_is_arch);
 } elsif ($action eq 'c') {
-    @ENV{keys %env} = values %env;
+    @ENV{keys %v} = values %v;
     exec @ARGV;
 } elsif ($action eq 'q') {
-    if (exists $env{$req_variable_to_print}) {
-        print "$env{$req_variable_to_print}\n";
+    if (exists $v{$req_variable_to_print}) {
+        print "$v{$req_variable_to_print}\n";
     } else {
         die sprintf(_g("%s is not a supported variable name"), $req_variable_to_print);
     }

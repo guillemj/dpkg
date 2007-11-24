@@ -12,7 +12,7 @@ sub capit {
     return join '-', @pieces;
 }
 
-our %fieldimps;
+my %fieldimps;
 
 sub set_field_importance(@)
 {

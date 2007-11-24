@@ -20,8 +20,10 @@ use strict;
 use warnings;
 
 use Exporter;
+use Cwd qw(realpath);
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root);
+our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
+		    guess_pkg_root_dir check_files_are_the_same);
 
 =head1 NAME
 
@@ -71,6 +73,50 @@ sub relative_to_pkg_root($) {
 	return $file if ($file =~ s/^\Q$pkg_root\E//);
     }
     return undef;
+}
+
+=item guess_pkg_root_dir($file)
+
+This function tries to guess the root directory of the package build tree.
+It will first use get_pkg_root_dir(), but it will fallback to a more
+imprecise check: namely it will use the parent directory that is a
+sub-directory of the debian directory.
+
+It can still return undef if a file outside of the debian sub-directory is
+provided.
+
+=cut
+sub guess_pkg_root_dir($) {
+    my $file = shift;
+    my $root = get_pkg_root_dir($file);
+    return $root if defined $root;
+
+    $file =~ s{/+$}{};
+    $file =~ s{/+[^/]+$}{} if not -d $file;
+    my $parent = $file;
+    while ($file) {
+	$parent =~ s{/+[^/]+$}{};
+	last if not -d $parent;
+	return $file if check_files_are_the_same("debian", $parent);
+	$file = $parent;
+	last if $file !~ m{/};
+    }
+    return undef;
+}
+
+=item check_files_are_the_same($file1, $file2)
+
+This function verifies that both files are the same by checking that the device
+numbers and the inode numbers returned by lstat() are the same.
+
+=cut
+sub check_files_are_the_same($$) {
+    my ($file1, $file2) = @_;
+    return 0 if ((! -e $file1) || (! -e $file2));
+    my @stat1 = lstat($file1);
+    my @stat2 = lstat($file2);
+    my $result = ($stat1[0] == $stat2[0]) && ($stat1[1] == $stat2[1]);
+    return $result;
 }
 
 =back

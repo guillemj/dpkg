@@ -18,7 +18,6 @@ require 'controllib.pl';
 
 our (%f, %fi);
 our %p2i;
-our @librarypaths;
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
@@ -28,6 +27,7 @@ my $sourceversion;
 my $stdout;
 my $oppackage;
 my $compare = 1; # Bail on missing symbols by default
+my $input;
 my $output;
 my $debug = 0;
 my $host_arch = get_host_arch();
@@ -61,6 +61,8 @@ Options:
 			   (level goes from 0 for no check, to 4
 			   for all checks). By default checks at
 			   level 1.
+  -I<file>                 force usage of <file> as reference symbols
+                           file instead of the default file.
   -O<file>                 write to <file>, not .../DEBIAN/symbols.
   -O                       write to stdout, not .../DEBIAN/symbols.
   -d                       display debug information during work.
@@ -94,6 +96,8 @@ while (@ARGV) {
 	$packagebuilddir =~ s{/+$}{};
     } elsif (m/^-O$/) {
 	$stdout= 1;
+    } elsif (m/^-I(.+)$/) {
+	$input = $1;
     } elsif (m/^-O(.+)$/) {
 	$output= $1;
     } elsif (m/^-(h|-help)$/) {
@@ -122,7 +126,7 @@ if (not defined($oppackage)) {
 my $symfile = Dpkg::Shlibs::SymbolFile->new();
 my $ref_symfile = Dpkg::Shlibs::SymbolFile->new();
 # Load source-provided symbol information
-foreach my $file ($output, "debian/$oppackage.symbols.$host_arch",
+foreach my $file ($input, $output, "debian/$oppackage.symbols.$host_arch",
     "debian/symbols.$host_arch", "debian/$oppackage.symbols",
     "debian/symbols")
 {

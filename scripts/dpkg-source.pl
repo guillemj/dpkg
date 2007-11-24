@@ -547,11 +547,13 @@ if ($opmode eq 'build') {
         $tardirbase= $origdirbase; $tardirname= $origdirname;
 
 	$tarname= $origtargz || "$basename.orig.tar.$comp_ext";
-	$tarname =~ /$basename.orig.tar.($comp_regex)/ ||
+	if ($tarname =~ /\Q$basename\E\.orig\.tar\.($comp_regex)/) {
+	    if (($1 ne 'gz') && ($f{'Format'} < 2)) { $f{'Format'} = '2.0' };
+	} else {
 	    warning(_g(".orig.tar name %s is not <package>_<upstreamversion>" .
 	               ".orig.tar (wanted %s)"),
 	            $tarname, "$basename.orig.tar.$comp_regex");
-	if (($1 ne 'gz') && ($f{'Format'} < 2)) { $f{'Format'} = '2.0' };
+	}
     } else {
 	$tardirbase= $dirbase; $tardirname= $dirname;
 	$tarname= "$basenamerev.tar.$comp_ext";
