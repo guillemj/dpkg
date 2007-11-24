@@ -142,7 +142,7 @@ TEST_FILES= $(srcdir)/t/*.t
 TEST_VERBOSE= 0
 
 clean-local:
-	chmod -R +w t.tmp
+	[ ! -d t.tmp ] || chmod -R +w t.tmp
 	rm -fr t.tmp
 
 check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*)
