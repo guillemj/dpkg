@@ -9,8 +9,6 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Deps qw(@pkg_dep_fields);
 
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
 textdomain("dpkg-dev");
 
 my (@samemaint, @changedmaint);
