@@ -73,9 +73,9 @@ Options:
 
 my @files;
 while (@ARGV) {
-    $_=shift(@ARGV);
+    $_ = shift(@ARGV);
     if (m/^-p([-+0-9a-z.]+)$/) {
-	$oppackage= $1;
+	$oppackage = $1;
     } elsif (m/^-c(\d)?$/) {
 	$compare = defined($1) ? $1 : 1;
     } elsif (m/^-d$/) {
@@ -95,11 +95,11 @@ while (@ARGV) {
 	$packagebuilddir = $1;
 	$packagebuilddir =~ s{/+$}{};
     } elsif (m/^-O$/) {
-	$stdout= 1;
+	$stdout = 1;
     } elsif (m/^-I(.+)$/) {
 	$input = $1;
     } elsif (m/^-O(.+)$/) {
-	$output= $1;
+	$output = $1;
     } elsif (m/^-(h|-help)$/) {
 	&usage; exit(0);
     } elsif (m/^--version$/) {
@@ -116,7 +116,7 @@ if (not defined($sourceversion)) {
 if (not defined($oppackage)) {
     parsecontrolfile($controlfile);
     my @packages = grep(m/^C /, keys %p2i);
-    @packages==1 ||
+    @packages == 1 ||
 	error(_g("must specify package since control info has many (%s)"),
 	      "@packages");
     $oppackage = $packages[0];

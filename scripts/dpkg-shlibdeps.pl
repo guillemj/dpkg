@@ -19,20 +19,20 @@ use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
 
 # By increasing importance
-my @depfields= qw(Suggests Recommends Depends Pre-Depends);
-my $i=0; my %depstrength = map { $_ => $i++ } @depfields;
+my @depfields = qw(Suggests Recommends Depends Pre-Depends);
+my $i = 0; my %depstrength = map { $_ => $i++ } @depfields;
 
 textdomain("dpkg-dev");
 
-my $shlibsoverride= '/etc/dpkg/shlibs.override';
-my $shlibsdefault= '/etc/dpkg/shlibs.default';
-my $shlibslocal= 'debian/shlibs.local';
-my $packagetype= 'deb';
-my $dependencyfield= 'Depends';
-my $varlistfile= 'debian/substvars';
-my $varnameprefix= 'shlibs';
-my $ignore_missing_info= 0;
-my $debug= 0;
+my $shlibsoverride = '/etc/dpkg/shlibs.override';
+my $shlibsdefault = '/etc/dpkg/shlibs.default';
+my $shlibslocal = 'debian/shlibs.local';
+my $packagetype = 'deb';
+my $dependencyfield = 'Depends';
+my $varlistfile = 'debian/substvars';
+my $varnameprefix = 'shlibs';
+my $ignore_missing_info = 0;
+my $debug = 0;
 my @exclude = ();
 my $host_arch = get_host_arch();
 
@@ -45,13 +45,13 @@ if (-d "debian") {
 my ($stdout, %exec);
 foreach (@ARGV) {
     if (m/^-T(.*)$/) {
-	$varlistfile= $1;
+	$varlistfile = $1;
     } elsif (m/^-p(\w[-:0-9A-Za-z]*)$/) {
-	$varnameprefix= $1;
+	$varnameprefix = $1;
     } elsif (m/^-L(.*)$/) {
-	$shlibslocal= $1;
+	$shlibslocal = $1;
     } elsif (m/^-O$/) {
-	$stdout= 1;
+	$stdout = 1;
     } elsif (m/^-(h|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
@@ -61,7 +61,7 @@ foreach (@ARGV) {
 	-d $admindir ||
 	    error(_g("administrative directory '%s' does not exist"), $admindir);
     } elsif (m/^-d(.*)$/) {
-	$dependencyfield= capit($1);
+	$dependencyfield = capit($1);
 	defined($depstrength{$dependencyfield}) ||
 	    warning(_g("unrecognised dependency field \`%s'"), $dependencyfield);
     } elsif (m/^-e(.*)$/) {
