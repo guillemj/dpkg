@@ -97,11 +97,22 @@ foreach my $file (keys %exec) {
     # Load symbols files for all needed libraries (identified by SONAME)
     my %libfiles;
     my %altlibfiles;
+    my %soname_notfound;
     foreach my $soname (@sonames) {
 	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
-	failure(_g("couldn't find library %s (note: only packages with " .
-	           "'shlibs' files are looked into)."), $soname)
-	    unless defined($lib);
+	unless (defined $lib) {
+	    $soname_notfound{$soname} = 1;
+	    my $msg = _g("couldn't find library %s needed by %s (its RPATH is '%s').\n" .
+			 "Note: libraries are not searched in other binary packages " .
+			 "that do not have any shlibs file.\nTo help dpkg-shlibdeps " .
+			 "find private libraries, you might need to set LD_LIBRARY_PATH.");
+	    if (scalar(split_soname($soname))) {
+		failure($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
+	    } else {
+		warning($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
+	    }
+	    next;
+	}
 	$libfiles{$lib} = $soname;
 	my $reallib = realpath($lib);
 	if ($reallib ne $lib) {
@@ -187,6 +198,9 @@ foreach my $file (keys %exec) {
     my %used_sonames = map { $_ => 0 } @sonames;
     my $nb_warnings = 0;
     my $nb_skipped_warnings = 0;
+    # Disable warnings about missing symbols when we have not been able to
+    # find all libs
+    my $disable_warnings = scalar(keys(%soname_notfound));
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
 	my $name = $sym->{name};
 	if ($sym->{version}) {
@@ -214,6 +228,7 @@ foreach my $file (keys %exec) {
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
+		next if $disable_warnings;
 		# Complain about missing symbols only for executables
 		# and public libraries
 		if ($obj->is_executable() or $obj->is_public_library()) {
@@ -239,7 +254,7 @@ foreach my $file (keys %exec) {
 	    "them all)."), $nb_skipped_warnings) if $nb_skipped_warnings;
     # Warn about un-NEEDED libraries
     foreach my $soname (@sonames) {
-	unless ($used_sonames{$soname}) {
+	unless ($soname_notfound{$soname} or $used_sonames{$soname}) {
 	    warning(_g("%s shouldn't be linked with %s (it uses none of its " .
 	               "symbols)."), $file, $soname);
 	}

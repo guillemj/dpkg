@@ -1,5 +1,13 @@
 2007-11-28  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/dpkg-shlibdeps.pl: Do not fail if it
+	can't find unversioned libraries, just output a warning.
+	Consequently skip the check on symbols when some libs were not
+	found because one can not be sure that the symbols was not
+	provided by the missing library.
+
+2007-11-28  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/dpkg-shlibdeps.pl (find_packages): Make sure to always
 	return [''] for a miss in the 'dpkg -S' query.
 	* scripts/dpkg-shlibdeps.pl: Always try the realpath($lib) as
