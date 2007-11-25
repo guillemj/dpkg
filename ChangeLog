@@ -3,6 +3,9 @@
 	* scripts/dpkg-gensymbols.pl: Add a new -I<file> option to force
 	the usage of a specific file as basis for the generated symbols
 	file.
+	* scripts/Dpkg/Shlibs.pm (find_library): Canonicalize paths before
+	returning them as bad RPATH can lead to non-canonical paths
+	causing us troubles in dpkg-shlibdeps.
 
 2007-11-24  Guillem Jover  <guillem@debian.org>
 

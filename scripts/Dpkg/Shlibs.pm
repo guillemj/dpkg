@@ -22,6 +22,8 @@ use warnings;
 use base qw(Exporter);
 our @EXPORT_OK = qw(@librarypaths find_library);
 
+use File::Spec;
+
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syserr);
 use Dpkg::Shlibs::Objdump;
@@ -78,7 +80,7 @@ sub find_library {
 	if (-e "$root$dir/$lib") {
 	    my $libformat = Dpkg::Shlibs::Objdump::get_format("$root$dir/$lib");
 	    if ($format eq $libformat) {
-		return "$root$dir/$lib";
+		return File::Spec->canonpath("$root$dir/$lib");
 	    }
 	}
     }
