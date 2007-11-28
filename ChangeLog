@@ -1,3 +1,14 @@
+2007-11-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl (find_packages): Make sure to always
+	return [''] for a miss in the 'dpkg -S' query.
+	* scripts/dpkg-shlibdeps.pl: Always try the realpath($lib) as
+	fallback to identify the package (even if it's not a symlink)
+	because due to broken RPATH we might get library filenames such as
+	"/usr/lib/gcc/i486-linux-gnu/4.2.3/../../../../lib/libssl.so.9.8"
+	which is not a symlink and which can still be simplified to
+	"/usr/lib/libssl.so.9.8" with realpath().
+
 2007-11-25  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Shlibs.pm (find_library): Canonicalize paths before

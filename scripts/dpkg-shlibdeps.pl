@@ -103,8 +103,9 @@ foreach my $file (keys %exec) {
 	           "'shlibs' files are looked into)."), $soname)
 	    unless defined($lib);
 	$libfiles{$lib} = $soname;
-	if (-l $lib) {
-	    $altlibfiles{realpath($lib)} = $soname;
+	my $reallib = realpath($lib);
+	if ($reallib ne $lib) {
+	    $altlibfiles{$reallib} = $soname;
 	}
 	print "Library $soname found in $lib\n" if $debug;
     }
@@ -114,15 +115,16 @@ foreach my $file (keys %exec) {
     my @soname_wo_symfile;
     foreach my $lib (keys %libfiles) {
 	my $soname = $libfiles{$lib};
-	if (not exists $file2pkg->{$lib} and -l $lib) {
-	    # If the lib found is an unpackaged symlink, we try a fallback
+	if (not scalar(grep { $_ ne '' } @{$file2pkg->{$lib}})) {
+	    # The path of the library as calculated is not the
+	    # official path of a packaged file, try to fallback on
 	    # on the realpath() first, maybe this one is part of a package
 	    my $reallib = realpath($lib);
 	    if (exists $file2pkg->{$reallib}) {
 		$file2pkg->{$lib} = $file2pkg->{$reallib};
 	    }
 	}
-	if (not exists $file2pkg->{$lib}) {
+	if (not scalar(grep { $_ ne '' } @{$file2pkg->{$lib}})) {
 	    # If the library is really not available in an installed package,
 	    # it's because it's in the process of being built
 	    # Empty package name will lead to consideration of symbols
@@ -529,6 +531,7 @@ sub find_packages {
 	} else {
 	    push @files, $_;
 	    $cached_pkgmatch{$_} = [""]; # placeholder to cache misses too.
+	    $pkgmatch->{$_} = [""];        # might be replaced later on
 	}
     }
     return $pkgmatch unless scalar(@files);
