@@ -109,6 +109,10 @@ while (@ARGV) {
     }
 }
 
+if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
+    $compare = $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL};
+}
+
 if (not defined($sourceversion)) {
     parsechangelog($changelogfile);
     $sourceversion = $fi{"L Version"};
