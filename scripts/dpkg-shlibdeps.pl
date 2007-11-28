@@ -185,7 +185,7 @@ foreach my $file (keys %exec) {
 		    $ignore++ unless scalar(split_soname($soname));
 		    # 3/ when we have been asked to do so
 		    $ignore++ if $ignore_missing_info;
-		    failure(_g("No dependency information found for %s " .
+		    failure(_g("no dependency information found for %s " .
 		               "(used by %s)."), $lib, $file)
 		        unless $ignore;
 		}
