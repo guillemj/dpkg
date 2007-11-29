@@ -371,7 +371,7 @@ struct sigpair {
 	int signal;
 };
 
-const struct sigpair siglist[] = {
+static const struct sigpair siglist[] = {
 	{ "ABRT",	SIGABRT	},
 	{ "ALRM",	SIGALRM	},
 	{ "FPE",	SIGFPE	},

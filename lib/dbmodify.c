@@ -122,7 +122,10 @@ static void createimptmp(void) {
   onerr_abort--;
 }
 
-const struct fni { const char *suffix; char **store; } fnis[]= {
+static const struct fni {
+  const char *suffix;
+  char **store;
+} fnis[] = {
   {   STATUSFILE,                 &statusfile         },
   {   AVAILFILE,                  &availablefile      },
   {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },

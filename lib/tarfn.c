@@ -54,7 +54,7 @@ OtoL(const char * s, int size)
 }
 
 /* String block to C null-terminated string */
-char *
+static char *
 StoC(const char *s, int size)
 {
 	int	len;

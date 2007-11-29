@@ -224,12 +224,13 @@ void f_configversion(struct pkginfo *pigp, struct pkginfoperfile *pifp,
                      "in Config-Version string `%.250s': %.250s"),value,emsg);
 }
 
-void conffvalue_lastword(const char *value, const char *from,
-			 const char *endent,
-			 const char **word_start_r, int *word_len_r,
-			 const char **new_from_r,
-			 const char *filename, int lno,
-			 FILE *warnto, int *warncount, struct pkginfo *pigp) {
+static void conffvalue_lastword(const char *value, const char *from,
+                                const char *endent,
+                                const char **word_start_r, int *word_len_r,
+                                const char **new_from_r,
+                                const char *filename, int lno, FILE *warnto,
+                                int *warncount, struct pkginfo *pigp)
+{
   /* the code in f_conffiles ensures that value[-1]==' ', which is helpful */
   const char *lastspc;
   
