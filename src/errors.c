@@ -50,8 +50,6 @@ static struct error_report *reports=0;
 static struct error_report **lastreport= &reports;
 static struct error_report emergency;
 
-extern struct pipef *status_pipes;
-
 void print_error_perpackage(const char *emsg, const char *arg) {
   struct error_report *nr;
   

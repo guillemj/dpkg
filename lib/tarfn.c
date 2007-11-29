@@ -119,7 +119,7 @@ typedef struct symlinkList {
 	struct symlinkList *next;
 } symlinkList;
 
-extern int
+int
 TarExtractor(
  void *			userData
 ,const TarFunctions *	functions)

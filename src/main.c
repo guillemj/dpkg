@@ -374,8 +374,6 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
   }
 }
 
-extern const char *log_file;
-
 static const char okpassshortopts[]= "D";
 
 void execbackend(const char *const *argv) NONRETURNING;
