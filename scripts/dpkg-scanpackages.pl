@@ -9,6 +9,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error syserr subprocerr);
 use Dpkg::Deps qw(@pkg_dep_fields);
+use Dpkg::Version qw(compare_versions);
 
 textdomain("dpkg-dev");
 
@@ -144,9 +145,8 @@ my %vercache;
 sub vercmp {
      my ($a,$b)=@_;
      return $vercache{$a}{$b} if exists $vercache{$a}{$b};
-     system('dpkg','--compare-versions',$a,'le',$b);
-     $vercache{$a}{$b}=$?;
-     return $?;
+     $vercache{$a}{$b} = compare_versions($a, 'gt', $b);
+     return $vercache{$a}{$b};
 }
 
 my $find_h = new IO::Handle;
