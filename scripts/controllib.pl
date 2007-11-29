@@ -281,7 +281,7 @@ sub parsecdata {
 	next if (m/^$/ and $paraborder);
 	next if (m/^#/);
 	$paraborder=0;
-        if (m/^(\S+)\s*:\s*(.*)$/) {
+        if (m/^(\S+?)\s*:\s*(.*)$/) {
 	    $cf = $1;
 	    my $v = $2;
             $cf= &capit($cf);
