@@ -42,7 +42,6 @@ my $forcefilename;
 my $stdout;
 my %remove;
 my %override;
-my (%spvalue, %spdefault);
 my $oppackage;
 my $package_type = 'deb';
 
@@ -86,7 +85,7 @@ Options:
 
 sub spfileslistvalue($)
 {
-    my $r = $spvalue{$_[0]};
+    my $r = $f{$_[0]};
     $r = '-' if !defined($r);
     return $r;
 }
@@ -162,7 +161,7 @@ for $_ (keys %fi) {
 #print STDERR "G key >$_< value >$v<\n";
 	if (m/^(Origin|Bugs|Maintainer)$/) {
 	    $f{$_} = $v;
-	} elsif (m/^Homepage$/) {
+	} elsif (m/^(Section|Priority|Homepage)$/) {
 	    # Binary package stanzas can override these fields
 	    $f{$_} = $v if !defined($f{$_});
 	} elsif (m/^Source$/) {
@@ -174,17 +173,15 @@ for $_ (keys %fi) {
 	       m/^(Standards-Version|Uploaders)$/i ||
 	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 	}
-	elsif (m/^Section$|^Priority$/) { $spdefault{$_}= $v; }
         else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
     } elsif (s/^C$myindex //) {
 #print STDERR "P key >$_< value >$v<\n";
         if (m/^(Package|Package-Type|Description|Homepage|Tag|Essential)$/ ||
+            m/^(Section$|Priority)$/ ||
             m/^(Subarchitecture|Kernel-Version|Installer-Menu-Item)$/) {
             $f{$_}= $v;
         } elsif (exists($pkg_dep_fields{$_})) {
 	    # Delay the parsing until later
-        } elsif (m/^Section$|^Priority$/) {
-            $spvalue{$_}= $v;
         } elsif (m/^Architecture$/) {
 	    my $host_arch = get_host_arch();
 
@@ -277,12 +274,6 @@ foreach my $field (@pkg_dep_fields) {
 	$f{$field} = $dep->dump();
 	delete $f{$field} unless $f{$field}; # Delete empty field
     }
-}
-
-
-for my $f (qw(Section Priority)) {
-    $spvalue{$f} = $spdefault{$f} unless defined($spvalue{$f});
-    $f{$f} = $spvalue{$f} if defined($spvalue{$f});
 }
 
 for my $f (qw(Package Version)) {
