@@ -84,6 +84,13 @@ Options:
 "), $progname;
 }
 
+sub spfileslistvalue($)
+{
+    my $r = $spvalue{$_[0]};
+    $r = '-' if !defined($r);
+    return $r;
+}
+
 
 while (@ARGV) {
     $_=shift(@ARGV);
@@ -381,8 +388,3 @@ if (!$stdout) {
         syserr(_g("cannot install output control file \`%s'"), $cf);
 }
 
-sub spfileslistvalue {
-    my $r = $spvalue{$_[0]};
-    $r = '-' if !defined($r);
-    return $r;
-}
