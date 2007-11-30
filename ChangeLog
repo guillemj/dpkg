@@ -1,3 +1,98 @@
+2007-11-29  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/controllib.pl (parsecdata): Fix
+	regex to determine the field name correctly
+	if the field's value starts with a colon.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.13~.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.12.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-scanpackages.pl: Use Dpkg::Version.
+	(vercmp): Use compare_versions instead of 'dpkg --compare-versions'.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-scanpackages.pl: Use Dpkg::ErrorHandling. Use error
+	syserr and subprocerr instead of die and sprintf.
+	(load_override): Likewise.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Unify parsing of Section and Priority
+	fields with Homepage.
+	(%spvalue, %spdefault): Remove unued variables.
+	(spfileslistvalue): Use %f instead of %spvalue.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl (spfileslistvalue): Add prototype. Move
+	to the top of the file with the other functions.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* src/main.c (log_file): Move definition to ...
+	* lib/dpkg-db.h: ... here.
+	* src/configure.c (status_pipes): Remove extern definition.
+	* src/errors.c (status_pipes): Likewise.
+	* lib/tarfn.c (TarExtractor): Do not declare as extern.
+
+2007-11-29  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (arbitrary_fields): Define as static.
+	* lib/dbmodify.c (fnis): Likewise.
+	* lib/fields.c (conffvalue_lastword): Likewise.
+	* lib/tarfn.c (StoC): Likewise.
+	* src/packages.c (breaks_check_target): Likewise.
+	* utils/start-stop-daemon.c (siglist): Likewise.
+
+2007-11-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-gensymbols.pl: The environment variable
+	DPKG_GENSYMBOLS_CHECK_LEVEL can override the level of checks made
+	by dpkg-gensymbols. This offers the possibility to unofficial
+	ports to ignore errors due to symbols files that do not correspond.
+
+2007-11-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl: Harmonize a failure message.
+	* man/dpkg-shlibdeps.1: Provide explanations concerning the two
+	failures that dpkg-shlibdeps might generate. This is needed so
+	that maintainers have an idea of what to do to fix the problems.
+
+2007-11-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl: Do not fail if it
+	can't find unversioned libraries, just output a warning.
+	Consequently skip the check on symbols when some libs were not
+	found because one can not be sure that the symbols was not
+	provided by the missing library.
+
+2007-11-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl (find_packages): Make sure to always
+	return [''] for a miss in the 'dpkg -S' query.
+	* scripts/dpkg-shlibdeps.pl: Always try the realpath($lib) as
+	fallback to identify the package (even if it's not a symlink)
+	because due to broken RPATH we might get library filenames such as
+	"/usr/lib/gcc/i486-linux-gnu/4.2.3/../../../../lib/libssl.so.9.8"
+	which is not a symlink and which can still be simplified to
+	"/usr/lib/libssl.so.9.8" with realpath().
+
+2007-11-25  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs.pm (find_library): Canonicalize paths before
+	returning them as bad RPATH can lead to non-canonical paths
+	causing us troubles in dpkg-shlibdeps.
+	* scripts/dpkg-gensymbols.pl: Some formatting fixes.
+	* scripts/dpkg-shlibdeps.pl: Likewise.
+
 2007-11-24  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-gensymbols.pl: Add a new -I<file> option to force

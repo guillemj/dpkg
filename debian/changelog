@@ -1,8 +1,38 @@
-dpkg (1.14.12) UNRELEASED; urgency=low
+dpkg (1.14.13) UNRELEASED; urgency=low
 
-  *
+  [ Frank Lichtenheld ]
+  * Add an own manpage for Dpkg's version format. Mostly stolen
+    from policy. Closes: #373003
+  * Fix control file parsing for field values starting with a colon.
+    Apparently nobody ever needed this until Vcs-Cvs came along.
+    Closes: #453364
 
- -- Guillem Jover <guillem@debian.org>  Sat, 24 Nov 2007 07:38:13 +0200
+ -- Frank Lichtenheld <djpig@debian.org>  Thu, 29 Nov 2007 23:04:33 +0100
+
+dpkg (1.14.12) unstable; urgency=low
+
+  [ Raphael Hertzog ]
+  * Add -I<file> option to dpkg-gensymbols to force the usage of a specific
+    symbols file.
+  * Dpkg::Shlibs::find_library() now returns canonicalized paths.
+  * dpkg-shlibdeps always tries the realpath() of a lib as fallback when
+    trying to identify the package of a lib (and not only for symlinks).
+  * dpkg-shlibdeps doesn't fail any more if it can't find unversioned
+    libraries on the presumption that they are just private libraries. Outputs
+    a warning instead.
+  * Expand the dpkg-shlibdeps manual page with explanations concerning
+    failures.
+  * The environment variable DPKG_GENSYMBOLS_CHECK_LEVEL can be used to force
+    dpkg-gensymbols to use a precise level of checks. Closes: #452022
+
+  [ Guillem Jover ]
+  * Define several private functions and variables as static.
+  * Move extern declarations to header files and stop defining them as extern.
+  * Unify parsing of Section and Priority in dpkg-gencontrol with Homepage.
+  * Switch dpkg-scanpackages to use the new Dpkg::ErrorHandling and
+    Dpkg::Versions modules.
+
+ -- Guillem Jover <guillem@debian.org>  Thu, 29 Nov 2007 06:14:09 +0200
 
 dpkg (1.14.11) unstable; urgency=low
 

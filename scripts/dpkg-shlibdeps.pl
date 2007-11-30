@@ -19,20 +19,20 @@ use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
 
 # By increasing importance
-my @depfields= qw(Suggests Recommends Depends Pre-Depends);
-my $i=0; my %depstrength = map { $_ => $i++ } @depfields;
+my @depfields = qw(Suggests Recommends Depends Pre-Depends);
+my $i = 0; my %depstrength = map { $_ => $i++ } @depfields;
 
 textdomain("dpkg-dev");
 
-my $shlibsoverride= '/etc/dpkg/shlibs.override';
-my $shlibsdefault= '/etc/dpkg/shlibs.default';
-my $shlibslocal= 'debian/shlibs.local';
-my $packagetype= 'deb';
-my $dependencyfield= 'Depends';
-my $varlistfile= 'debian/substvars';
-my $varnameprefix= 'shlibs';
-my $ignore_missing_info= 0;
-my $debug= 0;
+my $shlibsoverride = '/etc/dpkg/shlibs.override';
+my $shlibsdefault = '/etc/dpkg/shlibs.default';
+my $shlibslocal = 'debian/shlibs.local';
+my $packagetype = 'deb';
+my $dependencyfield = 'Depends';
+my $varlistfile = 'debian/substvars';
+my $varnameprefix = 'shlibs';
+my $ignore_missing_info = 0;
+my $debug = 0;
 my @exclude = ();
 my $host_arch = get_host_arch();
 
@@ -45,13 +45,13 @@ if (-d "debian") {
 my ($stdout, %exec);
 foreach (@ARGV) {
     if (m/^-T(.*)$/) {
-	$varlistfile= $1;
+	$varlistfile = $1;
     } elsif (m/^-p(\w[-:0-9A-Za-z]*)$/) {
-	$varnameprefix= $1;
+	$varnameprefix = $1;
     } elsif (m/^-L(.*)$/) {
-	$shlibslocal= $1;
+	$shlibslocal = $1;
     } elsif (m/^-O$/) {
-	$stdout= 1;
+	$stdout = 1;
     } elsif (m/^-(h|-help)$/) {
 	usage(); exit(0);
     } elsif (m/^--version$/) {
@@ -61,7 +61,7 @@ foreach (@ARGV) {
 	-d $admindir ||
 	    error(_g("administrative directory '%s' does not exist"), $admindir);
     } elsif (m/^-d(.*)$/) {
-	$dependencyfield= capit($1);
+	$dependencyfield = capit($1);
 	defined($depstrength{$dependencyfield}) ||
 	    warning(_g("unrecognised dependency field \`%s'"), $dependencyfield);
     } elsif (m/^-e(.*)$/) {
@@ -97,14 +97,26 @@ foreach my $file (keys %exec) {
     # Load symbols files for all needed libraries (identified by SONAME)
     my %libfiles;
     my %altlibfiles;
+    my %soname_notfound;
     foreach my $soname (@sonames) {
 	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
-	failure(_g("couldn't find library %s (note: only packages with " .
-	           "'shlibs' files are looked into)."), $soname)
-	    unless defined($lib);
+	unless (defined $lib) {
+	    $soname_notfound{$soname} = 1;
+	    my $msg = _g("couldn't find library %s needed by %s (its RPATH is '%s').\n" .
+			 "Note: libraries are not searched in other binary packages " .
+			 "that do not have any shlibs file.\nTo help dpkg-shlibdeps " .
+			 "find private libraries, you might need to set LD_LIBRARY_PATH.");
+	    if (scalar(split_soname($soname))) {
+		failure($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
+	    } else {
+		warning($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
+	    }
+	    next;
+	}
 	$libfiles{$lib} = $soname;
-	if (-l $lib) {
-	    $altlibfiles{realpath($lib)} = $soname;
+	my $reallib = realpath($lib);
+	if ($reallib ne $lib) {
+	    $altlibfiles{$reallib} = $soname;
 	}
 	print "Library $soname found in $lib\n" if $debug;
     }
@@ -114,15 +126,16 @@ foreach my $file (keys %exec) {
     my @soname_wo_symfile;
     foreach my $lib (keys %libfiles) {
 	my $soname = $libfiles{$lib};
-	if (not exists $file2pkg->{$lib} and -l $lib) {
-	    # If the lib found is an unpackaged symlink, we try a fallback
+	if (not scalar(grep { $_ ne '' } @{$file2pkg->{$lib}})) {
+	    # The path of the library as calculated is not the
+	    # official path of a packaged file, try to fallback on
 	    # on the realpath() first, maybe this one is part of a package
 	    my $reallib = realpath($lib);
 	    if (exists $file2pkg->{$reallib}) {
 		$file2pkg->{$lib} = $file2pkg->{$reallib};
 	    }
 	}
-	if (not exists $file2pkg->{$lib}) {
+	if (not scalar(grep { $_ ne '' } @{$file2pkg->{$lib}})) {
 	    # If the library is really not available in an installed package,
 	    # it's because it's in the process of being built
 	    # Empty package name will lead to consideration of symbols
@@ -172,7 +185,7 @@ foreach my $file (keys %exec) {
 		    $ignore++ unless scalar(split_soname($soname));
 		    # 3/ when we have been asked to do so
 		    $ignore++ if $ignore_missing_info;
-		    failure(_g("No dependency information found for %s " .
+		    failure(_g("no dependency information found for %s " .
 		               "(used by %s)."), $lib, $file)
 		        unless $ignore;
 		}
@@ -185,6 +198,9 @@ foreach my $file (keys %exec) {
     my %used_sonames = map { $_ => 0 } @sonames;
     my $nb_warnings = 0;
     my $nb_skipped_warnings = 0;
+    # Disable warnings about missing symbols when we have not been able to
+    # find all libs
+    my $disable_warnings = scalar(keys(%soname_notfound));
     foreach my $sym ($obj->get_undefined_dynamic_symbols()) {
 	my $name = $sym->{name};
 	if ($sym->{version}) {
@@ -212,6 +228,7 @@ foreach my $file (keys %exec) {
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
+		next if $disable_warnings;
 		# Complain about missing symbols only for executables
 		# and public libraries
 		if ($obj->is_executable() or $obj->is_public_library()) {
@@ -237,7 +254,7 @@ foreach my $file (keys %exec) {
 	    "them all)."), $nb_skipped_warnings) if $nb_skipped_warnings;
     # Warn about un-NEEDED libraries
     foreach my $soname (@sonames) {
-	unless ($used_sonames{$soname}) {
+	unless ($soname_notfound{$soname} or $used_sonames{$soname}) {
 	    warning(_g("%s shouldn't be linked with %s (it uses none of its " .
 	               "symbols)."), $file, $soname);
 	}
@@ -529,6 +546,7 @@ sub find_packages {
 	} else {
 	    push @files, $_;
 	    $cached_pkgmatch{$_} = [""]; # placeholder to cache misses too.
+	    $pkgmatch->{$_} = [""];        # might be replaced later on
 	}
     }
     return $pkgmatch unless scalar(@files);

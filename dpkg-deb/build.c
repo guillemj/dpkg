@@ -56,7 +56,7 @@ struct _finfo {
   struct _finfo* next;
 };
 
-const char *arbitrary_fields[]= {
+static const char *arbitrary_fields[] = {
   "Package-Type",
   "Subarchitecture",
   "Kernel-Version",

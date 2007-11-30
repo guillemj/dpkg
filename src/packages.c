@@ -381,10 +381,10 @@ static void breaks_check_one(struct varbuf *aemsgs, int *ok,
   *ok= 0;
 }
 
-void breaks_check_target(struct varbuf *aemsgs, int *ok,
-                         struct pkginfo *broken,
-                         struct pkginfo *target,
-                         struct pkginfo *virtbroken) {
+static void breaks_check_target(struct varbuf *aemsgs, int *ok,
+                                struct pkginfo *broken,
+                                struct pkginfo *target,
+                                struct pkginfo *virtbroken) {
   struct deppossi *possi;
 
   for (possi= target->installed.depended; possi; possi= possi->nextrev) {

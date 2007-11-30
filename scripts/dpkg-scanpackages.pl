@@ -7,7 +7,9 @@ use IO::Handle;
 use IO::File;
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::ErrorHandling qw(error syserr subprocerr);
 use Dpkg::Deps qw(@pkg_dep_fields);
+use Dpkg::Version qw(compare_versions);
 
 textdomain("dpkg-dev");
 
@@ -68,7 +70,7 @@ sub load_override
 {
     my $override = shift;
     my $override_fh = new IO::File $override, 'r' or
-	die sprintf(_g("Couldn't open override file %s: %s"), $override, $!)."\n";
+        syserr(_g("Couldn't open override file %s"), $override);
 
     while (<$override_fh>) {
 	s/\#.*//;
@@ -133,10 +135,9 @@ push @find_args, '-follow';
 #push @ARGV, ''		if @ARGV < 3;
 my ($binarydir, $override, $pathprefix) = @ARGV;
 
--d $binarydir or die sprintf(_g("Binary dir %s not found"),
-                             $binarydir)."\n";
+-d $binarydir or error(_g("Binary dir %s not found"), $binarydir);
 defined($override) and (-e $override or
-    die(sprintf(_g("Override file %s not found"), $override) . "\n"));
+    error(_g("Override file %s not found"), $override));
 
 $pathprefix = '' if not defined $pathprefix;
 
@@ -144,15 +145,13 @@ my %vercache;
 sub vercmp {
      my ($a,$b)=@_;
      return $vercache{$a}{$b} if exists $vercache{$a}{$b};
-     system('dpkg','--compare-versions',$a,'le',$b);
-     $vercache{$a}{$b}=$?;
-     return $?;
+     $vercache{$a}{$b} = compare_versions($a, 'gt', $b);
+     return $vercache{$a}{$b};
 }
 
 my $find_h = new IO::Handle;
 open($find_h,'-|','find',"$binarydir/",@find_args,'-print')
-     or die sprintf(_g("Couldn't open %s for reading: %s"),
-                    $binarydir, $!)."\n";
+     or syserr(_g("Couldn't open %s for reading"), $binarydir);
 FILE:
     while (<$find_h>) {
 	chomp;
@@ -177,10 +176,11 @@ FILE:
 	    $tv{$key}= $value;
 	}
 	$temp =~ /^\n*$/
-	    or die sprintf(_g("Unprocessed text from %s control file; info:\n%s / %s\n"), $fn, $control, $temp);
+	    or error(_g("Unprocessed text from %s control file; info:\n%s / %s"),
+	             $fn, $control, $temp);
 	
 	defined($tv{'Package'})
-	    or die sprintf(_g("No Package field in control file of %s"), $fn)."\n";
+	    or error(_g("No Package field in control file of %s"), $fn);
 	my $p= $tv{'Package'}; delete $tv{'Package'};
 	
 	if (defined($packages{$p}) and not $options{multiversion}) {
@@ -206,12 +206,15 @@ FILE:
 	$tv{'Filename'}= "$pathprefix$fn";
 	
 	open(C,"md5sum <$fn |") || die "$fn $!";
-	chop($_=<C>); close(C); $? and die sprintf(_g("\`md5sum < %s' exited with %d"), $fn, $?)."\n";
-	/^([0-9a-f]{32})\s*-?\s*$/ or die sprintf(_g("Strange text from \`md5sum < %s': \`%s'"), $fn, $_)."\n";
+	chop($_ = <C>);
+	close(C);
+	$? and subprocerr("'md5sum < %s'", $fn);;
+	/^([0-9a-f]{32})\s*-?\s*$/ or
+	    error(_g("Strange text from 'md5sum < %s': '%s'"), $fn, $_);
 	$tv{'MD5sum'}= $1;
 	
-	my @stat= stat($fn) or die sprintf(_g("Couldn't stat %s: %s"), $fn, $!)."\n";
-	$stat[7] or die sprintf(_g("%s is empty"), $fn)."\n";
+	my @stat = stat($fn) or syserr(_g("Couldn't stat %s"), $fn);
+	$stat[7] or error(_g("file %s is empty"), $fn);
 	$tv{'Size'}= $stat[7];
 	
 	if (defined $tv{Revision} and length($tv{Revision})) {
@@ -257,10 +260,10 @@ for my $p (sort keys %packages) {
 	 }
 	 $record .= "\n";
 	 $records_written++;
-	 print(STDOUT $record) or die sprintf(_g("Failed when writing stdout: %s"), $!)."\n";
+	 print(STDOUT $record) or syserr(_g("Failed when writing stdout"));
     }
 }
-close(STDOUT) or die sprintf(_g("Couldn't close stdout: %s"), $!)."\n";
+close(STDOUT) or syserr(_g("Couldn't close stdout"));
 
 my @spuriousover= grep(!defined($packages{$_}),sort keys %overridden);
 

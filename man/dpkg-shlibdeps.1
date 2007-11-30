@@ -216,6 +216,66 @@ when several binaries are linked against the same set of libraries but
 each binary only uses a subset of those. You will have warnings on
 individual binaries, but the set of libraries needed at the package level
 is the same whether you fix the binaries or not.
+.SH ERRORS
+.B dpkg\-shlibdeps
+will fail if it can't find a public library used by a binary or if this
+library has no associated dependency information (either shlibs file or
+symbols file). A public library has a SONAME and is versioned
+(libsomething.so.\fIX\fR). A private library (like a plugin) should not
+have a SONAME and doesn't need to be versioned.
+.TP
+.BI "couldn't find library " library\-soname " needed by " binary " (its RPATH is '" rpath "')"
+The \fIbinary\fR uses a library called \fIlibrary\-soname\fR but
+.B dpkg\-shlibdeps
+has been unable to find the library.
+.B dpkg\-shlibdeps
+creates a list of directories to check as following: directories listed in
+the RPATH of the binary, directories listed in /etc/ld.so.conf,
+directories listed in the LD_LIBRARY_PATH environment variable, and
+standard public directories (/lib, /usr/lib, /lib32, /usr/lib32, /lib64,
+/usr/lib64). Then it checks those directories in the package's build tree
+of the binary being analyzed, in other packages's build tree that contains
+a DEBIAN/shlibs file and finally in the root directory. If the library is
+not found in any of those directories, then you get this error.
+
+If the library not found is in a private directory of the same package,
+then you want to add the directory to LD_LIBRARY_PATH. If it's in another
+binary package being built, you want to make sure that the shlibs file of
+this package is already created and that LD_LIBRARY_PATH contains the
+appropriate directory if it also is in a private directory.
+.TP
+.BI "no dependency information found for " library\-file " (used by " binary ")."
+The library needed by \fIbinary\fR has been found by
+.B dpkg\-shlibdeps
+in \fIlibrary\-file\fR but
+.B dpkg\-shlibdeps
+has been unable to find any dependency information for that library. To
+find out the dependency, it has tried to map the library to a Debian
+package with the help of
+.BI "dpkg -S " library\-file\fR.
+Then it checked the corresponding shlibs and symbols files in
+/var/lib/dpkg/info/, and in the various package's build trees
+(debian/*/DEBIAN/).
+
+This failure can be caused by a bad or missing shlibs or symbols file
+in the package of the library. It might also happen if the library is
+built within the same source package and if the shlibs files has not yet
+been created (in which case you must fix debian/rules to create
+the shlibs before calling \fBdpkg\-shlibdeps\fR). Bad RPATH can also
+lead to the library being found under a non-canonical name (example:
+/usr/lib/gcc/i486-linux-gnu/4.2.3/../../../../lib/libssl.so.9.8 instead of
+/usr/lib/libssl.so.0.9.8) that's not associated to any package,
+.B dpkg\-shlibdeps
+tries to work around this by trying to fallback on a canonical name (using
+.BR realpath (3))
+but it might not always work. It's always best to clean up the RPATH
+of the binary to avoid problems.
+
+Calling
+.B dpkg\-shlibdeps
+in verbose mode (-v) will provide much more information about where it
+tried to find the dependency information. This might be useful if you
+don't understand why it's giving you this error.
 .SH "SEE ALSO"
 .BR deb\-shlibs (5),
 .BR deb\-symbols (5),

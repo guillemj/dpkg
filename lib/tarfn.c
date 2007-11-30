@@ -54,7 +54,7 @@ OtoL(const char * s, int size)
 }
 
 /* String block to C null-terminated string */
-char *
+static char *
 StoC(const char *s, int size)
 {
 	int	len;
@@ -119,7 +119,7 @@ typedef struct symlinkList {
 	struct symlinkList *next;
 } symlinkList;
 
-extern int
+int
 TarExtractor(
  void *			userData
 ,const TarFunctions *	functions)

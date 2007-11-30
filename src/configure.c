@@ -55,8 +55,6 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 		const char* realnew, int useredited, int distedited,
 		enum conffopt what);
 
-extern struct pipef *status_pipes;
-
 
 void deferred_configure(struct pkginfo *pkg) {
 	/* The algorithm for deciding what to configure first is as follows:
