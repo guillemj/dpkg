@@ -1,7 +1,7 @@
 #
 # Dpkg::Changelog
 #
-# Copyright 2005 Frank Lichtenheld <frank@lichtenheld.de>
+# Copyright © 2005, 2007 Frank Lichtenheld <frank@lichtenheld.de>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -195,11 +195,8 @@ sub get_error {
 =head3 data
 
 C<data> returns an array (if called in list context) or a reference
-to an array of Parse::DebianChangelog::Entry objects which each
+to an array of Dpkg::Changelog::Entry objects which each
 represent one entry of the changelog.
-
-This is currently merely a placeholder to enable users to get to the
-raw data, expect changes to this API in the near future.
 
 This method supports the common output options described in
 section L<"COMMON OUTPUT OPTIONS">.
@@ -352,11 +349,10 @@ content of the the entry/entries
 
 =back
 
-C<dpkg_str> returns a stringified version of this hash which should look
-exactly like the output of L<dpkg-parsechangelog(1)>. The fields are
+C<dpkg_str> returns a stringified version of this hash. The fields are
 ordered like in the list above.
 
-Both methods only support the common output options described in
+Both methods support the common output options described in
 section L<"COMMON OUTPUT OPTIONS">.
 
 =head3 dpkg_str
@@ -431,11 +427,9 @@ in the changelog. For the format of such a hash see the description
 of the L<"dpkg"> method (while ignoring the remarks about which
 values are taken from the first entry).
 
-C<rfc822_str> returns a stringified version of this hash which looks
-similar to the output of dpkg-parsechangelog but instead of one
-stanza the output contains one stanza for each entry.
+C<rfc822_str> returns a stringified version of this array.
 
-Both methods only support the common output options described in
+Both methods support the common output options described in
 section L<"COMMON OUTPUT OPTIONS">.
 
 =head3 rfc822_str
@@ -488,8 +482,6 @@ all take a version number as value:
 Causes changelog information from all versions strictly
 later than B<version> to be used.
 
-(works exactly like the C<-v> option of dpkg-parsechangelog).
-
 =item until
 
 Causes changelog information from all versions strictly
@@ -515,9 +507,7 @@ don't take version numbers as values:
 =item all
 
 If set to a true value, all entries of the changelog are returned,
-this overrides all other options. While the XML and HTML formats
-default to all == true, this does of course not overwrite other
-options unless it is set explicitly with the call.
+this overrides all other options.
 
 =item count
 
@@ -557,6 +547,8 @@ Any combination of one option of C<since> and C<from> and one of
 C<until> and C<to> returns the intersection of the two results
 with only one of the options specified.
 
+=head1 UTILITY FUNCTIONS
+
 =head3 find_closes
 
 Takes one string as argument and finds "Closes: #123456, #654321" statements
@@ -569,7 +561,8 @@ sub find_closes {
     my $changes = shift;
     my @closes = ();
 
-    while ($changes && ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig)) {
+    while ($changes &&
+	   ($changes =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig)) {
 	push(@closes, $& =~ /\#?\s?(\d+)/g);
     }
 
@@ -736,7 +729,7 @@ Timestamp (Date expressed in seconds since the epoche)
 =item *
 
 ERROR (last parse error related to this entry in the format described
-at Parse::DebianChangelog::get_parse_errors.
+at Dpkg::Changelog::get_parse_errors.
 
 =back
 
@@ -784,7 +777,7 @@ Frank Lichtenheld, E<lt>frank@lichtenheld.deE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2005 by Frank Lichtenheld
+Copyright E<copy> 2005, 2007 by Frank Lichtenheld
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
