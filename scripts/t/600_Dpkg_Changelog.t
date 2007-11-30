@@ -1,43 +1,39 @@
 # -*- perl -*-
-# Before `make install' is performed this script should be runnable with
-# `make test'. After `make install' it should work as `perl Parse-DebianChangelog.t'
-
-#########################
-
-# change 'tests => 1' to 'tests => last_test_to_print';
 
 use strict;
 use warnings;
 
 use File::Basename;
-use XML::Simple;
 
 BEGIN {
-    my $no_examples = 3;
+    my $no_examples = 2;
     my $no_err_examples = 1;
-    my $no_tests = $no_examples * 13
+    my $no_tests = $no_examples * 4
 	+ $no_err_examples * 2
-	+ 49;
+	+ 48;
 
     require Test::More;
-    import Test::More tests => $no_tests, ;
+    import Test::More tests => $no_tests;
 }
 BEGIN {
-    use_ok('Parse::DebianChangelog');
-    use_ok('Parse::DebianChangelog::ChangesFilters', ':all' );
+    use_ok('Dpkg::Changelog');
+    use_ok('Dpkg::Changelog::Debian');
 };
+
+my $srcdir = $ENV{srcdir} || '.';
+$srcdir .= '/t/600_Dpkg_Changelog';
 
 #########################
 
-my $test = Parse::DebianChangelog->init( { infile => '/nonexistant',
-					   quiet => 1 } );
+my $test = Dpkg::Changelog::Debian->init( { infile => '/nonexistant',
+					    quiet => 1 } );
 ok( !defined($test), "fatal parse errors lead to init() returning undef");
 
 my $save_data;
-foreach my $file (qw(Changes t/examples/countme t/examples/shadow)) {
+foreach my $file ("$srcdir/countme", "$srcdir/shadow") {
 
-    my $changes = Parse::DebianChangelog->init( { infile => $file,
-						  quiet => 1 } );
+    my $changes = Dpkg::Changelog::Debian->init( { infile => $file,
+						   quiet => 1 } );
     my $errors = $changes->get_parse_errors();
     my $basename = basename( $file );
 
@@ -50,41 +46,12 @@ foreach my $file (qw(Changes t/examples/countme t/examples/shadow)) {
 
     ok( @data, "data is not empty" );
 
-    my $html_out = $changes->html( { outfile => "t/$basename.html.tmp",
-				     template => "tmpl/default.tmpl" } );
-
-    is( `tidy -qe t/$basename.html.tmp 2>&1`, '',
-	'Generated HTML has no tidy errors' );
-
-    ok( ($changes->delete_filter( 'html::changes',
-				  \&common_licenses ))[0]
-	== \&common_licenses );
-    ok( ! $changes->delete_filter( 'html::changes',
-				   \&common_licenses ) );
-
-    $changes->html( { outfile => "t/$basename.html.tmp.2",
-		      template => "tmpl/default.tmpl" } );
-    is( `tidy -qe t/$basename.html.tmp.2 2>&1`, '',
-	'Generated HTML has no tidy errors' );
-
-    $changes->add_filter( 'html::changes',
-			  \&common_licenses );
-
-    my $html_out2 = $changes->html();
-
-    # remove timestamps since they will differ
-    $html_out =~ s/Generated .*? by//go;
-    $html_out2 =~ s/Generated .*? by//go;
-
-    is( $html_out, $html_out2 )
-	and unlink "t/$basename.html.tmp", "t/$basename.html.tmp.2";
-
     my $str = $changes->dpkg_str();
 
-    is( $str, `dpkg-parsechangelog -l$file`,
-	'Output of dpkg_str equal to output of dpkg-parsechangelog' );
+#    is( $str, `dpkg-parsechangelog -l$file`,
+#	'Output of dpkg_str equal to output of dpkg-parsechangelog' );
 
-    if ($file eq 't/examples/countme') {
+    if ($file eq "$srcdir/countme") {
 	$save_data = $changes->rfc822_str({ all => 1 });
 
 	# test range options
@@ -191,19 +158,19 @@ foreach my $file (qw(Changes t/examples/countme t/examples/shadow)) {
 	#TODO: test combinations
     }
 
-    if ($file eq 'Changes') {
-	my $v = $data[0]->Version;
-	$v =~ s/[a-z]$//;
-	cmp_ok( $v, 'eq', $Parse::DebianChangelog::VERSION,
-		'version numbers in module and Changes match' );
-    }
+#     if ($file eq 'Changes') {
+# 	my $v = $data[0]->Version;
+# 	$v =~ s/[a-z]$//;
+# 	cmp_ok( $v, 'eq', $Parse::DebianChangelog::VERSION,
+# 		'version numbers in module and Changes match' );
+#     }
 
     my $oldest_version = $data[-1]->Version;
     $str = $changes->dpkg_str({ since => $oldest_version });
 
-    is( $str, `dpkg-parsechangelog -v$oldest_version -l$file`,
-	'Output of dpkg_str equal to output of dpkg-parsechangelog' )
-	or diag("oldest_version=$oldest_version");
+#    is( $str, `dpkg-parsechangelog -v$oldest_version -l$file`,
+#	'Output of dpkg_str equal to output of dpkg-parsechangelog' )
+#	or diag("oldest_version=$oldest_version");
 
     $str = $changes->rfc822_str();
 
@@ -212,39 +179,29 @@ foreach my $file (qw(Changes t/examples/countme t/examples/shadow)) {
     $str = $changes->rfc822_str({ since => $oldest_version });
 
     ok( 1 );
-
-    $str = $changes->xml( { outfile => "t/$basename.xml.tmp" });
-
-    ok( XMLin($str, ForceArray => {},
-	      KeyAttr => {} ), "can read in the result of XMLout" );
-    ok( (-s "t/$basename.xml.tmp") == length($str) );
-
-    unlink( "t/$basename.xml.tmp" );
-
 }
 
-open CHANGES, '<', 't/examples/countme';
+open CHANGES, '<', "$srcdir/countme";
 my $string = join('',<CHANGES>);
 
-my $str_changes = Parse::DebianChangelog->init( { instring => $string,
-						  quiet => 1 } );
+my $str_changes = Dpkg::Changelog::Debian->init( { instring => $string,
+						 quiet => 1 } );
 my $errors = $str_changes->get_parse_errors();
 ok( !$errors,
-    "Parse example changelog t/examples/countme without errors from string" );
+    "Parse example changelog $srcdir/countme without errors from string" );
 
 my $str_data = $str_changes->rfc822_str({ all => 1 });
 is( $str_data, $save_data,
     "Compare result of parse from string with result of parse from file" );
 
 
-foreach my $test (( [ 't/examples/misplaced-tz', 6 ])) {
+foreach my $test (( [ "$srcdir/misplaced-tz", 6 ])) {
 
     my $file = shift @$test;
-    my $changes = Parse::DebianChangelog->init( { infile => $file,
-						  quiet => 1 } );
+    my $changes = Dpkg::Changelog::Debian->init( { infile => $file,
+						   quiet => 1 } );
     my @errors = $changes->get_parse_errors();
 
     ok( @errors, 'errors occoured' );
     is_deeply( [ map { $_->[1] } @errors ], $test, 'check line numbers' );
-
 }
