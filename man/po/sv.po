@@ -6,12 +6,12 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-29 06:04+0200\n"
-"PO-Revision-Date: 2007-11-20 14:20+0100\n"
+"PO-Revision-Date: 2007-11-30 20:27+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 # type: Plain text
 #: ../../man/822-date.1:2
@@ -6019,9 +6019,9 @@ msgstr "dpkg-name"
 
 # type: TH
 #: ../../man/dpkg-name.1:6
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-11-22"
-msgstr "2007-01-24"
+msgstr "2007-11-22"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:9
@@ -6036,7 +6036,6 @@ msgstr "B<dpkg-name> [I<flaggor>] [B<-->] I<filer>"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:28
-#, fuzzy
 msgid ""
 "This manual page documents the B<dpkg-name> program which provides an easy "
 "way to rename B<Debian> packages into their full package names. A full "
@@ -6051,10 +6050,11 @@ msgstr ""
 "Manualsidan dokumenterar programmet B<dpkg-name>, vilket tillhandahåller ett "
 "enkelt sätt att byta namn på B<Debian>paket till deras fullständiga "
 "paketnamn. Ett fullständigt paketnamn består av "
-"I<E<lt>paketE<gt>_E<lt>versionE<gt>_E<lt>arkitekturE<gt>.deb> och anges av "
-"control-filen i paketet. I<E<lt>VersionE<gt>>-delen av filnamnet består av "
-"uppströmsversionsinformation och kan eventuellt följas av ett bindestreck "
-"och revisionsinformationen."
+"I<E<lt>paketE<gt>_E<lt>versionE<gt>_E<lt>arkitekturE<gt>.E<lt>pakettyp<gt>> "
+"och anges av control-filen i paketet. I<E<lt>VersionE<gt>>-delen av "
+"filnamnet består av uppströmsversionsinformation och kan eventuellt följas "
+"av ett bindestreck och revisionsinformationen. I<E<lt>PakettypE<gt>>-"
+"delen kommer från fältet I<package_type> om det finns, annars B<deb>."
 
 # type: TP
 #: ../../man/dpkg-name.1:30
@@ -7431,7 +7431,7 @@ msgstr ""
 #: ../../man/dpkg-shlibdeps.1:219
 #, no-wrap
 msgid "ERRORS"
-msgstr ""
+msgstr "FELMEDDELANDEN"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:226
@@ -7442,12 +7442,20 @@ msgid ""
 "(libsomething.so.I<X>). A private library (like a plugin) should not have a "
 "SONAME and doesn't need to be versioned."
 msgstr ""
+"B<dpkg-shlibdeps> kommer att misslyckas om det inte hittar ett öppet "
+"bibliotek som en av binärerna använder, eller om biblioteket saknar "
+"associerad beroendeinformation (antingen en shlibs-fil eller en symbols-"
+"fil). Ett öppet bibliotek har ett SONAMN och är versionshanterad "
+"(libvadsomhelst.so.I<X>). Ett privat bibliotek (till exempel ett "
+"insticksprogram) bör inte ha något SONAMN och behöver inte vara "
+"versionshanterat."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:226
 #, no-wrap
 msgid "B<couldn't find library >I<library-soname>B< needed by >I<binary>B< (its RPATH is '>I<rpath>B<')>"
-msgstr ""
+msgstr "B<hittade inte biblioteket> I<bibliotek-sonamn> B<som behövs för> "
+"I<binär> B<(dess RPATH är \">I<rpath>B<\")>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:240
@@ -7463,6 +7471,16 @@ msgid ""
 "in the root directory. If the library is not found in any of those "
 "directories, then you get this error."
 msgstr ""
+"I<Binär> använder ett bilbiotek som heter I<bibliotek-sonamn>, men "
+"B<dpkg-shlibdeps> kunde inte hitta biblioteket. B<dpkg-shlibdeps> skapar "
+"en lista över kataloger det ser i på följande sätt: katalogerna som "
+"beskrivs i RPATH i binären, kataloger som beskrivs i /etc/ld.so.conf, "
+"kataloger i miljövariabeln LD_LIBRARY_PATH, och vanliga öppna kataloger "
+"(/lib, /usr/lib, /lib32, /usr/lib32, /lib64, /usr/lib64). Därefter ser "
+"det i motsvarande kataloger i byggträdet för paketet som innehåller "
+"binären som analyseras, i andra pakets byggträd som innehåller en "
+"DEBIAN/shlibs-fil och slutligen i rotkatalogen. Om biblioteket inte "
+"hittas i någon av dessa kataloger får du det här felmeddelandet."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:246
@@ -7473,12 +7491,17 @@ msgid ""
 "package is already created and that LD_LIBRARY_PATH contains the appropriate "
 "directory if it also is in a private directory."
 msgstr ""
+"Om biblioteket som inte hittades ligger i en privat katalog i samma paket "
+"bör du lägga till katalogen i LD_LIBRARY_PATH. Om det finns i ett annat "
+"binärpaket som byggs bör du se till att shlibs-filen för paketet redan "
+"har skapats och att LD_LIBRARY_PATH innehåller korrekt katalog som det "
+"också ligger i en privat katalog."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:246
 #, no-wrap
 msgid "B<no dependency information found for >I<library-file>B< (used by >I<binary>B<).>"
-msgstr ""
+msgstr "B<hittade ingen beroendeinformation för> I<biblioteksfil> B<(använd av) I<binär>B<).>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:259
@@ -7490,6 +7513,13 @@ msgid ""
 "file>.  Then it checked the corresponding shlibs and symbols files in /var/"
 "lib/dpkg/info/, and in the various package's build trees (debian/*/DEBIAN/)."
 msgstr ""
+"Biblioteket som behövs av I<binär> hittades i I<biblioteksfil> av "
+"B<dpkg-shlibdeps>, men B<dpkg-shlibdeps> kunde inte hitta någon "
+"beroendeinformation för biblioteket. För att hitta beroendet har det "
+"försökt koppla biblioteket mot ett Debianpaket med hjälp av B<dpkg -S> "
+"I<biblioteksfil>. Därefter såg det i motsvarande shlibs- och symbols-filer "
+"i /var/lib/dpkg/info/, samt i de olika paketens byggträd "
+"(debian/*/DEBIAN/)."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:273
@@ -7505,6 +7535,17 @@ msgid ""
 "fallback on a canonical name (using B<realpath>(3))  but it might not always "
 "work. It's always best to clean up the RPATH of the binary to avoid problems."
 msgstr ""
+"Det här felet kan orsakas av felaktiga eller saknade shlibs- eller symbols-"
+"filer i bibliotekets paket. Det kan även inträffa om biblioteket byggts i "
+"samma källkodspaket och om shlibs-filen ännu inte har skapats (då måste du "
+"fixa debian/rules så att det skapar shlibs-filen innan det anropar B<dpkg-"
+"shlibdeps>). Felaktig RPATH kan också leda till att biblioteket hittas "
+"under ett icke-kanoniskt namn (till exempel: /usr/lib/gcc/i486-linux-gnu/"
+"4.2.3/../../../../lib/libssl.so.9.8 istället för /usr/lib/libssl.so.0.9.8) "
+"som inte associeras till något paket, B<dpkg-shlibdeps> försöker gå runt "
+"detta genom att falla tillbaka på ett kanoniskt namn (med B<realpath>(3)), "
+"men det fungerar kanske inte alltid. Det är alltid bäst att städa upp "
+"RPATH i binären för att undvika problem."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:279
@@ -7513,6 +7554,9 @@ msgid ""
 "information about where it tried to find the dependency information. This "
 "might be useful if you don't understand why it's giving you this error."
 msgstr ""
+"Om du anropar B<dpkg-shlibdeps> i pratsamt läge (-v) kommer det ge mycket "
+"mer information om var det försökte hitta beroendeinformationen. Det kan "
+"vara användbart om du inte förstår varför du får felmeddelandet."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:283
@@ -11618,7 +11662,7 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "See I</usr/share/doc/dpkg/THANKS> for the list of people who have\n"
 #~ "contributed to B<dpkg>.\n"
 #~ msgstr ""
-#~ "Se filen B</usr/share/doc/dpkg/THANKS> för en lista över personer som\n"
+#~ "Se filen B</usr/share/doc/dpkg/THANKS> fÃ¶r en lista Ã¶ver personer som\n"
 #~ "bidragit till B<dpkg> .\n"
 
 # type: Plain text
@@ -11642,16 +11686,16 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "directory, thus causing them to be unnecessarily included in every .diff."
 #~ "gz, unless you use the B<-i> switch."
 #~ msgstr ""
-#~ "Detta är väldigt bra för att ta bort överflödiga filer som dyker upp i ."
+#~ "Detta Ã¤r vÃ¤ldigt bra fÃ¶r att ta bort Ã¶verflÃ¶diga filer som dyker upp i ."
 #~ "diff.gz-filen, t.ex \"debian/BUGS_TODO/*\" eller \"debian/RCS/*,v\". Om "
-#~ "du, till exempel, underhåller ett paket som du spårar via en fjärr-CVS, "
-#~ "där du inte har åtkomstbehörighet för att sända in debianstyrfilerna och "
-#~ "märka upp dem för I<cvs-buildpackage>(1) är det nödvändigt att utföra en "
-#~ "ytterligare utcheckning/uppdatering i en katalog för att hålla den ren, "
-#~ "till att generera .orig.tar.gz från. Den katalogen kommer att ha en CVS/"
-#~ "Entries-fil som innehåller tidsstämplingar som skiljer sig från dem i din "
-#~ "arbetskatalog, vilket innebär att de kommer inkluderas i alla .diff.gz-"
-#~ "filer utan att det behövs, såvida du inte använder flaggan B<-i>."
+#~ "du, till exempel, underhÃ¥ller ett paket som du spÃ¥rar via en fjÃ¤rr-CVS, "
+#~ "dÃ¤r du inte har Ã¥tkomstbehÃ¶righet fÃ¶r att sÃ¤nda in debianstyrfilerna och "
+#~ "mÃ¤rka upp dem fÃ¶r I<cvs-buildpackage>(1) Ã¤r det nÃ¶dvÃ¤ndigt att utfÃ¶ra en "
+#~ "ytterligare utcheckning/uppdatering i en katalog fÃ¶r att hÃ¥lla den ren, "
+#~ "till att generera .orig.tar.gz frÃ¥n. Den katalogen kommer att ha en CVS/"
+#~ "Entries-fil som innehÃ¥ller tidsstÃ¤mplingar som skiljer sig frÃ¥n dem i din "
+#~ "arbetskatalog, vilket innebÃ¤r att de kommer inkluderas i alla .diff.gz-"
+#~ "filer utan att det behÃ¶vs, sÃ¥vida du inte anvÃ¤nder flaggan B<-i>."
 
 # type: TH
 #~ msgid "2007-05-15"
