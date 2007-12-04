@@ -81,10 +81,8 @@ binary-arch: install
 	install -d debian/dpkg/sbin
 	mv debian/dpkg/usr/sbin/start-stop-daemon debian/dpkg/sbin
 
-	dh_installchangelogs -pdpkg ChangeLog
-	dh_installdocs -pdpkg
-	install -d debian/dselect/usr/share/doc
-	ln -s dpkg debian/dselect/usr/share/doc/dselect
+	dh_installchangelogs -a ChangeLog
+	dh_installdocs -a
 
 	install -d debian/dpkg/usr/share/lintian/overrides
 	install -m 644 debian/dpkg.lintian-overrides \
@@ -108,8 +106,8 @@ binary-indep: install
 	dh_testroot -i
 	dh_install --sourcedir=debian/tmp -i
 
-	install -d debian/dpkg-dev/usr/share/doc
-	ln -s dpkg debian/dpkg-dev/usr/share/doc/dpkg-dev
+	dh_installchangelogs -i ChangeLog
+	dh_installdocs -i
 
 	install -d debian/dpkg-dev/usr/share/lintian/overrides
 	install -m 644 debian/dpkg-dev.lintian-overrides \
