@@ -37,14 +37,14 @@ my $sourcestyle = 'i';
 my $quiet = 0;
 
 my %f2p;           # - file to package map
-my %p2f;           # - package to file map, has entries for both "packagename"
-                   #   and "packagename architecture"
+my %p2f;           # - package to file map, has entries for "packagename"
+my %pa2f;          # - likewise, has entries for "packagename architecture"
 my %p2ver;         # - package to version map
-my %p2arch;
+my %p2arch;        # - package to arch map
 my %f2sec;         # - file to section map
-my %f2seccf;
+my %f2seccf;       # - likewise, from control file
 my %f2pri;         # - file to priority map
-my %f2pricf;
+my %f2pricf;       # - likewise, from control file
 my %sourcedefault; # - default values as taken from source (used for Section,
                    #   Priority and Maintainer)
 
@@ -174,14 +174,16 @@ if (not $sourceonly) {
 		warning(_g("duplicate files list entry for package %s (line %d)"),
 			$2, $NR);
 	    $f2p{$1}= $2;
-	    $p2f{"$2 $4"}= $1;
-	    $p2f{$2}= $1;
+	    $pa2f{"$2 $4"}= $1;
+	    $p2f{$2} ||= [];
+	    push @{$p2f{$2}}, $1;
 	    $p2ver{$2}= $3;
 	    defined($f2sec{$1}) &&
 		warning(_g("duplicate files list entry for file %s (line %d)"),
 			$1, $NR);
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
+	    push(@archvalues,$4) unless !$4 || $archadded{$4}++;
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
 	    # A non-deb package
@@ -233,20 +235,24 @@ for $_ (keys %fi) {
 		next;
 	    }
 	} else {
-	    my $f = $p2f{$p};
+	    my @f;
+	    @f = @{$p2f{$p}} if defined($p2f{$p});
 	    $p2arch{$p}=$a;
 
 	    if (m/^Description$/) {
 		$v=$PREMATCH if $v =~ m/\n/;
-		if (defined($f) && $f =~ m/\.udeb$/) {
-			push(@descriptions,sprintf("%-10s - %-.65s (udeb)",$p,$v));
-		} else {
-			push(@descriptions,sprintf("%-10s - %-.65s",$p,$v));
+		my %d;
+		# dummy file to get each description at least once (e.g. -S)
+		foreach my $f (("", @f)) {
+		    my $desc = sprintf("%-10s - %-.65s%s", $p, $v,
+				       $f =~ m/\.udeb$/ ? " (udeb)" : '');
+		    $d{$desc}++;
 		}
+		push @descriptions, keys %d;
 	    } elsif (m/^Section$/) {
-		$f2seccf{$f} = $v if defined($f);
+		$f2seccf{$_} = $v foreach (@f);
 	    } elsif (m/^Priority$/) {
-		$f2pricf{$f} = $v if defined($f);
+		$f2pricf{$_} = $v foreach (@f);
 	    } elsif (s/^X[BS]*C[BS]*-//i) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
@@ -298,34 +304,36 @@ if ($changesdescription) {
     }
 }
 
-for my $p (keys %p2f) {
-    my ($pp, $aa) = (split / /, $p);
+for my $pa (keys %pa2f) {
+    my ($pp, $aa) = (split / /, $pa);
     defined($p2i{"C $pp"}) ||
 	warning(_g("package %s listed in files list but not in control info"),
 	        $pp);
 }
 
 for my $p (keys %p2f) {
-    my $f = $p2f{$p};
+    my @f = @{$p2f{$p}};
 
-    my $sec = $f2seccf{$f};
-    $sec = $sourcedefault{'Section'} if !defined($sec);
-    if (!defined($sec)) {
-	$sec = '-';
-	warning(_g("missing Section for binary package %s; using '-'"), $p);
+    foreach my $f (@f) {
+	my $sec = $f2seccf{$f};
+	$sec = $sourcedefault{'Section'} if !defined($sec);
+	if (!defined($sec)) {
+	    $sec = '-';
+	    warning(_g("missing Section for binary package %s; using '-'"), $p);
+	}
+	$sec eq $f2sec{$f} || error(_g("package %s has section %s in " .
+				       "control file but %s in files list"),
+				    $p, $sec, $f2sec{$f});
+	my $pri = $f2pricf{$f};
+	$pri = $sourcedefault{'Priority'} if !defined($pri);
+	if (!defined($pri)) {
+	    $pri = '-';
+	    warning(_g("missing Priority for binary package %s; using '-'"), $p);
+	}
+	$pri eq $f2pri{$f} || error(_g("package %s has priority %s in " .
+				       "control file but %s in files list"),
+				    $p, $pri, $f2pri{$f});
     }
-    $sec eq $f2sec{$f} || error(_g("package %s has section %s in " .
-                                   "control file but %s in files list"),
-                                $p, $sec, $f2sec{$f});
-    my $pri = $f2pricf{$f};
-    $pri = $sourcedefault{'Priority'} if !defined($pri);
-    if (!defined($pri)) {
-	$pri = '-';
-	warning(_g("missing Priority for binary package %s; using '-'"), $p);
-    }
-    $pri eq $f2pri{$f} || error(_g("package %s has priority %s in " .
-                                   "control file but %s in files list"),
-                                $p, $pri, $f2pri{$f});
 }
 
 &init_substvars;
