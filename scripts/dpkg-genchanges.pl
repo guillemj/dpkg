@@ -6,7 +6,7 @@ use warnings;
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use English;
-use Dpkg;
+use Dpkg qw(:DEFAULT :compression);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
@@ -366,12 +366,13 @@ if (!$binaryonly) {
     }
 
     if (($sourcestyle =~ m/i/ && $sversion !~ m/-(0|1|0\.1)$/ ||
-         $sourcestyle =~ m/d/) &&
-        grep(m/\.diff\.gz$/,@sourcefiles)) {
-        $origsrcmsg= _g("not including original source code in upload");
-        @sourcefiles= grep(!m/\.orig\.tar\.gz$/,@sourcefiles);
+	 $sourcestyle =~ m/d/) &&
+	grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
+	$origsrcmsg= _g("not including original source code in upload");
+	@sourcefiles= grep(!m/\.orig\.tar\.$comp_regex$/,@sourcefiles);
     } else {
-	if ($sourcestyle =~ m/d/ && !grep(m/\.diff\.gz$/,@sourcefiles)) {
+	if ($sourcestyle =~ m/d/ &&
+	    !grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
 	    warning(_g("ignoring -sd option for native Debian package"));
 	}
         $origsrcmsg= _g("including full source code in upload");
