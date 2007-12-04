@@ -5,6 +5,7 @@ use warnings;
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
+use English;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
@@ -128,31 +129,31 @@ while (@ARGV) {
     } elsif (m/^-q$/) {
         $quiet= 1;
     } elsif (m/^-c/) {
-        $controlfile= $';
+	$controlfile= $POSTMATCH;
     } elsif (m/^-l/) {
-        $changelogfile= $';
+	$changelogfile= $POSTMATCH;
     } elsif (m/^-C/) {
-        $changesdescription= $';
+	$changesdescription= $POSTMATCH;
     } elsif (m/^-f/) {
-        $fileslistfile= $';
+	$fileslistfile= $POSTMATCH;
     } elsif (m/^-v/) {
-        $since= $';
+	$since= $POSTMATCH;
     } elsif (m/^-T/) {
-        $varlistfile= $';
+	$varlistfile= $POSTMATCH;
     } elsif (m/^-m/) {
-        $forcemaint= $';
+	$forcemaint= $POSTMATCH;
     } elsif (m/^-e/) {
-        $forcechangedby= $';
+	$forcechangedby= $POSTMATCH;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/) {
-        $override{$1}= $';
+	$override{$1}= $POSTMATCH;
     } elsif (m/^-u/) {
-        $uploadfilesdir= $';
+	$uploadfilesdir= $POSTMATCH;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvar{$1}= $';
+	$substvar{$1}= $POSTMATCH;
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
@@ -166,20 +167,19 @@ parsechangelog($changelogfile, $changelogformat, $since);
 parsecontrolfile($controlfile);
 
 if (not $sourceonly) {
-    $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-    open(FL,"< $fileslistfile") || &syserr(_g("cannot read files list file"));
+    open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
     while(<FL>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
 		warning(_g("duplicate files list entry for package %s (line %d)"),
-		        $2, $.);
+			$2, $NR);
 	    $f2p{$1}= $2;
 	    $p2f{"$2 $4"}= $1;
 	    $p2f{$2}= $1;
 	    $p2ver{$2}= $3;
 	    defined($f2sec{$1}) &&
 		warning(_g("duplicate files list entry for file %s (line %d)"),
-		        $1, $.);
+			$1, $NR);
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
 	    push(@fileslistfiles,$1);
@@ -192,12 +192,12 @@ if (not $sourceonly) {
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	    defined($f2sec{$1}) &&
 		warning(_g("duplicate files list entry for file %s (line %d)"),
-		        $1, $.);
+			$1, $NR);
 	    $f2sec{$1}= $2;
 	    $f2pri{$1}= $3;
 	    push(@fileslistfiles,$1);
 	} else {
-	    error(_g("badly formed line in files list file, line %d"), $.);
+	    error(_g("badly formed line in files list file, line %d"), $NR);
 	}
     }
     close(FL);
@@ -237,7 +237,7 @@ for $_ (keys %fi) {
 	    $p2arch{$p}=$a;
 
 	    if (m/^Description$/) {
-		$v=$` if $v =~ m/\n/;
+		$v=$PREMATCH if $v =~ m/\n/;
 		if (defined($f) && $f =~ m/\.udeb$/) {
 			push(@descriptions,sprintf("%-10s - %-.65s (udeb)",$p,$v));
 		} else {
@@ -283,15 +283,14 @@ for $_ (keys %fi) {
         }
     } elsif (m/^o:.*/) {
     } else {
-        internerr(_g("value from nowhere, with key >%s< and value >%s<"),
+	internerr("value from nowhere, with key >%s< and value >%s<",
                   $_, $v);
     }
 }
 
 if ($changesdescription) {
-    $changesdescription="./$changesdescription" if $changesdescription =~ m/^\s/;
     $f{'Changes'}= '';
-    open(X,"< $changesdescription") || &syserr(_g("read changesdescription"));
+    open(X,"<",$changesdescription) || &syserr(_g("read changesdescription"));
     while(<X>) {
         s/\s*\n$//;
         $_= '.' unless m/\S/;
@@ -348,7 +347,7 @@ if (!$binaryonly) {
 
     (my $sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    open(CDATA,"< $dsc") || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
+    open(CDATA,"<",$dsc) || syserror(_g("cannot open .dsc file %s"), $dsc);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
@@ -387,7 +386,7 @@ print(STDERR "$progname: $origsrcmsg\n") ||
 $f{'Format'}= $substvar{'Format'};
 
 if (!defined($f{'Date'})) {
-    chop(my $date822 = `date -R`);
+    chomp(my $date822 = `date -R`);
     $? && subprocerr("date -R");
     $f{'Date'}= $date822;
 }
@@ -407,8 +406,8 @@ for my $f (@sourcefiles, @fileslistfiles) {
     next if ($archspecific && debarch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
-    open(STDIN, "< $uf") ||
-        syserr(_g("cannot open upload file %s for reading"), $uf);
+    open(STDIN, "<", $uf) ||
+	syserr(_g("cannot open upload file %s for reading"), $uf);
     (my @s = stat(STDIN)) || syserr(_g("cannot fstat upload file %s"), $uf);
     my $size = $s[7];
     $size || warning(_g("upload file %s is empty"), $uf);
@@ -422,7 +421,7 @@ for my $f (@sourcefiles, @fileslistfiles) {
         error(_g("md5sum of source file %s (%s) is different from md5sum " .
                  "in %s (%s)"), $uf, $md5sum, $dsc, $md5sum{$f});
     $f{'Files'}.= "\n $md5sum $size $f2sec{$f} $f2pri{$f} $f";
-}    
+}
 
 $f{'Source'}= $sourcepackage;
 if ($f{'Version'} ne $substvar{'source:Version'}) {
