@@ -420,6 +420,9 @@ if (!defined($f{'Date'})) {
 $f{'Binary'}= join(' ',grep(s/C //,keys %p2i));
 
 unshift(@archvalues,'source') unless is_binaryonly;
+@archvalues = ('all') if $include == ARCH_INDEP;
+@archvalues = grep {!debarch_eq('all',$_)} @archvalues
+    unless $include & ARCH_INDEP;
 $f{'Architecture'}= join(' ',@archvalues);
 
 $f{'Description'}= "\n ".join("\n ",sort @descriptions);
