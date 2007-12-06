@@ -66,7 +66,11 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.3 \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
 	t/200_Dpkg_Shlibs/objdump.dbd-pg \
-	t/200_Dpkg_Shlibs/objdump.ls
+	t/200_Dpkg_Shlibs/objdump.ls \
+	t/600_Dpkg_Changelog.t \
+	t/600_Dpkg_Changelog/countme \
+	t/600_Dpkg_Changelog/misplaced-tz \
+	t/600_Dpkg_Changelog/shadow
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
@@ -76,6 +80,8 @@ perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildOptions.pm \
+	Dpkg/Changelog.pm \
+	Dpkg/Changelog/Debian.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Deps.pm \
 	Dpkg/Fields.pm \
