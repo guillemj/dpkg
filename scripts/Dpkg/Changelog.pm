@@ -39,7 +39,7 @@ use English;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
+use Dpkg::ErrorHandling qw(warning report);
 
 use base qw(Exporter);
 
@@ -160,9 +160,9 @@ sub get_parse_errors {
 	my $res = "";
 	foreach my $e (@{$self->{errors}{parser}}) {
 	    if ($e->[3]) {
-		$res .= warning(_g("%s(l%s): %s\nLINE: %s"), @$e );
+		$res .= report(_g('warning'),_g("%s(l%s): %s\nLINE: %s"), @$e );
 	    } else {
-		$res .= warning(_g("%s(l%s): %s"), @$e );
+		$res .= report(_g('warning'),_g("%s(l%s): %s"), @$e );
 	    }
 	}
 	return $res;
@@ -170,10 +170,10 @@ sub get_parse_errors {
 }
 
 sub _do_fatal_error {
-    my ($self, @msg) = @_;
+    my ($self, $msg, @msg) = @_;
 
-    $self->{errors}{fatal} = "@msg";
-    warning(_g("FATAL: %s"), "@msg")."\n" unless $self->{config}{quiet};
+    $self->{errors}{fatal} = report(_g('fatal error'), $msg, @msg);
+    warning($msg, @msg) unless $self->{config}{quiet};
 }
 
 =pod
@@ -592,12 +592,12 @@ sub data2rfc822 {
 	my $v= $data->{$f} or next;
 	$v =~ m/\S/o || next; # delete whitespace-only fields
 	$v =~ m/\n\S/o
-	    && warning(_g("field %s has newline then non whitespace >%s<",
-			  $f, $v ));
-	$v =~ m/\n[ \t]*\n/o && warning(_g("field %s has blank lines >%s<",
-					   $f, $v ));
-	$v =~ m/\n$/o && warning(_g("field %s has trailing newline >%s<",
-				    $f, $v ));
+	    && warning(_g("field %s has newline then non whitespace >%s<"),
+			  $f, $v);
+	$v =~ m/\n[ \t]*\n/o && warning(_g("field %s has blank lines >%s<"),
+					   $f, $v);
+	$v =~ m/\n$/o && warning(_g("field %s has trailing newline >%s<"),
+				    $f, $v);
 	$v =~ s/\$\{\}/\$/go;
 	$rfc822_str .= "$f: $v\n";
     }

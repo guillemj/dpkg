@@ -67,7 +67,6 @@ use Date::Parse;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling;
 use Dpkg::Changelog qw( :util );
 use base qw(Dpkg::Changelog);
 
@@ -136,8 +135,8 @@ sub parse {
 	    unless ($expect eq 'first heading'
 		    || $expect eq 'next heading or eof') {
 		$entry->{ERROR} = [ $file, $NR,
-				  _g( "found start of entry where expected %s",
-				      $expect ), "$_" ];
+				    sprintf(_g("found start of entry where expected %s"),
+					    $expect), "$_" ];
 		$self->_do_parse_error(@{$entry->{ERROR}});
 	    }
 	    unless ($entry->is_empty) {
@@ -160,15 +159,15 @@ sub parse {
 	    for my $kv (split(/\s*,\s*/,$rhs)) {
 		$kv =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i ||
 		    $self->_do_parse_error($file, $NR,
-					   _g( "bad key-value after \`;': \`%s'", $kv ));
+					   sprintf(_g("bad key-value after \`;': \`%s'"), $kv));
 		my $k = ucfirst $1;
 		my $v = $2;
 		$kvdone{$k}++ && $self->_do_parse_error($file, $NR,
-						       _g( "repeated key-value %s", $k ));
+							sprintf(_g("repeated key-value %s"), $k));
 		if ($k eq 'Urgency') {
 		    $v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i ||
 			$self->_do_parse_error($file, $NR,
-					      _g( "badly formatted urgency value" ),
+					      _g("badly formatted urgency value"),
 					      $v);
 		    $entry->{'Urgency'} = "$1";
 		    $entry->{'Urgency_LC'} = lc("$1");
@@ -179,7 +178,7 @@ sub parse {
 		    $entry->{$k}= $v;
 		} else {
 		    $self->_do_parse_error($file, $NR,
-					   _g( "unknown key-value key %s - copying to XS-%s", $k, $k ));
+					   sprintf(_g("unknown key-value key %s - copying to XS-%s"), $k, $k));
 		    $entry->{ExtraFields}{"XS-$k"} = $v;
 		}
 	    }
@@ -210,12 +209,12 @@ sub parse {
 	    $self->{oldformat} .= join "", <$fh>;
 	} elsif (m/^\S/) {
 	    $self->_do_parse_error($file, $NR,
-				  _g( "badly formatted heading line" ), "$_");
+				  _g("badly formatted heading line"), "$_");
 	} elsif (m/^ \-\- (.*) <(.*)>(  ?)((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)$/o) {
 	    $expect eq 'more change data or trailer' ||
 		$self->_do_parse_error($file, $NR,
-				       _g( "found trailer where expected %s",
-					    $expect ), "$_");
+				       sprintf(_g("found trailer where expected %s"),
+					       $expect), "$_");
 	    if ($3 ne '  ') {
 		$self->_do_parse_error($file, $NR,
 				       _g( "badly formatted trailer line" ),
@@ -228,8 +227,8 @@ sub parse {
 		$entry->{'Timestamp'} = str2time($4);
 		unless (defined $entry->{'Timestamp'}) {
 		    $self->_do_parse_error( $file, $NR,
-					    _g( "couldn't parse date %s",
-						"$4" ) );
+					    sprintf(_g("couldn't parse date %s"),
+						    "$4"));
 		}
 	    }
 	    $expect = 'next heading or eof';
@@ -244,8 +243,8 @@ sub parse {
 		|| $expect eq 'more change data or trailer'
 		|| do {
 		    $self->_do_parse_error($file, $NR,
-					   _g( "found change data where expected %s",
-					       $expect ), "$_");
+					   sprintf(_g("found change data where expected %s"),
+						   $expect), "$_");
 		    if (($expect eq 'next heading or eof')
 			&& !$entry->is_empty) {
 			# lets assume we have missed the actual header line
@@ -259,8 +258,8 @@ sub parse {
 			$entry->{Version} = 'unknown'.($unknowncounter++);
 			$entry->{Urgency_Comment} = '';
 			$entry->{ERROR} = [ $file, $NR,
-					    _g( "found change data where expected %s",
-						 $expect ), "$_" ];
+					    sprintf(_g("found change data where expected %s"),
+						    $expect), "$_" ];
 		    }
 		};
 	    $entry->{'Changes'} .= (" \n" x $blanklines)." $_\n";
@@ -277,8 +276,8 @@ sub parse {
 		|| $expect eq 'next heading or eof';
 	    $expect eq 'more change data or trailer'
 		|| $self->_do_parse_error($file, $NR,
-					  _g( "found blank line where expected %s",
-					      $expect ));
+					  sprintf(_g("found blank line where expected %s"),
+						  $expect));
 	    $blanklines++;
 	} else {
 	    $self->_do_parse_error($file, $NR, _g( "unrecognised line" ),
@@ -305,8 +304,8 @@ sub parse {
     $expect eq 'next heading or eof'
 	|| do {
 	    $entry->{ERROR} = [ $file, $NR,
-				_g( "found eof where expected %s",
-				    $expect ) ];
+				sprintf(_g("found eof where expected %s"),
+					$expect) ];
 	    $self->_do_parse_error( @{$entry->{ERROR}} );
 	};
     unless ($entry->is_empty) {
@@ -316,8 +315,8 @@ sub parse {
 
     if ($self->{config}{infile}) {
 	close $fh or do {
-	    $self->_do_fatal_error( _g( "can't close file %s: %s",
-					$file, $! ));
+	    $self->_do_fatal_error( _g("can't close file %s: %s"),
+				    $file, $!);
 	    return undef;
 	};
     }
