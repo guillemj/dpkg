@@ -3,35 +3,24 @@
 use strict;
 use warnings;
 
+use Getopt::Long qw(:config gnu_getopt auto_help);
+use POSIX;
+
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error internerr usageerr);
-use Dpkg::Fields qw(set_field_importance);
-
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
-
-our %f;
+use Dpkg::ErrorHandling qw(usageerr failure);
+use Dpkg::Changelog::Debian;
 
 textdomain("dpkg-dev");
 
-my $controlfile = 'debian/control';
-my $changelogfile = 'debian/changelog';
-my $fileslistfile = 'debian/files';
-my $since = '';
-my %mapkv = (); # XXX: for future use
-
-my @changelog_fields = qw(Source Version Distribution Urgency Maintainer
-                          Date Closes Changes);
-
 $progname = "parsechangelog/$progname";
-
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
 
     printf _g("
-Copyright (C) 1996 Ian Jackson.");
+Copyright (C) 1996 Ian Jackson.
+Copyright (C) 2005,2007 Frank Lichtenheld.");
     printf _g("
 This is free software; see the GNU General Public Licence version 2 or
 later for copying conditions. There is NO warranty.
@@ -40,152 +29,93 @@ later for copying conditions. There is NO warranty.
 
 sub usage {
     printf _g(
-"Usage: %s [<option>]
+"Usage: %s [<option>...] [<changelogfile>]
 
 Options:
-  -l<changelog>       use <changelog> as the file name when reporting.
-  -v<versionsince>    print changes since <versionsince>.
-  -h, --help          print this help message.
-      --version       print program version.
+    --help, -h                  print usage information
+    --version, -V               print version information
+    --file, -l <file>           changelog file to parse, defaults
+                                to 'debian/changelog'
+    -F<changelogformat>         ignored if changelogformat = 'debian'
+                                for compatibility with dpkg-dev
+    --format <outputformat>     see man page for list of available
+                                output formats, defaults to 'dpkg'
+                                for compatibility with dpkg-dev
+    --since, -s, -v <version>   include all changes later than version
+    --until, -u <version>       include all changes earlier than version
+    --from, -f <version>        include all changes equal or later
+                                than version
+    --to, -t <version>          include all changes up to or equal
+                                than version
+    --count, -c, -n <number>    include <number> entries from the top
+                                (or the tail if <number> is lower than 0)
+    --offset, -o <number>       change the starting point for --count,
+                                counted from the top (or the tail if
+                                <number> is lower than 0)
+    --all                       include all changes
 "), $progname;
 }
 
-while (@ARGV) {
-    $_=shift(@ARGV);
-    if (m/^-v(.+)$/) {
-        $since= $1;
-    } elsif (m/^-l(.+)$/) {
-        $changelogfile = $1;
-    } elsif (m/^-(h|-help)$/) {
-        &usage; exit(0);
-    } elsif (m/^--version$/) {
-        &version; exit(0);
-    } else {
-        &usageerr(sprintf(_g("unknown option \`%s'"), $_));
+my ( $since, $until, $from, $to, $all, $count, $offset, $file );
+my $default_file = 'debian/changelog';
+my $format = 'dpkg';
+my %allowed_formats = (
+    dpkg => 1,
+    rfc822 => 1,
+    );
+
+sub set_format {
+    my ($opt, $val) = @_;
+
+    unless ($allowed_formats{$val}) {
+	usageerr(_g('output format %s not supported'), $val );
     }
+
+    $format = $val;
 }
 
-my %urgencies;
-my $i = 1;
-grep($urgencies{$_} = $i++, qw(low medium high critical emergency));
+GetOptions( "file|l=s" => \$file,
+	    "since|v=s" => \$since,
+	    "until|u=s" => \$until,
+	    "from|f=s" => \$from,
+	    "to|t=s" => \$to,
+	    "count|c|n=i" => \$count,
+	    "offset|o=i" => \$offset,
+	    "help|h" => sub{usage();exit(0)},
+	    "version|V" => sub{version();exit(0)},
+	    "format=s" => \&set_format,
+	    "all|a" => \$all,
+	    )
+    or do { usage(); exit(2) };
 
-my $expect = 'first heading';
-my $blanklines;
+usageerr('too many arguments') if @ARGV > 1;
 
-while (<STDIN>) {
-    s/\s*\n$//;
-#    printf(STDERR "%-39.39s %-39.39s\n",$expect,$_);
-    if (m/^(\w[-+0-9a-z.]*) \(([^\(\) \t]+)\)((\s+[-+0-9a-z.]+)+)\;/i) {
-        if ($expect eq 'first heading') {
-            $f{'Source'}= $1;
-            $f{'Version'}= $2;
-            $f{'Distribution'}= $3;
-            &error(_g("-v<since> option specifies most recent version")) if
-                $2 eq $since;
-            $f{'Distribution'} =~ s/^\s+//;
-        } elsif ($expect eq 'next heading or eof') {
-            last if $2 eq $since;
-            $f{'Changes'}.= " .\n";
-        } else {
-            &clerror(sprintf(_g("found start of entry where expected %s"), $expect));
-        }
-	my $rhs = $';
-	$rhs =~ s/^\s+//;
-	my %kvdone;
-	for my $kv (split(/\s*,\s*/, $rhs)) {
-            $kv =~ m/^([-0-9a-z]+)\=\s*(.*\S)$/i ||
-                &clerror(sprintf(_g("bad key-value after \`;': \`%s'"), $kv));
-	    my $k = (uc substr($1, 0, 1)).(lc substr($1, 1));
-	    my $v = $2;
-            $kvdone{$k}++ && &clwarn(sprintf(_g("repeated key-value %s"), $k));
-            if ($k eq 'Urgency') {
-                $v =~ m/^([-0-9a-z]+)((\s+.*)?)$/i ||
-                    &clerror(_g("badly formatted urgency value"));
-
-		my $newurg = lc $1;
-		my $oldurg;
-		my $newurgn = $urgencies{lc $1};
-		my $oldurgn;
-		my $newcomment = $2;
-		my $oldcomment;
-
-                $newurgn ||
-                    &clwarn(sprintf(_g("unknown urgency value %s - comparing very low"), $newurg));
-                if (defined($f{'Urgency'})) {
-                    $f{'Urgency'} =~ m/^([-0-9a-z]+)((\s+.*)?)$/i ||
-                        &internerr(sprintf(_g("urgency >%s<"), $f{'Urgency'}));
-                    $oldurg= lc $1;
-                    $oldurgn= $urgencies{lc $1}; $oldcomment= $2;
-                } else {
-                    $oldurgn= -1;
-                    $oldcomment= '';
-                }
-                $f{'Urgency'}=
-                    (($newurgn > $oldurgn ? $newurg : $oldurg).
-                     $oldcomment.
-                     $newcomment);
-            } elsif (defined($mapkv{$k})) {
-                $f{$mapkv{$k}}= $v;
-            } elsif ($k =~ m/^X[BCS]+-/i) {
-                # Extensions - XB for putting in Binary,
-                # XC for putting in Control, XS for putting in Source
-                $f{$k}= $v;
-            } else {
-                &clwarn(sprintf(_g("unknown key-value key %s - copying to %s"), $k, "XS-$k"));
-                $f{"XS-$k"}= $v;
-            }
-        }
-        $expect= 'start of change data'; $blanklines=0;
-        $f{'Changes'}.= " $_\n .\n";
-    } elsif (m/^\S/) {
-        &clerror(_g("badly formatted heading line"));
-    } elsif (m/^ \-\- (.*) <(.*)>  ((\w+\,\s*)?\d{1,2}\s+\w+\s+\d{4}\s+\d{1,2}:\d\d:\d\d\s+[-+]\d{4}(\s+\([^\\\(\)]\))?)$/) {
-        $expect eq 'more change data or trailer' ||
-            &clerror(sprintf(_g("found trailer where expected %s"), $expect));
-        $f{'Maintainer'}= "$1 <$2>" unless defined($f{'Maintainer'});
-        $f{'Date'}= $3 unless defined($f{'Date'});
-#        $f{'Changes'}.= " .\n $_\n";
-        $expect= 'next heading or eof';
-        last if $since eq '';
-    } elsif (m/^ \-\-/) {
-        &clerror(_g("badly formatted trailer line"));
-    } elsif (m/^\s{2,}\S/) {
-        $expect eq 'start of change data' || $expect eq 'more change data or trailer' ||
-            &clerror(sprintf(_g("found change data where expected %s"), $expect));
-        $f{'Changes'}.= (" .\n"x$blanklines)." $_\n"; $blanklines=0;
-        $expect= 'more change data or trailer';
-    } elsif (!m/\S/) {
-        next if $expect eq 'start of change data' || $expect eq 'next heading or eof';
-        $expect eq 'more change data or trailer' ||
-            &clerror(sprintf(_g("found blank line where expected %s"), $expect));
-        $blanklines++;
-    } else {
-        &clerror(_g("unrecognised line"));
+if (@ARGV) {
+    if ($file && ($file ne $ARGV[0])) {
+	usageerr(_g('more than one file specified (%s and %s)'),
+		 $file, $ARGV[0] );
     }
+    $file = $ARGV[0];
 }
 
-$expect eq 'next heading or eof' || die sprintf(_g("found eof where expected %s"), $expect);
+my $changes = Dpkg::Changelog::Debian->init();
 
-$f{'Changes'} =~ s/\n$//;
-$f{'Changes'} =~ s/^/\n/;
-
-my @closes;
-
-while ($f{'Changes'} =~ /closes:\s*(?:bug)?\#?\s?\d+(?:,\s*(?:bug)?\#?\s?\d+)*/ig) {
-  push(@closes, $& =~ /\#?\s?(\d+)/g);
-}
-$f{'Closes'} = join(' ',sort { $a <=> $b} @closes);
-
-set_field_importance(@changelog_fields);
-outputclose();
-
-sub clerror
-{
-    &error(sprintf(_g("%s, at file %s line %d"), $_[0], $changelogfile, $.));
+$file ||= $default_file;
+if ($file eq '-') {
+    my @input = <STDIN>;
+    $changes->parse({ instring => join('', @input) })
+	or failure(_g('fatal error occured while parsing input'));
+} else {
+    $changes->parse({ infile => $file })
+	or failure(_g('fatal error occured while parsing %s'),
+		   $file );
 }
 
-sub clwarn
-{
-    &warn(sprintf(_g("%s, at file %s line %d"), $_[0], $changelogfile, $.));
-}
 
+my @all = $all ? ( all => $all ) : ();
+
+eval("print \$changes->${format}_str(
+      { since => \$since, until => \$until,
+	from => \$from, to => \$to,
+	count => \$count, offset => \$offset,
+	\@all })");
