@@ -5,7 +5,8 @@ use warnings;
 
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
-use Dpkg;
+use English;
+use Dpkg qw(:DEFAULT :compression);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
@@ -36,14 +37,14 @@ my $sourcestyle = 'i';
 my $quiet = 0;
 
 my %f2p;           # - file to package map
-my %p2f;           # - package to file map, has entries for both "packagename"
-                   #   and "packagename architecture"
+my %p2f;           # - package to file map, has entries for "packagename"
+my %pa2f;          # - likewise, has entries for "packagename architecture"
 my %p2ver;         # - package to version map
-my %p2arch;
+my %p2arch;        # - package to arch map
 my %f2sec;         # - file to section map
-my %f2seccf;
+my %f2seccf;       # - likewise, from control file
 my %f2pri;         # - file to priority map
-my %f2pricf;
+my %f2pricf;       # - likewise, from control file
 my %sourcedefault; # - default values as taken from source (used for Section,
                    #   Priority and Maintainer)
 
@@ -58,13 +59,24 @@ my %archadded;
 my @archvalues;
 my $dsc;
 my $changesdescription;
-my $sourceonly;
-my $binaryonly;
-my $archspecific;
 my $forcemaint;
 my $forcechangedby;
 my $since;
 
+use constant SOURCE     => 1;
+use constant ARCH_DEP   => 2;
+use constant ARCH_INDEP => 4;
+use constant BIN        => ARCH_DEP | ARCH_INDEP;
+use constant ALL        => BIN | SOURCE;
+my $include = ALL;
+
+sub is_sourceonly() { return $include == SOURCE; }
+sub is_binaryonly() { return !($include & SOURCE); }
+sub binary_opt() { return (($include == BIN) ? '-b' :
+			   (($include == ARCH_DEP) ? '-B' :
+			    (($include == ARCH_INDEP) ? '-A' :
+			     internerr("binary_opt called with include=$include"))));
+}
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -86,6 +98,7 @@ sub usage {
 Options:
   -b                       binary-only build - no source files.
   -B                       arch-specific - no source or arch-indep files.
+  -A                       only arch-indep - no source or arch-specific files.
   -S                       source-only upload.
   -c<controlfile>          get control info from this file.
   -l<changelogfile>        get per-version info from this file.
@@ -113,46 +126,49 @@ Options:
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-b$/) {
-	$sourceonly && &usageerr(_g("cannot combine -b or -B and -S"));
-        $binaryonly= 1;
+	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	$include = BIN;
     } elsif (m/^-B$/) {
-	$sourceonly && &usageerr(_g("cannot combine -b or -B and -S"));
-	$archspecific=1;
-	$binaryonly= 1;
+	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	$include = ARCH_DEP;
 	printf STDERR _g("%s: arch-specific upload - not including arch-independent packages")."\n", $progname;
+    } elsif (m/^-A$/) {
+	is_sourceonly && &usageerr(_g("cannot combine %s and -S"), $_);
+	$include = ARCH_INDEP;
+	printf STDERR _g("%s: arch-indep upload - not including arch-specific packages")."\n", $progname;
     } elsif (m/^-S$/) {
-	$binaryonly && &usageerr(_g("cannot combine -b or -B and -S"));
-	$sourceonly= 1;
+	is_binaryonly && &usageerr(_g("cannot combine %s and -S"), binary_opt);
+	$include = SOURCE;
     } elsif (m/^-s([iad])$/) {
         $sourcestyle= $1;
     } elsif (m/^-q$/) {
         $quiet= 1;
     } elsif (m/^-c/) {
-        $controlfile= $';
+	$controlfile= $POSTMATCH;
     } elsif (m/^-l/) {
-        $changelogfile= $';
+	$changelogfile= $POSTMATCH;
     } elsif (m/^-C/) {
-        $changesdescription= $';
+	$changesdescription= $POSTMATCH;
     } elsif (m/^-f/) {
-        $fileslistfile= $';
+	$fileslistfile= $POSTMATCH;
     } elsif (m/^-v/) {
-        $since= $';
+	$since= $POSTMATCH;
     } elsif (m/^-T/) {
-        $varlistfile= $';
+	$varlistfile= $POSTMATCH;
     } elsif (m/^-m/) {
-        $forcemaint= $';
+	$forcemaint= $POSTMATCH;
     } elsif (m/^-e/) {
-        $forcechangedby= $';
+	$forcechangedby= $POSTMATCH;
     } elsif (m/^-F([0-9a-z]+)$/) {
         $changelogformat=$1;
     } elsif (m/^-D([^\=:]+)[=:]/) {
-        $override{$1}= $';
+	$override{$1}= $POSTMATCH;
     } elsif (m/^-u/) {
-        $uploadfilesdir= $';
+	$uploadfilesdir= $POSTMATCH;
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvar{$1}= $';
+	$substvar{$1}= $POSTMATCH;
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
@@ -165,23 +181,24 @@ while (@ARGV) {
 parsechangelog($changelogfile, $changelogformat, $since);
 parsecontrolfile($controlfile);
 
-if (not $sourceonly) {
-    $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-    open(FL,"< $fileslistfile") || &syserr(_g("cannot read files list file"));
+if (not is_sourceonly) {
+    open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
     while(<FL>) {
 	if (m/^(([-+.0-9a-z]+)_([^_]+)_([-\w]+)\.u?deb) (\S+) (\S+)$/) {
 	    defined($p2f{"$2 $4"}) &&
 		warning(_g("duplicate files list entry for package %s (line %d)"),
-		        $2, $.);
+			$2, $NR);
 	    $f2p{$1}= $2;
-	    $p2f{"$2 $4"}= $1;
-	    $p2f{$2}= $1;
+	    $pa2f{"$2 $4"}= $1;
+	    $p2f{$2} ||= [];
+	    push @{$p2f{$2}}, $1;
 	    $p2ver{$2}= $3;
 	    defined($f2sec{$1}) &&
 		warning(_g("duplicate files list entry for file %s (line %d)"),
-		        $1, $.);
+			$1, $NR);
 	    $f2sec{$1}= $5;
 	    $f2pri{$1}= $6;
+	    push(@archvalues,$4) unless !$4 || $archadded{$4}++;
 	    push(@fileslistfiles,$1);
 	} elsif (m/^([-+.0-9a-z]+_[^_]+_([-\w]+)\.[a-z0-9.]+) (\S+) (\S+)$/) {
 	    # A non-deb package
@@ -192,12 +209,12 @@ if (not $sourceonly) {
 	} elsif (m/^([-+.,_0-9a-zA-Z]+) (\S+) (\S+)$/) {
 	    defined($f2sec{$1}) &&
 		warning(_g("duplicate files list entry for file %s (line %d)"),
-		        $1, $.);
+			$1, $NR);
 	    $f2sec{$1}= $2;
 	    $f2pri{$1}= $3;
 	    push(@fileslistfiles,$1);
 	} else {
-	    error(_g("badly formed line in files list file, line %d"), $.);
+	    error(_g("badly formed line in files list file, line %d"), $NR);
 	}
     }
     close(FL);
@@ -225,33 +242,39 @@ for $_ (keys %fi) {
 	my $a = $fi{"C$i Architecture"};
 	my $host_arch = get_host_arch();
 
-	if (!defined($p2f{$p}) && not $sourceonly) {
-	    if ((debarch_eq('all', $a) && !$archspecific) ||
-		grep(debarch_is($host_arch, $_), split(/\s+/, $a))) {
+	if (!defined($p2f{$p}) && not is_sourceonly) {
+	    if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
+		(grep(debarch_is($host_arch, $_), split(/\s+/, $a))
+		      and ($include & ARCH_DEP))) {
 		warning(_g("package %s in control file but not in files list"),
 		        $p);
 		next;
 	    }
 	} else {
-	    my $f = $p2f{$p};
+	    my @f;
+	    @f = @{$p2f{$p}} if defined($p2f{$p});
 	    $p2arch{$p}=$a;
 
 	    if (m/^Description$/) {
-		$v=$` if $v =~ m/\n/;
-		if (defined($f) && $f =~ m/\.udeb$/) {
-			push(@descriptions,sprintf("%-10s - %-.65s (udeb)",$p,$v));
-		} else {
-			push(@descriptions,sprintf("%-10s - %-.65s",$p,$v));
+		$v=$PREMATCH if $v =~ m/\n/;
+		my %d;
+		# dummy file to get each description at least once (e.g. -S)
+		foreach my $f (("", @f)) {
+		    my $desc = sprintf("%-10s - %-.65s%s", $p, $v,
+				       $f =~ m/\.udeb$/ ? " (udeb)" : '');
+		    $d{$desc}++;
 		}
+		push @descriptions, keys %d;
 	    } elsif (m/^Section$/) {
-		$f2seccf{$f} = $v if defined($f);
+		$f2seccf{$_} = $v foreach (@f);
 	    } elsif (m/^Priority$/) {
-		$f2pricf{$f} = $v if defined($f);
+		$f2pricf{$_} = $v foreach (@f);
 	    } elsif (s/^X[BS]*C[BS]*-//i) {
 		$f{$_}= $v;
 	    } elsif (m/^Architecture$/) {
-		if (not $sourceonly) {
-		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))) {
+		if (not is_sourceonly) {
+		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
+			and ($include & ARCH_DEP)) {
 			$v = $host_arch;
 		    } elsif (!debarch_eq('all', $v)) {
 			$v= '';
@@ -283,15 +306,14 @@ for $_ (keys %fi) {
         }
     } elsif (m/^o:.*/) {
     } else {
-        internerr(_g("value from nowhere, with key >%s< and value >%s<"),
+	internerr("value from nowhere, with key >%s< and value >%s<",
                   $_, $v);
     }
 }
 
 if ($changesdescription) {
-    $changesdescription="./$changesdescription" if $changesdescription =~ m/^\s/;
     $f{'Changes'}= '';
-    open(X,"< $changesdescription") || &syserr(_g("read changesdescription"));
+    open(X,"<",$changesdescription) || &syserr(_g("read changesdescription"));
     while(<X>) {
         s/\s*\n$//;
         $_= '.' unless m/\S/;
@@ -299,34 +321,36 @@ if ($changesdescription) {
     }
 }
 
-for my $p (keys %p2f) {
-    my ($pp, $aa) = (split / /, $p);
+for my $pa (keys %pa2f) {
+    my ($pp, $aa) = (split / /, $pa);
     defined($p2i{"C $pp"}) ||
 	warning(_g("package %s listed in files list but not in control info"),
 	        $pp);
 }
 
 for my $p (keys %p2f) {
-    my $f = $p2f{$p};
+    my @f = @{$p2f{$p}};
 
-    my $sec = $f2seccf{$f};
-    $sec = $sourcedefault{'Section'} if !defined($sec);
-    if (!defined($sec)) {
-	$sec = '-';
-	warning(_g("missing Section for binary package %s; using '-'"), $p);
+    foreach my $f (@f) {
+	my $sec = $f2seccf{$f};
+	$sec = $sourcedefault{'Section'} if !defined($sec);
+	if (!defined($sec)) {
+	    $sec = '-';
+	    warning(_g("missing Section for binary package %s; using '-'"), $p);
+	}
+	$sec eq $f2sec{$f} || error(_g("package %s has section %s in " .
+				       "control file but %s in files list"),
+				    $p, $sec, $f2sec{$f});
+	my $pri = $f2pricf{$f};
+	$pri = $sourcedefault{'Priority'} if !defined($pri);
+	if (!defined($pri)) {
+	    $pri = '-';
+	    warning(_g("missing Priority for binary package %s; using '-'"), $p);
+	}
+	$pri eq $f2pri{$f} || error(_g("package %s has priority %s in " .
+				       "control file but %s in files list"),
+				    $p, $pri, $f2pri{$f});
     }
-    $sec eq $f2sec{$f} || error(_g("package %s has section %s in " .
-                                   "control file but %s in files list"),
-                                $p, $sec, $f2sec{$f});
-    my $pri = $f2pricf{$f};
-    $pri = $sourcedefault{'Priority'} if !defined($pri);
-    if (!defined($pri)) {
-	$pri = '-';
-	warning(_g("missing Priority for binary package %s; using '-'"), $p);
-    }
-    $pri eq $f2pri{$f} || error(_g("package %s has priority %s in " .
-                                   "control file but %s in files list"),
-                                $p, $pri, $f2pri{$f});
 }
 
 &init_substvars;
@@ -334,7 +358,7 @@ init_substvar_arch();
 
 my $origsrcmsg;
 
-if (!$binaryonly) {
+if (!is_binaryonly) {
     my $sec = $sourcedefault{'Section'};
     if (!defined($sec)) {
 	$sec = '-';
@@ -348,7 +372,7 @@ if (!$binaryonly) {
 
     (my $sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    open(CDATA,"< $dsc") || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
+    open(CDATA,"<",$dsc) || syserror(_g("cannot open .dsc file %s"), $dsc);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
@@ -367,12 +391,13 @@ if (!$binaryonly) {
     }
 
     if (($sourcestyle =~ m/i/ && $sversion !~ m/-(0|1|0\.1)$/ ||
-         $sourcestyle =~ m/d/) &&
-        grep(m/\.diff\.gz$/,@sourcefiles)) {
-        $origsrcmsg= _g("not including original source code in upload");
-        @sourcefiles= grep(!m/\.orig\.tar\.gz$/,@sourcefiles);
+	 $sourcestyle =~ m/d/) &&
+	grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
+	$origsrcmsg= _g("not including original source code in upload");
+	@sourcefiles= grep(!m/\.orig\.tar\.$comp_regex$/,@sourcefiles);
     } else {
-	if ($sourcestyle =~ m/d/ && !grep(m/\.diff\.gz$/,@sourcefiles)) {
+	if ($sourcestyle =~ m/d/ &&
+	    !grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
 	    warning(_g("ignoring -sd option for native Debian package"));
 	}
         $origsrcmsg= _g("including full source code in upload");
@@ -387,14 +412,17 @@ print(STDERR "$progname: $origsrcmsg\n") ||
 $f{'Format'}= $substvar{'Format'};
 
 if (!defined($f{'Date'})) {
-    chop(my $date822 = `date -R`);
+    chomp(my $date822 = `date -R`);
     $? && subprocerr("date -R");
     $f{'Date'}= $date822;
 }
 
 $f{'Binary'}= join(' ',grep(s/C //,keys %p2i));
 
-unshift(@archvalues,'source') unless $binaryonly;
+unshift(@archvalues,'source') unless is_binaryonly;
+@archvalues = ('all') if $include == ARCH_INDEP;
+@archvalues = grep {!debarch_eq('all',$_)} @archvalues
+    unless $include & ARCH_INDEP;
 $f{'Architecture'}= join(' ',@archvalues);
 
 $f{'Description'}= "\n ".join("\n ",sort @descriptions);
@@ -404,11 +432,12 @@ $f{'Files'}= '';
 my %filedone;
 
 for my $f (@sourcefiles, @fileslistfiles) {
-    next if ($archspecific && debarch_eq('all', $p2arch{$f2p{$f}}));
+    next if ($include == ARCH_DEP and debarch_eq('all', $p2arch{$f2p{$f}}));
+    next if ($include == ARCH_INDEP and not debarch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
-    open(STDIN, "< $uf") ||
-        syserr(_g("cannot open upload file %s for reading"), $uf);
+    open(STDIN, "<", $uf) ||
+	syserr(_g("cannot open upload file %s for reading"), $uf);
     (my @s = stat(STDIN)) || syserr(_g("cannot fstat upload file %s"), $uf);
     my $size = $s[7];
     $size || warning(_g("upload file %s is empty"), $uf);
@@ -422,7 +451,7 @@ for my $f (@sourcefiles, @fileslistfiles) {
         error(_g("md5sum of source file %s (%s) is different from md5sum " .
                  "in %s (%s)"), $uf, $md5sum, $dsc, $md5sum{$f});
     $f{'Files'}.= "\n $md5sum $size $f2sec{$f} $f2pri{$f} $f";
-}    
+}
 
 $f{'Source'}= $sourcepackage;
 if ($f{'Version'} ne $substvar{'source:Version'}) {

@@ -1,4 +1,37 @@
+2007-12-05  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Add new
+	-A option (passed to dpkg-genchanges).
+	* scripts/dpkg-genchanges.pl: Add new -A
+	option that will include only arch-indep
+	packages into the upload.
+
+2007-12-05  Frank Lichtenheld  <djpig@debian.org>
+	    Goswin von Brederlow  <brederlo@informatik.uni-tuebingen.de>
+	    Bastian Blank  <waldi@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Support more
+	than one arch and more than one type of
+	a package in debian/files.
+
 2007-12-04  Frank Lichtenheld  <djpig@debian.org>
+
+	* dpkg-deb/info.c (info_spew): Replace a
+	%ld with %lu to fix compiler warning.
+
+	* scripts/dpkg-genchanges.pl: Use comp_regex
+	from Dpkg to correctly exlucde the .orig.tar
+	even if it is not compressed with gzip.
+
+	* scripts/dpkg-source.pl: Move definition
+	of @comp_supported, %comp_supported, %comp_ext,
+	$comp_regex to...
+	* scripts/Dpkg.pm: ...here. Make them exportable
+	via the :compression tag.
+
+	* scripts/Dpkg/ErrorHandling.pm (usageerr):
+	Support format strings like all the other
+	error reporting functions.
 
 	* scripts/Makefile.am (EXTRA_DIST): Add
 	missing files from scripts/t/.
