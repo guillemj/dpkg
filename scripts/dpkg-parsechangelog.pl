@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use English;
 use POSIX;
 use POSIX qw(:errno_h);
 use Dpkg;
@@ -51,24 +52,23 @@ my @ap = ();
 while (@ARGV) {
     last unless $ARGV[0] =~ m/^-/;
     $_= shift(@ARGV);
-    if (m/^-L/ && length($_)>2) { $libdir=$'; next; }
+    if (m/^-L/ && length($_)>2) { $libdir=$POSTMATCH; next; }
     if (m/^-F([0-9a-z]+)$/) { $force=1; $format=$1; next; }
     push(@ap,$_);
-    if (m/^-l/ && length($_)>2) { $changelogfile=$'; next; }
+    if (m/^-l/ && length($_)>2) { $changelogfile=$POSTMATCH; next; }
     m/^--$/ && last;
     m/^-v/ && next;
     if (m/^-(h|-help)$/) { &usage; exit(0); }
     if (m/^--version$/) { &version; exit(0); }
-    &usageerr("unknown option \`$_'");
+    &usageerr(_g("unknown option \`%s'"), $_);
 }
 
 @ARGV && usageerr(_g("%s takes no non-option arguments"), $progname);
-$changelogfile= "./$changelogfile" if $changelogfile =~ m/^\s/;
 
 if (not $force and $changelogfile ne "-") {
-    open(STDIN,"< $changelogfile") ||
-        error(_g("cannot open %s to find format: %s"), $changelogfile, $!);
-    open(P,"tail -n 40 |") || die sprintf(_g("cannot fork: %s"), $!)."\n";
+    open(STDIN,"<", $changelogfile) ||
+	syserr(_g("cannot open %s to find format"), $changelogfile);
+    open(P,"-|","tail","-n",40) || syserr(_g("cannot fork"));
     while(<P>) {
         next unless m/\schangelog-format:\s+([0-9a-z]+)\W/;
         $format=$1;
@@ -90,11 +90,12 @@ for my $pd (@parserpath) {
 	last;
     }
 }
-        
+
 defined($pf) || error(_g("format %s unknown"), $pa);
 
 if ($changelogfile ne "-") {
-    open(STDIN,"< $changelogfile") || die sprintf(_g("cannot open %s: %s"), $changelogfile, $!)."\n";
+    open(STDIN,"<", $changelogfile)
+	|| syserr(_g("cannot open %s: %s"), $changelogfile);
 }
-exec($pf,@ap); die sprintf(_g("cannot exec format parser: %s"), $!)."\n";
+exec($pf,@ap) || syserr(_g("cannot exec format parser: %s"));
 
