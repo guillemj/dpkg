@@ -17,7 +17,7 @@ my $changelogfile = 'debian/changelog';
 my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
                   "$dpkglibdir/parsechangelog");
 
-my $libdir;	# XXX: Not used!?
+my $libdir;
 my $force;
 
 
@@ -79,6 +79,7 @@ if (not $force and $changelogfile ne "-") {
 
 my ($pa, $pf);
 
+unshift(@parserpath, $libdir) if $libdir;
 for my $pd (@parserpath) {
     $pa= "$pd/$format";
     if (!stat("$pa")) {
