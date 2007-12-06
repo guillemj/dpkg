@@ -36,8 +36,6 @@ Options:
     --version, -V               print version information
     --file, -l <file>           changelog file to parse, defaults
                                 to 'debian/changelog'
-    -F<changelogformat>         ignored if changelogformat = 'debian'
-                                for compatibility with dpkg-dev
     --format <outputformat>     see man page for list of available
                                 output formats, defaults to 'dpkg'
                                 for compatibility with dpkg-dev

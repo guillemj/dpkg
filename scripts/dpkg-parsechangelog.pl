@@ -40,11 +40,27 @@ sub usage {
 
 Options:
   -l<changelogfile>        get per-version info from this file.
-  -v<sinceversion>         include all changes later than version.
   -F<changelogformat>      force change log format.
   -L<libdir>               look for change log parsers in <libdir>.
   -h, --help               show this help message.
       --version            show the version.
+
+parser options:
+    --format <outputformat>     see man page for list of available
+                                output formats, defaults to 'dpkg'
+                                for compatibility with dpkg-dev
+    --since, -s, -v <version>   include all changes later than version
+    --until, -u <version>       include all changes earlier than version
+    --from, -f <version>        include all changes equal or later
+                                than version
+    --to, -t <version>          include all changes up to or equal
+                                than version
+    --count, -c, -n <number>    include <number> entries from the top
+                                (or the tail if <number> is lower than 0)
+    --offset, -o <number>       change the starting point for --count,
+                                counted from the top (or the tail if
+                                <number> is lower than 0)
+    --all                       include all changes
 "), $progname;
 }
 
@@ -57,7 +73,11 @@ while (@ARGV) {
     push(@ap,$_);
     if (m/^-l/ && length($_)>2) { $changelogfile=$POSTMATCH; next; }
     m/^--$/ && last;
-    m/^-v/ && next;
+    m/^-[cfnostuv]/ && next;
+    m/^--(all|count|file|from|offset|since|to|until)(.*)$/ && do {
+	push(@ap, shift(@ARGV)) unless $1;
+	next;
+    };
     if (m/^-(h|-help)$/) { &usage; exit(0); }
     if (m/^--version$/) { &version; exit(0); }
     &usageerr(_g("unknown option \`%s'"), $_);
