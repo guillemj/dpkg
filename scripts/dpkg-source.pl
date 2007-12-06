@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Dpkg;
+use Dpkg qw(:DEFAULT :compression);
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            internerr syserr subprocerr usageerr
@@ -39,6 +39,9 @@ my $diff_ignore_default_regexp = '
 (?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
 \.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
 ';
+# Take out comments and newlines
+$diff_ignore_default_regexp =~ s/^#.*$//mg;
+$diff_ignore_default_regexp =~ s/\n//sg;
 
 no warnings 'qw';
 my @tar_ignore_default_pattern = qw(
@@ -71,10 +74,6 @@ _darcs
 {arch}
 );
 
-# Take out comments and newlines
-$diff_ignore_default_regexp =~ s/^#.*$//mg;
-$diff_ignore_default_regexp =~ s/\n//sg;
-
 my $sourcestyle = 'X';
 my $min_dscformat = 1;
 my $max_dscformat = 2;
@@ -83,10 +82,6 @@ my $def_dscformat = "1.0"; # default format for -b
 my $expectprefix;
 
 # Compression
-my @comp_supported = qw(gzip bzip2 lzma);
-my %comp_supported = map { $_ => 1 } @comp_supported;
-my %comp_ext = ( gzip => 'gz', bzip2 => 'bz2', lzma => 'lzma' );
-my $comp_regex = '(?:gz|bz2|lzma)';
 my $compression = 'gzip';
 my $comp_level = '9';
 my $comp_ext = $comp_ext{$compression};

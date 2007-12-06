@@ -67,6 +67,8 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/objdump.libc6-2.6 \
 	t/200_Dpkg_Shlibs/objdump.dbd-pg \
 	t/200_Dpkg_Shlibs/objdump.ls \
+	t/300_Dpkg_BuildOptions.t \
+	t/400_Dpkg_Deps.t \
 	t/600_Dpkg_Changelog.t \
 	t/600_Dpkg_Changelog/countme \
 	t/600_Dpkg_Changelog/misplaced-tz \

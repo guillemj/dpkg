@@ -80,7 +80,10 @@ sub subprocerr(@)
 
 sub usageerr(@)
 {
-    printf(STDERR "%s: %s\n\n", $progname, "@_");
+    my ($msg) = (shift);
+
+    $msg = sprintf($msg, @_) if (@_);
+    warn "$progname: $msg\n\n";
     # XXX: access to main namespace
     main::usage();
     exit(2);
