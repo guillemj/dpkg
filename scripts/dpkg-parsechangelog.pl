@@ -74,7 +74,8 @@ while (@ARGV) {
     if (m/^-l/ && length($_)>2) { $changelogfile=$POSTMATCH; next; }
     m/^--$/ && last;
     m/^-[cfnostuv]/ && next;
-    m/^--(all|count|file|format|from|offset|since|to|until)(.*)$/ && do {
+    m/^--all$/ && next;
+    m/^--(count|file|format|from|offset|since|to|until)(.*)$/ && do {
 	push(@ap, shift(@ARGV)) unless $2;
 	next;
     };
