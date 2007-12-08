@@ -20,10 +20,12 @@ use strict;
 use warnings;
 
 use Exporter;
+use File::Spec;
 use Cwd qw(realpath);
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(get_pkg_root_dir relative_to_pkg_root
-		    guess_pkg_root_dir check_files_are_the_same);
+		    guess_pkg_root_dir check_files_are_the_same
+		    resolve_symlink canonpath);
 
 =head1 NAME
 
@@ -117,6 +119,62 @@ sub check_files_are_the_same($$) {
     my @stat2 = lstat($file2);
     my $result = ($stat1[0] == $stat2[0]) && ($stat1[1] == $stat2[1]);
     return $result;
+}
+
+
+=item canonpath($file)
+
+This function returns a cleaned path. It simplifies double //, and remove
+/./ and /../ intelligently. For /../ it simplifies the path only if the
+previous element is not a symlink. Thus it should only be used on real
+filenames.
+
+=cut
+sub canonpath($) {
+    my $path = shift;
+    $path = File::Spec->canonpath($path);
+    my ($v, $dirs, $file) = File::Spec->splitpath($path);
+    my @dirs = File::Spec->splitdir($dirs);
+    my @new;
+    foreach my $d (@dirs) {
+	if ($d eq '..') {
+	    if (scalar(@new) > 0 and $new[-1] ne "..") {
+		next if $new[-1] eq ""; # Root directory has no parent
+		my $parent = File::Spec->catpath($v,
+			File::Spec->catdir(@new), '');
+		if (not -l $parent) {
+		    pop @new;
+		} else {
+		    push @new, $d;
+		}
+	    } else {
+		push @new, $d;
+	    }
+	} else {
+	    push @new, $d;
+	}
+    }
+    return File::Spec->catpath($v, File::Spec->catdir(@new), $file);
+}
+
+=item $newpath = resolve_symlink($symlink)
+
+Return the filename of the file pointed by the symlink. The new name is
+canonicalized by canonpath().
+
+=cut
+sub resolve_symlink($) {
+    my $symlink = shift;
+    my $content = readlink($symlink);
+    return undef unless defined $content;
+    if (File::Spec->file_name_is_absolute($content)) {
+	return canonpath($content);
+    } else {
+	my ($link_v, $link_d, $link_f) = File::Spec->splitpath($symlink);
+	my ($cont_v, $cont_d, $cont_f) = File::Spec->splitpath($content);
+	my $new = File::Spec->catpath($link_v, $link_d . "/" . $cont_d, $cont_f);
+	return canonpath($new);
+    }
 }
 
 =back
