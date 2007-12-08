@@ -1,5 +1,11 @@
 2007-12-08  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/dpkg-shlibdeps.pl: Doesn't warn any more about libm.so.6
+	being unused if the binary is also linked against libstdc++ since
+	g++ always add an implicit -lm.
+
+2007-12-08  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/Dpkg/Shlibs.pm (find_library): When it finds a library
 	in a directory which is just a symlink to another directory that
 	is also considered, remember the other directory name as the

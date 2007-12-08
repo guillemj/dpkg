@@ -255,6 +255,9 @@ foreach my $file (keys %exec) {
     # Warn about un-NEEDED libraries
     foreach my $soname (@sonames) {
 	unless ($soname_notfound{$soname} or $used_sonames{$soname}) {
+	    # Ignore warning for libm.so.6 if also linked against libstdc++
+	    next if ($soname =~ /^libm\.so\.\d+$/ and
+		     scalar grep(/^libstdc\+\+\.so\.\d+/, @sonames));
 	    warning(_g("%s shouldn't be linked with %s (it uses none of its " .
 	               "symbols)."), $file, $soname);
 	}

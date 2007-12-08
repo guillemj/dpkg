@@ -21,6 +21,9 @@ dpkg (1.14.13) UNRELEASED; urgency=low
   * When dpkg-shlibdeps finds a lib in a directory which is just a symlink to
     another directory that is also considered, remember the other directory
     name as the canonical one. Closes: #453885
+  * dpkg-shlibdeps doesn't warn any more about libm.so.6 being unused if the
+    binary is also linked against libstdc++ since g++ always add an implicit
+    -lm. Closes: #454616
 
   [ Updated man pages translations ]
   * Swedish (Peter Karlsson)
