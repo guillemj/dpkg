@@ -19,6 +19,7 @@ package Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syserr warning error);
 use Dpkg::Version qw(vercmp);
+use Dpkg::Fields qw(capit);
 
 my %blacklist = (
     '__bss_end__' => 1,		# arm
@@ -129,6 +130,9 @@ sub load {
 	} elsif (/^\|\s*(.*)$/) {
 	    # Alternative dependency template
 	    push @{$self->{objects}{$object}{deps}}, "$1";
+	} elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
+	    # Add meta-fields
+	    $self->{objects}{$object}{fields}{capit($1)} = $2;
 	} elsif (/^(\S+)\s+(.*)$/) {
 	    # New object and dependency template
 	    $object = $1;
@@ -137,10 +141,7 @@ sub load {
 		$self->{objects}{$object}{deps} = [ "$2" ];
 	    } else {
 		# Create a new object
-		$self->{objects}{$object} = {
-		    syms => {},
-		    deps => [ "$2" ]
-		};
+		$self->create_object($object, "$2");
 	    }
 	} else {
 	    warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
@@ -167,8 +168,12 @@ sub dump {
     my ($self, $fh, $with_deprecated) = @_;
     $with_deprecated = 1 unless defined($with_deprecated);
     foreach my $soname (sort keys %{$self->{objects}}) {
-	print $fh "$soname $self->{objects}{$soname}{deps}[0]\n";
-	print $fh "| $_" foreach (@{$self->{objects}{$soname}{deps}}[ 1 .. -1 ]);
+	my @deps = @{$self->{objects}{$soname}{deps}};
+	print $fh "$soname $deps[0]\n";
+	shift @deps;
+	print $fh "| $_\n" foreach (@deps);
+	my $f = $self->{objects}{$soname}{fields};
+	print $fh "* $_: $f->{$_}\n" foreach (sort keys %{$f});
 	foreach my $sym (sort keys %{$self->{objects}{$soname}{syms}}) {
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
 	    next if $info->{deprecated} and not $with_deprecated;
@@ -257,6 +262,7 @@ sub create_object {
     my ($self, $soname, @deps) = @_;
     $self->{objects}{$soname} = {
 	syms => {},
+	fields => {},
 	deps => [ @deps ]
     };
 }
