@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-11-29 06:57+0200\n"
-"PO-Revision-Date: 2007-11-11 12:56+0100\n"
+"PO-Revision-Date: 2007-12-09 19:13+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -602,27 +602,27 @@ msgstr "Dateiname, Bereich und Priorität dürfen keine Leerzeichen enthalten"
 
 #: scripts/dpkg-distaddfile.pl:65 scripts/dpkg-gencontrol.pl:335
 msgid "open new files list file"
-msgstr ""
+msgstr "öffne neue Dateienliste-Datei"
 
 #: scripts/dpkg-distaddfile.pl:67 scripts/dpkg-gencontrol.pl:338
 msgid "chown new files list file"
-msgstr ""
+msgstr "chown neue Dateienliste-Datei"
 
 #: scripts/dpkg-distaddfile.pl:72 scripts/dpkg-gencontrol.pl:348
 msgid "copy old entry to new files list file"
-msgstr ""
+msgstr "kopiere alten Eintrag in neue Datein-Listdatei"
 
 #: scripts/dpkg-distaddfile.pl:75 scripts/dpkg-gencontrol.pl:352
 msgid "read old files list file"
-msgstr ""
+msgstr "lese alte Dateienliste-Datei"
 
 #: scripts/dpkg-distaddfile.pl:78 scripts/dpkg-gencontrol.pl:361
 msgid "write new entry to new files list file"
-msgstr ""
+msgstr "schreibe neuen Eintrag in neue Dateienliste-Datei"
 
 #: scripts/dpkg-distaddfile.pl:79 scripts/dpkg-gencontrol.pl:362
 msgid "close new files list file"
-msgstr ""
+msgstr "schließe neue Dateienliste-Datei"
 
 #: scripts/dpkg-genchanges.pl:72
 msgid ""
@@ -663,6 +663,35 @@ msgid ""
 "  -h, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
+"Verwendung: %s [<Option> ...]\n"
+"\n"
+"Optionen:\n"
+"  -b                       rein binärer Bau - keine Quelldateien.\n"
+"  -B                       Architektur-spezifisch - keine Quellen oder\n"
+"                           Architektur-unabhängigen Dateien.\n"
+"  -S                       nur-Quellen-Upload.\n"
+"  -c<Steuerdatei>          erhalte Steuerinformationen aus dieser Datei.\n"
+"  -l<changelogdatei>       erhalte pro-Version-Informationen aus dieser Datei.\n"
+"  -f<Dateilist-Datei>      erhalte .deb-Dateiliste aus dieser Datei.\n"
+"  -v<seitVersion>          füge alle Änderungen neuer als Version ein.\n"
+"  -C<Änderungsbeschreibung> verwende Änderungsbeschreibung aus dieser Datei.\n"
+"  -m<Betreuer>             überschreibe den Wert von »maintainer« der\n"
+"                           Steuerdatei.\n"
+"  -e<Betreuer>             überschreibe den Wert von »maintainer« im\n"
+"                           Changelog.\n"
+"  -u<uploadDateiVerz>      Verzeichnis mit Dateien (standardmäßig »..«).\n"
+"  -si (voreingestellt)     Quellen enthalten Orig für Debian-Revision 0 oder\n"
+"                           1.\n"
+"  -sa                      Quelle enthält Originalquellen.\n"
+"  -sd                      Quelle ist nur Diff und .dsc.\n"
+"  -q                       ruhig - keine Informationsmeldungen auf Stderr.\n"
+"  -F<changelogformat>      erzwinge Changelog-Format.\n"
+"  -V<Name>=<Wert>          Setze Ersetzungsvariable.\n"
+"  -T<VarlistDatei>         lese Variablen hier, nicht aus debian/substvars.\n"
+"  -D<Feld>=<Wert>          überschreibe oder Ergänze ein Feld und Wert.\n"
+"  -U<Feld>                 entferne ein Feld.\n"
+"  -h, --help               zeige diese Hilfsmeldung.\n"
+"      --version            zeige die Version.\n"
 
 #: scripts/dpkg-genchanges.pl:116 scripts/dpkg-genchanges.pl:119
 #: scripts/dpkg-genchanges.pl:124
@@ -673,6 +702,8 @@ msgstr "kann -b oder -B nicht mit -S kombinieren"
 #, perl-format
 msgid "%s: arch-specific upload - not including arch-independent packages"
 msgstr ""
+"%s: architektur-spezifischer Upload - schließe architektur-unabhängige Pakete "
+"nicht ein"
 
 #: scripts/dpkg-genchanges.pl:170
 msgid "cannot read files list file"
@@ -1092,9 +1123,9 @@ msgid ""
 msgstr ""
 
 #: scripts/dpkg-scanpackages.pl:73
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't open override file %s"
-msgstr "konnte %s nicht öffnen"
+msgstr "konnte override-Datei %s nicht öffnen"
 
 #: scripts/dpkg-scanpackages.pl:99
 #, perl-format
@@ -1103,7 +1134,7 @@ msgstr ""
 
 #: scripts/dpkg-scanpackages.pl:115 scripts/dpkg-scansources.pl:507
 msgid "1 to 3 args expected\n"
-msgstr ""
+msgstr "1 bis 3 Argumente erwartet\n"
 
 #: scripts/dpkg-scanpackages.pl:138
 #, perl-format
@@ -1113,17 +1144,17 @@ msgstr ""
 #: scripts/dpkg-scanpackages.pl:140
 #, perl-format
 msgid "Override file %s not found"
-msgstr ""
+msgstr "Override-Datei %s nicht gefunden"
 
 #: scripts/dpkg-scanpackages.pl:154
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't open %s for reading"
-msgstr "Kann %s nicht zum Schreiben öffnen: %s"
+msgstr "Konnte %s nicht zum Lesen öffnen"
 
 #: scripts/dpkg-scanpackages.pl:161
 #, perl-format
 msgid "Couldn't call dpkg-deb on %s: %s, skipping package"
-msgstr ""
+msgstr "Konnte dpkg-deb auf %s nicht aufrufen: %s, überspringe Paket"
 
 #: scripts/dpkg-scanpackages.pl:165
 #, perl-format
@@ -1140,7 +1171,7 @@ msgstr ""
 #: scripts/dpkg-scanpackages.pl:183
 #, perl-format
 msgid "No Package field in control file of %s"
-msgstr ""
+msgstr "Kein »Package«-Feld in Steuerdatei von %s"
 
 #: scripts/dpkg-scanpackages.pl:190
 #, perl-format
@@ -1164,30 +1195,29 @@ msgstr ""
 #: scripts/dpkg-scanpackages.pl:213
 #, perl-format
 msgid "Strange text from 'md5sum < %s': '%s'"
-msgstr ""
+msgstr "Merkwürdiger Text von »md5sum < %s«: »%s«"
 
 #: scripts/dpkg-scanpackages.pl:216
-#, fuzzy, perl-format
+#, perl-format
 msgid "Couldn't stat %s"
-msgstr "konnte %s nicht schließen"
+msgstr "konnte kein Stat auf %s ausführen"
 
 #: scripts/dpkg-scanpackages.pl:217
 #, perl-format
 msgid "file %s is empty"
-msgstr ""
+msgstr "Datei %s ist leer"
 
 #: scripts/dpkg-scanpackages.pl:263
 msgid "Failed when writing stdout"
-msgstr ""
+msgstr "Fehler beim Schreiben nach Stdout"
 
 #: scripts/dpkg-scanpackages.pl:266
-#, fuzzy
 msgid "Couldn't close stdout"
-msgstr "konnte %s nicht schließen"
+msgstr "konnte Stdout nicht schließen"
 
 #: scripts/dpkg-scanpackages.pl:270
 msgid "** Packages in archive but missing from override file: **"
-msgstr ""
+msgstr "** Paket ist im Archiv, aber fehlt in Override-Datei: **"
 
 #: scripts/dpkg-scanpackages.pl:274
 msgid " ++ Packages in override file with incorrect old maintainer value: ++"
@@ -1204,7 +1234,7 @@ msgstr ""
 #: scripts/dpkg-scanpackages.pl:291
 #, perl-format
 msgid " Wrote %s entries to output Packages file."
-msgstr ""
+msgstr " %s Einträge in Ausgabe-Paketdatei geschrieben."
 
 #: scripts/dpkg-scansources.pl:102
 #, perl-format
@@ -1228,17 +1258,17 @@ msgstr ""
 #: scripts/dpkg-scansources.pl:142
 #, perl-format
 msgid "error closing %s ($? %d, $! `%s')"
-msgstr ""
+msgstr "Fehler beim Schließen von %s ($? %d, $! »%s«)"
 
 #: scripts/dpkg-scansources.pl:155
 #, perl-format
 msgid "can't read override file %s:"
-msgstr ""
+msgstr "kann Override-Datei %s nicht lesen:"
 
 #: scripts/dpkg-scansources.pl:164
 #, perl-format
 msgid "invalid override entry at line %d (%d fields)"
-msgstr ""
+msgstr "ungültiger Override-Eintrag in Zeile %d (%d Felder)"
 
 #: scripts/dpkg-scansources.pl:171
 #, perl-format
@@ -1248,16 +1278,16 @@ msgstr ""
 #: scripts/dpkg-scansources.pl:177
 #, perl-format
 msgid "ignoring override entry for %s, invalid priority %s"
-msgstr ""
+msgstr "ignoriere Orverride-Eintrag für %s, ungültige Priorität %s"
 
 #: scripts/dpkg-scansources.pl:196
 msgid "error closing override file:"
-msgstr ""
+msgstr "Fehler beim Schließen der Override-Datei:"
 
 #: scripts/dpkg-scansources.pl:217
 #, perl-format
 msgid "can't read source override file %s:"
-msgstr ""
+msgstr "kann Quell-Override-Datei %s nicht lesen:"
 
 #: scripts/dpkg-scansources.pl:227
 #, perl-format
@@ -1271,7 +1301,7 @@ msgstr ""
 
 #: scripts/dpkg-scansources.pl:243
 msgid "error closing source override file:"
-msgstr ""
+msgstr "Fehler beim Schließen der Quell-Override-Datei:"
 
 #: scripts/dpkg-scansources.pl:257
 #, perl-format
@@ -1281,7 +1311,7 @@ msgstr ""
 #: scripts/dpkg-scansources.pl:273
 #, perl-format
 msgid "can't read %s:"
-msgstr ""
+msgstr "kann %s nicht lesen:"
 
 #: scripts/dpkg-scansources.pl:279
 #, perl-format
@@ -1291,7 +1321,7 @@ msgstr ""
 #: scripts/dpkg-scansources.pl:287
 #, perl-format
 msgid "error reading from %s:"
-msgstr ""
+msgstr "Fehler beim Lesen von %s:"
 
 #: scripts/dpkg-scansources.pl:295 scripts/dpkg-scansources.pl:517
 msgid "can't fork:"
@@ -1309,27 +1339,27 @@ msgstr ""
 
 #: scripts/dpkg-scansources.pl:301
 msgid "can't exec md5sum:"
-msgstr ""
+msgstr "kann md5sum nicht ausführen:"
 
 #: scripts/dpkg-scansources.pl:310
 #, perl-format
 msgid "invalid md5 output for %s (%s)"
-msgstr ""
+msgstr "ungültige md5-Ausgabe für %s (%s)"
 
 #: scripts/dpkg-scansources.pl:315
 #, perl-format
 msgid "error closing %s:"
-msgstr ""
+msgstr "Fehler beim Schließen von %s:"
 
 #: scripts/dpkg-scansources.pl:340
 #, perl-format
 msgid "%s invalid (contains blank line)"
-msgstr ""
+msgstr "%s ungültig (enthält Leerzeile)"
 
 #: scripts/dpkg-scansources.pl:367
 #, perl-format
 msgid "invalid field in %s: %s"
-msgstr ""
+msgstr "ungültiges Feld in %s: %s"
 
 #: scripts/dpkg-scansources.pl:375
 #, perl-format
@@ -1376,7 +1406,7 @@ msgid ""
 msgstr ""
 
 #: scripts/dpkg-shlibdeps.pl:188
-#, fuzzy, perl-format
+#, perl-format
 msgid "no dependency information found for %s (used by %s)."
 msgstr "Keine Abhängigkeitsinformationen für %s (verwendet von %s) gefunden."
 
