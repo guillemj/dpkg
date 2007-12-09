@@ -68,6 +68,13 @@ remembers the (biggest) minimal version needed for each library. At the end
 of the process, it is able to write out the minimal dependency for every
 library used (provided that the information of the \fIsymbols\fR files are
 accurate).
+.P
+As a safe-guard measure, a symbols file can provide a
+\fIBuild-Depends-Package\fR meta-information field and
+.B dpkg-shlibdeps
+will extract the minimal version required by the corresponding package in
+the Build-Depends field and use this version if it's higher than the
+minimal version computed by scanning symbols.
 .SS Shlibs files
 Shlibs files associate directly a library to a dependency (without looking
 at the symbols). It's thus often stronger than really needed but very safe

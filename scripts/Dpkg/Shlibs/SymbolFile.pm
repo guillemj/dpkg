@@ -273,6 +273,19 @@ sub get_dependency {
     return $self->{objects}{$soname}{deps}[$dep_id];
 }
 
+sub get_dependencies {
+    my ($self, $soname) = @_;
+    return @{$self->{objects}{$soname}{deps}};
+}
+
+sub get_field {
+    my ($self, $soname, $name) = @_;
+    if (exists $self->{objects}{$soname}{fields}{$name}) {
+	return $self->{objects}{$soname}{fields}{$name};
+    }
+    return undef;
+}
+
 sub lookup_symbol {
     my ($self, $name, $sonames, $inc_deprecated) = @_;
     $inc_deprecated = 0 unless defined($inc_deprecated);

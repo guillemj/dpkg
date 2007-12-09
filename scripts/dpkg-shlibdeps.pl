@@ -11,12 +11,16 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr usageerr);
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same);
-use Dpkg::Version qw(vercmp);
+use Dpkg::Version qw(compare_versions);
 use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
+use Dpkg::Deps;
+
+push(@INC,$dpkglibdir);
+require 'controllib.pl';
 
 # By increasing importance
 my @depfields = qw(Suggests Recommends Depends Pre-Depends);
@@ -82,6 +86,12 @@ foreach (@ARGV) {
 }
 
 scalar keys %exec || usageerr(_g("need at least one executable"));
+
+our %fi;
+parsecontrolfile("debian/control");
+my $build_depends = defined($fi{"C Build-Depends"}) ?
+		    $fi{"C Build-Depends"} : "";
+my $build_deps = Dpkg::Deps::parse($build_depends, reduce_arch => 1);
 
 my %dependencies;
 my %shlibs;
@@ -210,21 +220,9 @@ foreach my $file (keys %exec) {
 	}
 	my $symdep = $symfile->lookup_symbol($name, \@sonames);
 	if (defined($symdep)) {
-	    my ($d, $m) = ($symdep->{depends}, $symdep->{minver});
 	    $used_sonames{$symdep->{soname}}++;
-	    foreach my $subdep (split /\s*,\s*/, $d) {
-		if (exists $dependencies{$cur_field}{$subdep} and
-		    defined($dependencies{$cur_field}{$subdep}))
-		{
-		    if ($dependencies{$cur_field}{$subdep} eq '' or
-			vercmp($m, $dependencies{$cur_field}{$subdep}) > 0)
-		    {
-			$dependencies{$cur_field}{$subdep} = $m;
-		    }
-		} else {
-		    $dependencies{$cur_field}{$subdep} = $m;
-		}
-	    }
+	    update_dependency_version($symdep->{depends},
+				      $symdep->{minver});
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
@@ -252,8 +250,20 @@ foreach my $file (keys %exec) {
     }
     warning(_g("%d other similar warnings have been skipped (use -v to see " .
 	    "them all)."), $nb_skipped_warnings) if $nb_skipped_warnings;
-    # Warn about un-NEEDED libraries
     foreach my $soname (@sonames) {
+	# Adjust minimal version of dependencies with information
+	# extracted from build-dependencies
+	my $dev_pkg = $symfile->get_field($soname, 'Build-Depends-Package');
+	if (defined $dev_pkg) {
+	    my $minver = get_min_version_from_deps($build_deps, $dev_pkg);
+	    if (defined $minver) {
+		foreach my $dep ($symfile->get_dependencies($soname)) {
+		    update_dependency_version($dep, $minver);
+		}
+	    }
+	}
+
+	# Warn about un-NEEDED libraries
 	unless ($soname_notfound{$soname} or $used_sonames{$soname}) {
 	    # Ignore warning for libm.so.6 if also linked against libstdc++
 	    next if ($soname =~ /^libm\.so\.\d+$/ and
@@ -302,7 +312,7 @@ sub filter_deps {
 	# Since dependencies can be versionned, we have to
 	# verify if the dependency is stronger than the
 	# previously seen one
-	if (vercmp($depseen{$dep}, $dependencies{$field}{$dep}) > 0) {
+	if (compare_versions($depseen{$dep}, '>>', $dependencies{$field}{$dep})) {
 	    return 0;
 	} else {
 	    $depseen{$dep} = $dependencies{$field}{$dep};
@@ -382,6 +392,53 @@ Options:
 Dependency fields recognised are:
   %s
 "), $progname, join("/",@depfields);
+}
+
+sub get_min_version_from_deps {
+    my ($dep, $pkg) = @_;
+    if ($dep->isa('Dpkg::Deps::Simple')) {
+	if (($dep->{package} eq $pkg) &&
+	    defined($dep->{relation}) &&
+	    (($dep->{relation} eq ">=") ||
+	     ($dep->{relation} eq ">>")))
+	{
+	    return $dep->{version};
+	}
+	return undef;
+    } else {
+	my $res;
+	foreach my $subdep ($dep->get_deps()) {
+	    my $minver = get_min_version_from_deps($subdep, $pkg);
+	    next if not defined $minver;
+	    if (defined $res) {
+		if (compare_versions($minver, '>>', $res)) {
+		    $res = $minver;
+		}
+	    } else {
+		$res = $minver;
+	    }
+	}
+	return $res;
+    }
+}
+
+sub update_dependency_version {
+    my ($dep, $minver) = @_;
+    return if not defined($minver);
+    foreach my $subdep (split /\s*,\s*/, $dep) {
+	if (exists $dependencies{$cur_field}{$subdep} and
+	    defined($dependencies{$cur_field}{$subdep}))
+	{
+	    if ($dependencies{$cur_field}{$subdep} eq '' or
+		compare_versions($minver, '>>',
+				 $dependencies{$cur_field}{$subdep}))
+	    {
+		$dependencies{$cur_field}{$subdep} = $minver;
+	    }
+	} else {
+	    $dependencies{$cur_field}{$subdep} = $minver;
+	}
+    }
 }
 
 sub add_shlibs_dep {
