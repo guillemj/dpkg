@@ -86,7 +86,7 @@ sub clear_except {
 
 # Parameter seen is only used for recursive calls
 sub load {
-    my ($self, $file, $seen) = @_;
+    my ($self, $file, $seen, $current_object) = @_;
 
     if (defined($seen)) {
 	return if exists $seen->{$file}; # Avoid include loops
@@ -98,7 +98,7 @@ sub load {
 
     open(my $sym_file, "<", $file)
 	|| syserr(sprintf(_g("Can't open %s: %s"), $file));
-    my ($object);
+    my $object = $current_object;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
 	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
@@ -116,7 +116,7 @@ sub load {
 	    my $filename = $1;
 	    my $dir = $file;
 	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", $seen);
+	    $self->load("$dir$filename", $seen, $object);
 	} elsif (/^#DEPRECATED: ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    my $sym = {
 		minver => $3,
