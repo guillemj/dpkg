@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2007-12-04 01:23+0100\n"
-"PO-Revision-Date: 2007-11-19 19:03+0100\n"
+"PO-Revision-Date: 2007-12-10 19:11+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -672,19 +672,16 @@ msgstr "B<Version:> E<lt>Versions-ZeichenketteE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:37
-#, fuzzy
 msgid ""
 "Typically, this is the original package's version number in whatever form "
 "the program's author uses. It may also include a Debian revision number (for "
 "non-native packages). The exact format and sorting algorithm are described "
 "in B<deb-version>(5)."
 msgstr ""
-"Typischerweise ist das die Original Paketversionsnummer, in der Form, die "
+"Typischerweise ist das die Original-Paketversionsnummer, in der Form, die "
 "der Programmautor verwendet. Es kann auch eine Debian-Revisionsnummer "
-"enthalten (für nicht aus Debian stammende Pakete). Falls sowohl Version als "
-"auch Revision bereitgestellt werden, werden sie durch einen Bindestrich »-« "
-"getrennt. Aus diesem Grund darf die Originalversion keinen Bindestrich in "
-"seiner Versionsnummer enthalten."
+"enthalten (für nicht aus Debian stammende Pakete). Das genaue Format und der "
+"Sortieralgorithmus sind in B<deb-version>(5) beschrieben."
 
 # type: TP
 #: ../../man/deb-control.5:37
@@ -1161,33 +1158,32 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/deb-control.5:232
-#, fuzzy
 msgid ""
 "B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
-msgstr "B<deb>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
+msgstr ""
+"B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 
 # type: TP
 #: ../../man/deb-version.5:5
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "deb-version"
-msgstr "B<--version>"
+msgstr "deb-version"
 
 # type: TH
 #: ../../man/deb-version.5:5
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-10-06"
-msgstr "2007-10-08"
+msgstr "2007-10-06"
 
 # type: Plain text
 #: ../../man/deb-version.5:8
-#, fuzzy
 msgid "deb-version - Debian package version number format"
-msgstr "deb-control - Dateiformat der Hauptsteuerdatei von Debian-Paketen"
+msgstr "deb-version - Versionsnummer-Format von Debian-Paketen"
 
 # type: Plain text
 #: ../../man/deb-version.5:11
 msgid "[ I<epoch>:] I<upstream_version> [-I<debian_revision> ]"
-msgstr ""
+msgstr "[ I<Epoche>:] I<Upstream-Version> [-I<Debian-Revision> ]"
 
 # type: Plain text
 #: ../../man/deb-version.5:14
@@ -1195,12 +1191,14 @@ msgid ""
 "Version numbers as used for Debian binary and source packages consist of "
 "three components. These are:"
 msgstr ""
+"Die für Debian Binär- und Quellpakete verwendete Versionsnummer besteht aus "
+"drei Komponenten. Diese sind:"
 
 # type: TP
 #: ../../man/deb-version.5:14
 #, no-wrap
 msgid "I<epoch>"
-msgstr ""
+msgstr "I<Epoche>"
 
 # type: Plain text
 #: ../../man/deb-version.5:20
@@ -1209,6 +1207,9 @@ msgid ""
 "which case zero is assumed.  If it is omitted then the I<upstream_version> "
 "may not contain any colons."
 msgstr ""
+"Dies ist eine einzelne (typischwerweise kleine) vorzeichenlose ganze Zahl. "
+"Sie darf entfallen, wobei dann Null angenommen wird. Falls sie entfällt, "
+"darf die I<Upstream-version> keine Doppelpunkte enthalten."
 
 # type: Plain text
 #: ../../man/deb-version.5:24
@@ -1217,12 +1218,15 @@ msgid ""
 "a package, and also a package's previous version numbering schemes, to be "
 "left behind."
 msgstr ""
+"Sie existiert, um Fehler in den Versionsnummern älterer Versionen des Pakets "
+"zu erlauben und auch, um das bisherige Nummerierungsschema eines Paketes "
+"aufzugeben."
 
 # type: TP
 #: ../../man/deb-version.5:24
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "I<upstream_version>"
-msgstr "B<source:Upstream-Version>"
+msgstr "I<Upstream-Version>"
 
 # type: Plain text
 #: ../../man/deb-version.5:34
@@ -1234,6 +1238,12 @@ msgid ""
 "be reformatted to fit into the package management system's format and "
 "comparison scheme."
 msgstr ""
+"Dies ist der Hauptteil der Versionsnummer. Normalerweise ist dies die "
+"Versionsnummer des Originalpakets (»Upstream«), aus dem die I<.deb>-Datei "
+"erstellt wurde, falls dies zutrifft. Normalerweise wird diese im gleichen "
+"Format vorliegen, wie sie von den Originalautoren angegeben wurde; allerdings "
+"mag es notwendig sein, sie umzuformatieren, damit sie in das Format des "
+"Paketverwaltungssystems und des Vergleichsschemas passt."
 
 # type: Plain text
 #: ../../man/deb-version.5:39
@@ -1242,6 +1252,9 @@ msgid ""
 "I<upstream_version> is described below.  The I<upstream_version> portion of "
 "the version number is mandatory."
 msgstr ""
+"Das Vergleichsverhalten des Paketverwaltungssystems in Hinblick auf die "
+"I<Upstream-Version> wird unten beschrieben. Der I<Upstream-Version>-Anteil "
+"der Versionnummer muss angegeben werden."
 
 # type: Plain text
 #: ../../man/deb-version.5:48
@@ -1252,12 +1265,17 @@ msgid ""
 "then hyphens are not allowed; if there is no I<epoch> then colons are not "
 "allowed."
 msgstr ""
+"I<Upstream-Version> darf nur alphanumerische Zeichen (»A-Za-z0-9«) und "
+"B<.> B<+> B<-> B<:> B<~> (Satzpunkt, Plus, Bindestrich, Doppelpunkt, Tilde) "
+"enthalten und sollte mit einer Zahl beginnen. Falls es keine I<Debian-"
+"Revision> gibt, sind Bindestriche nicht erlaubt; falls es keine I<Epoche> "
+"gibt, sind Doppelpunkte nicht erlaubt."
 
 # type: TP
 #: ../../man/deb-version.5:48
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "I<debian_revision>"
-msgstr "B<binary:Version>"
+msgstr "I<Debian-Revision>"
 
 # type: Plain text
 #: ../../man/deb-version.5:57
@@ -1267,6 +1285,10 @@ msgid ""
 "characters B<+> B<.> B<~> (plus, full stop, tilde) and is compared in the "
 "same way as the I<upstream_version> is."
 msgstr ""
+"Dieser Teil der Versionsnummer spezifiziert die Version des Debian-Paketes, "
+"basierend auf der Version der Originalautoren. Er kann nur alphanumerische "
+"Zeichen und B<+> B<.> B<~> (Plus, Satzpunkt, Tilde) enthalten und wird "
+"genauso wie die I<Upstream-Version> verglichen."
 
 # type: Plain text
 #: ../../man/deb-version.5:64
@@ -1277,6 +1299,11 @@ msgid ""
 "only one \"debianisation\" of it and therefore no revision indication is "
 "required."
 msgstr ""
+"Dieser Teil ist optional; falls er nicht vorhanden ist, darf I<Upstream-"
+"Version> keinen Bindestrich enthalten. Dieses Format ist für den Fall, dass "
+"ein Stück Software speziell dafür geschrieben wurde, ein Debian-Paket zu "
+"werden und es daher nur eine »Debianisierung« gibt und somit keine "
+"Revisionsanzeige notwendig ist."
 
 # type: Plain text
 #: ../../man/deb-version.5:68
@@ -1284,6 +1311,8 @@ msgid ""
 "It is conventional to restart the I<debian_revision> at '1' each time time "
 "the I<upstream_version> is increased."
 msgstr ""
+"Es ist üblich, die I<Debian-Revision> jedesmal bei »1« neu zu starten, wenn "
+"die I<Upstream-Version> erhöht wird."
 
 # type: Plain text
 #: ../../man/deb-version.5:76
@@ -1294,12 +1323,18 @@ msgid ""
 "than the presence of one (but note that the I<debian_revision> is the least "
 "significant part of the version number)."
 msgstr ""
+"Dpkg wird die Versionsnummer beim letzten Bindestrich in der Zeichenkette "
+"auftrennen (falls dieser existiert) um die I<Upstream-Version> und die "
+"I<Debian-Revision> zu bestimmen. Im Vergleich befindet sich eine fehlende "
+"I<Debian-Revision> vor einer vorhandenen (beachten Sie aber, dass es sich bei "
+"der I<Debian-Revision> um den Teil der Versionsnummer mit der geringsten "
+"Signifikanz handelt)."
 
 # type: SS
 #: ../../man/deb-version.5:76
 #, no-wrap
 msgid "Sorting Algorithm"
-msgstr ""
+msgstr "Sortieralgorithmus"
 
 # type: Plain text
 #: ../../man/deb-version.5:80
@@ -1307,11 +1342,13 @@ msgid ""
 "The I<upstream_version> and I<debian_revision> parts are compared by the "
 "package management system using the same algorithm:"
 msgstr ""
+"Die I<Upstream-Version>- und I<Debian-Revision>-Teile werden von der "
+"Paketverwaltung nach dem gleichen Algorithmus verglichen:"
 
 # type: Plain text
 #: ../../man/deb-version.5:82
 msgid "The strings are compared from left to right."
-msgstr ""
+msgstr "Die Zeichenketten werden von links nach rechts verglichen."
 
 # type: Plain text
 #: ../../man/deb-version.5:92
@@ -1324,6 +1361,14 @@ msgid ""
 "anything, even the end of a part.  For example, the following parts are in "
 "sorted order: '~~', '~~a', '~', the empty part, 'a'."
 msgstr ""
+"Zuerst wird der Anfangsteil jeder Zeichenkette bestimmt, der komplett aus "
+"nicht-Ziffern-Zeichen besteht. Diese zwei Teile (von denen einer leer sein "
+"kann) werden lexikalisch verglichen. Wird ein Unterschied gefunden, wird "
+"dieser zurückgeliefert. Der lexikalische Vergleich ist ein verändertr "
+"Vergleich von ASCII-Werten, bei denen Buchstaben vor allen nicht-Buchstaben "
+"sortiert werden und die Tilde vor allem sortiert wird, sogar vor dem Ende "
+"eines Teiles. So sind zum Beispiel die folgenden Teile in sortierter "
+"Reihenfolge: »~~«, »~~a«, »~«, der leere Teil, »a«."
 
 # type: Plain text
 #: ../../man/deb-version.5:100
@@ -1357,7 +1402,7 @@ msgstr ""
 #: ../../man/deb-version.5:112
 #, no-wrap
 msgid "CAVEATS"
-msgstr ""
+msgstr "WARNUNG"
 
 # type: Plain text
 #: ../../man/deb-version.5:116
@@ -1366,12 +1411,14 @@ msgid ""
 "dpkg, version 1.10 and some parts of dpkg-dev only gained support for it "
 "later in the 1.10.x series."
 msgstr ""
+"Das Tilde-Zeichen uns seine speziellen Sortiereigenschaften wurden in Version "
+"1.10 von dpkg eingeführt und einige Teile von dpkg-dev haben erst später in "
+"der 1.10.x-Serie Unterstützung dafür erhalten."
 
 # type: Plain text
 #: ../../man/deb-version.5:120
-#, fuzzy
 msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
-msgstr "B<deb>(5), B<deb-control>(5), B<dpkg-deb>(1), B<dpkg>(1)."
+msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 
 # type: SH
 #: ../../man/deb-version.5:120 ../../man/dpkg.1:621
@@ -1387,13 +1434,12 @@ msgstr "AUTOREN"
 # type: Plain text
 #: ../../man/deb-version.5:122
 msgid "Copyright Â© 1996,1997,1998 Ian Jackson and Christian Schwarz."
-msgstr ""
+msgstr "Copyright Â© 1996,1997,1998 Ian Jackson and Christian Schwarz."
 
 # type: Plain text
 #: ../../man/deb-version.5:124
-#, fuzzy
 msgid "Copyright Â© 2007 Frank Lichtenheld"
-msgstr "Copyright (C) 2007 Frank Lichtenheld"
+msgstr "Copyright Â© 2007 Frank Lichtenheld"
 
 # type: TH
 #: ../../man/deb-old.5:1
@@ -6397,9 +6443,9 @@ msgstr "dpkg-name"
 
 # type: TH
 #: ../../man/dpkg-name.1:6
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-11-22"
-msgstr "2007-01-24"
+msgstr "2007-11-22"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:9
@@ -6413,7 +6459,6 @@ msgstr "B<dpkg-name> [I<Optionen>] [B<-->] I<Dateien>"
 
 # type: Plain text
 #: ../../man/dpkg-name.1:28
-#, fuzzy
 msgid ""
 "This manual page documents the B<dpkg-name> program which provides an easy "
 "way to rename B<Debian> packages into their full package names. A full "
@@ -6428,10 +6473,12 @@ msgstr ""
 "Diese Handbuchseite dokumentiert das B<dpkg-name>-Programm, das eine "
 "einfache Möglichkeit bereitstellt, B<Debian>-Pakete in ihren vollen "
 "Paketnamen umzubenennen. Ein voller Paketname besteht aus "
-"E<lt>Paket<gt>_E<lt>Version<gt>_E<lt>ArchitekturE<gt>.deb wie in der "
-"Steuerdatei des Pakets spezifiziert. Der E<lt>VersionE<gt>-Teil des "
-"Dateinamens besteht aus der Versionsinformation der Originalautoren optional "
-"gefolgt von einem Gedankenstrich und der Revisionsinformation."
+"I<E<lt>PaketE<gt>_E<lt>VersionE<gt>_E<lt>ArchitekturE<gt>.E<lt>Pakettyp<gt>> "
+"wie in der Steuerdatei des Pakets spezifiziert. Der I<E<lt>VersionE<gt>>-Teil "
+"des Dateinamens besteht aus der Versionsinformation der Originalautoren "
+"optional gefolgt von einem Gedankenstrich und der Revisionsinformation. Der "
+"I<E<lt>Pakettyp<gt>>-Teil entstammt dem Feld I<package_type> (falls "
+"vorhanden) oder wird auf B<deb> gesetzt."
 
 # type: TP
 #: ../../man/dpkg-name.1:30
@@ -7848,7 +7895,7 @@ msgstr ""
 #: ../../man/dpkg-shlibdeps.1:219
 #, no-wrap
 msgid "ERRORS"
-msgstr ""
+msgstr "FEHLER"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:226
@@ -7859,12 +7906,19 @@ msgid ""
 "(libsomething.so.I<X>). A private library (like a plugin) should not have a "
 "SONAME and doesn't need to be versioned."
 msgstr ""
+"B<dpkg-shlibdeps> wird fehlschlagen, falls es eine vom Programm verwendete "
+"öffentliche Bibliothek nicht finden kann oder falls diese Bibliothek keine "
+"zugeordneten Abhängigkeitsinformationen hat (entweder eine Shlibs- oder "
+"Symbols-Datei). Eine öffentliche Bibliothek hat einen SONAME und ist "
+"versioniert (libirgendwas.so.I<X>). Eine private Bibliothek (wie z.B. ein "
+"Erweiterung) sollte keinen SONAME haben und braucht nicht versioniert zu sein."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:226
 #, no-wrap
 msgid "B<couldn't find library >I<library-soname>B< needed by >I<binary>B< (its RPATH is '>I<rpath>B<')>"
 msgstr ""
+"B<konnte Bibliothek >I<SONAME-der-Bibliothek>B< benötigt von >I<Programm>B< nicht finden (ihr RPATH ist »>I<rpath>B<«).>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:240
@@ -7895,7 +7949,7 @@ msgstr ""
 #: ../../man/dpkg-shlibdeps.1:246
 #, no-wrap
 msgid "B<no dependency information found for >I<library-file>B< (used by >I<binary>B<).>"
-msgstr ""
+msgstr "B<Keine Abhängigkeitsinformationen für >I<Bibliotheksdatei>B< (verwendet von >I<Programm>B<) gefunden.>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:259
@@ -9516,6 +9570,10 @@ msgid ""
 "eg. the I<apt> access method provided by the B<apt> package or I<multi_cd> "
 "by the B<dpkg-multicd> package."
 msgstr ""
+"Standardmäßig stellt B<dselect> mehrere Methoden wie I<floppy>, I<harddisk> "
+"oder I<cdrom> zur Verfügung, aber andere Pakete können zusätzliche Methoden "
+"bereitstellen, z.B. das B<apt>-Paket stellt die I<apt>-Zugriffsmethode oder "
+"das B<dpkg-multicd>-Paket I<multi_cd> bereit."
 
 # type: Plain text
 #: ../../man/dselect.1:147
