@@ -232,6 +232,9 @@ sub merge_symbols {
     # the symbol was introduced)
     foreach my $sym (keys %{$self->{objects}{$soname}{syms}}) {
 	if (! exists $dynsyms{$sym}) {
+	    # Do nothing if already deprecated
+	    next if $self->{objects}{$soname}{syms}{$sym}{deprecated};
+
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
 	    if (vercmp($minver, $info->{minver}) > 0) {
 		$self->{objects}{$soname}{syms}{$sym}{deprecated} = $minver;
