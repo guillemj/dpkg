@@ -223,19 +223,19 @@ sub __sanity_check_range {
 	$$from = $$since = $$to = $$until = '';
     }
     if ($$from && $$since) {
-	warning(_g( "you can only specify one of 'from' and 'since'" ));
+	warning(_g( "you can only specify one of 'from' and 'since', using 'since'" ));
 	$$from = '';
     }
     if ($$to && $$until) {
-	warning(_g( "you can only specify one of 'to' and 'until'" ));
+	warning(_g( "you can only specify one of 'to' and 'until', using 'until'" ));
 	$$to = '';
     }
     if ($$since && ($data->[0]{Version} eq $$since)) {
-	warning(_g( "'since' option specifies most recent version" ));
+	warning(_g( "'since' option specifies most recent version, ignoring" ));
 	$$since = '';
     }
     if ($$until && ($data->[$#{$data}]{Version} eq $$until)) {
-	warning(_g( "'until' option specifies oldest version" ));
+	warning(_g( "'until' option specifies oldest version, ignoring" ));
 	$$until = '';
     }
     $$start = 0 if $$start < 0;
