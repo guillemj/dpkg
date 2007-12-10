@@ -99,11 +99,6 @@ sub parse {
 					$file, $! );
 	    return undef;
 	};
-	flock $fh, LOCK_SH or do {
-	    $self->_do_fatal_error( _g("can't lock file %s: %s"),
-					$file, $! );
-	    return undef;
-	};
     } elsif (my $string = $self->{config}{instring}) {
 	eval { require IO::String };
 	if ($@) {
