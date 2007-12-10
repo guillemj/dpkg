@@ -99,21 +99,25 @@ if (@ARGV) {
 my $changes = Dpkg::Changelog::Debian->init();
 
 $file ||= $default_file;
+unless ($since or $until or $from or $to or
+	$offset or $count or $all) {
+    $count = 1;
+}
+my @all = $all ? ( all => $all ) : ();
+my $opts = { since => $since, until => $until,
+	     from => $from, to => $to,
+	     count => $count, offset => $offset,
+	     @all };
+
 if ($file eq '-') {
     my @input = <STDIN>;
-    $changes->parse({ instring => join('', @input) })
+    $changes->parse({ instring => join('', @input), %$opts })
 	or failure(_g('fatal error occured while parsing input'));
 } else {
-    $changes->parse({ infile => $file })
+    $changes->parse({ infile => $file, %$opts })
 	or failure(_g('fatal error occured while parsing %s'),
 		   $file );
 }
 
 
-my @all = $all ? ( all => $all ) : ();
-
-eval("print \$changes->${format}_str(
-      { since => \$since, until => \$until,
-	from => \$from, to => \$to,
-	count => \$count, offset => \$offset,
-	\@all })");
+eval("print \$changes->${format}_str(\$opts)");

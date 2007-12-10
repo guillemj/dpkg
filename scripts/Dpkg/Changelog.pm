@@ -303,6 +303,51 @@ sub _data_range {
     return \@result;
 }
 
+sub _abort_early {
+    my ($self) = @_;
+
+    my $data = $self->data or return;
+    my $config = $self->{config} or return;
+
+#    use Data::Dumper;
+#    warn "Abort early? (\$# = $#$data)\n".Dumper($config);
+
+    return if $config->{all};
+
+    my $since = $config->{since} || '';
+    my $until = $config->{until} || '';
+    my $from = $config->{from} || '';
+    my $to = $config->{to} || '';
+    my $count = $config->{count} || 0;
+    my $offset = $config->{offset} || 0;
+
+    return if $offset and not $count;
+    return if $offset < 0 or $count < 0;
+    if ($offset > 0) {
+	$offset -= ($count < 0);
+    }
+    my $start = my $end = $offset;
+    $end += $count-1 if $count > 0;
+
+    unless ($from or $to or $since or $until or $start or $end) {
+	return if not $count;
+	return 1 if @$data;
+    }
+
+    return 1 if ($start or $end)
+	and $start < @$data and $end < @$data;
+
+    return unless $since or $from;
+    foreach (@$data) {
+	my $v = $_->{Version};
+
+	return 1 if $v eq $since;
+	return 1 if $v eq $from;
+    }
+
+    return;
+}
+
 =pod
 
 =head3 dpkg

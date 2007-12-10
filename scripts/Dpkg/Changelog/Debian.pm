@@ -144,6 +144,7 @@ sub parse {
 #		    print STDERR, Dumper($entry);
 		push @{$self->{data}}, $entry;
 		$entry = Dpkg::Changelog::Entry->init();
+		last if $self->_abort_early;
 	    }
 	    {
 		$entry->{'Source'} = "$1";
