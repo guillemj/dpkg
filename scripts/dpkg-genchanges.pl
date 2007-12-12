@@ -333,7 +333,7 @@ for my $p (keys %p2f) {
 
     foreach my $f (@f) {
 	my $sec = $f2seccf{$f};
-	$sec = $sourcedefault{'Section'} if !defined($sec);
+	$sec ||= $sourcedefault{'Section'};
 	if (!defined($sec)) {
 	    $sec = '-';
 	    warning(_g("missing Section for binary package %s; using '-'"), $p);
@@ -342,7 +342,7 @@ for my $p (keys %p2f) {
 				       "control file but %s in files list"),
 				    $p, $sec, $f2sec{$f});
 	my $pri = $f2pricf{$f};
-	$pri = $sourcedefault{'Priority'} if !defined($pri);
+	$pri ||= $sourcedefault{'Priority'};
 	if (!defined($pri)) {
 	    $pri = '-';
 	    warning(_g("missing Priority for binary package %s; using '-'"), $p);

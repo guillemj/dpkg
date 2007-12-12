@@ -170,7 +170,7 @@ sub fill_missing_slavepaths()
 {
     for (my $j = 0; $j <= $#slavenames; $j++) {
 	for (my $i = 0; $i <= $#versions; $i++) {
-	    $slavepath{$i,$j} = '' if !defined $slavepath{$i,$j};
+	    $slavepath{$i,$j} ||= '';
 	}
     }
 }
