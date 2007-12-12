@@ -372,7 +372,7 @@ if (!is_binaryonly) {
 
     (my $sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    open(CDATA,"<",$dsc) || syserror(_g("cannot open .dsc file %s"), $dsc);
+    open(CDATA, "<", $dsc) || syserr(_g("cannot open .dsc file %s"), $dsc);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
