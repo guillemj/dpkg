@@ -85,9 +85,7 @@ Options:
 
 sub spfileslistvalue($)
 {
-    my $r = $f{$_[0]};
-    $r = '-' if !defined($r);
-    return $r;
+    return $f{$_[0]} || '-';
 }
 
 
