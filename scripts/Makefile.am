@@ -68,7 +68,8 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/objdump.dbd-pg \
 	t/200_Dpkg_Shlibs/objdump.ls \
 	t/300_Dpkg_BuildOptions.t \
-	t/400_Dpkg_Deps.t
+	t/400_Dpkg_Deps.t \
+	t/500_Dpkg_Path.t
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
