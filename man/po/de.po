@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2007-12-04 01:23+0100\n"
-"PO-Revision-Date: 2007-12-10 19:11+0100\n"
+"PO-Revision-Date: 2007-12-17 22:15+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -1379,6 +1379,12 @@ msgid ""
 "of the comparison.  For these purposes an empty string (which can only occur "
 "at the end of one or both version strings being compared) counts as zero."
 msgstr ""
+"Dann wird der Anfangsteil des Restes jeder Zeichenkette bestimmt, der "
+"komplett aus Ziffern besteht. Der numerische Wert dieser zwei Teile wird "
+"verglichen, und jeder gefundene Unterschied wird als Ergebnis des Vergleichs "
+"zurückgeliefert. Für diesen Zweck zählt die leere Zeichenkette (die nur am "
+"Ende einer oder beider der zu vergleichenden Versionszeichenketten auftauchen "
+"kann) als Null."
 
 # type: Plain text
 #: ../../man/deb-version.5:104
@@ -1387,6 +1393,9 @@ msgid ""
 "initial digit strings) are repeated until a difference is found or both "
 "strings are exhausted."
 msgstr ""
+"Diese zwei Schritte (Vergleichen und Entfernen von nicht-Ziffern-"
+"Zeichenketten und Ziffern-Zeichenketten am Anfang) werden wiederholt, bis "
+"ein Unterschied gefunden wird oder beide Zeichenketten erschöpft wurden."
 
 # type: Plain text
 #: ../../man/deb-version.5:112
@@ -1397,6 +1406,12 @@ msgid ""
 "containing strings of letters which the package management system cannot "
 "interpret (such as 'ALPHA' or 'pre-'), or with silly orderings."
 msgstr ""
+"Beachten Sie, dass Epochen uns erlauben, Fehler in der Versionsnummerierung "
+"zurückzulassen, und mit Situationen umzugehen, in denen sich das Schema der "
+"Versionsnummerierung ändert. Sie sind B<nicht> dazu gedacht, mit "
+"Versionsnummern umzugehen, die Zeichenketten aus Buchstaben enthalten, die "
+"das Paketverwaltungssystem nicht interpretieren kann (wie »ALPHA« oder »pre«) "
+"oder mit unklugen Reihenfolgen."
 
 # type: SH
 #: ../../man/deb-version.5:112
@@ -7934,6 +7949,17 @@ msgid ""
 "in the root directory. If the library is not found in any of those "
 "directories, then you get this error."
 msgstr ""
+"Das I<Programm> verwendet eine Bibliothek mit Namen I<SONAME-der-Bibliothek> "
+"aber B<dpkg-shlibdeps> konnte diese Bibliothek nicht finden. "
+"B<dpkg-shlibdeps> erstellt folgendermaßen eine Liste der zu prüfenden "
+"Verzeichnisse: im RPATH des Programms aufgeführte Verzeichnisse, in /etc/"
+"ld.so.conf aufgeführte Verzeichnisse, in der Umgebungsvariable "
+"LD_LIBRARY_PATH aufgeführte Verzeichnisse und standardmäßige öffentliche "
+"Verzeichnisse (/lib, /usr/lib, /lib32, /usr/lib32, /lib64, /usr/lib64). Dann "
+"prüft es diejenigen Verzeichnisse im Bau-Baum des Pakets, die die "
+"DEBIAN/shlibs-Datei enthalten und schließlich im Wurzelverzeichnis. Falls die "
+"Bibliothek nicht in einem dieser Verzeichnisse gefunden wird, erhalten Sie "
+"diesen Fehler."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:246
@@ -7944,6 +7970,12 @@ msgid ""
 "package is already created and that LD_LIBRARY_PATH contains the appropriate "
 "directory if it also is in a private directory."
 msgstr ""
+"Falls sich die Bibliothek in einem privaten Verzeichnis des gleichen "
+"Pakets befindet, müssen Sie das Verzeichnis zu LD_LIBRARY_PATH hinzufügen. "
+"Falls sie sich in einem anderen gerade zu bauenden Paket befindet, müssen Sie "
+"sicherstellen, dass die »shlibs«-Datei dieses Pakets bereits erstellt ist und "
+"dass LD_LIBRARY_PATH das geeignete Verzeichnis enthält, falls die Bibliothek "
+"zudem in einem privaten Verzeichnis liegt."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:246
@@ -9614,12 +9646,15 @@ msgid ""
 "Details of the update action depend on the access method's implementation.  "
 "Normally the process is straightforward and requires no user interaction."
 msgstr ""
+"Die Details der Aktion »Aktualisieren« hängen von der Impelementierung der "
+"Zugriffsmethode ab. Normalerweise ist der Prozess unkompliziert und verlangt "
+"keine Benutzerinteraktionen."
 
 # type: SS
 #: ../../man/dselect.1:161
 #, no-wrap
 msgid "select"
-msgstr ""
+msgstr "Auswahl"
 
 # type: Plain text
 #: ../../man/dselect.1:163
