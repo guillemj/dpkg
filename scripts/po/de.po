@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2007-11-29 06:57+0200\n"
-"PO-Revision-Date: 2007-12-10 19:42+0100\n"
+"PO-Revision-Date: 2007-12-17 21:52+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -747,7 +747,7 @@ msgstr "Wert von nirgendwo, mit Schlüssel >%s< und Wert >%s<"
 
 #: scripts/dpkg-genchanges.pl:294
 msgid "read changesdescription"
-msgstr ""
+msgstr "lese Änderungsbeschreibung"
 
 #: scripts/dpkg-genchanges.pl:305
 #, perl-format
@@ -762,7 +762,7 @@ msgstr "fehlender Bereich für Binärpaket %s; verwende »-«"
 #: scripts/dpkg-genchanges.pl:318
 #, perl-format
 msgid "package %s has section %s in control file but %s in files list"
-msgstr ""
+msgstr "Paket %s hat Bereich %s in der Steuerdatei, aber %s in der Dateiliste"
 
 #: scripts/dpkg-genchanges.pl:325
 #, perl-format
@@ -812,36 +812,37 @@ msgstr "füge kompletten Quellcode beim Hochladen hinzu"
 
 #: scripts/dpkg-genchanges.pl:381
 msgid "binary-only upload - not including any source code"
-msgstr ""
+msgstr "rein-binärer Upload - füge keinen Quellcode hinzu"
 
 #: scripts/dpkg-genchanges.pl:385
 msgid "write original source message"
-msgstr ""
+msgstr "schreibe ursprüngliche Quell-Nachricht"
 
 #: scripts/dpkg-genchanges.pl:411
 #, perl-format
 msgid "cannot open upload file %s for reading"
-msgstr ""
+msgstr "kann hochzuladene Datei %s nicht zum Lesen öffnen"
 
 #: scripts/dpkg-genchanges.pl:412
 #, perl-format
 msgid "cannot fstat upload file %s"
-msgstr ""
+msgstr "kann keinen »fstat« auf hochzuladene Datei %s durchführen"
 
 #: scripts/dpkg-genchanges.pl:414
 #, perl-format
 msgid "upload file %s is empty"
-msgstr ""
+msgstr "hochzuladene Datei %s ist leer"
 
 #: scripts/dpkg-genchanges.pl:416
 #, perl-format
 msgid "md5sum upload file %s"
-msgstr ""
+msgstr "md5sum der hochzuladenen Datei %s"
 
 #: scripts/dpkg-genchanges.pl:418
 #, perl-format
 msgid "md5sum upload file %s gave strange output `%s'"
 msgstr ""
+"Die Ausgabe von md5sum für die hochzuladene Datei %s war merkwürdig: »%s«"
 
 #: scripts/dpkg-genchanges.pl:422
 #, perl-format
@@ -892,6 +893,25 @@ msgid ""
 "  -h, --help               show this help message.\n"
 "      --version            show the version.\n"
 msgstr ""
+"Verwendung: %s [<Option> ...]\n"
+"\n"
+"Optionen:\n"
+"  -p<Paket>               gebe Steuerdatei für Paket aus.\n"
+"  -c<Steuerdatei>         hohle Steuerinformationen aus dieser Datei.\n"
+"  -l<Changelogdatei>      hohle pro-Versions-Informationen aus dieser Datei.\n"
+"  -F<Changelogformat>     erzwinge Changelogformat.\n"
+"  -v<erzwinge_Version>    setze die Version des Binärpakets.\n"
+"  -f<Dateilistedatei>     schreibe Dateien hierher statt in debian/files.\n"
+"  -P<Paketbauverz>        temporäres Bauverzeichnis statt debian/tmp.\n"
+"  -n<Dateiname>           nehme an, dass der Paketdateiname <Dateiname> ist.\n"
+"  -O                      schreibe nach Stdout, nicht .../DEBIAN/control.\n"
+"  -is, -ip, -isp, -ips    veraltet, wegen Kompatibilität ignoriert.\n"
+"  -D<Feld>=<Wert>         überschreibe oder ergänze ein Feld und Wert.\n"
+"  -U<Feld>                entferne ein Feld.\n"
+"  -V<Name>=<Wert>         setze eine Substitutionsvariable.\n"
+"  -T<Varlistdatei>        lese Variablen von hier, nicht debian/substvars.\n"
+"  -h, --help              zeige diese Hilfemeldung.\n"
+"      --version           zeige die Version.\n"
 
 #: scripts/dpkg-gencontrol.pl:99 scripts/dpkg-gensymbols.pl:93
 #, perl-format
@@ -927,30 +947,30 @@ msgstr ""
 #: scripts/dpkg-gencontrol.pl:291
 #, perl-format
 msgid "%s package with udeb specific field %s"
-msgstr ""
+msgstr "%s Paket mit udeb-spezifischem Feld %s"
 
 #: scripts/dpkg-gencontrol.pl:304
 msgid "fork for du"
-msgstr ""
+msgstr "Fork für du"
 
 #: scripts/dpkg-gencontrol.pl:307
 #, perl-format
 msgid "chdir for du to `%s'"
-msgstr ""
+msgstr "chdir nach »%s« für du"
 
 #: scripts/dpkg-gencontrol.pl:308
 msgid "exec du"
-msgstr ""
+msgstr "exec du"
 
 #: scripts/dpkg-gencontrol.pl:315
 #, perl-format
 msgid "du in `%s'"
-msgstr ""
+msgstr "du in »%s«"
 
 #: scripts/dpkg-gencontrol.pl:317
 #, perl-format
 msgid "du gave unexpected output `%s'"
-msgstr ""
+msgstr "du lieferte unerwartete Ausgabe »%s«"
 
 #: scripts/dpkg-gencontrol.pl:350
 msgid "close old files list file"
@@ -1016,19 +1036,19 @@ msgstr ""
 
 #: scripts/dpkg-gensymbols.pl:209
 msgid "new libraries appeared in the symbols file."
-msgstr ""
+msgstr "neue Bibliothek in der Symbol-Datei aufgetaucht."
 
 #: scripts/dpkg-gensymbols.pl:213
 msgid "some libraries disappeared in the symbols file."
-msgstr ""
+msgstr "einige Bibliotheken sind in der Symbol-Datei verschwunden."
 
 #: scripts/dpkg-gensymbols.pl:217
 msgid "some new symbols appeared in the symbols file."
-msgstr ""
+msgstr "einige neue Symbole sind in der Symbol-Datei aufgetaucht."
 
 #: scripts/dpkg-gensymbols.pl:221
 msgid "some symbols disappeared in the symbols file."
-msgstr ""
+msgstr "einige Symbole sind in der Symbol-Datei verschwunden."
 
 #: scripts/dpkg-gensymbols.pl:234
 #, perl-format
@@ -1097,12 +1117,12 @@ msgstr ""
 #: scripts/dpkg-parsechangelog.pl:94
 #, perl-format
 msgid "format %s unknown"
-msgstr ""
+msgstr "unbekanntes Format %s"
 
 #: scripts/dpkg-parsechangelog.pl:97
 #, perl-format
 msgid "cannot open %s: %s"
-msgstr ""
+msgstr "kann %s nicht öffnen: %s"
 
 #: scripts/dpkg-parsechangelog.pl:99
 #, perl-format
@@ -1426,6 +1446,8 @@ msgstr "Symbol %s, verwendet von %s, in keiner der Bibliotheken gefunden."
 #, perl-format
 msgid "%d other similar warnings have been skipped (use -v to see them all)."
 msgstr ""
+"%d andere, ähnliche Warnungen wurden übersprungen (verwenden Sie -v um alle "
+"zu sehen)."
 
 #: scripts/dpkg-shlibdeps.pl:258
 #, perl-format
@@ -1545,6 +1567,9 @@ msgid ""
 "identified due to lack of DEBIAN sub-directory in the root of package's "
 "build tree"
 msgstr ""
+"$ORIGIN wird in RPATH von %s verwendet und das zugehörige Verzeichnis konnte "
+"nicht identifiziert werden, da das DEBIAN-Unterverzeichnis in der Wurzel des "
+"Paketbaubaums fehlt."
 
 #: scripts/dpkg-shlibdeps.pl:555
 msgid "cannot fork for dpkg --search"
@@ -1758,7 +1783,7 @@ msgstr ""
 #: scripts/dpkg-source.pl:757
 #, perl-format
 msgid "%s: building %s in %s"
-msgstr ""
+msgstr "%s: baue %s in %s"
 
 #: scripts/dpkg-source.pl:529
 msgid "write building tar message"
@@ -1779,11 +1804,11 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:539
 msgid "exec tar"
-msgstr ""
+msgstr "exec tar"
 
 #: scripts/dpkg-source.pl:543
 msgid "wait for tar"
-msgstr ""
+msgstr "warte auf tar"
 
 #: scripts/dpkg-source.pl:546 scripts/dpkg-source.pl:718
 #, perl-format
@@ -1938,16 +1963,16 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:707
 msgid "not a directory"
-msgstr ""
+msgstr "kein Verzeichnis"
 
 #: scripts/dpkg-source.pl:708
 msgid "directory"
-msgstr ""
+msgstr "Verzeichnis"
 
 #: scripts/dpkg-source.pl:711
 #, perl-format
 msgid "unknown file type (%s)"
-msgstr ""
+msgstr "unbekannter Dateityp (%s)"
 
 #: scripts/dpkg-source.pl:715
 msgid "finish write to compression pipe"
@@ -2530,7 +2555,7 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:1582
 msgid "exec gzip"
-msgstr ""
+msgstr "exec gzip"
 
 #: scripts/dpkg-source.pl:1602
 #, perl-format
@@ -2545,7 +2570,7 @@ msgstr ""
 #: scripts/dpkg-source.pl:1604
 #, perl-format
 msgid "fork for %s"
-msgstr ""
+msgstr "Fork für %s"
 
 #: scripts/dpkg-source.pl:1606
 #, perl-format
