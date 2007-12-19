@@ -6,12 +6,12 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-12-04 01:23+0100\n"
-"PO-Revision-Date: 2007-11-30 20:27+0100\n"
+"PO-Revision-Date: 2007-12-19 11:52+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 # type: Plain text
 #: ../../man/822-date.1:2
@@ -658,7 +658,6 @@ msgstr "B<Version:> E<lt>versionssträngE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:37
-#, fuzzy
 msgid ""
 "Typically, this is the original package's version number in whatever form "
 "the program's author uses. It may also include a Debian revision number (for "
@@ -667,9 +666,8 @@ msgid ""
 msgstr ""
 "Vanligtvis är detta det ursprungliga paketets versionsnummer på den form "
 "programmets författare använder. Den kan även innehålla ett "
-"Debianrevisionsnummer (för paket med källa utanför Debian). Om både "
-"versionsnummer och revisionsnummer finns delas de med ett bindestreck (\"-"
-"\"), varför det ursprungliga versionsnumret inte får innehålla bindestreck."
+"Debianuppdateringsnummer (för paket vars källa är utanför Debian). Exakt "
+"format och sorteringsalgoritm beskrivs i B<deb-version>(5)."
 
 # type: TP
 #: ../../man/deb-control.5:37
@@ -975,7 +973,7 @@ msgid ""
 msgstr ""
 "Ett versionsnummer kan börja med \"E<gt>E<gt>\", vilket betyder att vilken "
 "som helst senare version matchar, där det är valfritt att ange "
-"Debianrevisionen (avdelad med bindestreck).  Tillåtna versionrelationer är "
+"Debianuppdateringen (avdelad med bindestreck).  Tillåtna versionrelationer är "
 "\"E<gt>E<gt>\" för större än, \"E<lt>E<lt>\" för mindre än, \"E<gt>=\" för "
 "större än eller lika med\", \"E<lt>=\" för mindre än eller lika med, och \"="
 "\" för lika med."
@@ -1134,33 +1132,32 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/deb-control.5:232
-#, fuzzy
 msgid ""
 "B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
-msgstr "B<deb>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
+msgstr ""
+"B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 
 # type: TP
 #: ../../man/deb-version.5:5
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "deb-version"
-msgstr "B<--version>"
+msgstr "deb-version"
 
 # type: TH
 #: ../../man/deb-version.5:5
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-10-06"
-msgstr "2007-10-08"
+msgstr "2007-10-06"
 
 # type: Plain text
 #: ../../man/deb-version.5:8
-#, fuzzy
 msgid "deb-version - Debian package version number format"
-msgstr "deb-control - Debians filformat för paketstyrfiler"
+msgstr "deb-version - Format på versionsnummer för Debianpaket"
 
 # type: Plain text
 #: ../../man/deb-version.5:11
 msgid "[ I<epoch>:] I<upstream_version> [-I<debian_revision> ]"
-msgstr ""
+msgstr "[ I<epok>:] I<uppströmsversion> [-I<debianuppdatering> ]"
 
 # type: Plain text
 #: ../../man/deb-version.5:14
@@ -1168,12 +1165,14 @@ msgid ""
 "Version numbers as used for Debian binary and source packages consist of "
 "three components. These are:"
 msgstr ""
+"Versionsnummer som används för Debians binär- och källkodspaket består av "
+"tre komponenter. De är:"
 
 # type: TP
 #: ../../man/deb-version.5:14
 #, no-wrap
 msgid "I<epoch>"
-msgstr ""
+msgstr "I<epok>"
 
 # type: Plain text
 #: ../../man/deb-version.5:20
@@ -1182,6 +1181,9 @@ msgid ""
 "which case zero is assumed.  If it is omitted then the I<upstream_version> "
 "may not contain any colons."
 msgstr ""
+"Ett ensamt (vanligtvis litet) heltalsvärde större än noll. Det kan uteslutas, "
+"i så fall antas det vara noll. Om det utesluts an inte I<uppströmsversion> "
+"innehålla kolontecken."
 
 # type: Plain text
 #: ../../man/deb-version.5:24
@@ -1190,12 +1192,14 @@ msgid ""
 "a package, and also a package's previous version numbering schemes, to be "
 "left behind."
 msgstr ""
+"Fältet är till för att rätta till fel i versionsnummer i tidigare versioner av "
+"paketet, samt attr hantera förändringar i paketets versionsnumreringssystem."
 
 # type: TP
 #: ../../man/deb-version.5:24
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "I<upstream_version>"
-msgstr "B<source:Upstream-Version>"
+msgstr "B<uppströmsversion>"
 
 # type: Plain text
 #: ../../man/deb-version.5:34
@@ -1207,6 +1211,11 @@ msgid ""
 "be reformatted to fit into the package management system's format and "
 "comparison scheme."
 msgstr ""
+"Detta är huvuddelen av versionsnumret. Det är vanligtvis versionsnumret "
+"för originalpaketet (\"uppströmspaketet\") som I<.deb>-filen skapats från, "
+"om ett sådant finns. Normalt anges det på samma form som används av "
+"uppströmsförfattaren/författarna, men det kan behöva formateras om för "
+"att passa med pakethanterarens format och jämförelsefunktion."
 
 # type: Plain text
 #: ../../man/deb-version.5:39
@@ -1215,6 +1224,8 @@ msgid ""
 "I<upstream_version> is described below.  The I<upstream_version> portion of "
 "the version number is mandatory."
 msgstr ""
+"Hur pakethanteraren jämför versionsnummer när det gäller I<uppströmsversion> "
+"beskrivs neda. Fältet I<uppströmsversion> i versionsnumret kan inte utelämnas."
 
 # type: Plain text
 #: ../../man/deb-version.5:48
@@ -1225,12 +1236,17 @@ msgid ""
 "then hyphens are not allowed; if there is no I<epoch> then colons are not "
 "allowed."
 msgstr ""
+"Fältet I<uppströmsversion> kan endast innehålla alfanumeriska tecken "
+"(\"A-Za-z0-9\") och tecknen B<.> B<+> B<-> B<:> B<~> (punkt, plus, "
+"bindestreck, kolon, tilde) och bör inledas med en siffra. Om det inte "
+"finns någon I<debianuppdatering> tillåts inte bindestreck och om det "
+"inte finns någon I<epok> tillåts inte kolontecken."
 
 # type: TP
 #: ../../man/deb-version.5:48
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "I<debian_revision>"
-msgstr "B<binary:Version>"
+msgstr "B<debianuppdatering>"
 
 # type: Plain text
 #: ../../man/deb-version.5:57
@@ -1240,6 +1256,10 @@ msgid ""
 "characters B<+> B<.> B<~> (plus, full stop, tilde) and is compared in the "
 "same way as the I<upstream_version> is."
 msgstr ""
+"Denna del av versionsnumret anger versionen för Debianpaketet som baserats "
+"på uppströmsversionen. Den kan endast innehålla alfanumeriska tecken samt "
+"tecknen B<+> B<.> B<~> (plus, punkt, tilde) och jämförs på samma sätt som "
+"I<uppströmsversion>."
 
 # type: Plain text
 #: ../../man/deb-version.5:64
@@ -1250,6 +1270,11 @@ msgid ""
 "only one \"debianisation\" of it and therefore no revision indication is "
 "required."
 msgstr ""
+"Fältet är valfritt - om det inte anges så kan inte I<uppströmsversion> "
+"innehålla något bindestreck. I så fall anger versionsnumret att en "
+"programvara skrivits specifikt för att göras till ett Debianpaket, och "
+"att det då endast finns en \"debianisering\" av det och att därför behövs "
+"ingen uppdateringsinformation vid sidan av."
 
 # type: Plain text
 #: ../../man/deb-version.5:68
@@ -1257,6 +1282,8 @@ msgid ""
 "It is conventional to restart the I<debian_revision> at '1' each time time "
 "the I<upstream_version> is increased."
 msgstr ""
+"Vanligtvis börar I<debianuppdatering> om på \"1\" varje gång I<uppströmsversion> "
+"ökas."
 
 # type: Plain text
 #: ../../man/deb-version.5:76
@@ -1267,12 +1294,17 @@ msgid ""
 "than the presence of one (but note that the I<debian_revision> is the least "
 "significant part of the version number)."
 msgstr ""
+"Dpkg delar upp versionsnumret vid det sista bindestrecket i strängen (om "
+"sådant finns) för att bestämma I<uppströmsversion> och I<debianuppdatering. "
+"Om I<debianuppdatering> saknas räknas det som tidigare än om fältet "
+"existerar (men notera att I<debianuppdatering> är den minst signifikanta "
+"delen av versionsnumret)."
 
 # type: SS
 #: ../../man/deb-version.5:76
 #, no-wrap
 msgid "Sorting Algorithm"
-msgstr ""
+msgstr "Sorteringsalgoritm"
 
 # type: Plain text
 #: ../../man/deb-version.5:80
@@ -1280,11 +1312,13 @@ msgid ""
 "The I<upstream_version> and I<debian_revision> parts are compared by the "
 "package management system using the same algorithm:"
 msgstr ""
+"Pakethanteringssystemet använder samma algoritm för att jämföra "
+"I<uppströmsversion>- och I<debianuppdatering>-delarna:"
 
 # type: Plain text
 #: ../../man/deb-version.5:82
 msgid "The strings are compared from left to right."
-msgstr ""
+msgstr "Strängarna jämförs från vänster till höger."
 
 # type: Plain text
 #: ../../man/deb-version.5:92
@@ -1297,6 +1331,13 @@ msgid ""
 "anything, even the end of a part.  For example, the following parts are in "
 "sorted order: '~~', '~~a', '~', the empty part, 'a'."
 msgstr ""
+"Först bestäms de inledande delar av varje sträng som enbart består av "
+"tecken som inte är siffror. Dessa båda delar (av vilka den ena kan vara "
+"tom) jämförs lexikalt. Om en skillnad upptäcks returneras den. Den "
+"lexikala jämförelsen jämför ASCII-värden, modifierad så att alla "
+"bokstäver sorteras före alla icke-bokstäver och så att ett tilde sorteras "
+"före allt, även i slutet av delsträngen. Till exempel är följande "
+"delsträngar sorterade: \"~~\", \"~~a\", \"~\", tomma delsträngen, \"a\"."
 
 # type: Plain text
 #: ../../man/deb-version.5:100
@@ -1307,6 +1348,12 @@ msgid ""
 "of the comparison.  For these purposes an empty string (which can only occur "
 "at the end of one or both version strings being compared) counts as zero."
 msgstr ""
+"Därefter bestäms de inledande delar av varje sträng som enbart består "
+"av siffror. De numeriska värdena av dessa delar jämförs och om en "
+"skillnad upptäcks i jämförelsen returneras den som resultat av "
+"jämförelsen. För detta ändamål räknas en tom sträng (vilket bara kan "
+"uppstå i slutet av den ena eller båda versionssträngarna som jämförs) "
+"som noll."
 
 # type: Plain text
 #: ../../man/deb-version.5:104
@@ -1315,6 +1362,9 @@ msgid ""
 "initial digit strings) are repeated until a difference is found or both "
 "strings are exhausted."
 msgstr ""
+"Dessa båda steg (jämföra och ta bort inledande strängar med icke-siffror "
+"och siffror) upprepas till en jämförelse upptäcks eller de båda strängarna "
+"tar slut."
 
 # type: Plain text
 #: ../../man/deb-version.5:112
@@ -1325,12 +1375,18 @@ msgid ""
 "containing strings of letters which the package management system cannot "
 "interpret (such as 'ALPHA' or 'pre-'), or with silly orderings."
 msgstr ""
+"Observera att epokfältet är till för att kunna rätta till tidigare misstag "
+"i versionsnumreringen, och att hantera situationer där "
+"versionsnumreringsmetoden ändras. Det är B<inte> tänkt att hantera "
+"versionsnummer som innehåller strängar av bokstäver som "
+"pakethanteringssystemet inte kan tolka (till exempel \"ALPHA\" eller \"Pre-\"), "
+"eller dumma sorteringsordningar."
 
 # type: SH
 #: ../../man/deb-version.5:112
 #, no-wrap
 msgid "CAVEATS"
-msgstr ""
+msgstr "VARNINGAR"
 
 # type: Plain text
 #: ../../man/deb-version.5:116
@@ -1339,12 +1395,14 @@ msgid ""
 "dpkg, version 1.10 and some parts of dpkg-dev only gained support for it "
 "later in the 1.10.x series."
 msgstr ""
+"Tildetecknets och dess speciella sorteringsegenskaper introducerades i "
+"dpkg version 1.10 och vissa delar av dpkg-dev fick inte stöd för det förrän "
+"senare i 1.10.x-serien."
 
 # type: Plain text
 #: ../../man/deb-version.5:120
-#, fuzzy
 msgid "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
-msgstr "B<deb>(5), B<deb-control>(5), B<dpkg-deb>(1), B<dpkg>(1)."
+msgstr "B<deb-control>(5), B<deb>(5), B<dpkg>(1)"
 
 # type: SH
 #: ../../man/deb-version.5:120 ../../man/dpkg.1:621
@@ -1360,11 +1418,10 @@ msgstr "FÖRFATTARE"
 # type: Plain text
 #: ../../man/deb-version.5:122
 msgid "Copyright Â© 1996,1997,1998 Ian Jackson and Christian Schwarz."
-msgstr ""
+msgstr "Upphovsrättsskyddat © 1996,1997,1998 Ian Jackson och Christian Schwarz."
 
 # type: Plain text
 #: ../../man/deb-version.5:124
-#, fuzzy
 msgid "Copyright Â© 2007 Frank Lichtenheld"
 msgstr "Upphovsrättsskyddat © 2007 Frank Lichtenheld"
 
@@ -11885,7 +11942,7 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "See I</usr/share/doc/dpkg/THANKS> for the list of people who have\n"
 #~ "contributed to B<dpkg>.\n"
 #~ msgstr ""
-#~ "Se filen B</usr/share/doc/dpkg/THANKS> fÃ¶r en lista Ã¶ver personer som\n"
+#~ "Se filen B</usr/share/doc/dpkg/THANKS> fÃƒÂ¶r en lista ÃƒÂ¶ver personer som\n"
 #~ "bidragit till B<dpkg> .\n"
 
 # type: Plain text
@@ -11909,17 +11966,17 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "directory, thus causing them to be unnecessarily included in every .diff."
 #~ "gz, unless you use the B<-i> switch."
 #~ msgstr ""
-#~ "Detta Ã¤r vÃ¤ldigt bra fÃ¶r att ta bort Ã¶verflÃ¶diga filer som dyker upp "
+#~ "Detta ÃƒÂ¤r vÃƒÂ¤ldigt bra fÃƒÂ¶r att ta bort ÃƒÂ¶verflÃƒÂ¶diga filer som dyker upp "
 #~ "i .diff.gz-filen, t.ex \"debian/BUGS_TODO/*\" eller \"debian/RCS/*,v\". "
-#~ "Om du, till exempel, underhÃ¥ller ett paket som du spÃ¥rar via en fjÃ¤rr-"
-#~ "CVS, dÃ¤r du inte har Ã¥tkomstbehÃ¶righet fÃ¶r att sÃ¤nda in "
-#~ "debianstyrfilerna och mÃ¤rka upp dem fÃ¶r I<cvs-buildpackage>(1) Ã¤r det "
-#~ "nÃ¶dvÃ¤ndigt att utfÃ¶ra en ytterligare utcheckning/uppdatering i en "
-#~ "katalog fÃ¶r att hÃ¥lla den ren, till att generera .orig.tar.gz frÃ¥n. "
-#~ "Den katalogen kommer att ha en CVS/Entries-fil som innehÃ¥ller tidsstÃ"
-#~ "¤mplingar som skiljer sig frÃ¥n dem i din arbetskatalog, vilket innebÃ¤r "
-#~ "att de kommer inkluderas i alla .diff.gz-filer utan att det behÃ¶vs, sÃ"
-#~ "¥vida du inte anvÃ¤nder flaggan B<-i>."
+#~ "Om du, till exempel, underhÃƒÂ¥ller ett paket som du spÃƒÂ¥rar via en fjÃƒÂ¤rr-"
+#~ "CVS, dÃƒÂ¤r du inte har ÃƒÂ¥tkomstbehÃƒÂ¶righet fÃƒÂ¶r att sÃƒÂ¤nda in "
+#~ "debianstyrfilerna och mÃƒÂ¤rka upp dem fÃƒÂ¶r I<cvs-buildpackage>(1) ÃƒÂ¤r det "
+#~ "nÃƒÂ¶dvÃƒÂ¤ndigt att utfÃƒÂ¶ra en ytterligare utcheckning/uppdatering i en "
+#~ "katalog fÃƒÂ¶r att hÃƒÂ¥lla den ren, till att generera .orig.tar.gz frÃƒÂ¥n. "
+#~ "Den katalogen kommer att ha en CVS/Entries-fil som innehÃƒÂ¥ller tidsstÃƒ"
+#~ "Â¤mplingar som skiljer sig frÃƒÂ¥n dem i din arbetskatalog, vilket innebÃƒÂ¤r "
+#~ "att de kommer inkluderas i alla .diff.gz-filer utan att det behÃƒÂ¶vs, sÃƒ"
+#~ "Â¥vida du inte anvÃƒÂ¤nder flaggan B<-i>."
 
 # type: TH
 #~ msgid "2007-05-15"

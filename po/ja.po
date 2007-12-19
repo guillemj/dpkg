@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13 r503\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
+"POT-Creation-Date: 2007-12-19 09:36+0100\n"
 "PO-Revision-Date: 2007-12-12 19:56+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
@@ -526,7 +526,7 @@ msgstr "dpkg ステータスデータベースをロックできません"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc 失敗 (%ld バイト)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc 失敗 (%ld バイト)"
@@ -922,26 +922,32 @@ msgstr "`%.255s' の許可属性設定エラーです"
 #: src/archives.c:339
 #, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr "`%.250s' の既存のシンボリックリンクの状態 (逆参照) を取得できませんでした"
+msgstr ""
+"`%.250s' の既存のシンボリックリンクの状態 (逆参照) を取得できませんでした"
 
 #: src/archives.c:360
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
-msgstr "シンボリックリンク `%2$.250s' の提案された新しいシンボリックターゲット `%1$.250s' の状態 (逆参照) を取得できませんでした"
+msgstr ""
+"シンボリックリンク `%2$.250s' の提案された新しいシンボリックターゲット `%1"
+"$.250s' の状態 (逆参照) を取得できませんでした"
 
 #: src/archives.c:411
 #, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
-msgstr "`%.250s' を上書きしようとしています。これは `%.250s' (パッケージ: %.100s) の退避バージョンです"
+msgstr ""
+"`%.250s' を上書きしようとしています。これは `%.250s' (パッケージ: %.100s) の"
+"退避バージョンです"
 
 #: src/archives.c:417
 #, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
-msgstr "`%.250s' を上書きしようとしています。これは `%.250s' の退避バージョンです"
+msgstr ""
+"`%.250s' を上書きしようとしています。これは `%.250s' の退避バージョンです"
 
 #: src/archives.c:440
 #, c-format
@@ -1123,7 +1129,8 @@ msgstr "dpkg: %2$s によって壊れた %1$s の設定削除を考えていま�
 #: src/archives.c:923
 #, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
-msgstr "dpkg: 問題ありません。(%2$s によって壊れた) %1$s の設定削除をします。\n"
+msgstr ""
+"dpkg: 問題ありません。(%2$s によって壊れた) %1$s の設定削除をします。\n"
 
 #: src/archives.c:927 src/archives.c:1048
 #, c-format
@@ -2857,7 +2864,9 @@ msgstr "%.250s のオープン時にエラーが発生しました"
 #: src/processarc.c:405
 #, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
-msgstr "%2$s を削除できるようにするために %1$s の設定削除 (deconfigure) を行います ...\n"
+msgstr ""
+"%2$s を削除できるようにするために %1$s の設定削除 (deconfigure) を行いま"
+"す ...\n"
 
 #: src/processarc.c:408
 #, c-format
@@ -2917,7 +2926,9 @@ msgstr "その他の新しいファイル `%.250s' の状態を取得できま�
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')\n"
-msgstr "dpkg: 警告 - 古いファイル `%.250s' がいくつかの新しいファイルと同一です! (`%.250s' と `%.250s' の両方)\n"
+msgstr ""
+"dpkg: 警告 - 古いファイル `%.250s' がいくつかの新しいファイルと同一です! (`"
+"%.250s' と `%.250s' の両方)\n"
 
 #: src/processarc.c:725
 #, c-format
@@ -3836,6 +3847,11 @@ msgstr "一時ディレクトリ名の作成に失敗しました"
 #: dpkg-deb/info.c:76
 msgid "failed to exec rm -rf"
 msgstr "rm -rf の実行に失敗しました"
+
+#: dpkg-deb/info.c:99
+#, fuzzy, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "realloc 失敗 (%ld バイト)"
 
 #: dpkg-deb/info.c:108
 msgid "info_spew"
@@ -5195,15 +5211,19 @@ msgstr ""
 "  --install <リンク> <名前> <パス> <優先度>\n"
 "    [--slave <リンク> <名前> <パス>] ...\n"
 "                           システムに alternatives のグループを追加する\n"
-"  --remove <名前> <パス>   <名前> のグループ alternative から <パス> を削除する\n"
-"  --remove-all <名前>      alternatives システムから <名前> のグループを削除する\n"
+"  --remove <名前> <パス>   <名前> のグループ alternative から <パス> を削除す"
+"る\n"
+"  --remove-all <名前>      alternatives システムから <名前> のグループを削除"
+"する\n"
 "  --auto <名前>            マスターリンク <名前> を、自動モードに切り替える\n"
 "  --display <名前>         <名前> グループについての情報を表示する\n"
 "  --list <名前>            <名前> グループのすべてのターゲットを表示する\n"
-"  --config <名前>          <名前> グループの alternatives を表示し、ユーザに\n"
+"  --config <名前>          <名前> グループの alternatives を表示し、ユーザ"
+"に\n"
 "                           使用したいものを尋ねる\n"
 "  --set <名前> <パス>      <名前> の alternative として <パス> を設定する\n"
-"  --all                    すべての alternatives に対して --config を呼び出す\n"
+"  --all                    すべての alternatives に対して --config を呼び出"
+"す\n"
 "\n"
 "<リンク> は %s/<名前> を指すシンボリックリンクです。\n"
 "  (例: /usr/bin/pager)\n"
