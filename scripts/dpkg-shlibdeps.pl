@@ -98,6 +98,7 @@ my %shlibs;
 
 my $cur_field;
 foreach my $file (keys %exec) {
+    my $pkg_root = guess_pkg_root_dir($file);
     $cur_field = $exec{$file};
     print "Scanning $file (for $cur_field field)\n" if $debug;
 
@@ -180,7 +181,8 @@ foreach my $file (keys %exec) {
 		push @soname_wo_symfile, $soname;
 		my $libobj = $dumplibs_wo_symfile->get_object($id);
 		# Only try to generate a dependency for libraries with a SONAME
-		if ($libobj->is_public_library() and not add_shlibs_dep($soname, $pkg)) {
+		if ($libobj->is_public_library() and not
+		    add_shlibs_dep($soname, $pkg, $pkg_root)) {
 		    # This failure is fairly new, try to be kind by
 		    # ignoring as many cases that can be safely ignored
 		    my $ignore = 0;
@@ -442,12 +444,14 @@ sub update_dependency_version {
 }
 
 sub add_shlibs_dep {
-    my ($soname, $pkg) = @_;
+    my ($soname, $pkg, $pkg_root) = @_;
+    my @shlibs = ($shlibslocal, $shlibsoverride);
+    # Make sure the shlibs of the current package is analyzed before the
+    # shlibs of other binary package from the same source
+    push @shlibs, "$pkg_root/DEBIAN/shlibs" if defined($pkg_root);
+    push @shlibs, @pkg_shlibs, "$admindir/info/$pkg.shlibs", $shlibsdefault;
     print "Looking up shlibs dependency of $soname provided by '$pkg'\n" if $debug;
-    foreach my $file ($shlibslocal, $shlibsoverride, @pkg_shlibs,
-			"$admindir/info/$pkg.shlibs",
-			$shlibsdefault)
-    {
+    foreach my $file (@shlibs) {
 	next if not -e $file;
 	my $dep = extract_from_shlibs($soname, $file);
 	if (defined($dep)) {
