@@ -229,6 +229,12 @@ sub check_many_actions()
     badusage(sprintf(_g("two commands specified: %s and --%s"), $_, $action));
 }
 
+sub checked_rm($)
+{
+    my ($f) = @_;
+    unlink($f) || $! == ENOENT ||
+        quit(sprintf(_g("unable to remove %s: %s"), $f, $!));
+}
 
 #
 # Main program
@@ -357,10 +363,8 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 if ($action eq 'auto') {
     &pr(sprintf(_g("Setting up automatic selection of %s."), $name))
       if $verbosemode > 0;
-    unlink("$altdir/$name.dpkg-tmp") || $! == &ENOENT ||
-        &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$name.dpkg-tmp", $!));
-    unlink("$altdir/$name") || $! == &ENOENT ||
-        &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$name", $!));
+    checked_rm("$altdir/$name.dpkg-tmp");
+    checked_rm("$altdir/$name");
     $state= 'nonexistent';
     $mode = 'auto';
 }
@@ -473,10 +477,8 @@ for (my $j = 0; $j <= $#slavenames; $j++) {
     if ($i > $#versions) {
         &pr(sprintf(_g("Discarding obsolete slave link %s (%s)."), $slavenames[$j], $slavelinks[$j]))
           if $verbosemode > 0;
-        unlink("$altdir/$slavenames[$j]") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$slavenames[$j]", $!));
-        unlink($slavelinks[$j]) || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), $slavelinks[$j], $!));
+        checked_rm("$altdir/$slavenames[$j]");
+        checked_rm($slavelinks[$j]);
         my $k = $#slavenames;
         $slavenum{$slavenames[$k]}= $j;
         delete $slavenum{$slavenames[$j]};
@@ -538,14 +540,10 @@ if ($mode eq 'auto') {
     if ($best eq '') {
         &pr(sprintf(_g("Last package providing %s (%s) removed, deleting it."), $name, $link))
           if $verbosemode > 0;
-        unlink("$altdir/$name") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$name", $!));
-        unlink("$link") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$link", $!));
-        unlink("$admindir/$name.dpkg-new") ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$admindir/$name.dpkg-new", $!));
-        unlink("$admindir/$name") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$admindir/$name", $!));
+        checked_rm("$altdir/$name");
+        checked_rm("$link");
+        checked_rm("$admindir/$name.dpkg-new");
+        checked_rm("$admindir/$name");
         exit(0);
     } else {
 	$linkname = readlink($link);
@@ -555,8 +553,7 @@ if ($mode eq 'auto') {
 		if $verbosemode > 0;
 	} elsif (!defined($linkname) ||
 		 (defined($linkname) && $linkname ne "$altdir/$name")) {
-            unlink("$link.dpkg-tmp") || $! == &ENOENT ||
-                &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$link.dpkg-tmp", $!));
+            checked_rm("$link.dpkg-tmp");
             symlink("$altdir/$name","$link.dpkg-tmp") ||
                 &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$link.dpkg-tmp", "$altdir/$name", $!));
             rename_mv("$link.dpkg-tmp",$link) ||
@@ -569,8 +566,7 @@ if ($mode eq 'auto') {
             &pr(sprintf(_g("Updating %s (%s) to point to %s."), $name, $link, $best))
               if $verbosemode > 0;
         }
-        unlink("$altdir/$name.dpkg-tmp") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$altdir/$name.dpkg-tmp", $!));
+        checked_rm("$altdir/$name.dpkg-tmp");
         symlink($best,"$altdir/$name.dpkg-tmp");
     }
 }
@@ -585,15 +581,12 @@ if ($mode eq 'auto') {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];
         $spath= $slavepath{$bestnum,$j};
-        unlink("$altdir/$sname.dpkg-tmp") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$altdir/$sname.dpkg-tmp", $!));
+        checked_rm("$altdir/$sname.dpkg-tmp");
         if ($spath eq '') {
             &pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $sname, $slink, $best))
               if $verbosemode > 0;
-            unlink("$altdir/$sname") || $! == &ENOENT ||
-                &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$sname", $!));
-	    unlink("$slink") || $! == &ENOENT ||
-	        &quit(sprintf(_g("unable to remove %s: %s"), $slink, $!));
+            checked_rm("$altdir/$sname");
+            checked_rm("$slink");
         } else {
 	    $linkname = readlink($slink);
 	    if (!defined($linkname) && $! != ENOENT) {
@@ -603,9 +596,7 @@ if ($mode eq 'auto') {
 		    if $verbosemode > 0;
 	    } elsif (!defined($linkname) ||
 	            (defined($linkname) && $linkname ne "$altdir/$sname")) {
-		unlink("$slink.dpkg-tmp") || $! == ENOENT ||
-		    quit(sprintf(_g("unable to ensure %s nonexistent: %s"),
-		                 "$slink.dpkg-tmp", $!));
+		checked_rm("$slink.dpkg-tmp");
 		symlink("$altdir/$sname","$slink.dpkg-tmp") ||
 		    quit(sprintf(_g("unable to make %s a symlink to %s: %s"),
 		                 "$slink.dpkg-tmp", "$altdir/$sname", $!));
@@ -683,8 +674,7 @@ sub config_alternatives {
 	    } else {
 		&pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave, $slavelinks[$slnum], $versions[$preferred]))
 		    if $verbosemode > 0;
-		unlink("$altdir/$slave") || $! == &ENOENT ||
-		    &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$slave", $!));
+		checked_rm("$altdir/$slave");
 	    }
 	}
 
@@ -719,8 +709,7 @@ sub set_alternatives {
      } else {
        &pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave, $slavelinks[$slnum], $versions[$preferred]))
 	 if $verbosemode > 0;
-       unlink("$altdir/$slave") || $! == &ENOENT ||
-	 &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$slave", $!));
+       checked_rm("$altdir/$slave");
      }
    }
 }
