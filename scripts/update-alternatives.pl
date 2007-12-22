@@ -554,8 +554,7 @@ if ($mode eq 'auto') {
 	} elsif (!defined($linkname) ||
 		 (defined($linkname) && $linkname ne "$altdir/$name")) {
             checked_rm("$link.dpkg-tmp");
-            symlink("$altdir/$name","$link.dpkg-tmp") ||
-                &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$link.dpkg-tmp", "$altdir/$name", $!));
+	    checked_symlink("$altdir/$name", "$link.dpkg-tmp");
             rename_mv("$link.dpkg-tmp",$link) ||
                 &quit(sprintf(_g("unable to install %s as %s: %s"), "$link.dpkg-tmp", $link, $!));
         }
@@ -597,9 +596,7 @@ if ($mode eq 'auto') {
 	    } elsif (!defined($linkname) ||
 	            (defined($linkname) && $linkname ne "$altdir/$sname")) {
 		checked_rm("$slink.dpkg-tmp");
-		symlink("$altdir/$sname","$slink.dpkg-tmp") ||
-		    quit(sprintf(_g("unable to make %s a symlink to %s: %s"),
-		                 "$slink.dpkg-tmp", "$altdir/$sname", $!));
+		checked_symlink("$altdir/$sname", "$slink.dpkg-tmp");
 		rename_mv("$slink.dpkg-tmp",$slink) ||
 		    quit(sprintf(_g("unable to install %s as %s: %s"),
 		                 "$slink.dpkg-tmp", $slink, $!));
@@ -611,8 +608,7 @@ if ($mode eq 'auto') {
                 &pr(sprintf(_g("Updating %s (%s) to point to %s."), $sname, $slink, $spath))
                   if $verbosemode > 0;
             }
-            symlink("$spath","$altdir/$sname.dpkg-tmp") ||
-                &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$altdir/$sname.dpkg-tmp", $spath, $!));
+	    checked_symlink("$spath", "$altdir/$sname.dpkg-tmp");
             rename_mv("$altdir/$sname.dpkg-tmp","$altdir/$sname") ||
                 &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$sname.dpkg-tmp", "$altdir/$sname", $!));
         }
@@ -660,8 +656,7 @@ sub config_alternatives {
 	$preferred--;
 	printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $versions[$preferred], $name;
 	my $spath = $versions[$preferred];
-	symlink("$spath","$altdir/$name.dpkg-tmp") ||
-	    &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$altdir/$name.dpkg-tmp", $spath, $!));
+	checked_symlink("$spath", "$altdir/$name.dpkg-tmp");
 	rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
 	    &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
 	# Link slaves...
@@ -695,8 +690,7 @@ sub set_alternatives {
      &quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n")
    }
    printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $apath, $name;
-   symlink("$apath","$altdir/$name.dpkg-tmp") ||
-     &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$altdir/$name.dpkg-tmp", $apath, $!));
+   checked_symlink("$apath", "$altdir/$name.dpkg-tmp");
    rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
      &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
    # Link slaves...
