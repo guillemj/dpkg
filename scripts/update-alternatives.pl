@@ -501,8 +501,7 @@ if ($mode eq 'manual') {
 } else {
     if ($state eq 'expected-inprogress') {
         &pr(sprintf(_g("Recovering from previous failed update of %s ..."), $name));
-        rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-            &quit(sprintf(_g("unable to rename %s to %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
+	checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
         $state= 'expected';
     }
 }
@@ -555,8 +554,7 @@ if ($mode eq 'auto') {
 		 (defined($linkname) && $linkname ne "$altdir/$name")) {
             checked_rm("$link.dpkg-tmp");
 	    checked_symlink("$altdir/$name", "$link.dpkg-tmp");
-            rename_mv("$link.dpkg-tmp",$link) ||
-                &quit(sprintf(_g("unable to install %s as %s: %s"), "$link.dpkg-tmp", $link, $!));
+	    checked_mv("$link.dpkg-tmp", $link);
         }
         if (defined($linkname= readlink("$altdir/$name")) && $linkname eq $best) {
             &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $name, $link, $best))
@@ -570,12 +568,10 @@ if ($mode eq 'auto') {
     }
 }
 
-rename_mv("$admindir/$name.dpkg-new","$admindir/$name") ||
-    &quit(sprintf(_g("unable to rename %s to %s: %s"), "$admindir/$name.dpkg-new", "$admindir/$name", $!));
+checked_mv("$admindir/$name.dpkg-new", "$admindir/$name");
 
 if ($mode eq 'auto') {
-    rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-        &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
+    checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
     for (my $j = 0; $j <= $#slavenames; $j++) {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];
@@ -597,9 +593,7 @@ if ($mode eq 'auto') {
 	            (defined($linkname) && $linkname ne "$altdir/$sname")) {
 		checked_rm("$slink.dpkg-tmp");
 		checked_symlink("$altdir/$sname", "$slink.dpkg-tmp");
-		rename_mv("$slink.dpkg-tmp",$slink) ||
-		    quit(sprintf(_g("unable to install %s as %s: %s"),
-		                 "$slink.dpkg-tmp", $slink, $!));
+		checked_mv("$slink.dpkg-tmp", $slink);
 	    }
             if (defined($linkname= readlink("$altdir/$sname")) && $linkname eq $spath) {
                 &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $sname, $slink, $spath))
@@ -609,8 +603,7 @@ if ($mode eq 'auto') {
                   if $verbosemode > 0;
             }
 	    checked_symlink("$spath", "$altdir/$sname.dpkg-tmp");
-            rename_mv("$altdir/$sname.dpkg-tmp","$altdir/$sname") ||
-                &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$sname.dpkg-tmp", "$altdir/$sname", $!));
+	    checked_mv("$altdir/$sname.dpkg-tmp", "$altdir/$sname");
         }
     }
 }
@@ -657,8 +650,7 @@ sub config_alternatives {
 	printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $versions[$preferred], $name;
 	my $spath = $versions[$preferred];
 	checked_symlink("$spath", "$altdir/$name.dpkg-tmp");
-	rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-	    &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
+	checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
 	# Link slaves...
 	for( my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
 	    my $slave = $slavenames[$slnum];
@@ -691,8 +683,7 @@ sub set_alternatives {
    }
    printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $apath, $name;
    checked_symlink("$apath", "$altdir/$name.dpkg-tmp");
-   rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-     &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
+   checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
    # Link slaves...
    for (my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
      my $slave = $slavenames[$slnum];
