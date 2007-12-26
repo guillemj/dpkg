@@ -416,7 +416,22 @@ if ($opmode eq 'build') {
 
     my $origdir = "$dir.orig";
     my $origtargz;
+    # Try to find a .orig tarball for the package
+    my @origtargz = map { "$basename.orig.tar.$comp_ext{$_}" } ($compression, @comp_supported);
+    foreach my $origtar (@origtargz) {
+	if (stat($origtar)) {
+	    -f _ || error(_g("packed orig `%s' exists but is not a plain file"),
+			  $origtar);
+	    $origtargz = $origtar;
+	    last;
+	} elsif ($! != ENOENT) {
+	    syserr(_g("unable to stat putative packed orig `%s'"), $origtar);
+	}
+    }
+
     if (@ARGV) {
+	# We have a second-argument <orig-dir> or <orig-targz>, check what it
+	# is to decide the mode to use
         my $origarg = shift(@ARGV);
         if (length($origarg)) {
             stat($origarg) ||
@@ -447,27 +462,20 @@ if ($opmode eq 'build') {
                       $sourcestyle);
         }
     } elsif ($sourcestyle =~ m/[aA]/) {
-	my @origtargz = map { "$basename.orig.tar.$comp_ext{$_}" } ($compression, @comp_supported);
-	foreach my $origtar (@origtargz) {
-	    if (stat($origtar)) {
-		-f _ || error(_g("packed orig `%s' exists but is not a plain file"),
-		              $origtar);
-		$sourcestyle =~ y/aA/pP/;
-		$origtargz = $origtar;
-		last;
-	    } elsif ($! != ENOENT) {
-		syserr(_g("unable to stat putative packed orig `%s'"), $origtar);
-	    }
-	}
-	if (!$origtargz) {
+	# We have no explicit <orig-dir> or <orig-targz>, try to use
+	# a .orig tarball first, then a .orig directory and fall back to
+	# creating a native .tar.gz
+	if ($origtargz) {
+	    $sourcestyle =~ y/aA/pP/; # .orig.tar.<ext>
+	} else {
 	    if (stat($origdir)) {
 		-d _ || error(_g("unpacked orig `%s' exists but is not a directory"),
 		              $origdir);
-		$sourcestyle =~ y/aA/rR/;
+		$sourcestyle =~ y/aA/rR/; # .orig directory
 	    } elsif ($! != ENOENT) {
 		syserr(_g("unable to stat putative unpacked orig `%s'"), $origdir);
 	    } else {
-		$sourcestyle =~ y/aA/nn/;
+		$sourcestyle =~ y/aA/nn/; # Native tar.gz
 	    }
 	}
     }
