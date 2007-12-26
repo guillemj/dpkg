@@ -1,6 +1,9 @@
 ## Process this file with automake to produce Makefile.in
 
-all-local: man.stamp
+all-local: all-local-@USE_NLS@
+
+all-local-no:
+all-local-yes: man.stamp
 
 # FIXME: Use a stamp file until po4a supports them internally.
 man.stamp:
@@ -8,7 +11,10 @@ man.stamp:
 		$(srcdir)/po/po4a.cfg
 	touch $@
 
-clean-local:
+clean-local: clean-local-@USE_NLS@
+
+clean-local-no:
+clean-local-yes:
 	po4a --rm-backups --rm-translations --variable srcdir=$(srcdir) \
 		$(srcdir)/po/po4a.cfg
 	rm -f man.stamp
@@ -21,7 +27,10 @@ update-po:
 # Extract the list of languages from the po4a config file.
 LINGUAS = $(shell sed -ne 's/^.*\[po4a_langs\] \(.*\)$$/\1/p' $(srcdir)/po/po4a.cfg)
 
-install-data-local:
+install-data-local: install-data-local-@USE_NLS@
+
+install-data-local-no:
+install-data-local-yes:
 	for lang in $(LINGUAS); do \
 		if [ -d $(srcdir)/$$lang ]; then \
 			files=$$(echo $(srcdir)/$$lang/*.[1-9]); \
@@ -32,7 +41,10 @@ install-data-local:
 		fi \
 	done
 
-uninstall-local:
+uninstall-local: uninstall-local-@USE_NLS@
+
+uninstall-local-no:
+uninstall-local-yes:
 	for lang in $(LINGUAS); do \
 		if [ -d $(srcdir)/$$lang ]; then \
 			files=$$(echo $(srcdir)/$$lang/*.[1-9]); \
