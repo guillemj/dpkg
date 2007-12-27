@@ -24,12 +24,15 @@ ACLOCAL_AMFLAGS = -I m4
 dist_pkgdata_DATA = cputable ostable triplettable
 
 EXTRA_DIST = \
+	README.translators \
 	debian/archtable \
 	debian/changelog \
 	debian/compat \
 	debian/control \
 	debian/copyright \
+	debian/dpkg-dev.docs \
 	debian/dpkg-dev.install \
+	debian/dpkg-dev.preinst \
 	debian/dpkg-dev.lintian-overrides \
 	debian/dpkg.cfg \
 	debian/dpkg.docs \
@@ -41,10 +44,25 @@ EXTRA_DIST = \
 	debian/dpkg.logrotate \
 	debian/dpkg.lintian-overrides \
 	debian/dselect.cfg \
+	debian/dselect.docs \
 	debian/dselect.install \
+	debian/dselect.preinst \
 	debian/dselect.lintian-overrides \
 	debian/source.lintian-overrides \
 	debian/usertags \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override
+
+# If we create the dist tarball from the git repository, make sure
+# that we're not forgetting some files...
+dist-hook:
+	if [ -e .git ]; then \
+		for file in `git ls-files | grep -v .gitignore`; do \
+			if [ ! -e "$(distdir)/$$file" ]; then \
+				echo "$$file is missing in $(distdir)" >&2 ; \
+				exit 1 ; \
+			fi ; \
+		done ; \
+	fi
+
