@@ -237,15 +237,20 @@ sub checkrename {
     # same name as the diversions but with an extension that
     # (hopefully) wont overwrite anything. If it succeeds, we
     # assume a writable filesystem.
-    foreach my $file ($rsrc, $rdest) {
-	if (open (TMP, ">> ${file}.dpkg-devert.tmp")) {
-		close TMP;
-		unlink ("${file}.dpkg-devert.tmp");
-	} elsif ($! == ENOENT) {
-		$dorename = !$dorename;
-	} else {
-		&quit(sprintf(_g("error checking \`%s': %s"), $file, $!));
-	}
+    if (open (TMP, ">>", "${rsrc}.dpkg-devert.tmp")) {
+	close TMP;
+	unlink ("${rsrc}.dpkg-devert.tmp");
+    } elsif ($! == ENOENT) {
+	$dorename = !$dorename;
+    } else {
+	quit(sprintf(_g("error checking \`%s': %s"), $rsrc, $!));
+    }
+
+    if (open (TMP, ">>", "${rdest}.dpkg-devert.tmp")) {
+	close TMP;
+	unlink ("${rdest}.dpkg-devert.tmp");
+    } else {
+	quit(sprintf(_g("error checking \`%s': %s"), $rdest, $!));
     }
     if (@ssrc && @sdest &&
         !($ssrc[0] == $sdest[0] && $ssrc[1] == $sdest[1])) {
