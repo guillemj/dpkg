@@ -700,7 +700,8 @@ sub paf {
 }
 sub gl {
     $!=0; $_= <AF>;
-    length($_) || &quit(sprintf(_g("error or eof reading %s for %s (%s)"), "$admindir/$name", $_[0], $!));
+    defined($_) || quit(sprintf(_g("error or eof reading %s for %s (%s)"),
+                                "$admindir/$name", $_[0], $!));
     s/\n$// || &badfmt(sprintf(_g("missing newline after %s"), $_[0]));
     $_;
 }
