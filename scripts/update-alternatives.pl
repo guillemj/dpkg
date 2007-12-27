@@ -223,6 +223,32 @@ sub list_link_group
     }
 }
 
+sub checked_alternative($$$)
+{
+    my ($name, $link, $path) = @_;
+
+    $linkname = readlink($link);
+    if (!defined($linkname) && $! != ENOENT) {
+	pr(sprintf(_g("warning: %s is supposed to be a symlink to %s, \n".
+	              "or nonexistent; however, readlink failed: %s"),
+	           $link, "$altdir/$name", $!))
+	    if $verbosemode > 0;
+    } elsif (!defined($linkname) ||
+            (defined($linkname) && $linkname ne "$altdir/$name")) {
+	checked_rm("$link.dpkg-tmp");
+	checked_symlink("$altdir/$name", "$link.dpkg-tmp");
+	checked_mv("$link.dpkg-tmp", $link);
+    }
+    $linkname = readlink("$altdir/$name");
+    if (defined($linkname) && $linkname eq $path) {
+	pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $name, $link, $path))
+	    if $verbosemode > 0;
+    } else {
+	pr(sprintf(_g("Updating %s (%s) to point to %s."), $name, $link, $path))
+	    if $verbosemode > 0;
+    }
+}
+
 sub set_links($$)
 {
     my ($spath, $preferred) = (@_);
@@ -235,6 +261,8 @@ sub set_links($$)
     for (my $slnum = 0; $slnum < @slavenames; $slnum++) {
 	my $slave = $slavenames[$slnum];
 	if ($slavepath{$preferred, $slnum} ne '') {
+	    checked_alternative($slave, $slavelinks[$slnum],
+	                  $slavepath{$preferred, $slnum});
 	    checked_symlink($slavepath{$preferred, $slnum},
 	                    "$altdir/$slave.dpkg-tmp");
 	    checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
@@ -569,24 +597,7 @@ if ($mode eq 'auto') {
         checked_rm("$admindir/$name");
         exit(0);
     } else {
-	$linkname = readlink($link);
-	if (!defined($linkname) && $! != ENOENT) {
-            &pr(sprintf(_g("warning: %s is supposed to be a symlink to %s\n".
-                " (or nonexistent); however, readlink failed: %s"), $link, "$altdir/$name", $!))
-		if $verbosemode > 0;
-	} elsif (!defined($linkname) ||
-		 (defined($linkname) && $linkname ne "$altdir/$name")) {
-            checked_rm("$link.dpkg-tmp");
-	    checked_symlink("$altdir/$name", "$link.dpkg-tmp");
-	    checked_mv("$link.dpkg-tmp", $link);
-        }
-        if (defined($linkname= readlink("$altdir/$name")) && $linkname eq $best) {
-            &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $name, $link, $best))
-              if $verbosemode > 0;
-        } else {
-            &pr(sprintf(_g("Updating %s (%s) to point to %s."), $name, $link, $best))
-              if $verbosemode > 0;
-        }
+	checked_alternative($name, $link, $best);
         checked_rm("$altdir/$name.dpkg-tmp");
         symlink($best,"$altdir/$name.dpkg-tmp");
     }
@@ -607,25 +618,7 @@ if ($mode eq 'auto') {
             checked_rm("$altdir/$sname");
             checked_rm("$slink");
         } else {
-	    $linkname = readlink($slink);
-	    if (!defined($linkname) && $! != ENOENT) {
-		pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
-		              " %s, or nonexistent; however, readlink failed: %s"),
-		           $slink, "$altdir/$sname", $!))
-		    if $verbosemode > 0;
-	    } elsif (!defined($linkname) ||
-	            (defined($linkname) && $linkname ne "$altdir/$sname")) {
-		checked_rm("$slink.dpkg-tmp");
-		checked_symlink("$altdir/$sname", "$slink.dpkg-tmp");
-		checked_mv("$slink.dpkg-tmp", $slink);
-	    }
-            if (defined($linkname= readlink("$altdir/$sname")) && $linkname eq $spath) {
-                &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $sname, $slink, $spath))
-                  if $verbosemode > 0;
-            } else {
-                &pr(sprintf(_g("Updating %s (%s) to point to %s."), $sname, $slink, $spath))
-                  if $verbosemode > 0;
-            }
+	    checked_alternative($sname, $slink, $spath);
 	    checked_symlink("$spath", "$altdir/$sname.dpkg-tmp");
 	    checked_mv("$altdir/$sname.dpkg-tmp", "$altdir/$sname");
         }
