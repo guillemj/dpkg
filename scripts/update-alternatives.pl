@@ -223,6 +223,30 @@ sub list_link_group
     }
 }
 
+sub set_links($$)
+{
+    my ($spath, $preferred) = (@_);
+
+    printf STDOUT _g("Using '%s' to provide '%s'.") . "\n", $spath, $name;
+    checked_symlink("$spath","$altdir/$name.dpkg-tmp");
+    checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
+
+    # Link slaves...
+    for (my $slnum = 0; $slnum < @slavenames; $slnum++) {
+	my $slave = $slavenames[$slnum];
+	if ($slavepath{$preferred, $slnum} ne '') {
+	    checked_symlink($slavepath{$preferred, $slnum},
+	                    "$altdir/$slave.dpkg-tmp");
+	    checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
+	} else {
+	    pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave,
+	               $slavelinks[$slnum], $versions[$preferred]))
+	        if $verbosemode > 0;
+	    checked_rm("$altdir/$slave");
+	}
+    }
+}
+
 sub check_many_actions()
 {
     return unless $action;
@@ -647,24 +671,9 @@ sub config_alternatives {
     if ($preferred ne '') {
 	$mode = "manual";
 	$preferred--;
-	printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $versions[$preferred], $name;
 	my $spath = $versions[$preferred];
-	checked_symlink("$spath", "$altdir/$name.dpkg-tmp");
-	checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
-	# Link slaves...
-	for( my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
-	    my $slave = $slavenames[$slnum];
-	    if ($slavepath{$preferred,$slnum} ne '') {
-		checked_symlink($slavepath{$preferred,$slnum},
-			"$altdir/$slave.dpkg-tmp");
-		checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
-	    } else {
-		&pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave, $slavelinks[$slnum], $versions[$preferred]))
-		    if $verbosemode > 0;
-		checked_rm("$altdir/$slave");
-	    }
-	}
 
+	set_links($spath, $preferred);
     }
 }
 
@@ -681,22 +690,7 @@ sub set_alternatives {
    if($preferred == -1){
      &quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n")
    }
-   printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $apath, $name;
-   checked_symlink("$apath", "$altdir/$name.dpkg-tmp");
-   checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
-   # Link slaves...
-   for (my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
-     my $slave = $slavenames[$slnum];
-     if ($slavepath{$preferred,$slnum} ne '') {
-       checked_symlink($slavepath{$preferred,$slnum},
-		       "$altdir/$slave.dpkg-tmp");
-       checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
-     } else {
-       &pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave, $slavelinks[$slnum], $versions[$preferred]))
-	 if $verbosemode > 0;
-       checked_rm("$altdir/$slave");
-     }
-   }
+   set_links($apath, $preferred);
 }
 
 sub pr { print(STDOUT "@_\n") || &quit(sprintf(_g("error writing stdout: %s"), $!)); }
