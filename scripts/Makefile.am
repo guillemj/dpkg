@@ -79,6 +79,7 @@ perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildOptions.pm \
+	Dpkg/Compression.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Deps.pm \
 	Dpkg/Fields.pm \

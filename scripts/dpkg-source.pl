@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 
-use Dpkg qw(:DEFAULT :compression);
+use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            internerr syserr subprocerr usageerr
@@ -11,6 +11,7 @@ use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
 use Dpkg::Fields qw(capit set_field_importance);
+use Dpkg::Compression;
 
 my @filesinarchive;
 my %dirincluded;

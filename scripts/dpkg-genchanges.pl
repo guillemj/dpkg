@@ -6,12 +6,13 @@ use warnings;
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use English;
-use Dpkg qw(:DEFAULT :compression);
+use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Fields qw(capit set_field_importance sort_field_by_importance);
+use Dpkg::Compression;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';

@@ -1,3 +1,15 @@
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg.pm (%EXPORT_TAGS, @EXPORT_OK): Remove.
+	(@comp_supported, %comp_supported, %comp_ext, $comp_regex): Move
+	variables ...
+	* scripts/Dpkg/Compression.pm: ... here. New file.
+	* scripts/dpkg-genchanges.pl: Use new module Dpkg::Compression
+	instead of tag from Dpkg.
+	* scripts/dpkg-source.pl: Likewise
+	* scripts/Makefile.am (nobase_dist_perllib_DATA): Add
+	'Dpkg/Compression.pm'.
+
 2007-12-27  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Shlibs/SymbolFile.pm: Blacklist some armel specific
