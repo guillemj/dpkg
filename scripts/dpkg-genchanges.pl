@@ -13,13 +13,14 @@ use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Fields qw(capit set_field_importance sort_field_by_importance);
 use Dpkg::Compression;
+use Dpkg::Control;
+use Dpkg::Cdata;
+use Dpkg::Substvars;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
-our (%f, %fi);
-our %p2i;
-our %substvar;
+our (%fi);
 our $sourcepackage;
 
 textdomain("dpkg-dev");
@@ -36,6 +37,8 @@ my $varlistfile = 'debian/substvars';
 my $uploadfilesdir = '..';
 my $sourcestyle = 'i';
 my $quiet = 0;
+my $host_arch = get_host_arch();
+my $changes_format = "1.7";
 
 my %f2p;           # - file to package map
 my %p2f;           # - package to file map, has entries for "packagename"
@@ -63,6 +66,8 @@ my $changesdescription;
 my $forcemaint;
 my $forcechangedby;
 my $since;
+
+my $substvars = Dpkg::Substvars->new();
 
 use constant SOURCE     => 1;
 use constant ARCH_DEP   => 2;
@@ -169,7 +174,7 @@ while (@ARGV) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-	$substvar{$1}= $POSTMATCH;
+	$substvars->set($1, $POSTMATCH);
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
@@ -180,7 +185,9 @@ while (@ARGV) {
 }
 
 parsechangelog($changelogfile, $changelogformat, $since);
-parsecontrolfile($controlfile);
+my $control = Dpkg::Control->new($controlfile);
+my $fields = Dpkg::Fields::Object->new();
+$substvars->set_version_substvars($fi{"L Version"});
 
 if (not is_sourceonly) {
     open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
@@ -221,28 +228,30 @@ if (not is_sourceonly) {
     close(FL);
 }
 
-for $_ (keys %fi) {
-    my $v = $fi{$_};
+# Scan control info of source package
+my $src_fields = $control->get_source();
+foreach $_ (keys %{$src_fields}) {
+    my $v = $src_fields->{$_};
+    if (m/^Source$/) {
+	setsourcepackage($v);
+    }
+    elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
+    elsif (m/^Maintainer$/i) { $fields->{$_} = $v; }
+    elsif (s/^X[BS]*C[BS]*-//i) { $fields->{$_} = $v; }
+    elsif (m/^X[BS]+-/i ||
+	   m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
+	   m/^(Standards-Version|Uploaders|Homepage|Origin|Bugs)$/i ||
+	   m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+    }
+    else { &unknown(_g('general section of control info file')); }
+}
 
-    if (s/^C //) {
-	if (m/^Source$/) {
-	    setsourcepackage($v);
-	}
-	elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
-	elsif (m/^Maintainer$/i) { $f{$_}= $v; }
-	elsif (s/^X[BS]*C[BS]*-//i) { $f{$_}= $v; }
-	elsif (m/^X[BS]+-/i ||
-	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
-	       m/^(Standards-Version|Uploaders|Homepage|Origin|Bugs)$/i ||
-	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
-	}
-	else { &unknown(_g('general section of control info file')); }
-    } elsif (s/^C(\d+) //) {
-	my $i = $1;
-	my $p = $fi{"C$i Package"};
-	my $a = $fi{"C$i Architecture"};
-	my $host_arch = get_host_arch();
-
+# Scan control info of all binary packages
+foreach my $pkg ($control->get_packages()) {
+    my $p = $pkg->{"Package"};
+    my $a = $pkg->{"Architecture"};
+    foreach $_ (keys %{$pkg}) {
+	my $v = $pkg->{$_};
 	if (!defined($p2f{$p}) && not is_sourceonly) {
 	    if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
 		(grep(debarch_is($host_arch, $_), split(/\s+/, $a))
@@ -271,14 +280,14 @@ for $_ (keys %fi) {
 	    } elsif (m/^Priority$/) {
 		$f2pricf{$_} = $v foreach (@f);
 	    } elsif (s/^X[BS]*C[BS]*-//i) {
-		$f{$_}= $v;
+		$fields->{$_} = $v;
 	    } elsif (m/^Architecture$/) {
 		if (not is_sourceonly) {
 		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
 			and ($include & ARCH_DEP)) {
 			$v = $host_arch;
 		    } elsif (!debarch_eq('all', $v)) {
-			$v= '';
+			$v = '';
 		    }
 		} else {
 		    $v = '';
@@ -293,38 +302,40 @@ for $_ (keys %fi) {
 		&unknown(_g("package's section of control info file"));
 	    }
 	}
-    } elsif (s/^L //) {
+    }
+}
+
+for $_ (keys %fi) {
+    my $v = $fi{$_};
+
+    if (s/^L //) {
         if (m/^Source$/i) {
 	    setsourcepackage($v);
         } elsif (m/^Maintainer$/i) {
-	    $f{"Changed-By"}=$v;
+	    $fields->{"Changed-By"} = $v;
         } elsif (m/^(Version|Changes|Urgency|Distribution|Date|Closes)$/i) {
-            $f{$_}= $v;
+            $fields->{$_} = $v;
         } elsif (s/^X[BS]*C[BS]*-//i) {
-            $f{$_}= $v;
+            $fields->{$_} = $v;
         } elsif (!m/^X[BS]+-/i) {
             &unknown(_g("parsed version of changelog"));
         }
-    } elsif (m/^o:.*/) {
-    } else {
-	internerr("value from nowhere, with key >%s< and value >%s<",
-                  $_, $v);
     }
 }
 
 if ($changesdescription) {
-    $f{'Changes'}= '';
+    $fields->{'Changes'} = '';
     open(X,"<",$changesdescription) || &syserr(_g("read changesdescription"));
     while(<X>) {
         s/\s*\n$//;
         $_= '.' unless m/\S/;
-        $f{'Changes'}.= "\n $_";
+        $fields->{'Changes'}.= "\n $_";
     }
 }
 
 for my $pa (keys %pa2f) {
     my ($pp, $aa) = (split / /, $pa);
-    defined($p2i{"C $pp"}) ||
+    defined($control->get_pkg_by_name($pp)) ||
 	warning(_g("package %s listed in files list but not in control info"),
 	        $pp);
 }
@@ -354,9 +365,6 @@ for my $p (keys %p2f) {
     }
 }
 
-&init_substvars;
-init_substvar_arch();
-
 my $origsrcmsg;
 
 if (!is_binaryonly) {
@@ -371,14 +379,15 @@ if (!is_binaryonly) {
 	warning(_g("missing Priority for source files"));
     }
 
-    (my $sversion = $substvar{'source:Version'}) =~ s/^\d+://;
+    (my $sversion = $substvars->get('source:Version')) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
     open(CDATA, "<", $dsc) || syserr(_g("cannot open .dsc file %s"), $dsc);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
-    parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
+    my $dsc_fields = parsecdata(\*CDATA, sprintf(_g("source control file %s"), $dsc),
+				allow_pgp => 1);
 
-    my $files = $fi{'S Files'};
+    my $files = $dsc_fields->{'Files'};
     for my $file (split(/\n /, $files)) {
         next if $file eq '';
         $file =~ m/^([0-9a-f]{32})[ \t]+\d+[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
@@ -410,25 +419,25 @@ if (!is_binaryonly) {
 print(STDERR "$progname: $origsrcmsg\n") ||
     &syserr(_g("write original source message")) unless $quiet;
 
-$f{'Format'}= $substvar{'Format'};
+$fields->{'Format'} = $changes_format;
 
-if (!defined($f{'Date'})) {
+if (!defined($fields->{'Date'})) {
     chomp(my $date822 = `date -R`);
     $? && subprocerr("date -R");
-    $f{'Date'}= $date822;
+    $fields->{'Date'}= $date822;
 }
 
-$f{'Binary'}= join(' ',grep(s/C //,keys %p2i));
+$fields->{'Binary'} = join(' ', map { $_->{'Package'} } $control->get_packages());
 
 unshift(@archvalues,'source') unless is_binaryonly;
 @archvalues = ('all') if $include == ARCH_INDEP;
 @archvalues = grep {!debarch_eq('all',$_)} @archvalues
     unless $include & ARCH_INDEP;
-$f{'Architecture'}= join(' ',@archvalues);
+$fields->{'Architecture'} = join(' ',@archvalues);
 
-$f{'Description'}= "\n ".join("\n ",sort @descriptions);
+$fields->{'Description'} = "\n ".join("\n ",sort @descriptions);
 
-$f{'Files'}= '';
+$fields->{'Files'} = '';
 
 my %filedone;
 
@@ -451,34 +460,35 @@ for my $f (@sourcefiles, @fileslistfiles) {
     defined($md5sum{$f}) && $md5sum{$f} ne $md5sum &&
         error(_g("md5sum of source file %s (%s) is different from md5sum " .
                  "in %s (%s)"), $uf, $md5sum, $dsc, $md5sum{$f});
-    $f{'Files'}.= "\n $md5sum $size $f2sec{$f} $f2pri{$f} $f";
+    $fields->{'Files'}.= "\n $md5sum $size $f2sec{$f} $f2pri{$f} $f";
 }
 
-$f{'Source'}= $sourcepackage;
-if ($f{'Version'} ne $substvar{'source:Version'}) {
-    $f{'Source'} .= " ($substvar{'source:Version'})";
+$fields->{'Source'}= $sourcepackage;
+if ($fields->{'Version'} ne $substvars->get('source:Version')) {
+    $fields->{'Source'} .= " (" . $substvars->get('source:Version') . ")";
 }
 
-$f{'Maintainer'} = $forcemaint if defined($forcemaint);
-$f{'Changed-By'} = $forcechangedby if defined($forcechangedby);
+$fields->{'Maintainer'} = $forcemaint if defined($forcemaint);
+$fields->{'Changed-By'} = $forcechangedby if defined($forcechangedby);
 
 for my $f (qw(Version Distribution Maintainer Changes)) {
-    defined($f{$f}) ||
+    defined($fields->{$f}) ||
         error(_g("missing information for critical output field %s"), $f);
 }
 
 for my $f (qw(Urgency)) {
-    defined($f{$f}) ||
+    defined($fields->{$f}) ||
         warning(_g("missing information for output field %s"), $f);
 }
 
 for my $f (keys %override) {
-    $f{capit($f)} = $override{$f};
+    $fields->{$f} = $override{$f};
 }
 for my $f (keys %remove) {
-    delete $f{capit($f)};
+    delete $fields->{$f};
 }
 
 set_field_importance(@changes_fields);
-outputclose();
+$substvars->parse($varlistfile) if -e $varlistfile;
+tied(%{$fields})->output(\*STDOUT, $substvars);
 

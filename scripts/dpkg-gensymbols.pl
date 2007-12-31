@@ -10,16 +10,16 @@ use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error syserr usageerr);
+use Dpkg::Control;
 
 textdomain("dpkg-dev");
 
 push(@INC, $dpkglibdir);
 require 'controllib.pl';
 
-our (%f, %fi);
+our %fi;
 our %p2i;
 
-my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
 my $packagebuilddir = 'debian/tmp';
 
@@ -118,13 +118,12 @@ if (not defined($sourceversion)) {
     $sourceversion = $fi{"L Version"};
 }
 if (not defined($oppackage)) {
-    parsecontrolfile($controlfile);
-    my @packages = grep(m/^C /, keys %p2i);
+    my $control = Dpkg::Control->new();
+    my @packages = map { $_->{'Package'} } $control->get_packages();
     @packages == 1 ||
 	error(_g("must specify package since control info has many (%s)"),
 	      "@packages");
     $oppackage = $packages[0];
-    $oppackage =~ s/^C //;
 }
 
 my $symfile = Dpkg::Shlibs::SymbolFile->new();
