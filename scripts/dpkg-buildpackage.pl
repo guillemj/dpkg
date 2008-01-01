@@ -11,6 +11,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
                            $warnable_error);
 use Dpkg::BuildOptions;
+use Dpkg::Version qw(check_version);
 
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
@@ -283,7 +284,7 @@ sub mustsetvar {
 
 my $pkg = mustsetvar($changes{source}, _g('source package'));
 my $version = mustsetvar($changes{version}, _g('source version'));
-checkversion($version);
+check_version($version);
 
 my $maintainer;
 if ($changedby) {

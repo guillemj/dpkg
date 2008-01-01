@@ -23,7 +23,7 @@ use warnings;
 
 use Exporter;
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(vercmp compare_versions);
+our @EXPORT_OK = qw(vercmp compare_versions check_version);
 
 =head1 NAME
 
@@ -190,6 +190,17 @@ sub compare_versions ($$$)
     } else {
 	die "bad relation '$rel'";
     }
+}
+
+=item check_version($version)
+
+Check the version string and fails it it's invalid.
+
+=cut
+sub check_version ($) {
+    my $version = shift || '';
+    $version =~ m/[^-+:.0-9a-zA-Z~]/o &&
+        error(_g("version number contains illegal character `%s'"), $&);
 }
 
 =back

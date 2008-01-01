@@ -15,6 +15,7 @@ use Dpkg::Compression;
 use Dpkg::Cdata;
 use Dpkg::Control;
 use Dpkg::Substvars;
+use Dpkg::Version qw(check_version);
 
 my @filesinarchive;
 my %dirincluded;
@@ -385,7 +386,7 @@ if ($opmode eq 'build') {
             if (m/^Source$/) {
 		setsourcepackage($v);
             } elsif (m/^Version$/) {
-		checkversion( $v );
+		check_version($v);
                 $fields->{$_} = $v;
             } elsif (s/^X[BS]*C[BS]*-//i) {
                 $fields->{$_} = $v;
@@ -865,7 +866,7 @@ if ($opmode eq 'build') {
     my $baseversion;
     my $revision;
 
-    checkversion( $version );
+    check_version($version);
     $version =~ s/^\d+://;
     if ($version =~ m/-([^-]+)$/) {
         $baseversion= $`; $revision= $1;
