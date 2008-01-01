@@ -1079,8 +1079,9 @@ do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry
 			push(&killed, p->pid);
  			(*n_killed)++;
 		} else {
-			printf("%s: warning: failed to kill %d: %s\n",
-			       progname, p->pid, strerror(errno));
+			if (signal_nr)
+				printf("%s: warning: failed to kill %d: %s\n",
+				       progname, p->pid, strerror(errno));
  			(*n_notkilled)++;
 		}
 	}
