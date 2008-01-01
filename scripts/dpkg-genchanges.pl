@@ -16,12 +16,12 @@ use Dpkg::Compression;
 use Dpkg::Control;
 use Dpkg::Cdata;
 use Dpkg::Substvars;
+use Dpkg::Vars;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 our (%fi);
-our $sourcepackage;
 
 textdomain("dpkg-dev");
 
@@ -233,7 +233,7 @@ my $src_fields = $control->get_source();
 foreach $_ (keys %{$src_fields}) {
     my $v = $src_fields->{$_};
     if (m/^Source$/) {
-	setsourcepackage($v);
+	set_source_package($v);
     }
     elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
     elsif (m/^Maintainer$/i) { $fields->{$_} = $v; }
@@ -310,7 +310,7 @@ for $_ (keys %fi) {
 
     if (s/^L //) {
         if (m/^Source$/i) {
-	    setsourcepackage($v);
+	    set_source_package($v);
         } elsif (m/^Maintainer$/i) {
 	    $fields->{"Changed-By"} = $v;
         } elsif (m/^(Version|Changes|Urgency|Distribution|Date|Closes)$/i) {

@@ -16,6 +16,7 @@ use Dpkg::Cdata;
 use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Version qw(check_version);
+use Dpkg::Vars;
 
 my @filesinarchive;
 my %dirincluded;
@@ -116,7 +117,6 @@ push (@INC, $dpkglibdir);
 require 'controllib.pl';
 
 our (%fi);
-our $sourcepackage;
 our @src_dep_fields;
 
 textdomain("dpkg-dev");
@@ -312,7 +312,7 @@ if ($opmode eq 'build') {
     foreach $_ (keys %{$src_fields}) {
 	my $v = $src_fields->{$_};
 	if (m/^Source$/i) {
-	    setsourcepackage($v);
+	    set_source_package($v);
 	} elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
 		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 	    $fields->{$_} = $v;
@@ -384,7 +384,7 @@ if ($opmode eq 'build') {
 
         if (s/^L //) {
             if (m/^Source$/) {
-		setsourcepackage($v);
+		set_source_package($v);
             } elsif (m/^Version$/) {
 		check_version($v);
                 $fields->{$_} = $v;
@@ -859,8 +859,7 @@ if ($opmode eq 'build') {
         $dscformat=$fields->{'Format'};
     }
 
-    $sourcepackage = $fields->{'Source'}; # XXX: should use setsourcepackage??
-    checkpackagename( $sourcepackage );
+    set_source_package($fields->{'Source'});
 
     my $version = $fields->{'Version'};
     my $baseversion;

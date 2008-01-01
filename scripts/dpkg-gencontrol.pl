@@ -14,12 +14,12 @@ use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
 use Dpkg::Fields qw(capit set_field_importance);
 use Dpkg::Control;
 use Dpkg::Substvars;
+use Dpkg::Vars;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
 
 our %fi;
-our $sourcepackage;
 
 textdomain("dpkg-dev");
 
@@ -155,7 +155,7 @@ foreach $_ (keys %{$src_fields}) {
     } elsif (m/^(Section|Priority|Homepage)$/) {
 	$fields->{$_} = $v;
     } elsif (m/^Source$/) {
-	setsourcepackage($v);
+	set_source_package($v);
     }
     elsif (s/^X[CS]*B[CS]*-//i) { $fields->{$_} = $v; }
     elsif (m/^X[CS]+-/i ||
@@ -206,7 +206,7 @@ for $_ (keys %fi) {
 
     if (s/^L //) {
         if (m/^Source$/) {
-	    setsourcepackage($v);
+	    set_source_package($v);
         } elsif (m/^Version$/) {
             $sourceversion = $v;
 	    $fields->{$_} = $v unless defined($forceversion);
