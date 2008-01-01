@@ -1668,3 +1668,10 @@ sub deoctify {
     return join("", @_);
 } }
 
+sub readmd5sum {
+    (my $md5sum = shift) or return;
+    $md5sum =~ s/^([0-9a-f]{32})\s*\*?-?\s*\n?$/$1/o
+        || failure(_g("md5sum gave bogus output `%s'"), $md5sum);
+    return $md5sum;
+}
+
