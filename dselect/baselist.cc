@@ -151,6 +151,7 @@ void baselist::startdisplay() {
     info_attr= list_attr;
     info_headattr= A_BOLD;
     whatinfo_attr= thisstate_attr;
+    helpscreen_attr= A_NORMAL;
   }
 
   // set up windows and pads, based on screen size
