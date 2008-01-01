@@ -13,9 +13,6 @@ use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
 use Dpkg::BuildOptions;
 use Dpkg::Version qw(check_version);
 
-push (@INC, $dpkglibdir);
-require 'controllib.pl';
-
 textdomain("dpkg-dev");
 
 sub showversion {

@@ -17,6 +17,7 @@ use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Version qw(check_version);
 use Dpkg::Vars;
+use Dpkg::Changelog qw(parse_changelog);
 
 my @filesinarchive;
 my %dirincluded;
@@ -112,12 +113,6 @@ use Fcntl qw (:mode);
 use English;
 use File::Temp qw (tempfile);
 use Cwd;
-
-push (@INC, $dpkglibdir);
-require 'controllib.pl';
-
-our (%fi);
-our @src_dep_fields;
 
 textdomain("dpkg-dev");
 
@@ -296,7 +291,7 @@ if ($opmode eq 'build') {
     $changelogfile= "$dir/debian/changelog" unless defined($changelogfile);
     $controlfile= "$dir/debian/control" unless defined($controlfile);
     
-    parsechangelog($changelogfile, $changelogformat);
+    my $changelog = parse_changelog($changelogfile, $changelogformat);
     my $control = Dpkg::Control->new($controlfile);
     my $fields = Dpkg::Fields::Object->new();
 
@@ -379,22 +374,21 @@ if ($opmode eq 'build') {
 	}
     }
 
-    for $_ (keys %fi) {
-        my $v = $fi{$_};
+    # Scan fields of dpkg-parsechangelog
+    foreach $_ (keys %{$changelog}) {
+        my $v = $changelog->{$_};
 
-        if (s/^L //) {
-            if (m/^Source$/) {
-		set_source_package($v);
-            } elsif (m/^Version$/) {
-		check_version($v);
-                $fields->{$_} = $v;
-            } elsif (s/^X[BS]*C[BS]*-//i) {
-                $fields->{$_} = $v;
-            } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
-                     m/^X[BS]+-/i) {
-            } else {
-                &unknown(_g("parsed version of changelog"));
-            }
+	if (m/^Source$/) {
+	    set_source_package($v);
+	} elsif (m/^Version$/) {
+	    check_version($v);
+	    $fields->{$_} = $v;
+	} elsif (s/^X[BS]*C[BS]*-//i) {
+	    $fields->{$_} = $v;
+	} elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
+		 m/^X[BS]+-/i) {
+	} else {
+	    &unknown(_g("parsed version of changelog"));
 	}
     }
 

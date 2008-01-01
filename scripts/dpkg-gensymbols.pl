@@ -11,14 +11,9 @@ use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error syserr usageerr);
 use Dpkg::Control;
+use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
-
-push(@INC, $dpkglibdir);
-require 'controllib.pl';
-
-our %fi;
-our %p2i;
 
 my $changelogfile = 'debian/changelog';
 my $packagebuilddir = 'debian/tmp';
@@ -114,8 +109,8 @@ if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
 }
 
 if (not defined($sourceversion)) {
-    parsechangelog($changelogfile);
-    $sourceversion = $fi{"L Version"};
+    my $changelog = parse_changelog($changelogfile);
+    $sourceversion = $changelog->{"Version"};
 }
 if (not defined($oppackage)) {
     my $control = Dpkg::Control->new();

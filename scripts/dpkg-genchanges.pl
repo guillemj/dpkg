@@ -17,11 +17,7 @@ use Dpkg::Control;
 use Dpkg::Cdata;
 use Dpkg::Substvars;
 use Dpkg::Vars;
-
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
-
-our (%fi);
+use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
@@ -184,10 +180,10 @@ while (@ARGV) {
     }
 }
 
-parsechangelog($changelogfile, $changelogformat, $since);
+my $changelog = parse_changelog($changelogfile, $changelogformat, $since);
 my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
-$substvars->set_version_substvars($fi{"L Version"});
+$substvars->set_version_substvars($changelog->{"Version"});
 
 if (not is_sourceonly) {
     open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
@@ -305,21 +301,19 @@ foreach my $pkg ($control->get_packages()) {
     }
 }
 
-for $_ (keys %fi) {
-    my $v = $fi{$_};
-
-    if (s/^L //) {
-        if (m/^Source$/i) {
-	    set_source_package($v);
-        } elsif (m/^Maintainer$/i) {
-	    $fields->{"Changed-By"} = $v;
-        } elsif (m/^(Version|Changes|Urgency|Distribution|Date|Closes)$/i) {
-            $fields->{$_} = $v;
-        } elsif (s/^X[BS]*C[BS]*-//i) {
-            $fields->{$_} = $v;
-        } elsif (!m/^X[BS]+-/i) {
-            &unknown(_g("parsed version of changelog"));
-        }
+# Scan fields of dpkg-parsechangelog
+foreach $_ (keys %{$changelog}) {
+    my $v = $changelog->{$_};
+    if (m/^Source$/i) {
+	set_source_package($v);
+    } elsif (m/^Maintainer$/i) {
+	$fields->{"Changed-By"} = $v;
+    } elsif (m/^(Version|Changes|Urgency|Distribution|Date|Closes)$/i) {
+	$fields->{$_} = $v;
+    } elsif (s/^X[BS]*C[BS]*-//i) {
+	$fields->{$_} = $v;
+    } elsif (!m/^X[BS]+-/i) {
+	&unknown(_g("parsed version of changelog"));
     }
 }
 

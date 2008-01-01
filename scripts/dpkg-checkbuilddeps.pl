@@ -12,9 +12,6 @@ use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Deps;
 use Dpkg::Control;
 
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
-
 textdomain("dpkg-dev");
 
 sub usage {
