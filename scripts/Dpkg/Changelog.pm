@@ -39,7 +39,8 @@ use English;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning report);
+use Dpkg::ErrorHandling qw(warning report syserr subprocerr);
+use Dpkg::Cdata;
 
 use base qw(Exporter);
 
@@ -48,6 +49,7 @@ our %EXPORT_TAGS = ( 'util' => [ qw(
                 data2rfc822
                 data2rfc822_mult
                 get_dpkg_changes
+		parse_changelog
 ) ] );
 our @EXPORT_OK = @{$EXPORT_TAGS{util}};
 
@@ -690,6 +692,28 @@ sub get_dpkg_changes {
     chomp $changes;
     $changes =~ s/^ $/ ./mgo;
     return $changes;
+}
+
+=pod
+
+=head3 parse_changelog($file, $format, $since)
+
+Calls "dpkg-parsechangelog -l$file -F$format -v$since"  and returns a
+Dpkg::Cdata::Object with the values output by the program.
+
+=cut
+sub parse_changelog {
+    my ($changelogfile, $changelogformat, $since) = @_;
+
+    my @exec = ('dpkg-parsechangelog');
+    push(@exec, "-l$changelogfile");
+    push(@exec, "-F$changelogformat") if defined($changelogformat);
+    push(@exec, "-v$since") if defined($since);
+
+    open(PARSECH, "-|", @exec) || syserr(_g("fork for parse changelog"));
+    my $fields = parsecdata(\*PARSECH, _g("parsed version of changelog"));
+    close(PARSECH) || subprocerr(_g("parse changelog"));
+    return $fields;
 }
 
 =head1 NAME
