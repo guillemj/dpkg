@@ -69,7 +69,9 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/objdump.ls \
 	t/300_Dpkg_BuildOptions.t \
 	t/400_Dpkg_Deps.t \
-	t/500_Dpkg_Path.t
+	t/500_Dpkg_Path.t \
+	t/700_Dpkg_Control.t \
+	t/700_Dpkg_Control/control-1
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
@@ -80,6 +82,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildOptions.pm \
 	Dpkg/Compression.pm \
+	Dpkg/Cdata.pm \
+	Dpkg/Control.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Deps.pm \
 	Dpkg/Fields.pm \
@@ -88,6 +92,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs.pm \
 	Dpkg/Shlibs/Objdump.pm \
 	Dpkg/Shlibs/SymbolFile.pm \
+	Dpkg/Substvars.pm \
+	Dpkg/Vars.pm \
 	Dpkg/Version.pm \
 	Dpkg.pm
 
