@@ -47,6 +47,11 @@
 	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
 	scripts/dpkg-source.pl: Use the new set_source_package.
 
+	* scripts/dpkg-distaddfile.pl, scripts/dpkg-gencontrol.pl: Delete
+	the chown(getfowner(), ...) on new files. It doesn't seem to do
+	anything useful anymore as it got dropped from several other
+	scripts over the years without problems.
+
 2007-12-28  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/ErrorHandling.pm (syntaxerr): New function to

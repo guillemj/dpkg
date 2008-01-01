@@ -9,9 +9,6 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error syserr usageerr);
 
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
-
 textdomain("dpkg-dev");
 
 my $fileslistfile = 'debian/files';
@@ -63,8 +60,6 @@ my ($file, $section, $priority) = @ARGV;
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
-chown(getfowner(), "$fileslistfile.new") 
-		|| &syserr(_g("chown new files list file"));
 if (open(X,"< $fileslistfile")) {
     while (<X>) {
         s/\n$//;

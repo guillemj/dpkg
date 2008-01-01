@@ -323,8 +323,6 @@ for my $f (keys %remove) {
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
 binmode(Y);
-chown(getfowner(), "$fileslistfile.new") 
-		|| &syserr(_g("chown new files list file"));
 if (open(X,"< $fileslistfile")) {
     binmode(X);
     while (<X>) {
