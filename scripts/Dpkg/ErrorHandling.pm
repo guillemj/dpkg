@@ -5,7 +5,8 @@ use Dpkg::Gettext;
 
 use base qw(Exporter);
 our @EXPORT_OK = qw(warning warnerror error failure unknown syserr internerr
-                    subprocerr usageerr syntaxerr $warnable_error $quiet_warnings);
+                    subprocerr usageerr syntaxerr report
+		    $warnable_error $quiet_warnings);
 
 our $warnable_error = 1;
 our $quiet_warnings = 0;

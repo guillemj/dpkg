@@ -70,6 +70,10 @@ EXTRA_DIST = \
 	t/300_Dpkg_BuildOptions.t \
 	t/400_Dpkg_Deps.t \
 	t/500_Dpkg_Path.t \
+	t/600_Dpkg_Changelog.t \
+	t/600_Dpkg_Changelog/countme \
+	t/600_Dpkg_Changelog/misplaced-tz \
+	t/600_Dpkg_Changelog/shadow \
 	t/700_Dpkg_Control.t \
 	t/700_Dpkg_Control/control-1
 
@@ -81,11 +85,13 @@ perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildOptions.pm \
-	Dpkg/Compression.pm \
 	Dpkg/Cdata.pm \
+	Dpkg/Changelog.pm \
+	Dpkg/Changelog/Debian.pm \
+	Dpkg/Compression.pm \
 	Dpkg/Control.pm \
-	Dpkg/ErrorHandling.pm \
 	Dpkg/Deps.pm \
+	Dpkg/ErrorHandling.pm \
 	Dpkg/Fields.pm \
 	Dpkg/Gettext.pm \
 	Dpkg/Path.pm \
