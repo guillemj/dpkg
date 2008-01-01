@@ -365,6 +365,11 @@ void baselist::wordwrapinfo(int offset, const char *m) {
       wrapping= 1;
     }
     if (!p) break;
+    if (getcury(infopad) == (MAX_DISPLAY_INFO - 1)) {
+      waddstr(infopad,
+              "[The package description is too long and has been truncated...]");
+      break;
+    }
     m= ++p;
   }
   if (debug) fprintf(debug,"baselist[%p]::wordwrapinfo() done\n",this);
