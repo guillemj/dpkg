@@ -103,10 +103,6 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Version.pm \
 	Dpkg.pm
 
-dist_pkglib_SCRIPTS = \
-	controllib.pl
-
-
 do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
 		    -e "s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(pkglibdir)\":" \
 		    -e "s:\$$pkgdatadir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$pkgdatadir=\"$(pkgdatadir)\":" \
