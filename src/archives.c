@@ -1097,7 +1097,7 @@ void archivefiles(const char *const *argv) {
       m_dup2(pi[1],1); close(pi[0]); close(pi[1]);
       for (i=0, ap=argv; *ap; ap++, i++);
       narglist= m_malloc(sizeof(char*)*(i+15));
-      narglist[0]= strdup(FIND);
+      narglist[0] = FIND;
       for (i=1, ap=argv; *ap; ap++, i++) {
         if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
           char *a;
@@ -1106,15 +1106,18 @@ void archivefiles(const char *const *argv) {
           strcat(a,*ap);
           narglist[i]= a;
         } else {
-          narglist[i]= strdup(*ap);
+          narglist[i] = (char *)*ap;
         }
       }
-      narglist[i++]= strdup("-follow"); /*  When editing these, make sure that     */
-      narglist[i++]= strdup("-name");   /*  arglist is mallocd big enough, above.  */
-      narglist[i++]= strdup(ARCHIVE_FILENAME_PATTERN);
-      narglist[i++]= strdup("-type");
-      narglist[i++]= strdup("f");
-      narglist[i++]= strdup("-print0");
+      /* When editing these, make sure that arglist is malloced big enough,
+       * above.
+       */
+      narglist[i++] = "-follow";
+      narglist[i++] = "-name";
+      narglist[i++] = ARCHIVE_FILENAME_PATTERN;
+      narglist[i++] = "-type";
+      narglist[i++] = "f";
+      narglist[i++] = "-print0";
       narglist[i++]= 0;
       execvp(FIND, narglist);
       ohshite(_("failed to exec find for --recursive"));
