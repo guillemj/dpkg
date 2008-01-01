@@ -11,6 +11,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
                            $warnable_error);
 use Dpkg::BuildOptions;
+use Dpkg::Compression;
 
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
@@ -438,9 +439,9 @@ sub fileomitted {
 my $srcmsg;
 if (fileomitted '\.deb') {
     # source only upload
-    if (fileomitted '\.diff\.gz') {
+    if (fileomitted "\.diff\.$comp_regex") {
 	$srcmsg = _g('source only upload: Debian-native package');
-    } elsif (fileomitted '\.orig\.tar\.gz') {
+    } elsif (fileomitted "\.orig\.tar\.$comp_regex") {
 	$srcmsg = _g('source only, diff-only upload (original source NOT included)');
     } else {
 	$srcmsg = _g('source only upload (original source is included)');
@@ -449,9 +450,9 @@ if (fileomitted '\.deb') {
     $srcmsg = _g('full upload (original source is included)');
     if (fileomitted '\.dsc') {
 	$srcmsg = _g('binary only upload (no source included)');
-    } elsif (fileomitted '\.diff\.gz') {
+    } elsif (fileomitted "\.diff\.$comp_regex") {
 	$srcmsg = _g('full upload; Debian-native package (full source is included)');
-    } elsif (fileomitted '\.orig\.tar\.gz') {
+    } elsif (fileomitted "\.orig\.tar\.$comp_regex") {
 	$srcmsg = _g('binary and diff upload (original source NOT included)');
     } else {
 	$srcmsg = _g('full upload (original source is included)');
