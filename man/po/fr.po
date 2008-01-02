@@ -257,9 +257,9 @@ msgstr "cleanup-info"
 #: ../../man/dpkg-genchanges.1:1 ../../man/dpkg-query.1:1
 #: ../../man/dpkg-split.1:2 ../../man/dpkg-statoverride.8:1
 #: ../../man/install-info.8:5 ../../man/update-alternatives.8:8
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-07-18"
-msgstr "15-05-2007"
+msgstr "18-07-2007"
 
 # type: Plain text
 #: ../../man/cleanup-info.8:4
@@ -427,7 +427,6 @@ msgstr "B<install-info>(8), B<info>(1)."
 
 # type: Plain text
 #: ../../man/cleanup-info.8:56
-#, fuzzy
 msgid "Copyright (C) 1996 Kim-Minh Kaplan"
 msgstr "Copyright (C) 1996 Kim-Minh Kaplan."
 
@@ -614,9 +613,9 @@ msgstr "deb-control"
 
 # type: TH
 #: ../../man/deb-control.5:3
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-10-08"
-msgstr "08-03-2007"
+msgstr "08-10-2007"
 
 # type: Plain text
 #: ../../man/deb-control.5:6
@@ -680,7 +679,6 @@ msgstr "B<Version:> E<lt>chaîne pour la versionE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:37
-#, fuzzy
 msgid ""
 "Typically, this is the original package's version number in whatever form "
 "the program's author uses. It may also include a Debian revision number (for "
@@ -689,10 +687,8 @@ msgid ""
 msgstr ""
 "C'est classiquement le numéro de version du paquet original dans la forme "
 "choisie par l'auteur du programme. Il peut y avoir aussi un numéro de "
-"révision Debian (pour les paquets qui ne sont pas de pure souche Debian). "
-"Quand les numéros de version et de révision sont présents, on les sépare par "
-"un trait d'union « - ». C'est pour cette raison qu'il ne peut y avoir de "
-"trait d'union dans le numéro de la version originale."
+"révision Debian (pour les paquets non natifs). Le format exact et "
+"l'algorithme de tri sont décrits dans B<deb-version>(5)."
 
 # type: TP
 #: ../../man/deb-control.5:37
@@ -779,16 +775,14 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/deb-control.5:71
-#, fuzzy
 msgid ""
 "In Debian, the B<Section> and B<Priority> fields have a defined set of "
 "accepted values based on the Policy Manual.  A list of these values can be "
 "obtained from the latest version of the B<debian-policy> package."
 msgstr ""
 "Les champs B<Section> et B<Priority> possèdent un ensemble défini de valeurs "
-"acceptées, tiré de la Charte Debian («\\ Policy manual\\ »). Ces valeurs "
-"permettent la répartition des paquets dans l'archive. On peut en trouver une "
-"liste dans la version la plus récente du paquet B<debian-policy>."
+"acceptées, tiré de la Charte Debian («\\ Policy manual\\ »). On peut en "
+"trouver une liste dans la version la plus récente du paquet B<debian-policy>."
 
 # type: TP
 #: ../../man/deb-control.5:71
@@ -833,20 +827,20 @@ msgstr ""
 
 # type: TP
 #: ../../man/deb-control.5:86
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Origin:> E<lt>nameE<gt>"
-msgstr "B<Source:> E<lt>nom du sourceE<gt>"
+msgstr "B<Origin:> E<lt>nomE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:89
 msgid "The name of the distribution this package is originating from."
-msgstr ""
+msgstr "Nom de la distribution dont ce paquet provient."
 
 # type: TP
 #: ../../man/deb-control.5:89
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Bugs:> E<lt>urlE<gt>"
-msgstr "B<Replaces:> E<lt>liste de paquetsE<gt>"
+msgstr "B<Bugs:> E<lt>URLE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:93
@@ -855,24 +849,26 @@ msgid ""
 "is B<E<lt>bts_typeE<gt>://E<lt>bts_addressE<gt>>, like B<debbugs://bugs."
 "debian.org>."
 msgstr ""
+"URL du système de suivi de bogues (BTS) de ce paquet. Le format utilisé est "
+"B<E<lt>type_de_btsE<gt>://E<lt>addresse_du_btsE<gt>>, par exemple "
+"B<debbugs://bugs.debian.org>."
 
 # type: TP
 #: ../../man/deb-control.5:93
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Homepage:> E<lt>urlE<gt>"
-msgstr "B<Replaces:> E<lt>liste de paquetsE<gt>"
+msgstr "B<Homepage:> E<lt>URLE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:96
-#, fuzzy
 msgid "The upstream project home page URL."
-msgstr "La version amont de dpkg."
+msgstr "URL de la page d'accueil du projet amont."
 
 # type: TP
 #: ../../man/deb-control.5:96
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Tag:> E<lt>tag listE<gt>"
-msgstr "B<Replaces:> E<lt>liste de paquetsE<gt>"
+msgstr "B<Tag:> E<lt>liste d'étiquettesE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:100
@@ -880,6 +876,9 @@ msgid ""
 "List of tags describing the qualities of the package. The description and "
 "list of supported tags can be found in the B<debtags> package."
 msgstr ""
+"Liste d'étiquettes décrivant les qualités du paquet. La description et la "
+"liste des étiquettes (« tags ») gérées peut être trouvée dans le paquet "
+"B<debtags>."
 
 # type: TP
 #: ../../man/deb-control.5:100
@@ -1010,24 +1009,23 @@ msgstr ""
 
 # type: TP
 #: ../../man/deb-control.5:151
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Breaks:> E<lt>package listE<gt>"
-msgstr "B<Replaces:> E<lt>liste de paquetsE<gt>"
+msgstr "B<Breaks:> E<lt>liste de paquetsE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:159
-#, fuzzy
 msgid ""
 "Lists packages that this one breaks, for example by exposing bugs when the "
 "named packages rely on this one. The package maintenance software will not "
 "allow broken packages to be configured; generally the resolution is to "
 "upgrade the packages named in a B<Breaks> field."
 msgstr ""
-"C'est une liste de paquets qui sont en conflit avec ce paquet\\ ; ils "
-"contiennent par exemple des fichiers qui ont le même nom. Le programme de "
-"maintenance des paquets interdit l'installation simultanée de paquets en "
-"conflit. Deux paquets en conflit renseigneront une ligne B<Conflicts> avec "
-"le nom de l'autre paquet."
+"C'est une liste de paquets que ce paquet « casse », par exemple en révélant "
+"des bogues quand les paquets concernés dépendent de celui-ci. Le programme "
+"de maintenance des paquets interdit la configuration de paquets cassés ; une "
+"méthode usuelle de résolution est la mise à jour des paquets mentionnés dans "
+"le champ B<Breaks>."
 
 # type: TP
 #: ../../man/deb-control.5:159
@@ -1167,34 +1165,32 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/deb-control.5:232
-#, fuzzy
 msgid ""
 "B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
-msgstr "B<deb>(5), B<dpkg>(1), B<dpkg-deb>(1)."
+msgstr ""
+"B<deb>(5), B<deb-version>(5), B<debtags>(1), B<dpkg>(1), B<dpkg-deb>(1)."
 
 # type: TP
 #: ../../man/deb-version.5:5
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "deb-version"
-msgstr "B<--version>"
+msgstr "deb-version"
 
 # type: TH
 #: ../../man/deb-version.5:5
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2007-10-06"
-msgstr "08-03-2007"
+msgstr "06-10-2007"
 
 # type: Plain text
 #: ../../man/deb-version.5:8
-#, fuzzy
 msgid "deb-version - Debian package version number format"
-msgstr ""
-"deb-control - Format du fichier principal de contrôle dans les paquets Debian"
+msgstr "deb-version - Format du numéro de version des paquets Debian"
 
 # type: Plain text
 #: ../../man/deb-version.5:11
 msgid "[ I<epoch>:] I<upstream_version> [-I<debian_revision> ]"
-msgstr ""
+msgstr "[ I<epoch>:] I<version_amont> [-I<révision_debian> ]"
 
 # type: Plain text
 #: ../../man/deb-version.5:14
@@ -1202,12 +1198,14 @@ msgid ""
 "Version numbers as used for Debian binary and source packages consist of "
 "three components. These are:"
 msgstr ""
+"Les numéros de version utilisés pour les paquets sources et binaires se "
+"composent de trois parties. Celles-ci sont :"
 
 # type: TP
 #: ../../man/deb-version.5:14
 #, no-wrap
 msgid "I<epoch>"
-msgstr ""
+msgstr "I<epoch>"
 
 # type: Plain text
 #: ../../man/deb-version.5:20
@@ -1216,6 +1214,9 @@ msgid ""
 "which case zero is assumed.  If it is omitted then the I<upstream_version> "
 "may not contain any colons."
 msgstr ""
+"Ce nombre est un entier positif (usuellement petit). Il peut être omis (dans "
+"ce cas, la valeur nulle est implicite). S'il est omis, la I<version_amont> "
+"ne doit pas contenir de caractère deux-points."
 
 # type: Plain text
 #: ../../man/deb-version.5:24
@@ -1224,6 +1225,9 @@ msgid ""
 "a package, and also a package's previous version numbering schemes, to be "
 "left behind."
 msgstr ""
+"Cette valeur est destinée à permettre de gérer des erreurs dans les anciens "
+"numéros de version d'un paquet ou un changement dans la méthode de "
+"numérotation des versions amont."
 
 # type: TP
 #: ../../man/deb-version.5:24
