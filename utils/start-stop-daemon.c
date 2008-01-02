@@ -176,15 +176,10 @@ static int pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
 
-#ifdef __GNUC__
 static void fatal(const char *format, ...)
 	NONRETURNING PRINTFFORMAT(1, 2);
 static void badusage(const char *msg)
 	NONRETURNING;
-#else
-static void fatal(const char *format, ...);
-static void badusage(const char *msg);
-#endif
 
 /* This next part serves only to construct the TVCALC macro, which
  * is used for doing arithmetic on struct timeval's.  It works like this:
