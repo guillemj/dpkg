@@ -159,13 +159,11 @@ extern const char printforhelp[];
 # define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
 # define NONRETURNING __attribute__((noreturn))
 # define UNUSED __attribute__((unused))
-# define NONRETURNPRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc),noreturn))
 #else
 # define CONSTANT
 # define PRINTFFORMAT(si, tc)
 # define NONRETURNING
 # define UNUSED
-# define NONRETURNPRINTFFORMAT(si, tc)
 #endif
 
 /*** from startup.c ***/
@@ -211,11 +209,11 @@ void do_internerr(const char *string, int line, const char *file) NONRETURNING;
 #define internerr(s) do_internerr(s,__LINE__,__FILE__)
 
 struct varbuf;
-void ohshit(const char *fmt, ...) NONRETURNPRINTFFORMAT(1,2);
+void ohshit(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void ohshitv(const char *fmt, va_list al) NONRETURNING;
-void ohshite(const char *fmt, ...) NONRETURNPRINTFFORMAT(1,2);
+void ohshite(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void ohshitvb(struct varbuf*) NONRETURNING;
-void badusage(const char *fmt, ...) NONRETURNPRINTFFORMAT(1,2);
+void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void werr(const char *what) NONRETURNING;
 void warningf(const char *fmt, ...);
 
