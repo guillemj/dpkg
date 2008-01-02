@@ -178,6 +178,8 @@ void cu_closepipe(int argc, void **argv);
 void cu_closedir(int argc, void **argv);
 void cu_closefd(int argc, void **argv);
 
+struct stat;
+
 int ignore_depends(struct pkginfo *pkg);
 int force_breaks(struct deppossi *possi);
 int force_depends(struct deppossi *possi);
