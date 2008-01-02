@@ -21,6 +21,8 @@ package Dpkg::Version;
 use strict;
 use warnings;
 
+use Dpkg::ErrorHandling qw(error);
+
 use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw(vercmp compare_versions check_version);
