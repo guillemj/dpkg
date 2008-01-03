@@ -19,6 +19,16 @@
 	trying to find a library.
 	* man/dpkg-shlibdeps.1: Document the new -S option.
 
+	* scripts/dpkg-shlibdeps.pl (add_shlibs_dep): Use the same logic
+	as find_symbols_files to find shlibs files. Check
+	debian/*/DEBIAN/shlibs only when the library has not been found in
+	an installed package, and give precedence to the shlibs provided
+	by the binary package where the library has been found. Replaces
+	the previous work-around that gave precedence to the package
+	that contained the binary.
+	* man/dpkg-shlibdeps.1: Document the above change in the shlibs
+	search order.
+
 2008-01-03  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-buildpackage.pl: Do not automatically enable '-j'
