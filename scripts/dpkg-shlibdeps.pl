@@ -160,7 +160,7 @@ foreach my $file (keys %exec) {
 	    my $dpkg_symfile;
 	    if ($packagetype eq "deb") {
 		# Use fine-grained dependencies only on real deb
-		$dpkg_symfile = find_symbols_file($pkg, $soname);
+		$dpkg_symfile = find_symbols_file($pkg, $soname, $lib);
 		if (defined $dpkg_symfile) {
 		    # Load symbol information
 		    print "Using symbols file $dpkg_symfile for $soname\n" if $debug;
@@ -520,12 +520,24 @@ sub extract_from_shlibs {
 }
 
 sub find_symbols_file {
-    my ($pkg, $soname) = @_;
-    foreach my $file (@pkg_symbols,
-	"/etc/dpkg/symbols/$pkg.symbols.$host_arch",
-	"/etc/dpkg/symbols/$pkg.symbols",
-	"$admindir/info/$pkg.symbols")
-    {
+    my ($pkg, $soname, $libfile) = @_;
+    my @files;
+    if ($pkg eq "") {
+	# If the file is not packaged, try to find out the symbols file in
+	# the package being built where the lib has been found
+	my $pkg_root = guess_pkg_root_dir($libfile);
+	if (defined $pkg_root) {
+	    push @files, "$pkg_root/DEBIAN/symbols";
+	}
+	# Fallback to other symbols files but it shouldn't be necessary
+	push @files, @pkg_symbols;
+    } else {
+	push @files, "/etc/dpkg/symbols/$pkg.symbols.$host_arch",
+	    "/etc/dpkg/symbols/$pkg.symbols",
+	    "$admindir/info/$pkg.symbols";
+    }
+
+    foreach my $file (@files) {
 	if (-e $file and symfile_has_soname($file, $soname)) {
 	    return $file;
 	}

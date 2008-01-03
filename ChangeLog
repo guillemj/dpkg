@@ -1,3 +1,14 @@
+2008-01-03  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl (find_symbols_file): When libraries
+	are found in non-packaged files, first try to find the
+	corresponding symbols file in the build tree containing that
+	library. On the opposite, don't look up symbols files in debian/*
+	build directories for libraries found in installed packages (build
+	trees are scanned first and thus if they contain a needed library
+	dpkg-shlibdeps will find the library there and not in an installed
+	package).
+
 2008-01-03  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-buildpackage.pl: Do not automatically enable '-j'
