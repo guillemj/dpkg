@@ -241,17 +241,15 @@ if ($signcommand && ($signinterface !~ /^(gpg|pgp)$/)) {
     warning(_g("unknown sign command, assuming pgp style interface"));
 }
 
-if ($parallel || $ENV{DEB_BUILD_OPTIONS}) {
+if ($parallel) {
     my $build_opts = Dpkg::BuildOptions::parse();
 
-    $parallel ||= $build_opts->{parallel};
-    if (defined $parallel) {
-	$ENV{MAKEFLAGS} ||= '';
-	if ($parallel eq '-1') {
-	    $ENV{MAKEFLAGS} .= " -j";
-	} else {
-	    $ENV{MAKEFLAGS} .= " -j$parallel";
-	}
+    $parallel = $build_opts->{parallel} if (defined $build_opts->{parallel});
+    $ENV{MAKEFLAGS} ||= '';
+    if ($parallel eq '-1') {
+	$ENV{MAKEFLAGS} .= " -j";
+    } else {
+	$ENV{MAKEFLAGS} .= " -j$parallel";
     }
     $build_opts->{parallel} = $parallel;
     Dpkg::BuildOptions::set($build_opts);
