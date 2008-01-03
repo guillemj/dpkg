@@ -38,6 +38,7 @@ my $varnameprefix = 'shlibs';
 my $ignore_missing_info = 0;
 my $debug = 0;
 my @exclude = ();
+my @pkg_dir_to_search = ();
 my $host_arch = get_host_arch();
 
 my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
@@ -56,6 +57,8 @@ foreach (@ARGV) {
 	$varnameprefix = $1;
     } elsif (m/^-L(.*)$/) {
 	$shlibslocal = $1;
+    } elsif (m/^-S(.*)$/) {
+	push @pkg_dir_to_search, $1;
     } elsif (m/^-O$/) {
 	$stdout = 1;
     } elsif (m/^-(h|-help)$/) {
@@ -389,6 +392,8 @@ Options:
   -T<varlistfile>          update variables here, not debian/substvars.
   -t<type>                 set package type (default is deb).
   -x<package>              exclude package from the generated dependencies.
+  -S<pkgbuilddir>          search needed libraries in the given
+                           package build directory first.
   --admindir=<directory>   change the administrative directory.
   -h, --help               show this help message.
       --version            show the version.
@@ -591,17 +596,23 @@ sub my_find_library {
 	push @RPATH, $path;
     }
 
-    # Look into the packages we're currently building (but only those
-    # that provides shlibs/symbols file and the one that contains the
-    # binary being analyzed...)
-    # TODO: we should probably replace that by a cleaner way to look into
-    # the various temporary build directories...
-    my @copy = (@pkg_root_dirs);
+    # Look into the packages we're currently building in the following
+    # order:
+    # - package build tree of the binary which is analyzed
+    # - package build tree given on the command line (option -S)
+    # - other package build trees that contain either a shlibs or a
+    # symbols file
+    my @builddirs;
     my $pkg_root = guess_pkg_root_dir($execfile);
-    unshift @copy, $pkg_root if defined $pkg_root;
-    foreach my $builddir (@copy) {
+    push @builddirs, $pkg_root if defined $pkg_root;
+    push @builddirs, @pkg_dir_to_search;
+    push @builddirs, @pkg_root_dirs;
+    my %dir_checked;
+    foreach my $builddir (@builddirs) {
+	next if defined($dir_checked{$builddir});
 	$file = find_library($lib, \@RPATH, $format, $builddir);
 	return $file if defined($file);
+	$dir_checked{$builddir} = 1;
     }
 
     # Fallback in the root directory if we have not found what we were

@@ -180,6 +180,13 @@ avoid self-dependencies for packages which provide ELF binaries
 package. This option can be used multiple times to exclude several
 packages.
 .TP
+.BI \-S pkgbuilddir
+Look into \fIpkgbuilddir\fP first when trying to find a library. This is
+useful when the source package builds multiple flavors of the same library
+and you want to ensure that you get the dependency from a given binary
+package. You can use this option multiple times: directories will be
+tried in the same order before directories of other binary packages.
+.TP
 .BI \-\-ignore\-missing\-info
 Do not fail if dependency information can't be found for a shared library.
 Usage of this option is discouraged, all libraries should provide
@@ -241,16 +248,17 @@ the RPATH of the binary, directories listed in /etc/ld.so.conf,
 directories listed in the LD_LIBRARY_PATH environment variable, and
 standard public directories (/lib, /usr/lib, /lib32, /usr/lib32, /lib64,
 /usr/lib64). Then it checks those directories in the package's build tree
-of the binary being analyzed, in other packages's build tree that contains
+of the binary being analyzed, in the packages's build trees indicated with
+the \-S command\-line option, in other packages's build trees that contains
 a DEBIAN/shlibs or DEBIAN/symbols file and finally in the root directory.
 If the library is not found in any of those directories, then you get this
 error.
 
 If the library not found is in a private directory of the same package,
 then you want to add the directory to LD_LIBRARY_PATH. If it's in another
-binary package being built, you want to make sure that the shlibs file of
-this package is already created and that LD_LIBRARY_PATH contains the
-appropriate directory if it also is in a private directory.
+binary package being built, you want to make sure that the shlibs/symbols
+file of this package is already created and that LD_LIBRARY_PATH
+contains the appropriate directory if it also is in a private directory.
 .TP
 .BI "no dependency information found for " library\-file " (used by " binary ")."
 The library needed by \fIbinary\fR has been found by
