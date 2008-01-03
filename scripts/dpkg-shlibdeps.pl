@@ -40,10 +40,12 @@ my $debug = 0;
 my @exclude = ();
 my $host_arch = get_host_arch();
 
-my (@pkg_shlibs, @pkg_symbols);
+my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
 if (-d "debian") {
     push @pkg_symbols, <debian/*/DEBIAN/symbols>;
     push @pkg_shlibs, <debian/*/DEBIAN/shlibs>;
+    my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
+    push @pkg_root_dirs, keys %uniq;
 }
 
 my ($stdout, %exec);
@@ -115,7 +117,7 @@ foreach my $file (keys %exec) {
 	    $soname_notfound{$soname} = 1;
 	    my $msg = _g("couldn't find library %s needed by %s (its RPATH is '%s').\n" .
 			 "Note: libraries are not searched in other binary packages " .
-			 "that do not have any shlibs file.\nTo help dpkg-shlibdeps " .
+			 "that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
 			 "find private libraries, you might need to set LD_LIBRARY_PATH.");
 	    if (scalar(split_soname($soname))) {
 		failure($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
@@ -590,14 +592,14 @@ sub my_find_library {
     }
 
     # Look into the packages we're currently building (but only those
-    # that provides shlibs file and the one that contains the binary being
-    # anlyzed...)
+    # that provides shlibs/symbols file and the one that contains the
+    # binary being analyzed...)
     # TODO: we should probably replace that by a cleaner way to look into
     # the various temporary build directories...
-    my @copy = (@pkg_shlibs);
+    my @copy = (@pkg_root_dirs);
     my $pkg_root = guess_pkg_root_dir($execfile);
     unshift @copy, $pkg_root if defined $pkg_root;
-    foreach my $builddir (map { s{/DEBIAN/shlibs$}{}; $_ } @copy) {
+    foreach my $builddir (@copy) {
 	$file = find_library($lib, \@RPATH, $format, $builddir);
 	return $file if defined($file);
     }
