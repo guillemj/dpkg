@@ -78,8 +78,8 @@ sub read_git_config {
 	my $file=shift;
 
 	my %ret;
-	open(GIT_CONFIG, '-|', "git-config", "--file", $file, "--null", "-l") ||
-		main::subprocerr("git-config");
+	open(GIT_CONFIG, '-|', "git", "config", "--file", $file, "--null", "-l") ||
+		main::subprocerr("git config");
 	my ($key, $value);
 	while (<GIT_CONFIG>) {
 		if (! defined $key) {
@@ -101,7 +101,7 @@ sub read_git_config {
 	if (defined $key && length $key) {
 		push @{$ret{$key}}, $value;
 	}
-	close(GIT_CONFIG) || main::syserr("git-config exited nonzero");
+	close(GIT_CONFIG) || main::syserr("git config exited nonzero");
 
 	return \%ret;
 }
@@ -119,10 +119,10 @@ sub prep_tar {
 
 	# Check for uncommitted files.
 	# To support dpkg-source -i, get a list of files
-	# equivalent to the ones git-status finds, and remove any
+	# equivalent to the ones git status finds, and remove any
 	# ignored files from it.
 	my @ignores="--exclude-per-directory=.gitignore";
-	my $core_excludesfile=`git-config --get core.excludesfile`;
+	my $core_excludesfile=`git config --get core.excludesfile`;
 	chomp $core_excludesfile;
 	if (length $core_excludesfile && -e $core_excludesfile) {
 		push @ignores, "--exclude-from='$core_excludesfile'";
@@ -130,9 +130,9 @@ sub prep_tar {
 	if (-e ".git/info/exclude") {
 		push @ignores, "--exclude-from=.git/info/exclude";
 	}
-	open(GIT_LS_FILES, '-|', "git-ls-files", "--modified", "--deleted",
+	open(GIT_LS_FILES, '-|', "git ls-files", "--modified", "--deleted",
 	                                         "--others", @ignores) ||
-		main::subprocerr("git-ls-files");
+		main::subprocerr("git ls-files");
 	my @files;
 	while (<GIT_LS_FILES>) {
 		chomp;
@@ -141,13 +141,13 @@ sub prep_tar {
 			push @files, $_;
 		}
 	}
-	close(GIT_LS_FILES) || main::syserr("git-ls-files exited nonzero");
+	close(GIT_LS_FILES) || main::syserr("git ls-files exited nonzero");
 	if (@files) {
 		main::error(sprintf(_g("uncommitted, not-ignored changes in working directory: %s"),
 		            join(" ", @files)));
 	}
 
-	# git-clone isn't used to copy the repo because the it might be an
+	# git clone isn't used to copy the repo because the it might be an
 	# unclonable shallow copy.
 	chdir($old_cwd) ||
 		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
@@ -166,10 +166,10 @@ sub prep_tar {
 	# distributed source package.
 	system("rm", "-rf", ".git/logs");
 	$? && main::subprocerr("rm -rf .git/logs");
-	system("git-gc", "--prune");
-	$? && main::subprocerr("git-gc --prune");
+	system("git", "gc", "--prune");
+	$? && main::subprocerr("git gc --prune");
 	
-	# .git/gitweb is created and used by git-instaweb and should not be
+	# .git/gitweb is created and used by git instaweb and should not be
 	# transferwed by source package.
 	system("rm", "-rf", ".git/gitweb");
 	$? && main::subprocerr("rm -rf .git/gitweb");
@@ -231,9 +231,9 @@ sub post_unpack_tar {
 			delete $config{$field};
 		}
 		else {
-			system("git-config", "--file", ".git/config",
+			system("git", "config", "--file", ".git/config",
 			       "--unset-all", $field);
-				$? && main::subprocerr("git-config --file .git/config --unset-all $field");
+				$? && main::subprocerr("git config --file .git/config --unset-all $field");
 		}
 	}
 	if (%config) {
@@ -249,15 +249,15 @@ sub post_unpack_tar {
 		close GIT_CONFIG;
 	}
 
-	# .git/gitweb is created and used by git-instaweb and should not be
+	# .git/gitweb is created and used by git instaweb and should not be
 	# transferwed by source package.
 	system("rm", "-rf", ".git/gitweb");
 	$? && main::subprocerr("rm -rf .git/gitweb");
 
-	# git-checkout is used to repopulate the WC with files
+	# git checkout is used to repopulate the WC with files
 	# and recreate the index.
-	system("git-checkout", "-f");
-	$? && main::subprocerr("git-checkout -f");
+	system("git", "checkout", "-f");
+	$? && main::subprocerr("git checkout -f");
 	
 	chdir($old_cwd) ||
 		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
