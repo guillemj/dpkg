@@ -120,7 +120,7 @@ sub load {
 	    my $dir = $file;
 	    $dir =~ s{[^/]+$}{}; # Strip filename
 	    $self->load("$dir$filename", $seen, $object);
-	} elsif (/^#DEPRECATED: ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
+	} elsif (/^#(?:DEPRECATED|MISSING): ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    my $sym = {
 		minver => $3,
 		dep_id => defined($4) ? $4 : 0,
@@ -179,7 +179,7 @@ sub dump {
 	foreach my $sym (sort keys %{$self->{objects}{$soname}{syms}}) {
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
 	    next if $info->{deprecated} and not $with_deprecated;
-	    print $fh "#DEPRECATED: $info->{deprecated}#" if $info->{deprecated};
+	    print $fh "#MISSING: $info->{deprecated}#" if $info->{deprecated};
 	    print $fh " $sym $info->{minver}";
 	    print $fh " $info->{dep_id}" if $info->{dep_id};
 	    print $fh "\n";
