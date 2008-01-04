@@ -1,6 +1,7 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 33;
+use Test::More tests => 34;
+use IO::String;
 
 use strict;
 use warnings;
@@ -147,6 +148,19 @@ $sym = $sym_file->lookup_symbol('symbol1_fake2@Base', ['libfake.so.1']);
 is_deeply($sym, { 'minver' => '1.0', 'dep_id' => 1, 'deprecated' => 0,
 		  'depends' => 'libvirtualfake', 'soname' => 'libfake.so.1' }, 
 	    'overrides order with circular #include');
+
+# Check dump output
+my $io = IO::String->new();
+$sym_file->dump($io);
+is(${$io->string_ref()},
+'libfake.so.1 libfake1 #MINVER#
+| libvirtualfake
+* Build-Depends-Package: libfake-dev
+ symbol1_fake2@Base 1.0 1
+ symbol2_fake2@Base 1.0
+ symbol3_fake2@Base 1.0
+', "Dump of $srcdir/symbols.include-2");
+
 
 # Check parsing of objdump output on ia64 (local symbols
 # without versions and with visibility attribute)

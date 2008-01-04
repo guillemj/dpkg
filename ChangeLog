@@ -1,3 +1,286 @@
+2008-01-04  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm: Replace #DEPRECATED by
+	#MISSING in the output and recognize both while parsing. People
+	understand better that way.
+
+2008-01-03  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl (find_symbols_file): When libraries
+	are found in non-packaged files, first try to find the
+	corresponding symbols file in the build tree containing that
+	library. On the opposite, don't look up symbols files in debian/*
+	build directories for libraries found in installed packages (build
+	trees are scanned first and thus if they contain a needed library
+	dpkg-shlibdeps will find the library there and not in an installed
+	package).
+	* scripts/dpkg-shlibdeps.pl (my_find_library): When defining the
+	list of package build trees to scan, also consider those that
+	contain symbols files (instead of only considering those that have
+	a shlibs file).
+	* man/dpkg-shlibdeps.1: Document the change listed above.
+
+	* scripts/dpkg-shlibdeps.pl: Add a new -S<pkgbuilddir> option to
+	indicate a package build tree that should be scanned first when
+	trying to find a library.
+	* man/dpkg-shlibdeps.1: Document the new -S option.
+
+	* scripts/dpkg-shlibdeps.pl (add_shlibs_dep): Use the same logic
+	as find_symbols_files to find shlibs files. Check
+	debian/*/DEBIAN/shlibs only when the library has not been found in
+	an installed package, and give precedence to the shlibs provided
+	by the binary package where the library has been found. Replaces
+	the previous work-around that gave precedence to the package
+	that contained the binary.
+	* man/dpkg-shlibdeps.1: Document the above change in the shlibs
+	search order.
+
+2008-01-03  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Do not automatically enable '-j'
+	if DEB_BUILD_OPTIONS contains parallel=n, and allow overriding
+	its value from the environment.
+
+2008-01-02  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c [!__GNUC__] (fatal, badusage): Remove
+	redundant function declarations.
+
+2008-01-02  Guillem Jover  <guillem@debian.org>
+
+	* src/main.h (struct stat): New forward declaration.
+
+2008-01-02  Guillem Jover  <guillem@debian.org>
+
+	* lib/dpkg.h (warningf): Add PRINTFFORMAT attribute.
+	(buffer_copy_setup_PtrInt): Likewise.
+	(buffer_copy_setup_PtrPtr): Likewise.
+	(buffer_copy_setup_IntPtr): Likewise.
+	(buffer_copy_setup_IntInt): Likewise.
+	(decompress_cat): Likewise.
+	(compress_cat): Likewise.
+	* lib/dpkg-db.h (log_message): Likewise.
+
+2008-01-02  Guillem Jover  <guillem@debian.org>
+
+	* lib/dpkg.h (NONRETURNPRINTFFORMAT): Remove macro.
+	(ohshit): Use NONRETURNING and PRINTFFORMAT instead of
+	NONRETURNPRINTFFORMAT.
+	(ohshite): Likewise.
+	(badusage): Likewise.
+	* utils/start-stop-daemon.c (NONRETURNPRINTFFORMAT): Remove macro.
+	(fatal): Use NONRETURNING and PRINTFFORMAT instead of
+	NONRETURNPRINTFFORMAT.
+
+2008-01-01  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Use Dpkg::Compression. Use $comp_regex
+	to match compressed diffs and tarballs.
+
+2008-01-01  Samuel Thibault  <samuel.thibault@ens-lyon.org>
+
+	* utils/start-stop-daemon.c (do_stop): Do not print 'failed to kill'
+	warning when doing pid polling.
+
+2008-01-01  Guillem Jover  <guillem@debian.org>
+
+	* src/archives.c (archivefiles): Remove pointless strdup for execvp
+	arguments.
+
+2008-01-01  Ian Zimmerman  <itz@buug.org>
+
+	* scripts/install-info.pl: Ignore wrapped lines when matching
+	section titles.
+
+2008-01-01  John Zaitseff  <J.Zaitseff@zap.org.au>
+
+	* dselect/baselist.cc (baselist::wordwrapinfo): Stop processing when
+	exceeding infopad line limit, and add a warning message.
+
+2008-01-01  Sven Rudolph  <sr1@loom.sax.de>
+
+	* dselect/baselist.cc (baselist::startdisplay): Set helpscreen_attr
+	on monochrome terminals.
+
+2007-12-28  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg.pm: Add a warning to avoid adding unnecessary stuff
+	in that module.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg.pm (%EXPORT_TAGS, @EXPORT_OK): Remove.
+	(@comp_supported, %comp_supported, %comp_ext, $comp_regex): Move
+	variables ...
+	* scripts/Dpkg/Compression.pm: ... here. New file.
+	* scripts/dpkg-genchanges.pl: Use new module Dpkg::Compression
+	instead of tag from Dpkg.
+	* scripts/dpkg-source.pl: Likewise
+	* scripts/Makefile.am (nobase_dist_perllib_DATA): Add
+	'Dpkg/Compression.pm'.
+
+2007-12-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm: Blacklist some armel specific
+	symbols (__exidx_end, __exidx_start).
+
+2007-12-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* Makefile.am: Add some missing files in EXTRA_DIST. And add a
+	dist-hook rule to check that all files contained in the git
+	repository (except .gitignore) are included in the dist tarball.
+
+2007-12-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Bump version to 1.14.15~.
+
+2007-12-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Release 1.14.14.
+
+2007-12-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* debian/control: Bump dpkg dependency to >= 1.14.13 in dpkg-dev
+	as dpkg-source needs the latest Dpkg.pm.
+	* debian/control: Add libio-string-perl to Build-Depends as it's
+	needed for a non-regression test (200_Dpkg_Shlibs.t).
+	* debian/control: Fix priority of dselect to match the priority
+	set by ftpmasters.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.14~.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.13.
+
+2007-12-27  Flavio Stanchina  <flavio@stanchina.net>
+
+	* scripts/dpkg-divert.pl (checkrename): Do not ignore ENOENT for
+	destination.
+
+2007-12-27  Daniel Leidert  <daniel.leidert@wgdd.de>
+            Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl: Refactor duplicate code into ...
+	(checked_alternative): ... here. New function.
+	(set_links): Call it.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl (gl): Use defined instead of length.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl (set_links): New function.
+	(config_alternatives): Use set_links instead of duped code.
+	(set_alternatives): Likewise.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl: Refactor all code to use
+	checked_mv instead of duped code.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl: Refactor all code to use
+	checked_symlink instead of duped code.
+
+2007-12-27  Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl (checked_rm): New function. Refactor
+	all code to use it instead of duped code.
+
+2007-12-26  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-source.pl: Provide a sane default $origtargz in all
+	cases when such a file exists.
+
+2007-12-20  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl: Always consider the shlibs of the
+	current package before the shlibs of other binary packages when
+	looking for a dependency.
+
+2007-12-13  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/t/500_Dpkg_Path.t, scripts/Makefile.am: Add new
+	non-regression tests for functions provided by the Dpkg::Path
+	module.
+
+2007-12-12  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Fix typo (syserror() -> syserr()).
+
+2007-12-12  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl (spfileslistvalue): Use || to fallback to
+	a default value instead of using a temporary variable and checking if
+	it's not defined.
+
+2007-12-12  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Use ||= instead of checking if the
+	variables are not defined.
+	* scripts/dpkg-gencontrol.pl: Likewise.
+	* scripts/update-alternatives.pl (fill_missing_slavepaths): Likewise.
+
+2007-12-11  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Deps.pm: Add a compare function that compares
+	dependencies more intelligently than a comparison on their
+	string representation. In particular we want >= and >> to sort
+	lower than << and <= so that intervals are nicely displayed
+	as "a (>= 1), a (<< 2)" instead of the ugly "a (<< 2), a (>= 1)".
+
+2007-12-10  Raphael Hertzog  <hertzog@debian.org>
+
+	* README.translators: Explain how to format Git commit messages.
+
+2007-12-10  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (merge_symbols): Do not update
+	the deprecated version of a symbol if it is already marked
+	deprecated.
+
+2007-12-09  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm: Parse and dump properly
+	new meta-information fields (on lines starting with an asterisk).
+	Bugfix with alternate dependency handling that were not properly
+	dumped. New functions get_dependencies() and get_field().
+	* scripts/t/200_Dpkg_Shlibs.t,
+	scripts/t/200_Dpkg_Shlibs/symbols.fake-2: Add a test case to
+	verify that meta-information fields and alternate dependencies are
+	properly parsed and dumped.
+	* scripts/dpkg-shlibdeps.pl: Take into account the new
+	Build-Depends-Package field in symbols files.
+
+2007-12-09  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (load): Pass the current
+	object as last parameter so that included files do not need to
+	repeat the header line.
+	* scripts/t/200_Dpkg_Shlibs/symbols.fake-1,
+	scripts/t/200_Dpkg_Shlibs/symbols.include-1: Adjust some tests
+	to also test inclusions with included files lacking a header line.
+
+2007-12-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl: Doesn't warn any more about libm.so.6
+	being unused if the binary is also linked against libstdc++ since
+	g++ always add an implicit -lm.
+
+2007-12-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs.pm (find_library): When it finds a library
+	in a directory which is just a symlink to another directory that
+	is also considered, remember the other directory name as the
+	canonical one.
+	* scripts/Dpkg/Path.pm: Add new function canonpath() and
+	resolve_symlink().
+
 2007-12-05  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-buildpackage.pl: Add new

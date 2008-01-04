@@ -1,4 +1,70 @@
-dpkg (1.14.13) UNRELEASED; urgency=low
+dpkg (1.14.15) UNRELEASED; urgency=low
+
+  [ Raphael Hertzog ]
+  * Make sure {dpkg-dev,dselect}.preinst are included in the source tarball.
+    Closes: #452730
+  * Blacklist armel-specific symbols in dpkg-gensymbols. Reported by Riku
+    Voipio. Closes: #457964
+  * Fix typos in various manpages. Patch from A. Costa. Closes: #458276
+  * Make dpkg-shlibdeps choose the right symbols files when we have several
+    debian/*/DEBIAN/symbols for a given soname. Closes: #458860
+  * Add a -S<pkgbuilddir> option to dpkg-shlibdeps to indicate a package build
+    tree to scan first when trying to find a needed library.
+  * Change dpkg-gensymbols to mark symbols that disappeared with #MISSING
+    instead of #DEPRECATED, it's clearer for people.
+
+  [ Guillem Jover ]
+  * Move compression related variables to a new Dpkg::Compression module.
+  * Remove disabled, obsolete and quite incomplete Hebrew translations.
+  * Revert dpkg-dev versioned dependency bump on dpkg >= 1.14.13 back to
+    >= 1.14.6, as the compression variables are now in a module in dpkg-dev.
+  * Do not disaplay garbage in dselect on monochrome terminals, by setting
+    a missing ncurses character attribute. Closes: #155741, #157093
+    Thanks to Sven Rudolph.
+  * Do not loop endlessly in dselect with very long package descriptions.
+    Closes: #179320, #342495
+    Thanks to John Zaitseff.
+  * Ignore wrapped lines in install-info when matching section titles.
+    Closes: #214684
+    Thanks to Andreas Metzler and Ian Zimmerman.
+  * Do not use strdup for execvp arguments. Closes: #379027
+  * Do not print 'failed to kill' warning in start-stop-daemon when polling
+    the pid. Closes: #157305, #352554
+    Thanks to Samuel Thibault.
+  * Properly print build message in dpkg-buildpackage for lzma and bzip2
+    compressed sources. Closes: #458519
+  * Promote bzip2 Recommends to Depends for dpkg-dev. Closes: #458521
+  * Add lzma to dpkg-dev Depends.
+  * Do not automatically enable -j if DEB_BUILD_OPTIONS contains parallel=n,
+    and allow overriding its value from the environment. Closes: #458589
+
+  [ Updated dpkg translations ]
+  * Norwegian Bokmål (Hans Fredrik Nordhaug). Closes: #457918, #458732
+  * Vietnamese (Clytie Siddall). Closes: #459016
+  * French (Christian Perrier).
+  * Simplified Chinese (Deng Xiyue). Closes: #459018
+  * Swedish (Peter Karlsson).
+
+  [ Updated scripts translations ]
+  * French (Christian Perrier).
+  * Swedish (Peter Karlsson).
+
+  [ Updated man pages translations ]
+  * Swedish (Peter Karlsson).
+
+ -- Raphael Hertzog <hertzog@debian.org>  Thu, 27 Dec 2007 12:21:57 +0100
+
+dpkg (1.14.14) unstable; urgency=low
+
+  * Fix override disparity: set priority of dselect to important.
+  * Add libio-string-perl to Build-Depends as it's needed by a non-regression
+    test (fix FTBFS, thus a quick upload).
+  * Make dpkg-dev depend on dpkg (>= 1.14.13) as the latest Dpkg.pm is needed
+    for dpkg-source.
+
+ -- Raphael Hertzog <hertzog@debian.org>  Thu, 27 Dec 2007 11:20:38 +0100
+
+dpkg (1.14.13) unstable; urgency=low
 
   [ Frank Lichtenheld ]
   * Add an own manpage for Dpkg's version format. Mostly stolen
@@ -17,14 +83,54 @@ dpkg (1.14.13) UNRELEASED; urgency=low
     Closes: #109794, #200454
   * Bump Standards-Version to 3.7.3 (no changes)
 
+  [ Raphael Hertzog ]
+  * When dpkg-shlibdeps finds a lib in a directory which is just a symlink to
+    another directory that is also considered, remember the other directory
+    name as the canonical one. Closes: #453885
+  * dpkg-shlibdeps doesn't warn any more about libm.so.6 being unused if the
+    binary is also linked against libstdc++ since g++ always add an implicit
+    -lm. Closes: #454616
+  * Included files in symbols files (via #include) do no more need to repeat
+    the header line. Closes: #455260
+  * Tweak the sort algorithm between dependencies so that intervals
+    are displayed as "a (>= 1), a (<< 2)" instead of the opposite.
+    Closes: #455520
+  * Extend format of symbols files to support arbitrary fields of
+    meta-information. First field is Build-Depends-Package used to extract the
+    version requirement possibly encoded in the Build-Depends field and make
+    sure that the generated dependency is at least as strict as this one.
+  * Fix dpkg-gensymbols to not update version info of a deprecated symbol.
+    Closes: #457739
+  * Fix dpkg-source's behaviour with options -sk -sK -sp -sP. Closes: #457784
+
+  [ Guillem Jover ]
+  * Ignore the man pages when building without NLS support. Closes: #457673
+  * Fix perl warnings:
+    - Check for undefined values when reading from the alternative db.
+  * Properly handle symlinks for alternatives with inexistent slave links.
+    Closes: #76295, #246906, #433567, #451872, #220044, #392440, #441021
+    Closes: #443241
+    Based on a patch by Daniel Leidert <daniel.leidert@wgdd.de>.
+  * Fail when diverting to a non existent directory. Closes: #245562
+    Thanks to Flavio Stanchina <flavio@stanchina.net>.
+  * Refactor update-alternatives.
+
+  [ Updated dpkg translations ]
+  * French (Christian Perrier, as this was trivial).
+  * Spanish (Javier Fernández-Sanguino Peña). Closes: #456984
+  * Swedish (Peter Karlsson).
+
   [ Updated man pages translations ]
-  * Swedish (Peter Karlsson)
+  * German (Helge Kreutzmann).
+  * Swedish (Peter Karlsson).
 
   [ Updated scripts translations ]
   * French (Frédéric Bothamy).
-  * Swedish (Peter Karlsson)
+  * German (Helge Kreutzmann).
+  * Japanese (Kenshi Muto). Closes: #455841
+  * Swedish (Peter Karlsson).
 
- -- Frank Lichtenheld <djpig@debian.org>  Wed, 05 Dec 2007 15:05:56 +0100
+ -- Guillem Jover <guillem@debian.org>  Thu, 27 Dec 2007 09:16:45 +0200
 
 dpkg (1.14.12) unstable; urgency=low
 

@@ -7,14 +7,15 @@
 # Ming Hua <minghua@rice.edu>, 2006.
 # Carlos Z.F. Liu <carlosliu@users.sourceforge.net>, 2004,2006.
 # Anthony Wong <ypwong@debian.org.hk>, 2007.
+# Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
-"PO-Revision-Date: 2007-03-18 19:25+0800\n"
-"Last-Translator: Kov Chai <tchaikov@gmail.com>\n"
+"POT-Creation-Date: 2007-12-29 05:57+0100\n"
+"PO-Revision-Date: 2008-01-04 15:52+0800\n"
+"Last-Translator: Deng Xiyue <manphiz-guest@users.alioth.debian.org>\n"
 "Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +43,7 @@ msgstr "vsnprintf 无法 flush"
 
 #: lib/compat.c:53
 msgid "unable to stat in vsnprintf"
-msgstr "vsnprintf 无法 stat"
+msgstr "vsnprintf 无法统计"
 
 #: lib/compat.c:54
 msgid "unable to rewind in vsnprintf"
@@ -63,9 +64,9 @@ msgid "Signal no.%d"
 msgstr "信号 no.%d"
 
 #: lib/compression.c:34
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to exec '%s %s'"
-msgstr "%s：exec gzip %s 失败"
+msgstr "%s：执行 ‘%s %s” 失败"
 
 #: lib/compression.c:62
 #, c-format
@@ -505,7 +506,7 @@ msgstr "无法为 dpkg 的状态数据库加锁"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc 失败 (%ld 字节)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc 失败(%ld 字节)"
@@ -699,7 +700,7 @@ msgstr "无法打开软件包的 info 文件“%.255s”，以备读取"
 #: lib/parse.c:111
 #, c-format
 msgid "can't stat package info file `%.255s'"
-msgstr "无法 stat 软件包的 info 文件“%.255s”"
+msgstr "无法统计软件包的 info 文件“%.255s”"
 
 #: lib/parse.c:116
 #, c-format
@@ -796,14 +797,14 @@ msgid "failed to read `%s' at line %d"
 msgstr "无法读取“%s”文件的第“%d”行"
 
 #: lib/parsehelp.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "warning, in file `%.255s' near line %d"
-msgstr "%s，在“%s”文件的第“%d”行附近"
+msgstr "警告，在“%.255s”文件的第“%d”行附近"
 
 #: lib/parsehelp.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "parse error, in file `%.255s' near line %d"
-msgstr "%s，在“%s”文件的第“%d”行附近"
+msgstr "语法分析错误，在“%.255s”文件的第“%d”行附近"
 
 #: lib/parsehelp.c:48
 #, c-format
@@ -899,32 +900,28 @@ msgid "error setting permissions of `%.255s'"
 msgstr "为“%.255s”设置权限位时出错"
 
 #: src/archives.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr "无法设置 %s 的执行权限位(execute permissions)"
+msgstr "统计(反引用)现有的符号链接“%.250s”失败"
 
 #: src/archives.c:360
 #, c-format
 msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
-msgstr ""
+msgstr "统计(反引用)建议的新符号链接“%.250s”以替代符号链接“%.250s”失败"
 
 #: src/archives.c:411
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
-msgstr ""
-"正在尝试覆盖“%.250s”，该文件是文件“%.250s”的转移版本(diverted version) %.10s"
-"%.100s%.10s"
+msgstr "正在尝试覆盖“%.250s”，其为“%.250s”的转移版本(软件包：%.100s)"
 
 #: src/archives.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
-msgstr ""
-"正在尝试覆盖“%.250s”，该文件是文件“%.250s”的转移版本(diverted version) %.10s"
-"%.100s%.10s"
+msgstr "正在尝试覆盖“%.250s”，其为“%.250s”的转移版本"
 
 #: src/archives.c:440
 #, c-format
@@ -1045,59 +1042,61 @@ msgid "unable to install new version of `%.255s'"
 msgstr "无法安装“%.255s”的新版本"
 
 #: src/archives.c:853
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
-"dpkg: 警告 - 忽视依赖关系的问题将会把 %s 删除：\n"
+"dpkg: 警告 - 忽视 %s 的依赖关系问题：\n"
 "%s"
 
 #: src/archives.c:860
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
 " package %s, to enable %s.\n"
-msgstr "dpkg: 警告 - 为了能删除 %2$s，正准备抹去重要软件包 %1$s 的设置。\n"
+msgstr ""
+"dpkg: 警告 - 正在考虑反配置基础\n"
+" 软件包 %s，以开启 %s。\n"
 
 #: src/archives.c:864
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
 " it in order to enable %s.\n"
 msgstr ""
-"dpkg：不行，%s 是重要的软件包，它的配置信息\n"
-"将不会被抹去，只因要让 %s 得以删除。\n"
+"dpkg：不行，%s 是基础软件包，它不能被反配置\n"
+" 以开启 %s。\n"
 
 #: src/archives.c:878
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"dpkg：不行，不能删除 %s (不妨试一下 --auto-deconfigure)：\n"
+"dpkg：不行，不能继续进行 %s (不妨试一下 --auto-deconfigure)：\n"
 "%s"
 
 #: src/archives.c:888
-#, fuzzy, c-format
+#, c-format
 msgid "removal of %.250s"
-msgstr "在 %.250s 中发生读错误"
+msgstr "删除 %.250s"
 
 #: src/archives.c:915
-#, fuzzy, c-format
+#, c-format
 msgid "installation of %.250s"
-msgstr "软件包安装脚本"
+msgstr "安装 %.250s"
 
 #: src/archives.c:916
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgstr "dpkg：为了 %2$s，正准备删除%1$s ...\n"
+msgstr "dpkg：正在考虑反配置 %s ，否则会被 %s 破坏 ...\n"
 
 #: src/archives.c:923
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
-msgstr "dpkg：好的，为了 %2$s 我将删除 %1$s。\n"
+msgstr "dpkg：好的，将要反配置 %s (被 %s 破坏)。\n"
 
 #: src/archives.c:927 src/archives.c:1048
 #, c-format
@@ -1109,9 +1108,9 @@ msgstr ""
 "%3$s"
 
 #: src/archives.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - ignoring breakage, may proceed anyway !\n"
-msgstr "dpkg：警告 - 忽视了软件包间的冲突，无论怎样，继续安装！\n"
+msgstr "dpkg：警告 - 忽视了软件包间的破坏，无论怎样，继续安装！\n"
 
 #: src/archives.c:941
 #, c-format
@@ -1119,11 +1118,13 @@ msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
+"安装 %.250s 将破坏 %.250s，并且\n"
+"不允许反配置(--auto-deconfigure 也许会有帮助)"
 
 #: src/archives.c:945
 #, c-format
 msgid "installing %.250s would break existing software"
-msgstr ""
+msgstr "安装 %.250s 将破坏现有软件"
 
 #: src/archives.c:978
 #, c-format
@@ -1157,7 +1158,7 @@ msgstr "dpkg：软件包 %s 需要重新安装，它将不会被删除。\n"
 #: src/archives.c:1034
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr ""
+msgstr "软件包 %s 有太多的冲突/替换组合"
 
 #: src/archives.c:1040
 #, c-format
@@ -1593,39 +1594,39 @@ msgid "unable to check for existence of `%.250s'"
 msgstr "无法检查“%.250s”是否存在"
 
 #: src/depcon.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s depends on %s"
-msgstr " 依赖于 "
+msgstr "%s 依赖于 %s"
 
 #: src/depcon.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s pre-depends on %s"
-msgstr " 预依赖于 "
+msgstr "%s 预依赖于 %s"
 
 #: src/depcon.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "%s recommends %s"
-msgstr " 推荐 "
+msgstr "%s 推荐 %s"
 
 #: src/depcon.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "%s suggests %s"
-msgstr " 建议 "
+msgstr "%s 建议 %s"
 
 #: src/depcon.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%s breaks %s"
-msgstr " 破坏了 "
+msgstr "%s 破坏了 %s"
 
 #: src/depcon.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s conflicts with %s"
-msgstr " 冲突于 "
+msgstr "%s 冲突于 %s"
 
 #: src/depcon.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%s enhances %s"
-msgstr " 强化 "
+msgstr "%s 强化 %s"
 
 #: src/depcon.c:265
 #, c-format
@@ -2635,19 +2636,19 @@ msgid "  Package %s is not installed.\n"
 msgstr "  未曾安装软件包“%s”。\n"
 
 #: src/packages.c:362
-#, fuzzy, c-format
+#, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
-msgstr "  %.250s 提供了 %.250s，它现在 %s。\n"
+msgstr "%s (%s)破坏 %s 并且 %s。\n"
 
 #: src/packages.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "  %s (%s) provides %s.\n"
-msgstr "%s (子进程)：%s\n"
+msgstr "%s (%s)提供 %s。\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Version of %s to be configured is %s.\n"
-msgstr "系统中 %s 的版本为 %s。\n"
+msgstr "将被配置的 %s 的版本为 %s。\n"
 
 #: src/packages.c:467
 msgid " depends on "
@@ -2776,14 +2777,14 @@ msgid "error trying to open %.250s"
 msgstr "当试图打开 %.250s 时发生错误"
 
 #: src/processarc.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
-msgstr "正在抹去 %s 的设置信息，只有这样我们才能删除 %s ...\n"
+msgstr "正在反配置 %s ，以允许删除 %s ...\n"
 
 #: src/processarc.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s ...\n"
-msgstr "正在删除 %s ...\n"
+msgstr "正在反配置 %s ...\n"
 
 #: src/processarc.c:479
 #, c-format
@@ -2829,12 +2830,11 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "无法 stat 其它新文件“%.250s”"
 
 #: src/processarc.c:684
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')\n"
-msgstr ""
-"dpkg：警告 - 原有文件“%.250s”与多个新文件相同！(都是“%.250s”和“%.250s”)"
+msgstr "dpkg：警告 - 旧文件“%.250s”与多个新文件相同！(“%.250s”和“%.250s”)\n"
 
 #: src/processarc.c:725
 #, c-format
@@ -2929,24 +2929,24 @@ msgid "No packages found matching %s.\n"
 msgstr "没有找到与 %s 相匹配的软件包。\n"
 
 #: src/query.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s from: %s\n"
-msgstr "被 %s 转移到了：%s\n"
+msgstr "%s 导致转移自：%s\n"
 
 #: src/query.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s to: %s\n"
-msgstr "被 %s 转移到了：%s\n"
+msgstr "%s 导致转移至：%s\n"
 
 #: src/query.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion from: %s\n"
-msgstr "本地转移项(local diversion)"
+msgstr "本地转移自：%s\n"
 
 #: src/query.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion to: %s\n"
-msgstr "本地转移(locally diverted)到：%s\n"
+msgstr "本地转移至：%s\n"
 
 #: src/query.c:285
 msgid "--search needs at least one file name pattern argument"
@@ -3286,7 +3286,7 @@ msgstr "dpkg-deb - 错误：%s (“%s”) 未含有任何数字\n"
 #: dpkg-deb/build.c:131
 #, c-format
 msgid "file name '%.50s...' is too long"
-msgstr ""
+msgstr "文件名“%.50s...”太长了"
 
 #: dpkg-deb/build.c:192
 msgid "--build needs a directory argument"
@@ -3720,6 +3720,11 @@ msgstr "生成临时目录的目录名失败"
 msgid "failed to exec rm -rf"
 msgstr "exec rm -rf 失败"
 
+#: dpkg-deb/info.c:99
+#, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "realloc 失败(%lu 字节)"
+
 #: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr "info_spew"
@@ -3843,7 +3848,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:85
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -3859,14 +3864,13 @@ msgid ""
 "\n"
 msgstr ""
 "选项：\n"
-"  --showformat=<格式>        令 --show 使用替代格式输出.\n"
+"  --showformat=<格式>        用于 --show 的替代格式输出.\n"
 "  -D                         开启调试信息的输出.\n"
-"  --old，--new               选择包文件的格式.\n"
-"  --nocheck                  关闭对主控文件的检查(可能导致生成不能使用的软件"
-"包)。\n"
-"  -z#                        设置构造软件包时，使用的压缩率.\n"
+"  --old，--new               选择档案的格式.\n"
+"  --nocheck                  关闭对主控文件的检查(可能导致生成坏的软件包)。\n"
+"  -z#                        设置构造软件包时，使用的压缩率。\n"
 "  -Z<type>                   设置建档时所使用的压缩类型。\n"
-"                             可用值：gzip、bzip2、none。\n"
+"                             可用值：gzip、bzip2、lzma、none。\n"
 "\n"
 
 #: dpkg-deb/main.c:106
@@ -4359,7 +4363,7 @@ msgid "unable to close %s after read: %s"
 msgstr "读取完之后无法关闭 %s：%s"
 
 #: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
-#: scripts/update-alternatives.pl:535
+#: scripts/update-alternatives.pl:588
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "无法关闭 %s：%s"
@@ -4447,10 +4451,10 @@ msgstr ""
 "软件包的 preinst 和 postrm 脚本通常应当指定 --package 和 --divert 选项。\n"
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
-#: scripts/update-alternatives.pl:229
-#, fuzzy, perl-format
+#: scripts/update-alternatives.pl:281
+#, perl-format
 msgid "two commands specified: %s and --%s"
-msgstr "指定了两种模式：%s 以及 --%s"
+msgstr "指定了两个命令：%s 和 --%s"
 
 #: scripts/dpkg-divert.pl:107
 #, perl-format
@@ -4471,13 +4475,13 @@ msgid "package may not contain newlines"
 msgstr "软件包不可以含有换行符"
 
 #: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
-#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
+#: scripts/update-alternatives.pl:336 scripts/update-alternatives.pl:339
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s 需要一个 <directory> 参数"
 
 #: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
-#: scripts/update-alternatives.pl:286
+#: scripts/update-alternatives.pl:344
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "无法识别的选项 “%s”"
@@ -4576,12 +4580,12 @@ msgstr "无法取得旧名称 “%s” 的信息：%s"
 msgid "cannot stat new name `%s': %s"
 msgstr "无法取得新名称 “%s” 的信息：%s"
 
-#: scripts/dpkg-divert.pl:247
+#: scripts/dpkg-divert.pl:246 scripts/dpkg-divert.pl:253
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "处理 “%s” 时发生错误：%s"
 
-#: scripts/dpkg-divert.pl:252
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4590,47 +4594,47 @@ msgstr ""
 "更改 “%2$s” 文件名会复盖 “%1$s”，\n"
 "  不允許此操作"
 
-#: scripts/dpkg-divert.pl:262
+#: scripts/dpkg-divert.pl:267
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "改名：移除重复的旧连接 “%s”：%s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:269
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "改名：更改 “%s” 的名称为 “%s”：%s"
 
-#: scripts/dpkg-divert.pl:271
+#: scripts/dpkg-divert.pl:276
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "创建 diversions-new：%s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:280
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "写入 diversions-new：%s"
 
-#: scripts/dpkg-divert.pl:277
+#: scripts/dpkg-divert.pl:282
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "关闭 diversions-new：%s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:284
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "移除旧有的转移项(diversions-old)：%s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:286
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "创建新的 diversions-old：%s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:288
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "安装新的转移项：%s"
 
-#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:740
+#: scripts/dpkg-divert.pl:311 scripts/update-alternatives.pl:702
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "内部错误：%s 损坏：%s"
@@ -5003,7 +5007,7 @@ msgstr ""
 "版权所有 (C) 2000-2002 Wichert Akkerman。"
 
 #: scripts/update-alternatives.pl:74
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5049,28 +5053,26 @@ msgstr ""
 "    [--slave <链接> <名称> <路径>] ...\n"
 "                                 在系统中加入一组替换项。\n"
 "  --remove <名称> <路径>         从 <名称> 替换组中去除 <路径> 项。\n"
-"  --remove-all <名称>            从选替系统(alternatives system)中删除<名称> "
-"替换组。\n"
+"  --remove-all <名称>            从替换系统中删除 <名称> 替换组。\n"
 "  --auto <名称>                  将 <名称> 的主链接切换到自动模式。\n"
 "  --display <名称>               显示关于 <名称> 替换组的信息。\n"
 "  --list <名称>                  列出 <名称> 替换组中所有的可用替换项。\n"
-"  --config <名称>                列出 <名称> 替换组中的可选项，并就使用其中哪"
-"一个，征询用户的意见。\n"
-"  --set <名称> <路径>            将 <路径> 设置为 <名称> 的可选项。\n"
+"  --config <名称>                列出 <名称> 替换组中的可选项，并就使用其中\n"
+"                                 哪一个，征询用户的意见。\n"
+"  --set <名称> <路径>            将 <路径> 设置为 <名称> 的替换项。\n"
 "  --all                          对所有可选项一一调用 --config 命令。\n"
 "\n"
-"<链接> 是指向 /etc/alternatives/<名称> 的符号链接。\n"
+"<链接> 是指向 %s/<名称> 的符号链接。\n"
 "    (如 /usr/bin/pager)\n"
-"<名称> 是该链接替换组的主控名(master name)。\n"
+"<名称> 是该链接替换组的主控名。\n"
 "    (如 pager)\n"
-"<路径> 是替换项文件的位置。\n"
+"<路径> 是替换项目标文件的位置。\n"
 "    (如 /usr/bin/less)\n"
 "<优先级> 是一个整数，在自动模式下，这个数字越高的选项，其优先级也就越高。\n"
 "\n"
 "选项：\n"
 "   --altdir <目录>               指定不同的可选项目录。\n"
-"   --admindir <目录>             指定不同的管理目录(administrative "
-"directory)。\n"
+"   --admindir <目录>             指定不同的管理目录。\n"
 "   --test                        仅仅演示要进行的操作，而不是真正的执行它"
 "们。\n"
 "   --verbose                     详尽的操作进行信息，更多的输出。\n"
@@ -5080,7 +5082,7 @@ msgstr ""
 
 #: scripts/update-alternatives.pl:127
 msgid "invalid update mode"
-msgstr ""
+msgstr "无效的更新模式"
 
 #: scripts/update-alternatives.pl:131
 #, perl-format
@@ -5152,54 +5154,88 @@ msgstr "无适用版本。"
 msgid "Current `best' version is %s."
 msgstr "目前“最佳”的版本为 %s。"
 
-#: scripts/update-alternatives.pl:243
+#: scripts/update-alternatives.pl:232
+#, perl-format
+msgid ""
+"warning: %s is supposed to be a symlink to %s, \n"
+"or nonexistent; however, readlink failed: %s"
+msgstr ""
+"警告：%s 应该是指向 %s 的符号链接，\n"
+"或者不存在；但读取链接失败：%s"
+
+#: scripts/update-alternatives.pl:244
+#, perl-format
+msgid "Leaving %s (%s) pointing to %s."
+msgstr "维持 %s（%s）指向 %s。"
+
+#: scripts/update-alternatives.pl:247
+#, perl-format
+msgid "Updating %s (%s) to point to %s."
+msgstr "正在更新 %s（%s）指向 %s。"
+
+#: scripts/update-alternatives.pl:256
+#, perl-format
+msgid "Using '%s' to provide '%s'."
+msgstr "使用“%s”来提供“%s”。"
+
+#: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:616
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "正在移除 %s（%s），不适用于 %s。"
+
+#: scripts/update-alternatives.pl:288
+#, perl-format
+msgid "unable to remove %s: %s"
+msgstr "无法移除 %s：%s"
+
+#: scripts/update-alternatives.pl:301
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "无法识别的参数 “%s”"
 
-#: scripts/update-alternatives.pl:256
+#: scripts/update-alternatives.pl:314
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install 需要 <link> <name> <path> <priority>"
 
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:316
 msgid "priority must be an integer"
 msgstr "优先级必须为整数"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:320
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s 需要 <name> <path>"
 
-#: scripts/update-alternatives.pl:267
+#: scripts/update-alternatives.pl:325
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s 需要 <name>"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:329
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave 需要 <link> <name> <path>"
 
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:331
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "次要名称(slave name) %s 有重复"
 
-#: scripts/update-alternatives.pl:274
+#: scripts/update-alternatives.pl:332
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "次要链接(slave link) %s 有重复"
 
-#: scripts/update-alternatives.pl:291
+#: scripts/update-alternatives.pl:349
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "文件名 %s 同時是主要(primary)和次要(slave)"
 
-#: scripts/update-alternatives.pl:293
+#: scripts/update-alternatives.pl:351
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "链接 %s 同時是主要(primary)和次要(slave)"
 
-#: scripts/update-alternatives.pl:296
+#: scripts/update-alternatives.pl:354
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5207,31 +5243,21 @@ msgstr ""
 "需要 --display, --config, --set, --install, --remove, --all, --remove-all 或 "
 "--auto 选项"
 
-#: scripts/update-alternatives.pl:298
+#: scripts/update-alternatives.pl:356
 msgid "--slave only allowed with --install"
 msgstr "--slave 只能搭配 --install 使用"
 
-#: scripts/update-alternatives.pl:311
+#: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "无 %s 的替换项。"
 
-#: scripts/update-alternatives.pl:358
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "正在设置 %s 的自動选择"
 
-#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
-#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
-#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
-#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
-#: scripts/update-alternatives.pl:687 scripts/update-alternatives.pl:723
-#, perl-format
-msgid "unable to remove %s: %s"
-msgstr "无法移除 %s：%s"
-
-#: scripts/update-alternatives.pl:374
+#: scripts/update-alternatives.pl:430
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5240,7 +5266,7 @@ msgstr ""
 "%s 已更改（由于手动更改或通过脚本）。\n"
 "切换成只允许手动更新。"
 
-#: scripts/update-alternatives.pl:386
+#: scripts/update-alternatives.pl:442
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5249,131 +5275,75 @@ msgstr ""
 "检查 %s 的可用版本，正在更新 %s 中的链接…\n"
 "（如果愿意，你也可以自行修改符号链接 (symlink) - 请参阅 “man ln”。）"
 
-#: scripts/update-alternatives.pl:392
+#: scripts/update-alternatives.pl:448
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "正在更改链接 %s 的名称，从 %s 改成 %s。"
 
-#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
-#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
+#: scripts/update-alternatives.pl:451 scripts/update-alternatives.pl:475
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "无法把 %s 改名为 %s：%s"
 
-#: scripts/update-alternatives.pl:414
+#: scripts/update-alternatives.pl:470
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "次要链接名称 %s 已重复"
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:472
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "正在更改次要链接 %s 的名称，从 %s 改成 %s。"
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:489
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr "正在移除手动选择的替代项 - 切换为自动模式"
 
-#: scripts/update-alternatives.pl:447
+#: scripts/update-alternatives.pl:503
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "%2$s 的替换项 %1$s 没有注册，无法移除。"
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:530
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "舍弃已废弃的次要链接 %s（%s）。"
 
-#: scripts/update-alternatives.pl:495
+#: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "取消 %s 的自动更新功能。"
 
-#: scripts/update-alternatives.pl:497
+#: scripts/update-alternatives.pl:551
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr "要回复成自动更新，请执行 “update-alternatives --auto %s”。"
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:555
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "正在从上一次更新 %s 的失败中恢复…"
 
-#: scripts/update-alternatives.pl:516
+#: scripts/update-alternatives.pl:569
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "无法打开文件 “%s” 以写入：%s"
 
-#: scripts/update-alternatives.pl:539
+#: scripts/update-alternatives.pl:592
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "最后一个提供 %s（%s）的软件包已移除，删除中。"
 
-#: scripts/update-alternatives.pl:553
+#: scripts/update-alternatives.pl:631
 #, perl-format
-msgid ""
-"warning: %s is supposed to be a symlink to %s\n"
-" (or nonexistent); however, readlink failed: %s"
-msgstr ""
-"警告：%s 应该是指向 %s 的符号链接(symlink)\n"
-" （或者不存在），但读取链接失败：%s"
-
-#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
-#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:607
-#, perl-format
-msgid "unable to ensure %s nonexistent: %s"
-msgstr "无法确认 %s 不存在：%s"
-
-#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:610
-#: scripts/update-alternatives.pl:624 scripts/update-alternatives.pl:673
-#: scripts/update-alternatives.pl:709 scripts/update-alternatives.pl:748
-#, perl-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "无法创建 %s 为 %s 的符号链接(symlink)：%s"
-
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:626
-#: scripts/update-alternatives.pl:675 scripts/update-alternatives.pl:711
-#: scripts/update-alternatives.pl:753
-#, perl-format
-msgid "unable to install %s as %s: %s"
-msgstr "无法把 %s 安装为 %s：%s"
-
-#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:617
-#, perl-format
-msgid "Leaving %s (%s) pointing to %s."
-msgstr "维持 %s（%s）指向 %s。"
-
-#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:620
-#, perl-format
-msgid "Updating %s (%s) to point to %s."
-msgstr "正在更新 %s（%s）指向 %s。"
-
-#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:684
-#: scripts/update-alternatives.pl:720
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "正在移除 %s（%s），不适用于 %s。"
-
-#: scripts/update-alternatives.pl:600
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a slave symlink to\n"
-" %s, or nonexistent; however, readlink failed: %s"
-msgstr ""
-"警告：%s 本该是指向 %s 的次要链接，\n"
-"或者不存在；但读取链接失败：%s"
-
-#: scripts/update-alternatives.pl:634
-#, fuzzy, perl-format
 msgid ""
 "There is no program which provides %s.\n"
 "Nothing to configure.\n"
 msgstr ""
-"只有一个程序提供 %s\n"
-"（%s）。无须做任何配置。\n"
+"没有程序提供 %s。\n"
+"无须做任何配置。\n"
 
-#: scripts/update-alternatives.pl:640
+#: scripts/update-alternatives.pl:637
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5382,7 +5352,7 @@ msgstr ""
 "只有一个程序提供 %s\n"
 "（%s）。无须做任何配置。\n"
 
-#: scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5395,44 +5365,59 @@ msgstr ""
 "    选择        可选项\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:652
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr "要维持缺省值[*]，按回车键，或者键入选择的编号："
 
-#: scripts/update-alternatives.pl:670 scripts/update-alternatives.pl:707
-#, perl-format
-msgid "Using `%s' to provide `%s'."
-msgstr "使用 “%s” 来提供 “%s”。"
-
-#: scripts/update-alternatives.pl:705
+#: scripts/update-alternatives.pl:684
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "找不到替换项 “%s”。"
 
-#: scripts/update-alternatives.pl:728 scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:689 scripts/update-alternatives.pl:692
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "写入标准输出(stdout)时出错：%s"
 
-#: scripts/update-alternatives.pl:730
+#: scripts/update-alternatives.pl:691
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "update-alternatives 文件（%s）禁止换行符"
 
-#: scripts/update-alternatives.pl:735
+#: scripts/update-alternatives.pl:696
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "%2$s：读取 %1$s 时发生错误或是 eof （%3$s）"
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "missing newline after %s"
 msgstr "在 %s 后缺少换行符"
 
-#: scripts/update-alternatives.pl:756
+#: scripts/update-alternatives.pl:710
+#, perl-format
+msgid "unable to make %s a symlink to %s: %s"
+msgstr "无法创建 %s 为 %s 的符号链接(symlink)：%s"
+
+#: scripts/update-alternatives.pl:715
+#, perl-format
+msgid "unable to install %s as %s: %s"
+msgstr "无法把 %s 安装为 %s：%s"
+
+#: scripts/update-alternatives.pl:718
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "严重问题：%s"
+
+#~ msgid "unable to ensure %s nonexistent: %s"
+#~ msgstr "无法确认 %s 不存在：%s"
+
+#~ msgid ""
+#~ "warning: %s is supposed to be a slave symlink to\n"
+#~ " %s, or nonexistent; however, readlink failed: %s"
+#~ msgstr ""
+#~ "警告：%s 本该是指向 %s 的次要链接，\n"
+#~ "或者不存在；但读取链接失败：%s"
 
 #~ msgid "warning"
 #~ msgstr "警告"
@@ -5489,73 +5474,56 @@ msgstr "严重问题：%s"
 #~ msgid "`%s' field, reference to `%.255s': version contains ` '"
 #~ msgstr "“%s”字段，于“%.255s”：版本号含有“ ”"
 
-#, fuzzy
 #~ msgid "%s: can't open %s: %s"
-#~ msgstr "%s：无法打开 %s\n"
+#~ msgstr "%s：无法打开 %s：%s"
 
-#, fuzzy
 #~ msgid "%s: can't create %s: %s"
-#~ msgstr "%s：无法打开 %s\n"
+#~ msgstr "%s：无法创建 %s：%s"
 
-#, fuzzy
 #~ msgid "%s: error writing %s: %s"
-#~ msgstr "“%s”写入错误"
+#~ msgstr "%s：写入 %s 错误：%s"
 
-#, fuzzy
 #~ msgid "%s: read %s: %s"
-#~ msgstr "%s：读取 %s 时出错\n"
+#~ msgstr "%s：读取 %s：%s"
 
-#, fuzzy
 #~ msgid "%s: close %s after read: %s"
-#~ msgstr "读取完毕“%.255s”后，无法关闭该文件"
+#~ msgstr "%s：关闭 %s 在读取之后：%s"
 
-#, fuzzy
 #~ msgid "%s: error closing %s: %s"
-#~ msgstr "处理 %s 时出错：%s\n"
+#~ msgstr "%s：关闭 %s 出错：%s"
 
-#, fuzzy
 #~ msgid "--admindir needs a directory argument"
-#~ msgstr "--build 需要一个目录名作为参数"
+#~ msgstr "--admindir 需要一个目录名作为参数"
 
-#, fuzzy
 #~ msgid "--remove needs a single argument"
-#~ msgstr "--%s 需要一个 .deb 文件的文件名作为参数"
+#~ msgstr "--remove 只需要一个参数"
 
-#, fuzzy
 #~ msgid "--truename needs a single argument"
-#~ msgstr "--build 需要一个目录名作为参数"
+#~ msgstr "--truename 只需要一个参数"
 
-#, fuzzy
 #~ msgid "--remove needs one arguments"
-#~ msgstr "--%s 不需要带任何参数"
+#~ msgstr "--remove 只需要一个参数"
 
-#, fuzzy
 #~ msgid "dpkg-statoverride: %s"
-#~ msgstr "statoverride 文件 “%.250s”"
+#~ msgstr "dpkg-statoverride：%s"
 
-#, fuzzy
 #~ msgid "open %s: %s"
-#~ msgstr "处理 %s 时出错：%s\n"
+#~ msgstr "打开 %s：%s"
 
-#, fuzzy
 #~ msgid "read %s: %s"
-#~ msgstr "被 %s 转移到了(diverted by)：%s\n"
+#~ msgstr "读取 %s：%s"
 
-#, fuzzy
 #~ msgid "%s: read %s: %d"
-#~ msgstr "%s：读取 %s 时出错：%d\n"
+#~ msgstr "%s：读取 %s ：%d"
 
-#, fuzzy
 #~ msgid "--admindir needs a <directory> argument"
-#~ msgstr "--build 需要一个目录名作为参数"
+#~ msgstr "--admindir 需要一个目录名作为参数"
 
-#, fuzzy
 #~ msgid "failed to open %s: %s"
-#~ msgstr "无法运行 %s (%.250s)"
+#~ msgstr "打开 %s 失败：%s"
 
-#, fuzzy
 #~ msgid "unable to install %s as %s"
-#~ msgstr "无法把“%.250s”安装到“%.250s”"
+#~ msgstr "无法安装 %s 作为 %s"
 
 #~ msgid "version a has bad syntax: %s\n"
 #~ msgstr "左侧的版本号有语法错误：%s\n"

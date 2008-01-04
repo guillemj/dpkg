@@ -11,7 +11,8 @@ Vcs-Git: git://git.debian.org/git/dpkg/dpkg.git
 Standards-Version: 3.7.3
 Build-Depends: debhelper (>= 4.1.81), pkg-config, po4a (>= 0.23),
  libncurses5-dev | libncurses-dev, zlib1g-dev (>= 1:1.1.3-19.1), libbz2-dev,
- libselinux1-dev (>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64]
+ libselinux1-dev (>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64],
+ libio-string-perl
 
 Package: dpkg
 Architecture: any
@@ -33,9 +34,9 @@ Package: dpkg-dev
 Section: utils
 Priority: optional
 Architecture: all
-Depends: dpkg (>= 1.14.6), perl5, perl-modules, cpio (>= 2.4.2-2),
+Depends: dpkg (>= 1.14.6), perl5, perl-modules, cpio (>= 2.4.2-2), bzip2, lzma,
  patch (>= 2.2-1), make, binutils
-Recommends: gcc | c-compiler, bzip2
+Recommends: gcc | c-compiler
 Suggests: gnupg, debian-keyring
 Conflicts: dpkgname, dpkg-cross (<< 2.0.0)
 Replaces: dpkgname, dpkg (<< 1.4.1.8), dpkg-doc-ja, manpages-pl (<= 20051117-1)
@@ -47,6 +48,7 @@ Description: package building tools for Debian
  for example, most packages need the `make' and the C compiler `gcc'.
 
 Package: dselect
+Priority: important
 Architecture: any
 Depends: ${shlibs:Depends}, dpkg (>= 1.13.1)
 Replaces: dpkg (<< 1.10.3)

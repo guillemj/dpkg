@@ -159,13 +159,11 @@ extern const char printforhelp[];
 # define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
 # define NONRETURNING __attribute__((noreturn))
 # define UNUSED __attribute__((unused))
-# define NONRETURNPRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc),noreturn))
 #else
 # define CONSTANT
 # define PRINTFFORMAT(si, tc)
 # define NONRETURNING
 # define UNUSED
-# define NONRETURNPRINTFFORMAT(si, tc)
 #endif
 
 /*** from startup.c ***/
@@ -211,13 +209,13 @@ void do_internerr(const char *string, int line, const char *file) NONRETURNING;
 #define internerr(s) do_internerr(s,__LINE__,__FILE__)
 
 struct varbuf;
-void ohshit(const char *fmt, ...) NONRETURNPRINTFFORMAT(1,2);
+void ohshit(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void ohshitv(const char *fmt, va_list al) NONRETURNING;
-void ohshite(const char *fmt, ...) NONRETURNPRINTFFORMAT(1,2);
+void ohshite(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void ohshitvb(struct varbuf*) NONRETURNING;
-void badusage(const char *fmt, ...) NONRETURNPRINTFFORMAT(1,2);
+void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void werr(const char *what) NONRETURNING;
-void warningf(const char *fmt, ...);
+void warningf(const char *fmt, ...) PRINTFFORMAT(1, 2);
 
 /*** from mlib.c ***/
 
@@ -343,16 +341,16 @@ struct buffer_data {
 
 off_t buffer_copy_setup_PtrInt(void *p, int typeIn, void *procIn,
 					int i, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
 off_t buffer_copy_setup_PtrPtr(void *p1, int typeIn, void *procIn,
 					void *p2, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
 off_t buffer_copy_setup_IntPtr(int i, int typeIn, void *procIn,
 					void *p, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
 off_t buffer_copy_setup_IntInt(int i1, int typeIn, void *procIn,
 					int i2, int typeOut, void *procOut,
-					off_t limit, const char *desc, ...);
+					off_t limit, const char *desc, ...) PRINTFFORMAT(8, 9);
 off_t buffer_copy_setup(buffer_arg argIn, int typeIn, void *procIn,
 		       buffer_arg argOut, int typeOut, void *procOut,
 		       off_t limit, const char *desc);
@@ -381,8 +379,11 @@ enum compress_type {
   compress_type_lzma,
 };
 
-void decompress_cat(enum compress_type type, int fd_in, int fd_out, char *desc, ...) NONRETURNING;
-void compress_cat(enum compress_type type, int fd_in, int fd_out, const char *compression, char *desc, ...) NONRETURNING;
+void decompress_cat(enum compress_type type, int fd_in, int fd_out,
+                    char *desc, ...) NONRETURNING PRINTFFORMAT(4, 5);
+void compress_cat(enum compress_type type, int fd_in, int fd_out,
+                  const char *compression, char *desc, ...)
+                  NONRETURNING PRINTFFORMAT(5, 6);
 
 /*** from compat.c ***/
 

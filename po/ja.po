@@ -14,13 +14,13 @@
 # dpkg 用の日本語メッセージ (Linux/GNU Debian).
 # Copyright (C) 1998 Masato Taruishi <taru@debian.or.jp>
 # Copyright (C) 1999-2004 Keita Maehara <maehara@debian.org>
-# Copyright (C) 2004-2006 Kenshi Muto <kmuto@debian.org>
+# Copyright (C) 2004-2007 Kenshi Muto <kmuto@debian.org>
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13 r503\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
-"PO-Revision-Date: 2006-09-13 22:11+0900\n"
+"POT-Creation-Date: 2007-12-29 05:57+0100\n"
+"PO-Revision-Date: 2007-12-20 14:53+0900\n"
 "Last-Translator: Kenshi Muto <kmuto@debian.org>\n"
 "Language-Team: Debian Japanease List <debian-japanese@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -70,9 +70,9 @@ msgid "Signal no.%d"
 msgstr "%d番のシグナルが発生しました"
 
 #: lib/compression.c:34
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to exec '%s %s'"
-msgstr "%s: gzip %s の実行に失敗しました"
+msgstr "%s: '%s %s' の実行に失敗しました"
 
 #: lib/compression.c:62
 #, c-format
@@ -526,7 +526,7 @@ msgstr "dpkg ステータスデータベースをロックできません"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc 失敗 (%ld バイト)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc 失敗 (%ld バイト)"
@@ -817,14 +817,14 @@ msgid "failed to read `%s' at line %d"
 msgstr "%2$d 行目で `%1$s' の読み込みに失敗しました"
 
 #: lib/parsehelp.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "warning, in file `%.255s' near line %d"
-msgstr "ファイル `%2$.255s' の %3$d 行目付近で、%1$s"
+msgstr "警告, ファイル `%.255s' の %d 行目付近"
 
 #: lib/parsehelp.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "parse error, in file `%.255s' near line %d"
-msgstr "ファイル `%2$.255s' の %3$d 行目付近で、%1$s"
+msgstr "解析エラー, ファイル `%.255s' の %d 行目付近"
 
 #: lib/parsehelp.c:48
 #, c-format
@@ -920,9 +920,10 @@ msgid "error setting permissions of `%.255s'"
 msgstr "`%.255s' の許可属性設定エラーです"
 
 #: src/archives.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr "`%.250s' の実行許可を設定できません"
+msgstr ""
+"`%.250s' の既存のシンボリックリンクの状態 (逆参照) を取得できませんでした"
 
 #: src/archives.c:360
 #, c-format
@@ -930,22 +931,23 @@ msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
+"シンボリックリンク `%2$.250s' の提案された新しいシンボリックターゲット `%1"
+"$.250s' の状態 (逆参照) を取得できませんでした"
 
 #: src/archives.c:411
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
 msgstr ""
-"`%.250s' を上書きしようとしています。これは `%.250s'%.10s%.100s%.10s の退避"
-"バージョンです"
+"`%.250s' を上書きしようとしています。これは `%.250s' (パッケージ: %.100s) の"
+"退避バージョンです"
 
 #: src/archives.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
-"`%.250s' を上書きしようとしています。これは `%.250s'%.10s%.100s%.10s の退避"
-"バージョンです"
+"`%.250s' を上書きしようとしています。これは `%.250s' の退避バージョンです"
 
 #: src/archives.c:440
 #, c-format
@@ -1073,61 +1075,62 @@ msgid "unable to install new version of `%.255s'"
 msgstr "`%.255s' の新しいバージョンをインストールできません"
 
 #: src/archives.c:853
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
-"dpkg: 警告 - %s の削除において依存関係の問題を無視しています:\n"
+"dpkg: 警告 - %s の依存関係の問題を無視しています:\n"
 "%s"
 
 #: src/archives.c:860
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
 " package %s, to enable %s.\n"
 msgstr ""
-"dpkg: 警告 - %2$s を削除可能にするため、不可欠パッケージ\n"
+"dpkg: 警告 - %2$s を有効にするため、不可欠パッケージ\n"
 " %1$s の設定削除を考慮しています。\n"
 
 #: src/archives.c:864
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
 " it in order to enable %s.\n"
 msgstr ""
-"dpkg: 失敗。%s は不可欠パッケージです。%s を削除可能に\n"
+"dpkg: 失敗。%s は不可欠パッケージです。%s を有効に\n"
 " するために、その設定削除を行いません。\n"
 
 #: src/archives.c:878
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"dpkg: 失敗、%s を削除できません (--auto-deconfigure を使いましょう):\n"
+"dpkg: 失敗。%s を処理できません (--auto-deconfigure を使いましょう):\n"
 "%s"
 
 #: src/archives.c:888
-#, fuzzy, c-format
+#, c-format
 msgid "removal of %.250s"
-msgstr "%.250s で読み取り時にエラーが発生しました"
+msgstr "%.250s の削除"
 
 #: src/archives.c:915
-#, fuzzy, c-format
+#, c-format
 msgid "installation of %.250s"
-msgstr "`%.255s' の新しいバージョンをインストールできません"
+msgstr "`%.250s' のインストール"
 
 #: src/archives.c:916
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgstr "dpkg: %2$s を選択するために %1$s の削除を考えています ...\n"
+msgstr "dpkg: %2$s によって壊れた %1$s の設定削除を考えています ...\n"
 
 #: src/archives.c:923
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
-msgstr "dpkg: 問題ありません。%2$s を選択するために %1$s を削除します。\n"
+msgstr ""
+"dpkg: 問題ありません。(%2$s によって壊れた) %1$s の設定削除をします。\n"
 
 #: src/archives.c:927 src/archives.c:1048
 #, c-format
@@ -1135,13 +1138,13 @@ msgid ""
 "dpkg: regarding %s containing %s:\n"
 "%s"
 msgstr ""
-"dpkg: %s が %s を提供することを考慮すると:\n"
+"dpkg: %s が %s を含んでいることを考慮すると:\n"
 "%s"
 
 #: src/archives.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - ignoring breakage, may proceed anyway !\n"
-msgstr "dpkg: 警告 - 競合を無視しています。続行します!\n"
+msgstr "dpkg: 警告 - 破損を無視しています。続行します!\n"
 
 #: src/archives.c:941
 #, c-format
@@ -1149,11 +1152,13 @@ msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
+"%.250s のインストールは %.250s を壊す可能性があり、\n"
+" 設定削除は許されていません (--auto-deconfigure が助けになります)"
 
 #: src/archives.c:945
 #, c-format
 msgid "installing %.250s would break existing software"
-msgstr ""
+msgstr "%.250s のインストールは既存のソフトウェアを壊す可能性があります"
 
 #: src/archives.c:978
 #, c-format
@@ -1188,7 +1193,7 @@ msgstr "dpkg: パッケージ %s は再インストールが必要です。削�
 #: src/archives.c:1034
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr ""
+msgstr "パッケージ %s の衝突/置換の組み合わせが多すぎます"
 
 #: src/archives.c:1040
 #, c-format
@@ -1208,7 +1213,7 @@ msgstr "dpkg: 警告 - 競合を無視しています。続行します!\n"
 #: src/archives.c:1090
 #, c-format
 msgid "--%s --recursive needs at least one path argument"
-msgstr "--%s --recursive は引数として最低1つのパスが必要です"
+msgstr "--%s --recursive は引数として最低 1 つのパスが必要です"
 
 #: src/archives.c:1120
 msgid "failed to exec find for --recursive"
@@ -1644,39 +1649,39 @@ msgid "unable to check for existence of `%.250s'"
 msgstr "`%.250s' の存在を確認できません"
 
 #: src/depcon.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s depends on %s"
-msgstr " は以下に依存 (depends) します: "
+msgstr "%s は %s に依存 (depends) します"
 
 #: src/depcon.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s pre-depends on %s"
-msgstr " は以下に事前依存 (pre-depends) します: "
+msgstr "%s は %s に事前依存 (pre-depends) します"
 
 #: src/depcon.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "%s recommends %s"
-msgstr " は以下を推奨 (recommends) します: "
+msgstr "%s は %s を推奨 (recommends) します"
 
 #: src/depcon.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "%s suggests %s"
-msgstr "は以下を提案 (suggests) します: "
+msgstr "%s は %s を提案 (suggests) します"
 
 #: src/depcon.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%s breaks %s"
-msgstr " は以下を壊します "
+msgstr "%s は %s を壊します"
 
 #: src/depcon.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s conflicts with %s"
-msgstr " は以下と競合 (conflicts) します: "
+msgstr "%s は %s と競合 (conflicts) します"
 
 #: src/depcon.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%s enhances %s"
-msgstr " は以下を強化 (enhances) します: "
+msgstr "%s は %s を強化 (enhances) します"
 
 #: src/depcon.c:265
 #, c-format
@@ -2716,19 +2721,19 @@ msgid "  Package %s is not installed.\n"
 msgstr "  パッケージ %s はまだインストールされていません。\n"
 
 #: src/packages.c:362
-#, fuzzy, c-format
+#, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
-msgstr "  %2$.250s を提供する %1$.250s が %3$s です。\n"
+msgstr "%s (%s) は %s を壊し、%s です。\n"
 
 #: src/packages.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "  %s (%s) provides %s.\n"
-msgstr "%s (サブプロセス): %s\n"
+msgstr "%s (%s) は %s を提供します。\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Version of %s to be configured is %s.\n"
-msgstr "システム上の %s のバージョン は %s です。\n"
+msgstr "設定される %s のバージョン は %s です。\n"
 
 #: src/packages.c:467
 msgid " depends on "
@@ -2857,15 +2862,16 @@ msgid "error trying to open %.250s"
 msgstr "%.250s のオープン時にエラーが発生しました"
 
 #: src/processarc.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr ""
-"%s の設定削除 (deconfigure) を行います。したがって %s を削除できます ...\n"
+"%2$s を削除できるようにするために %1$s の設定削除 (deconfigure) を行いま"
+"す ...\n"
 
 #: src/processarc.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s ...\n"
-msgstr "%s を削除しています ...\n"
+msgstr "%s を設定削除しています ...\n"
 
 #: src/processarc.c:479
 #, c-format
@@ -2916,13 +2922,13 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "その他の新しいファイル `%.250s' の状態を取得できません"
 
 #: src/processarc.c:684
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')\n"
 msgstr ""
-"dpkg: 警告 - 古いファイル `%.250s' がいくつかの新しいファイルと同一です (`"
-"%.250s' と `%.250s' の両方)"
+"dpkg: 警告 - 古いファイル `%.250s' がいくつかの新しいファイルと同一です! (`"
+"%.250s' と `%.250s' の両方)\n"
 
 #: src/processarc.c:725
 #, c-format
@@ -3028,24 +3034,24 @@ msgid "No packages found matching %s.\n"
 msgstr "%s に一致するパッケージが見つかりません。\n"
 
 #: src/query.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s from: %s\n"
-msgstr "%s により退避 (divert) された: %s\n"
+msgstr "%s による退避 (divert) 元: %s\n"
 
 #: src/query.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s to: %s\n"
-msgstr "%s により退避 (divert) された: %s\n"
+msgstr "%s による退避 (divert) 先: %s\n"
 
 #: src/query.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion from: %s\n"
-msgstr "ローカルな退避 (diversion)"
+msgstr "ローカルな退避 (divert) 元: %s\n"
 
 #: src/query.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion to: %s\n"
-msgstr "ローカルに退避 (divert) された: %s\n"
+msgstr "ローカルな退避 (divert) 先: %s\n"
 
 #: src/query.c:285
 msgid "--search needs at least one file name pattern argument"
@@ -3391,7 +3397,7 @@ msgstr "dpkg-deb - エラー: %s (`%s') が数字を含んでいません\n"
 #: dpkg-deb/build.c:131
 #, c-format
 msgid "file name '%.50s...' is too long"
-msgstr ""
+msgstr "ファイル名 '%.50s...' は長すぎます"
 
 #: dpkg-deb/build.c:192
 msgid "--build needs a directory argument"
@@ -3842,6 +3848,11 @@ msgstr "一時ディレクトリ名の作成に失敗しました"
 msgid "failed to exec rm -rf"
 msgstr "rm -rf の実行に失敗しました"
 
+#: dpkg-deb/info.c:99
+#, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "realloc 失敗 (%lu バイト)"
+
 #: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr "情報抽出"
@@ -3969,7 +3980,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:85
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -3992,7 +4003,7 @@ msgstr ""
 "                               (不良パッケージが作成される)\n"
 "  -z#                          構築時の圧縮レベルを設定\n"
 "  -Z<形式>                     構築時の圧縮形式を設定\n"
-"                                 可能な値: bzip, bzip2, none\n"
+"                                 可能な値: bzip, bzip2, lzma, none\n"
 "\n"
 
 #: dpkg-deb/main.c:106
@@ -4498,7 +4509,7 @@ msgid "unable to close %s after read: %s"
 msgstr "%s の読み取り後のクローズに失敗しました: %s"
 
 #: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
-#: scripts/update-alternatives.pl:535
+#: scripts/update-alternatives.pl:588
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "%s をクローズできません: %s"
@@ -4590,10 +4601,10 @@ msgstr ""
 "きです。\n"
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
-#: scripts/update-alternatives.pl:229
-#, fuzzy, perl-format
+#: scripts/update-alternatives.pl:281
+#, perl-format
 msgid "two commands specified: %s and --%s"
-msgstr "2 つのモードが指定されました: %s と --%s"
+msgstr "2 つのコマンドが指定されました: %s と --%s"
 
 #: scripts/dpkg-divert.pl:107
 #, perl-format
@@ -4614,13 +4625,13 @@ msgid "package may not contain newlines"
 msgstr "パッケージは改行を含んではなりません"
 
 #: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
-#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
+#: scripts/update-alternatives.pl:336 scripts/update-alternatives.pl:339
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s は引数として <ディレクトリ> が必要です"
 
 #: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
-#: scripts/update-alternatives.pl:286
+#: scripts/update-alternatives.pl:344
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "不明なオプション `%s'"
@@ -4719,12 +4730,12 @@ msgstr "古い名前 `%s' の状態を取得できません: %s"
 msgid "cannot stat new name `%s': %s"
 msgstr "新しい名前 `%s' の状態を取得できません: %s"
 
-#: scripts/dpkg-divert.pl:247
+#: scripts/dpkg-divert.pl:246 scripts/dpkg-divert.pl:253
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "`%s' の確認中にエラーが発生しました: %s"
 
-#: scripts/dpkg-divert.pl:252
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4733,47 +4744,47 @@ msgstr ""
 "名前変更は `%s' を異なるファイル `%s' で上書きすることを伴います。\n"
 "これは許可されていません。"
 
-#: scripts/dpkg-divert.pl:262
+#: scripts/dpkg-divert.pl:267
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "名前変更: 重複する古いリンク `%s' を削除してください: %s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:269
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "名前変更: `%s' を `%s' に名前変更します: %s"
 
-#: scripts/dpkg-divert.pl:271
+#: scripts/dpkg-divert.pl:276
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "diversions-new を作成: %s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:280
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "diversions-new を書き込み: %s"
 
-#: scripts/dpkg-divert.pl:277
+#: scripts/dpkg-divert.pl:282
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "diversions-new をクローズ: %s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:284
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "古い diversions-old を削除: %s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:286
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "新しい diversions-old を作成: %s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:288
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "新しい退避をインストール: %s"
 
-#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:740
+#: scripts/dpkg-divert.pl:311 scripts/update-alternatives.pl:702
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "内部エラー: %s は壊れています: %s"
@@ -5155,7 +5166,7 @@ msgstr ""
 "Copyright (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:74
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5214,14 +5225,14 @@ msgstr ""
 "  --all                    すべての alternatives に対して --config を呼び出"
 "す\n"
 "\n"
-"<リンク> は /etc/alternatives/<名前> を指すシンボリックリンクです。\n"
+"<リンク> は %s/<名前> を指すシンボリックリンクです。\n"
 "  (例: /usr/bin/pager)\n"
 "<名前> はこのリンクグループのマスター名です。\n"
 "  (例: pager)\n"
 "<パス> は alternative ターゲットファイルのうちの 1 つの場所です。\n"
 "  (例: /usr/bin/less)\n"
 "<優先度> は整数です; より大きな数を持つ選択肢は、自動モードにおいてより高い\n"
-"優先度を持ちます。options with higher numbers have higher priority in\n"
+"優先度を持ちます。\n"
 "\n"
 "オプション:\n"
 "  --altdir <ディレクトリ>     alternatives ディレクトリを変更する\n"
@@ -5234,7 +5245,7 @@ msgstr ""
 
 #: scripts/update-alternatives.pl:127
 msgid "invalid update mode"
-msgstr ""
+msgstr "無効なアップデートモード"
 
 #: scripts/update-alternatives.pl:131
 #, perl-format
@@ -5308,54 +5319,88 @@ msgstr "利用可能なバージョンはありません。"
 msgid "Current `best' version is %s."
 msgstr "現在の `最適' バージョンは %s です。"
 
-#: scripts/update-alternatives.pl:243
+#: scripts/update-alternatives.pl:232
+#, fuzzy, perl-format
+msgid ""
+"warning: %s is supposed to be a symlink to %s, \n"
+"or nonexistent; however, readlink failed: %s"
+msgstr ""
+"警告: %s は %s へのシンボリックリンク (あるいは存在しない) であると想定\n"
+"されています; しかし、readlink が失敗しました: %s"
+
+#: scripts/update-alternatives.pl:244
+#, perl-format
+msgid "Leaving %s (%s) pointing to %s."
+msgstr "%3$s を指している %1$s (%2$s) をそのままにします。"
+
+#: scripts/update-alternatives.pl:247
+#, perl-format
+msgid "Updating %s (%s) to point to %s."
+msgstr "%3$s を指している %1$s (%2$s) を更新しています。"
+
+#: scripts/update-alternatives.pl:256
+#, fuzzy, perl-format
+msgid "Using '%s' to provide '%s'."
+msgstr "`%2$s' を提供するために `%1$s' を使います。"
+
+#: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:616
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "%3$s に適当でない %1$s を削除しています (%2$s)。"
+
+#: scripts/update-alternatives.pl:288
+#, perl-format
+msgid "unable to remove %s: %s"
+msgstr "%s を削除できません: %s"
+
+#: scripts/update-alternatives.pl:301
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "`%s' は不明な引数です"
 
-#: scripts/update-alternatives.pl:256
+#: scripts/update-alternatives.pl:314
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install は<リンク> <名前> <パス> <優先度> が必要です"
 
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:316
 msgid "priority must be an integer"
 msgstr "優先度は整数でなければなりません"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:320
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s は <名前> <パス> が必要です"
 
-#: scripts/update-alternatives.pl:267
+#: scripts/update-alternatives.pl:325
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s は <名前> が必要です"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:329
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave は<リンク> <名前> <パス> が必要です"
 
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:331
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "スレーブ名 %s が重複しています"
 
-#: scripts/update-alternatives.pl:274
+#: scripts/update-alternatives.pl:332
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "スレーブリンク %s が重複しています"
 
-#: scripts/update-alternatives.pl:291
+#: scripts/update-alternatives.pl:349
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "名前 %s がプライマリ/スレーブの両方にあります"
 
-#: scripts/update-alternatives.pl:293
+#: scripts/update-alternatives.pl:351
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "リンク %s がプライマリ/スレーブの両方にあります"
 
-#: scripts/update-alternatives.pl:296
+#: scripts/update-alternatives.pl:354
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5363,31 +5408,21 @@ msgstr ""
 "--display、--config、--set、--install、--remove、--all、--remove-all、--auto "
 "のいずれかが必要です。"
 
-#: scripts/update-alternatives.pl:298
+#: scripts/update-alternatives.pl:356
 msgid "--slave only allowed with --install"
 msgstr "--slave は --install と一緒のみ許可されています"
 
-#: scripts/update-alternatives.pl:311
+#: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "%s の alternatives がありません。"
 
-#: scripts/update-alternatives.pl:358
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "%s の自動選択を設定しています。"
 
-#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
-#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
-#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
-#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
-#: scripts/update-alternatives.pl:687 scripts/update-alternatives.pl:723
-#, perl-format
-msgid "unable to remove %s: %s"
-msgstr "%s を削除できません: %s"
-
-#: scripts/update-alternatives.pl:374
+#: scripts/update-alternatives.pl:430
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5396,7 +5431,7 @@ msgstr ""
 "%s が (手動あるいはスクリプトにより) 変更されました。\n"
 "手動更新のみに切り替えています。"
 
-#: scripts/update-alternatives.pl:386
+#: scripts/update-alternatives.pl:442
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5406,134 +5441,78 @@ msgstr ""
 "(望むなら、これらのシンボリックリンクをあなた自身で変更することもできます。"
 "`man ln' を参照してください。)"
 
-#: scripts/update-alternatives.pl:392
+#: scripts/update-alternatives.pl:448
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "%s のリンクを %s から %s に名前変更しています。"
 
-#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
-#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
+#: scripts/update-alternatives.pl:451 scripts/update-alternatives.pl:475
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "%s から %s に名前変更できません: %s"
 
-#: scripts/update-alternatives.pl:414
+#: scripts/update-alternatives.pl:470
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "スレーブリンク名 %s が重複しています"
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:472
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "%s のスレーブリンクを %s から %s に名前変更しています。"
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:489
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr ""
 "手動で選択された alternative を削除しています - 自動モードに切り替えています"
 
-#: scripts/update-alternatives.pl:447
+#: scripts/update-alternatives.pl:503
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "%2$s の alternative %1$s は登録されていません。削除は行いません。"
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:530
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "古いスレーブリンク %s を破棄しています (%s)。"
 
-#: scripts/update-alternatives.pl:495
+#: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "%s の自動更新は無効になっています。そのままにしておきます。"
 
-#: scripts/update-alternatives.pl:497
+#: scripts/update-alternatives.pl:551
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr "自動更新に戻るには、`update-alternatives --auto %s' を使ってください。"
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:555
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "以前に失敗した %s の更新を修復しています ..."
 
-#: scripts/update-alternatives.pl:516
+#: scripts/update-alternatives.pl:569
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "%s を書き込み用にオープンできません: %s"
 
-#: scripts/update-alternatives.pl:539
+#: scripts/update-alternatives.pl:592
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr ""
 "%s (%s) を提供する最後のパッケージが削除されました。alternative を削除してい"
 "ます。"
 
-#: scripts/update-alternatives.pl:553
+#: scripts/update-alternatives.pl:631
 #, perl-format
-msgid ""
-"warning: %s is supposed to be a symlink to %s\n"
-" (or nonexistent); however, readlink failed: %s"
-msgstr ""
-"警告: %s は %s へのシンボリックリンク (あるいは存在しない) であると想定\n"
-"されています; しかし、readlink が失敗しました: %s"
-
-#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
-#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:607
-#, perl-format
-msgid "unable to ensure %s nonexistent: %s"
-msgstr "%s が存在しないことを確定できません: %s"
-
-#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:610
-#: scripts/update-alternatives.pl:624 scripts/update-alternatives.pl:673
-#: scripts/update-alternatives.pl:709 scripts/update-alternatives.pl:748
-#, perl-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "%s から %s へのシンボリックリンクを作成できません: %s"
-
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:626
-#: scripts/update-alternatives.pl:675 scripts/update-alternatives.pl:711
-#: scripts/update-alternatives.pl:753
-#, perl-format
-msgid "unable to install %s as %s: %s"
-msgstr "%s を %s としてインストールできません: %s"
-
-#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:617
-#, perl-format
-msgid "Leaving %s (%s) pointing to %s."
-msgstr "%3$s を指している %1$s (%2$s) をそのままにします。"
-
-#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:620
-#, perl-format
-msgid "Updating %s (%s) to point to %s."
-msgstr "%3$s を指している %1$s (%2$s) を更新しています。"
-
-#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:684
-#: scripts/update-alternatives.pl:720
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "%3$s に適当でない %1$s を削除しています (%2$s)。"
-
-#: scripts/update-alternatives.pl:600
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a slave symlink to\n"
-" %s, or nonexistent; however, readlink failed: %s"
-msgstr ""
-"警告: %s は %s へのスレーブシンボリックリンク (あるいは存在しない) であると想"
-"定されています; しかし、readlink が失敗しました: %s"
-
-#: scripts/update-alternatives.pl:634
-#, fuzzy, perl-format
 msgid ""
 "There is no program which provides %s.\n"
 "Nothing to configure.\n"
 msgstr ""
-"%s を提供するプログラムが 1 つしかありません (%s)。\n"
+"%s を提供するプログラムがありません。\n"
 "設定は行いません。\n"
 
-#: scripts/update-alternatives.pl:640
+#: scripts/update-alternatives.pl:637
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5542,7 +5521,7 @@ msgstr ""
 "%s を提供するプログラムが 1 つしかありません (%s)。\n"
 "設定は行いません。\n"
 
-#: scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5555,446 +5534,59 @@ msgstr ""
 "  選択肢       alternative\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:652
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr ""
 "デフォルト[*] のままにするには Enter、さもなければ選択肢の番号のキーを押して"
 "ください: "
 
-#: scripts/update-alternatives.pl:670 scripts/update-alternatives.pl:707
-#, perl-format
-msgid "Using `%s' to provide `%s'."
-msgstr "`%2$s' を提供するために `%1$s' を使います。"
-
-#: scripts/update-alternatives.pl:705
+#: scripts/update-alternatives.pl:684
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "alternative `%s' が見つかりません。"
 
-#: scripts/update-alternatives.pl:728 scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:689 scripts/update-alternatives.pl:692
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "標準出力への書き込み中にエラーが発生しました: %s"
 
-#: scripts/update-alternatives.pl:730
+#: scripts/update-alternatives.pl:691
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "update-alternatives ファイル内での改行は禁止されています (%s)"
 
-#: scripts/update-alternatives.pl:735
+#: scripts/update-alternatives.pl:696
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr ""
 "%2$s の %1$s の読み取り中にエラーが発生したか eof を読み取りました (%3$s)"
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "missing newline after %s"
 msgstr "%s の後の改行がありません"
 
-#: scripts/update-alternatives.pl:756
+#: scripts/update-alternatives.pl:710
+#, perl-format
+msgid "unable to make %s a symlink to %s: %s"
+msgstr "%s から %s へのシンボリックリンクを作成できません: %s"
+
+#: scripts/update-alternatives.pl:715
+#, perl-format
+msgid "unable to install %s as %s: %s"
+msgstr "%s を %s としてインストールできません: %s"
+
+#: scripts/update-alternatives.pl:718
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "深刻な問題: %s"
 
-#~ msgid "warning"
-#~ msgstr "警告"
-
-#~ msgid "parse error"
-#~ msgstr "解析エラー"
-
-#~ msgid " (package: "
-#~ msgstr " (パッケージ: "
+#~ msgid "unable to ensure %s nonexistent: %s"
+#~ msgstr "%s が存在しないことを確定できません: %s"
 
 #~ msgid ""
-#~ "dpkg: regarding %s containing %s:\n"
-#~ " package uses Breaks; not supported in this dpkg\n"
+#~ "warning: %s is supposed to be a slave symlink to\n"
+#~ " %s, or nonexistent; however, readlink failed: %s"
 #~ msgstr ""
-#~ "dpkg: %s が %s を含むことを考慮すると:\n"
-#~ " パッケージは壊れています。この dpkg ではサポートされていません\n"
-
-#~ msgid "unsupported dependency problem - not installing %.250s"
-#~ msgstr "サポートされていない依存問題 - %.250s をインストールしません"
-
-#~ msgid "dpkg: warning - ignoring Breaks !\n"
-#~ msgstr "dpkg: 警告 - 壊れている状態を無視しています!\n"
-
-#~ msgid "diversion by %s"
-#~ msgstr "%s による退避 (diversion)"
-
-#~ msgid "to"
-#~ msgstr "次へ"
-
-#~ msgid "from"
-#~ msgstr "次から"
-
-#~ msgid "error reading %s"
-#~ msgstr "%s の読み取り中にエラーが発生しました"
-
-#~ msgid "two modes specified: %s and --%s"
-#~ msgstr "2 つのモードが指定されました: %s と --%s"
-
-#~ msgid "manflag"
-#~ msgstr "manフラグ"
-
-#~ msgid "%s: failed to exec gzip -dc"
-#~ msgstr "%s: gzip -dc の実行に失敗しました"
-
-#~ msgid "%s: failed to exec bzip2 -dc"
-#~ msgstr "%s: bzip2 -dc の実行に失敗しました"
-
-#~ msgid "%s: failed to exec bzip2 %s"
-#~ msgstr "%s: bzip2 %s の実行に失敗しました"
-
-#~ msgid "unable to create %.250s"
-#~ msgstr "%.250s を作成できません"
-
-#~ msgid "`%s' field, reference to `%.255s': version contains ` '"
-#~ msgstr "`%2$.255s' の `%1$s' フィールド: バージョンが ` ' を含んでいます"
-
-#~ msgid "%s: can't open %s: %s"
-#~ msgstr "%s: %s をオープンできません: %s"
-
-#~ msgid "%s: error writing %s: %s"
-#~ msgstr "%s: %s の書き込みエラーです: %s"
-
-#~ msgid "%s: close %s after read: %s"
-#~ msgstr "%s: 読み取り後、%s をクローズします: %s"
-
-#~ msgid "%s: error closing %s: %s"
-#~ msgstr "%s: %s のクローズ中にエラーが発生しました: %s"
-
-#~ msgid "--admindir needs a directory argument"
-#~ msgstr "--admindir は引数としてディレクトリが必要です"
-
-#~ msgid "--remove needs a single argument"
-#~ msgstr "--remove は 1 つの引数が必要です"
-
-#~ msgid "--truename needs a single argument"
-#~ msgstr "--truename は 1 つの引数が必要です"
-
-#~ msgid "--remove needs one arguments"
-#~ msgstr "--remove は 1 つの引数が必要です"
-
-#~ msgid "dpkg-statoverride: %s"
-#~ msgstr "dpkg-statoverride: %s"
-
-#~ msgid "read %s: %s"
-#~ msgstr "%s を読み取り: %s"
-
-#~ msgid "--admindir needs a <directory> argument"
-#~ msgstr "--admindir は <ディレクトリ> 引数が必要です"
-
-#~ msgid "failed to open %s: %s"
-#~ msgstr "%s のオープンに失敗しました: %s"
-
-#~ msgid "unable to install %s as %s"
-#~ msgstr "%s を %s としてインストールできません"
-
-#~ msgid "version a has bad syntax: %s\n"
-#~ msgstr "バージョン a は不正な構文です: %s\n"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -i|--install       <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  --unpack           <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  -A|--record-avail  <.deb file name> ... | -R|--recursive <dir> ...\n"
-#~ "  --configure        <package-name> ... | -a|--pending\n"
-#~ "  -r|--remove        <package-name> ... | -a|--pending\n"
-#~ "  -P|--purge         <package-name> ... | -a|--pending\n"
-#~ "  --get-selections [<pattern> ...]     Get list of selections to stdout.\n"
-#~ "  --set-selections                     Set package selections from "
-#~ "stdin.\n"
-#~ "  --clear-selections                   Deselect every non-essential "
-#~ "package.\n"
-#~ "  --update-avail <Packages-file>       Replace available packages info.\n"
-#~ "  --merge-avail <Packages-file>        Merge with info from file.\n"
-#~ "  --clear-avail                        Erase existing available info.\n"
-#~ "  --forget-old-unavail                 Forget uninstalled unavailable "
-#~ "pkgs.\n"
-#~ "  -s|--status <package-name> ...       Display package status details.\n"
-#~ "  -p|--print-avail <package-name> ...  Display available version "
-#~ "details.\n"
-#~ "  -L|--listfiles <package-name> ...    List files `owned' by package(s).\n"
-#~ "  -l|--list [<pattern> ...]            List packages concisely.\n"
-#~ "  -S|--search <pattern> ...            Find package(s) owning file(s).\n"
-#~ "  -C|--audit                           Check for broken package(s).\n"
-#~ "  --print-architecture                 Print dpkg architecture.\n"
-#~ "  --compare-versions <a> <rel> <b>     Compare version numbers - see "
-#~ "below.\n"
-#~ "  --help                               Show this help message.\n"
-#~ "  --version                            Show the version.\n"
-#~ "  --force-help | -Dh|--debug=help      Help on forcing resp. debugging.\n"
-#~ "  --license | --licence                Print copyright licensing terms.\n"
-#~ "\n"
-#~ "Use dpkg -b|--build|-c|--contents|-e|--control|-I|--info|-f|--field|\n"
-#~ " -x|--extract|-X|--vextract|--fsys-tarfile  on archives (type %s --"
-#~ "help).\n"
-#~ "\n"
-#~ "For internal use: dpkg --assert-support-predepends | --predep-package |\n"
-#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#~ "conrep.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --admindir=<directory>     Use <directory> instead of %s.\n"
-#~ "  --root=<directory>         Install on alternative system rooted "
-#~ "elsewhere.\n"
-#~ "  --instdir=<directory>      Change inst'n root without changing admin "
-#~ "dir.\n"
-#~ "  -O|--selected-only         Skip packages not selected for install/"
-#~ "upgrade.\n"
-#~ "  -E|--skip-same-version     Skip packages whose same version is "
-#~ "installed.\n"
-#~ "  -G|--refuse-downgrade      Skip packages with earlier version than "
-#~ "installed.\n"
-#~ "  -B|--auto-deconfigure      Install even if it would break some other "
-#~ "package.\n"
-#~ "  --no-debsig                Do not try to verify package signatures.\n"
-#~ "  --no-act|--dry-run|--simulate\n"
-#~ "                             Just say what we would do - don't do it.\n"
-#~ "  -D|--debug=<octal>         Enable debugging - see -Dhelp or --"
-#~ "debug=help.\n"
-#~ "  --status-fd <n>            Send status change updates to file "
-#~ "descriptor <n>.\n"
-#~ "  --log=<filename>           Log status changes and actions to "
-#~ "<filename>.\n"
-#~ "  --ignore-depends=<package>,... Ignore dependencies involving "
-#~ "<package>.\n"
-#~ "  --force-...                    Override problems - see --force-help.\n"
-#~ "  --no-force-...|--refuse-...    Stop when problems encountered.\n"
-#~ "  --abort-after <n>              Abort after encountering <n> errors.\n"
-#~ "\n"
-#~ "Comparison operators for --compare-versions are:\n"
-#~ "  lt le eq ne ge gt       (treat empty version as earlier than any "
-#~ "version);\n"
-#~ "  lt-nl le-nl ge-nl gt-nl (treat empty version as later than any "
-#~ "version);\n"
-#~ "  < << <= = >= >> >       (only for compatibility with control file "
-#~ "syntax).\n"
-#~ "\n"
-#~ "Use `dselect' or `aptitude' for user-friendly package management.\n"
-#~ msgstr ""
-#~ "使用方法: %s [<オプション> ...] <コマンド>\n"
-#~ "\n"
-#~ "コマンド:\n"
-#~ "  -i|--install      <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-#~ "> ...\n"
-#~ "  --unpack          <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-#~ "> ...\n"
-#~ "  -A|--record-avail <.deb ファイル名> ... | -R|--recursive <ディレクトリ"
-#~ "> ...\n"
-#~ "  --configure       <パッケージ名> ...    | -a|--pending\n"
-#~ "  -r|--remove       <パッケージ名> ...    | -a|--pending\n"
-#~ "  -P|--purge        <パッケージ名> ...    | -a|--pending\n"
-#~ "  --get-selections [<パターン> ...]  標準出力にパッケージ選択一覧を表示\n"
-#~ "  --set-selections                   標準入力からパッケージ選択一覧を設"
-#~ "定\n"
-#~ "  --clear-selection                  すべての必須でないパッケージを選択解"
-#~ "除\n"
-#~ "  --update-avail <Packages ファイル> 取得可能なパッケージ情報を更新\n"
-#~ "  --merge-avail <Packages ファイル>  ファイルからパッケージ情報を合成\n"
-#~ "  --clear-avail                      既存の取得可能パッケージ情報を消去\n"
-#~ "  --forget-old-unavail               未インストールの利用不可能パッケージ"
-#~ "情報の破棄\n"
-#~ "  -s|--status <パッケージ名> ...     パッケージ状態の詳細を表示\n"
-#~ "  -p|--print-avail <パッケージ名> ...取得可能なバージョンの詳細を表示\n"
-#~ "  -L|--listfiles <パッケージ名> ...  パッケージが「所有する」ファイル一覧"
-#~ "を表示\n"
-#~ "  -l|--list [<パターン> ...]         パッケージの一覧を簡潔に表示\n"
-#~ "  -S|--search <パターン> ...         ファイルを所有するパッケージを検索\n"
-#~ "  -C|--audit                         壊れているパッケージのチェック\n"
-#~ "  --print-architecture               対象アーキテクチャを表示 (GCC を使"
-#~ "用)\n"
-#~ "  --compare-versions <a> <rel> <b>   バージョン番号を比較 - 下記参照\n"
-#~ "  --help                             このヘルプを表示\n"
-#~ "  --version                          バージョン番号を表示\n"
-#~ "  --force-help | -Dh|--debug=help    強制/デバッグオプションのヘルプ\n"
-#~ "  --licence | --licence              ライセンス条項を表示\n"
-#~ "\n"
-#~ "アーカイブの操作には dpkg -b|--build|-c|--contents|-e|--control|-I|--"
-#~ "info|\n"
-#~ "-f|--field|-x|--extract|-X|--vextract|--fsys-tarfile を使用すること (%s --"
-#~ "help を参照)\n"
-#~ "\n"
-#~ "内部使用法: dpkg --assert-support-predepends | --predep-package |\n"
-#~ "  --assert-working-epoch | --assert-long-filenames | --assert-multi-"
-#~ "conrep\n"
-#~ "\n"
-#~ "オプション:\n"
-#~ "  --admindir=<ディレクトリ>  %s の代わりに指定したディレクトリを使用\n"
-#~ "  --root=<ディレクトリ>      ルートディレクトリを別の場所にしてインストー"
-#~ "ル\n"
-#~ "  --instdir=<ディレクトリ>   インストール先のディレクトリを変更 (admindir "
-#~ "は除く)\n"
-#~ "  -O|--selected-only         インストール/アップグレードに選択されていない"
-#~ "パッケージをスキップ\n"
-#~ "  -E|--skip-same-version     同バージョンがインストール済みのパッケージを"
-#~ "スキップ\n"
-#~ "  -G|--refuse-downgrade      インストール済みパッケージより古いバージョン"
-#~ "のパッケージをスキップ\n"
-#~ "  -B|--auto-deconfigure      ほかのパッケージを壊してでもインストールす"
-#~ "る\n"
-#~ "  --no-debsig                パッケージの署名の検証をしない\n"
-#~ "  --no-act|--dry-run|--simulate\n"
-#~ "                             何をするか表示して、実際には何もしない\n"
-#~ "  -D|--debug=<8進数>         デバッグモード (-Dhelp または --debug=help を"
-#~ "参照)\n"
-#~ "  --status-fd <n>            状態変化の更新をファイル記述子 <n> に送る\n"
-#~ "  --log=<ファイル名>         状態変更およびアクションを指定のファイルに記"
-#~ "録する\n"
-#~ "  --ignore-depends=<パッケージ>,...  必要とする依存関係を無視\n"
-#~ "  --force-...                    問題を無視 (--force-help を参照)\n"
-#~ "  --no-force-...|--refuse-...    問題が発生した時点で終了\n"
-#~ "  --abort-after <n>              <n> 回エラーが発生したら中断\n"
-#~ "\n"
-#~ "--compare-versions 用比較演算子:\n"
-#~ " lt le eq ne ge gt       (バージョンなしはどのバージョンよりも古いと見な"
-#~ "す)\n"
-#~ " lt-nl le-nl ge-nl gt-nl (バージョンなしはどのバージョンよりも新しいと見な"
-#~ "す)\n"
-#~ " < << <= = >= >> >       (コントロールファイルの構文の互換性のみ)\n"
-#~ "\n"
-#~ "ユーザ向けパッケージ管理ツールである `dselect' または `aptitude' を使いま"
-#~ "しょう。\n"
-
-#~ msgid "  Package "
-#~ msgstr "  パッケージ "
-
-#~ msgid " which provides "
-#~ msgstr " が: "
-
-#~ msgid " is to be removed.\n"
-#~ msgstr " を提供していますが、削除しようとしています。\n"
-
-#~ msgid "  Version of "
-#~ msgstr "  システムの"
-
-#~ msgid " on system is "
-#~ msgstr "のバージョンは "
-
-#~ msgid " is not installed.\n"
-#~ msgstr " はインストールされていません。\n"
-
-#~ msgid " to: %s\n"
-#~ msgstr " %s へ\n"
-
-#~ msgid "fgetpos failed"
-#~ msgstr "fgetpos 失敗"
-
-#~ msgid "fsetpos failed"
-#~ msgstr "fsetpos 失敗"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -b|--build <directory> [<deb>]    Build an archive.\n"
-#~ "  -c|--contents <deb>               List contents.\n"
-#~ "  -I|--info <deb> [<cfile>...]      Show info to stdout.\n"
-#~ "  -W|--show <deb>                   Show information on package(s)\n"
-#~ "  -f|--field <deb> [<cfield>...]    Show field(s) to stdout.\n"
-#~ "  -e|--control <deb> [<directory>]  Extract control info.\n"
-#~ "  -x|--extract <deb> <directory>    Extract files.\n"
-#~ "  -X|--vextract <deb> <directory>   Extract & list files.\n"
-#~ "  --fsys-tarfile <deb>              Output filesystem tarfile.\n"
-#~ "  -h|--help                         Display this message.\n"
-#~ "  --version                         Show version.\n"
-#~ "  --license | --licence             Show license.\n"
-#~ "\n"
-#~ "<deb> is the filename of a Debian format archive.\n"
-#~ "<cfile> is the name of an administrative file component.\n"
-#~ "<cfield> is the name of a field in the main `control' file.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --showformat=<format>      Use alternative format for --show.\n"
-#~ "  -D                         Enable debugging output.\n"
-#~ "  --old, --new               Select archive format.\n"
-#~ "  --nocheck                  Suppress control file check (build bad "
-#~ "package).\n"
-#~ "  -z#                        Set the compression level when building.\n"
-#~ "  -Z<type>                   Set the compression type to use when "
-#~ "building.\n"
-#~ "                             Allowed values: gzip, bzip2, none.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "使い方: %s [<オプション> ...] <コマンド>\n"
-#~ "\n"
-#~ "コマンド:\n"
-#~ "   -b|--build <ディレクトリ> [<deb>] アーカイブを作成\n"
-#~ "   -c|--contents <deb>               内容一覧を表示\n"
-#~ "   -I|--info <deb> [<cfile>...]      情報を標準出力に表示\n"
-#~ "   -W|--show <deb>                   パッケージの情報を表示\n"
-#~ "   -f|--field <deb> [<cfield>...]    フィールドを標準出力に表示\n"
-#~ "   -e|--control <deb> [<directory>]  コントロール情報を展開\n"
-#~ "   -x|--extract <deb> <directory>    ファイルを展開\n"
-#~ "   -X|--vextract <deb> <directory>   ファイルを展開し一覧表示\n"
-#~ "   --fsys-tarfile <deb>              ファイルシステムを tarfile に出力\n"
-#~ "   -h|--help                         このメッセージを表示\n"
-#~ "   --version                         バージョン番号を表示\n"
-#~ "   --license | --licence             ライセンス条項を表示\n"
-#~ "\n"
-#~ " <deb> は Debian 形式のアーカイブのファイル名。\n"
-#~ " <cfile> は管理用ファイルのコンポーネント名。\n"
-#~ " <cfield> は `control' ファイル内のフィールド名。\n"
-#~ "\n"
-#~ "オプション:\n"
-#~ "  --showformat=<フォーマット>  --show に別のフォーマットを使用\n"
-#~ "  -D                           デバッグ情報出力\n"
-#~ "  --old, --new                 アーカイブの形式を制御    \n"
-#~ "  --nocheck コントロールファイルのチェックを抑制 (不良パッケージが作成され"
-#~ "る)\n"
-#~ "  -z#                          構築時の圧縮レベルを設定\n"
-#~ "  -Z<type>                     構築時の圧縮形式を設定\n"
-#~ "                               可能な値: bzip, bzip2, none\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Usage: %s [<option> ...] <command>\n"
-#~ "\n"
-#~ "Commands:\n"
-#~ "  -s|--split <file> [<prefix>]    Split an archive.\n"
-#~ "  -j|--join <part> <part> ...     Join parts together.\n"
-#~ "  -I|--info <part> ...            Display info about a part.\n"
-#~ "  -h|--help                       Show this help message.\n"
-#~ "  --version                       Show the version.\n"
-#~ "  --license                       Show the license.\n"
-#~ "\n"
-#~ "  -a|--auto -o <complete> <part>  Auto-accumulate parts.\n"
-#~ "  -l|--listq                      List unmatched pieces.\n"
-#~ "  -d|--discard [<filename> ...]   Discard unmatched pieces.\n"
-#~ "\n"
-#~ "Options:\n"
-#~ "  --depotdir <directory>          Use <directory> instead of %s/%s.\n"
-#~ "  -S|--partsize <size>            In KiB, for -s (default is 450).\n"
-#~ "  -o|--output <file>              For -j (default is <package>-<version>."
-#~ "deb).\n"
-#~ "  -Q|--npquiet                    Be quiet when -a is not a part.\n"
-#~ "  --msdos                         Generate 8.3 filenames.\n"
-#~ "\n"
-#~ "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
-#~ msgstr ""
-#~ "使い方: %s [<オプション> ...] <コマンド>\n"
-#~ "\n"
-#~ "コマンド:\n"
-#~ "  -s|--split <ファイル> [<接頭辞>] アーカイブを分割\n"
-#~ "  -j|--join <パート> <パート> ...  パートを結合\n"
-#~ "  -I|--info <パート> ...           パート情報を表示\n"
-#~ "  -h|--help                        このヘルプを表示\n"
-#~ "  --version                        バージョン番号を表示\n"
-#~ "  --license                        ライセンス条項を表示\n"
-#~ "\n"
-#~ "  -a|--auto -o <完成名> <パート>   パートを自動的に収集\n"
-#~ "  -l|--listq                       一致しない部品を一覧表示\n"
-#~ "  -d|--discard [<ファイル名> ...]  一致しない部品を廃棄\n"
-#~ "\n"
-#~ "オプション:\n"
-#~ "  --depotdir <ディレクトリ> (デフォルトは %s/%s)\n"
-#~ "  -S|--partsize <サイズ>    (Kb単位, -s 用, デフォルトは 450)\n"
-#~ "  -o|--output <ファイル>    (-j 用, デフォルトは <package>-<version>."
-#~ "deb)\n"
-#~ "  -Q|--npquiet              (-a がひとつのパートでない場合に出力しない)\n"
-#~ "  --msdos                   (8.3 形式ファイル名を生成)\n"
-#~ "\n"
-#~ "終了ステータス: 0 = OK;  1 = -a がひとつのパートでない;  2 = 問題発生!\n"
+#~ "警告: %s は %s へのスレーブシンボリックリンク (あるいは存在しない) である"
+#~ "と想定されています; しかし、readlink が失敗しました: %s"

@@ -170,7 +170,7 @@ sub fill_missing_slavepaths()
 {
     for (my $j = 0; $j <= $#slavenames; $j++) {
 	for (my $i = 0; $i <= $#versions; $i++) {
-	    $slavepath{$i,$j} = '' if !defined $slavepath{$i,$j};
+	    $slavepath{$i,$j} ||= '';
 	}
     }
 }
@@ -223,12 +223,70 @@ sub list_link_group
     }
 }
 
+sub checked_alternative($$$)
+{
+    my ($name, $link, $path) = @_;
+
+    $linkname = readlink($link);
+    if (!defined($linkname) && $! != ENOENT) {
+	pr(sprintf(_g("warning: %s is supposed to be a symlink to %s, \n".
+	              "or nonexistent; however, readlink failed: %s"),
+	           $link, "$altdir/$name", $!))
+	    if $verbosemode > 0;
+    } elsif (!defined($linkname) ||
+            (defined($linkname) && $linkname ne "$altdir/$name")) {
+	checked_rm("$link.dpkg-tmp");
+	checked_symlink("$altdir/$name", "$link.dpkg-tmp");
+	checked_mv("$link.dpkg-tmp", $link);
+    }
+    $linkname = readlink("$altdir/$name");
+    if (defined($linkname) && $linkname eq $path) {
+	pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $name, $link, $path))
+	    if $verbosemode > 0;
+    } else {
+	pr(sprintf(_g("Updating %s (%s) to point to %s."), $name, $link, $path))
+	    if $verbosemode > 0;
+    }
+}
+
+sub set_links($$)
+{
+    my ($spath, $preferred) = (@_);
+
+    printf STDOUT _g("Using '%s' to provide '%s'.") . "\n", $spath, $name;
+    checked_symlink("$spath","$altdir/$name.dpkg-tmp");
+    checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
+
+    # Link slaves...
+    for (my $slnum = 0; $slnum < @slavenames; $slnum++) {
+	my $slave = $slavenames[$slnum];
+	if ($slavepath{$preferred, $slnum} ne '') {
+	    checked_alternative($slave, $slavelinks[$slnum],
+	                  $slavepath{$preferred, $slnum});
+	    checked_symlink($slavepath{$preferred, $slnum},
+	                    "$altdir/$slave.dpkg-tmp");
+	    checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
+	} else {
+	    pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave,
+	               $slavelinks[$slnum], $versions[$preferred]))
+	        if $verbosemode > 0;
+	    checked_rm("$altdir/$slave");
+	}
+    }
+}
+
 sub check_many_actions()
 {
     return unless $action;
     badusage(sprintf(_g("two commands specified: %s and --%s"), $_, $action));
 }
 
+sub checked_rm($)
+{
+    my ($f) = @_;
+    unlink($f) || $! == ENOENT ||
+        quit(sprintf(_g("unable to remove %s: %s"), $f, $!));
+}
 
 #
 # Main program
@@ -357,10 +415,8 @@ if (defined($linkname= readlink("$altdir/$name"))) {
 if ($action eq 'auto') {
     &pr(sprintf(_g("Setting up automatic selection of %s."), $name))
       if $verbosemode > 0;
-    unlink("$altdir/$name.dpkg-tmp") || $! == &ENOENT ||
-        &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$name.dpkg-tmp", $!));
-    unlink("$altdir/$name") || $! == &ENOENT ||
-        &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$name", $!));
+    checked_rm("$altdir/$name.dpkg-tmp");
+    checked_rm("$altdir/$name");
     $state= 'nonexistent';
     $mode = 'auto';
 }
@@ -473,10 +529,8 @@ for (my $j = 0; $j <= $#slavenames; $j++) {
     if ($i > $#versions) {
         &pr(sprintf(_g("Discarding obsolete slave link %s (%s)."), $slavenames[$j], $slavelinks[$j]))
           if $verbosemode > 0;
-        unlink("$altdir/$slavenames[$j]") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$slavenames[$j]", $!));
-        unlink($slavelinks[$j]) || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), $slavelinks[$j], $!));
+        checked_rm("$altdir/$slavenames[$j]");
+        checked_rm($slavelinks[$j]);
         my $k = $#slavenames;
         $slavenum{$slavenames[$k]}= $j;
         delete $slavenum{$slavenames[$j]};
@@ -499,8 +553,7 @@ if ($mode eq 'manual') {
 } else {
     if ($state eq 'expected-inprogress') {
         &pr(sprintf(_g("Recovering from previous failed update of %s ..."), $name));
-        rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-            &quit(sprintf(_g("unable to rename %s to %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
+	checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
         $state= 'expected';
     }
 }
@@ -538,92 +591,36 @@ if ($mode eq 'auto') {
     if ($best eq '') {
         &pr(sprintf(_g("Last package providing %s (%s) removed, deleting it."), $name, $link))
           if $verbosemode > 0;
-        unlink("$altdir/$name") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$name", $!));
-        unlink("$link") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$link", $!));
-        unlink("$admindir/$name.dpkg-new") ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$admindir/$name.dpkg-new", $!));
-        unlink("$admindir/$name") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to remove %s: %s"), "$admindir/$name", $!));
+        checked_rm("$altdir/$name");
+        checked_rm("$link");
+        checked_rm("$admindir/$name.dpkg-new");
+        checked_rm("$admindir/$name");
         exit(0);
     } else {
-	$linkname = readlink($link);
-	if (!defined($linkname) && $! != ENOENT) {
-            &pr(sprintf(_g("warning: %s is supposed to be a symlink to %s\n".
-                " (or nonexistent); however, readlink failed: %s"), $link, "$altdir/$name", $!))
-		if $verbosemode > 0;
-	} elsif (!defined($linkname) ||
-		 (defined($linkname) && $linkname ne "$altdir/$name")) {
-            unlink("$link.dpkg-tmp") || $! == &ENOENT ||
-                &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$link.dpkg-tmp", $!));
-            symlink("$altdir/$name","$link.dpkg-tmp") ||
-                &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$link.dpkg-tmp", "$altdir/$name", $!));
-            rename_mv("$link.dpkg-tmp",$link) ||
-                &quit(sprintf(_g("unable to install %s as %s: %s"), "$link.dpkg-tmp", $link, $!));
-        }
-        if (defined($linkname= readlink("$altdir/$name")) && $linkname eq $best) {
-            &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $name, $link, $best))
-              if $verbosemode > 0;
-        } else {
-            &pr(sprintf(_g("Updating %s (%s) to point to %s."), $name, $link, $best))
-              if $verbosemode > 0;
-        }
-        unlink("$altdir/$name.dpkg-tmp") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$altdir/$name.dpkg-tmp", $!));
+	checked_alternative($name, $link, $best);
+        checked_rm("$altdir/$name.dpkg-tmp");
         symlink($best,"$altdir/$name.dpkg-tmp");
     }
 }
 
-rename_mv("$admindir/$name.dpkg-new","$admindir/$name") ||
-    &quit(sprintf(_g("unable to rename %s to %s: %s"), "$admindir/$name.dpkg-new", "$admindir/$name", $!));
+checked_mv("$admindir/$name.dpkg-new", "$admindir/$name");
 
 if ($mode eq 'auto') {
-    rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-        &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
+    checked_mv("$altdir/$name.dpkg-tmp", "$altdir/$name");
     for (my $j = 0; $j <= $#slavenames; $j++) {
         $sname= $slavenames[$j];
         $slink= $slavelinks[$j];
         $spath= $slavepath{$bestnum,$j};
-        unlink("$altdir/$sname.dpkg-tmp") || $! == &ENOENT ||
-            &quit(sprintf(_g("unable to ensure %s nonexistent: %s"), "$altdir/$sname.dpkg-tmp", $!));
+        checked_rm("$altdir/$sname.dpkg-tmp");
         if ($spath eq '') {
             &pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $sname, $slink, $best))
               if $verbosemode > 0;
-            unlink("$altdir/$sname") || $! == &ENOENT ||
-                &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$sname", $!));
-	    unlink("$slink") || $! == &ENOENT ||
-	        &quit(sprintf(_g("unable to remove %s: %s"), $slink, $!));
+            checked_rm("$altdir/$sname");
+            checked_rm("$slink");
         } else {
-	    $linkname = readlink($slink);
-	    if (!defined($linkname) && $! != ENOENT) {
-		pr(sprintf(_g("warning: %s is supposed to be a slave symlink to\n".
-		              " %s, or nonexistent; however, readlink failed: %s"),
-		           $slink, "$altdir/$sname", $!))
-		    if $verbosemode > 0;
-	    } elsif (!defined($linkname) ||
-	            (defined($linkname) && $linkname ne "$altdir/$sname")) {
-		unlink("$slink.dpkg-tmp") || $! == ENOENT ||
-		    quit(sprintf(_g("unable to ensure %s nonexistent: %s"),
-		                 "$slink.dpkg-tmp", $!));
-		symlink("$altdir/$sname","$slink.dpkg-tmp") ||
-		    quit(sprintf(_g("unable to make %s a symlink to %s: %s"),
-		                 "$slink.dpkg-tmp", "$altdir/$sname", $!));
-		rename_mv("$slink.dpkg-tmp",$slink) ||
-		    quit(sprintf(_g("unable to install %s as %s: %s"),
-		                 "$slink.dpkg-tmp", $slink, $!));
-	    }
-            if (defined($linkname= readlink("$altdir/$sname")) && $linkname eq $spath) {
-                &pr(sprintf(_g("Leaving %s (%s) pointing to %s."), $sname, $slink, $spath))
-                  if $verbosemode > 0;
-            } else {
-                &pr(sprintf(_g("Updating %s (%s) to point to %s."), $sname, $slink, $spath))
-                  if $verbosemode > 0;
-            }
-            symlink("$spath","$altdir/$sname.dpkg-tmp") ||
-                &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$altdir/$sname.dpkg-tmp", $spath, $!));
-            rename_mv("$altdir/$sname.dpkg-tmp","$altdir/$sname") ||
-                &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$sname.dpkg-tmp", "$altdir/$sname", $!));
+	    checked_alternative($sname, $slink, $spath);
+	    checked_symlink("$spath", "$altdir/$sname.dpkg-tmp");
+	    checked_mv("$altdir/$sname.dpkg-tmp", "$altdir/$sname");
         }
     }
 }
@@ -667,27 +664,9 @@ sub config_alternatives {
     if ($preferred ne '') {
 	$mode = "manual";
 	$preferred--;
-	printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $versions[$preferred], $name;
 	my $spath = $versions[$preferred];
-	symlink("$spath","$altdir/$name.dpkg-tmp") ||
-	    &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$altdir/$name.dpkg-tmp", $spath, $!));
-	rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-	    &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
-	# Link slaves...
-	for( my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
-	    my $slave = $slavenames[$slnum];
-	    if ($slavepath{$preferred,$slnum} ne '') {
-		checked_symlink($slavepath{$preferred,$slnum},
-			"$altdir/$slave.dpkg-tmp");
-		checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
-	    } else {
-		&pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave, $slavelinks[$slnum], $versions[$preferred]))
-		    if $verbosemode > 0;
-		unlink("$altdir/$slave") || $! == &ENOENT ||
-		    &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$slave", $!));
-	    }
-	}
 
+	set_links($spath, $preferred);
     }
 }
 
@@ -704,25 +683,7 @@ sub set_alternatives {
    if($preferred == -1){
      &quit(sprintf(_g("Cannot find alternative `%s'."), $apath)."\n")
    }
-   printf STDOUT _g("Using \`%s' to provide \`%s'.")."\n", $apath, $name;
-   symlink("$apath","$altdir/$name.dpkg-tmp") ||
-     &quit(sprintf(_g("unable to make %s a symlink to %s: %s"), "$altdir/$name.dpkg-tmp", $apath, $!));
-   rename_mv("$altdir/$name.dpkg-tmp","$altdir/$name") ||
-     &quit(sprintf(_g("unable to install %s as %s: %s"), "$altdir/$name.dpkg-tmp", "$altdir/$name", $!));
-   # Link slaves...
-   for (my $slnum = 0; $slnum < @slavenames; $slnum++ ) {
-     my $slave = $slavenames[$slnum];
-     if ($slavepath{$preferred,$slnum} ne '') {
-       checked_symlink($slavepath{$preferred,$slnum},
-		       "$altdir/$slave.dpkg-tmp");
-       checked_mv("$altdir/$slave.dpkg-tmp", "$altdir/$slave");
-     } else {
-       &pr(sprintf(_g("Removing %s (%s), not appropriate with %s."), $slave, $slavelinks[$slnum], $versions[$preferred]))
-	 if $verbosemode > 0;
-       unlink("$altdir/$slave") || $! == &ENOENT ||
-	 &quit(sprintf(_g("unable to remove %s: %s"), "$altdir/$slave", $!));
-     }
-   }
+   set_links($apath, $preferred);
 }
 
 sub pr { print(STDOUT "@_\n") || &quit(sprintf(_g("error writing stdout: %s"), $!)); }
@@ -732,7 +693,8 @@ sub paf {
 }
 sub gl {
     $!=0; $_= <AF>;
-    length($_) || &quit(sprintf(_g("error or eof reading %s for %s (%s)"), "$admindir/$name", $_[0], $!));
+    defined($_) || quit(sprintf(_g("error or eof reading %s for %s (%s)"),
+                                "$admindir/$name", $_[0], $!));
     s/\n$// || &badfmt(sprintf(_g("missing newline after %s"), $_[0]));
     $_;
 }

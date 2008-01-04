@@ -67,16 +67,12 @@ the content of the included file can override any content that appeared
 before the include directive and that any content after the
 directive can override anything contained in the included file.
 .P
-An included file must be a valid symbols file on its own. Thus you have
-to repeat the header line containing the SONAME of the library and the
-dependency template. Remember that those lines might override the header
-defined previously in the main symbols file. Thus the recommended way to
-handle architecture specific information is to put include directives
-directly at the beginning of the symbols file:
+An included file can repeat the header line containing the SONAME of the
+library. In that case, it overrides any header line previously read.
+However, in general it's best to avoid duplicating header lines. One way
+to do it is the following:
 .PP
 #include "libsomething1.symbols.common"
-.br
-libsomething.so.1 libsomething1 #MINVER#
  arch_specific_symbol@Base 1.0
 .SS Good library management
 .P
@@ -112,7 +108,7 @@ Define the package version. Defaults to the version extracted from
 debian/changelog. Required if called outside of a source package tree.
 .TP
 .BI \-e library-file
-Only analyze libraries explicitely listed instead of finding all public
+Only analyze libraries explicitly listed instead of finding all public
 libraries. You can use a regular expression in \fIlibrary-file\fR to match
 multiple libraries with a single argument (otherwise you need multiple
 \fB\-e\fR).
@@ -140,7 +136,7 @@ disappeared. Level 2 fails if some new symbols have been introduced.
 Level 3 fails if some libraries have disappeared. Level 4 fails if some
 libraries have been introduced.
 
-This value can be overriden by the environment variable
+This value can be overridden by the environment variable
 DPKG_GENSYMBOLS_CHECK_LEVEL.
 .TP
 .BI \-d

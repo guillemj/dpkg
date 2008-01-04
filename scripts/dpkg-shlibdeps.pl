@@ -11,12 +11,16 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr usageerr);
 use Dpkg::Path qw(relative_to_pkg_root guess_pkg_root_dir
 		  check_files_are_the_same);
-use Dpkg::Version qw(vercmp);
+use Dpkg::Version qw(compare_versions);
 use Dpkg::Shlibs qw(find_library);
 use Dpkg::Shlibs::Objdump;
 use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
+use Dpkg::Deps;
+
+push(@INC,$dpkglibdir);
+require 'controllib.pl';
 
 # By increasing importance
 my @depfields = qw(Suggests Recommends Depends Pre-Depends);
@@ -34,12 +38,15 @@ my $varnameprefix = 'shlibs';
 my $ignore_missing_info = 0;
 my $debug = 0;
 my @exclude = ();
+my @pkg_dir_to_search = ();
 my $host_arch = get_host_arch();
 
-my (@pkg_shlibs, @pkg_symbols);
+my (@pkg_shlibs, @pkg_symbols, @pkg_root_dirs);
 if (-d "debian") {
     push @pkg_symbols, <debian/*/DEBIAN/symbols>;
     push @pkg_shlibs, <debian/*/DEBIAN/shlibs>;
+    my %uniq = map { guess_pkg_root_dir($_) => 1 } (@pkg_symbols, @pkg_shlibs);
+    push @pkg_root_dirs, keys %uniq;
 }
 
 my ($stdout, %exec);
@@ -50,6 +57,8 @@ foreach (@ARGV) {
 	$varnameprefix = $1;
     } elsif (m/^-L(.*)$/) {
 	$shlibslocal = $1;
+    } elsif (m/^-S(.*)$/) {
+	push @pkg_dir_to_search, $1;
     } elsif (m/^-O$/) {
 	$stdout = 1;
     } elsif (m/^-(h|-help)$/) {
@@ -83,6 +92,12 @@ foreach (@ARGV) {
 
 scalar keys %exec || usageerr(_g("need at least one executable"));
 
+our %fi;
+parsecontrolfile("debian/control");
+my $build_depends = defined($fi{"C Build-Depends"}) ?
+		    $fi{"C Build-Depends"} : "";
+my $build_deps = Dpkg::Deps::parse($build_depends, reduce_arch => 1);
+
 my %dependencies;
 my %shlibs;
 
@@ -104,7 +119,7 @@ foreach my $file (keys %exec) {
 	    $soname_notfound{$soname} = 1;
 	    my $msg = _g("couldn't find library %s needed by %s (its RPATH is '%s').\n" .
 			 "Note: libraries are not searched in other binary packages " .
-			 "that do not have any shlibs file.\nTo help dpkg-shlibdeps " .
+			 "that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
 			 "find private libraries, you might need to set LD_LIBRARY_PATH.");
 	    if (scalar(split_soname($soname))) {
 		failure($msg, $soname, $file, join(":", @{$obj->{RPATH}}));
@@ -149,7 +164,7 @@ foreach my $file (keys %exec) {
 	    my $dpkg_symfile;
 	    if ($packagetype eq "deb") {
 		# Use fine-grained dependencies only on real deb
-		$dpkg_symfile = find_symbols_file($pkg, $soname);
+		$dpkg_symfile = find_symbols_file($pkg, $soname, $lib);
 		if (defined $dpkg_symfile) {
 		    # Load symbol information
 		    print "Using symbols file $dpkg_symfile for $soname\n" if $debug;
@@ -170,7 +185,8 @@ foreach my $file (keys %exec) {
 		push @soname_wo_symfile, $soname;
 		my $libobj = $dumplibs_wo_symfile->get_object($id);
 		# Only try to generate a dependency for libraries with a SONAME
-		if ($libobj->is_public_library() and not add_shlibs_dep($soname, $pkg)) {
+		if ($libobj->is_public_library() and not
+		    add_shlibs_dep($soname, $pkg, $lib)) {
 		    # This failure is fairly new, try to be kind by
 		    # ignoring as many cases that can be safely ignored
 		    my $ignore = 0;
@@ -210,21 +226,9 @@ foreach my $file (keys %exec) {
 	}
 	my $symdep = $symfile->lookup_symbol($name, \@sonames);
 	if (defined($symdep)) {
-	    my ($d, $m) = ($symdep->{depends}, $symdep->{minver});
 	    $used_sonames{$symdep->{soname}}++;
-	    foreach my $subdep (split /\s*,\s*/, $d) {
-		if (exists $dependencies{$cur_field}{$subdep} and
-		    defined($dependencies{$cur_field}{$subdep}))
-		{
-		    if ($dependencies{$cur_field}{$subdep} eq '' or
-			vercmp($m, $dependencies{$cur_field}{$subdep}) > 0)
-		    {
-			$dependencies{$cur_field}{$subdep} = $m;
-		    }
-		} else {
-		    $dependencies{$cur_field}{$subdep} = $m;
-		}
-	    }
+	    update_dependency_version($symdep->{depends},
+				      $symdep->{minver});
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
@@ -252,9 +256,24 @@ foreach my $file (keys %exec) {
     }
     warning(_g("%d other similar warnings have been skipped (use -v to see " .
 	    "them all)."), $nb_skipped_warnings) if $nb_skipped_warnings;
-    # Warn about un-NEEDED libraries
     foreach my $soname (@sonames) {
+	# Adjust minimal version of dependencies with information
+	# extracted from build-dependencies
+	my $dev_pkg = $symfile->get_field($soname, 'Build-Depends-Package');
+	if (defined $dev_pkg) {
+	    my $minver = get_min_version_from_deps($build_deps, $dev_pkg);
+	    if (defined $minver) {
+		foreach my $dep ($symfile->get_dependencies($soname)) {
+		    update_dependency_version($dep, $minver);
+		}
+	    }
+	}
+
+	# Warn about un-NEEDED libraries
 	unless ($soname_notfound{$soname} or $used_sonames{$soname}) {
+	    # Ignore warning for libm.so.6 if also linked against libstdc++
+	    next if ($soname =~ /^libm\.so\.\d+$/ and
+		     scalar grep(/^libstdc\+\+\.so\.\d+/, @sonames));
 	    warning(_g("%s shouldn't be linked with %s (it uses none of its " .
 	               "symbols)."), $file, $soname);
 	}
@@ -299,7 +318,7 @@ sub filter_deps {
 	# Since dependencies can be versionned, we have to
 	# verify if the dependency is stronger than the
 	# previously seen one
-	if (vercmp($depseen{$dep}, $dependencies{$field}{$dep}) > 0) {
+	if (compare_versions($depseen{$dep}, '>>', $dependencies{$field}{$dep})) {
 	    return 0;
 	} else {
 	    $depseen{$dep} = $dependencies{$field}{$dep};
@@ -372,6 +391,8 @@ Options:
   -T<varlistfile>          update variables here, not debian/substvars.
   -t<type>                 set package type (default is deb).
   -x<package>              exclude package from the generated dependencies.
+  -S<pkgbuilddir>          search needed libraries in the given
+                           package build directory first.
   --admindir=<directory>   change the administrative directory.
   -h, --help               show this help message.
       --version            show the version.
@@ -381,13 +402,71 @@ Dependency fields recognised are:
 "), $progname, join("/",@depfields);
 }
 
+sub get_min_version_from_deps {
+    my ($dep, $pkg) = @_;
+    if ($dep->isa('Dpkg::Deps::Simple')) {
+	if (($dep->{package} eq $pkg) &&
+	    defined($dep->{relation}) &&
+	    (($dep->{relation} eq ">=") ||
+	     ($dep->{relation} eq ">>")))
+	{
+	    return $dep->{version};
+	}
+	return undef;
+    } else {
+	my $res;
+	foreach my $subdep ($dep->get_deps()) {
+	    my $minver = get_min_version_from_deps($subdep, $pkg);
+	    next if not defined $minver;
+	    if (defined $res) {
+		if (compare_versions($minver, '>>', $res)) {
+		    $res = $minver;
+		}
+	    } else {
+		$res = $minver;
+	    }
+	}
+	return $res;
+    }
+}
+
+sub update_dependency_version {
+    my ($dep, $minver) = @_;
+    return if not defined($minver);
+    foreach my $subdep (split /\s*,\s*/, $dep) {
+	if (exists $dependencies{$cur_field}{$subdep} and
+	    defined($dependencies{$cur_field}{$subdep}))
+	{
+	    if ($dependencies{$cur_field}{$subdep} eq '' or
+		compare_versions($minver, '>>',
+				 $dependencies{$cur_field}{$subdep}))
+	    {
+		$dependencies{$cur_field}{$subdep} = $minver;
+	    }
+	} else {
+	    $dependencies{$cur_field}{$subdep} = $minver;
+	}
+    }
+}
+
 sub add_shlibs_dep {
-    my ($soname, $pkg) = @_;
+    my ($soname, $pkg, $libfile) = @_;
+    my @shlibs = ($shlibslocal, $shlibsoverride);
+    if ($pkg eq "") {
+	# If the file is not packaged, try to find out the shlibs file in
+	# the package being built where the lib has been found
+	my $pkg_root = guess_pkg_root_dir($libfile);
+	if (defined $pkg_root) {
+	    push @shlibs, "$pkg_root/DEBIAN/shlibs";
+	}
+	# Fallback to other shlibs files but it shouldn't be necessary
+	push @shlibs, @pkg_shlibs;
+    } else {
+	push @shlibs, "$admindir/info/$pkg.shlibs";
+    }
+    push @shlibs, $shlibsdefault;
     print "Looking up shlibs dependency of $soname provided by '$pkg'\n" if $debug;
-    foreach my $file ($shlibslocal, $shlibsoverride, @pkg_shlibs,
-			"$admindir/info/$pkg.shlibs",
-			$shlibsdefault)
-    {
+    foreach my $file (@shlibs) {
 	next if not -e $file;
 	my $dep = extract_from_shlibs($soname, $file);
 	if (defined($dep)) {
@@ -456,12 +535,24 @@ sub extract_from_shlibs {
 }
 
 sub find_symbols_file {
-    my ($pkg, $soname) = @_;
-    foreach my $file (@pkg_symbols,
-	"/etc/dpkg/symbols/$pkg.symbols.$host_arch",
-	"/etc/dpkg/symbols/$pkg.symbols",
-	"$admindir/info/$pkg.symbols")
-    {
+    my ($pkg, $soname, $libfile) = @_;
+    my @files;
+    if ($pkg eq "") {
+	# If the file is not packaged, try to find out the symbols file in
+	# the package being built where the lib has been found
+	my $pkg_root = guess_pkg_root_dir($libfile);
+	if (defined $pkg_root) {
+	    push @files, "$pkg_root/DEBIAN/symbols";
+	}
+	# Fallback to other symbols files but it shouldn't be necessary
+	push @files, @pkg_symbols;
+    } else {
+	push @files, "/etc/dpkg/symbols/$pkg.symbols.$host_arch",
+	    "/etc/dpkg/symbols/$pkg.symbols",
+	    "$admindir/info/$pkg.symbols";
+    }
+
+    foreach my $file (@files) {
 	if (-e $file and symfile_has_soname($file, $soname)) {
 	    return $file;
 	}
@@ -513,17 +604,23 @@ sub my_find_library {
 	push @RPATH, $path;
     }
 
-    # Look into the packages we're currently building (but only those
-    # that provides shlibs file and the one that contains the binary being
-    # anlyzed...)
-    # TODO: we should probably replace that by a cleaner way to look into
-    # the various temporary build directories...
-    my @copy = (@pkg_shlibs);
+    # Look into the packages we're currently building in the following
+    # order:
+    # - package build tree of the binary which is analyzed
+    # - package build tree given on the command line (option -S)
+    # - other package build trees that contain either a shlibs or a
+    # symbols file
+    my @builddirs;
     my $pkg_root = guess_pkg_root_dir($execfile);
-    unshift @copy, $pkg_root if defined $pkg_root;
-    foreach my $builddir (map { s{/DEBIAN/shlibs$}{}; $_ } @copy) {
+    push @builddirs, $pkg_root if defined $pkg_root;
+    push @builddirs, @pkg_dir_to_search;
+    push @builddirs, @pkg_root_dirs;
+    my %dir_checked;
+    foreach my $builddir (@builddirs) {
+	next if defined($dir_checked{$builddir});
 	$file = find_library($lib, \@RPATH, $format, $builddir);
 	return $file if defined($file);
+	$dir_checked{$builddir} = 1;
     }
 
     # Fallback in the root directory if we have not found what we were

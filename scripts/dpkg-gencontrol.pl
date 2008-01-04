@@ -85,9 +85,7 @@ Options:
 
 sub spfileslistvalue($)
 {
-    my $r = $f{$_[0]};
-    $r = '-' if !defined($r);
-    return $r;
+    return $f{$_[0]} || '-';
 }
 
 
@@ -163,7 +161,7 @@ for $_ (keys %fi) {
 	    $f{$_} = $v;
 	} elsif (m/^(Section|Priority|Homepage)$/) {
 	    # Binary package stanzas can override these fields
-	    $f{$_} = $v if !defined($f{$_});
+	    $f{$_} ||= $v;
 	} elsif (m/^Source$/) {
 	    setsourcepackage($v);
 	}

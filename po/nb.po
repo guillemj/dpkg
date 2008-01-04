@@ -3,13 +3,13 @@
 # Gaute Hvoslef Kvalnes <gaute@verdsveven.com>, 2003, 2004.
 # Håvard Korsvoll <korsvoll@skulelinux.no>, 2003, 2004.
 # Bjorn Steensrud <bjornst@powertech.no>, 2004.
-# Hans Fredrik Nordhaug <hans@nordhaug.priv.no>, 2005-2006.
+# Hans Fredrik Nordhaug <hans@nordhaug.priv.no>, 2005-2007.
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.13\n"
+"Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
-"PO-Revision-Date: 2006-10-15 23:32+0100\n"
+"POT-Creation-Date: 2007-12-29 05:57+0100\n"
+"PO-Revision-Date: 2008-01-02 14:47+0100\n"
 "Last-Translator: Hans Fredrik Nordhaug <hans@nordhaug.priv.no>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.ui.no>\n"
 "MIME-Version: 1.0\n"
@@ -59,9 +59,9 @@ msgid "Signal no.%d"
 msgstr "Signal nr. %d"
 
 #: lib/compression.c:34
-#, fuzzy, c-format
+#, c-format
 msgid "%s: failed to exec '%s %s'"
-msgstr "%s: Klarte ikke kjøre gzip %s"
+msgstr "%s: Klarte ikke kjøre «%s %s»"
 
 #: lib/compression.c:62
 #, c-format
@@ -262,8 +262,7 @@ msgstr "klarte ikke lukke «%.250s» etter skriving av %s-informasjon"
 #: lib/dump.c:323
 #, c-format
 msgid "failed to link `%.250s' to `%.250s' for backup of %s info"
-msgstr ""
-"klarte ikke lenke «%.250s» til «%.250s» for sikringskopiering av %s-info"
+msgstr "klarte ikke lenke «%.250s» til «%.250s» for sikringskopiering av %s-info"
 
 #: lib/dump.c:326
 #, c-format
@@ -506,7 +505,7 @@ msgstr "klarte ikke låse dpkg-statusdatabasen"
 msgid "malloc failed (%ld bytes)"
 msgstr "minnetildeling mislyktes (%ld byte)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "nytildeling mislyktes (%ld byte)"
@@ -798,14 +797,14 @@ msgid "failed to read `%s' at line %d"
 msgstr "klarte ikke lese «%s» ved linje «%d»"
 
 #: lib/parsehelp.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "warning, in file `%.255s' near line %d"
-msgstr "%s, i fila «%.255s» nær linje %d"
+msgstr "advarsel, i fila «%.255s» nær linje %d"
 
 #: lib/parsehelp.c:44
-#, fuzzy, c-format
+#, c-format
 msgid "parse error, in file `%.255s' near line %d"
-msgstr "%s, i fila «%.255s» nær linje %d"
+msgstr "tolkefeil, i fila «%.255s» nær linje %d"
 
 #: lib/parsehelp.c:48
 #, c-format
@@ -901,9 +900,10 @@ msgid "error setting permissions of `%.255s'"
 msgstr "feil ved setting av rettigheter for «%.255s»"
 
 #: src/archives.c:339
-#, fuzzy, c-format
+#, c-format
 msgid "failed to stat (dereference) existing symlink `%.250s'"
-msgstr "klarte ikke sette kjøretillatelse på «%.250s»"
+msgstr ""
+"klarte ikke (stat) finne informasjon om eksisterende symbolske lenke «%.250s»"
 
 #: src/archives.c:360
 #, c-format
@@ -911,22 +911,23 @@ msgid ""
 "failed to stat (dereference) proposed new symlink target `%.250s' for "
 "symlink `%.250s'"
 msgstr ""
+"klarte ikke (stat) finne informasjon om foreslått nytt symlenke mål «%.250s» "
+"for symlenke «%.250s»"
 
 #: src/archives.c:411
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "trying to overwrite `%.250s', which is the diverted version of `"
 "%.250s' (package: %.100s)"
 msgstr ""
 "prøver å skrive over «%.250s», som er den omdirigerte versjonen av "
-"«%.250s»%.10s%.100s%.10s"
+"«%.250s» (pakke: %.100s)"
 
 #: src/archives.c:417
-#, fuzzy, c-format
+#, c-format
 msgid "trying to overwrite `%.250s', which is the diverted version of `%.250s'"
 msgstr ""
-"prøver å skrive over «%.250s», som er den omdirigerte versjonen av "
-"«%.250s»%.10s%.100s%.10s"
+"prøver å skrive over «%.250s», som er den omdirigerte versjonen av «%.250s»"
 
 #: src/archives.c:440
 #, c-format
@@ -1054,61 +1055,61 @@ msgid "unable to install new version of `%.255s'"
 msgstr "klarte ikke installere ny versjon av «%.255s»"
 
 #: src/archives.c:853
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - ignoring dependency problem with %s:\n"
 "%s"
 msgstr ""
-"dpkg: Advarsel - ignorerer kravproblem ved fjerning av %s:\n"
+"dpkg: Advarsel - ignorerer kravproblem med %s:\n"
 "%s"
 
 #: src/archives.c:860
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - considering deconfiguration of essential\n"
 " package %s, to enable %s.\n"
 msgstr ""
 "dpkg: Advarsel - vurderer fjerning av oppsett for den nødvendige\n"
-" pakken %s for å kunne fjerne %s.\n"
+" pakken %s, for å kunne aktivere %s.\n"
 
 #: src/archives.c:864
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, %s is essential, will not deconfigure\n"
 " it in order to enable %s.\n"
 msgstr ""
 "dpkg: Nei, %s er nødvendig. Vil ikke fjerne oppsettet\n"
-" for å kunne fjerne %s.\n"
+" for å kunne aktivere %s.\n"
 
 #: src/archives.c:878
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: no, cannot proceed with %s (--auto-deconfigure will help):\n"
 "%s"
 msgstr ""
-"dpkg: Nei, kan ikke fjerne %s (--auto-deconfigure kan hjelpe):\n"
+"dpkg: Nei, kan ikke fortsette med %s (--auto-deconfigure kan hjelpe):\n"
 "%s"
 
 #: src/archives.c:888
-#, fuzzy, c-format
+#, c-format
 msgid "removal of %.250s"
-msgstr "lesefeil i %.250s"
+msgstr "fjerning av %.250s"
 
 #: src/archives.c:915
-#, fuzzy, c-format
+#, c-format
 msgid "installation of %.250s"
-msgstr "klarte ikke installere ny versjon av «%.255s»"
+msgstr "installering av %.255s"
 
 #: src/archives.c:916
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: considering deconfiguration of %s, which would be broken by %s ...\n"
-msgstr "dpkg: Vurderer å fjerne %s til fordel for %s ...\n"
+msgstr "dpkg: Vurderer å fjerne oppsett for %s, som blir ødelagt av %s ...\n"
 
 #: src/archives.c:923
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: yes, will deconfigure %s (broken by %s).\n"
-msgstr "dpkg: Ja, fjerner %s til fordel for %s.\n"
+msgstr "dpkg: Ja, fjerner oppsett for %s (ødelagt av %s).\n"
 
 #: src/archives.c:927 src/archives.c:1048
 #, c-format
@@ -1120,9 +1121,9 @@ msgstr ""
 "%s"
 
 #: src/archives.c:935
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg: warning - ignoring breakage, may proceed anyway !\n"
-msgstr "dpkg: Advarsel - ignorerer konflikt, men kan fortsette likevel.\n"
+msgstr "dpkg: Advarsel - ignorerer ødeleggelse, men kan fortsette likevel.\n"
 
 #: src/archives.c:941
 #, c-format
@@ -1130,11 +1131,13 @@ msgid ""
 "installing %.250s would break %.250s, and\n"
 " deconfiguration is not permitted (--auto-deconfigure might help)"
 msgstr ""
+"installering av %.250s vil ødelegge %.250s, og\n"
+" fjerning av oppsett er ikke tillatt (--auto-deconfigure kan hjelpe)"
 
 #: src/archives.c:945
 #, c-format
 msgid "installing %.250s would break existing software"
-msgstr ""
+msgstr "installering av %.250s vil ødelegge eksisterende programvare"
 
 #: src/archives.c:978
 #, c-format
@@ -1169,7 +1172,7 @@ msgstr ""
 #: src/archives.c:1034
 #, c-format
 msgid "package %s has too many Conflicts/Replaces pairs"
-msgstr ""
+msgstr "pakke %s har for mange konflikt/erstatt-par"
 
 #: src/archives.c:1040
 #, c-format
@@ -1434,8 +1437,8 @@ msgid ""
 "dpkg: %s: warning - conffile `%.250s' is not a plain file or symlink (= `%"
 "s')\n"
 msgstr ""
-"dpkg: %s: Advarsel - oppsettsfila «%.250s» er ingen vanlig fil eller "
-"symbolsk lenke (= «%s»)\n"
+"dpkg: %s: Advarsel - oppsettsfila «%.250s» er ingen vanlig fil eller symbolsk "
+"lenke (= «%s»)\n"
 
 #: src/configure.c:409
 msgid "md5hash"
@@ -1618,39 +1621,39 @@ msgid "unable to check for existence of `%.250s'"
 msgstr "klarte ikke sjekke om «%.250s» finnes"
 
 #: src/depcon.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%s depends on %s"
-msgstr " krever "
+msgstr "%s krever %s"
 
 #: src/depcon.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "%s pre-depends on %s"
-msgstr " før-krever "
+msgstr "%s før-krever %s"
 
 #: src/depcon.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "%s recommends %s"
-msgstr " tilrår "
+msgstr "%s anbefaler %s "
 
 #: src/depcon.c:165
-#, fuzzy, c-format
+#, c-format
 msgid "%s suggests %s"
-msgstr " foreslår "
+msgstr "%s foreslår %s"
 
 #: src/depcon.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%s breaks %s"
-msgstr " avbryter"
+msgstr "%s ødelegger %s"
 
 #: src/depcon.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "%s conflicts with %s"
-msgstr " er i konflikt med "
+msgstr "%s er i konflikt med %s"
 
 #: src/depcon.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%s enhances %s"
-msgstr " forbedrer "
+msgstr "%s forbedrer %s"
 
 #: src/depcon.c:265
 #, c-format
@@ -1775,8 +1778,7 @@ msgstr ""
 "De følgende pakkene er bare halvveis installerte, fordi det oppsto\n"
 "problemer under installasjonen. Installasjonen kan sannsynligvis "
 "gjennomføres\n"
-"ved å prøve på nytt. Pakkene kan fjernest med dselect eller «dpkg --"
-"remove»:\n"
+"ved å prøve på nytt. Pakkene kan fjernest med dselect eller «dpkg --remove»:\n"
 
 #: src/enquiry.c:121
 msgid "--audit does not take any arguments"
@@ -1917,8 +1919,8 @@ msgid ""
 "dpkg: serious warning: files list file for package `%.250s' missing, "
 "assuming package has no files currently installed.\n"
 msgstr ""
-"dpkg: Alvorlig advarsel: Fillistefila for pakken «%.250s» mangler, Går ut "
-"fra at pakken ikke har noen filer installert.\n"
+"dpkg: Alvorlig advarsel: Fillistefila for pakken «%.250s» mangler, Går ut fra "
+"at pakken ikke har noen filer installert.\n"
 
 #: src/filesdb.c:145
 #, c-format
@@ -2394,8 +2396,7 @@ msgstr ""
 #: src/main.c:134
 #, c-format
 msgid "Use `dselect' or `aptitude' for user-friendly package management.\n"
-msgstr ""
-"Bruk «dselect» eller «aptitude» for en brukervennlig pakkehåndtering.\n"
+msgstr "Bruk «dselect» eller «aptitude» for en brukervennlig pakkehåndtering.\n"
 
 #: src/main.c:141
 msgid ""
@@ -2669,12 +2670,12 @@ msgstr "dpkg: setter også opp «%s» (krevet av «%s»)\n"
 #: src/packages.c:313
 #, c-format
 msgid "  Package %s which provides %s is not configured yet.\n"
-msgstr " Pakke %s som gir %s er ikke konfigurert enda.\n"
+msgstr "  Pakke %s som gir %s er ikke satt opp enda.\n"
 
 #: src/packages.c:316
 #, c-format
 msgid "  Package %s is not configured yet.\n"
-msgstr " Pakke %s er ikke konfigurert enda.\n"
+msgstr "  Pakke %s er ikke satt opp enda.\n"
 
 #: src/packages.c:328
 #, c-format
@@ -2687,19 +2688,19 @@ msgid "  Package %s is not installed.\n"
 msgstr "Pakken %s er ikke installert.\n"
 
 #: src/packages.c:362
-#, fuzzy, c-format
+#, c-format
 msgid " %s (%s) breaks %s and is %s.\n"
-msgstr "  %.250s tilbyr %.250s og er %s.\n"
+msgstr " %s (%s) ødelegger %s og er %s.\n"
 
 #: src/packages.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "  %s (%s) provides %s.\n"
-msgstr "%s (underprosess): %s\n"
+msgstr "  %s (%s) tilbyr %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Version of %s to be configured is %s.\n"
-msgstr "  Versjon av %s på systemet er %s.\n"
+msgstr "  Versjonen av %s som skal settes opp er %s.\n"
 
 #: src/packages.c:467
 msgid " depends on "
@@ -2828,14 +2829,14 @@ msgid "error trying to open %.250s"
 msgstr "feil ved åpning av %.250s"
 
 #: src/processarc.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s, to allow removal of %s ...\n"
 msgstr "Fjerner oppsettet av %s, slik at %s kan fjernes ...\n"
 
 #: src/processarc.c:408
-#, fuzzy, c-format
+#, c-format
 msgid "De-configuring %s ...\n"
-msgstr "Fjerner %s ...\n"
+msgstr "Fjerner oppsettet av %s ...\n"
 
 #: src/processarc.c:479
 #, c-format
@@ -2884,13 +2885,13 @@ msgid "unable to stat other new file `%.250s'"
 msgstr "fant ikke annen ny fil «%.250s»"
 
 #: src/processarc.c:684
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "dpkg: warning - old file `%.250s' is the same as several new files!  (both `"
 "%.250s' and `%.250s')\n"
 msgstr ""
-"dpkg: Advarsel - den gamle oppsettsfila «%.250s» er den samme som flere nye "
-"filer! (Både «%.250s» og «%.250s».)"
+"dpkg: Advarsel - den gamle fila «%.250s» er den samme som flere nye filer! "
+"(Både «%.250s» og «%.250s».)\n"
 
 #: src/processarc.c:725
 #, c-format
@@ -2988,24 +2989,24 @@ msgid "No packages found matching %s.\n"
 msgstr "Fant ingen pakker som passer til «%s».\n"
 
 #: src/query.c:254
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s from: %s\n"
-msgstr "omdirigert av %s til:%s\n"
+msgstr "omdirigert av %s fra: %s\n"
 
 #: src/query.c:256
-#, fuzzy, c-format
+#, c-format
 msgid "diversion by %s to: %s\n"
-msgstr "omdirigert av %s til:%s\n"
+msgstr "omdirigert av %s til: %s\n"
 
 #: src/query.c:259
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion from: %s\n"
-msgstr "lokal omdirigering"
+msgstr "lokal omdirigering fra: %s\n"
 
 #: src/query.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "local diversion to: %s\n"
-msgstr "lokalt omdirigert: %s\n"
+msgstr "lokalt omdirigert til: %s\n"
 
 #: src/query.c:285
 msgid "--search needs at least one file name pattern argument"
@@ -3354,7 +3355,7 @@ msgstr "dpkg-deb - feil: %s («%s») inneholder ingen sifre\n"
 #: dpkg-deb/build.c:131
 #, c-format
 msgid "file name '%.50s...' is too long"
-msgstr ""
+msgstr "filnavn «%.50s...» er for langt"
 
 #: dpkg-deb/build.c:192
 msgid "--build needs a directory argument"
@@ -3796,6 +3797,11 @@ msgstr "klarte ikke lage midlertidig katalognavn"
 msgid "failed to exec rm -rf"
 msgstr "klarte ikke kjøre «rm -rf»"
 
+#: dpkg-deb/info.c:99
+#, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "nytildeling mislyktes (%lu byte)"
+
 #: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr "info_spew"
@@ -3920,7 +3926,7 @@ msgstr ""
 "\n"
 
 #: dpkg-deb/main.c:85
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --showformat=<format>            Use alternative format for --show.\n"
@@ -3940,10 +3946,10 @@ msgstr ""
 "  -D                         Vis avlusingsdata.\n"
 "  --old, --new               Velg arkivformat.\n"
 "  --nocheck                  Ikke sjekk kontrollfil (bygg ugyldig pakke).\n"
-"  -z#                             For å velge komprimering ved bygging.\n"
+"  -z#                        For å velge komprimering ved bygging.\n"
 "  -Z<type>                   Setter komprimeringstypen som skal brukes ved "
 "bygging.\n"
-"                             Tillatte verdier: gzip, bzip2, ingen\n"
+"                             Tillatte verdier: gzip, bzip2, lzma, ingen.\n"
 "\n"
 
 #: dpkg-deb/main.c:106
@@ -4021,8 +4027,7 @@ msgstr "fila «%.250s» er ødelagt - ugyldig delnummer"
 #, c-format
 msgid "file `%.250s' is corrupt - bad magic at end of second header"
 msgstr ""
-"fila «%.250s» er ødelagt - ugyldig magisk nummer til slutt i det andre "
-"hovudet"
+"fila «%.250s» er ødelagt - ugyldig magisk nummer til slutt i det andre hovudet"
 
 #: dpkg-split/info.c:147
 #, c-format
@@ -4248,8 +4253,7 @@ msgstr "klarte ikke åpne den nye depotfila «%.250s»"
 #: dpkg-split/queue.c:160
 #, c-format
 msgid "unable to rename new depot file `%.250s' to `%.250s'"
-msgstr ""
-"klarte ikke endre navnet på den nye depotfila fra «%.250s» til «%.250s»"
+msgstr "klarte ikke endre navnet på den nye depotfila fra «%.250s» til «%.250s»"
 
 #: dpkg-split/queue.c:162
 #, c-format
@@ -4438,7 +4442,7 @@ msgid "unable to close %s after read: %s"
 msgstr "klarte ikke lukke %s etter lesing: %s"
 
 #: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
-#: scripts/update-alternatives.pl:535
+#: scripts/update-alternatives.pl:588
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "klarte ikke lukke %s: %s"
@@ -4528,10 +4532,10 @@ msgstr ""
 "Pakke preinst/postrm skript skal alltid oppgi --package og --divert.\n"
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
-#: scripts/update-alternatives.pl:229
-#, fuzzy, perl-format
+#: scripts/update-alternatives.pl:281
+#, perl-format
 msgid "two commands specified: %s and --%s"
-msgstr "to modi oppgitt: %s og --%s"
+msgstr "to kommandoer oppgitt: %s og --%s"
 
 #: scripts/dpkg-divert.pl:107
 #, perl-format
@@ -4552,13 +4556,13 @@ msgid "package may not contain newlines"
 msgstr "pakke kan ikke  inneholde linjeskift"
 
 #: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
-#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
+#: scripts/update-alternatives.pl:336 scripts/update-alternatives.pl:339
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s krever et <katalog> argument"
 
 #: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
-#: scripts/update-alternatives.pl:286
+#: scripts/update-alternatives.pl:344
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "ukjent opsjon «%s»"
@@ -4657,12 +4661,12 @@ msgstr "fant ikke gammelt navn «%s»: %s"
 msgid "cannot stat new name `%s': %s"
 msgstr "fant ikke nytt navn «%s»: %s"
 
-#: scripts/dpkg-divert.pl:247
+#: scripts/dpkg-divert.pl:246 scripts/dpkg-divert.pl:253
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "feilkontroll «%s»: %s"
 
-#: scripts/dpkg-divert.pl:252
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4671,47 +4675,47 @@ msgstr ""
 "endring av navn innebærer at «%s» overskrives av\n"
 "  annen fil «%s», ikke tillatt"
 
-#: scripts/dpkg-divert.pl:262
+#: scripts/dpkg-divert.pl:267
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "endre navn: fjerner duplikat gammel lenke «%s»: %s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:269
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "rename: endre navnet på «%s» til «%s»: %s"
 
-#: scripts/dpkg-divert.pl:271
+#: scripts/dpkg-divert.pl:276
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "opprett omdirigeringer-ny: %s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:280
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "skriv omdirigeringer-ny: %s"
 
-#: scripts/dpkg-divert.pl:277
+#: scripts/dpkg-divert.pl:282
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "lukk omdirigeringer-ny: %s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:284
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "fjerner gamle omdirigeringer: %s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:286
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "opprett ny omdirigeringer-gammel: %s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:288
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "installer nye omdirigeringer: %s"
 
-#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:740
+#: scripts/dpkg-divert.pl:311 scripts/update-alternatives.pl:702
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "intern feil: %s korrupt: %s"
@@ -5090,7 +5094,7 @@ msgstr ""
 "Opphavsrett (C) 2000-2002 Wichert Akkerman."
 
 #: scripts/update-alternatives.pl:74
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
 "\n"
@@ -5145,7 +5149,7 @@ msgstr ""
 "  --set <navn> <sti>      sett <sti> som alternativ for <navn>.\n"
 "  --all                    kall --config på alle alternativer.\n"
 "\n"
-"<lenke> er den symbolske lenka som peker til /etc/alternatives/<navn>.\n"
+"<lenke> er den symbolske lenka som peker til %s/<navn>.\n"
 "  (f.eks. /usr/bin/pager)\n"
 "<navn> er hovednavnet for denne lenkegruppa.\n"
 "  (f.eks. pager)\n"
@@ -5158,16 +5162,15 @@ msgstr ""
 "Opsjoner:\n"
 "  --altdir <katalog>     endre katalogen for alternativer.\n"
 "  --admindir <katalog>   endre den administrative katalogen.\n"
-"  --test                   aktiverer testmodus (ingen handlinger utføres).\n"
-"  --debug                  aktiverer avlusingsmodus (viser mer "
-"informasjon).\n"
-"  --quiet                  ikke vis meldinger på standard-ut.\n"
-"  --help                   vis denne hjelpmeldingen.\n"
-"  --version                vis versjonen.\n"
+"  --test                 aktiverer testmodus (ingen handlinger utføres).\n"
+"  --verbose              verbal operasjon, mye utskrift.\n"
+"  --quiet                stille operasjon, minimalt med utskrift.\n"
+"  --help                 vis denne hjelpmeldingen.\n"
+"  --version              vis versjonen.\n"
 
 #: scripts/update-alternatives.pl:127
 msgid "invalid update mode"
-msgstr ""
+msgstr "ugyldig oppdateringsmodus"
 
 #: scripts/update-alternatives.pl:131
 #, perl-format
@@ -5241,54 +5244,88 @@ msgstr "Ingen versjoner tilgjengelig."
 msgid "Current `best' version is %s."
 msgstr "Nåværende  «beste» versjon er %s."
 
-#: scripts/update-alternatives.pl:243
+#: scripts/update-alternatives.pl:232
+#, perl-format
+msgid ""
+"warning: %s is supposed to be a symlink to %s, \n"
+"or nonexistent; however, readlink failed: %s"
+msgstr ""
+"advarsel: %s skal være en symbolsk lenke til %s,\n"
+"eller ikke-eksisterende; likevel feilet lesing av lenke: %s"
+
+#: scripts/update-alternatives.pl:244
+#, perl-format
+msgid "Leaving %s (%s) pointing to %s."
+msgstr "Forlater %s (%s) pekende til %s."
+
+#: scripts/update-alternatives.pl:247
+#, perl-format
+msgid "Updating %s (%s) to point to %s."
+msgstr "Oppdaterer %s (%s) til å peke til %s."
+
+#: scripts/update-alternatives.pl:256
+#, perl-format
+msgid "Using '%s' to provide '%s'."
+msgstr "Bruker «%s» for å tilby «%s»'."
+
+#: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:616
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "Fjerner %s (%s), siden det ikke passer med %s."
+
+#: scripts/update-alternatives.pl:288
+#, perl-format
+msgid "unable to remove %s: %s"
+msgstr "klarte ikke fjerne %s: %s"
+
+#: scripts/update-alternatives.pl:301
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "ukjent argument «%s»"
 
-#: scripts/update-alternatives.pl:256
+#: scripts/update-alternatives.pl:314
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install trenger <lenke> <navn> <sti> <prioritet>"
 
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:316
 msgid "priority must be an integer"
 msgstr "prioritet må være et heltall"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:320
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s krever <navn> <sti>"
 
-#: scripts/update-alternatives.pl:267
+#: scripts/update-alternatives.pl:325
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s krever <navn>"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:329
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave trenger <lenke> <navn> <sti>"
 
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:331
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "slave-navn %s duplisert"
 
-#: scripts/update-alternatives.pl:274
+#: scripts/update-alternatives.pl:332
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "slave-lenke %s duplisert"
 
-#: scripts/update-alternatives.pl:291
+#: scripts/update-alternatives.pl:349
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "navn %s er både primær og slave"
 
-#: scripts/update-alternatives.pl:293
+#: scripts/update-alternatives.pl:351
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "lenke %s er både primær og slave"
 
-#: scripts/update-alternatives.pl:296
+#: scripts/update-alternatives.pl:354
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5296,31 +5333,21 @@ msgstr ""
 "trenger --display, --config, --set, --install, --remove, --all, --remove-all "
 "eller --auto"
 
-#: scripts/update-alternatives.pl:298
+#: scripts/update-alternatives.pl:356
 msgid "--slave only allowed with --install"
 msgstr "--slave bare tillatt med --install"
 
-#: scripts/update-alternatives.pl:311
+#: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "Ingen alternativ for %s."
 
-#: scripts/update-alternatives.pl:358
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "Setter opp automatisk valg av %s."
 
-#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
-#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
-#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
-#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
-#: scripts/update-alternatives.pl:687 scripts/update-alternatives.pl:723
-#, perl-format
-msgid "unable to remove %s: %s"
-msgstr "klarte ikke fjerne %s: %s"
-
-#: scripts/update-alternatives.pl:374
+#: scripts/update-alternatives.pl:430
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5329,7 +5356,7 @@ msgstr ""
 "%s har blitt endret (manuelt eller av et skript).\n"
 "Bytter over til kun manuelle oppdateringer."
 
-#: scripts/update-alternatives.pl:386
+#: scripts/update-alternatives.pl:442
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5338,142 +5365,86 @@ msgstr ""
 "Sjekker tilgjengelige versjoner av %s, oppdaterer lenker i %s ...\n"
 "(Du kan endre de symbolske lenkene der selv hvis du ønsker - se «man ln».)"
 
-#: scripts/update-alternatives.pl:392
+#: scripts/update-alternatives.pl:448
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "Endrer navn på %s lenke fra %s til %s."
 
-#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
-#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
+#: scripts/update-alternatives.pl:451 scripts/update-alternatives.pl:475
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "klarte ikke endre navn på %s til %s: %s"
 
-#: scripts/update-alternatives.pl:414
+#: scripts/update-alternatives.pl:470
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "slave-lenkenavn %s er duplisert"
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:472
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "Endre navn på %s slave-lenke fra %s til %s."
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:489
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr "Fjerner manuelt valgte alternativ - bytter til automatisk modus"
 
-#: scripts/update-alternatives.pl:447
+#: scripts/update-alternatives.pl:503
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "Alternativ %s for %s er ikke registrert, fjernes ikke."
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:530
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "Kasserer foreldet slavelenke %s (%s)."
 
-#: scripts/update-alternatives.pl:495
+#: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "Automatiske oppdateringer av %s er slått av, lar den være i fred."
 
-#: scripts/update-alternatives.pl:497
+#: scripts/update-alternatives.pl:551
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "For å gå tilbake til automatiske oppdateringer bruk «update-alternatives --"
 "auto %s»."
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:555
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "Gjenoppretter fra tidligere feilet oppdatering av %s ..."
 
-#: scripts/update-alternatives.pl:516
+#: scripts/update-alternatives.pl:569
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "klarte ikke åpne %s for skriving: %s"
 
-#: scripts/update-alternatives.pl:539
+#: scripts/update-alternatives.pl:592
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "Siste pakke som tilbyr %s (%s) fjernet, sletter den."
 
-#: scripts/update-alternatives.pl:553
+#: scripts/update-alternatives.pl:631
 #, perl-format
-msgid ""
-"warning: %s is supposed to be a symlink to %s\n"
-" (or nonexistent); however, readlink failed: %s"
-msgstr ""
-"advarsel: %s skal være en symbolsk lenke til %s\n"
-"(eller ikke-eksisterende); likevel feilet lesing av lenke: %s"
-
-#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
-#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:607
-#, perl-format
-msgid "unable to ensure %s nonexistent: %s"
-msgstr "klarte ikke forsikre at %s ikke eksisterer: %s"
-
-#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:610
-#: scripts/update-alternatives.pl:624 scripts/update-alternatives.pl:673
-#: scripts/update-alternatives.pl:709 scripts/update-alternatives.pl:748
-#, perl-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "klarte ikke gjøre %s til en symbolsk lenke til %s: %s"
-
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:626
-#: scripts/update-alternatives.pl:675 scripts/update-alternatives.pl:711
-#: scripts/update-alternatives.pl:753
-#, perl-format
-msgid "unable to install %s as %s: %s"
-msgstr "klarte ikke installere %s som %s: %s"
-
-#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:617
-#, perl-format
-msgid "Leaving %s (%s) pointing to %s."
-msgstr "Forlater %s (%s) pekende til %s."
-
-#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:620
-#, perl-format
-msgid "Updating %s (%s) to point to %s."
-msgstr "Oppdaterer %s (%s) til å peke til %s."
-
-#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:684
-#: scripts/update-alternatives.pl:720
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "Fjerner %s (%s), siden det ikke passer med %s."
-
-#: scripts/update-alternatives.pl:600
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a slave symlink to\n"
-" %s, or nonexistent; however, readlink failed: %s"
-msgstr ""
-"advarsel: %s skal være en slave symbolsk lenke til\n"
-"%s eller ikke-eksisterende; likevel feilet lesing av lenke: %s"
-
-#: scripts/update-alternatives.pl:634
-#, fuzzy, perl-format
 msgid ""
 "There is no program which provides %s.\n"
 "Nothing to configure.\n"
 msgstr ""
-"Det er bare et program som tilbyr %s\n"
-"(%s). Det er ingenting å konfigurere.\n"
+"Det er ingen program som tilbyr %s, og\n"
+"dermed ingenting å sette opp.\n"
 
-#: scripts/update-alternatives.pl:640
+#: scripts/update-alternatives.pl:637
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
 "(%s). Nothing to configure.\n"
 msgstr ""
 "Det er bare et program som tilbyr %s\n"
-"(%s). Det er ingenting å konfigurere.\n"
+"(%s). Det er ingenting å sette opp.\n"
 
-#: scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5486,44 +5457,59 @@ msgstr ""
 "  Valg         Alternativ\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:652
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr "Trykk Enter for å beholde forvalget[*] eller skriv et valgnummer:"
 
-#: scripts/update-alternatives.pl:670 scripts/update-alternatives.pl:707
-#, perl-format
-msgid "Using `%s' to provide `%s'."
-msgstr "Bruker «%s» for å tilby «%s»'."
-
-#: scripts/update-alternatives.pl:705
+#: scripts/update-alternatives.pl:684
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "Klarte ikke finne alternativ «%s»."
 
-#: scripts/update-alternatives.pl:728 scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:689 scripts/update-alternatives.pl:692
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "feil ved skriving til standard ut: %s"
 
-#: scripts/update-alternatives.pl:730
+#: scripts/update-alternatives.pl:691
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "linjeskift forbudt i update-alternatives filer (%s)"
 
-#: scripts/update-alternatives.pl:735
+#: scripts/update-alternatives.pl:696
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "feil eller slutt på filen under lesing av %s for %s (%s)"
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "missing newline after %s"
 msgstr "mangler linjeskift etter %s"
 
-#: scripts/update-alternatives.pl:756
+#: scripts/update-alternatives.pl:710
+#, perl-format
+msgid "unable to make %s a symlink to %s: %s"
+msgstr "klarte ikke gjøre %s til en symbolsk lenke til %s: %s"
+
+#: scripts/update-alternatives.pl:715
+#, perl-format
+msgid "unable to install %s as %s: %s"
+msgstr "klarte ikke installere %s som %s: %s"
+
+#: scripts/update-alternatives.pl:718
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "Alvorlig problem: %s"
+
+#~ msgid "unable to ensure %s nonexistent: %s"
+#~ msgstr "klarte ikke forsikre at %s ikke eksisterer: %s"
+
+#~ msgid ""
+#~ "warning: %s is supposed to be a slave symlink to\n"
+#~ " %s, or nonexistent; however, readlink failed: %s"
+#~ msgstr ""
+#~ "advarsel: %s skal være en slave symbolsk lenke til\n"
+#~ "%s eller ikke-eksisterende; likevel feilet lesing av lenke: %s"
 
 #~ msgid "warning"
 #~ msgstr "advarsel"
@@ -5907,8 +5893,7 @@ msgstr "Alvorlig problem: %s"
 #~ "\n"
 #~ "Bruk «dpkg» til å installere og fjerne pakker fra systemet, eller\n"
 #~ "«dselect» eller «aptitude» for brukervennlig pakkehåndtering. Pakker\n"
-#~ "som er pakket ut med «dpkg-deb --extract» vil ikke bli installert "
-#~ "riktig.\n"
+#~ "som er pakket ut med «dpkg-deb --extract» vil ikke bli installert riktig.\n"
 
 #, fuzzy
 #~ msgid ""

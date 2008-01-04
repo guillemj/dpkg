@@ -19,6 +19,7 @@ package Dpkg::Shlibs::SymbolFile;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syserr warning error);
 use Dpkg::Version qw(vercmp);
+use Dpkg::Fields qw(capit);
 
 my %blacklist = (
     '__bss_end__' => 1,		# arm
@@ -34,6 +35,8 @@ my %blacklist = (
     '_edata' => 1,		# ALL
     '_end' => 1,		# ALL
     '__end__' => 1,		# arm
+    '__exidx_end' => 1,		# armel
+    '__exidx_start' => 1,	# armel
     '_fbss' => 1,		# mips, mipsel
     '_fdata' => 1,		# mips, mipsel
     '_fini' => 1,		# ALL
@@ -86,7 +89,7 @@ sub clear_except {
 
 # Parameter seen is only used for recursive calls
 sub load {
-    my ($self, $file, $seen) = @_;
+    my ($self, $file, $seen, $current_object) = @_;
 
     if (defined($seen)) {
 	return if exists $seen->{$file}; # Avoid include loops
@@ -98,7 +101,7 @@ sub load {
 
     open(my $sym_file, "<", $file)
 	|| syserr(sprintf(_g("Can't open %s: %s"), $file));
-    my ($object);
+    my $object = $current_object;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
 	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
@@ -116,8 +119,8 @@ sub load {
 	    my $filename = $1;
 	    my $dir = $file;
 	    $dir =~ s{[^/]+$}{}; # Strip filename
-	    $self->load("$dir$filename", $seen);
-	} elsif (/^#DEPRECATED: ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
+	    $self->load("$dir$filename", $seen, $object);
+	} elsif (/^#(?:DEPRECATED|MISSING): ([^#]+)#\s*(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    my $sym = {
 		minver => $3,
 		dep_id => defined($4) ? $4 : 0,
@@ -129,6 +132,9 @@ sub load {
 	} elsif (/^\|\s*(.*)$/) {
 	    # Alternative dependency template
 	    push @{$self->{objects}{$object}{deps}}, "$1";
+	} elsif (/^\*\s*([^:]+):\s*(.*\S)\s*$/) {
+	    # Add meta-fields
+	    $self->{objects}{$object}{fields}{capit($1)} = $2;
 	} elsif (/^(\S+)\s+(.*)$/) {
 	    # New object and dependency template
 	    $object = $1;
@@ -137,10 +143,7 @@ sub load {
 		$self->{objects}{$object}{deps} = [ "$2" ];
 	    } else {
 		# Create a new object
-		$self->{objects}{$object} = {
-		    syms => {},
-		    deps => [ "$2" ]
-		};
+		$self->create_object($object, "$2");
 	    }
 	} else {
 	    warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
@@ -167,12 +170,16 @@ sub dump {
     my ($self, $fh, $with_deprecated) = @_;
     $with_deprecated = 1 unless defined($with_deprecated);
     foreach my $soname (sort keys %{$self->{objects}}) {
-	print $fh "$soname $self->{objects}{$soname}{deps}[0]\n";
-	print $fh "| $_" foreach (@{$self->{objects}{$soname}{deps}}[ 1 .. -1 ]);
+	my @deps = @{$self->{objects}{$soname}{deps}};
+	print $fh "$soname $deps[0]\n";
+	shift @deps;
+	print $fh "| $_\n" foreach (@deps);
+	my $f = $self->{objects}{$soname}{fields};
+	print $fh "* $_: $f->{$_}\n" foreach (sort keys %{$f});
 	foreach my $sym (sort keys %{$self->{objects}{$soname}{syms}}) {
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
 	    next if $info->{deprecated} and not $with_deprecated;
-	    print $fh "#DEPRECATED: $info->{deprecated}#" if $info->{deprecated};
+	    print $fh "#MISSING: $info->{deprecated}#" if $info->{deprecated};
 	    print $fh " $sym $info->{minver}";
 	    print $fh " $info->{dep_id}" if $info->{dep_id};
 	    print $fh "\n";
@@ -232,6 +239,9 @@ sub merge_symbols {
     # the symbol was introduced)
     foreach my $sym (keys %{$self->{objects}{$soname}{syms}}) {
 	if (! exists $dynsyms{$sym}) {
+	    # Do nothing if already deprecated
+	    next if $self->{objects}{$soname}{syms}{$sym}{deprecated};
+
 	    my $info = $self->{objects}{$soname}{syms}{$sym};
 	    if (vercmp($minver, $info->{minver}) > 0) {
 		$self->{objects}{$soname}{syms}{$sym}{deprecated} = $minver;
@@ -254,6 +264,7 @@ sub create_object {
     my ($self, $soname, @deps) = @_;
     $self->{objects}{$soname} = {
 	syms => {},
+	fields => {},
 	deps => [ @deps ]
     };
 }
@@ -262,6 +273,19 @@ sub get_dependency {
     my ($self, $soname, $dep_id) = @_;
     $dep_id = 0 unless defined($dep_id);
     return $self->{objects}{$soname}{deps}[$dep_id];
+}
+
+sub get_dependencies {
+    my ($self, $soname) = @_;
+    return @{$self->{objects}{$soname}{deps}};
+}
+
+sub get_field {
+    my ($self, $soname, $name) = @_;
+    if (exists $self->{objects}{$soname}{fields}{$name}) {
+	return $self->{objects}{$soname}{fields}{$name};
+    }
+    return undef;
 }
 
 sub lookup_symbol {

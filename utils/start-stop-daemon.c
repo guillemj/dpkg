@@ -106,13 +106,11 @@
 # define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
 # define NONRETURNING __attribute__((noreturn))
 # define UNUSED __attribute__((unused))
-# define NONRETURNPRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc),noreturn))
 #else
 # define CONSTANT
 # define PRINTFFORMAT(si, tc)
 # define NONRETURNING
 # define UNUSED
-# define NONRETURNPRINTFFORMAT(si, tc)
 #endif
 
 static int testmode = 0;
@@ -178,15 +176,10 @@ static int pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
 
 
-#ifdef __GNUC__
 static void fatal(const char *format, ...)
-	NONRETURNPRINTFFORMAT(1, 2);
+	NONRETURNING PRINTFFORMAT(1, 2);
 static void badusage(const char *msg)
 	NONRETURNING;
-#else
-static void fatal(const char *format, ...);
-static void badusage(const char *msg);
-#endif
 
 /* This next part serves only to construct the TVCALC macro, which
  * is used for doing arithmetic on struct timeval's.  It works like this:
@@ -1079,8 +1072,9 @@ do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry
 			push(&killed, p->pid);
  			(*n_killed)++;
 		} else {
-			printf("%s: warning: failed to kill %d: %s\n",
-			       progname, p->pid, strerror(errno));
+			if (signal_nr)
+				printf("%s: warning: failed to kill %d: %s\n",
+				       progname, p->pid, strerror(errno));
  			(*n_notkilled)++;
 		}
 	}

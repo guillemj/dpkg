@@ -74,7 +74,8 @@ use Dpkg::ErrorHandling qw(warning);
 use Dpkg::Gettext;
 
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(@pkg_dep_fields @src_dep_fields %dep_field_type);
+our @EXPORT_OK = qw(@pkg_dep_fields @src_dep_fields %dep_field_type
+		    %relation_ordering);
 
 # Some generic variables
 our @pkg_dep_fields = qw(Pre-Depends Depends Recommends Suggests Enhances
@@ -95,6 +96,15 @@ our %dep_field_type = (
 	'Build-Depends-Indep' => 'normal',
 	'Build-Conflicts' => 'union',
 	'Build-Conflicts-Indep' => 'union',
+);
+
+our %relation_ordering = (
+	'undef' => 0,
+	'>=' => 1,
+	'>>' => 2,
+	'=' => 3,
+	'<<' => 4,
+	'<=' => 5,
 );
 
 # Some factorized function
@@ -285,8 +295,6 @@ this when parsing non-dependency fields like Conflicts (see
 
 =back
 
-=back
-
 =cut
 sub parse {
     my $dep_line = shift;
@@ -330,6 +338,36 @@ sub parse {
     $dep_and->add($_) foreach (@dep_list);
     return $dep_and;
 }
+
+=item Dpkg::Deps::compare($a, $b)
+
+This functions is used to order AND and Union dependencies prior to
+dumping.
+
+=back
+
+=cut
+sub compare {
+    my ($a, $b) = @_;
+    return -1 if $a->is_empty();
+    return 1 if $b->is_empty();
+    while ($a->isa('Dpkg::Deps::Multiple')) {
+	return -1 if $a->is_empty();
+	my @deps = $a->get_deps();
+	$a = $deps[0];
+    }
+    while ($b->isa('Dpkg::Deps::Multiple')) {
+	return 1 if $b->is_empty();
+	my @deps = $b->get_deps();
+	$b = $deps[0];
+    }
+    my $ar = defined($a->{relation}) ? $a->{relation} : "undef";
+    my $br = defined($b->{relation}) ? $b->{relation} : "undef";
+    return (($a->{package} cmp $b->{package}) ||
+	    ($relation_ordering{$ar} <=> $relation_ordering{$br}) ||
+	    ($a->{version} cmp $b->{version}));
+}
+
 
 package Dpkg::Deps::Simple;
 
@@ -762,7 +800,7 @@ sub get_deps {
 sub sort {
     my $self = shift;
     my @res = ();
-    @res = sort { $a->dump() cmp $b->dump() } @{$self->{list}};
+    @res = sort { Dpkg::Deps::compare($a, $b) } @{$self->{list}};
     $self->{list} = [ @res ];
 }
 

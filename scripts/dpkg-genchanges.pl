@@ -6,12 +6,13 @@ use warnings;
 use POSIX;
 use POSIX qw(:errno_h :signal_h);
 use English;
-use Dpkg qw(:DEFAULT :compression);
+use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Fields qw(capit set_field_importance sort_field_by_importance);
+use Dpkg::Compression;
 
 push(@INC,$dpkglibdir);
 require 'controllib.pl';
@@ -333,7 +334,7 @@ for my $p (keys %p2f) {
 
     foreach my $f (@f) {
 	my $sec = $f2seccf{$f};
-	$sec = $sourcedefault{'Section'} if !defined($sec);
+	$sec ||= $sourcedefault{'Section'};
 	if (!defined($sec)) {
 	    $sec = '-';
 	    warning(_g("missing Section for binary package %s; using '-'"), $p);
@@ -342,7 +343,7 @@ for my $p (keys %p2f) {
 				       "control file but %s in files list"),
 				    $p, $sec, $f2sec{$f});
 	my $pri = $f2pricf{$f};
-	$pri = $sourcedefault{'Priority'} if !defined($pri);
+	$pri ||= $sourcedefault{'Priority'};
 	if (!defined($pri)) {
 	    $pri = '-';
 	    warning(_g("missing Priority for binary package %s; using '-'"), $p);
@@ -372,7 +373,7 @@ if (!is_binaryonly) {
 
     (my $sversion = $substvar{'source:Version'}) =~ s/^\d+://;
     $dsc= "$uploadfilesdir/${sourcepackage}_${sversion}.dsc";
-    open(CDATA,"<",$dsc) || syserror(_g("cannot open .dsc file %s"), $dsc);
+    open(CDATA, "<", $dsc) || syserr(_g("cannot open .dsc file %s"), $dsc);
     push(@sourcefiles,"${sourcepackage}_${sversion}.dsc");
 
     parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));

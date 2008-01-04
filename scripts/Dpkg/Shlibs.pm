@@ -27,6 +27,7 @@ use File::Spec;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syserr);
 use Dpkg::Shlibs::Objdump;
+use Dpkg::Path qw(resolve_symlink canonpath);
 
 use constant DEFAULT_LIBRARY_PATH =>
     qw(/lib /usr/lib /lib32 /usr/lib32 /lib64 /usr/lib64
@@ -77,10 +78,21 @@ sub find_library {
     $root =~ s{/+$}{};
     my @rpath = @{$rpath};
     foreach my $dir (@rpath, @librarypaths) {
-	if (-e "$root$dir/$lib") {
-	    my $libformat = Dpkg::Shlibs::Objdump::get_format("$root$dir/$lib");
+	my $checkdir = "$root$dir";
+	# If the directory checked is a symlink, check if it doesn't
+	# resolve to another public directory (which is then the canonical
+	# directory to use instead of this one). Typical example
+	# is /usr/lib64 -> /usr/lib on amd64.
+	if (-l $checkdir) {
+	    my $newdir = resolve_symlink($checkdir);
+	    if (grep { "$root$_" eq "$newdir" } (@rpath, @librarypaths)) {
+		$checkdir = $newdir;
+	    }
+	}
+	if (-e "$checkdir/$lib") {
+	    my $libformat = Dpkg::Shlibs::Objdump::get_format("$checkdir/$lib");
 	    if ($format eq $libformat) {
-		return File::Spec->canonpath("$root$dir/$lib");
+		return canonpath("$checkdir/$lib");
 	    }
 	}
     }

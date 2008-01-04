@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
+"POT-Creation-Date: 2007-12-29 05:57+0100\n"
 "PO-Revision-Date: 2007-09-16 23:53-0400\n"
 "Last-Translator: Sunjae Park <darehanl@gmail.com>\n"
 "Language-Team: Korean <debian-l10n-korean@lists.debian.org>\n"
@@ -509,7 +509,7 @@ msgstr "dpkg 상태 데이터베이스를 잠글 수 없습니다"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc이 실패했습니다 (%ld 바이트)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc이 실패했습니다 (%ld 바이트)"
@@ -3802,6 +3802,11 @@ msgstr "임시 디렉토리 이름을 만드는 데 실패했습니다"
 msgid "failed to exec rm -rf"
 msgstr "rm -rf 실행이 실패했습니다"
 
+#: dpkg-deb/info.c:99
+#, fuzzy, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "realloc이 실패했습니다 (%ld 바이트)"
+
 #: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr "info_spew"
@@ -4454,7 +4459,7 @@ msgid "unable to close %s after read: %s"
 msgstr "%s 읽은 후에 닫는 데 실패했습니다: %s"
 
 #: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
-#: scripts/update-alternatives.pl:535
+#: scripts/update-alternatives.pl:588
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "%s 닫을 수 없습니다: %s"
@@ -4543,7 +4548,7 @@ msgstr ""
 "divert을 지정하는 것이 좋습니다.\n"
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
-#: scripts/update-alternatives.pl:229
+#: scripts/update-alternatives.pl:281
 #, perl-format
 msgid "two commands specified: %s and --%s"
 msgstr "두 가지 명령이 지정되었습니다: %s와 --%s"
@@ -4567,13 +4572,13 @@ msgid "package may not contain newlines"
 msgstr "꾸러미에 새줄문자가 있어서는 안 됩니다"
 
 #: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
-#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
+#: scripts/update-alternatives.pl:336 scripts/update-alternatives.pl:339
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s 옵션은 <directory> 인수가 필요합니다"
 
 #: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
-#: scripts/update-alternatives.pl:286
+#: scripts/update-alternatives.pl:344
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "알 수 없는 옵션 '%s'"
@@ -4672,12 +4677,12 @@ msgstr "예전 이름 '%s'의 정보를 읽을 수 없습니다 : %s"
 msgid "cannot stat new name `%s': %s"
 msgstr "새 이름 '%s'의 정보를 읽을 수 없습니다 : %s"
 
-#: scripts/dpkg-divert.pl:247
+#: scripts/dpkg-divert.pl:246 scripts/dpkg-divert.pl:253
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "'%s' 검사하는 데 오류가 발생했습니다: %s"
 
-#: scripts/dpkg-divert.pl:252
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4686,47 +4691,47 @@ msgstr ""
 "rename은 '%s'을(를) 다른 파일 '%s'(으)로 \n"
 "  덮어씌우는 작업이므로 허용하지 않습니다"
 
-#: scripts/dpkg-divert.pl:262
+#: scripts/dpkg-divert.pl:267
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "rename: 중복된 예전 링크 '%s' 지웁니다: %s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:269
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "rename: '%s' 파일을 '%s' 파일로 이름 바꿉니다: %s"
 
-#: scripts/dpkg-divert.pl:271
+#: scripts/dpkg-divert.pl:276
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "diversions-new 생성합니다: %s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:280
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "diversions-new 씁니다: %s"
 
-#: scripts/dpkg-divert.pl:277
+#: scripts/dpkg-divert.pl:282
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "diversions-new 닫습니다: %s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:284
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "예전 diversions-old 지웁니다: %s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:286
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "새로운 diversions-old 생성합니다: %s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:288
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "새로운 우회경로(diversions) 설치합니다: %s"
 
-#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:740
+#: scripts/dpkg-divert.pl:311 scripts/update-alternatives.pl:702
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "내부 오류: '%s' 망가졌습니다: %s"
@@ -5253,54 +5258,88 @@ msgstr "버전 없음."
 msgid "Current `best' version is %s."
 msgstr "현재 가장 '좋은' 버전은 %s입니다."
 
-#: scripts/update-alternatives.pl:243
+#: scripts/update-alternatives.pl:232
+#, fuzzy, perl-format
+msgid ""
+"warning: %s is supposed to be a symlink to %s, \n"
+"or nonexistent; however, readlink failed: %s"
+msgstr ""
+"경고: %s은(는) %s로의 symlink이어야 하거나 \n"
+"없어야 하지만 readlink가 실패했습니다. %s"
+
+#: scripts/update-alternatives.pl:244
+#, perl-format
+msgid "Leaving %s (%s) pointing to %s."
+msgstr "%s(%s)이(가) %s을(를) 계속 가리키도록 둡니다."
+
+#: scripts/update-alternatives.pl:247
+#, perl-format
+msgid "Updating %s (%s) to point to %s."
+msgstr "%s(%s)이(가) %s을(를) 가리키도록 바꿉니다."
+
+#: scripts/update-alternatives.pl:256
+#, fuzzy, perl-format
+msgid "Using '%s' to provide '%s'."
+msgstr "'%s'이(가) %s을(를) 제공하도록 하는 중."
+
+#: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:616
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "%3$s에 적절하지 않으므로 %1$s(%2$s) 지우는 중."
+
+#: scripts/update-alternatives.pl:288
+#, perl-format
+msgid "unable to remove %s: %s"
+msgstr "%s을(를) 지울 수 없습니다: %s"
+
+#: scripts/update-alternatives.pl:301
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "알 수 없는 인수 '%s'"
 
-#: scripts/update-alternatives.pl:256
+#: scripts/update-alternatives.pl:314
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install은 <link> <name> <path> <priority>를 필요로 합니다"
 
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:316
 msgid "priority must be an integer"
 msgstr "priority는 정수여야 합니다"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:320
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s 옵션은 <name> <path>을(를) 필요로 합니다"
 
-#: scripts/update-alternatives.pl:267
+#: scripts/update-alternatives.pl:325
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s 옵션은 <name>을(를) 필요로 합니다"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:329
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave는 <link> <name> <path>를 필요로 합니다"
 
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:331
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "슬레이브의 이름 %s이(가) 중복되었습니다"
 
-#: scripts/update-alternatives.pl:274
+#: scripts/update-alternatives.pl:332
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "슬레이브 연결 %s 중복되었습니다"
 
-#: scripts/update-alternatives.pl:291
+#: scripts/update-alternatives.pl:349
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "이름 %s은(는) 프라이머리와 슬레이브 둘 다입니다"
 
-#: scripts/update-alternatives.pl:293
+#: scripts/update-alternatives.pl:351
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "연결 %s은(는) 프라이머리와 슬레이브 둘 다입니다"
 
-#: scripts/update-alternatives.pl:296
+#: scripts/update-alternatives.pl:354
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5308,31 +5347,21 @@ msgstr ""
 "--display이나 --config, --set, --install, --remove, --all, --remove-all, --"
 "auto를 필요로 합니다."
 
-#: scripts/update-alternatives.pl:298
+#: scripts/update-alternatives.pl:356
 msgid "--slave only allowed with --install"
 msgstr "--slave는 --install와 함께 사용해야 합니다"
 
-#: scripts/update-alternatives.pl:311
+#: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "%s의 대체 항목이 없습니다."
 
-#: scripts/update-alternatives.pl:358
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "%s의 자동 선택을 설정하는 중입니다."
 
-#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
-#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
-#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
-#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
-#: scripts/update-alternatives.pl:687 scripts/update-alternatives.pl:723
-#, perl-format
-msgid "unable to remove %s: %s"
-msgstr "%s을(를) 지울 수 없습니다: %s"
-
-#: scripts/update-alternatives.pl:374
+#: scripts/update-alternatives.pl:430
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5341,7 +5370,7 @@ msgstr ""
 "%s 변경되었습니다(수동으로 직접, 혹은 스크립트로).\n"
 "수동 업데이트만 사용하기로 변경합니다."
 
-#: scripts/update-alternatives.pl:386
+#: scripts/update-alternatives.pl:442
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5350,125 +5379,69 @@ msgstr ""
 "%s의 사용할 수 있는 버전들을 확인하고 %s에 있는 연결들을 업데이트하는 중...\n"
 "(원한다면 거기에 있는 symlink들을 직접 조작할 수 있습니다 - 'man ln' 참조)."
 
-#: scripts/update-alternatives.pl:392
+#: scripts/update-alternatives.pl:448
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "%s 연결을 %s에서 %s으(로) 이름을 바꿉니다."
 
 # FIXME: bad msgid
-#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
-#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
+#: scripts/update-alternatives.pl:451 scripts/update-alternatives.pl:475
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "%s을(를) %s(으)로 이름을 바꿀 수 없습니다: %s"
 
-#: scripts/update-alternatives.pl:414
+#: scripts/update-alternatives.pl:470
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "슬레이브 연결의 이름 %s 중복되었습니다"
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:472
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "슬레이브 연결 %s의 이름을 %s에서 %s(으)로 변경하는 중입니다."
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:489
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr "수동으로 선택한 대체 항목을 지우는 중 - 자동 모드로 변경합니다"
 
-#: scripts/update-alternatives.pl:447
+#: scripts/update-alternatives.pl:503
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "%2$s의 대체 항목 %1$s 등록되지 않았으므로 지우지 않습니다."
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:530
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "사용 중지된 슬레이브 연결 %s 없애는 중(%s)."
 
-#: scripts/update-alternatives.pl:495
+#: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "%s의 자동 업데이트가 중지되었으므로 가만히 둡니다."
 
-#: scripts/update-alternatives.pl:497
+#: scripts/update-alternatives.pl:551
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "다시 자동업데이트를 사용하려면 'update-alternatives --auto %s'을(를) 사용하십"
 "시오."
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:555
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "전에 실패했던 %s의 업데이트에서 복구하는 중..."
 
-#: scripts/update-alternatives.pl:516
+#: scripts/update-alternatives.pl:569
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "'%s' 쓰기 위해 열 수 없습니다: %s"
 
-#: scripts/update-alternatives.pl:539
+#: scripts/update-alternatives.pl:592
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "%s을(를) 제공하던 마지막 꾸러미(%s)가 제거되었으므로 지웁니다."
 
-#: scripts/update-alternatives.pl:553
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a symlink to %s\n"
-" (or nonexistent); however, readlink failed: %s"
-msgstr ""
-"경고: %s은(는) %s로의 symlink이어야 하거나 \n"
-"없어야 하지만 readlink가 실패했습니다. %s"
-
-#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
-#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:607
-#, perl-format
-msgid "unable to ensure %s nonexistent: %s"
-msgstr "%s이(가) 없다는 것을 확인할 수 없습니다. %s"
-
-#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:610
-#: scripts/update-alternatives.pl:624 scripts/update-alternatives.pl:673
-#: scripts/update-alternatives.pl:709 scripts/update-alternatives.pl:748
-#, perl-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "%s을(를) %s에 대한 심볼릭 링크로 만들 수 없습니다: %s"
-
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:626
-#: scripts/update-alternatives.pl:675 scripts/update-alternatives.pl:711
-#: scripts/update-alternatives.pl:753
-#, perl-format
-msgid "unable to install %s as %s: %s"
-msgstr "%s 파일을 %s 파일로 설치할 수 없습니다: %s"
-
-#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:617
-#, perl-format
-msgid "Leaving %s (%s) pointing to %s."
-msgstr "%s(%s)이(가) %s을(를) 계속 가리키도록 둡니다."
-
-#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:620
-#, perl-format
-msgid "Updating %s (%s) to point to %s."
-msgstr "%s(%s)이(가) %s을(를) 가리키도록 바꿉니다."
-
-#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:684
-#: scripts/update-alternatives.pl:720
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "%3$s에 적절하지 않으므로 %1$s(%2$s) 지우는 중."
-
-#: scripts/update-alternatives.pl:600
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a slave symlink to\n"
-" %s, or nonexistent; however, readlink failed: %s"
-msgstr ""
-"경고: %s은(는) %s(으)로의 슬레이브 symlink이거나 존재하지\n"
-"않아야하지만 readlink가 실패했습니다. %s"
-
-#: scripts/update-alternatives.pl:634
+#: scripts/update-alternatives.pl:631
 #, perl-format
 msgid ""
 "There is no program which provides %s.\n"
@@ -5477,7 +5450,7 @@ msgstr ""
 "%s 제공하는 프로그램이 없습니다.\n"
 "설정할 것이 없습니다.\n"
 
-#: scripts/update-alternatives.pl:640
+#: scripts/update-alternatives.pl:637
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5486,7 +5459,7 @@ msgstr ""
 "%s(%s)을(를) 제공하는 프로그램이 하나만 있습니다.\n"
 "설정할 것이 없습니다.\n"
 
-#: scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5499,45 +5472,60 @@ msgstr ""
 "  선택번호     대체항목\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:652
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr ""
 "기본 사항[*]을 사용하려면 엔터, 다른 것을 사용하려면 번호를 입력하십시오: "
 
-#: scripts/update-alternatives.pl:670 scripts/update-alternatives.pl:707
-#, perl-format
-msgid "Using `%s' to provide `%s'."
-msgstr "'%s'이(가) %s을(를) 제공하도록 하는 중."
-
-#: scripts/update-alternatives.pl:705
+#: scripts/update-alternatives.pl:684
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "대체항목 '%s' 찾을 수 없습니다."
 
-#: scripts/update-alternatives.pl:728 scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:689 scripts/update-alternatives.pl:692
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "stdout에 쓰는 데 오류가 발생했습니다: %s"
 
-#: scripts/update-alternatives.pl:730
+#: scripts/update-alternatives.pl:691
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "update-alternatives 파일(%s)에는 줄바꿈이 금지되어 있습니다."
 
-#: scripts/update-alternatives.pl:735
+#: scripts/update-alternatives.pl:696
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "%2$s에서 %1$s 읽는데 오류가 발생했거나 eof가 있었습니다(%3$s)."
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "missing newline after %s"
 msgstr "%s 다음에 줄바꿈이 없습니다"
 
-#: scripts/update-alternatives.pl:756
+#: scripts/update-alternatives.pl:710
+#, perl-format
+msgid "unable to make %s a symlink to %s: %s"
+msgstr "%s을(를) %s에 대한 심볼릭 링크로 만들 수 없습니다: %s"
+
+#: scripts/update-alternatives.pl:715
+#, perl-format
+msgid "unable to install %s as %s: %s"
+msgstr "%s 파일을 %s 파일로 설치할 수 없습니다: %s"
+
+#: scripts/update-alternatives.pl:718
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "심각한 문제: %s"
+
+#~ msgid "unable to ensure %s nonexistent: %s"
+#~ msgstr "%s이(가) 없다는 것을 확인할 수 없습니다. %s"
+
+#~ msgid ""
+#~ "warning: %s is supposed to be a slave symlink to\n"
+#~ " %s, or nonexistent; however, readlink failed: %s"
+#~ msgstr ""
+#~ "경고: %s은(는) %s(으)로의 슬레이브 symlink이거나 존재하지\n"
+#~ "않아야하지만 readlink가 실패했습니다. %s"
 
 #~ msgid "warning"
 #~ msgstr "경고"

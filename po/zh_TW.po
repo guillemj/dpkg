@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
+"POT-Creation-Date: 2007-12-29 05:57+0100\n"
 "PO-Revision-Date: 2006-10-16 21:31+0800\n"
 "Last-Translator: Asho Yeh <asho@debian.org.tw>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -501,7 +501,7 @@ msgstr "無法鎖定 dpkg 的狀態數據庫"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc 失敗 (%ld 位元組)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc 失敗(%ld 位元組)"
@@ -3716,6 +3716,11 @@ msgstr "為臨時目錄命名失敗"
 msgid "failed to exec rm -rf"
 msgstr "exec rm -rf 失敗"
 
+#: dpkg-deb/info.c:99
+#, fuzzy, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "realloc 失敗(%ld 位元組)"
+
 #: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr "info_spew"
@@ -4354,7 +4359,7 @@ msgid "unable to close %s after read: %s"
 msgstr "讀取完畢：%s 後，無法關閉該檔案 %s"
 
 #: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
-#: scripts/update-alternatives.pl:535
+#: scripts/update-alternatives.pl:588
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "無法關閉 %s：%s"
@@ -4445,7 +4450,7 @@ msgstr ""
 "divert.\n"
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
-#: scripts/update-alternatives.pl:229
+#: scripts/update-alternatives.pl:281
 #, fuzzy, perl-format
 msgid "two commands specified: %s and --%s"
 msgstr "指定兩種模式：%s 以及 --%s"
@@ -4469,13 +4474,13 @@ msgid "package may not contain newlines"
 msgstr "套件可能不含有新的行數"
 
 #: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
-#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
+#: scripts/update-alternatives.pl:336 scripts/update-alternatives.pl:339
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s 需要一個<目錄名>作為參數"
 
 #: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
-#: scripts/update-alternatives.pl:286
+#: scripts/update-alternatives.pl:344
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "無法識別的選項“%s”"
@@ -4574,12 +4579,12 @@ msgstr "無法取得舊名稱“%s”的資訊：%s"
 msgid "cannot stat new name `%s': %s"
 msgstr "無法取得新名稱“%s”的資訊：%s"
 
-#: scripts/dpkg-divert.pl:247
+#: scripts/dpkg-divert.pl:246 scripts/dpkg-divert.pl:253
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "處理“%s”時發生錯誤：%s"
 
-#: scripts/dpkg-divert.pl:252
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4588,47 +4593,47 @@ msgstr ""
 "更改“%2$s”檔名會複寫“%1$s”，\n"
 "不允許此操作"
 
-#: scripts/dpkg-divert.pl:262
+#: scripts/dpkg-divert.pl:267
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "更名：移除重覆的舊鏈結“%s”：%s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:269
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "更名：更名“%s”為“%s”：%s"
 
-#: scripts/dpkg-divert.pl:271
+#: scripts/dpkg-divert.pl:276
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "建立diversions-new：%s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:280
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "寫入diversions-new：%s"
 
-#: scripts/dpkg-divert.pl:277
+#: scripts/dpkg-divert.pl:282
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "關閉diversions-new：%s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:284
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "移除舊有的轉移項目(diversions-old)：%s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:286
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "建立新的diversions-old：%s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:288
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "安裝新的轉移項目(diversions)：%s"
 
-#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:740
+#: scripts/dpkg-divert.pl:311 scripts/update-alternatives.pl:702
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "內部錯誤：%s 損毀：%s"
@@ -5155,54 +5160,88 @@ msgstr "無任何版本。"
 msgid "Current `best' version is %s."
 msgstr "目前“最佳”的版本 %s"
 
-#: scripts/update-alternatives.pl:243
+#: scripts/update-alternatives.pl:232
+#, fuzzy, perl-format
+msgid ""
+"warning: %s is supposed to be a symlink to %s, \n"
+"or nonexistent; however, readlink failed: %s"
+msgstr ""
+"警告：%s可能是%s的鏈結\n"
+"(或者不存在)；讀取鏈結失敗：%s"
+
+#: scripts/update-alternatives.pl:244
+#, perl-format
+msgid "Leaving %s (%s) pointing to %s."
+msgstr "Leaving %s (%s) pointing to %s."
+
+#: scripts/update-alternatives.pl:247
+#, perl-format
+msgid "Updating %s (%s) to point to %s."
+msgstr "正在更新 %s(%s)並指向 %s。"
+
+#: scripts/update-alternatives.pl:256
+#, fuzzy, perl-format
+msgid "Using '%s' to provide '%s'."
+msgstr "以“%1s”取代 “%2s”"
+
+#: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:616
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "正在移除 %s(%s)中，不適用於%s。"
+
+#: scripts/update-alternatives.pl:288
+#, perl-format
+msgid "unable to remove %s: %s"
+msgstr "無法移除 %s：%s"
+
+#: scripts/update-alternatives.pl:301
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "無法識別參數“%s”"
 
-#: scripts/update-alternatives.pl:256
+#: scripts/update-alternatives.pl:314
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install 需要 <link> <name> <path> <priority>"
 
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:316
 msgid "priority must be an integer"
 msgstr "優先權必須是數字"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:320
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s 需要名稱<name> 路徑<path>"
 
-#: scripts/update-alternatives.pl:267
+#: scripts/update-alternatives.pl:325
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s 需要 <參數>"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:329
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave 需有 <link> <name> <path>"
 
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:331
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "次要名稱 %s 已重覆"
 
-#: scripts/update-alternatives.pl:274
+#: scripts/update-alternatives.pl:332
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "次要鏈結 %s 已重覆"
 
-#: scripts/update-alternatives.pl:291
+#: scripts/update-alternatives.pl:349
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "檔名 %s 是主要也是次要"
 
-#: scripts/update-alternatives.pl:293
+#: scripts/update-alternatives.pl:351
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "鏈結 %s 是主要也是次要"
 
-#: scripts/update-alternatives.pl:296
+#: scripts/update-alternatives.pl:354
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5210,31 +5249,21 @@ msgstr ""
 "需要 --display, --config, --set, --install, --remove, --all, --remove-all 或 "
 "--auto 選項"
 
-#: scripts/update-alternatives.pl:298
+#: scripts/update-alternatives.pl:356
 msgid "--slave only allowed with --install"
 msgstr "--slave 只能搭配 --install 使用"
 
-#: scripts/update-alternatives.pl:311
+#: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "無 %s 的替換檔案。"
 
-#: scripts/update-alternatives.pl:358
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "正在設定 %s 的自選功能。"
 
-#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
-#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
-#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
-#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
-#: scripts/update-alternatives.pl:687 scripts/update-alternatives.pl:723
-#, perl-format
-msgid "unable to remove %s: %s"
-msgstr "無法移除 %s：%s"
-
-#: scripts/update-alternatives.pl:374
+#: scripts/update-alternatives.pl:430
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5243,7 +5272,7 @@ msgstr ""
 "%s 已更動(手動更改或透過script)。\n"
 "切換成手動更新。"
 
-#: scripts/update-alternatives.pl:386
+#: scripts/update-alternatives.pl:442
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5252,122 +5281,66 @@ msgstr ""
 "檢查 %s 可安裝的版本，更新 %s 鏈結中…\n"
 "(你也可以依照自已的喜好來修改鏈結 - 請參閱“man ln”。)"
 
-#: scripts/update-alternatives.pl:392
+#: scripts/update-alternatives.pl:448
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "正在更名 %s 鏈結，%s 更名成 %s。"
 
-#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
-#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
+#: scripts/update-alternatives.pl:451 scripts/update-alternatives.pl:475
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "%s無法更名成%s：%s"
 
-#: scripts/update-alternatives.pl:414
+#: scripts/update-alternatives.pl:470
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "次要鏈結名稱 %s 已重覆"
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:472
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "%s 次要鏈結更名中，%s 更名為 %s"
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:489
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr "移除手動選擇的替代指令 - 切換為自動模式"
 
-#: scripts/update-alternatives.pl:447
+#: scripts/update-alternatives.pl:503
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "%2$s 的替換項目 %1$s 沒有註冊，無法移除。"
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:530
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "捨棄無效的鏈結 %s(%s)。"
 
-#: scripts/update-alternatives.pl:495
+#: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "取消 %s 自動更新功能。"
 
-#: scripts/update-alternatives.pl:497
+#: scripts/update-alternatives.pl:551
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr "要回復成自動更新，執行“update-alternatives --auto %s”。"
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:555
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "%s 回復成更新前的狀態…"
 
-#: scripts/update-alternatives.pl:516
+#: scripts/update-alternatives.pl:569
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "無法開啟 %s 檔案以供寫入：%s"
 
-#: scripts/update-alternatives.pl:539
+#: scripts/update-alternatives.pl:592
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "最後一個提供 %s(%s) 的套件已移除，刪除中。"
 
-#: scripts/update-alternatives.pl:553
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a symlink to %s\n"
-" (or nonexistent); however, readlink failed: %s"
-msgstr ""
-"警告：%s可能是%s的鏈結\n"
-"(或者不存在)；讀取鏈結失敗：%s"
-
-#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
-#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:607
-#, perl-format
-msgid "unable to ensure %s nonexistent: %s"
-msgstr "無法確認%s是否存在：%s"
-
-#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:610
-#: scripts/update-alternatives.pl:624 scripts/update-alternatives.pl:673
-#: scripts/update-alternatives.pl:709 scripts/update-alternatives.pl:748
-#, perl-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "無法建立 %2s 的鏈結 %1s：%3s"
-
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:626
-#: scripts/update-alternatives.pl:675 scripts/update-alternatives.pl:711
-#: scripts/update-alternatives.pl:753
-#, perl-format
-msgid "unable to install %s as %s: %s"
-msgstr "無法把“%s”安裝到“%s”：%s"
-
-#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:617
-#, perl-format
-msgid "Leaving %s (%s) pointing to %s."
-msgstr "Leaving %s (%s) pointing to %s."
-
-#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:620
-#, perl-format
-msgid "Updating %s (%s) to point to %s."
-msgstr "正在更新 %s(%s)並指向 %s。"
-
-#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:684
-#: scripts/update-alternatives.pl:720
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "正在移除 %s(%s)中，不適用於%s。"
-
-#: scripts/update-alternatives.pl:600
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a slave symlink to\n"
-" %s, or nonexistent; however, readlink failed: %s"
-msgstr ""
-"警告：%s可能是%s的次要鏈結\n"
-"，或者不存在；讀取鏈結失敗：%s"
-
-#: scripts/update-alternatives.pl:634
+#: scripts/update-alternatives.pl:631
 #, fuzzy, perl-format
 msgid ""
 "There is no program which provides %s.\n"
@@ -5376,7 +5349,7 @@ msgstr ""
 "只有一個程式提供 %s\n"
 "(%s)。無須做任何設定。\n"
 
-#: scripts/update-alternatives.pl:640
+#: scripts/update-alternatives.pl:637
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5385,7 +5358,7 @@ msgstr ""
 "只有一個程式提供 %s\n"
 "(%s)。無須做任何設定。\n"
 
-#: scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5398,44 +5371,59 @@ msgstr ""
 "  可使用的替換項目\n"
 "===========================\n"
 
-#: scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:652
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr "按下 enter 來指定預設選項[*]，或者輸入選擇的號碼："
 
-#: scripts/update-alternatives.pl:670 scripts/update-alternatives.pl:707
-#, perl-format
-msgid "Using `%s' to provide `%s'."
-msgstr "以“%1s”取代 “%2s”"
-
-#: scripts/update-alternatives.pl:705
+#: scripts/update-alternatives.pl:684
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "找不到替換檔案“%s”。"
 
-#: scripts/update-alternatives.pl:728 scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:689 scripts/update-alternatives.pl:692
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "%s寫入錯誤"
 
-#: scripts/update-alternatives.pl:730
+#: scripts/update-alternatives.pl:691
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "newlines prohibited in update-alternatives files (%s)"
 
-#: scripts/update-alternatives.pl:735
+#: scripts/update-alternatives.pl:696
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "%2$s：發生錯誤或是讀到檔案%1$s尾端(%3$s)"
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "missing newline after %s"
 msgstr "在%s後沒有發現換行字元"
 
-#: scripts/update-alternatives.pl:756
+#: scripts/update-alternatives.pl:710
+#, perl-format
+msgid "unable to make %s a symlink to %s: %s"
+msgstr "無法建立 %2s 的鏈結 %1s：%3s"
+
+#: scripts/update-alternatives.pl:715
+#, perl-format
+msgid "unable to install %s as %s: %s"
+msgstr "無法把“%s”安裝到“%s”：%s"
+
+#: scripts/update-alternatives.pl:718
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "嚴重的問題：%s"
+
+#~ msgid "unable to ensure %s nonexistent: %s"
+#~ msgstr "無法確認%s是否存在：%s"
+
+#~ msgid ""
+#~ "warning: %s is supposed to be a slave symlink to\n"
+#~ " %s, or nonexistent; however, readlink failed: %s"
+#~ msgstr ""
+#~ "警告：%s可能是%s的次要鏈結\n"
+#~ "，或者不存在；讀取鏈結失敗：%s"
 
 #~ msgid "warning"
 #~ msgstr "警告"

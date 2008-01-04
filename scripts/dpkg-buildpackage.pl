@@ -11,6 +11,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
                            $warnable_error);
 use Dpkg::BuildOptions;
+use Dpkg::Compression;
 
 push (@INC, $dpkglibdir);
 require 'controllib.pl';
@@ -240,17 +241,15 @@ if ($signcommand && ($signinterface !~ /^(gpg|pgp)$/)) {
     warning(_g("unknown sign command, assuming pgp style interface"));
 }
 
-if ($parallel || $ENV{DEB_BUILD_OPTIONS}) {
+if ($parallel) {
     my $build_opts = Dpkg::BuildOptions::parse();
 
-    $parallel ||= $build_opts->{parallel};
-    if (defined $parallel) {
-	$ENV{MAKEFLAGS} ||= '';
-	if ($parallel eq '-1') {
-	    $ENV{MAKEFLAGS} .= " -j";
-	} else {
-	    $ENV{MAKEFLAGS} .= " -j$parallel";
-	}
+    $parallel = $build_opts->{parallel} if (defined $build_opts->{parallel});
+    $ENV{MAKEFLAGS} ||= '';
+    if ($parallel eq '-1') {
+	$ENV{MAKEFLAGS} .= " -j";
+    } else {
+	$ENV{MAKEFLAGS} .= " -j$parallel";
     }
     $build_opts->{parallel} = $parallel;
     Dpkg::BuildOptions::set($build_opts);
@@ -438,9 +437,9 @@ sub fileomitted {
 my $srcmsg;
 if (fileomitted '\.deb') {
     # source only upload
-    if (fileomitted '\.diff\.gz') {
+    if (fileomitted "\.diff\.$comp_regex") {
 	$srcmsg = _g('source only upload: Debian-native package');
-    } elsif (fileomitted '\.orig\.tar\.gz') {
+    } elsif (fileomitted "\.orig\.tar\.$comp_regex") {
 	$srcmsg = _g('source only, diff-only upload (original source NOT included)');
     } else {
 	$srcmsg = _g('source only upload (original source is included)');
@@ -449,9 +448,9 @@ if (fileomitted '\.deb') {
     $srcmsg = _g('full upload (original source is included)');
     if (fileomitted '\.dsc') {
 	$srcmsg = _g('binary only upload (no source included)');
-    } elsif (fileomitted '\.diff\.gz') {
+    } elsif (fileomitted "\.diff\.$comp_regex") {
 	$srcmsg = _g('full upload; Debian-native package (full source is included)');
-    } elsif (fileomitted '\.orig\.tar\.gz') {
+    } elsif (fileomitted "\.orig\.tar\.$comp_regex") {
 	$srcmsg = _g('binary and diff upload (original source NOT included)');
     } else {
 	$srcmsg = _g('full upload (original source is included)');

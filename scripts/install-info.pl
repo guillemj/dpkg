@@ -352,7 +352,7 @@ if (!$remove) {
         $mss= -1;
         for ($i=0; $i<=$#work; $i++) {
             $_= $work[$i];
-            next if m/^\*/;
+            next if m/^(\*|\s)/;
             next unless m/$sectionre/io;
             $mss= $i+1; last;
         }

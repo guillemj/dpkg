@@ -40,7 +40,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.10.22\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
+"POT-Creation-Date: 2007-12-29 05:57+0100\n"
 "PO-Revision-Date: 2006-09-09 15:11+0200\n"
 "Last-Translator: Stefano Canepa <sc@linux.it>\n"
 "Language-Team: italian <debian-l10n-italian@debian.org>\n"
@@ -548,7 +548,7 @@ msgstr "impossibile ottenere il lock del database di stato di dpkg"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc fallita (%ld byte)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc fallita (%ld byte)"
@@ -3947,6 +3947,11 @@ msgstr "impossibile ottenere un nome di directory temporaneo"
 msgid "failed to exec rm -rf"
 msgstr "impossibile eseguire rm -rf"
 
+#: dpkg-deb/info.c:99
+#, fuzzy, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "realloc fallita (%ld byte)"
+
 #: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr "info_spew"
@@ -4616,7 +4621,7 @@ msgid "unable to close %s after read: %s"
 msgstr "impossibile chiudere %s dopo la lettura: %s"
 
 #: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
-#: scripts/update-alternatives.pl:535
+#: scripts/update-alternatives.pl:588
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "impossibile chiudere %s: %s"
@@ -4710,7 +4715,7 @@ msgstr ""
 "e --divert.\n"
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
-#: scripts/update-alternatives.pl:229
+#: scripts/update-alternatives.pl:281
 #, fuzzy, perl-format
 msgid "two commands specified: %s and --%s"
 msgstr "sono state specificate due modalità: %s e --%s"
@@ -4734,13 +4739,13 @@ msgid "package may not contain newlines"
 msgstr "pacchetto non può contenere a-capo"
 
 #: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
-#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
+#: scripts/update-alternatives.pl:336 scripts/update-alternatives.pl:339
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s richiede il nome di una directory come parametro"
 
 #: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
-#: scripts/update-alternatives.pl:286
+#: scripts/update-alternatives.pl:344
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "opzione `%s' non riconosciuta"
@@ -4839,12 +4844,12 @@ msgstr "impossibile eseguire stat sul nome precedente `%s': %s"
 msgid "cannot stat new name `%s': %s"
 msgstr "impossibile eseguire stat sul nuovo nome `%s': %s"
 
-#: scripts/dpkg-divert.pl:247
+#: scripts/dpkg-divert.pl:246 scripts/dpkg-divert.pl:253
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "errore controllando `%s': %s"
 
-#: scripts/dpkg-divert.pl:252
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4853,47 +4858,47 @@ msgstr ""
 "il cambio del nome comporta la sovrascrittura di `%s' con\n"
 "  un file diverso `%s', che non è consentito"
 
-#: scripts/dpkg-divert.pl:262
+#: scripts/dpkg-divert.pl:267
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "rename: rimozione duplicato del vecchio collegamento `%s': %s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:269
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "rename: cambiando il nome da `%s' a `%s': %s"
 
-#: scripts/dpkg-divert.pl:271
+#: scripts/dpkg-divert.pl:276
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "creazione di diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:280
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "scrittura di diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:277
+#: scripts/dpkg-divert.pl:282
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "chiusura di diversions-new: %s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:284
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "rimozione del diversions-old precedente: %s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:286
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "creazione nuovo diversions-old: %s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:288
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "installazione nuovo diversions: %s"
 
-#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:740
+#: scripts/dpkg-divert.pl:311 scripts/update-alternatives.pl:702
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "errore interno: %s è corrotto: %s"
@@ -5433,54 +5438,88 @@ msgstr "Nessuna versione disponibile."
 msgid "Current `best' version is %s."
 msgstr "La `migliore' versione attualmente è %s."
 
-#: scripts/update-alternatives.pl:243
+#: scripts/update-alternatives.pl:232
+#, fuzzy, perl-format
+msgid ""
+"warning: %s is supposed to be a symlink to %s, \n"
+"or nonexistent; however, readlink failed: %s"
+msgstr ""
+"attenzione: %s dovrebbe essere un symlink a %s\n"
+" (o non esistere affatto); invece, readlink è fallita: %s"
+
+#: scripts/update-alternatives.pl:244
+#, perl-format
+msgid "Leaving %s (%s) pointing to %s."
+msgstr "Lascio %s (%s) puntare a %s."
+
+#: scripts/update-alternatives.pl:247
+#, perl-format
+msgid "Updating %s (%s) to point to %s."
+msgstr "Aggiorno %s (%s) che punti a %s."
+
+#: scripts/update-alternatives.pl:256
+#, fuzzy, perl-format
+msgid "Using '%s' to provide '%s'."
+msgstr "Uso `%s' per fornire `%s'."
+
+#: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:616
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "Rimuovo %s (%s), non appropriato con %s."
+
+#: scripts/update-alternatives.pl:288
+#, perl-format
+msgid "unable to remove %s: %s"
+msgstr "impossibile rimuovere %s: %s"
+
+#: scripts/update-alternatives.pl:301
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "parametro sconosciuto `%s'"
 
-#: scripts/update-alternatives.pl:256
+#: scripts/update-alternatives.pl:314
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install necessita di <link> <nome> <percorso> <priorità>"
 
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:316
 msgid "priority must be an integer"
 msgstr "la priorità deve essere un numero intero"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:320
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s richiede <nome> e <percorso>"
 
-#: scripts/update-alternatives.pl:267
+#: scripts/update-alternatives.pl:325
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s necessita di <nome>"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:329
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave necessita di <link> <nome> <percorso>"
 
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:331
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "nome slave %s duplicato"
 
-#: scripts/update-alternatives.pl:274
+#: scripts/update-alternatives.pl:332
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "link slave %s duplicato"
 
-#: scripts/update-alternatives.pl:291
+#: scripts/update-alternatives.pl:349
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "il nome %s è sia primario che slave"
 
-#: scripts/update-alternatives.pl:293
+#: scripts/update-alternatives.pl:351
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "il link %s è sia primario che slave"
 
-#: scripts/update-alternatives.pl:296
+#: scripts/update-alternatives.pl:354
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5488,31 +5527,21 @@ msgstr ""
 "necessita --display, --config, --set, --install, --remove, --all, --remove-"
 "all o --auto"
 
-#: scripts/update-alternatives.pl:298
+#: scripts/update-alternatives.pl:356
 msgid "--slave only allowed with --install"
 msgstr "--slave è consentito solo con --install"
 
-#: scripts/update-alternatives.pl:311
+#: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "Nessuna alternativa per %s."
 
-#: scripts/update-alternatives.pl:358
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "Imposto la selezione automatica di %s."
 
-#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
-#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
-#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
-#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
-#: scripts/update-alternatives.pl:687 scripts/update-alternatives.pl:723
-#, perl-format
-msgid "unable to remove %s: %s"
-msgstr "impossibile rimuovere %s: %s"
-
-#: scripts/update-alternatives.pl:374
+#: scripts/update-alternatives.pl:430
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5521,7 +5550,7 @@ msgstr ""
 "%s è stato modificato (da te o da uno script).\n"
 "Passo all'aggiornamento esclusivamente manuale."
 
-#: scripts/update-alternatives.pl:386
+#: scripts/update-alternatives.pl:442
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5531,124 +5560,68 @@ msgstr ""
 "(Se desideri puoi modificare direttamente quei link simbolici, vedi `man "
 "ln'.)"
 
-#: scripts/update-alternatives.pl:392
+#: scripts/update-alternatives.pl:448
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "Rinomino il link %s da %s a %s."
 
-#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
-#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
+#: scripts/update-alternatives.pl:451 scripts/update-alternatives.pl:475
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "impossibile rinominare %s a %s: %s"
 
-#: scripts/update-alternatives.pl:414
+#: scripts/update-alternatives.pl:470
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "nome link slave %s duplicato"
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:472
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "Rinomino il link slave %s da %s a %s."
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:489
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr ""
 "Rimuovo le alternative selezionte manualmente, passo alla modalità automatica"
 
-#: scripts/update-alternatives.pl:447
+#: scripts/update-alternatives.pl:503
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "L'alternativa %s per %s non è registrata, non la rimuovo."
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:530
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "Scarto il link slave obsoleto %s (%s)."
 
-#: scripts/update-alternatives.pl:495
+#: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr "L'aggiornamento automatico di %s è disattivato, lo lascio stare."
 
-#: scripts/update-alternatives.pl:497
+#: scripts/update-alternatives.pl:551
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "Per tornare all'aggiornamento automatico usa `update-alternatives --auto %s'."
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:555
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "Ripristino da un precedente aggiornamento fallito di %s ..."
 
-#: scripts/update-alternatives.pl:516
+#: scripts/update-alternatives.pl:569
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "impossibile aprire %s in scrittura: %s"
 
-#: scripts/update-alternatives.pl:539
+#: scripts/update-alternatives.pl:592
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr "L'ultimo pacchetto che fornisce %s (%s) è stato rimosso, lo elimino."
 
-#: scripts/update-alternatives.pl:553
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a symlink to %s\n"
-" (or nonexistent); however, readlink failed: %s"
-msgstr ""
-"attenzione: %s dovrebbe essere un symlink a %s\n"
-" (o non esistere affatto); invece, readlink è fallita: %s"
-
-#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
-#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:607
-#, perl-format
-msgid "unable to ensure %s nonexistent: %s"
-msgstr "impossibile assicurare che %s non esiste: %s"
-
-#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:610
-#: scripts/update-alternatives.pl:624 scripts/update-alternatives.pl:673
-#: scripts/update-alternatives.pl:709 scripts/update-alternatives.pl:748
-#, perl-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "impossibile creare il collegamento simbolico %s a %s: %s"
-
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:626
-#: scripts/update-alternatives.pl:675 scripts/update-alternatives.pl:711
-#: scripts/update-alternatives.pl:753
-#, perl-format
-msgid "unable to install %s as %s: %s"
-msgstr "impossibile installare %s come %s: %s"
-
-#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:617
-#, perl-format
-msgid "Leaving %s (%s) pointing to %s."
-msgstr "Lascio %s (%s) puntare a %s."
-
-#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:620
-#, perl-format
-msgid "Updating %s (%s) to point to %s."
-msgstr "Aggiorno %s (%s) che punti a %s."
-
-#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:684
-#: scripts/update-alternatives.pl:720
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "Rimuovo %s (%s), non appropriato con %s."
-
-#: scripts/update-alternatives.pl:600
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a slave symlink to\n"
-" %s, or nonexistent; however, readlink failed: %s"
-msgstr ""
-"attenzione: %s dovrebbe essere un symlink slave a %s,\n"
-" o non esistere; invece, readlink è fallita: %s"
-
-#: scripts/update-alternatives.pl:634
+#: scripts/update-alternatives.pl:631
 #, fuzzy, perl-format
 msgid ""
 "There is no program which provides %s.\n"
@@ -5657,7 +5630,7 @@ msgstr ""
 "C'è un solo programma che fornisce %s\n"
 "(%s). Non c'è nulla da configurare.\n"
 
-#: scripts/update-alternatives.pl:640
+#: scripts/update-alternatives.pl:637
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5666,7 +5639,7 @@ msgstr ""
 "C'è un solo programma che fornisce %s\n"
 "(%s). Non c'è nulla da configurare.\n"
 
-#: scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5679,46 +5652,61 @@ msgstr ""
 "  Selezione    Alternativa\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:652
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr ""
 "Premi invio per mantenere il default[*], o inserisci il numero da "
 "selezionare:"
 
-#: scripts/update-alternatives.pl:670 scripts/update-alternatives.pl:707
-#, perl-format
-msgid "Using `%s' to provide `%s'."
-msgstr "Uso `%s' per fornire `%s'."
-
-#: scripts/update-alternatives.pl:705
+#: scripts/update-alternatives.pl:684
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "Non riesco a trovare l'alternativa `%s'."
 
-#: scripts/update-alternatives.pl:728 scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:689 scripts/update-alternatives.pl:692
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "errore scrivendo su stdout: %s"
 
-#: scripts/update-alternatives.pl:730
+#: scripts/update-alternatives.pl:691
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr "gli a-capo non sono consentiti nei file update-alternatives (%s)"
 
-#: scripts/update-alternatives.pl:735
+#: scripts/update-alternatives.pl:696
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "errore o eof leggendo %s per %s (%s)"
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "missing newline after %s"
 msgstr "manca un a-capo dopo %s"
 
-#: scripts/update-alternatives.pl:756
+#: scripts/update-alternatives.pl:710
+#, perl-format
+msgid "unable to make %s a symlink to %s: %s"
+msgstr "impossibile creare il collegamento simbolico %s a %s: %s"
+
+#: scripts/update-alternatives.pl:715
+#, perl-format
+msgid "unable to install %s as %s: %s"
+msgstr "impossibile installare %s come %s: %s"
+
+#: scripts/update-alternatives.pl:718
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "Problema grave: %s"
+
+#~ msgid "unable to ensure %s nonexistent: %s"
+#~ msgstr "impossibile assicurare che %s non esiste: %s"
+
+#~ msgid ""
+#~ "warning: %s is supposed to be a slave symlink to\n"
+#~ " %s, or nonexistent; however, readlink failed: %s"
+#~ msgstr ""
+#~ "attenzione: %s dovrebbe essere un symlink slave a %s,\n"
+#~ " o non esistere; invece, readlink è fallita: %s"
 
 #~ msgid "warning"
 #~ msgstr "attenzione"

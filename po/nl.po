@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.9.4\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2007-11-29 06:03+0200\n"
+"POT-Creation-Date: 2007-12-29 05:57+0100\n"
 "PO-Revision-Date: 2007-05-10 16:19+0100\n"
 "Last-Translator: Bart Cornelis <cobaco@skolelinux.no>\n"
 "Language-Team: Dutch <debian-l10n-dutch@debian.org>\n"
@@ -507,7 +507,7 @@ msgstr "kan de 'dpkg'-statusdatabase niet vergrendelen"
 msgid "malloc failed (%ld bytes)"
 msgstr "malloc is mislukt (%ld bytes)"
 
-#: lib/mlib.c:64 dpkg-deb/info.c:99
+#: lib/mlib.c:64
 #, c-format
 msgid "realloc failed (%ld bytes)"
 msgstr "realloc is mislukt (%ld bytes)"
@@ -3837,6 +3837,11 @@ msgstr "aanmaken van een tijdelijke bestandsnaam is mislukt"
 msgid "failed to exec rm -rf"
 msgstr "uitvoeren van 'rm -rf' is mislukt"
 
+#: dpkg-deb/info.c:99
+#, fuzzy, c-format
+msgid "realloc failed (%lu bytes)"
+msgstr "realloc is mislukt (%ld bytes)"
+
 #: dpkg-deb/info.c:108
 msgid "info_spew"
 msgstr "info_spew"
@@ -4483,7 +4488,7 @@ msgid "unable to close %s after read: %s"
 msgstr "kan %s niet sluiten na lezen: %s"
 
 #: scripts/cleanup-info.pl:164 scripts/install-info.pl:482
-#: scripts/update-alternatives.pl:535
+#: scripts/update-alternatives.pl:588
 #, perl-format
 msgid "unable to close %s: %s"
 msgstr "kan %s niet sluiten: %s"
@@ -4578,7 +4583,7 @@ msgstr ""
 "geven.\n"
 
 #: scripts/dpkg-divert.pl:74 scripts/dpkg-statoverride.pl:56
-#: scripts/update-alternatives.pl:229
+#: scripts/update-alternatives.pl:281
 #, fuzzy, perl-format
 msgid "two commands specified: %s and --%s"
 msgstr "twee modes opgegeven: %s en --%s"
@@ -4602,13 +4607,13 @@ msgid "package may not contain newlines"
 msgstr "pakketnaam mag geen regeleinden bevatten"
 
 #: scripts/dpkg-divert.pl:115 scripts/dpkg-statoverride.pl:75
-#: scripts/update-alternatives.pl:278 scripts/update-alternatives.pl:281
+#: scripts/update-alternatives.pl:336 scripts/update-alternatives.pl:339
 #, perl-format
 msgid "--%s needs a <directory> argument"
 msgstr "--%s heeft een map als argument nodig"
 
 #: scripts/dpkg-divert.pl:118 scripts/dpkg-statoverride.pl:87
-#: scripts/update-alternatives.pl:286
+#: scripts/update-alternatives.pl:344
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "onbekende optie '%s'"
@@ -4707,12 +4712,12 @@ msgstr "kan de status van de oude naam '%s' niet opvragen: %s"
 msgid "cannot stat new name `%s': %s"
 msgstr "kan de status van de nieuwe naam %s niet opvragen: %s"
 
-#: scripts/dpkg-divert.pl:247
+#: scripts/dpkg-divert.pl:246 scripts/dpkg-divert.pl:253
 #, perl-format
 msgid "error checking `%s': %s"
 msgstr "'%s' wordt op fouten gecontroleerd: %s"
 
-#: scripts/dpkg-divert.pl:252
+#: scripts/dpkg-divert.pl:257
 #, perl-format
 msgid ""
 "rename involves overwriting `%s' with\n"
@@ -4721,47 +4726,47 @@ msgstr ""
 "hernoemen omvat overschrijven van '%s' met\n"
 "  verschillend bestand '%s', niet toegelaten"
 
-#: scripts/dpkg-divert.pl:262
+#: scripts/dpkg-divert.pl:267
 #, perl-format
 msgid "rename: remove duplicate old link `%s': %s"
 msgstr "hernomen: verwijderen van oude dubbele link '%s': %s"
 
-#: scripts/dpkg-divert.pl:264
+#: scripts/dpkg-divert.pl:269
 #, perl-format
 msgid "rename: rename `%s' to `%s': %s"
 msgstr "hernoemen: '%s' wordt hernoemt naar '%s': %s"
 
-#: scripts/dpkg-divert.pl:271
+#: scripts/dpkg-divert.pl:276
 #, perl-format
 msgid "create diversions-new: %s"
 msgstr "diversions-new aanmaken: %s"
 
-#: scripts/dpkg-divert.pl:275
+#: scripts/dpkg-divert.pl:280
 #, perl-format
 msgid "write diversions-new: %s"
 msgstr "diversions-new schrijven:  %s"
 
-#: scripts/dpkg-divert.pl:277
+#: scripts/dpkg-divert.pl:282
 #, perl-format
 msgid "close diversions-new: %s"
 msgstr "diversions-new afsluiten:  %s"
 
-#: scripts/dpkg-divert.pl:279
+#: scripts/dpkg-divert.pl:284
 #, perl-format
 msgid "remove old diversions-old: %s"
 msgstr "oude diversions-old verwijderen: %s"
 
-#: scripts/dpkg-divert.pl:281
+#: scripts/dpkg-divert.pl:286
 #, perl-format
 msgid "create new diversions-old: %s"
 msgstr "nieuwe diversions-new aanmaken: %s"
 
-#: scripts/dpkg-divert.pl:283
+#: scripts/dpkg-divert.pl:288
 #, perl-format
 msgid "install new diversions: %s"
 msgstr "nieuwe omleidingen installeren: %s"
 
-#: scripts/dpkg-divert.pl:306 scripts/update-alternatives.pl:740
+#: scripts/dpkg-divert.pl:311 scripts/update-alternatives.pl:702
 #, perl-format
 msgid "internal error: %s corrupt: %s"
 msgstr "interne fout: %s is corrupt: %s"
@@ -5309,54 +5314,89 @@ msgstr "Geen versies beschikbaar"
 msgid "Current `best' version is %s."
 msgstr "Huidge 'beste' versie is %s."
 
-#: scripts/update-alternatives.pl:243
+#: scripts/update-alternatives.pl:232
+#, fuzzy, perl-format
+msgid ""
+"warning: %s is supposed to be a symlink to %s, \n"
+"or nonexistent; however, readlink failed: %s"
+msgstr ""
+"waarschuwing: %s wordt verondersteld een symbolische koppeling naar %s te "
+"zijn\n"
+" (of onbestaand); echter readlink is mislukt: %s"
+
+#: scripts/update-alternatives.pl:244
+#, perl-format
+msgid "Leaving %s (%s) pointing to %s."
+msgstr "%s (%s) laten we zoals is, verwijzend naar %s."
+
+#: scripts/update-alternatives.pl:247
+#, perl-format
+msgid "Updating %s (%s) to point to %s."
+msgstr "%s (%s) wordt bijgewerkt om naar %s te verwijzen."
+
+#: scripts/update-alternatives.pl:256
+#, fuzzy, perl-format
+msgid "Using '%s' to provide '%s'."
+msgstr "'%s' wordt gebruikt om in '%s' te voorzien."
+
+#: scripts/update-alternatives.pl:270 scripts/update-alternatives.pl:616
+#, perl-format
+msgid "Removing %s (%s), not appropriate with %s."
+msgstr "%s (%s) wordt verwijdert, niet toepasselijk met %s."
+
+#: scripts/update-alternatives.pl:288
+#, perl-format
+msgid "unable to remove %s: %s"
+msgstr "verwijderen van %s is mislukt: %s"
+
+#: scripts/update-alternatives.pl:301
 #, perl-format
 msgid "unknown argument `%s'"
 msgstr "onbekend argument '%s'"
 
-#: scripts/update-alternatives.pl:256
+#: scripts/update-alternatives.pl:314
 msgid "--install needs <link> <name> <path> <priority>"
 msgstr "--install heeft <link> <name> <path> <priority> nodig"
 
-#: scripts/update-alternatives.pl:258
+#: scripts/update-alternatives.pl:316
 msgid "priority must be an integer"
 msgstr "prioriteit moet een integer getal zijn"
 
-#: scripts/update-alternatives.pl:262
+#: scripts/update-alternatives.pl:320
 #, perl-format
 msgid "--%s needs <name> <path>"
 msgstr "--%s heeft <naam> <pad> nodig"
 
-#: scripts/update-alternatives.pl:267
+#: scripts/update-alternatives.pl:325
 #, perl-format
 msgid "--%s needs <name>"
 msgstr "--%s heeft <naam> nodig"
 
-#: scripts/update-alternatives.pl:271
+#: scripts/update-alternatives.pl:329
 msgid "--slave needs <link> <name> <path>"
 msgstr "--slave heeft <link> <name> <path> nodig"
 
-#: scripts/update-alternatives.pl:273
+#: scripts/update-alternatives.pl:331
 #, perl-format
 msgid "slave name %s duplicated"
 msgstr "slaaf-naam %s is gedupliceerd"
 
-#: scripts/update-alternatives.pl:274
+#: scripts/update-alternatives.pl:332
 #, perl-format
 msgid "slave link %s duplicated"
 msgstr "slaaf-link %s is gedupliceerd"
 
-#: scripts/update-alternatives.pl:291
+#: scripts/update-alternatives.pl:349
 #, perl-format
 msgid "name %s is both primary and slave"
 msgstr "de naam %s is zowel hoofd als slaaf"
 
-#: scripts/update-alternatives.pl:293
+#: scripts/update-alternatives.pl:351
 #, perl-format
 msgid "link %s is both primary and slave"
 msgstr "de links %s is zowel hoofd als slaaf"
 
-#: scripts/update-alternatives.pl:296
+#: scripts/update-alternatives.pl:354
 msgid ""
 "need --display, --config, --set, --install, --remove, --all, --remove-all or "
 "--auto"
@@ -5364,31 +5404,21 @@ msgstr ""
 "--display, --config, --set, --install, --remove, --all, --remove-all of --"
 "auto is nodig"
 
-#: scripts/update-alternatives.pl:298
+#: scripts/update-alternatives.pl:356
 msgid "--slave only allowed with --install"
 msgstr "--slave is enkel toegelaten met --install"
 
-#: scripts/update-alternatives.pl:311
+#: scripts/update-alternatives.pl:369
 #, perl-format
 msgid "No alternatives for %s."
 msgstr "Er zijn geen alternatieven voor %s"
 
-#: scripts/update-alternatives.pl:358
+#: scripts/update-alternatives.pl:416
 #, perl-format
 msgid "Setting up automatic selection of %s."
 msgstr "Automatische selectie van %s wordt opgezet."
 
-#: scripts/update-alternatives.pl:361 scripts/update-alternatives.pl:363
-#: scripts/update-alternatives.pl:477 scripts/update-alternatives.pl:479
-#: scripts/update-alternatives.pl:542 scripts/update-alternatives.pl:544
-#: scripts/update-alternatives.pl:546 scripts/update-alternatives.pl:548
-#: scripts/update-alternatives.pl:594 scripts/update-alternatives.pl:596
-#: scripts/update-alternatives.pl:687 scripts/update-alternatives.pl:723
-#, perl-format
-msgid "unable to remove %s: %s"
-msgstr "verwijderen van %s is mislukt: %s"
-
-#: scripts/update-alternatives.pl:374
+#: scripts/update-alternatives.pl:430
 #, perl-format
 msgid ""
 "%s has been changed (manually or by a script).\n"
@@ -5397,7 +5427,7 @@ msgstr ""
 "%s is veranderd (handmatig of door een script).\n"
 "Er wordt omgeschakeld naar enkel handmatige updates."
 
-#: scripts/update-alternatives.pl:386
+#: scripts/update-alternatives.pl:442
 #, perl-format
 msgid ""
 "Checking available versions of %s, updating links in %s ...\n"
@@ -5407,130 +5437,73 @@ msgstr ""
 "bijgewerkt ...\n"
 "(U kunt de symbolische koppelingen desgewenst zelf wijzigen - zie 'man ln'.)"
 
-#: scripts/update-alternatives.pl:392
+#: scripts/update-alternatives.pl:448
 #, perl-format
 msgid "Renaming %s link from %s to %s."
 msgstr "%s-link wordt hernoemt van %s naar %s."
 
-#: scripts/update-alternatives.pl:395 scripts/update-alternatives.pl:419
-#: scripts/update-alternatives.pl:503 scripts/update-alternatives.pl:579
+#: scripts/update-alternatives.pl:451 scripts/update-alternatives.pl:475
 #, perl-format
 msgid "unable to rename %s to %s: %s"
 msgstr "kan %s niet hernoemen naar %s: %s"
 
-#: scripts/update-alternatives.pl:414
+#: scripts/update-alternatives.pl:470
 #, perl-format
 msgid "slave link name %s duplicated"
 msgstr "slaaf-linknaam %s is dubbel"
 
-#: scripts/update-alternatives.pl:416
+#: scripts/update-alternatives.pl:472
 #, perl-format
 msgid "Renaming %s slave link from %s to %s."
 msgstr "Slaaf-link %s wordt hernoemt van %s naar %s."
 
-#: scripts/update-alternatives.pl:433
+#: scripts/update-alternatives.pl:489
 msgid "Removing manually selected alternative - switching to auto mode"
 msgstr ""
 "Handmatig geselecteerd alternatief wordt verwijderd - wordt omgeschakeld "
 "naar automatische modus"
 
-#: scripts/update-alternatives.pl:447
+#: scripts/update-alternatives.pl:503
 #, perl-format
 msgid "Alternative %s for %s not registered, not removing."
 msgstr "Alternatief %s voor %s is niet geregistreerd, wordt niet verwijderd."
 
-#: scripts/update-alternatives.pl:474
+#: scripts/update-alternatives.pl:530
 #, perl-format
 msgid "Discarding obsolete slave link %s (%s)."
 msgstr "Verouderde slaaf-link %s wordt weggegooid (%s)."
 
-#: scripts/update-alternatives.pl:495
+#: scripts/update-alternatives.pl:549
 #, perl-format
 msgid "Automatic updates of %s are disabled, leaving it alone."
 msgstr ""
 "Automatische opwaarderingen van %s zijn uitgeschakeld, het wordt met rust "
 "gelaten."
 
-#: scripts/update-alternatives.pl:497
+#: scripts/update-alternatives.pl:551
 #, perl-format
 msgid "To return to automatic updates use `update-alternatives --auto %s'."
 msgstr ""
 "Om automatische opwaarderingen terug in te schakelen kunt 'update-"
 "alternatives --auto %s' gebruiken."
 
-#: scripts/update-alternatives.pl:501
+#: scripts/update-alternatives.pl:555
 #, perl-format
 msgid "Recovering from previous failed update of %s ..."
 msgstr "Er wordt herstelt van de vorige mislukte opwaardering van %s ..."
 
-#: scripts/update-alternatives.pl:516
+#: scripts/update-alternatives.pl:569
 #, perl-format
 msgid "unable to open %s for write: %s"
 msgstr "kan %s niet openen voor schrijven: %s"
 
-#: scripts/update-alternatives.pl:539
+#: scripts/update-alternatives.pl:592
 #, perl-format
 msgid "Last package providing %s (%s) removed, deleting it."
 msgstr ""
 "Laatste pakket dat voorzag in %s (%s) is verwijderd, dit wordt verwijderd. "
 
-#: scripts/update-alternatives.pl:553
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a symlink to %s\n"
-" (or nonexistent); however, readlink failed: %s"
-msgstr ""
-"waarschuwing: %s wordt verondersteld een symbolische koppeling naar %s te "
-"zijn\n"
-" (of onbestaand); echter readlink is mislukt: %s"
-
-#: scripts/update-alternatives.pl:559 scripts/update-alternatives.pl:573
-#: scripts/update-alternatives.pl:589 scripts/update-alternatives.pl:607
-#, perl-format
-msgid "unable to ensure %s nonexistent: %s"
-msgstr "kan niet verzekeren dat %s niet bestaat: %s"
-
-#: scripts/update-alternatives.pl:561 scripts/update-alternatives.pl:610
-#: scripts/update-alternatives.pl:624 scripts/update-alternatives.pl:673
-#: scripts/update-alternatives.pl:709 scripts/update-alternatives.pl:748
-#, perl-format
-msgid "unable to make %s a symlink to %s: %s"
-msgstr "kan van %s geen symbolische koppeling naar %s maken: %s"
-
-#: scripts/update-alternatives.pl:563 scripts/update-alternatives.pl:583
-#: scripts/update-alternatives.pl:613 scripts/update-alternatives.pl:626
-#: scripts/update-alternatives.pl:675 scripts/update-alternatives.pl:711
-#: scripts/update-alternatives.pl:753
-#, perl-format
-msgid "unable to install %s as %s: %s"
-msgstr "kan %s niet installeren als %s: %s"
-
-#: scripts/update-alternatives.pl:566 scripts/update-alternatives.pl:617
-#, perl-format
-msgid "Leaving %s (%s) pointing to %s."
-msgstr "%s (%s) laten we zoals is, verwijzend naar %s."
-
-#: scripts/update-alternatives.pl:569 scripts/update-alternatives.pl:620
-#, perl-format
-msgid "Updating %s (%s) to point to %s."
-msgstr "%s (%s) wordt bijgewerkt om naar %s te verwijzen."
-
-#: scripts/update-alternatives.pl:591 scripts/update-alternatives.pl:684
-#: scripts/update-alternatives.pl:720
-#, perl-format
-msgid "Removing %s (%s), not appropriate with %s."
-msgstr "%s (%s) wordt verwijdert, niet toepasselijk met %s."
-
-#: scripts/update-alternatives.pl:600
-#, perl-format
-msgid ""
-"warning: %s is supposed to be a slave symlink to\n"
-" %s, or nonexistent; however, readlink failed: %s"
-msgstr ""
-"waarschuwing: %s wordt verondersteld een slaaf-link te zijn voor\n"
-" %s, of onbestaand; echter readlink is mislukt: %s"
-
-#: scripts/update-alternatives.pl:634
+#: scripts/update-alternatives.pl:631
 #, perl-format
 msgid ""
 "There is no program which provides %s.\n"
@@ -5539,7 +5512,7 @@ msgstr ""
 "Er is geen programma dat %s voorziet\n"
 "Er is niets in te stellen.\n"
 
-#: scripts/update-alternatives.pl:640
+#: scripts/update-alternatives.pl:637
 #, perl-format
 msgid ""
 "There is only 1 program which provides %s\n"
@@ -5548,7 +5521,7 @@ msgstr ""
 "Er is slechts 1 programma dat %s voorziet\n"
 "(%s). Er is niets in te stellen.\n"
 
-#: scripts/update-alternatives.pl:645
+#: scripts/update-alternatives.pl:642
 #, perl-format
 msgid ""
 "There are %s alternatives which provide `%s'.\n"
@@ -5561,47 +5534,62 @@ msgstr ""
 "  Selectie    Alternatieven\n"
 "-----------------------------------------------\n"
 
-#: scripts/update-alternatives.pl:655
+#: scripts/update-alternatives.pl:652
 msgid "Press enter to keep the default[*], or type selection number: "
 msgstr ""
 "druk enter om de standaardwaarde [*] te behouden, of  geef het "
 "selectienumber in: "
 
-#: scripts/update-alternatives.pl:670 scripts/update-alternatives.pl:707
-#, perl-format
-msgid "Using `%s' to provide `%s'."
-msgstr "'%s' wordt gebruikt om in '%s' te voorzien."
-
-#: scripts/update-alternatives.pl:705
+#: scripts/update-alternatives.pl:684
 #, perl-format
 msgid "Cannot find alternative `%s'."
 msgstr "Kan geen alternatief '%s' vinden."
 
-#: scripts/update-alternatives.pl:728 scripts/update-alternatives.pl:731
+#: scripts/update-alternatives.pl:689 scripts/update-alternatives.pl:692
 #, perl-format
 msgid "error writing stdout: %s"
 msgstr "fout bij schrijven naar stdout: %s"
 
-#: scripts/update-alternatives.pl:730
+#: scripts/update-alternatives.pl:691
 #, perl-format
 msgid "newlines prohibited in update-alternatives files (%s)"
 msgstr ""
 "regeleinden zijn niet toegelaten in 'update-alternatives'-bestanden (%s)"
 
-#: scripts/update-alternatives.pl:735
+#: scripts/update-alternatives.pl:696
 #, perl-format
 msgid "error or eof reading %s for %s (%s)"
 msgstr "fout of eof bij lezen van %s voor %s (%s)"
 
-#: scripts/update-alternatives.pl:736
+#: scripts/update-alternatives.pl:698
 #, perl-format
 msgid "missing newline after %s"
 msgstr "missend regeleinde na %s"
 
-#: scripts/update-alternatives.pl:756
+#: scripts/update-alternatives.pl:710
+#, perl-format
+msgid "unable to make %s a symlink to %s: %s"
+msgstr "kan van %s geen symbolische koppeling naar %s maken: %s"
+
+#: scripts/update-alternatives.pl:715
+#, perl-format
+msgid "unable to install %s as %s: %s"
+msgstr "kan %s niet installeren als %s: %s"
+
+#: scripts/update-alternatives.pl:718
 #, perl-format
 msgid "Serious problem: %s"
 msgstr "Ernstig probleem: %s"
+
+#~ msgid "unable to ensure %s nonexistent: %s"
+#~ msgstr "kan niet verzekeren dat %s niet bestaat: %s"
+
+#~ msgid ""
+#~ "warning: %s is supposed to be a slave symlink to\n"
+#~ " %s, or nonexistent; however, readlink failed: %s"
+#~ msgstr ""
+#~ "waarschuwing: %s wordt verondersteld een slaaf-link te zijn voor\n"
+#~ " %s, of onbestaand; echter readlink is mislukt: %s"
 
 #~ msgid "warning"
 #~ msgstr "waarschuwing"

@@ -15,13 +15,17 @@ in these files is:
 [ | <alternative dependency template> ]
 .br
 [ ... ]
- <symbol> <mininal version>[ <id of dependency template> ]
+.br
+[ * <field-name>: <field value> ]
+.br
+[ ... ]
+ <symbol> <minimal version>[ <id of dependency template> ]
 .P
 The \fIlibrary soname\fR is exactly the value of the SONAME field
 as exported by \fBobjdump\fR(1). A \fIdependency template\fR is a
 dependency where \fI#MINVER#\fR is dynamically replaced either by
 a version check like "(>= \fIminimal version\fR)" or by nothing (if
-an unversionned dependency is deemed sufficient). 
+an unversioned dependency is deemed sufficient). 
 .P
 Each exported \fIsymbol\fR (listed as \fIname\fR@\fIversion\fR, with
 \fIversion\fR being "Base" if the library is not versioned) is associated
@@ -29,6 +33,13 @@ to a \fIminimal version\fR of its dependency template (the main dependency
 template is used if \fIid of dependency template\fR is not present). The
 first alternative dependency template is numbered 1, the second one 2,
 etc.
+.P
+Each entry for a library can also have some fields of meta-information.
+Those fields are stored on lines starting with an asterisk. Currently,
+the only valid field is \fIBuild-Depends-Package\fR, it indicates the name
+of the "-dev" package associated to the library and is used by
+dpkg-shlibdeps to make sure that the dependency generated is at least as
+strict as the corresponding build dependency.
 .SH EXAMPLES
 .SS Simple symbols file
 .PP 
@@ -41,6 +52,8 @@ libftp.so.3 libftp3 #MINVER#
 libGL.so.1 libgl1
 .br
 | libgl1-mesa-glx #MINVER#
+.br
+* Build-Depends-Package: libgl1-mesa-dev
  publicGlSymbol@Base 6.3-1
  [...]
  implementationSpecificSymbol@Base 6.5.2-7 1
