@@ -1,3 +1,11 @@
+2008-01-06  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/Objdump.pm: Also retrieve dynamic relocation
+	records from objdump by adding the -R option. Use this information
+	to mark symbols affected by R_*_COPY relocations as undefined.
+	They are initialized by the loader with values searched in the
+	needed libraries.
+
 2008-01-04  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Shlibs/SymbolFile.pm: Replace #DEPRECATED by

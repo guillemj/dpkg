@@ -129,6 +129,7 @@ sub reset {
     $self->{RPATH} = [];
     $self->{dynsyms} = {};
     $self->{flags} = {};
+    $self->{dynrelocs} = {};
 
     return $self;
 }
@@ -144,7 +145,7 @@ sub _read {
     $self->{file} = $file;
 
     local $ENV{LC_ALL} = 'C';
-    open(my $objdump, "-|", "objdump", "-w", "-f", "-p", "-T", $file)
+    open(my $objdump, "-|", "objdump", "-w", "-f", "-p", "-T", "-R", $file)
 	|| syserr(sprintf(_g("Can't execute objdump: %s"), $!));
     my $ret = $self->_parse($objdump);
     close($objdump);
@@ -162,6 +163,10 @@ sub _parse {
 	if (/^DYNAMIC SYMBOL TABLE:/) {
 	    $section = "dynsym";
 	    next;
+	} elsif (/^DYNAMIC RELOCATION RECORDS/) {
+	    $section = "dynreloc";
+	    $_ = <$fh>; # Skip header
+	    next;
 	} elsif (/^Dynamic Section:/) {
 	    $section = "dyninfo";
 	    next;
@@ -178,6 +183,12 @@ sub _parse {
 
 	if ($section eq "dynsym") {
 	    $self->parse_dynamic_symbol($_);
+	} elsif ($section eq "dynreloc") {
+	    if (/^\S+\s+(\S+)\s+(\S+)\s*$/) {
+		$self->{dynrelocs}{$2} = $1;
+	    } else {
+		warning(sprintf(_g("Couldn't parse dynamic relocation record: %s"), $_));
+	    }
 	} elsif ($section eq "dyninfo") {
 	    if (/^\s*NEEDED\s+(\S+)/) {
 		push @{$self->{NEEDED}}, $1;
@@ -204,6 +215,9 @@ sub _parse {
 	    }
 	}
     }
+    # Update status of dynamic symbols given the relocations that have
+    # been parsed after the symbols...
+    $self->apply_relocations();
 
     return $section ne "none";
 }
@@ -287,6 +301,18 @@ sub parse_dynamic_symbol {
     }
 }
 
+sub apply_relocations {
+    my ($self) = @_;
+    foreach my $sym (values %{$self->{dynsyms}}) {
+	# We want to mark as undefined symbols those which are currently
+	# defined but that depend on a copy relocation
+	next if not $sym->{'defined'};
+	next if not exists $self->{dynrelocs}{$sym->{name}};
+	if ($self->{dynrelocs}{$sym->{name}} =~ /^R_.*_COPY$/) {
+	    $sym->{'defined'} = 0;
+	}
+    }
+}
 
 sub add_dynamic_symbol {
     my ($self, $symbol) = @_;
