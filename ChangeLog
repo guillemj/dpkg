@@ -6,6 +6,13 @@
 	They are initialized by the loader with values searched in the
 	needed libraries.
 
+	* scripts/Dpkg/BuildOptions.pm (set): Change the default value of
+	the overwrite parameter to 1. The only use of this function in
+	dpkg-buildpackage is missing the parameter and actually wants to
+	overwrite the whole variable.
+	* scripts/t/300_Dpkg_BuildOptions.t: Adjust the test suite for this
+	change.
+
 2008-01-04  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Shlibs/SymbolFile.pm: Replace #DEPRECATED by

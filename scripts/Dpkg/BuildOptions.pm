@@ -23,6 +23,7 @@ sub parse {
 
 sub set {
     my ($opts, $overwrite) = @_;
+    $overwrite = 1 if not defined($overwrite);
 
     my $env = $overwrite ? '' : $ENV{DEB_BUILD_OPTIONS}||'';
     if ($env) { $env .= ',' }

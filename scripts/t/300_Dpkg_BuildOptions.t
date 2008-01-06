@@ -37,5 +37,5 @@ is_deeply(Dpkg::BuildOptions::parse(), $dbo, 'set (env)');
 
 $ENV{DEB_BUILD_OPTIONS} = 'foobar';
 $dbo = { noopt => '' };
-$env = Dpkg::BuildOptions::set($dbo);
+$env = Dpkg::BuildOptions::set($dbo, 0);
 is($env, "foobar,noopt,", 'set (append)');
