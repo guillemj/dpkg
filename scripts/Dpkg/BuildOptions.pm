@@ -11,11 +11,23 @@ sub parse {
     unless ($env) { return {}; }
 
     my %opts;
-    while ($env =~ s/(noopt|nostrip|nocheck),?//i) {
-	$opts{lc $1} = '';
-    }
-    while ($env =~ s/(parallel)=(-?\d+),?//i) {
-	$opts{lc $1} = $2;
+
+    foreach (split(/[\s,]+/, $env)) {
+	# FIXME: This is pending resolution of Debian bug #430649
+	/^([a-z][a-z0-9_-]*)(=(\w*))?$/;
+
+	my ($k, $v) = ($1, $3 || '');
+
+	# Sanity checks
+	if (!$k) {
+	    next;
+	} elsif ($k =~ /^(noopt|nostrip|nocheck)$/ && length($v)) {
+	    $v = '';
+	} elsif ($k eq 'parallel' && $v !~ /^-?\d+$/) {
+	    next;
+	}
+
+	$opts{$k} = $v;
     }
 
     return \%opts;

@@ -7,16 +7,19 @@ use warnings;
 
 use_ok('Dpkg::BuildOptions');
 
-$ENV{DEB_BUILD_OPTIONS} = 'foonostripbar,parallel=3,bazNOCHECK';
+$ENV{DEB_BUILD_OPTIONS} = 'noopt,foonostripbar,parallel=3,bazNOCHECK';
 
 my $dbo = Dpkg::BuildOptions::parse();
 
 my %dbo = (
-	   nostrip => '',
-	   nocheck => '',
+	   noopt => '',
+	   foonostripbar => '',
 	   parallel => 3,
 	   );
 my %dbo2 = (
+	    no => '',
+	    opt => '',
+	    'no-strip' => '',
 	    nocheck => '',
 	   );
 
