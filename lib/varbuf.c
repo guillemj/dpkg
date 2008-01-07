@@ -27,7 +27,9 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-inline void varbufaddc(struct varbuf *v, int c) {
+void
+varbufaddc(struct varbuf *v, int c)
+{
   if (v->used >= v->size) varbufextend(v);
   v->buf[v->used++]= c;
 }
