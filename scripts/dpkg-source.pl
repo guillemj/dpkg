@@ -359,7 +359,7 @@ if ($opmode eq 'build') {
             } elsif (s/^X[BC]*S[BC]*-//i) {
                 $f{$_}= $v;
             } elsif (m/^(Package|Package-Type|Essential|Kernel-Version)$/ ||
-                     m/^(Subarchitecture|Installer-Menu-Item)$/i ||
+                     m/^(Homepage|Subarchitecture|Installer-Menu-Item)$/i ||
                      m/^(Pre-Depends|Depends|Provides)$/i ||
                      m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
                      m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||

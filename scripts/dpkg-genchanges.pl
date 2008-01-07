@@ -285,7 +285,7 @@ for $_ (keys %fi) {
 		}
 		push(@archvalues,$v) unless !$v || $archadded{$v}++;
 	    } elsif (m/^(Package|Package-Type|Kernel-Version|Essential)$/ ||
-	             m/^(Tag|Installer-Menu-Item|Subarchitecture)$/i ||
+	             m/^(Homepage|Tag|Installer-Menu-Item|Subarchitecture)$/i ||
 	             m/^(Pre-Depends|Depends|Recommends|Suggests|Provides)$/ ||
 	             m/^(Enhances|Conflicts|Breaks|Replaces)$/ ||
 		     m/^X[BS]+-/i) {
