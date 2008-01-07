@@ -1,5 +1,27 @@
 2008-01-07  Guillem Jover  <guillem@debian.org>
 
+	* dpkg-deb/extract.c (extracthalf): Move negative member length check
+	to ...
+	(parseheaderlength): ... here. Change return type to size_t. Change
+	variable r to ssize_t. Use strtol instead of strtoul to easily catch
+	negative values.
+	* dpkg-deb/info.c (info_spew): Use %zu in a format string instead of
+	%lu to print pathlen, a size_t variable.
+	* dpkg-split/queue.c (do_auto): Change j from unsinged int to int.
+	Cast j to unsigned int when comparing it to i.
+	* lib/varbuf.c (varbufprintf): Change ou from unsigned int to size_t.
+	Change r from unsigned int to int. Cast value compared to r to int.
+	(varbufprintf): Likewise.
+	* src/archives.c (tarobject): Change r from size_t to ssize_t.
+	Cast r to size_t when comparing it to symlinkfn.size.
+	* src/main.c (setforce): Cast string difference to size_t instead of
+	int.
+	* utils/start-stop-daemon.c (parse_schedule): Change str_len from
+	ptrdiff_t to size_t. Cast string difference to size_t instead of
+	ptrdiff_t. Remove ptrdiff_t cast to sizeof.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
 	* scripts/Dpkg/BuildOptions.pm (set): Parse all options separated
 	by spaces or comma, do not lowercase the option names, do not match
 	on name substrings, and on recognized options with invalid values

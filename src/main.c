@@ -352,7 +352,7 @@ static void setforce(const struct cmdinfo *cip, const char *value) {
 
   for (;;) {
     comma= strchr(value,',');
-    l= comma ? (int)(comma-value) : strlen(value);
+    l = comma ? (size_t)(comma - value) : strlen(value);
     for (fip=forceinfos; fip->name; fip++)
       if (!strncmp(fip->name,value,l) && strlen(fip->name)==l) break;
     if (!fip->name) {

@@ -97,8 +97,8 @@ void do_auto(const char *const *argv) {
   const char *partfile;
   struct partinfo *pi, *refi, *npi, **partlist, *otherthispart;
   struct partqueue *pq;
-  unsigned int i, j;
-  int ap;
+  unsigned int i;
+  int j, ap;
   long nr;
   FILE *part;
   void *buffer;
@@ -163,7 +163,7 @@ void do_auto(const char *const *argv) {
     /* There are still some parts missing. */
     for (i=0, ap=0; i<refi->maxpartn; i++)
       if (!partlist[i])
-        printf("%s%d", !ap++ ? "" : i==j ? _(" and ") : ", ", i+1);
+        printf("%s%d", !ap++ ? "" : i == (unsigned int)j ? _(" and ") : ", ", i + 1);
     printf(").\n");
 
   } else {

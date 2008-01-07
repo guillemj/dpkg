@@ -374,7 +374,7 @@ int tarobject(struct TarInfo *ti) {
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
   int statr, fd, i, existingdirectory, keepexisting;
-  size_t r;
+  ssize_t r;
   struct stat stab, stabtmp;
   char databuf[TARBLKSZ];
   struct fileinlist *nifd, **oldnifd;
@@ -765,7 +765,7 @@ int tarobject(struct TarInfo *ti) {
         varbufextend(&symlinkfn);
         r= readlink(fnamevb.buf,symlinkfn.buf,symlinkfn.size);
         if (r<0) ohshite(_("unable to read link `%.255s'"),ti->Name);
-      } while (r == symlinkfn.size);
+      } while ((size_t)r == symlinkfn.size);
       symlinkfn.used= r; varbufaddc(&symlinkfn,0);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);
