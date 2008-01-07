@@ -51,6 +51,9 @@ parsecontrolfile($controlfile);
 my $facts = parse_status("$admindir/status");
 my (@unmet, @conflicts);
 
+push @unmet, build_depends('Implicit-Build-Depends',
+                           Dpkg::Deps::parse('build-essential'), $facts);
+
 my $dep_regex=qr/[ \t]*(([^\n]+|\n[ \t])*)\s/; # allow multi-line
 if (defined($fi{"C Build-Depends"})) {
 	push @unmet, build_depends('Build-Depends',
