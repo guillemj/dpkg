@@ -12,14 +12,10 @@ use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
 use Dpkg::Fields qw(capit set_field_importance);
-
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
-
-our %substvar;
-our (%f, %fi);
-our %p2i;
-our $sourcepackage;
+use Dpkg::Control;
+use Dpkg::Substvars;
+use Dpkg::Vars;
+use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
@@ -44,6 +40,7 @@ my %remove;
 my %override;
 my $oppackage;
 my $package_type = 'deb';
+my $substvars = Dpkg::Substvars->new();
 
 
 sub version {
@@ -83,12 +80,6 @@ Options:
 "), $progname;
 }
 
-sub spfileslistvalue($)
-{
-    return $f{$_[0]} || '-';
-}
-
-
 while (@ARGV) {
     $_=shift(@ARGV);
     if (m/^-p([-+0-9a-z.]+)$/) {
@@ -116,7 +107,7 @@ while (@ARGV) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1}= 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvar{$1}= $';
+        $substvars->set($1, $');
     } elsif (m/^-T/) {
         $varlistfile= $';
     } elsif (m/^-n/) {
@@ -130,120 +121,115 @@ while (@ARGV) {
     }
 }
 
-parsechangelog($changelogfile, $changelogformat);
-parsesubstvars($varlistfile);
-parsecontrolfile($controlfile);
+my $changelog = parse_changelog($changelogfile, $changelogformat);
+$substvars->set_version_substvars($changelog->{"Version"});
+$substvars->parse($varlistfile) if -e $varlistfile;
+my $control = Dpkg::Control->new($controlfile);
+my $fields = Dpkg::Fields::Object->new();
 
-my $myindex;
+my $pkg;
 
 if (defined($oppackage)) {
-    defined($p2i{"C $oppackage"}) ||
-        error(_g("package %s not in control info"), $oppackage);
-    $myindex= $p2i{"C $oppackage"};
+    $pkg = $control->get_pkg_by_name($oppackage);
+    defined($pkg) || error(_g("package %s not in control info"), $oppackage);
 } else {
-    my @packages = grep(m/^C /, keys %p2i);
+    my @packages = map { $_->{'Package'} } $control->get_packages();
     @packages==1 ||
         error(_g("must specify package since control info has many (%s)"),
               "@packages");
-    $myindex=1;
+    $pkg = $control->get_pkg_by_idx(1);
 }
-
-#print STDERR "myindex $myindex\n";
 
 my %pkg_dep_fields = map { $_ => 1 } @pkg_dep_fields;
 
-for $_ (keys %fi) {
-    my $v = $fi{$_};
+# Scan source package
+my $src_fields = $control->get_source();
+foreach $_ (keys %{$src_fields}) {
+    my $v = $src_fields->{$_};
+    if (m/^(Origin|Bugs|Maintainer)$/) {
+	$fields->{$_} = $v;
+    } elsif (m/^(Section|Priority|Homepage)$/) {
+	$fields->{$_} = $v;
+    } elsif (m/^Source$/) {
+	set_source_package($v);
+    }
+    elsif (s/^X[CS]*B[CS]*-//i) { $fields->{$_} = $v; }
+    elsif (m/^X[CS]+-/i ||
+	   m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
+	   m/^(Standards-Version|Uploaders)$/i ||
+	   m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+    }
+    else { &unknown(_g('general section of control info file')); }
+}
 
-    if (s/^C //) {
-#print STDERR "G key >$_< value >$v<\n";
-	if (m/^(Origin|Bugs|Maintainer)$/) {
-	    $f{$_} = $v;
-	} elsif (m/^(Section|Priority|Homepage)$/) {
-	    # Binary package stanzas can override these fields
-	    $f{$_} ||= $v;
-	} elsif (m/^Source$/) {
-	    setsourcepackage($v);
-	}
-        elsif (s/^X[CS]*B[CS]*-//i) { $f{$_}= $v; }
-	elsif (m/^X[CS]+-/i ||
-	       m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
-	       m/^(Standards-Version|Uploaders)$/i ||
-	       m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
-	}
-        else { $_ = "C $_"; &unknown(_g('general section of control info file')); }
-    } elsif (s/^C$myindex //) {
-#print STDERR "P key >$_< value >$v<\n";
-        if (m/^(Package|Package-Type|Description|Homepage|Tag|Essential)$/ ||
-            m/^(Section$|Priority)$/ ||
-            m/^(Subarchitecture|Kernel-Version|Installer-Menu-Item)$/) {
-            $f{$_}= $v;
-        } elsif (exists($pkg_dep_fields{$_})) {
-	    # Delay the parsing until later
-        } elsif (m/^Architecture$/) {
-	    my $host_arch = get_host_arch();
+# Scan binary package
+foreach $_ (keys %{$pkg}) {
+    my $v = $pkg->{$_};
+    if (m/^(Package|Package-Type|Description|Homepage|Tag|Essential)$/ ||
+	m/^(Section$|Priority)$/ ||
+	m/^(Subarchitecture|Kernel-Version|Installer-Menu-Item)$/) {
+	$fields->{$_} = $v;
+    } elsif (exists($pkg_dep_fields{$_})) {
+	# Delay the parsing until later
+    } elsif (m/^Architecture$/) {
+	my $host_arch = get_host_arch();
 
-            if (debarch_eq('all', $v)) {
-                $f{$_}= $v;
-            } else {
-		my @archlist = split(/\s+/, $v);
-		my @invalid_archs = grep m/[^\w-]/, @archlist;
-		warning(ngettext("`%s' is not a legal architecture string.",
-		                 "`%s' are not legal architecture strings.",
-		                 scalar(@invalid_archs)),
-		        join("' `", @invalid_archs))
-		    if @invalid_archs >= 1;
-		grep(debarch_is($host_arch, $_), @archlist) ||
-		    error(_g("current host architecture '%s' does not " .
-		             "appear in package's architecture list (%s)"),
-		          $host_arch, "@archlist");
-		$f{$_} = $host_arch;
-            }
-        } elsif (s/^X[CS]*B[CS]*-//i) {
-            $f{$_}= $v;
-        } elsif (!m/^X[CS]+-/i) {
-            $_ = "C$myindex $_"; &unknown(_g("package's section of control info file"));
-        }
-    } elsif (m/^C\d+ /) {
-#print STDERR "X key >$_< value not shown<\n";
-    } elsif (s/^L //) {
-#print STDERR "L key >$_< value >$v<\n";
-        if (m/^Source$/) {
-	    setsourcepackage($v);
-        } elsif (m/^Version$/) {
-            $sourceversion= $v;
-	    $f{$_} = $v unless defined($forceversion);
-        } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
-        } elsif (s/^X[CS]*B[CS]*-//i) {
-            $f{$_}= $v;
-        } elsif (!m/^X[CS]+-/i) {
-            $_ = "L $_"; &unknown(_g("parsed version of changelog"));
-        }
-    } elsif (m/o:/) {
-    } else {
-        internerr(_g("value from nowhere, with key >%s< and value >%s<"), $_, $v);
+	if (debarch_eq('all', $v)) {
+	    $fields->{$_} = $v;
+	} else {
+	    my @archlist = split(/\s+/, $v);
+	    my @invalid_archs = grep m/[^\w-]/, @archlist;
+	    warning(ngettext("`%s' is not a legal architecture string.",
+			     "`%s' are not legal architecture strings.",
+			     scalar(@invalid_archs)),
+		    join("' `", @invalid_archs))
+		if @invalid_archs >= 1;
+	    grep(debarch_is($host_arch, $_), @archlist) ||
+		error(_g("current host architecture '%s' does not " .
+			 "appear in package's architecture list (%s)"),
+		      $host_arch, "@archlist");
+	    $fields->{$_} = $host_arch;
+	}
+    } elsif (s/^X[CS]*B[CS]*-//i) {
+	$fields->{$_}= $v;
+    } elsif (!m/^X[CS]+-/i) {
+	&unknown(_g("package's section of control info file"));
     }
 }
 
-$f{'Version'} = $forceversion if defined($forceversion);
+# Scan fields of dpkg-parsechangelog
+foreach $_ (keys %{$changelog}) {
+    my $v = $changelog->{$_};
 
-&init_substvars;
-init_substvar_arch();
+    if (m/^Source$/) {
+	set_source_package($v);
+    } elsif (m/^Version$/) {
+	$sourceversion = $v;
+	$fields->{$_} = $v unless defined($forceversion);
+    } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/) {
+    } elsif (s/^X[CS]*B[CS]*-//i) {
+	$fields->{$_} = $v;
+    } elsif (!m/^X[CS]+-/i) {
+	&unknown(_g("parsed version of changelog"));
+    }
+}
+
+$fields->{'Version'} = $forceversion if defined($forceversion);
 
 # Process dependency fields in a second pass, now that substvars have been
 # initialized.
 
 my $facts = Dpkg::Deps::KnownFacts->new();
-$facts->add_installed_package($f{'Package'}, $f{'Version'});
-if (exists $fi{"C$myindex Provides"}) {
-    my $provides = Dpkg::Deps::parse(substvars($fi{"C$myindex Provides"}),
+$facts->add_installed_package($fields->{'Package'}, $fields->{'Version'});
+if (exists $pkg->{"Provides"}) {
+    my $provides = Dpkg::Deps::parse($substvars->substvars($pkg->{"Provides"}),
                                      reduce_arch => 1, union => 1);
     if (defined $provides) {
 	foreach my $subdep ($provides->get_deps()) {
 	    if ($subdep->isa('Dpkg::Deps::Simple')) {
 		$facts->add_provided_package($subdep->{package},
                         $subdep->{relation}, $subdep->{version},
-                        $f{'Package'});
+                        $fields->{'Package'});
 	    }
 	}
     }
@@ -251,10 +237,9 @@ if (exists $fi{"C$myindex Provides"}) {
 
 my (@seen_deps);
 foreach my $field (@pkg_dep_fields) {
-    my $key = "C$myindex $field";
-    if (exists $fi{$key}) {
+    if (exists $pkg->{$field}) {
 	my $dep;
-	my $field_value = substvars($fi{$key});
+	my $field_value = $substvars->substvars($pkg->{$field});
 	if ($dep_field_type{$field} eq 'normal') {
 	    $dep = Dpkg::Deps::parse($field_value, use_arch => 1,
                                      reduce_arch => 1);
@@ -269,36 +254,36 @@ foreach my $field (@pkg_dep_fields) {
 	    $dep->simplify_deps($facts);
 	}
 	$dep->sort();
-	$f{$field} = $dep->dump();
-	delete $f{$field} unless $f{$field}; # Delete empty field
+	$fields->{$field} = $dep->dump();
+	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
     }
 }
 
 for my $f (qw(Package Version)) {
-    defined($f{$f}) || error(_g("missing information for output field %s"), $f);
+    defined($fields->{$f}) || error(_g("missing information for output field %s"), $f);
 }
 for my $f (qw(Maintainer Description Architecture)) {
-    defined($f{$f}) || warning(_g("missing information for output field %s"), $f);
+    defined($fields->{$f}) || warning(_g("missing information for output field %s"), $f);
 }
-$oppackage= $f{'Package'};
+$oppackage = $fields->{'Package'};
 
-$package_type = $f{'Package-Type'} if (defined($f{'Package-Type'}));
+$package_type = $fields->{'Package-Type'} if (defined($fields->{'Package-Type'}));
 
 if ($package_type ne 'udeb') {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
         warning(_g("%s package with udeb specific field %s"), $package_type, $f)
-            if defined($f{$f});
+            if defined($fields->{$f});
     }
 }
 
-my $verdiff = $f{'Version'} ne $substvar{'source:Version'} ||
-              $f{'Version'} ne $sourceversion;
+my $verdiff = $fields->{'Version'} ne $substvars->get('source:Version') ||
+              $fields->{'Version'} ne $sourceversion;
 if ($oppackage ne $sourcepackage || $verdiff) {
-    $f{'Source'}= $sourcepackage;
-    $f{'Source'}.= " ($substvar{'source:Version'})" if $verdiff;
+    $fields->{'Source'} = $sourcepackage;
+    $fields->{'Source'} .= " (" . $substvars->get('source:Version') . ")" if $verdiff;
 }
 
-if (!defined($substvar{'Installed-Size'})) {
+if (!defined($substvars->get('Installed-Size'))) {
     defined(my $c = open(DU, "-|")) || syserr(_g("fork for du"));
     if (!$c) {
         chdir("$packagebuilddir") ||
@@ -313,27 +298,26 @@ if (!defined($substvar{'Installed-Size'})) {
     $? && subprocerr(_g("du in \`%s'"), $packagebuilddir);
     $duo =~ m/^(\d+)\s+\.$/ ||
         failure(_g("du gave unexpected output \`%s'"), $duo);
-    $substvar{'Installed-Size'}= $1;
+    $substvars->set('Installed-Size', $1);
 }
-if (defined($substvar{'Extra-Size'})) {
-    $substvar{'Installed-Size'} += $substvar{'Extra-Size'};
+if (defined($substvars->get('Extra-Size'))) {
+    my $size = $substvars->get('Extra-Size') + $substvars->get('Installed-Size');
+    $substvars->set('Installed-Size', $size);
 }
-if (defined($substvar{'Installed-Size'})) {
-    $f{'Installed-Size'}= $substvar{'Installed-Size'};
+if (defined($substvars->get('Installed-Size'))) {
+    $fields->{'Installed-Size'} = $substvars->get('Installed-Size');
 }
 
 for my $f (keys %override) {
-    $f{capit($f)} = $override{$f};
+    $fields->{$f} = $override{$f};
 }
 for my $f (keys %remove) {
-    delete $f{capit($f)};
+    delete $fields->{$f};
 }
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
 open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
 binmode(Y);
-chown(getfowner(), "$fileslistfile.new") 
-		|| &syserr(_g("chown new files list file"));
 if (open(X,"< $fileslistfile")) {
     binmode(X);
     while (<X>) {
@@ -341,7 +325,7 @@ if (open(X,"< $fileslistfile")) {
         next if m/^([-+0-9a-z.]+)_[^_]+_([\w-]+)\.(a-z+) /
                 && ($1 eq $oppackage)
 	        && ($3 eq $package_type)
-	        && (debarch_eq($2, $f{'Architecture'})
+	        && (debarch_eq($2, $fields->{'Architecture'})
 		    || debarch_eq($2, 'all'));
         print(Y "$_\n") || &syserr(_g("copy old entry to new files list file"));
     }
@@ -349,13 +333,14 @@ if (open(X,"< $fileslistfile")) {
 } elsif ($! != ENOENT) {
     &syserr(_g("read old files list file"));
 }
-my $sversion = $f{'Version'};
+my $sversion = $fields->{'Version'};
 $sversion =~ s/^\d+://;
-$forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion, $f{'Architecture'},
+$forcefilename = sprintf("%s_%s_%s.%s", $oppackage, $sversion, $fields->{'Architecture'},
 			 $package_type)
 	   unless ($forcefilename);
-print(Y &substvars(sprintf("%s %s %s\n", $forcefilename, 
-                           &spfileslistvalue('Section'), &spfileslistvalue('Priority'))))
+print(Y $substvars->substvars(sprintf("%s %s %s\n", $forcefilename,
+				      $fields->{'Section'} || '-',
+				      $fields->{'Priority'} || '-')))
     || &syserr(_g("write new entry to new files list file"));
 close(Y) || &syserr(_g("close new files list file"));
 rename("$fileslistfile.new",$fileslistfile) || &syserr(_g("install new files list file"));
@@ -370,10 +355,11 @@ if (!$stdout) {
 }
 
 set_field_importance(@control_fields);
-outputclose($varlistfile);
+tied(%{$fields})->output(\*STDOUT, $substvars);
 
 if (!$stdout) {
     rename("$cf.new", "$cf") ||
         syserr(_g("cannot install output control file \`%s'"), $cf);
 }
+
 

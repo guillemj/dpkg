@@ -6,6 +6,17 @@ dpkg (1.14.16) UNRELEASED; urgency=low
   * Do not warn about unrecognized Homepage field in binary package stanzas
     in dpkg-genchanges and dpkg-source.
 
+  [ Frank Lichtenheld ]
+  * Make the -L option of dpkg-parsechangelog actually work (it's
+    only been eleven years...)
+  * Import the code from my external Parse::DebianChangelog as
+    Dpkg::Changelog and Dpkg::Changelog::Debian. Using this
+    from parsechangelog/debian adds the following requested
+    features:
+     - Option to use a non-lossy format. Closes: #95579
+     - Various options to better control how many entries
+       should be displayed. Closes: #226932
+
   [ Updated dpkg translations ]
   * Basque (Piarres Beobide). Closes: #459565
   * French (Christian Perrier).

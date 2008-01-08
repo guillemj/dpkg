@@ -1,3 +1,55 @@
+2008-01-08  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-parsechangelog.pl: Make the
+	-L option actually work (it's only been eleven
+	years...)
+	
+	* scripts/Dpkg/ErrorHandling.pm (report): export.
+
+2007-01-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Cdata.pm, scripts/Dpkg/Control.pm: Add two new
+	module to parse and manipulate files like debian/control.
+	* scripts/t/600_Dpkg_Control.t,
+	scripts/t/600_Dpkg_Control/control-1: Add non-regression tests for
+	Dpkg::Control and Dpkg::Cdata.
+	* scripts/dpkg-checkbuilddeps.pl, scripts/dpkg-genchanges.pl,
+	scripts/dpkg-gencontrol.pl, scripts/dpkg-gensymbols.pl,
+	scripts/dpkg-shlibdeps.pl, scripts/dpkg-source.pl: Update scripts
+	to use the new modules Dpkg::Cdata, Dpkg::Control,
+	Dpkg::Fields::Object and Dpkg::Substvars.
+
+	* scripts/Dpkg/Version.pm (check_version): New function replacing
+	checkversion of controllib.pl.
+	* scripts/dpkg-source.pl, scripts/dpkg-buildpackage.pl: Use the
+	new check_version.
+
+	* scripts/Dpkg/Vars.pm (set_source_package): New function to set
+	and check the global variable $sourcepackage (replacing
+	controllib's setsourcepackage).
+	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-source.pl: Use the new set_source_package.
+
+	* scripts/dpkg-distaddfile.pl, scripts/dpkg-gencontrol.pl: Delete
+	the chown(getfowner(), ...) on new files. It doesn't seem to do
+	anything useful anymore as it got dropped from several other
+	scripts over the years without problems.
+
+	* scripts/dpkg-source.pl: Integrate readmd5sum from controllib here
+	as it's the only user of that function.
+
+	* scripts/controllib.pl: Get rid of everything except
+	parsechangelog and its dependencies (parsecdata, syntax) that are
+	still needed.
+
+	* scripts/Makefile.am: Include all the new files in the
+	distributed tarball.
+
+2007-01-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/ErrorHandling.pm (syntaxerr): New function to
+	replace the syntax() function in controllib.pl.
+
 2008-01-07  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-genchanges.pl: Ignore Homepage field in binary package
