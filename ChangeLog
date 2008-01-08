@@ -1,3 +1,26 @@
+2008-01-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Version.pm: Import missing error function from
+	Dpkg::ErrorHandling.
+
+	* scripts/po/POTFILES.in: Add many modules containing translatable
+	strings.
+
+	* scripts/Dpkg/Changelog.pm (parse_changelog): New function to
+	replace controllib's parsechangelog.
+
+	* scripts/dpkg-buildpackage.pl, scripts/dpkg-checkbuilddeps.pl,
+	scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-gensymbols.pl, scripts/dpkg-source.pl: Update scripts to use
+	Dpkg::Changelog::parse_changelog instead of the old controllib.pl's
+	parsechangelog. With this last change controllib.pl is no more used by
+	any script.
+
+	* scripts/controllib.pl: Removed as it's no more used by any
+	script.
+
+	* debian/dpkg-dev.install: Add missing modules.
+
 2008-01-08  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/dpkg-parsechangelog.pl: Make the
@@ -6,7 +29,7 @@
 	
 	* scripts/Dpkg/ErrorHandling.pm (report): export.
 
-2007-01-08  Raphael Hertzog  <hertzog@debian.org>
+2008-01-08  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Cdata.pm, scripts/Dpkg/Control.pm: Add two new
 	module to parse and manipulate files like debian/control.
@@ -45,7 +68,7 @@
 	* scripts/Makefile.am: Include all the new files in the
 	distributed tarball.
 
-2007-01-08  Raphael Hertzog  <hertzog@debian.org>
+2008-01-08  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/ErrorHandling.pm (syntaxerr): New function to
 	replace the syntax() function in controllib.pl.
