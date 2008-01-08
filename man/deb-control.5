@@ -107,10 +107,11 @@ List of packages that are required for this package to provide a
 non-trivial amount of functionality. The package maintenance software
 will not allow a package to be installed if the packages listed in its
 .B Depends
-field aren't installed (at least not without using the force options),
-and will run the postinst scripts of packages listed in Depends: fields
-before those of the packages which depend on them, and run prerm scripts
-before.
+field aren't installed (at least not without using the force options).
+In an installation, the postinst scripts of packages listed in Depends:
+fields are run before those of the packages which depend on them. On the
+opposite, in a removal, the prerm script of a package is run before
+those of the packages listed in its Depends: field.
 .TP
 .BR Pre-Depends: " <package list>"
 List of packages that must be installed

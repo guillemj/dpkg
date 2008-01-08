@@ -63,10 +63,12 @@ static void readfail(FILE *a, const char *filename, const char *what) {
   }
 }
 
-static unsigned long parseheaderlength(const char *inh, size_t len,
-                                       const char *fn, const char *what) {
+static size_t
+parseheaderlength(const char *inh, size_t len,
+                  const char *fn, const char *what)
+{
   char lintbuf[15];
-  unsigned long r;
+  ssize_t r;
   char *endp;
 
   if (memchr(inh,0,len))
@@ -75,10 +77,12 @@ static unsigned long parseheaderlength(const char *inh, size_t len,
   memcpy(lintbuf,inh,len);
   lintbuf[len]= ' ';
   *strchr(lintbuf,' ')= 0;
-  r= strtoul(lintbuf,&endp,10);
+  r = strtol(lintbuf, &endp, 10);
+  if (r < 0)
+    ohshit(_("file `%.250s' is corrupt - negative member length %zi"), fn, r);
   if (*endp)
     ohshit(_("file `%.250s' is corrupt - bad digit (code %d) in %s"),fn,*endp,what);
-  return r;
+  return (size_t)r;
 }
 
 void extracthalf(const char *debar, const char *directory,
@@ -118,8 +122,6 @@ void extracthalf(const char *debar, const char *directory,
         ohshit(_("file `%.250s' is corrupt - bad magic at end of first header"),debar);
       memberlen= parseheaderlength(arh.ar_size,sizeof(arh.ar_size),
                                    debar,"member length");
-      if (memberlen<0)
-        ohshit(_("file `%.250s' is corrupt - negative member length %zi"),debar,memberlen);
       if (!header_done) {
         if (memcmp(arh.ar_name,"debian-binary   ",sizeof(arh.ar_name)) &&
 	    memcmp(arh.ar_name,"debian-binary/   ",sizeof(arh.ar_name)))

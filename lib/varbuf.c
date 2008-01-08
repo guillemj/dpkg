@@ -27,7 +27,9 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-inline void varbufaddc(struct varbuf *v, int c) {
+void
+varbufaddc(struct varbuf *v, int c)
+{
   if (v->used >= v->size) varbufextend(v);
   v->buf[v->used++]= c;
 }
@@ -44,7 +46,8 @@ void varbufdupc(struct varbuf *v, int c, ssize_t n) {
 }
 
 int varbufprintf(struct varbuf *v, const char *fmt, ...) {
-  unsigned int ou, r;
+  size_t ou;
+  int r;
   va_list al;
 
   ou= v->used;
@@ -57,12 +60,13 @@ int varbufprintf(struct varbuf *v, const char *fmt, ...) {
     va_end(al);
     if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;
-  } while (r >= v->size-ou-1);
+  } while (r >= (int)(v->size - ou - 1));
   return r;
 }
 
 int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
-  unsigned int ou, r;
+  size_t ou;
+  int r;
   va_list al;
 
   ou= v->used;
@@ -74,7 +78,7 @@ int varbufvprintf(struct varbuf *v, const char *fmt, va_list va) {
     r= vsnprintf(v->buf+ou,v->size-ou,fmt,al);
     if (r < 0) r= (v->size-ou+1) * 2;
     v->used= ou+r;
-  } while (r >= v->size-ou-1);
+  } while (r >= (int)(v->size - ou - 1));
   return r;
 }
 

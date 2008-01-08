@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 34;
+use Test::More tests => 36;
 use IO::String;
 
 use strict;
@@ -40,6 +40,11 @@ close $objdump;
 ok(!$obj->is_public_library(), 'ls is not a public library');
 ok($obj->is_executable(), 'ls is an executable');
 
+my $sym = $obj->get_symbol('optarg@GLIBC_2.0');
+ok($sym, 'optarg@GLIBC_2.0 exists');
+ok(!$sym->{'defined'}, 'R_*_COPY relocations are taken into account');
+
+
 open $objdump, '<', "$srcdir/objdump.libc6-2.6"
   or die "$srcdir/objdump.libc6-2.6: $!";
 $obj->reset();
@@ -57,7 +62,7 @@ is_deeply($obj->{flags}, { DYNAMIC => 1, HAS_SYMS => 1, D_PAGED => 1 }, 'flags')
 is_deeply($obj->{NEEDED}, [ 'ld-linux.so.2' ], 'NEEDED');
 is_deeply([ $obj->get_needed_libraries ], [ 'ld-linux.so.2' ], 'NEEDED');
 
-my $sym = $obj->get_symbol('_sys_nerr@GLIBC_2.3');
+$sym = $obj->get_symbol('_sys_nerr@GLIBC_2.3');
 is_deeply( $sym, { name => '_sys_nerr', version => 'GLIBC_2.3',
 		   soname => 'libc.so.6', section => '.rodata', dynamic => 1,
 		   debug => '', type => 'O', weak => '',

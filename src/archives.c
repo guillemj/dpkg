@@ -374,7 +374,7 @@ int tarobject(struct TarInfo *ti) {
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
   int statr, fd, i, existingdirectory, keepexisting;
-  size_t r;
+  ssize_t r;
   struct stat stab, stabtmp;
   char databuf[TARBLKSZ];
   struct fileinlist *nifd, **oldnifd;
@@ -765,7 +765,7 @@ int tarobject(struct TarInfo *ti) {
         varbufextend(&symlinkfn);
         r= readlink(fnamevb.buf,symlinkfn.buf,symlinkfn.size);
         if (r<0) ohshite(_("unable to read link `%.255s'"),ti->Name);
-      } while (r == symlinkfn.size);
+      } while ((size_t)r == symlinkfn.size);
       symlinkfn.used= r; varbufaddc(&symlinkfn,0);
       if (symlink(symlinkfn.buf,fnametmpvb.buf))
         ohshite(_("unable to make backup symlink for `%.255s'"),ti->Name);
@@ -1092,34 +1092,33 @@ void archivefiles(const char *const *argv) {
     m_pipe(pi);
     if (!(fc= m_fork())) {
       const char *const *ap;
-      char **narglist;
       int i;
       m_dup2(pi[1],1); close(pi[0]); close(pi[1]);
       for (i=0, ap=argv; *ap; ap++, i++);
-      narglist= m_malloc(sizeof(char*)*(i+15));
-      narglist[0] = FIND;
+      arglist = m_malloc(sizeof(char *) * (i + 15));
+      arglist[0] = FIND;
       for (i=1, ap=argv; *ap; ap++, i++) {
         if (strchr(FIND_EXPRSTARTCHARS,(*ap)[0])) {
           char *a;
           a= m_malloc(strlen(*ap)+10);
           strcpy(a,"./");
           strcat(a,*ap);
-          narglist[i]= a;
+          arglist[i] = a;
         } else {
-          narglist[i] = (char *)*ap;
+          arglist[i] = (const char *)*ap;
         }
       }
       /* When editing these, make sure that arglist is malloced big enough,
        * above.
        */
-      narglist[i++] = "-follow";
-      narglist[i++] = "-name";
-      narglist[i++] = ARCHIVE_FILENAME_PATTERN;
-      narglist[i++] = "-type";
-      narglist[i++] = "f";
-      narglist[i++] = "-print0";
-      narglist[i++]= 0;
-      execvp(FIND, narglist);
+      arglist[i++] = "-follow";
+      arglist[i++] = "-name";
+      arglist[i++] = ARCHIVE_FILENAME_PATTERN;
+      arglist[i++] = "-type";
+      arglist[i++] = "f";
+      arglist[i++] = "-print0";
+      arglist[i++] = 0;
+      execvp(FIND, (char *const *)arglist);
       ohshite(_("failed to exec find for --recursive"));
     }
     close(pi[1]);

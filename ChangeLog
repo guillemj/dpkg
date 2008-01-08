@@ -1,3 +1,81 @@
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Ignore Homepage field in binary package
+	stanzas.
+	* scripts/dpkg-source.pl: Likewise.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-checkbuilddeps.pl: Remove unused $dep_regex.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-checkbuilddeps.pl: Add build-essential as an implicit
+	Build-Depends.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.16~.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.15.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* src/archives.c (archivefiles): Use arglist instead of narglist.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* lib/nfmalloc.c (nfmalloc): Remove inline keyword as extern inline
+	changes semantics from GNU C to C99.
+	* lib/varbuf.c (varbufaddc): Likewise.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/extract.c (extracthalf): Move negative member length check
+	to ...
+	(parseheaderlength): ... here. Change return type to size_t. Change
+	variable r to ssize_t. Use strtol instead of strtoul to easily catch
+	negative values.
+	* dpkg-deb/info.c (info_spew): Use %zu in a format string instead of
+	%lu to print pathlen, a size_t variable.
+	* dpkg-split/queue.c (do_auto): Change j from unsinged int to int.
+	Cast j to unsigned int when comparing it to i.
+	* lib/varbuf.c (varbufprintf): Change ou from unsigned int to size_t.
+	Change r from unsigned int to int. Cast value compared to r to int.
+	(varbufprintf): Likewise.
+	* src/archives.c (tarobject): Change r from size_t to ssize_t.
+	Cast r to size_t when comparing it to symlinkfn.size.
+	* src/main.c (setforce): Cast string difference to size_t instead of
+	int.
+	* utils/start-stop-daemon.c (parse_schedule): Change str_len from
+	ptrdiff_t to size_t. Cast string difference to size_t instead of
+	ptrdiff_t. Remove ptrdiff_t cast to sizeof.
+
+2008-01-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/BuildOptions.pm (set): Parse all options separated
+	by spaces or comma, do not lowercase the option names, do not match
+	on name substrings, and on recognized options with invalid values
+	discard the value or the entire option.
+	* scripts/t/300_Dpkg_BuildOptions.t: Adjust test suite.
+
+2008-01-06  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/Objdump.pm: Also retrieve dynamic relocation
+	records from objdump by adding the -R option. Use this information
+	to mark symbols affected by R_*_COPY relocations as undefined.
+	They are initialized by the loader with values searched in the
+	needed libraries.
+
+	* scripts/Dpkg/BuildOptions.pm (set): Change the default value of
+	the overwrite parameter to 1. The only use of this function in
+	dpkg-buildpackage is missing the parameter and actually wants to
+	overwrite the whole variable.
+	* scripts/t/300_Dpkg_BuildOptions.t: Adjust the test suite for this
+	change.
+
 2008-01-04  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Shlibs/SymbolFile.pm: Replace #DEPRECATED by
