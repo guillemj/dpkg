@@ -175,7 +175,7 @@ extern const char printforhelp[];
   if (setjmp(*ejbuf)) { /* expect warning about possible clobbering of argv */\
     error_unwind(ehflag_bombout); exit(2);\
   }\
-  push_error_handler(ejbuf,print_error_fatal,0);\
+  push_error_handler(ejbuf, print_error_fatal, NULL); \
   umask(022); /* Make sure all our status databases are readable. */\
   if (loadcfg)\
     loadcfgfile(prog, cmdinfos);\
@@ -183,7 +183,7 @@ extern const char printforhelp[];
 } while (0)
 
 #define standard_shutdown(freemem) do {\
-  set_error_display(0,0);\
+  set_error_display(NULL, NULL); \
   error_unwind(ehflag_normaltidy);\
   if (freemem)\
     nffreeall();\
@@ -284,14 +284,14 @@ struct buffer_data {
 	if (lseek(fd, limit, SEEK_CUR) == -1) { \
 	    if(errno != ESPIPE) ohshite(__VA_ARGS__); \
 	    buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-				     0, BUFFER_WRITE_NULL, NULL, \
+	                             NULL, BUFFER_WRITE_NULL, NULL, \
 				     limit, __VA_ARGS__);\
 	}
 # define stream_null_copy(file, limit, ...) \
 	if (fseek(file, limit, SEEK_CUR) == -1) { \
 	    if(errno != EBADF) ohshite(__VA_ARGS__); \
 	    buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
-				     0, BUFFER_WRITE_NULL, NULL, \
+	                             NULL, BUFFER_WRITE_NULL, NULL, \
 				     limit, __VA_ARGS__);\
 	}
 # define stream_fd_copy(file, fd, limit, ...)\
@@ -323,14 +323,14 @@ struct buffer_data {
 	if (lseek(fd, limit, SEEK_CUR) == -1) { \
 	    if(errno != ESPIPE) ohshite(desc); \
 	    buffer_copy_setup_IntPtr(fd, BUFFER_READ_FD, NULL, \
-				     0, BUFFER_WRITE_NULL, NULL, \
+	                             NULL, BUFFER_WRITE_NULL, NULL, \
 				     limit, desc);\
 	}
 # define stream_null_copy(file, limit, desc...) \
 	if (fseek(file, limit, SEEK_CUR) == -1) { \
 	    if(errno != EBADF) ohshite(desc); \
 	    buffer_copy_setup_PtrPtr(file, BUFFER_READ_STREAM, NULL, \
-				     0, BUFFER_WRITE_NULL, NULL, \
+	                             NULL, BUFFER_WRITE_NULL, NULL, \
 				     limit, desc);\
 	}
 # define stream_fd_copy(file, fd, limit, desc...)\

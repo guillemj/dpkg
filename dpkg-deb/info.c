@@ -76,7 +76,7 @@ static void info_prepare(const char *const **argvp,
     ohshite(_("failed to exec rm -rf"));
   }
   waitsubproc(c1,"rm -rf",0);
-  push_cleanup(cu_info_prepare,-1, 0,0, 1, (void*)dbuf);
+  push_cleanup(cu_info_prepare, -1, NULL, 0, 1, (void *)dbuf);
   extracthalf(*debarp, dbuf, "mx", admininfo);
 }
 
@@ -92,7 +92,7 @@ static void info_spew(const char *debar, const char *directory,
   FILE *co;
   int re= 0;
 
-  while ((component= *argv++) != 0) {
+  while ((component = *argv++) != NULL) {
     pathlen = strlen(directory) + strlen(component) + 2;
     controlfile = (void *) realloc((void *) controlfile, pathlen);
     if (!controlfile)
@@ -256,9 +256,9 @@ void do_field(const char *const *argv) {
 
   info_prepare(&argv,&debar,&directory,1);
   if (*argv) {
-    info_field(debar, directory, argv, argv[1]!=0);
+    info_field(debar, directory, argv, argv[1] != NULL);
   } else {
-    static const char *const controlonly[]= { "control", 0 };
+    static const char *const controlonly[] = { "control", NULL };
     info_spew(debar,directory, controlonly);
   }
 }
@@ -267,7 +267,7 @@ void do_contents(const char *const *argv) {
   const char *debar;
   
   if (!(debar= *argv++) || *argv) badusage(_("--contents takes exactly one argument"));
-  extracthalf(debar, 0, "tv", 0);
+  extracthalf(debar, NULL, "tv", 0);
 }
 /* vi: sw=2
  */

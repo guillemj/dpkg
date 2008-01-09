@@ -114,7 +114,8 @@ void do_join(const char *const *argv) {
     if (!refi || pq->info.thispartn < refi->thispartn) refi= &pq->info;
   assert(refi);
   partlist= nfmalloc(sizeof(struct partinfo*)*refi->maxpartn);
-  for (i=0; i<refi->maxpartn; i++) partlist[i]= 0;
+  for (i = 0; i < refi->maxpartn; i++)
+    partlist[i] = NULL;
   for (pq= queue; pq; pq= pq->nextinqueue) {
     pi= &pq->info;
     addtopartlist(partlist,pi,refi);

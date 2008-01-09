@@ -169,7 +169,7 @@ void deferred_remove(struct pkginfo *pkg) {
     oldpkgstatus= pkg->status;
     pkg->status= stat_halfconfigured;
     modstatdb_note(pkg);
-    push_cleanup(cu_prermremove, ~ehflag_normaltidy, 0, 0, 2,
+    push_cleanup(cu_prermremove, ~ehflag_normaltidy, NULL, 0, 2,
                  (void *)pkg, (void *)&oldpkgstatus);
     maintainer_script_installed(pkg, PRERMFILE, "pre-removal",
                                 "remove", NULL);
@@ -208,7 +208,7 @@ static void removal_bulk_remove_files(
     push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
     reversefilelist_init(&rlistit,pkg->clientdata->files);
-    leftover= 0;
+    leftover = NULL;
     while ((namenode= reversefilelist_next(&rlistit))) {
       debug(dbg_eachfile, "removal_bulk `%s' flags=%o",
             namenode->name, namenode->flags);
@@ -291,12 +291,12 @@ static void removal_bulk_remove_files(
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
-    push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
+    push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
   *out_foundpostrm= 0;
 
     debug(dbg_general, "removal_bulk cleaning info directory");
 
-    while ((de= readdir(dsd)) != 0) {
+    while ((de = readdir(dsd)) != NULL) {
     char *p;
 
       debug(dbg_veryverbose, "removal_bulk info file `%s'", de->d_name);
@@ -335,7 +335,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
   push_checkpoint(~ehflag_bombout, ehflag_normaltidy);
 
   reversefilelist_init(&rlistit,pkg->clientdata->files);
-  leftover= 0;
+  leftover = NULL;
   while ((namenode= reversefilelist_next(&rlistit))) {
     debug(dbg_eachfile, "removal_bulk `%s' flags=%o",
           namenode->name, namenode->flags);
@@ -391,7 +391,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
 }
 
 static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
-  static const char *const removeconffexts[]= { REMOVECONFFEXTS, 0 };
+  static const char *const removeconffexts[] = { REMOVECONFFEXTS, NULL };
   int r, removevbbase;
   int conffnameused, conffbasenamelen;
   char *conffbasename;
@@ -416,7 +416,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
      * are involved in diversions, except if we are the package doing the
      * diverting.
      */
-    for (lconffp= &pkg->installed.conffiles; (conff= *lconffp) != 0; ) {
+    for (lconffp = &pkg->installed.conffiles; (conff = *lconffp) != NULL; ) {
       for (searchfile= pkg->clientdata->files;
            searchfile && strcmp(searchfile->namenode->name,conff->name);
            searchfile= searchfile->next);
@@ -471,11 +471,11 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
                 fnvb.buf, conff->name);
       }
       debug(dbg_conffdetail, "removal_bulk conffile cleaning dsd %s", fnvb.buf);
-      push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
+      push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
       *p= '/';
       conffbasenamelen= strlen(++p);
       conffbasename= fnvb.buf+conffnameused-conffbasenamelen;
-      while ((de= readdir(dsd)) != 0) {
+      while ((de = readdir(dsd)) != NULL) {
         debug(dbg_stupidlyverbose, "removal_bulk conffile dsd entry=`%s'"
               " conffbasename=`%s' conffnameused=%d conffbasenamelen=%d",
               de->d_name, conffbasename, conffnameused, conffbasenamelen);
@@ -509,7 +509,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
     
     }
     
-    pkg->installed.conffiles= 0;
+    pkg->installed.conffiles = NULL;
     modstatdb_note(pkg);
         
     maintainer_script_installed(pkg, POSTRMFILE, "post-removal",
@@ -586,14 +586,14 @@ void removal_bulk(struct pkginfo *pkg) {
     /* This will mess up reverse links, but if we follow them
      * we won't go back because pkg->status is stat_notinstalled.
      */
-    pkg->installed.depends= 0;
+    pkg->installed.depends = NULL;
     pkg->installed.essential= 0;
-    pkg->installed.description= pkg->installed.maintainer= 0;
-    pkg->installed.source= pkg->installed.installedsize= 0;
-    pkg->installed.origin= pkg->installed.bugs= 0;
-    pkg->installed.architecture= 0;
+    pkg->installed.description = pkg->installed.maintainer = NULL;
+    pkg->installed.source = pkg->installed.installedsize = NULL;
+    pkg->installed.origin = pkg->installed.bugs = NULL;
+    pkg->installed.architecture = NULL;
     blankversion(&pkg->installed.version);
-    pkg->installed.arbs= 0;
+    pkg->installed.arbs = NULL;
   }
       
   pkg->eflag= eflagv_ok;

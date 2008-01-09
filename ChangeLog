@@ -1,3 +1,45 @@
+2008-01-16  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (do_build): Use NULL instead of 0.
+	* dpkg-deb/extract.c (extracthalf, do_fsystarfile): Likewise.
+	* dpkg-deb/info.c (info_prepare, info_spew): Likewise.
+	(do_contents, do_field): Likewise.
+	* dpkg-deb/main.c (cipaction, action, cmdinfos, main): Likewise.
+	* dpkg-split/join.c (do_join): Likewise.
+	* dpkg-split/queue.c (do_auto): Likewise.
+	* lib/dpkg.h (standard_startup, standard_shutdown): Likewise.
+	* src/archives.c (destroyobstack, deconfigure, addfiletolist)
+	(tarobject, check_breaks, check_conflict, archivefiles)
+	(newconff_append): Likewise.
+	* src/configure.c (deferred_configure, conffderef, md5hash): Likewise.
+	* src/depcon.c (findbreakcyclerecursive, findbreakcycle)
+	(depisok): Likewise.
+	* src/enquiry.c (limiteddescription, badstatinfos, unpackchk)
+	(assertversion, assertpredep, assertepoch, assertlongfilenames)
+	(assertmulticonrep, predeppackage, cmpversions): Likewise.
+	* src/errors.c (reports, print_error_perpackage): Likewise.
+	* src/filesdb.c (diversions, diversionsfile, statoverridefile)
+	(ensure_packagefiles_available, ensure_allinstfiles_available)
+	(write_filelist_except, reversefilelist_init, reversefilelist_next)
+	(ensure_diversions, iterfilestart, iterfilenext, filesdbinit)
+	(findnamenode): Likewise.
+	* src/help.c (checkpath, ensure_package_clientdata
+	(vbuildarglist, cu_restorescriptsignals, script_catchsignals)
+	(clear_istobes): Likewise.
+	* src/main.c (cipaction, ignoredepends, forceinfos)
+	(ACTION, OBSOLETE, ACTIONBACKEND, cmdinfos)
+	(execbackend, commandfd, main): Likewise.
+	* src/packages.c (queuehead, add_to_queue, packages, process_queue)
+	(breakses_ok, dependencies_ok): Likewise.
+	* src/processarc.c (process_archive): Likewise.
+	* src/remove.c (deferred_remove, removal_bulk_remove_files)
+	(removal_bulk_remove_leftover_dirs, removal_bulk_remove_configfiles)
+	(removal_bulk): Likewise.
+	* src/update.c (updateavailable): Likewise.
+	* utils/start-stop-daemon.c (xgettimeofday, run_stop_schedule)
+	(parse_options): Likewise.
+	(pid_is_cmd, pid_is_user, pid_is_exec) [HAVE_KVM_H]: Likewise.
+
 2008-01-15  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-shlibdeps.pl (filter_deps): Fix filtering of

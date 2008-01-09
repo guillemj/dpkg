@@ -169,7 +169,7 @@ static void free_filist(struct _finfo* fi) {
  */
 void do_build(const char *const *argv) {
   static const char *const maintainerscripts[]= {
-    PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, 0
+    PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, NULL
   };
   
   char *m;
@@ -197,7 +197,8 @@ void do_build(const char *const *argv) {
   strcpy(tfbuf,envbuf);
   strcat(tfbuf,"/dpkg.XXXXXX");
   subdir= 0;
-  if ((debar= *argv++) !=0) {
+  debar = *argv++;
+  if (debar != NULL) {
     if (*argv) badusage(_("--build takes at most two arguments"));
     if (debar) {
       if (stat(debar,&debarstab)) {
@@ -340,7 +341,8 @@ void do_build(const char *const *argv) {
    * build something. Lets start by making the ar-wrapper.
    */
   if (!(ar=fopen(debar,"wb"))) ohshite(_("unable to create `%.255s'"),debar);
-  if (setvbuf(ar, 0, _IONBF, 0)) ohshite(_("unable to unbuffer `%.255s'"),debar);
+  if (setvbuf(ar, NULL, _IONBF, 0))
+    ohshite(_("unable to unbuffer `%.255s'"), debar);
   /* Fork a tar to package the control-section of the package */
   m_pipe(p1);
   if (!(c1= m_fork())) {
@@ -379,7 +381,7 @@ void do_build(const char *const *argv) {
     if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
       werr(debar);
   } else {
-    thetime= time(0);
+    thetime = time(NULL);
     if (fprintf(ar,
                 "!<arch>\n"
                 "debian-binary   %-12lu0     0     100644  %-10ld`\n"

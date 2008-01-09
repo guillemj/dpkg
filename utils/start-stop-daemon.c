@@ -241,7 +241,7 @@ xmalloc(int size)
 static void
 xgettimeofday(struct timeval *tv)
 {
-	if (gettimeofday(tv,0) != 0)
+	if (gettimeofday(tv, NULL) != 0)
 		fatal("gettimeofday failed: %s", strerror(errno));
 }
 
@@ -544,7 +544,7 @@ parse_options(int argc, char * const *argv)
 
 	for (;;) {
 		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:k:bmR:g:d:",
-				longopts, (int *) 0);
+				longopts, NULL);
 		if (c == -1)
 			break;
 		switch (c) {
@@ -907,11 +907,11 @@ pid_is_cmd(pid_t pid, const char *name)
  
  
         kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-        if (kd == 0)
+        if (kd == NULL)
                 errx(1, "%s", errbuf);
-        if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+        if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == NULL)
                 errx(1, "%s", kvm_geterr(kd));
-	if ((pid_argv_p = kvm_getargv(kd, kp, argv_len)) == 0)
+	if ((pid_argv_p = kvm_getargv(kd, kp, argv_len)) == NULL)
 		errx(1, "%s", kvm_geterr(kd)); 
 
 	start_argv_0_p = *pid_argv_p;
@@ -947,9 +947,9 @@ pid_is_user(pid_t pid, uid_t uid)
 
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == 0)
+	if (kd == NULL)
 		errx(1, "%s", errbuf);
-	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == NULL)
 		errx(1, "%s", kvm_geterr(kd));
 	if (kp->kp_proc.p_cred )
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
@@ -968,9 +968,9 @@ pid_is_exec(pid_t pid, const char *name)
 	char errbuf[_POSIX2_LINE_MAX], *pidexec;
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == 0)
+	if (kd == NULL)
 		errx(1, "%s", errbuf);
-	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == NULL)
 		errx(1, "%s", kvm_geterr(kd));
 	pidexec = (&kp->kp_proc)->p_comm;
 	if (strlen(name) != strlen(pidexec))
@@ -1203,7 +1203,7 @@ run_stop_schedule(void)
 				    interval.tv_usec <= MIN_POLL_INTERVAL)
 				        interval.tv_usec = MIN_POLL_INTERVAL;
 
-				r = select(0,0,0,0,&interval);
+				r = select(0, NULL, NULL, NULL, &interval);
 				if (r < 0 && errno != EINTR)
 					fatal("select() failed for pause: %s",
 					      strerror(errno));

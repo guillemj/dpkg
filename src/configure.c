@@ -81,7 +81,7 @@ void deferred_configure(struct pkginfo *pkg) {
 	char *cdr2rest;
 	int ok, r, useredited, distedited;
 	struct conffile *conff;
-	char *currenthash= 0, *newdisthash= 0;
+	char *currenthash = NULL, *newdisthash = NULL;
 	struct stat stab;
 	enum conffopt what;
 	static const char *EMPTY_HASH = "-";
@@ -100,7 +100,7 @@ void deferred_configure(struct pkginfo *pkg) {
 			sincenothing= 0; 
 
 	varbufinit(&aemsgs);
-	ok= dependencies_ok(pkg,0,&aemsgs);
+	ok = dependencies_ok(pkg, NULL, &aemsgs);
 	if (ok == 1) {
 		varbuffree(&aemsgs);
 		pkg->clientdata->istobe= itb_installnew;
@@ -313,7 +313,7 @@ void deferred_configure(struct pkginfo *pkg) {
  * Returns 0 if everything went ok, -1 otherwise.
  */
 int conffderef(struct pkginfo *pkg, struct varbuf *result, const char *in) {
-	static char*	linkreadbuf	= 0;
+	static char *linkreadbuf = NULL;
 	static int	linkreadbufsize	= 0;
 	struct stat	stab;
 	int		r, need;
@@ -405,7 +405,7 @@ static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn) {
 	fd=open(fn,O_RDONLY);
 
 	if (fd>=0) {
-		push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,&fd);
+		push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
 		fd_md5(fd, hashbuf, -1, _("md5hash"));
 		pop_cleanup(ehflag_normaltidy); /* fd= open(cdr.buf) */
 		close(fd);

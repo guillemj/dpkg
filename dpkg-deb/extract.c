@@ -93,7 +93,7 @@ void extracthalf(const char *debar, const char *directory,
   size_t ctrllennum, memberlen= 0;
   int dummy, l= 0;
   pid_t c1=0,c2,c3;
-  unsigned char *ctrlarea= 0;
+  unsigned char *ctrlarea = NULL;
   int p1[2], p2[2];
   FILE *ar, *pi;
   struct stat stab;
@@ -344,7 +344,7 @@ void do_fsystarfile(const char *const *argv) {
     badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   if (*argv)
     badusage(_("--%s takes only one argument (.deb filename)"),cipaction->olong);
-  extracthalf(debar,0,0,0);
+  extracthalf(debar, NULL, NULL, 0);
 }
    
 void do_control(const char *const *argv) { controlextractvextract(1, "x", argv); }
