@@ -117,9 +117,9 @@ use Cwd;
 textdomain("dpkg-dev");
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-                     Maintainer Uploaders Homepage Standards-Version
-                     Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs
-                     Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
+		     Maintainer Uploaders Dm-Upload-Allowed Homepage
+		     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
+		     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
                   @src_dep_fields);
 
 
@@ -309,6 +309,7 @@ if ($opmode eq 'build') {
 	if (m/^Source$/i) {
 	    set_source_package($v);
 	} elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
+		 m/^Dm-Upload-Allowed$/i ||
 		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 	    $fields->{$_} = $v;
 	} elsif (m/^Uploaders$/i) {

@@ -16,7 +16,7 @@ our %EXPORT_TAGS = ('list' => [qw(%control_src_fields %control_pkg_fields
 # Some variables (list of fields)
 our %control_src_fields;
 our %control_pkg_fields;
-$control_src_fields{$_} = 1 foreach (qw(Bugs
+$control_src_fields{$_} = 1 foreach (qw(Bugs Dm-Upload-Allowed
     Homepage Origin Maintainer Priority Section Source Standards-Version
     Uploaders Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg
     Vcs-Mtn Vcs-Svn));
