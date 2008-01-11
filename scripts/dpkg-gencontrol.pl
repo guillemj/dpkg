@@ -124,6 +124,7 @@ while (@ARGV) {
 my $changelog = parse_changelog($changelogfile, $changelogformat);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->parse($varlistfile) if -e $varlistfile;
+$substvars->set("binary:Version", $forceversion) if defined $forceversion;
 my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
 
