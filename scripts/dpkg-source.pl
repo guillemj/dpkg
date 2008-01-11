@@ -766,12 +766,13 @@ if ($opmode eq 'build') {
     printf(_g("%s: building %s in %s")."\n",
            $progname, $sourcepackage, "$basenamerev.dsc")
         || &syserr(_g("write building message"));
-    open(STDOUT, "> $basenamerev.dsc") ||
+    open(DSC, ">:utf8", "$basenamerev.dsc") ||
         syserr(_g("create %s"), "$basenamerev.dsc");
 
     $substvars->parse($varlistfile) if -e $varlistfile;
     tied(%{$fields})->set_field_importance(@dsc_fields);
-    tied(%{$fields})->output(\*STDOUT, $substvars);
+    tied(%{$fields})->output(\*DSC, $substvars);
+    close(DSC);
 
     if ($ur) {
         printf(STDERR _g("%s: unrepresentable changes to source")."\n",
@@ -804,7 +805,7 @@ if ($opmode eq 'build') {
     }
 
     my $is_signed = 0;
-    open(DSC, "< $dsc") || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
+    open(DSC, "<", $dsc) || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
     while (<DSC>) {
 	next if /^\s*$/o;
 	$is_signed = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----$/o;
@@ -1128,7 +1129,7 @@ sub checkstats {
     my ($f) = @_;
     my @s;
     my $m;
-    open(STDIN, "< $dscdir/$f") || syserr(_g("cannot read %s"), "$dscdir/$f");
+    open(STDIN, "<", "$dscdir/$f") || syserr(_g("cannot read %s"), "$dscdir/$f");
     (@s = stat(STDIN)) || syserr(_g("cannot fstat %s"), "$dscdir/$f");
     $s[7] == $size{$f} || error(_g("file %s has size %s instead of expected %s"),
                                 $f, $s[7], $size{$f});
@@ -1136,7 +1137,7 @@ sub checkstats {
     $m = readmd5sum( $m );
     $m eq $md5sum{$f} || error(_g("file %s has md5sum %s instead of expected %s"),
                                $f, $m, $md5sum{$f});
-    open(STDIN,"</dev/null") || &syserr(_g("reopen stdin from /dev/null"));
+    open(STDIN, "<", "/dev/null") || &syserr(_g("reopen stdin from /dev/null"));
 }
 
 sub erasedir {
@@ -1584,6 +1585,7 @@ sub forkgzipwrite {
 
     open(GZIPFILE, ">", $_[0]) || syserr(_g("create file %s"), $_[0]);
     pipe(GZIPREAD,GZIP) || &syserr(_g("pipe for gzip"));
+    binmode(GZIP);
     defined($cgz= fork) || &syserr(_g("fork for gzip"));
     if (!$cgz) {
 	open(STDIN,"<&",\*GZIPREAD) || &syserr(_g("reopen gzip pipe"));
@@ -1611,6 +1613,7 @@ sub forkgzipread {
 
     open(GZIPFILE, "<", $_[0]) || syserr(_g("read file %s"), $_[0]);
     pipe(GZIP, GZIPWRITE) || syserr(_g("pipe for %s"), $prog);
+    binmode(GZIP);
     defined($cgz = fork) || syserr(_g("fork for %s"), $prog);
     if (!$cgz) {
 	open(STDOUT, ">&", \*GZIPWRITE) || syserr(_g("reopen %s pipe"), $prog);

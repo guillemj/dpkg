@@ -312,9 +312,9 @@ for my $f (keys %remove) {
 }
 
 $fileslistfile="./$fileslistfile" if $fileslistfile =~ m/^\s/;
-open(Y,"> $fileslistfile.new") || &syserr(_g("open new files list file"));
+open(Y, ">", "$fileslistfile.new") || &syserr(_g("open new files list file"));
 binmode(Y);
-if (open(X,"< $fileslistfile")) {
+if (open(X, "<", $fileslistfile)) {
     binmode(X);
     while (<X>) {
         chomp;
@@ -342,18 +342,22 @@ close(Y) || &syserr(_g("close new files list file"));
 rename("$fileslistfile.new",$fileslistfile) || &syserr(_g("install new files list file"));
 
 my $cf;
+my $fh_output;
 if (!$stdout) {
     $cf= "$packagebuilddir/DEBIAN/control";
     $cf= "./$cf" if $cf =~ m/^\s/;
-    open(STDOUT,"> $cf.new") ||
+    open($fh_output, ">:utf8", "$cf.new") ||
         syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
-    binmode(STDOUT);
+} else {
+    $fh_output = \*STDOUT;
+    binmode(STDOUT, ":utf8");
 }
 
 tied(%{$fields})->set_field_importance(@control_fields);
-tied(%{$fields})->output(\*STDOUT, $substvars);
+tied(%{$fields})->output($fh_output, $substvars);
 
 if (!$stdout) {
+    close($fh_output);
     rename("$cf.new", "$cf") ||
         syserr(_g("cannot install output control file \`%s'"), $cf);
 }
