@@ -11,7 +11,7 @@ use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
-use Dpkg::Fields qw(capit set_field_importance);
+use Dpkg::Fields qw(:list capit set_field_importance);
 use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
@@ -147,30 +147,23 @@ my %pkg_dep_fields = map { $_ => 1 } @pkg_dep_fields;
 my $src_fields = $control->get_source();
 foreach $_ (keys %{$src_fields}) {
     my $v = $src_fields->{$_};
-    if (m/^(Origin|Bugs|Maintainer)$/) {
-	$fields->{$_} = $v;
-    } elsif (m/^(Section|Priority|Homepage)$/) {
+    if (m/^(Origin|Bugs|Maintainer|Section|Priority|Homepage)$/) {
 	$fields->{$_} = $v;
     } elsif (m/^Source$/) {
 	set_source_package($v);
+    } elsif (s/^X[CS]*B[CS]*-//i) { # Include XB-* fields
+	$fields->{$_} = $v;
+    } elsif (m/^X[CS]+-/i || m/^$control_src_field_regex$/i) {
+	# Silently ignore valid fields
+    } else {
+	unknown(_g('general section of control info file'));
     }
-    elsif (s/^X[CS]*B[CS]*-//i) { $fields->{$_} = $v; }
-    elsif (m/^X[CS]+-/i ||
-	   m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
-	   m/^(Standards-Version|Uploaders)$/i ||
-	   m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
-    }
-    else { &unknown(_g('general section of control info file')); }
 }
 
 # Scan binary package
 foreach $_ (keys %{$pkg}) {
     my $v = $pkg->{$_};
-    if (m/^(Package|Package-Type|Description|Homepage|Tag|Essential)$/ ||
-	m/^(Section$|Priority)$/ ||
-	m/^(Subarchitecture|Kernel-Version|Installer-Menu-Item)$/) {
-	$fields->{$_} = $v;
-    } elsif (exists($pkg_dep_fields{$_})) {
+    if (exists($pkg_dep_fields{$_})) {
 	# Delay the parsing until later
     } elsif (m/^Architecture$/) {
 	my $host_arch = get_host_arch();
@@ -191,10 +184,12 @@ foreach $_ (keys %{$pkg}) {
 		      $host_arch, "@archlist");
 	    $fields->{$_} = $host_arch;
 	}
-    } elsif (s/^X[CS]*B[CS]*-//i) {
-	$fields->{$_}= $v;
+    } elsif (m/^$control_pkg_field_regex$/) {
+	$fields->{$_} = $v;
+    } elsif (s/^X[CS]*B[CS]*-//i) { # Include XB-* fields
+	$fields->{$_} = $v;
     } elsif (!m/^X[CS]+-/i) {
-	&unknown(_g("package's section of control info file"));
+	unknown(_g("package's section of control info file"));
     }
 }
 
@@ -211,7 +206,7 @@ foreach $_ (keys %{$changelog}) {
     } elsif (s/^X[CS]*B[CS]*-//i) {
 	$fields->{$_} = $v;
     } elsif (!m/^X[CS]+-/i) {
-	&unknown(_g("parsed version of changelog"));
+	unknown(_g("parsed version of changelog"));
     }
 }
 

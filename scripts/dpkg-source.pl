@@ -10,7 +10,7 @@ use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            $warnable_error $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
-use Dpkg::Fields qw(capit set_field_importance);
+use Dpkg::Fields qw(:list capit set_field_importance);
 use Dpkg::Compression;
 use Dpkg::Cdata;
 use Dpkg::Control;
@@ -311,9 +311,9 @@ if ($opmode eq 'build') {
 	} elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
 		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 	    $fields->{$_} = $v;
-	}
-	elsif (m/^Uploaders$/i) { ($fields->{$_} = $v) =~ s/[\r\n]//g; }
-	elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
+	} elsif (m/^Uploaders$/i) {
+	    ($fields->{$_} = $v) =~ s/[\r\n]//g; # Merge in a single-line
+	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 	    my $dep;
 	    my $type = $dep_field_type{capit($_)};
 	    $dep = Dpkg::Deps::parse($v, union =>  $type eq 'union');
@@ -322,10 +322,13 @@ if ($opmode eq 'build') {
 	    $dep->simplify_deps($facts);
 	    $dep->sort();
 	    $fields->{$_} = $dep->dump();
+	} elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
+	    $fields->{$_} = $v;
+	} elsif (m/^$control_src_field_regex$/i || m/^X[BC]+-/i) {
+	    # Silently ignore valid fields
+	} else {
+	    unknown(_g('general section of control info file'));
 	}
-	elsif (s/^X[BC]*S[BC]*-//i) { $fields->{$_} = $v; }
-	elsif (m/^(Section|Priority|Files|Bugs)$/i || m/^X[BC]+-/i) { }
-	else { &unknown(_g('general section of control info file')); }
     }
 
     # Scan control info of binary packages
@@ -360,16 +363,12 @@ if ($opmode eq 'build') {
                 }
                 }
                 $fields->{'Architecture'}= join(' ',@sourcearch);
-            } elsif (s/^X[BC]*S[BC]*-//i) {
+            } elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
                 $fields->{$_} = $v;
-            } elsif (m/^(Package|Package-Type|Essential|Kernel-Version)$/ ||
-                     m/^(Homepage|Subarchitecture|Installer-Menu-Item)$/i ||
-                     m/^(Pre-Depends|Depends|Provides)$/i ||
-                     m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
-                     m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
-                     m/^X[BC]+-/i) {
+            } elsif (m/^$control_pkg_field_regex$/ ||
+                     m/^X[BC]+-/i) { # Silently ignore valid fields
             } else {
-                &unknown(_g("package's section of control info file"));
+                unknown(_g("package's section of control info file"));
             }
 	}
     }
@@ -388,7 +387,7 @@ if ($opmode eq 'build') {
 	} elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
 		 m/^X[BS]+-/i) {
 	} else {
-	    &unknown(_g("parsed version of changelog"));
+	    unknown(_g("parsed version of changelog"));
 	}
     }
 

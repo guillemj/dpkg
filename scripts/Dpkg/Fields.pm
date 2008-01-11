@@ -4,9 +4,32 @@ use strict;
 use warnings;
 
 use Exporter;
-our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(capit set_field_importance sort_field_by_importance);
+use Dpkg::Deps qw(@src_dep_fields @pkg_dep_fields);
 
+our @ISA = qw(Exporter);
+our @EXPORT_OK = qw(capit set_field_importance sort_field_by_importance
+    %control_src_fields %control_pkg_fields $control_src_field_regex
+    $control_pkg_field_regex);
+our %EXPORT_TAGS = ('list' => [qw(%control_src_fields %control_pkg_fields
+			$control_src_field_regex $control_pkg_field_regex)]);
+
+# Some variables (list of fields)
+our %control_src_fields;
+our %control_pkg_fields;
+$control_src_fields{$_} = 1 foreach (qw(Bugs
+    Homepage Origin Maintainer Priority Section Source Standards-Version
+    Uploaders Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg
+    Vcs-Mtn Vcs-Svn));
+$control_src_fields{$_} = 1 foreach (@src_dep_fields);
+$control_pkg_fields{$_} = 1 foreach (qw(Architecture Bugs Description Essential
+    Homepage Installer-Menu-Item Kernel-Version Package Package-Type
+    Priority Section Subarchitecture Tag));
+$control_pkg_fields{$_} = 1 foreach (@pkg_dep_fields);
+
+our $control_src_field_regex = "(?:" . join("|", keys %control_src_fields) . ")";
+our $control_pkg_field_regex = "(?:" . join("|", keys %control_pkg_fields) . ")";
+
+# Some functions
 sub capit {
     my @pieces = map { ucfirst(lc) } split /-/, $_[0];
     return join '-', @pieces;

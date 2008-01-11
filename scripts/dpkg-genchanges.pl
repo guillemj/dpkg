@@ -11,7 +11,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
-use Dpkg::Fields qw(capit set_field_importance sort_field_by_importance);
+use Dpkg::Fields qw(:list capit set_field_importance sort_field_by_importance);
 use Dpkg::Compression;
 use Dpkg::Control;
 use Dpkg::Cdata;
@@ -230,16 +230,17 @@ foreach $_ (keys %{$src_fields}) {
     my $v = $src_fields->{$_};
     if (m/^Source$/) {
 	set_source_package($v);
+    } elsif (m/^Section$|^Priority$/i) {
+	$sourcedefault{$_} = $v;
+    } elsif (m/^Maintainer$/i) {
+	$fields->{$_} = $v;
+    } elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
+	$fields->{$_} = $v;
+    } elsif (m/^X[BS]+-/i || m/^$control_src_field_regex$/i) {
+	# Silently ignore valid fields
+    } else {
+	unknown(_g('general section of control info file'));
     }
-    elsif (m/^Section$|^Priority$/i) { $sourcedefault{$_}= $v; }
-    elsif (m/^Maintainer$/i) { $fields->{$_} = $v; }
-    elsif (s/^X[BS]*C[BS]*-//i) { $fields->{$_} = $v; }
-    elsif (m/^X[BS]+-/i ||
-	   m/^Build-(Depends|Conflicts)(-Indep)?$/i ||
-	   m/^(Standards-Version|Uploaders|Homepage|Origin|Bugs)$/i ||
-	   m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
-    }
-    else { &unknown(_g('general section of control info file')); }
 }
 
 # Scan control info of all binary packages
@@ -275,7 +276,7 @@ foreach my $pkg ($control->get_packages()) {
 		$f2seccf{$_} = $v foreach (@f);
 	    } elsif (m/^Priority$/) {
 		$f2pricf{$_} = $v foreach (@f);
-	    } elsif (s/^X[BS]*C[BS]*-//i) {
+	    } elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
 		$fields->{$_} = $v;
 	    } elsif (m/^Architecture$/) {
 		if (not is_sourceonly) {
@@ -289,13 +290,10 @@ foreach my $pkg ($control->get_packages()) {
 		    $v = '';
 		}
 		push(@archvalues,$v) unless !$v || $archadded{$v}++;
-	    } elsif (m/^(Package|Package-Type|Kernel-Version|Essential)$/ ||
-	             m/^(Homepage|Tag|Installer-Menu-Item|Subarchitecture)$/i ||
-	             m/^(Pre-Depends|Depends|Recommends|Suggests|Provides)$/ ||
-	             m/^(Enhances|Conflicts|Breaks|Replaces)$/ ||
-		     m/^X[BS]+-/i) {
+	    } elsif (m/^$control_pkg_field_regex$/ || m/^X[BS]+-/i) {
+		# Silently ignore valid fields
 	    } else {
-		&unknown(_g("package's section of control info file"));
+		unknown(_g("package's section of control info file"));
 	    }
 	}
     }
@@ -313,7 +311,7 @@ foreach $_ (keys %{$changelog}) {
     } elsif (s/^X[BS]*C[BS]*-//i) {
 	$fields->{$_} = $v;
     } elsif (!m/^X[BS]+-/i) {
-	&unknown(_g("parsed version of changelog"));
+	unknown(_g("parsed version of changelog"));
     }
 }
 
