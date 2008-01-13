@@ -1,4 +1,4 @@
-.TH dpkg\-parsechangelog 1 "2007-03-07" "Debian Project" "dpkg utilities"
+.TH dpkg\-parsechangelog 1 "2008-01-13" "Debian Project" "dpkg utilities"
 .SH NAME
 dpkg\-parsechangelog \- parse Debian changelog files
 .
@@ -25,17 +25,91 @@ from a special line near the bottom of the changelog or failing that
 defaults to the debian standard format.
 .TP
 .BI \-L libdir
-FIXME not used in the source!?
-.TP
-.BI \-v version
-Use changelog information from all versions strictly later than
-.IR version .
+Specify an additional directory to search for parser scripts.
+This directory is searched before the default directories
+which are currently
+.BR /usr/local/lib/dpkg/parsechangelog " and "
+.BR /usr/lib/dpkg/parsechangelog .
 .TP
 .BR \-h ", " \-\-help
 Show the usage message and exit.
 .TP
 .BR \-\-version
 Show the version and exit.
+.SS Parser Options
+The following options can be used to influence the output of
+the changelog parser, e.g. the range of entries or the format
+of the output. They need to supported by the parser script
+in question. See also \fBCAVEATS\fP.
+.TP
+.BI \-\-format " outputformat"
+Set the output format. Currently supported values are
+.IR dpkg " and " rfc822 .
+\fIdpkg\fP is the classic output format (from before this
+option existed) and the default. It consists of one paragraph
+in Debian control format (see \fBdeb-control\fP(5)). If more
+than one entry is requested, most fields are taken from the
+latest entry, except otherwise stated:
+.RS
+.TP
+.BR Source: " <pkg name>"
+.TP
+.BR Version: " <version>"
+.TP
+.BR Distribution: " <target distribution>"
+.TP
+.BR Urgency: " <urgency>"
+The highest urgency of all included entries is used.
+.TP
+.BR Maintainer: " <author>"
+.TP
+.BR Date: " <date>"
+.TP
+.BR Closes: " <bug number>"
+The Closes fields of all included entries are merged.
+.TP
+.BR Changes: " <changelog entries>"
+The text of all changelog entries is concatenated. To make
+this field a valid Debian control format multiline field
+empty lines are replaced with a single full stop and all lines
+is intended by one space character. The exact content depends
+on the changelog format.
+.RE
+.IP
+There might be additional user-defined fields present.
+.IP
+The \fBrfc822\fP format uses the same fields but outputs
+a separate paragraph for each changelog entry so that all
+metadata for each entry is preserved.
+.TP
+.BR \-\-since ", " \-s ", " \-v " \fIversion\fP"
+include all changes later than \fIversion\fP.
+.TP
+.BR \-\-until ", " \-u " \fIversion\fP"
+include all changes earlier than \fIversion\fP.
+.TP
+.BR \-\-from ", " \-f " \fIversion\fP"
+include all changes equal or later than \fIversion\fP.
+.TP
+.BR \-\-to ", " \-t " \fIversion\fP"
+include all changes up to or equal than \fIversion\fP.
+.TP
+.BR \-\-count ", " \-c ", " \-n " \fInumber\fI"
+include \fInumber\fP entries from the top (or the tail
+if \fInumber\fP is lower than 0).
+.TP
+.BR \-\-offset ", " \-o " \fInumber\fP"
+change the starting point for \-\-count, counted from the top
+(or the tail if \fInumber\fP is lower than 0).
+.TP
+.B \-\-all
+include all changes.
+.
+.SH CAVEATS
+All \fBParser Options\fP except for \-v are only supported in
+\fBdpkg\fP, version 1.14.16 and later. Third party parsers for
+changelog formats other than \fIdebian\fP might not support
+all options.
 .
 .SH FILES
 .TP
@@ -49,6 +123,8 @@ number itself.
 Copyright (C) 1995-1996 Ian Jackson
 .br
 Copyright (C) 2000 Wichert Akkerman
+.br
+Copyright (C) 2007, 2008 Frank Lichtenheld
 .sp
 This is free software; see the GNU General Public Licence version 2 or later
 for copying conditions. There is NO WARRANTY.
