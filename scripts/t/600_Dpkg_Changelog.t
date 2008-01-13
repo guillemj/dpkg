@@ -6,11 +6,13 @@ use warnings;
 use File::Basename;
 
 BEGIN {
-    my $no_examples = 2;
+    my $no_examples = 3;
     my $no_err_examples = 1;
     my $no_tests = $no_examples * 4
 	+ $no_err_examples * 2
-	+ 48;
+	+ 24 # countme
+	+  2 # fields
+	+ 24;
 
     require Test::More;
     import Test::More tests => $no_tests;
@@ -30,7 +32,7 @@ my $test = Dpkg::Changelog::Debian->init( { infile => '/nonexistant',
 ok( !defined($test), "fatal parse errors lead to init() returning undef");
 
 my $save_data;
-foreach my $file ("$srcdir/countme", "$srcdir/shadow") {
+foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields") {
 
     my $changes = Dpkg::Changelog::Debian->init( { infile => $file,
 						   quiet => 1 } );
@@ -156,6 +158,56 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow") {
 		       '1:2.0~rc2-1sarge1/1.5-1',
 		       'until => "1:2.0~rc2-1sarge2"' );
 	#TODO: test combinations
+    }
+    if ($file eq "$srcdir/fields") {
+	my $str = $changes->dpkg_str({ all => 1 });
+	my $expected = 'Source: fields
+Version: 2.0-0etch1
+Distribution: stable
+Urgency: high
+Maintainer: Frank Lichtenheld <frank@lichtenheld.de>
+Date: Sun, 13 Jan 2008 15:49:19 +0100
+Closes: 1000000 1111111 1111111 2222222 2222222
+Changes: 
+ fields (2.0-0etch1) stable; urgency=low
+ .
+   * Upload to stable (Closes: #1111111, #2222222)
+ .
+ fields (2.0-1) unstable; urgency=medium
+ .
+   * Upload to unstable (Closes: #1111111, #2222222)
+ .
+ fields (2.0~b1-1) unstable; urgency=low,xc-userfield=foobar
+ .
+   * Beta
+ .
+ fields (1.0) experimental; urgency=high
+ .
+   * First upload (Closes: #1000000)
+Xc-Userfield: foobar
+';
+	cmp_ok($str,'eq',$expected,"fields handling");
+
+	$str = $changes->dpkg_str({ offset => 1, count => 2 });
+	$expected = 'Source: fields
+Version: 2.0-1
+Distribution: unstable
+Urgency: medium
+Maintainer: Frank Lichtenheld <djpig@debian.org>
+Date: Sun, 12 Jan 2008 15:49:19 +0100
+Closes: 1111111 2222222
+Changes: 
+ fields (2.0-1) unstable; urgency=medium
+ .
+   * Upload to unstable (Closes: #1111111, #2222222)
+ .
+ fields (2.0~b1-1) unstable; urgency=low,xc-userfield=foobar
+ .
+   * Beta
+Xc-Userfield: foobar
+';
+	cmp_ok($str,'eq',$expected,"fields handling 2");
+
     }
 
 #     if ($file eq 'Changes') {

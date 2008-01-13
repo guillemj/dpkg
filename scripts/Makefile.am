@@ -72,6 +72,7 @@ EXTRA_DIST = \
 	t/500_Dpkg_Path.t \
 	t/600_Dpkg_Changelog.t \
 	t/600_Dpkg_Changelog/countme \
+	t/600_Dpkg_Changelog/fields \
 	t/600_Dpkg_Changelog/misplaced-tz \
 	t/600_Dpkg_Changelog/shadow \
 	t/700_Dpkg_Control.t \
