@@ -56,7 +56,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow") {
 
 	# test range options
 	cmp_ok( @data, '==', 7, "no options -> count" );
-	my $all_versions = join( '/', map { $_->Version } @data);
+	my $all_versions = join( '/', map { $_->{Version} } @data);
 
 	sub check_options {
 	    my ($changes, $data, $options, $count, $versions,
@@ -68,7 +68,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow") {
 		is_deeply( \@cnt, $data, "$check_name -> returns all" );
 
 	    } else {
-		is( join( "/", map { $_->Version } @cnt),
+		is( join( "/", map { $_->{Version} } @cnt),
 		    $versions, "$check_name -> versions" );
 	    }
 	}
@@ -165,7 +165,7 @@ foreach my $file ("$srcdir/countme", "$srcdir/shadow") {
 # 		'version numbers in module and Changes match' );
 #     }
 
-    my $oldest_version = $data[-1]->Version;
+    my $oldest_version = $data[-1]->{Version};
     $str = $changes->dpkg_str({ since => $oldest_version });
 
 #    is( $str, `dpkg-parsechangelog -v$oldest_version -l$file`,
@@ -185,7 +185,7 @@ open CHANGES, '<', "$srcdir/countme";
 my $string = join('',<CHANGES>);
 
 my $str_changes = Dpkg::Changelog::Debian->init( { instring => $string,
-						 quiet => 1 } );
+						   quiet => 1 } );
 my $errors = $str_changes->get_parse_errors();
 ok( !$errors,
     "Parse example changelog $srcdir/countme without errors from string" );

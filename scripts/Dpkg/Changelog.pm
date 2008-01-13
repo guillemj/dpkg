@@ -35,12 +35,14 @@ package Dpkg::Changelog;
 use strict;
 use warnings;
 
+use v5.8.0; # for open $fh, '>', \$scalar
 use English;
 
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning report syserr subprocerr);
 use Dpkg::Cdata;
+use Dpkg::Fields qw(set_field_importance);
 
 use base qw(Exporter);
 
@@ -408,15 +410,19 @@ See L<dpkg>.
 
 =cut
 
-our ( %FIELDIMPS, %URGENCIES );
+our ( @CHANGELOG_FIELDS, %CHANGELOG_FIELDS );
+our ( @URGENCIES, %URGENCIES );
 BEGIN {
-    my $i=100;
-    grep($FIELDIMPS{$_}=$i--,
-	 qw(Source Version Distribution Urgency Maintainer Date Closes
-	    Changes));
-    $i=1;
-    grep($URGENCIES{$_}=$i++,
-	 qw(low medium high critical emergency));
+    @CHANGELOG_FIELDS = qw(Source Version Distribution
+                           Urgency Maintainer Date Closes Changes
+                           Timestamp Header Items Trailer
+                           Urgency_comment Urgency_lc);
+    tie %CHANGELOG_FIELDS, 'Dpkg::Fields::Object';
+    %CHANGELOG_FIELDS = map { $_ => 1 } @CHANGELOG_FIELDS;
+    set_field_importance(@CHANGELOG_FIELDS);
+    @URGENCIES = qw(low medium high critical emergency);
+    my $i = 1;
+    %URGENCIES = map { $_ => $i++ } @URGENCIES;
 }
 
 sub dpkg {
@@ -427,39 +433,51 @@ sub dpkg {
     $config = $self->{config}{DPKG} || {};
     my $data = $self->_data_range( $config ) or return undef;
 
-    my %f;
+    my $f = new Dpkg::Changelog::Entry;
     foreach my $field (qw( Urgency Source Version
 			   Distribution Maintainer Date )) {
-	$f{$field} = $data->[0]{$field};
+	$f->{$field} = $data->[0]{$field};
+    }
+    # handle unknown fields
+    foreach my $field (keys %{$data->[0]}) {
+	next if $CHANGELOG_FIELDS{$field};
+	$f->{$field} = $data->[0]{$field};
     }
 
-    $f{Changes} = get_dpkg_changes( $data->[0] );
-    $f{Closes} = [ @{$data->[0]{Closes}} ];
+    $f->{Changes} = get_dpkg_changes( $data->[0] );
+    $f->{Closes} = [ @{$data->[0]{Closes}} ];
 
     my $first = 1; my $urg_comment = '';
     foreach my $entry (@$data) {
 	$first = 0, next if $first;
 
-	my $oldurg = $f{Urgency} || '';
-	my $oldurgn = $URGENCIES{$f{Urgency}} || -1;
-	my $newurg = $entry->{Urgency_LC} || '';
-	my $newurgn = $URGENCIES{$entry->{Urgency_LC}} || -1;
-	$f{Urgency} = ($newurgn > $oldurgn) ? $newurg : $oldurg;
-	$urg_comment .= $entry->{Urgency_Comment};
+	my $oldurg = $f->{Urgency} || '';
+	my $oldurgn = $URGENCIES{$f->{Urgency}} || -1;
+	my $newurg = $entry->{Urgency_lc} || '';
+	my $newurgn = $URGENCIES{$entry->{Urgency_lc}} || -1;
+	$f->{Urgency} = ($newurgn > $oldurgn) ? $newurg : $oldurg;
+	$urg_comment .= $entry->{Urgency_comment};
 
-	$f{Changes} .= "\n .".get_dpkg_changes( $entry );
-	push @{$f{Closes}}, @{$entry->{Closes}};
+	$f->{Changes} .= "\n .".get_dpkg_changes( $entry );
+	push @{$f->{Closes}}, @{$entry->{Closes}};
+
+	# handle unknown fields
+	foreach my $field (keys %$entry) {
+	    next if $CHANGELOG_FIELDS{$field};
+	    next if exists $f->{$field};
+	    $f->{$field} = $entry->{$field};
+	}
     }
 
-    $f{Closes} = join " ", sort { $a <=> $b } @{$f{Closes}};
-    $f{Urgency} .= $urg_comment;
+    $f->{Closes} = join " ", sort { $a <=> $b } @{$f->{Closes}};
+    $f->{Urgency} .= $urg_comment;
 
-    return %f if wantarray;
-    return \%f;
+    return %$f if wantarray;
+    return $f;
 }
 
 sub dpkg_str {
-    return data2rfc822( scalar dpkg(@_), \%FIELDIMPS );
+    return data2rfc822(scalar dpkg(@_));
 }
 
 =pod
@@ -495,16 +513,23 @@ sub rfc822 {
     my @out_data;
 
     foreach my $entry (@$data) {
-	my %f;
+	my $f = new Dpkg::Changelog::Entry;
 	foreach my $field (qw( Urgency Source Version
-			   Distribution Maintainer Date )) {
-	    $f{$field} = $entry->{$field};
+			       Distribution Maintainer Date )) {
+	    $f->{$field} = $entry->{$field};
 	}
 
-	$f{Urgency} .= $entry->{Urgency_Comment};
-	$f{Changes} = get_dpkg_changes( $entry );
-	$f{Closes} = join " ", sort { $a <=> $b } @{$entry->{Closes}};
-	push @out_data, \%f;
+	$f->{Urgency} .= $entry->{Urgency_Comment};
+	$f->{Changes} = get_dpkg_changes( $entry );
+	$f->{Closes} = join " ", sort { $a <=> $b } @{$entry->{Closes}};
+
+	# handle unknown fields
+	foreach my $field (keys %$entry) {
+	    next if $CHANGELOG_FIELDS{$field};
+	    $f->{$field} = $entry->{$field};
+	}
+
+	push @out_data, $f;
     }
 
     return @out_data if wantarray;
@@ -512,7 +537,7 @@ sub rfc822 {
 }
 
 sub rfc822_str {
-    return data2rfc822_mult( scalar rfc822(@_), \%FIELDIMPS );
+    return data2rfc822(scalar rfc822(@_));
 }
 
 =pod
@@ -621,59 +646,34 @@ sub find_closes {
 
 =head3 data2rfc822
 
-Takes two hash references as arguments. The first should contain the
-data to output in RFC822 format. The second can contain a sorting order
-for the fields. The higher the numerical value of the hash value, the
-earlier the field is printed if it exists.
+Takes a single argument, either a Dpkg::Changelog::Entry object
+or a reference to an array of such objects.
 
-Return the data in RFC822 format as string.
+Returns the data in RFC822 format as string.
 
 =cut
 
 sub data2rfc822 {
-    my ($data, $fieldimps) = @_;
-    my $rfc822_str = '';
+    my ($data) = @_;
 
-# based on /usr/lib/dpkg/controllib.pl
-    for my $f (sort { $fieldimps->{$b} <=> $fieldimps->{$a} } keys %$data) {
-	my $v= $data->{$f} or next;
-	$v =~ m/\S/o || next; # delete whitespace-only fields
-	$v =~ m/\n\S/o
-	    && warning(_g("field %s has newline then non whitespace >%s<"),
-			  $f, $v);
-	$v =~ m/\n[ \t]*\n/o && warning(_g("field %s has blank lines >%s<"),
-					   $f, $v);
-	$v =~ m/\n$/o && warning(_g("field %s has trailing newline >%s<"),
-				    $f, $v);
-	$v =~ s/\$\{\}/\$/go;
-	$rfc822_str .= "$f: $v\n";
+    if (ref($data) eq "ARRAY") {
+	my @rfc822 = ();
+
+	foreach my $entry (@$data) {
+	    push @rfc822, data2rfc822($entry);
+	}
+
+	return join "\n", @rfc822;
+    } else {
+	my $rfc822_str = "";
+
+	open my $fh, '>', \$rfc822_str
+	    or warning("couldn't open filehandle for string");
+	$data->output($fh);
+	close $fh;
+
+	return $rfc822_str;
     }
-
-    return $rfc822_str;
-}
-
-=pod
-
-=head3 data2rfc822_mult
-
-The first argument should be an array ref to an array of hash references.
-The second argument is a hash reference and has the same meaning as
-the second argument of L<data2rfc822>.
-
-Calls L<data2rfc822> for each element of the array given as first
-argument and returns the concatenated results.
-
-=cut
-
-sub data2rfc822_mult {
-    my ($data, $fieldimps) = @_;
-    my @rfc822 = ();
-
-    foreach my $entry (@$data) {
-	push @rfc822, data2rfc822($entry,$fieldimps);
-    }
-
-    return join "\n", @rfc822;
 }
 
 =pod
@@ -688,7 +688,7 @@ in the output format of C<dpkg-parsechangelog>.
 =cut
 
 sub get_dpkg_changes {
-    my $changes = "\n ".($_[0]->Header||'')."\n .\n".($_[0]->Changes||'');
+    my $changes = "\n ".($_[0]->{Header}||'')."\n .\n".($_[0]->{Changes}||'');
     chomp $changes;
     $changes =~ s/^ $/ ./mgo;
     return $changes;
@@ -724,107 +724,16 @@ Dpkg::Changelog::Entry - represents one entry in a Debian changelog
 
 =head1 DESCRIPTION
 
-=head2 Methods
-
-=head3 init
-
-Creates a new object, no options.
-
-=head3 new
-
-Alias for init.
-
-=head3 is_empty
-
-Checks if the object is actually initialized with data. This
-currently simply checks if one of the fields Source, Version,
-Maintainer, Date, or Changes is initalized.
-
-=head2 Accessors
-
-The following fields are available via accessor functions (all
-fields are string values unless otherwise noted):
-
-=over 4
-
-=item *
-
-Source
-
-=item *
-
-Version
-
-=item *
-
-Distribution
-
-=item *
-
-Urgency
-
-=item *
-
-ExtraFields (all fields except for urgency as hash)
-
-=item *
-
-Header (the whole header in verbatim form)
-
-=item *
-
-Changes (the actual content of the bug report, in verbatim form)
-
-=item *
-
-Trailer (the whole trailer in verbatim form)
-
-=item *
-
-Closes (Array of bug numbers)
-
-=item *
-
-Maintainer (name B<and> email address)
-
-=item *
-
-Date
-
-=item *
-
-Timestamp (Date expressed in seconds since the epoche)
-
-=item *
-
-ERROR (last parse error related to this entry in the format described
-at Dpkg::Changelog::get_parse_errors.
-
-=back
-
 =cut
 
 package Dpkg::Changelog::Entry;
 
-use base qw( Class::Accessor );
-
-Dpkg::Changelog::Entry->mk_accessors(qw( Closes Changes Maintainer
-					 MaintainerEmail Date
-					 Urgency Distribution
-					 Source Version ERROR
-					 ExtraFields Header
-					 Trailer Timestamp ));
-
 sub new {
-    return init(@_);
-}
+    my ($classname) = @_;
 
-sub init {
-    my $classname = shift;
-    my $self = {};
-    bless( $self, $classname );
-
-    return $self;
+    tie my %entry, 'Dpkg::Fields::Object';
+    my $entry = \%entry;
+    bless $entry, $classname;
 }
 
 sub is_empty {
@@ -835,6 +744,11 @@ sub is_empty {
 	     || $self->{Version}
 	     || $self->{Maintainer}
 	     || $self->{Date});
+}
+
+sub output {
+    my $self = shift;
+    return tied(%$self)->output(@_);
 }
 
 1;

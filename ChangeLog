@@ -1,3 +1,16 @@
+2008-01-13  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/Dpkg/Changelog.pm: Replace all field hashes
+	with Dpkg::Changelog::Entry objects.
+	(Dpkg::Changelog::Entry): Base on Dpkg::Fields::Object.
+	(data2rfc822): Use Dpkg::Fields::Object->output and fix
+	handling of user-defined fields.
+	(data2rfc822_mult): Merge into data2rfc822 (autodetect
+	whether the argument is an object or an array of object).
+	* scripts/Dpkg/Changelog/Debian.pm: Adapt for
+	Dpkg::Changelog::Entry changes.
+	* scripts/t/600_Dpkg_Changelog.t: Likewise.
+
 2008-01-12  Raphael hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Fields.pm, scripts/dpkg-source.pl: Add support of

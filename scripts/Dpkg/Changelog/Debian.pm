@@ -119,7 +119,7 @@ sub parse {
 
 # based on /usr/lib/dpkg/parsechangelog/debian
     my $expect='first heading';
-    my $entry = Dpkg::Changelog::Entry->init();
+    my $entry = new Dpkg::Changelog::Entry;
     my $blanklines = 0;
     my $unknowncounter = 1; # to make version unique, e.g. for using as id
 
@@ -138,7 +138,7 @@ sub parse {
 		$entry->{'Closes'} = find_closes( $entry->{Changes} );
 #		    print STDERR, Dumper($entry);
 		push @{$self->{data}}, $entry;
-		$entry = Dpkg::Changelog::Entry->init();
+		$entry = new Dpkg::Changelog::Entry;
 		last if $self->_abort_early;
 	    }
 	    {
@@ -146,8 +146,8 @@ sub parse {
 		$entry->{'Version'} = "$2";
 		$entry->{'Header'} = "$_";
 		($entry->{'Distribution'} = "$3") =~ s/^\s+//;
-		$entry->{'Changes'} = $entry->{'Urgency_Comment'} = '';
-		$entry->{'Urgency'} = $entry->{'Urgency_LC'} = 'unknown';
+		$entry->{'Changes'} = $entry->{'Urgency_comment'} = '';
+		$entry->{'Urgency'} = $entry->{'Urgency_lc'} = 'unknown';
 	    }
 	    (my $rhs = $POSTMATCH) =~ s/^\s+//;
 	    my %kvdone;
@@ -166,8 +166,8 @@ sub parse {
 					      _g("badly formatted urgency value"),
 					      $v);
 		    $entry->{'Urgency'} = "$1";
-		    $entry->{'Urgency_LC'} = lc("$1");
-		    $entry->{'Urgency_Comment'} = "$2";
+		    $entry->{'Urgency_lc'} = lc("$1");
+		    $entry->{'Urgency_comment'} = "$2";
 		} elsif ($k =~ m/^X[BCS]+-/i) {
 		    # Extensions - XB for putting in Binary,
 		    # XC for putting in Control, XS for putting in Source
