@@ -175,7 +175,7 @@ sub parse {
 		} else {
 		    $self->_do_parse_error($file, $NR,
 					   sprintf(_g("unknown key-value key %s - copying to XS-%s"), $k, $k));
-		    $entry->{ExtraFields}{"XS-$k"} = $v;
+		    $entry->{"XS-$k"} = $v;
 		}
 	    }
 	    $expect= 'start of change data';
