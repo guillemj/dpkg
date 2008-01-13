@@ -11,7 +11,7 @@ use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
 use Dpkg::Deps qw(@pkg_dep_fields %dep_field_type);
-use Dpkg::Fields qw(:list capit set_field_importance);
+use Dpkg::Fields qw(:list capit);
 use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Vars;
@@ -350,7 +350,7 @@ if (!$stdout) {
     binmode(STDOUT);
 }
 
-set_field_importance(@control_fields);
+tied(%{$fields})->set_field_importance(@control_fields);
 tied(%{$fields})->output(\*STDOUT, $substvars);
 
 if (!$stdout) {

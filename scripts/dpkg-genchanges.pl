@@ -11,7 +11,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
-use Dpkg::Fields qw(:list capit set_field_importance sort_field_by_importance);
+use Dpkg::Fields qw(:list capit);
 use Dpkg::Compression;
 use Dpkg::Control;
 use Dpkg::Cdata;
@@ -480,7 +480,7 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-set_field_importance(@changes_fields);
 $substvars->parse($varlistfile) if -e $varlistfile;
+tied(%{$fields})->set_field_importance(@changes_fields);
 tied(%{$fields})->output(\*STDOUT, $substvars);
 

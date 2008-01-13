@@ -41,7 +41,7 @@ use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning report syserr subprocerr);
 use Dpkg::Cdata;
-use Dpkg::Fields qw(set_field_importance);
+use Dpkg::Fields;
 
 use base qw(Exporter);
 
@@ -418,7 +418,6 @@ BEGIN {
                            Urgency_comment Urgency_lc);
     tie %CHANGELOG_FIELDS, 'Dpkg::Fields::Object';
     %CHANGELOG_FIELDS = map { $_ => 1 } @CHANGELOG_FIELDS;
-    set_field_importance(@CHANGELOG_FIELDS);
     @URGENCIES = qw(low medium high critical emergency);
     my $i = 1;
     %URGENCIES = map { $_ => $i++ } @URGENCIES;
@@ -693,7 +692,7 @@ sub get_dpkg_changes {
 =head3 parse_changelog($file, $format, $since)
 
 Calls "dpkg-parsechangelog -l$file -F$format -v$since"  and returns a
-Dpkg::Cdata::Object with the values output by the program.
+Dpkg::Fields::Object with the values output by the program.
 
 =cut
 sub parse_changelog {
@@ -726,6 +725,7 @@ sub new {
     my ($classname) = @_;
 
     tie my %entry, 'Dpkg::Fields::Object';
+    tied(%entry)->set_field_importance(@CHANGELOG_FIELDS);
     my $entry = \%entry;
     bless $entry, $classname;
 }

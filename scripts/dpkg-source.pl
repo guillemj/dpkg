@@ -10,7 +10,7 @@ use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            $warnable_error $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
-use Dpkg::Fields qw(:list capit set_field_importance);
+use Dpkg::Fields qw(:list capit);
 use Dpkg::Compression;
 use Dpkg::Cdata;
 use Dpkg::Control;
@@ -769,8 +769,8 @@ if ($opmode eq 'build') {
     open(STDOUT, "> $basenamerev.dsc") ||
         syserr(_g("create %s"), "$basenamerev.dsc");
 
-    set_field_importance(@dsc_fields);
     $substvars->parse($varlistfile) if -e $varlistfile;
+    tied(%{$fields})->set_field_importance(@dsc_fields);
     tied(%{$fields})->output(\*STDOUT, $substvars);
 
     if ($ur) {

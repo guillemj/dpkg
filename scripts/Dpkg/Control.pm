@@ -99,7 +99,7 @@ sub parse {
 =item $c->get_source()
 
 Returns a reference to a hash containing the fields concerning the
-source package. The hash is tied to Dpkg::Cdata::Object.
+source package. The hash is tied to Dpkg::Fields::Object.
 
 =cut
 sub get_source {
@@ -111,7 +111,7 @@ sub get_source {
 
 Returns a reference to a hash containing the fields concerning the binary
 package numbered $idx (starting at 1). The hash is tied to
-Dpkg::Cdata::Object.
+Dpkg::Fields::Object.
 
 =cut
 sub get_pkg_by_idx {
@@ -122,7 +122,7 @@ sub get_pkg_by_idx {
 =item $c->get_pkg_by_name($name)
 
 Returns a reference to a hash containing the fields concerning the binary
-package named $name. The hash is tied to Dpkg::Cdata::Object.
+package named $name. The hash is tied to Dpkg::Fields::Object.
 
 =cut
 sub get_pkg_by_name {

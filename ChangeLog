@@ -1,3 +1,16 @@
+2008-01-13  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Fields.pm: Drop public function
+	set_fields_importance() in favor of a method on
+	Dpkg::Fields::Object. Integrate	public function
+	sort_field_by_importance() in the output() method where it was
+	used.
+	* scripts/Dpkg/Changelog.pm, scripts/dpkg-genchanges.pl,
+	scripts/dpkg-gencontrol.pl, scripts/dpkg-source.pl: Updated to use
+	the set_field_importance() method instead of the removed function.
+	* scripts/Dpkg/Control.pm: Update pod documentation to refer to
+	Dpkg::Fields::Object instead of the invalid Dpkg::Cdata::Object.
+
 2008-01-13  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/Dpkg/Fields.pm (dump): Allow to omit the

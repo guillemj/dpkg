@@ -7,9 +7,8 @@ use Exporter;
 use Dpkg::Deps qw(@src_dep_fields @pkg_dep_fields);
 
 our @ISA = qw(Exporter);
-our @EXPORT_OK = qw(capit set_field_importance sort_field_by_importance
-    %control_src_fields %control_pkg_fields $control_src_field_regex
-    $control_pkg_field_regex);
+our @EXPORT_OK = qw(capit %control_src_fields %control_pkg_fields
+    $control_src_field_regex $control_pkg_field_regex);
 our %EXPORT_TAGS = ('list' => [qw(%control_src_fields %control_pkg_fields
 			$control_src_field_regex $control_pkg_field_regex)]);
 
@@ -35,31 +34,6 @@ sub capit {
     return join '-', @pieces;
 }
 
-my %fieldimps;
-
-sub set_field_importance(@)
-{
-    my @fields = @_;
-    my $i = 1;
-
-    grep($fieldimps{$_} = $i++, @fields);
-}
-
-sub sort_field_by_importance($$)
-{
-    my ($a, $b) = @_;
-
-    if (defined $fieldimps{$a} && defined $fieldimps{$b}) {
-	$fieldimps{$a} <=> $fieldimps{$b};
-    } elsif (defined($fieldimps{$a})) {
-	-1;
-    } elsif (defined($fieldimps{$b})) {
-	1;
-    } else {
-	$a cmp $b;
-    }
-}
-
 package Dpkg::Fields::Object;
 
 =head1 OTHER OBJECTS
@@ -71,8 +45,6 @@ normalizing the name of fields received in keys (using
 Dpkg::Fields::capit). It also stores the order in which fields have been
 added in order to be able to dump them in the same order.
 
-You can also dump the content of the hash with tied(%hash)->dump($fh).
-
 =cut
 use Tie::Hash;
 our @ISA = qw(Tie::ExtraHash Tie::Hash);
@@ -80,10 +52,12 @@ our @ISA = qw(Tie::ExtraHash Tie::Hash);
 use Dpkg::ErrorHandling qw(internerr syserr);
 
 # Import capit
-Dpkg::Fields->import('capit', 'sort_field_by_importance');
+Dpkg::Fields->import('capit');
 
 # $self->[0] is the real hash
 # $self->[1] is an array containing the ordered list of keys
+# $self->[2] is an hash describing the relative importance of each field
+# (used to sort the output).
 
 =head2 Dpkg::Fields::Object->new()
 
@@ -99,7 +73,7 @@ sub new {
 
 sub TIEHASH  {
     my $class = shift;
-    return bless [{}, []], $class;
+    return bless [{}, [], {}], $class;
 }
 
 sub FETCH {
@@ -156,6 +130,12 @@ sub NEXTKEY {
     return undef;
 }
 
+=head2 my $str = tied(%hash)->dump()
+=head2 tied(%hash)->dump($fh)
+
+Dump the raw content of the hash either as a string or to a filehandle.
+
+=cut
 sub dump {
     my ($self, $fh) = @_;
     my $str = "";
@@ -168,9 +148,31 @@ sub dump {
     return $str;
 }
 
+=head2 tied(%hash)->set_field_importance(@fields)
+
+Define the order in which fields will be displayed in the output() method.
+
+=cut
+sub set_field_importance {
+    my ($self, @fields) = @_;
+    my $i = 1;
+
+    $self->[2] = {};
+    $self->[2]{$_} = $i++ foreach (@fields);
+}
+
+=head2 tied(%hash)->output($fh, $substvars)
+
+If $fh is defined, print the fields on the $fh filehandle after
+substitution of variables defined in the Dpkg::Substvars object.
+
+Also returns the string of what would printed on the filehandle.
+
+=cut
 sub output {
     my ($self, $fh, $substvars) = @_;
     my $str = "";
+    my $imp = $self->[2]; # Hash of relative importance
 
     # Add substvars to refer to other fields
     if (defined($substvars)) {
@@ -179,7 +181,19 @@ sub output {
 	}
     }
 
-    for my $f (sort sort_field_by_importance keys %{$self->[0]}) {
+    my @keys = sort {
+	if (defined $imp->{$a} && defined $imp->{$b}) {
+	    $imp->{$a} <=> $imp->{$b};
+	} elsif (defined($imp->{$a})) {
+	    -1;
+	} elsif (defined($imp->{$b})) {
+	    1;
+	} else {
+	    $a cmp $b;
+	}
+    } keys %{$self->[0]};
+
+    foreach my $f (@keys) {
         my $v = $self->[0]->{$f};
         if (defined($substvars)) {
             $v = $substvars->substvars($v);
