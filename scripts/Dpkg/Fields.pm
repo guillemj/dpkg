@@ -158,15 +158,19 @@ sub NEXTKEY {
 
 sub dump {
     my ($self, $fh) = @_;
+    my $str = "";
     foreach (@{$self->[1]}) {
 	if (exists $self->[0]->{$_}) {
-	    print $fh "$_: " . $self->[0]->{$_} . "\n";
+	    print $fh "$_: " . $self->[0]->{$_} . "\n" if $fh;
+	    $str .= "$_: " . $self->[0]->{$_} . "\n" if defined wantarray;
 	}
     }
+    return $str;
 }
 
 sub output {
     my ($self, $fh, $substvars) = @_;
+    my $str = "";
 
     # Add substvars to refer to other fields
     if (defined($substvars)) {
@@ -194,8 +198,14 @@ sub output {
            $v =~ s/\s*,\s*$//;
         }
         $v =~ s/\$\{\}/\$/g;
-        print $fh "$f: $v\n" || syserr(_g("write error on control data"));
+	if ($fh) {
+	    print $fh "$f: $v\n" || syserr(_g("write error on control data"));
+	}
+	if (defined wantarray) {
+	    $str .= "$f: $v\n";
+	}
     }
+    return $str;
 }
 
 1;

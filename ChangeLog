@@ -1,5 +1,14 @@
 2008-01-13  Frank Lichtenheld  <djpig@debian.org>
 
+	* scripts/Dpkg/Fields.pm (dump): Allow to omit the
+	filehandle argument. If the function is called in
+	non-void context, also remove the printed string
+	to the caller. Together this avoids having to fiddle
+	with filehandles if the caller doesn't want to.
+	(output): Likewise.
+	* scripts/Dpkg/Changelog.pm (data2rfc822): Simplify
+	using this new behaviour.
+
 	* scripts/t/600_Dpkg_Changelog.t: Add a new changelog
 	'fields' that tests the handling of the different fields
 	in the dpkg format.

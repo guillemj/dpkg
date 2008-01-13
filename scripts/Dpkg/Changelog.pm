@@ -35,7 +35,6 @@ package Dpkg::Changelog;
 use strict;
 use warnings;
 
-use v5.8.0; # for open $fh, '>', \$scalar
 use English;
 
 use Dpkg;
@@ -665,12 +664,7 @@ sub data2rfc822 {
 
 	return join "\n", @rfc822;
     } else {
-	my $rfc822_str = "";
-
-	open my $fh, '>', \$rfc822_str
-	    or warning("couldn't open filehandle for string");
-	$data->output($fh);
-	close $fh;
+	my $rfc822_str = $data->output;
 
 	return $rfc822_str;
     }
