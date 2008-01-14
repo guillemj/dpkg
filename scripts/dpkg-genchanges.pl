@@ -181,7 +181,12 @@ while (@ARGV) {
     }
 }
 
-my $changelog = parse_changelog($changelogfile, $changelogformat, $since);
+# Retrieve info from the current changelog entry
+my %options = (file => $changelogfile);
+$options{"changelogformat"} = $changelogformat if $changelogformat;
+$options{"since"} = $since if $since;
+my $changelog = parse_changelog(%options);
+# Other initializations
 my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
 $substvars->set_version_substvars($changelog->{"Version"});

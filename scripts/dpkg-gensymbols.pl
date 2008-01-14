@@ -15,7 +15,6 @@ use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
-my $changelogfile = 'debian/changelog';
 my $packagebuilddir = 'debian/tmp';
 
 my $sourceversion;
@@ -109,7 +108,7 @@ if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
 }
 
 if (not defined($sourceversion)) {
-    my $changelog = parse_changelog($changelogfile);
+    my $changelog = parse_changelog();
     $sourceversion = $changelog->{"Version"};
 }
 if (not defined($oppackage)) {

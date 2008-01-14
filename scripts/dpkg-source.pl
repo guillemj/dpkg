@@ -291,7 +291,9 @@ if ($opmode eq 'build') {
     $changelogfile= "$dir/debian/changelog" unless defined($changelogfile);
     $controlfile= "$dir/debian/control" unless defined($controlfile);
     
-    my $changelog = parse_changelog($changelogfile, $changelogformat);
+    my %options = (file => $changelogfile);
+    $options{"changelogformat"} = $changelogformat if $changelogformat;
+    my $changelog = parse_changelog(%options);
     my $control = Dpkg::Control->new($controlfile);
     my $fields = Dpkg::Fields::Object->new();
 

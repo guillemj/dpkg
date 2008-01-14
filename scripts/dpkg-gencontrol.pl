@@ -121,7 +121,9 @@ while (@ARGV) {
     }
 }
 
-my $changelog = parse_changelog($changelogfile, $changelogformat);
+my %options = (file => $changelogfile);
+$options{"changelogformat"} = $changelogformat if $changelogformat;
+my $changelog = parse_changelog(%options);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->parse($varlistfile) if -e $varlistfile;
 $substvars->set("binary:Version", $forceversion) if defined $forceversion;

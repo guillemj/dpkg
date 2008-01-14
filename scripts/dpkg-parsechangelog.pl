@@ -9,17 +9,11 @@ use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning error syserr subprocerr usageerr);
+use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
-my $format ='debian';
-my $changelogfile = 'debian/changelog';
-my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
-                  "$dpkglibdir/parsechangelog");
-
-my $libdir;
-my $force;
-
+my %options;
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -64,60 +58,54 @@ parser options:
 "), $progname;
 }
 
-my @ap = ();
 while (@ARGV) {
     last unless $ARGV[0] =~ m/^-/;
-    $_= shift(@ARGV);
-    if (m/^-L/ && length($_)>2) { $libdir=$POSTMATCH; next; }
-    if (m/^-F([0-9a-z]+)$/) { $force=1; $format=$1; next; }
-    push(@ap,$_);
-    if (m/^-l/ && length($_)>2) { $changelogfile=$POSTMATCH; next; }
-    m/^--$/ && last;
-    m/^-[cfnostuv]/ && next;
-    m/^--all$/ && next;
-    m/^--(count|file|format|from|offset|since|to|until)(.*)$/ && do {
-	push(@ap, shift(@ARGV)) unless $2;
-	next;
-    };
-    if (m/^-(h|-help)$/) { &usage; exit(0); }
-    if (m/^--version$/) { &version; exit(0); }
-    &usageerr(_g("unknown option \`%s'"), $_);
+    $_ = shift(@ARGV);
+    if (m/^-L(.+)$/) {
+	$options{"libdir"} = $1;
+    } elsif (m/^-F([0-9a-z]+)$/) {
+	$options{"changelogformat"} = $1;
+    } elsif (m/^-l(.+)$/) {
+	$options{"file"} = $1;
+    } elsif (m/^--$/) {
+	last;
+    } elsif (m/^-([cfnostuv])(.*)$/) {
+	if (($1 eq "c") or ($1 eq "n")) {
+	    $options{"count"} = $2;
+	} elsif ($1 eq "f") {
+	    $options{"from"} = $2;
+	} elsif ($1 eq "o") {
+	    $options{"offset"} = $2;
+	} elsif (($1 eq "s") or ($1 eq "v")) {
+	    $options{"since"} = $2;
+	} elsif ($1 eq "t") {
+	    $options{"to"} = $2;
+	} elsif ($1 eq "u") {
+	    $options{"until"} = $2;
+	}
+    } elsif (m/^--(count|file|format|from|offset|since|to|until)(.*)$/) {
+	if ($2) {
+	    $options{$1} = $2;
+	} else {
+	    $options{$1} = shift(@ARGV);
+	}
+    } elsif (m/^--all$/) {
+	$options{"all"} = undef;
+    } elsif (m/^-(h|-help)$/) {
+	usage(); exit(0);
+    } elsif (m/^--version$/) {
+	version(); exit(0);
+    } else {
+	usageerr(_g("unknown option \`%s'"), $_);
+    }
 }
 
 @ARGV && usageerr(_g("%s takes no non-option arguments"), $progname);
 
-if (not $force and $changelogfile ne "-") {
-    open(STDIN,"<", $changelogfile) ||
-	syserr(_g("cannot open %s to find format"), $changelogfile);
-    open(P,"-|","tail","-n",40) || syserr(_g("cannot fork"));
-    while(<P>) {
-        next unless m/\schangelog-format:\s+([0-9a-z]+)\W/;
-        $format=$1;
-    }
-    close(P);
-    $? && subprocerr(_g("tail of %s"), $changelogfile);
+my $count = 0;
+my @fields = parse_changelog(%options);
+foreach my $f (@fields) {
+    print "\n" if $count++;
+    print tied(%$f)->dump();
 }
-
-my ($pa, $pf);
-
-unshift(@parserpath, $libdir) if $libdir;
-for my $pd (@parserpath) {
-    $pa= "$pd/$format";
-    if (!stat("$pa")) {
-        $! == ENOENT || syserr(_g("failed to check for format parser %s"), $pa);
-    } elsif (!-x _) {
-	warning(_g("format parser %s not executable"), $pa);
-    } else {
-        $pf= $pa;
-	last;
-    }
-}
-
-defined($pf) || error(_g("format %s unknown"), $pa);
-
-if ($changelogfile ne "-") {
-    open(STDIN,"<", $changelogfile)
-	|| syserr(_g("cannot open %s"), $changelogfile);
-}
-exec($pf,@ap) || syserr(_g("cannot exec format parser: %s"));
 
