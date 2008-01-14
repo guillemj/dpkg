@@ -54,6 +54,10 @@ dpkg (1.14.16) UNRELEASED; urgency=low
     lesser priority (when -d is used).
   * Fix behaviour of dpkg-shlibdeps when the same binary was passed multiple
     times for use in different dependency fields (-d option).
+  * Change logic of -si option of dpkg-genchanges to include the original
+    tarball only if the current upstream version differs from the upstream
+    version of the previous changelog entry. Replaces the heuristic based
+    on revision number (-0, -0.1 or -1). Closes: #28701
 
   [ Updated manpages translations ]
   * Fix typo in French. Closes: #460021

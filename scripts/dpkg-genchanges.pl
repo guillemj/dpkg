@@ -18,6 +18,7 @@ use Dpkg::Cdata;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Version qw(parseversion);
 
 textdomain("dpkg-dev");
 
@@ -111,7 +112,7 @@ Options:
   -m<maintainer>           override control's maintainer value.
   -e<maintainer>           override changelog's maintainer value.
   -u<uploadfilesdir>       directory with files (default is \`..').
-  -si (default)            src includes orig for debian-revision 0 or 1.
+  -si (default)            src includes orig if new upstream.
   -sa                      source includes orig src.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
@@ -186,6 +187,15 @@ my %options = (file => $changelogfile);
 $options{"changelogformat"} = $changelogformat if $changelogformat;
 $options{"since"} = $since if $since;
 my $changelog = parse_changelog(%options);
+# Change options to retrieve info of the former changelog entry
+delete $options{"since"};
+$options{"count"} = 1;
+$options{"offset"} = 1;
+my ($prev_changelog, $bad_parser);
+eval { # Do not fail if parser failed due to unsupported options
+    $prev_changelog = parse_changelog(%options);
+};
+$bad_parser = 1 if ($@);
 # Other initializations
 my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
@@ -398,7 +408,25 @@ if (!is_binaryonly) {
 	$f2pri{$f} = $pri;
     }
 
-    if (($sourcestyle =~ m/i/ && $sversion !~ m/-(0|1|0\.1)$/ ||
+    # Compare upstream version to previous upstream version to decide if
+    # the .orig tarballs must be included
+    my $include_tarball;
+    if (defined($prev_changelog)) {
+	my %cur = parseversion($changelog->{"Version"});
+	my %prev = parseversion($prev_changelog->{"Version"});
+	$include_tarball = ($cur{"version"} ne $prev{"version"}) ? 1 : 0;
+    } else {
+	if ($bad_parser) {
+	    # The parser doesn't support extracting a previous version
+	    # Fallback to version check
+	    $include_tarball = ($sversion =~ /-(0|1|0\.1)$/) ? 1 : 0;
+	} else {
+	    # No previous entry means first upload, tarball required
+	    $include_tarball = 1;
+	}
+    }
+
+    if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
 	 $sourcestyle =~ m/d/) &&
 	grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
 	$origsrcmsg= _g("not including original source code in upload");
