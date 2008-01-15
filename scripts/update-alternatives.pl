@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 
@@ -52,9 +53,6 @@ my %slavenum;         # Map from name of slavelink to slave-index (into @slaveli
 my @slavelinks;       # List of slavelinks (indexed by slave-index)
 my %slavepath;        # Map from (@version-index,slavename) to slave-path
 my %slavelinkcount;
-
-my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
-sub ENOENT { $enoent; }
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;

@@ -16,8 +16,3 @@ if WITH_START_STOP_DAEMON
   start_stop_daemon_LDADD = ../getopt/libopt.a $(SSD_LIBS)
 endif
 
-
-pkglib_PROGRAMS = enoent
-
-enoent_SOURCES = \
-	enoent.c
