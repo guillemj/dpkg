@@ -4,13 +4,49 @@ dpkg (1.14.16) UNRELEASED; urgency=low
   * Add build-essential as an implicit Build-Depends in dpkg-checkbuilddeps.
     Closes: #402901
   * Do not warn about unrecognized Homepage field in binary package stanzas
-    in dpkg-genchanges and dpkg-source.
+    in dpkg-genchanges and dpkg-source. Closes: #460309
+
+  [ Frank Lichtenheld ]
+  * Make the -L option of dpkg-parsechangelog actually work (it's
+    only been eleven years...)
+  * Import the code from my external Parse::DebianChangelog as
+    Dpkg::Changelog and Dpkg::Changelog::Debian. Using this
+    from parsechangelog/debian adds the following requested
+    features:
+     - Option to use a non-lossy format. Closes: #95579
+     - Various options to better control how many entries
+       should be displayed. Closes: #226932
+
+  [ Raphael Hertzog ]
+  * Replaced all the remaining code in controllib.pl by new modules. All
+    scripts have been adjusted to use the new modules and controllib.pl has
+    been removed.
+  * The code to parse debian/control is available in a perl module
+    Dpkg::Control. Closes: #26554
+  * Temporarily add a Breaks: dpkg-dev (= 1.14.13), dpkg-dev (= 1.14.14) on
+    dpkg for the convenience of sid users. Closes: #459815
+  * Update dpkg-source(1) to explain better what the directory after -b is.
+    Closes: #323606
+  * Also force version in ${binary:Version} if dpkg-gencontrol -v<version>
+    is used. That way we're consistent with the definition of that variable
+    in deb-substvars(5). Closes: #433477
+  * Add support of Dm-Upload-Allowed field. Closes: #453400
+
+  [ Updated manpages translations ]
+  * Fix typo in French. Closes: #460021
+  * German (Helge Kreutzmann).
 
   [ Updated dpkg translations ]
   * Basque (Piarres Beobide). Closes: #459565
   * French (Christian Perrier).
+  * German, Basque, Norwegian Bokmål, Swedish, Vietnamese, Simplified Chinese,
+    Galician unfuzzied.
+  * Russian (Yuri Kozlov). Closes: #460708
 
- -- Guillem Jover <guillem@debian.org>  Mon, 07 Jan 2008 12:39:36 +0200
+  [ Updated scripts translations ]
+  * Russian (Yuri Kozlov). Closes: #460708
+
+ -- Jacobo Tarrio <jtarrio@debian.org>  Sat, 12 Jan 2008 12:27:22 +0000
 
 dpkg (1.14.15) unstable; urgency=low
 

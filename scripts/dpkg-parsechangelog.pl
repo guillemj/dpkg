@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use English;
 use POSIX;
 use POSIX qw(:errno_h);
 use Dpkg;
@@ -16,7 +17,7 @@ my $changelogfile = 'debian/changelog';
 my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
                   "$dpkglibdir/parsechangelog");
 
-my $libdir;	# XXX: Not used!?
+my $libdir;
 my $force;
 
 
@@ -39,11 +40,27 @@ sub usage {
 
 Options:
   -l<changelogfile>        get per-version info from this file.
-  -v<sinceversion>         include all changes later than version.
   -F<changelogformat>      force change log format.
   -L<libdir>               look for change log parsers in <libdir>.
   -h, --help               show this help message.
       --version            show the version.
+
+parser options:
+    --format <outputformat>     see man page for list of available
+                                output formats, defaults to 'dpkg'
+                                for compatibility with dpkg-dev
+    --since, -s, -v <version>   include all changes later than version
+    --until, -u <version>       include all changes earlier than version
+    --from, -f <version>        include all changes equal or later
+                                than version
+    --to, -t <version>          include all changes up to or equal
+                                than version
+    --count, -c, -n <number>    include <number> entries from the top
+                                (or the tail if <number> is lower than 0)
+    --offset, -o <number>       change the starting point for --count,
+                                counted from the top (or the tail if
+                                <number> is lower than 0)
+    --all                       include all changes
 "), $progname;
 }
 
@@ -51,24 +68,28 @@ my @ap = ();
 while (@ARGV) {
     last unless $ARGV[0] =~ m/^-/;
     $_= shift(@ARGV);
-    if (m/^-L/ && length($_)>2) { $libdir=$'; next; }
+    if (m/^-L/ && length($_)>2) { $libdir=$POSTMATCH; next; }
     if (m/^-F([0-9a-z]+)$/) { $force=1; $format=$1; next; }
     push(@ap,$_);
-    if (m/^-l/ && length($_)>2) { $changelogfile=$'; next; }
+    if (m/^-l/ && length($_)>2) { $changelogfile=$POSTMATCH; next; }
     m/^--$/ && last;
-    m/^-v/ && next;
+    m/^-[cfnostuv]/ && next;
+    m/^--all$/ && next;
+    m/^--(count|file|format|from|offset|since|to|until)(.*)$/ && do {
+	push(@ap, shift(@ARGV)) unless $2;
+	next;
+    };
     if (m/^-(h|-help)$/) { &usage; exit(0); }
     if (m/^--version$/) { &version; exit(0); }
-    &usageerr("unknown option \`$_'");
+    &usageerr(_g("unknown option \`%s'"), $_);
 }
 
 @ARGV && usageerr(_g("%s takes no non-option arguments"), $progname);
-$changelogfile= "./$changelogfile" if $changelogfile =~ m/^\s/;
 
 if (not $force and $changelogfile ne "-") {
-    open(STDIN,"< $changelogfile") ||
-        error(_g("cannot open %s to find format: %s"), $changelogfile, $!);
-    open(P,"tail -n 40 |") || die sprintf(_g("cannot fork: %s"), $!)."\n";
+    open(STDIN,"<", $changelogfile) ||
+	syserr(_g("cannot open %s to find format"), $changelogfile);
+    open(P,"-|","tail","-n",40) || syserr(_g("cannot fork"));
     while(<P>) {
         next unless m/\schangelog-format:\s+([0-9a-z]+)\W/;
         $format=$1;
@@ -79,6 +100,7 @@ if (not $force and $changelogfile ne "-") {
 
 my ($pa, $pf);
 
+unshift(@parserpath, $libdir) if $libdir;
 for my $pd (@parserpath) {
     $pa= "$pd/$format";
     if (!stat("$pa")) {
@@ -90,11 +112,12 @@ for my $pd (@parserpath) {
 	last;
     }
 }
-        
+
 defined($pf) || error(_g("format %s unknown"), $pa);
 
 if ($changelogfile ne "-") {
-    open(STDIN,"< $changelogfile") || die sprintf(_g("cannot open %s: %s"), $changelogfile, $!)."\n";
+    open(STDIN,"<", $changelogfile)
+	|| syserr(_g("cannot open %s: %s"), $changelogfile);
 }
-exec($pf,@ap); die sprintf(_g("cannot exec format parser: %s"), $!)."\n";
+exec($pf,@ap) || syserr(_g("cannot exec format parser: %s"));
 

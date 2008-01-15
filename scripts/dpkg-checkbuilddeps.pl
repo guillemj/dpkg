@@ -10,11 +10,7 @@ use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(error);
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Deps;
-
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
-
-our %fi;
+use Dpkg::Control;
 
 textdomain("dpkg-dev");
 
@@ -46,7 +42,8 @@ if ($want_help) {
 
 my $controlfile = shift || "debian/control";
 
-parsecontrolfile($controlfile);
+my $control = Dpkg::Control->new($controlfile);
+my $fields = $control->get_source();
 
 my $facts = parse_status("$admindir/status");
 my (@unmet, @conflicts);
@@ -54,24 +51,24 @@ my (@unmet, @conflicts);
 push @unmet, build_depends('Implicit-Build-Depends',
                            Dpkg::Deps::parse('build-essential'), $facts);
 
-if (defined($fi{"C Build-Depends"})) {
+if (defined($fields->{"Build-Depends"})) {
 	push @unmet, build_depends('Build-Depends',
-                                   Dpkg::Deps::parse($fi{"C Build-Depends"},
+                                   Dpkg::Deps::parse($fields->{"Build-Depends"},
                                         reduce_arch => 1), $facts);
 }
-if (defined($fi{"C Build-Conflicts"})) {
+if (defined($fields->{"C Build-Conflicts"})) {
 	push @conflicts, build_conflicts('Build-Conflicts',
-                                         Dpkg::Deps::parse($fi{"C Build-Conflicts"},
+                                         Dpkg::Deps::parse($fields->{"Build-Conflicts"},
                                             reduce_arch => 1, union => 1), $facts);
 }
-if (! $binary_only && defined($fi{"C Build-Depends-Indep"})) {
+if (! $binary_only && defined($fields->{"Build-Depends-Indep"})) {
 	push @unmet, build_depends('Build-Depends-Indep',
-                                   Dpkg::Deps::parse($fi{"C Build-Depends-Indep"},
+                                   Dpkg::Deps::parse($fields->{"Build-Depends-Indep"},
                                         reduce_arch => 1), $facts);
 }
-if (! $binary_only && defined($fi{"C Build-Conflicts-Indep"})) {
+if (! $binary_only && defined($fields->{"Build-Conflicts-Indep"})) {
 	push @conflicts, build_conflicts('Build-Conflicts-Indep',
-                                         Dpkg::Deps::parse($fi{"C Build-Conflicts-Indep"},
+                                         Dpkg::Deps::parse($fields->{"Build-Conflicts-Indep"},
                                             reduce_arch => 1, union => 1), $facts);
 }
 

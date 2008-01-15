@@ -10,8 +10,14 @@ use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            $warnable_error $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
-use Dpkg::Fields qw(capit set_field_importance);
+use Dpkg::Fields qw(:list capit);
 use Dpkg::Compression;
+use Dpkg::Cdata;
+use Dpkg::Control;
+use Dpkg::Substvars;
+use Dpkg::Version qw(check_version);
+use Dpkg::Vars;
+use Dpkg::Changelog qw(parse_changelog);
 
 my @filesinarchive;
 my %dirincluded;
@@ -19,7 +25,7 @@ my %notfileobject;
 my $fn;
 my $ur;
 
-my $varlistfile;
+my $varlistfile = "debian/substvars";
 my $controlfile;
 my $changelogfile;
 my $changelogformat;
@@ -100,26 +106,20 @@ my %dirtocreate;	 # used by checkdiff
 
 my @tar_ignore;
 
+my $substvars = Dpkg::Substvars->new();
+
 use POSIX;
 use Fcntl qw (:mode);
 use English;
 use File::Temp qw (tempfile);
 use Cwd;
 
-push (@INC, $dpkglibdir);
-require 'controllib.pl';
-
-our (%f, %fi);
-our $sourcepackage;
-our %substvar;
-our @src_dep_fields;
-
 textdomain("dpkg-dev");
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-                     Maintainer Uploaders Homepage Standards-Version
-                     Vcs-Browser Vcs-Arch Vcs-Bzr Vcs-Cvs Vcs-Darcs
-                     Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
+		     Maintainer Uploaders Dm-Upload-Allowed Homepage
+		     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
+		     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
                   @src_dep_fields);
 
 
@@ -257,9 +257,9 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
             $tar_ignore_default_pattern_done = 1;
         }
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
-        $substvar{$1}= $POSTMATCH;
+        $substvars->set($1, $POSTMATCH);
     } elsif (m/^-T/) {
-        $varlistfile= $POSTMATCH;
+	$varlistfile = $POSTMATCH;
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
@@ -293,45 +293,53 @@ if ($opmode eq 'build') {
     $changelogfile= "$dir/debian/changelog" unless defined($changelogfile);
     $controlfile= "$dir/debian/control" unless defined($controlfile);
     
-    parsechangelog($changelogfile, $changelogformat);
-    parsecontrolfile($controlfile);
-    $f{"Format"}= $compression eq 'gzip' ? $def_dscformat : '2.0';
-    &init_substvars;
+    my $changelog = parse_changelog($changelogfile, $changelogformat);
+    my $control = Dpkg::Control->new($controlfile);
+    my $fields = Dpkg::Fields::Object->new();
+
+    $fields->{"Format"} = $compression eq 'gzip' ? $def_dscformat : '2.0';
 
     my @sourcearch;
     my %archadded;
     my $archspecific = 0; # XXX: Not used?!
-    my %packageadded;
     my @binarypackages;
 
-    for $_ (keys %fi) {
-        my $v = $fi{$_};
+    # Scan control info of source package
+    my $src_fields = $control->get_source();
+    foreach $_ (keys %{$src_fields}) {
+	my $v = $src_fields->{$_};
+	if (m/^Source$/i) {
+	    set_source_package($v);
+	} elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
+		 m/^Dm-Upload-Allowed$/i ||
+		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
+	    $fields->{$_} = $v;
+	} elsif (m/^Uploaders$/i) {
+	    ($fields->{$_} = $v) =~ s/[\r\n]//g; # Merge in a single-line
+	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
+	    my $dep;
+	    my $type = $dep_field_type{capit($_)};
+	    $dep = Dpkg::Deps::parse($v, union =>  $type eq 'union');
+	    error(_g("error occurred while parsing %s"), $_) unless defined $dep;
+	    my $facts = Dpkg::Deps::KnownFacts->new();
+	    $dep->simplify_deps($facts);
+	    $dep->sort();
+	    $fields->{$_} = $dep->dump();
+	} elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
+	    $fields->{$_} = $v;
+	} elsif (m/^$control_src_field_regex$/i || m/^X[BC]+-/i) {
+	    # Silently ignore valid fields
+	} else {
+	    unknown(_g('general section of control info file'));
+	}
+    }
 
-        if (s/^C //) {
-	    if (m/^Source$/i) {
-		setsourcepackage($v);
-	    } elsif (m/^(Format|Standards-Version|Origin|Maintainer|Homepage)$/i ||
-	             m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
-		$f{$_}= $v;
-	    }
-	    elsif (m/^Uploaders$/i) { ($f{$_}= $v) =~ s/[\r\n]//g; }
-	    elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
-		my $dep;
-		my $type = $dep_field_type{capit($_)};
-		$dep = Dpkg::Deps::parse($v, union =>  $type eq 'union');
-		error(_g("error occurred while parsing %s"), $_) unless defined $dep;
-		my $facts = Dpkg::Deps::KnownFacts->new();
-		$dep->simplify_deps($facts);
-		$dep->sort();
-		$f{$_}= $dep->dump();
-	    }
-            elsif (s/^X[BC]*S[BC]*-//i) { $f{$_}= $v; }
-            elsif (m/^(Section|Priority|Files|Bugs)$/i || m/^X[BC]+-/i) { }
-            else { &unknown(_g('general section of control info file')); }
-        } elsif (s/^C(\d+) //) {
-	    my $i = $1;
-	    my $p = $fi{"C$i Package"};
-            push(@binarypackages,$p) unless $packageadded{$p}++;
+    # Scan control info of binary packages
+    foreach my $pkg ($control->get_packages()) {
+	my $p = $pkg->{'Package'};
+	push(@binarypackages,$p);
+	foreach $_ (keys %{$pkg}) {
+	    my $v = $pkg->{$_};
             if (m/^Architecture$/) {
 		if (debarch_eq($v, 'any')) {
                     @sourcearch= ('any');
@@ -357,36 +365,33 @@ if ($opmode eq 'build') {
                         }
                 }
                 }
-                $f{'Architecture'}= join(' ',@sourcearch);
-            } elsif (s/^X[BC]*S[BC]*-//i) {
-                $f{$_}= $v;
-            } elsif (m/^(Package|Package-Type|Essential|Kernel-Version)$/ ||
-                     m/^(Homepage|Subarchitecture|Installer-Menu-Item)$/i ||
-                     m/^(Pre-Depends|Depends|Provides)$/i ||
-                     m/^(Recommends|Suggests|Conflicts|Replaces)$/i ||
-                     m/^(Breaks|Enhances|Description|Tag|Section|Priority)$/i ||
-                     m/^X[BC]+-/i) {
+                $fields->{'Architecture'}= join(' ',@sourcearch);
+            } elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
+                $fields->{$_} = $v;
+            } elsif (m/^$control_pkg_field_regex$/ ||
+                     m/^X[BC]+-/i) { # Silently ignore valid fields
             } else {
-                &unknown(_g("package's section of control info file"));
+                unknown(_g("package's section of control info file"));
             }
-        } elsif (s/^L //) {
-            if (m/^Source$/) {
-		setsourcepackage($v);
-            } elsif (m/^Version$/) {
-		checkversion( $v );
-                $f{$_}= $v;
-            } elsif (s/^X[BS]*C[BS]*-//i) {
-                $f{$_}= $v;
-            } elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
-                     m/^X[BS]+-/i) {
-            } else {
-                &unknown(_g("parsed version of changelog"));
-            }
-        } elsif (m/^o:.*/) {
-        } else {
-	    internerr(_g("value from nowhere, with key >%s< and value >%s<"),
-	              $_, $v);
-        }
+	}
+    }
+
+    # Scan fields of dpkg-parsechangelog
+    foreach $_ (keys %{$changelog}) {
+        my $v = $changelog->{$_};
+
+	if (m/^Source$/) {
+	    set_source_package($v);
+	} elsif (m/^Version$/) {
+	    check_version($v);
+	    $fields->{$_} = $v;
+	} elsif (s/^X[BS]*C[BS]*-//i) {
+	    $fields->{$_} = $v;
+	} elsif (m/^(Maintainer|Changes|Urgency|Distribution|Date|Closes)$/i ||
+		 m/^X[BS]+-/i) {
+	} else {
+	    unknown(_g("parsed version of changelog"));
+	}
     }
     
     my $vcs;
@@ -422,26 +427,26 @@ if ($opmode eq 'build') {
         usageerr(_g("source handling style -s%s not allowed with -b"),
 		$sourcestyle);
 
-    $f{'Binary'}= join(', ',@binarypackages);
-    for my $f (keys %override) {
-	$f{capit($f)} = $override{$f};
+    $fields->{'Binary'}= join(', ', @binarypackages);
+    foreach my $f (keys %override) {
+	$fields->{$f} = $override{$f};
     }
 
     for my $f (qw(Version)) {
-	defined($f{$f}) ||
+	defined($fields->{$f}) ||
 	    error(_g("missing information for critical output field %s"), $f);
     }
     for my $f (qw(Maintainer Architecture Standards-Version)) {
-	defined($f{$f}) ||
+	defined($fields->{$f}) ||
 	    warning(_g("missing information for output field %s"), $f);
     }
     defined($sourcepackage) || &error(_g("unable to determine source package name !"));
-    $f{'Source'}= $sourcepackage;
+    $fields->{'Source'} = $sourcepackage;
     for my $f (keys %remove) {
-	delete $f{capit($f)};
+	delete $fields->{$f};
     }
 
-    my $version = $f{'Version'};
+    my $version = $fields->{'Version'};
     $version =~ s/^\d+://;
     my $upstreamversion = $version;
     $upstreamversion =~ s/-[^-]*$//;
@@ -552,7 +557,7 @@ if ($opmode eq 'build') {
 
 	$tarname= $origtargz || "$basename.orig.tar.$comp_ext";
 	if ($tarname =~ /\Q$basename\E\.orig\.tar\.($comp_regex)/) {
-	    if (($1 ne 'gz') && ($f{'Format'} < 2)) { $f{'Format'} = '2.0' };
+	    if (($1 ne 'gz') && ($fields->{'Format'} < 2)) { $fields->{'Format'} = '2.0' };
 	} else {
 	    warning(_g(".orig.tar name %s is not <package>_<upstreamversion>" .
 	               ".orig.tar (wanted %s)"),
@@ -605,7 +610,7 @@ if ($opmode eq 'build') {
         
     }
     
-    addfile("$tarname");
+    addfile($fields, "$tarname");
 
     if ($sourcestyle =~ m/[kpKP]/) {
 
@@ -799,7 +804,7 @@ if ($opmode eq 'build') {
         }
         close(FIND); $? && subprocerr("find on $dirname");
 
-	&addfile($diffname);
+	addfile($fields, $diffname);
 
     }
 
@@ -810,11 +815,13 @@ if ($opmode eq 'build') {
     printf(_g("%s: building %s in %s")."\n",
            $progname, $sourcepackage, "$basenamerev.dsc")
         || &syserr(_g("write building message"));
-    open(STDOUT, "> $basenamerev.dsc") ||
+    open(DSC, ">:utf8", "$basenamerev.dsc") ||
         syserr(_g("create %s"), "$basenamerev.dsc");
 
-    set_field_importance(@dsc_fields);
-    outputclose($varlistfile);
+    $substvars->parse($varlistfile) if -e $varlistfile;
+    tied(%{$fields})->set_field_importance(@dsc_fields);
+    tied(%{$fields})->output(\*DSC, $substvars);
+    close(DSC);
 
     if ($ur) {
         printf(STDERR _g("%s: unrepresentable changes to source")."\n",
@@ -847,7 +854,7 @@ if ($opmode eq 'build') {
     }
 
     my $is_signed = 0;
-    open(DSC, "< $dsc") || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
+    open(DSC, "<", $dsc) || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
     while (<DSC>) {
 	next if /^\s*$/o;
 	$is_signed = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----$/o;
@@ -878,31 +885,31 @@ if ($opmode eq 'build') {
 	warning(_g("extracting unsigned source package (%s)"), $dsc);
     }
 
-    open(CDATA, "< $dsc") || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
-    parsecdata(\*CDATA, 'S', -1, sprintf(_g("source control file %s"), $dsc));
+    open(CDATA, "<", $dsc) || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
+    my $fields = parsecdata(\*CDATA, sprintf(_g("source control file %s"), $dsc),
+			    allow_pgp => 1);
     close(CDATA);
 
     for my $f (qw(Source Version Files)) {
-        defined($fi{"S $f"}) ||
+        defined($fields->{$f}) ||
             error(_g("missing critical source control field %s"), $f);
     }
 
     my $dscformat = $def_dscformat;
-    if (defined $fi{'S Format'}) {
-	if (not handleformat($fi{'S Format'})) {
-	    error(_g("Unsupported format of .dsc file (%s)"), $fi{'S Format'});
+    if (defined $fields->{'Format'}) {
+	if (not handleformat($fields->{'Format'})) {
+	    error(_g("Unsupported format of .dsc file (%s)"), $fields->{'Format'});
 	}
-        $dscformat=$fi{'S Format'};
+        $dscformat=$fields->{'Format'};
     }
 
-    $sourcepackage = $fi{'S Source'}; # XXX: should use setsourcepackage??
-    checkpackagename( $sourcepackage );
+    set_source_package($fields->{'Source'});
 
-    my $version = $fi{'S Version'};
+    my $version = $fields->{'Version'};
     my $baseversion;
     my $revision;
 
-    checkversion( $version );
+    check_version($version);
     $version =~ s/^\d+://;
     if ($version =~ m/-([^-]+)$/) {
         $baseversion= $`; $revision= $1;
@@ -910,7 +917,7 @@ if ($opmode eq 'build') {
         $baseversion= $version; $revision= '';
     }
 
-    my $files = $fi{'S Files'};
+    my $files = $fields->{'Files'};
     my @tarfiles;
     my $difffile;
     my $debianfile;
@@ -1190,7 +1197,7 @@ sub checkstats {
     my ($f) = @_;
     my @s;
     my $m;
-    open(STDIN, "< $dscdir/$f") || syserr(_g("cannot read %s"), "$dscdir/$f");
+    open(STDIN, "<", "$dscdir/$f") || syserr(_g("cannot read %s"), "$dscdir/$f");
     (@s = stat(STDIN)) || syserr(_g("cannot fstat %s"), "$dscdir/$f");
     $s[7] == $size{$f} || error(_g("file %s has size %s instead of expected %s"),
                                 $f, $s[7], $size{$f});
@@ -1198,7 +1205,7 @@ sub checkstats {
     $m = readmd5sum( $m );
     $m eq $md5sum{$f} || error(_g("file %s has md5sum %s instead of expected %s"),
                                $f, $m, $md5sum{$f});
-    open(STDIN,"</dev/null") || &syserr(_g("reopen stdin from /dev/null"));
+    open(STDIN, "<", "/dev/null") || &syserr(_g("reopen stdin from /dev/null"));
 }
 
 sub erasedir {
@@ -1646,6 +1653,7 @@ sub forkgzipwrite {
 
     open(GZIPFILE, ">", $_[0]) || syserr(_g("create file %s"), $_[0]);
     pipe(GZIPREAD,GZIP) || &syserr(_g("pipe for gzip"));
+    binmode(GZIP);
     defined($cgz= fork) || &syserr(_g("fork for gzip"));
     if (!$cgz) {
 	open(STDIN,"<&",\*GZIPREAD) || &syserr(_g("reopen gzip pipe"));
@@ -1673,6 +1681,7 @@ sub forkgzipread {
 
     open(GZIPFILE, "<", $_[0]) || syserr(_g("read file %s"), $_[0]);
     pipe(GZIP, GZIPWRITE) || syserr(_g("pipe for %s"), $prog);
+    binmode(GZIP);
     defined($cgz = fork) || syserr(_g("fork for %s"), $prog);
     if (!$cgz) {
 	open(STDOUT, ">&", \*GZIPWRITE) || syserr(_g("reopen %s pipe"), $prog);
@@ -1693,7 +1702,7 @@ sub reapgzip {
 
 my %added_files;
 sub addfile {
-    my ($filename)= @_;
+    my ($fields, $filename)= @_;
     $added_files{$filename}++ &&
         internerr(_g("tried to add file `%s' twice"), $filename);
     stat($filename) || syserr(_g("could not stat output file `%s'"), $filename);
@@ -1701,7 +1710,7 @@ sub addfile {
     my $md5sum= `md5sum <$filename`;
     $? && &subprocerr("md5sum $filename");
     $md5sum = readmd5sum( $md5sum );
-    $f{'Files'}.= "\n $md5sum $size $filename";
+    $fields->{'Files'}.= "\n $md5sum $size $filename";
 }
 
 # replace \ddd with their corresponding character, refuse \ddd > \377
@@ -1723,4 +1732,11 @@ sub deoctify {
     }
     return join("", @_);
 } }
+
+sub readmd5sum {
+    (my $md5sum = shift) or return;
+    $md5sum =~ s/^([0-9a-f]{32})\s*\*?-?\s*\n?$/$1/o
+        || failure(_g("md5sum gave bogus output `%s'"), $md5sum);
+    return $md5sum;
+}
 

@@ -1,3 +1,152 @@
+2008-01-14  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-source.pl: Hint Perl into using UTF-8 for output
+	on *.dsc, *.changes and DEBIAN/control files. Updated some open() calls
+	for more consistency and added binmode() calls for filehandles that
+	handle only binary data.
+
+2008-01-13  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Fields.pm: Drop public function
+	set_fields_importance() in favor of a method on
+	Dpkg::Fields::Object. Integrate	public function
+	sort_field_by_importance() in the output() method where it was
+	used.
+	* scripts/Dpkg/Changelog.pm, scripts/dpkg-genchanges.pl,
+	scripts/dpkg-gencontrol.pl, scripts/dpkg-source.pl: Updated to use
+	the set_field_importance() method instead of the removed function.
+	* scripts/Dpkg/Control.pm: Update pod documentation to refer to
+	Dpkg::Fields::Object instead of the invalid Dpkg::Cdata::Object.
+
+2008-01-13  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/Dpkg/Fields.pm (dump): Allow to omit the
+	filehandle argument. If the function is called in
+	non-void context, also remove the printed string
+	to the caller. Together this avoids having to fiddle
+	with filehandles if the caller doesn't want to.
+	(output): Likewise.
+	* scripts/Dpkg/Changelog.pm (data2rfc822): Simplify
+	using this new behaviour.
+
+	* scripts/t/600_Dpkg_Changelog.t: Add a new changelog
+	'fields' that tests the handling of the different fields
+	in the dpkg format.
+
+	* scripts/Dpkg/Changelog.pm: Replace all field hashes
+	with Dpkg::Changelog::Entry objects.
+	(Dpkg::Changelog::Entry): Base on Dpkg::Fields::Object.
+	(data2rfc822): Use Dpkg::Fields::Object->output and fix
+	handling of user-defined fields.
+	(data2rfc822_mult): Merge into data2rfc822 (autodetect
+	whether the argument is an object or an array of object).
+	* scripts/Dpkg/Changelog/Debian.pm: Adapt for
+	Dpkg::Changelog::Entry changes.
+	* scripts/t/600_Dpkg_Changelog.t: Likewise.
+
+2008-01-12  Raphael hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Fields.pm, scripts/dpkg-source.pl: Add support of
+	Dm-Upload-Allowed field. It automatically ends up in the dsc.
+
+2008-01-12  Raphael hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Fields.pm: Define variables containing
+	authoritative list of fields for debian/control (one for source
+	stanza, one for package stanza).
+	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-source.pl: Use the new variables to properly ignore
+	valid fields. Some related cleanup.
+
+2008-01-11  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Also force version in ${binary:Version}
+	if dpkg-gencontrol -v<version> is used. That way we're consistent
+	with the definition of that variable in deb-substvars(5).
+
+2008-01-10  Raphael Hertzog  <hertzog@debian.org>
+
+	* debian/control: Add a "Breaks: dpkg-dev (= 1.14.13),
+	dpkg-dev (= 1.14.14)" on dpkg to force upgrade of those dpkg-dev
+	versions that would break with the move of the compression related
+	variables from Dpkg.pm into Dpkg/Compression.pm.
+
+2008-01-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Version.pm: Import missing error function from
+	Dpkg::ErrorHandling.
+
+	* scripts/po/POTFILES.in: Add many modules containing translatable
+	strings.
+
+	* scripts/Dpkg/Changelog.pm (parse_changelog): New function to
+	replace controllib's parsechangelog.
+
+	* scripts/dpkg-buildpackage.pl, scripts/dpkg-checkbuilddeps.pl,
+	scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-gensymbols.pl, scripts/dpkg-source.pl: Update scripts to use
+	Dpkg::Changelog::parse_changelog instead of the old controllib.pl's
+	parsechangelog. With this last change controllib.pl is no more used by
+	any script.
+
+	* scripts/controllib.pl: Removed as it's no more used by any
+	script.
+
+	* debian/dpkg-dev.install: Add missing modules.
+
+2008-01-08  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-parsechangelog.pl: Make the
+	-L option actually work (it's only been eleven
+	years...)
+	
+	* scripts/Dpkg/ErrorHandling.pm (report): export.
+
+2008-01-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Cdata.pm, scripts/Dpkg/Control.pm: Add two new
+	module to parse and manipulate files like debian/control.
+	* scripts/t/600_Dpkg_Control.t,
+	scripts/t/600_Dpkg_Control/control-1: Add non-regression tests for
+	Dpkg::Control and Dpkg::Cdata.
+	* scripts/dpkg-checkbuilddeps.pl, scripts/dpkg-genchanges.pl,
+	scripts/dpkg-gencontrol.pl, scripts/dpkg-gensymbols.pl,
+	scripts/dpkg-shlibdeps.pl, scripts/dpkg-source.pl: Update scripts
+	to use the new modules Dpkg::Cdata, Dpkg::Control,
+	Dpkg::Fields::Object and Dpkg::Substvars.
+
+	* scripts/Dpkg/Version.pm (check_version): New function replacing
+	checkversion of controllib.pl.
+	* scripts/dpkg-source.pl, scripts/dpkg-buildpackage.pl: Use the
+	new check_version.
+
+	* scripts/Dpkg/Vars.pm (set_source_package): New function to set
+	and check the global variable $sourcepackage (replacing
+	controllib's setsourcepackage).
+	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-source.pl: Use the new set_source_package.
+
+	* scripts/dpkg-distaddfile.pl, scripts/dpkg-gencontrol.pl: Delete
+	the chown(getfowner(), ...) on new files. It doesn't seem to do
+	anything useful anymore as it got dropped from several other
+	scripts over the years without problems.
+
+	* scripts/dpkg-source.pl: Integrate readmd5sum from controllib here
+	as it's the only user of that function.
+
+	* scripts/controllib.pl: Get rid of everything except
+	parsechangelog and its dependencies (parsecdata, syntax) that are
+	still needed.
+
+	* scripts/Makefile.am: Include all the new files in the
+	distributed tarball.
+
+2008-01-08  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/ErrorHandling.pm (syntaxerr): New function to
+	replace the syntax() function in controllib.pl.
+
 2008-01-07  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-genchanges.pl: Ignore Homepage field in binary package

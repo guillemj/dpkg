@@ -18,9 +18,7 @@ use Dpkg::Shlibs::SymbolFile;
 use Dpkg::Arch qw(get_host_arch);
 use Dpkg::Fields qw(capit);
 use Dpkg::Deps;
-
-push(@INC,$dpkglibdir);
-require 'controllib.pl';
+use Dpkg::Control;
 
 # By increasing importance
 my @depfields = qw(Suggests Recommends Depends Pre-Depends);
@@ -92,10 +90,10 @@ foreach (@ARGV) {
 
 scalar keys %exec || usageerr(_g("need at least one executable"));
 
-our %fi;
-parsecontrolfile("debian/control");
-my $build_depends = defined($fi{"C Build-Depends"}) ?
-		    $fi{"C Build-Depends"} : "";
+my $control = Dpkg::Control->new();
+my $fields = $control->get_source();
+my $build_depends = defined($fields->{"Build-Depends"}) ?
+		    $fields->{"Build-Depends"} : "";
 my $build_deps = Dpkg::Deps::parse($build_depends, reduce_arch => 1);
 
 my %dependencies;

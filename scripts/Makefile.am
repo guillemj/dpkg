@@ -69,7 +69,14 @@ EXTRA_DIST = \
 	t/200_Dpkg_Shlibs/objdump.ls \
 	t/300_Dpkg_BuildOptions.t \
 	t/400_Dpkg_Deps.t \
-	t/500_Dpkg_Path.t
+	t/500_Dpkg_Path.t \
+	t/600_Dpkg_Changelog.t \
+	t/600_Dpkg_Changelog/countme \
+	t/600_Dpkg_Changelog/fields \
+	t/600_Dpkg_Changelog/misplaced-tz \
+	t/600_Dpkg_Changelog/shadow \
+	t/700_Dpkg_Control.t \
+	t/700_Dpkg_Control/control-1
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
@@ -79,22 +86,24 @@ perllibdir = $(PERL_LIBDIR)
 nobase_dist_perllib_DATA = \
 	Dpkg/Arch.pm \
 	Dpkg/BuildOptions.pm \
+	Dpkg/Cdata.pm \
+	Dpkg/Changelog.pm \
+	Dpkg/Changelog/Debian.pm \
 	Dpkg/Compression.pm \
-	Dpkg/ErrorHandling.pm \
+	Dpkg/Control.pm \
 	Dpkg/Deps.pm \
+	Dpkg/ErrorHandling.pm \
 	Dpkg/Fields.pm \
 	Dpkg/Gettext.pm \
 	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \
 	Dpkg/Shlibs/Objdump.pm \
 	Dpkg/Shlibs/SymbolFile.pm \
+	Dpkg/Substvars.pm \
+	Dpkg/Vars.pm \
 	Dpkg/Version.pm \
 	Dpkg/Source/VCS/git.pm \
 	Dpkg.pm
-
-dist_pkglib_SCRIPTS = \
-	controllib.pl
-
 
 do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \
 		    -e "s:\$$dpkglibdir[[:space:]]*=[[:space:]]*['\"][^'\"]*['\"]:\$$dpkglibdir=\"$(pkglibdir)\":" \
