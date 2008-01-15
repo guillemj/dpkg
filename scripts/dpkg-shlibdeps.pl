@@ -72,7 +72,14 @@ foreach (@ARGV) {
 	defined($depstrength{$dependencyfield}) ||
 	    warning(_g("unrecognised dependency field \`%s'"), $dependencyfield);
     } elsif (m/^-e(.*)$/) {
-	$exec{$1} = $dependencyfield;
+	if (exists $exec{$1}) {
+	    # Affect the binary to the most important field
+	    if ($depstrength{$dependencyfield} > $depstrength{$exec{$1}}) {
+		$exec{$1} = $dependencyfield;
+	    }
+	} else {
+	    $exec{$1} = $dependencyfield;
+	}
     } elsif (m/^--ignore-missing-info$/) {
 	$ignore_missing_info = 1;
     } elsif (m/^-t(.*)$/) {
@@ -84,7 +91,14 @@ foreach (@ARGV) {
     } elsif (m/^-/) {
 	usageerr(_g("unknown option \`%s'"), $_);
     } else {
-	$exec{$_} = $dependencyfield;
+	if (exists $exec{$_}) {
+	    # Affect the binary to the most important field
+	    if ($depstrength{$dependencyfield} > $depstrength{$exec{$_}}) {
+		$exec{$_} = $dependencyfield;
+	    }
+	} else {
+	    $exec{$_} = $dependencyfield;
+	}
     }
 }
 
