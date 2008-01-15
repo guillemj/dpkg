@@ -310,7 +310,7 @@ if ($opmode eq 'build') {
 	my $v = $src_fields->{$_};
 	if (m/^Source$/i) {
 	    set_source_package($v);
-	} elsif (m/^(Standards-Version|Origin|Maintainer|Homepage)$/i ||
+	} elsif (m/^(Format|Standards-Version|Origin|Maintainer|Homepage)$/i ||
 		 m/^Dm-Upload-Allowed$/i ||
 		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
 	    $fields->{$_} = $v;
