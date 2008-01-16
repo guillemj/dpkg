@@ -848,7 +848,12 @@ static void
 do_pidfile(const char *name)
 {
 	FILE *f;
-	pid_t pid;
+	static pid_t pid = 0;
+
+	if (pid) {
+		check(pid);
+		return;
+	}
 
 	f = fopen(name, "r");
 	if (f) {
