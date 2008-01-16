@@ -34,8 +34,10 @@ sub usage {
 Options:
     --help, -h                  print usage information
     --version, -V               print version information
-    --file, -l <file>           changelog file to parse, defaults
-                                to 'debian/changelog'
+    --label, -l <file>          name of the changelog file to
+                                use in error messages
+    --file <file>               changelog file to parse, defaults
+                                to '-' (standard input)
     --format <outputformat>     see man page for list of available
                                 output formats, defaults to 'dpkg'
                                 for compatibility with dpkg-dev
@@ -54,8 +56,8 @@ Options:
 "), $progname;
 }
 
-my ( $since, $until, $from, $to, $all, $count, $offset, $file );
-my $default_file = 'debian/changelog';
+my ( $since, $until, $from, $to, $all, $count, $offset, $file, $label );
+my $default_file = '-';
 my $format = 'dpkg';
 my %allowed_formats = (
     dpkg => 1,
@@ -72,7 +74,8 @@ sub set_format {
     $format = $val;
 }
 
-GetOptions( "file|l=s" => \$file,
+GetOptions( "file=s" => \$file,
+	    "label|l=s" => \$label,
 	    "since|v=s" => \$since,
 	    "until|u=s" => \$until,
 	    "from|f=s" => \$from,
@@ -99,6 +102,7 @@ if (@ARGV) {
 my $changes = Dpkg::Changelog::Debian->init();
 
 $file ||= $default_file;
+$label ||= $file;
 unless ($since or $until or $from or $to or
 	$offset or $count or $all) {
     $count = 1;
@@ -107,11 +111,10 @@ my @all = $all ? ( all => $all ) : ();
 my $opts = { since => $since, until => $until,
 	     from => $from, to => $to,
 	     count => $count, offset => $offset,
-	     @all };
+	     @all, reportfile => $label };
 
 if ($file eq '-') {
-    my @input = <STDIN>;
-    $changes->parse({ instring => join('', @input), %$opts })
+    $changes->parse({ inhandle => \*STDIN, %$opts })
 	or failure(_g('fatal error occured while parsing input'));
 } else {
     $changes->parse({ infile => $file, %$opts })
