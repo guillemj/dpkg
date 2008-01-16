@@ -72,7 +72,14 @@ foreach (@ARGV) {
 	defined($depstrength{$dependencyfield}) ||
 	    warning(_g("unrecognised dependency field \`%s'"), $dependencyfield);
     } elsif (m/^-e(.*)$/) {
-	$exec{$1} = $dependencyfield;
+	if (exists $exec{$1}) {
+	    # Affect the binary to the most important field
+	    if ($depstrength{$dependencyfield} > $depstrength{$exec{$1}}) {
+		$exec{$1} = $dependencyfield;
+	    }
+	} else {
+	    $exec{$1} = $dependencyfield;
+	}
     } elsif (m/^--ignore-missing-info$/) {
 	$ignore_missing_info = 1;
     } elsif (m/^-t(.*)$/) {
@@ -84,7 +91,14 @@ foreach (@ARGV) {
     } elsif (m/^-/) {
 	usageerr(_g("unknown option \`%s'"), $_);
     } else {
-	$exec{$_} = $dependencyfield;
+	if (exists $exec{$_}) {
+	    # Affect the binary to the most important field
+	    if ($depstrength{$dependencyfield} > $depstrength{$exec{$_}}) {
+		$exec{$_} = $dependencyfield;
+	    }
+	} else {
+	    $exec{$_} = $dependencyfield;
+	}
     }
 }
 
@@ -309,19 +323,29 @@ sub filter_deps {
     }
     # Don't include dependencies if they are already
     # mentionned in a higher priority field
-    if (not defined($depseen{$dep})) {
+    if (not exists($depseen{$dep})) {
 	$depseen{$dep} = $dependencies{$field}{$dep};
 	return 1;
     } else {
 	# Since dependencies can be versionned, we have to
 	# verify if the dependency is stronger than the
 	# previously seen one
-	if (compare_versions($depseen{$dep}, '>>', $dependencies{$field}{$dep})) {
-	    return 0;
+	my $stronger;
+	if ($depseen{$dep} eq $dependencies{$field}{$dep}) {
+	    # If both versions are the same (possibly unversionned)
+	    $stronger = 0;
+	} elsif ($dependencies{$field}{$dep} eq '') {
+	    $stronger = 0; # If the dep is unversionned
+	} elsif ($depseen{$dep} eq '') {
+	    $stronger = 1; # If the dep seen is unversionned
+	} elsif (compare_versions($depseen{$dep}, '>>', $dependencies{$field}{$dep})) {
+	    # The version of the dep seen is stronger...
+	    $stronger = 0;
 	} else {
-	    $depseen{$dep} = $dependencies{$field}{$dep};
-	    return 1;
+	    $stronger = 1;
 	}
+	$depseen{$dep} = $dependencies{$field}{$dep} if $stronger;
+	return $stronger;
     }
 }
 
@@ -470,7 +494,9 @@ sub add_shlibs_dep {
 	if (defined($dep)) {
 	    print "Found $dep in $file\n" if $debug;
 	    foreach (split(/,\s*/, $dep)) {
-		$dependencies{$cur_field}{$_} = 1;
+		# Note: the value is empty for shlibs based dependency
+		# symbol based dependency will put a version as value
+		$dependencies{$cur_field}{$_} = '';
 	    }
 	    return 1;
 	}

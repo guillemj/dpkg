@@ -1,3 +1,13 @@
+2008-01-15  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl (filter_deps): Fix filtering of
+	duplicated dependencies in fields of lesser priority. Dependencies
+	coming from shlibs files have no associated version and this case
+	wasn't handled properly.
+	* scripts/dpkg-shlibdeps.pl: When the same binary is passed
+	several times as parameters (associated to different fields),
+	associate it to the most important field.
+
 2008-01-14  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
