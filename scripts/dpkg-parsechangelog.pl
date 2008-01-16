@@ -117,7 +117,7 @@ defined($pf) || error(_g("format %s unknown"), $pa);
 
 if ($changelogfile ne "-") {
     open(STDIN,"<", $changelogfile)
-	|| syserr(_g("cannot open %s: %s"), $changelogfile);
+	|| syserr(_g("cannot open %s"), $changelogfile);
 }
 exec($pf,@ap) || syserr(_g("cannot exec format parser: %s"));
 
