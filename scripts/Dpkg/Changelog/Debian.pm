@@ -74,8 +74,11 @@ use base qw(Dpkg::Changelog);
 
 =head3 parse
 
-Parses either the file named in configuration item C<infile> or the string
-saved in configuration item C<instring>.
+Parses either the file named in configuration item C<infile>, the content
+of the filehandle in configuration item C<inhandle>, or the string
+saved in configuration item C<instring> (the latter requires IO::String).
+You can set a filename to use for reporting errors with configuration
+item C<reportfile>.
 Accepts a hash ref as optional argument which can contain configuration
 items.
 
@@ -99,6 +102,8 @@ sub parse {
 					$file, $! );
 	    return undef;
 	};
+    } elsif ($fh = $self->{config}{inhandle}) {
+	$file = 'FileHandle';
     } elsif (my $string = $self->{config}{instring}) {
 	eval { require IO::String };
 	if ($@) {
@@ -111,6 +116,9 @@ sub parse {
     } else {
 	$self->_do_fatal_error(_g('no changelog file specified'));
 	return undef;
+    }
+    if (defined($self->{config}{reportfile})) {
+	$file = $self->{config}{reportfile};
     }
 
     $self->reset_parse_errors;

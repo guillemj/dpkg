@@ -64,7 +64,7 @@ There are currently no supported general configuration options, but
 see the other methods for more specific configuration options which
 can also specified to C<init>.
 
-If C<infile> or C<instring> are specified (see L<parse>), C<parse()>
+If C<infile>, C<inhandle>, or C<instring> are specified, C<parse()>
 is called from C<init>. If a fatal error is encountered during parsing
 (e.g. the file can't be opened), C<init> will not return a
 valid object but C<undef>!
@@ -82,7 +82,9 @@ sub init {
 
     $self->reset_parse_errors;
 
-    if ($self->{config}{infile} || $self->{config}{instring}) {
+    if ($self->{config}{infile}
+	|| $self->{config}{inhandle}
+	|| $self->{config}{instring}) {
 	defined($self->parse) or return undef;
     }
 
@@ -132,8 +134,10 @@ an array of arrays. Each of these arrays contains
 
 =item 1.
 
-the filename of the parsed file or C<String> if a string was
-parsed directly
+the filename of the parsed file or C<FileHandle> or C<String>
+if the input came from a file handle or a string. If the
+reportfile configuration option was given, its value will be
+used instead
 
 =item 2.
 
