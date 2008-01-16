@@ -12,6 +12,13 @@
 	include the original tarball only if the current upstream version differs
 	from the upstream version of the previous changelog entry.
 
+	* scripts/dpkg-genchanges.pl: Some code refactoring. Also fix the
+	generation of the Description field to not have duplicate description
+	in case of udeb (a single description per binary package is enough).
+	Source only uploads will loose their Description: fields since they
+	have no associated binary packages and Descriptions are only added
+	for binary packages where we have a corresponding .deb to upload.
+
 2008-01-18  Guillem Jover  <guillem@debian.org>
 
 	* m4/arch.m4 (_DPKG_ARCHITECTURE): Do not use backticks inside double

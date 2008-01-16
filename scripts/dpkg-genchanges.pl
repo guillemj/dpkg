@@ -259,58 +259,54 @@ foreach $_ (keys %{$src_fields}) {
     }
 }
 
-# Scan control info of all binary packages
-foreach my $pkg ($control->get_packages()) {
+# Scan control info of all binary packages unless
+# we have a source only upload
+my @pkg;
+push @pkg, $control->get_packages() unless is_sourceonly;
+foreach my $pkg (@pkg) {
     my $p = $pkg->{"Package"};
     my $a = $pkg->{"Architecture"};
+
+    if (not defined($p2f{$p})) {
+	# No files for this package... warn if it's unexpected
+	if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
+	    (grep(debarch_is($host_arch, $_), split(/\s+/, $a))
+		  and ($include & ARCH_DEP))) {
+	    warning(_g("package %s in control file but not in files list"),
+		    $p);
+	}
+	next; # and skip it
+    }
+
+    my @f = @{$p2f{$p}}; # List of files for this binary package
+    $p2arch{$p} = $a;
+
     foreach $_ (keys %{$pkg}) {
 	my $v = $pkg->{$_};
-	if (!defined($p2f{$p}) && not is_sourceonly) {
-	    if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
-		(grep(debarch_is($host_arch, $_), split(/\s+/, $a))
-		      and ($include & ARCH_DEP))) {
-		warning(_g("package %s in control file but not in files list"),
-		        $p);
-		next;
-	    }
-	} else {
-	    my @f;
-	    @f = @{$p2f{$p}} if defined($p2f{$p});
-	    $p2arch{$p}=$a;
 
-	    if (m/^Description$/) {
-		$v=$PREMATCH if $v =~ m/\n/;
-		my %d;
-		# dummy file to get each description at least once (e.g. -S)
-		foreach my $f (("", @f)) {
-		    my $desc = sprintf("%-10s - %-.65s%s", $p, $v,
-				       $f =~ m/\.udeb$/ ? " (udeb)" : '');
-		    $d{$desc}++;
-		}
-		push @descriptions, keys %d;
-	    } elsif (m/^Section$/) {
-		$f2seccf{$_} = $v foreach (@f);
-	    } elsif (m/^Priority$/) {
-		$f2pricf{$_} = $v foreach (@f);
-	    } elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
-		$fields->{$_} = $v;
-	    } elsif (m/^Architecture$/) {
-		if (not is_sourceonly) {
-		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
-			and ($include & ARCH_DEP)) {
-			$v = $host_arch;
-		    } elsif (!debarch_eq('all', $v)) {
-			$v = '';
-		    }
-		} else {
-		    $v = '';
-		}
-		push(@archvalues,$v) unless !$v || $archadded{$v}++;
-	    } elsif (m/^$control_pkg_field_regex$/ || m/^X[BS]+-/i) {
-		# Silently ignore valid fields
-	    } else {
-		unknown(_g("package's section of control info file"));
+	if (m/^Description$/) {
+	    $v = $1 if $v =~ m/^(.*)\n/;
+	    my $desc = sprintf("%-10s - %-.65s", $p, $v);
+	    $desc .= " (udeb)" if (grep(/\.udeb$/, @f));
+	    push @descriptions, $desc;
+	} elsif (m/^Section$/) {
+	    $f2seccf{$_} = $v foreach (@f);
+	} elsif (m/^Priority$/) {
+	    $f2pricf{$_} = $v foreach (@f);
+	} elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
+	    $fields->{$_} = $v;
+	} elsif (m/^Architecture$/) {
+	    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
+		and ($include & ARCH_DEP)) {
+		$v = $host_arch;
+	    } elsif (!debarch_eq('all', $v)) {
+		$v = '';
 	    }
+	    push(@archvalues,$v) unless !$v || $archadded{$v}++;
+	} elsif (m/^$control_pkg_field_regex$/ || m/^X[BS]+-/i) {
+	    # Silently ignore valid fields
+	} else {
+	    unknown(_g("package's section of control info file"));
 	}
     }
 }
