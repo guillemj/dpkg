@@ -1078,8 +1078,9 @@ do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry
 
 	for (p = found; p; p = p->next) {
 		if (testmode) {
-			printf("Would send signal %d to %d.\n",
-			       signal_nr, p->pid);
+			if (quietmode <= 0)
+				printf("Would send signal %d to %d.\n",
+				       signal_nr, p->pid);
 			(*n_killed)++;
 		} else if (kill(p->pid, signal_nr) == 0) {
 			push(&killed, p->pid);
@@ -1117,7 +1118,8 @@ run_stop_schedule(void)
 
 	if (testmode) {
 		if (schedule != NULL) {
-			printf("Ignoring --retry in test mode\n");
+			if (quietmode <= 0)
+				printf("Ignoring --retry in test mode\n");
 			schedule = NULL;
 		}
 	}
@@ -1318,7 +1320,7 @@ main(int argc, char **argv)
 			printf("%s already running.\n", execname ? execname : "process");
 		exit(exitnodo);
 	}
-	if (testmode) {
+	if (testmode && quietmode <= 0) {
 		printf("Would start %s ", startas);
 		while (argc-- > 0)
 			printf("%s ", *argv++);
@@ -1334,8 +1336,9 @@ main(int argc, char **argv)
 		if (nicelevel)
 			printf(", and add %i to the priority", nicelevel);
 		printf(".\n");
-		exit(0);
 	}
+	if (testmode)
+		exit(0);
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
