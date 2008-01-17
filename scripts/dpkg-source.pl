@@ -25,7 +25,7 @@ my %notfileobject;
 my $fn;
 my $ur;
 
-my $varlistfile = "debian/substvars";
+my $varlistfile;
 my $controlfile;
 my $changelogfile;
 my $changelogformat;
