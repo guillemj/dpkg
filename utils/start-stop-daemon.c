@@ -382,7 +382,7 @@ do_help(void)
 static void
 do_version(void)
 {
-	printf("start-stop-daemon %s for Debian\n\n", VERSION)
+	printf("start-stop-daemon %s for Debian\n\n", VERSION);
 
 	printf("Written by Marek Michalkiewicz, public domain.\n");
 }
