@@ -11,6 +11,9 @@ dpkg (1.14.16) UNRELEASED; urgency=low
     --retry even if the daemon removed the pidfile. Closes: #460903
     Thanks to Justin Pryzby for the analysis.
   * Make --quiet silence --test in start-stop-daemon. Closes: #367998
+  * Check current uid and gid in start-stop-daemon before calling setuid,
+    setgid and initgroups. Closes: #222524
+    Based on a patch by Samuel Thibault.
 
   [ Frank Lichtenheld ]
   * Make the -L option of dpkg-parsechangelog actually work (it's

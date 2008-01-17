@@ -313,6 +313,27 @@ clear(struct pid_list **list)
 	*list = NULL;
 }
 
+static int
+gid_in_current_groups(gid_t gid)
+{
+	gid_t *gids;
+	int i, ngroups;
+
+	ngroups = getgroups(0, NULL);
+	gids = xmalloc(ngroups * sizeof(gid_t));
+	getgroups(ngroups, gids);
+
+	for (i = 0; i < ngroups; i++) {
+		if (gid == gids[i]) {
+			free(gids);
+			return 1;
+		}
+	}
+
+	free(gids);
+	return 0;
+}
+
 static void
 do_help(void)
 {
@@ -1376,14 +1397,20 @@ main(int argc, char **argv)
 	}
 	if (chdir(changedir) < 0)
 		fatal("Unable to chdir() to %s", changedir);
-	if (changeuser != NULL) {
-		if (setgid(runas_gid))
-			fatal("Unable to set gid to %d", runas_gid);
-		if (initgroups(changeuser, runas_gid))
-			fatal("Unable to set initgroups() with gid %d", runas_gid);
+
+	if (changeuser != NULL && getuid() != runas_uid) {
 		if (setuid(runas_uid))
 			fatal("Unable to set uid to %s", changeuser);
 	}
+	if (changegroup != NULL && *changegroup != '\0' && getgid() != runas_gid) {
+		if (!gid_in_current_groups(runas_gid))
+			if (initgroups(changeuser, runas_gid))
+				fatal("Unable to set initgroups() with gid %d",
+				      runas_gid);
+		if (setgid(runas_gid))
+			fatal("Unable to set gid to %d", runas_gid);
+	}
+
 	if (background) {
 		/* Continue background setup */
 		int i;
