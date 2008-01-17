@@ -64,6 +64,7 @@ my $forcechangedby;
 my $since;
 
 my $substvars = Dpkg::Substvars->new();
+$substvars->set("Format", $changes_format);
 
 use constant SOURCE     => 1;
 use constant ARCH_DEP   => 2;
@@ -411,7 +412,7 @@ if (!is_binaryonly) {
 print(STDERR "$progname: $origsrcmsg\n") ||
     &syserr(_g("write original source message")) unless $quiet;
 
-$fields->{'Format'} = $changes_format;
+$fields->{'Format'} = '${Format}'; # Use value stored in substvars
 
 if (!defined($fields->{'Date'})) {
     chomp(my $date822 = `date -R`);
