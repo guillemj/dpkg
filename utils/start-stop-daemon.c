@@ -338,9 +338,6 @@ static void
 do_help(void)
 {
 	printf(
-"start-stop-daemon %s for Debian - small and fast C version written by\n"
-"Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>, public domain.\n"
-"\n"
 "Usage: start-stop-daemon [<option> ...] <command>\n"
 "\n"
 "Commands:\n"
@@ -379,8 +376,15 @@ do_help(void)
 "or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>\n"
 "\n"
 "Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)\n"
-"              3 = trouble   2 = with --retry, processes wouldn't die\n",
-	       VERSION);
+"              3 = trouble   2 = with --retry, processes wouldn't die\n");
+}
+
+static void
+do_version(void)
+{
+	printf("start-stop-daemon %s for Debian\n\n", VERSION)
+
+	printf("Written by Marek Michalkiewicz, public domain.\n");
 }
 
 static void
@@ -597,7 +601,7 @@ parse_options(int argc, char * const *argv)
 			start = 1;
 			break;
 		case 'V':  /* --version */
-			printf("start-stop-daemon " VERSION "\n");
+			do_version();
 			exit(0);
 		case 'a':  /* --startas <pathname> */
 			startas = optarg;
