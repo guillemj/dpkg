@@ -102,13 +102,13 @@ sub load {
     $seen->{$file} = 1;
 
     open(my $sym_file, "<", $file)
-	|| syserr(sprintf(_g("Can't open %s: %s"), $file));
+	|| syserr(_g("cannot open %s"), $file);
     my $object = $current_object;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
 	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    if (not defined ($object)) {
-		error(sprintf(_g("Symbol information must be preceded by a header (file %s, line %s).", $file, $.)));
+		error(_g("Symbol information must be preceded by a header (file %s, line %s)."), $file, $.);
 	    }
 	    my $name = $1;
 	    # New symbol
@@ -154,7 +154,7 @@ sub load {
 		$self->create_object($object, "$2");
 	    }
 	} else {
-	    warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
+	    warning(_g("Failed to parse a line in %s: %s"), $file, $_);
 	}
     }
     close($sym_file);
@@ -168,7 +168,7 @@ sub save {
 	$fh = \*STDOUT;
     } else {
 	open($fh, ">", $file)
-	    || syserr(sprintf(_g("Can't open %s for writing: %s"), $file, $!));
+	    || syserr(_g("cannot write %s"), $file);
     }
     $self->dump($fh, $with_deprecated);
     close($fh) if ($file ne "-");

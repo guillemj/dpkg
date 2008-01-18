@@ -48,8 +48,7 @@ parse_ldso_conf("/etc/ld.so.conf") if -e "/etc/ld.so.conf";
 my %visited;
 sub parse_ldso_conf {
     my $file = shift;
-    open my $fh, "<", $file
-	or syserr(sprintf(_g("couldn't open %s"), $file));
+    open my $fh, "<", $file or syserr(_g("cannot open %s"), $file);
     $visited{$file}++;
     while (<$fh>) {
 	next if /^\s*$/;
@@ -68,7 +67,7 @@ sub parse_ldso_conf {
 	    }
 	}
     }
-    close $fh or syserr(sprintf(_g("couldn't close %s"), $file));;
+    close $fh;
 }
 
 # find_library ($soname, \@rpath, $format, $root)
