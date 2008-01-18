@@ -510,7 +510,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
     if (!chmodsafe_unlink(pathname, &failed)) return; /* OK, it was */
     if (errno == ENOTDIR) return;
   }
-  if (errno != ENOTEMPTY) { /* Huh ? */
+  if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh ? */
     char mbuf[250];
     snprintf(mbuf, sizeof(mbuf), N_("failed to %s `%%.255s'"), failed);
     ohshite(_(mbuf),pathname);

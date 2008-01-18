@@ -16,6 +16,9 @@ dpkg (1.14.16) UNRELEASED; urgency=low
     Based on a patch by Samuel Thibault.
   * Remove unimplemented --test option from update-alternatives.
     Closes: #392432, #461247
+  * Additionally check if errno is EEXIST after rmdir(2), as SUSv3 specifies
+    that on non-empty directories it can either return that or ENOTEMPTY.
+    This fixes run time problems on Solaris.
 
   [ Frank Lichtenheld ]
   * Make the -L option of dpkg-parsechangelog actually work (it's

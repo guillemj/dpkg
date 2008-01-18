@@ -249,7 +249,7 @@ static void removal_bulk_remove_files(
       }
       debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
       if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
-      if (errno == ENOTEMPTY) {
+      if (errno == ENOTEMPTY || errno == EEXIST) {
 	debug(dbg_eachfiledetail, "removal_bulk `%s' was not empty, will try again later",
 	      fnvb.buf);
         push_leftover(&leftover,namenode);
@@ -364,7 +364,7 @@ static void removal_bulk_remove_leftover_dirs(struct pkginfo *pkg) {
 
     debug(dbg_eachfiledetail, "removal_bulk removing `%s'", fnvb.buf);
     if (!rmdir(fnvb.buf) || errno == ENOENT || errno == ELOOP) continue;
-    if (errno == ENOTEMPTY) {
+    if (errno == ENOTEMPTY || errno == EEXIST) {
       fprintf(stderr,
               _("dpkg - warning: while removing %.250s, directory `%.250s' not empty "
               "so not removed.\n"),

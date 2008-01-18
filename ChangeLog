@@ -1,5 +1,13 @@
 2008-01-18  Guillem Jover  <guillem@debian.org>
 
+	* src/remove.c (ensure_pathname_nonexisting): Additionally check if
+	errno is EEXIST after calling rmdir, per SUSv3 when the directory
+	is not empty errno can be ENOTEMPTY or EEXIST.
+	* src/help.c (removal_bulk_remove_files): Likewise.
+	(removal_bulk_remove_leftover_dirs): Likewise.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
 	* scripts/update-alternatives.pl: Stop parsing '--test' as a valid
 	option.
 	($testmode): Remove variable.
