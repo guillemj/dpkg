@@ -15,7 +15,6 @@ my $altdir = '/etc/alternatives';
 # FIXME: this should not override the previous assignment.
 $admindir = $admindir . '/alternatives';
 
-my $testmode = 0;
 my $verbosemode = 0;
 
 my $action = '';      # Action to perform (display / install / remove / display / auto / config)
@@ -97,7 +96,6 @@ Commands:
 Options:
   --altdir <directory>     change the alternatives directory.
   --admindir <directory>   change the administrative directory.
-  --test                   don't do anything, just demonstrate.
   --verbose                verbose operation, more output.
   --quiet                  quiet operation, minimal output.
   --help                   show this help message.
@@ -301,8 +299,6 @@ while (@ARGV) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
         &version; exit(0);
-    } elsif (m/^--test$/) {
-        $testmode= 1;
     } elsif (m/^--verbose$/) {
         $verbosemode= +1;
     } elsif (m/^--quiet$/) {
