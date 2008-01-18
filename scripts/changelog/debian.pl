@@ -124,3 +124,6 @@ if ($file eq '-') {
 
 
 eval("print \$changes->${format}_str(\$opts)");
+if ($@) {
+    failure("%s",$@);
+}

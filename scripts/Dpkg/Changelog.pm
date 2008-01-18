@@ -573,7 +573,7 @@ specified B<version> itself.
 
 =back
 
-The following options also supported by all output methods but
+The following options are also supported by all output methods but
 don't take version numbers as values:
 
 =over 4
@@ -666,10 +666,12 @@ sub data2rfc822 {
 	}
 
 	return join "\n", @rfc822;
-    } else {
+    } elsif (ref($data)) {
 	my $rfc822_str = $data->output;
 
 	return $rfc822_str;
+    } else {
+	return;
     }
 }
 
