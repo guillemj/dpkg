@@ -207,31 +207,40 @@ if ($compare) {
 	$exitcode = 3 if ($compare >= 3);
     }
     if ($symfile->has_new_symbols($ref_symfile)) {
-	warning(_g("some new symbols appeared in the symbols file."));
-	$exitcode = 2 if ($compare >= 2);
+	unless ($symfile->used_wildcards()) {
+	    # Wildcards are used to replace many additional symbols, so we
+	    # have no idea if this is really true, so don't say it and
+	    # don't check it
+	    warning(_g("some new symbols appeared in the symbols file."));
+	    $exitcode = 2 if ($compare >= 2);
+	}
     }
     if ($symfile->has_lost_symbols($ref_symfile)) {
 	warning(_g("some symbols disappeared in the symbols file."));
 	$exitcode = 1 if ($compare >= 1);
     }
-    # Output diffs between symbols files if needed
-    my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-    my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-    $ref_symfile->dump($before); $symfile->dump($after);
-    seek($before, 0, 0); seek($after, 0, 0);
-    my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
-    $md5_before->addfile($before);
-    $md5_after->addfile($after);
-    if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
-	if (defined($ref_symfile->{file})) {
-	    warning(_g("%s doesn't match completely %s\n"),
-		    $output, $ref_symfile->{file});
-	} else {
-	    warning(_g("no debian/symbols file used as basis for generating %s\n"),
-	            $output);
+    unless ($symfile->used_wildcards()) {
+	# If wildcards are not used, we can compare symbols files before
+	# and after
+	my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
+	my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
+	$ref_symfile->dump($before); $symfile->dump($after);
+	seek($before, 0, 0); seek($after, 0, 0);
+	my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
+	$md5_before->addfile($before);
+	$md5_after->addfile($after);
+	# Output diffs between symbols files if any
+	if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
+	    if (defined($ref_symfile->{file})) {
+		warning(_g("%s doesn't match completely %s\n"),
+			$output, $ref_symfile->{file});
+	    } else {
+		warning(_g("no debian/symbols file used as basis for generating %s\n"),
+			$output);
+	    }
+	    my ($a, $b) = ($before->filename, $after->filename);
+	    system("diff", "-u", $a, $b) if -x "/usr/bin/diff";
 	}
-	my ($a, $b) = ($before->filename, $after->filename);
-	system("diff", "-u", $a, $b) if -x "/usr/bin/diff";
     }
 }
 exit($exitcode);

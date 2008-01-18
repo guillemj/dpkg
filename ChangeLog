@@ -1,5 +1,20 @@
 2008-01-18  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (load): Parse *@<version>
+	symbols names as wildcards and not as regular symbols. They
+	provide the same dependency information for all symbols that share
+	the same version.
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (merge_symbols): Use
+	information provided by wildcards entries when new symbols are
+	added.
+	* scripts/dpkg-gensymbols.pl: Disable some checks which can't be
+	done when symbols files have been generated with the help of
+	wildcard entries.
+	* man/dpkg-gensymbols.1: Update the manual page to explain how to
+	use wildcard entries.
+
+2008-01-18  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/Dpkg/Changelog.pm (parse_changelog): Rewrite it completely
 	to not call dpkg-parsechangelog but do the work of this program by itself.
 	* scripts/dpkg-parsechangelog.pl: Rewrote it to use the enhanced

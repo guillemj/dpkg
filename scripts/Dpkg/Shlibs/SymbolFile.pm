@@ -66,6 +66,7 @@ sub new {
     my $class = ref($this) || $this;
     my $self = { };
     bless $self, $class;
+    $self->clear();
     if (defined($file) ) {
 	$self->{file} = $file;
 	$self->load($file) if -e $file;
@@ -76,6 +77,7 @@ sub new {
 sub clear {
     my ($self) = @_;
     $self->{objects} = {};
+    $self->{used_wildcards} = 0;
 }
 
 sub clear_except {
@@ -108,13 +110,19 @@ sub load {
 	    if (not defined ($object)) {
 		error(sprintf(_g("Symbol information must be preceded by a header (file %s, line %s).", $file, $.)));
 	    }
+	    my $name = $1;
 	    # New symbol
 	    my $sym = {
 		minver => $2,
 		dep_id => defined($3) ? $3 : 0,
 		deprecated => 0
 	    };
-	    $self->{objects}{$object}{syms}{$1} = $sym;
+	    if ($name =~ /^\*@(.*)$/) {
+		error(_g("you can't use wildcards on unversioned symbols: %s"), $_) if $1 eq "Base";
+		$self->{objects}{$object}{wildcards}{$1} = $sym;
+	    } else {
+		$self->{objects}{$object}{syms}{$name} = $sym;
+	    }
 	} elsif (/^#include\s+"([^"]+)"/) {
 	    my $filename = $1;
 	    my $dir = $file;
@@ -209,9 +217,10 @@ sub merge_symbols {
     }
     # Scan all symbols provided by the objects
     foreach my $sym (keys %dynsyms) {
-	if (exists $self->{objects}{$soname}{syms}{$sym}) {
+	my $obj = $self->{objects}{$soname};
+	if (exists $obj->{syms}{$sym}) {
 	    # If the symbol is already listed in the file
-	    my $info = $self->{objects}{$soname}{syms}{$sym};
+	    my $info = $obj->{syms}{$sym};
 	    if ($info->{deprecated}) {
 		# Symbol reappeared somehow
 		$info->{deprecated} = 0;
@@ -225,12 +234,21 @@ sub merge_symbols {
 	    }
 	} else {
 	    # The symbol is new and not present in the file
-	    my $info = {
-		minver => $minver,
-		deprecated => 0,
-		dep_id => 0
-	    };
-	    $self->{objects}{$soname}{syms}{$sym} = $info;
+	    my $info;
+	    my $symobj = $dynsyms{$sym};
+	    if ($symobj->{version} and exists $obj->{wildcards}{$symobj->{version}}) {
+		# Get the info from wildcards
+		$info = $obj->{wildcards}{$symobj->{version}};
+		$self->{used_wildcards}++;
+	    } else {
+		# New symbol provided by the current release
+		$info = {
+		    minver => $minver,
+		    deprecated => 0,
+		    dep_id => 0
+		};
+	    }
+	    $obj->{syms}{$sym} = $info;
 	}
     }
 
@@ -265,6 +283,7 @@ sub create_object {
     $self->{objects}{$soname} = {
 	syms => {},
 	fields => {},
+	wildcards => {},
 	deps => [ @deps ]
     };
 }
@@ -286,6 +305,22 @@ sub get_field {
 	return $self->{objects}{$soname}{fields}{$name};
     }
     return undef;
+}
+
+sub contains_wildcards {
+    my ($self) = @_;
+    my $res = 0;
+    foreach my $soname (sort keys %{$self->{objects}}) {
+	if (scalar keys %{$self->{objects}{$soname}{wildcards}}) {
+	    $res = 1;
+	}
+    }
+    return $res;
+}
+
+sub used_wildcards {
+    my ($self) = @_;
+    return $self->{used_wildcards};
 }
 
 sub lookup_symbol {

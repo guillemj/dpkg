@@ -44,8 +44,14 @@ The symbols files are really useful only if they reflect the evolution of
 the package through several releases. Thus the maintainer has to update
 them every time that a new symbol is added so that its associated minimal
 version matches reality. To do this properly he can use the diffs contained
-in the build logs. In most cases, the diff can be directly applied to his
-debian/\fIpackage\fR.symbols file.
+in the build logs. In most cases, the diff applies directly to his
+debian/\fIpackage\fR.symbols file. That said, further tweaks are usually
+needed: it's recommended for example to drop the Debian revision
+from the minimal version so that backports with a lower version number
+but the same upstream version still satisfy the generated dependencies.
+If the Debian revision can't be dropped because the symbol really got
+added by the Debian specific change, then one should suffix the version
+with "~".
 .P
 Before applying any patch to the symbols file, the maintainer should
 double-check that it's sane. Public symbols are not supposed to disappear,
@@ -74,6 +80,29 @@ to do it is the following:
 .PP
 #include "libsomething1.symbols.common"
  arch_specific_symbol@Base 1.0
+.SS Using wildcards with versioned symbols
+.P
+Well maintained libraries have versioned symbols where each version
+corresponds to the upstream version where the symbol got added. If that's
+the case, it's possible to write a symbols file with wildcard entries like
+"*@GLIBC_2.0" that would match any symbol associated to the version
+GLIBC_2.0. It's still possible to include specific symbols in the file,
+they'll take precedence over any matching wildcard entry. An example:
+.PP
+libc.so.6 libc6 #MINVER#
+ *@GLIBC_2.0 2.0
+ [...]
+ *@GLIBC_2.7 2.7
+ access@GLIBC_2.0 2.2
+.P
+The symbol access@GLIBC_2.0 will lead to a minimal dependency on libc6
+version 2.2 despite the wildcard entry *@GLIBC_2.0 which associates
+symbols versioned as GLIBC_2.0 with the minimal version 2.0.
+.p
+Note that using wildcards means that \fBdpkg\-gensymbols\fR can't check
+for symbols that might have disappeared and can't generate a diff between
+the maintainer-supplied symbols file and the generated one in the binary
+package.
 .SS Good library management
 .P
 A well-maintained library has the following features:
