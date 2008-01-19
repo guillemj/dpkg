@@ -56,7 +56,7 @@ if (defined($fields->{"Build-Depends"})) {
                                    Dpkg::Deps::parse($fields->{"Build-Depends"},
                                         reduce_arch => 1), $facts);
 }
-if (defined($fields->{"C Build-Conflicts"})) {
+if (defined($fields->{"Build-Conflicts"})) {
 	push @conflicts, build_conflicts('Build-Conflicts',
                                          Dpkg::Deps::parse($fields->{"Build-Conflicts"},
                                             reduce_arch => 1, union => 1), $facts);
