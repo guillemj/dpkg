@@ -38,6 +38,7 @@ Usage: %s [<options> ...]
 Options:
   -r<gain-root-command>
                  command to gain root privileges (default is fakeroot).
+  -R<rules>      rules file to execute (default is debian/rules).
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
@@ -78,7 +79,8 @@ Options:
 "), $progname;
 }
 
-my $rootcommand = '';
+my @debian_rules = ("debian/rules");
+my @rootcommand = ();
 my $signcommand = '';
 if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
        || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
@@ -114,7 +116,7 @@ while (@ARGV) {
     } elsif (/^-j(\d*)$/) {
 	$parallel = $1 || '-1';
     } elsif (/^-r(.*)$/) {
-	$rootcommand = $1;
+	@rootcommand = split /\s+/, $1;
     } elsif (/^-p(.*)$/) {
 	$signcommand = $1;
     } elsif (/^-k(.*)$/) {
@@ -195,23 +197,25 @@ while (@ARGV) {
     } elsif (/^-E$/) {
 	$warnable_error = 0;
 	push @passopts, '-E';
+    } elsif (/^-R(.*)$/) {
+	@debian_rules = split /\s+/, $1;
     } else {
 	usageerr(_g("unknown option or argument %s"), $_);
     }
 }
 
 if ($< == 0) {
-    warning(_g("using a gain-root-command while being root")) if ($rootcommand);
+    warning(_g("using a gain-root-command while being root")) if (@rootcommand);
 } else {
-    $rootcommand ||= 'fakeroot';
+    push @rootcommand, "fakeroot" unless @rootcommand;
 
-    if (!testcommand($rootcommand)) {
-	if ($rootcommand eq 'fakeroot') {
+    if (!testcommand($rootcommand[0])) {
+	if ($rootcommand[0] eq 'fakeroot') {
 	    error(_g("fakeroot not found, either install the fakeroot\n" .
 	             "package, specify a command with the -r option, " .
 	             "or run this as root"));
 	} else {
-	    error(_g("gain-root-commmand '%s' not found"), $rootcommand);
+	    error(_g("gain-root-commmand '%s' not found"), $rootcommand[0]);
 	}
     }
 }
@@ -308,7 +312,7 @@ if ($checkbuilddep) {
 }
 
 unless ($noclean) {
-    withecho($rootcommand, 'debian/rules', 'clean');
+    withecho(@rootcommand, @debian_rules, 'clean');
 }
 unless ($binaryonly) {
     chdir('..') or failure('chdir ..');
@@ -319,8 +323,8 @@ unless ($binaryonly) {
     chdir($dir) or failure("chdir $dir");
 }
 unless ($sourceonly) {
-    withecho('debian/rules', 'build');
-    withecho($rootcommand, 'debian/rules', $binarytarget);
+    withecho(@debian_rules, 'build');
+    withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 if ($usepause &&
     ($signchanges || ( !$binaryonly && $signsource )) ) {
@@ -400,7 +404,7 @@ if ($signchanges && signfile("$pva.changes")) {
 }
 
 if ($cleansource) {
-    withecho($rootcommand, 'debian/rules', 'clean');
+    withecho(@rootcommand, @debian_rules, 'clean');
 }
 
 print "$progname: $srcmsg\n";
