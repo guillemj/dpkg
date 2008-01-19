@@ -21,6 +21,10 @@ sub usage {
 Options:
   control-file   control file to process (default: debian/control).
   -B             binary-only, ignore -Indep.
+  -d build-deps  use given string as build dependencies instead of
+                 retrieving them from control file
+  -c build-conf  use given string for build conflicts instead of
+                 retrieving them from control file
   --admindir=<directory>
                  change the administrative directory.
   -h             show this help message.
@@ -29,8 +33,11 @@ Options:
 
 my $binary_only=0;
 my $want_help=0;
+my ($bd_value, $bc_value);
 if (! GetOptions('-B' => \$binary_only,
 		 '-h' => \$want_help,
+		 '-d=s' => \$bd_value,
+		 '-c=s' => \$bc_value,
 		 '--admindir=s' => \$admindir)) {
 	usage();
 	exit(2);
@@ -46,30 +53,31 @@ my $control = Dpkg::Control->new($controlfile);
 my $fields = $control->get_source();
 
 my $facts = parse_status("$admindir/status");
+
+unless (defined($bd_value) or defined($bc_value)) {
+    $bd_value = 'build-essential';
+    $bd_value .= ", " . $fields->{"Build-Depends"} if defined $fields->{"Build-Depends"};
+    if (not $binary_only and defined $fields->{"Build-Depends-Indep"}) {
+	$bd_value .= ", " . $fields->{"Build-Depends-Indep"};
+    }
+    $bc_value = $fields->{"Build-Conflicts"} if defined $fields->{"Build-Conflicts"};
+    if (not $binary_only and defined $fields->{"Build-Conflicts-Indep"}) {
+	if ($bc_value) {
+	    $bc_value .= ", " . $fields->{"Build-Conflicts-Indep"};
+	} else {
+	    $bc_value = $fields->{"Build-Conflicts-Indep"};
+	}
+    }
+}
 my (@unmet, @conflicts);
 
-push @unmet, build_depends('Implicit-Build-Depends',
-                           Dpkg::Deps::parse('build-essential'), $facts);
-
-if (defined($fields->{"Build-Depends"})) {
-	push @unmet, build_depends('Build-Depends',
-                                   Dpkg::Deps::parse($fields->{"Build-Depends"},
-                                        reduce_arch => 1), $facts);
+if ($bd_value) {
+	push @unmet, build_depends('Build-Depends/Build-Depends-Indep)',
+		Dpkg::Deps::parse($bd_value, reduce_arch => 1), $facts);
 }
-if (defined($fields->{"Build-Conflicts"})) {
-	push @conflicts, build_conflicts('Build-Conflicts',
-                                         Dpkg::Deps::parse($fields->{"Build-Conflicts"},
-                                            reduce_arch => 1, union => 1), $facts);
-}
-if (! $binary_only && defined($fields->{"Build-Depends-Indep"})) {
-	push @unmet, build_depends('Build-Depends-Indep',
-                                   Dpkg::Deps::parse($fields->{"Build-Depends-Indep"},
-                                        reduce_arch => 1), $facts);
-}
-if (! $binary_only && defined($fields->{"Build-Conflicts-Indep"})) {
-	push @conflicts, build_conflicts('Build-Conflicts-Indep',
-                                         Dpkg::Deps::parse($fields->{"Build-Conflicts-Indep"},
-                                            reduce_arch => 1, union => 1), $facts);
+if ($bc_value) {
+	push @conflicts, build_conflicts('Build-Conflicts/Build-Conflicts-Indep',
+		Dpkg::Deps::parse($bc_value, reduce_arch => 1, union => 1), $facts);
 }
 
 if (@unmet) {
