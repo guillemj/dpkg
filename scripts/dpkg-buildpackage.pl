@@ -13,6 +13,7 @@ use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version qw(check_version);
+use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
@@ -256,17 +257,7 @@ if ($parallel) {
 my $cwd = cwd();
 my $dir = basename($cwd);
 
-my %changes;
-open CHANGELOG, '-|', 'dpkg-parsechangelog' or subprocerr('dpkg-parsechangelog');
-# until we have a better parsecdata function this
-# should suffice
-while ($_ = <CHANGELOG>) {
-    chomp;
-    /^(\S+):\s*(.*)$/ && do {
-	$changes{lc $1} = $2;
-    };
-}
-close CHANGELOG or subprocerr('dpkg-parsechangelog');
+my $changelog = parse_changelog();
 
 sub mustsetvar {
     my ($var, $text) = @_;
@@ -278,8 +269,8 @@ sub mustsetvar {
     return $var;
 }
 
-my $pkg = mustsetvar($changes{source}, _g('source package'));
-my $version = mustsetvar($changes{version}, _g('source version'));
+my $pkg = mustsetvar($changelog->{source}, _g('source package'));
+my $version = mustsetvar($changelog->{version}, _g('source version'));
 check_version($version);
 
 my $maintainer;
@@ -288,7 +279,7 @@ if ($changedby) {
 } elsif ($maint) {
     $maintainer = $maint;
 } else {
-    $maintainer = mustsetvar($changes{maintainer}, _g('source changed by'));
+    $maintainer = mustsetvar($changelog->{maintainer}, _g('source changed by'));
 }
 
 open my $arch_env, '-|', 'dpkg-architecture', "-a$targetarch",
