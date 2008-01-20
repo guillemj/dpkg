@@ -78,14 +78,6 @@ Options:
 "), $progname;
 }
 
-sub testcommand {
-    my ($cmd) = @_;
-
-    my $fullcmd = `which $cmd`;
-    chomp $fullcmd;
-    return $fullcmd && -x $fullcmd;
-}
-
 my $rootcommand = '';
 my $signcommand = '';
 if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
@@ -259,16 +251,6 @@ my $dir = basename($cwd);
 
 my $changelog = parse_changelog();
 
-sub mustsetvar {
-    my ($var, $text) = @_;
-
-    error(_g("unable to determine %s"), $text)
-	unless defined($var);
-
-    print "$progname: $text $var\n";
-    return $var;
-}
-
 my $pkg = mustsetvar($changelog->{source}, _g('source package'));
 my $version = mustsetvar($changelog->{version}, _g('source version'));
 check_version($version);
@@ -306,40 +288,6 @@ unless ($sourceonly) {
 
 my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
-
-sub signfile {
-    my ($file) = @_;
-    print STDERR " signfile $file\n";
-    my $qfile = quotemeta($file);
-
-    if ($signinterface eq 'gpg') {
-	system("(cat ../$qfile ; echo '') | ".
-	       "$signcommand --utf8-strings --local-user "
-	       .quotemeta($signkey||$maintainer).
-	       " --clearsign --armor --textmode  > ../$qfile.asc");
-    } else {
-	system("$signcommand -u ".quotemeta($signkey||$maintainer).
-	       " +clearsig=on -fast <../$qfile >../$qfile.asc");
-    }
-    my $status = $?;
-    unless ($status) {
-	system('mv', '--', "../$file.asc", "../$file")
-	    and subprocerr('mv');
-    } else {
-	system('rm', '-f', "../$file.asc")
-	    and subprocerr('rm -f');
-    }
-    print "\n";
-    return $status
-}
-
-
-sub withecho {
-    shift while !$_[0];
-    print STDERR " @_\n";
-    system(@_)
-	and subprocerr("@_");
-}
 
 if ($checkbuilddep) {
     if ($admindir) {
@@ -417,13 +365,8 @@ while ($_ = <CHANGES>) {
 close CHANGES or subprocerr(_g('dpkg-genchanges'));
 close OUT or syserr(_g('write changes file'));
 
-sub fileomitted {
-    my ($regex) = @_;
-
-    return $files !~ /$regex/;
-}
-
 my $srcmsg;
+sub fileomitted { return $files !~ /$_[0]/ }
 if (fileomitted '\.deb') {
     # source only upload
     if (fileomitted "\.diff\.$comp_regex") {
@@ -458,4 +401,55 @@ print "$progname: $srcmsg\n";
 if ($signerrors) {
     warning($signerrors);
     exit 1;
+}
+
+sub testcommand {
+    my ($cmd) = @_;
+
+    my $fullcmd = `which $cmd`;
+    chomp $fullcmd;
+    return $fullcmd && -x $fullcmd;
+}
+
+sub mustsetvar {
+    my ($var, $text) = @_;
+
+    error(_g("unable to determine %s"), $text)
+	unless defined($var);
+
+    print "$progname: $text $var\n";
+    return $var;
+}
+
+sub withecho {
+    shift while !$_[0];
+    print STDERR " @_\n";
+    system(@_)
+	and subprocerr("@_");
+}
+
+sub signfile {
+    my ($file) = @_;
+    print STDERR " signfile $file\n";
+    my $qfile = quotemeta($file);
+
+    if ($signinterface eq 'gpg') {
+	system("(cat ../$qfile ; echo '') | ".
+	       "$signcommand --utf8-strings --local-user "
+	       .quotemeta($signkey||$maintainer).
+	       " --clearsign --armor --textmode  > ../$qfile.asc");
+    } else {
+	system("$signcommand -u ".quotemeta($signkey||$maintainer).
+	       " +clearsig=on -fast <../$qfile >../$qfile.asc");
+    }
+    my $status = $?;
+    unless ($status) {
+	system('mv', '--', "../$file.asc", "../$file")
+	    and subprocerr('mv');
+    } else {
+	system('rm', '-f', "../$file.asc")
+	    and subprocerr('rm -f');
+    }
+    print "\n";
+    return $status
 }
