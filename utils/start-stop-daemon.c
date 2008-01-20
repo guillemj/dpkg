@@ -346,7 +346,7 @@ do_help(void)
 "  -H|--help                     print help information\n"
 "  -V|--version                  print version\n"
 "\n"
-"Mandatory options (at least one is required):\n"
+"Matching options (at least one is required):\n"
 "  -p|--pidfile <pid-file>       pid file to check\n"
 "  -x|--exec <executable>        program to start/check if it is running\n"
 "  -n|--name <process-name>      stop processes with this name\n"
