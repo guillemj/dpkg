@@ -264,6 +264,21 @@ void packagelist::kd_revertsuggest() {
   refreshlist(); redrawthisstate();
 }
 
+void
+packagelist::kd_revertinstalled()
+{
+  int i;
+
+  for (i = 0; i < nitems; i++) {
+    if (table[i]->pkg->name)
+      table[i]->selected = reallywant(pkginfo::want_sentinel, table[i]);
+    ldrawnstart = ldrawnend = -1;
+  }
+
+  refreshlist();
+  redrawthisstate();
+}
+
 /* fixme: configurable purge/deselect */
 
 void packagelist::kd_toggleinfo() {

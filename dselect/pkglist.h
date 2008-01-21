@@ -183,6 +183,7 @@ protected:
   void kd_revert_abort();
   void kd_revertsuggest();
   void kd_revertdirect();  
+  void kd_revertinstalled();
   void kd_morespecific();
   void kd_lessspecific();
   void kd_swaporder();
