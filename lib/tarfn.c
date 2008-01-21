@@ -62,7 +62,7 @@ StoC(const char *s, int size)
 	char *	str;
 
 	len = strnlen(s, size);
-	str = malloc(len + 1);
+	str = m_malloc(len + 1);
 	memcpy(str, s, len);
 	str[len] = 0;
 
@@ -138,7 +138,7 @@ TarExtractor(
        next_long_name = NULL;
        next_long_link = NULL;
        long_read = 0;
-	symListBottom = symListPointer = symListTop = malloc(sizeof(symlinkList));
+	symListBottom = symListPointer = symListTop = m_malloc(sizeof(symlinkList));
 	symListTop->next = NULL;
 
 	h.UserData = userData;
@@ -198,13 +198,8 @@ TarExtractor(
 			memcpy(&symListBottom->h, &h, sizeof(TarInfo));
 			symListBottom->h.Name = m_strdup(h.Name);
 			symListBottom->h.LinkName = m_strdup(h.LinkName);
-			if ((symListBottom->next = malloc(sizeof(symlinkList))) == NULL) {
-				free(symListBottom->h.LinkName);
-				free(symListBottom->h.Name);
-				status = -1;
-				errno = 0;
-				break;
-			}
+			symListBottom->next = m_malloc(sizeof(symlinkList));
+
 			symListBottom = symListBottom->next;
 			symListBottom->next = NULL;
 			status = 0;
@@ -225,12 +220,7 @@ TarExtractor(
                  if (*longp)
                    free(*longp);
 
-                 if (NULL == (*longp = (char *)malloc(h.Size))) {
-                   /* malloc failed, so bail */
-                   errno = 0;
-		   status = -1;
-		   break;
-                 }
+		*longp = m_malloc(h.Size);
                  bp = *longp;
 
                  // the way the GNU long{link,name} stuff works is like this:  

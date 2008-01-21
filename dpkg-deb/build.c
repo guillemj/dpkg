@@ -101,7 +101,7 @@ static struct _finfo* getfi(const char* root, int fd) {
 
   if (fn == NULL) {
     fnlen = rl + MAXFILENAME;
-    fn=(char*)malloc(fnlen);
+    fn = m_malloc(fnlen);
   } else if (fnlen < (rl + MAXFILENAME)) {
     fnlen = rl + MAXFILENAME;
     fn=(char*)realloc(fn,fnlen);
@@ -131,7 +131,7 @@ static struct _finfo* getfi(const char* root, int fd) {
       ohshit(_("file name '%.50s...' is too long"), fn + rl + 1);
   }
 
-  fi=(struct _finfo*)malloc(sizeof(struct _finfo));
+  fi = m_malloc(sizeof(struct _finfo));
   lstat(fn, &(fi->st));
   fi->fn = m_strdup(fn + rl + 1);
   fi->next=NULL;
@@ -193,7 +193,7 @@ void do_build(const char *const *argv) {
   /* template for our tempfiles */
   if ((envbuf= getenv("TMPDIR")) == NULL)
     envbuf= P_tmpdir;
-  tfbuf = (char *)malloc(strlen(envbuf)+13);
+  tfbuf = m_malloc(strlen(envbuf) + 13);
   strcpy(tfbuf,envbuf);
   strcat(tfbuf,"/dpkg.XXXXXX");
   subdir= 0;

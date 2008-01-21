@@ -489,26 +489,18 @@ void execbackend(const char *const *argv) {
     pass_admindir = 1;
   }
 
-  nargv = malloc(sizeof(char *) * (argc + 2));
-  if (!nargv)
-    ohshite(_("couldn't malloc in execbackend"));
-
+  nargv = m_malloc(sizeof(char *) * (argc + 2));
   nargv[i] = m_strdup(cipaction->parg);
 
   i++, offset++;
 
   if (pass_admindir) {
-    nargv[i] = malloc((strlen("--admindir=") + strlen(admindir) + 1));
-    if (!nargv[i])
-      ohshite(_("couldn't malloc in execbackend"));
-
+    nargv[i] = m_malloc((strlen("--admindir=") + strlen(admindir) + 1));
     sprintf(nargv[i], "--admindir=%s", admindir);
     i++, offset++;
   }
 
-  nargv[i] = malloc(2 + strlen(cipaction->olong) + 1);
-  if (!nargv[i])
-    ohshite(_("couldn't malloc in execbackend"));
+  nargv[i] = m_malloc(2 + strlen(cipaction->olong) + 1);
   strcpy(nargv[i], "--");
   strcat(nargv[i], cipaction->olong);
   i++, offset++;

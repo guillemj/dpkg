@@ -210,9 +210,7 @@ void extracthalf(const char *debar, const char *directory,
                  (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l)) == EOF ||
           fflush(stdout)) werr("stdout");
     
-    ctrlarea = malloc(ctrllennum);
-    if (!ctrlarea)
-      ohshite(_("failed allocating memory for variable `ctrlarea'"));
+    ctrlarea = m_malloc(ctrllennum);
 
     errno=0; if (fread(ctrlarea,1,ctrllennum,ar) != ctrllennum)
       readfail(ar, debar, _("control area"));

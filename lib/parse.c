@@ -115,8 +115,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if ((dataptr= (char *)mmap(NULL, stat.st_size, PROT_READ, MAP_SHARED, fd, 0)) == MAP_FAILED)
       ohshite(_("can't mmap package info file `%.255s'"),filename);
 #else
-    if ((dataptr= malloc(stat.st_size)) == NULL)
-      ohshite(_("failed to malloc for info file `%.255s'"),filename);
+    dataptr = m_malloc(stat.st_size);
 
     fd_buf_copy(fd, dataptr, stat.st_size, _("copy info file `%.255s'"),filename);
 #endif

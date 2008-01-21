@@ -43,7 +43,7 @@ struct lstitem {
 static struct lstitem* alloclstitem(void) {
 	struct lstitem*	buf;
 
-	buf=(struct lstitem*)malloc(sizeof(struct lstitem));
+	buf = m_malloc(sizeof(struct lstitem));
 	buf->type=invalid;
 	buf->next=NULL;
 	buf->data=NULL;
@@ -81,7 +81,7 @@ static int parsefield(struct lstitem* cur, const char* fmt, const char* fmtend) 
 	}
 
 	cur->type=field;
-	cur->data=(char*)malloc(len+1);
+	cur->data = m_malloc(len + 1);
 	memcpy(cur->data, fmt, len);
 	cur->data[len]='\0';
 
@@ -96,7 +96,7 @@ static int parsestring(struct lstitem* cur, const char* fmt, const char* fmtend)
 	len=fmtend-fmt+1;
 
 	cur->type=string;
-	write=cur->data=(char*)malloc(len+1);
+	write = cur->data = m_malloc(len + 1);
 	while (fmt<=fmtend) {
 		if (*fmt=='\\') {
 			fmt++;

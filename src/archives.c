@@ -870,7 +870,7 @@ static int try_deconfigure_can(int (*force_p)(struct deppossi*),
       }
     }
     pkg->clientdata->istobe= itb_deconfigure;
-    newdeconf= malloc(sizeof(struct packageinlist));
+    newdeconf = m_malloc(sizeof(struct packageinlist));
     newdeconf->next= deconfigure;
     newdeconf->pkg= pkg;
     newdeconf->xinfo= removal;
