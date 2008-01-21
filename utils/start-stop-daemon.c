@@ -257,6 +257,15 @@ xgettimeofday(struct timeval *tv)
 	if (gettimeofday(tv, NULL) != 0)
 		fatal("gettimeofday failed: %s", strerror(errno));
 }
+static long
+get_open_fd_max(void)
+{
+#ifdef HAVE_GETDTABLESIZE
+	return getdtablesize();
+#else
+	return sysconf(_SC_OPEN_MAX);
+#endif
+}
 
 static void
 daemonize(void)
@@ -1430,15 +1439,10 @@ main(int argc, char **argv)
 		dup2(devnull_fd, 0); /* stdin */
 		dup2(devnull_fd, 1); /* stdout */
 		dup2(devnull_fd, 2); /* stderr */
-#if defined(OShpux)
+
 		 /* Now close all extra fds */
-		for (i = sysconf(_SC_OPEN_MAX) - 1; i >= 3; --i)
+		for (i = get_open_fd_max() - 1; i >= 3; --i)
 			close(i);
-#else
-		 /* Now close all extra fds */
-		for (i = getdtablesize() - 1; i >= 3; --i)
-			close(i);
-#endif
 	}
 	execv(startas, argv);
 	fatal("Unable to start %s: %s", startas, strerror(errno));

@@ -1,5 +1,12 @@
 2008-01-21  Guillem Jover  <guillem@debian.org>
 
+	* configure.ac (AC_CHECK_FUNCS): Add getdtablesize.
+	* utils/start-stop-daemon.c (get_open_fd_max): New function.
+	(main) [OShpux]: Remove.
+	[!OShpux]: Use get_open_fd_max instead of hardcoded getdtablesize.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
 	* man/start-stop-daemon.8: Fix quotation to get rid of a spurious
 	space between -c option and comma.
 
