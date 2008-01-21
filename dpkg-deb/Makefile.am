@@ -2,7 +2,8 @@
 
 localedir = $(datadir)/locale
 INCLUDES = \
-	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl -I$(top_srcdir)/lib
+	-DLOCALEDIR=\"$(localedir)\" \
+	-I$(top_srcdir)/lib
 
 
 bin_PROGRAMS = dpkg-deb

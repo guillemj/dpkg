@@ -2,7 +2,7 @@
 
 localedir = $(datadir)/locale
 INCLUDES = \
-	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl \
+	-DLOCALEDIR=\"$(localedir)\" \
 	-I$(top_srcdir)/getopt \
 	-I$(top_srcdir)/lib
 

@@ -5,7 +5,6 @@ if WITH_DSELECT
 endif
 
 SUBDIRS = \
-	intl \
 	getopt \
 	lib \
 	src \

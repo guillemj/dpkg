@@ -3,7 +3,7 @@
 localedir = $(datadir)/locale
 pkgconfdir = $(sysconfdir)/@PACKAGE@
 INCLUDES = \
-	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl \
+	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
 	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\"
 

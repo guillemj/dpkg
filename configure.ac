@@ -13,7 +13,7 @@ DPKG_ARCHITECTURE
 AM_INIT_AUTOMAKE([1.8 gnu])
 
 AM_GNU_GETTEXT_VERSION([0.16.1])
-AM_GNU_GETTEXT()
+AM_GNU_GETTEXT([external])
 
 # Allow compilation without dselect
 AC_ARG_WITH(dselect,
@@ -92,7 +92,8 @@ DPKG_C_ATTRIBUTE
 
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
-AC_CHECK_FUNCS([vsnprintf snprintf strerror strsignal scandir alphasort])
+AC_CHECK_FUNCS([vsnprintf snprintf strtoul strerror strsignal alphasort
+                scandir])
 AC_CHECK_FUNCS([unsetenv lchown setsid bcopy isascii memcpy getdtablesize])
 
 SJR_COMPILER_WARNINGS
@@ -106,7 +107,6 @@ AC_CONFIG_FILES([ Makefile
 		  dselect/methods/Makefile
 		  dselect/po/Makefile.in
 		  getopt/Makefile
-		  intl/Makefile
 		  lib/Makefile
 		  man/Makefile
 		  origins/Makefile

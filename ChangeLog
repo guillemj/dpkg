@@ -1,5 +1,20 @@
 2008-01-21  Guillem Jover  <guillem@debian.org>
 
+	* configure.ac (AM_GNU_GETTEXT): Add external.
+	(AC_CHECK_FUNCS): Add strtoul.
+	(AC_CONFIG_FILES): Remove 'intl/Makefile'.
+	* .gitignore: Remove intl.
+	* Makefile.am (SUBDIRS): Likewise.
+	* dpkg-deb/Makefile.am (INCLUDES): Remove '-I$(top_srcdir)/intl'.
+	* dpkg-split/Makefile.am (INCLUDES): Likewise.
+	* dselect/Makefile.am (INCLUDES): Likewise.
+	* getopt/Makefile.am (INCLUDES): Likewise.
+	* lib/Makefile.am (INCLUDES): Likewise.
+	* src/Makefile.am (INCLUDES): Likewise.
+	* utils/Makefile.am (INCLUDES): Likewise.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
 	* configure.ac (AC_CHECK_FUNCS): Add getdtablesize.
 	* utils/start-stop-daemon.c (get_open_fd_max): New function.
 	(main) [OShpux]: Remove.
