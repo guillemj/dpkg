@@ -23,6 +23,8 @@ ACLOCAL_AMFLAGS = -I m4
 dist_pkgdata_DATA = cputable ostable triplettable
 
 EXTRA_DIST = \
+	README.api \
+	README.feature-removal-schedule \
 	README.translators \
 	debian/archtable \
 	debian/changelog \
