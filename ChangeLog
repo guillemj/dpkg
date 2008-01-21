@@ -52,8 +52,14 @@
 
 2008-01-20  Guillem Jover  <guillem@debian.org>
 
-	* utils/start-stop-daemon.c (do_help): Change from 'Mandatory' to
+	* utils/start-stop-daemon.c (do_version): Change from 'Mandatory' to
 	'Matching'. Suggested by Justin Pryzby.
+
+2008-01-20  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Move most functions to end of file
+	to allow better reading of the program flow. This is a remnant of
+	the shell script past.
 
 2008-01-19  Raphael Hertzog  <hertzog@debian.org>
 
@@ -86,6 +92,12 @@
 	wildcard entries.
 	* man/dpkg-gensymbols.1: Update the manual page to explain how to
 	use wildcard entries.
+
+2008-01-18  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/changelog/debian.pl: Don't hide failures inside eval().
+	* scripts/Dpkg/Changelog.pm (data2rfc822): Don't fail if argument
+	is undef.
 
 2008-01-18  Raphael Hertzog  <hertzog@debian.org>
 
@@ -170,6 +182,24 @@
 	than the current one. Call setgid only if requested to run as a group
 	different than the current one, and initgroups only if the groups is
 	not part of the supplementary groups.
+
+2008-01-16  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/changelog/debian.pl: Restore the old default behaviour
+	to parse STDIN. Also fix the -l option to specify a label for the
+	parsed input, but the actual file. Still allow --file to be used for
+	that. Use the new inhandle option of parse() to pass STDIN directly.
+	This should be faster and removes the implicit dependency on
+	IO::String.
+
+	* scripts/Dpkg/Changelog/Debian.pm (parse): Accept input in
+	configuration item 'inhandle'. Allow to override the name of the
+	file (used for reporting) with configuration item 'reportfile'.
+	* scripts/Dpkg/Changelog.pm (init): Call parse if 'inhandle' is given.
+
+	* scripts/dpkg-parsechangelog.pl: Remove one superfluous %s from a
+	formatstring which was used to output $! before syserr() was used
+	instead.
 
 2008-01-16  Guillem Jover  <guillem@debian.org>
 
