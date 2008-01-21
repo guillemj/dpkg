@@ -14,6 +14,7 @@
 #include <grp.h>
 #include <errno.h>
 #include <tarfn.h>
+#include <dpkg.h>
 
 struct TarHeader {
 	char Name[100];
@@ -195,17 +196,8 @@ TarExtractor(
 			break;
 		case SymbolicLink:
 			memcpy(&symListBottom->h, &h, sizeof(TarInfo));
-			if ((symListBottom->h.Name = strdup(h.Name)) == NULL) {
-				status = -1;
-				errno = 0;
-				break;
-			}
-			if ((symListBottom->h.LinkName = strdup(h.LinkName)) == NULL) {
-				free(symListBottom->h.Name);
-				status = -1;
-				errno = 0;
-				break;
-			}
+			symListBottom->h.Name = m_strdup(h.Name);
+			symListBottom->h.LinkName = m_strdup(h.LinkName);
 			if ((symListBottom->next = malloc(sizeof(symlinkList))) == NULL) {
 				free(symListBottom->h.LinkName);
 				free(symListBottom->h.Name);

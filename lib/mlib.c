@@ -67,6 +67,20 @@ void *m_realloc(void *r, size_t amount) {
   return r;
 }
 
+char *
+m_strdup(const char *str)
+{
+  char *new_str;
+
+  onerr_abort++;
+  new_str = strdup(str);
+  if (!new_str)
+    ohshite(_("failed to allocate memory"));
+  onerr_abort--;
+
+  return new_str;
+}
+
 static void print_error_forked(const char *emsg, const char *contextstring) {
   fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }

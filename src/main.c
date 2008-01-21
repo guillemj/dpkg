@@ -493,9 +493,8 @@ void execbackend(const char *const *argv) {
   if (!nargv)
     ohshite(_("couldn't malloc in execbackend"));
 
-  nargv[i] = strdup(cipaction->parg);
-  if (!nargv[i])
-    ohshite(_("couldn't strdup in execbackend"));
+  nargv[i] = m_strdup(cipaction->parg);
+
   i++, offset++;
 
   if (pass_admindir) {
@@ -515,11 +514,9 @@ void execbackend(const char *const *argv) {
   i++, offset++;
 
   /* Copy arguments from argv to nargv. */
-  for (; i <= argc; i++) {
-    nargv[i] = strdup(argv[i - offset]);
-    if (!nargv[i])
-      ohshite(_("couldn't strdup in execbackend"));
-  }
+  for (; i <= argc; i++)
+    nargv[i] = m_strdup(argv[i - offset]);
+
   nargv[i] = NULL;
 
   execvp(cipaction->parg, nargv);
@@ -609,7 +606,8 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
  * least.
  */
     for(i=1;i<argc;i++)
-	if (newargs[i]) newargs[i]=strdup(newargs[i]);
+      if (newargs[i])
+        newargs[i] = m_strdup(newargs[i]);
 
     cipaction= NULL;
     myopt((const char *const**)&newargs,cmdinfos);

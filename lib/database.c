@@ -118,10 +118,8 @@ int informative(struct pkginfo *pkg, struct pkginfoperfile *info) {
 
 struct pkginfo *findpackage(const char *inname) {
   struct pkginfo **pointerp, *newpkg;
-  char *name = strdup(inname), *p;
+  char *name = m_strdup(inname), *p;
 
-  if (name == NULL)
-    ohshite(_("couldn't allocate memory for strdup in findpackage(%s)"),inname);
   p= name;
   while(*p) { *p= tolower(*p); p++; }
   

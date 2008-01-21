@@ -133,7 +133,7 @@ static struct _finfo* getfi(const char* root, int fd) {
 
   fi=(struct _finfo*)malloc(sizeof(struct _finfo));
   lstat(fn, &(fi->st));
-  fi->fn=strdup(fn+rl+1);
+  fi->fn = m_strdup(fn + rl + 1);
   fi->next=NULL;
   return fi;
 }

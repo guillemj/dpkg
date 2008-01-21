@@ -204,7 +204,8 @@ static char *const *vbuildarglist(const char *scriptname, va_list ap) {
 
   i=0;
   if(bufs[0]) free(bufs[0]);
-  bufs[i++]= strdup(scriptname); /* yes, cast away const because exec wants it that way */
+  /* Yes, cast away const because exec wants it that way */
+  bufs[i++] = m_strdup(scriptname);
   for (;;) {
     assert(i < PKGSCRIPTMAXARGS);
     nextarg= va_arg(ap,char*);

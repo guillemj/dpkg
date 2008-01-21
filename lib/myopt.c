@@ -75,7 +75,8 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
     if (cip->takesvalue) {
       if (!opt) ohshite(_("configuration error: %s needs a value"), linebuf);
       if (cip->call) cip->call(cip,opt);
-      else *cip->sassignto= strdup(opt);
+      else
+        *cip->sassignto = m_strdup(opt);
     } else {
       if (opt) ohshite(_("configuration error: %s does not take a value"), linebuf);
       if (cip->call) cip->call(cip,NULL);

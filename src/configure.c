@@ -410,11 +410,11 @@ static void md5hash(struct pkginfo *pkg, char **hashbuf, const char *fn) {
 		pop_cleanup(ehflag_normaltidy); /* fd= open(cdr.buf) */
 		close(fd);
 	} else if (errno==ENOENT) {
-		*hashbuf= strdup(NONEXISTENTFLAG);
+		*hashbuf = m_strdup(NONEXISTENTFLAG);
 	} else {
 		fprintf(stderr, _("dpkg: %s: warning - unable to open conffile %s for hash: %s\n"),
 				pkg->name, fn, strerror(errno));
-		*hashbuf= strdup("-");
+		*hashbuf = m_strdup("-");
 	}
 }
 

@@ -222,6 +222,7 @@ void warningf(const char *fmt, ...) PRINTFFORMAT(1, 2);
 void setcloexec(int fd, const char* fn);
 void *m_malloc(size_t);
 void *m_realloc(void*, size_t);
+char *m_strdup(const char *str);
 int m_fork(void);
 void m_dup2(int oldfd, int newfd);
 void m_pipe(int fds[2]);
