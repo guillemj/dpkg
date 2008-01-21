@@ -92,8 +92,8 @@ DPKG_C_ATTRIBUTE
 
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
-AC_CHECK_FUNCS([vsnprintf snprintf strtoul strerror strsignal alphasort
-                isascii bcopy memcpy scandir unsetenv lchown setsid
+AC_CHECK_FUNCS([vsnprintf snprintf strtoul strerror strsignal alphasort \
+                isascii bcopy memcpy scandir unsetenv lchown setsid \
                 getdtablesize])
 
 SJR_COMPILER_WARNINGS
