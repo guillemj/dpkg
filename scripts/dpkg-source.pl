@@ -771,7 +771,7 @@ if ($opmode eq 'build') {
     open(DSC, ">:utf8", "$basenamerev.dsc") ||
         syserr(_g("create %s"), "$basenamerev.dsc");
 
-    $substvars->parse($varlistfile) if -e $varlistfile;
+    $substvars->parse($varlistfile) if $varlistfile && -e $varlistfile;
     tied(%{$fields})->set_field_importance(@dsc_fields);
     tied(%{$fields})->output(\*DSC, $substvars);
     close(DSC);
