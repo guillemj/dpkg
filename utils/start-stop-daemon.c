@@ -1413,10 +1413,6 @@ main(int argc, char **argv)
 	if (chdir(changedir) < 0)
 		fatal("Unable to chdir() to %s", changedir);
 
-	if (changeuser != NULL && getuid() != (uid_t)runas_uid) {
-		if (setuid(runas_uid))
-			fatal("Unable to set uid to %s", changeuser);
-	}
 	if (changegroup != NULL && *changegroup != '\0' &&
 	    getgid() != (gid_t)runas_gid) {
 		if (!gid_in_current_groups(runas_gid))
@@ -1425,6 +1421,10 @@ main(int argc, char **argv)
 				      runas_gid);
 		if (setgid(runas_gid))
 			fatal("Unable to set gid to %d", runas_gid);
+	}
+	if (changeuser != NULL && getuid() != (uid_t)runas_uid) {
+		if (setuid(runas_uid))
+			fatal("Unable to set uid to %s", changeuser);
 	}
 
 	if (background) {
