@@ -16,6 +16,25 @@ dpkg (1.14.17) UNRELEASED; urgency=low
 
  -- Guillem Jover <guillem@debian.org>  Mon, 21 Jan 2008 10:11:55 +0200
 
+dpkg (1.14.16.3) unstable; urgency=low
+
+  [ Raphael Hertzog ]
+  * Remove the ":utf8" layer that utf8-encodes already valid utf8.
+    Closes: #462098
+  * Disable variable substitution in dpkg-genchanges. Closes: #462079, #462089
+
+  [ Guillem Jover ]
+  * Make start-stop-daemon set the supplementary groups if the real user or
+    group are different than the ones we should switch to. Closes: #462075
+  * Fix segfault in start-stop-daemon when using --group w/o --chuid (as
+    a side effect, using --group alone works for the first time in years).
+    Closes: #462072
+  * Fix timeout computations for start-stop-daemon --retry option. This has
+    not worked properly for a long time (maybe never), but came to light
+    due to #460903's fix. Closes: #462104
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 22 Jan 2008 23:39:59 +0200
+
 dpkg (1.14.16.2) unstable; urgency=low
 
   * Change uid after changing gid and initializing supplementary groups in

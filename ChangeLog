@@ -68,6 +68,43 @@
 
 2008-01-22  Guillem Jover  <guillem@debian.org>
 
+	* configure.ac: Release 1.14.16.3.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (tvselector): Remove typedef.
+	(tvselector_sec): Remove function.
+	(tvselector_usec): Likewise.
+	(TVCALC_ELEM): Remove macro.
+	(TVCALC): Likewise.
+	(tsub): New function.
+	(tmul): Likewise.
+	(run_stop_schedule): Use tsub and tmul instead of TVCALC. Make sure
+	the time is not negative.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (main): Only call initgroups if changeuser
+	is not NULL.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (gid_in_current_groups): Remove function.
+	(main): Call initgroups if the real user or group are different than
+	the ones we should switch to. Call setgid before initgroups.
+
+2008-01-22  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-source.pl: Remove the IO-layer that converts to
+	UTF-8. It's not as smart as I expected.
+
+	* scripts/dpkg-genchanges.pl: Do not substitute variables on
+	the output.
+	* man/dpkg-genchanges.pl: Document this change.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
 	* configure.ac: Release 1.14.16.2.
 
 2008-01-22  Guillem Jover  <guillem@debian.org>

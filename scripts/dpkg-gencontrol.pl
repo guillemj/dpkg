@@ -348,11 +348,10 @@ my $fh_output;
 if (!$stdout) {
     $cf= "$packagebuilddir/DEBIAN/control";
     $cf= "./$cf" if $cf =~ m/^\s/;
-    open($fh_output, ">:utf8", "$cf.new") ||
+    open($fh_output, ">", "$cf.new") ||
         syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
 } else {
     $fh_output = \*STDOUT;
-    binmode(STDOUT, ":utf8");
 }
 
 tied(%{$fields})->set_field_importance(@control_fields);

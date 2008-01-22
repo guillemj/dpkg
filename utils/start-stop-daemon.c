@@ -185,48 +185,6 @@ static void fatal(const char *format, ...)
 static void badusage(const char *msg)
 	NONRETURNING;
 
-/* This next part serves only to construct the TVCALC macro, which
- * is used for doing arithmetic on struct timeval's.  It works like this:
- *   TVCALC(result, expression);
- * where result is a struct timeval (and must be an lvalue) and
- * expression is the single expression for both components.  In this
- * expression you can use the special values TVELEM, which when fed a
- * const struct timeval* gives you the relevant component, and
- * TVADJUST.  TVADJUST is necessary when subtracting timevals, to make
- * it easier to renormalise.  Whenver you subtract timeval elements,
- * you must make sure that TVADJUST is added to the result of the
- * subtraction (before any resulting multiplication or what have you).
- * TVELEM must be linear in TVADJUST.
- */
-typedef long tvselector(const struct timeval*);
-
-static long
-tvselector_sec(const struct timeval *tv)
-{
-	return tv->tv_sec;
-}
-
-static long
-tvselector_usec(const struct timeval *tv)
-{
-	return tv->tv_usec;
-}
-
-#define TVCALC_ELEM(result, expr, sec, adj)                           \
-{								      \
-  const long TVADJUST = adj;					      \
-  long (*const TVELEM)(const struct timeval *) = tvselector_##sec;    \
-  (result).tv_##sec = (expr);					      \
-}
-#define TVCALC(result, expr)					      \
-do {								      \
-  TVCALC_ELEM(result, expr, sec, (-1));				      \
-  TVCALC_ELEM(result, expr, usec, (+1000000));			      \
-  (result).tv_sec += (result).tv_usec / 1000000;		      \
-  (result).tv_usec %= 1000000;					      \
-} while (0)
-
-
 static void
 fatal(const char *format, ...)
 {
@@ -257,6 +215,29 @@ xgettimeofday(struct timeval *tv)
 	if (gettimeofday(tv, NULL) != 0)
 		fatal("gettimeofday failed: %s", strerror(errno));
 }
+
+static void
+tsub(struct timeval *r, struct timeval *a, struct timeval *b)
+{
+	r->tv_sec = (time_t)(a->tv_sec - b->tv_sec);
+	r->tv_usec = (suseconds_t)(a->tv_usec - b->tv_usec);
+	if (r->tv_usec < 0) {
+		--r->tv_sec;
+		r->tv_usec += 1000000;
+	}
+}
+
+static void
+tmul(struct timeval *a, int b)
+{
+	a->tv_sec *= b;
+	a->tv_usec *= b;
+	if (a->tv_usec >= 1000000) {
+		++a->tv_sec;
+		a->tv_usec -= 1000000;
+	}
+}
+
 static long
 get_open_fd_max(void)
 {
@@ -320,27 +301,6 @@ clear(struct pid_list **list)
 	}
 
 	*list = NULL;
-}
-
-static int
-gid_in_current_groups(gid_t gid)
-{
-	gid_t *gids;
-	int i, ngroups;
-
-	ngroups = getgroups(0, NULL);
-	gids = xmalloc(ngroups * sizeof(gid_t));
-	getgroups(ngroups, gids);
-
-	for (i = 0; i < ngroups; i++) {
-		if (gid == gids[i]) {
-			free(gids);
-			return 1;
-		}
-	}
-
-	free(gids);
-	return 0;
 }
 
 static void
@@ -1240,10 +1200,12 @@ run_stop_schedule(void)
 				if (ratio < 10)
 					ratio++;
 
-				TVCALC(interval, TVELEM(&after) * ratio -
-				                 TVELEM(&before) + TVADJUST);
-				TVCALC(maxinterval, TVELEM(&stopat) -
-				                    TVELEM(&after) + TVADJUST);
+				tsub(&maxinterval, &stopat, &after);
+				tsub(&interval, &after, &before);
+				tmul(&interval, ratio);
+
+				if (interval.tv_sec < 0 || interval.tv_usec < 0)
+					interval.tv_sec = interval.tv_usec = 0;
 
 				if (timercmp(&interval, &maxinterval, >))
 					interval = maxinterval;
@@ -1285,6 +1247,8 @@ int
 main(int argc, char **argv)
 {
 	int devnull_fd = -1;
+	gid_t rgid;
+	uid_t ruid;
 #ifdef HAVE_TIOCNOTTY
 	int tty_fd = -1;
 #endif
@@ -1413,18 +1377,25 @@ main(int argc, char **argv)
 	if (chdir(changedir) < 0)
 		fatal("Unable to chdir() to %s", changedir);
 
-	if (changegroup != NULL && *changegroup != '\0' &&
-	    getgid() != (gid_t)runas_gid) {
-		if (!gid_in_current_groups(runas_gid))
+	rgid = getgid();
+	ruid = getuid();
+	if (changegroup != NULL) {
+		if (rgid != (gid_t)runas_gid)
+			if (setgid(runas_gid))
+				fatal("Unable to set gid to %d", runas_gid);
+	}
+	if (changeuser != NULL) {
+		/* We assume that if our real user and group are the same as
+		 * the ones we should switch to, the supplementary groups
+		 * will be already in place. */
+		if (rgid != (gid_t)runas_gid || ruid != (uid_t)runas_uid)
 			if (initgroups(changeuser, runas_gid))
 				fatal("Unable to set initgroups() with gid %d",
 				      runas_gid);
-		if (setgid(runas_gid))
-			fatal("Unable to set gid to %d", runas_gid);
-	}
-	if (changeuser != NULL && getuid() != (uid_t)runas_uid) {
-		if (setuid(runas_uid))
-			fatal("Unable to set uid to %s", changeuser);
+
+		if (ruid != (uid_t)runas_uid)
+			if (setuid(runas_uid))
+				fatal("Unable to set uid to %s", changeuser);
 	}
 
 	if (background) {
