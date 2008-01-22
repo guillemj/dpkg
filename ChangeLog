@@ -1,5 +1,17 @@
 2008-01-22  Guillem Jover  <guillem@debian.org>
 
+	* utils/start-stop-daemon.c (tvselector): Remove typedef.
+	(tvselector_sec): Remove function.
+	(tvselector_usec): Likewise.
+	(TVCALC_ELEM): Remove macro.
+	(TVCALC): Likewise.
+	(tsub): New function.
+	(tmul): Likewise.
+	(run_stop_schedule): Use tsub and tmul instead of TVCALC. Make sure
+	the time is not negative.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
 	* utils/start-stop-daemon.c (main): Only call initgroups if changeuser
 	is not NULL.
 
