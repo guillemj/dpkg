@@ -1,5 +1,10 @@
 2008-01-22  Guillem Jover  <guillem@debian.org>
 
+	* utils/start-stop-daemon.c (main): Only call initgroups if changeuser
+	is not NULL.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
 	* utils/start-stop-daemon.c (gid_in_current_groups): Remove function.
 	(main): Call initgroups if the real user or group are different than
 	the ones we should switch to. Call setgid before initgroups.

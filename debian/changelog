@@ -8,6 +8,9 @@ dpkg (1.14.16.3) UNRELEASED; urgency=low
   [ Guillem Jover ]
   * Make start-stop-daemon set the supplementary groups if the real user or
     group are different than the ones we should switch to. Closes: #462075
+  * Fix segfault in start-stop-daemon when using --group w/o --chuid (as
+    a side effect, using --group alone works for the first time in years).
+    Closes: #462072
 
  -- Raphael Hertzog <hertzog@debian.org>  Tue, 22 Jan 2008 18:15:42 +0100
 

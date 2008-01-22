@@ -1400,7 +1400,8 @@ main(int argc, char **argv)
 		if (rgid != (gid_t)runas_gid)
 			if (setgid(runas_gid))
 				fatal("Unable to set gid to %d", runas_gid);
-
+	}
+	if (changeuser != NULL) {
 		/* We assume that if our real user and group are the same as
 		 * the ones we should switch to, the supplementary groups
 		 * will be already in place. */
@@ -1408,8 +1409,7 @@ main(int argc, char **argv)
 			if (initgroups(changeuser, runas_gid))
 				fatal("Unable to set initgroups() with gid %d",
 				      runas_gid);
-	}
-	if (changeuser != NULL) {
+
 		if (ruid != (uid_t)runas_uid)
 			if (setuid(runas_uid))
 				fatal("Unable to set uid to %s", changeuser);
