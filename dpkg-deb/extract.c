@@ -85,6 +85,24 @@ parseheaderlength(const char *inh, size_t len,
   return (size_t)r;
 }
 
+static int
+safe_fflush(FILE *f)
+{
+#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
+  /* XXX: Glibc 2.1 and some versions of Linux want to make fflush()
+   * move the current fpos. Remove this code some time. */
+  fpos_t fpos;
+
+  if (fgetpos(f, &fpos))
+    ohshit(_("failed getting the current file position"));
+  fflush(f);
+  if (fsetpos(f, &fpos))
+    ohshit(_("failed setting the current file position"));
+#else
+  fflush(f);
+#endif
+}
+
 void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo) {
   char versionbuf[40];
@@ -101,9 +119,6 @@ void extracthalf(const char *debar, const char *directory,
   char *cur;
   struct ar_hdr arh;
   int readfromfd, oldformat= 0, header_done, adminmember;
-#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  fpos_t fpos;
-#endif
   enum compress_type compress_type = compress_type_gzip;
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
@@ -228,15 +243,8 @@ void extracthalf(const char *debar, const char *directory,
 
   }
 
-#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  if (fgetpos(ar, &fpos))
-    ohshit(_("failed getting the current file position"));
-#endif
-  fflush(ar);
-#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  if (fsetpos(ar, &fpos))
-    ohshit(_("failed setting the current file position"));
-#endif
+  safe_fflush(ar);
+
   if (oldformat) {
     if (admininfo) {
       m_pipe(p1);
