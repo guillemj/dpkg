@@ -25,12 +25,10 @@
 
 struct fieldinfo;
 
-#define PKGIFPOFF(f) ((char*)(&(((struct pkginfoperfile *)0x1000)->f)) - \
-                      (char*)(struct pkginfoperfile *)0x1000)
+#define PKGIFPOFF(f) (offsetof(struct pkginfoperfile, f))
 #define PKGPFIELD(pifp,of,type) (*(type*)((char*)(pifp)+(of)))
 
-#define FILEFOFF(f) ((char*)(&(((struct filedetails *)0x1000)->f)) - \
-                     (char*)(struct filedetails *)0x1000)
+#define FILEFOFF(f) (offsetof(struct filedetails, f))
 #define FILEFFIELD(filedetail,of,type) (*(type*)((char*)(filedetail)+(of)))
 
 typedef void freadfunction(struct pkginfo *pigp, struct pkginfoperfile *pifp,
@@ -56,7 +54,7 @@ struct fieldinfo {
   const char *name;
   freadfunction *rcall;
   fwritefunction *wcall;
-  unsigned int integer;
+  size_t integer;
 };
 
 void parseerr(FILE *file, const char *filename, int lno, FILE *warnto, int *warncount,

@@ -414,6 +414,10 @@ void unsetenv(const char *x);
 
 /*** other compatibility functions ***/
 
+#ifndef offsetof
+#define offsetof(st, m) ((size_t)&((st *)NULL)->m)
+#endif
+
 #ifndef HAVE_STRTOUL
 #define strtoul strtol
 #endif

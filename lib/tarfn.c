@@ -34,8 +34,7 @@ struct TarHeader {
 };
 typedef struct TarHeader	TarHeader;
 
-static const unsigned int	TarChecksumOffset
-	= (unsigned int)&(((TarHeader *)NULL)->Checksum);
+static const size_t TarChecksumOffset = offsetof(TarHeader, Checksum);
 
 /* Octal-ASCII-to-long */
 static long

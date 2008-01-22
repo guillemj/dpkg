@@ -1,5 +1,15 @@
 2008-01-22  Guillem Jover  <guillem@debian.org>
 
+	* lib/dpkg.h [!offsetof] (offsetof): New compatibilty macro.
+	* lib/parsedump.h (PKGIFPOFF): Use offsetof instead of ad-hoc
+	calculation.
+	(FILEFOFF): Likewise.
+	(struct fieldinfo): Change integer member type to size_t.
+	* lib/tarfn.c (TarChecksumOffset): Use offsetof instead of ad-hoc
+	calculation.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
 	* configure.ac (AC_CHECK_HEADERS): Check for 'stddef.h'.
 
 2008-01-21  Colin Watson  <cjwatson@debian.org>
