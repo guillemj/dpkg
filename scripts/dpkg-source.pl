@@ -768,7 +768,7 @@ if ($opmode eq 'build') {
     printf(_g("%s: building %s in %s")."\n",
            $progname, $sourcepackage, "$basenamerev.dsc")
         || &syserr(_g("write building message"));
-    open(DSC, ">:utf8", "$basenamerev.dsc") ||
+    open(DSC, ">", "$basenamerev.dsc") ||
         syserr(_g("create %s"), "$basenamerev.dsc");
 
     $substvars->parse($varlistfile) if $varlistfile && -e $varlistfile;

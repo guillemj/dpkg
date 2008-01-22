@@ -510,7 +510,6 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-binmode(STDOUT, ":utf8");
 $substvars->parse($varlistfile) if -e $varlistfile;
 tied(%{$fields})->set_field_importance(@changes_fields);
 tied(%{$fields})->output(\*STDOUT, $substvars);
