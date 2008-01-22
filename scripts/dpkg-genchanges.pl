@@ -200,6 +200,7 @@ $bad_parser = 1 if ($@);
 my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
 $substvars->set_version_substvars($changelog->{"Version"});
+$substvars->parse($varlistfile) if -e $varlistfile;
 
 if (not is_sourceonly) {
     open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
@@ -441,7 +442,7 @@ if (!is_binaryonly) {
 print(STDERR "$progname: $origsrcmsg\n") ||
     &syserr(_g("write original source message")) unless $quiet;
 
-$fields->{'Format'} = '${Format}'; # Use value stored in substvars
+$fields->{'Format'} = $substvars->get("Format");
 
 if (!defined($fields->{'Date'})) {
     chomp(my $date822 = `date -R`);
@@ -510,7 +511,6 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-$substvars->parse($varlistfile) if -e $varlistfile;
 tied(%{$fields})->set_field_importance(@changes_fields);
-tied(%{$fields})->output(\*STDOUT, $substvars);
+tied(%{$fields})->output(\*STDOUT); # Note: no substitution of variables
 
