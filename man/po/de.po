@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-01-21 08:15+0200\n"
-"PO-Revision-Date: 2008-01-12 18:27+0100\n"
+"PO-Revision-Date: 2008-01-22 19:01+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -6067,16 +6067,16 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:42
-#, fuzzy
 msgid ""
 "By default, or if specified, the original source will be included only if "
 "the upstream version number (the version without epoch and without Debian "
 "revision) differs from the upstream version number of the previous changelog "
 "entry."
 msgstr ""
-"Standardmäßig, oder falls angegeben wird, werden die Originalquellen "
-"hinzugefügt, falls die Versionsnummer auf B<-0> oder B<-1> endet, d.h. der "
-"Debian-Revisionsanteil der Versionsnummer B<0> oder B<1> ist."
+"Standardmäßig, oder falls angegeben, werden die Originalquellen nur "
+"hinzugefügt, falls sich die Versionsnummer der Originalautoren (die Version "
+"ohne Epoche und ohne die Debian-Revision) von der Versionsnummer der "
+"Originalautoren in dem letzten Changlog-Eintrag unterscheidet."
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:54
@@ -6705,9 +6705,9 @@ msgstr "dpkg-parsechangelog"
 
 # type: TH
 #: ../../man/dpkg-parsechangelog.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-01-13"
-msgstr "2008-01-03"
+msgstr "2008-01-13"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:4
@@ -6743,12 +6743,16 @@ msgid ""
 "directory is searched before the default directories which are currently B</"
 "usr/local/lib/dpkg/parsechangelog> and B</usr/lib/dpkg/parsechangelog>."
 msgstr ""
+"Spezifiziere ein zusätzliches Verzeichnis, dass nach Parser-Skripten "
+"durchsucht werden soll. Diese Verzeichnis wird vor den Standardverzeichnissen "
+"(derzeit B</usr/local/lib/dpkg/parsechangelog> und B</usr/lib/dpkg/"
+"parsechangelog>) durchsucht."
 
 # type: SS
 #: ../../man/dpkg-parsechangelog.1:39
 #, no-wrap
 msgid "Parser Options"
-msgstr ""
+msgstr "Parser-Optionen:"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:44
@@ -6757,12 +6761,16 @@ msgid ""
 "parser, e.g. the range of entries or the format of the output. They need to "
 "supported by the parser script in question. See also B<CAVEATS>."
 msgstr ""
+"Die folgenden Optionen können verwendet werden, um die Ausgabe des Changelog-"
+"Parsers zu beinflussen, z.B. den Bereich der Einträge oder das Format der "
+"Ausgabe. Sie müssen vom in-Frage kommenden Parser-Skript unterstützt werden. "
+"Lesen Sie auch B<WARNUNGEN>."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:44
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--format>I< outputformat>"
-msgstr "B<--showformat=>I<Format>"
+msgstr "B<--format>I< Ausgabeformat>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:53
@@ -6773,64 +6781,70 @@ msgid ""
 "format (see B<deb-control>(5)). If more than one entry is requested, most "
 "fields are taken from the latest entry, except otherwise stated:"
 msgstr ""
+"Setze das Ausgabeformat. Derzeit werden die Werte I<dpkg> und I<rfc822> "
+"unterstützt. I<dpkg> ist das klassische Ausgabeformat (es existiert länger "
+"als diese Option), das voreingestellt ist. Es besteht aus einem Absatz im "
+"Debian-Steuerformat (lesen Sie B<deb-control>(5)). Falls mehr als ein Eintrag "
+"angefordert wird, dann werden die meisten Felder aus dem letzten Eintrag "
+"verwendet, falls dies nicht anders angegeben wird:"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:54
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Source:> E<lt>pkg nameE<gt>"
-msgstr "B<Source:> E<lt>Quell-NameE<gt>"
+msgstr "B<Source:> E<lt>Paket-NameE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Version:> E<lt>versionE<gt>"
-msgstr "B<Version:> E<lt>Versions-ZeichenketteE<gt>"
+msgstr "B<Version:> E<lt>VersionE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:58
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Distribution:> E<lt>target distributionE<gt>"
-msgstr "B<Description:> E<lt>KurzbeschreibungE<gt>"
+msgstr "B<Description:> E<lt>Ziel-DistributionE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:60
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Urgency:> E<lt>urgencyE<gt>"
-msgstr "B<Bugs:> E<lt>URLE<gt>"
+msgstr "B<Urgency:> E<lt>DringlichkeitE<gt>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:63
 msgid "The highest urgency of all included entries is used."
-msgstr ""
+msgstr "Die höchste Dringlichkeit aller enthaltenen Einträge wird verwendet."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:63
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Maintainer:> E<lt>authorE<gt>"
-msgstr "B<Maintainer:> E<lt>Vollständiger Name E-MailE<gt>"
+msgstr "B<Maintainer:> E<lt>AutorE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:65
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Date:> E<lt>dateE<gt>"
-msgstr "B<Tag:> E<lt>Liste von MarkierungenE<gt>"
+msgstr "B<Date:> E<lt>DatumE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:67
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Closes:> E<lt>bug numberE<gt>"
-msgstr "B<Source:> E<lt>Quell-NameE<gt>"
+msgstr "B<Closes:> E<lt>FehlernummerE<gt>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:70
 msgid "The Closes fields of all included entries are merged."
-msgstr ""
+msgstr "Die Felder »Closes« aller enthaltenen Einträge weden zusammengefasst."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:70
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Changes:> E<lt>changelog entriesE<gt>"
-msgstr "B<Package:> E<lt>PaketnameE<gt>"
+msgstr "B<Changes:> E<lt>Changelog-EinträgeE<gt>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:77
@@ -6840,11 +6854,15 @@ msgid ""
 "single full stop and all lines is intended by one space character. The exact "
 "content depends on the changelog format."
 msgstr ""
+"Der Text aller Changelog-Einträge wird aneinandergehängt. Um aus diesem Feld "
+"ein gültiges mehrzeiliges Feld im Debian Steuer-Format zu bekomen, werden "
+"leere Zeilen mit einem einzelnen Satzpunkt ersetzt und alle Zeilen durch ein "
+"Leerzeichen eingerückt. Der genaue Inhalt hängt vom Changelog-Format ab."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:80
 msgid "There might be additional user-defined fields present."
-msgstr ""
+msgstr "Es können zusätzliche benutzerdefinierte Felder vorhanden sein."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:84
@@ -6852,56 +6870,59 @@ msgid ""
 "The B<rfc822> format uses the same fields but outputs a separate paragraph "
 "for each changelog entry so that all metadata for each entry is preserved."
 msgstr ""
+"Das B<rfc822>-Format verwendet die gleichen Felder gibt aber einzelne "
+"Absätze für jeden Changelog-Eintrag aus, so dass alle Metadaten für jeden "
+"Eintrag erhalten bleiben."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:84
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--since>, B<-s>, B<-v> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--since>, B<-s>, B<-v> I<Version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:87
 msgid "include all changes later than I<version>."
-msgstr ""
+msgstr "füge alle Änderungen neuer als aus I<Version> hinzu."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:87
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--until>, B<-u> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--until>, B<-u> I<Version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:90
 msgid "include all changes earlier than I<version>."
-msgstr ""
+msgstr "füge alle Änderungen älter als aus I<Version> hinzu."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:90
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--from>, B<-f> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--from>, B<-f> I<Version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:93
 msgid "include all changes equal or later than I<version>."
-msgstr ""
+msgstr "füge alle Änderungen aus oder neuer als aus I<Version> hinzu."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:93
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--to>, B<-t> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--to>, B<-t> I<Version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:96
 msgid "include all changes up to or equal than I<version>."
-msgstr ""
+msgstr "füge alle Änderungen aus oder älter als aus I<Version> hinzu."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:96
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--count>, B<-c>, B<-n> I<number>"
-msgstr "B<-S>, B<--start> [B<-->] I<Argumente>"
+msgstr "B<--count>, B<-c>, B<-n> I<Anzahl>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:100
@@ -6909,12 +6930,14 @@ msgid ""
 "include I<number> entries from the top (or the tail if I<number> is lower "
 "than 0)."
 msgstr ""
+"füge I<Anzahl> Einträge vom Kopf (oder vom Fuß, falls I<Anzahl> negativ ist) "
+"hinzu."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:100
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--offset>, B<-o> I<number>"
-msgstr "B<--abort-after=>I<Zahl>"
+msgstr "B<--offset>, B<-o> I<Zahl>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:104
@@ -6922,6 +6945,8 @@ msgid ""
 "change the starting point for --count, counted from the top (or the tail if "
 "I<number> is lower than 0)."
 msgstr ""
+"ändere den Startpunkt für --count, gezählt vom Kopf (oder Fuß falls, falls "
+"I<Zahl> negativ ist)."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:104 ../../man/update-alternatives.8:264
@@ -6932,7 +6957,7 @@ msgstr "B<--all>"
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:107
 msgid "include all changes."
-msgstr ""
+msgstr "füge alle Änderungen hinzu."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:113
@@ -6941,6 +6966,9 @@ msgid ""
 "1.14.16 and later. Third party parsers for changelog formats other than "
 "I<debian> might not support all options."
 msgstr ""
+"Alle B<Parser-Optionen> außer -v werden nur von B<dpkg> Version 1.14.16 oder "
+"neuer unterstützt. Parser von Dritten für Changelog-Formate außer I<debian> "
+"könnten nicht alle Optionen unterstützen."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:115
@@ -6963,9 +6991,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:128
-#, fuzzy
 msgid "Copyright (C) 2007, 2008 Frank Lichtenheld"
-msgstr "Copyright (C) 2007 Frank Lichtenheld"
+msgstr "Copyright (C) 2007, 2008 Frank Lichtenheld"
 
 # type: TH
 #: ../../man/dpkg-query.1:1
@@ -8427,7 +8454,6 @@ msgstr "B<-b> I<Verzeichnis> [I<Orig-Verzeichnis>|I<Orig-targz>|\\(aq\\(aq]"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:61
-#, fuzzy
 msgid ""
 "Build a source package. One or two non-option arguments should be supplied. "
 "The first is taken as the name of the directory containing the debianized "
@@ -8442,15 +8468,16 @@ msgid ""
 msgstr ""
 "Baue ein Quellpaket. Ein oder zwei nicht-Options-Argumente sollten angegeben "
 "werden. Das erste wird als Name des Verzeichnisses verwendet, in dem der "
-"entpackte Quellbaum liegt. Falls ein zweites Argument angegeben ist, sollte "
-"es der Namen des Originalquellverzeichnisses oder der Tardatei sein. Falls "
-"das Paket Debian-spezifisch ist, dann sollte dieses Argument die leere "
-"Zeichenkette sein, da es kein Debianisierungs-Diff gibt. Falls kein zweites "
-"Argument übergeben wird, dann schaut B<dpkg-source> nach der ursprünglichen "
-"Tardatei I<Paket>B<_>I<Upstream-Version>B<.orig.tar.>I<Erweiterung> (wobei "
-"I<Erweiterung> entwedr B<gz>, B<bz2> oder B<lzma> ist) oder dem "
-"ursprünglichen Quellverzeichnis I<Verzeichnis>B<.orig>, abhängig von den B<-"
-"sX>-Argumenten."
+"debianisierte Quellbaum (d.h. mit einem Unterverzeichnis debian und "
+"möglicherweise Änderungen an den Originaldateien) liegt. Falls ein zweites "
+"Argument angegeben ist, sollte es der Namen des Originalquellverzeichnisses "
+"oder der Tardatei sein. Falls das Paket Debian-spezifisch ist, dann sollte "
+"dieses Argument die leere Zeichenkette sein, da es kein Debianisierungs-Diff "
+"gibt. Falls kein zweites Argument übergeben wird, dann schaut B<dpkg-source> "
+"nach der ursprünglichen Tardatei I<Paket>B<_>I<Upstream-Version>B<.orig.tar.>"
+"I<Erweiterung> (wobei I<Erweiterung> entweder B<gz>, B<bz2> oder B<lzma> ist) "
+"oder dem ursprünglichen Quellverzeichnis I<Verzeichnis>B<.orig>, abhängig von "
+"den B<-sX>-Argumenten."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:76
@@ -8478,13 +8505,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:97
-#, fuzzy
 msgid ""
 "Read substitution variables in I<substvarsfile>; the default is to not read "
 "any file."
 msgstr ""
-"Lese Substitutionsvariablen aus I<substvardatei>; standardmäßig ist dies "
-"B<debian/substvars>."
+"Lese Substitutionsvariablen aus I<substvardatei>; standardmäßig wird keine "
+"Datei gelesen."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:106
@@ -10056,6 +10082,14 @@ msgid ""
 "org/ or by reading the documentation for B<bug>(1) or B<reportbug>(1), if "
 "these are installed."
 msgstr ""
+"Falls während der Installation ein Fehler auftrat ist es normalerweise "
+"empfehlenswert, die Installation erneut durchzuführen. In den meisten Fällen "
+"wird das Problem verschwinden oder gelöst werden. Falls Probleme bleiben oder "
+"die durchgeführte Installation nicht korrekt war, untersuchen Sie bitte den "
+"Grund und die Umstände und reichen Sie einen Fehler in der Fehlerdatenbank "
+"von Debian ein. Anleitungen wie dies erfolgen kann, sind auf http://bugs."
+"debian.org/ verfügbar oder können durch Lesen der Dokumentation für B<bug>(1) "
+"oder B<reportbug>(1) (falls diese installiert sind) erhalten werden."
 
 # type: Plain text
 #: ../../man/dselect.1:203
@@ -11128,9 +11162,9 @@ msgstr "start-stop-daemon"
 
 # type: TH
 #: ../../man/start-stop-daemon.8:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-01-20"
-msgstr "2008-01-03"
+msgstr "2008-01-20"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:4
@@ -11144,17 +11178,15 @@ msgstr "B<start-stop-daemon> [I<Optionen>] I<Befehl>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:15
-#, fuzzy
 msgid ""
 "B<start-stop-daemon> is used to control the creation and termination of "
 "system-level processes.  Using one of the matching options, B<start-stop-"
 "daemon> can be configured to find existing instances of a running process."
 msgstr ""
 "B<start-stop-daemon> wird zur Steuerung der Erzeugung und Beendigung von "
-"Prozessen auf Systemebene verwendet. Durch die Verwendung der B<--exec>, B<--"
-"pidfile>, B<--user> und B<--name>-Optionen kann B<start-stop-daemon> so "
-"konfiguriert werden, dass er existierende Instanzen von einem laufenden "
-"Prozess finden kann."
+"Prozessen auf Systemebene verwendet. Durch die Verwendung einer der Abgleich-"
+"Optionen kann B<start-stop-daemon> so konfiguriert werden, dass er "
+"existierende Instanzen von einem laufenden Prozess finden kann."
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:34
@@ -11248,9 +11280,9 @@ msgstr "Zeige die Programmversion und beendet sich."
 
 # type: SH
 #: ../../man/start-stop-daemon.8:78
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "MATCHING OPTIONS"
-msgstr "ANDERE OPTIONEN"
+msgstr "ABGLEICH-OPTIONEN"
 
 # type: TP
 #: ../../man/start-stop-daemon.8:79
@@ -11449,9 +11481,9 @@ msgstr "Gebe keine informativen Meldungen aus, zeige nur Fehlermeldungen an."
 
 # type: TP
 #: ../../man/start-stop-daemon.8:174
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-c>, B<--chuid> I<username>|I<uid>"
-msgstr "B<-c >,B< --chuid >I<Benutzername>|I<uid>"
+msgstr "B<-c >, B< --chuid >I<Benutzername>|I<uid>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:191
