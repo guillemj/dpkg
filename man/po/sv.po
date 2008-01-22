@@ -6,12 +6,12 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-21 08:15+0200\n"
-"PO-Revision-Date: 2007-12-27 15:13+0100\n"
+"PO-Revision-Date: 2008-01-22 21:12+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 # type: Plain text
 #: ../../man/822-date.1:2
@@ -878,7 +878,6 @@ msgstr "B<Depends:> E<lt>paketlistaE<gt>"
 
 # type: Plain text
 #: ../../man/deb-control.5:115
-#, fuzzy
 msgid ""
 "List of packages that are required for this package to provide a non-trivial "
 "amount of functionality. The package maintenance software will not allow a "
@@ -893,8 +892,10 @@ msgstr ""
 "icke-trivial mängd funktionalitet. Pakethanteringsprogramvaran kommer inte "
 "tillåta att ett paket installeras om paketen som listas i B<Depends>-fältet "
 "inte är installerade (åtminstone inte utan att använda en av de tvingande "
-"flaggorna), och kommer inte att utföra postinst-skript i paket som listas i "
-"Depends:-fältet före de paket som beror på det, och kör prerm-skript före."
+"flaggorna). Vid en installation körs postinst-skripten i paketen i Depends:-"
+"fälten innan de paket som beror på dem. Under det omvända förhållandet, en "
+"borttagning, körs prerm-skriptet i ett paket innan de som finns i dess "
+"Depends:-fält."
 
 # type: TP
 #: ../../man/deb-control.5:115
@@ -4488,9 +4489,9 @@ msgstr "dpkg-buildpackage"
 
 # type: TH
 #: ../../man/dpkg-buildpackage.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-01-03"
-msgstr "2007-01-24"
+msgstr "2008-01-03"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:4
@@ -4626,7 +4627,6 @@ msgstr "B<-j>I<jobb>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:60
-#, fuzzy
 msgid ""
 "Number of jobs allowed to be run simultaneously, equivalent to the B<make>"
 "(1)  option of the same name. Will add itself to the MAKEFLAGS environment "
@@ -4641,8 +4641,8 @@ msgstr ""
 "alla påföljande make-anrop att ärva flaggan. Lägger även till flaggan "
 "B<parallel=>I<jobb> till miljövariabeln DEB_BUILD_OPTIONS, vilket gör det "
 "möjligt för debian/rules-filer att använda informationen för egna ändamål. "
-"Om flaggan B<-j> inte anges kommer ett befintligt värde för B<parallel> att "
-"tas hänsyn till och läggas till i MAKEFLAGS."
+"Värdet B<parallel=>I<jobb> i miljövariablen DEB_BUILD_OPTIONS kommer att "
+"överstyra värdet för B<-j> om den flaggan ges."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:60 ../../man/dpkg-genchanges.1:49
@@ -5922,16 +5922,16 @@ msgstr "Anger att endast källkoden skall sändas in (inga binärpaket tas med)."
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:42
-#, fuzzy
 msgid ""
 "By default, or if specified, the original source will be included only if "
 "the upstream version number (the version without epoch and without Debian "
 "revision) differs from the upstream version number of the previous changelog "
 "entry."
 msgstr ""
-"Som standard, eller om den anges, kommer originalkällkoden att inkluderas om "
-"versionsnumret avslutas med B<-0> eller B<-1>, dvs. om Debianversionsdelen "
-"av versionsnumret är B<0> eller B<1>."
+"Som standard, eller om den anges, kommer originalkällkoden endast att "
+"inkluderas om uppströmsversionsnumret (versionsnumret utan epok och "
+"utan Debianuppdateringsnummer) skiljer sig från uppströmsversionsnumret "
+"i föregående ändringsloggspost."
 
 # type: Plain text
 #: ../../man/dpkg-genchanges.1:54
@@ -6547,9 +6547,9 @@ msgstr "dpkg-parsechangelog"
 
 # type: TH
 #: ../../man/dpkg-parsechangelog.1:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-01-13"
-msgstr "2007-01-24"
+msgstr "2008-01-13"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:4
@@ -6585,12 +6585,15 @@ msgid ""
 "directory is searched before the default directories which are currently B</"
 "usr/local/lib/dpkg/parsechangelog> and B</usr/lib/dpkg/parsechangelog>."
 msgstr ""
+"Ange en ytterligare katalog att söka i efter parserskript. Katalogen "
+"söks genom innan standardkatalogerna, vilka för närvarande är "
+"B</usr/local/lib/dpkg/parsechangelog> och B</usr/lib/dpkg/parsechangelog>."
 
 # type: SS
 #: ../../man/dpkg-parsechangelog.1:39
 #, no-wrap
 msgid "Parser Options"
-msgstr ""
+msgstr "Parserflaggor"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:44
@@ -6599,12 +6602,15 @@ msgid ""
 "parser, e.g. the range of entries or the format of the output. They need to "
 "be supported by the parser script in question. See also B<CAVEATS>."
 msgstr ""
+"Följande flaggor kan användas för att styra utdata från ändringsloggparsern, "
+"t.ex. omfånget av poster eller formatet på utdata. De måste stödas av "
+"parserskriptet i fråga. Se även B<VARNINGAR>."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:44
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--format>I< outputformat>"
-msgstr "B<--showformat=>I<format>"
+msgstr "B<--format> I<utdataformat>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:53
@@ -6615,64 +6621,69 @@ msgid ""
 "format (see B<deb-control>(5)). If more than one entry is requested, then most "
 "fields are taken from the latest entry, except otherwise stated:"
 msgstr ""
+"Välj utdataformat. Stödda format är för närvarande I<dpkg> och "
+"I<rfc822>. I<dpkg> är det klassiska utdataformatet (från innan denna "
+"flagga var tillgänglig) och förvalet. Det består av ett stycke i Debians "
+"control-format (se B<deb-control>(5)). Om mer än en post önskas tas "
+"de flesta fält från den senaste posten, förutom om annat anges:"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:54
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Source:> E<lt>pkg nameE<gt>"
-msgstr "B<Source:> E<lt>källkodsnamnE<gt>"
+msgstr "B<Source:> E<lt>paketnamnE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:56
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Version:> E<lt>versionE<gt>"
-msgstr "B<Version:> E<lt>versionssträngE<gt>"
+msgstr "B<Version:> E<lt>versionsE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:58
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Distribution:> E<lt>target distributionE<gt>"
-msgstr "B<Description:> E<lt>kort beskrivningE<gt>"
+msgstr "B<Description:> E<lt>målutgåvaE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:60
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Urgency:> E<lt>urgencyE<gt>"
-msgstr "B<Bugs:> E<lt>urlE<gt>"
+msgstr "B<Urgency:> E<lt>brådskaE<gt>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:63
 msgid "The highest urgency of all included entries is used."
-msgstr ""
+msgstr "Högsta brådskan av alla de inkluderade posterna används."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:63
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Maintainer:> E<lt>authorE<gt>"
-msgstr "B<Maintainer:> E<lt>fullt-namn e-postE<gt>"
+msgstr "B<Maintainer:> E<lt>författareE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:65
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Date:> E<lt>dateE<gt>"
-msgstr "B<Tag:> E<lt>lista med märkenE<gt>"
+msgstr "B<Date:> E<lt>datumE<gt>"
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:67
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Closes:> E<lt>bug numberE<gt>"
-msgstr "B<Source:> E<lt>källkodsnamnE<gt>"
+msgstr "B<Closes:> E<lt>nummer på felrapportE<gt>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:70
 msgid "The Closes fields of all included entries are merged."
-msgstr ""
+msgstr "Closes-fältet i alla inkluderade poster slås samman."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:70
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<Changes:> E<lt>changelog entriesE<gt>"
-msgstr "B<Package:> E<lt>paketnamnE<gt>"
+msgstr "B<Changes:> E<lt>poster från ändringsloggenE<gt>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:77
@@ -6682,11 +6693,15 @@ msgid ""
 "single full stop and all lines is intended by one space character. The exact "
 "content depends on the changelog format."
 msgstr ""
+"Texten i alla ändringsloggposter slås samman. För att göra fältet till "
+"giltigt flerradsfält i Debian-control-format ersätts tomma rader med en "
+"ensam punkt och alla rader får ett teckens indrag. Exakt innehåll beror "
+"på formatet på ändringsloggen."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:80
 msgid "There might be additional user-defined fields present."
-msgstr ""
+msgstr "Ytterligare användardefinierade fält kan finnas."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:84
@@ -6694,56 +6709,58 @@ msgid ""
 "The B<rfc822> format uses the same fields but outputs a separate paragraph "
 "for each changelog entry so that all metadata for each entry is preserved."
 msgstr ""
+"B<rfc822>-formatet använder samma fält, men ger ett separat stycke för varje "
+"ändringsloggspost så att all metadata för varje post behålls."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:84
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--since>, B<-s>, B<-v> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--since>, B<-s>, B<-v> I<version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:87
 msgid "include all changes later than I<version>."
-msgstr ""
+msgstr "ta med alla poster efter I<version>."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:87
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--until>, B<-u> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--until>, B<-u> I<version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:90
 msgid "include all changes earlier than I<version>."
-msgstr ""
+msgstr "ta med alla ändringar före I<version>."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:90
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--from>, B<-f> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--from>, B<-f> I<version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:93
 msgid "include all changes equal or later than I<version>."
-msgstr ""
+msgstr "ta med alla ändringar från och med I<version>."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:93
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--to>, B<-t> I<version>"
-msgstr "B<-v>, B<--version>"
+msgstr "B<--to>, B<-t> I<version>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:96
 msgid "include all changes up to or equal than I<version>."
-msgstr ""
+msgstr "ta med alla ändringar till och med I<version>."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:96
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--count>, B<-c>, B<-n> I<number>"
-msgstr "B<-S>, B<--start> [B<-->] I<argument>"
+msgstr "B<--count>, B<-c>, B<-n> I<antal>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:100
@@ -6751,12 +6768,14 @@ msgid ""
 "include I<number> entries from the top (or the tail if I<number> is lower "
 "than 0)."
 msgstr ""
+"ta med I<antal> ändringar från början (eller slutet om I<antal> är lägre "
+"än 0)."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:100
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<--offset>, B<-o> I<number>"
-msgstr "B<--abort-after=>I<antal>"
+msgstr "B<--offset>, B<-o> I<antal>"
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:104
@@ -6764,6 +6783,8 @@ msgid ""
 "change the starting point for --count, counted from the top (or the tail if "
 "I<number> is lower than 0)."
 msgstr ""
+"ändra startpunkt för --count, räknat från början (eller slutet om I<antal> "
+"är lägre än 0)."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:104 ../../man/update-alternatives.8:264
@@ -6774,7 +6795,7 @@ msgstr "B<--all>"
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:107
 msgid "include all changes."
-msgstr ""
+msgstr "ta med alla ändringar."
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:113
@@ -6783,6 +6804,9 @@ msgid ""
 "1.14.16 and later. Third party parsers for changelog formats other than "
 "I<debian> might not support all options."
 msgstr ""
+"Ingen av B<parserflaggorna>, bortsett -v, stöds enbart i B<dpkg> version "
+"1.14.16 och senare. Tredjepartsparsrar för andra ändringsloggformat än "
+"I<debian> kanske inte stöder alla flaggor."
 
 # type: TP
 #: ../../man/dpkg-parsechangelog.1:115
@@ -6805,9 +6829,8 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-parsechangelog.1:128
-#, fuzzy
 msgid "Copyright (C) 2007, 2008 Frank Lichtenheld"
-msgstr "Upphovsrättsskyddat © 2007 Frank Lichtenheld"
+msgstr "Upphovsrättsskyddat © 2007, 2008 Frank Lichtenheld"
 
 # type: Plain text
 #: ../../man/dpkg-query.1:1
@@ -7521,7 +7544,6 @@ msgstr "debian/*/DEBIAN/symbols"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:59
-#, fuzzy
 msgid ""
 "Shared library information generated by the current build process that also "
 "invoked B<dpkg-shlibdeps>.  They are generated by B<dpkg-gensymbols>(1).  "
@@ -7530,7 +7552,9 @@ msgid ""
 "other binary packages."
 msgstr ""
 "Information om delade bibliotek som skapats av den aktuella byggproceduren "
-"som också anropade B<dpkg-shlibdeps>. De genereras av B<dpkg-gensymbols>(1)."
+"som också anropade B<dpkg-shlibdeps>. De genereras av B<dpkg-gensymbols>(1). "
+"De används endast om biblioteket finns i paketets byggräd. Filen symbols i "
+"det byggträdet går före symbols-filer från andra binärpaket."
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:59
@@ -7655,7 +7679,6 @@ msgstr "debian/*/DEBIAN/shlibs"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:98
-#, fuzzy
 msgid ""
 "Shared library information generated by the current build process that also "
 "invoked B<dpkg-shlibdeps>.  They are only used if the library is found in a "
@@ -7663,7 +7686,9 @@ msgid ""
 "over shlibs files from other binary packages."
 msgstr ""
 "Information om delade bibliotek som skapats av den aktuella byggproceduren "
-"som också anropade B<dpkg-shlibdeps>. De genereras av B<dpkg-gensymbols>(1)."
+"som också anropade B<dpkg-shlibdeps>. De genereras av B<dpkg-gensymbols>(1). "
+"De används bara om biblioteket finns i paketets byggträd. Filen shlibs i "
+"byggträdet går före shlibs-filer från andra paket."
 
 # type: IP
 #: ../../man/dpkg-shlibdeps.1:98
@@ -7868,9 +7893,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:188
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-S>I<pkgbuilddir>"
-msgstr "B<-P>I<paketbyggkatalog>"
+msgstr "B<-S>I<paketbyggkatalog>"
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:195
@@ -7881,6 +7906,11 @@ msgid ""
 "can use this option multiple times: directories will be tried in the same "
 "order before directories of other binary packages."
 msgstr ""
+"Se först i I<paketbyggkatalog> vid försök att hitta ett bibliotek. Användbart "
+"när källkodspaketet bygger flera varianter av samma bibliotek och du vill se "
+"till att du får beroendet från ett givet binärpaket. Flaggan kan inte användas "
+"flera gånger: kataloger söks efter i samma ordning före kataloger från andra "
+"binärpaket."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:195
@@ -7959,7 +7989,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:239
-#, fuzzy
 msgid ""
 "Furthermore, in some cases, this will lead to a non-versioned dependency on "
 "the library that could have been avoided if the binary was only linked "
@@ -8008,7 +8037,6 @@ msgstr "B<hittade inte biblioteket> I<bibliotek-sonamn> B<som behövs för> I<binä
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:262
-#, fuzzy
 msgid ""
 "The I<binary> uses a library called I<library-soname> but B<dpkg-shlibdeps> "
 "has been unable to find the library.  B<dpkg-shlibdeps> creates a list of "
@@ -8029,13 +8057,13 @@ msgstr ""
 "miljövariabeln LD_LIBRARY_PATH, och vanliga öppna kataloger (/lib, /usr/"
 "lib, /lib32, /usr/lib32, /lib64, /usr/lib64). Därefter ser det i motsvarande "
 "kataloger i byggträdet för paketet som innehåller binären som analyseras, i "
+"paketbyggträdet som anges med kommandoradsflaggan -S, i "
 "andra pakets byggträd som innehåller en DEBIAN/shlibs-fil och slutligen i "
 "rotkatalogen. Om biblioteket inte hittas i någon av dessa kataloger får du "
 "det här felmeddelandet."
 
 # type: Plain text
 #: ../../man/dpkg-shlibdeps.1:268
-#, fuzzy
 msgid ""
 "If the library not found is in a private directory of the same package, then "
 "you want to add the directory to LD_LIBRARY_PATH. If it's in another binary "
@@ -8045,9 +8073,9 @@ msgid ""
 msgstr ""
 "Om biblioteket som inte hittades ligger i en privat katalog i samma paket "
 "bör du lägga till katalogen i LD_LIBRARY_PATH. Om det finns i ett annat "
-"binärpaket som byggs bör du se till att shlibs-filen för paketet redan har "
-"skapats och att LD_LIBRARY_PATH innehåller korrekt katalog som det också "
-"ligger i en privat katalog."
+"binärpaket som byggs bör du se till att shlibs- eller symbols-filen för "
+"paketet redan har skapats och att LD_LIBRARY_PATH innehåller korrekt "
+"katalog som det också ligger i en privat katalog."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:268
@@ -8214,7 +8242,6 @@ msgstr "B<-b> I<katalog> [I<originalkatalog>|I<original-targz>|\\(aq\\(aq]"
 
 # type: Plain text
 #: ../../man/dpkg-source.1:61
-#, fuzzy
 msgid ""
 "Build a source package. One or two non-option arguments should be supplied. "
 "The first is taken as the name of the directory containing the debianized "
@@ -8228,8 +8255,9 @@ msgid ""
 "directory I<directory>B<.orig> depending on the B<-sX> arguments."
 msgstr ""
 "Bygg ett källkodspaket. Ett eller två argument som inte är flaggor skall "
-"anges. Det första är namnet på katalogen som innehåller det uppackade "
-"källkodsträdet. Om ett andra argument anges skall det vara namnet på den "
+"anges. Det första är namnet på katalogen som innehåller det debianiserade "
+"källkodsträdet (dvs. med en debian-underkatalog och kanske ändringar i"
+"originalfilerna). Om ett andra argument anges skall det vara namnet på den "
 "ursprungliga källkodskatalogen eller tarfilen eller den tomma strängen om "
 "paketet är Debianspecifikt och därför inte har någon Debianiserings-diff. Om "
 "inget andra argument anges letar B<dpkg-source> efter originalkällkods-"
@@ -8261,13 +8289,12 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:97
-#, fuzzy
 msgid ""
 "Read substitution variables in I<substvarsfile>; the default is to not read "
 "any file."
 msgstr ""
-"Läser substitueringsvariabler i I<substvarfil>; standardvärdet är B<debian/"
-"substvars>."
+"Läser substitueringsvariabler i I<substvarfil>; standardvärde är att inte "
+"läsa någon fil."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:106
@@ -10988,9 +11015,9 @@ msgstr "start-stop-daemon"
 
 # type: TH
 #: ../../man/start-stop-daemon.8:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-01-20"
-msgstr "2007-01-24"
+msgstr "2008-01-20"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:4
@@ -11004,16 +11031,14 @@ msgstr "B<start-stop-daemon> [I<flaggor>] I<åtgärd>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:15
-#, fuzzy
 msgid ""
 "B<start-stop-daemon> is used to control the creation and termination of "
 "system-level processes.  Using one of the matching options, B<start-stop-"
 "daemon> can be configured to find existing instances of a running process."
 msgstr ""
 "B<start-stop-daemon> används för att kontrollera hur processer på systemnivå "
-"skapas och avslutas. Med hjälp av flaggorna B<--exec>, B<--pidfile>, B<--"
-"user> och B<--name> kan B<start-stop-daemon> ställas in att hitta "
-"existerande instanser av en körande process."
+"skapas och avslutas. Med hjälp av en av sökflaggorna kan B<start-stop-"
+"daemon> ställas in att hitta befintliga instanser av en körande process."
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:34
@@ -11102,9 +11127,9 @@ msgstr "Visa programversion och avsluta."
 
 # type: SH
 #: ../../man/start-stop-daemon.8:78
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "MATCHING OPTIONS"
-msgstr "FLAGGOR"
+msgstr "FLAGGOR FÖR SÖKNING"
 
 # type: TP
 #: ../../man/start-stop-daemon.8:79
@@ -11299,7 +11324,7 @@ msgstr "Skriv inte informationsmeddelanden; visa endast felmeddelanden."
 
 # type: TP
 #: ../../man/start-stop-daemon.8:174
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-c>, B<--chuid> I<username>|I<uid>"
 msgstr "B<-c>, B<--chuid> I<användarnamn>|I<användar-id>"
 
@@ -12203,15 +12228,15 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 
 # type: Plain text
 #~ msgid "FIXME not used in the source!?"
-#~ msgstr "FIXME används inte i källkoden!?"
+#~ msgstr "FIXME anvÃ¤nds inte i kÃ¤llkoden!?"
 
 # type: Plain text
 #~ msgid ""
 #~ "Don't actually do anything, just say what would be done.  This option is "
 #~ "not yet implemented."
 #~ msgstr ""
-#~ "Gör ingenting, utan visa bara vad som skulle ha gjorts. Denna flagga har "
-#~ "ännu inte implementerats."
+#~ "GÃ¶r ingenting, utan visa bara vad som skulle ha gjorts. Denna flagga har "
+#~ "Ã¤nnu inte implementerats."
 
 # type: TH
 #~ msgid "2007-09-28"
@@ -12223,7 +12248,7 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "also invoked B<dpkg-shlibdeps>."
 #~ msgstr ""
 #~ "Information om delade bibliotek som skapats av den aktuella "
-#~ "byggproceduren som också anropade B<dpkg-shlibdeps>."
+#~ "byggproceduren som ocksÃƒÂ¥ anropade B<dpkg-shlibdeps>."
 
 # type: UR
 #~ msgid "mailto:joeyh@debian.org"

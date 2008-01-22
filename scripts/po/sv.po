@@ -7,13 +7,13 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-01-21 08:25+0200\n"
-"PO-Revision-Date: 2008-01-16 15:04+0100\n"
+"PO-Revision-Date: 2008-01-22 21:40+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n!=1;\n"
+"Plural-Forms: nplurals=2; plural=n!=1;"
 
 #: scripts/822-date.pl:12
 msgid "Usage: 822-date"
@@ -465,7 +465,7 @@ msgstr ""
 "Copyright © 2000,2001 Wichert Akkerman."
 
 #: scripts/dpkg-genchanges.pl:100
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
 "\n"
@@ -512,7 +512,7 @@ msgstr ""
 "  -m<ansvarig>             överstyr ansvarigvärde från styrfilen.\n"
 "  -e<ansvarig>             överstyr ansvarigvärde från ändringsloggen.\n"
 "  -u<insändningskatalog>   katalog med filer (standard är \"..\").\n"
-"  -si (standard)           källa har orig för debianrevision 0 och 1.\n"
+"  -si (standard)           källa har orig om ny uppströms.\n"
 "  -sa                      källa innehåller orig-källa.\n"
 "  -sd                      källa är diff och endast .dsc.\n"
 "  -q                       tyst - inga informationsmeddelanden på std fel.\n"
@@ -954,6 +954,29 @@ msgid ""
 "                                <number> is lower than 0)\n"
 "    --all                       include all changes\n"
 msgstr ""
+"Använd: %s [<flagga> ...]\n"
+"\n"
+"Flaggor:\n"
+"  -l<ändringsloggfil>      hämta information per version från fil.\n"
+"  -F<ändirngsloggformat>   tvinga ändringsloggformat.\n"
+"  -L<bibliotekskatalog>    se efter ändringsloggparsrar i <katalog>.\n"
+"  -h, --help               visa detta hjälpmeddelande.\n"
+"      --version            visa versionsnumret.\n"
+"\n"
+"parserflaggor:\n"
+"    --format <utdataformat>     se manualsidan för en lista över tillgängliga\n"
+"                                utdataformat, standard är \"dpkg\" för\n"
+"                                kompatibilitet med dpkg-dev\n"
+"    --since, -s, -v <version>   ta med alla ändringar efter version\n"
+"    --until, -u <version>       ta med alla ändringar före version\n"
+"    --from, -f <version>        ta med alla ändringar från och med version\n"
+"    --to, -t <version>          ta med alla ändringar till och med version\n"
+"    --count, -c, -n <antal>     ta med <antal> poster från början (eller\n"
+"                                slutet om <antal> är lägre än 0)\n"
+"    --offset, -o <antal>        byt startpunkt för --count, räknat från\n"
+"                                början (eller slutet om <antal> är lägre\n"
+"                                än 0)\n"
+"    --all                       ta med alla ändringar\n"
 
 #: scripts/dpkg-parsechangelog.pl:103
 #, perl-format
@@ -2568,7 +2591,6 @@ msgid "md5sum gave bogus output `%s'"
 msgstr "md5sum gav felaktig utdata \"%s\""
 
 #: scripts/changelog/debian.pl:21
-#, fuzzy
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson.\n"
@@ -2576,7 +2598,7 @@ msgid ""
 msgstr ""
 "\n"
 "Copyright © 1996 Ian Jackson.\n"
-"Copyright © 2000,2001 Wichert Akkerman."
+"Copyright © 2005,2007 Frank Lichtenheld."
 
 #: scripts/changelog/debian.pl:32
 #, perl-format
@@ -2606,26 +2628,49 @@ msgid ""
 "                                <number> is lower than 0)\n"
 "    --all                       include all changes\n"
 msgstr ""
+"Använd: %s [<flagga>...] [<ändringsloggfil>]\n"
+"\n"
+"Flaggor:\n"
+"    --help, -h                  visa detta hjälpmeddelanden"
+"    --version, -V               visa versionsinformation\n"
+"    --label, -l <fil>           namn på ändringsloggfil att använda\n"
+"                                i felmeddelanden\n"
+"    --file <fil>                ändringsloggfil att tolka, standard\n"
+"                                är \"-\" (standard in)\n"
+"    --format <utdataformat>     se manualsidan för tillgängliga\n"
+"                                utdataformat, standard är \"dpkg\"\n"
+"                                för kompatibilitet med dpkg-dev\n"
+"    --since, -s, -v <version>   ta med alla ändringar efter version\n"
+"    --until, -u <version>       ta med alla ändringar före version\n"
+"    --from, -f <version>        ta med alla ändringar från och med\n"
+"                                version\n"
+"    --to, -t <version>          ta med alla ändringar till och med\n"
+"                                version\n"
+"    --count, -c, -n <antal>     ta med <antal> poster från början\n"
+"                                (eller slutet om <antal> är under 0)\n"
+"    --offset, -o <antal>        ändra startpunkt för --count, räknat\n"
+"                                från början (eller slutet om <antal>\n"
+"                                är under 0)\n"
+"    --all                       ta med alla ändringar\n"
 
 #: scripts/changelog/debian.pl:71
 #, perl-format
 msgid "output format %s not supported"
-msgstr ""
+msgstr "utdataformatet %s stöds inte"
 
 #: scripts/changelog/debian.pl:96
-#, fuzzy, perl-format
+#, perl-format
 msgid "more than one file specified (%s and %s)"
-msgstr "repeterad filtyp - filerna \"%s\" och \"%s\""
+msgstr "mer än en fil angavs (%s och %s)"
 
 #: scripts/changelog/debian.pl:118
-#, fuzzy
 msgid "fatal error occured while parsing input"
-msgstr "fel vid tolkning av %s"
+msgstr "ödesdigert fel vid tolkning av indata"
 
 #: scripts/changelog/debian.pl:121
-#, fuzzy, perl-format
+#, perl-format
 msgid "fatal error occured while parsing %s"
-msgstr "fel vid tolkning av %s"
+msgstr "ödesdigert fel vid tolkning av %s"
 
 #: scripts/Dpkg/Arch.pm:69
 msgid ""
@@ -2655,9 +2700,9 @@ msgid "unable to open triplettable"
 msgstr "kan inte öppna triplettable"
 
 #: scripts/Dpkg/Cdata.pm:78
-#, fuzzy, perl-format
+#, perl-format
 msgid "duplicate field %s found"
-msgstr "duplicerat källkodsfält i %s"
+msgstr "duplicerat fält %s hittades"
 
 #: scripts/Dpkg/Cdata.pm:84
 msgid "continued value line not in field"
@@ -2665,7 +2710,7 @@ msgstr "fortsatt värderad inte i fält"
 
 #: scripts/Dpkg/Cdata.pm:94
 msgid "PGP signature not allowed here"
-msgstr ""
+msgstr "PGP-signatur tillåts inte här"
 
 #: scripts/Dpkg/Cdata.pm:101
 msgid "expected PGP signature, found EOF after blank line"
@@ -2678,7 +2723,7 @@ msgstr "förväntade PGP-signatur, hittade något annat \"%s\""
 
 #: scripts/Dpkg/Cdata.pm:111
 msgid "unfinished PGP signature"
-msgstr ""
+msgstr "oavslutad PGP-signatur"
 
 #: scripts/Dpkg/Cdata.pm:115
 msgid "line with unknown format (not field-colon-value)"
@@ -2695,38 +2740,38 @@ msgid ""
 "%s(l%s): %s\n"
 "LINE: %s"
 msgstr ""
+"%s(l%s): %s\n"
+"RAD: %s"
 
 #: scripts/Dpkg/Changelog.pm:172
 #, perl-format
 msgid "%s(l%s): %s"
-msgstr ""
+msgstr "%s(l%s): %s"
 
 #: scripts/Dpkg/Changelog.pm:182
-#, fuzzy
 msgid "fatal error"
-msgstr "internt fel"
+msgstr "ödesdigert fel"
 
 #: scripts/Dpkg/Changelog.pm:229
 msgid "you can't combine 'count' or 'offset' with any other range option"
-msgstr ""
+msgstr "du kan inte kombinera \"count\" eller \"offset\" med andra intervallflaggor"
 
 #: scripts/Dpkg/Changelog.pm:233
 msgid "you can only specify one of 'from' and 'since', using 'since'"
-msgstr ""
+msgstr "du kan bara ange en av \"from\" och \"since\", använder \"since\""
 
 #: scripts/Dpkg/Changelog.pm:237
 msgid "you can only specify one of 'to' and 'until', using 'until'"
-msgstr ""
+msgstr "du kan bara ange en av \"to\" och \"until\", använder \"until\""
 
 #: scripts/Dpkg/Changelog.pm:241
-#, fuzzy
 msgid "'since' option specifies most recent version, ignoring"
-msgstr "-v<sedan>-flaggan anger den senaste versionen"
+msgstr "\"since\"-flaggan anger den senaste versionen, ignorerar"
 
 #: scripts/Dpkg/Changelog.pm:245
-#, fuzzy
 msgid "'until' option specifies oldest version, ignoring"
-msgstr "-v<sedan>-flaggan anger den senaste versionen"
+msgstr "\"until\"-flaggan anger den äldsta versionen, ignorerar"
+""
 
 #: scripts/Dpkg/Changelog.pm:762
 #, perl-format
@@ -2739,15 +2784,15 @@ msgid "format parser %s not executable"
 msgstr "formattolk %s ej körbar"
 
 #: scripts/Dpkg/Changelog.pm:777
-#, fuzzy, perl-format
+#, perl-format
 msgid "changelog format %s is unknown"
-msgstr "formatet %s okänt"
+msgstr "ändringsloggformatet %s okänt"
 
 #: scripts/Dpkg/Changelog.pm:798 scripts/Dpkg/Shlibs.pm:51
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:105
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot open %s"
-msgstr "kan inte öppna %s: %s"
+msgstr "kan inte öppna %s"
 
 #: scripts/Dpkg/Changelog.pm:800
 #, perl-format
@@ -2756,26 +2801,26 @@ msgstr "kan inte exekvera formattolk: %s"
 
 #: scripts/Dpkg/Changelog.pm:805
 msgid "output of changelog parser"
-msgstr ""
+msgstr "utdata från ändringsloggparser"
 
 #: scripts/Dpkg/Changelog.pm:808
-#, fuzzy, perl-format
+#, perl-format
 msgid "changelog parser %s"
-msgstr "kan inte exekvera formattolk: %s"
+msgstr "ändringsloggparser %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:101
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't open file %s: %s"
-msgstr "kan inte öppna .dsc-filen %s: %s"
+msgstr "kan inte öppna filen %s: %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:110
 #, perl-format
 msgid "can't load IO::String: %s"
-msgstr ""
+msgstr "kan inte läsa in IO::String: %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:117
 msgid "no changelog file specified"
-msgstr ""
+msgstr "ingen ändringsloggfil angavs"
 
 #: scripts/Dpkg/Changelog/Debian.pm:141
 #, perl-format
@@ -2797,9 +2842,9 @@ msgid "badly formatted urgency value"
 msgstr "felaktigt formaterat värde för \"urgency\""
 
 #: scripts/Dpkg/Changelog/Debian.pm:185
-#, fuzzy, perl-format
+#, perl-format
 msgid "unknown key-value key %s - copying to XS-%s"
-msgstr "okänt nyckelvärdenyckel %s - kopierar till %s"
+msgstr "okänt nyckelvärdenyckel %s - kopierar till XS-%s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:216
 msgid "badly formatted heading line"
@@ -2815,9 +2860,9 @@ msgid "badly formatted trailer line"
 msgstr "felaktigt formaterad fotrad"
 
 #: scripts/Dpkg/Changelog/Debian.pm:234
-#, fuzzy, perl-format
+#, perl-format
 msgid "couldn't parse date %s"
-msgstr "Kunde inte ta status på %s"
+msgstr "kunde inte tolka datumet %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:250 scripts/Dpkg/Changelog/Debian.pm:265
 #, perl-format
@@ -2839,22 +2884,22 @@ msgid "found eof where expected %s"
 msgstr "hittade filslut där %s förväntades"
 
 #: scripts/Dpkg/Changelog/Debian.pm:322
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't close file %s: %s"
-msgstr "kan inte öppna .dsc-filen %s: %s"
+msgstr "kan inte stänga filen %s: %s"
 
 #: scripts/Dpkg/Control.pm:86
 msgid "first block lacks a source field"
-msgstr ""
+msgstr "första blocket saknar source-fält"
 
 #: scripts/Dpkg/Control.pm:93
 msgid "block lacks a package field"
-msgstr ""
+msgstr "blocket saknar package-fält"
 
 #: scripts/Dpkg/Deps.pm:313
-#, fuzzy, perl-format
+#, perl-format
 msgid "can't parse dependency %s"
-msgstr "kan inte spola tillbaka %s:"
+msgstr "kan inte tolka beroendet %s:"
 
 #: scripts/Dpkg/Deps.pm:626
 #, perl-format
@@ -2927,9 +2972,9 @@ msgid "objdump on `%s'"
 msgstr "objdump på \"%s\""
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:148
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot fork %s"
-msgstr "kan inte grena: %s"
+msgstr "kan inte grena %s"
 
 #: scripts/Dpkg/Shlibs/Objdump.pm:189
 #, perl-format
@@ -2949,7 +2994,7 @@ msgstr "Symbolinformation måste föregås av ett huvud (fil %s, rad %s)."
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:121
 #, perl-format
 msgid "you can't use wildcards on unversioned symbols: %s"
-msgstr ""
+msgstr "du kan inte använda jokertecken på symboler som inte är versionerade: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:157
 #, perl-format
@@ -2957,9 +3002,9 @@ msgid "Failed to parse a line in %s: %s"
 msgstr "misslyckades att tolka en rad i %s: %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:171
-#, fuzzy, perl-format
+#, perl-format
 msgid "cannot write %s"
-msgstr "kan inte läsa %s"
+msgstr "kan inte skriva %s"
 
 #: scripts/Dpkg/Shlibs/SymbolFile.pm:204
 msgid "Can't merge symbols from objects without SONAME."
@@ -3006,65 +3051,65 @@ msgid "version number contains illegal character `%s'"
 msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 
 #~ msgid "couldn't open %s"
-#~ msgstr "kan inte öppna \"%s\""
+#~ msgstr "kan inte Ã¶ppna \"%s\""
 
 #~ msgid "couldn't close %s"
-#~ msgstr "Kunde inte stänga %s"
+#~ msgstr "Kunde inte stÃ¤nga %s"
 
 #~ msgid "Can't open %s for test: %s"
-#~ msgstr "Kunde inte öppna %s för testning: %s"
+#~ msgstr "Kunde inte Ã¶ppna %s fÃ¶r testning: %s"
 
 #~ msgid "Can't execute objdump: %s"
 #~ msgstr "kunde inte exekvera objdump: %s"
 
 #~ msgid "Can't open %s: %s"
-#~ msgstr "Kan inte öppna %s: %s"
+#~ msgstr "Kan inte Ã¶ppna %s: %s"
 
 #~ msgid "Can't open %s for writing: %s"
-#~ msgstr "Kunde inte öppna %s för skrivning: %s"
+#~ msgstr "Kunde inte Ã¶ppna %s fÃ¶r skrivning: %s"
 
 #~ msgid "unable to get login information for username \"%s\""
-#~ msgstr "kan inte hämta inloggningsinformation för användar-id \"%s\""
+#~ msgstr "kan inte hÃ¤mta inloggningsinformation fÃ¶r anvÃ¤ndar-id \"%s\""
 
 #~ msgid ""
 #~ "no utmp entry available and LOGNAME not defined; using uid of process (%d)"
 #~ msgstr ""
-#~ "hittar ingen post i utmp och LOGNAME är inte definierat; använder "
-#~ "användar-id av process (%d)"
+#~ "hittar ingen post i utmp och LOGNAME Ã¤r inte definierat; anvÃ¤nder "
+#~ "anvÃ¤ndar-id av process (%d)"
 
 #~ msgid "unable to get login information for uid %d"
-#~ msgstr "kan inte hämta inloggningsinformation för användar-id %d"
+#~ msgstr "kan inte hÃ¤mta inloggningsinformation fÃ¶r anvÃ¤ndar-id %d"
 
 #~ msgid "write error on close control data"
-#~ msgstr "skrivfel vid stängning av styrdata"
+#~ msgstr "skrivfel vid stÃ¤ngning av styrdata"
 
 #~ msgid "cannot read control file %s: %s"
-#~ msgstr "kan inte läsa styrfil %s: %s"
+#~ msgstr "kan inte lÃ¤sa styrfil %s: %s"
 
 #~ msgid "control file %s"
 #~ msgstr "styrfil %s"
 
 #~ msgid "control file must have at least one binary package part"
-#~ msgstr "styrfil måste innehålla åtminstone en binär del"
+#~ msgstr "styrfil mÃ¥ste innehÃ¥lla Ã¥tminstone en binÃ¤r del"
 
 #~ msgid ""
 #~ "per-package paragraph %d in control info file is missing Package line"
 #~ msgstr "per-paket-stycke %d i styrinfofilen saknar Package-rad"
 
 #~ msgid "source paragraph in control info file is missing Source line"
-#~ msgstr "källkodsstycke i styrinfofilen saknar Source-rad"
+#~ msgstr "kÃ¤llkodsstycke i styrinfofilen saknar Source-rad"
 
 #~ msgid "fork for parse changelog"
-#~ msgstr "grenar av för att tolka ändringslogg"
+#~ msgstr "grenar av fÃ¶r att tolka Ã¤ndringslogg"
 
 #~ msgid "parse changelog"
-#~ msgstr "tolkar ändringslogg"
+#~ msgstr "tolkar Ã¤ndringslogg"
 
 #~ msgid "expected blank line before PGP signature"
-#~ msgstr "förväntade tomrad före PGP-signaturen"
+#~ msgstr "fÃ¶rvÃ¤ntade tomrad fÃ¶re PGP-signaturen"
 
 #~ msgid "found several `paragraphs' where only one expected"
-#~ msgstr "hittade flera \"stycken\" där endast ett förväntades"
+#~ msgstr "hittade flera \"stycken\" dÃ¤r endast ett fÃ¶rvÃ¤ntades"
 
 #~ msgid "found start of PGP body but no signature"
 #~ msgstr "hittade inledning av PGP-kropp men ingen signatur"
@@ -3073,10 +3118,10 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #~ msgstr "tom fil"
 
 #~ msgid "chown new files list file"
-#~ msgstr "byt ägare ny fillistfil"
+#~ msgstr "byt Ã¤gare ny fillistfil"
 
 #~ msgid "value from nowhere, with key >%s< and value >%s<"
-#~ msgstr "värde från ingenstans med nyckel \"%s\" och värde \"%s\""
+#~ msgstr "vÃ¤rde frÃ¥n ingenstans med nyckel \"%s\" och vÃ¤rde \"%s\""
 
 #~ msgid ""
 #~ "Usage: %s [<option> ...]\n"
@@ -3089,18 +3134,18 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #~ "  -h, --help               show this help message.\n"
 #~ "      --version            show the version.\n"
 #~ msgstr ""
-#~ "Använd: %s [<flagga> ...]\n"
+#~ "AnvÃ¤nd: %s [<flagga> ...]\n"
 #~ "\n"
 #~ "Flaggor:\n"
-#~ "  -l<ändringsloggfil>      hämta per version-information från filen.\n"
-#~ "  -v<sedanversion>         ta med alla ändringar efter denna version.\n"
-#~ "  -F<ändringsloggformat>   tvinga ändringsloggformat.\n"
-#~ "  -L<bibliotekskatalog>    se efter ändringsloggtolkar i katalogen.\n"
-#~ "  -h, --help               visa detta hjälpmeddelande.\n"
+#~ "  -l<Ã¤ndringsloggfil>      hÃ¤mta per version-information frÃ¥n filen.\n"
+#~ "  -v<sedanversion>         ta med alla Ã¤ndringar efter denna version.\n"
+#~ "  -F<Ã¤ndringsloggformat>   tvinga Ã¤ndringsloggformat.\n"
+#~ "  -L<bibliotekskatalog>    se efter Ã¤ndringsloggtolkar i katalogen.\n"
+#~ "  -h, --help               visa detta hjÃ¤lpmeddelande.\n"
 #~ "      --version            visa versionsnummer.\n"
 
 #~ msgid "cannot open %s to find format: %s"
-#~ msgstr "kan inte öppna %s för att hitta format: %s"
+#~ msgstr "kan inte Ã¶ppna %s fÃ¶r att hitta format: %s"
 
 #~ msgid "failed to check for format parser %s"
 #~ msgstr "kunde inte leta efter formattolk %s"
@@ -3114,20 +3159,20 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #~ "  -h, --help          print this help message.\n"
 #~ "      --version       print program version.\n"
 #~ msgstr ""
-#~ "Använd: %s [<flagga>]\n"
+#~ "AnvÃ¤nd: %s [<flagga>]\n"
 #~ "\n"
 #~ "Flaggor:\n"
-#~ "  -l<ändringslogg>    används <ändringslogg> som filnamn vid "
+#~ "  -l<Ã¤ndringslogg>    anvÃ¤nds <Ã¤ndringslogg> som filnamn vid "
 #~ "rapportering.\n"
-#~ "  -v<sedanversion>    skriv ändringar sedan <sedanversion>.\n"
-#~ "  -h, --help          visa detta hjälpmeddelande.\n"
+#~ "  -v<sedanversion>    skriv Ã¤ndringar sedan <sedanversion>.\n"
+#~ "  -h, --help          visa detta hjÃ¤lpmeddelande.\n"
 #~ "      --version       visa versionsnummer.\n"
 
 #~ msgid "unknown urgency value %s - comparing very low"
-#~ msgstr "okänt värde %s för \"urgency\" - jämförs som väldigt lågt"
+#~ msgstr "okÃ¤nt vÃ¤rde %s fÃ¶r \"urgency\" - jÃ¤mfÃ¶rs som vÃ¤ldigt lÃ¥gt"
 
 #~ msgid "urgency >%s<"
-#~ msgstr "brådska \"%s\""
+#~ msgstr "brÃ¥dska \"%s\""
 
 #~ msgid "%s, at file %s line %d"
-#~ msgstr "%s, i filen %s på rad %d"
+#~ msgstr "%s, i filen %s pÃ¥ rad %d"
