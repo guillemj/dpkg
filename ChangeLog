@@ -1,3 +1,9 @@
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (gid_in_current_groups): Remove function.
+	(main): Call initgroups if the real user or group are different than
+	the ones we should switch to. Call setgid before initgroups.
+
 2008-01-22  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
