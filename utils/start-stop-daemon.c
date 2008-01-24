@@ -217,25 +217,12 @@ xgettimeofday(struct timeval *tv)
 }
 
 static void
-tsub(struct timeval *r, struct timeval *a, struct timeval *b)
-{
-	r->tv_sec = (time_t)(a->tv_sec - b->tv_sec);
-	r->tv_usec = (suseconds_t)(a->tv_usec - b->tv_usec);
-	if (r->tv_usec < 0) {
-		--r->tv_sec;
-		r->tv_usec += 1000000;
-	}
-}
-
-static void
 tmul(struct timeval *a, int b)
 {
 	a->tv_sec *= b;
 	a->tv_usec *= b;
-	if (a->tv_usec >= 1000000) {
-		++a->tv_sec;
-		a->tv_usec -= 1000000;
-	}
+	a->tv_sec = a->tv_sec + a->tv_usec / 1000000;
+	a->tv_usec %= 1000000;
 }
 
 static long
@@ -1200,8 +1187,8 @@ run_stop_schedule(void)
 				if (ratio < 10)
 					ratio++;
 
-				tsub(&maxinterval, &stopat, &after);
-				tsub(&interval, &after, &before);
+				timersub(&stopat, &after, &maxinterval);
+				timersub(&after, &before, &interval);
 				tmul(&interval, ratio);
 
 				if (interval.tv_sec < 0 || interval.tv_usec < 0)
