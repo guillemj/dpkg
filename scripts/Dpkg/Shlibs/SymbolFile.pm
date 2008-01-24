@@ -158,6 +158,7 @@ sub load {
 	}
     }
     close($sym_file);
+    delete $seen->{$file};
 }
 
 sub save {
