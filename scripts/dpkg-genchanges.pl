@@ -18,7 +18,7 @@ use Dpkg::Cdata;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
-use Dpkg::Version qw(parseversion);
+use Dpkg::Version qw(parseversion compare_versions);
 
 textdomain("dpkg-dev");
 
@@ -201,6 +201,12 @@ my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->parse($varlistfile) if -e $varlistfile;
+
+if (defined($prev_changelog) and
+    compare_versions($changelog->{"Version"}, '<', $prev_changelog->{"Version"})) {
+    warning(_g("the current version (%s) is smaller than the previous one (%s)"),
+	$changelog->{"Version"}, $prev_changelog->{"Version"});
+}
 
 if (not is_sourceonly) {
     open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
