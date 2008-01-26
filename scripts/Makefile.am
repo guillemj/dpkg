@@ -89,6 +89,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Cdata.pm \
 	Dpkg/Changelog.pm \
 	Dpkg/Changelog/Debian.pm \
+	Dpkg/Checksums.pm \
 	Dpkg/Compression.pm \
 	Dpkg/Control.pm \
 	Dpkg/Deps.pm \
