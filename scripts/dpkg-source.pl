@@ -5,6 +5,7 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::Checksums;
 use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            internerr syserr subprocerr usageerr
                            $warnable_error $quiet_warnings);
@@ -98,7 +99,7 @@ my %remove;
 my %override;
 
 # Files
-my %md5sum;
+my %checksum;
 my %size;
 my %type;		 # used by checktype
 my %filepatched;	 # used by checkdiff
@@ -120,7 +121,8 @@ my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
 		     Maintainer Uploaders Dm-Upload-Allowed Homepage
 		     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
 		     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
-                  @src_dep_fields);
+                  @src_dep_fields,
+                  qw(Files));
 
 
 # Make sure patch doesn't get any funny ideas
@@ -196,7 +198,7 @@ General options:
 "), $progname,
     $diff_ignore_default_regexp,
     join('', map { " -I$_" } @tar_ignore_default_pattern),
-    "@comp_supported" ;
+    "@comp_supported";
 }
 
 sub handleformat {
@@ -772,6 +774,7 @@ if ($opmode eq 'build') {
     open(DSC, ">", "$basenamerev.dsc") ||
         syserr(_g("create %s"), "$basenamerev.dsc");
 
+    delete $fields->{'Checksums-Md5'}; # identical with Files field
     $substvars->parse($varlistfile) if $varlistfile && -e $varlistfile;
     tied(%{$fields})->set_field_importance(@dsc_fields);
     tied(%{$fields})->output(\*DSC, $substvars);
@@ -871,16 +874,29 @@ if ($opmode eq 'build') {
         $baseversion= $version; $revision= '';
     }
 
+    readallchecksums($fields, \%checksum, \%size);
+
+    my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
     my $files = $fields->{'Files'};
     my @tarfiles;
     my $difffile;
     my $debianfile;
     my %seen;
     for my $file (split(/\n /, $files)) {
-        next if $file eq '';
-        $file =~ m/^([0-9a-f]{32})[ \t]+(\d+)[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
-            || error(_g("Files field contains bad line `%s'"), $file);
-        ($md5sum{$3},$size{$3},$file) = ($1,$2,$3);
+	next if $file eq '';
+	$file =~ m/^($check_regex{md5})                    # checksum
+                    [ \t]+(\d+)                            # size
+                    [ \t]+($rx_fname)                      # filename
+                  $/x
+	  || error(_g("Files field contains bad line `%s'"), $file);
+	(my $md5sum,$size{$3},$file) = ($1,$2,$3);
+	if (exists($checksum{$file}{md5})
+	    and $checksum{$file}{md5} ne $md5sum) {
+	    error(_g("Conflicting checksums \`%s\' and \`%s' for file \`%s'"),
+		  $checksum{$file}{md5}, $md5sum, $file);
+	}
+	$checksum{$file}{md5} = $md5sum;
+
 	local $_ = $file;
 
 	error(_g("Files field contains invalid filename `%s'"), $file)
@@ -1128,19 +1144,8 @@ if ($opmode eq 'build') {
 }
 
 sub checkstats {
-    my $dscdir = shift;
-    my ($f) = @_;
-    my @s;
-    my $m;
-    open(STDIN, "<", "$dscdir/$f") || syserr(_g("cannot read %s"), "$dscdir/$f");
-    (@s = stat(STDIN)) || syserr(_g("cannot fstat %s"), "$dscdir/$f");
-    $s[7] == $size{$f} || error(_g("file %s has size %s instead of expected %s"),
-                                $f, $s[7], $size{$f});
-    $m= `md5sum`; $? && subprocerr("md5sum $f"); $m =~ s/\n$//;
-    $m = readmd5sum( $m );
-    $m eq $md5sum{$f} || error(_g("file %s has md5sum %s instead of expected %s"),
-                               $f, $m, $md5sum{$f});
-    open(STDIN, "<", "/dev/null") || &syserr(_g("reopen stdin from /dev/null"));
+    my ($dscdir, $f) = @_;
+    getchecksums("$dscdir/$f", $checksum{$f}, \$size{$f});
 }
 
 sub erasedir {
@@ -1640,12 +1645,12 @@ sub addfile {
     my ($fields, $filename)= @_;
     $added_files{$filename}++ &&
         internerr(_g("tried to add file `%s' twice"), $filename);
-    stat($filename) || syserr(_g("could not stat output file `%s'"), $filename);
-    my $size = (stat _)[7];
-    my $md5sum= `md5sum <$filename`;
-    $? && &subprocerr("md5sum $filename");
-    $md5sum = readmd5sum( $md5sum );
-    $fields->{'Files'}.= "\n $md5sum $size $filename";
+    my (%sums, $size);
+    getchecksums($filename, \%sums, \$size);
+    foreach my $alg (sort keys %sums) {
+	$fields->{"Checksums-$alg"} .= "\n $sums{$alg} $size $filename";
+    }
+    $fields->{'Files'}.= "\n $sums{md5} $size $filename";
 }
 
 # replace \ddd with their corresponding character, refuse \ddd > \377
@@ -1667,11 +1672,4 @@ sub deoctify {
     }
     return join("", @_);
 } }
-
-sub readmd5sum {
-    (my $md5sum = shift) or return;
-    $md5sum =~ s/^([0-9a-f]{32})\s*\*?-?\s*\n?$/$1/o
-        || failure(_g("md5sum gave bogus output `%s'"), $md5sum);
-    return $md5sum;
-}
 
