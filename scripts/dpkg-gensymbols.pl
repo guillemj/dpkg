@@ -140,7 +140,9 @@ if (not scalar @files) {
     foreach my $path (@librarypaths) {
 	my $libdir = "$packagebuilddir$path";
 	$libdir =~ s{/+}{/}g;
-	next if not -d $libdir;
+	lstat $libdir;
+	next if not -d _;
+	next if -l _; # Skip directories which are symlinks
 	opendir(DIR, "$libdir") ||
 	    syserr(_g("Can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {

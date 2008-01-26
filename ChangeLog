@@ -1,3 +1,11 @@
+2008-01-26  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-gensymbols: Don't scan directories which are
+	symlinks. They might point outside of the package build dir which
+	results in addition of libraries which are not in the package.
+	The libc6 package on amd64 is affected with a symlink "lib64" ->
+	"/lib".
+
 2008-01-24  Raphael Hertzog  <hertzog@debian.org>
 
 	* configure.ac: Release 1.14.16.5.
