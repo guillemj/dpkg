@@ -159,6 +159,7 @@ while (@ARGV) {
 	$since= $POSTMATCH;
     } elsif (m/^-T/) {
 	$varlistfile= $POSTMATCH;
+	warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-m/) {
 	$forcemaint= $POSTMATCH;
     } elsif (m/^-e/) {

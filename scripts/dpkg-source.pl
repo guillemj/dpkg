@@ -253,6 +253,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $substvars->set($1, $POSTMATCH);
     } elsif (m/^-T/) {
 	$varlistfile = $POSTMATCH;
+	warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
