@@ -228,8 +228,14 @@ if ($forcesigninterface) {
     $signinterface = $signcommand;
 }
 
-if ($signcommand && ($signinterface !~ /^(gpg|pgp)$/)) {
-    warning(_g("unknown sign command, assuming pgp style interface"));
+if ($signcommand) {
+    if ($signinterface !~ /^(gpg|pgp)$/) {
+	warning(_g("unknown sign command, assuming pgp style interface"));
+    } elsif ($signinterface eq 'pgp') {
+	if ($signsource or $signchanges) {
+	    warning(_g("PGP support is deprecated (see README.feature-removal-schedule)"));
+	}
+    }
 }
 
 if ($parallel) {
