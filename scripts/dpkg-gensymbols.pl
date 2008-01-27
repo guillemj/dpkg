@@ -200,25 +200,41 @@ if ($compare) {
     use File::Temp;
     use Digest::MD5;
     # Compare
-    if ($symfile->has_new_libs($ref_symfile)) {
-	warning(_g("new libraries appeared in the symbols file."));
+    if (my @libs = $symfile->get_new_libs($ref_symfile)) {
+	warning(_g("new libraries appeared in the symbols file: %s"), "@libs");
 	$exitcode = 4 if ($compare >= 4);
     }
-    if ($symfile->has_lost_libs($ref_symfile)) {
-	warning(_g("some libraries disappeared in the symbols file."));
+    if (my @libs = $symfile->get_lost_libs($ref_symfile)) {
+	warning(_g("some libraries disappeared in the symbols file: %s"), "@libs");
 	$exitcode = 3 if ($compare >= 3);
     }
-    if ($symfile->has_new_symbols($ref_symfile)) {
+    if ($symfile->get_new_symbols($ref_symfile)) {
 	unless ($symfile->used_wildcards()) {
 	    # Wildcards are used to replace many additional symbols, so we
 	    # have no idea if this is really true, so don't say it and
 	    # don't check it
-	    warning(_g("some new symbols appeared in the symbols file."));
+	    warning(_g("some new symbols appeared in the symbols file: %s"),
+		    _g("see diff output below"));
 	    $exitcode = 2 if ($compare >= 2);
 	}
     }
-    if ($symfile->has_lost_symbols($ref_symfile)) {
-	warning(_g("some symbols disappeared in the symbols file."));
+    if (my @syms = $symfile->get_lost_symbols($ref_symfile)) {
+	my $list = _g("see diff output below");
+	if ($symfile->used_wildcards()) {
+	    # If wildcards are used, we don't get a diff, so list
+	    # explicitely symbols which are lost
+	    $list = "\n";
+	    my $cur_soname = "";
+	    foreach my $sym (sort { $a->{soname} cmp $b->{soname} or
+				    $a->{name} cmp $b->{name} } @syms) {
+		if ($cur_soname ne $sym->{soname}) {
+		    $list .= $sym->{soname} . "\n";
+		    $cur_soname = $sym->{soname};
+		}
+		$list .= " " . $sym->{name} . "\n";
+	    }
+	}
+	warning(_g("some symbols disappeared in the symbols file: %s"), $list);
 	$exitcode = 1 if ($compare >= 1);
     }
     unless ($symfile->used_wildcards()) {
@@ -234,10 +250,10 @@ if ($compare) {
 	# Output diffs between symbols files if any
 	if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
 	    if (defined($ref_symfile->{file})) {
-		warning(_g("%s doesn't match completely %s\n"),
+		warning(_g("%s doesn't match completely %s"),
 			$output, $ref_symfile->{file});
 	    } else {
-		warning(_g("no debian/symbols file used as basis for generating %s\n"),
+		warning(_g("no debian/symbols file used as basis for generating %s"),
 			$output);
 	    }
 	    my ($a, $b) = ($before->filename, $after->filename);

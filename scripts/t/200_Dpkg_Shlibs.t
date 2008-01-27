@@ -102,8 +102,8 @@ ok( $sym_file->has_object('libc.so.6'), 'SONAME in sym file' );
 
 $sym_file->merge_symbols($obj, "2.6-1");
 
-ok( $sym_file->has_new_symbols($sym_file_old), 'has new symbols' );
-ok( $sym_file_old->has_lost_symbols($sym_file), 'has lost symbols' );
+ok( $sym_file->get_new_symbols($sym_file_old), 'has new symbols' );
+ok( $sym_file_old->get_lost_symbols($sym_file), 'has lost symbols' );
 
 is( $sym_file_old->lookup_symbol('__bss_start@Base', ['libc.so.6']),
     undef, 'internal symbols are blacklisted');
