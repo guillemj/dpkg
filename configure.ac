@@ -106,7 +106,7 @@ AC_CONFIG_FILES([ Makefile
 		  dselect/Makefile
 		  dselect/methods/Makefile
 		  dselect/po/Makefile.in
-		  getopt/Makefile
+		  libcompat/Makefile
 		  lib/Makefile
 		  man/Makefile
 		  origins/Makefile

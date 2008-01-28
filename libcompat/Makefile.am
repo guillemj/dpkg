@@ -6,9 +6,9 @@ INCLUDES = \
 	-I$(top_srcdir)/lib
 
 
-noinst_LIBRARIES = libopt.a
+noinst_LIBRARIES = libcompat.a
 
-libopt_a_SOURCES = \
+libcompat_a_SOURCES = \
 	closeout.c closeout.h \
 	error.h \
 	getopt.c getopt.h \
