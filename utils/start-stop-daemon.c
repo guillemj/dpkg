@@ -305,8 +305,8 @@ do_help(void)
 "Matching options (at least one is required):\n"
 "  -p|--pidfile <pid-file>       pid file to check\n"
 "  -x|--exec <executable>        program to start/check if it is running\n"
-"  -n|--name <process-name>      stop processes with this name\n"
-"  -u|--user <username|uid>      stop processes owned by this user\n"
+"  -n|--name <process-name>      process name to check\n"
+"  -u|--user <username|uid>      process owner to check\n"
 "\n"
 "Options:\n"
 "  -g|--group <group|gid>        run process as this group\n"
@@ -655,7 +655,7 @@ parse_options(int argc, char * const *argv)
 		badusage("--start needs --exec or --startas");
 
 	if (mpidfile && pidfile == NULL)
-		badusage("--make-pidfile is only relevant with --pidfile");
+		badusage("--make-pidfile requires --pidfile");
 
 	if (background && !start)
 		badusage("--background is only relevant with --start");
@@ -923,7 +923,7 @@ pid_is_cmd(pid_t pid, const char *name)
 		start_argv_0_p = *pid_argv_p;
 	else {
 		/* Tests indicate that this never happens, since
-		 * kvm_getargv itselfe cuts of tailing stuff. This is
+		 * kvm_getargv itself cuts of tailing stuff. This is
 		 * not what the manpage says, however. */
 		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
 		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
