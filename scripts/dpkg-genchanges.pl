@@ -267,13 +267,20 @@ foreach $_ (keys %{$src_fields}) {
     }
 }
 
-# Scan control info of all binary packages unless
-# we have a source only upload
-my @pkg;
-push @pkg, $control->get_packages() unless is_sourceonly;
-foreach my $pkg (@pkg) {
+# Scan control info of all binary packages
+foreach my $pkg ($control->get_packages()) {
     my $p = $pkg->{"Package"};
     my $a = $pkg->{"Architecture"};
+    my $d = $pkg->{"Description"} || "no description available";
+    $d = $1 if $d =~ /^(.*)\n/;
+
+    my @f; # List of files for this binary package
+    push @f, @{$p2f{$p}} if defined $p2f{$p};
+
+    # Add description of all binary packages
+    my $desc = sprintf("%-10s - %-.65s", $p, $d);
+    $desc .= " (udeb)" if (grep(/\.udeb$/, @f)); # XXX: Check Package-Type field instead
+    push @descriptions, $desc;
 
     if (not defined($p2f{$p})) {
 	# No files for this package... warn if it's unexpected
@@ -286,18 +293,12 @@ foreach my $pkg (@pkg) {
 	next; # and skip it
     }
 
-    my @f = @{$p2f{$p}}; # List of files for this binary package
     $p2arch{$p} = $a;
 
     foreach $_ (keys %{$pkg}) {
 	my $v = $pkg->{$_};
 
-	if (m/^Description$/) {
-	    $v = $1 if $v =~ m/^(.*)\n/;
-	    my $desc = sprintf("%-10s - %-.65s", $p, $v);
-	    $desc .= " (udeb)" if (grep(/\.udeb$/, @f));
-	    push @descriptions, $desc;
-	} elsif (m/^Section$/) {
+	if (m/^Section$/) {
 	    $f2seccf{$_} = $v foreach (@f);
 	} elsif (m/^Priority$/) {
 	    $f2pricf{$_} = $v foreach (@f);
