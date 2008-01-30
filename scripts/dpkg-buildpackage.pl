@@ -179,7 +179,7 @@ while (@ARGV) {
 	}
     } elsif (/^-S$/) {
 	$sourceonly = '-S';
-	$checkbuilddep = 0;
+	@checkbuilddep_args = ('-B');
 	if ($binaryonly) {
 	    usageerr(_g("cannot combine %s and %s"), $binaryonly, '-S');
 	}
@@ -307,7 +307,13 @@ if ($checkbuilddep) {
     if (system('dpkg-checkbuilddeps', @checkbuilddep_args)) {
 	warning(_g("Build dependencies/conflicts unsatisfied; aborting."));
 	warning(_g("(Use -d flag to override.)"));
-	exit 3;
+
+	if ($sourceonly) {
+	    warning(_g("This is currently a non-fatal warning with -S, but"));
+	    warning(_g("will probably become fatal in the future."));
+	} else {
+	    exit 3;
+	}
     }
 }
 
