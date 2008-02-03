@@ -9,9 +9,6 @@ INCLUDES = \
 noinst_LIBRARIES = libcompat.a
 
 libcompat_a_SOURCES = \
-	closeout.c closeout.h \
-	error.h \
 	getopt.c getopt.h \
 	getopt1.c \
-	long-options.c long-options.h \
 	obstack.c obstack.h
