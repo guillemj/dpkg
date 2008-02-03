@@ -125,6 +125,7 @@ foreach my $file (keys %exec) {
     my %libfiles;
     my %altlibfiles;
     my %soname_notfound;
+    my %alt_soname;
     foreach my $soname (@sonames) {
 	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
 	unless (defined $lib) {
@@ -194,6 +195,10 @@ foreach my $file (keys %exec) {
 	    } else {
 		# No symbol file found, fall back to standard shlibs
 		my $id = $dumplibs_wo_symfile->parse($lib);
+		if ($id ne $soname) {
+		    warning(_g("%s has an unexpected SONAME (%s)"), $lib, $id);
+		    $alt_soname{$id} = $soname;
+		}
 		push @soname_wo_symfile, $soname;
 		my $libobj = $dumplibs_wo_symfile->get_object($id);
 		# Only try to generate a dependency for libraries with a SONAME
@@ -262,6 +267,10 @@ foreach my $file (keys %exec) {
 		    }
 		}
 	    } else {
+		if (exists $alt_soname{$syminfo->{soname}}) {
+		    # Also count usage on alternate soname
+		    $used_sonames{$alt_soname{$syminfo->{soname}}}++;
+		}
 		$used_sonames{$syminfo->{soname}}++;
 	    }
 	}
