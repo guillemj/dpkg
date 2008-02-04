@@ -19,19 +19,45 @@ lenny
 1.14.y
 ------
 
- * Add Wig&Pen source package support.
+ * Code cleanup:
+   - Coalesce status_pipe handling.
+   - blankfoo embedded code.
+   - static variables inside functions.
+   - Coalesce admindir / infodir / foodir generation.
+   - Get rid of setjmp (at least in the general case, keep for dpkg itself?)
+   - Coalesce hash and checksum functions.
+   - Move parseerr arguments into a struct.
+   - Move fd and block function out of mlib.
+   - Cleanup status chars -> strings hardcoded mappings all over the place.
+     (Fix tied field enum with its dselect description (pkgdisplay.cc))
+   - Refactor src/processarc.c.
+   - Make sure all vsnprintf callers are checking the return value, as the
+     system version will not ohsite on us.
+
+ * Cleanup libcompat:
+   - Add fnmatch, IRIX5 doesn't have it.
+   - Add strnlen (GNU extension).
+   - Cut lib/compat.c into little pieces and move them here.
+
+ * Add Wig&Pen source package generation support.
 
  * Get rid of install-info.
 
  * Add multiarch support.
+
+ * Merge debconf support (add new status).
+   - dpkg --reconfigure <pkg> <pkg>
+     <pkg>.postinst reconfigure <ver>
+     Fail if pkg is not in the configured state.
+   - Merge dpkg-reconfigure.
 
  * Merge dpkg-cross functionality.
 
  * Merge dpkg-sig?
 
  * Start exposing libdpkg.
-
- * Fix tied field enum with its dselect description (pkgdisplay.cc).
+   - Split dpkg.h into dpkg-priv.h.
+   - Add needed includes to all header files.
 
  * Add example to dpkg-scanfoo manpages?
 
@@ -39,7 +65,9 @@ lenny
 
  * Add UTF-8 support to all programs.
 
- * Add md5sums and/or sha1sums package support. (#155676)
+ * Modify database to store per-file flags.
+   - Store checksums and stat data in per-file flags.
+   - Add md5sums and/or sha1sums package support. (#155676)
 
  * Allow packages to register additional files, declare ownership of files for
    dpkg -S and -L without having dpkg act on this (.psuedolist?).
@@ -68,29 +96,16 @@ TODO
 
 Old TODO entries from Scott:
 
-libdpkg:
-* cut compat.c into little pieces and move them to optlib
-* modify database to store per-file flags
-* store checksums and stat data in per-file flags
-
-optlib:
-* add fnmatch, IRIX5 doesn't have it
-
 start-stop-daemon
 * capabilities support
 * don't close FD's
 
 dpkg
-* integrate debconf (add new status)
 * allow external program to specify how to handle conffiles
 * try to remove directories again after removing conffiles
 * verify Enhances works (ie don't trigger some assertion)
-* refactor processarc.c
 * add test to see if a file should really be installed and optionally
   skip it
-* dpkg --reconfigure <pkg> <pkg>
-    <pkg>.postinst reconfigure <ver>
-    Fail if pkg is not in the configured state.
 * dpkg --call-maint-script=<script> --maint-script-arg=<arg>
   --maint-script-arg=<arg> <pkg> <pkg>
     dpkg will not allow <script> to be one of {pre,post}{inst,rm}.  Only
