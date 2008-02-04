@@ -1,9 +1,6 @@
 ## Process this file with automake to produce Makefile.in
 
-localedir = $(datadir)/locale
 INCLUDES = \
-	-DLOCALEDIR=\"$(localedir)\" \
-	-I$(top_srcdir)/lib \
 	-idirafter $(top_srcdir)/libcompat
 
 
