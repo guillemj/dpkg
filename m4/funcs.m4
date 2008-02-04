@@ -1,3 +1,5 @@
+# Copyright © 2008 Guillem Jover <guillem@debian.org>
+
 # DPKG_FUNC_VA_COPY
 # -----------------
 # Define HAVE_VA_COPY if we have va_copy, fail if they can't be assigned
@@ -26,3 +28,15 @@ v1 = v2;
 		       [dpkg_cv_va_list_copy=yes],
 		       [dpkg_cv_va_list_copy=no])])])
 ])# DPKG_FUNC_VA_COPY
+
+# DPKG_CHECK_COMPAT_FUNCS(LIST)
+# -----------------------
+# Check each function and define an automake conditional
+AC_DEFUN([DPKG_CHECK_COMPAT_FUNCS],
+[
+  AC_CHECK_FUNCS([$1])
+  m4_foreach_w([ac_func], [$1], [
+    AM_CONDITIONAL(HAVE_[]AS_TR_CPP(ac_func),
+                   [test "x$ac_cv_func_[]AS_TR_SH(ac_func)" = "xyes"])
+  ])
+]) # DPKG_CHECK_COMPAT_FUNCS

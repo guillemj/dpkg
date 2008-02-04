@@ -4,6 +4,7 @@ localedir = $(datadir)/locale
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" -DMKSPLITSCRIPT=\"$(pkglibdir)/mksplit\" \
+	-idirafter $(top_srcdir)/libcompat \
 	-I$(top_srcdir)/lib
 
 
@@ -17,7 +18,10 @@ dpkg_split_SOURCES = \
 	queue.c \
 	split.c
 
-dpkg_split_LDADD = $(LIBINTL) ../lib/libdpkg.a
+dpkg_split_LDADD = \
+	../libcompat/libcompat.a \
+	$(LIBINTL) \
+	../lib/libdpkg.a
 
 
 pkglib_SCRIPTS = mksplit

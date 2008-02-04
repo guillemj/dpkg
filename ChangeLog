@@ -1,5 +1,29 @@
 2008-02-03  Guillem Jover  <guillem@debian.org>
 
+	* m4/funcs.m4 (DPKG_CHECK_COMPAT_FUNCS): New macro.
+	* configure.ac (DPKG_CHECK_COMPAT_FUNCS): Check getopt, getopt_long
+	and obstack_free.
+	* libcompat/Makefile.am (libcompat_a_SOURCES): Set empty by default.
+	Only add 'getopt.c getopt.h' if !HAVE_GETOPT. Only add 'getopt1.c'
+	if !HAVE_GETOPT_LONG. Only add 'obstack.c obstack.h' if
+	!HAVE_OBSTACK_FREE.
+	(INCLUDES): Add '-idirafter $(top_srcdir)/libcompat'.
+	* dpkg-deb/Makefile.am (INCLUDES): Likewise.
+	* dpkg-split/Makefile.am (INCLUDES): Likewise.
+	* dselect/Makefile.am (INCLUDES): Likewise.
+	* lib/Makefile.am (INCLUDES): Likewise.
+	* src/Makefile.am (INCLUDES): Likewise.
+	* utils/Makefile.am (INCLUDES): Use -idirafter instead of -I for
+	'$(top_srcdir)/libcompat'.
+
+	* src/Makefile.am (dpkg_LDADD): Add '../libcompat/libcompat.a'.
+	(dpkg_query_LDADD): Likewise.
+	* dpkg-deb/Makefile.am (dpkg_deb_LDADD): Likewise.
+	* dpkg-split/Makefile.am (dpkg_split_LDADD): Likewise.
+	* dselect/Makefile.am (dselect_LDADD): Likewise.
+
+2008-02-03  Guillem Jover  <guillem@debian.org>
+
 	* libcompat/Makefile.am (libcompat_a_SOURCES): Remove closeout.c,
 	closeout.h, error.h, long-options.c and long-options.h.
 	* libcompat/closeout.c: Remove unused file.

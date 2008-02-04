@@ -3,7 +3,7 @@
 localedir = $(datadir)/locale
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" \
-	-I$(top_srcdir)/libcompat \
+	-idirafter $(top_srcdir)/libcompat \
 	-I$(top_srcdir)/lib
 
 

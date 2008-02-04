@@ -6,6 +6,7 @@ localedir = $(datadir)/locale
 INCLUDES = \
 	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" -DLIBDIR=\"$(pkglibdir)\" \
+	-idirafter $(top_srcdir)/libcompat \
 	-I$(top_srcdir)/lib
 
 
@@ -33,7 +34,11 @@ dselect_SOURCES = \
 	pkgsublist.cc \
 	pkgtop.cc
 
-dselect_LDADD = $(LIBINTL) ../lib/libdpkg.a $(CURSES_LIBS)
+dselect_LDADD = \
+	../libcompat/libcompat.a \
+	$(LIBINTL) \
+	$(CURSES_LIBS) \
+	../lib/libdpkg.a
 
 
 EXTRA_DIST = keyoverride mkcurkeys.pl
