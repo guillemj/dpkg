@@ -267,7 +267,9 @@ $oppackage = $fields->{'Package'};
 
 $package_type = $fields->{'Package-Type'} if (defined($fields->{'Package-Type'}));
 
-if ($package_type ne 'udeb') {
+if ($package_type eq 'udeb') {
+    delete $fields->{'Homepage'};
+} else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
         warning(_g("%s package with udeb specific field %s"), $package_type, $f)
             if defined($fields->{$f});
