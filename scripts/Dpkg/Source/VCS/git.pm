@@ -81,26 +81,11 @@ sub read_git_config {
 	my %ret;
 	open(GIT_CONFIG, '-|', "git", "config", "--file", $file, "--null", "-l") ||
 	    subprocerr("git config");
-	my ($key, $value);
+	local $/ = "\0";
 	while (<GIT_CONFIG>) {
-		if (! defined $key) {
-			$key=$_;
-			chomp $key;
-			$value="";
-		}
-		elsif (/(.*)\0(.*)/) {
-			$value.=$1;
-			push @{$ret{$key}}, $value;
-			$key=$2;
-			chomp $key;
-			$value="";
-		}
-		else {
-			$value.=$1;
-		}
-	}
-	if (defined $key && length $key) {
-		push @{$ret{$key}}, $value;
+	    chomp;
+	    my ($key, $value) = split(/\n/, $_, 2);
+	    push @{$ret{$key}}, $value;
 	}
 	close(GIT_CONFIG) || syserr(_g("git config exited nonzero"));
 
@@ -244,7 +229,11 @@ sub post_unpack_tar {
 		print GIT_CONFIG "\n# "._g("The following setting(s) were disabled by dpkg-source").":\n";
 		foreach my $field (sort keys %config) {
 			foreach my $value (@{$config{$field}}) {
+			    if (defined($value)) {
 				print GIT_CONFIG "# $field=$value\n";
+			    } else {
+				print GIT_CONFIG "# $field\n";
+			    }
 			}
 		}
 		close GIT_CONFIG;
