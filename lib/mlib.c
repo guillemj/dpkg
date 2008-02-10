@@ -67,6 +67,20 @@ void *m_realloc(void *r, size_t amount) {
   return r;
 }
 
+char *
+m_strdup(const char *str)
+{
+  char *new_str;
+
+  onerr_abort++;
+  new_str = strdup(str);
+  if (!new_str)
+    ohshite(_("failed to allocate memory"));
+  onerr_abort--;
+
+  return new_str;
+}
+
 static void print_error_forked(const char *emsg, const char *contextstring) {
   fprintf(stderr, _("%s (subprocess): %s\n"), thisname, emsg);
 }
@@ -157,7 +171,9 @@ off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc
     switch(data->type ^ BUFFER_WRITE_SETUP) {
       case BUFFER_WRITE_MD5:
 	{
-	  struct buffer_write_md5ctx *ctx = malloc(sizeof(struct buffer_write_md5ctx));
+	  struct buffer_write_md5ctx *ctx;
+
+	  ctx = m_malloc(sizeof(struct buffer_write_md5ctx));
 	  ctx->hash = data->data.ptr;
 	  data->data.ptr = ctx;
 	  MD5Init(&ctx->ctx);
@@ -173,7 +189,7 @@ off_t buffer_write(buffer_data_t data, void *buf, off_t length, const char *desc
 	  int i;
 	  unsigned char digest[16], *p = digest;
 	  struct buffer_write_md5ctx *ctx = (struct buffer_write_md5ctx *)data->data.ptr;
-	  unsigned char *hash = *ctx->hash = malloc(33);
+	  unsigned char *hash = *ctx->hash = m_malloc(33);
 	  MD5Final(digest, &ctx->ctx);
 	  for (i = 0; i < 16; ++i) {
 	    sprintf((char *)hash, "%02x", *p++);
@@ -302,8 +318,7 @@ off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, off_t limit
   if((limit!=-1) && (limit < bufsize)) bufsize= limit;
   if(bufsize == 0)
     return 0;
-  writebuf= buf= malloc(bufsize);
-  if(buf== NULL) ohshite(_("failed to allocate buffer in buffer_copy (%s)"), desc);
+  writebuf = buf= m_malloc(bufsize);
 
   while(bytesread >= 0 && byteswritten >= 0 && bufsize > 0) {
     bytesread= read_data->proc(read_data, buf, bufsize, desc);

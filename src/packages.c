@@ -45,7 +45,7 @@ struct pkginqueue {
   struct pkginfo *pkg;
 };
 
-static struct pkginqueue *queuehead= 0, **queuetail= &queuehead;
+static struct pkginqueue *queuehead = NULL, **queuetail = &queuehead;
 
 int queuelen=0, sincenothing=0, dependtry=0;
 
@@ -54,7 +54,7 @@ void add_to_queue(struct pkginfo *pkg) {
 
   newent= m_malloc(sizeof(struct pkginqueue));
   newent->pkg= pkg;
-  newent->next= 0;
+  newent->next = NULL;
   *queuetail= newent;
   queuetail= &newent->next;
 
@@ -79,7 +79,7 @@ void packages(const char *const *argv) {
       badusage(_("--%s --pending does not take any non-option arguments"),cipaction->olong);
 
     it= iterpkgstart();
-    while ((pkg= iterpkgnext(it)) != 0) {
+    while ((pkg = iterpkgnext(it)) != NULL) {
       switch (cipaction->arg) {
       case act_configure:
         if (pkg->status != stat_unpacked && pkg->status != stat_halfconfigured)
@@ -108,7 +108,7 @@ void packages(const char *const *argv) {
     if (!*argv)
       badusage(_("--%s needs at least one package name argument"), cipaction->olong);
     
-    while ((thisarg= *argv++) != 0) {
+    while ((thisarg = *argv++) != NULL) {
       pkg= findpackage(thisarg);
       if (pkg->status == stat_notinstalled) {
         l= strlen(pkg->name);
@@ -158,7 +158,7 @@ void process_queue(void) {
       default:
         internerr("unknown action in duplicate");
       }
-      rundown->pkg= 0;
+      rundown->pkg = NULL;
    } else {
       rundown->pkg->clientdata->istobe= istobe;
     }
@@ -206,7 +206,7 @@ void process_queue(void) {
     }
     if (ferror(stdout)) werr("stdout");
     if (ferror(stderr)) werr("stderr");
-    set_error_display(0,0);
+    set_error_display(NULL, NULL);
     error_unwind(ehflag_normaltidy);
   }
 }    
@@ -401,7 +401,7 @@ int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs) {
 
   debug(dbg_depcon, "    checking Breaks");
 
-  breaks_check_target(aemsgs, &ok, pkg, pkg, 0);
+  breaks_check_target(aemsgs, &ok, pkg, pkg, NULL);
 
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_provides) continue;
@@ -437,7 +437,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
         debug(dbg_depcondetail,"      break cycle so ok and found");
         found= 3; break;
       }
-      thisf= deppossi_ok_found(possi->ed,pkg,removing,0,
+      thisf = deppossi_ok_found(possi->ed, pkg, removing, NULL,
                                &matched,possi,&interestingwarnings,&oemsgs);
       if (thisf > found) found= thisf;
       if (found != 3 && possi->verrel == dvr_none) {
@@ -448,7 +448,7 @@ int dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
             if (provider->up->type != dep_provides) continue;
             debug(dbg_depcondetail,"     checking provider %s",provider->up->up->name);
             thisf= deppossi_ok_found(provider->up->up,pkg,removing,possi->ed,
-                                     &matched,0,&interestingwarnings,&oemsgs);
+                                     &matched, NULL, &interestingwarnings, &oemsgs);
             if (thisf > found) found= thisf;
           }
         }

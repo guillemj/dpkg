@@ -1,3 +1,575 @@
+2008-02-07  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-gencontrol.pl: Do not output the Homepage field on udeb.
+
+2008-02-04  Guillem Jover  <guillem@debian.org>
+
+	* libcompat/Makefile.am (localedir): Remove unused variable.
+	(INCLUDES): Do not pass -DLOCALEDIR nor -I$(top_srcdir)/lib.
+
+2008-02-03  Guillem Jover  <guillem@debian.org>
+
+	* m4/funcs.m4 (DPKG_CHECK_COMPAT_FUNCS): New macro.
+	* configure.ac (DPKG_CHECK_COMPAT_FUNCS): Check getopt, getopt_long
+	and obstack_free.
+	* libcompat/Makefile.am (libcompat_a_SOURCES): Set empty by default.
+	Only add 'getopt.c getopt.h' if !HAVE_GETOPT. Only add 'getopt1.c'
+	if !HAVE_GETOPT_LONG. Only add 'obstack.c obstack.h' if
+	!HAVE_OBSTACK_FREE.
+	(INCLUDES): Add '-idirafter $(top_srcdir)/libcompat'.
+	* dpkg-deb/Makefile.am (INCLUDES): Likewise.
+	* dpkg-split/Makefile.am (INCLUDES): Likewise.
+	* dselect/Makefile.am (INCLUDES): Likewise.
+	* lib/Makefile.am (INCLUDES): Likewise.
+	* src/Makefile.am (INCLUDES): Likewise.
+	* utils/Makefile.am (INCLUDES): Use -idirafter instead of -I for
+	'$(top_srcdir)/libcompat'.
+
+	* src/Makefile.am (dpkg_LDADD): Add '../libcompat/libcompat.a'.
+	(dpkg_query_LDADD): Likewise.
+	* dpkg-deb/Makefile.am (dpkg_deb_LDADD): Likewise.
+	* dpkg-split/Makefile.am (dpkg_split_LDADD): Likewise.
+	* dselect/Makefile.am (dselect_LDADD): Likewise.
+
+2008-02-03  Guillem Jover  <guillem@debian.org>
+
+	* libcompat/Makefile.am (libcompat_a_SOURCES): Remove closeout.c,
+	closeout.h, error.h, long-options.c and long-options.h.
+	* libcompat/closeout.c: Remove unused file.
+	* libcompat/closeout.h: Likewise.
+	* libcompat/error.h: Likewise.
+	* libcompat/long-options.c: Likewise.
+	* libcompat/long-options.h: Likewise.
+
+2008-02-03  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-shlibdeps.pl: Handle better the case when the
+	library found has a different soname than the one used to look up
+	the library file. Properly affect symbols coming from it to the
+	soname wanted by the binary, thus avoiding invalid warnings about
+	unused library.
+
+2008-01-31  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Always list all binary packages in
+	the Description field of generated .changes files.
+
+2008-01-30  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Warn if build-dependencies
+	are not satisfied during -S. Also warn that this might become
+	an error in the future.
+
+2008-01-30  Justin Pryzby  <jpryzby+d@quoininc.com>
+
+	* utils/start-stop-daemon.c (do_help): Clarify --name and --user
+	options.
+	(parse_options): Reword --make-pidfile badusage.
+	(pid_is_cmd): Fix typo in comment.
+	* man/start-stop-daemon.8: Cosmetic fixes. Document that --chuid
+	will change the group even if it has not been specified. Add EXIT
+	STATUS and EXAMPLE sections.
+
+2008-01-29  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Add a new -R option to be able to replace
+	"debian/rules" by something else. The replacement command can contain
+	parameters (and thus spaces). Fix -r option to also accept parameters.
+	* man/dpkg-buildpackage.1: Document the new option and the changed
+	behaviour of -r.
+
+2008-01-28  Guillem Jover  <guillem@debian.org>
+
+	* getopt: Rename to ...
+	* libcompat: ... this.
+	* configure.ac (AC_CONFIG_FILES): Likewise.
+	* Makefile.am (SUBDIRS): Likewise.
+	* utils/Makefile.am (INCLUDES): Likewise.
+	(start_stop_daemon_LDADD): Use '../libcompat/libcompat.a' instead of
+	'../getopt/libopt.a'.
+	* libcompat/Makefile.am (noinst_LIBRARIES): Rename 'libopt.a' to
+	'libcompat.a'.
+	(libopt_a_SOURCES): Rename to ...
+	(libcompat_a_SOURCES): ... this.
+
+2008-01-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* README.feature-removal-schedule: Deprecate support of substvars
+	in dpkg-source and dpkg-genchanges.
+	* README.feature-removal-schedule, README.api: Deprecate support
+	of custom changelog parsers that understand only the -v option.
+	* README.feature-removal-schedule: Deprecate support of PGP.
+
+2008-01-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm: Replace has_new_libs(),
+	has_lost_libs(), has_new_symbols() and has_lost_symbols() by
+	corresponding get_* functions.
+	* scripts/dpkg-gensymbsols.pl: Display list of new/lost libs. Also
+	display list of lost symbols when wildcards symbols have been
+	used.
+	* scripts/t/200_Dpkg_Shlibs.t: Adjust test suite to API change.
+
+2008-01-25  Andreas Påhlsson  <andreas.pahlsson@xcerion.com>
+
+	* utils/start-stop-daemon.c (tsub): Remove function.
+	(tmul): Fix normalization.
+	(run_stop_schedule): Use timersub instead of tsub.
+
+2008-01-24  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Warn if the current version is
+	smaller than the previous one.
+
+	* scripts/dpkg-checkbuilddeps.pl: Add support of options -d and -c to use
+	build dependencies/conflicts given on the command line instead of those
+	retrieved from debian/control.
+	* man/dpkg-checkbuilddeps.1: Document the new options.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/extract.c (extracthalf): Refactor fflush and its buggy
+	fpos handling to ...
+	(safe_fflush): ... here. New function.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* lib/vercmp.c [0] (verrevcmp): Remove dead code.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* lib/dpkg.h [!offsetof] (offsetof): New compatibilty macro.
+	* lib/parsedump.h (PKGIFPOFF): Use offsetof instead of ad-hoc
+	calculation.
+	(FILEFOFF): Likewise.
+	(struct fieldinfo): Change integer member type to size_t.
+	* lib/tarfn.c (TarChecksumOffset): Use offsetof instead of ad-hoc
+	calculation.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac (AC_CHECK_HEADERS): Check for 'stddef.h'.
+
+2008-01-21  Colin Watson  <cjwatson@debian.org>
+
+	* dselect/pkgkeys.cc (packagelist_korgbindings): Add 'C'.
+	(packagelist_kinterps): Add 'revertinstalled'.
+	* dselect/bindings.cc (keybindings::descriptions): Likewise.
+	* dselect/pkglist.h (class packagelist): Add kd_revertinstalled.
+	* dselect/pkgcmds.cc (packagelist::kd_revertinstalled): New method.
+	* man/dselect.1: Document new 'C' keybinding.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (getfi): Use m_malloc instead of malloc.
+	(do_build): Likewise.
+	* dpkg-deb/extract.c (extracthalf): Likewise.
+	* lib/mlib.c (buffer_write): Likewise.
+	(buffer_copy): Likewise.
+	* lib/myopt.c (loadcfgfile): Likewise.
+	* lib/parse.c (parsedb): Likewise.
+	* lib/showpkg.c (alloclstitem): Likewise.
+	(parsefield): Likewise.
+	(parsestring): Likewise.
+	* lib/tarfn.c (StoC): Likewise.
+	(TarExtractor): Likewise.
+	* src/archives.c (try_deconfigure_can): Likewise.
+	* src/main.c (execbackend): Likewise.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* lib/mlib.c (m_strdup): New function.
+	* lib/dpkg.h (m_strdup): New declaration.
+	* lib/tarfn.c: Include <dpkg.h>.
+	(TarExtractor): Use m_strdup instead of strdup.
+	* lib/database.c (findpackage): Likewise.
+	* lib/myopt.c (myfileopt): Likewise.
+	* dpkg-deb/build.c (getfi): Likewise.
+	* src/configure.c (md5hash): Likewise.
+	* src/help.c (vbuildarglist): Likewis.
+	* src/main.c (execbackend): Likewise.
+	(commandfd): Likewise.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Bump version to 1.14.17~.
+
+2008-01-26  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Release 1.14.16.6.
+
+2008-01-26  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-gensymbols: Don't scan directories which are
+	symlinks. They might point outside of the package build dir which
+	results in addition of libraries which are not in the package.
+	The libc6 package on amd64 is affected with a symlink "lib64" ->
+	"/lib".
+
+2008-01-24  Raphael Hertzog  <hertzog@debian.org>
+
+	* configure.ac: Release 1.14.16.5.
+
+2008-01-24  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (load): Remove the loaded file
+	from the %$seen hash at the end so that it's possible to include
+	multiple times the same file (at the same level and not from any
+	nested file obviously).
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm: Blacklist many armel specific
+	symbols.
+
+2008-01-23  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.16.4.
+
+2008-01-23  Guillem Jover  <guillem@debian.org>
+
+	* scripts/Dpkg/Cdata.pm: Import capit from Dpkg::Fields.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.16.3.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (tvselector): Remove typedef.
+	(tvselector_sec): Remove function.
+	(tvselector_usec): Likewise.
+	(TVCALC_ELEM): Remove macro.
+	(TVCALC): Likewise.
+	(tsub): New function.
+	(tmul): Likewise.
+	(run_stop_schedule): Use tsub and tmul instead of TVCALC. Make sure
+	the time is not negative.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (main): Only call initgroups if changeuser
+	is not NULL.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (gid_in_current_groups): Remove function.
+	(main): Call initgroups if the real user or group are different than
+	the ones we should switch to. Call setgid before initgroups.
+
+2008-01-22  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
+	scripts/dpkg-source.pl: Remove the IO-layer that converts to
+	UTF-8. It's not as smart as I expected.
+
+	* scripts/dpkg-genchanges.pl: Do not substitute variables on
+	the output.
+	* man/dpkg-genchanges.pl: Document this change.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.16.2.
+
+2008-01-22  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (main): Move setuid code after initgroups
+	and setgid.
+
+2008-01-21  Frank Lichtenheld  <djpig@debian.org>
+
+	* configure.ac: Release 1.14.16.1
+
+	* scripts/dpkg-source.pl: Fix "uninitialized value"
+	warning.
+
+	* debian/control: Add libtimedate-perl to
+	dpkg-dev's Depends and to Build-Depends (for
+	build-time tests). This introduces our first
+	run-time dependency on a perl module not shipped
+	with Perl itself. But to me it seems not worth
+	trying to replace that code.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac: Release 1.14.16.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* README.api: New file.
+	* README.feature-removal-schedule: Likewise.
+	* Makefile.am (EXTRA_DIST): Add README.feature-removal-schedule and
+	README.api.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac (AC_CHECK_FUNCS): Escape new lines.
+
+2008-01-21  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* src/processarc.c (process_archive): Fix incorrect sizeof in a
+	memset call.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (main): Cast runas_uid and runas_gid to
+	uid_t and gid_t when comparing to getuid() and getgid().
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac (AC_CHECK_FUNCS): Merge arguments from both macro
+	calls.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac (AM_GNU_GETTEXT): Add external.
+	(AC_CHECK_FUNCS): Add strtoul.
+	(AC_CONFIG_FILES): Remove 'intl/Makefile'.
+	* .gitignore: Remove intl.
+	* Makefile.am (SUBDIRS): Likewise.
+	* dpkg-deb/Makefile.am (INCLUDES): Remove '-I$(top_srcdir)/intl'.
+	* dpkg-split/Makefile.am (INCLUDES): Likewise.
+	* dselect/Makefile.am (INCLUDES): Likewise.
+	* getopt/Makefile.am (INCLUDES): Likewise.
+	* lib/Makefile.am (INCLUDES): Likewise.
+	* src/Makefile.am (INCLUDES): Likewise.
+	* utils/Makefile.am (INCLUDES): Likewise.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac (AC_CHECK_FUNCS): Add getdtablesize.
+	* utils/start-stop-daemon.c (get_open_fd_max): New function.
+	(main) [OShpux]: Remove.
+	[!OShpux]: Use get_open_fd_max instead of hardcoded getdtablesize.
+
+2008-01-21  Guillem Jover  <guillem@debian.org>
+
+	* man/start-stop-daemon.8: Fix quotation to get rid of a spurious
+	space between -c option and comma.
+
+2008-01-20  Guillem Jover  <guillem@debian.org>
+
+	* man/start-stop-daemon.8: Coalesce all matching options into a new
+	section. List matching options by reference in the description
+	section.
+
+2008-01-20  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (do_version): Change from 'Mandatory' to
+	'Matching'. Suggested by Justin Pryzby.
+
+2008-01-20  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Move most functions to end of file
+	to allow better reading of the program flow. This is a remnant of
+	the shell script past.
+
+2008-01-19  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-buildpackage.pl: Use
+	Dpkg::Changelog::parse_changelog() instead of calling
+	dpkg-parsechangelog.
+
+	* scripts/dpkg-checkbuilddeps.pl: Fix a bug left-over from the
+	switch to Dpkg::Control.
+
+2008-01-18  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm,
+	scripts/Dpkg/Shlibs/Objdump.pm, scripts/Dpkg/Shlibs.pm: Update and
+	fix many syserr(), error(), warning() and subprocerr() calls to
+	the new style where the sprintf call is integrated. Uniformize
+	some error messages at the same time.
+
+2008-01-18  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (load): Parse *@<version>
+	symbols names as wildcards and not as regular symbols. They
+	provide the same dependency information for all symbols that share
+	the same version.
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (merge_symbols): Use
+	information provided by wildcards entries when new symbols are
+	added.
+	* scripts/dpkg-gensymbols.pl: Disable some checks which can't be
+	done when symbols files have been generated with the help of
+	wildcard entries.
+	* man/dpkg-gensymbols.1: Update the manual page to explain how to
+	use wildcard entries.
+
+2008-01-18  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/changelog/debian.pl: Don't hide failures inside eval().
+	* scripts/Dpkg/Changelog.pm (data2rfc822): Don't fail if argument
+	is undef.
+
+2008-01-18  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Changelog.pm (parse_changelog): Rewrite it completely
+	to not call dpkg-parsechangelog but do the work of this program by itself.
+	* scripts/dpkg-parsechangelog.pl: Rewrote it to use the enhanced
+	parse_changelog() function.
+	* scripts/dpkg-genchanges.pl, script/dpkg-gencontrol.pl: Adapted to use
+	the modified parse_changelog().
+	* scripts/dpkg-gensymbols.pl, scripts/dpkg-source.pl: Likewise.
+
+	* scripts/dpkg-genchanges.pl: Change logic of -si option to
+	include the original tarball only if the current upstream version differs
+	from the upstream version of the previous changelog entry.
+
+	* scripts/dpkg-genchanges.pl: Some code refactoring. Also fix the
+	generation of the Description field to not have duplicate description
+	in case of udeb (a single description per binary package is enough).
+	Source only uploads will loose their Description: fields since they
+	have no associated binary packages and Descriptions are only added
+	for binary packages where we have a corresponding .deb to upload.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
+	* m4/arch.m4 (_DPKG_ARCHITECTURE): Do not use backticks inside double
+	quotes, to support ancient shells.
+	* m4/libs.m4 (DPKG_LIB_SELINUX): Likewise.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (do_help): Coalesce mandatory options
+	into a single paragraph, and state that at least one is required.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
+	* configure.ac (AC_CHECK_SIZEOF): Quote parameters.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
+	* THANKS: Add all the people that have contributed until now.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
+	* src/remove.c (ensure_pathname_nonexisting): Additionally check if
+	errno is EEXIST after calling rmdir, per SUSv3 when the directory
+	is not empty errno can be ENOTEMPTY or EEXIST.
+	* src/help.c (removal_bulk_remove_files): Likewise.
+	(removal_bulk_remove_leftover_dirs): Likewise.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
+	* scripts/update-alternatives.pl: Stop parsing '--test' as a valid
+	option.
+	($testmode): Remove variable.
+	(usage): Remove '--test' option help.
+	* man/update-alternatives.8: Remove '--test' documentation.
+
+2008-01-18  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (do_help): Add missing semicolon.
+
+2008-01-17  Guillem Jover  <guillem@debian.org>
+
+	* THANKS: Convert to UTF-8.
+
+2008-01-17  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (do_help): Move version printing to ...
+	(do_version): ... here. New function.
+	(main): Call do_version instead of printf.
+
+2008-01-17  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-genchanges.pl: Reinstate support of the ${Format}
+	substvars.
+
+2008-01-17  Samuel Thibault  <samuel.thibault@ens-lyon.org>,
+            Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (gid_in_current_groups): New function.
+	(main): Call setuid only if requested to run as a different user
+	than the current one. Call setgid only if requested to run as a group
+	different than the current one, and initgroups only if the groups is
+	not part of the supplementary groups.
+
+2008-01-16  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/changelog/debian.pl: Restore the old default behaviour
+	to parse STDIN. Also fix the -l option to specify a label for the
+	parsed input, but the actual file. Still allow --file to be used for
+	that. Use the new inhandle option of parse() to pass STDIN directly.
+	This should be faster and removes the implicit dependency on
+	IO::String.
+
+	* scripts/Dpkg/Changelog/Debian.pm (parse): Accept input in
+	configuration item 'inhandle'. Allow to override the name of the
+	file (used for reporting) with configuration item 'reportfile'.
+	* scripts/Dpkg/Changelog.pm (init): Call parse if 'inhandle' is given.
+
+	* scripts/dpkg-parsechangelog.pl: Remove one superfluous %s from a
+	formatstring which was used to output $! before syserr() was used
+	instead.
+
+2008-01-16  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (do_stop): Do not print messages when
+	running on quiet and test modes.
+	(run_stop_schedule): Likewise.
+	(main): Likewise.
+
+2008-01-16  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c (do_pidfile): Cache pid value over
+	multiple calls.
+
+2008-01-16  Guillem Jover  <guillem@debian.org>
+
+	* utils/start-stop-daemon.c: Fix indentation.
+
+2008-01-16  Guillem Jover  <guillem@debian.org>
+
+	* scripts/dpkg-divert.pl: Use :errno_h from POSIX.
+	($enoent): Remove variable.
+	(ENOENT): Remove function.
+	* scripts/update-alternatives.pl: Likewise.
+	* utils/Makefile.am (pkglib_PROGRAMS): Remove variable.
+	(enoent_SOURCES): Likewise.
+	* utils/enoent.c: Remove file.
+
+2008-01-16  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/build.c (do_build): Use NULL instead of 0.
+	* dpkg-deb/extract.c (extracthalf, do_fsystarfile): Likewise.
+	* dpkg-deb/info.c (info_prepare, info_spew): Likewise.
+	(do_contents, do_field): Likewise.
+	* dpkg-deb/main.c (cipaction, action, cmdinfos, main): Likewise.
+	* dpkg-split/join.c (do_join): Likewise.
+	* dpkg-split/queue.c (do_auto): Likewise.
+	* lib/dpkg.h (standard_startup, standard_shutdown): Likewise.
+	* src/archives.c (destroyobstack, deconfigure, addfiletolist)
+	(tarobject, check_breaks, check_conflict, archivefiles)
+	(newconff_append): Likewise.
+	* src/configure.c (deferred_configure, conffderef, md5hash): Likewise.
+	* src/depcon.c (findbreakcyclerecursive, findbreakcycle)
+	(depisok): Likewise.
+	* src/enquiry.c (limiteddescription, badstatinfos, unpackchk)
+	(assertversion, assertpredep, assertepoch, assertlongfilenames)
+	(assertmulticonrep, predeppackage, cmpversions): Likewise.
+	* src/errors.c (reports, print_error_perpackage): Likewise.
+	* src/filesdb.c (diversions, diversionsfile, statoverridefile)
+	(ensure_packagefiles_available, ensure_allinstfiles_available)
+	(write_filelist_except, reversefilelist_init, reversefilelist_next)
+	(ensure_diversions, iterfilestart, iterfilenext, filesdbinit)
+	(findnamenode): Likewise.
+	* src/help.c (checkpath, ensure_package_clientdata
+	(vbuildarglist, cu_restorescriptsignals, script_catchsignals)
+	(clear_istobes): Likewise.
+	* src/main.c (cipaction, ignoredepends, forceinfos)
+	(ACTION, OBSOLETE, ACTIONBACKEND, cmdinfos)
+	(execbackend, commandfd, main): Likewise.
+	* src/packages.c (queuehead, add_to_queue, packages, process_queue)
+	(breakses_ok, dependencies_ok): Likewise.
+	* src/processarc.c (process_archive): Likewise.
+	* src/remove.c (deferred_remove, removal_bulk_remove_files)
+	(removal_bulk_remove_leftover_dirs, removal_bulk_remove_configfiles)
+	(removal_bulk): Likewise.
+	* src/update.c (updateavailable): Likewise.
+	* utils/start-stop-daemon.c (xgettimeofday, run_stop_schedule)
+	(parse_options): Likewise.
+	(pid_is_cmd, pid_is_user, pid_is_exec) [HAVE_KVM_H]: Likewise.
+
 2008-01-15  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-shlibdeps.pl (filter_deps): Fix filtering of

@@ -39,7 +39,7 @@ use English;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning report syserr subprocerr);
+use Dpkg::ErrorHandling qw(warning report syserr subprocerr error);
 use Dpkg::Cdata;
 use Dpkg::Fields;
 
@@ -64,7 +64,7 @@ There are currently no supported general configuration options, but
 see the other methods for more specific configuration options which
 can also specified to C<init>.
 
-If C<infile> or C<instring> are specified (see L<parse>), C<parse()>
+If C<infile>, C<inhandle>, or C<instring> are specified, C<parse()>
 is called from C<init>. If a fatal error is encountered during parsing
 (e.g. the file can't be opened), C<init> will not return a
 valid object but C<undef>!
@@ -82,7 +82,9 @@ sub init {
 
     $self->reset_parse_errors;
 
-    if ($self->{config}{infile} || $self->{config}{instring}) {
+    if ($self->{config}{infile}
+	|| $self->{config}{inhandle}
+	|| $self->{config}{instring}) {
 	defined($self->parse) or return undef;
     }
 
@@ -132,8 +134,10 @@ an array of arrays. Each of these arrays contains
 
 =item 1.
 
-the filename of the parsed file or C<String> if a string was
-parsed directly
+the filename of the parsed file or C<FileHandle> or C<String>
+if the input came from a file handle or a string. If the
+reportfile configuration option was given, its value will be
+used instead
 
 =item 2.
 
@@ -569,7 +573,7 @@ specified B<version> itself.
 
 =back
 
-The following options also supported by all output methods but
+The following options are also supported by all output methods but
 don't take version numbers as values:
 
 =over 4
@@ -662,10 +666,12 @@ sub data2rfc822 {
 	}
 
 	return join "\n", @rfc822;
-    } else {
+    } elsif (ref($data)) {
 	my $rfc822_str = $data->output;
 
 	return $rfc822_str;
+    } else {
+	return;
     }
 }
 
@@ -689,24 +695,123 @@ sub get_dpkg_changes {
 
 =pod
 
-=head3 parse_changelog($file, $format, $since)
+=head3 my $fields = parse_changelog(%opt)
 
-Calls "dpkg-parsechangelog -l$file -F$format -v$since"  and returns a
-Dpkg::Fields::Object with the values output by the program.
+This function will parse a changelog. In list context, it return as many
+Dpkg::Fields::Object as the parser did output. In scalar context, it will
+return only the first one. If the parser didn't return any data, it will
+return an empty in list context or undef on scalar context. If the parser
+failed, it will die.
+
+The parsing itself is done by an external program (searched in the
+following list of directories: $opt{libdir},
+/usr/local/lib/dpkg/parsechangelog, /usr/lib/dpkg/parsechangelog) That
+program is named according to the format that it's able to parse. By
+default it's either "debian" or the format name lookep up in the 40 last
+lines of the changelog itself (extracted with this perl regular expression
+"\schangelog-format:\s+([0-9a-z]+)\W"). But it can be overriden
+with $opt{changelogformat}. The program expects the content of the
+changelog file on its standard input.
+
+The changelog file that is parsed is debian/changelog by default but it
+can be overriden with $opt{file}.
+
+All the other keys in %opt are forwarded as parameter to the external
+parser. If the key starts with "-", it's passed as is. If not, it's passed
+as "--<key>". If the value of the corresponding hash entry is defined, then
+it's passed as the parameter that follows.
 
 =cut
 sub parse_changelog {
-    my ($changelogfile, $changelogformat, $since) = @_;
+    my (%options) = @_;
+    my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
+                      "$dpkglibdir/parsechangelog");
+    my $format = "debian";
+    my $changelogfile = "debian/changelog";
+    my $force = 0;
 
-    my @exec = ('dpkg-parsechangelog');
-    push(@exec, "-l$changelogfile");
-    push(@exec, "-F$changelogformat") if defined($changelogformat);
-    push(@exec, "-v$since") if defined($since);
+    # Extract and remove options that do not concern the changelog parser
+    # itself (and that we shouldn't forward)
+    if (exists $options{"libdir"}) {
+	unshift @parserpath, $options{"libdir"};
+	delete $options{"libdir"};
+    }
+    if (exists $options{"file"}) {
+	$changelogfile = $options{"file"};
+	delete $options{"file"};
+    }
+    if (exists $options{"changelogformat"}) {
+	$format = $options{"changelogformat"};
+	delete $options{"changelogformat"};
+	$force = 1;
+    }
+    # XXX: For compatibility with old parsers, don't use --since but -v
+    # This can be removed later (in lenny+1 for example)
+    if (exists $options{"since"}) {
+	my $since = $options{"since"};
+	$options{"-v$since"} = undef;
+	delete $options{"since"};
+    }
 
-    open(PARSECH, "-|", @exec) || syserr(_g("fork for parse changelog"));
-    my $fields = parsecdata(\*PARSECH, _g("parsed version of changelog"));
-    close(PARSECH) || subprocerr(_g("parse changelog"));
-    return $fields;
+    # Extract the format from the changelog file if possible
+    unless($force or ($changelogfile eq "-")) {
+	open(P, "-|", "tail", "-n", "40", $changelogfile);
+	while(<P>) {
+	    $format = $1 if m/\schangelog-format:\s+([0-9a-z]+)\W/;
+	}
+	close(P) or subprocerr(_g("tail of %s"), $changelogfile);
+    }
+
+    # Find the right changelog parser
+    my $parser;
+    foreach my $dir (@parserpath) {
+        my $candidate = "$dir/$format";
+	next if not -e $candidate;
+	if (-x _) {
+	    $parser = $candidate;
+	    last;
+	} else {
+	    warning(_g("format parser %s not executable"), $candidate);
+	}
+    }
+    error(_g("changelog format %s is unknown"), $format) if not defined $parser;
+
+    # Create the arguments for the changelog parser
+    my @exec = ($parser, "-l$changelogfile");
+    foreach (keys %options) {
+	if (m/^-/) {
+	    # Options passed untouched
+	    push @exec, $_;
+	} else {
+	    # Non-options are mapped to long options
+	    push @exec, "--$_";
+	}
+	push @exec, $options{$_} if defined($options{$_});
+    }
+
+    # Fork and call the parser
+    my $pid = open(P, "-|");
+    syserr(_g("fork for %s"), $parser) unless defined $pid;
+    if (not $pid) {
+	if ($changelogfile ne "-") {
+	    open(STDIN, "<", $changelogfile) or
+		syserr(_g("cannot open %s"), $changelogfile);
+	}
+	exec(@exec) || syserr(_g("cannot exec format parser: %s"), $parser);
+    }
+
+    # Get the output into several Dpkg::Fields::Object
+    my (@res, $fields);
+    while ($fields = parsecdata(\*P, _g("output of changelog parser"))) {
+	push @res, $fields;
+    }
+    close(P) or subprocerr(_g("changelog parser %s"), $parser);
+    if (wantarray) {
+	return @res;
+    } else {
+	return $res[0] if (@res);
+	return undef;
+    }
 }
 
 =head1 NAME

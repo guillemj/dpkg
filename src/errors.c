@@ -46,7 +46,7 @@ struct error_report {
   const char *what;
 };
 
-static struct error_report *reports=0;
+static struct error_report *reports = NULL;
 static struct error_report **lastreport= &reports;
 static struct error_report emergency;
 
@@ -81,7 +81,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
     nr= &emergency;
   }
   nr->what= arg;
-  nr->next= 0;
+  nr->next = NULL;
   *lastreport= nr;
   lastreport= &nr->next;
     

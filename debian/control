@@ -1,8 +1,9 @@
 Source: dpkg
 Section: admin
 Priority: required
-Maintainer: Dpkg Developers <team@dpkg.org>
-Uploaders: Frank Lichtenheld <djpig@debian.org>, Guillem Jover <guillem@debian.org>, Brendan O'Dea <bod@debian.org>, Christian Perrier <bubulle@debian.org>
+Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>
+Uploaders: Frank Lichtenheld <djpig@debian.org>,
+ Guillem Jover <guillem@debian.org>, Raphael Hertzog <hertzog@debian.org>
 Origin: debian
 Bugs: debbugs://bugs.debian.org
 Homepage: http://wiki.debian.org/Teams/Dpkg
@@ -12,15 +13,14 @@ Standards-Version: 3.7.3
 Build-Depends: debhelper (>= 4.1.81), pkg-config, po4a (>= 0.23),
  libncurses5-dev | libncurses-dev, zlib1g-dev (>= 1:1.1.3-19.1), libbz2-dev,
  libselinux1-dev (>= 1.28-4) [!hurd-i386 !kfreebsd-i386 !kfreebsd-amd64],
- libio-string-perl
+ libtimedate-perl, libio-string-perl
 
 Package: dpkg
 Architecture: any
 Essential: yes
 Pre-Depends: ${shlibs:Depends}, coreutils (>= 5.93-1)
-Breaks: dpkg-dev (= 1.14.13), dpkg-dev (= 1.14.14)
 Conflicts: sysvinit (<< 2.82-1), dpkg-iasearch (<< 0.11), dpkg-static,
- dpkg-dev (<< 1.14.6)
+ dpkg-dev (<< 1.14.6), dpkg-dev (= 1.14.13), dpkg-dev (= 1.14.14)
 Replaces: dpkg-doc-ja, dpkg-static, manpages-de (<= 0.4-3),
  manpages-pl (<= 20051117-1)
 Suggests: apt, lzma
@@ -36,8 +36,8 @@ Section: utils
 Priority: optional
 Architecture: all
 Depends: dpkg (>= 1.14.6), perl5, perl-modules, cpio (>= 2.4.2-2), bzip2, lzma,
- patch (>= 2.2-1), make, binutils
-Recommends: gcc | c-compiler
+ patch (>= 2.2-1), make, binutils, libtimedate-perl
+Recommends: gcc | c-compiler, build-essential
 Suggests: gnupg, debian-keyring
 Conflicts: dpkgname, dpkg-cross (<< 2.0.0)
 Replaces: dpkgname, dpkg (<< 1.4.1.8), dpkg-doc-ja, manpages-pl (<= 20051117-1)
@@ -49,7 +49,7 @@ Description: package building tools for Debian
  for example, most packages need the `make' and the C compiler `gcc'.
 
 Package: dselect
-Priority: important
+Priority: optional
 Architecture: any
 Depends: ${shlibs:Depends}, dpkg (>= 1.13.1)
 Replaces: dpkg (<< 1.10.3)

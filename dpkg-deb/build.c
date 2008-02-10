@@ -101,7 +101,7 @@ static struct _finfo* getfi(const char* root, int fd) {
 
   if (fn == NULL) {
     fnlen = rl + MAXFILENAME;
-    fn=(char*)malloc(fnlen);
+    fn = m_malloc(fnlen);
   } else if (fnlen < (rl + MAXFILENAME)) {
     fnlen = rl + MAXFILENAME;
     fn=(char*)realloc(fn,fnlen);
@@ -131,9 +131,9 @@ static struct _finfo* getfi(const char* root, int fd) {
       ohshit(_("file name '%.50s...' is too long"), fn + rl + 1);
   }
 
-  fi=(struct _finfo*)malloc(sizeof(struct _finfo));
+  fi = m_malloc(sizeof(struct _finfo));
   lstat(fn, &(fi->st));
-  fi->fn=strdup(fn+rl+1);
+  fi->fn = m_strdup(fn + rl + 1);
   fi->next=NULL;
   return fi;
 }
@@ -169,7 +169,7 @@ static void free_filist(struct _finfo* fi) {
  */
 void do_build(const char *const *argv) {
   static const char *const maintainerscripts[]= {
-    PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, 0
+    PREINSTFILE, POSTINSTFILE, PRERMFILE, POSTRMFILE, NULL
   };
   
   char *m;
@@ -193,11 +193,12 @@ void do_build(const char *const *argv) {
   /* template for our tempfiles */
   if ((envbuf= getenv("TMPDIR")) == NULL)
     envbuf= P_tmpdir;
-  tfbuf = (char *)malloc(strlen(envbuf)+13);
+  tfbuf = m_malloc(strlen(envbuf) + 13);
   strcpy(tfbuf,envbuf);
   strcat(tfbuf,"/dpkg.XXXXXX");
   subdir= 0;
-  if ((debar= *argv++) !=0) {
+  debar = *argv++;
+  if (debar != NULL) {
     if (*argv) badusage(_("--build takes at most two arguments"));
     if (debar) {
       if (stat(debar,&debarstab)) {
@@ -340,7 +341,8 @@ void do_build(const char *const *argv) {
    * build something. Lets start by making the ar-wrapper.
    */
   if (!(ar=fopen(debar,"wb"))) ohshite(_("unable to create `%.255s'"),debar);
-  if (setvbuf(ar, 0, _IONBF, 0)) ohshite(_("unable to unbuffer `%.255s'"),debar);
+  if (setvbuf(ar, NULL, _IONBF, 0))
+    ohshite(_("unable to unbuffer `%.255s'"), debar);
   /* Fork a tar to package the control-section of the package */
   m_pipe(p1);
   if (!(c1= m_fork())) {
@@ -379,7 +381,7 @@ void do_build(const char *const *argv) {
     if (fprintf(ar, "%-8s\n%ld\n", OLDARCHIVEVERSION, (long)controlstab.st_size) == EOF)
       werr(debar);
   } else {
-    thetime= time(0);
+    thetime = time(NULL);
     if (fprintf(ar,
                 "!<arch>\n"
                 "debian-binary   %-12lu0     0     100644  %-10ld`\n"

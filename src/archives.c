@@ -149,7 +149,7 @@ static void ensureobstackinit(void) {
 /* destroy the obstack */
 static void destroyobstack(void) {
   if (tarobs_init) {
-    obstack_free(&tar_obs, 0);
+    obstack_free(&tar_obs, NULL);
     tarobs_init= 0;
   }
 }
@@ -234,7 +234,7 @@ int fnameidlu;
 struct varbuf fnamevb;
 struct varbuf fnametmpvb;
 struct varbuf fnamenewvb;
-struct packageinlist *deconfigure= 0;
+struct packageinlist *deconfigure = NULL;
 
 static time_t currenttime;
 
@@ -322,7 +322,9 @@ struct fileinlist *addfiletolist(struct tarcontext *tc,
   
   nifd= obstack_alloc(&tar_obs, sizeof(struct fileinlist));
   nifd->namenode= namenode;
-  nifd->next= 0; *tc->newfilesp= nifd; tc->newfilesp= &nifd->next;
+  nifd->next = NULL;
+  *tc->newfilesp = nifd;
+  tc->newfilesp = &nifd->next;
   return nifd;
 }
 
@@ -583,7 +585,7 @@ int tarobject(struct TarInfo *ti) {
   if (keepexisting) {
     obstack_free(&tar_obs, nifd);
     tc->newfilesp= oldnifd;
-    *oldnifd = 0;
+    *oldnifd = NULL;
 
     /* We need to advance the tar file to the next object, so read the
      * file data and set it to oblivion.
@@ -602,7 +604,7 @@ int tarobject(struct TarInfo *ti) {
    * if something goes wrong.  Watch out for the CLEANUP comments to
    * keep an eye on what's installed on the disk at each point.
    */
-  push_cleanup(cu_installnew,~ehflag_normaltidy, 0,0, 1,(void*)nifd);
+  push_cleanup(cu_installnew, ~ehflag_normaltidy, NULL, 0, 1, (void *)nifd);
 
   /* CLEANUP: Now we either have the old file on the disk, or not, in
    * its original filename.
@@ -648,7 +650,7 @@ int tarobject(struct TarInfo *ti) {
      */
     fd= open(fnamenewvb.buf, (O_CREAT|O_EXCL|O_WRONLY), 0);
     if (fd < 0) ohshite(_("unable to create `%.255s'"),ti->Name);
-    push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,&fd);
+    push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
     debug(dbg_eachfiledetail,"tarobject NormalFile[01] open size=%lu",
           (unsigned long)ti->Size);
     { char fnamebuf[256];
@@ -868,7 +870,7 @@ static int try_deconfigure_can(int (*force_p)(struct deppossi*),
       }
     }
     pkg->clientdata->istobe= itb_deconfigure;
-    newdeconf= malloc(sizeof(struct packageinlist));
+    newdeconf = m_malloc(sizeof(struct packageinlist));
     newdeconf->next= deconfigure;
     newdeconf->pkg= pkg;
     newdeconf->xinfo= removal;
@@ -898,7 +900,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
 
   varbufinit(&why);
 
-  fixbydeconf= 0;
+  fixbydeconf = NULL;
   if (depisok(dep, &why, &fixbydeconf, 0)) {
     varbuffree(&why);
     return;
@@ -918,7 +920,7 @@ void check_breaks(struct dependency *dep, struct pkginfo *pkg,
             fixbydeconf->name, action);
 
     ok= try_deconfigure_can(force_breaks, fixbydeconf, dep->list,
-                            action, 0, why.buf);
+                            action, NULL, why.buf);
     if (ok == 1) {
       fprintf(stderr, _("dpkg: yes, will deconfigure %s (broken by %s).\n"),
               fixbydeconf->name, pkg->name);
@@ -957,7 +959,7 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
   varbufinit(&conflictwhy);
   varbufinit(&removalwhy);
 
-  fixbyrm= 0;
+  fixbyrm = NULL;
   if (depisok(dep, &conflictwhy, &fixbyrm, 0)) {
     varbuffree(&conflictwhy);
     varbuffree(&removalwhy);
@@ -981,14 +983,15 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
         fprintf(stderr,
                 _("%s is not properly installed - ignoring any dependencies on it.\n"),
                 fixbyrm->name);
-        pdep= 0;
+        pdep = NULL;
       } else {
         for (pdep= fixbyrm->installed.depended;
              pdep;
              pdep= pdep->nextrev) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
             continue;
-          if (depisok(pdep->up, &removalwhy, 0,0)) continue;
+          if (depisok(pdep->up, &removalwhy, NULL, 0))
+            continue;
           varbufaddc(&removalwhy,0);
           if (!try_remove_can(pdep,fixbyrm,removalwhy.buf))
             break;
@@ -1004,7 +1007,8 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
                  pdep= pdep->nextrev) {
               if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends)
                 continue;
-              if (depisok(pdep->up, &removalwhy, 0,0)) continue;
+              if (depisok(pdep->up, &removalwhy, NULL, 0))
+                continue;
               varbufaddc(&removalwhy,0);
               fprintf(stderr, _("dpkg"
                       ": may have trouble removing %s, as it provides %s ...\n"),
@@ -1117,7 +1121,7 @@ void archivefiles(const char *const *argv) {
       arglist[i++] = "-type";
       arglist[i++] = "f";
       arglist[i++] = "-print0";
-      arglist[i++] = 0;
+      arglist[i++] = NULL;
       execvp(FIND, (char *const *)arglist);
       ohshite(_("failed to exec find for --recursive"));
     }
@@ -1148,7 +1152,7 @@ void archivefiles(const char *const *argv) {
       arglist[i++]= p;
       while ((c= *p++) != 0);
     }
-    arglist[i]= 0;
+    arglist[i] = NULL;
     argp= arglist;
 
   } else {
@@ -1159,7 +1163,7 @@ void archivefiles(const char *const *argv) {
     
   }
 
-  currenttime= time(0);
+  currenttime = time(NULL);
 
   varbufinit(&fnamevb);
   varbufinit(&fnametmpvb);
@@ -1173,7 +1177,7 @@ void archivefiles(const char *const *argv) {
   ensure_diversions();
   ensure_statoverrides();
   
-  while ((thisarg= *argp++) != 0) {
+  while ((thisarg = *argp++) != NULL) {
     if (setjmp(ejbuf)) {
       error_unwind(ehflag_bombout);
       if (onerr_abort > 0) break;
@@ -1185,7 +1189,7 @@ void archivefiles(const char *const *argv) {
     if (ferror(stdout)) werr("stdout");
     if (ferror(stderr)) werr("stderr");
     onerr_abort--;
-    set_error_display(0,0);
+    set_error_display(NULL, NULL);
     error_unwind(ehflag_normaltidy);
   }
 
@@ -1271,7 +1275,7 @@ struct fileinlist *newconff_append(struct fileinlist ***newconffileslastp_io,
   struct fileinlist *newconff;
 
   newconff= m_malloc(sizeof(struct fileinlist));
-  newconff->next= 0;
+  newconff->next = NULL;
   newconff->namenode= namenode;
   **newconffileslastp_io= newconff;
   *newconffileslastp_io= &newconff->next;

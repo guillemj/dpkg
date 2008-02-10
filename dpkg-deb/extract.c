@@ -85,6 +85,24 @@ parseheaderlength(const char *inh, size_t len,
   return (size_t)r;
 }
 
+static int
+safe_fflush(FILE *f)
+{
+#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
+  /* XXX: Glibc 2.1 and some versions of Linux want to make fflush()
+   * move the current fpos. Remove this code some time. */
+  fpos_t fpos;
+
+  if (fgetpos(f, &fpos))
+    ohshit(_("failed getting the current file position"));
+  fflush(f);
+  if (fsetpos(f, &fpos))
+    ohshit(_("failed setting the current file position"));
+#else
+  fflush(f);
+#endif
+}
+
 void extracthalf(const char *debar, const char *directory,
                  const char *taroption, int admininfo) {
   char versionbuf[40];
@@ -93,7 +111,7 @@ void extracthalf(const char *debar, const char *directory,
   size_t ctrllennum, memberlen= 0;
   int dummy, l= 0;
   pid_t c1=0,c2,c3;
-  unsigned char *ctrlarea= 0;
+  unsigned char *ctrlarea = NULL;
   int p1[2], p2[2];
   FILE *ar, *pi;
   struct stat stab;
@@ -101,9 +119,6 @@ void extracthalf(const char *debar, const char *directory,
   char *cur;
   struct ar_hdr arh;
   int readfromfd, oldformat= 0, header_done, adminmember;
-#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  fpos_t fpos;
-#endif
   enum compress_type compress_type = compress_type_gzip;
   
   ar= fopen(debar,"r"); if (!ar) ohshite(_("failed to read archive `%.255s'"),debar);
@@ -210,9 +225,7 @@ void extracthalf(const char *debar, const char *directory,
                  (long) (stab.st_size - ctrllennum - strlen(ctrllenbuf) - l)) == EOF ||
           fflush(stdout)) werr("stdout");
     
-    ctrlarea = malloc(ctrllennum);
-    if (!ctrlarea)
-      ohshite(_("failed allocating memory for variable `ctrlarea'"));
+    ctrlarea = m_malloc(ctrllennum);
 
     errno=0; if (fread(ctrlarea,1,ctrllennum,ar) != ctrllennum)
       readfail(ar, debar, _("control area"));
@@ -230,15 +243,8 @@ void extracthalf(const char *debar, const char *directory,
 
   }
 
-#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  if (fgetpos(ar, &fpos))
-    ohshit(_("failed getting the current file position"));
-#endif
-  fflush(ar);
-#if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
-  if (fsetpos(ar, &fpos))
-    ohshit(_("failed setting the current file position"));
-#endif
+  safe_fflush(ar);
+
   if (oldformat) {
     if (admininfo) {
       m_pipe(p1);
@@ -344,7 +350,7 @@ void do_fsystarfile(const char *const *argv) {
     badusage(_("--%s needs a .deb filename argument"),cipaction->olong);
   if (*argv)
     badusage(_("--%s takes only one argument (.deb filename)"),cipaction->olong);
-  extracthalf(debar,0,0,0);
+  extracthalf(debar, NULL, NULL, 0);
 }
    
 void do_control(const char *const *argv) { controlextractvextract(1, "x", argv); }

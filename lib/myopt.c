@@ -75,7 +75,8 @@ void myfileopt(const char* fn, const struct cmdinfo* cmdinfos) {
     if (cip->takesvalue) {
       if (!opt) ohshite(_("configuration error: %s needs a value"), linebuf);
       if (cip->call) cip->call(cip,opt);
-      else *cip->sassignto= strdup(opt);
+      else
+        *cip->sassignto = m_strdup(opt);
     } else {
       if (opt) ohshite(_("configuration error: %s does not take a value"), linebuf);
       if (cip->call) cip->call(cip,NULL);
@@ -90,16 +91,14 @@ void loadcfgfile(const char *prog, const struct cmdinfo* cmdinfos) {
   char *home, *file;
   int l1, l2;
   l1 = strlen(CONFIGDIR "/.cfg") + strlen(prog);
-  file = malloc(l1 + 1);
-  if (file==NULL) ohshite(_("Error allocating memory for cfgfilename"));
+  file = m_malloc(l1 + 1);
   sprintf(file, CONFIGDIR "/%s.cfg", prog);
   myfileopt(file, cmdinfos);
   if ((home = getenv("HOME")) != NULL) {
     l2 = strlen(home) + 1 + strlen("/.cfg") + strlen(prog);
     if (l2 > l1) {
       free(file);
-      file = malloc(l2 + 1);
-      if (file==NULL) ohshite(_("Error allocating memory for cfgfilename"));
+      file = m_malloc(l2 + 1);
     }
     sprintf(file, "%s/.%s.cfg", home, prog);
     myfileopt(file, cmdinfos);

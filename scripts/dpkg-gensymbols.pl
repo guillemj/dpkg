@@ -15,7 +15,6 @@ use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
-my $changelogfile = 'debian/changelog';
 my $packagebuilddir = 'debian/tmp';
 
 my $sourceversion;
@@ -109,7 +108,7 @@ if (exists $ENV{DPKG_GENSYMBOLS_CHECK_LEVEL}) {
 }
 
 if (not defined($sourceversion)) {
-    my $changelog = parse_changelog($changelogfile);
+    my $changelog = parse_changelog();
     $sourceversion = $changelog->{"Version"};
 }
 if (not defined($oppackage)) {
@@ -141,7 +140,9 @@ if (not scalar @files) {
     foreach my $path (@librarypaths) {
 	my $libdir = "$packagebuilddir$path";
 	$libdir =~ s{/+}{/}g;
-	next if not -d $libdir;
+	lstat $libdir;
+	next if not -d _;
+	next if -l _; # Skip directories which are symlinks
 	opendir(DIR, "$libdir") ||
 	    syserr(_g("Can't read directory %s: %s"), $libdir, $!);
 	push @files, grep {
@@ -199,40 +200,65 @@ if ($compare) {
     use File::Temp;
     use Digest::MD5;
     # Compare
-    if ($symfile->has_new_libs($ref_symfile)) {
-	warning(_g("new libraries appeared in the symbols file."));
+    if (my @libs = $symfile->get_new_libs($ref_symfile)) {
+	warning(_g("new libraries appeared in the symbols file: %s"), "@libs");
 	$exitcode = 4 if ($compare >= 4);
     }
-    if ($symfile->has_lost_libs($ref_symfile)) {
-	warning(_g("some libraries disappeared in the symbols file."));
+    if (my @libs = $symfile->get_lost_libs($ref_symfile)) {
+	warning(_g("some libraries disappeared in the symbols file: %s"), "@libs");
 	$exitcode = 3 if ($compare >= 3);
     }
-    if ($symfile->has_new_symbols($ref_symfile)) {
-	warning(_g("some new symbols appeared in the symbols file."));
-	$exitcode = 2 if ($compare >= 2);
+    if ($symfile->get_new_symbols($ref_symfile)) {
+	unless ($symfile->used_wildcards()) {
+	    # Wildcards are used to replace many additional symbols, so we
+	    # have no idea if this is really true, so don't say it and
+	    # don't check it
+	    warning(_g("some new symbols appeared in the symbols file: %s"),
+		    _g("see diff output below"));
+	    $exitcode = 2 if ($compare >= 2);
+	}
     }
-    if ($symfile->has_lost_symbols($ref_symfile)) {
-	warning(_g("some symbols disappeared in the symbols file."));
+    if (my @syms = $symfile->get_lost_symbols($ref_symfile)) {
+	my $list = _g("see diff output below");
+	if ($symfile->used_wildcards()) {
+	    # If wildcards are used, we don't get a diff, so list
+	    # explicitely symbols which are lost
+	    $list = "\n";
+	    my $cur_soname = "";
+	    foreach my $sym (sort { $a->{soname} cmp $b->{soname} or
+				    $a->{name} cmp $b->{name} } @syms) {
+		if ($cur_soname ne $sym->{soname}) {
+		    $list .= $sym->{soname} . "\n";
+		    $cur_soname = $sym->{soname};
+		}
+		$list .= " " . $sym->{name} . "\n";
+	    }
+	}
+	warning(_g("some symbols disappeared in the symbols file: %s"), $list);
 	$exitcode = 1 if ($compare >= 1);
     }
-    # Output diffs between symbols files if needed
-    my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-    my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
-    $ref_symfile->dump($before); $symfile->dump($after);
-    seek($before, 0, 0); seek($after, 0, 0);
-    my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
-    $md5_before->addfile($before);
-    $md5_after->addfile($after);
-    if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
-	if (defined($ref_symfile->{file})) {
-	    warning(_g("%s doesn't match completely %s\n"),
-		    $output, $ref_symfile->{file});
-	} else {
-	    warning(_g("no debian/symbols file used as basis for generating %s\n"),
-	            $output);
+    unless ($symfile->used_wildcards()) {
+	# If wildcards are not used, we can compare symbols files before
+	# and after
+	my $before = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
+	my $after = File::Temp->new(TEMPLATE=>'dpkg-gensymbolsXXXXXX');
+	$ref_symfile->dump($before); $symfile->dump($after);
+	seek($before, 0, 0); seek($after, 0, 0);
+	my ($md5_before, $md5_after) = (Digest::MD5->new(), Digest::MD5->new());
+	$md5_before->addfile($before);
+	$md5_after->addfile($after);
+	# Output diffs between symbols files if any
+	if ($md5_before->hexdigest() ne $md5_after->hexdigest()) {
+	    if (defined($ref_symfile->{file})) {
+		warning(_g("%s doesn't match completely %s"),
+			$output, $ref_symfile->{file});
+	    } else {
+		warning(_g("no debian/symbols file used as basis for generating %s"),
+			$output);
+	    }
+	    my ($a, $b) = ($before->filename, $after->filename);
+	    system("diff", "-u", $a, $b) if -x "/usr/bin/diff";
 	}
-	my ($a, $b) = ($before->filename, $after->filename);
-	system("diff", "-u", $a, $b) if -x "/usr/bin/diff";
     }
 }
 exit($exitcode);

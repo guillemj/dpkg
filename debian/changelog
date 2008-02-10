@@ -1,10 +1,148 @@
-dpkg (1.14.16) UNRELEASED; urgency=low
+dpkg (1.14.17) UNRELEASED; urgency=low
+
+  [ Guillem Jover ]
+  * Replace strdup plus error checking usage with a new m_strdup function.
+    Closes: #379028
+  * Add new keybinding in dselect to restore all selections back to
+    whatever's currently installed. Closes: #151540
+    Thanks to Colin Watson.
+  * Use system timersub and fix timeval normalization in multiplication in
+    start-stop-daemon. Thanks to Andreas Påhlsson. Closes: #462225
+  * Cosmetic fixes to start-stop-daemon output and man page. Document that
+    --chuid will change the group even if it has not been specified. Add
+    EXIT STATUS and EXAMPLE sections to man page. Thanks to Justin Pryzby.
+  * Add Raphael Hertzog to Uploaders, and remove Brendan O'Dea and
+    Christian Perrier with their permission.
+  * Use functions from libcompat when those are not provided by the system.
+  * Change dpkg-gencontrol to not output the Homapage field on udeb.
+
+  [ Raphael Hertzog ]
+  * Add a warning displayed by dpkg-genchanges if the current version is
+    smaller than the previous one. Closes: #4655
+  * Add -d and -c options in dpkg-checkbuilddeps to override
+    build-depends/conflicts. Closes: #114774
+  * Include list of libraries in dpkg-gensymbols' warning about new/lost
+    libraries.
+  * Add -R option to dpkg-buildpackage so that one can replace the usual
+    "debian/rules" by something else. Closes: #355654
+  * Always list all binary packages in the Description: field of .changes
+    files. It's nice for reviewers and mentors.debian.net was using this field
+    on source only uploads to display short description of what the package is
+    about.
+  * Handle the case when the library has a different SONAME than the one used
+    to find it. Closes: #462413
+
+  [ Frank Lichtenheld ]
+  * Add a warning in dpkg-buildpackage if the build-dependencies are not
+    satisfied during -S. Closes: #445552
+  * Add a missing space in the German scripts translation. Closes: #463398
+
+  [ Updated dpkg translations ]
+  * Korean (Changwoo Ryu).
+  * Romanian (Eddy Petrișor).
+
+  [ Updated manpages translations ]
+  * German (Helge Kreutzmann).
+
+  [ Updated scripts translations ]
+  * German (Helge Kreutzmann).
+  * Swedish (Peter Karlsson).
+
+  [ Updated dselect translations ]
+  * Romanian (Eddy Petrișor).
+
+ -- Eddy Petrișor <eddy.petrisor@gmail.com>  Sat, 09 Feb 2008 13:22:38 +0200
+
+dpkg (1.14.16.6) unstable; urgency=medium
+
+  * Let dpkg-gensymbols skip directories which are just symlinks when scanning
+    the package build dir.
+  * Bump urgency to medium to compensate lost days in testing migration due to
+    the two last uploads.
+
+ -- Raphael Hertzog <hertzog@debian.org>  Sat, 26 Jan 2008 19:20:40 +0100
+
+dpkg (1.14.16.5) unstable; urgency=low
+
+  * Fix dpkg-gensymbols handling of #include so that one can include multiple
+    times the same file and have it properly taken into account.
+  * Add many armel-specific symbols to dpkg-gensymbols' blacklist.
+    Closes: #462318
+
+ -- Raphael Hertzog <hertzog@debian.org>  Thu, 24 Jan 2008 14:20:10 +0100
+
+dpkg (1.14.16.4) unstable; urgency=low
+
+  * Import capit in Dpkg::Cdata from Dpkg::Fields. Closes: #462172
+
+ -- Guillem Jover <guillem@debian.org>  Wed, 23 Jan 2008 08:44:32 +0200
+
+dpkg (1.14.16.3) unstable; urgency=low
+
+  [ Raphael Hertzog ]
+  * Remove the ":utf8" layer that utf8-encodes already valid utf8.
+    Closes: #462098
+  * Disable variable substitution in dpkg-genchanges. Closes: #462079, #462089
+
+  [ Guillem Jover ]
+  * Make start-stop-daemon set the supplementary groups if the real user or
+    group are different than the ones we should switch to. Closes: #462075
+  * Fix segfault in start-stop-daemon when using --group w/o --chuid (as
+    a side effect, using --group alone works for the first time in years).
+    Closes: #462072
+  * Fix timeout computations for start-stop-daemon --retry option. This has
+    not worked properly for a long time (maybe never), but came to light
+    due to #460903's fix. Closes: #462104
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 22 Jan 2008 23:39:59 +0200
+
+dpkg (1.14.16.2) unstable; urgency=low
+
+  * Change uid after changing gid and initializing supplementary groups in
+    start-stop-daemon. Closes: #462018
+  * Change temporary dpkg Breaks on dpkg-dev (= 1.14.13) and (= 1.14.14)
+    to Conflicts, so that users from etch can upgrade to sid (or lenny
+    once dpkg has migrated).
+
+ -- Guillem Jover <guillem@debian.org>  Tue, 22 Jan 2008 13:05:22 +0200
+
+dpkg (1.14.16.1) unstable; urgency=low
+
+  * Add libtimedate-perl to dpkg-dev's Depends and to Build-Depends.
+    Reported by Aurelien Jarno. Closes: #461875
+
+ -- Frank Lichtenheld <djpig@debian.org>  Mon, 21 Jan 2008 12:48:51 +0100
+
+dpkg (1.14.16) unstable; urgency=low
 
   [ Guillem Jover ]
   * Add build-essential as an implicit Build-Depends in dpkg-checkbuilddeps.
     Closes: #402901
+  * Add build-essential to dpkg-dev Recommends.
   * Do not warn about unrecognized Homepage field in binary package stanzas
     in dpkg-genchanges and dpkg-source. Closes: #460309
+  * Do not use the enoent helper binary, and use perl POSIX module instead.
+  * Keep checking for the process when start-stop-daemon is called with
+    --retry even if the daemon removed the pidfile. Closes: #460903
+    Thanks to Justin Pryzby for the analysis.
+  * Make --quiet silence --test in start-stop-daemon. Closes: #367998
+  * Check current uid and gid in start-stop-daemon before calling setuid,
+    setgid and initgroups. Closes: #222524
+    Based on a patch by Samuel Thibault.
+  * Remove unimplemented --test option from update-alternatives.
+    Closes: #392432, #461247
+  * Additionally check if errno is EEXIST after rmdir(2), as SUSv3 specifies
+    that on non-empty directories it can either return that or ENOTEMPTY.
+    This fixes run time problems on Solaris.
+  * Fix start-stop-daemon --help output to state that --name is one of the
+    possible required options to use. Closes: #354999
+  * Demote dselect from priority important to optional. Closes: #461327
+  * Fix portability issues on HP-UX, by not using backticks inside double
+    quotes in m4 files. Closes: #24514
+  * Switch Maintainer address to <debian-dpkg@lists.debian.org> from
+    <team@dpkg.org>.
+  * Add README.feature-removal-schedule describing the features to be removed
+    and README.api describing the provided APIs.
 
   [ Frank Lichtenheld ]
   * Make the -L option of dpkg-parsechangelog actually work (it's
@@ -35,6 +173,17 @@ dpkg (1.14.16) UNRELEASED; urgency=low
     lesser priority (when -d is used).
   * Fix behaviour of dpkg-shlibdeps when the same binary was passed multiple
     times for use in different dependency fields (-d option).
+  * Change logic of -si option of dpkg-genchanges to include the original
+    tarball only if the current upstream version differs from the upstream
+    version of the previous changelog entry. Replaces the heuristic based
+    on revision number (-0, -0.1 or -1). Closes: #28701
+  * Some code refactoring on dpkg-genchanges and bug fixes in the generation
+    of the Description: field. As a result, source only uploads will no more
+    have Description fields.
+  * Add support of wildcard entries in symbols files. This makes it much
+    simpler to write symbols files for well managed libraries but in that case
+    dpkg-gensymbols can't check any more if symbols have disappeared.
+    Closes: #459359
 
   [ Updated manpages translations ]
   * Fix typo in French. Closes: #460021
@@ -48,9 +197,10 @@ dpkg (1.14.16) UNRELEASED; urgency=low
   * Russian (Yuri Kozlov). Closes: #460708
 
   [ Updated scripts translations ]
-  * Russian (Yuri Kozlov). Closes: #460708
+  * Russian (Yuri Kozlov). Closes: #460709
+  * Swedish (Peter Karlsson).
 
- -- Jacobo Tarrio <jtarrio@debian.org>  Sat, 12 Jan 2008 12:27:22 +0000
+ -- Guillem Jover <guillem@debian.org>  Mon, 21 Jan 2008 10:00:45 +0200
 
 dpkg (1.14.15) unstable; urgency=low
 

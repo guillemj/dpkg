@@ -18,6 +18,7 @@ use Dpkg::Cdata;
 use Dpkg::Substvars;
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Version qw(parseversion compare_versions);
 
 textdomain("dpkg-dev");
 
@@ -64,6 +65,7 @@ my $forcechangedby;
 my $since;
 
 my $substvars = Dpkg::Substvars->new();
+$substvars->set("Format", $changes_format);
 
 use constant SOURCE     => 1;
 use constant ARCH_DEP   => 2;
@@ -110,7 +112,7 @@ Options:
   -m<maintainer>           override control's maintainer value.
   -e<maintainer>           override changelog's maintainer value.
   -u<uploadfilesdir>       directory with files (default is \`..').
-  -si (default)            src includes orig for debian-revision 0 or 1.
+  -si (default)            src includes orig if new upstream.
   -sa                      source includes orig src.
   -sd                      source is diff and .dsc only.
   -q                       quiet - no informational messages on stderr.
@@ -157,6 +159,7 @@ while (@ARGV) {
 	$since= $POSTMATCH;
     } elsif (m/^-T/) {
 	$varlistfile= $POSTMATCH;
+	warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-m/) {
 	$forcemaint= $POSTMATCH;
     } elsif (m/^-e/) {
@@ -180,10 +183,31 @@ while (@ARGV) {
     }
 }
 
-my $changelog = parse_changelog($changelogfile, $changelogformat, $since);
+# Retrieve info from the current changelog entry
+my %options = (file => $changelogfile);
+$options{"changelogformat"} = $changelogformat if $changelogformat;
+$options{"since"} = $since if $since;
+my $changelog = parse_changelog(%options);
+# Change options to retrieve info of the former changelog entry
+delete $options{"since"};
+$options{"count"} = 1;
+$options{"offset"} = 1;
+my ($prev_changelog, $bad_parser);
+eval { # Do not fail if parser failed due to unsupported options
+    $prev_changelog = parse_changelog(%options);
+};
+$bad_parser = 1 if ($@);
+# Other initializations
 my $control = Dpkg::Control->new($controlfile);
 my $fields = Dpkg::Fields::Object->new();
 $substvars->set_version_substvars($changelog->{"Version"});
+$substvars->parse($varlistfile) if -e $varlistfile;
+
+if (defined($prev_changelog) and
+    compare_versions($changelog->{"Version"}, '<', $prev_changelog->{"Version"})) {
+    warning(_g("the current version (%s) is smaller than the previous one (%s)"),
+	$changelog->{"Version"}, $prev_changelog->{"Version"});
+}
 
 if (not is_sourceonly) {
     open(FL,"<",$fileslistfile) || &syserr(_g("cannot read files list file"));
@@ -247,54 +271,51 @@ foreach $_ (keys %{$src_fields}) {
 foreach my $pkg ($control->get_packages()) {
     my $p = $pkg->{"Package"};
     my $a = $pkg->{"Architecture"};
+    my $d = $pkg->{"Description"} || "no description available";
+    $d = $1 if $d =~ /^(.*)\n/;
+
+    my @f; # List of files for this binary package
+    push @f, @{$p2f{$p}} if defined $p2f{$p};
+
+    # Add description of all binary packages
+    my $desc = sprintf("%-10s - %-.65s", $p, $d);
+    $desc .= " (udeb)" if (grep(/\.udeb$/, @f)); # XXX: Check Package-Type field instead
+    push @descriptions, $desc;
+
+    if (not defined($p2f{$p})) {
+	# No files for this package... warn if it's unexpected
+	if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
+	    (grep(debarch_is($host_arch, $_), split(/\s+/, $a))
+		  and ($include & ARCH_DEP))) {
+	    warning(_g("package %s in control file but not in files list"),
+		    $p);
+	}
+	next; # and skip it
+    }
+
+    $p2arch{$p} = $a;
+
     foreach $_ (keys %{$pkg}) {
 	my $v = $pkg->{$_};
-	if (!defined($p2f{$p}) && not is_sourceonly) {
-	    if ((debarch_eq('all', $a) and ($include & ARCH_INDEP)) ||
-		(grep(debarch_is($host_arch, $_), split(/\s+/, $a))
-		      and ($include & ARCH_DEP))) {
-		warning(_g("package %s in control file but not in files list"),
-		        $p);
-		next;
-	    }
-	} else {
-	    my @f;
-	    @f = @{$p2f{$p}} if defined($p2f{$p});
-	    $p2arch{$p}=$a;
 
-	    if (m/^Description$/) {
-		$v=$PREMATCH if $v =~ m/\n/;
-		my %d;
-		# dummy file to get each description at least once (e.g. -S)
-		foreach my $f (("", @f)) {
-		    my $desc = sprintf("%-10s - %-.65s%s", $p, $v,
-				       $f =~ m/\.udeb$/ ? " (udeb)" : '');
-		    $d{$desc}++;
-		}
-		push @descriptions, keys %d;
-	    } elsif (m/^Section$/) {
-		$f2seccf{$_} = $v foreach (@f);
-	    } elsif (m/^Priority$/) {
-		$f2pricf{$_} = $v foreach (@f);
-	    } elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
-		$fields->{$_} = $v;
-	    } elsif (m/^Architecture$/) {
-		if (not is_sourceonly) {
-		    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
-			and ($include & ARCH_DEP)) {
-			$v = $host_arch;
-		    } elsif (!debarch_eq('all', $v)) {
-			$v = '';
-		    }
-		} else {
-		    $v = '';
-		}
-		push(@archvalues,$v) unless !$v || $archadded{$v}++;
-	    } elsif (m/^$control_pkg_field_regex$/ || m/^X[BS]+-/i) {
-		# Silently ignore valid fields
-	    } else {
-		unknown(_g("package's section of control info file"));
+	if (m/^Section$/) {
+	    $f2seccf{$_} = $v foreach (@f);
+	} elsif (m/^Priority$/) {
+	    $f2pricf{$_} = $v foreach (@f);
+	} elsif (s/^X[BS]*C[BS]*-//i) { # Include XC-* fields
+	    $fields->{$_} = $v;
+	} elsif (m/^Architecture$/) {
+	    if (grep(debarch_is($host_arch, $_), split(/\s+/, $v))
+		and ($include & ARCH_DEP)) {
+		$v = $host_arch;
+	    } elsif (!debarch_eq('all', $v)) {
+		$v = '';
 	    }
+	    push(@archvalues,$v) unless !$v || $archadded{$v}++;
+	} elsif (m/^$control_pkg_field_regex$/ || m/^X[BS]+-/i) {
+	    # Silently ignore valid fields
+	} else {
+	    unknown(_g("package's section of control info file"));
 	}
     }
 }
@@ -392,7 +413,25 @@ if (!is_binaryonly) {
 	$f2pri{$f} = $pri;
     }
 
-    if (($sourcestyle =~ m/i/ && $sversion !~ m/-(0|1|0\.1)$/ ||
+    # Compare upstream version to previous upstream version to decide if
+    # the .orig tarballs must be included
+    my $include_tarball;
+    if (defined($prev_changelog)) {
+	my %cur = parseversion($changelog->{"Version"});
+	my %prev = parseversion($prev_changelog->{"Version"});
+	$include_tarball = ($cur{"version"} ne $prev{"version"}) ? 1 : 0;
+    } else {
+	if ($bad_parser) {
+	    # The parser doesn't support extracting a previous version
+	    # Fallback to version check
+	    $include_tarball = ($sversion =~ /-(0|1|0\.1)$/) ? 1 : 0;
+	} else {
+	    # No previous entry means first upload, tarball required
+	    $include_tarball = 1;
+	}
+    }
+
+    if ((($sourcestyle =~ m/i/ && not($include_tarball)) ||
 	 $sourcestyle =~ m/d/) &&
 	grep(m/\.diff\.$comp_regex$/,@sourcefiles)) {
 	$origsrcmsg= _g("not including original source code in upload");
@@ -411,7 +450,7 @@ if (!is_binaryonly) {
 print(STDERR "$progname: $origsrcmsg\n") ||
     &syserr(_g("write original source message")) unless $quiet;
 
-$fields->{'Format'} = $changes_format;
+$fields->{'Format'} = $substvars->get("Format");
 
 if (!defined($fields->{'Date'})) {
     chomp(my $date822 = `date -R`);
@@ -480,8 +519,6 @@ for my $f (keys %remove) {
     delete $fields->{$f};
 }
 
-binmode(STDOUT, ":utf8");
-$substvars->parse($varlistfile) if -e $varlistfile;
 tied(%{$fields})->set_field_importance(@changes_fields);
-tied(%{$fields})->output(\*STDOUT, $substvars);
+tied(%{$fields})->output(\*STDOUT); # Note: no substitution of variables
 

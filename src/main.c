@@ -147,7 +147,7 @@ const char printforhelp[]= N_(
 "\n"
 "Options marked [*] produce a lot of output - pipe it through `less' or `more' !");
 
-const struct cmdinfo *cipaction= 0;
+const struct cmdinfo *cipaction = NULL;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
 unsigned long f_debug=0;
@@ -162,7 +162,7 @@ int fc_badverify = 0;
 int errabort = 50;
 const char *admindir= ADMINDIR;
 const char *instdir= "";
-struct packageinlist *ignoredependss=0;
+struct packageinlist *ignoredependss = NULL;
 
 static const struct forceinfo {
   const char *name;
@@ -190,7 +190,7 @@ static const struct forceinfo {
   { "bad-verify",          &fc_badverify                },
   /* FIXME: obsolete options, remove in the future. */
   { "auto-select",         NULL                         },
-  {  0                                                  }
+  {  NULL                                               }
 };
 
 static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
@@ -268,7 +268,7 @@ static void ignoredepends(const struct cmdinfo *cip, const char *value) {
   }
   p= copy;
   while (*p) {
-    pnerr= illegal_packagename(p,0);
+    pnerr = illegal_packagename(p, NULL);
     if (pnerr) ohshite(_("--ignore-depends requires a legal package name. "
                        "`%.250s' is not; %s"), p, pnerr);
     ni= m_malloc(sizeof(struct packageinlist));
@@ -384,11 +384,11 @@ static const struct cmdinfo cmdinfos[]= {
    * have a very similar structure.
    */
 #define ACTION(longopt,shortopt,code,function) \
- { longopt, shortopt, 0,0,0, setaction, code, 0, (voidfnp)function }
+ { longopt, shortopt, 0, NULL, NULL, setaction, code, NULL, (voidfnp)function }
 #define OBSOLETE(longopt,shortopt) \
- { longopt, shortopt, 0,0,0, setobsolete, 0, 0, 0 }
+ { longopt, shortopt, 0, NULL, NULL, setobsolete, 0, NULL, NULL }
 #define ACTIONBACKEND(longopt,shortop, backend) \
- { longopt, shortop, 0,0,0, setaction, 0, (void*)backend, (voidfnp)execbackend }
+ { longopt, shortop, 0, NULL, NULL, setaction, 0, (void *)backend, (voidfnp)execbackend }
 
   ACTION( "install",                        'i', act_install,              archivefiles    ),
   ACTION( "unpack",                          0,  act_unpack,               archivefiles    ),
@@ -422,34 +422,38 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "command-fd",                   'c', act_commandfd,   commandfd     ),
 */
   
-  { "status-fd",	  0,   1,  0,              0,  setpipe, 0, &status_pipes },
-  { "log",                0,   1,  0, &log_file,       0                             },
-  { "pending",           'a',  0,  &f_pending,     0,  0,             1              },
-  { "recursive",         'R',  0,  &f_recursive,   0,  0,             1              },
-  { "no-act",             0,   0,  &f_noact,       0,  0,             1              },
-  { "dry-run",            0,   0,  &f_noact,       0,  0,             1              },
-  { "simulate",           0,   0,  &f_noact,       0,  0,             1              },
-  { "no-debsig",          0,   0,  &f_nodebsig,    0,  0,             1              },
-  {  0,                  'G',  0,  &fc_downgrade,  0,  0, /* alias for --refuse */ 0 },
-  { "selected-only",     'O',  0,  &f_alsoselect,  0,  0,             0              },
-  { "no-also-select",    'N',  0,  &f_alsoselect,  0,0,0 /* fixme: remove sometime */ },
-  { "skip-same-version", 'E',  0,  &f_skipsame,    0,  0,             1              },
-  { "auto-deconfigure",  'B',  0,  &f_autodeconf,  0,  0,             1              },
+  { "status-fd",         0,   1, NULL,          NULL,      setpipe, 0, &status_pipes },
+  { "log",               0,   1, NULL,          &log_file, NULL,    0 },
+  { "pending",           'a', 0, &f_pending,    NULL,      NULL,    1 },
+  { "recursive",         'R', 0, &f_recursive,  NULL,      NULL,    1 },
+  { "no-act",            0,   0, &f_noact,      NULL,      NULL,    1 },
+  { "dry-run",           0,   0, &f_noact,      NULL,      NULL,    1 },
+  { "simulate",          0,   0, &f_noact,      NULL,      NULL,    1 },
+  { "no-debsig",         0,   0, &f_nodebsig,   NULL,      NULL,    1 },
+  /* Alias ('G') for --refuse. */
+  {  NULL,               'G', 0, &fc_downgrade, NULL,      NULL,    0 },
+  { "selected-only",     'O', 0, &f_alsoselect, NULL,      NULL,    0 },
+  /* FIXME: Remove ('N') sometime. */
+  { "no-also-select",    'N', 0, &f_alsoselect, NULL,      NULL,    0 },
+  { "skip-same-version", 'E', 0, &f_skipsame,   NULL,      NULL,    1 },
+  { "auto-deconfigure",  'B', 0, &f_autodeconf, NULL,      NULL,    1 },
   OBSOLETE( "largemem", 0 ),
   OBSOLETE( "smallmem", 0 ),
-  { "root",               0,   1,  0, 0,               setroot                       },
-  { "abort-after",        0,   1,  &errabort,      0,  setinteger,    0              },
-  { "admindir",           0,   1,  0, &admindir,       0                             },
-  { "instdir",            0,   1,  0, &instdir,        0                             },
-  { "ignore-depends",     0,   1,  0, 0,               ignoredepends                 },
-  { "force",              0,   2,  0, 0,               setforce,      1              },
-  { "refuse",             0,   2,  0, 0,               setforce,      0              },
-  { "no-force",           0,   2,  0, 0,               setforce,      0              },
-  { "debug",             'D',  1,  0, 0,               setdebug                      },
-  { "help",              'h',  0,  0, 0,               helponly                      },
-  { "version",            0,   0,  0, 0,               versiononly                   },
-  { "licence",/* UK spelling */ 0,0,0,0,               showcopyright                 },
-  { "license",/* US spelling */ 0,0,0,0,               showcopyright                 },
+  { "root",              0,   1, NULL,          NULL,      setroot,       0 },
+  { "abort-after",       0,   1, &errabort,     NULL,      setinteger,    0 },
+  { "admindir",          0,   1, NULL,          &admindir, NULL,          0 },
+  { "instdir",           0,   1, NULL,          &instdir,  NULL,          0 },
+  { "ignore-depends",    0,   1, NULL,          NULL,      ignoredepends, 0 },
+  { "force",             0,   2, NULL,          NULL,      setforce,      1 },
+  { "refuse",            0,   2, NULL,          NULL,      setforce,      0 },
+  { "no-force",          0,   2, NULL,          NULL,      setforce,      0 },
+  { "debug",             'D', 1, NULL,          NULL,      setdebug,      0 },
+  { "help",              'h', 0, NULL,          NULL,      helponly,      0 },
+  { "version",           0,   0, NULL,          NULL,      versiononly,   0 },
+  /* UK spelling. */
+  { "licence",           0,   0, NULL,          NULL,      showcopyright, 0 },
+  /* US spelling. */
+  { "license",           0,   0, NULL,          NULL,      showcopyright, 0 },
   ACTIONBACKEND( "build",		'b', BACKEND),
   ACTIONBACKEND( "contents",		'c', BACKEND),
   ACTIONBACKEND( "control",		'e', BACKEND),
@@ -460,7 +464,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTIONBACKEND( "old",			0,  BACKEND),
   ACTIONBACKEND( "vextract",		'X', BACKEND),
   ACTIONBACKEND( "fsys-tarfile",	0,   BACKEND),
-  {  0,                   0                                                          }
+  { NULL,                0,   0, NULL,          NULL,      NULL,          0 }
 };
 
 void execbackend(const char *const *argv) {
@@ -471,7 +475,7 @@ void execbackend(const char *const *argv) {
   const char *const *arg = argv;
   int pass_admindir = 0;
 
-  while (*arg != 0) {
+  while (*arg != NULL) {
     arg++; argc++;
   }
 
@@ -485,38 +489,27 @@ void execbackend(const char *const *argv) {
     pass_admindir = 1;
   }
 
-  nargv = malloc(sizeof(char *) * (argc + 2));
-  if (!nargv)
-    ohshite(_("couldn't malloc in execbackend"));
+  nargv = m_malloc(sizeof(char *) * (argc + 2));
+  nargv[i] = m_strdup(cipaction->parg);
 
-  nargv[i] = strdup(cipaction->parg);
-  if (!nargv[i])
-    ohshite(_("couldn't strdup in execbackend"));
   i++, offset++;
 
   if (pass_admindir) {
-    nargv[i] = malloc((strlen("--admindir=") + strlen(admindir) + 1));
-    if (!nargv[i])
-      ohshite(_("couldn't malloc in execbackend"));
-
+    nargv[i] = m_malloc((strlen("--admindir=") + strlen(admindir) + 1));
     sprintf(nargv[i], "--admindir=%s", admindir);
     i++, offset++;
   }
 
-  nargv[i] = malloc(2 + strlen(cipaction->olong) + 1);
-  if (!nargv[i])
-    ohshite(_("couldn't malloc in execbackend"));
+  nargv[i] = m_malloc(2 + strlen(cipaction->olong) + 1);
   strcpy(nargv[i], "--");
   strcat(nargv[i], cipaction->olong);
   i++, offset++;
 
   /* Copy arguments from argv to nargv. */
-  for (; i <= argc; i++) {
-    nargv[i] = strdup(argv[i - offset]);
-    if (!nargv[i])
-      ohshite(_("couldn't strdup in execbackend"));
-  }
-  nargv[i] = 0;
+  for (; i <= argc; i++)
+    nargv[i] = m_strdup(argv[i - offset]);
+
+  nargv[i] = NULL;
 
   execvp(cipaction->parg, nargv);
   ohshite(_("failed to exec %s"), (char *)cipaction->parg);
@@ -550,7 +543,7 @@ void commandfd(const char *const *argv) {
     const char **oldargs= NULL;
     int argc= 1, mode= 0;
     lno= 0;
-    push_error_handler(&ejbuf,print_error_fatal,0);
+    push_error_handler(&ejbuf, print_error_fatal, NULL);
 
     do { c= getc(in); if (c == '\n') lno++; } while (c != EOF && isspace(c));
     if (c == EOF) break;
@@ -597,7 +590,7 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
       ptr++;
     }
     *ptr= 0;
-    newargs[argc++] = 0;
+    newargs[argc++] = NULL;
 
 /* We strdup each argument, but never free it, because the error messages
  * contain references back to these strings.  Freeing them, and reusing
@@ -605,7 +598,8 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
  * least.
  */
     for(i=1;i<argc;i++)
-	if (newargs[i]) newargs[i]=strdup(newargs[i]);
+      if (newargs[i])
+        newargs[i] = m_strdup(newargs[i]);
 
     cipaction= NULL;
     myopt((const char *const**)&newargs,cmdinfos);
@@ -613,7 +607,7 @@ printf("line=`%*s'\n",(int)linevb.used,linevb.buf);
 
     actionfunction= (void (*)(const char* const*))cipaction->farg;
     actionfunction(newargs);
-    set_error_display(0,0);
+    set_error_display(NULL, NULL);
     error_unwind(ehflag_normaltidy);
   }
 }
@@ -626,7 +620,7 @@ int main(int argc, const char *const *argv) {
   standard_startup(&ejbuf, argc, &argv, DPKG, 1, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
-  setvbuf(stdout,0,_IONBF,0);
+  setvbuf(stdout, NULL, _IONBF, 0);
   filesdbinit();
 
   actionfunction= (void (*)(const char* const*))cipaction->farg;

@@ -25,7 +25,7 @@ my %notfileobject;
 my $fn;
 my $ur;
 
-my $varlistfile = "debian/substvars";
+my $varlistfile;
 my $controlfile;
 my $changelogfile;
 my $changelogformat;
@@ -260,6 +260,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         $substvars->set($1, $POSTMATCH);
     } elsif (m/^-T/) {
 	$varlistfile = $POSTMATCH;
+	warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-(h|-help)$/) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
@@ -293,7 +294,9 @@ if ($opmode eq 'build') {
     $changelogfile= "$dir/debian/changelog" unless defined($changelogfile);
     $controlfile= "$dir/debian/control" unless defined($controlfile);
     
-    my $changelog = parse_changelog($changelogfile, $changelogformat);
+    my %options = (file => $changelogfile);
+    $options{"changelogformat"} = $changelogformat if $changelogformat;
+    my $changelog = parse_changelog(%options);
     my $control = Dpkg::Control->new($controlfile);
     my $fields = Dpkg::Fields::Object->new();
 
@@ -815,10 +818,10 @@ if ($opmode eq 'build') {
     printf(_g("%s: building %s in %s")."\n",
            $progname, $sourcepackage, "$basenamerev.dsc")
         || &syserr(_g("write building message"));
-    open(DSC, ">:utf8", "$basenamerev.dsc") ||
+    open(DSC, ">", "$basenamerev.dsc") ||
         syserr(_g("create %s"), "$basenamerev.dsc");
 
-    $substvars->parse($varlistfile) if -e $varlistfile;
+    $substvars->parse($varlistfile) if $varlistfile && -e $varlistfile;
     tied(%{$fields})->set_field_importance(@dsc_fields);
     tied(%{$fields})->output(\*DSC, $substvars);
     close(DSC);

@@ -120,7 +120,8 @@ void do_auto(const char *const *argv) {
   fclose(part);
   scandepot();
   partlist= nfmalloc(sizeof(struct partinfo*)*refi->maxpartn);
-  for (i=0; i<refi->maxpartn; i++) partlist[i]= 0;
+  for (i = 0; i < refi->maxpartn; i++)
+    partlist[i] = NULL;
   for (pq= queue; pq; pq= pq->nextinqueue) {
     pi= &pq->info;
     if (!partmatches(pi,refi)) continue;

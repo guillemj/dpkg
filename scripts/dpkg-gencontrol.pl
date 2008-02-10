@@ -121,7 +121,9 @@ while (@ARGV) {
     }
 }
 
-my $changelog = parse_changelog($changelogfile, $changelogformat);
+my %options = (file => $changelogfile);
+$options{"changelogformat"} = $changelogformat if $changelogformat;
+my $changelog = parse_changelog(%options);
 $substvars->set_version_substvars($changelog->{"Version"});
 $substvars->parse($varlistfile) if -e $varlistfile;
 $substvars->set("binary:Version", $forceversion) if defined $forceversion;
@@ -265,7 +267,9 @@ $oppackage = $fields->{'Package'};
 
 $package_type = $fields->{'Package-Type'} if (defined($fields->{'Package-Type'}));
 
-if ($package_type ne 'udeb') {
+if ($package_type eq 'udeb') {
+    delete $fields->{'Homepage'};
+} else {
     for my $f (qw(Subarchitecture Kernel-Version Installer-Menu-Item)) {
         warning(_g("%s package with udeb specific field %s"), $package_type, $f)
             if defined($fields->{$f});
@@ -346,11 +350,10 @@ my $fh_output;
 if (!$stdout) {
     $cf= "$packagebuilddir/DEBIAN/control";
     $cf= "./$cf" if $cf =~ m/^\s/;
-    open($fh_output, ">:utf8", "$cf.new") ||
+    open($fh_output, ">", "$cf.new") ||
         syserr(_g("cannot open new output control file \`%s'"), "$cf.new");
 } else {
     $fh_output = \*STDOUT;
-    binmode(STDOUT, ":utf8");
 }
 
 tied(%{$fields})->set_field_importance(@control_fields);

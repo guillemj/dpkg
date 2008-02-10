@@ -43,11 +43,11 @@
 #define MIN_POLL_INTERVAL 20000 /*us*/
 
 #if defined(OSHURD)
-#  include <hurd.h>
-#  include <ps.h>
+#include <hurd.h>
+#include <ps.h>
 #endif
 
-#if  defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
+#if defined(OSOpenBSD) || defined(OSFreeBSD) || defined(OSNetBSD)
 #include <sys/param.h>
 #include <sys/proc.h>
 #include <sys/stat.h>
@@ -56,7 +56,7 @@
 #include <err.h>
 #include <limits.h>
 #endif
- 
+
 #ifdef HAVE_KVM_H
 #include <kvm.h>
 #include <sys/sysctl.h>
@@ -98,12 +98,12 @@
 #endif
 
 #ifdef HAVE_ERROR_H
-#  include <error.h>
+#include <error.h>
 #endif
 
 #if HAVE_C_ATTRIBUTE
 # define CONSTANT __attribute__((constant))
-# define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
+# define PRINTFFORMAT(si, tc) __attribute__((format(printf, si, tc)))
 # define NONRETURNING __attribute__((noreturn))
 # define UNUSED __attribute__((unused))
 #else
@@ -153,9 +153,13 @@ static struct pid_list *found = NULL;
 static struct pid_list *killed = NULL;
 
 struct schedule_item {
-	enum { sched_timeout, sched_signal, sched_goto, sched_forever } type;
-	int value; /* seconds, signal no., or index into array */
-	/* sched_forever is only seen within parse_schedule and callees */
+	enum {
+		sched_timeout,
+		sched_signal,
+		sched_goto,
+		sched_forever /* Only seen within parse_schedule and callees */
+	} type;
+	int value; /* Seconds, signal no., or index into array */
 };
 
 static int schedule_length;
@@ -170,7 +174,7 @@ static int pid_is_cmd(pid_t pid, const char *name);
 static void check(pid_t pid);
 static void do_pidfile(const char *name);
 static void do_stop(int signal_nr, int quietmode,
-		    int *n_killed, int *n_notkilled, int retry_nr);
+                    int *n_killed, int *n_notkilled, int retry_nr);
 #if defined(OSLinux) || defined(OShpux)
 static int pid_is_exec(pid_t pid, const struct stat *esb);
 #endif
@@ -180,37 +184,6 @@ static void fatal(const char *format, ...)
 	NONRETURNING PRINTFFORMAT(1, 2);
 static void badusage(const char *msg)
 	NONRETURNING;
-
-/* This next part serves only to construct the TVCALC macro, which
- * is used for doing arithmetic on struct timeval's.  It works like this:
- *   TVCALC(result, expression);
- * where result is a struct timeval (and must be an lvalue) and
- * expression is the single expression for both components.  In this
- * expression you can use the special values TVELEM, which when fed a
- * const struct timeval* gives you the relevant component, and
- * TVADJUST.  TVADJUST is necessary when subtracting timevals, to make
- * it easier to renormalise.  Whenver you subtract timeval elements,
- * you must make sure that TVADJUST is added to the result of the
- * subtraction (before any resulting multiplication or what have you).
- * TVELEM must be linear in TVADJUST.
- */
-typedef long tvselector(const struct timeval*);
-static long tvselector_sec(const struct timeval *tv) { return tv->tv_sec; }
-static long tvselector_usec(const struct timeval *tv) { return tv->tv_usec; }
-#define TVCALC_ELEM(result, expr, sec, adj)                           \
-{								      \
-  const long TVADJUST = adj;					      \
-  long (*const TVELEM)(const struct timeval*) = tvselector_##sec;     \
-  (result).tv_##sec = (expr);					      \
-}
-#define TVCALC(result,expr)					      \
-do {								      \
-  TVCALC_ELEM(result, expr, sec, (-1));				      \
-  TVCALC_ELEM(result, expr, usec, (+1000000));			      \
-  (result).tv_sec += (result).tv_usec / 1000000;		      \
-  (result).tv_usec %= 1000000;					      \
-} while(0)
-
 
 static void
 fatal(const char *format, ...)
@@ -225,7 +198,6 @@ fatal(const char *format, ...)
 	exit(2);
 }
 
-
 static void *
 xmalloc(int size)
 {
@@ -237,12 +209,30 @@ xmalloc(int size)
 	fatal("malloc(%d) failed", size);
 }
 
-
 static void
 xgettimeofday(struct timeval *tv)
 {
-	if (gettimeofday(tv,0) != 0)
+	if (gettimeofday(tv, NULL) != 0)
 		fatal("gettimeofday failed: %s", strerror(errno));
+}
+
+static void
+tmul(struct timeval *a, int b)
+{
+	a->tv_sec *= b;
+	a->tv_usec *= b;
+	a->tv_sec = a->tv_sec + a->tv_usec / 1000000;
+	a->tv_usec %= 1000000;
+}
+
+static long
+get_open_fd_max(void)
+{
+#ifdef HAVE_GETDTABLESIZE
+	return getdtablesize();
+#else
+	return sysconf(_SC_OPEN_MAX);
+#endif
 }
 
 static void
@@ -304,9 +294,6 @@ static void
 do_help(void)
 {
 	printf(
-"start-stop-daemon %s for Debian - small and fast C version written by\n"
-"Marek Michalkiewicz <marekm@i17linuxb.ists.pwr.wroc.pl>, public domain.\n"
-"\n"
 "Usage: start-stop-daemon [<option> ...] <command>\n"
 "\n"
 "Commands:\n"
@@ -315,15 +302,17 @@ do_help(void)
 "  -H|--help                     print help information\n"
 "  -V|--version                  print version\n"
 "\n"
-"Options (at least one of --exec|--pidfile|--user is required):\n"
-"  -x|--exec <executable>        program to start/check if it is running\n"
+"Matching options (at least one is required):\n"
 "  -p|--pidfile <pid-file>       pid file to check\n"
+"  -x|--exec <executable>        program to start/check if it is running\n"
+"  -n|--name <process-name>      process name to check\n"
+"  -u|--user <username|uid>      process owner to check\n"
+"\n"
+"Options:\n"
+"  -g|--group <group|gid>        run process as this group\n"
 "  -c|--chuid <name|uid[:group|gid]>\n"
 "                                change to this user/group before starting\n"
 "                                  process\n"
-"  -u|--user <username>|<uid>    stop processes owned by this user\n"
-"  -g|--group <group|gid>        run process as this group\n"
-"  -n|--name <process-name>      stop processes with this name\n"
 "  -s|--signal <signal>          signal to send (default TERM)\n"
 "  -a|--startas <pathname>       program to start (default is <executable>)\n"
 "  -r|--chroot <directory>       chroot to <directory> before starting\n"
@@ -345,10 +334,16 @@ do_help(void)
 "or <schedule> may be just <timeout>, meaning <signal>/<timeout>/KILL/<timeout>\n"
 "\n"
 "Exit status:  0 = done      1 = nothing done (=> 0 if --oknodo)\n"
-"              3 = trouble   2 = with --retry, processes wouldn't die\n",
-	       VERSION);
+"              3 = trouble   2 = with --retry, processes wouldn't die\n");
 }
 
+static void
+do_version(void)
+{
+	printf("start-stop-daemon %s for Debian\n\n", VERSION);
+
+	printf("Written by Marek Michalkiewicz, public domain.\n");
+}
 
 static void
 badusage(const char *msg)
@@ -386,30 +381,33 @@ static const struct sigpair siglist[] = {
 	{ "TTOU",	SIGTTOU	}
 };
 
-static int parse_integer(const char *string, int *value_r) {
+static int
+parse_integer(const char *string, int *value_r)
+{
 	unsigned long ul;
 	char *ep;
 
 	if (!string[0])
 		return -1;
 
-	ul= strtoul(string,&ep,10);
+	ul = strtoul(string, &ep, 10);
 	if (ul > INT_MAX || *ep != '\0')
 		return -1;
 
-	*value_r= ul;
+	*value_r = ul;
 	return 0;
 }
 
-static int parse_signal(const char *signal_str, int *signal_nr)
+static int
+parse_signal(const char *signal_str, int *signal_nr)
 {
 	unsigned int i;
 
 	if (parse_integer(signal_str, signal_nr) == 0)
 		return 0;
 
-	for (i = 0; i < sizeof (siglist) / sizeof (siglist[0]); i++) {
-		if (strcmp (signal_str, siglist[i].name) == 0) {
+	for (i = 0; i < sizeof(siglist) / sizeof(siglist[0]); i++) {
+		if (strcmp(signal_str, siglist[i].name) == 0) {
 			*signal_nr = siglist[i].signal;
 			return 0;
 		}
@@ -432,26 +430,28 @@ parse_umask(const char *string, int *value_r)
 }
 
 static void
-parse_schedule_item(const char *string, struct schedule_item *item) {
+parse_schedule_item(const char *string, struct schedule_item *item)
+{
 	const char *after_hyph;
 
-	if (!strcmp(string,"forever")) {
+	if (!strcmp(string, "forever")) {
 		item->type = sched_forever;
 	} else if (isdigit(string[0])) {
 		item->type = sched_timeout;
 		if (parse_integer(string, &item->value) != 0)
 			badusage("invalid timeout value in schedule");
 	} else if ((after_hyph = string + (string[0] == '-')) &&
-		   parse_signal(after_hyph, &item->value) == 0) {
+	           parse_signal(after_hyph, &item->value) == 0) {
 		item->type = sched_signal;
 	} else {
 		badusage("invalid schedule item (must be [-]<signal-name>, "
-			 "-<signal-number>, <timeout> or `forever'");
+		         "-<signal-number>, <timeout> or `forever'");
 	}
 }
 
 static void
-parse_schedule(const char *schedule_str) {
+parse_schedule(const char *schedule_str)
+{
 	char item_buf[20];
 	const char *slash;
 	int count, repeatat;
@@ -462,7 +462,7 @@ parse_schedule(const char *schedule_str) {
 		if (*slash == '/')
 			count++;
 
-	schedule_length = (count == 0) ? 4 : count+1;
+	schedule_length = (count == 0) ? 4 : count + 1;
 	schedule = xmalloc(sizeof(*schedule) * schedule_length);
 
 	if (count == 0) {
@@ -471,29 +471,29 @@ parse_schedule(const char *schedule_str) {
 		parse_schedule_item(schedule_str, &schedule[1]);
 		if (schedule[1].type != sched_timeout) {
 			badusage ("--retry takes timeout, or schedule list"
-				  " of at least two items");
+			          " of at least two items");
 		}
 		schedule[2].type = sched_signal;
 		schedule[2].value = SIGKILL;
-		schedule[3]= schedule[1];
+		schedule[3] = schedule[1];
 	} else {
 		count = 0;
 		repeatat = -1;
 		while (schedule_str != NULL) {
-			slash = strchr(schedule_str,'/');
+			slash = strchr(schedule_str, '/');
 			str_len = slash ? (size_t)(slash - schedule_str) : strlen(schedule_str);
 			if (str_len >= sizeof(item_buf))
 				badusage("invalid schedule item: far too long"
-					 " (you must delimit items with slashes)");
+				         " (you must delimit items with slashes)");
 			memcpy(item_buf, schedule_str, str_len);
 			item_buf[str_len] = 0;
-			schedule_str = slash ? slash+1 : NULL;
+			schedule_str = slash ? slash + 1 : NULL;
 
 			parse_schedule_item(item_buf, &schedule[count]);
 			if (schedule[count].type == sched_forever) {
 				if (repeatat >= 0)
 					badusage("invalid schedule: `forever'"
-						 " appears more than once");
+					         " appears more than once");
 				repeatat = count;
 				continue;
 			}
@@ -531,11 +531,11 @@ parse_options(int argc, char * const *argv)
 		{ "chuid",	  1, NULL, 'c'},
 		{ "nicelevel",	  1, NULL, 'N'},
 		{ "umask",	  1, NULL, 'k'},
-		{ "background",   0, NULL, 'b'},
+		{ "background",	  0, NULL, 'b'},
 		{ "make-pidfile", 0, NULL, 'm'},
- 		{ "retry",        1, NULL, 'R'},
-		{ "chdir",        1, NULL, 'd'},
-		{ NULL,		0, NULL, 0}
+		{ "retry",	  1, NULL, 'R'},
+		{ "chdir",	  1, NULL, 'd'},
+		{ NULL,		  0, NULL, 0  }
 	};
 	const char *umask_str = NULL;
 	const char *signal_str = NULL;
@@ -543,8 +543,9 @@ parse_options(int argc, char * const *argv)
 	int c;
 
 	for (;;) {
-		c = getopt_long(argc, argv, "HKSVa:n:op:qr:s:tu:vx:c:N:k:bmR:g:d:",
-				longopts, (int *) 0);
+		c = getopt_long(argc, argv,
+		                "HKSVa:n:op:qr:s:tu:vx:c:N:k:bmR:g:d:",
+		                longopts, NULL);
 		if (c == -1)
 			break;
 		switch (c) {
@@ -558,7 +559,7 @@ parse_options(int argc, char * const *argv)
 			start = 1;
 			break;
 		case 'V':  /* --version */
-			printf("start-stop-daemon " VERSION "\n");
+			do_version();
 			exit(0);
 		case 'a':  /* --startas <pathname> */
 			startas = optarg;
@@ -627,7 +628,7 @@ parse_options(int argc, char * const *argv)
 	}
 
 	if (signal_str != NULL) {
-		if (parse_signal (signal_str, &signal_nr) != 0)
+		if (parse_signal(signal_str, &signal_nr) != 0)
 			badusage("signal value must be numeric or name"
 				 " of signal (KILL, INT, ...)");
 	}
@@ -654,7 +655,7 @@ parse_options(int argc, char * const *argv)
 		badusage("--start needs --exec or --startas");
 
 	if (mpidfile && pidfile == NULL)
-		badusage("--make-pidfile is only relevant with --pidfile");
+		badusage("--make-pidfile requires --pidfile");
 
 	if (background && !start)
 		badusage("--background is only relevant with --start");
@@ -686,7 +687,6 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 	return (sb.st_dev == esb->st_dev && sb.st_ino == esb->st_ino);
 }
 
-
 static int
 pid_is_user(pid_t pid, uid_t uid)
 {
@@ -698,7 +698,6 @@ pid_is_user(pid_t pid, uid_t uid)
 		return 0;
 	return (sb.st_uid == uid);
 }
-
 
 static int
 pid_is_cmd(pid_t pid, const char *name)
@@ -724,7 +723,6 @@ pid_is_cmd(pid_t pid, const char *name)
 	return (c == ')' && *name == '\0');
 }
 #endif /* OSLinux */
-
 
 #if defined(OSHURD)
 static void
@@ -800,7 +798,7 @@ pid_is_running(pid_t pid)
 
 	sprintf(buf, "/proc/%d", pid);
 	if (stat(buf, &sb) != 0) {
-		if (errno!=ENOENT)
+		if (errno != ENOENT)
 			fatal("Error stating %s: %s", buf, strerror(errno));
 		return 0;
 	}
@@ -816,7 +814,7 @@ check(pid_t pid)
 #if defined(OSLinux) || defined(OShpux)
 	if (execname && !pid_is_exec(pid, &exec_stat))
 #elif defined(OSHURD) || defined(OSFreeBSD) || defined(OSNetBSD)
-    /* I will try this to see if it works */
+	/* Let's try this to see if it works */
 	if (execname && !pid_is_cmd(pid, execname))
 #endif
 		return;
@@ -833,7 +831,12 @@ static void
 do_pidfile(const char *name)
 {
 	FILE *f;
-	pid_t pid;
+	static pid_t pid = 0;
+
+	if (pid) {
+		check(pid);
+		return;
+	}
 
 	f = fopen(name, "r");
 	if (f) {
@@ -842,11 +845,7 @@ do_pidfile(const char *name)
 		fclose(f);
 	} else if (errno != ENOENT)
 		fatal("open pidfile %s: %s", name, strerror(errno));
-
 }
-
-/* WTA: this  needs to be an autoconf check for /proc/pid existance.
- */
 
 #if defined(OSLinux) || defined (OSsunos)
 static void
@@ -874,10 +873,9 @@ do_procinit(void)
 }
 #endif /* OSLinux */
 
-
 #if defined(OSHURD)
 static int
-check_proc_stat (struct proc_stat *ps)
+check_proc_stat(struct proc_stat *ps)
 {
 	check(ps->pid);
 	return 0;
@@ -889,71 +887,72 @@ do_procinit(void)
 	if (!procset)
 		init_procset();
 
-	proc_stat_list_for_each (procset, check_proc_stat);
+	proc_stat_list_for_each(procset, check_proc_stat);
 }
 #endif /* OSHURD */
-
 
 #ifdef HAVE_KVM_H
 static int
 pid_is_cmd(pid_t pid, const char *name)
 {
-        kvm_t *kd;
-        int nentries, argv_len=0;
-        struct kinfo_proc *kp;
-        char  errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
-	char  **pid_argv_p;
-	char  *start_argv_0_p, *end_argv_0_p;
- 
- 
-        kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-        if (kd == 0)
-                errx(1, "%s", errbuf);
-        if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
-                errx(1, "%s", kvm_geterr(kd));
-	if ((pid_argv_p = kvm_getargv(kd, kp, argv_len)) == 0)
-		errx(1, "%s", kvm_geterr(kd)); 
+	kvm_t *kd;
+	int nentries, argv_len = 0;
+	struct kinfo_proc *kp;
+	char errbuf[_POSIX2_LINE_MAX], buf[_POSIX2_LINE_MAX];
+	char **pid_argv_p;
+	char *start_argv_0_p, *end_argv_0_p;
+
+	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
+	if (kd == NULL)
+		errx(1, "%s", errbuf);
+	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
+	if (kp == NULL)
+		errx(1, "%s", kvm_geterr(kd));
+	pid_argv_p = kvm_getargv(kd, kp, argv_len);
+	if (pid_argv_p == NULL)
+		errx(1, "%s", kvm_geterr(kd));
 
 	start_argv_0_p = *pid_argv_p;
-	/* find and compare string */
-	  
-	/* find end of argv[0] then copy and cut of str there. */
-	if ((end_argv_0_p = strchr(*pid_argv_p, ' ')) == 0 ) 	
-	/* There seems to be no space, so we have the command
-	 * allready in its desired form. */
-	  start_argv_0_p = *pid_argv_p;
+	/* Find and compare string */
+
+	/* Find end of argv[0] then copy and cut of str there. */
+	end_argv_0_p = strchr(*pid_argv_p, ' ');
+	if (end_argv_0_p == NULL)
+		/* There seems to be no space, so we have the command
+		 * allready in its desired form. */
+		start_argv_0_p = *pid_argv_p;
 	else {
-	  /* Tests indicate that this never happens, since
-	   * kvm_getargv itselfe cuts of tailing stuff. This is
-	   * not what the manpage says, however. */
-	  strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
-	  buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
-	  start_argv_0_p = buf;
+		/* Tests indicate that this never happens, since
+		 * kvm_getargv itself cuts of tailing stuff. This is
+		 * not what the manpage says, however. */
+		strncpy(buf, *pid_argv_p, (end_argv_0_p - start_argv_0_p));
+		buf[(end_argv_0_p - start_argv_0_p) + 1] = '\0';
+		start_argv_0_p = buf;
 	}
-        
+
 	if (strlen(name) != strlen(start_argv_0_p))
-               return 0;
-        return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
+		return 0;
+	return (strcmp(name, start_argv_0_p) == 0) ? 1 : 0;
 }
- 
+
 static int
 pid_is_user(pid_t pid, uid_t uid)
 {
 	kvm_t *kd;
-	int nentries;   /* Value not used */
+	int nentries; /* Value not used */
 	uid_t proc_uid;
 	struct kinfo_proc *kp;
-	char  errbuf[_POSIX2_LINE_MAX];
-
+	char errbuf[_POSIX2_LINE_MAX];
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == 0)
+	if (kd == NULL)
 		errx(1, "%s", errbuf);
-	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
+	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
-	if (kp->kp_proc.p_cred )
+	if (kp->kp_proc.p_cred)
 		kvm_read(kd, (u_long)&(kp->kp_proc.p_cred->p_ruid),
-			&proc_uid, sizeof(uid_t));
+		         &proc_uid, sizeof(uid_t));
 	else
 		return 0;
 	return (proc_uid == (uid_t)uid);
@@ -968,9 +967,10 @@ pid_is_exec(pid_t pid, const char *name)
 	char errbuf[_POSIX2_LINE_MAX], *pidexec;
 
 	kd = kvm_openfiles(NULL, NULL, NULL, O_RDONLY, errbuf);
-	if (kd == 0)
+	if (kd == NULL)
 		errx(1, "%s", errbuf);
-	if ((kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries)) == 0)
+	kp = kvm_getprocs(kd, KERN_PROC_PID, pid, &nentries);
+	if (kp == NULL)
 		errx(1, "%s", kvm_geterr(kd));
 	pidexec = (&kp->kp_proc)->p_comm;
 	if (strlen(name) != strlen(pidexec))
@@ -978,15 +978,12 @@ pid_is_exec(pid_t pid, const char *name)
 	return (strcmp(name, pidexec) == 0) ? 1 : 0;
 }
 
-
 static void
 do_procinit(void)
 {
 	/* Nothing to do */
 }
-
 #endif /* OSOpenBSD */
-
 
 #if defined(OShpux)
 static int
@@ -994,9 +991,9 @@ pid_is_user(pid_t pid, uid_t uid)
 {
 	struct pst_status pst;
 
-	if (pstat_getproc(&pst, sizeof(pst), (size_t) 0, (int) pid) < 0)
+	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return 0;
-	return ((uid_t) pst.pst_uid == uid);
+	return ((uid_t)pst.pst_uid == uid);
 }
 
 static int
@@ -1004,7 +1001,7 @@ pid_is_cmd(pid_t pid, const char *name)
 {
 	struct pst_status pst;
 
-	if (pstat_getproc(&pst, sizeof(pst), (size_t) 0, (int) pid) < 0)
+	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return 0;
 	return (strcmp(pst.pst_ucomm, name) == 0);
 }
@@ -1014,10 +1011,10 @@ pid_is_exec(pid_t pid, const struct stat *esb)
 {
 	struct pst_status pst;
 
-	if (pstat_getproc(&pst, sizeof(pst), (size_t) 0, (int) pid) < 0)
+	if (pstat_getproc(&pst, sizeof(pst), (size_t)0, (int)pid) < 0)
 		return 0;
-	return ((dev_t) pst.pst_text.psf_fsid.psfs_id == esb->st_dev
-		&& (ino_t) pst.pst_text.psf_fileid == esb->st_ino);
+	return ((dev_t)pst.pst_text.psf_fsid.psfs_id == esb->st_dev
+		&& (ino_t)pst.pst_text.psf_fileid == esb->st_ino);
 }
 
 static void
@@ -1028,19 +1025,18 @@ do_procinit(void)
 	int idx = 0;
 
 	while ((count = pstat_getproc(pst, sizeof(pst[0]), 10, idx)) > 0) {
-                for (i = 0; i < count; i++)
+		for (i = 0; i < count; i++)
 			check(pst[i].pst_pid);
-                idx = pst[count - 1].pst_idx + 1;
+		idx = pst[count - 1].pst_idx + 1;
 	}
 }
 #endif /* OShpux */
-
 
 static void
 do_findprocs(void)
 {
 	clear(&found);
-	
+
 	if (pidfile)
 		do_pidfile(pidfile);
 	else
@@ -1053,48 +1049,48 @@ do_stop(int signal_nr, int quietmode, int *n_killed, int *n_notkilled, int retry
 {
 	struct pid_list *p;
 
- 	do_findprocs();
- 
- 	*n_killed = 0;
- 	*n_notkilled = 0;
- 
- 	if (!found)
- 		return;
- 
- 	clear(&killed);
+	do_findprocs();
+
+	*n_killed = 0;
+	*n_notkilled = 0;
+
+	if (!found)
+		return;
+
+	clear(&killed);
 
 	for (p = found; p; p = p->next) {
 		if (testmode) {
-			printf("Would send signal %d to %d.\n",
-			       signal_nr, p->pid);
+			if (quietmode <= 0)
+				printf("Would send signal %d to %d.\n",
+				       signal_nr, p->pid);
 			(*n_killed)++;
 		} else if (kill(p->pid, signal_nr) == 0) {
 			push(&killed, p->pid);
- 			(*n_killed)++;
+			(*n_killed)++;
 		} else {
 			if (signal_nr)
 				printf("%s: warning: failed to kill %d: %s\n",
 				       progname, p->pid, strerror(errno));
- 			(*n_notkilled)++;
+			(*n_notkilled)++;
 		}
 	}
 	if (quietmode < 0 && killed) {
- 		printf("Stopped %s (pid", what_stop);
+		printf("Stopped %s (pid", what_stop);
 		for (p = killed; p; p = p->next)
 			printf(" %d", p->pid);
- 		putchar(')');
- 		if (retry_nr > 0)
- 			printf(", retry #%d", retry_nr);
- 		printf(".\n");
+		putchar(')');
+		if (retry_nr > 0)
+			printf(", retry #%d", retry_nr);
+		printf(".\n");
 	}
 }
-
 
 static void
 set_what_stop(const char *str)
 {
 	strncpy(what_stop, str, sizeof(what_stop));
-	what_stop[sizeof(what_stop)-1] = '\0';
+	what_stop[sizeof(what_stop) - 1] = '\0';
 }
 
 static int
@@ -1105,7 +1101,8 @@ run_stop_schedule(void)
 
 	if (testmode) {
 		if (schedule != NULL) {
-			printf("Ignoring --retry in test mode\n");
+			if (quietmode <= 0)
+				printf("Ignoring --retry in test mode\n");
 			schedule = NULL;
 		}
 	}
@@ -1138,11 +1135,9 @@ run_stop_schedule(void)
 		n_notkilled = 0;
 
 		switch (schedule[position].type) {
-
 		case sched_goto:
 			position = value;
 			continue;
-
 		case sched_signal:
 			do_stop(value, quietmode, &n_killed, &n_notkilled, retry_nr++);
 			if (!n_killed)
@@ -1150,7 +1145,6 @@ run_stop_schedule(void)
 			else
 				anykilled = 1;
 			goto next_item;
-
 		case sched_timeout:
  /* We want to keep polling for the processes, to see if they've exited,
   * or until the timeout expires.
@@ -1178,7 +1172,7 @@ run_stop_schedule(void)
 			ratio = 1;
 			for (;;) {
 				xgettimeofday(&before);
-				if (timercmp(&before,&stopat,>))
+				if (timercmp(&before, &stopat, >))
 					goto next_item;
 
 				do_stop(0, 1, &n_killed, &n_notkilled, 0);
@@ -1187,31 +1181,33 @@ run_stop_schedule(void)
 
 				xgettimeofday(&after);
 
-				if (!timercmp(&after,&stopat,<))
+				if (!timercmp(&after, &stopat, <))
 					goto next_item;
 
 				if (ratio < 10)
 					ratio++;
 
- TVCALC(interval,    ratio * (TVELEM(&after) - TVELEM(&before) + TVADJUST));
- TVCALC(maxinterval,          TVELEM(&stopat) - TVELEM(&after) + TVADJUST);
+				timersub(&stopat, &after, &maxinterval);
+				timersub(&after, &before, &interval);
+				tmul(&interval, ratio);
 
-				if (timercmp(&interval,&maxinterval,>))
+				if (interval.tv_sec < 0 || interval.tv_usec < 0)
+					interval.tv_sec = interval.tv_usec = 0;
+
+				if (timercmp(&interval, &maxinterval, >))
 					interval = maxinterval;
 
 				if (interval.tv_sec == 0 &&
 				    interval.tv_usec <= MIN_POLL_INTERVAL)
-				        interval.tv_usec = MIN_POLL_INTERVAL;
+					interval.tv_usec = MIN_POLL_INTERVAL;
 
-				r = select(0,0,0,0,&interval);
+				r = select(0, NULL, NULL, NULL, &interval);
 				if (r < 0 && errno != EINTR)
 					fatal("select() failed for pause: %s",
 					      strerror(errno));
 			}
-
 		default:
 			assert(!"schedule[].type value must be valid");
-
 		}
 
 	next_item:
@@ -1234,11 +1230,12 @@ x_finished:
 	}
 }
 
-
 int
 main(int argc, char **argv)
 {
 	int devnull_fd = -1;
+	gid_t rgid;
+	uid_t ruid;
 #ifdef HAVE_TIOCNOTTY
 	int tty_fd = -1;
 #endif
@@ -1253,11 +1250,11 @@ main(int argc, char **argv)
 
 		if (changeroot) {
 			int fullexecname_len = strlen(changeroot) + 1 +
-					       strlen(execname) + 1;
+			                       strlen(execname) + 1;
 
 			fullexecname = xmalloc(fullexecname_len);
 			snprintf(fullexecname, fullexecname_len, "%s/%s",
-				 changeroot, execname);
+			         changeroot, execname);
 		} else
 			fullexecname = execname;
 
@@ -1289,8 +1286,9 @@ main(int argc, char **argv)
 		if (!pw)
 			fatal("user `%s' not found\n", changeuser);
 		runas_uid = pw->pw_uid;
-		if (changegroup == NULL) { /* pass the default group of this user */
-			changegroup = ""; /* just empty */
+		if (changegroup == NULL) {
+			/* Pass the default group of this user */
+			changegroup = ""; /* Just empty */
 			runas_gid = pw->pw_gid;
 		}
 		if (access(pw->pw_dir, F_OK) == 0)
@@ -1309,7 +1307,7 @@ main(int argc, char **argv)
 			printf("%s already running.\n", execname ? execname : "process");
 		exit(exitnodo);
 	}
-	if (testmode) {
+	if (testmode && quietmode <= 0) {
 		printf("Would start %s ", startas);
 		while (argc-- > 0)
 			printf("%s ", *argv++);
@@ -1325,8 +1323,9 @@ main(int argc, char **argv)
 		if (nicelevel)
 			printf(", and add %i to the priority", nicelevel);
 		printf(".\n");
-		exit(0);
 	}
+	if (testmode)
+		exit(0);
 	if (quietmode < 0)
 		printf("Starting %s...\n", startas);
 	*--argv = startas;
@@ -1339,19 +1338,20 @@ main(int argc, char **argv)
 		devnull_fd=open("/dev/null", O_RDWR);
 	}
 	if (nicelevel) {
-		errno=0;
-		if ((nice(nicelevel)==-1) && (errno!=0))
-			fatal("Unable to alter nice level by %i: %s", nicelevel,
-				strerror(errno));
+		errno = 0;
+		if ((nice(nicelevel) == -1) && (errno != 0))
+			fatal("Unable to alter nice level by %i: %s",
+			      nicelevel, strerror(errno));
 	}
 	if (umask_value >= 0)
 		umask(umask_value);
-	if (mpidfile && pidfile != NULL) { /* user wants _us_ to make the pidfile :) */
+	if (mpidfile && pidfile != NULL) {
+		/* User wants _us_ to make the pidfile :) */
 		FILE *pidf = fopen(pidfile, "w");
 		pid_t pidt = getpid();
 		if (pidf == NULL)
-			fatal("Unable to open pidfile `%s' for writing: %s", pidfile,
-				strerror(errno));
+			fatal("Unable to open pidfile `%s' for writing: %s",
+			      pidfile, strerror(errno));
 		fprintf(pidf, "%d\n", pidt);
 		fclose(pidf);
 	}
@@ -1363,33 +1363,45 @@ main(int argc, char **argv)
 	}
 	if (chdir(changedir) < 0)
 		fatal("Unable to chdir() to %s", changedir);
-	if (changeuser != NULL) {
- 		if (setgid(runas_gid))
- 			fatal("Unable to set gid to %d", runas_gid);
-		if (initgroups(changeuser, runas_gid))
-			fatal("Unable to set initgroups() with gid %d", runas_gid);
-		if (setuid(runas_uid))
-			fatal("Unable to set uid to %s", changeuser);
+
+	rgid = getgid();
+	ruid = getuid();
+	if (changegroup != NULL) {
+		if (rgid != (gid_t)runas_gid)
+			if (setgid(runas_gid))
+				fatal("Unable to set gid to %d", runas_gid);
 	}
-	if (background) { /* continue background setup */
+	if (changeuser != NULL) {
+		/* We assume that if our real user and group are the same as
+		 * the ones we should switch to, the supplementary groups
+		 * will be already in place. */
+		if (rgid != (gid_t)runas_gid || ruid != (uid_t)runas_uid)
+			if (initgroups(changeuser, runas_gid))
+				fatal("Unable to set initgroups() with gid %d",
+				      runas_gid);
+
+		if (ruid != (uid_t)runas_uid)
+			if (setuid(runas_uid))
+				fatal("Unable to set uid to %s", changeuser);
+	}
+
+	if (background) {
+		/* Continue background setup */
 		int i;
 #ifdef HAVE_TIOCNOTTY
-		 /* change tty */
+		 /* Change tty */
 		ioctl(tty_fd, TIOCNOTTY, 0);
 		close(tty_fd);
 #endif
 		if (umask_value < 0)
-			umask(022); /* set a default for dumb programs */
-		dup2(devnull_fd,0); /* stdin */
-		dup2(devnull_fd,1); /* stdout */
-		dup2(devnull_fd,2); /* stderr */
-#if defined(OShpux)
-		 /* now close all extra fds */
-		for (i=sysconf(_SC_OPEN_MAX)-1; i>=3; --i) close(i);
-#else
-		 /* now close all extra fds */
-		for (i=getdtablesize()-1; i>=3; --i) close(i);
-#endif
+			umask(022); /* Set a default for dumb programs */
+		dup2(devnull_fd, 0); /* stdin */
+		dup2(devnull_fd, 1); /* stdout */
+		dup2(devnull_fd, 2); /* stderr */
+
+		 /* Now close all extra fds */
+		for (i = get_open_fd_max() - 1; i >= 3; --i)
+			close(i);
 	}
 	execv(startas, argv);
 	fatal("Unable to start %s: %s", startas, strerror(errno));

@@ -35,11 +35,10 @@ included in the upload if any source is being generated (i.e.
 haven't been used).
 .TP
 .B \-si
-By default, or if specified, the original source will be included if the
-version number ends in
-.BR \-0 " or " \-1 ,
-i.e. if the Debian revision part of the version number is
-.BR 0 " or " 1 .
+By default, or if specified, the original source will be included only if
+the upstream version number (the version without epoch and without Debian
+revision) differs from the upstream version number of the previous
+changelog entry.
 .TP
 .B \-sa
 Forces the inclusion of the original source.
@@ -80,6 +79,9 @@ Read substitution variables in
 .IR substvarsfile ;
 the default is
 .BR debian/substvars .
+No variable substitution is done on any of the fields that are output,
+however the special variable \fIFormat\fR will override the field of the
+same name.
 .TP
 .BI \-D field = value
 Override or add an output control file field.

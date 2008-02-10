@@ -52,7 +52,7 @@ static void limiteddescription(struct pkginfo *pkg, int maxl,
   const char *pdesc, *p;
   int l;
   
-  pdesc= pkg->installed.valid ? pkg->installed.description : 0;
+  pdesc = pkg->installed.valid ? pkg->installed.description : NULL;
   if (!pdesc) pdesc= _("(no description available)");
   p= strchr(pdesc,'\n');
   if (!p) p= pdesc+strlen(pdesc);
@@ -97,7 +97,7 @@ static const struct badstatinfo badstatinfos[]= {
     "installation.  The installation can probably be completed by retrying it;\n"
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
-    0
+    NULL
   }
 };
 
@@ -175,7 +175,7 @@ void unpackchk(const char *const *argv) {
   modstatdb_init(admindir,msdbrw_readonly|msdbrw_noavail);
 
   totalcount= 0;
-  sectionentries= 0;
+  sectionentries = NULL;
   sects= 0;
   it= iterpkgstart(); 
   while ((pkg= iterpkgnext(it))) {
@@ -201,7 +201,8 @@ void unpackchk(const char *const *argv) {
   if (totalcount <= 12) {
     it= iterpkgstart(); 
     while ((pkg= iterpkgnext(it))) {
-      if (!yettobeunpacked(pkg,0)) continue;
+      if (!yettobeunpacked(pkg, NULL))
+        continue;
       describebriefly(pkg);
     }
     iterpkgend(it);
@@ -248,7 +249,7 @@ static void assertversion(const char *const *argv,
   if (verrev_buf->epoch == ~0UL) {
     verrev_buf->epoch= 0;
     verrev_buf->version= nfstrsave(reqversion);
-    verrev_buf->revision= 0;
+    verrev_buf->revision = NULL;
   }
   pkg= findpackage("dpkg");
   switch (pkg->status) {
@@ -267,22 +268,22 @@ static void assertversion(const char *const *argv,
 }
 
 void assertpredep(const char *const *argv) {
-  static struct versionrevision predepversion = {~0UL,0,0};
+  static struct versionrevision predepversion = { ~0UL, NULL, NULL };
   assertversion(argv,&predepversion,"1.1.0");
 }
 
 void assertepoch(const char *const *argv) {
-  static struct versionrevision epochversion = {~0UL,0,0};
+  static struct versionrevision epochversion = { ~0UL, NULL, NULL };
   assertversion(argv,&epochversion,"1.4.0.7");
 }
 
 void assertlongfilenames(const char *const *argv) {
-  static struct versionrevision epochversion = {~0UL,0,0};
+  static struct versionrevision epochversion = { ~0UL, NULL, NULL };
   assertversion(argv,&epochversion,"1.4.1.17");
 }
 
 void assertmulticonrep(const char *const *argv) {
-  static struct versionrevision epochversion = {~0UL,0,0};
+  static struct versionrevision epochversion = { ~0UL, NULL, NULL };
   assertversion(argv,&epochversion,"1.4.1.19");
 }
 
@@ -300,7 +301,7 @@ void predeppackage(const char *const *argv) {
   static struct varbuf vb;
   
   struct pkgiterator *it;
-  struct pkginfo *pkg= 0, *startpkg, *trypkg;
+  struct pkginfo *pkg = NULL, *startpkg, *trypkg;
   struct dependency *dep;
   struct deppossi *possi, *provider;
 
@@ -309,7 +310,7 @@ void predeppackage(const char *const *argv) {
   modstatdb_init(admindir,msdbrw_readonly);
   clear_istobes(); /* We use clientdata->istobe to detect loops */
 
-  for (it=iterpkgstart(), dep=0;
+  for (it = iterpkgstart(), dep = NULL;
        !dep && (pkg=iterpkgnext(it));
        ) {
     if (pkg->want != want_install) continue; /* Ignore packages user doesn't want */
@@ -317,7 +318,8 @@ void predeppackage(const char *const *argv) {
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
-      if (depisok(dep,&vb,0,1)) continue;
+      if (depisok(dep, &vb, NULL, 1))
+        continue;
       break; /* This will leave dep non-NULL, and so exit the loop. */
     }
     pkg->clientdata->istobe= itb_normal;
@@ -334,7 +336,7 @@ void predeppackage(const char *const *argv) {
    */
   do {
     /* We search for a package which would satisfy dep, and put it in pkg */
-    for (possi=dep->list, pkg=0;
+    for (possi = dep->list, pkg = NULL;
          !pkg && possi;
          possi=possi->next) {
       trypkg= possi->ed;
@@ -363,7 +365,8 @@ void predeppackage(const char *const *argv) {
     pkg->clientdata->istobe= itb_preinstall;
     for (dep= pkg->available.depends; dep; dep= dep->next) {
       if (dep->type != dep_predepends) continue;
-      if (depisok(dep,&vb,0,1)) continue;
+      if (depisok(dep, &vb, NULL, 1))
+        continue;
       break; /* This will leave dep non-NULL, and so exit the loop. */
     }
   } while (dep);
@@ -407,7 +410,7 @@ void cmpversions(const char *const *argv) {
     { ">",         1,0,0, 1,0,0  }, /*                  */
     { ">=",        1,0,0, 1,0,0  },
     { ">>",        1,1,0, 1,1,0  },
-    {  0                         }
+    { NULL                       }
   };
 
   const struct relationinfo *rip;

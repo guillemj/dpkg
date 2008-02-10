@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ(2.59)
-AC_INIT([dpkg], [1.14.16~], [debian-dpkg@lists.debian.org])
+AC_INIT([dpkg], [1.14.17~], [debian-dpkg@lists.debian.org])
 AC_CONFIG_SRCDIR([lib/dpkg.h])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([config])
@@ -13,7 +13,7 @@ DPKG_ARCHITECTURE
 AM_INIT_AUTOMAKE([1.8 gnu])
 
 AM_GNU_GETTEXT_VERSION([0.16.1])
-AM_GNU_GETTEXT()
+AM_GNU_GETTEXT([external])
 
 # Allow compilation without dselect
 AC_ARG_WITH(dselect,
@@ -72,7 +72,7 @@ fi
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([error.h locale.h sys/cdefs.h kvm.h])
+AC_CHECK_HEADERS([stddef.h error.h locale.h sys/cdefs.h kvm.h])
 DPKG_CHECK_DEFINE(TIOCNOTTY, [sys/ioctl.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
@@ -85,15 +85,17 @@ AC_TYPE_MODE_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
 DPKG_TYPE_PTRDIFF_T
-AC_CHECK_SIZEOF(unsigned int)
-AC_CHECK_SIZEOF(unsigned long)
+AC_CHECK_SIZEOF([unsigned int])
+AC_CHECK_SIZEOF([unsigned long])
 DPKG_DECL_SYS_SIGLIST
 DPKG_C_ATTRIBUTE
 
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
-AC_CHECK_FUNCS([vsnprintf snprintf strerror strsignal scandir alphasort])
-AC_CHECK_FUNCS([unsetenv lchown setsid bcopy isascii memcpy]) 
+DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free])
+AC_CHECK_FUNCS([vsnprintf snprintf strtoul strerror strsignal alphasort \
+                isascii bcopy memcpy scandir unsetenv lchown setsid \
+                getdtablesize])
 
 SJR_COMPILER_WARNINGS
 SJR_COMPILER_OPTIMISATIONS
@@ -105,8 +107,7 @@ AC_CONFIG_FILES([ Makefile
 		  dselect/Makefile
 		  dselect/methods/Makefile
 		  dselect/po/Makefile.in
-		  getopt/Makefile
-		  intl/Makefile
+		  libcompat/Makefile
 		  lib/Makefile
 		  man/Makefile
 		  origins/Makefile

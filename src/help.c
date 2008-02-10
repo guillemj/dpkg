@@ -73,7 +73,9 @@ void checkpath(void) {
 #if WITH_START_STOP_DAEMON
     "start-stop-daemon",
 #endif    
-    "install-info", "update-rc.d", 0
+    "install-info",
+    "update-rc.d",
+    NULL
   };
 
   struct stat stab;
@@ -116,7 +118,7 @@ void ensure_package_clientdata(struct pkginfo *pkg) {
   pkg->clientdata= nfmalloc(sizeof(struct perpackagestate));
   pkg->clientdata->istobe= itb_normal;
   pkg->clientdata->fileslistvalid= 0;
-  pkg->clientdata->files= 0;
+  pkg->clientdata->files = NULL;
 }
 
 void cu_closepipe(int argc, void **argv) {
@@ -202,14 +204,15 @@ static char *const *vbuildarglist(const char *scriptname, va_list ap) {
 
   i=0;
   if(bufs[0]) free(bufs[0]);
-  bufs[i++]= strdup(scriptname); /* yes, cast away const because exec wants it that way */
+  /* Yes, cast away const because exec wants it that way */
+  bufs[i++] = m_strdup(scriptname);
   for (;;) {
     assert(i < PKGSCRIPTMAXARGS);
     nextarg= va_arg(ap,char*);
     if (!nextarg) break;
     bufs[i++]= nextarg;
   }
-  bufs[i]= 0;
+  bufs[i] = NULL;
   return bufs;
 }    
 
@@ -229,7 +232,7 @@ static struct sigaction script_uncatchsignal[NSCRIPTCATCHSIGNALS];
 static void cu_restorescriptsignals(int argc, void **argv) {
   int i;
   for (i=0; i<NSCRIPTCATCHSIGNALS; i++) {
-    if (sigaction(script_catchsignallist[i],&script_uncatchsignal[i],0)) {
+    if (sigaction(script_catchsignallist[i], &script_uncatchsignal[i], NULL)) {
       fprintf(stderr,_("error un-catching signal %s: %s\n"),
               strsignal(script_catchsignallist[i]),strerror(errno));
       onerr_abort++;
@@ -250,7 +253,7 @@ static void script_catchsignals(void) {
     if (sigaction(script_catchsignallist[i],&catchsig,&script_uncatchsignal[i]))
       ohshite(_("unable to ignore signal %s before running script"),
               strsignal(script_catchsignallist[i]));
-  push_cleanup(cu_restorescriptsignals,~0, 0,0, 0);
+  push_cleanup(cu_restorescriptsignals, ~0, NULL, 0, 0);
   onerr_abort--;
 }
 
@@ -392,7 +395,7 @@ void clear_istobes(void) {
   struct pkginfo *pkg;
 
   it= iterpkgstart();
-  while ((pkg= iterpkgnext(it)) != 0) {
+  while ((pkg = iterpkgnext(it)) != NULL) {
     ensure_package_clientdata(pkg);
     pkg->clientdata->istobe= itb_normal;
     pkg->clientdata->replacingfilesandsaid= 0;
@@ -508,7 +511,7 @@ void ensure_pathname_nonexisting(const char *pathname) {
     if (!chmodsafe_unlink(pathname, &failed)) return; /* OK, it was */
     if (errno == ENOTDIR) return;
   }
-  if (errno != ENOTEMPTY) { /* Huh ? */
+  if (errno != ENOTEMPTY && errno != EEXIST) { /* Huh ? */
     char mbuf[250];
     snprintf(mbuf, sizeof(mbuf), N_("failed to %s `%%.255s'"), failed);
     ohshite(_(mbuf),pathname);

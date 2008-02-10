@@ -3,9 +3,10 @@
 localedir = $(datadir)/locale
 pkgconfdir = $(sysconfdir)/@PACKAGE@
 INCLUDES = \
-	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl \
+	-DLOCALEDIR=\"$(localedir)\" \
 	-DCONFIGDIR=\"$(pkgconfdir)\" \
-	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\"
+	-DCOPYINGFILE=\"$(datadir)/common-licenses/GPL-2\" \
+	-idirafter $(top_srcdir)/libcompat
 
 
 noinst_LIBRARIES = libdpkg.a

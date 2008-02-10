@@ -72,6 +72,7 @@ const keybindings::interpretation packagelist_kinterps[] = {
   { "revert",           0,  &packagelist::kd_revert_abort,     qa_noquit           },
   { "revertsuggest",    0,  &packagelist::kd_revertsuggest,    qa_noquit           },
   { "revertdirect",     0,  &packagelist::kd_revertdirect,     qa_noquit           },
+  { "revertinstalled",  0,  &packagelist::kd_revertinstalled,  qa_noquit           },
   {  0,                 0,  0,                                qa_noquit           }
 };
 
@@ -144,6 +145,7 @@ const keybindings::orgbinding packagelist_korgbindings[]= {
   { 'R',            "revert"           },
   { 'U',            "revertsuggest"    },
   { 'D',            "revertdirect"     },
+  { 'C',            "revertinstalled"  },
                                        
   {  -1,             0                 }
 };

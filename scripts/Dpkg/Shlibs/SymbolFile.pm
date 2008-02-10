@@ -60,12 +60,22 @@ for (my $i = 14; $i <= 31; $i++) {
     $blacklist{"_savegpr_$i"} = 1;
 }
 
+# Many armel-specific symbols
+$blacklist{"__aeabi_$_"} = 1 foreach (qw(cdcmpeq cdcmple cdrcmple cfcmpeq
+cfcmple cfrcmple d2f d2iz d2lz d2uiz d2ulz dadd dcmpeq dcmpge dcmpgt
+dcmple dcmplt dcmpun ddiv dmul dneg drsub dsub f2d f2iz f2lz f2uiz f2ulz
+fadd fcmpeq fcmpge fcmpgt fcmple fcmplt fcmpun fdiv fmul fneg frsub fsub
+i2d i2f idiv idivmod l2d l2f lasr lcmp ldivmod llsl llsr lmul ui2d ui2f
+uidiv uidivmod ul2d ul2f ulcmp uldivmod unwind_cpp_pr0 unwind_cpp_pr1
+unwind_cpp_pr2 uread4 uread8 uwrite4 uwrite8));
+
 sub new {
     my $this = shift;
     my $file = shift;
     my $class = ref($this) || $this;
     my $self = { };
     bless $self, $class;
+    $self->clear();
     if (defined($file) ) {
 	$self->{file} = $file;
 	$self->load($file) if -e $file;
@@ -76,6 +86,7 @@ sub new {
 sub clear {
     my ($self) = @_;
     $self->{objects} = {};
+    $self->{used_wildcards} = 0;
 }
 
 sub clear_except {
@@ -100,21 +111,27 @@ sub load {
     $seen->{$file} = 1;
 
     open(my $sym_file, "<", $file)
-	|| syserr(sprintf(_g("Can't open %s: %s"), $file));
+	|| syserr(_g("cannot open %s"), $file);
     my $object = $current_object;
     while (defined($_ = <$sym_file>)) {
 	chomp($_);
 	if (/^\s+(\S+)\s(\S+)(?:\s(\d+))?/) {
 	    if (not defined ($object)) {
-		error(sprintf(_g("Symbol information must be preceded by a header (file %s, line %s).", $file, $.)));
+		error(_g("Symbol information must be preceded by a header (file %s, line %s)."), $file, $.);
 	    }
+	    my $name = $1;
 	    # New symbol
 	    my $sym = {
 		minver => $2,
 		dep_id => defined($3) ? $3 : 0,
 		deprecated => 0
 	    };
-	    $self->{objects}{$object}{syms}{$1} = $sym;
+	    if ($name =~ /^\*@(.*)$/) {
+		error(_g("you can't use wildcards on unversioned symbols: %s"), $_) if $1 eq "Base";
+		$self->{objects}{$object}{wildcards}{$1} = $sym;
+	    } else {
+		$self->{objects}{$object}{syms}{$name} = $sym;
+	    }
 	} elsif (/^#include\s+"([^"]+)"/) {
 	    my $filename = $1;
 	    my $dir = $file;
@@ -146,10 +163,11 @@ sub load {
 		$self->create_object($object, "$2");
 	    }
 	} else {
-	    warning(sprintf(_g("Failed to parse a line in %s: %s"), $file, $_));
+	    warning(_g("Failed to parse a line in %s: %s"), $file, $_);
 	}
     }
     close($sym_file);
+    delete $seen->{$file};
 }
 
 sub save {
@@ -160,7 +178,7 @@ sub save {
 	$fh = \*STDOUT;
     } else {
 	open($fh, ">", $file)
-	    || syserr(sprintf(_g("Can't open %s for writing: %s"), $file, $!));
+	    || syserr(_g("cannot write %s"), $file);
     }
     $self->dump($fh, $with_deprecated);
     close($fh) if ($file ne "-");
@@ -209,9 +227,10 @@ sub merge_symbols {
     }
     # Scan all symbols provided by the objects
     foreach my $sym (keys %dynsyms) {
-	if (exists $self->{objects}{$soname}{syms}{$sym}) {
+	my $obj = $self->{objects}{$soname};
+	if (exists $obj->{syms}{$sym}) {
 	    # If the symbol is already listed in the file
-	    my $info = $self->{objects}{$soname}{syms}{$sym};
+	    my $info = $obj->{syms}{$sym};
 	    if ($info->{deprecated}) {
 		# Symbol reappeared somehow
 		$info->{deprecated} = 0;
@@ -225,12 +244,21 @@ sub merge_symbols {
 	    }
 	} else {
 	    # The symbol is new and not present in the file
-	    my $info = {
-		minver => $minver,
-		deprecated => 0,
-		dep_id => 0
-	    };
-	    $self->{objects}{$soname}{syms}{$sym} = $info;
+	    my $info;
+	    my $symobj = $dynsyms{$sym};
+	    if ($symobj->{version} and exists $obj->{wildcards}{$symobj->{version}}) {
+		# Get the info from wildcards
+		$info = $obj->{wildcards}{$symobj->{version}};
+		$self->{used_wildcards}++;
+	    } else {
+		# New symbol provided by the current release
+		$info = {
+		    minver => $minver,
+		    deprecated => 0,
+		    dep_id => 0
+		};
+	    }
+	    $obj->{syms}{$sym} = $info;
 	}
     }
 
@@ -265,6 +293,7 @@ sub create_object {
     $self->{objects}{$soname} = {
 	syms => {},
 	fields => {},
+	wildcards => {},
 	deps => [ @deps ]
     };
 }
@@ -288,6 +317,22 @@ sub get_field {
     return undef;
 }
 
+sub contains_wildcards {
+    my ($self) = @_;
+    my $res = 0;
+    foreach my $soname (sort keys %{$self->{objects}}) {
+	if (scalar keys %{$self->{objects}{$soname}{wildcards}}) {
+	    $res = 1;
+	}
+    }
+    return $res;
+}
+
+sub used_wildcards {
+    my ($self) = @_;
+    return $self->{used_wildcards};
+}
+
 sub lookup_symbol {
     my ($self, $name, $sonames, $inc_deprecated) = @_;
     $inc_deprecated = 0 unless defined($inc_deprecated);
@@ -308,8 +353,9 @@ sub lookup_symbol {
     return undef;
 }
 
-sub has_new_symbols {
+sub get_new_symbols {
     my ($self, $ref) = @_;
+    my @res;
     foreach my $soname (keys %{$self->{objects}}) {
 	my $mysyms = $self->{objects}{$soname}{syms};
 	next if not exists $ref->{objects}{$soname};
@@ -320,30 +366,35 @@ sub has_new_symbols {
 	    if ((not exists $refsyms->{$sym}) or
 		$refsyms->{$sym}{deprecated})
 	    {
-		return 1;
+		push @res, {
+		    'soname' => $soname,
+		    'name' => $sym,
+		    %{$mysyms->{$sym}}
+		};
 	    }
 	}
     }
-    return 0;
+    return @res;
 }
 
-sub has_lost_symbols {
+sub get_lost_symbols {
     my ($self, $ref) = @_;
-    return $ref->has_new_symbols($self);
+    return $ref->get_new_symbols($self);
 }
 
 
-sub has_new_libs {
+sub get_new_libs {
     my ($self, $ref) = @_;
+    my @res;
     foreach my $soname (keys %{$self->{objects}}) {
-	return 1 if not exists $ref->{objects}{$soname};
+	push @res, $soname if not exists $ref->{objects}{$soname};
     }
-    return 0;
+    return @res;
 }
 
-sub has_lost_libs {
+sub get_lost_libs {
     my ($self, $ref) = @_;
-    return $ref->has_new_libs($self);
+    return $ref->get_new_libs($self);
 }
 
 1;

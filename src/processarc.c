@@ -57,7 +57,7 @@ void process_archive(const char *filename) {
    */
   static int p1[2];
   static char cidirtmpnambuf[L_tmpnam+100];
-  static char *cidirbuf=0, *reasmbuf=0;
+  static char *cidirbuf = NULL, *reasmbuf = NULL;
   static struct fileinlist *newconffiles, *newfileslist;
   static enum pkgstatus oldversionstatus;
   static struct varbuf infofnvb, fnvb, depprobwhy;
@@ -110,7 +110,7 @@ void process_archive(const char *filename) {
     }
     if (unlink(reasmbuf) && errno != ENOENT)
       ohshite(_("error ensuring `%.250s' doesn't exist"),reasmbuf);
-    push_cleanup(cu_pathname,~0, 0,0, 1,(void*)reasmbuf);
+    push_cleanup(cu_pathname, ~0, NULL, 0, 1, (void *)reasmbuf);
     c1= m_fork();
     if (!c1) {
       execlp(SPLITTER, SPLITTER, "-Qao", reasmbuf, filename, NULL);
@@ -180,7 +180,7 @@ void process_archive(const char *filename) {
   assert(*cidir && cidirrest[-1] == '/'); cidirrest[-1]= 0;
   ensure_pathname_nonexisting(cidir); cidirrest[-1]= '/';
   
-  push_cleanup(cu_cidir,~0, 0,0, 2,(void*)cidir,(void*)cidirrest);
+  push_cleanup(cu_cidir, ~0, NULL, 0, 2, (void *)cidir, (void *)cidirrest);
   c1= m_fork();
   if (!c1) {
     cidirrest[-1]= 0;
@@ -194,8 +194,8 @@ void process_archive(const char *filename) {
           &pkg,NULL,NULL);
   if (!pkg->files) {
     pkg->files= nfmalloc(sizeof(struct filedetails));
-    pkg->files->next= 0;
-    pkg->files->name= pkg->files->msdosname= pkg->files->md5sum= 0;
+    pkg->files->next = NULL;
+    pkg->files->name = pkg->files->msdosname = pkg->files->md5sum = NULL;
   }
   /* Always nfmalloc.  Otherwise, we may overwrite some other field(like md5sum). */
   pkg->files->size= nfmalloc(30);
@@ -223,7 +223,7 @@ void process_archive(const char *filename) {
     deconpiltemp= deconpil->next;
     free(deconpil);
   }
-  deconfigure= 0;
+  deconfigure = NULL;
   clear_istobes();
 
   if (!wanttoinstall(pkg,&pkg->available.version,1)) {
@@ -264,7 +264,7 @@ void process_archive(const char *filename) {
       /* Ignore these here. */
       break;
     case dep_predepends:
-      if (!depisok(dsearch,&depprobwhy,0,1)) {
+      if (!depisok(dsearch, &depprobwhy, NULL, 1)) {
         varbufaddc(&depprobwhy,0);
         fprintf(stderr, _("dpkg: regarding %s containing %s, pre-dependency problem:\n%s"),
                 pfilename, pkg->name, depprobwhy.buf);
@@ -302,12 +302,13 @@ void process_archive(const char *filename) {
   /* OK, we're going ahead.  First we read the conffiles, and copy the
    * hashes across.
    */
-  newconffiles= 0; newconffileslastp= &newconffiles;
-  push_cleanup(cu_fileslist,~0, 0, 0, 0);
+  newconffiles = NULL;
+  newconffileslastp = &newconffiles;
+  push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
   strcpy(cidirrest,CONFFILESFILE);
   conff= fopen(cidir,"r");
   if (conff) {
-    push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)conff);
+    push_cleanup(cu_closefile, ehflag_bombout, NULL, 0, 1, (void *)conff);
     while (fgets(conffilenamebuf,MAXCONFFILENAME-2,conff)) {
       p= conffilenamebuf + strlen(conffilenamebuf);
       assert(p != conffilenamebuf);
@@ -332,7 +333,7 @@ void process_archive(const char *filename) {
        * having that file.  If several packages are listed as owning
        * the file we pick one at random.
        */
-      searchconff= 0;
+      searchconff = NULL;
       for (packageslump= newconff->namenode->packages;
            packageslump;
            packageslump= packageslump->more) {
@@ -390,7 +391,7 @@ void process_archive(const char *filename) {
     pkg->eflag |= eflagf_reinstreq;
     pkg->status= stat_halfconfigured;
     modstatdb_note(pkg);
-    push_cleanup(cu_prermupgrade,~ehflag_normaltidy, 0,0, 1,(void*)pkg);
+    push_cleanup(cu_prermupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
     maintainer_script_alternative(pkg, PRERMFILE, "pre-removal", cidir, cidirrest,
                                   "upgrade", "failed-upgrade");
     pkg->status= stat_unpacked;
@@ -441,7 +442,7 @@ void process_archive(const char *filename) {
           conflictor[i]->status == stat_installed)) continue;
     conflictor[i]->status= stat_halfconfigured;
     modstatdb_note(conflictor[i]);
-    push_cleanup(cu_prerminfavour,~ehflag_normaltidy, 0,0,
+    push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
                  2,(void*)conflictor[i],(void*)pkg);
     maintainer_script_installed(conflictor[i], PRERMFILE, "pre-removal",
                                 "remove", "in-favour", pkg->name,
@@ -458,19 +459,19 @@ void process_archive(const char *filename) {
   pkg->status= stat_halfinstalled;
   modstatdb_note(pkg);
   if (oldversionstatus == stat_notinstalled) {
-    push_cleanup(cu_preinstverynew,~ehflag_normaltidy, 0,0,
+    push_cleanup(cu_preinstverynew, ~ehflag_normaltidy, NULL, 0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "install", NULL);
   } else if (oldversionstatus == stat_configfiles) {
-    push_cleanup(cu_preinstnew,~ehflag_normaltidy, 0,0,
+    push_cleanup(cu_preinstnew, ~ehflag_normaltidy, NULL, 0,
                  3,(void*)pkg,(void*)cidir,(void*)cidirrest);
     maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "install", versiondescribe(&pkg->installed.version,
                                                      vdew_nonambig),
                           NULL);
   } else {
-    push_cleanup(cu_preinstupgrade,~ehflag_normaltidy, 0,0,
+    push_cleanup(cu_preinstupgrade, ~ehflag_normaltidy, NULL, 0,
                  4,(void*)pkg,(void*)cidir,(void*)cidirrest,(void*)&oldversionstatus);
     maintainer_script_new(pkg->name, PREINSTFILE, "pre-installation", cidir, cidirrest,
                           "upgrade", versiondescribe(&pkg->installed.version,
@@ -552,7 +553,7 @@ void process_archive(const char *filename) {
    */
 
   m_pipe(p1);
-  push_cleanup(cu_closepipe,ehflag_bombout, 0,0, 1,(void*)&p1[0]);
+  push_cleanup(cu_closepipe, ehflag_bombout, NULL, 0, 1, (void *)&p1[0]);
   c1= m_fork();
   if (!c1) {
     m_dup2(p1[1],1); close(p1[0]); close(p1[1]);
@@ -561,11 +562,12 @@ void process_archive(const char *filename) {
   }
   close(p1[1]);
 
-  newfileslist= 0; tc.newfilesp= &newfileslist;
-  push_cleanup(cu_fileslist,~0, 0, 0, 0);
+  newfileslist = NULL;
+  tc.newfilesp = &newfileslist;
+  push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
-  push_cleanup(cu_closefd,~ehflag_bombout, 0,0, 1,&tc.backendpipe);
+  push_cleanup(cu_closefd, ~ehflag_bombout, NULL, 0, 1, &tc.backendpipe);
 
   r= TarExtractor((void*)&tc, &tf);
   if (r) {
@@ -585,7 +587,7 @@ void process_archive(const char *filename) {
      */
     pkg->status= stat_halfinstalled;
     modstatdb_note(pkg);
-    push_cleanup(cu_postrmupgrade,~ehflag_normaltidy, 0,0, 1,(void*)pkg);
+    push_cleanup(cu_postrmupgrade, ~ehflag_normaltidy, NULL, 0, 1, (void *)pkg);
     maintainer_script_alternative(pkg, POSTRMFILE, "post-removal", cidir, cidirrest,
                                   "upgrade", "failed-upgrade");
   }
@@ -658,7 +660,7 @@ void process_archive(const char *filename) {
        * the process a little leaner. We are only worried about new ones
        * since ones that stayed the same don't really apply here.
        */
-      struct fileinlist *sameas= 0;
+      struct fileinlist *sameas = NULL;
       /* If we can't stat the old or new file, or it's a directory,
        * we leave it up to the normal code
        */
@@ -673,7 +675,7 @@ void process_archive(const char *filename) {
 	      ohshite(_("unable to stat other new file `%.250s'"),
 		      cfile->namenode->name);
 	    memset(cfile->namenode->filestat, 0,
-		   sizeof(cfile->namenode->filestat));
+		   sizeof(*cfile->namenode->filestat));
 	    continue;
 	  }
 	}
@@ -749,8 +751,8 @@ void process_archive(const char *filename) {
   varbufaddc(&infofnvb,0);
   dsd= opendir(infofnvb.buf);
   if (!dsd) ohshite(_("cannot read info directory"));
-  push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
-  while ((de= readdir(dsd)) != 0) {
+  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
+  while ((de = readdir(dsd)) != NULL) {
     debug(dbg_veryverbose, "process_archive info file `%s'", de->d_name);
     if (de->d_name[0] == '.') continue; /* ignore dotfiles, including `.' and `..' */
     p= strrchr(de->d_name,'.'); if (!p) continue; /* ignore anything odd */
@@ -784,7 +786,7 @@ void process_archive(const char *filename) {
   *cidirrest= 0; /* the directory itself */
   dsd= opendir(cidir);
   if (!dsd) ohshite(_("unable to open temp control directory"));
-  push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
+  push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
   while ((de= readdir(dsd))) {
     if (strchr(de->d_name,'.')) {
       debug(dbg_scripts,"process_archive tmp.ci script/file `%s' contains dot",
@@ -835,17 +837,20 @@ void process_archive(const char *filename) {
    * links (linking our deppossi's into the reverse chains)
    * can be done by copy_dependency_links.
    */
-  newdeplist= 0; newdeplistlastp= &newdeplist;
+  newdeplist = NULL;
+  newdeplistlastp = &newdeplist;
   for (dep= pkg->available.depends; dep; dep= dep->next) {
     newdep= nfmalloc(sizeof(struct dependency));
     newdep->up= pkg;
-    newdep->next= 0;
-    newdep->list= 0; newpossilastp= &newdep->list;
+    newdep->next = NULL;
+    newdep->list = NULL;
+    newpossilastp = &newdep->list;
     for (possi= dep->list; possi; possi= possi->next) {
       newpossi= nfmalloc(sizeof(struct deppossi));
       newpossi->up= newdep;
       newpossi->ed= possi->ed;
-      newpossi->next= 0; newpossi->nextrev= newpossi->backrev= 0;
+      newpossi->next = NULL;
+      newpossi->nextrev = newpossi->backrev = NULL;
       newpossi->verrel= possi->verrel;
       if (possi->verrel != dvr_none)
         newpossi->version= possi->version;
@@ -883,10 +888,11 @@ void process_archive(const char *filename) {
   pkg->installed.bugs = pkg->available.bugs;                                   
 
   /* We have to generate our own conffiles structure. */
-  pkg->installed.conffiles= 0; iconffileslastp= &pkg->installed.conffiles;
+  pkg->installed.conffiles = NULL;
+  iconffileslastp = &pkg->installed.conffiles;
   for (cfile= newconffiles; cfile; cfile= cfile->next) {
     newiconff= nfmalloc(sizeof(struct conffile));
-    newiconff->next= 0;
+    newiconff->next = NULL;
     newiconff->name= nfstrsave(cfile->namenode->name);
     newiconff->hash= nfstrsave(cfile->namenode->oldhash);
     newiconff->obsolete= !!(cfile->namenode->flags & fnnf_obs_conff);
@@ -910,7 +916,7 @@ void process_archive(const char *filename) {
    * with them !).
    */
   it= iterpkgstart();
-  while ((otherpkg= iterpkgnext(it)) != 0) {
+  while ((otherpkg = iterpkgnext(it)) != NULL) {
     ensure_package_clientdata(otherpkg);
     if (otherpkg == pkg ||
         otherpkg->status == stat_notinstalled ||
@@ -940,7 +946,8 @@ void process_archive(const char *filename) {
          pdep= pdep->nextrev) {
       if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
           pdep->up->type != dep_recommends) continue;
-      if (depisok(pdep->up, &depprobwhy, 0,0)) continue;
+      if (depisok(pdep->up, &depprobwhy, NULL, 0))
+        continue;
       varbufaddc(&depprobwhy,0);
       debug(dbg_veryverbose,"process_archive cannot disappear: %s",depprobwhy.buf);
       break;
@@ -957,7 +964,8 @@ void process_archive(const char *filename) {
           if (pdep->up->type != dep_depends && pdep->up->type != dep_predepends &&
               pdep->up->type != dep_recommends)
             continue;
-          if (depisok(pdep->up, &depprobwhy, 0,0)) continue;
+          if (depisok(pdep->up, &depprobwhy, NULL, 0))
+            continue;
           varbufaddc(&depprobwhy,0);
           debug(dbg_veryverbose,"process_archive cannot disappear (provides %s): %s",
                 providecheck->list->ed->name, depprobwhy.buf);
@@ -990,11 +998,11 @@ void process_archive(const char *filename) {
     infodirbaseused= fnvb.used;
     varbufaddc(&fnvb,0);
     dsd= opendir(fnvb.buf); if (!dsd) ohshite(_("cannot read info directory"));
-    push_cleanup(cu_closedir,~0, 0,0, 1,(void*)dsd);
+    push_cleanup(cu_closedir, ~0, NULL, 0, 1, (void *)dsd);
 
     debug(dbg_general, "process_archive disappear cleaning info directory");
       
-    while ((de= readdir(dsd)) != 0) {
+    while ((de = readdir(dsd)) != NULL) {
       debug(dbg_veryverbose, "process_archive info file `%s'", de->d_name);
       if (de->d_name[0] == '.') continue;
       p= strrchr(de->d_name,'.'); if (!p) continue;
@@ -1014,15 +1022,15 @@ void process_archive(const char *filename) {
     otherpkg->want= want_purge;
     otherpkg->eflag= eflagv_ok;
 
-    otherpkg->installed.depends= 0;
+    otherpkg->installed.depends = NULL;
     otherpkg->installed.essential= 0;
-    otherpkg->installed.description= otherpkg->installed.maintainer= 0;
-    otherpkg->installed.installedsize= otherpkg->installed.source= 0;
-    otherpkg->installed.origin= otherpkg->installed.bugs= 0;
-    otherpkg->installed.architecture= 0;
-    otherpkg->installed.conffiles= 0;
+    otherpkg->installed.description = otherpkg->installed.maintainer = NULL;
+    otherpkg->installed.installedsize = otherpkg->installed.source = NULL;
+    otherpkg->installed.origin = otherpkg->installed.bugs = NULL;
+    otherpkg->installed.architecture = NULL;
+    otherpkg->installed.conffiles = NULL;
     blankversion(&otherpkg->installed.version);
-    otherpkg->installed.arbs= 0;
+    otherpkg->installed.arbs = NULL;
     otherpkg->clientdata->fileslistvalid= 0;
 
     modstatdb_note(otherpkg);
@@ -1053,7 +1061,7 @@ void process_archive(const char *filename) {
               cfile->namenode->name, divpkg ? divpkg->name : "<local>");
       }        
     } else {
-      divpkg= 0;
+      divpkg = NULL;
       debug(dbg_eachfile, "process_archive looking for overwriting `%s'",
             cfile->namenode->name);
     }

@@ -2,8 +2,9 @@
 
 localedir = $(datadir)/locale
 INCLUDES = \
-	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl \
+	-DLOCALEDIR=\"$(localedir)\" \
 	-DADMINDIR=\"$(admindir)\" \
+	-idirafter $(top_srcdir)/libcompat \
 	-I$(top_srcdir)/lib
 
 
@@ -26,6 +27,7 @@ dpkg_SOURCES = \
 	update.c
 
 dpkg_LDADD = \
+	../libcompat/libcompat.a \
 	$(LIBINTL) ../lib/libdpkg.a $(ZLIB_LIBS) $(BZ2_LIBS) $(SELINUX_LIBS)
 
 dpkg_query_SOURCES = \
@@ -33,8 +35,10 @@ dpkg_query_SOURCES = \
 	filesdb.c filesdb.h \
 	query.c
 
-dpkg_query_LDADD = $(LIBINTL) ../lib/libdpkg.a
-
+dpkg_query_LDADD = \
+	../libcompat/libcompat.a \
+	$(LIBINTL) \
+	../lib/libdpkg.a
 
 install-data-local:
 	$(mkdir_p) $(DESTDIR)$(admindir)/alternatives

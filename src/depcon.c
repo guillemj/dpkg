@@ -108,7 +108,7 @@ static int findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *s
   }
   thislink.pkg= pkg;
   thislink.back= sofar;
-  thislink.possi= 0;
+  thislink.possi = NULL;
   for (dep= pkg->installed.depends; dep; dep= dep->next) {
     if (dep->type != dep_depends && dep->type != dep_predepends) continue;
     for (possi= dep->list; possi; possi= possi->next) {
@@ -144,7 +144,7 @@ int findbreakcycle(struct pkginfo *pkg) {
     tpkg->color = white;
   }
 
-  return findbreakcyclerecursive(pkg, 0);
+  return findbreakcyclerecursive(pkg, NULL);
 }
 
 void describedepcon(struct varbuf *addto, struct dependency *dep) {
@@ -217,7 +217,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
 	 dep->type == dep_recommends || dep->type == dep_suggests ||
 	 dep->type == dep_enhances);
   
-  if (canfixbyremove) *canfixbyremove= 0;
+  if (canfixbyremove)
+    *canfixbyremove = NULL;
 
   /* The dependency is always OK if we're trying to remove the depend*ing*
    * package.
@@ -450,7 +451,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
                 provider->up->up->name, possi->ed->name);
         varbufaddstr(whynot, linebuf);
         /* We can't remove the one we're about to install: */
-        if (canfixbyremove) *canfixbyremove= 0;
+        if (canfixbyremove)
+          *canfixbyremove = NULL;
         return 0;
       }
 
@@ -499,7 +501,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
     }
 
     if (!nconflicts) return 1;
-    if (nconflicts>1) *canfixbyremove= 0;
+    if (nconflicts > 1)
+      *canfixbyremove = NULL;
     return 0;
 
   } /* if (dependency) {...} else {...} */

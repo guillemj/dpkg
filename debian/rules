@@ -2,8 +2,10 @@
 # debian/rules for the dpkg suite.
 # Copyright © 2004 Scott James Remnant <scott@netsplit.com>
 
-CFLAGS = -Wall -g
-CXXFLAGS = -Wall -g
+WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
+
+CFLAGS = -g $(WFLAGS)
+CXXFLAGS = -g $(WFLAGS)
 
 # Disable optimisations if ‘noopt’ found in $DEB_BUILD_OPTIONS
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))

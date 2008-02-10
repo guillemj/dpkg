@@ -42,9 +42,9 @@
 
 static int allpackagesdone= 0;
 static int nfiles= 0;
-static struct diversion *diversions= 0;
-static FILE *diversionsfile= 0;
-static FILE *statoverridefile= 0;
+static struct diversion *diversions = NULL;
+static FILE *diversionsfile = NULL;
+static FILE *statoverridefile = NULL;
 
 void note_must_reread_files_inpackage(struct pkginfo *pkg) {
   allpackagesdone= 0;
@@ -95,7 +95,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
            * the list is null-pointer-terminated.
            */
           packageslump->pkgs[search]= packageslump->pkgs[findlast];
-          packageslump->pkgs[findlast]= 0;
+          packageslump->pkgs[findlast] = NULL;
           /* This may result in an empty link in the list.  This is OK. */
           goto xit_search_to_delete_from_perfilenodelist;
         }
@@ -105,7 +105,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
      * we shouldn't free them.
      */
   }
-  pkg->clientdata->files= 0;
+  pkg->clientdata->files = NULL;
 
   /* Packages which aren't installed don't have a files list. */
   if (pkg->status == stat_notinstalled) {
@@ -128,12 +128,12 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
               _("dpkg: serious warning: files list file for package `%.250s' missing,"
               " assuming package has no files currently installed.\n"), pkg->name);
     }
-    pkg->clientdata->files= 0;
+    pkg->clientdata->files = NULL;
     pkg->clientdata->fileslistvalid= 1;
     return;
   }
 
-  push_cleanup(cu_closefd,ehflag_bombout, 0,0, 1,&fd);
+  push_cleanup(cu_closefd, ehflag_bombout, NULL, 0, 1, &fd);
   
    if(fstat(fd, &stat_buf))
      ohshite("unable to stat files list file for package `%.250s'",pkg->name);
@@ -159,7 +159,7 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
       *ptr = 0;
       newent= nfmalloc(sizeof(struct fileinlist));
       newent->namenode= findnamenode(thisline, fnn_nocopy);
-      newent->next= 0;
+      newent->next = NULL;
       *lendp= newent;
       lendp= &newent->next;
       thisline = nextline;
@@ -177,7 +177,8 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
     if (packageslump) {
       for (; putat < PERFILEPACKAGESLUMP && packageslump->pkgs[putat];
            putat++);
-      if (putat >= PERFILEPACKAGESLUMP) packageslump= 0;
+      if (putat >= PERFILEPACKAGESLUMP)
+        packageslump = NULL;
     }
     if (!packageslump) {
       packageslump= nfmalloc(sizeof(struct filepackages));
@@ -186,7 +187,8 @@ void ensure_packagefiles_available(struct pkginfo *pkg) {
       putat= 0;
     }
     packageslump->pkgs[putat]= pkg;
-    if (++putat < PERFILEPACKAGESLUMP) packageslump->pkgs[putat]= 0;
+    if (++putat < PERFILEPACKAGESLUMP)
+      packageslump->pkgs[putat] = NULL;
   }      
   pkg->clientdata->fileslistvalid= 1;
 }
@@ -201,7 +203,8 @@ void ensure_allinstfiles_available(void) {
     printf(_("(Reading database ... "));
   }
   it= iterpkgstart();
-  while ((pkg= iterpkgnext(it)) != 0) ensure_packagefiles_available(pkg);
+  while ((pkg = iterpkgnext(it)) != NULL)
+    ensure_packagefiles_available(pkg);
   iterpkgend(it);
   allpackagesdone= 1;
 
@@ -238,7 +241,7 @@ void write_filelist_except(struct pkginfo *pkg, struct fileinlist *list, int lea
   file= fopen(newvb.buf,"w+");
   if (!file)
     ohshite(_("unable to create updated files list file for package %s"),pkg->name);
-  push_cleanup(cu_closefile,ehflag_bombout, 0,0, 1,(void*)file);
+  push_cleanup(cu_closefile, ehflag_bombout, NULL, 0, 1, (void *)file);
   while (list) {
     if (!(leaveout && (list->namenode->flags & fnnf_elide_other_lists))) {
       fputs(list->namenode->name,file);
@@ -271,7 +274,7 @@ void reversefilelist_init(struct reversefilelistiter *iterptr,
    */
   struct fileinlist *newent;
   
-  iterptr->todo= 0;
+  iterptr->todo = NULL;
   while (files) {
     newent= m_malloc(sizeof(struct fileinlist));
     newent->namenode= files->namenode;
@@ -286,7 +289,8 @@ struct filenamenode *reversefilelist_next(struct reversefilelistiter *iterptr) {
   struct fileinlist *todo;
 
   todo= iterptr->todo;
-  if (!todo) return 0;
+  if (!todo)
+    return NULL;
   ret= todo->namenode;
   iterptr->todo= todo->next;
   free(todo);
@@ -460,10 +464,10 @@ void ensure_diversions(void) {
   setcloexec(fileno(diversionsfile), vb.buf);
 
   for (ov= diversions; ov; ov= ov->next) {
-    ov->useinstead->divert->camefrom->divert= 0;
-    ov->useinstead->divert= 0;
+    ov->useinstead->divert->camefrom->divert = NULL;
+    ov->useinstead->divert = NULL;
   }
-  diversions= 0;
+  diversions = NULL;
   if (!file) { onerr_abort--; return; }
 
   while (fgets(linebuf,sizeof(linebuf),file)) {
@@ -475,7 +479,7 @@ void ensure_diversions(void) {
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [i]"));
     linebuf[l]= 0;
     oialtname->camefrom= findnamenode(linebuf, 0);
-    oialtname->useinstead= 0;    
+    oialtname->useinstead = NULL;
 
     if (!fgets(linebuf,sizeof(linebuf),file)) {
       if (ferror(file)) ohshite(_("read error in diversions [ii]"));
@@ -486,7 +490,7 @@ void ensure_diversions(void) {
     if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
     linebuf[l]= 0;
     oicontest->useinstead= findnamenode(linebuf, 0);
-    oicontest->camefrom= 0;
+    oicontest->camefrom = NULL;
     
     if (!fgets(linebuf,sizeof(linebuf),file)) {
       if (ferror(file)) ohshite(_("read error in diversions [iii]"));
@@ -498,7 +502,7 @@ void ensure_diversions(void) {
     linebuf[l]= 0;
 
     oicontest->pkg= oialtname->pkg=
-      strcmp(linebuf,":") ? findpackage(linebuf) : 0;
+      strcmp(linebuf, ":") ? findpackage(linebuf) : NULL;
 
     if (oialtname->camefrom->divert || oicontest->useinstead->divert)
       ohshit(_("conflicting diversions involving `%.250s' or `%.250s'"),
@@ -531,7 +535,7 @@ static struct filenamenode *bins[BINS];
 struct fileiterator *iterfilestart(void) {
   struct fileiterator *i;
   i= m_malloc(sizeof(struct fileiterator));
-  i->namenode= 0;
+  i->namenode = NULL;
   i->nbinn= 0;
   return i;
 }
@@ -540,7 +544,8 @@ struct filenamenode *iterfilenext(struct fileiterator *i) {
   struct filenamenode *r= NULL;
 
   while (!i->namenode) {
-    if (i->nbinn >= BINS) return 0;
+    if (i->nbinn >= BINS)
+      return NULL;
     i->namenode= bins[i->nbinn++];
   }
   r= i->namenode;
@@ -559,8 +564,8 @@ void filesdbinit(void) {
   for (i=0; i<BINS; i++)
     for (fnn= bins[i]; fnn; fnn= fnn->next) {
       fnn->flags= 0;
-      fnn->oldhash= 0;
-      fnn->filestat= 0;
+      fnn->oldhash = NULL;
+      fnn->filestat = NULL;
     }
 }
 
@@ -587,7 +592,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   if (*pointerp) return *pointerp;
 
   newnode= nfmalloc(sizeof(struct filenamenode));
-  newnode->packages= 0;
+  newnode->packages = NULL;
   if((flags & fnn_nocopy) && name > orig_name && name[-1] == '/')
     newnode->name = name - 1;
   else {
@@ -596,10 +601,10 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
     newnode->name= newname;
   }
   newnode->flags= 0;
-  newnode->next= 0;
-  newnode->divert= 0;
-  newnode->statoverride= 0;
-  newnode->filestat= 0;
+  newnode->next = NULL;
+  newnode->divert = NULL;
+  newnode->statoverride = NULL;
+  newnode->filestat = NULL;
   *pointerp= newnode;
   nfiles++;
 

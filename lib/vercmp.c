@@ -65,42 +65,6 @@ static int verrevcmp(const char *val, const char *ref) {
   return 0;
 }
 
-
-#if 0
-static int verrevcmp(const char *ival, const char *iref) {
-  static char empty[] = "";
-  int vc, rc;
-  long vl, rl;
-  char *vp, *rp;
-  char *val, *ref;
-  memcpy(&val,&ival,sizeof(char*));
-  memcpy(&ref,&iref,sizeof(char*));
-
-  if (!val) val= empty;
-  if (!ref) ref= empty;
-  for (;;) {
-    vp= val;  while (*vp && !isdigit(*vp)) vp++;
-    rp= ref;  while (*rp && !isdigit(*rp)) rp++;
-    for (;;) {
-      vc= val == vp ? 0 : *val++;
-      rc= ref == rp ? 0 : *ref++;
-      if (!rc && !vc) break;
-      if (vc && !isalpha(vc)) vc += 256; /* assumes ASCII character set */
-      if (rc && !isalpha(rc)) rc += 256;
-      if (vc != rc) return vc - rc;
-    }
-    val= vp;
-    ref= rp;
-    vl=0;  if (isdigit(*vp)) vl= strtol(val,&val,10);
-    rl=0;  if (isdigit(*rp)) rl= strtol(ref,&ref,10);
-    if (vl != rl) return vl - rl;
-    if (!*val && !*ref) return 0;
-    if (!*val) return -1;
-    if (!*ref) return +1;
-  }
-}
-#endif
-
 int versioncompare(const struct versionrevision *version,
                    const struct versionrevision *refversion) {
   int r;

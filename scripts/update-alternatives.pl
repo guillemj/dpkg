@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 
+use POSIX qw(:errno_h);
 use Dpkg;
 use Dpkg::Gettext;
 
@@ -14,7 +15,6 @@ my $altdir = '/etc/alternatives';
 # FIXME: this should not override the previous assignment.
 $admindir = $admindir . '/alternatives';
 
-my $testmode = 0;
 my $verbosemode = 0;
 
 my $action = '';      # Action to perform (display / install / remove / display / auto / config)
@@ -52,9 +52,6 @@ my %slavenum;         # Map from name of slavelink to slave-index (into @slaveli
 my @slavelinks;       # List of slavelinks (indexed by slave-index)
 my %slavepath;        # Map from (@version-index,slavename) to slave-path
 my %slavelinkcount;
-
-my $enoent = `$dpkglibdir/enoent` || die sprintf(_g("Cannot get ENOENT value from %s: %s"), "$dpkglibdir/enoent", $!);
-sub ENOENT { $enoent; }
 
 sub version {
     printf _g("Debian %s version %s.\n"), $progname, $version;
@@ -99,7 +96,6 @@ Commands:
 Options:
   --altdir <directory>     change the alternatives directory.
   --admindir <directory>   change the administrative directory.
-  --test                   don't do anything, just demonstrate.
   --verbose                verbose operation, more output.
   --quiet                  quiet operation, minimal output.
   --help                   show this help message.
@@ -303,8 +299,6 @@ while (@ARGV) {
         &usage; exit(0);
     } elsif (m/^--version$/) {
         &version; exit(0);
-    } elsif (m/^--test$/) {
-        $testmode= 1;
     } elsif (m/^--verbose$/) {
         $verbosemode= +1;
     } elsif (m/^--quiet$/) {

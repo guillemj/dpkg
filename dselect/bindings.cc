@@ -158,6 +158,7 @@ const keybindings::description keybindings::descriptions[]= {
   { "revert",          N_("Revert to old state for all packages")                },
   { "revertsuggest",   N_("Revert to suggested state for all packages")          },
   { "revertdirect",    N_("Revert to directly requested state for all packages") },
+  { "revertinstalled", N_("Revert to currently installed state for all packages") },
   
   // Actions which apply only to lists of methods.
   { "select-and-quit", N_("Select currently-highlighted access method")          },

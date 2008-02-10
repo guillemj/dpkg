@@ -2,8 +2,8 @@
 
 localedir = $(datadir)/locale
 INCLUDES = \
-	-DLOCALEDIR=\"$(localedir)\" -I$(top_srcdir)/intl \
-	-I$(top_srcdir)/getopt \
+	-DLOCALEDIR=\"$(localedir)\" \
+	-idirafter $(top_srcdir)/libcompat \
 	-I$(top_srcdir)/lib
 
 
@@ -13,11 +13,6 @@ if WITH_START_STOP_DAEMON
   start_stop_daemon_SOURCES = \
 	start-stop-daemon.c
 
-  start_stop_daemon_LDADD = ../getopt/libopt.a $(SSD_LIBS)
+  start_stop_daemon_LDADD = ../libcompat/libcompat.a $(SSD_LIBS)
 endif
 
-
-pkglib_PROGRAMS = enoent
-
-enoent_SOURCES = \
-	enoent.c

@@ -118,8 +118,8 @@ const char printforhelp[]=
 int debugflag=0, nocheckflag=0, oldformatflag=BUILDOLDPKGFORMAT;
 const char* compression=NULL;
 enum compress_type compress_type = compress_type_gzip;
-const struct cmdinfo *cipaction=0;
-dofunction *action=0;
+const struct cmdinfo *cipaction = NULL;
+dofunction *action = NULL;
 
 static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
 static void helponly(const struct cmdinfo *cip, const char *value) {
@@ -149,27 +149,29 @@ static dofunction *const dofunctions[]= {
  * same order as dofunctions:
  */
 static const struct cmdinfo cmdinfos[]= {
-  { "build",        'b',  0,  0, 0,               setaction        },
-  { "contents",     'c',  0,  0, 0,               setaction        },
-  { "control",      'e',  0,  0, 0,               setaction        },
-  { "info",         'I',  0,  0, 0,               setaction        },
-  { "field",        'f',  0,  0, 0,               setaction        },
-  { "extract",      'x',  0,  0, 0,               setaction        },
-  { "vextract",     'X',  0,  0, 0,               setaction        },
-  { "fsys-tarfile",  0,   0,  0, 0,               setaction        },
-  { "show",         'W',  0,  0, 0,               setaction        },
-  { "new",           0,   0,  &oldformatflag, 0,  0,            0  },
-  { "old",           0,   0,  &oldformatflag, 0,  0,            1  },
-  { "debug",        'D',  0,  &debugflag,     0,  0,            1  },
-  { "nocheck",       0,   0,  &nocheckflag,   0,  0,            1  },
-  { "compression",  'z',  1,  0,   &compression,  0,            1  },
-  { "compress_type",'Z',  1,  0, 0,               setcompresstype  },
-  { "showformat",    0,   1,  0, &showformat,     0                },
-  { "help",         'h',  0,  0, 0,               helponly         },
-  { "version",       0,   0,  0, 0,               versiononly      },
-  { "licence",       0,   0,  0, 0,               showcopyright    }, /* UK spelling */
-  { "license",       0,   0,  0, 0,               showcopyright    }, /* US spelling */
-  {  0,              0                                             }
+  { "build",         'b', 0, NULL,           NULL,         setaction        },
+  { "contents",      'c', 0, NULL,           NULL,         setaction        },
+  { "control",       'e', 0, NULL,           NULL,         setaction        },
+  { "info",          'I', 0, NULL,           NULL,         setaction        },
+  { "field",         'f', 0, NULL,           NULL,         setaction        },
+  { "extract",       'x', 0, NULL,           NULL,         setaction        },
+  { "vextract",      'X', 0, NULL,           NULL,         setaction        },
+  { "fsys-tarfile",  0,   0, NULL,           NULL,         setaction        },
+  { "show",          'W', 0, NULL,           NULL,         setaction        },
+  { "new",           0,   0, &oldformatflag, NULL,         NULL,          0 },
+  { "old",           0,   0, &oldformatflag, NULL,         NULL,          1 },
+  { "debug",         'D', 0, &debugflag,     NULL,         NULL,          1 },
+  { "nocheck",       0,   0, &nocheckflag,   NULL,         NULL,          1 },
+  { "compression",   'z', 1, NULL,           &compression, NULL,          1 },
+  { "compress_type", 'Z', 1, NULL,           NULL,         setcompresstype  },
+  { "showformat",    0,   1, NULL,           &showformat,  NULL             },
+  { "help",          'h', 0, NULL,           NULL,         helponly         },
+  { "version",       0,   0, NULL,           NULL,         versiononly      },
+  /* UK spelling. */
+  { "licence",       0,   0, NULL,           NULL,         showcopyright    },
+  /* US spelling. */
+  { "license",       0,   0, NULL,           NULL,         showcopyright    },
+  {  NULL,           0,   0, NULL,           NULL,         NULL             }
 };
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
@@ -198,12 +200,12 @@ int main(int argc, const char *const *argv) {
   jmp_buf ejbuf;
 
   setlocale(LC_NUMERIC, "POSIX");
-  standard_startup(&ejbuf, argc, &argv, NULL, 0, cmdinfos);
+  standard_startup(&ejbuf, argc, &argv, NULL, NULL, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
 
   unsetenv("GZIP");
   action(argv);
-  standard_shutdown(0);
+  standard_shutdown(NULL);
   exit(0);
 }
 

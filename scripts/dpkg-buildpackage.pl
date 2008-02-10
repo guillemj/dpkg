@@ -13,6 +13,7 @@ use Dpkg::ErrorHandling qw(warning error failure syserr subprocerr usageerr
 use Dpkg::BuildOptions;
 use Dpkg::Compression;
 use Dpkg::Version qw(check_version);
+use Dpkg::Changelog qw(parse_changelog);
 
 textdomain("dpkg-dev");
 
@@ -37,6 +38,7 @@ Usage: %s [<options> ...]
 Options:
   -r<gain-root-command>
                  command to gain root privileges (default is fakeroot).
+  -R<rules>      rules file to execute (default is debian/rules).
   -p<sign-command>
   -d             do not check build dependencies and conflicts.
   -D             check build dependencies and conflicts.
@@ -77,15 +79,8 @@ Options:
 "), $progname;
 }
 
-sub testcommand {
-    my ($cmd) = @_;
-
-    my $fullcmd = `which $cmd`;
-    chomp $fullcmd;
-    return $fullcmd && -x $fullcmd;
-}
-
-my $rootcommand = '';
+my @debian_rules = ("debian/rules");
+my @rootcommand = ();
 my $signcommand = '';
 if ( ( ($ENV{GNUPGHOME} && -e $ENV{GNUPGHOME})
        || ($ENV{HOME} && -e "$ENV{HOME}/.gnupg") )
@@ -121,7 +116,7 @@ while (@ARGV) {
     } elsif (/^-j(\d*)$/) {
 	$parallel = $1 || '-1';
     } elsif (/^-r(.*)$/) {
-	$rootcommand = $1;
+	@rootcommand = split /\s+/, $1;
     } elsif (/^-p(.*)$/) {
 	$signcommand = $1;
     } elsif (/^-k(.*)$/) {
@@ -184,7 +179,7 @@ while (@ARGV) {
 	}
     } elsif (/^-S$/) {
 	$sourceonly = '-S';
-	$checkbuilddep = 0;
+	@checkbuilddep_args = ('-B');
 	if ($binaryonly) {
 	    usageerr(_g("cannot combine %s and %s"), $binaryonly, '-S');
 	}
@@ -202,23 +197,25 @@ while (@ARGV) {
     } elsif (/^-E$/) {
 	$warnable_error = 0;
 	push @passopts, '-E';
+    } elsif (/^-R(.*)$/) {
+	@debian_rules = split /\s+/, $1;
     } else {
 	usageerr(_g("unknown option or argument %s"), $_);
     }
 }
 
 if ($< == 0) {
-    warning(_g("using a gain-root-command while being root")) if ($rootcommand);
+    warning(_g("using a gain-root-command while being root")) if (@rootcommand);
 } else {
-    $rootcommand ||= 'fakeroot';
+    push @rootcommand, "fakeroot" unless @rootcommand;
 
-    if (!testcommand($rootcommand)) {
-	if ($rootcommand eq 'fakeroot') {
+    if (!testcommand($rootcommand[0])) {
+	if ($rootcommand[0] eq 'fakeroot') {
 	    error(_g("fakeroot not found, either install the fakeroot\n" .
 	             "package, specify a command with the -r option, " .
 	             "or run this as root"));
 	} else {
-	    error(_g("gain-root-commmand '%s' not found"), $rootcommand);
+	    error(_g("gain-root-commmand '%s' not found"), $rootcommand[0]);
 	}
     }
 }
@@ -235,8 +232,14 @@ if ($forcesigninterface) {
     $signinterface = $signcommand;
 }
 
-if ($signcommand && ($signinterface !~ /^(gpg|pgp)$/)) {
-    warning(_g("unknown sign command, assuming pgp style interface"));
+if ($signcommand) {
+    if ($signinterface !~ /^(gpg|pgp)$/) {
+	warning(_g("unknown sign command, assuming pgp style interface"));
+    } elsif ($signinterface eq 'pgp') {
+	if ($signsource or $signchanges) {
+	    warning(_g("PGP support is deprecated (see README.feature-removal-schedule)"));
+	}
+    }
 }
 
 if ($parallel) {
@@ -256,30 +259,10 @@ if ($parallel) {
 my $cwd = cwd();
 my $dir = basename($cwd);
 
-my %changes;
-open CHANGELOG, '-|', 'dpkg-parsechangelog' or subprocerr('dpkg-parsechangelog');
-# until we have a better parsecdata function this
-# should suffice
-while ($_ = <CHANGELOG>) {
-    chomp;
-    /^(\S+):\s*(.*)$/ && do {
-	$changes{lc $1} = $2;
-    };
-}
-close CHANGELOG or subprocerr('dpkg-parsechangelog');
+my $changelog = parse_changelog();
 
-sub mustsetvar {
-    my ($var, $text) = @_;
-
-    error(_g("unable to determine %s"), $text)
-	unless defined($var);
-
-    print "$progname: $text $var\n";
-    return $var;
-}
-
-my $pkg = mustsetvar($changes{source}, _g('source package'));
-my $version = mustsetvar($changes{version}, _g('source version'));
+my $pkg = mustsetvar($changelog->{source}, _g('source package'));
+my $version = mustsetvar($changelog->{version}, _g('source version'));
 check_version($version);
 
 my $maintainer;
@@ -288,7 +271,7 @@ if ($changedby) {
 } elsif ($maint) {
     $maintainer = $maint;
 } else {
-    $maintainer = mustsetvar($changes{maintainer}, _g('source changed by'));
+    $maintainer = mustsetvar($changelog->{maintainer}, _g('source changed by'));
 }
 
 open my $arch_env, '-|', 'dpkg-architecture', "-a$targetarch",
@@ -316,40 +299,6 @@ unless ($sourceonly) {
 my $pv = "${pkg}_$sversion";
 my $pva = "${pkg}_${sversion}_$arch";
 
-sub signfile {
-    my ($file) = @_;
-    print STDERR " signfile $file\n";
-    my $qfile = quotemeta($file);
-
-    if ($signinterface eq 'gpg') {
-	system("(cat ../$qfile ; echo '') | ".
-	       "$signcommand --utf8-strings --local-user "
-	       .quotemeta($signkey||$maintainer).
-	       " --clearsign --armor --textmode  > ../$qfile.asc");
-    } else {
-	system("$signcommand -u ".quotemeta($signkey||$maintainer).
-	       " +clearsig=on -fast <../$qfile >../$qfile.asc");
-    }
-    my $status = $?;
-    unless ($status) {
-	system('mv', '--', "../$file.asc", "../$file")
-	    and subprocerr('mv');
-    } else {
-	system('rm', '-f', "../$file.asc")
-	    and subprocerr('rm -f');
-    }
-    print "\n";
-    return $status
-}
-
-
-sub withecho {
-    shift while !$_[0];
-    print STDERR " @_\n";
-    system(@_)
-	and subprocerr("@_");
-}
-
 if ($checkbuilddep) {
     if ($admindir) {
 	push @checkbuilddep_args, "--admindir=$admindir";
@@ -358,12 +307,18 @@ if ($checkbuilddep) {
     if (system('dpkg-checkbuilddeps', @checkbuilddep_args)) {
 	warning(_g("Build dependencies/conflicts unsatisfied; aborting."));
 	warning(_g("(Use -d flag to override.)"));
-	exit 3;
+
+	if ($sourceonly) {
+	    warning(_g("This is currently a non-fatal warning with -S, but"));
+	    warning(_g("will probably become fatal in the future."));
+	} else {
+	    exit 3;
+	}
     }
 }
 
 unless ($noclean) {
-    withecho($rootcommand, 'debian/rules', 'clean');
+    withecho(@rootcommand, @debian_rules, 'clean');
 }
 unless ($binaryonly) {
     chdir('..') or failure('chdir ..');
@@ -374,8 +329,8 @@ unless ($binaryonly) {
     chdir($dir) or failure("chdir $dir");
 }
 unless ($sourceonly) {
-    withecho('debian/rules', 'build');
-    withecho($rootcommand, 'debian/rules', $binarytarget);
+    withecho(@debian_rules, 'build');
+    withecho(@rootcommand, @debian_rules, $binarytarget);
 }
 if ($usepause &&
     ($signchanges || ( !$binaryonly && $signsource )) ) {
@@ -426,13 +381,8 @@ while ($_ = <CHANGES>) {
 close CHANGES or subprocerr(_g('dpkg-genchanges'));
 close OUT or syserr(_g('write changes file'));
 
-sub fileomitted {
-    my ($regex) = @_;
-
-    return $files !~ /$regex/;
-}
-
 my $srcmsg;
+sub fileomitted { return $files !~ /$_[0]/ }
 if (fileomitted '\.deb') {
     # source only upload
     if (fileomitted "\.diff\.$comp_regex") {
@@ -460,11 +410,62 @@ if ($signchanges && signfile("$pva.changes")) {
 }
 
 if ($cleansource) {
-    withecho($rootcommand, 'debian/rules', 'clean');
+    withecho(@rootcommand, @debian_rules, 'clean');
 }
 
 print "$progname: $srcmsg\n";
 if ($signerrors) {
     warning($signerrors);
     exit 1;
+}
+
+sub testcommand {
+    my ($cmd) = @_;
+
+    my $fullcmd = `which $cmd`;
+    chomp $fullcmd;
+    return $fullcmd && -x $fullcmd;
+}
+
+sub mustsetvar {
+    my ($var, $text) = @_;
+
+    error(_g("unable to determine %s"), $text)
+	unless defined($var);
+
+    print "$progname: $text $var\n";
+    return $var;
+}
+
+sub withecho {
+    shift while !$_[0];
+    print STDERR " @_\n";
+    system(@_)
+	and subprocerr("@_");
+}
+
+sub signfile {
+    my ($file) = @_;
+    print STDERR " signfile $file\n";
+    my $qfile = quotemeta($file);
+
+    if ($signinterface eq 'gpg') {
+	system("(cat ../$qfile ; echo '') | ".
+	       "$signcommand --utf8-strings --local-user "
+	       .quotemeta($signkey||$maintainer).
+	       " --clearsign --armor --textmode  > ../$qfile.asc");
+    } else {
+	system("$signcommand -u ".quotemeta($signkey||$maintainer).
+	       " +clearsig=on -fast <../$qfile >../$qfile.asc");
+    }
+    my $status = $?;
+    unless ($status) {
+	system('mv', '--', "../$file.asc", "../$file")
+	    and subprocerr('mv');
+    } else {
+	system('rm', '-f', "../$file.asc")
+	    and subprocerr('rm -f');
+    }
+    print "\n";
+    return $status
 }

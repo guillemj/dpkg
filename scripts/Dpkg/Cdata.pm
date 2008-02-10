@@ -21,7 +21,7 @@ use warnings;
 
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(syntaxerr);
-use Dpkg::Fields;
+use Dpkg::Fields qw(capit);;
 
 use Exporter;
 our @ISA = qw(Exporter);
