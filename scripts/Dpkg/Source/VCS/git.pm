@@ -25,9 +25,7 @@ use Cwd;
 use File::Find;
 use Dpkg;
 use Dpkg::Gettext;
-
-push (@INC, $dpkglibdir);
-require 'controllib.pl';
+use Dpkg::ErrorHandling qw(error warning subprocerr syserr);
 
 # Remove variables from the environment that might cause git to do
 # something unexpected.
@@ -43,29 +41,32 @@ sub import {
 			return 1;
 		}
 	}
-	main::error(sprintf(_g("This source package can only be manipulated using git, which is not in the PATH.")));
+	error(_g("This source package can only be manipulated using git, which is not in the PATH."));
 }
 
 sub sanity_check {
 	my $srcdir=shift;
 
 	if (! -d "$srcdir/.git") {
-		main::error(sprintf(_g("source directory is not the top directory of a git repository (%s/.git not present), but Format git was specified"), $srcdir));
+		error(_g("source directory is not the top directory of a git repository (%s/.git not present), but Format git was specified"),
+			 $srcdir);
 	}
 	if (-s "$srcdir/.gitmodules") {
-		main::error(sprintf(_g("git repository %s uses submodules. This is not yet supported."), $srcdir));
+		error(_g("git repository %s uses submodules. This is not yet supported."),
+		      $srcdir);
 	}
 
 	# Symlinks from .git to outside could cause unpack failures, or
 	# point to files they shouldn't, so check for and don't allow.
 	if (-l "$srcdir/.git") {
-		main::error(sprintf(_g("%s is a symlink"), "$srcdir/.git"));
+		error(_g("%s is a symlink"), "$srcdir/.git");
 	}
 	my $abs_srcdir=Cwd::abs_path($srcdir);
 	find(sub {
 		if (-l $_) {
 			if (Cwd::abs_path(readlink($_)) !~ /^\Q$abs_srcdir\E(\/|$)/) {
-				main::error(sprintf(_g("%s is a symlink to outside %s"), $File::Find::name, $srcdir));
+				error(_g("%s is a symlink to outside %s"),
+					 $File::Find::name, $srcdir);
 			}
 		}
 	}, "$srcdir/.git");
@@ -79,7 +80,7 @@ sub read_git_config {
 
 	my %ret;
 	open(GIT_CONFIG, '-|', "git", "config", "--file", $file, "--null", "-l") ||
-		main::subprocerr("git config");
+	    subprocerr("git config");
 	my ($key, $value);
 	while (<GIT_CONFIG>) {
 		if (! defined $key) {
@@ -101,7 +102,7 @@ sub read_git_config {
 	if (defined $key && length $key) {
 		push @{$ret{$key}}, $value;
 	}
-	close(GIT_CONFIG) || main::syserr("git config exited nonzero");
+	close(GIT_CONFIG) || syserr(_g("git config exited nonzero"));
 
 	return \%ret;
 }
@@ -115,7 +116,7 @@ sub prep_tar {
 	
 	my $old_cwd=getcwd();
 	chdir($srcdir) ||
-		main::syserr(sprintf(_g("unable to chdir to `%s'"), $srcdir));
+		syserr(_g("unable to chdir to `%s'"), $srcdir);
 
 	# Check for uncommitted files.
 	# To support dpkg-source -i, get a list of files
@@ -130,9 +131,9 @@ sub prep_tar {
 	if (-e ".git/info/exclude") {
 		push @ignores, "--exclude-from=.git/info/exclude";
 	}
-	open(GIT_LS_FILES, '-|', "git ls-files", "--modified", "--deleted",
-	                                         "--others", @ignores) ||
-		main::subprocerr("git ls-files");
+	open(GIT_LS_FILES, '-|', "git", "ls-files", "--modified", "--deleted",
+	     "--others", @ignores) ||
+		 subprocerr("git ls-files");
 	my @files;
 	while (<GIT_LS_FILES>) {
 		chomp;
@@ -141,22 +142,22 @@ sub prep_tar {
 			push @files, $_;
 		}
 	}
-	close(GIT_LS_FILES) || main::syserr("git ls-files exited nonzero");
+	close(GIT_LS_FILES) || syserr(_g("git ls-files exited nonzero"));
 	if (@files) {
-		main::error(sprintf(_g("uncommitted, not-ignored changes in working directory: %s"),
-		            join(" ", @files)));
+	    error(_g("uncommitted, not-ignored changes in working directory: %s"),
+		  join(" ", @files));
 	}
 
 	# git clone isn't used to copy the repo because the it might be an
 	# unclonable shallow copy.
 	chdir($old_cwd) ||
-		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
+		syserr(_g("unable to chdir to `%s'"), $old_cwd);
 	mkdir($tardir,0755) ||
-		main::syserr(sprintf(_g("unable to create `%s'"), $tardir));
+		syserr(_g("unable to create `%s'"), $tardir);
 	system("cp", "-a", "$srcdir/.git", $tardir);
-	$? && main::subprocerr("cp -a $srcdir/.git $tardir");
+	$? && subprocerr("cp -a $srcdir/.git $tardir");
 	chdir($tardir) ||
-		main::syserr(sprintf(_g("unable to chdir to `%s'"), $tardir));
+		syserr(_g("unable to chdir to `%s'"), $tardir);
 	
 	# TODO support for creating a shallow clone for those cases where
 	# uploading the whole repo history is not desired
@@ -165,14 +166,14 @@ sub prep_tar {
 	# First, delete the whole reflog, which is not needed in a
 	# distributed source package.
 	system("rm", "-rf", ".git/logs");
-	$? && main::subprocerr("rm -rf .git/logs");
+	$? && subprocerr("rm -rf .git/logs");
 	system("git", "gc", "--prune");
-	$? && main::subprocerr("git gc --prune");
+	$? && subprocerr("git gc --prune");
 	
 	# .git/gitweb is created and used by git instaweb and should not be
 	# transferwed by source package.
 	system("rm", "-rf", ".git/gitweb");
-	$? && main::subprocerr("rm -rf .git/gitweb");
+	$? && subprocerr("rm -rf .git/gitweb");
 
 	# As an optimisation, remove the index. It will be recreated by git
 	# reset during unpack. It's probably small, but you never know, this
@@ -181,7 +182,7 @@ sub prep_tar {
 	unlink(".git/index"); # error intentionally ignored
 	
 	chdir($old_cwd) ||
-		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
+		syserr(_g("unable to chdir to `%s'"), $old_cwd);
 
 	return 1;
 }
@@ -194,15 +195,15 @@ sub post_unpack_tar {
 
 	my $old_cwd=getcwd();
 	chdir($srcdir) ||
-		main::syserr(sprintf(_g("unable to chdir to `%s'"), $srcdir));
+		syserr(_g("unable to chdir to `%s'"), $srcdir);
 
 	# Disable git hooks, as unpacking a source package should not
 	# involve running code.
 	foreach my $hook (glob("./.git/hooks/*")) {
 		if (-x $hook) {
-			main::warning(sprintf(_g("executable bit set on %s; clearing"), $hook));
+			warning(_g("executable bit set on %s; clearing"), $hook);
 			chmod(0666 &~ umask(), $hook) ||
-				main::syserr(sprintf(_g("unable to change permission of `%s'"), $hook));
+				syserr(_g("unable to change permission of `%s'"), $hook);
 		}
 	}
 	
@@ -211,7 +212,7 @@ sub post_unpack_tar {
 	# present (git will recreate it as needed).
 	if (-e ".git/index" || -l ".git/index") {
 		unlink(".git/index") ||
-			main::syserr(sprintf(_g("unable to remove `%s'"), ".git/index"));
+			syserr(_g("unable to remove `%s'"), ".git/index");
 	}
 
 	# Comment out potentially probamatic or annoying stuff in
@@ -233,13 +234,13 @@ sub post_unpack_tar {
 		else {
 			system("git", "config", "--file", ".git/config",
 			       "--unset-all", $field);
-				$? && main::subprocerr("git config --file .git/config --unset-all $field");
+			$? && subprocerr("git config --file .git/config --unset-all $field");
 		}
 	}
 	if (%config) {
-		main::warning(_g("modifying .git/config to comment out some settings"));
+		warning(_g("modifying .git/config to comment out some settings"));
 		open(GIT_CONFIG, ">>", ".git/config") ||
-			main::syserr(sprintf(_g("unstable to append to %s", ".git/config")));
+			syserr(_g("unstable to append to %s"), ".git/config");
 		print GIT_CONFIG "\n# "._g("The following setting(s) were disabled by dpkg-source").":\n";
 		foreach my $field (sort keys %config) {
 			foreach my $value (@{$config{$field}}) {
@@ -252,15 +253,15 @@ sub post_unpack_tar {
 	# .git/gitweb is created and used by git instaweb and should not be
 	# transferwed by source package.
 	system("rm", "-rf", ".git/gitweb");
-	$? && main::subprocerr("rm -rf .git/gitweb");
+	$? && subprocerr("rm -rf .git/gitweb");
 
 	# git checkout is used to repopulate the WC with files
 	# and recreate the index.
 	system("git", "checkout", "-f");
-	$? && main::subprocerr("git checkout -f");
+	$? && subprocerr("git checkout -f");
 	
 	chdir($old_cwd) ||
-		main::syserr(sprintf(_g("unable to chdir to `%s'"), $old_cwd));
+		syserr(_g("unable to chdir to `%s'"), $old_cwd);
 
 	return 1;
 }

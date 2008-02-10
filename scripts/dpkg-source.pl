@@ -399,31 +399,36 @@ if ($opmode eq 'build') {
     }
     
     my $vcs;
-    if ($f{Format} =~ /^\s*(\d+\.\d+)\s*$/) {
+    if ($fields->{Format} =~ /^\s*(\d+\.\d+)\s*$/) {
 	    if ($1 >= 3.0) {
-	        error(sprintf(_g("don't know how to generate %s format source package (missing vcs specifier in Format field?)"), $1));
+		error(_g("don't know how to generate %s format source package (missing vcs specifier in Format field?)"),
+		      $1);
 	    }
 	    if ($1 > 1.0) {
-	        error(sprintf(_g("don't know how to generate %s format source package"), $1));
+		error(_g("don't know how to generate %s format source package"),
+		      $1);
 	    }
     }
-    elsif ($f{Format} =~ /^\s*(\d+(?:\.\d+)?)\s+\((\w+)\)\s*$/) {
-	    $f{Format}=$1;
+    elsif ($fields->{Format} =~ /^\s*(\d+(?:\.\d+)?)\s+\((\w+)\)\s*$/) {
+	    $fields->{Format} = $1;
 	    if ($1 < 3.0) {
-	        error(sprintf(_g("control info file 'Format' field for version %s does not support vcs specifier \"%s\""), $1, $2));
+		error(_g("control info file 'Format' field for version %s does not support vcs specifier \"%s\""),
+		      $1, $2);
 	    }
-            if ($1 >= 4) {
-	        error(sprintf(_g("unsupported control info file 'Format' value \"%s\""), $1));
-            }
+	    if ($1 >= 4) {
+		error(_g("unsupported control info file 'Format' value \"%s\""),
+		      $1);
+	    }
 
-	    $vcs=$2;
+	    $vcs = $2;
 	    loadvcs($2)
-	    	|| error(sprintf(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2));
-            
+		|| error(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2);
+
 	    if ($sourcestyle =~ /[akpursKPUR]/) {
-		warning(sprintf(_g("source handling style -s%s not supported when generating %s format source package"), $sourcestyle, $vcs));
-            }
-            $sourcestyle='v';
+		warning(_g("source handling style -s%s not supported when generating %s format source package"),
+			$sourcestyle, $vcs);
+	    }
+	    $sourcestyle = 'v';
     }
     
     $sourcestyle =~ y/X/A/;
@@ -544,7 +549,7 @@ if ($opmode eq 'build') {
 
 	eval qq{Dpkg::Source::VCS::${vcs}::prep_tar(\$dir, \$tardirname)};
 	if ($@) {
-            &syserr($@);
+	    failure($@);
 	}
 	push @exit_handlers, sub { erasedir($tardirname) };
     }
