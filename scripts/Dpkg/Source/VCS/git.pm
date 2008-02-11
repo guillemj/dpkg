@@ -117,15 +117,17 @@ sub prep_tar {
 		push @ignores, "--exclude-from=.git/info/exclude";
 	}
 	open(GIT_LS_FILES, '-|', "git", "ls-files", "--modified", "--deleted",
-	     "--others", @ignores) ||
+	     "-z", "--others", @ignores) ||
 		 subprocerr("git ls-files");
 	my @files;
-	while (<GIT_LS_FILES>) {
-		chomp;
-		if (! length $main::diff_ignore_regexp ||
-		    ! m/$main::diff_ignore_regexp/o) {
-			push @files, $_;
-		}
+	{ local $/ = "\0";
+	  while (<GIT_LS_FILES>) {
+		  chomp;
+		  if (! length $main::diff_ignore_regexp ||
+		      ! m/$main::diff_ignore_regexp/o) {
+		      push @files, $_;
+		  }
+	  }
 	}
 	close(GIT_LS_FILES) || syserr(_g("git ls-files exited nonzero"));
 	if (@files) {
