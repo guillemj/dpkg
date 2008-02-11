@@ -242,9 +242,8 @@ if ($signcommand) {
     }
 }
 
+my $build_opts = Dpkg::BuildOptions::parse();
 if ($parallel) {
-    my $build_opts = Dpkg::BuildOptions::parse();
-
     $parallel = $build_opts->{parallel} if (defined $build_opts->{parallel});
     $ENV{MAKEFLAGS} ||= '';
     if ($parallel eq '-1') {
@@ -254,6 +253,28 @@ if ($parallel) {
     }
     $build_opts->{parallel} = $parallel;
     Dpkg::BuildOptions::set($build_opts);
+}
+
+my $default_flags = defined $build_opts->{noopt} ? "-g -O0" : "-g -O2";
+my %flags = ( CPPFLAGS => '',
+	      CFLAGS   => $default_flags,
+	      CXXFLAGS => $default_flags,
+	      FFLAGS   => $default_flags,
+	      LDFLAGS  => "-Wl,-Bsymbolic-functions",
+    );
+
+foreach my $flag (keys %flags) {
+    if ($ENV{$flag}) {
+	printf(_g("%s: use %s from environment: %s\n"), $progname,
+		  $flag, $ENV{$flag});
+    } else {
+	$ENV{$flag} = $flags{$flag};
+	printf(_g("%s: set %s to default value: %s\n"), $progname,
+		  $flag, $ENV{$flag});
+    }
+    if ($ENV{"${flag}_APPEND"}) {
+	$ENV{$flag} .= " ".$ENV{"${flag}_APPEND"};
+    }
 }
 
 my $cwd = cwd();
