@@ -22,6 +22,7 @@ use strict;
 use warnings;
 
 use Dpkg::ErrorHandling qw(error);
+use Dpkg::Gettext;
 
 use Exporter;
 our @ISA = qw(Exporter);
