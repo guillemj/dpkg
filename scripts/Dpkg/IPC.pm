@@ -81,6 +81,11 @@ sub fork_and_exec {
     close($opts{"from_handle"}) if exists $opts{"from_handle"};
     close($opts{"to_handle"}) if exists $opts{"to_handle"};
 
+    if ($opts{"wait_child"}) {
+	wait_child($pid, cmdline => "@prog");
+	return 1;
+    }
+
     return $pid;
 }
 
