@@ -28,6 +28,7 @@ our @EXPORT = qw(fork_and_exec wait_child);
 
 sub fork_and_exec {
     my (%opts) = @_;
+    $opts{"close_in_child"} ||= [];
     error("exec parameter is mandatory in fork_and_exec()") unless $opts{"exec"};
     my @prog;
     if (ref($opts{"exec"}) =~ /ARRAY/) {
@@ -36,6 +37,20 @@ sub fork_and_exec {
 	push @prog, $opts{"exec"};
     } else {
 	error(_g("invalid exec parameter in fork_and_exec()"));
+    }
+    # Create pipes if needed
+    my ($input_pipe, $output_pipe);
+    if ($opts{"from_pipe"}) {
+	pipe($opts{"from_handle"}, $input_pipe) ||
+		syserr(_g("pipe for %s"), "@prog");
+	${$opts{"from_pipe"}} = $input_pipe;
+	push @{$opts{"close_in_child"}}, $input_pipe;
+    }
+    if ($opts{"to_pipe"}) {
+	pipe($output_pipe, $opts{"to_handle"}) ||
+		syserr(_g("pipe for %s"), "@prog");
+	${$opts{"to_pipe"}} = $output_pipe;
+	push @{$opts{"close_in_child"}}, $output_pipe;
     }
     # Fork and exec
     my $pid = fork();
