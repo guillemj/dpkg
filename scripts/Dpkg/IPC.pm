@@ -27,6 +27,84 @@ use Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT = qw(fork_and_exec wait_child);
 
+=head1 NAME
+
+Dpkg::IPC - helper functions for IPC
+
+=head1 DESCRIPTION
+
+Dpkg::IPC offers helper functions to allow you to execute
+other programs in an easy, yet flexible way, while hiding
+all the gory details of IPC (Inter-Process Communication)
+from you.
+
+=head1 METHODS
+
+=over 4
+
+=item fork_and_exec
+
+Creates a child process and executes another program in it.
+The arguments are interpreted as a hash of options, specifying
+how to handle the in and output of the program to execute.
+Returns the pid of the child process (unless the wait_child
+option was given).
+
+Any error will cause the function to exit with one of the
+Dpkg::ErrorHandling functions.
+
+Options:
+
+=over 4
+
+=item exec
+
+Can be either a scalar, i.e. the name of the program to be
+executed, or an array reference, i.e. the name of the program
+plus additional arguments. Note that the program will never be
+executed via the shell, so you can't specify additional arguments
+in the scalar string and you can't use any shell facilities like
+globbing.
+
+Mandatory Option.
+
+=item from_file, to_file
+
+Filename as scalar. Standard input and/or standard output of the
+child process will be redirected to the file specifed.
+
+=item from_handle, to_handle
+
+Filehandle. Standard input and/or standard output of the
+child process will be dup'ed from the handle.
+
+=item from_pipe, to_pipe
+
+Scalar reference. A pipe will be opened for each of the two options
+and either the reading (C<to_pipe>) or the writing end (C<from_pipe>)
+will be returned in the referenced scalar. Standard input and/or standard
+output of the child process will be dup'ed to the other ends of the
+pipes.
+
+=item from_string, to_string
+
+Scalar reference. Standard input and/or standard output of the child
+process will be redirected to the string given as reference. Note
+that it wouldn't be strictly necessary to use a scalar reference
+for C<from_string>, as the string is not modified in any way. This was
+chosen only for reasons of symmetry with C<to_string>. C<to_string>
+implies the C<wait_child> option.
+
+=item wait_child
+
+Scalar. If containing a true value, wait_child() will be called before
+returning. The return value will of fork_and_exec() will be a true value,
+but not the pid.
+
+=back
+
+=cut
+
 sub fork_and_exec {
     my (%opts) = @_;
     $opts{"close_in_child"} ||= [];
@@ -106,6 +184,26 @@ sub fork_and_exec {
     return $pid;
 }
 
+
+=item wait_child
+
+Takes as first argument the pid of the process to wait for.
+Remaining arguments are taken as a hash of options. Returns
+nothing.
+
+Options:
+
+=over 4
+
+=item cmdline
+
+String to identify the child process in error messages.
+Defaults to "child process".
+
+=back
+
+=cut
+
 sub wait_child {
     my ($pid, %opts) = @_;
     $opts{"cmdline"} ||= _g("child process");
@@ -115,3 +213,15 @@ sub wait_child {
 }
 
 1;
+__END__
+
+=back
+
+=head1 AUTHORS
+
+Written by Raphaël Hertzog <hertzog@debian.org> and
+Frank Lichtenheld <djpig@debian.org>.
+
+=head1 SEE ALSO
+
+Dpkg, Dpkg::ErrorHandling
