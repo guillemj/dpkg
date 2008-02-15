@@ -105,10 +105,35 @@ but not the pid.
 
 =cut
 
-sub fork_and_exec {
+sub _sanity_check_opts {
     my (%opts) = @_;
+
+    error("exec parameter is mandatory in fork_and_exec()")
+	unless $opts{"exec"};
+
+    my $to = my $from = 0;
+    foreach (qw(file handle string pipe)) {
+	$to++ if $opts{"to_$_"};
+	$from++ if $opts{"from_$_"};
+    }
+    error("not more than one of to_* parameters is allowed")
+	if $to > 1;
+    error("not more than one of from_* parameters is allowed")
+	if $from > 1;
+
+    foreach (qw(to_string from_string to_pipe from_pipe)) {
+	if (exists $opts{$_} and
+	    (!ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
+	    error("paramter $_ must be a scalar reference");
+	}
+    }
+
+    return %opts;
+}
+
+sub fork_and_exec {
+    my (%opts) = _sanity_check_opts(@_);
     $opts{"close_in_child"} ||= [];
-    error("exec parameter is mandatory in fork_and_exec()") unless $opts{"exec"};
     my @prog;
     if (ref($opts{"exec"}) =~ /ARRAY/) {
 	push @prog, @{$opts{"exec"}};
