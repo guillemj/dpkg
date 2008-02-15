@@ -18,6 +18,7 @@ use Dpkg::Substvars;
 use Dpkg::Version qw(check_version);
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
+use Dpkg::Source::Compressor;
 
 my @filesinarchive;
 my %dirincluded;
@@ -107,6 +108,7 @@ my %dirtocreate;	 # used by checkdiff
 my @tar_ignore;
 
 my $substvars = Dpkg::Substvars->new();
+my $compressor = Dpkg::Source::Compressor->new();
 
 use POSIX;
 use Fcntl qw (:mode);
@@ -1639,74 +1641,24 @@ sub unrepdiff2 {
     $ur++;
 }
 
-# FIXME: Local to *gzip* funcs
-my $cgz;
-my $gzipsigpipeok;
-
 sub forkgzipwrite {
-    my @prog;
+    $compressor->set_compression_level($comp_level);
 
-    if ($_[0] =~ /\.gz\.new\..{6}$/) {
-	@prog = qw(gzip);
-    } elsif ($_[0] =~ /\.bz2\.new\..{6}$/) {
-	@prog = qw(bzip2);
-    } elsif ($_[0] =~ /\.lzma\.new\..{6}$/) {
-	@prog = qw(lzma);
-    } else {
-	error(_g("unknown compression type on file %s"), $_[0]);
-    }
-    my $level = "-$comp_level";
-    $level = "--$comp_level"
-	if $comp_level =~ /best|fast/;
-    push @prog, $level;
-
-    open(GZIPFILE, ">", $_[0]) || syserr(_g("create file %s"), $_[0]);
-    pipe(GZIPREAD,GZIP) || &syserr(_g("pipe for gzip"));
-    binmode(GZIP);
-    defined($cgz= fork) || &syserr(_g("fork for gzip"));
-    if (!$cgz) {
-	open(STDIN,"<&",\*GZIPREAD) || &syserr(_g("reopen gzip pipe"));
-	close(GZIPREAD); close(GZIP);
-	open(STDOUT,">&",\*GZIPFILE) || &syserr(_g("reopen tar"));
-	exec({ $prog[0] } @prog) or &syserr(_g("exec gzip"));
-    }
-    close(GZIPREAD);
-    $gzipsigpipeok= 0;
+    my $handle = $compressor->compress_from_pipe_to_file($_[0]);
+    open(GZIP, ">>&=", $handle) || syserr(_g("cannot associate handle"));
+    close($handle);
 }
 
 sub forkgzipread {
-    local $SIG{PIPE} = 'DEFAULT';
-    my $prog;
+    $compressor->set_compression_level($comp_level);
 
-    if ($_[0] =~ /\.gz$/) {
-      $prog = 'gunzip';
-    } elsif ($_[0] =~ /\.bz2$/) {
-      $prog = 'bunzip2';
-    } elsif ($_[0] =~ /\.lzma$/) {
-      $prog = 'unlzma';
-    } else {
-      error(_g("unknown compression type on file %s"), $_[0]);
-    }
-
-    open(GZIPFILE, "<", $_[0]) || syserr(_g("read file %s"), $_[0]);
-    pipe(GZIP, GZIPWRITE) || syserr(_g("pipe for %s"), $prog);
-    binmode(GZIP);
-    defined($cgz = fork) || syserr(_g("fork for %s"), $prog);
-    if (!$cgz) {
-	open(STDOUT, ">&", \*GZIPWRITE) || syserr(_g("reopen %s pipe"), $prog);
-	close(GZIPWRITE); close(GZIP);
-	open(STDIN,"<&",\*GZIPFILE) || &syserr(_g("reopen input file"));
-	exec({ $prog } $prog) or syserr(_g("exec %s"), $prog);
-    }
-    close(GZIPWRITE);
-    $gzipsigpipeok= 1;
+    my $handle = $compressor->uncompress_from_file_to_pipe($_[0]);
+    open(GZIP, "<&=", $handle) || syserr(_g("cannot associate handle"));
+    close($handle);
 }
 
 sub reapgzip {
-    $cgz == waitpid($cgz,0) || &syserr(_g("wait for gzip"));
-    !$? || ($gzipsigpipeok && WIFSIGNALED($?) && WTERMSIG($?)==SIGPIPE) ||
-        subprocerr("gzip");
-    close(GZIPFILE);
+    $compressor->wait_end_process();
 }
 
 my %added_files;
