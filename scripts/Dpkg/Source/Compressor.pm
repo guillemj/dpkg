@@ -33,6 +33,9 @@ sub new {
     if (exists $args{"uncompressed_filename"}) {
 	$self->set_uncompressed_filename($args{"uncompressed_filename"});
     }
+    if (exists $args{"compressed_filename"}) {
+	$self->set_compressed_filename($args{"compressed_filename"});
+    }
     return $self;
 }
 
@@ -65,10 +68,9 @@ sub set_filename {
     error(_g("unknown compression type on file %s"), $filename) unless $found;
 }
 
-sub get_filename {
-    my $self = shift;
-    return $self->{"uncompressed_filename"} . "." .
-	   $comp_ext{$self->{"compression"}};
+sub set_compressed_filename {
+    my ($self, $filename) = @_;
+    $self->{"compressed_filename"} = $filename;
 }
 
 sub set_uncompressed_filename {
@@ -78,24 +80,18 @@ sub set_uncompressed_filename {
     $self->{"uncompressed_filename"} = $filename;
 }
 
-sub wait_end_process {
-    my ($self) = @_;
-    wait_child($self->{"pid"}, cmdline => $self->{"cmdline"});
-    delete $self->{"pid"};
-    delete $self->{"cmdline"};
-}
-
-sub close_in_child {
-    my ($self, $fd) = @_;
-    if (not $self->{"close_in_child"}) {
-	$self->{"close_in_child"} = [];
+sub get_filename {
+    my $self = shift;
+    if ($self->{"compressed_filename"}) {
+	return $self->{"compressed_filename"};
+    } elsif ($self->{"uncompressed_filename"}) {
+	return $self->{"uncompressed_filename"} . "." .
+	       $comp_ext{$self->{"compression"}};
     }
-    push @{$self->{"close_in_child"}}, $fd;
 }
 
 sub get_compress_cmdline {
     my ($self) = @_;
-    # Define the program invocation
     my @prog = ($comp_prog{$self->{"compression"}});
     my $level = "-" . $self->{"compression_level"};
     $level = "--" . $self->{"compression_level"}
@@ -109,61 +105,43 @@ sub get_uncompress_cmdline {
     return ($comp_decomp_prog{$self->{"compression"}});
 }
 
-sub compress_from_fd_to_file {
-    my ($self, $fd, $filename) = @_;
-    $filename ||= $self->get_filename();
+sub compress {
+    my ($self, %opts) = @_;
+    unless($opts{"from_file"} or $opts{"from_handle"} or $opts{"from_pipe"}) {
+	error("compress() needs a from_{file,handle,pipe} parameter");
+    }
+    unless($opts{"to_file"} or $opts{"to_handle"} or $opts{"to_pipe"}) {
+	$opts{"to_file"} = $self->get_filename();
+    }
     error(_g("Dpkg::Source::Compressor can only start one subprocess at a time"))
 	    if $self->{"pid"};
     my @prog = $self->get_compress_cmdline();
+    $opts{"exec"} = \@prog;
     $self->{"cmdline"} = "@prog";
-    $self->{"pid"} = fork_and_exec(
-	    'exec' => \@prog,
-	    from_handle => $fd,
-	    to_file => $filename,
-	    close_in_child => $self->{"close_in_child"}
-    );
+    $self->{"pid"} = fork_and_exec(%opts);
 }
 
-sub compress_from_pipe_to_file {
-    my ($self, $filename) = @_;
-    $filename ||= $self->get_filename();
-    # Open pipe
-    pipe(my $read_fh, my $write_fh) ||
-	    syserr(_g("pipe for %s"), $comp_prog{$self->{"compression"}});
-    binmode($write_fh);
-    $self->close_in_child($write_fh);
-    # Start the process
-    $self->compress_from_fd_to_file($read_fh, $filename);
-    return $write_fh;
-}
-
-sub uncompress_from_file_to_fd {
-    my ($self, $filename, $fd) = @_;
-    $filename ||= $self->get_filename();
+sub uncompress {
+    my ($self, %opts) = @_;
+    unless($opts{"from_file"} or $opts{"from_handle"} or $opts{"from_pipe"}) {
+	$opts{"from_file"} = $self->get_filename();
+    }
+    unless($opts{"to_file"} or $opts{"to_handle"} or $opts{"to_pipe"}) {
+	error("uncompress() needs a to_{file,handle,pipe} parameter");
+    }
     error(_g("Dpkg::Source::Compressor can only start one subprocess at a time"))
 	    if $self->{"pid"};
     my @prog = $self->get_uncompress_cmdline();
     $self->{"cmdline"} = "@prog";
-    $self->{"pid"} = fork_and_exec(
-	    'exec' => \@prog,
-	    from_file => $filename,
-	    to_handle => $fd,
-	    close_in_child => $self->{"close_in_child"}
-    );
+    $opts{"exec"} = \@prog;
+    $self->{"pid"} = fork_and_exec(%opts);
 }
 
-sub uncompress_from_file_to_pipe {
-    my ($self, $filename) = @_;
-    $filename ||= $self->get_filename();
-    # Open output pipe
-    pipe(my $read_fh, my $write_fh) ||
-	    syserr(_g("pipe for %s"), $self->{"cmdline"});
-    binmode($read_fh);
-    $self->close_in_child($read_fh);
-    # Start the process
-    $self->uncompress_from_file_to_fd($filename, $write_fh);
-    # Return the read side of the pipe
-    return $read_fh;
+sub wait_end_process {
+    my ($self) = @_;
+    wait_child($self->{"pid"}, cmdline => $self->{"cmdline"});
+    delete $self->{"pid"};
+    delete $self->{"cmdline"};
 }
 
 1;

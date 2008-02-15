@@ -1435,17 +1435,21 @@ sub unrepdiff2 {
 }
 
 sub forkgzipwrite {
+    $compressor->set_compressed_filename($_[0]);
     $compressor->set_compression_level($comp_level);
 
-    my $handle = $compressor->compress_from_pipe_to_file($_[0]);
+    my $handle;
+    $compressor->compress(from_pipe => \$handle);
     open(GZIP, ">>&=", $handle) || syserr(_g("cannot associate handle"));
     close($handle);
 }
 
 sub forkgzipread {
+    $compressor->set_compressed_filename($_[0]);
     $compressor->set_compression_level($comp_level);
 
-    my $handle = $compressor->uncompress_from_file_to_pipe($_[0]);
+    my $handle;
+    $compressor->uncompress(to_pipe => \$handle);
     open(GZIP, "<&=", $handle) || syserr(_g("cannot associate handle"));
     close($handle);
 }
