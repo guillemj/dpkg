@@ -1,4 +1,5 @@
 # Copyright 2008 Raphaël Hertzog <hertzog@debian.org>
+# Copyright 2008 Frank Lichtenheld <djpig@debian.org>
 
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -37,6 +38,14 @@ sub fork_and_exec {
 	push @prog, $opts{"exec"};
     } else {
 	error(_g("invalid exec parameter in fork_and_exec()"));
+    }
+    my ($from_string_pipe, $to_string_pipe);
+    if ($opts{"to_string"}) {
+	$opts{"to_pipe"} = \$to_string_pipe;
+	$opts{"wait_child"} = 1;
+    }
+    if ($opts{"from_string"}) {
+	$opts{"from_pipe"} = \$from_string_pipe;
     }
     # Create pipes if needed
     my ($input_pipe, $output_pipe);
@@ -81,6 +90,14 @@ sub fork_and_exec {
     close($opts{"from_handle"}) if exists $opts{"from_handle"};
     close($opts{"to_handle"}) if exists $opts{"to_handle"};
 
+    if ($opts{"from_string"}) {
+	print $from_string_pipe ${$opts{"from_string"}};
+	close($from_string_pipe);
+    }
+    if ($opts{"to_string"}) {
+	local $/ = undef;
+	${$opts{"to_string"}} = readline($to_string_pipe);
+    }
     if ($opts{"wait_child"}) {
 	wait_child($pid, cmdline => "@prog");
 	return 1;
