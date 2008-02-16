@@ -55,17 +55,13 @@ sub set_compression_level {
 
 sub set_filename {
     my ($self, $filename) = @_;
-    # Identify compression from filename
-    my $found = 0;
-    foreach my $comp (@comp_supported) {
-	if ($filename =~ /^(.*)\.\Q$comp_ext{$comp}\E$/) {
-	    $found = 1;
-	    $self->set_compression($comp);
-	    $self->set_uncompressed_filename($1);
-	    last;
-	}
+    my $comp = get_compression_from_filename($filename);
+    if ($comp) {
+	$self->set_compression($comp);
+	$self->set_compressed_filename($filename);
+    } else {
+	error(_g("unknown compression type on file %s"), $filename);
     }
-    error(_g("unknown compression type on file %s"), $filename) unless $found;
 }
 
 sub set_compressed_filename {
