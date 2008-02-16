@@ -101,6 +101,11 @@ Scalar. If containing a true value, wait_child() will be called before
 returning. The return value will of fork_and_exec() will be a true value,
 but not the pid.
 
+=item chdir
+
+Scalar. The child process will chdir in the indicated directory before
+calling exec.
+
 =back
 
 =cut
@@ -168,6 +173,9 @@ sub fork_and_exec {
     my $pid = fork();
     syserr(_g("fork for %s"), "@prog") unless defined $pid;
     if (not $pid) {
+	if ($opts{"chdir"}) {
+	    chdir($opts{"chdir"}) || syserr(_g("chdir to %s"), $opts{"chdir"});
+	}
 	# Redirect STDIN if needed
 	if ($opts{"from_file"}) {
 	    open(STDIN, "<", $opts{"from_file"}) ||
