@@ -19,6 +19,7 @@ use Dpkg::Version qw(check_version);
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
+use Dpkg::Source::Archiver;
 
 my @filesinarchive;
 my %dirincluded;
@@ -589,24 +590,16 @@ if ($opmode eq 'build') {
         }
 
         printf(_g("%s: building %s in %s")."\n",
-               $progname, $sourcepackage, $tarname)
-            || &syserr(_g("write building tar message"));
-	my ($ntfh, $newtar) = tempfile( "$tarname.new.XXXXXX",
-					DIR => &getcwd, UNLINK => 0 );
-        &forkgzipwrite($newtar);
-	defined(my $c2 = fork) || syserr(_g("fork for tar"));
-        if (!$c2) {
-            chdir($tardirbase) ||
-                syserr(_g("chdir to above (orig) source %s"), $tardirbase);
-            open(STDOUT,">&GZIP") || &syserr(_g("reopen gzip for tar"));
-            # FIXME: put `--' argument back when tar is fixed
-            exec('tar',@tar_ignore,'-cf','-',$tardirname) or &syserr(_g("exec tar"));
-        }
-        close(GZIP);
-        &reapgzip;
-        $c2 == waitpid($c2,0) || &syserr(_g("wait for tar"));
-        $? && !(WIFSIGNALED($c2) && WTERMSIG($c2) == SIGPIPE) && subprocerr("tar");
-        rename($newtar,$tarname) ||
+               $progname, $sourcepackage, $tarname);
+
+	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
+				       DIR => getcwd(), UNLINK => 0);
+	my $tar = Dpkg::Source::Archiver->new(filename => $newtar,
+		    compression => get_compression_from_filename($tarname));
+	$tar->create(options => \@tar_ignore);
+	$tar->add_directory($tardirname);
+	$tar->close();
+        rename($newtar, $tarname) ||
             syserr(_g("unable to rename `%s' (newly created) to `%s'"),
                    $newtar, $tarname);
 	chmod(0666 &~ umask(), $tarname) ||
@@ -615,9 +608,8 @@ if ($opmode eq 'build') {
     } else {
         
         printf(_g("%s: building %s using existing %s")."\n",
-               $progname, $sourcepackage, $tarname)
-            || &syserr(_g("write using existing tar message"));
-        
+               $progname, $sourcepackage, $tarname);
+
     }
     
     addfile($fields, "$tarname");
@@ -638,18 +630,8 @@ if ($opmode eq 'build') {
         }
 
         $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
-	my $expectprefix_dirname = $origdirname;
-        mkdir("$origtargz.tmp-nest",0755) ||
-            syserr(_g("unable to create `%s'"), "$origtargz.tmp-nest");
-	push @exit_handlers, sub { erasedir("$origtargz.tmp-nest") };
-        extracttar($origtargz,"$origtargz.tmp-nest",$expectprefix_dirname);
-        rename("$origtargz.tmp-nest/$expectprefix_dirname",$expectprefix) ||
-            syserr(_g("unable to rename `%s' to `%s'"),
-                   "$origtargz.tmp-nest/$expectprefix_dirname",
-                   $expectprefix);
-        rmdir("$origtargz.tmp-nest") ||
-            syserr(_g("unable to remove `%s'"), "$origtargz.tmp-nest");
-	    pop @exit_handlers;
+	my $tar = Dpkg::Source::Archiver->new(filename => $origtargz);
+	$tar->extract($expectprefix);
     }
 
     if ($sourcestyle eq 'v') {
@@ -1013,16 +995,9 @@ if ($opmode eq 'build') {
 	    $target = $expectprefix;
 	}
 
-	my $tmp = "$target.tmp-nest";
-	(my $t = $target) =~ s!.*/!!;
-
-	mkdir($tmp, 0700) || syserr(_g("unable to create `%s'"), $tmp);
 	printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
-	extracttar("$dscdir/$tarfile",$tmp,$t);
-	rename("$tmp/$t",$target)
-	    || syserr(_g("unable to rename `%s' to `%s'"), "$tmp/$t", $target);
-	rmdir($tmp)
-	    || syserr(_g("unable to remove `%s'"), $tmp);
+	my $tar = Dpkg::Source::Archiver->new(filename => "$dscdir/$tarfile");
+	$tar->extract($target);
 
 	# for the first tar file:
 	if ($tarfile eq $tarfiles[0] and !$native)
@@ -1322,81 +1297,6 @@ sub checkdiff
     close(DIFF);
     
     &reapgzip if $diff =~ /\.$comp_regex$/;
-}
-
-sub extracttar {
-    my ($tarfileread,$dirchdir,$newtopdir) = @_;
-    my ($mode, $modes_set, $i, $j);
-    &forkgzipread("$tarfileread");
-    defined(my $c2 = fork) || syserr(_g("fork for tar -xkf -"));
-    if (!$c2) {
-        open(STDIN,"<&GZIP") || &syserr(_g("reopen gzip for tar -xkf -"));
-        &cpiostderr;
-	chdir($dirchdir) ||
-	    syserr(_g("cannot chdir to `%s' for tar extract"), $dirchdir);
-	exec('tar','--no-same-owner','--no-same-permissions',
-	     '-xkf','-') or &syserr(_g("exec tar -xkf -"));
-    }
-    close(GZIP);
-    $c2 == waitpid($c2,0) || &syserr(_g("wait for tar -xkf -"));
-    $? && subprocerr("tar -xkf -");
-    &reapgzip;
-
-    # Unfortunately tar insists on applying our umask _to the original
-    # permissions_ rather than mostly-ignoring the original
-    # permissions.  We fix it up with chmod -R (which saves us some
-    # work) but we have to construct a u+/- string which is a bit
-    # of a palaver.  (Numeric doesn't work because we need [ugo]+X
-    # and [ugo]=<stuff> doesn't work because that unsets sgid on dirs.)
-    #
-    # We still need --no-same-permissions because otherwise tar might
-    # extract directory setgid (which we want inherited, not
-    # extracted); we need --no-same-owner because putting the owner
-    # back is tedious - in particular, correct group ownership would
-    # have to be calculated using mount options and other madness.
-    #
-    # It would be nice if tar could do it right, or if pax could cope
-    # with GNU format tarfiles with long filenames.
-    #
-    $mode= 0777 & ~umask;
-    for ($i=0; $i<9; $i+=3) {
-	$modes_set.= ',' if $i;
-	$modes_set.= qw(u g o)[$i/3];
-	for ($j=0; $j<3; $j++) {
-	    $modes_set.= $mode & (0400 >> ($i+$j)) ? '+' : '-';
-	    $modes_set.= qw(r w X)[$j];
-	}
-    }
-    system 'chmod','-R',$modes_set,'--',$dirchdir;
-    $? && subprocerr("chmod -R $modes_set $dirchdir");
-
-    opendir(D, "$dirchdir") || syserr(_g("Unable to open dir %s"), $dirchdir);
-    my @dirchdirfiles = grep($_ ne "." && $_ ne "..", readdir(D));
-    closedir(D) || syserr(_g("Unable to close dir %s"), $dirchdir);
-    if (@dirchdirfiles==1 && -d "$dirchdir/$dirchdirfiles[0]") {
-	rename("$dirchdir/$dirchdirfiles[0]", "$dirchdir/$newtopdir") ||
-	    syserr(_g("Unable to rename %s to %s"),
-	           "$dirchdir/$dirchdirfiles[0]",
-	           "$dirchdir/$newtopdir");
-    } else {
-	mkdir("$dirchdir/$newtopdir.tmp", 0777) or
-	    syserr(_g("Unable to mkdir %s"), "$dirchdir/$newtopdir.tmp");
-	for (@dirchdirfiles) {
-	    rename("$dirchdir/$_", "$dirchdir/$newtopdir.tmp/$_") or
-	        syserr(_g("Unable to rename %s to %s"),
-	               "$dirchdir/$_",
-	               "$dirchdir/$newtopdir.tmp/$_");
-	}
-	rename("$dirchdir/$newtopdir.tmp", "$dirchdir/$newtopdir") or
-	    syserr(_g("Unable to rename %s to %s"),
-	           "$dirchdir/$newtopdir.tmp",
-	           "$dirchdir/$newtopdir");
-    }
-}
-
-sub cpiostderr {
-    open(STDERR,"| grep -E -v '^[0-9]+ blocks\$' >&2") ||
-        &syserr(_g("reopen stderr for tar to grep out blocks message"));
 }
 
 sub checktype {

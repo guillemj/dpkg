@@ -104,6 +104,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Substvars.pm \
 	Dpkg/Vars.pm \
 	Dpkg/Version.pm \
+	Dpkg/Source/Archiver.pm \
+	Dpkg/Source/Compressor.pm \
 	Dpkg/Source/VCS/git.pm \
 	Dpkg.pm
 
