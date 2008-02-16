@@ -193,7 +193,7 @@ sub fork_and_exec {
 	    close($opts{"to_handle"}); # has been duped, can be closed
 	}
 	# Close some inherited filehandles
-        close($_) foreach (@{$opts{"close_in_child"}});
+	close($_) foreach (@{$opts{"close_in_child"}});
 	# Execute the program
 	exec({ $prog[0] } @prog) or syserr(_g("exec %s"), "@prog");
     }

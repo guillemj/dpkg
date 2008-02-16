@@ -65,7 +65,7 @@ sub set_compression {
 sub set_compression_level {
     my ($self, $level) = @_;
     error(_g("%s is not a compression level"), $level)
-            unless $level =~ /^([1-9]|fast|best)$/;
+	    unless $level =~ /^([1-9]|fast|best)$/;
     $self->{"compression_level"} = $level;
 }
 

@@ -62,7 +62,7 @@ sub use_compression {
 sub set_compression_level {
     my ($self, $level) = @_;
     error(_g("%s is not a compression level"), $level)
-            unless $level =~ /^([1-9]|fast|best)$/;
+	    unless $level =~ /^([1-9]|fast|best)$/;
     $self->{"compression_level"} = $level;
 }
 
@@ -114,7 +114,7 @@ sub _add_entry {
     my ($self, $file) = @_;
     error("call create first") unless $self->{"tar_input"};
     $file = $2 if ($file =~ /^\Q$self->{'cwd'}\E\/(.+)$/); # Relative names
-    print { $self->{'tar_input'} } "$file\0" ||
+    print({ $self->{'tar_input'} } "$file\0") ||
 	    syserr(_g("write on tar input"));
 }
 
@@ -191,12 +191,12 @@ sub extract {
     #
     $mode = 0777 & ~umask;
     for ($i = 0; $i < 9; $i += 3) {
-        $modes_set .= ',' if $i;
-        $modes_set .= qw(u g o)[$i/3];
-        for ($j = 0; $j < 3; $j++) {
-            $modes_set .= $mode & (0400 >> ($i+$j)) ? '+' : '-';
-            $modes_set .= qw(r w X)[$j];
-        }
+	$modes_set .= ',' if $i;
+	$modes_set .= qw(u g o)[$i/3];
+	for ($j = 0; $j < 3; $j++) {
+	    $modes_set .= $mode & (0400 >> ($i+$j)) ? '+' : '-';
+	    $modes_set .= qw(r w X)[$j];
+	}
     }
     system('chmod', '-R', $modes_set, '--', $tmp);
     subprocerr("chmod -R $modes_set $tmp") if $?;
