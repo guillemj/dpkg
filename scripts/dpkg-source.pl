@@ -595,7 +595,8 @@ if ($opmode eq 'build') {
 	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
 				       DIR => getcwd(), UNLINK => 0);
 	my $tar = Dpkg::Source::Archiver->new(filename => $newtar,
-		    compression => get_compression_from_filename($tarname));
+		    compression => get_compression_from_filename($tarname),
+		    compression_level => $comp_level);
 	$tar->create(options => \@tar_ignore);
 	$tar->add_directory($tardirname);
 	$tar->close();

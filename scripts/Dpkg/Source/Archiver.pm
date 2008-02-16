@@ -93,6 +93,10 @@ sub create {
 	    compressed_filename => $self->get_filename(),
 	    compression => $self->{"compression"},
 	);
+	if ($self->{"compression_level"}) {
+	    $self->{"compressor"}->set_compression_level(
+		$self->{"compression_level"});
+	}
 	$self->{"compressor"}->compress(from_pipe => \$fork_opts{"to_handle"});
     } else {
 	$fork_opts{"to_file"} = $self->get_filename();
@@ -208,8 +212,8 @@ sub extract {
 		syserr(_g("Unable to rename %s to %s"),
 		       "$tmp/$entries[0]", $dest);
     } else {
-	rename($tmp, $dest) || syserr(_g("Unable to rename %s to %s"),
-				      "$tmp/$_", "$dest/$_");
+	rename($tmp, $dest) ||
+		syserr(_g("Unable to rename %s to %s"), $tmp, $dest);
     }
     rmtree($tmp);
 }
