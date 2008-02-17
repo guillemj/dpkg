@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
-"POT-Creation-Date: 2008-02-17 17:35+0100\n"
+"POT-Creation-Date: 2008-02-17 18:20+0100\n"
 "PO-Revision-Date: 2007-05-17 03:10+0200\n"
 "Last-Translator: Nicolas François <nicolas.francois@centraliens.net>\n"
 "Language-Team: French <debian-l10n-french@lists.debian.org>\n"
@@ -178,7 +178,7 @@ msgstr "B<822-date> ne prend aucun paramètre ni aucune option."
 # type: SH
 #: ../../man/822-date.1:24 ../../man/cleanup-info.8:48
 #: ../../man/deb-substvars.5:125 ../../man/dpkg.1:618
-#: ../../man/dpkg-buildpackage.1:207 ../../man/dpkg-deb.1:221
+#: ../../man/dpkg-buildpackage.1:278 ../../man/dpkg-deb.1:221
 #: ../../man/dpkg-name.1:88 ../../man/dpkg-source.1:267
 #: ../../man/dpkg-split.1:200 ../../man/dselect.1:434
 #: ../../man/update-alternatives.8:379
@@ -197,7 +197,7 @@ msgstr "Cette fonctionnalité devrait vraiment être intégrée à B<date>(1)."
 #: ../../man/deb-old.5:51 ../../man/deb-override.5:67
 #: ../../man/deb-shlibs.5:62 ../../man/deb-substvars.5:129
 #: ../../man/dpkg.1:608 ../../man/dpkg-architecture.1:268
-#: ../../man/dpkg.cfg.5:21 ../../man/dpkg-buildpackage.1:212
+#: ../../man/dpkg.cfg.5:21 ../../man/dpkg-buildpackage.1:283
 #: ../../man/dpkg-deb.1:238 ../../man/dpkg-divert.8:118
 #: ../../man/dpkg-name.1:98 ../../man/dpkg-query.1:157
 #: ../../man/dpkg-scanpackages.1:100 ../../man/dpkg-scansources.1:65
@@ -431,7 +431,7 @@ msgstr "Copyright (C) 1996 Kim-Minh Kaplan."
 
 # type: Plain text
 #: ../../man/cleanup-info.8:58 ../../man/deb-version.5:126
-#: ../../man/deb-substvars.5:142 ../../man/dpkg-buildpackage.1:227
+#: ../../man/deb-substvars.5:142 ../../man/dpkg-buildpackage.1:298
 #: ../../man/dpkg-checkbuilddeps.1:41 ../../man/dpkg-distaddfile.1:53
 #: ../../man/dpkg-deb.1:248 ../../man/dpkg-divert.8:125
 #: ../../man/dpkg-genchanges.1:152 ../../man/dpkg-gencontrol.1:145
@@ -1388,7 +1388,7 @@ msgstr "B<deb>(5), B<deb-control>(5), B<dpkg-deb>(1), B<dpkg>(1)."
 
 # type: SH
 #: ../../man/deb-version.5:120 ../../man/dpkg.1:621
-#: ../../man/dpkg-buildpackage.1:219 ../../man/dpkg-distaddfile.1:47
+#: ../../man/dpkg-buildpackage.1:290 ../../man/dpkg-distaddfile.1:47
 #: ../../man/dpkg-genchanges.1:146 ../../man/dpkg-gencontrol.1:137
 #: ../../man/dpkg-parsechangelog.1:122 ../../man/dpkg-shlibdeps.1:306
 #: ../../man/dpkg-source.1:283 ../../man/dselect.1:456
@@ -2001,7 +2001,7 @@ msgstr ""
 "(1), B<dpkg-source>(1)."
 
 # type: Plain text
-#: ../../man/deb-substvars.5:138 ../../man/dpkg-buildpackage.1:221
+#: ../../man/deb-substvars.5:138 ../../man/dpkg-buildpackage.1:292
 #: ../../man/dpkg-distaddfile.1:49 ../../man/dpkg-deb.1:246
 #: ../../man/dpkg-genchanges.1:148 ../../man/dpkg-gencontrol.1:139
 #: ../../man/dpkg-parsechangelog.1:124 ../../man/dpkg-shlibdeps.1:308
@@ -2010,7 +2010,7 @@ msgid "Copyright (C) 1995-1996 Ian Jackson"
 msgstr "Copyright (C) 1995-1996 Ian Jackson"
 
 # type: Plain text
-#: ../../man/deb-substvars.5:140 ../../man/dpkg-buildpackage.1:223
+#: ../../man/deb-substvars.5:140 ../../man/dpkg-buildpackage.1:294
 #: ../../man/dpkg-distaddfile.1:51 ../../man/dpkg-genchanges.1:150
 #: ../../man/dpkg-gencontrol.1:141 ../../man/dpkg-parsechangelog.1:126
 #: ../../man/dpkg-shlibdeps.1:310 ../../man/dpkg-source.1:287
@@ -5056,8 +5056,155 @@ msgstr ""
 msgid "B<-h>, B<--help>"
 msgstr "B<-h>, B<--help>"
 
+# type: SH
+#: ../../man/dpkg-buildpackage.1:207 ../../man/dpkg-query.1:145
+#, no-wrap
+msgid "ENVIRONMENT"
+msgstr "ENVIRONNEMENT"
+
 # type: Plain text
-#: ../../man/dpkg-buildpackage.1:211
+#: ../../man/dpkg-buildpackage.1:213
+msgid ""
+"A set of environment variables for setting compiler and linker options are "
+"set to default values unless already set in the environment. Note that this "
+"mechanism was only introduced in dpkg-dev, version 1.14.17 and not all "
+"I<rules> files and build tools will honour these variables, yet."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:213
+#, fuzzy, no-wrap
+msgid "B<CFLAGS>"
+msgstr "B<COLUMNS>"
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:226
+msgid ""
+"Optimization options which are passed to the debian build system and can/"
+"should be overriden by the package build if needed (default value: B<-g\\ -"
+"O2> , or B<-g\\ -O0> if B<noopt> is specified in DEB_BUILD_OPTIONS). "
+"Overriding options can be used to explicitely set a higher optimization "
+"level, or work around compiler bugs, which only can be seen with some "
+"optimization levels (the last opt level \"wins\")."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:226
+#, no-wrap
+msgid "B<CFLAGS_APPEND>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:231
+msgid ""
+"Optimization options appended to the compiler flags, which must not be "
+"overwritten by the package (mostly used to for test builds). Default value: "
+"empty."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:231
+#, no-wrap
+msgid "B<CXXFLAGS>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:236
+msgid "Same as B<CFLAGS> for C++ sources."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:236
+#, no-wrap
+msgid "B<CXXFLAGS_APPEND>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:241
+msgid "Same as B<CFLAGS_APPEND> for C++ sources."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:241
+#, no-wrap
+msgid "B<FFLAGS>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:246
+msgid "Same as B<FFLAGS> for Fortran sources."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:246
+#, no-wrap
+msgid "B<FFLAGS_APPEND>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:251
+msgid "Same as B<CFLAGS_APPEND> for Fortran sources."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:251
+#, no-wrap
+msgid "B<CPPFLAGS>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:259
+msgid ""
+"Preprocessor flags which are passed to the debian build system and can/"
+"should be overriden by the package build if needed (default: empty). This "
+"macro is seldom used (most build systems just use B<CFLAGS> instead of "
+"B<CPPFLAGS).>"
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:259
+#, no-wrap
+msgid "B<CPPFLAGS_APPEND>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:264
+msgid ""
+"Preprocessor flags appended to the preprocessor flags, which must not be "
+"overwritten by the package (mostly used to for test builds). Default value: "
+"empty."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:264
+#, no-wrap
+msgid "B<LDFLAGS>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:272
+msgid ""
+"Options passed to the compiler when linking executables or shared objects "
+"(if the linker is called directly, then B<-Wl> and B<,> have to be stripped "
+"from these options. Default value: empty."
+msgstr ""
+
+# type: TP
+#: ../../man/dpkg-buildpackage.1:272
+#, no-wrap
+msgid "B<LDFLAGS_APPEND>"
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:277
+msgid ""
+"Optimization options appended to the compiler flags when linking code, which "
+"must not be overwritten by the package (mostly used to for test builds). "
+"Default value: empty."
+msgstr ""
+
+# type: Plain text
+#: ../../man/dpkg-buildpackage.1:282
 msgid ""
 "It should be possible to specify spaces and shell metacharacters in and "
 "initial arguments for I<gain-root-command> and I<sign-command>."
@@ -5067,7 +5214,7 @@ msgstr ""
 "I<commande-de-signature>."
 
 # type: Plain text
-#: ../../man/dpkg-buildpackage.1:218
+#: ../../man/dpkg-buildpackage.1:289
 msgid ""
 "B<dpkg-source>(1), B<dpkg-architecture>(1), B<dpkg-genchanges>(1), B<gpg>"
 "(1), B<pgp>(1)."
@@ -5076,7 +5223,7 @@ msgstr ""
 "(1), B<pgp>(1)."
 
 # type: Plain text
-#: ../../man/dpkg-buildpackage.1:225
+#: ../../man/dpkg-buildpackage.1:296
 #, fuzzy
 msgid "Copyright (C) 2007 Frank Lichtenheld"
 msgstr "Copyright (C) 2000 Wichert Akkerman"
@@ -7288,12 +7435,6 @@ msgstr ""
 #, fuzzy, no-wrap
 msgid "  B<dpkg-query -W -f=\\(aq${Package} ${Version}\\et${Maintainer}\\en\\(aq dpkg>\n"
 msgstr "B<dpkg-query -W -f='${Package} ${Version}\\et${Maintainer}\\en' dpkg>\n"
-
-# type: SH
-#: ../../man/dpkg-query.1:145
-#, no-wrap
-msgid "ENVIRONMENT"
-msgstr "ENVIRONNEMENT"
 
 # type: Plain text
 #: ../../man/dpkg-query.1:150
