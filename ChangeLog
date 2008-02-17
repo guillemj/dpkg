@@ -1,3 +1,24 @@
+2008-02-17  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/Dpkg.pm: Allow overriding $pkgdatadir
+	with $ENV{DPKG_DATADIR}.
+	* scripts/Makefile.am (check): Use DPKG_DATADIR.
+	* debian/rules: Remove hack to copy data files
+	to build directory.
+
+
+2008-02-17  Frank Lichtenheld  <djpig@debian.org>
+	    Matthias Klose  <doko@cs.tu-berlin.de>
+
+	* scripts/dpkg-buildpackage.pl: Set a set of environment variables
+	for setting compiler and linker options, unless already set in the
+	environment. See https://wiki.ubuntu.com/DistCompilerFlags for
+	background information.
+
+2008-02-13  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Version.pm: Import Dpkg::Gettext since we use _g().
+
 2008-02-07  Guillem Jover  <guillem@debian.org>
 
 	* scripts/dpkg-gencontrol.pl: Do not output the Homepage field on udeb.
@@ -109,6 +130,14 @@
 	display list of lost symbols when wildcards symbols have been
 	used.
 	* scripts/t/200_Dpkg_Shlibs.t: Adjust test suite to API change.
+
+2008-01-26  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/Dpkg/Checksums.pm: New module for checksum handling
+	in .changes and .dsc files.
+	* scripts/dpkg-genchanges.pl, scripts/dpkg-source.pl: Use new
+	module. Adds new 'Checksums-{Sha1,Sha256}' field
+	to .changes and .dsc files. Increase changes format to 1.8.
 
 2008-01-25  Andreas Påhlsson  <andreas.pahlsson@xcerion.com>
 

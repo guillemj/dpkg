@@ -90,6 +90,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Cdata.pm \
 	Dpkg/Changelog.pm \
 	Dpkg/Changelog/Debian.pm \
+	Dpkg/Checksums.pm \
 	Dpkg/Compression.pm \
 	Dpkg/Control.pm \
 	Dpkg/Deps.pm \
@@ -167,4 +168,4 @@ check: $(TEST_FILES) $(wildcard $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf*)
 # a bit hacky...
 	$(mkdir_p) t.tmp
 	cp -dRl $(srcdir)/t/200_Dpkg_Shlibs/ld.so.conf* t.tmp/
-	srcdir=$(srcdir) PERL5LIB=$(srcdir) PERL_DL_NONLAZY=1 $(PERL) -I$(srcdir) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)
+	srcdir=$(srcdir) PERL5LIB=$(srcdir) DPKG_DATADIR=$(srcdir)/.. PERL_DL_NONLAZY=1 $(PERL) -I$(srcdir) "-MExtUtils::Command::MM" "-e" "test_harness($(TEST_VERBOSE), '.')" $(TEST_FILES)

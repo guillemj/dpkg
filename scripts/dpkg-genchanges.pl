@@ -8,6 +8,7 @@ use POSIX qw(:errno_h :signal_h);
 use English;
 use Dpkg;
 use Dpkg::Gettext;
+use Dpkg::Checksums;
 use Dpkg::ErrorHandling qw(warning error failure unknown internerr syserr
                            subprocerr usageerr);
 use Dpkg::Arch qw(get_host_arch debarch_eq debarch_is);
@@ -35,7 +36,7 @@ my $uploadfilesdir = '..';
 my $sourcestyle = 'i';
 my $quiet = 0;
 my $host_arch = get_host_arch();
-my $changes_format = "1.7";
+my $changes_format = "1.8";
 
 my %f2p;           # - file to package map
 my %p2f;           # - package to file map, has entries for "packagename"
@@ -53,7 +54,8 @@ my @descriptions;
 my @sourcefiles;
 my @fileslistfiles;
 
-my %md5sum;        # - md5sum to file map
+my %checksum;      # - file to checksum map
+my %size;          # - file to size map
 my %remove;        # - fields to remove
 my %override;
 my %archadded;
@@ -400,12 +402,27 @@ if (!is_binaryonly) {
     my $dsc_fields = parsecdata(\*CDATA, sprintf(_g("source control file %s"), $dsc),
 				allow_pgp => 1);
 
+    readallchecksums($dsc_fields, \%checksum, \%size);
+
+    my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
     my $files = $dsc_fields->{'Files'};
-    for my $file (split(/\n /, $files)) {
-        next if $file eq '';
-        $file =~ m/^([0-9a-f]{32})[ \t]+\d+[ \t]+([0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+)$/
-            || error(_g("Files field contains bad line \`%s'"), $file);
-        ($md5sum{$2},$file) = ($1,$2);
+    for my $line (split(/\n /, $files)) {
+	next if $line eq '';
+	$line =~ m/^($check_regex{md5})[ \t]+(\d+)[ \t]+($rx_fname)$/
+	    || error(_g("Files field contains bad line \`%s'"), $line);
+	my ($md5sum,$size,$file) = ($1,$2,$3);
+	if (exists($checksum{$file}{md5})
+	    and $checksum{$file}{md5} ne $md5sum) {
+	    error(_g("Conflicting checksums \`%s\' and \`%s' for file \`%s'"),
+		  $checksum{$file}{md5}, $md5sum, $file);
+	}
+	if (exists($size{$file})
+	    and $size{$file} != $size) {
+	    error(_g("Conflicting sizes \`%u\' and \`%u' for file \`%s'"),
+		  $size{$file}, $size, $file);
+	}
+	$checksum{$file}{md5} = $md5sum;
+	$size{$file} = $size;
         push(@sourcefiles,$file);
     }
     for my $f (@sourcefiles) {
@@ -477,22 +494,16 @@ for my $f (@sourcefiles, @fileslistfiles) {
     next if ($include == ARCH_INDEP and not debarch_eq('all', $p2arch{$f2p{$f}}));
     next if $filedone{$f}++;
     my $uf = "$uploadfilesdir/$f";
-    open(STDIN, "<", $uf) ||
-	syserr(_g("cannot open upload file %s for reading"), $uf);
-    (my @s = stat(STDIN)) || syserr(_g("cannot fstat upload file %s"), $uf);
-    my $size = $s[7];
-    $size || warning(_g("upload file %s is empty"), $uf);
-    my $md5sum = `md5sum`;
-    $? && subprocerr(_g("md5sum upload file %s"), $uf);
-    $md5sum =~ m/^([0-9a-f]{32})\s*-?\s*$/i ||
-        failure(_g("md5sum upload file %s gave strange output \`%s'"),
-                $uf, $md5sum);
-    $md5sum= $1;
-    defined($md5sum{$f}) && $md5sum{$f} ne $md5sum &&
-        error(_g("md5sum of source file %s (%s) is different from md5sum " .
-                 "in %s (%s)"), $uf, $md5sum, $dsc, $md5sum{$f});
-    $fields->{'Files'}.= "\n $md5sum $size $f2sec{$f} $f2pri{$f} $f";
+    $checksum{$f} ||= {};
+    getchecksums($uf, $checksum{$f}, \$size{$f});
+    foreach my $alg (sort keys %{$checksum{$f}}) {
+	$fields->{"Checksums-$alg"} .= "\n $checksum{$f}{$alg} $size{$f} $f";
+    }
+    $fields->{'Files'} .= "\n $checksum{$f}{md5} $size{$f} $f2sec{$f} $f2pri{$f} $f";
 }
+
+# redundant with the Files field
+delete $fields->{"Checksums-Md5"};
 
 $fields->{'Source'}= $sourcepackage;
 if ($fields->{'Version'} ne $substvars->get('source:Version')) {

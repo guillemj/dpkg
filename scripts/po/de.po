@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-01-21 08:25+0200\n"
-"PO-Revision-Date: 2008-01-27 01:37+0100\n"
+"PO-Revision-Date: 2008-02-16 17:08+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -1085,6 +1085,8 @@ msgid ""
 " ! Package %s (filename %s) is repeat but newer version;\n"
 "   used that one and ignored data from %s !\n"
 msgstr ""
+" ! Paket %s (Dateiname %s) ist wiederholt aber neuere Version;\n"
+"   verwendete dieses und ignorierte Daten aus %s !\n"
 
 #: scripts/dpkg-scanpackages.pl:196
 #, perl-format
@@ -1129,7 +1131,7 @@ msgstr "** Paket ist im Archiv, aber fehlt in Override-Datei: **"
 
 #: scripts/dpkg-scanpackages.pl:274
 msgid " ++ Packages in override file with incorrect old maintainer value: ++"
-msgstr ""
+msgstr " ++ Pakete in Override-Datei mit ungültigen alten Betreuer-Wert: ++"
 
 #: scripts/dpkg-scanpackages.pl:280
 msgid " -- Packages specifying same maintainer as override file: --"
@@ -1162,6 +1164,21 @@ msgid ""
 "\n"
 "See the man page for the full documentation.\n"
 msgstr ""
+"Verwendung: %s [<Option> ...] <Binärpfad> [<Override-Date> [<Pfadpräfix>]] > "
+"Quellen\n"
+"\n"
+"Optionen:\n"
+"  -n, --no-sort            sortiere vor Ausgabe nicht nach Paketen.\n"
+"  -s, --source-override <Datei>\n"
+"                           verwende Datei für zusätzliche Quell-Overrides, "
+"standardmäßig\n"
+"                           wird an eine reguläre Override-Datei ».src«\n"
+"                           angehängt.\n"
+"      --debug              Debugging einschalten.\n"
+"      --help               zeige diese Hilfemeldung.\n"
+"      --version            zeige die Version.\n"
+"\n"
+"Lesen Sie die Handbuchseite für die komplette Dokumentation.\n"
 
 #: scripts/dpkg-scansources.pl:142
 #, perl-format
@@ -1238,7 +1255,7 @@ msgstr "kann keinen Fork durchführen:"
 #: scripts/dpkg-scansources.pl:299
 #, perl-format
 msgid "can't dup %s:"
-msgstr ""
+msgstr "kann dup von %s nicht ausführen:"
 
 #: scripts/dpkg-scansources.pl:300
 #, perl-format
@@ -1560,7 +1577,7 @@ msgstr "benötige -x oder -b"
 #: scripts/dpkg-source.pl:281
 #, perl-format
 msgid "source handling style -s%s not allowed with -b"
-msgstr ""
+msgstr "Bearbeitungsstil der Quellen -s%s nicht mit -b erlaubt"
 
 #: scripts/dpkg-source.pl:284
 msgid "-b needs a directory"
@@ -1568,7 +1585,7 @@ msgstr "-b benötigt ein Verzeichnis"
 
 #: scripts/dpkg-source.pl:285
 msgid "-b takes at most a directory and an orig source argument"
-msgstr ""
+msgstr "-b nimmt höchstens ein Verzeichnis und eine Originalqulle als Argument"
 
 #: scripts/dpkg-source.pl:288
 #, perl-format
@@ -1633,7 +1650,7 @@ msgstr ""
 #: scripts/dpkg-source.pl:480
 #, perl-format
 msgid "unpacked orig `%s' exists but is not a directory"
-msgstr ""
+msgstr "entpacktes Original »%s« existiert ist aber kein Verzeichnis"
 
 #: scripts/dpkg-source.pl:484
 #, perl-format
@@ -1649,6 +1666,7 @@ msgstr "Quellverzeichnis »%s« lautet nicht <Quellpaket>-<UpstreamVersion> '%s'"
 #, perl-format
 msgid ".orig directory name %s is not <package>-<upstreamversion> (wanted %s)"
 msgstr ""
+".orig-Verzeichnisname %s ist nicht <Paket>-<Ursprungsversion> (erwünscht %s)"
 
 #: scripts/dpkg-source.pl:519
 #, perl-format
@@ -1663,6 +1681,8 @@ msgid ""
 "tarfile `%s' already exists, not overwriting, giving up; use -sU or -sR to "
 "override"
 msgstr ""
+"Tardaatei »%s« existiert bereits, überschreibe nicht und gebe auf; verwenden "
+"Sie -sU oder -sR zum Erzwingen"
 
 #: scripts/dpkg-source.pl:535
 #, perl-format
@@ -1686,7 +1706,7 @@ msgstr "Fork für Tar"
 #: scripts/dpkg-source.pl:547
 #, perl-format
 msgid "chdir to above (orig) source %s"
-msgstr ""
+msgstr "Chdir zu obigen (original-)Quellen %s"
 
 #: scripts/dpkg-source.pl:548
 msgid "reopen gzip for tar"
@@ -1725,11 +1745,13 @@ msgid ""
 "orig dir `%s' already exists, not overwriting, giving up; use -sA, -sK or -"
 "sP to override"
 msgstr ""
+"Originalverzeichnis »%s« existiert bereits, überschreibe nicht und gebe auf; "
+"verwenden Sie -sA, -sK oder -sP zum Erzwingen."
 
 #: scripts/dpkg-source.pl:583
 #, perl-format
 msgid "unable to check for existence of orig dir `%s'"
-msgstr ""
+msgstr "kann die Existenz des Originalverzeichnisses »%s« nicht überprüfen"
 
 #: scripts/dpkg-source.pl:593 scripts/dpkg-source.pl:956
 #, perl-format
@@ -1753,7 +1775,7 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:615
 msgid "fork for find"
-msgstr ""
+msgstr "Fork für Find"
 
 #: scripts/dpkg-source.pl:617
 #, perl-format
@@ -1777,32 +1799,32 @@ msgstr "kann Link %s nicht lesen"
 #: scripts/dpkg-source.pl:636
 #, perl-format
 msgid "cannot read orig link %s"
-msgstr ""
+msgstr "kann Originallink %s nicht lesen"
 
 #: scripts/dpkg-source.pl:637 scripts/dpkg-source.pl:638
 #, perl-format
 msgid "symlink to %s"
-msgstr ""
+msgstr "Symlink auf %s"
 
 #: scripts/dpkg-source.pl:645 scripts/dpkg-source.pl:716
 #, perl-format
 msgid "cannot stat orig file %s"
-msgstr ""
+msgstr "kann Stat auf Originaldatei %s nicht durchführen"
 
 #: scripts/dpkg-source.pl:648
 #, perl-format
 msgid "newly created empty file '%s' will not be represented in diff"
-msgstr ""
+msgstr "neu-erstellte leere Datei »%s« wird im Diff nicht dargestellt werden"
 
 #: scripts/dpkg-source.pl:652
 #, perl-format
 msgid "executable mode %04o of '%s' will not be represented in diff"
-msgstr ""
+msgstr "ausführbarer Modus %04o von »%s« wird nicht im Diff dargestellt werden"
 
 #: scripts/dpkg-source.pl:657
 #, perl-format
 msgid "special mode %04o of '%s' will not be represented in diff"
-msgstr ""
+msgstr "besonderer Modus %04o von »%s« wird nicht im Diff dargestellt werden"
 
 #: scripts/dpkg-source.pl:664 scripts/dpkg-source.pl:1541
 msgid "something else"
@@ -1810,7 +1832,7 @@ msgstr "etwas anderes"
 
 #: scripts/dpkg-source.pl:665
 msgid "plain file"
-msgstr ""
+msgstr "einfache Datei"
 
 #: scripts/dpkg-source.pl:668
 msgid "fork for diff"
@@ -1822,12 +1844,14 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:684
 msgid "binary file contents changed"
-msgstr ""
+msgstr "Inhalt der Binärdatei geändert"
 
 #: scripts/dpkg-source.pl:689
 #, perl-format
 msgid "file %s has no final newline (either original or modified version)"
 msgstr ""
+"Datei %s hat keinen abschließenden Zeilenumbruch (entweder Original oder "
+"modifizierte Version)"
 
 #: scripts/dpkg-source.pl:693
 #, perl-format
@@ -1840,7 +1864,7 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:702
 msgid "diff gave 1 but no diff lines found"
-msgstr ""
+msgstr "Diff ergab 1 aber keine Diffzeilen gefunden"
 
 #: scripts/dpkg-source.pl:705
 #, perl-format
@@ -1849,7 +1873,7 @@ msgstr ""
 
 #: scripts/dpkg-source.pl:711
 msgid "device or socket is not allowed"
-msgstr ""
+msgstr "Gerät oder Socket ist nicht erlaubt"
 
 #: scripts/dpkg-source.pl:718
 msgid "not a directory"

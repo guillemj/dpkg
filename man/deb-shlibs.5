@@ -1,4 +1,5 @@
-.\" This manpage is copyright (C) 1996 Michael Shields <shields@crosslink.net>.
+.\" Copyright (C) 1996 Michael Shields <shields@crosslink.net>
+.\" Copyright (C) 2008 Zack Weinberg <zackw@panix.com>
 .\" 
 .\" This is free software; you may redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as
@@ -13,18 +14,51 @@
 .\" You should have received a copy of the GNU General Public
 .\" License along with dpkg; if not, write to the Free Software
 .\" Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-.TH deb\-shlibs 5 "2007-03-08" "Debian Project" "dpkg utilities"
+.TH deb\-shlibs 5 "2008-02-17" "Debian Project" "dpkg utilities"
 .SH NAME
 deb\-shlibs \- Debian shared library information file
 .
-.SH SYNOPSIS
-shlibs
-.
 .SH DESCRIPTION
-The format for a shared library dependency information entry in these
-files is (see the Debian Policy Manual for details):
 .PP
-<library name>        <version/soname>        <dependencies>
+.B shlibs
+files map shared library names and versions
+.RI ( sonames )
+to dependencies suitable for a package control file.  There is one
+entry per line. Blank lines are \fBnot\fP allowed.  Lines beginning
+with an \fB#\fP character are considered commentary, and are ignored.
+All other lines must have the format
+.IP
+.RI [ tag: ]
+.I library
+.I version
+.I dependencies
+.PP
+The \fIlibrary\fP and \fIversion\fP fields are whitespace-delimited,
+but the \fIdependencies\fP field extends to the end of the line.  The
+\fItag\fP field is optional and normally not needed.
+.PP
+See the Debian Policy Manual for further details.
+.
+.SH EXAMPLES
+.PP
+The
+.B shlibs
+file for a typical library package, named 
+.IR libcrunch1 ,
+that provides one library whose soname is
+.IR libcrunch.so.1 ,
+might read
+.IP
+libcrunch 1 libcrunch1 (>= 1.2-1)
+.PP
+The \fIdependencies\fP
+must mention the most recent version of the package that added new
+symbols to the library: in the above example, new symbols were added to
+version 1.2 of
+.IR libcrunch .
+This is not the only reason the dependencies might need to be
+tightened; again, see the Debian Policy Manual for details.
 .
 .SH SEE ALSO
-.BR dpkg\-shlibdeps (1).
+.BR dpkg\-shlibdeps (1),
+.BR deb\-symbols (5).

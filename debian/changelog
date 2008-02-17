@@ -15,6 +15,8 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     Christian Perrier with their permission.
   * Use functions from libcompat when those are not provided by the system.
   * Change dpkg-gencontrol to not output the Homapage field on udeb.
+  * Reintroduce 'no-debsig' back in dpkg.cfg to avoid failing to install any
+    package when debsig-verify is installed. Closes: #311843
 
   [ Raphael Hertzog ]
   * Add a warning displayed by dpkg-genchanges if the current version is
@@ -31,11 +33,21 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     about.
   * Handle the case when the library has a different SONAME than the one used
     to find it. Closes: #462413
+  * Fix Dpkg::Version to import _g() from Dpkg::Gettext. Thanks to Adam Heath
+    for spotting this. Closes: #465651
 
   [ Frank Lichtenheld ]
   * Add a warning in dpkg-buildpackage if the build-dependencies are not
     satisfied during -S. Closes: #445552
   * Add a missing space in the German scripts translation. Closes: #463398
+  * Add improved deb-shlibs.5 manual page by Zack Weinberg. Closes: #466135
+  * dpkg-buildpackage exports some build related environment variables
+    now. Based on a patch by Matthias Klose. Closes: #465282
+    (See dpkg-buildpackage(1) and https://wiki.ubuntu.com/DistCompilerFlags
+     for details)
+  * Add support for use of SHA1 and SHA256 checksums in .dsc and
+    .changes files. Information will be available in Checksums-Sha{1,256}
+    fields. .changes format version increased to 1.8.
 
   [ Updated dpkg translations ]
   * Korean (Changwoo Ryu).

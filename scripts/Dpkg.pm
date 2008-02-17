@@ -19,5 +19,6 @@ our $version = "1.14";
 our $admindir = "/var/lib/dpkg";
 our $dpkglibdir = ".";
 our $pkgdatadir = "..";
+$pkgdatadir = $ENV{DPKG_DATADIR} if defined $ENV{DPKG_DATADIR};
 
 1;
