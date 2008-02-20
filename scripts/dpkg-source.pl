@@ -111,7 +111,6 @@ my %dirtocreate;	 # used by checkdiff
 my @tar_ignore;
 
 my $substvars = Dpkg::Substvars->new();
-my $compressor = Dpkg::Source::Compressor->new();
 
 use POSIX;
 use Fcntl qw (:mode);
@@ -652,10 +651,9 @@ if ($opmode eq 'build') {
             || &syserr(_g("write building diff message"));
 	my ($ndfh, $newdiffgz) = tempfile( "$diffname.new.XXXXXX",
 					DIR => &getcwd, UNLINK => 0 );
-	my $compressor = Dpkg::Source::Compressor->new(
-	    compressed_filename => $newdiffgz);
+	my $compressor = Dpkg::Source::Compressor->new();
 	my $diff_handle;
-	$compressor->compress(from_pipe => \$diff_handle);
+	$compressor->compress(from_pipe => \$diff_handle, to_file => $newdiffgz);
 
 	defined(my $c2 = open(FIND, "-|")) || syserr(_g("fork for find"));
         if (!$c2) {
@@ -1126,8 +1124,8 @@ if ($opmode eq 'build') {
 	printf(_g("%s: applying %s")."\n", $progname, $patch);
 	my ($diff_handle, $compressor);
 	if ($patch =~ /\.$comp_regex$/) {
-	    $compressor = Dpkg::Source::Compressor->new(filename => $patch);
-	    $compressor->uncompress(to_pipe => \$diff_handle);
+	    $compressor = Dpkg::Source::Compressor->new();
+	    $compressor->uncompress(from_file => $patch, to_pipe => \$diff_handle);
 	} else {
 	    open $diff_handle, $patch or error(_g("can't open diff `%s'"), $patch);
 	}
@@ -1220,8 +1218,8 @@ sub checkdiff
     my $diff = shift;
     my ($diff_handle, $compressor);
     if ($diff =~ /\.$comp_regex$/) {
-	$compressor = Dpkg::Source::Compressor->new(filename => $diff);
-	$compressor->uncompress(to_pipe => \$diff_handle);
+	$compressor = Dpkg::Source::Compressor->new();
+	$compressor->uncompress(from_file => $diff, to_pipe => \$diff_handle);
     } else {
 	open $diff_handle, $diff or error(_g("can't open diff `%s'"), $diff);
     }

@@ -22,7 +22,7 @@ use warnings;
 use Dpkg::Compression;
 use Dpkg::Gettext;
 use Dpkg::IPC;
-use Dpkg::ErrorHandling qw(error syserr warning);
+use Dpkg::ErrorHandling qw(error);
 
 use POSIX;
 
@@ -48,26 +48,11 @@ sub set_default_compression_level {
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
-    my $self = {
-	"compression" => $default_compression,
-	"compression_level" => $default_compression_level,
-    };
+    my $self = {};
     bless $self, $class;
-    if (exists $args{"compression"}) {
-	$self->set_compression($args{"compression"});
-    }
-    if (exists $args{"compression_level"}) {
-	$self->set_compression_level($args{"compression_level"});
-    }
-    if (exists $args{"filename"}) {
-	$self->set_filename($args{"filename"});
-    }
-    if (exists $args{"uncompressed_filename"}) {
-	$self->set_uncompressed_filename($args{"uncompressed_filename"});
-    }
-    if (exists $args{"compressed_filename"}) {
-	$self->set_compressed_filename($args{"compressed_filename"});
-    }
+    $self->set_compression($args{"compression"} || $default_compression);
+    $self->set_compression_level($args{"compression_level"} ||
+	    $default_compression_level);
     return $self;
 }
 
@@ -85,39 +70,6 @@ sub set_compression_level {
     $self->{"compression_level"} = $level;
 }
 
-sub set_filename {
-    my ($self, $filename) = @_;
-    my $comp = get_compression_from_filename($filename);
-    if ($comp) {
-	$self->set_compression($comp);
-	$self->set_compressed_filename($filename);
-    } else {
-	error(_g("unknown compression type on file %s"), $filename);
-    }
-}
-
-sub set_compressed_filename {
-    my ($self, $filename) = @_;
-    $self->{"compressed_filename"} = $filename;
-}
-
-sub set_uncompressed_filename {
-    my ($self, $filename) = @_;
-    warning(_g("uncompressed filename %s has an extension of a compressed file"),
-	    $filename) if $filename =~ /\.$comp_regex$/;
-    $self->{"uncompressed_filename"} = $filename;
-}
-
-sub get_filename {
-    my $self = shift;
-    if ($self->{"compressed_filename"}) {
-	return $self->{"compressed_filename"};
-    } elsif ($self->{"uncompressed_filename"}) {
-	return $self->{"uncompressed_filename"} . "." .
-	       $comp_ext{$self->{"compression"}};
-    }
-}
-
 sub get_compress_cmdline {
     my ($self) = @_;
     my @prog = ($comp_prog{$self->{"compression"}});
@@ -133,41 +85,45 @@ sub get_uncompress_cmdline {
     return ($comp_decomp_prog{$self->{"compression"}});
 }
 
-sub compress {
+sub _sanity_check {
     my ($self, %opts) = @_;
-    unless($opts{"from_file"} or $opts{"from_handle"} or $opts{"from_pipe"}) {
-	error("compress() needs a from_{file,handle,pipe} parameter");
-    }
-    unless($opts{"to_file"} or $opts{"to_handle"} or $opts{"to_pipe"}) {
-	$opts{"to_file"} = $self->get_filename();
-    }
+    # Check for proper cleaning before new start
     error(_g("Dpkg::Source::Compressor can only start one subprocess at a time"))
 	    if $self->{"pid"};
+    # Check options
+    my $to = my $from = 0;
+    foreach (qw(file handle string pipe)) {
+        $to++ if $opts{"to_$_"};
+        $from++ if $opts{"from_$_"};
+    }
+    error("exactly one to_* parameter is needed") if $to != 1;
+    error("exactly one from_* parameter is needed") if $from != 1;
+    return %opts;
+}
+
+sub compress {
+    my $self = shift;
+    my %opts = $self->_sanity_check(@_);
     my @prog = $self->get_compress_cmdline();
     $opts{"exec"} = \@prog;
     $self->{"cmdline"} = "@prog";
     $self->{"pid"} = fork_and_exec(%opts);
+    delete $self->{"pid"} if $opts{"to_string"}; # wait_child already done
 }
 
 sub uncompress {
-    my ($self, %opts) = @_;
-    unless($opts{"from_file"} or $opts{"from_handle"} or $opts{"from_pipe"}) {
-	$opts{"from_file"} = $self->get_filename();
-    }
-    unless($opts{"to_file"} or $opts{"to_handle"} or $opts{"to_pipe"}) {
-	error("uncompress() needs a to_{file,handle,pipe} parameter");
-    }
-    error(_g("Dpkg::Source::Compressor can only start one subprocess at a time"))
-	    if $self->{"pid"};
+    my $self = shift;
+    my %opts = $self->_sanity_check(@_);
     my @prog = $self->get_uncompress_cmdline();
-    $self->{"cmdline"} = "@prog";
     $opts{"exec"} = \@prog;
+    $self->{"cmdline"} = "@prog";
     $self->{"pid"} = fork_and_exec(%opts);
+    delete $self->{"pid"} if $opts{"to_string"}; # wait_child already done
 }
 
 sub wait_end_process {
     my ($self) = @_;
-    wait_child($self->{"pid"}, cmdline => $self->{"cmdline"});
+    wait_child($self->{"pid"}, cmdline => $self->{"cmdline"}) if $self->{'pid'};
     delete $self->{"pid"};
     delete $self->{"cmdline"};
 }

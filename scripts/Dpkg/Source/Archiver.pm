@@ -19,6 +19,7 @@ package Dpkg::Source::Archiver;
 use strict;
 use warnings;
 
+use Dpkg::Source::CompressedFile;
 use Dpkg::Source::Compressor;
 use Dpkg::Compression;
 use Dpkg::Gettext;
@@ -30,65 +31,19 @@ use File::Temp qw(tempdir);
 use File::Path qw(rmtree mkpath);
 use File::Basename qw(basename);
 
-sub new {
-    my ($this, %args) = @_;
-    my $class = ref($this) || $this;
-    my $self = {};
-    bless $self, $class;
-    if (exists $args{"compression"}) {
-	$self->use_compression($args{"compression"});
-    }
-    if (exists $args{"filename"}) {
-	$self->set_filename($args{"filename"});
-    }
-    return $self;
-}
-
-sub reset {
-    my ($self) = @_;
-    %{$self} = ();
-}
-
-sub use_compression {
-    my ($self, $method) = @_;
-    error(_g("%s is not a supported compression method"), $method)
-	    unless $comp_supported{$method};
-    $self->{"compression"} = $method;
-}
-
-sub set_filename {
-    my ($self, $filename) = @_;
-    $self->{"filename"} = $filename;
-    # Check if compression is used
-    my $comp = get_compression_from_filename($filename);
-    $self->use_compression($comp) if $comp;
-}
-
-sub get_filename {
-    my $self = shift;
-    return $self->{"filename"};
-}
+use base 'Dpkg::Source::CompressedFile';
 
 sub create {
     my ($self, %opts) = @_;
     $opts{"options"} ||= [];
     my %fork_opts;
-    # Prepare stuff that handles the output of tar
-    if ($self->{"compression"}) {
-	$self->{"compressor"} = Dpkg::Source::Compressor->new(
-	    compressed_filename => $self->get_filename(),
-	    compression => $self->{"compression"},
-	);
-	$self->{"compressor"}->compress(from_pipe => \$fork_opts{"to_handle"});
-    } else {
-	$fork_opts{"to_file"} = $self->get_filename();
-    }
-    # Prepare input to tar
+    # Redirect input/output appropriately
+    $fork_opts{"to_handle"} = $self->open_for_write();
     $fork_opts{"from_pipe"} = \$self->{'tar_input'};
     # Call tar creation process
-    $fork_opts{'exec'} = [ 'tar', '--null', '-T', '-', @{$opts{"options"}}, '-cf', '-' ];
+    $fork_opts{'exec'} = [ 'tar', '--null', '-T', '-',
+			   @{$opts{"options"}}, '-cf', '-' ];
     $self->{"pid"} = fork_and_exec(%fork_opts);
-    binmode($self->{'tar_input'});
     $self->{"cwd"} = getcwd();
 }
 
@@ -116,11 +71,10 @@ sub close {
     my ($self) = @_;
     close($self->{'tar_input'}) or syserr(_g("close on tar input"));
     wait_child($self->{'pid'}, cmdline => 'tar -cf -');
-    $self->{'compressor'}->wait_end_process() if $self->{'compressor'};
     delete $self->{'pid'};
     delete $self->{'tar_input'};
     delete $self->{'cwd'};
-    delete $self->{'compressor'};
+    $self->cleanup_after_open();
 }
 
 sub extract {
@@ -134,24 +88,13 @@ sub extract {
     $fork_opts{"chdir"} = $tmp;
 
     # Prepare stuff that handles the input of tar
-    if ($self->{"compression"}) {
-	$self->{"compressor"} = Dpkg::Source::Compressor->new(
-	    compressed_filename => $self->get_filename(),
-	    compression => $self->{"compression"},
-	);
-	$self->{"compressor"}->uncompress(to_pipe => \$fork_opts{"from_handle"});
-    } else {
-	$fork_opts{"from_file"} = $self->get_filename();
-    }
+    $fork_opts{"from_handle"} = $self->open_for_read();
 
     # Call tar extraction process
     $fork_opts{'exec'} = [ 'tar', '--no-same-owner', '--no-same-permissions',
-	    @{$opts{"options"}}, '-xkf', '-' ];
+                           @{$opts{"options"}}, '-xkf', '-' ];
     fork_and_exec(%fork_opts);
-
-    # Clean up compressor
-    $self->{'compressor'}->wait_end_process() if $self->{'compressor'};
-    delete $self->{'compressor'};
+    $self->cleanup_after_open();
 
     # Fix permissions on extracted files...
     my ($mode, $modes_set, $i, $j);
