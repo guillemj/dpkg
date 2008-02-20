@@ -725,7 +725,8 @@ it's passed as the parameter that follows.
 sub parse_changelog {
     my (%options) = @_;
     my @parserpath = ("/usr/local/lib/dpkg/parsechangelog",
-                      "$dpkglibdir/parsechangelog");
+                      "$dpkglibdir/parsechangelog",
+                      "/usr/lib/dpkg/parsechangelog");
     my $format = "debian";
     my $changelogfile = "debian/changelog";
     my $force = 0;
