@@ -106,6 +106,11 @@ but not the pid.
 Scalar. The child process will chdir in the indicated directory before
 calling exec.
 
+=item env
+
+Hash reference. The child process will populate %ENV with the items of the
+hash before calling exec. This allows exporting environment variables.
+
 =back
 
 =cut
@@ -129,8 +134,12 @@ sub _sanity_check_opts {
     foreach (qw(to_string from_string to_pipe from_pipe)) {
 	if (exists $opts{$_} and
 	    (!ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
-	    error("paramter $_ must be a scalar reference");
+	    error("parameter $_ must be a scalar reference");
 	}
+    }
+
+    if (exists $opts{"env"} and ref($opts{"env"}) ne 'HASH') {
+	error("parameter env must be a hash reference");
     }
 
     return %opts;
@@ -173,6 +182,13 @@ sub fork_and_exec {
     my $pid = fork();
     syserr(_g("fork for %s"), "@prog") unless defined $pid;
     if (not $pid) {
+	# Define environment variables
+	if ($opts{"env"}) {
+	    foreach (keys %{$opts{"env"}}) {
+		$ENV{$_} = $opts{"env"}{$_};
+	    }
+	}
+	# Change the current directory
 	if ($opts{"chdir"}) {
 	    chdir($opts{"chdir"}) || syserr(_g("chdir to %s"), $opts{"chdir"});
 	}
