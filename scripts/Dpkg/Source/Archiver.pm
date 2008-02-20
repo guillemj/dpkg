@@ -38,9 +38,6 @@ sub new {
     if (exists $args{"compression"}) {
 	$self->use_compression($args{"compression"});
     }
-    if (exists $args{"compression_level"}) {
-	$self->set_compression_level($args{"compression_level"});
-    }
     if (exists $args{"filename"}) {
 	$self->set_filename($args{"filename"});
     }
@@ -59,23 +56,12 @@ sub use_compression {
     $self->{"compression"} = $method;
 }
 
-sub set_compression_level {
-    my ($self, $level) = @_;
-    error(_g("%s is not a compression level"), $level)
-	    unless $level =~ /^([1-9]|fast|best)$/;
-    $self->{"compression_level"} = $level;
-}
-
 sub set_filename {
     my ($self, $filename) = @_;
     $self->{"filename"} = $filename;
     # Check if compression is used
-    foreach my $comp (@comp_supported) {
-	if ($filename =~ /^(.*)\.\Q$comp_ext{$comp}\E$/) {
-	    $self->use_compression($comp);
-	    last;
-	}
-    }
+    my $comp = get_compression_from_filename($filename);
+    $self->use_compression($comp) if $comp;
 }
 
 sub get_filename {
@@ -93,10 +79,6 @@ sub create {
 	    compressed_filename => $self->get_filename(),
 	    compression => $self->{"compression"},
 	);
-	if ($self->{"compression_level"}) {
-	    $self->{"compressor"}->set_compression_level(
-		$self->{"compression_level"});
-	}
 	$self->{"compressor"}->compress(from_pipe => \$fork_opts{"to_handle"});
     } else {
 	$fork_opts{"to_file"} = $self->get_filename();

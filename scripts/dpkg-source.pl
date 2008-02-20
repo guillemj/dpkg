@@ -21,6 +21,7 @@ use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
 use Dpkg::Source::Archiver;
+use Dpkg::IPC;
 
 my @filesinarchive;
 my %dirincluded;
@@ -232,10 +233,12 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 	$comp_ext = $comp_ext{$compression};
 	usageerr(_g("%s is not a supported compression"), $compression)
 	    unless $comp_supported{$compression};
+	Dpkg::Source::Compressor->set_default_compression($compression);
     } elsif (m/^-z/) {
 	$comp_level = $POSTMATCH;
 	usageerr(_g("%s is not a compression level"), $comp_level)
 	    unless $comp_level =~ /^([1-9]|fast|best)$/;
+	Dpkg::Source::Compressor->set_default_compression_level($comp_level);
     } elsif (m/^-s([akpursnAKPUR])$/) {
 	warning(_g("-s%s option overrides earlier -s%s option"), $1, $sourcestyle)
 	    if $sourcestyle ne 'X';
@@ -649,7 +652,10 @@ if ($opmode eq 'build') {
             || &syserr(_g("write building diff message"));
 	my ($ndfh, $newdiffgz) = tempfile( "$diffname.new.XXXXXX",
 					DIR => &getcwd, UNLINK => 0 );
-        &forkgzipwrite($newdiffgz);
+	my $compressor = Dpkg::Source::Compressor->new(
+	    compressed_filename => $newdiffgz);
+	my $diff_handle;
+	$compressor->compress(from_pipe => \$diff_handle);
 
 	defined(my $c2 = open(FIND, "-|")) || syserr(_g("fork for find"));
         if (!$c2) {
@@ -732,7 +738,7 @@ if ($opmode eq 'build') {
 			internerr(_g("unknown line from diff -u on %s: `%s'"),
 			          $fn, $_);
                     }
-		    print(GZIP $_) || &syserr(_g("failed to write to compression pipe"));
+		    print($diff_handle $_) || syserr(_g("failed to write to compression pipe"));
                 }
                 close(DIFFGEN); $/= "\0";
 		my $es;
@@ -762,8 +768,8 @@ if ($opmode eq 'build') {
             }
         }
         close(FIND); $? && subprocerr("find on $dir");
-	close(GZIP) || &syserr(_g("finish write to compression pipe"));
-        &reapgzip;
+	close($diff_handle) || syserr(_g("finish write to compression pipe"));
+        $compressor->wait_end_process();
 	rename($newdiffgz, $diffname) ||
 	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
 	           $newdiffgz, $diffname);
@@ -1118,27 +1124,24 @@ if ($opmode eq 'build') {
 
     for my $patch (@patches) {
 	printf(_g("%s: applying %s")."\n", $progname, $patch);
+	my ($diff_handle, $compressor);
 	if ($patch =~ /\.$comp_regex$/) {
-	    &forkgzipread($patch);
-	    *DIFF = *GZIP;
+	    $compressor = Dpkg::Source::Compressor->new(filename => $patch);
+	    $compressor->uncompress(to_pipe => \$diff_handle);
 	} else {
-	    open DIFF, $patch or error(_g("can't open diff `%s'"), $patch);
+	    open $diff_handle, $patch or error(_g("can't open diff `%s'"), $patch);
 	}
 
-	defined(my $c2 = fork) || syserr(_g("fork for patch"));
-        if (!$c2) {
-            open(STDIN,"<&DIFF") || &syserr(_g("reopen gzip for patch"));
-            chdir($newdirectory) || syserr(_g("chdir to %s for patch"), $newdirectory);
-	    $ENV{'LC_ALL'}= 'C';
-	    $ENV{'LANG'}= 'C';
-            exec('patch','-s','-t','-F','0','-N','-p1','-u',
-                 '-V','never','-g0','-b','-z','.dpkg-orig') or &syserr(_g("exec patch"));
-        }
-        close(DIFF);
-        $c2 == waitpid($c2,0) || &syserr(_g("wait for patch"));
-        $? && subprocerr("patch");
+	fork_and_exec(
+	    'exec' => [ 'patch', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
+	                '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig' ],
+	    'chdir' => $newdirectory,
+	    env => { LC_ALL => 'C', LANG => 'C' },
+	    wait_child => 1,
+	    from_handle => $diff_handle
+	);
 
-	&reapgzip if $patch =~ /\.$comp_regex$/;
+	$compressor->wait_end_process() if $patch =~ /\.$comp_regex$/;
     }
 
     my $now = time;
@@ -1215,20 +1218,21 @@ sub erasedir {
 sub checkdiff
 {
     my $diff = shift;
+    my ($diff_handle, $compressor);
     if ($diff =~ /\.$comp_regex$/) {
-	&forkgzipread($diff);
-	*DIFF = *GZIP;
+	$compressor = Dpkg::Source::Compressor->new(filename => $diff);
+	$compressor->uncompress(to_pipe => \$diff_handle);
     } else {
-	open DIFF, $diff or error(_g("can't open diff `%s'"), $diff);
+	open $diff_handle, $diff or error(_g("can't open diff `%s'"), $diff);
     }
-    $/="\n";
-    $_ = <DIFF>;
+    $/ = "\n";
+    $_ = <$diff_handle>;
 
   HUNK:
-    while (defined($_) || !eof(DIFF)) {
+    while (defined($_) || !eof($diff_handle)) {
 	# skip cruft leading up to patch (if any)
 	until (/^--- /) {
-	    last HUNK unless defined ($_ = <DIFF>);
+	    last HUNK unless defined ($_ = <$diff_handle>);
 	}
 	# read file header (---/+++ pair)
 	s/\n$// or error(_g("diff `%s' is missing trailing newline"), $diff);
@@ -1242,7 +1246,7 @@ sub checkdiff
 	          $diff);
 	$fn = $_;
 
-	(defined($_= <DIFF>) and s/\n$//) or
+	(defined($_= <$diff_handle>) and s/\n$//) or
 	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"),
 	          $diff, $.);
 
@@ -1274,7 +1278,7 @@ sub checkdiff
 
 	# read hunks
 	my $hunk = 0;
-	while (defined($_ = <DIFF>) && !(/^--- / or /^Index:/)) {
+	while (defined($_ = <$diff_handle>) && !(/^--- / or /^Index:/)) {
 	    # read hunk header (@@)
 	    s/\n$// or error(_g("diff `%s' is missing trailing newline"), $diff);
 	    next if /^\\ No newline/;
@@ -1284,7 +1288,7 @@ sub checkdiff
 	    ++$hunk;
 	    # read hunk
 	    while ($olines || $nlines) {
-		defined($_ = <DIFF>) or
+		defined($_ = <$diff_handle>) or
 		    error(_g("unexpected end of diff `%s'"), $diff);
 		s/\n$// or
 		    error(_g("diff `%s' is missing trailing newline"), $diff);
@@ -1300,9 +1304,9 @@ sub checkdiff
 	}
 	$hunk or error(_g("expected ^\@\@ at line %d of diff `%s'"), $., $diff);
     }
-    close(DIFF);
+    close($diff_handle);
     
-    &reapgzip if $diff =~ /\.$comp_regex$/;
+    $compressor->wait_end_process() if $diff =~ /\.$comp_regex$/;
 }
 
 sub checktype {
@@ -1338,30 +1342,6 @@ sub unrepdiff2 {
                   $progname, $fn, $progname, $_[1], $progname, $_[0])
         || &syserr(_g("write syserr unrep"));
     $ur++;
-}
-
-sub forkgzipwrite {
-    $compressor->set_compressed_filename($_[0]);
-    $compressor->set_compression_level($comp_level);
-
-    my $handle;
-    $compressor->compress(from_pipe => \$handle);
-    open(GZIP, ">>&=", $handle) || syserr(_g("cannot associate handle"));
-    close($handle);
-}
-
-sub forkgzipread {
-    $compressor->set_compressed_filename($_[0]);
-    $compressor->set_compression_level($comp_level);
-
-    my $handle;
-    $compressor->uncompress(to_pipe => \$handle);
-    open(GZIP, "<&=", $handle) || syserr(_g("cannot associate handle"));
-    close($handle);
-}
-
-sub reapgzip {
-    $compressor->wait_end_process();
 }
 
 my %added_files;

@@ -29,6 +29,22 @@ use POSIX;
 our $default_compression = "gzip";
 our $default_compression_level = 9;
 
+# Class methods
+sub set_default_compression {
+    my ($self, $method) = @_;
+    error(_g("%s is not a supported compression"), $method)
+	    unless $comp_supported{$method};
+    $default_compression = $method;
+}
+
+sub set_default_compression_level {
+    my ($self, $level) = @_;
+    error(_g("%s is not a compression level"), $level)
+	    unless $level =~ /^([1-9]|fast|best)$/;
+    $default_compression_level = $level;
+}
+
+# Object methods
 sub new {
     my ($this, %args) = @_;
     my $class = ref($this) || $this;
