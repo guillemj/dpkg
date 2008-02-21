@@ -1,4 +1,5 @@
 #! /usr/bin/perl
+# vim: set et sw=4 ts=8
 
 use strict;
 use warnings;
@@ -286,8 +287,6 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 }
 
 defined($opmode) || &usageerr(_g("need -x or -b"));
-
-$SIG{'PIPE'} = 'DEFAULT';
 
 if ($opmode eq 'build') {
 
@@ -655,15 +654,16 @@ if ($opmode eq 'build') {
 	my $diff_handle;
 	$compressor->compress(from_pipe => \$diff_handle, to_file => $newdiffgz);
 
-	defined(my $c2 = open(FIND, "-|")) || syserr(_g("fork for find"));
-        if (!$c2) {
-            chdir($dir) || syserr(_g("chdir to %s for find"), $dir);
-            exec('find','.','-print0') or &syserr(_g("exec find"));
-        }
-        $/= "\0";
+        my $find_handle;
+        my $pid = fork_and_exec(
+            'exec' => [ 'find', '.', '-print0' ],
+            'chdir' => $dir,
+            'to_pipe' => \$find_handle,
+        );
+        $/ = "\0";
 
       file:
-        while (defined($fn= <FIND>)) {
+        while (defined($fn= <$find_handle>)) {
             $fn =~ s/\0$//;
             next file if $fn =~ m/$diff_ignore_regexp/o;
             $fn =~ s,^\./,,;
@@ -708,37 +708,40 @@ if ($opmode eq 'build') {
                                 _g("plain file"));
                     next;
                 }
-		defined(my $c3 = open(DIFFGEN, "-|")) || syserr(_g("fork for diff"));
-                if (!$c3) {
-		    $ENV{'LC_ALL'}= 'C';
-		    $ENV{'LANG'}= 'C';
-		    $ENV{'TZ'}= 'UTC0';
-		    my $tab = ("$basedirname/$fn" =~ / /) ? "\t" : '';
-		    exec('diff','-u',
-			 '-L',"$basedirname.orig/$fn$tab",
-			 '-L',"$basedirname/$fn$tab",
-			 '--',"$ofnread","$dir/$fn") or &syserr(_g("exec diff"));
-                }
-		my $difflinefound = 0;
-                $/= "\n";
-                while (<DIFFGEN>) {
+
+                my $tab = ("$basedirname/$fn" =~ / /) ? "\t" : '';
+                my $diffgen;
+                my $diff_pid = fork_and_exec(
+                    'exec' => [ 'diff', '-u', '-p',
+                                '-L', "$basedirname.orig/$fn$tab",
+                                '-L', "$basedirname/$fn$tab",
+                                '--', "$ofnread", "$dir/$fn" ],
+                    'env' => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
+                    'to_pipe' => \$diffgen
+                );
+                my $difflinefound = 0;
+                $/ = "\n";
+                while (<$diffgen>) {
                     if (m/^binary/i) {
-                        close(DIFFGEN); $/= "\0";
+                        close($diffgen);
+                        $/ = "\0";
                         &unrepdiff(_g("binary file contents changed"));
                         next file;
                     } elsif (m/^[-+\@ ]/) {
                         $difflinefound=1;
                     } elsif (m/^\\ No newline at end of file$/) {
-			warning(_g("file %s has no final newline (either " .
-			           "original or modified version)"), $fn);
+                        warning(_g("file %s has no final newline (either " .
+                                   "original or modified version)"), $fn);
                     } else {
                         s/\n$//;
-			internerr(_g("unknown line from diff -u on %s: `%s'"),
-			          $fn, $_);
+                        internerr(_g("unknown line from diff -u on %s: `%s'"),
+                                  $fn, $_);
                     }
-		    print($diff_handle $_) || syserr(_g("failed to write to compression pipe"));
+                    print($diff_handle $_) || syserr(_g("failed to write to compression pipe"));
                 }
-                close(DIFFGEN); $/= "\0";
+                close($diffgen);
+                wait_child($diff_pid, nocheck => 1, cmdline => 'diff');
+                $/ = "\0";
 		my $es;
                 if (WIFEXITED($?) && (($es=WEXITSTATUS($?))==0 || $es==1)) {
                     if ($es==1 && !$difflinefound) {
@@ -765,8 +768,9 @@ if ($opmode eq 'build') {
                 &unrepdiff(sprintf(_g("unknown file type (%s)"), $!));
             }
         }
-        close(FIND); $? && subprocerr("find on $dir");
-	close($diff_handle) || syserr(_g("finish write to compression pipe"));
+        close($find_handle);
+        wait_child($pid);
+        close($diff_handle) || syserr(_g("finish write to compression pipe"));
         $compressor->wait_end_process();
 	rename($newdiffgz, $diffname) ||
 	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
@@ -774,13 +778,14 @@ if ($opmode eq 'build') {
 	chmod(0666 &~ umask(), $diffname) ||
 	    syserr(_g("unable to change permission of `%s'"), $diffname);
 
-        defined($c2= open(FIND,"-|")) || &syserr(_g("fork for 2nd find"));
-        if (!$c2) {
-            chdir($origdir) || syserr(_g("chdir to %s for 2nd find"), $origdir);
-            exec('find','.','-print0') or &syserr(_g("exec 2nd find"));
-        }
-        $/= "\0";
-        while (defined($fn= <FIND>)) {
+        $find_handle = undef;
+        $pid = fork_and_exec(
+            'exec' => [ 'find', '.', '-print0' ],
+            'chdir' => $origdir,
+            'to_pipe' => \$find_handle,
+        );
+        $/ = "\0";
+        while (defined($fn= <$find_handle>)) {
             $fn =~ s/\0$//;
             next if $fn =~ m/$diff_ignore_regexp/o;
             $fn =~ s,^\./,,;
@@ -798,7 +803,8 @@ if ($opmode eq 'build') {
                             _g('nonexistent'));
             }
         }
-        close(FIND); $? && subprocerr("find on $dirname");
+        close($find_handle);
+        wait_child($pid);
 
 	addfile($fields, $diffname);
 
@@ -1161,34 +1167,6 @@ if ($opmode eq 'build') {
 	warning(_g("%s is not a plain file"), "$newdirectory/debian/rules");
     }
 
-    my $execmode = 0777 & ~umask;
-    (my @s = stat('.')) || syserr(_g("cannot stat `.'"));
-    my $dirmode = $execmode | ($s[2] & 02000);
-    my $plainmode = $execmode & ~0111;
-    my $fifomode = ($plainmode & 0222) | (($plainmode & 0222) << 1);
-
-    for $fn (@filesinarchive) {
-	$fn=~ s,^$expectprefix,$newdirectory,;
-	(my @s = lstat($fn)) ||
-	    syserr(_g("cannot stat extracted object `%s'"), $fn);
-	my $mode = $s[2];
-	my $newmode;
-
-        if (-d _) {
-            $newmode= $dirmode;
-        } elsif (-f _) {
-            $newmode= ($mode & 0111) ? $execmode : $plainmode;
-        } elsif (-p _) {
-            $newmode= $fifomode;
-        } elsif (!-l _) {
-            internerr(_g("unknown object `%s' after extract (mode 0%o)"),
-                      $fn, $mode);
-        } else { next; }
-        next if ($mode & 07777) == $newmode;
-        chmod($newmode,$fn) ||
-            syserr(_g("cannot change mode of `%s' to 0%o from 0%o"),
-                   $fn, $newmode, $mode);
-    }
     exit(0);
 }
 
