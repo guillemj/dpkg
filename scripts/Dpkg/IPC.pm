@@ -238,7 +238,8 @@ sub fork_and_exec {
 
 Takes as first argument the pid of the process to wait for.
 Remaining arguments are taken as a hash of options. Returns
-nothing.
+nothing. Fails if the child has been ended by a signal or
+if it exited non-zero.
 
 Options:
 
@@ -249,6 +250,12 @@ Options:
 String to identify the child process in error messages.
 Defaults to "child process".
 
+=item nocheck
+
+If true do not check the return status of the child (and thus
+do not fail it it has been killed or if it exited with a
+non-zero return code).
+
 =back
 
 =cut
@@ -258,7 +265,9 @@ sub wait_child {
     $opts{"cmdline"} ||= _g("child process");
     error(_g("no PID set, cannot wait end of process")) unless $pid;
     $pid == waitpid($pid, 0) or syserr(_g("wait for %s"), $opts{"cmdline"});
-    subprocerr($opts{"cmdline"}) if $?;
+    unless ($opts{"nocheck"}) {
+	subprocerr($opts{"cmdline"}) if $?;
+    }
 }
 
 1;
