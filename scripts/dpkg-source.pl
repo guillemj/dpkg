@@ -22,6 +22,7 @@ use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
 use Dpkg::Source::Archiver;
+use Dpkg::Source::Patch;
 use Dpkg::IPC;
 
 my @filesinarchive;
@@ -650,161 +651,19 @@ if ($opmode eq 'build') {
             || &syserr(_g("write building diff message"));
 	my ($ndfh, $newdiffgz) = tempfile( "$diffname.new.XXXXXX",
 					DIR => &getcwd, UNLINK => 0 );
-	my $compressor = Dpkg::Source::Compressor->new();
-	my $diff_handle;
-	$compressor->compress(from_pipe => \$diff_handle, to_file => $newdiffgz);
+        my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
+                compression => get_compression_from_filename($diffname));
+        $diff->create();
+        $diff->add_diff_directory($origdir, $dir,
+                basedirname => $basedirname,
+                diff_ignore_regexp => $diff_ignore_regexp);
+        $diff->close() || $ur++;
 
-        my $find_handle;
-        my $pid = fork_and_exec(
-            'exec' => [ 'find', '.', '-print0' ],
-            'chdir' => $dir,
-            'to_pipe' => \$find_handle,
-        );
-        $/ = "\0";
-
-      file:
-        while (defined($fn= <$find_handle>)) {
-            $fn =~ s/\0$//;
-            next file if $fn =~ m/$diff_ignore_regexp/o;
-            $fn =~ s,^\./,,;
-            lstat("$dir/$fn") || syserr(_g("cannot stat file %s"), "$dir/$fn");
-	    my $mode = S_IMODE((lstat(_))[2]);
-	    my $size = (lstat(_))[7];
-            if (-l _) {
-                $type{$fn}= 'symlink';
-		checktype($origdir, $fn, '-l') || next;
-		defined(my $n = readlink("$dir/$fn")) ||
-                    syserr(_g("cannot read link %s"), "$dir/$fn");
-		defined(my $n2 = readlink("$origdir/$fn")) ||
-                    syserr(_g("cannot read orig link %s"), "$origdir/$fn");
-                $n eq $n2 || &unrepdiff2(sprintf(_g("symlink to %s"), $n2),
-                                         sprintf(_g("symlink to %s"), $n));
-            } elsif (-f _) {
-		my $ofnread;
-
-                $type{$fn}= 'plain file';
-                if (!lstat("$origdir/$fn")) {
-                    $! == ENOENT ||
-                        syserr(_g("cannot stat orig file %s"), "$origdir/$fn");
-                    $ofnread= '/dev/null';
-		    if( !$size ) {
-			warning(_g("newly created empty file '%s' will not " .
-			           "be represented in diff"), $fn);
-		    } else {
-			if( $mode & ( S_IXUSR | S_IXGRP | S_IXOTH ) ) {
-			    warning(_g("executable mode %04o of '%s' will " .
-			               "not be represented in diff"), $mode, $fn)
-				unless $fn eq 'debian/rules';
-			}
-			if( $mode & ( S_ISUID | S_ISGID | S_ISVTX ) ) {
-			    warning(_g("special mode %04o of '%s' will not " .
-			               "be represented in diff"), $mode, $fn);
-			}
-		    }
-                } elsif (-f _) {
-                    $ofnread= "$origdir/$fn";
-                } else {
-                    &unrepdiff2(_g("something else"),
-                                _g("plain file"));
-                    next;
-                }
-
-                my $tab = ("$basedirname/$fn" =~ / /) ? "\t" : '';
-                my $diffgen;
-                my $diff_pid = fork_and_exec(
-                    'exec' => [ 'diff', '-u', '-p',
-                                '-L', "$basedirname.orig/$fn$tab",
-                                '-L', "$basedirname/$fn$tab",
-                                '--', "$ofnread", "$dir/$fn" ],
-                    'env' => { LC_ALL => 'C', LANG => 'C', TZ => 'UTC0' },
-                    'to_pipe' => \$diffgen
-                );
-                my $difflinefound = 0;
-                $/ = "\n";
-                while (<$diffgen>) {
-                    if (m/^binary/i) {
-                        close($diffgen);
-                        $/ = "\0";
-                        &unrepdiff(_g("binary file contents changed"));
-                        next file;
-                    } elsif (m/^[-+\@ ]/) {
-                        $difflinefound=1;
-                    } elsif (m/^\\ No newline at end of file$/) {
-                        warning(_g("file %s has no final newline (either " .
-                                   "original or modified version)"), $fn);
-                    } else {
-                        s/\n$//;
-                        internerr(_g("unknown line from diff -u on %s: `%s'"),
-                                  $fn, $_);
-                    }
-                    print($diff_handle $_) || syserr(_g("failed to write to compression pipe"));
-                }
-                close($diffgen);
-                wait_child($diff_pid, nocheck => 1, cmdline => 'diff');
-                $/ = "\0";
-		my $es;
-                if (WIFEXITED($?) && (($es=WEXITSTATUS($?))==0 || $es==1)) {
-                    if ($es==1 && !$difflinefound) {
-                        &unrepdiff(_g("diff gave 1 but no diff lines found"));
-                    }
-                } else {
-		    subprocerr(_g("diff on %s"), "$dir/$fn");
-                }
-            } elsif (-p _) {
-                $type{$fn}= 'pipe';
-		checktype($origdir, $fn, '-p');
-            } elsif (-b _ || -c _ || -S _) {
-                &unrepdiff(_g("device or socket is not allowed"));
-            } elsif (-d _) {
-                $type{$fn}= 'directory';
-		if (!lstat("$origdir/$fn")) {
-		    $! == ENOENT ||
-		        syserr(_g("cannot stat orig file %s"), "$origdir/$fn");
-		} elsif (! -d _) {
-		    &unrepdiff2(_g('not a directory'),
-		                _g('directory'));
-		}
-            } else {
-                &unrepdiff(sprintf(_g("unknown file type (%s)"), $!));
-            }
-        }
-        close($find_handle);
-        wait_child($pid);
-        close($diff_handle) || syserr(_g("finish write to compression pipe"));
-        $compressor->wait_end_process();
 	rename($newdiffgz, $diffname) ||
 	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
 	           $newdiffgz, $diffname);
 	chmod(0666 &~ umask(), $diffname) ||
 	    syserr(_g("unable to change permission of `%s'"), $diffname);
-
-        $find_handle = undef;
-        $pid = fork_and_exec(
-            'exec' => [ 'find', '.', '-print0' ],
-            'chdir' => $origdir,
-            'to_pipe' => \$find_handle,
-        );
-        $/ = "\0";
-        while (defined($fn= <$find_handle>)) {
-            $fn =~ s/\0$//;
-            next if $fn =~ m/$diff_ignore_regexp/o;
-            $fn =~ s,^\./,,;
-            next if defined($type{$fn});
-            lstat("$origdir/$fn") ||
-                syserr(_g("cannot check orig file %s"), "$origdir/$fn");
-            if (-f _) {
-		warning(_g("ignoring deletion of file %s"), $fn);
-            } elsif (-d _) {
-		warning(_g("ignoring deletion of directory %s"), $fn);
-            } elsif (-l _) {
-		warning(_g("ignoring deletion of symlink %s"), $fn);
-            } else {
-                &unrepdiff2(_g('not a file, directory or link'),
-                            _g('nonexistent'));
-            }
-        }
-        close($find_handle);
-        wait_child($pid);
 
 	addfile($fields, $diffname);
 
@@ -1128,24 +987,8 @@ if ($opmode eq 'build') {
 
     for my $patch (@patches) {
 	printf(_g("%s: applying %s")."\n", $progname, $patch);
-	my ($diff_handle, $compressor);
-	if ($patch =~ /\.$comp_regex$/) {
-	    $compressor = Dpkg::Source::Compressor->new();
-	    $compressor->uncompress(from_file => $patch, to_pipe => \$diff_handle);
-	} else {
-	    open $diff_handle, $patch or error(_g("can't open diff `%s'"), $patch);
-	}
-
-	fork_and_exec(
-	    'exec' => [ 'patch', '-s', '-t', '-F', '0', '-N', '-p1', '-u',
-	                '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig' ],
-	    'chdir' => $newdirectory,
-	    env => { LC_ALL => 'C', LANG => 'C' },
-	    wait_child => 1,
-	    from_handle => $diff_handle
-	);
-
-	$compressor->wait_end_process() if $patch =~ /\.$comp_regex$/;
+	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
+	$patch_obj->apply($newdirectory);
     }
 
     my $now = time;
