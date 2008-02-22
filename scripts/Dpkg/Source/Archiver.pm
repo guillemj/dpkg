@@ -67,7 +67,7 @@ sub add_directory {
     $self->_add_entry($file);
 }
 
-sub close {
+sub finish {
     my ($self) = @_;
     close($self->{'tar_input'}) or syserr(_g("close on tar input"));
     wait_child($self->{'pid'}, cmdline => 'tar -cf -');

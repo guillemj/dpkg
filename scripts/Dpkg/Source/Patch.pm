@@ -49,7 +49,7 @@ sub create {
         } else {
             $self->_fail_not_same_type($opts{'old'}, $opts{'new'});
         }
-        $self->close() unless $opts{"noclose"};
+        $self->finish() unless $opts{"nofinish"};
     }
 }
 
@@ -209,7 +209,7 @@ sub add_diff_directory {
     find({ wanted => $scan_old, no_chdir => 1 }, $old);
 }
 
-sub close {
+sub finish {
     my ($self) = @_;
     close($self->{'handle'}) ||
             syserr(_g("cannot close %s"), $self->get_filename());

@@ -603,7 +603,7 @@ if ($opmode eq 'build') {
 		    compression_level => $comp_level);
 	$tar->create(options => \@tar_ignore);
 	$tar->add_directory($tardirname);
-	$tar->close();
+	$tar->finish();
         rename($newtar, $tarname) ||
             syserr(_g("unable to rename `%s' (newly created) to `%s'"),
                    $newtar, $tarname);
@@ -657,7 +657,7 @@ if ($opmode eq 'build') {
         $diff->add_diff_directory($origdir, $dir,
                 basedirname => $basedirname,
                 diff_ignore_regexp => $diff_ignore_regexp);
-        $diff->close() || $ur++;
+        $diff->finish() || $ur++;
 
 	rename($newdiffgz, $diffname) ||
 	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
