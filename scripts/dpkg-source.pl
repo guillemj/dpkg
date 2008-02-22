@@ -21,7 +21,7 @@ use Dpkg::Version qw(check_version);
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
-use Dpkg::Source::Archiver;
+use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
 use Dpkg::IPC;
 
@@ -595,7 +595,7 @@ if ($opmode eq 'build') {
 
 	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
 				       DIR => getcwd(), UNLINK => 0);
-	my $tar = Dpkg::Source::Archiver->new(filename => $newtar,
+	my $tar = Dpkg::Source::Archive->new(filename => $newtar,
 		    compression => get_compression_from_filename($tarname),
 		    compression_level => $comp_level);
 	$tar->create(options => \@tar_ignore);
@@ -632,7 +632,7 @@ if ($opmode eq 'build') {
         }
 
         $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
-	my $tar = Dpkg::Source::Archiver->new(filename => $origtargz);
+	my $tar = Dpkg::Source::Archive->new(filename => $origtargz);
 	$tar->extract($expectprefix);
     }
 
@@ -878,7 +878,7 @@ if ($opmode eq 'build') {
 	}
 
 	printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
-	my $tar = Dpkg::Source::Archiver->new(filename => "$dscdir/$tarfile");
+	my $tar = Dpkg::Source::Archive->new(filename => "$dscdir/$tarfile");
 	$tar->extract($target);
 
 	# for the first tar file:
