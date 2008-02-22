@@ -31,7 +31,10 @@ use POSIX;
 use File::Find;
 use File::Basename;
 use File::Spec;
+use File::Path;
 use Fcntl ':mode';
+#XXX: Needed for sub-second timestamps, require recent perl
+#use Time::HiRes qw(stat);
 
 use base 'Dpkg::Source::CompressedFile';
 
@@ -55,6 +58,7 @@ sub create {
 
 sub add_diff_file {
     my ($self, $old, $new, %opts) = @_;
+    $opts{"include_timestamp"} = 0 unless exists $opts{"include_timestamp"};
     # Default diff options
     my @options;
     if ($opts{"options"}) {
@@ -64,9 +68,20 @@ sub add_diff_file {
     }
     # Add labels
     if ($opts{"label_old"} and $opts{"label_new"}) {
-        # Space in filenames need special treatment
-        $opts{"label_old"} .= "\t" if $opts{"label_old"} =~ / /;
-        $opts{"label_new"} .= "\t" if $opts{"label_new"} =~ / /;
+	if ($opts{"include_timestamp"}) {
+	    my $ts = (stat($old))[9];
+	    my $t = POSIX::strftime("%Y-%m-%d %H:%M:%S", gmtime($ts));
+	    $opts{"label_old"} .= sprintf("\t%s.%09d +0000", $t,
+					    ($ts-int($ts))*1000000000);
+	    $ts = (stat($new))[9];
+	    $t = POSIX::strftime("%Y-%m-%d %H:%M:%S", gmtime($ts));
+	    $opts{"label_new"} .= sprintf("\t%s.%09d +0000", $t,
+					    ($ts-int($ts))*1000000000);
+	} else {
+	    # Space in filenames need special treatment
+	    $opts{"label_old"} .= "\t" if $opts{"label_old"} =~ / /;
+	    $opts{"label_new"} .= "\t" if $opts{"label_new"} =~ / /;
+	}
         push @options, "-L", $opts{"label_old"},
                        "-L", $opts{"label_new"};
     }
@@ -235,12 +250,132 @@ sub _fail_not_same_type {
     $self->{'errors'}++;
 }
 
+# check diff for sanity, find directories to create as a side effect
+sub analyze {
+    my ($self, $destdir, %opts) = @_;
+
+    my $diff = $self->get_filename();
+    my $diff_handle = $self->open_for_read();
+    my %filepatched;
+    my %dirtocreate;
+    my $diff_count = 0;
+
+    $_ = <$diff_handle>;
+
+  HUNK:
+    while (defined($_) || not eof($diff_handle)) {
+	# skip comments leading up to patch (if any)
+	until (/^--- /) {
+	    last HUNK if not defined($_ = <$diff_handle>);
+	}
+	chomp;
+	$diff_count++;
+	# read file header (---/+++ pair)
+	unless(s/^--- //) {
+	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
+	}
+	s/\t.*//; # Strip any timestamp at the end
+	unless ($_ eq '/dev/null' or s{^(\./)?[^/]+/}{$destdir/}) {
+	    error(_g("diff `%s' patches file with no subdirectory"), $diff);
+	}
+	if (/\.dpkg-orig$/) {
+	    error(_g("diff `%s' patches file with name ending .dpkg-orig"), $diff);
+	}
+	my $fn = $_;
+
+	unless (defined($_= <$diff_handle>) and chomp) {
+	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"), $diff, $.);
+	}
+	s/\t.*//; # Strip any timestamp at the end
+	unless (s/^\+\+\+ // and ($_ eq '/dev/null' or s!^(\./)?[^/]+/!!)) {
+	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
+	          $diff, $.);
+	}
+
+	if ($fn eq '/dev/null') {
+	    error(_g("original and modified files are /dev/null in diff `%s' (line %d)"),
+		  $diff, $.) if $_ eq '/dev/null';
+	    $fn = "$destdir/$_";
+	} else {
+	    unless ($_ eq substr($fn, length($destdir) + 1)) {
+		printf("$_ $fn $destdir %s",  substr($fn, length($destdir) + 1));
+	        error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
+	              $diff, $.);
+	    }
+	}
+
+	my $dirname = $fn;
+	if ($dirname =~ s{/[^/]+$}{} && not -d $dirname) {
+	    $dirtocreate{$dirname} = 1;
+	}
+	if (-e $fn and not -f _) {
+	    error(_g("diff `%s' patches something which is not a plain file"), $diff);
+	}
+
+	if ($filepatched{$fn}) {
+	    error(_g("diff `%s' patches file %s twice"), $diff, $fn);
+	}
+	$filepatched{$fn} = 1;
+
+	# read hunks
+	my $hunk = 0;
+	while (defined($_ = <$diff_handle>)) {
+	    # read hunk header (@@)
+	    chomp;
+	    next if /^\\ No newline/;
+	    last unless (/^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/);
+	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
+	    # read hunk
+	    while ($olines || $nlines) {
+		unless (defined($_ = <$diff_handle>)) {
+		    error(_g("unexpected end of diff `%s'"), $diff);
+		}
+		unless (chomp) {
+		    error(_g("diff `%s' is missing trailing newline"), $diff);
+		}
+		next if /^\\ No newline/;
+		# Check stats
+		if    (/^ /)  { --$olines; --$nlines; }
+		elsif (/^-/)  { --$olines; }
+		elsif (/^\+/) { --$nlines; }
+		else {
+		    error(_g("expected [ +-] at start of line %d of diff `%s'"),
+		          $., $diff);
+		}
+	    }
+	    $hunk++;
+	}
+	unless($hunk) {
+	    error(_g("expected ^\@\@ at line %d of diff `%s'"), $., $diff);
+	}
+    }
+    close($diff_handle);
+    unless ($diff_count) {
+	error(_g("diff `%s' doesn't contain any patch"), $diff);
+    }
+    $self->cleanup_after_open();
+    $self->{'analysis'}{$destdir}{"dirtocreate"} = \%dirtocreate;
+    $self->{'analysis'}{$destdir}{"filepatched"} = \%filepatched;
+    return $self->{'analysis'}{$destdir};
+}
+
 sub apply {
     my ($self, $destdir, %opts) = @_;
-    # TODO: check diff
-    # TODO: create missing directories
+    # Set default values to options
+    $opts{"force_timestamp"} = 1 unless exists $opts{"force_timestamp"};
+    $opts{"remove_backup"} = 1 unless exists $opts{"remove_backup"};
+    $opts{"create_dirs"} = 1 unless exists $opts{"create_dirs"};
     $opts{"options"} ||= [ '-s', '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
+    # Check the diff and create missing directories
+    my $analysis = $self->analyze($destdir, %opts);
+    if ($opts{"create_dirs"}) {
+	foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
+	    eval { mkpath($dir, 0, 0777); };
+	    syserr(_g("cannot create directory %s"), $dir) if $@;
+	}
+    }
+    # Apply the patch
     my $diff_handle = $self->open_for_read();
     fork_and_exec(
 	'exec' => [ 'patch', @{$opts{"options"}} ],
@@ -250,6 +385,19 @@ sub apply {
 	'from_handle' => $diff_handle
     );
     $self->cleanup_after_open();
+    # Reset the timestamp of all the patched files
+    # and remove .dpkg-orig files
+    my $now = $opts{"timestamp"} || time;
+    foreach my $fn (keys %{$analysis->{'filepatched'}}) {
+	if ($opts{"force_timestamp"}) {
+	    utime($now, $now, $fn) ||
+		syserr(_g("cannot change timestamp for %s"), $fn);
+	}
+	if ($opts{"remove_backup"}) {
+	    $fn .= ".dpkg-orig";
+	    unlink($fn) || syserr(_g("remove patch backup file %s"), $fn);
+	}
+    }
 }
 
 # Helper functions

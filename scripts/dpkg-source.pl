@@ -106,18 +106,15 @@ my %override;
 # Files
 my %checksum;
 my %size;
-my %type;		 # used by checktype
-my %filepatched;	 # used by checkdiff
-my %dirtocreate;	 # used by checkdiff
 
 my @tar_ignore;
 
 my $substvars = Dpkg::Substvars->new();
 
 use POSIX;
-use Fcntl qw (:mode);
+use Fcntl qw(:mode);
 use English;
-use File::Temp qw (tempfile);
+use File::Temp qw(tempfile);
 
 textdomain("dpkg-dev");
 
@@ -857,7 +854,6 @@ if ($opmode eq 'build') {
     $expectprefix = $newdirectory;
     $expectprefix .= '.orig' if $difffile || $debianfile;
     
-    checkdiff("$dscdir/$difffile") if $difffile;
     printf(_g("%s: extracting %s in %s")."\n",
            $progname, $sourcepackage, $newdirectory)
         || &syserr(_g("write extracting message"));
@@ -945,31 +941,12 @@ if ($opmode eq 'build') {
 	{
 	    # patches match same rules as run-parts
 	    next unless /^[\w-]+$/ and -f "$pd/$_";
-	    my $p = $_;
-	    checkdiff("$pd/$p");
-	    push @p, $p;
+	    push @p, $_;
 	}
 
 	closedir D;
 
 	push @patches, map "$newdirectory/debian/patches/$_", sort @p;
-    }
-
-    for my $dircreate (keys %dirtocreate) {
-	my $dircreatem = "";
-	for my $dircreatep (split("/", $dircreate)) {
-	    $dircreatem .= $dircreatep . "/";
-	    if (!lstat($dircreatem)) {
-		$! == ENOENT || syserr(_g("cannot stat %s"), $dircreatem);
-		mkdir($dircreatem,0777)
-		    || syserr(_g("failed to create %s subdirectory"), $dircreatem);
-	    }
-	    else {
-		-d _ || error(_g("diff patches file in directory `%s', " .
-		                 "but %s isn't a directory !"),
-		              $dircreate, $dircreatem);
-	    }
-	}
     }
 
     if ($newdirectory ne $expectprefix)
@@ -985,19 +962,11 @@ if ($opmode eq 'build') {
 	              "$newdirectory.tmp-keep", $expectprefix);
     }
 
+    my $now = time;
     for my $patch (@patches) {
 	printf(_g("%s: applying %s")."\n", $progname, $patch);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
-	$patch_obj->apply($newdirectory);
-    }
-
-    my $now = time;
-    for $fn (keys %filepatched) {
-	my $ftr = "$newdirectory/" . substr($fn, length($expectprefix) + 1);
-	utime($now, $now, $ftr) ||
-	    syserr(_g("cannot change timestamp for %s"), $ftr);
-	$ftr.= ".dpkg-orig";
-	unlink($ftr) || syserr(_g("remove patch backup file %s"), $ftr);
+	$patch_obj->apply($newdirectory, timestamp => $now);
     }
 
     if (!(my @s = lstat("$newdirectory/debian/rules"))) {
@@ -1033,134 +1002,10 @@ sub erasedir {
     failure(_g("rm -rf failed to remove `%s'"), $dir);
 }
 
-# check diff for sanity, find directories to create as a side effect
-sub checkdiff
-{
-    my $diff = shift;
-    my ($diff_handle, $compressor);
-    if ($diff =~ /\.$comp_regex$/) {
-	$compressor = Dpkg::Source::Compressor->new();
-	$compressor->uncompress(from_file => $diff, to_pipe => \$diff_handle);
-    } else {
-	open $diff_handle, $diff or error(_g("can't open diff `%s'"), $diff);
-    }
-    $/ = "\n";
-    $_ = <$diff_handle>;
-
-  HUNK:
-    while (defined($_) || !eof($diff_handle)) {
-	# skip cruft leading up to patch (if any)
-	until (/^--- /) {
-	    last HUNK unless defined ($_ = <$diff_handle>);
-	}
-	# read file header (---/+++ pair)
-	s/\n$// or error(_g("diff `%s' is missing trailing newline"), $diff);
-	s/^--- // or
-	    error(_g("expected ^--- in line %d of diff `%s'"), $., $diff);
-	s/\t.*//;
-	$_ eq '/dev/null' or s!^(\./)?[^/]+/!$expectprefix/! or
-	    error(_g("diff `%s' patches file with no subdirectory"), $diff);
-	/\.dpkg-orig$/ and
-	    error(_g("diff `%s' patches file with name ending .dpkg-orig"),
-	          $diff);
-	$fn = $_;
-
-	(defined($_= <$diff_handle>) and s/\n$//) or
-	    error(_g("diff `%s' finishes in middle of ---/+++ (line %d)"),
-	          $diff, $.);
-
-	s/\t.*//;
-	(s/^\+\+\+ // and s!^(\./)?[^/]+/!!) or
-	    error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
-	          $diff, $.);
-
-	if ($fn eq '/dev/null') {
-	    $fn = "$expectprefix/$_";
-	} else {
-	    $_ eq substr($fn, length($expectprefix) + 1) or
-	        error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
-	              $diff, $.);
-	}
-
-	my $dirname = $fn;
-	if ($dirname =~ s,/[^/]+$,, && !defined($dirincluded{$dirname})) {
-	    $dirtocreate{$dirname} = 1;
-	}
-	defined($notfileobject{$fn}) &&
-	    error(_g("diff `%s' patches something which is not a plain file"),
-	          $diff);
-
-	defined($filepatched{$fn}) &&
-	    $filepatched{$fn} eq $diff &&
-	    error(_g("diff patches file %s twice"), $fn);
-	$filepatched{$fn} = $diff;
-
-	# read hunks
-	my $hunk = 0;
-	while (defined($_ = <$diff_handle>) && !(/^--- / or /^Index:/)) {
-	    # read hunk header (@@)
-	    s/\n$// or error(_g("diff `%s' is missing trailing newline"), $diff);
-	    next if /^\\ No newline/;
-	    /^@@ -\d+(,(\d+))? \+\d+(,(\d+))? @\@( .*)?$/ or
-		error(_g("Expected ^\@\@ in line %d of diff `%s'"), $., $diff);
-	    my ($olines, $nlines) = ($1 ? $2 : 1, $3 ? $4 : 1);
-	    ++$hunk;
-	    # read hunk
-	    while ($olines || $nlines) {
-		defined($_ = <$diff_handle>) or
-		    error(_g("unexpected end of diff `%s'"), $diff);
-		s/\n$// or
-		    error(_g("diff `%s' is missing trailing newline"), $diff);
-		next if /^\\ No newline/;
-		if (/^ /) { --$olines; --$nlines; }
-		elsif (/^-/) { --$olines; }
-		elsif (/^\+/) { --$nlines; }
-		else {
-		    error(_g("expected [ +-] at start of line %d of diff `%s'"),
-		          $., $diff);
-		}
-	    }
-	}
-	$hunk or error(_g("expected ^\@\@ at line %d of diff `%s'"), $., $diff);
-    }
-    close($diff_handle);
-    
-    $compressor->wait_end_process() if $diff =~ /\.$comp_regex$/;
-}
-
-sub checktype {
-    my ($dir, $fn, $type) = @_;
-
-    if (!lstat("$dir/$fn")) {
-        &unrepdiff2(_g("nonexistent"),$type{$fn});
-    } else {
-	my $v = eval("$type _ ? 2 : 1");
-	$v || internerr(_g("checktype %s (%s)"), "$@", $type);
-        return 1 if $v == 2;
-        &unrepdiff2(_g("something else"),$type{$fn});
-    }
-    return 0;
-}
 
 sub setopmode {
     defined($opmode) && &usageerr(_g("only one of -x or -b allowed, and only once"));
     $opmode= $_[0];
-}
-
-sub unrepdiff {
-    printf(STDERR _g("%s: cannot represent change to %s: %s")."\n",
-                  $progname, $fn, $_[0])
-        || &syserr(_g("write syserr unrep"));
-    $ur++;
-}
-
-sub unrepdiff2 {
-    printf(STDERR _g("%s: cannot represent change to %s:\n".
-                     "%s:  new version is %s\n".
-                     "%s:  old version is %s\n"),
-                  $progname, $fn, $progname, $_[1], $progname, $_[0])
-        || &syserr(_g("write syserr unrep"));
-    $ur++;
 }
 
 my %added_files;
