@@ -56,90 +56,6 @@ remove_info_symlink() {
     fi
 }
 
-
-# Repair damage to /usr/info caused by broken install-info
-fix_damaged_info() {
-    echo -n "
-The version of dpkg you're upgrading from had a problem with the
-install-info program used to maintain the /usr/info/dir file.  It may
-have corrupted the file, for example by placing new entries for the
-menu in it before the \`* Menu' line (thus making them ineffective) or
-by creating several identical sections.
-
-I can try to sort these problems out, but beware that this process is
-not guaranteed not to mess up a dir file which has things that look
-like menu entries in the introductory paragraphs.  The distributed dir
-files do not do this, so if you haven't edited /usr/info/dir it's
-almost certainly safe to say \"yes\" to the next question.
-
-If you say \"no\" you may wish to check and/or edit /usr/info/dir yourself.
-
-Try to check/repair /usr/info/dir automatically ? [y/n] "
-    read response
-    case "$response" in
-	[yY]*|"")
-            echo "Checking/repairing /usr/info/dir ..."
-	    cleanup-info --unsafe
-	    ;;
-	*)
-	    echo "OK, leaving it alone."
-	    ;;
-    esac
-}
-
-
-# Remove stop links from runlevels which also have start links
-# Dates back to the days when update-rc.d was part of dpkg.
-remove_duplicate_daemons() {
-    for lvl in 0 1 2 3 4 5 6; do
-	cd /etc/rc$lvl.d
-	for kill in K[0-9][0-9]*; do
-	    if [ -n "`echo \"x$kill\" | tr -d 0-9A-Za-z_-`" ]; then
-		continue
-	    fi
-
-	    start="`echo $kill | sed -e 's/^K/S/'`"
-	    if ! [ -L $start ] && [ -L $kill ] \
-		|| [ "`ls -Li $kill 2>/dev/null | awk '{print $1}'`" != \
-		"`ls -Li $start 2>/dev/null | awk '{print $1}'`" ]
-	    then
-		continue
-	    fi
-
-	    removes="$removes rc$lvl.d/$kill"
-	done
-    done
-
-    if [ -n "$removes" ]; then
-	echo -n "
-Some daemons and similar services whose scripts have links in the
-/etc/rcN.d directories have both start (S) and stop (K) links in
-some runlevels.  Thus these services get stopped and immediately
-restarted at some runlevel changes, which is probably not what
-you want.
-
-I can remove these probably-spurious K links if you like:
-  $removes
-
-If you're not sure what to do, say \"no\", and then run delete them
-by hand later.
-
-Shall I remove these links ? [y/n] "
-	read response
-	case "$response" in
-	    [yY]*|"")
-                echo "Removing duplicate K links ..."
-		cd /etc
-		rm $removes
-		;;
-	    *)
-	        echo "OK, leaving them."
-		;;
-	esac
-    fi
-}
-
-
 # Create log file and set default permissions if possible
 create_logfile() {
     logfile=/var/log/dpkg.log
@@ -153,15 +69,6 @@ case "$1" in
     configure)
 	create_database
 	create_logfile
-
-	case "$2" in
-	    0.* | 1.0.* | 1.1.0 | 1.1.0[^0-9]* | '' )
-	        remove_duplicate_daemons
-		;;
-	    1.1.6 | 1.1.6elf | 1.2.[0123] | 1.2.[0123]elf)
-	        fix_damaged_info
-	        ;;
-	esac
 
 	move_info_directory
 	remove_info_symlink
