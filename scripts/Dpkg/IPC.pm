@@ -111,6 +111,11 @@ calling exec.
 Hash reference. The child process will populate %ENV with the items of the
 hash before calling exec. This allows exporting environment variables.
 
+=item delete_env
+
+Array reference. The child process will remove all environment variables
+listed in the array before calling exec.
+
 =back
 
 =cut
@@ -140,6 +145,10 @@ sub _sanity_check_opts {
 
     if (exists $opts{"env"} and ref($opts{"env"}) ne 'HASH') {
 	error("parameter env must be a hash reference");
+    }
+
+    if (exists $opts{"delete_env"} and ref($opts{"delete_env"}) ne 'ARRAY') {
+	error("parameter delete_env must be an array reference");
     }
 
     return %opts;
@@ -187,6 +196,9 @@ sub fork_and_exec {
 	    foreach (keys %{$opts{"env"}}) {
 		$ENV{$_} = $opts{"env"}{$_};
 	    }
+	}
+	if ($opts{"delete_env"}) {
+	    delete $ENV{$_} foreach (@{$opts{"delete_env"}});
 	}
 	# Change the current directory
 	if ($opts{"chdir"}) {
