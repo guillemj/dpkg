@@ -6,7 +6,6 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::Checksums;
 use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
                            internerr syserr subprocerr usageerr
                            $warnable_error $quiet_warnings);
@@ -14,29 +13,24 @@ use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
 use Dpkg::Fields qw(:list capit);
 use Dpkg::Compression;
-use Dpkg::Cdata;
 use Dpkg::Control;
 use Dpkg::Substvars;
 use Dpkg::Version qw(check_version);
 use Dpkg::Vars;
 use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
-use Dpkg::Source::Archive;
-use Dpkg::Source::Patch;
-use Dpkg::IPC;
+use Dpkg::Source::Package;
 
-my @filesinarchive;
-my %dirincluded;
-my %notfileobject;
-my $fn;
-my $ur;
+use POSIX;
+use English;
+
+textdomain("dpkg-dev");
 
 my $varlistfile;
 my $controlfile;
 my $changelogfile;
 my $changelogformat;
 
-our $diff_ignore_regexp = '';
 my $diff_ignore_default_regexp = '
 # Ignore general backup files
 (?:^|/).*~$|
@@ -87,178 +81,68 @@ _darcs
 {arch}
 );
 
-my $sourcestyle = 'X';
-my $min_dscformat = 1;
-my $max_dscformat = 3;
 my $def_dscformat = "1.0"; # default format for -b
+my %options = (
+    # Compression related
+    compression => 'gzip',
+    comp_level => 9,
+    comp_ext => $comp_ext{'gzip'},
+    # Ignore files
+    tar_ignore => [],
+    diff_ignore_regexp => '',
+    # Sourcestyle
+    sourcestyle => 'X',
+);
 
-my $expectprefix;
-
-# Compression
-my $compression = 'gzip';
-my $comp_level = '9';
-my $comp_ext = $comp_ext{$compression};
-
-# Packages
+# Fields to remove/override
 my %remove;
 my %override;
 
-# Files
-my %checksum;
-my %size;
-
-my @tar_ignore;
-
 my $substvars = Dpkg::Substvars->new();
-
-use POSIX;
-use Fcntl qw(:mode);
-use English;
-use File::Temp qw(tempfile);
-
-textdomain("dpkg-dev");
-
-my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
-		     Maintainer Uploaders Dm-Upload-Allowed Homepage
-		     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
-		     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
-                  @src_dep_fields,
-                  qw(Files));
-
-
-# Make sure patch doesn't get any funny ideas
-delete $ENV{'POSIXLY_CORRECT'};
-
-my @exit_handlers = ();
-sub exit_handler {
-	&$_ foreach ( reverse @exit_handlers );
-	exit(127);
-}
-$SIG{'INT'} = \&exit_handler;
-$SIG{'HUP'} = \&exit_handler;
-$SIG{'QUIT'} = \&exit_handler;
-
-sub version {
-    printf _g("Debian %s version %s.\n"), $progname, $version;
-
-    print _g("
-Copyright (C) 1996 Ian Jackson and Klee Dienes.");
-
-    print _g("
-This is free software; see the GNU General Public Licence version 2 or
-later for copying conditions. There is NO warranty.
-");
-}
-
-sub usage {
-    printf _g(
-"Usage: %s [<option> ...] <command>
-
-Commands:
-  -x <filename>.dsc [<output-dir>]
-                           extract source package.
-  -b <dir> [<orig-dir>|<orig-targz>|\'\']
-                           build source package.
-
-Build options:
-  -c<controlfile>          get control info from this file.
-  -l<changelogfile>        get per-version info from this file.
-  -F<changelogformat>      force change log format.
-  -V<name>=<value>         set a substitution variable.
-  -T<varlistfile>          read variables here, not debian/substvars.
-  -D<field>=<value>        override or add a .dsc field and value.
-  -U<field>                remove a field.
-  -E                       turn certain warnings into errors.
-  -W                       when -E is enabled, -W disables it.
-  -q                       quiet operation, do not print warnings.
-  -i[<regexp>]             filter out files to ignore diffs of
-                             (defaults to: '%s').
-  -I[<pattern>]            filter out files when building tarballs
-                             (defaults to: %s).
-  -sa                      auto select orig source (-sA is default).
-  -sk                      use packed orig source (unpack & keep).
-  -sp                      use packed orig source (unpack & remove).
-  -su                      use unpacked orig source (pack & keep).
-  -sr                      use unpacked orig source (pack & remove).
-  -ss                      trust packed & unpacked orig src are same.
-  -sn                      there is no diff, do main tarfile only.
-  -sA,-sK,-sP,-sU,-sR      like -sa,-sk,-sp,-su,-sr but may overwrite.
-  -Z<compression>          select compression to use (defaults to 'gzip',
-                             supported are: %s).
-  -z<level>                compression level to use (defaults to '9',
-                             supported are: '1'-'9', 'best', 'fast')
-
-Extract options:
-  -sp (default)            leave orig source packed in current dir.
-  -sn                      do not copy original source to current dir.
-  -su                      unpack original source tree too.
-
-General options:
-  -h, --help               show this help message.
-      --version            show the version.
-"), $progname,
-    $diff_ignore_default_regexp,
-    join('', map { " -I$_" } @tar_ignore_default_pattern),
-    "@comp_supported";
-}
-
-sub handleformat {
-	my $fmt = shift;
-	return unless $fmt =~ /^(\d+)/; # only check major version
-	return $1 >= $min_dscformat && $1 <= $max_dscformat;
-}
-
-sub loadvcs {
-	my $vcs = shift;
-	my $mod = "Dpkg::Source::VCS::$vcs";
-	eval qq{require $mod};
-	return if $@;
-	return import $mod;
-}
-
 
 my $opmode;
 my $tar_ignore_default_pattern_done;
 
 while (@ARGV && $ARGV[0] =~ m/^-/) {
-    $_=shift(@ARGV);
+    $_ = shift(@ARGV);
     if (m/^-b$/) {
-        &setopmode('build');
+        setopmode('build');
     } elsif (m/^-x$/) {
-        &setopmode('extract');
+        setopmode('extract');
     } elsif (m/^-Z/) {
-	$compression = $POSTMATCH;
-	$comp_ext = $comp_ext{$compression};
+	my $compression = $POSTMATCH;
+	$options{'compression'} = $compression;
+	$options{'comp_ext'} = $comp_ext{$compression};
 	usageerr(_g("%s is not a supported compression"), $compression)
 	    unless $comp_supported{$compression};
 	Dpkg::Source::Compressor->set_default_compression($compression);
     } elsif (m/^-z/) {
-	$comp_level = $POSTMATCH;
+	my $comp_level = $POSTMATCH;
+	$options{'comp_level'} = $comp_level;
 	usageerr(_g("%s is not a compression level"), $comp_level)
 	    unless $comp_level =~ /^([1-9]|fast|best)$/;
 	Dpkg::Source::Compressor->set_default_compression_level($comp_level);
     } elsif (m/^-s([akpursnAKPUR])$/) {
-	warning(_g("-s%s option overrides earlier -s%s option"), $1, $sourcestyle)
-	    if $sourcestyle ne 'X';
-        $sourcestyle= $1;
+	warning(_g("-s%s option overrides earlier -s%s option"), $1,
+		$options{'sourcestyle'}) if $options{'sourcestyle'} ne 'X';
+        $options{'sourcestyle'} = $1;
     } elsif (m/^-c/) {
-        $controlfile= $POSTMATCH;
+        $controlfile = $POSTMATCH;
     } elsif (m/^-l/) {
-        $changelogfile= $POSTMATCH;
+        $changelogfile = $POSTMATCH;
     } elsif (m/^-F([0-9a-z]+)$/) {
-        $changelogformat=$1;
+        $changelogformat = $1;
     } elsif (m/^-D([^\=:]+)[=:]/) {
-        $override{$1}= $POSTMATCH;
+        $override{$1} = $POSTMATCH;
     } elsif (m/^-U([^\=:]+)$/) {
-        $remove{$1}= 1;
+        $remove{$1} = 1;
     } elsif (m/^-i(.*)$/) {
-        $diff_ignore_regexp = $1 ? $1 : $diff_ignore_default_regexp;
+        $options{'diff_ignore_regexp'} = $1 ? $1 : $diff_ignore_default_regexp;
     } elsif (m/^-I(.+)$/) {
-        push @tar_ignore, "--exclude=$1";
+        push @{$options{'tar_ignore'}}, $1;
     } elsif (m/^-I$/) {
         unless ($tar_ignore_default_pattern_done) {
-            push @tar_ignore,
-                 map { "--exclude=$_" } @tar_ignore_default_pattern;
+            push @{$options{'tar_ignore'}}, @tar_ignore_default_pattern;
             # Prevent adding multiple times
             $tar_ignore_default_pattern_done = 1;
         }
@@ -268,13 +152,15 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 	$varlistfile = $POSTMATCH;
 	warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-(h|-help)$/) {
-        &usage; exit(0);
+        usage();
+        exit(0);
     } elsif (m/^--version$/) {
-        &version; exit(0);
+        version();
+        exit(0);
     } elsif (m/^-W$/) {
-        $warnable_error= 1;
+        $warnable_error = 1;
     } elsif (m/^-E$/) {
-        $warnable_error= 0;
+        $warnable_error = 0;
     } elsif (m/^-q$/) {
         $quiet_warnings = 1;
     } elsif (m/^--$/) {
@@ -284,31 +170,39 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     }
 }
 
-defined($opmode) || &usageerr(_g("need -x or -b"));
+unless (defined($opmode)) {
+    usageerr(_g("need -x or -b"));
+}
 
 if ($opmode eq 'build') {
 
-    @ARGV || &usageerr(_g("-b needs a directory"));
-    @ARGV<=2 || &usageerr(_g("-b takes at most a directory and an orig source argument"));
+    if (not scalar(@ARGV)) {
+	usageerr(_g("-b needs a directory"));
+    }
     my $dir = shift(@ARGV);
-    $dir= "./$dir" unless $dir =~ m:^/:; $dir =~ s,/*$,,;
-    stat($dir) || error(_g("cannot stat directory %s: %s"), $dir, $!);
-    -d $dir || error(_g("directory argument %s is not a directory"), $dir);
+    $dir =~ s{/*$}{}; # Strip trailing /
+    stat($dir) || syserr(_g("cannot stat directory %s"), $dir);
+    if (not -d $dir) {
+	error(_g("directory argument %s is not a directory"), $dir);
+    }
+    $options{'ARGV'} = \@ARGV;
 
-    $changelogfile= "$dir/debian/changelog" unless defined($changelogfile);
-    $controlfile= "$dir/debian/control" unless defined($controlfile);
+    $changelogfile ||= "$dir/debian/changelog";
+    $controlfile ||= "$dir/debian/control";
     
-    my %options = (file => $changelogfile);
-    $options{"changelogformat"} = $changelogformat if $changelogformat;
-    my $changelog = parse_changelog(%options);
+    my %ch_options = (file => $changelogfile);
+    $ch_options{"changelogformat"} = $changelogformat if $changelogformat;
+    my $changelog = parse_changelog(%ch_options);
     my $control = Dpkg::Control->new($controlfile);
-    my $fields = Dpkg::Fields::Object->new();
 
-    $fields->{"Format"} = $compression eq 'gzip' ? $def_dscformat : '2.0';
+    my $srcpkg = Dpkg::Source::Package->new(options => \%options);
+    my $fields = $srcpkg->{'fields'};
+
+    # TODO: find another way to switch default building format
+    $fields->{"Format"} = $options{'compression'} eq 'gzip' ? $def_dscformat : '2.0';
 
     my @sourcearch;
     my %archadded;
-    my $archspecific = 0; # XXX: Not used?!
     my @binarypackages;
 
     # Scan control info of source package
@@ -317,6 +211,7 @@ if ($opmode eq 'build') {
 	my $v = $src_fields->{$_};
 	if (m/^Source$/i) {
 	    set_source_package($v);
+	    $fields->{$_} = $v;
 	} elsif (m/^(Format|Standards-Version|Origin|Maintainer|Homepage)$/i ||
 		 m/^Dm-Upload-Allowed$/i ||
 		 m/^Vcs-(Browser|Arch|Bzr|Cvs|Darcs|Git|Hg|Mtn|Svn)$/i) {
@@ -389,6 +284,7 @@ if ($opmode eq 'build') {
 
 	if (m/^Source$/) {
 	    set_source_package($v);
+	    $fields->{$_} = $v;
 	} elsif (m/^Version$/) {
 	    check_version($v);
 	    $fields->{$_} = $v;
@@ -401,576 +297,72 @@ if ($opmode eq 'build') {
 	}
     }
     
-    my $vcs;
-    if ($fields->{Format} =~ /^\s*(\d+\.\d+)\s*$/) {
-	    if ($1 >= 3.0) {
-		error(_g("don't know how to generate %s format source package (missing vcs specifier in Format field?)"),
-		      $1);
-	    }
-	    if ($1 > 1.0) {
-		error(_g("don't know how to generate %s format source package"),
-		      $1);
-	    }
-    }
-    elsif ($fields->{Format} =~ /^\s*(\d+(?:\.\d+)?)\s+\((\w+)\)\s*$/) {
-	    $fields->{Format} = $1;
-	    if ($1 < 3.0) {
-		error(_g("control info file 'Format' field for version %s does not support vcs specifier \"%s\""),
-		      $1, $2);
-	    }
-	    if ($1 >= 4) {
-		error(_g("unsupported control info file 'Format' value \"%s\""),
-		      $1);
-	    }
+    $fields->{'Binary'} = join(', ', @binarypackages);
 
-	    $vcs = $2;
-	    loadvcs($2)
-		|| error(_g("unsupported vcs \"%s\" in control info file 'Format' field"), $2);
+    # Format is supposedly defined, switch to corresponding object type
+    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
 
-	    if ($sourcestyle =~ /[akpursKPUR]/) {
-		warning(_g("source handling style -s%s not supported when generating %s format source package"),
-			$sourcestyle, $vcs);
-	    }
-	    $sourcestyle = 'v';
-    }
-    
-    $sourcestyle =~ y/X/A/;
-    $sourcestyle =~ m/[akpursnAKPURv]/ ||
-        usageerr(_g("source handling style -s%s not allowed with -b"),
-		$sourcestyle);
+    # Build the files (.tar.gz, .diff.gz, etc)
+    $srcpkg->build($dir);
 
-    $fields->{'Binary'}= join(', ', @binarypackages);
-    foreach my $f (keys %override) {
-	$fields->{$f} = $override{$f};
-    }
-
-    for my $f (qw(Version)) {
-	defined($fields->{$f}) ||
-	    error(_g("missing information for critical output field %s"), $f);
-    }
-    for my $f (qw(Maintainer Architecture Standards-Version)) {
-	defined($fields->{$f}) ||
-	    warning(_g("missing information for output field %s"), $f);
-    }
-    defined($sourcepackage) || &error(_g("unable to determine source package name !"));
-    $fields->{'Source'} = $sourcepackage;
-    for my $f (keys %remove) {
-	delete $fields->{$f};
-    }
-
-    my $version = $fields->{'Version'};
-    $version =~ s/^\d+://;
-    my $upstreamversion = $version;
-    $upstreamversion =~ s/-[^-]*$//;
-    my $basenamerev = $sourcepackage.'_'.$version;
-    my $basename = $sourcepackage.'_'.$upstreamversion;
-    my $basedirname = $basename;
-    $basedirname =~ s/_/-/;
-
-    my $origdir = "$dir.orig";
-    my $origtargz;
-    # Try to find a .orig tarball for the package
-    my @origtargz = map { "$basename.orig.tar.$comp_ext{$_}" } ($compression, @comp_supported);
-    foreach my $origtar (@origtargz) {
-	if (stat($origtar)) {
-	    -f _ || error(_g("packed orig `%s' exists but is not a plain file"),
-			  $origtar);
-	    $origtargz = $origtar;
-	    last;
-	} elsif ($! != ENOENT) {
-	    syserr(_g("unable to stat putative packed orig `%s'"), $origtar);
-	}
-    }
-
-    if (@ARGV) {
-	# We have a second-argument <orig-dir> or <orig-targz>, check what it
-	# is to decide the mode to use
-        my $origarg = shift(@ARGV);
-        if (length($origarg)) {
-            stat($origarg) ||
-                error(_g("cannot stat orig argument %s: %s"), $origarg, $!);
-            if (-d _) {
-                $origdir= $origarg;
-                $origdir= "./$origdir" unless $origdir =~ m,^/,; $origdir =~ s,/*$,,;
-                $sourcestyle =~ y/aA/rR/;
-                $sourcestyle =~ m/[ursURS]/ ||
-                    error(_g("orig argument is unpacked but source handling " .
-                             "style -s%s calls for packed (.orig.tar.<ext>)"),
-                          $sourcestyle);
-            } elsif (-f _) {
-                $origtargz= $origarg;
-                $sourcestyle =~ y/aA/pP/;
-                $sourcestyle =~ m/[kpsKPS]/ ||
-                    error(_g("orig argument is packed but source handling " .
-                             "style -s%s calls for unpacked (.orig/)"),
-                          $sourcestyle);
-            } else {
-                &error("orig argument $origarg is not a plain file or directory");
-            }
-        } else {
-            $sourcestyle =~ y/aA/nn/;
-            $sourcestyle =~ m/n/ ||
-                error(_g("orig argument is empty (means no orig, no diff) " .
-                         "but source handling style -s%s wants something"),
-                      $sourcestyle);
-        }
-    } elsif ($sourcestyle =~ m/[aA]/) {
-	# We have no explicit <orig-dir> or <orig-targz>, try to use
-	# a .orig tarball first, then a .orig directory and fall back to
-	# creating a native .tar.gz
-	if ($origtargz) {
-	    $sourcestyle =~ y/aA/pP/; # .orig.tar.<ext>
-	} else {
-	    if (stat($origdir)) {
-		-d _ || error(_g("unpacked orig `%s' exists but is not a directory"),
-		              $origdir);
-		$sourcestyle =~ y/aA/rR/; # .orig directory
-	    } elsif ($! != ENOENT) {
-		syserr(_g("unable to stat putative unpacked orig `%s'"), $origdir);
-	    } else {
-		$sourcestyle =~ y/aA/nn/; # Native tar.gz
-	    }
-	}
-    }
-
-    my $dirbase = $dir;
-    $dirbase =~ s,/?$,,;
-    $dirbase =~ s,[^/]+$,,;
-    my $dirname = $&;
-    $dirname eq $basedirname ||
-	warning(_g("source directory '%s' is not <sourcepackage>" .
-	           "-<upstreamversion> '%s'"), $dir, $basedirname);
-
-    my $tarname;
-    my $tardirname;
-    my $tardirbase;
-    my $origdirname;
-
-    if ($sourcestyle eq 'v') {
-	$tarname="$basenamerev.$vcs.tar.gz";
-        $tardirbase= $dirbase; $tardirname= "$dirbase/$tarname.tmp";
-
-	eval qq{Dpkg::Source::VCS::${vcs}::prep_tar(\$dir, \$tardirname)};
-	if ($@) {
-	    failure($@);
-	}
-	push @exit_handlers, sub { erasedir($tardirname) };
-    }
-    elsif ($sourcestyle ne 'n') {
-	my $origdirbase = $origdir;
-	$origdirbase =~ s,/?$,,;
-        $origdirbase =~ s,[^/]+$,,; $origdirname= $&;
-
-        $origdirname eq "$basedirname.orig" ||
-	    warning(_g(".orig directory name %s is not <package>" .
-	               "-<upstreamversion> (wanted %s)"),
-	            $origdirname, "$basedirname.orig");
-        $tardirbase= $origdirbase; $tardirname= $origdirname;
-
-	$tarname= $origtargz || "$basename.orig.tar.$comp_ext";
-	if ($tarname =~ /\Q$basename\E\.orig\.tar\.($comp_regex)/) {
-	    if (($1 ne 'gz') && ($fields->{'Format'} < 2)) { $fields->{'Format'} = '2.0' };
-	} else {
-	    warning(_g(".orig.tar name %s is not <package>_<upstreamversion>" .
-	               ".orig.tar (wanted %s)"),
-	            $tarname, "$basename.orig.tar.$comp_regex");
-	}
-    } else {
-	$tardirbase= $dirbase; $tardirname= $dirname;
-	$tarname= "$basenamerev.tar.$comp_ext";
-    }
-
-    if ($sourcestyle =~ m/[nurURv]/) {
-
-        if (stat($tarname)) {
-            $sourcestyle =~ m/[nURv]/ ||
-		error(_g("tarfile `%s' already exists, not overwriting, " .
-		         "giving up; use -sU or -sR to override"), $tarname);
-        } elsif ($! != ENOENT) {
-	    syserr(_g("unable to check for existence of `%s'"), $tarname);
-        }
-
-        printf(_g("%s: building %s in %s")."\n",
-               $progname, $sourcepackage, $tarname);
-
-	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
-				       DIR => getcwd(), UNLINK => 0);
-	my $tar = Dpkg::Source::Archive->new(filename => $newtar,
-		    compression => get_compression_from_filename($tarname),
-		    compression_level => $comp_level);
-	$tar->create(options => \@tar_ignore);
-	$tar->add_directory($tardirname);
-	$tar->finish();
-        rename($newtar, $tarname) ||
-            syserr(_g("unable to rename `%s' (newly created) to `%s'"),
-                   $newtar, $tarname);
-	chmod(0666 &~ umask(), $tarname) ||
-	    syserr(_g("unable to change permission of `%s'"), $tarname);
-
-    } else {
-        
-        printf(_g("%s: building %s using existing %s")."\n",
-               $progname, $sourcepackage, $tarname);
-
-    }
-    
-    addfile($fields, "$tarname");
-
-    if ($sourcestyle =~ m/[kpKP]/) {
-
-        if (stat($origdir)) {
-            $sourcestyle =~ m/[KP]/ ||
-                error(_g("orig dir `%s' already exists, not overwriting, ".
-                         "giving up; use -sA, -sK or -sP to override"),
-                      $origdir);
-	    push @exit_handlers, sub { erasedir($origdir) };
-            erasedir($origdir);
-	    pop @exit_handlers;
-        } elsif ($! != ENOENT) {
-             syserr(_g("unable to check for existence of orig dir `%s'"),
-                    $origdir);
-        }
-
-        $expectprefix= $origdir; $expectprefix =~ s,^\./,,;
-	my $tar = Dpkg::Source::Archive->new(filename => $origtargz);
-	$tar->extract($expectprefix);
-    }
-
-    if ($sourcestyle eq 'v') {
-        erasedir($tardirname)
-    }
-        
-    if ($sourcestyle =~ m/[kpursKPUR]/) {
-
-	my $diffname = "$basenamerev.diff.$comp_ext";
-        printf(_g("%s: building %s in %s")."\n",
-               $progname, $sourcepackage, $diffname)
-            || &syserr(_g("write building diff message"));
-	my ($ndfh, $newdiffgz) = tempfile( "$diffname.new.XXXXXX",
-					DIR => &getcwd, UNLINK => 0 );
-        my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
-                compression => get_compression_from_filename($diffname));
-        $diff->create();
-        $diff->add_diff_directory($origdir, $dir,
-                basedirname => $basedirname,
-                diff_ignore_regexp => $diff_ignore_regexp);
-        $diff->finish() || $ur++;
-
-	rename($newdiffgz, $diffname) ||
-	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
-	           $newdiffgz, $diffname);
-	chmod(0666 &~ umask(), $diffname) ||
-	    syserr(_g("unable to change permission of `%s'"), $diffname);
-
-	addfile($fields, $diffname);
-
-    }
-
-    if ($sourcestyle =~ m/[prPR]/) {
-        erasedir($origdir);
-    }
-
+    # Write the .dsc
+    my $dscname = $srcpkg->get_basename(1) . ".dsc";
     printf(_g("%s: building %s in %s")."\n",
-           $progname, $sourcepackage, "$basenamerev.dsc")
-        || &syserr(_g("write building message"));
-    open(DSC, ">", "$basenamerev.dsc") ||
-        syserr(_g("create %s"), "$basenamerev.dsc");
-
-    delete $fields->{'Checksums-Md5'}; # identical with Files field
+           $progname, $sourcepackage, $dscname);
     $substvars->parse($varlistfile) if $varlistfile && -e $varlistfile;
-    tied(%{$fields})->set_field_importance(@dsc_fields);
-    tied(%{$fields})->output(\*DSC, $substvars);
-    close(DSC);
-
-    if ($ur) {
-        printf(STDERR _g("%s: unrepresentable changes to source")."\n",
-               $progname) || syserr(_g("write error msg: %s"), $!);
-        exit(1);
-    }
+    $srcpkg->write_dsc(filename => $dscname,
+		       remove => \%remove,
+		       override => \%override,
+		       substvars => $substvars);
     exit(0);
 
-} else { # -> opmode ne 'build'
+} elsif ($opmode eq 'extract') {
 
-    $sourcestyle =~ y/X/p/;
-    $sourcestyle =~ m/[pun]/ ||
-	usageerr(_g("source handling style -s%s not allowed with -x"),
-	         $sourcestyle);
-
-    @ARGV>=1 || &usageerr(_g("-x needs at least one argument, the .dsc"));
-    @ARGV<=2 || &usageerr(_g("-x takes no more than two arguments"));
+    # Check command line
+    unless (scalar(@ARGV)) {
+	usageerr(_g("-x needs at least one argument, the .dsc"));
+    }
+    if (scalar(@ARGV) > 2) {
+	usageerr(_g("-x takes no more than two arguments"));
+    }
     my $dsc = shift(@ARGV);
-    $dsc= "./$dsc" unless $dsc =~ m:^/:;
-    ! -d $dsc
-	|| &usageerr(_g("-x needs the .dsc file as first argument, not a directory"));
-    my $dscdir = $dsc;
-    $dscdir = "./$dscdir" unless $dsc =~ m,^/|^\./,;
-    $dscdir =~ s,/[^/]+$,,;
+    if (-d $dsc) {
+	usageerr(_g("-x needs the .dsc file as first argument, not a directory"));
+    }
 
-    my $newdirectory;
+    # Create the object that does everything
+    my $srcpkg = Dpkg::Source::Package->new(filename => $dsc,
+					    options => \%options);
+
+    # Decide where to unpack
+    my $newdirectory = $srcpkg->get_basename();
+    $newdirectory =~ s/_/-/g;
     if (@ARGV) {
-	$newdirectory= shift(@ARGV);
-	! -e $newdirectory || error(_g("unpack target exists: %s"), $newdirectory);
-    }
-
-    my $is_signed = 0;
-    open(DSC, "<", $dsc) || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
-    while (<DSC>) {
-	next if /^\s*$/o;
-	$is_signed = 1 if /^-----BEGIN PGP SIGNED MESSAGE-----$/o;
-	last;
-    }
-    close(DSC);
-
-    if ($is_signed) {
-	if (-x '/usr/bin/gpg') {
-	    my $gpg_command = 'gpg -q --verify ';
-	    if (-r '/usr/share/keyrings/debian-keyring.gpg') {
-		$gpg_command = $gpg_command.'--keyring /usr/share/keyrings/debian-keyring.gpg ';
-	    }
-	    $gpg_command = $gpg_command.quotemeta($dsc).' 2>&1';
-
-	    my @gpg_output = `$gpg_command`;
-	    my $gpg_status = $? >> 8;
-	    if ($gpg_status) {
-		print STDERR join("",@gpg_output);
-		error(_g("failed to verify signature on %s"), $dsc)
-		    if ($gpg_status == 1);
-	    }
-	} else {
-	    warning(_g("could not verify signature on %s since gpg isn't installed"),
-	            $dsc);
+	$newdirectory = shift(@ARGV);
+	if (-e $newdirectory) {
+	    error(_g("unpack target exists: %s"), $newdirectory);
 	}
+    }
+
+    # Various checks before unpacking
+    if ($srcpkg->is_signed()) {
+	$srcpkg->check_signature();
     } else {
 	warning(_g("extracting unsigned source package (%s)"), $dsc);
     }
+    $srcpkg->check_checksums();
 
-    open(CDATA, "<", $dsc) || error(_g("cannot open .dsc file %s: %s"), $dsc, $!);
-    my $fields = parsecdata(\*CDATA, sprintf(_g("source control file %s"), $dsc),
-			    allow_pgp => 1);
-    close(CDATA);
-
-    for my $f (qw(Source Version Files)) {
-        defined($fields->{$f}) ||
-            error(_g("missing critical source control field %s"), $f);
-    }
-
-    my $dscformat = $def_dscformat;
-    if (defined $fields->{'Format'}) {
-	if (not handleformat($fields->{'Format'})) {
-	    error(_g("Unsupported format of .dsc file (%s)"), $fields->{'Format'});
-	}
-        $dscformat=$fields->{'Format'};
-    }
-
-    set_source_package($fields->{'Source'});
-
-    my $version = $fields->{'Version'};
-    my $baseversion;
-    my $revision;
-
-    check_version($version);
-    $version =~ s/^\d+://;
-    if ($version =~ m/-([^-]+)$/) {
-        $baseversion= $`; $revision= $1;
-    } else {
-        $baseversion= $version; $revision= '';
-    }
-
-    readallchecksums($fields, \%checksum, \%size);
-
-    my $rx_fname = qr/[0-9a-zA-Z][-+:.,=0-9a-zA-Z_~]+/;
-    my $files = $fields->{'Files'};
-    my @tarfiles;
-    my $difffile;
-    my $debianfile;
-    my %vcsfiles;
-    my %seen;
-    for my $file (split(/\n /, $files)) {
-	next if $file eq '';
-	$file =~ m/^($check_regex{md5})                    # checksum
-                    [ \t]+(\d+)                            # size
-                    [ \t]+($rx_fname)                      # filename
-                  $/x
-	  || error(_g("Files field contains bad line `%s'"), $file);
-	(my $md5sum,$size{$3},$file) = ($1,$2,$3);
-	if (exists($checksum{$file}{md5})
-	    and $checksum{$file}{md5} ne $md5sum) {
-	    error(_g("Conflicting checksums \`%s\' and \`%s' for file \`%s'"),
-		  $checksum{$file}{md5}, $md5sum, $file);
-	}
-	$checksum{$file}{md5} = $md5sum;
-
-	local $_ = $file;
-
-	error(_g("Files field contains invalid filename `%s'"), $file)
-	    unless s/^\Q$sourcepackage\E_\Q$baseversion\E(?=[.-])// and
-		   s/\.$comp_regex$//;
-	s/^-\Q$revision\E(?=\.)// if length $revision;
-
-	error(_g("repeated file type - files `%s' and `%s'"), $seen{$_}, $file)
-	    if $seen{$_};
-	$seen{$_} = $file;
-
-	checkstats($dscdir, $file);
-
-	if (/^\.(?:orig(-\w+)?\.)?tar$/) {
-	    if ($1) { push @tarfiles, $file; } # push orig-foo.tar.gz to the end
-	    else    { unshift @tarfiles, $file; }
-	} elsif (/^\.debian\.tar$/) {
-	    $debianfile = $file;
-	} elsif (/^\.(\w+)\.tar$/) {
-            my $vcs=$1;
-            # TODO try to load vcs module
-            push @tarfiles, $file;
-            $vcsfiles{$file}=$vcs;
-	} elsif (/^\.diff$/) {
-	    $difffile = $file;
-	} else {
-	    error(_g("unrecognised file type - `%s'"), $file);
-	}
-    }
-
-    &error(_g("no tarfile in Files field")) unless @tarfiles;
-    my $native = !($difffile || $debianfile);
-    if ($native) {
-	warning(_g("multiple tarfiles in native package")) if @tarfiles > 1;
-	warning(_g("native package with .orig.tar"))
-	    unless $seen{'.tar'} or $seen{"-$revision.tar"} or %vcsfiles;
-    } else {
-	warning(_g("no upstream tarfile in Files field"))
-	    unless $seen{'.orig.tar'} or %vcsfiles;
-	if ($dscformat =~ /^1\./) {
-	    warning(_g("multiple upstream tarballs in %s format dsc"), $dscformat)
-	        if @tarfiles > 1;
-	    warning(_g("debian.tar in %s format dsc"), $dscformat)
-	        if $debianfile;
-	}
-    }
-    if (%vcsfiles && $dscformat !~ /^3\./) {
-	warning(sprintf(_g("<rc>.tar file in %s format dsc"), $dscformat));
-    }
-
-    $newdirectory = $sourcepackage.'-'.$baseversion unless defined($newdirectory);
-    $expectprefix = $newdirectory;
-    $expectprefix .= '.orig' if $difffile || $debianfile;
-    
+    # Unpack the source package (delegated to Dpkg::Source::Package::*)
     printf(_g("%s: extracting %s in %s")."\n",
-           $progname, $sourcepackage, $newdirectory)
-        || &syserr(_g("write extracting message"));
-    
-    &erasedir($newdirectory);
-    ! -e "$expectprefix"
-	|| rename("$expectprefix","$newdirectory.tmp-keep")
-	|| syserr(_g("unable to rename `%s' to `%s'"), $expectprefix, "$newdirectory.tmp-keep");
+           $progname, $srcpkg->{'fields'}{'Source'}, $newdirectory);
+    $srcpkg->extract($newdirectory);
 
-    push @tarfiles, $debianfile if $debianfile;
-    for my $tarfile (@tarfiles)
-    {
-	my $target;
-	if ($tarfile =~ /\.orig-(\w+)\.tar/) {
-	    my $sub = $1;
-	    $sub =~ s/\d+$// if $sub =~ /\D/;
-	    $target = "$expectprefix/$sub";
-	} elsif ($tarfile =~ /\.debian\.tar/) {
-	    $target = "$expectprefix/debian";
-	} else {
-	    $target = $expectprefix;
+    # Make sure debian/rules is executable
+    my @s = lstat("$newdirectory/debian/rules");
+    if (not scalar(@s)) {
+	unless ($! == ENOENT) {
+	    syserr(_g("cannot stat %s"), "$newdirectory/debian/rules");
 	}
-
-	printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
-	my $tar = Dpkg::Source::Archive->new(filename => "$dscdir/$tarfile");
-	$tar->extract($target);
-
-	# for the first tar file:
-	if ($tarfile eq $tarfiles[0] and !$native)
-	{
-	    # -sp: copy the .orig.tar.gz if required
-	    if ($sourcestyle =~ /p/) {
-		stat("$dscdir/$tarfile") ||
-		    syserr(_g("failed to stat `%s' to see if need to copy"),
-		           "$dscdir/$tarfile");
-
-		my ($dsctardev, $dsctarino) = stat _;
-		my $copy_required;
-
-		if (stat($tarfile)) {
-		    my ($dumptardev, $dumptarino) = stat _;
-		    $copy_required = ($dumptardev != $dsctardev ||
-		                      $dumptarino != $dsctarino);
-		} else {
-		    $! == ENOENT ||
-			syserr(_g("failed to check destination `%s' " .
-			          "to see if need to copy"), $tarfile);
-		    $copy_required = 1;
-		}
-
-		if ($copy_required) {
-		    system('cp','--',"$dscdir/$tarfile", $tarfile);
-		    $? && subprocerr("cp $dscdir/$tarfile to $tarfile");
-		}
-	    }
-	    # -su: keep .orig directory unpacked
-	    elsif ($sourcestyle =~ /u/ and $expectprefix ne $newdirectory) {
-		! -e "$newdirectory.tmp-keep"
-		    || &error(_g("unable to keep orig directory (already exists)"));
-		system('cp','-ar','--',$expectprefix,"$newdirectory.tmp-keep");
-		$? && subprocerr("cp $expectprefix to $newdirectory.tmp-keep");
-	    }
-	}
-
-        if (exists $vcsfiles{$tarfile}) {
-	    printf(_g("%s: extracting source from %s repository")."\n", $progname, $vcsfiles{$tarfile});
-	    loadvcs($vcsfiles{$tarfile})
-	    	|| error(sprintf(_g("unsupported vcs \"%s\""), $vcsfiles{$tarfile}));
-	    eval qq{Dpkg::Source::VCS::$vcsfiles{$tarfile}::post_unpack_tar(\$target)};
-	    if ($@) {
-                &syserr($@);
-	    }
-        }
-    }
-
-    my @patches;
-    push @patches, "$dscdir/$difffile" if $difffile;
-
-    if ($debianfile and -d (my $pd = "$expectprefix/debian/patches"))
-    {
-	my @p;
-
-	opendir D, $pd;
-	while (defined ($_ = readdir D))
-	{
-	    # patches match same rules as run-parts
-	    next unless /^[\w-]+$/ and -f "$pd/$_";
-	    push @p, $_;
-	}
-
-	closedir D;
-
-	push @patches, map "$newdirectory/debian/patches/$_", sort @p;
-    }
-
-    if ($newdirectory ne $expectprefix)
-    {
-	rename($expectprefix,$newdirectory) ||
-	    syserr(_g("failed to rename newly-extracted %s to %s"),
-	           $expectprefix, $newdirectory);
-
-	# rename the copied .orig directory
-	! -e "$newdirectory.tmp-keep"
-	    || rename("$newdirectory.tmp-keep",$expectprefix)
-	    || syserr(_g("failed to rename saved %s to %s"),
-	              "$newdirectory.tmp-keep", $expectprefix);
-    }
-
-    my $now = time;
-    for my $patch (@patches) {
-	printf(_g("%s: applying %s")."\n", $progname, $patch);
-	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
-	$patch_obj->apply($newdirectory, timestamp => $now);
-    }
-
-    if (!(my @s = lstat("$newdirectory/debian/rules"))) {
-	$! == ENOENT || syserr(_g("cannot stat %s"), "$newdirectory/debian/rules");
 	warning(_g("%s does not exist"), "$newdirectory/debian/rules");
     } elsif (-f _) {
 	chmod($s[2] | 0111, "$newdirectory/debian/rules") ||
@@ -982,42 +374,75 @@ if ($opmode eq 'build') {
     exit(0);
 }
 
-sub checkstats {
-    my ($dscdir, $f) = @_;
-    getchecksums("$dscdir/$f", $checksum{$f}, \$size{$f});
-}
-
-sub erasedir {
-    my ($dir) = @_;
-    if (!lstat($dir)) {
-        $! == ENOENT && return;
-        syserr(_g("cannot stat directory %s (before removal)"), $dir);
-    }
-    system 'rm','-rf','--',$dir;
-    $? && subprocerr("rm -rf $dir");
-    if (!stat($dir)) {
-        $! == ENOENT && return;
-        syserr(_g("unable to check for removal of dir `%s'"), $dir);
-    }
-    failure(_g("rm -rf failed to remove `%s'"), $dir);
-}
-
-
 sub setopmode {
-    defined($opmode) && &usageerr(_g("only one of -x or -b allowed, and only once"));
-    $opmode= $_[0];
+    if (defined($opmode)) {
+	usageerr(_g("only one of -x or -b allowed, and only once"));
+    }
+    $opmode = $_[0];
 }
 
-my %added_files;
-sub addfile {
-    my ($fields, $filename)= @_;
-    $added_files{$filename}++ &&
-        internerr(_g("tried to add file `%s' twice"), $filename);
-    my (%sums, $size);
-    getchecksums($filename, \%sums, \$size);
-    foreach my $alg (sort keys %sums) {
-	$fields->{"Checksums-$alg"} .= "\n $sums{$alg} $size $filename";
-    }
-    $fields->{'Files'}.= "\n $sums{md5} $size $filename";
+sub version {
+    printf _g("Debian %s version %s.\n"), $progname, $version;
+
+    print _g("
+Copyright (C) 1996 Ian Jackson and Klee Dienes.
+Copyright (C) 2008 Raphael Hertzog");
+
+    print _g("
+This is free software; see the GNU General Public Licence version 2 or
+later for copying conditions. There is NO warranty.
+");
+}
+
+sub usage {
+    printf _g(
+"Usage: %s [<option> ...] <command>
+
+Commands:
+  -x <filename>.dsc [<output-dir>]
+                           extract source package.
+  -b <dir> [<orig-dir>|<orig-targz>|\'\']
+                           build source package.
+
+Build options:
+  -c<controlfile>          get control info from this file.
+  -l<changelogfile>        get per-version info from this file.
+  -F<changelogformat>      force change log format.
+  -V<name>=<value>         set a substitution variable.
+  -T<varlistfile>          read variables here, not debian/substvars.
+  -D<field>=<value>        override or add a .dsc field and value.
+  -U<field>                remove a field.
+  -E                       turn certain warnings into errors.
+  -W                       when -E is enabled, -W disables it.
+  -q                       quiet operation, do not print warnings.
+  -i[<regexp>]             filter out files to ignore diffs of
+                             (defaults to: '%s').
+  -I[<pattern>]            filter out files when building tarballs
+                             (defaults to: %s).
+  -sa                      auto select orig source (-sA is default).
+  -sk                      use packed orig source (unpack & keep).
+  -sp                      use packed orig source (unpack & remove).
+  -su                      use unpacked orig source (pack & keep).
+  -sr                      use unpacked orig source (pack & remove).
+  -ss                      trust packed & unpacked orig src are same.
+  -sn                      there is no diff, do main tarfile only.
+  -sA,-sK,-sP,-sU,-sR      like -sa,-sk,-sp,-su,-sr but may overwrite.
+  -Z<compression>          select compression to use (defaults to 'gzip',
+                             supported are: %s).
+  -z<level>                compression level to use (defaults to '9',
+                             supported are: '1'-'9', 'best', 'fast')
+
+Extract options:
+  -sp (default)            leave orig source packed in current dir.
+  -sn                      do not copy original source to current dir.
+  -su                      unpack original source tree too.
+
+General options:
+  -h, --help               show this help message.
+      --version            show the version.
+"), $progname,
+    $diff_ignore_default_regexp,
+    join('', map { " -I$_" } @tar_ignore_default_pattern),
+    "@comp_supported";
 }
 
