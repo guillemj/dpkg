@@ -95,6 +95,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Control.pm \
 	Dpkg/Deps.pm \
 	Dpkg/ErrorHandling.pm \
+	Dpkg/Exit.pm \
 	Dpkg/Fields.pm \
 	Dpkg/Gettext.pm \
 	Dpkg/IPC.pm \
@@ -108,6 +109,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Archive.pm \
 	Dpkg/Source/CompressedFile.pm \
 	Dpkg/Source/Compressor.pm \
+	Dpkg/Source/Functions.pm \
 	Dpkg/Source/Patch.pm \
 	Dpkg/Source/VCS/git.pm \
 	Dpkg.pm
