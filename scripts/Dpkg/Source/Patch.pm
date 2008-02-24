@@ -381,6 +381,7 @@ sub apply {
 	'exec' => [ 'patch', @{$opts{"options"}} ],
 	'chdir' => $destdir,
 	'env' => { LC_ALL => 'C', LANG => 'C' },
+	'delete_env' => [ 'POSIXLY_CORRECT' ], # ensure expected patch behaviour
 	'wait_child' => 1,
 	'from_handle' => $diff_handle
     );

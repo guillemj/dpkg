@@ -37,6 +37,8 @@ sub create {
     my ($self, %opts) = @_;
     $opts{"options"} ||= [];
     my %fork_opts;
+    # Possibly run tar from another directory
+    $fork_opts{"chdir"} = $opts{"chdir"} if $opts{"chdir"};
     # Redirect input/output appropriately
     $fork_opts{"to_handle"} = $self->open_for_write();
     $fork_opts{"from_pipe"} = \$self->{'tar_input'};
