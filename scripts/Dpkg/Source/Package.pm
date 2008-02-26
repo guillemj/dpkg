@@ -102,7 +102,7 @@ sub upgrade_object_type {
         $module .= "::$variant" if defined $variant;
         eval "require $module";
         if ($@) {
-            error(_g("source package format `%s' is not supported (perl module %s is required)"), $format, $module);
+	    error(_g("source package format `%s' is not supported (Perl module %s is required)"), $format, $module);
         }
         bless $self, $module;
     } else {
@@ -226,7 +226,7 @@ sub extract {
 }
 
 sub do_extract {
-    error("Dpkg::Source::Package doesn't know how to unpack a source package. Use one of the subclass.");
+    error("Dpkg::Source::Package doesn't know how to unpack a source package. Use one of the subclasses.");
 }
 
 # Function used specifically during creation of a source package
@@ -241,7 +241,7 @@ sub build {
 }
 
 sub do_build {
-    error("Dpkg::Source::Package doesn't know how to build a source package. Use one of the subclass.");
+    error("Dpkg::Source::Package doesn't know how to build a source package. Use one of the subclasses.");
 }
 
 sub can_build {
