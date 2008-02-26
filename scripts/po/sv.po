@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.14.15\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-01-21 08:25+0200\n"
-"PO-Revision-Date: 2008-01-22 21:40+0100\n"
+"POT-Creation-Date: 2008-02-26 21:15+0100\n"
+"PO-Revision-Date: 2008-02-26 21:23+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,11 +24,11 @@ msgid "This program is deprecated. Please use 'date -R' instead."
 msgstr "Detta program rekommenderas ej. Använd \"date -R\" istället."
 
 #: scripts/dpkg-architecture.pl:35 scripts/dpkg-buildpackage.pl:21
-#: scripts/dpkg-distaddfile.pl:18 scripts/dpkg-genchanges.pl:86
+#: scripts/dpkg-distaddfile.pl:18 scripts/dpkg-genchanges.pl:88
 #: scripts/dpkg-gencontrol.pl:47 scripts/dpkg-gensymbols.pl:30
 #: scripts/dpkg-parsechangelog.pl:19 scripts/dpkg-scanpackages.pl:51
-#: scripts/dpkg-scansources.pl:96 scripts/dpkg-shlibdeps.pl:385
-#: scripts/dpkg-source.pl:139 scripts/changelog/debian.pl:19
+#: scripts/dpkg-scansources.pl:96 scripts/dpkg-shlibdeps.pl:394
+#: scripts/dpkg-source.pl:141 scripts/changelog/debian.pl:19
 #, perl-format
 msgid "Debian %s version %s.\n"
 msgstr "Debian %s version %s.\n"
@@ -44,10 +44,10 @@ msgstr ""
 "Copyright © 2004-2005 Scott James Remnant <scott@netsplit.com>."
 
 #: scripts/dpkg-architecture.pl:41 scripts/dpkg-buildpackage.pl:28
-#: scripts/dpkg-distaddfile.pl:23 scripts/dpkg-genchanges.pl:92
+#: scripts/dpkg-distaddfile.pl:23 scripts/dpkg-genchanges.pl:94
 #: scripts/dpkg-gencontrol.pl:53 scripts/dpkg-gensymbols.pl:36
-#: scripts/dpkg-parsechangelog.pl:25 scripts/dpkg-shlibdeps.pl:394
-#: scripts/dpkg-source.pl:144 scripts/changelog/debian.pl:24
+#: scripts/dpkg-parsechangelog.pl:25 scripts/dpkg-shlibdeps.pl:403
+#: scripts/dpkg-source.pl:146 scripts/changelog/debian.pl:24
 msgid ""
 "\n"
 "This is free software; see the GNU General Public Licence version 2 or\n"
@@ -101,9 +101,9 @@ msgstr ""
 "  --version          visa versionsnummer.\n"
 
 #: scripts/dpkg-architecture.pl:120 scripts/dpkg-distaddfile.pl:51
-#: scripts/dpkg-genchanges.pl:181 scripts/dpkg-gencontrol.pl:120
+#: scripts/dpkg-genchanges.pl:184 scripts/dpkg-gencontrol.pl:120
 #: scripts/dpkg-gensymbols.pl:102 scripts/dpkg-parsechangelog.pl:99
-#: scripts/dpkg-shlibdeps.pl:92 scripts/dpkg-source.pl:269
+#: scripts/dpkg-shlibdeps.pl:92 scripts/dpkg-source.pl:272
 #, perl-format
 msgid "unknown option `%s'"
 msgstr "okänd flagga \"%s\""
@@ -163,6 +163,7 @@ msgid ""
 "Options:\n"
 "  -r<gain-root-command>\n"
 "                 command to gain root privileges (default is fakeroot).\n"
+"  -R<rules>      rules file to execute (default is debian/rules).\n"
 "  -p<sign-command>\n"
 "  -d             do not check build dependencies and conflicts.\n"
 "  -D             check build dependencies and conflicts.\n"
@@ -210,6 +211,7 @@ msgstr ""
 "  -r<få-root-kommando>\n"
 "                 kommando för att få root-behörighet (standard är "
 "fakeroot).\n"
+"  -R<regler>     regelfil att exekvera (standard är debian/rules).\n"
 "  -p<signeringskommando>\n"
 "  -d             kontrollera inte byggberoenden och -konflikter.\n"
 "  -D             kontrollera byggberoenden och -konflikter.\n"
@@ -252,23 +254,23 @@ msgstr ""
 "  -h, --help     visa detta hjälpmeddelande.\n"
 "      --version  visa versionsnummer.\n"
 
-#: scripts/dpkg-buildpackage.pl:152 scripts/dpkg-buildpackage.pl:162
-#: scripts/dpkg-buildpackage.pl:169 scripts/dpkg-buildpackage.pl:176
-#: scripts/dpkg-buildpackage.pl:182
+#: scripts/dpkg-buildpackage.pl:154 scripts/dpkg-buildpackage.pl:164
+#: scripts/dpkg-buildpackage.pl:171 scripts/dpkg-buildpackage.pl:178
+#: scripts/dpkg-buildpackage.pl:184
 #, perl-format
 msgid "cannot combine %s and %s"
 msgstr "kan inte kombinera %s och %s"
 
-#: scripts/dpkg-buildpackage.pl:199
+#: scripts/dpkg-buildpackage.pl:203
 #, perl-format
 msgid "unknown option or argument %s"
 msgstr "okänd flagga eller argument %s"
 
-#: scripts/dpkg-buildpackage.pl:204
+#: scripts/dpkg-buildpackage.pl:208
 msgid "using a gain-root-command while being root"
 msgstr "använder ett gain-root-command fast jag redan är root"
 
-#: scripts/dpkg-buildpackage.pl:210
+#: scripts/dpkg-buildpackage.pl:214
 msgid ""
 "fakeroot not found, either install the fakeroot\n"
 "package, specify a command with the -r option, or run this as root"
@@ -276,90 +278,112 @@ msgstr ""
 "fakroot hittades inte, du kan installera paketet fakeroot,\n"
 "ange ett kommando med flaggan -r, eller köra som root"
 
-#: scripts/dpkg-buildpackage.pl:214
+#: scripts/dpkg-buildpackage.pl:218
 #, perl-format
 msgid "gain-root-commmand '%s' not found"
 msgstr "få-root-kommandot \"%s\" hittades inte"
 
-#: scripts/dpkg-buildpackage.pl:232
+#: scripts/dpkg-buildpackage.pl:237
 msgid "unknown sign command, assuming pgp style interface"
 msgstr "okänt signeringskommando, antar pgp-gränssnittstyp"
 
-#: scripts/dpkg-buildpackage.pl:254
+#: scripts/dpkg-buildpackage.pl:240
+msgid "PGP support is deprecated (see README.feature-removal-schedule)"
+msgstr "PGP-stödet undanbes (se README.feature-removal-schedule)"
+
+#: scripts/dpkg-buildpackage.pl:268
+#, perl-format
+msgid "%s: use %s from environment: %s\n"
+msgstr "%s: använd %s från miljön: %s\n"
+
+#: scripts/dpkg-buildpackage.pl:272
+#, perl-format
+msgid "%s: set %s to default value: %s\n"
+msgstr "%s: sätt %s till standardvärde: %s\n"
+
+#: scripts/dpkg-buildpackage.pl:285
 msgid "source package"
 msgstr "källkodspaket"
 
-#: scripts/dpkg-buildpackage.pl:255
+#: scripts/dpkg-buildpackage.pl:286
 msgid "source version"
 msgstr "källkodsversion"
 
-#: scripts/dpkg-buildpackage.pl:264
+#: scripts/dpkg-buildpackage.pl:295
 msgid "source changed by"
 msgstr "källkod ändrad av"
 
-#: scripts/dpkg-buildpackage.pl:282
+#: scripts/dpkg-buildpackage.pl:313
 msgid "host architecture"
 msgstr "värdarkitektur"
 
-#: scripts/dpkg-buildpackage.pl:298
+#: scripts/dpkg-buildpackage.pl:329
 msgid "Build dependencies/conflicts unsatisfied; aborting."
 msgstr "Byggberoenden/-konflikter ej uppfyllda; avbryter."
 
-#: scripts/dpkg-buildpackage.pl:299
+#: scripts/dpkg-buildpackage.pl:330
 msgid "(Use -d flag to override.)"
 msgstr "(Använd flaggan -d för att överstyra.)"
 
-#: scripts/dpkg-buildpackage.pl:321
+#: scripts/dpkg-buildpackage.pl:333
+msgid "This is currently a non-fatal warning with -S, but"
+msgstr "Detta är för närvarande en icke-ödesdiger varning med -S, men"
+
+#: scripts/dpkg-buildpackage.pl:334
+msgid "will probably become fatal in the future."
+msgstr "den kommer troligen att bli ödesdiger i framtiden."
+
+#: scripts/dpkg-buildpackage.pl:358
 msgid "Press the return key to start signing process\n"
 msgstr "Tryck på Enter för att inleda signeringsproceduren\n"
 
-#: scripts/dpkg-buildpackage.pl:328
+#: scripts/dpkg-buildpackage.pl:365
 msgid "Failed to sign .dsc and .changes file"
 msgstr "Misslyckades att signera .dsc- och .changes-filerna"
 
-#: scripts/dpkg-buildpackage.pl:349 scripts/dpkg-buildpackage.pl:353
-#: scripts/dpkg-buildpackage.pl:366
+#: scripts/dpkg-buildpackage.pl:386 scripts/dpkg-buildpackage.pl:390
+#: scripts/dpkg-buildpackage.pl:403
 msgid "write changes file"
 msgstr "skriv ändringsfil"
 
-#: scripts/dpkg-buildpackage.pl:365
+#: scripts/dpkg-buildpackage.pl:402
 msgid "dpkg-genchanges"
 msgstr "dpkg-genchanges"
 
-#: scripts/dpkg-buildpackage.pl:373
+#: scripts/dpkg-buildpackage.pl:410
 msgid "source only upload: Debian-native package"
 msgstr "insändning med endast källkod: Debianeget paket"
 
-#: scripts/dpkg-buildpackage.pl:375
+#: scripts/dpkg-buildpackage.pl:412
 msgid "source only, diff-only upload (original source NOT included)"
 msgstr ""
 "insändning enbart med källkod, enbart med diff (originalkällkod tas EJ med)"
 
-#: scripts/dpkg-buildpackage.pl:377
+#: scripts/dpkg-buildpackage.pl:414
 msgid "source only upload (original source is included)"
 msgstr "insändning enbart med källkod (originalkällkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:380 scripts/dpkg-buildpackage.pl:388
+#: scripts/dpkg-buildpackage.pl:417 scripts/dpkg-buildpackage.pl:425
 msgid "full upload (original source is included)"
 msgstr "komplett insändning (originalkällkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:382
+#: scripts/dpkg-buildpackage.pl:419
 msgid "binary only upload (no source included)"
 msgstr "endast binär insändning (ingen källkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:384
+#: scripts/dpkg-buildpackage.pl:421
 msgid "full upload; Debian-native package (full source is included)"
 msgstr "komplett insändnig; Debianeget paket (komplett källkod tas med)"
 
-#: scripts/dpkg-buildpackage.pl:386
+#: scripts/dpkg-buildpackage.pl:423
 msgid "binary and diff upload (original source NOT included)"
 msgstr "binär- och diffinsändning (originalkällkod tas EJ med)"
 
-#: scripts/dpkg-buildpackage.pl:393
+#: scripts/dpkg-buildpackage.pl:430
 msgid "Failed to sign .changes file"
 msgstr "Misslyckades att signera .changes-fil"
 
-#: scripts/dpkg-buildpackage.pl:417
+#: scripts/dpkg-buildpackage.pl:454
 #, perl-format
 msgid "unable to determine %s"
 msgstr "kan inte bestämma %s"
@@ -372,6 +396,10 @@ msgid ""
 "Options:\n"
 "  control-file   control file to process (default: debian/control).\n"
 "  -B             binary-only, ignore -Indep.\n"
+"  -d build-deps  use given string as build dependencies instead of\n"
+"                 retrieving them from control file\n"
+"  -c build-conf  use given string for build conflicts instead of\n"
+"                 retrieving them from control file\n"
 "  --admindir=<directory>\n"
 "                 change the administrative directory.\n"
 "  -h             show this help message.\n"
@@ -381,22 +409,26 @@ msgstr ""
 "Flaggor:\n"
 "  control-fil    control-fil att behandla (standard: debian/control).\n"
 "  -B             endast binärer, ignorera -Indep.\n"
+"  -d byggber.    använd den givna strängen som byggberoenden istället\n"
+"                 för att hämta dem från styrfilen\n"
+"  -c byggkonfl.  använd den givna strängen som byggkonflikter istället\n"
+"                 för att hämta dem från styrfilen\n"
 "  --admindir=<katalog>\n"
 "                 välj administrativ katalog.\n"
 "  -h             visa detta hjälpmeddelande.\n"
 
-#: scripts/dpkg-checkbuilddeps.pl:76
+#: scripts/dpkg-checkbuilddeps.pl:84
 #, perl-format
 msgid "%s: Unmet build dependencies: "
 msgstr "%s: Ej uppfyllda byggberoenden: "
 
-#: scripts/dpkg-checkbuilddeps.pl:80
+#: scripts/dpkg-checkbuilddeps.pl:88
 #, perl-format
 msgid "%s: Build conflicts: "
 msgstr "%s: Byggkonflikter: "
 
-#: scripts/dpkg-checkbuilddeps.pl:156 scripts/dpkg-gencontrol.pl:244
-#: scripts/dpkg-gencontrol.pl:251 scripts/dpkg-source.pl:323
+#: scripts/dpkg-checkbuilddeps.pl:164 scripts/dpkg-gencontrol.pl:244
+#: scripts/dpkg-gencontrol.pl:251 scripts/dpkg-source.pl:326
 #, perl-format
 msgid "error occurred while parsing %s"
 msgstr "fel vid tolkning av %s"
@@ -434,27 +466,27 @@ msgstr "behöver exakt ett filnamn, en sektion och en prioritet"
 msgid "filename, section and priority may contain no whitespace"
 msgstr "filnamn, sektion och prioritet kan inte innehålla blanktecken"
 
-#: scripts/dpkg-distaddfile.pl:62 scripts/dpkg-gencontrol.pl:317
+#: scripts/dpkg-distaddfile.pl:62 scripts/dpkg-gencontrol.pl:319
 msgid "open new files list file"
 msgstr "öppnar ny fillistfil"
 
-#: scripts/dpkg-distaddfile.pl:67 scripts/dpkg-gencontrol.pl:328
+#: scripts/dpkg-distaddfile.pl:67 scripts/dpkg-gencontrol.pl:330
 msgid "copy old entry to new files list file"
 msgstr "kopiera gammal post till ny fillistfil"
 
-#: scripts/dpkg-distaddfile.pl:70 scripts/dpkg-gencontrol.pl:332
+#: scripts/dpkg-distaddfile.pl:70 scripts/dpkg-gencontrol.pl:334
 msgid "read old files list file"
 msgstr "läs gammal fillistfil"
 
-#: scripts/dpkg-distaddfile.pl:73 scripts/dpkg-gencontrol.pl:342
+#: scripts/dpkg-distaddfile.pl:73 scripts/dpkg-gencontrol.pl:344
 msgid "write new entry to new files list file"
 msgstr "skriv ny post i ny fillistfil"
 
-#: scripts/dpkg-distaddfile.pl:74 scripts/dpkg-gencontrol.pl:343
+#: scripts/dpkg-distaddfile.pl:74 scripts/dpkg-gencontrol.pl:345
 msgid "close new files list file"
 msgstr "stäng ny fillistfil"
 
-#: scripts/dpkg-genchanges.pl:88
+#: scripts/dpkg-genchanges.pl:90
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson.\n"
@@ -464,7 +496,7 @@ msgstr ""
 "Copyright © 1996 Ian Jackson.\n"
 "Copyright © 2000,2001 Wichert Akkerman."
 
-#: scripts/dpkg-genchanges.pl:100
+#: scripts/dpkg-genchanges.pl:102
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...]\n"
@@ -524,174 +556,162 @@ msgstr ""
 "  -h, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
-#: scripts/dpkg-genchanges.pl:133 scripts/dpkg-genchanges.pl:136
-#: scripts/dpkg-genchanges.pl:140 scripts/dpkg-genchanges.pl:144
+#: scripts/dpkg-genchanges.pl:135 scripts/dpkg-genchanges.pl:138
+#: scripts/dpkg-genchanges.pl:142 scripts/dpkg-genchanges.pl:146
 #, perl-format
 msgid "cannot combine %s and -S"
 msgstr "kan inte kombinera %s och -S"
 
-#: scripts/dpkg-genchanges.pl:138
+#: scripts/dpkg-genchanges.pl:140
 #, perl-format
 msgid "%s: arch-specific upload - not including arch-independent packages"
 msgstr ""
 "%s: arkitekturspecifik insändning - inkluderar inte ark.-oberoende paket"
 
-#: scripts/dpkg-genchanges.pl:142
+#: scripts/dpkg-genchanges.pl:144
 #, perl-format
 msgid "%s: arch-indep upload - not including arch-specific packages"
 msgstr ""
 "%s: arkitekturobereoende insändning - inkluderar inte ark.-specifik paket"
 
-#: scripts/dpkg-genchanges.pl:205
+#: scripts/dpkg-genchanges.pl:164 scripts/dpkg-source.pl:258
+msgid "substvars support is deprecated (see README.feature-removal-schedule)"
+msgstr "substvars-stödet undanbes (se README.feature-removal-schedule)"
+
+#: scripts/dpkg-genchanges.pl:210
+#, perl-format
+msgid "the current version (%s) is smaller than the previous one (%s)"
+msgstr "aktuell version (%s) är mindre än den föregående (%s)"
+
+#: scripts/dpkg-genchanges.pl:215
 msgid "cannot read files list file"
 msgstr "kan inte läsa fillistfil"
 
-#: scripts/dpkg-genchanges.pl:209
+#: scripts/dpkg-genchanges.pl:219
 #, perl-format
 msgid "duplicate files list entry for package %s (line %d)"
 msgstr "duplicerad fillistpost för paketet %s (rad %d)"
 
-#: scripts/dpkg-genchanges.pl:217 scripts/dpkg-genchanges.pl:231
+#: scripts/dpkg-genchanges.pl:227 scripts/dpkg-genchanges.pl:241
 #, perl-format
 msgid "duplicate files list entry for file %s (line %d)"
 msgstr "duplicerad fillistpost för filen %s (rad %d)"
 
-#: scripts/dpkg-genchanges.pl:237
+#: scripts/dpkg-genchanges.pl:247
 #, perl-format
 msgid "badly formed line in files list file, line %d"
 msgstr "felformaterad rad i fillistfilen, rad %d"
 
-#: scripts/dpkg-genchanges.pl:258 scripts/dpkg-gencontrol.pl:161
-#: scripts/dpkg-source.pl:333
+#: scripts/dpkg-genchanges.pl:268 scripts/dpkg-gencontrol.pl:161
+#: scripts/dpkg-source.pl:336
 msgid "general section of control info file"
 msgstr "allmän sektion i styrinfofilen"
 
-#: scripts/dpkg-genchanges.pl:275
+#: scripts/dpkg-genchanges.pl:292
 #, perl-format
 msgid "package %s in control file but not in files list"
 msgstr "paketet %s i styrinfofilen men inte i fillistfilen"
 
-#: scripts/dpkg-genchanges.pl:309 scripts/dpkg-gencontrol.pl:194
-#: scripts/dpkg-source.pl:374
+#: scripts/dpkg-genchanges.pl:320 scripts/dpkg-gencontrol.pl:194
+#: scripts/dpkg-source.pl:377
 msgid "package's section of control info file"
 msgstr "paketets sektion av styrinfofilen"
 
-#: scripts/dpkg-genchanges.pl:326 scripts/dpkg-gencontrol.pl:211
-#: scripts/dpkg-source.pl:393
+#: scripts/dpkg-genchanges.pl:337 scripts/dpkg-gencontrol.pl:211
+#: scripts/dpkg-source.pl:396
 msgid "parsed version of changelog"
 msgstr "tolkad version av ändringslogg"
 
-#: scripts/dpkg-genchanges.pl:332
+#: scripts/dpkg-genchanges.pl:343
 msgid "read changesdescription"
 msgstr "läs ändringsbeskrivning"
 
-#: scripts/dpkg-genchanges.pl:343
+#: scripts/dpkg-genchanges.pl:354
 #, perl-format
 msgid "package %s listed in files list but not in control info"
 msgstr "paketet %s listat i fillista men inte i styrinfo"
 
-#: scripts/dpkg-genchanges.pl:355
+#: scripts/dpkg-genchanges.pl:366
 #, perl-format
 msgid "missing Section for binary package %s; using '-'"
 msgstr "\"Section\" saknas för binärpaket %s; använder \"-\""
 
-#: scripts/dpkg-genchanges.pl:357
+#: scripts/dpkg-genchanges.pl:368
 #, perl-format
 msgid "package %s has section %s in control file but %s in files list"
 msgstr "paketet %s har sektionen %s i styrinfofilen men %s i fillistan"
 
-#: scripts/dpkg-genchanges.pl:364
+#: scripts/dpkg-genchanges.pl:375
 #, perl-format
 msgid "missing Priority for binary package %s; using '-'"
 msgstr "\"Priority\" saknas för binärpaketet %s; använder \"-\""
 
-#: scripts/dpkg-genchanges.pl:366
+#: scripts/dpkg-genchanges.pl:377
 #, perl-format
 msgid "package %s has priority %s in control file but %s in files list"
 msgstr "paketet %s har prioritet %s i styrfilen men %s i fillistan"
 
-#: scripts/dpkg-genchanges.pl:378
+#: scripts/dpkg-genchanges.pl:389
 msgid "missing Section for source files"
 msgstr "\"Section\" saknas för källfiler"
 
-#: scripts/dpkg-genchanges.pl:383
+#: scripts/dpkg-genchanges.pl:394
 msgid "missing Priority for source files"
 msgstr "\"Priority\" saknas för källfiler"
 
-#: scripts/dpkg-genchanges.pl:388
+#: scripts/dpkg-genchanges.pl:399
 #, perl-format
 msgid "cannot open .dsc file %s"
 msgstr "kan inte öppna .dsc-filen %s"
 
-#: scripts/dpkg-genchanges.pl:391 scripts/dpkg-source.pl:842
+#: scripts/dpkg-genchanges.pl:402 scripts/dpkg-source.pl:846
 #, perl-format
 msgid "source control file %s"
 msgstr "källstyrfilen %s"
 
-#: scripts/dpkg-genchanges.pl:398 scripts/dpkg-source.pl:881
+#: scripts/dpkg-genchanges.pl:412 scripts/dpkg-source.pl:891
 #, perl-format
 msgid "Files field contains bad line `%s'"
 msgstr "Files-fältet innehåller felaktig rad \"%s\""
 
-#: scripts/dpkg-genchanges.pl:428
+#: scripts/dpkg-genchanges.pl:416 scripts/dpkg-source.pl:895
+#: scripts/Dpkg/Checksums.pm:52
+#, perl-format
+msgid "Conflicting checksums `%s' and `%s' for file `%s'"
+msgstr "Motsägande kontrollsummor \"%s\" och \"%s\" för filen \"%s\""
+
+#: scripts/dpkg-genchanges.pl:421
+#, perl-format
+msgid "Conflicting sizes `%u' and `%u' for file `%s'"
+msgstr "Motsägande storlekar \"%u\" och \"%u\" för filen \"%s\""
+
+#: scripts/dpkg-genchanges.pl:454
 msgid "not including original source code in upload"
 msgstr "tar inte med ursprunglig källkod i denna insändning"
 
-#: scripts/dpkg-genchanges.pl:433
+#: scripts/dpkg-genchanges.pl:459
 msgid "ignoring -sd option for native Debian package"
 msgstr "ignorerar flaggan -sd för Debianspecifikt paket"
 
-#: scripts/dpkg-genchanges.pl:435
+#: scripts/dpkg-genchanges.pl:461
 msgid "including full source code in upload"
 msgstr "sänder med komplett källkod med denna insändning"
 
-#: scripts/dpkg-genchanges.pl:438
+#: scripts/dpkg-genchanges.pl:464
 msgid "binary-only upload - not including any source code"
 msgstr "endast binär insändning - tar inte med någon källkod"
 
-#: scripts/dpkg-genchanges.pl:442
+#: scripts/dpkg-genchanges.pl:468
 msgid "write original source message"
 msgstr "skriver meddelande om originalkällkod"
 
-#: scripts/dpkg-genchanges.pl:472
-#, perl-format
-msgid "cannot open upload file %s for reading"
-msgstr "kan inte öppna insändningsfilen %s för läsning"
-
-#: scripts/dpkg-genchanges.pl:473
-#, perl-format
-msgid "cannot fstat upload file %s"
-msgstr "kan inte ta status (fstat) på insändningsfilen %s"
-
-#: scripts/dpkg-genchanges.pl:475
-#, perl-format
-msgid "upload file %s is empty"
-msgstr "insändningsfilen %s är tom"
-
-#: scripts/dpkg-genchanges.pl:477
-#, perl-format
-msgid "md5sum upload file %s"
-msgstr "beräkna md5-summa för insändningsfilen %s"
-
-#: scripts/dpkg-genchanges.pl:479
-#, perl-format
-msgid "md5sum upload file %s gave strange output `%s'"
-msgstr ""
-"beräkning av md5-summa för insändningsfilen %s gav underlig utdata \"%s\""
-
-#: scripts/dpkg-genchanges.pl:483
-#, perl-format
-msgid "md5sum of source file %s (%s) is different from md5sum in %s (%s)"
-msgstr ""
-"md5-summa för källkodsfilen %s (%s) skiljer sig från md5-summan i %s (%s)"
-
-#: scripts/dpkg-genchanges.pl:498 scripts/dpkg-source.pl:404
+#: scripts/dpkg-genchanges.pl:518 scripts/dpkg-source.pl:407
 #, perl-format
 msgid "missing information for critical output field %s"
 msgstr "saknar information för kritiskt utdatafält %s"
 
-#: scripts/dpkg-genchanges.pl:503 scripts/dpkg-gencontrol.pl:261
-#: scripts/dpkg-gencontrol.pl:264 scripts/dpkg-source.pl:408
+#: scripts/dpkg-genchanges.pl:523 scripts/dpkg-gencontrol.pl:261
+#: scripts/dpkg-gencontrol.pl:264 scripts/dpkg-source.pl:411
 #, perl-format
 msgid "missing information for output field %s"
 msgstr "saknar information för utdatafält %s"
@@ -778,48 +798,48 @@ msgid ""
 "list (%s)"
 msgstr "aktuell värdarkitekturen \"%s\" finns i paketets arkitekturlista (%s)"
 
-#: scripts/dpkg-gencontrol.pl:272
+#: scripts/dpkg-gencontrol.pl:274
 #, perl-format
 msgid "%s package with udeb specific field %s"
 msgstr "%s-paket med udeb-specifikt fält %s"
 
-#: scripts/dpkg-gencontrol.pl:285
+#: scripts/dpkg-gencontrol.pl:287
 msgid "fork for du"
 msgstr "grenar för du"
 
-#: scripts/dpkg-gencontrol.pl:288
+#: scripts/dpkg-gencontrol.pl:290
 #, perl-format
 msgid "chdir for du to `%s'"
 msgstr "chdir för du till \"%s\""
 
-#: scripts/dpkg-gencontrol.pl:289
+#: scripts/dpkg-gencontrol.pl:291
 msgid "exec du"
 msgstr "kör du"
 
-#: scripts/dpkg-gencontrol.pl:296
+#: scripts/dpkg-gencontrol.pl:298
 #, perl-format
 msgid "du in `%s'"
 msgstr "du i \"%s\""
 
-#: scripts/dpkg-gencontrol.pl:298
+#: scripts/dpkg-gencontrol.pl:300
 #, perl-format
 msgid "du gave unexpected output `%s'"
 msgstr "du gav oväntade utdata \"%s\""
 
-#: scripts/dpkg-gencontrol.pl:330
+#: scripts/dpkg-gencontrol.pl:332
 msgid "close old files list file"
 msgstr "stänger gammal fillistfil"
 
-#: scripts/dpkg-gencontrol.pl:344
+#: scripts/dpkg-gencontrol.pl:346
 msgid "install new files list file"
 msgstr "installerar ny fillistfil"
 
-#: scripts/dpkg-gencontrol.pl:352
+#: scripts/dpkg-gencontrol.pl:354
 #, perl-format
 msgid "cannot open new output control file `%s'"
 msgstr "kan inte skapa ny utdatastyrfil \"%s\""
 
-#: scripts/dpkg-gencontrol.pl:364
+#: scripts/dpkg-gencontrol.pl:365
 #, perl-format
 msgid "cannot install output control file `%s'"
 msgstr "kan inte installera utdatastyrfil \"%s\""
@@ -879,38 +899,46 @@ msgstr ""
 "  -h, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
-#: scripts/dpkg-gensymbols.pl:145
+#: scripts/dpkg-gensymbols.pl:147
 #, perl-format
 msgid "Can't read directory %s: %s"
 msgstr "kan inte läsa katalogen %s: %s"
 
-#: scripts/dpkg-gensymbols.pl:160
+#: scripts/dpkg-gensymbols.pl:162
 #, perl-format
 msgid "Objdump couldn't parse %s\n"
 msgstr "objdump kunde inte tolka %s\n"
 
-#: scripts/dpkg-gensymbols.pl:202
-msgid "new libraries appeared in the symbols file."
-msgstr "nya bibliotek dök upp i symbolfilen."
+#: scripts/dpkg-gensymbols.pl:204
+#, perl-format
+msgid "new libraries appeared in the symbols file: %s"
+msgstr "nya bibliotek dök upp i symbolfilen: %s"
 
-#: scripts/dpkg-gensymbols.pl:206
-msgid "some libraries disappeared in the symbols file."
-msgstr "några bibliotek försvann ur symbolfilen."
+#: scripts/dpkg-gensymbols.pl:208
+#, perl-format
+msgid "some libraries disappeared in the symbols file: %s"
+msgstr "några bibliotek försvann ur symbolfilen: %s"
 
-#: scripts/dpkg-gensymbols.pl:214
-msgid "some new symbols appeared in the symbols file."
-msgstr "några nya symboler dök upp i symbolfilen."
+#: scripts/dpkg-gensymbols.pl:216
+#, perl-format
+msgid "some new symbols appeared in the symbols file: %s"
+msgstr "några nya symboler dök upp i symbolfilen: %s"
 
-#: scripts/dpkg-gensymbols.pl:219
-msgid "some symbols disappeared in the symbols file."
-msgstr "några symboler försvann ur symbolfilen."
+#: scripts/dpkg-gensymbols.pl:217 scripts/dpkg-gensymbols.pl:222
+msgid "see diff output below"
+msgstr "se diff-utdata nedan"
 
-#: scripts/dpkg-gensymbols.pl:235
+#: scripts/dpkg-gensymbols.pl:237
+#, perl-format
+msgid "some symbols disappeared in the symbols file: %s"
+msgstr "några symboler försvann ur symbolfilen: %s"
+
+#: scripts/dpkg-gensymbols.pl:253
 #, perl-format
 msgid "%s doesn't match completely %s"
 msgstr "%s stämmer inte helt överrens med %s"
 
-#: scripts/dpkg-gensymbols.pl:238
+#: scripts/dpkg-gensymbols.pl:256
 #, perl-format
 msgid "no debian/symbols file used as basis for generating %s"
 msgstr "använde ingen debian/symbols-fil som grund för att generera %s"
@@ -964,7 +992,8 @@ msgstr ""
 "      --version            visa versionsnumret.\n"
 "\n"
 "parserflaggor:\n"
-"    --format <utdataformat>     se manualsidan för en lista över tillgängliga\n"
+"    --format <utdataformat>     se manualsidan för en lista över "
+"tillgängliga\n"
 "                                utdataformat, standard är \"dpkg\" för\n"
 "                                kompatibilitet med dpkg-dev\n"
 "    --since, -s, -v <version>   ta med alla ändringar efter version\n"
@@ -1305,7 +1334,7 @@ msgstr "okänt beroendefält \"%s\""
 msgid "need at least one executable"
 msgstr "behöver minst en binär"
 
-#: scripts/dpkg-shlibdeps.pl:132
+#: scripts/dpkg-shlibdeps.pl:133
 #, perl-format
 msgid ""
 "couldn't find library %s needed by %s (its RPATH is '%s').\n"
@@ -1320,48 +1349,53 @@ msgstr ""
 "För att hjälpa dpkg-shlibdeps att hitta privata bibliotek måste du kanske "
 "sätta LD_LIBRARY_PATH."
 
-#: scripts/dpkg-shlibdeps.pl:216
+#: scripts/dpkg-shlibdeps.pl:199
+#, perl-format
+msgid "%s has an unexpected SONAME (%s)"
+msgstr "%s har ett oväntat SONAMN (%s)"
+
+#: scripts/dpkg-shlibdeps.pl:221
 #, perl-format
 msgid "no dependency information found for %s (used by %s)."
 msgstr "hittade ingen beroendeinformation för %s (använd av %s)."
 
-#: scripts/dpkg-shlibdeps.pl:256
+#: scripts/dpkg-shlibdeps.pl:261
 #, perl-format
 msgid "symbol %s used by %s found in none of the libraries."
 msgstr "symbolen %s, som används av %s, hittades inte i något av biblioteken."
 
-#: scripts/dpkg-shlibdeps.pl:269
+#: scripts/dpkg-shlibdeps.pl:278
 #, perl-format
 msgid "%d other similar warnings have been skipped (use -v to see them all)."
 msgstr ""
 "%d andra liknande varningar har hoppats över (använd -v för att visa alla)."
 
-#: scripts/dpkg-shlibdeps.pl:289
+#: scripts/dpkg-shlibdeps.pl:298
 #, perl-format
 msgid "%s shouldn't be linked with %s (it uses none of its symbols)."
 msgstr "%s borde inte vara länkat mot %s (inga av symbolerna används)."
 
-#: scripts/dpkg-shlibdeps.pl:301
+#: scripts/dpkg-shlibdeps.pl:310
 #, perl-format
 msgid "open new substvars file `%s'"
 msgstr "öppna ny substvar-fil \"%s\""
 
-#: scripts/dpkg-shlibdeps.pl:304
+#: scripts/dpkg-shlibdeps.pl:313
 #, perl-format
 msgid "open old varlist file `%s' for reading"
 msgstr "öppna gammal varlistefil \"%s\" för läsning"
 
-#: scripts/dpkg-shlibdeps.pl:307
+#: scripts/dpkg-shlibdeps.pl:316
 #, perl-format
 msgid "copy old entry to new varlist file `%s'"
 msgstr "kopiera gammal post till ny varlistefil \"%s\""
 
-#: scripts/dpkg-shlibdeps.pl:377
+#: scripts/dpkg-shlibdeps.pl:386
 #, perl-format
 msgid "install new varlist file `%s'"
 msgstr "installerar ny varlistefil \"%s\""
 
-#: scripts/dpkg-shlibdeps.pl:387
+#: scripts/dpkg-shlibdeps.pl:396
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson.\n"
@@ -1374,7 +1408,7 @@ msgstr ""
 "Copyright © 2000 Wichert Akkerman.\n"
 "Copyright © 2006 Frank Lichtenheld.Copyright © 2007 Raphael Hertzog.\n"
 
-#: scripts/dpkg-shlibdeps.pl:402
+#: scripts/dpkg-shlibdeps.pl:411
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <executable>|-e<executable> [<option> ...]\n"
@@ -1424,28 +1458,28 @@ msgstr ""
 "Beroendefält som stöds är:\n"
 "  %s\n"
 
-#: scripts/dpkg-shlibdeps.pl:524
+#: scripts/dpkg-shlibdeps.pl:533
 #, perl-format
 msgid "Can't extract name and version from library name `%s'"
 msgstr "Kan inte extrahera namn och version från biblioteksnamnet \"%s\""
 
-#: scripts/dpkg-shlibdeps.pl:531
+#: scripts/dpkg-shlibdeps.pl:540
 #, perl-format
 msgid "unable to open shared libs info file `%s'"
 msgstr "kunde inte öppna informationsfil för delade bibliotek \"%s\""
 
-#: scripts/dpkg-shlibdeps.pl:537
+#: scripts/dpkg-shlibdeps.pl:546
 #, perl-format
 msgid "shared libs info file `%s' line %d: bad line `%s'"
 msgstr ""
 "informationsfilen för delade bibliotek \"%s\" rad %d: felaktig rad \"%s\""
 
-#: scripts/dpkg-shlibdeps.pl:590
+#: scripts/dpkg-shlibdeps.pl:599
 #, perl-format
 msgid "cannot open file %s"
 msgstr "kan inte öppna filen %s"
 
-#: scripts/dpkg-shlibdeps.pl:623
+#: scripts/dpkg-shlibdeps.pl:632
 #, perl-format
 msgid ""
 "$ORIGIN is used in RPATH of %s and the corresponding directory could not be "
@@ -1456,28 +1490,28 @@ msgstr ""
 "identifieras på grund av DEBIAN-underkatalogen saknas i roten av paketets "
 "byggträd"
 
-#: scripts/dpkg-shlibdeps.pl:676
+#: scripts/dpkg-shlibdeps.pl:685
 msgid "cannot fork for dpkg --search"
 msgstr "kunde inte grena för dpkg --search"
 
-#: scripts/dpkg-shlibdeps.pl:683
+#: scripts/dpkg-shlibdeps.pl:692
 msgid "cannot exec dpkg"
 msgstr "kunde inte exekvera dpkg"
 
-#: scripts/dpkg-shlibdeps.pl:688
+#: scripts/dpkg-shlibdeps.pl:697
 msgid "diversions involved - output may be incorrect"
 msgstr "omdirigeringar finns - utdata kan vara felaktiga"
 
-#: scripts/dpkg-shlibdeps.pl:690
+#: scripts/dpkg-shlibdeps.pl:699
 msgid "write diversion info to stderr"
 msgstr "skriv omdirigeringsinformation på standard fel"
 
-#: scripts/dpkg-shlibdeps.pl:694
+#: scripts/dpkg-shlibdeps.pl:703
 #, perl-format
 msgid "unknown output from dpkg --search: '%s'"
 msgstr "okända utdata från dpkg --search: \"%s\""
 
-#: scripts/dpkg-source.pl:141
+#: scripts/dpkg-source.pl:143
 msgid ""
 "\n"
 "Copyright (C) 1996 Ian Jackson and Klee Dienes."
@@ -1485,7 +1519,7 @@ msgstr ""
 "\n"
 "Copyright © 1996 Ian Jackson and Klee Dienes."
 
-#: scripts/dpkg-source.pl:152
+#: scripts/dpkg-source.pl:154
 #, perl-format
 msgid ""
 "Usage: %s [<option> ...] <command>\n"
@@ -1590,78 +1624,78 @@ msgstr ""
 "  -h, --help               visa detta hjälpmeddelande.\n"
 "      --version            visa versionsnummer.\n"
 
-#: scripts/dpkg-source.pl:221
+#: scripts/dpkg-source.pl:223
 #, perl-format
 msgid "%s is not a supported compression"
 msgstr "%s är inte en komprimering som stöds"
 
-#: scripts/dpkg-source.pl:225
+#: scripts/dpkg-source.pl:227
 #, perl-format
 msgid "%s is not a compression level"
 msgstr "%s är inte en komprimeringsnivå"
 
-#: scripts/dpkg-source.pl:228
+#: scripts/dpkg-source.pl:230
 #, perl-format
 msgid "-s%s option overrides earlier -s%s option"
 msgstr "flaggan -s%s ersätter tidigare flagga -s%s"
 
-#: scripts/dpkg-source.pl:273
+#: scripts/dpkg-source.pl:276
 msgid "need -x or -b"
 msgstr "behöver -x eller -b"
 
-#: scripts/dpkg-source.pl:281
+#: scripts/dpkg-source.pl:284
 #, perl-format
 msgid "source handling style -s%s not allowed with -b"
 msgstr "källkodshanteringstyp -s%s tillåts inte med -b"
 
-#: scripts/dpkg-source.pl:284
+#: scripts/dpkg-source.pl:287
 msgid "-b needs a directory"
 msgstr "-b behöver en katalog"
 
-#: scripts/dpkg-source.pl:285
+#: scripts/dpkg-source.pl:288
 msgid "-b takes at most a directory and an orig source argument"
 msgstr "-b tar som mest en katalog och en originalkällkod som argument"
 
-#: scripts/dpkg-source.pl:288
+#: scripts/dpkg-source.pl:291
 #, perl-format
 msgid "cannot stat directory %s: %s"
 msgstr "kan inte ta status på katalogen %s: %s"
 
-#: scripts/dpkg-source.pl:289
+#: scripts/dpkg-source.pl:292
 #, perl-format
 msgid "directory argument %s is not a directory"
 msgstr "katalogargumentet %s är inte en katalog"
 
-#: scripts/dpkg-source.pl:357
+#: scripts/dpkg-source.pl:360
 #, perl-format
 msgid "`%s' is not a legal architecture string"
 msgstr "\"%s\" är inte en giltig arkitektursträng"
 
-#: scripts/dpkg-source.pl:360
+#: scripts/dpkg-source.pl:363
 #, perl-format
 msgid "architecture %s only allowed on its own (list for package %s is `%s')"
 msgstr "arkitektur %s tillåts inte ensamt (listan för paketet %s är \"%s\")"
 
-#: scripts/dpkg-source.pl:410
+#: scripts/dpkg-source.pl:413
 msgid "unable to determine source package name !"
 msgstr "kunde inte bestämma namn på källkodspaket!"
 
-#: scripts/dpkg-source.pl:431
+#: scripts/dpkg-source.pl:434
 #, perl-format
 msgid "packed orig `%s' exists but is not a plain file"
 msgstr "packad orig \"%s\" finns men är inte en vanlig fil"
 
-#: scripts/dpkg-source.pl:436
+#: scripts/dpkg-source.pl:439
 #, perl-format
 msgid "unable to stat putative packed orig `%s'"
 msgstr "kan inte ta status på förmodad packad orig \"%s\""
 
-#: scripts/dpkg-source.pl:446
+#: scripts/dpkg-source.pl:449
 #, perl-format
 msgid "cannot stat orig argument %s: %s"
 msgstr "kunde inte ta status på originalargument %s: %s"
 
-#: scripts/dpkg-source.pl:452
+#: scripts/dpkg-source.pl:455
 #, perl-format
 msgid ""
 "orig argument is unpacked but source handling style -s%s calls for packed (."
@@ -1670,7 +1704,7 @@ msgstr ""
 "originalargument har packats upp men källkodshanteringstypen -s%s ber om en "
 "packad (.orig.tar.<ändelse>)"
 
-#: scripts/dpkg-source.pl:459
+#: scripts/dpkg-source.pl:462
 #, perl-format
 msgid ""
 "orig argument is packed but source handling style -s%s calls for unpacked (."
@@ -1679,7 +1713,7 @@ msgstr ""
 "originalargument har packats men källkodshanteringstypen -s%s ber om en "
 "uppackad (orig/)"
 
-#: scripts/dpkg-source.pl:468
+#: scripts/dpkg-source.pl:471
 #, perl-format
 msgid ""
 "orig argument is empty (means no orig, no diff) but source handling style -s%"
@@ -1688,35 +1722,35 @@ msgstr ""
 "originalargument är tomt (betyder ingen orig, ingen diff) men "
 "källkodshanteringstypen -s%s ber om något"
 
-#: scripts/dpkg-source.pl:480
+#: scripts/dpkg-source.pl:483
 #, perl-format
 msgid "unpacked orig `%s' exists but is not a directory"
 msgstr "uppackad orig \"%s\" finns men är inte en katalog"
 
-#: scripts/dpkg-source.pl:484
+#: scripts/dpkg-source.pl:487
 #, perl-format
 msgid "unable to stat putative unpacked orig `%s'"
 msgstr "kan inte ta status på förmodad uppackad orig \"%s\""
 
-#: scripts/dpkg-source.pl:496
+#: scripts/dpkg-source.pl:499
 #, perl-format
 msgid "source directory '%s' is not <sourcepackage>-<upstreamversion> '%s'"
 msgstr ""
 "källkodskatalog \"%s\" är inte <källkodspaket>-<uppströmsversion> \"%s\""
 
-#: scripts/dpkg-source.pl:510
+#: scripts/dpkg-source.pl:513
 #, perl-format
 msgid ".orig directory name %s is not <package>-<upstreamversion> (wanted %s)"
 msgstr ".orig-katalognamnet %s är inte <paket>-<uppströmsversion> (önskade %s)"
 
-#: scripts/dpkg-source.pl:519
+#: scripts/dpkg-source.pl:522
 #, perl-format
 msgid ""
 ".orig.tar name %s is not <package>_<upstreamversion>.orig.tar (wanted %s)"
 msgstr ""
 ".orig.tar-namnet %s är inte <paket>_<uppströmsversion>.orig.tar (önskade %s)"
 
-#: scripts/dpkg-source.pl:532
+#: scripts/dpkg-source.pl:535
 #, perl-format
 msgid ""
 "tarfile `%s' already exists, not overwriting, giving up; use -sU or -sR to "
@@ -1725,62 +1759,62 @@ msgstr ""
 "tarfilen \"%s\" finns redan, skriver inte över, ger upp, använd -sU eller -"
 "sR för att överstyra"
 
-#: scripts/dpkg-source.pl:535
+#: scripts/dpkg-source.pl:538
 #, perl-format
 msgid "unable to check for existence of `%s'"
 msgstr "kunde inte se om \"%s\" existerar"
 
-#: scripts/dpkg-source.pl:538 scripts/dpkg-source.pl:608
-#: scripts/dpkg-source.pl:768
+#: scripts/dpkg-source.pl:541 scripts/dpkg-source.pl:611
+#: scripts/dpkg-source.pl:771
 #, perl-format
 msgid "%s: building %s in %s"
 msgstr "%s: bygger %s i %s"
 
-#: scripts/dpkg-source.pl:540
+#: scripts/dpkg-source.pl:543
 msgid "write building tar message"
 msgstr "skriver bygg-tar-meddelande"
 
-#: scripts/dpkg-source.pl:544
+#: scripts/dpkg-source.pl:547
 msgid "fork for tar"
 msgstr "grenar för tar"
 
-#: scripts/dpkg-source.pl:547
+#: scripts/dpkg-source.pl:550
 #, perl-format
 msgid "chdir to above (orig) source %s"
 msgstr "byter katalog till ovanför (orig-)källkod %s"
 
-#: scripts/dpkg-source.pl:548
+#: scripts/dpkg-source.pl:551
 msgid "reopen gzip for tar"
 msgstr "öppnar gzip igen för tar"
 
-#: scripts/dpkg-source.pl:550
+#: scripts/dpkg-source.pl:553
 msgid "exec tar"
 msgstr "exekverar tar"
 
-#: scripts/dpkg-source.pl:554
+#: scripts/dpkg-source.pl:557
 msgid "wait for tar"
 msgstr "väntar på tar"
 
-#: scripts/dpkg-source.pl:557 scripts/dpkg-source.pl:729
+#: scripts/dpkg-source.pl:560 scripts/dpkg-source.pl:732
 #, perl-format
 msgid "unable to rename `%s' (newly created) to `%s'"
 msgstr "kunde inte byta namn på \"%s\" (precis skapad) till \"%s\""
 
-#: scripts/dpkg-source.pl:560 scripts/dpkg-source.pl:732
+#: scripts/dpkg-source.pl:563 scripts/dpkg-source.pl:735
 #, perl-format
 msgid "unable to change permission of `%s'"
 msgstr "kunde inte ändra beroenden på \"%s\""
 
-#: scripts/dpkg-source.pl:564
+#: scripts/dpkg-source.pl:567
 #, perl-format
 msgid "%s: building %s using existing %s"
 msgstr "%s: bygger %s med befintlig %s"
 
-#: scripts/dpkg-source.pl:566
+#: scripts/dpkg-source.pl:569
 msgid "write using existing tar message"
 msgstr "skriver med existerande tar-meddelande"
 
-#: scripts/dpkg-source.pl:576
+#: scripts/dpkg-source.pl:579
 #, perl-format
 msgid ""
 "orig dir `%s' already exists, not overwriting, giving up; use -sA, -sK or -"
@@ -1789,493 +1823,468 @@ msgstr ""
 "originalkatalog \"%s\" finns redan, skriver inte över, ger upp; använd -sA, -"
 "sK eller -sP för att överstyra"
 
-#: scripts/dpkg-source.pl:583
+#: scripts/dpkg-source.pl:586
 #, perl-format
 msgid "unable to check for existence of orig dir `%s'"
 msgstr "kan inte se om existerande originalkatalog \"%s\" finns"
 
-#: scripts/dpkg-source.pl:593 scripts/dpkg-source.pl:956
+#: scripts/dpkg-source.pl:596 scripts/dpkg-source.pl:973
 #, perl-format
 msgid "unable to create `%s'"
 msgstr "kan inte skapa \"%s\""
 
-#: scripts/dpkg-source.pl:597 scripts/dpkg-source.pl:937
-#: scripts/dpkg-source.pl:960
+#: scripts/dpkg-source.pl:600 scripts/dpkg-source.pl:954
+#: scripts/dpkg-source.pl:977
 #, perl-format
 msgid "unable to rename `%s' to `%s'"
 msgstr "kan inte byta namn på \"%s\" till \"%s\""
 
-#: scripts/dpkg-source.pl:601 scripts/dpkg-source.pl:962
+#: scripts/dpkg-source.pl:604 scripts/dpkg-source.pl:979
 #, perl-format
 msgid "unable to remove `%s'"
 msgstr "kan inte ta bort \"%s\""
 
-#: scripts/dpkg-source.pl:610
+#: scripts/dpkg-source.pl:613
 msgid "write building diff message"
 msgstr "skriver byggdiffmeddelande"
 
-#: scripts/dpkg-source.pl:615
+#: scripts/dpkg-source.pl:618
 msgid "fork for find"
 msgstr "grenar för find"
 
-#: scripts/dpkg-source.pl:617
+#: scripts/dpkg-source.pl:620
 #, perl-format
 msgid "chdir to %s for find"
 msgstr "byter katalog till %s för find"
 
-#: scripts/dpkg-source.pl:618
+#: scripts/dpkg-source.pl:621
 msgid "exec find"
 msgstr "exekverar find"
 
-#: scripts/dpkg-source.pl:627
+#: scripts/dpkg-source.pl:630
 #, perl-format
 msgid "cannot stat file %s"
 msgstr "kan inte ta status på filen %s"
 
-#: scripts/dpkg-source.pl:634
+#: scripts/dpkg-source.pl:637
 #, perl-format
 msgid "cannot read link %s"
 msgstr "kan inte läsa länken %s"
 
-#: scripts/dpkg-source.pl:636
+#: scripts/dpkg-source.pl:639
 #, perl-format
 msgid "cannot read orig link %s"
 msgstr "kan inte läsa originallänken %s"
 
-#: scripts/dpkg-source.pl:637 scripts/dpkg-source.pl:638
+#: scripts/dpkg-source.pl:640 scripts/dpkg-source.pl:641
 #, perl-format
 msgid "symlink to %s"
 msgstr "symbolisk länk till %s"
 
-#: scripts/dpkg-source.pl:645 scripts/dpkg-source.pl:716
+#: scripts/dpkg-source.pl:648 scripts/dpkg-source.pl:719
 #, perl-format
 msgid "cannot stat orig file %s"
 msgstr "kan inte ta status på originalfilen %s"
 
-#: scripts/dpkg-source.pl:648
+#: scripts/dpkg-source.pl:651
 #, perl-format
 msgid "newly created empty file '%s' will not be represented in diff"
 msgstr ""
 "den tomma katalogen \"%s\" som just skapats kommer inte representeras i "
 "diffen"
 
-#: scripts/dpkg-source.pl:652
+#: scripts/dpkg-source.pl:655
 #, perl-format
 msgid "executable mode %04o of '%s' will not be represented in diff"
 msgstr "exekveringsläge %04o på \"%s\" kommer inte representeras i diffen"
 
-#: scripts/dpkg-source.pl:657
+#: scripts/dpkg-source.pl:660
 #, perl-format
 msgid "special mode %04o of '%s' will not be represented in diff"
 msgstr "specialläge %04o på \"%s\" kommer inte representeras i diffen"
 
-#: scripts/dpkg-source.pl:664 scripts/dpkg-source.pl:1541
+#: scripts/dpkg-source.pl:667 scripts/dpkg-source.pl:1547
 msgid "something else"
 msgstr "något annat"
 
-#: scripts/dpkg-source.pl:665
+#: scripts/dpkg-source.pl:668
 msgid "plain file"
 msgstr "vanlig fil"
 
-#: scripts/dpkg-source.pl:668
+#: scripts/dpkg-source.pl:671
 msgid "fork for diff"
 msgstr "grenar för diff"
 
-#: scripts/dpkg-source.pl:677
+#: scripts/dpkg-source.pl:680
 msgid "exec diff"
 msgstr "exekverar diff"
 
-#: scripts/dpkg-source.pl:684
+#: scripts/dpkg-source.pl:687
 msgid "binary file contents changed"
 msgstr "innehåll i binär fil ändrat"
 
-#: scripts/dpkg-source.pl:689
+#: scripts/dpkg-source.pl:692
 #, perl-format
 msgid "file %s has no final newline (either original or modified version)"
 msgstr ""
 "filen %s har inget avslutande nyradstecken (antingen i ursprunglig eller "
 "modifierad version)"
 
-#: scripts/dpkg-source.pl:693
+#: scripts/dpkg-source.pl:696
 #, perl-format
 msgid "unknown line from diff -u on %s: `%s'"
 msgstr "okänd rad från diff -u på %s: \"%s\""
 
-#: scripts/dpkg-source.pl:696
+#: scripts/dpkg-source.pl:699
 msgid "failed to write to compression pipe"
 msgstr "misslyckades att skriva till komprimeringsrör"
 
-#: scripts/dpkg-source.pl:702
+#: scripts/dpkg-source.pl:705
 msgid "diff gave 1 but no diff lines found"
 msgstr "diff gav 1 men inga diff-rader hittades"
 
-#: scripts/dpkg-source.pl:705
+#: scripts/dpkg-source.pl:708
 #, perl-format
 msgid "diff on %s"
 msgstr "diff på %s"
 
-#: scripts/dpkg-source.pl:711
+#: scripts/dpkg-source.pl:714
 msgid "device or socket is not allowed"
 msgstr "enhet eller uttag inte tillåtet"
 
-#: scripts/dpkg-source.pl:718
+#: scripts/dpkg-source.pl:721
 msgid "not a directory"
 msgstr "ej katalog"
 
-#: scripts/dpkg-source.pl:719
+#: scripts/dpkg-source.pl:722
 msgid "directory"
 msgstr "katalog"
 
-#: scripts/dpkg-source.pl:722
+#: scripts/dpkg-source.pl:725
 #, perl-format
 msgid "unknown file type (%s)"
 msgstr "okänd filtyp (%s)"
 
-#: scripts/dpkg-source.pl:726
+#: scripts/dpkg-source.pl:729
 msgid "finish write to compression pipe"
 msgstr "avslutar skrivning till komprimeringsrör"
 
-#: scripts/dpkg-source.pl:734
+#: scripts/dpkg-source.pl:737
 msgid "fork for 2nd find"
 msgstr "grenar för andra find"
 
-#: scripts/dpkg-source.pl:736
+#: scripts/dpkg-source.pl:739
 #, perl-format
 msgid "chdir to %s for 2nd find"
 msgstr "chdir till %s för andra find"
 
-#: scripts/dpkg-source.pl:737
+#: scripts/dpkg-source.pl:740
 msgid "exec 2nd find"
 msgstr "exekverar andra find"
 
-#: scripts/dpkg-source.pl:746
+#: scripts/dpkg-source.pl:749
 #, perl-format
 msgid "cannot check orig file %s"
 msgstr "kan inte kontrollera originalfilen %s"
 
-#: scripts/dpkg-source.pl:748
+#: scripts/dpkg-source.pl:751
 #, perl-format
 msgid "ignoring deletion of file %s"
 msgstr "ignorerar borttagning av filen %s"
 
-#: scripts/dpkg-source.pl:750
+#: scripts/dpkg-source.pl:753
 #, perl-format
 msgid "ignoring deletion of directory %s"
 msgstr "ignorerar borttagning av katalogen %s"
 
-#: scripts/dpkg-source.pl:752
+#: scripts/dpkg-source.pl:755
 #, perl-format
 msgid "ignoring deletion of symlink %s"
 msgstr "ignorerar borttagning av symboliska länken %s"
 
-#: scripts/dpkg-source.pl:754
+#: scripts/dpkg-source.pl:757
 msgid "not a file, directory or link"
 msgstr "ej fil, katalog eller länk"
 
-#: scripts/dpkg-source.pl:755 scripts/dpkg-source.pl:1536
+#: scripts/dpkg-source.pl:758 scripts/dpkg-source.pl:1542
 msgid "nonexistent"
 msgstr "saknas"
 
-#: scripts/dpkg-source.pl:770
+#: scripts/dpkg-source.pl:773
 msgid "write building message"
 msgstr "skriver byggmeddelande"
 
-#: scripts/dpkg-source.pl:772
+#: scripts/dpkg-source.pl:775
 #, perl-format
 msgid "create %s"
 msgstr "skapar %s"
 
-#: scripts/dpkg-source.pl:780
+#: scripts/dpkg-source.pl:784
 #, perl-format
 msgid "%s: unrepresentable changes to source"
 msgstr "%s: ändring i källkod kan inte representeras"
 
-#: scripts/dpkg-source.pl:781
+#: scripts/dpkg-source.pl:785
 #, perl-format
 msgid "write error msg: %s"
 msgstr "skriver felmeddelande: %s"
 
-#: scripts/dpkg-source.pl:790
+#: scripts/dpkg-source.pl:794
 #, perl-format
 msgid "source handling style -s%s not allowed with -x"
 msgstr "källkodshanteringstyp -s%s tillåts inte med -x"
 
-#: scripts/dpkg-source.pl:793
+#: scripts/dpkg-source.pl:797
 msgid "-x needs at least one argument, the .dsc"
 msgstr "-x behöver åtminstone ett argument, .dsc-filen"
 
-#: scripts/dpkg-source.pl:794
+#: scripts/dpkg-source.pl:798
 msgid "-x takes no more than two arguments"
 msgstr "-x tar maximalt två argument"
 
-#: scripts/dpkg-source.pl:798
+#: scripts/dpkg-source.pl:802
 msgid "-x needs the .dsc file as first argument, not a directory"
 msgstr "-x måste ha .dsc-filen som första argument, inte en katalog"
 
-#: scripts/dpkg-source.pl:806
+#: scripts/dpkg-source.pl:810
 #, perl-format
 msgid "unpack target exists: %s"
 msgstr "mål för uppackning finns redan: %s"
 
-#: scripts/dpkg-source.pl:810 scripts/dpkg-source.pl:841
+#: scripts/dpkg-source.pl:814 scripts/dpkg-source.pl:845
 #, perl-format
 msgid "cannot open .dsc file %s: %s"
 msgstr "kan inte öppna .dsc-filen %s: %s"
 
-#: scripts/dpkg-source.pl:830
+#: scripts/dpkg-source.pl:834
 #, perl-format
 msgid "failed to verify signature on %s"
 msgstr "misslyckades verifiera signaturen på %s"
 
-#: scripts/dpkg-source.pl:834
+#: scripts/dpkg-source.pl:838
 #, perl-format
 msgid "could not verify signature on %s since gpg isn't installed"
 msgstr "kunde inte verifiera signaturen på %s eftersom gpg inte installerats"
 
-#: scripts/dpkg-source.pl:838
+#: scripts/dpkg-source.pl:842
 #, perl-format
 msgid "extracting unsigned source package (%s)"
 msgstr "extraherar osignerat källkodspaket (%s)"
 
-#: scripts/dpkg-source.pl:848
+#: scripts/dpkg-source.pl:852
 #, perl-format
 msgid "missing critical source control field %s"
 msgstr "saknar kritiska källkodsstyrfältet %s"
 
-#: scripts/dpkg-source.pl:854
+#: scripts/dpkg-source.pl:858
 #, perl-format
 msgid "Unsupported format of .dsc file (%s)"
 msgstr "Formatet på .dsc-filen stöds inte (%s)"
 
-#: scripts/dpkg-source.pl:885
+#: scripts/dpkg-source.pl:902
 #, perl-format
 msgid "Files field contains invalid filename `%s'"
 msgstr "Files-fältet innehåller ogiltigt filnamn \"%s\""
 
-#: scripts/dpkg-source.pl:890
+#: scripts/dpkg-source.pl:907
 #, perl-format
 msgid "repeated file type - files `%s' and `%s'"
 msgstr "repeterad filtyp - filerna \"%s\" och \"%s\""
 
-#: scripts/dpkg-source.pl:904
+#: scripts/dpkg-source.pl:921
 #, perl-format
 msgid "unrecognised file type - `%s'"
 msgstr "okänd filtyp - \"%s\""
 
-#: scripts/dpkg-source.pl:908
+#: scripts/dpkg-source.pl:925
 msgid "no tarfile in Files field"
 msgstr "ej tarfil i Files-fältet"
 
-#: scripts/dpkg-source.pl:911
+#: scripts/dpkg-source.pl:928
 msgid "multiple tarfiles in native package"
 msgstr "flera tarfiler i Debianspecifikt paket"
 
-#: scripts/dpkg-source.pl:912
+#: scripts/dpkg-source.pl:929
 msgid "native package with .orig.tar"
 msgstr "Debianspecifikt paket med .orig.tar"
 
-#: scripts/dpkg-source.pl:915
+#: scripts/dpkg-source.pl:932
 msgid "no upstream tarfile in Files field"
 msgstr "uppströmstarfil saknas i Files-fältet"
 
-#: scripts/dpkg-source.pl:918
+#: scripts/dpkg-source.pl:935
 #, perl-format
 msgid "multiple upstream tarballs in %s format dsc"
 msgstr "flera uppströms-tarbollar i dsc på %s-format"
 
-#: scripts/dpkg-source.pl:920
+#: scripts/dpkg-source.pl:937
 #, perl-format
 msgid "debian.tar in %s format dsc"
 msgstr "debian.tar i dsc på %s-format"
 
-#: scripts/dpkg-source.pl:930
+#: scripts/dpkg-source.pl:947
 #, perl-format
 msgid "%s: extracting %s in %s"
 msgstr "%s: extraherar %s i %s"
 
-#: scripts/dpkg-source.pl:932
+#: scripts/dpkg-source.pl:949
 msgid "write extracting message"
 msgstr "skriver extraheringsmeddelande"
 
-#: scripts/dpkg-source.pl:957
+#: scripts/dpkg-source.pl:974
 #, perl-format
 msgid "%s: unpacking %s"
 msgstr "%s: packar upp %s"
 
-#: scripts/dpkg-source.pl:970
+#: scripts/dpkg-source.pl:987
 #, perl-format
 msgid "failed to stat `%s' to see if need to copy"
 msgstr "kunde inte ta status på \"%s\" för att se om det måste kopieras"
 
-#: scripts/dpkg-source.pl:982
+#: scripts/dpkg-source.pl:999
 #, perl-format
 msgid "failed to check destination `%s' to see if need to copy"
 msgstr ""
 "misslyckades kontrollera destinationen \"%s\" för att se om det behöver "
 "kopieras"
 
-#: scripts/dpkg-source.pl:995
+#: scripts/dpkg-source.pl:1012
 msgid "unable to keep orig directory (already exists)"
 msgstr "kan inte behålla originalkatalog (finns redan)"
 
-#: scripts/dpkg-source.pl:1029 scripts/dpkg-source.pl:1089
+#: scripts/dpkg-source.pl:1046 scripts/dpkg-source.pl:1106
 #, perl-format
 msgid "cannot stat %s"
 msgstr "kan inte ta status på %s"
 
-#: scripts/dpkg-source.pl:1031
+#: scripts/dpkg-source.pl:1048
 #, perl-format
 msgid "failed to create %s subdirectory"
 msgstr "misslyckades att skapa underkatalogen %s"
 
-#: scripts/dpkg-source.pl:1034
+#: scripts/dpkg-source.pl:1051
 #, perl-format
 msgid "diff patches file in directory `%s', but %s isn't a directory !"
 msgstr "diff-patchfil i katalogen \"%s\", men %s är inte en katalog!"
 
-#: scripts/dpkg-source.pl:1044
+#: scripts/dpkg-source.pl:1061
 #, perl-format
 msgid "failed to rename newly-extracted %s to %s"
 msgstr "misslyckades att ta bort %s, som just extraherats, till %s"
 
-#: scripts/dpkg-source.pl:1050
+#: scripts/dpkg-source.pl:1067
 #, perl-format
 msgid "failed to rename saved %s to %s"
 msgstr "misslyckades att byta namn på sparad %s till %s"
 
-#: scripts/dpkg-source.pl:1055
+#: scripts/dpkg-source.pl:1072
 #, perl-format
 msgid "%s: applying %s"
 msgstr "%s: tillämpar %s"
 
-#: scripts/dpkg-source.pl:1060 scripts/dpkg-source.pl:1371
+#: scripts/dpkg-source.pl:1077 scripts/dpkg-source.pl:1377
 #, perl-format
 msgid "can't open diff `%s'"
 msgstr "kan inte öppna diff \"%s\""
 
-#: scripts/dpkg-source.pl:1063
+#: scripts/dpkg-source.pl:1080
 msgid "fork for patch"
 msgstr "grenar för patch"
 
-#: scripts/dpkg-source.pl:1065
+#: scripts/dpkg-source.pl:1082
 msgid "reopen gzip for patch"
 msgstr "öppnar gzip på nytt för patch"
 
-#: scripts/dpkg-source.pl:1066
+#: scripts/dpkg-source.pl:1083
 #, perl-format
 msgid "chdir to %s for patch"
 msgstr "chdir till %s för patch"
 
-#: scripts/dpkg-source.pl:1070
+#: scripts/dpkg-source.pl:1087
 msgid "exec patch"
 msgstr "exekverar patch"
 
-#: scripts/dpkg-source.pl:1073
+#: scripts/dpkg-source.pl:1090
 msgid "wait for patch"
 msgstr "väntar på patch"
 
-#: scripts/dpkg-source.pl:1083
+#: scripts/dpkg-source.pl:1100
 #, perl-format
 msgid "cannot change timestamp for %s"
 msgstr "kan inte ändra tidsstämpel på %s"
 
-#: scripts/dpkg-source.pl:1085
+#: scripts/dpkg-source.pl:1102
 #, perl-format
 msgid "remove patch backup file %s"
 msgstr "tar bort patchsäkerhetskopian %s"
 
-#: scripts/dpkg-source.pl:1090
+#: scripts/dpkg-source.pl:1107
 #, perl-format
 msgid "%s does not exist"
 msgstr "%s finns inte"
 
-#: scripts/dpkg-source.pl:1093
+#: scripts/dpkg-source.pl:1110
 #, perl-format
 msgid "cannot make %s executable"
 msgstr "kan inte göra %s exekverbar"
 
-#: scripts/dpkg-source.pl:1095
+#: scripts/dpkg-source.pl:1112
 #, perl-format
 msgid "%s is not a plain file"
 msgstr "%s är inte en vanlig fil"
 
-#: scripts/dpkg-source.pl:1099
+#: scripts/dpkg-source.pl:1116
 msgid "cannot stat `.'"
 msgstr "kan inte ta status på \".\""
 
-#: scripts/dpkg-source.pl:1107
+#: scripts/dpkg-source.pl:1124
 #, perl-format
 msgid "cannot stat extracted object `%s'"
 msgstr "kan inte ta status på extraherat objekt \"%s\""
 
-#: scripts/dpkg-source.pl:1118
+#: scripts/dpkg-source.pl:1135
 #, perl-format
 msgid "unknown object `%s' after extract (mode 0%o)"
 msgstr "okänt objekt \"%s\" efter extrahering (läge 0%o)"
 
-#: scripts/dpkg-source.pl:1123
+#: scripts/dpkg-source.pl:1140
 #, perl-format
 msgid "cannot change mode of `%s' to 0%o from 0%o"
 msgstr "kan inte byta läge på \"%s\" till 0%o från 0%o"
 
-#: scripts/dpkg-source.pl:1134 scripts/Dpkg/Control.pm:81
-#: scripts/Dpkg/Shlibs/Objdump.pm:89
-#, perl-format
-msgid "cannot read %s"
-msgstr "kan inte läsa %s"
-
-#: scripts/dpkg-source.pl:1135
-#, perl-format
-msgid "cannot fstat %s"
-msgstr "kan inte ta status (fstat) på %s"
-
-#: scripts/dpkg-source.pl:1136
-#, perl-format
-msgid "file %s has size %s instead of expected %s"
-msgstr "filen %s har storleken %s istället för förväntad %s"
-
-#: scripts/dpkg-source.pl:1140
-#, perl-format
-msgid "file %s has md5sum %s instead of expected %s"
-msgstr "filen %s har md5summa %s istället för förväntad %s"
-
-#: scripts/dpkg-source.pl:1142
-msgid "reopen stdin from /dev/null"
-msgstr "öppnar standard in på nytt från /dev/null"
-
-#: scripts/dpkg-source.pl:1149
+#: scripts/dpkg-source.pl:1155
 #, perl-format
 msgid "cannot stat directory %s (before removal)"
 msgstr "kan inte ta status på katalogen %s (före borttagning)"
 
-#: scripts/dpkg-source.pl:1155
+#: scripts/dpkg-source.pl:1161
 #, perl-format
 msgid "unable to check for removal of dir `%s'"
 msgstr "kan inte kontrollera för borttagning av katalogen \"%s\""
 
-#: scripts/dpkg-source.pl:1157
+#: scripts/dpkg-source.pl:1163
 #, perl-format
 msgid "rm -rf failed to remove `%s'"
 msgstr "rm -rf misslyckades att ta bort \"%s\""
 
-#: scripts/dpkg-source.pl:1169
+#: scripts/dpkg-source.pl:1175
 msgid "fork for cpio"
 msgstr "grenar för cpio"
 
-#: scripts/dpkg-source.pl:1173
+#: scripts/dpkg-source.pl:1179
 msgid "reopen gzip for cpio"
 msgstr "öppnar gzip på nytt för cpio"
 
-#: scripts/dpkg-source.pl:1175
+#: scripts/dpkg-source.pl:1181
 msgid "exec cpio"
 msgstr "exekverar cpio"
 
-#: scripts/dpkg-source.pl:1189
+#: scripts/dpkg-source.pl:1195
 #, perl-format
 msgid "tarfile `%s' contains object with newline in its name (%s)"
 msgstr "tarfilen \"%s\" innehåller objekt med nyrad i sitt namn (%s)"
 
-#: scripts/dpkg-source.pl:1197
+#: scripts/dpkg-source.pl:1203
 #, perl-format
 msgid ""
 "first output from cpio -0t (from `%s') contains newline - you probably have "
@@ -2284,7 +2293,7 @@ msgstr ""
 "första utdata från cpio -0t (från \"%s\") innehåller nyrad - du har "
 "antagligen en för gammal version av cpio. GNU cpio 2.4.2-2 vet vi fungerar"
 
-#: scripts/dpkg-source.pl:1206
+#: scripts/dpkg-source.pl:1212
 #, perl-format
 msgid ""
 "tarfile `%s' does not extract into a directory off the current directory (%s "
@@ -2293,52 +2302,52 @@ msgstr ""
 "tarfilen \"%s\" extraherar inte till en katalog som kommer från den aktuella "
 "katalogen (%s från %s)"
 
-#: scripts/dpkg-source.pl:1215
+#: scripts/dpkg-source.pl:1221
 #, perl-format
 msgid "tarfile `%s' contains object (%s) not in expected directory (%s)"
 msgstr "tarfilen \"%s\" innehåller objekt (%s) i en oväntad katalog (%s)"
 
-#: scripts/dpkg-source.pl:1221 scripts/dpkg-source.pl:1321
+#: scripts/dpkg-source.pl:1227 scripts/dpkg-source.pl:1327
 #, perl-format
 msgid "tarfile `%s' contains object with /../ in its name (%s)"
 msgstr "tarfilen \"%s\" innehåller objekt med /../ i namnet (%s)"
 
-#: scripts/dpkg-source.pl:1248
+#: scripts/dpkg-source.pl:1254
 msgid "fork for tar -t"
 msgstr "grenar för tar -t"
 
-#: scripts/dpkg-source.pl:1252
+#: scripts/dpkg-source.pl:1258
 msgid "reopen gzip for tar -t"
 msgstr "öppnar gzip på nytt för tar -t"
 
-#: scripts/dpkg-source.pl:1253
+#: scripts/dpkg-source.pl:1259
 msgid "exec tar -vvtf -"
 msgstr "exekverar tar -vvtf -"
 
-#: scripts/dpkg-source.pl:1263
+#: scripts/dpkg-source.pl:1269
 #, perl-format
 msgid "tarfile `%s' contains unknown object listed by tar as `%s'"
 msgstr "tarfilen \"%s\" innehåller okänt objekt som tar visar som \"%s\""
 
-#: scripts/dpkg-source.pl:1270
+#: scripts/dpkg-source.pl:1276
 #, perl-format
 msgid "tarfile `%s' contains object `%s' with unknown or forbidden type `%s'"
 msgstr ""
 "tarfilen \"%s\" innehåller objektet \"%s\" med okänd eller förbjuden typ \"%s"
 "\""
 
-#: scripts/dpkg-source.pl:1280
+#: scripts/dpkg-source.pl:1286
 #, perl-format
 msgid "tarfile `%s' contains incomplete entry `%s'\n"
 msgstr "tarfilen \"%s\" innehåller ofullständig post \"%s\"\n"
 
-#: scripts/dpkg-source.pl:1304
+#: scripts/dpkg-source.pl:1310
 #, perl-format
 msgid "filename '%s' was truncated by cpio; unable to check full pathname"
 msgstr ""
 "filnamnet \"%s\" trunkerades av cpio; kan inte kontrollera komplett sökväg"
 
-#: scripts/dpkg-source.pl:1311
+#: scripts/dpkg-source.pl:1317
 #, perl-format
 msgid ""
 "tarfile `%s' contains unexpected object listed by tar as `%s'; expected `%s'"
@@ -2346,23 +2355,23 @@ msgstr ""
 "tarfilen \"%s\" innehåller oväntat objekt som tar visar som \"%s\"; "
 "förväntade \"%s\""
 
-#: scripts/dpkg-source.pl:1326
+#: scripts/dpkg-source.pl:1332
 #, perl-format
 msgid "tarfile `%s' contains file with name ending in .dpkg-orig"
 msgstr "tarfilen \"%s\" innehåller filer med namn som slutar på .dpkg-orig"
 
-#: scripts/dpkg-source.pl:1331
+#: scripts/dpkg-source.pl:1337
 #, perl-format
 msgid "tarfile `%s' contains setuid, setgid or sticky object `%s'"
 msgstr ""
 "tarfilen \"%s\" innehåller setuid-, setgid- eller klistrigt objekt \"%s\""
 
-#: scripts/dpkg-source.pl:1336
+#: scripts/dpkg-source.pl:1342
 #, perl-format
 msgid "tarfile `%s' contains object `debian' that isn't a directory"
 msgstr "tarfilen \"%s\" innehåller objektet \"debian\" som inte är en katalog"
 
-#: scripts/dpkg-source.pl:1345
+#: scripts/dpkg-source.pl:1351
 #, perl-format
 msgid ""
 "tarfile `%s' contains object `%s' but its containing directory `%s' does not "
@@ -2371,132 +2380,132 @@ msgstr ""
 "tarfilen \"%s\" innehåller objektet \"%s\", men behållarkatalogen \"%s\" "
 "föregår det inte"
 
-#: scripts/dpkg-source.pl:1383 scripts/dpkg-source.pl:1428
-#: scripts/dpkg-source.pl:1439
+#: scripts/dpkg-source.pl:1389 scripts/dpkg-source.pl:1434
+#: scripts/dpkg-source.pl:1445
 #, perl-format
 msgid "diff `%s' is missing trailing newline"
 msgstr "diffen \"%s\" saknar avslutande nyradstecken"
 
-#: scripts/dpkg-source.pl:1385
+#: scripts/dpkg-source.pl:1391
 #, perl-format
 msgid "expected ^--- in line %d of diff `%s'"
 msgstr "förväntade ^--- på rad %d i diffen \"%s\""
 
-#: scripts/dpkg-source.pl:1388
+#: scripts/dpkg-source.pl:1394
 #, perl-format
 msgid "diff `%s' patches file with no subdirectory"
 msgstr "diffen \"%s\" patchar fil utan underkatalog"
 
-#: scripts/dpkg-source.pl:1390
+#: scripts/dpkg-source.pl:1396
 #, perl-format
 msgid "diff `%s' patches file with name ending .dpkg-orig"
 msgstr "diffen \"%s\" patchar fil vars namn slutar på .dpkg-orig"
 
-#: scripts/dpkg-source.pl:1395
+#: scripts/dpkg-source.pl:1401
 #, perl-format
 msgid "diff `%s' finishes in middle of ---/+++ (line %d)"
 msgstr "diffen \"%s\" slutar mitt i en ---/+++ (rad %d)"
 
-#: scripts/dpkg-source.pl:1400 scripts/dpkg-source.pl:1407
+#: scripts/dpkg-source.pl:1406 scripts/dpkg-source.pl:1413
 #, perl-format
 msgid "line after --- isn't as expected in diff `%s' (line %d)"
 msgstr "raden efter --- är inte som förväntad i diffen \"%s\" (rad %d)"
 
-#: scripts/dpkg-source.pl:1416
+#: scripts/dpkg-source.pl:1422
 #, perl-format
 msgid "diff `%s' patches something which is not a plain file"
 msgstr "diffen \"%s\" patchar något som inte är en vanlig fil"
 
-#: scripts/dpkg-source.pl:1421
+#: scripts/dpkg-source.pl:1427
 #, perl-format
 msgid "diff patches file %s twice"
 msgstr "diffen patchar filen %s två gånger"
 
-#: scripts/dpkg-source.pl:1431
+#: scripts/dpkg-source.pl:1437
 #, perl-format
 msgid "Expected ^@@ in line %d of diff `%s'"
 msgstr "Förväntade ^@@ på rad %d i diffen \"%s\""
 
-#: scripts/dpkg-source.pl:1437
+#: scripts/dpkg-source.pl:1443
 #, perl-format
 msgid "unexpected end of diff `%s'"
 msgstr "oväntad slut på diffen \"%s\""
 
-#: scripts/dpkg-source.pl:1445
+#: scripts/dpkg-source.pl:1451
 #, perl-format
 msgid "expected [ +-] at start of line %d of diff `%s'"
 msgstr "förväntade [ + ] vid början av rad %d i diffen \"%s\""
 
-#: scripts/dpkg-source.pl:1450
+#: scripts/dpkg-source.pl:1456
 #, perl-format
 msgid "expected ^@@ at line %d of diff `%s'"
 msgstr "förväntade ^@@ på rad %d i diffen \"%s\""
 
-#: scripts/dpkg-source.pl:1461
+#: scripts/dpkg-source.pl:1467
 msgid "fork for tar -xkf -"
 msgstr "grenar för tar -xkf -"
 
-#: scripts/dpkg-source.pl:1463
+#: scripts/dpkg-source.pl:1469
 msgid "reopen gzip for tar -xkf -"
 msgstr "öppnar gzip på nytt för tar -xkf -"
 
-#: scripts/dpkg-source.pl:1466
+#: scripts/dpkg-source.pl:1472
 #, perl-format
 msgid "cannot chdir to `%s' for tar extract"
 msgstr "kan inte chdir till \"%s\" för tar-uppackning"
 
-#: scripts/dpkg-source.pl:1468
+#: scripts/dpkg-source.pl:1474
 msgid "exec tar -xkf -"
 msgstr "exekverar tar -xkf -"
 
-#: scripts/dpkg-source.pl:1471
+#: scripts/dpkg-source.pl:1477
 msgid "wait for tar -xkf -"
 msgstr "väntar på tar -xkf -"
 
-#: scripts/dpkg-source.pl:1503
+#: scripts/dpkg-source.pl:1509
 #, perl-format
 msgid "Unable to open dir %s"
 msgstr "Kan inte öppna katalogen %s"
 
-#: scripts/dpkg-source.pl:1505
+#: scripts/dpkg-source.pl:1511
 #, perl-format
 msgid "Unable to close dir %s"
 msgstr "Kan inte stänga katalogen %s"
 
-#: scripts/dpkg-source.pl:1508 scripts/dpkg-source.pl:1516
-#: scripts/dpkg-source.pl:1521
+#: scripts/dpkg-source.pl:1514 scripts/dpkg-source.pl:1522
+#: scripts/dpkg-source.pl:1527
 #, perl-format
 msgid "Unable to rename %s to %s"
 msgstr "Kan inte byta namn på %s till %s"
 
-#: scripts/dpkg-source.pl:1513
+#: scripts/dpkg-source.pl:1519
 #, perl-format
 msgid "Unable to mkdir %s"
 msgstr "Kan inte mkdir %s"
 
-#: scripts/dpkg-source.pl:1529
+#: scripts/dpkg-source.pl:1535
 msgid "reopen stderr for tar to grep out blocks message"
 msgstr "öppnar stderr på nytt för tar för att grep:a ut blockmeddelande"
 
-#: scripts/dpkg-source.pl:1539
+#: scripts/dpkg-source.pl:1545
 #, perl-format
 msgid "checktype %s (%s)"
 msgstr "kontrollerar typ %s (%s)"
 
-#: scripts/dpkg-source.pl:1547
+#: scripts/dpkg-source.pl:1553
 msgid "only one of -x or -b allowed, and only once"
 msgstr "endast en av -x och -b tillåts, och endast en gång"
 
-#: scripts/dpkg-source.pl:1552
+#: scripts/dpkg-source.pl:1558
 #, perl-format
 msgid "%s: cannot represent change to %s: %s"
 msgstr "%s: kan inte representera ändringen för %s: %s"
 
-#: scripts/dpkg-source.pl:1554 scripts/dpkg-source.pl:1563
+#: scripts/dpkg-source.pl:1560 scripts/dpkg-source.pl:1569
 msgid "write syserr unrep"
 msgstr "skriver systemfel i unrep"
 
-#: scripts/dpkg-source.pl:1559
+#: scripts/dpkg-source.pl:1565
 #, perl-format
 msgid ""
 "%s: cannot represent change to %s:\n"
@@ -2507,88 +2516,78 @@ msgstr ""
 "%s:  ny versionen är %s\n"
 "%s:  gamla versionen är %s\n"
 
-#: scripts/dpkg-source.pl:1581 scripts/dpkg-source.pl:1613
+#: scripts/dpkg-source.pl:1587 scripts/dpkg-source.pl:1619
 #, perl-format
 msgid "unknown compression type on file %s"
 msgstr "okänd komprimeringstyp på filen %s"
 
-#: scripts/dpkg-source.pl:1588
+#: scripts/dpkg-source.pl:1594
 #, perl-format
 msgid "create file %s"
 msgstr "skapar filen %s"
 
-#: scripts/dpkg-source.pl:1589
+#: scripts/dpkg-source.pl:1595
 msgid "pipe for gzip"
 msgstr "rör för gzip"
 
-#: scripts/dpkg-source.pl:1591
+#: scripts/dpkg-source.pl:1597
 msgid "fork for gzip"
 msgstr "grenar för gzip"
 
-#: scripts/dpkg-source.pl:1593
+#: scripts/dpkg-source.pl:1599
 msgid "reopen gzip pipe"
 msgstr "öppnar gzip-rör på nytt"
 
-#: scripts/dpkg-source.pl:1595
+#: scripts/dpkg-source.pl:1601
 msgid "reopen tar"
 msgstr "öppnar tar på nytt"
 
-#: scripts/dpkg-source.pl:1596
+#: scripts/dpkg-source.pl:1602
 msgid "exec gzip"
 msgstr "exekverar gzip"
 
-#: scripts/dpkg-source.pl:1616
+#: scripts/dpkg-source.pl:1622
 #, perl-format
 msgid "read file %s"
 msgstr "läser filen %s"
 
-#: scripts/dpkg-source.pl:1617
+#: scripts/dpkg-source.pl:1623
 #, perl-format
 msgid "pipe for %s"
 msgstr "rör för %s"
 
-#: scripts/dpkg-source.pl:1619 scripts/Dpkg/Changelog.pm:794
+#: scripts/dpkg-source.pl:1625 scripts/Dpkg/Changelog.pm:795
 #, perl-format
 msgid "fork for %s"
 msgstr "grenar för %s"
 
-#: scripts/dpkg-source.pl:1621
+#: scripts/dpkg-source.pl:1627
 #, perl-format
 msgid "reopen %s pipe"
 msgstr "öppnar %s-rör på nytt"
 
-#: scripts/dpkg-source.pl:1623
+#: scripts/dpkg-source.pl:1629
 msgid "reopen input file"
 msgstr "öppnar indatafilen på nytt"
 
-#: scripts/dpkg-source.pl:1624
+#: scripts/dpkg-source.pl:1630
 #, perl-format
 msgid "exec %s"
 msgstr "exekverar %s"
 
-#: scripts/dpkg-source.pl:1631
+#: scripts/dpkg-source.pl:1637
 msgid "wait for gzip"
 msgstr "väntar på gzip"
 
-#: scripts/dpkg-source.pl:1641
+#: scripts/dpkg-source.pl:1647
 #, perl-format
 msgid "tried to add file `%s' twice"
 msgstr "försökte lägga till filen \"%s\" två gånger"
 
-#: scripts/dpkg-source.pl:1642
-#, perl-format
-msgid "could not stat output file `%s'"
-msgstr "kunde inte ta status på utdatafilen \"%s\""
-
-#: scripts/dpkg-source.pl:1663
+#: scripts/dpkg-source.pl:1669
 #, perl-format
 msgid "bogus character `\\%s' in `%s'"
 msgstr "skräptecken \"\\%s\" i \"%s\""
-
-#: scripts/dpkg-source.pl:1673
-#, perl-format
-msgid "md5sum gave bogus output `%s'"
-msgstr "md5sum gav felaktig utdata \"%s\""
 
 #: scripts/changelog/debian.pl:21
 msgid ""
@@ -2631,8 +2630,8 @@ msgstr ""
 "Använd: %s [<flagga>...] [<ändringsloggfil>]\n"
 "\n"
 "Flaggor:\n"
-"    --help, -h                  visa detta hjälpmeddelanden"
-"    --version, -V               visa versionsinformation\n"
+"    --help, -h                  visa detta hjälpmeddelanden    --version, -"
+"V               visa versionsinformation\n"
 "    --label, -l <fil>           namn på ändringsloggfil att använda\n"
 "                                i felmeddelanden\n"
 "    --file <fil>                ändringsloggfil att tolka, standard\n"
@@ -2754,7 +2753,8 @@ msgstr "ödesdigert fel"
 
 #: scripts/Dpkg/Changelog.pm:229
 msgid "you can't combine 'count' or 'offset' with any other range option"
-msgstr "du kan inte kombinera \"count\" eller \"offset\" med andra intervallflaggor"
+msgstr ""
+"du kan inte kombinera \"count\" eller \"offset\" med andra intervallflaggor"
 
 #: scripts/Dpkg/Changelog.pm:233
 msgid "you can only specify one of 'from' and 'since', using 'since'"
@@ -2771,39 +2771,38 @@ msgstr "\"since\"-flaggan anger den senaste versionen, ignorerar"
 #: scripts/Dpkg/Changelog.pm:245
 msgid "'until' option specifies oldest version, ignoring"
 msgstr "\"until\"-flaggan anger den äldsta versionen, ignorerar"
-""
 
-#: scripts/Dpkg/Changelog.pm:762
+#: scripts/Dpkg/Changelog.pm:763
 #, perl-format
 msgid "tail of %s"
 msgstr "tail för %s"
 
-#: scripts/Dpkg/Changelog.pm:774
+#: scripts/Dpkg/Changelog.pm:775
 #, perl-format
 msgid "format parser %s not executable"
 msgstr "formattolk %s ej körbar"
 
-#: scripts/Dpkg/Changelog.pm:777
+#: scripts/Dpkg/Changelog.pm:778
 #, perl-format
 msgid "changelog format %s is unknown"
 msgstr "ändringsloggformatet %s okänt"
 
-#: scripts/Dpkg/Changelog.pm:798 scripts/Dpkg/Shlibs.pm:51
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:105
+#: scripts/Dpkg/Changelog.pm:799 scripts/Dpkg/Shlibs.pm:51
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:114
 #, perl-format
 msgid "cannot open %s"
 msgstr "kan inte öppna %s"
 
-#: scripts/Dpkg/Changelog.pm:800
+#: scripts/Dpkg/Changelog.pm:801
 #, perl-format
 msgid "cannot exec format parser: %s"
 msgstr "kan inte exekvera formattolk: %s"
 
-#: scripts/Dpkg/Changelog.pm:805
+#: scripts/Dpkg/Changelog.pm:806
 msgid "output of changelog parser"
 msgstr "utdata från ändringsloggparser"
 
-#: scripts/Dpkg/Changelog.pm:808
+#: scripts/Dpkg/Changelog.pm:809
 #, perl-format
 msgid "changelog parser %s"
 msgstr "ändringsloggparser %s"
@@ -2888,6 +2887,46 @@ msgstr "hittade filslut där %s förväntades"
 msgid "can't close file %s: %s"
 msgstr "kan inte stänga filen %s: %s"
 
+#: scripts/Dpkg/Checksums.pm:26
+#, perl-format
+msgid "checksum program gave bogus output `%s'"
+msgstr "program för kontrollsumma gav felaktig utdata \"%s\""
+
+#: scripts/Dpkg/Checksums.pm:37
+#, perl-format
+msgid "Unknown checksum algorithm `%s', ignoring"
+msgstr "Okänd kontrollsummealgoritm \"%s\", ignorerar"
+
+#: scripts/Dpkg/Checksums.pm:45
+#, perl-format
+msgid "Checksums-%s field contains bad line `%s'"
+msgstr "Fältet Checksums-%s innehåller felaktig rad \"%s\""
+
+#: scripts/Dpkg/Checksums.pm:57
+#, perl-format
+msgid "Conflicting file sizes `%u' and `%u' for file `%s'"
+msgstr "Motsägande filstorlekar \"%u\" och \"%u\" för filen \"%s\""
+
+#: scripts/Dpkg/Checksums.pm:81
+#, perl-format
+msgid "cannot fstat file %s"
+msgstr "kan inte ta status (fstat) på filen %s"
+
+#: scripts/Dpkg/Checksums.pm:85
+#, perl-format
+msgid "File %s has size %u instead of expected %u"
+msgstr "Filen %s har storleken %u istället för den förväntade %u"
+
+#: scripts/Dpkg/Checksums.pm:98
+#, perl-format
+msgid "File %s has checksum %s instead of expected %s (algorithm %s)"
+msgstr "Filen %s har kontrollsumman %s istället för den förväntade %s (algoritm %s)"
+
+#: scripts/Dpkg/Control.pm:81 scripts/Dpkg/Shlibs/Objdump.pm:89
+#, perl-format
+msgid "cannot read %s"
+msgstr "kan inte läsa %s"
+
 #: scripts/Dpkg/Control.pm:86
 msgid "first block lacks a source field"
 msgstr "första blocket saknar source-fält"
@@ -2904,7 +2943,7 @@ msgstr "kan inte tolka beroendet %s:"
 #: scripts/Dpkg/Deps.pm:626
 #, perl-format
 msgid "Dpkg::Deps::Simple can't evaluate implication with a %s!"
-msgstr ""
+msgstr "Dpkg::Deps::Simple kan inte utvärdera en implikation med ett %s!"
 
 #: scripts/Dpkg/ErrorHandling.pm:38 scripts/Dpkg/ErrorHandling.pm:44
 msgid "failure"
@@ -2986,27 +3025,28 @@ msgstr "Kunde inte tolka dynamisk relokeringspost: %s"
 msgid "Couldn't parse dynamic symbol definition: %s"
 msgstr "Kunde inte tolka definition av dynamisk symbol: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:111
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:120
 #, perl-format
 msgid "Symbol information must be preceded by a header (file %s, line %s)."
 msgstr "Symbolinformation måste föregås av ett huvud (fil %s, rad %s)."
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:121
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:130
 #, perl-format
 msgid "you can't use wildcards on unversioned symbols: %s"
-msgstr "du kan inte använda jokertecken på symboler som inte är versionerade: %s"
+msgstr ""
+"du kan inte använda jokertecken på symboler som inte är versionerade: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:157
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:166
 #, perl-format
 msgid "Failed to parse a line in %s: %s"
 msgstr "misslyckades att tolka en rad i %s: %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:171
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:181
 #, perl-format
 msgid "cannot write %s"
 msgstr "kan inte skriva %s"
 
-#: scripts/Dpkg/Shlibs/SymbolFile.pm:204
+#: scripts/Dpkg/Shlibs/SymbolFile.pm:214
 msgid "Can't merge symbols from objects without SONAME."
 msgstr "Kan inte slå ihop symboler från objekt utan SONAMN."
 
@@ -3045,71 +3085,100 @@ msgstr "namnet på källkodspaketet \"%s\" börjar med icke-alfanumeriskt tecken"
 msgid "source package has two conflicting values - %s and %s"
 msgstr "källkodspaketet har två emotsägande värden - %s och %s"
 
-#: scripts/Dpkg/Version.pm:205
+#: scripts/Dpkg/Version.pm:206
 #, perl-format
 msgid "version number contains illegal character `%s'"
 msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 
+#~ msgid "cannot open upload file %s for reading"
+#~ msgstr "kan inte Ã¶ppna insÃ¤ndningsfilen %s fÃ¶r lÃ¤sning"
+
+#~ msgid "cannot fstat upload file %s"
+#~ msgstr "kan inte ta status (fstat) pÃ¥ insÃ¤ndningsfilen %s"
+
+#~ msgid "upload file %s is empty"
+#~ msgstr "insÃ¤ndningsfilen %s Ã¤r tom"
+
+#~ msgid "md5sum upload file %s"
+#~ msgstr "berÃ¤kna md5-summa fÃ¶r insÃ¤ndningsfilen %s"
+
+#~ msgid "md5sum upload file %s gave strange output `%s'"
+#~ msgstr ""
+#~ "berÃ¤kning av md5-summa fÃ¶r insÃ¤ndningsfilen %s gav underlig utdata \"%s\""
+
+#~ msgid "md5sum of source file %s (%s) is different from md5sum in %s (%s)"
+#~ msgstr ""
+#~ "md5-summa fÃ¶r kÃ¤llkodsfilen %s (%s) skiljer sig frÃ¥n md5-summan i %s (%s)"
+
+#~ msgid "cannot fstat %s"
+#~ msgstr "kan inte ta status (fstat) pÃ¥ %s"
+
+#~ msgid "reopen stdin from /dev/null"
+#~ msgstr "Ã¶ppnar standard in pÃ¥ nytt frÃ¥n /dev/null"
+
+#~ msgid "could not stat output file `%s'"
+#~ msgstr "kunde inte ta status pÃ¥ utdatafilen \"%s\""
+
 #~ msgid "couldn't open %s"
-#~ msgstr "kan inte Ã¶ppna \"%s\""
+#~ msgstr "kan inte ÃƒÂ¶ppna \"%s\""
 
 #~ msgid "couldn't close %s"
-#~ msgstr "Kunde inte stÃ¤nga %s"
+#~ msgstr "Kunde inte stÃƒÂ¤nga %s"
 
 #~ msgid "Can't open %s for test: %s"
-#~ msgstr "Kunde inte Ã¶ppna %s fÃ¶r testning: %s"
+#~ msgstr "Kunde inte ÃƒÂ¶ppna %s fÃƒÂ¶r testning: %s"
 
 #~ msgid "Can't execute objdump: %s"
 #~ msgstr "kunde inte exekvera objdump: %s"
 
 #~ msgid "Can't open %s: %s"
-#~ msgstr "Kan inte Ã¶ppna %s: %s"
+#~ msgstr "Kan inte ÃƒÂ¶ppna %s: %s"
 
 #~ msgid "Can't open %s for writing: %s"
-#~ msgstr "Kunde inte Ã¶ppna %s fÃ¶r skrivning: %s"
+#~ msgstr "Kunde inte ÃƒÂ¶ppna %s fÃƒÂ¶r skrivning: %s"
 
 #~ msgid "unable to get login information for username \"%s\""
-#~ msgstr "kan inte hÃ¤mta inloggningsinformation fÃ¶r anvÃ¤ndar-id \"%s\""
+#~ msgstr "kan inte hÃƒÂ¤mta inloggningsinformation fÃƒÂ¶r anvÃƒÂ¤ndar-id \"%s\""
 
 #~ msgid ""
 #~ "no utmp entry available and LOGNAME not defined; using uid of process (%d)"
 #~ msgstr ""
-#~ "hittar ingen post i utmp och LOGNAME Ã¤r inte definierat; anvÃ¤nder "
-#~ "anvÃ¤ndar-id av process (%d)"
+#~ "hittar ingen post i utmp och LOGNAME ÃƒÂ¤r inte definierat; anvÃƒÂ¤nder anvÃƒ"
+#~ "Â¤ndar-id av process (%d)"
 
 #~ msgid "unable to get login information for uid %d"
-#~ msgstr "kan inte hÃ¤mta inloggningsinformation fÃ¶r anvÃ¤ndar-id %d"
+#~ msgstr "kan inte hÃƒÂ¤mta inloggningsinformation fÃƒÂ¶r anvÃƒÂ¤ndar-id %d"
 
 #~ msgid "write error on close control data"
-#~ msgstr "skrivfel vid stÃ¤ngning av styrdata"
+#~ msgstr "skrivfel vid stÃƒÂ¤ngning av styrdata"
 
 #~ msgid "cannot read control file %s: %s"
-#~ msgstr "kan inte lÃ¤sa styrfil %s: %s"
+#~ msgstr "kan inte lÃƒÂ¤sa styrfil %s: %s"
 
 #~ msgid "control file %s"
 #~ msgstr "styrfil %s"
 
 #~ msgid "control file must have at least one binary package part"
-#~ msgstr "styrfil mÃ¥ste innehÃ¥lla Ã¥tminstone en binÃ¤r del"
+#~ msgstr "styrfil mÃƒÂ¥ste innehÃƒÂ¥lla ÃƒÂ¥tminstone en binÃƒÂ¤r del"
 
 #~ msgid ""
 #~ "per-package paragraph %d in control info file is missing Package line"
 #~ msgstr "per-paket-stycke %d i styrinfofilen saknar Package-rad"
 
 #~ msgid "source paragraph in control info file is missing Source line"
-#~ msgstr "kÃ¤llkodsstycke i styrinfofilen saknar Source-rad"
+#~ msgstr "kÃƒÂ¤llkodsstycke i styrinfofilen saknar Source-rad"
 
 #~ msgid "fork for parse changelog"
-#~ msgstr "grenar av fÃ¶r att tolka Ã¤ndringslogg"
+#~ msgstr "grenar av fÃƒÂ¶r att tolka ÃƒÂ¤ndringslogg"
 
 #~ msgid "parse changelog"
-#~ msgstr "tolkar Ã¤ndringslogg"
+#~ msgstr "tolkar ÃƒÂ¤ndringslogg"
 
 #~ msgid "expected blank line before PGP signature"
-#~ msgstr "fÃ¶rvÃ¤ntade tomrad fÃ¶re PGP-signaturen"
+#~ msgstr "fÃƒÂ¶rvÃƒÂ¤ntade tomrad fÃƒÂ¶re PGP-signaturen"
 
 #~ msgid "found several `paragraphs' where only one expected"
-#~ msgstr "hittade flera \"stycken\" dÃ¤r endast ett fÃ¶rvÃ¤ntades"
+#~ msgstr "hittade flera \"stycken\" dÃƒÂ¤r endast ett fÃƒÂ¶rvÃƒÂ¤ntades"
 
 #~ msgid "found start of PGP body but no signature"
 #~ msgstr "hittade inledning av PGP-kropp men ingen signatur"
@@ -3118,10 +3187,10 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #~ msgstr "tom fil"
 
 #~ msgid "chown new files list file"
-#~ msgstr "byt Ã¤gare ny fillistfil"
+#~ msgstr "byt ÃƒÂ¤gare ny fillistfil"
 
 #~ msgid "value from nowhere, with key >%s< and value >%s<"
-#~ msgstr "vÃ¤rde frÃ¥n ingenstans med nyckel \"%s\" och vÃ¤rde \"%s\""
+#~ msgstr "vÃƒÂ¤rde frÃƒÂ¥n ingenstans med nyckel \"%s\" och vÃƒÂ¤rde \"%s\""
 
 #~ msgid ""
 #~ "Usage: %s [<option> ...]\n"
@@ -3134,18 +3203,18 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #~ "  -h, --help               show this help message.\n"
 #~ "      --version            show the version.\n"
 #~ msgstr ""
-#~ "AnvÃ¤nd: %s [<flagga> ...]\n"
+#~ "AnvÃƒÂ¤nd: %s [<flagga> ...]\n"
 #~ "\n"
 #~ "Flaggor:\n"
-#~ "  -l<Ã¤ndringsloggfil>      hÃ¤mta per version-information frÃ¥n filen.\n"
-#~ "  -v<sedanversion>         ta med alla Ã¤ndringar efter denna version.\n"
-#~ "  -F<Ã¤ndringsloggformat>   tvinga Ã¤ndringsloggformat.\n"
-#~ "  -L<bibliotekskatalog>    se efter Ã¤ndringsloggtolkar i katalogen.\n"
-#~ "  -h, --help               visa detta hjÃ¤lpmeddelande.\n"
+#~ "  -l<ÃƒÂ¤ndringsloggfil>      hÃƒÂ¤mta per version-information frÃƒÂ¥n filen.\n"
+#~ "  -v<sedanversion>         ta med alla ÃƒÂ¤ndringar efter denna version.\n"
+#~ "  -F<ÃƒÂ¤ndringsloggformat>   tvinga ÃƒÂ¤ndringsloggformat.\n"
+#~ "  -L<bibliotekskatalog>    se efter ÃƒÂ¤ndringsloggtolkar i katalogen.\n"
+#~ "  -h, --help               visa detta hjÃƒÂ¤lpmeddelande.\n"
 #~ "      --version            visa versionsnummer.\n"
 
 #~ msgid "cannot open %s to find format: %s"
-#~ msgstr "kan inte Ã¶ppna %s fÃ¶r att hitta format: %s"
+#~ msgstr "kan inte ÃƒÂ¶ppna %s fÃƒÂ¶r att hitta format: %s"
 
 #~ msgid "failed to check for format parser %s"
 #~ msgstr "kunde inte leta efter formattolk %s"
@@ -3159,20 +3228,20 @@ msgstr "versionsnummer innehåller ogiltigt tecken \"%s\""
 #~ "  -h, --help          print this help message.\n"
 #~ "      --version       print program version.\n"
 #~ msgstr ""
-#~ "AnvÃ¤nd: %s [<flagga>]\n"
+#~ "AnvÃƒÂ¤nd: %s [<flagga>]\n"
 #~ "\n"
 #~ "Flaggor:\n"
-#~ "  -l<Ã¤ndringslogg>    anvÃ¤nds <Ã¤ndringslogg> som filnamn vid "
+#~ "  -l<ÃƒÂ¤ndringslogg>    anvÃƒÂ¤nds <ÃƒÂ¤ndringslogg> som filnamn vid "
 #~ "rapportering.\n"
-#~ "  -v<sedanversion>    skriv Ã¤ndringar sedan <sedanversion>.\n"
-#~ "  -h, --help          visa detta hjÃ¤lpmeddelande.\n"
+#~ "  -v<sedanversion>    skriv ÃƒÂ¤ndringar sedan <sedanversion>.\n"
+#~ "  -h, --help          visa detta hjÃƒÂ¤lpmeddelande.\n"
 #~ "      --version       visa versionsnummer.\n"
 
 #~ msgid "unknown urgency value %s - comparing very low"
-#~ msgstr "okÃ¤nt vÃ¤rde %s fÃ¶r \"urgency\" - jÃ¤mfÃ¶rs som vÃ¤ldigt lÃ¥gt"
+#~ msgstr "okÃƒÂ¤nt vÃƒÂ¤rde %s fÃƒÂ¶r \"urgency\" - jÃƒÂ¤mfÃƒÂ¶rs som vÃƒÂ¤ldigt lÃƒÂ¥gt"
 
 #~ msgid "urgency >%s<"
-#~ msgstr "brÃ¥dska \"%s\""
+#~ msgstr "brÃƒÂ¥dska \"%s\""
 
 #~ msgid "%s, at file %s line %d"
-#~ msgstr "%s, i filen %s pÃ¥ rad %d"
+#~ msgstr "%s, i filen %s pÃƒÂ¥ rad %d"

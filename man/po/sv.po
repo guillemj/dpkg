@@ -6,12 +6,12 @@ msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-02-17 18:20+0100\n"
-"PO-Revision-Date: 2008-01-22 21:12+0100\n"
+"PO-Revision-Date: 2008-02-26 21:53+0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 # type: Plain text
 #: ../../man/822-date.1:2
@@ -1630,9 +1630,9 @@ msgstr "deb-shlibs"
 
 # type: TH
 #: ../../man/deb-shlibs.5:17
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-02-17"
-msgstr "2008-01-13"
+msgstr "2008-02-17"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:20
@@ -1648,12 +1648,16 @@ msgid ""
 "character are considered commentary, and are ignored.  All other lines must "
 "have the format"
 msgstr ""
+"B<shlibs>-filer skapar en koppling mellan biblioteksnamn och versioner "
+"(I<sonamn>) till beroenden som är lämpliga för en paketstyrfil. Den har "
+"en post per rad. Blanka rader är B<inte> tillåtna. Rader som inleds "
+"med ett B<#>-tecken anses vara kommentarer, och ignoreras. Alla andra "
+"rader måste vara på formatet"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:35
-#, fuzzy
 msgid "[I<tag:>] I<library> I<version> I<dependencies>"
-msgstr "E<lt>biblioteksnamnE<gt> E<lt>version/sonamnE<gt> E<lt>beroendenE<gt>"
+msgstr "[I<märke:>] I<bibliotek> I<version> I<beroenden>"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:39
@@ -1662,11 +1666,14 @@ msgid ""
 "I<dependencies> field extends to the end of the line.  The I<tag> field is "
 "optional and normally not needed."
 msgstr ""
+"Fälten I<bibliotek> och I<version> avdelas med blanktecken medan "
+"fältet I<beroenden> sträcker sig till slutet av raden. Fältet "
+"I<märke> är frivilligt och behövs vanligtvis inte."
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:41
 msgid "See the Debian Policy Manual for further details."
-msgstr ""
+msgstr "Se Debians policymanual för ytterligare detaljer."
 
 # type: SH
 #: ../../man/deb-shlibs.5:42 ../../man/dpkg.1:554
@@ -1682,11 +1689,14 @@ msgid ""
 "The B<shlibs> file for a typical library package, named I<libcrunch1>, that "
 "provides one library whose soname is I<libcrunch.so.1>, might read"
 msgstr ""
+"B<shlibs>-filen för ett typiskt bibliotekspaket, som heter I<libcrunch1> "
+"och som innehåller ett bibliotek vars sonamn är I<libcrunch.so.1>, kan "
+"se ut så här:"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:53
 msgid "libcrunch 1 libcrunch1 (E<gt>= 1.2-1)"
-msgstr ""
+msgstr "libcrunch 1 libcrunch1 (E<gt>= 1.2-1)"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:61
@@ -1697,12 +1707,16 @@ msgid ""
 "dependencies might need to be tightened; again, see the Debian Policy Manual "
 "for details."
 msgstr ""
+"Fältet I<beroenden> måste ange den senaste versionen av paketet som lade "
+"till nya symboler i biblioteket: i exemplet ovan lades nya symboler till "
+"i version 1.2 av I<libcrunch>. Det är inte den enda orsaken till att "
+"beroenden kan behöva snävas in; återigen, se Debians policymanual för "
+"detaljer."
 
 # type: TP
 #: ../../man/deb-shlibs.5:64
-#, fuzzy
 msgid "B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
-msgstr "B<dpkg-shlibdeps>(1)."
+msgstr "B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
 
 # type: TP
 #: ../../man/deb-substvars.5:2
@@ -4826,7 +4840,6 @@ msgstr "B<-r>I<få-root-kommando>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:134
-#, fuzzy
 msgid ""
 "When B<dpkg-buildpackage> needs to execute part of the build process as "
 "root, it prefixes the command it executes with I<gain-root-command> if one "
@@ -4843,10 +4856,10 @@ msgstr ""
 "När B<dpkg-buildpackages> behöver exekvera delar av byggprocessen som root "
 "sätter den kommandot som skall exekveras efter I<få-root-kommando> om ett "
 "sådant har angivits. Om inte kommer B<fakeroot> att användas som standard, "
-"om kommandot existerar. I<få-root-kommando> måste vara namnet på ett program "
-"i B<PATH> och namnet på det faktiska kommando som skall anropas och dess "
-"argument sänds som argument. I<få-root-kommando> får inte innehålla "
-"blanksteg eller andra skalmetatecken. I<få-root-kommando> kan typiskt vara "
+"om kommandot existerar. I<få-root-kommando> måste börja med namnet på det "
+"faktiska kommandot som skall anropas samt de parametrar det skall anropas "
+"med. I<få-root-kommando> kan innehålla parametrar (de måste vara avdelade "
+"med blanksteg) men inga skalmetatecken. I<få-root-kommando> kan typiskt vara "
 "B<fakeroot>, B<sudo>, B<super> eller B<really>. B<su> är inte lämpligt "
 "eftersom det kräver flaggan B<-c> för att köra ett kommando och även då kan "
 "det bara starta användarens skal med B<-c> istället för att sända flaggor "
@@ -4854,9 +4867,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:134
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-R>I<rules-file>"
-msgstr "B<-f>I<fillisfile>"
+msgstr "B<-R>I<regelfil>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:145
@@ -4868,6 +4881,12 @@ msgid ""
 "rules file with another make program (for example by using B</usr/local/bin/"
 "make -f debian/rules> as I<rules-file>)."
 msgstr ""
+"För att bygga ett Debianpaket körs normalt kommandot B<debian/rules> med "
+"flera olika standardparametrar. Den här flaggan gör det möjligt att "
+"använda ett annat programanrop för att bygga paketet (det kan innehålla "
+"blankstegsavdelade parametrar). Den kan även användas för att exekvera "
+"standardregelfilen med ett annat make-program (till exempel genom att "
+"använda B</usr/local/bin/make -f debian/rules> som I<regelfil>)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:145
@@ -4996,12 +5015,17 @@ msgid ""
 "mechanism was only introduced in dpkg-dev, version 1.14.17 and not all "
 "I<rules> files and build tools will honour these variables, yet."
 msgstr ""
+"Ett antal miljövariabler som väljer kompilator- och länkarflaggor "
+"återställs till standardvärden såvida de inte redan har satts i "
+"miljön. Observera att denna mekanism introducerades först i dpkg-dev "
+"version 1.14.17 och att inte alla I<rules>-filer och byggverktyg "
+"ännu godtar dessa variabler."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:213
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<CFLAGS>"
-msgstr "B<COLUMNS>"
+msgstr "B<CFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:226
@@ -5013,12 +5037,18 @@ msgid ""
 "level, or work around compiler bugs, which only can be seen with some "
 "optimization levels (the last opt level \"wins\")."
 msgstr ""
+"Optimeringsflaggor som sänds till debian-byggsystemet och kan/bör "
+"överstyras av paketet som byggs om så behövs (standardvärde: "
+"B<-g\\ -O2>, eller B<-g\\ -O0> om B<noopt> anges i DEB_BUILD_OPTIONS). "
+"Överstyrda flaggor kan användas för att explicit välja en högre "
+"optimeringsnivå, eller för att förbigå kompilatorfel som bara ses med "
+"vissa optimeringsnivåer (den sist satta optimeringsnivån \"vinner\")."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:226
 #, no-wrap
 msgid "B<CFLAGS_APPEND>"
-msgstr ""
+msgstr "B<CFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:231
@@ -5027,56 +5057,59 @@ msgid ""
 "overwritten by the package (mostly used to for test builds). Default value: "
 "empty."
 msgstr ""
+"Optimeringsflaggor som läggs till kompilatorflaggorna, vilka inte "
+"får skrivas över av paketet (används huvudsakligen för testbyggen). "
+"Standardvärde: tomt."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:231
 #, no-wrap
 msgid "B<CXXFLAGS>"
-msgstr ""
+msgstr "B<CXXFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:236
 msgid "Same as B<CFLAGS> for C++ sources."
-msgstr ""
+msgstr "Samma som B<CFLAGS> för C++-källkod."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:236
 #, no-wrap
 msgid "B<CXXFLAGS_APPEND>"
-msgstr ""
+msgstr "B<CXXFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:241
 msgid "Same as B<CFLAGS_APPEND> for C++ sources."
-msgstr ""
+msgstr "Samma som B<CFLAGS_APPEND> för C++-källkod."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:241
 #, no-wrap
 msgid "B<FFLAGS>"
-msgstr ""
+msgstr "B<FFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:246
 msgid "Same as B<FFLAGS> for Fortran sources."
-msgstr ""
+msgstr "Samma som B<CFLAGS> för Fortrankällkod."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:246
 #, no-wrap
 msgid "B<FFLAGS_APPEND>"
-msgstr ""
+msgstr "B<FFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:251
 msgid "Same as B<CFLAGS_APPEND> for Fortran sources."
-msgstr ""
+msgstr "Samma som B<CFLAGS_APPEND> för Fortrankällkod."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:251
 #, no-wrap
 msgid "B<CPPFLAGS>"
-msgstr ""
+msgstr "B<CPPFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:259
@@ -5086,12 +5119,17 @@ msgid ""
 "macro is seldom used (most build systems just use B<CFLAGS> instead of "
 "B<CPPFLAGS).>"
 msgstr ""
+"Förprocessorflaggor som sänds till debian-byggsystemet och kan/bör "
+"överstyras av paketet som byggs om så behövs (standardvärde: tomt). "
+"Detta makro används sällan (de flesta byggsystem använder helt "
+"enkelt B<CFLAGS> istället för B<CPPFLAGS>)."
+""
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:259
 #, no-wrap
 msgid "B<CPPFLAGS_APPEND>"
-msgstr ""
+msgstr "B<CPPFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:264
@@ -5100,12 +5138,15 @@ msgid ""
 "overwritten by the package (mostly used to for test builds). Default value: "
 "empty."
 msgstr ""
+"Förprocessorflaggor som läggs till förprocessorflaggorna, vilka inte "
+"får skrivas över av paketet (används huvudsakligen för testbyggen). "
+"Standardvärde: tomt."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:264
 #, no-wrap
 msgid "B<LDFLAGS>"
-msgstr ""
+msgstr "B<LDFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:272
@@ -5114,12 +5155,15 @@ msgid ""
 "(if the linker is called directly, then B<-Wl> and B<,> have to be stripped "
 "from these options. Default value: empty."
 msgstr ""
+"Flaggor som sänds till kompilatorn vid länkning av binärer eller delade "
+"objekt (om länkaren anropas direkt måste B<-Wl> och B<,> tas bort från "
+"dessa flaggor). Standardvärde: tomt."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:272
 #, no-wrap
 msgid "B<LDFLAGS_APPEND>"
-msgstr ""
+msgstr "B<LDFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:277
@@ -5128,6 +5172,9 @@ msgid ""
 "must not be overwritten by the package (mostly used to for test builds). "
 "Default value: empty."
 msgstr ""
+"Flaggor som läggs till kompilatorflaggorna vid länkning av kod, "
+"vilka inte får skrivas över av paketet (används huvudsakligen för "
+"testbyggen). Standardvärde: tomt."
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:282
@@ -5201,13 +5248,13 @@ msgstr ""
 #: ../../man/dpkg-checkbuilddeps.1:27
 #, no-wrap
 msgid "B<-d >I<build-depends-string>"
-msgstr ""
+msgstr "B<-d> I<byggberoendesträng>"
 
 # type: TP
 #: ../../man/dpkg-checkbuilddeps.1:29
 #, no-wrap
 msgid "B<-c >I<build-conflicts-string>"
-msgstr ""
+msgstr "B<-c> I<byggkonfliktsträng>"
 
 # type: Plain text
 #: ../../man/dpkg-checkbuilddeps.1:33
@@ -5215,6 +5262,8 @@ msgid ""
 "Use the given build dependencies/conflicts instead of those contained in the "
 "debian/control file."
 msgstr ""
+"Använd de angivna byggberoendena/-konflikterna istället för de som står i "
+"filen debian/control."
 
 # type: TP
 #: ../../man/dpkg-checkbuilddeps.1:33
@@ -6188,6 +6237,10 @@ msgid ""
 "output, however the special variable I<Format> will override the field of "
 "the same name."
 msgstr ""
+"Läs substitutionsvariabler från I<substvars-fil>; standard är "
+"B<debian/substvars>. Ingen variabelsubstitution utförs på något av "
+"fälten i utdata, men om den speciella variablen I<Format> anges "
+"kommer den överstyra fältet med samma namn."
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:85 ../../man/dpkg-gencontrol.1:48
@@ -10601,6 +10654,12 @@ msgid ""
 "but provides a more obvious panic button in cases where the user pressed "
 "B<enter> by accident."
 msgstr ""
+"Om du av misstag väljer några inställningar och vill återställa alla "
+"val till det som för närvarande är installerat på systemet trycker du "
+"på knappen B<\"C\">. Det motsvarar på ett ungefär att använda kommandot "
+"\"avbryt håll\" på alla paket, men det ger en tydligare panikknapp om "
+"användaren av misstag tryckte på B<Enter>."
+""
 
 # type: Plain text
 #: ../../man/dselect.1:439
@@ -11244,9 +11303,9 @@ msgstr "start-stop-daemon"
 
 # type: TH
 #: ../../man/start-stop-daemon.8:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-01-30"
-msgstr "2008-01-03"
+msgstr "2008-01-30"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:4
@@ -11271,7 +11330,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:34
-#, fuzzy
 msgid ""
 "Note: unless B<--pidfile> is specified, B<start-stop-daemon> behaves similar "
 "to B<killall>(1).  B<start-stop-daemon> will scan the process table looking "
@@ -11286,7 +11344,7 @@ msgstr ""
 "söka i processtabellen efter processer med motsvarande namn på processen, "
 "användar-id och/eller grupp-id (om sådant anges). Alla processer som stämmer "
 "överens kommer tillsändas KILL-signalen. För processer som har långlivade "
-"barn som måste överleva en B<--stop> måste du ange en pidfil."
+"barn som måste överleva en B<--stop>, måste du ange en pidfil."
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:36
@@ -11296,7 +11354,6 @@ msgstr "B<-S>, B<--start> [B<-->] I<argument>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:53
-#, fuzzy
 msgid ""
 "Check for the existence of a specified process.  If such a process exists, "
 "B<start-stop-daemon> does nothing, and exits with error status 1 (0 if B<--"
@@ -11308,7 +11365,7 @@ msgstr ""
 "Se om en angiven process existerar, och om så är fallet gör B<start-stop-"
 "daemon> ingenting och avslutar med status 1 (0 om B<--oknodo> anges). Om en "
 "sådan process inte existerar startas en instans, antingen med programfilen "
-"som anges med B<--exec>, (eller, om den anges, med B<--startas>). Eventuella "
+"som anges med B<--exec> eller, om den anges, med B<--startas>. Eventuella "
 "argument som ges efter B<--> på kommandoraden skickas utan ändring till "
 "programmet som startas."
 
@@ -11320,7 +11377,6 @@ msgstr "B<-K>, B<--stop>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:71
-#, fuzzy
 msgid ""
 "Checks for the existence of a specified process.  If such a process exists, "
 "B<start-stop-daemon> sends it the signal specified by B<--signal>, and exits "
@@ -11465,7 +11521,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:130
-#, fuzzy
 msgid ""
 "If I<timeout> is specified instead of I<schedule>, then the schedule "
 "I<signal>B</>I<timeout>B</KILL/>I<timeout> is used, where I<signal> is the "
@@ -11563,7 +11618,6 @@ msgstr "B<-c>, B<--chuid> I<användarnamn>|I<användar-id>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:192
-#, fuzzy
 msgid ""
 "Change to this username/uid before starting the process. You can also "
 "specify a group by appending a B<:>, then the group or gid in the same way "
@@ -11577,12 +11631,15 @@ msgstr ""
 "Byt till användarnamnet/användar-id:t innan processen startas. Du kan även "
 "ange en grupp genom att lägga till ett kolontecken, B<:>, följt av "
 "gruppnamnet eller grupp-id på samma sätt som du skull gjort till \"chown\"-"
-"kommandot (I<användare>B<:>I<grupp). När du använder alternativet måste du "
-"ha i åtanke att även både primär och tilläggs-grupp sätts, även om >B<--"
-"group>-flaggan inte anges. B<--group>-flaggan är bara till för grupper som "
+"kommandot (I<användare>B<:>I<grupp). Om du anger en användare utan att "
+"ange en grupp kommer användarens primära grupp-id att användas. När du "
+"använder alternativet måste du ha i åtanke att även både primär- och "
+"tilläggsgrupp sätts, även om B<--group>-flaggan inte anges. "
+"B<--group>-flaggan är bara till för grupper som "
 "användaren normalt inte är en medlem i (t.ex för att lägga till "
-"gruppmedlemskap för enskilda processer för standardanvändare såsom \"nobody"
-"\")."
+"gruppmedlemskap för enskilda processer för standardanvändare såsom "
+"B<nobody>)."
+""
 
 # type: TP
 #: ../../man/start-stop-daemon.8:192
@@ -11672,7 +11729,6 @@ msgstr "B<-m>, B<--make-pidfile>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:239
-#, fuzzy
 msgid ""
 "Used when starting a program that does not create its own pid file. This "
 "option will make B<start-stop-daemon> create the file referenced with B<--"
@@ -11712,6 +11768,13 @@ msgid ""
 "schedule was reached and the processes were still running, the error value "
 "is 2. For all other errors, the status is 3."
 msgstr ""
+"B<start-stop-deamon> returnerar 0 om kommandot som önskades utfördes, eller "
+"om B<--oknodo> angavs och antingen om B<--start> angavs och motsvarande "
+"process redan kördes, eller om B<--stop> angavs och ingen motsvarande process "
+"hittades. Om B<--oknodo> inte angavs och ingenting utfördes kommer 1 att "
+"returneras. Om B<--stop> och B<--retry> angavs men slutet på schemat nåddes "
+"och processer fortfarande kördes är felkoden 2. För alla andra fel är statusen "
+"3."
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:263
@@ -11719,34 +11782,38 @@ msgid ""
 "Start the B<food> daemon, unless one is already running (a process named "
 "food, running as user food, with pid in food.pid):"
 msgstr ""
+"Starta serverprocessen B<food>, såvida inte en redan kör (en process "
+"med namnet food, som körs som användaren food, med process-id i "
+"food.pid):"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:266
 #, no-wrap
 msgid "start-stop-daemon --start --oknodo --user food --name food --pidfile /var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
-msgstr ""
+msgstr "start-stop-daemon --start --oknodo --user food --name food --pidfile /var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:269
 msgid "Send B<SIGTERM> to B<food> and wait up to 5 seconds for it to stop:"
-msgstr ""
+msgstr "Sänd B<SIGTERM> till B<food> och vänta upp till fem sekunder på att "
+"den skall avslutas:"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:272
 #, no-wrap
 msgid "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry 5\n"
-msgstr ""
+msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry 5\n"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:275
 msgid "Demonstration of a custom schedule for stopping B<food>:"
-msgstr ""
+msgstr "Demonstration av ett skräddarsytt schema för att avsluta B<food>:"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:278
 #, no-wrap
 msgid "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
-msgstr ""
+msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:284
@@ -12522,8 +12589,8 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "The format for a shared library dependency information entry in these "
 #~ "files is (see the Debian Policy Manual for details):"
 #~ msgstr ""
-#~ "Formatet för en post med beroendeinformation för ett delat bibliotek i "
-#~ "dessa filer är (se Debians policyhandbok för detaljer):"
+#~ "Formatet fÃ¶r en post med beroendeinformation fÃ¶r ett delat bibliotek i "
+#~ "dessa filer Ã¤r (se Debians policyhandbok fÃ¶r detaljer):"
 
 # type: TH
 #~ msgid "2008-01-20"
@@ -12531,15 +12598,15 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 
 # type: Plain text
 #~ msgid "FIXME not used in the source!?"
-#~ msgstr "FIXME anvÃ¤nds inte i kÃ¤llkoden!?"
+#~ msgstr "FIXME anvÃƒÂ¤nds inte i kÃƒÂ¤llkoden!?"
 
 # type: Plain text
 #~ msgid ""
 #~ "Don't actually do anything, just say what would be done.  This option is "
 #~ "not yet implemented."
 #~ msgstr ""
-#~ "GÃ¶r ingenting, utan visa bara vad som skulle ha gjorts. Denna flagga har "
-#~ "Ã¤nnu inte implementerats."
+#~ "GÃƒÂ¶r ingenting, utan visa bara vad som skulle ha gjorts. Denna flagga har "
+#~ "ÃƒÂ¤nnu inte implementerats."
 
 # type: TH
 #~ msgid "2007-09-28"
@@ -12551,7 +12618,7 @@ msgstr "B<ln>(1), FHS, Filesystem Hierarchy Standard."
 #~ "also invoked B<dpkg-shlibdeps>."
 #~ msgstr ""
 #~ "Information om delade bibliotek som skapats av den aktuella "
-#~ "byggproceduren som ocksÃƒÂ¥ anropade B<dpkg-shlibdeps>."
+#~ "byggproceduren som ocksÃƒÂƒÃ‚Â¥ anropade B<dpkg-shlibdeps>."
 
 # type: UR
 #~ msgid "mailto:joeyh@debian.org"
