@@ -23,6 +23,7 @@ use Dpkg::Source::Package;
 
 use POSIX;
 use English;
+use File::Spec;
 
 textdomain("dpkg-dev");
 
@@ -179,8 +180,7 @@ if ($opmode eq 'build') {
     if (not scalar(@ARGV)) {
 	usageerr(_g("-b needs a directory"));
     }
-    my $dir = shift(@ARGV);
-    $dir =~ s{/*$}{}; # Strip trailing /
+    my $dir = File::Spec->catdir(shift(@ARGV));
     stat($dir) || syserr(_g("cannot stat directory %s"), $dir);
     if (not -d $dir) {
 	error(_g("directory argument %s is not a directory"), $dir);
@@ -338,7 +338,7 @@ if ($opmode eq 'build') {
     my $newdirectory = $srcpkg->get_basename();
     $newdirectory =~ s/_/-/g;
     if (@ARGV) {
-	$newdirectory = shift(@ARGV);
+	$newdirectory = File::Spec->catdir(shift(@ARGV));
 	if (-e $newdirectory) {
 	    error(_g("unpack target exists: %s"), $newdirectory);
 	}
