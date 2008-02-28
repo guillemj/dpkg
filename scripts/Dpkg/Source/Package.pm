@@ -26,6 +26,7 @@ use Dpkg::Cdata;
 use Dpkg::Checksums;
 use Dpkg::Version qw(parseversion);
 use Dpkg::Deps qw(@src_dep_fields);
+use Dpkg::Compression;
 
 use File::Basename;
 
@@ -169,6 +170,22 @@ sub get_basename {
     return $basename;
 }
 
+sub find_original_tarballs {
+    my ($self, $ext) = @_;
+    $ext ||= $comp_regex;
+    my $basename = $self->get_basename();
+    my @tar;
+    foreach my $dir (".", $self->{'basedir'}, $self->{'options'}{'origtardir'}) {
+        next unless defined($dir) and -d $dir;
+        opendir(DIR, $dir) || syserr(_g("cannot opendir %s"), $dir);
+        push @tar, map { "$dir/$_" }
+                  grep { /^\Q$basename\E\.orig(-\w+)?\.tar\.$ext$/ }
+                  readdir(DIR);
+        closedir(DIR);
+    }
+    return @tar;
+}
+
 sub is_signed {
     my $self = shift;
     return $self->{'is_signed'};
@@ -208,18 +225,24 @@ sub build {
     error("Dpkg::Source::Package doesn't know how to build a source package. Use one of the subclass.");
 }
 
+sub can_build {
+    my ($self, $dir) = @_;
+    return 0;
+}
+
 sub add_file {
     my ($self, $filename) = @_;
-    if (exists $self->{'files'}{$filename}) {
-        internerr(_g("tried to add file `%s' twice"), $filename);
+    my ($fn, $dir) = fileparse($filename);
+    if (exists $self->{'files'}{$fn}) {
+        internerr(_g("tried to add file `%s' twice"), $fn);
     }
     my (%sums, $size);
     getchecksums($filename, \%sums, \$size);
-    $self->{'files'}{$filename} = $size;
+    $self->{'files'}{$fn} = $size;
     foreach my $alg (sort keys %sums) {
-        $self->{'fields'}{"Checksums-$alg"} .= "\n $sums{$alg} $size $filename";
+        $self->{'fields'}{"Checksums-$alg"} .= "\n $sums{$alg} $size $fn";
     }
-    $self->{'fields'}{'Files'}.= "\n $sums{md5} $size $filename";
+    $self->{'fields'}{'Files'}.= "\n $sums{md5} $size $fn";
 }
 
 sub write_dsc {

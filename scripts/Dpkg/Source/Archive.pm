@@ -19,6 +19,7 @@ package Dpkg::Source::Archive;
 use strict;
 use warnings;
 
+use Dpkg::Source::Functions qw(erasedir);
 use Dpkg::Source::CompressedFile;
 use Dpkg::Source::Compressor;
 use Dpkg::Compression;
@@ -28,8 +29,8 @@ use Dpkg::ErrorHandling qw(error syserr warning);
 
 use POSIX;
 use File::Temp qw(tempdir);
-use File::Path qw(rmtree mkpath);
 use File::Basename qw(basename);
+use File::Spec;
 
 use base 'Dpkg::Source::CompressedFile';
 
@@ -38,7 +39,10 @@ sub create {
     $opts{"options"} ||= [];
     my %fork_opts;
     # Possibly run tar from another directory
-    $fork_opts{"chdir"} = $opts{"chdir"} if $opts{"chdir"};
+    if ($opts{"chdir"}) {
+        $fork_opts{"chdir"} = $opts{"chdir"};
+        $self->{"chdir"} = $opts{"chdir"};
+    }
     # Redirect input/output appropriately
     $fork_opts{"to_handle"} = $self->open_for_write();
     $fork_opts{"from_pipe"} = \$self->{'tar_input'};
@@ -59,13 +63,21 @@ sub _add_entry {
 
 sub add_file {
     my ($self, $file) = @_;
-    error("add_file() doesn't handle directories") if not -l $file and -d _;
+    my $testfile = $file;
+    if ($self->{"chdir"}) {
+        $testfile = File::Spec->catfile($self->{"chdir"}, $file);
+    }
+    error("add_file() doesn't handle directories") if not -l $testfile and -d _;
     $self->_add_entry($file);
 }
 
 sub add_directory {
     my ($self, $file) = @_;
-    error("add_directory() only handles directories") unless not -l $file and -d _;
+    my $testfile = $file;
+    if ($self->{"chdir"}) {
+        $testfile = File::Spec->catdir($self->{"chdir"}, $file);
+    }
+    error("add_directory() only handles directories") unless not -l $testfile and -d _;
     $self->_add_entry($file);
 }
 
@@ -76,6 +88,7 @@ sub finish {
     delete $self->{'pid'};
     delete $self->{'tar_input'};
     delete $self->{'cwd'};
+    delete $self->{'chdir'};
     $self->cleanup_after_open();
 }
 
@@ -129,11 +142,11 @@ sub extract {
     subprocerr("chmod -R $modes_set $tmp") if $?;
 
     # Rename extracted directory
-    opendir(D, $tmp) || syserr(_g("Unable to open dir %s"), $tmp);
+    opendir(D, $tmp) || syserr(_g("cannot opendir %s"), $tmp);
     my @entries = grep { $_ ne "." && $_ ne ".." } readdir(D);
     closedir(D);
     my $done = 0;
-    rmtree($dest) if -e $dest;
+    erasedir($dest);
     if (scalar(@entries) == 1 && -d "$tmp/$entries[0]") {
 	rename("$tmp/$entries[0]", $dest) ||
 		syserr(_g("Unable to rename %s to %s"),
@@ -142,7 +155,7 @@ sub extract {
 	rename($tmp, $dest) ||
 		syserr(_g("Unable to rename %s to %s"), $tmp, $dest);
     }
-    rmtree($tmp);
+    erasedir($tmp);
 }
 
 1;
