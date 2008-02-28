@@ -35,7 +35,7 @@ use POSIX;
 use File::Basename;
 use File::Temp qw(tempfile);
 
-sub extract {
+sub do_extract {
     my ($self, $newdirectory) = @_;
     my $sourcestyle = $self->{'options'}{'sourcestyle'};
     my $fields = $self->{'fields'};
@@ -152,7 +152,7 @@ sub extract {
     }
 }
 
-sub build {
+sub do_build {
     my ($self, $dir) = @_;
     my $sourcestyle = $self->{'options'}{'sourcestyle'};
     my @argv = @{$self->{'options'}{'ARGV'}};

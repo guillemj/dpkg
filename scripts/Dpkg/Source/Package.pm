@@ -27,6 +27,7 @@ use Dpkg::Checksums;
 use Dpkg::Version qw(parseversion);
 use Dpkg::Deps qw(@src_dep_fields);
 use Dpkg::Compression;
+use Dpkg::Exit;
 
 use File::Basename;
 
@@ -216,12 +217,30 @@ sub check_signature {
 }
 
 sub extract {
+    my $self = shift;
+    eval { $self->do_extract(@_) };
+    if ($@) {
+        &$_() foreach reverse @Dpkg::Exit::handlers;
+        die $@;
+    }
+}
+
+sub do_extract {
     error("Dpkg::Source::Package doesn't know how to unpack a source package. Use one of the subclass.");
 }
 
 # Function used specifically during creation of a source package
 
 sub build {
+    my $self = shift;
+    eval { $self->do_build(@_) };
+    if ($@) {
+        &$_() foreach reverse @Dpkg::Exit::handlers;
+        die $@;
+    }
+}
+
+sub do_build {
     error("Dpkg::Source::Package doesn't know how to build a source package. Use one of the subclass.");
 }
 
