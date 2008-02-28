@@ -27,7 +27,7 @@ use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
-use Dpkg::Version qw(check_version parseversion);
+use Dpkg::Version qw(check_version);
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
 
@@ -45,17 +45,10 @@ sub extract {
 	usageerr(_g("source handling style -s%s not allowed with -x"),
 	         $sourcestyle);
 
-    my $dsc = $self->get_filename();
     my $dscdir = $self->{'basedir'};
-
-    my $sourcepackage = $fields->{'Source'};
 
     check_version($fields->{'Version'});
 
-    my %v = parseversion($fields->{'Version'});
-    my $baseversion = $v{'version'};
-    my $revision = ($version =~ m/-/) ? $v{'revision'} : '';
-    my $version = $baseversion . ($revision ? "-$revision" : "");
     my $basename = $self->get_basename();
     my $basenamerev = $self->get_basename(1);
 
@@ -68,7 +61,8 @@ sub extract {
 	} elsif ($file =~ /^\Q$basenamerev\E\.diff\.gz$/) {
 	    $difffile = $file;
 	} else {
-	    error(_g("unrecognized file for a v1.0 source package: %s"), $file);
+	    error(_g("unrecognized file for a %s source package: %s"),
+                  "v1.0", $file);
 	}
     }
 
@@ -82,13 +76,12 @@ sub extract {
 	    unless defined $tarfile;
     }
 
-    $newdirectory = $sourcepackage.'-'.$baseversion unless defined($newdirectory);
     my $expectprefix = $newdirectory;
     $expectprefix .= '.orig' if $difffile;
 
     erasedir($newdirectory);
-    if (-e "$expectprefix") {
-	rename("$expectprefix","$newdirectory.tmp-keep") ||
+    if (-e $expectprefix) {
+	rename($expectprefix, "$newdirectory.tmp-keep") ||
                 syserr(_g("unable to rename `%s' to `%s'"), $expectprefix,
                        "$newdirectory.tmp-keep");
     }
@@ -122,7 +115,7 @@ sub extract {
             }
 
             if ($copy_required) {
-                system('cp','--',"$dscdir$tarfile", $tarfile);
+                system('cp', '--', "$dscdir$tarfile", $tarfile);
                 subprocerr("cp $dscdir$tarfile to $tarfile") if $?;
             }
         }
@@ -131,20 +124,20 @@ sub extract {
             if (-e "$newdirectory.tmp-keep") {
                 error(_g("unable to keep orig directory (already exists)"));
             }
-            system('cp','-ar','--',$expectprefix,"$newdirectory.tmp-keep");
+            system('cp', '-ar', '--', $expectprefix, "$newdirectory.tmp-keep");
             subprocerr("cp $expectprefix to $newdirectory.tmp-keep") if $?;
         }
     }
 
     if ($newdirectory ne $expectprefix)
     {
-	rename($expectprefix,$newdirectory) ||
+	rename($expectprefix, $newdirectory) ||
 	    syserr(_g("failed to rename newly-extracted %s to %s"),
 	           $expectprefix, $newdirectory);
 
 	# rename the copied .orig directory
 	if (-e "$newdirectory.tmp-keep") {
-	    rename("$newdirectory.tmp-keep",$expectprefix) ||
+	    rename("$newdirectory.tmp-keep", $expectprefix) ||
                     syserr(_g("failed to rename saved %s to %s"),
 	                   "$newdirectory.tmp-keep", $expectprefix);
         }
