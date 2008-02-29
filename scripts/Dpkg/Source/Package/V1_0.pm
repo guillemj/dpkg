@@ -23,7 +23,7 @@ use base 'Dpkg::Source::Package';
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr);
+use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr info);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
@@ -86,7 +86,7 @@ sub do_extract {
                        "$newdirectory.tmp-keep");
     }
 
-    printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
+    info(_g("unpacking %s"), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($expectprefix);
 
@@ -145,7 +145,7 @@ sub do_extract {
 
     if ($difffile) {
         my $patch = "$dscdir$difffile";
-	printf(_g("%s: applying %s")."\n", $progname, $patch);
+	info(_g("applying %s"), $patch);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
 	$patch_obj->apply($newdirectory, force_timestamp => 1,
                           timestamp => time());
@@ -285,8 +285,8 @@ sub do_build {
 	    syserr(_g("unable to check for existence of `%s'"), $tarname);
         }
 
-        printf(_g("%s: building %s in %s")."\n",
-               $progname, $sourcepackage, $tarname);
+	info(_g("building %s in %s"),
+	     $sourcepackage, $tarname);
 
 	my ($ntfh, $newtar) = tempfile("$tarname.new.XXXXXX",
 				       DIR => getcwd(), UNLINK => 0);
@@ -302,8 +302,8 @@ sub do_build {
 	chmod(0666 &~ umask(), $tarname) ||
 	    syserr(_g("unable to change permission of `%s'"), $tarname);
     } else {
-        printf(_g("%s: building %s using existing %s")."\n",
-               $progname, $sourcepackage, $tarname);
+	info(_g("building %s using existing %s"),
+	     $sourcepackage, $tarname);
     }
 
     $self->add_file($tarname);
@@ -330,8 +330,8 @@ sub do_build {
     my $ur; # Unrepresentable changes
     if ($sourcestyle =~ m/[kpursKPUR]/) {
 	my $diffname = "$basenamerev.diff.gz";
-        printf(_g("%s: building %s in %s")."\n",
-               $progname, $sourcepackage, $diffname);
+	info(_g("building %s in %s"),
+	     $sourcepackage, $diffname);
 	my ($ndfh, $newdiffgz) = tempfile("$diffname.new.XXXXXX",
 					DIR => getcwd(), UNLINK => 0);
         my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,

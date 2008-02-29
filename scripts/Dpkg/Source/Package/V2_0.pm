@@ -23,7 +23,7 @@ use base 'Dpkg::Source::Package';
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr);
+use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr info);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
@@ -71,14 +71,14 @@ sub do_extract {
     erasedir($newdirectory);
 
     # Extract main tarball
-    printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
+    info(_g("unpacking %s"), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($newdirectory);
 
     # Extract additional orig tarballs
     foreach my $subdir (keys %origtar) {
         my $file = $origtar{$subdir};
-        printf(_g("%s: unpacking %s")."\n", $progname, $file);
+	info(_g("unpacking %s"), $file);
         $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
         $tar->extract("$newdirectory/$subdir");
     }
@@ -117,7 +117,7 @@ sub apply_patches {
     my ($self, $dir, $skip_auto) = @_;
     my $timestamp = time();
     foreach my $patch ($self->get_patches($dir, $skip_auto)) {
-        printf(_g("%s: applying %s")."\n", $progname, basename($patch)) unless $skip_auto;
+	info(_g("applying %s"), basename($patch)) unless $skip_auto;
         my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
         $patch_obj->apply($dir, force_timestamp => 1,
                           timestamp => $timestamp);
@@ -168,8 +168,8 @@ sub do_build {
 
     error(_g("no orig.tar file found")) unless $tarfile;
 
-    printf(_g("%s: building %s using existing %s")."\n",
-           $progname, $sourcepackage, "@origtarballs");
+    info(_g("building %s using existing %s"),
+	 $sourcepackage, "@origtarballs");
 
     # Unpack a second copy for comparison
     my $tmp = tempdir("$dirname.orig.XXXXXX", DIR => $updir);
@@ -225,8 +225,8 @@ sub do_build {
 
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
-    printf(_g("%s: building %s in %s")."\n",
-           $progname, $sourcepackage, $debianfile);
+    info(_g("building %s in %s"),
+	 $sourcepackage, $debianfile);
     $tar = Dpkg::Source::Archive->new(filename => $debianfile);
     $tar->create(options => \@tar_ignore, 'chdir' => $dir);
     $tar->add_directory("debian");

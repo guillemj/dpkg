@@ -33,7 +33,7 @@ use File::Temp qw(tempdir);
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::Compression;
-use Dpkg::ErrorHandling qw(error warning subprocerr syserr);
+use Dpkg::ErrorHandling qw(error warning subprocerr syserr info);
 use Dpkg::Version qw(check_version);
 use Dpkg::Source::Archive;
 use Dpkg::Exit;
@@ -205,8 +205,8 @@ sub do_build {
 
     # Create the tar file
     my $debianfile = "$basenamerev.git.tar." . $self->{'options'}{'comp_ext'};
-    printf(_g("%s: building %s in %s")."\n",
-	   $progname, $sourcepackage, $debianfile);
+    info(_g("building %s in %s"),
+	 $sourcepackage, $debianfile);
     my $tar = Dpkg::Source::Archive->new(filename => $debianfile,
 					 compression => $self->{'options'}{'compression'},
 					 compression_level => $self->{'options'}{'comp_level'});
@@ -245,7 +245,7 @@ sub do_extract {
     erasedir($newdirectory);
 
     # Extract main tarball
-    printf(_g("%s: unpacking %s")."\n", $progname, $tarfile);
+    info(_g("unpacking %s"), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
     $tar->extract($newdirectory);
 
