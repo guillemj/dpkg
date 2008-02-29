@@ -78,12 +78,18 @@ sub do_extract {
     # Extract additional orig tarballs
     foreach my $subdir (keys %origtar) {
         my $file = $origtar{$subdir};
-	info(_g("unpacking %s"), $file);
+        info(_g("unpacking %s"), $file);
+        if (-e "$newdirectory/$subdir") {
+            warning(_g("required removal of `%s' installed by original tarball"), $subdir);
+            erasedir("$newdirectory/$subdir");
+        }
         $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
         $tar->extract("$newdirectory/$subdir");
     }
 
-    # Extract debian tarball
+    # Extract debian tarball after removing the debian directory
+    info(_g("%s: unpacking %s"), $debianfile);
+    erasedir("$newdirectory/debian");
     $tar = Dpkg::Source::Archive->new(filename => "$dscdir$debianfile");
     $tar->extract("$newdirectory/debian");
 
@@ -187,7 +193,7 @@ sub do_build {
     }
 
     # Copy over the debian directory
-    system("cp", "-a", "$dir/debian", "$tmp/");
+    system("cp", "-a", "--", "$dir/debian", "$tmp/");
     subprocerr(_g("copy of the debian directory")) if $?;
 
     # Apply all patches except the last automatic one
