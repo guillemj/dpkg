@@ -30,10 +30,13 @@ use Dpkg::Source::Patch;
 use Dpkg::Version qw(check_version);
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
+use Dpkg::Source::Package::V1_0::native;
+use Dpkg::Path qw(check_files_are_the_same);
 
 use POSIX;
 use File::Basename;
 use File::Temp qw(tempfile);
+use File::Spec;
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
@@ -68,69 +71,43 @@ sub do_extract {
 
     error(_g("no tarfile in Files field")) unless $tarfile;
     my $native = $difffile ? 0 : 1;
+    if ($native and ($tarfile =~ /\.orig\.tar\.gz$/)) {
+        warning(_g("native package with .orig.tar"));
+        $native = 0; # V1_0::native doesn't handle orig.tar
+    }
+
     if ($native) {
-	warning(_g("native package with .orig.tar"))
-            if $tarfile =~ /\.orig\.tar\.gz$/;
+        Dpkg::Source::Package::V1_0::native::do_extract($self, $newdirectory);
     } else {
-	warning(_g("no upstream tarfile in Files field"))
-	    unless defined $tarfile;
-    }
+        my $expectprefix = $newdirectory;
+        $expectprefix .= '.orig';
 
-    my $expectprefix = $newdirectory;
-    $expectprefix .= '.orig' if $difffile;
+        erasedir($newdirectory);
+        if (-e $expectprefix) {
+            rename($expectprefix, "$newdirectory.tmp-keep") ||
+                    syserr(_g("unable to rename `%s' to `%s'"), $expectprefix,
+                           "$newdirectory.tmp-keep");
+        }
 
-    erasedir($newdirectory);
-    if (-e $expectprefix) {
-	rename($expectprefix, "$newdirectory.tmp-keep") ||
-                syserr(_g("unable to rename `%s' to `%s'"), $expectprefix,
-                       "$newdirectory.tmp-keep");
-    }
+        info(_g("unpacking %s"), $tarfile);
+        my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
+        $tar->extract($expectprefix);
 
-    info(_g("unpacking %s"), $tarfile);
-    my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
-    $tar->extract($expectprefix);
-
-    # for the first tar file:
-    if ($tarfile and not $native)
-    {
-        # -sp: copy the .orig.tar.gz if required
         if ($sourcestyle =~ /p/) {
-            stat("$dscdir$tarfile") ||
-                syserr(_g("failed to stat `%s' to see if need to copy"),
-                       "$dscdir$tarfile");
-
-            my ($dsctardev, $dsctarino) = stat _;
-            my $copy_required;
-
-            if (stat($tarfile)) {
-                my ($dumptardev, $dumptarino) = stat _;
-                $copy_required = ($dumptardev != $dsctardev ||
-                                  $dumptarino != $dsctarino);
-            } else {
-                unless ($! == ENOENT) {
-                    syserr(_g("failed to check destination `%s' " .
-                              "to see if need to copy"), $tarfile);
-                }
-                $copy_required = 1;
-            }
-
-            if ($copy_required) {
+            # -sp: copy the .orig.tar.gz if required
+            if (not check_files_are_the_same("$dscdir$tarfile", $tarfile)) {
                 system('cp', '--', "$dscdir$tarfile", $tarfile);
                 subprocerr("cp $dscdir$tarfile to $tarfile") if $?;
             }
-        }
-        # -su: keep .orig directory unpacked
-        elsif ($sourcestyle =~ /u/ and $expectprefix ne $newdirectory) {
+        } elsif ($sourcestyle =~ /u/) {
+            # -su: keep .orig directory unpacked
             if (-e "$newdirectory.tmp-keep") {
                 error(_g("unable to keep orig directory (already exists)"));
             }
             system('cp', '-ar', '--', $expectprefix, "$newdirectory.tmp-keep");
             subprocerr("cp $expectprefix to $newdirectory.tmp-keep") if $?;
         }
-    }
 
-    if ($newdirectory ne $expectprefix)
-    {
 	rename($expectprefix, $newdirectory) ||
 	    syserr(_g("failed to rename newly-extracted %s to %s"),
 	           $expectprefix, $newdirectory);
@@ -145,7 +122,7 @@ sub do_extract {
 
     if ($difffile) {
         my $patch = "$dscdir$difffile";
-	info(_g("applying %s"), $patch);
+	info(_g("applying %s"), $difffile);
 	my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
 	$patch_obj->apply($newdirectory, force_timestamp => 1,
                           timestamp => time());
@@ -167,8 +144,6 @@ sub do_build {
     my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
     my $diff_ignore_regexp = $self->{'options'}{'diff_ignore_regexp'};
 
-    $dir =~ s{/+$}{}; # Strip trailing /
-
     if (scalar(@argv) > 1) {
         usageerr(_g("-b takes at most a directory and an orig source ".
                     "argument (with v1.0 source package)"));
@@ -177,7 +152,7 @@ sub do_build {
     $sourcestyle =~ y/X/A/;
     unless ($sourcestyle =~ m/[akpursnAKPUR]/) {
         usageerr(_g("source handling style -s%s not allowed with -b"),
-		$sourcestyle);
+                 $sourcestyle);
     }
 
     my $sourcepackage = $self->{'fields'}{'Source'};
@@ -205,8 +180,7 @@ sub do_build {
             stat($origarg) ||
                 syserr(_g("cannot stat orig argument %s"), $origarg);
             if (-d _) {
-                $origdir = $origarg;
-                $origdir =~ s{/*$}{};
+                $origdir = File::Spec->catdir($origarg);
 
                 $sourcestyle =~ y/aA/rR/;
                 unless ($sourcestyle =~ m/[ursURS]/) {
@@ -277,13 +251,11 @@ sub do_build {
 	               ".orig.tar (wanted %s)"),
 	            $tarname, "$basename.orig.tar.gz");
 	}
-    } else {
-	$tardirbase = $dirbase;
-        $tardirname = $dirname;
-	$tarname = "$basenamerev.tar.gz";
     }
 
-    if ($sourcestyle =~ m/[nurUR]/) {
+    if ($sourcestyle eq "n") {
+        Dpkg::Source::Package::V1_0::native::build($self, $dir);
+    } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {
             unless ($sourcestyle =~ m/[nUR]/) {
 		error(_g("tarfile `%s' already exists, not overwriting, " .
@@ -343,7 +315,7 @@ sub do_build {
 	my ($ndfh, $newdiffgz) = tempfile("$diffname.new.XXXXXX",
 					DIR => getcwd(), UNLINK => 0);
         my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
-                compression => get_compression_from_filename($diffname));
+                                            compression => "gzip");
         $diff->create();
         $diff->add_diff_directory($origdir, $dir,
                 basedirname => $basedirname,

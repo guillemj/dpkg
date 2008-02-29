@@ -82,7 +82,7 @@ _darcs
 {arch}
 );
 
-my @build_formats = ("1.0");
+my @build_formats = ("1.0", "1.0 (native)");
 my %options = (
     # Compression related
     compression => 'gzip',
