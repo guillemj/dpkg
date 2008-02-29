@@ -7,7 +7,7 @@ use warnings;
 use Dpkg;
 use Dpkg::Gettext;
 use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
-                           internerr syserr subprocerr usageerr
+                           internerr syserr subprocerr usageerr info
                            $warnable_error $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
@@ -82,7 +82,7 @@ _darcs
 {arch}
 );
 
-my $def_dscformat = "1.0"; # default format for -b
+my @build_formats = ("1.0");
 my %options = (
     # Compression related
     compression => 'gzip',
@@ -100,7 +100,6 @@ my %remove;
 my %override;
 
 my $substvars = Dpkg::Substvars->new();
-
 my $opmode;
 my $tar_ignore_default_pattern_done;
 
@@ -110,6 +109,8 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         setopmode('build');
     } elsif (m/^-x$/) {
         setopmode('extract');
+    } elsif (m/^--format=(.*)$/) {
+        unshift @build_formats, $1;
     } elsif (m/^-Z/) {
 	my $compression = $POSTMATCH;
 	$options{'compression'} = $compression;
@@ -197,9 +198,6 @@ if ($opmode eq 'build') {
 
     my $srcpkg = Dpkg::Source::Package->new(options => \%options);
     my $fields = $srcpkg->{'fields'};
-
-    # TODO: find another way to switch default building format
-    $fields->{"Format"} = $options{'compression'} eq 'gzip' ? $def_dscformat : '2.0';
 
     my @sourcearch;
     my %archadded;
@@ -299,16 +297,23 @@ if ($opmode eq 'build') {
     
     $fields->{'Binary'} = join(', ', @binarypackages);
 
-    # Format is supposedly defined, switch to corresponding object type
-    $srcpkg->upgrade_object_type(); # Fails if format is unsupported
+    unshift @build_formats, $fields->{'Format'} if exists $fields->{'Format'};
+    # Try all suggested formats until one is acceptable
+    foreach my $format (@build_formats) {
+        $fields->{'Format'} = $format;
+        $srcpkg->upgrade_object_type(); # Fails if format is unsupported
+        my ($res, $msg) = $srcpkg->can_build($dir);
+        last if $res;
+        info(_g("source format `%s' discarded: %s"), $format, $msg);
+    }
+    info(_g("using source format `%s'"), $fields->{'Format'});
 
     # Build the files (.tar.gz, .diff.gz, etc)
     $srcpkg->build($dir);
 
     # Write the .dsc
     my $dscname = $srcpkg->get_basename(1) . ".dsc";
-    printf(_g("%s: building %s in %s")."\n",
-           $progname, $sourcepackage, $dscname);
+    info(_g("building %s in %s"), $sourcepackage, $dscname);
     $substvars->parse($varlistfile) if $varlistfile && -e $varlistfile;
     $srcpkg->write_dsc(filename => $dscname,
 		       remove => \%remove,
@@ -353,8 +358,7 @@ if ($opmode eq 'build') {
     $srcpkg->check_checksums();
 
     # Unpack the source package (delegated to Dpkg::Source::Package::*)
-    printf(_g("%s: extracting %s in %s")."\n",
-           $progname, $srcpkg->{'fields'}{'Source'}, $newdirectory);
+    info(_g("extracting %s in %s"), $srcpkg->{'fields'}{'Source'}, $newdirectory);
     $srcpkg->extract($newdirectory);
 
     # Make sure debian/rules is executable

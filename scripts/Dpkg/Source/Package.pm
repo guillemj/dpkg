@@ -246,7 +246,7 @@ sub do_build {
 
 sub can_build {
     my ($self, $dir) = @_;
-    return 0;
+    return (0, "can_build() has not been overriden");
 }
 
 sub add_file {
