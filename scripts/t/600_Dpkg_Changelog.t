@@ -6,7 +6,7 @@ use warnings;
 use File::Basename;
 
 BEGIN {
-    my $no_examples = 3;
+    my $no_examples = 4;
     my $no_err_examples = 1;
     my $no_tests = $no_examples * 4
 	+ $no_err_examples * 2
@@ -32,7 +32,8 @@ my $test = Dpkg::Changelog::Debian->init( { infile => '/nonexistant',
 ok( !defined($test), "fatal parse errors lead to init() returning undef");
 
 my $save_data;
-foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields") {
+foreach my $file ("$srcdir/countme", "$srcdir/shadow", "$srcdir/fields",
+    "$srcdir/regressions") {
 
     my $changes = Dpkg::Changelog::Debian->init( { infile => $file,
 						   quiet => 1 } );
@@ -217,20 +218,21 @@ Xc-Userfield: foobar
 # 		'version numbers in module and Changes match' );
 #     }
 
-    my $oldest_version = $data[-1]->{Version};
-    $str = $changes->dpkg_str({ since => $oldest_version });
+    SKIP: {
+	skip("avoid spurios warning with only one entry", 2)
+	    if @data == 1;
 
-#    is( $str, `dpkg-parsechangelog -v$oldest_version -l$file`,
-#	'Output of dpkg_str equal to output of dpkg-parsechangelog' )
-#	or diag("oldest_version=$oldest_version");
+	my $oldest_version = $data[-1]->{Version};
+	$str = $changes->dpkg_str({ since => $oldest_version });
 
-    $str = $changes->rfc822_str();
+	$str = $changes->rfc822_str();
 
-    ok( 1 );
+	ok( 1 );
 
-    $str = $changes->rfc822_str({ since => $oldest_version });
+	$str = $changes->rfc822_str({ since => $oldest_version });
 
-    ok( 1 );
+	ok( 1 );
+    }
 }
 
 open CHANGES, '<', "$srcdir/countme";
