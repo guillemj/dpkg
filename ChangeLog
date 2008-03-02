@@ -1,3 +1,20 @@
+2008-03-02  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-gencontrol.pl, scripts/dpkg-source.pl:
+	Do not sort the dependency fields as order matters given
+	the greedy algorithm that APT uses when trying to resolve
+	dependencies. See discussion on debian-devel:
+	http://lists.debian.org/debian-devel/2008/02/msg00893.html
+	* man/dpkg-gencontrol.1: Document the above changes.
+
+	* scripts/Dpkg/Deps.pm (simplify_deps): Tries to respect order put
+	by the maintainer when simplifying dependencies.
+	* scripts/t/400_Dpkg_Deps.t: Add a test-case to ensure that
+	further changes respect this constraint.
+
+	* scripts/dpkg-shlibdeps.pl: Sort generated dependencies to
+	have a deterministic output.
+
 2008-02-29  Frank Lichtenheld  <djpig@debian.org>
 
 	* scripts/Dpkg/Changelog/Debian.pm (parse):

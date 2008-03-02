@@ -46,6 +46,15 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     concerns upgrading from dpkg version older than the one in oldstable
     already. And thus we get rid of old the last usage of read in those
     scripts (fixes lintian's warning read-in-maintainer-script).
+  * Removed sorting of dependencies in dpkg-gencontrol and dpkg-source. But
+    kept it for all other fields (Enhances, Conflicts, Replaces, Breaks,
+    Build-Conflicts and Build-Conflicts-Indep).
+  * Instead changed dpkg-shlibdeps to sort the dependencies generated in
+    ${shlibs:*} variables.
+  * Changed the logic of simplification of dependencies: if any dependency
+    must be discarded due to another dependency appearing further
+    in the field, the superseding dependency will take the place of the
+    discarded one. Added a test case for this.
 
   [ Frank Lichtenheld ]
   * Add a warning in dpkg-buildpackage if the build-dependencies are not

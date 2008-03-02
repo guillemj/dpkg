@@ -1,6 +1,6 @@
 # -*- mode: cperl;-*-
 
-use Test::More tests => 14;
+use Test::More tests => 15;
 
 use strict;
 use warnings;
@@ -52,6 +52,10 @@ fake(>> 3.0), fake (= 2.5), python (<< 2.5), python (= 2.4)";
 my $dep_dup_union = Dpkg::Deps::parse($field_dup_union, union => 1);
 $dep_dup_union->simplify_deps($facts);
 is($dep_dup_union->dump(), "libc6 (>> 2.3), fake (<< 2.0), fake (>> 3.0), fake (= 2.5), python (<< 2.5)", "Simplify union deps");
+
+my $dep_red = Dpkg::Deps::parse("abc | xyz, two, abc");
+$dep_red->simplify_deps($facts, $dep_opposite);
+is($dep_red->dump(), "abc, two", "Simplification respect order");
 
 my $dep_empty1 = Dpkg::Deps::parse("");
 is($dep_empty1->dump(), "", "Empty dependency");
