@@ -208,7 +208,7 @@ sub add_diff_directory {
         my $fn = File::Spec->abs2rel($_, $old);
         return if &$diff_ignore($fn);
         return if $files_in_new{$fn};
-        lstat("$new/$fn") || syserr(_g("cannot stat file %s"), "$old/$fn");
+        lstat("$old/$fn") || syserr(_g("cannot stat file %s"), "$old/$fn");
         if (-f _) {
             warning(_g("ignoring deletion of file %s"), $fn);
         } elsif (-d _) {

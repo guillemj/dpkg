@@ -114,8 +114,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Package/V1_0.pm \
 	Dpkg/Source/Package/V1_0/native.pm \
 	Dpkg/Source/Package/V2_0.pm \
+	Dpkg/Source/Package/V3_0/git.pm \
 	Dpkg/Source/Patch.pm \
-	Dpkg/Source/VCS/git.pm \
 	Dpkg.pm
 
 do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \

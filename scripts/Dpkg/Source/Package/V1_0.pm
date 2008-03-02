@@ -314,6 +314,7 @@ sub do_build {
 	     $sourcepackage, $diffname);
 	my ($ndfh, $newdiffgz) = tempfile("$diffname.new.XXXXXX",
 					DIR => getcwd(), UNLINK => 0);
+        push @Dpkg::Exit::handlers, sub { unlink($newdiffgz) };
         my $diff = Dpkg::Source::Patch->new(filename => $newdiffgz,
                                             compression => "gzip");
         $diff->create();
@@ -321,6 +322,7 @@ sub do_build {
                 basedirname => $basedirname,
                 diff_ignore_regexp => $diff_ignore_regexp);
         $diff->finish() || $ur++;
+        pop @Dpkg::Exit::handlers;
 
 	rename($newdiffgz, $diffname) ||
 	    syserr(_g("unable to rename `%s' (newly created) to `%s'"),
