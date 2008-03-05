@@ -30,7 +30,7 @@ use Dpkg::Source::Patch;
 use Dpkg::Version qw(check_version);
 use Dpkg::Exit;
 use Dpkg::Source::Functions qw(erasedir);
-use Dpkg::Source::Package::V1_0::native;
+use Dpkg::Source::Package::V3_0::native;
 use Dpkg::Path qw(check_files_are_the_same);
 
 use POSIX;
@@ -73,11 +73,11 @@ sub do_extract {
     my $native = $difffile ? 0 : 1;
     if ($native and ($tarfile =~ /\.orig\.tar\.gz$/)) {
         warning(_g("native package with .orig.tar"));
-        $native = 0; # V1_0::native doesn't handle orig.tar
+        $native = 0; # V3_0::native doesn't handle orig.tar
     }
 
     if ($native) {
-        Dpkg::Source::Package::V1_0::native::do_extract($self, $newdirectory);
+        Dpkg::Source::Package::V3_0::native::do_extract($self, $newdirectory);
     } else {
         my $expectprefix = $newdirectory;
         $expectprefix .= '.orig';
@@ -254,7 +254,7 @@ sub do_build {
     }
 
     if ($sourcestyle eq "n") {
-        Dpkg::Source::Package::V1_0::native::build($self, $dir);
+        Dpkg::Source::Package::V3_0::native::do_build($self, $dir);
     } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {
             unless ($sourcestyle =~ m/[nUR]/) {
@@ -286,7 +286,7 @@ sub do_build {
 	     $sourcepackage, $tarname);
     }
 
-    $self->add_file($tarname);
+    $self->add_file($tarname) if $tarname;
 
     if ($sourcestyle =~ m/[kpKP]/) {
         if (stat($origdir)) {

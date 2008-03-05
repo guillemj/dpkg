@@ -14,7 +14,7 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-package Dpkg::Source::Package::V1_0::native;
+package Dpkg::Source::Package::V3_0::native;
 
 use strict;
 use warnings;
@@ -89,10 +89,9 @@ sub do_build {
 
     $self->add_file($tarname);
 
+    # For backward compatibility, drop version to 1.0 if we can
     if ($self->{'options'}{'compression'} eq "gzip") {
         $self->{'fields'}{'Format'} = "1.0";
-    } else {
-        $self->{'fields'}{'Format'} = "1.0 (native)";
     }
 }
 
