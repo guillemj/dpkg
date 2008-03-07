@@ -50,6 +50,7 @@ use Tie::Hash;
 our @ISA = qw(Tie::ExtraHash Tie::Hash);
 
 use Dpkg::ErrorHandling qw(internerr syserr);
+use Dpkg::Gettext;
 
 # Import capit
 Dpkg::Fields->import('capit');
