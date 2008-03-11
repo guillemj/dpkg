@@ -1,3 +1,25 @@
+2008-03-11  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* lib/showcright.c: Rename to ...
+	* lib/myopt-util.c: ... this.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Rename 'showcright.c' to
+	'myopt-util.c'.
+
+	* lib/dpkg.h (struct cmdinfo): Remove declaration.
+	(showcopyright): Move prototype to ...
+	* lib/myopt-util.c: ... here.
+	(helponly, versiononly): New functions.
+	* lib/myopt.h: Include <dpkg-def.h>.
+	(showcopyright, helponly, versiononly, usage, printversion): New
+	function prototypes.
+	* dpkg-deb/main.c (printversion, usage): Remove static keyword.
+	(helponly, versiononly): Remove function declarations and definitions.
+	* dpkg-split/main.c: Likewise.
+	* dselect/main.cc: Likewise.
+	* src/main.c: Likewise.
+	* src/query.c: Likewise.
+
 2008-03-11  Guillem Jover  <guillem@debian.org>
 
 	* lib/showcright.c (showcopyright): Move function prototype to ...

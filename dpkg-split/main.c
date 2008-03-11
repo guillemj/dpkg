@@ -34,7 +34,9 @@
 
 #include "dpkg-split.h"
 
-static void printversion(void) {
+void
+printversion(void)
+{
   if (printf(_("Debian `%s' package split/join tool; version %s.\n"),
 	     SPLITTER, DPKG_VERSION_ARCH) < 0) werr ("stdout");
   if (printf(_("Copyright (C) 1994-1996 Ian Jackson.\n")) < 0) werr ("stdout");
@@ -44,7 +46,9 @@ static void printversion(void) {
 	     SPLITTER) < 0) werr("stdout");
 }
 
-static void usage(void) {
+void
+usage(void)
+{
   if (printf(_(
 "Usage: %s [<option> ...] <command>\n"
 "\n"), SPLITTER) < 0) werr("stdout");
@@ -94,15 +98,6 @@ void rerr(const char *fn) {
 void rerreof(FILE *f, const char *fn) {
   if (ferror(f)) ohshite(_("error reading %.250s"),fn);
   ohshit(_("unexpected end of file in %.250s"),fn);
-}
-
-static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
-static void helponly(const struct cmdinfo *cip, const char *value) {
-  usage(); exit(0);
-}
-static void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
-static void versiononly(const struct cmdinfo *cip, const char *value) {
-  printversion(); exit(0);
 }
 
 static void setaction(const struct cmdinfo *cip, const char *value);

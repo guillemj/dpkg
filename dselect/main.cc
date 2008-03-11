@@ -155,14 +155,18 @@ static const char licensestring[]= N_(
       "later for copying conditions. There is NO warranty.\n"
       "See %s --license for copyright and license details.\n");
 
-static void printversion(void) {
+void
+printversion(void)
+{
   if (printf(gettext(programdesc), DSELECT, DPKG_VERSION_ARCH) < 0)
     werr("stdout");
   if (printf(gettext(copyrightstring)) < 0) werr("stdout");
   if (printf(gettext(licensestring), DSELECT) < 0) werr("stdout");
 }
 
-static void usage(void) {
+void
+usage(void)
+{
   int i;
   if (printf(_(
 "Usage: %s [<option> ...] [<action> ...]\n"
@@ -206,15 +210,6 @@ static void usage(void) {
 
 /* These are called by C code, so need to have C calling convention */
 extern "C" {
-
-  static void helponly(const struct cmdinfo*, const char*) NONRETURNING;
-  static void helponly(const struct cmdinfo*, const char*) {
-    usage(); exit(0);
-  }
-  static void versiononly(const struct cmdinfo*, const char*) NONRETURNING;
-  static void versiononly(const struct cmdinfo*, const char*) {
-    printversion(); exit(0);
-  }
 
   static void setdebug(const struct cmdinfo*, const char *v) {
     debug= fopen(v,"a");

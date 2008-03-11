@@ -351,11 +351,6 @@ off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, off_t limit
 
 extern volatile int onerr_abort;
 
-/*** from showcright.c ***/
-
-struct cmdinfo;
-void showcopyright(const struct cmdinfo *c, const char *v) NONRETURNING;
-
 /*** from utils.c ***/
 
 int cisdigit(int c);

@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * showcright.c - show copyright file routine
+ * myopt-util.c - command line option utilities
  *
  * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
@@ -26,11 +26,29 @@
 
 #include <dpkg.h>
 
-void showcopyright(const struct cmdinfo *c, const char *v) {
-  int fd;
-  fd= open(COPYINGFILE,O_RDONLY);
-  if (fd < 0)
-    ohshite(_("cannot open GPL file"));
-  fd_fd_copy(fd, 1, -1, "showcopyright");
-  exit(0);
+void
+helponly(const struct cmdinfo *cip, const char *value)
+{
+	usage();
+	exit(0);
 }
+
+void
+versiononly(const struct cmdinfo *cip, const char *value)
+{
+	printversion();
+	exit(0);
+}
+
+void
+showcopyright(const struct cmdinfo *cip, const char *value)
+{
+	int fd;
+
+	fd = open(COPYINGFILE, O_RDONLY);
+	if (fd < 0)
+		ohshite(_("cannot open GPL file"));
+	fd_fd_copy(fd, 1, -1, "showcopyright");
+	exit(0);
+}
+
