@@ -1,12 +1,12 @@
 # SOME DESCRIPTIVE TITLE
 # Copyright (C) YEAR Free Software Foundation, Inc.
-# Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006, 2007.
+# Helge Kreutzmann <debian@helgefjell.de>, 2004, 2006-2008.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-02-17 18:20+0100\n"
-"PO-Revision-Date: 2008-01-22 19:01+0100\n"
+"PO-Revision-Date: 2008-03-11 23:26+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -1664,9 +1664,9 @@ msgstr "deb-shlibs"
 
 # type: TH
 #: ../../man/deb-shlibs.5:17
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-02-17"
-msgstr "2008-01-13"
+msgstr "2008-02-17"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:20
@@ -1682,13 +1682,16 @@ msgid ""
 "character are considered commentary, and are ignored.  All other lines must "
 "have the format"
 msgstr ""
+"B<shlibs>-Dateien bilden Laufzeitbibliotheknamen und -versionen (I<sonames>) "
+"auf Abhängigkeiten, die für eine Paketsteuerdatei geeignet sind. Es gibt "
+"einen Eintrag pro Zeile. Leerzeilen sind B<nicht> erlaubt. Zeilen, die mit "
+"B<#> beginnen, werden als Kommentarzeilen betrachtet und ignoriert. Alle "
+"anderen Zeilen müssen dem nachfolgenden Format folgen:"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:35
-#, fuzzy
 msgid "[I<tag:>] I<library> I<version> I<dependencies>"
-msgstr ""
-"E<lt>BibliotheksnameE<gt> E<lt>Version/SONameE<gt> E<lt>AbhängigkeitenE<gt>"
+msgstr "[I<Markierung:>] I<Bibliothek> I<Version> I<Abhängigkeiten>"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:39
@@ -1697,11 +1700,16 @@ msgid ""
 "I<dependencies> field extends to the end of the line.  The I<tag> field is "
 "optional and normally not needed."
 msgstr ""
+"Die Felder I<Bibliothek> und I<Version> werden durch Leerzeichen begrenzt, "
+"das Feld I<Abhängigkeiten> geht aber bis zum Ende der Zeile. Das Feld "
+"I<Markierung> ist optional und wird normalerweise nicht benötigt."
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:41
 msgid "See the Debian Policy Manual for further details."
 msgstr ""
+"Lesen Sie das Debian-Richtlinienhandbuch (Debian Policy Manual) für weitere "
+"Details."
 
 # type: SH
 #: ../../man/deb-shlibs.5:42 ../../man/dpkg.1:554
@@ -1717,11 +1725,14 @@ msgid ""
 "The B<shlibs> file for a typical library package, named I<libcrunch1>, that "
 "provides one library whose soname is I<libcrunch.so.1>, might read"
 msgstr ""
+"Die B<shlibs>-Datei für ein typisches Bibliothekspaket namens I<libcrunch1>, "
+"das eine Bibliothek mit dem Sonamen I<libcrunch.so.1> bereitstellt, könnte "
+"wie folgt lauten:"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:53
 msgid "libcrunch 1 libcrunch1 (E<gt>= 1.2-1)"
-msgstr ""
+msgstr "libcrunch 1 libcrunch1 (E<gt>= 1.2-1)"
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:61
@@ -1732,12 +1743,16 @@ msgid ""
 "dependencies might need to be tightened; again, see the Debian Policy Manual "
 "for details."
 msgstr ""
+"I<Abhängigkeiten> muss die neuste Version des Pakets erwähnen, das neuen "
+"Symbole zu der Bibliothek hinzugefügt hat: im obigen Beispiel wurden neue "
+"Symbole zu Version 1.2 von I<libcrunch> hinzugefügt. Dies ist nicht der "
+"einzige Grund, dass Abhängigkeiten enger gefasst werden müssen; auch hier "
+"gilt: Lesen Sie das Debian Richtlinienhandbuch für Details."
 
 # type: Plain text
 #: ../../man/deb-shlibs.5:64
-#, fuzzy
 msgid "B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
-msgstr "B<dpkg-shlibdeps>(1)."
+msgstr "B<dpkg-shlibdeps>(1), B<deb-symbols>(5)."
 
 # type: TP
 #: ../../man/deb-substvars.5:2
@@ -4939,7 +4954,6 @@ msgstr "B<-r>I<root-werde-Befehl>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:134
-#, fuzzy
 msgid ""
 "When B<dpkg-buildpackage> needs to execute part of the build process as "
 "root, it prefixes the command it executes with I<gain-root-command> if one "
@@ -4958,19 +4972,18 @@ msgstr ""
 "falls dieser angegeben wurde. Andernfalls wird standardmäßig B<fakeroot> "
 "verwendet, falls es vorhanden ist. Der I<root-werde-Befehl> sollte der Name "
 "des Programmes im B<PATH> sein und wird als Argumente den Namen des wirklich "
-"auszuführenden Befehles und dessen Argumente erhalten. Der I<root-werde-"
-"Befehl> sollte keine Leerzeichen oder andere Shell-Metazeichen enthalten. "
-"Typischerweise ist der I<root-werde-Befehl> B<fakeroot>, B<sudo>, B<super> "
-"oder B<really>. B<su> ist nicht geeignet, da es eine B<-c>-Option zur "
-"Ausführung eines Befehles benötigt und selbst dann kann es nur die Shell des "
-"Benutzers mit B<-c> aufrufen, anstatt Argumente individuell zur Ausführung "
-"zu übergeben."
+"auszuführenden Befehles und dessen Argumente erhalten. I<root-werde-Befehl> "
+"kann Parameter enthalten (die durch Leerzeichen voneinander getrennt sein "
+"müssen), aber keine Shell-Metazeichen. Typischerweise ist der I<root-werde-"
+"Befehl> B<fakeroot>, B<sudo>, B<super> oder B<really>. B<su> ist nicht "
+"geeignet, da es nur die Shell des Benutzers mit B<-c> aufrufen kann, anstatt "
+"Argumente individuell zur Ausführung des Programms zu übergeben."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:134
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<-R>I<rules-file>"
-msgstr "B<-f>I<DateienlistDatei>"
+msgstr "B<-R>I<rules-Datei>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:145
@@ -4982,6 +4995,13 @@ msgid ""
 "rules file with another make program (for example by using B</usr/local/bin/"
 "make -f debian/rules> as I<rules-file>)."
 msgstr ""
+"Der Bau eines Debian-Pakets erfolgt gewöhnlich durch Aufruf von "
+"B<debian/rules> als ein Befehl mit mehreren Standardparametern. Mit dieser "
+"Option ist es möglich, einen anderen Programmaufruf zum Bua des Paketes zu "
+"verwenden (es können durch Leerzeichen getrennte Parameter angegeben werden). "
+"Alternativ kann die Standard-debian/rules-Datei mit einem anderen "
+"Make-Programm ausgeführt werden (zum Beispiel durch die Verwendung von "
+"B</usr/local/bin/make -f debian/rules> als I<rules-Datei>)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:145
@@ -5115,9 +5135,9 @@ msgstr ""
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:213
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "B<CFLAGS>"
-msgstr "B<COLUMNS>"
+msgstr "B<CFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:226
@@ -5134,7 +5154,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:226
 #, no-wrap
 msgid "B<CFLAGS_APPEND>"
-msgstr ""
+msgstr "B<CFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:231
@@ -5148,7 +5168,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:231
 #, no-wrap
 msgid "B<CXXFLAGS>"
-msgstr ""
+msgstr "B<CXXFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:236
@@ -5159,7 +5179,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:236
 #, no-wrap
 msgid "B<CXXFLAGS_APPEND>"
-msgstr ""
+msgstr "B<CXXFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:241
@@ -5170,7 +5190,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:241
 #, no-wrap
 msgid "B<FFLAGS>"
-msgstr ""
+msgstr "B<FFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:246
@@ -5181,7 +5201,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:246
 #, no-wrap
 msgid "B<FFLAGS_APPEND>"
-msgstr ""
+msgstr "B<FFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:251
@@ -5192,7 +5212,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:251
 #, no-wrap
 msgid "B<CPPFLAGS>"
-msgstr ""
+msgstr "B<CPPFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:259
@@ -5207,7 +5227,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:259
 #, no-wrap
 msgid "B<CPPFLAGS_APPEND>"
-msgstr ""
+msgstr "B<CPPFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:264
@@ -5221,7 +5241,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:264
 #, no-wrap
 msgid "B<LDFLAGS>"
-msgstr ""
+msgstr "B<LDFLAGS>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:272
@@ -5235,7 +5255,7 @@ msgstr ""
 #: ../../man/dpkg-buildpackage.1:272
 #, no-wrap
 msgid "B<LDFLAGS_APPEND>"
-msgstr ""
+msgstr "B<LDFLAGS_APPEND>"
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:277
@@ -11392,9 +11412,9 @@ msgstr "start-stop-daemon"
 
 # type: TH
 #: ../../man/start-stop-daemon.8:1
-#, fuzzy, no-wrap
+#, no-wrap
 msgid "2008-01-30"
-msgstr "2008-01-03"
+msgstr "2008-01-30"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:4
@@ -11420,7 +11440,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:34
-#, fuzzy
 msgid ""
 "Note: unless B<--pidfile> is specified, B<start-stop-daemon> behaves similar "
 "to B<killall>(1).  B<start-stop-daemon> will scan the process table looking "
@@ -11447,7 +11466,6 @@ msgstr "B<-S>, B<--start> [B<-->] I<Argumente>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:53
-#, fuzzy
 msgid ""
 "Check for the existence of a specified process.  If such a process exists, "
 "B<start-stop-daemon> does nothing, and exits with error status 1 (0 if B<--"
@@ -11456,13 +11474,13 @@ msgid ""
 "specified, by B<--startas>.  Any arguments given after B<--> on the command "
 "line are passed unmodified to the program being started."
 msgstr ""
-"Prüfe auf Existenz des angegebenen Prozesses. Falls ein solcher Prozess "
-"existiert, dann macht B<start-stop-daemon> nichts, und beendet sich mit "
+"Prüfe auf Existenz eines angegebenen Prozesses. Falls ein solcher Prozess "
+"existiert führt B<start-stop-daemon> nichts aus und beendet sich mit "
 "Fehlerstatus 1 (0, falls B<--oknodo> angegeben wurde). Falls ein solcher "
 "Prozess nicht existiert, dann startet es eine Instanz, entweder unter "
 "Verwendung des ausführbaren Programms, das mittels B<--exec> (oder, falls "
 "angegeben, mittels B<--startas>) spezifiziert wurde. Jedes weitere auf der "
-"Kommandozeile angegebene Argument nach B<--> wird unverändert an das zu "
+"Kommandozeile nach B<--> angegebene Argument wird unverändert an das zu "
 "startende Programm weitergegeben."
 
 # type: IP
