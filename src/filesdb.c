@@ -470,37 +470,18 @@ void ensure_diversions(void) {
   diversions = NULL;
   if (!file) { onerr_abort--; return; }
 
-  while (fgets(linebuf,sizeof(linebuf),file)) {
+  while ((l = fgets_checked(linebuf, sizeof(linebuf), file, vb.buf)) >= 0) {
     oicontest= nfmalloc(sizeof(struct diversion));
     oialtname= nfmalloc(sizeof(struct diversion));
 
-    l= strlen(linebuf);
-    if (l == 0) ohshit(_("fgets gave an empty string from diversions [i]"));
-    if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [i]"));
-    linebuf[l]= 0;
     oialtname->camefrom= findnamenode(linebuf, 0);
     oialtname->useinstead = NULL;
 
-    if (!fgets(linebuf,sizeof(linebuf),file)) {
-      if (ferror(file)) ohshite(_("read error in diversions [ii]"));
-      else ohshit(_("unexpected EOF in diversions [ii]"));
-    } 
-    l= strlen(linebuf);
-    if (l == 0) ohshit(_("fgets gave an empty string from diversions [ii]"));
-    if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
-    linebuf[l]= 0;
+    fgets_must(linebuf, sizeof(linebuf), file, vb.buf);
     oicontest->useinstead= findnamenode(linebuf, 0);
     oicontest->camefrom = NULL;
-    
-    if (!fgets(linebuf,sizeof(linebuf),file)) {
-      if (ferror(file)) ohshite(_("read error in diversions [iii]"));
-      else ohshit(_("unexpected EOF in diversions [iii]"));
-    }
-    l= strlen(linebuf);
-    if (l == 0) ohshit(_("fgets gave an empty string from diversions [iii]"));
-    if (linebuf[--l] != '\n') ohshit(_("diversions file has too-long line or EOF [ii]"));
-    linebuf[l]= 0;
 
+    fgets_must(linebuf, sizeof(linebuf), file, vb.buf);
     oicontest->pkg= oialtname->pkg=
       strcmp(linebuf, ":") ? findpackage(linebuf) : NULL;
 
