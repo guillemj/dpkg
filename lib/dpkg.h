@@ -354,7 +354,7 @@ extern volatile int onerr_abort;
 /*** from showcright.c ***/
 
 struct cmdinfo;
-void showcopyright(const struct cmdinfo*, const char*);
+void showcopyright(const struct cmdinfo *c, const char *v) NONRETURNING;
 
 /*** from utils.c ***/
 

@@ -26,7 +26,6 @@
 
 #include <dpkg.h>
 
-void showcopyright(const struct cmdinfo *c, const char *v) NONRETURNING;
 void showcopyright(const struct cmdinfo *c, const char *v) {
   int fd;
   fd= open(COPYINGFILE,O_RDONLY);
