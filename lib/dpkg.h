@@ -30,6 +30,8 @@
 
 #include <myopt.h>
 
+#include <dpkg-def.h>
+
 #ifdef HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
@@ -153,18 +155,6 @@
 
 extern const char thisname[]; /* defined separately in each program */
 extern const char printforhelp[];
-
-#if HAVE_C_ATTRIBUTE
-# define CONSTANT __attribute__((constant))
-# define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
-# define NONRETURNING __attribute__((noreturn))
-# define UNUSED __attribute__((unused))
-#else
-# define CONSTANT
-# define PRINTFFORMAT(si, tc)
-# define NONRETURNING
-# define UNUSED
-#endif
 
 /*** from startup.c ***/
 

@@ -12,6 +12,7 @@ INCLUDES = \
 noinst_LIBRARIES = libdpkg.a
 
 libdpkg_a_SOURCES = \
+	dpkg-def.h \
 	dpkg.h \
 	dpkg-db.h \
 	compat.c \

@@ -22,6 +22,8 @@
 
 #include "config.h"
 
+#include <dpkg-def.h>
+
 #if defined(linux) || (defined(__FreeBSD_kernel__) && defined(__GLIBC__))
 #  define OSLinux
 #elif defined(__GNU__)
@@ -99,18 +101,6 @@
 
 #ifdef HAVE_ERROR_H
 #include <error.h>
-#endif
-
-#if HAVE_C_ATTRIBUTE
-# define CONSTANT __attribute__((constant))
-# define PRINTFFORMAT(si, tc) __attribute__((format(printf, si, tc)))
-# define NONRETURNING __attribute__((noreturn))
-# define UNUSED __attribute__((unused))
-#else
-# define CONSTANT
-# define PRINTFFORMAT(si, tc)
-# define NONRETURNING
-# define UNUSED
 #endif
 
 static int testmode = 0;
