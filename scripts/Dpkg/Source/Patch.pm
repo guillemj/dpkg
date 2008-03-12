@@ -140,7 +140,7 @@ sub add_diff_directory {
     my %files_in_new;
     my $scan_new = sub {
         my $fn = File::Spec->abs2rel($_, $new);
-        next if &$diff_ignore($fn);
+        return if &$diff_ignore($fn);
         $files_in_new{$fn} = 1;
         lstat("$new/$fn") || syserr(_g("cannot stat file %s"), "$new/$fn");
         my $mode = S_IMODE((lstat(_))[2]);
