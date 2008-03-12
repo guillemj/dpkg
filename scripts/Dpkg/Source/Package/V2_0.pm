@@ -34,6 +34,8 @@ use Dpkg::Source::Functions qw(erasedir);
 use POSIX;
 use File::Basename;
 use File::Temp qw(tempfile tempdir);
+use File::Path;
+use File::Spec;
 
 sub do_extract {
     my ($self, $newdirectory) = @_;
@@ -112,7 +114,7 @@ sub get_patches {
             # patches match same rules as run-parts
             next unless $patch =~ /^[\w-]+$/ and -f "$pd/$patch";
             next if $skip_auto and $patch eq $auto_patch;
-            push @patches, "$pd/$patch";
+            push @patches, $patch;
         }
         closedir(DIR);
     }
@@ -123,8 +125,9 @@ sub apply_patches {
     my ($self, $dir, $skip_auto) = @_;
     my $timestamp = time();
     foreach my $patch ($self->get_patches($dir, $skip_auto)) {
-	info(_g("applying %s"), basename($patch)) unless $skip_auto;
-        my $patch_obj = Dpkg::Source::Patch->new(filename => $patch);
+        my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
+        info(_g("applying %s"), $patch) unless $skip_auto;
+        my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
         $patch_obj->apply($dir, force_timestamp => 1,
                           timestamp => $timestamp);
     }
@@ -138,18 +141,23 @@ sub can_build {
     return (0, _g("no orig.tar file found"));
 }
 
+sub prepare_build {
+    my ($self, $dir) = @_;
+    $self->{'diff_options'} = {
+        diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'}
+    };
+}
+
 sub do_build {
     my ($self, $dir) = @_;
     my @argv = @{$self->{'options'}{'ARGV'}};
     my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
-    my $diff_ignore_regexp = $self->{'options'}{'diff_ignore_regexp'};
 
-    $dir =~ s{/+$}{}; # Strip trailing /
     my ($dirname, $updir) = fileparse($dir);
-
     if (scalar(@argv)) {
         usageerr(_g("-b takes only one parameter with v2.0 source packages"));
     }
+    $self->prepare_build($dir);
 
     my $sourcepackage = $self->{'fields'}{'Source'};
     my $basenamerev = $self->get_basename(1);
@@ -207,7 +215,7 @@ sub do_build {
                                         compression => "none");
     $diff->create();
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
-            diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'});
+            %{$self->{'diff_options'}});
     error(_g("unrepresentable changes to source")) if not $diff->finish();
     # The previous auto-patch must be removed, it has not been used and it
     # will be recreated if it's still needed
@@ -219,6 +227,7 @@ sub do_build {
     if (not -s $tmpdiff) {
         unlink($tmpdiff) || syserr(_g("cannot remove %s"), $tmpdiff);
     } else {
+        mkpath(File::Spec->catdir($dir, "debian", "patches"));
         rename($tmpdiff, $autopatch) ||
                 syserr(_g("cannot rename %s to %s"), $tmpdiff, $autopatch);
     }
@@ -231,8 +240,7 @@ sub do_build {
 
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
-    info(_g("building %s in %s"),
-	 $sourcepackage, $debianfile);
+    info(_g("building %s in %s"), $sourcepackage, $debianfile);
     $tar = Dpkg::Source::Archive->new(filename => $debianfile);
     $tar->create(options => \@tar_ignore, 'chdir' => $dir);
     $tar->add_directory("debian");
