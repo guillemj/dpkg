@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-02-17 18:20+0100\n"
-"PO-Revision-Date: 2008-03-11 23:26+0100\n"
+"PO-Revision-Date: 2008-03-13 22:30+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -4997,7 +4997,7 @@ msgid ""
 msgstr ""
 "Der Bau eines Debian-Pakets erfolgt gewöhnlich durch Aufruf von "
 "B<debian/rules> als ein Befehl mit mehreren Standardparametern. Mit dieser "
-"Option ist es möglich, einen anderen Programmaufruf zum Bua des Paketes zu "
+"Option ist es möglich, einen anderen Programmaufruf zum Bau des Paketes zu "
 "verwenden (es können durch Leerzeichen getrennte Parameter angegeben werden). "
 "Alternativ kann die Standard-debian/rules-Datei mit einem anderen "
 "Make-Programm ausgeführt werden (zum Beispiel durch die Verwendung von "
@@ -5132,6 +5132,11 @@ msgid ""
 "mechanism was only introduced in dpkg-dev, version 1.14.17 and not all "
 "I<rules> files and build tools will honour these variables, yet."
 msgstr ""
+"Eine Reihe von Umgebungsvariablen für Einstellungen der Optionen des "
+"Compilers und Linkers werden auf Standardwerte gesetzt, falls sie noch nicht "
+"in der Umgebung gesetzt werden. Beachten Sie, dass dieser Mechanismus erst in "
+"dpkg-dev Version 1.14.17 eingeführt wurde und noch nicht alle I<rules>-"
+"Dateien und Bauwerkzeuge diese Variablen berücksichtigen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:213
@@ -5149,6 +5154,13 @@ msgid ""
 "level, or work around compiler bugs, which only can be seen with some "
 "optimization levels (the last opt level \"wins\")."
 msgstr ""
+"Optimierungs-Optionen, die an das Debian-Bausystem weitergegeben und vom "
+"Paketbausystem bei Bedarf überschrieben werden können/sollten (Vorgabewert: "
+"B<-g\\ -O2>, oder B<-g\\ -O0> falls B<noopt> in DEB_BUILD_OPTIONS angegeben "
+"ist). Das Überschreiben der Optionen kann dazu verwendet werden, explizit "
+"eine höhere Optimierungsstufe zu setzen oder um Compiler-Fehler zu umgehen, "
+"die nur bei einigen Optimierungsstufen auftreten (die letzte "
+"Optimierungsstufe »gewinnt«)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:226
@@ -5163,6 +5175,9 @@ msgid ""
 "overwritten by the package (mostly used to for test builds). Default value: "
 "empty."
 msgstr ""
+"Optimierungsoptionen, die an die Compiler-Schalter angehängt werden, die "
+"nicht vom Paket überschrieben werden dürfen (hauptsächlich zum Testen). "
+"Standardmäßig leer."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:231
@@ -5173,7 +5188,7 @@ msgstr "B<CXXFLAGS>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:236
 msgid "Same as B<CFLAGS> for C++ sources."
-msgstr ""
+msgstr "Identisch zu B<CFLAGS> für C++-Quellen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:236
@@ -5184,7 +5199,7 @@ msgstr "B<CXXFLAGS_APPEND>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:241
 msgid "Same as B<CFLAGS_APPEND> for C++ sources."
-msgstr ""
+msgstr "Identisch zu B<CFLAGS_APPEND> für C++-Quellen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:241
@@ -5195,7 +5210,7 @@ msgstr "B<FFLAGS>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:246
 msgid "Same as B<FFLAGS> for Fortran sources."
-msgstr ""
+msgstr "Identisch zu B<FFLAGS> für Fortran-Quellen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:246
@@ -5206,7 +5221,7 @@ msgstr "B<FFLAGS_APPEND>"
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:251
 msgid "Same as B<CFLAGS_APPEND> for Fortran sources."
-msgstr ""
+msgstr "Identisch zu B<CFLAGS_APPEND> für Fortran-Quellen."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:251
@@ -5222,6 +5237,10 @@ msgid ""
 "macro is seldom used (most build systems just use B<CFLAGS> instead of "
 "B<CPPFLAGS).>"
 msgstr ""
+"Präprozessor-Schalter, die an das Debian-Bausystem weitergegeben und vom "
+"Paketbausystem bei Bedarf überschrieben werden können/sollten (Vorgabewert: "
+"leer). Dieses Makro wird selten benutzt (die meisten Bausysteme verwenden "
+"einfach B<CFLAGS> statt B<CPPFLAGS>)."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:259
@@ -5236,6 +5255,9 @@ msgid ""
 "overwritten by the package (mostly used to for test builds). Default value: "
 "empty."
 msgstr ""
+"Präprozessor-Schalter, die an die Präprozessor-Schalter angehängt werden, die "
+"nicht vom Paket überschrieben werden dürfen (hauptsächlich zum Testen). "
+"Standardmäßig leer."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:264
@@ -5250,6 +5272,10 @@ msgid ""
 "(if the linker is called directly, then B<-Wl> and B<,> have to be stripped "
 "from these options. Default value: empty."
 msgstr ""
+"Optionen die beim Linken von Programmen oder Laufzeitbibliotheken an den "
+"Compiler weitergegeben werden (falls der Linker direkt aufgerufen wird, "
+"müssen B<-Wl> und B<,> aus diesen Optionen entfernt werden. Standardmäßig "
+"leer."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:272
@@ -5264,6 +5290,10 @@ msgid ""
 "must not be overwritten by the package (mostly used to for test builds). "
 "Default value: empty."
 msgstr ""
+"Optimierungs-Optionen, die an den Compiler beim Linken von Code angehängt "
+"werden und die nicht vom Paket überschrieben werden dürfen (hauptsächlich zum "
+"Testen). Standardmäßig leer."
+
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:282
@@ -5338,13 +5368,13 @@ msgstr ""
 #: ../../man/dpkg-checkbuilddeps.1:27
 #, no-wrap
 msgid "B<-d >I<build-depends-string>"
-msgstr ""
+msgstr "B<-d >I<Zeichenkette-für-Bauabhängigkeiten>"
 
 # type: TP
 #: ../../man/dpkg-checkbuilddeps.1:29
 #, no-wrap
 msgid "B<-c >I<build-conflicts-string>"
-msgstr ""
+msgstr "B<-c >I<Zeichenkette-für-Baukonflikte>"
 
 # type: Plain text
 #: ../../man/dpkg-checkbuilddeps.1:33
@@ -5352,6 +5382,8 @@ msgid ""
 "Use the given build dependencies/conflicts instead of those contained in the "
 "debian/control file."
 msgstr ""
+"Verwende die angegebenen Bauabhängigkeiten/-konflikte statt denen der Datei "
+"debian/control."
 
 # type: TP
 #: ../../man/dpkg-checkbuilddeps.1:33
@@ -6353,6 +6385,10 @@ msgid ""
 "output, however the special variable I<Format> will override the field of "
 "the same name."
 msgstr ""
+"Lese die Substitutionsvariablen aus I<substvardatei>; standardmäßig B<debian/"
+"substvars>. Bei den ausgegeben Feldern erfolgt keine Variablensubstitution, "
+"die besondere Variable I<Format> wird allerdings das Feld mit dem gleichen "
+"Namen überschreiben."
 
 # type: TP
 #: ../../man/dpkg-genchanges.1:85 ../../man/dpkg-gencontrol.1:48
@@ -10340,12 +10376,18 @@ msgid ""
 "in the package. Some packages make use of the B<debconf>(1)  library, "
 "allowing for more flexible or even automated installation setups."
 msgstr ""
+"Details der Installationsaktion hängen von der Implementierung der "
+"Zugriffsmethode ab. Die Aufmerksamkeit und Eingabe des Benutzers könnten "
+"während der Installation, Konfiguration oder dem Entfernen von Paketen "
+"notwendig sein. Dies hängt von den Betreuerskripten im Paket ab. Einige "
+"Pakete verwenden die Bibliothek B<debconf>(1), die flexiblere oder sogar "
+"automatisierte Installationseinrichtungen erlaubt."
 
 # type: SS
 #: ../../man/dselect.1:204
 #, no-wrap
 msgid "config"
-msgstr ""
+msgstr "Konfig"
 
 # type: Plain text
 #: ../../man/dselect.1:206
@@ -10358,12 +10400,14 @@ msgstr ""
 #: ../../man/dselect.1:207
 #, no-wrap
 msgid "remove"
-msgstr ""
+msgstr "Löschen"
 
 # type: Plain text
 #: ../../man/dselect.1:209
 msgid "Removes or purges installed packages, that are marked for removal."
 msgstr ""
+"Löscht oder entfernt installierte Pakete vollständig, die zum Löschen "
+"markiert sind."
 
 # type: SS
 #: ../../man/dselect.1:210
@@ -11491,7 +11535,6 @@ msgstr "B<-K>, B<--stop>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:71
-#, fuzzy
 msgid ""
 "Checks for the existence of a specified process.  If such a process exists, "
 "B<start-stop-daemon> sends it the signal specified by B<--signal>, and exits "
@@ -11500,11 +11543,11 @@ msgid ""
 "specified, then B<start-stop-daemon> will check that the process(es) have "
 "terminated."
 msgstr ""
-"Überpfüft auf auf die Existenz eines speziellen Prozesses. Falls ein solcher "
+"Überprüft auf auf die Existenz eines speziellen Prozesses. Falls ein solcher "
 "Prozess existiert, dann sendet B<start-stop-daemon> das durch B<--signal> "
 "angegebene Signal und beendet sich mit Fehlerstatus 0. Falls kein solcher "
 "Prozess existiert, dann beendet sich B<start-stop-daemon> mit Fehlerstatus 1 "
-"(0 falls B<--oknodo> angegeben ist). Falls B<--retry> angegeben wurden, wird "
+"(0 falls B<--oknodo> angegeben ist). Falls B<--retry> angegeben wurde, wird "
 "B<start-stop-daemon> überprüfen, ob der/die Prozess(e) beendet wurden."
 
 # type: TP
@@ -11637,7 +11680,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:130
-#, fuzzy
 msgid ""
 "If I<timeout> is specified instead of I<schedule>, then the schedule "
 "I<signal>B</>I<timeout>B</KILL/>I<timeout> is used, where I<signal> is the "
@@ -11739,7 +11781,6 @@ msgstr "B<-c >, B< --chuid >I<Benutzername>|I<uid>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:192
-#, fuzzy
 msgid ""
 "Change to this username/uid before starting the process. You can also "
 "specify a group by appending a B<:>, then the group or gid in the same way "
@@ -11753,12 +11794,13 @@ msgstr ""
 "Wechsele vor dem Start des Prozesses zu diesem Benutzername/uid. Sie können "
 "durch Anhängen von B<:> auch die Gruppe spezifizieren, in diesem Fall wird "
 "die Gruppe oder gid wie bei dem »chown«-Befehl (I<Benutzer>B<:>I<Gruppe>) "
-"angegeben. Wenn Sie diese Option verwenden, müssen Sie daran denken, dass "
-"die primäre und zusätzlichen Gruppe auch gesetzt werden, selbst wenn die B<--"
-"group> Option nicht spezifiziert wird. Die B<--group>-Option ist nur für "
-"Gruppen in denen der Benutzer normalerweise kein Mitglied ist (wie das "
-"Hinzufügen von pro-Prozess Gruppenmitgliedschaften für generische Benutzer "
-"wie B<nobody>)."
+"angegeben. Falls ein Benutzer ohne Gruppe angegeben ist, wird die primäre "
+"GID für diesen Benutzer verwandt. Wenn Sie diese Option verwenden, müssen Sie "
+"daran denken, dass die primäre und zusätzliche Gruppen auch gesetzt werden, "
+"selbst wenn die Option B<--group> nicht angegeben wird. Die Option B<--group> "
+"ist nur für Gruppen, in denen der Benutzer normalerweise kein Mitglied ist "
+"(wie das Hinzufügen von pro-Prozess Gruppenmitgliedschaften für generische "
+"Benutzer wie B<nobody>)."
 
 # type: TP
 #: ../../man/start-stop-daemon.8:192
@@ -11848,7 +11890,6 @@ msgstr "B<-m>, B<--make-pidfile>"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:239
-#, fuzzy
 msgid ""
 "Used when starting a program that does not create its own pid file. This "
 "option will make B<start-stop-daemon> create the file referenced with B<--"
@@ -11858,14 +11899,14 @@ msgid ""
 "executed forks from its main process. Because of this, it is usually only "
 "useful when combined with the B<--background> option."
 msgstr ""
-"Verwendet, wenn ein Programm gestartet wird, dass keine eigene PID-Datei "
+"Verwendet, wenn ein Programm gestartet wird, das keine eigene PID-Datei "
 "erstellt. Diese Option sorgt dafür, dass B<start-stop-daemon> die mit B<--"
 "pidfile> referenzierte Datei anlegt und die PID kurz vor der Ausführung des "
 "Prozesse hineinlegt. Beachten Sie, dass die Datei nicht entfernt wird, wenn "
 "das Programm beendet wird. B<HINWEIS:> Diese Funktion könnte in nicht allen "
 "Fällen funktionieren. Insbesondere wenn das auszuführende Programm sich vom "
 "Hauptprozess forkt. Deshalb ist diese Option normalerweise nur in "
-"Kombination mit der B<--background> Option sinnvoll."
+"Kombination mit der Option B<--background> sinnvoll."
 
 # type: TP
 #: ../../man/start-stop-daemon.8:239
@@ -11889,6 +11930,13 @@ msgid ""
 "schedule was reached and the processes were still running, the error value "
 "is 2. For all other errors, the status is 3."
 msgstr ""
+"B<start-stop-daemon> liefert 0, falls die angeforderte Aktion ausgeführt "
+"wurde oder B<--oknodo> angegeben und entweder B<--start> angegeben wurde und "
+"ein passener Prozess lief bereits oder B<--stop> angebeben wurde und es gab "
+"keinen passenden Prozess. Falls B<--oknodo> nicht angegeben wurde und nichts "
+"erfolgte, wird 1 zurückgeliefert. Falls B<--stop> und B<--retry> angegeben "
+"wurden, aber das Ende des Plans errreicht wurde und der Prozess noch läuft, "
+"lautet der Fehlerwert 2. Bei allen anderen Fehlern ist der Status 3."
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:263
@@ -11896,34 +11944,38 @@ msgid ""
 "Start the B<food> daemon, unless one is already running (a process named "
 "food, running as user food, with pid in food.pid):"
 msgstr ""
+"Starte den Dämon B<food> falls noch keiner läuft (ein Prozess mit Namen "
+"food, der als Benutzer food mit PID in food.pid läuft):"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:266
 #, no-wrap
 msgid "start-stop-daemon --start --oknodo --user food --name food --pidfile /var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
 msgstr ""
+ "start-stop-daemon --start --oknodo --user food --name food --pidfile /var/run/food.pid --startas /usr/sbin/food --chuid food -- --daemon\n"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:269
 msgid "Send B<SIGTERM> to B<food> and wait up to 5 seconds for it to stop:"
 msgstr ""
+"Schicke B<SIGTERM> an B<food> und warte bis zu fünf Sekunden auf sein Beenden:"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:272
 #, no-wrap
 msgid "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry 5\n"
-msgstr ""
+msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry 5\n"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:275
 msgid "Demonstration of a custom schedule for stopping B<food>:"
-msgstr ""
+msgstr "Vorführung eines angepassten Plans zum Beenden von B<food>:"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:278
 #, no-wrap
 msgid "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
-msgstr ""
+msgstr "start-stop-daemon --stop --oknodo --user food --name food --pidfile /var/run/food.pid --retry=TERM/30/KILL/5\n"
 
 # type: Plain text
 #: ../../man/start-stop-daemon.8:284
