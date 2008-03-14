@@ -410,7 +410,7 @@ sub get_type {
     } else {
         -f _ && return _g("plain file");
         -d _ && return _g("directory");
-        -l _ && return sprintf(_g("symlink to %"), readlink($file));
+        -l _ && return sprintf(_g("symlink to %s"), readlink($file));
         -b _ && return _g("block device");
         -c _ && return _g("character device");
         -p _ && return _g("named pipe");

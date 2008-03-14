@@ -104,6 +104,11 @@ sub read_git_config {
 	return \%ret;
 }
 
+sub can_build {
+    my ($self, $dir) = @_;
+    return (-d "$dir/.git", _g("doesn't contain a git repository"));
+}
+
 sub do_build {
     my ($self, $dir) = @_;
     my @argv = @{$self->{'options'}{'ARGV'}};
