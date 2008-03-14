@@ -1,6 +1,6 @@
 /*
  * libdpkg - Debian packaging suite library routines
- * showcright.c - show copyright file routine
+ * dpkg-def.h - C language support definitions
  *
  * Copyright (C) 1994,1995 Ian Jackson <ian@chiark.greenend.org.uk>
  *
@@ -18,20 +18,22 @@
  * License along with dpkg; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+
+#ifndef DPKG_DEF_H
+#define DPKG_DEF_H
+
 #include <config.h>
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <fcntl.h>
+#if HAVE_C_ATTRIBUTE
+# define CONSTANT __attribute__((constant))
+# define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
+# define NONRETURNING __attribute__((noreturn))
+# define UNUSED __attribute__((unused))
+#else
+# define CONSTANT
+# define PRINTFFORMAT(si, tc)
+# define NONRETURNING
+# define UNUSED
+#endif
 
-#include <dpkg.h>
-
-void showcopyright(const struct cmdinfo *c, const char *v) NONRETURNING;
-void showcopyright(const struct cmdinfo *c, const char *v) {
-  int fd;
-  fd= open(COPYINGFILE,O_RDONLY);
-  if (fd < 0)
-    ohshite(_("cannot open GPL file"));
-  fd_fd_copy(fd, 1, -1, "showcopyright");
-  exit(0);
-}
+#endif

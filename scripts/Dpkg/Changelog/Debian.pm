@@ -134,7 +134,8 @@ sub parse {
     while (<$fh>) {
 	s/\s*\n$//;
 #	printf(STDERR "%-39.39s %-39.39s\n",$expect,$_);
-	if (m/^(\w[-+0-9a-z.]*) \(([^\(\) \t]+)\)((\s+[-0-9a-z]+)+)\;/i) {
+	my $name_chars = qr/[-+0-9a-z.]/i;
+	if (m/^(\w$name_chars*) \(([^\(\) \t]+)\)((\s+$name_chars+)+)\;/i) {
 	    unless ($expect eq 'first heading'
 		    || $expect eq 'next heading or eof') {
 		$entry->{ERROR} = [ $file, $NR,

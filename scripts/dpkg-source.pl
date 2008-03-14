@@ -219,11 +219,11 @@ if ($opmode eq 'build') {
 	} elsif (m/^Build-(Depends|Conflicts)(-Indep)?$/i) {
 	    my $dep;
 	    my $type = $dep_field_type{capit($_)};
-	    $dep = Dpkg::Deps::parse($v, union =>  $type eq 'union');
+	    $dep = Dpkg::Deps::parse($v, union => $type eq 'union');
 	    error(_g("error occurred while parsing %s"), $_) unless defined $dep;
 	    my $facts = Dpkg::Deps::KnownFacts->new();
 	    $dep->simplify_deps($facts);
-	    $dep->sort();
+	    $dep->sort() if $type eq 'union';
 	    $fields->{$_} = $dep->dump();
 	} elsif (s/^X[BC]*S[BC]*-//i) { # Include XS-* fields
 	    $fields->{$_} = $v;

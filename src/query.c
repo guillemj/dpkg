@@ -484,7 +484,9 @@ void showpackages(const char *const *argv) {
   modstatdb_shutdown();
 }
 
-static void printversion(void) {
+void
+printversion(void)
+{
   if (printf(_("Debian `%s' package management program query tool\n"),
 	     DPKGQUERY) < 0) werr("stdout");
   if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
@@ -496,7 +498,9 @@ static void printversion(void) {
    options that need fixing:
   dpkg --yet-to-unpack                 \n\
   */
-static void usage(void) {
+void
+usage(void)
+{
   if (printf(_(
 "Usage: %s [<option> ...] <command>\n"
 "\n"), DPKGQUERY) < 0) werr ("stdout");
@@ -552,15 +556,6 @@ int errabort = 50;
 const char *admindir= ADMINDIR;
 const char *instdir= "";
 struct packageinlist *ignoredependss=0;
-
-static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
-static void helponly(const struct cmdinfo *cip, const char *value) {
-  usage(); exit(0);
-}
-static void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
-static void versiononly(const struct cmdinfo *cip, const char *value) {
-  printversion(); exit(0);
-}
 
 static void setaction(const struct cmdinfo *cip, const char *value) {
   if (cipaction)

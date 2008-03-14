@@ -912,8 +912,20 @@ WHILELOOP:
 	my $dep = shift @{$self->{list}};
 	my $eval = $dep->get_evaluation($facts);
 	next if defined($eval) and $eval == 1;
-	foreach my $odep (@knowndeps, @new, @{$self->{list}}) {
+	foreach my $odep (@knowndeps, @new) {
 	    next WHILELOOP if $odep->implies($dep);
+	}
+        # When a dependency is implied by another dependency that
+        # follows, then invert them
+        # "a | b, c, a"  becomes "a, c" and not "c, a"
+        my $i = 0;
+	foreach my $odep (@{$self->{list}}) {
+            if (defined $odep and $odep->implies($dep)) {
+                splice @{$self->{list}}, $i, 1;
+                unshift @{$self->{list}}, $odep;
+                next WHILELOOP;
+            }
+            $i++;
 	}
 	push @new, $dep;
     }

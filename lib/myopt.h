@@ -22,6 +22,8 @@
 #ifndef MYOPT_H
 #define MYOPT_H
 
+#include <dpkg-def.h>
+
 typedef void (*voidfnp)(void);
 
 struct cmdinfo {
@@ -39,4 +41,14 @@ struct cmdinfo {
 void myfileopt(const char* fn, const struct cmdinfo* cmdinfos);
 void myopt(const char *const **argvp, const struct cmdinfo *cmdinfos);
 void loadcfgfile(const char *prog, const struct cmdinfo *cmdinfos);
+
+/* Utility functions. */
+void showcopyright(const struct cmdinfo *cip, const char *value) NONRETURNING;
+void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
+void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
+
+/* To be defined by callers. */
+void usage(void);
+void printversion(void);
+
 #endif /* MYOPT_H */

@@ -400,6 +400,7 @@ void clear_istobes(void) {
     pkg->clientdata->istobe= itb_normal;
     pkg->clientdata->replacingfilesandsaid= 0;
   }
+  iterpkgend(it);
 }
 
 void debug(int which, const char *fmt, ...) {

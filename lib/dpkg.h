@@ -30,6 +30,8 @@
 
 #include <myopt.h>
 
+#include <dpkg-def.h>
+
 #ifdef HAVE_SYS_CDEFS_H
 #include <sys/cdefs.h>
 #endif
@@ -153,18 +155,6 @@
 
 extern const char thisname[]; /* defined separately in each program */
 extern const char printforhelp[];
-
-#if HAVE_C_ATTRIBUTE
-# define CONSTANT __attribute__((constant))
-# define PRINTFFORMAT(si, tc) __attribute__((format(printf,si,tc)))
-# define NONRETURNING __attribute__((noreturn))
-# define UNUSED __attribute__((unused))
-#else
-# define CONSTANT
-# define PRINTFFORMAT(si, tc)
-# define NONRETURNING
-# define UNUSED
-#endif
 
 /*** from startup.c ***/
 
@@ -361,15 +351,13 @@ off_t buffer_copy(buffer_data_t read_data, buffer_data_t write_data, off_t limit
 
 extern volatile int onerr_abort;
 
-/*** from showcright.c ***/
-
-struct cmdinfo;
-void showcopyright(const struct cmdinfo*, const char*);
-
 /*** from utils.c ***/
 
 int cisdigit(int c);
 int cisalpha(int c);
+
+int fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn);
+int fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn);
 
 /*** from compression.c ***/
 

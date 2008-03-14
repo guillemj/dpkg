@@ -42,7 +42,9 @@
 
 const char* showformat	= "${Package}\t${Version}\n";
 
-static void printversion(void) {
+void
+printversion(void)
+{
   if (printf(_("Debian `%s' package archive backend version %s.\n"),
 	     BACKEND, DPKG_VERSION_ARCH) < 0) werr("stdout");
   if (printf(_("This is free software; see the GNU General Public License version 2 or\n"
@@ -51,7 +53,9 @@ static void printversion(void) {
 	     BACKEND) < 0) werr("stdout");
 }
 
-static void usage(void) {
+void
+usage(void)
+{
   if (printf(_(
 "Usage: %s [<option> ...] <command>\n"
 "\n"), BACKEND) < 0) werr("stdout");
@@ -120,15 +124,6 @@ const char* compression=NULL;
 enum compress_type compress_type = compress_type_gzip;
 const struct cmdinfo *cipaction = NULL;
 dofunction *action = NULL;
-
-static void helponly(const struct cmdinfo *cip, const char *value) NONRETURNING;
-static void helponly(const struct cmdinfo *cip, const char *value) {
-  usage(); exit(0);
-}
-static void versiononly(const struct cmdinfo *cip, const char *value) NONRETURNING;
-static void versiononly(const struct cmdinfo *cip, const char *value) {
-  printversion(); exit(0);
-}
 
 static void setaction(const struct cmdinfo *cip, const char *value);
 static void setcompresstype(const struct cmdinfo *cip, const char *value);

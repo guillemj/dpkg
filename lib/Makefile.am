@@ -12,6 +12,7 @@ INCLUDES = \
 noinst_LIBRARIES = libdpkg.a
 
 libdpkg_a_SOURCES = \
+	dpkg-def.h \
 	dpkg.h \
 	dpkg-db.h \
 	compat.c \
@@ -26,11 +27,11 @@ libdpkg_a_SOURCES = \
 	md5.c md5.h \
 	mlib.c \
 	myopt.c myopt.h \
+	myopt-util.c \
 	nfmalloc.c \
 	parse.c \
 	parsehelp.c \
 	parsedump.h \
-	showcright.c \
 	showpkg.c \
 	tarfn.c tarfn.h \
 	utils.c \

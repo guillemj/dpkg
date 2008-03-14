@@ -325,4 +325,6 @@ void writedb(const char *filename, int available, int mustsync) {
   if (rename(newfn,filename))
     ohshite(_("failed to install `%.250s' as `%.250s' containing %s info"),
             newfn, filename, which);
+  free(newfn);
+  free(oldfn);
 }

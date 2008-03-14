@@ -17,6 +17,14 @@ dpkg (1.14.17) UNRELEASED; urgency=low
   * Change dpkg-gencontrol to not output the Homapage field on udeb.
   * Reintroduce 'no-debsig' back in dpkg.cfg to avoid failing to install any
     package when debsig-verify is installed. Closes: #311843
+  * Fix some small memory leaks. Closes: #469520
+    Thanks to Sean Finney.
+  * Correct broken dselect logic for self-conflicting packages.
+    Thanks to Ian Jackson.
+  * Implement 'Breaks' properly in dselect. Closes: #448946
+    Thanks to Ian Jackson.
+  * Fix erroneous description of Breaks in dselect output.
+    Thanks to Ian Jackson.
 
   [ Raphael Hertzog ]
   * Add a warning displayed by dpkg-genchanges if the current version is
@@ -33,8 +41,9 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     about.
   * Handle the case when the library has a different SONAME than the one used
     to find it. Closes: #462413
-  * Fix Dpkg::Version to import _g() from Dpkg::Gettext. Thanks to Adam Heath
-    for spotting this. Closes: #465651
+  * Fix Dpkg::Version and Dpkg::Fields::Object to import _g() from
+    Dpkg::Gettext. Thanks to Adam Heath and Olivier Berger for spotting
+    this. Closes: #465651
   * Change PATH during make check to look into build directories containing
     dpkg and the related scripts. Thanks to Mike Frysinger. Closes: #466957
   * Some lintian cleanup:
@@ -46,6 +55,15 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     concerns upgrading from dpkg version older than the one in oldstable
     already. And thus we get rid of old the last usage of read in those
     scripts (fixes lintian's warning read-in-maintainer-script).
+  * Removed sorting of dependencies in dpkg-gencontrol and dpkg-source. But
+    kept it for all other fields (Enhances, Conflicts, Replaces, Breaks,
+    Build-Conflicts and Build-Conflicts-Indep).
+  * Instead changed dpkg-shlibdeps to sort the dependencies generated in
+    ${shlibs:*} variables.
+  * Changed the logic of simplification of dependencies: if any dependency
+    must be discarded due to another dependency appearing further
+    in the field, the superseding dependency will take the place of the
+    discarded one. Added a test case for this.
 
   [ Frank Lichtenheld ]
   * Add a warning in dpkg-buildpackage if the build-dependencies are not
@@ -60,15 +78,25 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     .changes files. Information will be available in Checksums-Sha{1,256}
     fields. .changes format version increased to 1.8.
   * Link dselect against libncursesw. Closes: #466321
+  * Forward port a patch from the old changelog parser to the new
+    one that got lost during the transition. '+' and '.' can now
+    be used in distribution names yet again. Reported by dann frazier.
+    Closes: #467470
 
   [ Updated dpkg translations ]
   * Korean (Changwoo Ryu).
   * Polish (Robert Luberda).
   * Romanian (Eddy Petrișor).
+  * Swedish (Peter Karlsson).
+  * Thai (Theppitak Karoonboonyanan). Closes: 468916
 
   [ Updated manpages translations ]
   * German (Helge Kreutzmann).
   * Polish (Robert Luberda).
+  * Swedish (Peter Karlsson).
+
+  [ Updated dselect translations ]
+  * Basque. (Piarres beobide). Closes: #462403
 
   [ Updated scripts translations ]
   * German (Helge Kreutzmann).
@@ -79,7 +107,7 @@ dpkg (1.14.17) UNRELEASED; urgency=low
   * Polish (Robert Luberda).
   * Romanian (Eddy Petrișor).
 
- -- Eddy Petrișor <eddy.petrisor@gmail.com>  Sat, 09 Feb 2008 13:22:38 +0200
+ -- Frank Lichtenheld <djpig@debian.org>  Fri, 29 Feb 2008 18:34:54 +0100
 
 dpkg (1.14.16.6) unstable; urgency=medium
 
@@ -600,7 +628,7 @@ dpkg (1.14.7) unstable; urgency=low
   * German (Sven Joachim). Closes: #440537
   * Nepali (Shiva Prasad Pokharel). Closes: #437825
   * Portuguese (Miguel Figueiredo). Closes: #441113
-  * Romanian (Eddy Petri?or).
+  * Romanian (Eddy Petrișor).
   * Vietnamese (Clytie Siddall). Closes: #440502
   * Korean (Sunjae Park). Closes: #443190
 

@@ -250,8 +250,8 @@ foreach my $field (@pkg_dep_fields) {
                                      reduce_arch => 1, union => 1);
 	    error(_g("error occurred while parsing %s"), $field_value) unless defined $dep;
 	    $dep->simplify_deps($facts);
+            $dep->sort();
 	}
-	$dep->sort();
 	$fields->{$field} = $dep->dump();
 	delete $fields->{$field} unless $fields->{$field}; # Delete empty field
     }

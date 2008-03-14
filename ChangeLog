@@ -1,5 +1,114 @@
+2008-03-14  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Changelog/Debian.pm: Fix regression by re-allowing
+	capitals (like UNRELEASED!) in the distribution/package name.
+	* scripts/t/600_Dpkg_Changelog/regressions: Add capitals in the
+	distribution name as part of the non-regression tests.
+
+2008-03-11  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* lib/showcright.c: Rename to ...
+	* lib/myopt-util.c: ... this.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Rename 'showcright.c' to
+	'myopt-util.c'.
+
+	* lib/dpkg.h (struct cmdinfo): Remove declaration.
+	(showcopyright): Move prototype to ...
+	* lib/myopt-util.c: ... here.
+	(helponly, versiononly): New functions.
+	* lib/myopt.h: Include <dpkg-def.h>.
+	(showcopyright, helponly, versiononly, usage, printversion): New
+	function prototypes.
+	* dpkg-deb/main.c (printversion, usage): Remove static keyword.
+	(helponly, versiononly): Remove function declarations and definitions.
+	* dpkg-split/main.c: Likewise.
+	* dselect/main.cc: Likewise.
+	* src/main.c: Likewise.
+	* src/query.c: Likewise.
+
+2008-03-11  Guillem Jover  <guillem@debian.org>
+
+	* lib/showcright.c (showcopyright): Move function prototype to ...
+	* lib/dpkg.h: ... here, and replace existing one.
+
+2008-03-11  Guillem Jover  <guillem@debian.org>
+
+	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'dpkg-def.h'.
+	* lib/dpkg.h: Include 'dpkg-def.h'.
+	(CONSTANT, PRINTFFORMAT, NONRETURNING, UNUSED): Move defninitions
+	to ...
+	* lib/dpkg-def.h: ... here. New file.
+	* utils/start-stop-daemon.c: Include 'dpkg-def.h'.
+	(CONSTANT, PRINTFFORMAT, NONRETURNING, UNUSED): Remove defninitions.
+
+2008-03-11  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* lib/dpkg.h (fgets_checked, fgets_must): New function declarations.
+	* lib/utils.c: Include <string.h>.
+	(fgets_checked, fgets_must): New function.
+	* src/filesdb.c (ensure_diversions): Use new fgets_checked and
+	fgets_must instead of duped code.
+
+2008-03-09  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* dselect/pkgdisplay.cc (relatestrings): Change 'breaks with' to
+	'breaks'.
+
+2008-03-09  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* dselect/pkgdepcon.cc (packagelist::resolvedepcon): Move dep_breaks
+	case after dep_conflicts so that it falls through.
+	(packagelist::deppossatisfied): Handle dep_breaks in the same way as
+	dep_conflicts.
+
+2008-03-09  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* dselect/pkgdepcon.cc (packagelist::deppossatisfied): The new rule
+	is that a Conflicts is violated if the target package is installed
+	or to be error-preserved ie would_like_to_install() != 0 - except
+	that we disregard packages which directly Conflict with themselves.
+
+2008-03-07  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Fields.pm: Import Dpkg::Gettext since we use _g().
+
+2008-03-06  Sean Finney  <seanius@seanius.net>
+
+	* lib/dump.c (writedb): Free newfn and oldfn.
+	* src/help.c (clear_istobes): Free pkgiterator 'it' by calling
+	iterpkgend.
+
+2008-03-02  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/dpkg-gencontrol.pl, scripts/dpkg-source.pl:
+	Do not sort the dependency fields as order matters given
+	the greedy algorithm that APT uses when trying to resolve
+	dependencies. See discussion on debian-devel:
+	http://lists.debian.org/debian-devel/2008/02/msg00893.html
+	* man/dpkg-gencontrol.1: Document the above changes.
+
+	* scripts/Dpkg/Deps.pm (simplify_deps): Tries to respect order put
+	by the maintainer when simplifying dependencies.
+	* scripts/t/400_Dpkg_Deps.t: Add a test-case to ensure that
+	further changes respect this constraint.
+
+	* scripts/dpkg-shlibdeps.pl: Sort generated dependencies to
+	have a deterministic output.
+
+2008-02-29  Frank Lichtenheld  <djpig@debian.org>
+
+	* scripts/Dpkg/Changelog/Debian.pm (parse):
+	One patch against the old parser that allowed
+	chars '+' and '.' in distribution names was
+	not forward ported into the new parser. Do
+	this now.
+	* scripts/t/600_Dpkg_Changelog/regression:
+	Add testcase for this regression.
+
+
 2008-02-22  Raphael Hertzog  <hertzog@debian.org>
-	    Mike Frysinger <vapier@gentoo.org>
+	    Mike Frysinger  <vapier@gentoo.org>
 
 	* scripts/Makefile.am: Modify PATH during make check to include
 	build directories containing dpkg and the scripts dpkg-*.
@@ -25,7 +134,6 @@
 	* scripts/Makefile.am (check): Use DPKG_DATADIR.
 	* debian/rules: Remove hack to copy data files
 	to build directory.
-
 
 2008-02-17  Frank Lichtenheld  <djpig@debian.org>
 	    Matthias Klose  <doko@cs.tu-berlin.de>
