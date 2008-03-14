@@ -90,7 +90,7 @@ sub do_extract {
     }
 
     # Extract debian tarball after removing the debian directory
-    info(_g("%s: unpacking %s"), $debianfile);
+    info(_g("unpacking %s"), $debianfile);
     erasedir("$newdirectory/debian");
     $tar = Dpkg::Source::Archive->new(filename => "$dscdir$debianfile");
     $tar->extract("$newdirectory/debian");
