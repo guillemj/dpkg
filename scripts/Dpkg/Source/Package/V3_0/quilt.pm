@@ -70,6 +70,9 @@ sub get_patches {
 sub apply_patches {
     my ($self, $dir, $skip_auto) = @_;
 
+    # Check if quilt is available
+    my $have_quilt = (-x "/usr/bin/quilt") ? 1 : 0;
+
     # Update debian/patches/series symlink if needed to allow quilt usage
     my $series = $self->get_series_file($dir);
     return unless $series; # No series, no patches
@@ -87,25 +90,31 @@ sub apply_patches {
     my $now = time();
     foreach my $patch ($self->get_patches($dir, $skip_auto)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
-        info(_g("applying %s"), $patch) unless $skip_auto;
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
-        my $analysis = $patch_obj->analyze($dir);
-        foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
-            eval { mkpath($dir); };
-            syserr(_g("cannot create directory %s"), $dir) if $@;
-        }
-        my %opts = (
-            env => { QUILT_PATCHES => 'debian/patches' },
-            delete_env => [ 'QUILT_PATCH_OPTS' ],
-            'chdir' => $dir,
-            'exec' => [ 'quilt', '--quiltrc', '/dev/null', 'push', $patch ],
-            wait_child => 1,
-            to_file => '/dev/null',
-        );
-        fork_and_exec(%opts);
-        foreach my $fn (keys %{$analysis->{'filepatched'}}) {
-            utime($now, $now, $fn) ||
-                syserr(_g("cannot change timestamp for %s"), $fn);
+        if ($have_quilt) {
+            info(_g("applying %s with quilt"), $patch) unless $skip_auto;
+            my $analysis = $patch_obj->analyze($dir);
+            foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
+                eval { mkpath($dir); };
+                syserr(_g("cannot create directory %s"), $dir) if $@;
+            }
+            my %opts = (
+                env => { QUILT_PATCHES => 'debian/patches' },
+                delete_env => [ 'QUILT_PATCH_OPTS' ],
+                'chdir' => $dir,
+                'exec' => [ 'quilt', '--quiltrc', '/dev/null', 'push', $patch ],
+                wait_child => 1,
+                to_file => '/dev/null',
+            );
+            fork_and_exec(%opts);
+            foreach my $fn (keys %{$analysis->{'filepatched'}}) {
+                utime($now, $now, $fn) ||
+                    syserr(_g("cannot change timestamp for %s"), $fn);
+            }
+        } else {
+            info(_g("applying %s"), $patch) unless $skip_auto;
+            $patch_obj->apply($dir, timestamp => $now,
+                    force_timestamp => 1, create_dirs => 1);
         }
     }
 }
@@ -128,7 +137,7 @@ sub prepare_build {
 sub register_autopatch {
     my ($self, $dir) = @_;
     my $auto_patch = $self->get_autopatch_name();
-    my $has_patch = grep(/\/\Q$auto_patch\E$/, $self->get_patches($dir)) ? 1 : 0;
+    my $has_patch = (grep { $_ eq $auto_patch } $self->get_patches($dir)) ? 1 : 0;
     my $series = $self->get_series_file($dir);
     $series ||= File::Spec->catfile($dir, "debian", "patches", "series");
     if (-e "$dir/debian/patches/$auto_patch") {
