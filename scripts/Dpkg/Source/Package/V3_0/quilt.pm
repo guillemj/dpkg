@@ -114,7 +114,8 @@ sub apply_patches {
         } else {
             info(_g("applying %s"), $patch) unless $skip_auto;
             $patch_obj->apply($dir, timestamp => $now,
-                    force_timestamp => 1, create_dirs => 1);
+                    force_timestamp => 1, create_dirs => 1,
+                    add_options => [ '-E' ]);
         }
     }
 }

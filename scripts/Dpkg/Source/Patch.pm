@@ -125,9 +125,9 @@ sub add_diff_file {
 sub add_diff_directory {
     my ($self, $old, $new, %opts) = @_;
     # TODO: make this function more configurable
-    # - offer diff generation for removed files
     # - offer to disable some checks
     my $basedir = $opts{"basedirname"} || basename($new);
+    my $inc_removal = $opts{"include_removal"} || 0;
     my $diff_ignore;
     if ($opts{"diff_ignore_func"}) {
         $diff_ignore = $opts{"diff_ignore_func"};
@@ -210,7 +210,14 @@ sub add_diff_directory {
         return if $files_in_new{$fn};
         lstat("$old/$fn") || syserr(_g("cannot stat file %s"), "$old/$fn");
         if (-f _) {
-            warning(_g("ignoring deletion of file %s"), $fn);
+            if ($inc_removal) {
+                $self->add_diff_file("$old/$fn", "/dev/null",
+                    label_old => "$basedir.orig/$fn",
+                    label_new => "/dev/null",
+                    %opts);
+            } else {
+                warning(_g("ignoring deletion of file %s"), $fn);
+            }
         } elsif (-d _) {
             warning(_g("ignoring deletion of directory %s"), $fn);
         } elsif (-l _) {
@@ -297,8 +304,7 @@ sub analyze {
 		  $diff, $.) if $_ eq '/dev/null';
 	    $fn = "$destdir/$_";
 	} else {
-	    unless ($_ eq substr($fn, length($destdir) + 1)) {
-		printf("$_ $fn $destdir %s",  substr($fn, length($destdir) + 1));
+	    unless ($_ eq '/dev/null' or $_ eq substr($fn, length($destdir) + 1)) {
 	        error(_g("line after --- isn't as expected in diff `%s' (line %d)"),
 	              $diff, $.);
 	    }
@@ -367,6 +373,8 @@ sub apply {
     $opts{"create_dirs"} = 1 unless exists $opts{"create_dirs"};
     $opts{"options"} ||= [ '-s', '-t', '-F', '0', '-N', '-p1', '-u',
             '-V', 'never', '-g0', '-b', '-z', '.dpkg-orig'];
+    $opts{"add_options"} ||= [];
+    push @{$opts{"options"}}, @{$opts{"add_options"}};
     # Check the diff and create missing directories
     my $analysis = $self->analyze($destdir, %opts);
     if ($opts{"create_dirs"}) {
@@ -391,7 +399,7 @@ sub apply {
     my $now = $opts{"timestamp"} || time;
     foreach my $fn (keys %{$analysis->{'filepatched'}}) {
 	if ($opts{"force_timestamp"}) {
-	    utime($now, $now, $fn) ||
+	    utime($now, $now, $fn) || $! == ENOENT ||
 		syserr(_g("cannot change timestamp for %s"), $fn);
 	}
 	if ($opts{"remove_backup"}) {
