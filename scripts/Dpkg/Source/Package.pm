@@ -53,7 +53,12 @@ sub new {
     if (exists $args{"options"}) {
         $self->{'options'} = $args{'options'};
     }
+    $self->init_options();
     return $self;
+}
+
+sub init_options {
+    my ($self) = @_;
 }
 
 sub initialize {
@@ -214,6 +219,19 @@ sub check_signature {
         warning(_g("could not verify signature on %s since gpg isn't installed"),
                 $dsc);
     }
+}
+
+sub parse_cmdline_options {
+    my ($self, @opts) = @_;
+    foreach (@opts) {
+        if (not $self->parse_cmdline_option($_)) {
+            warning(_g("%s is not a valid option for %s"), $_, ref($self));
+        }
+    }
+}
+
+sub parse_cmdline_option {
+    return 0;
 }
 
 sub extract {

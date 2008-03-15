@@ -28,8 +28,26 @@ use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr info);
 use Dpkg::Source::Patch;
 use Dpkg::IPC;
 
+use POSIX;
 use File::Basename;
 use File::Spec;
+
+sub init_options {
+    my ($self) = @_;
+    $self->SUPER::init_options();
+    $self->{'options'}{'without_quilt'} = 0
+        unless exists $self->{'options'}{'without_quilt'};
+}
+
+sub parse_cmdline_option {
+    my ($self, $opt) = @_;
+    return 1 if $self->SUPER::parse_cmdline_option($opt);
+    if ($opt =~ /^--without-quilt$/) {
+        $self->{'options'}{'without_quilt'} = 1;
+        return 1;
+    }
+    return 0;
+}
 
 sub get_autopatch_name {
     my ($self) = @_;
@@ -91,7 +109,7 @@ sub apply_patches {
     foreach my $patch ($self->get_patches($dir, $skip_auto)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
-        if ($have_quilt) {
+        if ($have_quilt and not $self->{'options'}{'without_quilt'}) {
             info(_g("applying %s with quilt"), $patch) unless $skip_auto;
             my $analysis = $patch_obj->analyze($dir);
             foreach my $dir (keys %{$analysis->{'dirtocreate'}}) {
@@ -108,7 +126,7 @@ sub apply_patches {
             );
             fork_and_exec(%opts);
             foreach my $fn (keys %{$analysis->{'filepatched'}}) {
-                utime($now, $now, $fn) ||
+                utime($now, $now, $fn) || $! == ENOENT ||
                     syserr(_g("cannot change timestamp for %s"), $fn);
             }
         } else {
@@ -122,6 +140,7 @@ sub apply_patches {
 
 sub prepare_build {
     my ($self, $dir) = @_;
+    $self->SUPER::prepare_build($dir);
     # Skip .pc directories of quilt by default and ignore difference
     # on debian/patches/series symlinks
     my $func = sub {
@@ -130,9 +149,7 @@ sub prepare_build {
         return 1 if $_[0] =~ /$self->{'options'}{'diff_ignore_regexp'}/;
         return 0;
     };
-    $self->{'diff_options'} = {
-        diff_ignore_func => $func
-    };
+    $self->{'diff_options'}{'diff_ignore_func'} = $func;
 }
 
 sub register_autopatch {

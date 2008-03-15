@@ -38,6 +38,23 @@ use File::Basename;
 use File::Temp qw(tempfile);
 use File::Spec;
 
+sub init_options {
+    my ($self) = @_;
+    $self->{'options'}{'sourcestyle'} ||= 'X';
+}
+
+sub parse_cmdline_option {
+    my ($self, $opt) = @_;
+    my $o = $self->{'options'};
+    if ($opt =~ m/^-s([akpursnAKPUR])$/) {
+        warning(_g("-s%s option overrides earlier -s%s option"), $1,
+                $o->{'sourcestyle'}) if $o->{'sourcestyle'} ne 'X';
+        $o->{'sourcestyle'} = $1;
+        return 1;
+    }
+    return 0;
+}
+
 sub do_extract {
     my ($self, $newdirectory) = @_;
     my $sourcestyle = $self->{'options'}{'sourcestyle'};

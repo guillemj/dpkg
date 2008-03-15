@@ -91,8 +91,6 @@ my %options = (
     # Ignore files
     tar_ignore => [],
     diff_ignore_regexp => '',
-    # Sourcestyle
-    sourcestyle => 'X',
 );
 
 # Fields to remove/override
@@ -103,6 +101,7 @@ my $substvars = Dpkg::Substvars->new();
 my $opmode;
 my $tar_ignore_default_pattern_done;
 
+my @cmdline_options;
 while (@ARGV && $ARGV[0] =~ m/^-/) {
     $_ = shift(@ARGV);
     if (m/^-b$/) {
@@ -124,10 +123,6 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
 	usageerr(_g("%s is not a compression level"), $comp_level)
 	    unless $comp_level =~ /^([1-9]|fast|best)$/;
 	Dpkg::Source::Compressor->set_default_compression_level($comp_level);
-    } elsif (m/^-s([akpursnAKPUR])$/) {
-	warning(_g("-s%s option overrides earlier -s%s option"), $1,
-		$options{'sourcestyle'}) if $options{'sourcestyle'} ne 'X';
-        $options{'sourcestyle'} = $1;
     } elsif (m/^-c/) {
         $controlfile = $POSTMATCH;
     } elsif (m/^-l/) {
@@ -150,9 +145,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
         }
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvars->set($1, $POSTMATCH);
+        warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-T/) {
-	$varlistfile = $POSTMATCH;
-	warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
+        $varlistfile = $POSTMATCH;
+        warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
     } elsif (m/^-(h|-help)$/) {
         usage();
         exit(0);
@@ -168,7 +164,7 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^--$/) {
         last;
     } else {
-        usageerr(_g("unknown option \`%s'"), $_);
+        push @cmdline_options, $_;
     }
 }
 
@@ -308,6 +304,10 @@ if ($opmode eq 'build') {
     }
     info(_g("using source format `%s'"), $fields->{'Format'});
 
+    # Parse command line options
+    $srcpkg->init_options();
+    $srcpkg->parse_cmdline_options(@cmdline_options);
+
     # Build the files (.tar.gz, .diff.gz, etc)
     $srcpkg->build($dir);
 
@@ -338,6 +338,9 @@ if ($opmode eq 'build') {
     # Create the object that does everything
     my $srcpkg = Dpkg::Source::Package->new(filename => $dsc,
 					    options => \%options);
+
+    # Parse command line options
+    $srcpkg->parse_cmdline_options(@cmdline_options);
 
     # Decide where to unpack
     my $newdirectory = $srcpkg->get_basename();
@@ -405,7 +408,7 @@ sub usage {
 Commands:
   -x <filename>.dsc [<output-dir>]
                            extract source package.
-  -b <dir> [<orig-dir>|<orig-targz>|\'\']
+  -b <dir>
                            build source package.
 
 Build options:
@@ -423,27 +426,17 @@ Build options:
                              (defaults to: '%s').
   -I[<pattern>]            filter out files when building tarballs
                              (defaults to: %s).
-  -sa                      auto select orig source (-sA is default).
-  -sk                      use packed orig source (unpack & keep).
-  -sp                      use packed orig source (unpack & remove).
-  -su                      use unpacked orig source (pack & keep).
-  -sr                      use unpacked orig source (pack & remove).
-  -ss                      trust packed & unpacked orig src are same.
-  -sn                      there is no diff, do main tarfile only.
-  -sA,-sK,-sP,-sU,-sR      like -sa,-sk,-sp,-su,-sr but may overwrite.
   -Z<compression>          select compression to use (defaults to 'gzip',
                              supported are: %s).
   -z<level>                compression level to use (defaults to '9',
                              supported are: '1'-'9', 'best', 'fast')
 
-Extract options:
-  -sp (default)            leave orig source packed in current dir.
-  -sn                      do not copy original source to current dir.
-  -su                      unpack original source tree too.
-
 General options:
   -h, --help               show this help message.
       --version            show the version.
+
+More options are available but they depend on the source package format.
+See dpkg-source(1) for more info.
 "), $progname,
     $diff_ignore_default_regexp,
     join('', map { " -I$_" } @tar_ignore_default_pattern),

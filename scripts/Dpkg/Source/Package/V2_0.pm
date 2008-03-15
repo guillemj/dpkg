@@ -37,6 +37,26 @@ use File::Temp qw(tempfile tempdir);
 use File::Path;
 use File::Spec;
 
+sub init_options {
+    my ($self) = @_;
+    $self->{'options'}{'include_removal'} = 0
+        unless exists $self->{'options'}{'include_removal'};
+    $self->{'options'}{'include_timestamp'} = 0
+        unless exists $self->{'options'}{'include_timestamp'};
+}
+
+sub parse_cmdline_option {
+    my ($self, $opt) = @_;
+    if ($opt =~ /^--include-removal$/) {
+        $self->{'options'}{'include_removal'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--include-timestamp$/) {
+        $self->{'options'}{'include_timestamp'} = 1;
+        return 1;
+    }
+    return 0;
+}
+
 sub do_extract {
     my ($self, $newdirectory) = @_;
     my $fields = $self->{'fields'};
@@ -144,7 +164,9 @@ sub can_build {
 sub prepare_build {
     my ($self, $dir) = @_;
     $self->{'diff_options'} = {
-        diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'}
+        diff_ignore_regexp => $self->{'options'}{'diff_ignore_regexp'},
+        include_removal => $self->{'options'}{'include_removal'},
+        include_timestamp => $self->{'options'}{'include_timestamp'},
     };
 }
 
