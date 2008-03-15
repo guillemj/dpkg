@@ -28,7 +28,7 @@
 #  define OSLinux
 #elif defined(__GNU__)
 #  define OSHURD
-#elif defined(__sparc__)
+#elif defined(__sun)
 #  define OSsunos
 #elif defined(OPENBSD) || defined(__OpenBSD__)
 #  define OSOpenBSD
