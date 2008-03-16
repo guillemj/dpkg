@@ -33,6 +33,57 @@ use Dpkg::Path qw(check_files_are_the_same);
 use POSIX;
 use File::Basename;
 
+# Public variables
+our $diff_ignore_default_regexp = '
+# Ignore general backup files
+(?:^|/).*~$|
+# Ignore emacs recovery files
+(?:^|/)\.#.*$|
+# Ignore vi swap files
+(?:^|/)\..*\.swp$|
+# Ignore baz-style junk files or directories
+(?:^|/),,.*(?:$|/.*$)|
+# File-names that should be ignored (never directories)
+(?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore|\.gitignore)$|
+# File or directory names that should be ignored
+(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
+\.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
+';
+# Take out comments and newlines
+$diff_ignore_default_regexp =~ s/^#.*$//mg;
+$diff_ignore_default_regexp =~ s/\n//sg;
+no warnings 'qw';
+our @tar_ignore_default_pattern = qw(
+*.a
+*.la
+*.o
+*.so
+*.swp
+*~
+,,*
+.[#~]*
+.arch-ids
+.arch-inventory
+.bzr
+.bzr.backup
+.bzr.tags
+.bzrignore
+.cvsignore
+.deps
+.git
+.gitignore
+.hg
+.shelf
+.svn
+CVS
+DEADJOE
+RCS
+_MTN
+_darcs
+{arch}
+);
+
+# Private stuff
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
 		     Maintainer Uploaders Dm-Upload-Allowed Homepage
 		     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
@@ -61,6 +112,10 @@ sub new {
 
 sub init_options {
     my ($self) = @_;
+    # Use full ignore list by default
+    $self->{'options'}{'diff_ignore_regexp'} ||= $diff_ignore_default_regexp;
+    $self->{'options'}{'tar_ignore'} = [ @tar_ignore_default_pattern ]
+            unless @{$self->{'options'}{'tar_ignore'}};
 }
 
 sub initialize {

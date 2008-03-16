@@ -40,6 +40,8 @@ use File::Spec;
 
 sub init_options {
     my ($self) = @_;
+    # Don't call $self->SUPER::init_options() on purpose, V1.0 has no
+    # ignore by default
     $self->{'options'}{'sourcestyle'} ||= 'X';
 }
 

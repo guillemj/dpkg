@@ -39,6 +39,7 @@ use File::Spec;
 
 sub init_options {
     my ($self) = @_;
+    $self->SUPER::init_options();
     $self->{'options'}{'include_removal'} = 0
         unless exists $self->{'options'}{'include_removal'};
     $self->{'options'}{'include_timestamp'} = 0

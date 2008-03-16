@@ -30,56 +30,6 @@ my $controlfile;
 my $changelogfile;
 my $changelogformat;
 
-my $diff_ignore_default_regexp = '
-# Ignore general backup files
-(?:^|/).*~$|
-# Ignore emacs recovery files
-(?:^|/)\.#.*$|
-# Ignore vi swap files
-(?:^|/)\..*\.swp$|
-# Ignore baz-style junk files or directories
-(?:^|/),,.*(?:$|/.*$)|
-# File-names that should be ignored (never directories)
-(?:^|/)(?:DEADJOE|\.cvsignore|\.arch-inventory|\.bzrignore|\.gitignore)$|
-# File or directory names that should be ignored
-(?:^|/)(?:CVS|RCS|\.deps|\{arch\}|\.arch-ids|\.svn|\.hg|_darcs|\.git|
-\.shelf|_MTN|\.bzr(?:\.backup|tags)?)(?:$|/.*$)
-';
-# Take out comments and newlines
-$diff_ignore_default_regexp =~ s/^#.*$//mg;
-$diff_ignore_default_regexp =~ s/\n//sg;
-
-no warnings 'qw';
-my @tar_ignore_default_pattern = qw(
-*.a
-*.la
-*.o
-*.so
-*.swp
-*~
-,,*
-.[#~]*
-.arch-ids
-.arch-inventory
-.bzr
-.bzr.backup
-.bzr.tags
-.bzrignore
-.cvsignore
-.deps
-.git
-.gitignore
-.hg
-.shelf
-.svn
-CVS
-DEADJOE
-RCS
-_MTN
-_darcs
-{arch}
-);
-
 my @build_formats = ("1.0", "3.0 (native)");
 my %options = (
     # Compression related
@@ -134,12 +84,12 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^-U([^\=:]+)$/) {
         $remove{$1} = 1;
     } elsif (m/^-i(.*)$/) {
-        $options{'diff_ignore_regexp'} = $1 ? $1 : $diff_ignore_default_regexp;
+        $options{'diff_ignore_regexp'} = $1 ? $1 : $Dpkg::Source::Package::diff_ignore_default_regexp;
     } elsif (m/^-I(.+)$/) {
         push @{$options{'tar_ignore'}}, $1;
     } elsif (m/^-I$/) {
         unless ($tar_ignore_default_pattern_done) {
-            push @{$options{'tar_ignore'}}, @tar_ignore_default_pattern;
+            push @{$options{'tar_ignore'}}, @Dpkg::Source::Package::tar_ignore_default_pattern;
             # Prevent adding multiple times
             $tar_ignore_default_pattern_done = 1;
         }
@@ -433,8 +383,8 @@ General options:
 More options are available but they depend on the source package format.
 See dpkg-source(1) for more info.
 "), $progname,
-    $diff_ignore_default_regexp,
-    join('', map { " -I$_" } @tar_ignore_default_pattern),
+    $Dpkg::Source::Package::diff_ignore_default_regexp,
+    join(' ', map { "-I$_" } @Dpkg::Source::Package::tar_ignore_default_pattern),
     "@comp_supported";
 }
 
