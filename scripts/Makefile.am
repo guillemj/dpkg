@@ -113,6 +113,7 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Source/Package.pm \
 	Dpkg/Source/Package/V1_0.pm \
 	Dpkg/Source/Package/V2_0.pm \
+	Dpkg/Source/Package/V3_0/bzr.pm \
 	Dpkg/Source/Package/V3_0/native.pm \
 	Dpkg/Source/Package/V3_0/git.pm \
 	Dpkg/Source/Package/V3_0/quilt.pm \
