@@ -315,7 +315,8 @@ sub apply_relocations {
 
 sub add_dynamic_symbol {
     my ($self, $symbol) = @_;
-    $symbol->{soname} = $self->{SONAME};
+    $symbol->{objid} = $symbol->{soname} = $self->get_id();
+    $symbol->{soname} =~ s{^.*/}{} unless $self->{SONAME};
     if ($symbol->{version}) {
 	$self->{dynsyms}{$symbol->{name} . '@' . $symbol->{version}} = $symbol;
     } else {

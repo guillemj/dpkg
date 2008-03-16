@@ -85,7 +85,7 @@ foreach (@ARGV) {
     } elsif (m/^-t(.*)$/) {
 	$packagetype = $1;
     } elsif (m/^-v$/) {
-	$debug = 1;
+	$debug++;
     } elsif (m/^-x(.*)$/) {
 	push @exclude, $1;
     } elsif (m/^-/) {
@@ -116,7 +116,7 @@ my %shlibs;
 my $cur_field;
 foreach my $file (keys %exec) {
     $cur_field = $exec{$file};
-    print "Scanning $file (for $cur_field field)\n" if $debug;
+    print ">> Scanning $file (for $cur_field field)\n" if $debug;
 
     my $obj = Dpkg::Shlibs::Objdump::Object->new($file);
     my @sonames = $obj->get_needed_libraries;
@@ -195,7 +195,7 @@ foreach my $file (keys %exec) {
 	    } else {
 		# No symbol file found, fall back to standard shlibs
 		my $id = $dumplibs_wo_symfile->parse($lib);
-		if ($id ne $soname) {
+		if (($id ne $soname) and ($id ne $lib)) {
 		    warning(_g("%s has an unexpected SONAME (%s)"), $lib, $id);
 		    $alt_soname{$id} = $soname;
 		}
@@ -241,14 +241,21 @@ foreach my $file (keys %exec) {
 	} else {
 	    $name .= "\@Base";
 	}
+        print " Looking up symbol $name\n" if $debug > 1;
 	my $symdep = $symfile->lookup_symbol($name, \@sonames);
 	if (defined($symdep)) {
+            print " Found in symbols file of $symdep->{soname}\n" if $debug > 1;
 	    $used_sonames{$symdep->{soname}}++;
+            if (exists $alt_soname{$symdep->{soname}}) {
+                # Also count usage on alternate soname
+                $used_sonames{$alt_soname{$symdep->{soname}}}++;
+            }
 	    update_dependency_version($symdep->{depends},
 				      $symdep->{minver});
 	} else {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
+                print " Not found\n" if $debug > 1;
 		next if $disable_warnings;
 		# Complain about missing symbols only for executables
 		# and public libraries
@@ -267,6 +274,7 @@ foreach my $file (keys %exec) {
 		    }
 		}
 	    } else {
+                print " Found in $syminfo->{soname} ($syminfo->{objid})\n" if $debug > 1;
 		if (exists $alt_soname{$syminfo->{soname}}) {
 		    # Also count usage on alternate soname
 		    $used_sonames{$alt_soname{$syminfo->{soname}}}++;
