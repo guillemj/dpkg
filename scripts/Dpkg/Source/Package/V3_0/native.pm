@@ -66,6 +66,12 @@ sub can_build {
 sub do_build {
     my ($self, $dir) = @_;
     my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
+    my @argv = $self->{'options'}{'ARGV'};
+
+    if (scalar(@argv)) {
+        usageerr(_g("-b takes only one parameter with format `%s'"),
+                 $self->{'fields'}{'Format'});
+    }
 
     my $sourcepackage = $self->{'fields'}{'Source'};
     my $basenamerev = $self->get_basename(1);

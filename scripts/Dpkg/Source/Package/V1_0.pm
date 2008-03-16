@@ -268,6 +268,7 @@ sub do_build {
     }
 
     if ($sourcestyle eq "n") {
+        $self->{'options'}{'ARGV'} = []; # ensure we have no error
         Dpkg::Source::Package::V3_0::native::do_build($self, $dir);
     } elsif ($sourcestyle =~ m/[nurUR]/) {
         if (stat($tarname)) {

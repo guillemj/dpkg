@@ -92,7 +92,8 @@ sub do_build {
 	my ($dirname, $updir) = fileparse($dir);
 
 	if (scalar(@argv)) {
-		usageerr(_g("-b takes only one parameter with v3.0 source packages"));
+            usageerr(_g("-b takes only one parameter with format `%s'"),
+                     $self->{'fields'}{'Format'});
 	}
 
 	my $sourcepackage = $self->{'fields'}{'Source'};
