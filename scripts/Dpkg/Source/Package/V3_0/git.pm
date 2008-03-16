@@ -48,60 +48,60 @@ delete $ENV{GIT_ALTERNATE_OBJECT_DIRECTORIES};
 delete $ENV{GIT_WORK_TREE};
 
 sub import {
-	foreach my $dir (split(/:/, $ENV{PATH})) {
-		if (-x "$dir/git") {
-			return 1;
-		}
-	}
-	error(_g("This source package can only be manipulated using git, which is not in the PATH."));
+    foreach my $dir (split(/:/, $ENV{PATH})) {
+        if (-x "$dir/git") {
+            return 1;
+        }
+    }
+    error(_g("This source package can only be manipulated using git, which is not in the PATH."));
 }
 
 sub sanity_check {
-	my $srcdir=shift;
+    my $srcdir = shift;
 
-	if (! -d "$srcdir/.git") {
-		error(_g("source directory is not the top directory of a git repository (%s/.git not present), but Format git was specified"),
-			 $srcdir);
-	}
-	if (-s "$srcdir/.gitmodules") {
-		error(_g("git repository %s uses submodules. This is not yet supported."),
-		      $srcdir);
-	}
+    if (! -d "$srcdir/.git") {
+        error(_g("source directory is not the top directory of a git repository (%s/.git not present), but Format git was specified"),
+              $srcdir);
+    }
+    if (-s "$srcdir/.gitmodules") {
+        error(_g("git repository %s uses submodules. This is not yet supported."),
+              $srcdir);
+    }
 
-	# Symlinks from .git to outside could cause unpack failures, or
-	# point to files they shouldn't, so check for and don't allow.
-	if (-l "$srcdir/.git") {
-		error(_g("%s is a symlink"), "$srcdir/.git");
-	}
-	my $abs_srcdir=Cwd::abs_path($srcdir);
-	find(sub {
-		if (-l $_) {
-			if (Cwd::abs_path(readlink($_)) !~ /^\Q$abs_srcdir\E(\/|$)/) {
-				error(_g("%s is a symlink to outside %s"),
-					 $File::Find::name, $srcdir);
-			}
-		}
-	}, "$srcdir/.git");
+    # Symlinks from .git to outside could cause unpack failures, or
+    # point to files they shouldn't, so check for and don't allow.
+    if (-l "$srcdir/.git") {
+        error(_g("%s is a symlink"), "$srcdir/.git");
+    }
+    my $abs_srcdir = Cwd::abs_path($srcdir);
+    find(sub {
+        if (-l $_) {
+            if (Cwd::abs_path(readlink($_)) !~ /^\Q$abs_srcdir\E(\/|$)/) {
+                error(_g("%s is a symlink to outside %s"),
+                      $File::Find::name, $srcdir);
+            }
+        }
+    }, "$srcdir/.git");
 
-	return 1;
+    return 1;
 }
 
 # Returns a hash of arrays of git config values.
 sub read_git_config {
-	my $file=shift;
+    my $file = shift;
 
-	my %ret;
-	open(GIT_CONFIG, '-|', "git", "config", "--file", $file, "--null", "-l") ||
-	    subprocerr("git config");
-	local $/ = "\0";
-	while (<GIT_CONFIG>) {
-	    chomp;
-	    my ($key, $value) = split(/\n/, $_, 2);
-	    push @{$ret{$key}}, $value;
-	}
-	close(GIT_CONFIG) || syserr(_g("git config exited nonzero"));
+    my %ret;
+    open(GIT_CONFIG, '-|', "git", "config", "--file", $file, "--null", "-l") ||
+        subprocerr("git config");
+    local $/ = "\0";
+    while (<GIT_CONFIG>) {
+        chomp;
+        my ($key, $value) = split(/\n/, $_, 2);
+        push @{$ret{$key}}, $value;
+    }
+    close(GIT_CONFIG) || syserr(_g("git config exited nonzero"));
 
-	return \%ret;
+    return \%ret;
 }
 
 sub can_build {
@@ -132,7 +132,7 @@ sub do_build {
 
     sanity_check($dir);
 
-    my $old_cwd=getcwd();
+    my $old_cwd = getcwd();
     chdir($dir) ||
 	syserr(_g("unable to chdir to `%s'"), $dir);
 
@@ -140,8 +140,8 @@ sub do_build {
     # To support dpkg-source -i, get a list of files
     # equivalent to the ones git status finds, and remove any
     # ignored files from it.
-    my @ignores="--exclude-per-directory=.gitignore";
-    my $core_excludesfile=`git config --get core.excludesfile`;
+    my @ignores = "--exclude-per-directory=.gitignore";
+    my $core_excludesfile = `git config --get core.excludesfile`;
     chomp $core_excludesfile;
     if (length $core_excludesfile && -e $core_excludesfile) {
 	push @ignores, "--exclude-from='$core_excludesfile'";
@@ -257,7 +257,7 @@ sub do_extract {
 
     sanity_check($newdirectory);
 
-    my $old_cwd=getcwd();
+    my $old_cwd = getcwd();
     chdir($newdirectory) ||
 	syserr(_g("unable to chdir to `%s'"), $newdirectory);
 
@@ -281,7 +281,7 @@ sub do_extract {
 
     # Comment out potentially probamatic or annoying stuff in
     # .git/config.
-    my $safe_fields=qr/^(
+    my $safe_fields = qr/^(
 		core\.autocrlf			|
 		branch\..*			|
 		remote\..*			|
@@ -290,7 +290,7 @@ sub do_extract {
 		core\.logallrefupdates		|
 		core\.bare
 		)$/x;
-    my %config=%{read_git_config(".git/config")};
+    my %config = %{read_git_config(".git/config")};
     foreach my $field (keys %config) {
 	if ($field =~ /$safe_fields/) {
 	    delete $config{$field};
@@ -332,4 +332,4 @@ sub do_extract {
 	syserr(_g("unable to chdir to `%s'"), $old_cwd);
 }
 
-1
+1;
