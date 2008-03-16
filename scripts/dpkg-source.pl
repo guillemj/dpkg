@@ -6,9 +6,8 @@ use warnings;
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(warning warnerror error failure unknown
-                           internerr syserr subprocerr usageerr info
-                           $warnable_error $quiet_warnings);
+use Dpkg::ErrorHandling qw(warning error unknown syserr usageerr info
+                           $quiet_warnings);
 use Dpkg::Arch qw(debarch_eq);
 use Dpkg::Deps qw(@src_dep_fields %dep_field_type);
 use Dpkg::Fields qw(:list capit);
@@ -21,7 +20,6 @@ use Dpkg::Changelog qw(parse_changelog);
 use Dpkg::Source::Compressor;
 use Dpkg::Source::Package;
 
-use POSIX;
 use English;
 use File::Spec;
 
@@ -91,6 +89,9 @@ my %options = (
     # Ignore files
     tar_ignore => [],
     diff_ignore_regexp => '',
+    # Misc options
+    copy_orig_tarballs => 1,
+    no_check => 0,
 );
 
 # Fields to remove/override
@@ -98,7 +99,6 @@ my %remove;
 my %override;
 
 my $substvars = Dpkg::Substvars->new();
-my $opmode;
 my $tar_ignore_default_pattern_done;
 
 my @cmdline_options;
@@ -143,6 +143,10 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
             # Prevent adding multiple times
             $tar_ignore_default_pattern_done = 1;
         }
+    } elsif (m/^--no-copy$/) {
+        $options{'copy_orig_tarballs'} = 0;
+    } elsif (m/^--no-check$/) {
+        $options{'no_check'} = 1;
     } elsif (m/^-V(\w[-:0-9A-Za-z]*)[=:]/) {
         $substvars->set($1, $POSTMATCH);
         warning(_g("substvars support is deprecated (see README.feature-removal-schedule)"));
@@ -155,12 +159,12 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     } elsif (m/^--version$/) {
         version();
         exit(0);
-    } elsif (m/^-W$/) {
-        $warnable_error = 1;
-    } elsif (m/^-E$/) {
-        $warnable_error = 0;
+    } elsif (m/^-[EW]$/) {
+        # Deprecated option
+        warning(_g("-E and -W are deprecated, they are without effect"));
     } elsif (m/^-q$/) {
         $quiet_warnings = 1;
+        $options{'quiet'} = 1;
     } elsif (m/^--$/) {
         last;
     } else {
@@ -168,11 +172,11 @@ while (@ARGV && $ARGV[0] =~ m/^-/) {
     }
 }
 
-unless (defined($opmode)) {
+unless (defined($options{'opmode'})) {
     usageerr(_g("need -x or -b"));
 }
 
-if ($opmode eq 'build') {
+if ($options{'opmode'} eq 'build') {
 
     if (not scalar(@ARGV)) {
 	usageerr(_g("-b needs a directory"));
@@ -321,7 +325,7 @@ if ($opmode eq 'build') {
 		       substvars => $substvars);
     exit(0);
 
-} elsif ($opmode eq 'extract') {
+} elsif ($options{'opmode'} eq 'extract') {
 
     # Check command line
     unless (scalar(@ARGV)) {
@@ -353,39 +357,27 @@ if ($opmode eq 'build') {
     }
 
     # Various checks before unpacking
-    if ($srcpkg->is_signed()) {
-	$srcpkg->check_signature();
-    } else {
-	warning(_g("extracting unsigned source package (%s)"), $dsc);
+    unless ($options{'no_check'}) {
+        if ($srcpkg->is_signed()) {
+            $srcpkg->check_signature();
+        } else {
+            warning(_g("extracting unsigned source package (%s)"), $dsc);
+        }
+        $srcpkg->check_checksums();
     }
-    $srcpkg->check_checksums();
 
     # Unpack the source package (delegated to Dpkg::Source::Package::*)
     info(_g("extracting %s in %s"), $srcpkg->{'fields'}{'Source'}, $newdirectory);
     $srcpkg->extract($newdirectory);
 
-    # Make sure debian/rules is executable
-    my @s = lstat("$newdirectory/debian/rules");
-    if (not scalar(@s)) {
-	unless ($! == ENOENT) {
-	    syserr(_g("cannot stat %s"), "$newdirectory/debian/rules");
-	}
-	warning(_g("%s does not exist"), "$newdirectory/debian/rules");
-    } elsif (-f _) {
-	chmod($s[2] | 0111, "$newdirectory/debian/rules") ||
-	    syserr(_g("cannot make %s executable"), "$newdirectory/debian/rules");
-    } else {
-	warning(_g("%s is not a plain file"), "$newdirectory/debian/rules");
-    }
-
     exit(0);
 }
 
 sub setopmode {
-    if (defined($opmode)) {
+    if (defined($options{'opmode'})) {
 	usageerr(_g("only one of -x or -b allowed, and only once"));
     }
-    $opmode = $_[0];
+    $options{'opmode'} = $_[0];
 }
 
 sub version {
@@ -419,9 +411,7 @@ Build options:
   -T<varlistfile>          read variables here, not debian/substvars.
   -D<field>=<value>        override or add a .dsc field and value.
   -U<field>                remove a field.
-  -E                       turn certain warnings into errors.
-  -W                       when -E is enabled, -W disables it.
-  -q                       quiet operation, do not print warnings.
+  -q                       quiet mode.
   -i[<regexp>]             filter out files to ignore diffs of
                              (defaults to: '%s').
   -I[<pattern>]            filter out files when building tarballs
@@ -430,6 +420,11 @@ Build options:
                              supported are: %s).
   -z<level>                compression level to use (defaults to '9',
                              supported are: '1'-'9', 'best', 'fast')
+
+Extract options:
+  --no-copy                don't copy .orig tarballs
+  --no-check               don't check signature and checksums before
+                             unpacking
 
 General options:
   -h, --help               show this help message.

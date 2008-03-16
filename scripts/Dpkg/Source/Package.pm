@@ -28,7 +28,9 @@ use Dpkg::Version qw(parseversion);
 use Dpkg::Deps qw(@src_dep_fields);
 use Dpkg::Compression;
 use Dpkg::Exit;
+use Dpkg::Path qw(check_files_are_the_same);
 
+use POSIX;
 use File::Basename;
 
 my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
@@ -236,10 +238,45 @@ sub parse_cmdline_option {
 
 sub extract {
     my $self = shift;
+    my $newdirectory = $_[0];
+
+    # Copy orig tarballs
+    if ($self->{'options'}{'copy_orig_tarballs'}) {
+        my $basename = $self->get_basename();
+        my ($dirname, $destdir) = fileparse($newdirectory);
+        $destdir ||= "./";
+        foreach my $orig (grep { /^\Q$basename\E\.orig(-\w+)?\.tar\.$comp_regex$/ }
+                          $self->get_files())
+        {
+            my $src = File::Spec->catfile($self->{'basedir'}, $orig);
+            my $dst = File::Spec->catfile($destdir, $orig);
+            if (not check_files_are_the_same($src, $dst)) {
+                system('cp', '--', $src, $dst);
+                subprocerr("cp $src to $dst") if $?;
+            }
+        }
+    }
+
+    # Try extract
     eval { $self->do_extract(@_) };
     if ($@) {
         &$_() foreach reverse @Dpkg::Exit::handlers;
         die $@;
+    }
+
+    # Make sure debian/rules is executable
+    my $rules = File::Spec->catfile($newdirectory, "debian", "rules");
+    my @s = lstat($rules);
+    if (not scalar(@s)) {
+        unless ($! == ENOENT) {
+            syserr(_g("cannot stat %s"), $rules);
+        }
+        warning(_g("%s does not exist"), $rules);
+    } elsif (-f _) {
+        chmod($s[2] | 0111, $rules) ||
+            syserr(_g("cannot make %s executable"), $rules);
+    } else {
+        warning(_g("%s is not a plain file"), $rules);
     }
 }
 

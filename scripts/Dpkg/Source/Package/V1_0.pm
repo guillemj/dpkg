@@ -50,6 +50,7 @@ sub parse_cmdline_option {
         warning(_g("-s%s option overrides earlier -s%s option"), $1,
                 $o->{'sourcestyle'}) if $o->{'sourcestyle'} ne 'X';
         $o->{'sourcestyle'} = $1;
+        $o->{'copy_orig_tarballs'} = 0 if $1 eq 'n'; # Extract option -sn
         return 1;
     }
     return 0;
@@ -110,13 +111,7 @@ sub do_extract {
         my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
         $tar->extract($expectprefix);
 
-        if ($sourcestyle =~ /p/) {
-            # -sp: copy the .orig.tar.gz if required
-            if (not check_files_are_the_same("$dscdir$tarfile", $tarfile)) {
-                system('cp', '--', "$dscdir$tarfile", $tarfile);
-                subprocerr("cp $dscdir$tarfile to $tarfile") if $?;
-            }
-        } elsif ($sourcestyle =~ /u/) {
+        if ($sourcestyle =~ /u/) {
             # -su: keep .orig directory unpacked
             if (-e "$newdirectory.tmp-keep") {
                 error(_g("unable to keep orig directory (already exists)"));
