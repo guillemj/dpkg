@@ -19,10 +19,7 @@ package Dpkg::Source::Archive;
 use strict;
 use warnings;
 
-use Dpkg::Source::Functions qw(erasedir);
-use Dpkg::Source::CompressedFile;
-use Dpkg::Source::Compressor;
-use Dpkg::Compression;
+use Dpkg::Source::Functions qw(erasedir fixperms);
 use Dpkg::Gettext;
 use Dpkg::IPC;
 use Dpkg::ErrorHandling qw(error syserr warning);
@@ -95,12 +92,20 @@ sub finish {
 sub extract {
     my ($self, $dest, %opts) = @_;
     $opts{"options"} ||= [];
+    $opts{"in_place"} ||= 0;
+    $opts{"no_fixperms"} ||= 0;
     my %fork_opts = (wait_child => 1);
 
     # Prepare destination
-    my $template = basename($self->get_filename()) .  ".tmp-extract.XXXXX";
-    my $tmp = tempdir($template, DIR => getcwd(), CLEANUP => 1);
-    $fork_opts{"chdir"} = $tmp;
+    my $tmp;
+    if ($opts{"in_place"}) {
+        $fork_opts{"chdir"} = $dest;
+        $tmp = $dest; # So that fixperms call works
+    } else {
+        my $template = basename($self->get_filename()) .  ".tmp-extract.XXXXX";
+        $tmp = tempdir($template, DIR => getcwd(), CLEANUP => 1);
+        $fork_opts{"chdir"} = $tmp;
+    }
 
     # Prepare stuff that handles the input of tar
     $fork_opts{"from_handle"} = $self->open_for_read();
@@ -111,35 +116,18 @@ sub extract {
     fork_and_exec(%fork_opts);
     $self->cleanup_after_open();
 
-    # Fix permissions on extracted files...
-    my ($mode, $modes_set, $i, $j);
-    # Unfortunately tar insists on applying our umask _to the original
-    # permissions_ rather than mostly-ignoring the original
-    # permissions.  We fix it up with chmod -R (which saves us some
-    # work) but we have to construct a u+/- string which is a bit
-    # of a palaver.  (Numeric doesn't work because we need [ugo]+X
-    # and [ugo]=<stuff> doesn't work because that unsets sgid on dirs.)
-    #
+    # Fix permissions on extracted files because tar insists on applying
+    # our umask _to the original permissions_ rather than mostly-ignoring
+    # the original permissions.
     # We still need --no-same-permissions because otherwise tar might
     # extract directory setgid (which we want inherited, not
     # extracted); we need --no-same-owner because putting the owner
     # back is tedious - in particular, correct group ownership would
     # have to be calculated using mount options and other madness.
-    #
-    # It would be nice if tar could do it right, or if pax could cope
-    # with GNU format tarfiles with long filenames.
-    #
-    $mode = 0777 & ~umask;
-    for ($i = 0; $i < 9; $i += 3) {
-	$modes_set .= ',' if $i;
-	$modes_set .= qw(u g o)[$i/3];
-	for ($j = 0; $j < 3; $j++) {
-	    $modes_set .= $mode & (0400 >> ($i+$j)) ? '+' : '-';
-	    $modes_set .= qw(r w X)[$j];
-	}
-    }
-    system('chmod', '-R', $modes_set, '--', $tmp);
-    subprocerr("chmod -R $modes_set $tmp") if $?;
+    fixperms($tmp) unless $opts{"no_fixperms"};
+
+    # Stop here if we extracted in-place as there's nothing to move around
+    return if $opts{"in_place"};
 
     # Rename extracted directory
     opendir(D, $tmp) || syserr(_g("cannot opendir %s"), $tmp);
