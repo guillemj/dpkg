@@ -150,7 +150,8 @@ sub apply_patches {
         info(_g("applying %s"), $patch) unless $skip_auto;
         my $patch_obj = Dpkg::Source::Patch->new(filename => $path);
         $patch_obj->apply($dir, force_timestamp => 1,
-                          timestamp => $timestamp);
+                          timestamp => $timestamp,
+                          add_options => [ '-E' ]);
     }
 }
 
