@@ -23,7 +23,7 @@ use base 'Dpkg::Source::Package';
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr info);
+use Dpkg::ErrorHandling qw(error syserr info usageerr);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Functions qw(erasedir);
@@ -66,7 +66,7 @@ sub can_build {
 sub do_build {
     my ($self, $dir) = @_;
     my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
-    my @argv = $self->{'options'}{'ARGV'};
+    my @argv = @{$self->{'options'}{'ARGV'}};
 
     if (scalar(@argv)) {
         usageerr(_g("-b takes only one parameter with format `%s'"),
