@@ -36,6 +36,7 @@ use File::Basename;
 use File::Temp qw(tempfile tempdir);
 use File::Path;
 use File::Spec;
+use File::Find;
 
 sub init_options {
     my ($self) = @_;
@@ -118,8 +119,20 @@ sub do_extract {
     # Extract debian tarball after removing the debian directory
     info(_g("unpacking %s"), $debianfile);
     erasedir("$newdirectory/debian");
+    # Exclude existing symlinks from extraction of debian.tar.gz as we
+    # don't want to overwrite something outside of $newdirectory due to a
+    # symlink
+    my @exclude_symlinks;
+    my $wanted = sub {
+        return if not -l $_;
+        my $fn = File::Spec->abs2rel($_, $newdirectory);
+        push @exclude_symlinks, "--exclude", $fn;
+    };
+    find({ wanted => $wanted, no_chdir => 1 }, $newdirectory);
     $tar = Dpkg::Source::Archive->new(filename => "$dscdir$debianfile");
-    $tar->extract($newdirectory, in_place => 1);
+    $tar->extract($newdirectory, in_place => 1,
+                  options => [ '--anchored', '--no-wildcards',
+                  @exclude_symlinks ]);
 
     # Apply patches (in a separate method as it might be overriden)
     $self->apply_patches($newdirectory);
