@@ -25,7 +25,7 @@ use Dpkg::Source::Compressor;
 use Dpkg::Compression;
 use Dpkg::Gettext;
 use Dpkg::IPC;
-use Dpkg::ErrorHandling qw(error syserr warning subprocerr);
+use Dpkg::ErrorHandling qw(error errormsg syserr warning subprocerr);
 
 use POSIX;
 use File::Find;
@@ -59,6 +59,10 @@ sub create {
 sub add_diff_file {
     my ($self, $old, $new, %opts) = @_;
     $opts{"include_timestamp"} = 0 unless exists $opts{"include_timestamp"};
+    my $handle_binary = $opts{"handle_binary_func"} || sub {
+        my ($self, $old, $new) = @_;
+        $self->_fail_with_msg($new, _g("binary file contents changed"));
+    };
     # Default diff options
     my @options;
     if ($opts{"options"}) {
@@ -94,9 +98,11 @@ sub add_diff_file {
     );
     # Check diff and write it in patch file
     my $difflinefound = 0;
+    my $binary = 0;
     while (<$diffgen>) {
         if (m/^binary/i) {
-            $self->_fail_with_msg($new,_g("binary file contents changed"));
+            $binary = 1;
+            &$handle_binary($self, $old, $new);
             last;
         } elsif (m/^[-+\@ ]/) {
             $difflinefound++;
@@ -115,11 +121,12 @@ sub add_diff_file {
                cmdline => "diff -u @options -- $old $new");
     # Verify diff process ended successfully
     # Exit code of diff: 0 => no difference, 1 => diff ok, 2 => error
+    # Ignore error if binary content detected
     my $exit = WEXITSTATUS($?);
-    unless (WIFEXITED($?) && ($exit == 0 || $exit == 1)) {
+    unless (WIFEXITED($?) && ($exit == 0 || $exit == 1 || $binary)) {
         subprocerr(_g("diff on %s"), $new);
     }
-    return $exit;
+    return ($exit == 0 || $exit == 1);
 }
 
 sub add_diff_directory {
@@ -163,6 +170,17 @@ sub add_diff_directory {
                 $! == ENOENT ||
                     syserr(_g("cannot stat file %s"), "$old/$fn");
                 $old_file = '/dev/null';
+            } elsif (not -f _) {
+                $self->_fail_not_same_type("$old/$fn", "$new/$fn");
+                return;
+            }
+
+            my $success = $self->add_diff_file($old_file, "$new/$fn",
+                label_old => "$basedir.orig/$fn",
+                label_new => "$basedir/$fn",
+                %opts);
+
+            if ($success and ($old_file eq "/dev/null")) {
                 if (not $size) {
                     warning(_g("newly created empty file '%s' will not " .
                                "be represented in diff"), $fn);
@@ -177,15 +195,7 @@ sub add_diff_directory {
                                    "be represented in diff"), $mode, $fn);
                     }
                 }
-            } elsif (not -f _) {
-                $self->_fail_not_same_type("$old/$fn", "$new/$fn");
-                return;
             }
-
-            $self->add_diff_file($old_file, "$new/$fn",
-                label_old => "$basedir.orig/$fn",
-                label_new => "$basedir/$fn",
-                %opts);
         } elsif (-p _) {
             unless (-p "$old/$fn") {
                 $self->_fail_not_same_type("$old/$fn", "$new/$fn");
@@ -240,21 +250,23 @@ sub finish {
     return not $self->{'errors'};
 }
 
+sub register_error {
+    my ($self) = @_;
+    $self->{'errors'}++;
+}
 sub _fail_with_msg {
     my ($self, $file, $msg) = @_;
-    printf(STDERR _g("%s: cannot represent change to %s: %s")."\n",
-                  $progname, $file, $msg);
-    $self->{'errors'}++;
+    errormsg(_g("cannot represent change to %s: %s"), $file, $msg);
+    $self->register_error();
 }
 sub _fail_not_same_type {
     my ($self, $old, $new) = @_;
     my $old_type = get_type($old);
     my $new_type = get_type($new);
-    printf(STDERR _g("%s: cannot represent change to %s:\n".
-                     "%s:  new version is %s\n".
-                     "%s:  old version is %s\n"),
-                  $progname, $new, $progname, $old_type, $progname, $new_type);
-    $self->{'errors'}++;
+    errormsg(_g("cannot represent change to %s:"), $new);
+    errormsg(_g("  new version is %s"), $old_type);
+    errormsg(_g("  old version is %s"), $new_type);
+    $self->register_error();
 }
 
 # check diff for sanity, find directories to create as a side effect

@@ -323,8 +323,11 @@ tarballs (\fB.orig-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP).
 The main original tarball is extracted first, then all additional original
 tarballs are extracted in subdirectories named after the \fIcomponent\fP
 part of their filename (any pre-existing directory is replaced). The
-debian tarball is extracted in a \fBdebian\fP subdirectory (and replaces
-any pre-existing \fBdebian\fP directory).
+debian tarball is extracted on top of the source directory after prior
+removal of any pre-existing \fBdebian\fP directory). Note that the
+debian tarball must contain a \fBdebian\fP sub-directory but it
+can also contain binary files outside of that directory (see
+\fB\-\-include\-binaries\fP option).
 .PP
 All patches in \fBdebian/patches\fP matching the perl regular expression
 \fB[\\w\-]+\fP are then applied in alphabetical order. The timestamp of
@@ -339,8 +342,14 @@ debian directory is copied over in the temporary directory, and all
 patches except \fBzz_debian-diff-auto\fP are applied.
 The temporary directory is compared to the source package directory
 and the diff (if non-empty) is stored in
-\fBdebian/patches/zz_debian-diff-auto\fP. The updated debian directory is
-then used to regenerate the debian tarball.
+\fBdebian/patches/zz_debian-diff-auto\fP. Any change on a binary file
+is not representable in a diff and will thus lead to a failure unless
+the maintainer deliberately decided to include that modified binary
+file in the debian tarball (by listing it in
+\fBdebian/source/include-binaries\fP).
+
+The updated debian directory and the list of modified binaries is then
+used to regenerate the debian tarball.
 
 The automatically generated diff doesn't include changes on VCS specific
 files as well as many temporary files (see default value associated to
@@ -364,12 +373,17 @@ in the 1.0 format. It supports all compression methods and
 will ignore by default any VCS specific files and directories
 as well as many temporary files (see default value associated to
 \fB-I\fP option in the \fB\-\-help\fP output).
+.TP
+.B \-\-include\-binaries
+Add all modified binaries in the debian tarball. Also add them to
+\fBdebian/source/include-binaries\fP: they will be added by default
+in subsequent builds and this option is thus no more needed.
 .
 .SS Format: 3.0 (quilt)
 This is a variant of the 2.0 format. The differences concern the
 management of the patches. This format uses an explicit list of
 patches contained in \fBdebian/patches/debian.series\fP or
-\fBdebian/patches/series\fP. The patches can remove files.
+\fBdebian/patches/series\fP.
 .PP
 .B Extracting
 .PP

@@ -23,7 +23,7 @@ use base 'Dpkg::Source::Package';
 
 use Dpkg;
 use Dpkg::Gettext;
-use Dpkg::ErrorHandling qw(error syserr warning usageerr subprocerr info);
+use Dpkg::ErrorHandling qw(error errormsg syserr warning usageerr subprocerr info);
 use Dpkg::Compression;
 use Dpkg::Source::Archive;
 use Dpkg::Source::Patch;
@@ -44,6 +44,8 @@ sub init_options {
         unless exists $self->{'options'}{'include_removal'};
     $self->{'options'}{'include_timestamp'} = 0
         unless exists $self->{'options'}{'include_timestamp'};
+    $self->{'options'}{'include_binaries'} = 0
+        unless exists $self->{'options'}{'include_binaries'};
 }
 
 sub parse_cmdline_option {
@@ -53,6 +55,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--include-timestamp$/) {
         $self->{'options'}{'include_timestamp'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--include-binaries$/) {
+        $self->{'options'}{'include_binaries'} = 1;
         return 1;
     }
     return 0;
@@ -96,7 +101,7 @@ sub do_extract {
     # Extract main tarball
     info(_g("unpacking %s"), $tarfile);
     my $tar = Dpkg::Source::Archive->new(filename => "$dscdir$tarfile");
-    $tar->extract($newdirectory);
+    $tar->extract($newdirectory, no_fixperms => 1);
 
     # Extract additional orig tarballs
     foreach my $subdir (keys %origtar) {
@@ -107,14 +112,14 @@ sub do_extract {
             erasedir("$newdirectory/$subdir");
         }
         $tar = Dpkg::Source::Archive->new(filename => "$dscdir$file");
-        $tar->extract("$newdirectory/$subdir");
+        $tar->extract("$newdirectory/$subdir", no_fixperms => 1);
     }
 
     # Extract debian tarball after removing the debian directory
     info(_g("unpacking %s"), $debianfile);
     erasedir("$newdirectory/debian");
     $tar = Dpkg::Source::Archive->new(filename => "$dscdir$debianfile");
-    $tar->extract("$newdirectory/debian");
+    $tar->extract($newdirectory, in_place => 1);
 
     # Apply patches (in a separate method as it might be overriden)
     $self->apply_patches($newdirectory);
@@ -176,6 +181,7 @@ sub do_build {
     my ($self, $dir) = @_;
     my @argv = @{$self->{'options'}{'ARGV'}};
     my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
+    my $include_binaries = $self->{'options'}{'include_binaries'};
 
     my ($dirname, $updir) = fileparse($dir);
     if (scalar(@argv)) {
@@ -232,6 +238,36 @@ sub do_build {
     # Apply all patches except the last automatic one
     $self->apply_patches($tmp, 1);
 
+    # Prepare handling of binary files
+    my %auth_bin_files;
+    my $incbin_file = File::Spec->catfile($dir, "debian", "source", "include-binaries");
+    if (-f $incbin_file) {
+        open(INC, "<", $incbin_file) || syserr(_g("can't read %s"), $incbin_file);
+        while(defined($_ = <INC>)) {
+            chomp; s/^\s*//; s/\s*$//;
+            next if /^#/;
+            $auth_bin_files{$_} = 1;
+        }
+        close(INC);
+    }
+    my @binary_files;
+    my $handle_binary = sub {
+        my ($self, $old, $new) = @_;
+        my $relfn = File::Spec->abs2rel($new, $dir);
+        # Include binaries if they are whitelisted or if
+        # --include-binaries has been given
+        if ($include_binaries or $auth_bin_files{$relfn}) {
+            push @binary_files, $relfn;
+        } else {
+            errormsg(_g("cannot represent change to %s: %s"), $new,
+                     _g("binary file contents changed"));
+            errormsg(_g("add %s in debian/source/include-binaries if you want" .
+                     " to store the modified binary in the debian tarball"),
+                     $relfn);
+            $self->register_error();
+        }
+    };
+
     # Create a patch
     my ($difffh, $tmpdiff) = tempfile("$basenamerev.diff.XXXXXX",
                                       DIR => $updir, UNLINK => 0);
@@ -240,11 +276,12 @@ sub do_build {
                                         compression => "none");
     $diff->create();
     $diff->add_diff_directory($tmp, $dir, basedirname => $basedirname,
-            %{$self->{'diff_options'}});
+            %{$self->{'diff_options'}}, handle_binary_func => $handle_binary);
     error(_g("unrepresentable changes to source")) if not $diff->finish();
     # The previous auto-patch must be removed, it has not been used and it
     # will be recreated if it's still needed
-    my $autopatch = "$dir/debian/patches/" . $self->get_autopatch_name();
+    my $autopatch = File::Spec->catfile($dir, "debian", "patches",
+                                        $self->get_autopatch_name());
     if (-e $autopatch) {
         unlink($autopatch) || syserr(_g("cannot remove %s"), $autopatch);
     }
@@ -263,12 +300,27 @@ sub do_build {
     erasedir($tmp);
     pop @Dpkg::Exit::handlers;
 
+    # Update debian/source/include-binaries if needed
+    if (scalar(@binary_files) and $include_binaries) {
+        mkpath(File::Spec->catdir($dir, "debian", "source"));
+        open(INC, ">>", $incbin_file) || syserr(_g("can't write %s"), $incbin_file);
+        foreach my $binary (@binary_files) {
+            unless ($auth_bin_files{$binary}) {
+                print INC "$binary\n";
+                info(_g("adding %s to %s"), $binary, "debian/source/include-binaries");
+            }
+        }
+        close(INC);
+    }
     # Create the debian.tar
     my $debianfile = "$basenamerev.debian.tar." . $self->{'options'}{'comp_ext'};
     info(_g("building %s in %s"), $sourcepackage, $debianfile);
     $tar = Dpkg::Source::Archive->new(filename => $debianfile);
     $tar->create(options => \@tar_ignore, 'chdir' => $dir);
     $tar->add_directory("debian");
+    foreach my $binary (@binary_files) {
+        $tar->add_file($binary);
+    }
     $tar->finish();
 
     $self->add_file($debianfile);
