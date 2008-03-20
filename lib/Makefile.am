@@ -15,6 +15,7 @@ libdpkg_a_SOURCES = \
 	dpkg-def.h \
 	dpkg.h \
 	dpkg-db.h \
+	cleanup.c \
 	compat.c \
 	compression.c \
 	database.c \

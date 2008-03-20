@@ -173,11 +173,6 @@ int skip_due_to_hold(struct pkginfo *pkg);
 
 /* from help.c */
 
-void cu_closefile(int argc, void **argv);
-void cu_closepipe(int argc, void **argv);
-void cu_closedir(int argc, void **argv);
-void cu_closefd(int argc, void **argv);
-
 struct stat;
 
 int ignore_depends(struct pkginfo *pkg);

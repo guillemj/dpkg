@@ -1,3 +1,16 @@
+2008-03-20  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* src/query.c (cu_closepipe, cu_closefile, cu_closefd): Remove
+	duplicated functions.
+	* src/help.c (cu_closepipe, cu_closefile, cu_closedir)
+	(cu_closefd): Move function definitions to ...
+	* lib/cleanup.c: ... here. New file.
+	* src/main.h (cu_closefile, cu_closepipe, cu_closedir)
+	(cu_closefd): Move prototypes to ...
+	* lib/dpkg.h: ... here.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'cleanup.c'.
+
 2008-03-20  Ian Jackson  <ian@davenant.greenend.org.uk>
 
 	* lib/dpkg-db.h (modstatdb_checkpoint): New prototype.

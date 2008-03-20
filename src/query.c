@@ -66,21 +66,6 @@ const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   return vb.buf;
 }
 
-void cu_closepipe(int argc, void **argv) {
-  int *p1= (int*)argv[0];
-  close(p1[0]); close(p1[1]);
-}
-
-void cu_closefile(int argc, void **argv) {
-  FILE *f= (FILE*)(argv[0]);
-  fclose(f);
-}
-
-void cu_closefd(int argc, void **argv) {
-  int ip= *(int*)argv;
-  close(ip);
-}
-
 int pkglistqsortcmp(const void *a, const void *b) {
   const struct pkginfo *pa= *(const struct pkginfo**)a;
   const struct pkginfo *pb= *(const struct pkginfo**)b;
