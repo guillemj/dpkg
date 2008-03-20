@@ -85,7 +85,7 @@ parseheaderlength(const char *inh, size_t len,
   return (size_t)r;
 }
 
-static int
+static void
 safe_fflush(FILE *f)
 {
 #if defined(__GLIBC__) && (__GLIBC__ == 2) && (__GLIBC_MINOR__ > 0)
