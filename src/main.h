@@ -173,11 +173,6 @@ int skip_due_to_hold(struct pkginfo *pkg);
 
 /* from help.c */
 
-void cu_closefile(int argc, void **argv);
-void cu_closepipe(int argc, void **argv);
-void cu_closedir(int argc, void **argv);
-void cu_closefd(int argc, void **argv);
-
 struct stat;
 
 int ignore_depends(struct pkginfo *pkg);
@@ -187,7 +182,6 @@ int force_conff_new(struct deppossi *possi);
 int force_conff_miss(struct deppossi *possi);
 int force_conflicts(struct deppossi *possi);
 void ensure_package_clientdata(struct pkginfo *pkg);
-const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
 void oldconffsetflags(const struct conffile *searchconff);
 void ensure_pathname_nonexisting(const char *pathname);
 int chmodsafe_unlink(const char *pathname, const char **failed);

@@ -121,26 +121,6 @@ void ensure_package_clientdata(struct pkginfo *pkg) {
   pkg->clientdata->files = NULL;
 }
 
-void cu_closepipe(int argc, void **argv) {
-  int *p1= (int*)argv[0];
-  close(p1[0]); close(p1[1]);
-}
-
-void cu_closefile(int argc, void **argv) {
-  FILE *f= (FILE*)(argv[0]);
-  fclose(f);
-}
-
-void cu_closedir(int argc, void **argv) {
-  DIR *d= (DIR*)(argv[0]);
-  closedir(d);
-}
-
-void cu_closefd(int argc, void **argv) {
-  int ip= *(int*)argv[0];
-  close(ip);
-}
-
 int ignore_depends(struct pkginfo *pkg) {
   struct packageinlist *id;
   for (id= ignoredependss; id; id= id->next)
@@ -162,18 +142,6 @@ int force_breaks(struct deppossi *possi) {
 
 int force_conflicts(struct deppossi *possi) {
   return fc_conflicts;
-}
-
-const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
-  static struct varbuf vb;
-  varbufreset(&vb);
-  varbufaddstr(&vb,admindir);
-  varbufaddstr(&vb,"/" INFODIR);
-  varbufaddstr(&vb,pkg->name);
-  varbufaddc(&vb,'.');
-  varbufaddstr(&vb,whichfile);
-  varbufaddc(&vb,0);
-  return vb.buf;
 }
 
 static const char* preexecscript(const char *path, char *const *argv) {

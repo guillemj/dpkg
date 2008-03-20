@@ -1,3 +1,45 @@
+2008-03-20  Guillem Jover  <guillem@debian.org>
+
+	* dpkg-deb/extract.c (safe_fflush): Change return type from int to
+	void.
+
+2008-03-20  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* lib/dpkg.h (cisspace): New prototype.
+	* lib/utils.c (cisspace): New function definition.
+
+2008-03-20  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* src/main.h (pkgadminfile): Move prototype to ...
+	* lib/dpkg-db.h: ... here.
+	* src/help.c (pkgadminfile): Move function definition to ...
+	* lib/dbmodify.c: ... here.
+	* src/query.c (pkgadminfile): Remove duplicated functions.
+
+2008-03-20  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* src/query.c (cu_closepipe, cu_closefile, cu_closefd): Remove
+	duplicated functions.
+	* src/help.c (cu_closepipe, cu_closefile, cu_closedir)
+	(cu_closefd): Move function definitions to ...
+	* lib/cleanup.c: ... here. New file.
+	* src/main.h (cu_closefile, cu_closepipe, cu_closedir)
+	(cu_closefd): Move prototypes to ...
+	* lib/dpkg.h: ... here.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'cleanup.c'.
+
+2008-03-20  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* lib/dpkg-db.h (modstatdb_checkpoint): New prototype.
+	* lib/dbmodify.c (checkpoint):  Remove static keyword. Rename to ...
+	(modstatdb_checkpoint): ... this. Fix all callers.
+
+2008-03-20  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* lib/tarfn.c (TarExtractor): Initialize h.LinkName and h.Name to
+	NULL.
+
 2008-03-16  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Shlibs/Objdump.pm: Add "objid" property to

@@ -35,6 +35,12 @@ int cisalpha(int c) {
 }
 
 int
+cisspace(int c)
+{
+	return (c == '\n' || c == '\t' || c == ' ');
+}
+
+int
 fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn)
 {
 	int l;

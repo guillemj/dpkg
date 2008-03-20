@@ -195,7 +195,7 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
   return cstatus;
 }
 
-static void checkpoint(void) {
+void modstatdb_checkpoint(void) {
   int i;
 
   assert(cstatus >= msdbrw_write);
@@ -214,7 +214,7 @@ void modstatdb_shutdown(void) {
   const struct fni *fnip;
   switch (cstatus) {
   case msdbrw_write:
-    checkpoint();
+    modstatdb_checkpoint();
     writedb(availablefile,1,0);
     /* tidy up a bit, but don't worry too much about failure */
     fclose(importanttmp);
@@ -279,13 +279,25 @@ void modstatdb_note(struct pkginfo *pkg) {
   nextupdate++;  
 
   if (nextupdate > MAXUPDATES) {
-    checkpoint();
+    modstatdb_checkpoint();
     nextupdate= 0;
   }
 
   createimptmp();
 
   onerr_abort--;
+}
+
+const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
+  static struct varbuf vb;
+  varbufreset(&vb);
+  varbufaddstr(&vb,admindir);
+  varbufaddstr(&vb,"/" INFODIR);
+  varbufaddstr(&vb,pkg->name);
+  varbufaddc(&vb,'.');
+  varbufaddstr(&vb,whichfile);
+  varbufaddc(&vb,0);
+  return vb.buf;
 }
 
 const char *log_file= NULL;

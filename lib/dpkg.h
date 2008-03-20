@@ -207,6 +207,13 @@ void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void werr(const char *what) NONRETURNING;
 void warningf(const char *fmt, ...) PRINTFFORMAT(1, 2);
 
+/*** cleanup.c ***/
+
+void cu_closefile(int argc, void **argv);
+void cu_closepipe(int argc, void **argv);
+void cu_closedir(int argc, void **argv);
+void cu_closefd(int argc, void **argv);
+
 /*** from mlib.c ***/
 
 void setcloexec(int fd, const char* fn);
@@ -355,6 +362,7 @@ extern volatile int onerr_abort;
 
 int cisdigit(int c);
 int cisalpha(int c);
+int cisspace(int c);
 
 int fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn);
 int fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn);
