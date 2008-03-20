@@ -369,7 +369,7 @@ sub analyze {
     }
     close($diff_handle);
     unless ($diff_count) {
-	error(_g("diff `%s' doesn't contain any patch"), $diff);
+	warning(_g("diff `%s' doesn't contain any patch"), $diff);
     }
     $self->cleanup_after_open();
     $self->{'analysis'}{$destdir}{"dirtocreate"} = \%dirtocreate;
