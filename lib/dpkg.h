@@ -362,6 +362,7 @@ extern volatile int onerr_abort;
 
 int cisdigit(int c);
 int cisalpha(int c);
+int cisspace(int c);
 
 int fgets_checked(char *buf, size_t bufsz, FILE *f, const char *fn);
 int fgets_must(char *buf, size_t bufsz, FILE *f, const char *fn);
