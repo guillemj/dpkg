@@ -140,6 +140,8 @@ TarExtractor(
 	symListBottom = symListPointer = symListTop = m_malloc(sizeof(symlinkList));
 	symListTop->next = NULL;
 
+	h.Name = NULL;
+	h.LinkName = NULL;
 	h.UserData = userData;
 
 	while ( (status = functions->Read(userData, buffer, 512)) == 512 ) {
