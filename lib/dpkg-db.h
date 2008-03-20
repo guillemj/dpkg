@@ -170,6 +170,7 @@ extern struct pipef *status_pipes;
 
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);
 void modstatdb_note(struct pkginfo *pkg);
+void modstatdb_checkpoint(void);
 void modstatdb_shutdown(void);
 
 extern char *statusfile, *availablefile; /* initialised by modstatdb_init */
