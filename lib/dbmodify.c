@@ -288,6 +288,18 @@ void modstatdb_note(struct pkginfo *pkg) {
   onerr_abort--;
 }
 
+const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
+  static struct varbuf vb;
+  varbufreset(&vb);
+  varbufaddstr(&vb,admindir);
+  varbufaddstr(&vb,"/" INFODIR);
+  varbufaddstr(&vb,pkg->name);
+  varbufaddc(&vb,'.');
+  varbufaddstr(&vb,whichfile);
+  varbufaddc(&vb,0);
+  return vb.buf;
+}
+
 const char *log_file= NULL;
 
 void log_message(const char *fmt, ...) {

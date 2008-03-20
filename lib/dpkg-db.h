@@ -175,6 +175,8 @@ void modstatdb_shutdown(void);
 
 extern char *statusfile, *availablefile; /* initialised by modstatdb_init */
 
+const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
+
 extern const char *log_file;
 void log_message(const char *fmt, ...) PRINTFFORMAT(1, 2);
 

@@ -54,18 +54,6 @@ void ensure_package_clientdata(struct pkginfo *pkg) {
   pkg->clientdata->files= 0;
 }
 
-const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
-  static struct varbuf vb;
-  varbufreset(&vb);
-  varbufaddstr(&vb,admindir);
-  varbufaddstr(&vb,"/" INFODIR);
-  varbufaddstr(&vb,pkg->name);
-  varbufaddc(&vb,'.');
-  varbufaddstr(&vb,whichfile);
-  varbufaddc(&vb,0);
-  return vb.buf;
-}
-
 int pkglistqsortcmp(const void *a, const void *b) {
   const struct pkginfo *pa= *(const struct pkginfo**)a;
   const struct pkginfo *pb= *(const struct pkginfo**)b;

@@ -144,18 +144,6 @@ int force_conflicts(struct deppossi *possi) {
   return fc_conflicts;
 }
 
-const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
-  static struct varbuf vb;
-  varbufreset(&vb);
-  varbufaddstr(&vb,admindir);
-  varbufaddstr(&vb,"/" INFODIR);
-  varbufaddstr(&vb,pkg->name);
-  varbufaddc(&vb,'.');
-  varbufaddstr(&vb,whichfile);
-  varbufaddc(&vb,0);
-  return vb.buf;
-}
-
 static const char* preexecscript(const char *path, char *const *argv) {
   /* returns the path to the script inside the chroot
    * none of the stuff here will work if admindir isn't inside instdir
