@@ -76,8 +76,6 @@ const struct fieldinfo fieldinfos[]= {
 #define NFIELDS (sizeof(fieldinfos)/sizeof(struct fieldinfo))
 const int nfields= NFIELDS;
 
-static void cu_parsedb(int argc, void **argv) { close(*(int *)argv); }
-
 int parsedb(const char *filename, enum parsedbflags flags,
             struct pkginfo **donep, FILE *warnto, int *warncount) {
   /* warnto, warncount and donep may be null.
@@ -105,7 +103,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   fd= open(filename, O_RDONLY);
   if (fd == -1) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
 
-  push_cleanup(cu_parsedb, ~ehflag_normaltidy, NULL, 0, 1, &fd);
+  push_cleanup(cu_closefd, ~ehflag_normaltidy, NULL, 0, 1, &fd);
 
   if (fstat(fd, &stat) == -1)
     ohshite(_("can't stat package info file `%.255s'"),filename);
