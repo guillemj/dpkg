@@ -1,3 +1,13 @@
+2008-03-21  Ian Jackson  <ian@davenant.greenend.org.uk>
+
+	* src/archives.c (tarobject): Make 'fd' static.
+	* lib/parse.c (parsedb): Likewise. Use ehflag_normaltidy on
+	push_cleanup and pop_cleanup. Move pop_cleanup call just before its
+	related close call.
+	* src/processarc.c (process_archive): Do not install two cleanup
+	handlers to close the fsys-tarfile pipe. Mark pipe descriptors with
+	invalid values when closed.
+
 2008-03-20  Guillem Jover  <guillem@debian.org>
 
 	* dpkg-deb/extract.c (safe_fflush): Change return type from int to

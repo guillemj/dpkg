@@ -371,11 +371,12 @@ static int linktosameexistingdir(const struct TarInfo *ti,
 
 int tarobject(struct TarInfo *ti) {
   static struct varbuf conffderefn, hardlinkfn, symlinkfn;
+  static int fd;
   const char *usename;
 
   struct conffile *conff;
   struct tarcontext *tc= (struct tarcontext*)ti->UserData;
-  int statr, fd, i, existingdirectory, keepexisting;
+  int statr, i, existingdirectory, keepexisting;
   ssize_t r;
   struct stat stab, stabtmp;
   char databuf[TARBLKSZ];

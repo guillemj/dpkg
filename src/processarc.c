@@ -561,13 +561,13 @@ void process_archive(const char *filename) {
     ohshite(_("unable to exec dpkg-deb to get filesystem archive"));
   }
   close(p1[1]);
+  p1[1] = -1;
 
   newfileslist = NULL;
   tc.newfilesp = &newfileslist;
   push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
   tc.pkg= pkg;
   tc.backendpipe= p1[0];
-  push_cleanup(cu_closefd, ~ehflag_bombout, NULL, 0, 1, &tc.backendpipe);
 
   r= TarExtractor((void*)&tc, &tf);
   if (r) {
@@ -577,8 +577,9 @@ void process_archive(const char *filename) {
       ohshit(_("corrupted filesystem tarfile - corrupted package archive"));
     }
   }
-  fd_null_copy(tc.backendpipe,-1,_("dpkg-deb: zap possible trailing zeros"));
-  close(tc.backendpipe);
+  fd_null_copy(p1[0], -1, _("dpkg-deb: zap possible trailing zeros"));
+  close(p1[0]);
+  p1[0] = -1;
   waitsubproc(c1,BACKEND " --fsys-tarfile",PROCPIPE);
 
   if (oldversionstatus == stat_halfinstalled || oldversionstatus == stat_unpacked) {

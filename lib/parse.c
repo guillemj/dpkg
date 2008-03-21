@@ -84,7 +84,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
    * If donep is not null only one package's information is expected.
    */
   
-  int fd;
+  static int fd;
   struct pkginfo newpig, *pigp;
   struct pkginfoperfile *newpifp, *pifp;
   struct arbitraryfield *arp, **larpp;
@@ -105,7 +105,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   fd= open(filename, O_RDONLY);
   if (fd == -1) ohshite(_("failed to open package info file `%.255s' for reading"),filename);
 
-  push_cleanup(cu_parsedb,~0, NULL,0, 1,&fd);
+  push_cleanup(cu_parsedb, ~ehflag_normaltidy, NULL, 0, 1, &fd);
 
   if (fstat(fd, &stat) == -1)
     ohshite(_("can't stat package info file `%.255s'"),filename);
@@ -318,7 +318,6 @@ int parsedb(const char *filename, enum parsedbflags flags,
     if (EOF_mmap(dataptr, endptr)) break;
     if (c == '\n') lno++;
   }
-  pop_cleanup(0);
   if (data != NULL) {
 #ifdef HAVE_MMAP
     munmap(data, stat.st_size);
@@ -327,6 +326,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
 #endif
   }
   free(value);
+  pop_cleanup(ehflag_normaltidy);
   if (close(fd)) ohshite(_("failed to close after read: `%.255s'"),filename);
   if (donep && !pdone) ohshit(_("no package information in `%.255s'"),filename);
 
