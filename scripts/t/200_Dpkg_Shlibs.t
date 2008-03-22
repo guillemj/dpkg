@@ -64,13 +64,15 @@ is_deeply([ $obj->get_needed_libraries ], [ 'ld-linux.so.2' ], 'NEEDED');
 
 $sym = $obj->get_symbol('_sys_nerr@GLIBC_2.3');
 is_deeply( $sym, { name => '_sys_nerr', version => 'GLIBC_2.3',
-		   soname => 'libc.so.6', section => '.rodata', dynamic => 1,
+		   soname => 'libc.so.6', objid => 'libc.so.6',
+		   section => '.rodata', dynamic => 1,
 		   debug => '', type => 'O', weak => '',
 		   local => '', global => 1, visibility => '',
 		   hidden => 1, defined => 1 }, 'Symbol' );
 $sym = $obj->get_symbol('_IO_stdin_used');
 is_deeply( $sym, { name => '_IO_stdin_used', version => '',
-		   soname => 'libc.so.6', section => '*UND*', dynamic => 1,
+		   soname => 'libc.so.6', objid => 'libc.so.6',
+		   section => '*UND*', dynamic => 1,
 		   debug => '', type => ' ', weak => 1,
 		   local => '', global => '', visibility => '',   
 		   hidden => '', defined => '' }, 'Symbol 2' );
@@ -178,7 +180,8 @@ close $objdump;
 
 $sym = $obj->get_symbol('IA__g_free');
 is_deeply( $sym, { name => 'IA__g_free', version => '',
-		   soname => 'libglib-2.0.so.0', section => '.text', dynamic => 1,
+		   soname => 'libglib-2.0.so.0', objid => 'libglib-2.0.so.0',
+		   section => '.text', dynamic => 1,
 		   debug => '', type => 'F', weak => '',
 		   local => 1, global => '', visibility => 'hidden',
 		   hidden => '', defined => 1 }, 
