@@ -61,10 +61,15 @@ build: build-tree/config.status
 	dh_testdir
 
 	cd build-tree && $(MAKE)
+
+# Run the test suites
+check: build
+	dh_testdir
+
 	cd build-tree && $(MAKE) check
 
 # Install the package underneath debian/tmp
-install: build
+install: check
 	dh_testdir
 	dh_testroot
 	dh_clean -k
@@ -133,4 +138,4 @@ clean:
 	dh_clean
 
 
-.PHONY: build install binary-arch binary-indep binary clean
+.PHONY: build check install binary-arch binary-indep binary clean
