@@ -126,8 +126,12 @@ struct pkginfo { /* pig */
     eflagv_obsoleteboth =    eflagf_reinstreq | eflagf_obsoletehold
   } eflag; /* bitmask, but obsoletehold no longer used except when reading */
   enum pkgstatus {
-    stat_notinstalled, stat_unpacked, stat_halfconfigured,
-    stat_installed, stat_halfinstalled, stat_configfiles
+    stat_notinstalled,
+    stat_configfiles,
+    stat_halfinstalled,
+    stat_unpacked,
+    stat_halfconfigured,
+    stat_installed
   } status;
   enum pkgpriority {
     pri_required, pri_important, pri_standard, pri_recommended,

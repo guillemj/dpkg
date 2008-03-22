@@ -161,7 +161,7 @@ void w_status(struct varbuf *vb,
   if (pifp != &pigp->installed) return;
   assert(pigp->want <= want_purge);
   assert(pigp->eflag <= eflagv_reinstreq); /* hold and hold-reinstreq NOT allowed */
-  assert(pigp->status <= stat_configfiles);
+  assert(pigp->status <= stat_installed);
   if (flags&fw_printheader)
     varbufaddstr(vb,"Status: ");
   varbufaddstr(vb,wantinfos[pigp->want].name); varbufaddc(vb,' ');

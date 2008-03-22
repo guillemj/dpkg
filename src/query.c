@@ -146,7 +146,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
   limiteddescription(pkg,dw,&pdesc,&l);
   printf(format,
          "uihrp"[pkg->want],
-         "nUFiHc"[pkg->status],
+         "ncHUFi"[pkg->status],
          " R?#"[pkg->eflag],
          pkg->name,
          versiondescribe(&pkg->installed.version, vdew_nonambig),

@@ -383,7 +383,7 @@ void process_archive(const char *filename) {
   
   oldversionstatus= pkg->status;
 
-  assert(oldversionstatus <= stat_configfiles);
+  assert(oldversionstatus <= stat_installed);
   debug(dbg_general,"process_archive oldversionstatus=%s",
         statusstrings[oldversionstatus]);
   

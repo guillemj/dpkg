@@ -83,11 +83,11 @@ const struct namevalue priorityinfos[]= {  /* Note !  These must be in order ! *
 
 const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
   { "not-installed",   stat_notinstalled,    13 },
+  { "config-files",    stat_configfiles,     12 },
+  { "half-installed",  stat_halfinstalled,   14 },
   { "unpacked",        stat_unpacked,        8 },
   { "half-configured", stat_halfconfigured,  15, },
   { "installed",       stat_installed,       9 },
-  { "half-installed",  stat_halfinstalled,   14 },
-  { "config-files",    stat_configfiles,     12 },
   /* These are additional entries for reading only, in any order ... */
   { "postinst-failed", stat_halfconfigured,  15 }, /* fixme: backwards compat., remove */
   { "removal-failed",  stat_halfinstalled,   14 }, /* fixme: backwards compat., remove */

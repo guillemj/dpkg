@@ -176,7 +176,7 @@ void process_queue(void) {
     
     if (!pkg) continue; /* duplicate, which we removed earlier */
 
-    assert(pkg->status <= stat_configfiles);
+    assert(pkg->status <= stat_installed);
 
     if (setjmp(ejbuf)) {
       /* give up on it from the point of view of other packages, ie reset istobe */
@@ -279,9 +279,9 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
     return thisf;
   }
   switch (possdependee->status) {
-  case stat_installed:
   case stat_unpacked:
   case stat_halfconfigured:
+  case stat_installed:
     assert(possdependee->installed.valid);
     if (checkversion && !versionsatisfied(&possdependee->installed,checkversion)) {
       varbufprintf(oemsgs, _("  Version of %s on system is %s.\n"),

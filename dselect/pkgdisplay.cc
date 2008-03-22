@@ -50,11 +50,11 @@ const char
 			     0 },
 
   *const statusstrings[]= { N_("not installed"),
+			    N_("removed (configs remain)"),
+			    N_("half installed"),
 			    N_("unpacked (not set up)"),
 			    N_("failed config"),
 			    N_("installed"),
-			    N_("half installed"),
-			    N_("removed (configs remain)"),
 			    0 },
 
   *const prioritystrings[]=  { N_("Required"),
@@ -89,7 +89,7 @@ const char
 			       N_("bUG"),
 			       N_("?") };
 
-const char statuschars[]=   " UC*I-";
+const char statuschars[] = " -IUC*";
 const char eflagchars[]=     " R?#";
 const char wantchars[]=     "n*=-_";
 

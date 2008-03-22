@@ -39,11 +39,11 @@
 
 const char *const statusstrings[]= {
   N_("not installed"),
+  N_("not installed but configs remain"),
+  N_("broken due to failed removal"),
   N_("unpacked but not configured"),
   N_("broken due to postinst failure"),
-  N_("installed"),
-  N_("broken due to failed removal"),
-  N_("not installed but configs remain")
+  N_("installed")
 };
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg) {
