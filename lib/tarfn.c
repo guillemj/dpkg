@@ -16,6 +16,8 @@
 #include <tarfn.h>
 #include <dpkg.h>
 
+#include "strnlen.h"
+
 struct TarHeader {
 	char Name[100];
 	char Mode[8];

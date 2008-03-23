@@ -92,7 +92,7 @@ DPKG_C_ATTRIBUTE
 
 # Checks for library functions.
 DPKG_FUNC_VA_COPY
-DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long obstack_free])
+DPKG_CHECK_COMPAT_FUNCS([getopt getopt_long strnlen obstack_free])
 AC_CHECK_FUNCS([vsnprintf snprintf strtoul strerror strsignal alphasort \
                 isascii bcopy memcpy scandir unsetenv lchown setsid \
                 getdtablesize])

@@ -20,3 +20,7 @@ if !HAVE_OBSTACK_FREE
 libcompat_a_SOURCES += obstack.c obstack.h
 endif
 
+if !HAVE_STRNLEN
+libcompat_a_SOURCES += strnlen.c strnlen.h
+endif
+
