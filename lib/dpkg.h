@@ -181,11 +181,11 @@ extern const char printforhelp[];
 
 /*** from ehandle.c ***/
 
-void push_error_handler(jmp_buf *jbufp,
-                        void (*printerror)(const char *, const char *),
+typedef void error_printer(const char *emsg, const char *contextstring);
+
+void push_error_handler(jmp_buf *jbufp, error_printer *printerror,
                         const char *contextstring);
-void set_error_display(void (*printerror)(const char *, const char *),
-                       const char *contextstring);
+void set_error_display(error_printer *printerror, const char *contextstring);
 void print_error_fatal(const char *emsg, const char *contextstring);
 void error_unwind(int flagset);
 void push_cleanup(void (*f1)(int argc, void **argv), int flagmask1,

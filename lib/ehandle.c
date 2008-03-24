@@ -63,7 +63,7 @@ struct errorcontext {
 static struct errorcontext *volatile econtext= NULL;
 static struct { struct cleanupentry ce; void *args[20]; } emergency;
 
-void set_error_display(void (*printerror)(const char *, const char *),
+void set_error_display(error_printer *printerror,
                        const char *contextstring) {
   assert(econtext);
   econtext->printerror= printerror;
@@ -71,7 +71,7 @@ void set_error_display(void (*printerror)(const char *, const char *),
 }
 
 void push_error_handler(jmp_buf *jbufp,
-                        void (*printerror)(const char *, const char *),
+                        error_printer *printerror,
                         const char *contextstring) {
   struct errorcontext *necp;
   necp= malloc(sizeof(struct errorcontext));
