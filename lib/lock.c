@@ -32,26 +32,58 @@
 #include <dpkg.h>
 #include <dpkg-db.h>
 
-static int dblockfd= -1;
-
-static void cu_unlockdb(int argc, void **argv) {
+static void
+cu_unlock_file(int argc, void **argv)
+{
+  int lockfd = *(int*)argv[0];
   struct flock fl;
-  assert(dblockfd >= 0);
+
+  assert(lockfd >= 0);
   fl.l_type= F_UNLCK;
   fl.l_whence= SEEK_SET;
   fl.l_start= 0;
   fl.l_len= 0;
-  if (fcntl(dblockfd,F_SETLK,&fl) == -1)
+  if (fcntl(lockfd, F_SETLK, &fl) == -1)
     ohshite(_("unable to unlock dpkg status database"));
 }
 
+void
+unlock_file(void)
+{
+  pop_cleanup(ehflag_normaltidy); /* Calls cu_unlock_file. */
+}
+
+/* lockfd must be allocated statically as its addresses is passed to
+ * a cleanup handler. */
+void
+lock_file(int *lockfd, const char *filename,
+          const char *emsg, const char *emsg_eagain)
+{
+  struct flock fl;
+
+  setcloexec(*lockfd, filename);
+
+  fl.l_type = F_WRLCK;
+  fl.l_whence = SEEK_SET;
+  fl.l_start = 0;
+  fl.l_len = 0;
+
+  if (fcntl(*lockfd, emsg_eagain ? F_SETLK : F_SETLKW, &fl) == -1) {
+    if (emsg_eagain && (errno == EACCES || errno == EAGAIN))
+      ohshit(emsg_eagain);
+    ohshite(emsg);
+  }
+
+  push_cleanup(cu_unlock_file, ~0, NULL, 0, 1, lockfd);
+}
+
 void unlockdatabase(const char *admindir) {
-  pop_cleanup(ehflag_normaltidy); /* calls cu_unlockdb */
+  unlock_file();
 }
 
 void lockdatabase(const char *admindir) {
+  static int dblockfd = -1;
   int n;
-  struct flock fl;
   char *dblockfile= NULL;
   
     n= strlen(admindir);
@@ -66,16 +98,10 @@ void lockdatabase(const char *admindir) {
       ohshite(_("unable to open/create status database lockfile"));
     }
   }
-  fl.l_type= F_WRLCK;
-  fl.l_whence= SEEK_SET;
-  fl.l_start= 0;
-  fl.l_len= 0;
-  if (fcntl(dblockfd,F_SETLK,&fl) == -1) {
-    if (errno == EACCES || errno == EAGAIN)
-      ohshit(_("status database area is locked by another process"));
-    ohshite(_("unable to lock dpkg status database"));
-  }
-  setcloexec(dblockfd, dblockfile);
+
+  lock_file(&dblockfd, dblockfile,
+            _("unable to lock dpkg status database"),
+            _("status database area is locked by another process"));
+
   free(dblockfile);
-  push_cleanup(cu_unlockdb,~0, NULL,0, 0);
 }

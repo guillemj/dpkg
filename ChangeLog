@@ -1,3 +1,19 @@
+2008-03-25  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* lib/dpkg.h (lock_file): New function prototype.
+	(unlock_file): Likewise.
+	* lib/lock.c (cu_unlockdb): Rename to ...
+	(cu_unlock_file): ... here. Rename dblockfd to lockfd, and take it
+	from argv.
+	(unlock_file): New function.
+	(lock_file): Likewise.
+	(dblockfd): Move variable to ...
+	(lockdatabase): ... here. Call lock_file instead of doing the
+	actual file locking.
+	(unlockdatabase): Call unlock_file, instead if doing the actual
+	pop_cleanup.
+
 2008-03-24  Ian Jackson  <ian@davenant.greenend.org.uk>
 
 	* lib/dpkg.h (error_printer): New function pointer type.
