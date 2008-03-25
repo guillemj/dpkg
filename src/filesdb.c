@@ -46,6 +46,17 @@ static struct diversion *diversions = NULL;
 static FILE *diversionsfile = NULL;
 static FILE *statoverridefile = NULL;
 
+void
+ensure_package_clientdata(struct pkginfo *pkg)
+{
+  if (pkg->clientdata)
+    return;
+  pkg->clientdata = nfmalloc(sizeof(struct perpackagestate));
+  pkg->clientdata->istobe = itb_normal;
+  pkg->clientdata->fileslistvalid = 0;
+  pkg->clientdata->files = NULL;
+}
+
 void note_must_reread_files_inpackage(struct pkginfo *pkg) {
   allpackagesdone= 0;
   ensure_package_clientdata(pkg);

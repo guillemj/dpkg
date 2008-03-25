@@ -46,14 +46,6 @@
 static const char* showformat		= "${Package}\t${Version}\n";
 
 
-void ensure_package_clientdata(struct pkginfo *pkg) {
-  if (pkg->clientdata) return;
-  pkg->clientdata= nfmalloc(sizeof(struct perpackagestate));
-  pkg->clientdata->istobe= itb_normal;
-  pkg->clientdata->fileslistvalid= 0;
-  pkg->clientdata->files= 0;
-}
-
 int pkglistqsortcmp(const void *a, const void *b) {
   const struct pkginfo *pa= *(const struct pkginfo**)a;
   const struct pkginfo *pb= *(const struct pkginfo**)b;

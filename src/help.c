@@ -113,14 +113,6 @@ void checkpath(void) {
                 warned);
 }
 
-void ensure_package_clientdata(struct pkginfo *pkg) {
-  if (pkg->clientdata) return;
-  pkg->clientdata= nfmalloc(sizeof(struct perpackagestate));
-  pkg->clientdata->istobe= itb_normal;
-  pkg->clientdata->fileslistvalid= 0;
-  pkg->clientdata->files = NULL;
-}
-
 int ignore_depends(struct pkginfo *pkg) {
   struct packageinlist *id;
   for (id= ignoredependss; id; id= id->next)

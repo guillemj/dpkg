@@ -131,6 +131,8 @@ struct fileiterator *iterfilestart(void);
 struct filenamenode *iterfilenext(struct fileiterator *i);
 void iterfileend(struct fileiterator *i);
 
+void ensure_package_clientdata(struct pkginfo *pkg);
+
 void ensure_diversions(void);
 void ensure_statoverrides(void);
 
