@@ -480,12 +480,30 @@ be marked selected for deinstallation.
 Don't install the package if the same version of the package is already
 installed.
 .TP
-\fB\-\-status\-fd \fP\fI<n>\fP
-Send package status info to file descriptor \fI<n>\fP. This can be given
-multiple times. Status updates are of the form `status: <pkg>: <pkg state>'.
-Errors are reported as `status: <pkg>: error: extend-error-message'.
-Configuration file conflicts are reported as 
-`status: conffile-prompt: conffile : 'current-conffile' 'new-conffile' useredited distedited'.
+\fB\-\-status\-fd \fR\fIn\fR
+Send machine-readable package status and progress information to file
+descriptor \fIn\fP. This option can be specified multiple times. The
+information is generally one record per line, in one of the following
+forms:
+.RS
+.TP
+.BI "status: " package ": " status
+Package status changed; \fIstatus\fR is as in the status file.
+.TP
+.BI "status: " package " : error : " extended-error-message
+An error occurred. Unfortunately at the time of writing
+\fIextended-error-message\fR can contain newlines, although in locales
+where the translators have not made mistakes every newline is followed
+by at least one space.
+.TP
+.BI "status: " file " : conffile-prompt : '" real-old "' '" real-new "' " useredited " " distedited
+User is being asked a configuration file question.
+.TP
+.BI "processing: " stage ": " package
+Sent just before a processing stage starts. \fIstage\fR is one of
+.BR upgrade ", " install " (both sent before unpacking),"
+.BR configure ", " trigproc  ", " remove  ", " purge .
+.RE
 .TP
 \fB\-\-log=\fP\fIfilename\fP
 Log status change updates and actions to \fIfilename\fP, instead of

@@ -1088,6 +1088,7 @@ void archivefiles(const char *const *argv) {
                :                               msdbrw_needsuperuser);
 
   checkpath();
+  log_message("startup archives %s", cipaction->olong);
   
   if (f_recursive) {
     

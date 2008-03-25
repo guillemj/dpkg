@@ -490,4 +490,5 @@ void log_action(const char *action, struct pkginfo *pkg) {
   log_message("%s %s %s %s", action, pkg->name,
 	      versiondescribe(&pkg->installed.version, vdew_nonambig),
 	      versiondescribe(&pkg->available.version, vdew_nonambig));
+  statusfd_send("processing: %s: %s", action, pkg->name);
 }

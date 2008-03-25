@@ -132,6 +132,7 @@ void deferred_configure(struct pkginfo *pkg) {
 
 	printf(_("Setting up %s (%s) ...\n"),pkg->name,
 	       versiondescribe(&pkg->installed.version, vdew_nonambig));
+	log_action("configure", pkg);
 
 	if (f_noact) {
 		pkg->status= stat_installed;

@@ -94,6 +94,7 @@ void packages(const char *const *argv) {
                : fc_nonroot ? msdbrw_write
                :              msdbrw_needsuperuser);
   checkpath();
+  log_message("startup packages %s", cipaction->olong);
 
   if (f_pending) {
 
