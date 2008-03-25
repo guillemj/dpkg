@@ -20,6 +20,12 @@ use Dpkg::Fields qw(capit);
 use Dpkg::Deps;
 use Dpkg::Control;
 
+use constant {
+    WARN_SYM_NOT_FOUND => 1,
+    WARN_DEP_AVOIDABLE => 2,
+    WARN_NOT_NEEDED => 4,
+};
+
 # By increasing importance
 my @depfields = qw(Suggests Recommends Depends Pre-Depends);
 my $i = 0; my %depstrength = map { $_ => $i++ } @depfields;
@@ -34,6 +40,7 @@ my $dependencyfield = 'Depends';
 my $varlistfile = 'debian/substvars';
 my $varnameprefix = 'shlibs';
 my $ignore_missing_info = 0;
+my $warnings = 3;
 my $debug = 0;
 my @exclude = ();
 my @pkg_dir_to_search = ();
@@ -82,6 +89,8 @@ foreach (@ARGV) {
 	}
     } elsif (m/^--ignore-missing-info$/) {
 	$ignore_missing_info = 1;
+    } elsif (m/^--warnings=(\d+)$/) {
+	$warnings = $1;
     } elsif (m/^-t(.*)$/) {
 	$packagetype = $1;
     } elsif (m/^-v$/) {
@@ -113,6 +122,12 @@ my $build_deps = Dpkg::Deps::parse($build_depends, reduce_arch => 1);
 my %dependencies;
 my %shlibs;
 
+# Statictics on soname seen in the whole run (with multiple analysis of
+# binaries)
+my %global_soname_notfound;
+my %global_soname_used;
+my %global_soname_needed;
+
 my $cur_field;
 foreach my $file (keys %exec) {
     $cur_field = $exec{$file};
@@ -130,6 +145,7 @@ foreach my $file (keys %exec) {
 	my $lib = my_find_library($soname, $obj->{RPATH}, $obj->{format}, $file);
 	unless (defined $lib) {
 	    $soname_notfound{$soname} = 1;
+	    $global_soname_notfound{$soname} = 1;
 	    my $msg = _g("couldn't find library %s needed by %s (its RPATH is '%s').\n" .
 			 "Note: libraries are not searched in other binary packages " .
 			 "that do not have any shlibs or symbols file.\nTo help dpkg-shlibdeps " .
@@ -228,7 +244,17 @@ foreach my $file (keys %exec) {
 
     # Scan all undefined symbols of the binary and resolve to a
     # dependency
-    my %used_sonames = map { $_ => 0 } @sonames;
+    my %soname_used;
+    foreach (@sonames) {
+        # Initialize statistics
+        $soname_used{$_} = 0;
+        $global_soname_used{$_} = 0 unless exists $global_soname_used{$_};
+        if (exists $global_soname_needed{$_}) {
+            push @{$global_soname_needed{$_}}, $file;
+        } else {
+            $global_soname_needed{$_} = [ $file ];
+        }
+    }
     my $nb_warnings = 0;
     my $nb_skipped_warnings = 0;
     # Disable warnings about missing symbols when we have not been able to
@@ -245,10 +271,12 @@ foreach my $file (keys %exec) {
 	my $symdep = $symfile->lookup_symbol($name, \@sonames);
 	if (defined($symdep)) {
             print " Found in symbols file of $symdep->{soname}\n" if $debug > 1;
-	    $used_sonames{$symdep->{soname}}++;
+	    $soname_used{$symdep->{soname}}++;
+	    $global_soname_used{$symdep->{soname}}++;
             if (exists $alt_soname{$symdep->{soname}}) {
                 # Also count usage on alternate soname
-                $used_sonames{$alt_soname{$symdep->{soname}}}++;
+                $soname_used{$alt_soname{$symdep->{soname}}}++;
+                $global_soname_used{$alt_soname{$symdep->{soname}}}++;
             }
 	    update_dependency_version($symdep->{depends},
 				      $symdep->{minver});
@@ -256,6 +284,7 @@ foreach my $file (keys %exec) {
 	    my $syminfo = $dumplibs_wo_symfile->locate_symbol($name);
 	    if (not defined($syminfo)) {
                 print " Not found\n" if $debug > 1;
+                next unless ($warnings & WARN_SYM_NOT_FOUND);
 		next if $disable_warnings;
 		# Complain about missing symbols only for executables
 		# and public libraries
@@ -277,9 +306,11 @@ foreach my $file (keys %exec) {
                 print " Found in $syminfo->{soname} ($syminfo->{objid})\n" if $debug > 1;
 		if (exists $alt_soname{$syminfo->{soname}}) {
 		    # Also count usage on alternate soname
-		    $used_sonames{$alt_soname{$syminfo->{soname}}}++;
+		    $soname_used{$alt_soname{$syminfo->{soname}}}++;
+		    $global_soname_used{$alt_soname{$syminfo->{soname}}}++;
 		}
-		$used_sonames{$syminfo->{soname}}++;
+		$soname_used{$syminfo->{soname}}++;
+		$global_soname_used{$syminfo->{soname}}++;
 	    }
 	}
     }
@@ -299,13 +330,28 @@ foreach my $file (keys %exec) {
 	}
 
 	# Warn about un-NEEDED libraries
-	unless ($soname_notfound{$soname} or $used_sonames{$soname}) {
+	unless ($soname_notfound{$soname} or $soname_used{$soname}) {
 	    # Ignore warning for libm.so.6 if also linked against libstdc++
 	    next if ($soname =~ /^libm\.so\.\d+$/ and
 		     scalar grep(/^libstdc\+\+\.so\.\d+/, @sonames));
+            next unless ($warnings & WARN_NOT_NEEDED);
 	    warning(_g("%s shouldn't be linked with %s (it uses none of its " .
 	               "symbols)."), $file, $soname);
 	}
+    }
+}
+
+# Warn of unneeded libraries at the "package" level (i.e. over all
+# binaries that we have inspected)
+foreach my $soname (keys %global_soname_needed) {
+    unless ($global_soname_notfound{$soname} or $global_soname_used{$soname}) {
+        next if ($soname =~ /^libm\.so\.\d+$/ and scalar(
+                 grep(/^libstdc\+\+\.so\.\d+/, keys %global_soname_needed)));
+        next unless ($warnings & WARN_DEP_AVOIDABLE);
+        warning(_g("dependency on %s could be avoided if \"%s\" were not " .
+                   "uselessly linked against it (they use none of its " .
+                   "symbols)."), $soname,
+                   join(" ", @{$global_soname_needed{$soname}}));
     }
 }
 
@@ -435,6 +481,9 @@ Options:
   -x<package>              exclude package from the generated dependencies.
   -S<pkgbuilddir>          search needed libraries in the given
                            package build directory first.
+  -v                       enable verbose mode (can be used multiple times).
+  --ignore-missing-info    don't fail if dependency information can't be found.
+  --warnings=<value>       define set of active warnings (see manual page).
   --admindir=<directory>   change the administrative directory.
   -h, --help               show this help message.
       --version            show the version.

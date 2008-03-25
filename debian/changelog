@@ -80,6 +80,12 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     discarded one. Added a test case for this.
   * dpkg-shlibdeps properly accounts usage of symbols provided by private
     libraries without SONAME. Closes: #469838
+  * Add a new warning to dpkg-shlibdeps when a library NEEDED is in fact
+    not used by any of the binaries analyzed. Closes: #472332
+  * Add a new --warnings=<value> option to select the set of warnings to
+    activate. By default, do not activate the warning about useless
+    libraries at the binary level (instead the new warning above is activated
+    by default: it's less strict and more useful).
 
   [ Frank Lichtenheld ]
   * Add a warning in dpkg-buildpackage if the build-dependencies are not
