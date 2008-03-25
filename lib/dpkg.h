@@ -207,6 +207,11 @@ void badusage(const char *fmt, ...) NONRETURNING PRINTFFORMAT(1, 2);
 void werr(const char *what) NONRETURNING;
 void warningf(const char *fmt, ...) PRINTFFORMAT(1, 2);
 
+/*** log.c ***/
+
+extern const char *log_file;
+void log_message(const char *fmt, ...) PRINTFFORMAT(1, 2);
+
 /*** cleanup.c ***/
 
 void cu_closefile(int argc, void **argv);
