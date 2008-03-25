@@ -1,3 +1,22 @@
+2008-03-25  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* src/packages.c (struct pkginqueue): Move declaration to ...
+	* src/main.h: ... here.
+	(queuelen): Remove extern declaration.
+	(struct pkgqueue): New declaration.
+	(PKGQUEUE_DEF_INIT): New macro.
+	(add_to_some_queue): New function prototype.
+	(remove_from_some_queue): Likewise.
+	* src/packages.c (queuehead, queuetail, queuelen): Replace with ...
+	(queue): ... this. New variable. Fix all users.
+	(add_to_queue): Refactor into ...
+	(add_to_some_queue): ... this. Take a struct pkgqueue argument.
+	(process_queue): Assert that the queue is empty at the end of the
+	function. Refactor queue entry removal into ...
+	(remove_from_some_queue): ... this. New function.
+	(add_to_queue): New function.
+
 2008-03-25  Guillem Jover  <guillem@debian.org>
 
 	* src/main.h (ensure_package_clientdata): Move prototype to ...

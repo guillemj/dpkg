@@ -49,6 +49,11 @@ struct packageinlist {
   void *xinfo;
 };
 
+struct pkginqueue {
+  struct pkginqueue *next;
+  struct pkginfo *pkg;
+};
+
 enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
               act_remove, act_purge, act_listpackages, act_avreplace, act_avmerge,
               act_unpackchk, act_status, act_searchfiles, act_audit, act_listfiles,
@@ -157,7 +162,17 @@ int breakses_ok(struct pkginfo *pkg, struct varbuf *aemsgs);
 void deferred_remove(struct pkginfo *pkg);
 void deferred_configure(struct pkginfo *pkg);
 
-extern int queuelen, sincenothing, dependtry;
+extern int sincenothing, dependtry;
+
+struct pkgqueue {
+  struct pkginqueue *head, **tail;
+  int length;
+};
+
+#define PKGQUEUE_DEF_INIT(name) struct pkgqueue name = { NULL, &name.head, 0 }
+
+struct pkginqueue *add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q);
+struct pkginqueue *remove_from_some_queue(struct pkgqueue *q);
 
 /* from cleanup.c (most of these are declared in archives.h) */
 

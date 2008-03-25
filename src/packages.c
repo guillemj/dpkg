@@ -40,25 +40,47 @@
 #include "filesdb.h"
 #include "main.h"
 
-struct pkginqueue {
-  struct pkginqueue *next;
-  struct pkginfo *pkg;
-};
+static PKGQUEUE_DEF_INIT(queue);
 
-static struct pkginqueue *queuehead = NULL, **queuetail = &queuehead;
+int sincenothing = 0, dependtry = 0;
 
-int queuelen=0, sincenothing=0, dependtry=0;
-
-void add_to_queue(struct pkginfo *pkg) {
+struct pkginqueue *
+add_to_some_queue(struct pkginfo *pkg, struct pkgqueue *q)
+{
   struct pkginqueue *newent;
 
   newent= m_malloc(sizeof(struct pkginqueue));
   newent->pkg= pkg;
   newent->next = NULL;
-  *queuetail= newent;
-  queuetail= &newent->next;
+  *q->tail = newent;
+  q->tail = &newent->next;
+  q->length++;
 
-  queuelen++;
+  return newent;
+}
+
+struct pkginqueue *
+remove_from_some_queue(struct pkgqueue *q)
+{
+  struct pkginqueue *removeent = q->head;
+
+  if (!removeent)
+    return NULL;
+
+  assert(q->length > 0);
+
+  q->head = q->head->next;
+  if (q->tail == &removeent->next)
+    q->tail= &q->head;
+  q->length--;
+
+  return removeent;
+}
+
+void
+add_to_queue(struct pkginfo *pkg)
+{
+  add_to_some_queue(pkg, &queue);
 }
 
 void packages(const char *const *argv) {
@@ -141,10 +163,10 @@ void process_queue(void) {
   case act_remove: case act_purge:       istobe= itb_remove;      break;
   default: internerr("unknown action for queue start");
   }
-  for (rundown= queuehead; rundown; rundown= rundown->next) {
+  for (rundown = queue.head; rundown; rundown = rundown->next) {
     ensure_package_clientdata(rundown->pkg);
     if (rundown->pkg->clientdata->istobe == istobe) {
-      /* Remove it from the queue - this is a second copy ! */
+      /* Erase the queue entrie - this is a second copy ! */
       switch (cipaction->arg) {
       case act_configure: case act_remove: case act_purge:
         printf(_("Package %s listed more than once, only processing once.\n"),
@@ -164,13 +186,7 @@ void process_queue(void) {
     }
   }
   
-  while (queuelen) {
-    removeent= queuehead;
-    assert(removeent);
-    queuehead= queuehead->next;
-    queuelen--;
-    if (queuetail == &removeent->next) queuetail= &queuehead;
-
+  while ((removeent = remove_from_some_queue(&queue))) {
     pkg= removeent->pkg;
     free(removeent);
     
@@ -186,7 +202,7 @@ void process_queue(void) {
       continue;
     }
     push_error_handler(&ejbuf,print_error_perpackage,pkg->name);
-    if (sincenothing++ > queuelen*2+2) {
+    if (sincenothing++ > queue.length * 2 + 2) {
       dependtry++; sincenothing= 0;
       assert(dependtry <= 4);
     }
@@ -209,6 +225,7 @@ void process_queue(void) {
     set_error_display(NULL, NULL);
     error_unwind(ehflag_normaltidy);
   }
+  assert(!queue.length);
 }    
 
 /*** dependency processing - common to --configure and --remove ***/
