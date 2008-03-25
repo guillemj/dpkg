@@ -1,3 +1,17 @@
+2008-03-25  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* lib/dbmodify.c (status_pipes): Move definitions to ...
+	* lib/log.c: ... here.
+	* lib/dpkg-db.h (struct pipef, status_pipes): Move declarations to ...
+	* lib/dpkg.h: ... here.
+	(statusfd_send): New function protoype.
+	* lib/log.c: Include <assert.h> and <unistd.h>.
+	(statusfd_send): New function.
+	* lib/dbmodify.c: Use statusfd_send instead of duplicate code.
+	* src/configure.c: Likewise.
+	* src/errors.c: Likewise.
+
 2008-03-25  Guillem Jover  <guillem@debian.org>
 
 	* lib/dbmodify.c (log_file, log_message): Move to ...

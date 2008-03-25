@@ -531,25 +531,9 @@ static enum conffopt promptconfaction(const char* cfgfile, const char* realold,
 	if (!(what&cfof_prompt))
 		return what;
 
-	/* if there is a status pipe, send conffile-prompt there */
-	if (status_pipes) {
-	   static struct varbuf *status= NULL;
-	   struct pipef *pipef= status_pipes;
-	   int r;
-	   if (status == NULL) {
-	      status = nfmalloc(sizeof(struct varbuf));
-	      varbufinit(status);
-	   } else
-	      varbufreset(status);
-	   
-	   r= varbufprintf(status, "status: %s : %s : '%s' '%s' %i %i \n", 
+	statusfd_send("status: %s : %s : '%s' '%s' %i %i ",
 			   cfgfile, "conffile-prompt", 
 			   realold, realnew, useredited, distedited);
-	   while (pipef) {
-	      write(pipef->fd, status->buf, r);
-	      pipef= pipef->next;
-	   }
-	}
 
 	do {
 		/* Flush the terminal's input in case the user

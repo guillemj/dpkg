@@ -166,12 +166,6 @@ enum modstatdb_rw {
   msdbrw_noavail= 0100,
 };
 
-struct pipef {
-  int fd;
-  struct pipef *next;
-};
-extern struct pipef *status_pipes;
-
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);
 void modstatdb_note(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);

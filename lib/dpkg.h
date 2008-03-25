@@ -212,6 +212,15 @@ void warningf(const char *fmt, ...) PRINTFFORMAT(1, 2);
 extern const char *log_file;
 void log_message(const char *fmt, ...) PRINTFFORMAT(1, 2);
 
+/* FIXME: pipef and status_pipes should not be publicly exposed. */
+struct pipef {
+  int fd;
+  struct pipef *next;
+};
+extern struct pipef *status_pipes;
+
+void statusfd_send(const char *fmt, ...);
+
 /*** cleanup.c ***/
 
 void cu_closefile(int argc, void **argv);

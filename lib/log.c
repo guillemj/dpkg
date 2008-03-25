@@ -21,8 +21,10 @@
 
 #include <config.h>
 
+#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <unistd.h>
 #include <time.h>
 #include <errno.h>
 
@@ -70,5 +72,36 @@ log_message(const char *fmt, ...)
 	strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S",
 	         localtime(&now));
 	fprintf(logfd, "%s %s\n", time_str, log->buf);
+}
+
+struct pipef *status_pipes = NULL;
+
+void
+statusfd_send(const char *fmt, ...)
+{
+	static struct varbuf vb;
+	struct pipef *pipef;
+	const char *p;
+	int r, l;
+	va_list al;
+
+	if (!status_pipes)
+		return;
+
+	va_start(al, fmt);
+	varbufreset(&vb);
+	varbufvprintf(&vb, fmt, al);
+	varbufaddc(&vb, '\n');
+	va_end(al);
+
+	for (pipef = status_pipes; pipef; pipef = pipef->next) {
+		for (p = vb.buf, l = vb.used; l;  p += r, l -= r) {
+			r = write(pipef->fd, vb.buf, vb.used);
+			if (r < 0)
+				ohshite("unable to write to status fd %d",
+				        pipef->fd);
+			assert(r && r <= l);
+		}
+	}
 }
 

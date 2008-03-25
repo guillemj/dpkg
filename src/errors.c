@@ -56,23 +56,7 @@ void print_error_perpackage(const char *emsg, const char *arg) {
   fprintf(stderr, _("%s: error processing %s (--%s):\n %s\n"),
           DPKG, arg, cipaction->olong, emsg);
 
-  if (status_pipes) {
-     static struct varbuf *status= NULL;
-     struct pipef *pipef= status_pipes;
-     int r;
-     if (status == NULL) {
-	status = nfmalloc(sizeof(struct varbuf));
-	varbufinit(status);
-     } else
-	varbufreset(status);
-
-     r= varbufprintf(status, "status: %s : %s : %s\n", arg, "error",emsg);
-     while (pipef) {
-	write(pipef->fd, status->buf, r);
-	pipef= pipef->next;
-     }
-  }
-
+  statusfd_send("status: %s : %s : %s", arg, "error", emsg);
 
   nr= malloc(sizeof(struct error_report));
   if (!nr) {
