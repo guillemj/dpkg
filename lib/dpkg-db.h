@@ -168,6 +168,7 @@ enum modstatdb_rw {
 
 enum modstatdb_rw modstatdb_init(const char *admindir, enum modstatdb_rw reqrwflags);
 void modstatdb_note(struct pkginfo *pkg);
+void modstatdb_note_ifwrite(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);
 void modstatdb_shutdown(void);
 

@@ -272,6 +272,13 @@ void modstatdb_note(struct pkginfo *pkg) {
   onerr_abort--;
 }
 
+void
+modstatdb_note_ifwrite(struct pkginfo *pkg)
+{
+  if (cstatus >= msdbrw_write)
+    modstatdb_note(pkg);
+}
+
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile) {
   static struct varbuf vb;
   varbufreset(&vb);
