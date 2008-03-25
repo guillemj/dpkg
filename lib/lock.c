@@ -77,7 +77,9 @@ lock_file(int *lockfd, const char *filename,
   push_cleanup(cu_unlock_file, ~0, NULL, 0, 1, lockfd);
 }
 
-void unlockdatabase(const char *admindir) {
+void
+unlockdatabase(void)
+{
   unlock_file();
 }
 

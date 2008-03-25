@@ -222,7 +222,7 @@ void modstatdb_shutdown(void) {
     varbuffree(&uvb);
     /* fall through */
   case msdbrw_needsuperuserlockonly:
-    unlockdatabase(admindir);
+    unlockdatabase();
   default:
     break;
   }

@@ -151,7 +151,7 @@ struct pkginfo { /* pig */
 /*** from lock.c ***/
 
 void lockdatabase(const char *admindir);
-void unlockdatabase(const char *admindir);
+void unlockdatabase(void);
 
 /*** from dbmodify.c ***/
 

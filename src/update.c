@@ -87,7 +87,7 @@ void updateavailable(const char *const *argv) {
 
   if (!f_noact) {
     writedb(vb.buf,1,0);
-    unlockdatabase(admindir);
+    unlockdatabase();
   }
 
   if (cipaction->arg != act_avclear)
