@@ -76,7 +76,8 @@ EXTRA_DIST = \
 	t/600_Dpkg_Changelog/misplaced-tz \
 	t/600_Dpkg_Changelog/shadow \
 	t/700_Dpkg_Control.t \
-	t/700_Dpkg_Control/control-1
+	t/700_Dpkg_Control/control-1 \
+	t/800_Dpkg_IPC.t
 
 CLEANFILES = \
 	$(bin_SCRIPTS) $(sbin_SCRIPTS) $(changelog_SCRIPTS) \
@@ -94,8 +95,10 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Control.pm \
 	Dpkg/Deps.pm \
 	Dpkg/ErrorHandling.pm \
+	Dpkg/Exit.pm \
 	Dpkg/Fields.pm \
 	Dpkg/Gettext.pm \
+	Dpkg/IPC.pm \
 	Dpkg/Path.pm \
 	Dpkg/Shlibs.pm \
 	Dpkg/Shlibs/Objdump.pm \
@@ -103,6 +106,19 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Substvars.pm \
 	Dpkg/Vars.pm \
 	Dpkg/Version.pm \
+	Dpkg/Source/Archive.pm \
+	Dpkg/Source/CompressedFile.pm \
+	Dpkg/Source/Compressor.pm \
+	Dpkg/Source/Functions.pm \
+	Dpkg/Source/Package.pm \
+	Dpkg/Source/Package/V1_0.pm \
+	Dpkg/Source/Package/V2_0.pm \
+	Dpkg/Source/Package/V3_0/bzr.pm \
+	Dpkg/Source/Package/V3_0/custom.pm \
+	Dpkg/Source/Package/V3_0/native.pm \
+	Dpkg/Source/Package/V3_0/git.pm \
+	Dpkg/Source/Package/V3_0/quilt.pm \
+	Dpkg/Source/Patch.pm \
 	Dpkg.pm
 
 do_perl_subst = sed -e "s:^\#![:space:]*/usr/bin/perl:\#!$(PERL):" \

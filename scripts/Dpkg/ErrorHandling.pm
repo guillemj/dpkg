@@ -4,9 +4,9 @@ use Dpkg;
 use Dpkg::Gettext;
 
 use base qw(Exporter);
-our @EXPORT_OK = qw(warning warnerror error failure unknown syserr internerr
-                    subprocerr usageerr syntaxerr report
-		    $warnable_error $quiet_warnings);
+our @EXPORT_OK = qw(warning warnerror error errormsg failure unknown
+                    syserr internerr subprocerr usageerr syntaxerr report
+                    info $warnable_error $quiet_warnings);
 
 our $warnable_error = 1;
 our $quiet_warnings = 0;
@@ -17,6 +17,11 @@ sub report(@)
 
     $msg = sprintf($msg, @_) if (@_);
     return "$progname: $type: $msg\n";
+}
+
+sub info($;@)
+{
+    print report(_g("info"), @_) if (!$quiet_warnings);
 }
 
 sub warning($;@)
@@ -47,6 +52,11 @@ sub syserr($;@)
 sub error($;@)
 {
     die report(_g("error"), @_);
+}
+
+sub errormsg($;@)
+{
+    print STDERR report(_g("error"), @_);
 }
 
 sub internerr($;@)
