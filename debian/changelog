@@ -86,6 +86,35 @@ dpkg (1.14.17) UNRELEASED; urgency=low
     activate. By default, do not activate the warning about useless
     libraries at the binary level (instead the new warning above is activated
     by default: it's less strict and more useful).
+  * Merge of the sourcev3 branch. dpkg-source has been heavily refactored to
+    make it easier to support multiple source package formats. Several new
+    source package formats have been added:
+    - the format "2.0" is the original wig&pen
+    - the format "3.0 (quilt)" is based on 2.0. It uses a tarball for the
+      debian directory and can thus include binary files. Binaries
+      outside of the debian directory can be also included if they
+      are listed in debian/source/include-binaries (and option
+      --include-binaries will generate this file automatically).
+      Closes: #4588, #4628
+    - thus it will also preserve timestamps on Debian-provided
+      documentation like README.Debian. Closes: #366555
+    - it handles an explicit series of patches and the patch can thus be
+      named without constraints. Patches can contain arbitrary
+      headers/comments between file chunks. Closes: #363018
+    - it ignores changes on a number of temporary and VCS-specific files
+      by default. Closes: #203792, #323909
+    - the patches in debian/patches can remove files. Closes: #12564
+    - the patches are applied at unpack time. Closes: #463048
+    - the formats "3.0 (quilt/native)" don't include VCS directories by
+      default. Closes: #435126
+    - the format "3.0 (custom)" can be used to create a source package
+      containing arbitrary files. It's useful for helper tools that can
+      generate the files by themselves in a more efficient way
+      (like all the *-buildpackage tools). Closes: #246918
+    - the formats "3.0 (git/bzr)" are experimental formats based
+      on corresponding VCS repositories.
+  * dpkg-source has a new --no-check option. It disables GPG check and
+    checksums checks. Closes: #220758
 
   [ Frank Lichtenheld ]
   * Add a warning in dpkg-buildpackage if the build-dependencies are not

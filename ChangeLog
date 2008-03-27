@@ -1,3 +1,67 @@
+2008-03-27  Raphael Hertzog  <hertzog@debian.org>
+
+	* Merge branch 'sourcev3'. It contains an extensive refactoring of
+	dpkg-source around many new modules in scripts/Dpkg/Source/.
+
+	General purpose changes:
+	* scripts/Dpkg/IPC.pm: New module offering fork_and_exec() to
+	conveniently execute any program in a child process. It hides
+	all the error checking and lets you easily redirect input and
+	output streams.
+	* scripts/t/800_Dpkg_IPC.t: Non-regression tests for the module
+	above.
+	* scripts/Dpkg/Exit.pm: New module to register functions
+	that would be called if the process was interrupted by a signal.
+	Useful to cleanup temporary files if we're interrupted while doing
+	some heavy I/O operation (as dpkg-source can do).
+	* scripts/Dpkg/ErrorHandling.pm (info, errormsg): info() reports
+	informational notices on STDOUT and errormsg() displays an error
+	message on STDERR without dying. Use it only when you will die
+	later on but want to display all errors before doing so.
+	* scripts/dpkg-source.pl: Heavy rewrite/refactoring based on
+	all the modules listed below.
+	* man/dpkg-source.1: Update the manual page to document all the
+	source package formats and the associated options.
+
+	Dpkg::Source::* infrastructural modules:
+	* scripts/Dpkg/Source/Compressor.pm: Compress and uncompress a
+	stream of data.
+	* scripts/Dpkg/Source/CompressedFile.pm: Base class used to
+	provide on-the-fly compression and decompression of any file.
+	Dpkg::Source::Archive and Dpkg::Source::Patch inherit from it.
+	* scripts/Dpkg/Source/Archive.pm: Create and manipulate tar files.
+	* scripts/Dpkg/Source/Patch.pm: Create and manipulate patch files.
+	* scripts/Dpkg/Source/Functions.pm: Misc helper functions.
+	erasedir() removes recursively a directory in a safe manner.
+	fixperms() make sure the permissions of all files in a tree
+	are sane.
+
+	Source package formats:
+	* scripts/Dpkg/Source/Package.pm: Base class implementing the
+	functions common to all source package formats.
+	* scripts/Dpkg/Source/Package/V1_0.pm: Implement the actual
+	"Format: 1.0" source package format.
+	* scripts/Dpkg/Source/Package/V2_0.pm: Implement the wig&pen
+	format as specified in http://www.dpkg.org/dpkg/NewSourceFormat.
+	* scripts/Dpkg/Source/Package/V3_0/native.pm: Native source
+	packages (single tarball) that supports all compressions
+	methods. Compatible with "Format: 1.0" if gzip compression is
+	used.
+	* scripts/Dpkg/Source/Package/V3_0/quilt.pm: Next generation
+	source package format based on wig&pen. It supports multiple
+	.orig.tar files and all compressions schemes (gzip, bzip2, lzma).
+	It uses quilt to apply patches at unpack time and is able to add
+	a new patch at the end of the series if changes are present
+	at build-time.
+	* scripts/Dpkg/Source/Package/V3_0/bzr.pm: Experimental format
+	based on a bzr repository.
+	* scripts/Dpkg/Source/Package/V3_0/git.pm: Experimental format
+	based on a git repository.
+	* scripts/Dpkg/Source/Package/V3_0/custom.pm: Special purpose
+	format that can be used to create source packages with arbitrary
+	files. Useful for helper tools (like git-buildpackage) which can
+	generate source files by themselves.
+
 2008-03-25  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/dpkg-shlibdeps.pl: Let the user configure the set of
