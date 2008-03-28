@@ -214,6 +214,8 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *scriptname, const char *description,
                                   const char *cidir, char *cidirrest,
                                   const char *ifok, const char *iffallback);
+void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
+
 void clear_istobes(void);
 int isdirectoryinuse(struct filenamenode *namenode, struct pkginfo *pkg);
 int hasdirectoryconffiles(struct filenamenode *namenode, struct pkginfo *pkg);

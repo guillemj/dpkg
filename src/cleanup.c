@@ -112,9 +112,8 @@ void cu_prermupgrade(int argc, void **argv) {
                               versiondescribe(&pkg->available.version,
                                               vdew_nonambig),
                               NULL);
-  pkg->status= stat_installed;
   pkg->eflag &= ~eflagf_reinstreq;
-  modstatdb_note(pkg);
+  post_postinst_tasks(pkg, stat_installed);
   cleanup_pkg_failed--;
 }
 
@@ -151,8 +150,7 @@ void cu_prermdeconfigure(int argc, void **argv) {
                                 NULL);
   }
 
-  deconf->status= stat_installed;
-  modstatdb_note(deconf);
+  post_postinst_tasks(deconf, stat_installed);
 }
 
 void cu_prerminfavour(int argc, void **argv) {
@@ -165,9 +163,8 @@ void cu_prerminfavour(int argc, void **argv) {
                               versiondescribe(&infavour->available.version,
                                               vdew_nonambig),
                               NULL);
-  conflictor->status= stat_installed;
   conflictor->eflag &= ~eflagf_reinstreq;
-  modstatdb_note(conflictor);
+  post_postinst_tasks(conflictor, stat_installed);
   cleanup_conflictor_failed--;
 }
 
@@ -238,8 +235,7 @@ void cu_prermremove(int argc, void **argv) {
   if (cleanup_pkg_failed++) return;
   maintainer_script_installed(pkg,POSTINSTFILE,"post-installation",
                               "abort-remove", NULL);
-  pkg->status= *oldpkgstatus;
   pkg->eflag &= ~eflagf_reinstreq;
-  modstatdb_note(pkg);
+  post_postinst_tasks(pkg, *oldpkgstatus);
   cleanup_pkg_failed--;
 }

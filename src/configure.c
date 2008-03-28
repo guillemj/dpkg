@@ -303,9 +303,8 @@ void deferred_configure(struct pkginfo *pkg) {
 	                                            vdew_nonambig) : "",
 	                            NULL);
 
-	pkg->status= stat_installed;
 	pkg->eflag= eflagv_ok;
-	modstatdb_note(pkg);
+	post_postinst_tasks(pkg, stat_installed);
 }
 
 

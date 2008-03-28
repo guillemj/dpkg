@@ -217,6 +217,13 @@ static void script_catchsignals(void) {
   onerr_abort--;
 }
 
+void
+post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
+{
+  pkg->status = new_status;
+  modstatdb_note(pkg);
+}
+
 static void setexecute(const char *path, struct stat *stab) {
   if ((stab->st_mode & 0555) == 0555) return;
   if (!chmod(path,0755)) return;
