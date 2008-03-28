@@ -335,10 +335,8 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
 		     possdependee->name);
       }
 
-      if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
-      debug(dbg_depcondetail,"      not configured/able - returning %d",thisf);
-      (*interestingwarnings)++;
-      return thisf;
+      debug(dbg_depcondetail, "      not configured/able");
+      goto unsuitable;
     }
   default:
     if (providing) {
@@ -350,11 +348,18 @@ static int deppossi_ok_found(struct pkginfo *possdependee,
 		   possdependee->name);
     }
 
-    if (fc_depends) thisf= (dependtry >= 4) ? 2 : 1;
-    debug(dbg_depcondetail,"      not installed - returning %d",thisf);
-    (*interestingwarnings)++;
-    return thisf;
+    debug(dbg_depcondetail, "      not installed");
+    goto unsuitable;
   }
+
+unsuitable:
+  if (fc_depends)
+    thisf = (dependtry >= 4) ? 2 : 1;
+
+  debug(dbg_depcondetail, "        returning %d", thisf);
+  (*interestingwarnings)++;
+
+  return thisf;
 }
 
 static void breaks_check_one(struct varbuf *aemsgs, int *ok,
