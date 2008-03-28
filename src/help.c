@@ -224,6 +224,12 @@ post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
   modstatdb_note(pkg);
 }
 
+static void
+post_script_tasks(void)
+{
+  ensure_diversions();
+}
+
 static void setexecute(const char *path, struct stat *stab) {
   if ((stab->st_mode & 0555) == 0555) return;
   if (!chmod(path,0755)) return;
@@ -252,33 +258,64 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
   return r;
 }
 
-int maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
-                                const char *description, ...) {
-  /* all ...'s are const char*'s */
+static int
+vmaintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
+                             const char *description, va_list ap)
+{
   const char *scriptpath;
   char *const *arglist;
   struct stat stab;
-  va_list ap;
   char buf[100];
 
   scriptpath= pkgadminfile(pkg,scriptname);
-  va_start(ap,description);
   arglist= vbuildarglist(scriptname,ap);
-  va_end(ap);
   sprintf(buf,"%s script",description);
 
   if (stat(scriptpath,&stab)) {
     if (errno == ENOENT) {
-      debug(dbg_scripts,"maintainer_script_installed nonexistent %s",scriptname);
+      debug(dbg_scripts, "vmaintainer_script_installed nonexistent %s",
+            scriptname);
       return 0;
     }
     ohshite(_("unable to stat installed %s script `%.250s'"),description,scriptpath);
   }
   do_script(pkg->name, scriptname, scriptpath, &stab, arglist, _("unable to execute %s"), buf, 0);
-  ensure_diversions();
+
   return 1;
 }
-  
+
+/* All ...'s are const char*'s. */
+int
+maintainer_script_installed(struct pkginfo *pkg, const char *scriptname,
+                            const char *description, ...)
+{
+  int r;
+  va_list ap;
+
+  va_start(ap, description);
+  r = vmaintainer_script_installed(pkg, scriptname, description, ap);
+  va_end(ap);
+  if (r)
+    post_script_tasks();
+
+  return r;
+}
+
+int
+maintainer_script_postinst(struct pkginfo *pkg, ...)
+{
+  int r;
+  va_list ap;
+
+  va_start(ap, pkg);
+  r = vmaintainer_script_installed(pkg, POSTINSTFILE, "post-installation", ap);
+  va_end(ap);
+  if (r)
+    ensure_diversions();
+
+  return r;
+}
+
 int maintainer_script_new(const char *pkgname,
 			  const char *scriptname, const char *description,
                           const char *cidir, char *cidirrest, ...) {
@@ -301,7 +338,8 @@ int maintainer_script_new(const char *pkgname,
     ohshite(_("unable to stat new %s script `%.250s'"),description,cidir);
   }
   do_script(pkgname, scriptname, cidir, &stab, arglist, _("unable to execute new %s"), buf, 0);
-  ensure_diversions();
+  post_script_tasks();
+
   return 1;
 }
 
@@ -332,7 +370,7 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   } else {
     if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist, _("unable to execute %s"), buf, PROCWARN))
       return 1;
-    ensure_diversions();
+    post_script_tasks();
   }
   fprintf(stderr, _("dpkg - trying script from the new package instead ...\n"));
 
@@ -353,7 +391,8 @@ int maintainer_script_alternative(struct pkginfo *pkg,
   do_script(pkg->name, scriptname, cidir, &stab, arglist, _("unable to execute %s"), buf, 0);
   fprintf(stderr, _("dpkg: ... it looks like that went OK.\n"));
 
-  ensure_diversions();
+  post_script_tasks();
+
   return 1;
 }
 

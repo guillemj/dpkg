@@ -1,6 +1,27 @@
 2008-03-28  Ian Jackson  <ian@davenant.greenend.org.uk>,
             Guillem Jover  <guillem@debian.org>
 
+	* src/main.h (maintainer_script_postinst): New prototype.
+	* src/help.c (post_script_tasks): New function.
+	(maintainer_script_installed): Renamed to ...
+	(vmaintainer_script_installed): ... this. Dot not call
+	ensure_diversions.
+	(maintainer_script_installed): New function.
+	(maintainer_script_postinst): Likewise.
+	(maintainer_script_new): Call post_script_tasks instead of directly
+	calling ensure_diversions.
+	(maintainer_script_alternative): Likewise.
+	* src/cleanup.c (cu_prermupgrade): Use maintainer_script_postinst
+	instead of maintainer_script_installed.
+	(cu_prermdeconfigure): Likewise.
+	(cu_prerminfavour): Likewise.
+	(cu_prermremove): Likewise.
+	(deferred_configure): Likewise.
+	* src/configure.c (deferred_configure): Likewise.
+
+2008-03-28  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
 	* src/main.h (post_postinst_tasks): New prototype.
 	* src/help.c (post_postinst_tasks): New function.
 	* src/cleanup.c (cu_prermupgrade): Use post_postinst_tasks instead of

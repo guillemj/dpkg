@@ -107,11 +107,10 @@ void cu_prermupgrade(int argc, void **argv) {
   struct pkginfo *pkg= (struct pkginfo*)argv[0];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_installed(pkg,POSTINSTFILE,"post-installation",
-                              "abort-upgrade",
-                              versiondescribe(&pkg->available.version,
-                                              vdew_nonambig),
-                              NULL);
+  maintainer_script_postinst(pkg, "abort-upgrade",
+                             versiondescribe(&pkg->available.version,
+                                             vdew_nonambig),
+                             NULL);
   pkg->eflag &= ~eflagf_reinstreq;
   post_postinst_tasks(pkg, stat_installed);
   cleanup_pkg_failed--;
@@ -132,22 +131,20 @@ void cu_prermdeconfigure(int argc, void **argv) {
   struct pkginfo *infavour= (struct pkginfo*)argv[2];
 
   if (conflictor) {
-    maintainer_script_installed(deconf, POSTINSTFILE, "post-installation",
-                                "abort-deconfigure",
-                                "in-favour", infavour->name,
-                                versiondescribe(&infavour->available.version,
-                                                vdew_nonambig),
-                                "removing", conflictor->name,
-                                versiondescribe(&conflictor->installed.version,
-                                                vdew_nonambig),
-                                NULL);
+    maintainer_script_postinst(deconf, "abort-deconfigure",
+                               "in-favour", infavour->name,
+                               versiondescribe(&infavour->available.version,
+                                               vdew_nonambig),
+                               "removing", conflictor->name,
+                               versiondescribe(&conflictor->installed.version,
+                                               vdew_nonambig),
+                               NULL);
   } else {
-    maintainer_script_installed(deconf, POSTINSTFILE, "post-installation",
-                                "abort-deconfigure",
-                                "in-favour", infavour->name,
-                                versiondescribe(&infavour->available.version,
-                                                vdew_nonambig),
-                                NULL);
+    maintainer_script_postinst(deconf, "abort-deconfigure",
+                               "in-favour", infavour->name,
+                               versiondescribe(&infavour->available.version,
+                                               vdew_nonambig),
+                               NULL);
   }
 
   post_postinst_tasks(deconf, stat_installed);
@@ -158,11 +155,11 @@ void cu_prerminfavour(int argc, void **argv) {
   struct pkginfo *infavour= (struct pkginfo*)argv[1];
 
   if (cleanup_conflictor_failed++) return;
-  maintainer_script_installed(conflictor,POSTINSTFILE,"post-installation",
-                              "abort-remove", "in-favour", infavour->name,
-                              versiondescribe(&infavour->available.version,
-                                              vdew_nonambig),
-                              NULL);
+  maintainer_script_postinst(conflictor, "abort-remove",
+                             "in-favour", infavour->name,
+                             versiondescribe(&infavour->available.version,
+                                             vdew_nonambig),
+                             NULL);
   conflictor->eflag &= ~eflagf_reinstreq;
   post_postinst_tasks(conflictor, stat_installed);
   cleanup_conflictor_failed--;
@@ -233,8 +230,7 @@ void cu_prermremove(int argc, void **argv) {
   enum pkgstatus *oldpkgstatus= (enum pkgstatus*)argv[1];
 
   if (cleanup_pkg_failed++) return;
-  maintainer_script_installed(pkg,POSTINSTFILE,"post-installation",
-                              "abort-remove", NULL);
+  maintainer_script_postinst(pkg, "abort-remove", NULL);
   pkg->eflag &= ~eflagf_reinstreq;
   post_postinst_tasks(pkg, *oldpkgstatus);
   cleanup_pkg_failed--;
