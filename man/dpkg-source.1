@@ -367,17 +367,18 @@ generated patch.
 .TP
 .B \-\-include\-timestamp
 Include timestamp in the automatically generated patch.
+.TP
+.B \-\-include\-binaries
+Add all modified binaries in the debian tarball. Also add them to
+\fBdebian/source/include-binaries\fP: they will be added by default
+in subsequent builds and this option is thus no more needed.
+.
 .SS Format: 3.0 (native)
 This format is an extension of the native package format as defined
 in the 1.0 format. It supports all compression methods and
 will ignore by default any VCS specific files and directories
 as well as many temporary files (see default value associated to
 \fB-I\fP option in the \fB\-\-help\fP output).
-.TP
-.B \-\-include\-binaries
-Add all modified binaries in the debian tarball. Also add them to
-\fBdebian/source/include-binaries\fP: they will be added by default
-in subsequent builds and this option is thus no more needed.
 .
 .SS Format: 3.0 (quilt)
 This is a variant of the 2.0 format. The differences concern the
@@ -402,7 +403,7 @@ generated patch is \fBdebian-changes-\fP\fIversion\fP\fB.diff\fP and the
 \fBseries\fP file is obviously updated to add/remove the automatically
 generated patch as needed.
 
-The \fB.pc\fI directory used by quilt is ignored during generation of the
+The \fB.pc\fP directory used by quilt is ignored during generation of the
 automatic patch.
 .PP
 .B Build options
