@@ -422,7 +422,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           if (dep->type == dep_breaks) break; /* no problem */
         case stat_installed:
           if (!versionsatisfied(&possi->ed->installed, possi)) break;
-          sprintf(linebuf, _("  %.250s (version %.250s) is %s.\n"),
+          sprintf(linebuf, _("  %.250s (version %.250s) is present and %s.\n"),
                   possi->ed->name,
                   versiondescribe(&possi->ed->installed.version,vdew_nonambig),
                   gettext(statusstrings[possi->ed->status]));
@@ -484,7 +484,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           case stat_halfconfigured:
             if (dep->type == dep_breaks) break; /* no problem */
           case stat_installed:
-            sprintf(linebuf, _("  %.250s provides %.250s and is %s.\n"),
+            sprintf(linebuf,
+                    _("  %.250s provides %.250s and is present and %s.\n"),
                     provider->up->up->name, possi->ed->name,
                     gettext(statusstrings[provider->up->up->status]));
             varbufaddstr(whynot, linebuf);
