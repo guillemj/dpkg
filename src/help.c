@@ -230,6 +230,12 @@ post_script_tasks(void)
   ensure_diversions();
 }
 
+static void
+cu_post_script_tasks(int argc, void **argv)
+{
+  post_script_tasks();
+}
+
 static void setexecute(const char *path, struct stat *stab) {
   if ((stab->st_mode & 0555) == 0555) return;
   if (!chmod(path,0755)) return;
@@ -239,6 +245,8 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
   const char *scriptexec;
   int c1, r;
   setexecute(scriptpath,stab);
+
+  push_cleanup(cu_post_script_tasks, ehflag_bombout, NULL, 0, 0);
 
   c1= m_fork();
   if (!c1) {
@@ -255,6 +263,9 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
   script_catchsignals(); /* This does a push_cleanup() */
   r= waitsubproc(c1,name,warn);
   pop_cleanup(ehflag_normaltidy);
+
+  pop_cleanup(ehflag_normaltidy);
+
   return r;
 }
 
@@ -368,9 +379,11 @@ int maintainer_script_alternative(struct pkginfo *pkg,
             _("dpkg: warning - unable to stat %s `%.250s': %s\n"),
             buf,oldscriptpath,strerror(errno));
   } else {
-    if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist, _("unable to execute %s"), buf, PROCWARN))
+    if (!do_script(pkg->name, scriptname, oldscriptpath, &stab, arglist,
+                   _("unable to execute %s"), buf, PROCWARN)) {
+      post_script_tasks();
       return 1;
-    post_script_tasks();
+    }
   }
   fprintf(stderr, _("dpkg - trying script from the new package instead ...\n"));
 
