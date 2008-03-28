@@ -40,7 +40,7 @@
 const char *const statusstrings[]= {
   N_("not installed"),
   N_("not installed but configs remain"),
-  N_("broken due to failed removal"),
+  N_("broken due to failed removal or installation"),
   N_("unpacked but not configured"),
   N_("broken due to postinst failure"),
   N_("installed")
