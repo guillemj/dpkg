@@ -46,6 +46,17 @@ Forces the exclusion of the original source and includes only the diff.
 Specify the Debian architecture we build for. The architecture of the
 machine we build on is determined automatically, and is also the default
 for the host machine.
+
+If the host architecture differs from the build architecture (as is the
+case for a cross-compilation), and if the environment variable
+\fBPKG_CONFIG_LIBDIR\fP is not set, then it is set to a value suitable for
+cross-compilation
+("/usr/\fIgnu-system-type\fP/lib/pkgconfig/:/usr/share/pkgconfig").
+.TP
+.BI \-t gnu-system-type
+Specify the GNU system type we build for. It can be used in place
+of \-a or as a complement to override the default GNU system type
+of the target Debian architecture.
 .TP
 .BI \-j jobs
 Number of jobs allowed to be run simultaneously, equivalent to the

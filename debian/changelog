@@ -122,6 +122,9 @@ dpkg (1.14.17) UNRELEASED; urgency=low
   * Change default value of LDFLAGS (set by dpkg-buildpackage) to ''
     instead of '-Wl,-Bsymbolic-functions'. It's safer at this point of the
     release cycle.
+  * dpkg-buildpackage will set PKG_CONFIG_LIBDIR (but not override an existing
+    value) in case of cross-compilation so that pkgconfig finds .pc files
+    in the directory specific to the target architecture. Closes: #439979
 
   [ Frank Lichtenheld ]
   * Add a warning in dpkg-buildpackage if the build-dependencies are not
