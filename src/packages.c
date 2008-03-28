@@ -167,7 +167,7 @@ void process_queue(void) {
   for (rundown = queue.head; rundown; rundown = rundown->next) {
     ensure_package_clientdata(rundown->pkg);
     if (rundown->pkg->clientdata->istobe == istobe) {
-      /* Erase the queue entrie - this is a second copy ! */
+      /* Erase the queue entry - this is a second copy! */
       switch (cipaction->arg) {
       case act_configure: case act_remove: case act_purge:
         printf(_("Package %s listed more than once, only processing once.\n"),
