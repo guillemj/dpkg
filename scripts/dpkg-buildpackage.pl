@@ -260,7 +260,7 @@ my %flags = ( CPPFLAGS => '',
 	      CFLAGS   => $default_flags,
 	      CXXFLAGS => $default_flags,
 	      FFLAGS   => $default_flags,
-	      LDFLAGS  => "-Wl,-Bsymbolic-functions",
+	      LDFLAGS  => '',
     );
 
 foreach my $flag (keys %flags) {
