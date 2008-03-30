@@ -312,7 +312,27 @@ options are mutually exclusive. If you specify more than one only the
 last one will be used.
 .
 .SS Format: 2.0
-Also known as wig&pen. A source package in this format contains at least
+Also known as wig&pen. This format is not recommended for wide-spread
+usage, the format "3.0 (quilt)" replaces it. Wig&pen was the first
+specification of a new-generation source package format.
+
+The behaviour of this format is the same as the "3.0 (quilt)" format
+except that it doesn't use an explicit list of patches. All files in
+\fBdebian/patches/\fP matching the perl regular expression \fB[\\w\-]+\fP
+must be valid patches: they are applied at extraction time.
+
+When building a new source package, any change to the upstream source
+is stored in a patch named \fBzz_debian-diff-auto\fP.
+.
+.SS Format: 3.0 (native)
+This format is an extension of the native package format as defined
+in the 1.0 format. It supports all compression methods and
+will ignore by default any VCS specific files and directories
+as well as many temporary files (see default value associated to
+\fB-I\fP option in the \fB\-\-help\fP output).
+.
+.SS Format: 3.0 (quilt)
+A source package in this format contains at least
 an original tarball (\fB.orig.tar.\fP\fIext\fP where \fIext\fP can be
 \fBgz\fP, \fBbz2\fP and \fBlzma\fP) and a debian tarball
 (\fB.debian.tar.\fP\fIext\fP). It can also contain additional original
@@ -324,28 +344,30 @@ The main original tarball is extracted first, then all additional original
 tarballs are extracted in subdirectories named after the \fIcomponent\fP
 part of their filename (any pre-existing directory is replaced). The
 debian tarball is extracted on top of the source directory after prior
-removal of any pre-existing \fBdebian\fP directory). Note that the
+removal of any pre-existing \fBdebian\fP directory. Note that the
 debian tarball must contain a \fBdebian\fP sub-directory but it
 can also contain binary files outside of that directory (see
 \fB\-\-include\-binaries\fP option).
 .PP
-All patches in \fBdebian/patches\fP matching the perl regular expression
-\fB[\\w\-]+\fP are then applied in alphabetical order. The timestamp of
-patched files are reset to the extraction time. The patches can remove
-files.
+All patches listed in \fBdebian/patches/debian.series\fP or
+\fBdebian/patches/series\fP are then applied.
+If the former file is used and the latter one doesn't exist (or is a
+symlink), then the latter is replaced with a symlink to the former. This
+is meant to simplify usage of quilt to manage the set of patches. The
+patches can remove files.
 .PP
 .B Building
 .PP
 All original tarballs found in the current directory are extracted in a
 temporary directory by following the same logic than the unpack, the
 debian directory is copied over in the temporary directory, and all
-patches except \fBzz_debian-diff-auto\fP are applied.
+patches except \fBdebian-changes-\fP\fIversion\fP\fB.diff\fP are applied.
 The temporary directory is compared to the source package directory
 and the diff (if non-empty) is stored in
-\fBdebian/patches/zz_debian-diff-auto\fP. Any change on a binary file
-is not representable in a diff and will thus lead to a failure unless
-the maintainer deliberately decided to include that modified binary
-file in the debian tarball (by listing it in
+\fBdebian/patches/debian-changes-\fP\fIversion\fP\fB.diff\fP. Any change
+on a binary file is not representable in a diff and will thus lead to a
+failure unless the maintainer deliberately decided to include that
+modified binary file in the debian tarball (by listing it in
 \fBdebian/source/include-binaries\fP).
 
 The updated debian directory and the list of modified binaries is then
@@ -353,7 +375,9 @@ used to regenerate the debian tarball.
 
 The automatically generated diff doesn't include changes on VCS specific
 files as well as many temporary files (see default value associated to
-\fB-i\fP option in the \fB\-\-help\fP output).
+\fB-i\fP option in the \fB\-\-help\fP output). In particular, the
+\fB.pc\fP directory used by quilt is ignored during generation of the
+automatic patch.
 
 Note: it's very important to generate the source package with all
 patches applied, otherwise the generation of the automatic patch will lead to
@@ -372,43 +396,6 @@ Include timestamp in the automatically generated patch.
 Add all modified binaries in the debian tarball. Also add them to
 \fBdebian/source/include-binaries\fP: they will be added by default
 in subsequent builds and this option is thus no more needed.
-.
-.SS Format: 3.0 (native)
-This format is an extension of the native package format as defined
-in the 1.0 format. It supports all compression methods and
-will ignore by default any VCS specific files and directories
-as well as many temporary files (see default value associated to
-\fB-I\fP option in the \fB\-\-help\fP output).
-.
-.SS Format: 3.0 (quilt)
-This is a variant of the 2.0 format. The differences concern the
-management of the patches. This format uses an explicit list of
-patches contained in \fBdebian/patches/debian.series\fP or
-\fBdebian/patches/series\fP.
-.PP
-.B Extracting
-.PP
-Unpacking of tarballs is done exactly like in the 2.0 format.
-.PP
-When it comes to patch application, the list of patches is taken from
-\fBdebian/patches/debian.series\fP or \fBdebian/patches/series\fP.
-If the former file is used and the latter one doesn't exist, then the
-latter is replaced with a symlink to the former. This is meant to simplify
-usage of quilt to manage the set of patches.
-.PP
-.B Building
-.PP
-It behaves like the 2.0 format except that the name of the automatically
-generated patch is \fBdebian-changes-\fP\fIversion\fP\fB.diff\fP and the
-\fBseries\fP file is obviously updated to add/remove the automatically
-generated patch as needed.
-
-The \fB.pc\fP directory used by quilt is ignored during generation of the
-automatic patch.
-.PP
-.B Build options
-.PP
-It supports all the options of the 2.0 format.
 .PP
 .B Extract options
 .TP
