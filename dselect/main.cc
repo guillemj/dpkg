@@ -37,7 +37,7 @@ extern "C" {
 #include <ctype.h>
 #include <assert.h>
 
-#include <term.h>
+#include <ncursesw/term.h>
 
 extern "C" {
 #include <dpkg.h>

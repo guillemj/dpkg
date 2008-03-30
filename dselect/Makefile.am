@@ -46,7 +46,7 @@ CLEANFILES = curkeys.h
 
 curkeys.$(OBJEXT): curkeys.h
 curkeys.h: $(srcdir)/keyoverride $(srcdir)/mkcurkeys.pl
-	cursesfile=`echo '#include <curses.h>' | \
+	cursesfile=`echo '#include <ncursesw/curses.h>' | \
 		$(CC) -E - | grep 'curses.h' | head -n 1 | \
 		sed -e 's/^[^"]*"//; s/".*$$//'`; \
 	if [ "$$cursesfile" = "" ]; then \

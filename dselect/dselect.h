@@ -28,7 +28,7 @@
 
 #include <signal.h>
 #undef ERR
-#include <curses.h>
+#include <ncursesw/curses.h>
 
 struct helpmenuentry {
   char key;
