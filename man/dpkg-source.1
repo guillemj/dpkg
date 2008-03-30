@@ -356,6 +356,9 @@ symlink), then the latter is replaced with a symlink to the former. This
 is meant to simplify usage of quilt to manage the set of patches. The
 patches can remove files.
 .PP
+The file \fBdebian/patches/.dpkg-source-applied\fP is created if some
+patches have been applied during the extraction.
+.PP
 .B Building
 .PP
 All original tarballs found in the current directory are extracted in a
@@ -379,9 +382,16 @@ files as well as many temporary files (see default value associated to
 \fB.pc\fP directory used by quilt is ignored during generation of the
 automatic patch.
 
-Note: it's very important to generate the source package with all
-patches applied, otherwise the generation of the automatic patch will lead to
-a patch that reverts the patches which were not applied.
+Note: \fBdpkg\-source\fP expects the source tree to have all patches
+applied when you generate the source package. This is not the case
+when the source tree has been obtained by unpacking a source package using
+the Format: 1.0 for instance. To mitigate the problem, \fBdpkg\-source\fP
+will apply patches before building unless it finds
+\fBdebian/patches/.dpkg-source-applied\fP. The presence of a \fB.pc\fP
+subdirectory is also interpreted as a sign that some patches have been
+applied and in this case \fBquilt unapplied\fP is called to verify that
+all patches are applied. The option \fB\-\-no\-preparation\fP can be used
+to disable this behaviour.
 .PP
 .B Build options
 .TP
@@ -396,6 +406,10 @@ Include timestamp in the automatically generated patch.
 Add all modified binaries in the debian tarball. Also add them to
 \fBdebian/source/include-binaries\fP: they will be added by default
 in subsequent builds and this option is thus no more needed.
+.TP
+.B \-\-no\-preparation
+Do not try to prepare the build tree by applying patches which are
+apparently unapplied.
 .PP
 .B Extract options
 .TP

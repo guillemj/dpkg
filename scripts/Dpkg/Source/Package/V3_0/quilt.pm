@@ -105,6 +105,8 @@ sub apply_patches {
     }
 
     # Apply patches
+    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
     my $now = time();
     foreach my $patch ($self->get_patches($dir, $skip_auto)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
@@ -135,21 +137,65 @@ sub apply_patches {
                     force_timestamp => 1, create_dirs => 1,
                     add_options => [ '-E' ]);
         }
+        print APPLIED "$patch\n";
     }
+    close(APPLIED);
 }
 
 sub prepare_build {
     my ($self, $dir) = @_;
     $self->SUPER::prepare_build($dir);
     # Skip .pc directories of quilt by default and ignore difference
-    # on debian/patches/series symlinks
+    # on debian/patches/series symlinks and d/p/.dpkg-source-applied
+    # stamp file created by ourselves
     my $func = sub {
         return 1 if $_[0] =~ m{^debian/patches/series$} and -l $_[0];
+        return 1 if $_[0] =~ m{^debian/patches/.dpkg-source-applied$};
         return 1 if $_[0] =~ /^.pc(\/|$)/;
         return 1 if $_[0] =~ /$self->{'options'}{'diff_ignore_regexp'}/;
         return 0;
     };
     $self->{'diff_options'}{'diff_ignore_func'} = $func;
+}
+
+sub check_patches_applied {
+    my ($self, $dir) = @_;
+    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    my $quiltdir = File::Spec->catdir($dir, ".pc");
+    if (-d $quiltdir) {
+        my $auto_patch = $self->get_autopatch_name();
+        my $pipe;
+        my %opts = (env => { QUILT_PATCHES => 'debian/patches' },
+                    delete_env => [ 'QUILT_PATCH_OPTS' ],
+                    'chdir' => $dir,
+                    'exec' => [ 'quilt', '--quiltrc', '/dev/null', 'unapplied' ],
+                    error_to_file => "/dev/null",
+                    to_pipe => \$pipe);
+        my $pid = fork_and_exec(%opts);
+        # We skip auto_patch as this one might be applied but not by
+        # quilt... but by the user who made changes live in the tree
+        # and whose changes lead to this patch addition by a previous
+        # dpkg-source run.
+        my @patches = grep { chomp; $_ ne $auto_patch } (<$pipe>);
+        close ($pipe) || syserr("close on 'quilt unapplied' pipe");
+        wait_child($pid, cmdline => "quilt unapplied", nocheck => 1);
+        if (@patches) {
+            warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
+            $opts{'wait_child'} = 1;
+            $opts{'to_file'} = "/dev/null";
+            delete $opts{'to_pipe'};
+            foreach my $patch (@patches) {
+                info(_g("applying %s with quilt"), $patch);
+                $opts{'exec'} = [ 'quilt', '--quiltrc', '/dev/null', 'push', $patch ];
+                fork_and_exec(%opts);
+            }
+        }
+        return;
+    }
+    unless (-e $applied) {
+        warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
+        $self->apply_patches($dir);
+    }
 }
 
 sub register_autopatch {

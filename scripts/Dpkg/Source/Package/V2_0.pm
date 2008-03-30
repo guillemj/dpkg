@@ -47,6 +47,8 @@ sub init_options {
         unless exists $self->{'options'}{'include_timestamp'};
     $self->{'options'}{'include_binaries'} = 0
         unless exists $self->{'options'}{'include_binaries'};
+    $self->{'options'}{'preparation'} = 1
+        unless exists $self->{'options'}{'preparation'};
 }
 
 sub parse_cmdline_option {
@@ -59,6 +61,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--include-binaries$/) {
         $self->{'options'}{'include_binaries'} = 1;
+        return 1;
+    } elsif ($opt =~ /^--no-preparation$/) {
+        $self->{'options'}{'preparation'} = 0;
         return 1;
     }
     return 0;
@@ -163,6 +168,8 @@ sub get_patches {
 sub apply_patches {
     my ($self, $dir, $skip_auto) = @_;
     my $timestamp = time();
+    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    open(APPLIED, '>', $applied) || syserr(_g("cannot write %s"), $applied);
     foreach my $patch ($self->get_patches($dir, $skip_auto)) {
         my $path = File::Spec->catfile($dir, "debian", "patches", $patch);
         info(_g("applying %s"), $patch) unless $skip_auto;
@@ -170,7 +177,9 @@ sub apply_patches {
         $patch_obj->apply($dir, force_timestamp => 1,
                           timestamp => $timestamp,
                           add_options => [ '-E' ]);
+        print APPLIED "$patch\n";
     }
+    close(APPLIED);
 }
 
 sub can_build {
@@ -188,20 +197,31 @@ sub prepare_build {
         include_removal => $self->{'options'}{'include_removal'},
         include_timestamp => $self->{'options'}{'include_timestamp'},
     };
+    push @{$self->{'options'}{'tar_ignore'}}, "debian/patches/.dpkg-source-applied";
+    $self->check_patches_applied($dir) if $self->{'options'}{'preparation'};
+}
+
+sub check_patches_applied {
+    my ($self, $dir) = @_;
+    my $applied = File::Spec->catfile($dir, "debian", "patches", ".dpkg-source-applied");
+    unless (-e $applied) {
+        warning(_g("patches have not been applied, applying them now (use --no-preparation to override)"));
+        $self->apply_patches($dir);
+    }
 }
 
 sub do_build {
     my ($self, $dir) = @_;
-    my @argv = @{$self->{'options'}{'ARGV'}};
-    my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
-    my $include_binaries = $self->{'options'}{'include_binaries'};
-
     my ($dirname, $updir) = fileparse($dir);
+    my @argv = @{$self->{'options'}{'ARGV'}};
     if (scalar(@argv)) {
         usageerr(_g("-b takes only one parameter with format `%s'"),
                  $self->{'fields'}{'Format'});
     }
     $self->prepare_build($dir);
+
+    my $include_binaries = $self->{'options'}{'include_binaries'};
+    my @tar_ignore = map { "--exclude=$_" } @{$self->{'options'}{'tar_ignore'}};
 
     my $sourcepackage = $self->{'fields'}{'Source'};
     my $basenamerev = $self->get_basename(1);

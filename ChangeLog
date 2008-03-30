@@ -1,5 +1,18 @@
 2008-04-01  Raphael Hertzog  <hertzog@debian.org>
 
+	* scripts/Dpkg/Source/Package/V2_0.pm (do_extract): Create
+	debian/patches/.dpkg-source-applied containing the list of patches
+	applied during extraction.
+	(prepare_build): apply patches before trying to build a source package
+	when it's clear that they have not been applied because
+	debian/patches/.dpkg-source-applied doesn't exist.
+	* scripts/Dpkg/Source/Package/V3_0/quilt.pm: Likewise. If a .pc directory
+	is present, then use "quilt unapplied" to check if all patches have been
+	applied.
+	* man/dpkg-source.1: Document the above changes.
+
+2008-04-01  Raphael Hertzog  <hertzog@debian.org>
+
 	* scripts/Dpkg/IPC.pm (fork_and_exec): Handle redirection
 	of STDERR with new options error_to_{file,pipe,string,handle}.
 
