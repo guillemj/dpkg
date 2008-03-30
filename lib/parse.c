@@ -30,6 +30,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <assert.h>
 
 #include <dpkg.h>
 #include <dpkg-db.h>
@@ -70,6 +71,8 @@ const struct fieldinfo fieldinfos[]= {
   { "MD5sum",           f_filecharf,       w_filecharf,      FILEFOFF(md5sum)         },
   { "MSDOS-Filename",   f_filecharf,       w_filecharf,      FILEFOFF(msdosname)      },
   { "Description",      f_charfield,       w_charfield,      PKGIFPOFF(description)   },
+  { "Triggers-Pending", f_trigpend,        w_trigpend                                 },
+  { "Triggers-Awaited", f_trigaw,          w_trigaw                                   },
   /* Note that aliases are added to the nicknames table in parsehelp.c. */
   {  NULL   /* sentinel - tells code that list is ended */                               }
 };
@@ -86,6 +89,7 @@ int parsedb(const char *filename, enum parsedbflags flags,
   struct pkginfo newpig, *pigp;
   struct pkginfoperfile *newpifp, *pifp;
   struct arbitraryfield *arp, **larpp;
+  struct trigaw *ta;
   int lno;
   int pdone;
   int fieldencountered[NFIELDS];
@@ -260,6 +264,26 @@ int parsedb(const char *filename, enum parsedbflags flags,
       }
     }
 
+    if (newpig.trigaw.head &&
+        (newpig.status <= stat_configfiles ||
+         newpig.status >= stat_triggerspending))
+      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+               _("package has status %s but triggers are awaited"),
+               statusinfos[newpig.status].name);
+    else if (newpig.status == stat_triggersawaited && !newpig.trigaw.head)
+      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+               _("package has status triggers-awaited but no triggers awaited"));
+
+    if (!(newpig.status == stat_triggerspending ||
+          newpig.status == stat_triggersawaited) &&
+        newpig.trigpend_head)
+      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+               _("package has status %s but triggers are pending"),
+               statusinfos[newpig.status].name);
+    else if (newpig.status == stat_triggerspending && !newpig.trigpend_head)
+      parseerr(NULL, filename, lno, warnto, warncount, &newpig, 0,
+               _("package has status triggers-pending but no triggers pending"));
+
     /* There was a bug that could make a not-installed package have
      * conffiles, so we check for them here and remove them (rather than
      * calling it an error, which will do at some point -- fixme).
@@ -307,6 +331,16 @@ int parsedb(const char *filename, enum parsedbflags flags,
       pigp->status= newpig.status;
       pigp->configversion= newpig.configversion;
       pigp->files= NULL;
+
+      pigp->trigpend_head = newpig.trigpend_head;
+      pigp->trigaw = newpig.trigaw;
+      for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
+        assert(ta->aw == &newpig);
+        ta->aw = pigp;
+        /* ->othertrigaw_head is updated by trig_note_aw in *(findpackage())
+         * rather than in newpig */
+      }
+
     } else if (!(flags & pdb_ignorefiles)) {
       pigp->files= newpig.files;
     }

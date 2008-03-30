@@ -8,7 +8,7 @@ INCLUDES = \
 	-I$(top_srcdir)/lib
 
 
-bin_PROGRAMS = dpkg dpkg-query
+bin_PROGRAMS = dpkg dpkg-query dpkg-trigger
 
 dpkg_SOURCES = \
 	archives.c archives.h \
@@ -24,6 +24,7 @@ dpkg_SOURCES = \
 	processarc.c \
 	remove.c \
 	select.c \
+	trigproc.c \
 	update.c
 
 dpkg_LDADD = \
@@ -36,6 +37,14 @@ dpkg_query_SOURCES = \
 	query.c
 
 dpkg_query_LDADD = \
+	../libcompat/libcompat.a \
+	$(LIBINTL) \
+	../lib/libdpkg.a
+
+dpkg_trigger_SOURCES = \
+	trigcmd.c
+
+dpkg_trigger_LDADD = \
 	../libcompat/libcompat.a \
 	$(LIBINTL) \
 	../lib/libdpkg.a

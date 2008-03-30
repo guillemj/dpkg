@@ -227,9 +227,11 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
   case itb_remove: case itb_deconfigure:
     return 1;
   case itb_normal:
-    /* Only `installed' packages can be make dependency problems */
+    /* Only installed packages can be make dependency problems */
     switch (dep->up->status) {
     case stat_installed:
+    case stat_triggerspending:
+    case stat_triggersawaited:
       break;
     case stat_notinstalled: case stat_configfiles: case stat_halfinstalled:
     case stat_halfconfigured: case stat_unpacked:
@@ -277,6 +279,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
       case itb_normal: case itb_preinstall:
         switch (possi->ed->status) {
         case stat_installed:
+        case stat_triggerspending:
           if (versionsatisfied(&possi->ed->installed,possi)) return 1;
           sprintf(linebuf,_("  %.250s is installed, but is version %.250s.\n"),
                   possi->ed->name,
@@ -291,6 +294,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           break;
         case stat_unpacked:
         case stat_halfconfigured:
+        case stat_triggersawaited:
           if (allowunconfigd) {
             if (!informativeversion(&possi->ed->configversion)) {
               sprintf(linebuf, _("  %.250s is unpacked, but has never been configured.\n"),
@@ -311,6 +315,7 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
               return 1;
             }
           }
+          /* Fall through. */
         default:
           sprintf(linebuf, _("  %.250s is %s.\n"),
                   possi->ed->name, gettext(statusstrings[possi->ed->status]));
@@ -421,6 +426,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
         case stat_halfconfigured:
           if (dep->type == dep_breaks) break; /* no problem */
         case stat_installed:
+        case stat_triggerspending:
+        case stat_triggersawaited:
           if (!versionsatisfied(&possi->ed->installed, possi)) break;
           sprintf(linebuf, _("  %.250s (version %.250s) is present and %s.\n"),
                   possi->ed->name,
@@ -484,6 +491,8 @@ int depisok(struct dependency *dep, struct varbuf *whynot,
           case stat_halfconfigured:
             if (dep->type == dep_breaks) break; /* no problem */
           case stat_installed:
+          case stat_triggerspending:
+          case stat_triggersawaited:
             sprintf(linebuf,
                     _("  %.250s provides %.250s and is present and %s.\n"),
                     provider->up->up->name, possi->ed->name,

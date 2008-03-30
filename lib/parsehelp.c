@@ -87,6 +87,8 @@ const struct namevalue statusinfos[]= {  /* Note !  These must be in order ! */
   { "half-installed",  stat_halfinstalled,   14 },
   { "unpacked",        stat_unpacked,        8 },
   { "half-configured", stat_halfconfigured,  15, },
+  { "triggers-awaited", stat_triggersawaited, 16 },
+  { "triggers-pending", stat_triggerspending, 16 },
   { "installed",       stat_installed,       9 },
   /* These are additional entries for reading only, in any order ... */
   { "postinst-failed", stat_halfconfigured,  15 }, /* fixme: backwards compat., remove */

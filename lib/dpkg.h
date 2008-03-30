@@ -84,6 +84,7 @@
 #define PRERMFILE          "prerm"
 #define POSTRMFILE         "postrm"
 #define LISTFILE           "list"
+#define TRIGGERSCIFILE     "triggers"
 
 #define STATUSFILE        "status"
 #define AVAILFILE         "available"
@@ -95,12 +96,19 @@
 #define UPDATESDIR        "updates/"
 #define INFODIR           "info/"
 #define PARTSDIR          "parts/"
+#define TRIGGERSDIR       "triggers/"
+#define TRIGGERSFILEFILE  "File"
+#define TRIGGERSDEFERREDFILE "Unincorp"
+#define TRIGGERSLOCKFILE  "Lock"
 #define CONTROLDIRTMP     "tmp.ci/"
 #define IMPORTANTTMP      "tmp.i"
 #define REASSEMBLETMP     "reassemble" DEBEXT
 #define IMPORTANTMAXLEN    10
 #define IMPORTANTFMT      "%04d" /* change => also change lib/database.c:cleanup_updates */
-#define MAXUPDATES         50
+#define MAXUPDATES         250
+
+#define MAINTSCRIPTPKGENVVAR "DPKG_MAINTSCRIPT_PACKAGE"
+#define MAINTSCRIPTDPKGENVVAR "DPKG_RUNNING_VERSION"
 
 #define LOCALLIBDIR         "/usr/local/lib/dpkg"
 #define METHODSDIR          "methods"
@@ -122,6 +130,7 @@
 
 #define PKGSCRIPTMAXARGS     10
 #define MD5HASHLEN           32
+#define MAXTRIGDIRECTIVE     256
 
 #define CONFFOPTCELLS  /* int conffoptcells[2] {* 1= user edited *}              \
                                            [2] {* 1= distributor edited *} = */  \

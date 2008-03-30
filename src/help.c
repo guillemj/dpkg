@@ -43,13 +43,18 @@ const char *const statusstrings[]= {
   N_("broken due to failed removal or installation"),
   N_("unpacked but not configured"),
   N_("broken due to postinst failure"),
+  N_("awaiting trigger processing by another package"),
+  N_("triggered"),
   N_("installed")
 };
 
 struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo *pkg) {
   struct filenamenode *r;
   
-  if (!namenode->divert) return namenode;
+  if (!namenode->divert) {
+    r = namenode;
+    goto found;
+  }
   
   debug(dbg_eachfile,"namenodetouse namenode=`%s' pkg=%s",
         namenode->name,pkg->name);
@@ -64,6 +69,9 @@ struct filenamenode *namenodetouse(struct filenamenode *namenode, struct pkginfo
         namenode->divert->camefrom ? namenode->divert->camefrom->name : "<none>",
         namenode->divert->pkg ? namenode->divert->pkg->name : "<none>",
         r->name);
+
+ found:
+  trig_file_activate(r, pkg);
   return r;
 }
 
@@ -220,14 +228,29 @@ static void script_catchsignals(void) {
 void
 post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status)
 {
-  pkg->status = new_status;
+  pkg->trigpend_head = NULL;
+  pkg->status = pkg->trigaw.head ? stat_triggersawaited : new_status;
+
+  post_postinst_tasks_core(pkg);
+}
+
+void
+post_postinst_tasks_core(struct pkginfo *pkg)
+{
   modstatdb_note(pkg);
+
+  debug(dbg_triggersdetail, "post_postinst_tasks_core - trig_incorporate");
+  trig_incorporate(msdbrw_write, admindir);
 }
 
 static void
 post_script_tasks(void)
 {
   ensure_diversions();
+
+  debug(dbg_triggersdetail,
+        "post_script_tasks - ensure_diversions; trig_incorporate");
+  trig_incorporate(msdbrw_write, admindir);
 }
 
 static void
@@ -257,6 +280,9 @@ static int do_script(const char *pkg, const char *scriptname, const char *script
       narglist[r]= arglist[r];
     scriptexec= preexecscript(scriptpath,(char * const *)narglist);
     narglist[0]= scriptexec;
+    if (setenv(MAINTSCRIPTPKGENVVAR, pkg, 1) ||
+        setenv(MAINTSCRIPTDPKGENVVAR, PACKAGE_VERSION, 1))
+      ohshite(_("unable to setenv for maint script"));
     execv(scriptexec,(char * const *)narglist);
     ohshite(desc,name);
   }

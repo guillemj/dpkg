@@ -54,6 +54,8 @@ const char
 			    N_("half installed"),
 			    N_("unpacked (not set up)"),
 			    N_("failed config"),
+			    N_("awaiting trigger processing"),
+			    N_("triggered"),
 			    N_("installed"),
 			    0 },
 
@@ -89,7 +91,7 @@ const char
 			       N_("bUG"),
 			       N_("?") };
 
-const char statuschars[] = " -IUC*";
+const char statuschars[] = " -IUCWt*";
 const char eflagchars[]=     " R?#";
 const char wantchars[]=     "n*=-_";
 

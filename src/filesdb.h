@@ -50,6 +50,7 @@ struct pkginfo;
 
 enum fnnflags {
     fnn_nocopy=                 000001, /* do not need to copy filename */
+    fnn_nonew =                 000002, /* findnamenode may return NULL */
 };
 
 struct filenamenode {
@@ -72,6 +73,7 @@ struct filenamenode {
   } flags; /* Set to zero when a new node is created. */
   const char *oldhash; /* valid iff this namenode is in the newconffiles list */
   struct stat *filestat;
+  struct trigfileint *trig_interested;
 };
  
 struct fileinlist {

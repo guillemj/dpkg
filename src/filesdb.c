@@ -55,6 +55,7 @@ ensure_package_clientdata(struct pkginfo *pkg)
   pkg->clientdata->istobe = itb_normal;
   pkg->clientdata->fileslistvalid = 0;
   pkg->clientdata->files = NULL;
+  pkg->clientdata->trigprocdeferred = NULL;
 }
 
 void note_must_reread_files_inpackage(struct pkginfo *pkg) {
@@ -583,6 +584,9 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   }
   if (*pointerp) return *pointerp;
 
+  if (flags & fnn_nonew)
+    return NULL;
+
   newnode= nfmalloc(sizeof(struct filenamenode));
   newnode->packages = NULL;
   if((flags & fnn_nocopy) && name > orig_name && name[-1] == '/')
@@ -597,6 +601,7 @@ struct filenamenode *findnamenode(const char *name, enum fnnflags flags) {
   newnode->divert = NULL;
   newnode->statoverride = NULL;
   newnode->filestat = NULL;
+  newnode->trig_interested = NULL;
   *pointerp= newnode;
   nfiles++;
 

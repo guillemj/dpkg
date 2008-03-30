@@ -124,7 +124,7 @@ static void list1package(struct pkginfo *pkg, int *head,
   if (!*head) {
     fputs(_("\
 Desired=Unknown/Install/Remove/Purge/Hold\n\
-| Status=Not/Installed/Config-files/Unpacked/Failed-config/Half-installed\n\
+| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-pend\n\
 |/ Err?=(none)/Hold/Reinst-required/X=both-problems (Status,Err: uppercase=bad)\n"), stdout);
     printf(format,'|','|','/', _("Name"), _("Version"), 40, _("Description"));
     printf("+++-");					/* status */
@@ -138,7 +138,7 @@ Desired=Unknown/Install/Remove/Purge/Hold\n\
   limiteddescription(pkg,dw,&pdesc,&l);
   printf(format,
          "uihrp"[pkg->want],
-         "ncHUFi"[pkg->status],
+         "ncHUFWti"[pkg->status],
          " R?#"[pkg->eflag],
          pkg->name,
          versiondescribe(&pkg->installed.version, vdew_nonambig),

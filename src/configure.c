@@ -107,6 +107,15 @@ void deferred_configure(struct pkginfo *pkg) {
 		add_to_queue(pkg);
 		return;
 	}
+
+	trigproc_reset_cycle();
+	/* At this point removal from the queue is confirmed.  This
+	 * represents irreversible progress wrt trigger cycles.  Only
+	 * packages in stat_unpacked are automatically added to the
+	 * configuration queue, and during configuration and trigger
+	 * processing new packages can't enter into unpacked.
+	 */
+
 	ok = breakses_ok(pkg, &aemsgs) ? ok : 0;
 	if (ok == 0) {
 		sincenothing= 0;
@@ -133,6 +142,8 @@ void deferred_configure(struct pkginfo *pkg) {
 	printf(_("Setting up %s (%s) ...\n"),pkg->name,
 	       versiondescribe(&pkg->installed.version, vdew_nonambig));
 	log_action("configure", pkg);
+
+	trig_activate_packageprocessing(pkg);
 
 	if (f_noact) {
 		pkg->status= stat_installed;
@@ -237,6 +248,7 @@ void deferred_configure(struct pkginfo *pkg) {
 					varbufaddstr(&cdr,DPKGDISTEXT);
 					varbufaddc(&cdr,0);
 					strcpy(cdr2rest,DPKGNEWEXT);
+					trig_file_activate_byname(conff->name, pkg);
 					if (rename(cdr2.buf,cdr.buf))
 						fprintf(stderr,
 								_("dpkg: %s: warning - failed to rename `%.250s' to `%.250s': %s\n"),
@@ -272,6 +284,7 @@ void deferred_configure(struct pkginfo *pkg) {
 					printf(_("Installing new version of config file %s ...\n"),conff->name);
 				case cfo_newconff:
 					strcpy(cdr2rest,DPKGNEWEXT);
+					trig_file_activate_byname(conff->name, pkg);
 					if (rename(cdr2.buf,cdr.buf))
 						ohshite(_("unable to install `%.250s' as `%.250s'"),cdr2.buf,cdr.buf);
 					break;

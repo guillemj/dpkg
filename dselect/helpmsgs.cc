@@ -125,12 +125,13 @@ four columns for its current status on the system and mark.  In terse mode (use\
 \
  Error flag: Space - no error (but package may be in broken state - see below)\n\
               `R'  - serious error during installation, needs reinstallation;\n\
- Installed state:   Space - not installed;\n\
-                     `*'  - installed;\n\
-                     `-'  - not installed but config files remain;\n\
-       packages in { `U'  - unpacked but not yet configured;\n\
-      these states { `C'  - half-configured (an error happened);\n\
-        are broken { `I'  - half-installed (an error happened).\n\
+ Installed state:     Space    - not installed;\n\
+                       `*'     - installed;\n\
+                       `-'     - not installed but config files remain;\n\
+   packages in these { `U'     - unpacked but not yet configured;\n\
+   states are not    { `C'     - half-configured (an error happened);\n\
+   (quite) properly  { `I'     - half-installed (an error happened).\n\
+   installed         { `W',`t' - triggers are awaited resp. pending.\n\
  Old mark: what was requested for this package before presenting this list;\n\
  Mark: what is requested for this package:\n\
   `*': marked for installation or upgrade;\n\

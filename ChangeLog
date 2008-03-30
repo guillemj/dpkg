@@ -1,3 +1,164 @@
+2008-03-30  Ian Jackson  <ian@davenant.greenend.org.uk>,
+            Guillem Jover  <guillem@debian.org>
+
+	* doc/triggers.txt: New file.
+	* lib/dlist.h: Likewise.
+	* lib/trigdeferred.l: Likewise.
+	* lib/triglib.c: Likewise.
+	* src/trigcmd.c: Likewise.
+	* src/trigproc.c: Likewise.
+	* configure.ac: Use AC_PROG_LEX.
+	* Makefile.am (EXTRA_DIST): Add 'doc/triggers.txt'.
+	* po/POTFILES.in: Add 'lib/trigdeferred.c', 'lib/triglib.c',
+	'src/trigcmd.c' and 'src/trigproc.c'.
+	* dselect/helpmsgs.cc (hlp_displayexplain1): Document the new trigger
+	statuses.
+	* dselect/pkgdepcon.cc (packagelist::useavailable): Treat the trigger
+	statuses in the same way as installed status.
+	(packagelist::deppossatisfied): Likewise.
+	* dselect/pkgdisplay.cc (statusstrings): Add trigger statuses
+	descriptions.
+	(statuschars): Likewise.
+	* dselect/pkglist.cc (packagelist::ensurestatsortinfo): Mark trigger
+	status as broken.
+	* lib/.gitignore: Add 'trigdeferred.c'.
+	* lib/Makefile.am (libdpkg_a_SOURCES): Add 'dlist.h', 'triglib.c' and
+	'trigdeferred.l'.
+	* lib/database.c (blankpackage): Initialize trigaw.head, trigaw.tail,
+	othertrigaw_head and trigpend_head members.
+	* lib/dbmodify.c (triggersdir, triggersfilefile): New variables.
+	(triggersnewfilefile): Likewise.
+	(fnis): Add 'TRIGGERSDIR', 'TRIGGERSDIR "/File"' and
+	'TIGGERSDIR "/File.new"' entries.
+	(modstatdb_init): Incorporate triggers.
+	(modstatdb_note): Reset trigpend_head if status is not a trigger one.
+	Remove awaited triggers if status is <= than configfiles. Clear
+	awaiters.
+	* lib/dpkg-db.h (struct trigpend, struct trigaw): New types.
+	(enum trigdef_updateflags, struct trigdefmeths): Likewise.
+	(struct trigfileint, struct trig_hooks): Likewise.
+	(enum pkgstatus): Add stat_triggersawaited and stat_triggerspending.
+	(struct pkginfo): Add new trigaw, othertrigaw_head and trigpend_head
+	members.
+	(triggersdir, triggersfilefile, triggersnewfilefile): New variables.
+	(trigdef, trig_new_deferred, trigh): Likewise.
+	(trigdef_update_start, trigdef_yylex, trigdef_process_done): New
+	functions prototypes.
+	(trig_note_pend_core, trig_note_pend, trig_note_aw): Likewise.
+	(trig_clear_awaiters, trig_incorporate): Likewise.
+	(trig_file_activate_byname, trig_file_activate): Likewise.
+	(trig_file_interests_ensure, trig_file_interests_save): Likewise.
+	(trig_cicb_interest_delete, trig_cicb_interest_add): Likewise.
+	(trig_cicb_statuschange_activate, trig_parse_ci): Likewise.
+	(illegal_triggername): Likewise.
+	(trig_parse_cicb): New function typedef.
+	(TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS): New macro.
+	* lib/dpkg.h (TRIGGERSCIFILE, TRIGGERSDIR, TRIGGERSFILEFILE)
+	(TRIGGERSDEFERREDFILE, TRIGGERSLOCKFILE, MAINTSCRIPTPKGENVVAR)
+	(MAINTSCRIPTDPKGENVVAR, MAXTRIGDIRECTIVE): New macros.
+	(MAXUPDATES): Set to 250.
+	* lib/dump.c (w_configversion): Do not write the field if on trigger
+	statuses either.
+	(w_status): Abort on unknown status. Assert the presence or not
+	of awaited and pending triggers depending on the status.
+	(w_trigpend, w_trigaw): New functions.
+	* lib/fields.c (scan_word, f_trigpend, f_trigaw): Likewise.
+	* lib/parse.c: Include <assert.h>.
+	(fieldinfos): Add 'Triggers-Pending' and 'Triggers-Awaited' fields.
+	(parsedb): Add new variable aw. Check for consistency between the
+	triggers lists and the status. Initialize trigpend_head and trigaw.
+	* lib/parsedump.h (f_trigpend, f_trigaw, w_trigpend, w_trigaw): New
+	function prototypes.
+	* lib/parsehelp.c (statusinfos): Add 'triggers-awaited' and
+	'triggers-pending'.
+	* src/Makefile.am (bin_PROGRAMS): Add 'dpkg-trigger'.
+	(dpkg_SOURCES): Add 'trigproc.c'.
+	(dpkg_trigger_SOURCES, dpkg_trigger_LDADD): New variables.
+	* src/archives.c (check_conflict): Treat trigger statuses the same way
+	as installed.
+	(archivefiles): Install trigger hooks. Make act_triggers perform
+	process_queue. Do a deferred triggers process run.
+	(wanttoinstall): Treat trigger statuses the same way as installed.
+	Remove duped check about package being installed on forced
+	skip-same-version.
+	* src/configure.c (deferred_configure): Activate file triggers on
+	conffile changes.
+	* src/depcon.c (depisok): Treat trigger statuses the same way as
+	installed for the dependency and for breaks or conflicts. For depends,
+	predepends, recommends and suggests treat triggerspending as installed
+	and triggersawaited as halfconfigured.
+	* src/enquiry.c (badstatinfos): Add stat_triggerspending and
+	stat_triggersawaited entries.
+	(yettobeunpacked): Treat trigger statuses as unpacked.
+	(assertversion): Treat triggerspending the same way as installed,
+	and triggersawaited as not fully installed.
+	* src/filesdb.h (enum fnnflags): Add new fnn_nonew item.
+	(struct filenamenode): Add new trig_interested member.
+	* src/filesdb.c (ensure_package_clientdata): Initialize
+	clientdata->trigprocdeferred.
+	(findnamenode): Return NULL if flags has fnn_nonew and there is no
+	match before creating a new one. Initialize trig_interested when
+	creating a newnode.
+	* src/help.c (statusstrings): Add trigger statuses descriptions.
+	(namenodetouse): Activate a file trigger before returning.
+	(post_postinst_tasks): Initialize trigpend_head to NULL. Set status
+	to stat_triggersawaited if trigaw.head otherwise to new_status.
+	Call post_postinst_tasks_core. Move call to modstatdb_note to ...
+	(post_postinst_tasks_core): ... here. New function. Incorporate
+	triggers.
+	(post_script_tasks): Incorportate triggers.
+	(do_script): Set MAINTSCRIPTPKGENVVAR and MAINTSCRIPTDPKGENVVAR
+	environment variables.
+	* src/main.h (struct perpackagestate): Add new trigprocdeferred
+	member.
+	(enum action): Add new act_triggers item.
+	(f_triggers): New variable definition.
+	(namenodetouse): Add a comment about its new side effects.
+	(post_postinst_tasks_core): Likewise. New prototype.
+	(enum debugflags): Add dbg_triggers, dbg_triggersdetail and
+	dbg_triggersstupid items.
+	(trigproc_install_hooks, trigproc_run_deferred): New protoypes.
+	(trigproc_reset_cycle, trigproc): Likewise.
+	(trig_activate_packageprocessing): Likewise.
+	* src/main.c (usage): Document '--triggers-only' and
+	'--[no-]triggers'.
+	(f_triggers): New variable declaration
+	(setdebug): Document new triggers debug flags.
+	(cmdinfos): Add triggers-only, triggers and no-triggers entries.
+	(main): Disable f_triggers when --triggers-only has been specified.
+	* src/packages.c (progress_bytrigproc): New variable.
+	(packages): Install trigger hooks. On act_configure skip the package
+	also if trigpend_head is not valid. Handle act_triggers. Do a
+	deferred triggers process run.
+	(process_queue): New action_todo variable. Set the same value for
+	istobe as on act_triggers as for act_configure. Print the same message
+	when erasing the queue entry on act_triggers as for act_configure.
+	Add packages which can be fixed by means of processing their triggers
+	to the queue and set the action to act_configure. On act_triggers
+	ohshit if trigpend_head is NULL, otherwise fall through to
+	act_install. On act_configure call trigproc if there's pending
+	triggers or call deferred_configure.
+	(deppossi_ok_found): Add a new fixbytrig argument, fix all callers.
+	Treat trigger statuses the same way as installed. Handle dependee
+	trigger statuses.
+	(dependencies_ok): Handle packages which can be fixed by means of
+	processing their triggers.
+	* src/processarc.c (process_archive): Ensure file triggers intersts.
+	Activate trigger package processsing. Parse package triggers control
+	file before reading the conffiles. Treat trigger statuses the same
+	way as installed. Activate trigger package processing for the package
+	being deconfigured and for conflictors. Parse package control file
+	to delete the package and parse it again to re-add it and then save
+	the file triggers interests. Activate trigger package processing for
+	disappearing packages.
+	* src/query.c (list1package): Add trigger statuses to the listing
+	header and to the one letter statuses.
+	* src/remove.c (checkforremoval): Treat trigger statuses in the same
+	way as installed.
+	(deferred_remove): Activate trigger package processing. Operate on
+	packages with halfconfigured or higher status.
+	(removal_bulk_remove_configfiles): Activate trigger package processing.
+
 2008-03-28  Ian Jackson  <ian@davenant.greenend.org.uk>
 
 	* src/packages.c (deppossi_ok_found): Refactor returning code.

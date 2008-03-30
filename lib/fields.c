@@ -453,3 +453,96 @@ void f_dependency(struct pkginfo *pigp, struct pkginfoperfile *pifp,
   }
 }
 
+static const char *
+scan_word(const char **valp)
+{
+  static char *buf;
+  static int avail;
+
+  int l;
+  const char *p, *start, *end;
+
+  p = *valp;
+  for (;;) {
+    if (!*p) {
+      *valp = p;
+      return NULL;
+    }
+    if (cisspace(*p)) {
+      p++;
+      continue;
+    }
+    start = p;
+    break;
+  }
+  for (;;) {
+    if (*p && !cisspace(*p)) {
+      p++;
+      continue;
+    }
+    end = p;
+    break;
+  }
+  l = end - start;
+  if (l >= avail) {
+    avail = l * 2 + 4;
+    buf = m_realloc(buf, avail);
+  }
+  memcpy(buf, start, l);
+  buf[l] = 0;
+  *valp = p;
+
+  return buf;
+}
+
+void
+f_trigpend(struct pkginfo *pend, struct pkginfoperfile *pifp,
+           enum parsedbflags flags,
+           const char *filename, int lno, FILE *warnto, int *warncount,
+           const char *value, const struct fieldinfo *fip)
+{
+  const char *word, *emsg;
+
+  if (flags & pdb_rejectstatus)
+    parseerr(NULL, filename, lno, warnto, warncount, pend, 0,
+             _("value for `triggers-pending' field not allowed in this context"));
+
+  while ((word = scan_word(&value))) {
+    emsg = illegal_triggername(word);
+    if (emsg)
+      parseerr(NULL, filename, lno, warnto, warncount, pend, 0,
+               _("illegal pending trigger name `%.255s': %s"), word, emsg);
+
+    if (!trig_note_pend_core(pend, nfstrsave(word)))
+      parseerr(NULL, filename, lno, warnto, warncount, pend, 0,
+               _("duplicate pending trigger `%.255s'"), word);
+  }
+}
+
+void
+f_trigaw(struct pkginfo *aw, struct pkginfoperfile *pifp,
+         enum parsedbflags flags,
+         const char *filename, int lno, FILE *warnto, int *warncount,
+         const char *value, const struct fieldinfo *fip)
+{
+  const char *word, *emsg;
+  struct pkginfo *pend;
+
+  if (flags & pdb_rejectstatus)
+    parseerr(NULL, filename, lno, warnto, warncount, aw, 0,
+             _("value for `triggers-awaited' field not allowed in this context"));
+
+  while ((word = scan_word(&value))) {
+    emsg = illegal_packagename(word, NULL);
+    if (emsg)
+      parseerr(NULL, filename, lno, warnto, warncount, aw, 0,
+               _("illegal package name in awaited trigger `%.255s': %s"),
+              word, emsg);
+    pend = findpackage(word);
+
+    if (!trig_note_aw(pend, aw))
+      parseerr(NULL, filename, lno, warnto, warncount, aw, 0,
+               _("duplicate awaited trigger package `%.255s'"), word);
+  }
+}
+

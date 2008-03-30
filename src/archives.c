@@ -980,7 +980,9 @@ void check_conflict(struct dependency *dep, struct pkginfo *pkg,
       fixbyrm->clientdata->istobe= itb_remove;
       fprintf(stderr, _("dpkg: considering removing %s in favour of %s ...\n"),
               fixbyrm->name, pkg->name);
-      if (fixbyrm->status != stat_installed) {
+      if (!(fixbyrm->status == stat_installed ||
+            fixbyrm->status == stat_triggerspending ||
+            fixbyrm->status == stat_triggersawaited)) {
         fprintf(stderr,
                 _("%s is not properly installed - ignoring any dependencies on it.\n"),
                 fixbyrm->name);
@@ -1080,6 +1082,8 @@ void archivefiles(const char *const *argv) {
   static struct varbuf findoutput;
   const char **arglist;
   char *p;
+
+  trigproc_install_hooks();
 
   modstatdb_init(admindir,
                  f_noact ?                     msdbrw_readonly
@@ -1198,6 +1202,7 @@ void archivefiles(const char *const *argv) {
   switch (cipaction->arg) {
   case act_install:
   case act_configure:
+  case act_triggers:
   case act_remove:
   case act_purge:
     process_queue();
@@ -1208,6 +1213,7 @@ void archivefiles(const char *const *argv) {
     internerr("unknown action");
   }
 
+  trigproc_run_deferred();
   modstatdb_shutdown();
 }
 
@@ -1238,15 +1244,18 @@ int wanttoinstall(struct pkginfo *pkg, const struct versionrevision *ver, int sa
     }
   }
 
-  if (pkg->status != stat_installed) return 1;
+  if (!(pkg->status == stat_installed ||
+        pkg->status == stat_triggersawaited ||
+        pkg->status == stat_triggerspending))
+    return 1;
   if (!ver) return -1;
 
   r= versioncompare(ver,&pkg->installed.version);
   if (r > 0) {
     return 1;
   } else if (r == 0) {
-    if (f_skipsame && /* same version fully installed ? */
-   pkg->status == stat_installed && !(pkg->eflag &= eflagf_reinstreq)) {
+    /* Same version fully installed. */
+    if (f_skipsame) {
       if (saywhy) fprintf(stderr, _("Version %.250s of %.250s already installed, "
              "skipping.\n"),
              versiondescribe(&pkg->installed.version, vdew_nonambig),

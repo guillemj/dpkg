@@ -26,6 +26,7 @@ EXTRA_DIST = \
 	README.api \
 	README.feature-removal-schedule \
 	README.translators \
+	doc/triggers.txt \
 	debian/archtable \
 	debian/changelog \
 	debian/compat \

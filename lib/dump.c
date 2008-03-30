@@ -64,7 +64,11 @@ void w_configversion(struct varbuf *vb,
                      enum fwriteflags flags, const struct fieldinfo *fip) {
   if (pifp != &pigp->installed) return;
   if (!informativeversion(&pigp->configversion)) return;
-  if (pigp->status == stat_installed || pigp->status == stat_notinstalled) return;
+  if (pigp->status == stat_installed ||
+      pigp->status == stat_notinstalled ||
+      pigp->status == stat_triggerspending ||
+      pigp->status == stat_triggersawaited)
+    return;
   if (flags&fw_printheader)
     varbufaddstr(vb,"Config-Version: ");
   varbufversion(vb,&pigp->configversion,vdew_nonambig);
@@ -161,7 +165,37 @@ void w_status(struct varbuf *vb,
   if (pifp != &pigp->installed) return;
   assert(pigp->want <= want_purge);
   assert(pigp->eflag <= eflagv_reinstreq); /* hold and hold-reinstreq NOT allowed */
-  assert(pigp->status <= stat_installed);
+
+#define PEND pigp->trigpend_head
+#define AW pigp->trigaw.head
+  switch (pigp->status) {
+  case stat_notinstalled:
+  case stat_configfiles:
+    assert(!PEND);
+    assert(!AW);
+    break;
+  case stat_halfinstalled:
+  case stat_unpacked:
+  case stat_halfconfigured:
+    assert(!PEND);
+    break;
+  case stat_triggersawaited:
+    assert(AW);
+    break;
+  case stat_triggerspending:
+    assert(PEND);
+    assert(!AW);
+    break;
+  case stat_installed:
+    assert(!PEND);
+    assert(!AW);
+    break;
+  default:
+    abort();
+  }
+#undef PEND
+#undef AW
+
   if (flags&fw_printheader)
     varbufaddstr(vb,"Status: ");
   varbufaddstr(vb,wantinfos[pigp->want].name); varbufaddc(vb,' ');
@@ -237,6 +271,52 @@ void w_conffiles(struct varbuf *vb,
   }
   if (flags&fw_printheader)
     varbufaddc(vb,'\n');
+}
+
+void
+w_trigpend(struct varbuf *vb,
+           const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
+           enum fwriteflags flags, const struct fieldinfo *fip)
+{
+  struct trigpend *tp;
+
+  if (!pifp->valid || pifp == &pigp->available || !pigp->trigpend_head)
+    return;
+
+  assert(pigp->status >= stat_triggersawaited &&
+         pigp->status <= stat_triggerspending);
+
+  if (flags & fw_printheader)
+    varbufaddstr(vb, "Triggers-Pending:");
+  for (tp = pigp->trigpend_head; tp; tp = tp->next) {
+    varbufaddc(vb, ' ');
+    varbufaddstr(vb, tp->name);
+  }
+  if (flags & fw_printheader)
+    varbufaddc(vb, '\n');
+}
+
+void
+w_trigaw(struct varbuf *vb,
+         const struct pkginfo *pigp, const struct pkginfoperfile *pifp,
+         enum fwriteflags flags, const struct fieldinfo *fip)
+{
+  struct trigaw *ta;
+
+  if (!pifp->valid || pifp == &pigp->available || !pigp->trigaw.head)
+    return;
+
+  assert(pigp->status > stat_configfiles &&
+         pigp->status <= stat_triggersawaited);
+
+  if (flags & fw_printheader)
+    varbufaddstr(vb, "Triggers-Awaited:");
+  for (ta = pigp->trigaw.head; ta; ta = ta->sameaw.next) {
+    varbufaddc(vb, ' ');
+    varbufaddstr(vb, ta->pend->name);
+  }
+  if (flags & fw_printheader)
+    varbufaddc(vb, '\n');
 }
 
 void varbufrecord(struct varbuf *vb,

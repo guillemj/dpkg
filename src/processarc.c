@@ -282,7 +282,8 @@ void process_archive(const char *filename) {
   
   ensure_allinstfiles_available();
   filesdbinit();
-  
+  trig_file_interests_ensure();
+
   if (pkg->status != stat_notinstalled && pkg->status != stat_configfiles) {
     printf(_("Preparing to replace %s %s (using %s) ...\n"),
            pkg->name,
@@ -299,9 +300,15 @@ void process_archive(const char *filename) {
     return;
   }
 
-  /* OK, we're going ahead.  First we read the conffiles, and copy the
-   * hashes across.
+  /*
+   * OK, we're going ahead.
    */
+
+  trig_activate_packageprocessing(pkg);
+  strcpy(cidirrest, TRIGGERSCIFILE);
+  trig_parse_ci(cidir, NULL, trig_cicb_statuschange_activate, pkg);
+
+  /* Read the conffiles, and copy the hashes across. */
   newconffiles = NULL;
   newconffileslastp = &newconffiles;
   push_cleanup(cu_fileslist, ~0, NULL, 0, 0);
@@ -387,7 +394,10 @@ void process_archive(const char *filename) {
   debug(dbg_general,"process_archive oldversionstatus=%s",
         statusstrings[oldversionstatus]);
   
-  if (oldversionstatus == stat_halfconfigured || oldversionstatus == stat_installed) {
+  if (oldversionstatus == stat_halfconfigured ||
+      oldversionstatus == stat_triggersawaited ||
+      oldversionstatus == stat_triggerspending ||
+      oldversionstatus == stat_installed) {
     pkg->eflag |= eflagf_reinstreq;
     pkg->status= stat_halfconfigured;
     modstatdb_note(pkg);
@@ -408,6 +418,7 @@ void process_archive(const char *filename) {
     else
       printf(_("De-configuring %s ...\n"), deconpil->pkg->name);
 
+    trig_activate_packageprocessing(deconpil->pkg);
     deconpil->pkg->status= stat_halfconfigured;
     modstatdb_note(deconpil->pkg);
 
@@ -439,7 +450,10 @@ void process_archive(const char *filename) {
 
   for (i = 0 ; i < cflict_index; i++) {
     if (!(conflictor[i]->status == stat_halfconfigured ||
+          conflictor[i]->status == stat_triggersawaited ||
+          conflictor[i]->status == stat_triggerspending ||
           conflictor[i]->status == stat_installed)) continue;
+    trig_activate_packageprocessing(conflictor[i]);
     conflictor[i]->status= stat_halfconfigured;
     modstatdb_note(conflictor[i]);
     push_cleanup(cu_prerminfavour, ~ehflag_normaltidy, NULL, 0,
@@ -738,6 +752,16 @@ void process_archive(const char *filename) {
    */
   write_filelist_except(pkg,newfileslist,0);
 
+  /* Trigger interests may have changed.
+   * Firstly we go through the old list of interests deleting them.
+   * Then we go through the new list adding them.
+   */
+  strcpy(cidirrest, TRIGGERSCIFILE);
+  trig_parse_ci(pkgadminfile(pkg, TRIGGERSCIFILE),
+                trig_cicb_interest_delete, NULL, pkg);
+  trig_parse_ci(cidir, trig_cicb_interest_add, NULL, pkg);
+  trig_file_interests_save();
+
   /* We also install the new maintainer scripts, and any other
    * cruft that may have come along with the package.  First
    * we go through the existing scripts replacing or removing
@@ -985,6 +1009,7 @@ void process_archive(const char *filename) {
      * run maintainer scripts and things, as we can't back out.  But
      * what can we do ?  It has to be run this late.
      */
+    trig_activate_packageprocessing(otherpkg);
     maintainer_script_installed(otherpkg, POSTRMFILE,
                                 "post-removal script (for disappearance)",
                                 "disappear", pkg->name, 

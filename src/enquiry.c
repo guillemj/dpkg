@@ -97,6 +97,16 @@ static const struct badstatinfo badstatinfos[]= {
     "installation.  The installation can probably be completed by retrying it;\n"
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
+    bsyn_status, stat_triggersawaited,
+    N_("The following packages are awaiting processesing of triggers that they\n"
+    "have activated in other packages.  This processing can be requested using\n"
+    "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
+  }, {
+    bsyn_status, stat_triggerspending,
+    N_("The following packages have been triggered, but the trigger processesing\n"
+    "has not yet been done.  Trigger processing can be requested using\n"
+    "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
+  }, {
     NULL
   }
 };
@@ -150,6 +160,8 @@ static int yettobeunpacked(struct pkginfo *pkg, const char **thissect) {
 
   switch (pkg->status) {
   case stat_unpacked: case stat_installed: case stat_halfconfigured:
+  case stat_triggerspending:
+  case stat_triggersawaited:
     return 0;
   case stat_notinstalled: case stat_halfinstalled: case stat_configfiles:
     if (thissect)
@@ -254,8 +266,10 @@ static void assertversion(const char *const *argv,
   pkg= findpackage("dpkg");
   switch (pkg->status) {
   case stat_installed:
+  case stat_triggerspending:
     break;
   case stat_unpacked: case stat_halfconfigured: case stat_halfinstalled:
+  case stat_triggersawaited:
     if (versionsatisfied3(&pkg->configversion,verrev_buf,dvr_laterequal))
       break;
     printf(_("Version of dpkg with working epoch support not yet configured.\n"

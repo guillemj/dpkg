@@ -41,6 +41,9 @@ struct perpackagestate {
   int fileslistvalid;
   struct fileinlist *files;
   int replacingfilesandsaid;
+
+  /* Non-NULL iff in trigproc.c:deferred. */
+  struct pkginqueue *trigprocdeferred;
 };
 
 struct packageinlist {
@@ -55,6 +58,7 @@ struct pkginqueue {
 };
 
 enum action { act_unset, act_install, act_unpack, act_avail, act_configure,
+              act_triggers,
               act_remove, act_purge, act_listpackages, act_avreplace, act_avmerge,
               act_unpackchk, act_status, act_searchfiles, act_audit, act_listfiles,
               act_assertpredep, act_printarch, act_predeppackage, act_cmpversions,
@@ -89,6 +93,7 @@ extern const char *const statusstrings[];
 extern const struct cmdinfo *cipaction;
 extern int f_pending, f_recursive, f_alsoselect, f_skipsame, f_noact;
 extern int f_autodeconf, f_largemem, f_nodebsig;
+extern int f_triggers;
 extern unsigned long f_debug;
 extern int fc_downgrade, fc_configureany, fc_hold, fc_removereinstreq, fc_overwrite;
 extern int fc_removeessential, fc_conflicts, fc_depends, fc_dependsversion;
@@ -202,6 +207,10 @@ int chmodsafe_unlink(const char *pathname, const char **failed);
 int chmodsafe_unlink_statted(const char *pathname, const struct stat *stab,
 			     const char **failed);
 void checkpath(void);
+
+/* NB side effect! This not only computes the appropriate filename
+ * to use including thinking about any diversions, but also activates
+ * any file triggers. */
 struct filenamenode *namenodetouse(struct filenamenode*, struct pkginfo*);
 
 /* all ...'s are const char*'s ... */
@@ -214,7 +223,13 @@ int maintainer_script_alternative(struct pkginfo *pkg,
                                   const char *scriptname, const char *description,
                                   const char *cidir, char *cidirrest,
                                   const char *ifok, const char *iffallback);
+
+/* Callers wanting to run the postinst use these two as they want to postpone
+ * trigger incorporation until after updating the package status. The effect
+ * is that a package can trigger itself. */
 int maintainer_script_postinst(struct pkginfo *pkg, ...);
+void post_postinst_tasks_core(struct pkginfo *pkg);
+
 void post_postinst_tasks(struct pkginfo *pkg, enum pkgstatus new_status);
 
 void clear_istobes(void);
@@ -232,11 +247,27 @@ enum debugflags {
   dbg_depcondetail=      00400,
   dbg_veryverbose=       01000,
   dbg_stupidlyverbose=   02000,
+  dbg_triggers =        010000,
+  dbg_triggersdetail =  020000,
+  dbg_triggersstupid =  040000,
 };
   
 void debug(int which, const char *fmt, ...) PRINTFFORMAT(2,3);
 void check_libver(void);
 void log_action(const char *action, struct pkginfo *pkg);
+
+/* from trigproc.c */
+
+void trigproc_install_hooks(void);
+void trigproc_run_deferred(void);
+void trigproc_reset_cycle(void);
+
+/* Does cycle checking. Doesn't mind if pkg has no triggers
+ * pending - in that case does nothing but fix up any stale awaiters. */
+void trigproc(struct pkginfo *pkg);
+
+/* Called by modstatdb_note. */
+void trig_activate_packageprocessing(struct pkginfo *pkg);
 
 /* from depcon.c */
 

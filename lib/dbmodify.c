@@ -40,6 +40,7 @@
 #include <dpkg-db.h>
 
 char *statusfile=NULL, *availablefile=NULL;
+char *triggersdir, *triggersfilefile, *triggersnewfilefile;
 
 static enum modstatdb_rw cstatus=-1, cflags=0;
 static char *importanttmpfile=NULL;
@@ -129,6 +130,9 @@ static const struct fni {
   {   STATUSFILE,                 &statusfile         },
   {   AVAILFILE,                  &availablefile      },
   {   UPDATESDIR IMPORTANTTMP,    &importanttmpfile   },
+  {   TRIGGERSDIR,                &triggersdir        },
+  {   TRIGGERSDIR "/File",        &triggersfilefile   },
+  {   TRIGGERSDIR "/File.new",    &triggersnewfilefile},
   {   NULL, NULL                                      }
 };
 
@@ -192,6 +196,8 @@ enum modstatdb_rw modstatdb_init(const char *adir, enum modstatdb_rw readwritere
     uvb.buf= m_malloc(uvb.size);
   }
 
+  trig_incorporate(cstatus, admindir);
+
   return cstatus;
 }
 
@@ -234,10 +240,28 @@ void modstatdb_shutdown(void) {
   free(updatefnbuf);
 }
 
+/* Note: If anyone wants to set some triggers-pending, they must also
+ * set status appropriately, or we will undo it. That is, it is legal
+ * to call this when pkg->status and pkg->trigpend_head disagree and
+ * in that case pkg->status takes precedence and pkg->trigpend_head
+ * will be adjusted.
+ */
 void modstatdb_note(struct pkginfo *pkg) {
+  struct trigaw *ta;
+
   assert(cstatus >= msdbrw_write);
 
   onerr_abort++;
+
+  if (pkg->status != stat_triggerspending &&
+      pkg->status != stat_triggersawaited)
+    pkg->trigpend_head = NULL;
+
+  if (pkg->status <= stat_configfiles) {
+    for (ta = pkg->trigaw.head; ta; ta = ta->sameaw.next)
+      ta->aw = NULL;
+    pkg->trigaw.head = pkg->trigaw.tail = NULL;
+  }
 
   log_message("status %s %s %s", statusinfos[pkg->status].name, pkg->name,
 	      versiondescribe(&pkg->installed.version, vdew_nonambig));
@@ -268,6 +292,17 @@ void modstatdb_note(struct pkginfo *pkg) {
   }
 
   createimptmp();
+
+  if (!pkg->trigpend_head && pkg->othertrigaw_head) {
+    /* Automatically remove us from other packages' Triggers-Awaited.
+     * We do this last because we want to maximise our chances of
+     * successfully recording the status of the package we were
+     * pointed at by our caller, although there is some risk of
+     * leaving us in a slightly odd situation which is cleared up
+     * by the trigger handling logic in deppossi_ok_found.
+     */
+    trig_clear_awaiters(pkg);
+  }
 
   onerr_abort--;
 }

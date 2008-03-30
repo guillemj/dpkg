@@ -53,6 +53,7 @@ AC_SUBST(admindir)
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_CXX
+AC_PROG_LEX
 AC_PROG_RANLIB
 DPKG_PROG_PERL
 

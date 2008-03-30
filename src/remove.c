@@ -66,7 +66,10 @@ static void checkforremoval(struct pkginfo *pkgtoremove,
     if (possi->up->type != dep_depends && possi->up->type != dep_predepends) continue;
     depender= possi->up->up;
     debug(dbg_depcon,"checking depending package `%s'",depender->name);
-    if (depender->status != stat_installed) continue;
+    if (!(depender->status == stat_installed ||
+          depender->status == stat_triggerspending ||
+          depender->status == stat_triggersawaited))
+      continue;
     if (ignore_depends(depender)) {
       debug(dbg_depcon,"ignoring depending package `%s'\n",depender->name);
       continue;
@@ -163,7 +166,8 @@ void deferred_remove(struct pkginfo *pkg) {
     
   printf(_("Removing %s ...\n"),pkg->name);
   log_action("remove", pkg);
-  if (pkg->status == stat_halfconfigured || pkg->status == stat_installed) {
+  trig_activate_packageprocessing(pkg);
+  if (pkg->status >= stat_halfconfigured) {
     static enum pkgstatus oldpkgstatus;
 
     oldpkgstatus= pkg->status;
@@ -404,6 +408,7 @@ static void removal_bulk_remove_configfiles(struct pkginfo *pkg) {
 
     printf(_("Purging configuration files for %s ...\n"),pkg->name);
     log_action("purge", pkg);
+    trig_activate_packageprocessing(pkg);
     ensure_packagefiles_available(pkg); /* We may have modified this above. */
 
     /* We're about to remove the configuration, so remove the note

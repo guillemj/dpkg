@@ -107,6 +107,25 @@ struct pkginfoperfile { /* pif */
   struct arbitraryfield *arbs;
 };
 
+struct trigpend {
+  /* Node indicates that parent's Triggers-Pending mentions name. */
+  /* NB that these nodes do double duty: after they're removed from
+   * a package's trigpend list, references may be preserved by the
+   * trigger cycle checker (see trigproc.c).
+   */
+  struct trigpend *next;
+  char *name;
+};
+
+struct trigaw {
+  /* Node indicates that aw's Triggers-Awaited mentions pend. */
+  struct pkginfo *aw, *pend;
+  struct trigaw *nextsamepend;
+  struct {
+    struct trigaw *next, *back;
+  } sameaw;
+};
+
 struct perpackagestate; /* dselect and dpkg have different versions of this */
 
 struct pkginfo { /* pig */
@@ -131,6 +150,8 @@ struct pkginfo { /* pig */
     stat_halfinstalled,
     stat_unpacked,
     stat_halfconfigured,
+    stat_triggersawaited,
+    stat_triggerspending,
     stat_installed
   } status;
   enum pkgpriority {
@@ -146,6 +167,15 @@ struct pkginfo { /* pig */
   struct pkginfoperfile available;
   struct perpackagestate *clientdata;
   enum { white, gray, black } color;  /* used during cycle detection */
+
+  struct {
+    /* ->aw == this */
+    struct trigaw *head, *tail;
+  } trigaw;
+
+  /* ->pend == this, non-NULL for us when Triggers-Pending. */
+  struct trigaw *othertrigaw_head;
+  struct trigpend *trigpend_head;
 };
 
 /*** from lock.c ***/
@@ -172,9 +202,108 @@ void modstatdb_note_ifwrite(struct pkginfo *pkg);
 void modstatdb_checkpoint(void);
 void modstatdb_shutdown(void);
 
-extern char *statusfile, *availablefile; /* initialised by modstatdb_init */
+/* Initialised by modstatdb_init. */
+extern char *statusfile, *availablefile;
+extern char *triggersdir, *triggersfilefile, *triggersnewfilefile;
 
 const char *pkgadminfile(struct pkginfo *pkg, const char *whichfile);
+
+/*** from trigdeferred.l ***/
+
+enum trigdef_updateflags {
+  tduf_nolockok =           001,
+  tduf_write =              002,
+  tduf_nolock =             003,
+  /* Should not be set unless _write is. */
+  tduf_writeifempty =       010,
+  tduf_writeifenoent =      020,
+};
+
+struct trigdefmeths {
+  void (*trig_begin)(const char *trig);
+  void (*package)(const char *awname);
+  void (*trig_end)(void);
+};
+
+extern const struct trigdefmeths *trigdef;
+extern FILE *trig_new_deferred;
+
+/* Return values:
+ *  -1  Lock ENOENT with O_CREAT (directory does not exist)
+ *  -2  Unincorp empty, tduf_writeifempty unset
+ *  -3  Unincorp ENOENT, tduf_writeifenoent unset
+ *   1  Unincorp ENOENT, tduf_writeifenoent set   } caller must call
+ *   2  ok                                        }  trigdef_update_done!
+ */
+int trigdef_update_start(enum trigdef_updateflags uf, const char *admindir);
+
+int trigdef_yylex(void);
+void trigdef_process_done(void);
+
+/*** hooks for more sophisticated processing in dpkg proper ***/
+
+/* We do things like this so we can get most of the trigger tracking
+ * in dpkg-query, dselect, and so on, but avoid the transitional
+ * processing and deferred trigproc queue management other than when
+ * we're actually doing real package management work. */
+
+struct trigfileint {
+  struct pkginfo *pkg;
+  struct filenamenode *fnn;
+  struct trigfileint *samefile_next;
+  struct {
+    struct trigfileint *next, *back;
+  } inoverall;
+};
+
+struct trig_hooks {
+ /* The first two are normally NULL.
+  * If non-NULL, we're dpkg proper and we might need to invent trigger
+  * activations as the first run of a triggers-supporting dpkg.
+  */
+  void (*enqueue_deferred)(struct pkginfo *pend);
+  void (*transitional_activate)(enum modstatdb_rw cstatus);
+
+  struct filenamenode *(*namenode_find)(const char *filename, int nonew);
+  struct trigfileint **(*namenode_interested)(struct filenamenode *fnn);
+
+  /* Returns a pointer from nfmalloc. */
+  const char *(*namenode_name)(struct filenamenode *fnn);
+};
+
+extern struct trig_hooks trigh;
+
+#define TRIGHOOKS_DEFINE_NAMENODE_ACCESSORS				 \
+  static struct trigfileint **th_nn_interested(struct filenamenode *fnn) \
+    { return &fnn->trig_interested; }					 \
+  static const char *th_nn_name(struct filenamenode *fnn)		 \
+    { return fnn->name; }
+
+/*** from triglib.c ***/
+
+void trig_file_activate_byname(const char *trig, struct pkginfo *aw);
+void trig_file_activate(struct filenamenode *trig, struct pkginfo *aw);
+
+int trig_note_pend_core(struct pkginfo *pend, char *trig /*not copied!*/);
+int trig_note_pend(struct pkginfo *pend, char *trig /*not copied!*/);
+int trig_note_aw(struct pkginfo *pend, struct pkginfo *aw);
+void trig_clear_awaiters(struct pkginfo *notpend);
+
+void trig_file_interests_ensure(void);
+void trig_file_interests_save(void);
+
+void trig_cicb_interest_delete(const char *trig, void *user);
+void trig_cicb_interest_add(const char *trig, void *user);
+typedef void trig_parse_cicb(const char *trig, void *user);
+void trig_parse_ci(const char *file, trig_parse_cicb *interest,
+                   trig_parse_cicb *activate, void *user);
+
+/* Called by process_archive. */
+void trig_cicb_statuschange_activate(const char *trig, void *user);
+
+void trig_incorporate(enum modstatdb_rw cstatus, const char *admindir);
+
+const char *illegal_triggername(const char *p);
 
 /*** from database.c ***/
 

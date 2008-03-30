@@ -67,6 +67,7 @@ usage(void)
 "  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
 "  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
 "  --configure        <package> ... | -a|--pending\n"
+"  --triggers-only    <package> ... | -a|--pending\n"
 "  -r|--remove        <package> ... | -a|--pending\n"
 "  -P|--purge         <package> ... | -a|--pending\n"
 "  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
@@ -113,6 +114,7 @@ usage(void)
 "  -E|--skip-same-version     Skip packages whose same version is installed.\n"
 "  -G|--refuse-downgrade      Skip packages with earlier version than installed.\n"
 "  -B|--auto-deconfigure      Install even if it would break some other package.\n"
+"  --[no-]triggers            Skip or force consequential trigger processing.\n"
 "  --no-debsig                Do not try to verify package signatures.\n"
 "  --no-act|--dry-run|--simulate\n"
 "                             Just say what we would do - don't do it.\n"
@@ -154,6 +156,7 @@ const char printforhelp[]= N_(
 const struct cmdinfo *cipaction = NULL;
 int f_pending=0, f_recursive=0, f_alsoselect=1, f_skipsame=0, f_noact=0;
 int f_autodeconf=0, f_nodebsig=0;
+int f_triggers = 0;
 unsigned long f_debug=0;
 /* Change fc_overwrite to 1 to enable force-overwrite by default */
 int fc_downgrade=1, fc_configureany=0, fc_hold=0, fc_removereinstreq=0, fc_overwrite=0;
@@ -224,6 +227,9 @@ static void setdebug(const struct cmdinfo *cpi, const char *value) {
 "    200   conffdetail       Lots of output for each configuration file\n"
 "     40   depcon            Dependencies and conflicts\n"
 "    400   depcondetail      Lots of dependencies/conflicts output\n"
+"  10000   triggers          Trigger activation and processing\n"
+"  20000   triggersdetail    Lots of output regarding triggers\n"
+"  40000   triggersstupid    Silly amounts of output regarding triggers\n"
 "   1000   veryverbose       Lots of drivel about eg the dpkg/info directory\n"
 "   2000   stupidlyverbose   Insane amounts of drivel\n"
 "\n"
@@ -391,6 +397,7 @@ static const struct cmdinfo cmdinfos[]= {
   ACTION( "configure",                       0,  act_configure,            packages        ),
   ACTION( "remove",                         'r', act_remove,               packages        ),
   ACTION( "purge",                          'P', act_purge,                packages        ),
+  ACTION( "triggers-only",                   0,  act_triggers,             packages        ),
   ACTIONBACKEND( "listfiles",               'L', DPKGQUERY),
   ACTIONBACKEND( "status",                  's', DPKGQUERY),
   ACTION( "get-selections",                  0,  act_getselections,        getselections   ),
@@ -428,6 +435,8 @@ static const struct cmdinfo cmdinfos[]= {
   /* Alias ('G') for --refuse. */
   {  NULL,               'G', 0, &fc_downgrade, NULL,      NULL,    0 },
   { "selected-only",     'O', 0, &f_alsoselect, NULL,      NULL,    0 },
+  { "triggers",           0,  0, &f_triggers,   NULL,      NULL,    1 },
+  { "no-triggers",        0,  0, &f_triggers,   NULL,      NULL,   -1 },
   /* FIXME: Remove ('N') sometime. */
   { "no-also-select",    'N', 0, &f_alsoselect, NULL,      NULL,    0 },
   { "skip-same-version", 'E', 0, &f_skipsame,   NULL,      NULL,    1 },
@@ -614,6 +623,9 @@ int main(int argc, const char *const *argv) {
 
   standard_startup(&ejbuf, argc, &argv, DPKG, 1, cmdinfos);
   if (!cipaction) badusage(_("need an action option"));
+
+  if (!f_triggers)
+    f_triggers = (cipaction->arg == act_triggers && *argv) ? -1 : 1;
 
   setvbuf(stdout, NULL, _IONBF, 0);
   filesdbinit();

@@ -182,6 +182,8 @@ void packagelist::ensurestatsortinfo() {
       case pkginfo::stat_unpacked:
       case pkginfo::stat_halfconfigured:
       case pkginfo::stat_halfinstalled:
+      case pkginfo::stat_triggersawaited:
+      case pkginfo::stat_triggerspending:
         table[index]->ssavail= ssa_broken;
         break;
       case pkginfo::stat_notinstalled:
@@ -227,6 +229,8 @@ void packagelist::ensurestatsortinfo() {
       case pkginfo::stat_unpacked:
       case pkginfo::stat_halfconfigured:
       case pkginfo::stat_halfinstalled:
+      case pkginfo::stat_triggersawaited:
+      case pkginfo::stat_triggerspending:
         table[index]->ssstate= sss_broken;
         break;
       case pkginfo::stat_notinstalled:

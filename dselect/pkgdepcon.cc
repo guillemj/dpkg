@@ -39,7 +39,9 @@ int packagelist::useavailable(pkginfo *pkg) {
   if (pkg->clientdata &&
       pkg->clientdata->selected == pkginfo::want_install &&
       informative(pkg,&pkg->available) &&
-      (pkg->status != pkginfo::stat_installed ||
+      (!(pkg->status == pkginfo::stat_installed ||
+         pkg->status == pkginfo::stat_triggersawaited ||
+         pkg->status == pkginfo::stat_triggerspending) ||
        versioncompare(&pkg->available.version,&pkg->installed.version) > 0))
     return 1;
   else
@@ -411,7 +413,9 @@ int packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade
       if (useavailable(provider->up->up))
         return 1;
       if (fixbyupgrade && !*fixbyupgrade &&
-          (provider->up->up->status != pkginfo::stat_installed ||
+          (!(provider->up->up->status == pkginfo::stat_installed ||
+             provider->up->up->status == pkginfo::stat_triggerspending ||
+             provider->up->up->status == pkginfo::stat_triggersawaited) ||
            versioncompare(&provider->up->up->available.version,
                           &provider->up->up->installed.version) > 1))
         *fixbyupgrade= provider->up->up->clientdata;
