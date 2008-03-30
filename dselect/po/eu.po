@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: eu\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-01-07 11:58+0200\n"
+"POT-Creation-Date: 2008-03-30 10:09+0300\n"
 "PO-Revision-Date: 2008-01-24 13:36+0100\n"
 "Last-Translator: Piarres Beobide <pi@beobide.net>\n"
 "Language-Team: Euskara <Librezale@librezale.org>\n"
@@ -288,11 +288,16 @@ msgstr "Leheneratu pakete guztiak iradokitako egoerara"
 msgid "Revert to directly requested state for all packages"
 msgstr "Leheneratu pakete guztiak zuzenean eskatutako egoerara"
 
-#: dselect/bindings.cc:163
+#: dselect/bindings.cc:161
+#, fuzzy
+msgid "Revert to currently installed state for all packages"
+msgstr "Leheneratu pakete guztiak zuzenean eskatutako egoerara"
+
+#: dselect/bindings.cc:164
 msgid "Select currently-highlighted access method"
 msgstr "Hautatu unean nabarmendutako atzipen-metodoa"
 
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:165
 msgid "Quit without changing selected access method"
 msgstr "Irten hautatutako atzipen-metodoa aldatu gabe"
 
@@ -532,6 +537,7 @@ msgid "Display, part 1: package listing and status chars"
 msgstr "Bistaratzea, 1. zatia: paketeen zerrenda eta egoera-karaktereak"
 
 #: dselect/helpmsgs.cc:121
+#, fuzzy
 msgid ""
 "The top half of the screen shows a list of packages.  For each package you "
 "see\n"
@@ -544,12 +550,13 @@ msgid ""
 "below)\n"
 "              `R'  - serious error during installation, needs "
 "reinstallation;\n"
-" Installed state:   Space - not installed;\n"
-"                     `*'  - installed;\n"
-"                     `-'  - not installed but config files remain;\n"
-"       packages in { `U'  - unpacked but not yet configured;\n"
-"      these states { `C'  - half-configured (an error happened);\n"
-"        are broken { `I'  - half-installed (an error happened).\n"
+" Installed state:     Space    - not installed;\n"
+"                       `*'     - installed;\n"
+"                       `-'     - not installed but config files remain;\n"
+"   packages in these { `U'     - unpacked but not yet configured;\n"
+"   states are not    { `C'     - half-configured (an error happened);\n"
+"   (quite) properly  { `I'     - half-installed (an error happened).\n"
+"   installed         { `W',`t' - triggers are awaited resp. pending.\n"
 " Old mark: what was requested for this package before presenting this list;\n"
 " Mark: what is requested for this package:\n"
 "  `*': marked for installation or upgrade;\n"
@@ -594,11 +601,11 @@ msgstr ""
 "erabilgarri dauden bertsio-zenbakiak bistaratzen dira (maiuskula-V \n"
 "bistaratzeko/ezkutatzeko), baita laburpenaren azalpena ere.\n"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid "Display, part 2: list highlight; information display"
 msgstr "Bistaratzea, 2. zatia: zerrenda nabarmentzea; informazioa bistaratzea"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
@@ -647,11 +654,11 @@ msgstr ""
 "  Erabili `i' tekla pantailetan zehar mugitzeko, eta `I' informazioa\n"
 "  ezkutatzeko edo ia pantaila osoa erabiltzeko zabaltzeko.\n"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid "Introduction to method selection display"
 msgstr "Metodo-hautapenaren sarrera"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid ""
 "dselect and dpkg can do automatic installation, loading the package files to "
 "be\n"
@@ -696,11 +703,11 @@ msgstr ""
 "menura\n"
 " `?' sakatuta\n"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid "Keystrokes for method selection"
 msgstr "Metodoa hautatzeko tekla-sakatzeak"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -866,7 +873,7 @@ msgstr ""
 "EZ dago bermerik.\n"
 "Ikus %s --licence xehetasun gehiago izateko.\n"
 
-#: dselect/main.cc:168
+#: dselect/main.cc:172
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] [<action> ...]\n"
@@ -875,7 +882,7 @@ msgstr ""
 "Erabilera: %s [<aukera> ...] [<aukera> ...]\n"
 "\n"
 
-#: dselect/main.cc:172
+#: dselect/main.cc:176
 #, c-format
 msgid ""
 "Options:\n"
@@ -895,7 +902,7 @@ msgstr ""
 "                             Pantaila koloreak konfiguratu.\n"
 "\n"
 
-#: dselect/main.cc:181
+#: dselect/main.cc:185
 #, c-format
 msgid ""
 "  --help                     Show this help message.\n"
@@ -908,7 +915,7 @@ msgstr ""
 "  --license                  Lizentzia bistarazi.\n"
 "\n"
 
-#: dselect/main.cc:187
+#: dselect/main.cc:191
 #, c-format
 msgid ""
 "Actions:\n"
@@ -919,56 +926,56 @@ msgstr ""
 "  access update select install config remove quit\n"
 "\n"
 
-#: dselect/main.cc:191
+#: dselect/main.cc:195
 #, c-format
 msgid "Screenparts:\n"
 msgstr "Pantaila-zatiak:\n"
 
-#: dselect/main.cc:196
+#: dselect/main.cc:200
 #, c-format
 msgid "Colours:\n"
 msgstr "Koloreak:\n"
 
-#: dselect/main.cc:201
+#: dselect/main.cc:205
 #, c-format
 msgid "Attributes:\n"
 msgstr "Atributuak:\n"
 
-#: dselect/main.cc:221
+#: dselect/main.cc:216
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "ezin izan da `%.255s' arazketa-fitxategia ireki\n"
 
-#: dselect/main.cc:236
+#: dselect/main.cc:231
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr "%s `%s' baliogabea\n"
 
-#: dselect/main.cc:253
+#: dselect/main.cc:248
 msgid "screen part"
 msgstr "pantaila-zatia"
 
-#: dselect/main.cc:259
+#: dselect/main.cc:254
 msgid "Null colour specification\n"
 msgstr "Kolore-zehaztapen nulua\n"
 
-#: dselect/main.cc:267 dselect/main.cc:272
+#: dselect/main.cc:262 dselect/main.cc:267
 msgid "colour"
 msgstr "kolorea"
 
-#: dselect/main.cc:280
+#: dselect/main.cc:275
 msgid "colour attribute"
 msgstr "kolore-atributua"
 
-#: dselect/main.cc:314
+#: dselect/main.cc:309
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Badirudi terminalak ez duela onartzen kurtsore-helbideratzerik.\n"
 
-#: dselect/main.cc:316
+#: dselect/main.cc:311
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Badirudi terminalak ez duela onartzen nabarmentzea.\n"
 
-#: dselect/main.cc:318
+#: dselect/main.cc:313
 #, c-format
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
@@ -977,11 +984,11 @@ msgstr ""
 "Ezarri ondo TERM aldagaia, erabili terminal hobe bat,\n"
 "edo moldatu paketez pakete kudeatzeko %s tresnarekin .\n"
 
-#: dselect/main.cc:321
+#: dselect/main.cc:316
 msgid "terminal lacks necessary features, giving up"
 msgstr "terminalak beharrezko eginbide batzuk falta ditu, utzi egingo da"
 
-#: dselect/main.cc:399
+#: dselect/main.cc:394
 msgid ""
 "\n"
 "\n"
@@ -996,7 +1003,7 @@ msgstr ""
 "Hautatzeko, sakatu <sartu>. Erabili ^L pantaila berriro marrazteko.\n"
 "\n"
 
-#: dselect/main.cc:414
+#: dselect/main.cc:409
 msgid ""
 "\n"
 "\n"
@@ -1006,11 +1013,11 @@ msgstr ""
 "\n"
 "Soilik irakurtzeko sarbidea: hautapenen aurrebista bakarrik dago erabilgarri!"
 
-#: dselect/main.cc:433
+#: dselect/main.cc:428
 msgid "failed to getch in main menu"
 msgstr "getch: huts egin du menu nagusian"
 
-#: dselect/main.cc:506
+#: dselect/main.cc:501
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "`%.50s' ekintza-kate ezezaguna"
@@ -1048,7 +1055,7 @@ msgstr "huts egin du SIGWINCH birblokeatzean"
 msgid "getch failed"
 msgstr "getch: huts egin du"
 
-#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:243
+#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:244
 msgid "[none]"
 msgstr "[bat ere ez]"
 
@@ -1278,7 +1285,7 @@ msgstr "ezin da itxi `%.250s' aukera-fitxategi berria"
 msgid "unable to install new option as `%.250s'"
 msgstr "ezin da instalatu aukera berria `%.250s' gisa"
 
-#: dselect/pkgdepcon.cc:215
+#: dselect/pkgdepcon.cc:217
 msgid "(no clientdata)"
 msgstr "(bezeroari buruzko daturik ez)"
 
@@ -1315,270 +1322,279 @@ msgid "not installed"
 msgstr "instalatu gabe"
 
 #: dselect/pkgdisplay.cc:53
-msgid "unpacked (not set up)"
-msgstr "deskonprimituta (konfiguratu gabe)"
-
-#: dselect/pkgdisplay.cc:54
-msgid "failed config"
-msgstr "huts egin du konfiguratzean"
-
-#: dselect/pkgdisplay.cc:55
-msgid "installed"
-msgstr "instalatuta"
-
-#: dselect/pkgdisplay.cc:56
-msgid "half installed"
-msgstr "erdi-instalatuta"
-
-#: dselect/pkgdisplay.cc:57
 msgid "removed (configs remain)"
 msgstr "kenduta (konfiguratzea falta da)"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:54
+msgid "half installed"
+msgstr "erdi-instalatuta"
+
+#: dselect/pkgdisplay.cc:55
+msgid "unpacked (not set up)"
+msgstr "deskonprimituta (konfiguratu gabe)"
+
+#: dselect/pkgdisplay.cc:56
+msgid "failed config"
+msgstr "huts egin du konfiguratzean"
+
+#: dselect/pkgdisplay.cc:57
+msgid "awaiting trigger processing"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:58
+msgid "triggered"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:59
+msgid "installed"
+msgstr "instalatuta"
+
+#: dselect/pkgdisplay.cc:62
 msgid "Required"
 msgstr "Beharrezkoa"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:63
 msgid "Important"
 msgstr "Garrantzizkoa"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:64
 msgid "Standard"
 msgstr "Estandarra"
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:65
 msgid "Recommended"
 msgstr "Gomendatua"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:66
 msgid "Optional"
 msgstr "Aukerakoa"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:67
 msgid "Extra"
 msgstr "Estra"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:68
 msgid "Contrib"
 msgstr "Contrib"
 
-#: dselect/pkgdisplay.cc:67
+#: dselect/pkgdisplay.cc:69
 msgid "!Bug!"
 msgstr "Programa-errorea"
 
-#: dselect/pkgdisplay.cc:68
+#: dselect/pkgdisplay.cc:70
 msgid "Unclassified"
 msgstr "Sailkatu gabe"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:73
 msgid "suggests"
 msgstr "hau iradokitzen du:"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:74
 msgid "recommends"
 msgstr "hau gomendatzen du:"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:75
 msgid "depends on"
 msgstr "honen mendekoa da:"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:76
 msgid "pre-depends on"
 msgstr "honen aurremendekoa da:"
 
-#: dselect/pkgdisplay.cc:75
-msgid "breaks with"
+#: dselect/pkgdisplay.cc:77
+#, fuzzy
+msgid "breaks"
 msgstr "honekin hondatzen da: "
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:78
 msgid "conflicts with"
 msgstr "gatazkan dago honekin:"
 
-#: dselect/pkgdisplay.cc:77
+#: dselect/pkgdisplay.cc:79
 msgid "provides"
 msgstr "hau hornitzen du:"
 
-#: dselect/pkgdisplay.cc:78
+#: dselect/pkgdisplay.cc:80
 msgid "replaces"
 msgstr "hau ordezten du:"
 
-#: dselect/pkgdisplay.cc:79
+#: dselect/pkgdisplay.cc:81
 msgid "enhances"
 msgstr "hau hobetzen du:"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:84
 msgid "Req"
 msgstr "Beh."
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:85
 msgid "Imp"
 msgstr "Gar."
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:86
 msgid "Std"
 msgstr "Estd."
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:87
 msgid "Rec"
 msgstr "Gom."
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:88
 msgid "Opt"
 msgstr "Auk."
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:89
 msgid "Xtr"
 msgstr "Xtr"
 
-#: dselect/pkgdisplay.cc:88
+#: dselect/pkgdisplay.cc:90
 msgid "Ctb"
 msgstr "Ctb"
 
-#: dselect/pkgdisplay.cc:89
+#: dselect/pkgdisplay.cc:91
 msgid "bUG"
 msgstr "pER"
 
-#: dselect/pkgdisplay.cc:90
+#: dselect/pkgdisplay.cc:92
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:98 dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:100 dselect/pkgdisplay.cc:120
 msgid "Broken"
 msgstr "Hautsita"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:101
 msgid "New"
 msgstr "Berria"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:102
 msgid "Updated"
 msgstr "Eguneratuta"
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:103
 msgid "Obsolete/local"
 msgstr "Zaharkitua/lokala"
 
-#: dselect/pkgdisplay.cc:102
+#: dselect/pkgdisplay.cc:104
 msgid "Up-to-date"
 msgstr "Eguneratuta"
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:105
 msgid "Available"
 msgstr "Erabilgarri"
 
-#: dselect/pkgdisplay.cc:104 dselect/pkgdisplay.cc:120
+#: dselect/pkgdisplay.cc:106 dselect/pkgdisplay.cc:122
 msgid "Removed"
 msgstr "Kenduta"
 
-#: dselect/pkgdisplay.cc:105 dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:107 dselect/pkgdisplay.cc:116
 msgid "Brokenly installed packages"
 msgstr "Gaizki instalatutako paketeak"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:108
 msgid "Newly available packages"
 msgstr "Pakete erabilgarri berriak"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:109
 msgid "Updated packages (newer version is available)"
 msgstr "Eguneratutako paketeak (bertsio berriago bat erabilgarri dago)"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:110
 msgid "Obsolete and local packages present on system"
 msgstr "Sisteman dauden pakete zaharkituak eta lokalak"
 
-#: dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:111
 msgid "Up to date installed packages"
 msgstr "Egunera dauden instalatutako paketeak (ez dago bertsio berriagorik)"
 
-#: dselect/pkgdisplay.cc:110
+#: dselect/pkgdisplay.cc:112
 msgid "Available packages (not currently installed)"
 msgstr "Pakete erabilgarriak (ez daude instalatuta)"
 
-#: dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:113
 msgid "Removed and no longer available packages"
 msgstr "Kendu diren eta orain erabilgarri ez dauden paketeak"
 
-#: dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:117
 msgid "Installed packages"
 msgstr "Instalatutako paketeak"
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:118
 msgid "Removed packages (configuration still present)"
 msgstr "Kendutako paketeak (konfigurazioa badago oraindik)"
 
-#: dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:119
 msgid "Purged packages and those never installed"
 msgstr "Purgatutako paketeak eta inoiz instalatu ez direnak"
 
-#: dselect/pkgdisplay.cc:119
+#: dselect/pkgdisplay.cc:121
 msgid "Installed"
 msgstr "Instalatuta"
 
-#: dselect/pkgdisplay.cc:121
+#: dselect/pkgdisplay.cc:123
 msgid "Purged"
 msgstr "Purgatuta"
 
-#: dselect/pkgdisplay.cc:201
+#: dselect/pkgdisplay.cc:203
 msgid "dselect - recursive package listing"
 msgstr "dselect - paketeen zerrenda errekurtsiboa"
 
-#: dselect/pkgdisplay.cc:202
+#: dselect/pkgdisplay.cc:204
 msgid "dselect - inspection of package states"
 msgstr "dselect - pakete-egoeraren egiaztapena"
 
-#: dselect/pkgdisplay.cc:203
+#: dselect/pkgdisplay.cc:205
 msgid "dselect - main package listing"
 msgstr "dselect - paketeen zerrenda nagusia"
 
-#: dselect/pkgdisplay.cc:211
+#: dselect/pkgdisplay.cc:213
 msgid " (by section)"
 msgstr " (sekzioaren arabera)"
 
-#: dselect/pkgdisplay.cc:214
+#: dselect/pkgdisplay.cc:216
 msgid " (avail., section)"
 msgstr " (erabilg., sekzioa)"
 
-#: dselect/pkgdisplay.cc:217
+#: dselect/pkgdisplay.cc:219
 msgid " (status, section)"
 msgstr " (egoera, sekzioa)"
 
-#: dselect/pkgdisplay.cc:226
+#: dselect/pkgdisplay.cc:228
 msgid " (by priority)"
 msgstr " (lehentasunaren arabera)"
 
-#: dselect/pkgdisplay.cc:229
+#: dselect/pkgdisplay.cc:231
 msgid " (avail., priority)"
 msgstr " (erabilg., lehentasuna)"
 
-#: dselect/pkgdisplay.cc:232
+#: dselect/pkgdisplay.cc:234
 msgid " (status, priority)"
 msgstr " (egoera, lehentasuna)"
 
-#: dselect/pkgdisplay.cc:241 dselect/pkgdisplay.cc:253
+#: dselect/pkgdisplay.cc:243 dselect/pkgdisplay.cc:255
 msgid " (alphabetically)"
 msgstr " (alfabetikoki)"
 
-#: dselect/pkgdisplay.cc:244
+#: dselect/pkgdisplay.cc:246
 msgid " (by availability)"
 msgstr " (erabilgarritasunaren arabera)"
 
-#: dselect/pkgdisplay.cc:247
+#: dselect/pkgdisplay.cc:249
 msgid " (by status)"
 msgstr " (egoeraren arabera)"
 
-#: dselect/pkgdisplay.cc:261
+#: dselect/pkgdisplay.cc:263
 msgid " mark:+/=/- terse:v help:?"
 msgstr " marka:+/=/- labur:v laguntza:?"
 
-#: dselect/pkgdisplay.cc:262
+#: dselect/pkgdisplay.cc:264
 msgid " mark:+/=/- verbose:v help:?"
 msgstr " marka:+/=/- xeheki:v laguntza:?"
 
-#: dselect/pkgdisplay.cc:263
+#: dselect/pkgdisplay.cc:265
 msgid " terse:v help:?"
 msgstr " labur:v laguntza:?"
 
-#: dselect/pkgdisplay.cc:264
+#: dselect/pkgdisplay.cc:266
 msgid " verbose:v help:?"
 msgstr " xeheki:v laguntza:?"
 
@@ -1622,11 +1638,11 @@ msgstr "Kontrol fitxategiaren informazio erabilgarria"
 msgid "<null>"
 msgstr "<nulua>"
 
-#: dselect/pkglist.cc:507
+#: dselect/pkglist.cc:511
 msgid "invalid search option given"
 msgstr "bilaketa-aukera baliogabea eman da"
 
-#: dselect/pkglist.cc:521
+#: dselect/pkglist.cc:525
 msgid "error in regular expression"
 msgstr "errorea adierazpen erregularrean"
 

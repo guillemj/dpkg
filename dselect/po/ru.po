@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg_po_ru\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-01-07 11:58+0200\n"
+"POT-Creation-Date: 2008-03-30 10:09+0300\n"
 "PO-Revision-Date: 2007-08-05 23:02+0400\n"
 "Last-Translator: Yuri Kozlov <kozlov.y@gmail.com>\n"
 "Language-Team: Russian <debian-l10n-russian@lists.debian.org>\n"
@@ -291,11 +291,16 @@ msgstr "Вернуть все пакеты к предложенному про�
 msgid "Revert to directly requested state for all packages"
 msgstr "Вернуть все пакеты к непосредственно затребованному состоянию"
 
-#: dselect/bindings.cc:163
+#: dselect/bindings.cc:161
+#, fuzzy
+msgid "Revert to currently installed state for all packages"
+msgstr "Вернуть все пакеты к непосредственно затребованному состоянию"
+
+#: dselect/bindings.cc:164
 msgid "Select currently-highlighted access method"
 msgstr "Выбрать выделенный метод доступа"
 
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:165
 msgid "Quit without changing selected access method"
 msgstr "Выход без изменения выбранного метода доступа"
 
@@ -549,6 +554,7 @@ msgid "Display, part 1: package listing and status chars"
 msgstr "Просмотр, часть 1: список пакетов и символы состояния"
 
 #: dselect/helpmsgs.cc:121
+#, fuzzy
 msgid ""
 "The top half of the screen shows a list of packages.  For each package you "
 "see\n"
@@ -561,12 +567,13 @@ msgid ""
 "below)\n"
 "              `R'  - serious error during installation, needs "
 "reinstallation;\n"
-" Installed state:   Space - not installed;\n"
-"                     `*'  - installed;\n"
-"                     `-'  - not installed but config files remain;\n"
-"       packages in { `U'  - unpacked but not yet configured;\n"
-"      these states { `C'  - half-configured (an error happened);\n"
-"        are broken { `I'  - half-installed (an error happened).\n"
+" Installed state:     Space    - not installed;\n"
+"                       `*'     - installed;\n"
+"                       `-'     - not installed but config files remain;\n"
+"   packages in these { `U'     - unpacked but not yet configured;\n"
+"   states are not    { `C'     - half-configured (an error happened);\n"
+"   (quite) properly  { `I'     - half-installed (an error happened).\n"
+"   installed         { `W',`t' - triggers are awaited resp. pending.\n"
 " Old mark: what was requested for this package before presenting this list;\n"
 " Mark: what is requested for this package:\n"
 "  `*': marked for installation or upgrade;\n"
@@ -607,11 +614,11 @@ msgstr ""
 "и доступной версий (shift-V переключает режим отображения) и краткое\n"
 "описание.\n"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid "Display, part 2: list highlight; information display"
 msgstr "Просмотр, часть 2: выделение, отображение информации"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
@@ -658,11 +665,11 @@ msgstr ""
 "  Клавиша i циклически переключает режимы отображения в этой части экрана,\n"
 "  а клавиша I скрывает её или расширяет почти до размеров экрана.\n"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid "Introduction to method selection display"
 msgstr "Вводная информация об экране выбора метода доступа"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid ""
 "dselect and dpkg can do automatic installation, loading the package files to "
 "be\n"
@@ -703,11 +710,11 @@ msgstr ""
 "Полный список горячих клавиш можно получить, нажав клавишу k или войдя\n"
 "в общую справку, нажав клавишу ?.\n"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid "Keystrokes for method selection"
 msgstr "Горячие клавиши при выборе метода доступа"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -877,7 +884,7 @@ msgstr ""
 "НИКАКИЕ гарантии не предоставляются. Чтобы получить более подробную\n"
 "информацию, выполните команду %s --license.\n"
 
-#: dselect/main.cc:168
+#: dselect/main.cc:172
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] [<action> ...]\n"
@@ -886,7 +893,7 @@ msgstr ""
 "Использование: %s [<параметр> ...] [<действие> ...]\n"
 "\n"
 
-#: dselect/main.cc:172
+#: dselect/main.cc:176
 #, c-format
 msgid ""
 "Options:\n"
@@ -906,7 +913,7 @@ msgstr ""
 "                             Настроить цвета экрана.\n"
 "\n"
 
-#: dselect/main.cc:181
+#: dselect/main.cc:185
 #, c-format
 msgid ""
 "  --help                     Show this help message.\n"
@@ -919,7 +926,7 @@ msgstr ""
 "  --license | --licence      Показать лицензию.\n"
 "\n"
 
-#: dselect/main.cc:187
+#: dselect/main.cc:191
 #, c-format
 msgid ""
 "Actions:\n"
@@ -930,56 +937,56 @@ msgstr ""
 "  access update select install config remove quit\n"
 "\n"
 
-#: dselect/main.cc:191
+#: dselect/main.cc:195
 #, c-format
 msgid "Screenparts:\n"
 msgstr "Секторы экрана:\n"
 
-#: dselect/main.cc:196
+#: dselect/main.cc:200
 #, c-format
 msgid "Colours:\n"
 msgstr "Цвета:\n"
 
-#: dselect/main.cc:201
+#: dselect/main.cc:205
 #, c-format
 msgid "Attributes:\n"
 msgstr "Атрибуты:\n"
 
-#: dselect/main.cc:221
+#: dselect/main.cc:216
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "не удалось открыть отладочный файл `%.255s'\n"
 
-#: dselect/main.cc:236
+#: dselect/main.cc:231
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr "Некорректный %s `%s'\n"
 
-#: dselect/main.cc:253
+#: dselect/main.cc:248
 msgid "screen part"
 msgstr "сектор экрана"
 
-#: dselect/main.cc:259
+#: dselect/main.cc:254
 msgid "Null colour specification\n"
 msgstr "Задающие цвет значения пусты\n"
 
-#: dselect/main.cc:267 dselect/main.cc:272
+#: dselect/main.cc:262 dselect/main.cc:267
 msgid "colour"
 msgstr "цвет"
 
-#: dselect/main.cc:280
+#: dselect/main.cc:275
 msgid "colour attribute"
 msgstr "атрибут цвета"
 
-#: dselect/main.cc:314
+#: dselect/main.cc:309
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Терминал не поддерживает позиционирование курсора.\n"
 
-#: dselect/main.cc:316
+#: dselect/main.cc:311
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Терминал не поддерживает подсветку.\n"
 
-#: dselect/main.cc:318
+#: dselect/main.cc:313
 #, c-format
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
@@ -988,11 +995,11 @@ msgstr ""
 "Задайте верное значение переменной TERM, используйте более функциональный\n"
 "терминал или используйте программу управления отдельными пакетами %s.\n"
 
-#: dselect/main.cc:321
+#: dselect/main.cc:316
 msgid "terminal lacks necessary features, giving up"
 msgstr "у терминала отсутствуют необходимые возможности, останов"
 
-#: dselect/main.cc:399
+#: dselect/main.cc:394
 msgid ""
 "\n"
 "\n"
@@ -1007,7 +1014,7 @@ msgstr ""
 "Нажмите ввод для выбора действия.  ^L -- перерисовать экран.\n"
 "\n"
 
-#: dselect/main.cc:414
+#: dselect/main.cc:409
 msgid ""
 "\n"
 "\n"
@@ -1017,11 +1024,11 @@ msgstr ""
 "\n"
 "Доступ только для чтения: доступен только просмотр состояния пакетов!"
 
-#: dselect/main.cc:433
+#: dselect/main.cc:428
 msgid "failed to getch in main menu"
 msgstr "ожидание нажатия клавиши в главном меню завершилось неудачно"
 
-#: dselect/main.cc:506
+#: dselect/main.cc:501
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "неизвестное действие `%.50s'"
@@ -1059,7 +1066,7 @@ msgstr "не удалось заново блокировать сигнал SIG
 msgid "getch failed"
 msgstr "ожидание нажатия клавиши завершилось неудачно"
 
-#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:243
+#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:244
 msgid "[none]"
 msgstr "[нет]"
 
@@ -1296,7 +1303,7 @@ msgstr "не удалось закрыть новый файл метода до
 msgid "unable to install new option as `%.250s'"
 msgstr "не удалось переименовать новый файл метода доступа в %.250s"
 
-#: dselect/pkgdepcon.cc:215
+#: dselect/pkgdepcon.cc:217
 msgid "(no clientdata)"
 msgstr "(нет данных)"
 
@@ -1333,270 +1340,279 @@ msgid "not installed"
 msgstr "не установлен"
 
 #: dselect/pkgdisplay.cc:53
-msgid "unpacked (not set up)"
-msgstr "распакован, но не настроен"
-
-#: dselect/pkgdisplay.cc:54
-msgid "failed config"
-msgstr "ошибка настройки"
-
-#: dselect/pkgdisplay.cc:55
-msgid "installed"
-msgstr "установлен"
-
-#: dselect/pkgdisplay.cc:56
-msgid "half installed"
-msgstr "частично установлен"
-
-#: dselect/pkgdisplay.cc:57
 msgid "removed (configs remain)"
 msgstr "удалён, но файлы конфигурации сохранены"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:54
+msgid "half installed"
+msgstr "частично установлен"
+
+#: dselect/pkgdisplay.cc:55
+msgid "unpacked (not set up)"
+msgstr "распакован, но не настроен"
+
+#: dselect/pkgdisplay.cc:56
+msgid "failed config"
+msgstr "ошибка настройки"
+
+#: dselect/pkgdisplay.cc:57
+msgid "awaiting trigger processing"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:58
+msgid "triggered"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:59
+msgid "installed"
+msgstr "установлен"
+
+#: dselect/pkgdisplay.cc:62
 msgid "Required"
 msgstr "Обязательный"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:63
 msgid "Important"
 msgstr "Важный"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:64
 msgid "Standard"
 msgstr "Стандартный"
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:65
 msgid "Recommended"
 msgstr "Рекомендуемый"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:66
 msgid "Optional"
 msgstr "Дополнительный"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:67
 msgid "Extra"
 msgstr "Экстра"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:68
 msgid "Contrib"
 msgstr "Добавочный"
 
-#: dselect/pkgdisplay.cc:67
+#: dselect/pkgdisplay.cc:69
 msgid "!Bug!"
 msgstr "!Ошибка!"
 
-#: dselect/pkgdisplay.cc:68
+#: dselect/pkgdisplay.cc:70
 msgid "Unclassified"
 msgstr "Приоритет не определён"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:73
 msgid "suggests"
 msgstr "предлагает"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:74
 msgid "recommends"
 msgstr "рекомендует"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:75
 msgid "depends on"
 msgstr "зависит от"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:76
 msgid "pre-depends on"
 msgstr "требует предварительной установки"
 
-#: dselect/pkgdisplay.cc:75
-msgid "breaks with"
+#: dselect/pkgdisplay.cc:77
+#, fuzzy
+msgid "breaks"
 msgstr "ломает"
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:78
 msgid "conflicts with"
 msgstr "конфликтует с"
 
-#: dselect/pkgdisplay.cc:77
+#: dselect/pkgdisplay.cc:79
 msgid "provides"
 msgstr "предоставляет"
 
-#: dselect/pkgdisplay.cc:78
+#: dselect/pkgdisplay.cc:80
 msgid "replaces"
 msgstr "заменяет"
 
-#: dselect/pkgdisplay.cc:79
+#: dselect/pkgdisplay.cc:81
 msgid "enhances"
 msgstr "расширяет"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:84
 msgid "Req"
 msgstr "Обз"
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:85
 msgid "Imp"
 msgstr "Вжн"
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:86
 msgid "Std"
 msgstr "Стд"
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:87
 msgid "Rec"
 msgstr "Рек"
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:88
 msgid "Opt"
 msgstr "Доп"
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:89
 msgid "Xtr"
 msgstr "Экс"
 
-#: dselect/pkgdisplay.cc:88
+#: dselect/pkgdisplay.cc:90
 msgid "Ctb"
 msgstr "Доб"
 
-#: dselect/pkgdisplay.cc:89
+#: dselect/pkgdisplay.cc:91
 msgid "bUG"
 msgstr "оШБ"
 
-#: dselect/pkgdisplay.cc:90
+#: dselect/pkgdisplay.cc:92
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:98 dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:100 dselect/pkgdisplay.cc:120
 msgid "Broken"
 msgstr "Неработоспособные"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:101
 msgid "New"
 msgstr "Новые"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:102
 msgid "Updated"
 msgstr "Обновлённые"
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:103
 msgid "Obsolete/local"
 msgstr "Устаревшие/локальные"
 
-#: dselect/pkgdisplay.cc:102
+#: dselect/pkgdisplay.cc:104
 msgid "Up-to-date"
 msgstr "Актуальные"
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:105
 msgid "Available"
 msgstr "Доступные"
 
-#: dselect/pkgdisplay.cc:104 dselect/pkgdisplay.cc:120
+#: dselect/pkgdisplay.cc:106 dselect/pkgdisplay.cc:122
 msgid "Removed"
 msgstr "Удалённые"
 
-#: dselect/pkgdisplay.cc:105 dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:107 dselect/pkgdisplay.cc:116
 msgid "Brokenly installed packages"
 msgstr "Пакеты, установка которых завершилась неудачно"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:108
 msgid "Newly available packages"
 msgstr "Новые доступные пакеты"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:109
 msgid "Updated packages (newer version is available)"
 msgstr "Обновлённые пакеты (доступна новая версия)"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:110
 msgid "Obsolete and local packages present on system"
 msgstr "Установленные устаревшие или локальные пакеты"
 
-#: dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:111
 msgid "Up to date installed packages"
 msgstr "Установленные актуальные пакеты"
 
-#: dselect/pkgdisplay.cc:110
+#: dselect/pkgdisplay.cc:112
 msgid "Available packages (not currently installed)"
 msgstr "Доступные не установленные пакеты"
 
-#: dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:113
 msgid "Removed and no longer available packages"
 msgstr "Удалённые или более недоступные пакеты"
 
-#: dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:117
 msgid "Installed packages"
 msgstr "Установленные пакеты"
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:118
 msgid "Removed packages (configuration still present)"
 msgstr "Удалённые пакеты (файлы конфигурации сохранены)"
 
-#: dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:119
 msgid "Purged packages and those never installed"
 msgstr "Вычищенные и никогда не устанавливавшиеся пакеты"
 
-#: dselect/pkgdisplay.cc:119
+#: dselect/pkgdisplay.cc:121
 msgid "Installed"
 msgstr "Установлен"
 
-#: dselect/pkgdisplay.cc:121
+#: dselect/pkgdisplay.cc:123
 msgid "Purged"
 msgstr "Вычищен"
 
-#: dselect/pkgdisplay.cc:201
+#: dselect/pkgdisplay.cc:203
 msgid "dselect - recursive package listing"
 msgstr "dselect -- вложенный список пакетов"
 
-#: dselect/pkgdisplay.cc:202
+#: dselect/pkgdisplay.cc:204
 msgid "dselect - inspection of package states"
 msgstr "dselect -- просмотр состояний пакетов"
 
-#: dselect/pkgdisplay.cc:203
+#: dselect/pkgdisplay.cc:205
 msgid "dselect - main package listing"
 msgstr "dselect -- основной список пакетов"
 
-#: dselect/pkgdisplay.cc:211
+#: dselect/pkgdisplay.cc:213
 msgid " (by section)"
 msgstr " (по разделу)"
 
-#: dselect/pkgdisplay.cc:214
+#: dselect/pkgdisplay.cc:216
 msgid " (avail., section)"
 msgstr " (доступность, раздел)"
 
-#: dselect/pkgdisplay.cc:217
+#: dselect/pkgdisplay.cc:219
 msgid " (status, section)"
 msgstr " (состояние, раздел)"
 
-#: dselect/pkgdisplay.cc:226
+#: dselect/pkgdisplay.cc:228
 msgid " (by priority)"
 msgstr " (по приоритету)"
 
-#: dselect/pkgdisplay.cc:229
+#: dselect/pkgdisplay.cc:231
 msgid " (avail., priority)"
 msgstr " (доступность, приоритет)"
 
-#: dselect/pkgdisplay.cc:232
+#: dselect/pkgdisplay.cc:234
 msgid " (status, priority)"
 msgstr " (состояние, приоритет)"
 
-#: dselect/pkgdisplay.cc:241 dselect/pkgdisplay.cc:253
+#: dselect/pkgdisplay.cc:243 dselect/pkgdisplay.cc:255
 msgid " (alphabetically)"
 msgstr " (по алфавиту)"
 
-#: dselect/pkgdisplay.cc:244
+#: dselect/pkgdisplay.cc:246
 msgid " (by availability)"
 msgstr " (по доступности)"
 
-#: dselect/pkgdisplay.cc:247
+#: dselect/pkgdisplay.cc:249
 msgid " (by status)"
 msgstr " (по состоянию)"
 
-#: dselect/pkgdisplay.cc:261
+#: dselect/pkgdisplay.cc:263
 msgid " mark:+/=/- terse:v help:?"
 msgstr " отметить:+/=/- кратко:v подсказка:?"
 
-#: dselect/pkgdisplay.cc:262
+#: dselect/pkgdisplay.cc:264
 msgid " mark:+/=/- verbose:v help:?"
 msgstr " отметить:+/=/- подробно:v подсказка:?"
 
-#: dselect/pkgdisplay.cc:263
+#: dselect/pkgdisplay.cc:265
 msgid " terse:v help:?"
 msgstr " кратко:v подсказка:?"
 
-#: dselect/pkgdisplay.cc:264
+#: dselect/pkgdisplay.cc:266
 msgid " verbose:v help:?"
 msgstr " подробно:v подсказка:?"
 
@@ -1640,11 +1656,11 @@ msgstr "Доступна информация из файла control"
 msgid "<null>"
 msgstr "<пусто>"
 
-#: dselect/pkglist.cc:507
+#: dselect/pkglist.cc:511
 msgid "invalid search option given"
 msgstr "заданы неверные параметры поиска"
 
-#: dselect/pkglist.cc:521
+#: dselect/pkglist.cc:525
 msgid "error in regular expression"
 msgstr "некорректное регулярное выражение"
 

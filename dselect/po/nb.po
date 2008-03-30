@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.13\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-01-07 11:58+0200\n"
+"POT-Creation-Date: 2008-03-30 10:09+0300\n"
 "PO-Revision-Date: 2006-10-08 20:27+0100\n"
 "Last-Translator: Hans Fredrik Nordhaug <hans@nordhaug.priv.no>\n"
 "Language-Team: Norwegian Bokmål <i18n-nb@lister.ping.ui.no>\n"
@@ -290,11 +290,16 @@ msgstr "Gå tilbake til foreslått tilstand for alle pakker"
 msgid "Revert to directly requested state for all packages"
 msgstr "Gå tilbake til direkte etterspurt tilstand for alle pakker"
 
-#: dselect/bindings.cc:163
+#: dselect/bindings.cc:161
+#, fuzzy
+msgid "Revert to currently installed state for all packages"
+msgstr "Gå tilbake til direkte etterspurt tilstand for alle pakker"
+
+#: dselect/bindings.cc:164
 msgid "Select currently-highlighted access method"
 msgstr "Velg den uthevede tilgangsmetoden"
 
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:165
 msgid "Quit without changing selected access method"
 msgstr "Avslutt uten å endre den valgte tilgangsmetoden"
 
@@ -534,6 +539,7 @@ msgid "Display, part 1: package listing and status chars"
 msgstr "Skjermbilde, del 1: Pakkeliste og statustegn"
 
 #: dselect/helpmsgs.cc:121
+#, fuzzy
 msgid ""
 "The top half of the screen shows a list of packages.  For each package you "
 "see\n"
@@ -546,12 +552,13 @@ msgid ""
 "below)\n"
 "              `R'  - serious error during installation, needs "
 "reinstallation;\n"
-" Installed state:   Space - not installed;\n"
-"                     `*'  - installed;\n"
-"                     `-'  - not installed but config files remain;\n"
-"       packages in { `U'  - unpacked but not yet configured;\n"
-"      these states { `C'  - half-configured (an error happened);\n"
-"        are broken { `I'  - half-installed (an error happened).\n"
+" Installed state:     Space    - not installed;\n"
+"                       `*'     - installed;\n"
+"                       `-'     - not installed but config files remain;\n"
+"   packages in these { `U'     - unpacked but not yet configured;\n"
+"   states are not    { `C'     - half-configured (an error happened);\n"
+"   (quite) properly  { `I'     - half-installed (an error happened).\n"
+"   installed         { `W',`t' - triggers are awaited resp. pending.\n"
 " Old mark: what was requested for this package before presenting this list;\n"
 " Mark: what is requested for this package:\n"
 "  `*': marked for installation or upgrade;\n"
@@ -592,11 +599,11 @@ msgstr ""
 "installerte og tilgjengelige versjoner (vis/skjul med Shift + V) og \n"
 "en kort beskrivelse.\n"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid "Display, part 2: list highlight; information display"
 msgstr "Skjermbilde, del 2: Listemarkering, informasjonsvisning"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
@@ -646,11 +653,11 @@ msgstr ""
 "informasjonsfeltet \n"
 "eller utvide det slik at det dekker nesten hele skjermen.\n"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid "Introduction to method selection display"
 msgstr "Introduksjon til metodevalg"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid ""
 "dselect and dpkg can do automatic installation, loading the package files to "
 "be\n"
@@ -693,11 +700,11 @@ msgstr ""
 "Du kan sjå heile lista over tastetrykk ved å trykkja på «k» no eller fra \n"
 "hjelpemenyen som du får når du trykkjer «?».\n"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid "Keystrokes for method selection"
 msgstr "Tastetrykk for metodevalg"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 #, fuzzy
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
@@ -860,7 +867,7 @@ msgstr ""
 "GNU General Public Licence versjon 2 eller nyere. Det finnes INGEN garanti.\n"
 "Se «%s --licence» for opphavsrett og lisensdetaljer.\n"
 
-#: dselect/main.cc:168
+#: dselect/main.cc:172
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] [<action> ...]\n"
@@ -869,7 +876,7 @@ msgstr ""
 "Bruk: %s [<valg> ...] [<handling> ...]\n"
 "\n"
 
-#: dselect/main.cc:172
+#: dselect/main.cc:176
 #, c-format
 msgid ""
 "Options:\n"
@@ -888,7 +895,7 @@ msgstr ""
 "                             Sett opp skjermfarger.\n"
 "\n"
 
-#: dselect/main.cc:181
+#: dselect/main.cc:185
 #, c-format
 msgid ""
 "  --help                     Show this help message.\n"
@@ -901,7 +908,7 @@ msgstr ""
 "  --license | --licence      viser lisensen.\n"
 "\n"
 
-#: dselect/main.cc:187
+#: dselect/main.cc:191
 #, c-format
 msgid ""
 "Actions:\n"
@@ -912,56 +919,56 @@ msgstr ""
 "  access update select install config remove quit\n"
 "\n"
 
-#: dselect/main.cc:191
+#: dselect/main.cc:195
 #, c-format
 msgid "Screenparts:\n"
 msgstr "Skjermdeler:\n"
 
-#: dselect/main.cc:196
+#: dselect/main.cc:200
 #, c-format
 msgid "Colours:\n"
 msgstr "Farger:\n"
 
-#: dselect/main.cc:201
+#: dselect/main.cc:205
 #, c-format
 msgid "Attributes:\n"
 msgstr "Attributter:\n"
 
-#: dselect/main.cc:221
+#: dselect/main.cc:216
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "klarte ikke åpne avlusingsfil `%.255s'\n"
 
-#: dselect/main.cc:236
+#: dselect/main.cc:231
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr "Ugyldig %s `%s'\n"
 
-#: dselect/main.cc:253
+#: dselect/main.cc:248
 msgid "screen part"
 msgstr "skjermdel"
 
-#: dselect/main.cc:259
+#: dselect/main.cc:254
 msgid "Null colour specification\n"
 msgstr "Ingen fargespesifikasjon\n"
 
-#: dselect/main.cc:267 dselect/main.cc:272
+#: dselect/main.cc:262 dselect/main.cc:267
 msgid "colour"
 msgstr "farge"
 
-#: dselect/main.cc:280
+#: dselect/main.cc:275
 msgid "colour attribute"
 msgstr "fargeattributt"
 
-#: dselect/main.cc:314
+#: dselect/main.cc:309
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Terminalen ser ikke ut til å støtte markøradressering.\n"
 
-#: dselect/main.cc:316
+#: dselect/main.cc:311
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Terminalen ser ikke ut til å støtte utheving.\n"
 
-#: dselect/main.cc:318
+#: dselect/main.cc:313
 #, c-format
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
@@ -970,11 +977,11 @@ msgstr ""
 "Sett TERM-variabelen riktig, bruk en bedre terminal eller \n"
 "du får klare deg med håndteringsverktøyet %s for hver pakke.\n"
 
-#: dselect/main.cc:321
+#: dselect/main.cc:316
 msgid "terminal lacks necessary features, giving up"
 msgstr "terminalen mangler nødvendige funksjoner, gir opp"
 
-#: dselect/main.cc:399
+#: dselect/main.cc:394
 msgid ""
 "\n"
 "\n"
@@ -989,7 +996,7 @@ msgstr ""
 "Trykk <enter> for å bekrefte utvalget.   ^L tegner skjermen på nytt.\n"
 "\n"
 
-#: dselect/main.cc:414
+#: dselect/main.cc:409
 msgid ""
 "\n"
 "\n"
@@ -999,11 +1006,11 @@ msgstr ""
 "\n"
 "Skrivebeskyttet tilgang: bare forhåndsvisning av utvalg er tilgjengelig!"
 
-#: dselect/main.cc:433
+#: dselect/main.cc:428
 msgid "failed to getch in main menu"
 msgstr "klarte ikke bruke «getch» i hovedmenyen"
 
-#: dselect/main.cc:506
+#: dselect/main.cc:501
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "ukjent handlingsstreng `%.50s'"
@@ -1041,7 +1048,7 @@ msgstr "klarte ikke reblokkere SIGWINCH"
 msgid "getch failed"
 msgstr "«getch» mislyktes"
 
-#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:243
+#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:244
 msgid "[none]"
 msgstr "[ingen]"
 
@@ -1272,7 +1279,7 @@ msgstr "klarte ikke lukke den nye opsjonsfila «%.250s»"
 msgid "unable to install new option as `%.250s'"
 msgstr "klarte ikke installere ny opsjon som «%.250s»"
 
-#: dselect/pkgdepcon.cc:215
+#: dselect/pkgdepcon.cc:217
 msgid "(no clientdata)"
 msgstr "(ingen klientdata)"
 
@@ -1309,270 +1316,278 @@ msgid "not installed"
 msgstr "ikke installert"
 
 #: dselect/pkgdisplay.cc:53
-msgid "unpacked (not set up)"
-msgstr "utpakket (ikke satt opp)"
-
-#: dselect/pkgdisplay.cc:54
-msgid "failed config"
-msgstr "mislykket oppsett"
-
-#: dselect/pkgdisplay.cc:55
-msgid "installed"
-msgstr "installert"
-
-#: dselect/pkgdisplay.cc:56
-msgid "half installed"
-msgstr "halvinstallert"
-
-#: dselect/pkgdisplay.cc:57
 msgid "removed (configs remain)"
 msgstr "fjernet (tatt vare på oppsett)"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:54
+msgid "half installed"
+msgstr "halvinstallert"
+
+#: dselect/pkgdisplay.cc:55
+msgid "unpacked (not set up)"
+msgstr "utpakket (ikke satt opp)"
+
+#: dselect/pkgdisplay.cc:56
+msgid "failed config"
+msgstr "mislykket oppsett"
+
+#: dselect/pkgdisplay.cc:57
+msgid "awaiting trigger processing"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:58
+msgid "triggered"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:59
+msgid "installed"
+msgstr "installert"
+
+#: dselect/pkgdisplay.cc:62
 msgid "Required"
 msgstr "Påkrevet"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:63
 msgid "Important"
 msgstr "Viktig"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:64
 msgid "Standard"
 msgstr "Standard"
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:65
 msgid "Recommended"
 msgstr "Tilrådd"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:66
 msgid "Optional"
 msgstr "Valgfri"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:67
 msgid "Extra"
 msgstr "Ekstra"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:68
 msgid "Contrib"
 msgstr "Bidrag"
 
-#: dselect/pkgdisplay.cc:67
+#: dselect/pkgdisplay.cc:69
 msgid "!Bug!"
 msgstr "!Lus!"
 
-#: dselect/pkgdisplay.cc:68
+#: dselect/pkgdisplay.cc:70
 msgid "Unclassified"
 msgstr "Uklassifisert"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:73
 msgid "suggests"
 msgstr "foreslår"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:74
 msgid "recommends"
 msgstr "tilrår"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:75
 msgid "depends on"
 msgstr "krever"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:76
 msgid "pre-depends on"
 msgstr "forkrav"
 
-#: dselect/pkgdisplay.cc:75
-msgid "breaks with"
+#: dselect/pkgdisplay.cc:77
+msgid "breaks"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:78
 msgid "conflicts with"
 msgstr "konflikt med"
 
-#: dselect/pkgdisplay.cc:77
+#: dselect/pkgdisplay.cc:79
 msgid "provides"
 msgstr "gir"
 
-#: dselect/pkgdisplay.cc:78
+#: dselect/pkgdisplay.cc:80
 msgid "replaces"
 msgstr "erstatter"
 
-#: dselect/pkgdisplay.cc:79
+#: dselect/pkgdisplay.cc:81
 msgid "enhances"
 msgstr "forbedrer"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:84
 msgid "Req"
 msgstr "Krv"
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:85
 msgid "Imp"
 msgstr "Vkt"
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:86
 msgid "Std"
 msgstr "Std"
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:87
 msgid "Rec"
 msgstr "Tlr"
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:88
 msgid "Opt"
 msgstr "Val"
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:89
 msgid "Xtr"
 msgstr "Eks"
 
-#: dselect/pkgdisplay.cc:88
+#: dselect/pkgdisplay.cc:90
 msgid "Ctb"
 msgstr "Bdr"
 
-#: dselect/pkgdisplay.cc:89
+#: dselect/pkgdisplay.cc:91
 msgid "bUG"
 msgstr "LUS"
 
-#: dselect/pkgdisplay.cc:90
+#: dselect/pkgdisplay.cc:92
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:98 dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:100 dselect/pkgdisplay.cc:120
 msgid "Broken"
 msgstr "Ødelagt"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:101
 msgid "New"
 msgstr "Nye"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:102
 msgid "Updated"
 msgstr "Oppdaterte"
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:103
 msgid "Obsolete/local"
 msgstr "Foreldet/lokale"
 
-#: dselect/pkgdisplay.cc:102
+#: dselect/pkgdisplay.cc:104
 msgid "Up-to-date"
 msgstr "Ferdig oppdaterte"
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:105
 msgid "Available"
 msgstr "Tilgjengelige"
 
-#: dselect/pkgdisplay.cc:104 dselect/pkgdisplay.cc:120
+#: dselect/pkgdisplay.cc:106 dselect/pkgdisplay.cc:122
 msgid "Removed"
 msgstr "Fjernet"
 
-#: dselect/pkgdisplay.cc:105 dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:107 dselect/pkgdisplay.cc:116
 msgid "Brokenly installed packages"
 msgstr "Ødelagte installerte pakker"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:108
 msgid "Newly available packages"
 msgstr "Nye tilgjengelige pakker"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:109
 msgid "Updated packages (newer version is available)"
 msgstr "Oppdaterte pakker (nyere versjon tilgjengelig)"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:110
 msgid "Obsolete and local packages present on system"
 msgstr "Foreldete og lokale pakker på systemet"
 
-#: dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:111
 msgid "Up to date installed packages"
 msgstr "Pakker som er installerte i nyeste versjon"
 
-#: dselect/pkgdisplay.cc:110
+#: dselect/pkgdisplay.cc:112
 msgid "Available packages (not currently installed)"
 msgstr "Tilgjengelige pakker (ikke installerte)"
 
-#: dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:113
 msgid "Removed and no longer available packages"
 msgstr "Fjernede pakker som ikke lenger er tilgjengelige"
 
-#: dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:117
 msgid "Installed packages"
 msgstr "Installerte pakker"
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:118
 msgid "Removed packages (configuration still present)"
 msgstr "Fjernede pakker (tatt vare på oppsettet)"
 
-#: dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:119
 msgid "Purged packages and those never installed"
 msgstr "Pakker som er renset bort eller aldri installerte"
 
-#: dselect/pkgdisplay.cc:119
+#: dselect/pkgdisplay.cc:121
 msgid "Installed"
 msgstr "Installerte"
 
-#: dselect/pkgdisplay.cc:121
+#: dselect/pkgdisplay.cc:123
 msgid "Purged"
 msgstr "Renset"
 
-#: dselect/pkgdisplay.cc:201
+#: dselect/pkgdisplay.cc:203
 msgid "dselect - recursive package listing"
 msgstr "dselect - rekursiv pakkeliste"
 
-#: dselect/pkgdisplay.cc:202
+#: dselect/pkgdisplay.cc:204
 msgid "dselect - inspection of package states"
 msgstr "dselect - inspeksjon av pakkestatus"
 
-#: dselect/pkgdisplay.cc:203
+#: dselect/pkgdisplay.cc:205
 msgid "dselect - main package listing"
 msgstr "dselect - hovedpakkeliste"
 
-#: dselect/pkgdisplay.cc:211
+#: dselect/pkgdisplay.cc:213
 msgid " (by section)"
 msgstr " (etter del)"
 
-#: dselect/pkgdisplay.cc:214
+#: dselect/pkgdisplay.cc:216
 msgid " (avail., section)"
 msgstr " (tilgj., del)"
 
-#: dselect/pkgdisplay.cc:217
+#: dselect/pkgdisplay.cc:219
 msgid " (status, section)"
 msgstr " (status, del)"
 
-#: dselect/pkgdisplay.cc:226
+#: dselect/pkgdisplay.cc:228
 msgid " (by priority)"
 msgstr " (etter prioritet)"
 
-#: dselect/pkgdisplay.cc:229
+#: dselect/pkgdisplay.cc:231
 msgid " (avail., priority)"
 msgstr " (tilgj., prioritet)"
 
-#: dselect/pkgdisplay.cc:232
+#: dselect/pkgdisplay.cc:234
 msgid " (status, priority)"
 msgstr " (status, prioritet)"
 
-#: dselect/pkgdisplay.cc:241 dselect/pkgdisplay.cc:253
+#: dselect/pkgdisplay.cc:243 dselect/pkgdisplay.cc:255
 msgid " (alphabetically)"
 msgstr " (alfabetisk)"
 
-#: dselect/pkgdisplay.cc:244
+#: dselect/pkgdisplay.cc:246
 msgid " (by availability)"
 msgstr " (etter tilgjengelighet)"
 
-#: dselect/pkgdisplay.cc:247
+#: dselect/pkgdisplay.cc:249
 msgid " (by status)"
 msgstr " (etter status)"
 
-#: dselect/pkgdisplay.cc:261
+#: dselect/pkgdisplay.cc:263
 msgid " mark:+/=/- terse:v help:?"
 msgstr " marker:+/=/- kort:v hjelp:?"
 
-#: dselect/pkgdisplay.cc:262
+#: dselect/pkgdisplay.cc:264
 msgid " mark:+/=/- verbose:v help:?"
 msgstr " marker:+/=/- fyldig:v hjelp:?"
 
-#: dselect/pkgdisplay.cc:263
+#: dselect/pkgdisplay.cc:265
 msgid " terse:v help:?"
 msgstr " kort:v hjelp:?"
 
-#: dselect/pkgdisplay.cc:264
+#: dselect/pkgdisplay.cc:266
 msgid " verbose:v help:?"
 msgstr " fyldig:v hjelp:?"
 
@@ -1620,11 +1635,11 @@ msgstr "tilgjengelig versjon av kontrollfilinformasjon"
 msgid "<null>"
 msgstr "<tom>"
 
-#: dselect/pkglist.cc:507
+#: dselect/pkglist.cc:511
 msgid "invalid search option given"
 msgstr "ugyldig søkevalg oppgitt"
 
-#: dselect/pkglist.cc:521
+#: dselect/pkglist.cc:525
 msgid "error in regular expression"
 msgstr "feil i regulært uttrykk"
 

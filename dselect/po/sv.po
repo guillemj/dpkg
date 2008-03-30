@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dselect\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-01-07 11:58+0200\n"
+"POT-Creation-Date: 2008-03-30 10:09+0300\n"
 "PO-Revision-Date: 2007-07-29 11:58-0100\n"
 "Last-Translator: Peter Karlsson <peterk@debian.org>\n"
 "Language-Team: Swedish <debian-l10n-swedish@lists.debian.org>\n"
@@ -285,11 +285,16 @@ msgstr "Återgå till föreslagna tillstånd för alla paket"
 msgid "Revert to directly requested state for all packages"
 msgstr "Återgå till direkt föreslagna tillstånd för alla paket"
 
-#: dselect/bindings.cc:163
+#: dselect/bindings.cc:161
+#, fuzzy
+msgid "Revert to currently installed state for all packages"
+msgstr "Återgå till direkt föreslagna tillstånd för alla paket"
+
+#: dselect/bindings.cc:164
 msgid "Select currently-highlighted access method"
 msgstr "Välj nu markerad åtkomstmetod"
 
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:165
 msgid "Quit without changing selected access method"
 msgstr "Avsluta utan att ändra vald åtkomstmetod"
 
@@ -532,6 +537,7 @@ msgid "Display, part 1: package listing and status chars"
 msgstr "Visning, del 1: paketlistning och statussymboler"
 
 #: dselect/helpmsgs.cc:121
+#, fuzzy
 msgid ""
 "The top half of the screen shows a list of packages.  For each package you "
 "see\n"
@@ -544,12 +550,13 @@ msgid ""
 "below)\n"
 "              `R'  - serious error during installation, needs "
 "reinstallation;\n"
-" Installed state:   Space - not installed;\n"
-"                     `*'  - installed;\n"
-"                     `-'  - not installed but config files remain;\n"
-"       packages in { `U'  - unpacked but not yet configured;\n"
-"      these states { `C'  - half-configured (an error happened);\n"
-"        are broken { `I'  - half-installed (an error happened).\n"
+" Installed state:     Space    - not installed;\n"
+"                       `*'     - installed;\n"
+"                       `-'     - not installed but config files remain;\n"
+"   packages in these { `U'     - unpacked but not yet configured;\n"
+"   states are not    { `C'     - half-configured (an error happened);\n"
+"   (quite) properly  { `I'     - half-installed (an error happened).\n"
+"   installed         { `W',`t' - triggers are awaited resp. pending.\n"
 " Old mark: what was requested for this package before presenting this list;\n"
 " Mark: what is requested for this package:\n"
 "  `*': marked for installation or upgrade;\n"
@@ -591,11 +598,11 @@ msgstr ""
 "Varje pakets prioritet, sektion, namn, installerad och tillgänglig version\n"
 "(skift-V för att visa/dölja) och sammanfattad beskrivning visas också.\n"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid "Display, part 2: list highlight; information display"
 msgstr "Visning, del 2: listmarkering, informationsvisning"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
@@ -649,11 +656,11 @@ msgstr ""
 "nästan\n"
 "  hela skärmen.\n"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid "Introduction to method selection display"
 msgstr "Introduktion till metodvalsskärmen"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid ""
 "dselect and dpkg can do automatic installation, loading the package files to "
 "be\n"
@@ -695,11 +702,11 @@ msgstr ""
 "eller\n"
 "från hjälpmenyn du når genom att trycka \"?\".\n"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid "Keystrokes for method selection"
 msgstr "Tangenter för metodval"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -860,7 +867,7 @@ msgstr ""
 "eller senare för kopieringsvillkor. Det finns INGEN garanti.\n"
 "Se %s --licence för copyright och licensdetaljer.\n"
 
-#: dselect/main.cc:168
+#: dselect/main.cc:172
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] [<action> ...]\n"
@@ -869,7 +876,7 @@ msgstr ""
 "Användning: %s [<flagga> ...] [<åtgärd> ...]\n"
 "\n"
 
-#: dselect/main.cc:172
+#: dselect/main.cc:176
 #, c-format
 msgid ""
 "Options:\n"
@@ -888,7 +895,7 @@ msgstr ""
 "                             Konfigurera skärmfärger.\n"
 "\n"
 
-#: dselect/main.cc:181
+#: dselect/main.cc:185
 #, c-format
 msgid ""
 "  --help                     Show this help message.\n"
@@ -901,7 +908,7 @@ msgstr ""
 "  --license | --licence      Visa licensen.\n"
 "\n"
 
-#: dselect/main.cc:187
+#: dselect/main.cc:191
 #, c-format
 msgid ""
 "Actions:\n"
@@ -912,56 +919,56 @@ msgstr ""
 "  access update select install config remove quit\n"
 "\n"
 
-#: dselect/main.cc:191
+#: dselect/main.cc:195
 #, c-format
 msgid "Screenparts:\n"
 msgstr "Skärmdelar:\n"
 
-#: dselect/main.cc:196
+#: dselect/main.cc:200
 #, c-format
 msgid "Colours:\n"
 msgstr "Färger:\n"
 
-#: dselect/main.cc:201
+#: dselect/main.cc:205
 #, c-format
 msgid "Attributes:\n"
 msgstr "Attribut:\n"
 
-#: dselect/main.cc:221
+#: dselect/main.cc:216
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "kunde inte öppna felsökningsfil \"%.255s\"\n"
 
-#: dselect/main.cc:236
+#: dselect/main.cc:231
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr "Ogiltig %s \"%s\"\n"
 
-#: dselect/main.cc:253
+#: dselect/main.cc:248
 msgid "screen part"
 msgstr "skärmdel"
 
-#: dselect/main.cc:259
+#: dselect/main.cc:254
 msgid "Null colour specification\n"
 msgstr "Tom färgangivelse\n"
 
-#: dselect/main.cc:267 dselect/main.cc:272
+#: dselect/main.cc:262 dselect/main.cc:267
 msgid "colour"
 msgstr "färg"
 
-#: dselect/main.cc:280
+#: dselect/main.cc:275
 msgid "colour attribute"
 msgstr "färgattribut"
 
-#: dselect/main.cc:314
+#: dselect/main.cc:309
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Terminalen verkar inte tillåta marköradressering.\n"
 
-#: dselect/main.cc:316
+#: dselect/main.cc:311
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Terminalen verkar inte tillåta ljusmarkering.\n"
 
-#: dselect/main.cc:318
+#: dselect/main.cc:313
 #, c-format
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
@@ -970,11 +977,11 @@ msgstr ""
 "Ställ in din TERM-variabel korrekt, använd en bättre terminal\n"
 "eller lev med det per-pakethanterande verktyget %s.\n"
 
-#: dselect/main.cc:321
+#: dselect/main.cc:316
 msgid "terminal lacks necessary features, giving up"
 msgstr "terminalen saknar funktioner som behövs, ger upp"
 
-#: dselect/main.cc:399
+#: dselect/main.cc:394
 msgid ""
 "\n"
 "\n"
@@ -987,7 +994,7 @@ msgstr ""
 "Använd ^P och ^N, piltangenter, första bokstäver eller siffror.\n"
 "Tryck <Enter> för att bekräfta val. ^L ritar om skärmen.\n"
 
-#: dselect/main.cc:414
+#: dselect/main.cc:409
 msgid ""
 "\n"
 "\n"
@@ -997,11 +1004,11 @@ msgstr ""
 "\n"
 "Skrivskyddat läge: du kan bara titta på innehållet!"
 
-#: dselect/main.cc:433
+#: dselect/main.cc:428
 msgid "failed to getch in main menu"
 msgstr "kunde inte läsa tecken i huvudmenyn"
 
-#: dselect/main.cc:506
+#: dselect/main.cc:501
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "okänd åtgärdssträng \"%.50s\""
@@ -1039,7 +1046,7 @@ msgstr "kunde inte åter blockera fönsteruppdatering"
 msgid "getch failed"
 msgstr "getch misslyckades"
 
-#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:243
+#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:244
 msgid "[none]"
 msgstr "[ingen]"
 
@@ -1269,7 +1276,7 @@ msgstr "kunde inte stänga ny valfil \"%.250s\""
 msgid "unable to install new option as `%.250s'"
 msgstr "kunde inte installera nytt val som \"%.250s\""
 
-#: dselect/pkgdepcon.cc:215
+#: dselect/pkgdepcon.cc:217
 msgid "(no clientdata)"
 msgstr "(ingen klientdata)"
 
@@ -1306,270 +1313,279 @@ msgid "not installed"
 msgstr "ej installerat"
 
 #: dselect/pkgdisplay.cc:53
-msgid "unpacked (not set up)"
-msgstr "uppackat (ej konf.)"
-
-#: dselect/pkgdisplay.cc:54
-msgid "failed config"
-msgstr "misslyckad konfig."
-
-#: dselect/pkgdisplay.cc:55
-msgid "installed"
-msgstr "installerat"
-
-#: dselect/pkgdisplay.cc:56
-msgid "half installed"
-msgstr "halvinstallerat"
-
-#: dselect/pkgdisplay.cc:57
 msgid "removed (configs remain)"
 msgstr "borttaget (konfig. kvar)"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:54
+msgid "half installed"
+msgstr "halvinstallerat"
+
+#: dselect/pkgdisplay.cc:55
+msgid "unpacked (not set up)"
+msgstr "uppackat (ej konf.)"
+
+#: dselect/pkgdisplay.cc:56
+msgid "failed config"
+msgstr "misslyckad konfig."
+
+#: dselect/pkgdisplay.cc:57
+msgid "awaiting trigger processing"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:58
+msgid "triggered"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:59
+msgid "installed"
+msgstr "installerat"
+
+#: dselect/pkgdisplay.cc:62
 msgid "Required"
 msgstr "krävda"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:63
 msgid "Important"
 msgstr "viktiga"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:64
 msgid "Standard"
 msgstr "normala"
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:65
 msgid "Recommended"
 msgstr "rekommenderade"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:66
 msgid "Optional"
 msgstr "valbara"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:67
 msgid "Extra"
 msgstr "extra"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:68
 msgid "Contrib"
 msgstr "contrib"
 
-#: dselect/pkgdisplay.cc:67
+#: dselect/pkgdisplay.cc:69
 msgid "!Bug!"
 msgstr "!Fel!"
 
-#: dselect/pkgdisplay.cc:68
+#: dselect/pkgdisplay.cc:70
 msgid "Unclassified"
 msgstr "oklassificerade"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:73
 msgid "suggests"
 msgstr "föreslår"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:74
 msgid "recommends"
 msgstr "rekommenderar"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:75
 msgid "depends on"
 msgstr "beror på"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:76
 msgid "pre-depends on"
 msgstr "beror i förväg på"
 
-#: dselect/pkgdisplay.cc:75
-msgid "breaks with"
+#: dselect/pkgdisplay.cc:77
+#, fuzzy
+msgid "breaks"
 msgstr "förstörs med"
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:78
 msgid "conflicts with"
 msgstr "krockar med"
 
-#: dselect/pkgdisplay.cc:77
+#: dselect/pkgdisplay.cc:79
 msgid "provides"
 msgstr "tillhandahåller"
 
-#: dselect/pkgdisplay.cc:78
+#: dselect/pkgdisplay.cc:80
 msgid "replaces"
 msgstr "ersätter"
 
-#: dselect/pkgdisplay.cc:79
+#: dselect/pkgdisplay.cc:81
 msgid "enhances"
 msgstr "utökar"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:84
 msgid "Req"
 msgstr "Krv"
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:85
 msgid "Imp"
 msgstr "Vik"
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:86
 msgid "Std"
 msgstr "Std"
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:87
 msgid "Rec"
 msgstr "Rek"
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:88
 msgid "Opt"
 msgstr "Val"
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:89
 msgid "Xtr"
 msgstr "Xtr"
 
-#: dselect/pkgdisplay.cc:88
+#: dselect/pkgdisplay.cc:90
 msgid "Ctb"
 msgstr "Ctb"
 
-#: dselect/pkgdisplay.cc:89
+#: dselect/pkgdisplay.cc:91
 msgid "bUG"
 msgstr "FEL"
 
-#: dselect/pkgdisplay.cc:90
+#: dselect/pkgdisplay.cc:92
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:98 dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:100 dselect/pkgdisplay.cc:120
 msgid "Broken"
 msgstr "Trasiga"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:101
 msgid "New"
 msgstr "Nya"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:102
 msgid "Updated"
 msgstr "Uppdaterade"
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:103
 msgid "Obsolete/local"
 msgstr "Gamla/lokala"
 
-#: dselect/pkgdisplay.cc:102
+#: dselect/pkgdisplay.cc:104
 msgid "Up-to-date"
 msgstr "Aktuella"
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:105
 msgid "Available"
 msgstr "Tillgängliga"
 
-#: dselect/pkgdisplay.cc:104 dselect/pkgdisplay.cc:120
+#: dselect/pkgdisplay.cc:106 dselect/pkgdisplay.cc:122
 msgid "Removed"
 msgstr "Borttagna"
 
-#: dselect/pkgdisplay.cc:105 dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:107 dselect/pkgdisplay.cc:116
 msgid "Brokenly installed packages"
 msgstr "Trasiga installerade paket"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:108
 msgid "Newly available packages"
 msgstr "Nya tillgängliga paket"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:109
 msgid "Updated packages (newer version is available)"
 msgstr "Uppdaterade paket (nyare version finns)"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:110
 msgid "Obsolete and local packages present on system"
 msgstr "Gamla och lokala paket som finns på systemet"
 
-#: dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:111
 msgid "Up to date installed packages"
 msgstr "Paket som är à jour"
 
-#: dselect/pkgdisplay.cc:110
+#: dselect/pkgdisplay.cc:112
 msgid "Available packages (not currently installed)"
 msgstr "Tillgängliga paket (ej installerade just nu)"
 
-#: dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:113
 msgid "Removed and no longer available packages"
 msgstr "Borttagna och ej längre tillgängliga paket"
 
-#: dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:117
 msgid "Installed packages"
 msgstr "Installerade paket"
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:118
 msgid "Removed packages (configuration still present)"
 msgstr "Borttagna paket (konfiguration kvar)"
 
-#: dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:119
 msgid "Purged packages and those never installed"
 msgstr "Raderade paket och de som aldrig installerats"
 
-#: dselect/pkgdisplay.cc:119
+#: dselect/pkgdisplay.cc:121
 msgid "Installed"
 msgstr "Installerade"
 
-#: dselect/pkgdisplay.cc:121
+#: dselect/pkgdisplay.cc:123
 msgid "Purged"
 msgstr "Raderade"
 
-#: dselect/pkgdisplay.cc:201
+#: dselect/pkgdisplay.cc:203
 msgid "dselect - recursive package listing"
 msgstr "dselect - rekursiv paketlistning"
 
-#: dselect/pkgdisplay.cc:202
+#: dselect/pkgdisplay.cc:204
 msgid "dselect - inspection of package states"
 msgstr "dselect - inspektion av paketstatus"
 
-#: dselect/pkgdisplay.cc:203
+#: dselect/pkgdisplay.cc:205
 msgid "dselect - main package listing"
 msgstr "dselect - huvudpaketlista"
 
-#: dselect/pkgdisplay.cc:211
+#: dselect/pkgdisplay.cc:213
 msgid " (by section)"
 msgstr " (per avdelning)"
 
-#: dselect/pkgdisplay.cc:214
+#: dselect/pkgdisplay.cc:216
 msgid " (avail., section)"
 msgstr " (tillg., avdelning)"
 
-#: dselect/pkgdisplay.cc:217
+#: dselect/pkgdisplay.cc:219
 msgid " (status, section)"
 msgstr " (status, avdelning)"
 
-#: dselect/pkgdisplay.cc:226
+#: dselect/pkgdisplay.cc:228
 msgid " (by priority)"
 msgstr " (efter prioritet)"
 
-#: dselect/pkgdisplay.cc:229
+#: dselect/pkgdisplay.cc:231
 msgid " (avail., priority)"
 msgstr " (tillg., prioritet)"
 
-#: dselect/pkgdisplay.cc:232
+#: dselect/pkgdisplay.cc:234
 msgid " (status, priority)"
 msgstr " (status, prioritet)"
 
-#: dselect/pkgdisplay.cc:241 dselect/pkgdisplay.cc:253
+#: dselect/pkgdisplay.cc:243 dselect/pkgdisplay.cc:255
 msgid " (alphabetically)"
 msgstr " (alfabetiskt)"
 
-#: dselect/pkgdisplay.cc:244
+#: dselect/pkgdisplay.cc:246
 msgid " (by availability)"
 msgstr " (efter tillgänglighet)"
 
-#: dselect/pkgdisplay.cc:247
+#: dselect/pkgdisplay.cc:249
 msgid " (by status)"
 msgstr " (efter status)"
 
-#: dselect/pkgdisplay.cc:261
+#: dselect/pkgdisplay.cc:263
 msgid " mark:+/=/- terse:v help:?"
 msgstr " markera:+/=/- koncis:v hjälp:?"
 
-#: dselect/pkgdisplay.cc:262
+#: dselect/pkgdisplay.cc:264
 msgid " mark:+/=/- verbose:v help:?"
 msgstr " markera:+/=/- pratsam:v hjälp:?"
 
-#: dselect/pkgdisplay.cc:263
+#: dselect/pkgdisplay.cc:265
 msgid " terse:v help:?"
 msgstr " koncis:v hjälp:?"
 
-#: dselect/pkgdisplay.cc:264
+#: dselect/pkgdisplay.cc:266
 msgid " verbose:v help:?"
 msgstr " pratsam:v hjälp:?"
 
@@ -1613,11 +1629,11 @@ msgstr "Tillgänglig kontrollfilsinformation för"
 msgid "<null>"
 msgstr "<tom>"
 
-#: dselect/pkglist.cc:507
+#: dselect/pkglist.cc:511
 msgid "invalid search option given"
 msgstr "ogiltigt sökflagga given"
 
-#: dselect/pkglist.cc:521
+#: dselect/pkglist.cc:525
 msgid "error in regular expression"
 msgstr "fel i reguljärt uttryck"
 

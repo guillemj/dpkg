@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dselect 1.14.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2008-01-07 11:58+0200\n"
+"POT-Creation-Date: 2008-03-30 10:09+0300\n"
 "PO-Revision-Date: 2007-07-13 08:22+0300\n"
 "Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <et@li.org>\n"
@@ -280,11 +280,16 @@ msgstr ""
 msgid "Revert to directly requested state for all packages"
 msgstr ""
 
-#: dselect/bindings.cc:163
+#: dselect/bindings.cc:161
+#, fuzzy
+msgid "Revert to currently installed state for all packages"
+msgstr "Kõigi pakkide vana oleku taastamine"
+
+#: dselect/bindings.cc:164
 msgid "Select currently-highlighted access method"
 msgstr "Hetkel esiletõstetud ligipääsumeetodi valimine"
 
-#: dselect/bindings.cc:164
+#: dselect/bindings.cc:165
 msgid "Quit without changing selected access method"
 msgstr "Lõpetamine ilma ligipääsumeetodit valimata"
 
@@ -440,12 +445,13 @@ msgid ""
 "below)\n"
 "              `R'  - serious error during installation, needs "
 "reinstallation;\n"
-" Installed state:   Space - not installed;\n"
-"                     `*'  - installed;\n"
-"                     `-'  - not installed but config files remain;\n"
-"       packages in { `U'  - unpacked but not yet configured;\n"
-"      these states { `C'  - half-configured (an error happened);\n"
-"        are broken { `I'  - half-installed (an error happened).\n"
+" Installed state:     Space    - not installed;\n"
+"                       `*'     - installed;\n"
+"                       `-'     - not installed but config files remain;\n"
+"   packages in these { `U'     - unpacked but not yet configured;\n"
+"   states are not    { `C'     - half-configured (an error happened);\n"
+"   (quite) properly  { `I'     - half-installed (an error happened).\n"
+"   installed         { `W',`t' - triggers are awaited resp. pending.\n"
 " Old mark: what was requested for this package before presenting this list;\n"
 " Mark: what is requested for this package:\n"
 "  `*': marked for installation or upgrade;\n"
@@ -459,11 +465,11 @@ msgid ""
 "description.\n"
 msgstr ""
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid "Display, part 2: list highlight; information display"
 msgstr "Kuva, II osa: nimekirja esiletõstmine ja andmete kuvamine"
 
-#: dselect/helpmsgs.cc:147
+#: dselect/helpmsgs.cc:148
 msgid ""
 "* Highlight: One line in the package list will be highlighted.  It "
 "indicates\n"
@@ -490,11 +496,11 @@ msgid ""
 "  information display or expand it to use almost all of the screen.\n"
 msgstr ""
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid "Introduction to method selection display"
 msgstr "Sissejuhatus meetodite valiku kuvasse"
 
-#: dselect/helpmsgs.cc:171
+#: dselect/helpmsgs.cc:172
 msgid ""
 "dselect and dpkg can do automatic installation, loading the package files to "
 "be\n"
@@ -536,11 +542,11 @@ msgstr ""
 "abiteabe\n"
 "menüüs vajuta `?'.\n"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid "Keystrokes for method selection"
 msgstr "Meetodite valiku klahvivajutused"
 
-#: dselect/helpmsgs.cc:191
+#: dselect/helpmsgs.cc:192
 msgid ""
 "Motion keys: Next/Previous, Top/End, Up/Down, Backwards/Forwards:\n"
 "  j, Down-arrow         k, Up-arrow             move highlight\n"
@@ -706,7 +712,7 @@ msgstr ""
 "Litsentsi 2. versioonis. Programmil puudub igasugune garantii.\n"
 "Autoriõiguste ja litsentsi üksikasjade nägemiseks käivita `%s --license'.\n"
 
-#: dselect/main.cc:168
+#: dselect/main.cc:172
 #, c-format
 msgid ""
 "Usage: %s [<option> ...] [<action> ...]\n"
@@ -715,7 +721,7 @@ msgstr ""
 "Kasutamine: %s [<võti> ...] [<tegevus> ...]\n"
 "\n"
 
-#: dselect/main.cc:172
+#: dselect/main.cc:176
 #, c-format
 msgid ""
 "Options:\n"
@@ -735,7 +741,7 @@ msgstr ""
 "                             Ekraanivärvuste seadistamine.\n"
 "\n"
 
-#: dselect/main.cc:181
+#: dselect/main.cc:185
 #, c-format
 msgid ""
 "  --help                     Show this help message.\n"
@@ -748,7 +754,7 @@ msgstr ""
 "  --license | --licence      Litsentsi näitamine.\n"
 "\n"
 
-#: dselect/main.cc:187
+#: dselect/main.cc:191
 #, c-format
 msgid ""
 "Actions:\n"
@@ -759,56 +765,56 @@ msgstr ""
 "  access update select install config remove quit\n"
 "\n"
 
-#: dselect/main.cc:191
+#: dselect/main.cc:195
 #, c-format
 msgid "Screenparts:\n"
 msgstr "Ekraani osad:\n"
 
-#: dselect/main.cc:196
+#: dselect/main.cc:200
 #, c-format
 msgid "Colours:\n"
 msgstr "Värvused:\n"
 
-#: dselect/main.cc:201
+#: dselect/main.cc:205
 #, c-format
 msgid "Attributes:\n"
 msgstr "Rekvisiidid:\n"
 
-#: dselect/main.cc:221
+#: dselect/main.cc:216
 #, c-format
 msgid "couldn't open debug file `%.255s'\n"
 msgstr "silumisfaili `%.255s' pole võimalik avada\n"
 
-#: dselect/main.cc:236
+#: dselect/main.cc:231
 #, c-format
 msgid "Invalid %s `%s'\n"
 msgstr "Lubamatu %s `%s'\n"
 
-#: dselect/main.cc:253
+#: dselect/main.cc:248
 msgid "screen part"
 msgstr "ekraani osa"
 
-#: dselect/main.cc:259
+#: dselect/main.cc:254
 msgid "Null colour specification\n"
 msgstr "Tühi värvusekirjeldus\n"
 
-#: dselect/main.cc:267 dselect/main.cc:272
+#: dselect/main.cc:262 dselect/main.cc:267
 msgid "colour"
 msgstr "värvus"
 
-#: dselect/main.cc:280
+#: dselect/main.cc:275
 msgid "colour attribute"
 msgstr "värvuse rekvisiit"
 
-#: dselect/main.cc:314
+#: dselect/main.cc:309
 msgid "Terminal does not appear to support cursor addressing.\n"
 msgstr "Terminal ei paista kursori adresseerimist toetavat.\n"
 
-#: dselect/main.cc:316
+#: dselect/main.cc:311
 msgid "Terminal does not appear to support highlighting.\n"
 msgstr "Terminal ei paista esiletõstmist toetavat.\n"
 
-#: dselect/main.cc:318
+#: dselect/main.cc:313
 #, c-format
 msgid ""
 "Set your TERM variable correctly, use a better terminal,\n"
@@ -817,11 +823,11 @@ msgstr ""
 "Määra oma TERM muutuja korrektselt, kasuta paremat terminali\n"
 "või kasuta pakipõhist haldusvahendit %s.\n"
 
-#: dselect/main.cc:321
+#: dselect/main.cc:316
 msgid "terminal lacks necessary features, giving up"
 msgstr "terminalil puuduvad vajalikud võimalused, annan alla"
 
-#: dselect/main.cc:399
+#: dselect/main.cc:394
 msgid ""
 "\n"
 "\n"
@@ -836,7 +842,7 @@ msgstr ""
 "^L joonistab ekraanipildi uuesti.\n"
 "\n"
 
-#: dselect/main.cc:414
+#: dselect/main.cc:409
 msgid ""
 "\n"
 "\n"
@@ -846,11 +852,11 @@ msgstr ""
 "\n"
 "Ligipääs ainult vaatamiseks: võimalik on kasutada ainult valikute eelvaadet!"
 
-#: dselect/main.cc:433
+#: dselect/main.cc:428
 msgid "failed to getch in main menu"
 msgstr "tõrge peamenüüs, funktsioonis getch"
 
-#: dselect/main.cc:506
+#: dselect/main.cc:501
 #, c-format
 msgid "unknown action string `%.50s'"
 msgstr "tundmatu tegevuse string `%.50s'"
@@ -888,7 +894,7 @@ msgstr "tõrge SIGWINCH signaali uuesti blokkimisel"
 msgid "getch failed"
 msgstr "tõrge funktsioonis getch"
 
-#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:243
+#: dselect/methlist.cc:177 dselect/pkgdepcon.cc:244
 msgid "[none]"
 msgstr ""
 
@@ -1118,7 +1124,7 @@ msgstr ""
 msgid "unable to install new option as `%.250s'"
 msgstr ""
 
-#: dselect/pkgdepcon.cc:215
+#: dselect/pkgdepcon.cc:217
 msgid "(no clientdata)"
 msgstr ""
 
@@ -1155,270 +1161,278 @@ msgid "not installed"
 msgstr "paigaldamata"
 
 #: dselect/pkgdisplay.cc:53
-msgid "unpacked (not set up)"
-msgstr "lahtipakitud (üles seadmata)"
-
-#: dselect/pkgdisplay.cc:54
-msgid "failed config"
-msgstr "tõrge seadistamisel"
-
-#: dselect/pkgdisplay.cc:55
-msgid "installed"
-msgstr "paigaldatud"
-
-#: dselect/pkgdisplay.cc:56
-msgid "half installed"
-msgstr "osaliselt paigaldatud"
-
-#: dselect/pkgdisplay.cc:57
 msgid "removed (configs remain)"
 msgstr "eemaldatud (seadistused on alles)"
 
-#: dselect/pkgdisplay.cc:60
+#: dselect/pkgdisplay.cc:54
+msgid "half installed"
+msgstr "osaliselt paigaldatud"
+
+#: dselect/pkgdisplay.cc:55
+msgid "unpacked (not set up)"
+msgstr "lahtipakitud (üles seadmata)"
+
+#: dselect/pkgdisplay.cc:56
+msgid "failed config"
+msgstr "tõrge seadistamisel"
+
+#: dselect/pkgdisplay.cc:57
+msgid "awaiting trigger processing"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:58
+msgid "triggered"
+msgstr ""
+
+#: dselect/pkgdisplay.cc:59
+msgid "installed"
+msgstr "paigaldatud"
+
+#: dselect/pkgdisplay.cc:62
 msgid "Required"
 msgstr "Nõutavad"
 
-#: dselect/pkgdisplay.cc:61
+#: dselect/pkgdisplay.cc:63
 msgid "Important"
 msgstr "Tähtsad"
 
-#: dselect/pkgdisplay.cc:62
+#: dselect/pkgdisplay.cc:64
 msgid "Standard"
 msgstr "Standardsed"
 
-#: dselect/pkgdisplay.cc:63
+#: dselect/pkgdisplay.cc:65
 msgid "Recommended"
 msgstr "Soovitatud"
 
-#: dselect/pkgdisplay.cc:64
+#: dselect/pkgdisplay.cc:66
 msgid "Optional"
 msgstr "Valikulised"
 
-#: dselect/pkgdisplay.cc:65
+#: dselect/pkgdisplay.cc:67
 msgid "Extra"
 msgstr "Ekstra"
 
-#: dselect/pkgdisplay.cc:66
+#: dselect/pkgdisplay.cc:68
 msgid "Contrib"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:67
+#: dselect/pkgdisplay.cc:69
 msgid "!Bug!"
 msgstr "!Viga"
 
-#: dselect/pkgdisplay.cc:68
+#: dselect/pkgdisplay.cc:70
 msgid "Unclassified"
 msgstr "Liigitamata"
 
-#: dselect/pkgdisplay.cc:71
+#: dselect/pkgdisplay.cc:73
 msgid "suggests"
 msgstr "vihjab pakile"
 
-#: dselect/pkgdisplay.cc:72
+#: dselect/pkgdisplay.cc:74
 msgid "recommends"
 msgstr "soovitab pakki"
 
-#: dselect/pkgdisplay.cc:73
+#: dselect/pkgdisplay.cc:75
 msgid "depends on"
 msgstr "sõltub pakist"
 
-#: dselect/pkgdisplay.cc:74
+#: dselect/pkgdisplay.cc:76
 msgid "pre-depends on"
 msgstr "eelsõltub pakist"
 
-#: dselect/pkgdisplay.cc:75
-msgid "breaks with"
+#: dselect/pkgdisplay.cc:77
+msgid "breaks"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:76
+#: dselect/pkgdisplay.cc:78
 msgid "conflicts with"
 msgstr "on vastuolus pakiga"
 
-#: dselect/pkgdisplay.cc:77
+#: dselect/pkgdisplay.cc:79
 msgid "provides"
 msgstr "tagab paki"
 
-#: dselect/pkgdisplay.cc:78
+#: dselect/pkgdisplay.cc:80
 msgid "replaces"
 msgstr "asendab paki"
 
-#: dselect/pkgdisplay.cc:79
+#: dselect/pkgdisplay.cc:81
 msgid "enhances"
 msgstr "laiendab pakki"
 
-#: dselect/pkgdisplay.cc:82
+#: dselect/pkgdisplay.cc:84
 msgid "Req"
 msgstr "Nõu"
 
-#: dselect/pkgdisplay.cc:83
+#: dselect/pkgdisplay.cc:85
 msgid "Imp"
 msgstr "Täh"
 
-#: dselect/pkgdisplay.cc:84
+#: dselect/pkgdisplay.cc:86
 msgid "Std"
 msgstr "Std"
 
-#: dselect/pkgdisplay.cc:85
+#: dselect/pkgdisplay.cc:87
 msgid "Rec"
 msgstr "Sov"
 
-#: dselect/pkgdisplay.cc:86
+#: dselect/pkgdisplay.cc:88
 msgid "Opt"
 msgstr "Val"
 
-#: dselect/pkgdisplay.cc:87
+#: dselect/pkgdisplay.cc:89
 msgid "Xtr"
 msgstr "Eks"
 
-#: dselect/pkgdisplay.cc:88
+#: dselect/pkgdisplay.cc:90
 msgid "Ctb"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:89
+#: dselect/pkgdisplay.cc:91
 msgid "bUG"
 msgstr ""
 
-#: dselect/pkgdisplay.cc:90
+#: dselect/pkgdisplay.cc:92
 msgid "?"
 msgstr "?"
 
-#: dselect/pkgdisplay.cc:98 dselect/pkgdisplay.cc:118
+#: dselect/pkgdisplay.cc:100 dselect/pkgdisplay.cc:120
 msgid "Broken"
 msgstr "Katkised"
 
-#: dselect/pkgdisplay.cc:99
+#: dselect/pkgdisplay.cc:101
 msgid "New"
 msgstr "Uued"
 
-#: dselect/pkgdisplay.cc:100
+#: dselect/pkgdisplay.cc:102
 msgid "Updated"
 msgstr "Uuendatud"
 
-#: dselect/pkgdisplay.cc:101
+#: dselect/pkgdisplay.cc:103
 msgid "Obsolete/local"
 msgstr "Aegunud/kohalikud"
 
-#: dselect/pkgdisplay.cc:102
+#: dselect/pkgdisplay.cc:104
 msgid "Up-to-date"
 msgstr "Ajakohased"
 
-#: dselect/pkgdisplay.cc:103
+#: dselect/pkgdisplay.cc:105
 msgid "Available"
 msgstr "Saadaolevad"
 
-#: dselect/pkgdisplay.cc:104 dselect/pkgdisplay.cc:120
+#: dselect/pkgdisplay.cc:106 dselect/pkgdisplay.cc:122
 msgid "Removed"
 msgstr "Eemaldatud"
 
-#: dselect/pkgdisplay.cc:105 dselect/pkgdisplay.cc:114
+#: dselect/pkgdisplay.cc:107 dselect/pkgdisplay.cc:116
 msgid "Brokenly installed packages"
 msgstr "Katkised paigaldatud pakid"
 
-#: dselect/pkgdisplay.cc:106
+#: dselect/pkgdisplay.cc:108
 msgid "Newly available packages"
 msgstr "Uued saadaolevad pakid"
 
-#: dselect/pkgdisplay.cc:107
+#: dselect/pkgdisplay.cc:109
 msgid "Updated packages (newer version is available)"
 msgstr "Uuendatud pakid (uuem versioon on saadaval)"
 
-#: dselect/pkgdisplay.cc:108
+#: dselect/pkgdisplay.cc:110
 msgid "Obsolete and local packages present on system"
 msgstr "Selles süsteemis olevad aegunud ja kohalikud pakid"
 
-#: dselect/pkgdisplay.cc:109
+#: dselect/pkgdisplay.cc:111
 msgid "Up to date installed packages"
 msgstr "Ajakohased paigaldatud pakid"
 
-#: dselect/pkgdisplay.cc:110
+#: dselect/pkgdisplay.cc:112
 msgid "Available packages (not currently installed)"
 msgstr "Saadaolevad pakid (hetkel paigaldamata)"
 
-#: dselect/pkgdisplay.cc:111
+#: dselect/pkgdisplay.cc:113
 msgid "Removed and no longer available packages"
 msgstr "Eemaldatud pakid ja pakid, mida pole enam saadaval"
 
-#: dselect/pkgdisplay.cc:115
+#: dselect/pkgdisplay.cc:117
 msgid "Installed packages"
 msgstr "Paigaldatud pakid"
 
-#: dselect/pkgdisplay.cc:116
+#: dselect/pkgdisplay.cc:118
 msgid "Removed packages (configuration still present)"
 msgstr "Eemaldatud pakid (seadistusfailid on alles)"
 
-#: dselect/pkgdisplay.cc:117
+#: dselect/pkgdisplay.cc:119
 msgid "Purged packages and those never installed"
 msgstr "Puhastatud pakid ja need, mida pole kunagi paigaldatud"
 
-#: dselect/pkgdisplay.cc:119
+#: dselect/pkgdisplay.cc:121
 msgid "Installed"
 msgstr "Paigaldatud"
 
-#: dselect/pkgdisplay.cc:121
+#: dselect/pkgdisplay.cc:123
 msgid "Purged"
 msgstr "Puhastatud"
 
-#: dselect/pkgdisplay.cc:201
+#: dselect/pkgdisplay.cc:203
 msgid "dselect - recursive package listing"
 msgstr "dselect - pakkide rekursiivne nimekiri"
 
-#: dselect/pkgdisplay.cc:202
+#: dselect/pkgdisplay.cc:204
 msgid "dselect - inspection of package states"
 msgstr "dselect - pakkide olekute inspekteerimine"
 
-#: dselect/pkgdisplay.cc:203
+#: dselect/pkgdisplay.cc:205
 msgid "dselect - main package listing"
 msgstr "dselect - pakkide peanimekiri"
 
-#: dselect/pkgdisplay.cc:211
+#: dselect/pkgdisplay.cc:213
 msgid " (by section)"
 msgstr " (jaotise järgi)"
 
-#: dselect/pkgdisplay.cc:214
+#: dselect/pkgdisplay.cc:216
 msgid " (avail., section)"
 msgstr " (saadavus, jaotis)"
 
-#: dselect/pkgdisplay.cc:217
+#: dselect/pkgdisplay.cc:219
 msgid " (status, section)"
 msgstr " (olek, jaotis)"
 
-#: dselect/pkgdisplay.cc:226
+#: dselect/pkgdisplay.cc:228
 msgid " (by priority)"
 msgstr " (tähtsuse järgi)"
 
-#: dselect/pkgdisplay.cc:229
+#: dselect/pkgdisplay.cc:231
 msgid " (avail., priority)"
 msgstr " (saadavus, tähtsus)"
 
-#: dselect/pkgdisplay.cc:232
+#: dselect/pkgdisplay.cc:234
 msgid " (status, priority)"
 msgstr " (olek, tähtsus)"
 
-#: dselect/pkgdisplay.cc:241 dselect/pkgdisplay.cc:253
+#: dselect/pkgdisplay.cc:243 dselect/pkgdisplay.cc:255
 msgid " (alphabetically)"
 msgstr " (tähestikuline)"
 
-#: dselect/pkgdisplay.cc:244
+#: dselect/pkgdisplay.cc:246
 msgid " (by availability)"
 msgstr " (saadavuse järgi)"
 
-#: dselect/pkgdisplay.cc:247
+#: dselect/pkgdisplay.cc:249
 msgid " (by status)"
 msgstr " (oleku järgi)"
 
-#: dselect/pkgdisplay.cc:261
+#: dselect/pkgdisplay.cc:263
 msgid " mark:+/=/- terse:v help:?"
 msgstr " märgi:+/=/- vähem:v abi:?"
 
-#: dselect/pkgdisplay.cc:262
+#: dselect/pkgdisplay.cc:264
 msgid " mark:+/=/- verbose:v help:?"
 msgstr " märgi:+/=/- rohkem:v abi:?"
 
-#: dselect/pkgdisplay.cc:263
+#: dselect/pkgdisplay.cc:265
 msgid " terse:v help:?"
 msgstr " vähem:v abi:?"
 
-#: dselect/pkgdisplay.cc:264
+#: dselect/pkgdisplay.cc:266
 msgid " verbose:v help:?"
 msgstr " rohkem:v abi:?"
 
@@ -1454,11 +1468,11 @@ msgstr "Saadaoleva juhtfaili andmed"
 msgid "<null>"
 msgstr ""
 
-#: dselect/pkglist.cc:507
+#: dselect/pkglist.cc:511
 msgid "invalid search option given"
 msgstr "määrati lubamatu otsinguvalik"
 
-#: dselect/pkglist.cc:521
+#: dselect/pkglist.cc:525
 msgid "error in regular expression"
 msgstr "viga regulaaravaldises"
 
