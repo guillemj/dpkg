@@ -758,9 +758,10 @@
 
 2008-01-29  Raphael Hertzog  <hertzog@debian.org>
 
-	* scripts/dpkg-buildpackage.pl: Add a new -R option to be able to replace
-	"debian/rules" by something else. The replacement command can contain
-	parameters (and thus spaces). Fix -r option to also accept parameters.
+	* scripts/dpkg-buildpackage.pl: Add a new -R option to be able to
+	replace "debian/rules" by something else. The replacement command
+	can contain parameters (and thus spaces). Fix -r option to also
+	accept parameters.
 	* man/dpkg-buildpackage.1: Document the new option and the changed
 	behaviour of -r.
 
@@ -815,9 +816,9 @@
 	* scripts/dpkg-genchanges.pl: Warn if the current version is
 	smaller than the previous one.
 
-	* scripts/dpkg-checkbuilddeps.pl: Add support of options -d and -c to use
-	build dependencies/conflicts given on the command line instead of those
-	retrieved from debian/control.
+	* scripts/dpkg-checkbuilddeps.pl: Add support of options -d and -c to
+	use build dependencies/conflicts given on the command line instead of
+	those retrieved from debian/control.
 	* man/dpkg-checkbuilddeps.1: Document the new options.
 
 2008-01-22  Guillem Jover  <guillem@debian.org>
@@ -1097,7 +1098,8 @@
 2008-01-18  Raphael Hertzog  <hertzog@debian.org>
 
 	* scripts/Dpkg/Changelog.pm (parse_changelog): Rewrite it completely
-	to not call dpkg-parsechangelog but do the work of this program by itself.
+	to not call dpkg-parsechangelog but do the work of this program by
+	itself.
 	* scripts/dpkg-parsechangelog.pl: Rewrote it to use the enhanced
 	parse_changelog() function.
 	* scripts/dpkg-genchanges.pl, script/dpkg-gencontrol.pl: Adapted to use
@@ -1105,8 +1107,8 @@
 	* scripts/dpkg-gensymbols.pl, scripts/dpkg-source.pl: Likewise.
 
 	* scripts/dpkg-genchanges.pl: Change logic of -si option to
-	include the original tarball only if the current upstream version differs
-	from the upstream version of the previous changelog entry.
+	include the original tarball only if the current upstream version
+	differs from the upstream version of the previous changelog entry.
 
 	* scripts/dpkg-genchanges.pl: Some code refactoring. Also fix the
 	generation of the Description field to not have duplicate description
@@ -1361,8 +1363,8 @@
 
 	* scripts/dpkg-buildpackage.pl, scripts/dpkg-checkbuilddeps.pl,
 	scripts/dpkg-genchanges.pl, scripts/dpkg-gencontrol.pl,
-	scripts/dpkg-gensymbols.pl, scripts/dpkg-source.pl: Update scripts to use
-	Dpkg::Changelog::parse_changelog instead of the old controllib.pl's
+	scripts/dpkg-gensymbols.pl, scripts/dpkg-source.pl: Update scripts to
+	use Dpkg::Changelog::parse_changelog instead of the old controllib.pl's
 	parsechangelog. With this last change controllib.pl is no more used by
 	any script.
 
