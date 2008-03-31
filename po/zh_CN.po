@@ -7,14 +7,14 @@
 # Ming Hua <minghua@rice.edu>, 2006.
 # Carlos Z.F. Liu <carlosliu@users.sourceforge.net>, 2004,2006.
 # Anthony Wong <ypwong@debian.org.hk>, 2007.
-# Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007.
+# Deng Xiyue <manphiz-guest@users.alioth.debian.org>, 2007, 2008.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.13\n"
+"Project-Id-Version: dpkg\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-03-30 10:10+0300\n"
-"PO-Revision-Date: 2008-01-21 08:36+0200\n"
+"PO-Revision-Date: 2008-03-31 13:40+0800\n"
 "Last-Translator: Deng Xiyue <manphiz-guest@users.alioth.debian.org>\n"
 "Language-Team: Debian Chinese [GB] <debian-chinese-gb@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -325,7 +325,7 @@ msgstr "文件描述字段“%s”是空的"
 #: lib/fields.c:94
 #, c-format
 msgid "file details field `%s' not allowed in status file"
-msgstr "状态文件不接受文件描述字段“%s”"
+msgstr "状态文件不允许文件描述字段“%s”"
 
 #: lib/fields.c:104
 #, c-format
@@ -347,7 +347,7 @@ msgstr "“优先级”字段中的文字"
 
 #: lib/fields.c:166
 msgid "value for `status' field not allowed in this context"
-msgstr "该上下文中不接受“status”字段的值"
+msgstr "该上下文中不允许“status”字段的值"
 
 #: lib/fields.c:170
 msgid "first (want) word in `status' field"
@@ -372,7 +372,7 @@ msgstr "您使用了已经废弃不用的字段“Revision”或者“Package-Re
 
 #: lib/fields.c:219
 msgid "value for `config-version' field not allowed in this context"
-msgstr "“config-version”字段的值在该上下文关系中不被接受"
+msgstr "“config-version”字段的值在该上下文关系中不被允许"
 
 #: lib/fields.c:223
 #, c-format
@@ -472,34 +472,32 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "在 %s 字段中不能含有替换项(“|”)"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
-msgstr "“config-version”字段的值在该上下文关系中不被接受"
+msgstr "“triggers-pending”字段的值在该上下文关系中不被允许"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "“%s”字段，无效的软件包名“%.255s”:%s"
+msgstr "非法的未决触发器名“%.255s”：%s"
 
 #: lib/fields.c:518
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr "无法打开调试信息文件“%.255s”\n"
+msgstr "重复的未决触发器“%.255s”"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
-msgstr "该上下文中不接受“status”字段的值"
+msgstr "“triggers-awaited”字段的值在该上下文关系中不被允许"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "在第 %d 行发现非法的软件包名：%.250s"
+msgstr "在等待触发器“%.255s”中包含非法的软件包名：%s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "软件包“%.250s”的文件名列表文件"
+msgstr "重复的等待触发包“%.255s”"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -537,9 +535,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "realloc 失败(%ld 字节)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "分配颜色对失败"
+msgstr "分配内存失败"
 
 #: lib/mlib.c:85
 #, c-format
@@ -789,7 +786,7 @@ msgstr "有多个值对应于用户自定义的字段“%.*s”"
 
 #: lib/parse.c:235
 msgid "several package info entries found, only one allowed"
-msgstr "发现了多个软件包的 info 条目，不过我只要一个"
+msgstr "发现了多个软件包的 info 条目，不过只允许一个"
 
 #: lib/parse.c:261
 msgid "Configured-Version for package with inappropriate Status"
@@ -798,20 +795,20 @@ msgstr "软件包有 Configured-Version 的标志，但是它安装状态却与�
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "软件包有 %s 状态但触发器在等待"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
-msgstr ""
+msgstr "软件包有触发器等待状态但没有触发器在等待"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "软件包有 %s 状态但是触发器处于未决状态"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
+msgstr "软件包有触发器未决状态但没有触发器处于未决状态"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -909,140 +906,139 @@ msgstr "没有发现格式字串中配对的右括弧\n"
 #: trigdeferred.l:62
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
-msgstr ""
+msgstr "无效的软件包名“%.250s”出现在触发推迟文件“%.250s”"
 
 #: trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "statoverride 文件 “%.250s”"
+msgstr "截断的触发推迟文件“%.250s”"
 
 #: trigdeferred.l:75
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
-msgstr "安装手段的选项文件“%.250s”中有语法错误 -- %s"
+msgstr "触发推迟文件“%.250s”中有语法错误，在字符“%s”%s"
 
 #: trigdeferred.l:113
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "无法打开当前的选项文件“%.250s”"
+msgstr "无法打开/创建触发器锁文件“%.250s”"
 
 #: trigdeferred.l:120
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "无法解锁 %s：%s"
+msgstr "无法锁定触发器区域"
 
 #: trigdeferred.l:131
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "无法 stat 其它新文件“%.250s”"
+msgstr "无法获取触发推迟文件“%.250s”的信息"
 
 #: trigdeferred.l:145
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "无法打开原始文件“%.250s”"
+msgstr "无法打开触发推迟文件“%.250s”"
 
 #: trigdeferred.l:159
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "无法打开新的存储文件“%.250s”"
+msgstr "无法打开/创建新的触发推迟文件“%.250s”"
 
 #: trigdeferred.l:179
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "读取安装手段的选项文件“%.250s”时出错"
+msgstr "读取触发推迟文件“%.250s”时出错"
 
 #: trigdeferred.l:187
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "无法打开新的存储文件“%.250s”"
+msgstr "无法写入新的触发推迟文件“%.250s”"
 
 #: trigdeferred.l:192
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "无法关闭新的选项文件“%.250s”"
+msgstr "无法关闭新的触发推迟文件“%.250s”"
 
 #: trigdeferred.l:196
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "无法安装“%.255s”的新版本"
+msgstr "无法安装新的触发推迟文件“%.250s”"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "不允许空的触发器名"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "触发器名包含无效字符"
 
 #: lib/triglib.c:256
 #, c-format
 msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s'"
-msgstr ""
+msgstr "触发器名“%.250s”包含无效或者位置的语法(在软件包“%.250s”的触发器兴趣中)"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "无法打开当前的选项文件“%.250s”"
+msgstr "无法打开触发兴趣列表文件“%.250s”"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "读取选项说明文件“%.250s”失败"
+msgstr "回到触发兴趣文件“%.250s”起始位置失败"
 
 #: lib/triglib.c:325
 #, c-format
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
-msgstr ""
+msgstr "触发兴趣文件“%.250s”语法错误；非法的软件包名“%.250s”：%.250s"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "无法关闭新的选项文件“%.250s”"
+msgstr "无法创建新的触发兴趣文件“%.250s”"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "无法写入新的选项文件“%.250s”"
+msgstr "无法写入新的触发兴趣文件“%.250s”"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "无法安装“%.255s”的新版本"
+msgstr "无法安装新的触发兴趣文件“%.250s”"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "无法把新的信息文件“%.250s”安装到“%.250s”"
+msgstr "文件“%.250s”和软件包“%.250s”有重复的文件触发兴趣"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "无法关闭新的选项文件“%.250s”"
+msgstr "无法创建新的文件触发文件“%.250s”"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "无法打开新的存储文件“%.250s”"
+msgstr "无法写入新的文件触发文件“%.250s”"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "无法安装新的选项文件到“%.250s”"
+msgstr "无法安装新的文件触发文件到“%.250s”"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "无法读取分块文件“%.250s”"
+msgstr "无法读取文件触发文件“%.250s”"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "安装手段的选项文件“%.250s”中有语法错误 -- %s"
+msgstr "文件触发文件“%.250s”中有语法错误"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1050,57 +1046,58 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"文件触发记录有提到非法的软件包名“%.250s”(用于文件“%.250s”中的兴趣)：%.250s"
 
 #: lib/triglib.c:585
 #, c-format
 msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
-msgstr ""
+msgstr "触发器配置项文件`%.250s'在触发器名“%.250s”中包含非法触发器语法：%.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "无法打开原始文件“%.250s”"
+msgstr "无法打开触发器配置项文件“%.250s”"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
+msgstr "触发器配置项文件包含位置指令语法"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "触发器配置项文件包含位置指令“%.250s”"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "无法读取用于存放文件的目录“%.250s”"
+msgstr "无法创建触发器状态目录“%.250s”"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "无法读取用于存放文件的目录“%.250s”"
+msgstr "无法设置触发器状态目录“%.250s”的所有权"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "在 %.250s 中发生读错误"
+msgstr "读取“%.250s”发生错误"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets 从转移项(diversions)中取回了一个空的字符串 [i]"
+msgstr "fgets 从“%.250s”取回了一个空的字符串"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr "文件“%.250s”已经损毁 - 在 %.250s 后没有发现换行符"
+msgstr "文件“%.250s”中的行太长或者缺少换行符"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "在 %.250s 中发现未预期的文件结束符"
+msgstr "读取“%.250s”时发现未预期的文件结束符"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1924,9 +1921,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  即将安装 %.250s (版本为 %.250s)。\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (版本为 %.250s)现在 %s。\n"
+msgstr "  %.250s (版本为 %.250s)已存在并且 %s。\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -1934,9 +1931,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s 提供了 %.250s，它将被安装。\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s 提供了 %.250s，它现在 %s。\n"
+msgstr "  %.250s 提供了 %.250s 并已存在而且 %s。\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -1989,6 +1986,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"下列软件包正在等待它们在其他软件包激活的触发器处理。\n"
+"该处理可以使用 dselect 或者 dpkg --configure --pending\n"
+"(或者 dpkg --triggers-only)来请求：\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -1996,6 +1996,8 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"下列软件包被触发，但触发器处理尚未完成。触发器可以使用 dselect 或者 \n"
+"dpkg --configure --pending (或者 dpkg --triggers-only)来请求：\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2242,9 +2244,8 @@ msgid "not installed but configs remain"
 msgstr "没有被安装，但是其配置文件仍存留于系统中"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "由于删除失败，处于残损的状态"
+msgstr "由于移除或安装失败而处于残损的状态"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2256,11 +2257,11 @@ msgstr "由于安装后操作(postinst)失败，未能完成安装"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "等待另一软件包的触发器处理"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "已被触发"
 
 #: src/help.c:48
 msgid "installed"
@@ -2305,9 +2306,8 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "无法设置 %s 的执行权限位(execute permissions)"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "vsnprintf 无法统计"
+msgstr "无法为维护脚本设置环境变量"
 
 #: src/help.c:317
 #, c-format
@@ -2411,7 +2411,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2445,26 +2445,26 @@ msgstr ""
 "  --unpack           <.deb 文件名> ... | -R|--recursive <目录> ...\n"
 "  -A|--record-avail  <.deb 文件名> ... | -R|--recursive <目录> ...\n"
 "  --configure        <软件包名> ... | -a|--pending\n"
+"  --triggers-only    <软件包名> ... | -a|--pending\n"
 "  -r|--remove        <软件包名> ... | -a|--pending\n"
 "  -P|--purge         <软件包名> ... | -a|--pending\n"
-"  --get-selections [<表达式> ...]     把已选中的软件包列表打印到标准输出。\n"
-"  --set-selections                    从标准输入里读出要选择的软件。\n"
-"  --clear-selections                  取消选中所有不必要的软件包。\n"
-"  --update-avail <Packages 文件>      替换现有可安装的软件包信息。\n"
-"  --merge-avail <Package 文件>        把文件中的信息合并到系统中。\n"
-"  --clear-avail                       清除现有的软件包信息。\n"
-"  --forget-old-unavail                忘却已被卸载的不可安装的软件包。\n"
-"  -s|--status <软件包名> ...          显示软件包详尽的状态信息。\n"
-"  -p|--print-avail <软件包名> ...     显示可供安装的版本详情。\n"
-"  -L|--listfiles <软件包名> ...       列出所有“属于”该软件包(或多个)的文"
-"件。\n"
-"  -l|--list [<表达式> ...             简明地列出软件包的状态。\n"
-"  -S|--search <表达式> ...            搜寻拥有该文件(或多个文件)的包。\n"
-"  -C|--audit                          检查搜寻残损的软件包。\n"
-"  --print-architecture                显示 dpkg 体系架构。\n"
-"  --compare-vesions <甲> <关系> <乙>  比较版本号 - 见下。\n"
-"  --force-help                        显示本强制选项的帮助信息。\n"
-"  -Dh|--debug=help                    显示有关出错调试的帮助信息。\n"
+"  --get-selections [<表达式> ...]  把已选中的软件包列表打印到标准输出。\n"
+"  --set-selections                 从标准输入里读出要选择的软件。\n"
+"  --clear-selections               取消选中所有不必要的软件包。\n"
+"  --update-avail <软件包文件>      替换现有可安装的软件包信息。\n"
+"  --merge-avail <软件包文件>       把文件中的信息合并到系统中。\n"
+"  --clear-avail                    清除现有的软件包信息。\n"
+"  --forget-old-unavail             忘却已被卸载的不可安装的软件包。\n"
+"  -s|--status <软件包名> ...       显示软件包详尽的状态信息。\n"
+"  -p|--print-avail <软件包名> ...  显示可供安装的版本详情。\n"
+"  -L|--listfiles <软件包名> ...    列出所有“属于”该软件包(或多个)的文件。\n"
+"  -l|--list [<表达式> ...          简明地列出软件包的状态。\n"
+"  -S|--search <表达式> ...         搜寻拥有该文件(或多个文件)的包。\n"
+"  -C|--audit                       检查搜寻残损的软件包。\n"
+"  --print-architecture             显示 dpkg 体系架构。\n"
+"  --compare-vesions <a> <关系> <b> 比较版本号 - 见下。\n"
+"  --force-help                     显示本强制选项的帮助信息。\n"
+"  -Dh|--debug=help                 显示有关出错调试的帮助信息。\n"
 "\n"
 
 #: src/main.c:93 src/query.c:484 src/trigcmd.c:98 dpkg-deb/main.c:77
@@ -2476,9 +2476,9 @@ msgid ""
 "  --license|--licence              Show the copyright licensing terms.\n"
 "\n"
 msgstr ""
-"  -h|--help                           显示本帮助信息。\n"
-"  --version                           显示版本信息。\n"
-"  --license | --licence               显示版权和许可证条文。\n"
+"  -h|--help                        显示本帮助信息。\n"
+"  --version                        显示版本信息。\n"
+"  --license | --licence            显示版权和许可证条文。\n"
 "\n"
 
 #: src/main.c:99
@@ -2506,7 +2506,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2538,24 +2538,28 @@ msgid ""
 "\n"
 msgstr ""
 "选项：\n"
-"  --admindir=<目录>             使用 <目录> 而非 %s。\n"
-"  --root=<目录>                 安装到另一个根文件系统。\n"
-"  --instdir=<目录>              改变安装的根目录的同时保持管理(admin)目录不"
+"  --admindir=<目录>          使用 <目录> 而非 %s。\n"
+"  --root=<目录>              安装到另一个根文件系统。\n"
+"  --instdir=<目录>           改变安装的根目录的同时保持管理(admin)目录不"
 "变。\n"
-"  -O|--selected-only            忽略没有被选中安装或升级的软件包。\n"
-"  -E|--skip-same-version        忽略版本与已安装软件版本相同的软件包。\n"
-"  -G|--refuse-downgrade         忽略版本早于已安装软件版本的的软件包。\n"
-"  -B|--auto-deconfigure         就算会影响其他软件包，也要安装。\n"
-"  --no-debsig                   不去试图验证软件包的签名。\n"
+"  -O|--selected-only         忽略没有被选中安装或升级的软件包。\n"
+"  -E|--skip-same-version     忽略版本与已安装软件版本相同的软件包。\n"
+"  -G|--refuse-downgrade      忽略版本早于已安装软件版本的的软件包。\n"
+"  -B|--auto-deconfigure      就算会影响其他软件包，也要安装。\n"
+"  --[no-]triggers            跳过或强制随之发生的触发器处理。\n"
+"  --no-debsig                不去试图验证软件包的签名。\n"
 "  --no-act|--dry-run|--simulate\n"
-"                                仅仅报告我们要执行的操作 - 但是不执行。\n"
-"  -D|--debug=<八进制数字>       开启调试功能(参见 -Dhelp 或者 --"
-"debug=help)。\n"
-"  --status-fd <n>               发送状态改变的更新信号到文件描述符<n>。\n"
-"  --log=<文件名>                把状态的更动和操作信息记录到 <文件名>。\n"
-"  --ignore-depends=<软件包名>,... 忽略关于 <软件包名> 的所有依赖关系。\n"
-"  --force-...                     忽视遇到的问题 - 参见 --force-help。\n"
-"  --no-force-...|--refuse-...     当遇到问题时中止运行。\n"
+"                             仅仅报告我们要执行的操作 - 但是不执行。\n"
+"  -D|--debug=<八进制数字>    开启调试功能(参见 -Dhelp 或者 --debug=help)。\n"
+"  --status-fd <n>            发送状态改变的更新信号到文件描述符<n>。\n"
+"  --log=<文件名>             把状态的更动和操作信息记录到 <文件名>。\n"
+"  --ignore-depends=<软件包名>,...\n"
+"                             忽略关于 <软件包名> 的所有依赖关系。\n"
+"  --force-...                忽视遇到的问题(参见 --force-help)。\n"
+"  --no-force-...|--refuse-...\n"
+"                             当遇到问题时中止运行。\n"
+"  --abort-after <n>          遇到<n>个错误后终止。\n"
+"\n"
 
 #: src/main.c:133
 #, c-format
@@ -2613,7 +2617,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "警告：已废弃不用的选项“--%s”\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2637,17 +2641,20 @@ msgid ""
 msgstr ""
 "%s 除错选项，--debug=<八进制数字> 或 -D<八进制数字>：\n"
 "\n"
-" 数字  源代码中的对应          解释\n"
-"      1   常规                  常规的辅助进度信息\n"
-"      2   脚本                  维护者脚本的状态及对其的调用\n"
-"     10   每个文件              操作每个文件的输出\n"
-"    100   每个文件细节          操作每个文件的大量输出\n"
-"     20   配置文件              每个配置文件的输出\n"
-"    200   配置文件细节          每个配置文件的大量输出\n"
-"     40   依赖和冲突            依赖和冲突\n"
-"    400   依赖和冲突细节        依赖和冲突细节\n"
-"   1000   十分详细              大量的琐碎细节，如 dpkg/info 目录\n"
-"   2000   极度详细              数量极大的输出\n"
+"   数字  源代码中的对应   解释\n"
+"      1   常规              常规的辅助进度信息\n"
+"      2   脚本              维护者脚本的状态及对其的调用\n"
+"     10   每个文件          操作每个文件的输出\n"
+"    100   每个文件细节      操作每个文件的大量输出\n"
+"     20   配置文件          每个配置文件的输出\n"
+"    200   配置文件细节      每个配置文件的大量输出\n"
+"     40   依赖和冲突        依赖和冲突\n"
+"    400   依赖和冲突细节    依赖和冲突细节\n"
+"  10000   触发器            触发器激活和处理\n"
+"  20000   触发器细节        有关触发器的大量输出\n"
+"  40000   触发器极度细节    有关触发器的极大量的输出\n"
+"   1000   十分详细          大量的琐碎细节，如 dpkg/info 目录\n"
+"   2000   极度详细          数量极大的输出\n"
 "\n"
 "可以用位与(bitwise-or)把除错选项组合起来使用。\n"
 "注意，意义和数值将有可能更动。\n"
@@ -2818,13 +2825,13 @@ msgstr ""
 "现只配置它一次。\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"现在尚不能配置软件包 %.250s\n"
-" 不能配置(目前状态为“%.250s”)"
+"软件包“%.250s”尚未准备好由触发器处理\n"
+" (目前状态为“%.250s”，没有未决的触发)"
 
 #: src/packages.c:334
 #, c-format
@@ -2842,14 +2849,14 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "系统中 %s 的版本为 %s。\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  提供了 %2$s 的软件包 %1$s 即将被删除。\n"
+msgstr "  提供了 %2$s 的软件包 %1$s 正在等待触发器处理。\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  即将删除 %s。\n"
+msgstr "  软件包 %s 正在等待触发器处理。\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3141,7 +3148,6 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "无法删除已经消失了的控制信息文件“%.250s”"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3150,9 +3156,9 @@ msgid ""
 "uppercase=bad)\n"
 msgstr ""
 "期望状态=未知(u)/安装(i)/删除(r)/清除(p)/保持(h)\n"
-"| 当前状态=未(n)/已安装(i)/仅存配置(c)/仅解压缩(U)/配置失败(F)/不完全安装"
-"(H)\n"
-"|/ 错误？=(无)/保持(?)/须重装(R)/两者兼有(#) (状态，错误：大写=故障)\n"
+"| 当前状态=未(n)/已安装(i)/仅存配置(c)/仅解压缩(U)/配置失败(F)/不完全安装(H)/"
+"触发器等待(W)/触发器未决(T)\n"
+"|/ 错误?=(无)/保持(H)/须重装(R)/两者兼有(X) (状态，错误：大写=故障)\n"
 
 #: src/query.c:129
 msgid "Name"
@@ -3485,23 +3491,23 @@ msgid "--clear-selections does not take any argument"
 msgstr "--set-selections 不需要带任何参数"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-triggers --help for help about this utility."
-msgstr "输入 dpkg-split --help 就可以阅读帮助信息。"
+msgstr "输入 dpkg-triggers --help 以获取此功能的帮助信息。"
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "”Debian“%s”软件包管理程序查询工具\n"
+msgstr "”Debian %s 软件包触发器功能。\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"用法：%s [<选项> ...] <命令>\n"
+"用法：%s [<选项> ...] <触发器名称>\n"
+"      %s [<选项> ...] <命令>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3512,6 +3518,9 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"命令：\n"
+"  --check-supported                检查正在运行的 dpkg 是否支持触发器。\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3526,42 +3535,46 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"选项：\n"
+"  --admindir=<目录>                使用 <目录> 而不是 %s。\n"
+"  --by-package=<软件包>            重写触发器等待者(通常由 dpkg 设置)。\n"
+"  --no-await                       没有软件包需要等待处理。\n"
+"  --no-act                         仅测试 - 不真正进行修改。\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s：尚未创建触发器数据目录\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s：触发器记录尚不存在\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s 不需要带任何参数"
+msgstr "dpkg-trigger --check-supported 不需要带任何参数"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s 只带一个参数(即 .deb 文件的文件名)"
+msgstr "dpkg-trigger 只带一个参数，触发器名"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
-msgstr ""
+msgstr "dpkg-trigger 必须从维护者脚本中调用(或者通过 --by-package 选项)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "“%s”字段，无效的软件包名“%.255s”:%s"
+msgstr "dpkg-trigger：非法的等待软件包名“%.250s”:%.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "“%s”字段，无效的软件包名“%.255s”:%s"
+msgstr "dpkg-trigger：无效的触发器名“%.250s”:%.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3569,6 +3582,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s：处理触发器时发现回路：\n"
+" 包含或可能包含对此有责任的触发器的软件包链：\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3576,15 +3591,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" 无法解决的软件包未决触发器：\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "触发器循环，放弃"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "正在清除 %s 的配置文件 ...\n"
+msgstr "正在处理用于 %s 的触发器...\n"
 
 #: src/update.c:44
 #, c-format
@@ -4205,13 +4222,14 @@ msgid ""
 "\n"
 msgstr ""
 "选项：\n"
-"  --showformat=<格式>        用于 --show 的替代格式输出.\n"
-"  -D                         开启调试信息的输出.\n"
-"  --old，--new               选择档案的格式.\n"
-"  --nocheck                  关闭对主控文件的检查(可能导致生成坏的软件包)。\n"
-"  -z#                        设置构造软件包时，使用的压缩率。\n"
-"  -Z<type>                   设置建档时所使用的压缩类型。\n"
-"                             可用值：gzip、bzip2、lzma、none。\n"
+"  --showformat=<格式>              用于 --show 的替代格式输出.\n"
+"  -D                               开启调试信息的输出.\n"
+"  --old，--new                     选择档案的格式.\n"
+"  --nocheck                        关闭对主控文件的检查(可能导致生成\n"
+"                                     坏的软件包)。\n"
+"  -z#                              设置构造软件包时，使用的压缩率。\n"
+"  -Z<类型>                         设置建档时所使用的压缩类型。\n"
+"                                     可用值：gzip、bzip2、lzma、none。\n"
 "\n"
 
 #: dpkg-deb/main.c:110
@@ -4443,12 +4461,12 @@ msgid ""
 "Exit status: 0 = OK;  1 = -a is not a part;  2 = trouble!\n"
 msgstr ""
 "选项：\n"
-"  --depotdir <目录>       使用<目录>而非 %s/%s。\n"
-"  -S|--partsize <大小>       -s 的单位改用 KiB (缺省是 450)。\n"
-"  -o|--output <文件>             对应 -j (缺省文件名是 <软件包名>-<版本号>."
+"  --depotdir <目录>                使用<目录>而非 %s/%s。\n"
+"  -S|--partsize <大小>             -s 的单位改用 KiB (缺省是 450)。\n"
+"  -o|--output <文件>               对应 -j (缺省文件名是 <软件包名>-<版本号>."
 "deb)。\n"
-"  -Q|--npquiet                        不用 -a 时，少输出信息。\n"
-"  --msdos                              使用 8.3 的文件名格式。\n"
+"  -Q|--npquiet                     不用 -a 时，少输出信息。\n"
+"  --msdos                          使用 8.3 的文件名格式。\n"
 "\n"
 "返回状态：0 = 一切正常；  1 = -a 不是一个部分；  2 = 出问题了！\n"
 
@@ -4766,21 +4784,21 @@ msgstr ""
 "用法：%s [<选项> ...] <命令>\n"
 "\n"
 "命令：\n"
-"  [--add] <文件名>        添加一个转移项。\n"
-"  --remove <文件名>       删除这个转移项。\n"
-"  --list [<glob 模式>]    列出各文件转移项。\n"
-"  --truename <文件名>     返回被转移的原始文件。\n"
+"  [--add] <文件名>         添加一个转移项。\n"
+"  --remove <文件名>        删除这个转移项。\n"
+"  --list [<glob 模式>]     列出各文件转移项。\n"
+"  --truename <文件名>      返回被转移的原始文件。\n"
 "\n"
 "选项：\n"
-"  --package <软件包名>    该软件包中的 <文件名> 副本将不会被转移。\n"
-"  --local                 所有软件包的版本均会被转移。\n"
-"  --divert <转移目标名>   其它软件包版本将转而使用的文件名。\n"
-"  --rename                实际上把该文件挪开(或是还原)。\n"
-"  --admindir <目录名>     设置转移文件所在的目录。\n"
-"  --test                  仅仅演示要进行的操作，而不是真正的执行它们。\n"
-"  --quiet                 安静模式，输出尽可能少的信息。<\n"
-"  --help                  显示本帮助信息。\n"
-"  --version               显示版本信息。\n"
+"  --package <软件包名>     该软件包中的 <文件名> 副本将不会被转移。\n"
+"  --local                  所有软件包的版本均会被转移。\n"
+"  --divert <转移目标名>    其它软件包版本将转而使用的文件名。\n"
+"  --rename                 实际上把该文件挪开(或是还原)。\n"
+"  --admindir <目录名>      设置转移文件所在的目录。\n"
+"  --test                   仅仅演示要进行的操作，而不是真正的执行它们。\n"
+"  --quiet                  安静模式，输出尽可能少的信息。<\n"
+"  --help                   显示本帮助信息。\n"
+"  --version                显示版本信息。\n"
 "\n"
 "当添加转移项的时候，缺省的选项是 --local 和 --divert <原始文件名>.distrib。\n"
 "在删除转移项的时候，--package 或 --local 选项和 --divert 选项必须一致。\n"
@@ -5006,17 +5024,17 @@ msgstr ""
 "\n"
 "命令：\n"
 "  --add <所有者> <用户组> <权限位> <文件名>\n"
-"                            在数据库中加入一个新的记录条目。\n"
-"  --remove <文件名>         将文件从数据库中删除。\n"
-"  --list [<glob 模式>]      列出当前数据库中的 override 条目。\n"
+"                           在数据库中加入一个新的记录条目。\n"
+"  --remove <文件名>        将文件从数据库中删除。\n"
+"  --list [<glob 模式>]     列出当前数据库中的 override 条目。\n"
 "\n"
 "选项：\n"
-"  --admindir <目录>         设置 statoverride 文件的目录。\n"
-"  --update                  立即更新文件的权限。\n"
-"  --force                   就算没有通过自检，也强制执行操作。\n"
-"  --quiet                   安静模式，输出尽可能少的信息。不显示输出信息。\n"
-"  --help                    显示本帮助信息。\n"
-"  --version                 显示版本信息。\n"
+"  --admindir <目录>        设置 statoverride 文件的目录。\n"
+"  --update                 立即更新文件的权限。\n"
+"  --force                  就算没有通过自检，也强制执行操作。\n"
+"  --quiet                  安静模式，输出尽可能少的信息。不显示输出信息。\n"
+"  --help                   显示本帮助信息。\n"
+"  --version                显示版本信息。\n"
 
 #: scripts/dpkg-statoverride.pl:94
 msgid "no mode specified"
@@ -5029,7 +5047,7 @@ msgstr "--add 需要四个参数"
 #: scripts/dpkg-statoverride.pl:106
 #, perl-format
 msgid "illegal user %s"
-msgstr "不合法的使用者 %s"
+msgstr "非法的使用者 %s"
 
 #: scripts/dpkg-statoverride.pl:109
 #, perl-format
@@ -5039,7 +5057,7 @@ msgstr "不存在的使用者 %s"
 #: scripts/dpkg-statoverride.pl:115
 #, perl-format
 msgid "illegal group %s"
-msgstr "不合法的群组 %s"
+msgstr "非法的群组 %s"
 
 #: scripts/dpkg-statoverride.pl:118
 #, perl-format
@@ -5049,7 +5067,7 @@ msgstr "不存在的群组 %s"
 #: scripts/dpkg-statoverride.pl:122
 #, perl-format
 msgid "illegal mode %s"
-msgstr "不合法的模式 %s"
+msgstr "非法的模式 %s"
 
 #: scripts/dpkg-statoverride.pl:125 scripts/dpkg-statoverride.pl:152
 #: scripts/dpkg-statoverride.pl:171
@@ -5161,21 +5179,21 @@ msgstr ""
 "\n"
 "选项：\n"
 "  --section <正则表达式> <标题>\n"
-"                          将新的条目加入与 <正则表达式> 匹配的小节中，\n"
-"                          如果没有相符的小节，就以 <标题> 为名新建一个。\n"
-"  --menuentry=<文本>      设置菜单项。\n"
-"  --description=<文本>    设置菜单项所要用到的描述信息。\n"
-"  --info-file=<路径>      指定要安装到给定目录里的的 info 文件。\n"
-"  --dir-file=<路径>       指定 info 目录文件的文件名。\n"
-"  --infodir=<目录名>      等价于 “--dir-file=<目录名>/dir”。\n"
-"  --keep-old              不替换已有条目，即使它们是空的。\n"
-"  --remove                去除 <文件名> 作为 basename 所指定条目。\n"
-"  --remove-exactly        去除名称就是 <文件名> 的条目。\n"
-"  --test                  开启测试模式(不执行相应的操作)。\n"
-"  --debug                 开启调试模式(显示更多的相关信息)。\n"
-"  --quiet                 不显示输出信息。\n"
-"  --help                  显示本帮助信息。\n"
-"  --version               显示版本信息。\n"
+"                           将新的条目加入与 <正则表达式> 匹配的小节中，\n"
+"                           如果没有相符的小节，就以 <标题> 为名新建一个。\n"
+"  --menuentry=<文本>       设置菜单项。\n"
+"  --description=<文本>     设置菜单项所要用到的描述信息。\n"
+"  --info-file=<路径>       指定要安装到给定目录里的的 info 文件。\n"
+"  --dir-file=<路径>        指定 info 目录文件的文件名。\n"
+"  --infodir=<目录名>       等价于 “--dir-file=<目录名>/dir”。\n"
+"  --keep-old               不替换已有条目，即使它们是空的。\n"
+"  --remove                 去除 <文件名> 作为 basename 所指定条目。\n"
+"  --remove-exactly         去除名称就是 <文件名> 的条目。\n"
+"  --test                   开启测试模式(不执行相应的操作)。\n"
+"  --debug                  开启调试模式(显示更多的相关信息)。\n"
+"  --quiet                  不显示输出信息。\n"
+"  --help                   显示本帮助信息。\n"
+"  --version                显示版本信息。\n"
 
 #: scripts/install-info.pl:93
 #, perl-format
@@ -5386,16 +5404,16 @@ msgstr ""
 "命令：\n"
 "  --install <链接> <名称> <路径> <优先级>\n"
 "    [--slave <链接> <名称> <路径>] ...\n"
-"                                 在系统中加入一组替换项。\n"
-"  --remove <名称> <路径>         从 <名称> 替换组中去除 <路径> 项。\n"
-"  --remove-all <名称>            从替换系统中删除 <名称> 替换组。\n"
-"  --auto <名称>                  将 <名称> 的主链接切换到自动模式。\n"
-"  --display <名称>               显示关于 <名称> 替换组的信息。\n"
-"  --list <名称>                  列出 <名称> 替换组中所有的可用替换项。\n"
-"  --config <名称>                列出 <名称> 替换组中的可选项，并就使用其中\n"
-"                                 哪一个，征询用户的意见。\n"
-"  --set <名称> <路径>            将 <路径> 设置为 <名称> 的替换项。\n"
-"  --all                          对所有可选项一一调用 --config 命令。\n"
+"                           在系统中加入一组替换项。\n"
+"  --remove <名称> <路径>   从 <名称> 替换组中去除 <路径> 项。\n"
+"  --remove-all <名称>      从替换系统中删除 <名称> 替换组。\n"
+"  --auto <名称>            将 <名称> 的主链接切换到自动模式。\n"
+"  --display <名称>         显示关于 <名称> 替换组的信息。\n"
+"  --list <名称>            列出 <名称> 替换组中所有的可用替换项。\n"
+"  --config <名称>          列出 <名称> 替换组中的可选项，并就使用其中\n"
+"                           哪一个，征询用户的意见。\n"
+"  --set <名称> <路径>      将 <路径> 设置为 <名称> 的替换项。\n"
+"  --all                    对所有可选项一一调用 --config 命令。\n"
 "\n"
 "<链接> 是指向 %s/<名称> 的符号链接。\n"
 "    (如 /usr/bin/pager)\n"
@@ -5406,12 +5424,12 @@ msgstr ""
 "<优先级> 是一个整数，在自动模式下，这个数字越高的选项，其优先级也就越高。\n"
 "\n"
 "选项：\n"
-"   --altdir <目录>               指定不同的可选项目录。\n"
-"   --admindir <目录>             指定不同的管理目录。\n"
-"   --verbose                     详尽的操作进行信息，更多的输出。\n"
-"   --quiet                       安静模式，输出尽可能少的信息。\n"
-"   --help                        显示本帮助信息。\n"
-"   --version                     显示版本信息。\n"
+"   --altdir <目录>         指定不同的可选项目录。\n"
+"   --admindir <目录>       指定不同的管理目录。\n"
+"   --verbose               详尽的操作进行信息，更多的输出。\n"
+"   --quiet                 安静模式，输出尽可能少的信息。\n"
+"   --help                  显示本帮助信息。\n"
+"   --version               显示版本信息。\n"
 
 #: scripts/update-alternatives.pl:123
 msgid "invalid update mode"
@@ -5909,7 +5927,6 @@ msgstr "严重问题：%s"
 #~ msgid "version a has bad syntax: %s\n"
 #~ msgstr "左侧的版本号有语法错误：%s\n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Usage: %s [<option> ...] <command>\n"
 #~ "\n"
@@ -6911,7 +6928,6 @@ msgstr "严重问题：%s"
 #~ msgid "menu"
 #~ msgstr "菜单"
 
-#, fuzzy
 #~ msgid "Debian `%s' package handling frontend version %s.\n"
 #~ msgstr "Debian “%s” 软件包操作前端"
 
@@ -6945,7 +6961,6 @@ msgstr "严重问题：%s"
 #~ msgid "Terminal does not appear to support highlighting.\n"
 #~ msgstr "终端不支持高亮显示。\n"
 
-#, fuzzy
 #~ msgid ""
 #~ "Set your TERM variable correctly, use a better terminal,\n"
 #~ "or make do with the per-package management tool %s.\n"
