@@ -104,7 +104,7 @@ trigdef_update_start(enum trigdef_updateflags uf, const char *admindir)
 	int r;
 
 	if (uf & tduf_write) {
-		constructfn(&fn, admindir, "Lock");
+		constructfn(&fn, admindir, TRIGGERSLOCKFILE);
 		if (lock_fd == -1) {
 			lock_fd = open(fn.buf, O_RDWR | O_CREAT | O_TRUNC, 0600);
 			if (lock_fd == -1) {
