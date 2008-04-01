@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: LocFactoryEditor 1.7b1\n"
+"X-Generator: LocFactoryEditor 1.7b3\n"
 
 #: lib/compat.c:46
 msgid "unable to open tmpfile for vsnprintf"
@@ -482,37 +482,36 @@ msgid "alternatives (`|') not allowed in %s field"
 msgstr "không cho phép điều xen kẽ (« | ») trong trường %s"
 
 #: lib/fields.c:508
-#, fuzzy
 msgid "value for `triggers-pending' field not allowed in this context"
 msgstr ""
-"không cho phép giá trị cho trường « config-version » (phiên bản cấu hình) "
+"không cho phép giá trị cho trường « triggers-pending » (bộ gây nên bị hoãn) "
 "trong ngữ cảnh này"
 
 #: lib/fields.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "illegal pending trigger name `%.255s': %s"
-msgstr "trường « %s », tên gói không hợp lệ « %.255s »: %s"
+msgstr "tên bộ gây nên cấm « %.255s »: %s"
 
 #: lib/fields.c:518
 #, c-format
 msgid "duplicate pending trigger `%.255s'"
-msgstr ""
+msgstr "bộ gây nên trùng bị hoãn « %.255s »"
 
 #: lib/fields.c:533
-#, fuzzy
 msgid "value for `triggers-awaited' field not allowed in this context"
 msgstr ""
-"không cho phép giá trị cho trường « status » (trạng thái) trong ngữ cảnh này"
+"không cho phép giá trị cho trường « triggers-awaited » (các bộ gây nên mong "
+"đợi) trong ngữ cảnh này"
 
 #: lib/fields.c:539
-#, fuzzy, c-format
+#, c-format
 msgid "illegal package name in awaited trigger `%.255s': %s"
-msgstr "gặp tên gói không hợp lệ trên dòng %d: %.250s"
+msgstr "gặp tên gói không hợp lệ trong bộ gây nên mong đợi « %.255s »: %s"
 
 #: lib/fields.c:545
-#, fuzzy, c-format
+#, c-format
 msgid "duplicate awaited trigger package `%.255s'"
-msgstr "nội dung gói « %.250s »"
+msgstr "gói bộ gây nên trùng mong đợi « %.255s »"
 
 #: lib/lock.c:47
 msgid "unable to unlock dpkg status database"
@@ -550,9 +549,8 @@ msgid "realloc failed (%ld bytes)"
 msgstr "realloc (cấp phát lại) bị lỗi (%ld byte)"
 
 #: lib/mlib.c:78
-#, fuzzy
 msgid "failed to allocate memory"
-msgstr "lỗi tạo thư mục"
+msgstr "lỗi cấp phát bộ nhớ"
 
 #: lib/mlib.c:85
 #, c-format
@@ -561,7 +559,7 @@ msgstr "%s (tiến trình con): %s\n"
 
 #: lib/mlib.c:99
 msgid "fork failed"
-msgstr "việc tạo tiến trình con bị lỗi"
+msgstr "lỗi tạo tiến trình con"
 
 #: lib/mlib.c:112
 #, c-format
@@ -823,20 +821,20 @@ msgstr ""
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "gói có trạng thái %s nhưng mong đợi bộ gây nên"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
-msgstr ""
+msgstr "gói có trạng thái mong đợi bộ gây nên nhưng không mong đợi bộ gây nên"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "gói có trạng thái %s nhưng có bộ gây nên bị hoãn"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
+msgstr "gói có trạng thái bộ gây nên bị hoãn nhưng không có bộ gây nên bị hoãn"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -867,7 +865,7 @@ msgstr "cảnh báo, trong tập tin « %.255s » gần dòng %d"
 #: lib/parsehelp.c:44
 #, c-format
 msgid "parse error, in file `%.255s' near line %d"
-msgstr "lỗi phân tách, trong tập tin « %.255s » gần dòng %d"
+msgstr "lỗi phân tích, trong tập tin « %.255s » gần dòng %d"
 
 #: lib/parsehelp.c:48
 #, c-format
@@ -876,7 +874,7 @@ msgstr " gói « %.255s »"
 
 #: lib/parsehelp.c:59
 msgid "failed to write parsing warning"
-msgstr "lỗi ghi cảnh báo về phân tách"
+msgstr "lỗi ghi cảnh báo về phân tích"
 
 #: lib/parsehelp.c:121
 msgid "may not be empty string"
@@ -936,69 +934,71 @@ msgstr "Thiếu dấu đóng ngoặc móc trong định dạng\n"
 #, c-format
 msgid "invalid package name `%.250s' in triggers deferred file `%.250s'"
 msgstr ""
+"tên gói không hợp lệ « %.250s » trong tập tin bộ gây nên trì hoãn « %.250s »"
 
 #: lib/trigdeferred.l:71
-#, fuzzy, c-format
+#, c-format
 msgid "truncated triggers deferred file `%.250s'"
-msgstr "tập tin statoverride « %.250s »"
+msgstr "tập tin bộ gây nên trì hoãn bị cắt ngắn « %.250s »"
 
 #: lib/trigdeferred.l:75
 #, c-format
 msgid "syntax error in triggers deferred file `%.250s' at character `%s'%s"
 msgstr ""
+"gặp lỗi cú pháp trong tập tin bộ gây nên trì hoãn « %.250s » ở ký tự `%s'%s"
 
 #: lib/trigdeferred.l:112
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open/create triggers lockfile `%.250s'"
-msgstr "không thể mở tập tin nguồn « %.250s »"
+msgstr "không thể mở/tạo tập tin khoá bộ gây nên « %.250s »"
 
 #: lib/trigdeferred.l:119
-#, fuzzy
 msgid "unable to lock triggers area"
-msgstr "không thể mở khoá %s: %s"
+msgstr "không thể khoá vùng bộ gây nên"
 
 #: lib/trigdeferred.l:130
-#, fuzzy, c-format
+#, c-format
 msgid "unable to stat triggers deferred file `%.250s'"
-msgstr "không thể lấy các thông tin về tập tin mới khác « %.250s »"
+msgstr "không thể lấy trạng thái về tập tin bộ gây nên trì hoãn « %.250s »"
 
 #: lib/trigdeferred.l:144
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers deferred file `%.250s'"
-msgstr "không thể mở tập tin nguồn « %.250s »"
+msgstr "không thể mở tập tin bộ gây nên trì hoãn « %.250s »"
 
 #: lib/trigdeferred.l:158
-#, fuzzy, c-format
+#: trigdeferred.l:159
+#, c-format
 msgid "unable to open/create new triggers deferred file `%.250s'"
-msgstr "không thể mở tập tin kho chứa (depot) mới « %.250s »"
+msgstr "không thể mở/tạo tập tin bộ gây nên trì hoãn mới « %.250s »"
 
 #: lib/trigdeferred.l:178
-#, fuzzy, c-format
+#, c-format
 msgid "error reading triggers deferred file `%.250s'"
-msgstr "gặp lỗi khi đọc %s từ tập tin %.255s"
+msgstr "gặp lỗi khi đọc tập tin bộ gây nên trì hoãn « %.250s »"
 
 #: lib/trigdeferred.l:186
-#, fuzzy, c-format
+#: trigdeferred.l:187
 msgid "unable to write new triggers deferred file `%.250s'"
-msgstr "không thể mở tập tin kho chứa (depot) mới « %.250s »"
+msgstr "không thể mở tập tin bộ gây nên trì hoãn mới « %.250s »"
 
 #: lib/trigdeferred.l:191
-#, fuzzy, c-format
+#, c-format
 msgid "unable to close new triggers deferred file `%.250s'"
-msgstr "không thể mở tập tin kho chứa (depot) mới « %.250s »"
+msgstr "không thể mở tập tin bộ gây nên trì hoãn mới « %.250s »"
 
 #: lib/trigdeferred.l:195
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new triggers deferred file `%.250s'"
-msgstr "không thể cài đặt phiên bản mới của « %.255s »"
+msgstr "không thể cài đặt tập tin bộ gây nên trì hoãn mới « %.250s »"
 
 #: lib/triglib.c:42
 msgid "empty trigger names are not permitted"
-msgstr ""
+msgstr "không cho phép tên bộ gây nên rỗng"
 
 #: lib/triglib.c:46
 msgid "trigger name contains invalid character"
-msgstr ""
+msgstr "tên bộ gây nên chứa ký tự không hợp lệ"
 
 #: lib/triglib.c:256
 #, c-format
@@ -1006,69 +1006,75 @@ msgid ""
 "invalid or unknown syntax in trigger name `%.250s' (in trigger interests for "
 "package `%.250s'"
 msgstr ""
+"gặp cú pháp không hợp lệ hoặc không rõ trong tên bộ gây nên « %.250s » (trong "
+"sự quan tâm bộ gây nên đối với gói « %.250s »"
 
 #: lib/triglib.c:291
-#, fuzzy, c-format
+#, c-format
 msgid "failed to open trigger interest list file `%.250s'"
-msgstr "không thể mở tập tin kho chứa (depot) mới « %.250s »"
+msgstr "lỗi mở tập tin danh sách sự quan tâm bộ gây nên « %.250s »"
 
 #: lib/triglib.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "failed to rewind trigger interest file `%.250s'"
-msgstr "không thể đọc tập tin phần « %.250s »"
+msgstr "lỗi quay trả lại tập tin danh sách sự quan tâm bộ gây nên « %.250s »"
 
 #: lib/triglib.c:325
-#, c-format
+#, c-format, fuzzy
 msgid ""
 "trigger interest file `%.250s' syntax error; illegal package name `%.250s': "
 "%.250s"
 msgstr ""
+"gặp lỗi cú pháp trong tập tin sự quan tâm bộ gây nên « %.250s »; tên gói cấm « "
+"%.250s »"
 
 #: lib/triglib.c:347
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new trigger interest file `%.250s'"
-msgstr "không thể lấy các thông tin về tập tin mới khác « %.250s »"
+msgstr "không thể tạo tập tin sự quan tâm bộ gây nên mới « %.250s »"
 
 #: lib/triglib.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new trigger interest file `%.250s'"
-msgstr "không thể lấy các thông tin về tập tin mới khác « %.250s »"
+msgstr "không thể viết tập tin sự quan tâm bộ gây nên mới « %.250s »"
 
 #: lib/triglib.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new trigger interest file `%.250s'"
-msgstr "không thể cài đặt phiên bản mới của « %.255s »"
+msgstr "không thể cài đặt tập tin sự quan tâm bộ gây nên mới « %.250s »"
 
 #: lib/triglib.c:421
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "duplicate file trigger interest for filename `%.250s' and package `%.250s'"
-msgstr "không thể cài đặt tập tin thông tin mới « %.250s » dạng « %.250s »"
+msgstr ""
+"sự quan tâm bộ gây nên tập tin trùng đối với tên tập tin « %.250s » và gói « "
+"%.250s »"
 
 #: lib/triglib.c:444
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create new file triggers file `%.250s'"
-msgstr "không thể mở tập tin kho chứa (depot) mới « %.250s »"
+msgstr "không thể tạo tập tin bộ gây nên tập tin mới « %.250s »"
 
 #: lib/triglib.c:453
-#, fuzzy, c-format
+#, c-format
 msgid "unable to write new file triggers file `%.250s'"
-msgstr "không thể mở tập tin kho chứa (depot) mới « %.250s »"
+msgstr "không thể viết tập tin bộ gây nên tập tin mới « %.250s »"
 
 #: lib/triglib.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "unable to install new file triggers file as `%.250s'"
-msgstr "không thể cài đặt tập tin thông tin mới « %.250s » dạng « %.250s »"
+msgstr "không thể cài đặt tập tin bộ gây nên tập tin mới dạng « %.250s »"
 
 #: lib/triglib.c:479
-#, fuzzy, c-format
+#, c-format
 msgid "unable to read file triggers file `%.250s'"
-msgstr "không thể đọc tập tin phần « %.250s »"
+msgstr "không thể đọc tập tin bộ gây nên tập tin « %.250s »"
 
 #: lib/triglib.c:487
-#, fuzzy, c-format
+#, c-format
 msgid "syntax error in file triggers file `%.250s'"
-msgstr "lỗi đọc trong tập tin cấu hình « %.255s »"
+msgstr "lỗi cú pháp trong tập tin bộ gây nên tập tin « %.250s »"
 
 #: lib/triglib.c:491
 #, c-format
@@ -1076,6 +1082,8 @@ msgid ""
 "file triggers record mentions illegal package name `%.250s' (for interest in "
 "file `%.250s'): %.250s"
 msgstr ""
+"mục ghi bộ gây nên tập tin chứa tên gói cấm « %.250s » (đối với sự quan tâm "
+"trong tập tin « %.250s »): %.250s"
 
 #: lib/triglib.c:585
 #, c-format
@@ -1083,50 +1091,52 @@ msgid ""
 "triggers ci file `%.250s' contains illegal trigger syntax in trigger name `"
 "%.250s': %.250s"
 msgstr ""
+"tập tin ci bộ gây nên « %.250s » chứa cú pháp bộ gây nên cấm trong tên bộ gây "
+"nên « %.250s »: %.250s"
 
 #: lib/triglib.c:605
-#, fuzzy, c-format
+#, c-format
 msgid "unable to open triggers ci file `%.250s'"
-msgstr "không thể mở tập tin nguồn « %.250s »"
+msgstr "không thể mở tập tin ci bộ gây nên « %.250s »"
 
 #: lib/triglib.c:620
 msgid "triggers ci file contains unknown directive syntax"
-msgstr ""
+msgstr "tập tin ci bộ gây nên chứa cú pháp chỉ thị không rõ"
 
 #: lib/triglib.c:629
 #, c-format
 msgid "triggers ci file contains unknown directive `%.250s'"
-msgstr ""
+msgstr "tập tin ci bộ gây nên chứa chỉ thị không rõ « %.250s »"
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "không thể đọc thư mục kho chứa (depot) « %.250s »"
+msgstr "không thể tạo thư mục tình trạng bộ gây nên « %.250s »"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "không thể đọc thư mục kho chứa (depot) « %.250s »"
+msgstr "không thể đặt quyền sở hữu của thư mục tình trạng bộ gây nên « %.250s »"
 
 #: lib/utils.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "read error in `%.250s'"
-msgstr "gặp lỗi đọc trong %.250s"
+msgstr "lỗi đọc trong « %.250s »"
 
 #: lib/utils.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "fgets gave an empty string from `%.250s'"
-msgstr "fgets đưa ra một chuỗi rỗng từ diversions (sự trệch đi) [i]"
+msgstr "fgets đưa ra một chuỗi rỗng từ « %.250s »"
 
 #: lib/utils.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "too-long line or missing newline in `%.250s'"
-msgstr "tập tin « %.250s » bị hỏng — thiếu dòng mới ở sau %.250s"
+msgstr "dòng quá dài hoặc dòng mới bị thiếu trong « %.250s »"
 
 #: lib/utils.c:69
-#, fuzzy, c-format
+#, c-format
 msgid "unexpected eof reading `%.250s'"
-msgstr "gặp kết thúc tập tin bất ngờ trong %.250s"
+msgstr "gặp kết thúc tập tin bất thường khi đọc « %.250s »"
 
 #: lib/varbuf.c:109
 msgid "failed to realloc for variable buffer"
@@ -1846,7 +1856,7 @@ msgstr " Hành động mặc định là giữ phiên bản hiện thời.\n"
 #: src/configure.c:615
 #, c-format
 msgid " The default action is to install the new version.\n"
-msgstr " Hành động mặc định là cài đặt phiên bản mới.\n"
+msgstr " Hành vi mặc định là cài đặt phiên bản mới.\n"
 
 #: src/configure.c:621
 msgid "[default=N]"
@@ -1981,9 +1991,9 @@ msgid "  %.250s (version %.250s) is to be installed.\n"
 msgstr "  %.250s (phiên bản %.250s) sẽ được cài đặt.\n"
 
 #: src/depcon.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s (version %.250s) is present and %s.\n"
-msgstr "  %.250s (phiên bản %.250s) là %s.\n"
+msgstr "  %.250s (phiên bản %.250s) đã có và %s.\n"
 
 #: src/depcon.c:457
 #, c-format
@@ -1991,9 +2001,9 @@ msgid "  %.250s provides %.250s and is to be installed.\n"
 msgstr "  %.250s cung cấp %.250s và sẽ được cài đặt.\n"
 
 #: src/depcon.c:497
-#, fuzzy, c-format
+#, c-format
 msgid "  %.250s provides %.250s and is present and %s.\n"
-msgstr "  %.250s cung cấp %.250s và là %s.\n"
+msgstr "  %.250s cung cấp %.250s và đã có và %s.\n"
 
 #: src/enquiry.c:56 src/query.c:61 src/query.c:104
 msgid "(no description available)"
@@ -2047,6 +2057,12 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Những gói sau đang đợi chức năng xử lý các bộ gây nên\n"
+"chúng đã kích hoạt trong gói khác.\n"
+"Chức năng xử lý này có thể được yêu cầu dùng:\n"
+" • deselect\n"
+" • dpkg --configure --pending\n"
+" • dpkg --triggers-only\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2054,6 +2070,11 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Những gói sau đã được gây nên, nhưng chưa xử lý bộ gây nên.\n"
+"Chức năng xử lý này có thể được yêu cầu dùng:\n"
+" • deselect\n"
+" • dpkg --configure --pending\n"
+" • dpkg --triggers-only\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2307,9 +2328,8 @@ msgid "not installed but configs remain"
 msgstr "không được cài đặt nhưng vẫn còn có các cấu hình"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "bị vỡ do việc gỡ bỏ bị lỗi"
+msgstr "bị vỡ do việc gỡ bỏ hoặc cài đặt mà bị lỗi"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2321,11 +2341,11 @@ msgstr "bị vỡ do việc bị lỗi sau khi cài đặt"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "đang đợi một gói khác xử lý bộ gây nên"
 
 #: src/help.c:47
 msgid "triggered"
-msgstr ""
+msgstr "đã gây nên"
 
 #: src/help.c:48
 msgid "installed"
@@ -2371,14 +2391,13 @@ msgid "unable to set execute permissions on `%.250s'"
 msgstr "không thể đặt quyền thực hiện cho « %.250s »"
 
 #: src/help.c:285
-#, fuzzy
 msgid "unable to setenv for maint script"
-msgstr "không thể lấy các thông tin trong vsnprintf"
+msgstr "không thể setenv (đặt môi trường) đối với văn lệnh duy trì"
 
 #: src/help.c:317
 #, c-format
 msgid "unable to stat installed %s script `%.250s'"
-msgstr "không thể lấy các thông tin về văn lệnh %s đã cài đặt « %.250s »"
+msgstr "không thể lấy trạng thái về văn lệnh %s đã cài đặt « %.250s »"
 
 #: src/help.c:319 src/help.c:409 src/help.c:430
 #, c-format
@@ -2478,7 +2497,7 @@ msgstr ""
 "\n"
 
 #: src/main.c:65
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Commands:\n"
 "  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
@@ -2507,7 +2526,7 @@ msgid ""
 "  -Dh|--debug=help                 Show help on debugging.\n"
 "\n"
 msgstr ""
-" Lệnh:\n"
+" Câu lệnh:\n"
 "   -i|--install       <tên tập tin .deb> ... | -R|--recursive <thư mục> ...\n"
 " \t(cài đặt) ... (đệ qui)\n"
 "   --unpack           <tên tập tin .deb> ... | -R|--recursive <thư mục> ...\n"
@@ -2516,6 +2535,8 @@ msgstr ""
 " \t(ghi nhận các điều sẵn sàng) ... (đệ qui)\n"
 "   --configure        <tên gói> ... | -a|--pending\n"
 " \t(cấu hình) ... (bị hoãn)\n"
+" --triggers-only    <tên gói> ... | -a|--pending\n"
+"\t(chỉ các bộ gây nên) ... (bị hoãn)\n"
 "   -r|--remove        <tên gói> ... | -a|--pending\n"
 " \t(gỡ bỏ) ... (bị hoãn)\n"
 "   -P|--purge         <tên gói> ... | -a|--pending\n"
@@ -2580,7 +2601,7 @@ msgstr ""
 " \t(trợ giúp_\n"
 "   --version                        \tHiện số thứ tự phiên bản\n"
 " \t(phiên bản)\n"
-"   --license | --licence       \tIn ra các điều kiện bản quyền.\n"
+"   --license | --licence       \tIn ra các điều kiện tác quyền.\n"
 " \t(giấy phép)\n"
 "\n"
 
@@ -2619,7 +2640,7 @@ msgstr ""
 " \n"
 
 #: src/main.c:109
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Options:\n"
 "  --admindir=<directory>     Use <directory> instead of %s.\n"
@@ -2670,10 +2691,12 @@ msgstr ""
 "   -B|--auto-deconfigure\n"
 " \t\t\t\t     Vẫn cài đặt, thậm chí nếu việc cài đặt sẽ hỏng gói khác.\n"
 " \t(tự động hủy cấu hình)\n"
+"  --[no-]triggers            Bỏ qua hoặc ép buộc xử lý bộ gây nên do kết "
+"quả.\n"
 "   --no-debsig                \t\t\tĐừng cố thẩm tra các chữ ký gói.\n"
 " \t(không có chữ ký Debian)\n"
 "   --no-act|--dry-run|--simulate\t\tChỉ nói sẽ làm gì, không thật làm gì.\n"
-" \t(không có hành động, chạy thực hành, mô phỏng)\n"
+" \t(không có hành vi, chạy thực hành, mô phỏng)\n"
 "   -D|--debug=<bát phân>         \t\tBật khả năng gỡ lỗi\n"
 " \t\t\t\t\t\t\t\t(xem « -Dhelp » or « --debug=help ».\n"
 " \t(gỡ lỗi)\n"
@@ -2681,7 +2704,7 @@ msgstr ""
 " \tGởi các bản cập nhật cách thay đổi trạng thái cho bộ mô tả tập tin <n>.\n"
 " \t(trạng thái bộ mô tả tập tin)\n"
 "   --log=<tên_tập_tin>\n"
-" \t\t     Ghi lưu các thay đổi và hành động trạng thái vào <tên_tập_tin>.\n"
+" \t\t     Ghi lưu các thay đổi và hành vi trạng thái vào <tên_tập_tin>.\n"
 " \t(ghi lưu, bản ghi)\n"
 "   --ignore-depends=<gói>,...\n"
 "\tLờ đi các quan hệ phụ thuộc liên quan đến <gói>.\n"
@@ -2759,7 +2782,7 @@ msgid "Warning: obsolete option `--%s'\n"
 msgstr "Cảnh báo: tùy chọn cũ « --%s »\n"
 
 #: src/main.c:219
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s debugging option, --debug=<octal> or -D<octal>:\n"
 "\n"
@@ -2794,11 +2817,11 @@ msgstr ""
 "     40   depcon            \t\t\t\tQuan hệ _phụ thuộc_ và _xung đột_\n"
 "    400   depcondetail     Kết xuất _chi tiết_ về quan hệ _phụ thuộc_ và "
 "_xung đột_\n"
-"   1000   veryverbose       Rất nhiều thông tin về, v.d. thư mục <dpkg/"
-"info>\n"
-"\t\t\t\t(rất chi tiết hơn)\n"
-"   2000   stupidlyverbose   \t\tLượng thông tin nhiều đến điên cuồng\n"
-"\t\t\t\t(chi tiết vô ích)\n"
+" 10000   triggers          Kích hoạt và xử lý _bộ gây nên_\n"
+"  20000   triggersdetail    Rất nhiều _chi tiết về bộ gây nên_\n"
+"  40000   triggersstupid    Quá nhiều kết xuất về bộ gây nên\n"
+"   1000   veryverbose       Rất nhiều chi tiết về v.d. thư mục « dpkg/info »\n"
+"   2000   stupidlyverbose   Quá nhiều chi tiết\n"
 "\n"
 "Tùy chọn gỡ lỗi có thể gộp lại dùng phép toán « bitwise-or ».\n"
 "Chú ý rằng các ý nghĩa và giá trị vẫn có thể thay đổi.\n"
@@ -3003,13 +3026,13 @@ msgstr ""
 "trong lần chạy này. Chỉ cấu hình nó một lần.\n"
 
 #: src/packages.c:238
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "package %.250s is not ready for trigger processing\n"
 " (current status `%.250s' with no pending triggers)"
 msgstr ""
-"gói %.250s chưa sẵn sàng để cấu hình\n"
-" nên không thể cấu hình (trạng thái hiện thời « %.250s »)"
+"gói %.250s chưa sẵn sàng để xử lý bộ gây nên\n"
+" (trạng thái hiện thời « %.250s », không có bộ gây nên bị hoãn)"
 
 #: src/packages.c:334
 #, c-format
@@ -3027,14 +3050,14 @@ msgid "  Version of %s on system is %s.\n"
 msgstr "  Phiên bản của %s trên hệ thống là %s.\n"
 
 #: src/packages.c:375
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s which provides %s awaits trigger processing.\n"
-msgstr "  Gói %s mà cung cấp %s sẽ bị gỡ bỏ.\n"
+msgstr "  Gói %s mà cung cấp %s cũng đợi xử lý bộ gây nên.\n"
 
 #: src/packages.c:379
-#, fuzzy, c-format
+#, c-format
 msgid "  Package %s awaits trigger processing.\n"
-msgstr "  Gói %s sẽ bị gỡ bỏ.\n"
+msgstr "  Gói %s cũng đợi xử lý bộ gây nên.\n"
 
 #: src/packages.c:410
 #, c-format
@@ -3336,7 +3359,6 @@ msgid "unable to delete disappearing control info file `%.250s'"
 msgstr "không thể xóa tập tin thông tin điều khiển biến mất « %.250s »"
 
 #: src/query.c:125
-#, fuzzy
 msgid ""
 "Desired=Unknown/Install/Remove/Purge/Hold\n"
 "| Status=Not/Inst/Cfg-files/Unpacked/Failed-cfg/Half-inst/trig-aWait/Trig-"
@@ -3346,9 +3368,9 @@ msgid ""
 msgstr ""
 "Đã muốn=Không rõ/Cài đặt/Gỡ bỏ/Tẩy/Giữ lại\n"
 "| Trạng thái=Không/Đã cài đặt/Tập tin cấu hình/Đã mở gói/Lỗi cấu hình/Nửa "
-"cài đăt\n"
+"cài đăt/Đợi bộ gây nên/Bộ gây nên bị hoãn\n"
 "|/ Lỗi?=(không có)/Giữ lại/Cần cài đặt lại/X=cả hai vấn đề (Trạng thái,Lỗi: "
-"uppercase=bad)\n"
+"chữ_hoa=sai)\n"
 
 #: src/query.c:129
 msgid "Name"
@@ -3704,23 +3726,23 @@ msgid "--clear-selections does not take any argument"
 msgstr "« --clear-selections » (xoá sạch các vùng chọn) không chấp nhận đối số"
 
 #: src/trigcmd.c:67
-#, fuzzy
 msgid "Type dpkg-triggers --help for help about this utility."
-msgstr "Gõ « dpkg-split --help » để xem trợ giúp."
+msgstr "Gõ « dpkg-triggers --help » để xem trợ giúp về tiện ích này."
 
 #: src/trigcmd.c:72
-#, fuzzy, c-format
+#, c-format
 msgid "Debian %s package trigger utility.\n"
-msgstr "Công cụ truy vấn chương trình quản lý gói Debian « %s »\n"
+msgstr "Tiện ích gây nên gói %s của Debian.\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Cách sử dụng: %s [<tùy_chọn> ...] <lệnh>\n"
+"Sử dụng: %s [<tùy_chọn> ...] <tên_bộ_gây_nên>\n"
+"       %s [<tùy_chọn> ...] <câu_lệnh>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3731,6 +3753,8 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Câu lệnh:\n"
+"  --check-supported   Kiểm tra nếu dpkg đang chạy có hỗ trợ bộ gây nên\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3745,42 +3769,49 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Tùy chọn:\n"
+"  --admindir=<thư_mục>           Dùng thư mục này thay cho %s.\n"
+"  --by-package=<tên_gói>           Ghi đè lên chức năng đợi bộ gây nên\n"
+"\t\t\t\t\t\t\t(thường được dpkg đặt)  --no-await                       Không "
+"có gói cần đợi chức năng xử lý.\n"
+"  --no-act                        Chỉ thử, không thật thay đổi gì.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: chưa tạo thư mục dữ liệu bộ gây nên\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: mục ghi bộ gây nên chưa tồn tại\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "« --%s » không chấp nhận đối số"
+msgstr "« dpkg-trigger --check-supported » không chấp nhận đối số"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "« --%s » chỉ chấp nhận một đối số (tên tập tin .deb)"
+msgstr "« dpkg-trigger » chấp nhận chỉ một đối số: tên của bộ gây nên"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"« dpkg-trigger » phải được gọi từ một văn lệnh duy trì (hoặc với tùy chọn « -"
+"by-package »)"
 
 #: src/trigcmd.c:205
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: illegal awaited package name `%.250s': %.250s"
-msgstr "trường « %s », tên gói không hợp lệ « %.255s »: %s"
+msgstr "dpkg-trigger: tên gói mong đợi cấm « %.250s »: %.250s"
 
 #: src/trigcmd.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "dpkg-trigger: invalid trigger name `%.250s': %.250s"
-msgstr "trường « %s », tên gói không hợp lệ « %.255s »: %s"
+msgstr "dpkg-trigger: tên bộ gây nên không hợp lệ « %.250s »: %.250s"
 
 #: src/trigproc.c:230
 #, c-format
@@ -3788,6 +3819,8 @@ msgid ""
 "%s: cycle found while processing triggers:\n"
 " chain of packages whose triggers are or may be responsible:\n"
 msgstr ""
+"%s: phát hiện chu ký trong khi xử lý bộ gây nên:\n"
+" dãy các gói có bộ gây nên có thể tạo vấn đề này:\n"
 
 #: src/trigproc.c:238
 #, c-format
@@ -3795,15 +3828,17 @@ msgid ""
 "\n"
 " packages' pending triggers which are or may be unresolvable:\n"
 msgstr ""
+"\n"
+" các bộ gây nên bị hoãn của gói mà có thể không thể giải quyết:\n"
 
 #: src/trigproc.c:261
 msgid "triggers looping, abandoned"
-msgstr ""
+msgstr "bộ gây nên đi vòng lặp nên bị hủy"
 
 #: src/trigproc.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Processing triggers for %s ...\n"
-msgstr "Đang tẩy các tập tin cấu hình cho %s ...\n"
+msgstr "Đang xử lý các bộ gây nên đối với %s ...\n"
 
 #: src/update.c:44
 #, c-format
@@ -4733,7 +4768,7 @@ msgstr "gặp lỗi khi đọc %.250s"
 #: dpkg-split/main.c:100
 #, c-format
 msgid "unexpected end of file in %.250s"
-msgstr "gặp kết thúc tập tin bất ngờ trong %.250s"
+msgstr "gặp kết thúc tập tin bất thường trong %.250s"
 
 #: dpkg-split/main.c:111
 msgid "part size is far too large or is not positive"
@@ -5209,7 +5244,7 @@ msgstr "không thể lấy các thông tin về tên cũ « %s »: %s"
 #: scripts/dpkg-divert.pl:230
 #, perl-format
 msgid "cannot stat new name `%s': %s"
-msgstr "không thể lấy các thông tin về tên mới « %s »: %s"
+msgstr "không thể lấy trạng thái về tên mới « %s »: %s"
 
 #: scripts/dpkg-divert.pl:244 scripts/dpkg-divert.pl:251
 #, perl-format
@@ -5313,7 +5348,7 @@ msgstr ""
 "\t(thư mục quản trị)\n"
 "  --update                 \t\tcập nhật ngay các quyền hạn tập tin.\n"
 "\t(cập nhật)\n"
-"  --force\t\t\t\t\tép buộc hành động thậm chí nếu gặp lỗi\n"
+"  --force\t\t\t\t\tép buộc hành vi thậm chí nếu gặp lỗi\n"
 "\t\tkhi kiểm tra sự đúng mực\n"
 "\t(ép buộc)\n"
 "  --quiet                 \t\tchạy im, xuất tối thiểu.\n"
