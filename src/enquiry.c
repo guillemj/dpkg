@@ -98,12 +98,12 @@ static const struct badstatinfo badstatinfos[]= {
     "the packages can be removed using dselect or dpkg --remove:\n")
   }, {
     bsyn_status, stat_triggersawaited,
-    N_("The following packages are awaiting processesing of triggers that they\n"
+    N_("The following packages are awaiting processing of triggers that they\n"
     "have activated in other packages.  This processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
     bsyn_status, stat_triggerspending,
-    N_("The following packages have been triggered, but the trigger processesing\n"
+    N_("The following packages have been triggered, but the trigger processing\n"
     "has not yet been done.  Trigger processing can be requested using\n"
     "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n")
   }, {
