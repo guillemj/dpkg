@@ -68,32 +68,33 @@ globbing.
 
 Mandatory Option.
 
-=item from_file, to_file
+=item from_file, to_file, error_to_file
 
-Filename as scalar. Standard input and/or standard output of the
+Filename as scalar. Standard input/output/error of the
 child process will be redirected to the file specifed.
 
-=item from_handle, to_handle
+=item from_handle, to_handle, error_to_handle
 
-Filehandle. Standard input and/or standard output of the
-child process will be dup'ed from the handle.
+Filehandle. Standard input/output/error of the child process will be
+dup'ed from the handle.
 
-=item from_pipe, to_pipe
+=item from_pipe, to_pipe, error_to_pipe
 
 Scalar reference. A pipe will be opened for each of the two options
-and either the reading (C<to_pipe>) or the writing end (C<from_pipe>)
-will be returned in the referenced scalar. Standard input and/or standard
-output of the child process will be dup'ed to the other ends of the
-pipes.
+and either the reading (C<to_pipe> and C<error_to_pipe>) or the writing
+end (C<from_pipe>) will be returned in the referenced scalar. Standard
+input/output/error of the child process will be dup'ed to the other ends
+of the pipes.
 
-=item from_string, to_string
+=item from_string, to_string, error_to_string
 
-Scalar reference. Standard input and/or standard output of the child
+Scalar reference. Standard input/output/error of the child
 process will be redirected to the string given as reference. Note
 that it wouldn't be strictly necessary to use a scalar reference
 for C<from_string>, as the string is not modified in any way. This was
-chosen only for reasons of symmetry with C<to_string>. C<to_string>
-implies the C<wait_child> option.
+chosen only for reasons of symmetry with C<to_string> and
+C<error_to_string>. C<to_string> and C<error_to_string> imply the
+C<wait_child> option.
 
 =item wait_child
 
@@ -126,17 +127,22 @@ sub _sanity_check_opts {
     error("exec parameter is mandatory in fork_and_exec()")
 	unless $opts{"exec"};
 
-    my $to = my $from = 0;
+    my $to = my $error_to = my $from = 0;
     foreach (qw(file handle string pipe)) {
 	$to++ if $opts{"to_$_"};
+	$error_to++ if $opts{"error_to_$_"};
 	$from++ if $opts{"from_$_"};
     }
     error("not more than one of to_* parameters is allowed")
 	if $to > 1;
+    error("not more than one of error_to_* parameters is allowed")
+	if $error_to > 1;
     error("not more than one of from_* parameters is allowed")
 	if $from > 1;
 
-    foreach (qw(to_string from_string to_pipe from_pipe)) {
+    foreach (qw(to_string error_to_string from_string
+                to_pipe error_to_pipe from_pipe))
+    {
 	if (exists $opts{$_} and
 	    (!ref($opts{$_}) or ref($opts{$_}) ne 'SCALAR')) {
 	    error("parameter $_ must be a scalar reference");
@@ -165,16 +171,20 @@ sub fork_and_exec {
     } else {
 	error(_g("invalid exec parameter in fork_and_exec()"));
     }
-    my ($from_string_pipe, $to_string_pipe);
+    my ($from_string_pipe, $to_string_pipe, $error_to_string_pipe);
     if ($opts{"to_string"}) {
 	$opts{"to_pipe"} = \$to_string_pipe;
+	$opts{"wait_child"} = 1;
+    }
+    if ($opts{"error_to_string"}) {
+	$opts{"error_to_pipe"} = \$error_to_string_pipe;
 	$opts{"wait_child"} = 1;
     }
     if ($opts{"from_string"}) {
 	$opts{"from_pipe"} = \$from_string_pipe;
     }
     # Create pipes if needed
-    my ($input_pipe, $output_pipe);
+    my ($input_pipe, $output_pipe, $error_pipe);
     if ($opts{"from_pipe"}) {
 	pipe($opts{"from_handle"}, $input_pipe) ||
 		syserr(_g("pipe for %s"), "@prog");
@@ -186,6 +196,12 @@ sub fork_and_exec {
 		syserr(_g("pipe for %s"), "@prog");
 	${$opts{"to_pipe"}} = $output_pipe;
 	push @{$opts{"close_in_child"}}, $output_pipe;
+    }
+    if ($opts{"error_to_pipe"}) {
+	pipe($error_pipe, $opts{"error_to_handle"}) ||
+		syserr(_g("pipe for %s"), "@prog");
+	${$opts{"error_to_pipe"}} = $error_pipe;
+	push @{$opts{"close_in_child"}}, $error_pipe;
     }
     # Fork and exec
     my $pid = fork();
@@ -220,6 +236,14 @@ sub fork_and_exec {
 	    open(STDOUT, ">&", $opts{"to_handle"}) || syserr(_g("reopen stdout"));
 	    close($opts{"to_handle"}); # has been duped, can be closed
 	}
+	# Redirect STDERR if needed
+	if ($opts{"error_to_file"}) {
+	    open(STDERR, ">", $opts{"error_to_file"}) ||
+		syserr(_g("cannot write %s"), $opts{"error_to_file"});
+	} elsif ($opts{"error_to_handle"}) {
+	    open(STDERR, ">&", $opts{"error_to_handle"}) || syserr(_g("reopen stdout"));
+	    close($opts{"error_to_handle"}); # has been duped, can be closed
+	}
 	# Close some inherited filehandles
 	close($_) foreach (@{$opts{"close_in_child"}});
 	# Execute the program
@@ -228,6 +252,7 @@ sub fork_and_exec {
     # Close handle that we can't use any more
     close($opts{"from_handle"}) if exists $opts{"from_handle"};
     close($opts{"to_handle"}) if exists $opts{"to_handle"};
+    close($opts{"error_to_handle"}) if exists $opts{"error_to_handle"};
 
     if ($opts{"from_string"}) {
 	print $from_string_pipe ${$opts{"from_string"}};
@@ -236,6 +261,10 @@ sub fork_and_exec {
     if ($opts{"to_string"}) {
 	local $/ = undef;
 	${$opts{"to_string"}} = readline($to_string_pipe);
+    }
+    if ($opts{"error_to_string"}) {
+	local $/ = undef;
+	${$opts{"error_to_string"}} = readline($error_to_string_pipe);
     }
     if ($opts{"wait_child"}) {
 	wait_child($pid, cmdline => "@prog");
