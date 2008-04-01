@@ -49,6 +49,9 @@ sub init_options {
         unless exists $self->{'options'}{'include_binaries'};
     $self->{'options'}{'preparation'} = 1
         unless exists $self->{'options'}{'preparation'};
+    $self->{'options'}{'skip_patches'} = 0
+        unless exists $self->{'options'}{'skip_patches'};
+
 }
 
 sub parse_cmdline_option {
@@ -64,6 +67,9 @@ sub parse_cmdline_option {
         return 1;
     } elsif ($opt =~ /^--no-preparation$/) {
         $self->{'options'}{'preparation'} = 0;
+        return 1;
+    } elsif ($opt =~ /^--skip-patches$/) {
+        $self->{'options'}{'skip_patches'} = 1;
         return 1;
     }
     return 0;
@@ -140,7 +146,7 @@ sub do_extract {
                   @exclude_symlinks ]);
 
     # Apply patches (in a separate method as it might be overriden)
-    $self->apply_patches($newdirectory);
+    $self->apply_patches($newdirectory) unless $self->{'options'}{'skip_patches'};
 }
 
 sub get_autopatch_name {
