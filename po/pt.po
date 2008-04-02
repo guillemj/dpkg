@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg 1.14\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-04-01 07:21+0300\n"
-"PO-Revision-Date: 2008-04-01 21:43+0100\n"
+"PO-Revision-Date: 2008-04-02 21:42+0100\n"
 "Last-Translator: Miguel Figueiredo <elmig@debianpt.org>\n"
 "Language-Team: Portuguese <traduz@debianpt.org>\n"
 "MIME-Version: 1.0\n"
@@ -797,20 +797,20 @@ msgstr "Configured-Version para o pacote com Status inapropriado"
 #: lib/parse.c:271
 #, c-format
 msgid "package has status %s but triggers are awaited"
-msgstr ""
+msgstr "o pacote tem estado %s mas são esperados 'triggers'"
 
 #: lib/parse.c:275
 msgid "package has status triggers-awaited but no triggers awaited"
-msgstr ""
+msgstr "o pacote tem estado 'triggers-awaited' mas não são esperados 'triggers'"
 
 #: lib/parse.c:281
 #, c-format
 msgid "package has status %s but triggers are pending"
-msgstr ""
+msgstr "o pacote tem estado %s mas estão 'triggers' pendentes"
 
 #: lib/parse.c:285
 msgid "package has status triggers-pending but no triggers pending"
-msgstr ""
+msgstr "o pacote tem estado 'triggers-pending' mas não tem 'triggers' pendentes"
 
 #: lib/parse.c:295
 msgid "Package which in state not-installed has conffiles, forgetting them"
@@ -1074,14 +1074,14 @@ msgid "triggers ci file contains unknown directive `%.250s'"
 msgstr ""
 
 #: lib/triglib.c:684
-#, fuzzy, c-format
+#, c-format
 msgid "unable to create triggers state directory `%.250s'"
-msgstr "não foi possível ler o directório depot `%.250s'"
+msgstr "não foi possível criar o directório, `%.250s',  de estado de 'triggers'"
 
 #: lib/triglib.c:687
-#, fuzzy, c-format
+#, c-format
 msgid "unable to set ownership of triggers state directory `%.250s'"
-msgstr "não foi possível ler o directório depot `%.250s'"
+msgstr "não foi possível definir o dono do directório,`%.250s', de estado de 'triggers'"
 
 #: lib/utils.c:50
 #, c-format
@@ -2033,6 +2033,9 @@ msgid ""
 "have activated in other packages.  This processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Os seguintes pacotes aguardam o processamento de 'triggers' que activaram "
+"noutros pacotes.  Este processamento pode ser chamado utilizando o dselect ou "
+"dpkg --configure --pending (ou dpkg --triggers-only):\n"
 
 #: src/enquiry.c:106
 msgid ""
@@ -2040,6 +2043,9 @@ msgid ""
 "has not yet been done.  Trigger processing can be requested using\n"
 "dselect or dpkg --configure --pending (or dpkg --triggers-only):\n"
 msgstr ""
+"Foram activados os seguintes pacotes, mas o processamento de 'triggers' ainda "
+"não foi efectuado.  O processamento de 'triggers' pode ser chamado utilizando "
+"o dselect ou dpkg --configure --pending (ou dpkg --triggers-only):\n"
 
 #: src/enquiry.c:131
 msgid "--audit does not take any arguments"
@@ -2304,9 +2310,8 @@ msgid "not installed but configs remain"
 msgstr "não instalado mas as configurações mantêm-se"
 
 #: src/help.c:43
-#, fuzzy
 msgid "broken due to failed removal or installation"
-msgstr "estragado devido a remoção falhada"
+msgstr "estragado devido a remoção ou instalação falhada"
 
 #: src/help.c:44
 msgid "unpacked but not configured"
@@ -2318,7 +2323,7 @@ msgstr "estragado devido a falha de postinst"
 
 #: src/help.c:46
 msgid "awaiting trigger processing by another package"
-msgstr ""
+msgstr "a aguardar o processamento de 'trigger' por outro pacote"
 
 #: src/help.c:47
 msgid "triggered"
@@ -3617,13 +3622,14 @@ msgid "Debian %s package trigger utility.\n"
 msgstr "Debian `%s' ferramenta de query do programa de gestão de pacotes\n"
 
 #: src/trigcmd.c:86
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage: %s [<options> ...] <trigger-name>\n"
 "       %s [<options> ...] <command>\n"
 "\n"
 msgstr ""
-"Utilização: %s [<opção> ...] <comando>\n"
+"Utilização: %s [<opções> ...] <nome-trigger>\n"
+"            %s [<opções> ...] <comando>\n"
 "\n"
 
 #: src/trigcmd.c:92
@@ -3634,6 +3640,10 @@ msgid ""
 "triggers.\n"
 "\n"
 msgstr ""
+"Comandos:\n"
+"  --check-supported                Verificar se o dpkg em execução suporta "
+"'triggers'.\n"
+"\n"
 
 #: src/trigcmd.c:105
 #, c-format
@@ -3648,32 +3658,40 @@ msgid ""
 "anything.\n"
 "\n"
 msgstr ""
+"Opções:\n"
+"  --admindir=<directório>          Utilizar o <directório> em vez de %s.\n"
+"  --by-package=<pacote>            Ultrapassar o que espera pelo 'trigger'\n"
+"                                     (normalmente definido pelo dpkg).\n"
+"  --no-await                       Nenhum pacote necessita de esperar por\n"
+"                                     processamento.\n"
+"  --no-act                         Apenas testar - não alterar nada.\n"
+"\n"
 
 #: src/trigcmd.c:162
 #, c-format
 msgid "%s: triggers data directory not yet created\n"
-msgstr ""
+msgstr "%s: o directório de dados de 'triggers' ainda não foi criado\n"
 
 #: src/trigcmd.c:166
 #, c-format
 msgid "%s: trigger records not yet in existence\n"
-msgstr ""
+msgstr "%s: ainda não existem registos de 'trigger'\n"
 
 #: src/trigcmd.c:190
-#, fuzzy
 msgid "dpkg-trigger --check-supported takes no arguments"
-msgstr "--%s não leva argumentos"
+msgstr "dpkg-trigger --check-supported não leva argumentos"
 
 #: src/trigcmd.c:195
-#, fuzzy
 msgid "dpkg-trigger takes one argument, the trigger name"
-msgstr "--%s toma apenas um argumento (ficheiro .deb)"
+msgstr "dpkg-triger leva um argumento, o nome do 'trigger'"
 
 #: src/trigcmd.c:200
 msgid ""
 "dpkg-trigger must be called from a maintainer script (or with a --by-package "
 "option)"
 msgstr ""
+"dpkg-trigger tem de ser chamado por um script do 'maintainer' (ou com uma "
+"opção --by-package)"
 
 #: src/trigcmd.c:205
 #, fuzzy, c-format
