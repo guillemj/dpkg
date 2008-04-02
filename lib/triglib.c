@@ -254,7 +254,7 @@ static void
 trk_unknown_interest_change(const char *trig, struct pkginfo *pkg, int signum)
 {
 	ohshit(_("invalid or unknown syntax in trigger name `%.250s'"
-	         " (in trigger interests for package `%.250s'"),
+	         " (in trigger interests for package `%.250s')"),
 	       trig, pkg->name);
 }
 
