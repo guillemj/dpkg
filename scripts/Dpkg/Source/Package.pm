@@ -89,7 +89,7 @@ my @dsc_fields = (qw(Format Source Binary Architecture Version Origin
 		     Standards-Version Vcs-Browser Vcs-Arch Vcs-Bzr
 		     Vcs-Cvs Vcs-Darcs Vcs-Git Vcs-Hg Vcs-Mtn Vcs-Svn),
                   @src_dep_fields,
-                  qw(Files));
+                  qw(Checksums-Md5 Checksums-Sha1 Checksums-Sha256 Files));
 
 # Object methods
 sub new {

@@ -25,7 +25,8 @@ textdomain("dpkg-dev");
 
 my @changes_fields = qw(Format Date Source Binary Architecture Version
                         Distribution Urgency Maintainer Changed-By
-                        Description Closes Changes Files);
+                        Description Closes Changes Checksums-Md5
+                        Checksums-Sha1 Checksums-Sha256 Files);
 
 my $controlfile = 'debian/control';
 my $changelogfile = 'debian/changelog';
