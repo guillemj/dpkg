@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dpkg scripts\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
 "POT-Creation-Date: 2008-03-30 12:57+0300\n"
-"PO-Revision-Date: 2008-04-01 20:35+0200\n"
+"PO-Revision-Date: 2008-04-03 22:34+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr ""
 "Copyright (C) 2007 Frank Lichtenheld"
 
 #: scripts/dpkg-buildpackage.pl:36
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "\n"
 "Usage: %s [<options> ...]\n"
@@ -214,6 +214,7 @@ msgstr ""
 "  -r<root-werde-Befehl>\n"
 "                 Befehl, um root-Privilegien zu erhalten (standardmäßig\n"
 "                 fakeroot).\n"
+"  -R<rules>      auszuführende rules-Datei (Vorgabe: debian/rules).\n"
 "  -p<signier-Befehl>\n"
 "  -d             prüfe Bauabhängigkeiten und -konflikte nicht.\n"
 "  -D             prüfe Bauabhängigkeiten und -konflikte.\n"
@@ -295,16 +296,17 @@ msgstr "unbekannter Signier-Befehl, nehme PGP-artige Schnittstelle an"
 #: scripts/dpkg-buildpackage.pl:241
 msgid "PGP support is deprecated (see README.feature-removal-schedule)"
 msgstr ""
+"PGP-Unterstützung ist veraltet (lesesn Sie README.feature-removal-schedule)"
 
 #: scripts/dpkg-buildpackage.pl:269
 #, perl-format
 msgid "%s: use %s from environment: %s\n"
-msgstr ""
+msgstr "%s: verwende %s aus Umgebung: %s\n"
 
 #: scripts/dpkg-buildpackage.pl:273
 #, perl-format
 msgid "%s: set %s to default value: %s\n"
-msgstr ""
+msgstr "%s: setze %s auf Standardwert: %s\n"
 
 #: scripts/dpkg-buildpackage.pl:286
 msgid "source package"
@@ -332,11 +334,11 @@ msgstr "(Verwenden Sie -d, um sich darüber hinwegzusetzen.)"
 
 #: scripts/dpkg-buildpackage.pl:344
 msgid "This is currently a non-fatal warning with -S, but"
-msgstr ""
+msgstr "Dies ist eine mit -S nicht-fatale Warnung, allerdings"
 
 #: scripts/dpkg-buildpackage.pl:345
 msgid "will probably become fatal in the future."
-msgstr ""
+msgstr "wird sie wahrschinlich in der Zukunft fatal werden."
 
 #: scripts/dpkg-buildpackage.pl:369
 msgid "Press the return key to start signing process\n"
@@ -393,7 +395,7 @@ msgid "unable to determine %s"
 msgstr "kann %s nicht bestimmen"
 
 #: scripts/dpkg-checkbuilddeps.pl:19
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] [<control-file>]\n"
 "\n"
@@ -414,6 +416,10 @@ msgstr ""
 "  Steuerdatei   zu verarbeitende Steuerdatei (standardmäßig: debian/"
 "control).\n"
 "  -B            nur binär, ignoriere -Indep.\n"
+"  -d Bau-Abh    verwende die übergebene Zeichenkette als Bauabhängigkeit\n"
+"                statt sie aus der Steuerdatei auszulesen\n"
+"  -c Bau-Konf   verwende die übergebene Zeichenkette als Baukonflikte statt\n"
+"                sie aus der Steuerdatei auszulesen\n"
 "  --admindir=<Verzeichnis>\n"
 "                ändere das administrative Verzeichnis.\n"
 "  -h            zeige diese Hilfe.\n"
@@ -586,11 +592,13 @@ msgstr ""
 #: scripts/dpkg-source.pl:105
 msgid "substvars support is deprecated (see README.feature-removal-schedule)"
 msgstr ""
+"Substvars-Unterstützung ist veraltet (lesen Sie "
+"README.feature-removal-schedule)"
 
 #: scripts/dpkg-genchanges.pl:210
 #, perl-format
 msgid "the current version (%s) is smaller than the previous one (%s)"
-msgstr ""
+msgstr "die aktuelle Version (%s) ist kleiner als die vorhergehende (%s)"
 
 #: scripts/dpkg-genchanges.pl:215
 msgid "cannot read files list file"
@@ -686,12 +694,12 @@ msgstr "Files-Feld enthält ungültige Zeile »%s«"
 #: scripts/dpkg-genchanges.pl:416 scripts/Dpkg/Checksums.pm:52
 #, perl-format
 msgid "Conflicting checksums `%s' and `%s' for file `%s'"
-msgstr ""
+msgstr "Widersprüchliche Prüfsummen »%s« und »%s« für Datei »%s«"
 
 #: scripts/dpkg-genchanges.pl:421
 #, perl-format
 msgid "Conflicting sizes `%u' and `%u' for file `%s'"
-msgstr ""
+msgstr "Widersprüchliche Größen »%u« und »%u« für Datei »%s«"
 
 #: scripts/dpkg-genchanges.pl:454
 msgid "not including original source code in upload"
@@ -1363,7 +1371,7 @@ msgstr ""
 #: scripts/dpkg-shlibdeps.pl:215
 #, perl-format
 msgid "%s has an unexpected SONAME (%s)"
-msgstr ""
+msgstr "%s hat einen unerwarteten SONAMEn (%s)"
 
 #: scripts/dpkg-shlibdeps.pl:237
 #, perl-format
@@ -1394,6 +1402,8 @@ msgid ""
 "dependency on %s could be avoided if \"%s\" were not uselessly linked "
 "against it (they use none of its symbols)."
 msgstr ""
+"Abhängigkeit auf %s könnte vermieden werden, falls »%s« nicht unnötigerweise "
+"dagegen gelinkt wäre (sie verwenden keine seiner Symbole)."
 
 #: scripts/dpkg-shlibdeps.pl:364
 #, perl-format
@@ -1413,7 +1423,7 @@ msgstr "kopiere alte Einträge in die neue Varlist-Datei »%s«"
 #: scripts/dpkg-shlibdeps.pl:433
 #, perl-format
 msgid "invalid dependency got generated: %s"
-msgstr ""
+msgstr "ungültige Abhängigkeit wurde erstellt: %s"
 
 #: scripts/dpkg-shlibdeps.pl:443
 #, perl-format
@@ -1435,7 +1445,7 @@ msgstr ""
 "Copyright (C) 2007 Raphael Hertzog.\n"
 
 #: scripts/dpkg-shlibdeps.pl:468
-#, fuzzy, perl-format
+#, perl-format
 msgid ""
 "Usage: %s [<option> ...] <executable>|-e<executable> [<option> ...]\n"
 "\n"
@@ -1487,6 +1497,12 @@ msgstr ""
 "  -S<PaketBauVerz>         suche benötigte Bibliotheken zuerst im "
 "übergebenen\n"
 "                           Paketbauverzeichnis.\n"
+"  -v                       aktiviere geschwätzigen Modus (kann mehrfach\n"
+"                           verwandt werden).\n"
+"  --ignore-missing-info    kein Fehlschlag falls die Abhängigkeitsinformation\n"
+"                           nicht gefunden werden kann.\n"
+"  --warnings=<Wert>        definiere Satz von aktiven Warnungen (siehe\n"
+"                           Handbuchseite).\n"
 "--admindir=<Verzeichnis>   ändere das administrative Verzeichnis.\n"
 "-h, --help                 zeige diese Hilfemeldung.\n"
 "    --version              zeige die Version.\n"
@@ -1625,7 +1641,7 @@ msgstr "-x benötigt die .dsc-Datei als erstes Argument, kein Verzeichnis"
 #: scripts/dpkg-source.pl:305
 #, perl-format
 msgid "unpack target exists: %s"
-msgstr ""
+msgstr "Entpackziel existiert: %s"
 
 #: scripts/dpkg-source.pl:314
 #, perl-format
@@ -1904,7 +1920,7 @@ msgstr "kann IO::String nicht laden: %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:117
 msgid "no changelog file specified"
-msgstr ""
+msgstr "keine Changelog-Datei angegeben"
 
 #: scripts/Dpkg/Changelog/Debian.pm:142
 #, perl-format
@@ -1919,7 +1935,7 @@ msgstr ""
 #: scripts/Dpkg/Changelog/Debian.pm:171
 #, perl-format
 msgid "repeated key-value %s"
-msgstr ""
+msgstr "wiederholter Schlüsselwert %s"
 
 #: scripts/Dpkg/Changelog/Debian.pm:175
 msgid "badly formatted urgency value"
