@@ -1,3 +1,18 @@
+2008-04-04  Raphael Hertzog  <hertzog@debian.org>
+
+	* scripts/Dpkg/Shlibs/SymbolFile.pm (get_smallest_version): New
+	function to retrieve the smallest "minver" of all symbols of a
+	given library.
+	* scripts/dpkg-shlibdeps.pl: Do not initialize dependencies of
+	libraries with symbols files as unversioned, instead use the
+	smallest minimal version returned by the function above. This
+	is required because the library might not have always been
+	available in the package and the unversioned dependency thus
+	doesn't ensure his presence.
+
+	* scripts/t/800_Dpkg_IPC.t: Remove temporary files used by the
+	tests.
+
 2008-04-02  Sven Joachim  <svenjoac@gmx.de>
 
 	* lib/triglib.c (trk_unknown_interest_change): Fix typo.

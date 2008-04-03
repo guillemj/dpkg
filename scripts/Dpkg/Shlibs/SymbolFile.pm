@@ -304,6 +304,20 @@ sub get_dependency {
     return $self->{objects}{$soname}{deps}[$dep_id];
 }
 
+sub get_smallest_version {
+    my ($self, $soname, $dep_id) = @_;
+    $dep_id = 0 unless defined($dep_id);
+    my $minver;
+    foreach my $sym (values %{$self->{objects}{$soname}{syms}}) {
+        next if $dep_id != $sym->{dep_id};
+        $minver ||= $sym->{minver};
+        if (vercmp($minver, $sym->{minver}) > 0) {
+            $minver = $sym->{minver};
+        }
+    }
+    return $minver;
+}
+
 sub get_dependencies {
     my ($self, $soname) = @_;
     return @{$self->{objects}{$soname}{deps}};

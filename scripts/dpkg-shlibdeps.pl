@@ -201,11 +201,15 @@ foreach my $file (keys %exec) {
 		}
 	    }
 	    if (defined($dpkg_symfile) && $symfile->has_object($soname)) {
-		# Initialize dependencies as an unversioned dependency
+		# Initialize dependencies with the smallest minimal version
+                # of all symbols (unversioned dependency is not ok as the
+                # library might not have always been available in the
+                # package and we really need it)
 		my $dep = $symfile->get_dependency($soname);
+		my $minver = $symfile->get_smallest_version($soname) || '';
 		foreach my $subdep (split /\s*,\s*/, $dep) {
 		    if (not exists $dependencies{$cur_field}{$subdep}) {
-			$dependencies{$cur_field}{$subdep} = '';
+			$dependencies{$cur_field}{$subdep} = $minver;
 		    }
 		}
 	    } else {

@@ -19,6 +19,11 @@ dpkg (1.14.18) UNRELEASED; urgency=low
   * Ensure the Files field is last in *.dsc and *.changes. This is a
     work-around for some braindead dsc parsers (dupload and sbuild for
     instance, see #473518 and #470440).
+  * Initialize dependencies for libraries having symbols files with the
+    smallest minimal version listed in the symbols file instead of using
+    an unversioned dependency. It's the only way to ensure the library
+    presence if it wasn't available in all versions of the package that ever
+    existed. Closes: #474079
 
   [ Updated dselect translations ]
   * German. (Sven Joachim).

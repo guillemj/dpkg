@@ -17,7 +17,7 @@ my $string = "foo\nbar\n";
 my $string2;
 
 open TMP, '>', $tmp_name;
-print TMP $string;;
+print TMP $string;
 close TMP;
 
 my $pid = fork_and_exec(exec => "cat",
@@ -54,3 +54,6 @@ $string2 = <TMP>;
 close TMP;
 
 is($string2, $string, "{from,to}_file");
+
+unlink($tmp_name);
+unlink($tmp2_name);
