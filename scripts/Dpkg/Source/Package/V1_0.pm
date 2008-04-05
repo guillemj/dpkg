@@ -335,7 +335,9 @@ sub do_build {
         $diff->create();
         $diff->add_diff_directory($origdir, $dir,
                 basedirname => $basedirname,
-                diff_ignore_regexp => $diff_ignore_regexp);
+                diff_ignore_regexp => $diff_ignore_regexp,
+                options => []); # Force empty set of options to drop the
+                                # default -p option
         $diff->finish() || $ur++;
         pop @Dpkg::Exit::handlers;
 
