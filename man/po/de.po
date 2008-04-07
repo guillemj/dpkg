@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-03-30 09:58+0300\n"
-"PO-Revision-Date: 2008-04-01 21:55+0200\n"
+"PO-Revision-Date: 2008-04-07 22:37+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -2148,6 +2148,11 @@ msgid ""
 "version>)\" or by nothing (if an unversioned dependency is deemed "
 "sufficient)."
 msgstr ""
+"Der I<Bibliotheks-Soname> ist genau der Wert des SONAME-Feldes, wie er von "
+"B<objdump>(1) exportiert wird.  Eine I<Abhängigkeitsvorlage> ist eine "
+"Abhängigkeit, in der I<#MINVER#> dynamisch entweder von einer Versionsprüfung "
+"der Art »(E<gt>= I<Minimalversion>)« oder durch nichts ersetzt, falls eine "
+"nicht-versionierte Abhängigkeit als ausreichend erachtet wird."
 
 # type: Plain text
 #: ../../man/deb-symbols.5:36
@@ -2158,6 +2163,12 @@ msgid ""
 "I<id of dependency template> is not present). The first alternative "
 "dependency template is numbered 1, the second one 2, etc."
 msgstr ""
+"Jedem exportierte I<Symbol> (aufgeführt als I<Name>@I<Version>, mit "
+"I<Version> als »Base«, falls die Bibliothek nicht versioniert ist) wird eine "
+"Minimalversion seiner Abhängigkeitsvorlage zugeordnet (die "
+"Hauptabhängigkeitsvorlage wird verwandt, falls die I<Kennung der "
+"Abhängigkeitsvorlage> nicht vorhanden ist). Die erste alternative "
+"Abhängigkeitsvorlage wird mit 1 nummeriert, die zweite mit 2 usw."
 
 # type: Plain text
 #: ../../man/deb-symbols.5:43
@@ -2169,6 +2180,13 @@ msgid ""
 "make sure that the dependency generated is at least as strict as the "
 "corresponding build dependency."
 msgstr ""
+"Jeder Eintrag für eine Bibliothek kann auch einige Felder mit "
+"Metainformationen enthalten. Diese Felder werden in Zeilen gespeichert, die "
+"mit einem Stern beginnen. Derzeit ist I<Build-Depends-Package> das einzige "
+"gültige Feld, es gibt den Namen des »-dev«-Pakets an, das der Bibliothek "
+"zugeordnet ist, und wird von dpkg-shlibdeps verwandt, um sicherzustellen, "
+"dass die erstellte Abhängigkeit mindestens genauso strikt ist wie die "
+"zugehörige Bau-Abhängigkeit."
 
 # type: SS
 #: ../../man/deb-symbols.5:44
@@ -3594,13 +3612,13 @@ msgstr "B<status: >I<Paket>B<: >I<Status>"
 # type: Plain text
 #: ../../man/dpkg.1:492
 msgid "Package status changed; I<status> is as in the status file."
-msgstr ""
+msgstr "Paketstatus geändert; I<Status> entsprechend der Statusdatei."
 
 # type: TP
 #: ../../man/dpkg.1:492
 #, no-wrap
 msgid "B<status: >I<package>B< : error : >I<extended-error-message>"
-msgstr ""
+msgstr "B<status: >I<Paket>B< : error : >I<ausführliche-Fehlermeldung>"
 
 # type: Plain text
 #: ../../man/dpkg.1:498
@@ -3609,6 +3627,11 @@ msgid ""
 "message> can contain newlines, although in locales where the translators "
 "have not made mistakes every newline is followed by at least one space."
 msgstr ""
+"Ein Fehler ist aufgetreten. Unglücklicherweise kann zum Zeitpunkt der "
+"Erstellung dieser Informationen I<ausführliche-Fehlermeldung> Zeilenumbrüche "
+"enthalten. In Standorteinstellungen (»locales«), in denen Übersetzer "
+"sorgfältig gearbeitet haben, wird allerdings jeder Zeilenumbruch von einem "
+"Leerzeichen gefolgt."
 
 # type: TP
 #: ../../man/dpkg.1:498
@@ -3619,13 +3642,13 @@ msgstr ""
 # type: Plain text
 #: ../../man/dpkg.1:501
 msgid "User is being asked a configuration file question."
-msgstr ""
+msgstr "Dem Benutzer wird eine Konfigurationsdateifrage gestellt."
 
 # type: TP
 #: ../../man/dpkg.1:501
 #, no-wrap
 msgid "B<processing: >I<stage>B<: >I<package>"
-msgstr ""
+msgstr "B<processing: >I<Stufe>B<: >I<Paket>"
 
 # type: Plain text
 #: ../../man/dpkg.1:506
@@ -3634,6 +3657,9 @@ msgid ""
 "B<install> (both sent before unpacking), B<configure>, B<trigproc>, "
 "B<remove>, B<purge>."
 msgstr ""
+"Versandt genau bevor eine Verarbeitungsstufe beginnt. I<Stufe> ist eine "
+"der folgenden: B<upgrade>, B<install> (beide werden vom Entpacken versandt), "
+"B<configure>, B<trigproc>, B<remove>, B<purge>."
 
 # type: TP
 #: ../../man/dpkg.1:507
@@ -11143,6 +11169,11 @@ msgid ""
 "screens, when one pops up.  The online help screens can at any time be "
 "invoked with the B<'?'> key."
 msgstr ""
+"Falls B<dselect> nicht im Experten- oder direkten Modus läuft wird zuerst ein "
+"Hilfebildschirm angezeigt, wenn diese Aktion vom Menü ausgewählt wird. Dem "
+"Benutzer wird I<nachdrücklich> empfohlen, die gesamten in der Online-Hilfe "
+"angezeigten Informationen zu prüfen, wenn diese angezeigt werden. Die Online-"
+"Hilfebildschirme können jederzeit mit der Taste B<'?'> aufgerufen werden."
 
 # type: SS
 #: ../../man/dselect.1:241
