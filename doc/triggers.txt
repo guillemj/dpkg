@@ -364,14 +364,13 @@ package in `config-failed' or `installed'.
 Note that automatic package management tools which call dpkg (like apt
 and aptitude) should not attempt to configure individual packages in
 state `triggers-pending' (or indeed `triggers-awaited') with dpkg
---triggers <package>... or dpkg --suppress-triggers --configure
-<package>..., or similar approaches.  This might defeat dpkg's trigger
-cycle detection.
+--triggers-only <package>... or dpkg --no-triggers --configure <package>...,
+or similar approaches. This might defeat dpkg's trigger cycle detection.
 
 A package management tool which will run dpkg --configure --pending at
-the end may use --suppress-triggers on its other dpkg runs.  This
-would be more efficient as it allows more aggressive deferral (and
-hence more unification) of trigger processing.
+the end may use --no-triggers on its other dpkg runs.  This would be
+more efficient as it allows more aggressive deferral (and hence more
+unification) of trigger processing.
 
 
 Error handling
