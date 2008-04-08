@@ -72,6 +72,7 @@ dist_man_MANS = \
 	deb-shlibs.5 \
 	deb-substvars.5 \
 	deb-symbols.5 \
+	deb-triggers.5 \
 	deb-old.5 \
 	deb-override.5 \
 	deb.5 \
@@ -93,6 +94,7 @@ dist_man_MANS = \
 	dpkg-source.1 \
 	dpkg-split.1 \
 	dpkg-statoverride.8 \
+	dpkg-trigger.1 \
 	dpkg.1 \
 	dpkg.cfg.5 \
 	dselect.1 \

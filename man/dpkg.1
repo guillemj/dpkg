@@ -1,4 +1,4 @@
-.TH dpkg 1 "2007-07-18" "Debian Project" "dpkg suite"
+.TH dpkg 1 "2008-04-06" "Debian Project" "dpkg suite"
 .SH NAME
 dpkg \- package manager for Debian
 .
@@ -63,6 +63,12 @@ The package is unpacked, but not configured.
 .B half\-configured
 The package is unpacked and configuration has been started, but not yet
 completed for some reason.
+.TP
+.B triggers\-awaited
+The package awaits trigger processing by another package.
+.TP
+.B triggers\-pending
+The package has been triggered.
 .TP
 .B installed
 The package is unpacked and configured OK.
@@ -141,6 +147,13 @@ something goes wrong.
 .br
 
 \fB2.\fP Run \fIpostinst\fP script, if provided by the package.
+.TP
+\fB\-\-triggers\-only\fP \fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
+Processes only triggers. All pending triggers will be processed. If package
+names are supplied only those packages' triggers will be processed, exactly
+once each where necessary. Use of this option may leave packages in the
+improper \fBtriggers\-awaited\fP and \fBtriggers\-pending\fP states. This
+can be fixed later by running: \fBdpkg \-\-configure \-\-pending\fP.
 .TP
 \fB\-r\fP, \fB\-\-remove\fP, \fB\-P\fP, \fB\-\-purge \fP\fIpackage\fP...|\fB\-a\fP|\fB\-\-pending\fP
 Remove an installed package. \fB\-r\fP or \fB\-\-remove\fP remove
@@ -519,6 +532,18 @@ or keep.
 .TP
 \fB\-\-no\-debsig\fP
 Do not try to verify package signatures.
+.TP
+\fB\-\-no\-triggers\fP
+Do not run any triggers in this run (activations will still be recorded).
+If used with \fB\-\-configure\fP \fIpackage\fP or
+\fB\-\-triggers\-only\fP \fIpackage\fP then the named package postinst
+will still be run even if only a triggers run is needed. Use of this option
+may leave packages in the improper \fBtriggers\-awaited\fP and
+\fBtriggers\-pending\fP states. This can be fixed later by running:
+\fBdpkg \-\-configure \-\-pending\fP.
+.TP
+\fB\-\-triggers\fP
+Cancels a previous \fB\-\-no\-triggers\fP.
 .
 .SH FILES
 .TP

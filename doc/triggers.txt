@@ -299,36 +299,7 @@ i18n characters, etc.  Such a trigger should not be necessary.
 Package declarations regarding triggers
 ---------------------------------------
 
-A package declares its relationship to some trigger(s) by including a
-`triggers' file in its control archive (ie, DEBIAN/triggers during
-package creation).  This file contains directives, one per line.
-Leading and trailing whitespace and everything after the first # on
-any line will be trimmed, and empty lines will be ignored.
-
-The trigger control directives currently supported are:
-
- interest <trigger-name>
-
-    Specifies that the package is interested in the named trigger.
-    All triggers in which a package is interested must be listed using
-    this directive in the triggers control file.
-
- activate <trigger-name>
-
-    Arranges that changes to this package's state will activate the
-    specified trigger.  The trigger will be activated at the start of
-    the following operations: unpack, configure, remove (including for
-    the benefit of a conflicting package), purge and deconfigure.
-
-    If this package disappears during the unpacking of another package
-    the trigger will be activated when the disappearance is noted
-    towards the end of the unpack.  Trigger processing, and transition
-    from triggers-awaited to installed, does not cause activations.
-    In the case of unpack, triggers mentioned in both the old and new
-    versions of the package will be activated.
-
-Unknown directives are an error which will prevent installation of the
-package.
+See deb-triggers(5).
 
 Support future extension of the trigger name syntax with additional
 dpkg-generated triggers is as follows: a package which is interested
@@ -343,25 +314,7 @@ trigger names syntaxes and unrecognised trigger control directives.
 New command-line interfaces to dpkg tools
 -----------------------------------------
 
-dpkg will grow new options:
-
-  --no-triggers
-      Do not run any triggers in this run (activations will still be
-      recorded).  If used with dpkg --configure <some package> or
-      --triggers-only <some package> then the named package
-      postinst will still be run even if only a triggers run is needed.
-  --triggers
-      Cancels a previous --no-triggers.
-
-  --triggers-only
-      Processes only triggers.  All pending triggers will be
-      processed.  If package names are supplied only those packages'
-      triggers will be processed, exactly once each where necessary.
-
-Use of --no-triggers or --triggers-only may leave packages in the
-improper `triggers-awaited' and `triggers-pending' states.  This can
-be fixed later by running:
-   dpkg --configure --pending
+See dpkg(1).
 
 Here is a summary of the behaviours:
 
@@ -379,35 +332,11 @@ Here is a summary of the behaviours:
  [1] can be specified explicitly by --triggers or --no-triggers
 
 
+See dpkg-trigger(1).
+
 A trigger may be activated explicitly with:
    dpkg-trigger [--by-package <package>] <name-of-trigger>
    dpkg-trigger --no-await <name-of-trigger>
-
-This can be used by maintainer scripts in complex and conditional
-situations where the file triggers, or the declarative `activate'
-triggers control file directive, are insufficiently rich.  It can also
-be used for testing and by system administrators (but note that the
-triggers won't actually be run by dpkg-trigger - see `Timing...',
-above).
-
-The --by-package option should not normally be necessary.  dpkg will
-be modified to set an environment variable DPKG_MAINTSCRIPT_PACKAGE in
-the environment of maintainer scripts, naming the package to which the
-script belongs, and this will be used by default.
-
-The --no-await option arranges that the calling package T (if any)
-need not await the processing of this trigger; the interested
-package(s) I will not be added to T's trigger processing awaited list
-and T's status is unchanged.  T may be considered installed even
-though I may not yet have processed the trigger.
-
-If a postinst would like to know whether the running dpkg supports
-triggers, it can ask
-   dpkg-trigger --check-supported
-which will exit 0 if a triggers-capable dpkg has run, or 1 with an
-error message to stderr if not.  Normally, however, it is better just
-to activate the desired trigger with `dpkg-trigger'.  See Transition
-Plan, below.
 
 The --verbose and --query options will show which packages were
 interested and what the current activation state is, on stdout in
@@ -415,8 +344,6 @@ human- and machine-readable (untranslated) format.  Without any
 options there will be no output to stdout, and none to stderr unless
 dpkg-trigger is unable to make a record of the trigger activation.
 With --query no trigger is activated.
-
-Unrecognised trigger name syntaxes are an error for dpkg-trigger.
 
 NB that in the case of a file trigger the name of the trigger is
 needed, not the name of a file which would match the trigger.
