@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg man pages\n"
 "POT-Creation-Date: 2008-04-09 07:13+0300\n"
-"PO-Revision-Date: 2008-04-09 07:21+0300\n"
+"PO-Revision-Date: 2008-04-10 23:36+0200\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: de <debian-l10n-german@lists.debian.org>\n"
 "MIME-Version: 1.0\n"
@@ -2284,7 +2284,6 @@ msgstr "triggers"
 
 # type: Plain text
 #: ../../man/deb-triggers.5:12
-#, fuzzy
 msgid ""
 "A package declares its relationship to some trigger(s) by including a "
 "I<triggers> file in its control archive (i.e. I<DEBIAN/triggers> during "
@@ -2292,7 +2291,7 @@ msgid ""
 msgstr ""
 "Ein Paket erklärt seine Beziehung zu einigen Trigger(n) (deutsch: Auslösern) "
 "indem es eine Datei I<triggers> in seinem Steuerarchiv (d.h. I<DEBIAN/"
-"triggers>) während der Paketerstellung hinzunimmt."
+"triggers> während der Paketerstellung) hinzunimmt."
 
 # type: Plain text
 #: ../../man/deb-triggers.5:16
@@ -2339,6 +2338,10 @@ msgid ""
 "operations: unpack, configure, remove (including for the benefit of a "
 "conflicting package), purge and deconfigure."
 msgstr ""
+"Sorgt dafür, dass Änderungen an dem Zustand dieses Pakets einen "
+"spezifizierten Trigger aktiviert. Der Trigger wird am Beginn folgender "
+"Operationen aktiviert: unpack, configure, remove (hinzugefügt zum Nutzen von "
+"Paketen, die im Konflikt zueinander stehen), purge und deconfigure."
 
 # type: Plain text
 #: ../../man/deb-triggers.5:45
@@ -2349,6 +2352,12 @@ msgid ""
 "installed, does not cause activations.  In the case of unpack, triggers "
 "mentioned in both the old and new versions of the package will be activated."
 msgstr ""
+"Falls dieses Paket während des entpackens eines anderen Pakets verschwindet, "
+"wird der Trigger aktiviert, wenn das Verschwinden während des Endes der "
+"unpack-Operation bemerkt wird. Triggerverarbeitung und Übergänge von "
+"Trigger-erwartetnd auf installiert führen nicht zu Aktivierungen. Im Falle "
+"von unpack werden sowohl die in der alten als auch der neuen Version des "
+"Pakets angegebenen Trigger aktiviert."
 
 # type: Plain text
 #: ../../man/deb-triggers.5:48
@@ -2575,7 +2584,7 @@ msgstr "B<triggers-awaited>"
 # type: Plain text
 #: ../../man/dpkg.1:69
 msgid "The package awaits trigger processing by another package."
-msgstr ""
+msgstr "Das Paket erwartet Trigger-Verarbeitung durch ein anderes Paket."
 
 # type: TP
 #: ../../man/dpkg.1:69
@@ -2833,6 +2842,12 @@ msgid ""
 "improper B<triggers-awaited> and B<triggers-pending> states. This can be "
 "fixed later by running: B<dpkg --configure --pending>."
 msgstr ""
+"Verarbeite nur Trigger. Alle ausstehenden Trigger werden verarbeitet. Falls "
+"Paketnamen übergeben werden, werden nur die Trigger dieser Pakete "
+"verarbeitet, jedes genau einmal wo notwendig. Die Verwendung dieser Option "
+"kann Pakete in die unzulässigen Stati B<triggers-awaited> und "
+"B<triggers-pending> bringen. Durch die Ausführung von »B<dpkg --configure "
+"--pending>« kann dies später behoben werden."
 
 # type: TP
 #: ../../man/dpkg.1:157
@@ -3878,6 +3893,13 @@ msgid ""
 "awaited> and B<triggers-pending> states. This can be fixed later by running: "
 "B<dpkg --configure --pending>."
 msgstr ""
+"Führe keine Trigger in diesem Durchlauf aus (Aktivierungen werden dennoch "
+"aufgezeichnet). Falls dies mit B<--configure> I<Paket> oder B<--triggers-"
+"only> I<Paket> verwandt wird, wird das Postinst des benannten Pakets dennoch "
+"ausgeführt, selbst falls nur ein Trigger-Lauf notwendig ist. Die Verwendung "
+"dieser Option kann Pakete in die unzulässigen Stati B<triggers-awaited> und "
+"B<triggers-pending> bringen. Durch die Ausführung von »B<dpkg --configure "
+"--pending>« kann dies später behoben werden."
 
 # type: TP
 #: ../../man/dpkg.1:544
@@ -3888,7 +3910,7 @@ msgstr "B<--triggers>"
 # type: Plain text
 #: ../../man/dpkg.1:547
 msgid "Cancels a previous B<--no-triggers>."
-msgstr ""
+msgstr "Annulliert ein vorheriges B<--no-triggers>."
 
 # type: TP
 #: ../../man/dpkg.1:549 ../../man/dpkg.cfg.5:14
@@ -5233,7 +5255,7 @@ msgid ""
 msgstr ""
 "Spezifiziert die Debian-Architektur, für die gebaut wird. Die Architektur "
 "der Maschine, auf der gebaut wird, wird automatisch bestimmt, und ist auch "
-"die Voreinstellung für die Gastmaschine (»host machine«)."
+"die Voreinstellung für die Gastgebermaschine (»host machine«)."
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:55
@@ -5244,6 +5266,11 @@ msgid ""
 "cross-compilation (\"/usr/I<gnu-system-type>/lib/pkgconfig/:/usr/share/"
 "pkgconfig\")."
 msgstr ""
+"Falls sich die Host-Architektur von der Bau-Architektur unterscheidet (wie "
+"diese bei Cross-Kompilierung der Fall ist) und falls die Umgebungsvariable "
+"B<PKG_CONFIG_LIBDIR> nicht gesetzt ist, dann wird sie auf einen Wert gesetzt, "
+"der für Cross-Kompilierung geeignet ist (»/usr/I<gnu-system-type>/lib/"
+"pkgconfig/:/usr/share/pkgconfig«)."
 
 # type: Plain text
 #: ../../man/dpkg-buildpackage.1:60
@@ -5252,6 +5279,9 @@ msgid ""
 "as a complement to override the default GNU system type of the target Debian "
 "architecture."
 msgstr ""
+"Spezifiziere den GNU-Systemtyp, für den wir bauen. Er kann anstelle von -a "
+"oder als Ergänzung verwandt werden, um den Standard GNU-Systemtyp der "
+"Ziel-Debian-Architektur zu überschreiben."
 
 # type: TP
 #: ../../man/dpkg-buildpackage.1:60
@@ -8967,6 +8997,11 @@ msgid ""
 "the dependency associated to this library (unless the same dependency is "
 "also generated by another library that is really used)."
 msgstr ""
+"Keines der I<Programme> die gegen I<Bibliothek> gelinkt sind verwendet eines "
+"der von der Bibliothek bereitgestellten Symbole. Indem Sie die Programme "
+"korrigieren, vermieden Sie die Abhängigkeit, die mit dieser Bibliothek "
+"verbunden ist (es sei denn, die Abhängigkeit wird auch durch eine andere "
+"Bibliothek generiert, die diese Bibliothek wirklich verwendet)."
 
 # type: TP
 #: ../../man/dpkg-shlibdeps.1:243
@@ -9244,6 +9279,11 @@ msgid ""
 "source package format used to build the package, additional parameters might "
 "be accepted."
 msgstr ""
+"Baue ein Quellpaket. Das erste nicht-Options-Argument wird als Name des "
+"Verzeichnises verwandt, das den debianisierten (d.h. mit einem "
+"Unterverzeichnis debian und ggf. Änderungen an den Originaldateien "
+"versehenen) Quellbaum enthält. Abhängig des zum Bau verwandten "
+"Quellpaketformats könnten zusätzliche Parameter akzeptiert werden."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:58
@@ -9357,7 +9397,6 @@ msgstr ""
 
 # type: Plain text
 #: ../../man/dpkg-source.1:131
-#, fuzzy
 msgid ""
 "You may specify a perl regular expression to match files you want filtered "
 "out of the list of files for the diff. (This list is generated by a find "
@@ -9370,12 +9409,14 @@ msgid ""
 msgstr ""
 "Sie können einen regulären Perl-Ausdruck angeben, der auf Dateien passt, die "
 "Sie aus der Liste der Dateien für den Diff entfernen möchten; diese Liste "
-"wird von einem Find-Befehl generiert. B<-i> aktiviert diese Option mit der "
-"Voreinstellung, dass die Steuerdateien und -Verzeichnisse der häufigsten "
-"Revisionskontrollsysteme, Backups, Swap-Dateien und Bau-Ausgabeverzeichnisse "
-"von Libtool herausgefiltert werden. Es kann nur einen aktiven regulären "
-"Ausdruck geben, von mehrfach angegebenen B<-i>-Optionen wird nur die letzte "
-"berücksichtigt."
+"wird von einem Find-Befehl generiert. Falls das Quellpaket als Version 3-"
+"Quellpaket mittels eines VCS gebaut wird, ignoriert dies stattdessen "
+"Dateien, die noch nicht übertragen (»committed«) wurden. B<-i> aktiviert "
+"diese Option mit der Voreinstellung, dass die Steuerdateien und "
+"-Verzeichnisse der häufigsten Revisionskontrollsysteme, Backups, Swap-Dateien "
+"und Bau-Ausgabeverzeichnisse von Libtool herausgefiltert werden. Es kann nur "
+"einen aktiven regulären Ausdruck geben, von mehrfach angegebenen B<-i>-"
+"Optionen wird nur die letzte berücksichtigt."
 
 # type: Plain text
 #: ../../man/dpkg-source.1:141
@@ -9797,6 +9838,9 @@ msgid ""
 "When building a new source package, any change to the upstream source is "
 "stored in a patch named B<zz_debian-diff-auto>."
 msgstr ""
+"Wenn ein neues Quellpaket gebaut wird, werden alle Änderungen an den Quellen "
+"der Originalautoren in einem Patch mit Namen B<zz_debian-diff-auto> "
+"gespeichert."
 
 # type: SS
 #: ../../man/dpkg-source.1:327
@@ -11538,6 +11582,9 @@ msgid ""
 "Pressing the B<'I'> key toggles a full-screen display of the packages list, "
 "an enlarged view of the package details, or the equally split screen."
 msgstr ""
+"Drücken der Taste B<»I«> schaltet zwischen der Vollbilddarstellung der "
+"Paketliste, einer vergrößerten Darstellung der Paketdetails und dem "
+"gleichmäßig geteilten Bildschirm um."
 
 # type: SS
 #: ../../man/dselect.1:253
