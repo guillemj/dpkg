@@ -64,7 +64,7 @@ static const struct cmdinfo cmdinfos[] = {
 const char thisname[] = "dpkg-trigger";
 
 const char printforhelp[] = N_(
-"Type dpkg-triggers --help for help about this utility.");
+"Type dpkg-trigger --help for help about this utility.");
 
 void
 printversion(void)
