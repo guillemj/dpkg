@@ -11,6 +11,12 @@ lenny
 
  * Remove Conflicts on dpkg-dev exact versions before the release.
 
+ * Create a dedicated manual page deb-changes documenting
+   the format of the changes files.
+   Explain that backwards incompatible change involve a major version bump
+   (1.x => 2.x) while minor version bump will be used for backwards
+   compatible extension (e.g. new fields).
+
 1.14.x
 ------
 
@@ -33,11 +39,17 @@ lenny
    - Make sure all vsnprintf callers are checking the return value, as the
      system version will not ohsite on us.
 
+ * Standardize translated error messages in the perl code to avoid useless
+   work for translators.
+
+ * Discuss and implement
+   http://www.hadrons.org/~guillem/debian/docs/origin.proposal
+
+ * Add non-regression tests for Dpkg::Source::*
+
  * Cleanup libcompat:
    - Add fnmatch, IRIX5 doesn't have it.
    - Cut lib/compat.c into little pieces and move them here.
-
- * Add Wig&Pen source package generation support.
 
  * Get rid of install-info.
 
@@ -75,7 +87,6 @@ lenny
  * Make dpkg-checkbuilddeps easier to use by other programs such as pbuilder
    or sbuild, so that they can start using the new architecture wildcards
    automatically.
-   - New command line arguments to retrieve Build-Depends. (#114774)
    - Support for output format. (#214566)
 
  * Remove conffile background support? (#38334)
